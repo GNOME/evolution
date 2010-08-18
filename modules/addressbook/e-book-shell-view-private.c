@@ -26,8 +26,6 @@
 #include "widgets/menus/gal-view-factory-etable.h"
 #include "addressbook/gui/widgets/gal-view-factory-minicard.h"
 
-#include "addressbook.h"
-
 static void
 open_contact (EBookShellView *book_shell_view,
               EContact *contact,
@@ -182,22 +180,30 @@ contacts_removed (EBookShellView *book_shell_view,
 }
 
 static void
-book_open_cb (EBook *book,
-              const GError *error,
-              gpointer user_data)
+book_shell_view_loaded_cb (ESource *source,
+                           GAsyncResult *result,
+                           EAddressbookView *view)
 {
-	EAddressbookView *view = user_data;
-	EAddressbookModel *model;
-	ESource *source;
+	EBook *book;
+	GError *error = NULL;
 
-	source = e_book_get_source (book);
-	model = e_addressbook_view_get_model (view);
+	book = e_load_book_source_finish (source, result, &error);
 
-	if (!error) {
+	if (book != NULL) {
+		EAddressbookModel *model;
+
+		g_warn_if_fail (error == NULL);
+		model = e_addressbook_view_get_model (view);
 		e_addressbook_model_set_book (model, book);
 		e_addressbook_model_force_folder_bar_message (model);
-	} else if (!g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
+
+	} else if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 		eab_load_error_dialog (NULL /* XXX */, source, error);
+
+	if (error != NULL)
+		g_error_free (error);
+
+	g_object_unref (view);
 }
 
 static void
@@ -205,6 +211,7 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
                                           ESourceSelector *selector)
 {
 	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 	EAddressbookModel *model;
@@ -216,6 +223,8 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 	gchar *view_id;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
 	book_shell_content = book_shell_view->priv->book_shell_content;
 	source = e_source_selector_peek_primary_selection (selector);
 
@@ -227,8 +236,6 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 	widget = g_hash_table_lookup (hash_table, uid);
 
 	if (widget != NULL) {
-		EBook *book;
-
 		/* There is a view for this UID.  Make sure the view
 		 * actually contains an EBook.  The absence of an EBook
 		 * suggests a previous load failed, so try again. */
@@ -236,16 +243,16 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 		model = e_addressbook_view_get_model (view);
 		source = e_addressbook_view_get_source (view);
 
-		if (e_addressbook_model_get_book (model) == NULL) {
-			book = e_book_new (source, NULL);
-
-			if (book != NULL)
-				addressbook_load (book, book_open_cb, view);
-		}
+		if (e_addressbook_model_get_book (model) == NULL)
+			/* XXX No way to cancel this? */
+			e_load_book_source_async (
+				source,
+				GTK_WINDOW (shell_window),
+				NULL, (GAsyncReadyCallback)
+				book_shell_view_loaded_cb,
+				g_object_ref (view));
 
 	} else {
-		EBook *book;
-
 		/* Create a view for this UID. */
 		widget = e_addressbook_view_new (shell_view, source);
 		gtk_widget_show (widget);
@@ -282,20 +289,23 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 			widget, "selection-change", G_CALLBACK (selection_change),
 			book_shell_view, G_CONNECT_SWAPPED);
 
-		book = e_book_new (source, NULL);
 		view = E_ADDRESSBOOK_VIEW (widget);
-
-		if (book != NULL)
-			addressbook_load (book, book_open_cb, view);
-
 		model = e_addressbook_view_get_model (view);
 
+		/* XXX No way to cancel this? */
+		e_load_book_source_async (
+			source, GTK_WINDOW (shell_window), NULL,
+			(GAsyncReadyCallback) book_shell_view_loaded_cb,
+			g_object_ref (view));
+
 		g_signal_connect_object (
-			model, "contact-changed", G_CALLBACK (contact_changed),
+			model, "contact-changed",
+			G_CALLBACK (contact_changed),
 			book_shell_view, G_CONNECT_SWAPPED);
 
 		g_signal_connect_object (
-			model, "contacts-removed", G_CALLBACK (contacts_removed),
+			model, "contacts-removed",
+			G_CALLBACK (contacts_removed),
 			book_shell_view, G_CONNECT_SWAPPED);
 	}
 

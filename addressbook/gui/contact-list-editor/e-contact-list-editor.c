@@ -36,11 +36,11 @@
 #include <gdk/gdkkeysyms.h>
 
 #include <camel/camel.h>
+#include <libedataserverui/e-book-auth-util.h>
 #include <libedataserverui/e-source-combo-box.h>
 
 #include "e-util/e-util.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
-#include "addressbook/util/addressbook.h"
 #include "addressbook/util/eab-book-util.h"
 
 #include "eab-editor.h"
@@ -124,10 +124,6 @@ struct _EContactListEditorPrivate {
 
 	/* Whether an async wombat call is in progress. */
 	guint in_async_call : 1;
-
-	/* ID for async load_source call */
-	guint load_source_id;
-	EBook *load_book;
 };
 
 static gpointer parent_class;
@@ -207,48 +203,43 @@ contact_list_editor_add_email (EContactListEditor *editor)
 }
 
 static void
-contact_list_editor_book_loaded (EBook *new_book,
-                                 const GError *error,
-                                 EContactListEditor *editor)
+contact_list_editor_book_loaded_cb (ESource *source,
+                                    GAsyncResult *result,
+                                    EContactListEditor *editor)
 {
 	EContactListEditorPrivate *priv = editor->priv;
 	EContactStore *contact_store;
 	ENameSelectorEntry *entry;
+	EBook *book;
+	GError *error = NULL;
 
-	priv->load_source_id = 0;
-	priv->load_book = NULL;
+	book = e_load_book_source_finish (source, result, &error);
 
-	if (error || new_book == NULL) {
-		eab_load_error_dialog (
-			NULL, e_book_get_source (new_book), error);
+	if (error != NULL) {
+		GtkWindow *parent;
+
+		parent = eab_editor_get_window (EAB_EDITOR (editor));
+		eab_load_error_dialog (GTK_WIDGET (parent), source, error);
+
 		e_source_combo_box_set_active (
 			E_SOURCE_COMBO_BOX (WIDGET (SOURCE_MENU)),
 			e_book_get_source (priv->book));
-		if (new_book)
-			g_object_unref (new_book);
-		return;
+
+		g_error_free (error);
+		goto exit;
 	}
+
+	g_return_if_fail (E_IS_BOOK (book));
 
 	entry = E_NAME_SELECTOR_ENTRY (WIDGET (EMAIL_ENTRY));
 	contact_store = e_name_selector_entry_peek_contact_store (entry);
-	e_contact_store_add_book (contact_store, new_book);
-	e_contact_list_editor_set_book (editor, new_book);
-	g_object_unref (new_book);
-}
+	e_contact_store_add_book (contact_store, book);
+	e_contact_list_editor_set_book (editor, book);
 
-static void
-contact_list_editor_cancel_load (EContactListEditor *editor)
-{
-	EContactListEditorPrivate *priv = editor->priv;
+	g_object_unref (book);
 
-	if (priv->load_source_id == 0)
-		return;
-
-	addressbook_load_cancel (priv->load_source_id);
-	priv->load_source_id = 0;
-
-	g_object_unref (priv->load_book);
-	priv->load_book = NULL;
+exit:
+	g_object_unref (editor);
 }
 
 static gboolean
@@ -808,6 +799,7 @@ void
 contact_list_editor_source_menu_changed_cb (GtkWidget *widget)
 {
 	EContactListEditor *editor;
+	GtkWindow *parent;
 	ESource *source;
 
 	editor = contact_list_editor_extract (widget);
@@ -816,10 +808,12 @@ contact_list_editor_source_menu_changed_cb (GtkWidget *widget)
 	if (e_source_equal (e_book_get_source (editor->priv->book), source))
 		return;
 
-	editor->priv->load_book = e_book_new (source, NULL);
-	editor->priv->load_source_id = addressbook_load (
-		editor->priv->load_book, (EBookAsyncCallback)
-		contact_list_editor_book_loaded, editor);
+	parent = eab_editor_get_window (EAB_EDITOR (editor));
+
+	e_load_book_source_async (
+		source, parent, NULL, (GAsyncReadyCallback)
+		contact_list_editor_book_loaded_cb,
+		g_object_ref (editor));
 }
 
 gboolean
@@ -1056,8 +1050,6 @@ contact_list_editor_dispose (GObject *object)
 {
 	EContactListEditor *editor = E_CONTACT_LIST_EDITOR (object);
 	EContactListEditorPrivate *priv = editor->priv;
-
-	contact_list_editor_cancel_load (editor);
 
 	if (priv->name_selector) {
 		g_object_unref (priv->name_selector);

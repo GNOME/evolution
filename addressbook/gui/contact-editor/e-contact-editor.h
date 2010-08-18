@@ -91,9 +91,7 @@ struct _EContactEditor
 
 	EList *required_fields;
 
-	/* ID for async load_source call */
-	guint  load_source_id;
-	EBook *load_book;
+	GCancellable *cancellable;
 
 	/* signal ids for "writable_status" */
 	gint target_editable_id;

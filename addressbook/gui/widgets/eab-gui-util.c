@@ -30,6 +30,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-data-server-util.h>
+#include <libedataserverui/e-book-auth-util.h>
 #include <libedataserverui/e-source-selector.h>
 #include <e-util/e-util.h>
 #include "eab-gui-util.h"
@@ -44,8 +45,6 @@
 
 /* we link to camel for decoding quoted printable email addresses */
 #include <camel/camel.h>
-
-#include "addressbook/util/addressbook.h"
 
 void
 eab_error_dialog (const gchar *msg, const GError *error)
@@ -379,29 +378,41 @@ do_copy (gpointer data, gpointer user_data)
 }
 
 static void
-got_book_cb (EBook *book, const GError *error, gpointer closure)
+book_loaded_cb (ESource *destination,
+                GAsyncResult *result,
+                ContactCopyProcess *process)
 {
-	ContactCopyProcess *process;
-	process = closure;
-	if (!error) {
+	EBook *book;
+	GError *error = NULL;
+
+	book = e_load_book_source_finish (destination, result, &error);
+
+	if (book != NULL) {
+		g_warn_if_fail (error == NULL);
 		process->destination = book;
 		process->book_status = TRUE;
-		g_object_ref (book);
-		g_list_foreach (process->contacts,
-				do_copy,
-				process);
+		g_list_foreach (process->contacts, do_copy, process);
+
+	} else if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
 	}
+
 	process_unref (process);
 }
 
 void
-eab_transfer_contacts (EBook *source, GList *contacts /* adopted */, gboolean delete_from_source, GtkWindow *parent_window)
+eab_transfer_contacts (EBook *source_book,
+                       GList *contacts /* adopted */,
+                       gboolean delete_from_source,
+                       GtkWindow *parent_window)
 {
-	EBook *dest;
-	ESource *destination_source;
+	ESource *destination;
 	static gchar *last_uid = NULL;
 	ContactCopyProcess *process;
 	gchar *desc;
+
+	g_return_if_fail (E_IS_BOOK (source_book));
 
 	if (contacts == NULL)
 		return;
@@ -421,22 +432,22 @@ eab_transfer_contacts (EBook *source, GList *contacts /* adopted */, gboolean de
 			desc = _("Copy contacts to");
 	}
 
-	destination_source = eab_select_source (e_book_get_source (source), desc, NULL,
-						last_uid, parent_window);
+	destination = eab_select_source (
+		e_book_get_source (source_book),
+		desc, NULL, last_uid, parent_window);
 
-	if (!destination_source)
+	if (!destination)
 		return;
 
-	if (strcmp (last_uid, e_source_peek_uid (destination_source)) != 0) {
+	if (strcmp (last_uid, e_source_peek_uid (destination)) != 0) {
 		g_free (last_uid);
-		last_uid = g_strdup (e_source_peek_uid (destination_source));
+		last_uid = g_strdup (e_source_peek_uid (destination));
 	}
 
 	process = g_new (ContactCopyProcess, 1);
 	process->count = 1;
 	process->book_status = FALSE;
-	process->source = source;
-	g_object_ref (source);
+	process->source = g_object_ref (source_book);
 	process->contacts = contacts;
 	process->destination = NULL;
 
@@ -445,8 +456,9 @@ eab_transfer_contacts (EBook *source, GList *contacts /* adopted */, gboolean de
 	else
 		process->done_cb = NULL;
 
-	dest = e_book_new (destination_source, NULL);
-	addressbook_load (dest, got_book_cb, process);
+	e_load_book_source_async (
+		destination, parent_window, NULL,
+		(GAsyncReadyCallback) book_loaded_cb, process);
 }
 
 /* To parse something like...

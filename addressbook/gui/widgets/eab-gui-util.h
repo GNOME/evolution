@@ -29,25 +29,25 @@
 
 G_BEGIN_DECLS
 
-void                eab_error_dialog              (const gchar *msg,
-						   const GError *error);
-void                eab_load_error_dialog         (GtkWidget *parent,
-						   ESource *source,
-						   const GError *error);
-void                eab_search_result_dialog      (GtkWidget *parent,
-						   EBookViewStatus status,
-						   const gchar *error_msg);
-gint                eab_prompt_save_dialog        (GtkWindow   *parent);
-
-void                eab_transfer_contacts         (EBook       *source,
-						   GList       *contacts, /* adopted */
-						   gboolean     delete_from_source,
-						   GtkWindow   *parent_window);
-
-gchar *             eab_suggest_filename          (GList *contact_list);
-
-ESource            *eab_select_source             (ESource *except_source, const gchar *title, const gchar *message,
-						   const gchar *select_uid, GtkWindow *parent);
+void		eab_error_dialog		(const gchar *msg,
+						 const GError *error);
+void		eab_load_error_dialog		(GtkWidget *parent,
+						 ESource *source,
+						 const GError *error);
+void		eab_search_result_dialog	(GtkWidget *parent,
+						 EBookViewStatus status,
+						 const gchar *error_msg);
+gint		eab_prompt_save_dialog		(GtkWindow *parent);
+void		eab_transfer_contacts		(EBook *source_book,
+						 GList *contacts, /* adopted */
+						 gboolean delete_from_source,
+						 GtkWindow *parent_window);
+gchar *		eab_suggest_filename		(GList *contact_list);
+ESource *	eab_select_source		(ESource *except_source,
+						 const gchar *title,
+						 const gchar *message,
+						 const gchar *select_uid,
+						 GtkWindow *parent);
 
 /* To parse quoted printable address & return email & name fields */
 gboolean	eab_parse_qp_email		(const gchar *string,

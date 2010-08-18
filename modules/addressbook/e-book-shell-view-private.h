@@ -30,6 +30,7 @@
 #include <libebook/e-book.h>
 #include <libedataserver/e-categories.h>
 #include <libedataserver/e-sexp.h>
+#include <libedataserverui/e-book-auth-util.h>
 #include <libedataserverui/e-source-selector.h>
 
 #include "e-util/e-util.h"

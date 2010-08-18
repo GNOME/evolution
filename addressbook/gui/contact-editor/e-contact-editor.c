@@ -28,17 +28,16 @@
 #include <string.h>
 #include <time.h>
 #include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
-
+#include <gdk/gdkkeysyms.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <libedataserverui/e-categories-dialog.h>
 
 #include <libebook/e-address-western.h>
+#include <libedataserverui/e-book-auth-util.h>
+#include <libedataserverui/e-categories-dialog.h>
 #include <libedataserverui/e-category-completion.h>
 #include <libedataserverui/e-source-combo-box.h>
 
-#include "addressbook/util/addressbook.h"
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "e-util/e-util.h"
@@ -2691,51 +2690,63 @@ init_all (EContactEditor *editor)
 }
 
 static void
-new_target_cb (EBook *new_book, const GError *error, EContactEditor *editor)
+contact_editor_book_loaded_cb (ESource *source,
+                               GAsyncResult *result,
+                               EContactEditor *editor)
 {
-	editor->load_source_id = 0;
-	editor->load_book      = NULL;
+	EBook *book;
+	GError *error = NULL;
 
-	if (error || new_book == NULL) {
+	book = e_load_book_source_finish (source, result, &error);
+
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (book == NULL);
+		g_error_free (error);
+		goto exit;
+
+	} else if (error != NULL) {
 		GtkWidget *source_combo_box;
+		GtkWindow *parent;
 
-		eab_load_error_dialog (NULL, e_book_get_source (new_book), error);
+		g_warn_if_fail (book == NULL);
+
+		parent = eab_editor_get_window (EAB_EDITOR (editor));
+		eab_load_error_dialog (GTK_WIDGET (parent), source, error);
 
 		source_combo_box = e_builder_get_widget (
 			editor->builder, "source-combo-box-source");
 		e_source_combo_box_set_active (
-			E_SOURCE_COMBO_BOX (source_combo_box),
-			e_book_get_source (editor->target_book));
+			E_SOURCE_COMBO_BOX (source_combo_box), source);
 
-		if (new_book)
-			g_object_unref (new_book);
-		return;
+		g_error_free (error);
+		goto exit;
 	}
 
-	g_object_set (editor, "target_book", new_book, NULL);
-	g_object_unref (new_book);
-}
+	g_return_if_fail (E_IS_BOOK (book));
 
-static void
-cancel_load (EContactEditor *editor)
-{
-	if (editor->load_source_id) {
-		addressbook_load_cancel (editor->load_source_id);
-		editor->load_source_id = 0;
+	/* FIXME Write a private contact_editor_set_target_book(). */
+	g_object_set (editor, "target_book", book, NULL);
 
-		g_object_unref (editor->load_book);
-		editor->load_book = NULL;
-	}
+	g_object_unref (book);
+
+exit:
+	g_object_unref (editor);
 }
 
 static void
 source_changed (ESourceComboBox *source_combo_box, EContactEditor *editor)
 {
 	ESource *source;
+	GtkWindow *parent;
 
 	source = e_source_combo_box_get_active (source_combo_box);
+	parent = eab_editor_get_window (EAB_EDITOR (editor));
 
-	cancel_load (editor);
+	if (editor->cancellable != NULL) {
+		g_cancellable_cancel (editor->cancellable);
+		g_object_unref (editor->cancellable);
+		editor->cancellable = NULL;
+	}
 
 	if (e_source_equal (e_book_get_source (editor->target_book), source))
 		return;
@@ -2745,9 +2756,12 @@ source_changed (ESourceComboBox *source_combo_box, EContactEditor *editor)
 		return;
 	}
 
-	editor->load_book = e_book_new (source, NULL);
-	editor->load_source_id = addressbook_load (editor->load_book,
-						   (EBookAsyncCallback) new_target_cb, editor);
+	editor->cancellable = g_cancellable_new ();
+
+	e_load_book_source_async (
+		source, parent, editor->cancellable,
+		(GAsyncReadyCallback) contact_editor_book_loaded_cb,
+		g_object_ref (editor));
 }
 
 static void
@@ -3520,9 +3534,6 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->categories_dialog = NULL;
 	e_contact_editor->compress_ui = e_shell_get_express_mode (shell);
 
-	e_contact_editor->load_source_id = 0;
-	e_contact_editor->load_book = NULL;
-
 	builder = gtk_builder_new ();
 	e_load_ui_builder_definition (builder, "contact-editor.ui");
 
@@ -3634,7 +3645,10 @@ e_contact_editor_dispose (GObject *object)
 		e_contact_editor->builder = NULL;
 	}
 
-	cancel_load (e_contact_editor);
+	if (e_contact_editor->cancellable != NULL) {
+		g_object_unref (e_contact_editor->cancellable);
+		e_contact_editor->cancellable = NULL;
+	}
 
 	if (G_OBJECT_CLASS (parent_class)->dispose)
 		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
@@ -3808,8 +3822,6 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 		if (changed)
 			sensitize_all (editor);
 
-		/* If we're trying to load a new target book, cancel that here. */
-		cancel_load (editor);
 		break;
 	}
 

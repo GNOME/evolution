@@ -25,10 +25,10 @@
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
 #include <gtkhtml/gtkhtml-embedded.h>
+#include <libedataserverui/e-book-auth-util.h>
 
 #include "addressbook/gui/merging/eab-contact-merging.h"
 #include "addressbook/gui/widgets/eab-contact-display.h"
-#include "addressbook/util/addressbook.h"
 #include "addressbook/util/eab-book-util.h"
 #include "mail/em-format-hook.h"
 #include "mail/em-format-html.h"
@@ -41,6 +41,7 @@ struct _VCardInlinePObject {
 	EMFormatHTMLPObject object;
 
 	GList *contact_list;
+	ESourceList *source_list;
 	GtkWidget *contact_display;
 	GtkWidget *message_label;
 };
@@ -69,6 +70,11 @@ org_gnome_vcard_inline_pobject_free (EMFormatHTMLPObject *object)
 		(GFunc) g_object_unref, NULL);
 	g_list_free (vcard_object->contact_list);
 	vcard_object->contact_list = NULL;
+
+	if (vcard_object->source_list != NULL) {
+		g_object_unref (vcard_object->source_list);
+		vcard_object->source_list = NULL;
+	}
 
 	if (vcard_object->contact_display != NULL) {
 		g_object_unref (vcard_object->contact_display);
@@ -113,24 +119,28 @@ org_gnome_vcard_inline_decode (VCardInlinePObject *vcard_object,
 }
 
 static void
-org_gnome_vcard_inline_book_open_cb (EBook *book,
-                                     const GError *error,
-                                     gpointer user_data)
+org_gnome_vcard_inline_book_loaded_cb (ESource *source,
+                                       GAsyncResult *result,
+                                       GList *contact_list)
 {
-	GList *contact_list = user_data;
+	EBook *book;
 	GList *iter;
 
-	if (error)
+	book = e_load_book_source_finish (source, result, NULL);
+
+	if (book == NULL)
 		goto exit;
 
-	for (iter = contact_list; iter != NULL; iter = iter->next)
-		eab_merging_book_add_contact (
-			book, E_CONTACT (iter->data), NULL, NULL);
+	for (iter = contact_list; iter != NULL; iter = iter->next) {
+		EContact *contact;
+
+		contact = E_CONTACT (iter->data);
+		eab_merging_book_add_contact (book, contact, NULL, NULL);
+	}
+
+	g_object_unref (book);
 
 exit:
-	if (book != NULL)
-		g_object_unref (book);
-
 	g_list_foreach (contact_list, (GFunc) g_object_unref, NULL);
 	g_list_free (contact_list);
 }
@@ -138,13 +148,20 @@ exit:
 static void
 org_gnome_vcard_inline_save_cb (VCardInlinePObject *vcard_object)
 {
+	ESource *source;
 	GList *contact_list;
+
+	g_return_if_fail (vcard_object->source_list != NULL);
+
+	source = e_source_list_peek_default_source (vcard_object->source_list);
+	g_return_if_fail (source != NULL);
 
 	contact_list = g_list_copy (vcard_object->contact_list);
 	g_list_foreach (contact_list, (GFunc) g_object_ref, NULL);
 
-	addressbook_load_default_book (
-		org_gnome_vcard_inline_book_open_cb, contact_list);
+	e_load_book_source_async (
+		source, NULL, NULL, (GAsyncReadyCallback)
+		org_gnome_vcard_inline_book_loaded_cb, contact_list);
 }
 
 static void
@@ -257,7 +274,12 @@ org_gnome_vcard_inline_embed (EMFormatHTML *format,
 
 	widget = gtk_button_new_with_label (_("Save in Address Book"));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
+
+	/* This depends on having a source list. */
+	if (vcard_object->source_list != NULL)
+		gtk_widget_show (widget);
+	else
+		gtk_widget_hide (widget);
 
 	g_signal_connect_swapped (
 		widget, "clicked",
@@ -288,6 +310,8 @@ org_gnome_vcard_inline_format (gpointer ep, EMFormatHookTarget *target)
 
 	vcard_object->object.free = org_gnome_vcard_inline_pobject_free;
 	org_gnome_vcard_inline_decode (vcard_object, target->part);
+
+	e_book_get_addressbooks (&vcard_object->source_list, NULL);
 
 	camel_stream_printf (
 		target->stream, "<object classid=%s></object>", classid);
