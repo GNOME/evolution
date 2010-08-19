@@ -29,7 +29,6 @@
 
 ECal *e_auth_new_cal_from_default (ECalSourceType type);
 ECal *e_auth_new_cal_from_source (ESource *source, ECalSourceType type);
-ECal *e_auth_new_cal_from_uri (const gchar *uri, ECalSourceType type);
 void e_auth_cal_forget_password (ECal *ecal);
 
 #endif
