@@ -29,6 +29,7 @@
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-group.h>
+#include <libedataserverui/e-book-auth-util.h>
 
 #include "e-util/e-import.h"
 #include "shell/e-shell.h"
@@ -155,20 +156,21 @@ book_shell_backend_init_importers (void)
 }
 
 static void
-book_shell_backend_new_contact_cb (EBook *book,
-                                   const GError *error,
-                                   gpointer user_data)
+book_shell_backend_new_contact_cb (ESource *source,
+                                   GAsyncResult *result,
+                                   EShell *shell)
 {
-	EShell *shell;
+	EBook *book;
 	EContact *contact;
 	EABEditor *editor;
 
+	book = e_load_book_source_finish (source, result, NULL);
+
 	/* XXX Handle errors better. */
-	if (error)
-		return;
+	if (book == NULL)
+		goto exit;
 
 	contact = e_contact_new ();
-	shell = E_SHELL (user_data);
 
 	editor = e_contact_editor_new (
 		shell, book, contact, TRUE, TRUE);
@@ -177,23 +179,27 @@ book_shell_backend_new_contact_cb (EBook *book,
 
 	g_object_unref (contact);
 	g_object_unref (book);
+
+exit:
+	g_object_unref (shell);
 }
 
 static void
-book_shell_backend_new_contact_list_cb (EBook *book,
-                                        const GError *error,
-                                        gpointer user_data)
+book_shell_backend_new_contact_list_cb (ESource *source,
+                                        GAsyncResult *result,
+                                        EShell *shell)
 {
-	EShell *shell;
+	EBook *book;
 	EContact *contact;
 	EABEditor *editor;
 
+	book = e_load_book_source_finish (source, result, NULL);
+
 	/* XXX Handle errors better. */
-	if (error)
-		return;
+	if (book == NULL)
+		goto exit;
 
 	contact = e_contact_new ();
-	shell = E_SHELL (user_data);
 
 	editor = e_contact_list_editor_new (
 		shell, book, contact, TRUE, TRUE);
@@ -202,6 +208,9 @@ book_shell_backend_new_contact_list_cb (EBook *book,
 
 	g_object_unref (contact);
 	g_object_unref (book);
+
+exit:
+	g_object_unref (shell);
 }
 
 static void
@@ -209,21 +218,22 @@ action_contact_new_cb (GtkAction *action,
                        EShellWindow *shell_window)
 {
 	EShell *shell;
-	EBook *book = NULL;
+	EShellBackend *shell_backend;
 	GConfClient *client;
 	ESourceList *source_list;
+	ESource *source;
 	const gchar *action_name;
 	const gchar *key;
 	gchar *uid;
 
 	/* This callback is used for both contacts and contact lists. */
 
-	if (!e_book_get_addressbooks (&source_list, NULL)) {
-		g_warning ("Could not get addressbook sources from GConf!");
-		return;
-	}
-
+	/* Dig out the EBookShellBackend's source list. */
 	shell = e_shell_window_get_shell (shell_window);
+	shell_backend = e_shell_get_backend_by_name (shell, "addressbook");
+	g_object_get (shell_backend, "source-list", &source_list, NULL);
+	g_return_if_fail (E_IS_SOURCE_LIST (source_list));
+
 	client = e_shell_get_gconf_client (shell);
 	action_name = gtk_action_get_name (action);
 
@@ -231,26 +241,30 @@ action_contact_new_cb (GtkAction *action,
 	uid = gconf_client_get_string (client, key, NULL);
 
 	if (uid != NULL) {
-		ESource *source;
-
 		source = e_source_list_peek_source_by_uid (source_list, uid);
-		if (source != NULL)
-			book = e_book_new (source, NULL);
 		g_free (uid);
 	}
 
-	if (book == NULL)
-		book = e_book_new_default_addressbook (NULL);
+	if (source == NULL)
+		source = e_source_list_peek_default_source (source_list);
+
+	g_return_if_fail (E_IS_SOURCE (source));
 
 	if (strcmp (action_name, "contact-new") == 0)
-		e_book_open_async (
-			book, FALSE,
-			book_shell_backend_new_contact_cb, shell);
+		e_load_book_source_async (
+			source, GTK_WINDOW (shell_window),
+			NULL, (GAsyncReadyCallback)
+			book_shell_backend_new_contact_cb,
+			g_object_ref (shell));
 
 	if (strcmp (action_name, "contact-new-list") == 0)
-		e_book_open_async (
-			book, FALSE,
-			book_shell_backend_new_contact_list_cb, shell);
+		e_load_book_source_async (
+			source, GTK_WINDOW (shell_window),
+			NULL, (GAsyncReadyCallback)
+			book_shell_backend_new_contact_list_cb,
+			g_object_ref (shell));
+
+	g_object_unref (source_list);
 }
 
 static void
