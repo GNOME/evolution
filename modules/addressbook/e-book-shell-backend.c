@@ -228,15 +228,13 @@ action_contact_new_cb (GtkAction *action,
 
 	/* This callback is used for both contacts and contact lists. */
 
-	/* Dig out the EBookShellBackend's source list. */
 	shell = e_shell_window_get_shell (shell_window);
 	shell_backend = e_shell_get_backend_by_name (shell, "addressbook");
+
 	g_object_get (shell_backend, "source-list", &source_list, NULL);
 	g_return_if_fail (E_IS_SOURCE_LIST (source_list));
 
 	client = e_shell_get_gconf_client (shell);
-	action_name = gtk_action_get_name (action);
-
 	key = "/apps/evolution/addressbook/display/primary_addressbook";
 	uid = gconf_client_get_string (client, key, NULL);
 
@@ -250,13 +248,14 @@ action_contact_new_cb (GtkAction *action,
 
 	g_return_if_fail (E_IS_SOURCE (source));
 
+	/* Use a callback function appropriate for the action. */
+	action_name = gtk_action_get_name (action);
 	if (strcmp (action_name, "contact-new") == 0)
 		e_load_book_source_async (
 			source, GTK_WINDOW (shell_window),
 			NULL, (GAsyncReadyCallback)
 			book_shell_backend_new_contact_cb,
 			g_object_ref (shell));
-
 	if (strcmp (action_name, "contact-new-list") == 0)
 		e_load_book_source_async (
 			source, GTK_WINDOW (shell_window),

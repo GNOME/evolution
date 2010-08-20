@@ -21,9 +21,10 @@
  *
  */
 
-#ifndef _AUTHENTICATION_H_
-#define _AUTHENTICATION_H_
+#ifndef AUTHENTICATION_H
+#define AUTHENTICATION_H
 
+#include <gtk/gtk.h>
 #include <libedataserver/e-source.h>
 #include <libecal/e-cal.h>
 
@@ -31,4 +32,15 @@ ECal *e_auth_new_cal_from_default (ECalSourceType type);
 ECal *e_auth_new_cal_from_source (ESource *source, ECalSourceType type);
 void e_auth_cal_forget_password (ECal *ecal);
 
-#endif
+void		e_load_cal_source_async		(ESource *source,
+						 ECalSourceType source_type,
+						 icaltimezone *default_zone,
+						 GtkWindow *parent,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+ECal *		e_load_cal_source_finish	(ESource *source,
+						 GAsyncResult *result,
+						 GError **error);
+
+#endif /* AUTHENTICATION_H */

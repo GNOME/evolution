@@ -59,6 +59,8 @@ struct _ECalShellSidebarPrivate {
 	 * sometime later we update our default-client property
 	 * which is bound by an EBinding to ECalModel. */
 	ECal *default_client;
+
+	GCancellable *loading_default_client;
 };
 
 enum {
@@ -241,104 +243,106 @@ cal_shell_sidebar_client_opened_cb (ECalShellSidebar *cal_shell_sidebar,
 }
 
 static void
-cal_shell_sidebar_default_opened_cb (ECalShellSidebar *cal_shell_sidebar,
-                                     const GError *error,
-                                     ECal *client)
+cal_shell_sidebar_default_loaded_cb (ESource *source,
+                                     GAsyncResult *result,
+                                     EShellSidebar *shell_sidebar)
 {
+	ECalShellSidebarPrivate *priv;
+	EShellWindow *shell_window;
 	EShellView *shell_view;
-	EShellSidebar *shell_sidebar;
+	ECal *client;
+	GError *error = NULL;
 
-	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
+	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
+
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	if (g_error_matches (error, E_CALENDAR_ERROR,
-		E_CALENDAR_STATUS_AUTHENTICATION_FAILED) ||
-	    g_error_matches (error, E_CALENDAR_ERROR,
-		E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED))
-		e_auth_cal_forget_password (client);
+	client = e_load_cal_source_finish (source, result, &error);
 
-	/* Handle errors. */
-	switch (error ? error->code : E_CALENDAR_STATUS_OK) {
-		case E_CALENDAR_STATUS_OK:
-			break;
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_error_free (error);
+		goto exit;
 
-		case E_CALENDAR_STATUS_AUTHENTICATION_FAILED:
-			e_cal_open_async (client, FALSE);
-			return;
-
-		case E_CALENDAR_STATUS_BUSY:
-			return;
-
-		default:
-			e_alert_run_dialog_for_args (
-				GTK_WINDOW (e_shell_view_get_shell_window (shell_view)),
-				"calendar:failed-open-calendar",
-				error->message, NULL);
-
-			e_cal_shell_sidebar_remove_source (
-				cal_shell_sidebar,
-				e_cal_get_source (client));
-			return;
+	} else if (error != NULL) {
+		e_alert_run_dialog_for_args (
+			GTK_WINDOW (shell_window),
+			"calendar:failed-open-calendar",
+			error->message, NULL);
+		g_error_free (error);
+		goto exit;
 	}
 
-	g_assert (error == NULL);
+	g_return_if_fail (E_IS_CAL (client));
 
-	g_signal_handlers_disconnect_matched (
-		client, G_SIGNAL_MATCH_FUNC, 0, 0, NULL,
-		cal_shell_sidebar_default_opened_cb, NULL);
+	if (priv->default_client != NULL)
+		g_object_unref (priv->default_client);
 
-	g_object_notify (G_OBJECT (cal_shell_sidebar), "default-client");
+	priv->default_client = client;
+
+	g_object_notify (G_OBJECT (shell_sidebar), "default-client");
+
+exit:
+	g_object_unref (shell_sidebar);
 }
 
 static void
 cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
                                ESource *source)
 {
+	ECalShellSidebarPrivate *priv;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	ECalShellContent *cal_shell_content;
 	ECalSourceType source_type;
-	GHashTable *client_table;
 	ECalModel *model;
 	ECal *client;
 	icaltimezone *timezone;
 	const gchar *uid;
 
+	priv = cal_shell_sidebar->priv;
 	source_type = E_CAL_SOURCE_TYPE_EVENT;
-	client_table = cal_shell_sidebar->priv->client_table;
-
-	uid = e_source_peek_uid (source);
-	client = g_hash_table_lookup (client_table, uid);
-
-	if (cal_shell_sidebar->priv->default_client != NULL)
-		g_object_unref (cal_shell_sidebar->priv->default_client);
-
-	if (client != NULL)
-		g_object_ref (client);
-	else
-		client = e_auth_new_cal_from_source (source, source_type);
-
-	cal_shell_sidebar->priv->default_client = client;
-	g_return_if_fail (client != NULL);
-
-	g_signal_connect_swapped (
-		client, "cal-opened-ex",
-		G_CALLBACK (cal_shell_sidebar_default_opened_cb),
-		cal_shell_sidebar);
 
 	/* FIXME Sidebar should not be accessing the EShellContent.
 	 *       This probably needs to be moved to ECalShellView. */
 	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_content = e_shell_view_get_shell_content (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
 	model = e_cal_shell_content_get_model (cal_shell_content);
 	timezone = e_cal_model_get_timezone (model);
 
-	e_cal_set_default_timezone (client, timezone, NULL);
-	e_cal_open_async (client, FALSE);
+	/* Cancel any unfinished previous request. */
+	if (priv->loading_default_client != NULL) {
+		g_cancellable_cancel (priv->loading_default_client);
+		g_object_unref (priv->loading_default_client);
+		priv->loading_default_client = NULL;
+	}
+
+	uid = e_source_peek_uid (source);
+	client = g_hash_table_lookup (priv->client_table, uid);
+
+	/* If we already have an open connection for
+	 * this UID, we can finish immediately. */
+	if (client != NULL) {
+		if (priv->default_client != NULL)
+			g_object_unref (priv->default_client);
+		priv->default_client = g_object_ref (client);
+		g_object_notify (G_OBJECT (shell_sidebar), "default-client");
+		return;
+	}
+
+	priv->loading_default_client = g_cancellable_new ();
+
+	e_load_cal_source_async (
+		source, source_type, timezone,
+		GTK_WINDOW (shell_window), priv->loading_default_client,
+		(GAsyncReadyCallback) cal_shell_sidebar_default_loaded_cb,
+		g_object_ref (shell_sidebar));
 }
 
 static void
@@ -570,6 +574,12 @@ cal_shell_sidebar_dispose (GObject *object)
 	if (priv->default_client != NULL) {
 		g_object_unref (priv->default_client);
 		priv->default_client = NULL;
+	}
+
+	if (priv->loading_default_client != NULL) {
+		g_cancellable_cancel (priv->loading_default_client);
+		g_object_unref (priv->loading_default_client);
+		priv->loading_default_client = NULL;
 	}
 
 	g_hash_table_remove_all (priv->client_table);

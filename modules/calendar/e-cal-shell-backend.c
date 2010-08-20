@@ -221,20 +221,19 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 }
 
 static void
-cal_shell_backend_new_event (ECal *cal,
-                             const GError *error,
+cal_shell_backend_new_event (ESource *source,
+                             GAsyncResult *result,
                              EShell *shell,
                              CompEditorFlags flags,
                              gboolean all_day)
 {
+	ECal *cal;
 	ECalComponent *comp;
 	CompEditor *editor;
 
 	/* XXX Handle errors better. */
-	if (error)
-		return;
-
-	flags |= COMP_EDITOR_NEW_ITEM;
+	cal = e_load_cal_source_finish (source, result, NULL);
+	g_return_if_fail (E_IS_CAL (cal));
 
 	editor = event_editor_new (cal, shell, flags);
 	comp = cal_comp_event_new_with_current_time (cal, all_day);
@@ -244,68 +243,77 @@ cal_shell_backend_new_event (ECal *cal,
 	gtk_window_present (GTK_WINDOW (editor));
 
 	g_object_unref (comp);
+	g_object_unref (cal);
 }
 
 static void
-cal_shell_backend_event_new_cb (ECal *cal,
-                                const GError *error,
+cal_shell_backend_event_new_cb (ESource *source,
+                                GAsyncResult *result,
                                 EShell *shell)
 {
-	CompEditorFlags flags;
+	CompEditorFlags flags = 0;
+	gboolean all_day = FALSE;
 
-	flags = COMP_EDITOR_USER_ORG;
-	cal_shell_backend_new_event (cal, error, shell, flags, FALSE);
+	flags |= COMP_EDITOR_NEW_ITEM;
+	flags |= COMP_EDITOR_USER_ORG;
 
-	g_object_unref (cal);
+	cal_shell_backend_new_event (source, result, shell, flags, all_day);
+
+	g_object_unref (shell);
 }
 
 static void
-cal_shell_backend_event_all_day_new_cb (ECal *cal,
-                                        const GError *error,
+cal_shell_backend_event_all_day_new_cb (ESource *source,
+                                        GAsyncResult *result,
                                         EShell *shell)
 {
-	CompEditorFlags flags;
+	CompEditorFlags flags = 0;
+	gboolean all_day = TRUE;
 
-	flags = COMP_EDITOR_USER_ORG;
-	cal_shell_backend_new_event (cal, error, shell, flags, TRUE);
+	flags |= COMP_EDITOR_NEW_ITEM;
+	flags |= COMP_EDITOR_USER_ORG;
 
-	g_object_unref (cal);
+	cal_shell_backend_new_event (source, result, shell, flags, all_day);
+
+	g_object_unref (shell);
 }
 
 static void
-cal_shell_backend_event_meeting_new_cb (ECal *cal,
-                                        const GError *error,
+cal_shell_backend_event_meeting_new_cb (ESource *source,
+                                        GAsyncResult *result,
                                         EShell *shell)
 {
-	CompEditorFlags flags;
+	CompEditorFlags flags = 0;
+	gboolean all_day = FALSE;
 
-	flags = COMP_EDITOR_USER_ORG | COMP_EDITOR_MEETING;
-	cal_shell_backend_new_event (cal, error, shell, flags, FALSE);
+	flags |= COMP_EDITOR_NEW_ITEM;
+	flags |= COMP_EDITOR_USER_ORG;
+	flags |= COMP_EDITOR_MEETING;
 
-	g_object_unref (cal);
+	cal_shell_backend_new_event (source, result, shell, flags, all_day);
+
+	g_object_unref (shell);
 }
 
 static void
 action_event_new_cb (GtkAction *action,
                      EShellWindow *shell_window)
 {
-	ECal *cal = NULL;
-	ECalSourceType source_type;
-	ESourceList *source_list;
-	EShellSettings *shell_settings;
-	EShellView *shell_view;
 	EShell *shell;
-	const gchar *view_name;
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	EShellSettings *shell_settings;
+	ESource *source = NULL;
+	ESourceList *source_list;
+	ECalSourceType source_type;
 	const gchar *action_name;
 	gchar *uid;
 
 	/* With a 'calendar' active shell view pass the new appointment
 	 * request to it, thus the event will inherit selected time from
 	 * the view. */
-	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
-
-	if (shell_view && g_ascii_strcasecmp (view_name, "calendar") == 0) {
+	shell_view = e_shell_window_peek_shell_view (shell_window, "calendar");
+	if (shell_view != NULL) {
 		EShellContent *shell_content;
 		GnomeCalendar *gcal;
 		GnomeCalendarViewType view_type;
@@ -338,48 +346,50 @@ action_event_new_cb (GtkAction *action,
 
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
+	shell_backend = e_shell_get_backend_by_name (shell, "calendar");
 
-	if (!e_cal_get_sources (&source_list, source_type, NULL)) {
-		g_warning ("Could not get calendar sources from GConf!");
-		return;
-	}
+	g_object_get (shell_backend, "source-list", &source_list, NULL);
+	g_return_if_fail (E_IS_SOURCE_LIST (source_list));
 
 	uid = e_shell_settings_get_string (
 		shell_settings, "cal-primary-calendar");
 
 	if (uid != NULL) {
-		ESource *source;
-
 		source = e_source_list_peek_source_by_uid (source_list, uid);
-		if (source != NULL)
-			cal = e_auth_new_cal_from_source (source, source_type);
 		g_free (uid);
 	}
 
-	if (cal == NULL)
-		cal = e_auth_new_cal_from_default (source_type);
+	if (source == NULL)
+		source = e_source_list_peek_default_source (source_list);
 
-	g_return_if_fail (cal != NULL);
+	g_return_if_fail (E_IS_SOURCE (source));
 
-	/* Connect the appropriate signal handler. */
+	/* Use a callback function appropriate for the action.
+	 * FIXME Need to obtain a better default time zone. */
 	action_name = gtk_action_get_name (action);
 	if (strcmp (action_name, "event-all-day-new") == 0)
-		g_signal_connect (
-			cal, "cal-opened-ex",
-			G_CALLBACK (cal_shell_backend_event_all_day_new_cb),
-			shell);
+		e_load_cal_source_async (
+			source, source_type, NULL,
+			GTK_WINDOW (shell_window),
+			NULL, (GAsyncReadyCallback)
+			cal_shell_backend_event_all_day_new_cb,
+			g_object_ref (shell));
 	else if (strcmp (action_name, "event-meeting-new") == 0)
-		g_signal_connect (
-			cal, "cal-opened-ex",
-			G_CALLBACK (cal_shell_backend_event_meeting_new_cb),
-			shell);
+		e_load_cal_source_async (
+			source, source_type, NULL,
+			GTK_WINDOW (shell_window),
+			NULL, (GAsyncReadyCallback)
+			cal_shell_backend_event_meeting_new_cb,
+			g_object_ref (shell));
 	else
-		g_signal_connect (
-			cal, "cal-opened-ex",
-			G_CALLBACK (cal_shell_backend_event_new_cb),
-			shell);
+		e_load_cal_source_async (
+			source, source_type, NULL,
+			GTK_WINDOW (shell_window),
+			NULL, (GAsyncReadyCallback)
+			cal_shell_backend_event_new_cb,
+			g_object_ref (shell));
 
-	e_cal_open_async (cal, FALSE);
+	g_object_unref (source_list);
 }
 
 static void
