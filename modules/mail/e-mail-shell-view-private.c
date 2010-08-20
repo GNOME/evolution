@@ -143,10 +143,10 @@ mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
 	widget_path = "/mail-folder-popup";
 	menu = e_shell_view_show_popup_menu (shell_view, widget_path, event);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		menu, "selection-done",
 		G_CALLBACK (mail_shell_view_folder_tree_selection_done_cb),
-		shell_view);
+		shell_view, G_CONNECT_SWAPPED);
 }
 
 static gboolean
@@ -324,41 +324,41 @@ mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view,
 		mail_shell_view_message_list_key_press_cb, NULL))
 		return;
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		message_list, "key-press",
 		G_CALLBACK (mail_shell_view_message_list_key_press_cb),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		message_list, "popup-menu",
 		G_CALLBACK (mail_shell_view_message_list_popup_menu_cb),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		message_list, "right-click",
 		G_CALLBACK (mail_shell_view_message_list_right_click_cb),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		web_view, "key-press-event",
 		G_CALLBACK (mail_shell_view_key_press_event_cb),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		web_view, "popup-event",
 		G_CALLBACK (mail_shell_view_popup_event_cb),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_data (
+	g_signal_connect_object (
 		web_view, "scroll",
 		G_CALLBACK (mail_shell_view_scroll_cb),
-		mail_shell_view, (GClosureNotify) NULL,
+		mail_shell_view,
 		G_CONNECT_AFTER | G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		web_view, "status-message",
 		G_CALLBACK (e_shell_taskbar_set_message),
-		shell_taskbar);
+		shell_taskbar, G_CONNECT_SWAPPED);
 }
 
 static void
@@ -534,101 +534,101 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 
 	web_view = em_format_html_get_web_view (formatter);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		folder_tree, "folder-selected",
 		G_CALLBACK (mail_shell_view_folder_tree_selected_cb),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		folder_tree, "key-press-event",
 		G_CALLBACK (mail_shell_view_folder_tree_key_press_event_cb),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		folder_tree, "popup-event",
 		G_CALLBACK (mail_shell_view_folder_tree_popup_event_cb),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		message_list, "key-press",
 		G_CALLBACK (mail_shell_view_message_list_key_press_cb),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		message_list, "popup-menu",
 		G_CALLBACK (mail_shell_view_message_list_popup_menu_cb),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		message_list, "right-click",
 		G_CALLBACK (mail_shell_view_message_list_right_click_cb),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		reader, "changed",
 		G_CALLBACK (mail_shell_view_reader_changed_cb),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		reader, "folder-loaded",
 		G_CALLBACK (e_mail_shell_content_update_view_instance),
-		shell_content);
+		shell_content, G_CONNECT_SWAPPED);
 
 	/* Use the same callback as "changed". */
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		reader, "folder-loaded",
 		G_CALLBACK (mail_shell_view_reader_changed_cb),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		reader, "folder-loaded",
 		G_CALLBACK (e_mail_shell_view_restore_state),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		tree_model, "row-changed",
 		G_CALLBACK (e_mail_shell_view_update_search_filter),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		tree_model, "row-deleted",
 		G_CALLBACK (e_mail_shell_view_update_search_filter),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		tree_model, "row-inserted",
 		G_CALLBACK (e_mail_shell_view_update_search_filter),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		web_view, "key-press-event",
 		G_CALLBACK (mail_shell_view_key_press_event_cb),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		web_view, "popup-event",
 		G_CALLBACK (mail_shell_view_popup_event_cb),
-		mail_shell_view);
+		mail_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_data (
+	g_signal_connect_object (
 		web_view, "scroll",
 		G_CALLBACK (mail_shell_view_scroll_cb),
-		mail_shell_view, (GClosureNotify) NULL,
+		mail_shell_view,
 		G_CONNECT_AFTER | G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		web_view, "status-message",
 		G_CALLBACK (e_shell_taskbar_set_message),
-		shell_taskbar);
+		shell_taskbar, G_CONNECT_SWAPPED);
 
 	/* Need to keep the handler ID so we can disconnect it in
 	 * dispose().  The shell outlives us and we don't want it
 	 * invoking callbacks on finalized shell views. */
 	priv->prepare_for_quit_handler_id =
-		g_signal_connect_swapped (
+		g_signal_connect_object (
 			shell, "prepare-for-quit",
 			G_CALLBACK (mail_shell_view_prepare_for_quit_cb),
-			mail_shell_view);
+			mail_shell_view, G_CONNECT_SWAPPED);
 
 	e_mail_reader_init (reader);
 	e_mail_shell_view_actions_init (mail_shell_view);

@@ -246,80 +246,80 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	task_shell_sidebar = E_TASK_SHELL_SIDEBAR (shell_sidebar);
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		model, "notify::timezone",
 		G_CALLBACK (e_task_shell_view_update_timezone),
-		task_shell_view);
+		task_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		model, "row-appended",
 		G_CALLBACK (task_shell_view_model_row_appended_cb),
-		task_shell_view);
+		task_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		task_table, "open-component",
 		G_CALLBACK (e_task_shell_view_open_task),
-		task_shell_view);
+		task_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		task_table, "popup-event",
 		G_CALLBACK (task_shell_view_table_popup_event_cb),
-		task_shell_view);
+		task_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		task_table, "selection-change",
 		G_CALLBACK (e_task_shell_view_update_sidebar),
-		task_shell_view);
+		task_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		task_table, "selection-change",
 		G_CALLBACK (e_shell_view_update_actions),
-		task_shell_view);
+		task_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		task_table, "status-message",
 		G_CALLBACK (e_task_shell_view_set_status_message),
-		task_shell_view);
+		task_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		model, "model-changed",
 		G_CALLBACK (e_task_shell_view_update_sidebar),
-		task_shell_view);
+		task_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		model, "model-rows-deleted",
 		G_CALLBACK (e_task_shell_view_update_sidebar),
-		task_shell_view);
+		task_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		model, "model-rows-inserted",
 		G_CALLBACK (e_task_shell_view_update_sidebar),
-		task_shell_view);
+		task_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		task_shell_sidebar, "client-added",
 		G_CALLBACK (task_shell_view_selector_client_added_cb),
-		task_shell_view);
+		task_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		task_shell_sidebar, "client-removed",
 		G_CALLBACK (task_shell_view_selector_client_removed_cb),
-		task_shell_view);
+		task_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		task_shell_sidebar, "status-message",
 		G_CALLBACK (e_task_shell_view_set_status_message),
-		task_shell_view);
+		task_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		selector, "popup-event",
 		G_CALLBACK (task_shell_view_selector_popup_event_cb),
-		task_shell_view);
+		task_shell_view, G_CONNECT_SWAPPED);
 
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		selector, "primary-selection-changed",
 		G_CALLBACK (e_shell_view_update_actions),
-		task_shell_view);
+		task_shell_view, G_CONNECT_SWAPPED);
 
 	e_categories_add_change_hook (
 		(GHookFunc) e_task_shell_view_update_search_filter,
@@ -336,18 +336,18 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 		model, "default-client");
 
 	/* Hide Completed Tasks (enable/units/value) */
-	g_signal_connect_swapped (
+	g_signal_connect_object (
 		shell_settings, "notify::cal-hide-completed-tasks",
 		G_CALLBACK (task_shell_view_process_completed_tasks),
-		task_shell_view);
-	g_signal_connect_swapped (
+		task_shell_view, G_CONNECT_SWAPPED);
+	g_signal_connect_object (
 		shell_settings, "notify::cal-hide-completed-tasks-units",
 		G_CALLBACK (task_shell_view_process_completed_tasks),
-		task_shell_view);
-	g_signal_connect_swapped (
+		task_shell_view, G_CONNECT_SWAPPED);
+	g_signal_connect_object (
 		shell_settings, "notify::cal-hide-completed-tasks-value",
 		G_CALLBACK (task_shell_view_process_completed_tasks),
-		task_shell_view);
+		task_shell_view, G_CONNECT_SWAPPED);
 
 	e_task_shell_view_actions_init (task_shell_view);
 	e_task_shell_view_update_sidebar (task_shell_view);
