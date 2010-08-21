@@ -11,15 +11,17 @@
 # Funda Wang <fundawang0zheng@gmail.com>, 2010.
 # Aron Xu <aronxu@gnome.org>, 2010.
 # du baodao <centerpoint@139.com>, 2010.
+# Tao Wang <dancefire@gmail.com>, 2010.
 #
+#: ../shell/main.c:533
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-07-17 10:27+0000\n"
-"PO-Revision-Date: 2010-07-18 16:29+0800\n"
-"Last-Translator: Aron Xu <happyaron.xu@gmail.com>\n"
+"POT-Creation-Date: 2010-08-19 18:09+0000\n"
+"PO-Revision-Date: 2010-08-06 11:18+1000\n"
+"Last-Translator: Tao Wang <dancefire@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -101,7 +103,7 @@ msgstr "认证到 IMAP 服务器失败。"
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:16
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1273
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1277
 msgid "Failed to delete contact"
 msgstr "删除联系人失败"
 
@@ -242,7 +244,7 @@ msgstr "纪念日"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
 #: ../addressbook/gui/widgets/eab-contact-display.c:582
 #: ../calendar/gui/e-calendar-view.c:2021 ../capplet/anjal-settings-main.c:118
-#: ../shell/main.c:118
+#: ../shell/main.c:123
 msgid "Birthday"
 msgstr "生日"
 
@@ -267,9 +269,9 @@ msgid "Contact"
 msgstr "联系人"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:8
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:590
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:605
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2584
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:589
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:604
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2583
 msgid "Contact Editor"
 msgstr "联系人编辑器"
 
@@ -292,7 +294,7 @@ msgid "Full _Name..."
 msgstr "全名(_N)..."
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:12
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:188
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:187
 #: ../addressbook/gui/widgets/eab-contact-display.c:70
 msgid "Home"
 msgstr "家庭"
@@ -335,7 +337,7 @@ msgid "Notes"
 msgstr "笔记"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:21
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:189
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:188
 #: ../addressbook/gui/widgets/eab-contact-display.c:71
 #: ../addressbook/gui/widgets/eab-contact-display.c:460
 #: ../calendar/gui/e-calendar-view.c:1725
@@ -363,7 +365,7 @@ msgid "Web addresses"
 msgstr "网络地址"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:27
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:187
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:186
 #: ../addressbook/gui/widgets/eab-contact-display.c:69
 #: ../addressbook/gui/widgets/eab-contact-display.c:569
 msgid "Work"
@@ -470,74 +472,74 @@ msgstr "何处(_W)："
 msgid "_Zip/Postal Code:"
 msgstr "邮政编码(_Z)："
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:168
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:167
 #: ../addressbook/gui/widgets/eab-contact-display.c:539
 msgid "AIM"
 msgstr "AIM"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:169
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:168
 #: ../addressbook/gui/widgets/eab-contact-display.c:542
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:170
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:169
 #: ../addressbook/gui/widgets/eab-contact-display.c:544
 msgid "Yahoo"
 msgstr "雅虎"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:171
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:170
 #: ../addressbook/gui/widgets/eab-contact-display.c:545
 msgid "Gadu-Gadu"
 msgstr "Gadu-Gadu"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:172
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:171
 #: ../addressbook/gui/widgets/eab-contact-display.c:543
 msgid "MSN"
 msgstr "MSN"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:173
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:172
 #: ../addressbook/gui/widgets/eab-contact-display.c:541
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:174
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:173
 #: ../addressbook/gui/widgets/eab-contact-display.c:540
 msgid "GroupWise"
 msgstr "GroupWise"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:175
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:174
 #: ../addressbook/gui/widgets/eab-contact-display.c:546
 msgid "Skype"
 msgstr "Skype"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:209
-#: ../addressbook/gui/widgets/eab-gui-util.c:353
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:208
+#: ../addressbook/gui/widgets/eab-gui-util.c:352
 msgid "Error adding contact"
 msgstr "添加联系人出错"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:223
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:222
 msgid "Error modifying contact"
 msgstr "修改联系人出错"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:237
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:236
 msgid "Error removing contact"
 msgstr "删除联系人出错"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:600
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2579
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:599
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2578
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "联系人编辑器 - %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2987
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3001
 msgid "Please select an image for this contact"
 msgstr "请选择此联系人的图像"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2988
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3002
 msgid "_No image"
 msgstr "无图像(_N)"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3261
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3275
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -545,23 +547,23 @@ msgstr ""
 "联系人数据无效：\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3265
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3279
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "“%s”的格式无效"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3272
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3286
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s“%s”的格式无效"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3287
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3298
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3301
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3312
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s“%s”为空"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3312
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3326
 msgid "Invalid contact."
 msgstr "无效的联系人。"
 
@@ -651,7 +653,7 @@ msgid "_Suffix:"
 msgstr "后缀(_S)："
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:1
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:666
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:657
 msgid "Contact List Editor"
 msgstr "联系人列表编辑器"
 
@@ -676,24 +678,24 @@ msgstr "选择(_S)..."
 msgid "_Type an email address or drag a contact into the list below:"
 msgstr "输入电子邮件地址或者把联系人拖放到下面的列表(_T)："
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:760
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:751
 msgid "Contact List Members"
 msgstr "联系人列表成员"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:911
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1328
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:905
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1320
 msgid "_Members"
 msgstr "成员(_M)"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1166
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1158
 msgid "Error adding list"
 msgstr "添加列表出错"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1180
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1172
 msgid "Error modifying list"
 msgstr "修改列表出错"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1194
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1186
 msgid "Error removing list"
 msgstr "删除列表出错"
 
@@ -750,7 +752,7 @@ msgstr "合并联系人"
 #: ../addressbook/gui/widgets/addresstypes.xml.h:1
 #: ../calendar/gui/caltypes.xml.h:2 ../calendar/gui/memotypes.xml.h:2
 #: ../calendar/gui/tasktypes.xml.h:4
-#: ../modules/addressbook/e-book-shell-view-actions.c:904
+#: ../modules/addressbook/e-book-shell-view-actions.c:920
 #: ../modules/calendar/e-cal-shell-view-actions.c:1687
 #: ../modules/calendar/e-memo-shell-view-actions.c:768
 #: ../modules/calendar/e-task-shell-view-actions.c:967
@@ -758,12 +760,12 @@ msgid "Any field contains"
 msgstr "任何域含有"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
-#: ../modules/addressbook/e-book-shell-view-actions.c:911
+#: ../modules/addressbook/e-book-shell-view-actions.c:927
 msgid "Email begins with"
 msgstr "邮件以此开头"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:3
-#: ../modules/addressbook/e-book-shell-view-actions.c:918
+#: ../modules/addressbook/e-book-shell-view-actions.c:934
 msgid "Name contains"
 msgstr "姓名含有"
 
@@ -789,54 +791,54 @@ msgstr "搜索中断了"
 msgid "Error modifying card"
 msgstr "修改名片错误"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:622
+#: ../addressbook/gui/widgets/e-addressbook-view.c:626
 msgid "Cut selected contacts to the clipboard"
 msgstr "将选联系人剪切到剪贴板"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:628
+#: ../addressbook/gui/widgets/e-addressbook-view.c:632
 msgid "Copy selected contacts to the clipboard"
 msgstr "将选中联系人复制到剪贴板"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:634
+#: ../addressbook/gui/widgets/e-addressbook-view.c:638
 msgid "Paste contacts from the clipboard"
 msgstr "从剪贴板中粘贴联系人"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:640
-#: ../modules/addressbook/e-book-shell-view-actions.c:729
+#: ../addressbook/gui/widgets/e-addressbook-view.c:644
+#: ../modules/addressbook/e-book-shell-view-actions.c:745
 msgid "Delete selected contacts"
 msgstr "删除选中的联系人"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:646
+#: ../addressbook/gui/widgets/e-addressbook-view.c:650
 msgid "Select all visible contacts"
 msgstr "选中全部可见联系人"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1291
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1295
 msgid "Are you sure you want to delete these contact lists?"
 msgstr "您确定要删除这些联系人列表吗？"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1295
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1299
 msgid "Are you sure you want to delete this contact list?"
 msgstr "您确定要删除这些联系人列表吗？"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1299
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1303
 #, c-format
 msgid "Are you sure you want to delete this contact list (%s)?"
 msgstr "您确定要删除联系人列表(%s)吗？"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1305
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1309
 msgid "Are you sure you want to delete these contacts?"
 msgstr "您确定要删除这些联系人吗？"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1309
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1313
 msgid "Are you sure you want to delete this contact?"
 msgstr "您确定要删除这些联系人吗？"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1313
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1317
 #, c-format
 msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "您确定要删除联系人(%s)吗？"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1468
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1472
 #, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
@@ -845,11 +847,11 @@ msgstr ""
 "打开 %d 个联系人将同时打开 %d 个新窗口。\n"
 "您真的想要显示所有联系人吗？"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1473
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1477
 msgid "_Don't Display"
 msgstr "不显示(_D)"
 
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1474
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1478
 msgid "Display _All Contacts"
 msgstr "显示全部联系人(_A)"
 
@@ -1226,7 +1228,7 @@ msgstr "Web 日志"
 #. Create the default Person task list
 #: ../addressbook/gui/widgets/eab-contact-display.c:586
 #: ../capplet/settings/mail-capplet-shell.c:350
-#: ../modules/addressbook/e-book-shell-backend.c:115
+#: ../modules/addressbook/e-book-shell-backend.c:116
 #: ../modules/addressbook/e-book-shell-migrate.c:138
 #: ../modules/calendar/e-cal-shell-backend.c:127
 #: ../modules/calendar/e-cal-shell-migrate.c:151
@@ -1256,7 +1258,7 @@ msgstr "Blog"
 msgid "Click to mail %s"
 msgstr "单击以给 %s 发送邮件"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:72
+#: ../addressbook/gui/widgets/eab-gui-util.c:71
 msgid ""
 "This address book cannot be opened. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
@@ -1265,14 +1267,14 @@ msgstr ""
 "无法打开此地址簿。这可能意味着此地址簿没有标为可脱机使用，或者尚未下载完成以"
 "供脱机使用。请在联机模式中载入此地址簿以便下载其内容。"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:81
+#: ../addressbook/gui/widgets/eab-gui-util.c:80
 #, c-format
 msgid ""
 "This address book cannot be opened.  Please check that the path %s exists "
 "and that permissions are set to access it."
 msgstr "无法打开此地址簿。请检查路径 %s 是否存在以及您是否有足够的权限访问它。"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:93
+#: ../addressbook/gui/widgets/eab-gui-util.c:92
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  To "
 "use LDAP in Evolution an LDAP-enabled Evolution package must be installed."
@@ -1280,7 +1282,7 @@ msgstr ""
 "本版本的 Evolution 并没有把 LDAP 支持编译进去。如果您希望在 Evolution 中使用 "
 "LDAP，就必须安装启用了 LDAP 的 Evolution 包。"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:102
+#: ../addressbook/gui/widgets/eab-gui-util.c:101
 msgid ""
 "This address book cannot be opened.  This either means that an incorrect URI "
 "was entered, or the server is unreachable."
@@ -1288,11 +1290,11 @@ msgstr ""
 "无法打开此地址簿。这可能是由于您输入了错误的 URI，也可能是因为服务器已经关"
 "闭。"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:110
+#: ../addressbook/gui/widgets/eab-gui-util.c:109
 msgid "Detailed error message:"
 msgstr "错误细节信息："
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:134
+#: ../addressbook/gui/widgets/eab-gui-util.c:133
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
@@ -1303,7 +1305,7 @@ msgstr ""
 "Evolution 配置要显示的数目。请在搜索的时候指定更加严格的\n"
 "搜索条件，或者在此地址簿的目录服务器参数中将结果限制调高。"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:141
+#: ../addressbook/gui/widgets/eab-gui-util.c:140
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "configured for this address book.  Please make your search\n"
@@ -1315,49 +1317,49 @@ msgstr ""
 "中将时间限制调高。"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../addressbook/gui/widgets/eab-gui-util.c:149
+#: ../addressbook/gui/widgets/eab-gui-util.c:148
 #, c-format
 msgid "The backend for this address book was unable to parse this query. %s"
 msgstr "此地址簿的后端无法解析此查询。%s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../addressbook/gui/widgets/eab-gui-util.c:154
+#: ../addressbook/gui/widgets/eab-gui-util.c:153
 #, c-format
 msgid "The backend for this address book refused to perform this query. %s"
 msgstr "此地址簿的后端拒绝执行此查询。%s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../addressbook/gui/widgets/eab-gui-util.c:159
+#: ../addressbook/gui/widgets/eab-gui-util.c:158
 #, c-format
 msgid "This query did not complete successfully. %s"
 msgstr "此查询未成功完成。%s"
 
 #. This is a filename. Translators take note.
-#: ../addressbook/gui/widgets/eab-gui-util.c:184
+#: ../addressbook/gui/widgets/eab-gui-util.c:183
 msgid "card.vcf"
 msgstr "card.vcf"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:224
+#: ../addressbook/gui/widgets/eab-gui-util.c:223
 msgid "Select Address Book"
 msgstr "选择地址簿"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:287
+#: ../addressbook/gui/widgets/eab-gui-util.c:286
 msgid "list"
 msgstr "列表"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:414
+#: ../addressbook/gui/widgets/eab-gui-util.c:425
 msgid "Move contact to"
 msgstr "将联系人移至"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:416
+#: ../addressbook/gui/widgets/eab-gui-util.c:427
 msgid "Copy contact to"
 msgstr "将联系人复制到"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:419
+#: ../addressbook/gui/widgets/eab-gui-util.c:430
 msgid "Move contacts to"
 msgstr "将联系人移至"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:421
+#: ../addressbook/gui/widgets/eab-gui-util.c:432
 msgid "Copy contacts to"
 msgstr "将联系人复制到"
 
@@ -1865,7 +1867,7 @@ msgstr "除非您重新启动 Evolution，否则您的任务将无法使用。"
 msgid "_Discard Changes"
 msgstr "丢弃更改(_D)"
 
-#: ../calendar/calendar.error.xml.h:81 ../composer/e-composer-actions.c:268
+#: ../calendar/calendar.error.xml.h:81 ../composer/e-composer-actions.c:271
 msgid "_Save"
 msgstr "保存(_S)"
 
@@ -1924,20 +1926,10 @@ msgid "_Dismiss"
 msgstr "错过(_D)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:6
-#: ../calendar/gui/dialogs/comp-editor.c:1060
-#: ../calendar/gui/dialogs/recurrence-page.ui.h:6 ../filter/filter.ui.h:10
-#: ../mail/e-mail-browser.c:153
-#: ../plugins/publish-calendar/publish-calendar.ui.h:23
-#: ../shell/e-shell-window-actions.c:1607
-#: ../widgets/menus/gal-define-views.ui.h:5
-msgid "_Edit"
-msgstr "编辑(_E)"
-
-#: ../calendar/gui/alarm-notify/alarm-notify.ui.h:7
 msgid "_Snooze"
 msgstr "午睡(_S)"
 
-#: ../calendar/gui/alarm-notify/alarm-notify.ui.h:8
+#: ../calendar/gui/alarm-notify/alarm-notify.ui.h:7
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:22
 #: ../calendar/gui/dialogs/event-page.ui.h:24 ../e-util/e-plugin-util.c:424
 #: ../filter/filter.ui.h:15
@@ -1945,12 +1937,12 @@ msgstr "午睡(_S)"
 msgid "hours"
 msgstr "小时"
 
-#: ../calendar/gui/alarm-notify/alarm-notify.ui.h:9
+#: ../calendar/gui/alarm-notify/alarm-notify.ui.h:8
 msgid "location of appointment"
 msgstr "约会位置"
 
 #. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
-#: ../calendar/gui/alarm-notify/alarm-notify.ui.h:10
+#: ../calendar/gui/alarm-notify/alarm-notify.ui.h:9
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:24
 #: ../calendar/gui/dialogs/event-page.ui.h:25 ../e-util/e-plugin-util.c:423
 #: ../filter/filter.ui.h:17 ../modules/addressbook/ldap-config.ui.h:34
@@ -2642,7 +2634,7 @@ msgstr "机密"
 #: ../calendar/gui/caltypes.xml.h:8 ../calendar/gui/e-cal-list-view.etspec.h:3
 #: ../calendar/gui/memotypes.xml.h:7 ../calendar/gui/tasktypes.xml.h:10
 #: ../plugins/plugin-manager/plugin-manager.c:60
-#: ../widgets/misc/e-attachment-tree-view.c:514
+#: ../widgets/misc/e-attachment-tree-view.c:530
 #: ../widgets/table/e-table-config.ui.h:6
 msgid "Description"
 msgstr "描述"
@@ -2926,7 +2918,7 @@ msgstr "提醒"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:11
 #: ../mail/mail-config.ui.h:30
-#: ../modules/addressbook/autocompletion-config.c:153
+#: ../modules/addressbook/autocompletion-config.c:156
 msgid "Date/Time Format"
 msgstr "日期/时间格式"
 
@@ -3337,22 +3329,22 @@ msgstr "保留原始条目？"
 msgid "Click here to close the current window"
 msgstr "单击此处可关闭当前窗口"
 
-#: ../calendar/gui/dialogs/comp-editor.c:990 ../mail/e-mail-browser.c:118
-#: ../shell/e-shell-window-actions.c:1453
+#: ../calendar/gui/dialogs/comp-editor.c:990 ../mail/e-mail-browser.c:117
+#: ../shell/e-shell-window-actions.c:1454
 #: ../widgets/misc/e-focus-tracker.c:115 ../widgets/misc/e-focus-tracker.c:550
 #: ../widgets/misc/e-web-view.c:408 ../widgets/misc/e-web-view.c:1061
 msgid "Copy the selection"
 msgstr "复制选中内容"
 
-#: ../calendar/gui/dialogs/comp-editor.c:997 ../mail/e-mail-browser.c:125
-#: ../shell/e-shell-window-actions.c:1460
+#: ../calendar/gui/dialogs/comp-editor.c:997 ../mail/e-mail-browser.c:124
+#: ../shell/e-shell-window-actions.c:1461
 #: ../widgets/misc/e-focus-tracker.c:108 ../widgets/misc/e-focus-tracker.c:545
 #: ../widgets/misc/e-web-view.c:1055
 msgid "Cut the selection"
 msgstr "剪切选中内容"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1004
-#: ../shell/e-shell-window-actions.c:1467
+#: ../shell/e-shell-window-actions.c:1468
 #: ../widgets/misc/e-focus-tracker.c:129 ../widgets/misc/e-focus-tracker.c:560
 msgid "Delete the selection"
 msgstr "删除选中内容"
@@ -3361,8 +3353,8 @@ msgstr "删除选中内容"
 msgid "Click here to view help available"
 msgstr "单击此处可查看可用的帮助"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1018 ../mail/e-mail-browser.c:132
-#: ../shell/e-shell-window-actions.c:1502
+#: ../calendar/gui/dialogs/comp-editor.c:1018 ../mail/e-mail-browser.c:131
+#: ../shell/e-shell-window-actions.c:1503
 #: ../widgets/misc/e-focus-tracker.c:122 ../widgets/misc/e-focus-tracker.c:555
 #: ../widgets/misc/e-web-view.c:1067
 msgid "Paste the clipboard"
@@ -3372,8 +3364,8 @@ msgstr "粘贴剪贴板"
 msgid "Click here to save the current window"
 msgstr "单击此处可保存当前窗口"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1046 ../mail/e-mail-browser.c:139
-#: ../shell/e-shell-window-actions.c:1572
+#: ../calendar/gui/dialogs/comp-editor.c:1046 ../mail/e-mail-browser.c:138
+#: ../shell/e-shell-window-actions.c:1573
 #: ../widgets/misc/e-focus-tracker.c:136 ../widgets/misc/e-focus-tracker.c:565
 msgid "Select all text"
 msgstr "选中所有文字"
@@ -3382,14 +3374,23 @@ msgstr "选中所有文字"
 msgid "_Classification"
 msgstr "分类(_C)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1067 ../mail/e-mail-browser.c:146
-#: ../shell/e-shell-window-actions.c:1614
+#: ../calendar/gui/dialogs/comp-editor.c:1060
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:6 ../filter/filter.ui.h:10
+#: ../mail/e-mail-browser.c:152
+#: ../plugins/publish-calendar/publish-calendar.ui.h:23
+#: ../shell/e-shell-window-actions.c:1608
+#: ../widgets/menus/gal-define-views.ui.h:5
+msgid "_Edit"
+msgstr "编辑(_E)"
+
+#: ../calendar/gui/dialogs/comp-editor.c:1067 ../mail/e-mail-browser.c:145
+#: ../shell/e-shell-window-actions.c:1615
 #: ../widgets/misc/e-signature-editor.c:217
 msgid "_File"
 msgstr "文件(_F)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1074
-#: ../shell/e-shell-window-actions.c:1621
+#: ../shell/e-shell-window-actions.c:1622
 msgid "_Help"
 msgstr "帮助(_H)"
 
@@ -3398,17 +3399,17 @@ msgid "_Insert"
 msgstr "插入(_I)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1088
-#: ../composer/e-composer-actions.c:312
+#: ../composer/e-composer-actions.c:315
 msgid "_Options"
 msgstr "选项(_O)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1095 ../mail/e-mail-browser.c:160
-#: ../shell/e-shell-window-actions.c:1656 ../smime/gui/smime-ui.ui.h:45
+#: ../calendar/gui/dialogs/comp-editor.c:1095 ../mail/e-mail-browser.c:159
+#: ../shell/e-shell-window-actions.c:1657 ../smime/gui/smime-ui.ui.h:45
 msgid "_View"
 msgstr "查看(_V)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1105
-#: ../composer/e-composer-actions.c:240
+#: ../composer/e-composer-actions.c:243
 msgid "_Attachment..."
 msgstr "附件(_A)..."
 
@@ -3494,7 +3495,7 @@ msgid "Recent _Documents"
 msgstr "最近文档(_D)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1743
-#: ../composer/e-composer-actions.c:428
+#: ../composer/e-composer-actions.c:431
 msgid "Attach"
 msgstr "附件"
 
@@ -3887,9 +3888,9 @@ msgstr "您并非组织者，因此无法编辑全部备忘。"
 msgid "Unable to open memos in '%s'."
 msgstr "无法打开“%s”中的备忘。"
 
-#: ../calendar/gui/dialogs/memo-page.c:1078 ../em-format/em-format-quote.c:215
-#: ../em-format/em-format.c:942 ../mail/em-format-html.c:2284
-#: ../mail/em-format-html.c:2343 ../mail/em-format-html.c:2367
+#: ../calendar/gui/dialogs/memo-page.c:1078 ../em-format/em-format-quote.c:270
+#: ../em-format/em-format.c:1030 ../mail/em-format-html.c:2289
+#: ../mail/em-format-html.c:2348 ../mail/em-format-html.c:2372
 #: ../mail/message-list.etspec.h:20 ../modules/mail/em-mailer-prefs.c:80
 msgid "To"
 msgstr "收件人"
@@ -4168,7 +4169,7 @@ msgstr "已完成"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:6
 #: ../calendar/gui/e-cal-component-preview.c:314
 #: ../calendar/gui/e-task-table.c:511 ../calendar/gui/tasktypes.xml.h:14
-#: ../mail/message-list.c:1172 ../widgets/misc/e-send-options.ui.h:8
+#: ../mail/message-list.c:1183 ../widgets/misc/e-send-options.ui.h:8
 msgid "High"
 msgstr "高"
 
@@ -4187,7 +4188,7 @@ msgstr "进行中"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:10
 #: ../calendar/gui/e-cal-component-preview.c:318
 #: ../calendar/gui/e-task-table.c:513 ../calendar/gui/tasktypes.xml.h:16
-#: ../mail/message-list.c:1170 ../widgets/misc/e-send-options.ui.h:9
+#: ../mail/message-list.c:1181 ../widgets/misc/e-send-options.ui.h:9
 msgid "Low"
 msgstr "低"
 
@@ -4195,7 +4196,7 @@ msgstr "低"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:13
 #: ../calendar/gui/e-cal-component-preview.c:316
 #: ../calendar/gui/e-cal-model.c:1269 ../calendar/gui/e-task-table.c:512
-#: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1171
+#: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1182
 #: ../widgets/misc/e-send-options.ui.h:13
 msgid "Normal"
 msgstr "中"
@@ -4558,7 +4559,7 @@ msgstr "开始日期"
 #: ../calendar/gui/e-meeting-list-view.c:557
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:7
-#: ../widgets/misc/e-attachment-tree-view.c:572
+#: ../widgets/misc/e-attachment-tree-view.c:588
 msgid "Type"
 msgstr "类型"
 
@@ -5338,7 +5339,7 @@ msgid "Member"
 msgstr "成员"
 
 #: ../calendar/gui/e-memo-table.c:412
-#: ../modules/calendar/e-cal-shell-content.c:468
+#: ../modules/calendar/e-cal-shell-content.c:473
 #: ../modules/calendar/e-memo-shell-view-actions.c:218
 #: ../modules/calendar/e-memo-shell-view-actions.c:233
 #: ../modules/calendar/e-memo-shell-view.c:289
@@ -5397,7 +5398,7 @@ msgstr "%d%%"
 #: ../calendar/gui/e-task-table.c:629 ../calendar/gui/print.c:2052
 #: ../calendar/importers/icalendar-importer.c:81
 #: ../calendar/importers/icalendar-importer.c:828
-#: ../modules/calendar/e-cal-shell-content.c:429
+#: ../modules/calendar/e-cal-shell-content.c:434
 #: ../modules/calendar/e-task-shell-view-actions.c:241
 #: ../modules/calendar/e-task-shell-view-actions.c:256
 #: ../modules/calendar/e-task-shell-view.c:437
@@ -7744,141 +7745,141 @@ msgstr "太平洋/雅浦"
 msgid "Save as..."
 msgstr "另存为..."
 
-#: ../composer/e-composer-actions.c:242
-#: ../widgets/misc/e-attachment-view.c:329
+#: ../composer/e-composer-actions.c:245
+#: ../widgets/misc/e-attachment-view.c:374
 msgid "Attach a file"
 msgstr "添加附件"
 
-#: ../composer/e-composer-actions.c:247
+#: ../composer/e-composer-actions.c:250
 #: ../widgets/misc/e-signature-editor.c:203
 msgid "_Close"
 msgstr "关闭(_C)"
 
-#: ../composer/e-composer-actions.c:249
+#: ../composer/e-composer-actions.c:252
 msgid "Close the current file"
 msgstr "关闭当前文件"
 
-#: ../composer/e-composer-actions.c:254
+#: ../composer/e-composer-actions.c:257
 msgid "_Print..."
 msgstr "打印(_P)..."
 
-#: ../composer/e-composer-actions.c:261
+#: ../composer/e-composer-actions.c:264
 msgid "Print Pre_view"
 msgstr "打印预览(_V)"
 
-#: ../composer/e-composer-actions.c:270
+#: ../composer/e-composer-actions.c:273
 msgid "Save the current file"
 msgstr "保存当前文件"
 
-#: ../composer/e-composer-actions.c:275
+#: ../composer/e-composer-actions.c:278
 msgid "Save _As..."
 msgstr "另存为(_A)..."
 
-#: ../composer/e-composer-actions.c:277
+#: ../composer/e-composer-actions.c:280
 msgid "Save the current file with a different name"
 msgstr "用不同的文件名保存当前文件"
 
-#: ../composer/e-composer-actions.c:282
+#: ../composer/e-composer-actions.c:285
 msgid "Save as _Draft"
 msgstr "另存为草稿(_D)"
 
-#: ../composer/e-composer-actions.c:284
+#: ../composer/e-composer-actions.c:287
 msgid "Save as draft"
 msgstr "另存为草稿"
 
-#: ../composer/e-composer-actions.c:289 ../composer/e-composer-private.c:293
+#: ../composer/e-composer-actions.c:292 ../composer/e-composer-private.c:297
 msgid "S_end"
 msgstr "发送(_E)"
 
-#: ../composer/e-composer-actions.c:291
+#: ../composer/e-composer-actions.c:294
 msgid "Send this message"
 msgstr "发送这封信"
 
-#: ../composer/e-composer-actions.c:296
+#: ../composer/e-composer-actions.c:299
 msgid "New _Message"
 msgstr "新建信息(_M)"
 
-#: ../composer/e-composer-actions.c:298
+#: ../composer/e-composer-actions.c:301
 msgid "Open New Message window"
 msgstr "打开新建信息窗口"
 
-#: ../composer/e-composer-actions.c:305
+#: ../composer/e-composer-actions.c:308
 msgid "Character _Encoding"
 msgstr "字符编码(_E)"
 
-#: ../composer/e-composer-actions.c:322
+#: ../composer/e-composer-actions.c:325
 msgid "PGP _Encrypt"
 msgstr "PGP 加密(_E)"
 
-#: ../composer/e-composer-actions.c:324
+#: ../composer/e-composer-actions.c:327
 msgid "Encrypt this message with PGP"
 msgstr "用 PGP 加密该信息"
 
-#: ../composer/e-composer-actions.c:330
+#: ../composer/e-composer-actions.c:333
 msgid "PGP _Sign"
 msgstr "PGP 签名(_S)"
 
-#: ../composer/e-composer-actions.c:332
+#: ../composer/e-composer-actions.c:335
 msgid "Sign this message with your PGP key"
 msgstr "用您的 PGP 密钥签名该信息"
 
-#: ../composer/e-composer-actions.c:338
+#: ../composer/e-composer-actions.c:341
 msgid "_Prioritize Message"
 msgstr "标为优先(_P)"
 
-#: ../composer/e-composer-actions.c:340
+#: ../composer/e-composer-actions.c:343
 msgid "Set the message priority to high"
 msgstr "将信息设定为高优先级"
 
-#: ../composer/e-composer-actions.c:346
+#: ../composer/e-composer-actions.c:349
 msgid "Re_quest Read Receipt"
 msgstr "请求已读回执(_Q)"
 
-#: ../composer/e-composer-actions.c:348
+#: ../composer/e-composer-actions.c:351
 msgid "Get delivery notification when your message is read"
 msgstr "当您的信息被阅读时得到投递通知"
 
-#: ../composer/e-composer-actions.c:354
+#: ../composer/e-composer-actions.c:357
 msgid "S/MIME En_crypt"
 msgstr "S/MIME 加密(_C)"
 
-#: ../composer/e-composer-actions.c:356
+#: ../composer/e-composer-actions.c:359
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "用您的 S/MIME 加密证书加密该信息"
 
-#: ../composer/e-composer-actions.c:362
+#: ../composer/e-composer-actions.c:365
 msgid "S/MIME Sig_n"
 msgstr "S/MIME 签名(_N)"
 
-#: ../composer/e-composer-actions.c:364
+#: ../composer/e-composer-actions.c:367
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "用您的 S/MIME 签名认证签名该信息"
 
-#: ../composer/e-composer-actions.c:370
+#: ../composer/e-composer-actions.c:373
 msgid "_Bcc Field"
 msgstr "密件抄送域(_B)"
 
-#: ../composer/e-composer-actions.c:372
+#: ../composer/e-composer-actions.c:375
 msgid "Toggles whether the BCC field is displayed"
 msgstr "是否显示密件抄送域"
 
-#: ../composer/e-composer-actions.c:378
+#: ../composer/e-composer-actions.c:381
 msgid "_Cc Field"
 msgstr "抄送域(_C)"
 
-#: ../composer/e-composer-actions.c:380
+#: ../composer/e-composer-actions.c:383
 msgid "Toggles whether the CC field is displayed"
 msgstr "是否显示抄送域"
 
-#: ../composer/e-composer-actions.c:386
+#: ../composer/e-composer-actions.c:389
 msgid "_Reply-To Field"
 msgstr "回复至域(_R)"
 
-#: ../composer/e-composer-actions.c:388
+#: ../composer/e-composer-actions.c:391
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "是否显示回复域"
 
-#: ../composer/e-composer-actions.c:431
+#: ../composer/e-composer-actions.c:434
 msgid "Save Draft"
 msgstr "保存草稿"
 
@@ -7896,35 +7897,35 @@ msgid ""
 "appearing in the recipient list of the message"
 msgstr "输入将接收该信息副本，但不出现在收件人列表中的收件人地址"
 
-#: ../composer/e-composer-header-table.c:1005
+#: ../composer/e-composer-header-table.c:1002
 msgid "Fr_om:"
 msgstr "发件人(_O)："
 
-#: ../composer/e-composer-header-table.c:1014
+#: ../composer/e-composer-header-table.c:1011
 msgid "_Reply-To:"
 msgstr "回复到(_R)："
 
-#: ../composer/e-composer-header-table.c:1018
+#: ../composer/e-composer-header-table.c:1015
 msgid "_To:"
 msgstr "收件人(_T)："
 
-#: ../composer/e-composer-header-table.c:1023
+#: ../composer/e-composer-header-table.c:1020
 msgid "_Cc:"
 msgstr "抄送(_C)："
 
-#: ../composer/e-composer-header-table.c:1028
+#: ../composer/e-composer-header-table.c:1025
 msgid "_Bcc:"
 msgstr "密件抄送(_B)："
 
-#: ../composer/e-composer-header-table.c:1033
+#: ../composer/e-composer-header-table.c:1030
 msgid "_Post To:"
 msgstr "投递到(_P)："
 
-#: ../composer/e-composer-header-table.c:1037
+#: ../composer/e-composer-header-table.c:1034
 msgid "S_ubject:"
 msgstr "主题(_U)："
 
-#: ../composer/e-composer-header-table.c:1046
+#: ../composer/e-composer-header-table.c:1043
 msgid "Si_gnature:"
 msgstr "签名(_G)："
 
@@ -7936,58 +7937,58 @@ msgstr "单击此处以使用地址簿"
 msgid "Click here to select folders to post to"
 msgstr "单击此处以选择要投递到的文件夹"
 
-#: ../composer/e-composer-private.c:211
+#: ../composer/e-composer-private.c:215
 msgid "Undo the last action"
 msgstr "撤消上次操作"
 
-#: ../composer/e-composer-private.c:215
+#: ../composer/e-composer-private.c:219
 msgid "Redo the last undone action"
 msgstr "重做上次操作"
 
-#: ../composer/e-composer-private.c:219
+#: ../composer/e-composer-private.c:223
 msgid "Search for text"
 msgstr "搜索文本"
 
-#: ../composer/e-composer-private.c:223
+#: ../composer/e-composer-private.c:227
 msgid "Search for and replace text"
 msgstr "搜索和替换文本"
 
-#: ../composer/e-composer-private.c:313
+#: ../composer/e-composer-private.c:317
 msgid "Save draft"
 msgstr "保存草稿"
 
 #. Check buttons
-#: ../composer/e-msg-composer.c:199
+#: ../composer/e-msg-composer.c:192
 #: ../plugins/attachment-reminder/attachment-reminder.c:117
 msgid "_Do not show this message again."
 msgstr "不再显示此信息(_D)。"
 
-#: ../composer/e-msg-composer.c:1029
+#: ../composer/e-msg-composer.c:1024
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr "无法对寄出的信息签名：未对此帐号设置签名证书"
 
-#: ../composer/e-msg-composer.c:1041
+#: ../composer/e-msg-composer.c:1036
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr "无法对寄出的信息加密：未对此帐号设置加密证书"
 
-#: ../composer/e-msg-composer.c:1465
+#: ../composer/e-msg-composer.c:1461
 msgid "Unable to reconstruct message from autosave file"
 msgstr "无法从自动保存的文件重建信息"
 
-#: ../composer/e-msg-composer.c:1533 ../composer/e-msg-composer.c:1817
+#: ../composer/e-msg-composer.c:1531 ../composer/e-msg-composer.c:1877
 msgid "Compose Message"
 msgstr "新建消息"
 
-#: ../composer/e-msg-composer.c:3538
+#: ../composer/e-msg-composer.c:3562
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "编写器含有不可编辑的非文本信体。"
 
-#: ../composer/e-msg-composer.c:4144
+#: ../composer/e-msg-composer.c:4174
 msgid "Untitled Message"
 msgstr "无标题信息"
 
@@ -8292,7 +8293,7 @@ msgid "Back - Receiving options"
 msgstr "后退 - 接收选项"
 
 #: ../capplet/settings/mail-account-view.c:613
-#: ../mail/em-account-editor.c:2983 ../mail/mail-config.ui.h:34
+#: ../mail/em-account-editor.c:2985 ../mail/mail-config.ui.h:34
 msgid "Defaults"
 msgstr "默认值"
 
@@ -8338,6 +8339,8 @@ msgid ""
 "calendar name. So please confirm and re-enter the calendar name if it is not "
 "correct."
 msgstr ""
+"Yahoo 日历命名为 名字_姓氏。我们尝试着生成这种日历名称。请确认名字是否正确，"
+"如果不正确，请重新输入日历名称。"
 
 #: ../capplet/settings/mail-account-view.c:768
 msgid "<span size=\"large\" weight=\"bold\">Yahoo account settings:</span>"
@@ -8370,8 +8373,8 @@ msgstr "Evolution 帐号助手"
 #: ../mail/em-folder-tree-model.c:151 ../mail/em-folder-tree-model.c:154
 #: ../mail/em-folder-tree-model.c:156 ../mail/em-folder-tree-model.c:163
 #: ../mail/em-folder-tree-model.c:165 ../mail/mail-vfolder.c:207
-#: ../mail/message-list.c:1655
-#: ../modules/addressbook/e-book-shell-backend.c:95
+#: ../mail/message-list.c:1666
+#: ../modules/addressbook/e-book-shell-backend.c:96
 #: ../modules/addressbook/e-book-shell-migrate.c:130
 #: ../modules/calendar/e-cal-shell-backend.c:102
 #: ../modules/calendar/e-cal-shell-migrate.c:141
@@ -8407,7 +8410,7 @@ msgstr "日历事件信息"
 msgid "Evolution Alarm Notify"
 msgstr "Evolution 提醒通知"
 
-#: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:865
+#: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:845
 #: ../shell/e-shell-window-private.c:253
 msgid "Evolution"
 msgstr "Evolution"
@@ -8625,15 +8628,15 @@ msgstr "日志信息："
 msgid "Log Level"
 msgstr "日志级别"
 
-#: ../e-util/e-non-intrusive-error-dialog.c:297 ../mail/message-list.c:2741
+#: ../e-util/e-non-intrusive-error-dialog.c:297 ../mail/message-list.c:2757
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "信息"
 
-#: ../e-util/e-non-intrusive-error-dialog.c:306 ../mail/e-mail-browser.c:111
-#: ../shell/e-shell-window-actions.c:1425
-#: ../shell/e-shell-window-actions.c:1432
-#: ../shell/e-shell-window-actions.c:1439
+#: ../e-util/e-non-intrusive-error-dialog.c:306 ../mail/e-mail-browser.c:110
+#: ../shell/e-shell-window-actions.c:1426
+#: ../shell/e-shell-window-actions.c:1433
+#: ../shell/e-shell-window-actions.c:1440
 msgid "Close this window"
 msgstr "关闭此窗口"
 
@@ -8676,7 +8679,7 @@ msgid ""
 "The printing system did not report any additional details about the error."
 msgstr "打印系统未报告关于错误的任何额外细节。"
 
-#: ../e-util/e-signature.c:701
+#: ../e-util/e-signature.c:731
 msgid "Autogenerated"
 msgstr "自动生成的"
 
@@ -8721,30 +8724,30 @@ msgstr "GConf 错误：%s"
 msgid "All further errors shown only on terminal."
 msgstr "后续所有的错误都只显示在终端。"
 
-#: ../em-format/em-format-quote.c:215 ../em-format/em-format.c:940
+#: ../em-format/em-format-quote.c:270 ../em-format/em-format.c:1028
 #: ../mail/e-mail-tag-editor.c:323 ../mail/message-list.etspec.h:7
 #: ../modules/mail/em-mailer-prefs.c:78
 msgid "From"
 msgstr "发件人"
 
-#: ../em-format/em-format-quote.c:215 ../em-format/em-format.c:941
+#: ../em-format/em-format-quote.c:270 ../em-format/em-format.c:1029
 #: ../modules/mail/em-mailer-prefs.c:79
 msgid "Reply-To"
 msgstr "回复至"
 
-#: ../em-format/em-format-quote.c:215 ../em-format/em-format.c:943
-#: ../mail/em-format-html.c:2285 ../mail/em-format-html.c:2347
-#: ../mail/em-format-html.c:2370 ../modules/mail/em-mailer-prefs.c:81
+#: ../em-format/em-format-quote.c:270 ../em-format/em-format.c:1031
+#: ../mail/em-format-html.c:2290 ../mail/em-format-html.c:2352
+#: ../mail/em-format-html.c:2375 ../modules/mail/em-mailer-prefs.c:81
 msgid "Cc"
 msgstr "抄送"
 
-#: ../em-format/em-format-quote.c:215 ../em-format/em-format.c:944
-#: ../mail/em-format-html.c:2286 ../mail/em-format-html.c:2351
-#: ../mail/em-format-html.c:2373 ../modules/mail/em-mailer-prefs.c:82
+#: ../em-format/em-format-quote.c:270 ../em-format/em-format.c:1032
+#: ../mail/em-format-html.c:2291 ../mail/em-format-html.c:2356
+#: ../mail/em-format-html.c:2378 ../modules/mail/em-mailer-prefs.c:82
 msgid "Bcc"
 msgstr "密件抄送"
 
-#: ../em-format/em-format-quote.c:347 ../em-format/em-format.c:945
+#: ../em-format/em-format-quote.c:410 ../em-format/em-format.c:1033
 #: ../mail/e-mail-tag-editor.c:328 ../mail/em-filter-i18n.h:74
 #: ../mail/message-list.etspec.h:18 ../modules/mail/em-mailer-prefs.c:83
 #: ../plugins/groupwise-features/properties.ui.h:6 ../smime/lib/e-cert.c:1140
@@ -8752,73 +8755,73 @@ msgid "Subject"
 msgstr "主题"
 
 #. pseudo-header
-#: ../em-format/em-format-quote.c:358 ../mail/em-format-html.c:2467
+#: ../em-format/em-format-quote.c:421 ../mail/em-format-html.c:2472
 #: ../modules/mail/em-mailer-prefs.c:1144
 msgid "Mailer"
 msgstr "邮件程序"
 
-#: ../em-format/em-format-quote.c:423 ../mail/em-composer-utils.c:1190
+#: ../em-format/em-format-quote.c:500 ../mail/em-composer-utils.c:1262
 msgid "-------- Forwarded Message --------"
 msgstr "-------- 转发的信息 --------"
 
-#: ../em-format/em-format.c:946 ../mail/message-list.etspec.h:2
+#: ../em-format/em-format.c:1034 ../mail/message-list.etspec.h:2
 #: ../modules/mail/em-mailer-prefs.c:84 ../widgets/misc/e-dateedit.c:524
 #: ../widgets/misc/e-dateedit.c:546
 msgid "Date"
 msgstr "日期"
 
-#: ../em-format/em-format.c:947 ../modules/mail/em-mailer-prefs.c:85
+#: ../em-format/em-format.c:1035 ../modules/mail/em-mailer-prefs.c:85
 msgid "Newsgroups"
 msgstr "新闻组"
 
-#: ../em-format/em-format.c:948 ../modules/mail/em-mailer-prefs.c:86
+#: ../em-format/em-format.c:1036 ../modules/mail/em-mailer-prefs.c:86
 #: ../plugins/face/org-gnome-face.eplug.xml.h:2
 msgid "Face"
 msgstr "头像"
 
-#: ../em-format/em-format.c:1310
+#: ../em-format/em-format.c:1416
 #, c-format
 msgid "%s attachment"
 msgstr "%s 附件"
 
-#: ../em-format/em-format.c:1370
+#: ../em-format/em-format.c:1481
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "无法解析 S/MIME 信息：未知错误"
 
-#: ../em-format/em-format.c:1525 ../em-format/em-format.c:1699
+#: ../em-format/em-format.c:1639 ../em-format/em-format.c:1823
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "无法解析 MIME 信息。显示源文本。"
 
-#: ../em-format/em-format.c:1533
+#: ../em-format/em-format.c:1649
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "不支持 multipart/encrypted 的加密类型"
 
-#: ../em-format/em-format.c:1546
+#: ../em-format/em-format.c:1665
 msgid "Could not parse PGP/MIME message"
 msgstr "无法解析 PGP/MIME 信息"
 
-#: ../em-format/em-format.c:1547
+#: ../em-format/em-format.c:1666
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "无法解析 PGP/MIME 信息：未知错误"
 
-#: ../em-format/em-format.c:1723
+#: ../em-format/em-format.c:1848
 msgid "Unsupported signature format"
 msgstr "不支持的签名格式"
 
-#: ../em-format/em-format.c:1733 ../em-format/em-format.c:1889
+#: ../em-format/em-format.c:1858 ../em-format/em-format.c:2018
 msgid "Error verifying signature"
 msgstr "校验签名错误"
 
-#: ../em-format/em-format.c:1734 ../em-format/em-format.c:1877
-#: ../em-format/em-format.c:1890
+#: ../em-format/em-format.c:1859 ../em-format/em-format.c:2006
+#: ../em-format/em-format.c:2019
 msgid "Unknown error verifying signature"
 msgstr "校验签名发生了未知错误"
 
-#: ../em-format/em-format.c:1970
+#: ../em-format/em-format.c:2106
 msgid "Could not parse PGP message: "
 msgstr "无法解析 PGP 信息："
 
-#: ../em-format/em-format.c:1976 ../plugins/caldav/caldav-browse-server.c:203
+#: ../em-format/em-format.c:2112 ../plugins/caldav/caldav-browse-server.c:203
 #: ../plugins/caldav/caldav-browse-server.c:1254 ../plugins/face/face.c:169
 #: ../smime/gui/certificate-manager.c:100
 msgid "Unknown error"
@@ -9098,25 +9101,25 @@ msgstr "您指定的时间"
 msgid "years"
 msgstr "年"
 
-#: ../mail/e-mail-attachment-bar.c:90 ../mail/e-mail-attachment-bar.c:95
-#: ../mail/em-format-html-display.c:1027 ../mail/mail-config.ui.h:15
-#: ../mail/message-list.etspec.h:1 ../widgets/misc/e-attachment-paned.c:118
-#: ../widgets/misc/e-attachment-paned.c:123
+#: ../mail/e-mail-attachment-bar.c:91 ../mail/e-mail-attachment-bar.c:96
+#: ../mail/em-format-html-display.c:1024 ../mail/mail-config.ui.h:15
+#: ../mail/message-list.etspec.h:1 ../widgets/misc/e-attachment-paned.c:119
+#: ../widgets/misc/e-attachment-paned.c:124
 msgid "Attachment"
 msgid_plural "Attachments"
 msgstr[0] "附件"
 
-#: ../mail/e-mail-attachment-bar.c:586
-#: ../widgets/misc/e-attachment-paned.c:581
+#: ../mail/e-mail-attachment-bar.c:611
+#: ../widgets/misc/e-attachment-paned.c:605
 msgid "Icon View"
 msgstr "图标视图"
 
-#: ../mail/e-mail-attachment-bar.c:587
-#: ../widgets/misc/e-attachment-paned.c:582
+#: ../mail/e-mail-attachment-bar.c:612
+#: ../widgets/misc/e-attachment-paned.c:606
 msgid "List View"
 msgstr "列表视图"
 
-#: ../mail/e-mail-browser.c:266
+#: ../mail/e-mail-browser.c:265
 msgid "(No Subject)"
 msgstr "(无主题)"
 
@@ -9193,26 +9196,26 @@ msgid "Name"
 msgstr "姓名"
 
 #: ../mail/e-mail-local.c:37 ../mail/em-folder-properties.c:283
-#: ../mail/em-folder-tree-model.c:700 ../mail/em-folder-tree.c:2759
-#: ../modules/mail/e-mail-shell-view-private.c:959
+#: ../mail/em-folder-tree-model.c:696 ../mail/em-folder-tree.c:2759
+#: ../modules/mail/e-mail-shell-view-private.c:1008
 msgid "Inbox"
 msgstr "收件箱"
 
-#: ../mail/e-mail-local.c:38 ../mail/em-folder-tree-model.c:693
+#: ../mail/e-mail-local.c:38 ../mail/em-folder-tree-model.c:688
 msgid "Drafts"
 msgstr "草稿"
 
-#: ../mail/e-mail-local.c:39 ../mail/em-folder-tree-model.c:703
+#: ../mail/e-mail-local.c:39 ../mail/em-folder-tree-model.c:700
 msgid "Outbox"
 msgstr "发件箱"
 
-#: ../mail/e-mail-local.c:40 ../mail/em-folder-tree-model.c:705
+#: ../mail/e-mail-local.c:40 ../mail/em-folder-tree-model.c:702
 msgid "Sent"
 msgstr "已发箱"
 
-#: ../mail/e-mail-local.c:41 ../mail/em-folder-tree-model.c:696
+#: ../mail/e-mail-local.c:41 ../mail/em-folder-tree-model.c:691
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
-#: ../plugins/templates/templates.c:573
+#: ../plugins/templates/templates.c:577
 msgid "Templates"
 msgstr "模板"
 
@@ -9249,6 +9252,10 @@ msgstr ""
 msgid "Unable to create local mail folders at '%s': %s"
 msgstr "无法在“%s”创建本地邮件文件夹：%s"
 
+#: ../mail/e-mail-notebook-view.c:563
+msgid "Please select a folder"
+msgstr "请选择一个文件夹"
+
 #. XXX e-error should provide a widget layout and API suitable
 #. *     for packing additional widgets to the right of the alert
 #. *     icon.  But for now, screw it.
@@ -9257,34 +9264,33 @@ msgstr "无法在“%s”创建本地邮件文件夹：%s"
 msgid "Do not ask me again"
 msgstr "不要再次询问"
 
-#: ../mail/e-mail-reader.c:265 ../mail/em-filter-i18n.h:11
+#: ../mail/e-mail-reader.c:274 ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
 msgstr "复制到文件夹"
 
-#: ../mail/e-mail-reader.c:265 ../mail/em-folder-utils.c:402
+#: ../mail/e-mail-reader.c:274 ../mail/em-folder-utils.c:402
 msgid "C_opy"
 msgstr "复制(_O)"
 
-#: ../mail/e-mail-reader.c:639 ../mail/em-filter-i18n.h:51
+#: ../mail/e-mail-reader.c:687 ../mail/em-filter-i18n.h:51
 msgid "Move to Folder"
 msgstr "移至文件夹"
 
-#: ../mail/e-mail-reader.c:639 ../mail/em-folder-utils.c:402
+#: ../mail/e-mail-reader.c:687 ../mail/em-folder-utils.c:402
 msgid "_Move"
 msgstr "移动(_M)"
 
 #. Check buttons
-#: ../mail/e-mail-reader.c:854 ../mail/e-mail-reader.c:964
-#: ../mail/e-mail-reader.c:998
-#| msgid "Do not ask me again"
+#: ../mail/e-mail-reader.c:952 ../mail/e-mail-reader.c:1068
+#: ../mail/e-mail-reader.c:1109
 msgid "_Do not ask me again."
 msgstr "不再询问(_D)。"
 
-#: ../mail/e-mail-reader.c:1002
+#: ../mail/e-mail-reader.c:1114
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr "总是忽略对于邮件列表的“回复至”域(_A)。"
 
-#: ../mail/e-mail-reader.c:1087
+#: ../mail/e-mail-reader.c:1204
 msgid "Save Message"
 msgid_plural "Save Messages"
 msgstr[0] "保存信息"
@@ -9295,508 +9301,551 @@ msgstr[0] "保存信息"
 #. * Subject. The extension ".mbox" is appended to this
 #. * string, thus it will be something like "Message.mbox"
 #. * at the end.
-#: ../mail/e-mail-reader.c:1108
+#: ../mail/e-mail-reader.c:1225
 #: ../plugins/groupwise-features/properties.ui.h:4
 msgid "Message"
 msgid_plural "Messages"
 msgstr[0] "信息"
 
-#: ../mail/e-mail-reader.c:1366
+#: ../mail/e-mail-reader.c:1490
 msgid "A_dd Sender to Address Book"
 msgstr "将发件人添加到地址簿(_D)"
 
-#: ../mail/e-mail-reader.c:1368
+#: ../mail/e-mail-reader.c:1492
 msgid "Add sender to address book"
 msgstr "将发件人添加到地址簿"
 
-#: ../mail/e-mail-reader.c:1373
+#: ../mail/e-mail-reader.c:1497
 msgid "Check for _Junk"
 msgstr "检查垃圾信息(_J)"
 
-#: ../mail/e-mail-reader.c:1375
+#: ../mail/e-mail-reader.c:1499
 msgid "Filter the selected messages for junk status"
 msgstr "把选中的信息标记为垃圾信息"
 
-#: ../mail/e-mail-reader.c:1380
+#: ../mail/e-mail-reader.c:1504
 msgid "_Copy to Folder..."
 msgstr "复制到文件夹(_C)..."
 
-#: ../mail/e-mail-reader.c:1382
+#: ../mail/e-mail-reader.c:1506
 msgid "Copy selected messages to another folder"
 msgstr "把选中的信息复制到其它文件夹"
 
-#: ../mail/e-mail-reader.c:1387
+#: ../mail/e-mail-reader.c:1511
 msgid "_Delete Message"
 msgstr "删除信息(_D)"
 
-#: ../mail/e-mail-reader.c:1389
+#: ../mail/e-mail-reader.c:1513
 msgid "Mark the selected messages for deletion"
 msgstr "为选中信息做删除标记"
 
-#: ../mail/e-mail-reader.c:1394
+#: ../mail/e-mail-reader.c:1518
 msgid "Filter on Mailing _List..."
 msgstr "根据邮件列表过滤(_L)..."
 
-#: ../mail/e-mail-reader.c:1396
+#: ../mail/e-mail-reader.c:1520
 msgid "Create a rule to filter messages to this mailing list"
 msgstr "创建可过滤寄往此邮件列表的信息的规则"
 
-#: ../mail/e-mail-reader.c:1401
+#: ../mail/e-mail-reader.c:1525
 msgid "Filter on _Recipients..."
 msgstr "根据收件人过滤(_R)..."
 
-#: ../mail/e-mail-reader.c:1403
+#: ../mail/e-mail-reader.c:1527
 msgid "Create a rule to filter messages to these recipients"
 msgstr "创建可过滤寄往这些收件人的信息的规则"
 
-#: ../mail/e-mail-reader.c:1408
+#: ../mail/e-mail-reader.c:1532
 msgid "Filter on Se_nder..."
 msgstr "根据发件人过滤(_N)..."
 
-#: ../mail/e-mail-reader.c:1410
+#: ../mail/e-mail-reader.c:1534
 msgid "Create a rule to filter messages from this sender"
 msgstr "创建可过滤此人寄来的信息的规则"
 
-#: ../mail/e-mail-reader.c:1415
+#: ../mail/e-mail-reader.c:1539
 msgid "Filter on _Subject..."
 msgstr "根据主题过滤(_S)..."
 
-#: ../mail/e-mail-reader.c:1417
+#: ../mail/e-mail-reader.c:1541
 msgid "Create a rule to filter messages with this subject"
 msgstr "创建可过滤此主题信息的规则"
 
-#: ../mail/e-mail-reader.c:1422
+#: ../mail/e-mail-reader.c:1546
 msgid "A_pply Filters"
 msgstr "应用过滤规则(_P)"
 
-#: ../mail/e-mail-reader.c:1424
+#: ../mail/e-mail-reader.c:1548
 msgid "Apply filter rules to the selected messages"
 msgstr "应用过滤规则到选中的信息"
 
-#: ../mail/e-mail-reader.c:1429
+#: ../mail/e-mail-reader.c:1553
 msgid "_Find in Message..."
 msgstr "在信息中查找(_F)..."
 
-#: ../mail/e-mail-reader.c:1431
+#: ../mail/e-mail-reader.c:1555
 msgid "Search for text in the body of the displayed message"
 msgstr "在显示信息的主体中搜索文本"
 
-#: ../mail/e-mail-reader.c:1436
+#: ../mail/e-mail-reader.c:1560
 msgid "_Clear Flag"
 msgstr "清除标志(_C)"
 
-#: ../mail/e-mail-reader.c:1438
+#: ../mail/e-mail-reader.c:1562
 msgid "Remove the follow-up flag from the selected messages"
 msgstr "删除选中信息的跟随标志"
 
-#: ../mail/e-mail-reader.c:1443
+#: ../mail/e-mail-reader.c:1567
 msgid "_Flag Completed"
 msgstr "标志为已完成(_F)"
 
-#: ../mail/e-mail-reader.c:1445
+#: ../mail/e-mail-reader.c:1569
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr "设置选中信息的跟随标志为已完成"
 
-#: ../mail/e-mail-reader.c:1450
+#: ../mail/e-mail-reader.c:1574
 msgid "Follow _Up..."
 msgstr "跟随(_U)..."
 
-#: ../mail/e-mail-reader.c:1452
+#: ../mail/e-mail-reader.c:1576
 msgid "Flag the selected messages for follow-up"
 msgstr "为选中信息添加跟随标志"
 
-#: ../mail/e-mail-reader.c:1457
+#: ../mail/e-mail-reader.c:1581
 msgid "_Attached"
 msgstr "附件(_A)"
 
-#: ../mail/e-mail-reader.c:1459 ../mail/e-mail-reader.c:1466
+#: ../mail/e-mail-reader.c:1583 ../mail/e-mail-reader.c:1590
 msgid "Forward the selected message to someone as an attachment"
 msgstr "把选中信息作为附件转发给某人"
 
-#: ../mail/e-mail-reader.c:1464
+#: ../mail/e-mail-reader.c:1588
 msgid "Forward As _Attached"
 msgstr "作为附件转发(_A)"
 
-#: ../mail/e-mail-reader.c:1471
+#: ../mail/e-mail-reader.c:1595
 msgid "_Inline"
 msgstr "嵌入(_I)"
 
-#: ../mail/e-mail-reader.c:1473 ../mail/e-mail-reader.c:1480
+#: ../mail/e-mail-reader.c:1597 ../mail/e-mail-reader.c:1604
 msgid "Forward the selected message in the body of a new message"
 msgstr "在新信体中转发选中信息"
 
-#: ../mail/e-mail-reader.c:1478
+#: ../mail/e-mail-reader.c:1602
 msgid "Forward As _Inline"
 msgstr "嵌入正文转发(_I)"
 
-#: ../mail/e-mail-reader.c:1485
+#: ../mail/e-mail-reader.c:1609
 msgid "_Quoted"
 msgstr "引用(_Q)"
 
-#: ../mail/e-mail-reader.c:1487 ../mail/e-mail-reader.c:1494
+#: ../mail/e-mail-reader.c:1611 ../mail/e-mail-reader.c:1618
 msgid "Forward the selected message quoted like a reply"
 msgstr "以类似于回复的引用方式转发选中的信息"
 
-#: ../mail/e-mail-reader.c:1492
+#: ../mail/e-mail-reader.c:1616
 msgid "Forward As _Quoted"
 msgstr "作文引用转发(_Q)"
 
-#: ../mail/e-mail-reader.c:1499
+#: ../mail/e-mail-reader.c:1623
 msgid "_Load Images"
 msgstr "载入图像(_L)"
 
-#: ../mail/e-mail-reader.c:1501
+#: ../mail/e-mail-reader.c:1625
 msgid "Force images in HTML mail to be loaded"
 msgstr "强制载入 HTML 邮件中的图像"
 
-#: ../mail/e-mail-reader.c:1506
+#: ../mail/e-mail-reader.c:1630
 msgid "_Important"
 msgstr "重要(_I)"
 
-#: ../mail/e-mail-reader.c:1508
+#: ../mail/e-mail-reader.c:1632
 msgid "Mark the selected messages as important"
 msgstr "把选中信息标记为重要邮件"
 
-#: ../mail/e-mail-reader.c:1513
+#: ../mail/e-mail-reader.c:1637
 msgid "_Junk"
 msgstr "垃圾(_J)"
 
-#: ../mail/e-mail-reader.c:1515
+#: ../mail/e-mail-reader.c:1639
 msgid "Mark the selected messages as junk"
 msgstr "把选中信息标记为垃圾信息"
 
-#: ../mail/e-mail-reader.c:1520
+#: ../mail/e-mail-reader.c:1644
 msgid "_Not Junk"
 msgstr "非垃圾(_N)"
 
-#: ../mail/e-mail-reader.c:1522
+#: ../mail/e-mail-reader.c:1646
 msgid "Mark the selected messages as not being junk"
 msgstr "把选中信息标记为非垃圾信息"
 
-#: ../mail/e-mail-reader.c:1527
+#: ../mail/e-mail-reader.c:1651
 msgid "_Read"
 msgstr "读取(_R)"
 
-#: ../mail/e-mail-reader.c:1529
+#: ../mail/e-mail-reader.c:1653
 msgid "Mark the selected messages as having been read"
 msgstr "把选中信息标记为已读"
 
-#: ../mail/e-mail-reader.c:1534
+#: ../mail/e-mail-reader.c:1658
 msgid "Uni_mportant"
 msgstr "不重要(_M)"
 
-#: ../mail/e-mail-reader.c:1536
+#: ../mail/e-mail-reader.c:1660
 msgid "Mark the selected messages as unimportant"
 msgstr "把选中信息标记为不重要邮件"
 
-#: ../mail/e-mail-reader.c:1541
+#: ../mail/e-mail-reader.c:1665
 msgid "_Unread"
 msgstr "未读(_U)"
 
-#: ../mail/e-mail-reader.c:1543
+#: ../mail/e-mail-reader.c:1667
 msgid "Mark the selected messages as not having been read"
 msgstr "把选中信息标记为未读"
 
-#: ../mail/e-mail-reader.c:1548
+#: ../mail/e-mail-reader.c:1672
 msgid "_Edit as New Message..."
 msgstr "作为新信息进行编辑(_E)..."
 
-#: ../mail/e-mail-reader.c:1550
+#: ../mail/e-mail-reader.c:1674
 msgid "Open the selected messages in the composer for editing"
 msgstr "在编辑器中打开选中的信息以便编辑"
 
-#: ../mail/e-mail-reader.c:1555
+#: ../mail/e-mail-reader.c:1679
 msgid "Compose _New Message"
 msgstr "撰写新信息(_N)"
 
-#: ../mail/e-mail-reader.c:1557
+#: ../mail/e-mail-reader.c:1681
 msgid "Open a window for composing a mail message"
 msgstr "打开窗口以撰写信息"
 
-#: ../mail/e-mail-reader.c:1562
+#: ../mail/e-mail-reader.c:1686
 msgid "_Open in New Window"
 msgstr "在新窗口中打开(_O)"
 
-#: ../mail/e-mail-reader.c:1564
+#: ../mail/e-mail-reader.c:1688
 msgid "Open the selected messages in a new window"
 msgstr "在新窗口中打开选中的信息"
 
-#: ../mail/e-mail-reader.c:1569
+#: ../mail/e-mail-reader.c:1693
 msgid "_Move to Folder..."
 msgstr "移至文件夹(_M)..."
 
-#: ../mail/e-mail-reader.c:1571
+#: ../mail/e-mail-reader.c:1695
 msgid "Move selected messages to another folder"
 msgstr "把选中的信息移至其它文件夹"
 
-#: ../mail/e-mail-reader.c:1576
+#: ../mail/e-mail-reader.c:1700
+#, fuzzy
+#| msgid "Switch to %s"
+msgid "_Switch to Folder"
+msgstr "切换到 %s"
+
+#: ../mail/e-mail-reader.c:1702
+#, fuzzy
+#| msgid "Install the shared folder"
+msgid "Display the parent folder"
+msgstr "安装共享文件夹"
+
+#: ../mail/e-mail-reader.c:1707
+#, fuzzy
+#| msgid "Switch to %s"
+msgid "Switch to _next tab"
+msgstr "切换到 %s"
+
+#: ../mail/e-mail-reader.c:1709
+msgid "Switch to the next tab"
+msgstr ""
+
+#: ../mail/e-mail-reader.c:1714
+#, fuzzy
+#| msgid "Switch to %s"
+msgid "Switch to _previous tab"
+msgstr "切换到 %s"
+
+#: ../mail/e-mail-reader.c:1716
+msgid "Switch to the previous tab"
+msgstr ""
+
+#: ../mail/e-mail-reader.c:1721
+#, fuzzy
+#| msgid "Close the current file"
+msgid "Cl_ose current tab"
+msgstr "关闭当前文件"
+
+#: ../mail/e-mail-reader.c:1723
+#, fuzzy
+#| msgid "Close the current file"
+msgid "Close current tab"
+msgstr "关闭当前文件"
+
+#: ../mail/e-mail-reader.c:1728
 msgid "_Next Message"
 msgstr "下一封信(_N)"
 
-#: ../mail/e-mail-reader.c:1578
+#: ../mail/e-mail-reader.c:1730
 msgid "Display the next message"
 msgstr "显示下一封信息"
 
-#: ../mail/e-mail-reader.c:1583
+#: ../mail/e-mail-reader.c:1735
 msgid "Next _Important Message"
 msgstr "下一封重要信息(_I)"
 
-#: ../mail/e-mail-reader.c:1585
+#: ../mail/e-mail-reader.c:1737
 msgid "Display the next important message"
 msgstr "显示下一封重要信息"
 
-#: ../mail/e-mail-reader.c:1590
+#: ../mail/e-mail-reader.c:1742
 msgid "Next _Thread"
 msgstr "下一条线索(_T)"
 
-#: ../mail/e-mail-reader.c:1592
+#: ../mail/e-mail-reader.c:1744
 msgid "Display the next thread"
 msgstr "显示下一条线索"
 
-#: ../mail/e-mail-reader.c:1597
+#: ../mail/e-mail-reader.c:1749
 msgid "Next _Unread Message"
 msgstr "下一封未读信息(_U)"
 
-#: ../mail/e-mail-reader.c:1599
+#: ../mail/e-mail-reader.c:1751
 msgid "Display the next unread message"
 msgstr "显示下一封未读信息"
 
-#: ../mail/e-mail-reader.c:1604
+#: ../mail/e-mail-reader.c:1756
 msgid "_Previous Message"
 msgstr "上一封信(_P)"
 
-#: ../mail/e-mail-reader.c:1606
+#: ../mail/e-mail-reader.c:1758
 msgid "Display the previous message"
 msgstr "显示上一封信息"
 
-#: ../mail/e-mail-reader.c:1611
+#: ../mail/e-mail-reader.c:1763
 msgid "Pr_evious Important Message"
 msgstr "上一封重要信息(_E)"
 
-#: ../mail/e-mail-reader.c:1613
+#: ../mail/e-mail-reader.c:1765
 msgid "Display the previous important message"
 msgstr "显示上一封重要信息"
 
-#: ../mail/e-mail-reader.c:1618
+#: ../mail/e-mail-reader.c:1770
 msgid "P_revious Unread Message"
 msgstr "上一封未读信息(_R)"
 
-#: ../mail/e-mail-reader.c:1620
+#: ../mail/e-mail-reader.c:1772
 msgid "Display the previous unread message"
 msgstr "显示上一封未读信息"
 
-#: ../mail/e-mail-reader.c:1627
+#: ../mail/e-mail-reader.c:1779
 msgid "Print this message"
 msgstr "打印该信息"
 
-#: ../mail/e-mail-reader.c:1634
+#: ../mail/e-mail-reader.c:1786
 msgid "Preview the message to be printed"
 msgstr "预览要打印的信息"
 
-#: ../mail/e-mail-reader.c:1639
+#: ../mail/e-mail-reader.c:1791
 msgid "Re_direct"
 msgstr "重发(_D)"
 
-#: ../mail/e-mail-reader.c:1641
+#: ../mail/e-mail-reader.c:1793
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "将选中信息重发(退回)给某人"
 
-#: ../mail/e-mail-reader.c:1646 ../mail/mail.error.xml.h:91
+#: ../mail/e-mail-reader.c:1798 ../mail/mail.error.xml.h:91
 #: ../modules/calendar/e-cal-shell-view-actions.c:1459
-#: ../modules/mail/e-mail-attachment-handler.c:139
+#: ../modules/mail/e-mail-attachment-handler.c:151
 msgid "Reply to _All"
 msgstr "回复所有人(_A)"
 
-#: ../mail/e-mail-reader.c:1648
+#: ../mail/e-mail-reader.c:1800
 msgid "Compose a reply to all the recipients of the selected message"
 msgstr "为选中信息的所有收件人撰写回复"
 
-#: ../mail/e-mail-reader.c:1653 ../mail/mail.error.xml.h:92
+#: ../mail/e-mail-reader.c:1805 ../mail/mail.error.xml.h:92
 msgid "Reply to _List"
 msgstr "回复邮件列表(_L)"
 
-#: ../mail/e-mail-reader.c:1655
+#: ../mail/e-mail-reader.c:1807
 msgid "Compose a reply to the mailing list of the selected message"
 msgstr "为选中信息的邮件列表撰写回复"
 
-#: ../mail/e-mail-reader.c:1660
-#: ../modules/mail/e-mail-attachment-handler.c:146
+#: ../mail/e-mail-reader.c:1812
+#: ../modules/mail/e-mail-attachment-handler.c:158
 msgid "_Reply to Sender"
 msgstr "回复发件人(_R)"
 
-#: ../mail/e-mail-reader.c:1662
+#: ../mail/e-mail-reader.c:1814
 msgid "Compose a reply to the sender of the selected message"
 msgstr "为选中信息的发件人撰写回复"
 
-#: ../mail/e-mail-reader.c:1667
+#: ../mail/e-mail-reader.c:1819
 msgid "_Save as mbox..."
 msgstr "另存为 mbox 格式(_S)..."
 
-#: ../mail/e-mail-reader.c:1669
+#: ../mail/e-mail-reader.c:1821
 msgid "Save selected messages as an mbox file"
 msgstr "把选中信息另存为 mbox 格式文件"
 
-#: ../mail/e-mail-reader.c:1674
+#: ../mail/e-mail-reader.c:1826
 msgid "Search Folder from Mailing _List..."
 msgstr "基于邮件列表的搜索文件夹(_L)..."
 
-#: ../mail/e-mail-reader.c:1676
+#: ../mail/e-mail-reader.c:1828
 msgid "Create a search folder for this mailing list"
 msgstr "为此邮件列表创建搜索文件夹"
 
-#: ../mail/e-mail-reader.c:1681
+#: ../mail/e-mail-reader.c:1833
 msgid "Search Folder from Recipien_ts..."
 msgstr "基于收件人的搜索文件夹(_T)..."
 
-#: ../mail/e-mail-reader.c:1683
+#: ../mail/e-mail-reader.c:1835
 msgid "Create a search folder for these recipients"
 msgstr "为这些收件人创建搜索文件夹"
 
-#: ../mail/e-mail-reader.c:1688
+#: ../mail/e-mail-reader.c:1840
 msgid "Search Folder from Sen_der..."
 msgstr "基于发件人的搜索文件夹(_D)..."
 
-#: ../mail/e-mail-reader.c:1690
+#: ../mail/e-mail-reader.c:1842
 msgid "Create a search folder for this sender"
 msgstr "为该发件人创建搜索文件夹"
 
-#: ../mail/e-mail-reader.c:1695
+#: ../mail/e-mail-reader.c:1847
 msgid "Search Folder from S_ubject..."
 msgstr "基于主题的搜索文件夹(_U)..."
 
-#: ../mail/e-mail-reader.c:1697
+#: ../mail/e-mail-reader.c:1849
 msgid "Create a search folder for this subject"
 msgstr "为该主题创建搜索文件夹"
 
-#: ../mail/e-mail-reader.c:1702
+#: ../mail/e-mail-reader.c:1854
 msgid "_Message Source"
 msgstr "信息源代码(_M)"
 
-#: ../mail/e-mail-reader.c:1704
+#: ../mail/e-mail-reader.c:1856
 msgid "Show the raw email source of the message"
 msgstr "显示信息的原始邮件源代码"
 
-#: ../mail/e-mail-reader.c:1716
+#: ../mail/e-mail-reader.c:1868
 msgid "_Undelete Message"
 msgstr "取消删除信息(_U)"
 
-#: ../mail/e-mail-reader.c:1718
+#: ../mail/e-mail-reader.c:1870
 msgid "Undelete the selected messages"
 msgstr "取消选中信息的删除"
 
-#: ../mail/e-mail-reader.c:1723
+#: ../mail/e-mail-reader.c:1875
 msgid "_Normal Size"
 msgstr "普通大小(_N)"
 
-#: ../mail/e-mail-reader.c:1725
+#: ../mail/e-mail-reader.c:1877
 msgid "Reset the text to its original size"
 msgstr "把文本重新设置为原来的大小"
 
-#: ../mail/e-mail-reader.c:1730
+#: ../mail/e-mail-reader.c:1882
 msgid "_Zoom In"
 msgstr "放大(_Z)"
 
-#: ../mail/e-mail-reader.c:1732
+#: ../mail/e-mail-reader.c:1884
 msgid "Increase the text size"
 msgstr "增加文本大小"
 
-#: ../mail/e-mail-reader.c:1737
+#: ../mail/e-mail-reader.c:1889
 msgid "Zoom _Out"
 msgstr "缩小(_O)"
 
-#: ../mail/e-mail-reader.c:1739
+#: ../mail/e-mail-reader.c:1891
 msgid "Decrease the text size"
 msgstr "减少文本大小"
 
-#: ../mail/e-mail-reader.c:1746
+#: ../mail/e-mail-reader.c:1898
 msgid "Create R_ule"
 msgstr "创建规则(_U)"
 
-#: ../mail/e-mail-reader.c:1753
+#: ../mail/e-mail-reader.c:1905
 msgid "Ch_aracter Encoding"
 msgstr "字符编码(_A)"
 
-#: ../mail/e-mail-reader.c:1760
+#: ../mail/e-mail-reader.c:1912
 msgid "F_orward As"
 msgstr "转发为(_O)"
 
-#: ../mail/e-mail-reader.c:1767
-#| msgid "_Reply"
+#: ../mail/e-mail-reader.c:1919
 msgid "_Group Reply"
 msgstr "回复全部(_G)"
 
-#: ../mail/e-mail-reader.c:1774
+#: ../mail/e-mail-reader.c:1926
 msgid "_Go To"
 msgstr "转到(_G)"
 
-#: ../mail/e-mail-reader.c:1781
+#: ../mail/e-mail-reader.c:1933
 msgid "Mar_k As"
 msgstr "标记为(_K)"
 
-#: ../mail/e-mail-reader.c:1788
+#: ../mail/e-mail-reader.c:1940
 msgid "_Message"
 msgstr "信息(_M)"
 
-#: ../mail/e-mail-reader.c:1795
+#: ../mail/e-mail-reader.c:1947
 msgid "_Zoom"
 msgstr "缩放(_Z)"
 
-#: ../mail/e-mail-reader.c:1820
+#: ../mail/e-mail-reader.c:1972
 msgid "Mark for Follo_w Up..."
 msgstr "标记为跟随(_W)..."
 
-#: ../mail/e-mail-reader.c:1828
+#: ../mail/e-mail-reader.c:1980
 msgid "Mark as _Important"
 msgstr "标记为重要(_I)"
 
-#: ../mail/e-mail-reader.c:1832
+#: ../mail/e-mail-reader.c:1984
 msgid "Mark as _Junk"
 msgstr "标记为垃圾(_J)"
 
-#: ../mail/e-mail-reader.c:1836
+#: ../mail/e-mail-reader.c:1988
 msgid "Mark as _Not Junk"
 msgstr "标记为非垃圾(_N)"
 
-#: ../mail/e-mail-reader.c:1840
+#: ../mail/e-mail-reader.c:1992
 msgid "Mar_k as Read"
 msgstr "标记为已读(_K)"
 
-#: ../mail/e-mail-reader.c:1844
+#: ../mail/e-mail-reader.c:1996
 msgid "Mark as Uni_mportant"
 msgstr "标记为不重要(_M)"
 
-#: ../mail/e-mail-reader.c:1848
+#: ../mail/e-mail-reader.c:2000
 msgid "Mark as _Unread"
 msgstr "标记为未读(_U)"
 
-#: ../mail/e-mail-reader.c:1884
+#: ../mail/e-mail-reader.c:2036
 msgid "_Caret Mode"
 msgstr "光标模式(_C)"
 
-#: ../mail/e-mail-reader.c:1886
+#: ../mail/e-mail-reader.c:2038
 msgid "Show a blinking cursor in the body of displayed messages"
 msgstr "在显示信息的信体中显示闪烁光标"
 
-#: ../mail/e-mail-reader.c:1892
+#: ../mail/e-mail-reader.c:2044
 msgid "All Message _Headers"
 msgstr "全部信头(_H)"
 
-#: ../mail/e-mail-reader.c:1894
+#: ../mail/e-mail-reader.c:2046
 msgid "Show messages with all email headers"
 msgstr "显示邮件时显示所有信头"
 
-#: ../mail/e-mail-reader.c:2115
+#: ../mail/e-mail-reader.c:2267
 msgid "Unable to retrieve message"
 msgstr "无法获取信息"
 
-#: ../mail/e-mail-reader.c:2175 ../mail/mail-ops.c:1891
+#: ../mail/e-mail-reader.c:2327 ../mail/mail-ops.c:1891
 #, c-format
 msgid "Retrieving message '%s'"
 msgstr "收取信息 %s"
 
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
-#: ../mail/e-mail-reader.c:2701 ../mail/mail-config.ui.h:31
+#: ../mail/e-mail-reader.c:2887 ../mail/mail-config.ui.h:31
 #: ../plugins/google-account-setup/google-source.c:303
 #: ../plugins/google-account-setup/google-source.c:537
 #: ../plugins/google-account-setup/google-source.c:659
@@ -9804,12 +9853,12 @@ msgstr "收取信息 %s"
 msgid "Default"
 msgstr "默认"
 
-#: ../mail/e-mail-reader.c:2841
-#: ../modules/mail/e-mail-attachment-handler.c:132
+#: ../mail/e-mail-reader.c:3056
+#: ../modules/mail/e-mail-attachment-handler.c:144
 msgid "_Forward"
 msgstr "转发(_F)"
 
-#: ../mail/e-mail-reader.c:2842
+#: ../mail/e-mail-reader.c:3057
 msgid "Forward the selected message to someone"
 msgstr "把选中信息转发给某人"
 
@@ -9818,36 +9867,40 @@ msgstr "把选中信息转发给某人"
 #. (if possible and if that configuration option is enabled), or else
 #. it will reply to all. The word "Group" was chosen because it covers
 #. either of those, without too strongly implying one or the other.
-#: ../mail/e-mail-reader.c:2860
-#| msgid "Group Items By"
+#: ../mail/e-mail-reader.c:3075
 msgid "Group Reply"
 msgstr "回复全部"
 
-#: ../mail/e-mail-reader.c:2861
-#| msgid "Compose a reply to the mailing list of the selected message"
+#: ../mail/e-mail-reader.c:3076
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "为选中信息的邮件列表或全部收件人撰写回复"
 
-#: ../mail/e-mail-reader.c:2906 ../mail/em-filter-i18n.h:14
+#: ../mail/e-mail-reader.c:3121 ../mail/em-filter-i18n.h:14
 #: ../plugins/groupwise-features/share-folder.c:743
 msgid "Delete"
 msgstr "删除"
 
-#: ../mail/e-mail-reader.c:2918
+#: ../mail/e-mail-reader.c:3153
 #: ../modules/calendar/e-cal-shell-view-actions.c:1305
 #: ../widgets/misc/e-calendar.c:193
 msgid "Next"
 msgstr "下一项"
 
-#: ../mail/e-mail-reader.c:2922
+#: ../mail/e-mail-reader.c:3157
 #: ../modules/calendar/e-cal-shell-view-actions.c:1298
 #: ../widgets/misc/e-calendar.c:169
 msgid "Previous"
 msgstr "上一项"
 
-#: ../mail/e-mail-reader.c:2932 ../mail/mail-dialogs.ui.h:19
+#: ../mail/e-mail-reader.c:3167 ../mail/mail-dialogs.ui.h:19
 msgid "Reply"
 msgstr "回复"
+
+#: ../mail/e-mail-reader.c:3782
+#, fuzzy, c-format
+#| msgid "Folder"
+msgid "Folder '%s'"
+msgstr "文件夹"
 
 #: ../mail/e-mail-tag-editor.c:292
 msgid "Flag to Follow Up"
@@ -9949,7 +10002,7 @@ msgstr "接收电子邮件"
 msgid "Please configure the following account settings."
 msgstr "请配置下列帐号设置。"
 
-#: ../mail/em-account-editor.c:2104 ../mail/em-account-editor.c:2738
+#: ../mail/em-account-editor.c:2104 ../mail/em-account-editor.c:2740
 msgid "Sending Email"
 msgstr "发送电子邮件"
 
@@ -9999,44 +10052,44 @@ msgstr "自动检查新邮件的间隔(_N)"
 msgid "minu_tes"
 msgstr "分钟(_T)"
 
-#: ../mail/em-account-editor.c:2836
+#: ../mail/em-account-editor.c:2838
 msgid "Please select a folder from the current account."
 msgstr "请从当前帐号选择一个文件夹。"
 
-#: ../mail/em-account-editor.c:3106 ../mail/mail-config.ui.h:112
+#: ../mail/em-account-editor.c:3108 ../mail/mail-config.ui.h:112
 msgid "Security"
 msgstr "安全"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:3151 ../mail/em-account-editor.c:3219
+#: ../mail/em-account-editor.c:3153 ../mail/em-account-editor.c:3221
 msgid "Receiving Options"
 msgstr "接收选项"
 
-#: ../mail/em-account-editor.c:3152 ../mail/em-account-editor.c:3220
+#: ../mail/em-account-editor.c:3154 ../mail/em-account-editor.c:3222
 msgid "Checking for New Messages"
 msgstr "检查新邮件"
 
 #. Translators: First %s is an email address, second %s is the subject of the email, third %s is the date
-#: ../mail/em-composer-utils.c:1539
+#: ../mail/em-composer-utils.c:1695
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
 msgstr "您在 %3$s 上给 %1$s 发送的关于“%2$s”的信息已被阅读。"
 
 #. Translators: %s is the subject of the email message
-#: ../mail/em-composer-utils.c:1587
+#: ../mail/em-composer-utils.c:1743
 #, c-format
 msgid "Delivery Notification for: \"%s\""
 msgstr "邮件通知：%s"
 
-#: ../mail/em-composer-utils.c:1991
+#: ../mail/em-composer-utils.c:2152
 msgid "an unknown sender"
 msgstr "未知发件人"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:2038
+#: ../mail/em-composer-utils.c:2199
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -10044,15 +10097,15 @@ msgstr ""
 "在 ${Year}-${Month}-${Day}${AbbrevWeekdayName}的 ${24Hour}:${Minute} "
 "${TimeZone}，${Sender}写道："
 
-#: ../mail/em-composer-utils.c:2182
+#: ../mail/em-composer-utils.c:2343
 msgid "-----Original Message-----"
 msgstr "-------- 原始信息 --------"
 
-#: ../mail/em-composer-utils.c:2372
+#: ../mail/em-composer-utils.c:2555
 msgid "Posting destination"
 msgstr "投递目的"
 
-#: ../mail/em-composer-utils.c:2373
+#: ../mail/em-composer-utils.c:2556
 msgid "Choose folders to post the message to."
 msgstr "选择要将信息投递到哪个文件夹。"
 
@@ -10355,7 +10408,7 @@ msgstr "文件夹名称(_N)："
 #: ../mail/em-folder-tree-model.c:149 ../mail/em-folder-tree-model.c:152
 #: ../mail/em-folder-tree-model.c:158 ../mail/em-folder-tree-model.c:160
 #: ../mail/em-folder-tree-model.c:167 ../mail/em-folder-tree-model.c:169
-#: ../mail/mail-vfolder.c:1061 ../mail/mail-vfolder.c:1126
+#: ../mail/mail-vfolder.c:1064 ../mail/mail-vfolder.c:1129
 msgid "Search Folders"
 msgstr "搜索文件夹"
 
@@ -10364,7 +10417,7 @@ msgstr "搜索文件夹"
 msgid "UNMATCHED"
 msgstr "不匹配"
 
-#: ../mail/em-folder-tree-model.c:768 ../mail/em-folder-tree-model.c:1111
+#: ../mail/em-folder-tree-model.c:766 ../mail/em-folder-tree-model.c:1113
 msgid "Loading..."
 msgstr "正在载入..."
 
@@ -10415,12 +10468,12 @@ msgstr "移动文件夹“%s”"
 msgid "Copying folder %s"
 msgstr "复制文件夹 %s"
 
-#: ../mail/em-folder-tree.c:1632 ../mail/message-list.c:2153
+#: ../mail/em-folder-tree.c:1632 ../mail/message-list.c:2164
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "把信息移至文件夹 %s"
 
-#: ../mail/em-folder-tree.c:1634 ../mail/message-list.c:2155
+#: ../mail/em-folder-tree.c:1634 ../mail/message-list.c:2166
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "把信息复制到文件夹 %s"
@@ -10459,7 +10512,7 @@ msgstr "指定在哪里创建文件夹："
 msgid "Unsubscribing from folder \"%s\""
 msgstr "无法退订文件夹“%s”"
 
-#: ../mail/em-format-html-display.c:90 ../mail/em-format-html.c:1571
+#: ../mail/em-format-html-display.c:90 ../mail/em-format-html.c:1576
 msgid "Unsigned"
 msgstr "未签名"
 
@@ -10469,7 +10522,7 @@ msgid ""
 "authentic."
 msgstr "此信息未签名。无法保证这封信是可信的。"
 
-#: ../mail/em-format-html-display.c:91 ../mail/em-format-html.c:1572
+#: ../mail/em-format-html-display.c:91 ../mail/em-format-html.c:1577
 msgid "Valid signature"
 msgstr "有效签名"
 
@@ -10479,7 +10532,7 @@ msgid ""
 "message is authentic."
 msgstr "此信息已签名，而且签名是有效的。这意味着这封信应该是可信的。"
 
-#: ../mail/em-format-html-display.c:92 ../mail/em-format-html.c:1573
+#: ../mail/em-format-html-display.c:92 ../mail/em-format-html.c:1578
 msgid "Invalid signature"
 msgstr "无效签名"
 
@@ -10489,7 +10542,7 @@ msgid ""
 "in transit."
 msgstr "无法校验这封信的签名，可能在传送的过程中邮件被篡改了。"
 
-#: ../mail/em-format-html-display.c:93 ../mail/em-format-html.c:1574
+#: ../mail/em-format-html-display.c:93 ../mail/em-format-html.c:1579
 msgid "Valid signature, but cannot verify sender"
 msgstr "签名有效，但是无法校验发送者"
 
@@ -10499,7 +10552,7 @@ msgid ""
 "cannot be verified."
 msgstr "这封信的签名有效，但是无法校验邮件的发送者。"
 
-#: ../mail/em-format-html-display.c:94 ../mail/em-format-html.c:1575
+#: ../mail/em-format-html-display.c:94 ../mail/em-format-html.c:1580
 msgid "Signature exists, but need public key"
 msgstr "签名已存在，但需要公钥"
 
@@ -10509,7 +10562,7 @@ msgid ""
 "public key."
 msgstr "这封信的签名有效，但是没有相应的公钥。"
 
-#: ../mail/em-format-html-display.c:101 ../mail/em-format-html.c:1581
+#: ../mail/em-format-html-display.c:101 ../mail/em-format-html.c:1586
 msgid "Unencrypted"
 msgstr "未加密"
 
@@ -10519,7 +10572,7 @@ msgid ""
 "the Internet."
 msgstr "这封信未加密。在 Internet 上传送时所有人都可以看到其内容。"
 
-#: ../mail/em-format-html-display.c:102 ../mail/em-format-html.c:1582
+#: ../mail/em-format-html-display.c:102 ../mail/em-format-html.c:1587
 msgid "Encrypted, weak"
 msgstr "弱加密"
 
@@ -10532,7 +10585,7 @@ msgstr ""
 "这封信已加密，但使用的是弱加密算法。如果外人想要查看这封信的内容，可能要花一"
 "定时间进行暴力破解，这很困难但并不是不可能。"
 
-#: ../mail/em-format-html-display.c:103 ../mail/em-format-html.c:1583
+#: ../mail/em-format-html-display.c:103 ../mail/em-format-html.c:1588
 msgid "Encrypted"
 msgstr "加密"
 
@@ -10542,7 +10595,7 @@ msgid ""
 "the content of this message."
 msgstr "这封信已加密。外人要想查看这封信的内容十分困难。"
 
-#: ../mail/em-format-html-display.c:104 ../mail/em-format-html.c:1584
+#: ../mail/em-format-html-display.c:104 ../mail/em-format-html.c:1589
 msgid "Encrypted, strong"
 msgstr "强加密"
 
@@ -10584,72 +10637,72 @@ msgstr "延期："
 msgid "by"
 msgstr "创建者："
 
-#: ../mail/em-format-html-display.c:952 ../mail/em-format-html-display.c:999
+#: ../mail/em-format-html-display.c:949 ../mail/em-format-html-display.c:996
 msgid "View _Unformatted"
 msgstr "无格式查看(_U)"
 
-#: ../mail/em-format-html-display.c:954
+#: ../mail/em-format-html-display.c:951
 msgid "Hide _Unformatted"
 msgstr "无格式隐藏(_U)"
 
-#: ../mail/em-format-html-display.c:1019
+#: ../mail/em-format-html-display.c:1016
 msgid "O_pen With"
 msgstr "打开方式(_P)"
 
-#: ../mail/em-format-html-print.c:162
+#: ../mail/em-format-html-print.c:176
 #, c-format
 msgid "Page %d of %d"
 msgstr "第 %d 页，共 %d 页"
 
-#: ../mail/em-format-html.c:151
+#: ../mail/em-format-html.c:153
 msgid "Formatting message"
 msgstr "格式化信息"
 
-#: ../mail/em-format-html.c:347
+#: ../mail/em-format-html.c:352
 msgid "Formatting Message..."
 msgstr "正在格式化信息..."
 
-#: ../mail/em-format-html.c:1416 ../mail/em-format-html.c:1425
+#: ../mail/em-format-html.c:1421 ../mail/em-format-html.c:1430
 #, c-format
 msgid "Retrieving '%s'"
 msgstr "收取“%s”"
 
-#: ../mail/em-format-html.c:1896
+#: ../mail/em-format-html.c:1901
 msgid "Unknown external-body part."
 msgstr "未知的 external-body 部分。"
 
-#: ../mail/em-format-html.c:1904
+#: ../mail/em-format-html.c:1909
 msgid "Malformed external-body part."
 msgstr "格式不正确的 external-body 部分。"
 
-#: ../mail/em-format-html.c:1934
+#: ../mail/em-format-html.c:1939
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "指向 FTP 站点 (%s)"
 
-#: ../mail/em-format-html.c:1945
+#: ../mail/em-format-html.c:1950
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "在站点“%2$s”指向本地文件 (%1$s) 合法"
 
-#: ../mail/em-format-html.c:1947
+#: ../mail/em-format-html.c:1952
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "指向本地文件 (%s)"
 
-#: ../mail/em-format-html.c:1968
+#: ../mail/em-format-html.c:1973
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "指向远程数据 (%s)"
 
-#: ../mail/em-format-html.c:1979
+#: ../mail/em-format-html.c:1984
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "指向未知的外部数据 (“%s”类型)"
 
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
-#: ../mail/em-format-html.c:2642
+#: ../mail/em-format-html.c:2647
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "此信息由 %s 代表 %s 的身份发送"
@@ -10951,8 +11004,8 @@ msgid ""
 "Enable animated images in HTML mail. Many users find animated images "
 "annoying and prefer to see a static image instead."
 msgstr ""
-"在 HTML 邮件中启用动画图像。很多用户感觉动画图像很烦人并且喜欢看静态图像而不是"
-"动态的。"
+"在 HTML 邮件中启用动画图像。很多用户感觉动画图像很烦人并且喜欢看静态图像而不"
+"是动态的。"
 
 #: ../mail/evolution-mail.schemas.in.h:56
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
@@ -10994,7 +11047,7 @@ msgstr "启用以在信息预览、信息列表和文件夹中使用空格键。
 msgid ""
 "Enable to display only message texts not exceeding size defined in "
 "'message_text_part_limit' key."
-msgstr ""
+msgstr "启用仅显示不超过“message_text_part_limit”键值中定义的大小的邮件文本。"
 
 #: ../mail/evolution-mail.schemas.in.h:65
 msgid "Enable to use a similar message list view settings for all folders"
@@ -11019,6 +11072,9 @@ msgid ""
 "because they do not follow the RFC 2231, but use the incorrect RFC 2047 "
 "standard."
 msgstr ""
+"如 Outlook 或 GMail 一样编码邮件头中的文件名，这样可以正确的显示由 Evolution "
+"发送的邮件带有的 UTF-8 的文件名称，因为它们不符合 RFC 2231，而是使用了不正确"
+"的 RFC 2047 标准。"
 
 #: ../mail/evolution-mail.schemas.in.h:70
 msgid "Flush Outbox after filtering"
@@ -11026,7 +11082,7 @@ msgstr "在过滤之后清空输出窗口"
 
 #: ../mail/evolution-mail.schemas.in.h:71
 msgid "Group Reply replies to list"
-msgstr ""
+msgstr "“组回复”是回复到邮件列表"
 
 #: ../mail/evolution-mail.schemas.in.h:72
 msgid "Height of the message-list pane"
@@ -11085,6 +11141,9 @@ msgid ""
 "value is not used by Evolution since the \"Filter Editor\" window cannot be "
 "maximized. This key exists only as an implementation detail."
 msgstr ""
+"“过滤器编辑器”窗口的最大化初始状态。当用户最大化或取消最大化窗口时会更新该"
+"值，这个值是不会被 Evolution 使用的，因为“过滤器编辑器”窗口无法最大化。这个值"
+"只是作为实现细节而存在的。"
 
 #: ../mail/evolution-mail.schemas.in.h:82
 msgid ""
@@ -11093,6 +11152,9 @@ msgid ""
 "particular value is not used by Evolution since the \"Search Folder Editor\" "
 "window cannot be maximized. This key exists only as an implementation detail."
 msgstr ""
+"“搜索文件夹编辑器”窗口的最大化初始状态。当用户最大化或取消最大化窗口时会更新"
+"该值，这个值是不会被 Evolution 使用的，因为“搜索文件夹编辑器”窗口无法最大化。"
+"这个值只是作为实现细节而存在的。"
 
 #: ../mail/evolution-mail.schemas.in.h:83
 msgid ""
@@ -11102,6 +11164,9 @@ msgid ""
 "\" window cannot be maximized. This key exists only as an implementation "
 "detail."
 msgstr ""
+"“发送和接收邮件”窗口的最大化初始状态。当用户最大化或取消最大化窗口时会更新该"
+"值，这个值是不会被 Evolution 使用的，因为“发送和接收邮件”窗口无法最大化。这个"
+"值只是作为实现细节而存在的。"
 
 #: ../mail/evolution-mail.schemas.in.h:84
 msgid ""
@@ -11128,6 +11193,8 @@ msgid ""
 "which you happened to receive the copy of the message to which you're "
 "replying."
 msgstr ""
+"与普通的“回复全部”行为不同，这个选项使“组回复”工具按钮通过您正在回复的刚收到"
+"的邮件的只回复给邮件列表。"
 
 #: ../mail/evolution-mail.schemas.in.h:88
 msgid ""
@@ -11138,21 +11205,16 @@ msgstr ""
 "禁用/启用永久删除(而非简单地从结果中移除)搜索文件夹中的信息时不断弹出的提示。"
 
 #: ../mail/evolution-mail.schemas.in.h:89
-#| msgid ""
-#| "It disables/enables the repeated prompts to warn that deleting messages "
-#| "from a search folder permanently deletes the message, not simply removing "
-#| "it from the search results."
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
-msgstr ""
-"禁用/启用以在您将消息的私人回复发送至邮件列表时发出警告。"
+msgstr "禁用/启用以在您将消息的私人回复发送至邮件列表时发出警告。"
 
 #: ../mail/evolution-mail.schemas.in.h:90
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
-msgstr ""
+msgstr "禁用或启用当您发送回复给许多人的时候的反复的警告提示。"
 
 #: ../mail/evolution-mail.schemas.in.h:91
 msgid ""
@@ -11160,6 +11222,8 @@ msgid ""
 "a private reply to a message which arrived via a mailing list, but the list "
 "sets a Reply-To: header which redirects your reply back to the list"
 msgstr ""
+"当您正要发送一个通过邮件列表收到的邮件的私人回复，而邮件头的 Reply-To: 重定向"
+"到了列表时，禁用或启用反复的警告提示。"
 
 #: ../mail/evolution-mail.schemas.in.h:92
 msgid "Last time Empty Junk was run"
@@ -11320,17 +11384,14 @@ msgid "Prompt when deleting messages in search folder"
 msgstr "删除搜索文件夹中的信息时提示"
 
 #: ../mail/evolution-mail.schemas.in.h:129
-#| msgid "Prompt while marking multiple messages"
 msgid "Prompt when mailing list hijacks private replies"
 msgstr "当邮件列表劫持私人回复时提示"
 
 #: ../mail/evolution-mail.schemas.in.h:130
-#| msgid "Prompt while marking multiple messages"
 msgid "Prompt when replying privately to list messages"
 msgstr "当对邮件列表作私人回复时提示"
 
 #: ../mail/evolution-mail.schemas.in.h:131
-#| msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgid "Prompt when replying to many recipients"
 msgstr "当向多个收件人回复时提示"
 
@@ -11475,8 +11536,8 @@ msgid ""
 "Show the \"Bcc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
-"在发送邮件信息时显示密件抄送域。在选定了一个邮件帐号时可以在查看菜单中控制此功"
-"能。"
+"在发送邮件信息时显示密件抄送域。在选定了一个邮件帐号时可以在查看菜单中控制此"
+"功能。"
 
 #: ../mail/evolution-mail.schemas.in.h:166
 msgid ""
@@ -11539,6 +11600,11 @@ msgid ""
 "it will do that. It works by comparing the Reply-To: header with a List-"
 "Post: header, if there is one."
 msgstr ""
+"一些邮件列表设置了 Reply-To 头来使用户发送的回复直接到邮件列表，即使用户希望 "
+"Evolution 来发送一个私人的回复。设置这个选项为 TRUE 将会试图忽略 Reply-To: "
+"头，这样 Evolution 将会像您要求的那样发送私人的回复。如果您使用私人的回复动"
+"作，它会进行私人的回复；而如果您使用“回复到列表”行为，它就会回复到列表。如果"
+"存在的话，它会比较 Reply-To: 和 List-Post: 来完成该目的。"
 
 #: ../mail/evolution-mail.schemas.in.h:174
 msgid "Spell check inline"
@@ -11608,8 +11674,8 @@ msgid ""
 "Evolution, specified in terms of KB. The default is 4096 (4MB). This value "
 "is used only when 'force_message_limit' key is activated."
 msgstr ""
-"此选项决定了 Evolution 中显示的最大文本部分大小，默认为 4096KB (4MB)。"
-"此值仅在 force_message_limit 键激活时有效。"
+"此选项决定了 Evolution 中显示的最大文本部分大小，默认为 4096KB (4MB)。此值仅"
+"在 force_message_limit 键激活时有效。"
 
 #: ../mail/evolution-mail.schemas.in.h:188
 msgid ""
@@ -11644,6 +11710,8 @@ msgid ""
 "determine whether to look up addresses in local address book only to exclude "
 "mail sent by known contacts from junk filtering."
 msgstr ""
+"此选项与 lookup_addressbook 键值相关，用于决定是否查询本地地址簿以避免您认识"
+"的人给您发邮件而被垃圾邮件过滤器给过滤掉。"
 
 #: ../mail/evolution-mail.schemas.in.h:192
 msgid "This option would help in improving the speed of fetching."
@@ -11688,7 +11756,7 @@ msgstr "默认帐号的 UID 字符串。"
 
 #: ../mail/evolution-mail.schemas.in.h:200
 msgid "Underline color for misspelled words when using inline spelling."
-msgstr ""
+msgstr "当使用行内拼写检查时，错误拼写单词的下划线的颜色。"
 
 #: ../mail/evolution-mail.schemas.in.h:201
 msgid "Use SpamAssassin daemon and client"
@@ -11715,18 +11783,24 @@ msgid "Use only the local spam tests (no DNS)."
 msgstr "之使用本地垃圾信息测试(无 DNS)。"
 
 #: ../mail/evolution-mail.schemas.in.h:207
+#, fuzzy
 msgid ""
 "Users get all up in arms over where the cursor should go when replying to a "
 "message. This determines whether the cursor is placed at the top of the "
 "message or the bottom."
 msgstr ""
+"当回复邮件的时候，用户将在光标所处的位置得到所有的装备。这决定了光标是放在邮"
+"件的顶部还是底部。"
 
 #: ../mail/evolution-mail.schemas.in.h:208
+#, fuzzy
 msgid ""
 "Users get all up in arms over where their signature should go when replying "
 "to a message. This determines whether the signature is placed at the top of "
 "the message or the bottom."
 msgstr ""
+"当回复邮件的时候，用户将在签名所处的位置得到所有的装备。这决定了签名是放在邮"
+"件的顶部还是底部。"
 
 #: ../mail/evolution-mail.schemas.in.h:209
 msgid "Variable width font"
@@ -11756,6 +11830,8 @@ msgid ""
 "only when there was used any 'Forward to' filter action and approximately "
 "one minute after the last action invocation."
 msgstr ""
+"在过滤结束后是否刷新发件箱。仅在使用过任何“转发给”过滤器行为并且在上次调用大"
+"约一分钟后进行发件箱刷新。"
 
 #: ../mail/evolution-mail.schemas.in.h:215
 msgid "Width of the message-list pane"
@@ -11770,7 +11846,7 @@ msgid "Importing Elm data"
 msgstr "导入 Elm 数据"
 
 #: ../mail/importers/elm-importer.c:325 ../mail/importers/pine-importer.c:400
-#: ../modules/mail/e-mail-shell-view.c:952
+#: ../modules/mail/e-mail-shell-view.c:951
 #: ../plugins/groupwise-features/proxy-add-dialog.ui.h:5
 #: ../widgets/misc/e-send-options.c:499
 msgid "Mail"
@@ -11895,6 +11971,8 @@ msgid_plural ""
 "%s have been updated, because they used just removed folder\n"
 "\"%s\"."
 msgstr[0] ""
+"已经更新了过滤器规则“%s”，因为它使用了刚刚删除的文件夹\n"
+"“%s”。"
 
 #. Translators: This is part of the line with 'Top Posting Option' text. See Edit|Preferences|Composer Preferences for the usage
 #: ../mail/mail-config.ui.h:2
@@ -12088,7 +12166,7 @@ msgstr "全名(_E)："
 
 #: ../mail/mail-config.ui.h:57
 msgid "Group Reply goes only to mailing list, if possible"
-msgstr ""
+msgstr "如果可能，组回复只回复给邮件列表。"
 
 #: ../mail/mail-config.ui.h:58
 msgid "HTML Messages"
@@ -12206,12 +12284,10 @@ msgid "Prompt when mailing list redirects private reply back to list"
 msgstr "当邮件列表重定向私人回复到列表时提示"
 
 #: ../mail/mail-config.ui.h:92
-#| msgid "Prompt while marking multiple messages"
 msgid "Prompt when sending private replies to mailing _list messages"
 msgstr "当向邮件列表信息发送私人回复时提示(_L)"
 
 #: ../mail/mail-config.ui.h:93
-#| msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgid "Prompt when sending replies to _many recipients"
 msgstr "当发送回复至多个收件人时提示(_M)"
 
@@ -12829,8 +12905,7 @@ msgstr[0] "保存 %d 封信"
 #: ../mail/mail-ops.c:2192
 #, c-format
 msgid "Error saving messages to: %s:\n"
-msgstr ""
-"在将信息保存到 %s 时发生错误：\n"
+msgstr "在将信息保存到 %s 时发生错误：\n"
 
 #: ../mail/mail-ops.c:2265
 msgid "Saving attachment"
@@ -12916,13 +12991,13 @@ msgstr "输入密码"
 msgid "User canceled operation."
 msgstr "用户己取消操作。"
 
-#: ../mail/mail-session.c:723
+#: ../mail/mail-session.c:724
 #, c-format
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
 msgstr "缺少发送目标地址，邮件转发被取消。"
 
-#: ../mail/mail-session.c:732
+#: ../mail/mail-session.c:733
 #, c-format
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr "无可用帐号，邮件转发被取消。"
@@ -12984,11 +13059,11 @@ msgstr[0] ""
 "搜索文件夹“%s”已经被更新，因为它使用了被移除的文件夹\n"
 "“%s”"
 
-#: ../mail/mail-vfolder.c:1179
+#: ../mail/mail-vfolder.c:1182
 msgid "Edit Search Folder"
 msgstr "编辑搜索文件夹"
 
-#: ../mail/mail-vfolder.c:1284
+#: ../mail/mail-vfolder.c:1287
 msgid "New Search Folder"
 msgstr "新建搜索文件夹"
 
@@ -13367,7 +13442,6 @@ msgid "Really delete folder \"{0}\"?"
 msgstr "真要删除文件夹“{0}”？"
 
 #: ../mail/mail.error.xml.h:90
-#| msgid "_Private"
 msgid "Reply _Privately"
 msgstr "私人回复(_P)"
 
@@ -13508,6 +13582,8 @@ msgid ""
 "but the list is trying to redirect your reply to go back to the list. Are "
 "you sure you want to proceed?"
 msgstr ""
+"您正在给一封通过邮件列表收到的邮件发送一个私下的回复，而邮件列表正试图重定向"
+"您的回复回邮件列表。您确定要继续么？"
 
 #: ../mail/mail.error.xml.h:123
 msgid ""
@@ -13515,6 +13591,8 @@ msgid ""
 "replying privately to the sender; not to the list. Are you sure you want to "
 "proceed?"
 msgstr ""
+"您正在回复一封通过邮件列表收到的邮件，但是您正私下的回复给发件人，而不是邮件"
+"列表。您确定要这么做么？"
 
 #: ../mail/mail.error.xml.h:124
 msgid ""
@@ -13594,88 +13672,88 @@ msgstr "发送已读回执(_S)"
 msgid "_Synchronize"
 msgstr "同步(_S)"
 
-#: ../mail/message-list.c:1159
+#: ../mail/message-list.c:1170
 msgid "Unseen"
 msgstr "未看"
 
-#: ../mail/message-list.c:1160
+#: ../mail/message-list.c:1171
 msgid "Seen"
 msgstr "已看"
 
-#: ../mail/message-list.c:1161
+#: ../mail/message-list.c:1172
 msgid "Answered"
 msgstr "已答复"
 
-#: ../mail/message-list.c:1162
+#: ../mail/message-list.c:1173
 msgid "Forwarded"
 msgstr "已转发"
 
-#: ../mail/message-list.c:1163
+#: ../mail/message-list.c:1174
 msgid "Multiple Unseen Messages"
 msgstr "多封未看信息"
 
-#: ../mail/message-list.c:1164
+#: ../mail/message-list.c:1175
 msgid "Multiple Messages"
 msgstr "多封信"
 
-#: ../mail/message-list.c:1168
+#: ../mail/message-list.c:1179
 msgid "Lowest"
 msgstr "最低"
 
-#: ../mail/message-list.c:1169
+#: ../mail/message-list.c:1180
 msgid "Lower"
 msgstr "较低"
 
-#: ../mail/message-list.c:1173
+#: ../mail/message-list.c:1184
 msgid "Higher"
 msgstr "较高"
 
-#: ../mail/message-list.c:1174
+#: ../mail/message-list.c:1185
 msgid "Highest"
 msgstr "最高"
 
-#: ../mail/message-list.c:1784 ../widgets/table/e-cell-date.c:46
+#: ../mail/message-list.c:1795 ../widgets/table/e-cell-date.c:46
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1791 ../plugins/itip-formatter/itip-view.c:205
+#: ../mail/message-list.c:1802 ../plugins/itip-formatter/itip-view.c:205
 msgid "Today %l:%M %p"
 msgstr "今天%p%l:%M"
 
-#: ../mail/message-list.c:1800
+#: ../mail/message-list.c:1811
 msgid "Yesterday %l:%M %p"
 msgstr "昨天%p%l:%M"
 
-#: ../mail/message-list.c:1812
+#: ../mail/message-list.c:1823
 msgid "%a %l:%M %p"
 msgstr "%A%p%l:%M"
 
-#: ../mail/message-list.c:1820
+#: ../mail/message-list.c:1831
 msgid "%b %d %l:%M %p"
 msgstr "%m月%d日%p%l:%M"
 
-#: ../mail/message-list.c:1822
+#: ../mail/message-list.c:1833
 msgid "%b %d %Y"
 msgstr "%Y年%m月%d日"
 
-#: ../mail/message-list.c:2582
+#: ../mail/message-list.c:2598
 msgid "Select all visible messages"
 msgstr "选中所有可见的信息"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:4329 ../mail/message-list.c:4721
+#: ../mail/message-list.c:4412 ../mail/message-list.c:4820
 msgid "Generating message list"
 msgstr "生成信息列表"
 
-#: ../mail/message-list.c:4560
+#: ../mail/message-list.c:4643
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
 msgstr "没有信息满足您的搜索条件。用“搜索”菜单的“清除”菜单项清除"
 
-#: ../mail/message-list.c:4562
+#: ../mail/message-list.c:4645
 msgid "There are no messages in this folder."
 msgstr "此文件夹中没有信息。"
 
@@ -13704,7 +13782,7 @@ msgid "Sent Messages"
 msgstr "已发送信息"
 
 #: ../mail/message-list.etspec.h:16
-#: ../widgets/misc/e-attachment-tree-view.c:560
+#: ../widgets/misc/e-attachment-tree-view.c:576
 msgid "Size"
 msgstr "大小"
 
@@ -13904,106 +13982,110 @@ msgid "Whether to show the preview pane."
 msgstr "是否显示预览面板。"
 
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
-#: ../modules/addressbook/autocompletion-config.c:159
+#: ../modules/addressbook/autocompletion-config.c:162
 #: ../modules/mail/em-mailer-prefs.c:1165
 msgid "_Table column:"
 msgstr "表列(T)："
 
-#: ../modules/addressbook/autocompletion-config.c:162
+#: ../modules/addressbook/autocompletion-config.c:165
 msgid "Autocompletion"
 msgstr "自动补全"
 
-#: ../modules/addressbook/autocompletion-config.c:165
+#: ../modules/addressbook/autocompletion-config.c:168
 msgid "Always _show address of the autocompleted contact"
 msgstr "总是显示自动补全的联系人的地址(_S)"
 
 #. Create the LDAP source group
-#: ../modules/addressbook/e-book-shell-backend.c:97
+#: ../modules/addressbook/e-book-shell-backend.c:98
 #: ../modules/addressbook/e-book-shell-migrate.c:148
 msgid "On LDAP Servers"
 msgstr "在 LDAP 服务器上"
 
-#: ../modules/addressbook/e-book-shell-backend.c:267
+#: ../modules/addressbook/e-book-shell-backend.c:281
 msgctxt "New"
 msgid "_Contact"
 msgstr "联系人(_C)"
 
-#: ../modules/addressbook/e-book-shell-backend.c:269
-#: ../modules/addressbook/e-book-shell-view-actions.c:757
+#: ../modules/addressbook/e-book-shell-backend.c:283
+#: ../modules/addressbook/e-book-shell-view-actions.c:773
 msgid "Create a new contact"
 msgstr "创建一个新联系人"
 
-#: ../modules/addressbook/e-book-shell-backend.c:274
+#: ../modules/addressbook/e-book-shell-backend.c:288
 msgctxt "New"
 msgid "Contact _List"
 msgstr "联系人列表(_L)"
 
-#: ../modules/addressbook/e-book-shell-backend.c:276
-#: ../modules/addressbook/e-book-shell-view-actions.c:764
+#: ../modules/addressbook/e-book-shell-backend.c:290
+#: ../modules/addressbook/e-book-shell-view-actions.c:780
 msgid "Create a new contact list"
 msgstr "创建一个新的联系人列表"
 
-#: ../modules/addressbook/e-book-shell-backend.c:284
+#: ../modules/addressbook/e-book-shell-backend.c:298
 msgctxt "New"
 msgid "Address _Book"
 msgstr "地址簿(_B)"
 
-#: ../modules/addressbook/e-book-shell-backend.c:286
-#: ../modules/addressbook/e-book-shell-view-actions.c:687
+#: ../modules/addressbook/e-book-shell-backend.c:300
+#: ../modules/addressbook/e-book-shell-view-actions.c:703
 msgid "Create a new address book"
 msgstr "创建新地址簿"
 
 #. Create the contacts group
-#: ../modules/addressbook/e-book-shell-backend.c:303
-#: ../modules/addressbook/e-book-shell-view.c:398
+#: ../modules/addressbook/e-book-shell-backend.c:317
+#: ../modules/addressbook/e-book-shell-view.c:401
 #: ../modules/calendar/e-cal-shell-backend.c:104
 #: ../modules/calendar/e-cal-shell-migrate.c:57
 msgid "Contacts"
 msgstr "联系人"
 
+#: ../modules/addressbook/e-book-shell-backend.c:326
+msgid "Certificates"
+msgstr "证书"
+
 #. Translators: This is a save dialog title
 #: ../modules/addressbook/e-book-shell-view-actions.c:263
-#: ../modules/addressbook/e-book-shell-view-actions.c:541
+#: ../modules/addressbook/e-book-shell-view-actions.c:549
 msgid "Save as vCard"
 msgstr "另存为 VCard"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:664
+#: ../modules/addressbook/e-book-shell-view-actions.c:680
 msgid "Co_py All Contacts To..."
 msgstr "将全部联系人复制到(_P)..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:666
+#: ../modules/addressbook/e-book-shell-view-actions.c:682
 msgid "Copy the contacts of the selected address book to another"
 msgstr "把选中地址簿中的联系人复制到其它地址簿"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:671
+#: ../modules/addressbook/e-book-shell-view-actions.c:687
 msgid "D_elete Address Book"
 msgstr "删除地址簿(_E)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:673
+#: ../modules/addressbook/e-book-shell-view-actions.c:689
 msgid "Delete the selected address book"
 msgstr "删除选中的地址薄"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:678
+#: ../modules/addressbook/e-book-shell-view-actions.c:694
 msgid "Mo_ve All Contacts To..."
 msgstr "将全部联系人移至(_V)..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:680
+#: ../modules/addressbook/e-book-shell-view-actions.c:696
 msgid "Move the contacts of the selected address book to another"
 msgstr "把选中的地址簿中的联系人移至其它地址簿"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:685
+#: ../modules/addressbook/e-book-shell-view-actions.c:701
 msgid "_New Address Book"
 msgstr "新建地址簿(_N)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:692
+#: ../modules/addressbook/e-book-shell-view-actions.c:708
 msgid "Address _Book Properties"
 msgstr "地址簿属性(_B)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:694
+#: ../modules/addressbook/e-book-shell-view-actions.c:710
 msgid "Show properties of the selected address book"
 msgstr "更改选中地址薄的属性"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:699
+#: ../modules/addressbook/e-book-shell-view-actions.c:715
 #: ../modules/calendar/e-cal-shell-view-actions.c:1354
 #: ../modules/calendar/e-memo-shell-view-actions.c:620
 #: ../modules/calendar/e-task-shell-view-actions.c:744
@@ -14011,157 +14093,157 @@ msgstr "更改选中地址薄的属性"
 msgid "_Rename..."
 msgstr "重命名(_R)..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:701
+#: ../modules/addressbook/e-book-shell-view-actions.c:717
 msgid "Rename the selected address book"
 msgstr "重命名选中地址薄"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:706
+#: ../modules/addressbook/e-book-shell-view-actions.c:722
 msgid "S_ave Address Book as vCard"
 msgstr "保存地址簿为 VCard(_A)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:708
+#: ../modules/addressbook/e-book-shell-view-actions.c:724
 msgid "Save the contacts of the selected address book as a vCard"
 msgstr "把选中地址薄中的的联系人保存为 VCard"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:715
+#: ../modules/addressbook/e-book-shell-view-actions.c:731
 msgid "Stop loading"
 msgstr "停止载入"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:720
+#: ../modules/addressbook/e-book-shell-view-actions.c:736
 msgid "_Copy Contact To..."
 msgstr "复制联系人到(_C)..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:722
+#: ../modules/addressbook/e-book-shell-view-actions.c:738
 msgid "Copy selected contacts to another address book"
 msgstr "把选中的联系人复制到其它地址薄"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:727
+#: ../modules/addressbook/e-book-shell-view-actions.c:743
 msgid "_Delete Contact"
 msgstr "删除联系人(_D)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:734
+#: ../modules/addressbook/e-book-shell-view-actions.c:750
 msgid "_Find in Contact..."
 msgstr "在联系人查找(_F)..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:736
+#: ../modules/addressbook/e-book-shell-view-actions.c:752
 msgid "Search for text in the displayed contact"
 msgstr "在显示的联系人中搜索文本"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:741
+#: ../modules/addressbook/e-book-shell-view-actions.c:757
 msgid "_Forward Contact..."
 msgstr "转发联系人(_F)..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:743
+#: ../modules/addressbook/e-book-shell-view-actions.c:759
 msgid "Send selected contacts to another person"
 msgstr "把选中的联系人发送给其他人"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:748
+#: ../modules/addressbook/e-book-shell-view-actions.c:764
 msgid "_Move Contact To..."
 msgstr "移动联系人至(_M)..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:750
+#: ../modules/addressbook/e-book-shell-view-actions.c:766
 msgid "Move selected contacts to another address book"
 msgstr "把选中的联系人移至其它地址薄"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:755
+#: ../modules/addressbook/e-book-shell-view-actions.c:771
 msgid "_New Contact..."
 msgstr "新建联系人(_N)..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:762
+#: ../modules/addressbook/e-book-shell-view-actions.c:778
 msgid "New Contact _List..."
 msgstr "新建联系人列表(_L)..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:769
+#: ../modules/addressbook/e-book-shell-view-actions.c:785
 msgid "_Open Contact"
 msgstr "打开联系人(_O)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:771
+#: ../modules/addressbook/e-book-shell-view-actions.c:787
 msgid "View the current contact"
 msgstr "查看当前联系人"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:776
+#: ../modules/addressbook/e-book-shell-view-actions.c:792
 msgid "_Send Message to Contact..."
 msgstr "给联系人发送信息(_S)..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:778
+#: ../modules/addressbook/e-book-shell-view-actions.c:794
 msgid "Send a message to the selected contacts"
 msgstr "给选中的联系人发送信息"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:785
+#: ../modules/addressbook/e-book-shell-view-actions.c:801
 #: ../modules/calendar/e-cal-shell-view-actions.c:1496
 #: ../modules/calendar/e-task-shell-view-actions.c:802
 msgid "_Actions"
 msgstr "操作(_A)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:792
+#: ../modules/addressbook/e-book-shell-view-actions.c:808
 #: ../modules/calendar/e-memo-shell-view-actions.c:657
 #: ../modules/calendar/e-task-shell-view-actions.c:809
 #: ../modules/mail/e-mail-shell-view-actions.c:1034
 msgid "_Preview"
 msgstr "预览(_P)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:801
+#: ../modules/addressbook/e-book-shell-view-actions.c:817
 #: ../modules/calendar/e-cal-shell-view-actions.c:1513
 #: ../modules/calendar/e-memo-shell-view-actions.c:670
 #: ../modules/calendar/e-task-shell-view-actions.c:822
 msgid "_Delete"
 msgstr "删除(_D)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:805
+#: ../modules/addressbook/e-book-shell-view-actions.c:821
 msgid "_Properties"
 msgstr "属性(_P)"
 
 #. Translators: This is an action label
-#: ../modules/addressbook/e-book-shell-view-actions.c:814
-#: ../modules/addressbook/e-book-shell-view-actions.c:960
+#: ../modules/addressbook/e-book-shell-view-actions.c:830
+#: ../modules/addressbook/e-book-shell-view-actions.c:976
 msgid "_Save as vCard..."
 msgstr "另存为 vCard(_S)..."
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:842
+#: ../modules/addressbook/e-book-shell-view-actions.c:858
 msgid "Contact _Preview"
 msgstr "联系人预览(_P)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:844
+#: ../modules/addressbook/e-book-shell-view-actions.c:860
 msgid "Show contact preview window"
 msgstr "显示联系人预览窗口"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:863
+#: ../modules/addressbook/e-book-shell-view-actions.c:879
 #: ../modules/calendar/e-memo-shell-view-actions.c:727
 #: ../modules/calendar/e-task-shell-view-actions.c:891
 #: ../modules/mail/e-mail-shell-view-actions.c:1128
 msgid "_Classic View"
 msgstr "分类视图(_C)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:865
+#: ../modules/addressbook/e-book-shell-view-actions.c:881
 msgid "Show contact preview below the contact list"
 msgstr "在联系人列表下方显示联系人预览"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:870
+#: ../modules/addressbook/e-book-shell-view-actions.c:886
 #: ../modules/calendar/e-memo-shell-view-actions.c:734
 #: ../modules/calendar/e-task-shell-view-actions.c:898
 #: ../modules/mail/e-mail-shell-view-actions.c:1135
 msgid "_Vertical View"
 msgstr "竖直视图(_V)"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:872
+#: ../modules/addressbook/e-book-shell-view-actions.c:888
 msgid "Show contact preview alongside the contact list"
 msgstr "在联系人列表旁显示联系人预览"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:880
+#: ../modules/addressbook/e-book-shell-view-actions.c:896
 #: ../modules/calendar/e-cal-shell-view-actions.c:1656
 #: ../modules/calendar/e-memo-shell-view-actions.c:744
 #: ../modules/calendar/e-task-shell-view-actions.c:915
 msgid "Any Category"
 msgstr "任何类别"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:887
+#: ../modules/addressbook/e-book-shell-view-actions.c:903
 #: ../modules/calendar/e-cal-shell-view-actions.c:1670
 #: ../modules/calendar/e-memo-shell-view-actions.c:751
 #: ../modules/calendar/e-task-shell-view-actions.c:950
 msgid "Unmatched"
 msgstr "无匹配"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:897
+#: ../modules/addressbook/e-book-shell-view-actions.c:913
 #: ../modules/calendar/e-cal-shell-view-actions.c:1680
 #: ../modules/calendar/e-memo-shell-view-actions.c:761
 #: ../modules/calendar/e-task-shell-view-actions.c:960
@@ -14170,58 +14252,58 @@ msgstr "无匹配"
 msgid "Advanced Search"
 msgstr "高级搜索"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:930
+#: ../modules/addressbook/e-book-shell-view-actions.c:946
 msgid "Print all shown contacts"
 msgstr "打印全部显示的联系人"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:937
+#: ../modules/addressbook/e-book-shell-view-actions.c:953
 msgid "Preview the contacts to be printed"
 msgstr "预览将要打印的联系人"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:944
+#: ../modules/addressbook/e-book-shell-view-actions.c:960
 msgid "Print selected contacts"
 msgstr "打印选中的联系人"
 
-#: ../modules/addressbook/e-book-shell-view-actions.c:962
+#: ../modules/addressbook/e-book-shell-view-actions.c:978
 msgid "Save selected contacts as a vCard"
 msgstr "把选中的联系人保存为 vCard"
 
-#: ../modules/addressbook/e-book-shell-view.c:342
+#: ../modules/addressbook/e-book-shell-view.c:345
 msgid "_Forward Contacts"
 msgstr "转发联系人(_F)"
 
-#: ../modules/addressbook/e-book-shell-view.c:344
+#: ../modules/addressbook/e-book-shell-view.c:347
 msgid "_Forward Contact"
 msgstr "转发联系人(_F)"
 
-#: ../modules/addressbook/e-book-shell-view.c:375
+#: ../modules/addressbook/e-book-shell-view.c:378
 msgid "_Send Message to Contacts"
 msgstr "给联系人发送信息(_S)"
 
-#: ../modules/addressbook/e-book-shell-view.c:377
+#: ../modules/addressbook/e-book-shell-view.c:380
 msgid "_Send Message to List"
 msgstr "给列表发送信息(_S)"
 
-#: ../modules/addressbook/e-book-shell-view.c:379
+#: ../modules/addressbook/e-book-shell-view.c:382
 msgid "_Send Message to Contact"
 msgstr "给联系人发送信息(_M)"
 
-#: ../modules/addressbook/eab-composer-util.c:137
+#: ../modules/addressbook/eab-composer-util.c:143
 msgid "Multiple vCards"
 msgstr "多个 vCard"
 
-#: ../modules/addressbook/eab-composer-util.c:145
+#: ../modules/addressbook/eab-composer-util.c:151
 #, c-format
 msgid "vCard for %s"
 msgstr "%s 的 vCard"
 
-#: ../modules/addressbook/eab-composer-util.c:157
-#: ../modules/addressbook/eab-composer-util.c:184
+#: ../modules/addressbook/eab-composer-util.c:163
+#: ../modules/addressbook/eab-composer-util.c:190
 #, c-format
 msgid "Contact information"
 msgstr "联系人信息"
 
-#: ../modules/addressbook/eab-composer-util.c:186
+#: ../modules/addressbook/eab-composer-util.c:192
 #, c-format
 msgid "Contact information for %s"
 msgstr "%s 的联系人信息"
@@ -14267,7 +14349,6 @@ msgid "Search _filter:"
 msgstr "搜索过滤器(_F)："
 
 #: ../modules/addressbook/ldap-config.ui.h:16
-#, fuzzy
 msgid ""
 "Search filter is the type of object to be searched for. If this is not "
 "modified, the default search will be performed on the type \"person\"."
@@ -14403,7 +14484,7 @@ msgstr "日历(_N)"
 msgid "Create a new calendar"
 msgstr "创建新日历"
 
-#: ../modules/calendar/e-cal-shell-backend.c:457
+#: ../modules/calendar/e-cal-shell-backend.c:707
 #: ../plugins/itip-formatter/itip-formatter.c:2667
 msgid "Calendar and Tasks"
 msgstr "日历和任务"
@@ -15108,7 +15189,7 @@ msgid "Delete Task"
 msgstr "删除任务"
 
 #. Translators: This is only for multiple messages.
-#: ../modules/mail/e-mail-attachment-handler.c:333
+#: ../modules/mail/e-mail-attachment-handler.c:345
 #, c-format
 msgid "%d attached messages"
 msgstr "%d 个附加的信息"
@@ -15120,42 +15201,42 @@ msgctxt "mail-junk-hook"
 msgid "None"
 msgstr "无"
 
-#: ../modules/mail/e-mail-shell-backend.c:169
+#: ../modules/mail/e-mail-shell-backend.c:171
 msgctxt "New"
 msgid "_Mail Message"
 msgstr "信息(_M)"
 
-#: ../modules/mail/e-mail-shell-backend.c:171
+#: ../modules/mail/e-mail-shell-backend.c:173
 msgid "Compose a new mail message"
 msgstr "撰写一封新信"
 
-#: ../modules/mail/e-mail-shell-backend.c:179
+#: ../modules/mail/e-mail-shell-backend.c:181
 msgctxt "New"
 msgid "Mail _Folder"
 msgstr "邮件文件夹(_F)"
 
-#: ../modules/mail/e-mail-shell-backend.c:181
+#: ../modules/mail/e-mail-shell-backend.c:183
 msgid "Create a new mail folder"
 msgstr "创建新邮件文件夹"
 
-#: ../modules/mail/e-mail-shell-backend.c:200
+#: ../modules/mail/e-mail-shell-backend.c:489
 msgid "Mail Accounts"
 msgstr "邮件帐号"
 
-#: ../modules/mail/e-mail-shell-backend.c:208
+#: ../modules/mail/e-mail-shell-backend.c:497
 msgid "Mail Preferences"
 msgstr "邮件首选项"
 
-#: ../modules/mail/e-mail-shell-backend.c:216
+#: ../modules/mail/e-mail-shell-backend.c:505
 msgid "Composer Preferences"
 msgstr "编写器首选项"
 
-#: ../modules/mail/e-mail-shell-backend.c:224
+#: ../modules/mail/e-mail-shell-backend.c:513
 msgid "Network Preferences"
 msgstr "网络首选项"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:820
-#: ../modules/mail/e-mail-shell-view.c:871
+#: ../modules/mail/e-mail-shell-view.c:870
 msgid "_Disable Account"
 msgstr "禁用帐号(_D)"
 
@@ -15419,50 +15500,50 @@ msgstr "当前帐号"
 msgid "Current Folder"
 msgstr "当前文件夹"
 
-#: ../modules/mail/e-mail-shell-view-private.c:887
+#: ../modules/mail/e-mail-shell-view-private.c:936
 #, c-format
 msgid "%d selected, "
 msgid_plural "%d selected, "
 msgstr[0] "已选中 %d 个，"
 
-#: ../modules/mail/e-mail-shell-view-private.c:898
+#: ../modules/mail/e-mail-shell-view-private.c:947
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
 msgstr[0] "%d 封已删除"
 
-#: ../modules/mail/e-mail-shell-view-private.c:904
-#: ../modules/mail/e-mail-shell-view-private.c:911
+#: ../modules/mail/e-mail-shell-view-private.c:953
+#: ../modules/mail/e-mail-shell-view-private.c:960
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
 msgstr[0] "%d 封垃圾"
 
-#: ../modules/mail/e-mail-shell-view-private.c:917
+#: ../modules/mail/e-mail-shell-view-private.c:966
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
 msgstr[0] "%d 封草稿"
 
-#: ../modules/mail/e-mail-shell-view-private.c:923
+#: ../modules/mail/e-mail-shell-view-private.c:972
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
 msgstr[0] "%d 封未发"
 
-#: ../modules/mail/e-mail-shell-view-private.c:929
+#: ../modules/mail/e-mail-shell-view-private.c:978
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
 msgstr[0] "%d 封已发"
 
-#: ../modules/mail/e-mail-shell-view-private.c:941
+#: ../modules/mail/e-mail-shell-view-private.c:990
 #, c-format
 msgid "%d unread, "
 msgid_plural "%d unread, "
 msgstr[0] "，%d 封未读，"
 
-#: ../modules/mail/e-mail-shell-view-private.c:944
+#: ../modules/mail/e-mail-shell-view-private.c:993
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
@@ -15476,26 +15557,26 @@ msgstr "全部帐号搜索"
 msgid "Account Search"
 msgstr "帐号搜索"
 
-#: ../modules/mail/e-mail-shell-view.c:869
+#: ../modules/mail/e-mail-shell-view.c:868
 msgid "Proxy _Logout"
 msgstr "代理服务器注销(_L)"
 
-#: ../modules/mail/em-account-prefs.c:129
+#: ../modules/mail/em-account-prefs.c:130
 msgid "Evolution Account Assistant"
 msgstr "Evolution 帐号助手"
 
-#: ../modules/mail/em-account-prefs.c:178
+#: ../modules/mail/em-account-prefs.c:179
 msgid "Account Editor"
 msgstr "帐号编辑器"
 
-#: ../modules/mail/em-composer-prefs.c:498
+#: ../modules/mail/em-composer-prefs.c:530
 #: ../plugins/plugin-manager/plugin-manager.c:349
 #: ../plugins/publish-calendar/publish-calendar.c:827
 #: ../widgets/misc/e-account-tree-view.c:205
 msgid "Enabled"
 msgstr "已启用"
 
-#: ../modules/mail/em-composer-prefs.c:502
+#: ../modules/mail/em-composer-prefs.c:534
 msgid "Language(s)"
 msgstr "语言"
 
@@ -15591,12 +15672,12 @@ msgid "Test Plugin for Python EPlugin loader."
 msgstr "Python Eplugin 加载器测试插件。"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:270
-#: ../widgets/misc/e-import-assistant.c:389
+#: ../widgets/misc/e-import-assistant.c:393
 msgid "Please select the information that you would like to import:"
 msgstr "请选择您希望导入的信息："
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:302
-#: ../widgets/misc/e-import-assistant.c:545
+#: ../widgets/misc/e-import-assistant.c:549
 #, c-format
 msgid "From %s:"
 msgstr "从 %s："
@@ -15704,14 +15785,12 @@ msgid "_Restart Evolution after restore"
 msgstr "恢复后重新启动 Evolution(_R)"
 
 #: ../plugins/backup-restore/backup-restore.c:298
-#, fuzzy
 msgid ""
 "You can restore Evolution from your backup. It can restore all the Mails, "
 "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
 "settings, mail filters etc."
 msgstr ""
-"您可以从备份中恢复 Evolution。它能够恢复所有邮件、日历、任务、备忘和联系"
-"人。\n"
+"您可以从备份中恢复 Evolution。它能够恢复所有邮件、日历、任务、备忘和联系人。"
 "它还能恢复您的所有的个人设置和邮件过滤器等。"
 
 #: ../plugins/backup-restore/backup-restore.c:305
@@ -15867,43 +15946,46 @@ msgid ""
 msgstr "您确定想要从选中的备份文件中恢复 Evolution 吗？"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
-msgid ""
-"Evolution backup can start only when Evolution is not running. Please make "
-"sure that you save and close all your unsaved windows before proceeding.  If "
-"you want Evolution to restart automatically after backup, please enable the "
-"toggle button."
-msgstr ""
-"Evolution 备份只能在 Evolution 未运行时启动。请确保在开始之前您保存和关闭了您"
-"的所有的未保存的窗口。如果您想让 Evolution 在备份后自动重启动，请启用切换按"
-"钮。"
+msgid "Close and Backup Evolution"
+msgstr "关闭并备份 Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
+msgid "Close and Restore Evolution"
+msgstr "关闭并恢复 Evolution"
+
+#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
 msgid "Insufficient Permissions"
 msgstr "权限不够"
 
-#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
+#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
 msgid "Invalid Evolution backup file"
 msgstr "无效的 Evolution 备份文件"
 
-#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
+#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
 msgid "Please select a valid backup file to restore."
 msgstr "请选择要恢复的有效备份文件。"
 
-#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
+#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:8
 msgid "The selected folder is not writable."
 msgstr "选中的文件夹不可写。"
 
-#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:8
+#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:9
 msgid ""
-"This will delete all your current Evolution data and settings and restore "
-"them from your backup. Evolution restore can start only when Evolution is "
-"not running. Please make sure that you close all your unsaved windows before "
-"you proceed. If you want Evolution to restart automatically restart after "
-"restore, please enable the toggle button."
+"To backup your data and settings, you must first close Evolution. Please "
+"make sure that you save any unsaved data before proceeding."
 msgstr ""
-"这将删除您当前的所有 Evolution 数据和设置并从您的备份中恢复它们。Evolution 恢"
-"复只能在 Evolution 未运行时启动。请确保在开始之前您保存和关闭了您的所有的未保"
-"存的窗口。如果您想让 Evolution 在恢复后自动重启动，请启用切换按钮。"
+"要备份您的数据和设置，您必须先关闭 Evolution。请在处理前确认您保存了所有未保"
+"存的数据。"
+
+#: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:10
+msgid ""
+"To restore your data and settings, you must first close Evolution. Please "
+"make sure that you save any unsaved data before proceeding. This will delete "
+"all your current Evolution data and settings and restore them from your "
+"backup."
+msgstr ""
+"要恢复您的数据和设置，您必须先关闭 Evolution。请在处理前确认您保存了所有未保"
+"存的数据。这会删除所有您当前 Evolution 的数据和设置，并从您的备份中恢复。"
 
 #: ../plugins/bbdb/bbdb.c:685 ../plugins/bbdb/bbdb.c:694
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
@@ -15942,7 +16024,6 @@ msgid "BBDB"
 msgstr "BBDB"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
-#, fuzzy
 msgid ""
 "Takes the gruntwork out of managing your address book.\n"
 "\n"
@@ -15950,6 +16031,8 @@ msgid ""
 "reply to messages.  Also fills in IM contact information from your buddy "
 "lists."
 msgstr ""
+"让您从繁重的的地址簿管理中解脱出来。\n"
+"\n"
 "在您回复邮件时自动用姓名和电子邮件地址填入您的地址簿。同时还将填入您好友列表"
 "的即时通讯联系信息。"
 
@@ -16067,11 +16150,9 @@ msgid "Enter password for user %s on server %s"
 msgstr "输入服务器 %2$s 上用户 %1$s 的密码"
 
 #: ../plugins/caldav/caldav-browse-server.c:860
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create soup message for URL '%s'"
-msgstr ""
-"无法创建输出文件：%s：\n"
-" %s"
+msgstr "无法为 URL “%s”创建 soup 消息"
 
 #. fetch content
 #: ../plugins/caldav/caldav-browse-server.c:1095
@@ -16325,6 +16406,8 @@ msgid ""
 "message. The format for specifying a Header and Header value is: Name of the "
 "custom header followed by \"=\" and the values separated by \";\""
 msgstr ""
+"此键值指定了您可以向发送邮件中添加的自定义头的列表。指定头和头值的格式为：自"
+"定义头的名称，接下来是“=”和它的值，头与头之间以“;”分割"
 
 #: ../plugins/email-custom-header/email-custom-header.c:316
 msgid "Security:"
@@ -16364,6 +16447,8 @@ msgid ""
 "The format for specifying a Custom Header key value is:\n"
 "Name of the Custom Header key values separated by \";\"."
 msgstr ""
+"指定头和头值的格式为：\n"
+"自定义头的名称，值，头与头之间以“;”分割。"
 
 #: ../plugins/email-custom-header/email-custom-header.c:884
 msgid "Key"
@@ -16696,14 +16781,12 @@ msgid "Message retract failed"
 msgstr "邮件收回失败"
 
 #: ../plugins/groupwise-features/org-gnome-mail-retract.error.xml.h:2
-#, fuzzy
 msgid "The server did not allow the selected message to be retracted."
-msgstr "将选中邮件转换为新任务"
+msgstr "服务器不允许收回选中的邮件。"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login.error.xml.h:1
-#, fuzzy
 msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
-msgstr "已经存在名为“{0}”的文件夹。请使用不同的名称。"
+msgstr "已经存在账户“{0}”。请检查您的文件夹目录。"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login.error.xml.h:2
 msgid "Account Already Exists"
@@ -16723,9 +16806,8 @@ msgstr "使用&quot;{0}&quot;登录代理成功。请检查您的邮件地址并
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:3
-#, fuzzy
 msgid "Proxy access cannot be given to user &quot;{0}&quot;"
-msgstr "无法保存到文件“{0}”。"
+msgstr "无法给用户“{0}”代理服务器的访问能力。"
 
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:4
 #: ../plugins/groupwise-features/org-gnome-shared-folder.error.xml.h:2
@@ -16743,9 +16825,8 @@ msgid "You have to specify a valid user name to give proxy rights."
 msgstr "您必须指定一个有效的用户名来获得代理服务使用权限。"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.error.xml.h:3
-#, fuzzy
 msgid "You cannot share this folder with the specified user &quot;{0}&quot;"
-msgstr "无法保存到自动保存文件“{0}”。"
+msgstr "您无法与指定用户“{0}”共享该文件夹。"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.error.xml.h:4
 msgid "You have to specify a user name which you want to add to the list"
@@ -16756,24 +16837,20 @@ msgid "Do you want to resend the meeting?"
 msgstr "您确信您要重新发送该会议吗？"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:2
-#, fuzzy
 msgid "Do you want to resend the recurring meeting?"
-msgstr "您确信您要删除该会议吗？"
+msgstr "您确定要再次发送这个定期召开的会议么？"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:3
-#, fuzzy
 msgid "Do you want to retract the original item?"
-msgstr "您是否想要恢复未完成的信息？"
+msgstr "您想要收回原件么？"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:4
-#, fuzzy
 msgid "The original will be removed from the recipient's mailbox."
-msgstr "从全部其它收件人的邮箱中删除此项吗？(_D)"
+msgstr "将从收件人的邮箱删除原件。"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:5
-#, fuzzy
 msgid "This is a recurring meeting"
-msgstr "将此事件标为重复发生"
+msgstr "这是一个定期召开的会议"
 
 #: ../plugins/groupwise-features/org-gnome-process-meeting.error.xml.h:6
 msgid "This will create a new meeting using the existing meeting details."
@@ -17759,9 +17836,8 @@ msgid "Play sound when new messages arrive."
 msgstr "新邮件到达时播放声音。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
-#, fuzzy
 msgid "Play themed sound when new messages arrive, if not in beep mode."
-msgstr "不在 beep 模式下时新邮件到达要播放的声音文件。"
+msgstr "不在 beep 模式下时新邮件到达要播放主题的声音文件。"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
 msgid "Popup message together with the icon."
@@ -17799,15 +17875,15 @@ msgstr "是否闪烁图标。"
 msgid "Whether to notify new messages in Inbox folder only."
 msgstr "是否只通知收件箱文件夹中的新信息。"
 
-#: ../plugins/mail-notification/mail-notification.c:355
+#: ../plugins/mail-notification/mail-notification.c:369
 msgid "Evolution's Mail Notification"
 msgstr "Evolution 邮件通知"
 
-#: ../plugins/mail-notification/mail-notification.c:377
+#: ../plugins/mail-notification/mail-notification.c:391
 msgid "Mail Notification Properties"
 msgstr "邮件通知属性"
 
-#: ../plugins/mail-notification/mail-notification.c:513
+#: ../plugins/mail-notification/mail-notification.c:527
 #, c-format
 msgid ""
 "You have received %d new message\n"
@@ -17819,66 +17895,66 @@ msgstr[0] "您在 %2$s 中收到了 %1$d 封新邮件。"
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../plugins/mail-notification/mail-notification.c:525
+#: ../plugins/mail-notification/mail-notification.c:539
 #, c-format
 msgid "From: %s"
 msgstr "来自：%s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../plugins/mail-notification/mail-notification.c:538
+#: ../plugins/mail-notification/mail-notification.c:552
 #, c-format
 msgid "Subject: %s"
 msgstr "主题：%s"
 
-#: ../plugins/mail-notification/mail-notification.c:548
+#: ../plugins/mail-notification/mail-notification.c:562
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
 msgstr[0] "您收到了 %d 封新邮件。"
 
-#: ../plugins/mail-notification/mail-notification.c:570
-#: ../plugins/mail-notification/mail-notification.c:577
+#: ../plugins/mail-notification/mail-notification.c:584
+#: ../plugins/mail-notification/mail-notification.c:591
 msgid "New email"
 msgstr "新电子邮件"
 
-#: ../plugins/mail-notification/mail-notification.c:638
+#: ../plugins/mail-notification/mail-notification.c:652
 msgid "Show icon in _notification area"
 msgstr "在通知区显示图标(_N)"
 
-#: ../plugins/mail-notification/mail-notification.c:666
+#: ../plugins/mail-notification/mail-notification.c:680
 msgid "B_link icon in notification area"
 msgstr "闪烁通知区图标(_L)"
 
-#: ../plugins/mail-notification/mail-notification.c:676
+#: ../plugins/mail-notification/mail-notification.c:690
 msgid "Popup _message together with the icon"
 msgstr "同时弹出图标和信息(_M)"
 
-#: ../plugins/mail-notification/mail-notification.c:863
+#: ../plugins/mail-notification/mail-notification.c:877
 msgid "_Play sound when new messages arrive"
 msgstr "新邮件到达时播放声音(_P)"
 
-#: ../plugins/mail-notification/mail-notification.c:892
+#: ../plugins/mail-notification/mail-notification.c:906
 msgid "_Beep"
 msgstr "响铃(_B)"
 
-#: ../plugins/mail-notification/mail-notification.c:905
+#: ../plugins/mail-notification/mail-notification.c:919
 msgid "Use sound _theme"
 msgstr "使用声音主题(_T)"
 
-#: ../plugins/mail-notification/mail-notification.c:924
+#: ../plugins/mail-notification/mail-notification.c:938
 msgid "Play _file:"
 msgstr "播放文件(_F)："
 
-#: ../plugins/mail-notification/mail-notification.c:935
+#: ../plugins/mail-notification/mail-notification.c:949
 msgid "Select sound file"
 msgstr "选择声音文件"
 
-#: ../plugins/mail-notification/mail-notification.c:993
+#: ../plugins/mail-notification/mail-notification.c:1007
 msgid "Notify new messages for _Inbox only"
 msgstr "只通知收件箱中的新信息(_I)"
 
-#: ../plugins/mail-notification/mail-notification.c:1002
+#: ../plugins/mail-notification/mail-notification.c:1016
 msgid "Generate a _D-Bus message"
 msgstr "生成 _D-Bus 信息"
 
@@ -17999,11 +18075,10 @@ msgid "Cannot open calendar. %s"
 msgstr "无法打开日历。%s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:743
-#, fuzzy
 msgid ""
 "Selected source is read only, thus cannot create event there. Select other "
 "source, please."
-msgstr "选中的源是只读的，因此不能在此创建任务。请选择其它的源。"
+msgstr "选中的源是只读的，因此不能在此创建事件。请选择其它的源。"
 
 #: ../plugins/mail-to-task/mail-to-task.c:746
 msgid ""
@@ -18012,11 +18087,10 @@ msgid ""
 msgstr "选中的源是只读的，因此不能在此创建任务。请选择其它的源。"
 
 #: ../plugins/mail-to-task/mail-to-task.c:749
-#, fuzzy
 msgid ""
 "Selected source is read only, thus cannot create memo there. Select other "
 "source, please."
-msgstr "选中的源是只读的，因此不能在此创建任务。请选择其它的源。"
+msgstr "选中的源是只读的，因此不能在此创建备忘录。请选择其它的源。"
 
 #: ../plugins/mail-to-task/mail-to-task.c:952
 #, c-format
@@ -18059,55 +18133,55 @@ msgstr "用所选邮件创建新会议"
 msgid "Convert a mail message to a task."
 msgstr "转换一个邮件信息成为一个任务。"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:286
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:291
 msgid "Get List _Archive"
 msgstr "获得列表存档(_A)"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:288
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:293
 msgid "Get an archive of the list this message belongs to"
 msgstr "获取这封信所属邮件列表的存档"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:293
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:298
 msgid "Get List _Usage Information"
 msgstr "获得列表用法信息(_U)"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:295
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:300
 msgid "Get information about the usage of the list this message belongs to"
 msgstr "获取这封信所属邮件列表的用法信息"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:300
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:305
 msgid "Contact List _Owner"
 msgstr "联系列表所有者(_O)"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:302
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:307
 msgid "Contact the owner of the mailing list this message belongs to"
 msgstr "联系这封信所属邮件列表的所有者"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:307
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:312
 msgid "_Post Message to List"
 msgstr "投递到列表(_P)"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:309
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:314
 msgid "Post a message to the mailing list this message belongs to"
 msgstr "给这封信所属的邮件列表投递"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:314
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:319
 msgid "_Subscribe to List"
 msgstr "订阅列表(_S)"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:316
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:321
 msgid "Subscribe to the mailing list this message belongs to"
 msgstr "订阅这封信所属的邮件列表"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:321
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:326
 msgid "_Unsubscribe from List"
 msgstr "退订列表(_U)"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:323
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:328
 msgid "Unsubscribe from the mailing list this message belongs to"
 msgstr "退订这封信所属的邮件列表"
 
-#: ../plugins/mailing-list-actions/mailing-list-actions.c:330
+#: ../plugins/mailing-list-actions/mailing-list-actions.c:335
 msgid "Mailing _List"
 msgstr "邮件列表(_L)"
 
@@ -18159,14 +18233,13 @@ msgid "Send e-mail message to mailing list?"
 msgstr "把信息发送到邮件列表吗？"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:10
-#, fuzzy
 msgid ""
 "The action could not be performed. The header for this action did not "
 "contain any action that could be processed.\n"
 "\n"
 "Header: {0}"
 msgstr ""
-"无法执行此动作。这意味着此动作所用的头不包含我们可处理的任何动作。\n"
+"无法执行此动作。这意味着此动作所用的头不包含可处理的任何动作。\n"
 "\n"
 "头：{0}"
 
@@ -18716,25 +18789,24 @@ msgid "F_all back to threading messages by subject"
 msgstr "默认按照主题对线索中的信息排序(_A)"
 
 #: ../plugins/templates/apps-evolution-template-placeholders.schemas.in.h:1
-#, fuzzy
 msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
 "message body."
-msgstr "信息主体中的用于附件提醒插件的线索列表。"
+msgstr "用于模板插件以替换邮件内容的键/值对列表。"
 
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Drafts based template plugin"
 msgstr "基于草稿的模板型插件"
 
-#: ../plugins/templates/templates.c:616
+#: ../plugins/templates/templates.c:620
 msgid "No Title"
 msgstr "无标题"
 
-#: ../plugins/templates/templates.c:687
+#: ../plugins/templates/templates.c:691
 msgid "Save as _Template"
 msgstr "另存为模板(_T)"
 
-#: ../plugins/templates/templates.c:689
+#: ../plugins/templates/templates.c:693
 msgid "Save as Template"
 msgstr "另存为模板"
 
@@ -18754,26 +18826,26 @@ msgstr "嵌入 vCard"
 msgid "Show vCards directly in mail messages."
 msgstr "在邮件信息里直接查看 vCards。"
 
-#: ../plugins/vcard-inline/vcard-inline.c:164
-#: ../plugins/vcard-inline/vcard-inline.c:249
+#: ../plugins/vcard-inline/vcard-inline.c:181
+#: ../plugins/vcard-inline/vcard-inline.c:266
 msgid "Show Full vCard"
 msgstr "显示完整 vCard"
 
-#: ../plugins/vcard-inline/vcard-inline.c:167
+#: ../plugins/vcard-inline/vcard-inline.c:184
 msgid "Show Compact vCard"
 msgstr "显示紧凑 vCard"
 
-#: ../plugins/vcard-inline/vcard-inline.c:228
+#: ../plugins/vcard-inline/vcard-inline.c:245
 msgid "There is one other contact."
 msgstr "有另外 1 个联系人。"
 
-#: ../plugins/vcard-inline/vcard-inline.c:237
+#: ../plugins/vcard-inline/vcard-inline.c:254
 #, c-format
 msgid "There is %d other contact."
 msgid_plural "There are %d other contacts."
 msgstr[0] "有另外 %d 个联系人。"
 
-#: ../plugins/vcard-inline/vcard-inline.c:258
+#: ../plugins/vcard-inline/vcard-inline.c:275
 msgid "Save in Address Book"
 msgstr "保存至地址簿"
 
@@ -18873,6 +18945,9 @@ msgid ""
 "authentication_user\" GConf key, and the password is retrieved from either "
 "gnome-keyring or the ~/.gnome2_private/Evolution password file."
 msgstr ""
+"如果为真，那么到代理服务器的链接需要认证。用户名从 GConf 的键值 “/apps/"
+"evolution/shell/network_config/authentication_user” 中得到，而密码将来自 "
+"gnome-keyring 或者 ~/.gnome2_private/Evolution 密码文件。"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Initial attachment view"
@@ -18890,7 +18965,7 @@ msgstr "GtkFileChooser 对话框的起始文件夹。"
 msgid ""
 "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List "
 "View."
-msgstr ""
+msgstr "附件栏的初始视图。“0”是图标视图、“1”是列表视图。"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:23
 msgid "Last upgraded configuration version"
@@ -18936,6 +19011,9 @@ msgid ""
 "configuration\" and \"use proxy configuration provided in the autoconfig url"
 "\" respectively."
 msgstr ""
+"选择代理服务器配置模式。支持的值为0、1、2 和 3，分别表示“使用系统设置”、“无代"
+"理服务器”、“使用手动代理服务器设置”与“使用 autoconfig 链接中的代理服务器设"
+"置”。"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:33
 msgid "Sidebar is visible"
@@ -18945,7 +19023,7 @@ msgstr "侧边栏可见"
 msgid "Skip development warning dialog"
 msgstr "跳过开发警告对话框"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:326
+#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:331
 msgid "Start in offline mode"
 msgstr "以脱机模式启动"
 
@@ -19037,6 +19115,9 @@ msgid ""
 "(using an initial wildcard like *.foo.com), IP host addresses (both IPv4 and "
 "IPv6) and network addresses with a netmask (something like 192.168.0.0/24)."
 msgstr ""
+"此键值包含了直接连接的，而不是通过代理服务器的(如果被选中)，主机列表。值可以"
+"为主机名、域名(使用初始通配符如 *.foo.com)、IP 主机地址 (IPv4 或 IPv6)和带子"
+"网掩码的网络地址(如 192.168.0.0/24)。"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:52
 msgid "Toolbar is visible"
@@ -19149,274 +19230,274 @@ msgstr ""
 msgid "Evolution Website"
 msgstr "Evolution 网站"
 
-#: ../shell/e-shell-window-actions.c:1235
+#: ../shell/e-shell-window-actions.c:1236
 msgid "Bug Buddy is not installed."
 msgstr "未安装 Bug Buddy。"
 
-#: ../shell/e-shell-window-actions.c:1237
+#: ../shell/e-shell-window-actions.c:1238
 msgid "Bug Buddy could not be run."
 msgstr "无法运行 Bug Buddy。"
 
-#: ../shell/e-shell-window-actions.c:1418
+#: ../shell/e-shell-window-actions.c:1419
 msgid "Show information about Evolution"
 msgstr "显示关于 Evolution 的信息"
 
-#: ../shell/e-shell-window-actions.c:1423
-#: ../shell/e-shell-window-actions.c:1437
+#: ../shell/e-shell-window-actions.c:1424
+#: ../shell/e-shell-window-actions.c:1438
 msgid "_Close Window"
 msgstr "关闭窗口(_C)"
 
-#: ../shell/e-shell-window-actions.c:1444
+#: ../shell/e-shell-window-actions.c:1445
 msgid "_Contents"
 msgstr "目录(_C)"
 
-#: ../shell/e-shell-window-actions.c:1446
+#: ../shell/e-shell-window-actions.c:1447
 msgid "Open the Evolution User Guide"
 msgstr "打开 Evolution 用户指南"
 
-#: ../shell/e-shell-window-actions.c:1472
+#: ../shell/e-shell-window-actions.c:1473
 msgid "Evolution _FAQ"
 msgstr "Evolution 常见问题(_FAQ)"
 
-#: ../shell/e-shell-window-actions.c:1474
+#: ../shell/e-shell-window-actions.c:1475
 msgid "Open the Frequently Asked Questions webpage"
 msgstr "打开 FAQ 网页"
 
-#: ../shell/e-shell-window-actions.c:1479
+#: ../shell/e-shell-window-actions.c:1480
 msgid "_Forget Passwords"
 msgstr "丢弃密码(_F)"
 
-#: ../shell/e-shell-window-actions.c:1481
+#: ../shell/e-shell-window-actions.c:1482
 msgid "Forget all remembered passwords"
 msgstr "丢弃所有记住的密码"
 
-#: ../shell/e-shell-window-actions.c:1486
+#: ../shell/e-shell-window-actions.c:1487
 msgid "I_mport..."
 msgstr "导入(_M)..."
 
-#: ../shell/e-shell-window-actions.c:1488
+#: ../shell/e-shell-window-actions.c:1489
 msgid "Import data from other programs"
 msgstr "从其它程序导入数据"
 
-#: ../shell/e-shell-window-actions.c:1493
+#: ../shell/e-shell-window-actions.c:1494
 msgid "New _Window"
 msgstr "新建窗口(_W)"
 
-#: ../shell/e-shell-window-actions.c:1495
+#: ../shell/e-shell-window-actions.c:1496
 msgid "Create a new window displaying this view"
 msgstr "创建一个新窗口来显示这个视图"
 
-#: ../shell/e-shell-window-actions.c:1509
+#: ../shell/e-shell-window-actions.c:1510
 msgid "Configure Evolution"
 msgstr "配置 Evolution"
 
-#: ../shell/e-shell-window-actions.c:1514
+#: ../shell/e-shell-window-actions.c:1515
 msgid "_Quick Reference"
 msgstr "快速首选项(_Q)"
 
-#: ../shell/e-shell-window-actions.c:1516
+#: ../shell/e-shell-window-actions.c:1517
 msgid "Show Evolution's shortcut keys"
 msgstr "显示 Evolution 的快捷键"
 
-#: ../shell/e-shell-window-actions.c:1523
+#: ../shell/e-shell-window-actions.c:1524
 msgid "Exit the program"
 msgstr "退出程序"
 
-#: ../shell/e-shell-window-actions.c:1528
+#: ../shell/e-shell-window-actions.c:1529
 msgid "_Advanced Search..."
 msgstr "高级搜索(_A)..."
 
-#: ../shell/e-shell-window-actions.c:1530
+#: ../shell/e-shell-window-actions.c:1531
 msgid "Construct a more advanced search"
 msgstr "构造一个更高级的搜索"
 
-#: ../shell/e-shell-window-actions.c:1537
+#: ../shell/e-shell-window-actions.c:1538
 msgid "Clear the current search parameters"
 msgstr "清楚当前搜索参数"
 
-#: ../shell/e-shell-window-actions.c:1542
+#: ../shell/e-shell-window-actions.c:1543
 msgid "_Edit Saved Searches..."
 msgstr "编辑保存的搜索(_E)..."
 
-#: ../shell/e-shell-window-actions.c:1544
+#: ../shell/e-shell-window-actions.c:1545
 msgid "Manage your saved searches"
 msgstr "管理您保存的搜索"
 
-#: ../shell/e-shell-window-actions.c:1551
+#: ../shell/e-shell-window-actions.c:1552
 msgid "Click here to change the search type"
 msgstr "单击此处更改搜索类型"
 
-#: ../shell/e-shell-window-actions.c:1556
+#: ../shell/e-shell-window-actions.c:1557
 msgid "_Find Now"
 msgstr "立即查找(_F)"
 
 #. Block the default Ctrl+F.
-#: ../shell/e-shell-window-actions.c:1558
+#: ../shell/e-shell-window-actions.c:1559
 msgid "Execute the current search parameters"
 msgstr "执行当前搜索参数"
 
-#: ../shell/e-shell-window-actions.c:1563
+#: ../shell/e-shell-window-actions.c:1564
 msgid "_Save Search..."
 msgstr "保存搜索(_S)..."
 
-#: ../shell/e-shell-window-actions.c:1565
+#: ../shell/e-shell-window-actions.c:1566
 msgid "Save the current search parameters"
 msgstr "保存当前搜索参数"
 
-#: ../shell/e-shell-window-actions.c:1577
+#: ../shell/e-shell-window-actions.c:1578
 msgid "Send / _Receive"
 msgstr "发送/接收(_R)"
 
-#: ../shell/e-shell-window-actions.c:1579
+#: ../shell/e-shell-window-actions.c:1580
 msgid "Send queued items and retrieve new items"
 msgstr "发送队列中的的邮件并收取新邮件"
 
-#: ../shell/e-shell-window-actions.c:1584
+#: ../shell/e-shell-window-actions.c:1585
 msgid "Submit _Bug Report..."
 msgstr "提交错误报告(_B)..."
 
-#: ../shell/e-shell-window-actions.c:1586
+#: ../shell/e-shell-window-actions.c:1587
 msgid "Submit a bug report using Bug Buddy"
 msgstr "用 Bug Buddy 提交错误报告"
 
-#: ../shell/e-shell-window-actions.c:1591
+#: ../shell/e-shell-window-actions.c:1592
 msgid "_Work Offline"
 msgstr "脱机工作(_W)"
 
-#: ../shell/e-shell-window-actions.c:1593
+#: ../shell/e-shell-window-actions.c:1594
 msgid "Put Evolution into offline mode"
 msgstr "将 Evolution 转入脱机模式"
 
-#: ../shell/e-shell-window-actions.c:1598
+#: ../shell/e-shell-window-actions.c:1599
 msgid "_Work Online"
 msgstr "联机工作(_W)"
 
-#: ../shell/e-shell-window-actions.c:1600
+#: ../shell/e-shell-window-actions.c:1601
 msgid "Put Evolution into online mode"
 msgstr "将 Evolution 转入联机模式"
 
-#: ../shell/e-shell-window-actions.c:1628
+#: ../shell/e-shell-window-actions.c:1629
 msgid "Lay_out"
 msgstr "布局(_O)"
 
-#: ../shell/e-shell-window-actions.c:1635
+#: ../shell/e-shell-window-actions.c:1636
 msgid "_New"
 msgstr "新建(_N)"
 
-#: ../shell/e-shell-window-actions.c:1642
+#: ../shell/e-shell-window-actions.c:1643
 msgid "_Search"
 msgstr "搜索(_S)"
 
-#: ../shell/e-shell-window-actions.c:1649
+#: ../shell/e-shell-window-actions.c:1650
 msgid "_Switcher Appearance"
 msgstr "切换器外观(_S)"
 
-#: ../shell/e-shell-window-actions.c:1663
+#: ../shell/e-shell-window-actions.c:1664
 msgid "_Window"
 msgstr "窗口(_W)"
 
-#: ../shell/e-shell-window-actions.c:1692
+#: ../shell/e-shell-window-actions.c:1693
 msgid "Show Side _Bar"
 msgstr "显示侧边栏(_B)"
 
-#: ../shell/e-shell-window-actions.c:1694
+#: ../shell/e-shell-window-actions.c:1695
 msgid "Show the side bar"
 msgstr "显示侧边栏"
 
-#: ../shell/e-shell-window-actions.c:1700
+#: ../shell/e-shell-window-actions.c:1701
 msgid "Show _Buttons"
 msgstr "显示按钮(_B)"
 
-#: ../shell/e-shell-window-actions.c:1702
+#: ../shell/e-shell-window-actions.c:1703
 msgid "Show the switcher buttons"
 msgstr "显示切换器按钮"
 
-#: ../shell/e-shell-window-actions.c:1708
+#: ../shell/e-shell-window-actions.c:1709
 msgid "Show _Status Bar"
 msgstr "显示状态栏(_S)"
 
-#: ../shell/e-shell-window-actions.c:1710
+#: ../shell/e-shell-window-actions.c:1711
 msgid "Show the status bar"
 msgstr "显示状态栏"
 
-#: ../shell/e-shell-window-actions.c:1716
+#: ../shell/e-shell-window-actions.c:1717
 msgid "Show _Tool Bar"
 msgstr "显示工具栏(_T)"
 
-#: ../shell/e-shell-window-actions.c:1718
+#: ../shell/e-shell-window-actions.c:1719
 msgid "Show the tool bar"
 msgstr "显示工具栏"
 
-#: ../shell/e-shell-window-actions.c:1740
+#: ../shell/e-shell-window-actions.c:1741
 msgid "_Icons Only"
 msgstr "只有图标(_I)"
 
-#: ../shell/e-shell-window-actions.c:1742
+#: ../shell/e-shell-window-actions.c:1743
 msgid "Display window buttons with icons only"
 msgstr "显示只有图标的窗口按钮"
 
-#: ../shell/e-shell-window-actions.c:1747
+#: ../shell/e-shell-window-actions.c:1748
 msgid "_Text Only"
 msgstr "只有文字(_T)"
 
-#: ../shell/e-shell-window-actions.c:1749
+#: ../shell/e-shell-window-actions.c:1750
 msgid "Display window buttons with text only"
 msgstr "显示只有文字的窗口按钮"
 
-#: ../shell/e-shell-window-actions.c:1754
+#: ../shell/e-shell-window-actions.c:1755
 msgid "Icons _and Text"
 msgstr "图标和文字(_A)"
 
-#: ../shell/e-shell-window-actions.c:1756
+#: ../shell/e-shell-window-actions.c:1757
 msgid "Display window buttons with icons and text"
 msgstr "显示带图标和文字的窗口按钮"
 
-#: ../shell/e-shell-window-actions.c:1761
+#: ../shell/e-shell-window-actions.c:1762
 msgid "Tool_bar Style"
 msgstr "工具栏样式(_B)"
 
-#: ../shell/e-shell-window-actions.c:1763
+#: ../shell/e-shell-window-actions.c:1764
 msgid "Display window buttons using the desktop toolbar setting"
 msgstr "使用桌面工具栏设置显示窗口按钮"
 
-#: ../shell/e-shell-window-actions.c:1771
+#: ../shell/e-shell-window-actions.c:1772
 msgid "Define Views..."
 msgstr "定义视图..."
 
-#: ../shell/e-shell-window-actions.c:1773
+#: ../shell/e-shell-window-actions.c:1774
 msgid "Create or edit views"
 msgstr "创建或编辑视图"
 
-#: ../shell/e-shell-window-actions.c:1778
+#: ../shell/e-shell-window-actions.c:1779
 msgid "Save Custom View..."
 msgstr "保存当前视图..."
 
-#: ../shell/e-shell-window-actions.c:1780
+#: ../shell/e-shell-window-actions.c:1781
 msgid "Save current custom view"
 msgstr "保存当前自定义视图"
 
-#: ../shell/e-shell-window-actions.c:1787
+#: ../shell/e-shell-window-actions.c:1788
 msgid "C_urrent View"
 msgstr "当前视图(_U)"
 
-#: ../shell/e-shell-window-actions.c:1797
+#: ../shell/e-shell-window-actions.c:1798
 msgid "Custom View"
 msgstr "当前视图"
 
-#: ../shell/e-shell-window-actions.c:1799
+#: ../shell/e-shell-window-actions.c:1800
 msgid "Current view is a customized view"
 msgstr "当前视图为自定义视图"
 
-#: ../shell/e-shell-window-actions.c:1809
+#: ../shell/e-shell-window-actions.c:1810
 msgid "Change the page settings for your current printer"
 msgstr "更改当前打印机的页面设置"
 
-#: ../shell/e-shell-window-actions.c:2182
+#: ../shell/e-shell-window-actions.c:2183
 #, c-format
 msgid "Switch to %s"
 msgstr "切换到 %s"
 
-#: ../shell/e-shell-window-actions.c:2395
+#: ../shell/e-shell-window-actions.c:2396
 msgid "Execute these search parameters"
 msgstr "执行这些搜索参数"
 
@@ -19443,7 +19524,7 @@ msgid "Preparing to quit..."
 msgstr "正在准备退出..."
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:175
+#: ../shell/main.c:180
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -19475,7 +19556,7 @@ msgstr ""
 "\n"
 "我们希望您尽情享受我们努力工作的成果，我们也热切盼望着您的意见！\n"
 
-#: ../shell/main.c:199
+#: ../shell/main.c:204
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -19483,55 +19564,55 @@ msgstr ""
 "感谢\n"
 "Evolution 团队\n"
 
-#: ../shell/main.c:206
+#: ../shell/main.c:211
 msgid "Do not tell me again"
 msgstr "不要再通知我"
 
-#: ../shell/main.c:322
+#: ../shell/main.c:327
 msgid "Start Evolution activating the specified component"
 msgstr "启动 Evolution 并激活指定组件"
 
-#: ../shell/main.c:324
+#: ../shell/main.c:329
 msgid "Apply the given geometry to the main window"
 msgstr "应用给定的几何参数到主窗口"
 
-#: ../shell/main.c:328
+#: ../shell/main.c:333
 msgid "Start in online mode"
 msgstr "以联机模式启动"
 
-#: ../shell/main.c:330
+#: ../shell/main.c:335
 msgid "Start in \"express\" mode"
 msgstr "以“快速”模式启动"
 
-#: ../shell/main.c:333
+#: ../shell/main.c:338
 msgid "Forcibly shut down Evolution"
 msgstr "强制关闭所有 Evolution"
 
-#: ../shell/main.c:336
+#: ../shell/main.c:341
 msgid "Send the debugging output of all components to a file."
 msgstr "把所有成员的调试输出发送到一个文件中。"
 
-#: ../shell/main.c:338
+#: ../shell/main.c:343
 msgid "Disable loading of any plugins."
 msgstr "禁止载入任何插件。"
 
-#: ../shell/main.c:340
+#: ../shell/main.c:345
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "禁用邮件、联系人和任务的预览面板。"
 
-#: ../shell/main.c:344
+#: ../shell/main.c:349
 msgid "Import URIs or file names given as rest of arguments."
 msgstr "导入URIs或者文件名作为剩余的参数"
 
-#: ../shell/main.c:346
+#: ../shell/main.c:351
 msgid "Request a running Evolution process to quit"
 msgstr "请求正在运行的 Evolution 进程退出"
 
-#: ../shell/main.c:469
+#: ../shell/main.c:475 ../shell/main.c:483
 msgid "- The Evolution PIM and Email Client"
 msgstr "- Evolution 个人信息管理和邮件客户"
 
-#: ../shell/main.c:531
+#: ../shell/main.c:545
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -19648,9 +19729,8 @@ msgid "Disable connection to session manager"
 msgstr "禁止连接到会话管理器"
 
 #: ../smclient/eggsmclient.c:230
-#, fuzzy
 msgid "Specify file containing saved configuration"
-msgstr "配置 Pilot"
+msgstr "指定包含了保存的配置的文件。"
 
 #: ../smclient/eggsmclient.c:230
 msgid "FILE"
@@ -19756,10 +19836,6 @@ msgstr "全部颁证机构文件"
 #: ../smime/gui/certificate-manager.c:737
 msgid "Failed to import certificate authority's certificate"
 msgstr "导入证书授权者的证书失败"
-
-#: ../smime/gui/certificate-manager.c:1156
-msgid "Certificates"
-msgstr "证书"
 
 #: ../smime/gui/certificate-viewer.c:338
 #, c-format
@@ -20360,26 +20436,25 @@ msgid "_Send To..."
 msgstr "发送到(_S)..."
 
 #: ../widgets/misc/e-attachment-handler-sendto.c:131
-#, fuzzy
 msgid "Send the selected attachments somewhere"
-msgstr "选择保存选中附件的文件夹..."
+msgstr "发送某个选中的附件"
 
-#: ../widgets/misc/e-attachment-icon-view.c:495
-#: ../widgets/misc/e-attachment-tree-view.c:535
+#: ../widgets/misc/e-attachment-icon-view.c:511
+#: ../widgets/misc/e-attachment-tree-view.c:551
 msgid "Loading"
 msgstr "载入"
 
-#: ../widgets/misc/e-attachment-icon-view.c:507
-#: ../widgets/misc/e-attachment-tree-view.c:547
+#: ../widgets/misc/e-attachment-icon-view.c:523
+#: ../widgets/misc/e-attachment-tree-view.c:563
 msgid "Saving"
 msgstr "保存"
 
-#: ../widgets/misc/e-attachment-paned.c:87
+#: ../widgets/misc/e-attachment-paned.c:88
 msgid "Hide Attachment _Bar"
 msgstr "隐藏附件栏(_B)"
 
-#: ../widgets/misc/e-attachment-paned.c:89
-#: ../widgets/misc/e-attachment-paned.c:613
+#: ../widgets/misc/e-attachment-paned.c:90
+#: ../widgets/misc/e-attachment-paned.c:637
 msgid "Show Attachment _Bar"
 msgstr "显示附件栏(_B)"
 
@@ -20402,28 +20477,40 @@ msgstr[0] "保存附件"
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
-#: ../widgets/misc/e-attachment-view.c:301
+#: ../widgets/misc/e-attachment-view.c:346
 msgid "S_ave All"
 msgstr "全部保存(_A)"
 
-#: ../widgets/misc/e-attachment-view.c:327
+#: ../widgets/misc/e-attachment-view.c:372
 msgid "A_dd Attachment..."
 msgstr "添加附件(_D)..."
 
-#: ../widgets/misc/e-attachment-view.c:351
+#: ../widgets/misc/e-attachment-view.c:396
 msgid "_Hide"
 msgstr "隐藏(_H)"
 
-#: ../widgets/misc/e-attachment-view.c:358
+#: ../widgets/misc/e-attachment-view.c:403
+#, fuzzy
+#| msgid "S_ave All"
+msgid "Hid_e All"
+msgstr "全部保存(_A)"
+
+#: ../widgets/misc/e-attachment-view.c:410
 msgid "_View Inline"
 msgstr "嵌入查看(_V)"
 
-#: ../widgets/misc/e-attachment-view.c:640
+#: ../widgets/misc/e-attachment-view.c:417
+#, fuzzy
+#| msgid "_View Inline"
+msgid "Vie_w All Inline"
+msgstr "嵌入查看(_V)"
+
+#: ../widgets/misc/e-attachment-view.c:734
 #, c-format
 msgid "Open with \"%s\""
 msgstr "使用“%s”打开"
 
-#: ../widgets/misc/e-attachment-view.c:643
+#: ../widgets/misc/e-attachment-view.c:737
 #, c-format
 msgid "Open this attachment in %s"
 msgstr "在 %s 中打开附件"
@@ -20549,85 +20636,83 @@ msgstr "无效的日期值"
 msgid "Invalid Time Value"
 msgstr "无效的时间值"
 
-#: ../widgets/misc/e-import-assistant.c:242
+#: ../widgets/misc/e-import-assistant.c:246
 msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
 "of file it is from the list."
 msgstr "选择您希望导入到 Evolution 的文件，并从列表中选择文件的类型。"
 
-#: ../widgets/misc/e-import-assistant.c:259
+#: ../widgets/misc/e-import-assistant.c:263
 msgid "F_ilename:"
 msgstr "文件名(_I)："
 
-#: ../widgets/misc/e-import-assistant.c:269
+#: ../widgets/misc/e-import-assistant.c:273
 msgid "Select a file"
 msgstr "选择一个文件"
 
-#: ../widgets/misc/e-import-assistant.c:283
-#: ../widgets/misc/e-import-assistant.c:458
+#: ../widgets/misc/e-import-assistant.c:287
+#: ../widgets/misc/e-import-assistant.c:462
 msgid "File _type:"
 msgstr "文件类型(_T)："
 
-#: ../widgets/misc/e-import-assistant.c:326
-#: ../widgets/misc/e-import-assistant.c:909
+#: ../widgets/misc/e-import-assistant.c:330
+#: ../widgets/misc/e-import-assistant.c:913
 msgid "Choose the destination for this import"
 msgstr "选择此导入的目的位置"
 
-#: ../widgets/misc/e-import-assistant.c:351
+#: ../widgets/misc/e-import-assistant.c:355
 msgid "Choose the type of importer to run:"
 msgstr "选择要运行的导入器类型："
 
-#: ../widgets/misc/e-import-assistant.c:359
+#: ../widgets/misc/e-import-assistant.c:363
 msgid "Import data and settings from _older programs"
 msgstr "从旧版程序中导入数据和设置(_O)"
 
-#: ../widgets/misc/e-import-assistant.c:367
+#: ../widgets/misc/e-import-assistant.c:371
 msgid "Import a _single file"
 msgstr "导入单个文件(_S)"
 
-#: ../widgets/misc/e-import-assistant.c:519
-#, fuzzy
+#: ../widgets/misc/e-import-assistant.c:523
 msgid ""
 "Evolution checked for settings to import from the following applications: "
 "Pine, Netscape, Elm, iCalendar. No importable settings found. If you would "
 "like to try again, please click the \"Back\" button."
 msgstr ""
-"Evolution 检查了从以下程序导入的设置：Pine、Netscape、Elm、\n"
-"iCalendar。并未发现可导入的设置。如果您想要再试一次，请单击\n"
-"“上一步”按钮。\n"
+"Evolution 检查了从以下程序导入的设置：Pine、Netscape、Elm、iCalendar。并未发"
+"现可导入的设置。如果您想要再试一次，请单击“上一步”按钮。"
 
 #. Install a custom "Cancel Import" button.
-#: ../widgets/misc/e-import-assistant.c:766
+#: ../widgets/misc/e-import-assistant.c:770
 msgid "_Cancel Import"
 msgstr "取消导入(_C)"
 
-#: ../widgets/misc/e-import-assistant.c:908
+#: ../widgets/misc/e-import-assistant.c:912
 msgid "Preview data to be imported"
 msgstr "预览要导入的信息"
 
-#: ../widgets/misc/e-import-assistant.c:914
-#: ../widgets/misc/e-import-assistant.c:927
-#: ../widgets/misc/e-import-assistant.c:1276
-#: ../widgets/misc/e-import-assistant.c:1342
-#: ../widgets/misc/e-import-assistant.c:1351
+#: ../widgets/misc/e-import-assistant.c:918
+#: ../widgets/misc/e-import-assistant.c:931
+#: ../widgets/misc/e-import-assistant.c:1281
+#: ../widgets/misc/e-import-assistant.c:1347
+#: ../widgets/misc/e-import-assistant.c:1356
 msgid "Import Data"
 msgstr "导入数据"
 
-#: ../widgets/misc/e-import-assistant.c:922
+#: ../widgets/misc/e-import-assistant.c:926
 msgid "Select what type of file you want to import from the list."
 msgstr "选择您想从列表导入的类型"
 
-#: ../widgets/misc/e-import-assistant.c:1268
-#: ../widgets/misc/e-import-assistant.c:1300
+#: ../widgets/misc/e-import-assistant.c:1271
+#: ../widgets/misc/e-import-assistant.c:1305
 msgid "Evolution Import Assistant"
 msgstr "Evolution 导入助手"
 
-#: ../widgets/misc/e-import-assistant.c:1283
-#: ../widgets/misc/e-import-assistant.c:1330
+#: ../widgets/misc/e-import-assistant.c:1288
+#: ../widgets/misc/e-import-assistant.c:1335
 msgid "Import Location"
 msgstr "导入位置"
 
-#: ../widgets/misc/e-import-assistant.c:1294
+#: ../widgets/misc/e-import-assistant.c:1299
 msgid ""
 "Welcome to the Evolution Import Assistant.\n"
 "With this assistant you will be guided through the process of importing "
@@ -20636,19 +20721,19 @@ msgstr ""
 "欢迎使用 Evolution 导入助手。\n"
 "本助手将全程指导您将外部文件导入 Evolution。"
 
-#: ../widgets/misc/e-import-assistant.c:1308
+#: ../widgets/misc/e-import-assistant.c:1313
 msgid "Importer Type"
 msgstr "导入器类型"
 
-#: ../widgets/misc/e-import-assistant.c:1316
+#: ../widgets/misc/e-import-assistant.c:1321
 msgid "Select Information to Import"
 msgstr "选择要导入的信息"
 
-#: ../widgets/misc/e-import-assistant.c:1323
+#: ../widgets/misc/e-import-assistant.c:1328
 msgid "Select a File"
 msgstr "选择一个文件"
 
-#: ../widgets/misc/e-import-assistant.c:1337
+#: ../widgets/misc/e-import-assistant.c:1342
 msgid "Click \"Apply\" to begin importing the file into Evolution."
 msgstr "单击“应用”以便开始将文件导入到 Evolution。"
 
@@ -20676,7 +20761,7 @@ msgstr "Evolution 目前脱机。单击该按钮可联机工作。"
 msgid "Evolution is currently offline because the network is unavailable."
 msgstr "因为网络不可用，所以 Evolution 目前脱机。"
 
-#: ../widgets/misc/e-preferences-window.c:266
+#: ../widgets/misc/e-preferences-window.c:276
 msgid "Evolution Preferences"
 msgstr "Evolution 首选项"
 
@@ -20872,7 +20957,6 @@ msgid "Add _Script"
 msgstr "添加脚本(_S)"
 
 #: ../widgets/misc/e-signature-script-dialog.c:266
-#, fuzzy
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -21218,6 +21302,28 @@ msgstr "全选"
 #: ../widgets/text/e-text.c:2545
 msgid "Input Methods"
 msgstr "输入法"
+
+#~ msgid ""
+#~ "Evolution backup can start only when Evolution is not running. Please "
+#~ "make sure that you save and close all your unsaved windows before "
+#~ "proceeding.  If you want Evolution to restart automatically after backup, "
+#~ "please enable the toggle button."
+#~ msgstr ""
+#~ "Evolution 备份只能在 Evolution 未运行时启动。请确保在开始之前您保存和关闭"
+#~ "了您的所有的未保存的窗口。如果您想让 Evolution 在备份后自动重启动，请启用"
+#~ "切换按钮。"
+
+#~ msgid ""
+#~ "This will delete all your current Evolution data and settings and restore "
+#~ "them from your backup. Evolution restore can start only when Evolution is "
+#~ "not running. Please make sure that you close all your unsaved windows "
+#~ "before you proceed. If you want Evolution to restart automatically "
+#~ "restart after restore, please enable the toggle button."
+#~ msgstr ""
+#~ "这将删除您当前的所有 Evolution 数据和设置并从您的备份中恢复它们。"
+#~ "Evolution 恢复只能在 Evolution 未运行时启动。请确保在开始之前您保存和关闭"
+#~ "了您的所有的未保存的窗口。如果您想让 Evolution 在恢复后自动重启动，请启用"
+#~ "切换按钮。"
 
 #~ msgid "{0}"
 #~ msgstr "{0}"
