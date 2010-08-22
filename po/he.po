@@ -109,7 +109,6 @@ msgid "Some features may not work properly with your current server"
 msgstr "חלק מהאפשרויות לא יעבדו כראוי עם השרת הנוכחי שלך"
 
 #: ../addressbook/addressbook.error.xml.h:20
-#, fuzzy
 msgid "The Evolution address book has quit unexpectedly."
 msgstr "ספר הכתובות של Evolution נסגר באופן בלתי צפוי."
 
@@ -132,6 +131,7 @@ msgstr "ספר כתובות זה לא יכל להיפתח."
 #: ../addressbook/addressbook.error.xml.h:24
 msgid "This address book server does not have any suggested search bases."
 msgstr ""
+"לשרת ספר כתובות זה אין בסיסי חיפוש להציע."
 
 #: ../addressbook/addressbook.error.xml.h:25
 msgid ""
@@ -177,9 +177,8 @@ msgid ""
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:34
-#, fuzzy
 msgid "You do not have permission to delete contacts in this address book."
-msgstr "אין לך הרשאות מספיקות על מנת למחוק איש קשר מספר כתובות זה."
+msgstr "אין לך הרשאות מספיקות על מנת למחוק אנשי קשר מספר כתובות זה."
 
 #: ../addressbook/addressbook.error.xml.h:35
 msgid ""
@@ -537,6 +536,7 @@ msgstr ""
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr ""
+"ל-'%s' תצורה שגויה"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3272
 #, c-format
@@ -626,7 +626,7 @@ msgstr "מר"
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:12
 msgid "Sr."
-msgstr "סיר"
+msgstr ""
 
 #: ../addressbook/gui/contact-editor/fullname.ui.h:13
 msgid "_First:"
@@ -647,7 +647,7 @@ msgstr "_סופית:"
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:1
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:666
 msgid "Contact List Editor"
-msgstr "עורף אנשי קשר"
+msgstr "עורך אנשי קשר"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
 msgid "Members"
@@ -668,7 +668,7 @@ msgstr "ב_חר..."
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:6
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr ""
+msgstr "ה_כנס כתובת דוא\"ל או גרור איש קשר לרשימה שלמטה:"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:760
 msgid "Contact List Members"
@@ -792,7 +792,7 @@ msgstr "העבר את ההודעות שנבחרו לתיקייה אחרת"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:632
 #, fuzzy
 msgid "Copy selected contacts to the clipboard"
-msgstr "העבר את ההודעות שנבחרו לתיקייה אחרת"
+msgstr "העתק"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:638
 #, fuzzy
@@ -4712,10 +4712,9 @@ msgid "Paste events from the clipboard"
 msgstr "גזור את ההודעה המסומנת"
 
 #: ../calendar/gui/e-calendar-view.c:425
-#, fuzzy
 #| msgid "Delete selected memos"
 msgid "Delete selected events"
-msgstr "מחק את התזכורות הנבחרות"
+msgstr "מחק את הארועים שניבחרו"
 
 #: ../calendar/gui/e-calendar-view.c:444 ../calendar/gui/e-memo-table.c:188
 #: ../calendar/gui/e-task-table.c:266
@@ -4748,7 +4747,7 @@ msgstr "נדחה"
 #: ../calendar/gui/e-meeting-store.c:193 ../calendar/gui/e-meeting-store.c:216
 #: ../calendar/gui/e-meeting-time-sel.c:560
 msgid "Tentative"
-msgstr ""
+msgstr "גמיש"
 
 #: ../calendar/gui/e-calendar-view.c:1723
 #: ../calendar/gui/e-meeting-list-view.c:202
@@ -4766,17 +4765,19 @@ msgstr "בחר מיקום"
 #. To Translators: It will display "Organizer: NameOfTheUser <email@ofuser.com>"
 #: ../calendar/gui/e-calendar-view.c:1869 ../calendar/gui/e-memo-table.c:528
 #: ../calendar/gui/e-task-table.c:743
-#, fuzzy, c-format
+#, c-format
 msgid "Organizer: %s <%s>"
-msgstr "_ארגון:"
+msgstr ""
+"מארגן: %s‏ <%s>"
 
 #. With SunOne accouts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in organiser.value
 #: ../calendar/gui/e-calendar-view.c:1873 ../calendar/gui/e-memo-table.c:533
 #: ../calendar/gui/e-task-table.c:746
-#, fuzzy, c-format
+#, c-format
 msgid "Organizer: %s"
-msgstr "_ארגון:"
+msgstr ""
+"מארגן: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
 #: ../calendar/gui/e-calendar-view.c:1889 ../calendar/gui/print.c:2624
@@ -4910,6 +4911,7 @@ msgstr[1] "כל %d שבועות ב"
 #: ../calendar/gui/e-itip-control.c:813
 msgid " and "
 msgstr ""
+" ו-"
 
 #: ../calendar/gui/e-itip-control.c:822
 #, c-format
@@ -4946,6 +4948,7 @@ msgstr[1] ""
 #: ../calendar/gui/e-itip-control.c:885
 msgid ", ending on "
 msgstr ""
+"מסתיים ב-"
 
 #. For Translators : 'Starts' is part of "Starts: date", showing when the event starts
 #: ../calendar/gui/e-itip-control.c:906
@@ -5012,26 +5015,29 @@ msgid ""
 msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1369
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has published meeting information."
 msgid "%s has published meeting information."
-msgstr "‏<b>%s</b>פרסם נתוני ישיבה."
+msgstr ""
+"‏%s פרסם נתוני ישיבה."
 
 #: ../calendar/gui/e-itip-control.c:1370
 msgid "Meeting Information"
 msgstr "מידע ישיבה"
 
 #: ../calendar/gui/e-itip-control.c:1376
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> requests the presence of %s at a meeting."
 msgid "%s requests the presence of %s at a meeting."
-msgstr "‏<b>%s</b> מבקש את הנוכחות של %s בישיבה."
+msgstr ""
+"‏%s מבקש את הנוכחות של %s בישיבה."
 
 #: ../calendar/gui/e-itip-control.c:1378
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> requests your presence at a meeting."
 msgid "%s requests your presence at a meeting."
-msgstr "‏<b>%s</b> מבקש את הנוכחות שלך בישיבה."
+msgstr ""
+"‏%s מבקש את הנוכחות שלך בישיבה."
 
 #: ../calendar/gui/e-itip-control.c:1379
 msgid "Meeting Proposal"
@@ -5039,40 +5045,44 @@ msgstr "הצעת ישיבה"
 
 #. FIXME Whats going on here?
 #: ../calendar/gui/e-itip-control.c:1385
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> wishes to be added to an existing meeting."
 msgid "%s wishes to be added to an existing meeting."
-msgstr "‏<b>%s</b> מבקש להצתרף לישיבה קיימת."
+msgstr ""
+"‏%s מבקש להצתרף לישיבה קיימת."
 
 #: ../calendar/gui/e-itip-control.c:1386
 msgid "Meeting Update"
 msgstr "עדכון לגבי ישיבה"
 
 #: ../calendar/gui/e-itip-control.c:1390
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgid "%s wishes to receive the latest meeting information."
-msgstr "‏<b>%s</b> מבקש לקבל את המידע העדכני ביותר לגבי הישיבה."
+msgstr ""
+"‏%s מבקש לקבל את המידע העדכני ביותר לגבי הישיבה."
 
 #: ../calendar/gui/e-itip-control.c:1391
 msgid "Meeting Update Request"
 msgstr "בקשת עדכון ישיבה"
 
 #: ../calendar/gui/e-itip-control.c:1398
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has replied to a meeting request."
 msgid "%s has replied to a meeting request."
-msgstr "‏<b>%s</b> הגיב לבקשת ישיבה."
+msgstr ""
+"‏%s הגיב לבקשת ישיבה."
 
 #: ../calendar/gui/e-itip-control.c:1399
 msgid "Meeting Reply"
 msgstr "תגובה לישיבה"
 
 #: ../calendar/gui/e-itip-control.c:1406
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has canceled a meeting."
 msgid "%s has canceled a meeting."
-msgstr "‏<b>%s</b> ביטל ישיבה."
+msgstr ""
+"‏%s ביטל ישיבה."
 
 #: ../calendar/gui/e-itip-control.c:1407
 msgid "Meeting Cancelation"
@@ -5090,26 +5100,29 @@ msgid "Bad Meeting Message"
 msgstr "הודעת ישיבה לא טובה"
 
 #: ../calendar/gui/e-itip-control.c:1445
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has published task information."
 msgid "%s has published task information."
-msgstr "‏<b>%s</b> פרסם נתוני משימה."
+msgstr ""
+"‏%s פירסם נתוני משימה."
 
 #: ../calendar/gui/e-itip-control.c:1446
 msgid "Task Information"
 msgstr "נתוני המשימה"
 
 #: ../calendar/gui/e-itip-control.c:1453
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> requests %s to perform a task."
 msgid "%s requests %s to perform a task."
-msgstr "‏<b>%s</b>מבקש מ־%s לבצע משימה."
+msgstr ""
+"‏%s מבקש מ־%s לבצע משימה."
 
 #: ../calendar/gui/e-itip-control.c:1455
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> requests you perform a task."
 msgid "%s requests you perform a task."
-msgstr "‏<b>%s</b> מבקש ממך לבצע משימה."
+msgstr ""
+"‏%s מבקש ממך לבצע משימה."
 
 #: ../calendar/gui/e-itip-control.c:1456
 msgid "Task Proposal"
@@ -5117,20 +5130,22 @@ msgstr "הצעת משימה"
 
 #. FIXME Whats going on here?
 #: ../calendar/gui/e-itip-control.c:1462
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> wishes to be added to an existing task."
 msgid "%s wishes to be added to an existing task."
-msgstr "‏<b>%s</b> מעוניין להצטרף למשימה קיימת."
+msgstr ""
+"‏%s מעוניין להצטרף למשימה קיימת."
 
 #: ../calendar/gui/e-itip-control.c:1463
 msgid "Task Update"
 msgstr "עדכון משימה"
 
 #: ../calendar/gui/e-itip-control.c:1467
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> wishes to receive the latest task information."
 msgid "%s wishes to receive the latest task information."
-msgstr "‏<b>%s</b> מעוניין בקבלת נתוני משימה עדכניים."
+msgstr ""
+"‏%s מעוניין בקבלת נתוני משימה עדכניים."
 
 #: ../calendar/gui/e-itip-control.c:1468
 msgid "Task Update Request"
@@ -5147,10 +5162,11 @@ msgid "Task Reply"
 msgstr "תגובה למשימה"
 
 #: ../calendar/gui/e-itip-control.c:1483
-#, fuzzy, c-format
+#, c-format
 #| msgid "<b>%s</b> has canceled a task."
 msgid "%s has canceled a task."
-msgstr "‏<b>%s</b> ביטל משימה."
+msgstr ""
+"‏%s ביטל משימה."
 
 #: ../calendar/gui/e-itip-control.c:1484
 msgid "Task Cancelation"
@@ -5200,11 +5216,11 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:1670
 msgid "The message contains only unsupported requests."
-msgstr ""
+msgstr "ההודעה מכילה בקשות לא ניתמכות בלבד."
 
 #: ../calendar/gui/e-itip-control.c:1703
 msgid "The attachment does not contain a valid calendar message"
-msgstr ""
+msgstr "הצרופה לא מכילה הודעת יומן תקינה"
 
 #: ../calendar/gui/e-itip-control.c:1741
 msgid "The attachment has no viewable calendar items"
@@ -5220,7 +5236,7 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:2035
 msgid "This response is not from a current attendee.  Add as an attendee?"
-msgstr ""
+msgstr "התגובה אינה ממשתתף קיים. להוסיף כמשתתף נוסף?"
 
 #: ../calendar/gui/e-itip-control.c:2053
 msgid "Attendee status could not be updated because of an invalid status!\n"
@@ -5241,7 +5257,7 @@ msgstr "הפריט נשלח!\n"
 
 #: ../calendar/gui/e-itip-control.c:2121 ../calendar/gui/e-itip-control.c:2180
 msgid "The item could not be sent!\n"
-msgstr ""
+msgstr "לא ניתן לשלוח את הפריט!\n"
 
 #: ../calendar/gui/e-itip-control.c:2273
 msgid "Choose an action:"
@@ -5282,7 +5298,7 @@ msgstr ""
 
 #: ../calendar/gui/e-itip-control.c:2441
 msgid "Send Latest Information"
-msgstr ""
+msgstr "שלח את המידע העדכני ביותר"
 
 #: ../calendar/gui/e-itip-control.c:2465
 #: ../modules/mail/e-mail-shell-view-actions.c:976
@@ -5548,10 +5564,9 @@ msgid "Delete selected memos"
 msgstr "מחק את התזכורות הנבחרות"
 
 #: ../calendar/gui/e-memo-table.c:734
-#, fuzzy
 #| msgid "Select all visible messages"
 msgid "Select all visible memos"
-msgstr "בחר את כל ההודעות הגלויות"
+msgstr "בחר את כל התזכורות הגלויות"
 
 #: ../calendar/gui/e-memo-table.etspec.h:2
 msgid "Click to add a memo"
@@ -5601,10 +5616,9 @@ msgid "Delete selected tasks"
 msgstr "מחק משימות הנבחרות"
 
 #: ../calendar/gui/e-task-table.c:957
-#, fuzzy
 #| msgid "Select all visible messages"
 msgid "Select all visible tasks"
-msgstr "בחר את כל ההודעות הגלויות"
+msgstr "בחר את כל המשימות הגלויות"
 
 #: ../calendar/gui/e-timezone-entry.c:330
 msgid "Select Timezone"
@@ -5821,7 +5835,7 @@ msgstr "בחר תאריך"
 #: ../calendar/gui/goto-dialog.ui.h:13
 #: ../modules/calendar/e-cal-shell-view-actions.c:1312
 msgid "Select _Today"
-msgstr ""
+msgstr "בחר את _היום"
 
 #: ../calendar/gui/goto-dialog.ui.h:14
 msgid "September"
@@ -6113,7 +6127,8 @@ msgstr " אל "
 #. * completed date/time.
 #: ../calendar/gui/print.c:2437
 msgid " (Completed "
-msgstr " (הסתיים "
+msgstr ""
+" (הסתיים  "
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
@@ -6125,7 +6140,7 @@ msgstr "הסתיים "
 #. * where START and DUE are dates/times.
 #: ../calendar/gui/print.c:2449
 msgid " (Due "
-msgstr " (עד "
+msgstr " (עד  "
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
@@ -6238,11 +6253,10 @@ msgstr "ישיבה"
 
 #: ../calendar/importers/icalendar-importer.c:926
 #: ../calendar/importers/icalendar-importer.c:1243
-#, fuzzy
 #| msgid "Sent"
 msgctxt "iCalImp"
 msgid "Event"
-msgstr "נשלח"
+msgstr "אירוע"
 
 #: ../calendar/importers/icalendar-importer.c:929
 #: ../calendar/importers/icalendar-importer.c:1244
@@ -6340,7 +6354,6 @@ msgstr "התחלה"
 
 #. Translators: 'Due' like the time due a task should be finished
 #: ../calendar/importers/icalendar-importer.c:1009
-#, fuzzy
 #| msgid "Due "
 msgctxt "iCalImp"
 msgid "Due"
@@ -6377,10 +6390,9 @@ msgstr "כתובת"
 #. Translators: Appointment's organizer
 #: ../calendar/importers/icalendar-importer.c:1074
 #: ../calendar/importers/icalendar-importer.c:1077
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Organizer"
-msgstr "_ארגון:"
+msgstr "מארגן"
 
 #. Translators: Appointment's attendees
 #: ../calendar/importers/icalendar-importer.c:1097
@@ -8011,9 +8023,8 @@ msgid "New _Message"
 msgstr "הו_דעה חדשה"
 
 #: ../composer/e-composer-actions.c:298
-#, fuzzy
 msgid "Open New Message window"
-msgstr "ש_לח הודעה ל..."
+msgstr "פתח חלון הודעה חדש"
 
 #: ../composer/e-composer-actions.c:305
 msgid "Character _Encoding"
@@ -8147,17 +8158,16 @@ msgstr "ח_תימה:"
 
 #: ../composer/e-composer-name-header.c:137
 msgid "Click here for the address book"
-msgstr ""
+msgstr "לחץ כאן עבור ספר הכתובות"
 
 #: ../composer/e-composer-post-header.c:126
 msgid "Click here to select folders to post to"
 msgstr ""
 
 #: ../composer/e-composer-private.c:211
-#, fuzzy
 #| msgid "Copy the selection"
 msgid "Undo the last action"
-msgstr "העתק את הבחירה"
+msgstr "בטל את הפעולה האחרונה"
 
 #: ../composer/e-composer-private.c:215
 msgid "Redo the last undone action"
@@ -8425,10 +8435,9 @@ msgid "Username:"
 msgstr "שם משתמש:"
 
 #: ../capplet/settings/mail-account-view.c:528
-#, fuzzy
 #| msgid "No encryption"
 msgid "Use encryption:"
-msgstr "ללא הצפנה"
+msgstr "שימוש בהצפנה:"
 
 #: ../capplet/settings/mail-account-view.c:533
 #: ../capplet/settings/mail-account-view.c:566
@@ -8565,10 +8574,9 @@ msgid "Review account"
 msgstr "למחוק את החשבון?"
 
 #: ../capplet/settings/mail-account-view.c:615
-#, fuzzy
 #| msgid "Fiji"
 msgid "Finish"
-msgstr "פיג'י"
+msgstr "סיום"
 
 #: ../capplet/settings/mail-account-view.c:615
 #, fuzzy
@@ -8635,7 +8643,6 @@ msgid "Account Wizard"
 msgstr "עורך חשבונות"
 
 #: ../capplet/settings/mail-capplet-shell.c:208
-#, fuzzy
 #| msgid "Evolution Account Assistant"
 msgid "Evolution account assistant"
 msgstr "עוזר החשבונות של Evolution"
@@ -8720,24 +8727,27 @@ msgstr "הגדרות דוא\"ל"
 
 #. Translators: This is a cancelled activity.
 #: ../e-util/e-activity.c:224
-#, fuzzy, c-format
+#, c-format
 #| msgid "Cancelled"
 msgid "%s (cancelled)"
-msgstr "בוטל"
+msgstr ""
+"‏%s (בוטל)"
 
 #. Translators: This is a completed activity.
 #: ../e-util/e-activity.c:227
-#, fuzzy, c-format
+#, c-format
 #| msgid "%s (%d%% complete)"
 msgid "%s (completed)"
-msgstr "%s (%d%% הסתיים)"
+msgstr ""
+"‏%s (הסתיים)"
 
 #. Translators: This is an activity whose percent
 #. * complete is unknown.
 #: ../e-util/e-activity.c:231
 #, c-format
 msgid "%s..."
-msgstr "%s..."
+msgstr ""
+"‏%s..."
 
 #: ../e-util/e-activity.c:236
 #, c-format
@@ -8881,17 +8891,18 @@ msgid "Format:"
 msgstr "תצורה:"
 
 #: ../e-util/e-file-utils.c:136
-#, fuzzy
 #| msgid "Unknown reason"
 msgid "(Unknown Filename)"
-msgstr "סיבה לא ידועה"
+msgstr ""
+"(שם קובץ לא ידוע)"
 
 #. Translators: The string value is the basename of a file.
 #: ../e-util/e-file-utils.c:140
-#, fuzzy, c-format
+#, c-format
 #| msgid "Waiting"
 msgid "Writing \"%s\""
-msgstr "ממתין"
+msgstr ""
+"כותב \"%s\""
 
 #. Translators: The first string value is the basename of a
 #. * remote file, the second string value is the hostname.
@@ -9236,7 +9247,7 @@ msgstr "%d-%b-%Y"
 
 #: ../filter/e-filter-datespec.c:272
 msgid "Select a time to compare against"
-msgstr ""
+msgstr "בחר שעה להשוואה"
 
 #: ../filter/e-filter-file.c:184
 msgid "Choose a File"
@@ -9568,10 +9579,9 @@ msgid "Unable to create local mail folders at '%s': %s"
 msgstr "נכשל ביצירת תיקייה חדשה `%s': %s"
 
 #: ../mail/e-mail-notebook-view.c:563
-#, fuzzy
 #| msgid "Please select a user."
 msgid "Please select a folder"
-msgstr "נא לבחור משתמש."
+msgstr "נא לבחור תיקייה"
 
 #. XXX e-error should provide a widget layout and API suitable
 #. *     for packing additional widgets to the right of the alert
@@ -9600,10 +9610,9 @@ msgstr "_העבר"
 #. Check buttons
 #: ../mail/e-mail-reader.c:908 ../mail/e-mail-reader.c:1019
 #: ../mail/e-mail-reader.c:1060
-#, fuzzy
 #| msgid "Do not ask me again"
 msgid "_Do not ask me again."
-msgstr "אל תשאל אותי שוב"
+msgstr "אל _תשאל אותי שוב."
 
 #: ../mail/e-mail-reader.c:1065
 msgid "_Always ignore Reply-To: for mailing lists."
@@ -9712,7 +9721,7 @@ msgstr ""
 #: ../mail/e-mail-reader.c:1511
 #, fuzzy
 msgid "_Clear Flag"
-msgstr "_נקה"
+msgstr "_נקה "
 
 #: ../mail/e-mail-reader.c:1513
 #, fuzzy
@@ -9876,10 +9885,9 @@ msgid "_Switch to Folder"
 msgstr "החלף ל־%s"
 
 #: ../mail/e-mail-reader.c:1653
-#, fuzzy
 #| msgid "Install the shared folder"
 msgid "Display the parent folder"
-msgstr "התקן את התיקייה המשותפת"
+msgstr "הצג את תיקיית ההורה"
 
 #: ../mail/e-mail-reader.c:1658
 #, fuzzy
@@ -9899,19 +9907,17 @@ msgstr "החלף ל־%s"
 
 #: ../mail/e-mail-reader.c:1667
 msgid "Switch to the previous tab"
-msgstr ""
+msgstr "החלף ללשונית הקודמת"
 
 #: ../mail/e-mail-reader.c:1672
-#, fuzzy
 #| msgid "Close the current file"
 msgid "Cl_ose current tab"
-msgstr "סגור את הקובץ הנוכחי"
+msgstr "סגו_ר את הלשונית הנוכחית"
 
 #: ../mail/e-mail-reader.c:1674
-#, fuzzy
 #| msgid "Close the current file"
 msgid "Close current tab"
-msgstr "סגור את הקובץ הנוכחי"
+msgstr "סגור את הלשונית הנוכחית"
 
 #: ../mail/e-mail-reader.c:1679
 msgid "_Next Message"
@@ -10015,16 +10021,15 @@ msgid "Compose a reply to the sender of the selected message"
 msgstr "חבר תגובה לשולח של ההודעה הנבחרת"
 
 #: ../mail/e-mail-reader.c:1770
-#, fuzzy
 #| msgid "Save as..."
 msgid "_Save as mbox..."
-msgstr "שמירה בשם..."
+msgstr ""
+"שמור _כ-mbox..."
 
 #: ../mail/e-mail-reader.c:1772
-#, fuzzy
 #| msgid "Save the selected messages as a text file"
 msgid "Save selected messages as an mbox file"
-msgstr "שמור את ההודעה הנבחרת כקובץ טקסט"
+msgstr "שמור את ההודעה הנבחרת כקובץ mbox"
 
 #: ../mail/e-mail-reader.c:1777
 msgid "Search Folder from Mailing _List..."
@@ -10861,10 +10866,10 @@ msgstr "ה_עתק תיקייה אל"
 
 #: ../mail/em-folder-utils.c:533
 #: ../plugins/groupwise-features/share-folder-common.c:136
-#, fuzzy, c-format
+#, c-format
 #| msgid "Creating folder `%s'"
 msgid "Creating folder '%s'"
-msgstr "יוצר את התיקייה `%s'"
+msgstr "יוצר את התיקייה '%s'"
 
 #: ../mail/em-folder-utils.c:693
 msgid "Create Folder"
@@ -11034,10 +11039,10 @@ msgid "Formatting Message..."
 msgstr "חפש _בהודעה..."
 
 #: ../mail/em-format-html.c:1421 ../mail/em-format-html.c:1430
-#, fuzzy, c-format
+#, c-format
 #| msgid "Retrieving `%s'"
 msgid "Retrieving '%s'"
-msgstr "מקבל `%s'"
+msgstr "מקבל '%s'"
 
 #: ../mail/em-format-html.c:1901
 #, fuzzy
@@ -12455,17 +12460,16 @@ msgstr[1] ""
 #. Translators: This is part of the line with 'Top Posting Option' text. See Edit|Preferences|Composer Preferences for the usage
 #: ../mail/mail-config.ui.h:2
 msgid "(Not Recommended)"
-msgstr ""
+msgstr "(לא מומלץ)"
 
 #: ../mail/mail-config.ui.h:3
 msgid "(Note: Requires restart of the application)"
-msgstr "(הערה: דורש אתחול היישום)"
+msgstr "(הערה: דורש שתחול היישום)"
 
 #: ../mail/mail-config.ui.h:4
-#, fuzzy
 #| msgid "No Information"
 msgid "Account Information"
-msgstr "אין מידע"
+msgstr "מידע על החשבון"
 
 #: ../mail/mail-config.ui.h:5
 msgid "Add Ne_w Signature..."
@@ -12796,10 +12800,9 @@ msgid "Proxy Settings"
 msgstr "הגדרות מתווך"
 
 #: ../mail/mail-config.ui.h:95
-#, fuzzy
 #| msgid "_Quoted"
 msgid "Quoted"
-msgstr "_צוטט"
+msgstr "צוטט"
 
 #: ../mail/mail-config.ui.h:96
 msgid "Re_member password"
@@ -12860,6 +12863,7 @@ msgstr "גופן _רגיל:"
 #: ../mail/mail-config.ui.h:111
 msgid "Secure MIME (S/MIME)"
 msgstr ""
+"‏MIME מאובטח (S/MIME)"
 
 #: ../mail/mail-config.ui.h:113
 msgid "Select Drafts Folder"
@@ -12931,10 +12935,9 @@ msgid "Server _Type:"
 msgstr "_סוג השרת: "
 
 #: ../mail/mail-config.ui.h:128
-#, fuzzy
 #| msgid "Sig_ning certificate:"
 msgid "Si_gning algorithm:"
-msgstr "תעודת _חתימה:"
+msgstr "אלגוריתם _חתימה:"
 
 #: ../mail/mail-config.ui.h:129
 msgid "Sig_natures"
@@ -12953,10 +12956,9 @@ msgid "Signatures"
 msgstr "חתימות"
 
 #: ../mail/mail-config.ui.h:133
-#, fuzzy
 #| msgid "Sig_ning certificate:"
 msgid "Signing _algorithm:"
-msgstr "תעודת _חתימה:"
+msgstr "אל_גוריתם חתימה:"
 
 #: ../mail/mail-config.ui.h:134
 msgid "Spell Checking"
@@ -13365,10 +13367,11 @@ msgid "Forwarded messages"
 msgstr ""
 
 #: ../mail/mail-ops.c:1276
-#, fuzzy, c-format
+#, c-format
 #| msgid "Opening folder %s"
 msgid "Opening folder '%s'"
-msgstr "פותח את התיקייה %s"
+msgstr ""
+"פותח את התיקייה '%s'"
 
 #: ../mail/mail-ops.c:1342
 #, fuzzy, c-format
@@ -13382,10 +13385,11 @@ msgid "Opening store '%s'"
 msgstr "פותח את התיקייה %s"
 
 #: ../mail/mail-ops.c:1485
-#, fuzzy, c-format
+#, c-format
 #| msgid "Removing folder %s"
 msgid "Removing folder '%s'"
-msgstr "מסיר את התיקייה %s"
+msgstr ""
+"מסיר את התיקייה '%s'"
 
 #: ../mail/mail-ops.c:1609
 #, c-format
@@ -13461,16 +13465,17 @@ msgid "Could not write data: "
 msgstr "לא ניתן לבטל"
 
 #: ../mail/mail-ops.c:2454
-#, fuzzy, c-format
+#, c-format
 #| msgid "Disconnecting from %s"
 msgid "Disconnecting from '%s'"
-msgstr "מתנתק מ %s"
+msgstr ""
+"מתנתק מ '%s'"
 
 #: ../mail/mail-ops.c:2454
-#, fuzzy, c-format
+#, c-format
 #| msgid "Reconnecting to %s"
 msgid "Reconnecting to '%s'"
-msgstr "מתחבר מחדש ל %s"
+msgstr "מתחבר מחדש ל '%s'"
 
 #: ../mail/mail-ops.c:2550
 #, c-format
@@ -13560,10 +13565,10 @@ msgid "Forwarded message"
 msgstr "הודעה מועברת"
 
 #: ../mail/mail-tools.c:318
-#, fuzzy, c-format
+#, c-format
 #| msgid "Invalid folder: `%s'"
 msgid "Invalid folder: '%s'"
-msgstr "תיקייה לא תקינה: `%s'"
+msgstr "תיקייה לא תקינה: '%s'"
 
 #: ../mail/mail-vfolder.c:85
 #, c-format
@@ -13807,7 +13812,6 @@ msgid "Delete messages in Search Folder \"{0}\"?"
 msgstr "למחוק הודעות בתיקיית החיפוש \"{0}\"?"
 
 #: ../mail/mail.error.xml.h:46
-#, fuzzy
 #| msgid "Do not disable"
 msgid "Do _Not Disable"
 msgstr "אל _תכבה"
@@ -14612,16 +14616,14 @@ msgid "Copy the contacts of the selected address book to another"
 msgstr "העבר את ההודעות שנבחרו לתיקייה אחרת"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:671
-#, fuzzy
 #| msgid "Del_ete Address Book"
 msgid "D_elete Address Book"
 msgstr "_מחק את ספר הכתובות"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:673
-#, fuzzy
 #| msgid "Delete the selected folder"
 msgid "Delete the selected address book"
-msgstr "מחק את התיקייה הנבחרת"
+msgstr "מחק את ספר הכתובות הנבחר"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:678
 msgid "Mo_ve All Contacts To..."
@@ -14656,10 +14658,9 @@ msgid "_Rename..."
 msgstr "_שנה שם..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:701
-#, fuzzy
 #| msgid "Rename the selected folder"
 msgid "Rename the selected address book"
-msgstr "שנה את שם התיקייה הנבחרת"
+msgstr "שנה את שם ספר הכתובות הנבחר"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:706
 #, fuzzy
@@ -14736,19 +14737,18 @@ msgid "New Contact _List..."
 msgstr "רשימת _תפוצה חדשה..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:769
-#, fuzzy
 #| msgctxt "New"
 #| msgid "_Contact"
 msgid "_Open Contact"
-msgstr "איש _קשר"
+msgstr "פתח איש _קשר "
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:771
 msgid "View the current contact"
-msgstr ""
+msgstr "הצג את איש הקשר הנוכחי"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:776
 msgid "_Send Message to Contact..."
-msgstr ""
+msgstr "_שלח הודעה לאיש קשר..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:778
 msgid "Send a message to the selected contacts"
@@ -14843,10 +14843,9 @@ msgid "Advanced Search"
 msgstr "חיפוש מתקדם"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:930
-#, fuzzy
 #| msgid "Print contacts"
 msgid "Print all shown contacts"
-msgstr "הדפס אנשי קשר"
+msgstr "הדפס את כל אנשי הקשר המוצגים"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:937
 msgid "Preview the contacts to be printed"
@@ -15019,7 +15018,6 @@ msgid "I_mport to Calendar"
 msgstr "יי_בא ללוח השנה"
 
 #: ../modules/calendar/e-cal-attachment-handler.c:385
-#, fuzzy
 msgid "I_mport to Tasks"
 msgstr "_יבא למשימות"
 
@@ -15096,16 +15094,14 @@ msgid ""
 msgstr "ארעה שגיאה בהפעלת %s."
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:237
-#, fuzzy
 #| msgid "Loading Calendar"
 msgid "Loading calendars"
-msgstr "טוען יומן"
+msgstr "טוען יומנים"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:664
-#, fuzzy
 #| msgid "_New Calendar"
 msgid "_New Calendar..."
-msgstr "יומן _חדש"
+msgstr "יומן _חדש..."
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:681
 #, fuzzy
@@ -15149,20 +15145,19 @@ msgstr "מעביר פריטים"
 #. Translators: Default filename part saving an event to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
 #: ../modules/calendar/e-cal-shell-view-actions.c:1126
-#, fuzzy
 #| msgid "Sent"
 msgid "event"
-msgstr "נשלח"
+msgstr "אירוע"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1128
 #: ../modules/calendar/e-cal-shell-view-memopad.c:210
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:277
 #: ../modules/calendar/e-memo-shell-view-actions.c:504
 #: ../modules/calendar/e-task-shell-view-actions.c:621
-#, fuzzy
 #| msgid "Select a Calendar"
 msgid "Save as iCalendar"
-msgstr "בחר יומן"
+msgstr ""
+"שמור כ-iCalendar"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1284
 #: ../modules/calendar/e-memo-shell-view-actions.c:585
@@ -15170,16 +15165,14 @@ msgid "_Copy..."
 msgstr "ה_עתק..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1291
-#, fuzzy
 #| msgid "Select a Calendar"
 msgid "D_elete Calendar"
-msgstr "בחר יומן"
+msgstr "מ_חק יומן"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1293
-#, fuzzy
 #| msgid "Rename the selected calendar"
 msgid "Delete the selected calendar"
-msgstr "שנה את שם התיקייה הנבחרת"
+msgstr "מחק את  היומן הנבחר"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1300
 msgid "Go Back"
@@ -15242,10 +15235,9 @@ msgid "_Delegate Meeting..."
 msgstr "_מחק..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1382
-#, fuzzy
 #| msgid "Delete the appointment"
 msgid "_Delete Appointment"
-msgstr "מחק את הפגישה"
+msgstr "מח_ק פגישה"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1384
 #, fuzzy
@@ -15262,7 +15254,6 @@ msgid "Delete this occurrence"
 msgstr "מחק מופע זה"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1396
-#, fuzzy
 #| msgid "Delete _All Occurrences"
 msgid "Delete All Occ_urrences"
 msgstr "מחק את _כל המופעים"
@@ -15526,17 +15517,16 @@ msgstr ""
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:359
 #: ../modules/calendar/e-memo-shell-view-actions.c:823
 #: ../modules/calendar/e-task-shell-view-actions.c:1022
-#, fuzzy
 #| msgid "_Forward as iCalendar..."
 msgid "_Save as iCalendar..."
-msgstr "_העבר כ־iCalendar..."
+msgstr ""
+"_שמור כ־iCalendar..."
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:371
 #: ../modules/calendar/e-task-shell-view-actions.c:1007
-#, fuzzy
 #| msgid "Print selected contacts"
 msgid "Print the selected task"
-msgstr "הדפס את אנשי הקשר הנבחרים"
+msgstr "הדפס את המשימה הניבחרת"
 
 #: ../modules/calendar/e-memo-shell-backend.c:277
 msgctxt "New"
@@ -15589,10 +15579,9 @@ msgid "_Delete Memo"
 msgstr "_מחק תזכורת"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:571
-#, fuzzy
 #| msgid "_Find in Message..."
 msgid "_Find in Memo..."
-msgstr "חפש _בהודעה..."
+msgstr "חפש _בתזכורת..."
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:573
 msgid "Search for text in the displayed memo"
@@ -15675,17 +15664,17 @@ msgstr[1] "%d תזכורות"
 
 #: ../modules/calendar/e-memo-shell-view-private.c:420
 #: ../modules/calendar/e-task-shell-view-private.c:569
-#, fuzzy, c-format
+#, c-format
 #| msgid ", %d selected"
 #| msgid_plural ", %d selected"
 msgid "%d selected"
-msgstr ", נבחר %d"
+msgstr ""
+"‏%d נבחר"
 
 #: ../modules/calendar/e-memo-shell-view.c:223
-#, fuzzy
 #| msgid "_Delete Message"
 msgid "Delete Memos"
-msgstr "_מחק הודעה"
+msgstr "מחק תזכורות"
 
 #: ../modules/calendar/e-memo-shell-view.c:225
 msgid "Delete Memo"
@@ -15752,10 +15741,9 @@ msgid "_Delete Task"
 msgstr "מ_חק משימה"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:695
-#, fuzzy
 #| msgid "_Find in Message..."
 msgid "_Find in Task..."
-msgstr "חפש _בהודעה..."
+msgstr "חפש _במשימה..."
 
 #: ../modules/calendar/e-task-shell-view-actions.c:697
 msgid "Search for text in the displayed task"
