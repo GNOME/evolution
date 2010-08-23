@@ -3325,6 +3325,29 @@ emae_check_servers (const gchar *email)
 	return NULL;
 }
 
+static void
+emae_check_set_authtype (GtkComboBox *dropdown, const gchar *auth)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gint id;
+	gint children;
+
+	model = gtk_combo_box_get_model (dropdown);
+	children = gtk_tree_model_iter_n_children (model, NULL);
+	for (id = 0; id < children; id++)  {
+		CamelServiceAuthType *authtype;
+
+		gtk_tree_model_iter_nth_child (model, &iter, NULL, id);
+		gtk_tree_model_get (model, &iter, 1, &authtype, -1);
+		if (g_ascii_strcasecmp (authtype->authproto, auth) == 0)
+			break;
+	}
+
+	if (id < children)
+		gtk_combo_box_set_active (dropdown, id);
+}
+
 static gboolean
 emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 {
@@ -3386,7 +3409,10 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 						camel_url_set_user (url, user);
 					if (sdata != NULL) {
 						camel_url_set_protocol (url, sdata->proto);
-						camel_url_set_param (url, "use_ssl", sdata->ssl);
+						if (sdata->recv_sock && *sdata->recv_sock)
+							camel_url_set_param (url, "use_ssl", sdata->recv_sock);
+						else
+							camel_url_set_param (url, "use_ssl", sdata->ssl);
 						camel_url_set_host (url, sdata->recv);
 						if (sdata->recv_port && *sdata->recv_port)
 							camel_url_set_port (url, atoi(sdata->recv_port));
@@ -3398,6 +3424,8 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 					g_free (uri);
 					uri = camel_url_to_string (url, 0);
 					e_account_set_string (account, E_ACCOUNT_SOURCE_URL, uri);
+					if (sdata != NULL && sdata->recv_auth && *sdata->recv_auth)
+						emae_check_set_authtype (emae->priv->source.authtype, sdata->recv_auth);
 
 					camel_url_free (url);
 				}
@@ -3423,7 +3451,10 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 				if (sdata != NULL && uri && (url = camel_url_new (uri, NULL)) != NULL) {
 					refresh = TRUE;
 					camel_url_set_protocol (url, "smtp");
-					camel_url_set_param (url, "use_ssl", sdata->ssl);
+					if (sdata->send_sock && *sdata->send_sock)
+						camel_url_set_param (url, "use_ssl", sdata->send_sock);
+					else
+						camel_url_set_param (url, "use_ssl", sdata->ssl);
 					camel_url_set_host (url, sdata->send);
 					if (sdata->send_port && *sdata->send_port)
 						camel_url_set_port (url, atoi(sdata->send_port));
@@ -3437,7 +3468,10 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 					g_free (uri);
 					camel_url_free (url);
 					gtk_toggle_button_set_active (emae->priv->transport.needs_auth, TRUE);
-					emae_authtype_changed(emae->priv->transport.authtype, &emae->priv->transport);
+					if (sdata->send_auth && *sdata->send_auth)
+						emae_check_set_authtype (emae->priv->transport.authtype, sdata->send_auth);
+					else
+						emae_authtype_changed(emae->priv->transport.authtype, &emae->priv->transport);
 					uri = (gchar *)e_account_get_string (account, E_ACCOUNT_TRANSPORT_URL);
 				}
 			}

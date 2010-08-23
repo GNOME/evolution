@@ -954,18 +954,44 @@ emae_check_servers (const gchar *email)
 	else
 		sdata->proto = provider->recv_type;
 	if (provider->recv_socket_type) {
-		if (g_ascii_strcasecmp(provider->recv_socket_type, "SSL") == 0)
+		if (g_ascii_strcasecmp(provider->recv_socket_type, "SSL") == 0) {
 			sdata->ssl = g_strdup("always");
-		else if (g_ascii_strcasecmp(provider->recv_socket_type, "secure") == 0)
+			sdata->recv_sock = g_strdup("always");
+		}
+		else if (g_ascii_strcasecmp(provider->recv_socket_type, "secure") == 0) {
 			sdata->ssl = g_strdup("always");
-		else if (g_ascii_strcasecmp(provider->recv_socket_type, "STARTTLS") == 0)
+			sdata->recv_sock = g_strdup("always");
+		}
+		else if (g_ascii_strcasecmp(provider->recv_socket_type, "STARTTLS") == 0) {
 			sdata->ssl = g_strdup("when-possible");
-		else if (g_ascii_strcasecmp(provider->recv_socket_type, "TLS") == 0)
+			sdata->recv_sock = g_strdup("when-possible");
+		}
+		else if (g_ascii_strcasecmp(provider->recv_socket_type, "TLS") == 0) {
 			sdata->ssl = g_strdup("when-possible");
-		else
+			sdata->recv_sock = g_strdup("when-possible");
+		}
+		else {
 			sdata->ssl = g_strdup("never");
+			sdata->recv_sock = g_strdup("never");
+		}
 
 	}
+
+	if (provider->send_socket_type) {
+		if (g_ascii_strcasecmp(provider->send_socket_type, "SSL") == 0)
+			sdata->send_sock = g_strdup("always");
+		else if (g_ascii_strcasecmp(provider->send_socket_type, "secure") == 0)
+			sdata->send_sock = g_strdup("always");
+		else if (g_ascii_strcasecmp(provider->send_socket_type, "STARTTLS") == 0)
+			sdata->send_sock = g_strdup("when-possible");
+		else if (g_ascii_strcasecmp(provider->send_socket_type, "TLS") == 0)
+			sdata->send_sock = g_strdup("when-possible");
+		else
+			sdata->send_sock = g_strdup("never");
+	}
+
+	sdata->send_auth = provider->send_auth;
+	sdata->recv_auth = provider->recv_auth;
 	sdata->send_user = provider->send_username;
 	sdata->recv_user = provider->recv_username;
 
