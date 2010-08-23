@@ -32,7 +32,7 @@
          <port>587</port>
          <socketType>STARTTLS</socketType>
          <username>%EMAILADDRESS%</username>
-         <authentication>plain</authentication>
+         <authentication>login</authentication>
          <addThisServer>true</addThisServer>
          <useGlobalPreferredServer>false</useGlobalPreferredServer>
       </outgoingServer>
