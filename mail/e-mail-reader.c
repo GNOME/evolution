@@ -3193,44 +3193,7 @@ e_mail_reader_init (EMailReader *reader)
 		action, "active",
 		web_view, "caret-mode");
 
-	/* Connect signals. */
-
-	g_signal_connect_swapped (
-		web_view, "key-press-event",
-		G_CALLBACK (mail_reader_key_press_event_cb), reader);
-
-	g_signal_connect_swapped (
-		message_list, "message-selected",
-		G_CALLBACK (mail_reader_message_selected_cb), reader);
-
-	g_signal_connect_swapped (
-		message_list, "message-list-built",
-		G_CALLBACK (mail_reader_emit_folder_loaded), reader);
-
-	g_signal_connect_swapped (
-		message_list, "double-click",
-		G_CALLBACK (mail_reader_double_click_cb), reader);
-
-	g_signal_connect_swapped (
-		message_list, "key-press",
-		G_CALLBACK (mail_reader_key_press_cb), reader);
-
-	g_signal_connect_swapped (
-		message_list, "selection-change",
-		G_CALLBACK (e_mail_reader_changed), reader);
-
-	/* Install a private struct for storing things like flags and
-	 * timeout and asynchronous operation IDs.  We delete it when
-	 * the EMailReader is destroyed rather than finalized so that
-	 * asynchronous callbacks holding a reference can detect that
-	 * the reader has been destroyed and drop their reference. */
-	g_object_set_qdata_full (
-		G_OBJECT (reader), quark_private,
-		g_slice_new0 (EMailReaderPrivate),
-		(GDestroyNotify) mail_reader_private_free);
-	g_signal_connect (
-		reader, "destroy",
-		G_CALLBACK (mail_reader_destroy), NULL);
+	e_mail_reader_init_private (reader);
 }
 
 void
@@ -3247,10 +3210,16 @@ e_mail_reader_init_private (EMailReader *reader)
 
 	web_view = em_format_html_get_web_view (formatter);
 
-	quark_private = g_quark_from_static_string ("EMailReader-private");
+	/* Disconnect signals, if any, to not be connected twice */
+	g_signal_handlers_disconnect_by_func (web_view, mail_reader_key_press_event_cb, reader);
+	g_signal_handlers_disconnect_by_func (message_list, mail_reader_message_selected_cb, reader);
+	g_signal_handlers_disconnect_by_func (message_list, mail_reader_emit_folder_loaded, reader);
+	g_signal_handlers_disconnect_by_func (message_list, mail_reader_double_click_cb, reader);
+	g_signal_handlers_disconnect_by_func (message_list, mail_reader_key_press_cb, reader);
+	g_signal_handlers_disconnect_by_func (message_list, e_mail_reader_changed, reader);
+	g_signal_handlers_disconnect_by_func (reader, mail_reader_destroy, NULL);
 
 	/* Connect signals. */
-
 	g_signal_connect_swapped (
 		web_view, "key-press-event",
 		G_CALLBACK (mail_reader_key_press_event_cb), reader);
