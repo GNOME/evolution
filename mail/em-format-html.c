@@ -2456,7 +2456,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, struct 
 			g_free (img);
 		}
 
-		camel_header_address_unref(addrs);
+		camel_header_address_list_clear(&addrs);
 		txt = value = html->str;
 		g_string_free(html, FALSE);
 
@@ -2607,7 +2607,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			name = efh_format_address(efh, html, addrs, header->name);
 
 			header_sender = html->str;
-			camel_header_address_unref(addrs);
+			camel_header_address_list_clear(&addrs);
 
 			g_string_free(html, FALSE);
 			g_free (name);
@@ -2622,7 +2622,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			name = efh_format_address(efh, html, addrs, header->name);
 
 			header_from = html->str;
-			camel_header_address_unref(addrs);
+			camel_header_address_list_clear(&addrs);
 
 			g_string_free(html, FALSE);
 			g_free(name);
