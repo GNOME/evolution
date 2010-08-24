@@ -1580,7 +1580,6 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *
 	icalcomponent *alarm_comp;
 	icalcompiter alarm_iter;
 	ECalComponent *comp;
-	gchar *my_address;
 
 	if (!pitip->vcalendar) {
 		set_itip_error (pitip, container,
@@ -1701,6 +1700,8 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *
 	}
 
 	if (icalcomponent_isa (pitip->ical_comp) != ICAL_VJOURNAL_COMPONENT) {
+		gchar *my_address;
+
 		prop = NULL;
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (pitip->ical_comp));
@@ -1722,6 +1723,7 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *
 				pitip->delegator_address = g_strdup (itip_strip_mailto (delfrom));
 			}
 		}
+		g_free(my_address);
 		prop = NULL;
 
 		/* Determine any delegate sections */
