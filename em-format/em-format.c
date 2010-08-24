@@ -132,6 +132,7 @@ emf_finalize (GObject *object)
 	g_free(emf->charset);
 	g_free (emf->default_charset);
 	g_string_free(emf->part_id, TRUE);
+	g_free(emf->uid);
 
 	/* FIXME: check pending jobs */
 
