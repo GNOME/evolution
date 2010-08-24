@@ -696,6 +696,7 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 
 		event_page_set_meeting (priv->event_page, TRUE);
 		priv->meeting_shown = TRUE;
+		g_free (user_email);
 	}
 	e_cal_component_free_attendee_list (attendees);
 
