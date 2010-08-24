@@ -154,6 +154,7 @@ network_manager_connect (EConnMan *extension)
 		NULL,
 		CM_DBUS_PATH,
 		NULL,
+		G_DBUS_SIGNAL_FLAGS_NONE,
 		conn_manager_signal_cb,
 		extension,
 		NULL)) {
