@@ -54,7 +54,10 @@ enum {
 	PROP_EXTENSIBLE
 };
 
-G_DEFINE_ABSTRACT_TYPE (EExtension, e_extension, G_TYPE_OBJECT)
+G_DEFINE_ABSTRACT_TYPE (
+	EExtension,
+	e_extension,
+	G_TYPE_OBJECT)
 
 static void
 extension_set_extensible (EExtension *extension,

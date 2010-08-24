@@ -125,9 +125,14 @@ static const gchar *ui =
 static void e_web_view_selectable_init (ESelectableInterface *interface);
 
 G_DEFINE_TYPE_WITH_CODE (
-	EWebView, e_web_view, GTK_TYPE_HTML,
-	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
-	G_IMPLEMENT_INTERFACE (E_TYPE_SELECTABLE, e_web_view_selectable_init))
+	EWebView,
+	e_web_view,
+	GTK_TYPE_HTML,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL)
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_SELECTABLE,
+		e_web_view_selectable_init))
 
 static EWebViewRequest *
 web_view_request_new (EWebView *web_view,

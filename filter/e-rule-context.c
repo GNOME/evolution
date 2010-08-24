@@ -68,13 +68,17 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
 struct _revert_data {
 	GHashTable *rules;
 	gint rank;
 };
+
+G_DEFINE_TYPE (
+	ERuleContext,
+	e_rule_context,
+	G_TYPE_OBJECT)
 
 static void
 rule_context_set_error (ERuleContext *context,
@@ -184,7 +188,7 @@ rule_context_finalize (GObject *obj)
 	g_list_foreach (context->rules, (GFunc)g_object_unref, NULL);
 	g_list_free (context->rules);
 
-	G_OBJECT_CLASS (parent_class)->finalize (obj);
+	G_OBJECT_CLASS (e_rule_context_parent_class)->finalize (obj);
 }
 
 static gint
@@ -463,11 +467,10 @@ rule_context_new_element (ERuleContext *context,
 }
 
 static void
-rule_context_class_init (ERuleContextClass *class)
+e_rule_context_class_init (ERuleContextClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ERuleContextPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -512,7 +515,7 @@ rule_context_class_init (ERuleContextClass *class)
 }
 
 static void
-rule_context_init (ERuleContext *context)
+e_rule_context_init (ERuleContext *context)
 {
 	context->priv = E_RULE_CONTEXT_GET_PRIVATE (context);
 
@@ -520,32 +523,6 @@ rule_context_init (ERuleContext *context)
 	context->rule_set_map = g_hash_table_new (g_str_hash, g_str_equal);
 
 	context->flags = E_RULE_CONTEXT_GROUPING;
-}
-
-GType
-e_rule_context_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (ERuleContextClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) rule_context_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ERuleContext),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) rule_context_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "ERuleContext", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

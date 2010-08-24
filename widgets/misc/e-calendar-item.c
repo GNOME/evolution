@@ -231,8 +231,11 @@ enum {
 static guint e_calendar_item_signals[LAST_SIGNAL] = { 0 };
 
 G_DEFINE_TYPE_WITH_CODE (
-	ECalendarItem, e_calendar_item, GNOME_TYPE_CANVAS_ITEM,
-	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
+	ECalendarItem,
+	e_calendar_item,
+	GNOME_TYPE_CANVAS_ITEM,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL))
 
 static void
 e_calendar_item_class_init (ECalendarItemClass *class)

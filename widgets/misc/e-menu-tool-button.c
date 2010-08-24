@@ -21,7 +21,10 @@
 
 #include "e-menu-tool-button.h"
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EMenuToolButton,
+	e_menu_tool_button,
+	GTK_TYPE_MENU_TOOL_BUTTON)
 
 static GtkWidget *
 menu_tool_button_clone_image (GtkWidget *source)
@@ -98,7 +101,8 @@ menu_tool_button_size_request (GtkWidget *widget,
 	gint minimum_width;
 
 	/* Chain up to parent's size_request() method. */
-	GTK_WIDGET_CLASS (parent_class)->size_request (widget, requisition);
+	GTK_WIDGET_CLASS (e_menu_tool_button_parent_class)->
+		size_request (widget, requisition);
 
 	/* XXX This is a hack.  This widget is only used for the New
 	 *     button in the main window toolbar.  The New button is
@@ -126,12 +130,10 @@ menu_tool_button_clicked (GtkToolButton *tool_button)
 }
 
 static void
-menu_tool_button_class_init (EMenuToolButtonClass *class)
+e_menu_tool_button_class_init (EMenuToolButtonClass *class)
 {
 	GtkWidgetClass *widget_class;
 	GtkToolButtonClass *tool_button_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->size_request = menu_tool_button_size_request;
@@ -141,38 +143,11 @@ menu_tool_button_class_init (EMenuToolButtonClass *class)
 }
 
 static void
-menu_tool_button_init (EMenuToolButton *button)
+e_menu_tool_button_init (EMenuToolButton *button)
 {
 	g_signal_connect (
 		button, "notify::menu",
 		G_CALLBACK (menu_tool_button_update_button), NULL);
-}
-
-GType
-e_menu_tool_button_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (EMenuToolButtonClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) menu_tool_button_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMenuToolButton),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) menu_tool_button_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_MENU_TOOL_BUTTON, "EMenuToolButton",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 GtkToolItem *

@@ -36,7 +36,10 @@ enum {
 	PROP_HINT_SHOWN
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EHintedEntry,
+	e_hinted_entry,
+	GTK_TYPE_ENTRY)
 
 static void
 hinted_entry_show_hint (EHintedEntry *entry)
@@ -120,7 +123,7 @@ hinted_entry_finalize (GObject *object)
 	g_free (priv->hint);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_hinted_entry_parent_class)->finalize (object);
 }
 
 static void
@@ -130,7 +133,7 @@ hinted_entry_grab_focus (GtkWidget *widget)
 
 	/* We don't want hints to be selected so we chain to
 	 * the GtkEntry parent if we have a hint set */
-	chain_class = parent_class;
+	chain_class = e_hinted_entry_parent_class;
 	if (e_hinted_entry_get_hint_shown (E_HINTED_ENTRY (widget)))
 		chain_class = g_type_class_peek_parent (chain_class);
 
@@ -148,7 +151,7 @@ hinted_entry_focus_in_event (GtkWidget *widget,
 		hinted_entry_show_text (entry, "");
 
 	/* Chain up to parent's focus_in_event() method. */
-	return GTK_WIDGET_CLASS (parent_class)->
+	return GTK_WIDGET_CLASS (e_hinted_entry_parent_class)->
 		focus_in_event (widget, event);
 }
 
@@ -165,17 +168,16 @@ hinted_entry_focus_out_event (GtkWidget *widget,
 		hinted_entry_show_hint (E_HINTED_ENTRY (widget));
 
 	/* Chain up to parent's focus_out_event() method. */
-	return GTK_WIDGET_CLASS (parent_class)->
+	return GTK_WIDGET_CLASS (e_hinted_entry_parent_class)->
 		focus_out_event (widget, event);
 }
 
 static void
-hinted_entry_class_init (EHintedEntryClass *class)
+e_hinted_entry_class_init (EHintedEntryClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EHintedEntryPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -210,37 +212,11 @@ hinted_entry_class_init (EHintedEntryClass *class)
 }
 
 static void
-hinted_entry_init (EHintedEntry *entry)
+e_hinted_entry_init (EHintedEntry *entry)
 {
 	entry->priv = E_HINTED_ENTRY_GET_PRIVATE (entry);
 	entry->priv->hint = g_strdup ("");  /* hint must never be NULL */
 	hinted_entry_show_hint (entry);
-}
-
-GType
-e_hinted_entry_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EHintedEntryClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) hinted_entry_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EHintedEntry),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) hinted_entry_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_ENTRY, "EHintedEntry", &type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

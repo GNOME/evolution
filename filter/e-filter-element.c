@@ -38,7 +38,10 @@ struct _element_type {
 	gpointer data;
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EFilterElement,
+	e_filter_element,
+	G_TYPE_OBJECT)
 
 static gboolean
 filter_element_validate (EFilterElement *element,
@@ -188,15 +191,13 @@ filter_element_finalize (GObject *object)
 	xmlFree (element->name);
 
 	/* Chain up to parent's finalize () method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_filter_element_parent_class)->finalize (object);
 }
 
 static void
-filter_element_class_init (EFilterElementClass *class)
+e_filter_element_class_init (EFilterElementClass *class)
 {
 	GObjectClass *object_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = filter_element_finalize;
@@ -208,30 +209,9 @@ filter_element_class_init (EFilterElementClass *class)
 	class->copy_value = filter_element_copy_value;
 }
 
-GType
-e_filter_element_get_type (void)
+static void
+e_filter_element_init (EFilterElement *element)
 {
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EFilterElementClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) filter_element_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EFilterElement),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "EFilterElement", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

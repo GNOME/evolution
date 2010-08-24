@@ -34,8 +34,6 @@ struct _EAttachmentHandlerImagePrivate {
 	gint placeholder;
 };
 
-static gpointer parent_class;
-
 static const gchar *ui =
 "<ui>"
 "  <popup name='context'>"
@@ -44,6 +42,11 @@ static const gchar *ui =
 "    </placeholder>"
 "  </popup>"
 "</ui>";
+
+G_DEFINE_TYPE (
+	EAttachmentHandlerImage,
+	e_attachment_handler_image,
+	E_TYPE_ATTACHMENT_HANDLER)
 
 static void
 action_image_set_as_background_saved_cb (EAttachment *attachment,
@@ -207,7 +210,8 @@ attachment_handler_image_constructed (GObject *object)
 	handler = E_ATTACHMENT_HANDLER (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_attachment_handler_image_parent_class)->
+		constructed (object);
 
 	view = e_attachment_handler_get_view (handler);
 
@@ -231,11 +235,10 @@ attachment_handler_image_constructed (GObject *object)
 }
 
 static void
-attachment_handler_image_class_init (EAttachmentHandlerImageClass *class)
+e_attachment_handler_image_class_init (EAttachmentHandlerImageClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EAttachmentHandlerImagePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -243,35 +246,7 @@ attachment_handler_image_class_init (EAttachmentHandlerImageClass *class)
 }
 
 static void
-attachment_handler_image_init (EAttachmentHandlerImage *handler)
+e_attachment_handler_image_init (EAttachmentHandlerImage *handler)
 {
 	handler->priv = E_ATTACHMENT_HANDLER_IMAGE_GET_PRIVATE (handler);
-}
-
-GType
-e_attachment_handler_image_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EAttachmentHandlerImageClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) attachment_handler_image_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EAttachmentHandlerImage),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) attachment_handler_image_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_ATTACHMENT_HANDLER,
-			"EAttachmentHandlerImage",
-			&type_info, 0);
-	}
-
-	return type;
 }

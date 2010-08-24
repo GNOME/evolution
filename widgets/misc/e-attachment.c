@@ -96,7 +96,10 @@ enum {
 	PROP_SIGNED
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EAttachment,
+	e_attachment,
+	G_TYPE_OBJECT)
 
 static gboolean
 create_system_thumbnail (EAttachment *attachment, GIcon **icon)
@@ -701,7 +704,7 @@ attachment_dispose (GObject *object)
 	priv->reference = NULL;
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_attachment_parent_class)->dispose (object);
 }
 
 static void
@@ -714,15 +717,14 @@ attachment_finalize (GObject *object)
 	g_free (priv->disposition);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_attachment_parent_class)->finalize (object);
 }
 
 static void
-attachment_class_init (EAttachmentClass *class)
+e_attachment_class_init (EAttachmentClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EAttachmentPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -877,7 +879,7 @@ attachment_class_init (EAttachmentClass *class)
 }
 
 static void
-attachment_init (EAttachment *attachment)
+e_attachment_init (EAttachment *attachment)
 {
 	attachment->priv = E_ATTACHMENT_GET_PRIVATE (attachment);
 	attachment->priv->cancellable = g_cancellable_new ();
@@ -935,32 +937,6 @@ attachment_init (EAttachment *attachment)
 	g_signal_connect_swapped (
 		attachment->priv->cancellable, "cancelled",
 		G_CALLBACK (attachment_cancelled_cb), attachment);
-}
-
-GType
-e_attachment_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EAttachmentClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) attachment_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EAttachment),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) attachment_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "EAttachment", &type_info, 0);
-	}
-
-	return type;
 }
 
 EAttachment *

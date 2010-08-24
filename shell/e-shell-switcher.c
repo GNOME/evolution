@@ -63,9 +63,13 @@ static guint signals[LAST_SIGNAL];
 static void shell_switcher_tool_shell_iface_init (GtkToolShellIface *iface);
 
 G_DEFINE_TYPE_WITH_CODE (
-	EShellSwitcher, e_shell_switcher, GTK_TYPE_BIN,
-	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL)
-	G_IMPLEMENT_INTERFACE (GTK_TYPE_TOOL_SHELL,
+	EShellSwitcher,
+	e_shell_switcher,
+	GTK_TYPE_BIN,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL)
+	G_IMPLEMENT_INTERFACE (
+		GTK_TYPE_TOOL_SHELL,
 		shell_switcher_tool_shell_iface_init))
 
 static gint

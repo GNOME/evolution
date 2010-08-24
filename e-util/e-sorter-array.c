@@ -32,7 +32,10 @@
 
 #define INCREMENT_AMOUNT 100
 
-G_DEFINE_TYPE (ESorterArray, e_sorter_array, E_SORTER_TYPE)
+G_DEFINE_TYPE (
+	ESorterArray,
+	e_sorter_array,
+	E_SORTER_TYPE)
 
 static void	esa_sort               (ESorterArray *esa);
 static void	esa_backsort           (ESorterArray *esa);

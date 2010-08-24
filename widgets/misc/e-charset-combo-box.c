@@ -52,7 +52,10 @@ enum {
 	PROP_CHARSET
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	ECharsetComboBox,
+	e_charset_combo_box,
+	E_TYPE_ACTION_COMBO_BOX)
 
 static void
 charset_combo_box_entry_changed_cb (GtkEntry *entry,
@@ -234,7 +237,7 @@ charset_combo_box_dispose (GObject *object)
 	g_hash_table_remove_all (priv->charset_index);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_charset_combo_box_parent_class)->dispose (object);
 }
 
 static void
@@ -247,7 +250,7 @@ charset_combo_box_finalize (GObject *object)
 	g_hash_table_destroy (priv->charset_index);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_charset_combo_box_parent_class)->finalize (object);
 }
 
 static void
@@ -258,7 +261,8 @@ charset_combo_box_changed (GtkComboBox *combo_box)
 	priv = E_CHARSET_COMBO_BOX_GET_PRIVATE (combo_box);
 
 	/* Chain up to parent's changed() method. */
-	GTK_COMBO_BOX_CLASS (parent_class)->changed (combo_box);
+	GTK_COMBO_BOX_CLASS (e_charset_combo_box_parent_class)->
+		changed (combo_box);
 
 	/* Notify -before- updating previous index. */
 	g_object_notify (G_OBJECT (combo_box), "charset");
@@ -266,12 +270,11 @@ charset_combo_box_changed (GtkComboBox *combo_box)
 }
 
 static void
-charset_combo_box_class_init (ECharsetComboBoxClass *class)
+e_charset_combo_box_class_init (ECharsetComboBoxClass *class)
 {
 	GObjectClass *object_class;
 	GtkComboBoxClass *combo_box_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ECharsetComboBoxPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -296,7 +299,7 @@ charset_combo_box_class_init (ECharsetComboBoxClass *class)
 }
 
 static void
-charset_combo_box_init (ECharsetComboBox *combo_box)
+e_charset_combo_box_init (ECharsetComboBox *combo_box)
 {
 	GtkActionGroup *action_group;
 	GtkRadioAction *radio_action;
@@ -351,33 +354,6 @@ charset_combo_box_init (ECharsetComboBox *combo_box)
 		G_CALLBACK (charset_combo_box_notify_charset_cb), NULL);
 
 	combo_box->priv->other_action = radio_action;
-}
-
-GType
-e_charset_combo_box_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (ECharsetComboBoxClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) charset_combo_box_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ECharsetComboBox),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) charset_combo_box_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_ACTION_COMBO_BOX, "ECharsetComboBox",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

@@ -27,7 +27,10 @@
 
 #include "e-filter-code.h"
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EFilterCode,
+	e_filter_code,
+	E_TYPE_FILTER_INPUT)
 
 /* here, the string IS the code */
 static void
@@ -60,11 +63,9 @@ filter_code_format_sexp (EFilterElement *element,
 }
 
 static void
-filter_code_class_init (EFilterCodeClass *class)
+e_filter_code_class_init (EFilterCodeClass *class)
 {
 	EFilterElementClass *filter_element_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	filter_element_class = E_FILTER_ELEMENT_CLASS (class);
 	filter_element_class->build_code = filter_code_build_code;
@@ -72,37 +73,11 @@ filter_code_class_init (EFilterCodeClass *class)
 }
 
 static void
-filter_code_init (EFilterCode *code)
+e_filter_code_init (EFilterCode *code)
 {
 	EFilterInput *input = E_FILTER_INPUT (code);
 
 	input->type = (gchar *) xmlStrdup ((xmlChar *) "code");
-}
-
-GType
-e_filter_code_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EFilterCodeClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) filter_code_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EFilterCode),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) filter_code_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_FILTER_INPUT, "EFilterCode", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

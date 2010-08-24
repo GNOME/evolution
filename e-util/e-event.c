@@ -55,7 +55,10 @@ struct _EEventPrivate {
 	GSList *sorted;		/* sorted list of struct _event_info's */
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EEvent,
+	e_event,
+	G_TYPE_OBJECT)
 
 static void
 event_finalize (GObject *object)
@@ -83,7 +86,7 @@ event_finalize (GObject *object)
 	g_slist_free(p->sorted);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_event_parent_class)->finalize (object);
 }
 
 static void
@@ -95,11 +98,10 @@ event_target_free (EEvent *event,
 }
 
 static void
-event_class_init (EEventClass *class)
+e_event_class_init (EEventClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EEventPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -109,37 +111,11 @@ event_class_init (EEventClass *class)
 }
 
 static void
-event_init (EEvent *event)
+e_event_init (EEvent *event)
 {
 	event->priv = E_EVENT_GET_PRIVATE (event);
 
 	g_queue_init (&event->priv->events);
-}
-
-GType
-e_event_get_type(void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EEventClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) event_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EEvent),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) event_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "EEvent", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**
@@ -389,7 +365,6 @@ e_event_target_free (EEvent *event,
 
 */
 
-static gpointer emph_parent_class;
 #define emph ((EEventHook *)eph)
 
 /* must have 1:1 correspondence with e-event types in order */
@@ -398,6 +373,11 @@ static const EPluginHookTargetKey emph_item_types[] = {
 	{ "sink", E_EVENT_SINK },
 	{ NULL }
 };
+
+G_DEFINE_TYPE (
+	EEventHook,
+	e_event_hook,
+	E_TYPE_PLUGIN_HOOK)
 
 static void
 emph_event_handle(EEvent *ee, EEventItem *item, gpointer data)
@@ -475,7 +455,7 @@ emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	d(printf("loading event hook\n"));
 
-	if (((EPluginHookClass *)emph_parent_class)->construct(eph, ep, root) == -1)
+	if (((EPluginHookClass *)e_event_hook_parent_class)->construct(eph, ep, root) == -1)
 		return -1;
 
 	class = (EEventHookClass *)G_OBJECT_GET_CLASS(eph);
@@ -501,11 +481,9 @@ emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 }
 
 static void
-emph_class_init (EEventHookClass *class)
+e_event_hook_class_init (EEventHookClass *class)
 {
 	EPluginHookClass *plugin_hook_class;
-
-	emph_parent_class = g_type_class_peek_parent (class);
 
 	plugin_hook_class = E_PLUGIN_HOOK_CLASS (class);
 	plugin_hook_class->id = "org.gnome.evolution.event:1.0";
@@ -514,38 +492,9 @@ emph_class_init (EEventHookClass *class)
 	class->target_map = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
-/**
- * e_event_hook_get_type:
- *
- * Standard GObject function to get the EEvent object type.  Used to
- * subclass EEventHook.
- *
- * Return value: The type of the event hook class.
- **/
-GType
-e_event_hook_get_type(void)
+static void
+e_event_hook_init (EEventHook *hook)
 {
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EEventHookClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) emph_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EEventHook),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_PLUGIN_HOOK, "EEventHook", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

@@ -31,7 +31,10 @@
 
 #include "e-filter-int.h"
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EFilterInt,
+	e_filter_int,
+	E_TYPE_FILTER_ELEMENT)
 
 static void
 filter_int_spin_changed (GtkSpinButton *spin_button,
@@ -50,7 +53,7 @@ filter_int_finalize (GObject *object)
 	g_free (filter_int->type);
 
 	/* Chain up to parent's finalize() method. */
-        G_OBJECT_CLASS (parent_class)->finalize (object);
+        G_OBJECT_CLASS (e_filter_int_parent_class)->finalize (object);
 }
 
 static gint
@@ -61,7 +64,8 @@ filter_int_eq (EFilterElement *element_a,
 	EFilterInt *filter_int_b = E_FILTER_INT (element_b);
 
 	/* Chain up to parent's eq() method. */
-	if (!E_FILTER_ELEMENT_CLASS (parent_class)->eq (element_a, element_b))
+	if (!E_FILTER_ELEMENT_CLASS (e_filter_int_parent_class)->
+		eq (element_a, element_b))
 		return FALSE;
 
 	return (filter_int_a->val == filter_int_b->val);
@@ -172,12 +176,10 @@ filter_int_format_sexp (EFilterElement *element,
 }
 
 static void
-filter_int_class_init (EFilterIntClass *class)
+e_filter_int_class_init (EFilterIntClass *class)
 {
 	GObjectClass *object_class;
 	EFilterElementClass *filter_element_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = filter_int_finalize;
@@ -192,36 +194,10 @@ filter_int_class_init (EFilterIntClass *class)
 }
 
 static void
-filter_int_init (EFilterInt *filter_int)
+e_filter_int_init (EFilterInt *filter_int)
 {
 	filter_int->min = 0;
 	filter_int->max = G_MAXINT;
-}
-
-GType
-e_filter_int_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EFilterIntClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) filter_int_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EFilterInt),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) filter_int_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_FILTER_ELEMENT, "EFilterInt", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

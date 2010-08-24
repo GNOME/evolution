@@ -35,7 +35,10 @@
 #include "e-filter-part.h"
 #include "e-rule-context.h"
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EFilterPart,
+	e_filter_part,
+	G_TYPE_OBJECT)
 
 static void
 filter_part_finalize (GObject *object)
@@ -50,44 +53,21 @@ filter_part_finalize (GObject *object)
 	g_free (part->code);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_filter_part_parent_class)->finalize (object);
 }
 
 static void
-filter_part_class_init (EFilterPartClass *class)
+e_filter_part_class_init (EFilterPartClass *class)
 {
 	GObjectClass *object_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = filter_part_finalize;
 }
 
-GType
-e_filter_part_get_type (void)
+static void
+e_filter_part_init (EFilterPart *part)
 {
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EFilterPartClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) filter_part_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL, /* class_data */
-			sizeof (EFilterPart),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL  /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "EFilterPart", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

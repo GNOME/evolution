@@ -57,8 +57,11 @@ enum {
 };
 
 G_DEFINE_TYPE_WITH_CODE (
-	EShellTaskbar, e_shell_taskbar, GTK_TYPE_HBOX,
-	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
+	EShellTaskbar,
+	e_shell_taskbar,
+	GTK_TYPE_HBOX,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL))
 
 static void
 shell_taskbar_activity_remove (EShellTaskbar *shell_taskbar,

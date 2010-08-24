@@ -54,8 +54,12 @@ struct _EAccountTreeViewPrivate {
 	GHashTable *index;
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (
+	EAccountTreeView,
+	e_account_tree_view,
+	GTK_TYPE_TREE_VIEW)
 
 static void
 account_tree_view_refresh_cb (EAccountList *account_list,
@@ -187,12 +191,14 @@ account_tree_view_constructor (GType type,
                                GObjectConstructParam *construct_properties)
 {
 	GObject *object;
+	GObjectClass *parent_class;
 	GtkTreeView *tree_view;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 
 	/* Chain up to parent's constructor() method. */
-	object = G_OBJECT_CLASS (parent_class)->constructor (
+	parent_class = G_OBJECT_CLASS (e_account_tree_view_parent_class);
+	object = parent_class->constructor (
 		type, n_construct_properties, construct_properties);
 
 	tree_view = GTK_TREE_VIEW (object);
@@ -331,7 +337,7 @@ account_tree_view_dispose (GObject *object)
 	g_hash_table_remove_all (priv->index);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_account_tree_view_parent_class)->dispose (object);
 }
 
 static void
@@ -344,7 +350,7 @@ account_tree_view_finalize (GObject *object)
 	g_hash_table_destroy (priv->index);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_account_tree_view_parent_class)->finalize (object);
 }
 
 static void
@@ -386,11 +392,10 @@ account_tree_view_disable_account (EAccountTreeView *tree_view)
 }
 
 static void
-account_tree_view_class_init (EAccountTreeViewClass *class)
+e_account_tree_view_class_init (EAccountTreeViewClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EAccountTreeViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -453,7 +458,7 @@ account_tree_view_class_init (EAccountTreeViewClass *class)
 }
 
 static void
-account_tree_view_init (EAccountTreeView *tree_view)
+e_account_tree_view_init (EAccountTreeView *tree_view)
 {
 	GHashTable *index;
 	GtkTreeSelection *selection;
@@ -473,33 +478,6 @@ account_tree_view_init (EAccountTreeView *tree_view)
 		selection, "changed",
 		G_CALLBACK (account_tree_view_selection_changed_cb),
 		tree_view);
-}
-
-GType
-e_account_tree_view_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EAccountTreeViewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) account_tree_view_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EAccountTreeView),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) account_tree_view_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_TREE_VIEW, "EAccountTreeView",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

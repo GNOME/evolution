@@ -38,7 +38,10 @@
 
 #include "e-filter-input.h"
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EFilterInput,
+	e_filter_input,
+	E_TYPE_FILTER_ELEMENT)
 
 static void
 filter_input_entry_changed (GtkEntry *entry,
@@ -65,7 +68,7 @@ filter_input_finalize (GObject *object)
 	g_list_free (input->values);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_filter_input_parent_class)->finalize (object);
 }
 
 static gboolean
@@ -122,7 +125,8 @@ filter_input_eq (EFilterElement *element_a,
 	GList *link_b;
 
 	/* Chain up to parent's eq() method. */
-	if (!E_FILTER_ELEMENT_CLASS (parent_class)->eq (element_a, element_b))
+	if (!E_FILTER_ELEMENT_CLASS (e_filter_input_parent_class)->
+		eq (element_a, element_b))
 		return FALSE;
 
 	if (g_strcmp0 (input_a->type, input_b->type) != 0)
@@ -242,12 +246,10 @@ filter_input_format_sexp (EFilterElement *element,
 }
 
 static void
-filter_input_class_init (EFilterInputClass *class)
+e_filter_input_class_init (EFilterInputClass *class)
 {
 	GObjectClass *object_class;
 	EFilterElementClass *filter_element_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = filter_input_finalize;
@@ -262,35 +264,9 @@ filter_input_class_init (EFilterInputClass *class)
 }
 
 static void
-filter_input_init (EFilterInput *input)
+e_filter_input_init (EFilterInput *input)
 {
 	input->values = g_list_prepend (NULL, g_strdup (""));
-}
-
-GType
-e_filter_input_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EFilterInputClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) filter_input_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EFilterInput),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) filter_input_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_FILTER_ELEMENT, "EFilterInput", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

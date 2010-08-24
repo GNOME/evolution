@@ -32,7 +32,10 @@
 
 #define PARENT_TYPE G_TYPE_OBJECT
 
-G_DEFINE_TYPE (ESorter, e_sorter, G_TYPE_OBJECT)
+G_DEFINE_TYPE (
+	ESorter,
+	e_sorter,
+	G_TYPE_OBJECT)
 
 static gint es_model_to_sorted (ESorter *es, gint row);
 static gint es_sorted_to_model (ESorter *es, gint row);

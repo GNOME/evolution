@@ -28,7 +28,7 @@
 #include <string.h>
 
 void
-e_sendoptions_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, const gchar *type)
+e_send_options_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, const gchar *type)
 {
 	ESendOptionsGeneral *gopts = NULL;
 	ESendOptionsStatusTracking *sopts;
@@ -151,7 +151,7 @@ e_sendoptions_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, 
 }
 
 void
-e_sendoptions_utils_fill_component (ESendOptionsDialog *sod, ECalComponent *comp)
+e_send_options_utils_fill_component (ESendOptionsDialog *sod, ECalComponent *comp)
 {
 	gint i = 1;
 	icalproperty *prop;
@@ -165,7 +165,7 @@ e_sendoptions_utils_fill_component (ESendOptionsDialog *sod, ECalComponent *comp
 	e_cal_component_set_sequence (comp, &i);
 	icalcomp = e_cal_component_get_icalcomponent (comp);
 
-	if (e_sendoptions_get_need_general_options (sod)) {
+	if (e_send_options_get_need_general_options (sod)) {
 		prop = icalproperty_new_x ((const gchar *) g_strdup_printf ("%d", gopts->priority));
 		icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-PRIORITY");
 		icalcomponent_add_property (icalcomp, prop);

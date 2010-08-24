@@ -163,7 +163,10 @@ struct _EPluginUIHookPrivate {
 	GHashTable *registry;
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EPluginUIHook,
+	e_plugin_ui_hook,
+	E_TYPE_PLUGIN_HOOK)
 
 static void
 plugin_ui_hook_unregister_manager (EPluginUIHook *hook,
@@ -408,7 +411,7 @@ plugin_ui_hook_finalize (GObject *object)
 	g_hash_table_destroy (priv->registry);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_plugin_ui_hook_parent_class)->dispose (object);
 }
 
 static gint
@@ -425,7 +428,8 @@ plugin_ui_hook_construct (EPluginHook *hook,
 	 *     we wouldn't have to chain up here. */
 
 	/* Chain up to parent's construct() method. */
-	E_PLUGIN_HOOK_CLASS (parent_class)->construct (hook, plugin, node);
+	E_PLUGIN_HOOK_CLASS (e_plugin_ui_hook_parent_class)->
+		construct (hook, plugin, node);
 
 	for (node = xmlFirstElementChild (node); node != NULL;
 		node = xmlNextElementSibling (node)) {
@@ -483,12 +487,11 @@ plugin_ui_hook_enable (EPluginHook *hook,
 }
 
 static void
-plugin_ui_hook_class_init (EPluginUIHookClass *class)
+e_plugin_ui_hook_class_init (EPluginUIHookClass *class)
 {
 	GObjectClass *object_class;
 	EPluginHookClass *plugin_hook_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EPluginUIHookPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -501,7 +504,7 @@ plugin_ui_hook_class_init (EPluginUIHookClass *class)
 }
 
 static void
-plugin_ui_hook_init (EPluginUIHook *hook)
+e_plugin_ui_hook_init (EPluginUIHook *hook)
 {
 	GHashTable *ui_definitions;
 	GHashTable *callbacks;
@@ -523,32 +526,6 @@ plugin_ui_hook_init (EPluginUIHook *hook)
 	hook->priv->ui_definitions = ui_definitions;
 	hook->priv->callbacks = callbacks;
 	hook->priv->registry = registry;
-}
-
-GType
-e_plugin_ui_hook_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EPluginUIHookClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) plugin_ui_hook_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EPluginUIHook),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) plugin_ui_hook_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_PLUGIN_HOOK, "EPluginUIHook", &type_info, 0);
-	}
-
-	return type;
 }
 
 void

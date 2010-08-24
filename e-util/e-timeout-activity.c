@@ -36,8 +36,12 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static gulong signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (
+	ETimeoutActivity,
+	e_timeout_activity,
+	E_TYPE_ACTIVITY)
 
 static gboolean
 timeout_activity_cb (ETimeoutActivity *timeout_activity)
@@ -58,7 +62,7 @@ timeout_activity_finalize (GObject *object)
 		g_source_remove (priv->timeout_id);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_timeout_activity_parent_class)->finalize (object);
 }
 
 static void
@@ -74,7 +78,7 @@ timeout_activity_cancelled (EActivity *activity)
 	}
 
 	/* Chain up to parent's cancelled() method. */
-	E_ACTIVITY_CLASS (parent_class)->cancelled (activity);
+	E_ACTIVITY_CLASS (e_timeout_activity_parent_class)->cancelled (activity);
 }
 
 static void
@@ -90,7 +94,7 @@ timeout_activity_completed (EActivity *activity)
 	}
 
 	/* Chain up to parent's completed() method. */
-	E_ACTIVITY_CLASS (parent_class)->completed (activity);
+	E_ACTIVITY_CLASS (e_timeout_activity_parent_class)->completed (activity);
 }
 
 static void
@@ -100,12 +104,11 @@ timeout_activity_timeout (ETimeoutActivity *timeout_activity)
 }
 
 static void
-timeout_activity_class_init (ETimeoutActivityClass *class)
+e_timeout_activity_class_init (ETimeoutActivityClass *class)
 {
 	GObjectClass *object_class;
 	EActivityClass *activity_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ETimeoutActivityPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -128,36 +131,10 @@ timeout_activity_class_init (ETimeoutActivityClass *class)
 }
 
 static void
-timeout_activity_init (ETimeoutActivity *timeout_activity)
+e_timeout_activity_init (ETimeoutActivity *timeout_activity)
 {
 	timeout_activity->priv =
 		E_TIMEOUT_ACTIVITY_GET_PRIVATE (timeout_activity);
-}
-
-GType
-e_timeout_activity_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (ETimeoutActivityClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) timeout_activity_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ETimeoutActivity),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) timeout_activity_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_ACTIVITY, "ETimeoutActivity", &type_info, 0);
-	}
-
-	return type;
 }
 
 EActivity *

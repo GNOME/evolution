@@ -52,8 +52,12 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (
+	EAccountManager,
+	e_account_manager,
+	GTK_TYPE_TABLE)
 
 static void
 account_manager_default_clicked_cb (EAccountManager *manager)
@@ -193,15 +197,14 @@ account_manager_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_account_manager_parent_class)->dispose (object);
 }
 
 static void
-account_manager_class_init (EAccountManagerClass *class)
+e_account_manager_class_init (EAccountManagerClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EAccountManagerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -252,7 +255,7 @@ account_manager_class_init (EAccountManagerClass *class)
 }
 
 static void
-account_manager_init (EAccountManager *manager)
+e_account_manager_init (EAccountManager *manager)
 {
 	GtkTreeSelection *selection;
 	GtkWidget *container;
@@ -356,32 +359,6 @@ account_manager_init (EAccountManager *manager)
 	g_signal_connect_swapped (
 		widget, "clicked",
 		G_CALLBACK (account_manager_default_clicked_cb), manager);
-}
-
-GType
-e_account_manager_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EAccountManagerClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) account_manager_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_init */
-			sizeof (EAccountManager),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) account_manager_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_TABLE, "EAccountManager", &type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

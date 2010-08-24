@@ -71,6 +71,11 @@ static const gchar *ui =
 
 static gulong signals[LAST_SIGNAL];
 
+G_DEFINE_INTERFACE (
+	EAttachmentView,
+	e_attachment_view,
+	GTK_TYPE_WIDGET)
+
 static void
 action_add_cb (GtkAction *action,
                EAttachmentView *view)
@@ -817,12 +822,12 @@ attachment_view_init_handlers (EAttachmentView *view)
 }
 
 static void
-attachment_view_class_init (EAttachmentViewIface *iface)
+e_attachment_view_default_init (EAttachmentViewInterface *interface)
 {
-	iface->update_actions = attachment_view_update_actions;
+	interface->update_actions = attachment_view_update_actions;
 
 	g_object_interface_install_property (
-		iface,
+		interface,
 		g_param_spec_boolean (
 			"dragging",
 			"Dragging",
@@ -831,7 +836,7 @@ attachment_view_class_init (EAttachmentViewIface *iface)
 			G_PARAM_READWRITE));
 
 	g_object_interface_install_property (
-		iface,
+		interface,
 		g_param_spec_boolean (
 			"editable",
 			"Editable",
@@ -842,44 +847,16 @@ attachment_view_class_init (EAttachmentViewIface *iface)
 
 	signals[UPDATE_ACTIONS] = g_signal_new (
 		"update-actions",
-		G_TYPE_FROM_INTERFACE (iface),
+		G_TYPE_FROM_INTERFACE (interface),
 		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (EAttachmentViewIface, update_actions),
+		G_STRUCT_OFFSET (EAttachmentViewInterface, update_actions),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
-}
 
-GType
-e_attachment_view_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EAttachmentViewIface),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) attachment_view_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			0,     /* instance_size */
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_INTERFACE, "EAttachmentView", &type_info, 0);
-
-		g_type_interface_add_prerequisite (type, GTK_TYPE_WIDGET);
-
-		/* Register known handler types. */
-		e_attachment_handler_image_get_type ();
-		e_attachment_handler_sendto_get_type ();
-	}
-
-	return type;
+	/* Register known handler types. */
+	e_attachment_handler_image_get_type ();
+	e_attachment_handler_sendto_get_type ();
 }
 
 void
@@ -990,27 +967,27 @@ e_attachment_view_finalize (EAttachmentView *view)
 EAttachmentViewPrivate *
 e_attachment_view_get_private (EAttachmentView *view)
 {
-	EAttachmentViewIface *iface;
+	EAttachmentViewInterface *interface;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), NULL);
 
-	iface = E_ATTACHMENT_VIEW_GET_IFACE (view);
-	g_return_val_if_fail (iface->get_private != NULL, NULL);
+	interface = E_ATTACHMENT_VIEW_GET_INTERFACE (view);
+	g_return_val_if_fail (interface->get_private != NULL, NULL);
 
-	return iface->get_private (view);
+	return interface->get_private (view);
 }
 
 EAttachmentStore *
 e_attachment_view_get_store (EAttachmentView *view)
 {
-	EAttachmentViewIface *iface;
+	EAttachmentViewInterface *interface;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), NULL);
 
-	iface = E_ATTACHMENT_VIEW_GET_IFACE (view);
-	g_return_val_if_fail (iface->get_store != NULL, NULL);
+	interface = E_ATTACHMENT_VIEW_GET_INTERFACE (view);
+	g_return_val_if_fail (interface->get_store != NULL, NULL);
 
-	return iface->get_store (view);
+	return interface->get_store (view);
 }
 
 gboolean
@@ -1376,34 +1353,34 @@ e_attachment_view_get_path_at_pos (EAttachmentView *view,
                                    gint x,
                                    gint y)
 {
-	EAttachmentViewIface *iface;
+	EAttachmentViewInterface *interface;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), NULL);
 
-	iface = E_ATTACHMENT_VIEW_GET_IFACE (view);
-	g_return_val_if_fail (iface->get_path_at_pos != NULL, NULL);
+	interface = E_ATTACHMENT_VIEW_GET_INTERFACE (view);
+	g_return_val_if_fail (interface->get_path_at_pos != NULL, NULL);
 
-	return iface->get_path_at_pos (view, x, y);
+	return interface->get_path_at_pos (view, x, y);
 }
 
 GList *
 e_attachment_view_get_selected_paths (EAttachmentView *view)
 {
-	EAttachmentViewIface *iface;
+	EAttachmentViewInterface *interface;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), NULL);
 
-	iface = E_ATTACHMENT_VIEW_GET_IFACE (view);
-	g_return_val_if_fail (iface->get_selected_paths != NULL, NULL);
+	interface = E_ATTACHMENT_VIEW_GET_INTERFACE (view);
+	g_return_val_if_fail (interface->get_selected_paths != NULL, NULL);
 
-	return iface->get_selected_paths (view);
+	return interface->get_selected_paths (view);
 }
 
 gboolean
 e_attachment_view_path_is_selected (EAttachmentView *view,
                                     GtkTreePath *path)
 {
-	EAttachmentViewIface *iface;
+	EAttachmentViewInterface *interface;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), FALSE);
 
@@ -1411,66 +1388,66 @@ e_attachment_view_path_is_selected (EAttachmentView *view,
 	if (path == NULL)
 		return FALSE;
 
-	iface = E_ATTACHMENT_VIEW_GET_IFACE (view);
-	g_return_val_if_fail (iface->path_is_selected != NULL, FALSE);
+	interface = E_ATTACHMENT_VIEW_GET_INTERFACE (view);
+	g_return_val_if_fail (interface->path_is_selected != NULL, FALSE);
 
-	return iface->path_is_selected (view, path);
+	return interface->path_is_selected (view, path);
 }
 
 void
 e_attachment_view_select_path (EAttachmentView *view,
                                GtkTreePath *path)
 {
-	EAttachmentViewIface *iface;
+	EAttachmentViewInterface *interface;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 	g_return_if_fail (path != NULL);
 
-	iface = E_ATTACHMENT_VIEW_GET_IFACE (view);
-	g_return_if_fail (iface->select_path != NULL);
+	interface = E_ATTACHMENT_VIEW_GET_INTERFACE (view);
+	g_return_if_fail (interface->select_path != NULL);
 
-	iface->select_path (view, path);
+	interface->select_path (view, path);
 }
 
 void
 e_attachment_view_unselect_path (EAttachmentView *view,
                                  GtkTreePath *path)
 {
-	EAttachmentViewIface *iface;
+	EAttachmentViewInterface *interface;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 	g_return_if_fail (path != NULL);
 
-	iface = E_ATTACHMENT_VIEW_GET_IFACE (view);
-	g_return_if_fail (iface->unselect_path != NULL);
+	interface = E_ATTACHMENT_VIEW_GET_INTERFACE (view);
+	g_return_if_fail (interface->unselect_path != NULL);
 
-	iface->unselect_path (view, path);
+	interface->unselect_path (view, path);
 }
 
 void
 e_attachment_view_select_all (EAttachmentView *view)
 {
-	EAttachmentViewIface *iface;
+	EAttachmentViewInterface *interface;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
-	iface = E_ATTACHMENT_VIEW_GET_IFACE (view);
-	g_return_if_fail (iface->select_all != NULL);
+	interface = E_ATTACHMENT_VIEW_GET_INTERFACE (view);
+	g_return_if_fail (interface->select_all != NULL);
 
-	iface->select_all (view);
+	interface->select_all (view);
 }
 
 void
 e_attachment_view_unselect_all (EAttachmentView *view)
 {
-	EAttachmentViewIface *iface;
+	EAttachmentViewInterface *interface;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
-	iface = E_ATTACHMENT_VIEW_GET_IFACE (view);
-	g_return_if_fail (iface->unselect_all != NULL);
+	interface = E_ATTACHMENT_VIEW_GET_INTERFACE (view);
+	g_return_if_fail (interface->unselect_all != NULL);
 
-	iface->unselect_all (view);
+	interface->unselect_all (view);
 }
 
 void
@@ -1495,22 +1472,22 @@ e_attachment_view_sync_selection (EAttachmentView *view,
 void
 e_attachment_view_drag_source_set (EAttachmentView *view)
 {
-	EAttachmentViewIface *iface;
+	EAttachmentViewInterface *interface;
 	GtkTargetEntry *targets;
 	GtkTargetList *list;
 	gint n_targets;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
-	iface = E_ATTACHMENT_VIEW_GET_IFACE (view);
-	if (iface->drag_source_set == NULL)
+	interface = E_ATTACHMENT_VIEW_GET_INTERFACE (view);
+	if (interface->drag_source_set == NULL)
 		return;
 
 	list = gtk_target_list_new (NULL, 0);
 	gtk_target_list_add_uri_targets (list, 0);
 	targets = gtk_target_table_new_from_list (list, &n_targets);
 
-	iface->drag_source_set (
+	interface->drag_source_set (
 		view, GDK_BUTTON1_MASK,
 		targets, n_targets, GDK_ACTION_COPY);
 
@@ -1521,15 +1498,15 @@ e_attachment_view_drag_source_set (EAttachmentView *view)
 void
 e_attachment_view_drag_source_unset (EAttachmentView *view)
 {
-	EAttachmentViewIface *iface;
+	EAttachmentViewInterface *interface;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
-	iface = E_ATTACHMENT_VIEW_GET_IFACE (view);
-	if (iface->drag_source_unset == NULL)
+	interface = E_ATTACHMENT_VIEW_GET_INTERFACE (view);
+	if (interface->drag_source_unset == NULL)
 		return;
 
-	iface->drag_source_unset (view);
+	interface->drag_source_unset (view);
 }
 
 void
@@ -1676,14 +1653,14 @@ void
 e_attachment_view_drag_dest_set (EAttachmentView *view)
 {
 	EAttachmentViewPrivate *priv;
-	EAttachmentViewIface *iface;
+	EAttachmentViewInterface *interface;
 	GtkTargetEntry *targets;
 	gint n_targets;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
-	iface = E_ATTACHMENT_VIEW_GET_IFACE (view);
-	if (iface->drag_dest_set == NULL)
+	interface = E_ATTACHMENT_VIEW_GET_INTERFACE (view);
+	if (interface->drag_dest_set == NULL)
 		return;
 
 	priv = e_attachment_view_get_private (view);
@@ -1691,7 +1668,8 @@ e_attachment_view_drag_dest_set (EAttachmentView *view)
 	targets = gtk_target_table_new_from_list (
 		priv->target_list, &n_targets);
 
-	iface->drag_dest_set (view, targets, n_targets, priv->drag_actions);
+	interface->drag_dest_set (
+		view, targets, n_targets, priv->drag_actions);
 
 	gtk_target_table_free (targets, n_targets);
 }
@@ -1699,15 +1677,15 @@ e_attachment_view_drag_dest_set (EAttachmentView *view)
 void
 e_attachment_view_drag_dest_unset (EAttachmentView *view)
 {
-	EAttachmentViewIface *iface;
+	EAttachmentViewInterface *interface;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
-	iface = E_ATTACHMENT_VIEW_GET_IFACE (view);
-	if (iface->drag_dest_unset == NULL)
+	interface = E_ATTACHMENT_VIEW_GET_INTERFACE (view);
+	if (interface->drag_dest_unset == NULL)
 		return;
 
-	iface->drag_dest_unset (view);
+	interface->drag_dest_unset (view);
 }
 
 gboolean

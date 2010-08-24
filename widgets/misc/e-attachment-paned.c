@@ -65,7 +65,17 @@ enum {
 	PROP_EXPANDED
 };
 
-static gpointer parent_class;
+/* Forward Declarations */
+static void	e_attachment_paned_interface_init
+					(EAttachmentViewInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	EAttachmentPaned,
+	e_attachment_paned,
+	GTK_TYPE_VPANED,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_ATTACHMENT_VIEW,
+		e_attachment_paned_interface_init))
 
 void
 e_attachment_paned_set_default_height (gint height)
@@ -266,7 +276,7 @@ attachment_paned_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_attachment_paned_parent_class)->dispose (object);
 }
 
 static void
@@ -440,11 +450,10 @@ attachment_paned_update_actions (EAttachmentView *view)
 }
 
 static void
-attachment_paned_class_init (EAttachmentPanedClass *class)
+e_attachment_paned_class_init (EAttachmentPanedClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EAttachmentPanedPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -485,22 +494,7 @@ attachment_paned_class_init (EAttachmentPanedClass *class)
 }
 
 static void
-attachment_paned_iface_init (EAttachmentViewIface *iface)
-{
-	iface->get_private = attachment_paned_get_private;
-	iface->get_store = attachment_paned_get_store;
-	iface->get_path_at_pos = attachment_paned_get_path_at_pos;
-	iface->get_selected_paths = attachment_paned_get_selected_paths;
-	iface->path_is_selected = attachment_paned_path_is_selected;
-	iface->select_path = attachment_paned_select_path;
-	iface->unselect_path = attachment_paned_unselect_path;
-	iface->select_all = attachment_paned_select_all;
-	iface->unselect_all = attachment_paned_unselect_all;
-	iface->update_actions = attachment_paned_update_actions;
-}
-
-static void
-attachment_paned_init (EAttachmentPaned *paned)
+e_attachment_paned_init (EAttachmentPaned *paned)
 {
 	EAttachmentView *view;
 	GtkSizeGroup *size_group;
@@ -678,40 +672,19 @@ attachment_paned_init (EAttachmentPaned *paned)
 	g_object_unref (size_group);
 }
 
-GType
-e_attachment_paned_get_type (void)
+static void
+e_attachment_paned_interface_init (EAttachmentViewInterface *interface)
 {
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EAttachmentPanedClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) attachment_paned_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EAttachmentPaned),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) attachment_paned_init,
-			NULL   /* value_table */
-		};
-
-		static const GInterfaceInfo iface_info = {
-			(GInterfaceInitFunc) attachment_paned_iface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL   /* interface_data */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_VPANED, "EAttachmentPaned",
-			&type_info, 0);
-
-		g_type_add_interface_static (
-			type, E_TYPE_ATTACHMENT_VIEW, &iface_info);
-	}
-
-	return type;
+	interface->get_private = attachment_paned_get_private;
+	interface->get_store = attachment_paned_get_store;
+	interface->get_path_at_pos = attachment_paned_get_path_at_pos;
+	interface->get_selected_paths = attachment_paned_get_selected_paths;
+	interface->path_is_selected = attachment_paned_path_is_selected;
+	interface->select_path = attachment_paned_select_path;
+	interface->unselect_path = attachment_paned_unselect_path;
+	interface->select_all = attachment_paned_select_all;
+	interface->unselect_all = attachment_paned_unselect_all;
+	interface->update_actions = attachment_paned_update_actions;
 }
 
 GtkWidget *

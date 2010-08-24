@@ -55,7 +55,10 @@
 #include "em-config.h"
 #include "em-folder-selection-button.h"
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EMComposerPrefs,
+	em_composer_prefs,
+	GTK_TYPE_VBOX)
 
 static gboolean
 transform_color_to_string (const GValue *src_value,
@@ -169,49 +172,21 @@ composer_prefs_finalize (GObject *object)
 	g_object_unref (prefs->builder);
 
 	/* Chain up to parent's finalize() method. */
-        G_OBJECT_CLASS (parent_class)->finalize (object);
+        G_OBJECT_CLASS (em_composer_prefs_parent_class)->finalize (object);
 }
 
 static void
-composer_prefs_class_init (EMComposerPrefsClass *class)
+em_composer_prefs_class_init (EMComposerPrefsClass *class)
 {
 	GObjectClass *object_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = composer_prefs_finalize;
 }
 
 static void
-composer_prefs_init (EMComposerPrefs *prefs)
+em_composer_prefs_init (EMComposerPrefs *prefs)
 {
-}
-
-GType
-em_composer_prefs_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMComposerPrefsClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) composer_prefs_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMComposerPrefs),
-			0,     /* n_allocs */
-			(GInstanceInitFunc) composer_prefs_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_VBOX, "EMComposerPrefs", &type_info, 0);
-	}
-
-	return type;
 }
 
 void

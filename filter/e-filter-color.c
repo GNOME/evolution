@@ -30,7 +30,10 @@
 
 #include "e-filter-color.h"
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EFilterColor,
+	e_filter_color,
+	E_TYPE_FILTER_ELEMENT)
 
 static void
 set_color (GtkColorButton *color_button, EFilterColor *fc)
@@ -45,8 +48,9 @@ filter_color_eq (EFilterElement *element_a,
 	EFilterColor *color_a = E_FILTER_COLOR (element_a);
 	EFilterColor *color_b = E_FILTER_COLOR (element_b);
 
-	return E_FILTER_ELEMENT_CLASS (parent_class)->eq (element_a, element_b)
-		&& gdk_color_equal (&color_a->color, &color_b->color);
+	return E_FILTER_ELEMENT_CLASS (e_filter_color_parent_class)->
+		eq (element_a, element_b) &&
+		gdk_color_equal (&color_a->color, &color_b->color);
 }
 
 static xmlNodePtr
@@ -126,11 +130,9 @@ filter_color_format_sexp (EFilterElement *element,
 }
 
 static void
-filter_color_class_init (EFilterColorClass *class)
+e_filter_color_class_init (EFilterColorClass *class)
 {
 	EFilterElementClass *filter_element_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	filter_element_class = E_FILTER_ELEMENT_CLASS (class);
 	filter_element_class->eq = filter_color_eq;
@@ -140,30 +142,9 @@ filter_color_class_init (EFilterColorClass *class)
 	filter_element_class->format_sexp = filter_color_format_sexp;
 }
 
-GType
-e_filter_color_get_type (void)
+static void
+e_filter_color_init (EFilterColor *filter)
 {
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EFilterColorClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) filter_color_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EFilterColor),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_FILTER_ELEMENT, "EFilterColor", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

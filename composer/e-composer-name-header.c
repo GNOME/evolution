@@ -45,7 +45,10 @@ struct _EComposerNameHeaderPrivate {
 	guint destination_index;
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EComposerNameHeader,
+	e_composer_name_header,
+	E_TYPE_COMPOSER_HEADER)
 
 static gpointer
 contact_editor_fudge_new (EBook *book,
@@ -116,7 +119,8 @@ composer_name_header_constructor (GType type,
 	gchar *label;
 
 	/* Chain up to parent's constructor() method. */
-	object = G_OBJECT_CLASS (parent_class)->constructor (
+	object = G_OBJECT_CLASS (
+		e_composer_name_header_parent_class)->constructor (
 		type, n_construct_properties, construct_properties);
 
 	priv = E_COMPOSER_NAME_HEADER_GET_PRIVATE (object);
@@ -210,7 +214,7 @@ composer_name_header_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_composer_name_header_parent_class)->dispose (object);
 }
 
 static void
@@ -230,12 +234,11 @@ composer_name_header_clicked (EComposerHeader *header)
 }
 
 static void
-composer_name_header_class_init (EComposerNameHeaderClass *class)
+e_composer_name_header_class_init (EComposerNameHeaderClass *class)
 {
 	GObjectClass *object_class;
 	EComposerHeaderClass *header_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EComposerNameHeaderPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -260,36 +263,9 @@ composer_name_header_class_init (EComposerNameHeaderClass *class)
 }
 
 static void
-composer_name_header_init (EComposerNameHeader *header)
+e_composer_name_header_init (EComposerNameHeader *header)
 {
 	header->priv = E_COMPOSER_NAME_HEADER_GET_PRIVATE (header);
-}
-
-GType
-e_composer_name_header_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EComposerNameHeaderClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) composer_name_header_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EComposerNameHeader),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) composer_name_header_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_COMPOSER_HEADER, "EComposerNameHeader",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 EComposerHeader *

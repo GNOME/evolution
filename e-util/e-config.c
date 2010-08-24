@@ -88,9 +88,12 @@ struct _EConfigPrivate {
 	GList *finish_pages;
 };
 
-static gpointer parent_class;
-
 static GtkWidget *ech_config_section_factory (EConfig *config, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data, GtkWidget **real_frame);
+
+G_DEFINE_TYPE (
+	EConfig,
+	e_config,
+	G_TYPE_OBJECT)
 
 static void
 config_finalize (GObject *object)
@@ -151,7 +154,7 @@ config_finalize (GObject *object)
 	}
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_config_parent_class)->finalize (object);
 }
 
 static void
@@ -173,11 +176,10 @@ config_set_target (EConfig *config,
 }
 
 static void
-config_class_init (EConfigClass *class)
+e_config_class_init (EConfigClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EConfigPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -188,43 +190,9 @@ config_class_init (EConfigClass *class)
 }
 
 static void
-config_init (EConfig *config)
+e_config_init (EConfig *config)
 {
 	config->priv = E_CONFIG_GET_PRIVATE (config);
-}
-
-/**
- * e_config_get_type:
- *
- * Standard GObject method.  Used to subclass for the concrete
- * implementations.
- *
- * Return value: EConfig type.
- **/
-GType
-e_config_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EConfigClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) config_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EConfig),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) config_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "EConfig", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**
@@ -1585,7 +1553,6 @@ e_config_target_free(EConfig *ep, gpointer o)
 
 */
 
-static gpointer emph_parent_class;
 #define emph ((EConfigHook *)eph)
 
 static const EPluginHookTargetKey ech_item_types[] = {
@@ -1601,6 +1568,11 @@ static const EPluginHookTargetKey ech_item_types[] = {
 	{ "item_table", E_CONFIG_ITEM_TABLE },
 	{ NULL },
 };
+
+G_DEFINE_TYPE (
+	EConfigHook,
+	e_config_hook,
+	E_TYPE_PLUGIN_HOOK)
 
 static void
 ech_commit(EConfig *ec, GSList *items, gpointer data)
@@ -1854,7 +1826,7 @@ emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	d(printf("loading config hook\n"));
 
-	if (((EPluginHookClass *)emph_parent_class)->construct(eph, ep, root) == -1)
+	if (((EPluginHookClass *)e_config_hook_parent_class)->construct(eph, ep, root) == -1)
 		return -1;
 
 	class = ((EConfigHookClass *)G_OBJECT_GET_CLASS(eph))->config_class;
@@ -1886,47 +1858,31 @@ emph_finalize(GObject *o)
 	g_slist_foreach(emph->groups, (GFunc)emph_free_group, NULL);
 	g_slist_free(emph->groups);
 
-	((GObjectClass *)emph_parent_class)->finalize(o);
+	((GObjectClass *)e_config_hook_parent_class)->finalize(o);
 }
 
 static void
-emph_class_init(EPluginHookClass *class)
+e_config_hook_class_init (EConfigHookClass *class)
 {
-	((GObjectClass *)class)->finalize = emph_finalize;
-	class->construct = emph_construct;
+	GObjectClass *object_class;
+	EPluginHookClass *plugin_hook_class;
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = emph_finalize;
+
+	plugin_hook_class = E_PLUGIN_HOOK_CLASS (class);
+	plugin_hook_class->construct = emph_construct;
 
 	/* this is actually an abstract implementation but list it anyway */
-	class->id = "org.gnome.evolution.config:1.0";
+	plugin_hook_class->id = "org.gnome.evolution.config:1.0";
 
-	d(printf("EConfigHook: init class %p '%s'\n", class, g_type_name(((GObjectClass *)class)->g_type_class.g_type)));
-
-	((EConfigHookClass *)class)->target_map = g_hash_table_new(g_str_hash, g_str_equal);
-	((EConfigHookClass *)class)->config_class = g_type_class_ref(e_config_get_type());
+	class->target_map = g_hash_table_new (g_str_hash, g_str_equal);
+	class->config_class = g_type_class_ref (e_config_get_type());
 }
 
-/**
- * e_config_hook_get_type:
- *
- * Standard GObject function to get the object type.
- *
- * Return value: The EConfigHook class type.
- **/
-GType
-e_config_hook_get_type(void)
+static void
+e_config_hook_init (EConfigHook *hook)
 {
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof(EConfigHookClass), NULL, NULL, (GClassInitFunc) emph_class_init, NULL, NULL,
-			sizeof(EConfigHook), 0, (GInstanceInitFunc) NULL,
-		};
-
-		emph_parent_class = g_type_class_ref(e_plugin_hook_get_type());
-		type = g_type_register_static(e_plugin_hook_get_type(), "EConfigHook", &info, 0);
-	}
-
-	return type;
 }
 
 /**

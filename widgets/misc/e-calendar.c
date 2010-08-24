@@ -97,7 +97,10 @@ static void e_calendar_start_auto_move	(ECalendar	*cal,
 static gboolean e_calendar_auto_move_handler	(gpointer	 data);
 static void e_calendar_stop_auto_move	(ECalendar	*cal);
 
-G_DEFINE_TYPE (ECalendar, e_calendar, E_TYPE_CANVAS)
+G_DEFINE_TYPE (
+	ECalendar,
+	e_calendar,
+	E_TYPE_CANVAS)
 
 static void
 e_calendar_class_init (ECalendarClass *class)

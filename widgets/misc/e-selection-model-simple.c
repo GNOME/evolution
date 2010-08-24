@@ -31,7 +31,8 @@
 static gint esms_get_row_count (ESelectionModelArray *esma);
 
 G_DEFINE_TYPE (
-	ESelectionModelSimple, e_selection_model_simple,
+	ESelectionModelSimple,
+	e_selection_model_simple,
 	E_SELECTION_MODEL_ARRAY_TYPE)
 
 static void

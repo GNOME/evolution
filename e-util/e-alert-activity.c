@@ -38,7 +38,10 @@ enum {
 	PROP_MESSAGE_DIALOG
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EAlertActivity,
+	e_alert_activity,
+	E_TYPE_TIMEOUT_ACTIVITY)
 
 static void
 alert_activity_set_message_dialog (EAlertActivity *alert_activity,
@@ -96,7 +99,7 @@ alert_activity_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_alert_activity_parent_class)->dispose (object);
 }
 
 static void
@@ -144,7 +147,7 @@ alert_activity_clicked (EActivity *activity)
 	gtk_widget_hide (message_dialog);
 
 	/* Chain up to parent's clicked() method. */
-	E_ACTIVITY_CLASS (parent_class)->clicked (activity);
+	E_ACTIVITY_CLASS (e_alert_activity_parent_class)->clicked (activity);
 }
 
 static void
@@ -153,17 +156,16 @@ alert_activity_timeout (ETimeoutActivity *activity)
 	e_activity_complete (E_ACTIVITY (activity));
 
 	/* Chain up to parent's timeout() method. */
-	E_TIMEOUT_ACTIVITY_CLASS (parent_class)->timeout (activity);
+	E_TIMEOUT_ACTIVITY_CLASS (e_alert_activity_parent_class)->timeout (activity);
 }
 
 static void
-alert_activity_class_init (EAlertActivityClass *class)
+e_alert_activity_class_init (EAlertActivityClass *class)
 {
 	GObjectClass *object_class;
 	EActivityClass *activity_class;
 	ETimeoutActivityClass *timeout_activity_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EAlertActivityPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -191,38 +193,11 @@ alert_activity_class_init (EAlertActivityClass *class)
 }
 
 static void
-alert_activity_init (EAlertActivity *alert_activity)
+e_alert_activity_init (EAlertActivity *alert_activity)
 {
 	alert_activity->priv = E_ALERT_ACTIVITY_GET_PRIVATE (alert_activity);
 
 	e_timeout_activity_set_timeout (E_TIMEOUT_ACTIVITY (alert_activity), 60);
-}
-
-GType
-e_alert_activity_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EAlertActivityClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) alert_activity_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EAlertActivity),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) alert_activity_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_TIMEOUT_ACTIVITY, "EAlertActivity",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 EActivity *

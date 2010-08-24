@@ -56,7 +56,10 @@ enum {
 	PROP_EXPRESS_MODE
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EUIManager,
+	e_ui_manager,
+	GTK_TYPE_UI_MANAGER)
 
 static void
 ui_manager_set_property (GObject *object,
@@ -136,11 +139,10 @@ ui_manager_filter_ui (EUIManager *ui_manager,
 }
 
 static void
-ui_manager_class_init (EUIManagerClass *class)
+e_ui_manager_class_init (EUIManagerClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EUIManagerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -162,35 +164,9 @@ ui_manager_class_init (EUIManagerClass *class)
 }
 
 static void
-ui_manager_init (EUIManager *ui_manager)
+e_ui_manager_init (EUIManager *ui_manager)
 {
 	ui_manager->priv = E_UI_MANAGER_GET_PRIVATE (ui_manager);
-}
-
-GType
-e_ui_manager_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EUIManagerClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) ui_manager_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EUIManager),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) ui_manager_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_UI_MANAGER, "EUIManager", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

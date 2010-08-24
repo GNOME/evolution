@@ -35,7 +35,8 @@ static gint	e_text_event_processor_emacs_like_event
 
 G_DEFINE_TYPE (
 	ETextEventProcessorEmacsLike,
-	e_text_event_processor_emacs_like, E_TEXT_EVENT_PROCESSOR_TYPE)
+	e_text_event_processor_emacs_like,
+	E_TEXT_EVENT_PROCESSOR_TYPE)
 
 /* The arguments we take */
 enum {

@@ -41,7 +41,10 @@ enum {
 	PROP_ESCAPE_VALUES
 };
 
-G_DEFINE_TYPE (EWebViewPreview, e_web_view_preview, GTK_TYPE_VPANED);
+G_DEFINE_TYPE (
+	EWebViewPreview,
+	e_web_view_preview,
+	GTK_TYPE_VPANED);
 
 static void
 web_view_preview_set_property (GObject *object,

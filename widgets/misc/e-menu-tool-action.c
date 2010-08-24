@@ -21,43 +21,23 @@
 
 #include "e-menu-tool-action.h"
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EMenuToolAction,
+	e_menu_tool_action,
+	GTK_TYPE_ACTION)
 
 static void
-menu_tool_action_class_init (EMenuToolActionClass *class)
+e_menu_tool_action_class_init (EMenuToolActionClass *class)
 {
 	GtkActionClass *action_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	action_class = GTK_ACTION_CLASS (class);
 	action_class->toolbar_item_type = GTK_TYPE_MENU_TOOL_BUTTON;
 }
 
-GType
-e_menu_tool_action_get_type (void)
+static void
+e_menu_tool_action_init (EMenuToolAction *action)
 {
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMenuToolActionClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) menu_tool_action_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMenuToolAction),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_ACTION, "EMenuToolAction", &type_info, 0);
-	}
-
-	return type;
 }
 
 EMenuToolAction *

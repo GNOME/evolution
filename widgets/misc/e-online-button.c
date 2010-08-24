@@ -42,7 +42,10 @@ enum {
 	PROP_ONLINE
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EOnlineButton,
+	e_online_button,
+	GTK_TYPE_BUTTON)
 
 static void
 online_button_update_tooltip (EOnlineButton *button)
@@ -106,15 +109,14 @@ online_button_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_online_button_parent_class)->dispose (object);
 }
 
 static void
-online_button_class_init (EOnlineButtonClass *class)
+e_online_button_class_init (EOnlineButtonClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EOnlineButtonPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -135,7 +137,7 @@ online_button_class_init (EOnlineButtonClass *class)
 }
 
 static void
-online_button_init (EOnlineButton *button)
+e_online_button_init (EOnlineButton *button)
 {
 	GtkWidget *widget;
 
@@ -156,32 +158,6 @@ online_button_init (EOnlineButton *button)
 	g_signal_connect (
 		button, "notify::sensitive",
 		G_CALLBACK (online_button_update_tooltip), NULL);
-}
-
-GType
-e_online_button_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (EOnlineButtonClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) online_button_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EOnlineButton),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) online_button_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_BUTTON, "EOnlineButton", &type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

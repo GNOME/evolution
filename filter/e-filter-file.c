@@ -36,7 +36,10 @@
 #include "e-filter-file.h"
 #include "e-filter-part.h"
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EFilterFile,
+	e_filter_file,
+	E_TYPE_FILTER_ELEMENT)
 
 static void
 filter_file_filename_changed (GtkFileChooser *file_chooser,
@@ -60,7 +63,7 @@ filter_file_finalize (GObject *object)
 	g_free (file->path);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_filter_file_parent_class)->finalize (object);
 }
 
 static gboolean
@@ -103,7 +106,8 @@ filter_file_eq (EFilterElement *element_a,
 	EFilterFile *file_b = E_FILTER_FILE (element_b);
 
 	/* Chain up to parent's eq() method. */
-	if (!E_FILTER_ELEMENT_CLASS (parent_class)->eq (element_a, element_b))
+	if (!E_FILTER_ELEMENT_CLASS (e_filter_file_parent_class)->
+		eq (element_a, element_b))
 		return FALSE;
 
 	if (g_strcmp0 (file_a->path, file_b->path) != 0)
@@ -201,12 +205,10 @@ filter_file_format_sexp (EFilterElement *element,
 }
 
 static void
-filter_file_class_init (EFilterFileClass *class)
+e_filter_file_class_init (EFilterFileClass *class)
 {
 	GObjectClass *object_class;
 	EFilterElementClass *filter_element_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = filter_file_finalize;
@@ -220,30 +222,9 @@ filter_file_class_init (EFilterFileClass *class)
 	filter_element_class->format_sexp = filter_file_format_sexp;
 }
 
-GType
-e_filter_file_get_type (void)
+static void
+e_filter_file_init (EFilterFile *filter)
 {
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EFilterFileClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) filter_file_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EFilterFile),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_FILTER_ELEMENT, "EFilterFile", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

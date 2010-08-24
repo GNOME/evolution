@@ -60,8 +60,12 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static gulong signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (
+	EActivity,
+	e_activity,
+	G_TYPE_OBJECT)
 
 static gboolean
 activity_describe_accumulator (GSignalInvocationHint *ihint,
@@ -183,7 +187,7 @@ activity_finalize (GObject *object)
 	g_free (priv->secondary_text);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_activity_parent_class)->finalize (object);
 }
 
 static void
@@ -241,11 +245,10 @@ activity_describe (EActivity *activity)
 }
 
 static void
-activity_class_init (EActivityClass *class)
+e_activity_class_init (EActivityClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EActivityPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -364,35 +367,9 @@ activity_class_init (EActivityClass *class)
 }
 
 static void
-activity_init (EActivity *activity)
+e_activity_init (EActivity *activity)
 {
 	activity->priv = E_ACTIVITY_GET_PRIVATE (activity);
-}
-
-GType
-e_activity_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EActivityClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) activity_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EActivity),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) activity_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "EActivity", &type_info, 0);
-	}
-
-	return type;
 }
 
 EActivity *

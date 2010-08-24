@@ -25,8 +25,6 @@
 
 #include <glib/gi18n-lib.h>
 
-static gpointer parent_class;
-
 static const gchar *ui =
 "<ui>"
 "  <popup name='context'>"
@@ -35,6 +33,11 @@ static const gchar *ui =
 "    </placeholder>"
 "  </popup>"
 "</ui>";
+
+G_DEFINE_TYPE (
+	EAttachmentHandlerSendto,
+	e_attachment_handler_sendto,
+	E_TYPE_ATTACHMENT_HANDLER)
 
 static void
 sendto_save_finished_cb (EAttachment *attachment,
@@ -182,7 +185,8 @@ attachment_handler_sendto_constructed (GObject *object)
 	handler = E_ATTACHMENT_HANDLER (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_attachment_handler_sendto_parent_class)->
+		constructed (object);
 
 	view = e_attachment_handler_get_view (handler);
 	ui_manager = e_attachment_view_get_ui_manager (view);
@@ -209,40 +213,15 @@ attachment_handler_sendto_constructed (GObject *object)
 }
 
 static void
-attachment_handler_sendto_class_init (EAttachmentHandlerSendtoClass *class)
+e_attachment_handler_sendto_class_init (EAttachmentHandlerSendtoClass *class)
 {
 	GObjectClass *object_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = attachment_handler_sendto_constructed;
 }
 
-GType
-e_attachment_handler_sendto_get_type (void)
+static void
+e_attachment_handler_sendto_init (EAttachmentHandlerSendto *handler)
 {
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EAttachmentHandlerSendtoClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) attachment_handler_sendto_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EAttachmentHandlerSendto),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_ATTACHMENT_HANDLER,
-			"EAttachmentHandlerSendto",
-			&type_info, 0);
-	}
-
-	return type;
 }

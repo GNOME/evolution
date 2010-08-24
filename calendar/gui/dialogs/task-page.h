@@ -80,7 +80,7 @@ void		task_page_show_options		(TaskPage *page);
 void		task_page_hide_options		(TaskPage *page);
 void		task_page_set_assignment	(TaskPage *page,
 						 gboolean set);
-void		task_page_sendoptions_clicked_cb(TaskPage *tpage);
+void		task_page_send_options_clicked_cb(TaskPage *tpage);
 void		task_page_set_view_role		(TaskPage *page,
 						 gboolean state);
 void		task_page_set_view_status	(TaskPage *page,

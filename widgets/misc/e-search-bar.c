@@ -59,8 +59,12 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (
+	ESearchBar,
+	e_search_bar,
+	GTK_TYPE_HBOX)
 
 static void
 search_bar_update_matches (ESearchBar *search_bar)
@@ -350,7 +354,7 @@ search_bar_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_search_bar_parent_class)->dispose (object);
 }
 
 static void
@@ -363,7 +367,7 @@ search_bar_finalize (GObject *object)
 	g_free (priv->active_search);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_search_bar_parent_class)->finalize (object);
 }
 
 static void
@@ -386,7 +390,7 @@ search_bar_show (GtkWidget *widget)
 	search_bar = E_SEARCH_BAR (widget);
 
 	/* Chain up to parent's show() method. */
-	GTK_WIDGET_CLASS (parent_class)->show (widget);
+	GTK_WIDGET_CLASS (e_search_bar_parent_class)->show (widget);
 
 	gtk_widget_grab_focus (search_bar->priv->entry);
 
@@ -401,7 +405,7 @@ search_bar_hide (GtkWidget *widget)
 	search_bar = E_SEARCH_BAR (widget);
 
 	/* Chain up to parent's hide() method. */
-	GTK_WIDGET_CLASS (parent_class)->hide (widget);
+	GTK_WIDGET_CLASS (e_search_bar_parent_class)->hide (widget);
 
 	search_bar_update_tokenizer (search_bar);
 }
@@ -418,7 +422,7 @@ search_bar_key_press_event (GtkWidget *widget,
 	}
 
 	/* Chain up to parent's key_press_event() method. */
-	widget_class = GTK_WIDGET_CLASS (parent_class);
+	widget_class = GTK_WIDGET_CLASS (e_search_bar_parent_class);
 	return widget_class->key_press_event (widget, event);
 }
 
@@ -440,12 +444,11 @@ search_bar_clear (ESearchBar *search_bar)
 }
 
 static void
-search_bar_class_init (ESearchBarClass *class)
+e_search_bar_class_init (ESearchBarClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ESearchBarPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -523,7 +526,7 @@ search_bar_class_init (ESearchBarClass *class)
 }
 
 static void
-search_bar_init (ESearchBar *search_bar)
+e_search_bar_init (ESearchBar *search_bar)
 {
 	GtkWidget *label;
 	GtkWidget *widget;
@@ -689,32 +692,6 @@ search_bar_init (ESearchBar *search_bar)
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 12);
 	search_bar->priv->matches_label = g_object_ref (widget);
 	gtk_widget_show (widget);
-}
-
-GType
-e_search_bar_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (ESearchBarClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) search_bar_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ESearchBar),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) search_bar_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_HBOX, "ESearchBar", &type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

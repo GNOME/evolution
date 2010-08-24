@@ -47,8 +47,12 @@ struct _ESignaturePreviewPrivate {
 	guint allow_scripts : 1;
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (
+	ESignaturePreview,
+	e_signature_preview,
+	E_TYPE_WEB_VIEW)
 
 static void
 signature_preview_set_property (GObject *object,
@@ -109,7 +113,7 @@ signature_preview_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_signature_preview_parent_class)->dispose (object);
 }
 
 static void
@@ -164,11 +168,10 @@ clear:
 }
 
 static void
-signature_preview_class_init (ESignaturePreviewClass *class)
+e_signature_preview_class_init (ESignaturePreviewClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ESignaturePreviewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -210,35 +213,9 @@ signature_preview_class_init (ESignaturePreviewClass *class)
 }
 
 static void
-signature_preview_init (ESignaturePreview *preview)
+e_signature_preview_init (ESignaturePreview *preview)
 {
 	preview->priv = E_SIGNATURE_PREVIEW_GET_PRIVATE (preview);
-}
-
-GType
-e_signature_preview_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (ESignaturePreviewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) signature_preview_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ESignaturePreview),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) signature_preview_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_WEB_VIEW, "ESignaturePreview", &type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

@@ -38,7 +38,10 @@ struct _ECellRendererComboPriv {
 	GList *list;
 };
 
-G_DEFINE_TYPE (ECellRendererCombo, e_cell_renderer_combo, GTK_TYPE_CELL_RENDERER_TEXT)
+G_DEFINE_TYPE (
+	ECellRendererCombo,
+	e_cell_renderer_combo,
+	GTK_TYPE_CELL_RENDERER_TEXT)
 
 static void
 ecrc_editing_done (GtkCellEditable *editable, ECellRendererCombo *cell)

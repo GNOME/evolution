@@ -42,7 +42,18 @@ enum {
 };
 
 static gint icon_size = GTK_ICON_SIZE_DIALOG;
-static gpointer parent_class;
+
+/* Forward Declarations */
+static void	e_attachment_icon_view_interface_init
+					(EAttachmentViewInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	EAttachmentIconView,
+	e_attachment_icon_view,
+	GTK_TYPE_ICON_VIEW,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_ATTACHMENT_VIEW,
+		e_attachment_icon_view_interface_init))
 
 void
 e_attachment_icon_view_set_default_icon_size (gint size)
@@ -102,7 +113,7 @@ attachment_icon_view_dispose (GObject *object)
 	e_attachment_view_dispose (E_ATTACHMENT_VIEW (object));
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_attachment_icon_view_parent_class)->dispose (object);
 }
 
 static void
@@ -111,7 +122,7 @@ attachment_icon_view_finalize (GObject *object)
 	e_attachment_view_finalize (E_ATTACHMENT_VIEW (object));
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_attachment_icon_view_parent_class)->finalize (object);
 }
 
 static gboolean
@@ -124,7 +135,7 @@ attachment_icon_view_button_press_event (GtkWidget *widget,
 		return TRUE;
 
 	/* Chain up to parent's button_press_event() method. */
-	return GTK_WIDGET_CLASS (parent_class)->
+	return GTK_WIDGET_CLASS (e_attachment_icon_view_parent_class)->
 		button_press_event (widget, event);
 }
 
@@ -138,7 +149,7 @@ attachment_icon_view_button_release_event (GtkWidget *widget,
 		return TRUE;
 
 	/* Chain up to parent's button_release_event() method. */
-	return GTK_WIDGET_CLASS (parent_class)->
+	return GTK_WIDGET_CLASS (e_attachment_icon_view_parent_class)->
 		button_release_event (widget, event);
 }
 
@@ -152,7 +163,7 @@ attachment_icon_view_motion_notify_event (GtkWidget *widget,
 		return TRUE;
 
 	/* Chain up to parent's motion_notify_event() method. */
-	return GTK_WIDGET_CLASS (parent_class)->
+	return GTK_WIDGET_CLASS (e_attachment_icon_view_parent_class)->
 		motion_notify_event (widget, event);
 }
 
@@ -166,7 +177,7 @@ attachment_icon_view_key_press_event (GtkWidget *widget,
 		return TRUE;
 
 	/* Chain up to parent's key_press_event() method. */
-	return GTK_WIDGET_CLASS (parent_class)->
+	return GTK_WIDGET_CLASS (e_attachment_icon_view_parent_class)->
 		key_press_event (widget, event);
 }
 
@@ -177,7 +188,8 @@ attachment_icon_view_drag_begin (GtkWidget *widget,
 	EAttachmentView *view = E_ATTACHMENT_VIEW (widget);
 
 	/* Chain up to parent's drag_begin() method. */
-	GTK_WIDGET_CLASS (parent_class)->drag_begin (widget, context);
+	GTK_WIDGET_CLASS (e_attachment_icon_view_parent_class)->
+		drag_begin (widget, context);
 
 	e_attachment_view_drag_begin (view, context);
 }
@@ -189,7 +201,8 @@ attachment_icon_view_drag_end (GtkWidget *widget,
 	EAttachmentView *view = E_ATTACHMENT_VIEW (widget);
 
 	/* Chain up to parent's drag_end() method. */
-	GTK_WIDGET_CLASS (parent_class)->drag_end (widget, context);
+	GTK_WIDGET_CLASS (e_attachment_icon_view_parent_class)->
+		drag_end (widget, context);
 
 	e_attachment_view_drag_end (view, context);
 }
@@ -232,8 +245,8 @@ attachment_icon_view_drag_drop (GtkWidget *widget,
 		return FALSE;
 
 	/* Chain up to parent's drag_drop() method. */
-	return GTK_WIDGET_CLASS (parent_class)->drag_drop (
-		widget, context, x, y, time);
+	return GTK_WIDGET_CLASS (e_attachment_icon_view_parent_class)->
+		drag_drop (widget, context, x, y, time);
 }
 
 static void
@@ -417,13 +430,12 @@ attachment_icon_view_drag_dest_unset (EAttachmentView *view)
 }
 
 static void
-attachment_icon_view_class_init (EAttachmentIconViewClass *class)
+e_attachment_icon_view_class_init (EAttachmentIconViewClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	GtkIconViewClass *icon_view_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EAttachmentViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -456,27 +468,7 @@ attachment_icon_view_class_init (EAttachmentIconViewClass *class)
 }
 
 static void
-attachment_icon_view_iface_init (EAttachmentViewIface *iface)
-{
-	iface->get_private = attachment_icon_view_get_private;
-	iface->get_store = attachment_icon_view_get_store;
-
-	iface->get_path_at_pos = attachment_icon_view_get_path_at_pos;
-	iface->get_selected_paths = attachment_icon_view_get_selected_paths;
-	iface->path_is_selected = attachment_icon_view_path_is_selected;
-	iface->select_path = attachment_icon_view_select_path;
-	iface->unselect_path = attachment_icon_view_unselect_path;
-	iface->select_all = attachment_icon_view_select_all;
-	iface->unselect_all = attachment_icon_view_unselect_all;
-
-	iface->drag_source_set = attachment_icon_view_drag_source_set;
-	iface->drag_dest_set = attachment_icon_view_drag_dest_set;
-	iface->drag_source_unset = attachment_icon_view_drag_source_unset;
-	iface->drag_dest_unset = attachment_icon_view_drag_dest_unset;
-}
-
-static void
-attachment_icon_view_init (EAttachmentIconView *icon_view)
+e_attachment_icon_view_init (EAttachmentIconView *icon_view)
 {
 	GtkCellLayout *cell_layout;
 	GtkCellRenderer *renderer;
@@ -532,40 +524,24 @@ attachment_icon_view_init (EAttachmentIconView *icon_view)
 		E_ATTACHMENT_STORE_COLUMN_SAVING);
 }
 
-GType
-e_attachment_icon_view_get_type (void)
+static void
+e_attachment_icon_view_interface_init (EAttachmentViewInterface *interface)
 {
-	static GType type = 0;
+	interface->get_private = attachment_icon_view_get_private;
+	interface->get_store = attachment_icon_view_get_store;
 
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EAttachmentIconViewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) attachment_icon_view_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EAttachmentIconView),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) attachment_icon_view_init,
-			NULL   /* value_table */
-		};
+	interface->get_path_at_pos = attachment_icon_view_get_path_at_pos;
+	interface->get_selected_paths = attachment_icon_view_get_selected_paths;
+	interface->path_is_selected = attachment_icon_view_path_is_selected;
+	interface->select_path = attachment_icon_view_select_path;
+	interface->unselect_path = attachment_icon_view_unselect_path;
+	interface->select_all = attachment_icon_view_select_all;
+	interface->unselect_all = attachment_icon_view_unselect_all;
 
-		static const GInterfaceInfo iface_info = {
-			(GInterfaceInitFunc) attachment_icon_view_iface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL   /* interface_data */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_ICON_VIEW, "EAttachmentIconView",
-			&type_info, 0);
-
-		g_type_add_interface_static (
-			type, E_TYPE_ATTACHMENT_VIEW, &iface_info);
-	}
-
-	return type;
+	interface->drag_source_set = attachment_icon_view_drag_source_set;
+	interface->drag_dest_set = attachment_icon_view_drag_dest_set;
+	interface->drag_source_unset = attachment_icon_view_drag_source_unset;
+	interface->drag_dest_unset = attachment_icon_view_drag_dest_unset;
 }
 
 GtkWidget *

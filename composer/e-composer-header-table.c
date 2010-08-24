@@ -72,7 +72,10 @@ struct _EComposerHeaderTablePrivate {
 	EShell *shell;
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EComposerHeaderTable,
+	e_composer_header_table,
+	GTK_TYPE_TABLE)
 
 static void
 g_value_set_destinations (GValue *value,
@@ -532,7 +535,8 @@ composer_header_table_constructor (GType type,
 	gboolean small_screen_mode;
 
 	/* Chain up to parent's constructor() method. */
-	object = G_OBJECT_CLASS (parent_class)->constructor (
+	object = G_OBJECT_CLASS (
+		e_composer_header_table_parent_class)->constructor (
 		type, n_construct_properties, construct_properties);
 
 	priv = E_COMPOSER_HEADER_TABLE_GET_PRIVATE (object);
@@ -830,16 +834,15 @@ composer_header_table_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_composer_header_table_parent_class)->dispose (object);
 }
 
 static void
-composer_header_table_class_init (EComposerHeaderTableClass *class)
+e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 {
 	GObjectClass *object_class;
 	GParamSpec *element_spec;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EComposerHeaderTablePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -987,7 +990,7 @@ composer_header_table_class_init (EComposerHeaderTableClass *class)
 }
 
 static void
-composer_header_table_init (EComposerHeaderTable *table)
+e_composer_header_table_init (EComposerHeaderTable *table)
 {
 	EComposerHeader *header;
 	ENameSelector *name_selector;
@@ -1056,32 +1059,6 @@ composer_header_table_init (EComposerHeaderTable *table)
 			header, "visible",
 			header->input_widget, "visible");
 	}
-}
-
-GType
-e_composer_header_table_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EComposerHeaderTableClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) composer_header_table_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EComposerHeaderTable),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) composer_header_table_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_TABLE, "EComposerHeaderTable", &type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

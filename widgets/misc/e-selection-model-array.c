@@ -30,7 +30,10 @@
 
 #include "e-selection-model-array.h"
 
-G_DEFINE_TYPE (ESelectionModelArray, e_selection_model_array, e_selection_model_get_type())
+G_DEFINE_TYPE (
+	ESelectionModelArray,
+	e_selection_model_array,
+	E_TYPE_SELECTION_MODEL)
 
 enum {
 	PROP_0,

@@ -50,7 +50,10 @@ struct _EMAccountPrefsPrivate {
 	gpointer editor;    /* weak pointer */
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EMAccountPrefs,
+	em_account_prefs,
+	E_TYPE_ACCOUNT_MANAGER)
 
 static void
 account_prefs_enable_account_cb (EAccountTreeView *tree_view)
@@ -258,16 +261,15 @@ account_prefs_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (em_account_prefs_parent_class)->dispose (object);
 }
 
 static void
-account_prefs_class_init (EMAccountPrefsClass *class)
+em_account_prefs_class_init (EMAccountPrefsClass *class)
 {
 	GObjectClass *object_class;
 	EAccountManagerClass *account_manager_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMAccountPrefsPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -280,7 +282,7 @@ account_prefs_class_init (EMAccountPrefsClass *class)
 }
 
 static void
-account_prefs_init (EMAccountPrefs *prefs)
+em_account_prefs_init (EMAccountPrefs *prefs)
 {
 	EAccountManager *manager;
 	EAccountTreeView *tree_view;
@@ -297,33 +299,6 @@ account_prefs_init (EMAccountPrefs *prefs)
 	g_signal_connect (
 		tree_view, "disable-account",
 		G_CALLBACK (account_prefs_disable_account_cb), NULL);
-}
-
-GType
-em_account_prefs_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMAccountPrefsClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) account_prefs_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMAccountPrefs),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) account_prefs_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_ACCOUNT_MANAGER, "EMAccountPrefs",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

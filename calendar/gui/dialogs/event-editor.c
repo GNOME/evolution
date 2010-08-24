@@ -197,7 +197,7 @@ static void
 action_send_options_cb (GtkAction *action,
                         EventEditor *editor)
 {
-	event_page_sendoptions_clicked_cb (editor->priv->event_page);
+	event_page_send_options_clicked_cb (editor->priv->event_page);
 }
 
 static void

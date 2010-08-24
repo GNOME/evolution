@@ -46,47 +46,22 @@ enum {
 
 static guint signals [LAST_SIGNAL] = { 0 };
 
-static void e_signature_list_class_init (ESignatureListClass *klass);
-static void e_signature_list_init (ESignatureList *list, ESignatureListClass *klass);
 static void e_signature_list_finalize (GObject *object);
 static void e_signature_list_dispose (GObject *object);
 
-static EListClass *parent_class = NULL;
-
-GType
-e_signature_list_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		GTypeInfo type_info = {
-			sizeof (ESignatureListClass),
-			NULL, NULL,
-			(GClassInitFunc) e_signature_list_class_init,
-			NULL, NULL,
-			sizeof (ESignatureList),
-			0,
-			(GInstanceInitFunc) e_signature_list_init,
-		};
-
-		type = g_type_register_static (E_TYPE_LIST, "ESignatureList", &type_info, 0);
-	}
-
-	return type;
-}
+G_DEFINE_TYPE (
+	ESignatureList,
+	e_signature_list,
+	E_TYPE_LIST)
 
 static void
 e_signature_list_class_init (ESignatureListClass *klass)
 {
 	GObjectClass *object_class = (GObjectClass *) klass;
 
-	parent_class = g_type_class_ref (E_TYPE_LIST);
-
-	/* virtual method override */
 	object_class->dispose = e_signature_list_dispose;
 	object_class->finalize = e_signature_list_finalize;
 
-	/* signals */
 	signals[SIGNATURE_ADDED] =
 		g_signal_new ("signature-added",
 			      G_OBJECT_CLASS_TYPE (object_class),
@@ -117,7 +92,7 @@ e_signature_list_class_init (ESignatureListClass *klass)
 }
 
 static void
-e_signature_list_init (ESignatureList *list, ESignatureListClass *klass)
+e_signature_list_init (ESignatureList *list)
 {
 	list->priv = g_new0 (struct _ESignatureListPrivate, 1);
 }
@@ -134,7 +109,7 @@ e_signature_list_dispose (GObject *object)
 		list->priv->gconf = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_signature_list_parent_class)->dispose (object);
 }
 
 static void
@@ -144,7 +119,7 @@ e_signature_list_finalize (GObject *object)
 
 	g_free (list->priv);
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_signature_list_parent_class)->finalize (object);
 }
 
 static GSList *

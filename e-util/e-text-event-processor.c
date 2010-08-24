@@ -49,7 +49,10 @@ enum {
 
 static guint e_tep_signals[E_TEP_LAST_SIGNAL] = { 0 };
 
-G_DEFINE_TYPE (ETextEventProcessor, e_text_event_processor, G_TYPE_OBJECT)
+G_DEFINE_TYPE (
+	ETextEventProcessor,
+	e_text_event_processor,
+	G_TYPE_OBJECT)
 
 static void
 e_text_event_processor_class_init (ETextEventProcessorClass *klass)

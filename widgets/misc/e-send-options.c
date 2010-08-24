@@ -97,19 +97,20 @@ struct _ESendOptionsDialogPrivate {
         gchar *help_section;
 };
 
-static void e_sendoptions_dialog_class_init (GObjectClass *object_class);
-static void e_sendoptions_dialog_finalize (GObject *object);
-static void e_sendoptions_dialog_init (GObject *object);
-static void e_sendoptions_dialog_dispose (GObject *object);
+static void e_send_options_dialog_finalize (GObject *object);
 static void e_send_options_cb (GtkDialog *dialog, gint state, gpointer func_data);
 
-static GObjectClass *parent_class = NULL;
 enum {
 	SOD_RESPONSE,
 	LAST_SIGNAL
 };
 
 static guint signals[LAST_SIGNAL] = {0};
+
+G_DEFINE_TYPE (
+	ESendOptionsDialog,
+	e_send_options_dialog,
+	G_TYPE_OBJECT)
 
 static void
 e_send_options_get_widgets_data (ESendOptionsDialog *sod)
@@ -530,7 +531,7 @@ setup_widgets (ESendOptionsDialog *sod, Item_type type)
 }
 
 ESendOptionsDialog *
-e_sendoptions_dialog_new (void) {
+e_send_options_dialog_new (void) {
 	ESendOptionsDialog *sod;
 
 	sod = g_object_new (E_TYPE_SENDOPTIONS_DIALOG, NULL);
@@ -539,7 +540,7 @@ e_sendoptions_dialog_new (void) {
 }
 
 void
-e_sendoptions_set_need_general_options (ESendOptionsDialog *sod, gboolean needed)
+e_send_options_set_need_general_options (ESendOptionsDialog *sod, gboolean needed)
 {
 	g_return_if_fail (E_IS_SENDOPTIONS_DIALOG (sod));
 
@@ -547,7 +548,7 @@ e_sendoptions_set_need_general_options (ESendOptionsDialog *sod, gboolean needed
 }
 
 gboolean
-e_sendoptions_get_need_general_options (ESendOptionsDialog *sod)
+e_send_options_get_need_general_options (ESendOptionsDialog *sod)
 {
 	g_return_val_if_fail (E_IS_SENDOPTIONS_DIALOG (sod), FALSE);
 
@@ -555,7 +556,7 @@ e_sendoptions_get_need_general_options (ESendOptionsDialog *sod)
 }
 
 gboolean
-e_sendoptions_set_global (ESendOptionsDialog *sod, gboolean set)
+e_send_options_set_global (ESendOptionsDialog *sod, gboolean set)
 {
 	g_return_val_if_fail (E_IS_SENDOPTIONS_DIALOG (sod), FALSE);
 
@@ -591,7 +592,7 @@ static void e_send_options_cb (GtkDialog *dialog, gint state, gpointer func_data
 }
 
 gboolean
-e_sendoptions_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type type)
+e_send_options_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type type)
 {
 	ESendOptionsDialogPrivate *priv;
 	GtkWidget *toplevel;
@@ -636,7 +637,7 @@ e_sendoptions_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type 
 }
 
 static void
-e_sendoptions_dialog_finalize (GObject *object)
+e_send_options_dialog_finalize (GObject *object)
 {
 	ESendOptionsDialog *sod = (ESendOptionsDialog *) object;
 	ESendOptionsDialogPrivate *priv;
@@ -681,32 +682,18 @@ e_sendoptions_dialog_finalize (GObject *object)
 		sod->priv = NULL;
 	}
 
-	if (parent_class->finalize)
-		(* parent_class->finalize) (object);
-
-}
-
-static void
-e_sendoptions_dialog_dispose (GObject *object)
-{
-	ESendOptionsDialog *sod = (ESendOptionsDialog *) object;
-
-	g_return_if_fail (E_IS_SENDOPTIONS_DIALOG (sod));
-
-	if (parent_class->dispose)
-		(* parent_class->dispose) (object);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_send_options_dialog_parent_class)->finalize (object);
 
 }
 
 /* Object initialization function for the task page */
 static void
-e_sendoptions_dialog_init (GObject *object)
+e_send_options_dialog_init (ESendOptionsDialog *sod)
 {
-	ESendOptionsDialog *sod;
 	ESendOptionsDialogPrivate *priv;
 	ESendOptionsData *new;
 
-	sod = E_SENDOPTIONS_DIALOG (object);
 	new = g_new0 (ESendOptionsData, 1);
 	new->gopts = g_new0 (ESendOptionsGeneral, 1);
 	new->sopts = g_new0 (ESendOptionsStatusTracking, 1);
@@ -757,19 +744,15 @@ e_sendoptions_dialog_init (GObject *object)
 
 /* Class initialization function for the Send Options */
 static void
-e_sendoptions_dialog_class_init (GObjectClass *object)
+e_send_options_dialog_class_init (ESendOptionsDialogClass *class)
 {
-	ESendOptionsDialogClass *klass;
 	GObjectClass *object_class;
 
-	klass = E_SENDOPTIONS_DIALOG_CLASS (object);
-	parent_class = g_type_class_peek_parent (klass);
-	object_class = G_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = e_send_options_dialog_finalize;
 
-	object_class->finalize = e_sendoptions_dialog_finalize;
-	object_class->dispose = e_sendoptions_dialog_dispose;
 	signals[SOD_RESPONSE] = g_signal_new ("sod_response",
-			G_TYPE_FROM_CLASS (klass),
+			G_TYPE_FROM_CLASS (class),
 			G_SIGNAL_RUN_FIRST,
 			G_STRUCT_OFFSET (ESendOptionsDialogClass, sod_response),
 			NULL, NULL,
@@ -777,27 +760,4 @@ e_sendoptions_dialog_class_init (GObjectClass *object)
 			G_TYPE_NONE, 1,
 			G_TYPE_INT);
 
-}
-
-GType e_sendoptions_dialog_get_type (void)
-{
-  static GType type = 0;
-  if (type == 0) {
-    static const GTypeInfo info = {
-      sizeof (ESendOptionsDialogClass),
-      NULL,   /* base_init */
-      NULL,   /* base_finalize */
-      (GClassInitFunc) e_sendoptions_dialog_class_init,   /* class_init */
-      NULL,   /* class_finalize */
-      NULL,   /* class_data */
-      sizeof (ESendOptionsDialog),
-     0,      /* n_preallocs */
-     (GInstanceInitFunc) e_sendoptions_dialog_init,
-	NULL    /* instance_init */
-    };
-    type = g_type_register_static (G_TYPE_OBJECT,
-                                   "ESendOptionsDialogType",
-                                   &info, 0);
-  }
-  return type;
 }

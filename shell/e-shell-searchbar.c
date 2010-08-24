@@ -92,8 +92,11 @@ enum {
 };
 
 G_DEFINE_TYPE_WITH_CODE (
-	EShellSearchbar, e_shell_searchbar, GTK_TYPE_BOX,
-	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
+	EShellSearchbar,
+	e_shell_searchbar,
+	GTK_TYPE_BOX,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL))
 
 static void
 shell_searchbar_save_search_filter (EShellSearchbar *searchbar)

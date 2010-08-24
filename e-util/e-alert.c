@@ -136,7 +136,10 @@ map_type(const gchar *name)
 	return 3;
 }
 
-G_DEFINE_TYPE (EAlert, e_alert, G_TYPE_OBJECT)
+G_DEFINE_TYPE (
+	EAlert,
+	e_alert,
+	G_TYPE_OBJECT)
 
 #define ALERT_PRIVATE(o) \
   (G_TYPE_INSTANCE_GET_PRIVATE ((o), E_TYPE_ALERT, EAlertPrivate))

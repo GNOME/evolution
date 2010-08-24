@@ -43,7 +43,10 @@ struct _EImportImporters {
 	gpointer data;
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EImport,
+	e_import,
+	G_TYPE_OBJECT)
 
 static void
 import_finalize (GObject *object)
@@ -53,7 +56,7 @@ import_finalize (GObject *object)
 	g_free (import->id);
 
 	/* Chain up to parent's finalize () method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_import_parent_class)->finalize (object);
 }
 
 static void
@@ -77,11 +80,9 @@ import_target_free (EImport *import,
 }
 
 static void
-import_class_init (EImportClass *class)
+e_import_class_init (EImportClass *class)
 {
 	GObjectClass *object_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = import_finalize;
@@ -89,38 +90,9 @@ import_class_init (EImportClass *class)
 	class->target_free = import_target_free;
 }
 
-/**
- * e_import_get_type:
- *
- * Standard GObject method.  Used to subclass for the concrete
- * implementations.
- *
- * Return value: EImport type.
- **/
-GType
-e_import_get_type (void)
+static void
+e_import_init (EImport *import)
 {
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EImportClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) import_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EImport),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "EImport", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**
@@ -434,7 +406,6 @@ e_import_target_new_home (EImport *import)
 
 */
 
-static gpointer emph_parent_class;
 #define emph ((EImportHook *)eph)
 
 static const EImportHookTargetMask eih_no_masks[] = {
@@ -446,6 +417,11 @@ static const EImportHookTargetMap eih_targets[] = {
 	{ "home", E_IMPORT_TARGET_HOME, eih_no_masks },
 	{ NULL }
 };
+
+G_DEFINE_TYPE (
+	EImportHook,
+	e_import_hook,
+	E_TYPE_PLUGIN_HOOK)
 
 static gboolean
 eih_supported (EImport *ei,
@@ -557,7 +533,7 @@ emph_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	d (printf ("loading import hook\n"));
 
-	if (E_PLUGIN_HOOK_CLASS (emph_parent_class)->construct (eph, ep, root) == -1)
+	if (E_PLUGIN_HOOK_CLASS (e_import_hook_parent_class)->construct (eph, ep, root) == -1)
 		return -1;
 
 	class = E_IMPORT_HOOK_GET_CLASS (eph)->import_class;
@@ -585,7 +561,7 @@ emph_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 }
 
 static void
-emph_class_init (EImportHookClass *class)
+e_import_hook_class_init (EImportHookClass *class)
 {
 	EPluginHookClass *plugin_hook_class;
 	gint ii;
@@ -608,31 +584,9 @@ emph_class_init (EImportHookClass *class)
 		e_import_hook_class_add_target_map (class, &eih_targets[ii]);
 }
 
-GType
-e_import_hook_get_type (void)
+static void
+e_import_hook_init (EImportHook *hook)
 {
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EImportHookClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) emph_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EImportHook),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL   /* value_table */
-		};
-
-		emph_parent_class = g_type_class_ref (e_plugin_hook_get_type ());
-		type = g_type_register_static (
-			E_TYPE_PLUGIN_HOOK, "EImportHook", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

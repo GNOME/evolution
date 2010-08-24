@@ -41,7 +41,16 @@ struct _EPopupActionPrivate {
 	gulong notify_handler_id;
 };
 
-static gpointer parent_class;
+/* Forward Declarations */
+static void e_popup_action_activatable_init (GtkActivatableIface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	EPopupAction,
+	e_popup_action,
+	GTK_TYPE_ACTION,
+	G_IMPLEMENT_INTERFACE (
+		GTK_TYPE_ACTIVATABLE,
+		e_popup_action_activatable_init))
 
 static void
 popup_action_notify_cb (GtkAction *action,
@@ -203,7 +212,7 @@ popup_action_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_popup_action_parent_class)->dispose (object);
 }
 
 static void
@@ -301,11 +310,10 @@ popup_action_sync_action_properties (GtkActivatable *activatable,
 }
 
 static void
-popup_action_class_init (EPopupActionClass *class)
+e_popup_action_class_init (EPopupActionClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EPopupActionPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -325,14 +333,7 @@ popup_action_class_init (EPopupActionClass *class)
 }
 
 static void
-popup_action_iface_init (GtkActivatableIface *iface)
-{
-	iface->update = popup_action_update;
-	iface->sync_action_properties = popup_action_sync_action_properties;
-}
-
-static void
-popup_action_init (EPopupAction *popup_action)
+e_popup_action_init (EPopupAction *popup_action)
 {
 	popup_action->priv = E_POPUP_ACTION_GET_PRIVATE (popup_action);
 	popup_action->priv->use_action_appearance = TRUE;
@@ -341,39 +342,11 @@ popup_action_init (EPopupAction *popup_action)
 	gtk_action_set_visible (GTK_ACTION (popup_action), FALSE);
 }
 
-GType
-e_popup_action_get_type (void)
+static void
+e_popup_action_activatable_init (GtkActivatableIface *interface)
 {
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EPopupActionClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) popup_action_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EPopupAction),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) popup_action_init,
-			NULL   /* value_table */
-		};
-
-		static const GInterfaceInfo iface_info = {
-			(GInterfaceInitFunc) popup_action_iface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL   /* interface_data */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_ACTION, "EPopupAction", &type_info, 0);
-
-		g_type_add_interface_static (
-			type, GTK_TYPE_ACTIVATABLE, &iface_info);
-	}
-
-	return type;
+	interface->update = popup_action_update;
+	interface->sync_action_properties = popup_action_sync_action_properties;
 }
 
 EPopupAction *

@@ -48,7 +48,10 @@ enum {
 	PROP_TOTAL_SIZE
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EAttachmentStore,
+	e_attachment_store,
+	GTK_TYPE_LIST_STORE)
 
 static void
 attachment_store_set_property (GObject *object,
@@ -116,7 +119,7 @@ attachment_store_dispose (GObject *object)
 	g_hash_table_remove_all (priv->attachment_index);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_attachment_store_parent_class)->dispose (object);
 }
 
 static void
@@ -131,7 +134,7 @@ attachment_store_finalize (GObject *object)
 	g_free (priv->current_folder);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_attachment_store_parent_class)->finalize (object);
 }
 
 static void
@@ -147,11 +150,10 @@ attachment_store_constructed (GObject *object)
 }
 
 static void
-attachment_store_class_init (EAttachmentStoreClass *class)
+e_attachment_store_class_init (EAttachmentStoreClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EAttachmentStorePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -210,7 +212,7 @@ attachment_store_class_init (EAttachmentStoreClass *class)
 }
 
 static void
-attachment_store_init (EAttachmentStore *store)
+e_attachment_store_init (EAttachmentStore *store)
 {
 	GType types[E_ATTACHMENT_STORE_NUM_COLUMNS];
 	GHashTable *attachment_index;
@@ -238,33 +240,6 @@ attachment_store_init (EAttachmentStore *store)
 
 	gtk_list_store_set_column_types (
 		GTK_LIST_STORE (store), G_N_ELEMENTS (types), types);
-}
-
-GType
-e_attachment_store_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EAttachmentStoreClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) attachment_store_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EAttachmentStore),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) attachment_store_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_LIST_STORE, "EAttachmentStore",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 GtkTreeModel *

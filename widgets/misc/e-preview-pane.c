@@ -43,8 +43,12 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (
+	EPreviewPane,
+	e_preview_pane,
+	GTK_TYPE_VBOX)
 
 static void
 preview_pane_set_web_view (EPreviewPane *preview_pane,
@@ -114,7 +118,7 @@ preview_pane_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_preview_pane_parent_class)->dispose (object);
 }
 
 static void
@@ -153,12 +157,11 @@ preview_pane_show_search_bar (EPreviewPane *preview_pane)
 }
 
 static void
-preview_pane_class_init (EPreviewPaneClass *class)
+e_preview_pane_class_init (EPreviewPaneClass *class)
 {
 	GObjectClass *object_class;
 	GtkBindingSet *binding_set;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EPreviewPanePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -207,37 +210,11 @@ preview_pane_class_init (EPreviewPaneClass *class)
 }
 
 static void
-preview_pane_init (EPreviewPane *preview_pane)
+e_preview_pane_init (EPreviewPane *preview_pane)
 {
 	preview_pane->priv = E_PREVIEW_PANE_GET_PRIVATE (preview_pane);
 
 	gtk_box_set_spacing (GTK_BOX (preview_pane), 1);
-}
-
-GType
-e_preview_pane_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EPreviewPaneClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) preview_pane_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EPreviewPane),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) preview_pane_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_VBOX, "EPreviewPane", &type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

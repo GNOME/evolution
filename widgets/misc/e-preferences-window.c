@@ -53,7 +53,43 @@ enum {
 	COLUMN_SORT	/* G_TYPE_INT */
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EPreferencesWindow,
+	e_preferences_window,
+	GTK_TYPE_WINDOW)
+
+static gboolean
+preferences_window_filter_view (GtkTreeModel *model,
+                                GtkTreeIter *iter,
+                                EPreferencesWindow *window)
+{
+	gchar *str;
+	gboolean visible = FALSE;
+
+	if (!window->priv->filter_view)
+		return TRUE;
+
+	gtk_tree_model_get (model, iter, COLUMN_ID, &str, -1);
+	if (strncmp(window->priv->filter_view, "mail", 4) == 0) {
+		/* Show everything except calendar */
+		if (str && (strncmp (str, "cal", 3) == 0))
+			visible = FALSE;
+		else
+			visible = TRUE;
+	} else if (strncmp(window->priv->filter_view, "cal", 3) == 0) {
+		/* Show only calendar and nothing else */
+		if (str && (strncmp (str, "cal", 3) != 0))
+			visible = FALSE;
+		else
+			visible = TRUE;
+
+	} else  /* In any other case, show everything */
+		visible = TRUE;
+
+	g_free (str);
+
+	return visible;
+}
 
 static GdkPixbuf *
 preferences_window_load_pixbuf (const gchar *icon_name)
@@ -149,7 +185,7 @@ preferences_window_dispose (GObject *object)
 	g_hash_table_remove_all (priv->index);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_preferences_window_parent_class)->dispose (object);
 }
 
 static void
@@ -162,7 +198,7 @@ preferences_window_finalize (GObject *object)
 	g_hash_table_destroy (priv->index);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_preferences_window_parent_class)->finalize (object);
 }
 
 static void
@@ -186,16 +222,15 @@ preferences_window_show (GtkWidget *widget)
 	gtk_widget_grab_focus (priv->icon_view);
 
 	/* Chain up to parent's show() method. */
-	GTK_WIDGET_CLASS (parent_class)->show (widget);
+	GTK_WIDGET_CLASS (e_preferences_window_parent_class)->show (widget);
 }
 
 static void
-preferences_window_class_init (EPreferencesWindowClass *class)
+e_preferences_window_class_init (EPreferencesWindowClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EPreferencesWindowPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -206,42 +241,8 @@ preferences_window_class_init (EPreferencesWindowClass *class)
 	widget_class->show = preferences_window_show;
 }
 
-static gboolean
-filter_view (GtkTreeModel *model,
-              GtkTreeIter  *iter,
-              gpointer      data)
-{
-	EPreferencesWindow *window = (EPreferencesWindow *)data;
-	gchar *str;
-	gboolean visible = FALSE;
-
-	if (!window->priv->filter_view)
-		return TRUE;
-
-	gtk_tree_model_get (model, iter, COLUMN_ID, &str, -1);
-	if (strncmp(window->priv->filter_view, "mail", 4) == 0) {
-		/* Show everything except calendar */
-		if (str && (strncmp (str, "cal", 3) == 0))
-			visible = FALSE;
-		else
-			visible = TRUE;
-	} else if (strncmp(window->priv->filter_view, "cal", 3) == 0) {
-		/* Show only calendar and nothing else */
-		if (str && (strncmp (str, "cal", 3) != 0))
-			visible = FALSE;
-		else
-			visible = TRUE;
-
-	} else  /* In any other case, show everything */
-		visible = TRUE;
-
-	g_free (str);
-
-	return visible;
-}
-
 static void
-preferences_window_init (EPreferencesWindow *window)
+e_preferences_window_init (EPreferencesWindow *window)
 {
 	GtkListStore *store;
 	GtkWidget *container;
@@ -271,7 +272,8 @@ preferences_window_init (EPreferencesWindow *window)
 	window->priv->filter = (GtkTreeModelFilter *)
 		gtk_tree_model_filter_new (GTK_TREE_MODEL (store), NULL);
 	gtk_tree_model_filter_set_visible_func (
-		window->priv->filter, filter_view, window, NULL);
+		window->priv->filter, (GtkTreeModelFilterVisibleFunc)
+		preferences_window_filter_view, window, NULL);
 
 	title = _("Evolution Preferences");
 	gtk_window_set_title (GTK_WINDOW (window), title);
@@ -356,32 +358,6 @@ preferences_window_init (EPreferencesWindow *window)
 	gtk_window_add_accel_group (GTK_WINDOW (window), accel_group);
 	gtk_widget_grab_default (widget);
 	gtk_widget_show (widget);
-}
-
-GType
-e_preferences_window_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (EPreferencesWindowClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) preferences_window_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EPreferencesWindow),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) preferences_window_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_WINDOW, "EPreferencesWindow", &type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

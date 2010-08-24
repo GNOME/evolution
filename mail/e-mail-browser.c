@@ -723,13 +723,13 @@ static void
 mail_browser_set_message (EMailReader *reader,
                           const gchar *uid)
 {
-	EMailReaderIface *iface;
+	EMailReaderInterface *interface;
 	CamelMessageInfo *info;
 	CamelFolder *folder;
 
 	/* Chain up to parent's set_message() method. */
-	iface = g_type_default_interface_peek (E_TYPE_MAIL_READER);
-	iface->set_message (reader, uid);
+	interface = g_type_default_interface_peek (E_TYPE_MAIL_READER);
+	interface->set_message (reader, uid);
 
 	if (uid == NULL) {
 		e_mail_browser_close (E_MAIL_BROWSER (reader));
@@ -814,17 +814,17 @@ mail_browser_class_init (EMailBrowserClass *class)
 }
 
 static void
-mail_browser_iface_init (EMailReaderIface *iface)
+mail_browser_interface_init (EMailReaderInterface *interface)
 {
-	iface->get_action_group = mail_browser_get_action_group;
-	iface->get_formatter = mail_browser_get_formatter;
-	iface->get_hide_deleted = mail_browser_get_hide_deleted;
-	iface->get_message_list = mail_browser_get_message_list;
-	iface->get_popup_menu = mail_browser_get_popup_menu;
-	iface->get_shell_backend = mail_browser_get_shell_backend;
-	iface->get_window = mail_browser_get_window;
-	iface->set_message = mail_browser_set_message;
-	iface->show_search_bar = mail_browser_show_search_bar;
+	interface->get_action_group = mail_browser_get_action_group;
+	interface->get_formatter = mail_browser_get_formatter;
+	interface->get_hide_deleted = mail_browser_get_hide_deleted;
+	interface->get_message_list = mail_browser_get_message_list;
+	interface->get_popup_menu = mail_browser_get_popup_menu;
+	interface->get_shell_backend = mail_browser_get_shell_backend;
+	interface->get_window = mail_browser_get_window;
+	interface->set_message = mail_browser_set_message;
+	interface->show_search_bar = mail_browser_show_search_bar;
 }
 
 static void
@@ -864,8 +864,8 @@ e_mail_browser_get_type (void)
 			NULL   /* value_table */
 		};
 
-		static const GInterfaceInfo iface_info = {
-			(GInterfaceInitFunc) mail_browser_iface_init,
+		static const GInterfaceInfo interface_info = {
+			(GInterfaceInitFunc) mail_browser_interface_init,
 			(GInterfaceFinalizeFunc) NULL,
 			NULL   /* interface_data */
 		};
@@ -874,7 +874,7 @@ e_mail_browser_get_type (void)
 			GTK_TYPE_WINDOW, "EMailBrowser", &type_info, 0);
 
 		g_type_add_interface_static (
-			type, E_TYPE_MAIL_READER, &iface_info);
+			type, E_TYPE_MAIL_READER, &interface_info);
 	}
 
 	return type;

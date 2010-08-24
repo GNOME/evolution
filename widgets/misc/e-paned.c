@@ -52,7 +52,10 @@ enum {
 	PROP_FIXED_RESIZE
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EPaned,
+	e_paned,
+	GTK_TYPE_PANED)
 
 static gboolean
 paned_window_state_event_cb (EPaned *paned,
@@ -217,7 +220,7 @@ paned_realize (GtkWidget *widget)
 	priv = E_PANED_GET_PRIVATE (widget);
 
 	/* Chain up to parent's realize() method. */
-	GTK_WIDGET_CLASS (parent_class)->realize (widget);
+	GTK_WIDGET_CLASS (e_paned_parent_class)->realize (widget);
 
 	/* XXX This would be easier if we could be notified of
 	 *     window state events directly, but I can't seem
@@ -250,7 +253,8 @@ paned_size_allocate (GtkWidget *widget,
 	gint position;
 
 	/* Chain up to parent's size_allocate() method. */
-	GTK_WIDGET_CLASS (parent_class)->size_allocate (widget, allocation);
+	GTK_WIDGET_CLASS (e_paned_parent_class)->
+		size_allocate (widget, allocation);
 
 	if (!paned->priv->toplevel_ready)
 		return;
@@ -282,12 +286,11 @@ paned_size_allocate (GtkWidget *widget,
 }
 
 static void
-paned_class_init (EPanedClass *class)
+e_paned_class_init (EPanedClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EPanedPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -346,7 +349,7 @@ paned_class_init (EPanedClass *class)
 }
 
 static void
-paned_init (EPaned *paned)
+e_paned_init (EPaned *paned)
 {
 	paned->priv = E_PANED_GET_PRIVATE (paned);
 
@@ -360,32 +363,6 @@ paned_init (EPaned *paned)
 	g_signal_connect (
 		paned, "notify::position",
 		G_CALLBACK (paned_notify_position_cb), NULL);
-}
-
-GType
-e_paned_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EPanedClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) paned_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EPaned),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) paned_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_PANED, "EPaned", &type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

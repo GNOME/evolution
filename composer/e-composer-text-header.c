@@ -30,7 +30,10 @@ struct _EComposerTextHeaderPrivate {
 	guint destination_index;
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EComposerTextHeader,
+	e_composer_text_header,
+	E_TYPE_COMPOSER_HEADER)
 
 static void
 composer_text_header_changed_cb (GtkEntry *entry,
@@ -59,13 +62,12 @@ composer_text_header_query_tooltip_cb (GtkEntry *entry,
 }
 
 static void
-composer_text_header_class_init (EComposerTextHeaderClass *class)
+e_composer_text_header_class_init (EComposerTextHeaderClass *class)
 {
-	parent_class = g_type_class_peek_parent (class);
 }
 
 static void
-composer_text_header_init (EComposerTextHeader *header)
+e_composer_text_header_init (EComposerTextHeader *header)
 {
 	GtkWidget *widget;
 
@@ -78,33 +80,6 @@ composer_text_header_init (EComposerTextHeader *header)
 		G_CALLBACK (composer_text_header_query_tooltip_cb), NULL);
 	gtk_widget_set_has_tooltip (widget, TRUE);
 	E_COMPOSER_HEADER (header)->input_widget = widget;
-}
-
-GType
-e_composer_text_header_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EComposerTextHeaderClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) composer_text_header_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EComposerTextHeader),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) composer_text_header_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_COMPOSER_HEADER, "EComposerTextHeader",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 EComposerHeader *

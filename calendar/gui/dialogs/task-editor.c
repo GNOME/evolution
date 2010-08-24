@@ -107,7 +107,7 @@ static void
 action_send_options_cb (GtkAction *action,
                         TaskEditor *editor)
 {
-	task_page_sendoptions_clicked_cb (editor->priv->task_page);
+	task_page_send_options_clicked_cb (editor->priv->task_page);
 }
 
 static GtkActionEntry task_entries[] = {

@@ -36,7 +36,10 @@ enum {
 	PROP_CANCELLABLE
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EIOActivity,
+	e_io_activity,
+	E_TYPE_ACTIVITY)
 
 static void
 io_activity_set_property (GObject *object,
@@ -102,7 +105,7 @@ io_activity_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_io_activity_parent_class)->dispose (object);
 }
 
 static void
@@ -112,7 +115,7 @@ io_activity_cancelled (EActivity *activity)
 	GCancellable *cancellable;
 
 	/* Chain up to parent's cancelled() method. */
-	E_ACTIVITY_CLASS (parent_class)->cancelled (activity);
+	E_ACTIVITY_CLASS (e_io_activity_parent_class)->cancelled (activity);
 
 	io_activity = E_IO_ACTIVITY (activity);
 	cancellable = e_io_activity_get_cancellable (io_activity);
@@ -128,7 +131,7 @@ io_activity_completed (EActivity *activity)
 	GAsyncResult *async_result;
 
 	/* Chain up to parent's completed() method. */
-	E_ACTIVITY_CLASS (parent_class)->completed (activity);
+	E_ACTIVITY_CLASS (e_io_activity_parent_class)->completed (activity);
 
 	io_activity = E_IO_ACTIVITY (activity);
 	async_result = e_io_activity_get_async_result (io_activity);
@@ -142,12 +145,11 @@ io_activity_completed (EActivity *activity)
 }
 
 static void
-io_activity_class_init (EIOActivityClass *class)
+e_io_activity_class_init (EIOActivityClass *class)
 {
 	GObjectClass *object_class;
 	EActivityClass *activity_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EIOActivityPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -183,35 +185,9 @@ io_activity_class_init (EIOActivityClass *class)
 }
 
 static void
-io_activity_init (EIOActivity *io_activity)
+e_io_activity_init (EIOActivity *io_activity)
 {
 	io_activity->priv = E_IO_ACTIVITY_GET_PRIVATE (io_activity);
-}
-
-GType
-e_io_activity_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EIOActivityClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) io_activity_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EIOActivity),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) io_activity_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_ACTIVITY, "EIOActivity", &type_info, 0);
-	}
-
-	return type;
 }
 
 EActivity *

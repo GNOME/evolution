@@ -29,7 +29,10 @@
 
 #include "e-selection-model.h"
 
-G_DEFINE_TYPE (ESelectionModel, e_selection_model, G_TYPE_OBJECT)
+G_DEFINE_TYPE (
+	ESelectionModel,
+	e_selection_model,
+	G_TYPE_OBJECT)
 
 enum {
 	CURSOR_CHANGED,

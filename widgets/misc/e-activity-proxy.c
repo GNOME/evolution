@@ -41,7 +41,10 @@ enum {
 	PROP_ACTIVITY
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EActivityProxy,
+	e_activity_proxy,
+	GTK_TYPE_EVENT_BOX)
 
 static void
 activity_proxy_update (EActivityProxy *proxy)
@@ -183,7 +186,7 @@ activity_proxy_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_activity_proxy_parent_class)->dispose (object);
 }
 
 static void
@@ -217,11 +220,10 @@ activity_proxy_constructed (GObject *object)
 }
 
 static void
-activity_proxy_class_init (EActivityProxyClass *class)
+e_activity_proxy_class_init (EActivityProxyClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EActivityProxyPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -243,7 +245,7 @@ activity_proxy_class_init (EActivityProxyClass *class)
 }
 
 static void
-activity_proxy_init (EActivityProxy *proxy)
+e_activity_proxy_init (EActivityProxy *proxy)
 {
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -298,32 +300,6 @@ activity_proxy_init (EActivityProxy *proxy)
 	gtk_widget_set_tooltip_text (widget, _("Cancel"));
 	proxy->priv->cancel = g_object_ref (widget);
 	gtk_widget_show (widget);
-}
-
-GType
-e_activity_proxy_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EActivityProxyClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) activity_proxy_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EActivityProxy),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) activity_proxy_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_EVENT_BOX, "EActivityProxy", &type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

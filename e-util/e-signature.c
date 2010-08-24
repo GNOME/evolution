@@ -60,7 +60,10 @@ enum {
 	PROP_UID
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	ESignature,
+	e_signature,
+	G_TYPE_OBJECT)
 
 static gboolean
 xml_set_bool (xmlNodePtr node,
@@ -235,7 +238,7 @@ signature_finalize (GObject *object)
 	g_free (priv->uid);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_signature_parent_class)->finalize (object);
 }
 
 static void
@@ -243,7 +246,6 @@ e_signature_class_init (ESignatureClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ESignaturePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -322,32 +324,6 @@ static void
 e_signature_init (ESignature *signature)
 {
 	signature->priv = E_SIGNATURE_GET_PRIVATE (signature);
-}
-
-GType
-e_signature_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		GTypeInfo type_info = {
-			sizeof (ESignatureClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) e_signature_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ESignature),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) e_signature_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "ESignature", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

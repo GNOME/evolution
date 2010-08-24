@@ -56,7 +56,10 @@ enum {
 	PROP_SPACING
 };
 
-G_DEFINE_TYPE (ECanvasVbox, e_canvas_vbox, GNOME_TYPE_CANVAS_GROUP)
+G_DEFINE_TYPE (
+	ECanvasVbox,
+	e_canvas_vbox,
+	GNOME_TYPE_CANVAS_GROUP)
 
 static void
 e_canvas_vbox_class_init (ECanvasVboxClass *klass)

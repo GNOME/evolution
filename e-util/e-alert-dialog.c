@@ -24,7 +24,10 @@
 #include "e-alert-dialog.h"
 #include "e-util.h"
 
-G_DEFINE_TYPE (EAlertDialog, e_alert_dialog, GTK_TYPE_DIALOG)
+G_DEFINE_TYPE (
+	EAlertDialog,
+	e_alert_dialog,
+	GTK_TYPE_DIALOG)
 
 #define ALERT_DIALOG_PRIVATE(o) \
 		(G_TYPE_INSTANCE_GET_PRIVATE ((o), E_TYPE_ALERT_DIALOG, EAlertDialogPrivate))

@@ -52,7 +52,10 @@ enum {
 	PROP_FILENAME
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EModule,
+	e_module,
+	G_TYPE_TYPE_MODULE)
 
 static void
 module_set_filename (EModule *module,
@@ -107,7 +110,7 @@ module_finalize (GObject *object)
 	g_free (priv->filename);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_module_parent_class)->finalize (object);
 }
 
 static gboolean
@@ -164,12 +167,11 @@ module_unload (GTypeModule *type_module)
 }
 
 static void
-module_class_init (EModuleClass *class)
+e_module_class_init (EModuleClass *class)
 {
 	GObjectClass *object_class;
 	GTypeModuleClass *type_module_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EModulePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -199,35 +201,9 @@ module_class_init (EModuleClass *class)
 }
 
 static void
-module_init (EModule *module)
+e_module_init (EModule *module)
 {
 	module->priv = E_MODULE_GET_PRIVATE (module);
-}
-
-GType
-e_module_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (EModuleClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) module_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EModule),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) module_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_TYPE_MODULE, "EModule", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

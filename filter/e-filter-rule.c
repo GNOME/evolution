@@ -65,8 +65,12 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (
+	EFilterRule,
+	e_filter_rule,
+	G_TYPE_OBJECT)
 
 static void
 filter_rule_grouping_changed_cb (GtkComboBox *combo_box,
@@ -353,7 +357,7 @@ filter_rule_finalize (GObject *object)
 	g_list_free (rule->parts);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_filter_rule_parent_class)->finalize (object);
 }
 
 static gint
@@ -814,11 +818,10 @@ filter_rule_get_widget (EFilterRule *rule,
 }
 
 static void
-filter_rule_class_init (EFilterRuleClass *class)
+e_filter_rule_class_init (EFilterRuleClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EFilterRulePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -844,36 +847,10 @@ filter_rule_class_init (EFilterRuleClass *class)
 }
 
 static void
-filter_rule_init (EFilterRule *rule)
+e_filter_rule_init (EFilterRule *rule)
 {
 	rule->priv = E_FILTER_RULE_GET_PRIVATE (rule);
 	rule->enabled = TRUE;
-}
-
-GType
-e_filter_rule_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EFilterRuleClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) filter_rule_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EFilterRule),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) filter_rule_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "EFilterRule", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

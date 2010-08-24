@@ -29,8 +29,12 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signal_ids[LAST_SIGNAL];
+
+G_DEFINE_TYPE (
+	EComposerFromHeader,
+	e_composer_from_header,
+	E_TYPE_COMPOSER_HEADER)
 
 static void
 composer_from_header_changed_cb (EAccountComboBox *combo_box,
@@ -47,10 +51,8 @@ composer_from_header_refreshed_cb (EAccountComboBox *combo_box,
 }
 
 static void
-composer_from_header_class_init (EComposerFromHeaderClass *class)
+e_composer_from_header_class_init (EComposerFromHeaderClass *class)
 {
-	parent_class = g_type_class_peek_parent (class);
-
 	signal_ids[REFRESHED] = g_signal_new (
 		"refreshed",
 		G_TYPE_FROM_CLASS (class),
@@ -61,7 +63,7 @@ composer_from_header_class_init (EComposerFromHeaderClass *class)
 }
 
 static void
-composer_from_header_init (EComposerFromHeader *header)
+e_composer_from_header_init (EComposerFromHeader *header)
 {
 	GtkWidget *widget;
 
@@ -73,33 +75,6 @@ composer_from_header_init (EComposerFromHeader *header)
 		widget, "refreshed",
 		G_CALLBACK (composer_from_header_refreshed_cb), header);
 	E_COMPOSER_HEADER (header)->input_widget = widget;
-}
-
-GType
-e_composer_from_header_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EComposerFromHeaderClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) composer_from_header_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EComposerFromHeader),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) composer_from_header_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_COMPOSER_HEADER, "EComposerFromHeader",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 EComposerHeader *

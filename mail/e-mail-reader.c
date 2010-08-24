@@ -106,6 +106,8 @@ static gchar *default_xfer_messages_uri;
 static GQuark quark_private;
 static guint signals[LAST_SIGNAL];
 
+G_DEFINE_INTERFACE (EMailReader, e_mail_reader, GTK_TYPE_OBJECT)
+
 static void
 mail_reader_destroy (GObject *object)
 {
@@ -2899,21 +2901,21 @@ mail_reader_init_charset_actions (EMailReader *reader)
 }
 
 static void
-mail_reader_class_init (EMailReaderIface *iface)
+e_mail_reader_default_init (EMailReaderInterface *interface)
 {
 	quark_private = g_quark_from_static_string ("EMailReader-private");
 
-	iface->get_selected_uids = mail_reader_get_selected_uids;
-	iface->get_folder = mail_reader_get_folder;
-	iface->get_folder_uri = mail_reader_get_folder_uri;
-	iface->enable_show_folder = mail_reader_get_enable_show_folder;
-	iface->set_folder = mail_reader_set_folder;
-	iface->set_message = mail_reader_set_message;
-	iface->open_selected_mail = e_mail_reader_open_selected;
-	iface->update_actions = mail_reader_update_actions;
+	interface->get_selected_uids = mail_reader_get_selected_uids;
+	interface->get_folder = mail_reader_get_folder;
+	interface->get_folder_uri = mail_reader_get_folder_uri;
+	interface->enable_show_folder = mail_reader_get_enable_show_folder;
+	interface->set_folder = mail_reader_set_folder;
+	interface->set_message = mail_reader_set_message;
+	interface->open_selected_mail = e_mail_reader_open_selected;
+	interface->update_actions = mail_reader_update_actions;
 
 	g_object_interface_install_property (
-		iface,
+		interface,
 		g_param_spec_boolean (
 			"group-by-threads",
 			"Group by Threads",
@@ -2923,7 +2925,7 @@ mail_reader_class_init (EMailReaderIface *iface)
 
 	signals[CHANGED] = g_signal_new (
 		"changed",
-		G_OBJECT_CLASS_TYPE (iface),
+		G_OBJECT_CLASS_TYPE (interface),
 		G_SIGNAL_RUN_FIRST,
 		0, NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
@@ -2931,7 +2933,7 @@ mail_reader_class_init (EMailReaderIface *iface)
 
 	signals[FOLDER_LOADED] = g_signal_new (
 		"folder-loaded",
-		G_OBJECT_CLASS_TYPE (iface),
+		G_OBJECT_CLASS_TYPE (interface),
 		G_SIGNAL_RUN_FIRST,
 		0, NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
@@ -2939,16 +2941,16 @@ mail_reader_class_init (EMailReaderIface *iface)
 
 	signals[SHOW_SEARCH_BAR] = g_signal_new (
 		"show-search-bar",
-		G_OBJECT_CLASS_TYPE (iface),
+		G_OBJECT_CLASS_TYPE (interface),
 		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (EMailReaderIface, show_search_bar),
+		G_STRUCT_OFFSET (EMailReaderInterface, show_search_bar),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 
 	signals[SHOW_FOLDER] = g_signal_new (
 		"show-folder",
-		G_OBJECT_CLASS_TYPE (iface),
+		G_OBJECT_CLASS_TYPE (interface),
 		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
 		0,
 		NULL, NULL,
@@ -2957,7 +2959,7 @@ mail_reader_class_init (EMailReaderIface *iface)
 
 	signals[SHOW_NEXTTAB] = g_signal_new (
 		"show-next-tab",
-		G_OBJECT_CLASS_TYPE (iface),
+		G_OBJECT_CLASS_TYPE (interface),
 		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
 		0,
 		NULL, NULL,
@@ -2966,7 +2968,7 @@ mail_reader_class_init (EMailReaderIface *iface)
 
 	signals[SHOW_PREVTAB] = g_signal_new (
 		"show-previous-tab",
-		G_OBJECT_CLASS_TYPE (iface),
+		G_OBJECT_CLASS_TYPE (interface),
 		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
 		0,
 		NULL, NULL,
@@ -2975,7 +2977,7 @@ mail_reader_class_init (EMailReaderIface *iface)
 
 	signals[CLOSE_TAB] = g_signal_new (
 		"close-tab",
-		G_OBJECT_CLASS_TYPE (iface),
+		G_OBJECT_CLASS_TYPE (interface),
 		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
 		0,
 		NULL, NULL,
@@ -2984,41 +2986,13 @@ mail_reader_class_init (EMailReaderIface *iface)
 
 	signals[UPDATE_ACTIONS] = g_signal_new (
 		"update-actions",
-		G_OBJECT_CLASS_TYPE (iface),
+		G_OBJECT_CLASS_TYPE (interface),
 		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (EMailReaderIface, update_actions),
+		G_STRUCT_OFFSET (EMailReaderInterface, update_actions),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__UINT,
 		G_TYPE_NONE, 1,
 		G_TYPE_UINT);
-}
-
-GType
-e_mail_reader_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMailReaderIface),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) mail_reader_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			0,     /* instance_size */
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_INTERFACE, "EMailReader", &type_info, 0);
-
-		g_type_interface_add_prerequisite (type, GTK_TYPE_OBJECT);
-	}
-
-	return type;
 }
 
 void
@@ -3455,131 +3429,131 @@ e_mail_reader_get_action (EMailReader *reader,
 GtkActionGroup *
 e_mail_reader_get_action_group (EMailReader *reader)
 {
-	EMailReaderIface *iface;
+	EMailReaderInterface *interface;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
 
-	iface = E_MAIL_READER_GET_IFACE (reader);
-	g_return_val_if_fail (iface->get_action_group != NULL, NULL);
+	interface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_val_if_fail (interface->get_action_group != NULL, NULL);
 
-	return iface->get_action_group (reader);
+	return interface->get_action_group (reader);
 }
 
 EMFormatHTML *
 e_mail_reader_get_formatter (EMailReader *reader)
 {
-	EMailReaderIface *iface;
+	EMailReaderInterface *interface;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
 
-	iface = E_MAIL_READER_GET_IFACE (reader);
-	g_return_val_if_fail (iface->get_formatter != NULL, NULL);
+	interface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_val_if_fail (interface->get_formatter != NULL, NULL);
 
-	return iface->get_formatter (reader);
+	return interface->get_formatter (reader);
 }
 
 gboolean
 e_mail_reader_get_hide_deleted (EMailReader *reader)
 {
-	EMailReaderIface *iface;
+	EMailReaderInterface *interface;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), FALSE);
 
-	iface = E_MAIL_READER_GET_IFACE (reader);
-	g_return_val_if_fail (iface->get_hide_deleted != NULL, FALSE);
+	interface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_val_if_fail (interface->get_hide_deleted != NULL, FALSE);
 
-	return iface->get_hide_deleted (reader);
+	return interface->get_hide_deleted (reader);
 }
 
 GtkWidget *
 e_mail_reader_get_message_list (EMailReader *reader)
 {
-	EMailReaderIface *iface;
+	EMailReaderInterface *interface;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
 
-	iface = E_MAIL_READER_GET_IFACE (reader);
-	g_return_val_if_fail (iface->get_message_list != NULL, NULL);
+	interface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_val_if_fail (interface->get_message_list != NULL, NULL);
 
-	return iface->get_message_list (reader);
+	return interface->get_message_list (reader);
 }
 
 GtkMenu *
 e_mail_reader_get_popup_menu (EMailReader *reader)
 {
-	EMailReaderIface *iface;
+	EMailReaderInterface *interface;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
 
-	iface = E_MAIL_READER_GET_IFACE (reader);
-	g_return_val_if_fail (iface->get_popup_menu != NULL, NULL);
+	interface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_val_if_fail (interface->get_popup_menu != NULL, NULL);
 
-	return iface->get_popup_menu (reader);
+	return interface->get_popup_menu (reader);
 }
 
 GPtrArray *
 e_mail_reader_get_selected_uids (EMailReader *reader)
 {
-	EMailReaderIface *iface;
+	EMailReaderInterface *interface;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
 
-	iface = E_MAIL_READER_GET_IFACE (reader);
-	g_return_val_if_fail (iface->get_selected_uids != NULL, NULL);
+	interface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_val_if_fail (interface->get_selected_uids != NULL, NULL);
 
-	return iface->get_selected_uids (reader);
+	return interface->get_selected_uids (reader);
 }
 
 EShellBackend *
 e_mail_reader_get_shell_backend (EMailReader *reader)
 {
-	EMailReaderIface *iface;
+	EMailReaderInterface *interface;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
 
-	iface = E_MAIL_READER_GET_IFACE (reader);
-	g_return_val_if_fail (iface->get_shell_backend != NULL, NULL);
+	interface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_val_if_fail (interface->get_shell_backend != NULL, NULL);
 
-	return iface->get_shell_backend (reader);
+	return interface->get_shell_backend (reader);
 }
 
 GtkWindow *
 e_mail_reader_get_window (EMailReader *reader)
 {
-	EMailReaderIface *iface;
+	EMailReaderInterface *interface;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
 
-	iface = E_MAIL_READER_GET_IFACE (reader);
-	g_return_val_if_fail (iface->get_window != NULL, NULL);
+	interface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_val_if_fail (interface->get_window != NULL, NULL);
 
-	return iface->get_window (reader);
+	return interface->get_window (reader);
 }
 
 CamelFolder *
 e_mail_reader_get_folder (EMailReader *reader)
 {
-	EMailReaderIface *iface;
+	EMailReaderInterface *interface;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
 
-	iface = E_MAIL_READER_GET_IFACE (reader);
-	g_return_val_if_fail (iface->get_folder != NULL, NULL);
+	interface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_val_if_fail (interface->get_folder != NULL, NULL);
 
-	return iface->get_folder (reader);
+	return interface->get_folder (reader);
 }
 
 const gchar *
 e_mail_reader_get_folder_uri (EMailReader *reader)
 {
-	EMailReaderIface *iface;
+	EMailReaderInterface *interface;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
 
-	iface = E_MAIL_READER_GET_IFACE (reader);
-	g_return_val_if_fail (iface->get_folder_uri != NULL, NULL);
+	interface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_val_if_fail (interface->get_folder_uri != NULL, NULL);
 
-	return iface->get_folder_uri (reader);
+	return interface->get_folder_uri (reader);
 }
 
 void
@@ -3587,14 +3561,14 @@ e_mail_reader_set_folder (EMailReader *reader,
                           CamelFolder *folder,
                           const gchar *folder_uri)
 {
-	EMailReaderIface *iface;
+	EMailReaderInterface *interface;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	iface = E_MAIL_READER_GET_IFACE (reader);
-	g_return_if_fail (iface->set_folder != NULL);
+	interface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_if_fail (interface->set_folder != NULL);
 
-	iface->set_folder (reader, folder, folder_uri);
+	interface->set_folder (reader, folder, folder_uri);
 }
 
 /* Helper for e_mail_reader_set_folder_uri () */
@@ -3625,27 +3599,27 @@ void
 e_mail_reader_set_message (EMailReader *reader,
                            const gchar *uid)
 {
-	EMailReaderIface *iface;
+	EMailReaderInterface *interface;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	iface = E_MAIL_READER_GET_IFACE (reader);
-	g_return_if_fail (iface->set_message != NULL);
+	interface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_if_fail (interface->set_message != NULL);
 
-	iface->set_message (reader, uid);
+	interface->set_message (reader, uid);
 }
 
 guint
 e_mail_reader_open_selected_mail (EMailReader *reader)
 {
-	EMailReaderIface *iface;
+	EMailReaderInterface *interface;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), 0);
 
-	iface = E_MAIL_READER_GET_IFACE (reader);
-	g_return_val_if_fail (iface->open_selected_mail != NULL, 0);
+	interface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_val_if_fail (interface->open_selected_mail != NULL, 0);
 
-	return iface->open_selected_mail (reader);
+	return interface->open_selected_mail (reader);
 }
 
 gboolean
@@ -3763,12 +3737,12 @@ e_mail_reader_enable_show_folder (EMailReader *reader)
 gboolean
 e_mail_reader_get_enable_show_folder (EMailReader *reader)
 {
-	EMailReaderIface *iface;
+	EMailReaderInterface *interface;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), FALSE);
 
-	iface = E_MAIL_READER_GET_IFACE (reader);
-	g_return_val_if_fail (iface->enable_show_folder != NULL, FALSE);
+	interface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_val_if_fail (interface->enable_show_folder != NULL, FALSE);
 
-	return iface->enable_show_folder (reader);
+	return interface->enable_show_folder (reader);
 }

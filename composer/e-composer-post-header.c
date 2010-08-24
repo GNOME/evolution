@@ -39,7 +39,10 @@ struct _EComposerPostHeaderPrivate {
 	gboolean custom;
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EComposerPostHeader,
+	e_composer_post_header,
+	E_TYPE_COMPOSER_TEXT_HEADER)
 
 static gchar *
 composer_post_header_folder_name_to_string (EComposerPostHeader *header,
@@ -118,7 +121,8 @@ composer_post_header_constructor (GType type,
 	GObject *object;
 
 	/* Chain up to parent's constructor() method. */
-	object = G_OBJECT_CLASS (parent_class)->constructor (
+	object = G_OBJECT_CLASS (
+		e_composer_post_header_parent_class)->constructor (
 		type, n_construct_properties, construct_properties);
 
 	e_composer_header_set_title_tooltip (
@@ -175,7 +179,7 @@ composer_post_header_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_composer_post_header_parent_class)->dispose (object);
 }
 
 static void
@@ -188,7 +192,7 @@ composer_post_header_finalize (GObject *object)
 	g_free (priv->base_url);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_composer_post_header_parent_class)->finalize (object);
 }
 
 static void
@@ -212,12 +216,11 @@ composer_post_header_clicked (EComposerHeader *header)
 }
 
 static void
-composer_post_header_class_init (EComposerPostHeaderClass *class)
+e_composer_post_header_class_init (EComposerPostHeaderClass *class)
 {
 	GObjectClass *object_class;
 	EComposerHeaderClass *header_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EComposerPostHeaderPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -243,36 +246,9 @@ composer_post_header_class_init (EComposerPostHeaderClass *class)
 }
 
 static void
-composer_post_header_init (EComposerPostHeader *header)
+e_composer_post_header_init (EComposerPostHeader *header)
 {
 	header->priv = E_COMPOSER_POST_HEADER_GET_PRIVATE (header);
-}
-
-GType
-e_composer_post_header_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EComposerPostHeaderClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) composer_post_header_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EComposerPostHeader),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) composer_post_header_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_COMPOSER_TEXT_HEADER,
-			"EComposerPostHeader", &type_info, 0);
-	}
-
-	return type;
 }
 
 EComposerHeader *

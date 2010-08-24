@@ -21,8 +21,13 @@
 
 #include "e-selectable.h"
 
+G_DEFINE_INTERFACE (
+	ESelectable,
+	e_selectable,
+	GTK_TYPE_WIDGET)
+
 static void
-selectable_class_init (ESelectableInterface *interface)
+e_selectable_default_init (ESelectableInterface *interface)
 {
 	g_object_interface_install_property (
 		interface,
@@ -41,34 +46,6 @@ selectable_class_init (ESelectableInterface *interface)
 			NULL,
 			GTK_TYPE_TARGET_LIST,
 			G_PARAM_READABLE));
-}
-
-GType
-e_selectable_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (ESelectableInterface),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) selectable_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			0,     /* instance_size */
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_INTERFACE, "ESelectable", &type_info, 0);
-
-		g_type_interface_add_prerequisite (type, GTK_TYPE_WIDGET);
-	}
-
-	return type;
 }
 
 void

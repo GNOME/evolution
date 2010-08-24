@@ -1401,7 +1401,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 
 	/* send options */
 	if (priv->sendoptions_shown && priv->sod)
-		e_sendoptions_utils_fill_component (priv->sod, comp);
+		e_send_options_utils_fill_component (priv->sod, comp);
 
 	/* Alarm */
 	e_cal_component_remove_all_alarms (comp);
@@ -2581,7 +2581,7 @@ categories_clicked_cb (GtkWidget *button,
 }
 
 void
-event_page_sendoptions_clicked_cb (EventPage *epage)
+event_page_send_options_clicked_cb (EventPage *epage)
 {
 	EventPagePrivate *priv;
 	CompEditor *editor;
@@ -2594,19 +2594,19 @@ event_page_sendoptions_clicked_cb (EventPage *epage)
 	client = comp_editor_get_client (editor);
 
 	if (!priv->sod) {
-		priv->sod = e_sendoptions_dialog_new ();
+		priv->sod = e_send_options_dialog_new ();
 		source = e_source_combo_box_get_active (
 			E_SOURCE_COMBO_BOX (priv->source_selector));
-		e_sendoptions_utils_set_default_data (priv->sod, source, "calendar");
+		e_send_options_utils_set_default_data (priv->sod, source, "calendar");
 		priv->sod->data->initialized = TRUE;
 	}
 
 	if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_GEN_OPTIONS)) {
-		e_sendoptions_set_need_general_options (priv->sod, FALSE);
+		e_send_options_set_need_general_options (priv->sod, FALSE);
 	}
 
 	toplevel = gtk_widget_get_toplevel (priv->main);
-	e_sendoptions_dialog_run (priv->sod, toplevel, E_ITEM_CALENDAR);
+	e_send_options_dialog_run (priv->sod, toplevel, E_ITEM_CALENDAR);
 }
 
 static void

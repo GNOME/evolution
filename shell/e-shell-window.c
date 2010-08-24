@@ -55,8 +55,11 @@ enum {
 static gulong signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE_WITH_CODE (
-	EShellWindow, e_shell_window, GTK_TYPE_WINDOW,
-	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
+	EShellWindow,
+	e_shell_window,
+	GTK_TYPE_WINDOW,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL))
 
 static void
 shell_window_menubar_update_new_menu (EShellWindow *shell_window)

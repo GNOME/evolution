@@ -179,10 +179,10 @@ action_send_options_cb (GtkAction *action, EMsgComposer *composer)
 
 	/* display the send options dialog */
 	if (!dialog) {
-		dialog = e_sendoptions_dialog_new ();
+		dialog = e_send_options_dialog_new ();
 	}
 
-	e_sendoptions_dialog_run (dialog, GTK_WIDGET (composer), E_ITEM_MAIL);
+	e_send_options_dialog_run (dialog, GTK_WIDGET (composer), E_ITEM_MAIL);
 
 	g_signal_connect (dialog, "sod_response",
 			  G_CALLBACK (feed_input_data), composer);

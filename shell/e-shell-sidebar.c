@@ -56,8 +56,11 @@ enum {
 };
 
 G_DEFINE_TYPE_WITH_CODE (
-	EShellSidebar, e_shell_sidebar, GTK_TYPE_BIN,
-	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
+	EShellSidebar,
+	e_shell_sidebar,
+	GTK_TYPE_BIN,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL))
 
 static void
 shell_sidebar_set_shell_view (EShellSidebar *shell_sidebar,

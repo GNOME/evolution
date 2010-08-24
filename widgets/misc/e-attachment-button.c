@@ -55,7 +55,10 @@ enum {
 	PROP_VIEW
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EAttachmentButton,
+	e_attachment_button,
+	GTK_TYPE_HBOX)
 
 static void
 attachment_button_menu_deactivate_cb (EAttachmentButton *button)
@@ -435,7 +438,7 @@ attachment_button_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_attachment_button_parent_class)->dispose (object);
 }
 
 static void
@@ -445,19 +448,19 @@ attachment_button_style_set (GtkWidget *widget,
 	EAttachmentButton *button;
 
 	/* Chain up to parent's style_set() method. */
-	GTK_WIDGET_CLASS (parent_class)->style_set (widget, previous_style);
+	GTK_WIDGET_CLASS (e_attachment_button_parent_class)->
+		style_set (widget, previous_style);
 
 	button = E_ATTACHMENT_BUTTON (widget);
 	attachment_button_update_pixbufs (button);
 }
 
 static void
-attachment_button_class_init (EAttachmentButtonClass *class)
+e_attachment_button_class_init (EAttachmentButtonClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EAttachmentButtonPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -513,7 +516,7 @@ attachment_button_class_init (EAttachmentButtonClass *class)
 }
 
 static void
-attachment_button_init (EAttachmentButton *button)
+e_attachment_button_init (EAttachmentButton *button)
 {
 	GtkCellRenderer *renderer;
 	GtkCellLayout *cell_layout;
@@ -633,32 +636,6 @@ attachment_button_init (EAttachmentButton *button)
 		button->priv->toggle_button, "drag-end",
 		G_CALLBACK (attachment_button_expand_drag_end_cb),
 		button);
-}
-
-GType
-e_attachment_button_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EAttachmentButtonClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) attachment_button_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EAttachmentButton),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) attachment_button_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_HBOX, "EAttachmentButton", &type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

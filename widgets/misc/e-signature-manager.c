@@ -61,8 +61,12 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (
+	ESignatureManager,
+	e_signature_manager,
+	GTK_TYPE_TABLE)
 
 static void
 signature_manager_emit_editor_created (ESignatureManager *manager,
@@ -264,7 +268,7 @@ signature_manager_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_signature_manager_parent_class)->dispose (object);
 }
 
 static void
@@ -398,11 +402,10 @@ signature_manager_remove_signature (ESignatureManager *manager)
 }
 
 static void
-signature_manager_class_init (ESignatureManagerClass *class)
+e_signature_manager_class_init (ESignatureManagerClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ESignatureManagerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -497,7 +500,7 @@ signature_manager_class_init (ESignatureManagerClass *class)
 }
 
 static void
-signature_manager_init (ESignatureManager *manager)
+e_signature_manager_init (ESignatureManager *manager)
 {
 	GtkTreeSelection *selection;
 	GtkWidget *container;
@@ -609,32 +612,6 @@ signature_manager_init (ESignatureManager *manager)
 		widget, "clicked",
 		G_CALLBACK (e_signature_manager_remove_signature),
 		manager);
-}
-
-GType
-e_signature_manager_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (ESignatureManagerClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) signature_manager_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_init */
-			sizeof (ESignatureManager),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) signature_manager_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_TABLE, "ESignatureManager", &type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

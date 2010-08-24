@@ -34,7 +34,10 @@ enum {
 	PROP_VIEW
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EAttachmentHandler,
+	e_attachment_handler,
+	G_TYPE_OBJECT)
 
 static void
 attachment_handler_set_view (EAttachmentHandler *handler,
@@ -104,15 +107,14 @@ attachment_handler_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_attachment_handler_parent_class)->dispose (object);
 }
 
 static void
-attachment_handler_class_init (EAttachmentHandlerClass *class)
+e_attachment_handler_class_init (EAttachmentHandlerClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EAttachmentHandlerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -134,36 +136,9 @@ attachment_handler_class_init (EAttachmentHandlerClass *class)
 }
 
 static void
-attachment_handler_init (EAttachmentHandler *handler)
+e_attachment_handler_init (EAttachmentHandler *handler)
 {
 	handler->priv = E_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
-}
-
-GType
-e_attachment_handler_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EAttachmentHandlerClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) attachment_handler_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EAttachmentHandler),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) attachment_handler_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "EAttachmentHandler",
-			&type_info, G_TYPE_FLAG_ABSTRACT);
-	}
-
-	return type;
 }
 
 EAttachmentView *

@@ -62,8 +62,11 @@ enum {
 };
 
 G_DEFINE_TYPE_WITH_CODE (
-	EShellContent, e_shell_content, GTK_TYPE_BIN,
-	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL));
+	EShellContent,
+	e_shell_content,
+	GTK_TYPE_BIN,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL));
 
 static void
 shell_content_dialog_rule_changed (GtkWidget *dialog,

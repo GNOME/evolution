@@ -58,7 +58,10 @@ struct _ERuleEditorPrivate {
 	GtkButton *buttons[BUTTON_LAST];
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	ERuleEditor,
+	e_rule_editor,
+	GTK_TYPE_DIALOG)
 
 static void
 rule_editor_add_undo (ERuleEditor *editor,
@@ -558,7 +561,7 @@ rule_editor_finalize (GObject *object)
 	}
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_rule_editor_parent_class)->finalize (object);
 }
 
 static void
@@ -572,7 +575,7 @@ rule_editor_destroy (GtkObject *gtk_object)
 	}
 
 	/* Chain up to parent's destroy() method. */
-	GTK_OBJECT_CLASS (parent_class)->destroy (gtk_object);
+	GTK_OBJECT_CLASS (e_rule_editor_parent_class)->destroy (gtk_object);
 }
 
 static void
@@ -634,12 +637,11 @@ rule_editor_create_rule (ERuleEditor *editor)
 }
 
 static void
-rule_editor_class_init (ERuleEditorClass *class)
+e_rule_editor_class_init (ERuleEditorClass *class)
 {
 	GObjectClass *object_class;
 	GtkObjectClass *gtk_object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ERuleEditorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -657,35 +659,9 @@ rule_editor_class_init (ERuleEditorClass *class)
 }
 
 static void
-rule_editor_init (ERuleEditor *editor)
+e_rule_editor_init (ERuleEditor *editor)
 {
 	editor->priv = E_RULE_EDITOR_GET_PRIVATE (editor);
-}
-
-GType
-e_rule_editor_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (ERuleEditorClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) rule_editor_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ERuleEditor),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) rule_editor_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_DIALOG, "ERuleEditor", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

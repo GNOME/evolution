@@ -124,8 +124,11 @@ enum {
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE_WITH_CODE (
-	EImportAssistant, e_import_assistant, GTK_TYPE_ASSISTANT,
-	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
+	EImportAssistant,
+	e_import_assistant,
+	GTK_TYPE_ASSISTANT,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL))
 
 /* Importing functions */
 

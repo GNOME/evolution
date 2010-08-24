@@ -27,7 +27,7 @@
 #include <gtk/gtk.h>
 #include <time.h>
 
-#define E_TYPE_SENDOPTIONS_DIALOG       (e_sendoptions_dialog_get_type ())
+#define E_TYPE_SENDOPTIONS_DIALOG       (e_send_options_dialog_get_type ())
 #define E_SENDOPTIONS_DIALOG(obj)       (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SENDOPTIONS_DIALOG, ESendOptionsDialog))
 #define E_SENDOPTIONS_DIALOG_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SENDOPTIONS_DIALOG, ESendOptionsDialogClass))
 #define E_IS_SENDOPTIONS_DIALOG(obj)    (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SENDOPTIONS_DIALOG))
@@ -118,10 +118,10 @@ struct _ESendOptionsDialogClass {
 	void (* sod_response) (ESendOptionsDialog *sd, gint status);
 };
 
-GType  e_sendoptions_dialog_get_type     (void);
-ESendOptionsDialog *e_sendoptions_dialog_new (void);
-void e_sendoptions_set_need_general_options (ESendOptionsDialog *sod, gboolean needed);
-gboolean e_sendoptions_get_need_general_options (ESendOptionsDialog *sod);
-gboolean e_sendoptions_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type type);
-gboolean e_sendoptions_set_global (ESendOptionsDialog *sod, gboolean set);
+GType  e_send_options_dialog_get_type     (void);
+ESendOptionsDialog *e_send_options_dialog_new (void);
+void e_send_options_set_need_general_options (ESendOptionsDialog *sod, gboolean needed);
+gboolean e_send_options_get_need_general_options (ESendOptionsDialog *sod);
+gboolean e_send_options_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type type);
+gboolean e_send_options_set_global (ESendOptionsDialog *sod, gboolean set);
 #endif

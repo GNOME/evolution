@@ -46,8 +46,12 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (
+	ESearchingTokenizer,
+	e_searching_tokenizer,
+	HTML_TYPE_TOKENIZER)
 
 /* Utility functions */
 
@@ -914,7 +918,9 @@ struct _ESearchingTokenizerPrivate {
 static gchar *
 get_token (HTMLTokenizer *tokenizer)
 {
-	HTMLTokenizerClass *class = HTML_TOKENIZER_CLASS (parent_class);
+	HTMLTokenizerClass *class;
+
+	class = HTML_TOKENIZER_CLASS (e_searching_tokenizer_parent_class);
 
 	if (class->has_more (tokenizer))
 		return class->next_token (tokenizer);
@@ -946,7 +952,7 @@ searching_tokenizer_finalize (GObject *object)
 		searcher_free (priv->engine);
 
 	/* Chain up to parent's finalize () method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_searching_tokenizer_parent_class)->finalize (object);
 }
 
 static void
@@ -970,7 +976,8 @@ searching_tokenizer_begin (HTMLTokenizer *tokenizer,
 	/* else - no engine, no search active */
 
 	/* Chain up to parent's begin() method. */
-	HTML_TOKENIZER_CLASS (parent_class)->begin (tokenizer, content_type);
+	HTML_TOKENIZER_CLASS (e_searching_tokenizer_parent_class)->
+		begin (tokenizer, content_type);
 }
 
 static gchar *
@@ -984,7 +991,8 @@ searching_tokenizer_peek_token (HTMLTokenizer *tokenizer)
 		return searcher_peek_token (priv->engine);
 
 	/* Chain up to parent's peek_token() method. */
-	return HTML_TOKENIZER_CLASS (parent_class)->peek_token (tokenizer);
+	return HTML_TOKENIZER_CLASS (e_searching_tokenizer_parent_class)->
+		peek_token (tokenizer);
 }
 
 static gchar *
@@ -998,7 +1006,9 @@ searching_tokenizer_next_token (HTMLTokenizer *tokenizer)
 
 	/* If no search is active, just use the default method. */
 	if (priv->engine == NULL)
-		return HTML_TOKENIZER_CLASS (parent_class)->next_token (tokenizer);
+		return HTML_TOKENIZER_CLASS (
+			e_searching_tokenizer_parent_class)->
+			next_token (tokenizer);
 
 	oldmatched = priv->engine->matchcount;
 
@@ -1019,7 +1029,8 @@ searching_tokenizer_has_more (HTMLTokenizer *tokenizer)
 	priv = E_SEARCHING_TOKENIZER_GET_PRIVATE (tokenizer);
 
 	return (priv->engine != NULL && searcher_pending (priv->engine)) ||
-		HTML_TOKENIZER_CLASS (parent_class)->has_more (tokenizer);
+		HTML_TOKENIZER_CLASS (e_searching_tokenizer_parent_class)->
+			has_more (tokenizer);
 }
 
 static HTMLTokenizer *
@@ -1043,12 +1054,11 @@ searching_tokenizer_clone (HTMLTokenizer *tokenizer)
 	return HTML_TOKENIZER (new_st);
 }
 static void
-searching_tokenizer_class_init (ESearchingTokenizerClass *class)
+e_searching_tokenizer_class_init (ESearchingTokenizerClass *class)
 {
 	GObjectClass *object_class;
 	HTMLTokenizerClass *tokenizer_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ESearchingTokenizerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -1072,7 +1082,7 @@ searching_tokenizer_class_init (ESearchingTokenizerClass *class)
 }
 
 static void
-searching_tokenizer_init (ESearchingTokenizer *tokenizer)
+e_searching_tokenizer_init (ESearchingTokenizer *tokenizer)
 {
 	tokenizer->priv = E_SEARCHING_TOKENIZER_GET_PRIVATE (tokenizer);
 
@@ -1087,33 +1097,6 @@ searching_tokenizer_init (ESearchingTokenizer *tokenizer)
 		tokenizer->priv->secondary,
 		SEARCH_BOLD, SEARCH_CASE | SEARCH_BOLD);
 	search_info_set_color (tokenizer->priv->secondary, "purple");
-}
-
-GType
-e_searching_tokenizer_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (ESearchingTokenizerClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) searching_tokenizer_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ESearchingTokenizer),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) searching_tokenizer_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			HTML_TYPE_TOKENIZER, "ESearchingTokenizer",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 ESearchingTokenizer *

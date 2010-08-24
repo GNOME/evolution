@@ -41,7 +41,10 @@
 
 /* workaround for avoiding API broken */
 #define ecb_get_type e_canvas_background_get_type
-G_DEFINE_TYPE (ECanvasBackground, ecb, GNOME_TYPE_CANVAS_ITEM)
+G_DEFINE_TYPE (
+	ECanvasBackground,
+	ecb,
+	GNOME_TYPE_CANVAS_ITEM)
 
 #define d(x)
 

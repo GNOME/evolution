@@ -38,18 +38,18 @@
 #define E_MAIL_READER(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_MAIL_READER, EMailReader))
-#define E_MAIL_READER_IFACE(cls) \
+#define E_MAIL_READER_INTERFACE(cls) \
 	(G_TYPE_CHECK_CLASS_CAST \
-	((cls), E_TYPE_MAIL_READER, EMailReaderIface))
+	((cls), E_TYPE_MAIL_READER, EMailReaderInterface))
 #define E_IS_MAIL_READER(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
 	((obj), E_TYPE_MAIL_READER))
-#define E_IS_MAIL_READER_IFACE(cls) \
+#define E_IS_MAIL_READER_INTERFACE(cls) \
 	(G_TYPE_CHECK_CLASS_TYPE \
 	((cls), E_TYPE_MAIL_READER))
-#define E_MAIL_READER_GET_IFACE(obj) \
+#define E_MAIL_READER_GET_INTERFACE(obj) \
 	(G_TYPE_INSTANCE_GET_INTERFACE \
-	((obj), E_TYPE_MAIL_READER, EMailReaderIface))
+	((obj), E_TYPE_MAIL_READER, EMailReaderInterface))
 
 /* Basename of the UI definition file. */
 #define E_MAIL_READER_UI_DEFINITION	"evolution-mail-reader.ui"
@@ -57,7 +57,7 @@
 G_BEGIN_DECLS
 
 typedef struct _EMailReader EMailReader;
-typedef struct _EMailReaderIface EMailReaderIface;
+typedef struct _EMailReaderInterface EMailReaderInterface;
 
 enum {
 	E_MAIL_READER_HAVE_ENABLED_ACCOUNT		= 1 << 0,
@@ -79,8 +79,8 @@ enum {
 	E_MAIL_READER_FOLDER_IS_JUNK			= 1 << 16
 };
 
-struct _EMailReaderIface {
-	GTypeInterface parent_iface;
+struct _EMailReaderInterface {
+	GTypeInterface parent_interface;
 
 	GtkActionGroup *
 			(*get_action_group)	(EMailReader *reader);

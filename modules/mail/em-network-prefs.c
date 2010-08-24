@@ -61,68 +61,19 @@
 #define GCONF_E_USE_PROXY_KEY GCONF_E_SHELL_NETWORK_CONFIG_PATH "use_http_proxy"
 #define GCONF_E_AUTOCONFIG_URL_KEY GCONF_E_SHELL_NETWORK_CONFIG_PATH "autoconfig_url"
 
-static void em_network_prefs_class_init (EMNetworkPrefsClass *class);
-static void em_network_prefs_init       (EMNetworkPrefs *dialog);
-static void em_network_prefs_destroy    (GtkObject *obj);
-static void em_network_prefs_finalise   (GObject *obj);
-
-static GtkVBoxClass *parent_class = NULL;
-
-GType
-em_network_prefs_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof (EMNetworkPrefsClass),
-			NULL, NULL,
-			(GClassInitFunc) em_network_prefs_class_init,
-			NULL, NULL,
-			sizeof (EMNetworkPrefs),
-			0,
-			(GInstanceInitFunc) em_network_prefs_init,
-		};
-
-		type = g_type_register_static (gtk_vbox_get_type (), "EMNetworkPrefs", &info, 0);
-	}
-
-	return type;
-}
+G_DEFINE_TYPE (
+	EMNetworkPrefs,
+	em_network_prefs,
+	GTK_TYPE_VBOX)
 
 static void
-em_network_prefs_class_init (EMNetworkPrefsClass *klass)
+em_network_prefs_class_init (EMNetworkPrefsClass *class)
 {
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
-
-	parent_class = g_type_class_ref (gtk_vbox_get_type ());
-
-	object_class->destroy = em_network_prefs_destroy;
-	gobject_class->finalize = em_network_prefs_finalise;
 }
 
 static void
 em_network_prefs_init (EMNetworkPrefs *prefs)
 {
-	/* do something here */
-}
-
-static void
-em_network_prefs_finalise (GObject *obj)
-{
-	d(g_print ("Network preferences finalize is called\n"));
-
-	/* do something here */
-        G_OBJECT_CLASS (parent_class)->finalize (obj);
-}
-
-static void
-em_network_prefs_destroy (GtkObject *obj)
-{
-	d(g_print ("Network preferences destroy is called\n"));
-
-	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
 }
 
 static void

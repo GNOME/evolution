@@ -936,7 +936,7 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 
 	/* send options */
 	if (priv->sendoptions_shown && priv->sod)
-		e_sendoptions_utils_fill_component (priv->sod, comp);
+		e_send_options_utils_fill_component (priv->sod, comp);
 
 	/* Categories */
 	cat = e_dialog_editable_get (priv->categories);
@@ -1795,7 +1795,7 @@ set_subscriber_info_string (TaskPage *tpage, const gchar *backend_address)
 }
 
 void
-task_page_sendoptions_clicked_cb (TaskPage *tpage)
+task_page_send_options_clicked_cb (TaskPage *tpage)
 {
 	TaskPagePrivate *priv = tpage->priv;
 	CompEditor *editor;
@@ -1807,19 +1807,19 @@ task_page_sendoptions_clicked_cb (TaskPage *tpage)
 	client = comp_editor_get_client (editor);
 
 	if (!priv->sod) {
-		priv->sod = e_sendoptions_dialog_new ();
+		priv->sod = e_send_options_dialog_new ();
 		priv->sod->data->initialized = TRUE;
 		source = e_source_combo_box_get_active (
 			E_SOURCE_COMBO_BOX (priv->source_selector));
-		e_sendoptions_utils_set_default_data (priv->sod, source, "task");
+		e_send_options_utils_set_default_data (priv->sod, source, "task");
 	}
 
 	if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_GEN_OPTIONS)) {
-		e_sendoptions_set_need_general_options (priv->sod, FALSE);
+		e_send_options_set_need_general_options (priv->sod, FALSE);
 	}
 
 	toplevel = gtk_widget_get_toplevel (priv->main);
-	e_sendoptions_dialog_run (priv->sod, toplevel, E_ITEM_TASK);
+	e_send_options_dialog_run (priv->sod, toplevel, E_ITEM_TASK);
 }
 
 /* Hooks the widget signals */

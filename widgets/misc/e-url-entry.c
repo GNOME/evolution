@@ -34,8 +34,6 @@ struct _EUrlEntryPrivate {
 	GtkWidget *button;
 };
 
-static void class_init (EUrlEntryClass *class);
-static void init (EUrlEntry *url_entry);
 static void finalize (GObject *object);
 
 static void button_clicked_cb (GtkWidget *widget, gpointer data);
@@ -43,41 +41,16 @@ static void entry_changed_cb (GtkEditable *editable, gpointer data);
 
 static gboolean mnemonic_activate (GtkWidget *widget, gboolean group_cycling);
 
-static gpointer parent_class = NULL;
-
-GType
-e_url_entry_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EUrlEntryClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EUrlEntry),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_HBOX, "EUrlEntry", &type_info, 0);
-	}
-
-	return type;
-}
+G_DEFINE_TYPE (
+	EUrlEntry,
+	e_url_entry,
+	GTK_TYPE_HBOX)
 
 static void
-class_init (EUrlEntryClass *class)
+e_url_entry_class_init (EUrlEntryClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = finalize;
@@ -87,7 +60,7 @@ class_init (EUrlEntryClass *class)
 }
 
 static void
-init (EUrlEntry *url_entry)
+e_url_entry_init (EUrlEntry *url_entry)
 {
 	EUrlEntryPrivate *priv;
 	GtkWidget *pixmap;
@@ -127,7 +100,8 @@ finalize (GObject *object)
 		url_entry->priv = NULL;
 	}
 
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_url_entry_parent_class)->finalize (object);
 }
 
 /* GtkWidget::mnemonic_activate() handler for the EUrlEntry */

@@ -489,18 +489,18 @@ mail_attachment_bar_class_init (EMailAttachmentBarClass *class)
 }
 
 static void
-mail_attachment_bar_iface_init (EAttachmentViewIface *iface)
+mail_attachment_bar_interface_init (EAttachmentViewInterface *interface)
 {
-	iface->get_private = mail_attachment_bar_get_private;
-	iface->get_store = mail_attachment_bar_get_store;
-	iface->get_path_at_pos = mail_attachment_bar_get_path_at_pos;
-	iface->get_selected_paths = mail_attachment_bar_get_selected_paths;
-	iface->path_is_selected = mail_attachment_bar_path_is_selected;
-	iface->select_path = mail_attachment_bar_select_path;
-	iface->unselect_path = mail_attachment_bar_unselect_path;
-	iface->select_all = mail_attachment_bar_select_all;
-	iface->unselect_all = mail_attachment_bar_unselect_all;
-	iface->update_actions = mail_attachment_bar_update_actions;
+	interface->get_private = mail_attachment_bar_get_private;
+	interface->get_store = mail_attachment_bar_get_store;
+	interface->get_path_at_pos = mail_attachment_bar_get_path_at_pos;
+	interface->get_selected_paths = mail_attachment_bar_get_selected_paths;
+	interface->path_is_selected = mail_attachment_bar_path_is_selected;
+	interface->select_path = mail_attachment_bar_select_path;
+	interface->unselect_path = mail_attachment_bar_unselect_path;
+	interface->select_all = mail_attachment_bar_select_all;
+	interface->unselect_all = mail_attachment_bar_unselect_all;
+	interface->update_actions = mail_attachment_bar_update_actions;
 }
 
 static void
@@ -665,8 +665,8 @@ e_mail_attachment_bar_get_type (void)
 			NULL   /* value_table */
 		};
 
-		static const GInterfaceInfo iface_info = {
-			(GInterfaceInitFunc) mail_attachment_bar_iface_init,
+		static const GInterfaceInfo interface_info = {
+			(GInterfaceInitFunc) mail_attachment_bar_interface_init,
 			(GInterfaceFinalizeFunc) NULL,
 			NULL   /* interface_data */
 		};
@@ -675,7 +675,7 @@ e_mail_attachment_bar_get_type (void)
 			GTK_TYPE_VBOX, "EMailAttachmentBar", &type_info, 0);
 
 		g_type_add_interface_static (
-			type, E_TYPE_ATTACHMENT_VIEW, &iface_info);
+			type, E_TYPE_ATTACHMENT_VIEW, &interface_info);
 	}
 
 	return type;

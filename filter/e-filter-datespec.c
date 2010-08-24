@@ -92,7 +92,10 @@ struct _EFilterDatespecPrivate {
 	gint span;
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EFilterDatespec,
+	e_filter_datespec,
+	E_TYPE_FILTER_ELEMENT)
 
 static gint
 get_best_span (time_t val)
@@ -326,7 +329,8 @@ filter_datespec_eq (EFilterElement *element_a,
 	EFilterDatespec *datespec_b = E_FILTER_DATESPEC (element_b);
 
 	/* Chain up to parent's eq() method. */
-	if (!E_FILTER_ELEMENT_CLASS (parent_class)->eq (element_a, element_b))
+	if (!E_FILTER_ELEMENT_CLASS (e_filter_datespec_parent_class)->
+		eq (element_a, element_b))
 		return FALSE;
 
 	return (datespec_a->type == datespec_b->type) &&
@@ -433,11 +437,10 @@ filter_datespec_format_sexp (EFilterElement *element,
 }
 
 static void
-filter_datespec_class_init (EFilterDatespecClass *class)
+e_filter_datespec_class_init (EFilterDatespecClass *class)
 {
 	EFilterElementClass *filter_element_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EFilterDatespecPrivate));
 
 	filter_element_class = E_FILTER_ELEMENT_CLASS (class);
@@ -450,36 +453,10 @@ filter_datespec_class_init (EFilterDatespecClass *class)
 }
 
 static void
-filter_datespec_init (EFilterDatespec *datespec)
+e_filter_datespec_init (EFilterDatespec *datespec)
 {
 	datespec->priv = E_FILTER_DATESPEC_GET_PRIVATE (datespec);
 	datespec->type = FDST_UNKNOWN;
-}
-
-GType
-e_filter_datespec_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EFilterDatespecClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) filter_datespec_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EFilterDatespec),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) filter_datespec_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_FILTER_ELEMENT, "EFilterDatespec", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

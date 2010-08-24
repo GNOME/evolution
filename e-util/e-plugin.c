@@ -64,7 +64,6 @@
 */
 
 /* EPlugin stuff */
-static gpointer ep_parent_class;
 
 /* global table of plugin types by pluginclass.type */
 static GHashTable *ep_types;
@@ -93,6 +92,11 @@ enum {
 	EP_PROP_0,
 	EP_PROP_ENABLED
 };
+
+G_DEFINE_TYPE (
+	EPlugin,
+	e_plugin,
+	G_TYPE_OBJECT)
 
 static gboolean
 ep_check_enabled (const gchar *id)
@@ -269,15 +273,14 @@ ep_finalize (GObject *object)
 	g_slist_free (ep->hooks);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (ep_parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_plugin_parent_class)->finalize (object);
 }
 
 static void
-ep_class_init (EPluginClass *class)
+e_plugin_class_init (EPluginClass *class)
 {
 	GObjectClass *object_class;
-
-	ep_parent_class = g_type_class_peek_parent (class);
+	gchar *path, *col, *p;
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = ep_set_property;
@@ -296,67 +299,31 @@ ep_class_init (EPluginClass *class)
 			"Whether the plugin is enabled",
 			TRUE,
 			G_PARAM_READWRITE));
+
+	/* Add paths in the environment variable or default global
+	 * and user specific paths */
+	path = g_strdup(g_getenv("EVOLUTION_PLUGIN_PATH"));
+	if (path == NULL) {
+		/* Add the global path */
+		e_plugin_add_load_path(EVOLUTION_PLUGINDIR);
+
+		path = g_build_filename(g_get_home_dir(), ".eplugins", NULL);
+	}
+
+	p = path;
+	while ((col = strchr(p, G_SEARCHPATH_SEPARATOR))) {
+		*col++ = 0;
+		e_plugin_add_load_path(p);
+		p = col;
+	}
+	e_plugin_add_load_path(p);
+	g_free(path);
 }
 
 static void
-ep_init (EPlugin *ep)
+e_plugin_init (EPlugin *ep)
 {
 	ep->enabled = TRUE;
-}
-
-/**
- * e_plugin_get_type:
- *
- * Standard GObject type function.  This is only an abstract class, so
- * you can only use this to subclass EPlugin.
- *
- * Return value: The type.
- **/
-GType
-e_plugin_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		gchar *path, *col, *p;
-
-		static const GTypeInfo type_info = {
-			sizeof (EPluginClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) ep_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EPlugin),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) ep_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "EPlugin", &type_info, 0);
-
-		/* Add paths in the environment variable or default global
-		 * and user specific paths */
-		path = g_strdup(g_getenv("EVOLUTION_PLUGIN_PATH"));
-		if (path == NULL) {
-			/* Add the global path */
-			e_plugin_add_load_path(EVOLUTION_PLUGINDIR);
-
-			path = g_build_filename(g_get_home_dir(), ".eplugins", NULL);
-		}
-
-		p = path;
-		while ((col = strchr(p, G_SEARCHPATH_SEPARATOR))) {
-			*col++ = 0;
-			e_plugin_add_load_path(p);
-			p = col;
-		}
-		e_plugin_add_load_path(p);
-		g_free(path);
-	}
-
-	return type;
 }
 
 static EPlugin *
@@ -897,7 +864,10 @@ e_plugin_xml_content_domain(xmlNodePtr node, const gchar *domain)
 
 /* ********************************************************************** */
 
-static gpointer eph_parent_class;
+G_DEFINE_TYPE (
+	EPluginHook,
+	e_plugin_hook,
+	G_TYPE_OBJECT)
 
 static gint
 eph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
@@ -914,46 +884,15 @@ eph_enable(EPluginHook *eph, gint state)
 }
 
 static void
-eph_class_init(EPluginHookClass *class)
+e_plugin_hook_class_init (EPluginHookClass *class)
 {
-	eph_parent_class = g_type_class_peek_parent (class);
-
 	class->construct = eph_construct;
 	class->enable = eph_enable;
 }
 
-/**
- * e_plugin_hook_get_type:
- *
- * Standard GObject function to retrieve the EPluginHook type.  Since
- * EPluginHook is an abstract class, this is only used to subclass it.
- *
- * Return value: The EPluginHook type.
- **/
-GType
-e_plugin_hook_get_type(void)
+static void
+e_plugin_hook_init (EPluginHook *hook)
 {
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EPluginHookClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) eph_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EPluginHook),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "EPluginHook", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

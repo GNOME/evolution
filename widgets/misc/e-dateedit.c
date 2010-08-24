@@ -209,8 +209,11 @@ static gboolean e_date_edit_set_time_internal	(EDateEdit	*dedit,
 static gint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE_WITH_CODE (
-	EDateEdit, e_date_edit, GTK_TYPE_HBOX,
-	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
+	EDateEdit,
+	e_date_edit,
+	GTK_TYPE_HBOX,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL))
 
 static void
 date_edit_set_property (GObject *object,

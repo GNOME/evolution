@@ -113,8 +113,11 @@ static gpointer default_shell;
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE_WITH_CODE (
-	EShell, e_shell, UNIQUE_TYPE_APP,
-	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
+	EShell,
+	e_shell,
+	UNIQUE_TYPE_APP,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL))
 
 static void
 shell_parse_debug_string (EShell *shell)

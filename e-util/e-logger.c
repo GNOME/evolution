@@ -55,7 +55,10 @@ enum {
 	PROP_NAME
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	ELogger,
+	e_logger,
+	G_TYPE_OBJECT)
 
 static gboolean
 logger_flush (ELogger *logger)
@@ -150,15 +153,14 @@ logger_finalize (GObject *object)
 	g_free (logger->priv->logfile);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_logger_parent_class)->finalize (object);
 }
 
 static void
-logger_class_init (ELoggerClass *class)
+e_logger_class_init (ELoggerClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ELoggerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -179,35 +181,9 @@ logger_class_init (ELoggerClass *class)
 }
 
 static void
-logger_init (ELogger *logger)
+e_logger_init (ELogger *logger)
 {
 	logger->priv = E_LOGGER_GET_PRIVATE (logger);
-}
-
-GType
-e_logger_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (ELoggerClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) logger_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ELogger),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) logger_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "ELogger", &type_info, 0);
-	}
-
-	return type;
 }
 
 ELogger *

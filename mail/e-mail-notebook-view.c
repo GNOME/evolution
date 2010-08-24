@@ -71,7 +71,7 @@ enum {
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "mail")
 
 /* Forward Declarations */
-static void e_mail_notebook_view_reader_init (EMailReaderIface *iface);
+static void e_mail_notebook_view_reader_init (EMailReaderInterface *interface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EMailNotebookView, e_mail_notebook_view, E_TYPE_MAIL_VIEW,
@@ -1257,19 +1257,19 @@ e_mail_notebook_view_class_init (EMailNotebookViewClass *class)
 }
 
 static void
-e_mail_notebook_view_reader_init (EMailReaderIface *iface)
+e_mail_notebook_view_reader_init (EMailReaderInterface *interface)
 {
-	iface->get_action_group = mail_notebook_view_get_action_group;
-	iface->get_formatter = mail_notebook_view_get_formatter;
-	iface->get_hide_deleted = mail_notebook_view_get_hide_deleted;
-	iface->get_message_list = mail_notebook_view_get_message_list;
-	iface->get_popup_menu = mail_notebook_view_get_popup_menu;
-	iface->get_shell_backend = mail_notebook_view_get_shell_backend;
-	iface->get_window = mail_notebook_view_get_window;
-	iface->set_folder = mail_notebook_view_set_folder;
-	iface->show_search_bar = mail_notebook_view_show_search_bar;
-	iface->open_selected_mail = mail_notebook_view_open_selected_mail;
-	iface->enable_show_folder = mail_notebook_view_enable_show_folder;
+	interface->get_action_group = mail_notebook_view_get_action_group;
+	interface->get_formatter = mail_notebook_view_get_formatter;
+	interface->get_hide_deleted = mail_notebook_view_get_hide_deleted;
+	interface->get_message_list = mail_notebook_view_get_message_list;
+	interface->get_popup_menu = mail_notebook_view_get_popup_menu;
+	interface->get_shell_backend = mail_notebook_view_get_shell_backend;
+	interface->get_window = mail_notebook_view_get_window;
+	interface->set_folder = mail_notebook_view_set_folder;
+	interface->show_search_bar = mail_notebook_view_show_search_bar;
+	interface->open_selected_mail = mail_notebook_view_open_selected_mail;
+	interface->enable_show_folder = mail_notebook_view_enable_show_folder;
 }
 
 static void

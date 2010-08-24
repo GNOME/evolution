@@ -160,13 +160,13 @@ e_send_options_load_default_data (EGwSendOptions *opts, ESendOptionsDialog *sod)
 }
 
 static void
-e_sendoptions_clicked_cb (GtkWidget *button, gpointer data)
+e_send_options_clicked_cb (GtkWidget *button, gpointer data)
 {
 	EGwConnectionStatus status;
 	account = (EAccount *) data;
 	if (!sod) {
-		sod = e_sendoptions_dialog_new ();
-		e_sendoptions_set_global (sod, TRUE);
+		sod = e_send_options_dialog_new ();
+		e_send_options_set_global (sod, TRUE);
 		if (!n_cnc)
 			n_cnc = get_cnc (GTK_WINDOW (gtk_widget_get_toplevel (button)));
 
@@ -186,7 +186,7 @@ e_sendoptions_clicked_cb (GtkWidget *button, gpointer data)
 	}
 
 	if (n_cnc)
-		e_sendoptions_dialog_run (sod, parent ? parent : NULL, E_ITEM_NONE);
+		e_send_options_dialog_run (sod, parent ? parent : NULL, E_ITEM_NONE);
 	else
 		return;
 }
@@ -214,7 +214,7 @@ org_gnome_send_options (EPlugin *epl, EConfigHookItemFactoryData *data)
 	g_free (markup);
 
 	g_signal_connect(button, "clicked",
-			    G_CALLBACK (e_sendoptions_clicked_cb), account);
+			    G_CALLBACK (e_send_options_clicked_cb), account);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (data->parent));
 	if (!gtk_widget_is_toplevel (parent))

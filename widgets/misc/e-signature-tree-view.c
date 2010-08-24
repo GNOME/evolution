@@ -46,8 +46,12 @@ struct _ESignatureTreeViewPrivate {
 	GHashTable *index;
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (
+	ESignatureTreeView,
+	e_signature_tree_view,
+	GTK_TYPE_TREE_VIEW)
 
 static void
 signature_tree_view_refresh_cb (ESignatureList *signature_list,
@@ -141,7 +145,8 @@ signature_tree_view_constructor (GType type,
 	GtkCellRenderer *renderer;
 
 	/* Chain up to parent's constructor() method. */
-	object = G_OBJECT_CLASS (parent_class)->constructor (
+	object = G_OBJECT_CLASS (
+		e_signature_tree_view_parent_class)->constructor (
 		type, n_construct_properties, construct_properties);
 
 	tree_view = GTK_TREE_VIEW (object);
@@ -223,7 +228,7 @@ signature_tree_view_dispose (GObject *object)
 	g_hash_table_remove_all (priv->index);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_signature_tree_view_parent_class)->dispose (object);
 }
 
 static void
@@ -236,15 +241,14 @@ signature_tree_view_finalize (GObject *object)
 	g_hash_table_destroy (priv->index);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_signature_tree_view_parent_class)->finalize (object);
 }
 
 static void
-signature_tree_view_class_init (ESignatureTreeViewClass *class)
+e_signature_tree_view_class_init (ESignatureTreeViewClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ESignatureTreeViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -285,7 +289,7 @@ signature_tree_view_class_init (ESignatureTreeViewClass *class)
 }
 
 static void
-signature_tree_view_init (ESignatureTreeView *tree_view)
+e_signature_tree_view_init (ESignatureTreeView *tree_view)
 {
 	GHashTable *index;
 	GtkTreeSelection *selection;
@@ -305,33 +309,6 @@ signature_tree_view_init (ESignatureTreeView *tree_view)
 		selection, "changed",
 		G_CALLBACK (signature_tree_view_selection_changed_cb),
 		tree_view);
-}
-
-GType
-e_signature_tree_view_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (ESignatureTreeViewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) signature_tree_view_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ESignatureTreeView),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) signature_tree_view_init,
-			NULL  /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_TREE_VIEW, "ESignatureTreeView",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

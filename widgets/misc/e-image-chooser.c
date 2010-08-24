@@ -58,10 +58,14 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
 #define URI_LIST_TYPE "text/uri-list"
+
+G_DEFINE_TYPE (
+	EImageChooser,
+	e_image_chooser,
+	GTK_TYPE_VBOX)
 
 static gboolean
 set_image_from_data (EImageChooser *chooser,
@@ -384,7 +388,7 @@ image_chooser_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_image_chooser_parent_class)->dispose (object);
 }
 
 static void
@@ -398,7 +402,7 @@ image_chooser_finalize (GObject *object)
 	g_free (priv->icon_name);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_image_chooser_parent_class)->finalize (object);
 }
 
 static void
@@ -406,7 +410,6 @@ e_image_chooser_class_init (EImageChooserClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EImageChooserPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -480,32 +483,6 @@ e_image_chooser_init (EImageChooser *chooser)
 	g_signal_connect (
 		widget, "drag-data-received",
 		G_CALLBACK (image_drag_data_received_cb), chooser);
-}
-
-GType
-e_image_chooser_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info =  {
-			sizeof (EImageChooserClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) e_image_chooser_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL, /* class_data */
-			sizeof (EImageChooser),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc) e_image_chooser_init,
-			NULL  /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_VBOX, "EImageChooser", &type_info, 0);
-	}
-
-	return type;
 }
 
 const gchar *

@@ -52,7 +52,10 @@ enum {
 	PROP_SELECT_ALL_ACTION
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EFocusTracker,
+	e_focus_tracker,
+	G_TYPE_OBJECT)
 
 static void
 focus_tracker_disable_actions (EFocusTracker *focus_tracker)
@@ -413,7 +416,7 @@ focus_tracker_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_focus_tracker_parent_class)->dispose (object);
 }
 
 static void
@@ -444,11 +447,10 @@ focus_tracker_constructed (GObject *object)
 }
 
 static void
-focus_tracker_class_init (EFocusTrackerClass *class)
+e_focus_tracker_class_init (EFocusTrackerClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EFocusTrackerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -530,7 +532,7 @@ focus_tracker_class_init (EFocusTrackerClass *class)
 }
 
 static void
-focus_tracker_init (EFocusTracker *focus_tracker)
+e_focus_tracker_init (EFocusTracker *focus_tracker)
 {
 	GtkAction *action;
 
@@ -564,32 +566,6 @@ focus_tracker_init (EFocusTracker *focus_tracker)
 		"select-all", NULL,
 		_("Select all text"), GTK_STOCK_SELECT_ALL);
 	focus_tracker->priv->select_all = action;
-}
-
-GType
-e_focus_tracker_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EFocusTrackerClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) focus_tracker_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EFocusTracker),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) focus_tracker_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "EFocusTracker", &type_info, 0);
-	}
-
-	return type;
 }
 
 EFocusTracker *

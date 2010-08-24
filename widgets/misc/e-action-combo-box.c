@@ -46,7 +46,10 @@ struct _EActionComboBoxPrivate {
 	gboolean group_has_icons : 1;
 };
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EActionComboBox,
+	e_action_combo_box,
+	GTK_TYPE_COMBO_BOX)
 
 static void
 action_combo_box_action_changed_cb (GtkRadioAction *action,
@@ -329,7 +332,7 @@ action_combo_box_dispose (GObject *object)
 	g_hash_table_remove_all (priv->index);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_action_combo_box_parent_class)->dispose (object);
 }
 
 static void
@@ -340,7 +343,7 @@ action_combo_box_finalize (GObject *object)
 	g_hash_table_destroy (priv->index);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_action_combo_box_parent_class)->finalize (object);
 }
 
 static void
@@ -363,12 +366,11 @@ action_combo_box_changed (GtkComboBox *combo_box)
 }
 
 static void
-action_combo_box_class_init (EActionComboBoxClass *class)
+e_action_combo_box_class_init (EActionComboBoxClass *class)
 {
 	GObjectClass *object_class;
 	GtkComboBoxClass *combo_box_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EActionComboBoxPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -392,7 +394,7 @@ action_combo_box_class_init (EActionComboBoxClass *class)
 }
 
 static void
-action_combo_box_init (EActionComboBox *combo_box)
+e_action_combo_box_init (EActionComboBox *combo_box)
 {
 	GtkCellRenderer *renderer;
 
@@ -422,33 +424,6 @@ action_combo_box_init (EActionComboBox *combo_box)
 		g_direct_hash, g_direct_equal,
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) gtk_tree_row_reference_free);
-}
-
-GType
-e_action_combo_box_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EActionComboBoxClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) action_combo_box_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EActionComboBox),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) action_combo_box_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_COMBO_BOX, "EActionComboBox",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

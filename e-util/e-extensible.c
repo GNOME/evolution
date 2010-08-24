@@ -66,6 +66,11 @@
 
 static GQuark extensible_quark;
 
+G_DEFINE_INTERFACE (
+	EExtensible,
+	e_extensible,
+	G_TYPE_OBJECT)
+
 static GPtrArray *
 extensible_get_extensions (EExtensible *extensible)
 {
@@ -99,37 +104,9 @@ exit:
 }
 
 static void
-extensible_interface_init (EExtensibleInterface *interface)
+e_extensible_default_init (EExtensibleInterface *interface)
 {
 	extensible_quark = g_quark_from_static_string ("e-extensible-quark");
-}
-
-GType
-e_extensible_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EExtensibleInterface),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) extensible_interface_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			0,     /* instance_size */
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_INTERFACE, "EExtensible", &type_info, 0);
-
-		g_type_interface_add_prerequisite (type, G_TYPE_OBJECT);
-	}
-
-	return type;
 }
 
 /**

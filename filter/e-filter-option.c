@@ -36,7 +36,10 @@
 #include "e-filter-option.h"
 #include "e-filter-part.h"
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EFilterOption,
+	e_filter_option,
+	E_TYPE_FILTER_ELEMENT)
 
 static void
 free_option (struct _filter_option *opt)
@@ -108,7 +111,7 @@ filter_option_finalize (GObject *object)
 	g_free (option->dynamic_func);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_filter_option_parent_class)->finalize (object);
 }
 
 static gint
@@ -119,7 +122,8 @@ filter_option_eq (EFilterElement *element_a,
 	EFilterOption *option_b = E_FILTER_OPTION (element_b);
 
 	/* Chain up to parent's eq() method. */
-	if (!E_FILTER_ELEMENT_CLASS (parent_class)->eq (element_a, element_b))
+	if (!E_FILTER_ELEMENT_CLASS (e_filter_option_parent_class)->
+		eq (element_a, element_b))
 		return FALSE;
 
 	if (option_a->current == NULL && option_b->current == NULL)
@@ -139,7 +143,8 @@ filter_option_xml_create (EFilterElement *element,
 	xmlNodePtr n, work;
 
 	/* Chain up to parent's xml_create() method. */
-	E_FILTER_ELEMENT_CLASS (parent_class)->xml_create (element, node);
+	E_FILTER_ELEMENT_CLASS (e_filter_option_parent_class)->
+		xml_create (element, node);
 
 	n = node->children;
 	while (n) {
@@ -269,7 +274,8 @@ filter_option_clone (EFilterElement *element)
 	GList *link;
 
 	/* Chain up to parent's clone() method. */
-	clone = E_FILTER_ELEMENT_CLASS (parent_class)->clone (element);
+	clone = E_FILTER_ELEMENT_CLASS (e_filter_option_parent_class)->
+		clone (element);
 
 	clone_option = E_FILTER_OPTION (clone);
 
@@ -393,12 +399,10 @@ filter_option_format_sexp (EFilterElement *element,
 }
 
 static void
-filter_option_class_init (EFilterOptionClass *class)
+e_filter_option_class_init (EFilterOptionClass *class)
 {
 	GObjectClass *object_class;
 	EFilterElementClass *filter_element_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = filter_option_finalize;
@@ -415,36 +419,10 @@ filter_option_class_init (EFilterOptionClass *class)
 }
 
 static void
-filter_option_init (EFilterOption *option)
+e_filter_option_init (EFilterOption *option)
 {
 	option->type = "option";
 	option->dynamic_func = NULL;
-}
-
-GType
-e_filter_option_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EFilterOptionClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) filter_option_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EFilterOption),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) filter_option_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_FILTER_ELEMENT, "EFilterOption", &type_info, 0);
-	}
-
-	return type;
 }
 
 /**

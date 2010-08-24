@@ -64,7 +64,10 @@ static const gchar *ui =
 "  </toolbar>\n"
 "</ui>";
 
-static gpointer parent_class = NULL;
+G_DEFINE_TYPE (
+	ESignatureEditor,
+	e_signature_editor,
+	GTKHTML_TYPE_EDITOR)
 
 static void
 handle_error (GError **error)
@@ -302,7 +305,7 @@ signature_editor_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_signature_editor_parent_class)->dispose (object);
 }
 
 static void
@@ -315,15 +318,14 @@ signature_editor_finalize (GObject *object)
 	g_free (priv->original_name);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_signature_editor_parent_class)->finalize (object);
 }
 
 static void
-signature_editor_class_init (ESignatureEditorClass *class)
+e_signature_editor_class_init (ESignatureEditorClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ESignatureEditorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -354,7 +356,7 @@ signature_editor_class_init (ESignatureEditorClass *class)
 }
 
 static void
-signature_editor_init (ESignatureEditor *editor)
+e_signature_editor_init (ESignatureEditor *editor)
 {
 	GtkActionGroup *action_group;
 	EFocusTracker *focus_tracker;
@@ -433,33 +435,6 @@ signature_editor_init (ESignatureEditor *editor)
 	e_focus_tracker_set_select_all_action (focus_tracker, action);
 
 	editor->priv->focus_tracker = focus_tracker;
-}
-
-GType
-e_signature_editor_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (ESignatureEditorClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) signature_editor_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ESignatureEditor),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) signature_editor_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTKHTML_TYPE_EDITOR, "ESignatureEditor",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 GtkWidget *

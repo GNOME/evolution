@@ -79,13 +79,9 @@ struct _EMapPrivate {
 
 /* Internal prototypes */
 
-static void e_map_class_init (EMapClass *class);
-static void e_map_init (EMap *view);
 static void e_map_finalize (GObject *object);
 static void e_map_destroy (GtkObject *object);
-static void e_map_unmap (GtkWidget *widget);
 static void e_map_realize (GtkWidget *widget);
-static void e_map_unrealize (GtkWidget *widget);
 static void e_map_size_request (GtkWidget *widget, GtkRequisition *requisition);
 static void e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation);
 static gint e_map_button_press (GtkWidget *widget, GdkEventButton *event);
@@ -108,47 +104,14 @@ static void update_and_paint (EMap *map);
 static void update_render_point (EMap *map, EMapPoint *point);
 static void repaint_point (EMap *map, EMapPoint *point);
 
-static GtkWidgetClass *parent_class;
+G_DEFINE_TYPE (
+	EMap,
+	e_map,
+	GTK_TYPE_WIDGET)
 
 /* ----------------- *
  * Widget management *
  * ----------------- */
-
-/**
- * e_map_get_type:
- * @void:
- *
- * Registers the #EMap class if necessary, and returns the type ID
- * associated to it.
- *
- * Return value: The type ID of the #EMap class.
- **/
-
-GType
-e_map_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMapClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) e_map_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMap),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) e_map_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_WIDGET, "EMap", &type_info, 0);
-	}
-
-	return type;
-}
 
 /* Class initialization function for the map view */
 
@@ -162,8 +125,6 @@ e_map_class_init (EMapClass *class)
 	gobject_class = (GObjectClass *) class;
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
-
-	parent_class = g_type_class_ref(GTK_TYPE_WIDGET);
 
 	gobject_class->finalize = e_map_finalize;
 
@@ -180,9 +141,7 @@ e_map_class_init (EMapClass *class)
 								    GTK_TYPE_ADJUSTMENT,
 								    GTK_TYPE_ADJUSTMENT);
 
-	widget_class->unmap = e_map_unmap;
 	widget_class->realize = e_map_realize;
-	widget_class->unrealize = e_map_unrealize;
 	widget_class->size_request = e_map_size_request;
 	widget_class->size_allocate = e_map_size_allocate;
 	widget_class->button_press_event = e_map_button_press;
@@ -234,8 +193,7 @@ e_map_destroy (GtkObject *object)
 	g_signal_handlers_disconnect_by_func (priv->hadj, adjustment_changed_cb, view);
 	g_signal_handlers_disconnect_by_func (priv->vadj, adjustment_changed_cb, view);
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(*GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	GTK_OBJECT_CLASS (e_map_parent_class)->destroy (object);
 }
 
 /* Finalize handler for the map view */
@@ -273,20 +231,7 @@ e_map_finalize (GObject *object)
 	g_free (priv);
 	view->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(*G_OBJECT_CLASS (parent_class)->finalize) (object);
-}
-
-/* Unmap handler for the map view */
-
-static void
-e_map_unmap (GtkWidget *widget)
-{
-	g_return_if_fail (widget != NULL);
-	g_return_if_fail (E_IS_MAP (widget));
-
-	if (GTK_WIDGET_CLASS (parent_class)->unmap)
-		(*GTK_WIDGET_CLASS (parent_class)->unmap) (widget);
+	G_OBJECT_CLASS (e_map_parent_class)->finalize (object);
 }
 
 /* Realize handler for the map view */
@@ -332,18 +277,6 @@ e_map_realize (GtkWidget *widget)
 
 	gdk_window_set_back_pixmap (window, NULL, FALSE);
 	update_render_pixbuf (E_MAP (widget), GDK_INTERP_BILINEAR, TRUE);
-}
-
-/* Unrealize handler for the map view */
-
-static void
-e_map_unrealize (GtkWidget *widget)
-{
-	g_return_if_fail (widget != NULL);
-	g_return_if_fail (E_IS_MAP (widget));
-
-	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
-		(*GTK_WIDGET_CLASS (parent_class)->unrealize) (widget);
 }
 
 /* Size_request handler for the map view */

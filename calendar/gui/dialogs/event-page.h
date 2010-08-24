@@ -76,7 +76,7 @@ EventPage *	event_page_new			(EMeetingStore *model,
 ECalComponent *	event_page_get_cancel_comp	(EventPage *page);
 void		event_page_show_options		(EventPage *page);
 void		event_page_hide_options		(EventPage *page);
-void		event_page_sendoptions_clicked_cb
+void		event_page_send_options_clicked_cb
 						(EventPage *epage);
 void		event_page_set_meeting		(EventPage *page,
 						 gboolean set);

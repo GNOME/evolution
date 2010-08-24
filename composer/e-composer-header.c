@@ -56,8 +56,12 @@ struct _EComposerHeaderPrivate {
 	guint visible   : 1;
 };
 
-static gpointer parent_class;
 static guint signal_ids[LAST_SIGNAL];
+
+G_DEFINE_ABSTRACT_TYPE (
+	EComposerHeader,
+	e_composer_header,
+	G_TYPE_OBJECT)
 
 static void
 composer_header_button_clicked_cb (GtkButton *button,
@@ -78,7 +82,8 @@ composer_header_constructor (GType type,
 	GtkWidget *label;
 
 	/* Chain up to parent's constructor() method. */
-	object = G_OBJECT_CLASS (parent_class)->constructor (
+	object = G_OBJECT_CLASS (
+		e_composer_header_parent_class)->constructor (
 		type, n_construct_properties, construct_properties);
 
 	header = E_COMPOSER_HEADER (object);
@@ -197,15 +202,14 @@ composer_header_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_composer_header_parent_class)->dispose (object);
 }
 
 static void
-composer_header_class_init (EComposerHeaderClass *class)
+e_composer_header_class_init (EComposerHeaderClass *class)
 {
 	GObjectClass *object_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EComposerHeaderPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -276,36 +280,9 @@ composer_header_class_init (EComposerHeaderClass *class)
 }
 
 static void
-composer_header_init (EComposerHeader *header)
+e_composer_header_init (EComposerHeader *header)
 {
 	header->priv = E_COMPOSER_HEADER_GET_PRIVATE (header);
-}
-
-GType
-e_composer_header_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EComposerHeaderClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) composer_header_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EComposerHeader),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) composer_header_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "EComposerHeader",
-			&type_info, G_TYPE_FLAG_ABSTRACT);
-	}
-
-	return type;
 }
 
 gchar *

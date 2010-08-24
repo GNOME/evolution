@@ -86,7 +86,6 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
 /* local prototypes */
@@ -113,6 +112,11 @@ static void	handle_multipart_encrypted	(EMsgComposer *composer,
 static void	handle_multipart_signed		(EMsgComposer *composer,
 						 CamelMultipart *multipart,
 						 gint depth);
+
+G_DEFINE_TYPE (
+	EMsgComposer,
+	e_msg_composer,
+	GTKHTML_TYPE_EDITOR)
 
 /**
  * emcu_part_to_html:
@@ -1823,7 +1827,7 @@ msg_composer_dispose (GObject *object)
 	e_composer_private_dispose (composer);
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_msg_composer_parent_class)->dispose (object);
 }
 
 static void
@@ -1835,7 +1839,7 @@ msg_composer_finalize (GObject *object)
 	e_composer_private_finalize (composer);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_msg_composer_parent_class)->finalize (object);
 }
 
 static void
@@ -2011,7 +2015,7 @@ msg_composer_destroy (GtkObject *object)
 		shell, msg_composer_prepare_for_quit_cb, composer);
 
 	/* Chain up to parent's destroy() method. */
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	GTK_OBJECT_CLASS (e_msg_composer_parent_class)->destroy (object);
 }
 
 static void
@@ -2022,7 +2026,7 @@ msg_composer_map (GtkWidget *widget)
 	const gchar *text;
 
 	/* Chain up to parent's map() method. */
-	GTK_WIDGET_CLASS (parent_class)->map (widget);
+	GTK_WIDGET_CLASS (e_msg_composer_parent_class)->map (widget);
 
 	table = e_msg_composer_get_header_table (E_MSG_COMPOSER (widget));
 
@@ -2091,7 +2095,8 @@ msg_composer_key_press_event (GtkWidget *widget,
 	}
 
 	/* Chain up to parent's key_press_event() method. */
-	return GTK_WIDGET_CLASS (parent_class)->key_press_event (widget, event);
+	return GTK_WIDGET_CLASS (e_msg_composer_parent_class)->
+		key_press_event (widget, event);
 }
 
 static void
@@ -2268,14 +2273,13 @@ msg_composer_object_deleted (GtkhtmlEditor *editor)
 }
 
 static void
-msg_composer_class_init (EMsgComposerClass *class)
+e_msg_composer_class_init (EMsgComposerClass *class)
 {
 	GObjectClass *object_class;
 	GtkObjectClass *gtk_object_class;
 	GtkWidgetClass *widget_class;
 	GtkhtmlEditorClass *editor_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMsgComposerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -2351,35 +2355,9 @@ msg_composer_class_init (EMsgComposerClass *class)
 }
 
 static void
-msg_composer_init (EMsgComposer *composer)
+e_msg_composer_init (EMsgComposer *composer)
 {
 	composer->priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
-}
-
-GType
-e_msg_composer_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMsgComposerClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) msg_composer_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMsgComposer),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) msg_composer_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTKHTML_TYPE_EDITOR, "EMsgComposer", &type_info, 0);
-	}
-
-	return type;
 }
 
 /* Callbacks.  */

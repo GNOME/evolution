@@ -52,12 +52,6 @@
 #include "em-config.h"
 #include "mail-session.h"
 
-static void em_mailer_prefs_class_init (EMMailerPrefsClass *class);
-static void em_mailer_prefs_init       (EMMailerPrefs *dialog);
-static void em_mailer_prefs_finalize   (GObject *object);
-
-static GtkVBoxClass *parent_class = NULL;
-
 enum {
 	HEADER_LIST_NAME_COLUMN, /* displayable name of the header (may be a translation) */
 	HEADER_LIST_ENABLED_COLUMN, /* is the header enabled? */
@@ -100,49 +94,15 @@ static const struct {
 	{ N_("Once per month"), 30 },
 };
 
-GType
-em_mailer_prefs_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		GTypeInfo type_info = {
-			sizeof (EMMailerPrefsClass),
-			NULL, NULL,
-			(GClassInitFunc) em_mailer_prefs_class_init,
-			NULL, NULL,
-			sizeof (EMMailerPrefs),
-			0,
-			(GInstanceInitFunc) em_mailer_prefs_init,
-		};
-
-		type = g_type_register_static (gtk_vbox_get_type (), "EMMailerPrefs", &type_info, 0);
-	}
-
-	return type;
-}
+G_DEFINE_TYPE (
+	EMMailerPrefs,
+	em_mailer_prefs,
+	GTK_TYPE_VBOX)
 
 static void
-em_mailer_prefs_class_init (EMMailerPrefsClass *klass)
+em_mailer_prefs_finalize (GObject *object)
 {
-	GObjectClass *object_class;
-
-	object_class = (GObjectClass *) klass;
-	parent_class = g_type_class_ref (gtk_vbox_get_type ());
-
-	object_class->finalize = em_mailer_prefs_finalize;
-}
-
-static void
-em_mailer_prefs_init (EMMailerPrefs *preferences)
-{
-	preferences->gconf = mail_config_get_gconf_client ();
-}
-
-static void
-em_mailer_prefs_finalize (GObject *obj)
-{
-	EMMailerPrefs *prefs = (EMMailerPrefs *) obj;
+	EMMailerPrefs *prefs = (EMMailerPrefs *) object;
 
 	g_object_unref (prefs->builder);
 
@@ -152,7 +112,23 @@ em_mailer_prefs_finalize (GObject *obj)
 		prefs->labels_change_notify_id = 0;
 	}
 
-        ((GObjectClass *)(parent_class))->finalize (obj);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (em_mailer_prefs_parent_class)->finalize (object);
+}
+
+static void
+em_mailer_prefs_class_init (EMMailerPrefsClass *class)
+{
+	GObjectClass *object_class;
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = em_mailer_prefs_finalize;
+}
+
+static void
+em_mailer_prefs_init (EMMailerPrefs *preferences)
+{
+	preferences->gconf = mail_config_get_gconf_client ();
 }
 
 static gboolean

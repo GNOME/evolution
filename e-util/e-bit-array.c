@@ -36,7 +36,10 @@
 #define BITMASK_LEFT(n) ((((n) % 32) == 0) ? 0 : (ONES << (32 - ((n) % 32))))
 #define BITMASK_RIGHT(n) ((guint32)(((guint32) ONES) >> ((n) % 32)))
 
-G_DEFINE_TYPE (EBitArray, e_bit_array, G_TYPE_OBJECT)
+G_DEFINE_TYPE (
+	EBitArray,
+	e_bit_array,
+	G_TYPE_OBJECT)
 
 static void
 e_bit_array_insert_real(EBitArray *eba, gint row)

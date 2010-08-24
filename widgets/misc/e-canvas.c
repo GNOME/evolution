@@ -37,7 +37,10 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_TYPE (ECanvas, e_canvas, GNOME_TYPE_CANVAS)
+G_DEFINE_TYPE (
+	ECanvas,
+	e_canvas,
+	GNOME_TYPE_CANVAS)
 
 /* Emits an event for an item in the canvas, be it the current
  * item, grabbed item, or focused item, as appropriate. */
