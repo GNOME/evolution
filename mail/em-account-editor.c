@@ -258,6 +258,10 @@ emae_set_original_account (EMAccountEditor *emae,
 		e_account_set_string (
 			modified_account, E_ACCOUNT_SENT_FOLDER_URI,
 			e_mail_local_get_folder_uri (E_MAIL_FOLDER_SENT));
+
+		/* encrypt to self by default */
+		e_account_set_bool (modified_account, E_ACCOUNT_PGP_ENCRYPT_TO_SELF, TRUE);
+		e_account_set_bool (modified_account, E_ACCOUNT_SMIME_ENCRYPT_TO_SELF, TRUE);
 	}
 
 	emae->priv->original_account = original_account;
@@ -1219,7 +1223,6 @@ smime_changed (EMAccountEditor *emae)
 	gtk_widget_set_sensitive ((GtkWidget *)priv->smime_encrypt_to_self, act);
 	if (!act) {
 		gtk_toggle_button_set_active (priv->smime_encrypt_default, FALSE);
-		gtk_toggle_button_set_active (priv->smime_encrypt_to_self, FALSE);
 	}
 }
 
