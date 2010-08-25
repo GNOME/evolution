@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-16 18:20+0200\n"
-"PO-Revision-Date: 2010-08-16 18:22+0200\n"
+"PO-Revision-Date: 2010-08-25 14:31+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@ubuntu.com>\n"
 "Language-Team: Galician <gnome-gl-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -5794,7 +5794,7 @@ msgstr "vista de calendario para unha ou máis semanas"
 
 #: ../calendar/gui/gnome-cal.c:2287
 msgid "Purging"
-msgstr "Depurando"
+msgstr "Limpando"
 
 #: ../calendar/gui/goto-dialog.ui.h:1
 msgid "April"
@@ -5806,7 +5806,7 @@ msgstr "Agosto"
 
 #: ../calendar/gui/goto-dialog.ui.h:3
 msgid "December"
-msgstr "Integrante"
+msgstr "Decembro"
 
 #: ../calendar/gui/goto-dialog.ui.h:4
 msgid "February"
@@ -5818,27 +5818,27 @@ msgstr "Xaneiro"
 
 #: ../calendar/gui/goto-dialog.ui.h:6
 msgid "July"
-msgstr "Jullo"
+msgstr "Xullo"
 
 #: ../calendar/gui/goto-dialog.ui.h:7
 msgid "June"
-msgstr "Correo non desexado"
+msgstr "Xuño"
 
 #: ../calendar/gui/goto-dialog.ui.h:8
 msgid "March"
-msgstr "Buscar"
+msgstr "Marzo"
 
 #: ../calendar/gui/goto-dialog.ui.h:9
 msgid "May"
-msgstr "Luns"
+msgstr "Maio"
 
 #: ../calendar/gui/goto-dialog.ui.h:10
 msgid "November"
-msgstr "Integrante"
+msgstr "Novembro"
 
 #: ../calendar/gui/goto-dialog.ui.h:11
 msgid "October"
-msgstr "Outros"
+msgstr "Outubro"
 
 #: ../calendar/gui/goto-dialog.ui.h:12
 msgid "Select Date"
@@ -5851,12 +5851,12 @@ msgstr "Seleccionar _hoxe"
 
 #: ../calendar/gui/goto-dialog.ui.h:14
 msgid "September"
-msgstr "Integrante"
+msgstr "Setembro"
 
 #: ../calendar/gui/itip-utils.c:408 ../calendar/gui/itip-utils.c:459
 #: ../calendar/gui/itip-utils.c:551
 msgid "An organizer must be set."
-msgstr "Débese definir un organizador."
+msgstr "Debe definirse un organizador."
 
 #: ../calendar/gui/itip-utils.c:451
 msgid "At least one attendee is necessary"
