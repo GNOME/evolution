@@ -1,5 +1,5 @@
 # French translation of evolution documentation.
-# Copyright (C) 2006-2008 Free Software Foundation, Inc.
+# Copyright (C) 2006-2010 Free Software Foundation, Inc.
 # This file is distributed under the same license as the evolution package.
 #
 #
@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution doc fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-24 09:57+0000\n"
+"POT-Creation-Date: 2010-06-11 18:53+0000\n"
 "PO-Revision-Date: 2010-03-06 12:28+0100\n"
 "Last-Translator: Bruno Brouard <annoa.b@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -566,10 +566,9 @@ msgstr "Novell, Inc"
 msgid "2002-2009"
 msgstr "2002-2009"
 
-#: C/evolution.xml:29(revnumber) C/evolution.xml:37(revnumber)
-#: C/evolution.xml:88(productnumber)
-msgid "2.28"
-msgstr "2.28"
+#: C/evolution.xml:29(revnumber) C/evolution.xml:88(productnumber)
+msgid "2.30"
+msgstr "2.30"
 
 #: C/evolution.xml:30(date) C/evolution.xml:38(date)
 msgid "September 2009"
@@ -578,6 +577,10 @@ msgstr "Septembre 2009"
 #: C/evolution.xml:32(para)
 msgid "Akhil Laddha"
 msgstr "Akhil Laddha"
+
+#: C/evolution.xml:37(revnumber)
+msgid "2.28"
+msgstr "2.28"
 
 #: C/evolution.xml:40(para) C/evolution.xml:48(para) C/evolution.xml:56(para)
 #: C/evolution.xml:72(para)
@@ -621,8 +624,8 @@ msgid "October 5, 2006"
 msgstr "5 octobre 2006"
 
 #: C/evolution.xml:78(releaseinfo)
-msgid "This manual describes version 2.28 of Evolution"
-msgstr "Ce manuel documente la version 2.28 d'Evolution"
+msgid "This manual describes version 2.30 of Evolution"
+msgstr "Ce manuel documente la version 2.30 d'Evolution"
 
 #: C/evolution.xml:82(para)
 msgid ""
@@ -643,8 +646,8 @@ msgid "February 2008"
 msgstr "Février 2008"
 
 #: C/evolution.xml:90(title) C/evolution.xml:7883(para)
-msgid "Evolution 2.28 User Guide"
-msgstr "Manuel d'utilisation d'Evolution 2.28"
+msgid "Evolution 2.30 User Guide"
+msgstr "Manuel d'utilisation d'Evolution 2.30"
 
 #: C/evolution.xml:95(title)
 msgid "About This Guide"
@@ -653,11 +656,11 @@ msgstr "À propos de ce guide"
 #: C/evolution.xml:96(para)
 msgid ""
 "This guide describes how to use and manage <trademark>Evolution</trademark> "
-"2.28 client software. This guide is intended for users and is divided into "
+"2.30 client software. This guide is intended for users and is divided into "
 "the following sections:"
 msgstr ""
 "Ce guide explique comment utiliser et comment gérer le logiciel client "
-"<trademark>Evolution</trademark> 2.28. Ce guide est dédié aux utilisateurs "
+"<trademark>Evolution</trademark> 2.30. Ce guide est dédié aux utilisateurs "
 "et comporte les chapitres suivants :"
 
 #: C/evolution.xml:99(link) C/evolution.xml:160(title)
@@ -9398,7 +9401,7 @@ msgstr "Choisissez « jusqu'à » pour indiquer l'heure de fin de l'événemen
 #: C/evolution.xml:4137(para) C/evolution.xml:4297(para)
 #: C/evolution.xml:4699(para) C/evolution.xml:4750(para)
 msgid "Type the time zone information in the Time Zone field."
-msgstr "Saisssez le fuseau horaire dans le champ correspondant."
+msgstr "Saisissez le fuseau horaire dans le champ correspondant."
 
 #: C/evolution.xml:4139(para) C/evolution.xml:4299(para)
 #: C/evolution.xml:4701(para) C/evolution.xml:4752(para)
@@ -11293,7 +11296,7 @@ msgstr ""
 "Vous pouvez définir la priorité et la sensibilité d'un message envoyé à "
 "partir d'un compte Exchange afin que les destinataires perçoivent "
 "l'importance du message. La priorité peut prendre trois valeurs différentes "
-"(Élevée, Normale, Faible) et la sensibilité peut prendre quatres valeurs "
+"(Élevée, Normale, Faible) et la sensibilité peut prendre quatre valeurs "
 "(Normal, Personnel, Privé, Confidentiel). Vous pouvez aussi activer l'accusé "
 "de réception et l'accusé de lecture pour les messages envoyés."
 
@@ -12337,7 +12340,7 @@ msgstr ""
 
 #: C/evolution.xml:6116(para)
 msgid ""
-"An email is send to all the recipients to invite them to your updated event."
+"An email is sent to all the recipients to invite them to your updated event."
 msgstr ""
 "Un courriel est envoyé à tous les participants, les invitant à l'événement "
 "mis à jour."
@@ -14366,8 +14369,8 @@ msgstr ""
 "lieu de deux dans la vue mensuelle."
 
 #: C/evolution.xml:7039(title)
-msgid "Show week numbers in date navigator:"
-msgstr "Afficher les numéros de semaine dans le navigateur de dates :"
+msgid "Show week numbers:"
+msgstr "Afficher les numéros de semaine :"
 
 #: C/evolution.xml:7040(para)
 msgid "Shows the week numbers next to the respective weeks in the calendar."
@@ -16381,167 +16384,4 @@ msgstr ""
 "Claude Paroz <claude@2xlibre.net>, 2007-2009\n"
 "Alexandre Franke <alexandre.franke@gmail.com>, 2009"
 
-#~ msgid ""
-#~ "@@image: 'figures/evo_identity_a.png'; "
-#~ "md5=51fef803bd3083b0b2c2583221d1c151"
-#~ msgstr ""
-#~ "@@image: 'figures/evo_identity_a.png'; "
-#~ "md5=51fef803bd3083b0b2c2583221d1c151"
 
-#~ msgid ""
-#~ "@@image: 'figures/evo_receive_setup_a.png'; "
-#~ "md5=5add6d290b2df212516dda2463930759"
-#~ msgstr ""
-#~ "@@image: 'figures/evo_receive_setup_a.png'; "
-#~ "md5=5add6d290b2df212516dda2463930759"
-
-#~ msgid ""
-#~ "@@image: 'figures/evo_mereceive_a.png'; "
-#~ "md5=c3c759f902c2584ee218dc40d6e46806"
-#~ msgstr ""
-#~ "@@image: 'figures/evo_mereceive_a.png'; "
-#~ "md5=c3c759f902c2584ee218dc40d6e46806"
-
-#~ msgid ""
-#~ "@@image: 'figures/evo_timezone_a.png'; "
-#~ "md5=4ee80aae45be18c238c25329ab5ce59a"
-#~ msgstr ""
-#~ "@@image: 'figures/evo_timezone_a.png'; "
-#~ "md5=4ee80aae45be18c238c25329ab5ce59a"
-
-#~ msgid ""
-#~ "@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
-#~ msgstr ""
-#~ "@@image: 'figures/evo_restore.png'; md5=95ef78344a50e05dbf01da9633dcd71f"
-
-#~ msgid ""
-#~ "@@image: 'figures/evo_mailnotification.png'; "
-#~ "md5=3ec09c3f9b49aee5be6f5fc2df69350d"
-#~ msgstr ""
-#~ "@@image: 'figures/evo_mailnotification.png'; "
-#~ "md5=3ec09c3f9b49aee5be6f5fc2df69350d"
-
-#~ msgid ""
-#~ "@@image: 'figures/collap_head_a.png'; md5=82c5d5ae3f5499f17bdb08eebfe9c557"
-#~ msgstr ""
-#~ "@@image: 'figures/collap_head_a.png'; md5=82c5d5ae3f5499f17bdb08eebfe9c557"
-
-#~ msgid ""
-#~ "@@image: 'figures/evo_account_editor_a.png'; "
-#~ "md5=39b83104a4e6ecb9473cbb84121e6be3"
-#~ msgstr ""
-#~ "@@image: 'figures/evo_account_editor_a.png'; "
-#~ "md5=39b83104a4e6ecb9473cbb84121e6be3"
-
-#~ msgid ""
-#~ "@@image: 'figures/account_editor_a.png'; "
-#~ "md5=9d0ad61b553325e9a85ea074fa091703"
-#~ msgstr ""
-#~ "@@image: 'figures/account_editor_a.png'; "
-#~ "md5=9d0ad61b553325e9a85ea074fa091703"
-
-#~ msgid ""
-#~ "@@image: 'figures/evo_import_asst_a.png'; "
-#~ "md5=e86638d0b3a01478fd4f12e33781a8a0"
-#~ msgstr ""
-#~ "@@image: 'figures/evo_import_asst_a.png'; "
-#~ "md5=e86638d0b3a01478fd4f12e33781a8a0"
-
-#~ msgid ""
-#~ "@@image: 'figures/mail-threaded.png'; md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
-#~ msgstr ""
-#~ "@@image: 'figures/mail-threaded.png'; md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
-
-#~ msgid ""
-#~ "@@image: 'figures/evo_message_filters_a.png'; "
-#~ "md5=3b7067638063c6aad2c316db838d2273"
-#~ msgstr ""
-#~ "@@image: 'figures/evo_message_filters_a.png'; "
-#~ "md5=3b7067638063c6aad2c316db838d2273"
-
-#~ msgid ""
-#~ "@@image: 'figures/evo_edit_rule_a.png'; "
-#~ "md5=0ae423517b27dfd34cfcb54550335fbb"
-#~ msgstr ""
-#~ "@@image: 'figures/evo_edit_rule_a.png'; "
-#~ "md5=0ae423517b27dfd34cfcb54550335fbb"
-
-#~ msgid ""
-#~ "@@image: 'figures/evo_cal_prop_a.png'; "
-#~ "md5=f28511f098847b4fc9278ba6c54c9c3d"
-#~ msgstr ""
-#~ "@@image: 'figures/evo_cal_prop_a.png'; "
-#~ "md5=f28511f098847b4fc9278ba6c54c9c3d"
-
-#~ msgid ""
-#~ "@@image: 'figures/evo_allday_a.png'; md5=3641b70c5110bb275d553c00d559636f"
-#~ msgstr ""
-#~ "@@image: 'figures/evo_allday_a.png'; md5=3641b70c5110bb275d553c00d559636f"
-
-#~ msgid ""
-#~ "@@image: 'figures/exchng-identity.png'; "
-#~ "md5=51fef803bd3083b0b2c2583221d1c151"
-#~ msgstr ""
-#~ "@@image: 'figures/exchng-identity.png'; "
-#~ "md5=51fef803bd3083b0b2c2583221d1c151"
-
-#, fuzzy
-#~| msgid ""
-#~| "@@image: 'figures/exchng-settings.png'; "
-#~| "md5=7e82c0934afd2de5fca76c164d6342f4"
-#~ msgid "@@image: 'figures/exchng-settings.png'; md5=THIS FILE DOESN'T EXIST"
-#~ msgstr ""
-#~ "@@image: 'figures/exchng-settings.png'; "
-#~ "md5=7e82c0934afd2de5fca76c164d6342f4"
-
-#~ msgid ""
-#~ "@@image: 'figures/sub-others-folder.png'; "
-#~ "md5=5e385ee9524f93b65b307f83e1888138"
-#~ msgstr ""
-#~ "@@image: 'figures/sub-others-folder.png'; "
-#~ "md5=5e385ee9524f93b65b307f83e1888138"
-
-#~ msgid ""
-#~ "@@image: 'figures/sub-pub-fold.png'; md5=e8e8b7d0b6ae8214ca1ef51dac06a1f7"
-#~ msgstr ""
-#~ "@@image: 'figures/sub-pub-fold.png'; md5=e8e8b7d0b6ae8214ca1ef51dac06a1f7"
-
-#~ msgid ""
-#~ "@@image: 'figures/evo_identityedit_a.png'; "
-#~ "md5=78418c3f6214b7494c323df12bc6921f"
-#~ msgstr ""
-#~ "@@image: 'figures/evo_identityedit_a.png'; "
-#~ "md5=78418c3f6214b7494c323df12bc6921f"
-
-#~ msgid ""
-#~ "@@image: 'figures/evo_gwreceiveedit_a.png'; "
-#~ "md5=3f5fc5b802eba3ef1a68e6ff675577b0"
-#~ msgstr ""
-#~ "@@image: 'figures/evo_gwreceiveedit_a.png'; "
-#~ "md5=3f5fc5b802eba3ef1a68e6ff675577b0"
-
-#~ msgid ""
-#~ "@@image: 'figures/evo_gwreceiveoptedit_a.png'; "
-#~ "md5=1c9e818bb39bb288511cf1cebdd83569"
-#~ msgstr ""
-#~ "@@image: 'figures/evo_gwreceiveoptedit_a.png'; "
-#~ "md5=1c9e818bb39bb288511cf1cebdd83569"
-
-#~ msgid ""
-#~ "@@image: 'figures/evo_rmdrnotes_a.png'; "
-#~ "md5=ae24ed3554b8359af96ef2374ccd261a"
-#~ msgstr " "
-
-#~ msgid ""
-#~ "@@image: 'figures/evo_imapheader_a.png'; "
-#~ "md5=b11aa6167ce03769ce3084d32f4b4459"
-#~ msgstr ""
-#~ "@@image: 'figures/evo_imapheader_a.png'; "
-#~ "md5=b11aa6167ce03769ce3084d32f4b4459"
-
-#~ msgid ""
-#~ "@@image: 'figures/evo_debuglogs_a.png'; "
-#~ "md5=07f28e4574670558cf11897915b2ce7e"
-#~ msgstr ""
-#~ "@@image: 'figures/evo_debuglogs_a.png'; "
-#~ "md5=07f28e4574670558cf11897915b2ce7e"
