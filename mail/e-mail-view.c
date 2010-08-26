@@ -35,9 +35,19 @@
 struct _EMailViewPrivate {
 	EShellView *shell_view;
 	GtkOrientation orientation;
+	EMailView *previous_view;
 
 	guint preview_visible : 1;
 	guint show_deleted    : 1;
+};
+
+enum {
+	PROP_0,
+	PROP_ORIENTATION,
+	PROP_PREVIEW_VISIBLE,
+	PROP_PREVIOUS_VIEW,
+	PROP_SHELL_VIEW,
+	PROP_SHOW_DELETED
 };
 
 enum {
@@ -45,14 +55,6 @@ enum {
 	VIEW_CHANGED,
 	OPEN_MAIL,
 	LAST_SIGNAL
-};
-
-enum {
-	PROP_0,
-	PROP_ORIENTATION,
-	PROP_PREVIEW_VISIBLE,
-	PROP_SHELL_VIEW,
-	PROP_SHOW_DELETED
 };
 
 static guint signals[LAST_SIGNAL];
@@ -86,6 +88,12 @@ mail_view_set_property (GObject *object,
 			e_mail_view_set_preview_visible (
 				E_MAIL_VIEW (object),
 				g_value_get_boolean (value));
+			return;
+
+		case PROP_PREVIOUS_VIEW:
+			e_mail_view_set_previous_view (
+				E_MAIL_VIEW (object),
+				g_value_get_object (value));
 			return;
 
 		case PROP_SHELL_VIEW:
@@ -123,6 +131,12 @@ mail_view_get_property (GObject *object,
 				E_MAIL_VIEW (object)));
 			return;
 
+		case PROP_PREVIOUS_VIEW:
+			g_value_set_object (
+				value, e_mail_view_get_previous_view (
+				E_MAIL_VIEW (object)));
+			return;
+
 		case PROP_SHELL_VIEW:
 			g_value_set_object (
 				value, e_mail_view_get_shell_view (
@@ -149,6 +163,11 @@ mail_view_dispose (GObject *object)
 	if (priv->shell_view != NULL) {
 		g_object_unref (priv->shell_view);
 		priv->shell_view = NULL;
+	}
+
+	if (priv->previous_view != NULL) {
+		g_object_unref (priv->previous_view);
+		priv->previous_view = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -267,6 +286,16 @@ e_mail_view_class_init (EMailViewClass *class)
 			"Preview Visible",
 			NULL,
 			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_PREVIOUS_VIEW,
+		g_param_spec_object (
+			"previous-view",
+			"Previous View",
+			NULL,
+			E_TYPE_MAIL_VIEW,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -397,6 +426,33 @@ e_mail_view_set_preview_visible (EMailView *view,
 	g_return_if_fail (class->set_preview_visible != NULL);
 
 	class->set_preview_visible (view, visible);
+}
+
+EMailView *
+e_mail_view_get_previous_view (EMailView *view)
+{
+	g_return_val_if_fail (E_IS_MAIL_VIEW (view), NULL);
+
+	return view->priv->previous_view;
+}
+
+void
+e_mail_view_set_previous_view (EMailView *view,
+                               EMailView *previous_view)
+{
+	g_return_if_fail (E_IS_MAIL_VIEW (view));
+
+	if (previous_view != NULL) {
+		g_return_if_fail (E_IS_MAIL_VIEW (previous_view));
+		g_object_ref (previous_view);
+	}
+
+	if (view->priv->previous_view != NULL)
+		g_object_unref (view->priv->previous_view);
+
+	view->priv->previous_view = previous_view;
+
+	g_object_notify (G_OBJECT (view), "previous-view");
 }
 
 gboolean

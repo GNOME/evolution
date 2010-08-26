@@ -28,6 +28,7 @@ action_gal_save_custom_view_cb (GtkAction *action,
 {
 	EMailShellContent *mail_shell_content;
 	EShellView *shell_view;
+	EMailView *mail_view;
 	GalViewInstance *view_instance;
 
 	/* All shell views repond to the activation of this action,
@@ -38,7 +39,9 @@ action_gal_save_custom_view_cb (GtkAction *action,
 		return;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	view_instance = e_mail_shell_content_get_view_instance (mail_shell_content);
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+	view_instance = e_mail_view_get_view_instance (mail_view);
+
 	gal_view_instance_save_as (view_instance);
 }
 
@@ -87,6 +90,7 @@ action_mail_create_search_folder_cb (GtkAction *action,
 	EShellSearchbar *searchbar;
 	EFilterRule *search_rule;
 	EMVFolderRule *vfolder_rule;
+	EMailView *mail_view;
 	const gchar *folder_uri;
 	const gchar *search_text;
 	gchar *rule_name;
@@ -98,13 +102,14 @@ action_mail_create_search_folder_cb (GtkAction *action,
 	g_return_if_fail (search_rule != NULL);
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
-	search_text = e_shell_searchbar_get_search_text (searchbar);
 
+	search_text = e_shell_searchbar_get_search_text (searchbar);
 	if (search_text == NULL || *search_text == '\0')
 		search_text = "''";
 
-	reader = E_MAIL_READER (mail_shell_content->view);
+	reader = E_MAIL_READER (mail_view);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 
 	search_rule = vfolder_clone_rule (search_rule);
@@ -212,13 +217,15 @@ static void
 action_mail_folder_mark_all_as_read_cb (GtkAction *action,
                                         EMailShellView *mail_shell_view)
 {
-	EMailReader *reader;
-	EShellWindow *shell_window;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EMailShellContent *mail_shell_content;
+	EMailReader *reader;
+	EMailView *mail_view;
 	CamelFolder *folder;
 	GtkWindow *parent;
 	MailFolderCache *cache;
-	MessageList *message_list;
+	GtkWidget *message_list;
 	GPtrArray *uids;
 	const gchar *key;
 	const gchar *prompt;
@@ -228,7 +235,10 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	parent = GTK_WINDOW (shell_window);
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	reader = E_MAIL_READER (mail_view);
 
 	folder = e_mail_reader_get_folder (reader);
 	g_return_if_fail (folder != NULL);
@@ -243,10 +253,10 @@ action_mail_folder_mark_all_as_read_cb (GtkAction *action,
 	if (!em_utils_prompt_user (parent, key, prompt, NULL))
 		return;
 
-	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	message_list = e_mail_reader_get_message_list (reader);
 	g_return_if_fail (message_list != NULL);
 
-	uids = message_list_get_uids (message_list);
+	uids = message_list_get_uids (MESSAGE_LIST (message_list));
 
 	camel_folder_freeze (folder);
 	for (ii = 0; ii < uids->len; ii++)
@@ -364,10 +374,15 @@ static void
 action_mail_folder_select_thread_cb (GtkAction *action,
                                      EMailShellView *mail_shell_view)
 {
+	EMailShellContent *mail_shell_content;
 	GtkWidget *message_list;
 	EMailReader *reader;
+	EMailView *mail_view;
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	reader = E_MAIL_READER (mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	message_list_select_thread (MESSAGE_LIST (message_list));
@@ -377,10 +392,15 @@ static void
 action_mail_folder_select_subthread_cb (GtkAction *action,
                                         EMailShellView *mail_shell_view)
 {
+	EMailShellContent *mail_shell_content;
 	GtkWidget *message_list;
 	EMailReader *reader;
+	EMailView *mail_view;
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	reader = E_MAIL_READER (mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	message_list_select_subthread (MESSAGE_LIST (message_list));
@@ -419,7 +439,9 @@ static void
 action_mail_label_cb (GtkToggleAction *action,
                       EMailShellView *mail_shell_view)
 {
+	EMailShellContent *mail_shell_content;
 	EMailReader *reader;
+	EMailView *mail_view;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	const gchar *tag;
@@ -428,7 +450,10 @@ action_mail_label_cb (GtkToggleAction *action,
 	tag = g_object_get_data (G_OBJECT (action), "tag");
 	g_return_if_fail (tag != NULL);
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
@@ -452,12 +477,14 @@ action_mail_label_new_cb (GtkAction *action,
                           EMailShellView *mail_shell_view)
 {
 	EShell *shell;
-	EShellSettings *shell_settings;
-	EShellWindow *shell_window;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellSettings *shell_settings;
+	EMailShellContent *mail_shell_content;
 	EMailLabelDialog *label_dialog;
 	EMailLabelListStore *store;
 	EMailReader *reader;
+	EMailView *mail_view;
 	CamelFolder *folder;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
@@ -502,7 +529,10 @@ action_mail_label_new_cb (GtkAction *action,
 	gtk_tree_model_iter_nth_child (model, &iter, NULL, n_children - 1);
 	label_tag = e_mail_label_list_store_get_tag (store, &iter);
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
@@ -524,9 +554,11 @@ action_mail_label_none_cb (GtkAction *action,
 {
 	EShell *shell;
 	EShellView *shell_view;
-	EShellSettings *shell_settings;
 	EShellWindow *shell_window;
+	EShellSettings *shell_settings;
+	EMailShellContent *mail_shell_content;
 	EMailReader *reader;
+	EMailView *mail_view;
 	GtkTreeModel *tree_model;
 	CamelFolder *folder;
 	GtkTreeIter iter;
@@ -542,7 +574,10 @@ action_mail_label_none_cb (GtkAction *action,
 	tree_model = e_shell_settings_get_object (
 		shell_settings, "mail-label-list-store");
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
@@ -573,11 +608,16 @@ static void
 action_mail_show_deleted_cb (GtkToggleAction *action,
                              EMailShellView *mail_shell_view)
 {
+	EMailShellContent *mail_shell_content;
 	GtkWidget *message_list;
 	EMailReader *reader;
+	EMailView *mail_view;
 	gboolean active;
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	reader = E_MAIL_READER (mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	active = gtk_toggle_action_get_active (action);
@@ -592,10 +632,12 @@ action_mail_smart_backward_cb (GtkAction *action,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellSettings *shell_settings;
+	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
 	EMFormatHTML *formatter;
 	EMailReader *reader;
+	EMailView *mail_view;
 	GtkWidget *message_list;
 	GtkToggleAction *toggle_action;
 	EWebView *web_view;
@@ -609,10 +651,13 @@ action_mail_smart_backward_cb (GtkAction *action,
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
 
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
+	reader = E_MAIL_READER (mail_view);
 	formatter = e_mail_reader_get_formatter (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
@@ -658,10 +703,12 @@ action_mail_smart_forward_cb (GtkAction *action,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellSettings *shell_settings;
+	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
 	EMFormatHTML *formatter;
 	EMailReader *reader;
+	EMailView *mail_view;
 	GtkWidget *message_list;
 	GtkToggleAction *toggle_action;
 	EWebView *web_view;
@@ -675,10 +722,13 @@ action_mail_smart_forward_cb (GtkAction *action,
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
 
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
+	reader = E_MAIL_READER (mail_view);
 	formatter = e_mail_reader_get_formatter (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
@@ -727,10 +777,15 @@ static void
 action_mail_threads_collapse_all_cb (GtkAction *action,
                                      EMailShellView *mail_shell_view)
 {
+	EMailShellContent *mail_shell_content;
 	GtkWidget *message_list;
 	EMailReader *reader;
+	EMailView *mail_view;
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	reader = E_MAIL_READER (mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	message_list_set_threaded_collapse_all (MESSAGE_LIST (message_list));
@@ -740,10 +795,15 @@ static void
 action_mail_threads_expand_all_cb (GtkAction *action,
                                    EMailShellView *mail_shell_view)
 {
+	EMailShellContent *mail_shell_content;
 	GtkWidget *message_list;
 	EMailReader *reader;
+	EMailView *mail_view;
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	reader = E_MAIL_READER (mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	message_list_set_threaded_expand_all (MESSAGE_LIST (message_list));
@@ -793,11 +853,11 @@ action_mail_view_cb (GtkRadioAction *action,
                      EMailShellView *mail_shell_view)
 {
 	EMailShellContent *mail_shell_content;
-	GtkOrientable *orientable;
 	GtkOrientation orientation;
+	EMailView *mail_view;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	orientable = GTK_ORIENTABLE (mail_shell_content);
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
 	switch (gtk_radio_action_get_current_value (action)) {
 		case 0:
@@ -810,7 +870,7 @@ action_mail_view_cb (GtkRadioAction *action,
 			g_return_if_reached ();
 	}
 
-	gtk_orientable_set_orientation (orientable, orientation);
+	e_mail_view_set_orientation (mail_view, orientation);
 }
 
 static GtkActionEntry mail_entries[] = {
@@ -1289,6 +1349,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	EShell *shell;
 	EShellSearchbar *searchbar;
 	EActionComboBox *combo_box;
+	EMailView *mail_view;
 	GtkActionGroup *action_group;
 	GtkAction *action;
 	GConfBridge *bridge;
@@ -1302,6 +1363,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	shell = e_shell_window_get_shell (shell_window);
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
 
 	/* Mail Actions */
@@ -1371,7 +1433,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	e_mutual_binding_new (
 		ACTION (MAIL_PREVIEW), "active",
-		mail_shell_content, "preview-visible");
+		mail_view, "preview-visible");
 
 	e_mutual_binding_new (
 		ACTION (MAIL_THREADS_GROUP_BY), "active",
@@ -1387,7 +1449,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	e_mutual_binding_new (
 		ACTION (MAIL_SHOW_DELETED), "active",
-		mail_shell_content, "show-deleted");
+		mail_view, "show-deleted");
 
 	/* Keep the sensitivity of "Create Search Folder from Search"
 	 * in sync with "Save Search" so that its only selectable when
@@ -1464,10 +1526,12 @@ void
 e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 {
 	EShell *shell;
-	EShellSettings *shell_settings;
-	EShellWindow *shell_window;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellSettings *shell_settings;
+	EMailShellContent *mail_shell_content;
 	EMailReader *reader;
+	EMailView *mail_view;
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
 	GtkTreeModel *tree_model;
@@ -1498,7 +1562,10 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 	gtk_ui_manager_remove_ui (ui_manager, merge_id);
 	e_action_group_remove_all_actions (action_group);
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	reader = E_MAIL_READER (mail_view);
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	valid = gtk_tree_model_get_iter_first (tree_model, &iter);

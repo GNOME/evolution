@@ -55,7 +55,6 @@ typedef struct _EMailViewPrivate EMailViewPrivate;
 struct _EMailView {
 	GtkVBox parent;
 	EMailViewPrivate *priv;
-	EMailView *prev;
 };
 
 struct _EMailViewClass {
@@ -97,6 +96,9 @@ GtkOrientation	e_mail_view_get_orientation	(EMailView *);
 void		e_mail_view_set_preview_visible	(EMailView *view,
 						 gboolean visible);
 gboolean	e_mail_view_get_preview_visible	(EMailView *view);
+EMailView *	e_mail_view_get_previous_view	(EMailView *view);
+void		e_mail_view_set_previous_view	(EMailView *view,
+						 EMailView *previous_view);
 gboolean	e_mail_view_get_show_deleted	(EMailView *view);
 void		e_mail_view_set_show_deleted	(EMailView *view,
 						 gboolean show_deleted);

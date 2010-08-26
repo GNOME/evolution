@@ -32,12 +32,18 @@ mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
                                          guint32 flags,
                                          EMFolderTree *folder_tree)
 {
+	EMailShellContent *mail_shell_content;
 	EShellView *shell_view;
 	EMailReader *reader;
+	EMailView *mail_view;
 	gboolean folder_selected;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	reader = E_MAIL_READER (mail_view);
 
 	folder_selected =
 		!(flags & CAMEL_FOLDER_NOSELECT) &&
@@ -55,8 +61,12 @@ static gboolean
 mail_shell_view_folder_tree_key_press_event_cb (EMailShellView *mail_shell_view,
                                                 GdkEventKey *event)
 {
-	EMailReader *reader;
+	EMailShellContent *mail_shell_content;
+	EMailView *mail_view;
 	gboolean handled = FALSE;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
 	if ((event->state & GDK_CONTROL_MASK) != 0)
 		goto ctrl;
@@ -89,8 +99,7 @@ ctrl:
 
 emit:
 	/* Forward the key press to the EMailReader interface. */
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
-	g_signal_emit_by_name (reader, "key-press-event", event, &handled);
+	g_signal_emit_by_name (mail_view, "key-press-event", event, &handled);
 
 exit:
 	return handled;
@@ -100,18 +109,23 @@ static void
 mail_shell_view_folder_tree_selection_done_cb (EMailShellView *mail_shell_view,
                                                GtkWidget *menu)
 {
+	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
 	GtkWidget *message_list;
 	EMailReader *reader;
+	EMailView *mail_view;
 	const gchar *list_uri;
 	gchar *tree_uri;
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
-	message_list = e_mail_reader_get_message_list (reader);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+
+	reader = E_MAIL_READER (mail_view);
+	message_list = e_mail_reader_get_message_list (reader);
 
 	/* Don't use e_mail_reader_get_folder_uri() here.  The fact that
 	 * the method gets the folder URI from the message list is supposed
@@ -223,17 +237,22 @@ mail_shell_view_popup_event_cb (EMailShellView *mail_shell_view,
                                 GdkEventButton *event,
                                 const gchar *uri)
 {
+	EMailShellContent *mail_shell_content;
 	EShellView *shell_view;
 	EMailReader *reader;
+	EMailView *mail_view;
 	GtkMenu *menu;
 
 	if (uri != NULL)
 		return FALSE;
 
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	reader = E_MAIL_READER (mail_view);
 	menu = e_mail_reader_get_popup_menu (reader);
 
+	shell_view = E_SHELL_VIEW (mail_shell_view);
 	e_shell_view_update_actions (shell_view);
 
 	if (event == NULL)
@@ -259,7 +278,9 @@ mail_shell_view_scroll_cb (EMailShellView *mail_shell_view,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellSettings *shell_settings;
+	EMailShellContent *mail_shell_content;
 	EMailReader *reader;
+	EMailView *mail_view;
 	EWebView *web_view;
 	GtkWidget *message_list;
 	gboolean magic_spacebar;
@@ -283,7 +304,10 @@ mail_shell_view_scroll_cb (EMailShellView *mail_shell_view,
 	if (!magic_spacebar)
 		return;
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	reader = E_MAIL_READER (mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	if (scroll_type == GTK_SCROLL_PAGE_FORWARD)
@@ -372,17 +396,22 @@ static void
 mail_shell_view_prepare_for_quit_cb (EMailShellView *mail_shell_view,
                                      EActivity *activity)
 {
+	EMailShellContent *mail_shell_content;
 	CamelFolder *folder;
 	EMailReader *reader;
+	EMailView *mail_view;
 	GtkWidget *message_list;
 
 	/* If we got here, it means the application is shutting down
 	 * and this is the last EMailShellView instance.  Synchronize
 	 * the currently selected folder before we terminate. */
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
-	message_list = e_mail_reader_get_message_list (reader);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
+	message_list = e_mail_reader_get_message_list (reader);
 
 	message_list_save_state (MESSAGE_LIST (message_list));
 
@@ -427,10 +456,13 @@ mail_shell_view_notify_view_id_cb (EMailShellView *mail_shell_view)
 {
 	EMailShellContent *mail_shell_content;
 	GalViewInstance *view_instance;
+	EMailView *mail_view;
 	const gchar *view_id;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	view_instance = e_mail_shell_content_get_view_instance (mail_shell_content);
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	view_instance = e_mail_view_get_view_instance (mail_view);
 	view_id = e_shell_view_get_view_id (E_SHELL_VIEW (mail_shell_view));
 
 	/* A NULL view ID implies we're in a custom view.  But you can
@@ -481,6 +513,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	GtkUIManager *ui_manager;
 	GtkWidget *message_list;
 	EMailReader *reader;
+	EMailView *mail_view;
 	EWebView *web_view;
 	const gchar *source;
 	guint merge_id;
@@ -513,18 +546,20 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	priv->mail_shell_content = g_object_ref (shell_content);
 	priv->mail_shell_sidebar = g_object_ref (shell_sidebar);
 
-	reader = E_MAIL_READER (E_MAIL_SHELL_CONTENT(shell_content)->view);
-	formatter = e_mail_reader_get_formatter (reader);
-	message_list = e_mail_reader_get_message_list (reader);
-
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	em_folder_tree_set_selectable_widget (folder_tree, message_list);
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
 
 	mail_shell_content = E_MAIL_SHELL_CONTENT (shell_content);
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
 	combo_box = e_shell_searchbar_get_scope_combo_box (searchbar);
+
+	reader = E_MAIL_READER (shell_content);
+	formatter = e_mail_reader_get_formatter (reader);
+	message_list = e_mail_reader_get_message_list (reader);
+
+	em_folder_tree_set_selectable_widget (folder_tree, message_list);
 
 	/* The folder tree and scope combo box are both insensitive
 	 * when searching beyond the currently selected folder. */
@@ -571,8 +606,8 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 
 	g_signal_connect_object (
 		reader, "folder-loaded",
-		G_CALLBACK (e_mail_shell_content_update_view_instance),
-		shell_content, G_CONNECT_SWAPPED);
+		G_CALLBACK (e_mail_view_update_view_instance),
+		mail_view, G_CONNECT_SWAPPED);
 
 	/* Use the same callback as "changed". */
 	g_signal_connect_object (
@@ -633,6 +668,11 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	e_mail_reader_init (reader);
 	e_mail_shell_view_actions_init (mail_shell_view);
 	e_mail_shell_view_update_search_filter (mail_shell_view);
+
+	/* This binding must come after e_mail_reader_init(). */
+	e_mutual_binding_new (
+		shell_content, "group-by-threads",
+		mail_view, "group-by-threads");
 
 	/* Populate built-in rules for search entry popup menu.
 	 * Keep the assertions, please.  If the conditions aren't
@@ -707,6 +747,7 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	EMailShellContent *mail_shell_content;
 	EShellSearchbar *searchbar;
 	EMailReader *reader;
+	EMailView *mail_view;
 	CamelFolder *folder;
 	CamelVeeFolder *vee_folder;
 	const gchar *old_state_group;
@@ -718,9 +759,10 @@ e_mail_shell_view_restore_state (EMailShellView *mail_shell_view)
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
 
-	reader = E_MAIL_READER (mail_shell_content->view);
+	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 
@@ -774,7 +816,9 @@ void
 e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
                                                gint filter_type)
 {
+	EMailShellContent *mail_shell_content;
 	EMailReader *reader;
+	EMailView *mail_view;
 	CamelFolder *folder;
 	const gchar *filter_source;
 	const gchar *folder_uri;
@@ -787,7 +831,10 @@ e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
@@ -837,7 +884,9 @@ void
 e_mail_shell_view_create_vfolder_from_selected (EMailShellView *mail_shell_view,
                                                 gint vfolder_type)
 {
+	EMailShellContent *mail_shell_content;
 	EMailReader *reader;
+	EMailView *mail_view;
 	CamelFolder *folder;
 	const gchar *folder_uri;
 	GPtrArray *uids;
@@ -849,7 +898,10 @@ e_mail_shell_view_create_vfolder_from_selected (EMailShellView *mail_shell_view,
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
@@ -875,6 +927,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	EShellSidebar *shell_sidebar;
 	EShellView *shell_view;
 	EMailReader *reader;
+	EMailView *mail_view;
 	CamelStore *local_store;
 	CamelStore *parent_store;
 	CamelFolder *folder;
@@ -893,11 +946,12 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 
-	reader = E_MAIL_READER (mail_shell_content->view);
+	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 

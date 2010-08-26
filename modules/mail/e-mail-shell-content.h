@@ -55,7 +55,6 @@ typedef struct _EMailShellContentPrivate EMailShellContentPrivate;
 
 struct _EMailShellContent {
 	EShellContent parent;
-	EMailView *view;
 	EMailShellContentPrivate *priv;
 };
 
@@ -67,26 +66,10 @@ GType		e_mail_shell_content_get_type	(void);
 void		e_mail_shell_content_register_type
 					(GTypeModule *type_module);
 GtkWidget *	e_mail_shell_content_new(EShellView *shell_view);
-gboolean	e_mail_shell_content_get_preview_visible
+EMailView *	e_mail_shell_content_get_mail_view
 					(EMailShellContent *mail_shell_content);
-void		e_mail_shell_content_set_preview_visible
-					(EMailShellContent *mail_shell_content,
-						 gboolean preview_visible);
 EShellSearchbar *
 		e_mail_shell_content_get_searchbar
-					(EMailShellContent *mail_shell_content);
-gboolean	e_mail_shell_content_get_show_deleted
-					(EMailShellContent *mail_shell_content);
-void		e_mail_shell_content_set_show_deleted
-					(EMailShellContent *mail_shell_content,
-					 gboolean show_deleted);
-GalViewInstance *
-		e_mail_shell_content_get_view_instance
-					(EMailShellContent *mail_shell_content);
-void		e_mail_shell_content_set_search_strings
-					(EMailShellContent *mail_shell_content,
-					 GSList *search_strings);
-void		e_mail_shell_content_update_view_instance
 					(EMailShellContent *mail_shell_content);
 
 G_END_DECLS

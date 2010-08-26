@@ -140,7 +140,7 @@ mnv_page_changed (GtkNotebook *book,
 		em_folder_tree_set_selected (folder_tree, uri, FALSE);
 
 	if (mview != priv->current_view) {
-		mview->prev = priv->current_view;
+		e_mail_view_set_previous_view (mview, priv->current_view);
 		priv->current_view = mview;
 	}
 
@@ -268,7 +268,7 @@ mnv_tab_closed_cb (ClutterTimeline *timeline,
 
 	if (E_IS_MAIL_FOLDER_PANE (page))
 		g_hash_table_remove (data->view->priv->views, folder_uri);
-	prev = page->prev;
+	prev = e_mail_view_get_previous_view (page);
 	if (prev) {
 		num = emnv_get_page_num (data->view, (GtkWidget *)prev);
 		mnv_set_current_tab (data->view, num);
@@ -343,7 +343,7 @@ tab_remove_gtk_cb (GtkWidget *button,
 	if (E_IS_MAIL_FOLDER_PANE (page))
 		g_hash_table_remove (view->priv->views, folder_uri);
 
-	prev = page->prev;
+	prev = e_mail_view_get_previous_view (page);
 	if (prev) {
 		num = emnv_get_page_num (view, (GtkWidget *)prev);
 		gtk_notebook_set_current_page (view->priv->book, num);
@@ -865,7 +865,7 @@ mail_netbook_view_open_mail (EMailView *view,
 	shell_view = e_mail_view_get_shell_view (E_MAIL_VIEW (nview));
 	pos = emnv_get_page_num (nview, GTK_WIDGET (priv->current_view));
 	pane = e_mail_message_pane_new (shell_view);
-	pane->prev = priv->current_view;
+	e_mail_view_set_previous_view (pane, priv->current_view);
 	E_MAIL_MESSAGE_PANE(pane)->parent_folder_view = priv->current_view;
 	priv->current_view = pane;
 
@@ -1086,7 +1086,7 @@ mail_notebook_view_set_folder (EMailReader *reader,
 			shell_view = e_mail_view_get_shell_view (E_MAIL_VIEW (reader));
 			priv->current_view = e_mail_folder_pane_new (shell_view);
 			gtk_widget_show ((GtkWidget *)priv->current_view);
-			priv->current_view->prev = old_view;
+			e_mail_view_set_previous_view (priv->current_view, old_view);
 			page = gtk_notebook_append_page (
 				priv->book, (GtkWidget *)priv->current_view,
 				create_tab_label (

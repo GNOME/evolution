@@ -119,10 +119,15 @@ mail_shell_view_show_search_results_folder (EMailShellView *mail_shell_view,
                                             CamelFolder *folder,
                                             const gchar *folder_uri)
 {
+	EMailShellContent *mail_shell_content;
 	GtkWidget *message_list;
+	EMailView *mail_view;
 	EMailReader *reader;
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content->view);
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+	reader = E_MAIL_READER (mail_view);
+
 	message_list = e_mail_reader_get_message_list (reader);
 
 	message_list_freeze (MESSAGE_LIST (message_list));
@@ -177,10 +182,14 @@ mail_shell_view_toggled (EShellView *shell_view)
 	basename = E_MAIL_READER_UI_DEFINITION;
 
 	if (view_is_active && priv->merge_id == 0) {
+		EMailView *mail_view;
+
 		priv->merge_id = e_ui_manager_add_ui_from_file (
 			E_UI_MANAGER (ui_manager), basename);
+		mail_view = e_mail_shell_content_get_mail_view (
+			priv->mail_shell_content);
 		e_mail_reader_create_charset_menu (
-			E_MAIL_READER (priv->mail_shell_content->view),
+			E_MAIL_READER (mail_view),
 			ui_manager, priv->merge_id);
 	} else if (!view_is_active && priv->merge_id != 0) {
 		gtk_ui_manager_remove_ui (ui_manager, priv->merge_id);
@@ -210,6 +219,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	GtkWidget *message_list;
 	EFilterRule *rule;
 	EMailReader *reader;
+	EMailView *mail_view;
 	CamelVeeFolder *search_folder;
 	CamelFolder *folder;
 	CamelStore *store;
@@ -242,13 +252,14 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	mail_shell_content = E_MAIL_SHELL_CONTENT (shell_content);
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 	searchbar = e_mail_shell_content_get_searchbar (mail_shell_content);
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
 
-	reader = E_MAIL_READER (E_MAIL_SHELL_CONTENT (shell_content)->view);
+	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 	message_list = e_mail_reader_get_message_list (reader);
@@ -698,8 +709,7 @@ execute:
 
 	message_list_set_search (MESSAGE_LIST (message_list), query);
 
-	e_mail_shell_content_set_search_strings (
-		mail_shell_content, search_strings);
+	e_mail_view_set_search_strings (mail_view, search_strings);
 
 	g_slist_foreach (search_strings, (GFunc) g_free, NULL);
 	g_slist_free (search_strings);
@@ -769,6 +779,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	EShellWindow *shell_window;
 	EMFolderTree *folder_tree;
 	EMailReader *reader;
+	EMailView *mail_view;
 	EAccount *account = NULL;
 	GtkAction *action;
 	const gchar *label;
@@ -795,7 +806,9 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	reader = E_MAIL_READER (mail_shell_content->view);
+	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	reader = E_MAIL_READER (mail_view);
 	state = e_mail_reader_check_state (reader);
 	e_mail_reader_update_actions (reader, state);
 
