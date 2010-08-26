@@ -9896,7 +9896,7 @@ msgstr "Ba_sculer vers le dossier"
 
 #: ../mail/e-mail-reader.c:1702
 msgid "Display the parent folder"
-msgstr "Afficher le dossier parent"
+msgstr "Affiche le dossier parent"
 
 #: ../mail/e-mail-reader.c:1707
 msgid "Switch to _next tab"
