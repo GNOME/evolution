@@ -185,10 +185,15 @@ startup_wizard_config_abort (EConfig *config,
 		g_assert_not_reached ();
 	}
 
-	e_import_cancel (
-		extension->import,
-		extension->import_target,
-		extension->import_importer);
+	if (extension->import_importer) {
+		e_import_cancel (
+			extension->import,
+			extension->import_target,
+			extension->import_importer);
+	} else {
+		startup_wizard_terminate ();
+		g_assert_not_reached ();
+	}
 
 	extension->import_cancelled = TRUE;
 	e_config_target_changed (config, E_CONFIG_TARGET_CHANGED_STATE);
