@@ -22,6 +22,7 @@
 #ifndef E_ATTACHMENT_HANDLER_H
 #define E_ATTACHMENT_HANDLER_H
 
+#include <e-util/e-extension.h>
 #include <misc/e-attachment-view.h>
 
 /* Standard GObject macros */
@@ -50,12 +51,12 @@ typedef struct _EAttachmentHandlerClass EAttachmentHandlerClass;
 typedef struct _EAttachmentHandlerPrivate EAttachmentHandlerPrivate;
 
 struct _EAttachmentHandler {
-	GObject parent;
+	EExtension parent;
 	EAttachmentHandlerPrivate *priv;
 };
 
 struct _EAttachmentHandlerClass {
-	GObjectClass parent_class;
+	EExtensionClass parent_class;
 
 	GdkDragAction	(*get_drag_actions)	(EAttachmentHandler *handler);
 	const GtkTargetEntry *

@@ -22,6 +22,7 @@
 #include "e-attachment-icon-view.h"
 
 #include <glib/gi18n.h>
+#include <e-util/e-extensible.h>
 
 #include "e-attachment.h"
 #include "e-attachment-store.h"
@@ -53,7 +54,9 @@ G_DEFINE_TYPE_WITH_CODE (
 	GTK_TYPE_ICON_VIEW,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_ATTACHMENT_VIEW,
-		e_attachment_icon_view_interface_init))
+		e_attachment_icon_view_interface_init)
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL))
 
 void
 e_attachment_icon_view_set_default_icon_size (gint size)
@@ -522,6 +525,8 @@ e_attachment_icon_view_init (EAttachmentIconView *icon_view)
 	gtk_cell_layout_add_attribute (
 		cell_layout, renderer, "visible",
 		E_ATTACHMENT_STORE_COLUMN_SAVING);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (icon_view));
 }
 
 static void

@@ -778,27 +778,7 @@ attachment_view_update_actions (EAttachmentView *view)
 }
 
 static void
-attachment_view_add_handler (GType type,
-                             EAttachmentView *view)
-{
-	EAttachmentViewPrivate *priv;
-	EAttachmentHandler *handler;
-	const GtkTargetEntry *targets;
-	guint n_targets;
-
-	priv = e_attachment_view_get_private (view);
-
-	handler = g_object_new (type, "view", view, NULL);
-
-	targets = e_attachment_handler_get_target_table (handler, &n_targets);
-	gtk_target_list_add_table (priv->target_list, targets, n_targets);
-	priv->drag_actions |= e_attachment_handler_get_drag_actions (handler);
-
-	g_ptr_array_add (priv->handlers, handler);
-}
-
-static void
-attachment_view_init_handlers (EAttachmentView *view)
+attachment_view_init_drag_dest (EAttachmentView *view)
 {
 	EAttachmentViewPrivate *priv;
 	GtkTargetList *target_list;
@@ -812,13 +792,8 @@ attachment_view_init_handlers (EAttachmentView *view)
 	e_target_list_add_calendar_targets (target_list, 0);
 	e_target_list_add_directory_targets (target_list, 0);
 
-	priv->handlers = g_ptr_array_new ();
 	priv->target_list = target_list;
 	priv->drag_actions = GDK_ACTION_COPY;
-
-	e_type_traverse (
-		E_TYPE_ATTACHMENT_HANDLER, (ETypeFunc)
-		attachment_view_add_handler, view);
 }
 
 static void
@@ -904,7 +879,7 @@ e_attachment_view_init (EAttachmentView *view)
 	if (error != NULL)
 		g_error ("%s", error->message);
 
-	attachment_view_init_handlers (view);
+	attachment_view_init_drag_dest (view);
 
 	e_attachment_view_drag_source_set (view);
 
@@ -934,9 +909,6 @@ e_attachment_view_dispose (EAttachmentView *view)
 
 	priv = e_attachment_view_get_private (view);
 
-	g_ptr_array_foreach (priv->handlers, (GFunc) g_object_unref, NULL);
-	g_ptr_array_set_size (priv->handlers, 0);
-
 	if (priv->target_list != NULL) {
 		gtk_target_list_unref (priv->target_list);
 		priv->target_list = NULL;
@@ -954,8 +926,6 @@ e_attachment_view_finalize (EAttachmentView *view)
 	EAttachmentViewPrivate *priv;
 
 	priv = e_attachment_view_get_private (view);
-
-	g_ptr_array_free (priv->handlers, TRUE);
 
 	g_list_foreach (priv->event_list, (GFunc) gdk_event_free, NULL);
 	g_list_free (priv->event_list);
@@ -1071,6 +1041,19 @@ e_attachment_view_get_drag_actions (EAttachmentView *view)
 	priv = e_attachment_view_get_private (view);
 
 	return priv->drag_actions;
+}
+
+void
+e_attachment_view_add_drag_actions (EAttachmentView *view,
+                                    GdkDragAction drag_actions)
+{
+	EAttachmentViewPrivate *priv;
+
+	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
+
+	priv = e_attachment_view_get_private (view);
+
+	priv->drag_actions |= drag_actions;
 }
 
 GList *

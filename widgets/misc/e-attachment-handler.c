@@ -26,113 +26,53 @@
 	((obj), E_TYPE_ATTACHMENT_HANDLER, EAttachmentHandlerPrivate))
 
 struct _EAttachmentHandlerPrivate {
-	gpointer view;  /* weak pointer */
-};
-
-enum {
-	PROP_0,
-	PROP_VIEW
+	gpointer placeholder;
 };
 
 G_DEFINE_TYPE (
 	EAttachmentHandler,
 	e_attachment_handler,
-	G_TYPE_OBJECT)
-
-static void
-attachment_handler_set_view (EAttachmentHandler *handler,
-                             EAttachmentView *view)
-{
-	g_return_if_fail (handler->priv->view == NULL);
-
-	handler->priv->view = view;
-
-	g_object_add_weak_pointer (
-		G_OBJECT (view), &handler->priv->view);
-}
-
-static void
-attachment_handler_set_property (GObject *object,
-                                 guint property_id,
-                                 const GValue *value,
-                                 GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_VIEW:
-			attachment_handler_set_view (
-				E_ATTACHMENT_HANDLER (object),
-				g_value_get_object (value));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-attachment_handler_get_property (GObject *object,
-                                 guint property_id,
-                                 GValue *value,
-                                 GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_VIEW:
-			g_value_set_object (
-				value, e_attachment_handler_get_view (
-				E_ATTACHMENT_HANDLER (object)));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
+	E_TYPE_EXTENSION)
 
 static void
 attachment_handler_constructed (GObject *object)
 {
-	/* This allows subclasses to chain up safely since GObject
-	 * does not implement this method, and we might want to do
-	 * something here in the future. */
-}
+	EAttachmentView *view;
+	EAttachmentHandler *handler;
+	GdkDragAction drag_actions;
+	GtkTargetList *target_list;
+	const GtkTargetEntry *targets;
+	guint n_targets;
 
-static void
-attachment_handler_dispose (GObject *object)
-{
-	EAttachmentHandlerPrivate *priv;
+	handler = E_ATTACHMENT_HANDLER (object);
+	drag_actions = e_attachment_handler_get_drag_actions (handler);
+	targets = e_attachment_handler_get_target_table (handler, &n_targets);
 
-	priv = E_ATTACHMENT_HANDLER_GET_PRIVATE (object);
+	view = e_attachment_handler_get_view (handler);
 
-	if (priv->view != NULL) {
-		g_object_remove_weak_pointer (
-			G_OBJECT (priv->view), &priv->view);
-		priv->view = NULL;
-	}
+	target_list = e_attachment_view_get_target_list (view);
+	gtk_target_list_add_table (target_list, targets, n_targets);
 
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_attachment_handler_parent_class)->dispose (object);
+	e_attachment_view_add_drag_actions (view, drag_actions);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_attachment_handler_parent_class)->
+		constructed (object);
 }
 
 static void
 e_attachment_handler_class_init (EAttachmentHandlerClass *class)
 {
 	GObjectClass *object_class;
+	EExtensionClass *extension_class;
 
 	g_type_class_add_private (class, sizeof (EAttachmentHandlerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->set_property = attachment_handler_set_property;
-	object_class->get_property = attachment_handler_get_property;
 	object_class->constructed = attachment_handler_constructed;
-	object_class->dispose = attachment_handler_dispose;
 
-	g_object_class_install_property (
-		object_class,
-		PROP_VIEW,
-		g_param_spec_object (
-			"view",
-			"View",
-			NULL,
-			E_TYPE_ATTACHMENT_VIEW,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+	extension_class = E_EXTENSION_CLASS (class);
+	extension_class->extensible_type = E_TYPE_ATTACHMENT_VIEW;
 }
 
 static void
@@ -144,9 +84,15 @@ e_attachment_handler_init (EAttachmentHandler *handler)
 EAttachmentView *
 e_attachment_handler_get_view (EAttachmentHandler *handler)
 {
+	EExtensible *extensible;
+
+	/* This is purely a convenience function. */
+
 	g_return_val_if_fail (E_IS_ATTACHMENT_HANDLER (handler), NULL);
 
-	return E_ATTACHMENT_VIEW (handler->priv->view);
+	extensible = e_extension_get_extensible (E_EXTENSION (handler));
+
+	return E_ATTACHMENT_VIEW (extensible);
 }
 
 GdkDragAction

@@ -92,9 +92,6 @@ struct _EAttachmentViewInterface {
 
 struct _EAttachmentViewPrivate {
 
-	/* Attachment Handlers */
-	GPtrArray *handlers;
-
 	/* Drag Destination */
 	GtkTargetList *target_list;
 	GdkDragAction drag_actions;
@@ -133,6 +130,9 @@ GtkTargetList *	e_attachment_view_get_target_list
 						(EAttachmentView *view);
 GdkDragAction	e_attachment_view_get_drag_actions
 						(EAttachmentView *view);
+void		e_attachment_view_add_drag_actions
+						(EAttachmentView *view,
+						 GdkDragAction drag_actions);
 GList *		e_attachment_view_get_selected_attachments
 						(EAttachmentView *view);
 void		e_attachment_view_open_path	(EAttachmentView *view,

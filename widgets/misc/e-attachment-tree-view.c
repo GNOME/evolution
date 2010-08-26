@@ -22,6 +22,7 @@
 #include "e-attachment-tree-view.h"
 
 #include <glib/gi18n.h>
+#include <e-util/e-extensible.h>
 
 #include "e-attachment.h"
 #include "e-attachment-store.h"
@@ -51,7 +52,9 @@ G_DEFINE_TYPE_WITH_CODE (
 	GTK_TYPE_TREE_VIEW,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_ATTACHMENT_VIEW,
-		e_attachment_tree_view_interface_init))
+		e_attachment_tree_view_interface_init)
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL))
 
 static void
 attachment_tree_view_set_property (GObject *object,
