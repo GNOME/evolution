@@ -1778,11 +1778,14 @@ attachment_load_from_mime_part (LoadContext *load_context)
 	}
 	g_free (allocated);
 
+	/* Strip any path components from the filename. */
 	string = camel_mime_part_get_filename (mime_part);
 	if (string == NULL)
 		/* Translators: Default attachment filename. */
 		string = _("attachment.dat");
-	g_file_info_set_display_name (file_info, string);
+	allocated = g_path_get_basename (string);
+	g_file_info_set_display_name (file_info, allocated);
+	g_free (allocated);
 
 	attribute = G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION;
 	string = camel_mime_part_get_description (mime_part);

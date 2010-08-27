@@ -1428,12 +1428,19 @@ em_format_describe_part (CamelMimePart *part,
 	g_free (content_type);
 	g_string_append_printf (stext, _("%s attachment"), desc ? desc : mime_type);
 	g_free (desc);
-	if ((filename = camel_mime_part_get_filename (part)))
-		g_string_append_printf(stext, " (%s)", filename);
-	if ((description = camel_mime_part_get_description(part)) &&
-		(*description != 0) &&
-		!(filename && (strcmp(filename, description) == 0)))
-		g_string_append_printf(stext, ", \"%s\"", description);
+
+	filename = camel_mime_part_get_filename (part);
+	description = camel_mime_part_get_description (part);
+
+	if (filename != NULL && *filename != '\0') {
+		gchar *basename = g_path_get_basename (filename);
+		g_string_append_printf (stext, " (%s)", basename);
+		g_free (basename);
+	}
+
+	if (description != NULL && *description != '\0' &&
+		g_strcmp0 (filename, description) != 0)
+		g_string_append_printf (stext, ", \"%s\"", description);
 
 	return g_string_free (stext, FALSE);
 }
