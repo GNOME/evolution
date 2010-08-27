@@ -111,6 +111,28 @@ emf_clone_inlines (gpointer key, gpointer val, gpointer data)
 		g_object_ref ((new->secured = emfc->secured));
 }
 
+static gboolean
+emf_clear_puri_node (GNode *node)
+{
+	GQueue *queue = node->data;
+	EMFormatPURI *pn;
+
+	while ((pn = g_queue_pop_head (queue)) != NULL) {
+		if (pn->free != NULL)
+			pn->free (pn);
+		g_free (pn->uri);
+		g_free (pn->cid);
+		g_free (pn->part_id);
+		if (pn->part != NULL)
+			g_object_unref (pn->part);
+		g_free (pn);
+	}
+
+	g_queue_free (queue);
+
+	return FALSE;
+}
+
 static void
 emf_finalize (GObject *object)
 {
@@ -133,6 +155,17 @@ emf_finalize (GObject *object)
 	g_free (emf->default_charset);
 	g_string_free(emf->part_id, TRUE);
 	g_free(emf->uid);
+
+	if (emf->pending_uri_table != NULL)
+		g_hash_table_destroy (emf->pending_uri_table);
+
+	if (emf->pending_uri_tree != NULL) {
+		g_node_traverse (
+			emf->pending_uri_tree,
+			G_IN_ORDER, G_TRAVERSE_ALL, -1,
+			(GNodeTraverseFunc) emf_clear_puri_node, NULL);
+		g_node_destroy (emf->pending_uri_tree);
+	}
 
 	/* FIXME: check pending jobs */
 
@@ -723,27 +756,6 @@ em_format_find_puri (EMFormat *emf,
 	g_return_val_if_fail (emf->pending_uri_table != NULL, NULL);
 
 	return g_hash_table_lookup (emf->pending_uri_table, uri);
-}
-
-static gboolean
-emf_clear_puri_node (GNode *node)
-{
-	GQueue *queue = node->data;
-	EMFormatPURI *pn;
-
-	while ((pn = g_queue_pop_head (queue)) != NULL) {
-		d(printf ("freeing pw %p format:%p\n", pw, pw->format));
-		if (pn->free)
-			pn->free(pn);
-		g_free(pn->uri);
-		g_free(pn->cid);
-		g_free(pn->part_id);
-		if (pn->part)
-			g_object_unref (pn->part);
-		g_free(pn);
-	}
-
-	return FALSE;
 }
 
 /**
