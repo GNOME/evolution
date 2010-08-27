@@ -324,6 +324,9 @@ e_load_cal_source_async (ESource *source,
 	if (cancellable != NULL) {
 		g_return_if_fail (G_IS_CANCELLABLE (cancellable));
 		g_object_ref (cancellable);
+	} else {
+		/* always provide cancellable, because the code depends on it */
+		cancellable = g_cancellable_new ();
 	}
 
 	if (default_zone == NULL)
