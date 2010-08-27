@@ -4,7 +4,7 @@
   <object class="GtkDialog" id="dialog">
     <property name="visible">True</property>
     <property name="border_width">6</property>
-    <property context="yes" name="title" translatable="yes">Contact List Editor</property>
+    <property name="title" translatable="yes">Contact List Editor</property>
     <property name="window_position">GTK_WIN_POS_CENTER</property>
     <property name="icon_name">stock_contact-list</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
@@ -47,7 +47,7 @@
                   <object class="GtkLabel" id="list-name-label">
                     <property name="visible">True</property>
                     <property name="xalign">1</property>
-                    <property context="yes" name="label" translatable="yes">_List name:</property>
+                    <property name="label" translatable="yes">_List name:</property>
                     <property name="use_underline">True</property>
                     <property name="mnemonic_widget">list-name-entry</property>
                   </object>
@@ -60,7 +60,7 @@
                   <object class="GtkLabel" id="source-label">
                     <property name="visible">True</property>
                     <property name="xalign">1</property>
-                    <property context="yes" name="label" translatable="yes">_Where:</property>
+                    <property name="label" translatable="yes">_Where:</property>
                     <property name="use_underline">True</property>
 		    <property name="mnemonic_widget">source-combo-box</property>
                   </object>
@@ -108,7 +108,7 @@
                   <object class="GtkLabel" id="members-label">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property context="yes" name="label" translatable="yes">Members</property>
+                    <property name="label" translatable="yes">Members</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                     </attributes>
@@ -142,7 +142,7 @@
                           <object class="GtkLabel" id="members-instructions">
                             <property name="visible">True</property>
                             <property name="xalign">0</property>
-                            <property context="yes" name="label" translatable="yes">_Type an email address or drag a contact into the list below:</property>
+                            <property name="label" translatable="yes">_Type an email address or drag a contact into the list below:</property>
                             <property name="use_underline">True</property>
                             <property name="justify">GTK_JUSTIFY_CENTER</property>
                           </object>
@@ -186,7 +186,7 @@
                           <object class="GtkCheckButton" id="check-button">
                             <property name="visible">True</property>
                             <property name="is_focus">True</property>
-                            <property context="yes" name="label" translatable="yes">_Hide addresses when sending mail to this list</property>
+                            <property name="label" translatable="yes">_Hide addresses when sending mail to this list</property>
                             <property name="use_underline">True</property>
                             <signal handler="contact_list_editor_check_button_toggled_cb" name="toggled"/>
                           </object>
@@ -209,7 +209,7 @@
                                 <property name="has_tooltip">True</property>
                                 <property name="tooltip_markup">Add an email to the List</property>
                                 <property name="tooltip_text">Add an email to the List</property>
-                                <property context="yes" name="label">gtk-add</property>
+                                <property name="label">gtk-add</property>
                                 <property name="use_stock">True</property>
                                 <property name="xalign">0</property>
                                 <signal handler="contact_list_editor_add_button_clicked_cb" name="clicked"/>
@@ -228,7 +228,7 @@
                                 <property name="has_tooltip">True</property>
                                 <property name="tooltip_markup">Remove an email address from the List</property>
                                 <property name="tooltip_text">Remove an email address from the List</property>
-                                <property context="yes" name="label">gtk-remove</property>
+                                <property name="label">gtk-remove</property>
                                 <property name="use_stock">True</property>
                                 <property name="xalign">0</property>
                                 <signal handler="contact_list_editor_remove_button_clicked_cb" name="clicked"/>
@@ -249,7 +249,7 @@
 				<property name="use_underline">True</property>
                                 <property name="tooltip_markup">Insert email addresses from Address Book</property>
                                 <property name="tooltip_text">Insert email addresses from Address Book</property>
-                                <property name="label" translatable="yes" context="yes">_Select...</property>
+                                <property name="label" translatable="yes">_Select...</property>
                                 <signal name="clicked" handler="contact_list_editor_select_button_clicked_cb"/>
                               </object>
                               <packing>
@@ -306,7 +306,7 @@
                 <property name="visible">True</property>
                 <property name="is_focus">True</property>
                 <property name="can_default">True</property>
-                <property context="yes" name="label">gtk-cancel</property>
+                <property name="label">gtk-cancel</property>
                 <property name="use_stock">True</property>
                 <signal handler="contact_list_editor_cancel_button_clicked_cb" name="clicked"/>
               </object>
@@ -315,7 +315,7 @@
               <object class="GtkButton" id="ok-button">
                 <property name="visible">True</property>
                 <property name="can_default">True</property>
-                <property context="yes" name="label">gtk-ok</property>
+                <property name="label">gtk-ok</property>
                 <property name="use_stock">True</property>
                 <signal handler="contact_list_editor_ok_button_clicked_cb" name="clicked"/>
               </object>
