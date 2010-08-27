@@ -2996,7 +2996,9 @@ e_mail_reader_default_init (EMailReaderInterface *interface)
 }
 
 void
-e_mail_reader_init (EMailReader *reader)
+e_mail_reader_init (EMailReader *reader,
+                    gboolean init_actions,
+                    gboolean connect_signals)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
@@ -3008,6 +3010,7 @@ e_mail_reader_init (EMailReader *reader)
 	GtkWidget *message_list;
 	GConfBridge *bridge;
 	GtkAction *action;
+	gboolean sensitive;
 	const gchar *action_name;
 	const gchar *key;
 
@@ -3022,6 +3025,9 @@ e_mail_reader_init (EMailReader *reader)
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	web_view = em_format_html_get_web_view (formatter);
+
+	if (!init_actions)
+		goto connect_signals;
 
 	/* The "mail-forward" action is special: it uses a GtkMenuToolButton
 	 * for its toolbar item type.  So we have to create it separately. */
@@ -3046,7 +3052,8 @@ e_mail_reader_init (EMailReader *reader)
 	   (if possible and if that configuration option is enabled), or else
 	   it will reply to all. The word "Group" was chosen because it covers
 	   either of those, without too strongly implying one or the other. */
-	menu_tool_action = e_menu_tool_action_new ("mail-reply-group", _("Group Reply"),
+	menu_tool_action = e_menu_tool_action_new (
+		"mail-reply-group", _("Group Reply"),
 		_("Reply to the mailing list, or to all recipients"), NULL);
 
 	gtk_action_set_icon_name (
@@ -3104,8 +3111,9 @@ e_mail_reader_init (EMailReader *reader)
 
 	action_name = "mail-goto-folder";
 	action = e_mail_reader_get_action (reader, action_name);
+	sensitive = e_mail_reader_get_enable_show_folder (reader);
 	g_object_set (action, "visible", FALSE, NULL);
-	gtk_action_set_sensitive (action, e_mail_reader_get_enable_show_folder (reader));
+	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-goto-nexttab";
 	action = e_mail_reader_get_action (reader, action_name);
@@ -3167,31 +3175,10 @@ e_mail_reader_init (EMailReader *reader)
 		action, "active",
 		web_view, "caret-mode");
 
-	e_mail_reader_init_private (reader);
-}
+connect_signals:
 
-void
-e_mail_reader_init_private (EMailReader *reader)
-{
-	EMFormatHTML *formatter;
-	EWebView *web_view;
-	GtkWidget *message_list;
-
-	g_return_if_fail (E_IS_MAIL_READER (reader));
-
-	formatter = e_mail_reader_get_formatter (reader);
-	message_list = e_mail_reader_get_message_list (reader);
-
-	web_view = em_format_html_get_web_view (formatter);
-
-	/* Disconnect signals, if any, to not be connected twice */
-	g_signal_handlers_disconnect_by_func (web_view, mail_reader_key_press_event_cb, reader);
-	g_signal_handlers_disconnect_by_func (message_list, mail_reader_message_selected_cb, reader);
-	g_signal_handlers_disconnect_by_func (message_list, mail_reader_emit_folder_loaded, reader);
-	g_signal_handlers_disconnect_by_func (message_list, mail_reader_double_click_cb, reader);
-	g_signal_handlers_disconnect_by_func (message_list, mail_reader_key_press_cb, reader);
-	g_signal_handlers_disconnect_by_func (message_list, e_mail_reader_changed, reader);
-	g_signal_handlers_disconnect_by_func (reader, mail_reader_destroy, NULL);
+	if (!connect_signals)
+		goto init_private;
 
 	/* Connect signals. */
 	g_signal_connect_swapped (
@@ -3218,10 +3205,15 @@ e_mail_reader_init_private (EMailReader *reader)
 		message_list, "selection-change",
 		G_CALLBACK (e_mail_reader_changed), reader);
 
+init_private:
+
+	/* Initialize a private struct. */
+
 	g_object_set_qdata_full (
 		G_OBJECT (reader), quark_private,
 		g_slice_new0 (EMailReaderPrivate),
 		(GDestroyNotify) mail_reader_private_free);
+
 	g_signal_connect (
 		reader, "destroy",
 		G_CALLBACK (mail_reader_destroy), NULL);

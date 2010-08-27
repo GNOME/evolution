@@ -665,7 +665,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 			G_CALLBACK (mail_shell_view_prepare_for_quit_cb),
 			mail_shell_view, G_CONNECT_SWAPPED);
 
-	e_mail_reader_init (reader);
+	e_mail_reader_init (reader, TRUE, FALSE);
 	e_mail_shell_view_actions_init (mail_shell_view);
 	e_mail_shell_view_update_search_filter (mail_shell_view);
 

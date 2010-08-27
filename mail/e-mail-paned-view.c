@@ -611,7 +611,7 @@ mail_paned_view_constructed (GObject *object)
 
 	/* Message list customizations. */
 
-	e_mail_reader_init_private (E_MAIL_READER (object));
+	e_mail_reader_init (E_MAIL_READER (object), FALSE, TRUE);
 
 	reader = E_MAIL_READER (object);
 	message_list = e_mail_reader_get_message_list (reader);

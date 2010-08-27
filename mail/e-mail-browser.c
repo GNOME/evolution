@@ -543,7 +543,7 @@ mail_browser_constructed (GObject *object)
 		web_view, "status-message",
 		G_CALLBACK (mail_browser_status_message_cb), object);
 
-	e_mail_reader_init (reader);
+	e_mail_reader_init (reader, TRUE, TRUE);
 
 	action_group = priv->action_group;
 	gtk_action_group_set_translation_domain (action_group, domain);
