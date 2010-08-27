@@ -3016,7 +3016,6 @@ e_mail_reader_init (EMailReader *reader,
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	action_group = e_mail_reader_get_action_group (reader);
 	formatter = e_mail_reader_get_formatter (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 	shell_backend = e_mail_reader_get_shell_backend (reader);
@@ -3028,6 +3027,8 @@ e_mail_reader_init (EMailReader *reader,
 
 	if (!init_actions)
 		goto connect_signals;
+
+	action_group = e_mail_reader_get_action_group (reader);
 
 	/* The "mail-forward" action is special: it uses a GtkMenuToolButton
 	 * for its toolbar item type.  So we have to create it separately. */
