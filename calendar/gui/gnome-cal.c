@@ -1067,8 +1067,6 @@ update_query_async (struct _date_query_msg *msg)
 
 	real_sexp = adjust_e_cal_view_sexp (gcal, priv->sexp);
 	if (!real_sexp) {
-		g_object_unref (msg->gcal);
-		g_slice_free (struct _date_query_msg, msg);
 		return; /* No time range is set, so don't start a query */
 	}
 
@@ -1125,9 +1123,15 @@ try_again:
 	/* free memory */
 	g_free (real_sexp);
 	update_todo_view (gcal);
+}
 
+static gboolean
+update_query_done (struct _date_query_msg *msg)
+{
 	g_object_unref (msg->gcal);
 	g_slice_free (struct _date_query_msg, msg);
+
+	return FALSE;
 }
 
 /* Restarts a query for the date navigator in the calendar */
@@ -1142,7 +1146,7 @@ gnome_calendar_update_query (GnomeCalendar *gcal)
 
 	msg = g_slice_new0 (struct _date_query_msg);
 	msg->header.func = (MessageFunc) update_query_async;
-	msg->header.done = NULL;
+	msg->header.done = (GSourceFunc) update_query_done;
 	msg->gcal = g_object_ref (gcal);
 
 	message_push ((Message *) msg);
