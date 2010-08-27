@@ -588,6 +588,8 @@ e_attachment_tree_view_init (EAttachmentTreeView *tree_view)
 	gtk_tree_view_column_add_attribute (
 		column, renderer, "text",
 		E_ATTACHMENT_STORE_COLUMN_CONTENT_TYPE);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (tree_view));
 }
 
 static void
