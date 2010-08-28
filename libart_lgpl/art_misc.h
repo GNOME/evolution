@@ -46,7 +46,7 @@ gpointer art_realloc(gpointer ptr, gsize size);
 /* This one must be used carefully - in particular, p and max should
    be variables. They can also be pstruct->el lvalues. */
 #define art_expand(p, type, max) \
-	do { if(max) { p = art_renew (p, type, max <<= 1); } \
+	do { if (max) { p = art_renew (p, type, max <<= 1); } \
 	else { max = 1; p = art_new(type, 1); } } while (0)
 
 typedef gint art_boolean;
