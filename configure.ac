@@ -1781,6 +1781,7 @@ mail/default/es/Makefile
 mail/default/fi/Makefile
 mail/default/fr/Makefile
 mail/default/hu/Makefile
+mail/default/id/Makefile
 mail/default/it/Makefile
 mail/default/ja/Makefile
 mail/default/ko/Makefile
