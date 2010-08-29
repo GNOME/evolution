@@ -26,26 +26,47 @@
  * in an ETable.
  */
 
-#ifndef _E_CELL_PERCENT_H_
-#define _E_CELL_PERCENT_H_
+#ifndef E_CELL_PERCENT_H
+#define E_CELL_PERCENT_H
 
 #include <table/e-cell-text.h>
 
-#define E_CELL_PERCENT_TYPE        (e_cell_percent_get_type ())
-#define E_CELL_PERCENT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_PERCENT_TYPE, ECellPercent))
-#define E_CELL_PERCENT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), E_CELL_PERCENT_TYPE, ECellPercentClass))
-#define E_IS_CELL_NUMBER(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_PERCENT_TYPE))
-#define E_IS_CELL_NUMBER_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_PERCENT_TYPE))
+/* Standard GObject macros */
+#define E_TYPE_CELL_PERCENT \
+	(e_cell_percent_get_type ())
+#define E_CELL_PERCENT(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CELL_PERCENT, ECellPercent))
+#define E_CELL_PERCENT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CELL_PERCENT, ECellPercentClass))
+#define E_IS_CELL_NUMBER(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CELL_PERCENT))
+#define E_IS_CELL_NUMBER_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CELL_PERCENT))
+#define E_CELL_NUMBER_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CELL_PERCENT, ECellPercentClass))
 
-typedef struct {
-	ECellText base;
-} ECellPercent;
+G_BEGIN_DECLS
 
-typedef struct {
+typedef struct _ECellPercent ECellPercent;
+typedef struct _ECellPercentClass ECellPercentClass;
+
+struct _ECellPercent {
+	ECellText parent;
+};
+
+struct _ECellPercentClass {
 	ECellTextClass parent_class;
-} ECellPercentClass;
+};
 
-GType      e_cell_percent_get_type (void);
-ECell     *e_cell_percent_new      (const gchar *fontname, GtkJustification justify);
+GType		e_cell_percent_get_type		(void);
+ECell *		e_cell_percent_new		(const gchar *fontname,
+						 GtkJustification justify);
 
-#endif /* _E_CELL_PERCENT_H_ */
+G_END_DECLS
+
+#endif /* E_CELL_PERCENT_H */

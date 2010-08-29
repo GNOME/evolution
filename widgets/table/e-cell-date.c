@@ -34,7 +34,7 @@
 
 #include "e-cell-date.h"
 
-G_DEFINE_TYPE (ECellDate, e_cell_date, E_CELL_TEXT_TYPE)
+G_DEFINE_TYPE (ECellDate, e_cell_date, E_TYPE_CELL_TEXT)
 
 static gchar *
 ecd_get_text(ECellText *cell, ETableModel *model, gint col, gint row)
@@ -102,7 +102,7 @@ e_cell_date_init (ECellDate *ecd)
 ECell *
 e_cell_date_new (const gchar *fontname, GtkJustification justify)
 {
-	ECellDate *ecd = g_object_new (E_CELL_DATE_TYPE, NULL);
+	ECellDate *ecd = g_object_new (E_TYPE_CELL_DATE, NULL);
 
 	e_cell_text_construct(E_CELL_TEXT(ecd), fontname, justify);
 

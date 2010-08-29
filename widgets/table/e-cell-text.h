@@ -35,22 +35,38 @@
  *
  */
 
-#ifndef _E_CELL_TEXT_H_
-#define _E_CELL_TEXT_H_
+#ifndef E_CELL_TEXT_H
+#define E_CELL_TEXT_H
 
 #include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas.h>
 #include <table/e-cell.h>
 
+/* Standard GObject macros */
+#define E_TYPE_CELL_TEXT \
+	(e_cell_text_get_type ())
+#define E_CELL_TEXT(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CELL_TEXT, ECellText))
+#define E_CELL_TEXT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CELL_TEXT, ECellTextClass))
+#define E_IS_CELL_TEXT(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CELL_TEXT))
+#define E_IS_CELL_TEXT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CELL_TEXT))
+#define E_CELL_TEXT_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CELL_TEXT, ECellTextClass))
+
 G_BEGIN_DECLS
 
-#define E_CELL_TEXT_TYPE        (e_cell_text_get_type ())
-#define E_CELL_TEXT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_TEXT_TYPE, ECellText))
-#define E_CELL_TEXT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_CELL_TEXT_TYPE, ECellTextClass))
-#define E_IS_CELL_TEXT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_TEXT_TYPE))
-#define E_IS_CELL_TEXT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_TEXT_TYPE))
+typedef struct _ECellText ECellText;
+typedef struct _ECellTextClass ECellTextClass;
 
-typedef struct {
+struct _ECellText {
 	ECell parent;
 
 	GtkJustification  justify;
@@ -78,53 +94,100 @@ typedef struct {
 
 	/* This stores the colors we have allocated. */
 	GHashTable *colors;
-} ECellText;
+};
 
-typedef struct {
+struct _ECellTextClass {
 	ECellClass parent_class;
 
-	gchar *(*get_text)  (ECellText *cell, ETableModel *model, gint col, gint row);
-	void  (*free_text) (ECellText *cell, gchar *text);
-	void  (*set_value) (ECellText *cell, ETableModel *model, gint col, gint row, const gchar *text);
-	/* signal handlers */
-	void (*text_inserted) (ECellText *cell, ECellView *cell_view, gint pos, gint len, gint row, gint model_col);
-	void (*text_deleted)  (ECellText *cell, ECellView *cell_view, gint pos, gint len, gint row, gint model_col);
-} ECellTextClass;
+	/* Methods */
+	gchar *		(*get_text)		(ECellText *cell,
+						 ETableModel *model,
+						 gint col,
+						 gint row);
+	void		(*free_text)		(ECellText *cell,
+						 gchar *text);
+	void		(*set_value)		(ECellText *cell,
+						 ETableModel *model,
+						 gint col,
+						 gint row,
+						 const gchar *text);
 
-GType      e_cell_text_get_type (void);
-ECell     *e_cell_text_new      (const gchar *fontname, GtkJustification justify);
-ECell     *e_cell_text_construct(ECellText *cell, const gchar *fontname, GtkJustification justify);
+	/* Signals */
+	void		(*text_inserted)	(ECellText *cell,
+						 ECellView *cell_view,
+						 gint pos,
+						 gint len,
+						 gint row,
+						 gint model_col);
+	void		(*text_deleted)		(ECellText *cell,
+						 ECellView *cell_view,
+						 gint pos,
+						 gint len,
+						 gint row,
+						 gint model_col);
+};
+
+GType		e_cell_text_get_type		(void);
+ECell *		e_cell_text_new			(const gchar *fontname,
+						 GtkJustification justify);
+ECell *		e_cell_text_construct		(ECellText *cell,
+						 const gchar *fontname,
+						 GtkJustification justify);
 
 /* Gets the value from the model and converts it into a string. In ECellText
    itself, the value is assumed to be a gchar * and so needs no conversion.
    In subclasses the ETableModel value may be a more complicated datatype. */
-gchar	  *e_cell_text_get_text (ECellText *cell, ETableModel *model, gint col, gint row);
+gchar *		e_cell_text_get_text		(ECellText *cell,
+						 ETableModel *model,
+						 gint col,
+						 gint row);
 
 /* Frees the value returned by e_cell_text_get_text(). */
-void	   e_cell_text_free_text (ECellText *cell, gchar *text);
+void		e_cell_text_free_text		(ECellText *cell,
+						 gchar *text);
 
 /* Sets the ETableModel value, based on the given string. */
-void	   e_cell_text_set_value (ECellText *cell, ETableModel *model, gint col, gint row, const gchar *text);
+void		e_cell_text_set_value		(ECellText *cell,
+						 ETableModel *model,
+						 gint col,
+						 gint row,
+						 const gchar *text);
 
 /* Sets the selection of given text cell */
-gboolean e_cell_text_set_selection (ECellView *cell_view, gint col, gint row, gint start, gint end);
+gboolean	e_cell_text_set_selection	(ECellView *cell_view,
+						 gint col,
+						 gint row,
+						 gint start,
+						 gint end);
 
 /* Gets the selection of given text cell */
-gboolean e_cell_text_get_selection (ECellView *cell_view, gint col, gint row, gint *start, gint *end);
+gboolean	e_cell_text_get_selection	(ECellView *cell_view,
+						 gint col,
+						 gint row,
+						 gint *start,
+						 gint *end);
 
 /* Copys the selected text to the clipboard */
-void e_cell_text_copy_clipboard (ECellView *cell_view, gint col, gint row);
+void		e_cell_text_copy_clipboard	(ECellView *cell_view,
+						 gint col,
+						 gint row);
 
 /* Pastes the text from the clipboard */
-void e_cell_text_paste_clipboard (ECellView *cell_view, gint col, gint row);
+void		e_cell_text_paste_clipboard	(ECellView *cell_view,
+						 gint col,
+						 gint row);
 
 /* Deletes selected text */
-void e_cell_text_delete_selection (ECellView *cell_view, gint col, gint row);
+void		e_cell_text_delete_selection	(ECellView *cell_view,
+						 gint col,
+						 gint row);
 
 /* get text directly from view, both col and row are model format */
-gchar *e_cell_text_get_text_by_view (ECellView *cell_view, gint col, gint row);
+gchar *		e_cell_text_get_text_by_view	(ECellView *cell_view,
+						 gint col,
+						 gint row);
 
 G_END_DECLS
 
-#endif /* _E_CELL_TEXT_H_ */
+#endif /* E_CELL_TEXT_H */
 

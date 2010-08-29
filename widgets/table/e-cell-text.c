@@ -69,8 +69,6 @@
 #define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)))
 #endif
 
-#define ECT_CLASS(c) (E_CELL_TEXT_CLASS(GTK_OBJECT_GET_CLASS ((c))))
-
 /* This defines a line of text */
 struct line {
 	gchar *text;	/* Line's text UTF-8, it is a pointer into the text->text string */
@@ -214,30 +212,6 @@ static void _insert (ECellTextView *text_view, const gchar *string, gint value);
 static void _delete_selection (ECellTextView *text_view);
 static PangoAttrList* build_attr_list (ECellTextView *text_view, gint row, gint text_length);
 static void update_im_cursor_location (ECellTextView *tv);
-
-gchar *
-e_cell_text_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
-{
-	if (ECT_CLASS(cell)->get_text)
-		return ECT_CLASS(cell)->get_text (cell, model, col, row);
-	else
-		return NULL;
-}
-
-void
-e_cell_text_free_text (ECellText *cell, gchar *text)
-{
-	if (ECT_CLASS(cell)->free_text)
-		ECT_CLASS(cell)->free_text (cell, text);
-}
-
-void
-e_cell_text_set_value (ECellText *cell, ETableModel *model, gint col, gint row,
-		       const gchar *text)
-{
-	if (ECT_CLASS(cell)->set_value)
-		ECT_CLASS(cell)->set_value (cell, model, col, row, text);
-}
 
 static gchar *
 ect_real_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
@@ -1715,7 +1689,7 @@ e_cell_text_class_init (ECellTextClass *klass)
 		}
 	}
 
-	gal_a11y_e_cell_registry_add_cell_type (NULL, E_CELL_TEXT_TYPE, gal_a11y_e_cell_text_new);
+	gal_a11y_e_cell_registry_add_cell_type (NULL, E_TYPE_CELL_TEXT, gal_a11y_e_cell_text_new);
 }
 
 /* IM Context Callbacks */
@@ -1874,28 +1848,6 @@ e_cell_text_init (ECellText *ect)
 }
 
 /**
- * e_cell_text_construct:
- * @cell: The cell to construct
- * @fontname: this param is no longer used, but left here for api stability
- * @justify: Justification of the string in the cell
- *
- * constructs the ECellText.  To be used by subclasses and language
- * bindings.
- *
- * Returns: The ECellText.
- */
-ECell *
-e_cell_text_construct (ECellText *cell, const gchar *fontname, GtkJustification justify)
-{
-	if (!cell)
-		return E_CELL(NULL);
-	if (fontname)
-		cell->font_name = g_strdup (fontname);
-	cell->justify = justify;
-	return E_CELL(cell);
-}
-
-/**
  * e_cell_text_new:
  * @fontname: this param is no longer used, but left here for api stability
  * @justify: Justification of the string in the cell.
@@ -1923,11 +1875,85 @@ e_cell_text_construct (ECellText *cell, const gchar *fontname, GtkJustification 
 ECell *
 e_cell_text_new (const gchar *fontname, GtkJustification justify)
 {
-	ECellText *ect = g_object_new (E_CELL_TEXT_TYPE, NULL);
+	ECellText *ect = g_object_new (E_TYPE_CELL_TEXT, NULL);
 
 	e_cell_text_construct(ect, fontname, justify);
 
 	return (ECell *) ect;
+}
+
+/**
+ * e_cell_text_construct:
+ * @cell: The cell to construct
+ * @fontname: this param is no longer used, but left here for api stability
+ * @justify: Justification of the string in the cell
+ *
+ * constructs the ECellText.  To be used by subclasses and language
+ * bindings.
+ *
+ * Returns: The ECellText.
+ */
+ECell *
+e_cell_text_construct (ECellText *cell,
+                       const gchar *fontname,
+                       GtkJustification justify)
+{
+	if (!cell)
+		return E_CELL(NULL);
+	if (fontname)
+		cell->font_name = g_strdup (fontname);
+	cell->justify = justify;
+	return E_CELL(cell);
+}
+
+gchar *
+e_cell_text_get_text (ECellText *cell,
+                      ETableModel *model,
+                      gint col,
+                      gint row)
+{
+	ECellTextClass *class;
+
+	g_return_val_if_fail (E_IS_CELL_TEXT (cell), NULL);
+
+	class = E_CELL_TEXT_GET_CLASS (cell);
+	if (class->get_text == NULL)
+		return NULL;
+
+	return class->get_text (cell, model, col, row);
+}
+
+void
+e_cell_text_free_text (ECellText *cell,
+                       gchar *text)
+{
+	ECellTextClass *class;
+
+	g_return_if_fail (E_IS_CELL_TEXT (cell));
+
+	class = E_CELL_TEXT_GET_CLASS (cell);
+	if (class->free_text == NULL)
+		return;
+
+	class->free_text (cell, text);
+}
+
+void
+e_cell_text_set_value (ECellText *cell,
+                       ETableModel *model,
+                       gint col,
+                       gint row,
+                       const gchar *text)
+{
+	ECellTextClass *class;
+
+	g_return_if_fail (E_IS_CELL_TEXT (cell));
+
+	class = E_CELL_TEXT_GET_CLASS (cell);
+	if (class->set_value == NULL)
+		return;
+
+	class->set_value (cell, model, col, row, text);
 }
 
 /* fixme: Handle Font attributes */
@@ -2565,14 +2591,16 @@ e_cell_text_get_color (ECellTextView *cell_view, gchar *color_spec)
  */
 gboolean
 e_cell_text_set_selection (ECellView *cell_view,
-			   gint col,
-			   gint row,
-			   gint start,
-			   gint end)
+                           gint col,
+                           gint row,
+                           gint start,
+                           gint end)
 {
 	ECellTextView *ectv;
 	CellEdit *edit;
 	ETextEventProcessorCommand command1, command2;
+
+	g_return_val_if_fail (cell_view != NULL, FALSE);
 
 	ectv = (ECellTextView *)cell_view;
 	edit = ectv->edit;
@@ -2613,13 +2641,15 @@ e_cell_text_set_selection (ECellView *cell_view,
  */
 gboolean
 e_cell_text_get_selection (ECellView *cell_view,
-			   gint col,
-			   gint row,
-			   gint *start,
-			   gint *end)
+                           gint col,
+                           gint row,
+                           gint *start,
+                           gint *end)
 {
 	ECellTextView *ectv;
 	CellEdit *edit;
+
+	g_return_val_if_fail (cell_view != NULL, FALSE);
 
 	ectv = (ECellTextView *)cell_view;
 	edit = ectv->edit;
@@ -2647,11 +2677,15 @@ e_cell_text_get_selection (ECellView *cell_view,
  * This API is most likely to be used by a11y implementations.
  */
 void
-e_cell_text_copy_clipboard (ECellView *cell_view, gint col, gint row)
+e_cell_text_copy_clipboard (ECellView *cell_view,
+                            gint col,
+                            gint row)
 {
 	ECellTextView *ectv;
 	CellEdit *edit;
 	ETextEventProcessorCommand command;
+
+	g_return_if_fail (cell_view != NULL);
 
 	ectv = (ECellTextView *)cell_view;
 	edit = ectv->edit;
@@ -2677,11 +2711,15 @@ e_cell_text_copy_clipboard (ECellView *cell_view, gint col, gint row)
  * This API is most likely to be used by a11y implementations.
  */
 void
-e_cell_text_paste_clipboard (ECellView *cell_view, gint col, gint row)
+e_cell_text_paste_clipboard (ECellView *cell_view,
+                             gint col,
+                             gint row)
 {
 	ECellTextView *ectv;
 	CellEdit *edit;
 	ETextEventProcessorCommand command;
+
+	g_return_if_fail (cell_view != NULL);
 
 	ectv = (ECellTextView *)cell_view;
 	edit = ectv->edit;
@@ -2707,11 +2745,15 @@ e_cell_text_paste_clipboard (ECellView *cell_view, gint col, gint row)
  * This API is most likely to be used by a11y implementations.
  */
 void
-e_cell_text_delete_selection (ECellView *cell_view, gint col, gint row)
+e_cell_text_delete_selection (ECellView *cell_view,
+                              gint col,
+                              gint row)
 {
 	ECellTextView *ectv;
 	CellEdit *edit;
 	ETextEventProcessorCommand command;
+
+	g_return_if_fail (cell_view != NULL);
 
 	ectv = (ECellTextView *)cell_view;
 	edit = ectv->edit;
@@ -2740,11 +2782,15 @@ e_cell_text_delete_selection (ECellView *cell_view, gint col, gint row)
  * This API is most likely to be used by a11y implementations.
  */
 gchar *
-e_cell_text_get_text_by_view (ECellView *cell_view, gint col, gint row)
+e_cell_text_get_text_by_view (ECellView *cell_view,
+                              gint col,
+                              gint row)
 {
 	ECellTextView *ectv;
 	CellEdit *edit;
 	gchar	*ret, *model_text;
+
+	g_return_val_if_fail (cell_view != NULL, NULL);
 
 	ectv = (ECellTextView *)cell_view;
 	edit = ectv->edit;

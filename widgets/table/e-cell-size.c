@@ -29,7 +29,7 @@
 
 #include "e-cell-size.h"
 
-G_DEFINE_TYPE (ECellSize, e_cell_size, E_CELL_TEXT_TYPE)
+G_DEFINE_TYPE (ECellSize, e_cell_size, E_TYPE_CELL_TEXT)
 
 static gchar *
 ecd_get_text(ECellText *cell, ETableModel *model, gint col, gint row)
@@ -98,7 +98,7 @@ e_cell_size_init (ECellSize *e_cell_size)
 ECell *
 e_cell_size_new (const gchar *fontname, GtkJustification justify)
 {
-	ECellSize *ecd = g_object_new (E_CELL_SIZE_TYPE, NULL);
+	ECellSize *ecd = g_object_new (E_TYPE_CELL_SIZE, NULL);
 
 	e_cell_text_construct(E_CELL_TEXT(ecd), fontname, justify);
 

@@ -21,31 +21,50 @@
  *
  */
 
-#ifndef _E_CELL_DATE_H_
-#define _E_CELL_DATE_H_
+#ifndef E_CELL_DATE_H
+#define E_CELL_DATE_H
 
 #include <table/e-cell-text.h>
 
+/* Standard GObject macros */
+#define E_TYPE_CELL_DATE \
+	(e_cell_date_get_type ())
+#define E_CELL_DATE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CELL_DATE, ECellDate))
+#define E_CELL_DATE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CELL_DATE, ECellDateClass))
+#define E_IS_CELL_DATE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CELL_DATE))
+#define E_IS_CELL_DATE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CELL_DATE))
+#define E_CELL_DATE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CELL_DATE, ECellDateClass))
+
 G_BEGIN_DECLS
 
-#define E_CELL_DATE_TYPE        (e_cell_date_get_type ())
-#define E_CELL_DATE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_DATE_TYPE, ECellDate))
-#define E_CELL_DATE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_CELL_DATE_TYPE, ECellDateClass))
-#define E_IS_CELL_DATE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_DATE_TYPE))
-#define E_IS_CELL_DATE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_DATE_TYPE))
+typedef struct _ECellDate ECellDate;
+typedef struct _ECellDateClass ECellDateClass;
 
-typedef struct {
-	ECellText base;
-} ECellDate;
+struct _ECellDate {
+	ECellText parent;
+};
 
-typedef struct {
+struct _ECellDateClass {
 	ECellTextClass parent_class;
-} ECellDateClass;
+};
 
-GType      e_cell_date_get_type (void);
-ECell     *e_cell_date_new      (const gchar *fontname, GtkJustification justify);
-void       e_cell_date_set_format_component (ECellDate *ecd, const gchar *fmt_component);
+GType		e_cell_date_get_type		(void);
+ECell *		e_cell_date_new			(const gchar *fontname,
+						 GtkJustification justify);
+void		e_cell_date_set_format_component
+						(ECellDate *ecd,
+						 const gchar *fmt_component);
 
 G_END_DECLS
 
-#endif /* _E_CELL_DATE_H_ */
+#endif /* E_CELL_DATE_H */

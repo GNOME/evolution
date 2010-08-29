@@ -22,30 +22,47 @@
  *
  */
 
-#ifndef _E_CELL_SIZE_H_
-#define _E_CELL_SIZE_H_
+#ifndef E_CELL_SIZE_H
+#define E_CELL_SIZE_H
 
 #include <table/e-cell-text.h>
 
+/* Standard GObject macros */
+#define E_TYPE_CELL_SIZE \
+	(e_cell_size_get_type ())
+#define E_CELL_SIZE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CELL_SIZE, ECellSize))
+#define E_CELL_SIZE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CELL_SIZE, ECellSizeClass))
+#define E_IS_CELL_SIZE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CELL_SIZE))
+#define E_IS_CELL_SIZE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CELL_SIZE))
+#define E_CELL_SIZE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CELL_SIZE, ECellSizeClass))
+
 G_BEGIN_DECLS
 
-#define E_CELL_SIZE_TYPE        (e_cell_size_get_type ())
-#define E_CELL_SIZE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_SIZE_TYPE, ECellSize))
-#define E_CELL_SIZE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_CELL_SIZE_TYPE, ECellSizeClass))
-#define E_IS_CELL_SIZE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_SIZE_TYPE))
-#define E_IS_CELL_SIZE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_SIZE_TYPE))
+typedef struct _ECellSize ECellSize;
+typedef struct _ECellSizeClass ECellSizeClass;
 
-typedef struct {
-	ECellText base;
-} ECellSize;
+struct _ECellSize {
+	ECellText parent;
+};
 
-typedef struct {
+struct _ECellSizeClass {
 	ECellTextClass parent_class;
-} ECellSizeClass;
+};
 
-GType      e_cell_size_get_type (void);
-ECell     *e_cell_size_new      (const gchar *fontname, GtkJustification justify);
+GType		e_cell_size_get_type		(void);
+ECell *		e_cell_size_new			(const gchar *fontname,
+						 GtkJustification justify);
 
 G_END_DECLS
 
-#endif /* _E_CELL_SIZE_H_ */
+#endif /* E_CELL_SIZE_H */

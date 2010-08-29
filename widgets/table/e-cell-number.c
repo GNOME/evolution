@@ -30,7 +30,7 @@
 
 #include "e-cell-number.h"
 
-G_DEFINE_TYPE (ECellNumber, e_cell_number, E_CELL_TEXT_TYPE)
+G_DEFINE_TYPE (ECellNumber, e_cell_number, E_TYPE_CELL_TEXT)
 
 static gchar *
 ecn_get_text(ECellText *cell, ETableModel *model, gint col, gint row)
@@ -74,7 +74,7 @@ e_cell_number_init (ECellNumber *cell_number)
 ECell *
 e_cell_number_new (const gchar *fontname, GtkJustification justify)
 {
-	ECellNumber *ecn = g_object_new (E_CELL_NUMBER_TYPE, NULL);
+	ECellNumber *ecn = g_object_new (E_TYPE_CELL_NUMBER, NULL);
 
 	e_cell_text_construct(E_CELL_TEXT(ecn), fontname, justify);
 

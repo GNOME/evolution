@@ -38,7 +38,7 @@
 
 #include "e-cell-percent.h"
 
-G_DEFINE_TYPE (ECellPercent, e_cell_percent, E_CELL_TEXT_TYPE)
+G_DEFINE_TYPE (ECellPercent, e_cell_percent, E_TYPE_CELL_TEXT)
 
 static gchar *
 ecp_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
@@ -143,7 +143,7 @@ e_cell_percent_init (ECellPercent *ecp)
 ECell *
 e_cell_percent_new (const gchar *fontname, GtkJustification justify)
 {
-	ECellPercent *ecn = g_object_new (E_CELL_PERCENT_TYPE, NULL);
+	ECellPercent *ecn = g_object_new (E_TYPE_CELL_PERCENT, NULL);
 
 	e_cell_text_construct (E_CELL_TEXT(ecn), fontname, justify);
 

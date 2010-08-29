@@ -296,7 +296,7 @@ e_cell_date_edit_text_get_type (void)
 		};
 
 		type = g_type_register_static (
-			E_CELL_TEXT_TYPE, "ECellDateEditText", &type_info, 0);
+			E_TYPE_CELL_TEXT, "ECellDateEditText", &type_info, 0);
 	}
 
 	return type;
