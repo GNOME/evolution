@@ -42,7 +42,6 @@
 #include <windows.h>
 #endif
 
-#include <dbus/dbus-glib.h>
 #include <gconf/gconf-client.h>
 
 #include <libxml/xmlmemory.h>
