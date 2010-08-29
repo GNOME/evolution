@@ -1,3 +1,58 @@
+Evolution 2.31.91 2010-08-29
+----------------------------
+
+Bug Fixes:
+	Bug 573320 - "Encrypt to self" by default on newly created mail
+	             accounts (Milan Crha)
+	Bug 627124 - Crash while opening task-page.ui (Matthew Barnes)
+	Bug 627333 - Cannot cancel password dialog for a calendar (Milan Crha)
+	Bug 627598 - Memory leak in emf_format_clone() (David Woodhouse)
+	Bug 627601 - Memory leak in itip_get_comp_attendee() (David Woodhouse)
+	Bug 627601 - Memory leak in itip_get_comp_attendee() (David Woodhouse)
+	Bug 627611 - Memory leak in efh_format_header() (David Woodhouse)
+	Bug 627734 - Double-click a message opens it twice (Milan Crha)
+	Bug 627852 - Memory leak in em_format_push_level() (Matthew Barnes)
+	Bug 628003 - Bundle IM protocol icons dropped from gnome-icon-theme
+	             (Matthew Barnes)
+	Bug 628136 - update_query_async() should not free the message struct
+	             (Matthew Barnes)
+	Bug 628141 - Duplicate signal connections in EMailReader
+	             (Matthew Barnes)
+	Bug 628154 - Ignore paths in MIME part filenames (Matthew Barnes)
+
+Other Changes:
+	* Use the new e_load_book_source_async() where possible.
+	  (Matthew Barnes)
+	* Fix more non-removal of signals on user_data object distruction by
+	  using g_signal_connect_object in many places (Michael Meeks)
+	* Add encryption and authentication support for autoconfig
+	  (Gary Ching-Pang Lin)
+	* Update autoconfig settings for live.com (Gary Ching-Pang Lin)
+	* Add e_load_cal_source_async(). (Matthew Barnes)
+	* Build break with evolution-connman - new parameter in a GDBus
+	  function (Milan Crha)
+	* Crash on Startup wizard cancel (Milan Crha)
+	* Convert EAttachmentHandler to an EExtension. (Matthew Barnes)
+	* Contact list editor is not translated (Federico Mena Quintero)
+	* Remove the last traces of dbus-glib. (Matthew Barnes)
+
+Translations:
+	Ask H. Larsen (da)
+	Giannis Katsampirhs (el)
+	Philip Withnall (en_GB)
+	Jorge González (es)
+	Bruno Brouard (fr)
+	Fran Diéguez (gl)
+	Yair Hershkovitz (he)
+	Andika Triwidada (id)
+	Takayuki KUSANO (ja)
+	Kjartan Maraas (nb)
+	A S Alam (pa)
+	Tao Wang (zh_CN)
+	朱涛 (zh_CN)
+	Chao-Hsiung Liao (zh_HK)
+	Aron Xu (zh_CN)
+
 Evolution 2.31.90 2010-08-16
 ----------------------------
 
