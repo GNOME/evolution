@@ -49,7 +49,7 @@ static gboolean esa_needs_sorting             (ESorter *esa);
 #define ESA_NEEDS_SORTING(esa) (((ESorterArray *) (esa))->compare != NULL)
 
 static gint
-esort_callback(gconstpointer data1, gconstpointer data2, gpointer user_data)
+esort_callback (gconstpointer data1, gconstpointer data2, gpointer user_data)
 {
 	ESorterArray *esa = user_data;
 	gint ret_val;
@@ -70,7 +70,7 @@ esort_callback(gconstpointer data1, gconstpointer data2, gpointer user_data)
 }
 
 static void
-esa_sort(ESorterArray *esa)
+esa_sort (ESorterArray *esa)
 {
 	gint rows;
 	gint i;
@@ -80,29 +80,29 @@ esa_sort(ESorterArray *esa)
 
 	rows = esa->rows;
 
-	esa->sorted = g_new(int, rows);
+	esa->sorted = g_new (int, rows);
 	for (i = 0; i < rows; i++)
 		esa->sorted[i] = i;
 
 	if (esa->compare)
 		g_qsort_with_data (
-			esa->sorted, rows, sizeof(gint),
+			esa->sorted, rows, sizeof (gint),
 			esort_callback, esa);
 }
 
 static void
-esa_backsort(ESorterArray *esa)
+esa_backsort (ESorterArray *esa)
 {
 	gint i, rows;
 
 	if (esa->backsorted)
 		return;
 
-	esa_sort(esa);
+	esa_sort (esa);
 
 	rows = esa->rows;
 
-	esa->backsorted = g_new0(int, rows);
+	esa->backsorted = g_new0 (int, rows);
 
 	for (i = 0; i < rows; i++) {
 		esa->backsorted[esa->sorted[i]] = i;
@@ -112,13 +112,13 @@ esa_backsort(ESorterArray *esa)
 static gint
 esa_model_to_sorted (ESorter *es, gint row)
 {
-	ESorterArray *esa = E_SORTER_ARRAY(es);
+	ESorterArray *esa = E_SORTER_ARRAY (es);
 
-	g_return_val_if_fail(row >= 0, -1);
-	g_return_val_if_fail(row < esa->rows, -1);
+	g_return_val_if_fail (row >= 0, -1);
+	g_return_val_if_fail (row < esa->rows, -1);
 
-	if (ESA_NEEDS_SORTING(es))
-		esa_backsort(esa);
+	if (ESA_NEEDS_SORTING (es))
+		esa_backsort (esa);
 
 	if (esa->backsorted)
 		return esa->backsorted[row];
@@ -131,11 +131,11 @@ esa_sorted_to_model (ESorter *es, gint row)
 {
 	ESorterArray *esa = (ESorterArray *) es;
 
-	g_return_val_if_fail(row >= 0, -1);
-	g_return_val_if_fail(row < esa->rows, -1);
+	g_return_val_if_fail (row >= 0, -1);
+	g_return_val_if_fail (row < esa->rows, -1);
 
-	if (ESA_NEEDS_SORTING(es))
-		esa_sort(esa);
+	if (ESA_NEEDS_SORTING (es))
+		esa_sort (esa);
 
 	if (esa->sorted)
 		return esa->sorted[row];
@@ -146,9 +146,9 @@ esa_sorted_to_model (ESorter *es, gint row)
 static void
 esa_get_model_to_sorted_array (ESorter *es, gint **array, gint *count)
 {
-	ESorterArray *esa = E_SORTER_ARRAY(es);
+	ESorterArray *esa = E_SORTER_ARRAY (es);
 	if (array || count) {
-		esa_backsort(esa);
+		esa_backsort (esa);
 
 		if (array)
 			*array = esa->backsorted;
@@ -160,9 +160,9 @@ esa_get_model_to_sorted_array (ESorter *es, gint **array, gint *count)
 static void
 esa_get_sorted_to_model_array (ESorter *es, gint **array, gint *count)
 {
-	ESorterArray *esa = E_SORTER_ARRAY(es);
+	ESorterArray *esa = E_SORTER_ARRAY (es);
 	if (array || count) {
-		esa_sort(esa);
+		esa_sort (esa);
 
 		if (array)
 			*array = esa->sorted;
@@ -172,19 +172,19 @@ esa_get_sorted_to_model_array (ESorter *es, gint **array, gint *count)
 }
 
 static gboolean
-esa_needs_sorting(ESorter *es)
+esa_needs_sorting (ESorter *es)
 {
-	ESorterArray *esa = E_SORTER_ARRAY(es);
+	ESorterArray *esa = E_SORTER_ARRAY (es);
 	return esa->compare != NULL;
 }
 
 void
-e_sorter_array_clean(ESorterArray *esa)
+e_sorter_array_clean (ESorterArray *esa)
 {
-	g_free(esa->sorted);
+	g_free (esa->sorted);
 	esa->sorted = NULL;
 
-	g_free(esa->backsorted);
+	g_free (esa->backsorted);
 	esa->backsorted = NULL;
 }
 
@@ -199,11 +199,11 @@ void
 e_sorter_array_append  (ESorterArray *esa, gint count)
 {
 	gint i;
-	g_free(esa->backsorted);
+	g_free (esa->backsorted);
 	esa->backsorted = NULL;
 
 	if (esa->sorted) {
-		esa->sorted = g_renew(int, esa->sorted, esa->rows + count);
+		esa->sorted = g_renew (int, esa->sorted, esa->rows + count);
 		for (i = 0; i < count; i++) {
 			gint value = esa->rows;
 			gsize pos;
@@ -244,7 +244,7 @@ e_sorter_array_new (ECompareRowsFunc compare, gpointer closure)
 static void
 e_sorter_array_class_init (ESorterArrayClass *klass)
 {
-	ESorterClass *sorter_class = E_SORTER_CLASS(klass);
+	ESorterClass *sorter_class = E_SORTER_CLASS (klass);
 
 	sorter_class->model_to_sorted           = esa_model_to_sorted;
 	sorter_class->sorted_to_model           = esa_sorted_to_model;

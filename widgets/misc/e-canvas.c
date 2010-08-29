@@ -366,10 +366,10 @@ canvas_style_set_recursive (GnomeCanvasItem *item,
 static void
 canvas_dispose (GObject *object)
 {
-	ECanvas *canvas = E_CANVAS(object);
+	ECanvas *canvas = E_CANVAS (object);
 
 	if (canvas->idle_id)
-		g_source_remove(canvas->idle_id);
+		g_source_remove (canvas->idle_id);
 	canvas->idle_id = 0;
 
 	if (canvas->grab_cancelled_check_id)
@@ -417,7 +417,7 @@ canvas_unrealize (GtkWidget *widget)
 	ECanvas * ecanvas = E_CANVAS (widget);
 
 	if (ecanvas->idle_id) {
-		g_source_remove(ecanvas->idle_id);
+		g_source_remove (ecanvas->idle_id);
 		ecanvas->idle_id = 0;
 	}
 
@@ -662,7 +662,7 @@ e_canvas_item_grab_focus (GnomeCanvasItem *item,
 
 	item->canvas->focused_item = item;
 
-	if (widget_too && !gtk_widget_has_focus (GTK_WIDGET(item->canvas))) {
+	if (widget_too && !gtk_widget_has_focus (GTK_WIDGET (item->canvas))) {
 		gtk_widget_grab_focus (GTK_WIDGET (item->canvas));
 	}
 
@@ -709,8 +709,8 @@ e_canvas_item_invoke_reflow (GnomeCanvasItem *item,
 static void
 do_reflow (ECanvas *canvas)
 {
-	if (GNOME_CANVAS(canvas)->root->flags & E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW)
-		e_canvas_item_invoke_reflow (GNOME_CANVAS(canvas)->root, 0);
+	if (GNOME_CANVAS (canvas)->root->flags & E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW)
+		e_canvas_item_invoke_reflow (GNOME_CANVAS (canvas)->root, 0);
 }
 
 /* Idle handler for the e-canvas.  It deals with pending reflows. */
@@ -719,7 +719,7 @@ idle_handler (gpointer data)
 {
 	ECanvas *canvas;
 
-	GDK_THREADS_ENTER();
+	GDK_THREADS_ENTER ();
 
 	canvas = E_CANVAS (data);
 	do_reflow (canvas);
@@ -729,7 +729,7 @@ idle_handler (gpointer data)
 
 	g_signal_emit (canvas, signals [REFLOW], 0);
 
-	GDK_THREADS_LEAVE();
+	GDK_THREADS_LEAVE ();
 
 	return FALSE;
 }
@@ -753,7 +753,7 @@ e_canvas_item_descendent_needs_reflow (GnomeCanvasItem *item)
 
 	item->flags |= E_CANVAS_ITEM_DESCENDENT_NEEDS_REFLOW;
 	if (item->parent)
-		e_canvas_item_descendent_needs_reflow(item->parent);
+		e_canvas_item_descendent_needs_reflow (item->parent);
 }
 
 void
@@ -763,15 +763,15 @@ e_canvas_item_request_reflow (GnomeCanvasItem *item)
 
 	if (item->flags & GNOME_CANVAS_ITEM_REALIZED) {
 		item->flags |= E_CANVAS_ITEM_NEEDS_REFLOW;
-		e_canvas_item_descendent_needs_reflow(item);
-		add_idle(E_CANVAS(item->canvas));
+		e_canvas_item_descendent_needs_reflow (item);
+		add_idle (E_CANVAS (item->canvas));
 	}
 }
 
 void
 e_canvas_item_request_parent_reflow (GnomeCanvasItem *item)
 {
-	g_return_if_fail (GNOME_IS_CANVAS_ITEM(item));
+	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 
 	e_canvas_item_request_reflow (item->parent);
 }

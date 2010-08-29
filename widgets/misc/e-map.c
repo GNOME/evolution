@@ -210,10 +210,10 @@ e_map_finalize (GObject *object)
 	view = E_MAP (object);
 	priv = view->priv;
 
-	g_object_unref((priv->hadj));
+	g_object_unref ((priv->hadj));
 	priv->hadj = NULL;
 
-	g_object_unref((priv->vadj));
+	g_object_unref ((priv->vadj));
 	priv->vadj = NULL;
 
 	if (priv->map_pixbuf)
@@ -1614,7 +1614,7 @@ zoom_do (EMap *map)
 	g_signal_handlers_unblock_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, map);
 	g_signal_handlers_unblock_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, map);
 
-	set_scroll_area(map);
+	set_scroll_area (map);
 }
 
 /* Callback used when an adjustment is changed */

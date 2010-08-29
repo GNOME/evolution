@@ -229,7 +229,7 @@ format_internal (const gchar *key, DTFormatKind kind, time_t tvalue, struct tm *
 	struct tm today, value;
 	time_t ttoday;
 
-	tzset();
+	tzset ();
 	if (!tm_value) {
 		localtime_r (&tvalue, &value);
 		tm_value = &value;

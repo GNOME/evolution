@@ -663,7 +663,7 @@ e_format_number (gint number)
 	gchar *value;
 	gchar *value_iterator;
 
-	locality = localeconv();
+	locality = localeconv ();
 	grouping = locality->grouping;
 	while (number) {
 		gchar *group;
@@ -672,7 +672,7 @@ e_format_number (gint number)
 			last_count = *grouping;
 			grouping++;
 		case 0:
-			divider = epow10(last_count);
+			divider = epow10 (last_count);
 			if (number >= divider) {
 				group = g_strdup_printf("%0*d", last_count, number % divider);
 			} else {
@@ -685,8 +685,8 @@ e_format_number (gint number)
 			number = 0;
 			break;
 		}
-		char_length += strlen(group);
-		list = g_list_prepend(list, group);
+		char_length += strlen (group);
+		list = g_list_prepend (list, group);
 		group_count++;
 	}
 
@@ -698,14 +698,14 @@ e_format_number (gint number)
 		iterator = list;
 		value_iterator = value;
 
-		strcpy(value_iterator, iterator->data);
-		value_iterator += strlen(iterator->data);
+		strcpy (value_iterator, iterator->data);
+		value_iterator += strlen (iterator->data);
 		for (iterator = iterator->next; iterator; iterator = iterator->next) {
-			strcpy(value_iterator, locality->thousands_sep);
-			value_iterator += strlen(locality->thousands_sep);
+			strcpy (value_iterator, locality->thousands_sep);
+			value_iterator += strlen (locality->thousands_sep);
 
-			strcpy(value_iterator, iterator->data);
-			value_iterator += strlen(iterator->data);
+			strcpy (value_iterator, iterator->data);
+			value_iterator += strlen (iterator->data);
 		}
 		g_list_foreach (list, (GFunc) g_free, NULL);
 		g_list_free (list);
@@ -812,7 +812,7 @@ e_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
 
 	if (strstr(fmt, "%p")==NULL && strstr(fmt, "%P")==NULL) {
 		/* No AM/PM involved - can use the fmt string directly */
-		ret=e_strftime(str, max, fmt, tm);
+		ret=e_strftime (str, max, fmt, tm);
 	} else {
 		/* Get the AM/PM symbol from the locale */
 		e_strftime (buf, 10, "%p", tm);
@@ -820,11 +820,11 @@ e_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
 		if (buf[0]) {
 			/* AM/PM have been defined in the locale
 			 * so we can use the fmt string directly. */
-			ret=e_strftime(str, max, fmt, tm);
+			ret=e_strftime (str, max, fmt, tm);
 		} else {
 			/* No AM/PM defined by locale
 			 * must change to 24 hour clock. */
-			ffmt=g_strdup(fmt);
+			ffmt=g_strdup (fmt);
 			for (sp=ffmt; (sp=strstr(sp, "%l")); sp++) {
 				/* Maybe this should be 'k', but I have never
 				 * seen a 24 clock actually use that format. */
@@ -833,12 +833,12 @@ e_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
 			for (sp=ffmt; (sp=strstr(sp, "%I")); sp++) {
 				sp[1]='H';
 			}
-			ret=e_strftime(str, max, ffmt, tm);
-			g_free(ffmt);
+			ret=e_strftime (str, max, ffmt, tm);
+			g_free (ffmt);
 		}
 	}
 
-	return(ret);
+	return (ret);
 }
 
 gsize
@@ -848,17 +848,17 @@ e_utf8_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
 	gsize sz, ret;
 	gchar *locale_fmt, *buf;
 
-	locale_fmt = g_locale_from_utf8(fmt, -1, NULL, &sz, NULL);
+	locale_fmt = g_locale_from_utf8 (fmt, -1, NULL, &sz, NULL);
 	if (!locale_fmt)
 		return 0;
 
-	ret = e_strftime_fix_am_pm(str, max, locale_fmt, tm);
+	ret = e_strftime_fix_am_pm (str, max, locale_fmt, tm);
 	if (!ret) {
 		g_free (locale_fmt);
 		return 0;
 	}
 
-	buf = g_locale_to_utf8(str, ret, NULL, &sz, NULL);
+	buf = g_locale_to_utf8 (str, ret, NULL, &sz, NULL);
 	if (!buf) {
 		g_free (locale_fmt);
 		return 0;
@@ -866,16 +866,16 @@ e_utf8_strftime_fix_am_pm (gchar *str, gsize max, const gchar *fmt,
 
 	if (sz >= max) {
 		gchar *tmp = buf + max - 1;
-		tmp = g_utf8_find_prev_char(buf, tmp);
+		tmp = g_utf8_find_prev_char (buf, tmp);
 		if (tmp)
 			sz = tmp - buf;
 		else
 			sz = 0;
 	}
-	memcpy(str, buf, sz);
+	memcpy (str, buf, sz);
 	str[sz] = '\0';
-	g_free(locale_fmt);
-	g_free(buf);
+	g_free (locale_fmt);
+	g_free (buf);
 	return sz;
 }
 

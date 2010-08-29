@@ -37,7 +37,7 @@ e_canvas_item_move_absolute (GnomeCanvasItem *item, gdouble dx, gdouble dy)
 }
 
 static double
-compute_offset(gint top, gint bottom, gint page_top, gint page_bottom)
+compute_offset (gint top, gint bottom, gint page_top, gint page_bottom)
 {
 	gint size = bottom - top;
 	gint offset = 0;
@@ -76,23 +76,23 @@ e_canvas_show_area (GnomeCanvas *canvas, gdouble x1, gdouble y1, gdouble x2, gdo
 	g_return_if_fail (canvas != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
-	h = gtk_layout_get_hadjustment(GTK_LAYOUT(canvas));
+	h = gtk_layout_get_hadjustment (GTK_LAYOUT (canvas));
 	page_size = gtk_adjustment_get_page_size (h);
 	lower = gtk_adjustment_get_lower (h);
 	upper = gtk_adjustment_get_upper (h);
 	value = gtk_adjustment_get_value (h);
-	dx = compute_offset(x1, x2, value, value + page_size);
+	dx = compute_offset (x1, x2, value, value + page_size);
 	if (dx)
-		gtk_adjustment_set_value(h, CLAMP(value + dx, lower, upper - page_size));
+		gtk_adjustment_set_value (h, CLAMP (value + dx, lower, upper - page_size));
 
-	v = gtk_layout_get_vadjustment(GTK_LAYOUT(canvas));
+	v = gtk_layout_get_vadjustment (GTK_LAYOUT (canvas));
 	page_size = gtk_adjustment_get_page_size (v);
 	lower = gtk_adjustment_get_lower (v);
 	upper = gtk_adjustment_get_upper (v);
 	value = gtk_adjustment_get_value (v);
-	dy = compute_offset(y1, y2, value, value + page_size);
+	dy = compute_offset (y1, y2, value, value + page_size);
 	if (dy)
-		gtk_adjustment_set_value(v, CLAMP(value + dy, lower, upper - page_size));
+		gtk_adjustment_set_value (v, CLAMP (value + dy, lower, upper - page_size));
 }
 
 void
@@ -101,10 +101,10 @@ e_canvas_item_show_area (GnomeCanvasItem *item, gdouble x1, gdouble y1, gdouble 
 	g_return_if_fail (item != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 
-	gnome_canvas_item_i2w(item, &x1, &y1);
-	gnome_canvas_item_i2w(item, &x2, &y2);
+	gnome_canvas_item_i2w (item, &x1, &y1);
+	gnome_canvas_item_i2w (item, &x2, &y2);
 
-	e_canvas_show_area(item->canvas, x1, y1, x2, y2);
+	e_canvas_show_area (item->canvas, x1, y1, x2, y2);
 }
 
 static gboolean
@@ -120,22 +120,22 @@ e_canvas_area_shown (GnomeCanvas *canvas, gdouble x1, gdouble y1, gdouble x2, gd
 	g_return_val_if_fail (canvas != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CANVAS (canvas), FALSE);
 
-	h = gtk_layout_get_hadjustment(GTK_LAYOUT(canvas));
+	h = gtk_layout_get_hadjustment (GTK_LAYOUT (canvas));
 	page_size = gtk_adjustment_get_page_size (h);
 	lower = gtk_adjustment_get_lower (h);
 	upper = gtk_adjustment_get_upper (h);
 	value = gtk_adjustment_get_value (h);
-	dx = compute_offset(x1, x2, value, value + page_size);
-	if (CLAMP(value + dx, lower, upper - page_size) - value != 0)
+	dx = compute_offset (x1, x2, value, value + page_size);
+	if (CLAMP (value + dx, lower, upper - page_size) - value != 0)
 		return FALSE;
 
-	v = gtk_layout_get_vadjustment(GTK_LAYOUT(canvas));
+	v = gtk_layout_get_vadjustment (GTK_LAYOUT (canvas));
 	page_size = gtk_adjustment_get_page_size (v);
 	lower = gtk_adjustment_get_lower (v);
 	upper = gtk_adjustment_get_upper (v);
 	value = gtk_adjustment_get_value (v);
-	dy = compute_offset(y1, y2, value, value + page_size);
-	if (CLAMP(value + dy, lower, upper - page_size) - value != 0)
+	dy = compute_offset (y1, y2, value, value + page_size);
+	if (CLAMP (value + dy, lower, upper - page_size) - value != 0)
 		return FALSE;
 	return TRUE;
 }
@@ -146,10 +146,10 @@ e_canvas_item_area_shown (GnomeCanvasItem *item, gdouble x1, gdouble y1, gdouble
 	g_return_val_if_fail (item != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CANVAS_ITEM (item), FALSE);
 
-	gnome_canvas_item_i2w(item, &x1, &y1);
-	gnome_canvas_item_i2w(item, &x2, &y2);
+	gnome_canvas_item_i2w (item, &x1, &y1);
+	gnome_canvas_item_i2w (item, &x2, &y2);
 
-	return e_canvas_area_shown(item->canvas, x1, y1, x2, y2);
+	return e_canvas_area_shown (item->canvas, x1, y1, x2, y2);
 }
 
 typedef struct {
@@ -165,9 +165,9 @@ show_area_timeout (gpointer data)
 {
 	DoubsAndCanvas *dac = data;
 
-	e_canvas_show_area(dac->canvas, dac->x1, dac->y1, dac->x2, dac->y2);
+	e_canvas_show_area (dac->canvas, dac->x1, dac->y1, dac->x2, dac->y2);
 	g_object_unref (dac->canvas);
-	g_free(dac);
+	g_free (dac);
 	return FALSE;
 }
 
@@ -179,15 +179,15 @@ e_canvas_item_show_area_delayed (GnomeCanvasItem *item, gdouble x1, gdouble y1, 
 	g_return_if_fail (item != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 
-	gnome_canvas_item_i2w(item, &x1, &y1);
-	gnome_canvas_item_i2w(item, &x2, &y2);
+	gnome_canvas_item_i2w (item, &x1, &y1);
+	gnome_canvas_item_i2w (item, &x2, &y2);
 
-	dac = g_new(DoubsAndCanvas, 1);
+	dac = g_new (DoubsAndCanvas, 1);
 	dac->x1 = x1;
 	dac->y1 = y1;
 	dac->x2 = x2;
 	dac->y2 = y2;
 	dac->canvas = item->canvas;
 	g_object_ref (item->canvas);
-	g_timeout_add(delay, show_area_timeout, dac);
+	g_timeout_add (delay, show_area_timeout, dac);
 }

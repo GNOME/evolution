@@ -74,7 +74,8 @@ gboolean	e_targets_include_html	(GdkAtom *targets,
 
 /* Clipboard Functions */
 
-void		e_clipboard_set_calendar(GtkClipboard *clipboard,
+void		e_clipboard_set_calendar
+					(GtkClipboard *clipboard,
 					 const gchar *source,
 					 gint length);
 void		e_clipboard_set_directory
@@ -92,7 +93,8 @@ void		e_clipboard_request_directory
 					(GtkClipboard *clipboard,
 					 GtkClipboardTextReceivedFunc callback,
 					 gpointer user_data);
-void		e_clipboard_request_html(GtkClipboard *clipboard,
+void		e_clipboard_request_html
+					(GtkClipboard *clipboard,
 					 GtkClipboardTextReceivedFunc callback,
 					 gpointer user_data);
 gchar *		e_clipboard_wait_for_calendar

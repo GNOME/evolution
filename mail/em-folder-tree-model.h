@@ -54,28 +54,32 @@ typedef struct _EMFolderTreeModelPrivate EMFolderTreeModelPrivate;
 typedef struct _EMFolderTreeModelStoreInfo EMFolderTreeModelStoreInfo;
 
 enum {
-	COL_STRING_DISPLAY_NAME,  /* string that appears in the tree */
-	COL_POINTER_CAMEL_STORE,  /* CamelStore object */
-	COL_STRING_FULL_NAME,   /* if node is a folder, the full path name of the folder, no leading / */
-	COL_STRING_ICON_NAME,     /* icon name for the folder */
-	COL_STRING_URI,           /* the uri to get the store or folder object */
-	COL_UINT_UNREAD,          /* unread count */
-	COL_UINT_FLAGS,		/* FolderInfo.flags */
+	COL_STRING_DISPLAY_NAME,	/* string that appears in the tree */
+	COL_POINTER_CAMEL_STORE,	/* CamelStore object */
+	COL_STRING_FULL_NAME,		/* if node is a folder, the full path
+					 * name of the folder, no leading / */
+	COL_STRING_ICON_NAME,		/* icon name for the folder */
+	COL_STRING_URI,			/* the uri to get the store or
+					 * folder object */
+	COL_UINT_UNREAD,		/* unread count */
+	COL_UINT_FLAGS,			/* FolderInfo.flags */
 
-	COL_BOOL_IS_STORE,        /* toplevel store node? */
-	COL_BOOL_IS_FOLDER,       /* folder (not a store) */
-	COL_BOOL_LOAD_SUBDIRS,    /* %TRUE only if the store/folder
-				   * has subfolders which have not yet
-				   * been added to the tree */
-	COL_UINT_UNREAD_LAST_SEL, /* last known unread count */
-	COL_BOOL_IS_DRAFT,	  /* %TRUE for a draft folder */
+	COL_BOOL_IS_STORE,		/* toplevel store node? */
+	COL_BOOL_IS_FOLDER,		/* folder (not a store) */
+	COL_BOOL_LOAD_SUBDIRS,		/* %TRUE only if the store/folder
+					 * has subfolders which have not yet
+					 * been added to the tree */
+	COL_UINT_UNREAD_LAST_SEL,	/* last known unread count */
+	COL_BOOL_IS_DRAFT,		/* %TRUE for a draft folder */
 	NUM_COLUMNS
 };
 
 struct _EMFolderTreeModelStoreInfo {
 	CamelStore *store;
 	GtkTreeRowReference *row;
-	GHashTable *full_hash;  /* maps CamelFolderInfo::full_name's to GtkTreeRowReferences */
+
+	/* CamelFolderInfo::full_name -> GtkTreeRowReference */
+	GHashTable *full_hash;
 	EAccount *account;
 
 	gchar *display_name;

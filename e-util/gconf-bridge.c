@@ -451,7 +451,7 @@ prop_binding_object_destroyed (gpointer user_data,
 
         binding = (PropBinding *) user_data;
         binding->object = NULL; /* Don't do anything with the object
-                                   at unbind() */
+                                 * at unbind() */
 
         g_hash_table_remove (bridge->bindings,
                              GUINT_TO_POINTER (binding->id));
@@ -757,7 +757,7 @@ window_binding_window_destroyed (gpointer user_data,
 
         binding = (WindowBinding *) user_data;
         binding->window = NULL; /* Don't do anything with the window
-                                   at unbind() */
+                                 * at unbind() */
 
         if (binding->sync_timeout_id > 0)
                 g_source_remove (binding->sync_timeout_id);
@@ -1060,7 +1060,7 @@ list_store_binding_store_destroyed (gpointer user_data,
 
         binding = (ListStoreBinding *) user_data;
         binding->list_store = NULL; /* Don't do anything with the store
-                                       at unbind() */
+                                     * at unbind() */
 
         g_hash_table_remove (bridge->bindings,
                              GUINT_TO_POINTER (binding->id));

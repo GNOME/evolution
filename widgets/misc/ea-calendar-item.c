@@ -278,7 +278,7 @@ ea_calendar_item_get_name (AtkObject *accessible)
 
 	g_return_val_if_fail (EA_IS_CALENDAR_ITEM (accessible), NULL);
 
-	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(accessible));
+	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (accessible));
 	if (!g_obj)
 		return NULL;
 	g_return_val_if_fail (E_IS_CALENDAR_ITEM (g_obj), NULL);
@@ -354,7 +354,7 @@ ea_calendar_item_ref_state_set (AtkObject *accessible)
         GObject *g_obj;
 
         state_set = ATK_OBJECT_CLASS (parent_class)->ref_state_set (accessible);
-        g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(accessible));
+        g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (accessible));
         if (!g_obj)
                 return state_set;
 
@@ -440,7 +440,7 @@ ea_calendar_item_ref_child (AtkObject *accessible, gint index)
 	g_print ("AccDebug: ea_calendar_item children[%d]=%p\n", index,
 		 (gpointer)cell);
 #endif
-	return g_object_ref (atk_gobject_accessible_for_object (G_OBJECT(cell)));
+	return g_object_ref (atk_gobject_accessible_for_object (G_OBJECT (cell)));
 }
 
 /* atk table interface */
@@ -1057,15 +1057,15 @@ ea_calendar_item_get_cell_data (EaCalendarItem *ea_calitem)
 	if (!g_obj)
 		return NULL;
 
-	cell_data = g_object_get_data (G_OBJECT(ea_calitem),
+	cell_data = g_object_get_data (G_OBJECT (ea_calitem),
 				       "ea-calendar-cell-table");
 
 	if (!cell_data) {
-		gint n_cells = ea_calendar_item_get_n_children (ATK_OBJECT(ea_calitem));
+		gint n_cells = ea_calendar_item_get_n_children (ATK_OBJECT (ea_calitem));
 		cell_data = ea_cell_table_create (n_cells/EA_CALENDAR_COLUMN_NUM,
 						  EA_CALENDAR_COLUMN_NUM,
 						  FALSE);
-		g_object_set_data (G_OBJECT(ea_calitem),
+		g_object_set_data (G_OBJECT (ea_calitem),
 				   "ea-calendar-cell-table", cell_data);
 	}
 	return cell_data;
@@ -1078,10 +1078,10 @@ ea_calendar_item_destory_cell_data (EaCalendarItem *ea_calitem)
 
 	g_return_if_fail (ea_calitem);
 
-	cell_data = g_object_get_data (G_OBJECT(ea_calitem),
+	cell_data = g_object_get_data (G_OBJECT (ea_calitem),
 				       "ea-calendar-cell-table");
 	if (cell_data) {
-		g_object_set_data (G_OBJECT(ea_calitem),
+		g_object_set_data (G_OBJECT (ea_calitem),
 				   "ea-calendar-cell-table", NULL);
 		ea_cell_table_destroy (cell_data);
 	}

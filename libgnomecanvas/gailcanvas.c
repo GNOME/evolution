@@ -137,7 +137,7 @@ gail_canvas_init (void)
 				 gail_canvas_text_factory_get_type ());
   atk_registry_set_factory_type (atk_get_default_registry (),
 				 GNOME_TYPE_CANVAS_WIDGET,
-				 gail_canvas_widget_factory_get_type());
+				 gail_canvas_widget_factory_get_type ());
   atk_registry_set_factory_type (atk_get_default_registry (),
 				 GNOME_TYPE_CANVAS_ITEM,
 				 gail_canvas_item_factory_get_type ());

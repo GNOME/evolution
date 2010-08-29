@@ -58,7 +58,9 @@ struct _EPreferencesWindowClass {
 	GtkWindowClass parent_class;
 };
 
-typedef GtkWidget *(*EPreferencesWindowCreatePageFn) (EPreferencesWindow *window);
+typedef GtkWidget *
+		(*EPreferencesWindowCreatePageFn)
+						(EPreferencesWindow *window);
 
 GType		e_preferences_window_get_type	(void);
 GtkWidget *	e_preferences_window_new	(gpointer shell);
@@ -72,7 +74,8 @@ void		e_preferences_window_add_page	(EPreferencesWindow *window,
 						 gint sort_order);
 void		e_preferences_window_show_page	(EPreferencesWindow *window,
 						 const gchar *page_name);
-void		e_preferences_window_filter_page(EPreferencesWindow *window,
+void		e_preferences_window_filter_page
+						(EPreferencesWindow *window,
 						 const gchar *page_name);
 
 G_END_DECLS

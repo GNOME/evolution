@@ -75,26 +75,36 @@ struct _EWebViewPreviewClass {
 
 GType		e_web_view_preview_get_type	(void);
 GtkWidget *	e_web_view_preview_new		(void);
-
-GtkTreeView *	e_web_view_preview_get_tree_view(EWebViewPreview *preview);
+GtkTreeView *	e_web_view_preview_get_tree_view
+						(EWebViewPreview *preview);
 GtkWidget *	e_web_view_preview_get_preview	(EWebViewPreview *preview);
-void		e_web_view_preview_set_preview  (EWebViewPreview *preview, GtkWidget *preview_widget);
-
-void		e_web_view_preview_show_tree_view(EWebViewPreview *preview);
-void		e_web_view_preview_hide_tree_view(EWebViewPreview *preview);
-
-void		e_web_view_preview_set_escape_values(EWebViewPreview *preview, gboolean escape);
-gboolean	e_web_view_preview_get_escape_values(EWebViewPreview *preview);
-
+void		e_web_view_preview_set_preview	(EWebViewPreview *preview,
+						 GtkWidget *preview_widget);
+void		e_web_view_preview_show_tree_view
+						(EWebViewPreview *preview);
+void		e_web_view_preview_hide_tree_view
+						(EWebViewPreview *preview);
+void		e_web_view_preview_set_escape_values
+						(EWebViewPreview *preview,
+						 gboolean escape);
+gboolean	e_web_view_preview_get_escape_values
+						(EWebViewPreview *preview);
 void		e_web_view_preview_begin_update	(EWebViewPreview *preview);
 void		e_web_view_preview_end_update	(EWebViewPreview *preview);
-
-void		e_web_view_preview_add_header	(EWebViewPreview *preview, gint index, const gchar *header);
-void		e_web_view_preview_add_text	(EWebViewPreview *preview, const gchar *text);
-void		e_web_view_preview_add_raw_html	(EWebViewPreview *preview, const gchar *raw_html);
-void		e_web_view_preview_add_separator(EWebViewPreview *preview);
-void		e_web_view_preview_add_empty_line(EWebViewPreview *preview);
-void		e_web_view_preview_add_section	(EWebViewPreview *preview, const gchar *section, const gchar *value);
+void		e_web_view_preview_add_header	(EWebViewPreview *preview,
+						 gint index,
+						 const gchar *header);
+void		e_web_view_preview_add_text	(EWebViewPreview *preview,
+						 const gchar *text);
+void		e_web_view_preview_add_raw_html	(EWebViewPreview *preview,
+						 const gchar *raw_html);
+void		e_web_view_preview_add_separator
+						(EWebViewPreview *preview);
+void		e_web_view_preview_add_empty_line
+						(EWebViewPreview *preview);
+void		e_web_view_preview_add_section	(EWebViewPreview *preview,
+						 const gchar *section,
+						 const gchar *value);
 
 G_END_DECLS
 

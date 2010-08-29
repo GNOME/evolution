@@ -153,8 +153,8 @@ emcu_part_to_html (CamelMimePart *part, gssize *len, EMFormat *source)
 			em_format_set_default_charset (
 				(EMFormat *) emfq, source->charset);
 	}
-	em_format_part((EMFormat *) emfq, (CamelStream *)mem, part);
-	g_object_unref(emfq);
+	em_format_part ((EMFormat *) emfq, (CamelStream *)mem, part);
+	g_object_unref (emfq);
 
 	camel_stream_write((CamelStream *) mem, "", 1, NULL);
 	g_object_unref (mem);
@@ -180,21 +180,21 @@ emcu_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, .
 	EAlert *alert = NULL;
 
 	if (promptkey
-	    && !gconf_client_get_bool(gconf, promptkey, NULL)) {
+	    && !gconf_client_get_bool (gconf, promptkey, NULL)) {
 		g_object_unref (gconf);
 		return TRUE;
 	}
 
-	va_start(ap, tag);
-	alert = e_alert_new_valist(tag, ap);
-	va_end(ap);
+	va_start (ap, tag);
+	alert = e_alert_new_valist (tag, ap);
+	va_end (ap);
 
 	mbox = (GtkDialog*) e_alert_dialog_new (parent, alert);
 	g_object_unref (alert);
 
 	if (promptkey) {
 		check = gtk_check_button_new_with_mnemonic (_("_Do not show this message again."));
-		gtk_container_set_border_width((GtkContainer *)check, 12);
+		gtk_container_set_border_width ((GtkContainer *)check, 12);
 		container = gtk_dialog_get_content_area (mbox);
 		gtk_box_pack_start (GTK_BOX (container), check, TRUE, TRUE, 0);
 		gtk_widget_show (check);
@@ -207,7 +207,7 @@ emcu_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, .
 			!gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (check)), NULL);
 
-	gtk_widget_destroy((GtkWidget*) mbox);
+	gtk_widget_destroy ((GtkWidget*) mbox);
 	g_object_unref (gconf);
 
 	return button == GTK_RESPONSE_YES;
@@ -221,10 +221,10 @@ emcu_remove_xevolution_headers (CamelMimeMessage *message)
 
 	for (scan = ((CamelMimePart *)message)->headers;scan;scan=scan->next)
 		if (!strncmp(scan->name, "X-Evolution", 11))
-			camel_header_raw_append(&list, scan->name, scan->value, scan->offset);
+			camel_header_raw_append (&list, scan->name, scan->value, scan->offset);
 
 	for (scan=list;scan;scan=scan->next)
-		camel_medium_remove_header((CamelMedium *)message, scan->name);
+		camel_medium_remove_header ((CamelMedium *)message, scan->name);
 
 	return list;
 }

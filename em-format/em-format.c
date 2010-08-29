@@ -1328,6 +1328,7 @@ em_format_format_text (EMFormat *emf,
 	const gchar *charset = NULL;
 	CamelMimeFilterWindows *windows = NULL;
 	CamelStream *mem_stream = NULL;
+	const gchar *key;
 	gsize size;
 	gsize max;
 	GConfClient *gconf;
@@ -1376,8 +1377,10 @@ em_format_format_text (EMFormat *emf,
 	max = -1;
 
 	gconf = gconf_client_get_default ();
-	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/display/force_message_limit", NULL)) {
-		max = gconf_client_get_int (gconf, "/apps/evolution/mail/display/message_text_part_limit", NULL);
+	key = "/apps/evolution/mail/display/force_message_limit";
+	if (gconf_client_get_bool (gconf, key, NULL)) {
+		key = "/apps/evolution/mail/display/message_text_part_limit";
+		max = gconf_client_get_int (gconf, key, NULL);
 		if (max == 0)
 			max = -1;
 	}
@@ -2163,7 +2166,9 @@ emf_inlinepgp_encrypted (EMFormat *emf,
 
 static EMFormatHandler type_builtin_table[] = {
 #ifdef ENABLE_SMIME
-	{ (gchar *) "application/x-pkcs7-mime", (EMFormatFunc)emf_application_xpkcs7mime, EM_FORMAT_HANDLER_INLINE_DISPOSITION },
+	{ (gchar *) "application/x-pkcs7-mime",
+	  emf_application_xpkcs7mime,
+	  EM_FORMAT_HANDLER_INLINE_DISPOSITION },
 #endif
 	{ (gchar *) "application/mbox", emf_application_mbox, EM_FORMAT_HANDLER_INLINE },
 	{ (gchar *) "multipart/alternative", emf_multipart_alternative },
@@ -2180,7 +2185,9 @@ static EMFormatHandler type_builtin_table[] = {
 
 	/* Insert brokenly-named parts here */
 #ifdef ENABLE_SMIME
-	{ (gchar *) "application/pkcs7-mime", (EMFormatFunc)emf_application_xpkcs7mime, EM_FORMAT_HANDLER_INLINE_DISPOSITION },
+	{ (gchar *) "application/pkcs7-mime",
+	  emf_application_xpkcs7mime,
+	  EM_FORMAT_HANDLER_INLINE_DISPOSITION },
 #endif
 
 	/* internal types */

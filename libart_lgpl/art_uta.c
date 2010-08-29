@@ -48,7 +48,7 @@ art_uta_new (gint x0, gint y0, gint x1, gint y1)
 
   uta->utiles = art_new (ArtUtaBbox, uta->width * uta->height);
 
-  memset (uta->utiles, 0, uta->width * uta->height * sizeof(ArtUtaBbox));
+  memset (uta->utiles, 0, uta->width * uta->height * sizeof (ArtUtaBbox));
   return uta;
   }
 

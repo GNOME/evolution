@@ -102,7 +102,7 @@ e_alert_dialog_dispose (GObject *object)
 }
 
 static void
-dialog_response_cb(GtkWidget *w, guint button, gpointer user_data)
+dialog_response_cb (GtkWidget *w, guint button, gpointer user_data)
 {
 	EAlertDialogPrivate *priv = ALERT_DIALOG_PRIVATE (w);
 
@@ -138,7 +138,7 @@ e_alert_dialog_constructed (GObject *obj)
 	action_area = gtk_dialog_get_action_area ((GtkDialog*) self);
 	content_area = gtk_dialog_get_content_area ((GtkDialog*) self);
 
-	gtk_dialog_set_has_separator((GtkDialog*) self, FALSE);
+	gtk_dialog_set_has_separator ((GtkDialog*) self, FALSE);
 
 	gtk_widget_ensure_style ((GtkWidget *)self);
 	gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
@@ -152,17 +152,17 @@ e_alert_dialog_constructed (GObject *obj)
 			"This is no longer legal, please fix it.", G_STRFUNC);
 
 	if (e_alert_get_flags (alert) & GTK_DIALOG_MODAL)
-		gtk_window_set_modal((GtkWindow *)self, TRUE);
-	gtk_window_set_destroy_with_parent((GtkWindow *)self, TRUE);
+		gtk_window_set_modal ((GtkWindow *)self, TRUE);
+	gtk_window_set_destroy_with_parent ((GtkWindow *)self, TRUE);
 
 	if (e_alert_peek_help_uri (alert)) {
-		gtk_dialog_add_button((GtkDialog*) self, GTK_STOCK_HELP, GTK_RESPONSE_HELP);
+		gtk_dialog_add_button ((GtkDialog*) self, GTK_STOCK_HELP, GTK_RESPONSE_HELP);
 		g_signal_connect(self, "response", G_CALLBACK(dialog_response_cb), NULL);
 	}
 
 	b = e_alert_peek_buttons (alert);
 	if (b == NULL) {
-		gtk_dialog_add_button((GtkDialog*) self, GTK_STOCK_OK, GTK_RESPONSE_OK);
+		gtk_dialog_add_button ((GtkDialog*) self, GTK_STOCK_OK, GTK_RESPONSE_OK);
 	} else {
 		for (; b; b=b->next) {
 			if (b->stock) {
@@ -171,33 +171,33 @@ e_alert_dialog_constructed (GObject *obj)
 					/* FIXME: So although this looks like it will work, it wont.
 					   Need to do it the hard way ... it also breaks the
 					   default_response stuff */
-					w = gtk_button_new_from_stock(b->stock);
-					gtk_button_set_label((GtkButton *)w, b->label);
-					gtk_widget_show(w);
-					gtk_dialog_add_action_widget(self, w, b->response);
+					w = gtk_button_new_from_stock (b->stock);
+					gtk_button_set_label ((GtkButton *)w, b->label);
+					gtk_widget_show (w);
+					gtk_dialog_add_action_widget (self, w, b->response);
 #endif
-					gtk_dialog_add_button((GtkDialog*) self, b->label, b->response);
+					gtk_dialog_add_button ((GtkDialog*) self, b->label, b->response);
 				} else
-					gtk_dialog_add_button((GtkDialog*) self, b->stock, b->response);
+					gtk_dialog_add_button ((GtkDialog*) self, b->stock, b->response);
 			} else
-				gtk_dialog_add_button((GtkDialog*) self, b->label, b->response);
+				gtk_dialog_add_button ((GtkDialog*) self, b->label, b->response);
 		}
 	}
 
 	if (e_alert_get_default_response (alert))
-		gtk_dialog_set_default_response((GtkDialog*) self,
+		gtk_dialog_set_default_response ((GtkDialog*) self,
 						e_alert_get_default_response (alert));
 
-	hbox = gtk_hbox_new(FALSE, 0);
-	gtk_container_set_border_width((GtkContainer *)hbox, 12);
+	hbox = gtk_hbox_new (FALSE, 0);
+	gtk_container_set_border_width ((GtkContainer *)hbox, 12);
 
 	w = gtk_image_new_from_stock
 		(e_alert_peek_stock_image (alert), GTK_ICON_SIZE_DIALOG);
-	gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.0);
-	gtk_box_pack_start((GtkBox *)hbox, w, FALSE, FALSE, 12);
+	gtk_misc_set_alignment ((GtkMisc *)w, 0.0, 0.0);
+	gtk_box_pack_start ((GtkBox *)hbox, w, FALSE, FALSE, 12);
 
 	title = e_alert_get_title (alert, FALSE);
-	gtk_window_set_title((GtkWindow *)self, title);
+	gtk_window_set_title ((GtkWindow *)self, title);
 
 	out = g_string_new ("");
 	primary = e_alert_get_primary_text (alert, TRUE);
@@ -222,20 +222,20 @@ e_alert_dialog_constructed (GObject *obj)
 			GTK_SCROLLED_WINDOW (scroll),
 			GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 	}
-	w = gtk_label_new(NULL);
-	gtk_label_set_selectable((GtkLabel *)w, TRUE);
-	gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
-	gtk_label_set_markup((GtkLabel *)w, out->str);
+	w = gtk_label_new (NULL);
+	gtk_label_set_selectable ((GtkLabel *)w, TRUE);
+	gtk_label_set_line_wrap ((GtkLabel *)w, TRUE);
+	gtk_label_set_markup ((GtkLabel *)w, out->str);
 	gtk_widget_set_can_focus (w, FALSE);
-	g_string_free(out, TRUE);
+	g_string_free (out, TRUE);
 	if (e_alert_get_scroll (alert)) {
 		gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *)scroll, w);
-		gtk_box_pack_start((GtkBox *)hbox, scroll, FALSE, FALSE, 0);
+		gtk_box_pack_start ((GtkBox *)hbox, scroll, FALSE, FALSE, 0);
 		gtk_window_set_default_size ((GtkWindow *)self, 360, 180);
 	} else
-		gtk_box_pack_start((GtkBox *)hbox, w, TRUE, TRUE, 0);
+		gtk_box_pack_start ((GtkBox *)hbox, w, TRUE, TRUE, 0);
 
-	gtk_widget_show_all(hbox);
+	gtk_widget_show_all (hbox);
 
 	gtk_box_pack_start (GTK_BOX (content_area), hbox, TRUE, TRUE, 0);
 }
@@ -288,9 +288,9 @@ e_alert_dialog_new_for_args (GtkWindow *parent, const gchar *tag, ...)
 	EAlert *e;
 	va_list ap;
 
-	va_start(ap, tag);
-	e = e_alert_new_valist(tag, ap);
-	va_end(ap);
+	va_start (ap, tag);
+	e = e_alert_new_valist (tag, ap);
+	va_end (ap);
 
 	d = e_alert_dialog_new (parent, e);
 	g_object_unref (e);
@@ -299,15 +299,15 @@ e_alert_dialog_new_for_args (GtkWindow *parent, const gchar *tag, ...)
 }
 
 gint
-e_alert_run_dialog(GtkWindow *parent, EAlert *alert)
+e_alert_run_dialog (GtkWindow *parent, EAlert *alert)
 {
 	GtkWidget *dialog;
 	gint res;
 
 	dialog = e_alert_dialog_new (parent, alert);
 
-	res = gtk_dialog_run((GtkDialog *)dialog);
-	gtk_widget_destroy(dialog);
+	res = gtk_dialog_run ((GtkDialog *)dialog);
+	gtk_widget_destroy (dialog);
 
 	return res;
 }
@@ -319,9 +319,9 @@ e_alert_run_dialog_for_args (GtkWindow *parent, const gchar *tag, ...)
 	va_list ap;
 	gint response;
 
-	va_start(ap, tag);
-	e = e_alert_new_valist(tag, ap);
-	va_end(ap);
+	va_start (ap, tag);
+	e = e_alert_new_valist (tag, ap);
+	va_end (ap);
 
 	response = e_alert_run_dialog (parent, e);
 	g_object_unref (e);

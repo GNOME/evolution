@@ -217,7 +217,7 @@ update_selected_rule (ERuleEditor *editor)
 static void
 cursor_changed (GtkTreeView *treeview, ERuleEditor *editor)
 {
-	if (update_selected_rule(editor)) {
+	if (update_selected_rule (editor)) {
 		g_return_if_fail (editor->current);
 
 		e_rule_editor_set_sensitive (editor);
@@ -336,7 +336,7 @@ rule_edit (GtkWidget *widget, ERuleEditor *editor)
 	GtkWidget *rules;
 	GtkWidget *content_area;
 
-	update_selected_rule(editor);
+	update_selected_rule (editor);
 
 	if (editor->current == NULL || editor->edit != NULL)
 		return;
@@ -382,7 +382,7 @@ rule_delete (GtkWidget *widget, ERuleEditor *editor)
 	GtkTreeIter iter;
 	gint pos, len;
 
-	update_selected_rule(editor);
+	update_selected_rule (editor);
 
 	pos = e_rule_context_get_rank_rule (editor->context, editor->current, editor->source);
 	if (pos != -1) {
@@ -478,7 +478,7 @@ rule_top (GtkWidget *widget, ERuleEditor *editor)
 {
 	gint pos;
 
-	update_selected_rule(editor);
+	update_selected_rule (editor);
 
 	pos = e_rule_context_get_rank_rule (
 		editor->context, editor->current, editor->source);
@@ -491,7 +491,7 @@ rule_up (GtkWidget *widget, ERuleEditor *editor)
 {
 	gint pos;
 
-	update_selected_rule(editor);
+	update_selected_rule (editor);
 
 	pos = e_rule_context_get_rank_rule (
 		editor->context, editor->current, editor->source);
@@ -504,7 +504,7 @@ rule_down (GtkWidget *widget, ERuleEditor *editor)
 {
 	gint pos;
 
-	update_selected_rule(editor);
+	update_selected_rule (editor);
 
 	pos = e_rule_context_get_rank_rule (
 		editor->context, editor->current, editor->source);
@@ -519,7 +519,7 @@ rule_bottom (GtkWidget *widget, ERuleEditor *editor)
 	gint count = 0;
 	EFilterRule *rule = NULL;
 
-	update_selected_rule(editor);
+	update_selected_rule (editor);
 
 	pos = e_rule_context_get_rank_rule (
 		editor->context, editor->current, editor->source);

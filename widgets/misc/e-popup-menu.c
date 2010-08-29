@@ -110,7 +110,7 @@ e_popup_menu_create_with_domain (EPopupMenu *menu_list,
 				if (menu_list[i].is_radio)
 					group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
 
-				make_item (menu, GTK_MENU_ITEM (item), dgettext(domain, menu_list[i].name), menu_list[i].pixmap_widget);
+				make_item (menu, GTK_MENU_ITEM (item), dgettext (domain, menu_list[i].name), menu_list[i].pixmap_widget);
 			} else {
 				item = gtk_menu_item_new ();
 			}

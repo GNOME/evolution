@@ -1372,7 +1372,7 @@ gnome_canvas_line_point (GnomeCanvasItem *item, gdouble x, gdouble y,
            to this routine -- this can cause a segfault here */
 	if ((line->first_arrow && !line->first_coords) ||
 	    (line->last_arrow && !line->last_coords))
-		reconfigure_arrows(line);
+		reconfigure_arrows (line);
 
 	/* If there are arrowheads, check the distance to them */
 

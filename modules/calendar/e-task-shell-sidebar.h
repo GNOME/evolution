@@ -81,7 +81,8 @@ struct _ETaskShellSidebarClass {
 GType		e_task_shell_sidebar_get_type	(void);
 void		e_task_shell_sidebar_register_type
 					(GTypeModule *type_module);
-GtkWidget *	e_task_shell_sidebar_new(EShellView *shell_view);
+GtkWidget *	e_task_shell_sidebar_new
+					(EShellView *shell_view);
 GList *		e_task_shell_sidebar_get_clients
 					(ETaskShellSidebar *task_shell_sidebar);
 ECal *		e_task_shell_sidebar_get_default_client

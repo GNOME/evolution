@@ -52,18 +52,18 @@ struct _GnomeCanvasRichTextClass {
 			     GtkTextTag *tag);
 };
 
-GType gnome_canvas_rich_text_get_type(void) G_GNUC_CONST;
+GType gnome_canvas_rich_text_get_type (void) G_GNUC_CONST;
 
-void gnome_canvas_rich_text_cut_clipboard(GnomeCanvasRichText *text);
+void gnome_canvas_rich_text_cut_clipboard (GnomeCanvasRichText *text);
 
-void gnome_canvas_rich_text_copy_clipboard(GnomeCanvasRichText *text);
+void gnome_canvas_rich_text_copy_clipboard (GnomeCanvasRichText *text);
 
-void gnome_canvas_rich_text_paste_clipboard(GnomeCanvasRichText *text);
+void gnome_canvas_rich_text_paste_clipboard (GnomeCanvasRichText *text);
 
-void gnome_canvas_rich_text_set_buffer(GnomeCanvasRichText *text,
+void gnome_canvas_rich_text_set_buffer (GnomeCanvasRichText *text,
 				       GtkTextBuffer *buffer);
 
-GtkTextBuffer *gnome_canvas_rich_text_get_buffer(GnomeCanvasRichText *text);
+GtkTextBuffer *gnome_canvas_rich_text_get_buffer (GnomeCanvasRichText *text);
 void
 gnome_canvas_rich_text_get_iter_location (GnomeCanvasRichText *text,
 					  const GtkTextIter *iter,

@@ -42,19 +42,19 @@ G_DEFINE_TYPE (
 	G_TYPE_OBJECT)
 
 static void
-e_bit_array_insert_real(EBitArray *eba, gint row)
+e_bit_array_insert_real (EBitArray *eba, gint row)
 {
 	gint box;
 	gint i;
 	if (eba->bit_count >= 0) {
 		/* Add another word if needed. */
 		if ((eba->bit_count & 0x1f) == 0) {
-			eba->data = g_renew(guint32, eba->data, (eba->bit_count >> 5) + 1);
+			eba->data = g_renew (guint32, eba->data, (eba->bit_count >> 5) + 1);
 			eba->data[eba->bit_count >> 5] = 0;
 		}
 
 		/* The box is the word that our row is in. */
-		box = BOX(row);
+		box = BOX (row);
 		/* Shift all words to the right of our box right one bit. */
 		for (i = eba->bit_count >> 5; i > box; i--) {
 			eba->data[i] = (eba->data[i] >> 1) | (eba->data[i - 1] << 31);
@@ -62,14 +62,14 @@ e_bit_array_insert_real(EBitArray *eba, gint row)
 
 		/* Shift right half of box one bit to the right. */
 		eba->data[box] =
-			(eba->data[box] & BITMASK_LEFT(row)) |
-			((eba->data[box] & BITMASK_RIGHT(row)) >> 1);
+			(eba->data[box] & BITMASK_LEFT (row)) |
+			((eba->data[box] & BITMASK_RIGHT (row)) >> 1);
 		eba->bit_count++;
 	}
 }
 
 static void
-e_bit_array_delete_real(EBitArray *eba, gint row, gboolean move_selection_mode)
+e_bit_array_delete_real (EBitArray *eba, gint row, gboolean move_selection_mode)
 {
 	gint box;
 	gint i;
@@ -81,12 +81,12 @@ e_bit_array_delete_real(EBitArray *eba, gint row, gboolean move_selection_mode)
 		last = eba->bit_count >> 5;
 
 		/* Build bitmasks for the left and right half of the box */
-		bitmask = BITMASK_RIGHT(row) >> 1;
+		bitmask = BITMASK_RIGHT (row) >> 1;
 		if (move_selection_mode)
-			selected = e_bit_array_value_at(eba, row);
+			selected = e_bit_array_value_at (eba, row);
 		/* Shift right half of box one bit to the left. */
 		eba->data[box] =
-			(eba->data[box] & BITMASK_LEFT(row)) |
+			(eba->data[box] & BITMASK_LEFT (row)) |
 			((eba->data[box] & bitmask) << 1);
 
 		/* Shift all words to the right of our box left one bit. */
@@ -102,7 +102,7 @@ e_bit_array_delete_real(EBitArray *eba, gint row, gboolean move_selection_mode)
 		eba->bit_count--;
 		/* Remove the last word if not needed. */
 		if ((eba->bit_count & 0x1f) == 0) {
-			eba->data = g_renew(guint32, eba->data, eba->bit_count >> 5);
+			eba->data = g_renew (guint32, eba->data, eba->bit_count >> 5);
 		}
 		if (move_selection_mode && selected && eba->bit_count > 0) {
 			e_bit_array_select_single_row (eba, row == eba->bit_count ? row - 1 : row);
@@ -112,37 +112,37 @@ e_bit_array_delete_real(EBitArray *eba, gint row, gboolean move_selection_mode)
 
 /* FIXME : Improve efficiency here. */
 void
-e_bit_array_delete(EBitArray *eba, gint row, gint count)
+e_bit_array_delete (EBitArray *eba, gint row, gint count)
 {
 	gint i;
 	for (i = 0; i < count; i++)
-		e_bit_array_delete_real(eba, row, FALSE);
+		e_bit_array_delete_real (eba, row, FALSE);
 }
 
 /* FIXME : Improve efficiency here. */
 void
-e_bit_array_delete_single_mode(EBitArray *eba, gint row, gint count)
+e_bit_array_delete_single_mode (EBitArray *eba, gint row, gint count)
 {
 	gint i;
 	for (i = 0; i < count; i++)
-		e_bit_array_delete_real(eba, row, TRUE);
+		e_bit_array_delete_real (eba, row, TRUE);
 }
 
 /* FIXME : Improve efficiency here. */
 void
-e_bit_array_insert(EBitArray *eba, gint row, gint count)
+e_bit_array_insert (EBitArray *eba, gint row, gint count)
 {
 	gint i;
 	for (i = 0; i < count; i++)
-		e_bit_array_insert_real(eba, row);
+		e_bit_array_insert_real (eba, row);
 }
 
 /* FIXME: Implement this more efficiently. */
 void
-e_bit_array_move_row(EBitArray *eba, gint old_row, gint new_row)
+e_bit_array_move_row (EBitArray *eba, gint old_row, gint new_row)
 {
-	e_bit_array_delete_real(eba, old_row, FALSE);
-	e_bit_array_insert_real(eba, new_row);
+	e_bit_array_delete_real (eba, old_row, FALSE);
+	e_bit_array_insert_real (eba, new_row);
 }
 
 static void
@@ -153,7 +153,7 @@ eba_dispose (GObject *object)
 	eba = E_BIT_ARRAY (object);
 
 	if (eba->data)
-		g_free(eba->data);
+		g_free (eba->data);
 	eba->data = NULL;
 
 	if (G_OBJECT_CLASS (e_bit_array_parent_class)->dispose)
@@ -176,7 +176,7 @@ e_bit_array_value_at (EBitArray *eba,
 	if (eba->bit_count < n || eba->bit_count == 0)
 		return 0;
 	else
-		return (eba->data[BOX(n)] >> OFFSET(n)) & 0x1;
+		return (eba->data[BOX (n)] >> OFFSET (n)) & 0x1;
 }
 
 /**
@@ -201,7 +201,7 @@ e_bit_array_foreach (EBitArray *eba,
 			guint32 value = eba->data[i];
 			for (j = 0; j < 32; j++) {
 				if (value & 0x80000000) {
-					callback(i * 32 + j, closure);
+					callback (i * 32 + j, closure);
 				}
 				value <<= 1;
 			}
@@ -232,15 +232,15 @@ e_bit_array_selected_count (EBitArray *eba)
 
 	count = 0;
 
-	last = BOX(eba->bit_count - 1);
+	last = BOX (eba->bit_count - 1);
 
 	for (i = 0; i <= last; i++) {
 		gint j;
 		guint32 thiscount = 0;
 		for (j = 0; j < 8; j++)
-			thiscount += PART(eba->data[i], j);
+			thiscount += PART (eba->data[i], j);
 		for (j = 0; j < 4; j++)
-			count += SECTION(thiscount, j);
+			count += SECTION (thiscount, j);
 	}
 
 	return count;
@@ -309,33 +309,33 @@ e_bit_array_bit_count (EBitArray *eba)
 	(((object)->data[(i)]) &= (mask)))
 
 void
-e_bit_array_change_one_row(EBitArray *eba, gint row, gboolean grow)
+e_bit_array_change_one_row (EBitArray *eba, gint row, gboolean grow)
 {
 	gint i;
-	i = BOX(row);
+	i = BOX (row);
 
-	OPERATE(eba, i, ~BITMASK(row), grow);
+	OPERATE (eba, i, ~BITMASK (row), grow);
 }
 
 void
-e_bit_array_change_range(EBitArray *eba, gint start, gint end, gboolean grow)
+e_bit_array_change_range (EBitArray *eba, gint start, gint end, gboolean grow)
 {
 	gint i, last;
 	if (start != end) {
-		i = BOX(start);
-		last = BOX(end);
+		i = BOX (start);
+		last = BOX (end);
 
 		if (i == last) {
-			OPERATE(eba, i, BITMASK_LEFT(start) | BITMASK_RIGHT(end), grow);
+			OPERATE (eba, i, BITMASK_LEFT (start) | BITMASK_RIGHT (end), grow);
 		} else {
-			OPERATE(eba, i, BITMASK_LEFT(start), grow);
+			OPERATE (eba, i, BITMASK_LEFT (start), grow);
 			if (grow)
 				for (i++; i < last; i++)
 					eba->data[i] = ONES;
 			else
 				for (i++; i < last; i++)
 					eba->data[i] = 0;
-			OPERATE(eba, i, BITMASK_RIGHT(end), grow);
+			OPERATE (eba, i, BITMASK_RIGHT (end), grow);
 		}
 	}
 }
@@ -345,11 +345,11 @@ e_bit_array_select_single_row (EBitArray *eba, gint row)
 {
 	gint i;
 	for (i = 0; i < ((eba->bit_count + 31) / 32); i++) {
-		if (!((i == BOX(row) && eba->data[i] == BITMASK(row)) ||
-		      (i != BOX(row) && eba->data[i] == 0))) {
-			g_free(eba->data);
-			eba->data = g_new0(guint32, (eba->bit_count + 31) / 32);
-			eba->data[BOX(row)] = BITMASK(row);
+		if (!((i == BOX (row) && eba->data[i] == BITMASK (row)) ||
+		      (i != BOX (row) && eba->data[i] == 0))) {
+			g_free (eba->data);
+			eba->data = g_new0 (guint32, (eba->bit_count + 31) / 32);
+			eba->data[BOX (row)] = BITMASK (row);
 
 			break;
 		}
@@ -359,10 +359,10 @@ e_bit_array_select_single_row (EBitArray *eba, gint row)
 void
 e_bit_array_toggle_single_row (EBitArray *eba, gint row)
 {
-	if (eba->data[BOX(row)] & BITMASK(row))
-		eba->data[BOX(row)] &= ~BITMASK(row);
+	if (eba->data[BOX (row)] & BITMASK (row))
+		eba->data[BOX (row)] &= ~BITMASK (row);
 	else
-		eba->data[BOX(row)] |= BITMASK(row);
+		eba->data[BOX (row)] |= BITMASK (row);
 }
 
 static void
@@ -377,7 +377,7 @@ e_bit_array_class_init (EBitArrayClass *klass)
 {
 	GObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS(klass);
+	object_class = G_OBJECT_CLASS (klass);
 
 	object_class->dispose = eba_dispose;
 }
@@ -387,6 +387,6 @@ e_bit_array_new (gint count)
 {
 	EBitArray *eba = g_object_new (E_BIT_ARRAY_TYPE, NULL);
 	eba->bit_count = count;
-	eba->data = g_new0(guint32, (eba->bit_count + 31) / 32);
+	eba->data = g_new0 (guint32, (eba->bit_count + 31) / 32);
 	return eba;
 }

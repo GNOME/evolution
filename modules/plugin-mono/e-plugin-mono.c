@@ -191,7 +191,7 @@ plugin_mono_invoke (EPlugin *plugin,
 		g_hash_table_insert (priv->methods, g_strdup (name), m);
 	}
 
-	params = g_malloc0(sizeof (*params)*1);
+	params = g_malloc0 (sizeof (*params)*1);
 	params[0] = &data;
 	res = mono_runtime_invoke (m, priv->plugin, params, &x);
 	/* do i need to free params?? */

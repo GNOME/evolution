@@ -29,9 +29,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-gpointer art_alloc(gsize size);
-void art_free(gpointer ptr);
-gpointer art_realloc(gpointer ptr, gsize size);
+gpointer art_alloc (gsize size);
+void art_free (gpointer ptr);
+gpointer art_realloc (gpointer ptr, gsize size);
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
@@ -47,7 +47,7 @@ gpointer art_realloc(gpointer ptr, gsize size);
    be variables. They can also be pstruct->el lvalues. */
 #define art_expand(p, type, max) \
 	do { if (max) { p = art_renew (p, type, max <<= 1); } \
-	else { max = 1; p = art_new(type, 1); } } while (0)
+	else { max = 1; p = art_new (type, 1); } } while (0)
 
 typedef gint art_boolean;
 #define ART_FALSE 0

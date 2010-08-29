@@ -113,9 +113,9 @@ e_printable_init (EPrintable *e_printable)
 }
 
 EPrintable *
-e_printable_new(void)
+e_printable_new (void)
 {
-	return E_PRINTABLE(g_object_new(E_PRINTABLE_TYPE, NULL));
+	return E_PRINTABLE (g_object_new (E_PRINTABLE_TYPE, NULL));
 }
 
 void

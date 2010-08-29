@@ -160,8 +160,8 @@ art_vpath_render_bez (ArtVpath **p_vpath, gint *pn, gint *pn_max,
        * the other two control points are the same as the start point,
        * too.
        */
-      if (hypot(x1 - x0, y1 - y0) < 0.001
-	  && hypot(x2 - x0, y2 - y0) < 0.001)
+      if (hypot (x1 - x0, y1 - y0) < 0.001
+	  && hypot (x2 - x0, y2 - y0) < 0.001)
 	  goto nosubdivide;
       else
 	  goto subdivide;

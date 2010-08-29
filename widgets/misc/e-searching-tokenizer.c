@@ -57,7 +57,7 @@ G_DEFINE_TYPE (
 
 /* This is faster and safer than glib2's utf8 abomination, but isn't exported from camel as yet */
 static inline guint32
-camel_utf8_getc(const guchar **ptr)
+camel_utf8_getc (const guchar **ptr)
 {
 	register guchar *p = (guchar *)*ptr;
 	register guchar c, r;
@@ -102,7 +102,7 @@ static const gchar *ignored_tags[] = {
 static gint
 ignore_tag (const gchar *tag)
 {
-	gchar *t = g_alloca(strlen(tag)+1), c, *out;
+	gchar *t = g_alloca (strlen (tag)+1), c, *out;
 	const gchar *in;
 	gint i;
 
@@ -167,10 +167,10 @@ struct _trie {
 static void
 dump_trie (struct _state *s, gint d)
 {
-	gchar *p = g_alloca(d*2+1);
+	gchar *p = g_alloca (d*2+1);
 	struct _match *m;
 
-	memset(p, ' ', d*2);
+	memset (p, ' ', d*2);
 	p[d*2]=0;
 
 	printf("%s[state] %p: %d  fail->%p\n", p, s, s->final, s->fail);
@@ -212,19 +212,19 @@ build_trie (gint nocase, gint len, guchar **words)
 	gint state_depth_max, state_depth_size;
 	struct _state **state_depth;
 
-	trie = g_malloc(sizeof(*trie));
+	trie = g_malloc (sizeof (*trie));
 	trie->root.matches = NULL;
 	trie->root.final = 0;
 	trie->root.fail = NULL;
 	trie->root.next = NULL;
 
-	trie->state_chunks = e_memchunk_new (8, sizeof(struct _state));
-	trie->match_chunks = e_memchunk_new (8, sizeof(struct _match));
+	trie->state_chunks = e_memchunk_new (8, sizeof (struct _state));
+	trie->match_chunks = e_memchunk_new (8, sizeof (struct _match));
 
 	/* This will correspond to the length of the longest pattern */
 	state_depth_size = 0;
 	state_depth_max = 64;
-	state_depth = g_malloc(sizeof(*state_depth[0])*64);
+	state_depth = g_malloc (sizeof (*state_depth[0])*64);
 	state_depth[0] = NULL;
 
 	/* Step 1: Build trie */
@@ -240,17 +240,17 @@ build_trie (gint nocase, gint len, guchar **words)
 				c = g_unichar_tolower (c);
 			m = g (q, c);
 			if (m == NULL) {
-				m = e_memchunk_alloc(trie->match_chunks);
+				m = e_memchunk_alloc (trie->match_chunks);
 				m->ch = c;
 				m->next = q->matches;
 				q->matches = m;
-				q = m->match = e_memchunk_alloc(trie->state_chunks);
+				q = m->match = e_memchunk_alloc (trie->state_chunks);
 				q->matches = NULL;
 				q->fail = &trie->root;
 				q->final = 0;
 				if (state_depth_max < depth) {
 					state_depth_max += 64;
-					state_depth = g_realloc(state_depth, sizeof(*state_depth[0])*state_depth_max);
+					state_depth = g_realloc (state_depth, sizeof (*state_depth[0])*state_depth_max);
 				}
 				if (state_depth_size < depth) {
 					state_depth[depth] = NULL;
@@ -267,7 +267,7 @@ build_trie (gint nocase, gint len, guchar **words)
 	}
 
 	d(printf("Dumping trie:\n"));
-	d(dump_trie (&trie->root, 0));
+	d (dump_trie (&trie->root, 0));
 
 	/* Step 2: Build failure graph */
 
@@ -314,8 +314,8 @@ build_trie (gint nocase, gint len, guchar **words)
 static void
 free_trie (struct _trie *t)
 {
-	e_memchunk_destroy(t->match_chunks);
-	e_memchunk_destroy(t->state_chunks);
+	e_memchunk_destroy (t->match_chunks);
+	e_memchunk_destroy (t->state_chunks);
 
 	g_free (t);
 }
@@ -373,7 +373,7 @@ struct _searcher {
 };
 
 static void
-searcher_set_tokenfunc(struct _searcher *s, gchar *(*next)(), gpointer data)
+searcher_set_tokenfunc (struct _searcher *s, gchar *(*next)(), gpointer data)
 {
 	s->next_token = next;
 	s->next_data = data;
@@ -385,7 +385,7 @@ searcher_new (gint flags, gint argc, guchar **argv, const gchar *tags, const gch
 	gint i, m;
 	struct _searcher *s;
 
-	s = g_malloc(sizeof(*s));
+	s = g_malloc (sizeof (*s));
 
 	s->t = build_trie ((flags&SEARCH_CASE) == 0, argc, argv);
 	s->words = argc;
@@ -407,13 +407,13 @@ searcher_new (gint flags, gint argc, guchar **argv, const gchar *tags, const gch
 	i = 2;
 	while (i<m)
 		i<<=2;
-	s->last = g_malloc(sizeof(s->last[0])*i);
+	s->last = g_malloc (sizeof (s->last[0])*i);
 	s->last_mask = i-1;
 	s->lastp = 0;
 
 	/* a stack of possible submatches */
 	s->submatchp = 0;
-	s->submatches = g_malloc(sizeof(s->submatches[0])*argc+1);
+	s->submatches = g_malloc (sizeof (s->submatches[0])*argc+1);
 
 	return s;
 }
@@ -441,10 +441,10 @@ append_token (GQueue *queue, const gchar *tok, gint len)
 	struct _token *token;
 
 	if (len == -1)
-		len = strlen(tok);
-	token = g_malloc(sizeof(*token) + len+1);
+		len = strlen (tok);
+	token = g_malloc (sizeof (*token) + len+1);
 	token->offset = 0;	/* set by caller when required */
-	memcpy(token->tok, tok, len);
+	memcpy (token->tok, tok, len);
 	token->tok[len] = 0;
 	g_queue_push_tail (queue, token);
 
@@ -454,7 +454,7 @@ append_token (GQueue *queue, const gchar *tok, gint len)
 #define free_token(x) (g_free (x))
 
 static void
-output_token(struct _searcher *s, struct _token *token)
+output_token (struct _searcher *s, struct _token *token)
 {
 	gint offend;
 	gint left, pre;
@@ -465,10 +465,10 @@ output_token(struct _searcher *s, struct _token *token)
 			g_queue_push_tail (&s->output, token);
 		} else {
 			d (printf("discarding tag token '%s' from input\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
-			free_token(token);
+			free_token (token);
 		}
 	} else {
-		offend = token->offset + strlen(token->tok);
+		offend = token->offset + strlen (token->tok);
 		left = offend-s->offout;
 		if (left > 0) {
 			pre = s->offout - token->offset;
@@ -479,13 +479,13 @@ output_token(struct _searcher *s, struct _token *token)
 			g_queue_push_tail (&s->output, token);
 		} else {
 			d (printf("discarding whole token '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
-			free_token(token);
+			free_token (token);
 		}
 	}
 }
 
 static struct _token *
-find_token(struct _searcher *s, gint start)
+find_token (struct _searcher *s, gint start)
 {
 	GList *link;
 
@@ -504,7 +504,7 @@ find_token(struct _searcher *s, gint start)
 }
 
 static void
-output_match(struct _searcher *s, guint start, guint end)
+output_match (struct _searcher *s, guint start, guint end)
 {
 	register struct _token *token;
 	struct _token *starttoken, *endtoken;
@@ -512,8 +512,8 @@ output_match(struct _searcher *s, guint start, guint end)
 
 	d (printf("output match: %d-%d  at %d\n", start, end, s->offout));
 
-	starttoken = find_token(s, start);
-	endtoken = find_token(s, end);
+	starttoken = find_token (s, start);
+	endtoken = find_token (s, end);
 
 	if (starttoken == NULL || endtoken == NULL) {
 		d (printf("Cannot find match history for match %d-%d\n", start, end));
@@ -527,12 +527,12 @@ output_match(struct _searcher *s, guint start, guint end)
 	while ((struct _token *) g_queue_peek_head (&s->input) != starttoken) {
 		token = g_queue_pop_head (&s->input);
 		d (printf("appending failed match '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
-		output_token(s, token);
+		output_token (s, token);
 	}
 
 	/* output any pre-match text */
 	if (s->offout < start) {
-		token = append_token(&s->output, starttoken->tok + (s->offout-starttoken->offset), start-s->offout);
+		token = append_token (&s->output, starttoken->tok + (s->offout-starttoken->offset), start-s->offout);
 		d (printf("adding pre-match text '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
 		s->offout = start;
 	}
@@ -540,35 +540,35 @@ output_match(struct _searcher *s, guint start, guint end)
 	/* output highlight/bold */
 	if (s->flags & SEARCH_BOLD) {
 		sprintf(b, "%c<b>", (gchar)TAG_ESCAPE);
-		append_token(&s->output, b, -1);
+		append_token (&s->output, b, -1);
 	}
 	if (s->tags)
-		append_token(&s->output, s->tags, -1);
+		append_token (&s->output, s->tags, -1);
 
 	/* output match node (s) */
 	if (starttoken != endtoken) {
 		while ((struct _token *) g_queue_peek_head (&s->input) != endtoken) {
 			token = g_queue_pop_head (&s->input);
 			d (printf("appending (partial) match node (head) '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
-			output_token(s, token);
+			output_token (s, token);
 		}
 	}
 
 	/* any remaining partial content */
 	if (s->offout < end) {
-		token = append_token(&s->output, endtoken->tok+(s->offout-endtoken->offset), end-s->offout);
+		token = append_token (&s->output, endtoken->tok+(s->offout-endtoken->offset), end-s->offout);
 		d (printf("appending (partial) match node (tail) '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
 		s->offout = end;
 	}
 
 	/* end highlight */
 	if (s->tage)
-		append_token(&s->output, s->tage, -1);
+		append_token (&s->output, s->tage, -1);
 
 	/* and close bold if we need to */
 	if (s->flags & SEARCH_BOLD) {
 		sprintf(b, "%c</b>", (gchar)TAG_ESCAPE);
-		append_token(&s->output, b, -1);
+		append_token (&s->output, b, -1);
 	}
 }
 
@@ -579,7 +579,7 @@ output_subpending (struct _searcher *s)
 	gint i;
 
 	for (i=s->submatchp-1;i>=0;i--)
-		output_match(s, s->submatches[i].offstart, s->submatches[i].offend);
+		output_match (s, s->submatches[i].offstart, s->submatches[i].offend);
 	s->submatchp = 0;
 }
 
@@ -630,12 +630,12 @@ output_pending (struct _searcher *s)
 	struct _token *token;
 
 	while ((token = g_queue_pop_head (&s->input)) != NULL)
-		output_token(s, token);
+		output_token (s, token);
 }
 
 /* flushes any nodes we cannot possibly match anymore */
 static void
-flush_extra(struct _searcher *s)
+flush_extra (struct _searcher *s)
 {
 	guint start;
 	gint i;
@@ -648,18 +648,18 @@ flush_extra(struct _searcher *s)
 			start = s->submatches[i].offstart;
 
 	/* now, flush out any tokens which are before this point */
-	starttoken = find_token(s, start);
+	starttoken = find_token (s, start);
 	if (starttoken == NULL)
 		return;
 
 	while ((struct _token *) g_queue_peek_head (&s->input) != starttoken) {
 		token = g_queue_pop_head (&s->input);
-		output_token(s, token);
+		output_token (s, token);
 	}
 }
 
 static gchar *
-searcher_next_token(struct _searcher *s)
+searcher_next_token (struct _searcher *s)
 {
 	struct _token *token;
 	const guchar *tok, *stok, *pre_tok;
@@ -671,7 +671,7 @@ searcher_next_token(struct _searcher *s)
 
 	while (g_queue_is_empty (&s->output)) {
 		/* get next token */
-		tok = (guchar *)s->next_token(s->next_data);
+		tok = (guchar *)s->next_token (s->next_data);
 		if (tok == NULL) {
 			output_subpending (s);
 			output_pending (s);
@@ -679,7 +679,7 @@ searcher_next_token(struct _searcher *s)
 		}
 
 		/* we dont always have to copy each token, e.g. if we dont match anything */
-		token = append_token(&s->input, (gchar *)tok, -1);
+		token = append_token (&s->input, (gchar *)tok, -1);
 		token->offset = s->offset;
 		tok = (guchar *)token->tok;
 
@@ -748,13 +748,13 @@ searcher_next_token(struct _searcher *s)
 
 		s->offset += (pre_tok-stok);
 
-		flush_extra(s);
+		flush_extra (s);
 	}
 
 	s->state = q;
 
 	if (s->current)
-		free_token(s->current);
+		free_token (s->current);
 
 	s->current = token = g_queue_pop_head (&s->output);
 
@@ -762,12 +762,12 @@ searcher_next_token(struct _searcher *s)
 }
 
 static gchar *
-searcher_peek_token(struct _searcher *s)
+searcher_peek_token (struct _searcher *s)
 {
 	gchar *tok;
 
 	/* we just get it and then put it back, it's fast enuf */
-	tok = searcher_next_token(s);
+	tok = searcher_next_token (s);
 	if (tok) {
 		/* need to clear this so we dont free it while its still active */
 		g_queue_push_head (&s->output, s->current);
@@ -799,14 +799,14 @@ search_info_new (void)
 {
 	struct _search_info *s;
 
-	s = g_malloc0(sizeof(struct _search_info));
+	s = g_malloc0 (sizeof (struct _search_info));
 	s->strv = g_ptr_array_new ();
 
 	return s;
 }
 
 static void
-search_info_set_flags(struct _search_info *si, guint flags, guint mask)
+search_info_set_flags (struct _search_info *si, guint flags, guint mask)
 {
 	si->flags = (si->flags & ~mask) | (flags & mask);
 }
@@ -894,9 +894,9 @@ search_info_to_searcher (struct _search_info *si)
 	else
 		col = si->color;
 
-	tags = g_alloca(20+strlen(col));
+	tags = g_alloca (20+strlen (col));
 	sprintf(tags, "%c<font color=\"%s\">", TAG_ESCAPE, col);
-	tage = g_alloca(20);
+	tage = g_alloca (20);
 	sprintf(tage, "%c</font>", TAG_ESCAPE);
 
 	return searcher_new (si->flags, si->strv->len, (guchar **)si->strv->pdata, tags, tage);
@@ -971,7 +971,7 @@ searching_tokenizer_begin (HTMLTokenizer *tokenizer,
 
 	if ((priv->engine = search_info_to_searcher (priv->primary))
 	    || (priv->engine = search_info_to_searcher (priv->secondary))) {
-		searcher_set_tokenfunc(priv->engine, get_token, tokenizer);
+		searcher_set_tokenfunc (priv->engine, get_token, tokenizer);
 	}
 	/* else - no engine, no search active */
 
@@ -1093,7 +1093,7 @@ e_searching_tokenizer_init (ESearchingTokenizer *tokenizer)
 	search_info_set_color (tokenizer->priv->primary, "red");
 
 	tokenizer->priv->secondary = search_info_new ();
-	search_info_set_flags(
+	search_info_set_flags (
 		tokenizer->priv->secondary,
 		SEARCH_BOLD, SEARCH_CASE | SEARCH_BOLD);
 	search_info_set_color (tokenizer->priv->secondary, "purple");

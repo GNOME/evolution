@@ -68,7 +68,8 @@ GType		e_account_manager_get_type	(void);
 GtkWidget *	e_account_manager_new		(EAccountList *account_list);
 void		e_account_manager_add_account	(EAccountManager *manager);
 void		e_account_manager_edit_account	(EAccountManager *manager);
-void		e_account_manager_delete_account(EAccountManager *manager);
+void		e_account_manager_delete_account
+						(EAccountManager *manager);
 EAccountList *	e_account_manager_get_account_list
 						(EAccountManager *manager);
 void		e_account_manager_set_account_list

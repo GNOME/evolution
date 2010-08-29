@@ -108,11 +108,11 @@ toggle_button_init (EMNetworkPrefs *prefs, GtkToggleButton *toggle, const gchar 
 }
 
 static GtkWidget *
-emnp_widget_glade(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+emnp_widget_glade (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMNetworkPrefs *prefs = data;
 
-	return e_builder_get_widget(prefs->builder, item->label);
+	return e_builder_get_widget (prefs->builder, item->label);
 }
 
 static void
@@ -224,11 +224,11 @@ static EMConfigItem emnp_items[] = {
 };
 
 static void
-emnp_free(EConfig *ec, GSList *items, gpointer data)
+emnp_free (EConfig *ec, GSList *items, gpointer data)
 {
 	/* the prefs data is freed automagically */
 
-	g_slist_free(items);
+	g_slist_free (items);
 }
 
 static void
@@ -277,8 +277,8 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	ec = em_config_new(E_CONFIG_BOOK, "org.gnome.evolution.mail.networkPrefs");
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (emnp_items); i++)
-		l = g_slist_prepend(l, &emnp_items[i]);
-	e_config_add_items((EConfig *)ec, l, NULL, NULL, emnp_free, prefs);
+		l = g_slist_prepend (l, &emnp_items[i]);
+	e_config_add_items ((EConfig *)ec, l, NULL, NULL, emnp_free, prefs);
 
 	/* Proxy tab */
 
@@ -343,32 +343,32 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	prefs->lbl_socks_host = GTK_LABEL (e_builder_get_widget (prefs->builder, "lblSocksHost"));
 	prefs->lbl_socks_port = GTK_LABEL (e_builder_get_widget (prefs->builder, "lblSocksPort"));
 	g_signal_connect (prefs->socks_host, "changed",
-			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_SOCKS_HOST_KEY);
+			  G_CALLBACK (widget_entry_changed_cb), GCONF_E_SOCKS_HOST_KEY);
 	g_signal_connect (prefs->socks_port, "value_changed",
-			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_SOCKS_PORT_KEY);
+			  G_CALLBACK (widget_entry_changed_cb), GCONF_E_SOCKS_PORT_KEY);
 #endif
 
 	/* Manual proxy options */
 	g_signal_connect (prefs->http_host, "changed",
-			  G_CALLBACK(widget_entry_changed_cb),
+			  G_CALLBACK (widget_entry_changed_cb),
 			  (gpointer) GCONF_E_HTTP_HOST_KEY);
 	g_signal_connect (prefs->https_host, "changed",
-			  G_CALLBACK(widget_entry_changed_cb),
+			  G_CALLBACK (widget_entry_changed_cb),
 			  (gpointer) GCONF_E_HTTPS_HOST_KEY);
 	g_signal_connect (prefs->ignore_hosts, "changed",
-			  G_CALLBACK(widget_entry_changed_cb),
+			  G_CALLBACK (widget_entry_changed_cb),
 			  (gpointer) GCONF_E_IGNORE_HOSTS_KEY);
 	g_signal_connect (prefs->http_port, "value_changed",
-			  G_CALLBACK(widget_entry_changed_cb),
+			  G_CALLBACK (widget_entry_changed_cb),
 			  (gpointer) GCONF_E_HTTP_PORT_KEY);
 	g_signal_connect (prefs->https_port, "value_changed",
-			  G_CALLBACK(widget_entry_changed_cb),
+			  G_CALLBACK (widget_entry_changed_cb),
 			  (gpointer) GCONF_E_HTTPS_PORT_KEY);
 	g_signal_connect (prefs->auth_user, "changed",
-			  G_CALLBACK(widget_entry_changed_cb),
+			  G_CALLBACK (widget_entry_changed_cb),
 			  (gpointer) GCONF_E_AUTH_USER_KEY);
 	g_signal_connect (prefs->auth_pwd, "changed",
-			  G_CALLBACK(widget_entry_changed_cb),
+			  G_CALLBACK (widget_entry_changed_cb),
 			  (gpointer) GCONF_E_AUTH_PWD_KEY);
 
 	gtk_toggle_button_set_active (prefs->manual_proxy, val == NETWORK_PROXY_MANUAL);
@@ -432,9 +432,9 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	}
 
 	/* get our toplevel widget */
-	target = em_config_target_new_prefs(ec, prefs->gconf);
-	e_config_set_target((EConfig *)ec, (EConfigTarget *)target);
-	toplevel = e_config_create_widget((EConfig *)ec);
+	target = em_config_target_new_prefs (ec, prefs->gconf);
+	e_config_set_target ((EConfig *)ec, (EConfigTarget *)target);
+	toplevel = e_config_create_widget ((EConfig *)ec);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 }
 

@@ -262,7 +262,7 @@ eni_show_logger (ELogger *logger,
 		GTK_SCROLLED_WINDOW (container), GTK_SHADOW_IN);
 	gtk_box_pack_start (GTK_BOX (vbox), container, TRUE, TRUE, 0);
 
-	widget = gtk_tree_view_new();
+	widget = gtk_tree_view_new ();
 	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (widget), TRUE);
 	gtk_tree_view_set_reorderable (GTK_TREE_VIEW (widget), FALSE);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (widget), GTK_TREE_MODEL (store));
@@ -293,7 +293,7 @@ eni_show_logger (ELogger *logger,
 		column, renderer, eni_render_date, NULL, NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
-	gtk_tree_view_insert_column_with_attributes(
+	gtk_tree_view_insert_column_with_attributes (
 		GTK_TREE_VIEW (widget), -1, _("Messages"),
 		renderer, "markup", COL_DATA, NULL);
 

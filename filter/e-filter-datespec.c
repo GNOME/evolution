@@ -127,7 +127,7 @@ set_button (EFilterDatespec *fds)
 	case FDST_SPECIFIED: {
 		struct tm tm;
 
-		localtime_r(&fds->value, &tm);
+		localtime_r (&fds->value, &tm);
 		/* strftime for date filter display, only needs to show a day date (i.e. no time) */
 		strftime(buf, sizeof(buf), _("%d-%b-%Y"), &tm);
 		break; }
@@ -137,9 +137,9 @@ set_button (EFilterDatespec *fds)
 		else {
 			gint span, count;
 
-			span = get_best_span(fds->value);
+			span = get_best_span (fds->value);
 			count = fds->value / timespans[span].seconds;
-			sprintf(buf, ngettext(timespans[span].past_singular, timespans[span].past_plural, count), count);
+			sprintf (buf, ngettext (timespans[span].past_singular, timespans[span].past_plural, count), count);
 		}
 		break;
 	case FDST_X_FUTURE:
@@ -148,14 +148,14 @@ set_button (EFilterDatespec *fds)
 		else {
 			gint span, count;
 
-			span = get_best_span(fds->value);
+			span = get_best_span (fds->value);
 			count = fds->value / timespans[span].seconds;
-			sprintf(buf, ngettext(timespans[span].future_singular, timespans[span].future_plural, count), count);
+			sprintf (buf, ngettext (timespans[span].future_singular, timespans[span].future_plural, count), count);
 		}
 		break;
 	}
 
-	gtk_label_set_text((GtkLabel *)fds->priv->label_button, label);
+	gtk_label_set_text ((GtkLabel *)fds->priv->label_button, label);
 }
 
 static void
@@ -168,19 +168,19 @@ get_values (EFilterDatespec *fds)
 		guint year, month, day;
 		struct tm tm;
 
-		gtk_calendar_get_date((GtkCalendar *)p->calendar_specify, &year, &month, &day);
-		memset(&tm, 0, sizeof(tm));
+		gtk_calendar_get_date ((GtkCalendar *)p->calendar_specify, &year, &month, &day);
+		memset (&tm, 0, sizeof (tm));
 		tm.tm_mday = day;
 		tm.tm_year = year - 1900;
 		tm.tm_mon = month;
-		fds->value = mktime(&tm);
+		fds->value = mktime (&tm);
 		/* what about timezone? */
 		break; }
 	case FDST_X_FUTURE:
 	case FDST_X_AGO: {
 		gint val;
 
-		val = gtk_spin_button_get_value_as_int((GtkSpinButton *)p->spin_relative);
+		val = gtk_spin_button_get_value_as_int ((GtkSpinButton *)p->spin_relative);
 		fds->value = timespans[p->span].seconds * val;
 		break; }
 	case FDST_NOW:
@@ -211,20 +211,20 @@ set_values (EFilterDatespec *fds)
 	{
 		struct tm tm;
 
-		localtime_r(&fds->value, &tm);
-		gtk_calendar_select_month((GtkCalendar*)p->calendar_specify, tm.tm_mon, tm.tm_year + 1900);
-		gtk_calendar_select_day((GtkCalendar*)p->calendar_specify, tm.tm_mday);
+		localtime_r (&fds->value, &tm);
+		gtk_calendar_select_month ((GtkCalendar*)p->calendar_specify, tm.tm_mon, tm.tm_year + 1900);
+		gtk_calendar_select_day ((GtkCalendar*)p->calendar_specify, tm.tm_mday);
 		break;
 	}
 	case FDST_X_AGO:
-		p->span = get_best_span(fds->value);
-		gtk_spin_button_set_value((GtkSpinButton*)p->spin_relative, fds->value/timespans[p->span].seconds);
+		p->span = get_best_span (fds->value);
+		gtk_spin_button_set_value ((GtkSpinButton*)p->spin_relative, fds->value/timespans[p->span].seconds);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_relative), p->span);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_past_future), 0);
 		break;
 	case FDST_X_FUTURE:
-		p->span = get_best_span(fds->value);
-		gtk_spin_button_set_value((GtkSpinButton*)p->spin_relative, fds->value/timespans[p->span].seconds);
+		p->span = get_best_span (fds->value);
+		gtk_spin_button_set_value ((GtkSpinButton*)p->spin_relative, fds->value/timespans[p->span].seconds);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_relative), p->span);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_past_future), 1);
 		break;
@@ -397,9 +397,9 @@ filter_datespec_get_widget (EFilterElement *element)
 
 	fds->priv->label_button = gtk_label_new ("");
 	gtk_misc_set_alignment (GTK_MISC (fds->priv->label_button), 0.5, 0.5);
-	set_button(fds);
+	set_button (fds);
 
-	button = gtk_button_new();
+	button = gtk_button_new ();
 	gtk_container_add (GTK_CONTAINER (button), fds->priv->label_button);
 	g_signal_connect (button, "clicked", G_CALLBACK (button_clicked), fds);
 

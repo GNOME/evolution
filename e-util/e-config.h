@@ -241,35 +241,35 @@ struct _EConfigClass {
 						 EConfigTarget *target);
 };
 
-GType e_config_get_type(void);
+GType e_config_get_type (void);
 
 /* Static class methods */
-EConfigFactory *e_config_class_add_factory(EConfigClass *klass, const gchar *id, EConfigFactoryFunc func, gpointer user_data);
-void e_config_class_remove_factory(EConfigClass *klass, EConfigFactory *f);
+EConfigFactory *e_config_class_add_factory (EConfigClass *klass, const gchar *id, EConfigFactoryFunc func, gpointer user_data);
+void e_config_class_remove_factory (EConfigClass *klass, EConfigFactory *f);
 
-EConfig *e_config_construct(EConfig *, gint type, const gchar *id);
+EConfig *e_config_construct (EConfig *, gint type, const gchar *id);
 
-void e_config_add_items(EConfig *, GSList *items, EConfigItemsFunc commitfunc, EConfigItemsFunc abortfunc, EConfigItemsFunc freefunc, gpointer data);
-void e_config_add_page_check(EConfig *, const gchar *pageid, EConfigCheckFunc, gpointer data);
+void e_config_add_items (EConfig *, GSList *items, EConfigItemsFunc commitfunc, EConfigItemsFunc abortfunc, EConfigItemsFunc freefunc, gpointer data);
+void e_config_add_page_check (EConfig *, const gchar *pageid, EConfigCheckFunc, gpointer data);
 void e_config_set_page_is_finish (EConfig *ec, const gchar *pageid, gboolean is_finish);
 
-void e_config_set_target(EConfig *emp, EConfigTarget *target);
-GtkWidget *e_config_create_widget(EConfig *);
-GtkWidget *e_config_create_window(EConfig *emp, GtkWindow *parent, const gchar *title);
+void e_config_set_target (EConfig *emp, EConfigTarget *target);
+GtkWidget *e_config_create_widget (EConfig *);
+GtkWidget *e_config_create_window (EConfig *emp, GtkWindow *parent, const gchar *title);
 
-void e_config_target_changed(EConfig *emp, e_config_target_change_t how);
+void e_config_target_changed (EConfig *emp, e_config_target_change_t how);
 
-gboolean e_config_page_check(EConfig *, const gchar *);
+gboolean e_config_page_check (EConfig *, const gchar *);
 
-GtkWidget *e_config_page_get(EConfig *ec, const gchar *pageid);
-const gchar *e_config_page_next(EConfig *ec, const gchar *pageid);
-const gchar *e_config_page_prev(EConfig *ec, const gchar *pageid);
+GtkWidget *e_config_page_get (EConfig *ec, const gchar *pageid);
+const gchar *e_config_page_next (EConfig *ec, const gchar *pageid);
+const gchar *e_config_page_prev (EConfig *ec, const gchar *pageid);
 
-void e_config_abort(EConfig *);
-void e_config_commit(EConfig *);
+void e_config_abort (EConfig *);
+void e_config_commit (EConfig *);
 
-gpointer e_config_target_new(EConfig *, gint type, gsize size);
-void e_config_target_free(EConfig *, gpointer );
+gpointer e_config_target_new (EConfig *, gint type, gsize size);
+void e_config_target_free (EConfig *, gpointer );
 
 /* ********************************************************************** */
 
@@ -394,10 +394,10 @@ struct _EConfigHookClass {
 	EConfigClass *config_class;
 };
 
-GType e_config_hook_get_type(void);
+GType e_config_hook_get_type (void);
 
 /* for implementors */
-void e_config_hook_class_add_target_map(EConfigHookClass *klass, const EConfigHookTargetMap *);
+void e_config_hook_class_add_target_map (EConfigHookClass *klass, const EConfigHookTargetMap *);
 
 G_END_DECLS
 

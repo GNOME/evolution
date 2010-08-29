@@ -81,7 +81,7 @@ enum {
 };
 
 static void
-get_color(ECanvasBackground *ecb)
+get_color (ECanvasBackground *ecb)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ecb);
 	ecb->priv->color.pixel = gnome_canvas_get_color_pixel (item->canvas,
@@ -278,7 +278,7 @@ ecb_set_property (GObject *object,
 	}
 
 	ecb->priv->needs_redraw = 1;
-	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(ecb));
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ecb));
 }
 
 static void

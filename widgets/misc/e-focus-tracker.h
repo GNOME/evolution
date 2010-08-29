@@ -91,7 +91,8 @@ void		e_focus_tracker_update_actions	(EFocusTracker *focus_tracker);
 void		e_focus_tracker_cut_clipboard	(EFocusTracker *focus_tracker);
 void		e_focus_tracker_copy_clipboard	(EFocusTracker *focus_tracker);
 void		e_focus_tracker_paste_clipboard	(EFocusTracker *focus_tracker);
-void		e_focus_tracker_delete_selection(EFocusTracker *focus_tracker);
+void		e_focus_tracker_delete_selection
+						(EFocusTracker *focus_tracker);
 void		e_focus_tracker_select_all	(EFocusTracker *focus_tracker);
 
 G_END_DECLS

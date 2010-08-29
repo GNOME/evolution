@@ -135,7 +135,7 @@ e_send_options_get_widgets_data (ESendOptionsDialog *sod)
 	gopts->delay_enabled = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->delay_delivery));
 
 	if (e_date_edit_date_is_valid (E_DATE_EDIT (priv->delay_until)) &&
-								e_date_edit_time_is_valid (E_DATE_EDIT(priv->delay_until)))
+								e_date_edit_time_is_valid (E_DATE_EDIT (priv->delay_until)))
 		gopts->delay_until = e_date_edit_get_time (E_DATE_EDIT (priv->delay_until));
 
 	sopts->tracking_enabled = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->create_sent));
@@ -608,7 +608,7 @@ e_send_options_dialog_run (ESendOptionsDialog *sod, GtkWidget *parent, Item_type
 	priv->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (priv->builder, "e-send-options.ui");
 
-	if (!get_widgets(sod)) {
+	if (!get_widgets (sod)) {
 		g_object_unref (priv->builder);
 		g_message (G_STRLOC ": Could not get the Widgets \n");
 		return FALSE;

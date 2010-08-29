@@ -125,10 +125,9 @@ struct _EMsgComposerPrivate {
 	gboolean is_from_message;
 
 	/* The mail composed has been sent. This bit will be set when
-	  the mail passed sanity checking and is sent out, which
-	  indicates that the composer can be destroyed. This bit can
-	  be set/get by using API
-	  e_msg_composer_{set,get}_mail_sent(). */
+	 * the mail passed sanity checking and is sent out, which
+	 * indicates that the composer can be destroyed. This bit can
+	 * be set/get by using API e_msg_composer_{set,get}_mail_sent (). */
 	gboolean mail_sent;
 };
 

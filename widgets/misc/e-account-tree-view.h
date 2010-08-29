@@ -75,8 +75,10 @@ EAccountList *	e_account_tree_view_get_account_list
 void		e_account_tree_view_set_account_list
 						(EAccountTreeView *tree_view,
 						 EAccountList *account_list);
-EAccount *	e_account_tree_view_get_selected(EAccountTreeView *tree_view);
-gboolean	e_account_tree_view_set_selected(EAccountTreeView *tree_view,
+EAccount *	e_account_tree_view_get_selected
+						(EAccountTreeView *tree_view);
+gboolean	e_account_tree_view_set_selected
+						(EAccountTreeView *tree_view,
 						 EAccount *account);
 
 G_END_DECLS

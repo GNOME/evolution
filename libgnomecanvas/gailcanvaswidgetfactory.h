@@ -44,7 +44,7 @@ struct _GailCanvasWidgetFactoryClass
   AtkObjectFactoryClass parent_class;
 };
 
-GType gail_canvas_widget_factory_get_type(void);
+GType gail_canvas_widget_factory_get_type (void);
 
 G_END_DECLS
 

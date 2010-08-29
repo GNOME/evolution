@@ -669,10 +669,10 @@ cal_shell_sidebar_constructed (GObject *object)
 		GtkWidget *button;
 
 		container = gtk_vbox_new (FALSE, 6);
-		gtk_box_pack_start (GTK_BOX(container), widget, TRUE, TRUE, 0);
+		gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 
 		button = gtk_button_new_with_mnemonic (_("_New Calendar..."));
-		gtk_box_pack_start (GTK_BOX(container), button, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (container), button, FALSE, FALSE, 0);
 		g_signal_connect (
 			button, "clicked",
 			G_CALLBACK (new_calendar_clicked), shell_sidebar);

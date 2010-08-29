@@ -172,7 +172,8 @@ void		e_attachment_view_unselect_path	(EAttachmentView *view,
 						 GtkTreePath *path);
 void		e_attachment_view_select_all	(EAttachmentView *view);
 void		e_attachment_view_unselect_all	(EAttachmentView *view);
-void		e_attachment_view_sync_selection(EAttachmentView *view,
+void		e_attachment_view_sync_selection
+						(EAttachmentView *view,
 						 EAttachmentView *target);
 
 /* Drag Source Support */
@@ -222,8 +223,10 @@ GtkActionGroup *e_attachment_view_add_action_group
 GtkActionGroup *e_attachment_view_get_action_group
 						(EAttachmentView *view,
 						 const gchar *group_name);
-GtkWidget *	e_attachment_view_get_popup_menu(EAttachmentView *view);
-GtkUIManager *	e_attachment_view_get_ui_manager(EAttachmentView *view);
+GtkWidget *	e_attachment_view_get_popup_menu
+						(EAttachmentView *view);
+GtkUIManager *	e_attachment_view_get_ui_manager
+						(EAttachmentView *view);
 GtkAction *	e_attachment_view_recent_action_new
 						(EAttachmentView *view,
 						 const gchar *action_name,
@@ -233,7 +236,8 @@ void		e_attachment_view_show_popup_menu
 						 GdkEventButton *event,
 						 GtkMenuPositionFunc func,
 						 gpointer user_data);
-void		e_attachment_view_update_actions(EAttachmentView *view);
+void		e_attachment_view_update_actions
+						(EAttachmentView *view);
 
 G_END_DECLS
 

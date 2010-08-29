@@ -78,7 +78,7 @@ e_xml_get_child_by_name_by_lang (const xmlNode *parent,
 			xmlChar *this_lang = xmlGetProp (child, (const guchar *)"lang");
 			if (this_lang == NULL) {
 				C = child;
-			} else if (xmlStrcmp(this_lang, (xmlChar *)lang) == 0) {
+			} else if (xmlStrcmp (this_lang, (xmlChar *)lang) == 0) {
 #ifdef G_OS_WIN32
 				g_free (freeme);
 #endif
@@ -300,7 +300,7 @@ e_xml_get_bool_prop_by_name_with_default (const xmlNode *parent,
 		} else if (g_ascii_strcasecmp ((gchar *)prop, "false") == 0) {
 			ret_val = FALSE;
 		}
-		xmlFree(prop);
+		xmlFree (prop);
 	}
 	return ret_val;
 }
@@ -435,10 +435,10 @@ e_xml_get_translated_string_prop_by_name (const xmlNode *parent,
 	combined_name = g_strdup_printf("_%s", prop_name);
 	prop = xmlGetProp ((xmlNode *) parent, (guchar *)combined_name);
 	if (prop != NULL) {
-		ret_val = g_strdup (gettext((gchar *)prop));
+		ret_val = g_strdup (gettext ((gchar *)prop));
 		xmlFree (prop);
 	}
-	g_free(combined_name);
+	g_free (combined_name);
 
 	return ret_val;
 }

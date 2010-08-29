@@ -97,9 +97,9 @@ struct _EAlertClass
 
 GType e_alert_get_type (void);
 
-EAlert *e_alert_new(const gchar *tag, ...) G_GNUC_NULL_TERMINATED;
-EAlert *e_alert_new_valist(const gchar *tag, va_list ap);
-EAlert *e_alert_new_array(const gchar *tag, GPtrArray *args);
+EAlert *e_alert_new (const gchar *tag, ...) G_GNUC_NULL_TERMINATED;
+EAlert *e_alert_new_valist (const gchar *tag, va_list ap);
+EAlert *e_alert_new_array (const gchar *tag, GPtrArray *args);
 
 guint32 e_alert_get_flags (EAlert *alert);
 const gchar *e_alert_peek_stock_image (EAlert *alert);

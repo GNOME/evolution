@@ -52,7 +52,7 @@ enum {
 };
 
 inline static void
-add_sorter(ESelectionModel *esm, ESorter *sorter)
+add_sorter (ESelectionModel *esm, ESorter *sorter)
 {
 	esm->sorter = sorter;
 	if (sorter) {
@@ -61,7 +61,7 @@ add_sorter(ESelectionModel *esm, ESorter *sorter)
 }
 
 inline static void
-drop_sorter(ESelectionModel *esm)
+drop_sorter (ESelectionModel *esm)
 {
 	if (esm->sorter) {
 		g_object_unref (esm->sorter);
@@ -76,7 +76,7 @@ esm_dispose (GObject *object)
 
 	esm = E_SELECTION_MODEL (object);
 
-	drop_sorter(esm);
+	drop_sorter (esm);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_selection_model_parent_class)->dispose (object);
@@ -115,7 +115,7 @@ esm_set_property (GObject *object,
 
 	switch (property_id) {
 		case PROP_SORTER:
-			drop_sorter(esm);
+			drop_sorter (esm);
 			add_sorter (
 				esm, g_value_get_object (value) ?
 				E_SORTER (g_value_get_object (value)) : NULL);
@@ -124,9 +124,9 @@ esm_set_property (GObject *object,
 		case PROP_SELECTION_MODE:
 			esm->mode = g_value_get_int (value);
 			if (esm->mode == GTK_SELECTION_SINGLE) {
-				gint cursor_row = e_selection_model_cursor_row(esm);
-				gint cursor_col = e_selection_model_cursor_col(esm);
-				e_selection_model_do_something(esm, cursor_row, cursor_col, 0);
+				gint cursor_row = e_selection_model_cursor_row (esm);
+				gint cursor_col = e_selection_model_cursor_col (esm);
+				e_selection_model_do_something (esm, cursor_row, cursor_col, 0);
 			}
 			break;
 
@@ -149,7 +149,7 @@ e_selection_model_class_init (ESelectionModelClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS(class);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = esm_dispose;
 	object_class->get_property = esm_get_property;
 	object_class->set_property = esm_set_property;
@@ -512,7 +512,7 @@ e_selection_model_do_something (ESelectionModel *selection,
 	if (col == -1 && row != -1)
 		col = 0;
 
-	row_count = e_selection_model_row_count(selection);
+	row_count = e_selection_model_row_count (selection);
 	if (row_count >= 0 && row < row_count) {
 		switch (selection->mode) {
 		case GTK_SELECTION_SINGLE:
@@ -531,14 +531,14 @@ e_selection_model_do_something (ESelectionModel *selection,
 			}
 			break;
 		default:
-			g_return_if_reached();
+			g_return_if_reached ();
 			break;
 		}
-		e_selection_model_change_cursor(selection, row, col);
-		g_signal_emit(selection,
+		e_selection_model_change_cursor (selection, row, col);
+		g_signal_emit (selection,
 			      signals[CURSOR_CHANGED], 0,
 			      row, col);
-		g_signal_emit(selection,
+		g_signal_emit (selection,
 			      signals[CURSOR_ACTIVATED], 0,
 			      row, col);
 	}
@@ -567,14 +567,14 @@ e_selection_model_maybe_do_something (ESelectionModel *selection,
 
 	selection->old_selection = -1;
 
-	if (e_selection_model_is_row_selected(selection, row)) {
-		e_selection_model_change_cursor(selection, row, col);
-		g_signal_emit(selection,
+	if (e_selection_model_is_row_selected (selection, row)) {
+		e_selection_model_change_cursor (selection, row, col);
+		g_signal_emit (selection,
 			      signals[CURSOR_CHANGED], 0,
 			      row, col);
 		return FALSE;
 	} else {
-		e_selection_model_do_something(selection, row, col, state);
+		e_selection_model_do_something (selection, row, col, state);
 		return TRUE;
 	}
 }
@@ -641,16 +641,16 @@ e_selection_model_select_as_key_press (ESelectionModel *selection,
 		e_selection_model_select_single_row (selection, row);
 		break;
 	default:
-		g_return_if_reached();
+		g_return_if_reached ();
 		break;
 	}
 	if (row != -1) {
-		e_selection_model_change_cursor(selection, row, col);
-		g_signal_emit(selection,
+		e_selection_model_change_cursor (selection, row, col);
+		g_signal_emit (selection,
 			      signals[CURSOR_CHANGED], 0,
 			      row, col);
 		if (cursor_activated)
-			g_signal_emit(selection,
+			g_signal_emit (selection,
 				      signals[CURSOR_ACTIVATED], 0,
 				      row, col);
 	}
@@ -661,8 +661,8 @@ move_selection (ESelectionModel *selection,
                 gboolean up,
                 GdkModifierType state)
 {
-	gint row = e_selection_model_cursor_row(selection);
-	gint col = e_selection_model_cursor_col(selection);
+	gint row = e_selection_model_cursor_row (selection);
+	gint col = e_selection_model_cursor_col (selection);
 	gint row_count;
 
 	/* there is no selected row when row is -1 */
@@ -675,10 +675,10 @@ move_selection (ESelectionModel *selection,
 		row++;
 	if (row < 0)
 		row = 0;
-	row_count = e_selection_model_row_count(selection);
+	row_count = e_selection_model_row_count (selection);
 	if (row >= row_count)
 		row = row_count - 1;
-	row = e_sorter_sorted_to_model(selection->sorter, row);
+	row = e_sorter_sorted_to_model (selection->sorter, row);
 
 	e_selection_model_select_as_key_press (selection, row, col, state);
 	return TRUE;
@@ -706,20 +706,20 @@ e_selection_model_key_press (ESelectionModel *selection,
 	switch (key->keyval) {
 	case GDK_Up:
 	case GDK_KP_Up:
-		return move_selection(selection, TRUE, key->state);
+		return move_selection (selection, TRUE, key->state);
 	case GDK_Down:
 	case GDK_KP_Down:
-		return move_selection(selection, FALSE, key->state);
+		return move_selection (selection, FALSE, key->state);
 	case GDK_space:
 	case GDK_KP_Space:
 		if (selection->mode != GTK_SELECTION_SINGLE) {
-			gint row = e_selection_model_cursor_row(selection);
-			gint col = e_selection_model_cursor_col(selection);
+			gint row = e_selection_model_cursor_row (selection);
+			gint col = e_selection_model_cursor_col (selection);
 			if (row == -1)
 				break;
 
 			e_selection_model_toggle_single_row (selection, row);
-			g_signal_emit(selection,
+			g_signal_emit (selection,
 				      signals[CURSOR_ACTIVATED], 0,
 				      row, col);
 			return TRUE;
@@ -728,10 +728,10 @@ e_selection_model_key_press (ESelectionModel *selection,
 	case GDK_Return:
 	case GDK_KP_Enter:
 		if (selection->mode != GTK_SELECTION_SINGLE) {
-			gint row = e_selection_model_cursor_row(selection);
-			gint col = e_selection_model_cursor_col(selection);
+			gint row = e_selection_model_cursor_row (selection);
+			gint col = e_selection_model_cursor_col (selection);
 			e_selection_model_select_single_row (selection, row);
-			g_signal_emit(selection,
+			g_signal_emit (selection,
 				      signals[CURSOR_ACTIVATED], 0,
 				      row, col);
 			return TRUE;
@@ -741,9 +741,9 @@ e_selection_model_key_press (ESelectionModel *selection,
 	case GDK_KP_Home:
 		if (selection->cursor_mode == E_CURSOR_LINE) {
 			gint row = 0;
-			gint cursor_col = e_selection_model_cursor_col(selection);
+			gint cursor_col = e_selection_model_cursor_col (selection);
 
-			row = e_sorter_sorted_to_model(selection->sorter, row);
+			row = e_sorter_sorted_to_model (selection->sorter, row);
 			e_selection_model_select_as_key_press (selection, row, cursor_col, key->state);
 			return TRUE;
 		}
@@ -751,10 +751,10 @@ e_selection_model_key_press (ESelectionModel *selection,
 	case GDK_End:
 	case GDK_KP_End:
 		if (selection->cursor_mode == E_CURSOR_LINE) {
-			gint row = e_selection_model_row_count(selection) - 1;
-			gint cursor_col = e_selection_model_cursor_col(selection);
+			gint row = e_selection_model_row_count (selection) - 1;
+			gint cursor_col = e_selection_model_cursor_col (selection);
 
-			row = e_sorter_sorted_to_model(selection->sorter, row);
+			row = e_sorter_sorted_to_model (selection->sorter, row);
 			e_selection_model_select_as_key_press (selection, row, cursor_col, key->state);
 			return TRUE;
 		}

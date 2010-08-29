@@ -196,7 +196,7 @@ add_gw_esource (ESourceList *source_list, const gchar *group_name,  const gchar 
 	ids = gconf_client_get_list (client, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, &error);
 	if (error != NULL) {
 		g_warning("%s (%s) %s\n", G_STRLOC, G_STRFUNC, error->message);
-		g_error_free(error);
+		g_error_free (error);
 	}
 	ids = g_slist_append (ids, g_strdup (e_source_peek_uid (source)));
 	gconf_client_set_list (client, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, ids, NULL);
@@ -240,10 +240,10 @@ e_memo_shell_backend_migrate (EShellBackend *shell_backend,
 		EIterator *it;
 		GConfClient *gconf_client = gconf_client_get_default ();
 		al = e_account_list_new (gconf_client);
-		for (it = e_list_get_iterator((EList *)al);
-				e_iterator_is_valid(it);
-				e_iterator_next(it)) {
-			a = (EAccount *) e_iterator_get(it);
+		for (it = e_list_get_iterator ((EList *)al);
+				e_iterator_is_valid (it);
+				e_iterator_next (it)) {
+			a = (EAccount *) e_iterator_get (it);
 			if (!a->enabled || !is_groupwise_account (a))
 				continue;
 			url = camel_url_new (a->source->url, NULL);

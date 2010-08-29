@@ -245,7 +245,7 @@ e_web_view_preview_show_tree_view (EWebViewPreview *preview)
 }
 
 void
-e_web_view_preview_hide_tree_view(EWebViewPreview *preview)
+e_web_view_preview_hide_tree_view (EWebViewPreview *preview)
 {
 	g_return_if_fail (preview != NULL);
 	g_return_if_fail (E_IS_WEB_VIEW_PREVIEW (preview));

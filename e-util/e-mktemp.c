@@ -50,7 +50,7 @@
 #define TEMP_SCAN (60)
 
 static gint
-expire_dir_rec(const gchar *base, time_t now)
+expire_dir_rec (const gchar *base, time_t now)
 {
 	GDir *dir;
 	const gchar *d;
@@ -61,28 +61,28 @@ expire_dir_rec(const gchar *base, time_t now)
 
 	d(printf("expire dir '%s'\n", base));
 
-	dir = g_dir_open(base, 0, NULL);
+	dir = g_dir_open (base, 0, NULL);
 	if (dir == NULL)
 		return 0;
 
-	path = g_string_new(base);
+	path = g_string_new (base);
 	len = path->len;
 
-	while ((d = g_dir_read_name(dir))) {
-		g_string_truncate(path, len);
+	while ((d = g_dir_read_name (dir))) {
+		g_string_truncate (path, len);
 		g_string_append_printf(path, "/%s", d);
 		d(printf("Checking '%s' for expiry\n", path->str));
 
-		if (g_stat(path->str, &st) == 0
+		if (g_stat (path->str, &st) == 0
 		    && st.st_atime + TEMP_EXPIRE < now) {
-			if (S_ISDIR(st.st_mode)) {
-				if (expire_dir_rec(path->str, now) == 0) {
+			if (S_ISDIR (st.st_mode)) {
+				if (expire_dir_rec (path->str, now) == 0) {
 					d(printf("Removing dir '%s'\n", path->str));
-					g_rmdir(path->str);
+					g_rmdir (path->str);
 				} else {
 					count++;
 				}
-			} else if (g_unlink(path->str) == -1) {
+			} else if (g_unlink (path->str) == -1) {
 				d(printf("expiry failed: %s\n", g_strerror(errno)));
 				count++;
 			} else {
@@ -92,8 +92,8 @@ expire_dir_rec(const gchar *base, time_t now)
 			count++;
 		}
 	}
-	g_string_free(path, TRUE);
-	g_dir_close(dir);
+	g_string_free (path, TRUE);
+	g_dir_close (dir);
 
 	d(printf("expire dir '%s' %d remaining files\n", base, count));
 
@@ -104,7 +104,7 @@ static GString *
 get_dir (gboolean make)
 {
 	GString *path;
-	time_t now = time(NULL);
+	time_t now = time (NULL);
 	static time_t last = 0;
 
 #ifdef TEMP_HOME
@@ -113,12 +113,12 @@ get_dir (gboolean make)
 
 	user_cache_dir = e_get_user_cache_dir ();
 	tmpdir = g_build_filename (user_cache_dir, "tmp", NULL);
-	path = g_string_new(tmpdir);
-	if (make && g_mkdir_with_parents(tmpdir, 0777) == -1) {
-		g_string_free(path, TRUE);
+	path = g_string_new (tmpdir);
+	if (make && g_mkdir_with_parents (tmpdir, 0777) == -1) {
+		g_string_free (path, TRUE);
 		path = NULL;
 	}
-	g_free(tmpdir);
+	g_free (tmpdir);
 #else
 	path = g_string_new("/tmp/evolution-");
 	g_string_append_printf (path, "%d", (gint) getuid ());
@@ -158,7 +158,7 @@ get_dir (gboolean make)
 	/* fire off an expiry attempt no more often than TEMP_SCAN seconds */
 	if (path && (last+TEMP_SCAN) < now) {
 		last = now;
-		expire_dir_rec(path->str, now);
+		expire_dir_rec (path->str, now);
 	}
 
 	return path;
@@ -207,7 +207,7 @@ e_mkstemp (const gchar *template)
 		g_string_append (path, "unknown-XXXXXX");
 
 	fd = g_mkstemp (path->str);
-	g_string_free(path, TRUE);
+	g_string_free (path, TRUE);
 
 	return fd;
 }
@@ -247,7 +247,7 @@ e_mkdtemp (const gchar *template)
 			tmpdir = NULL;
 	}
 #endif
-	g_string_free(path, tmpdir == NULL);
+	g_string_free (path, tmpdir == NULL);
 
 	return tmpdir;
 }

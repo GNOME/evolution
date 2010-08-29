@@ -287,19 +287,19 @@ gnome_canvas_rect_update (GnomeCanvasItem *item, gdouble affine[6], ArtSVP *clip
 
 	GnomeCanvasPathDef *path_def;
 
-	re = GNOME_CANVAS_RE(item);
+	re = GNOME_CANVAS_RE (item);
 
 	if (re->path_dirty) {
 		path_def = gnome_canvas_path_def_new ();
 
-		gnome_canvas_path_def_moveto(path_def, re->x1, re->y1);
-		gnome_canvas_path_def_lineto(path_def, re->x2, re->y1);
-		gnome_canvas_path_def_lineto(path_def, re->x2, re->y2);
-		gnome_canvas_path_def_lineto(path_def, re->x1, re->y2);
-		gnome_canvas_path_def_lineto(path_def, re->x1, re->y1);
-		gnome_canvas_path_def_closepath_current(path_def);
+		gnome_canvas_path_def_moveto (path_def, re->x1, re->y1);
+		gnome_canvas_path_def_lineto (path_def, re->x2, re->y1);
+		gnome_canvas_path_def_lineto (path_def, re->x2, re->y2);
+		gnome_canvas_path_def_lineto (path_def, re->x1, re->y2);
+		gnome_canvas_path_def_lineto (path_def, re->x1, re->y1);
+		gnome_canvas_path_def_closepath_current (path_def);
 		gnome_canvas_shape_set_path_def (GNOME_CANVAS_SHAPE (item), path_def);
-		gnome_canvas_path_def_unref(path_def);
+		gnome_canvas_path_def_unref (path_def);
 		re->path_dirty = 0;
 	}
 
@@ -354,16 +354,16 @@ gnome_canvas_ellipse_update (GnomeCanvasItem *item, gdouble affine[6], ArtSVP *c
 	GnomeCanvasPathDef *path_def;
 	GnomeCanvasRE *re;
 
-	re = GNOME_CANVAS_RE(item);
+	re = GNOME_CANVAS_RE (item);
 
 	if (re->path_dirty) {
 		gdouble cx, cy, rx, ry;
-		gdouble beta = 0.26521648983954400922; /* 4*(1-cos(pi/8))/(3*sin(pi/8)) */
+		gdouble beta = 0.26521648983954400922; /* 4*(1-cos (pi/8))/(3*sin (pi/8)) */
 		gdouble sincosA = 0.70710678118654752440; /* sin (pi/4), cos (pi/4) */
 		gdouble dx1, dy1, dx2, dy2;
 		gdouble mx, my;
 
-		path_def = gnome_canvas_path_def_new();
+		path_def = gnome_canvas_path_def_new ();
 
 		cx = (re->x2 + re->x1) * 0.5;
 		cy = (re->y2 + re->y1) * 0.5;
@@ -412,10 +412,10 @@ gnome_canvas_ellipse_update (GnomeCanvasItem *item, gdouble affine[6], ArtSVP *c
 					       cx + rx, cy + dy1,
 					       cx + rx, cy);
 
-		gnome_canvas_path_def_closepath_current(path_def);
+		gnome_canvas_path_def_closepath_current (path_def);
 
 		gnome_canvas_shape_set_path_def (GNOME_CANVAS_SHAPE (item), path_def);
-		gnome_canvas_path_def_unref(path_def);
+		gnome_canvas_path_def_unref (path_def);
 		re->path_dirty = 0;
 	}
 

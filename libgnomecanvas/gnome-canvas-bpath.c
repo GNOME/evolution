@@ -152,7 +152,7 @@ gnome_canvas_bpath_get_property (GObject     *object,
 {
 	GnomeCanvasShape        *shape;
 
-	shape = GNOME_CANVAS_SHAPE(object);
+	shape = GNOME_CANVAS_SHAPE (object);
 
 	switch (param_id) {
 	case PROP_BPATH:
@@ -167,7 +167,7 @@ gnome_canvas_bpath_get_property (GObject     *object,
 static void
 gnome_canvas_bpath_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
 {
-	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->update) {
-		(* GNOME_CANVAS_ITEM_CLASS(parent_class)->update)(item, affine, clip_path, flags);
+	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->update) {
+		(* GNOME_CANVAS_ITEM_CLASS (parent_class)->update)(item, affine, clip_path, flags);
 	}
 }

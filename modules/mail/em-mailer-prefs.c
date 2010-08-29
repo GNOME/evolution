@@ -651,11 +651,11 @@ http_images_changed (GtkWidget *widget, EMMailerPrefs *prefs)
 }
 
 static GtkWidget *
-emmp_widget_glade(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+emmp_widget_glade (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMMailerPrefs *prefs = data;
 
-	return e_builder_get_widget(prefs->builder, item->label);
+	return e_builder_get_widget (prefs->builder, item->label);
 }
 
 /* plugin meta-data */
@@ -679,18 +679,18 @@ static EMConfigItem emmp_items[] = {
 };
 
 static void
-emmp_free(EConfig *ec, GSList *items, gpointer data)
+emmp_free (EConfig *ec, GSList *items, gpointer data)
 {
 	/* the prefs data is freed automagically */
 
-	g_slist_free(items);
+	g_slist_free (items);
 }
 
 static void
 junk_plugin_changed (GtkWidget *combo, EMMailerPrefs *prefs)
 {
-	gchar *def_plugin = gtk_combo_box_get_active_text(GTK_COMBO_BOX (combo));
-	const GList *plugins = mail_session_get_junk_plugins();
+	gchar *def_plugin = gtk_combo_box_get_active_text (GTK_COMBO_BOX (combo));
+	const GList *plugins = mail_session_get_junk_plugins ();
 
 	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/junk/default_plugin", def_plugin, NULL);
 	while (plugins) {
@@ -731,7 +731,7 @@ junk_plugin_setup (GtkComboBox *combo_box, EMMailerPrefs *prefs)
 	GtkCellRenderer *cell;
 	gint index = 0;
 	gboolean def_set = FALSE;
-	const GList *plugins = mail_session_get_junk_plugins();
+	const GList *plugins = mail_session_get_junk_plugins ();
 	gchar *pdefault = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/junk/default_plugin", NULL);
 
 	store = gtk_list_store_new (1, G_TYPE_STRING);
@@ -765,7 +765,7 @@ junk_plugin_setup (GtkComboBox *combo_box, EMMailerPrefs *prefs)
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter, 0, iface->plugin_name, -1);
-		if (!def_set && pdefault && iface->plugin_name && !strcmp(pdefault, iface->plugin_name)) {
+		if (!def_set && pdefault && iface->plugin_name && !strcmp (pdefault, iface->plugin_name)) {
 			gboolean status;
 
 			def_set = TRUE;
@@ -797,7 +797,7 @@ junk_plugin_setup (GtkComboBox *combo_box, EMMailerPrefs *prefs)
 
 	g_signal_connect (
 		combo_box, "changed",
-		G_CALLBACK(junk_plugin_changed), prefs);
+		G_CALLBACK (junk_plugin_changed), prefs);
 	g_free (pdefault);
 }
 
@@ -841,8 +841,8 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	ec = em_config_new(E_CONFIG_BOOK, "org.gnome.evolution.mail.prefs");
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (emmp_items); i++)
-		l = g_slist_prepend(l, &emmp_items[i]);
-	e_config_add_items((EConfig *)ec, l, NULL, NULL, emmp_free, prefs);
+		l = g_slist_prepend (l, &emmp_items[i]);
+	e_config_add_items ((EConfig *)ec, l, NULL, NULL, emmp_free, prefs);
 
 	/* General tab */
 
@@ -1206,9 +1206,9 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 					       NULL);
 
 	/* get our toplevel widget */
-	target = em_config_target_new_prefs(ec, prefs->gconf);
-	e_config_set_target((EConfig *)ec, (EConfigTarget *)target);
-	toplevel = e_config_create_widget((EConfig *)ec);
+	target = em_config_target_new_prefs (ec, prefs->gconf);
+	e_config_set_target ((EConfig *)ec, (EConfigTarget *)target);
+	toplevel = e_config_create_widget ((EConfig *)ec);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
 }
 

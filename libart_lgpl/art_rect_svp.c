@@ -65,7 +65,7 @@ art_drect_svp (ArtDRect *bbox, const ArtSVP *svp)
 }
 
 /**
- * art_drect_svp_union: Compute the bounding box of the svp and union it in to the existing bounding box.
+ * art_drect_svp_union:
  * @bbox: Initial boundin box and where to store the bounding box.
  * @svp: The SVP.
  *

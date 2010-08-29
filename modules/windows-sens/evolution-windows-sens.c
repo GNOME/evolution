@@ -198,19 +198,19 @@ struct ISensNetwork {
 #include <e-util/e-extension.h>
 
 /* 4E14FB9F-2E22-11D1-9964-00C04FBBB345 */
-DEFINE_GUID(IID_IEventSystem, 0x4E14FB9F, 0x2E22, 0x11D1, 0x99, 0x64, 0x00, 0xC0, 0x4F, 0xBB, 0xB3, 0x45);
+DEFINE_GUID (IID_IEventSystem, 0x4E14FB9F, 0x2E22, 0x11D1, 0x99, 0x64, 0x00, 0xC0, 0x4F, 0xBB, 0xB3, 0x45);
 
 /* 4A6B0E15-2E38-11D1-9965-00C04FBBB345 */
-DEFINE_GUID(IID_IEventSubscription, 0x4A6B0E15, 0x2E38, 0x11D1, 0x99, 0x65, 0x00, 0xC0, 0x4F, 0xBB, 0xB3, 0x45);
+DEFINE_GUID (IID_IEventSubscription, 0x4A6B0E15, 0x2E38, 0x11D1, 0x99, 0x65, 0x00, 0xC0, 0x4F, 0xBB, 0xB3, 0x45);
 
 /* d597bab1-5b9f-11d1-8dd2-00aa004abd5e */
-DEFINE_GUID(IID_ISensNetwork, 0xd597bab1, 0x5b9f, 0x11d1, 0x8d, 0xd2, 0x00, 0xaa, 0x00, 0x4a, 0xbd, 0x5e);
+DEFINE_GUID (IID_ISensNetwork, 0xd597bab1, 0x5b9f, 0x11d1, 0x8d, 0xd2, 0x00, 0xaa, 0x00, 0x4a, 0xbd, 0x5e);
 
 /* 4E14FBA2-2E22-11D1-9964-00C04FBBB345 */
-DEFINE_GUID(CLSID_CEventSystem, 0x4E14FBA2, 0x2E22, 0x11D1, 0x99, 0x64, 0x00, 0xC0, 0x4F, 0xBB, 0xB3, 0x45);
+DEFINE_GUID (CLSID_CEventSystem, 0x4E14FBA2, 0x2E22, 0x11D1, 0x99, 0x64, 0x00, 0xC0, 0x4F, 0xBB, 0xB3, 0x45);
 
 /* 7542e960-79c7-11d1-88f9-0080c7d771bf */
-DEFINE_GUID(CLSID_CEventSubscription, 0x7542e960, 0x79c7, 0x11d1, 0x88, 0xf9, 0x00, 0x80, 0xc7, 0xd7, 0x71, 0xbf);
+DEFINE_GUID (CLSID_CEventSubscription, 0x7542e960, 0x79c7, 0x11d1, 0x88, 0xf9, 0x00, 0x80, 0xc7, 0xd7, 0x71, 0xbf);
 
 /* Standard GObject macros */
 #define E_TYPE_WINDOWS_SENS \
@@ -257,7 +257,7 @@ typedef struct ESensNetworkListener {
 	EWindowsSENS *ews_ptr;
 } ESensNetworkListener;
 
-static void e_sens_network_listener_init(ESensNetworkListener**,EWindowsSENS*);
+static void e_sens_network_listener_init (ESensNetworkListener**,EWindowsSENS*);
 
 /* Functions to implement ISensNetwork interface */
 
@@ -298,7 +298,7 @@ e_sens_network_listener_queryinterface (ISensNetwork *This,
 {
 	if (IsEqualIID (iid, &IID_IUnknown) || IsEqualIID (iid, &IID_IDispatch) || IsEqualIID (iid, &IID_ISensNetwork)) {
 		*ppv = This;
-		((LPUNKNOWN)*ppv)->lpVtbl->AddRef((LPUNKNOWN)*ppv);
+		((LPUNKNOWN)*ppv)->lpVtbl->AddRef ((LPUNKNOWN)*ppv);
 		return S_OK;
 	}
 	*ppv = NULL;
@@ -309,14 +309,14 @@ static ULONG WINAPI
 e_sens_network_listener_addref (ISensNetwork *This)
 {
 	ESensNetworkListener *esnl_ptr=(ESensNetworkListener*)This;
-	return InterlockedIncrement(&(esnl_ptr->ref));
+	return InterlockedIncrement (&(esnl_ptr->ref));
 }
 
 static ULONG WINAPI
 e_sens_network_listener_release (ISensNetwork *This)
 {
 	ESensNetworkListener *esnl_ptr=(ESensNetworkListener*)This;
-	ULONG tmp = InterlockedDecrement(&(esnl_ptr->ref));
+	ULONG tmp = InterlockedDecrement (&(esnl_ptr->ref));
 	return tmp;
 }
 
@@ -371,7 +371,7 @@ e_sens_network_listener_connectionmade (ISensNetwork  *This,
 		ESensNetworkListener *esnl_ptr=(ESensNetworkListener*)This;
 		EShell *shell = windows_sens_get_shell (esnl_ptr->ews_ptr);
 		/* Wait a second so that the connection stabilizes */
-		g_usleep(G_USEC_PER_SEC);
+		g_usleep (G_USEC_PER_SEC);
 		e_shell_set_network_available (shell, TRUE);
 	}
 	return S_OK;
@@ -410,7 +410,7 @@ e_sens_network_listener_destinationreachable (ISensNetwork  *This,
 		ESensNetworkListener *esnl_ptr=(ESensNetworkListener*)This;
 		EShell *shell = windows_sens_get_shell (esnl_ptr->ews_ptr);
 		/* Wait a second so that the connection stabilizes */
-		g_usleep(G_USEC_PER_SEC);
+		g_usleep (G_USEC_PER_SEC);
 		e_shell_set_network_available (shell, TRUE);
 	}
 	return S_OK;
@@ -426,10 +426,10 @@ e_sens_network_listener_destinationreachablenoqocinfo (ISensNetwork *This,
 }
 
 static void
-e_sens_network_listener_init(ESensNetworkListener **esnl_ptr,
+e_sens_network_listener_init (ESensNetworkListener **esnl_ptr,
                              EWindowsSENS          *ews)
 {
-	(*esnl_ptr) = g_new0(ESensNetworkListener,1);
+	(*esnl_ptr) = g_new0 (ESensNetworkListener,1);
 	(*esnl_ptr)->lpVtbl = &ESensNetworkListenerVtbl;
 	(*esnl_ptr)->ews_ptr = ews;
 	(*esnl_ptr)->ref = 1;
@@ -450,9 +450,9 @@ static const gchar * add_curly_braces_to_uuid (const gchar * string_uuid)
 	if (!string_uuid)
 		return NULL;
 	lstrcpy(curly_braced_uuid_string,"{");
-	i = strlen(curly_braced_uuid_string);
-	lstrcat(curly_braced_uuid_string+i,string_uuid);
-	i = strlen(curly_braced_uuid_string);
+	i = strlen (curly_braced_uuid_string);
+	lstrcat (curly_braced_uuid_string+i,string_uuid);
+	i = strlen (curly_braced_uuid_string);
 	lstrcat(curly_braced_uuid_string+i,"}");
 	return curly_braced_uuid_string;
 }
@@ -482,9 +482,9 @@ windows_sens_constructed (GObject *object)
 	guchar * subids[] = { 0, 0, 0, 0, 0 };
 
 	EWindowsSENS *extension = (E_WINDOWS_SENS (object));
-	e_sens_network_listener_init(&pESensNetworkListener, extension);
+	e_sens_network_listener_init (&pESensNetworkListener, extension);
 
-	CoInitialize(0);
+	CoInitialize (0);
 
 	res=CoCreateInstance (&CLSID_CEventSystem, 0,CLSCTX_SERVER,&IID_IEventSystem,(LPVOID*)&pEventSystem);
 
@@ -492,14 +492,14 @@ windows_sens_constructed (GObject *object)
 
 		unsigned i;
 
-		for (i=0; i<G_N_ELEMENTS(methods); i++) {
+		for (i=0; i<G_N_ELEMENTS (methods); i++) {
 
 			res=CoCreateInstance (&CLSID_CEventSubscription, 0, CLSCTX_SERVER, &IID_IEventSubscription, (LPVOID*)&pEventSubscription);
 
 			if (res == S_OK && pEventSubscription) {
 				UUID tmp_uuid;
-				UuidCreate(&tmp_uuid);
-				UuidToString(&tmp_uuid, &subids[i]);
+				UuidCreate (&tmp_uuid);
+				UuidToString (&tmp_uuid, &subids[i]);
 				res=pEventSubscription->lpVtbl->put_SubscriptionID (pEventSubscription, _mb2wchar (add_curly_braces_to_uuid ((gchar *)subids[i])));
 				if (res) {
 					RpcStringFree (&subids[i]);
@@ -534,7 +534,7 @@ windows_sens_constructed (GObject *object)
 			}
 		}
 		if (pEventSubscription)
-			pEventSubscription->lpVtbl->Release(pEventSubscription);
+			pEventSubscription->lpVtbl->Release (pEventSubscription);
 	}
 
 	/* Do not try to get initial state when we are sure we will not get system events.
@@ -556,7 +556,7 @@ windows_sens_constructed (GObject *object)
 			alive=pIsNetworkAlive (&Network);
 		}
 
-		FreeLibrary(hDLL);
+		FreeLibrary (hDLL);
 
 		e_shell_set_network_available (shell, alive);
 	}

@@ -61,17 +61,17 @@ art_warn (const gchar *fmt, ...)
   va_end (ap);
 }
 
-gpointer art_alloc(gsize size)
+gpointer art_alloc (gsize size)
 {
-  return malloc(size);
+  return malloc (size);
 }
 
-void art_free(gpointer ptr)
+void art_free (gpointer ptr)
 {
-  free(ptr);
+  free (ptr);
 }
 
-gpointer art_realloc(gpointer ptr, gsize size)
+gpointer art_realloc (gpointer ptr, gsize size)
 {
-  return realloc(ptr, size);
+  return realloc (ptr, size);
 }

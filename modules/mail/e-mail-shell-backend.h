@@ -66,7 +66,7 @@ void		e_mail_shell_backend_register_type
 					(GTypeModule *type_module);
 
 /* XXX Find a better place for this function. */
-GSList *	e_mail_labels_get_filter_options(void);
+GSList *	e_mail_labels_get_filter_options (void);
 
 G_END_DECLS
 

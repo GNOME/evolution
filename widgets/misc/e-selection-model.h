@@ -136,7 +136,8 @@ void		e_selection_model_right_click_down
 						 guint row,
 						 guint col,
 						 GdkModifierType state);
-void		e_selection_model_right_click_up(ESelectionModel *selection);
+void		e_selection_model_right_click_up
+						(ESelectionModel *selection);
 gboolean	e_selection_model_key_press	(ESelectionModel *esm,
 						 GdkEventKey *key);
 void		e_selection_model_select_as_key_press
@@ -153,14 +154,16 @@ void		e_selection_model_foreach	(ESelectionModel *esm,
 						 EForeachFunc     callback,
 						 gpointer         closure);
 void		e_selection_model_clear		(ESelectionModel *esm);
-gint		e_selection_model_selected_count(ESelectionModel *esm);
+gint		e_selection_model_selected_count
+						(ESelectionModel *esm);
 void		e_selection_model_select_all	(ESelectionModel *esm);
 void		e_selection_model_invert_selection
 						(ESelectionModel *esm);
 gint		e_selection_model_row_count	(ESelectionModel *esm);
 
 /* Private virtual Functions */
-void		e_selection_model_change_one_row(ESelectionModel *esm,
+void		e_selection_model_change_one_row
+						(ESelectionModel *esm,
 						 gint row,
 						 gboolean on);
 void		e_selection_model_change_cursor	(ESelectionModel *esm,
@@ -182,7 +185,8 @@ void		e_selection_model_set_selection_end
 						 gint row);
 
 /* Signals */
-void		e_selection_model_cursor_changed(ESelectionModel *selection,
+void		e_selection_model_cursor_changed
+						(ESelectionModel *selection,
 						 gint row,
 						 gint col);
 void		e_selection_model_cursor_activated

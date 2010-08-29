@@ -216,7 +216,7 @@ ea_calendar_cell_get_name (AtkObject *accessible)
 
 	g_return_val_if_fail (EA_IS_CALENDAR_CELL (accessible), NULL);
 
-	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(accessible));
+	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (accessible));
 	if (!g_obj)
 		/* defunct object*/
 		return NULL;
@@ -258,7 +258,7 @@ ea_calendar_cell_get_parent (AtkObject *accessible)
 
 	g_return_val_if_fail (EA_IS_CALENDAR_CELL (accessible), NULL);
 
-	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(accessible));
+	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (accessible));
 	if (!g_obj)
 		/* defunct object*/
 		return NULL;
@@ -277,7 +277,7 @@ ea_calendar_cell_get_index_in_parent (AtkObject *accessible)
 
 	g_return_val_if_fail (EA_IS_CALENDAR_CELL (accessible), -1);
 
-	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(accessible));
+	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (accessible));
 	if (!g_obj)
 		return -1;
 	cell = E_CALENDAR_CELL (g_obj);
@@ -293,7 +293,7 @@ ea_calendar_cell_ref_state_set (AtkObject *accessible)
 
 	g_return_val_if_fail (atk_cell->state_set, NULL);
 
-	g_object_ref(atk_cell->state_set);
+	g_object_ref (atk_cell->state_set);
 
 	return atk_cell->state_set;
 
@@ -328,7 +328,7 @@ component_interface_get_extents (AtkComponent *component,
 
 	g_return_if_fail (EA_IS_CALENDAR_CELL (component));
 
-	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(component));
+	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (component));
 	if (!g_obj)
 		/* defunct object*/
 		return;
@@ -368,7 +368,7 @@ component_interface_grab_focus (AtkComponent *component)
 	a11y = EA_CALENDAR_CELL (component);
 	ea_calitem = ea_calendar_cell_get_parent (ATK_OBJECT (a11y));
 
-	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(ea_calitem));
+	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (ea_calitem));
 	calitem = E_CALENDAR_ITEM (g_obj);
 
 	index = atk_object_get_index_in_parent (ATK_OBJECT (a11y));

@@ -353,9 +353,9 @@ art_svp_writer_rewind_add_segment (ArtSvpWriter *self, gint wind_left,
   if (swr->n_segs_max == seg_num)
     {
       swr->n_segs_max <<= 1;
-      svp = (ArtSVP *)art_realloc (svp, sizeof(ArtSVP) +
+      svp = (ArtSVP *)art_realloc (svp, sizeof (ArtSVP) +
 				   (swr->n_segs_max - 1) *
-				   sizeof(ArtSVPSeg));
+				   sizeof (ArtSVPSeg));
       swr->svp = svp;
       swr->n_points_max = art_renew (swr->n_points_max, int,
 				     swr->n_segs_max);
@@ -441,8 +441,8 @@ art_svp_writer_rewind_new (ArtWindRule rule)
 
   result->rule = rule;
   result->n_segs_max = 16;
-  result->svp = art_alloc (sizeof(ArtSVP) +
-			   (result->n_segs_max - 1) * sizeof(ArtSVPSeg));
+  result->svp = art_alloc (sizeof (ArtSVP) +
+			   (result->n_segs_max - 1) * sizeof (ArtSVPSeg));
   result->svp->n_segs = 0;
   result->n_points_max = art_new (int, result->n_segs_max);
 
@@ -1625,7 +1625,7 @@ art_svp_intersector (const ArtSVP *in, ArtSvpWriter *out)
       ArtActiveSeg *seg = (ArtActiveSeg *)pri_point->user_data;
 
 #ifdef SANITYCHECK
-      art_svp_intersect_sanitycheck(ctx);
+      art_svp_intersect_sanitycheck (ctx);
 #endif
 
       if (ctx->y != pri_point->y)

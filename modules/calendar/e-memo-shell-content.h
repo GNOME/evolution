@@ -75,7 +75,8 @@ struct _EMemoShellContentClass {
 GType		e_memo_shell_content_get_type	(void);
 void		e_memo_shell_content_register_type
 					(GTypeModule *type_module);
-GtkWidget *	e_memo_shell_content_new(EShellView *shell_view);
+GtkWidget *	e_memo_shell_content_new
+					(EShellView *shell_view);
 ECalModel *	e_memo_shell_content_get_memo_model
 					(EMemoShellContent *memo_shell_conent);
 EMemoTable *	e_memo_shell_content_get_memo_table

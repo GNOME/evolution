@@ -1531,7 +1531,7 @@ gnome_canvas_text_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 	   bm_rows != text->priv->bitmap.rows ||
 	   bm_width != text->priv->bitmap.width) {
 		if (text->priv->bitmap.buffer) {
-			g_free(text->priv->bitmap.buffer);
+			g_free (text->priv->bitmap.buffer);
 		}
 		text->priv->bitmap.rows =  bm_rows;
 		text->priv->bitmap.width = bm_width;
@@ -1683,7 +1683,7 @@ gnome_canvas_text_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 			dy = 0;
 
 		if ((dx == 0) && (dy == 0)) {
-			pango_layout_iter_free(iter);
+			pango_layout_iter_free (iter);
 			return 0.0;
 		}
 
@@ -1691,9 +1691,9 @@ gnome_canvas_text_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 		if (dist < best)
 			best = dist;
 
-	} while (pango_layout_iter_next_line(iter));
+	} while (pango_layout_iter_next_line (iter));
 
-	pango_layout_iter_free(iter);
+	pango_layout_iter_free (iter);
 
 	return best / item->canvas->pixels_per_unit;
 }

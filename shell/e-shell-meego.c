@@ -87,7 +87,7 @@ e_shell_detect_meego (gboolean *is_meego,
 		}
 
 		display = gdk_display_get_default ();
-		screen = gdk_display_get_default_screen (gdk_display_get_default());
+		screen = gdk_display_get_default_screen (gdk_display_get_default ());
 
 		gdk_error_trap_push ();
 

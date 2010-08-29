@@ -77,7 +77,8 @@ EMsgComposer *	e_msg_composer_new_from_url	(EShell *shell,
 EMsgComposer *	e_msg_composer_new_redirect	(EShell *shell,
 						 CamelMimeMessage *message,
 						 const gchar *resent_from);
-EFocusTracker *	e_msg_composer_get_focus_tracker(EMsgComposer *composer);
+EFocusTracker *	e_msg_composer_get_focus_tracker
+						(EMsgComposer *composer);
 CamelSession *	e_msg_composer_get_session	(EMsgComposer *composer);
 EShell *	e_msg_composer_get_shell	(EMsgComposer *composer);
 
@@ -115,10 +116,12 @@ CamelMimeMessage *
 		e_msg_composer_get_message	(EMsgComposer *composer,
 						 gboolean save_html_object_data);
 CamelMimeMessage *
-		e_msg_composer_get_message_print(EMsgComposer *composer,
+		e_msg_composer_get_message_print
+						(EMsgComposer *composer,
 						 gboolean save_html_object_data);
 CamelMimeMessage *
-		e_msg_composer_get_message_draft(EMsgComposer *composer);
+		e_msg_composer_get_message_draft
+						(EMsgComposer *composer);
 void		e_msg_composer_show_sig_file	(EMsgComposer *composer);
 
 CamelInternetAddress *

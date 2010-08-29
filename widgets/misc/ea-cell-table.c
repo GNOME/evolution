@@ -44,7 +44,7 @@ ea_cell_table_create (gint rows, gint columns, gboolean column_first)
 	for (index = rows -1; index >= 0; --index)
 		cell_data->row_labels [index] = NULL;
 
-	cell_data->cells = g_new0(gpointer, (columns * rows));
+	cell_data->cells = g_new0 (gpointer, (columns * rows));
 	for (index = (columns * rows) -1; index >= 0; --index)
 		cell_data->cells [index] = NULL;
 	return cell_data;
@@ -102,7 +102,7 @@ ea_cell_table_set_cell (EaCellTable * cell_data,
 	if (index == -1)
 		return FALSE;
 
-	if (cell && G_IS_OBJECT(cell))
+	if (cell && G_IS_OBJECT (cell))
 		g_object_ref (cell);
 	if (cell_data->cells[index] &&
 	    G_IS_OBJECT (cell_data->cells[index]))
@@ -132,7 +132,7 @@ ea_cell_table_set_cell_at_index (EaCellTable * cell_data,
 	if (index < 0 || index >=cell_data->columns * cell_data->rows)
 		return FALSE;
 
-	if (cell && G_IS_OBJECT(cell))
+	if (cell && G_IS_OBJECT (cell))
 		g_object_ref (cell);
 	if (cell_data->cells[index] &&
 	    G_IS_OBJECT (cell_data->cells[index]))
@@ -161,7 +161,7 @@ ea_cell_table_set_column_label (EaCellTable * cell_data,
 
 	if (cell_data->column_labels[column])
 		g_free (cell_data->column_labels[column]);
-	cell_data->column_labels[column] = g_strdup(label);
+	cell_data->column_labels[column] = g_strdup (label);
 }
 
 G_CONST_RETURN gchar *
@@ -183,7 +183,7 @@ ea_cell_table_set_row_label (EaCellTable * cell_data,
 
 	if (cell_data->row_labels[row])
 		g_free (cell_data->row_labels[row]);
-	cell_data->row_labels[row] = g_strdup(label);
+	cell_data->row_labels[row] = g_strdup (label);
 }
 
 gint

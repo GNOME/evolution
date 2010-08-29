@@ -41,7 +41,7 @@ static gint es_model_to_sorted (ESorter *es, gint row);
 static gint es_sorted_to_model (ESorter *es, gint row);
 static void es_get_model_to_sorted_array (ESorter *es, gint **array, gint *count);
 static void es_get_sorted_to_model_array (ESorter *es, gint **array, gint *count);
-static gboolean es_needs_sorting(ESorter *es);
+static gboolean es_needs_sorting (ESorter *es);
 
 static void
 e_sorter_class_init (ESorterClass *klass)
@@ -89,7 +89,7 @@ es_get_sorted_to_model_array (ESorter *es, gint **array, gint *count)
 }
 
 static gboolean
-es_needs_sorting(ESorter *es)
+es_needs_sorting (ESorter *es)
 {
 	return FALSE;
 }
@@ -97,11 +97,11 @@ es_needs_sorting(ESorter *es)
 gint
 e_sorter_model_to_sorted (ESorter *es, gint row)
 {
-	g_return_val_if_fail(es != NULL, -1);
-	g_return_val_if_fail(row >= 0, -1);
+	g_return_val_if_fail (es != NULL, -1);
+	g_return_val_if_fail (row >= 0, -1);
 
-	if (E_SORTER_GET_CLASS(es)->model_to_sorted)
-		return E_SORTER_GET_CLASS(es)->model_to_sorted (es, row);
+	if (E_SORTER_GET_CLASS (es)->model_to_sorted)
+		return E_SORTER_GET_CLASS (es)->model_to_sorted (es, row);
 	else
 		return -1;
 }
@@ -109,11 +109,11 @@ e_sorter_model_to_sorted (ESorter *es, gint row)
 gint
 e_sorter_sorted_to_model (ESorter *es, gint row)
 {
-	g_return_val_if_fail(es != NULL, -1);
-	g_return_val_if_fail(row >= 0, -1);
+	g_return_val_if_fail (es != NULL, -1);
+	g_return_val_if_fail (row >= 0, -1);
 
-	if (E_SORTER_GET_CLASS(es)->sorted_to_model)
-		return E_SORTER_GET_CLASS(es)->sorted_to_model (es, row);
+	if (E_SORTER_GET_CLASS (es)->sorted_to_model)
+		return E_SORTER_GET_CLASS (es)->sorted_to_model (es, row);
 	else
 		return -1;
 }
@@ -121,28 +121,28 @@ e_sorter_sorted_to_model (ESorter *es, gint row)
 void
 e_sorter_get_model_to_sorted_array (ESorter *es, gint **array, gint *count)
 {
-	g_return_if_fail(es != NULL);
+	g_return_if_fail (es != NULL);
 
-	if (E_SORTER_GET_CLASS(es)->get_model_to_sorted_array)
-		E_SORTER_GET_CLASS(es)->get_model_to_sorted_array (es, array, count);
+	if (E_SORTER_GET_CLASS (es)->get_model_to_sorted_array)
+		E_SORTER_GET_CLASS (es)->get_model_to_sorted_array (es, array, count);
 }
 
 void
 e_sorter_get_sorted_to_model_array (ESorter *es, gint **array, gint *count)
 {
-	g_return_if_fail(es != NULL);
+	g_return_if_fail (es != NULL);
 
-	if (E_SORTER_GET_CLASS(es)->get_sorted_to_model_array)
-		E_SORTER_GET_CLASS(es)->get_sorted_to_model_array (es, array, count);
+	if (E_SORTER_GET_CLASS (es)->get_sorted_to_model_array)
+		E_SORTER_GET_CLASS (es)->get_sorted_to_model_array (es, array, count);
 }
 
 gboolean
-e_sorter_needs_sorting(ESorter *es)
+e_sorter_needs_sorting (ESorter *es)
 {
 	g_return_val_if_fail (es != NULL, FALSE);
 
-	if (E_SORTER_GET_CLASS(es)->needs_sorting)
-		return E_SORTER_GET_CLASS(es)->needs_sorting (es);
+	if (E_SORTER_GET_CLASS (es)->needs_sorting)
+		return E_SORTER_GET_CLASS (es)->needs_sorting (es);
 	else
 		return FALSE;
 }

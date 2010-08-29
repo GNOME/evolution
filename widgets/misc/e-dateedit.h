@@ -164,8 +164,8 @@ void       e_date_edit_set_time_popup_range	(EDateEdit	*dedit,
 						 gint		 upper_hour);
 
 /* Whether the time field is made insensitive rather than hiding it. */
-gboolean   e_date_edit_get_make_time_insensitive(EDateEdit	*dedit);
-void	   e_date_edit_set_make_time_insensitive(EDateEdit	*dedit,
+gboolean   e_date_edit_get_make_time_insensitive (EDateEdit	*dedit);
+void	   e_date_edit_set_make_time_insensitive (EDateEdit	*dedit,
 						 gboolean	 make_insensitive);
 
 /* Whether two-digit years in date could be modified as in future; default is TRUE */

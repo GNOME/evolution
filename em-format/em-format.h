@@ -188,44 +188,53 @@ struct _EMFormat {
 	GObject parent;
 	EMFormatPrivate *priv;
 
-	CamelMimeMessage *message; /* the current message */
+	/* The current message */
+	CamelMimeMessage *message;
 
 	CamelFolder *folder;
 	gchar *uid;
 
-	GString *part_id;	/* current part id prefix, for identifying parts directly */
+	/* Current part ID prefix for identifying parts directly. */
+	GString *part_id;
 
-	GQueue header_list;	/* if empty, then all */
+	/* If empty, then all. */
+	GQueue header_list;
 
-	CamelSession *session; /* session, used for authentication when required */
-	CamelURL *base;	/* content-base header or absolute content-location, for any part */
+	/* Used for authentication when required. */
+	CamelSession *session;
 
-	const gchar *snoop_mime_type; /* if we snooped an application/octet-stream type, what we snooped */
+	/* Content-Base header or absolute Content-Location, for any part. */
+	CamelURL *base;
 
-	/* for validity enveloping */
+	/* If we snooped an application/octet-stream, what we snooped. */
+	const gchar *snoop_mime_type;
+
+	/* For validity enveloping. */
 	CamelCipherValidity *valid;
 	CamelCipherValidity *valid_parent;
-	/* for checking whether found any signed/encrypted parts */
+
+	/* For checking whether we found any signed or encrypted parts. */
 	guint32 validity_found;
 
-	/* for forcing inlining */
+	/* For forcing inlining. */
 	GHashTable *inline_table;
 
-	/* global lookup table for message */
+	/* Global URI lookup table for message. */
 	GHashTable *pending_uri_table;
 
 	/* This structure is used internally to form a visibility tree of
 	 * parts in the current formatting stream.  This is to implement the
 	 * part resolution rules for RFC2387 to implement multipart/related. */
 	GNode *pending_uri_tree;
-	/* current level to search from */
+
+	/* The current level to search from. */
 	GNode *pending_uri_level;
 
-	EMFormatMode mode;	/* source/headers/etc */
-	gchar *charset;		/* charset override */
-	gchar *default_charset;	/* charset fallback */
-	gboolean composer; /* Formatting from composer ?*/
-	gboolean print;
+	EMFormatMode mode;		/* source/headers/etc */
+	gchar *charset;			/* charset override */
+	gchar *default_charset;		/* charset fallback */
+	gboolean composer;		/* formatting from composer? */
+	gboolean print;			/* formatting for printing? */
 };
 
 struct _EMFormatClass {

@@ -96,7 +96,7 @@ static gchar *         get_text_near_offset                   (AtkText          
                                                               gint              *start_offset,
                                                               gint              *end_offset);
 
-G_DEFINE_TYPE_WITH_CODE(GailCanvasText,
+G_DEFINE_TYPE_WITH_CODE (GailCanvasText,
 			gail_canvas_text,
 			GAIL_TYPE_CANVAS_ITEM,
 			G_IMPLEMENT_INTERFACE (ATK_TYPE_TEXT,
@@ -448,9 +448,9 @@ gail_canvas_text_remove_selection (AtkText *text,
   g_return_val_if_fail (gail_text->textutil, FALSE);
   buffer = gail_text->textutil->buffer;
 
-  gtk_text_buffer_get_selection_bounds(buffer, &start, &end);
-  select_start = gtk_text_iter_get_offset(&start);
-  select_end = gtk_text_iter_get_offset(&end);
+  gtk_text_buffer_get_selection_bounds (buffer, &start, &end);
+  select_start = gtk_text_iter_get_offset (&start);
+  select_end = gtk_text_iter_get_offset (&end);
 
   if (select_start != select_end)
     {
@@ -490,9 +490,9 @@ gail_canvas_text_set_selection (AtkText *text,
   g_return_val_if_fail (gail_text->textutil, FALSE);
   buffer = gail_text->textutil->buffer;
 
-  gtk_text_buffer_get_selection_bounds(buffer, &start, &end);
-  select_start = gtk_text_iter_get_offset(&start);
-  select_end = gtk_text_iter_get_offset(&end);
+  gtk_text_buffer_get_selection_bounds (buffer, &start, &end);
+  select_start = gtk_text_iter_get_offset (&start);
+  select_end = gtk_text_iter_get_offset (&end);
 
   if (select_start != select_end)
     {

@@ -96,8 +96,8 @@ gint
 e_text_event_processor_handle_event (ETextEventProcessor *tep,
                                      ETextEventProcessorEvent *event)
 {
-	if (E_TEXT_EVENT_PROCESSOR_GET_CLASS(tep)->event)
-		return E_TEXT_EVENT_PROCESSOR_GET_CLASS(tep)->event(tep, event);
+	if (E_TEXT_EVENT_PROCESSOR_GET_CLASS (tep)->event)
+		return E_TEXT_EVENT_PROCESSOR_GET_CLASS (tep)->event (tep, event);
 	else
 		return 0;
 }

@@ -82,8 +82,8 @@ event_finalize (GObject *object)
 		g_free (node);
 	}
 
-	g_slist_foreach(p->sorted, (GFunc)g_free, NULL);
-	g_slist_free(p->sorted);
+	g_slist_foreach (p->sorted, (GFunc)g_free, NULL);
+	g_slist_free (p->sorted);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_event_parent_class)->finalize (object);
@@ -127,9 +127,9 @@ e_event_init (EEvent *event)
  *
  * Return value: Returns @ep.
  **/
-EEvent *e_event_construct(EEvent *ep, const gchar *id)
+EEvent *e_event_construct (EEvent *ep, const gchar *id)
 {
-	ep->id = g_strdup(id);
+	ep->id = g_strdup (id);
 
 	return ep;
 }
@@ -153,7 +153,7 @@ e_event_add_items (EEvent *event,
 {
 	struct _event_node *node;
 
-	node = g_malloc(sizeof(*node));
+	node = g_malloc (sizeof (*node));
 	node->events = items;
 	node->freefunc = freefunc;
 	node->data = data;
@@ -161,8 +161,8 @@ e_event_add_items (EEvent *event,
 	g_queue_push_tail (&event->priv->events, node);
 
 	if (event->priv->sorted) {
-		g_slist_foreach(event->priv->sorted, (GFunc)g_free, NULL);
-		g_slist_free(event->priv->sorted);
+		g_slist_foreach (event->priv->sorted, (GFunc)g_free, NULL);
+		g_slist_free (event->priv->sorted);
 		event->priv->sorted = NULL;
 	}
 
@@ -178,25 +178,25 @@ e_event_add_items (EEvent *event,
  * added, and may only be removed once.
  **/
 void
-e_event_remove_items(EEvent *event, gpointer handle)
+e_event_remove_items (EEvent *event, gpointer handle)
 {
 	struct _event_node *node = handle;
 
 	g_queue_remove (&event->priv->events, node);
 
 	if (node->freefunc)
-		node->freefunc(event, node->events, node->data);
-	g_free(node);
+		node->freefunc (event, node->events, node->data);
+	g_free (node);
 
 	if (event->priv->sorted) {
-		g_slist_foreach(event->priv->sorted, (GFunc)g_free, NULL);
-		g_slist_free(event->priv->sorted);
+		g_slist_foreach (event->priv->sorted, (GFunc)g_free, NULL);
+		g_slist_free (event->priv->sorted);
 		event->priv->sorted = NULL;
 	}
 }
 
 static gint
-ee_cmp(gconstpointer ap, gconstpointer bp)
+ee_cmp (gconstpointer ap, gconstpointer bp)
 {
 	gint a = ((struct _event_info **)ap)[0]->item->priority;
 	gint b = ((struct _event_info **)bp)[0]->item->priority;
@@ -220,7 +220,7 @@ ee_cmp(gconstpointer ap, gconstpointer bp)
  * emission is complete.
  **/
 void
-e_event_emit(EEvent *event, const gchar *id, EEventTarget *target)
+e_event_emit (EEvent *event, const gchar *id, EEventTarget *target)
 {
 	EEventPrivate *p = event->priv;
 	GSList *events;
@@ -241,22 +241,22 @@ e_event_emit(EEvent *event, const gchar *id, EEventTarget *target)
 			struct _event_node *node = link->data;
 			GSList *l = node->events;
 
-			for (;l;l=g_slist_next(l)) {
+			for (;l;l=g_slist_next (l)) {
 				struct _event_info *info;
 
-				info = g_malloc0(sizeof(*info));
+				info = g_malloc0 (sizeof (*info));
 				info->parent = node;
 				info->item = l->data;
-				events = g_slist_prepend(events, info);
+				events = g_slist_prepend (events, info);
 			}
 
 			link = g_list_next (link);
 		}
 
-		p->sorted = events = g_slist_sort(events, ee_cmp);
+		p->sorted = events = g_slist_sort (events, ee_cmp);
 	}
 
-	for (;events;events=g_slist_next(events)) {
+	for (;events;events=g_slist_next (events)) {
 		struct _event_info *info = events->data;
 		EEventItem *item = info->item;
 
@@ -266,15 +266,15 @@ e_event_emit(EEvent *event, const gchar *id, EEventTarget *target)
 		if (item->enable & target->mask)
 			continue;
 
-		if (strcmp(item->id, id) == 0) {
-			item->handle(event, item, info->parent->data);
+		if (strcmp (item->id, id) == 0) {
+			item->handle (event, item, info->parent->data);
 
 			if (item->type == E_EVENT_SINK)
 				break;
 		}
 	}
 
-	e_event_target_free(event, target);
+	e_event_target_free (event, target);
 	event->target = NULL;
 }
 
@@ -295,9 +295,9 @@ e_event_target_new (EEvent *event,
 {
 	EEventTarget *target;
 
-	if (size < sizeof(EEventTarget)) {
+	if (size < sizeof (EEventTarget)) {
 		g_warning ("Size is less than the size of EEventTarget\n");
-		size = sizeof(EEventTarget);
+		size = sizeof (EEventTarget);
 	}
 
 	target = g_malloc0 (size);
@@ -380,7 +380,7 @@ G_DEFINE_TYPE (
 	E_TYPE_PLUGIN_HOOK)
 
 static void
-emph_event_handle(EEvent *ee, EEventItem *item, gpointer data)
+emph_event_handle (EEvent *ee, EEventItem *item, gpointer data)
 {
 	EEventHook *hook = data;
 
@@ -388,40 +388,40 @@ emph_event_handle(EEvent *ee, EEventItem *item, gpointer data)
 	if (!hook->hook.plugin->enabled)
 		return;
 
-	e_plugin_invoke(hook->hook.plugin, (gchar *)item->user_data, ee->target);
+	e_plugin_invoke (hook->hook.plugin, (gchar *)item->user_data, ee->target);
 }
 
 static void
-emph_free_item(EEventItem *item)
+emph_free_item (EEventItem *item)
 {
-	g_free((gchar *)item->id);
-	g_free(item->user_data);
-	g_free(item);
+	g_free ((gchar *)item->id);
+	g_free (item->user_data);
+	g_free (item);
 }
 
 static void
-emph_free_items(EEvent *ee, GSList *items, gpointer data)
+emph_free_items (EEvent *ee, GSList *items, gpointer data)
 {
 	/*EPluginHook *eph = data;*/
 
-	g_slist_foreach(items, (GFunc)emph_free_item, NULL);
-	g_slist_free(items);
+	g_slist_foreach (items, (GFunc)emph_free_item, NULL);
+	g_slist_free (items);
 }
 
 static EEventItem *
-emph_construct_item(EPluginHook *eph, xmlNodePtr root, EEventHookClass *class)
+emph_construct_item (EPluginHook *eph, xmlNodePtr root, EEventHookClass *class)
 {
 	EEventItem *item;
 	EEventHookTargetMap *map;
 	gchar *tmp;
 
-	item = g_malloc0(sizeof(*item));
+	item = g_malloc0 (sizeof (*item));
 
 	tmp = (gchar *)xmlGetProp(root, (const guchar *)"target");
 	if (tmp == NULL)
 		goto error;
-	map = g_hash_table_lookup(class->target_map, tmp);
-	xmlFree(tmp);
+	map = g_hash_table_lookup (class->target_map, tmp);
+	xmlFree (tmp);
 	if (map == NULL)
 		goto error;
 	item->target_type = map->id;
@@ -440,34 +440,34 @@ emph_construct_item(EPluginHook *eph, xmlNodePtr root, EEventHookClass *class)
 
 	return item;
 error:
-	emph_free_item(item);
+	emph_free_item (item);
 	return NULL;
 }
 
 static gint
-emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
+emph_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 {
 	xmlNodePtr node;
 	EEventHookClass *class;
 	GSList *items = NULL;
 
-	g_return_val_if_fail(((EEventHookClass *)G_OBJECT_GET_CLASS(eph))->event != NULL, -1);
+	g_return_val_if_fail (((EEventHookClass *)G_OBJECT_GET_CLASS (eph))->event != NULL, -1);
 
 	d(printf("loading event hook\n"));
 
-	if (((EPluginHookClass *)e_event_hook_parent_class)->construct(eph, ep, root) == -1)
+	if (((EPluginHookClass *)e_event_hook_parent_class)->construct (eph, ep, root) == -1)
 		return -1;
 
-	class = (EEventHookClass *)G_OBJECT_GET_CLASS(eph);
+	class = (EEventHookClass *)G_OBJECT_GET_CLASS (eph);
 
 	node = root->children;
 	while (node) {
 		if (strcmp((gchar *)node->name, "event") == 0) {
 			EEventItem *item;
 
-			item = emph_construct_item(eph, node, class);
+			item = emph_construct_item (eph, node, class);
 			if (item)
-				items = g_slist_prepend(items, item);
+				items = g_slist_prepend (items, item);
 		}
 		node = node->next;
 	}
@@ -475,7 +475,7 @@ emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 	eph->plugin = ep;
 
 	if (items)
-		e_event_add_items(class->event, items, emph_free_items, eph);
+		e_event_add_items (class->event, items, emph_free_items, eph);
 
 	return 0;
 }

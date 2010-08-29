@@ -77,8 +77,10 @@ struct _EShellView *
 const gchar *	e_shell_sidebar_get_icon_name	(EShellSidebar *shell_sidebar);
 void		e_shell_sidebar_set_icon_name	(EShellSidebar *shell_sidebar,
 						 const gchar *icon_name);
-const gchar *	e_shell_sidebar_get_primary_text(EShellSidebar *shell_sidebar);
-void		e_shell_sidebar_set_primary_text(EShellSidebar *shell_sidebar,
+const gchar *	e_shell_sidebar_get_primary_text
+						(EShellSidebar *shell_sidebar);
+void		e_shell_sidebar_set_primary_text
+						(EShellSidebar *shell_sidebar,
 						 const gchar *primary_text);
 const gchar *	e_shell_sidebar_get_secondary_text
 						(EShellSidebar *shell_sidebar);

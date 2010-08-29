@@ -140,7 +140,7 @@ categories_icon_theme_hack (void)
 /* Warning dialog to scare people off a little bit.  */
 
 static gboolean
-show_development_warning(void)
+show_development_warning (void)
 {
 	GtkWidget *action_area;
 	GtkWidget *content_area;
@@ -173,7 +173,7 @@ show_development_warning(void)
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
 	gtk_box_pack_start (GTK_BOX (content_area), vbox, TRUE, TRUE, 0);
 
-	text = g_strdup_printf(
+	text = g_strdup_printf (
 		/* xgettext:no-c-format */
 		/* Preview/Alpha/Beta version warning message */
 		_("Hi.  Thanks for taking the time to download this preview release\n"
@@ -193,7 +193,7 @@ show_development_warning(void)
 		  "eagerly await your contributions!\n"),
 		STABLE_VERSION);
 	label = gtk_label_new (text);
-	g_free(text);
+	g_free (text);
 
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
@@ -202,8 +202,8 @@ show_development_warning(void)
 
 	label = gtk_label_new (_("Thanks\n"
 				 "The Evolution Team\n"));
-	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
-	gtk_misc_set_alignment(GTK_MISC(label), 1, .5);
+	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_RIGHT);
+	gtk_misc_set_alignment (GTK_MISC (label), 1, .5);
 
 	gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
 
@@ -524,8 +524,8 @@ main (gint argc, gchar **argv)
 	}
 
 	if (unregister_handlers) {
-		_e_win32_unregister_mailer();
-		_e_win32_unregister_addressbook();
+		_e_win32_unregister_mailer ();
+		_e_win32_unregister_addressbook ();
 		exit (0);
 	}
 

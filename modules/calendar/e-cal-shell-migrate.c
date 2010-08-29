@@ -110,11 +110,16 @@ create_calendar_sources (EShellBackend *shell_backend,
 			if (!strcmp (base_uri, e_source_group_peek_base_uri (group)))
 				e_source_group_set_base_uri (group, base_uri_proto);
 
-			if (!*on_this_computer && !strcmp (base_uri_proto, e_source_group_peek_base_uri (group)))
+			if (!*on_this_computer && !strcmp (base_uri_proto,
+				e_source_group_peek_base_uri (group)))
 				*on_this_computer = g_object_ref (group);
-			else if (!*on_the_web && !strcmp (WEBCAL_BASE_URI, e_source_group_peek_base_uri (group)))
+
+			else if (!*on_the_web && !strcmp (WEBCAL_BASE_URI,
+				e_source_group_peek_base_uri (group)))
 				*on_the_web = g_object_ref (group);
-			else if (!*contacts && !strcmp (CONTACTS_BASE_URI, e_source_group_peek_base_uri (group)))
+
+			else if (!*contacts && !strcmp (CONTACTS_BASE_URI,
+				e_source_group_peek_base_uri (group)))
 				*contacts = g_object_ref (group);
 		}
 	}

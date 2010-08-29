@@ -262,7 +262,7 @@ e_calendar_style_set		(GtkWidget	*widget,
 {
 	ECalendar *e_calendar;
 
-	e_calendar = E_CALENDAR(widget);
+	e_calendar = E_CALENDAR (widget);
 	if (GTK_WIDGET_CLASS (e_calendar_parent_class)->style_set)
 		(*GTK_WIDGET_CLASS (e_calendar_parent_class)->style_set) (widget,
 							       previous_style);
@@ -291,7 +291,7 @@ e_calendar_size_request		(GtkWidget      *widget,
 	cal = E_CALENDAR (widget);
 	style = gtk_widget_get_style (GTK_WIDGET (cal));
 
-	g_object_get((cal->calitem),
+	g_object_get ((cal->calitem),
 			"row_height", &row_height,
 			"column_width", &col_width,
 			NULL);
@@ -559,8 +559,8 @@ e_calendar_button_has_focus (ECalendar	*cal)
 
 	g_return_val_if_fail (E_IS_CALENDAR (cal), FALSE);
 
-	prev_widget = GNOME_CANVAS_WIDGET(cal->prev_item)->widget;
-	next_widget = GNOME_CANVAS_WIDGET(cal->next_item)->widget;
+	prev_widget = GNOME_CANVAS_WIDGET (cal->prev_item)->widget;
+	next_widget = GNOME_CANVAS_WIDGET (cal->next_item)->widget;
 	ret_val = gtk_widget_has_focus (prev_widget) ||
 		gtk_widget_has_focus (next_widget);
 	return ret_val;
@@ -633,8 +633,8 @@ e_calendar_set_focusable (ECalendar *cal, gboolean focusable)
 	g_return_if_fail (E_IS_CALENDAR (cal));
 
 	widget = GTK_WIDGET (cal);
-	prev_widget = GNOME_CANVAS_WIDGET(cal->prev_item)->widget;
-	next_widget = GNOME_CANVAS_WIDGET(cal->next_item)->widget;
+	prev_widget = GNOME_CANVAS_WIDGET (cal->prev_item)->widget;
+	next_widget = GNOME_CANVAS_WIDGET (cal->next_item)->widget;
 
 	if (focusable) {
 		gtk_widget_set_can_focus (widget, TRUE);

@@ -190,7 +190,7 @@ e_utf8_to_charset_string_sized (const gchar *charset, const gchar *string, gint 
 
 	ic = camel_iconv_open(charset, "utf-8");
 	ret = e_utf8_to_iconv_string_sized (ic, string, bytes);
-	camel_iconv_close(ic);
+	camel_iconv_close (ic);
 
 	return ret;
 }
@@ -205,7 +205,7 @@ e_utf8_from_locale_string_sized (const gchar *string, gint bytes)
 
 	ic = camel_iconv_open("utf-8", camel_iconv_locale_charset());
 	ret = e_utf8_from_iconv_string_sized (ic, string, bytes);
-	camel_iconv_close(ic);
+	camel_iconv_close (ic);
 
 	return ret;
 }
@@ -332,7 +332,7 @@ e_xml_get_translated_utf8_string_prop_by_name (const xmlNode *parent,
 		ret_val = g_strdup (gettext ((gchar *)prop));
 		xmlFree (prop);
 	}
-	g_free(combined_name);
+	g_free (combined_name);
 
 	return ret_val;
 }

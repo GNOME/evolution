@@ -77,24 +77,24 @@ art_rect_list_from_uta (ArtUta *uta, gint max_width, gint max_height,
 	bb = utiles[ix];
 	if (bb)
 	  {
-	    x0 = ((uta->x0 + x) << ART_UTILE_SHIFT) + ART_UTA_BBOX_X0(bb);
-	    y0 = ((uta->y0 + y) << ART_UTILE_SHIFT) + ART_UTA_BBOX_Y0(bb);
-	    y1 = ((uta->y0 + y) << ART_UTILE_SHIFT) + ART_UTA_BBOX_Y1(bb);
+	    x0 = ((uta->x0 + x) << ART_UTILE_SHIFT) + ART_UTA_BBOX_X0 (bb);
+	    y0 = ((uta->y0 + y) << ART_UTILE_SHIFT) + ART_UTA_BBOX_Y0 (bb);
+	    y1 = ((uta->y0 + y) << ART_UTILE_SHIFT) + ART_UTA_BBOX_Y1 (bb);
 
 	    left_ix = ix;
 	    /* now try to extend to the right */
 	    while (x != width - 1 &&
-		   ART_UTA_BBOX_X1(bb) == ART_UTILE_SIZE &&
+		   ART_UTA_BBOX_X1 (bb) == ART_UTILE_SIZE &&
 		   (((bb & 0xffffff) ^ utiles[ix + 1]) & 0xffff00ff) == 0 &&
 		   (((uta->x0 + x + 1) << ART_UTILE_SHIFT) +
-		    ART_UTA_BBOX_X1(utiles[ix + 1]) -
+		    ART_UTA_BBOX_X1 (utiles[ix + 1]) -
 		    x0) <= max_width)
 	      {
 		bb = utiles[ix + 1];
 		ix++;
 		x++;
 	      }
-	    x1 = ((uta->x0 + x) << ART_UTILE_SHIFT) + ART_UTA_BBOX_X1(bb);
+	    x1 = ((uta->x0 + x) << ART_UTILE_SHIFT) + ART_UTA_BBOX_X1 (bb);
 
 	    /* if rectangle nonempty */
 	    if ((x1 ^ x0) | (y1 ^ y0))

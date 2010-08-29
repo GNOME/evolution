@@ -122,7 +122,11 @@ struct _send_info {
 	struct _send_data *data;
 };
 
-static CamelFolder *receive_get_folder(CamelFilterDriver *d, const gchar *uri, gpointer data, GError **error);
+static CamelFolder *
+		receive_get_folder		(CamelFilterDriver *d,
+						 const gchar *uri,
+						 gpointer data,
+						 GError **error);
 
 static struct _send_data *send_data = NULL;
 static GtkWidget *send_recv_dialog = NULL;
@@ -344,28 +348,40 @@ format_url (const gchar *internal_url, const gchar *account_name)
 	CamelURL *url;
 	gchar *pretty_url = NULL;
 
-	url = camel_url_new(internal_url, NULL);
+	url = camel_url_new (internal_url, NULL);
+
 	if (account_name) {
 		if (url->host && *url->host)
-			pretty_url = g_strdup_printf("<b>%s (%s)</b>: %s", account_name, url->protocol, url->host);
+			pretty_url = g_strdup_printf (
+				"<b>%s (%s)</b>: %s",
+				account_name, url->protocol, url->host);
 		else if (url->path)
-			pretty_url = g_strdup_printf("<b>%s (%s)</b>: %s", account_name, url->protocol, url->path);
+			pretty_url = g_strdup_printf (
+				"<b>%s (%s)</b>: %s",
+				account_name, url->protocol, url->path);
 		else
-			pretty_url = g_strdup_printf("<b>%s (%s)</b>", account_name, url->protocol);
-	}
-	else if (url) {
+			pretty_url = g_strdup_printf (
+				"<b>%s (%s)</b>",
+				account_name, url->protocol);
+
+	} else if (url) {
 		if (url->host && *url->host)
-			pretty_url = g_strdup_printf("<b>%s</b>: %s", url->protocol, url->host);
+			pretty_url = g_strdup_printf (
+				"<b>%s</b>: %s",
+				url->protocol, url->host);
 		else if (url->path)
-			pretty_url = g_strdup_printf("<b>%s</b>: %s", url->protocol, url->path);
+			pretty_url = g_strdup_printf (
+				"<b>%s</b>: %s",
+				url->protocol, url->path);
 		else
-			pretty_url = g_strdup_printf("<b>%s</b>", url->protocol);
+			pretty_url = g_strdup_printf (
+				"<b>%s</b>", url->protocol);
 	}
 
 	if (url)
-		camel_url_free(url);
+		camel_url_free (url);
 
-        return pretty_url;
+	return pretty_url;
 }
 
 static send_info_t
@@ -462,9 +478,11 @@ build_dialog (GtkWindow *parent,
 
 	g_object_unref (iter);
 
-	/* Check to see if we have to send any mails --- if we don't, don't display the SMTP row in the table */
+	/* Check to see if we have to send any mails.
+	 * If we don't, don't display the SMTP row in the table. */
 	if (outbox && destination
-	 && (camel_folder_get_message_count(outbox) - camel_folder_get_deleted_message_count(outbox)) == 0)
+	 && (camel_folder_get_message_count(outbox) -
+		camel_folder_get_deleted_message_count(outbox)) == 0)
 		num_sources--;
 
 	table = gtk_table_new (num_sources, 4, FALSE);
@@ -588,13 +606,16 @@ build_dialog (GtkWindow *parent,
 
 	/* we also need gd during emition to be able to catch Cancel All */
 	data->gd = gd;
-	/* Hook: If some one wants to hook on to the sendreceive dialog, this is the way to go. */
-	target = em_event_target_new_send_receive (em_event_peek(), table, data, row, EM_EVENT_SEND_RECEIVE);
-	e_event_emit ((EEvent *)em_event_peek (), "mail.sendreceive", (EEventTarget *) target);
+	target = em_event_target_new_send_receive (
+		em_event_peek(), table, data, row, EM_EVENT_SEND_RECEIVE);
+	e_event_emit (
+		(EEvent *) em_event_peek (), "mail.sendreceive",
+		(EEventTarget *) target);
 
 	/* Skip displaying the SMTP row if we've got no outbox, destination or unsent mails */
 	if (outbox && destination
-	 && (camel_folder_get_message_count(outbox) - camel_folder_get_deleted_message_count(outbox)) != 0) {
+	 && (camel_folder_get_message_count(outbox) -
+		camel_folder_get_deleted_message_count(outbox)) != 0) {
 		info = g_hash_table_lookup (data->active, SEND_URI_KEY);
 		if (info == NULL) {
 			info = g_malloc0 (sizeof (*info));
@@ -692,7 +713,11 @@ update_folders(gchar *uri, struct _folder_info *info, gpointer data)
 }
 
 static void
-receive_status (CamelFilterDriver *driver, enum camel_filter_status_t status, gint pc, const gchar *desc, gpointer data)
+receive_status (CamelFilterDriver *driver,
+                enum camel_filter_status_t status,
+                gint pc,
+                const gchar *desc,
+                gpointer data)
 {
 	struct _send_info *info = data;
 	time_t now = time(NULL);
@@ -789,7 +814,10 @@ receive_done (const gchar *uri, gpointer data)
    This can also be used to hook into which folders are being updated, and occasionally
    let them refresh */
 static CamelFolder *
-receive_get_folder(CamelFilterDriver *d, const gchar *uri, gpointer data, GError **error)
+receive_get_folder (CamelFilterDriver *d,
+                    const gchar *uri,
+                    gpointer data,
+                    GError **error)
 {
 	struct _send_info *info = data;
 	CamelFolder *folder;
@@ -839,7 +867,9 @@ get_folders (CamelStore *store, GPtrArray *folders, CamelFolderInfo *info)
 		if (camel_store_can_refresh_folder (store, info, NULL)) {
 			CamelURL *url = camel_url_new (info->uri, NULL);
 
-			if (url && (!camel_url_get_param (url, "noselect") || !g_str_equal (camel_url_get_param (url, "noselect"), "yes")))
+			if (url && (!camel_url_get_param (url, "noselect") ||
+				!g_str_equal (camel_url_get_param (
+				url, "noselect"), "yes")))
 				g_ptr_array_add (folders, g_strdup (info->uri));
 
 			if (url)
@@ -1097,8 +1127,10 @@ auto_account_added(EAccountList *eal, EAccount *ea, gpointer dummy)
 
 	info = g_malloc0(sizeof(*info));
 	info->account = ea;
-	g_object_set_data_full((GObject *)ea, "mail-autoreceive", info, (GDestroyNotify)auto_account_finalised);
-	auto_account_commit(info);
+	g_object_set_data_full (
+		G_OBJECT (ea), "mail-autoreceive", info,
+		(GDestroyNotify) auto_account_finalised);
+	auto_account_commit (info);
 }
 
 static void
@@ -1122,8 +1154,12 @@ auto_online (EShell *shell)
 		return;
 
 	accounts = e_get_account_list ();
-	for (iter = e_list_get_iterator((EList *)accounts);e_iterator_is_valid(iter);e_iterator_next(iter)) {
-		info  = g_object_get_data((GObject *)e_iterator_get(iter), "mail-autoreceive");
+	for (iter = e_list_get_iterator ((EList *)accounts);
+	     e_iterator_is_valid (iter);
+	     e_iterator_next (iter)) {
+		info = g_object_get_data (
+			G_OBJECT (e_iterator_get (iter)),
+			"mail-autoreceive");
 		if (info && info->timeout_id)
 			auto_timeout(info);
 	}
@@ -1146,14 +1182,23 @@ mail_autoreceive_init (EShellBackend *shell_backend,
 		return;
 
 	accounts = e_get_account_list ();
-	auto_active = g_hash_table_new(g_str_hash, g_str_equal);
+	auto_active = g_hash_table_new (g_str_hash, g_str_equal);
 
-	g_signal_connect(accounts, "account-added", G_CALLBACK(auto_account_added), NULL);
-	g_signal_connect(accounts, "account-removed", G_CALLBACK(auto_account_removed), NULL);
-	g_signal_connect(accounts, "account-changed", G_CALLBACK(auto_account_changed), NULL);
+	g_signal_connect (
+		accounts, "account-added",
+		G_CALLBACK (auto_account_added), NULL);
+	g_signal_connect (
+		accounts, "account-removed",
+		G_CALLBACK (auto_account_removed), NULL);
+	g_signal_connect (
+		accounts, "account-changed",
+		G_CALLBACK (auto_account_changed), NULL);
 
-	for (iter = e_list_get_iterator((EList *)accounts);e_iterator_is_valid(iter);e_iterator_next(iter))
-		auto_account_added(accounts, (EAccount *)e_iterator_get(iter), NULL);
+	for (iter = e_list_get_iterator ((EList *)accounts);
+	     e_iterator_is_valid(iter);
+	     e_iterator_next(iter))
+		auto_account_added (
+			accounts, (EAccount *) e_iterator_get (iter), NULL);
 
 	shell = e_shell_backend_get_shell (shell_backend);
 
@@ -1164,8 +1209,8 @@ mail_autoreceive_init (EShellBackend *shell_backend,
 		G_CALLBACK (auto_online), NULL);
 }
 
-/* we setup the download info's in a hashtable, if we later need to build the gui, we insert
-   them in to add them. */
+/* We setup the download info's in a hashtable, if we later
+ * need to build the gui, we insert them in to add them. */
 void
 mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 {

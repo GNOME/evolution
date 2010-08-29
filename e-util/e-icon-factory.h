@@ -26,7 +26,7 @@
 
 #include <gtk/gtk.h>
 
-gchar *		e_icon_factory_get_icon_filename(const gchar *icon_name,
+gchar *		e_icon_factory_get_icon_filename (const gchar *icon_name,
 						 GtkIconSize icon_size);
 GdkPixbuf *	e_icon_factory_get_icon		(const gchar *icon_name,
 						 GtkIconSize icon_size);

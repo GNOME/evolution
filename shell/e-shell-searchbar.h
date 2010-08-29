@@ -68,7 +68,8 @@ struct _EShellSearchbarClass {
 
 GType		e_shell_searchbar_get_type	(void);
 GtkWidget *	e_shell_searchbar_new		(EShellView *shell_view);
-EShellView *	e_shell_searchbar_get_shell_view(EShellSearchbar *searchbar);
+EShellView *	e_shell_searchbar_get_shell_view
+						(EShellSearchbar *searchbar);
 gboolean	e_shell_searchbar_get_express_mode
 						(EShellSearchbar *searchbar);
 void		e_shell_searchbar_set_express_mode

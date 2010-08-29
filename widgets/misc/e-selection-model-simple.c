@@ -46,7 +46,7 @@ e_selection_model_simple_class_init (ESelectionModelSimpleClass *klass)
 {
 	ESelectionModelArrayClass *esma_class;
 
-	esma_class                = E_SELECTION_MODEL_ARRAY_CLASS(klass);
+	esma_class                = E_SELECTION_MODEL_ARRAY_CLASS (klass);
 
 	esma_class->get_row_count = esms_get_row_count;
 }
@@ -69,9 +69,9 @@ e_selection_model_simple_set_row_count (ESelectionModelSimple *esms,
 					gint row_count)
 {
 	if (esms->row_count != row_count) {
-		ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY(esms);
+		ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (esms);
 		if (esma->eba)
-			g_object_unref(esma->eba);
+			g_object_unref (esma->eba);
 		esma->eba = NULL;
 		esma->selected_row = -1;
 		esma->selected_range_end = -1;
@@ -82,7 +82,7 @@ e_selection_model_simple_set_row_count (ESelectionModelSimple *esms,
 static gint
 esms_get_row_count (ESelectionModelArray *esma)
 {
-	ESelectionModelSimple *esms = E_SELECTION_MODEL_SIMPLE(esma);
+	ESelectionModelSimple *esms = E_SELECTION_MODEL_SIMPLE (esma);
 
 	return esms->row_count;
 }
@@ -92,7 +92,7 @@ void      e_selection_model_simple_insert_rows         (ESelectionModelSimple *e
 							gint                    count)
 {
 	esms->row_count += count;
-	e_selection_model_array_insert_rows (E_SELECTION_MODEL_ARRAY(esms), row, count);
+	e_selection_model_array_insert_rows (E_SELECTION_MODEL_ARRAY (esms), row, count);
 }
 
 void
@@ -101,7 +101,7 @@ e_selection_model_simple_delete_rows          (ESelectionModelSimple *esms,
 					       gint                    count)
 {
 	esms->row_count -= count;
-	e_selection_model_array_delete_rows (E_SELECTION_MODEL_ARRAY(esms), row, count);
+	e_selection_model_array_delete_rows (E_SELECTION_MODEL_ARRAY (esms), row, count);
 }
 
 void
@@ -109,5 +109,5 @@ e_selection_model_simple_move_row            (ESelectionModelSimple *esms,
 					      gint                    old_row,
 					      gint                    new_row)
 {
-	e_selection_model_array_move_row (E_SELECTION_MODEL_ARRAY(esms), old_row, new_row);
+	e_selection_model_array_move_row (E_SELECTION_MODEL_ARRAY (esms), old_row, new_row);
 }

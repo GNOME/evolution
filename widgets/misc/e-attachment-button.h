@@ -74,8 +74,10 @@ gboolean	e_attachment_button_get_expandable
 void		e_attachment_button_set_expandable
 						(EAttachmentButton *button,
 						 gboolean expandable);
-gboolean	e_attachment_button_get_expanded(EAttachmentButton *button);
-void		e_attachment_button_set_expanded(EAttachmentButton *button,
+gboolean	e_attachment_button_get_expanded
+						(EAttachmentButton *button);
+void		e_attachment_button_set_expanded
+						(EAttachmentButton *button,
 						 gboolean expanded);
 
 G_END_DECLS

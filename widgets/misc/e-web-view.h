@@ -128,7 +128,8 @@ void		e_web_view_set_selected_uri	(EWebView *web_view,
 GtkAction *	e_web_view_get_open_proxy	(EWebView *web_view);
 void		e_web_view_set_open_proxy	(EWebView *web_view,
 						 GtkAction *open_proxy);
-GtkTargetList *	e_web_view_get_paste_target_list(EWebView *web_view);
+GtkTargetList *	e_web_view_get_paste_target_list
+						(EWebView *web_view);
 GtkAction *	e_web_view_get_print_proxy	(EWebView *web_view);
 void		e_web_view_set_print_proxy	(EWebView *web_view,
 						 GtkAction *print_proxy);

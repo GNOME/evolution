@@ -47,8 +47,8 @@ filter_code_build_code (EFilterElement *element,
 
 	l = fi->values;
 	while (l) {
-		g_string_append(out, (gchar *)l->data);
-		l = g_list_next(l);
+		g_string_append (out, (gchar *)l->data);
+		l = g_list_next (l);
 	}
 
 	if (!is_rawcode)

@@ -57,9 +57,9 @@ art_svp_merge (const ArtSVP *svp1, const ArtSVP *svp2)
   gint ix;
   gint ix1, ix2;
 
-  svp_new = (ArtSVP *)art_alloc (sizeof(ArtSVP) +
+  svp_new = (ArtSVP *)art_alloc (sizeof (ArtSVP) +
 				 (svp1->n_segs + svp2->n_segs - 1) *
-				 sizeof(ArtSVPSeg));
+				 sizeof (ArtSVPSeg));
   ix1 = 0;
   ix2 = 0;
   for (ix = 0; ix < svp1->n_segs + svp2->n_segs; ix++)

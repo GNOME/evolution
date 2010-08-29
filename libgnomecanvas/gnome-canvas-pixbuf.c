@@ -844,7 +844,7 @@ transform_pixbuf (guchar *dest,
 			for (i = 0; i < gdk_pixbuf_get_n_channels (pixbuf); i++)
 				*d++ = *src++;
 
-			if (!gdk_pixbuf_get_has_alpha(pixbuf))
+			if (!gdk_pixbuf_get_has_alpha (pixbuf))
 				*d++ = 255; /* opaque */
 		}
 	}
@@ -981,14 +981,14 @@ gnome_canvas_pixbuf_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 
 	    g_object_unref (dest_pixbuf);
 	  }
-	else if (gdk_pixbuf_get_has_alpha(priv->pixbuf))
+	else if (gdk_pixbuf_get_has_alpha (priv->pixbuf))
 		art_rgb_rgba_affine (buf->buf,
 				     buf->rect.x0, buf->rect.y0, buf->rect.x1, buf->rect.y1,
 				     buf->buf_rowstride,
-				     gdk_pixbuf_get_pixels(priv->pixbuf),
-				     gdk_pixbuf_get_width(priv->pixbuf),
-				     gdk_pixbuf_get_height(priv->pixbuf),
-				     gdk_pixbuf_get_rowstride(priv->pixbuf),
+				     gdk_pixbuf_get_pixels (priv->pixbuf),
+				     gdk_pixbuf_get_width (priv->pixbuf),
+				     gdk_pixbuf_get_height (priv->pixbuf),
+				     gdk_pixbuf_get_rowstride (priv->pixbuf),
 				     render_affine,
 				     ART_FILTER_NEAREST,
 				     NULL);
@@ -996,10 +996,10 @@ gnome_canvas_pixbuf_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 		art_rgb_affine (buf->buf,
 				buf->rect.x0, buf->rect.y0, buf->rect.x1, buf->rect.y1,
 				buf->buf_rowstride,
-				gdk_pixbuf_get_pixels(priv->pixbuf),
-				gdk_pixbuf_get_width(priv->pixbuf),
-				gdk_pixbuf_get_height(priv->pixbuf),
-				gdk_pixbuf_get_rowstride(priv->pixbuf),
+				gdk_pixbuf_get_pixels (priv->pixbuf),
+				gdk_pixbuf_get_width (priv->pixbuf),
+				gdk_pixbuf_get_height (priv->pixbuf),
+				gdk_pixbuf_get_rowstride (priv->pixbuf),
 				render_affine,
 				ART_FILTER_NEAREST,
 				NULL);

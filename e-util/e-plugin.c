@@ -111,7 +111,7 @@ ep_set_enabled (const gchar *id, gint state)
 	GConfClient *client;
 
 	/* Bail out if no change to state, when expressed as a boolean: */
-	if ((state == 0) == (ep_check_enabled(id) == 0))
+	if ((state == 0) == (ep_check_enabled (id) == 0))
 		return;
 
 	if (state) {
@@ -151,8 +151,8 @@ ep_construct (EPlugin *ep, xmlNodePtr root)
 		g_free (localedir);
 		localedir = mapped_localedir;
 #endif
-		bindtextdomain(ep->domain, localedir);
-		g_free(localedir);
+		bindtextdomain (ep->domain, localedir);
+		g_free (localedir);
 	}
 
 	ep->name = e_plugin_xml_prop_domain(root, "name", ep->domain);
@@ -176,32 +176,32 @@ ep_construct (EPlugin *ep, xmlNodePtr root)
 
 			if (ep->enabled
 			    && eph_types != NULL
-			    && (type = g_hash_table_lookup(eph_types, class)) != NULL) {
-				g_free(class);
-				hook = g_object_new(G_OBJECT_CLASS_TYPE(type), NULL);
-				res = type->construct(hook, ep, node);
+			    && (type = g_hash_table_lookup (eph_types, class)) != NULL) {
+				g_free (class);
+				hook = g_object_new (G_OBJECT_CLASS_TYPE (type), NULL);
+				res = type->construct (hook, ep, node);
 				if (res == -1) {
 					g_warning("Plugin '%s' failed to load hook", ep->name);
-					g_object_unref(hook);
+					g_object_unref (hook);
 					goto fail;
 				} else {
-					ep->hooks = g_slist_append(ep->hooks, hook);
+					ep->hooks = g_slist_append (ep->hooks, hook);
 				}
 			} else {
 				g_free (class);
 			}
 		} else if (strcmp((gchar *)node->name, "description") == 0) {
-			ep->description = e_plugin_xml_content_domain(node, ep->domain);
+			ep->description = e_plugin_xml_content_domain (node, ep->domain);
 		} else if (strcmp((gchar *)node->name, "author") == 0) {
 			gchar *name = e_plugin_xml_prop(node, "name");
 			gchar *email = e_plugin_xml_prop(node, "email");
 
 			if (name || email) {
-				EPluginAuthor *epa = g_malloc0(sizeof(*epa));
+				EPluginAuthor *epa = g_malloc0 (sizeof (*epa));
 
 				epa->name = name;
 				epa->email = email;
-				ep->authors = g_slist_append(ep->authors, epa);
+				ep->authors = g_slist_append (ep->authors, epa);
 			}
 		}
 		node = node->next;
@@ -222,7 +222,7 @@ ep_enable (EPlugin *ep, gint state)
 		e_plugin_hook_enable (hook, state);
 	}
 
-	ep_set_enabled(ep->id, state);
+	ep_set_enabled (ep->id, state);
 }
 
 static void
@@ -305,19 +305,19 @@ e_plugin_class_init (EPluginClass *class)
 	path = g_strdup(g_getenv("EVOLUTION_PLUGIN_PATH"));
 	if (path == NULL) {
 		/* Add the global path */
-		e_plugin_add_load_path(EVOLUTION_PLUGINDIR);
+		e_plugin_add_load_path (EVOLUTION_PLUGINDIR);
 
 		path = g_build_filename(g_get_home_dir(), ".eplugins", NULL);
 	}
 
 	p = path;
-	while ((col = strchr(p, G_SEARCHPATH_SEPARATOR))) {
+	while ((col = strchr (p, G_SEARCHPATH_SEPARATOR))) {
 		*col++ = 0;
-		e_plugin_add_load_path(p);
+		e_plugin_add_load_path (p);
 		p = col;
 	}
-	e_plugin_add_load_path(p);
-	g_free(path);
+	e_plugin_add_load_path (p);
+	g_free (path);
 }
 
 static void
@@ -327,7 +327,7 @@ e_plugin_init (EPlugin *ep)
 }
 
 static EPlugin *
-ep_load_plugin(xmlNodePtr root, struct _plugin_doc *pdoc)
+ep_load_plugin (xmlNodePtr root, struct _plugin_doc *pdoc)
 {
 	gchar *prop, *id;
 	EPluginClass *class;
@@ -339,44 +339,44 @@ ep_load_plugin(xmlNodePtr root, struct _plugin_doc *pdoc)
 		return NULL;
 	}
 
-	if (g_hash_table_lookup(ep_plugins, id)) {
+	if (g_hash_table_lookup (ep_plugins, id)) {
 		g_warning("Plugin '%s' already defined", id);
-		g_free(id);
+		g_free (id);
 		return NULL;
 	}
 
 	prop = (gchar *)xmlGetProp(root, (const guchar *)"type");
 	if (prop == NULL) {
-		g_free(id);
+		g_free (id);
 		g_warning("Invalid e-plugin entry in '%s': no type", pdoc->filename);
 		return NULL;
 	}
 
 	/* If we can't find a plugin, add it to a pending list
 	 * which is checked when a new type is registered. */
-	class = g_hash_table_lookup(ep_types, prop);
+	class = g_hash_table_lookup (ep_types, prop);
 	if (class == NULL) {
 		pd(printf("Delaying loading of plugin '%s' unknown type '%s'\n", id, prop));
-		g_free(id);
-		xmlFree(prop);
-		pdoc->plugins = g_slist_prepend(pdoc->plugins, root);
+		g_free (id);
+		xmlFree (prop);
+		pdoc->plugins = g_slist_prepend (pdoc->plugins, root);
 		return NULL;
 	}
-	xmlFree(prop);
+	xmlFree (prop);
 
-	ep = g_object_new(G_TYPE_FROM_CLASS(class), NULL);
+	ep = g_object_new (G_TYPE_FROM_CLASS (class), NULL);
 	ep->id = id;
-	ep->path = g_strdup(pdoc->filename);
-	ep->enabled = ep_check_enabled(id);
-	if (e_plugin_construct(ep, root) == -1)
-		e_plugin_enable(ep, FALSE);
-	g_hash_table_insert(ep_plugins, ep->id, ep);
+	ep->path = g_strdup (pdoc->filename);
+	ep->enabled = ep_check_enabled (id);
+	if (e_plugin_construct (ep, root) == -1)
+		e_plugin_enable (ep, FALSE);
+	g_hash_table_insert (ep_plugins, ep->id, ep);
 
 	return ep;
 }
 
 static gint
-ep_load(const gchar *filename, gint load_level)
+ep_load (const gchar *filename, gint load_level)
 {
 	xmlDocPtr doc;
 	xmlNodePtr root;
@@ -387,16 +387,16 @@ ep_load(const gchar *filename, gint load_level)
 	if (doc == NULL)
 		return -1;
 
-	root = xmlDocGetRootElement(doc);
+	root = xmlDocGetRootElement (doc);
 	if (strcmp((gchar *)root->name, "e-plugin-list") != 0) {
 		g_warning("No <e-plugin-list> root element: %s", filename);
-		xmlFreeDoc(doc);
+		xmlFreeDoc (doc);
 		return -1;
 	}
 
-	pdoc = g_malloc0(sizeof(*pdoc));
+	pdoc = g_malloc0 (sizeof (*pdoc));
 	pdoc->doc = doc;
-	pdoc->filename = g_strdup(filename);
+	pdoc->filename = g_strdup (filename);
 
 	for (root = root->children; root; root = root->next) {
 		if (strcmp((gchar *)root->name, "e-plugin") == 0) {
@@ -406,7 +406,7 @@ ep_load(const gchar *filename, gint load_level)
 			plugin_load_level = e_plugin_xml_prop (root, "load_level");
 			if (plugin_load_level) {
 				if ((atoi (plugin_load_level) == load_level) ) {
-					ep = ep_load_plugin(root, pdoc);
+					ep = ep_load_plugin (root, pdoc);
 
 					if (ep) {
 						if (load_level == 1)
@@ -414,7 +414,7 @@ ep_load(const gchar *filename, gint load_level)
 					}
 				}
 			} else if (load_level == 2) {
-				ep = ep_load_plugin(root, pdoc);
+				ep = ep_load_plugin (root, pdoc);
 			}
 
 			if (ep) {
@@ -430,7 +430,7 @@ ep_load(const gchar *filename, gint load_level)
 					ep->flags &= ~E_PLUGIN_FLAGS_SYSTEM_PLUGIN;
 				g_free (is_system_plugin);
 
-				pdoc->plugin_hooks = g_slist_prepend(pdoc->plugin_hooks, ep);
+				pdoc->plugin_hooks = g_slist_prepend (pdoc->plugin_hooks, ep);
 				ep = NULL;
 			}
 		}
@@ -458,9 +458,9 @@ ep_load(const gchar *filename, gint load_level)
  * Plugin definitions are XML files ending in the extension ".eplug".
  **/
 void
-e_plugin_add_load_path(const gchar *path)
+e_plugin_add_load_path (const gchar *path)
 {
-	ep_path = g_slist_append(ep_path, g_strdup(path));
+	ep_path = g_slist_append (ep_path, g_strdup (path));
 }
 
 static void
@@ -519,7 +519,7 @@ plugin_hook_load_subclass (GType type,
  * Return value: Returns -1 if an error occurred.
  **/
 gint
-e_plugin_load_plugins(void)
+e_plugin_load_plugins (void)
 {
 	GConfClient *client;
 	GSList *l;
@@ -549,29 +549,29 @@ e_plugin_load_plugins(void)
 	g_object_unref (client);
 
 	for (i=0; i < 3; i++) {
-		for (l = ep_path;l;l = g_slist_next(l)) {
+		for (l = ep_path;l;l = g_slist_next (l)) {
 			GDir *dir;
 			const gchar *d;
 			gchar *path = l->data;
 
 			pd(printf("scanning plugin dir '%s'\n", path));
 
-			dir = g_dir_open(path, 0, NULL);
+			dir = g_dir_open (path, 0, NULL);
 			if (dir == NULL) {
 				/*g_warning("Could not find plugin path: %s", path);*/
 				continue;
 			}
 
-			while ((d = g_dir_read_name(dir))) {
+			while ((d = g_dir_read_name (dir))) {
 				if (g_str_has_suffix  (d, ".eplug")) {
-					gchar * name = g_build_filename(path, d, NULL);
+					gchar * name = g_build_filename (path, d, NULL);
 
-					ep_load(name, i);
-					g_free(name);
+					ep_load (name, i);
+					g_free (name);
 				}
 			}
 
-			g_dir_close(dir);
+			g_dir_close (dir);
 		}
 	}
 
@@ -579,7 +579,7 @@ e_plugin_load_plugins(void)
 }
 
 static void
-ep_list_plugin(gpointer key, gpointer val, gpointer dat)
+ep_list_plugin (gpointer key, gpointer val, gpointer dat)
 {
 	GSList **l = (GSList **)dat;
 
@@ -596,12 +596,12 @@ ep_list_plugin(gpointer key, gpointer val, gpointer dat)
  * g_object_unref'd and the list freed.
  **/
 GSList *
-e_plugin_list_plugins(void)
+e_plugin_list_plugins (void)
 {
 	GSList *l = NULL;
 
 	if (ep_plugins)
-		g_hash_table_foreach(ep_plugins, ep_list_plugin, &l);
+		g_hash_table_foreach (ep_plugins, ep_list_plugin, &l);
 
 	return l;
 }
@@ -617,7 +617,7 @@ e_plugin_list_plugins(void)
  * Return value: The return from the construct virtual method.
  **/
 gint
-e_plugin_construct(EPlugin *ep, xmlNodePtr root)
+e_plugin_construct (EPlugin *ep, xmlNodePtr root)
 {
 	EPluginClass *class;
 
@@ -643,7 +643,7 @@ e_plugin_construct(EPlugin *ep, xmlNodePtr root)
  * Return value: The return of the plugin invocation.
  **/
 gpointer
-e_plugin_invoke(EPlugin *ep, const gchar *name, gpointer data)
+e_plugin_invoke (EPlugin *ep, const gchar *name, gpointer data)
 {
 	EPluginClass *class;
 
@@ -670,7 +670,7 @@ e_plugin_invoke(EPlugin *ep, const gchar *name, gpointer data)
  * Return value: the symbol value, or %NULL if not found
  **/
 gpointer
-e_plugin_get_symbol(EPlugin *ep, const gchar *name)
+e_plugin_get_symbol (EPlugin *ep, const gchar *name)
 {
 	EPluginClass *class;
 
@@ -692,7 +692,7 @@ e_plugin_get_symbol(EPlugin *ep, const gchar *name)
  * THIS IS NOT FULLY IMPLEMENTED YET
  **/
 void
-e_plugin_enable(EPlugin *ep, gint state)
+e_plugin_enable (EPlugin *ep, gint state)
 {
 	EPluginClass *class;
 
@@ -744,17 +744,17 @@ e_plugin_get_configure_widget (EPlugin *ep)
  * such property exists.
  **/
 gchar *
-e_plugin_xml_prop(xmlNodePtr node, const gchar *id)
+e_plugin_xml_prop (xmlNodePtr node, const gchar *id)
 {
-	gchar *p = (gchar *)xmlGetProp(node, (const guchar *)id);
+	gchar *p = (gchar *)xmlGetProp (node, (const guchar *)id);
 
-	if (g_mem_is_system_malloc()) {
+	if (g_mem_is_system_malloc ()) {
 		return p;
 	} else {
-		gchar * out = g_strdup(p);
+		gchar * out = g_strdup (p);
 
 		if (p)
-			xmlFree(p);
+			xmlFree (p);
 		return out;
 	}
 }
@@ -772,16 +772,16 @@ e_plugin_xml_prop(xmlNodePtr node, const gchar *id)
  * such property exists.
  **/
 gchar *
-e_plugin_xml_prop_domain(xmlNodePtr node, const gchar *id, const gchar *domain)
+e_plugin_xml_prop_domain (xmlNodePtr node, const gchar *id, const gchar *domain)
 {
 	gchar *p, *out;
 
-	p = (gchar *)xmlGetProp(node, (const guchar *)id);
+	p = (gchar *)xmlGetProp (node, (const guchar *)id);
 	if (p == NULL)
 		return NULL;
 
-	out = g_strdup(dgettext(domain, p));
-	xmlFree(p);
+	out = g_strdup (dgettext (domain, p));
+	xmlFree (p);
 
 	return out;
 }
@@ -800,12 +800,12 @@ e_plugin_xml_prop_domain(xmlNodePtr node, const gchar *id, const gchar *domain)
  * Return value: The value if set, or @def if not.
  **/
 gint
-e_plugin_xml_int(xmlNodePtr node, const gchar *id, gint def)
+e_plugin_xml_int (xmlNodePtr node, const gchar *id, gint def)
 {
-	gchar *p = (gchar *)xmlGetProp(node, (const guchar *)id);
+	gchar *p = (gchar *)xmlGetProp (node, (const guchar *)id);
 
 	if (p)
-		return atoi(p);
+		return atoi (p);
 	else
 		return def;
 }
@@ -821,17 +821,17 @@ e_plugin_xml_int(xmlNodePtr node, const gchar *id, gint def)
  * Return value: The node content, allocated in GLib memory.
  **/
 gchar *
-e_plugin_xml_content(xmlNodePtr node)
+e_plugin_xml_content (xmlNodePtr node)
 {
-	gchar *p = (gchar *)xmlNodeGetContent(node);
+	gchar *p = (gchar *)xmlNodeGetContent (node);
 
-	if (g_mem_is_system_malloc()) {
+	if (g_mem_is_system_malloc ()) {
 		return p;
 	} else {
-		gchar * out = g_strdup(p);
+		gchar * out = g_strdup (p);
 
 		if (p)
-			xmlFree(p);
+			xmlFree (p);
 		return out;
 	}
 }
@@ -848,16 +848,16 @@ e_plugin_xml_content(xmlNodePtr node)
  * Return value: The node content, allocated in GLib memory.
  **/
 gchar *
-e_plugin_xml_content_domain(xmlNodePtr node, const gchar *domain)
+e_plugin_xml_content_domain (xmlNodePtr node, const gchar *domain)
 {
 	gchar *p, *out;
 
-	p = (gchar *)xmlNodeGetContent(node);
+	p = (gchar *)xmlNodeGetContent (node);
 	if (p == NULL)
 		return NULL;
 
-	out = g_strdup(dgettext(domain, p));
-	xmlFree(p);
+	out = g_strdup (dgettext (domain, p));
+	xmlFree (p);
 
 	return out;
 }
@@ -870,7 +870,7 @@ G_DEFINE_TYPE (
 	G_TYPE_OBJECT)
 
 static gint
-eph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
+eph_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 {
 	eph->plugin = ep;
 
@@ -878,7 +878,7 @@ eph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 }
 
 static void
-eph_enable(EPluginHook *eph, gint state)
+eph_enable (EPluginHook *eph, gint state)
 {
 	/* NOOP */
 }
@@ -941,7 +941,7 @@ e_plugin_hook_mask (xmlNodePtr root,
 	gchar *val, *p, *start, c;
 	guint32 mask = 0;
 
-	val = (gchar *)xmlGetProp(root, (const guchar *)prop);
+	val = (gchar *)xmlGetProp (root, (const guchar *)prop);
 	if (val == NULL)
 		return 0;
 
@@ -956,7 +956,7 @@ e_plugin_hook_mask (xmlNodePtr root,
 			gint i;
 
 			for (i=0;map[i].key;i++) {
-				if (!strcmp(map[i].key, start)) {
+				if (!strcmp (map[i].key, start)) {
 					mask |= map[i].value;
 					break;
 				}
@@ -965,7 +965,7 @@ e_plugin_hook_mask (xmlNodePtr root,
 		*p++ = c;
 	} while (c);
 
-	xmlFree(val);
+	xmlFree (val);
 
 	return mask;
 }
@@ -994,18 +994,18 @@ e_plugin_hook_id (xmlNodePtr root,
 	gchar *val;
 	gint i;
 
-	val = (gchar *)xmlGetProp(root, (const guchar *)prop);
+	val = (gchar *)xmlGetProp (root, (const guchar *)prop);
 	if (val == NULL)
 		return ~0;
 
 	for (i=0;map[i].key;i++) {
-		if (!strcmp(map[i].key, val)) {
-			xmlFree(val);
+		if (!strcmp (map[i].key, val)) {
+			xmlFree (val);
 			return map[i].value;
 		}
 	}
 
-	xmlFree(val);
+	xmlFree (val);
 
 	return ~0;
 }

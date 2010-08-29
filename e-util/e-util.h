@@ -141,7 +141,8 @@ gchar *		e_util_guess_mime_type		(const gchar *filename,
 GSList *	e_util_get_category_filter_options
 						(void);
 
-void		e_util_set_source_combo_box_list(GtkWidget *source_combo_box,
+void		e_util_set_source_combo_box_list
+						(GtkWidget *source_combo_box,
 						 const gchar *source_gconf_path);
 
 G_END_DECLS

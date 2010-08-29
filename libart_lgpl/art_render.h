@@ -97,7 +97,7 @@ struct _ArtMaskSource {
   ArtRenderCallback super;
   gint (*can_drive) (ArtMaskSource *self, ArtRender *render);
   /* For each mask source, ::prepare() is invoked if it is not
-     a driver, or ::invoke_driver() if it is. */
+     a driver, or ::invoke_driver () if it is. */
   void (*invoke_driver) (ArtMaskSource *self, ArtRender *render);
   void (*prepare) (ArtMaskSource *self, ArtRender *render, art_boolean first);
 };

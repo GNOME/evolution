@@ -47,11 +47,11 @@ static const gint e_calendar_item_days_in_month[12] = {
   && ((year) % 4 == 0 && ((year) % 100 != 0 || (year) % 400 == 0))) ? 1 : 0)
 
 static void e_calendar_item_dispose	(GObject	 *object);
-static void e_calendar_item_get_property(GObject	 *object,
+static void e_calendar_item_get_property (GObject	 *object,
 					 guint		  property_id,
 					 GValue		 *value,
 					 GParamSpec	 *pspec);
-static void e_calendar_item_set_property(GObject	 *object,
+static void e_calendar_item_set_property (GObject	 *object,
 					 guint		  property_id,
 					 const GValue	 *value,
 					 GParamSpec	 *pspec);
@@ -125,7 +125,7 @@ static void e_calendar_item_get_month_info	(ECalendarItem	*calitem,
 						 gint		*first_day_offset,
 						 gint		*days_in_month,
 						 gint		*days_in_prev_month);
-static void e_calendar_item_recalc_sizes(ECalendarItem *calitem);
+static void e_calendar_item_recalc_sizes (ECalendarItem *calitem);
 
 static void e_calendar_item_get_day_style	(ECalendarItem	*calitem,
 						 gint		 year,
@@ -147,12 +147,12 @@ static void e_calendar_item_check_selection_end	(ECalendarItem	*calitem,
 						 gint		 start_day,
 						 gint		*end_month,
 						 gint		*end_day);
-static void e_calendar_item_check_selection_start(ECalendarItem	*calitem,
+static void e_calendar_item_check_selection_start (ECalendarItem	*calitem,
 						  gint		*start_month,
 						  gint		*start_day,
 						  gint		 end_month,
 						  gint		 end_day);
-static void e_calendar_item_add_days_to_selection(ECalendarItem	*calitem,
+static void e_calendar_item_add_days_to_selection (ECalendarItem	*calitem,
 						  gint		 days);
 static void e_calendar_item_round_up_selection	(ECalendarItem	*calitem,
 						 gint		*month_offset,
@@ -179,7 +179,7 @@ static gboolean e_calendar_item_ensure_days_visible (ECalendarItem *calitem,
 static void e_calendar_item_show_popup_menu	(ECalendarItem	*calitem,
 						 GdkEventButton	*event,
 						 gint		 month_offset);
-static void e_calendar_item_on_menu_item_activate(GtkWidget	*menuitem,
+static void e_calendar_item_on_menu_item_activate (GtkWidget	*menuitem,
 						  ECalendarItem	*calitem);
 static void e_calendar_item_position_menu	(GtkMenu            *menu,
 						 gint               *x,
@@ -850,7 +850,7 @@ e_calendar_item_realize		(GnomeCanvasItem *item)
 
 	calitem = E_CALENDAR_ITEM (item);
 
-	e_calendar_item_style_set (GTK_WIDGET(item->canvas), calitem);
+	e_calendar_item_style_set (GTK_WIDGET (item->canvas), calitem);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (calitem));
 }
@@ -1778,7 +1778,7 @@ e_calendar_item_stop_selecting (ECalendarItem *calitem, guint32 time)
 
 	/* If the user selects the grayed dates before the first month or
 	   after the last month, we move backwards or forwards one month.
-	   The set_month() call should take care of updating the selection. */
+	   The set_month () call should take care of updating the selection. */
 	if (calitem->selection_end_month_offset == -1)
 		e_calendar_item_set_first_month (calitem, calitem->year,
 						 calitem->month - 1);
@@ -2553,7 +2553,7 @@ e_calendar_item_get_month_info	(ECalendarItem	*calitem,
 }
 
 void
-e_calendar_item_get_first_month(ECalendarItem	*calitem,
+e_calendar_item_get_first_month (ECalendarItem	*calitem,
 				gint		*year,
 				gint		*month)
 {
@@ -2601,7 +2601,7 @@ e_calendar_item_preserve_day_selection	(ECalendarItem	*calitem,
 
 /* This also handles values of month < 0 or > 11 by updating the year. */
 void
-e_calendar_item_set_first_month(ECalendarItem	*calitem,
+e_calendar_item_set_first_month (ECalendarItem	*calitem,
 				gint		 year,
 				gint		 month)
 {
@@ -2721,14 +2721,14 @@ e_calendar_item_set_max_days_sel       (ECalendarItem	*calitem,
 
 /* Get the maximum number of days before whole weeks are selected */
 gint
-e_calendar_item_get_days_start_week_sel(ECalendarItem	*calitem)
+e_calendar_item_get_days_start_week_sel (ECalendarItem	*calitem)
 {
 	return calitem->days_to_start_week_selection;
 }
 
 /* Set the maximum number of days before whole weeks are selected */
 void
-e_calendar_item_set_days_start_week_sel(ECalendarItem	*calitem,
+e_calendar_item_set_days_start_week_sel (ECalendarItem	*calitem,
 					gint            days)
 {
 	calitem->days_to_start_week_selection = days;
@@ -3473,7 +3473,7 @@ e_calendar_item_signal_emission_idle_cb	(gpointer data)
 
 	/* We ref the calitem & check in case it gets destroyed, since we
 	   were getting a free memory write here. */
-	g_object_ref((calitem));
+	g_object_ref ((calitem));
 
 	if (calitem->date_range_changed) {
 		calitem->date_range_changed = FALSE;
@@ -3485,7 +3485,7 @@ e_calendar_item_signal_emission_idle_cb	(gpointer data)
 		g_signal_emit (calitem, e_calendar_item_signals[SELECTION_CHANGED], 0);
 	}
 
-	g_object_unref((calitem));
+	g_object_unref ((calitem));
 
 	GDK_THREADS_LEAVE ();
 	return FALSE;

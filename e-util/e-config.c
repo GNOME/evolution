@@ -104,7 +104,7 @@ config_finalize (GObject *object)
 
 	d(printf("finalising EConfig %p\n", object));
 
-	g_free(emp->id);
+	g_free (emp->id);
 
 	link = p->menus;
 	while (link != NULL) {
@@ -236,11 +236,11 @@ e_config_construct (EConfig *ep, gint type, const gchar *id)
  * TODO: perhaps commit and abort should just be signals.
  **/
 void
-e_config_add_items(EConfig *ec, GSList *items, EConfigItemsFunc commitfunc, EConfigItemsFunc abortfunc, EConfigItemsFunc freefunc, gpointer data)
+e_config_add_items (EConfig *ec, GSList *items, EConfigItemsFunc commitfunc, EConfigItemsFunc abortfunc, EConfigItemsFunc freefunc, gpointer data)
 {
 	struct _menu_node *node;
 
-	node = g_malloc(sizeof(*node));
+	node = g_malloc (sizeof (*node));
 	node->menu = items;
 	node->commit = commitfunc;
 	node->abort = abortfunc;
@@ -269,12 +269,12 @@ e_config_add_items(EConfig *ec, GSList *items, EConfigItemsFunc commitfunc, ECon
  * the assistant to continue or the notebook to close.
  **/
 void
-e_config_add_page_check(EConfig *ec, const gchar *pageid, EConfigCheckFunc check, gpointer data)
+e_config_add_page_check (EConfig *ec, const gchar *pageid, EConfigCheckFunc check, gpointer data)
 {
 	struct _check_node *cn;
 
-	cn = g_malloc0(sizeof(*cn));
-	cn->pageid = g_strdup(pageid);
+	cn = g_malloc0 (sizeof (*cn));
+	cn->pageid = g_strdup (pageid);
 	cn->check = check;
 	cn->data = data;
 
@@ -346,12 +346,12 @@ ec_add_static_items (EConfig *config)
 }
 
 static gint
-ep_cmp(gconstpointer ap, gconstpointer bp)
+ep_cmp (gconstpointer ap, gconstpointer bp)
 {
 	struct _widget_node *a = *((gpointer *)ap);
 	struct _widget_node *b = *((gpointer *)bp);
 
-	return strcmp(a->item->path, b->item->path);
+	return strcmp (a->item->path, b->item->path);
 }
 
 static GList *
@@ -576,18 +576,18 @@ ec_rebuild (EConfig *emp)
 			|| item->type == E_CONFIG_SECTION_TABLE)) {
 			if ((sectionnode->empty = (itemno == 0 || n_visible_widgets == 0))) {
 				if (sectionnode->real_frame)
-					gtk_widget_hide(sectionnode->real_frame);
+					gtk_widget_hide (sectionnode->real_frame);
 
 				if (sectionnode->frame)
-					gtk_widget_hide(sectionnode->frame);
+					gtk_widget_hide (sectionnode->frame);
 
 				sectionno--;
 			} else {
 				if (sectionnode->real_frame)
-					gtk_widget_show(sectionnode->real_frame);
+					gtk_widget_show (sectionnode->real_frame);
 
 				if (sectionnode->frame)
-					gtk_widget_show(sectionnode->frame);
+					gtk_widget_show (sectionnode->frame);
 			}
 
 			d(printf("%s section '%s' [sections=%d]\n", sectionnode->empty?"hiding":"showing", sectionnode->item->path, sectionno));
@@ -601,10 +601,10 @@ ec_rebuild (EConfig *emp)
 			|| item->type == E_CONFIG_PAGE_FINISH
 			|| item->type == E_CONFIG_PAGE_PROGRESS)) {
 			if ((pagenode->empty = sectionno == 0)) {
-				gtk_widget_hide(pagenode->frame);
+				gtk_widget_hide (pagenode->frame);
 				pageno--;
 			} else
-				gtk_widget_show(pagenode->frame);
+				gtk_widget_show (pagenode->frame);
 			d(printf("%s page '%s' [section=%d]\n", pagenode->empty?"hiding":"showing", pagenode->item->path, pageno));
 		}
 
@@ -628,14 +628,14 @@ ec_rebuild (EConfig *emp)
 					break;
 				}
 				if (item->factory) {
-					root = item->factory(emp, item, NULL, wn->widget, wn->context->data);
+					root = item->factory (emp, item, NULL, wn->widget, wn->context->data);
 				} else if (item->type == E_CONFIG_BOOK) {
-					root = gtk_notebook_new();
+					root = gtk_notebook_new ();
 					gtk_widget_show (root);
 				} else if (item->type == E_CONFIG_ASSISTANT) {
 					root = gtk_assistant_new ();
 				} else
-					abort();
+					abort ();
 
 				if (item->type == E_CONFIG_ASSISTANT) {
 					g_signal_connect_swapped (
@@ -689,7 +689,7 @@ ec_rebuild (EConfig *emp)
 
 			if (wn->widget == NULL) {
 				if (item->factory) {
-					page = item->factory(emp, item, root, wn->frame, wn->context->data);
+					page = item->factory (emp, item, root, wn->frame, wn->context->data);
 				} else {
 					page = gtk_vbox_new (FALSE, 0);
 					gtk_container_set_border_width (GTK_CONTAINER (page), 12);
@@ -757,13 +757,13 @@ ec_rebuild (EConfig *emp)
 			}
 
 			if (item->factory) {
-				page = item->factory(emp, item, root, wn->frame, wn->context->data);
+				page = item->factory (emp, item, root, wn->frame, wn->context->data);
 				if (emp->type == E_CONFIG_ASSISTANT) {
 					wn->frame = page;
 				} else {
 					wn->frame = page;
 					if (page)
-						gtk_notebook_reorder_child((GtkNotebook *)book, page, pageno);
+						gtk_notebook_reorder_child ((GtkNotebook *)book, page, pageno);
 				}
 				if (page)
 					sectionno = 1;
@@ -786,11 +786,11 @@ ec_rebuild (EConfig *emp)
 					wn->frame = page;
 				} else {
 					w = gtk_label_new_with_mnemonic (translated_label);
-					gtk_widget_show(w);
-					page = gtk_vbox_new(FALSE, 12);
-					gtk_container_set_border_width((GtkContainer *)page, 12);
-					gtk_widget_show(page);
-					gtk_notebook_insert_page((GtkNotebook *)book, page, w, pageno);
+					gtk_widget_show (w);
+					page = gtk_vbox_new (FALSE, 12);
+					gtk_container_set_border_width ((GtkContainer *)page, 12);
+					gtk_widget_show (page);
+					gtk_notebook_insert_page ((GtkNotebook *)book, page, w, pageno);
 					wn->frame = page;
 				}
 			} else
@@ -835,7 +835,7 @@ ec_rebuild (EConfig *emp)
 				 */
 				EConfigItemSectionFactoryFunc factory = (EConfigItemSectionFactoryFunc) item->factory;
 
-				section = factory(emp, item, page, wn->widget, wn->context->data, &wn->real_frame);
+				section = factory (emp, item, page, wn->widget, wn->context->data, &wn->real_frame);
 				wn->frame = section;
 				if (section)
 					itemno = 1;
@@ -854,8 +854,8 @@ ec_rebuild (EConfig *emp)
 				}
 
 				if (section
-				    && ((item->type == E_CONFIG_SECTION && !GTK_IS_BOX(section))
-					|| (item->type == E_CONFIG_SECTION_TABLE && !GTK_IS_TABLE(section))))
+				    && ((item->type == E_CONFIG_SECTION && !GTK_IS_BOX (section))
+					|| (item->type == E_CONFIG_SECTION_TABLE && !GTK_IS_TABLE (section))))
 					g_warning("EConfig section type is wrong");
 			} else {
 				GtkWidget *frame;
@@ -863,7 +863,7 @@ ec_rebuild (EConfig *emp)
 
 				if (wn->frame) {
 					d(printf("Item %s, clearing generated section widget\n", wn->item->path));
-					gtk_widget_destroy(wn->frame);
+					gtk_widget_destroy (wn->frame);
 					wn->widget = NULL;
 					wn->frame = NULL;
 				}
@@ -871,22 +871,22 @@ ec_rebuild (EConfig *emp)
 				if (translated_label != NULL) {
 					gchar *txt = g_markup_printf_escaped("<span weight=\"bold\">%s</span>", translated_label);
 
-					label = g_object_new(gtk_label_get_type(),
+					label = g_object_new (gtk_label_get_type (),
 							     "label", txt,
 							     "use_markup", TRUE,
 							     "xalign", 0.0, NULL);
-					g_free(txt);
+					g_free (txt);
 				}
 
 				if (item->type == E_CONFIG_SECTION)
-					section = gtk_vbox_new(FALSE, 6);
+					section = gtk_vbox_new (FALSE, 6);
 				else {
-					section = gtk_table_new(1, 1, FALSE);
-					gtk_table_set_col_spacings((GtkTable *)section, 6);
-					gtk_table_set_row_spacings((GtkTable *)section, 6);
+					section = gtk_table_new (1, 1, FALSE);
+					gtk_table_set_col_spacings ((GtkTable *)section, 6);
+					gtk_table_set_row_spacings ((GtkTable *)section, 6);
 				}
 
-				frame = g_object_new(gtk_frame_get_type(),
+				frame = g_object_new (gtk_frame_get_type (),
 						     "shadow_type", GTK_SHADOW_NONE,
 						     "label_widget", label,
 						     "child", g_object_new(gtk_alignment_get_type(),
@@ -894,14 +894,14 @@ ec_rebuild (EConfig *emp)
 									   "top_padding", 6,
 									   "child", section, NULL),
 						     NULL);
-				gtk_widget_show_all(frame);
-				gtk_box_pack_start((GtkBox *)page, frame, FALSE, FALSE, 0);
+				gtk_widget_show_all (frame);
+				gtk_box_pack_start ((GtkBox *)page, frame, FALSE, FALSE, 0);
 				wn->frame = frame;
 			}
 		nopage:
 			if (wn->widget && wn->widget != section) {
 				d(printf("destroy old widget for section '%s'\n", item->path));
-				gtk_widget_destroy(wn->widget);
+				gtk_widget_destroy (wn->widget);
 			}
 
 			d(printf("Item %s, setting section widget\n", wn->item->path));
@@ -926,11 +926,11 @@ ec_rebuild (EConfig *emp)
 				wn->widget = NULL;
 				wn->frame = NULL;
 				g_warning("EConfig item has no parent section: %s", item->path);
-			} else if ((item->type == E_CONFIG_ITEM && !GTK_IS_BOX(section))
-				 || (item->type == E_CONFIG_ITEM_TABLE && !GTK_IS_TABLE(section)))
+			} else if ((item->type == E_CONFIG_ITEM && !GTK_IS_BOX (section))
+				 || (item->type == E_CONFIG_ITEM_TABLE && !GTK_IS_TABLE (section)))
 				g_warning("EConfig item parent type is incorrect: %s", item->path);
 			else if (item->factory)
-				w = item->factory(emp, item, section, wn->widget, wn->context->data);
+				w = item->factory (emp, item, section, wn->widget, wn->context->data);
 
 			d(printf("item %d:%s widget %p\n", itemno, item->path, w));
 
@@ -941,7 +941,7 @@ ec_rebuild (EConfig *emp)
 
 			if (wn->widget && wn->widget != w) {
 				d(printf("destroy old widget for item '%s'\n", item->path));
-				gtk_widget_destroy(wn->widget);
+				gtk_widget_destroy (wn->widget);
 			}
 
 			wn->widget = w;
@@ -961,18 +961,18 @@ ec_rebuild (EConfig *emp)
 		d(printf ("Section %s - %d visible widgets (frame=%p)\n", sectionnode->item->path, n_visible_widgets, sectionnode->frame));
 		if ((sectionnode->empty = (itemno == 0 || n_visible_widgets == 0))) {
 			if (sectionnode->real_frame)
-				gtk_widget_hide(sectionnode->real_frame);
+				gtk_widget_hide (sectionnode->real_frame);
 
 			if (sectionnode->frame)
-				gtk_widget_hide(sectionnode->frame);
+				gtk_widget_hide (sectionnode->frame);
 
 			sectionno--;
 		} else {
 			if (sectionnode->real_frame)
-				gtk_widget_show(sectionnode->real_frame);
+				gtk_widget_show (sectionnode->real_frame);
 
 			if (sectionnode->frame)
-				gtk_widget_show(sectionnode->frame);
+				gtk_widget_show (sectionnode->frame);
 		}
 		d(printf("%s section '%s' [sections=%d]\n", sectionnode->empty?"hiding":"showing", sectionnode->item->path, sectionno));
 	}
@@ -980,18 +980,18 @@ ec_rebuild (EConfig *emp)
 	/* If the last page doesn't contain anything, hide it */
 	if (pagenode != NULL && pagenode->frame != NULL) {
 		if ((pagenode->empty = sectionno == 0)) {
-			gtk_widget_hide(pagenode->frame);
+			gtk_widget_hide (pagenode->frame);
 			pageno--;
 		} else
-			gtk_widget_show(pagenode->frame);
+			gtk_widget_show (pagenode->frame);
 		d(printf("%s page '%s' [section=%d]\n", pagenode->empty?"hiding":"showing", pagenode->item->path, pageno));
 	}
 
 	if (book) {
 		/* make this depend on flags?? */
-		if (gtk_notebook_get_n_pages((GtkNotebook *)book) == 1) {
-			gtk_notebook_set_show_tabs((GtkNotebook *)book, FALSE);
-			gtk_notebook_set_show_border((GtkNotebook *)book, FALSE);
+		if (gtk_notebook_get_n_pages ((GtkNotebook *)book) == 1) {
+			gtk_notebook_set_show_tabs ((GtkNotebook *)book, FALSE);
+			gtk_notebook_set_show_border ((GtkNotebook *)book, FALSE);
 		}
 	}
 
@@ -1019,21 +1019,21 @@ ec_rebuild (EConfig *emp)
  * initiate a e_config_target_changed() call where appropriate.
  **/
 void
-e_config_set_target(EConfig *emp, EConfigTarget *target)
+e_config_set_target (EConfig *emp, EConfigTarget *target)
 {
 	if (emp->target != target)
-		((EConfigClass *)G_OBJECT_GET_CLASS(emp))->set_target(emp, target);
+		((EConfigClass *)G_OBJECT_GET_CLASS (emp))->set_target (emp, target);
 }
 
 static void
-ec_widget_destroy(GtkWidget *w, EConfig *ec)
+ec_widget_destroy (GtkWidget *w, EConfig *ec)
 {
 	if (ec->target) {
-		e_config_target_free(ec, ec->target);
+		e_config_target_free (ec, ec->target);
 		ec->target = NULL;
 	}
 
-	g_object_unref(ec);
+	g_object_unref (ec);
 }
 
 /**
@@ -1054,10 +1054,10 @@ ec_widget_destroy(GtkWidget *w, EConfig *ec)
  * Return value: The widget, also available in @emp.widget
  **/
 GtkWidget *
-e_config_create_widget(EConfig *emp)
+e_config_create_widget (EConfig *emp)
 {
 	EConfigPrivate *p = emp->priv;
-	GPtrArray *items = g_ptr_array_new();
+	GPtrArray *items = g_ptr_array_new ();
 	GList *link;
 	GSList *l;
 	/*char *domain = NULL;*/
@@ -1065,7 +1065,7 @@ e_config_create_widget(EConfig *emp)
 
 	g_return_val_if_fail (emp->target != NULL, NULL);
 
-	ec_add_static_items(emp);
+	ec_add_static_items (emp);
 
 	/* FIXME: need to override old ones with new names */
 	link = p->menus;
@@ -1074,31 +1074,31 @@ e_config_create_widget(EConfig *emp)
 
 		for (l=mnode->menu; l; l = l->next) {
 			struct _EConfigItem *item = l->data;
-			struct _widget_node *wn = g_malloc0(sizeof(*wn));
+			struct _widget_node *wn = g_malloc0 (sizeof (*wn));
 
 			wn->item = item;
 			wn->context = mnode;
 			wn->config = emp;
-			g_ptr_array_add(items, wn);
+			g_ptr_array_add (items, wn);
 		}
 
 		link = g_list_next (link);
 	}
 
-	qsort(items->pdata, items->len, sizeof(items->pdata[0]), ep_cmp);
+	qsort (items->pdata, items->len, sizeof (items->pdata[0]), ep_cmp);
 
 	for (i=0;i<items->len;i++)
 		p->widgets = g_list_append (p->widgets, items->pdata[i]);
 
-	g_ptr_array_free(items, TRUE);
-	ec_rebuild(emp);
+	g_ptr_array_free (items, TRUE);
+	ec_rebuild (emp);
 
 	/* auto-unref it */
 	g_signal_connect(emp->widget, "destroy", G_CALLBACK(ec_widget_destroy), emp);
 
 	/* FIXME: for some reason ec_rebuild puts the widget on page 1, this is just to override that */
 	if (emp->type == E_CONFIG_BOOK)
-		gtk_notebook_set_current_page((GtkNotebook *)emp->widget, 0);
+		gtk_notebook_set_current_page ((GtkNotebook *)emp->widget, 0);
 	else {
 		gtk_window_set_position (GTK_WINDOW (emp->widget), GTK_WIN_POS_CENTER);
 		gtk_widget_show (emp->widget);
@@ -1108,14 +1108,14 @@ e_config_create_widget(EConfig *emp)
 }
 
 static void
-ec_dialog_response(GtkWidget *d, gint id, EConfig *ec)
+ec_dialog_response (GtkWidget *d, gint id, EConfig *ec)
 {
 	if (id == GTK_RESPONSE_OK)
-		e_config_commit(ec);
+		e_config_commit (ec);
 	else
-		e_config_abort(ec);
+		e_config_abort (ec);
 
-	gtk_widget_destroy(d);
+	gtk_widget_destroy (d);
 }
 
 /**
@@ -1136,14 +1136,14 @@ ec_dialog_response(GtkWidget *d, gint id, EConfig *ec)
  * Return value: The window widget.  This is also stored in @emp.window.
  **/
 GtkWidget *
-e_config_create_window(EConfig *emp, GtkWindow *parent, const gchar *title)
+e_config_create_window (EConfig *emp, GtkWindow *parent, const gchar *title)
 {
 	GtkWidget *w;
 
-	e_config_create_widget(emp);
+	e_config_create_widget (emp);
 
 	if (emp->type == E_CONFIG_BOOK) {
-		w = gtk_dialog_new_with_buttons(title, parent,
+		w = gtk_dialog_new_with_buttons (title, parent,
 						GTK_DIALOG_DESTROY_WITH_PARENT |
 						GTK_DIALOG_NO_SEPARATOR,
 						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -1155,7 +1155,7 @@ e_config_create_window(EConfig *emp, GtkWindow *parent, const gchar *title)
 		gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (w))), 0);
 		gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_action_area (GTK_DIALOG (w))), 12);
 
-		gtk_box_pack_start((GtkBox *)gtk_dialog_get_content_area (((GtkDialog *)w)), emp->widget, TRUE, TRUE, 0);
+		gtk_box_pack_start ((GtkBox *)gtk_dialog_get_content_area (((GtkDialog *)w)), emp->widget, TRUE, TRUE, 0);
 	} else {
 		/* response is handled directly by the assistant stuff */
 		w = emp->widget;
@@ -1163,7 +1163,7 @@ e_config_create_window(EConfig *emp, GtkWindow *parent, const gchar *title)
 	}
 
 	emp->window = w;
-	gtk_widget_show(w);
+	gtk_widget_show (w);
 
 	return w;
 }
@@ -1175,10 +1175,10 @@ ec_call_page_check (EConfig *emp)
 		ec_assistant_check_current (emp);
 	} else {
 		if (emp->window) {
-			if (e_config_page_check(emp, NULL)) {
-				gtk_dialog_set_response_sensitive((GtkDialog *)emp->window, GTK_RESPONSE_OK, TRUE);
+			if (e_config_page_check (emp, NULL)) {
+				gtk_dialog_set_response_sensitive ((GtkDialog *)emp->window, GTK_RESPONSE_OK, TRUE);
 			} else {
-				gtk_dialog_set_response_sensitive((GtkDialog *)emp->window, GTK_RESPONSE_OK, FALSE);
+				gtk_dialog_set_response_sensitive ((GtkDialog *)emp->window, GTK_RESPONSE_OK, FALSE);
 			}
 		}
 	}
@@ -1209,7 +1209,7 @@ ec_idle_handler_for_rebuild (gpointer data)
  * button for the Notebook mode.
  **/
 void
-e_config_target_changed(EConfig *emp, e_config_target_change_t how)
+e_config_target_changed (EConfig *emp, e_config_target_change_t how)
 {
 	if (how == E_CONFIG_TARGET_CHANGED_REBUILD) {
 		g_idle_add (ec_idle_handler_for_rebuild, emp);
@@ -1322,7 +1322,7 @@ e_config_page_check (EConfig *config, const gchar *pageid)
  * container or the GtkVBox object inside the assistant.
  **/
 GtkWidget *
-e_config_page_get(EConfig *ec, const gchar *pageid)
+e_config_page_get (EConfig *ec, const gchar *pageid)
 {
 	GList *link;
 
@@ -1336,7 +1336,7 @@ e_config_page_get(EConfig *ec, const gchar *pageid)
 			|| wn->item->type == E_CONFIG_PAGE_START
 			|| wn->item->type == E_CONFIG_PAGE_FINISH
 			|| wn->item->type == E_CONFIG_PAGE_PROGRESS)
-		    && !strcmp(wn->item->path, pageid))
+		    && !strcmp (wn->item->path, pageid))
 			return wn->frame;
 
 		link = g_list_next (link);
@@ -1357,7 +1357,7 @@ e_config_page_get(EConfig *ec, const gchar *pageid)
  * last configured and visible page.
  **/
 const gchar *
-e_config_page_next(EConfig *ec, const gchar *pageid)
+e_config_page_next (EConfig *ec, const gchar *pageid)
 {
 	GList *link;
 	gint found;
@@ -1375,7 +1375,7 @@ e_config_page_next(EConfig *ec, const gchar *pageid)
 			|| wn->item->type == E_CONFIG_PAGE_PROGRESS)) {
 			if (found)
 				return wn->item->path;
-			else if (strcmp(wn->item->path, pageid) == 0)
+			else if (strcmp (wn->item->path, pageid) == 0)
 				found = 1;
 		}
 
@@ -1397,7 +1397,7 @@ e_config_page_next(EConfig *ec, const gchar *pageid)
  * first configured and visible page.
  **/
 const gchar *
-e_config_page_prev(EConfig *ec, const gchar *pageid)
+e_config_page_prev (EConfig *ec, const gchar *pageid)
 {
 	GList *link;
 	gint found;
@@ -1415,7 +1415,7 @@ e_config_page_prev(EConfig *ec, const gchar *pageid)
 			|| wn->item->type == E_CONFIG_PAGE_PROGRESS)) {
 			if (found)
 				return wn->item->path;
-			else if (strcmp(wn->item->path, pageid) == 0)
+			else if (strcmp (wn->item->path, pageid) == 0)
 				found = 1;
 		}
 
@@ -1493,18 +1493,18 @@ e_config_class_remove_factory (EConfigClass *class,
  * Allocate a new config target suitable for this class.  Implementing
  * classes will define the actual content of the target.
  **/
-gpointer e_config_target_new(EConfig *ep, gint type, gsize size)
+gpointer e_config_target_new (EConfig *ep, gint type, gsize size)
 {
 	EConfigTarget *t;
 
-	if (size < sizeof(EConfigTarget)) {
+	if (size < sizeof (EConfigTarget)) {
 		g_warning ("Size is less than size of EConfigTarget\n");
 		size = sizeof (EConfigTarget);
 	}
 
-	t = g_malloc0(size);
+	t = g_malloc0 (size);
 	t->config = ep;
-	g_object_ref(ep);
+	g_object_ref (ep);
 	t->type = type;
 
 	return t;
@@ -1519,11 +1519,11 @@ gpointer e_config_target_new(EConfig *ep, gint type, gsize size)
  * free custom targets.
  **/
 void
-e_config_target_free(EConfig *ep, gpointer o)
+e_config_target_free (EConfig *ep, gpointer o)
 {
 	EConfigTarget *t = o;
 
-	((EConfigClass *)G_OBJECT_GET_CLASS(ep))->target_free(ep, t);
+	((EConfigClass *)G_OBJECT_GET_CLASS (ep))->target_free (ep, t);
 }
 
 /* ********************************************************************** */
@@ -1575,25 +1575,25 @@ G_DEFINE_TYPE (
 	E_TYPE_PLUGIN_HOOK)
 
 static void
-ech_commit(EConfig *ec, GSList *items, gpointer data)
+ech_commit (EConfig *ec, GSList *items, gpointer data)
 {
 	struct _EConfigHookGroup *group = data;
 
 	if (group->commit && group->hook->hook.plugin->enabled)
-		e_plugin_invoke(group->hook->hook.plugin, group->commit, ec->target);
+		e_plugin_invoke (group->hook->hook.plugin, group->commit, ec->target);
 }
 
 static void
-ech_abort(EConfig *ec, GSList *items, gpointer data)
+ech_abort (EConfig *ec, GSList *items, gpointer data)
 {
 	struct _EConfigHookGroup *group = data;
 
 	if (group->abort && group->hook->hook.plugin->enabled)
-		e_plugin_invoke(group->hook->hook.plugin, group->abort, ec->target);
+		e_plugin_invoke (group->hook->hook.plugin, group->abort, ec->target);
 }
 
 static gboolean
-ech_check(EConfig *ec, const gchar *pageid, gpointer data)
+ech_check (EConfig *ec, const gchar *pageid, gpointer data)
 {
 	struct _EConfigHookGroup *group = data;
 	EConfigHookPageCheckData hdata;
@@ -1605,11 +1605,11 @@ ech_check(EConfig *ec, const gchar *pageid, gpointer data)
 	hdata.target = ec->target;
 	hdata.pageid = pageid?pageid:"";
 
-	return GPOINTER_TO_INT(e_plugin_invoke(group->hook->hook.plugin, group->check, &hdata));
+	return GPOINTER_TO_INT (e_plugin_invoke (group->hook->hook.plugin, group->check, &hdata));
 }
 
 static void
-ech_config_factory(EConfig *emp, gpointer data)
+ech_config_factory (EConfig *emp, gpointer data)
 {
 	struct _EConfigHookGroup *group = data;
 
@@ -1620,29 +1620,29 @@ ech_config_factory(EConfig *emp, gpointer data)
 		return;
 
 	if (group->items)
-		e_config_add_items(emp, group->items, ech_commit, ech_abort, NULL, group);
+		e_config_add_items (emp, group->items, ech_commit, ech_abort, NULL, group);
 
 	if (group->check)
-		e_config_add_page_check(emp, NULL, ech_check, group);
+		e_config_add_page_check (emp, NULL, ech_check, group);
 }
 
 static void
-emph_free_item(struct _EConfigItem *item)
+emph_free_item (struct _EConfigItem *item)
 {
-	g_free(item->path);
-	g_free(item->label);
-	g_free(item->user_data);
-	g_free(item);
+	g_free (item->path);
+	g_free (item->label);
+	g_free (item->user_data);
+	g_free (item);
 }
 
 static void
-emph_free_group(struct _EConfigHookGroup *group)
+emph_free_group (struct _EConfigHookGroup *group)
 {
-	g_slist_foreach(group->items, (GFunc)emph_free_item, NULL);
-	g_slist_free(group->items);
+	g_slist_foreach (group->items, (GFunc)emph_free_item, NULL);
+	g_slist_free (group->items);
 
-	g_free(group->id);
-	g_free(group);
+	g_free (group->id);
+	g_free (group);
 }
 
 static GtkWidget *
@@ -1737,12 +1737,12 @@ ech_config_section_factory (EConfig *config,
 }
 
 static struct _EConfigItem *
-emph_construct_item(EPluginHook *eph, EConfigHookGroup *menu, xmlNodePtr root, EConfigHookTargetMap *map)
+emph_construct_item (EPluginHook *eph, EConfigHookGroup *menu, xmlNodePtr root, EConfigHookTargetMap *map)
 {
 	struct _EConfigItem *item;
 
 	d(printf("  loading config item\n"));
-	item = g_malloc0(sizeof(*item));
+	item = g_malloc0 (sizeof (*item));
 	if ((item->type = e_plugin_hook_id(root, ech_item_types, "type")) == -1)
 		goto error;
 	item->path = e_plugin_xml_prop(root, "path");
@@ -1765,27 +1765,27 @@ emph_construct_item(EPluginHook *eph, EConfigHookGroup *menu, xmlNodePtr root, E
 	return item;
 error:
 	d(printf("error!\n"));
-	emph_free_item(item);
+	emph_free_item (item);
 	return NULL;
 }
 
 static struct _EConfigHookGroup *
-emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
+emph_construct_menu (EPluginHook *eph, xmlNodePtr root)
 {
 	struct _EConfigHookGroup *menu;
 	xmlNodePtr node;
 	EConfigHookTargetMap *map;
-	EConfigHookClass *class = (EConfigHookClass *)G_OBJECT_GET_CLASS(eph);
+	EConfigHookClass *class = (EConfigHookClass *)G_OBJECT_GET_CLASS (eph);
 	gchar *tmp;
 
 	d(printf(" loading menu\n"));
-	menu = g_malloc0(sizeof(*menu));
+	menu = g_malloc0 (sizeof (*menu));
 
 	tmp = (gchar *)xmlGetProp(root, (const guchar *)"target");
 	if (tmp == NULL)
 		goto error;
-	map = g_hash_table_lookup(class->target_map, tmp);
-	xmlFree(tmp);
+	map = g_hash_table_lookup (class->target_map, tmp);
+	xmlFree (tmp);
 	if (map == NULL)
 		goto error;
 
@@ -1793,7 +1793,7 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 	menu->id = e_plugin_xml_prop(root, "id");
 	if (menu->id == NULL) {
 		g_warning("Plugin '%s' missing 'id' field in group for '%s'\n", eph->plugin->name,
-			  ((EPluginHookClass *)G_OBJECT_GET_CLASS(eph))->id);
+			  ((EPluginHookClass *)G_OBJECT_GET_CLASS (eph))->id);
 		goto error;
 	}
 	menu->check = e_plugin_xml_prop(root, "check");
@@ -1805,41 +1805,41 @@ emph_construct_menu(EPluginHook *eph, xmlNodePtr root)
 		if (0 == strcmp((gchar *)node->name, "item")) {
 			struct _EConfigItem *item;
 
-			item = emph_construct_item(eph, menu, node, map);
+			item = emph_construct_item (eph, menu, node, map);
 			if (item)
-				menu->items = g_slist_append(menu->items, item);
+				menu->items = g_slist_append (menu->items, item);
 		}
 		node = node->next;
 	}
 
 	return menu;
 error:
-	emph_free_group(menu);
+	emph_free_group (menu);
 	return NULL;
 }
 
 static gint
-emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
+emph_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 {
 	xmlNodePtr node;
 	EConfigClass *class;
 
 	d(printf("loading config hook\n"));
 
-	if (((EPluginHookClass *)e_config_hook_parent_class)->construct(eph, ep, root) == -1)
+	if (((EPluginHookClass *)e_config_hook_parent_class)->construct (eph, ep, root) == -1)
 		return -1;
 
-	class = ((EConfigHookClass *)G_OBJECT_GET_CLASS(eph))->config_class;
+	class = ((EConfigHookClass *)G_OBJECT_GET_CLASS (eph))->config_class;
 
 	node = root->children;
 	while (node) {
 		if (strcmp((gchar *)node->name, "group") == 0) {
 			struct _EConfigHookGroup *group;
 
-			group = emph_construct_menu(eph, node);
+			group = emph_construct_menu (eph, node);
 			if (group) {
-				e_config_class_add_factory(class, group->id, ech_config_factory, group);
-				emph->groups = g_slist_append(emph->groups, group);
+				e_config_class_add_factory (class, group->id, ech_config_factory, group);
+				emph->groups = g_slist_append (emph->groups, group);
 			}
 		}
 		node = node->next;
@@ -1851,14 +1851,14 @@ emph_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 }
 
 static void
-emph_finalize(GObject *o)
+emph_finalize (GObject *o)
 {
 	EPluginHook *eph = (EPluginHook *)o;
 
-	g_slist_foreach(emph->groups, (GFunc)emph_free_group, NULL);
-	g_slist_free(emph->groups);
+	g_slist_foreach (emph->groups, (GFunc)emph_free_group, NULL);
+	g_slist_free (emph->groups);
 
-	((GObjectClass *)e_config_hook_parent_class)->finalize(o);
+	((GObjectClass *)e_config_hook_parent_class)->finalize (o);
 }
 
 static void
@@ -1877,7 +1877,7 @@ e_config_hook_class_init (EConfigHookClass *class)
 	plugin_hook_class->id = "org.gnome.evolution.config:1.0";
 
 	class->target_map = g_hash_table_new (g_str_hash, g_str_equal);
-	class->config_class = g_type_class_ref (e_config_get_type());
+	class->config_class = g_type_class_ref (e_config_get_type ());
 }
 
 static void
@@ -1900,5 +1900,5 @@ void
 e_config_hook_class_add_target_map (EConfigHookClass *class,
                                     const EConfigHookTargetMap *map)
 {
-	g_hash_table_insert(class->target_map, (gpointer)map->type, (gpointer)map);
+	g_hash_table_insert (class->target_map, (gpointer)map->type, (gpointer)map);
 }

@@ -398,8 +398,8 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	ec = em_config_new(E_CONFIG_BOOK, "org.gnome.evolution.mail.composerPrefs");
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (emcp_items); i++)
-		l = g_slist_prepend(l, &emcp_items[i]);
-	e_config_add_items((EConfig *)ec, l, NULL, NULL, emcp_free, prefs);
+		l = g_slist_prepend (l, &emcp_items[i]);
+	e_config_add_items ((EConfig *)ec, l, NULL, NULL, emcp_free, prefs);
 
 	/* General tab */
 

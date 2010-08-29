@@ -77,8 +77,8 @@ art_svp_from_vpath (ArtVpath *vpath)
 
   n_segs = 0;
   n_segs_max = 16;
-  svp = (ArtSVP *)art_alloc (sizeof(ArtSVP) +
-			     (n_segs_max - 1) * sizeof(ArtSVPSeg));
+  svp = (ArtSVP *)art_alloc (sizeof (ArtSVP) +
+			     (n_segs_max - 1) * sizeof (ArtSVPSeg));
 
   dir = 0;
   n_points = 0;
@@ -98,9 +98,9 @@ art_svp_from_vpath (ArtVpath *vpath)
 	    if (n_segs == n_segs_max)
 	      {
 		n_segs_max <<= 1;
-		svp = (ArtSVP *)art_realloc (svp, sizeof(ArtSVP) +
+		svp = (ArtSVP *)art_realloc (svp, sizeof (ArtSVP) +
 					     (n_segs_max - 1) *
-					     sizeof(ArtSVPSeg));
+					     sizeof (ArtSVPSeg));
 	      }
 	    svp->segs[n_segs].n_points = n_points;
 	    svp->segs[n_segs].dir = (dir > 0);
@@ -140,9 +140,9 @@ art_svp_from_vpath (ArtVpath *vpath)
 	    if (n_segs == n_segs_max)
 	      {
 		n_segs_max <<= 1;
-		svp = (ArtSVP *)art_realloc (svp, sizeof(ArtSVP) +
+		svp = (ArtSVP *)art_realloc (svp, sizeof (ArtSVP) +
 					     (n_segs_max - 1) *
-					     sizeof(ArtSVPSeg));
+					     sizeof (ArtSVPSeg));
 	      }
 	    svp->segs[n_segs].n_points = n_points;
 	    svp->segs[n_segs].dir = (dir > 0);
@@ -186,9 +186,9 @@ art_svp_from_vpath (ArtVpath *vpath)
 	  if (n_segs == n_segs_max)
 	    {
 	      n_segs_max <<= 1;
-	      svp = (ArtSVP *)art_realloc (svp, sizeof(ArtSVP) +
+	      svp = (ArtSVP *)art_realloc (svp, sizeof (ArtSVP) +
 					   (n_segs_max - 1) *
-					   sizeof(ArtSVPSeg));
+					   sizeof (ArtSVPSeg));
 	    }
 	  svp->segs[n_segs].n_points = n_points;
 	  svp->segs[n_segs].dir = (dir > 0);

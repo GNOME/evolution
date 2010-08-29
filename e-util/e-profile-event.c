@@ -39,18 +39,18 @@ G_DEFINE_TYPE (
 	E_TYPE_EVENT)
 
 static void
-eme_target_free(EEvent *ep, EEventTarget *t)
+eme_target_free (EEvent *ep, EEventTarget *t)
 {
 	switch (t->type) {
 	case E_PROFILE_EVENT_TARGET: {
 		EProfileEventTarget *s = (EProfileEventTarget *)t;
 
-		g_free(s->id);
-		g_free(s->uid);
+		g_free (s->id);
+		g_free (s->uid);
 		break; }
 	}
 
-	((EEventClass *)e_profile_event_parent_class)->target_free(ep, t);
+	((EEventClass *)e_profile_event_parent_class)->target_free (ep, t);
 }
 
 static void
@@ -65,10 +65,10 @@ e_profile_event_init (EProfileEvent *event)
 }
 
 EProfileEvent *
-e_profile_event_peek(void)
+e_profile_event_peek (void)
 {
 	if (e_profile_event == NULL) {
-		e_profile_event = g_object_new(e_profile_event_get_type(), NULL);
+		e_profile_event = g_object_new (e_profile_event_get_type (), NULL);
 		e_event_construct(&e_profile_event->popup, "org.gnome.evolution.profile.events");
 	}
 
@@ -76,13 +76,13 @@ e_profile_event_peek(void)
 }
 
 EProfileEventTarget *
-e_profile_event_target_new(EProfileEvent *eme, const gchar *id, const gchar *uid, guint32 flags)
+e_profile_event_target_new (EProfileEvent *eme, const gchar *id, const gchar *uid, guint32 flags)
 {
-	EProfileEventTarget *t = e_event_target_new(&eme->popup, E_PROFILE_EVENT_TARGET, sizeof(*t));
+	EProfileEventTarget *t = e_event_target_new (&eme->popup, E_PROFILE_EVENT_TARGET, sizeof (*t));
 	GTimeVal tv;
 
-	t->id = g_strdup(id);
-	t->uid = g_strdup(uid);
+	t->id = g_strdup (id);
+	t->uid = g_strdup (uid);
 	t->target.mask = ~flags;
 	g_get_current_time (&tv);
 	t->tv.tv_sec = tv.tv_sec;
@@ -93,10 +93,10 @@ e_profile_event_target_new(EProfileEvent *eme, const gchar *id, const gchar *uid
 
 #ifdef ENABLE_PROFILING
 void
-e_profile_event_emit(const gchar *id, const gchar *uid, guint32 flags)
+e_profile_event_emit (const gchar *id, const gchar *uid, guint32 flags)
 {
-	EProfileEvent *epe = e_profile_event_peek();
-	EProfileEventTarget *t = e_profile_event_target_new(epe, id, uid, flags);
+	EProfileEvent *epe = e_profile_event_peek ();
+	EProfileEventTarget *t = e_profile_event_target_new (epe, id, uid, flags);
 
 	e_event_emit((EEvent *)epe, "event", (EEventTarget *)t);
 }
@@ -104,7 +104,7 @@ e_profile_event_emit(const gchar *id, const gchar *uid, guint32 flags)
 /* simply keep macro from header file expand to "nothing".
 #undef e_profile_event_emit
 static void
-e_profile_event_emit(const gchar *id, const gchar *uid, guint32 flags)
+e_profile_event_emit (const gchar *id, const gchar *uid, guint32 flags)
 {
 }*/
 #endif
@@ -136,9 +136,9 @@ e_profile_event_hook_class_init (EProfileEventHookClass *class)
 	((EPluginHookClass *)class)->id = "org.gnome.evolution.profile.events:1.0";
 
 	for (i=0;emeh_targets[i].type;i++)
-		e_event_hook_class_add_target_map((EEventHookClass *)class, &emeh_targets[i]);
+		e_event_hook_class_add_target_map ((EEventHookClass *)class, &emeh_targets[i]);
 
-	((EEventHookClass *)class)->event = (EEvent *)e_profile_event_peek();
+	((EEventHookClass *)class)->event = (EEvent *)e_profile_event_peek ();
 }
 
 static void

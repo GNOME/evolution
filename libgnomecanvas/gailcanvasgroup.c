@@ -25,7 +25,7 @@ static gint       gail_canvas_group_get_n_children  (AtkObject            *obj);
 static AtkObject* gail_canvas_group_ref_child       (AtkObject            *obj,
                                                      gint                 i);
 
-G_DEFINE_TYPE(GailCanvasGroup,
+G_DEFINE_TYPE (GailCanvasGroup,
 	      gail_canvas_group,
 	      GAIL_TYPE_CANVAS_ITEM);
 

@@ -124,7 +124,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
                                          ETextEventProcessorEvent *event)
 {
 	ETextEventProcessorCommand command;
-	ETextEventProcessorEmacsLike *tep_el = E_TEXT_EVENT_PROCESSOR_EMACS_LIKE(tep);
+	ETextEventProcessorEmacsLike *tep_el = E_TEXT_EVENT_PROCESSOR_EMACS_LIKE (tep);
 	command.action = E_TEP_NOP;
 	/* Warning from the Intel compiler here:
 	 * e-text-event-processor-emacs-like.c(136): warning #589:
@@ -483,7 +483,7 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep,
 					}
 					command.action = E_TEP_INSERT;
 					command.position = E_TEP_SELECTION;
-					command.value = strlen(key.string);
+					command.value = strlen (key.string);
 					command.string = key.string;
 
 				} else {

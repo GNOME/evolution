@@ -1345,11 +1345,11 @@ enum {
 
 static void gnome_canvas_group_class_init  (GnomeCanvasGroupClass *class);
 static void gnome_canvas_group_init        (GnomeCanvasGroup      *group);
-static void gnome_canvas_group_set_property(GObject               *object,
+static void gnome_canvas_group_set_property (GObject               *object,
 					    guint                  param_id,
 					    const GValue          *value,
 					    GParamSpec            *pspec);
-static void gnome_canvas_group_get_property(GObject               *object,
+static void gnome_canvas_group_get_property (GObject               *object,
 					    guint                  param_id,
 					    GValue                *value,
 					    GParamSpec            *pspec);
@@ -1561,7 +1561,7 @@ gnome_canvas_group_destroy (GtkObject *object)
 	group = GNOME_CANVAS_GROUP (object);
 
 	while (group->item_list) {
-		// child is unref'ed by the child's group_remove().
+		// child is unref'ed by the child's group_remove ().
 		gtk_object_destroy (GTK_OBJECT (group->item_list->data));
 	}
 
@@ -2120,7 +2120,7 @@ gnome_canvas_class_init (GnomeCanvasClass *klass)
 			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
-	gail_canvas_init();
+	gail_canvas_init ();
 }
 
 /* Callback used when the root item of a canvas is destroyed.  The user should

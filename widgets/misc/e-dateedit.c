@@ -68,7 +68,7 @@ struct _EDateEditPrivate {
 	gboolean use_24_hour_format;
 
 	/* This is TRUE if we want to make the time field insensitive rather
-	   than hide it when set_show_time() is called. */
+	 * than hide it when set_show_time() is called. */
 	gboolean make_time_insensitive;
 
 	/* This is the range of hours we show in the time popup. */
@@ -76,11 +76,11 @@ struct _EDateEditPrivate {
 	gint upper_hour;
 
 	/* This indicates whether the last date committed was invalid.
-	   (A date is committed by hitting Return, moving the keyboard focus,
-	   or selecting a date in the popup). Note that this only indicates
-	   that the date couldn't be parsed. A date set to 'None' is valid
-	   here, though e_date_edit_date_is_valid() will return FALSE if an
-	   empty date isn't actually permitted. */
+	 * (A date is committed by hitting Return, moving the keyboard focus,
+	 * or selecting a date in the popup). Note that this only indicates
+	 * that the date couldn't be parsed. A date set to 'None' is valid
+	 * here, though e_date_edit_date_is_valid() will return FALSE if an
+	 * empty date isn't actually permitted. */
 	gboolean date_is_valid;
 
 	/* This is the last valid date which was set. If the date was set to
@@ -92,11 +92,11 @@ struct _EDateEditPrivate {
 	gint day;
 
 	/* This indicates whether the last time committed was invalid.
-	   (A time is committed by hitting Return, moving the keyboard focus,
-	   or selecting a time in the popup). Note that this only indicates
-	   that the time couldn't be parsed. An empty/None time is valid
-	   here, though e_date_edit_time_is_valid() will return FALSE if an
-	   empty time isn't actually permitted. */
+	 * (A time is committed by hitting Return, moving the keyboard focus,
+	 * or selecting a time in the popup). Note that this only indicates
+	 * that the time couldn't be parsed. An empty/None time is valid
+	 * here, though e_date_edit_time_is_valid() will return FALSE if an
+	 * empty time isn't actually permitted. */
 	gboolean time_is_valid;
 
 	/* This is the last valid time which was set. If the time was set to
@@ -1805,12 +1805,12 @@ on_date_entry_focus_out			(GtkEntry	*entry,
 	e_date_edit_check_date_changed (dedit);
 
 	if (!e_date_edit_date_is_valid (dedit)) {
-		msg_dialog = gtk_message_dialog_new(NULL,
+		msg_dialog = gtk_message_dialog_new (NULL,
 						    GTK_DIALOG_MODAL,
 						    GTK_MESSAGE_WARNING,
 						    GTK_BUTTONS_OK,
 						    "%s", _("Invalid Date Value"));
-		gtk_dialog_run (GTK_DIALOG(msg_dialog));
+		gtk_dialog_run (GTK_DIALOG (msg_dialog));
 		gtk_widget_destroy (msg_dialog);
 		e_date_edit_get_date (
 			dedit, &tmp_tm.tm_year,
@@ -1849,14 +1849,14 @@ on_time_entry_focus_out			(GtkEntry	*entry,
 	e_date_edit_check_time_changed (dedit);
 
 	if (!e_date_edit_time_is_valid (dedit)) {
-		msg_dialog=gtk_message_dialog_new(NULL,
+		msg_dialog=gtk_message_dialog_new (NULL,
 						  GTK_DIALOG_MODAL,
 						  GTK_MESSAGE_WARNING,
 						  GTK_BUTTONS_OK,
 						  "%s", _("Invalid Time Value"));
-		gtk_dialog_run (GTK_DIALOG(msg_dialog));
+		gtk_dialog_run (GTK_DIALOG (msg_dialog));
 		gtk_widget_destroy (msg_dialog);
-		e_date_edit_set_time (dedit,e_date_edit_get_time(dedit));
+		e_date_edit_set_time (dedit,e_date_edit_get_time (dedit));
 		gtk_widget_grab_focus (GTK_WIDGET (entry));
 		return FALSE;
 	}
@@ -2352,5 +2352,5 @@ e_date_edit_get_entry       (EDateEdit      *dedit)
 	EDateEditPrivate *priv;
 	priv = dedit->priv;
 
-	return GTK_WIDGET(priv->date_entry);
+	return GTK_WIDGET (priv->date_entry);
 }

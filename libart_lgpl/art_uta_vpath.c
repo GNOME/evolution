@@ -69,12 +69,12 @@ art_uta_add_line (ArtUta *uta, gdouble x0, gdouble y0, gdouble x1, gdouble y1,
   gint ix, ix1;
   ArtUtaBbox bb;
 
-  xmin = floor (MIN(x0, x1));
-  xmax = MAX(x0, x1);
+  xmin = floor (MIN (x0, x1));
+  xmax = MAX (x0, x1);
   xmaxf = floor (xmax);
   xmaxc = ceil (xmax);
-  ymin = floor (MIN(y0, y1));
-  ymax = MAX(y0, y1);
+  ymin = floor (MIN (y0, y1));
+  ymax = MAX (y0, y1);
   ymaxf = floor (ymax);
   ymaxc = ceil (ymax);
   xt0 = (xmin >> ART_UTILE_SHIFT) - uta->x0;
@@ -92,12 +92,12 @@ art_uta_add_line (ArtUta *uta, gdouble x0, gdouble y0, gdouble x1, gdouble y1,
       ix = yt0 * uta->width + xt0;
       bb = uta->utiles[ix];
       if (bb == 0)
-	bb = ART_UTA_BBOX_CONS(xf0, yf0, xf1, yf1);
+	bb = ART_UTA_BBOX_CONS (xf0, yf0, xf1, yf1);
       else
-	bb = ART_UTA_BBOX_CONS(MIN(ART_UTA_BBOX_X0(bb), xf0),
-			   MIN(ART_UTA_BBOX_Y0(bb), yf0),
-			   MAX(ART_UTA_BBOX_X1(bb), xf1),
-			   MAX(ART_UTA_BBOX_Y1(bb), yf1));
+	bb = ART_UTA_BBOX_CONS (MIN (ART_UTA_BBOX_X0 (bb), xf0),
+			   MIN (ART_UTA_BBOX_Y0 (bb), yf0),
+			   MAX (ART_UTA_BBOX_X1 (bb), xf1),
+			   MAX (ART_UTA_BBOX_Y1 (bb), yf1));
       uta->utiles[ix] = bb;
     }
   else
@@ -123,24 +123,24 @@ art_uta_add_line (ArtUta *uta, gdouble x0, gdouble y0, gdouble x1, gdouble y1,
 	    {
 	      bb = uta->utiles[ix];
 	      if (bb == 0)
-		bb = ART_UTA_BBOX_CONS(xf0, yf0, ART_UTILE_SIZE, yf1);
+		bb = ART_UTA_BBOX_CONS (xf0, yf0, ART_UTILE_SIZE, yf1);
 	      else
-		bb = ART_UTA_BBOX_CONS(MIN(ART_UTA_BBOX_X0(bb), xf0),
-				   MIN(ART_UTA_BBOX_Y0(bb), yf0),
+		bb = ART_UTA_BBOX_CONS (MIN (ART_UTA_BBOX_X0 (bb), xf0),
+				   MIN (ART_UTA_BBOX_Y0 (bb), yf0),
 				   ART_UTILE_SIZE,
-				   MAX(ART_UTA_BBOX_Y1(bb), yf1));
+				   MAX (ART_UTA_BBOX_Y1 (bb), yf1));
 	      uta->utiles[ix] = bb;
 	      xf0 = 0;
 	      ix++;
 	    }
 	  bb = uta->utiles[ix];
 	  if (bb == 0)
-	    bb = ART_UTA_BBOX_CONS(0, yf0, xf1, yf1);
+	    bb = ART_UTA_BBOX_CONS (0, yf0, xf1, yf1);
 	  else
-	    bb = ART_UTA_BBOX_CONS(0,
-			       MIN(ART_UTA_BBOX_Y0(bb), yf0),
-			       MAX(ART_UTA_BBOX_X1(bb), xf1),
-			       MAX(ART_UTA_BBOX_Y1(bb), yf1));
+	    bb = ART_UTA_BBOX_CONS (0,
+			       MIN (ART_UTA_BBOX_Y0 (bb), yf0),
+			       MAX (ART_UTA_BBOX_X1 (bb), xf1),
+			       MAX (ART_UTA_BBOX_Y1 (bb), yf1));
 	  uta->utiles[ix] = bb;
 	}
       else
@@ -225,8 +225,8 @@ art_uta_add_line (ArtUta *uta, gdouble x0, gdouble y0, gdouble x1, gdouble y1,
 		{
 		  /* vertical crossing */
 		  dix = uta->width;
-		  xf0 = (gint)floor (MIN(x, xn)) & (ART_UTILE_SIZE - 1);
-		  xmax = MAX(x, xn);
+		  xf0 = (gint)floor (MIN (x, xn)) & (ART_UTILE_SIZE - 1);
+		  xmax = MAX (x, xn);
 		  xmaxc = (gint)ceil (xmax);
 		  xf1 = xmaxc - (xt0 << ART_UTILE_SHIFT);
 		  yf1 = ART_UTILE_SIZE;
@@ -239,33 +239,33 @@ art_uta_add_line (ArtUta *uta, gdouble x0, gdouble y0, gdouble x1, gdouble y1,
 	      yf0 = (gint)floor (y) & (ART_UTILE_SIZE - 1);
 	      bb = uta->utiles[ix];
 	      if (bb == 0)
-		bb = ART_UTA_BBOX_CONS(xf0, yf0, xf1, yf1);
+		bb = ART_UTA_BBOX_CONS (xf0, yf0, xf1, yf1);
 	      else
-		bb = ART_UTA_BBOX_CONS(MIN(ART_UTA_BBOX_X0(bb), xf0),
-				       MIN(ART_UTA_BBOX_Y0(bb), yf0),
-				       MAX(ART_UTA_BBOX_X1(bb), xf1),
-				       MAX(ART_UTA_BBOX_Y1(bb), yf1));
+		bb = ART_UTA_BBOX_CONS (MIN (ART_UTA_BBOX_X0 (bb), xf0),
+				       MIN (ART_UTA_BBOX_Y0 (bb), yf0),
+				       MAX (ART_UTA_BBOX_X1 (bb), xf1),
+				       MAX (ART_UTA_BBOX_Y1 (bb), yf1));
 	      uta->utiles[ix] = bb;
 
 	      x = xn;
 	      y = yn;
 	      ix += dix;
 	    }
-	  xmax = MAX(x, x1);
+	  xmax = MAX (x, x1);
 	  xmaxc = ceil (xmax);
 	  ymaxc = ceil (y1);
-	  xf0 = (gint)floor (MIN(x1, x)) & (ART_UTILE_SIZE - 1);
+	  xf0 = (gint)floor (MIN (x1, x)) & (ART_UTILE_SIZE - 1);
 	  yf0 = (gint)floor (y) & (ART_UTILE_SIZE - 1);
 	  xf1 = xmaxc - (xt0 << ART_UTILE_SHIFT);
 	  yf1 = ymaxc - (yt0 << ART_UTILE_SHIFT);
 	  bb = uta->utiles[ix];
 	  if (bb == 0)
-	    bb = ART_UTA_BBOX_CONS(xf0, yf0, xf1, yf1);
+	    bb = ART_UTA_BBOX_CONS (xf0, yf0, xf1, yf1);
 	  else
-	    bb = ART_UTA_BBOX_CONS(MIN(ART_UTA_BBOX_X0(bb), xf0),
-				   MIN(ART_UTA_BBOX_Y0(bb), yf0),
-				   MAX(ART_UTA_BBOX_X1(bb), xf1),
-				   MAX(ART_UTA_BBOX_Y1(bb), yf1));
+	    bb = ART_UTA_BBOX_CONS (MIN (ART_UTA_BBOX_X0 (bb), xf0),
+				   MIN (ART_UTA_BBOX_Y0 (bb), yf0),
+				   MAX (ART_UTA_BBOX_X1 (bb), xf1),
+				   MAX (ART_UTA_BBOX_Y1 (bb), yf1));
 	  uta->utiles[ix] = bb;
 	}
     }

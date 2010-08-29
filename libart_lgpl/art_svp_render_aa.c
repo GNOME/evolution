@@ -176,7 +176,7 @@ art_svp_render_aa_iter (const ArtSVP *svp,
       if (sx < n_steps)                                 \
 	{                                               \
 	  memmove (&steps[sx + 1], &steps[sx],          \
-		   (n_steps - sx) * sizeof(steps[0]));  \
+		   (n_steps - sx) * sizeof (steps[0]));  \
 	  steps[sx].x = xpos;                           \
 	  steps[sx].delta = xdelta;                     \
 	  n_steps++;                                    \
@@ -289,13 +289,13 @@ art_svp_render_aa_iter_step (ArtSVPRenderAAIter *iter, gint *p_start,
 		/* case 1, antialias a single pixel */
 		xdelta = (ix_min + 1 - (x_min + x_max) * 0.5) * delta;
 
-		ADD_STEP(ix_min, xdelta)
+		ADD_STEP (ix_min, xdelta)
 
 		if (ix_min + 1 < x1)
 		  {
 		    xdelta = delta - xdelta;
 
-		    ADD_STEP(ix_min + 1, xdelta)
+		    ADD_STEP (ix_min + 1, xdelta)
 		  }
 	      }
 	    else
@@ -309,7 +309,7 @@ art_svp_render_aa_iter_step (ArtSVPRenderAAIter *iter, gint *p_start,
 		xdelta = last;
 		if (ix_min >= x0)
 		  {
-		    ADD_STEP(ix_min, xdelta)
+		    ADD_STEP (ix_min, xdelta)
 
 		    x = ix_min + 1;
 		  }
@@ -327,7 +327,7 @@ art_svp_render_aa_iter_step (ArtSVPRenderAAIter *iter, gint *p_start,
 		    xdelta = this - last;
 		    last = this;
 
-		    ADD_STEP(x, xdelta)
+		    ADD_STEP (x, xdelta)
 		  }
 		if (x < x1)
 		  {
@@ -338,13 +338,13 @@ art_svp_render_aa_iter_step (ArtSVPRenderAAIter *iter, gint *p_start,
 		    xdelta = this - last;
 		    last = this;
 
-		    ADD_STEP(x, xdelta)
+		    ADD_STEP (x, xdelta)
 
 		    if (x + 1 < x1)
 		      {
 			xdelta = delta - last;
 
-			ADD_STEP(x + 1, xdelta)
+			ADD_STEP (x + 1, xdelta)
 		      }
 		  }
 	      }

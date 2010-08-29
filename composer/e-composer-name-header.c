@@ -311,7 +311,8 @@ e_composer_name_header_get_destinations (EComposerNameHeader *header)
 
 	g_list_free (list);
 
-	return destinations;  /* free with e_destination_freev() */
+	/* free with e_destination_freev() */
+	return destinations;
 }
 
 void
