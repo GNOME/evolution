@@ -273,7 +273,7 @@ get_attachment_list (CompEditor *editor)
 	GSList *list = NULL;
 	const gchar *comp_uid = NULL;
 	const gchar *local_store;
-	gchar *uri;
+	gchar *path;
 	gint ii;
 
 	struct {
@@ -291,9 +291,9 @@ get_attachment_list (CompEditor *editor)
 
 	local_store = e_cal_get_local_attachment_store (editor->priv->client);
 	e_cal_component_get_uid (editor->priv->comp, &comp_uid);
-	uri = g_build_path ("/", local_store, comp_uid, NULL);
-	destination = g_file_new_for_uri (uri);
-	g_free (uri);
+	path = g_build_path ("/", local_store, comp_uid, NULL);
+	destination = g_file_new_for_path (path);
+	g_free (path);
 
 	e_attachment_store_save_async (
 		store, destination, (GAsyncReadyCallback)
