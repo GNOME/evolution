@@ -2607,8 +2607,12 @@ mail_reader_update_actions (EMailReader *reader,
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
+	/* If a single message is selected, let the user hit delete to
+	 * advance the cursor even if the message is already deleted. */
 	action_name = "mail-delete";
-	sensitive = selection_has_undeleted_messages;
+	sensitive =
+		single_message_selected ||
+		selection_has_undeleted_messages;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
