@@ -596,7 +596,8 @@ account_hash_algo_to_camel_hash (const gchar *hash_algo)
 static CamelMimeMessage *
 build_message (EMsgComposer *composer,
                gboolean html_content,
-               gboolean save_html_object_data)
+               gboolean save_html_object_data,
+               GError **error)
 {
 	GtkhtmlEditor *editor;
 	EMsgComposerPrivate *p = composer->priv;
@@ -1149,19 +1150,13 @@ exception:
 
 	g_object_unref (new);
 
-	if (!g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-		e_alert_run_dialog_for_args (
-			(GtkWindow *) composer,
-			"mail-composer:no-build-message",
-			local_error->message, NULL);
-
-	g_error_free (local_error);
-
 	if (recipients) {
 		for (i=0; i<recipients->len; i++)
 			g_free (recipients->pdata[i]);
 		g_ptr_array_free (recipients, TRUE);
 	}
+
+	g_propagate_error (error, local_error);
 
 	return NULL;
 }
@@ -3781,7 +3776,8 @@ e_msg_composer_add_inline_image_from_mime_part (EMsgComposer  *composer,
  **/
 CamelMimeMessage *
 e_msg_composer_get_message (EMsgComposer *composer,
-                            gboolean save_html_object_data)
+                            gboolean save_html_object_data,
+                            GError **error)
 {
 	EAttachmentView *view;
 	EAttachmentStore *store;
@@ -3803,7 +3799,9 @@ e_msg_composer_get_message (EMsgComposer *composer,
 	editor = GTKHTML_EDITOR (composer);
 	html_content = gtkhtml_editor_get_html_mode (editor);
 
-	return build_message (composer, html_content, save_html_object_data);
+	return build_message (
+		composer, html_content,
+		save_html_object_data, error);
 }
 
 static gchar *
@@ -3859,7 +3857,8 @@ e_msg_composer_get_message_print (EMsgComposer *composer,
 	editor = GTKHTML_EDITOR (composer);
 	html_content = gtkhtml_editor_get_html_mode (editor);
 
-	msg = build_message (composer, html_content, save_html_object_data);
+	msg = build_message (
+		composer, html_content, save_html_object_data, NULL);
 	if (msg == NULL)
 		return NULL;
 
@@ -3871,7 +3870,8 @@ e_msg_composer_get_message_print (EMsgComposer *composer,
 	flags = msg_composer_get_message_print_helper (
 		temp_composer, html_content);
 
-	msg = build_message (temp_composer, TRUE, save_html_object_data);
+	msg = build_message (
+		temp_composer, TRUE, save_html_object_data, NULL);
 	if (msg != NULL)
 		camel_medium_set_header (
 			CAMEL_MEDIUM (msg), "X-Evolution-Format", flags);
@@ -3883,7 +3883,8 @@ e_msg_composer_get_message_print (EMsgComposer *composer,
 }
 
 CamelMimeMessage *
-e_msg_composer_get_message_draft (EMsgComposer *composer)
+e_msg_composer_get_message_draft (EMsgComposer *composer,
+                                  GError **error)
 {
 	GtkhtmlEditor *editor;
 	EComposerHeaderTable *table;
@@ -3917,7 +3918,7 @@ e_msg_composer_get_message_draft (EMsgComposer *composer)
 	smime_encrypt = gtk_toggle_action_get_active (action);
 	gtk_toggle_action_set_active (action, FALSE);
 
-	msg = build_message (composer, TRUE, TRUE);
+	msg = build_message (composer, TRUE, TRUE, error);
 	if (msg == NULL)
 		return NULL;
 
@@ -3932,9 +3933,6 @@ e_msg_composer_get_message_draft (EMsgComposer *composer)
 
 	action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
 	gtk_toggle_action_set_active (action, smime_encrypt);
-
-	if (msg == NULL)
-		return NULL;
 
 	/* Attach account info to the draft. */
 	account = e_composer_header_table_get_account (table);

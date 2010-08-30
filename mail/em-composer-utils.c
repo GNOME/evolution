@@ -299,6 +299,7 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 	EComposerHeaderTable *table;
 	EComposerHeader *post_to_header;
 	GString *invalid_addrs = NULL;
+	GError *error = NULL;
 
 	gconf = mail_config_get_gconf_client ();
 	table = e_msg_composer_get_header_table (composer);
@@ -469,9 +470,27 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 		goto finished;
 
 	/* actually get the message now, this will sign/encrypt etc */
-	message = e_msg_composer_get_message (composer, save_html_object_data);
-	if (message == NULL)
+	message = e_msg_composer_get_message (
+		composer, save_html_object_data, &error);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (message == NULL);
+		g_error_free (error);
 		goto finished;
+	}
+
+	if (error != NULL) {
+		g_warn_if_fail (message == NULL);
+		e_alert_run_dialog_for_args (
+			GTK_WINDOW (composer),
+			"mail-composer:no-build-message",
+			error->message, NULL);
+		g_error_free (error);
+		goto finished;
+	}
+
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
 	/* Add info about the sending account */
 	account = e_composer_header_table_get_account (table);
@@ -636,6 +655,7 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer)
 	CamelMimeMessage *msg;
 	CamelMessageInfo *info;
 	EAccount *account;
+	GError *error = NULL;
 
 	/* need to get stuff from the composer here, since it could
 	 * get destroyed while we're in mail_msg_wait() a little lower
@@ -646,13 +666,32 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer)
 	local_drafts_folder_uri =
 		e_mail_local_get_folder_uri (E_MAIL_FOLDER_DRAFTS);
 
-	g_object_ref (composer);
-	msg = e_msg_composer_get_message_draft (composer);
+	msg = e_msg_composer_get_message_draft (composer, &error);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (msg == NULL);
+		g_error_free (error);
+		return;
+	}
+
+	if (error != NULL) {
+		g_warn_if_fail (msg == NULL);
+		e_alert_run_dialog_for_args (
+			GTK_WINDOW (composer),
+			"mail-composer:no-build-message",
+			error->message, NULL);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
+
 	table = e_msg_composer_get_header_table (composer);
 	account = e_composer_header_table_get_account (table);
 
 	sdi = g_malloc (sizeof(struct _save_draft_info));
-	sdi->composer = composer;
+	sdi->composer = g_object_ref (composer);
 	sdi->emcs = g_object_get_data (G_OBJECT (composer), "emcs");
 	if (sdi->emcs)
 		emcs_ref (sdi->emcs);

@@ -99,23 +99,30 @@ composer_autosave_state_free (AutosaveState *state)
 }
 
 static gboolean
-composer_autosave_state_open (AutosaveState *state)
+composer_autosave_state_open (AutosaveState *state,
+                              GError **error)
 {
+	const gchar *user_data_dir;
 	gchar *path;
 	gint fd;
 
 	if (state->file != NULL)
 		return TRUE;
 
-	path = g_build_filename (
-		e_get_user_data_dir (), AUTOSAVE_SEED, NULL);
+	user_data_dir = e_get_user_data_dir ();
+	path = g_build_filename (user_data_dir, AUTOSAVE_SEED, NULL);
 
 	/* Since GIO doesn't have support for creating temporary files
 	 * from a template (and in a given directory), we have to use
 	 * g_mkstemp(), which brings a small risk of overwriting another
 	 * autosave file.  The risk is, however, miniscule. */
+	errno = 0;
 	fd = g_mkstemp (path);
 	if (fd == -1) {
+		g_set_error (
+			error, G_FILE_ERROR,
+			g_file_error_from_errno (errno),
+			"%s", g_strerror (errno));
 		g_free (path);
 		return FALSE;
 	}
@@ -317,72 +324,31 @@ e_composer_autosave_unregister (EMsgComposer *composer)
 	g_object_set_data (G_OBJECT (composer), "autosave", NULL);
 }
 
-typedef struct {
-	EMsgComposer *composer;
-	GSimpleAsyncResult *simple;
-	AutosaveState *state;
-
-	/* Transient data */
-	GInputStream *input_stream;
-} AutosaveData;
-
-static void
-autosave_data_free (AutosaveData *data)
-{
-	g_object_unref (data->composer);
-	g_object_unref (data->simple);
-
-	if (data->input_stream != NULL)
-		g_object_unref (data->input_stream);
-
-	g_slice_free (AutosaveData, data);
-}
-
-static gboolean
-autosave_snapshot_check_for_error (AutosaveData *data,
-                                   GError *error)
-{
-	GSimpleAsyncResult *simple;
-
-	if (error == NULL)
-		return FALSE;
-
-	simple = data->simple;
-	g_simple_async_result_set_from_error (simple, error);
-	g_simple_async_result_set_op_res_gboolean (simple, FALSE);
-	g_simple_async_result_complete (simple);
-	g_error_free (error);
-
-	autosave_data_free (data);
-
-	return TRUE;
-}
-
 static void
 autosave_snapshot_splice_cb (GOutputStream *output_stream,
                              GAsyncResult *result,
-                             AutosaveData *data)
+                             GSimpleAsyncResult *simple)
 {
-	GSimpleAsyncResult *simple;
 	GError *error = NULL;
 
 	g_output_stream_splice_finish (output_stream, result, &error);
 
-	if (autosave_snapshot_check_for_error (data, error))
-		return;
+	if (error != NULL) {
+		g_simple_async_result_set_from_error (simple, error);
+		g_error_free (error);
+	}
 
-	simple = data->simple;
-	g_simple_async_result_set_op_res_gboolean (simple, TRUE);
 	g_simple_async_result_complete (simple);
-
-	autosave_data_free (data);
+	g_object_unref (simple);
 }
 
 static void
 autosave_snapshot_cb (GFile *file,
                       GAsyncResult *result,
-                      AutosaveData *data)
+                      GSimpleAsyncResult *simple)
 {
+	GObject *object;
+	EMsgComposer *composer;
 	CamelMimeMessage *message;
 	GFileOutputStream *output_stream;
 	GInputStream *input_stream;
@@ -390,22 +356,26 @@ autosave_snapshot_cb (GFile *file,
 	GByteArray *buffer;
 	GError *error = NULL;
 
+	object = g_async_result_get_source_object (G_ASYNC_RESULT (simple));
+
 	output_stream = g_file_replace_finish (file, result, &error);
 
-	if (autosave_snapshot_check_for_error (data, error))
+	if (error != NULL) {
+		g_simple_async_result_set_from_error (simple, error);
+		g_simple_async_result_complete (simple);
+		g_object_unref (simple);
+		g_error_free (error);
 		return;
+	}
 
 	/* Extract a MIME message from the composer. */
-	message = e_msg_composer_get_message_draft (data->composer);
-	if (message == NULL) {
-		GSimpleAsyncResult *simple;
-
-		/* FIXME Need to set a GError here. */
-		simple = data->simple;
-		g_simple_async_result_set_op_res_gboolean (simple, FALSE);
+	composer = E_MSG_COMPOSER (object);
+	message = e_msg_composer_get_message_draft (composer, &error);
+	if (error != NULL) {
+		g_simple_async_result_set_from_error (simple, error);
 		g_simple_async_result_complete (simple);
 		g_object_unref (output_stream);
-		autosave_data_free (data);
+		g_object_unref (simple);
 		return;
 	}
 
@@ -430,7 +400,6 @@ autosave_snapshot_cb (GFile *file,
 			buffer->data, (gssize) buffer->len,
 			(GDestroyNotify) g_free);
 	g_byte_array_free (buffer, FALSE);
-	data->input_stream = input_stream;
 
 	/* Splice the input and output streams */
 	g_output_stream_splice_async (
@@ -438,9 +407,10 @@ autosave_snapshot_cb (GFile *file,
 		G_OUTPUT_STREAM_SPLICE_CLOSE_SOURCE |
 		G_OUTPUT_STREAM_SPLICE_CLOSE_TARGET,
 		G_PRIORITY_DEFAULT, NULL, (GAsyncReadyCallback)
-		autosave_snapshot_splice_cb, data);
+		autosave_snapshot_splice_cb, simple);
 
 	g_object_unref (output_stream);
+	g_object_unref (input_stream);
 }
 
 void
@@ -448,11 +418,14 @@ e_composer_autosave_snapshot_async (EMsgComposer *composer,
                                     GAsyncReadyCallback callback,
                                     gpointer user_data)
 {
-	AutosaveData *data;
 	AutosaveState *state;
 	GSimpleAsyncResult *simple;
+	GError *error = NULL;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	state = g_object_get_data (G_OBJECT (composer), "autosave");
+	g_return_if_fail (state != NULL);
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (composer), callback, user_data,
@@ -460,36 +433,24 @@ e_composer_autosave_snapshot_async (EMsgComposer *composer,
 
 	/* If the contents are unchanged, exit early. */
 	if (!gtkhtml_editor_get_changed (GTKHTML_EDITOR (composer))) {
-		g_simple_async_result_set_op_res_gboolean (simple, TRUE);
 		g_simple_async_result_complete (simple);
+		g_object_unref (simple);
 		return;
 	}
-
-	state = g_object_get_data (G_OBJECT (composer), "autosave");
-	g_return_if_fail (state != NULL);
 
 	/* Open the autosave file on-demand. */
-	errno = 0;
-	if (!composer_autosave_state_open (state)) {
-		g_simple_async_result_set_error (
-			simple, G_FILE_ERROR,
-			g_file_error_from_errno (errno),
-			"%s", g_strerror (errno));
-		g_simple_async_result_set_op_res_gboolean (simple, FALSE);
+	if (!composer_autosave_state_open (state, &error)) {
+		g_simple_async_result_set_from_error (simple, error);
 		g_simple_async_result_complete (simple);
+		g_object_unref (simple);
 		return;
 	}
 
-	/* Overwrite the file */
-	data = g_slice_new (AutosaveData);
-	data->composer = g_object_ref (composer);
-	data->simple = simple;
-	data->state = state;
-
+	/* Overwrite the file. */
 	g_file_replace_async (
 		state->file, NULL, FALSE, G_FILE_CREATE_PRIVATE,
 		G_PRIORITY_DEFAULT, NULL, (GAsyncReadyCallback)
-		autosave_snapshot_cb, data);
+		autosave_snapshot_cb, simple);
 }
 
 gboolean
@@ -498,17 +459,15 @@ e_composer_autosave_snapshot_finish (EMsgComposer *composer,
                                      GError **error)
 {
 	GSimpleAsyncResult *simple;
-	gboolean success;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
 	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
 	g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
-	success = g_simple_async_result_get_op_res_gboolean (simple);
-	g_simple_async_result_propagate_error (simple, error);
 
-	return success;
+	/* Success is assumed in the absense of a GError. */
+	return !g_simple_async_result_propagate_error (simple, error);
 }
 
 gchar *

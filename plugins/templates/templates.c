@@ -38,6 +38,7 @@
 #include <mail/mail-session.h>
 #include <mail/mail-ops.h>
 #include <mail/message-list.h>
+#include <e-util/e-alert-dialog.h>
 #include <e-util/e-plugin.h>
 #include <e-util/e-util.h>
 #include <shell/e-shell-view.h>
@@ -670,14 +671,37 @@ action_template_cb (GtkAction *action,
 	CamelMessageInfo *info;
 	CamelMimeMessage *msg;
 	CamelFolder *folder;
+	GError *error = NULL;
 
 	/* Get the templates folder and all UIDs of the messages there. */
 	folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
 
-	msg = e_msg_composer_get_message_draft (composer);
+	msg = e_msg_composer_get_message_draft (composer, &error);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (msg == NULL);
+		g_error_free (error);
+		return;
+	}
+
+	if (error != NULL) {
+		g_warn_if_fail (msg == NULL);
+		e_alert_run_dialog_for_args (
+			GTK_WINDOW (composer),
+			"mail-composer:no-build-message",
+			error->message, NULL);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
+
 	info = camel_message_info_new (NULL);
 
-	/* FIXME: what's the ~0 for? :) */
+	/* The last argument is a bit mask which tells the function
+	 * which flags to modify.  In this case, ~0 means all flags.
+	 * So it clears all the flags and then sets SEEN and DRAFT. */
 	camel_message_info_set_flags (
 		info, CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DRAFT, ~0);
 

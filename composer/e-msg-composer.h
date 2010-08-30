@@ -114,14 +114,16 @@ void		e_msg_composer_add_inline_image_from_mime_part
 						 CamelMimePart *part);
 CamelMimeMessage *
 		e_msg_composer_get_message	(EMsgComposer *composer,
-						 gboolean save_html_object_data);
+						 gboolean save_html_object_data,
+						 GError **error);
 CamelMimeMessage *
 		e_msg_composer_get_message_print
 						(EMsgComposer *composer,
 						 gboolean save_html_object_data);
 CamelMimeMessage *
 		e_msg_composer_get_message_draft
-						(EMsgComposer *composer);
+						(EMsgComposer *composer,
+						 GError **error);
 void		e_msg_composer_show_sig_file	(EMsgComposer *composer);
 
 CamelInternetAddress *
