@@ -698,17 +698,6 @@ filter_rule_get_widget (EFilterRule *rule,
 	gtk_widget_show (label);
 	g_free (text);
 
-	hbox = gtk_hbox_new (FALSE, 12);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
-	gtk_widget_show (hbox);
-
-	label = gtk_label_new ("");
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	gtk_widget_show (label);
-
-	inruleame = gtk_vbox_new (FALSE, 6);
-	gtk_box_pack_start (GTK_BOX (hbox), inruleame, TRUE, TRUE, 0);
-
 	/* this is the parts table, it should probably be inside a scrolling list */
 	rows = g_list_length (rule->parts);
 	parts = gtk_table_new (rows, 2, FALSE);
@@ -722,21 +711,14 @@ filter_rule_get_widget (EFilterRule *rule,
 	/* only set to automatically clean up the memory */
 	g_object_set_data_full ((GObject *) vbox, "data", data, g_free);
 
-	hbox = gtk_hbox_new (FALSE, 3);
-
-	add = gtk_button_new_with_mnemonic (_("A_dd Condition"));
-	gtk_button_set_image (
-		GTK_BUTTON (add), gtk_image_new_from_stock (
-		GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));
-	g_signal_connect (add, "clicked", G_CALLBACK (more_parts), data);
-	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 0);
-
+	hbox = gtk_hbox_new (FALSE, 3);		
+	
 	if (context->flags & E_RULE_CONTEXT_GROUPING) {
 		const gchar *thread_types[] = {
 			N_("If all conditions are met"),
 			N_("If any conditions are met")
 		};
-
+	
 		label = gtk_label_new_with_mnemonic (_("_Find items:"));
 		combobox = gtk_combo_box_new_text ();
 
@@ -748,13 +730,17 @@ filter_rule_get_widget (EFilterRule *rule,
 		gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), rule->grouping);
 		gtk_widget_show (combobox);
 
-		gtk_box_pack_end (GTK_BOX (hbox), combobox, FALSE, FALSE, 0);
-		gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 12);
+		gtk_box_pack_start (GTK_BOX (hbox), combobox, FALSE, FALSE, 12);
 
 		g_signal_connect (
 			combobox, "changed",
 			G_CALLBACK (filter_rule_grouping_changed_cb), rule);
 	}
+
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+	gtk_widget_show (hbox);
+	hbox = gtk_hbox_new (FALSE, 3);
 
 	if (context->flags & E_RULE_CONTEXT_THREADING) {
 		const gchar *thread_types[] = {
@@ -778,15 +764,39 @@ filter_rule_get_widget (EFilterRule *rule,
 		gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), rule->threading);
 		gtk_widget_show (combobox);
 
-		gtk_box_pack_end (GTK_BOX (hbox), combobox, FALSE, FALSE, 0);
-		gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 12);
+		gtk_box_pack_start (GTK_BOX (hbox), combobox, FALSE, FALSE, 12);
 
 		g_signal_connect (
 			combobox, "changed",
 			G_CALLBACK (filter_rule_threading_changed_cb), rule);
 	}
+	
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+	gtk_widget_show (hbox);
 
-	gtk_box_pack_start (GTK_BOX (inruleame), hbox, FALSE, FALSE, 3);
+	hbox = gtk_hbox_new (FALSE, 3);	
+	add = gtk_button_new_with_mnemonic (_("A_dd Condition"));
+	gtk_button_set_image (
+		GTK_BUTTON (add), gtk_image_new_from_stock (
+		GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));
+	g_signal_connect (add, "clicked", G_CALLBACK (more_parts), data);
+	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 12);	
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+	gtk_widget_show (hbox);
+
+	hbox = gtk_hbox_new (FALSE, 12);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
+	gtk_widget_show (hbox);
+
+	label = gtk_label_new ("");
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	gtk_widget_show (label);
+
+	inruleame = gtk_vbox_new (FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (hbox), inruleame, TRUE, TRUE, 0);
+
+ 	gtk_box_pack_start (GTK_BOX (inruleame), hbox, FALSE, FALSE, 3);
 
 	l = rule->parts;
 	i = 0;
