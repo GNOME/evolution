@@ -1955,11 +1955,30 @@ print_month_summary (GtkPrintContext *context, GnomeCalendar *gcal, time_t whenc
 	gchar buffer[100];
 	PangoFontDescription *font;
 	gboolean compress_weekend;
-	gint columns, col, weekday, month;
+	gint columns, col, weekday, month, weeks;
 	gdouble font_size, cell_width, x1, x2, y1, y2;
 
 	weekday = calendar_config_get_week_start_day ();
 	compress_weekend = calendar_config_get_compress_weekend ();
+
+	date = 0;
+	weeks = 6;
+	if (gnome_calendar_get_view (gcal) == GNOME_CAL_MONTH_VIEW) {
+		GnomeCalendarViewType view_type;
+		ECalendarView *calendar_view;
+		EWeekView *week_view;
+
+		view_type = gnome_calendar_get_view (gcal);
+		calendar_view = gnome_calendar_get_calendar_view (gcal, view_type);
+		week_view = E_WEEK_VIEW (calendar_view);
+
+		if (week_view && week_view->multi_week_view
+		    && !(week_view->weeks_shown >= 4 &&
+		    g_date_valid (&week_view->first_day_shown))) {
+			weeks = week_view->weeks_shown;
+			date = whence;
+		}
+	}
 
 	/* Remember which month we want. */
 	tt = icaltime_from_timet_with_zone (whence, FALSE, zone);
@@ -1967,7 +1986,8 @@ print_month_summary (GtkPrintContext *context, GnomeCalendar *gcal, time_t whenc
 
 	/* Find the start of the month, and then the start of the week on
 	   or before that day. */
-	date = time_month_begin_with_zone (whence, zone);
+	if (!date)
+		date = time_month_begin_with_zone (whence, zone);
 	date = time_week_begin_with_zone (date, weekday, zone);
 
 	/* If weekends are compressed then we can't start on a Sunday. */
@@ -2015,7 +2035,7 @@ print_month_summary (GtkPrintContext *context, GnomeCalendar *gcal, time_t whenc
 	pango_font_description_free (font);
 
 	top = y2;
-	print_week_summary (context, gcal, date, TRUE, 6, month,
+	print_week_summary (context, gcal, date, TRUE, weeks, month,
 			    MONTH_NORMAL_FONT_SIZE,
 			    left, right, top, bottom);
 }
@@ -2517,6 +2537,8 @@ print_calendar (GnomeCalendar *gcal,
 			start_tt.day = g_date_get_day (&date);
 
 			start = icaltime_as_timet (start_tt);
+		} else if (week_view && week_view->multi_week_view) {
+			start = week_view->day_starts[0];
 		}
 	}
 

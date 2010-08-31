@@ -2779,7 +2779,9 @@ e_cal_model_generate_instances (ECalModel *model, time_t start, time_t end,
 
 		mdata.comp_data = comp_data;
 		mdata.cb_data = cb_data;
-		e_cal_generate_instances_for_object (comp_data->client, comp_data->icalcomp, start, end, cb, &mdata);
+
+		if (comp_data->instance_start < end && comp_data->instance_end > start)
+			e_cal_generate_instances_for_object (comp_data->client, comp_data->icalcomp, start, end, cb, &mdata);
 	}
 }
 
