@@ -101,7 +101,7 @@ signature_combo_box_refresh_cb (ESignatureList *signature_list,
 		GtkTreePath *path;
 		const gchar *string;
 
-		signature = iter->data;
+		signature = E_SIGNATURE (iter->data);
 		string = e_signature_get_name (signature);
 
 		gtk_list_store_append (store, &tree_iter);
@@ -115,6 +115,8 @@ signature_combo_box_refresh_cb (ESignatureList *signature_list,
 		g_hash_table_insert (index, signature, reference);
 		gtk_tree_path_free (path);
 	}
+
+	g_list_free (list);
 
 skip:
 	/* Restore the previously selected signature. */
