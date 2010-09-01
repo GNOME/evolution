@@ -60,16 +60,19 @@ shell_settings_pspec_for_key (const gchar *property_name,
 
 	entry = gconf_client_get_entry (client, gconf_key, NULL, TRUE, &error);
 	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
 		return NULL;
 	}
 
 	schema_name = gconf_entry_get_schema_name (entry);
-	if (schema_name == NULL) {
-		return NULL;
-	}
+	g_return_val_if_fail (schema_name != NULL, NULL);
 
 	schema = gconf_client_get_schema (client, schema_name, &error);
 	if (error != NULL) {
+		g_warning ("%s", error->message);
+		gconf_entry_unref (entry);
+		g_error_free (error);
 		return NULL;
 	}
 
@@ -157,6 +160,7 @@ shell_settings_pspec_for_key (const gchar *property_name,
 
 	gconf_value_free (default_value);
 	gconf_schema_free (schema);
+	gconf_entry_unref (entry);
 
 	return pspec;
 
