@@ -360,11 +360,11 @@ e_action_group_remove_all_actions (GtkActionGroup *action_group)
 	GList *list, *iter;
 
 	/* XXX I've proposed this function for inclusion in GTK+.
-         *     GtkActionGroup stores actions in an internal hash
-         *     table and can do this more efficiently by calling
-         *     g_hash_table_remove_all().
-         *
-         *     http://bugzilla.gnome.org/show_bug.cgi?id=550485 */
+	 *     GtkActionGroup stores actions in an internal hash
+	 *     table and can do this more efficiently by calling
+	 *     g_hash_table_remove_all().
+	 *
+	 *     http://bugzilla.gnome.org/show_bug.cgi?id=550485 */
 
 	g_return_if_fail (GTK_IS_ACTION_GROUP (action_group));
 
