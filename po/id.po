@@ -4940,7 +4940,7 @@ msgstr "%a %d/%m/%Y %H:%M:%S"
 #. strftime format of a weekday, a date and a time, 12-hour.
 #: ../calendar/gui/e-cell-date-edit-text.c:163
 msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr "%a %m/%d/%Y %I:%M:%S %p"
+msgstr "%a %d/%m/%Y %I:%M:%S %p"
 
 #: ../calendar/gui/e-cell-date-edit-text.c:171
 #, fuzzy, c-format
@@ -17421,7 +17421,7 @@ msgstr "Hari ini %H:%M:%S"
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:213
 msgid "Today %l:%M:%S %p"
-msgstr "Hari ini %H:%M:%s"
+msgstr "Hari ini %l:%M:%S %p"
 
 #. strftime format of a time,
 #. in 24-hour format, without seconds.
@@ -17439,13 +17439,13 @@ msgstr "Besok %H:%M:%S"
 #. in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:237
 msgid "Tomorrow %l:%M %p"
-msgstr "Besok %H:%M"
+msgstr "Besok %l:%M %p"
 
 #. strftime format of a time,
 #. in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:241
 msgid "Tomorrow %l:%M:%S %p"
-msgstr "Besok %H:%M"
+msgstr "Besok %l:%M:%S %p"
 
 #. strftime format of a weekday.
 #: ../plugins/itip-formatter/itip-view.c:260
@@ -17469,13 +17469,13 @@ msgstr "%A %H:%M:%S"
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:274
 msgid "%A %l:%M %p"
-msgstr "%A %l:%M"
+msgstr "%A %l:%M %p" 
 
 #. strftime format of a weekday and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:278
 msgid "%A %l:%M:%S %p"
-msgstr "%A %H:%M:%S"
+msgstr "%A %l:%M:%S %p"
 
 #. strftime format of a weekday and a date
 #. without a year.
@@ -17500,13 +17500,13 @@ msgstr "%A, %e %B %H:%M:%S"
 #. and a time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:302
 msgid "%A, %B %e %l:%M %p"
-msgstr "%A, %e %B %H:%M"
+msgstr "%A, %e %B %l:%M %p"
 
 #. strftime format of a weekday, a date without a year
 #. and a time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:306
 msgid "%A, %B %e %l:%M:%S %p"
-msgstr "%A, %e %B %H:%M:%S"
+msgstr "%A, %e %B %l:%M:%S %p"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:312
@@ -17529,13 +17529,13 @@ msgstr "%A, %e %B %Y %H:%M:%S"
 #. time, in 12-hour format, without seconds.
 #: ../plugins/itip-formatter/itip-view.c:326
 msgid "%A, %B %e, %Y %l:%M %p"
-msgstr "%A, %e %B %Y %H:%M"
+msgstr "%A, %e %B %Y %l:%M %p"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
 #: ../plugins/itip-formatter/itip-view.c:330
 msgid "%A, %B %e, %Y %l:%M:%S %p"
-msgstr "%A, %e %B %Y %H:%M:%S"
+msgstr "%A, %e %B %Y %l:%M:%S %p"
 
 #: ../plugins/itip-formatter/itip-view.c:355
 #: ../plugins/itip-formatter/itip-view.c:443
