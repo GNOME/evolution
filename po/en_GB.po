@@ -3,12 +3,12 @@
 # Gareth Owen <gowen72@yahoo.com>, David Lodge <dave@cirt.net>, 2004.
 # Bruce Cowan <bcowan@fastmail.co.uk>, 2009, 2010.
 # Philip Withnall <philip@tecnocode.co.uk>, 2010.
-#: ../shell/main.c:533
+#: ../shell/main.c:532
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-28 09:35+0100\n"
+"POT-Creation-Date: 2010-09-01 09:20+0100\n"
 "PO-Revision-Date: 2010-03-17 22:43+0100\n"
 "Last-Translator: Philip Withnall <philip@tecnocode.co.uk>\n"
 "Language-Team: British English <en@li.org>\n"
@@ -248,8 +248,8 @@ msgstr "Anniversary"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
 #: ../addressbook/gui/widgets/eab-contact-display.c:582
-#: ../calendar/gui/e-calendar-view.c:2021 ../capplet/anjal-settings-main.c:118
-#: ../shell/main.c:123
+#: ../calendar/gui/e-calendar-view.c:2021 ../capplet/anjal-settings-main.c:117
+#: ../shell/main.c:122
 msgid "Birthday"
 msgstr "Birthday"
 
@@ -1240,7 +1240,7 @@ msgstr "Web Log"
 #: ../modules/addressbook/e-book-shell-backend.c:116
 #: ../modules/addressbook/e-book-shell-migrate.c:138
 #: ../modules/calendar/e-cal-shell-backend.c:127
-#: ../modules/calendar/e-cal-shell-migrate.c:151
+#: ../modules/calendar/e-cal-shell-migrate.c:156
 #: ../modules/calendar/e-memo-shell-backend.c:112
 #: ../modules/calendar/e-memo-shell-migrate.c:112
 #: ../modules/calendar/e-task-shell-backend.c:112
@@ -3737,7 +3737,7 @@ msgstr "_Free/Busy"
 msgid "Query free / busy information for the attendees"
 msgstr "Query free / busy information for the attendees"
 
-#: ../calendar/gui/dialogs/event-editor.c:319 ../calendar/gui/print.c:2588
+#: ../calendar/gui/dialogs/event-editor.c:319 ../calendar/gui/print.c:2610
 msgid "Appointment"
 msgstr "Appointment"
 
@@ -3942,7 +3942,7 @@ msgctxt "eventpage"
 msgid "until"
 msgstr "until"
 
-#: ../calendar/gui/dialogs/memo-editor.c:109 ../calendar/gui/print.c:2592
+#: ../calendar/gui/dialogs/memo-editor.c:109 ../calendar/gui/print.c:2614
 msgid "Memo"
 msgstr "Memo"
 
@@ -4246,7 +4246,7 @@ msgstr "Web Page"
 #: ../calendar/gui/e-cal-model-tasks.c:443
 #: ../calendar/gui/e-cal-model-tasks.c:717 ../calendar/gui/e-task-table.c:215
 #: ../calendar/gui/e-task-table.c:230 ../calendar/gui/e-task-table.c:588
-#: ../calendar/gui/print.c:2675 ../mail/em-sync-stream.c:151
+#: ../calendar/gui/print.c:2697 ../mail/em-sync-stream.c:151
 #: ../mail/em-sync-stream.c:178 ../mail/em-sync-stream.c:199
 #, c-format
 msgid "Canceled"
@@ -4260,7 +4260,7 @@ msgstr "Cancelled"
 #: ../calendar/gui/e-itip-control.c:931 ../calendar/gui/e-meeting-store.c:197
 #: ../calendar/gui/e-meeting-store.c:220 ../calendar/gui/e-task-table.c:213
 #: ../calendar/gui/e-task-table.c:228 ../calendar/gui/e-task-table.c:587
-#: ../calendar/gui/print.c:2672 ../calendar/gui/tasktypes.xml.h:9
+#: ../calendar/gui/print.c:2694 ../calendar/gui/tasktypes.xml.h:9
 #: ../plugins/save-calendar/csv-format.c:367
 msgid "Completed"
 msgstr "Completed"
@@ -4280,7 +4280,7 @@ msgstr "High"
 #: ../calendar/gui/e-cal-model-tasks.c:713
 #: ../calendar/gui/e-cal-model-tasks.c:790 ../calendar/gui/e-task-table.c:211
 #: ../calendar/gui/e-task-table.c:226 ../calendar/gui/e-task-table.c:586
-#: ../calendar/gui/print.c:2669
+#: ../calendar/gui/print.c:2691
 msgid "In Progress"
 msgstr "In Progress"
 
@@ -4307,7 +4307,7 @@ msgstr "Normal"
 #: ../calendar/gui/e-cal-model-tasks.c:437
 #: ../calendar/gui/e-cal-model-tasks.c:711 ../calendar/gui/e-task-table.c:209
 #: ../calendar/gui/e-task-table.c:224 ../calendar/gui/e-task-table.c:585
-#: ../calendar/gui/print.c:2666 ../calendar/gui/tasktypes.xml.h:18
+#: ../calendar/gui/print.c:2688 ../calendar/gui/tasktypes.xml.h:18
 msgid "Not Started"
 msgstr "Not Started"
 
@@ -4364,7 +4364,7 @@ msgstr "Click to change or view the status details of the task"
 msgid "_Send Options"
 msgstr "_Send Options"
 
-#: ../calendar/gui/dialogs/task-editor.c:328 ../calendar/gui/print.c:2590
+#: ../calendar/gui/dialogs/task-editor.c:328 ../calendar/gui/print.c:2612
 #: ../widgets/misc/e-send-options.c:503
 msgid "Task"
 msgstr "Task"
@@ -4742,7 +4742,7 @@ msgid "Organizer: %s"
 msgstr "Organiser: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:1889 ../calendar/gui/print.c:2624
+#: ../calendar/gui/e-calendar-view.c:1889 ../calendar/gui/print.c:2646
 #, c-format
 msgid "Location: %s"
 msgstr "Location: %s"
@@ -5508,7 +5508,7 @@ msgstr "Click to add a memo"
 msgid "%d%%"
 msgstr "%d%%"
 
-#: ../calendar/gui/e-task-table.c:629 ../calendar/gui/print.c:2052
+#: ../calendar/gui/e-task-table.c:629 ../calendar/gui/print.c:2072
 #: ../calendar/importers/icalendar-importer.c:81
 #: ../calendar/importers/icalendar-importer.c:828
 #: ../modules/calendar/e-cal-shell-content.c:434
@@ -6038,71 +6038,71 @@ msgstr "Sa"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
-#: ../calendar/gui/print.c:2429
+#: ../calendar/gui/print.c:2449
 msgid " to "
 msgstr " to "
 
 #. Translators: This is part of "START to END
 #. * (Completed COMPLETED)", where COMPLETED is a
 #. * completed date/time.
-#: ../calendar/gui/print.c:2437
+#: ../calendar/gui/print.c:2457
 msgid " (Completed "
 msgstr " (Completed "
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
-#: ../calendar/gui/print.c:2441
+#: ../calendar/gui/print.c:2461
 msgid "Completed "
 msgstr "Completed "
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
-#: ../calendar/gui/print.c:2449
+#: ../calendar/gui/print.c:2469
 msgid " (Due "
 msgstr " (Due "
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
 #. * should be finished.
-#: ../calendar/gui/print.c:2454
+#: ../calendar/gui/print.c:2474
 msgid "Due "
 msgstr "Due "
 
-#: ../calendar/gui/print.c:2615
+#: ../calendar/gui/print.c:2637
 #, c-format
 msgid "Summary: %s"
 msgstr "Summary: %s"
 
-#: ../calendar/gui/print.c:2639
+#: ../calendar/gui/print.c:2661
 msgid "Attendees: "
 msgstr "Attendees: "
 
-#: ../calendar/gui/print.c:2682
+#: ../calendar/gui/print.c:2704
 #, c-format
 msgid "Status: %s"
 msgstr "Status: %s"
 
-#: ../calendar/gui/print.c:2697
+#: ../calendar/gui/print.c:2719
 #, c-format
 msgid "Priority: %s"
 msgstr "Priority: %s"
 
-#: ../calendar/gui/print.c:2715
+#: ../calendar/gui/print.c:2737
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Percent Complete: %i"
 
-#: ../calendar/gui/print.c:2726
+#: ../calendar/gui/print.c:2748
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../calendar/gui/print.c:2739
+#: ../calendar/gui/print.c:2761
 #, c-format
 msgid "Categories: %s"
 msgstr "Categories: %s"
 
-#: ../calendar/gui/print.c:2750
+#: ../calendar/gui/print.c:2772
 msgid "Contacts: "
 msgstr "Contacts: "
 
@@ -8079,14 +8079,14 @@ msgstr "Save draft"
 msgid "_Do not show this message again."
 msgstr "_Do not show this message again."
 
-#: ../composer/e-msg-composer.c:1028
+#: ../composer/e-msg-composer.c:1029
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 
-#: ../composer/e-msg-composer.c:1040
+#: ../composer/e-msg-composer.c:1041
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -8095,19 +8095,19 @@ msgstr ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 
-#: ../composer/e-msg-composer.c:1465
+#: ../composer/e-msg-composer.c:1460
 msgid "Unable to reconstruct message from autosave file"
 msgstr "Unable to reconstruct message from autosave file"
 
-#: ../composer/e-msg-composer.c:1535 ../composer/e-msg-composer.c:1881
+#: ../composer/e-msg-composer.c:1530 ../composer/e-msg-composer.c:1876
 msgid "Compose Message"
 msgstr "Compose Message"
 
-#: ../composer/e-msg-composer.c:3540
+#: ../composer/e-msg-composer.c:3535
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "The composer contains a non-text message body, which cannot be edited."
 
-#: ../composer/e-msg-composer.c:4152
+#: ../composer/e-msg-composer.c:4150
 msgid "Untitled Message"
 msgstr "Untitled Message"
 
@@ -8234,24 +8234,24 @@ msgstr "_Recover"
 msgid "_Save Draft"
 msgstr "_Save Draft"
 
-#: ../capplet/anjal-settings-main.c:199
+#: ../capplet/anjal-settings-main.c:198
 msgid "Run Anjal in a window"
 msgstr "Run Anjal in a window"
 
-#: ../capplet/anjal-settings-main.c:200
+#: ../capplet/anjal-settings-main.c:199
 msgid "Make Anjal the default email client"
 msgstr "Make Anjal the default e-mail client"
 
 #. TRANSLATORS: don't translate the terms in brackets
-#: ../capplet/anjal-settings-main.c:207
+#: ../capplet/anjal-settings-main.c:206
 msgid "ID of the socket to embed in"
 msgstr "ID of the socket to embed in"
 
-#: ../capplet/anjal-settings-main.c:208
+#: ../capplet/anjal-settings-main.c:207
 msgid "socket"
 msgstr "socket"
 
-#: ../capplet/anjal-settings-main.c:221
+#: ../capplet/anjal-settings-main.c:220
 msgid "Anjal email client"
 msgstr "Anjal e-mail client"
 
@@ -8451,8 +8451,8 @@ msgid "Setup Google contacts with Evolution"
 msgstr "Set up Google Contacts with Evolution"
 
 #: ../capplet/settings/mail-account-view.c:720
-msgid "Set up Google calendar with Evolution"
-msgstr "Set up Google Calendar with Evolution."
+msgid "Setup Google calendar with Evolution"
+msgstr "Set up Google Calendar with Evolution"
 
 #: ../capplet/settings/mail-account-view.c:725
 msgid "You may need to enable IMAP access."
@@ -8511,7 +8511,7 @@ msgstr "Evolution account assistant"
 #: ../modules/addressbook/e-book-shell-backend.c:96
 #: ../modules/addressbook/e-book-shell-migrate.c:130
 #: ../modules/calendar/e-cal-shell-backend.c:102
-#: ../modules/calendar/e-cal-shell-migrate.c:141
+#: ../modules/calendar/e-cal-shell-migrate.c:146
 #: ../modules/calendar/e-memo-shell-backend.c:92
 #: ../modules/calendar/e-memo-shell-migrate.c:102
 #: ../modules/calendar/e-task-shell-backend.c:92
@@ -8897,7 +8897,7 @@ msgstr "Subject"
 msgid "Mailer"
 msgstr "Mailer"
 
-#: ../em-format/em-format-quote.c:500 ../mail/em-composer-utils.c:1262
+#: ../em-format/em-format-quote.c:500 ../mail/em-composer-utils.c:1301
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Forwarded Message --------"
 
@@ -8916,49 +8916,49 @@ msgstr "Newsgroups"
 msgid "Face"
 msgstr "Face"
 
-#: ../em-format/em-format.c:1429
+#: ../em-format/em-format.c:1432
 #, c-format
 msgid "%s attachment"
 msgstr "%s attachment"
 
-#: ../em-format/em-format.c:1501
+#: ../em-format/em-format.c:1504
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Could not parse S/MIME message: Unknown error"
 
-#: ../em-format/em-format.c:1659 ../em-format/em-format.c:1843
+#: ../em-format/em-format.c:1662 ../em-format/em-format.c:1846
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Could not parse MIME message. Displaying as source."
 
-#: ../em-format/em-format.c:1669
+#: ../em-format/em-format.c:1672
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Unsupported encryption type for multipart/encrypted"
 
-#: ../em-format/em-format.c:1685
+#: ../em-format/em-format.c:1688
 msgid "Could not parse PGP/MIME message"
 msgstr "Could not parse PGP/MIME message"
 
-#: ../em-format/em-format.c:1686
+#: ../em-format/em-format.c:1689
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "Could not parse PGP/MIME message: Unknown error"
 
-#: ../em-format/em-format.c:1868
+#: ../em-format/em-format.c:1871
 msgid "Unsupported signature format"
 msgstr "Unsupported signature format"
 
-#: ../em-format/em-format.c:1878 ../em-format/em-format.c:2038
+#: ../em-format/em-format.c:1881 ../em-format/em-format.c:2041
 msgid "Error verifying signature"
 msgstr "Error verifying signature"
 
-#: ../em-format/em-format.c:1879 ../em-format/em-format.c:2026
-#: ../em-format/em-format.c:2039
+#: ../em-format/em-format.c:1882 ../em-format/em-format.c:2029
+#: ../em-format/em-format.c:2042
 msgid "Unknown error verifying signature"
 msgstr "Unknown error verifying signature"
 
-#: ../em-format/em-format.c:2126
+#: ../em-format/em-format.c:2129
 msgid "Could not parse PGP message: "
 msgstr "Could not parse PGP message: "
 
-#: ../em-format/em-format.c:2132 ../plugins/caldav/caldav-browse-server.c:203
+#: ../em-format/em-format.c:2135 ../plugins/caldav/caldav-browse-server.c:203
 #: ../plugins/caldav/caldav-browse-server.c:1254 ../plugins/face/face.c:169
 #: ../smime/gui/certificate-manager.c:100
 msgid "Unknown error"
@@ -9092,54 +9092,54 @@ msgstr "R_ule name:"
 msgid "Find items that meet the following conditions"
 msgstr "Find items that meet the following conditions"
 
-#: ../filter/e-filter-rule.c:727
-msgid "A_dd Condition"
-msgstr "A_dd Condition"
-
-#: ../filter/e-filter-rule.c:736
+#: ../filter/e-filter-rule.c:718
 msgid "If all conditions are met"
 msgstr "If all conditions are met"
 
-#: ../filter/e-filter-rule.c:737
+#: ../filter/e-filter-rule.c:719
 msgid "If any conditions are met"
 msgstr "If any conditions are met"
 
-#: ../filter/e-filter-rule.c:740
+#: ../filter/e-filter-rule.c:722
 msgid "_Find items:"
 msgstr "_Find items:"
 
 #. Translators: "None" for not including threads;
 #. * part of "Include threads: None"
-#: ../filter/e-filter-rule.c:763
+#: ../filter/e-filter-rule.c:749
 msgid "None"
 msgstr "None"
 
-#: ../filter/e-filter-rule.c:764
+#: ../filter/e-filter-rule.c:750
 msgid "All related"
 msgstr "All related"
 
-#: ../filter/e-filter-rule.c:765 ../widgets/misc/e-send-options.ui.h:19
+#: ../filter/e-filter-rule.c:751 ../widgets/misc/e-send-options.ui.h:19
 msgid "Replies"
 msgstr "Replies"
 
-#: ../filter/e-filter-rule.c:766
+#: ../filter/e-filter-rule.c:752
 msgid "Replies and parents"
 msgstr "Replies and parents"
 
-#: ../filter/e-filter-rule.c:767
+#: ../filter/e-filter-rule.c:753
 msgid "No reply or parent"
 msgstr "No reply or parent"
 
-#: ../filter/e-filter-rule.c:770
+#: ../filter/e-filter-rule.c:756
 msgid "I_nclude threads"
 msgstr "I_nclude threads"
 
-#: ../filter/e-filter-rule.c:1118 ../filter/filter.ui.h:2
+#: ../filter/e-filter-rule.c:779
+msgid "A_dd Condition"
+msgstr "A_dd Condition"
+
+#: ../filter/e-filter-rule.c:1128 ../filter/filter.ui.h:2
 #: ../mail/em-utils.c:304
 msgid "Incoming"
 msgstr "Incoming"
 
-#: ../filter/e-filter-rule.c:1118 ../mail/em-utils.c:305
+#: ../filter/e-filter-rule.c:1128 ../mail/em-utils.c:305
 msgid "Outgoing"
 msgstr "Outgoing"
 
@@ -9381,7 +9381,7 @@ msgstr "Sent"
 
 #: ../mail/e-mail-local.c:41 ../mail/em-folder-tree-model.c:691
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
-#: ../plugins/templates/templates.c:577
+#: ../plugins/templates/templates.c:578
 msgid "Templates"
 msgstr "Templates"
 
@@ -10002,7 +10002,7 @@ msgstr "Retrieving message '%s'"
 
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
-#: ../mail/e-mail-reader.c:2889 ../mail/mail-config.ui.h:31
+#: ../mail/e-mail-reader.c:2893 ../mail/mail-config.ui.h:31
 #: ../plugins/google-account-setup/google-source.c:303
 #: ../plugins/google-account-setup/google-source.c:537
 #: ../plugins/google-account-setup/google-source.c:659
@@ -10010,45 +10010,45 @@ msgstr "Retrieving message '%s'"
 msgid "Default"
 msgstr "Default"
 
-#: ../mail/e-mail-reader.c:3037
+#: ../mail/e-mail-reader.c:3041
 #: ../modules/mail/e-mail-attachment-handler.c:144
 msgid "_Forward"
 msgstr "_Forward"
 
-#: ../mail/e-mail-reader.c:3038
+#: ../mail/e-mail-reader.c:3042
 msgid "Forward the selected message to someone"
 msgstr "Forward the selected message to someone"
 
-#: ../mail/e-mail-reader.c:3057
+#: ../mail/e-mail-reader.c:3061
 msgid "Group Reply"
 msgstr "Group Reply"
 
-#: ../mail/e-mail-reader.c:3058
+#: ../mail/e-mail-reader.c:3062
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Reply to the mailing list, or to all recipients"
 
-#: ../mail/e-mail-reader.c:3103 ../mail/em-filter-i18n.h:14
+#: ../mail/e-mail-reader.c:3107 ../mail/em-filter-i18n.h:14
 #: ../plugins/groupwise-features/share-folder.c:743
 msgid "Delete"
 msgstr "Delete"
 
-#: ../mail/e-mail-reader.c:3136
+#: ../mail/e-mail-reader.c:3140
 #: ../modules/calendar/e-cal-shell-view-actions.c:1305
 #: ../widgets/misc/e-calendar.c:196
 msgid "Next"
 msgstr "Next"
 
-#: ../mail/e-mail-reader.c:3140
+#: ../mail/e-mail-reader.c:3144
 #: ../modules/calendar/e-cal-shell-view-actions.c:1298
 #: ../widgets/misc/e-calendar.c:172
 msgid "Previous"
 msgstr "Previous"
 
-#: ../mail/e-mail-reader.c:3150 ../mail/mail-dialogs.ui.h:19
+#: ../mail/e-mail-reader.c:3154 ../mail/mail-dialogs.ui.h:19
 msgid "Reply"
 msgstr "Reply"
 
-#: ../mail/e-mail-reader.c:3718
+#: ../mail/e-mail-reader.c:3722
 #, c-format
 msgid "Folder '%s'"
 msgstr "Folder '%s'"
@@ -10224,25 +10224,25 @@ msgid "Checking for New Messages"
 msgstr "Checking for New Messages"
 
 #. Translators: First %s is an email address, second %s is the subject of the email, third %s is the date
-#: ../mail/em-composer-utils.c:1695
+#: ../mail/em-composer-utils.c:1734
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
 msgstr "Your message to %s about \"%s\" on %s has been read."
 
 #. Translators: %s is the subject of the email message
-#: ../mail/em-composer-utils.c:1743
+#: ../mail/em-composer-utils.c:1782
 #, c-format
 msgid "Delivery Notification for: \"%s\""
 msgstr "Delivery Notification for: \"%s\""
 
-#: ../mail/em-composer-utils.c:2152
+#: ../mail/em-composer-utils.c:2191
 msgid "an unknown sender"
 msgstr "an unknown sender"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:2199
+#: ../mail/em-composer-utils.c:2238
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -10250,15 +10250,15 @@ msgstr ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 
-#: ../mail/em-composer-utils.c:2343
+#: ../mail/em-composer-utils.c:2382
 msgid "-----Original Message-----"
 msgstr "-----Original Message-----"
 
-#: ../mail/em-composer-utils.c:2555
+#: ../mail/em-composer-utils.c:2594
 msgid "Posting destination"
 msgstr "Posting destination"
 
-#: ../mail/em-composer-utils.c:2556
+#: ../mail/em-composer-utils.c:2595
 msgid "Choose folders to post the message to."
 msgstr "Choose folders to post the message to."
 
@@ -12081,8 +12081,8 @@ msgid ""
 "one minute after the last action invocation."
 msgstr ""
 "Whether to flush Outbox after filtering is done. Outbox flush will happen "
-"only when a 'Forward to' filter action is used and approximately "
-"one minute after the last action invocation."
+"only when a 'Forward to' filter action is used and approximately one minute "
+"after the last action invocation."
 
 #: ../mail/evolution-mail.schemas.in.h:215
 msgid "Width of the message-list pane"
@@ -12127,24 +12127,22 @@ msgstr "Select folder"
 msgid "Select folder to import into"
 msgstr "Select folder to import into"
 
-#. Translators: Column header for a message subject
-#: ../mail/importers/evolution-mbox-importer.c:372
+#: ../mail/importers/evolution-mbox-importer.c:382
 msgctxt "mboxImp"
 msgid "Subject"
 msgstr "Subject"
 
-#. Translators: Column header for a message From address
-#: ../mail/importers/evolution-mbox-importer.c:376
+#: ../mail/importers/evolution-mbox-importer.c:387
 msgctxt "mboxImp"
 msgid "From"
 msgstr "From"
 
-#: ../mail/importers/evolution-mbox-importer.c:412
+#: ../mail/importers/evolution-mbox-importer.c:431
 #: ../shell/e-shell-utils.c:251
 msgid "Berkeley Mailbox (mbox)"
 msgstr "Berkeley Mailbox (mbox)"
 
-#: ../mail/importers/evolution-mbox-importer.c:413
+#: ../mail/importers/evolution-mbox-importer.c:432
 msgid "Importer Berkeley Mailbox format folders"
 msgstr "Importer Berkeley Mailbox format folders"
 
@@ -13065,11 +13063,11 @@ msgstr "Sending message %d of %d"
 msgid "Failed to send %d of %d messages"
 msgstr "Failed to send %d of %d messages"
 
-#: ../mail/mail-ops.c:828 ../mail/mail-send-recv.c:758
+#: ../mail/mail-ops.c:828 ../mail/mail-send-recv.c:783
 msgid "Canceled."
 msgstr "Cancelled."
 
-#: ../mail/mail-ops.c:830 ../mail/mail-send-recv.c:760
+#: ../mail/mail-ops.c:830 ../mail/mail-send-recv.c:785
 msgid "Complete."
 msgstr "Complete."
 
@@ -13206,27 +13204,27 @@ msgstr "Preparing account '%s' for offline"
 msgid "Checking Service"
 msgstr "Checking Service"
 
-#: ../mail/mail-send-recv.c:184
+#: ../mail/mail-send-recv.c:188
 msgid "Canceling..."
 msgstr "Cancelling…"
 
-#: ../mail/mail-send-recv.c:424
+#: ../mail/mail-send-recv.c:440
 msgid "Send & Receive Mail"
 msgstr "Send & Receive Mail"
 
-#: ../mail/mail-send-recv.c:441
+#: ../mail/mail-send-recv.c:457
 msgid "Cancel _All"
 msgstr "Cancel _All"
 
-#: ../mail/mail-send-recv.c:551
+#: ../mail/mail-send-recv.c:569
 msgid "Updating..."
 msgstr "Updating…"
 
-#: ../mail/mail-send-recv.c:551 ../mail/mail-send-recv.c:628
+#: ../mail/mail-send-recv.c:569 ../mail/mail-send-recv.c:649
 msgid "Waiting..."
 msgstr "Waiting…"
 
-#: ../mail/mail-send-recv.c:866
+#: ../mail/mail-send-recv.c:896
 #, c-format
 msgid "Checking for new mail"
 msgstr "Checking for new mail"
@@ -14753,7 +14751,7 @@ msgstr "I_mport to Tasks"
 
 #. Create the Webcal source group
 #: ../modules/calendar/e-cal-shell-backend.c:106
-#: ../modules/calendar/e-cal-shell-migrate.c:176
+#: ../modules/calendar/e-cal-shell-migrate.c:181
 #: ../modules/calendar/e-memo-shell-backend.c:94
 #: ../modules/calendar/e-memo-shell-migrate.c:136
 #: ../modules/calendar/e-task-shell-backend.c:94
@@ -16071,7 +16069,7 @@ msgstr ""
 "body"
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:451
-#: ../plugins/templates/templates.c:409
+#: ../plugins/templates/templates.c:410
 msgid "Keywords"
 msgstr "Keywords"
 
@@ -16805,7 +16803,7 @@ msgid "Key"
 msgstr "Key"
 
 #: ../plugins/email-custom-header/email-custom-header.c:900
-#: ../plugins/templates/templates.c:415
+#: ../plugins/templates/templates.c:416
 msgid "Values"
 msgstr "Values"
 
@@ -18013,7 +18011,7 @@ msgid "%s through %s has published the following memo:"
 msgstr "%s through %s has published the following memo:"
 
 #: ../plugins/itip-formatter/itip-view.c:551
-#,, c-format
+#, c-format
 msgid "%s has published the following memo:"
 msgstr "%s has published the following memo:"
 
@@ -18164,7 +18162,8 @@ msgstr "Itip Formatter"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
 msgid "'{0}' has delegated the meeting. Do you want to add the delegate '{1}'?"
-msgstr "'{0}' has delegated the meeting. Do you want to add the delegate '{1}'?"
+msgstr ""
+"'{0}' has delegated the meeting. Do you want to add the delegate '{1}'?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
 msgid "This meeting has been delegated"
@@ -19228,15 +19227,15 @@ msgstr ""
 msgid "Drafts based template plugin"
 msgstr "Drafts-based template plugin"
 
-#: ../plugins/templates/templates.c:620
+#: ../plugins/templates/templates.c:621
 msgid "No Title"
 msgstr "No Title"
 
-#: ../plugins/templates/templates.c:691
+#: ../plugins/templates/templates.c:715
 msgid "Save as _Template"
 msgstr "Save as _Template"
 
-#: ../plugins/templates/templates.c:693
+#: ../plugins/templates/templates.c:717
 msgid "Save as Template"
 msgstr "Save as Template"
 
@@ -19460,7 +19459,7 @@ msgstr "Sidebar is visible"
 msgid "Skip development warning dialog"
 msgstr "Skip development warning dialogue"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:331
+#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:330
 msgid "Start in offline mode"
 msgstr "Start in offline mode"
 
@@ -19966,7 +19965,7 @@ msgid "Preparing to quit..."
 msgstr "Preparing to quit…"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:180
+#: ../shell/main.c:179
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -20001,7 +20000,7 @@ msgstr ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 
-#: ../shell/main.c:204
+#: ../shell/main.c:203
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -20009,55 +20008,55 @@ msgstr ""
 "Thanks\n"
 "The Evolution Team\n"
 
-#: ../shell/main.c:211
+#: ../shell/main.c:210
 msgid "Do not tell me again"
 msgstr "Do not tell me again"
 
-#: ../shell/main.c:327
+#: ../shell/main.c:326
 msgid "Start Evolution activating the specified component"
 msgstr "Start Evolution activating the specified component"
 
-#: ../shell/main.c:329
+#: ../shell/main.c:328
 msgid "Apply the given geometry to the main window"
 msgstr "Apply the given geometry to the main window"
 
-#: ../shell/main.c:333
+#: ../shell/main.c:332
 msgid "Start in online mode"
 msgstr "Start in online mode"
 
-#: ../shell/main.c:335
+#: ../shell/main.c:334
 msgid "Start in \"express\" mode"
 msgstr "Start in \"express\" mode"
 
-#: ../shell/main.c:338
+#: ../shell/main.c:337
 msgid "Forcibly shut down Evolution"
 msgstr "Forcibly shut down Evolution"
 
-#: ../shell/main.c:341
+#: ../shell/main.c:340
 msgid "Send the debugging output of all components to a file."
 msgstr "Send the debugging output of all components to a file."
 
-#: ../shell/main.c:343
+#: ../shell/main.c:342
 msgid "Disable loading of any plugins."
 msgstr "Disable loading of any plugins."
 
-#: ../shell/main.c:345
+#: ../shell/main.c:344
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Disable preview pane of Mail, Contacts and Tasks."
 
-#: ../shell/main.c:349
+#: ../shell/main.c:348
 msgid "Import URIs or file names given as rest of arguments."
 msgstr "Import URIs or file names given as rest of arguments."
 
-#: ../shell/main.c:351
+#: ../shell/main.c:350
 msgid "Request a running Evolution process to quit"
 msgstr "Request a running Evolution process to quit"
 
-#: ../shell/main.c:475 ../shell/main.c:483
+#: ../shell/main.c:474 ../shell/main.c:482
 msgid "- The Evolution PIM and Email Client"
 msgstr "- The Evolution PIM and E-mail Client"
 
-#: ../shell/main.c:545
+#: ../shell/main.c:544
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
