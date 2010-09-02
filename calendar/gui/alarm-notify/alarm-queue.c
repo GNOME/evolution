@@ -1536,7 +1536,9 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	if (!config_data_get_notify_with_tray ()) {
 		tray_blink_id = -1;
 		open_alarm_dialog (tray_data);
-		gtk_window_stick (GTK_WINDOW (alarm_notifications_dialog->dialog));
+		if (alarm_notifications_dialog)
+			gtk_window_stick (GTK_WINDOW (
+				alarm_notifications_dialog->dialog));
 	} else {
 		if (tray_blink_id == -1) {
 			tray_blink_countdown = 30;
