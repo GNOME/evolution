@@ -45,12 +45,13 @@
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
-#include "e-util/e-dialog-utils.h"
-#include "e-util/e-alert-dialog.h"
-#include "e-util/e-plugin-ui.h"
-#include "e-util/e-util-private.h"
 #include "e-util/e-account-utils.h"
+#include "e-util/e-alert-dialog.h"
+#include "e-util/e-dialog-utils.h"
+#include "e-util/e-extensible.h"
+#include "e-util/e-plugin-ui.h"
 #include "e-util/e-signature-utils.h"
+#include "e-util/e-util-private.h"
 #include "e-signature-combo-box.h"
 #include "shell/e-shell.h"
 #include "em-format/em-format.h"
@@ -59,7 +60,6 @@
 
 #include "e-msg-composer.h"
 #include "e-attachment.h"
-#include "e-composer-autosave.h"
 #include "e-composer-private.h"
 #include "e-composer-header-table.h"
 
@@ -113,10 +113,11 @@ static void	handle_multipart_signed		(EMsgComposer *composer,
 						 CamelMultipart *multipart,
 						 gint depth);
 
-G_DEFINE_TYPE (
+G_DEFINE_TYPE_WITH_CODE (
 	EMsgComposer,
 	e_msg_composer,
-	GTKHTML_TYPE_EDITOR)
+	GTKHTML_TYPE_EDITOR,
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 /**
  * emcu_part_to_html:
@@ -1439,71 +1440,6 @@ set_editor_text (EMsgComposer *composer,
 	g_free (body);
 }
 
-/* Commands.  */
-
-static void
-autosave_load_draft_cb (EMsgComposer *composer,
-                        GAsyncResult *result,
-                        gchar *filename)
-{
-	GError *error = NULL;
-
-	if (e_composer_autosave_snapshot_finish (composer, result, &error))
-		g_unlink (filename);
-
-	else {
-		e_alert_run_dialog_for_args (
-			GTK_WINDOW (composer),
-			"mail-composer:no-autosave",
-			(filename != NULL) ? filename : "",
-			(error != NULL) ? error->message :
-			_("Unable to reconstruct message from autosave file"),
-			NULL);
-
-		if (error != NULL)
-			g_error_free (error);
-	}
-
-	g_free (filename);
-}
-
-static EMsgComposer *
-autosave_load_draft (EShell *shell,
-                     const gchar *filename)
-{
-	CamelStream *stream;
-	CamelMimeMessage *message;
-	EMsgComposer *composer;
-
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-	g_return_val_if_fail (filename != NULL, NULL);
-
-	stream = camel_stream_fs_new_with_name (
-		filename, O_RDONLY, 0, NULL);
-	if (stream == NULL)
-		return NULL;
-
-	message = camel_mime_message_new ();
-	camel_data_wrapper_construct_from_stream (
-		CAMEL_DATA_WRAPPER (message), stream, NULL);
-	g_object_unref (stream);
-
-	composer = e_msg_composer_new_with_message (shell, message);
-	if (composer) {
-		/* Mark the message as changed so it gets autosaved again,
-		 * then we can safely remove the old autosave file in the
-		 * callback function. */
-		gtkhtml_editor_set_changed (GTKHTML_EDITOR (composer), TRUE);
-		e_composer_autosave_snapshot_async (
-			composer, (GAsyncReadyCallback)
-			autosave_load_draft_cb, g_strdup (filename));
-
-		gtk_widget_show (GTK_WIDGET (composer));
-	}
-
-	return composer;
-}
-
 /* Miscellaneous callbacks.  */
 
 static void
@@ -1830,7 +1766,6 @@ msg_composer_finalize (GObject *object)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (object);
 
-	e_composer_autosave_unregister (composer);
 	e_composer_private_finalize (composer);
 
 	/* Chain up to parent's finalize() method. */
@@ -1980,14 +1915,14 @@ msg_composer_constructed (GObject *object)
 		store, "row-inserted",
 		G_CALLBACK (attachment_store_changed_cb), composer);
 
-	e_composer_autosave_register (composer);
-
 	/* Initialization may have tripped the "changed" state. */
 	gtkhtml_editor_set_changed (editor, FALSE);
 
 	id = "org.gnome.evolution.composer";
 	e_plugin_ui_register_manager (ui_manager, id, composer);
 	e_plugin_ui_enable_manager (ui_manager, id);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (composer));
 }
 
 static void
@@ -2068,7 +2003,7 @@ msg_composer_key_press_event (GtkWidget *widget,
 
 #ifdef HAVE_XFREE
 	if (event->keyval == XF86XK_Send) {
-		g_signal_emit (G_OBJECT (composer), signals[SEND], 0);
+		e_msg_composer_send (composer);
 		return TRUE;
 	}
 #endif /* HAVE_XFREE */
@@ -3250,9 +3185,16 @@ e_msg_composer_get_shell (EMsgComposer *composer)
 void
 e_msg_composer_send (EMsgComposer *composer)
 {
+	GtkhtmlEditor *editor;
+
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
+	editor = GTKHTML_EDITOR (composer);
+
 	g_signal_emit (composer, signals[SEND], 0);
+
+	/* XXX This should be elsewhere. */
+	gtkhtml_editor_set_changed (editor, FALSE);
 }
 
 /**
@@ -4093,13 +4035,6 @@ e_msg_composer_get_raw_message_text (EMsgComposer *composer)
 	return array;
 }
 
-void
-e_msg_composer_set_enable_autosave (EMsgComposer *composer,
-                                    gboolean enabled)
-{
-	e_composer_autosave_set_enabled (composer, enabled);
-}
-
 gboolean
 e_msg_composer_is_exiting (EMsgComposer *composer)
 {
@@ -4199,49 +4134,6 @@ e_msg_composer_load_from_file (EShell *shell,
 		gtk_widget_show (GTK_WIDGET (composer));
 
 	return composer;
-}
-
-void
-e_msg_composer_check_autosave (EShell *shell)
-{
-	GtkWindow *parent;
-	GList *orphans = NULL;
-	gint response;
-	GError *error = NULL;
-
-	g_return_if_fail (E_IS_SHELL (shell));
-
-	parent = e_shell_get_active_window (shell);
-
-	/* Look for orphaned autosave files. */
-	orphans = e_composer_autosave_find_orphans (&error);
-	if (orphans == NULL) {
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_error_free (error);
-		}
-		return;
-	}
-
-	/* Ask if the user wants to recover the orphaned files. */
-	response = e_alert_run_dialog_for_args (
-		parent, "mail-composer:recover-autosave", NULL);
-
-	/* Based on the user's response, recover or delete them. */
-	while (orphans != NULL) {
-		const gchar *filename = orphans->data;
-		EMsgComposer *composer;
-
-		if (response == GTK_RESPONSE_YES) {
-			/* FIXME: composer is never used */
-			composer = autosave_load_draft (shell, filename);
-		} else {
-			g_unlink (filename);
-		}
-
-		g_free (orphans->data);
-		orphans = g_list_delete_link (orphans, orphans);
-	}
 }
 
 void

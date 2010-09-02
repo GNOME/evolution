@@ -375,7 +375,6 @@ mail_shell_backend_window_created_cb (EShell *shell,
                                       GtkWindow *window,
                                       EShellBackend *shell_backend)
 {
-	static gboolean first_time = TRUE;
 	const gchar *backend_name;
 
 	/* This applies to both the composer and signature editor. */
@@ -425,13 +424,6 @@ mail_shell_backend_window_created_cb (EShell *shell,
 	g_object_weak_ref (
 		G_OBJECT (window), (GWeakNotify)
 		mail_shell_backend_window_weak_notify_cb, shell);
-
-	if (first_time) {
-		g_signal_connect_swapped (
-			window, "map-event",
-			G_CALLBACK (e_msg_composer_check_autosave), shell);
-		first_time = FALSE;
-	}
 }
 
 static void

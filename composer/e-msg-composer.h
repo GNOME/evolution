@@ -133,10 +133,6 @@ CamelInternetAddress *
 
 void		e_msg_composer_clear_inlined_table
 						(EMsgComposer *composer);
-void		e_msg_composer_set_enable_autosave
-						(EMsgComposer *composer,
-						 gboolean enabled);
-
 void		e_msg_composer_add_message_attachments
 						(EMsgComposer *composer,
 						 CamelMimeMessage *message,
@@ -148,7 +144,6 @@ gboolean	e_msg_composer_can_close	(EMsgComposer *composer,
 
 EMsgComposer *	e_msg_composer_load_from_file	(EShell *shell,
 						 const gchar *filename);
-void		e_msg_composer_check_autosave	(EShell *shell);
 
 void		e_msg_composer_reply_indent	(EMsgComposer *composer);
 

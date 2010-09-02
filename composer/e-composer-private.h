@@ -28,7 +28,6 @@
 #include <glib/gstdio.h>
 
 #include "e-composer-actions.h"
-#include "e-composer-autosave.h"
 #include "e-composer-header-table.h"
 #include "e-util/e-binding.h"
 #include "e-util/e-charset.h"

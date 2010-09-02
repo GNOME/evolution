@@ -50,7 +50,6 @@
 #include "em-composer-utils.h"
 #include "composer/e-msg-composer.h"
 #include "composer/e-composer-actions.h"
-#include "composer/e-composer-autosave.h"
 #include "composer/e-composer-post-header.h"
 #include "em-folder-selector.h"
 #include "em-folder-tree.h"
@@ -255,10 +254,8 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 			/* queue a message send */
 			mail_send ();
 		}
-	} else {
-		e_msg_composer_set_enable_autosave (send->composer, TRUE);
+	} else
 		gtk_widget_show (GTK_WIDGET (send->composer));
-	}
 
 	camel_message_info_free (info);
 
@@ -554,8 +551,6 @@ em_utils_composer_send_cb (EMsgComposer *composer)
 	send->send = TRUE;
 	send->composer = g_object_ref (composer);
 	gtk_widget_hide (GTK_WIDGET (composer));
-
-	e_msg_composer_set_enable_autosave (composer, FALSE);
 
 	mail_append_mail (
 		folder, message, info, composer_send_queued_cb, send);

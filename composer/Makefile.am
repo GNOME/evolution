@@ -18,7 +18,6 @@ libcomposerinclude_HEADERS = 			\
 	e-composer-text-header.h		\
 	e-composer-common.h			\
 	e-composer-actions.h			\
-	e-composer-autosave.h			\
 	e-msg-composer.h
 
 libcomposer_la_CPPFLAGS =						\
@@ -43,7 +42,6 @@ libcomposer_la_CPPFLAGS =						\
 libcomposer_la_SOURCES = 			\
 	$(libcomposerinclude_HEADERS)		\
 	e-composer-actions.c			\
-	e-composer-autosave.c			\
 	e-composer-header.c			\
 	e-composer-header-table.c		\
 	e-composer-from-header.c		\

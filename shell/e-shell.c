@@ -180,6 +180,16 @@ shell_window_focus_in_event_cb (EShell *shell,
 	return FALSE;
 }
 
+static gboolean
+shell_emit_window_destroyed_cb (EShell *shell)
+{
+	g_signal_emit (shell, signals[WINDOW_DESTROYED], 0);
+
+	g_object_unref (shell);
+
+	return FALSE;
+}
+
 static void
 shell_window_weak_notify_cb (EShell *shell,
                              GObject *where_the_object_was)
@@ -190,7 +200,12 @@ shell_window_weak_notify_cb (EShell *shell,
 	list = g_list_remove (list, where_the_object_was);
 	shell->priv->watched_windows = list;
 
-	g_signal_emit (shell, signals[WINDOW_DESTROYED], 0);
+	/* Let the watched window finish finalizing itself before we
+	 * emit the "window-destroyed" signal, which may trigger the
+	 * application to initiate shutdown. */
+	g_idle_add (
+		(GSourceFunc) shell_emit_window_destroyed_cb,
+		g_object_ref (shell));
 }
 
 static void

@@ -1803,6 +1803,7 @@ modules/calendar/Makefile
 modules/mail/Makefile
 modules/mailto-handler/Makefile
 modules/network-manager/Makefile
+modules/composer-autosave/Makefile
 modules/connman/Makefile
 modules/plugin-lib/Makefile
 modules/plugin-mono/Makefile
