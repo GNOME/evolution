@@ -106,7 +106,7 @@ e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
 	guint n_rows;
 	GtkWidget *w1, *w2, *box1, *box2, *mainbox, *maincheck;
 
-	if (!e_plugin_util_is_source_proto (source, "file"))
+	if (!e_plugin_util_is_source_proto (source, "local"))
 		return NULL;
 
 	relative_uri = e_source_peek_relative_uri (source);
