@@ -1405,6 +1405,8 @@ em_format_format_text (EMFormat *emf,
 
 	if (windows)
 		g_object_unref (windows);
+
+	g_object_unref (mem_stream);
 }
 
 /**
