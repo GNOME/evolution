@@ -216,6 +216,53 @@ widget_entry_changed_cb (GtkWidget *widget, gpointer data)
 
 }
 
+static void
+ignore_hosts_entry_changed_cb (GtkWidget *widget, const gchar *key)
+{
+	const gchar *value;
+	GSList *lst = NULL;
+	GConfClient *gconf;
+
+	g_return_if_fail (widget != NULL);
+	g_return_if_fail (key != NULL);
+	g_return_if_fail (GTK_IS_ENTRY (widget));
+
+	/* transform comma-separated list of ignore_hosts to a string-list */
+	value = gtk_entry_get_text (GTK_ENTRY (widget));
+	if (value && *value) {
+		gchar **split = g_strsplit (value, ",", -1);
+
+		if (split) {
+			gint ii;
+
+			for (ii = 0; split[ii]; ii++) {
+				const gchar *tmp = split[ii];
+
+				if (tmp && *tmp) {
+					gchar *val = g_strstrip (g_strdup (tmp));
+
+					if (val && *val)
+						lst = g_slist_append (lst, val);
+					else
+						g_free (val);
+				}
+			}
+		}
+
+		g_strfreev (split);
+	}
+
+	gconf = mail_config_get_gconf_client ();
+	if (!gconf_client_set_list (gconf, key, GCONF_VALUE_STRING, lst, NULL)) {
+		/* for cases where migration didn't happen, get rid of the old GConf key and "re-type" it */
+		gconf_client_unset (gconf, key, NULL);
+		gconf_client_set_list (gconf, key, GCONF_VALUE_STRING, lst, NULL);
+	}
+
+	g_slist_foreach (lst, (GFunc) g_free, NULL);
+	g_slist_free (lst);
+}
+
 /* plugin meta-data */
 static EMConfigItem emnp_items[] = {
 	{ E_CONFIG_BOOK, (gchar *) "", (gchar *) "network_preferences_toplevel", emnp_widget_glade },
@@ -250,7 +297,7 @@ static void
 em_network_prefs_construct (EMNetworkPrefs *prefs)
 {
 	GtkWidget *toplevel;
-	GSList* l;
+	GSList *l, *ignore;
 	gchar *buf;
 	EMConfig *ec;
 	EMConfigTargetPrefs *target;
@@ -356,7 +403,7 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 			  G_CALLBACK (widget_entry_changed_cb),
 			  (gpointer) GCONF_E_HTTPS_HOST_KEY);
 	g_signal_connect (prefs->ignore_hosts, "changed",
-			  G_CALLBACK (widget_entry_changed_cb),
+			  G_CALLBACK (ignore_hosts_entry_changed_cb),
 			  (gpointer) GCONF_E_IGNORE_HOSTS_KEY);
 	g_signal_connect (prefs->http_port, "value_changed",
 			  G_CALLBACK (widget_entry_changed_cb),
@@ -391,7 +438,33 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	gtk_entry_set_text (prefs->https_host, buf ? buf : "");
 	g_free (buf);
 
-	buf = gconf_client_get_string (prefs->gconf, GCONF_E_IGNORE_HOSTS_KEY, NULL);
+	buf = NULL;
+	ignore = gconf_client_get_list (prefs->gconf, GCONF_E_IGNORE_HOSTS_KEY, GCONF_VALUE_STRING, NULL);
+	if (ignore) {
+		/* reconstruct comma-separated list */
+		GSList *sl;
+		GString *str = NULL;
+
+		for (sl = ignore; sl; sl = sl->next) {
+			const gchar *value = sl->data;
+
+			if (value && *value) {
+				if (!str) {
+					str = g_string_new (value);
+				} else {
+					g_string_append (str, ",");
+					g_string_append (str, value);
+				}
+			}
+		}
+
+		g_slist_foreach (ignore, (GFunc) g_free, NULL);
+		g_slist_free (ignore);
+
+		if (str)
+			buf = g_string_free (str, FALSE);
+	}
+
 	gtk_entry_set_text (prefs->ignore_hosts, buf ? buf : "");
 	g_free (buf);
 

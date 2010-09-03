@@ -719,6 +719,63 @@ migrate_to_db (EShellBackend *shell_backend)
 
 #endif
 
+static void
+em_ensure_proxy_ignore_hosts_being_list (void)
+{
+	const gchar *key = "/apps/evolution/shell/network_config/ignore_hosts";
+	GConfClient *client;
+	GConfValue  *key_value;
+
+	/* makes sure the 'key' is a list of strings, not a string, as set by previous versions */
+
+	client = gconf_client_get_default ();
+	key_value = gconf_client_get (client, key, NULL);
+	if (key_value && key_value->type == GCONF_VALUE_STRING) {
+		gchar *value = gconf_client_get_string (client, key, NULL);
+		GSList *lst = NULL;
+		GError *error = NULL;
+
+		if (value && *value) {
+			gchar **split = g_strsplit (value, ",", -1);
+
+			if (split) {
+				gint ii;
+
+				for (ii = 0; split[ii]; ii++) {
+					const gchar *tmp = split[ii];
+
+					if (tmp && *tmp) {
+						gchar *val = g_strstrip (g_strdup (tmp));
+
+						if (val && *val)
+							lst = g_slist_append (lst, val);
+						else
+							g_free (val);
+					}
+				}
+			}
+
+			g_strfreev (split);
+		}
+
+		gconf_client_unset (client, key, NULL);
+		gconf_client_set_list (client, key, GCONF_VALUE_STRING, lst, &error);
+
+		g_slist_foreach (lst, (GFunc) g_free, NULL);
+		g_slist_free (lst);
+		g_free (value);
+
+		if (error) {
+			fprintf (stderr, "%s: Failed to set a list values with error: %s\n", G_STRFUNC, error->message);
+			g_error_free (error);
+		}
+	}
+
+	if (key_value)
+		gconf_value_free (key_value);
+	g_object_unref (client);
+}
+
 gboolean
 e_mail_migrate (EShellBackend *shell_backend,
                 gint major,
@@ -767,6 +824,10 @@ e_mail_migrate (EShellBackend *shell_backend,
 #else
 		g_error ("Upgrading from ancient versions not supported on Windows");
 #endif
+	}
+
+	if (major < 2 || (major == 2 && minor < 32)) {
+		em_ensure_proxy_ignore_hosts_being_list ();
 	}
 
 	return TRUE;
