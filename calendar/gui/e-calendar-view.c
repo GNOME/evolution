@@ -1792,7 +1792,7 @@ e_calendar_view_get_attendees_status_info (ECalComponent *comp, ECal *client)
  */
 
 gboolean
-e_calendar_view_get_tooltips (ECalendarViewEventData *data)
+e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 {
 	GtkWidget *label, *box, *hbox, *ebox, *frame;
 	const gchar *str;
@@ -1833,7 +1833,6 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	if (!(str && *str)) {
 		g_object_unref (newcomp);
 		gtk_widget_destroy (box);
-		g_free (data);
 
 		return FALSE;
 	}
@@ -1974,7 +1973,6 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 
 	g_object_set_data (G_OBJECT (data->cal_view), "tooltip-window", pevent->tooltip);
 	g_object_unref (newcomp);
-	g_free (data);
 
 	return FALSE;
 }

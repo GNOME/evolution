@@ -232,7 +232,7 @@ void		e_calendar_utils_show_error_silent
 void		e_calendar_utils_show_info_silent
 						(GtkWidget *widget);
 
-gboolean	e_calendar_view_get_tooltips	(ECalendarViewEventData *data);
+gboolean	e_calendar_view_get_tooltips	(const ECalendarViewEventData *data);
 
 void		e_calendar_view_move_tip	(GtkWidget *widget,
 						 gint x,

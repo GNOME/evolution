@@ -6414,7 +6414,10 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			data->day = day;
 			data->event_num = event_num;
 			data->get_view_event = (ECalendarViewEvent * (*)(ECalendarView *, int, gint)) tooltip_get_view_event;
-			pevent->timeout = g_timeout_add (500, (GSourceFunc)e_calendar_view_get_tooltips, data);
+			pevent->timeout = g_timeout_add_full (
+				G_PRIORITY_DEFAULT, 500,
+				(GSourceFunc)e_calendar_view_get_tooltips,
+				data, (GDestroyNotify) g_free);
 
 		return TRUE;
 		}
