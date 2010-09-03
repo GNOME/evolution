@@ -529,8 +529,11 @@ e_alert_new (const gchar *tag, ...)
 EAlert *
 e_alert_new_valist (const gchar *tag, va_list ap)
 {
+	EAlert *alert;
+	GPtrArray *args;
 	gchar *tmp;
-	GPtrArray *args = g_ptr_array_new_with_free_func (g_free);
+
+	args = g_ptr_array_new_with_free_func (g_free);
 
 	tmp = va_arg (ap, gchar *);
 	while (tmp) {
@@ -538,7 +541,11 @@ e_alert_new_valist (const gchar *tag, va_list ap)
 		tmp = va_arg (ap, gchar *);
 	}
 
-	return e_alert_new_array (tag, args);
+	alert = e_alert_new_array (tag, args);
+
+	g_ptr_array_unref (args);
+
+	return alert;
 }
 
 EAlert *
