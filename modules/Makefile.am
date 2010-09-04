@@ -22,6 +22,7 @@ SUBDIRS = \
 	addressbook \
 	calendar \
 	mail \
+	composer-autosave \
 	mailto-handler \
 	plugin-lib \
 	startup-wizard \
