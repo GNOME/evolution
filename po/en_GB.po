@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-01 09:20+0100\n"
+"POT-Creation-Date: 2010-09-04 15:05+0100\n"
 "PO-Revision-Date: 2010-03-17 22:43+0100\n"
 "Last-Translator: Philip Withnall <philip@tecnocode.co.uk>\n"
 "Language-Team: British English <en@li.org>\n"
@@ -237,7 +237,7 @@ msgstr "_Use as it is"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:1
 #: ../addressbook/gui/widgets/eab-contact-display.c:583
-#: ../calendar/gui/e-calendar-view.c:2022
+#: ../calendar/gui/e-calendar-view.c:2020
 msgid "Anniversary"
 msgstr "Anniversary"
 
@@ -248,7 +248,7 @@ msgstr "Anniversary"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
 #: ../addressbook/gui/widgets/eab-contact-display.c:582
-#: ../calendar/gui/e-calendar-view.c:2021 ../capplet/anjal-settings-main.c:117
+#: ../calendar/gui/e-calendar-view.c:2019 ../capplet/anjal-settings-main.c:117
 #: ../shell/main.c:122
 msgid "Birthday"
 msgstr "Birthday"
@@ -1966,8 +1966,8 @@ msgstr "Dismiss _All"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:3
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1596
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1602
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1598
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1604
 #: ../calendar/gui/e-itip-control.c:1175
 #: ../plugins/itip-formatter/itip-view.c:1043
 msgid "Location:"
@@ -2007,7 +2007,7 @@ msgid "minutes"
 msgstr "minutes"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1457
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1579
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1581
 msgid "No summary available."
 msgstr "No summary available."
 
@@ -2025,13 +2025,13 @@ msgstr "No location information available."
 msgid "You have %d alarms"
 msgstr "You have %d alarms"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1692
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1725
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1694
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1727
 #: ../e-util/e-non-intrusive-error-dialog.h:39
 msgid "Warning"
 msgstr "Warning"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1696
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1698
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -2043,7 +2043,7 @@ msgstr ""
 "configured to send an e-mail.  Evolution will display\n"
 "a normal reminder dialogue box instead."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1731
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1733
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -2060,7 +2060,7 @@ msgstr ""
 "\n"
 "Are you sure you want to run this program?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1746
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1748
 msgid "Do not ask me about this program again."
 msgstr "Do not ask me about this program again."
 
@@ -4727,7 +4727,7 @@ msgstr "Needs action"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:1869 ../calendar/gui/e-memo-table.c:528
+#: ../calendar/gui/e-calendar-view.c:1868 ../calendar/gui/e-memo-table.c:528
 #: ../calendar/gui/e-task-table.c:743
 #, c-format
 msgid "Organizer: %s <%s>"
@@ -4735,20 +4735,20 @@ msgstr "Organiser: %s <%s>"
 
 #. With SunOne accouts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in organiser.value
-#: ../calendar/gui/e-calendar-view.c:1873 ../calendar/gui/e-memo-table.c:533
+#: ../calendar/gui/e-calendar-view.c:1872 ../calendar/gui/e-memo-table.c:533
 #: ../calendar/gui/e-task-table.c:746
 #, c-format
 msgid "Organizer: %s"
 msgstr "Organiser: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:1889 ../calendar/gui/print.c:2646
+#: ../calendar/gui/e-calendar-view.c:1888 ../calendar/gui/print.c:2646
 #, c-format
 msgid "Location: %s"
 msgstr "Location: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:1920
+#: ../calendar/gui/e-calendar-view.c:1919
 #, c-format
 msgid "Time: %s %s"
 msgstr "Time: %s %s"
@@ -8074,19 +8074,19 @@ msgid "Save draft"
 msgstr "Save draft"
 
 #. Check buttons
-#: ../composer/e-msg-composer.c:196
+#: ../composer/e-msg-composer.c:197
 #: ../plugins/attachment-reminder/attachment-reminder.c:117
 msgid "_Do not show this message again."
 msgstr "_Do not show this message again."
 
-#: ../composer/e-msg-composer.c:1029
+#: ../composer/e-msg-composer.c:1030
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 
-#: ../composer/e-msg-composer.c:1041
+#: ../composer/e-msg-composer.c:1042
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
@@ -8095,19 +8095,15 @@ msgstr ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 
-#: ../composer/e-msg-composer.c:1460
-msgid "Unable to reconstruct message from autosave file"
-msgstr "Unable to reconstruct message from autosave file"
-
-#: ../composer/e-msg-composer.c:1530 ../composer/e-msg-composer.c:1876
+#: ../composer/e-msg-composer.c:1466 ../composer/e-msg-composer.c:1811
 msgid "Compose Message"
 msgstr "Compose Message"
 
-#: ../composer/e-msg-composer.c:3535
+#: ../composer/e-msg-composer.c:3477
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "The composer contains a non-text message body, which cannot be edited."
 
-#: ../composer/e-msg-composer.c:4150
+#: ../composer/e-msg-composer.c:4085
 msgid "Untitled Message"
 msgstr "Untitled Message"
 
@@ -8601,7 +8597,7 @@ msgstr "Evolution Error"
 msgid "Evolution Warning"
 msgstr "Evolution Warning"
 
-#: ../e-util/e-alert.c:652
+#: ../e-util/e-alert.c:659
 #, c-format
 msgid "Internal error, unknown error '%s' requested"
 msgstr "Internal error, unknown error '%s' requested"
@@ -8897,7 +8893,7 @@ msgstr "Subject"
 msgid "Mailer"
 msgstr "Mailer"
 
-#: ../em-format/em-format-quote.c:500 ../mail/em-composer-utils.c:1301
+#: ../em-format/em-format-quote.c:500 ../mail/em-composer-utils.c:1296
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Forwarded Message --------"
 
@@ -8916,49 +8912,49 @@ msgstr "Newsgroups"
 msgid "Face"
 msgstr "Face"
 
-#: ../em-format/em-format.c:1432
+#: ../em-format/em-format.c:1434
 #, c-format
 msgid "%s attachment"
 msgstr "%s attachment"
 
-#: ../em-format/em-format.c:1504
+#: ../em-format/em-format.c:1506
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Could not parse S/MIME message: Unknown error"
 
-#: ../em-format/em-format.c:1662 ../em-format/em-format.c:1846
+#: ../em-format/em-format.c:1664 ../em-format/em-format.c:1848
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Could not parse MIME message. Displaying as source."
 
-#: ../em-format/em-format.c:1672
+#: ../em-format/em-format.c:1674
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Unsupported encryption type for multipart/encrypted"
 
-#: ../em-format/em-format.c:1688
+#: ../em-format/em-format.c:1690
 msgid "Could not parse PGP/MIME message"
 msgstr "Could not parse PGP/MIME message"
 
-#: ../em-format/em-format.c:1689
+#: ../em-format/em-format.c:1691
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "Could not parse PGP/MIME message: Unknown error"
 
-#: ../em-format/em-format.c:1871
+#: ../em-format/em-format.c:1873
 msgid "Unsupported signature format"
 msgstr "Unsupported signature format"
 
-#: ../em-format/em-format.c:1881 ../em-format/em-format.c:2041
+#: ../em-format/em-format.c:1883 ../em-format/em-format.c:2043
 msgid "Error verifying signature"
 msgstr "Error verifying signature"
 
-#: ../em-format/em-format.c:1882 ../em-format/em-format.c:2029
-#: ../em-format/em-format.c:2042
+#: ../em-format/em-format.c:1884 ../em-format/em-format.c:2031
+#: ../em-format/em-format.c:2044
 msgid "Unknown error verifying signature"
 msgstr "Unknown error verifying signature"
 
-#: ../em-format/em-format.c:2129
+#: ../em-format/em-format.c:2131
 msgid "Could not parse PGP message: "
 msgstr "Could not parse PGP message: "
 
-#: ../em-format/em-format.c:2135 ../plugins/caldav/caldav-browse-server.c:203
+#: ../em-format/em-format.c:2137 ../plugins/caldav/caldav-browse-server.c:203
 #: ../plugins/caldav/caldav-browse-server.c:1254 ../plugins/face/face.c:169
 #: ../smime/gui/certificate-manager.c:100
 msgid "Unknown error"
@@ -9414,7 +9410,7 @@ msgstr ""
 "\n"
 "Please be patient while Evolution migrates your folders…"
 
-#: ../mail/e-mail-migrate.c:739
+#: ../mail/e-mail-migrate.c:796
 #, c-format
 msgid "Unable to create local mail folders at '%s': %s"
 msgstr "Unable to create local mail folders at '%s': %s"
@@ -10224,25 +10220,25 @@ msgid "Checking for New Messages"
 msgstr "Checking for New Messages"
 
 #. Translators: First %s is an email address, second %s is the subject of the email, third %s is the date
-#: ../mail/em-composer-utils.c:1734
+#: ../mail/em-composer-utils.c:1729
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
 msgstr "Your message to %s about \"%s\" on %s has been read."
 
 #. Translators: %s is the subject of the email message
-#: ../mail/em-composer-utils.c:1782
+#: ../mail/em-composer-utils.c:1777
 #, c-format
 msgid "Delivery Notification for: \"%s\""
 msgstr "Delivery Notification for: \"%s\""
 
-#: ../mail/em-composer-utils.c:2191
+#: ../mail/em-composer-utils.c:2186
 msgid "an unknown sender"
 msgstr "an unknown sender"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:2238
+#: ../mail/em-composer-utils.c:2233
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -10250,15 +10246,15 @@ msgstr ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 
-#: ../mail/em-composer-utils.c:2382
+#: ../mail/em-composer-utils.c:2377
 msgid "-----Original Message-----"
 msgstr "-----Original Message-----"
 
-#: ../mail/em-composer-utils.c:2594
+#: ../mail/em-composer-utils.c:2589
 msgid "Posting destination"
 msgstr "Posting destination"
 
-#: ../mail/em-composer-utils.c:2595
+#: ../mail/em-composer-utils.c:2590
 msgid "Choose folders to post the message to."
 msgstr "Choose folders to post the message to."
 
@@ -15547,19 +15543,19 @@ msgstr "Mail _Folder"
 msgid "Create a new mail folder"
 msgstr "Create a new mail folder"
 
-#: ../modules/mail/e-mail-shell-backend.c:489
+#: ../modules/mail/e-mail-shell-backend.c:481
 msgid "Mail Accounts"
 msgstr "Mail Accounts"
 
-#: ../modules/mail/e-mail-shell-backend.c:497
+#: ../modules/mail/e-mail-shell-backend.c:489
 msgid "Mail Preferences"
 msgstr "Mail Preferences"
 
-#: ../modules/mail/e-mail-shell-backend.c:505
+#: ../modules/mail/e-mail-shell-backend.c:497
 msgid "Composer Preferences"
 msgstr "Composer Preferences"
 
-#: ../modules/mail/e-mail-shell-backend.c:513
+#: ../modules/mail/e-mail-shell-backend.c:505
 msgid "Network Preferences"
 msgstr "Network Preferences"
 
@@ -19952,15 +19948,15 @@ msgstr "%s — Evolution"
 msgid "New"
 msgstr "New"
 
-#: ../shell/e-shell.c:229
+#: ../shell/e-shell.c:244
 msgid "Preparing to go offline..."
 msgstr "Preparing to go offline…"
 
-#: ../shell/e-shell.c:279
+#: ../shell/e-shell.c:294
 msgid "Preparing to go online..."
 msgstr "Preparing to go online…"
 
-#: ../shell/e-shell.c:338
+#: ../shell/e-shell.c:353
 msgid "Preparing to quit..."
 msgstr "Preparing to quit…"
 
@@ -21785,6 +21781,9 @@ msgstr "Select All"
 #: ../widgets/text/e-text.c:2545
 msgid "Input Methods"
 msgstr "Input Methods"
+
+#~ msgid "Unable to reconstruct message from autosave file"
+#~ msgstr "Unable to reconstruct message from autosave file"
 
 #~ msgid "Default Sync Address:"
 #~ msgstr "Default Sync Address:"
