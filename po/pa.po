@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
-"POT-Creation-Date: 2010-09-02 08:22+0000\n"
-"PO-Revision-Date: 2010-09-03 07:59+0530\n"
+"POT-Creation-Date: 2010-09-04 20:17+0000\n"
+"PO-Revision-Date: 2010-09-05 09:22+0530\n"
 "Last-Translator: A S Alam <aalam@users.sf.net>\n"
 "Language-Team: Punjabi/Panjabi <punjabi-users@lists.sf.net>\n"
 "MIME-Version: 1.0\n"
@@ -227,7 +227,7 @@ msgstr "ਇਹ ਇੰਝ ਹੀ ਵਰਤੋਂ(_U)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:1
 #: ../addressbook/gui/widgets/eab-contact-display.c:583
-#: ../calendar/gui/e-calendar-view.c:2022
+#: ../calendar/gui/e-calendar-view.c:2020
 msgid "Anniversary"
 msgstr "ਵਰ੍ਹੇ ਗੰਢ"
 
@@ -238,7 +238,7 @@ msgstr "ਵਰ੍ਹੇ ਗੰਢ"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
 #: ../addressbook/gui/widgets/eab-contact-display.c:582
-#: ../calendar/gui/e-calendar-view.c:2021 ../capplet/anjal-settings-main.c:117
+#: ../calendar/gui/e-calendar-view.c:2019 ../capplet/anjal-settings-main.c:117
 #: ../shell/main.c:122
 msgid "Birthday"
 msgstr "ਜਨਮ-ਦਿਨ"
@@ -249,7 +249,7 @@ msgid "Blog:"
 msgstr "ਬਲੌਗ:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:5
-#: ../calendar/gui/dialogs/event-page.ui.h:10
+#: ../calendar/gui/dialogs/event-page.ui.h:4
 #: ../calendar/gui/dialogs/memo-page.ui.h:1
 msgid "Ca_tegories..."
 msgstr "ਕੈਟਾਗਰੀ(_t)..."
@@ -388,7 +388,7 @@ msgstr "ਬਲੌਗ(_B):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:33
 #: ../calendar/gui/dialogs/event-page.c:882
-#: ../calendar/gui/dialogs/event-page.ui.h:17
+#: ../calendar/gui/dialogs/event-page.ui.h:11
 #: ../plugins/itip-formatter/itip-view.c:1921
 msgid "_Calendar:"
 msgstr "ਕੈਲੰਡਰ(_C):"
@@ -883,7 +883,7 @@ msgid "Car Phone"
 msgstr "ਕਾਰ ਫੋਨ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:8
-#: ../calendar/gui/dialogs/event-page.ui.h:11
+#: ../calendar/gui/dialogs/event-page.ui.h:5
 #: ../calendar/gui/e-cal-list-view.etspec.h:1
 #: ../calendar/gui/e-calendar-table.etspec.h:3
 #: ../calendar/gui/e-memo-table.etspec.h:1
@@ -1934,8 +1934,8 @@ msgstr "ਸਭ ਮਨਸੂਖ(_A)"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:3
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1596
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1602
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1598
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1604
 #: ../calendar/gui/e-itip-control.c:1175
 #: ../plugins/itip-formatter/itip-view.c:1043
 msgid "Location:"
@@ -1955,7 +1955,7 @@ msgstr "ਬੇਕਾਰ(_S)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:7
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:22
-#: ../calendar/gui/dialogs/event-page.ui.h:24 ../e-util/e-plugin-util.c:424
+#: ../calendar/gui/dialogs/event-page.ui.h:26 ../e-util/e-plugin-util.c:424
 #: ../filter/filter.ui.h:15
 #: ../plugins/google-account-setup/google-contacts-source.c:335
 msgid "hours"
@@ -1968,14 +1968,14 @@ msgstr "ਮੁਲਾਕਾਤ ਦਾ ਟਿਕਾਣਾ"
 #. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:9
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:24
-#: ../calendar/gui/dialogs/event-page.ui.h:25 ../e-util/e-plugin-util.c:423
+#: ../calendar/gui/dialogs/event-page.ui.h:27 ../e-util/e-plugin-util.c:423
 #: ../filter/filter.ui.h:17 ../modules/addressbook/ldap-config.ui.h:34
 #: ../plugins/google-account-setup/google-contacts-source.c:334
 msgid "minutes"
 msgstr "ਮਿੰਟ"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1457
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1579
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1581
 msgid "No summary available."
 msgstr "ਕੋਈ ਸੰਖੇਪ ਜਾਣਕਾਰੀ ਉਪਲੱਬਧ ਨਹੀ ਹੈ।"
 
@@ -1993,13 +1993,13 @@ msgstr "ਕੋਈ ਟਿਕਾਣਾ ਜਾਣਕਾਰੀ ਉਪਲੱਬਧ �
 msgid "You have %d alarms"
 msgstr "ਤੁਹਾਡੇ ਲਈ %d ਅਲਾਰਮ"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1692
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1725
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1694
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1727
 #: ../e-util/e-non-intrusive-error-dialog.h:39
 msgid "Warning"
 msgstr "ਚੇਤਾਵਨੀ"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1696
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1698
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -2011,7 +2011,7 @@ msgstr ""
 "ਈਵੇਲੂਸ਼ਨ ਇੱਕ ਸਧਾਰਨ ਯਾਦ-ਪੱਤਰ ਪੁੱਛਗਿੱਛ ਬਕਸਾ ਹੀ\n"
 "ਵੇਖਾ ਸਕੇਗੀ।"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1731
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1733
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -2027,7 +2027,7 @@ msgstr ""
 "\n"
 "ਕੀ ਤੁਸੀਂ ਇਸ ਕਾਰਜ ਨੂੰ ਚਲਾਉਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1746
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1748
 msgid "Do not ask me about this program again."
 msgstr "ਇਸ ਕਾਰਜ ਬਾਰੇ ਮੈਨੂੰ ਮੁੜ ਨਾ ਪੁੱਛੋ।"
 
@@ -2840,20 +2840,16 @@ msgstr "ਬਾਅਦ"
 msgid "before"
 msgstr "ਪਹਿਲਾਂ"
 
-#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:16
-#: ../calendar/gui/dialogs/recurrence-page.ui.h:8
 msgid "day(s)"
 msgstr "ਦਿਨ"
 
 #. Translators: This is the last part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
-#. Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:17 ../e-util/e-plugin-util.c:425
 #: ../filter/filter.ui.h:14 ../modules/calendar/e-cal-shell-view-actions.c:336
 #: ../plugins/google-account-setup/google-contacts-source.c:336
 #: ../plugins/publish-calendar/publish-calendar.ui.h:30
-#: ../widgets/misc/e-send-options.ui.h:43
 msgid "days"
 msgstr "ਦਿਨ"
 
@@ -2888,13 +2884,14 @@ msgstr "ਸ਼ਾਮਲ(_d)"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:2
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:9
-#: ../calendar/gui/dialogs/event-page.ui.h:7
+#: ../calendar/gui/dialogs/event-page.ui.h:1
 msgid "Alarms"
 msgstr "ਅਲਾਰਮ"
 
 #. Translators: "None" indicates no second time zone set for a day view
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:108
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:157
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:75
 #: ../calendar/gui/e-day-view-time-item.c:797
 msgctxt "cal-second-zone"
 msgid "None"
@@ -3009,199 +3006,191 @@ msgstr "ਮਿੰਟ"
 msgid "Monday"
 msgstr "ਸੋਮਵਾਰ"
 
-#. Translators: "None" for not including threads;
-#. * part of "Include threads: None"
-#. Translators: Used in send options dialog
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:23
-#: ../filter/e-filter-rule.c:749 ../widgets/misc/e-send-options.ui.h:12
-msgid "None"
-msgstr "ਕੋਈ ਨਹੀ"
-
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:24
 #: ../mail/mail-config.ui.h:85
 msgid "Pick a color"
 msgstr "ਰੰਗ ਚੁਣੋ"
 
 #. Sunday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:26
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:25
 msgid "S_un"
 msgstr "ਐਤ(_u)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:27
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:26
 #: ../calendar/gui/dialogs/recurrence-page.c:1117
 #: ../calendar/gui/e-itip-control.c:739
 msgid "Saturday"
 msgstr "ਸ਼ਨਿੱਚਰਵਾਰ"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:28
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:27
 msgid "Sc_roll Month View by a week"
 msgstr "ਮਹੀਨੇ ਨੂੰ ਹਫ਼ਤੇ ਨਾਲ ਹਿਲਾਉ(_r)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:29
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:28
 msgid "Se_cond zone:"
 msgstr "ਦੂਜਾ ਖੇਤਰ(_c):"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:30
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:29
 msgid "Select the calendars for alarm notification"
 msgstr "ਅਲਾਰਮ ਸੂਚਨਾ ਲਈ ਕਲੰਡਰ ਚੁਣੋ"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:32
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:31
 msgid "Sh_ow a reminder"
 msgstr "ਯਾਦਪੱਤਰ ਵੇਖਾਓ(_o)"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:34
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:33
 msgid "Show a _reminder"
 msgstr "ਯਾਦਪੱਤਰ ਵੇਖਾਓ(_r)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:35
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:34
 msgid "Show week _numbers"
 msgstr "ਹਫ਼ਤਾ ਨੰਬਰ ਵੇਖੋ(_n)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:36
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:35
 #: ../calendar/gui/dialogs/recurrence-page.c:1118
 #: ../calendar/gui/e-itip-control.c:733
 msgid "Sunday"
 msgstr "ਐਤਵਾਰ"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:37
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:36
 msgid "T_asks due today:"
 msgstr "ਅੱਜ ਦੇ ਕੰਮ(_a):"
 
 #. Thursday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:39
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:38
 msgid "T_hu"
 msgstr "ਵੀਰ(_h)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:40
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:39
 #: ../calendar/gui/dialogs/calendar-setup.c:381
 msgid "Task List"
 msgstr "ਕੰਮ ਲਿਸਟ"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:41
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:40
 msgid "Template:"
 msgstr "ਟੈਪਲੇਟ:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:42
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:41
 #: ../calendar/gui/dialogs/recurrence-page.c:1115
 #: ../calendar/gui/e-itip-control.c:737
 msgid "Thursday"
 msgstr "ਵੀਰਵਾਰ"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:43
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:42
 #: ../e-util/e-non-intrusive-error-dialog.c:287
 #: ../widgets/misc/e-dateedit.c:595
 msgid "Time"
 msgstr "ਸਮਾਂ"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:44
-#: ../calendar/gui/dialogs/event-page.ui.h:15
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:43
+#: ../calendar/gui/dialogs/event-page.ui.h:9
 msgid "Time _zone:"
 msgstr "ਸਮਾਂ-ਖੇਤਰ(_z):"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:45
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:44
 msgid "Time format:"
 msgstr "ਸਮਾਂ-ਫਾਰਮੈਟ:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:46
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:45
 #: ../calendar/gui/dialogs/recurrence-page.c:1113
 #: ../calendar/gui/e-itip-control.c:735
 msgid "Tuesday"
 msgstr "ਮੰਗਲਵਾਰ"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:47
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:46
 msgid "Use s_ystem time zone"
 msgstr "ਸਿਸਟਮ ਸਮਾਂ ਖੇਤਰ ਵਰਤੋਂ(_y)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:48
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:47
 #: ../calendar/gui/dialogs/recurrence-page.c:1114
 #: ../calendar/gui/e-itip-control.c:736
 msgid "Wednesday"
 msgstr "ਬੁੱਧਵਾਰ"
 
 #. A weekday like "Monday" follows
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:50
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:49
 msgid "Wee_k starts on:"
 msgstr "ਹਫਤਾ ਸ਼ੁਰੂ(_k):"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:51
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:50
 #: ../modules/calendar/e-cal-shell-view-actions.c:1639
 msgid "Work Week"
 msgstr "ਕੰਮ ਹਫਤਾ"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:52
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:51
 msgid "Work days:"
 msgstr "ਕਾਰਜੀ ਦਿਨ:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:53
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:52
 msgid "_12 hour (AM/PM)"
 msgstr "_੧੨ ਘੰਟੇ (ਸਵੇਰ/ ਸ਼ਾਮ)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:54
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:53
 msgid "_24 hour"
 msgstr "_੨੪ ਘੰਟੇ"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:55
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:54
 msgid "_Ask for confirmation when deleting items"
 msgstr "ਆਈਟਮਾਂ ਹਟਾਉਣ ਸਮੇਂ ਪੁਸ਼ਟੀ ਕਰਵਾਓ(_A)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:56
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:55
 msgid "_Compress weekends in month view"
 msgstr "ਮਹੀਨਾ ਝਲਕ ਵਿੱਚ ਹਫਤਾ-ਅੰਤ ਸਮੇਟੋ(_C)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:57
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:56
 msgid "_Day begins:"
 msgstr "ਦਿਨ ਸ਼ੁਰੂ(_D):"
 
 #. Friday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:59
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:58
 msgid "_Fri"
 msgstr "ਸ਼ੁੱਕਰ(_F)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:60
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:59
 msgid "_Hide completed tasks after"
 msgstr "ਸੰਪੂਰਨ ਕੰਮ ਇਸ ਬਾਅਦ ਓਹਲੇ ਕਰੋ(_H)"
 
 #. Monday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:62
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:61
 msgid "_Mon"
 msgstr "ਸੋਮ(_M)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:63
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:62
 msgid "_Overdue tasks:"
 msgstr "ਮਿਆਦ ਪੁੱਗੇ ਕੰਮ(_O):"
 
 #. Saturday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:65
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:64
 msgid "_Sat"
 msgstr "ਸ਼ਨਿੱ(_S)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:66
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:65
 msgid "_Show appointment end times in week and month view"
 msgstr "ਹਫਤੇ ਅਤੇ ਮਹੀਨਾ ਝਲਕ ਵਿੱਚ ਮੁਲਕਾਤ ਵੇਖਾਓ(_S)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:67
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:66
 msgid "_Time divisions:"
 msgstr "ਸਮਾਂ ਵੰਡ(_T):"
 
 #. Tuesday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:69
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:68
 msgid "_Tue"
 msgstr "ਮੰਗਲ(_T)"
 
 #. Wednesday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:71
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:70
 msgid "_Wed"
 msgstr "ਬੁੱਧ(_W)"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:73
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:72
 msgid "before every anniversary/birthday"
 msgstr "ਹਰੇਕ ਵਰ੍ਹੇ-ਗੰਢ/ਜਨਮਦਿਨ ਤੋਂ ਪਹਿਲਾਂ"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:75
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:74
 msgid "before every appointment"
 msgstr "ਹਰ ਮੁਲਾਕਾਤ ਤੋਂ ਪਹਿਲਾਂ"
 
@@ -3672,7 +3661,7 @@ msgstr "ਇਹ ਮੌਜੂਦਗੀ ਨੂੰ ਚੱਲ ਬਣਾਓ"
 #: ../calendar/gui/dialogs/event-editor.c:245
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../plugins/groupwise-features/send-options.c:210
-#: ../widgets/misc/e-send-options.ui.h:19
+#: ../widgets/misc/e-send-options.ui.h:22
 msgid "Send Options"
 msgstr "ਭੇਜਣ ਚੋਣ"
 
@@ -3702,7 +3691,7 @@ msgid "Appointment"
 msgstr "ਮੁਲਾਕਾਤ"
 
 #: ../calendar/gui/dialogs/event-editor.c:385
-#: ../calendar/gui/dialogs/event-page.ui.h:9
+#: ../calendar/gui/dialogs/event-page.ui.h:3
 #: ../calendar/gui/e-meeting-list-view.c:148
 msgid "Attendees"
 msgstr "ਦਰਸ਼ਕ"
@@ -3729,7 +3718,7 @@ msgid "This event has alarms"
 msgstr "ਇਹ ਘਟਨਾ ਲਈ ਅਲਾਰਮ ਹੈ"
 
 #: ../calendar/gui/dialogs/event-page.c:890
-#: ../calendar/gui/dialogs/event-page.ui.h:14
+#: ../calendar/gui/dialogs/event-page.ui.h:8
 #: ../calendar/gui/dialogs/memo-page.ui.h:2
 msgid "Or_ganizer:"
 msgstr "ਪ੍ਰਬੰਧਕ(_O):"
@@ -3834,70 +3823,76 @@ msgctxt "cal-alarms"
 msgid "None"
 msgstr "ਕੋਈ ਨਹੀਂ"
 
-#. TRANSLATORS: Predefined alarm's description
 #: ../calendar/gui/dialogs/event-page.ui.h:2
-msgid "1 day before appointment"
-msgstr "ਮੁਲਾਕਾਤ ਤੋਂ ੧ ਦਿਨ ਪਹਿਲਾਂ"
-
-#. TRANSLATORS: Predefined alarm's description
-#: ../calendar/gui/dialogs/event-page.ui.h:4
-msgid "1 hour before appointment"
-msgstr "ਮੁਲਾਕਾਤ ਤੋਂ ਪਹਿਲਾਂ ੧ ਘੰਟਾ"
-
-#. TRANSLATORS: Predefined alarm's description
-#: ../calendar/gui/dialogs/event-page.ui.h:6
-msgid "15 minutes before appointment"
-msgstr "ਮੁਲਾਕਾਤ ਤੋਂ ਪਹਿਲਾਂ ੧੫ ਮਿੰਟ"
-
-#: ../calendar/gui/dialogs/event-page.ui.h:8
 #: ../calendar/gui/dialogs/task-page.ui.h:1
 #: ../calendar/gui/e-meeting-time-sel.c:578
 msgid "Atte_ndees..."
 msgstr "ਦਰਸ਼ਕ(_N)..."
 
-#: ../calendar/gui/dialogs/event-page.ui.h:12
+#: ../calendar/gui/dialogs/event-page.ui.h:6
 msgid "Custom Alarm:"
 msgstr "ਅਲਾਰਮ ਸੋਧ:"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:13
+#: ../calendar/gui/dialogs/event-page.ui.h:7
 msgid "Event Description"
 msgstr "ਈਵੈਂਟ ਵੇਰਵਾ"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:16
+#: ../calendar/gui/dialogs/event-page.ui.h:10
 msgid "_Alarm"
 msgstr "ਅਲਾਰਮ(_A)"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:18
+#: ../calendar/gui/dialogs/event-page.ui.h:12
 #: ../calendar/gui/dialogs/memo-page.ui.h:6
 #: ../calendar/gui/dialogs/task-page.ui.h:8
 #: ../widgets/misc/e-attachment-dialog.c:347
 msgid "_Description:"
 msgstr "ਵੇਰਵਾ(_D):"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:19
+#: ../calendar/gui/dialogs/event-page.ui.h:13
 #: ../plugins/calendar-weather/calendar-weather.c:358
 msgid "_Location:"
 msgstr "ਟਿਕਾਣਾ(_L):"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:20
+#: ../calendar/gui/dialogs/event-page.ui.h:14
 msgid "_Summary:"
 msgstr "ਸੰਖੇਪ(_S):"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:21
+#: ../calendar/gui/dialogs/event-page.ui.h:15
 msgid "_Time:"
 msgstr "ਸਮਾਂ(_T):"
 
+#. TRANSLATORS: Predefined alarm's description
+#: ../calendar/gui/dialogs/event-page.ui.h:17
+#| msgid "1 day before appointment"
+msgctxt "eventpage"
+msgid "1 day before appointment"
+msgstr "ਮੁਲਾਕਾਤ ਤੋਂ ੧ ਦਿਨ ਪਹਿਲਾਂ"
+
+#. TRANSLATORS: Predefined alarm's description
+#: ../calendar/gui/dialogs/event-page.ui.h:19
+#| msgid "1 hour before appointment"
+msgctxt "eventpage"
+msgid "1 hour before appointment"
+msgstr "ਮੁਲਾਕਾਤ ਤੋਂ ਪਹਿਲਾਂ ੧ ਘੰਟਾ"
+
+#. TRANSLATORS: Predefined alarm's description
+#: ../calendar/gui/dialogs/event-page.ui.h:21
+#| msgid "15 minutes before appointment"
+msgctxt "eventpage"
+msgid "15 minutes before appointment"
+msgstr "ਮੁਲਾਕਾਤ ਤੋਂ ਪਹਿਲਾਂ ੧੫ ਮਿੰਟ"
+
 #. TRANSLATORS: 'for' in a sense of 'duration'; example string: Time: [date] [time] for [ H ] hours [ M ] minutes
-#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/event-page.ui.h:23
-#: ../calendar/gui/dialogs/recurrence-page.ui.h:10
+#| msgid "for"
+msgctxt "eventpage"
 msgid "for"
 msgstr "ਲਈ"
 
 #. TRANSLATORS: 'until' in a sense of 'duration'; example string: Time: [date] [time] until [ date ] [ time ]
-#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/dialogs/event-page.ui.h:27
-#: ../calendar/gui/dialogs/recurrence-page.ui.h:16
+#: ../calendar/gui/dialogs/event-page.ui.h:25
+#| msgid "until"
+msgctxt "eventpage"
 msgid "until"
 msgstr "ਜਦੋਂ ਤੱਕ"
 
@@ -4141,22 +4136,51 @@ msgid "This appointment rec_urs"
 msgstr "ਇਹ ਮੁਲਾਕਾਤ ਮੁੜ ਹੈ(_u)"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:8
+#| msgid "day(s)"
+msgctxt "recurrpage"
+msgid "day(s)"
+msgstr "ਦਿਨ"
+
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:10
+#| msgid "for"
+msgctxt "recurrpage"
+msgid "for"
+msgstr "ਲਈ"
+
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:12
+#| msgid "forever"
+msgctxt "recurrpage"
 msgid "forever"
 msgstr "ਹਮੇਸ਼ਾ"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:14
+#| msgid "month(s)"
+msgctxt "recurrpage"
 msgid "month(s)"
 msgstr "ਮਹੀਨਾ"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:16
+#| msgid "until"
+msgctxt "recurrpage"
+msgid "until"
+msgstr "ਜਦੋਂ ਤੱਕ"
+
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:18
+#| msgid "week(s)"
+msgctxt "recurrpage"
 msgid "week(s)"
 msgstr "ਹਫਤਾ"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:20
+#| msgid "year(s)"
+msgctxt "recurrpage"
 msgid "year(s)"
 msgstr "ਸਾਲ"
 
@@ -4206,7 +4230,7 @@ msgstr "ਸਮਾਪਤ"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:6
 #: ../calendar/gui/e-cal-component-preview.c:314
 #: ../calendar/gui/e-task-table.c:511 ../calendar/gui/tasktypes.xml.h:14
-#: ../mail/message-list.c:1183 ../widgets/misc/e-send-options.ui.h:8
+#: ../mail/message-list.c:1183 ../widgets/misc/e-send-options.ui.h:13
 msgid "High"
 msgstr "ਉਚਤਮ"
 
@@ -4225,7 +4249,7 @@ msgstr "ਤਰੱਕੀ ਵਿੱਚ ਹੈ"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:10
 #: ../calendar/gui/e-cal-component-preview.c:318
 #: ../calendar/gui/e-task-table.c:513 ../calendar/gui/tasktypes.xml.h:16
-#: ../mail/message-list.c:1181 ../widgets/misc/e-send-options.ui.h:9
+#: ../mail/message-list.c:1181 ../widgets/misc/e-send-options.ui.h:14
 msgid "Low"
 msgstr "ਨਿਊਨਤਮ"
 
@@ -4234,7 +4258,7 @@ msgstr "ਨਿਊਨਤਮ"
 #: ../calendar/gui/e-cal-component-preview.c:316
 #: ../calendar/gui/e-cal-model.c:1269 ../calendar/gui/e-task-table.c:512
 #: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1182
-#: ../widgets/misc/e-send-options.ui.h:13
+#: ../widgets/misc/e-send-options.ui.h:16
 msgid "Normal"
 msgstr "ਸਧਾਰਨ"
 
@@ -4271,7 +4295,7 @@ msgstr "ਸਥਿਤੀ"
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-details-page.ui.h:20
 #: ../calendar/gui/e-task-table.c:514 ../calendar/gui/tasktypes.xml.h:24
-#: ../widgets/misc/e-send-options.ui.h:24
+#: ../widgets/misc/e-send-options.ui.h:27
 msgid "Undefined"
 msgstr "ਨਾ-ਪ੍ਰਭਾਸ਼ਿਤ"
 
@@ -4280,7 +4304,7 @@ msgid "_Date completed:"
 msgstr "ਸੰਪੂਰਨ ਮਿਤੀ(_D):"
 
 #: ../calendar/gui/dialogs/task-details-page.ui.h:22
-#: ../widgets/misc/e-send-options.ui.h:36
+#: ../widgets/misc/e-send-options.ui.h:35
 msgid "_Priority:"
 msgstr "ਪਹਿਲ(_P):"
 
@@ -4664,7 +4688,7 @@ msgstr "ਕਾਰਵਾਈ ਲੋੜੀਦੀ ਹੈ"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display "Organizer: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-view.c:1869 ../calendar/gui/e-memo-table.c:528
+#: ../calendar/gui/e-calendar-view.c:1868 ../calendar/gui/e-memo-table.c:528
 #: ../calendar/gui/e-task-table.c:743
 #, c-format
 msgid "Organizer: %s <%s>"
@@ -4672,20 +4696,20 @@ msgstr "ਪ੍ਰਬੰਧਕ: %s <%s>"
 
 #. With SunOne accouts, there may be no ':' in organiser.value
 #. With SunOne accounts, there may be no ':' in organiser.value
-#: ../calendar/gui/e-calendar-view.c:1873 ../calendar/gui/e-memo-table.c:533
+#: ../calendar/gui/e-calendar-view.c:1872 ../calendar/gui/e-memo-table.c:533
 #: ../calendar/gui/e-task-table.c:746
 #, c-format
 msgid "Organizer: %s"
 msgstr "ਪ੍ਰਬੰਧਕ: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:1889 ../calendar/gui/print.c:2646
+#: ../calendar/gui/e-calendar-view.c:1888 ../calendar/gui/print.c:2646
 #, c-format
 msgid "Location: %s"
 msgstr "ਟਿਕਾਣਾ: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:1920
+#: ../calendar/gui/e-calendar-view.c:1919
 #, c-format
 msgid "Time: %s %s"
 msgstr "ਸਮਾਂ: %s %s"
@@ -8016,36 +8040,32 @@ msgid "Save draft"
 msgstr "ਡਰਾਫਟ ਸੰਭਾਲੋ"
 
 #. Check buttons
-#: ../composer/e-msg-composer.c:196
+#: ../composer/e-msg-composer.c:197
 #: ../plugins/attachment-reminder/attachment-reminder.c:117
 msgid "_Do not show this message again."
 msgstr "ਇਹ ਸੁਨੇਹਾ ਮੁੜ ਨਾ ਵੇਖੋ(_D)।"
 
-#: ../composer/e-msg-composer.c:1029
+#: ../composer/e-msg-composer.c:1030
 #, c-format
 msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr "ਬਾਹਰੀ ਸੁਨੇਹੇ ਲਈ ਦਸਤਖਤ ਨਹੀ ਕੀਤੇ ਜਾ ਸਕਦੇ: ਇਸ ਅਕਾਊਂਟ ਲਈ ਕੋਈ ਸਰਟੀਫਿਕੇਟ ਨਹੀਂ ਹੈ"
 
-#: ../composer/e-msg-composer.c:1041
+#: ../composer/e-msg-composer.c:1042
 #, c-format
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr "ਬਾਹਰ ਜਾਣ ਵਾਲੇ ਸੁਨੇਹੇ ਨੂੰ ਸੋਧਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ: ਇਸ ਅਕਾਊਂਟ ਲਈ ਕੋਈ ਇਕ੍ਰਿਪਸ਼ਨ ਸਰਟੀਫਿਕੇਟ ਨਹੀਂ ਹੈ"
 
-#: ../composer/e-msg-composer.c:1460
-msgid "Unable to reconstruct message from autosave file"
-msgstr "ਆਟੋਸੇਵ ਫਾਇਲ ਤੋਂ ਸੁਨੇਹਾ ਫੇਰ ਬਣਾਉਣ ਲਈ ਅਸਮਰੱਥ"
-
-#: ../composer/e-msg-composer.c:1530 ../composer/e-msg-composer.c:1876
+#: ../composer/e-msg-composer.c:1466 ../composer/e-msg-composer.c:1811
 msgid "Compose Message"
 msgstr "ਸੁਨੇਹਾ ਲਿਖੋ"
 
-#: ../composer/e-msg-composer.c:3535
+#: ../composer/e-msg-composer.c:3477
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "ਲੇਖਣ ਵਿੱਚ ਕੁਝ ਨਾ-ਟੈਕਸਟ ਭਾਗ ਹੈ, ਜਿਸ ਨੂੰ ਸੋਧਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ ਹੈ।"
 
-#: ../composer/e-msg-composer.c:4150
+#: ../composer/e-msg-composer.c:4085
 msgid "Untitled Message"
 msgstr "ਗ਼ੈਰ-ਟਾਇਟਲ ਸੁਨੇਹਾ"
 
@@ -8412,8 +8432,8 @@ msgid ""
 "calendar name. So please confirm and re-enter the calendar name if it is not "
 "correct."
 msgstr ""
-"ਯਾਹੂ ਕੈਲੰਡਰ ਪਹਿਲਾਂ ਨਾਂ_ਆਖਰੀ ਨਾਂ ਰਾਹੀਂ ਰੱਖਦੇ ਹਨ। ਅਸੀਂ ਕੈਲੰਡਰ ਨਾਂ ਬਣਾਉਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕੀਤੀ ਹੈ। ਇਸਕਰਕੇ "
-"ਕੈਲੰਡਰ ਨਾਂ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ, ਜੇ ਠੀਕ ਨਾ ਹੋਵੇ ਤਾਂ ਕੈਲੰਡਰ ਨਾਂ ਫੇਰ ਲਿਖੋ।"
+"ਯਾਹੂ ਕੈਲੰਡਰ ਪਹਿਲਾਂ ਨਾਂ_ਆਖਰੀ ਨਾਂ ਰਾਹੀਂ ਰੱਖਦੇ ਹਨ। ਅਸੀਂ ਕੈਲੰਡਰ ਨਾਂ ਬਣਾਉਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕੀਤੀ ਹੈ। "
+"ਇਸਕਰਕੇ ਕੈਲੰਡਰ ਨਾਂ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ, ਜੇ ਠੀਕ ਨਾ ਹੋਵੇ ਤਾਂ ਕੈਲੰਡਰ ਨਾਂ ਫੇਰ ਲਿਖੋ।"
 
 #: ../capplet/settings/mail-account-view.c:768
 msgid "<span size=\"large\" weight=\"bold\">Yahoo account settings:</span>"
@@ -8541,7 +8561,7 @@ msgid "Evolution Warning"
 msgstr "ਈਵੇਲੂਸ਼ਨ ਚੇਤਾਵਨੀ"
 
 #  setup a dummy error
-#: ../e-util/e-alert.c:652
+#: ../e-util/e-alert.c:659
 #, c-format
 msgid "Internal error, unknown error '%s' requested"
 msgstr "ਅੰਦਰੂਨੀ ਗਲਤੀ, ਅਣਜਾਣ ਗਲਤੀ '%s' ਬੇਨਤੀ"
@@ -8842,7 +8862,7 @@ msgstr "ਵਿਸ਼ਾ"
 msgid "Mailer"
 msgstr "ਮੇਲਰ"
 
-#: ../em-format/em-format-quote.c:500 ../mail/em-composer-utils.c:1301
+#: ../em-format/em-format-quote.c:500 ../mail/em-composer-utils.c:1296
 msgid "-------- Forwarded Message --------"
 msgstr "-------- ਅੱਗੇ ਭੇਜੇ ਸੁਨੇਹੇ --------"
 
@@ -8861,49 +8881,49 @@ msgstr "ਖਬਰਸਾਰ ਸਮੂਹ"
 msgid "Face"
 msgstr "ਫੇਸ"
 
-#: ../em-format/em-format.c:1432
+#: ../em-format/em-format.c:1434
 #, c-format
 msgid "%s attachment"
 msgstr "%s ਨੱਥੀ"
 
-#: ../em-format/em-format.c:1504
+#: ../em-format/em-format.c:1506
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "ਸੁਨੇਹਾ S/MIME ਨੂੰ ਪਾਰਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ: ਅਣਜਾਣੀ ਗਲਤੀ"
 
-#: ../em-format/em-format.c:1662 ../em-format/em-format.c:1846
+#: ../em-format/em-format.c:1664 ../em-format/em-format.c:1848
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "ਸੁਨੇਹਾ MIME ਨੂੰ ਪਾਰਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ, ਸਰੋਤ ਦੇ ਤੌਰ ਤੇ ਹੀ ਵੇਖਾਇਆ ਜਾ ਰਿਹਾ ਹੈ।"
 
-#: ../em-format/em-format.c:1672
+#: ../em-format/em-format.c:1674
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "ਬਹੁਭਾਗ/ਇਕ੍ਰਿਪਸ਼ਨ ਲਈ ਨਾ-ਸਹਾਇਕ ਇੰਕ੍ਰਿਪਸ਼ਨ ਕਿਸਮ"
 
-#: ../em-format/em-format.c:1688
+#: ../em-format/em-format.c:1690
 msgid "Could not parse PGP/MIME message"
 msgstr "ਸੁਨੇਹਾ PGP/MIME ਨੂੰ ਪਾਰਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ"
 
-#: ../em-format/em-format.c:1689
+#: ../em-format/em-format.c:1691
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "ਸੁਨੇਹਾ PGP/MIME ਨੂੰ ਪਾਰਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ: ਅਣਜਾਣੀ ਗਲਤੀ"
 
-#: ../em-format/em-format.c:1871
+#: ../em-format/em-format.c:1873
 msgid "Unsupported signature format"
 msgstr "ਨਾ-ਸਹਾਇਕ ਦਸਤਖਤ ਫਾਰਮੈਟ"
 
-#: ../em-format/em-format.c:1881 ../em-format/em-format.c:2041
+#: ../em-format/em-format.c:1883 ../em-format/em-format.c:2043
 msgid "Error verifying signature"
 msgstr "ਦਸਤਖਤ ਜਾਂਚ ਦੌਰਾਨ ਗਲਤੀ"
 
-#: ../em-format/em-format.c:1882 ../em-format/em-format.c:2029
-#: ../em-format/em-format.c:2042
+#: ../em-format/em-format.c:1884 ../em-format/em-format.c:2031
+#: ../em-format/em-format.c:2044
 msgid "Unknown error verifying signature"
 msgstr "ਦਸਤਖਤ ਜਾਂਚ ਦੌਰਾਨ ਅਣਜਾਣੀ ਗਲਤੀ"
 
-#: ../em-format/em-format.c:2129
+#: ../em-format/em-format.c:2131
 msgid "Could not parse PGP message: "
 msgstr "PGP ਸੁਨੇਹਾ ਪਾਰਸ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ: "
 
-#: ../em-format/em-format.c:2135 ../plugins/caldav/caldav-browse-server.c:203
+#: ../em-format/em-format.c:2137 ../plugins/caldav/caldav-browse-server.c:203
 #: ../plugins/caldav/caldav-browse-server.c:1254 ../plugins/face/face.c:169
 #: ../smime/gui/certificate-manager.c:100
 msgid "Unknown error"
@@ -9049,11 +9069,17 @@ msgstr "ਜੇਕਰ ਕੋਈ ਵੀ ਸੀਮਾ ਮੇਲ ਖਾਵੇ"
 msgid "_Find items:"
 msgstr "ਇਕਾਈ ਖੋਜ(_F):"
 
+#. Translators: "None" for not including threads;
+#. * part of "Include threads: None"
+#: ../filter/e-filter-rule.c:749
+msgid "None"
+msgstr "ਕੋਈ ਨਹੀ"
+
 #: ../filter/e-filter-rule.c:750
 msgid "All related"
 msgstr "ਸਭ ਸੰਬੰਧਿਤ"
 
-#: ../filter/e-filter-rule.c:751 ../widgets/misc/e-send-options.ui.h:16
+#: ../filter/e-filter-rule.c:751 ../widgets/misc/e-send-options.ui.h:19
 msgid "Replies"
 msgstr "ਜਵਾਬ"
 
@@ -9357,7 +9383,7 @@ msgstr ""
 "\n"
 "ਈਵੇਲੂਸ਼ਨ ਵਲੋਂ ਤੁਹਾਡੇ ਫੋਲਡਰ ਮਾਈਗਰੇਟ ਹੋਣ ਤੱਕ ਸਬਰ ਰੱਖੋ ਜੀ..."
 
-#: ../mail/e-mail-migrate.c:739
+#: ../mail/e-mail-migrate.c:796
 #, c-format
 msgid "Unable to create local mail folders at '%s': %s"
 msgstr "`%s' ਉੱਤੇ ਮੇਲ ਲੋਕਲ ਫੋਲਡਰ ਬਣਾਉਣ ਵਿੱਚ ਅਸਮਰੱਥ: %s"
@@ -10168,25 +10194,25 @@ msgid "Checking for New Messages"
 msgstr "ਨਵੇਂ ਸੁਨੇਹਿਆਂ ਲਈ ਚੈੱਕ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ"
 
 #. Translators: First %s is an email address, second %s is the subject of the email, third %s is the date
-#: ../mail/em-composer-utils.c:1734
+#: ../mail/em-composer-utils.c:1729
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
 msgstr "ਤੁਹਾਡਾ %s ਵੱਲ ਸੁਨੇਹਾ \"%s\" ਬਾਰੇ, ਜੋ %s ਨੂੰ ਭੇਜਿਆ ਸੀ, ਪੜ੍ਹਿਆ ਜਾ ਚੁੱਕਿਆ ਹੈ।"
 
 #. Translators: %s is the subject of the email message
-#: ../mail/em-composer-utils.c:1782
+#: ../mail/em-composer-utils.c:1777
 #, c-format
 msgid "Delivery Notification for: \"%s\""
 msgstr "ਮੇਲ ਨੋਟੀਫਿਕੇਸ਼ਨ ਵਿਸ਼ੇਸ਼ਤਾ: \"%s\""
 
-#: ../mail/em-composer-utils.c:2191
+#: ../mail/em-composer-utils.c:2186
 msgid "an unknown sender"
 msgstr "ਅਣਜਾਣ ਭੇਜਣ ਵਾਲਾ"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:2238
+#: ../mail/em-composer-utils.c:2233
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -10194,15 +10220,15 @@ msgstr ""
 "${AbbrevWeekdayName} , ${Year}-${Month}-${Day}, ${24Hour}:${Minute} ਵਜੇ "
 "${TimeZone}, ${Sender} ਨੇ ਲਿਖਿਆ:"
 
-#: ../mail/em-composer-utils.c:2382
+#: ../mail/em-composer-utils.c:2377
 msgid "-----Original Message-----"
 msgstr "--------ਅਸਲੀ ਸੁਨੇਹਾ--------"
 
-#: ../mail/em-composer-utils.c:2594
+#: ../mail/em-composer-utils.c:2589
 msgid "Posting destination"
 msgstr "ਭੇਜਣ ਲਈ ਨਿਯਤ"
 
-#: ../mail/em-composer-utils.c:2595
+#: ../mail/em-composer-utils.c:2590
 msgid "Choose folders to post the message to."
 msgstr "ਸੁਨੇਹੇ ਭੇਜਣ ਲਈ ਫੋਲਡਰ ਚੁਣੋ"
 
@@ -11157,8 +11183,8 @@ msgid ""
 "Enable to display only message texts not exceeding size defined in "
 "'message_text_part_limit' key."
 msgstr ""
-"ਕੇਵਲ ਉਹੀ ਸੁਨੇਹੇ ਵੇਖਾਉਣ ਲਈ ਯੋਗ ਕਰਦਾ ਹੈ, ਜਿੰਨ੍ਹਾਂ ਦੀ ਲਿਮਟ "
-"'message_text_part_limit' ਕੁੰਜੀ 'ਚ ਸੈੱਟ ਕੀਤੇ ਤੋਂ ਵੱਧ ਨਹੀਂ ਹੈ।"
+"ਕੇਵਲ ਉਹੀ ਸੁਨੇਹੇ ਵੇਖਾਉਣ ਲਈ ਯੋਗ ਕਰਦਾ ਹੈ, ਜਿੰਨ੍ਹਾਂ ਦੀ ਲਿਮਟ 'message_text_part_limit' ਕੁੰਜੀ "
+"'ਚ ਸੈੱਟ ਕੀਤੇ ਤੋਂ ਵੱਧ ਨਹੀਂ ਹੈ।"
 
 #: ../mail/evolution-mail.schemas.in.h:65
 msgid "Enable to use a similar message list view settings for all folders"
@@ -11318,8 +11344,8 @@ msgid ""
 "replying."
 msgstr ""
 "ਆਮ \"ਸਭ ਨੂੰ ਜਵਾਬ\" ਰਵੱਈਏ ਦੀ ਬਜਾਏ, ਇਹ ਚੋਣ ਯਕੀਨੀ ਬਣਾਉਂਦੀ ਹੈ ਕਿ 'ਗਰੁੱਪ ਜਵਾਬ' ਟੂਲਬਾਰ ਬਟਨ "
-"ਕੇਵਲ ਮੇਲਿੰਗ ਲਿਸਟ ਰਾਹੀਂ ਜਵਾਬ ਦੇਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੇ, ਜਿਸ ਤੋਂ ਤੁਸੀਂ ਜਵਾਬ ਦੇ ਰਹੇ ਸੁਨੇਹੇ ਦੀ ਕਾਪੀ ਨੂੰ ਪ੍ਰਾਪਤ "
-"ਕੀਤਾ ਹੈ।"
+"ਕੇਵਲ ਮੇਲਿੰਗ ਲਿਸਟ ਰਾਹੀਂ ਜਵਾਬ ਦੇਣ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੇ, ਜਿਸ ਤੋਂ ਤੁਸੀਂ ਜਵਾਬ ਦੇ ਰਹੇ ਸੁਨੇਹੇ ਦੀ ਕਾਪੀ ਨੂੰ "
+"ਪ੍ਰਾਪਤ ਕੀਤਾ ਹੈ।"
 
 #: ../mail/evolution-mail.schemas.in.h:88
 msgid ""
@@ -11331,16 +11357,12 @@ msgstr ""
 "ਸੁਨੇਹੇ ਨੂੰ ਪੱਕੇ ਤੌਰ ਉੱਤੇ ਹਟਾਇਆ ਜਾਵੇਗਾ, ਨਾ ਕਿ ਕੇਵਲ ਖੋਜ ਨਤੀਜਿਆਂ ਵਿੱਚੋਂ।"
 
 #: ../mail/evolution-mail.schemas.in.h:89
-#| msgid ""
-#| "It disables/enables the repeated prompts to warn that deleting messages "
-#| "from a search folder permanently deletes the message, not simply removing "
-#| "it from the search results."
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
 msgstr ""
-"ਇਸ ਨਾਲ ਲਗਾਤਾਰ ਪੁੱਛਣ ਨੂੰ ਰੋਕਿਆ ਜਾਂ ਚਾਲੂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ, ਜਦੋਂ ਤੁਸੀਂ ਮੇਲਿੰਗ ਲਿਸਟ ਉੱਤੇ ਆਏ "
-"ਸੁਨੇਹਾ ਦਾ ਜਵਾਬ ਪ੍ਰਾਈਟੇਟ ਭੇਜ ਰਹੇ ਹੋਵੇ।"
+"ਇਸ ਨਾਲ ਲਗਾਤਾਰ ਪੁੱਛਣ ਨੂੰ ਰੋਕਿਆ ਜਾਂ ਚਾਲੂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ, ਜਦੋਂ ਤੁਸੀਂ ਮੇਲਿੰਗ ਲਿਸਟ ਉੱਤੇ ਆਏ ਸੁਨੇਹਾ "
+"ਦਾ ਜਵਾਬ ਪ੍ਰਾਈਟੇਟ ਭੇਜ ਰਹੇ ਹੋਵੇ।"
 
 #: ../mail/evolution-mail.schemas.in.h:90
 msgid ""
@@ -11354,8 +11376,8 @@ msgid ""
 "a private reply to a message which arrived via a mailing list, but the list "
 "sets a Reply-To: header which redirects your reply back to the list"
 msgstr ""
-"ਇਸ ਨਾਲ ਲਗਾਤਾਰ ਪੁੱਛਣ ਨੂੰ ਰੋਕਿਆ ਜਾਂ ਚਾਲੂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ, ਜਦੋਂ ਤੁਸੀਂ ਮੇਲਿੰਗ ਲਿਸਟ ਉੱਤੇ ਆਏ "
-"ਸੁਨੇਹਾ ਦਾ ਜਵਾਬ ਪ੍ਰਾਈਵੇਟ ਭੇਜ ਰਹੇ ਹੋਵੇ।, ਪਰ ਲਿਸਟ ਨੇ ਜਵਾਬ-ਦਿਓ: ਹੈੱਡਰ ਸੈੱਟ ਕੀਤਾ ਹੈ, ਜੋ ਕਿ ਤੁਹਾਡੇ ਜਵਾਬ "
+"ਇਸ ਨਾਲ ਲਗਾਤਾਰ ਪੁੱਛਣ ਨੂੰ ਰੋਕਿਆ ਜਾਂ ਚਾਲੂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ, ਜਦੋਂ ਤੁਸੀਂ ਮੇਲਿੰਗ ਲਿਸਟ ਉੱਤੇ ਆਏ ਸੁਨੇਹਾ "
+"ਦਾ ਜਵਾਬ ਪ੍ਰਾਈਵੇਟ ਭੇਜ ਰਹੇ ਹੋਵੇ।, ਪਰ ਲਿਸਟ ਨੇ ਜਵਾਬ-ਦਿਓ: ਹੈੱਡਰ ਸੈੱਟ ਕੀਤਾ ਹੈ, ਜੋ ਕਿ ਤੁਹਾਡੇ ਜਵਾਬ "
 "ਨੂੰ ਲਿਸਟ ਉੱਤੇ ਵਾਪਸ ਭੇਜਦਾ ਹੈ।"
 
 #: ../mail/evolution-mail.schemas.in.h:92
@@ -11737,12 +11759,12 @@ msgid ""
 "it will do that. It works by comparing the Reply-To: header with a List-"
 "Post: header, if there is one."
 msgstr ""
-"ਕੁਝ ਮੇਲਿੰਗ ਲਿਸਟਾਂ ਜਵਾਬ-ਦਿਓ(Reply-To:) ਹੈੱਡਰ ਨੂੰ ਯੂਜ਼ਰ ਨੂੰ ਜਵਾਬ ਮੇਲਿੰਗ ਲਿਸਟ ਉੱਤੇ ਭੇਜਣ "
-"ਲਈ ਸੈੱਟ ਕੀਤੀਆਂ ਹੁੰਦੀਆਂ ਹਨ, ਭਾਵੇਂ ਕਿ ਉਹ ਈਵੇਲੂਸ਼ਨ ਨੂੰ ਪ੍ਰਾਈਵੇਟ ਜਵਾਬ ਦੇਣ ਲਈ ਪੁੱਛਦੀਆਂ ਹਨ। "
-"ਇਹ ਚੋਣ ਸੈੱਟ ਕਰਨ ਨਾਲ ਜਵਾਬ-ਦਿਓ: ਹੈੱਡਰ ਨੂੰ ਅਣਡਿੱਠਾ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕੀਤੀ ਜਾਵੇਗੀ, "
-"ਤਾਂ ਕਿ ਈਵੇਲੂਸ਼ਨ ਉਂਝ ਹੀ ਕਰ ਸਕੇ, ਜਿਵੇਂ ਤੁਸੀਂ ਚਾਹੁੰਦੇ ਹੋ। ਜੇ ਤੁਸੀਂ ਪ੍ਰਾਈਵੇਟ ਜਵਾਬ ਐਕਸ਼ਨ ਚੁਣਿਆ ਤਾਂ, "
-"ਇਹ ਪ੍ਰਾਈਵੇਟ ਜਵਾਬ ਦੇਵੇਗਾ, ਜਦੋਂ ਕਿ ਤੁਸੀਂ 'ਲਿਸਟ ਨੂੰ ਜਵਾਬ' ਐਕਸ਼ਨ ਚੁਣਿਆ ਤਾਂ ਇਹ ਉਂਝ ਹੀ ਕਰੇਗੀ। "
-"ਇਹ ਜਵਾਬ-ਦਿਓ: ਹੈੱਡਰ ਨੂੰ ਲਿਸਟ-ਪੋਸਟ: ਹੈੱਡਰ ਨਾਲ ਤੁਲਨਾ ਕਰਕੇ ਕੰਮ ਕਰਦਾ ਹੈ, ਜੇ ਕੋਈ ਹੋਵੇ ਤਾਂ।"
+"ਕੁਝ ਮੇਲਿੰਗ ਲਿਸਟਾਂ ਜਵਾਬ-ਦਿਓ(Reply-To:) ਹੈੱਡਰ ਨੂੰ ਯੂਜ਼ਰ ਨੂੰ ਜਵਾਬ ਮੇਲਿੰਗ ਲਿਸਟ ਉੱਤੇ ਭੇਜਣ ਲਈ ਸੈੱਟ "
+"ਕੀਤੀਆਂ ਹੁੰਦੀਆਂ ਹਨ, ਭਾਵੇਂ ਕਿ ਉਹ ਈਵੇਲੂਸ਼ਨ ਨੂੰ ਪ੍ਰਾਈਵੇਟ ਜਵਾਬ ਦੇਣ ਲਈ ਪੁੱਛਦੀਆਂ ਹਨ। ਇਹ ਚੋਣ ਸੈੱਟ ਕਰਨ "
+"ਨਾਲ ਜਵਾਬ-ਦਿਓ: ਹੈੱਡਰ ਨੂੰ ਅਣਡਿੱਠਾ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕੀਤੀ ਜਾਵੇਗੀ, ਤਾਂ ਕਿ ਈਵੇਲੂਸ਼ਨ ਉਂਝ ਹੀ ਕਰ ਸਕੇ, "
+"ਜਿਵੇਂ ਤੁਸੀਂ ਚਾਹੁੰਦੇ ਹੋ। ਜੇ ਤੁਸੀਂ ਪ੍ਰਾਈਵੇਟ ਜਵਾਬ ਐਕਸ਼ਨ ਚੁਣਿਆ ਤਾਂ, ਇਹ ਪ੍ਰਾਈਵੇਟ ਜਵਾਬ ਦੇਵੇਗਾ, ਜਦੋਂ ਕਿ "
+"ਤੁਸੀਂ 'ਲਿਸਟ ਨੂੰ ਜਵਾਬ' ਐਕਸ਼ਨ ਚੁਣਿਆ ਤਾਂ ਇਹ ਉਂਝ ਹੀ ਕਰੇਗੀ। ਇਹ ਜਵਾਬ-ਦਿਓ: ਹੈੱਡਰ ਨੂੰ ਲਿਸਟ-ਪੋਸਟ: "
+"ਹੈੱਡਰ ਨਾਲ ਤੁਲਨਾ ਕਰਕੇ ਕੰਮ ਕਰਦਾ ਹੈ, ਜੇ ਕੋਈ ਹੋਵੇ ਤਾਂ।"
 
 #: ../mail/evolution-mail.schemas.in.h:174
 msgid "Spell check inline"
@@ -13766,13 +13788,10 @@ msgid ""
 "replying privately to the sender; not to the list. Are you sure you want to "
 "proceed?"
 msgstr ""
-"ਤੁਸੀਂ ਸੁਨੇਹੇ ਦਾ ਜਵਾਬ ਦੇ ਰਹੇ ਹੋ, ਜੋ ਕਿ ਮੇਲਿੰਗ ਲਿਸਟ ਰਾਹੀਂ ਪੁੱਜਾ ਹੈ, ਪਰ ਤੁਸੀਂ ਭੇਜਣ ਵਾਲੇ ਨੂੰ "
-"ਪ੍ਰਾਈਵੇਟ ਜਵਾਬ ਦੇ ਰਹੇ ਹੋ, ਨਾ ਕਿ ਲਿਸਟ ਨੂੰ, ਕੀ ਤੁਸੀਂ ਜਾਰੀ ਰੱਖਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
+"ਤੁਸੀਂ ਸੁਨੇਹੇ ਦਾ ਜਵਾਬ ਦੇ ਰਹੇ ਹੋ, ਜੋ ਕਿ ਮੇਲਿੰਗ ਲਿਸਟ ਰਾਹੀਂ ਪੁੱਜਾ ਹੈ, ਪਰ ਤੁਸੀਂ ਭੇਜਣ ਵਾਲੇ ਨੂੰ ਪ੍ਰਾਈਵੇਟ "
+"ਜਵਾਬ ਦੇ ਰਹੇ ਹੋ, ਨਾ ਕਿ ਲਿਸਟ ਨੂੰ, ਕੀ ਤੁਸੀਂ ਜਾਰੀ ਰੱਖਣਾ ਚਾਹੁੰਦੇ ਹੋ?"
 
 #: ../mail/mail.error.xml.h:124
-#| msgid ""
-#| "Retracting a message may remove it from the recipient's mailbox. Are you "
-#| "sure you want to do this?"
 msgid ""
 "You are replying to a message which was sent to many recipients. Are you "
 "sure you want to reply to ALL of them?"
@@ -15405,19 +15424,19 @@ msgstr "ਪੱਤਰ ਫੋਲਡਰ(_F)"
 msgid "Create a new mail folder"
 msgstr "ਨਵਾਂ ਪੱਤਰ ਫੋਲਡਰ ਬਣਾਓ"
 
-#: ../modules/mail/e-mail-shell-backend.c:489
+#: ../modules/mail/e-mail-shell-backend.c:481
 msgid "Mail Accounts"
 msgstr "ਪੱਤਰ ਅਕਾਊਂਟ"
 
-#: ../modules/mail/e-mail-shell-backend.c:497
+#: ../modules/mail/e-mail-shell-backend.c:489
 msgid "Mail Preferences"
 msgstr "ਪੱਤਰ ਪਸੰਦ"
 
-#: ../modules/mail/e-mail-shell-backend.c:505
+#: ../modules/mail/e-mail-shell-backend.c:497
 msgid "Composer Preferences"
 msgstr "ਕੰਪੋਜ਼ਰ ਪਸੰਦ"
 
-#: ../modules/mail/e-mail-shell-backend.c:513
+#: ../modules/mail/e-mail-shell-backend.c:505
 msgid "Network Preferences"
 msgstr "ਨੈੱਟਵਰਕ ਪਸੰਦ"
 
@@ -16167,8 +16186,8 @@ msgid ""
 "To backup your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding."
 msgstr ""
-"ਆਪਣੇ ਡਾਟੇ ਤੇ ਸੈਟਿੰਗ ਦਾ ਬੈਕਅੱਪ ਲੈਣ ਲਈ, ਤੁਹਾਨੂੰ ਪਹਿਲਾਂ ਈਵੇਲੂਸ਼ਨ ਨੂੰ ਬੰਦ ਕਰਨਾ ਪਵੇਗਾ। ਯਕੀਨੀ ਬਣਾਉ "
-"ਕਿ ਤੁਸੀਂ ਜਾਰੀ ਰੱਖਣ ਤੋਂ ਪਹਿਲਾਂ ਨਾ-ਸੰਭਾਲੇ ਡਾਟੇ ਨੂੰ ਸੰਭਾਲ ਲਿਆ ਹੈ।"
+"ਆਪਣੇ ਡਾਟੇ ਤੇ ਸੈਟਿੰਗ ਦਾ ਬੈਕਅੱਪ ਲੈਣ ਲਈ, ਤੁਹਾਨੂੰ ਪਹਿਲਾਂ ਈਵੇਲੂਸ਼ਨ ਨੂੰ ਬੰਦ ਕਰਨਾ ਪਵੇਗਾ। ਯਕੀਨੀ ਬਣਾਉ ਕਿ "
+"ਤੁਸੀਂ ਜਾਰੀ ਰੱਖਣ ਤੋਂ ਪਹਿਲਾਂ ਨਾ-ਸੰਭਾਲੇ ਡਾਟੇ ਨੂੰ ਸੰਭਾਲ ਲਿਆ ਹੈ।"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:10
 msgid ""
@@ -16619,7 +16638,7 @@ msgid "Protected"
 msgstr "ਸੁਰੱਖਿਅਤ"
 
 #: ../plugins/email-custom-header/email-custom-header.c:324
-#: ../widgets/misc/e-send-options.ui.h:18
+#: ../widgets/misc/e-send-options.ui.h:21
 msgid "Secret"
 msgstr "ਗੁਪਤ"
 
@@ -19751,15 +19770,15 @@ msgstr "%s - ਈਵੇਲੂਸ਼ਨ"
 msgid "New"
 msgstr "ਨਵਾਂ"
 
-#: ../shell/e-shell.c:229
+#: ../shell/e-shell.c:244
 msgid "Preparing to go offline..."
 msgstr "ਆਫਲਾਈਨ ਜਾਣ ਲਈ ਤਿਆਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ..."
 
-#: ../shell/e-shell.c:279
+#: ../shell/e-shell.c:294
 msgid "Preparing to go online..."
 msgstr "ਆਨਲਾਈਨ ਜਾਣ ਲਈ ਤਿਆਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ..."
 
-#: ../shell/e-shell.c:338
+#: ../shell/e-shell.c:353
 msgid "Preparing to quit..."
 msgstr "ਬੰਦ ਕਰਨ ਲਈ ਤਿਆਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ..."
 
@@ -19882,8 +19901,8 @@ msgid ""
 "a workaround you might try first upgrading to Evolution 2, and then "
 "upgrading to Evolution 3."
 msgstr ""
-"ਈਵੇਲੂਸ਼ਨ {0} ਵਰਜਨ ਤੋਂ ਸਿੱਧੇ ਅੱਪਗਰੇਡ ਲਈ ਹੁਣ ਸਹਾਇਕ ਨਹੀਂ ਰਹੀ ਹੈ। ਪਰ ਜੁਗਾੜ ਹੈ, ਤੁਸੀਂ ਪਹਿਲਾਂ ਈਵੇਲੂਸ਼ਨ ੨ "
-"ਲਈ ਅੱਪਗਰੇਡ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਤੇ ਫੇਰ ਈਵੇਲੂਸ਼ਨ ੩ ਲਈ।"
+"ਈਵੇਲੂਸ਼ਨ {0} ਵਰਜਨ ਤੋਂ ਸਿੱਧੇ ਅੱਪਗਰੇਡ ਲਈ ਹੁਣ ਸਹਾਇਕ ਨਹੀਂ ਰਹੀ ਹੈ। ਪਰ ਜੁਗਾੜ ਹੈ, ਤੁਸੀਂ ਪਹਿਲਾਂ ਈਵੇਲੂਸ਼ਨ "
+"੨ ਲਈ ਅੱਪਗਰੇਡ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ ਤੇ ਫੇਰ ਈਵੇਲੂਸ਼ਨ ੩ ਲਈ।"
 
 #: ../shell/shell.error.xml.h:5
 msgid ""
@@ -21084,99 +21103,121 @@ msgid "Delivery Options"
 msgstr "ਡਿਲਵਰੀ ਚੋਣਾਂ"
 
 #: ../widgets/misc/e-send-options.ui.h:6
-msgid "For Your Eyes Only"
-msgstr "ਤੁਹਾਡੀਆਂ ਅੱਖਾਂ ਲਈ ਹੀ"
-
-#: ../widgets/misc/e-send-options.ui.h:7
-msgid "Gene_ral Options"
-msgstr "ਸਧਾਰਨ ਚੋਣ(_r)"
-
-#: ../widgets/misc/e-send-options.ui.h:10
-msgid "Mail Receipt"
-msgstr "ਮੇਲ ਪ੍ਰਾਪਤੀ"
-
-#: ../widgets/misc/e-send-options.ui.h:14
-msgid "Proprietary"
-msgstr "ਪਰੋਪੈਟਰੀ"
-
-#: ../widgets/misc/e-send-options.ui.h:15
-msgid "R_eply requested"
-msgstr "ਜਵਾਬ ਲੋੜੀਦਾ(_e)"
-
-#: ../widgets/misc/e-send-options.ui.h:17
-msgid "Return Notification"
-msgstr "ਜਵਾਬੀ ਸੂਚਨਾ"
-
-#: ../widgets/misc/e-send-options.ui.h:20
-msgid "Sta_tus Tracking"
-msgstr "ਹਾਲਤ ਖੋਜ(_t)"
-
-#: ../widgets/misc/e-send-options.ui.h:21
-msgid "Standard"
-msgstr "ਸਟੈਂਡਰਡ"
-
-#: ../widgets/misc/e-send-options.ui.h:22
-msgid "Status Tracking"
-msgstr "ਹਾਲਤ ਟਰੈਕਿੰਗ"
-
-#: ../widgets/misc/e-send-options.ui.h:23
-msgid "Top Secret"
-msgstr "ਬਹੁਤ ਗੁਪਤ"
-
-#: ../widgets/misc/e-send-options.ui.h:25
-msgid "When acce_pted:"
-msgstr "ਜਦੋਂ ਮਨਜ਼ੂਰ ਹੋਵੇ(_p):"
-
-#: ../widgets/misc/e-send-options.ui.h:26
-msgid "When co_mpleted:"
-msgstr "ਜਦੋਂ ਮੁਕੰਮਲ(_m):"
-
-#: ../widgets/misc/e-send-options.ui.h:27
-msgid "When decli_ned:"
-msgstr "ਜਦੋਂ ਇਨਕਾਰ ਹੋਵੇ(_n):"
-
-#. Translators: This is part of 'Within [ X ] days', where [ X ] is a spinner with a number
-#: ../widgets/misc/e-send-options.ui.h:29
-msgid "Wi_thin"
-msgstr "ਵਿੱਚ(_t)"
-
-#. Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number
-#: ../widgets/misc/e-send-options.ui.h:31
-msgid "_After"
-msgstr "ਬਾਅਦ(_A)"
-
-#: ../widgets/misc/e-send-options.ui.h:32
-msgid "_All information"
-msgstr "ਸਭ ਜਾਣਕਾਰੀ(_A)"
-
-#: ../widgets/misc/e-send-options.ui.h:33
-msgid "_Classification:"
-msgstr "ਵਰਗੀਕਰਨ(_C):"
-
-#: ../widgets/misc/e-send-options.ui.h:34
-msgid "_Delay message delivery"
-msgstr "ਦੇਰ ਸੁਨੇਹਾ ਵੰਡ(_D)"
-
-#: ../widgets/misc/e-send-options.ui.h:35
-msgid "_Delivered"
-msgstr "ਪਹੁੰਚੇ(_D)"
-
-#: ../widgets/misc/e-send-options.ui.h:37
-msgid "_Set expiration date"
-msgstr "ਮਿਆਦ ਮਿਤੀ ਸੈੱਟ(_S)"
-
-#. Translators: This is part of 'Until [ date ]', where [ date ] is a date picker
-#: ../widgets/misc/e-send-options.ui.h:39
+#| msgid "_Until"
+msgctxt "ESendOptions"
 msgid "_Until"
 msgstr "ਜਦ ਤੱਕ(_U)"
 
-#: ../widgets/misc/e-send-options.ui.h:40
+#: ../widgets/misc/e-send-options.ui.h:7
+#| msgid "_After"
+msgctxt "ESendOptionsAfter"
+msgid "_After"
+msgstr "ਬਾਅਦ(_A)"
+
+#: ../widgets/misc/e-send-options.ui.h:8
+#| msgid "days"
+msgctxt "ESendOptionsAfter"
+msgid "days"
+msgstr "ਦਿਨ"
+
+#: ../widgets/misc/e-send-options.ui.h:9
+#| msgid "Wi_thin"
+msgctxt "ESendOptionsWithin"
+msgid "Wi_thin"
+msgstr "ਵਿੱਚ(_t)"
+
+#: ../widgets/misc/e-send-options.ui.h:10
+#| msgid "days"
+msgctxt "ESendOptionsWithin"
+msgid "days"
+msgstr "ਦਿਨ"
+
+#: ../widgets/misc/e-send-options.ui.h:11
+msgid "For Your Eyes Only"
+msgstr "ਤੁਹਾਡੀਆਂ ਅੱਖਾਂ ਲਈ ਹੀ"
+
+#: ../widgets/misc/e-send-options.ui.h:12
+msgid "Gene_ral Options"
+msgstr "ਸਧਾਰਨ ਚੋਣ(_r)"
+
+#: ../widgets/misc/e-send-options.ui.h:15
+msgid "Mail Receipt"
+msgstr "ਮੇਲ ਪ੍ਰਾਪਤੀ"
+
+#: ../widgets/misc/e-send-options.ui.h:17
+msgid "Proprietary"
+msgstr "ਪਰੋਪੈਟਰੀ"
+
+#: ../widgets/misc/e-send-options.ui.h:18
+msgid "R_eply requested"
+msgstr "ਜਵਾਬ ਲੋੜੀਦਾ(_e)"
+
+#: ../widgets/misc/e-send-options.ui.h:20
+msgid "Return Notification"
+msgstr "ਜਵਾਬੀ ਸੂਚਨਾ"
+
+#: ../widgets/misc/e-send-options.ui.h:23
+msgid "Sta_tus Tracking"
+msgstr "ਹਾਲਤ ਖੋਜ(_t)"
+
+#: ../widgets/misc/e-send-options.ui.h:24
+msgid "Standard"
+msgstr "ਸਟੈਂਡਰਡ"
+
+#: ../widgets/misc/e-send-options.ui.h:25
+msgid "Status Tracking"
+msgstr "ਹਾਲਤ ਟਰੈਕਿੰਗ"
+
+#: ../widgets/misc/e-send-options.ui.h:26
+msgid "Top Secret"
+msgstr "ਬਹੁਤ ਗੁਪਤ"
+
+#: ../widgets/misc/e-send-options.ui.h:28
+msgid "When acce_pted:"
+msgstr "ਜਦੋਂ ਮਨਜ਼ੂਰ ਹੋਵੇ(_p):"
+
+#: ../widgets/misc/e-send-options.ui.h:29
+msgid "When co_mpleted:"
+msgstr "ਜਦੋਂ ਮੁਕੰਮਲ(_m):"
+
+#: ../widgets/misc/e-send-options.ui.h:30
+msgid "When decli_ned:"
+msgstr "ਜਦੋਂ ਇਨਕਾਰ ਹੋਵੇ(_n):"
+
+#: ../widgets/misc/e-send-options.ui.h:31
+msgid "_All information"
+msgstr "ਸਭ ਜਾਣਕਾਰੀ(_A)"
+
+#: ../widgets/misc/e-send-options.ui.h:32
+msgid "_Classification:"
+msgstr "ਵਰਗੀਕਰਨ(_C):"
+
+#: ../widgets/misc/e-send-options.ui.h:33
+msgid "_Delay message delivery"
+msgstr "ਦੇਰ ਸੁਨੇਹਾ ਵੰਡ(_D)"
+
+#: ../widgets/misc/e-send-options.ui.h:34
+msgid "_Delivered"
+msgstr "ਪਹੁੰਚੇ(_D)"
+
+#: ../widgets/misc/e-send-options.ui.h:36
+msgid "_Set expiration date"
+msgstr "ਮਿਆਦ ਮਿਤੀ ਸੈੱਟ(_S)"
+
+#: ../widgets/misc/e-send-options.ui.h:37
 msgid "_When convenient"
 msgstr "ਜਦੋਂ ਠੀਕ ਲੱਗੇ(_W)"
 
-#: ../widgets/misc/e-send-options.ui.h:41
+#: ../widgets/misc/e-send-options.ui.h:38
 msgid "_When opened:"
 msgstr "ਜਦੋਂ ਖੋਲ੍ਹਿਆ ਜਾਵੇ(_W):"
+
+#. Translators: Used in send options dialog
+#: ../widgets/misc/e-send-options.ui.h:40
+#| msgid "None"
+msgctxt "send-options"
+msgid "None"
+msgstr "ਕੋਈ ਨਹੀ"
 
 #: ../widgets/misc/e-signature-editor.c:136
 #: ../widgets/misc/e-signature-editor.c:524
@@ -21561,6 +21602,9 @@ msgstr "ਸਭ ਚੁਣੋ"
 #: ../widgets/text/e-text.c:2545
 msgid "Input Methods"
 msgstr "ਇੰਪੁੱਟ ਢੰਗ"
+
+#~ msgid "Unable to reconstruct message from autosave file"
+#~ msgstr "ਆਟੋਸੇਵ ਫਾਇਲ ਤੋਂ ਸੁਨੇਹਾ ਫੇਰ ਬਣਾਉਣ ਲਈ ਅਸਮਰੱਥ"
 
 #  addressbook:remove-addressbook secondary
 #  addressbook:generic-error primary
