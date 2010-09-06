@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Evolution MASTER\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-08-27 22:13+0000\n"
-"PO-Revision-Date: 2010-09-01 13:43+0300\n"
+"POT-Creation-Date: 2010-09-04 20:17+0000\n"
+"PO-Revision-Date: 2010-09-06 12:59+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -82,10 +82,8 @@ msgstr ""
 msgid "Delete address book '{0}'?"
 msgstr "Kas kustutada aadressiraamat '{0}'?"
 
-#, fuzzy
-#| msgid "Do not delete"
 msgid "Do _Not Delete"
-msgstr "Ära kustuta"
+msgstr "Ä_ra kustuta"
 
 msgid "Error saving {0} to {1}: {2}"
 msgstr "Viga {0} salvestamisel {1} alla: {2}"
@@ -971,23 +969,21 @@ msgstr ""
 "aadressiraamatu kataloogiserveri eelistustest ajapiirangut."
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#, fuzzy, c-format
-#| msgid "The backend for this address book was unable to parse this query."
+#, c-format
 msgid "The backend for this address book was unable to parse this query. %s"
 msgstr ""
-"Selle aadressiraamatu taustaprogrammil pole võimalik seda päringut parsida."
+"Selle aadressiraamatu taustaprogrammil pole võimalik seda päringut "
+"analüüsida. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#, fuzzy, c-format
-#| msgid "The backend for this address book refused to perform this query."
+#, c-format
 msgid "The backend for this address book refused to perform this query. %s"
-msgstr "Selle aadressiraamatu taustaprogramm keeldus päringut parsimast."
+msgstr "Selle aadressiraamatu taustaprogramm keeldus päringut analüüsimast. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#, fuzzy, c-format
-#| msgid "This query did not complete successfully."
+#, c-format
 msgid "This query did not complete successfully. %s"
-msgstr "See päring ei lõpetanud edukalt."
+msgstr "See päring ei lõpetanud edukalt. %s"
 
 #. This is a filename. Translators take note.
 msgid "card.vcf"
@@ -1135,27 +1131,19 @@ msgstr ""
 "Kalendriallikas '{0}' on kirjutuskaitsega ja seda pole võimalik muuta. Palun "
 "vali kalender, mis võimaldab sündmuseid sisestada."
 
-#, fuzzy
-#| msgid ""
-#| "Adding a meaningful summary to your appointment will give your recipients "
-#| "an idea of what your appointment is about."
 msgid ""
 "Adding a meaningful summary to your appointment will give you an idea of "
 "what your appointment is about."
 msgstr ""
-"Sündmusele mõtestatud kokkuvõtte lisamine annab adressaatidele aimu sündmuse "
-"sisu kohta."
+"Sündmusele mõtestatud kokkuvõtte lisamine annab sulle aimu sündmuse sisu "
+"kohta."
 
-#, fuzzy
-#| msgid ""
-#| "Adding a meaningful summary to your task will give your recipients an "
-#| "idea of what your task is about."
 msgid ""
 "Adding a meaningful summary to your task will give you an idea of what your "
 "task is about."
 msgstr ""
-"Ülesandele mõtestatud kokkuvõtte lisamine annab adressaatidele aimu ülesande "
-"sisu kohta."
+"Ülesandele mõtestatud kokkuvõtte lisamine annab sulle aimu ülesande sisu "
+"kohta."
 
 msgid "All information in these memos will be deleted and can not be restored."
 msgstr ""
@@ -1237,8 +1225,6 @@ msgstr "Kas soovid kustutada selle märkme?"
 msgid "Are you sure you want to delete this task?"
 msgstr "Kas soovid kustutada selle ülesande?"
 
-#, fuzzy
-#| msgid "Are you sure you want to send the appointment without a summary?"
 msgid "Are you sure you want to save the appointment without a summary?"
 msgstr ""
 "Kas oled kindel, et soovid salvestada selle sündmuse ilma kokkuvõtteta?"
@@ -1246,8 +1232,6 @@ msgstr ""
 msgid "Are you sure you want to save the memo without a summary?"
 msgstr "Kas oled kindel, et soovid salvestada selle märkme ilma kokkuvõtteta?"
 
-#, fuzzy
-#| msgid "Are you sure you want to send the task without a summary?"
 msgid "Are you sure you want to save the task without a summary?"
 msgstr ""
 "Kas oled kindel, et soovid salvestada selle ülesande ilma kokkuvõtteta?"
@@ -2149,13 +2133,11 @@ msgstr "pärast"
 msgid "before"
 msgstr "enne"
 
-#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 msgid "day(s)"
 msgstr "päev(a)"
 
 #. Translators: This is the last part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
-#. Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number
 msgid "days"
 msgstr "päeva"
 
@@ -2260,12 +2242,6 @@ msgstr "minutit"
 
 msgid "Monday"
 msgstr "Esmaspäev"
-
-#. Translators: "None" for not including threads;
-#. * part of "Include threads: None"
-#. Translators: Used in send options dialog
-msgid "None"
-msgstr "Puudub"
 
 msgid "Pick a color"
 msgstr "Värvuse valimine"
@@ -2696,28 +2672,24 @@ msgid "The item could not be deleted because permission was denied"
 msgstr "Kirjet pole võimalik kustutada, kuna juurdepääs puudub"
 
 #. Translators: The '%s' is replaced with a detailed error message
-#, fuzzy, c-format
-#| msgid "The event could not be deleted due to an error"
+#, c-format
 msgid "The event could not be deleted due to an error: %s"
-msgstr "Sündmust pole vea tõttu võimalik kustutada"
+msgstr "Sündmust pole vea tõttu võimalik kustutada: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
-#, fuzzy, c-format
-#| msgid "The task could not be deleted due to an error"
+#, c-format
 msgid "The task could not be deleted due to an error: %s"
-msgstr "Ülesannet pole vea tõttu võimalik kustutada"
+msgstr "Ülesannet pole vea tõttu võimalik kustutada: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
-#, fuzzy, c-format
-#| msgid "The memo could not be deleted due to an error"
+#, c-format
 msgid "The memo could not be deleted due to an error: %s"
-msgstr "Märget pole vea tõttu võimalik kustutada"
+msgstr "Märget pole vea tõttu võimalik kustutada: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
-#, fuzzy, c-format
-#| msgid "The item could not be deleted due to an error"
+#, c-format
 msgid "The item could not be deleted due to an error: %s"
-msgstr "Kirjet pole vea tõttu võimalik kustutada"
+msgstr "Kirjet pole vea tõttu võimalik kustutada: %s"
 
 msgid "Contacts..."
 msgstr "Kontaktid..."
@@ -2774,7 +2746,7 @@ msgid "Print this event"
 msgstr "Valitud sündmuse printimine"
 
 msgid "Event's start time is in the past"
-msgstr ""
+msgstr "Sündmuse alguskuupäev on minevikus"
 
 msgid "Event cannot be edited, because the selected calendar is read only"
 msgstr ""
@@ -2863,18 +2835,6 @@ msgctxt "cal-alarms"
 msgid "None"
 msgstr "Puudub"
 
-#. TRANSLATORS: Predefined alarm's description
-msgid "1 day before appointment"
-msgstr "1 päev enne sündmust"
-
-#. TRANSLATORS: Predefined alarm's description
-msgid "1 hour before appointment"
-msgstr "1 tund enne sündmust"
-
-#. TRANSLATORS: Predefined alarm's description
-msgid "15 minutes before appointment"
-msgstr "15 minut enne sündmust"
-
 msgid "Atte_ndees..."
 msgstr "_Osalejad..."
 
@@ -2899,13 +2859,28 @@ msgstr "_Kokkuvõte:"
 msgid "_Time:"
 msgstr "Ae_g:"
 
+#. TRANSLATORS: Predefined alarm's description
+msgctxt "eventpage"
+msgid "1 day before appointment"
+msgstr "1 päev enne sündmust"
+
+#. TRANSLATORS: Predefined alarm's description
+msgctxt "eventpage"
+msgid "1 hour before appointment"
+msgstr "1 tund enne sündmust"
+
+#. TRANSLATORS: Predefined alarm's description
+msgctxt "eventpage"
+msgid "15 minutes before appointment"
+msgstr "15 minut enne sündmust"
+
 #. TRANSLATORS: 'for' in a sense of 'duration'; example string: Time: [date] [time] for [ H ] hours [ M ] minutes
-#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+msgctxt "eventpage"
 msgid "for"
 msgstr "kestus"
 
 #. TRANSLATORS: 'until' in a sense of 'duration'; example string: Time: [date] [time] until [ date ] [ time ]
-#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+msgctxt "eventpage"
 msgid "until"
 msgstr "kuni"
 
@@ -2916,7 +2891,7 @@ msgid "Print this memo"
 msgstr "Valitud märkme printimine"
 
 msgid "Memo's start date is in the past"
-msgstr ""
+msgstr "Märkme alguskuupäev on minevikus"
 
 msgid "Memo cannot be edited, because the selected memo list is read only"
 msgstr ""
@@ -3098,18 +3073,37 @@ msgid "This appointment rec_urs"
 msgstr "See sündmus _kordub"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+msgctxt "recurrpage"
+msgid "day(s)"
+msgstr "päev(a)"
+
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+msgctxt "recurrpage"
+msgid "for"
+msgstr "kestus"
+
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+msgctxt "recurrpage"
 msgid "forever"
 msgstr "igavesti"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+msgctxt "recurrpage"
 msgid "month(s)"
 msgstr "kuu(d)"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+msgctxt "recurrpage"
+msgid "until"
+msgstr "kuni"
+
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+msgctxt "recurrpage"
 msgid "week(s)"
 msgstr "nädal(at)"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+msgctxt "recurrpage"
 msgid "year(s)"
 msgstr "aasta(t)"
 
@@ -3197,10 +3191,10 @@ msgid "Print this task"
 msgstr "Valitud ülesande printimine"
 
 msgid "Task's start date is in the past"
-msgstr ""
+msgstr "Ülesande alguskuupäev on minevikus"
 
 msgid "Task's due date is in the past"
-msgstr ""
+msgstr "Ülesande tähtaeg on minevikus"
 
 msgid "Task cannot be edited, because the selected task list is read only"
 msgstr ""
@@ -5960,9 +5954,6 @@ msgstr ""
 "Väljuvat sõnumit pole võimalik krüptida: selle konto jaoks ei ole "
 "krüptimissertifikaati määratud"
 
-msgid "Unable to reconstruct message from autosave file"
-msgstr "Ei suudetud taastada sõnumit automaatsalvestusfailist"
-
 msgid "Compose Message"
 msgstr "Sõnumi koostamine"
 
@@ -6691,9 +6682,6 @@ msgstr "_Reegli nimi:"
 msgid "Find items that meet the following conditions"
 msgstr "Kui leitakse järgnevatele tingimustele vastav kirje"
 
-msgid "A_dd Condition"
-msgstr "Lisa _tingimus"
-
 msgid "If all conditions are met"
 msgstr "Kui kõik tingimused on täidetud"
 
@@ -6702,6 +6690,11 @@ msgstr "Kui vähemalt üks tingimustest on täidetud"
 
 msgid "_Find items:"
 msgstr "_Kirjed sobivad:"
+
+#. Translators: "None" for not including threads;
+#. * part of "Include threads: None"
+msgid "None"
+msgstr "Puudub"
 
 msgid "All related"
 msgstr "Kõik seonduvad"
@@ -6717,6 +6710,9 @@ msgstr "Ilma vastuse või eelnevata"
 
 msgid "I_nclude threads"
 msgstr "Kaa_satavad lõimed"
+
+msgid "A_dd Condition"
+msgstr "Lisa _tingimus"
 
 msgid "Incoming"
 msgstr "Sissetulev"
@@ -6923,10 +6919,9 @@ msgstr ""
 "\n"
 "Palun oota, kuni Evolution siirdab sinu kaustu..."
 
-#, fuzzy, c-format
-#| msgid "Unable to create local mail folders at `%s': %s"
+#, c-format
 msgid "Unable to create local mail folders at '%s': %s"
-msgstr "Kohalikku postikausta pole võimalik asukohas `%s' luua: %s"
+msgstr "Kohalikku postikausta pole võimalik asukohas '%s' luua: %s"
 
 msgid "Please select a folder"
 msgstr "Palun vali kaust"
@@ -6950,10 +6945,8 @@ msgid "_Move"
 msgstr "_Tõsta ümber"
 
 #. Check buttons
-#, fuzzy
-#| msgid "Do not ask me again"
 msgid "_Do not ask me again."
-msgstr "Seda küsimust rohkem mitte esitada"
+msgstr "Seda _küsimust rohkem mitte esitada."
 
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr ""
@@ -7147,39 +7140,29 @@ msgstr "_Tõsta kausta..."
 msgid "Move selected messages to another folder"
 msgstr "Valitud sõnumite tõstmine teise kausta"
 
-#, fuzzy
-#| msgid "Switch to %s"
 msgid "_Switch to Folder"
-msgstr "Ümberlülitumine vaatele \"%s\""
+msgstr ""
 
 msgid "Display the parent folder"
 msgstr ""
 
-#, fuzzy
-#| msgid "Switch to %s"
 msgid "Switch to _next tab"
-msgstr "Ümberlülitumine vaatele \"%s\""
+msgstr "Lülitu _järgmisele kaardile"
 
 msgid "Switch to the next tab"
-msgstr ""
+msgstr "Lülitumine järgmisele kaardile"
 
-#, fuzzy
-#| msgid "Switch to %s"
 msgid "Switch to _previous tab"
-msgstr "Ümberlülitumine vaatele \"%s\""
+msgstr "Lülitu _eelmisele kaardile"
 
 msgid "Switch to the previous tab"
-msgstr ""
+msgstr "Lülitumine eelmisele kaardile"
 
-#, fuzzy
-#| msgid "Close the current file"
 msgid "Cl_ose current tab"
-msgstr "Sulge fail"
+msgstr "Sul_ge käesolev kaart"
 
-#, fuzzy
-#| msgid "Close the current file"
 msgid "Close current tab"
-msgstr "Sulge fail"
+msgstr "Käesoleva kaardi sulgemine"
 
 msgid "_Next Message"
 msgstr "_Järgmine sõnum"
@@ -7322,10 +7305,8 @@ msgstr "K_ooditabel"
 msgid "F_orward As"
 msgstr "_Edasta kui"
 
-#, fuzzy
-#| msgid "_Reply"
 msgid "_Group Reply"
-msgstr "_Vasta"
+msgstr ""
 
 msgid "_Go To"
 msgstr "_Liigu"
@@ -7390,10 +7371,8 @@ msgstr "_Edasta"
 msgid "Forward the selected message to someone"
 msgstr "Valitud sõnumi kellelegi edastamine"
 
-#, fuzzy
-#| msgid "Group Items By"
 msgid "Group Reply"
-msgstr "Kirjete grupeerimine"
+msgstr ""
 
 #, fuzzy
 #| msgid "Compose a reply to the mailing list of the selected message"
@@ -8068,14 +8047,13 @@ msgstr "Viide tundmatutele välistele andmetele (tüüp \"%s\")"
 
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
-#, fuzzy, c-format
-#| msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
+#, c-format
 msgid "This message was sent by %s on behalf of %s"
-msgstr "Selle sõnumi on <b>%2$s</b> nimel saatnud <b>%1$s</b>"
+msgstr "Selle sõnumi on %2$s nimel saatnud %1$s"
 
 #, c-format
 msgid "No HTML stream available"
-msgstr ""
+msgstr "HTML-voog pole saadaval"
 
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr "See hoidla ei toeta tellimusi või pole tellimused lubatud."
@@ -8096,12 +8074,11 @@ msgstr "Serverit ei ole valitud"
 #. Translators: This message is shown only for ten or more messages to be opened.
 #. The %d is replaced with the actual count of messages. If you need a '%' in your text,
 #. then write it doubled, like '%%'.
-#, fuzzy, c-format
-#| msgid "Are you sure you want to open {0} messages at once?"
+#, c-format
 msgid "Are you sure you want to open %d messages at once?"
 msgid_plural "Are you sure you want to open %d messages at once?"
-msgstr[0] "Kas oled kindel, et soovid korraga avada {0} sõnumit?"
-msgstr[1] "Kas oled kindel, et soovid korraga avada {0} sõnumit?"
+msgstr[0] "Kas oled kindel, et soovid korraga avada %d sõnumi?"
+msgstr[1] "Kas oled kindel, et soovid korraga avada %d sõnumit?"
 
 msgid "_Do not show this message again"
 msgstr "Seda teadet enam _uuesti mitte näidata"
@@ -9087,12 +9064,10 @@ msgstr "Kausta valimine"
 msgid "Select folder to import into"
 msgstr "Vali kaust, kuhu importida"
 
-#. Translators: Column header for a message subject
 msgctxt "mboxImp"
 msgid "Subject"
 msgstr "Teema"
 
-#. Translators: Column header for a message From address
 msgctxt "mboxImp"
 msgid "From"
 msgstr "Saatja"
@@ -9259,10 +9234,8 @@ msgstr "Väljuvate sõnumite _digitaalne allkirjastamine (vaikimisi)"
 msgid "Displayed Message Headers"
 msgstr "Kuvatavad sõnumi päised"
 
-#, fuzzy
-#| msgid "Do not format messages when text si_ze exceeds"
 msgid "Do not display messages when text si_ze exceeds"
-msgstr "Sõnumite tekstiosa ei vo_rmindata, kui selle suurus ületab"
+msgstr "Sõnumite tekstiosa ei _kuvata, kui selle suurus ületab"
 
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr "Minu _aadressiraamatus olevate saatjate sõnumeid ei märgita rämpsuks"
@@ -9501,7 +9474,7 @@ msgstr "Serveri l_iik:"
 #, fuzzy
 #| msgid "Sig_ning certificate:"
 msgid "Si_gning algorithm:"
-msgstr "All_kirjastamissertifikaat:"
+msgstr "All_kirjastamisalgoritm:"
 
 msgid "Sig_natures"
 msgstr "_Allkirjad"
@@ -9650,10 +9623,8 @@ msgstr "E-sõnumi eelvaates näidatakse saatja _fotot"
 msgid "_Shrink To / Cc / Bcc headers to "
 msgstr "Kellele / koopia / pimekoopia välju vä_hendatakse"
 
-#, fuzzy
-#| msgid "Drafts _Folder:"
 msgid "_Trash Folder:"
-msgstr "Mustan_dite kaust:"
+msgstr "_Prügikaust:"
 
 msgid "_Use Secure Connection:"
 msgstr "Tu_rvalise ühenduse kasutamine:"
@@ -9786,16 +9757,13 @@ msgstr "E-posti võtmine"
 msgid "Failed to apply outgoing filters: %s"
 msgstr "Tõrge väljundfiltrite rakendamisel: %s"
 
-#, fuzzy, c-format
-#| msgid ""
-#| "Failed to append to %s: %s\n"
-#| "Appending to local `Sent' folder instead."
+#, c-format
 msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local 'Sent' folder instead."
 msgstr ""
 "Tõrge lisamisel kausta %s: %s\n"
-"Selle asemel lisatakse kohalikku kausta `Saadetud'."
+"Selle asemel lisatakse kohalikku kausta 'Saadetud'."
 
 #, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
@@ -9892,14 +9860,9 @@ msgid_plural "Saving %d messages"
 msgstr[0] "%d sõnumi salvestamine"
 msgstr[1] "%d sõnumi salvestamine"
 
-#, fuzzy, c-format
-#| msgid ""
-#| "Error saving messages to: %s:\n"
-#| " %s"
+#, c-format
 msgid "Error saving messages to: %s:\n"
-msgstr ""
-"Viga sõnumite salvestamisel %s kausta\n"
-" %s"
+msgstr "Viga sõnumite salvestamisel kausta %s:\n"
 
 msgid "Saving attachment"
 msgstr "Manuse salvestamine"
@@ -10366,10 +10329,8 @@ msgstr "Otsingukaustad automaatselt uuendatud."
 msgid "Send private reply?"
 msgstr ""
 
-#, fuzzy
-#| msgid "Sender or Recipients"
 msgid "Send reply to all recipients?"
-msgstr "Saatja või saajad"
+msgstr "Kas vastata kõigile adressaatidele?"
 
 msgid "Signature Already Exists"
 msgstr "Allkiri on juba olemas"
@@ -10409,7 +10370,7 @@ msgid ""
 "The following recipients were not recognized as valid mail addresses:\n"
 "{0}"
 msgstr ""
-"Järgnevad aadressid ei ole sobivad:\n"
+"Järgnevate adressaatide aadressid ei ole sobivad:\n"
 "{0}"
 
 msgid "The script file must exist and be executable."
@@ -12052,10 +12013,10 @@ msgid "Importing Files"
 msgstr "Failide importimine"
 
 msgid "Import cancelled. Click \"Forward\" to continue."
-msgstr ""
+msgstr "Importimine on tühistatud. Jätkamiseks vajuta \"Edasi\"."
 
 msgid "Import complete. Click \"Forward\" to continue."
-msgstr ""
+msgstr "Importimine on valmis. Jätkamiseks vajuta \"Edasi\"."
 
 msgid "Evolution Setup Assistant"
 msgstr "Evolutioni seadistusabiline"
@@ -12212,11 +12173,11 @@ msgstr "Kohalike allikate kindlakstegemine"
 
 #, c-format
 msgid "Backing up to the folder %s"
-msgstr "Varundamine kausta %s"
+msgstr "Varundamine kataloogi %s"
 
 #, c-format
 msgid "Restoring from the folder %s"
-msgstr "Taastamine kaustast %s"
+msgstr "Taastamine kataloogist %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
 msgid "Evolution Backup"
@@ -12255,10 +12216,10 @@ msgid ""
 msgstr "Kas soovid Evolutioni valitud varukoopiafailist taastada?"
 
 msgid "Close and Backup Evolution"
-msgstr ""
+msgstr "Sulge ja varunda Evolution"
 
 msgid "Close and Restore Evolution"
-msgstr ""
+msgstr "Sulge ja taasta Evolution"
 
 msgid "Insufficient Permissions"
 msgstr "Puuduvad õigused"
@@ -15082,7 +15043,7 @@ msgstr "Aktiivse printeri leheküljesätete muutmine"
 
 #, c-format
 msgid "Switch to %s"
-msgstr "Ümberlülitumine vaatele \"%s\""
+msgstr "Lülitumine vaatele \"%s\""
 
 msgid "Execute these search parameters"
 msgstr "Nende otsinguparameetrite rakendamine"
@@ -15363,7 +15324,7 @@ msgid "All CA certificate files"
 msgstr "Kõik sertifitseerimiskeskuse failid"
 
 msgid "Failed to import certificate authority's certificate"
-msgstr ""
+msgstr "Tõrge sertifitseerimiskeskuse sertifikaadi importimisel"
 
 #, c-format
 msgid "Certificate Viewer: %s"
@@ -16136,6 +16097,36 @@ msgstr "_Kohale toimetatud ja avatud"
 msgid "Delivery Options"
 msgstr "Kohaletoimetamise valikud"
 
+#, fuzzy
+#| msgid "_Until"
+msgctxt "ESendOptions"
+msgid "_Until"
+msgstr "_Kuni"
+
+#, fuzzy
+#| msgid "_After"
+msgctxt "ESendOptionsAfter"
+msgid "_After"
+msgstr "_Pärast"
+
+#, fuzzy
+#| msgid "days"
+msgctxt "ESendOptionsAfter"
+msgid "days"
+msgstr "päeva"
+
+#, fuzzy
+#| msgid "Width"
+msgctxt "ESendOptionsWithin"
+msgid "Wi_thin"
+msgstr "Laius"
+
+#, fuzzy
+#| msgid "days"
+msgctxt "ESendOptionsWithin"
+msgid "days"
+msgstr "päeva"
+
 msgid "For Your Eyes Only"
 msgstr "Ainult sinu silmade jaoks"
 
@@ -16175,14 +16166,6 @@ msgstr "Kui _täidetakse:"
 msgid "When decli_ned:"
 msgstr "Kui k_eeldutakse:"
 
-#. Translators: This is part of 'Within [ X ] days', where [ X ] is a spinner with a number
-msgid "Wi_thin"
-msgstr ""
-
-#. Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number
-msgid "_After"
-msgstr "_Pärast"
-
 msgid "_All information"
 msgstr "_Kogu teave"
 
@@ -16198,15 +16181,18 @@ msgstr "_Kohale toimetatud"
 msgid "_Set expiration date"
 msgstr "_Määra aegumistähtaeg"
 
-#. Translators: This is part of 'Until [ date ]', where [ date ] is a date picker
-msgid "_Until"
-msgstr "_Kuni"
-
 msgid "_When convenient"
 msgstr "_Kui sobib"
 
 msgid "_When opened:"
 msgstr "Kui _avatakse:"
+
+#. Translators: Used in send options dialog
+#, fuzzy
+#| msgid "None"
+msgctxt "send-options"
+msgid "None"
+msgstr "Puudub"
 
 msgid "Unnamed"
 msgstr "Nimetu"
@@ -16497,6 +16483,9 @@ msgstr "Vali kõik"
 msgid "Input Methods"
 msgstr "Sisestusmeetodid"
 
+#~ msgid "Unable to reconstruct message from autosave file"
+#~ msgstr "Ei suudetud taastada sõnumit automaatsalvestusfailist"
+
 #~ msgid "Default Sync Address:"
 #~ msgstr "Vaikimisi sünkroniseerimisaadress:"
 
@@ -16765,9 +16754,6 @@ msgstr "Sisestusmeetodid"
 
 #~ msgid "Source"
 #~ msgstr "Allikas"
-
-#~ msgid "Width"
-#~ msgstr "Laius"
 
 #~ msgid "Height"
 #~ msgstr "Kõrgus"
