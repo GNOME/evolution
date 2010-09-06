@@ -2707,7 +2707,7 @@ msgstr "区分"
 #: ../plugins/email-custom-header/email-custom-header.c:323
 #: ../widgets/misc/e-send-options.ui.h:2
 msgid "Confidential"
-msgstr "極秘"
+msgstr "機密"
 
 #: ../calendar/gui/caltypes.xml.h:8 ../calendar/gui/e-cal-list-view.etspec.h:3
 #: ../calendar/gui/memotypes.xml.h:7 ../calendar/gui/tasktypes.xml.h:10
@@ -21312,7 +21312,7 @@ msgstr "ステータスの追跡"
 
 #: ../widgets/misc/e-send-options.ui.h:26
 msgid "Top Secret"
-msgstr "トップ・シークレット"
+msgstr "極秘"
 
 #: ../widgets/misc/e-send-options.ui.h:28
 msgid "When acce_pted:"
