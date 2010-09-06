@@ -171,7 +171,7 @@ mail_tool_do_movemail (const gchar *source_url, GError **error)
 		return NULL;
 
 	/* Movemail from source (source_url) to dest_path */
-	success = camel_movemail (uri->path, dest_path, error);
+	success = camel_movemail (uri->path, dest_path, error) != -1;
 	camel_url_free(uri);
 
 	if (g_stat (dest_path, &sb) < 0 || sb.st_size == 0) {
