@@ -2716,6 +2716,8 @@ em_folder_tree_get_selected_folder (EMFolderTree *folder_tree)
 		folder = camel_store_get_folder (
 			store, full_name, CAMEL_STORE_FOLDER_INFO_FAST, NULL);
 
+	g_free (full_name);
+
 	return folder;
 }
 
