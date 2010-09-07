@@ -429,6 +429,9 @@ reset_layout (EText *text)
 		cairo_font_options_destroy (font_options);
 		pango_layout_context_changed (text->layout);
 
+		if (text->font_desc) {
+			pango_font_description_free (text->font_desc);
+		}
 		text->font_desc = pango_font_description_new ();
 		if (!pango_font_description_get_size_is_absolute (style->font_desc))
 			pango_font_description_set_size (text->font_desc,

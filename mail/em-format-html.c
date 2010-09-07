@@ -604,12 +604,12 @@ efh_finalize (GObject *object)
 {
 	EMFormatHTML *efh = EM_FORMAT_HTML (object);
 
-	/* FIXME: check for leaked stuff */
-
 	em_format_html_clear_pobject (efh);
 	efh_gtkhtml_destroy (GTK_HTML (efh->priv->web_view), efh);
 
 	g_hash_table_destroy (efh->priv->text_inline_parts);
+
+	g_mutex_free (efh->priv->lock);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);

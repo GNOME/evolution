@@ -159,6 +159,7 @@ send_dbus_message (const gchar *name,
 	#undef add_named_param
 
 	g_dbus_message_set_body (message, g_variant_builder_end (builder));
+	g_variant_builder_unref (builder);
 
 	/* Sends the message */
 	g_dbus_connection_send_message (

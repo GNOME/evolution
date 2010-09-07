@@ -329,7 +329,7 @@ shell_ready_for_quit (EShell *shell,
 		shell_ready_for_quit, shell);
 
 	/* Finalize the activity. */
-	g_object_ref (activity);
+	g_object_unref (activity);
 
 	/* Destroy all watched windows.  Note, we iterate over a -copy-
 	 * of the watched windows list because the act of destroying a

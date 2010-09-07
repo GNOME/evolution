@@ -47,6 +47,7 @@ static GtkMenuItem *
 menu_tool_button_get_first_menu_item (GtkMenuToolButton *menu_tool_button)
 {
 	GtkWidget *menu;
+	GtkMenuItem *item;
 	GList *children;
 
 	menu = gtk_menu_tool_button_get_menu (menu_tool_button);
@@ -57,7 +58,11 @@ menu_tool_button_get_first_menu_item (GtkMenuToolButton *menu_tool_button)
 	if (children == NULL)
 		return NULL;
 
-	return GTK_MENU_ITEM (children->data);
+	item = GTK_MENU_ITEM (children->data);
+
+	g_list_free (children);
+
+	return item;
 }
 
 static void

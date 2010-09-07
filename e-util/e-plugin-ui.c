@@ -544,7 +544,7 @@ e_plugin_ui_register_manager (GtkUIManager *ui_manager,
 		EPlugin *plugin = plugin_list->data;
 		GSList *iter;
 
-		plugin_list = g_slist_next (plugin_list);
+		plugin_list = g_slist_remove (plugin_list, plugin);
 
 		/* Look for hooks of type EPluginUIHook. */
 		for (iter = plugin->hooks; iter != NULL; iter = iter->next) {
@@ -565,6 +565,8 @@ e_plugin_ui_register_manager (GtkUIManager *ui_manager,
 			plugin_ui_hook_register_manager (
 				hook, ui_manager, id, user_data);
 		}
+
+		g_object_unref (plugin);
 	}
 }
 
@@ -583,7 +585,7 @@ e_plugin_ui_enable_manager (GtkUIManager *ui_manager,
 		EPlugin *plugin = plugin_list->data;
 		GSList *iter;
 
-		plugin_list = g_slist_next (plugin_list);
+		plugin_list = g_slist_remove (plugin_list, plugin);
 
 		/* Look for hooks of type EPluginUIHook. */
 		for (iter = plugin->hooks; iter != NULL; iter = iter->next) {
@@ -594,6 +596,8 @@ e_plugin_ui_enable_manager (GtkUIManager *ui_manager,
 
 			plugin_ui_enable_manager (hook, ui_manager, id);
 		}
+
+		g_object_unref (plugin);
 	}
 }
 
@@ -612,7 +616,7 @@ e_plugin_ui_disable_manager (GtkUIManager *ui_manager,
 		EPlugin *plugin = plugin_list->data;
 		GSList *iter;
 
-		plugin_list = g_slist_next (plugin_list);
+		plugin_list = g_slist_remove (plugin_list, plugin);
 
 		/* Look for hooks of type EPluginUIHook. */
 		for (iter = plugin->hooks; iter != NULL; iter = iter->next) {
@@ -623,5 +627,7 @@ e_plugin_ui_disable_manager (GtkUIManager *ui_manager,
 
 			plugin_ui_disable_manager (hook, ui_manager, id, TRUE);
 		}
+
+		g_object_unref (plugin);
 	}
 }

@@ -648,6 +648,11 @@ shell_searchbar_dispose (GObject *object)
 		priv->search_option = NULL;
 	}
 
+	if (priv->state_group) {
+		g_free (priv->state_group);
+		priv->state_group = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_shell_searchbar_parent_class)->dispose (object);
 }

@@ -3226,8 +3226,6 @@ paint (GnomeCanvas *canvas)
 	visible_rect.x1 = visible_rect.x0 + allocation.width;
 	visible_rect.y1 = visible_rect.y0 + allocation.height;
 
-	region = gdk_region_new ();
-
 	for (i = 0; i < n_rects; i++) {
 		ArtIRect clipped;
 

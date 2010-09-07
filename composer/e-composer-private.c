@@ -405,17 +405,22 @@ e_composer_private_constructed (EMsgComposer *composer)
 void
 e_composer_private_dispose (EMsgComposer *composer)
 {
-	GConfBridge *bridge;
-	GArray *array;
-	guint binding_id;
+	if (composer->priv->gconf_bridge_binding_ids) {
+		GConfBridge *bridge;
+		GArray *array;
+		guint binding_id;
 
-	bridge = gconf_bridge_get ();
-	array = composer->priv->gconf_bridge_binding_ids;
+		bridge = gconf_bridge_get ();
+		array = composer->priv->gconf_bridge_binding_ids;
 
-	while (array->len > 0) {
-		binding_id = g_array_index (array, guint, 0);
-		gconf_bridge_unbind (bridge, binding_id);
-		g_array_remove_index_fast (array, 0);
+		while (array->len > 0) {
+			binding_id = g_array_index (array, guint, 0);
+			gconf_bridge_unbind (bridge, binding_id);
+			g_array_remove_index_fast (array, 0);
+		}
+
+		g_array_free (composer->priv->gconf_bridge_binding_ids, TRUE);
+		composer->priv->gconf_bridge_binding_ids = NULL;
 	}
 
 	if (composer->priv->shell != NULL) {

@@ -348,9 +348,6 @@ emf_class_init (EMFormatClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
-
-	class->type_handlers = g_hash_table_new (g_str_hash, g_str_equal);
-	emf_builtin_init (class);
 }
 
 static void

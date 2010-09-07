@@ -142,6 +142,11 @@ shell_content_dispose (GObject *object)
 		priv->shell_view = NULL;
 	}
 
+	if (priv->user_filename) {
+		g_free (priv->user_filename);
+		priv->user_filename = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_shell_content_parent_class)->dispose (object);
 }

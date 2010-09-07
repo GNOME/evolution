@@ -83,9 +83,6 @@ struct _plugin_doc {
 
 	gchar *filename;
 	xmlDocPtr doc;
-
-	GSList *plugin_hooks;	/* EPlugin objects with pending hooks */
-	GSList *plugins;	/* xmlNodePtr's of plugins with unknown type (mono,etc) */
 };
 
 enum {
@@ -359,7 +356,6 @@ ep_load_plugin (xmlNodePtr root, struct _plugin_doc *pdoc)
 		pd(printf("Delaying loading of plugin '%s' unknown type '%s'\n", id, prop));
 		g_free (id);
 		xmlFree (prop);
-		pdoc->plugins = g_slist_prepend (pdoc->plugins, root);
 		return NULL;
 	}
 	xmlFree (prop);
@@ -430,7 +426,6 @@ ep_load (const gchar *filename, gint load_level)
 					ep->flags &= ~E_PLUGIN_FLAGS_SYSTEM_PLUGIN;
 				g_free (is_system_plugin);
 
-				pdoc->plugin_hooks = g_slist_prepend (pdoc->plugin_hooks, ep);
 				ep = NULL;
 			}
 		}
