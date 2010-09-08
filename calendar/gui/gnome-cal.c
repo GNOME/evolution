@@ -1487,6 +1487,7 @@ gnome_calendar_do_dispose (GObject *object)
 	GList *l;
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
+	gint ii;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (object));
@@ -1501,6 +1502,13 @@ gnome_calendar_do_dispose (GObject *object)
 			priv->model, view_complete_cb, gcal);
 		g_object_unref (priv->model);
 		priv->model = NULL;
+	}
+
+	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++) {
+		if (priv->views[ii] != NULL) {
+			g_object_unref (priv->views[ii]);
+			priv->views[ii] = NULL;
+		}
 	}
 
 	for (l = priv->notifications; l; l = l->next)
