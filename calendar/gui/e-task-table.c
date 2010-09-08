@@ -624,6 +624,8 @@ task_table_constructed (GObject *object)
 
 	gtk_widget_set_has_tooltip (GTK_WIDGET (task_table), TRUE);
 
+	g_object_unref (extras);
+
 	a11y = gtk_widget_get_accessible (GTK_WIDGET (task_table));
 	if (a11y)
 		atk_object_set_name (a11y, _("Tasks"));
