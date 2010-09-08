@@ -91,6 +91,7 @@ composer_post_header_set_base_url (EComposerPostHeader *header)
 	url = camel_url_to_string (camel_url, CAMEL_URL_HIDE_ALL);
 	camel_url_free (camel_url);
 
+	g_free (header->priv->base_url);
 	header->priv->base_url = url;
 }
 
