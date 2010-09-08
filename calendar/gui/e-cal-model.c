@@ -2333,11 +2333,18 @@ redo_queries (ECalModel *model)
 		iso_start = isodate_from_time_t (priv->start);
 		iso_end = isodate_from_time_t (priv->end);
 
-		priv->full_sexp = g_strdup_printf ("(and (occur-in-time-range? (make-time \"%s\")"
-						   "                           (make-time \"%s\"))"
-						   "     %s)",
-						   iso_start, iso_end,
-						   priv->search_sexp ? priv->search_sexp : "");
+		if (priv->search_sexp) {
+			priv->full_sexp = g_strdup_printf ("(and (occur-in-time-range? (make-time \"%s\")"
+					"                           (make-time \"%s\"))"
+					"     %s)",
+					iso_start, iso_end,
+					priv->search_sexp ? priv->search_sexp : "");
+		} else {
+			priv->full_sexp = g_strdup_printf ("(occur-in-time-range? (make-time \"%s\")"
+					"                           (make-time \"%s\"))",
+					iso_start, iso_end);
+		}
+
 		g_free (iso_start);
 		g_free (iso_end);
 	} else if (priv->search_sexp) {

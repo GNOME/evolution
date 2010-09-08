@@ -1009,11 +1009,18 @@ adjust_e_cal_view_sexp (GnomeCalendar *gcal, const gchar *sexp)
 	start = isodate_from_time_t (start_time);
 	end = isodate_from_time_t (end_time);
 
-	new_sexp = g_strdup_printf ("(and (occur-in-time-range? (make-time \"%s\")"
-				    "                           (make-time \"%s\"))"
-				    "     %s)",
-				    start, end,
-				    sexp);
+	if (sexp) {
+		new_sexp = g_strdup_printf ("(and (occur-in-time-range? (make-time \"%s\")"
+				"                           (make-time \"%s\"))"
+				"     %s)",
+				start, end,
+				sexp);
+	} else {
+		new_sexp = g_strdup_printf ("(occur-in-time-range? (make-time \"%s\")"
+				"                     (make-time \"%s\"))",
+				start, end);
+	}
+
 	g_free (start);
 	g_free (end);
 
