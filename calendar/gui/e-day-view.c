@@ -1881,7 +1881,7 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 
 	if (pango_width < max_width) {
 		day_view->date_format = E_DAY_VIEW_DATE_FULL;
-		return;
+		goto exit;
 	}
 
 	/* Try "Thu 21 Jan". */
@@ -1898,7 +1898,7 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 
 	if (pango_width < max_width) {
 		day_view->date_format = E_DAY_VIEW_DATE_ABBREVIATED;
-		return;
+		goto exit;
 	}
 
 	/* Try "23 Jan". */
@@ -1917,6 +1917,7 @@ e_day_view_recalc_cell_sizes	(EDayView	*day_view)
 	else
 		day_view->date_format = E_DAY_VIEW_DATE_SHORT;
 
+exit:
 	g_object_unref (layout);
 }
 
