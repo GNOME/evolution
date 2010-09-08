@@ -2345,14 +2345,10 @@ emu_restore_folder_tree_state (EMFolderTree *folder_tree)
 	filename = g_build_filename (config_dir, "state.ini", NULL);
 
 	key_file = g_key_file_new ();
-	g_key_file_load_from_file (key_file, filename, 0, &error);
+	g_key_file_load_from_file (key_file, filename, 0, NULL);
 	g_free (filename);
 
-	if (error) {
-		g_error_free (error);
-	} else {
-		em_folder_tree_restore_state (folder_tree, key_file);
-	}
+	em_folder_tree_restore_state (folder_tree, key_file);
 
 	g_key_file_free (key_file);
 }
