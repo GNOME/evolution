@@ -833,6 +833,7 @@ For example: "Work" or "Personal"</property>
                             <property name="label" translatable="yes">_Use Secure Connection:</property>
                             <property name="use_underline">True</property>
                             <property name="justify">center</property>
+                            <property name="mnemonic_widget">source_use_ssl</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -1282,6 +1283,7 @@ For example: "Work" or "Personal"</property>
                                 <property name="label" translatable="yes">_Use Secure Connection:</property>
                                 <property name="use_underline">True</property>
                                 <property name="justify">center</property>
+                                <property name="mnemonic_widget">transport_use_ssl</property>
                               </object>
                               <packing>
                                 <property name="expand">False</property>
