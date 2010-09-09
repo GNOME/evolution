@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Evolution MASTER\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-09-04 20:17+0000\n"
-"PO-Revision-Date: 2010-09-06 12:59+0300\n"
+"POT-Creation-Date: 2010-09-09 07:39+0000\n"
+"PO-Revision-Date: 2010-09-09 11:01+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -1802,10 +1802,9 @@ msgstr "Ajavööndi välja näitamine sündmuste/koosolekute redaktoris"
 msgid "Show type field in the event/task/meeting editor"
 msgstr "Liigivälja näitamine sündmuste/koosolekute redaktoris"
 
-#, fuzzy
-#| msgid "Show week number in Day and Work Week View"
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
-msgstr "Nädalanumbrite näitamine päeva- ja töönädala vaates"
+msgstr ""
+"Nädalanumbrite näitamine päeva- ja töönädala vaadetes ning kuupäevavalijas"
 
 msgid ""
 "Shows the second time zone in a Day View, if set. Value is similar to one "
@@ -2270,10 +2269,8 @@ msgstr "_Meeldetuletusi näidatakse"
 msgid "Show a _reminder"
 msgstr "_Meeldetuletusi näidatakse"
 
-#, fuzzy
-#| msgid "Show week _numbers in date navigator"
 msgid "Show week _numbers"
-msgstr "_Kuupäeva valimisel kuvatakse nädalate numbreid"
+msgstr "_Nädalanumbrite näitamine"
 
 msgid "Sunday"
 msgstr "Pühapäev"
@@ -2636,28 +2633,24 @@ msgid "_Retract comment"
 msgstr ""
 
 #. Translators: The '%s' is replaced with a detailed error message
-#, fuzzy, c-format
-#| msgid "The event could not be deleted due to an error"
+#, c-format
 msgid "The event could not be deleted due to a dbus error: %s"
-msgstr "Sündmust pole vea tõttu võimalik kustutada"
+msgstr "Sündmust pole dbus-vea tõttu võimalik kustutada: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
-#, fuzzy, c-format
-#| msgid "The task could not be deleted due to an error"
+#, c-format
 msgid "The task could not be deleted due to a dbus error: %s"
-msgstr "Ülesannet pole vea tõttu võimalik kustutada"
+msgstr "Ülesannet pole dbus-vea tõttu võimalik kustutada: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
-#, fuzzy, c-format
-#| msgid "The memo could not be deleted due to an error"
+#, c-format
 msgid "The memo could not be deleted due to a dbus error: %s"
-msgstr "Märget pole vea tõttu võimalik kustutada"
+msgstr "Märget pole dbus-vea tõttu võimalik kustutada: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
-#, fuzzy, c-format
-#| msgid "The item could not be deleted due to an error"
+#, c-format
 msgid "The item could not be deleted due to a dbus error: %s"
-msgstr "Kirjet pole vea tõttu võimalik kustutada"
+msgstr "Kirjet pole dbus-vea tõttu võimalik kustutada: %s"
 
 msgid "The event could not be deleted because permission was denied"
 msgstr "Sündmust pole võimalik ligipääsu piirangute tõttu kustutada"
@@ -7374,10 +7367,9 @@ msgstr "Valitud sõnumi kellelegi edastamine"
 msgid "Group Reply"
 msgstr ""
 
-#, fuzzy
-#| msgid "Compose a reply to the mailing list of the selected message"
 msgid "Reply to the mailing list, or to all recipients"
-msgstr "Vastuse koostamine valitud sõnumi postiloendisse"
+msgstr ""
+"Vastuse koostamine valitud sõnumi postiloendisse või kõigile adressaatidele"
 
 msgid "Delete"
 msgstr "Kustuta"
@@ -7522,10 +7514,8 @@ msgid "minu_tes"
 msgstr "minu_ti järel"
 
 # esineb kontaktide redigeerimises failidialoogi pealkirjas
-#, fuzzy
-#| msgid "Please select an image for this contact"
 msgid "Please select a folder from the current account."
-msgstr "Selle kontakti jaoks pildi valimine"
+msgstr ""
 
 msgid "Security"
 msgstr "Turvalisus"
@@ -8481,33 +8471,32 @@ msgid ""
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
 msgstr ""
-"See keelab/lubab korduvad hoiatused selle kohta, et otsingukaustas sõnumite "
-"kustutamine kustutab sõnumid jäädavalt, mitte ei eemalda neid "
-"otsingutulemuste seast."
+"See keelab/lubab korduvad kinnituse küsimised hoiatamaks, et otsingukaustas "
+"sõnumi kustutamine mitte ainult ei eemalda sõnumit otsingutulemuste seast, "
+"vaid kustutab selle jäädavalt."
 
-#, fuzzy
-#| msgid ""
-#| "It disables/enables the repeated prompts to warn that deleting messages "
-#| "from a search folder permanently deletes the message, not simply removing "
-#| "it from the search results."
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "private reply to a message which arrived via a mailing list."
 msgstr ""
-"See keelab/lubab korduvad hoiatused selle kohta, et otsingukaustas sõnumite "
-"kustutamine kustutab sõnumid jäädavalt, mitte ei eemalda neid "
-"otsingutulemuste seast."
+"See keelab/lubab korduvad kinnituse küsimised hoiatamaks postiloendi kaudu "
+"saabunud sõnumile eraviisilise vastuse saatmisest."
 
 msgid ""
 "It disables/enables the repeated prompts to warn that you are sending a "
 "reply to many people."
 msgstr ""
+"See keelab/lubab korduvad kinnituse küsimised hoiatamaks vastamisest "
+"paljudele adressaatidele."
 
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying sending "
 "a private reply to a message which arrived via a mailing list, but the list "
 "sets a Reply-To: header which redirects your reply back to the list"
 msgstr ""
+"See keelab/lubab korduvad kinnituse küsimised hoiatamaks postiloendi kaudu "
+"saabunud sõnumile eraviisilise vastuse saatmisest, kui postiloend on sõnumi "
+"päisesse lisanud \"Vastamise aadressi\" kirje."
 
 msgid "Last time Empty Junk was run"
 msgstr "Viimane kord, kui rämpsukausta tühjendati"
@@ -8639,20 +8628,14 @@ msgstr "Teemata sõnumi saatmisel kasutaja käest kinnituse küsimine."
 msgid "Prompt when deleting messages in search folder"
 msgstr "Otsingukaustast sõnumi kustutamisel küsitakse kinnitust"
 
-#, fuzzy
-#| msgid "Prompt while marking multiple messages"
 msgid "Prompt when mailing list hijacks private replies"
-msgstr "Kinnituse küsimine mitme sõnumi märkimise korral"
+msgstr ""
 
-#, fuzzy
-#| msgid "Prompt while marking multiple messages"
 msgid "Prompt when replying privately to list messages"
-msgstr "Kinnituse küsimine mitme sõnumi märkimise korral"
+msgstr "Kinnituse küsimine postiloendi sõnumi eraviisilise vastamise korral"
 
-#, fuzzy
-#| msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgid "Prompt when replying to many recipients"
-msgstr "Ainult _pimekoopia adressaatidega sõnumi saatmisel küsitakse kinnitust"
+msgstr "Kinnituse küsimine paljudele adressaatidele vastamise korral"
 
 msgid "Prompt when user expunges"
 msgstr "Kinnituse küsimine puhastamise korral"
@@ -9368,15 +9351,11 @@ msgstr "Printimise kirjatüübid"
 msgid "Prompt when mailing list redirects private reply back to list"
 msgstr ""
 
-#, fuzzy
-#| msgid "Prompt while marking multiple messages"
 msgid "Prompt when sending private replies to mailing _list messages"
-msgstr "Kinnituse küsimine mitme sõnumi märkimise korral"
+msgstr ""
 
-#, fuzzy
-#| msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgid "Prompt when sending replies to _many recipients"
-msgstr "Ainult _pimekoopia adressaatidega sõnumi saatmisel küsitakse kinnitust"
+msgstr ""
 
 msgid "Proxy Settings"
 msgstr "Proksi sätted"
@@ -9561,10 +9540,8 @@ msgstr "Koosolekupäringuid ei _signeerita (Outlookiga ühilduvuse tarbeks)"
 msgid "_Forward style:"
 msgstr "_Edastamise laad:"
 
-#, fuzzy
-#| msgid "Current Folder"
 msgid "_Junk Folder:"
-msgstr "Sellest kaustast"
+msgstr "_Rämpsukaust:"
 
 msgid "_Keep Signature above the original message on replying"
 msgstr "Vastamisel paigutatakse a_llkiri algsest sõnumist ettepoole"
@@ -9666,10 +9643,8 @@ msgstr "Helista"
 msgid "Co_mpleted"
 msgstr "_Valmis"
 
-#, fuzzy
-#| msgid "collapse"
 msgid "Collapse _all"
-msgstr "ahenda"
+msgstr "Ahenda _kõik"
 
 msgid "Digital Signature"
 msgstr "Digiallkiri"
@@ -9677,10 +9652,8 @@ msgstr "Digiallkiri"
 msgid "Do Not Forward"
 msgstr "Ära edasta"
 
-#, fuzzy
-#| msgid "E_xpand All Threads"
 msgid "E_xpand all"
-msgstr "A_va kõik lõimed"
+msgstr "A_va kõik"
 
 msgid "Encryption"
 msgstr "Krüpteering"
@@ -9993,20 +9966,14 @@ msgstr "Otsingukausta muutmine"
 msgid "New Search Folder"
 msgstr "Uus otsingukaust"
 
-#, fuzzy
-#| msgid "Check Junk Failed"
 msgid "\"Check Junk\" Failed"
 msgstr "Tõrge rämpsposti kontrollimisel"
 
-#, fuzzy
-#| msgid "Report Junk Failed"
 msgid "\"Report Junk\" Failed"
-msgstr "Tõrge rämpspostist raporteerimisel"
+msgstr "Tõrge rämpspostist teatamisel"
 
-#, fuzzy
-#| msgid "Report Not Junk Failed"
 msgid "\"Report Not Junk\" Failed"
-msgstr "Mitterämpspostist teatamine nurjus"
+msgstr "Tõrge mitterämpspostist teatamisel"
 
 msgid "A folder named \"{0}\" already exists. Please use a different name."
 msgstr "Kaust nimega \"{0}\" on juba olemas. Palun kasuta teistsugust nime."
@@ -16097,32 +16064,22 @@ msgstr "_Kohale toimetatud ja avatud"
 msgid "Delivery Options"
 msgstr "Kohaletoimetamise valikud"
 
-#, fuzzy
-#| msgid "_Until"
 msgctxt "ESendOptions"
 msgid "_Until"
 msgstr "_Kuni"
 
-#, fuzzy
-#| msgid "_After"
 msgctxt "ESendOptionsAfter"
 msgid "_After"
 msgstr "_Pärast"
 
-#, fuzzy
-#| msgid "days"
 msgctxt "ESendOptionsAfter"
 msgid "days"
 msgstr "päeva"
 
-#, fuzzy
-#| msgid "Width"
 msgctxt "ESendOptionsWithin"
 msgid "Wi_thin"
-msgstr "Laius"
+msgstr ""
 
-#, fuzzy
-#| msgid "days"
 msgctxt "ESendOptionsWithin"
 msgid "days"
 msgstr "päeva"
@@ -17055,9 +17012,6 @@ msgstr "Sisestusmeetodid"
 
 #~ msgid "Unable to migrate calendar `%s'"
 #~ msgstr "Kalendrit `%s' pole võimalik siirdada"
-
-#~ msgid "Date Navigator Widget"
-#~ msgstr "Kuupäeva navigeerimisvidin"
 
 #~ msgid "This widget displays a miniature calendar"
 #~ msgstr "See vidin kuvab pisikese kalendri"
