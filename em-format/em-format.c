@@ -1612,8 +1612,9 @@ emf_multipart_alternative (EMFormat *emf,
 		/*if (want_plain && !strcmp (mime_type, "text/plain"))
 		  return part;*/
 
-		if (em_format_find_handler(emf, mime_type)
-		    || (best == NULL && em_format_fallback_handler(emf, mime_type))) {
+		if (!em_format_is_attachment (emf, part) &&
+		    (em_format_find_handler (emf, mime_type)
+		    || (best == NULL && em_format_fallback_handler (emf, mime_type)))) {
 			best = part;
 			bestid = i;
 		}
