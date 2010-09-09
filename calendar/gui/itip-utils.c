@@ -1037,6 +1037,36 @@ comp_minimal (ECalComponent *comp, gboolean attendee)
 	return NULL;
 }
 
+static void
+strip_x_microsoft_props (ECalComponent *comp)
+{
+	GSList *lst = NULL, *l;
+	icalcomponent *icalcomp;
+	icalproperty *icalprop;
+
+	g_return_if_fail (comp != NULL);
+
+	icalcomp = e_cal_component_get_icalcomponent (comp);
+	g_return_if_fail (icalcomp != NULL);
+
+	for (icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
+	     icalprop;
+	     icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY)) {
+		const gchar *x_name = icalproperty_get_x_name (icalprop);
+
+		if (x_name && g_ascii_strncasecmp (x_name, "X-MICROSOFT-", 12) == 0)
+			lst = g_slist_prepend (lst, icalprop);
+	}
+
+	for (l = lst; l != NULL; l = l->next) {
+		icalprop = l->data;
+		icalcomponent_remove_property (icalcomp, icalprop);
+		icalproperty_free (icalprop);
+	}
+
+	g_slist_free (lst);
+}
+
 static ECalComponent *
 comp_compliant (ECalComponentItipMethod method, ECalComponent *comp, ECal *client, icalcomponent *zones, gboolean strip_alarms)
 {
@@ -1120,6 +1150,8 @@ comp_compliant (ECalComponentItipMethod method, ECalComponent *comp, ECal *clien
 
 		cal_obj_uid_list_free (uids);
 	}
+
+	strip_x_microsoft_props (clone);
 
 	/* Strip X-LIC-ERROR stuff */
 	e_cal_component_strip_errors (clone);
