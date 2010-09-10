@@ -443,12 +443,15 @@ mail_filter_delete_uri(CamelStore *store, const gchar *uri)
 		}
 
 		info = g_strdup_printf (ngettext (
-			/* Translators: The first %s is name of the affected filter rule(s),
-			   the second %s is uri of the removed folder. For more than one filter
-			   rule is each of them on a separate line, with four spaces in front
-			   of its name, without quotes. */
-			"The filter rule \"%s\" has been updated, because it used just removed folder\n\"%s\".",
-			"The following filter rules\n%s have been updated, because they used just removed folder\n\"%s\".",
+			/* Translators: The first %s is name of the affected
+			 * filter rule(s), the second %s is URI of the removed
+			 * folder. For more than one filter rule is each of
+			 * them on a separate line, with four spaces in front
+			 * of its name, without quotes. */
+			"The filter rule \"%s\" has been modified to account "
+			"for the deleted folder\n\"%s\".",
+			"The following filter rules\n%s have been modified "
+			"to account for the deleted folder\n\"%s\".",
 			s_count), s->str, euri);
 		dialog = e_alert_dialog_new_for_args (e_shell_get_active_window (NULL), "mail:filter-updated", info, NULL);
 		em_utils_show_info_silent (dialog);

@@ -667,12 +667,15 @@ done:
 		gchar *user, *info;
 
 		info = g_strdup_printf (ngettext (
-			/* Translators: The first %s is name of the affected search folder(s),
-			   the second %s is uri of the removed folder. For more than one search
-			   folder is each of them on a separate line, with four spaces in front
-			   of its name, without quotes. */
-			"The Search Folder \"%s\" has been updated, because it used just removed folder\n\"%s\".",
-			"The following Search Folders\n%s have been updated, because they used just removed folder\n\"%s\".",
+			/* Translators: The first %s is name of the affected
+			 * search folder(s), the second %s is the URI of the
+			 * removed folder. For more than one search folder is
+			 * each of them on a separate line, with four spaces
+			 * in front of its name, without quotes. */
+			"The Search Folder \"%s\" has been modified to "
+			"account for the deleted folder\n\"%s\".",
+			"The following Search Folders\n%s have been modified "
+			"to account for the deleted folder\n\"%s\".",
 			changed_count), changed->str, uri);
 		dialog = e_alert_dialog_new_for_args (e_shell_get_active_window (NULL), "mail:vfolder-updated", info, NULL);
 		em_utils_show_info_silent (dialog);
