@@ -345,7 +345,7 @@ static gboolean
 bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c)
 {
 	EContactField field;
-	GList *ims, *l;
+	GList *ims;
 	gboolean dirty = FALSE;
 
 	EContactPhoto *photo = NULL;
@@ -356,10 +356,14 @@ bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c)
 	field = proto_to_contact_field (b->proto);
 	ims = e_contact_get (c, field);
 	if (!im_list_contains_buddy (ims, b)) {
-		ims = g_list_append (ims, (gpointer) b->account_name);
+		ims = g_list_append (ims, g_strdup (b->account_name));
 		e_contact_set (c, field, (gpointer) ims);
 		dirty = TRUE;
 	}
+
+	g_list_foreach (ims, (GFunc) g_free, NULL);
+	g_list_free (ims);
+	ims = NULL;
 
         /* Set the photo if it's not set */
 	if (b->icon != NULL) {
@@ -375,9 +379,6 @@ bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c)
 				&photo->data.inlined.length, &error)) {
 				g_warning ("bbdb: Could not read buddy icon: %s\n", error->message);
 				g_error_free (error);
-				for (l = ims; l != NULL; l = l->next)
-					g_free ((gchar *) l->data);
-				g_list_free (ims);
 				return dirty;
 			}
 
@@ -390,10 +391,6 @@ bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c)
 	/* Clean up */
 	if (photo != NULL)
 		e_contact_photo_free (photo);
-
-	for (l = ims; l != NULL; l = l->next)
-		g_free ((gchar *) l->data);
-	g_list_free (ims);
 
 	return dirty;
 }
