@@ -461,7 +461,7 @@ create_review (MailAccountView *view)
 	gtk_table_set_row_spacings ((GtkTable *)table, 4);
 
 	label = gtk_label_new (NULL);
-	buff = g_strconcat ("<span size=\"large\" weight=\"bold\">", _("Personal details:"), "</span>", NULL);
+	buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Personal details:"));
 	gtk_label_set_markup ((GtkLabel *)label, buff);
 	g_free (buff);
 	gtk_widget_show (label);
@@ -487,13 +487,17 @@ create_review (MailAccountView *view)
 	gtk_table_attach ((GtkTable *)table, box, 1, 2, 2, 3, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	label = gtk_label_new (NULL);
-	gtk_label_set_markup ((GtkLabel *)label, _("<span size=\"large\" weight=\"bold\">Details:</span>"));
+	buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Details:"));
+	gtk_label_set_markup ((GtkLabel *)label, buff);
+	g_free (buff);
 	gtk_widget_show (label);
 	PACK_BOXF(label);
 	gtk_table_attach ((GtkTable *)table, box, 0, 1, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
 
 	label = gtk_label_new (NULL);
-	gtk_label_set_markup ((GtkLabel *)label, _("<span size=\"large\" weight=\"bold\">Receiving</span>"));
+	buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Receiving"));
+	gtk_label_set_markup ((GtkLabel *)label, buff);
+	g_free (buff);
 	gtk_widget_show (label);
 	PACK_BOXF(label);
 	gtk_table_attach ((GtkTable *)table, box, 1, 2, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
@@ -542,7 +546,9 @@ create_review (MailAccountView *view)
 		return NULL;
 
 	label = gtk_label_new (NULL);
-	gtk_label_set_markup ((GtkLabel *)label, _("<span size=\"large\" weight=\"bold\">Sending</span>"));
+	buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Sending"));
+	gtk_label_set_markup ((GtkLabel *)label, buff);
+	g_free (buff);
 	gtk_widget_show (label);
 	PACK_BOXF(label);
 	gtk_table_attach ((GtkTable *)table, box, 2, 3, 3, 4, GTK_EXPAND|GTK_FILL, GTK_SHRINK, INDENTATION, 0);
@@ -714,6 +720,7 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 				g_strrstr(account->source->url, "googlemail"))) {
 			/* Google accounts*/
 			GtkWidget *tmp;
+			gchar *buff;
 			mav->priv->is_gmail = TRUE;
 
 			mav->priv->gcontacts = gtk_check_button_new_with_label (_("Setup Google contacts with Evolution"));
@@ -730,7 +737,9 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 			gtk_widget_show (mav->priv->gmail_info_label);
 
 			tmp = gtk_label_new (NULL);
-			gtk_label_set_markup ((GtkLabel *)tmp, _("<span size=\"large\" weight=\"bold\">Google account settings:</span>"));
+			buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Google account settings:"));
+			gtk_label_set_markup ((GtkLabel *)tmp, buff);
+			g_free (buff);
 			gtk_widget_show(tmp);
 
 #define PACK_IN_BOX(wid,child,num) { GtkWidget *tbox; tbox = gtk_hbox_new (FALSE, 0); gtk_box_pack_start ((GtkBox *)tbox, child, FALSE, FALSE, num); gtk_widget_show (tbox); gtk_box_pack_start ((GtkBox *)wid, tbox, FALSE, FALSE, 0); }
@@ -751,6 +760,7 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 			GtkWidget *tmp;
 			gchar *cal_name;
 			GtkWidget *tmpbox;
+			gchar *buff;
 
 			mav->priv->is_yahoo = TRUE;
 			printf("Google account: %s\n", account->source->url);
@@ -765,7 +775,9 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 			gtk_widget_show (mav->priv->gmail_info_label);
 
 			tmp = gtk_label_new (NULL);
-			gtk_label_set_markup ((GtkLabel *)tmp, _("<span size=\"large\" weight=\"bold\">Yahoo account settings:</span>"));
+			buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Yahoo account settings:"));
+			gtk_label_set_markup ((GtkLabel *)tmp, buff);
+			g_free (buff);
 			gtk_widget_show(tmp);
 
 #define PACK_IN_BOX(wid,child,num) { GtkWidget *tbox; tbox = gtk_hbox_new (FALSE, 0); gtk_box_pack_start ((GtkBox *)tbox, child, FALSE, FALSE, num); gtk_widget_show (tbox); gtk_box_pack_start ((GtkBox *)wid, tbox, FALSE, FALSE, 0); }

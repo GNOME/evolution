@@ -181,7 +181,7 @@ msv_regen_view (MailSettingsView *acview)
 	gtk_container_foreach((GtkContainer *)acview->priv->box, (GtkCallback)gtk_widget_destroy, NULL);
 
 	label = gtk_label_new (NULL);
-	buff = g_strconcat ("<span size=\"large\" weight=\"bold\">", _("Account management"), "</span>", NULL);
+	buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Account management"));
 	gtk_label_set_markup ((GtkLabel *)label, buff);
 	g_free (buff);
 	PACK_BOX(label,12);
