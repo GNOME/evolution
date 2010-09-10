@@ -799,7 +799,7 @@
                     </child>
                     <child>
                       <object class="GtkButton" id="your-backup-button">
-                        <property name="label" translatable="yes">_Backup</property>
+                        <property name="label" translatable="yes" comments="This is a verb, as in &quot;make a backup&quot;.">_Backup</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
