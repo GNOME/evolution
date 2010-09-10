@@ -143,7 +143,7 @@ build_account_button (MailSettingsView *acview, EAccount *account)
 	}
 
 	if (account)
-		tmp = g_strdup_printf("%s %s...", _("Modify"), e_account_get_string(account, E_ACCOUNT_ID_ADDRESS));
+		tmp = g_strdup_printf (_("Modify %s..."), e_account_get_string(account, E_ACCOUNT_ID_ADDRESS));
 	else
 		tmp = _("Add a new account");
 	tlabel = gtk_label_new(tmp);
