@@ -54,19 +54,19 @@ static void
 emfp_dialog_response (GtkWidget *dialog, gint response, struct _prop_data *prop_data)
 {
 	if (response == GTK_RESPONSE_OK)
-		e_config_commit((EConfig *)prop_data->config);
+		e_config_commit ((EConfig *)prop_data->config);
 	else
-		e_config_abort((EConfig *)prop_data->config);
+		e_config_abort ((EConfig *)prop_data->config);
 
 	gtk_widget_destroy (dialog);
 }
 
 static void
-emfp_free(EConfig *ec, GSList *items, gpointer data)
+emfp_free (EConfig *ec, GSList *items, gpointer data)
 {
 	struct _prop_data *prop_data = data;
 
-	g_slist_free(items);
+	g_slist_free (items);
 
 	camel_object_state_write (prop_data->object);
 	g_object_unref (prop_data->object);
@@ -104,7 +104,7 @@ add_numbered_row (GtkTable *table, gint row, const gchar *description, const gch
 }
 
 static GtkWidget *
-emfp_get_folder_item(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+emfp_get_folder_item (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	GObjectClass *class;
 	GParamSpec **properties;
@@ -253,7 +253,7 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 	   Do the calculation only for those accounts that support VTRASHes
 	 */
 	if (parent_store->flags & CAMEL_STORE_VTRASH) {
-		if (CAMEL_IS_VTRASH_FOLDER(folder))
+		if (CAMEL_IS_VTRASH_FOLDER (folder))
 			prop_data->total += deleted;
 		else if (!hide_deleted && deleted > 0)
 			prop_data->total += deleted;
@@ -307,12 +307,12 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 	prop_data->config = ec;
 	l = NULL;
 	for (i = 0; i < G_N_ELEMENTS (emfp_items); i++)
-		l = g_slist_prepend(l, &emfp_items[i]);
-	e_config_add_items((EConfig *)ec, l, NULL, NULL, emfp_free, prop_data);
+		l = g_slist_prepend (l, &emfp_items[i]);
+	e_config_add_items ((EConfig *)ec, l, NULL, NULL, emfp_free, prop_data);
 
-	target = em_config_target_new_folder(ec, folder, folder_uri);
-	e_config_set_target((EConfig *)ec, (EConfigTarget *)target);
-	w = e_config_create_widget((EConfig *)ec);
+	target = em_config_target_new_folder (ec, folder, folder_uri);
+	e_config_set_target ((EConfig *)ec, (EConfigTarget *)target);
+	w = e_config_create_widget ((EConfig *)ec);
 
 	gtk_box_pack_start (GTK_BOX (content_area), w, TRUE, TRUE, 0);
 
@@ -357,7 +357,7 @@ em_folder_properties_show (EShellView *shell_view,
 		/* MORE HACK: UNMATCHED is a special folder which you can't modify, so check for it here */
 		if (url == NULL
 		    || url->fragment == NULL
-		    || strcmp(url->fragment, CAMEL_UNMATCHED_NAME) != 0) {
+		    || strcmp (url->fragment, CAMEL_UNMATCHED_NAME) != 0) {
 			if (url)
 				camel_url_free (url);
 			vfolder_edit_rule (uri);
@@ -368,7 +368,7 @@ em_folder_properties_show (EShellView *shell_view,
 	}
 
 	if (folder == NULL)
-		mail_get_folder(uri, 0, emfp_dialog_got_folder, shell_view, mail_msg_unordered_push);
+		mail_get_folder (uri, 0, emfp_dialog_got_folder, shell_view, mail_msg_unordered_push);
 	else
-		emfp_dialog_got_folder((gchar *)uri, folder, shell_view);
+		emfp_dialog_got_folder ((gchar *)uri, folder, shell_view);
 }

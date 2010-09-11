@@ -76,7 +76,7 @@ gw_retract_mail_cb (GtkAction *action, EShellView *shell_view)
 
 	cnc = get_cnc (parent_store);
 
-	if (cnc && E_IS_GW_CONNECTION(cnc)) {
+	if (cnc && E_IS_GW_CONNECTION (cnc)) {
 		confirm_dialog = gtk_dialog_new_with_buttons (
 			_("Message Retract"),
 			GTK_WINDOW (e_shell_view_get_shell_window (shell_view)),
@@ -109,7 +109,7 @@ gw_retract_mail_cb (GtkAction *action, EShellView *shell_view)
 			else {
 				GtkWidget *dialog;
 				dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, _("Message retracted successfully"));
-				gtk_dialog_run (GTK_DIALOG(dialog));
+				gtk_dialog_run (GTK_DIALOG (dialog));
 				gtk_widget_destroy (dialog);
 			}
 		}

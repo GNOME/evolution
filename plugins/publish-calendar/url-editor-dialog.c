@@ -339,36 +339,36 @@ url_editor_dialog_construct (UrlEditorDialog *dialog)
 	e_load_ui_builder_definition (dialog->builder, "publish-calendar.ui");
 
 #define GW(name) ((dialog->name) = e_builder_get_widget (dialog->builder, #name))
-	GW(type_selector);
-	GW(fb_duration_label);
-	GW(fb_duration_spin);
-	GW(fb_duration_combo);
-	GW(publish_frequency);
+	GW (type_selector);
+	GW (fb_duration_label);
+	GW (fb_duration_spin);
+	GW (fb_duration_combo);
+	GW (publish_frequency);
 
-	GW(events_swin);
+	GW (events_swin);
 
-	GW(publish_service);
-	GW(server_entry);
-	GW(file_entry);
+	GW (publish_service);
+	GW (server_entry);
+	GW (file_entry);
 
-	GW(port_entry);
-	GW(username_entry);
-	GW(password_entry);
-	GW(remember_pw);
+	GW (port_entry);
+	GW (username_entry);
+	GW (password_entry);
+	GW (remember_pw);
 
-	GW(optional_label);
+	GW (optional_label);
 
-	GW(port_hbox);
-	GW(username_hbox);
-	GW(password_hbox);
-	GW(server_hbox);
-	GW(file_hbox);
+	GW (port_hbox);
+	GW (username_hbox);
+	GW (password_hbox);
+	GW (server_hbox);
+	GW (file_hbox);
 
-	GW(port_label);
-	GW(username_label);
-	GW(password_label);
-	GW(server_label);
-	GW(file_label);
+	GW (port_label);
+	GW (username_label);
+	GW (password_label);
+	GW (server_label);
+	GW (file_label);
 #undef GW
 
 	uri = dialog->uri;

@@ -86,9 +86,9 @@ ecp_source_changed (struct _ESource *source, EConfig *ec)
 static void
 ecp_set_target (EConfig *ec, EConfigTarget *t)
 {
-	struct _ECalConfigPrivate *p = _PRIVATE(ec);
+	struct _ECalConfigPrivate *p = _PRIVATE (ec);
 
-	((EConfigClass *)ecp_parent_class)->set_target(ec, t);
+	((EConfigClass *)ecp_parent_class)->set_target (ec, t);
 
 	if (t) {
 		switch (t->type) {
@@ -138,7 +138,7 @@ e_cal_config_get_type (void)
 ECalConfig *
 e_cal_config_new (gint type, const gchar *menuid)
 {
-	ECalConfig *ecp = g_object_new (e_cal_config_get_type(), NULL);
+	ECalConfig *ecp = g_object_new (e_cal_config_get_type (), NULL);
 	e_config_construct (&ecp->config, type, menuid);
 	return ecp;
 }

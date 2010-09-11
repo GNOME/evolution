@@ -48,8 +48,8 @@ mail_message_pane_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_message_pane_parent_class)->constructed (object);
 
-	gtk_widget_hide (e_mail_reader_get_message_list (E_MAIL_READER(object)));
-	e_mail_paned_view_hide_message_list_pane (E_MAIL_PANED_VIEW(object), FALSE);
+	gtk_widget_hide (e_mail_reader_get_message_list (E_MAIL_READER (object)));
+	e_mail_paned_view_hide_message_list_pane (E_MAIL_PANED_VIEW (object), FALSE);
 }
 
 static gboolean
@@ -98,7 +98,7 @@ e_mail_message_pane_new (EShellView *shell_view)
 		E_TYPE_MAIL_MESSAGE_PANE,
 		"shell-view", shell_view, NULL);
 
-	e_mail_paned_view_set_enable_show_folder (E_MAIL_PANED_VIEW(widget), TRUE);
+	e_mail_paned_view_set_enable_show_folder (E_MAIL_PANED_VIEW (widget), TRUE);
 
 	return widget;
 }

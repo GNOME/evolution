@@ -27,7 +27,7 @@
 #include <e-util/e-import.h>
 #include <camel/camel.h>
 
-EImportImporter *mbox_importer_peek(void);
+EImportImporter *mbox_importer_peek (void);
 
 typedef void (*MboxImporterCreatePreviewFunc)(GObject *preview, GtkWidget **preview_widget);
 typedef void (*MboxImporterFillPreviewFunc)(GObject *preview, CamelMimeMessage *msg);
@@ -36,8 +36,8 @@ typedef void (*MboxImporterFillPreviewFunc)(GObject *preview, CamelMimeMessage *
    (mail importer cannot link to em-format-html-display directly) */
 void mbox_importer_set_preview_funcs (MboxImporterCreatePreviewFunc create_func, MboxImporterFillPreviewFunc fill_func);
 
-EImportImporter *elm_importer_peek(void);
-EImportImporter *pine_importer_peek(void);
+EImportImporter *elm_importer_peek (void);
+EImportImporter *pine_importer_peek (void);
 
 /* Defines copied from nsMsgMessageFlags.h in Mozilla source. */
 /* Evolution only cares about these headers I think */
@@ -46,8 +46,8 @@ EImportImporter *pine_importer_peek(void);
 #define MSG_FLAG_MARKED 0x0004
 #define MSG_FLAG_EXPUNGED 0x0008
 
-gint mail_importer_import_mbox(const gchar *path, const gchar *folderuri, CamelOperation *cancel, void (*done)(gpointer data, GError **), gpointer data);
-void mail_importer_import_mbox_sync(const gchar *path, const gchar *folderuri, CamelOperation *cancel);
+gint mail_importer_import_mbox (const gchar *path, const gchar *folderuri, CamelOperation *cancel, void (*done)(gpointer data, GError **), gpointer data);
+void mail_importer_import_mbox_sync (const gchar *path, const gchar *folderuri, CamelOperation *cancel);
 
 struct _MailImporterSpecial {
 	const gchar *orig, *new;
@@ -58,6 +58,6 @@ typedef struct _MailImporterSpecial MailImporterSpecial;
 #define MAIL_IMPORTER_MOZFMT (1<<0)
 
 /* api in flux */
-void mail_importer_import_folders_sync(const gchar *filepath, MailImporterSpecial special_folders[], gint flags, CamelOperation *cancel);
+void mail_importer_import_folders_sync (const gchar *filepath, MailImporterSpecial special_folders[], gint flags, CamelOperation *cancel);
 
 #endif

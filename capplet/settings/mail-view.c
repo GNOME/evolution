@@ -73,7 +73,7 @@ void anjal_shell_view_restore_state (EShellView *view, const gchar *uri);
 static void
 mail_view_init (MailView  *shell)
 {
-	shell->priv = g_new0(MailViewPrivate, 1);
+	shell->priv = g_new0 (MailViewPrivate, 1);
 	shell->priv->children = NULL;
 	shell->priv->current_view = NULL;
 	shell->folder_tree = NULL;
@@ -151,7 +151,7 @@ mv_switch (GtkNotebook *notebook, GtkWidget *page, guint page_num, gpointer user
 	child = (MailViewChild *)gtk_notebook_get_nth_page (notebook, current_child);
 
 	priv->current_view = child;
-	REALIGN_NODES(shell->priv->children,child);
+	REALIGN_NODES (shell->priv->children,child);
 
 #ifndef ANJAL_SETTINGS
 	if (child->type == MAIL_VIEW_COMPOSER)
@@ -198,7 +198,7 @@ mv_get_page_number (GtkNotebook *note, GtkWidget *widget)
 
 	total = gtk_notebook_get_n_pages (note);
 	for (i=0; i<total; i++) {
-		if (gtk_notebook_get_nth_page(note, i) == widget)
+		if (gtk_notebook_get_nth_page (note, i) == widget)
 			return i;
 	}
 
@@ -213,7 +213,7 @@ mv_close_mcv (MailViewChild *mfv, MailView *mv)
 	MailViewChild *child;
 	gboolean removing_viewed = FALSE;
 
-	if (g_list_length(mv->priv->children) == 1)
+	if (g_list_length (mv->priv->children) == 1)
 		return;
 
 #ifndef ANJAL_SETTINGS
@@ -235,14 +235,14 @@ mv_close_mcv (MailViewChild *mfv, MailView *mv)
 	}
 
 	if (mfv->type == MAIL_VIEW_COMPOSER) {
-		if (!mail_composer_view_can_quit((MailComposerView *)mfv))
+		if (!mail_composer_view_can_quit ((MailComposerView *)mfv))
 			return;
 	}
 #endif
 
-	g_signal_handlers_block_by_func(mv, mv_switch, mv);
+	g_signal_handlers_block_by_func (mv, mv_switch, mv);
 	gtk_notebook_remove_page ((GtkNotebook *)mv, n);
-	g_signal_handlers_unblock_by_func(mv, mv_switch, mv);
+	g_signal_handlers_unblock_by_func (mv, mv_switch, mv);
 
 	if (mfv == mv->priv->children->data)
 		removing_viewed = TRUE;
@@ -281,11 +281,11 @@ mv_close_mcv (MailViewChild *mfv, MailView *mv)
 static void
 mv_message_new (MailFolderView *mfv, gpointer data, gchar *umid, MailView *mv)
 {
-	MailConvView *conv = (MailConvView *)mv_switch_message_view(mv, umid);
+	MailConvView *conv = (MailConvView *)mv_switch_message_view (mv, umid);
 	*(MailConvView **)data = conv;
 
 	if (conv)
-		conv->uri = g_strdup(umid);
+		conv->uri = g_strdup (umid);
 
 	return;
 }
@@ -299,7 +299,7 @@ mv_search_set (MailFolderView *mfv, MailView *mv)
 static void
 mv_folder_loaded (MailFolderView *mfv, MailView *mv)
 {
-	g_signal_handlers_block_by_func(mfv, mv_folder_loaded, mv);
+	g_signal_handlers_block_by_func (mfv, mv_folder_loaded, mv);
 	g_signal_emit (mv, signals[VIEW_NEW], 0);
 }
 
@@ -311,7 +311,7 @@ mail_view_add_folder (MailView *mv, gpointer data, gboolean block)
 	mail_folder_view_set_folder_pane (mfv, mv->folder_tree);
 	if (!block)
 		mv->priv->current_view = (MailViewChild *)mfv;
-	mv->priv->children = block ? g_list_append(mv->priv->children,  mfv) :  g_list_prepend (mv->priv->children,  mfv);
+	mv->priv->children = block ? g_list_append (mv->priv->children,  mfv) :  g_list_prepend (mv->priv->children,  mfv);
 	position = gtk_notebook_append_page ((GtkNotebook *)mv, (GtkWidget *)mfv, mfv->tab_label);
 	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (mv), (GtkWidget *)mfv, TRUE);
         gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (mv), (GtkWidget *)mfv, FALSE);
@@ -345,7 +345,7 @@ mail_view_add_composer (MailView *mv, gpointer data, gboolean block)
 		mcv = mail_composer_view_new_with_composer ((GtkWidget *)data);
 	if (!block)
 		mv->priv->current_view = (MailViewChild *)mcv;
-	mv->priv->children = block ? g_list_append(mv->priv->children,  mcv) :  g_list_prepend (mv->priv->children,  mcv);
+	mv->priv->children = block ? g_list_append (mv->priv->children,  mcv) :  g_list_prepend (mv->priv->children,  mcv);
 
 	if (!special)
 		position = gtk_notebook_append_page ((GtkNotebook *)mv, (GtkWidget *)mcv, mcv->tab_label);
@@ -377,10 +377,10 @@ mail_view_add_message (MailView *mv, gpointer data, gboolean block)
 	mcv->type = MAIL_VIEW_MESSAGE;
 	if (!block)
 		mv->priv->current_view = (MailViewChild *)mcv;
-	mv->priv->children = block ? g_list_append(mv->priv->children,  mcv) :  g_list_prepend (mv->priv->children,  mcv);
+	mv->priv->children = block ? g_list_append (mv->priv->children,  mcv) :  g_list_prepend (mv->priv->children,  mcv);
 
 	position = gtk_notebook_get_current_page ((GtkNotebook *)mv);
-	gtk_notebook_insert_page ((GtkNotebook *)mv, (GtkWidget *)mcv, mail_conv_view_get_tab_widget(mcv), position+1);
+	gtk_notebook_insert_page ((GtkNotebook *)mv, (GtkWidget *)mcv, mail_conv_view_get_tab_widget (mcv), position+1);
 	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (mv), (GtkWidget *)mcv, TRUE);
         gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (mv), (GtkWidget *)mcv, FALSE);
 	if (!block)
@@ -399,7 +399,7 @@ mail_view_add_message (MailView *mv, gpointer data, gboolean block)
 static void
 mv_show_acc_mcv (MailViewChild *mfv, EAccount *account, MailView *mv)
 {
-	mail_view_add_page(mv, MAIL_VIEW_ACCOUNT, account);
+	mail_view_add_page (mv, MAIL_VIEW_ACCOUNT, account);
 }
 
 static MailViewChild *
@@ -411,9 +411,9 @@ mail_view_add_settings (MailView *mv, gpointer data, gboolean block)
 	gtk_widget_show ((GtkWidget *)msv);
 	if (!block)
 		mv->priv->current_view = (MailViewChild *)msv;
-	mv->priv->children = block ? g_list_append(mv->priv->children,  msv) :  g_list_prepend (mv->priv->children,  msv);
+	mv->priv->children = block ? g_list_append (mv->priv->children,  msv) :  g_list_prepend (mv->priv->children,  msv);
 
-	position = gtk_notebook_append_page ((GtkNotebook *)mv, (GtkWidget *)msv, mail_settings_view_get_tab_widget(msv));
+	position = gtk_notebook_append_page ((GtkNotebook *)mv, (GtkWidget *)msv, mail_settings_view_get_tab_widget (msv));
 	g_signal_connect (msv, "view-close", G_CALLBACK(mv_close_mcv), mv);
 	g_signal_connect (msv, "show-account", G_CALLBACK(mv_show_acc_mcv), mv);
 	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (mv), (GtkWidget *)msv, TRUE);
@@ -431,8 +431,8 @@ mail_view_switch_to_settings (MailView* mv, MailViewChild *mpv)
 {
 	gint position = 0;
 
-	position = mv_get_page_number((GtkNotebook *)mv, (GtkWidget *)mpv);
-	REALIGN_NODES(mv->priv->children,mpv);
+	position = mv_get_page_number ((GtkNotebook *)mv, (GtkWidget *)mpv);
+	REALIGN_NODES (mv->priv->children,mpv);
 	gtk_notebook_set_current_page ((GtkNotebook *)mv, position);
 	mail_settings_view_activate ((MailSettingsView *)mpv, mv->tree, mv->folder_tree, mv->check_mail, mv->sort_by, mv->slider, FALSE);
 }
@@ -446,8 +446,8 @@ mail_view_add_account (MailView *mv, gpointer data, gboolean block)
 	gtk_widget_show ((GtkWidget *)msv);
 	if (!block)
 		mv->priv->current_view = (MailViewChild *)msv;
-	mv->priv->children = block ? g_list_append(mv->priv->children,  msv) :  g_list_prepend (mv->priv->children,  msv);
-	position = gtk_notebook_append_page ((GtkNotebook *)mv, (GtkWidget *)msv, mail_account_view_get_tab_widget(msv));
+	mv->priv->children = block ? g_list_append (mv->priv->children,  msv) :  g_list_prepend (mv->priv->children,  msv);
+	position = gtk_notebook_append_page ((GtkNotebook *)mv, (GtkWidget *)msv, mail_account_view_get_tab_widget (msv));
 	g_signal_connect_after (msv, "view-close", G_CALLBACK(mv_close_mcv), mv);
 	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (mv), (GtkWidget *)msv, TRUE);
         gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (mv), (GtkWidget *)msv, FALSE);
@@ -469,7 +469,7 @@ mail_view_add_page (MailView *mv, guint16 type, gpointer data)
 	if (current_child && (current_child->flags & MAIL_VIEW_HOLD_FOCUS))
 		 block = TRUE;
 
-	g_signal_handlers_block_by_func(mv, mv_switch, mv);
+	g_signal_handlers_block_by_func (mv, mv_switch, mv);
 	switch (type) {
 #ifndef ANJAL_SETTINGS
 	case MAIL_VIEW_FOLDER:
@@ -490,9 +490,9 @@ mail_view_add_page (MailView *mv, guint16 type, gpointer data)
 		 child = mail_view_add_account (mv, data, block);
 		break;
 	}
-	gtk_widget_grab_focus((GtkWidget *)child);
+	gtk_widget_grab_focus ((GtkWidget *)child);
 	child->type = type;
-	g_signal_handlers_unblock_by_func(mv, mv_switch, mv);
+	g_signal_handlers_unblock_by_func (mv, mv_switch, mv);
 
 	child->flags = 0;
 
@@ -503,7 +503,7 @@ mail_view_add_page (MailView *mv, guint16 type, gpointer data)
 static void
 mv_switch_folder_view (MailView *mv, const gchar *uri)
 {
-	 gint i=0, len = g_list_length(mv->priv->children);
+	 gint i=0, len = g_list_length (mv->priv->children);
 	 GList *tmp = mv->priv->children;
 	 while (i<len) {
 		  MailViewChild *child = (MailViewChild *)gtk_notebook_get_nth_page ((GtkNotebook *)mv, i);
@@ -532,7 +532,7 @@ mv_switch_message_view (MailView *mv, const gchar *uri)
 		  if (child->type == MAIL_VIEW_MESSAGE && !strcmp (uri, child->uri)) {
 			   gtk_notebook_set_current_page ((GtkNotebook *)mv, i);
 			   mail_conv_view_activate ((MailConvView *)child, mv->tree, mv->folder_tree, mv->check_mail, mv->sort_by, FALSE);
-			   REALIGN_NODES(mv->priv->children,child);
+			   REALIGN_NODES (mv->priv->children,child);
 			   return NULL;
 		  }
 		  i++;
@@ -630,7 +630,7 @@ mv_spinner_done (CamelFolder *f, gpointer data)
 }
 
 void
-mail_view_check_mail(MailView *mv, gboolean deep)
+mail_view_check_mail (MailView *mv, gboolean deep)
 {
 	 MailViewChild *child = (MailViewChild *)mv->priv->current_view;
 
@@ -640,7 +640,7 @@ mail_view_check_mail(MailView *mv, gboolean deep)
 
 		  if ((folder = em_folder_tree_get_selected_folder ((EMFolderTree *)mv->tree)) != NULL) {
 			   mv_spinner_show (mv, TRUE);
-			   mail_refresh_folder(folder, mv_spinner_done, mv);
+			   mail_refresh_folder (folder, mv_spinner_done, mv);
 		  }
 	 }
 

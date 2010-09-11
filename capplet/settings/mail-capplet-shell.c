@@ -89,7 +89,7 @@ static void setup_abooks (void);
 static void
 mail_capplet_shell_init (MailCappletShell  *shell)
 {
-	shell->priv = g_new0(MailCappletShellPrivate, 1);
+	shell->priv = g_new0 (MailCappletShellPrivate, 1);
 	shell->priv->settings_view = NULL;
 }
 
@@ -173,7 +173,7 @@ mail_capplet_shell_quit (MailCappletShell *shell)
 	MailCappletShellPrivate *priv = shell->priv;
 
 	if (priv->main_loop)
-		gtk_main_quit();
+		gtk_main_quit ();
 	else
 		gtk_widget_hide ((GtkWidget *)shell);
 }
@@ -211,8 +211,8 @@ mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean 
 	gtk_window_set_type_hint ((GtkWindow *)shell, GDK_WINDOW_TYPE_HINT_NORMAL);
 	if (g_getenv("ANJAL_NO_MAX") == NULL && FALSE) {
 		 GdkScreen *scr = gtk_widget_get_screen ((GtkWidget *)shell);
-		 window_width = gdk_screen_get_width(scr);
-		 gtk_window_set_default_size ((GtkWindow *)shell, gdk_screen_get_width(scr), gdk_screen_get_height (scr));
+		 window_width = gdk_screen_get_width (scr);
+		 gtk_window_set_default_size ((GtkWindow *)shell, gdk_screen_get_width (scr), gdk_screen_get_height (scr));
 		 gtk_window_set_decorated ((GtkWindow *)shell, FALSE);
 	} else  {
 		gtk_window_set_default_size ((GtkWindow *)shell, 1024, 500);
@@ -255,7 +255,7 @@ mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean 
 		mc = mail_view_add_page ((MailView *)shell->view, MAIL_VIEW_ACCOUNT, NULL);
 		g_signal_connect (mc, "view-close", G_CALLBACK(ms_show_post_druid), shell);
 		setup_abooks ();
-		if (!g_file_test(pdir, G_FILE_TEST_EXISTS)) {
+		if (!g_file_test (pdir, G_FILE_TEST_EXISTS)) {
 			g_mkdir (pdir, 0700);
 		}
 		g_free (pdir);
@@ -286,7 +286,7 @@ mail_capplet_shell_new (gint socket_id, gboolean just_druid, gboolean main_loop)
 #define PERSONAL_RELATIVE_URI "system"
 
 static void
-setup_abooks()
+setup_abooks ()
 {
 	gchar *base_dir, *uri;
 	GSList *groups;
@@ -298,7 +298,7 @@ setup_abooks()
 	base_dir = g_build_filename (e_get_user_data_dir (), "addressbook", "local", NULL);
 	uri = g_filename_to_uri (base_dir, NULL, NULL);
 
-	if (!e_book_get_addressbooks(&list, NULL)) {
+	if (!e_book_get_addressbooks (&list, NULL)) {
 		g_warning ("Unable to get books\n");
 		return;
 	}

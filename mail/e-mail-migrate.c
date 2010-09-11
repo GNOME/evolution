@@ -353,7 +353,7 @@ em_update_accounts_2_11 (void)
 #endif	/* !G_OS_WIN32 */
 
 static gboolean
-emm_setup_initial(const gchar *data_dir)
+emm_setup_initial (const gchar *data_dir)
 {
 	GDir *dir;
 	const gchar *d;
@@ -366,8 +366,8 @@ emm_setup_initial(const gchar *data_dir)
 	d(printf("Setting up initial mail tree\n"));
 
 	base = g_build_filename(data_dir, "local", NULL);
-	if (g_mkdir_with_parents(base, 0700) == -1 && errno != EEXIST) {
-		g_free(base);
+	if (g_mkdir_with_parents (base, 0700) == -1 && errno != EEXIST) {
+		g_free (base);
 		return FALSE;
 	}
 
@@ -386,23 +386,23 @@ emm_setup_initial(const gchar *data_dir)
 	/* Make sure we found one. */
 	g_return_val_if_fail (*language_names != NULL, FALSE);
 
-	dir = g_dir_open(local, 0, NULL);
+	dir = g_dir_open (local, 0, NULL);
 	if (dir) {
-		while ((d = g_dir_read_name(dir))) {
+		while ((d = g_dir_read_name (dir))) {
 			gchar *src, *dest;
 
-			src = g_build_filename(local, d, NULL);
-			dest = g_build_filename(base, d, NULL);
+			src = g_build_filename (local, d, NULL);
+			dest = g_build_filename (base, d, NULL);
 
-			cp(src, dest, FALSE, CP_UNIQUE);
-			g_free(dest);
-			g_free(src);
+			cp (src, dest, FALSE, CP_UNIQUE);
+			g_free (dest);
+			g_free (src);
 		}
-		g_dir_close(dir);
+		g_dir_close (dir);
 	}
 
-	g_free(local);
-	g_free(base);
+	g_free (local);
+	g_free (base);
 
 	return TRUE;
 }
@@ -562,7 +562,7 @@ migrate_folders (CamelStore *store,
 
 		if (folder != NULL)
 			camel_folder_summary_migrate_infos (folder->summary);
-		migrate_folders(store, is_local, fi->child, acc, done, nth_folder, total_folders);
+		migrate_folders (store, is_local, fi->child, acc, done, nth_folder, total_folders);
 		fi = fi->next;
 	}
 
@@ -595,11 +595,11 @@ setup_local_store (EShellBackend *shell_backend,
 	url = camel_url_new("mbox:", NULL);
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	tmp = g_build_filename (data_dir, "local", NULL);
-	camel_url_set_path(url, tmp);
-	g_free(tmp);
-	tmp = camel_url_to_string(url, 0);
-	store = (CamelStore *)camel_session_get_service(CAMEL_SESSION (session), tmp, CAMEL_PROVIDER_STORE, NULL);
-	g_free(tmp);
+	camel_url_set_path (url, tmp);
+	g_free (tmp);
+	tmp = camel_url_to_string (url, 0);
+	store = (CamelStore *)camel_session_get_service (CAMEL_SESSION (session), tmp, CAMEL_PROVIDER_STORE, NULL);
+	g_free (tmp);
 
 	return store;
 }

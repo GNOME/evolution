@@ -438,7 +438,7 @@ print_text (GtkPrintContext *context, PangoFontDescription *desc,
 	cairo_move_to (cr, x1, y1);
 	pango_cairo_show_layout (cr, layout);
 
-	cairo_stroke(cr);
+	cairo_stroke (cr);
 
 	cairo_restore (cr);
 
@@ -518,7 +518,7 @@ static const gchar *days[] = {
   format the date 'nicely' and consistently for various headers
 */
 static gchar *
-format_date(time_t time, gint flags, gchar *buffer, gint bufflen)
+format_date (time_t time, gint flags, gchar *buffer, gint bufflen)
 {
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	gchar fmt[64];
@@ -533,7 +533,7 @@ format_date(time_t time, gint flags, gchar *buffer, gint bufflen)
 	if (flags & DATE_DAY) {
 		if (flags & DATE_DAYNAME)
 			strcat(fmt, " ");
-		strcat(fmt, gettext(days[tm.tm_mday-1]));
+		strcat (fmt, gettext (days[tm.tm_mday-1]));
 	}
 	if (flags & DATE_MONTH) {
 		if (flags & (DATE_DAY|DATE_DAYNAME))
@@ -547,7 +547,7 @@ format_date(time_t time, gint flags, gchar *buffer, gint bufflen)
 			strcat(fmt, " ");
 		strcat(fmt, "%Y");
 	}
-	e_utf8_strftime(buffer, bufflen, fmt, &tm);
+	e_utf8_strftime (buffer, bufflen, fmt, &tm);
 	buffer[bufflen - 1] = '\0';
 
 	return buffer;
@@ -1401,7 +1401,7 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 		max_font_size = ((top - bottom) / pdi.rows) - 4;
 	else
 		max_font_size = ((bottom - top ) / pdi.rows) - 4;
-	font_size = MIN(DAY_NORMAL_FONT_SIZE, max_font_size);
+	font_size = MIN (DAY_NORMAL_FONT_SIZE, max_font_size);
 	font = get_font_for_size (font_size, PANGO_WEIGHT_NORMAL);
 
 	for (i = 0; i < pdi.events[0]->len; i++) {

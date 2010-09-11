@@ -65,7 +65,7 @@ struct _EWeekViewTitlesItemClass {
 	GnomeCanvasItemClass parent_class;
 };
 
-GType		e_week_view_titles_item_get_type(void);
+GType		e_week_view_titles_item_get_type (void);
 EWeekView *	e_week_view_titles_item_get_week_view
 						(EWeekViewTitlesItem *titles_item);
 void		e_week_view_titles_item_set_week_view

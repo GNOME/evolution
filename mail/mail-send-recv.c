@@ -132,36 +132,36 @@ static struct _send_data *send_data = NULL;
 static GtkWidget *send_recv_dialog = NULL;
 
 static void
-free_folder_info(struct _folder_info *info)
+free_folder_info (struct _folder_info *info)
 {
 	/*camel_folder_thaw (info->folder);	*/
-	mail_sync_folder(info->folder, NULL, NULL);
+	mail_sync_folder (info->folder, NULL, NULL);
 	g_object_unref (info->folder);
-	g_free(info->uri);
-	g_free(info);
+	g_free (info->uri);
+	g_free (info);
 }
 
 static void
-free_send_info(struct _send_info *info)
+free_send_info (struct _send_info *info)
 {
-	g_free(info->uri);
+	g_free (info->uri);
 	if (info->cancel)
-		camel_operation_unref(info->cancel);
+		camel_operation_unref (info->cancel);
 	if (info->timeout_id != 0)
-		g_source_remove(info->timeout_id);
-	g_free(info->what);
+		g_source_remove (info->timeout_id);
+	g_free (info->what);
 	g_free (info->send_url);
-	g_free(info);
+	g_free (info);
 }
 
 static struct _send_data *
-setup_send_data(void)
+setup_send_data (void)
 {
 	struct _send_data *data;
 
 	if (send_data == NULL) {
-		send_data = data = g_malloc0(sizeof(*data));
-		data->lock = g_mutex_new();
+		send_data = data = g_malloc0 (sizeof (*data));
+		data->lock = g_mutex_new ();
 		data->folders = g_hash_table_new_full (
 			g_str_hash, g_str_equal,
 			(GDestroyNotify) NULL,
@@ -178,10 +178,10 @@ setup_send_data(void)
 }
 
 static void
-receive_cancel(GtkButton *button, struct _send_info *info)
+receive_cancel (GtkButton *button, struct _send_info *info)
 {
 	if (info->state == SEND_ACTIVE) {
-		camel_operation_cancel(info->cancel);
+		camel_operation_cancel (info->cancel);
 		if (info->status_label)
 			gtk_label_set_text (
 				GTK_LABEL (info->status_label),
@@ -189,38 +189,38 @@ receive_cancel(GtkButton *button, struct _send_info *info)
 		info->state = SEND_CANCELLED;
 	}
 	if (info->cancel_button)
-		gtk_widget_set_sensitive(info->cancel_button, FALSE);
+		gtk_widget_set_sensitive (info->cancel_button, FALSE);
 }
 
 static void
-free_send_data(void)
+free_send_data (void)
 {
 	struct _send_data *data = send_data;
 
-	g_return_if_fail (g_hash_table_size(data->active) == 0);
+	g_return_if_fail (g_hash_table_size (data->active) == 0);
 
 	if (data->inbox) {
-		mail_sync_folder(data->inbox, NULL, NULL);
+		mail_sync_folder (data->inbox, NULL, NULL);
 		/*camel_folder_thaw (data->inbox);		*/
 		g_object_unref (data->inbox);
 	}
 
-	g_list_free(data->infos);
-	g_hash_table_destroy(data->active);
-	g_hash_table_destroy(data->folders);
-	g_mutex_free(data->lock);
-	g_free(data);
+	g_list_free (data->infos);
+	g_hash_table_destroy (data->active);
+	g_hash_table_destroy (data->folders);
+	g_mutex_free (data->lock);
+	g_free (data);
 	send_data = NULL;
 }
 
 static void
-cancel_send_info(gpointer key, struct _send_info *info, gpointer data)
+cancel_send_info (gpointer key, struct _send_info *info, gpointer data)
 {
 	receive_cancel (GTK_BUTTON (info->cancel_button), info);
 }
 
 static void
-hide_send_info(gpointer key, struct _send_info *info, gpointer data)
+hide_send_info (gpointer key, struct _send_info *info, gpointer data)
 {
 	info->cancel_button = NULL;
 	info->progress_bar = NULL;
@@ -241,20 +241,20 @@ dialog_destroy_cb (struct _send_data *data, GObject *deadbeef)
 }
 
 static void
-dialog_response(GtkDialog *gd, gint button, struct _send_data *data)
+dialog_response (GtkDialog *gd, gint button, struct _send_data *data)
 {
 	switch (button) {
 	case GTK_RESPONSE_CANCEL:
 		d(printf("cancelled whole thing\n"));
 		if (!data->cancelled) {
 			data->cancelled = TRUE;
-			g_hash_table_foreach(data->active, (GHFunc)cancel_send_info, NULL);
+			g_hash_table_foreach (data->active, (GHFunc)cancel_send_info, NULL);
 		}
-		gtk_dialog_set_response_sensitive(gd, GTK_RESPONSE_CANCEL, FALSE);
+		gtk_dialog_set_response_sensitive (gd, GTK_RESPONSE_CANCEL, FALSE);
 		break;
 	default:
 		d(printf("hiding dialog\n"));
-		g_hash_table_foreach(data->active, (GHFunc)hide_send_info, NULL);
+		g_hash_table_foreach (data->active, (GHFunc)hide_send_info, NULL);
 		data->gd = NULL;
 		/*gtk_widget_destroy((GtkWidget *)gd);*/
 		break;
@@ -265,7 +265,7 @@ static GStaticMutex status_lock = G_STATIC_MUTEX_INIT;
 static gchar *format_url (const gchar *internal_url, const gchar *account_name);
 
 static gint
-operation_status_timeout(gpointer data)
+operation_status_timeout (gpointer data)
 {
 	struct _send_info *info = data;
 
@@ -301,12 +301,12 @@ operation_status_timeout(gpointer data)
 }
 
 static void
-set_send_status(struct _send_info *info, const gchar *desc, gint pc)
+set_send_status (struct _send_info *info, const gchar *desc, gint pc)
 {
 	g_static_mutex_lock (&status_lock);
 
-	g_free(info->what);
-	info->what = g_strdup(desc);
+	g_free (info->what);
+	info->what = g_strdup (desc);
 	info->pc = pc;
 
 	g_static_mutex_unlock (&status_lock);
@@ -325,7 +325,7 @@ set_send_account (struct _send_info *info, const gchar *account_url)
 
 /* for camel operation status */
 static void
-operation_status(CamelOperation *op, const gchar *what, gint pc, gpointer data)
+operation_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
 {
 	struct _send_info *info = data;
 
@@ -339,7 +339,7 @@ operation_status(CamelOperation *op, const gchar *what, gint pc, gpointer data)
 		break;
 	}
 
-	set_send_status(info, what, pc);
+	set_send_status (info, what, pc);
 }
 
 static gchar *
@@ -385,7 +385,7 @@ format_url (const gchar *internal_url, const gchar *account_name)
 }
 
 static send_info_t
-get_receive_type(const gchar *url)
+get_receive_type (const gchar *url)
 {
 	CamelProvider *provider;
 
@@ -394,7 +394,7 @@ get_receive_type(const gchar *url)
 	if (!strncmp(url, "mbox:", 5))
 		return SEND_RECEIVE;
 
-	provider = camel_provider_get(url, NULL);
+	provider = camel_provider_get (url, NULL);
 
 	if (!provider)
 		return SEND_INVALID;
@@ -481,8 +481,8 @@ build_dialog (GtkWindow *parent,
 	/* Check to see if we have to send any mails.
 	 * If we don't, don't display the SMTP row in the table. */
 	if (outbox && destination
-	 && (camel_folder_get_message_count(outbox) -
-		camel_folder_get_deleted_message_count(outbox)) == 0)
+	 && (camel_folder_get_message_count (outbox) -
+		camel_folder_get_deleted_message_count (outbox)) == 0)
 		num_sources--;
 
 	table = gtk_table_new (num_sources, 4, FALSE);
@@ -607,15 +607,15 @@ build_dialog (GtkWindow *parent,
 	/* we also need gd during emition to be able to catch Cancel All */
 	data->gd = gd;
 	target = em_event_target_new_send_receive (
-		em_event_peek(), table, data, row, EM_EVENT_SEND_RECEIVE);
+		em_event_peek (), table, data, row, EM_EVENT_SEND_RECEIVE);
 	e_event_emit (
 		(EEvent *) em_event_peek (), "mail.sendreceive",
 		(EEventTarget *) target);
 
 	/* Skip displaying the SMTP row if we've got no outbox, destination or unsent mails */
 	if (outbox && destination
-	 && (camel_folder_get_message_count(outbox) -
-		camel_folder_get_deleted_message_count(outbox)) != 0) {
+	 && (camel_folder_get_message_count (outbox) -
+		camel_folder_get_deleted_message_count (outbox)) != 0) {
 		info = g_hash_table_lookup (data->active, SEND_URI_KEY);
 		if (info == NULL) {
 			info = g_malloc0 (sizeof (*info));
@@ -695,7 +695,7 @@ build_dialog (GtkWindow *parent,
 }
 
 static void
-update_folders(gchar *uri, struct _folder_info *info, gpointer data)
+update_folders (gchar *uri, struct _folder_info *info, gpointer data)
 {
 	time_t now = *((time_t *)data);
 
@@ -706,7 +706,7 @@ update_folders(gchar *uri, struct _folder_info *info, gpointer data)
 	if (now > info->update+10+info->count*5) {
 		d(printf("upating a folder: %s\n", info->uri));
 		/*camel_folder_thaw(info->folder);
-		  camel_folder_freeze(info->folder);*/
+		  camel_folder_freeze (info->folder);*/
 		info->update = now;
 		info->count++;
 	}
@@ -720,16 +720,16 @@ receive_status (CamelFilterDriver *driver,
                 gpointer data)
 {
 	struct _send_info *info = data;
-	time_t now = time(NULL);
+	time_t now = time (NULL);
 
 	/* let it flow through to the folder, every now and then too? */
-	g_hash_table_foreach(info->data->folders, (GHFunc)update_folders, &now);
+	g_hash_table_foreach (info->data->folders, (GHFunc)update_folders, &now);
 
 	if (info->data->inbox && now > info->data->inbox_update+20) {
 		d(printf("updating inbox too\n"));
 		/* this doesn't seem to work right :( */
 		/*camel_folder_thaw(info->data->inbox);
-		  camel_folder_freeze(info->data->inbox);*/
+		  camel_folder_freeze (info->data->inbox);*/
 		info->data->inbox_update = now;
 	}
 
@@ -740,7 +740,7 @@ receive_status (CamelFilterDriver *driver,
 	switch (status) {
 	case CAMEL_FILTER_STATUS_START:
 	case CAMEL_FILTER_STATUS_END:
-		set_send_status(info, desc, pc);
+		set_send_status (info, desc, pc);
 		break;
 	case CAMEL_FILTER_STATUS_ACTION:
 		set_send_account (info, desc);
@@ -776,7 +776,7 @@ receive_done (const gchar *uri, gpointer data)
 	if (info->progress_bar) {
 		const gchar *text;
 
-		gtk_progress_bar_set_fraction(
+		gtk_progress_bar_set_fraction (
 			GTK_PROGRESS_BAR (info->progress_bar), 1.0);
 
 		if (info->state == SEND_CANCELLED)
@@ -795,18 +795,18 @@ receive_done (const gchar *uri, gpointer data)
 	/* remove/free this active download */
 	d(printf("%s: freeing info %p\n", G_STRFUNC, info));
 	if (info->type == SEND_SEND)
-		g_hash_table_steal(info->data->active, SEND_URI_KEY);
+		g_hash_table_steal (info->data->active, SEND_URI_KEY);
 	else
-		g_hash_table_steal(info->data->active, info->uri);
-	info->data->infos = g_list_remove(info->data->infos, info);
+		g_hash_table_steal (info->data->active, info->uri);
+	info->data->infos = g_list_remove (info->data->infos, info);
 
-	if (g_hash_table_size(info->data->active) == 0) {
+	if (g_hash_table_size (info->data->active) == 0) {
 		if (info->data->gd)
-			gtk_widget_destroy((GtkWidget *)info->data->gd);
-		free_send_data();
+			gtk_widget_destroy ((GtkWidget *)info->data->gd);
+		free_send_data ();
 	}
 
-	free_send_info(info);
+	free_send_info (info);
 }
 
 /* although we dont do anythign smart here yet, there is no need for this interface to
@@ -824,9 +824,9 @@ receive_get_folder (CamelFilterDriver *d,
 	struct _folder_info *oldinfo;
 	gpointer oldkey, oldinfoptr;
 
-	g_mutex_lock(info->data->lock);
-	oldinfo = g_hash_table_lookup(info->data->folders, uri);
-	g_mutex_unlock(info->data->lock);
+	g_mutex_lock (info->data->lock);
+	oldinfo = g_hash_table_lookup (info->data->folders, uri);
+	g_mutex_unlock (info->data->lock);
 	if (oldinfo) {
 		g_object_ref (oldinfo->folder);
 		return oldinfo->folder;
@@ -837,7 +837,7 @@ receive_get_folder (CamelFilterDriver *d,
 
 	/* we recheck that the folder hasn't snuck in while we were loading it... */
 	/* and we assume the newer one is the same, but unref the old one anyway */
-	g_mutex_lock(info->data->lock);
+	g_mutex_lock (info->data->lock);
 
 	if (g_hash_table_lookup_extended (info->data->folders, uri, &oldkey, &oldinfoptr)) {
 		oldinfo = (struct _folder_info *) oldinfoptr;
@@ -845,15 +845,15 @@ receive_get_folder (CamelFilterDriver *d,
 		oldinfo->folder = folder;
 	} else {
 		/*camel_folder_freeze (folder);		*/
-		oldinfo = g_malloc0(sizeof(*oldinfo));
+		oldinfo = g_malloc0 (sizeof (*oldinfo));
 		oldinfo->folder = folder;
-		oldinfo->uri = g_strdup(uri);
-		g_hash_table_insert(info->data->folders, oldinfo->uri, oldinfo);
+		oldinfo->uri = g_strdup (uri);
+		g_hash_table_insert (info->data->folders, oldinfo->uri, oldinfo);
 	}
 
 	g_object_ref (folder);
 
-	g_mutex_unlock(info->data->lock);
+	g_mutex_unlock (info->data->lock);
 
 	return folder;
 }
@@ -906,17 +906,17 @@ refresh_folders_exec (struct _refresh_folders_msg *m)
 	get_folders (m->store, m->folders, m->finfo);
 
 	for (i=0;i<m->folders->len;i++) {
-		folder = mail_tool_uri_to_folder(m->folders->pdata[i], 0, &local_error);
+		folder = mail_tool_uri_to_folder (m->folders->pdata[i], 0, &local_error);
 		if (folder) {
 			camel_folder_sync (folder, FALSE, NULL);
-			camel_folder_refresh_info(folder, NULL);
+			camel_folder_refresh_info (folder, NULL);
 			g_object_unref (folder);
 		} else if (local_error != NULL) {
 			g_warning ("Failed to refresh folders: %s", local_error->message);
 			g_clear_error (&local_error);
 		}
 
-		if (camel_operation_cancel_check(m->info->cancel))
+		if (camel_operation_cancel_check (m->info->cancel))
 			break;
 	}
 }
@@ -933,8 +933,8 @@ refresh_folders_free (struct _refresh_folders_msg *m)
 	gint i;
 
 	for (i=0;i<m->folders->len;i++)
-		g_free(m->folders->pdata[i]);
-	g_ptr_array_free(m->folders, TRUE);
+		g_free (m->folders->pdata[i]);
+	g_ptr_array_free (m->folders, TRUE);
 
 	camel_store_free_folder_info (m->store, m->finfo);
 	g_object_unref (m->store);
@@ -949,14 +949,14 @@ static MailMsgInfo refresh_folders_info = {
 };
 
 static gboolean
-receive_update_got_folderinfo(CamelStore *store, CamelFolderInfo *info, gpointer data)
+receive_update_got_folderinfo (CamelStore *store, CamelFolderInfo *info, gpointer data)
 {
 	if (info) {
-		GPtrArray *folders = g_ptr_array_new();
+		GPtrArray *folders = g_ptr_array_new ();
 		struct _refresh_folders_msg *m;
 		struct _send_info *sinfo = data;
 
-		m = mail_msg_new(&refresh_folders_info);
+		m = mail_msg_new (&refresh_folders_info);
 		m->store = store;
 		g_object_ref (store);
 		m->folders = folders;
@@ -980,7 +980,7 @@ receive_update_got_store (gchar *uri, CamelStore *store, gpointer data)
 	struct _send_info *info = data;
 
 	if (store) {
-		mail_folder_cache_note_store(mail_folder_cache_get_default (),
+		mail_folder_cache_note_store (mail_folder_cache_get_default (),
 			store, info->cancel,
 			receive_update_got_folderinfo, info);
 	} else {
@@ -1022,7 +1022,7 @@ mail_send_receive (GtkWindow *parent)
 
 		switch (info->type) {
 		case SEND_RECEIVE:
-			mail_fetch_mail(info->uri, info->keep_on_server,
+			mail_fetch_mail (info->uri, info->keep_on_server,
 					E_FILTER_SOURCE_INCOMING,
 					info->cancel,
 					receive_get_folder, info,
@@ -1031,7 +1031,7 @@ mail_send_receive (GtkWindow *parent)
 			break;
 		case SEND_SEND:
 			/* todo, store the folder in info? */
-			mail_send_queue(local_outbox, info->uri,
+			mail_send_queue (local_outbox, info->uri,
 					E_FILTER_SOURCE_OUTGOING,
 					info->cancel,
 					receive_get_folder, info,
@@ -1039,7 +1039,7 @@ mail_send_receive (GtkWindow *parent)
 					receive_done, info);
 			break;
 		case SEND_UPDATE:
-			mail_get_store(info->uri, info->cancel, receive_update_got_store, info);
+			mail_get_store (info->uri, info->cancel, receive_update_got_store, info);
 			break;
 		default:
 			break;
@@ -1059,7 +1059,7 @@ struct _auto_data {
 static GHashTable *auto_active;
 
 static gboolean
-auto_timeout(gpointer data)
+auto_timeout (gpointer data)
 {
 	struct _auto_data *info = data;
 
@@ -1078,54 +1078,54 @@ auto_timeout(gpointer data)
 }
 
 static void
-auto_account_removed(EAccountList *eal, EAccount *ea, gpointer dummy)
+auto_account_removed (EAccountList *eal, EAccount *ea, gpointer dummy)
 {
 	struct _auto_data *info = g_object_get_data((GObject *)ea, "mail-autoreceive");
 
-	g_return_if_fail(info != NULL);
+	g_return_if_fail (info != NULL);
 
 	if (info->timeout_id) {
-		g_source_remove(info->timeout_id);
+		g_source_remove (info->timeout_id);
 		info->timeout_id = 0;
 	}
 }
 
 static void
-auto_account_finalised(struct _auto_data *info)
+auto_account_finalised (struct _auto_data *info)
 {
 	if (info->timeout_id)
-		g_source_remove(info->timeout_id);
-	g_free(info);
+		g_source_remove (info->timeout_id);
+	g_free (info);
 }
 
 static void
-auto_account_commit(struct _auto_data *info)
+auto_account_commit (struct _auto_data *info)
 {
 	gint period, check;
 
 	check = info->account->enabled
-		&& e_account_get_bool(info->account, E_ACCOUNT_SOURCE_AUTO_CHECK)
-		&& e_account_get_string(info->account, E_ACCOUNT_SOURCE_URL);
-	period = e_account_get_int(info->account, E_ACCOUNT_SOURCE_AUTO_CHECK_TIME)*60;
-	period = MAX(60, period);
+		&& e_account_get_bool (info->account, E_ACCOUNT_SOURCE_AUTO_CHECK)
+		&& e_account_get_string (info->account, E_ACCOUNT_SOURCE_URL);
+	period = e_account_get_int (info->account, E_ACCOUNT_SOURCE_AUTO_CHECK_TIME)*60;
+	period = MAX (60, period);
 
 	if (info->timeout_id
 	    && (!check
 		|| period != info->period)) {
-		g_source_remove(info->timeout_id);
+		g_source_remove (info->timeout_id);
 		info->timeout_id = 0;
 	}
 	info->period = period;
 	if (check && info->timeout_id == 0)
-		info->timeout_id = g_timeout_add_seconds(info->period, auto_timeout, info);
+		info->timeout_id = g_timeout_add_seconds (info->period, auto_timeout, info);
 }
 
 static void
-auto_account_added(EAccountList *eal, EAccount *ea, gpointer dummy)
+auto_account_added (EAccountList *eal, EAccount *ea, gpointer dummy)
 {
 	struct _auto_data *info;
 
-	info = g_malloc0(sizeof(*info));
+	info = g_malloc0 (sizeof (*info));
 	info->account = ea;
 	g_object_set_data_full (
 		G_OBJECT (ea), "mail-autoreceive", info,
@@ -1134,13 +1134,13 @@ auto_account_added(EAccountList *eal, EAccount *ea, gpointer dummy)
 }
 
 static void
-auto_account_changed(EAccountList *eal, EAccount *ea, gpointer dummy)
+auto_account_changed (EAccountList *eal, EAccount *ea, gpointer dummy)
 {
 	struct _auto_data *info = g_object_get_data((GObject *)ea, "mail-autoreceive");
 
-	g_return_if_fail(info != NULL);
+	g_return_if_fail (info != NULL);
 
-	auto_account_commit(info);
+	auto_account_commit (info);
 }
 
 static void
@@ -1161,7 +1161,7 @@ auto_online (EShell *shell)
 			G_OBJECT (e_iterator_get (iter)),
 			"mail-autoreceive");
 		if (info && info->timeout_id)
-			auto_timeout(info);
+			auto_timeout (info);
 	}
 }
 
@@ -1195,8 +1195,8 @@ mail_autoreceive_init (EShellBackend *shell_backend,
 		G_CALLBACK (auto_account_changed), NULL);
 
 	for (iter = e_list_get_iterator ((EList *)accounts);
-	     e_iterator_is_valid(iter);
-	     e_iterator_next(iter))
+	     e_iterator_is_valid (iter);
+	     e_iterator_next (iter))
 		auto_account_added (
 			accounts, (EAccount *) e_iterator_get (iter), NULL);
 
@@ -1219,8 +1219,8 @@ mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 	CamelFolder *local_outbox;
 	send_info_t type;
 
-	data = setup_send_data();
-	info = g_hash_table_lookup(data->active, uri);
+	data = setup_send_data ();
+	info = g_hash_table_lookup (data->active, uri);
 	if (info != NULL) {
 		d(printf("download of %s still in progress\n", uri));
 		return;
@@ -1273,7 +1273,7 @@ mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 		mail_get_store (info->uri, info->cancel, receive_update_got_store, info);
 		break;
 	default:
-		g_return_if_reached();
+		g_return_if_reached ();
 	}
 }
 

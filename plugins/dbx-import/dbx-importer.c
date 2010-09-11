@@ -164,11 +164,11 @@ org_gnome_evolution_readdbx_supported (EPlugin *epl, EImportTarget *target)
 	if (fd != -1) {
 		n = read (fd, signature, sizeof (signature));
 		if (n == sizeof (signature)) {
-			if (!memcmp(signature, oe56_mbox_sig, sizeof(oe56_mbox_sig))) {
+			if (!memcmp (signature, oe56_mbox_sig, sizeof (oe56_mbox_sig))) {
 				ret = TRUE;
-			} else if (!memcmp(signature, oe56_flist_sig, sizeof(oe56_flist_sig))) {
+			} else if (!memcmp (signature, oe56_flist_sig, sizeof (oe56_flist_sig))) {
 				d(printf("Found DBX folder list file\n"));
-			} else if (!memcmp(signature, oe4_mbox_sig, sizeof(oe4_mbox_sig))) {
+			} else if (!memcmp (signature, oe4_mbox_sig, sizeof (oe4_mbox_sig))) {
 				d(printf("Found OE4 DBX file\n"));
 			}
 		}
@@ -179,14 +179,14 @@ org_gnome_evolution_readdbx_supported (EPlugin *epl, EImportTarget *target)
 }
 
 static void
-folder_selected(EMFolderSelectionButton *button, EImportTargetURI *target)
+folder_selected (EMFolderSelectionButton *button, EImportTargetURI *target)
 {
-	g_free(target->uri_dest);
-	target->uri_dest = g_strdup(em_folder_selection_button_get_selection(button));
+	g_free (target->uri_dest);
+	target->uri_dest = g_strdup (em_folder_selection_button_get_selection (button));
 }
 
 GtkWidget *
-org_gnome_evolution_readdbx_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
+org_gnome_evolution_readdbx_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *hbox, *w;
 	GtkLabel *label;
@@ -221,24 +221,24 @@ org_gnome_evolution_readdbx_getwidget(EImport *ei, EImportTarget *target, EImpor
 	if (!select_uri)
 		select_uri = g_strdup (e_mail_local_get_folder_uri (E_MAIL_FOLDER_INBOX));
 
-	hbox = gtk_hbox_new(FALSE, 0);
+	hbox = gtk_hbox_new (FALSE, 0);
 
 	w = gtk_label_new_with_mnemonic (_("_Destination folder:"));
-	gtk_box_pack_start((GtkBox *)hbox, w, FALSE, TRUE, 6);
+	gtk_box_pack_start ((GtkBox *)hbox, w, FALSE, TRUE, 6);
 
 	label = GTK_LABEL (w);
 
-	w = em_folder_selection_button_new(
+	w = em_folder_selection_button_new (
 		_("Select folder"), _("Select folder to import OE folder into"));
 	gtk_label_set_mnemonic_widget (label, w);
 	em_folder_selection_button_set_selection ((EMFolderSelectionButton *)w, select_uri);
 	folder_selected ((EMFolderSelectionButton *)w, (EImportTargetURI *)target);
 	g_signal_connect (w, "selected", G_CALLBACK(folder_selected), target);
-	gtk_box_pack_start((GtkBox *)hbox, w, FALSE, TRUE, 6);
+	gtk_box_pack_start ((GtkBox *)hbox, w, FALSE, TRUE, 6);
 
-	w = gtk_vbox_new(FALSE, 0);
-	gtk_box_pack_start((GtkBox *)w, hbox, FALSE, FALSE, 0);
-	gtk_widget_show_all(w);
+	w = gtk_vbox_new (FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)w, hbox, FALSE, FALSE, 0);
+	gtk_widget_show_all (w);
 
 	g_free (select_uri);
 
@@ -290,14 +290,14 @@ struct _dbx_block_hdrstruct {
 	guint32 nextaddress;
 };
 
-static gint dbx_pread(gint fd, gpointer buf, guint32 count, guint32 offset)
+static gint dbx_pread (gint fd, gpointer buf, guint32 count, guint32 offset)
 {
-	if (lseek(fd, offset, SEEK_SET) != offset)
+	if (lseek (fd, offset, SEEK_SET) != offset)
 		return -1;
-	return read(fd, buf, count);
+	return read (fd, buf, count);
 }
 
-static gboolean dbx_load_index_table(DbxImporter *m, guint32 pos, guint32 *index_ofs)
+static gboolean dbx_load_index_table (DbxImporter *m, guint32 pos, guint32 *index_ofs)
 {
 	struct _dbx_tableindexstruct tindex;
 	struct _dbx_indexstruct index;
@@ -305,15 +305,15 @@ static gboolean dbx_load_index_table(DbxImporter *m, guint32 pos, guint32 *index
 
 	d(printf("Loading index table at 0x%x\n", pos));
 
-	if (dbx_pread(m->dbx_fd, &tindex, sizeof(tindex), pos) != sizeof(tindex)) {
+	if (dbx_pread (m->dbx_fd, &tindex, sizeof (tindex), pos) != sizeof (tindex)) {
 		g_set_error (
 			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 			"Failed to read table index from DBX file");
 		return FALSE;
 	}
-	tindex.anotherTablePtr = GUINT32_FROM_LE(tindex.anotherTablePtr);
-	tindex.self = GUINT32_FROM_LE(tindex.self);
-	tindex.indexCount = GUINT32_FROM_LE(tindex.indexCount);
+	tindex.anotherTablePtr = GUINT32_FROM_LE (tindex.anotherTablePtr);
+	tindex.self = GUINT32_FROM_LE (tindex.self);
+	tindex.indexCount = GUINT32_FROM_LE (tindex.indexCount);
 
 	if (tindex.self != pos) {
 		g_set_error (
@@ -326,25 +326,25 @@ static gboolean dbx_load_index_table(DbxImporter *m, guint32 pos, guint32 *index
 	d(printf("Index at %x: indexCount %x, anotherTablePtr %x\n", pos, tindex.indexCount, tindex.anotherTablePtr));
 
 	if (tindex.indexCount > 0) {
-		if (!dbx_load_index_table(m, tindex.anotherTablePtr, index_ofs))
+		if (!dbx_load_index_table (m, tindex.anotherTablePtr, index_ofs))
 			return FALSE;
 	}
 
 	d(printf("Index at %x has ptrCount %d\n", pos, tindex.ptrCount));
 
-	pos += sizeof(tindex);
+	pos += sizeof (tindex);
 
 	for (i = 0; i < tindex.ptrCount; i++) {
-		if (dbx_pread(m->dbx_fd, &index, sizeof(index), pos) != sizeof(index)) {
+		if (dbx_pread (m->dbx_fd, &index, sizeof (index), pos) != sizeof (index)) {
 			g_set_error (
 				&m->base.error,
 				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 				"Failed to read index entry from DBX file");
 			return FALSE;
 		}
-		index.indexptr = GUINT32_FROM_LE(index.indexptr);
-		index.anotherTablePtr = GUINT32_FROM_LE(index.anotherTablePtr);
-		index.indexCount = GUINT32_FROM_LE(index.indexCount);
+		index.indexptr = GUINT32_FROM_LE (index.indexptr);
+		index.anotherTablePtr = GUINT32_FROM_LE (index.anotherTablePtr);
+		index.indexCount = GUINT32_FROM_LE (index.indexCount);
 
 		if (*index_ofs == m->index_count) {
 			g_set_error (
@@ -357,39 +357,39 @@ static gboolean dbx_load_index_table(DbxImporter *m, guint32 pos, guint32 *index
 		}
 		m->indices[(*index_ofs)++] = index.indexptr;
 		if (index.indexCount > 0) {
-			if (!dbx_load_index_table(m, index.anotherTablePtr, index_ofs))
+			if (!dbx_load_index_table (m, index.anotherTablePtr, index_ofs))
 				return FALSE;
 		}
-		pos += sizeof(index);
+		pos += sizeof (index);
 	}
 	return TRUE;
 }
-static gboolean dbx_load_indices(DbxImporter *m)
+static gboolean dbx_load_indices (DbxImporter *m)
 {
 	guint indexptr, itemcount;
 	guint32 index_ofs = 0;
 
-	if (dbx_pread(m->dbx_fd, &indexptr, 4, INDEX_POINTER) != 4) {
+	if (dbx_pread (m->dbx_fd, &indexptr, 4, INDEX_POINTER) != 4) {
 		g_set_error (
 			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 			"Failed to read first index pointer from DBX file");
 		return FALSE;
 	}
 
-	if (dbx_pread(m->dbx_fd, &itemcount, 4, ITEM_COUNT) != 4) {
+	if (dbx_pread (m->dbx_fd, &itemcount, 4, ITEM_COUNT) != 4) {
 		g_set_error (
 			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 			"Failed to read item count from DBX file");
 		return FALSE;
 	}
 
-	indexptr = GUINT32_FROM_LE(indexptr);
-	m->index_count = itemcount = GUINT32_FROM_LE(itemcount);
-	m->indices = g_malloc(itemcount * 4);
+	indexptr = GUINT32_FROM_LE (indexptr);
+	m->index_count = itemcount = GUINT32_FROM_LE (itemcount);
+	m->indices = g_malloc (itemcount * 4);
 
 	d(printf("indexptr %x, itemcount %d\n", indexptr, itemcount));
 
-	if (indexptr && !dbx_load_index_table(m, indexptr, &index_ofs))
+	if (indexptr && !dbx_load_index_table (m, indexptr, &index_ofs))
 		return FALSE;
 
 	d(printf("Loaded %d of %d indices\n", index_ofs, m->index_count));
@@ -412,15 +412,15 @@ dbx_read_mail_body (DbxImporter *m, guint32 offset, gint bodyfd)
 
 	struct _dbx_block_hdrstruct hdr;
 	guint32 buflen = 0x200;
-	guchar *buffer = g_malloc(buflen);
+	guchar *buffer = g_malloc (buflen);
 
-	ftruncate(bodyfd, 0);
-	lseek(bodyfd, 0, SEEK_SET);
+	ftruncate (bodyfd, 0);
+	lseek (bodyfd, 0, SEEK_SET);
 
 	while (offset) {
 		d(printf("Reading mail data chunk from %x\n", offset));
 
-		if (dbx_pread(m->dbx_fd, &hdr, sizeof(hdr), offset) != sizeof(hdr)) {
+		if (dbx_pread (m->dbx_fd, &hdr, sizeof (hdr), offset) != sizeof (hdr)) {
 			g_set_error (
 				&m->base.error,
 				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
@@ -428,9 +428,9 @@ dbx_read_mail_body (DbxImporter *m, guint32 offset, gint bodyfd)
 				"DBX file at offset %x", offset);
 			return FALSE;
 		}
-		hdr.self = GUINT32_FROM_LE(hdr.self);
-		hdr.blocksize = GUINT16_FROM_LE(hdr.blocksize);
-		hdr.nextaddress = GUINT32_FROM_LE(hdr.nextaddress);
+		hdr.self = GUINT32_FROM_LE (hdr.self);
+		hdr.blocksize = GUINT16_FROM_LE (hdr.blocksize);
+		hdr.nextaddress = GUINT32_FROM_LE (hdr.nextaddress);
 
 		if (hdr.self != offset) {
 			g_set_error (
@@ -442,21 +442,21 @@ dbx_read_mail_body (DbxImporter *m, guint32 offset, gint bodyfd)
 		}
 
 		if (hdr.blocksize > buflen) {
-			g_free(buffer);
+			g_free (buffer);
 			buflen = hdr.blocksize;
-			buffer = g_malloc(buflen);
+			buffer = g_malloc (buflen);
 		}
 		d(printf("Reading %d bytes from %lx\n", hdr.blocksize, offset + sizeof(hdr)));
-		if (dbx_pread(m->dbx_fd, buffer, hdr.blocksize, offset + sizeof(hdr)) != hdr.blocksize) {
+		if (dbx_pread (m->dbx_fd, buffer, hdr.blocksize, offset + sizeof (hdr)) != hdr.blocksize) {
 			g_set_error (
 				&m->base.error,
 				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 				"Failed to read mail data from DBX file "
 				"at offset %lx",
-				(long)(offset + sizeof(hdr)));
+				(long)(offset + sizeof (hdr)));
 			return FALSE;
 		}
-		if (write(bodyfd, buffer, hdr.blocksize) != hdr.blocksize) {
+		if (write (bodyfd, buffer, hdr.blocksize) != hdr.blocksize) {
 			g_set_error (
 				&m->base.error,
 				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
@@ -476,15 +476,15 @@ dbx_read_email (DbxImporter *m, guint32 offset, gint bodyfd, gint *flags)
 	guint32 dataptr = 0;
 	gint i;
 
-	if (dbx_pread(m->dbx_fd, &hdr, sizeof(hdr), offset) != sizeof(hdr)) {
+	if (dbx_pread (m->dbx_fd, &hdr, sizeof (hdr), offset) != sizeof (hdr)) {
 		g_set_error (
 			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 			"Failed to read mail header from DBX file at offset %x",
 			offset);
 		return FALSE;
 	}
-	hdr.self = GUINT32_FROM_LE(hdr.self);
-	hdr.size = GUINT32_FROM_LE(hdr.size);
+	hdr.self = GUINT32_FROM_LE (hdr.self);
+	hdr.size = GUINT32_FROM_LE (hdr.size);
 
 	if (hdr.self != offset) {
 		g_set_error (
@@ -493,14 +493,14 @@ dbx_read_email (DbxImporter *m, guint32 offset, gint bodyfd, gint *flags)
 			"point to itself", offset);
 		return FALSE;
 	}
-	buffer = g_malloc(hdr.size);
-	offset += sizeof(hdr);
-	if (dbx_pread(m->dbx_fd, buffer, hdr.size, offset) != hdr.size) {
+	buffer = g_malloc (hdr.size);
+	offset += sizeof (hdr);
+	if (dbx_pread (m->dbx_fd, buffer, hdr.size, offset) != hdr.size) {
 		g_set_error (
 			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 			"Failed to read mail data block from DBX file "
 			"at offset %x", offset);
-		g_free(buffer);
+		g_free (buffer);
 		return FALSE;
 	}
 
@@ -518,7 +518,7 @@ dbx_read_email (DbxImporter *m, guint32 offset, gint bodyfd, gint *flags)
 			d(printf("Got type 0x81 flags %02x\n", *flags));
 			break;
 		case 0x04:
-			dataptr = GUINT32_FROM_LE(*(guint32 *)(buffer + hdr.count*4 + val));
+			dataptr = GUINT32_FROM_LE (*(guint32 *)(buffer + hdr.count*4 + val));
 			d(printf("Got type 0x04 data pointer %x\n", dataptr));
 			break;
 		case 0x84:
@@ -531,12 +531,12 @@ dbx_read_email (DbxImporter *m, guint32 offset, gint bodyfd, gint *flags)
 			break;
 		}
 	}
-	g_free(buffer);
+	g_free (buffer);
 
 	if (!dataptr)
 		return FALSE;
 
-	return dbx_read_mail_body(m, dataptr, bodyfd);
+	return dbx_read_mail_body (m, dataptr, bodyfd);
 }
 
 static void
@@ -557,7 +557,7 @@ dbx_import_file (DbxImporter *m)
 		return;
 	d(printf("importing to %s\n", camel_folder_get_full_name(folder)));
 
-	camel_folder_freeze(folder);
+	camel_folder_freeze (folder);
 
 	filename = g_filename_from_uri (((EImportTargetURI *)m->target)->uri_src, NULL, NULL);
 	m->dbx_fd = g_open (filename, O_RDONLY, 0);
@@ -570,7 +570,7 @@ dbx_import_file (DbxImporter *m)
 		goto out;
 	}
 
-	if (!dbx_load_indices(m))
+	if (!dbx_load_indices (m))
 		goto out;
 
 	tmpfile = e_mkstemp("dbx-import-XXXXXX");
@@ -589,10 +589,10 @@ dbx_import_file (DbxImporter *m)
 		gint flags = 0;
 		gboolean success;
 
-		camel_operation_progress(NULL, 100 * i / m->index_count);
-		camel_operation_progress(m->status, 100 * i / m->index_count);
+		camel_operation_progress (NULL, 100 * i / m->index_count);
+		camel_operation_progress (m->status, 100 * i / m->index_count);
 
-		if (!dbx_read_email(m, m->indices[i], tmpfile, &dbx_flags)) {
+		if (!dbx_read_email (m, m->indices[i], tmpfile, &dbx_flags)) {
 			d(printf("Cannot read email index %d at %x\n",
 				 i, m->indices[i]));
 			if (m->base.error != NULL)
@@ -607,39 +607,39 @@ dbx_import_file (DbxImporter *m)
 		if (dbx_flags & 0x80000)
 			flags |= CAMEL_MESSAGE_ANSWERED;
 
-		mp = camel_mime_parser_new();
+		mp = camel_mime_parser_new ();
 
-		lseek(tmpfile, 0, SEEK_SET);
-		camel_mime_parser_init_with_fd(mp, tmpfile);
+		lseek (tmpfile, 0, SEEK_SET);
+		camel_mime_parser_init_with_fd (mp, tmpfile);
 
-		msg = camel_mime_message_new();
-		if (camel_mime_part_construct_from_parser((CamelMimePart *)msg, mp, NULL) == -1) {
+		msg = camel_mime_message_new ();
+		if (camel_mime_part_construct_from_parser ((CamelMimePart *)msg, mp, NULL) == -1) {
 			/* set exception? */
 			g_object_unref (msg);
 			g_object_unref (mp);
 			break;
 		}
 
-		info = camel_message_info_new(NULL);
-		camel_message_info_set_flags(info, flags, ~0);
+		info = camel_message_info_new (NULL);
+		camel_message_info_set_flags (info, flags, ~0);
 		success = camel_folder_append_message (
 			folder, msg, info, NULL, &m->base.error);
-		camel_message_info_free(info);
+		camel_message_info_free (info);
 		g_object_unref (msg);
 
 		if (!success) {
-			g_object_unref(mp);
+			g_object_unref (mp);
 			break;
 		}
 	}
  out:
 	if (m->dbx_fd != -1)
-		close(m->dbx_fd);
+		close (m->dbx_fd);
 	if (m->indices)
-		g_free(m->indices);
-	camel_folder_sync(folder, FALSE, NULL);
-	camel_folder_thaw(folder);
-	g_object_unref(folder);
+		g_free (m->indices);
+	camel_folder_sync (folder, FALSE, NULL);
+	camel_folder_thaw (folder);
+	g_object_unref (folder);
 	if (missing && m->base.error == NULL) {
 		g_set_error (
 			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
@@ -647,7 +647,7 @@ dbx_import_file (DbxImporter *m)
 			"bodies were not present in the DBX file",
 			m->index_count - missing, missing);
 	}
-	camel_operation_end(NULL);
+	camel_operation_end (NULL);
 }
 
 static void

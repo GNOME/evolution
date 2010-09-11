@@ -160,7 +160,7 @@ sync_stream_write (CamelStream *stream,
 		else
 			sync_stream_sync_op (emss, EMSS_WRITE, string, len, error);
 	} else {
-		sync_stream_sync_op(emss, EMSS_WRITE, string, len, error);
+		sync_stream_sync_op (emss, EMSS_WRITE, string, len, error);
 	}
 
 	return (gssize) len;

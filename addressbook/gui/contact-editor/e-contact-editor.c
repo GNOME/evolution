@@ -88,7 +88,7 @@ static GtkWindow* e_contact_editor_get_window (EABEditor *editor);
 static void save_contact (EContactEditor *ce, gboolean should_close);
 static void entry_activated (EContactEditor *editor);
 
-static void set_entry_text(EContactEditor *editor, GtkEntry *entry, const gchar *string);
+static void set_entry_text (EContactEditor *editor, GtkEntry *entry, const gchar *string);
 static void sensitize_ok (EContactEditor *ce);
 
 static EABEditorClass *parent_class = NULL;
@@ -464,7 +464,7 @@ name_to_style (const EContactName *name, const gchar *company, gint style)
 		string = g_strjoinv(" ", strings);
 		break;
 	case 3:
-		string = g_strdup(company);
+		string = g_strdup (company);
 		break;
 	case 4: /* Fall Through */
 	case 5:
@@ -483,7 +483,7 @@ name_to_style (const EContactName *name, const gchar *company, gint style)
 			string = g_strdup_printf("%s (%s)", substring, company);
 		else
 			string = g_strdup_printf("%s (%s)", company, substring);
-		g_free(substring);
+		g_free (substring);
 		break;
 	default:
 		string = g_strdup("");
@@ -502,7 +502,7 @@ file_as_get_style (EContactEditor *editor)
 	const gchar *company;
 	gint i;
 
-	if (!(file_as && GTK_IS_ENTRY(file_as)))
+	if (!(file_as && GTK_IS_ENTRY (file_as)))
 		return -1;
 
 	company = gtk_entry_get_text (GTK_ENTRY (company_w));
@@ -510,12 +510,12 @@ file_as_get_style (EContactEditor *editor)
 
 	for (i = 0; i < 6; i++) {
 		trystring = name_to_style (name, company, i);
-		if (!strcmp(trystring, filestring)) {
-			g_free(trystring);
-			g_free(filestring);
+		if (!strcmp (trystring, filestring)) {
+			g_free (trystring);
+			g_free (filestring);
 			return i;
 		}
-		g_free(trystring);
+		g_free (trystring);
 	}
 	g_free (filestring);
 	return -1;
@@ -2413,7 +2413,7 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 			    e_image_chooser_get_image_data (E_IMAGE_CHOOSER (widget),
 							    &img_buff, &photo.data.inlined.length)) {
 				GdkPixbuf *pixbuf, *new;
-				GdkPixbufLoader *loader = gdk_pixbuf_loader_new();
+				GdkPixbufLoader *loader = gdk_pixbuf_loader_new ();
 
 				photo.data.inlined.data = (guchar *)img_buff;
 				img_buff = NULL;
@@ -2449,7 +2449,7 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 							if (new) {
 								GdkPixbufFormat *format = gdk_pixbuf_loader_get_format (loader);
 								gchar *format_name = gdk_pixbuf_format_get_name (format);
-								g_free(photo.data.inlined.data);
+								g_free (photo.data.inlined.data);
 								gdk_pixbuf_save_to_buffer (new, &img_buff,
 											   &photo.data.inlined.length,
 											   format_name, NULL, NULL);
@@ -2781,22 +2781,22 @@ full_name_response (GtkDialog *dialog, gint response, EContactEditor *editor)
 			      "name", &name,
 			      NULL);
 
-		style = file_as_get_style(editor);
+		style = file_as_get_style (editor);
 
 		fname_widget = e_builder_get_widget(editor->builder, "entry-fullname");
 		if (fname_widget && GTK_IS_ENTRY (fname_widget)) {
-			gchar *full_name = e_contact_name_to_string(name);
-			const gchar *old_full_name = gtk_entry_get_text (GTK_ENTRY(fname_widget));
+			gchar *full_name = e_contact_name_to_string (name);
+			const gchar *old_full_name = gtk_entry_get_text (GTK_ENTRY (fname_widget));
 
 			if (strcmp (full_name, old_full_name))
 				gtk_entry_set_text (GTK_ENTRY (fname_widget), full_name);
-			g_free(full_name);
+			g_free (full_name);
 		}
 
-		e_contact_name_free(editor->name);
+		e_contact_name_free (editor->name);
 		editor->name = name;
 
-		file_as_set_style(editor, style);
+		file_as_set_style (editor, style);
 	}
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 	editor->fullname_dialog = NULL;
@@ -2849,12 +2849,12 @@ categories_response (GtkDialog *dialog, gint response, EContactEditor *editor)
 
 	if (response == GTK_RESPONSE_OK) {
 		categories = e_categories_dialog_get_categories (E_CATEGORIES_DIALOG (dialog));
-		if (entry && GTK_IS_ENTRY(entry))
+		if (entry && GTK_IS_ENTRY (entry))
 			gtk_entry_set_text (GTK_ENTRY (entry), categories);
 		else
 			e_contact_set (editor->contact, E_CONTACT_CATEGORIES, (gchar *)categories);
 	}
-	gtk_widget_destroy(GTK_WIDGET(dialog));
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 	editor->categories_dialog = NULL;
 }
 
@@ -2863,7 +2863,7 @@ categories_editor_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer 
 {
 	if (widget) {
 		if (GTK_IS_WIDGET (widget))
-			gtk_widget_destroy(widget);
+			gtk_widget_destroy (widget);
 		}
 	return TRUE;
 }
@@ -2875,13 +2875,13 @@ categories_clicked (GtkWidget *button, EContactEditor *editor)
 	GtkDialog *dialog;
 	GtkWidget *entry = e_builder_get_widget(editor->builder, "entry-categories");
 
-	if (entry && GTK_IS_ENTRY(entry))
-		categories = g_strdup (gtk_entry_get_text(GTK_ENTRY(entry)));
+	if (entry && GTK_IS_ENTRY (entry))
+		categories = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 	else if (editor->contact)
 		categories = e_contact_get (editor->contact, E_CONTACT_CATEGORIES);
 
 	if (editor->categories_dialog != NULL) {
-		gtk_window_present (GTK_WINDOW(editor->categories_dialog));
+		gtk_window_present (GTK_WINDOW (editor->categories_dialog));
 		g_free (categories);
 		return;
 	}else if (!(dialog = GTK_DIALOG (e_categories_dialog_new (categories)))) {
@@ -2899,7 +2899,7 @@ categories_clicked (GtkWidget *button, EContactEditor *editor)
 	g_signal_connect_swapped (EAB_EDITOR (editor), "editor_closed",
 			    G_CALLBACK (categories_editor_delete_event_cb), GTK_WIDGET (dialog));
 
-	gtk_widget_show(GTK_WIDGET(dialog));
+	gtk_widget_show (GTK_WIDGET (dialog));
 	g_free (categories);
 
 	editor->categories_dialog = GTK_WIDGET (dialog);
@@ -3010,7 +3010,7 @@ image_clicked (GtkWidget *button, EContactEditor *editor)
 								     GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 								     no_image, GTK_RESPONSE_NO,
 								     NULL);
-		preview = GTK_IMAGE (gtk_image_new());
+		preview = GTK_IMAGE (gtk_image_new ());
 		gtk_file_chooser_set_preview_widget ((GtkFileChooser *)editor->file_selector, GTK_WIDGET (preview));
 		g_signal_connect (editor->file_selector, "update-preview",
 				 G_CALLBACK (update_preview_cb), preview);
@@ -3403,14 +3403,14 @@ show_help_cb (GtkWidget *widget, gpointer data)
 }
 
 static GList *
-add_to_tab_order(GList *list, GtkBuilder *builder, const gchar *name)
+add_to_tab_order (GList *list, GtkBuilder *builder, const gchar *name)
 {
-	GtkWidget *widget = e_builder_get_widget(builder, name);
-	return g_list_prepend(list, widget);
+	GtkWidget *widget = e_builder_get_widget (builder, name);
+	return g_list_prepend (list, widget);
 }
 
 static void
-setup_tab_order(GtkBuilder *builder)
+setup_tab_order (GtkBuilder *builder)
 {
 	GtkWidget *container;
 	GList *list = NULL;
@@ -3433,9 +3433,9 @@ setup_tab_order(GtkBuilder *builder)
 		list = add_to_tab_order(list, builder, "entry-homepage");
 		list = add_to_tab_order(list, builder, "button-fulladdr");
 		list = add_to_tab_order(list, builder, "text-address");
-		list = g_list_reverse(list);
-		e_container_change_tab_order(GTK_CONTAINER(container), list);
-		g_list_free(list);
+		list = g_list_reverse (list);
+		e_container_change_tab_order (GTK_CONTAINER (container), list);
+		g_list_free (list);
 	}
 */
 
@@ -3522,7 +3522,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	 *       through a constructor property. */
 	shell = e_shell_get_default ();
 
-	e_contact_editor->name = e_contact_name_new();
+	e_contact_editor->name = e_contact_name_new ();
 
 	e_contact_editor->contact = NULL;
 	e_contact_editor->changed = FALSE;
@@ -3539,7 +3539,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 	e_contact_editor->builder = builder;
 
-	setup_tab_order(builder);
+	setup_tab_order (builder);
 
 	e_contact_editor->app = e_builder_get_widget (builder, "contact editor");
 	widget = e_contact_editor->app;
@@ -3604,7 +3604,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 static void
 e_contact_editor_dispose (GObject *object)
 {
-	EContactEditor *e_contact_editor = E_CONTACT_EDITOR(object);
+	EContactEditor *e_contact_editor = E_CONTACT_EDITOR (object);
 
 	if (e_contact_editor->file_selector != NULL) {
 		gtk_widget_destroy (e_contact_editor->file_selector);
@@ -3612,7 +3612,7 @@ e_contact_editor_dispose (GObject *object)
 	}
 
 	if (e_contact_editor->writable_fields) {
-		g_object_unref(e_contact_editor->writable_fields);
+		g_object_unref (e_contact_editor->writable_fields);
 		e_contact_editor->writable_fields = NULL;
 	}
 	if (e_contact_editor->required_fields) {
@@ -3620,28 +3620,28 @@ e_contact_editor_dispose (GObject *object)
 		e_contact_editor->required_fields = NULL;
 	}
 	if (e_contact_editor->contact) {
-		g_object_unref(e_contact_editor->contact);
+		g_object_unref (e_contact_editor->contact);
 		e_contact_editor->contact = NULL;
 	}
 
 	if (e_contact_editor->source_book) {
-		g_object_unref(e_contact_editor->source_book);
+		g_object_unref (e_contact_editor->source_book);
 		e_contact_editor->source_book = NULL;
 	}
 
 	if (e_contact_editor->target_book) {
 		g_signal_handler_disconnect (e_contact_editor->target_book, e_contact_editor->target_editable_id);
-		g_object_unref(e_contact_editor->target_book);
+		g_object_unref (e_contact_editor->target_book);
 		e_contact_editor->target_book = NULL;
 	}
 
 	if (e_contact_editor->name) {
-		e_contact_name_free(e_contact_editor->name);
+		e_contact_name_free (e_contact_editor->name);
 		e_contact_editor->name = NULL;
 	}
 
 	if (e_contact_editor->builder) {
-		g_object_unref(e_contact_editor->builder);
+		g_object_unref (e_contact_editor->builder);
 		e_contact_editor->builder = NULL;
 	}
 
@@ -3753,7 +3753,7 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 			break;
 
 		if (editor->source_book)
-			g_object_unref(editor->source_book);
+			g_object_unref (editor->source_book);
 
 		editor->source_book = source_book;
 		g_object_ref (editor->source_book);
@@ -3795,7 +3795,7 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 
 		if (editor->target_book) {
 			g_signal_handler_disconnect (editor->target_book, editor->target_editable_id);
-			g_object_unref(editor->target_book);
+			g_object_unref (editor->target_book);
 		}
 
 		editor->target_book = target_book;
@@ -3827,8 +3827,8 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 
 	case PROP_CONTACT:
 		if (editor->contact)
-			g_object_unref(editor->contact);
-		editor->contact = e_contact_duplicate(E_CONTACT(g_value_get_object (value)));
+			g_object_unref (editor->contact);
+		editor->contact = e_contact_duplicate (E_CONTACT (g_value_get_object (value)));
 		fill_in_all (editor);
 		editor->changed = FALSE;
 		break;
@@ -3860,13 +3860,13 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 	}
 	case PROP_WRITABLE_FIELDS:
 		if (editor->writable_fields)
-			g_object_unref(editor->writable_fields);
+			g_object_unref (editor->writable_fields);
 
 		editor->writable_fields = g_value_get_object (value);
 		if (editor->writable_fields)
 			g_object_ref (editor->writable_fields);
 		else
-			editor->writable_fields = e_list_new(NULL, NULL, NULL);
+			editor->writable_fields = e_list_new (NULL, NULL, NULL);
 
 		sensitize_all (editor);
 		break;

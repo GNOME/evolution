@@ -347,7 +347,7 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog, GtkWindow *pa
 									     email, NULL);
 						return -1;
 					}
-					if (!g_ascii_strcasecmp(e_gw_connection_get_user_email (prd->cnc), email)) {
+					if (!g_ascii_strcasecmp (e_gw_connection_get_user_email (prd->cnc), email)) {
 						e_alert_run_dialog_for_args (parent,
 									     "org.gnome.evolution.proxy:invalid-user",
 									     email, NULL);
@@ -357,7 +357,7 @@ proxy_dialog_store_widgets_data (EAccount *account, gint32 dialog, GtkWindow *pa
 					/*check whether already exists*/
 					existing_list = priv->proxy_list;
 
-					for (;existing_list; existing_list = g_list_next(existing_list)) {
+					for (;existing_list; existing_list = g_list_next (existing_list)) {
 						new_proxy = (proxyHandler *) existing_list->data;
 						if (!g_ascii_strcasecmp (new_proxy->proxy_email, email)) {
 							if (new_proxy->flags & E_GW_PROXY_DELETED) {
@@ -554,7 +554,7 @@ proxy_commit (GtkWidget *button, EConfigHookItemFactoryData *data)
 		/* Handle case where the structure is new and deleted*/
 		if ( !((aclInstance->flags & E_GW_PROXY_NEW) && (aclInstance->flags & E_GW_PROXY_DELETED))) {
 
-			if ( !E_IS_GW_CONNECTION(prd->cnc))	/* Add check in case the connection request fails*/
+			if ( !E_IS_GW_CONNECTION (prd->cnc))	/* Add check in case the connection request fails*/
 				prd->cnc = proxy_get_cnc (account, GTK_WINDOW (gtk_widget_get_toplevel (button)));
 
 			if (aclInstance->flags & E_GW_PROXY_NEW )
@@ -616,7 +616,7 @@ proxy_update_tree_view (EAccount *account)
 	gtk_tree_store_clear (priv->store);
 	list_iter = priv->proxy_list;
 
-	for (;list_iter; list_iter = g_list_next(list_iter)) {
+	for (;list_iter; list_iter = g_list_next (list_iter)) {
 		aclInstance = (proxyHandler *) list_iter->data;
 
 		if (!(aclInstance->flags & E_GW_PROXY_DELETED )) {
@@ -630,7 +630,7 @@ proxy_update_tree_view (EAccount *account)
 		g_object_unref (broken_image);
 
 	/*Fixme : Desensitize buttons if the list is Null*/
-	gtk_tree_view_set_model (GTK_TREE_VIEW(priv->tree), GTK_TREE_MODEL (priv->store));
+	gtk_tree_view_set_model (GTK_TREE_VIEW (priv->tree), GTK_TREE_MODEL (priv->store));
 }
 
 GtkWidget*
@@ -749,12 +749,12 @@ proxy_page_changed_cb (GtkNotebook *notebook, GtkWidget *page, gint num, EAccoun
 				prd->cnc = proxy_get_cnc (account, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (notebook))));
 			priv = prd->priv;
 
-			if (e_gw_connection_get_proxy_access_list(prd->cnc, &priv->proxy_list)!= E_GW_CONNECTION_STATUS_OK)
+			if (e_gw_connection_get_proxy_access_list (prd->cnc, &priv->proxy_list)!= E_GW_CONNECTION_STATUS_OK)
 				return FALSE;
 
 			list_iter = priv->proxy_list;
 
-			for (;list_iter; list_iter = g_list_next(list_iter)) {
+			for (;list_iter; list_iter = g_list_next (list_iter)) {
 				aclInstance = (proxyHandler *) list_iter->data;
 
 				/* NOTE: All User Access is not supported */
@@ -773,7 +773,7 @@ proxy_page_changed_cb (GtkNotebook *notebook, GtkWidget *page, gint num, EAccoun
 }
 
 static void
-proxy_cancel(GtkWidget *button, EAccount *account)
+proxy_cancel (GtkWidget *button, EAccount *account)
 {
 	proxyDialog *prd = NULL;
 	proxyDialogPrivate *priv;
@@ -830,7 +830,7 @@ proxy_get_item_from_list (EAccount *account, gchar *account_name)
 	priv = prd->priv;
 	list_iter = priv->proxy_list;
 
-	for (;list_iter; list_iter = g_list_next(list_iter)) {
+	for (;list_iter; list_iter = g_list_next (list_iter)) {
 		iter = (proxyHandler *) list_iter->data;
 
 		if ( g_str_equal (iter->proxy_email,account_name))
@@ -949,40 +949,40 @@ proxy_load_edit_dialog (EAccount *account, proxyHandler *edited)
 	gtk_widget_set_sensitive (priv->account_name, FALSE);
 
 	if (edited->permissions & E_GW_PROXY_MAIL_READ)
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (priv->mail_read), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->mail_read), TRUE);
 
 	if (edited->permissions & E_GW_PROXY_MAIL_WRITE)
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (priv->mail_write), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->mail_write), TRUE);
 
 	if (edited->permissions & E_GW_PROXY_APPOINTMENT_READ)
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (priv->app_read), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->app_read), TRUE);
 
 	if (edited->permissions & E_GW_PROXY_APPOINTMENT_WRITE)
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (priv->app_write), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->app_write), TRUE);
 
 	if (edited->permissions & E_GW_PROXY_NOTES_READ)
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (priv->note_read), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->note_read), TRUE);
 
 	if (edited->permissions & E_GW_PROXY_NOTES_WRITE)
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (priv->note_write), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->note_write), TRUE);
 
 	if (edited->permissions & E_GW_PROXY_TASK_READ)
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (priv->task_read), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->task_read), TRUE);
 
 	if (edited->permissions & E_GW_PROXY_TASK_WRITE)
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (priv->task_write), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->task_write), TRUE);
 
 	if (edited->permissions & E_GW_PROXY_GET_ALARMS)
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (priv->alarms), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->alarms), TRUE);
 
 	if (edited->permissions & E_GW_PROXY_GET_NOTIFICATIONS)
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (priv->notifications), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->notifications), TRUE);
 
 	if (edited->permissions & E_GW_PROXY_MODIFY_FOLDERS)
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (priv->options), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->options), TRUE);
 
 	if (edited->permissions & E_GW_PROXY_READ_PRIVATE)
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (priv->private), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (priv->private), TRUE);
 }
 
 static void

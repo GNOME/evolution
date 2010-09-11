@@ -49,11 +49,11 @@ struct _MailDecorationPrivate
 
 static GObjectClass *parent_class = NULL;
 
-static void mail_decoration_class_init(MailDecorationClass *klass);
-static void mail_decoration_init(MailDecoration *facet);
+static void mail_decoration_class_init (MailDecorationClass *klass);
+static void mail_decoration_init (MailDecoration *facet);
 
 GType
-mail_decoration_get_type(void)
+mail_decoration_get_type (void)
 {
 	static GType type = 0;
 
@@ -154,7 +154,7 @@ update_cursor (MailDecoration *md, double x, double y, gboolean update)
 	if (update)
 		md->priv->resizing = TRUE;
 
-	if (in_top(md, y) && in_left (md, x)) {
+	if (in_top (md, y) && in_left (md, x)) {
 		md->priv->last_edge = GDK_WINDOW_EDGE_NORTH_WEST;
 		set_cursor (md, GDK_WINDOW_EDGE_NORTH_WEST);
 	} else if (in_top (md, y) && in_right (md, x)) {
@@ -241,7 +241,7 @@ md_size_allocate_event (GtkWidget *widget, GtkAllocation *allocation, gpointer u
 		md->priv->window_width = width;
 		gconf_client_set_int (client, "/apps/anjal/window_width", width, NULL);
 		gconf_client_set_int (client, "/apps/anjal/window_height", height, NULL);
-		g_object_unref(client);
+		g_object_unref (client);
 	}
 
 }
@@ -293,9 +293,9 @@ md_button_release_event (GtkWidget *widget, GdkEventButton *event, gpointer user
 	return FALSE;
 }
 
-MailDecoration* mail_decoration_new(GtkWindow *window)
+MailDecoration* mail_decoration_new (GtkWindow *window)
 {
-	MailDecoration *md = g_object_new(mail_decoration_get_type(), NULL);
+	MailDecoration *md = g_object_new (mail_decoration_get_type (), NULL);
 	GConfClient *client = gconf_client_get_default ();
 	gint width, height;
 
@@ -327,17 +327,17 @@ MailDecoration* mail_decoration_new(GtkWindow *window)
 }
 
 static void
-mail_decoration_class_init(MailDecorationClass *klass)
+mail_decoration_class_init (MailDecorationClass *klass)
 {
 
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	parent_class = g_type_class_peek_parent (klass);
 
-	g_type_class_add_private (object_class, sizeof(MailDecorationPrivate));
+	g_type_class_add_private (object_class, sizeof (MailDecorationPrivate));
 }
 
 static void
-mail_decoration_init(MailDecoration *md)
+mail_decoration_init (MailDecoration *md)
 {
 	MailDecorationPrivate *priv;
 

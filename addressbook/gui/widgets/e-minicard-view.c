@@ -36,7 +36,7 @@
 #include "e-util/e-util.h"
 #include "ea-addressbook.h"
 
-static void e_minicard_view_drag_data_get(GtkWidget *widget,
+static void e_minicard_view_drag_data_get (GtkWidget *widget,
 					  GdkDragContext *context,
 					  GtkSelectionData *selection_data,
 					  guint info,
@@ -76,7 +76,7 @@ static GtkTargetEntry drag_types[] = {
 };
 
 static void
-e_minicard_view_drag_data_get(GtkWidget *widget,
+e_minicard_view_drag_data_get (GtkWidget *widget,
 			      GdkDragContext *context,
 			      GtkSelectionData *selection_data,
 			      guint info,
@@ -85,7 +85,7 @@ e_minicard_view_drag_data_get(GtkWidget *widget,
 {
 	GdkAtom target;
 
-	if (!E_IS_MINICARD_VIEW(view))
+	if (!E_IS_MINICARD_VIEW (view))
 		return;
 
 	target = gtk_selection_data_get_target (selection_data);
@@ -334,7 +334,7 @@ e_minicard_view_get_property (GObject *object,
 static void
 e_minicard_view_dispose (GObject *object)
 {
-	EMinicardView *view = E_MINICARD_VIEW(object);
+	EMinicardView *view = E_MINICARD_VIEW (object);
 
 	clear_drag_data (view);
 
@@ -364,8 +364,8 @@ e_minicard_view_dispose (GObject *object)
 	view->stop_state_id = 0;
 	view->adapter = NULL;
 
-	if (G_OBJECT_CLASS(parent_class)->dispose)
-		G_OBJECT_CLASS(parent_class)->dispose (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static guint
@@ -410,8 +410,8 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 	}
 
-	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->event)
-		return GNOME_CANVAS_ITEM_CLASS(parent_class)->event(item, event);
+	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->event)
+		return GNOME_CANVAS_ITEM_CLASS (parent_class)->event (item, event);
 	else
 		return FALSE;
 }
@@ -435,7 +435,7 @@ e_minicard_view_selection_event (EReflow *reflow,
 			gint i;
 			for (i = 0; i < reflow->count; i++) {
 				if (reflow->items[i] == item) {
-					e_selection_model_maybe_do_something(reflow->selection, i, 0, 0);
+					e_selection_model_maybe_do_something (reflow->selection, i, 0, 0);
 					break;
 				}
 			}
@@ -445,7 +445,7 @@ e_minicard_view_selection_event (EReflow *reflow,
 		if (event->button.button == 3) {
 			return_val = e_minicard_view_right_click (view, event);
 			if (!return_val)
-				e_selection_model_right_click_up(reflow->selection);
+				e_selection_model_right_click_up (reflow->selection);
 		}
 		break;
 	default:
@@ -485,8 +485,8 @@ do_remove (gint i, gpointer user_data)
 static gint
 compare_to_utf_str (EMinicard *card, const gchar *utf_str)
 {
-	g_return_val_if_fail(card != NULL, 0);
-	g_return_val_if_fail(E_IS_MINICARD(card), 0);
+	g_return_val_if_fail (card != NULL, 0);
+	g_return_val_if_fail (E_IS_MINICARD (card), 0);
 
 	if (g_unichar_isdigit (g_utf8_get_char (utf_str))) {
 		return 1;
@@ -494,7 +494,7 @@ compare_to_utf_str (EMinicard *card, const gchar *utf_str)
 
 	if (card->card) {
 		gchar *file_as;
-		g_object_get(card->card,
+		g_object_get (card->card,
 			     "file_as", &file_as,
 			     NULL);
 		if (file_as)
@@ -583,7 +583,7 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 	/* GnomeCanvasItem method overrides */
 
 	/* init the accessibility support for e_minicard_view */
-	e_minicard_view_a11y_init();
+	e_minicard_view_a11y_init ();
 }
 
 static void
@@ -623,7 +623,7 @@ e_minicard_view_get_type (void)
 }
 
 void
-e_minicard_view_remove_selection(EMinicardView      *view,
+e_minicard_view_remove_selection (EMinicardView      *view,
 				 EBookAsyncCallback  cb,
 				 gpointer            closure)
 {

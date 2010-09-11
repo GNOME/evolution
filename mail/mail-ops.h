@@ -50,7 +50,7 @@ gint mail_get_message (CamelFolder *folder, const gchar *uid,
 		       MailMsgDispatchFunc dispatch);
 
 gint
-mail_get_messagex(CamelFolder *folder, const gchar *uid,
+mail_get_messagex (CamelFolder *folder, const gchar *uid,
 		  void (*done) (CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data, GError **error),
 		  gpointer data, MailMsgDispatchFunc dispatch);
 
@@ -83,7 +83,7 @@ void mail_build_attachment (CamelFolder *folder, GPtrArray *uids,
 void mail_sync_folder (CamelFolder *folder,
 		       void (*done) (CamelFolder *folder, gpointer data), gpointer data);
 
-void mail_sync_store(CamelStore *store, gint expunge,
+void mail_sync_store (CamelStore *store, gint expunge,
 		     void (*done) (CamelStore *store, gpointer data), gpointer data);
 
 void mail_refresh_folder (CamelFolder *folder,
@@ -147,10 +147,10 @@ void mail_filter_on_demand (CamelFolder *folder, GPtrArray *uids);
 void mail_filter_junk (CamelFolder *folder, GPtrArray *uids);
 
 /* Work Offline */
-void mail_prep_offline(const gchar *uri, CamelOperation *cancel,
+void mail_prep_offline (const gchar *uri, CamelOperation *cancel,
 		       void (*done)(const gchar *, gpointer data),
 		       gpointer data);
-gint mail_store_set_offline(CamelStore *store, gboolean offline,
+gint mail_store_set_offline (CamelStore *store, gboolean offline,
 			   void (*done)(CamelStore *, gpointer data),
 			   gpointer data);
 gint mail_store_prepare_offline (CamelStore *store);
@@ -158,7 +158,7 @@ gint mail_store_prepare_offline (CamelStore *store);
 /* filter driver execute shell command async callback */
 void mail_execute_shell_command (CamelFilterDriver *driver, gint argc, gchar **argv, gpointer data);
 
-gint mail_check_service(const gchar *url, CamelProviderType type,
+gint mail_check_service (const gchar *url, CamelProviderType type,
 		       void (*done)(const gchar *url, CamelProviderType type, GList *authtypes, gpointer data), gpointer data);
 
 G_END_DECLS

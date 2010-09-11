@@ -34,9 +34,9 @@
 #include <mail/em-config.h>
 #include <mail/em-format-hook.h>
 
-void org_gnome_prefer_plain_multipart_alternative(gpointer ep, EMFormatHookTarget *t);
-void org_gnome_prefer_plain_text_html(gpointer ep, EMFormatHookTarget *t);
-GtkWidget *org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
+void org_gnome_prefer_plain_multipart_alternative (gpointer ep, EMFormatHookTarget *t);
+void org_gnome_prefer_plain_text_html (gpointer ep, EMFormatHookTarget *t);
+GtkWidget *org_gnome_prefer_plain_config_mode (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
 enum {
 	EPP_NORMAL,
@@ -94,7 +94,7 @@ export_as_attachments (CamelMultipart *mp, EMFormat *format, CamelStream *stream
 	if (!mp || !CAMEL_IS_MULTIPART (mp))
 		return;
 
-	nparts = camel_multipart_get_number(mp);
+	nparts = camel_multipart_get_number (mp);
 	for (i = 0; i < nparts; i++) {
 		part = camel_multipart_get_part (mp, i);
 
@@ -111,7 +111,7 @@ export_as_attachments (CamelMultipart *mp, EMFormat *format, CamelStream *stream
 }
 
 void
-org_gnome_prefer_plain_multipart_alternative(gpointer ep, EMFormatHookTarget *t)
+org_gnome_prefer_plain_multipart_alternative (gpointer ep, EMFormatHookTarget *t)
 {
 	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)t->part);
 	CamelMimePart *part, *display_part = NULL;
@@ -161,14 +161,14 @@ org_gnome_prefer_plain_multipart_alternative(gpointer ep, EMFormatHookTarget *t)
 			t->item->handler.old->handler (t->format, t->stream, t->part, t->item->handler.old, FALSE);
 		}
 		return;
-	} else if (!CAMEL_IS_MULTIPART(mp)) {
-		em_format_format_source(t->format, t->stream, t->part);
+	} else if (!CAMEL_IS_MULTIPART (mp)) {
+		em_format_format_source (t->format, t->stream, t->part);
 		return;
 	}
 
-	nparts = camel_multipart_get_number(mp);
+	nparts = camel_multipart_get_number (mp);
 	for (i=0; i<nparts; i++) {
-		part = camel_multipart_get_part(mp, i);
+		part = camel_multipart_get_part (mp, i);
 		if (part && camel_content_type_is(camel_mime_part_get_content_type(part), "text", "plain")) {
 			displayid = i;
 			display_part = part;
@@ -180,14 +180,14 @@ org_gnome_prefer_plain_multipart_alternative(gpointer ep, EMFormatHookTarget *t)
 	if (display_part) {
 		g_string_append_printf(t->format->part_id, ".alternative-prefer-plain.%d", displayid);
 		em_format_part_as(t->format, t->stream, display_part, "text/plain");
-		g_string_truncate(t->format->part_id, partidlen);
+		g_string_truncate (t->format->part_id, partidlen);
 	}
 
 	/* all other parts are attachments */
 	if (epp_show_suppressed)
 		export_as_attachments (mp, t->format, t->stream, display_part);
 
-	g_string_truncate(t->format->part_id, partidlen);
+	g_string_truncate (t->format->part_id, partidlen);
 }
 
 static struct {
@@ -211,9 +211,9 @@ update_info_label (GtkWidget *info_label, guint mode)
 }
 
 static void
-epp_mode_changed(GtkComboBox *dropdown, GtkWidget *info_label)
+epp_mode_changed (GtkComboBox *dropdown, GtkWidget *info_label)
 {
-	epp_mode = gtk_combo_box_get_active(dropdown);
+	epp_mode = gtk_combo_box_get_active (dropdown);
 	if (epp_mode > 2)
 		epp_mode = 0;
 
@@ -231,7 +231,7 @@ epp_show_suppressed_toggled (GtkToggleButton *check, gpointer data)
 }
 
 GtkWidget *
-org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
+org_gnome_prefer_plain_config_mode (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
 {
 	/*EMConfigTargetPrefs *ep = (EMConfigTargetPrefs *)data->target;*/
 	GtkComboBox *dropdown;
@@ -249,20 +249,20 @@ org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItem
 	gtk_widget_show (check);
 	g_signal_connect (check, "toggled", G_CALLBACK (epp_show_suppressed_toggled), NULL);
 
-	dropdown = (GtkComboBox *)gtk_combo_box_new();
-	cell = gtk_cell_renderer_text_new();
-	store = gtk_list_store_new(1, G_TYPE_STRING);
+	dropdown = (GtkComboBox *)gtk_combo_box_new ();
+	cell = gtk_cell_renderer_text_new ();
+	store = gtk_list_store_new (1, G_TYPE_STRING);
 	for (i = 0; i < G_N_ELEMENTS (epp_options); i++) {
-		gtk_list_store_append(store, &iter);
-		gtk_list_store_set(store, &iter, 0, _(epp_options[i].label), -1);
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, _(epp_options[i].label), -1);
 	}
 
-	gtk_cell_layout_pack_start((GtkCellLayout *)dropdown, cell, TRUE);
+	gtk_cell_layout_pack_start ((GtkCellLayout *)dropdown, cell, TRUE);
 	gtk_cell_layout_set_attributes((GtkCellLayout *)dropdown, cell, "text", 0, NULL);
-	gtk_combo_box_set_model(dropdown, (GtkTreeModel *)store);
+	gtk_combo_box_set_model (dropdown, (GtkTreeModel *)store);
 	/*gtk_combo_box_set_active(dropdown, -1);*/
-	gtk_combo_box_set_active(dropdown, epp_mode);
-	gtk_widget_show((GtkWidget *)dropdown);
+	gtk_combo_box_set_active (dropdown, epp_mode);
+	gtk_widget_show ((GtkWidget *)dropdown);
 
 	dropdown_label = gtk_label_new_with_mnemonic (_("HTML _Mode"));
 	gtk_widget_show (dropdown_label);
@@ -278,20 +278,20 @@ org_gnome_prefer_plain_config_mode(struct _EPlugin *epl, struct _EConfigHookItem
 	g_signal_connect (dropdown, "changed", G_CALLBACK(epp_mode_changed), info);
 
 	g_object_get (data->parent, "n-rows", &i, NULL);
-	gtk_table_attach((GtkTable *)data->parent, check, 0, 2, i, i + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	gtk_table_attach((GtkTable *)data->parent, dropdown_label, 0, 1, i + 1, i + 2, 0, 0, 0, 0);
-	gtk_table_attach((GtkTable *)data->parent, (GtkWidget *)dropdown, 1, 2, i + 1, i + 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	gtk_table_attach((GtkTable *)data->parent, info, 1, 2, i + 2, i + 3, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_table_attach ((GtkTable *)data->parent, check, 0, 2, i, i + 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_table_attach ((GtkTable *)data->parent, dropdown_label, 0, 1, i + 1, i + 2, 0, 0, 0, 0);
+	gtk_table_attach ((GtkTable *)data->parent, (GtkWidget *)dropdown, 1, 2, i + 1, i + 2, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+	gtk_table_attach ((GtkTable *)data->parent, info, 1, 2, i + 2, i + 3, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* since this isnt dynamic, we don't need to track each item */
 
 	return (GtkWidget *)dropdown;
 }
 
-gint e_plugin_lib_enable(EPlugin *ep, gint enable);
+gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 gint
-e_plugin_lib_enable(EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
 	gchar *key;
 	gint i;
@@ -302,11 +302,11 @@ e_plugin_lib_enable(EPlugin *ep, gint enable)
 	if (enable) {
 		GConfValue *val;
 
-		epp_gconf = gconf_client_get_default();
+		epp_gconf = gconf_client_get_default ();
 		key = gconf_client_get_string(epp_gconf, "/apps/evolution/eplugin/prefer_plain/mode", NULL);
 		if (key) {
 			for (i = 0; i < G_N_ELEMENTS (epp_options); i++) {
-				if (!strcmp(epp_options[i].key, key)) {
+				if (!strcmp (epp_options[i].key, key)) {
 					epp_mode = i;
 					break;
 				}
@@ -324,7 +324,7 @@ e_plugin_lib_enable(EPlugin *ep, gint enable)
 			epp_show_suppressed = TRUE;
 	} else {
 		if (epp_gconf) {
-			g_object_unref(epp_gconf);
+			g_object_unref (epp_gconf);
 			epp_gconf = NULL;
 		}
 	}

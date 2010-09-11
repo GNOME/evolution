@@ -60,20 +60,20 @@ free_data (gpointer data)
 }
 
 static void
-ctd_response(GtkWidget *w, guint id, CertTrustDialogData *data)
+ctd_response (GtkWidget *w, guint id, CertTrustDialogData *data)
 {
 	CERTCertTrust trust;
 	CERTCertificate *icert;
 
 	switch (id) {
 	case GTK_RESPONSE_OK:
-		icert = e_cert_get_internal_cert(data->cert);
-		e_cert_trust_init(&trust);
-		e_cert_trust_set_valid_peer(&trust);
+		icert = e_cert_get_internal_cert (data->cert);
+		e_cert_trust_init (&trust);
+		e_cert_trust_set_valid_peer (&trust);
 		e_cert_trust_add_peer_trust (&trust, FALSE,
-					     gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (data->trust_button)),
+					     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->trust_button)),
 					     FALSE);
-		CERT_ChangeCertTrust (CERT_GetDefaultCertDB(), icert, &trust);
+		CERT_ChangeCertTrust (CERT_GetDefaultCertDB (), icert, &trust);
 		break;
 	case GTK_RESPONSE_ACCEPT: {
 		/* just *what on earth* was chris thinking here!?!?!  copied from certificate-manager.c */
@@ -101,7 +101,7 @@ ctd_response(GtkWidget *w, guint id, CertTrustDialogData *data)
 						   trust_email,
 						   trust_objsign);
 
-			CERT_ChangeCertTrust(CERT_GetDefaultCertDB(), icert, &trust);
+			CERT_ChangeCertTrust (CERT_GetDefaultCertDB (), icert, &trust);
 		}
 
 		gtk_widget_destroy (dialog);
@@ -122,7 +122,7 @@ cert_trust_dialog_show (ECert *cert)
 
 	ctd_data->dialog = e_builder_get_widget (ctd_data->builder, "cert-trust-dialog");
 	ctd_data->cert = g_object_ref (cert);
-	ctd_data->cacert = e_cert_get_ca_cert(cert);
+	ctd_data->cacert = e_cert_get_ca_cert (cert);
 	ctd_data->trust_button = e_builder_get_widget(ctd_data->builder, "cert-trust");
 	ctd_data->notrust_button = e_builder_get_widget(ctd_data->builder, "cert-notrust");
 
@@ -132,19 +132,19 @@ cert_trust_dialog_show (ECert *cert)
 
 	g_object_set_data_full (G_OBJECT (ctd_data->dialog), "CertTrustDialogData", ctd_data, free_data);
 
-	icert = e_cert_get_internal_cert(cert);
-	if (e_cert_trust_has_trusted_peer(icert->trust, FALSE, TRUE, FALSE))
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (ctd_data->trust_button), TRUE);
+	icert = e_cert_get_internal_cert (cert);
+	if (e_cert_trust_has_trusted_peer (icert->trust, FALSE, TRUE, FALSE))
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ctd_data->trust_button), TRUE);
 	else
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON (ctd_data->notrust_button), TRUE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (ctd_data->notrust_button), TRUE);
 
-	icert = e_cert_get_internal_cert(ctd_data->cacert);
-	if (e_cert_trust_has_trusted_ca(icert->trust, FALSE, TRUE, FALSE))
-		gtk_label_set_text((GtkLabel *)ctd_data->label,
+	icert = e_cert_get_internal_cert (ctd_data->cacert);
+	if (e_cert_trust_has_trusted_ca (icert->trust, FALSE, TRUE, FALSE))
+		gtk_label_set_text ((GtkLabel *)ctd_data->label,
 				   _("Because you trust the certificate authority that issued this certificate, "
 				     "then you trust the authenticity of this certificate unless otherwise indicated here"));
 	else
-		gtk_label_set_text((GtkLabel *)ctd_data->label,
+		gtk_label_set_text ((GtkLabel *)ctd_data->label,
 				   _("Because you do not trust the certificate authority that issued this certificate, "
 				     "then you do not trust the authenticity of this certificate unless otherwise indicated here"));
 

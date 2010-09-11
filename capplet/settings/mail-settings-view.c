@@ -55,7 +55,7 @@ static void msv_regen_view (MailSettingsView *acview);
 static void
 mail_settings_view_init (MailSettingsView  *shell)
 {
-	shell->priv = g_new0(MailSettingsViewPrivate, 1);
+	shell->priv = g_new0 (MailSettingsViewPrivate, 1);
 
 }
 
@@ -95,7 +95,7 @@ mail_settings_view_class_init (MailSettingsViewClass *klass)
 }
 
 static void
-msv_edit_account(GtkButton *button, MailSettingsView *msv)
+msv_edit_account (GtkButton *button, MailSettingsView *msv)
 {
 	EAccount *acc = g_object_get_data((GObject *)button, "account");
 
@@ -103,7 +103,7 @@ msv_edit_account(GtkButton *button, MailSettingsView *msv)
 }
 
 static void
-msv_delete_account(GtkButton *button, MailSettingsView *msv)
+msv_delete_account (GtkButton *button, MailSettingsView *msv)
 {
 	EAccount *account = g_object_get_data((GObject *)button, "account");
 	EAccountList *account_list = e_get_account_list ();
@@ -138,21 +138,21 @@ build_account_button (MailSettingsView *acview, EAccount *account)
 
 	if (FALSE) {
 		tlabel = (GtkWidget *)gtk_image_new_from_stock (account ? "gtk-edit" : "gtk-new", GTK_ICON_SIZE_BUTTON);
-		gtk_widget_show(tlabel);
-		gtk_box_pack_start((GtkBox *)tbox, tlabel, FALSE, FALSE, 6);
+		gtk_widget_show (tlabel);
+		gtk_box_pack_start ((GtkBox *)tbox, tlabel, FALSE, FALSE, 6);
 	}
 
 	if (account)
 		tmp = g_strdup_printf (_("Modify %s..."), e_account_get_string(account, E_ACCOUNT_ID_ADDRESS));
 	else
 		tmp = _("Add a new account");
-	tlabel = gtk_label_new(tmp);
+	tlabel = gtk_label_new (tmp);
 	if (account)
-		g_free(tmp);
-	gtk_widget_show(tlabel);
-	gtk_box_pack_start((GtkBox *)tbox, tlabel, FALSE, FALSE, 0);
-	gtk_widget_show(tbox);
-	gtk_container_add((GtkContainer *)label, tbox);
+		g_free (tmp);
+	gtk_widget_show (tlabel);
+	gtk_box_pack_start ((GtkBox *)tbox, tlabel, FALSE, FALSE, 0);
+	gtk_widget_show (tbox);
+	gtk_container_add ((GtkContainer *)label, tbox);
 	g_object_set_data ((GObject *)label, "account", account);
 	g_signal_connect(label, "clicked", G_CALLBACK(msv_edit_account), acview);
 	gtk_box_pack_start ((GtkBox *)box1, label, FALSE, FALSE, 0);
@@ -160,13 +160,13 @@ build_account_button (MailSettingsView *acview, EAccount *account)
 
 	if (account) {
 		tlabel = gtk_button_new_from_stock ("gtk-delete");
-		gtk_box_pack_start((GtkBox *)box1, tlabel, FALSE, FALSE, 12);
-		gtk_widget_show(tlabel);
+		gtk_box_pack_start ((GtkBox *)box1, tlabel, FALSE, FALSE, 12);
+		gtk_widget_show (tlabel);
 		g_object_set_data ((GObject *)tlabel, "account", account);
 		g_signal_connect (tlabel, "clicked", G_CALLBACK(msv_delete_account), acview);
 	}
 
-	PACK_BOX(box1,24);
+	PACK_BOX (box1,24);
 }
 
 static void
@@ -178,13 +178,13 @@ msv_regen_view (MailSettingsView *acview)
 	GtkWidget *box, *label;
 	gchar *buff;
 
-	gtk_container_foreach((GtkContainer *)acview->priv->box, (GtkCallback)gtk_widget_destroy, NULL);
+	gtk_container_foreach ((GtkContainer *)acview->priv->box, (GtkCallback)gtk_widget_destroy, NULL);
 
 	label = gtk_label_new (NULL);
 	buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Account management"));
 	gtk_label_set_markup ((GtkLabel *)label, buff);
 	g_free (buff);
-	PACK_BOX(label,12);
+	PACK_BOX (label,12);
 
 	node = e_list_get_iterator ((EList *) accounts);
 	while (e_iterator_is_valid (node)) {
@@ -210,7 +210,7 @@ mail_settings_view_construct (MailSettingsView *acview)
 	acview->priv->accounts = e_get_account_list ();
 	g_signal_connect (acview->priv->accounts, "account-added", G_CALLBACK(msv_account_added), acview);
 	msv_regen_view (acview);
-	gtk_widget_show((GtkWidget *)acview);
+	gtk_widget_show ((GtkWidget *)acview);
 
 }
 
@@ -235,8 +235,8 @@ msv_btn_expose (GtkWidget *w, GdkEventExpose *event, MailSettingsView *mfv)
 	cr = gdk_cairo_create (gtk_widget_get_window (w));
 	cairo_save (cr);
 	gdk_cairo_set_source_pixbuf (cr, img, event->area.x-5, event->area.y-4);
-	cairo_paint(cr);
-	cairo_restore(cr);
+	cairo_paint (cr);
+	cairo_restore (cr);
 	cairo_destroy (cr);
 
 	return TRUE;
@@ -249,7 +249,7 @@ msv_close (GtkButton *w, MailSettingsView *mfv)
 }
 
 GtkWidget *
-mail_settings_view_get_tab_widget(MailSettingsView *mcv)
+mail_settings_view_get_tab_widget (MailSettingsView *mcv)
 {
 	GdkPixbuf *pbuf = gtk_widget_render_icon ((GtkWidget *)mcv, "gtk-close", GTK_ICON_SIZE_MENU, NULL);
 
@@ -262,7 +262,7 @@ mail_settings_view_get_tab_widget(MailSettingsView *mcv)
 	g_signal_connect (img, "expose-event", G_CALLBACK(msv_btn_expose), mcv);
 
 	tool = gtk_button_new ();
-	gtk_button_set_relief((GtkButton *)tool, GTK_RELIEF_NONE);
+	gtk_button_set_relief ((GtkButton *)tool, GTK_RELIEF_NONE);
 	gtk_button_set_focus_on_click ((GtkButton *)tool, FALSE);
 	gtk_widget_set_tooltip_text (tool, _("Close Tab"));
 	g_signal_connect (tool, "clicked", G_CALLBACK(msv_close), mcv);
@@ -271,7 +271,7 @@ mail_settings_view_get_tab_widget(MailSettingsView *mcv)
 	gtk_box_pack_start ((GtkBox *)box, img, FALSE, FALSE, 0);
 	gtk_container_add ((GtkContainer *)tool, box);
 	gtk_widget_show_all (tool);
-	gtk_icon_size_lookup_for_settings (gtk_widget_get_settings(tool) , GTK_ICON_SIZE_MENU, &w, &h);
+	gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (tool) , GTK_ICON_SIZE_MENU, &w, &h);
 	gtk_widget_set_size_request (tool, w+2, h+2);
 
 	box = gtk_label_new (_("Settings"));
@@ -291,7 +291,7 @@ mail_settings_view_activate (MailSettingsView *mcv, GtkWidget *tree, GtkWidget *
 {
 	 if (!check_mail || !sort_by)
 		  return;
-	 //if (!GTK_WIDGET_VISIBLE(folder_tree))
+	 //if (!GTK_WIDGET_VISIBLE (folder_tree))
 	 //	 gtk_widget_show (slider);
 	 gtk_widget_set_sensitive (check_mail, TRUE);
 	 gtk_widget_set_sensitive (sort_by, FALSE);

@@ -205,7 +205,7 @@ retry:
 		if (!only_once) {
 			/* Create wordlist.db */
 			only_once = TRUE;
-			init_db();
+			init_db ();
 
 			goto retry;
 		}
@@ -350,7 +350,7 @@ e_plugin_lib_enable (EPlugin *ep, gint enable)
 		return 0;
 
 	first = FALSE;
-	gconf = gconf_client_get_default();
+	gconf = gconf_client_get_default ();
 
 	gconf_client_add_dir (gconf,
 			      em_junk_bf_gconf_dir,
@@ -375,7 +375,7 @@ convert_unicode_cb (GtkWidget *widget, gpointer data)
 {
 
 	gboolean active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
-	GConfClient *gconf = gconf_client_get_default();
+	GConfClient *gconf = gconf_client_get_default ();
 
 	gconf_client_set_bool (gconf, data, active, NULL);
 

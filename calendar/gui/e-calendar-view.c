@@ -977,7 +977,7 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 	case GNOME_CAL_MONTH_VIEW:
 	case GNOME_CAL_LIST_VIEW:
 		if (old_dtstart.is_date && old_dtend.is_date
-			&& memcmp (&ic_dur, &ic_oneday, sizeof(ic_dur)) == 0)
+			&& memcmp (&ic_dur, &ic_oneday, sizeof (ic_dur)) == 0)
 			all_day_event = TRUE;
 		else {
 			icaltimetype new_time = icaltime_from_timet_with_zone (dtstart, FALSE, default_zone);
@@ -1271,7 +1271,7 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 			e_cal_get_timezone (event->comp_data->client, dt.tzid, &zone, &error);
 			if (error) {
 				zone = e_calendar_view_get_timezone (cal_view);
-				g_clear_error(&error);
+				g_clear_error (&error);
 			}
 		} else
 			zone = e_calendar_view_get_timezone (cal_view);
@@ -1331,7 +1331,7 @@ e_calendar_view_open_event (ECalendarView *cal_view)
 		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
 		if (event && is_comp_data_valid (event))
 			e_calendar_view_edit_appointment (cal_view, event->comp_data->client,
-					event->comp_data->icalcomp, icalcomponent_get_first_property(event->comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY) != NULL);
+					event->comp_data->icalcomp, icalcomponent_get_first_property (event->comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY) != NULL);
 
 		g_list_free (selected);
 	}
@@ -1646,7 +1646,7 @@ tooltip_grab (GtkWidget *tooltip, GdkEventKey *event, ECalendarView *view)
 	if (!widget)
 		return TRUE;
 
-	gdk_keyboard_ungrab(GDK_CURRENT_TIME);
+	gdk_keyboard_ungrab (GDK_CURRENT_TIME);
 	gtk_widget_destroy (widget);
 	g_object_set_data (G_OBJECT (view), "tooltip-window", NULL);
 
@@ -1860,7 +1860,7 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	e_cal_component_get_organizer (newcomp, &organiser);
 	if (organiser.cn) {
 		gchar *ptr;
-		ptr = strchr(organiser.value, ':');
+		ptr = strchr (organiser.value, ':');
 
 		if (ptr) {
 			ptr++;
@@ -1912,7 +1912,7 @@ e_calendar_view_get_tooltips (const ECalendarViewEventData *data)
 	t_start = icaltime_as_timet_with_zone (*dtstart.value, zone);
 	t_end = icaltime_as_timet_with_zone (*dtend.value, zone);
 
-	tmp1 = get_label(dtstart.value, zone, default_zone);
+	tmp1 = get_label (dtstart.value, zone, default_zone);
 	tmp = calculate_time (t_start, t_end);
 
 	/* To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"*/

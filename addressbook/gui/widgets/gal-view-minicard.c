@@ -140,7 +140,7 @@ view_minicard_clone (GalView *view)
 	GalViewMinicard *view_minicard;
 	GalViewMinicard *clone;
 
-	view_minicard = GAL_VIEW_MINICARD(view);
+	view_minicard = GAL_VIEW_MINICARD (view);
 
 	clone = g_object_new (GAL_TYPE_VIEW_MINICARD, NULL);
 	clone->column_width = view_minicard->column_width;

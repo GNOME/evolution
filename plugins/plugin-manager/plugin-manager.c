@@ -198,7 +198,7 @@ eppm_enable_toggled (GtkCellRendererToggle *renderer, const gchar *path_string, 
 
 		g_warning ("%s", plugin->name);
 
-		gtk_list_store_set (GTK_LIST_STORE(m->model), &iter,
+		gtk_list_store_set (GTK_LIST_STORE (m->model), &iter,
 				    COL_PLUGIN_ENABLED, plugin->enabled,
 				    -1);
 	}

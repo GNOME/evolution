@@ -40,36 +40,36 @@
 
 #define d(x)
 
-static gboolean validate(EFilterElement *fe, EAlert **alert);
-static gint folder_eq(EFilterElement *fe, EFilterElement *cm);
-static void xml_create(EFilterElement *fe, xmlNodePtr node);
-static xmlNodePtr xml_encode(EFilterElement *fe);
-static gint xml_decode(EFilterElement *fe, xmlNodePtr node);
-static GtkWidget *get_widget(EFilterElement *fe);
-static void build_code(EFilterElement *fe, GString *out, EFilterPart *ff);
-static void format_sexp(EFilterElement *, GString *);
-static void emff_copy_value(EFilterElement *de, EFilterElement *se);
+static gboolean validate (EFilterElement *fe, EAlert **alert);
+static gint folder_eq (EFilterElement *fe, EFilterElement *cm);
+static void xml_create (EFilterElement *fe, xmlNodePtr node);
+static xmlNodePtr xml_encode (EFilterElement *fe);
+static gint xml_decode (EFilterElement *fe, xmlNodePtr node);
+static GtkWidget *get_widget (EFilterElement *fe);
+static void build_code (EFilterElement *fe, GString *out, EFilterPart *ff);
+static void format_sexp (EFilterElement *, GString *);
+static void emff_copy_value (EFilterElement *de, EFilterElement *se);
 
-static void em_filter_folder_element_class_init(EMFilterFolderElementClass *class);
-static void em_filter_folder_element_init(EMFilterFolderElement *ff);
-static void em_filter_folder_element_finalise(GObject *obj);
+static void em_filter_folder_element_class_init (EMFilterFolderElementClass *class);
+static void em_filter_folder_element_init (EMFilterFolderElement *ff);
+static void em_filter_folder_element_finalise (GObject *obj);
 
 static EFilterElementClass *parent_class = NULL;
 
 GType
-em_filter_folder_element_get_type(void)
+em_filter_folder_element_get_type (void)
 {
 	static GType type = 0;
 
 	if (!type) {
 		static const GTypeInfo info = {
-			sizeof(EMFilterFolderElementClass),
+			sizeof (EMFilterFolderElementClass),
 			NULL, /* base_class_init */
 			NULL, /* base_class_finalize */
 			(GClassInitFunc)em_filter_folder_element_class_init,
 			NULL, /* class_finalize */
 			NULL, /* class_data */
-			sizeof(EMFilterFolderElement),
+			sizeof (EMFilterFolderElement),
 			0,    /* n_preallocs */
 			(GInstanceInitFunc)em_filter_folder_element_init,
 		};
@@ -81,12 +81,12 @@ em_filter_folder_element_get_type(void)
 }
 
 static void
-em_filter_folder_element_class_init(EMFilterFolderElementClass *klass)
+em_filter_folder_element_class_init (EMFilterFolderElementClass *klass)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS(klass);
-	EFilterElementClass *fe_class = E_FILTER_ELEMENT_CLASS(klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	EFilterElementClass *fe_class = E_FILTER_ELEMENT_CLASS (klass);
 
-	parent_class = g_type_class_ref(E_TYPE_FILTER_ELEMENT);
+	parent_class = g_type_class_ref (E_TYPE_FILTER_ELEMENT);
 
 	object_class->finalize = em_filter_folder_element_finalise;
 
@@ -103,19 +103,19 @@ em_filter_folder_element_class_init(EMFilterFolderElementClass *klass)
 }
 
 static void
-em_filter_folder_element_init(EMFilterFolderElement *ff)
+em_filter_folder_element_init (EMFilterFolderElement *ff)
 {
 	;
 }
 
 static void
-em_filter_folder_element_finalise(GObject *obj)
+em_filter_folder_element_finalise (GObject *obj)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)obj;
 
-	g_free(ff->uri);
+	g_free (ff->uri);
 
-        G_OBJECT_CLASS(parent_class)->finalize(obj);
+        G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /**
@@ -126,20 +126,20 @@ em_filter_folder_element_finalise(GObject *obj)
  * Return value: A new #EMFilterFolderElement object.
  **/
 EMFilterFolderElement *
-em_filter_folder_element_new(void)
+em_filter_folder_element_new (void)
 {
-	return(EMFilterFolderElement *)g_object_new(em_filter_folder_element_get_type(), NULL, NULL);
+	return (EMFilterFolderElement *)g_object_new (em_filter_folder_element_get_type (), NULL, NULL);
 }
 
 void
-em_filter_folder_element_set_value(EMFilterFolderElement *ff, const gchar *uri)
+em_filter_folder_element_set_value (EMFilterFolderElement *ff, const gchar *uri)
 {
-	g_free(ff->uri);
-	ff->uri = g_strdup(uri);
+	g_free (ff->uri);
+	ff->uri = g_strdup (uri);
 }
 
 static gboolean
-validate(EFilterElement *fe, EAlert **alert)
+validate (EFilterElement *fe, EAlert **alert)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
 
@@ -156,21 +156,21 @@ validate(EFilterElement *fe, EAlert **alert)
 }
 
 static gint
-folder_eq(EFilterElement *fe, EFilterElement *cm)
+folder_eq (EFilterElement *fe, EFilterElement *cm)
 {
-        return E_FILTER_ELEMENT_CLASS(parent_class)->eq(fe, cm)
-		&& strcmp(((EMFilterFolderElement *)fe)->uri, ((EMFilterFolderElement *)cm)->uri)== 0;
+        return E_FILTER_ELEMENT_CLASS (parent_class)->eq (fe, cm)
+		&& strcmp (((EMFilterFolderElement *)fe)->uri, ((EMFilterFolderElement *)cm)->uri)== 0;
 }
 
 static void
-xml_create(EFilterElement *fe, xmlNodePtr node)
+xml_create (EFilterElement *fe, xmlNodePtr node)
 {
 	/* parent implementation */
-        E_FILTER_ELEMENT_CLASS(parent_class)->xml_create(fe, node);
+        E_FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
 }
 
 static xmlNodePtr
-xml_encode(EFilterElement *fe)
+xml_encode (EFilterElement *fe)
 {
 	xmlNodePtr value, work;
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
@@ -191,7 +191,7 @@ xml_encode(EFilterElement *fe)
 }
 
 static gint
-xml_decode(EFilterElement *fe, xmlNodePtr node)
+xml_decode (EFilterElement *fe, xmlNodePtr node)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
 	xmlNodePtr n;
@@ -199,7 +199,7 @@ xml_decode(EFilterElement *fe, xmlNodePtr node)
 
 	d(printf("Decoding folder from xml %p\n", fe));
 
-	xmlFree(fe->name);
+	xmlFree (fe->name);
 	fe->name = (gchar *)xmlGetProp(node, (const guchar *)"name");
 
 	type = xmlGetProp (node, (const guchar *)"type");
@@ -216,9 +216,9 @@ xml_decode(EFilterElement *fe, xmlNodePtr node)
 			gchar *uri;
 
 			uri = (gchar *)xmlGetProp(n, (const guchar *)"uri");
-			g_free(ff->uri);
-			ff->uri = g_strdup(uri);
-			xmlFree(uri);
+			g_free (ff->uri);
+			ff->uri = g_strdup (uri);
+			xmlFree (uri);
 			break;
 		}
 		n = n->next;
@@ -228,13 +228,13 @@ xml_decode(EFilterElement *fe, xmlNodePtr node)
 }
 
 static void
-folder_selected(EMFolderSelectionButton *button, EMFilterFolderElement *ff)
+folder_selected (EMFolderSelectionButton *button, EMFilterFolderElement *ff)
 {
 	GtkWidget *toplevel;
 	const gchar *uri;
 
-	uri = em_folder_selection_button_get_selection(button);
-	g_free(ff->uri);
+	uri = em_folder_selection_button_get_selection (button);
+	g_free (ff->uri);
 
 	if (ff->store_camel_uri)
 		ff->uri = g_strdup (uri);
@@ -246,7 +246,7 @@ folder_selected(EMFolderSelectionButton *button, EMFilterFolderElement *ff)
 }
 
 static GtkWidget *
-get_widget(EFilterElement *fe)
+get_widget (EFilterElement *fe)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
 	GtkWidget *button;
@@ -259,38 +259,38 @@ get_widget(EFilterElement *fe)
 
 	button = em_folder_selection_button_new (_("Select Folder"), NULL);
 
-	em_folder_selection_button_set_selection(
+	em_folder_selection_button_set_selection (
 		EM_FOLDER_SELECTION_BUTTON (button), uri);
 
 	if (!ff->store_camel_uri)
-		g_free(uri);
+		g_free (uri);
 
-	gtk_widget_show(button);
+	gtk_widget_show (button);
 	g_signal_connect(button, "selected", G_CALLBACK(folder_selected), ff);
 
 	return button;
 }
 
 static void
-build_code(EFilterElement *fe, GString *out, EFilterPart *ff)
+build_code (EFilterElement *fe, GString *out, EFilterPart *ff)
 {
 	return;
 }
 
 static void
-format_sexp(EFilterElement *fe, GString *out)
+format_sexp (EFilterElement *fe, GString *out)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
 
-	e_sexp_encode_string(out, ff->uri);
+	e_sexp_encode_string (out, ff->uri);
 }
 
 static void
-emff_copy_value(EFilterElement *de, EFilterElement *se)
+emff_copy_value (EFilterElement *de, EFilterElement *se)
 {
-	if (EM_IS_FILTER_FOLDER_ELEMENT(se)) {
+	if (EM_IS_FILTER_FOLDER_ELEMENT (se)) {
 		((EMFilterFolderElement *)de)->store_camel_uri = ((EMFilterFolderElement *)se)->store_camel_uri;
-		em_filter_folder_element_set_value((EMFilterFolderElement *)de, ((EMFilterFolderElement *)se)->uri);
+		em_filter_folder_element_set_value ((EMFilterFolderElement *)de, ((EMFilterFolderElement *)se)->uri);
 	} else
-		parent_class->copy_value(de, se);
+		parent_class->copy_value (de, se);
 }

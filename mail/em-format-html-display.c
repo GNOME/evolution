@@ -108,8 +108,8 @@ static const gchar *smime_sign_colour[5] = {
 	"", " bgcolor=\"#88bb88\"", " bgcolor=\"#bb8888\"", " bgcolor=\"#e8d122\"",""
 };
 
-static void efhd_attachment_frame(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri);
-static void efhd_message_add_bar(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info);
+static void efhd_attachment_frame (EMFormat *emf, CamelStream *stream, EMFormatPURI *puri);
+static void efhd_message_add_bar (EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info);
 static gboolean efhd_attachment_button (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
 static gboolean efhd_attachment_optional (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *object);
 
@@ -146,9 +146,9 @@ struct _attach_puri {
         camel_cipher_validity_encrypt_t encrypt;
 };
 
-static void efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info);
+static void efhd_message_prefix (EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info);
 
-static void efhd_builtin_init(EMFormatHTMLDisplayClass *efhc);
+static void efhd_builtin_init (EMFormatHTMLDisplayClass *efhc);
 
 static gpointer parent_class;
 
@@ -158,8 +158,8 @@ efhd_xpkcs7mime_free (EMFormatHTMLPObject *o)
 	struct _smime_pobject *po = (struct _smime_pobject *)o;
 
 	if (po->widget)
-		gtk_widget_destroy(po->widget);
-	camel_cipher_validity_free(po->valid);
+		gtk_widget_destroy (po->widget);
+	camel_cipher_validity_free (po->valid);
 }
 
 static void
@@ -183,16 +183,16 @@ efhd_xpkcs7mime_viewcert_clicked (GtkWidget *button,
 		ec = e_cert_new (CERT_DupCertificate (info->cert_data));
 
 	if (ec != NULL) {
-		GtkWidget *w = certificate_viewer_show(ec);
+		GtkWidget *w = certificate_viewer_show (ec);
 
 		/* oddly enough certificate_viewer_show doesn't ... */
-		gtk_widget_show(w);
+		gtk_widget_show (w);
 		g_signal_connect(w, "response", G_CALLBACK(gtk_widget_destroy), NULL);
 
 		if (w && po->widget)
 			gtk_window_set_transient_for ((GtkWindow *)w, (GtkWindow *)po->widget);
 
-		g_object_unref(ec);
+		g_object_unref (ec);
 	} else {
 		g_warning("can't find certificate for %s <%s>", info->name?info->name:"", info->email?info->email:"");
 	}
@@ -205,7 +205,7 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *vbox,
                                 struct _smime_pobject *po)
 {
 	CamelCipherCertInfo *info = (CamelCipherCertInfo *)certlist->head;
-	GtkTable *table = (GtkTable *)gtk_table_new(camel_dlist_length(certlist), 2, FALSE);
+	GtkTable *table = (GtkTable *)gtk_table_new (camel_dlist_length (certlist), 2, FALSE);
 	gint n = 0;
 
 	while (info->next) {
@@ -213,7 +213,7 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *vbox,
 		const gchar *l = NULL;
 
 		if (info->name) {
-			if (info->email && strcmp(info->name, info->email) != 0)
+			if (info->email && strcmp (info->name, info->email) != 0)
 				l = la = g_strdup_printf("%s <%s>", info->name, info->email);
 			else
 				l = info->name;
@@ -227,13 +227,13 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *vbox,
 #if defined(HAVE_NSS)
 			ECert *ec = NULL;
 #endif
-			w = gtk_label_new(l);
-			gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.5);
-			g_free(la);
-			gtk_table_attach(table, w, 0, 1, n, n+1, GTK_FILL, GTK_FILL, 3, 3);
+			w = gtk_label_new (l);
+			gtk_misc_set_alignment ((GtkMisc *)w, 0.0, 0.5);
+			g_free (la);
+			gtk_table_attach (table, w, 0, 1, n, n+1, GTK_FILL, GTK_FILL, 3, 3);
 #if defined(HAVE_NSS)
 			w = gtk_button_new_with_mnemonic(_("_View Certificate"));
-			gtk_table_attach(table, w, 1, 2, n, n+1, 0, 0, 3, 3);
+			gtk_table_attach (table, w, 1, 2, n, n+1, 0, 0, 3, 3);
 			g_object_set_data((GObject *)w, "e-cert-info", info);
 			g_signal_connect(w, "clicked", G_CALLBACK(efhd_xpkcs7mime_viewcert_clicked), po);
 
@@ -241,12 +241,12 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *vbox,
 				ec = e_cert_new (CERT_DupCertificate (info->cert_data));
 
 			if (ec == NULL)
-				gtk_widget_set_sensitive(w, FALSE);
+				gtk_widget_set_sensitive (w, FALSE);
 			else
-				g_object_unref(ec);
+				g_object_unref (ec);
 #else
 			w = gtk_label_new (_("This certificate is not viewable"));
-			gtk_table_attach(table, w, 1, 2, n, n+1, 0, 0, 3, 3);
+			gtk_table_attach (table, w, 1, 2, n, n+1, 0, 0, 3, 3);
 #endif
 			n++;
 		}
@@ -254,7 +254,7 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *vbox,
 		info = info->next;
 	}
 
-	gtk_box_pack_start((GtkBox *)vbox, (GtkWidget *)table, TRUE, TRUE, 6);
+	gtk_box_pack_start ((GtkBox *)vbox, (GtkWidget *)table, TRUE, TRUE, 6);
 }
 
 static void
@@ -276,15 +276,15 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 
 	vbox = e_builder_get_widget(builder, "signature_vbox");
 	w = gtk_label_new (_(smime_sign_table[po->valid->sign.status].description));
-	gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.5);
-	gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
-	gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
+	gtk_misc_set_alignment ((GtkMisc *)w, 0.0, 0.5);
+	gtk_label_set_line_wrap ((GtkLabel *)w, TRUE);
+	gtk_box_pack_start ((GtkBox *)vbox, w, TRUE, TRUE, 6);
 	if (po->valid->sign.description) {
 		GtkTextBuffer *buffer;
 
-		buffer = gtk_text_buffer_new(NULL);
-		gtk_text_buffer_set_text(buffer, po->valid->sign.description, strlen(po->valid->sign.description));
-		w = g_object_new(gtk_scrolled_window_get_type(),
+		buffer = gtk_text_buffer_new (NULL);
+		gtk_text_buffer_set_text (buffer, po->valid->sign.description, strlen (po->valid->sign.description));
+		w = g_object_new (gtk_scrolled_window_get_type (),
 				 "hscrollbar_policy", GTK_POLICY_AUTOMATIC,
 				 "vscrollbar_policy", GTK_POLICY_AUTOMATIC,
 				 "shadow_type", GTK_SHADOW_IN,
@@ -296,27 +296,27 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 						       "height_request", 160,
 						       NULL),
 				 NULL);
-		g_object_unref(buffer);
+		g_object_unref (buffer);
 
-		gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
+		gtk_box_pack_start ((GtkBox *)vbox, w, TRUE, TRUE, 6);
 	}
 
-	if (!camel_dlist_empty(&po->valid->sign.signers))
-		efhd_xpkcs7mime_add_cert_table(vbox, &po->valid->sign.signers, po);
+	if (!camel_dlist_empty (&po->valid->sign.signers))
+		efhd_xpkcs7mime_add_cert_table (vbox, &po->valid->sign.signers, po);
 
-	gtk_widget_show_all(vbox);
+	gtk_widget_show_all (vbox);
 
 	vbox = e_builder_get_widget(builder, "encryption_vbox");
-	w = gtk_label_new(_(smime_encrypt_table[po->valid->encrypt.status].description));
-	gtk_misc_set_alignment((GtkMisc *)w, 0.0, 0.5);
-	gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
-	gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
+	w = gtk_label_new (_(smime_encrypt_table[po->valid->encrypt.status].description));
+	gtk_misc_set_alignment ((GtkMisc *)w, 0.0, 0.5);
+	gtk_label_set_line_wrap ((GtkLabel *)w, TRUE);
+	gtk_box_pack_start ((GtkBox *)vbox, w, TRUE, TRUE, 6);
 	if (po->valid->encrypt.description) {
 		GtkTextBuffer *buffer;
 
-		buffer = gtk_text_buffer_new(NULL);
-		gtk_text_buffer_set_text(buffer, po->valid->encrypt.description, strlen(po->valid->encrypt.description));
-		w = g_object_new(gtk_scrolled_window_get_type(),
+		buffer = gtk_text_buffer_new (NULL);
+		gtk_text_buffer_set_text (buffer, po->valid->encrypt.description, strlen (po->valid->encrypt.description));
+		w = g_object_new (gtk_scrolled_window_get_type (),
 				 "hscrollbar_policy", GTK_POLICY_AUTOMATIC,
 				 "vscrollbar_policy", GTK_POLICY_AUTOMATIC,
 				 "shadow_type", GTK_SHADOW_IN,
@@ -328,20 +328,20 @@ efhd_xpkcs7mime_validity_clicked (GtkWidget *button,
 						       "height_request", 160,
 						       NULL),
 				 NULL);
-		g_object_unref(buffer);
+		g_object_unref (buffer);
 
-		gtk_box_pack_start((GtkBox *)vbox, w, TRUE, TRUE, 6);
+		gtk_box_pack_start ((GtkBox *)vbox, w, TRUE, TRUE, 6);
 	}
 
-	if (!camel_dlist_empty(&po->valid->encrypt.encrypters))
-		efhd_xpkcs7mime_add_cert_table(vbox, &po->valid->encrypt.encrypters, po);
+	if (!camel_dlist_empty (&po->valid->encrypt.encrypters))
+		efhd_xpkcs7mime_add_cert_table (vbox, &po->valid->encrypt.encrypters, po);
 
-	gtk_widget_show_all(vbox);
+	gtk_widget_show_all (vbox);
 
-	g_object_unref(builder);
+	g_object_unref (builder);
 
 	g_signal_connect(po->widget, "response", G_CALLBACK(efhd_xpkcs7mime_info_response), po);
-	gtk_widget_show(po->widget);
+	gtk_widget_show (po->widget);
 }
 
 static gboolean
@@ -508,7 +508,7 @@ efhd_format_optional (EMFormat *emf,
 		stream, "<td><object classid=\"%s\"></object>"
 		"</td></tr></table>", classid);
 
-	g_free(html);
+	g_free (html);
 
 	camel_stream_write_string (stream, EM_FORMAT_HTML_VPAD, NULL);
 
@@ -543,7 +543,7 @@ efhd_format_secure (EMFormat *emf,
 		pobj = (struct _smime_pobject *) em_format_html_add_pobject (
 			EM_FORMAT_HTML (emf), sizeof (*pobj),
 			classid, part, efhd_xpkcs7mime_button);
-		pobj->valid = camel_cipher_validity_clone(valid);
+		pobj->valid = camel_cipher_validity_clone (valid);
 		pobj->object.free = efhd_xpkcs7mime_free;
 		camel_stream_printf (
 			stream, "<td valign=center><object classid=\"%s\">"
@@ -665,27 +665,27 @@ static EMFormatHandler type_builtin_table[] = {
 };
 
 static void
-efhd_builtin_init(EMFormatHTMLDisplayClass *efhc)
+efhd_builtin_init (EMFormatHTMLDisplayClass *efhc)
 {
 	gint i;
 
 	for (i = 0; i < G_N_ELEMENTS (type_builtin_table); i++)
-		em_format_class_add_handler((EMFormatClass *)efhc, &type_builtin_table[i]);
+		em_format_class_add_handler ((EMFormatClass *)efhc, &type_builtin_table[i]);
 }
 
 static void
-efhd_write_image(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
+efhd_write_image (EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 {
 	CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *)puri->part);
 
 	/* TODO: identical to efh_write_image */
 	d(printf("writing image '%s'\n", puri->cid));
-	camel_data_wrapper_decode_to_stream(dw, stream, NULL);
-	camel_stream_close(stream, NULL);
+	camel_data_wrapper_decode_to_stream (dw, stream, NULL);
+	camel_stream_close (stream, NULL);
 }
 
 static void
-efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
+efhd_message_prefix (EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
 {
 	const gchar *flag, *comp, *due;
 	time_t date;
@@ -711,8 +711,8 @@ efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMF
 
 			classid = g_strdup_printf("icon:///em-format-html-display/%s/%s", emf->part_id->str, comp&&comp[0]?"comp":"uncomp");
 			camel_stream_printf(stream, "<td align=\"left\"><img src=\"%s\"></td>", classid);
-			(void)em_format_add_puri(emf, sizeof(EMFormatPURI), classid, iconpart, efhd_write_image);
-			g_free(classid);
+			(void)em_format_add_puri (emf, sizeof (EMFormatPURI), classid, iconpart, efhd_write_image);
+			g_free (classid);
 			g_object_unref (iconpart);
 		}
 	}
@@ -727,8 +727,8 @@ efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMF
 	} else if ((due = camel_folder_get_message_user_tag(emf->folder, emf->uid, "due-by")) != NULL && due[0]) {
 		time_t now;
 
-		date = camel_header_decode_date(due, NULL);
-		now = time(NULL);
+		date = camel_header_decode_date (due, NULL);
+		now = time (NULL);
 		if (now > date)
 			camel_stream_printf(stream, "<b>%s</b>&nbsp;", _("Overdue:"));
 
@@ -770,7 +770,7 @@ efhd_attachment_button_expanded (EAttachmentButton *button,
 
 /* attachment button callback */
 static gboolean
-efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
+efhd_attachment_button (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
 	struct _attach_puri *info;
@@ -801,7 +801,7 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 		camel_message_info_free (mi);
 	}
 
-	info = (struct _attach_puri *)em_format_find_puri((EMFormat *)efh, pobject->classid);
+	info = (struct _attach_puri *)em_format_find_puri ((EMFormat *)efh, pobject->classid);
 
 	if (!info || info->forward) {
 		g_warning ("unable to expand the attachment\n");
@@ -966,7 +966,7 @@ efhd_resize (GtkWidget *w, GtkAllocation *event, EMFormatHTML *efh)
 
 /* optional render attachment button callback */
 static gboolean
-efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
+efhd_attachment_optional (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
 	struct _attach_puri *info;
 	GtkWidget *hbox, *vbox, *button, *mainbox, *scroll, *label, *img;
@@ -980,16 +980,16 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	/* FIXME: handle default shown case */
 	d(printf("adding attachment button/content for optional rendering\n"));
 
-	info = (struct _attach_puri *)em_format_find_puri((EMFormat *)efh, pobject->classid);
+	info = (struct _attach_puri *)em_format_find_puri ((EMFormat *)efh, pobject->classid);
 	if (!info || info->forward) {
 		g_warning ("unable to expand the attachment\n");
 		return TRUE;
 	}
 
 	scroll = gtk_scrolled_window_new (NULL, NULL);
-	mainbox = gtk_hbox_new(FALSE, 0);
+	mainbox = gtk_hbox_new (FALSE, 0);
 
-	button = gtk_button_new();
+	button = gtk_button_new ();
 	hbox = gtk_hbox_new (FALSE, 0);
 	img = gtk_image_new_from_icon_name (
 		"stock_show-all", GTK_ICON_SIZE_BUTTON);
@@ -1002,37 +1002,37 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 	if (info->handle)
 		g_signal_connect(G_OBJECT (button), "clicked", G_CALLBACK(efhd_optional_button_show), scroll);
 	else {
-		gtk_widget_set_sensitive(button, FALSE);
+		gtk_widget_set_sensitive (button, FALSE);
 		gtk_widget_set_can_focus (button, FALSE);
 	}
 
 	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_box_pack_start(GTK_BOX (mainbox), button, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (mainbox), button, FALSE, FALSE, 6);
 
-	button = gtk_button_new();
+	button = gtk_button_new ();
 	hbox = gtk_hbox_new (FALSE, 0);
 	img = gtk_image_new_from_stock (
 		GTK_STOCK_OPEN, GTK_ICON_SIZE_BUTTON);
 	label = gtk_label_new_with_mnemonic(_("O_pen With"));
 	gtk_box_pack_start (GTK_BOX (hbox), img, TRUE, TRUE, 2);
 	gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 2);
-	gtk_box_pack_start (GTK_BOX (hbox), gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_NONE), TRUE, TRUE, 2);
+	gtk_box_pack_start (GTK_BOX (hbox), gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE), TRUE, TRUE, 2);
 	gtk_widget_show_all (hbox);
 	gtk_container_add (GTK_CONTAINER (button), GTK_WIDGET (hbox));
 
 	a11y = gtk_widget_get_accessible (button);
 	atk_object_set_name (a11y, _("Attachment"));
 
-	gtk_box_pack_start(GTK_BOX (mainbox), button, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (mainbox), button, FALSE, FALSE, 6);
 
-	gtk_widget_show_all(mainbox);
+	gtk_widget_show_all (mainbox);
 
-	gtk_box_pack_start(GTK_BOX (vbox), mainbox, FALSE, FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (vbox), mainbox, FALSE, FALSE, 6);
 
 	view = gtk_text_view_new ();
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (view), FALSE);
 	gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (view), FALSE);
-	buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW (view));
+	buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (view));
 	byte_array = camel_stream_mem_get_byte_array (info->mstream);
 	gtk_text_buffer_set_text (
 		buffer, (gchar *) byte_array->data, byte_array->len);
@@ -1042,8 +1042,8 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scroll), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (scroll), GTK_WIDGET (view));
-	gtk_box_pack_start(GTK_BOX (vbox), scroll, TRUE, TRUE, 6);
-	gtk_widget_show (GTK_WIDGET(view));
+	gtk_box_pack_start (GTK_BOX (vbox), scroll, TRUE, TRUE, 6);
+	gtk_widget_show (GTK_WIDGET (view));
 
 	web_view = em_format_html_get_web_view (efh);
 	gtk_widget_get_allocation (GTK_WIDGET (web_view), &allocation);
@@ -1055,7 +1055,7 @@ efhd_attachment_optional(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPOb
 		gtk_widget_hide (scroll);
 
 	gtk_widget_show (vbox);
-	gtk_container_add(GTK_CONTAINER (eb), vbox);
+	gtk_container_add (GTK_CONTAINER (eb), vbox);
 	info->handle = NULL;
 
 	return TRUE;

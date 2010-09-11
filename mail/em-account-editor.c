@@ -584,7 +584,7 @@ emae_load_text (GtkTextView *view, const gchar *filename)
 			gtk_text_buffer_insert (buffer, &iter, filebuf, count);
 		}
 
-		gtk_text_view_set_buffer (GTK_TEXT_VIEW (view), GTK_TEXT_BUFFER(buffer));
+		gtk_text_view_set_buffer (GTK_TEXT_VIEW (view), GTK_TEXT_BUFFER (buffer));
 		fclose (fd);
 	}
 
@@ -1139,7 +1139,7 @@ emae_account_spinint_widget (EMAccountEditor *emae, GtkSpinButton *spin, gint it
 
 	g_signal_connect (
 		spin, "value-changed",
-		G_CALLBACK(emae_account_spinint_changed), emae);
+		G_CALLBACK (emae_account_spinint_changed), emae);
 }
 
 #if 0
@@ -1332,17 +1332,17 @@ struct _provider_host_info {
 };
 
 static struct _provider_host_info emae_source_host_info[] = {
-	{ CAMEL_URL_PART_HOST, emae_url_set_hostport, { G_STRUCT_OFFSET(EMAccountEditorService, hostname), G_STRUCT_OFFSET(EMAccountEditorService, hostlabel), }, },
-	{ CAMEL_URL_PART_USER, camel_url_set_user, { G_STRUCT_OFFSET(EMAccountEditorService, username), G_STRUCT_OFFSET(EMAccountEditorService, userlabel), } },
-	{ CAMEL_URL_PART_PATH, camel_url_set_path, { G_STRUCT_OFFSET(EMAccountEditorService, path), G_STRUCT_OFFSET(EMAccountEditorService, pathlabel), G_STRUCT_OFFSET(EMAccountEditorService, pathentry) }, },
-	{ CAMEL_URL_PART_AUTH, NULL, { 0, G_STRUCT_OFFSET(EMAccountEditorService, auth_frame), }, },
+	{ CAMEL_URL_PART_HOST, emae_url_set_hostport, { G_STRUCT_OFFSET (EMAccountEditorService, hostname), G_STRUCT_OFFSET (EMAccountEditorService, hostlabel), }, },
+	{ CAMEL_URL_PART_USER, camel_url_set_user, { G_STRUCT_OFFSET (EMAccountEditorService, username), G_STRUCT_OFFSET (EMAccountEditorService, userlabel), } },
+	{ CAMEL_URL_PART_PATH, camel_url_set_path, { G_STRUCT_OFFSET (EMAccountEditorService, path), G_STRUCT_OFFSET (EMAccountEditorService, pathlabel), G_STRUCT_OFFSET (EMAccountEditorService, pathentry) }, },
+	{ CAMEL_URL_PART_AUTH, NULL, { 0, G_STRUCT_OFFSET (EMAccountEditorService, auth_frame), }, },
 	{ 0 },
 };
 
 static struct _provider_host_info emae_transport_host_info[] = {
-	{ CAMEL_URL_PART_HOST, emae_url_set_hostport, { G_STRUCT_OFFSET(EMAccountEditorService, hostname), G_STRUCT_OFFSET(EMAccountEditorService, hostlabel), }, },
-	{ CAMEL_URL_PART_USER, camel_url_set_user, { G_STRUCT_OFFSET(EMAccountEditorService, username), G_STRUCT_OFFSET(EMAccountEditorService, userlabel), } },
-	{ CAMEL_URL_PART_AUTH, NULL, { 0, G_STRUCT_OFFSET(EMAccountEditorService, auth_frame), }, },
+	{ CAMEL_URL_PART_HOST, emae_url_set_hostport, { G_STRUCT_OFFSET (EMAccountEditorService, hostname), G_STRUCT_OFFSET (EMAccountEditorService, hostlabel), }, },
+	{ CAMEL_URL_PART_USER, camel_url_set_user, { G_STRUCT_OFFSET (EMAccountEditorService, username), G_STRUCT_OFFSET (EMAccountEditorService, userlabel), } },
+	{ CAMEL_URL_PART_AUTH, NULL, { 0, G_STRUCT_OFFSET (EMAccountEditorService, auth_frame), }, },
 	{ 0 },
 };
 
@@ -1415,7 +1415,7 @@ emae_uri_changed (EMAccountEditorService *service, CamelURL *url)
 	/* small hack for providers which are store and transport - copy settings across */
 	if (service->type == CAMEL_PROVIDER_STORE
 	    && service->provider
-	    && CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT(service->provider))
+	    && CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (service->provider))
 		e_account_set_string (account, E_ACCOUNT_TRANSPORT_URL, uri);
 
 	g_free (uri);
@@ -1577,12 +1577,12 @@ emae_service_provider_changed (EMAccountEditorService *service)
 			gint hide;
 			struct _provider_host_info *info = &emae_service_info[service->type].host_info[i];
 
-			enable = CAMEL_PROVIDER_ALLOWS(service->provider, info->flag);
-			hide = CAMEL_PROVIDER_HIDDEN(service->provider, info->flag);
+			enable = CAMEL_PROVIDER_ALLOWS (service->provider, info->flag);
+			hide = CAMEL_PROVIDER_HIDDEN (service->provider, info->flag);
 			show = (enable && !hide)?gtk_widget_show:gtk_widget_hide;
 
 			for (j=0; j < G_N_ELEMENTS (info->widgets); j++) {
-				if (info->widgets[j] && (w = G_STRUCT_MEMBER(GtkWidget *, service, info->widgets[j]))) {
+				if (info->widgets[j] && (w = G_STRUCT_MEMBER (GtkWidget *, service, info->widgets[j]))) {
 					show (w);
 					if (j == 0) {
 						if (dwidget == NULL && enable)
@@ -1598,7 +1598,7 @@ emae_service_provider_changed (EMAccountEditorService *service)
 		if (dwidget)
 			gtk_widget_grab_focus (dwidget);
 
-		if (CAMEL_PROVIDER_ALLOWS(service->provider, CAMEL_URL_PART_AUTH)) {
+		if (CAMEL_PROVIDER_ALLOWS (service->provider, CAMEL_URL_PART_AUTH)) {
 			GList *ll;
 
 			/* try to keep the authmech from the current url, or clear it */
@@ -1615,7 +1615,7 @@ emae_service_provider_changed (EMAccountEditorService *service)
 			}
 
 			emae_refresh_authtype (service->emae, service);
-			if (service->needs_auth && !CAMEL_PROVIDER_NEEDS(service->provider, CAMEL_URL_PART_AUTH))
+			if (service->needs_auth && !CAMEL_PROVIDER_NEEDS (service->provider, CAMEL_URL_PART_AUTH))
 				gtk_widget_show ((GtkWidget *)service->needs_auth);
 		} else {
 			if (service->needs_auth)
@@ -2535,7 +2535,7 @@ emae_receive_options_item (EConfig *ec, EConfigItem *item, GtkWidget *parent, Gt
 		if (emae->type == EMAE_PAGES) {
 			GtkWidget *box = gtk_hbox_new (FALSE, 12);
 			gtk_widget_reparent (old, box);
-			gtk_widget_show(box);
+			gtk_widget_show (box);
 			gtk_box_set_child_packing ((GtkBox *)box, old, TRUE, TRUE, 12, GTK_PACK_START);
 			gtk_box_pack_end ((GtkBox *)emae->pages[2], box, FALSE, FALSE, 0);
 		}
@@ -2545,7 +2545,7 @@ emae_receive_options_item (EConfig *ec, EConfigItem *item, GtkWidget *parent, Gt
 	if (emae->type == EMAE_PAGES)  {
 		GtkWidget *box = gtk_hbox_new (FALSE, 12);
 		gtk_widget_reparent (parent, box);
-		gtk_widget_show(box);
+		gtk_widget_show (box);
 		gtk_box_set_child_packing ((GtkBox *)box, parent, TRUE, TRUE, 12, GTK_PACK_START);
 		gtk_box_pack_start ((GtkBox *)emae->pages[2], box, FALSE, FALSE, 0);
 	}
@@ -2594,7 +2594,7 @@ emae_receive_options_extra_item (EConfig *ec, EConfigItem *eitem, GtkWidget *par
 	if (emae->type == EMAE_PAGES) {
 		GtkWidget *box = gtk_hbox_new (FALSE, 12);
 		gtk_widget_reparent (parent, box);
-		gtk_widget_show(box);
+		gtk_widget_show (box);
 		gtk_box_set_child_packing ((GtkBox *)box, parent, TRUE, TRUE, 12, GTK_PACK_START);
 		gtk_box_pack_start ((GtkBox *)emae->pages[2], box, FALSE, FALSE, 0);
 	}
@@ -2718,7 +2718,7 @@ emae_send_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *ol
 	GtkBuilder *builder;
 
 	/* no transport options page at all for these types of providers */
-	if (priv->source.provider && CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT(priv->source.provider)) {
+	if (priv->source.provider && CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (priv->source.provider)) {
 		memset (&priv->transport.frame, 0, ((gchar *)&priv->transport.check_dialog)-((gchar *)&priv->transport.frame));
 		return NULL;
 	}
@@ -3261,7 +3261,7 @@ emae_free_auto (EConfig *ec, GSList *items, gpointer data)
 		if (item->extra_table)
 			g_hash_table_destroy (item->extra_table);
 		g_free (item);
-		g_slist_free_1(l);
+		g_slist_free_1 (l);
 		l = n;
 	}
 }
@@ -3283,21 +3283,21 @@ emae_service_complete (EMAccountEditor *emae, EMAccountEditorService *service)
 	if (uri == NULL || (url = camel_url_new (uri, NULL)) == NULL)
 		return FALSE;
 
-	if (CAMEL_PROVIDER_NEEDS(service->provider, CAMEL_URL_PART_HOST)) {
+	if (CAMEL_PROVIDER_NEEDS (service->provider, CAMEL_URL_PART_HOST)) {
 		if (url->host == NULL || url->host[0] == 0)
 			ok = FALSE;
 	}
 	/* We only need the user if the service needs auth as well, i think */
 	if (ok
 	    && (service->needs_auth == NULL
-		|| CAMEL_PROVIDER_NEEDS(service->provider, CAMEL_URL_PART_AUTH)
+		|| CAMEL_PROVIDER_NEEDS (service->provider, CAMEL_URL_PART_AUTH)
 		|| gtk_toggle_button_get_active (service->needs_auth))
-	    && CAMEL_PROVIDER_NEEDS(service->provider, CAMEL_URL_PART_USER)
+	    && CAMEL_PROVIDER_NEEDS (service->provider, CAMEL_URL_PART_USER)
 	    && (url->user == NULL || url->user[0] == 0))
 		ok = FALSE;
 
 	if (ok
-	    && CAMEL_PROVIDER_NEEDS(service->provider, CAMEL_URL_PART_PATH)
+	    && CAMEL_PROVIDER_NEEDS (service->provider, CAMEL_URL_PART_PATH)
 	    && (url->path == NULL || url->path[0] == 0))
 		ok = FALSE;
 
@@ -3315,7 +3315,7 @@ enum {
 static ServerData *
 emae_check_servers (const gchar *email)
 {
-	gint len = G_N_ELEMENTS(mail_servers), i;
+	gint len = G_N_ELEMENTS (mail_servers), i;
 	gchar *server = strchr (email, '@');
 
 	server++;
@@ -3377,7 +3377,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 
 				emae->priv->identity_set = 1;
 #ifndef G_OS_WIN32
-				uname = g_locale_to_utf8(g_get_real_name (), -1, NULL, NULL, NULL);
+				uname = g_locale_to_utf8 (g_get_real_name (), -1, NULL, NULL, NULL);
 #else
 				uname = g_strdup (g_get_real_name ());
 #endif
@@ -3418,7 +3418,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 							camel_url_set_param (url, "use_ssl", sdata->ssl);
 						camel_url_set_host (url, sdata->recv);
 						if (sdata->recv_port && *sdata->recv_port)
-							camel_url_set_port (url, atoi(sdata->recv_port));
+							camel_url_set_port (url, atoi (sdata->recv_port));
 						gtk_entry_set_text (emae->priv->source.hostname, sdata->recv);
 						gtk_entry_set_text (emae->priv->transport.hostname, sdata->send);
 					} else {
@@ -3460,7 +3460,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 						camel_url_set_param (url, "use_ssl", sdata->ssl);
 					camel_url_set_host (url, sdata->send);
 					if (sdata->send_port && *sdata->send_port)
-						camel_url_set_port (url, atoi(sdata->send_port));
+						camel_url_set_port (url, atoi (sdata->send_port));
 
 					if (sdata->send_user && *sdata->send_user)
 						camel_url_set_user (url, sdata->send_user);
@@ -3474,7 +3474,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 					if (sdata->send_auth && *sdata->send_auth)
 						emae_check_set_authtype (emae->priv->transport.authtype, sdata->send_auth);
 					else
-						emae_authtype_changed(emae->priv->transport.authtype, &emae->priv->transport);
+						emae_authtype_changed (emae->priv->transport.authtype, &emae->priv->transport);
 					uri = (gchar *)e_account_get_string (account, E_ACCOUNT_TRANSPORT_URL);
 				}
 			}
@@ -3687,14 +3687,14 @@ em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, co
 			if (name && !strcmp (name, "mailcheck"))
 				myindex = 10;
 
-			item = g_malloc0(sizeof (*item));
+			item = g_malloc0 (sizeof (*item));
 			item->item.type = E_CONFIG_SECTION_TABLE;
 			item->item.path = g_strdup_printf ("20.receive_options/%02d.%s", myindex, name?name:"unnamed");
 			item->item.label = g_strdup (entries[i].text);
 
 			l = g_slist_prepend (l, item);
 
-			item = g_malloc0(sizeof (*item));
+			item = g_malloc0 (sizeof (*item));
 			item->item.type = E_CONFIG_ITEM_TABLE;
 			item->item.path = g_strdup_printf ("20.receive_options/%02d.%s/80.camelitem", myindex, name?name:"unnamed");
 			item->item.factory = emae_receive_options_extra_item;

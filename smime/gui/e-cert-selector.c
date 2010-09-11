@@ -63,46 +63,46 @@ Issued by:
 */
 
 static CERTCertListNode *
-ecs_find_current(ECertSelector *ecs)
+ecs_find_current (ECertSelector *ecs)
 {
 	struct _ECertSelectorPrivate *p = ecs->priv;
 	CERTCertListNode *node;
 	gint n;
 
-	if (p->certlist == NULL || CERT_LIST_EMPTY(p->certlist))
+	if (p->certlist == NULL || CERT_LIST_EMPTY (p->certlist))
 		return NULL;
 
 	n = gtk_combo_box_get_active (GTK_COMBO_BOX (p->combobox));
-	node = CERT_LIST_HEAD(p->certlist);
-	while (n>0 && !CERT_LIST_END(node, p->certlist)) {
+	node = CERT_LIST_HEAD (p->certlist);
+	while (n>0 && !CERT_LIST_END (node, p->certlist)) {
 		n--;
-		node = CERT_LIST_NEXT(node);
+		node = CERT_LIST_NEXT (node);
 	}
 
-	g_return_val_if_fail (!CERT_LIST_END(node, p->certlist), NULL);
+	g_return_val_if_fail (!CERT_LIST_END (node, p->certlist), NULL);
 
 	return node;
 }
 
 static void
-e_cert_selector_response(GtkDialog *dialog, gint button)
+e_cert_selector_response (GtkDialog *dialog, gint button)
 {
 	CERTCertListNode *node;
 
 	switch (button) {
 	case GTK_RESPONSE_OK:
-		node = ecs_find_current((ECertSelector *)dialog);
+		node = ecs_find_current ((ECertSelector *)dialog);
 		break;
 	default:
 		node = NULL;
 		break;
 	}
 
-	g_signal_emit(dialog, ecs_signals[ECS_SELECTED], 0, node?node->cert->nickname:NULL);
+	g_signal_emit (dialog, ecs_signals[ECS_SELECTED], 0, node?node->cert->nickname:NULL);
 }
 
 static void
-ecs_cert_changed(GtkWidget *w, ECertSelector *ecs)
+ecs_cert_changed (GtkWidget *w, ECertSelector *ecs)
 {
 	struct _ECertSelectorPrivate *p = ecs->priv;
 	CERTCertListNode *node;
@@ -110,16 +110,16 @@ ecs_cert_changed(GtkWidget *w, ECertSelector *ecs)
 	GString *text;
 
 	text = g_string_new("");
-	node = ecs_find_current(ecs);
+	node = ecs_find_current (ecs);
 	if (node) {
 		/* FIXME: add serial no, validity date, uses */
 		g_string_append_printf(text, _("Issued to:\n  Subject: %s\n"), node->cert->subjectName);
 		g_string_append_printf(text, _("Issued by:\n  Subject: %s\n"), node->cert->issuerName);
 	}
 
-	buffer = gtk_text_view_get_buffer((GtkTextView *)p->description);
-	gtk_text_buffer_set_text(buffer, text->str, text->len);
-	g_string_free(text, TRUE);
+	buffer = gtk_text_view_get_buffer ((GtkTextView *)p->description);
+	gtk_text_buffer_set_text (buffer, text->str, text->len);
+	g_string_free (text, TRUE);
 }
 
 /**
@@ -140,7 +140,7 @@ ecs_cert_changed(GtkWidget *w, ECertSelector *ecs)
  * Return value: A dialogue to be shown.
  **/
 GtkWidget *
-e_cert_selector_new(gint type, const gchar *currentid)
+e_cert_selector_new (gint type, const gchar *currentid)
 {
 	ECertSelector *ecs;
 	struct _ECertSelectorPrivate *p;
@@ -152,7 +152,7 @@ e_cert_selector_new(gint type, const gchar *currentid)
 	GtkWidget *w;
 	gint n=0, active=0;
 
-	ecs = g_object_new(e_cert_selector_get_type(), NULL);
+	ecs = g_object_new (e_cert_selector_get_type (), NULL);
 	p = ecs->priv;
 
 	builder = gtk_builder_new ();
@@ -178,23 +178,23 @@ e_cert_selector_new(gint type, const gchar *currentid)
 
 	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (p->combobox))));
 
-	certlist = CERT_FindUserCertsByUsage(CERT_GetDefaultCertDB(), usage, FALSE, TRUE, NULL);
+	certlist = CERT_FindUserCertsByUsage (CERT_GetDefaultCertDB (), usage, FALSE, TRUE, NULL);
 	ecs->priv->certlist = certlist;
 	if (certlist != NULL) {
-		node = CERT_LIST_HEAD(certlist);
-		while (!CERT_LIST_END(node, certlist)) {
+		node = CERT_LIST_HEAD (certlist);
+		while (!CERT_LIST_END (node, certlist)) {
 			if (node->cert->nickname || node->cert->emailAddr) {
 				gtk_combo_box_append_text (GTK_COMBO_BOX (p->combobox), node->cert->nickname?node->cert->nickname:node->cert->emailAddr);
 
 				if (currentid != NULL
-				    && ((node->cert->nickname != NULL && strcmp(node->cert->nickname, currentid) == 0)
-					|| (node->cert->emailAddr != NULL && strcmp(node->cert->emailAddr, currentid) == 0)))
+				    && ((node->cert->nickname != NULL && strcmp (node->cert->nickname, currentid) == 0)
+					|| (node->cert->emailAddr != NULL && strcmp (node->cert->emailAddr, currentid) == 0)))
 					active = n;
 
 				n++;
 			}
 
-			node = CERT_LIST_NEXT(node);
+			node = CERT_LIST_NEXT (node);
 		}
 	}
 
@@ -202,47 +202,47 @@ e_cert_selector_new(gint type, const gchar *currentid)
 
 	g_signal_connect (p->combobox, "changed", G_CALLBACK(ecs_cert_changed), ecs);
 
-	g_object_unref(builder);
+	g_object_unref (builder);
 
-	ecs_cert_changed(p->combobox, ecs);
+	ecs_cert_changed (p->combobox, ecs);
 
-	return GTK_WIDGET(ecs);
+	return GTK_WIDGET (ecs);
 }
 
 static void
-e_cert_selector_init(ECertSelector *ecs)
+e_cert_selector_init (ECertSelector *ecs)
 {
-	gtk_dialog_add_buttons((GtkDialog *)ecs,
+	gtk_dialog_add_buttons ((GtkDialog *)ecs,
 			       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 			       GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 
-	ecs->priv = g_malloc0(sizeof(*ecs->priv));
+	ecs->priv = g_malloc0 (sizeof (*ecs->priv));
 }
 
 static void
-e_cert_selector_finalise(GObject *o)
+e_cert_selector_finalise (GObject *o)
 {
 	ECertSelector *ecs = (ECertSelector *)o;
 
 	if (ecs->priv->certlist)
-		CERT_DestroyCertList(ecs->priv->certlist);
+		CERT_DestroyCertList (ecs->priv->certlist);
 
-	g_free(ecs->priv);
+	g_free (ecs->priv);
 
-	((GObjectClass *)e_cert_selector_parent_class)->finalize(o);
+	((GObjectClass *)e_cert_selector_parent_class)->finalize (o);
 }
 
 static void
-e_cert_selector_class_init(ECertSelectorClass *klass)
+e_cert_selector_class_init (ECertSelectorClass *klass)
 {
 	((GObjectClass *)klass)->finalize = e_cert_selector_finalise;
 	((GtkDialogClass *)klass)->response = e_cert_selector_response;
 
 	ecs_signals[ECS_SELECTED] =
 		g_signal_new("selected",
-			     G_OBJECT_CLASS_TYPE(klass),
+			     G_OBJECT_CLASS_TYPE (klass),
 			     G_SIGNAL_RUN_LAST,
-			     G_STRUCT_OFFSET(ECertSelectorClass, selected),
+			     G_STRUCT_OFFSET (ECertSelectorClass, selected),
 			     NULL, NULL,
 			     g_cclosure_marshal_VOID__POINTER,
 			     G_TYPE_NONE, 1, G_TYPE_POINTER);

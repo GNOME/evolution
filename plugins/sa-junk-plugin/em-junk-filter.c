@@ -571,7 +571,7 @@ em_junk_sa_respawn_spamd ()
 }
 
 gboolean
-em_junk_sa_check_junk(EPlugin *ep, EMJunkTarget *target)
+em_junk_sa_check_junk (EPlugin *ep, EMJunkTarget *target)
 {
 	GByteArray *out = NULL;
 	const gchar *argv[7];
@@ -801,7 +801,7 @@ em_junk_sa_validate_binary (EPlugin *ep)
 }
 
 static void
-em_junk_sa_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, gpointer data)
+em_junk_sa_setting_notify (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, gpointer data)
 {
 	GConfValue *value;
 	gchar *tkey;
@@ -811,17 +811,17 @@ em_junk_sa_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
 	if (!(value = gconf_entry_get_value (entry)))
 		return;
 
-	tkey = strrchr(entry->key, '/');
+	tkey = strrchr (entry->key, '/');
 	g_return_if_fail (tkey != NULL);
 
 	if (!strcmp(tkey, "local_only"))
-		em_junk_sa_local_only = gconf_value_get_bool(value);
+		em_junk_sa_local_only = gconf_value_get_bool (value);
 	else if (!strcmp(tkey, "use_daemon"))
-		em_junk_sa_use_daemon = gconf_value_get_bool(value);
+		em_junk_sa_use_daemon = gconf_value_get_bool (value);
 	else if (!strcmp(tkey, "socket_path")) {
 		G_LOCK (socket_path);
 		g_free (em_junk_sa_preferred_socket_path);
-		em_junk_sa_preferred_socket_path = g_strdup (gconf_value_get_string(value));
+		em_junk_sa_preferred_socket_path = g_strdup (gconf_value_get_string (value));
 		G_UNLOCK (socket_path);
 	}
 }
@@ -834,7 +834,7 @@ e_plugin_lib_enable (EPlugin *ep, gint enable)
 	if (is_installed)
 		em_junk_sa_tested = FALSE;
 
-	em_junk_sa_init();
+	em_junk_sa_init ();
 
 	return 0;
 }
@@ -845,7 +845,7 @@ em_junk_sa_init (void)
 	G_LOCK (init);
 
 	if (!em_junk_sa_gconf) {
-		em_junk_sa_gconf = gconf_client_get_default();
+		em_junk_sa_gconf = gconf_client_get_default ();
 		gconf_client_add_dir (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 
 		em_junk_sa_local_only = gconf_client_get_bool (em_junk_sa_gconf, "/apps/evolution/mail/junk/sa/local_only", NULL);
@@ -908,7 +908,7 @@ em_junk_sa_finalize (void)
 {
 	d(fprintf (stderr, "em_junk_sa_finalize\n"));
 
-	g_object_unref(em_junk_sa_gconf);
+	g_object_unref (em_junk_sa_gconf);
 	em_junk_sa_kill_spamd ();
 }
 

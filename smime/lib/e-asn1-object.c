@@ -89,7 +89,7 @@ e_asn1_object_class_init (EASN1ObjectClass *klass)
 {
 	GObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS(klass);
+	object_class = G_OBJECT_CLASS (klass);
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
 

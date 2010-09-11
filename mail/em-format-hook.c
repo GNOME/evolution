@@ -76,39 +76,39 @@ emfh_format_format (EMFormat *md,
 			md, stream, part, item
 		};
 
-		e_plugin_invoke(item->hook->hook.plugin, item->format, &target);
+		e_plugin_invoke (item->hook->hook.plugin, item->format, &target);
 	} else if (info->old) {
-		info->old->handler(md, stream, part, info->old, FALSE);
+		info->old->handler (md, stream, part, info->old, FALSE);
 	}
 }
 
 static void
-emfh_free_item(struct _EMFormatHookItem *item)
+emfh_free_item (struct _EMFormatHookItem *item)
 {
 	/* FIXME: remove from formatter class */
 
-	g_free(item->handler.mime_type);
-	g_free(item->format);
-	g_free(item);
+	g_free (item->handler.mime_type);
+	g_free (item->format);
+	g_free (item);
 }
 
 static void
-emfh_free_group(struct _EMFormatHookGroup *group)
+emfh_free_group (struct _EMFormatHookGroup *group)
 {
-	g_slist_foreach(group->items, (GFunc)emfh_free_item, NULL);
-	g_slist_free(group->items);
+	g_slist_foreach (group->items, (GFunc)emfh_free_item, NULL);
+	g_slist_free (group->items);
 
-	g_free(group->id);
-	g_free(group);
+	g_free (group->id);
+	g_free (group);
 }
 
 static struct _EMFormatHookItem *
-emfh_construct_item(EPluginHook *eph, EMFormatHookGroup *group, xmlNodePtr root)
+emfh_construct_item (EPluginHook *eph, EMFormatHookGroup *group, xmlNodePtr root)
 {
 	struct _EMFormatHookItem *item;
 
 	d(printf("  loading group item\n"));
-	item = g_malloc0(sizeof(*item));
+	item = g_malloc0 (sizeof (*item));
 
 	item->handler.mime_type = e_plugin_xml_prop(root, "mime_type");
 	item->handler.flags = e_plugin_hook_mask(root, emfh_flag_map, "flags");
@@ -125,18 +125,18 @@ emfh_construct_item(EPluginHook *eph, EMFormatHookGroup *group, xmlNodePtr root)
 	return item;
 error:
 	d(printf("error!\n"));
-	emfh_free_item(item);
+	emfh_free_item (item);
 	return NULL;
 }
 
 static struct _EMFormatHookGroup *
-emfh_construct_group(EPluginHook *eph, xmlNodePtr root)
+emfh_construct_group (EPluginHook *eph, xmlNodePtr root)
 {
 	struct _EMFormatHookGroup *group;
 	xmlNodePtr node;
 
 	d(printf(" loading group\n"));
-	group = g_malloc0(sizeof(*group));
+	group = g_malloc0 (sizeof (*group));
 
 	group->id = e_plugin_xml_prop(root, "id");
 	if (group->id == NULL)
@@ -147,27 +147,27 @@ emfh_construct_group(EPluginHook *eph, xmlNodePtr root)
 		if (0 == strcmp((gchar *)node->name, "item")) {
 			struct _EMFormatHookItem *item;
 
-			item = emfh_construct_item(eph, group, node);
+			item = emfh_construct_item (eph, group, node);
 			if (item)
-				group->items = g_slist_append(group->items, item);
+				group->items = g_slist_append (group->items, item);
 		}
 		node = node->next;
 	}
 
 	return group;
 error:
-	emfh_free_group(group);
+	emfh_free_group (group);
 	return NULL;
 }
 
 static gint
-emfh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
+emfh_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 {
 	xmlNodePtr node;
 
 	d(printf("loading format hook\n"));
 
-	if (((EPluginHookClass *)emfh_parent_class)->construct(eph, ep, root) == -1)
+	if (((EPluginHookClass *)emfh_parent_class)->construct (eph, ep, root) == -1)
 		return -1;
 
 	node = root->children;
@@ -175,26 +175,26 @@ emfh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 		if (strcmp((gchar *)node->name, "group") == 0) {
 			struct _EMFormatHookGroup *group;
 
-			group = emfh_construct_group(eph, node);
+			group = emfh_construct_group (eph, node);
 			if (group) {
 				EMFormatClass *klass;
 
 				if (emfh_types
-				    && (klass = g_hash_table_lookup(emfh_types, group->id))) {
+				    && (klass = g_hash_table_lookup (emfh_types, group->id))) {
 					GSList *l = group->items;
 
-					for (;l;l=g_slist_next(l)) {
+					for (;l;l=g_slist_next (l)) {
 						EMFormatHookItem *item = l->data;
 						/* TODO: only add handlers if enabled? */
 						/* Well, disabling is handled by the callback,
 						 * if we leave as is, then we can enable the
 						 * plugin after startup and it will start
 						 * working automagically */
-						em_format_class_add_handler(klass, &item->handler);
+						em_format_class_add_handler (klass, &item->handler);
 					}
 				}
 				/* We don't actually need to keep this around once its set on the class */
-				emfh->groups = g_slist_append(emfh->groups, group);
+				emfh->groups = g_slist_append (emfh->groups, group);
 			}
 		}
 		node = node->next;
@@ -203,12 +203,12 @@ emfh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 	eph->plugin = ep;
 
 	/* Load the plugin as it does a few thing in the formatter thread. */
-	((EPluginClass *)G_OBJECT_GET_CLASS(ep))->enable (ep, 1);
+	((EPluginClass *)G_OBJECT_GET_CLASS (ep))->enable (ep, 1);
 	return 0;
 }
 
 static void
-emfh_enable(EPluginHook *eph, gint state)
+emfh_enable (EPluginHook *eph, gint state)
 {
 	GSList *g, *l;
 	EMFormatClass *klass;
@@ -217,34 +217,34 @@ emfh_enable(EPluginHook *eph, gint state)
 	if (emfh_types == NULL)
 		return;
 
-	for (;g;g=g_slist_next(g)) {
+	for (;g;g=g_slist_next (g)) {
 		struct _EMFormatHookGroup *group = g->data;
 
-		klass = g_hash_table_lookup(emfh_types, group->id);
-		for (l=group->items;l;l=g_slist_next(l)) {
+		klass = g_hash_table_lookup (emfh_types, group->id);
+		for (l=group->items;l;l=g_slist_next (l)) {
 			EMFormatHookItem *item = l->data;
 
 			if (state)
-				em_format_class_add_handler(klass, &item->handler);
+				em_format_class_add_handler (klass, &item->handler);
 			else
-				em_format_class_remove_handler(klass, &item->handler);
+				em_format_class_remove_handler (klass, &item->handler);
 		}
 	}
 }
 
 static void
-emfh_finalise(GObject *o)
+emfh_finalise (GObject *o)
 {
 	EPluginHook *eph = (EPluginHook *)o;
 
-	g_slist_foreach(emfh->groups, (GFunc)emfh_free_group, NULL);
-	g_slist_free(emfh->groups);
+	g_slist_foreach (emfh->groups, (GFunc)emfh_free_group, NULL);
+	g_slist_free (emfh->groups);
 
-	((GObjectClass *)emfh_parent_class)->finalize(o);
+	((GObjectClass *)emfh_parent_class)->finalize (o);
 }
 
 static void
-emfh_class_init(EPluginHookClass *klass)
+emfh_class_init (EPluginHookClass *klass)
 {
 	((GObjectClass *)klass)->finalize = emfh_finalise;
 	klass->construct = emfh_construct;
@@ -253,32 +253,32 @@ emfh_class_init(EPluginHookClass *klass)
 }
 
 GType
-em_format_hook_get_type(void)
+em_format_hook_get_type (void)
 {
 	static GType type = 0;
 
 	if (!type) {
 		static const GTypeInfo info = {
-			sizeof(EMFormatHookClass), NULL, NULL, (GClassInitFunc) emfh_class_init, NULL, NULL,
-			sizeof(EMFormatHook), 0, (GInstanceInitFunc) NULL,
+			sizeof (EMFormatHookClass), NULL, NULL, (GClassInitFunc) emfh_class_init, NULL, NULL,
+			sizeof (EMFormatHook), 0, (GInstanceInitFunc) NULL,
 		};
 
-		emfh_parent_class = g_type_class_ref(e_plugin_hook_get_type());
+		emfh_parent_class = g_type_class_ref (e_plugin_hook_get_type ());
 		type = g_type_register_static(e_plugin_hook_get_type(), "EMFormatHook", &info, 0);
 	}
 
 	return type;
 }
 
-void em_format_hook_register_type(GType type)
+void em_format_hook_register_type (GType type)
 {
 	EMFormatClass *klass;
 
 	if (emfh_types == NULL)
-		emfh_types = g_hash_table_new(g_str_hash, g_str_equal);
+		emfh_types = g_hash_table_new (g_str_hash, g_str_equal);
 
 	d(printf("registering formatter type '%s'\n", g_type_name(type)));
 
-	klass = g_type_class_ref(type);
-	g_hash_table_insert(emfh_types, (gpointer)g_type_name(type), klass);
+	klass = g_type_class_ref (type);
+	g_hash_table_insert (emfh_types, (gpointer)g_type_name (type), klass);
 }

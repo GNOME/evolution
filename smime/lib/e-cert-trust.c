@@ -48,7 +48,7 @@
 void
 e_cert_trust_init (CERTCertTrust *trust)
 {
-	memset(trust, 0, sizeof(CERTCertTrust));
+	memset (trust, 0, sizeof (CERTCertTrust));
 }
 
 void
@@ -57,10 +57,10 @@ e_cert_trust_init_with_values (CERTCertTrust *trust,
                                guint email,
                                guint objsign)
 {
-	memset(trust, 0, sizeof(CERTCertTrust));
-	e_cert_trust_add_trust(&trust->sslFlags, ssl);
-	e_cert_trust_add_trust(&trust->emailFlags, email);
-	e_cert_trust_add_trust(&trust->objectSigningFlags, objsign);
+	memset (trust, 0, sizeof (CERTCertTrust));
+	e_cert_trust_add_trust (&trust->sslFlags, ssl);
+	e_cert_trust_add_trust (&trust->emailFlags, email);
+	e_cert_trust_add_trust (&trust->objectSigningFlags, objsign);
 }
 
 void
@@ -68,9 +68,9 @@ e_cert_trust_copy (CERTCertTrust *trust,
                    CERTCertTrust *t)
 {
 	if (t)
-		memcpy(trust, t, sizeof(CERTCertTrust));
+		memcpy (trust, t, sizeof (CERTCertTrust));
 	else
-		memset(trust, 0, sizeof(CERTCertTrust));
+		memset (trust, 0, sizeof (CERTCertTrust));
 }
 
 void
@@ -108,11 +108,11 @@ e_cert_trust_add_peer_trust (CERTCertTrust *trust,
                              PRBool objSign)
 {
 	if (ssl)
-		e_cert_trust_add_trust(&trust->sslFlags, CERTDB_TRUSTED);
+		e_cert_trust_add_trust (&trust->sslFlags, CERTDB_TRUSTED);
 	if (email)
-		e_cert_trust_add_trust(&trust->emailFlags, CERTDB_TRUSTED);
+		e_cert_trust_add_trust (&trust->emailFlags, CERTDB_TRUSTED);
 	if (objSign)
-		e_cert_trust_add_trust(&trust->objectSigningFlags, CERTDB_TRUSTED);
+		e_cert_trust_add_trust (&trust->objectSigningFlags, CERTDB_TRUSTED);
 }
 
 void
@@ -127,19 +127,19 @@ e_cert_trust_set_ssl_trust (CERTCertTrust *trust,
 {
 	trust->sslFlags = 0;
 	if (peer || tPeer)
-		e_cert_trust_add_trust(&trust->sslFlags, CERTDB_VALID_PEER);
+		e_cert_trust_add_trust (&trust->sslFlags, CERTDB_VALID_PEER);
 	if (tPeer)
-		e_cert_trust_add_trust(&trust->sslFlags, CERTDB_TRUSTED);
+		e_cert_trust_add_trust (&trust->sslFlags, CERTDB_TRUSTED);
 	if (ca || tCA)
-		e_cert_trust_add_trust(&trust->sslFlags, CERTDB_VALID_CA);
+		e_cert_trust_add_trust (&trust->sslFlags, CERTDB_VALID_CA);
 	if (tClientCA)
-		e_cert_trust_add_trust(&trust->sslFlags, CERTDB_TRUSTED_CLIENT_CA);
+		e_cert_trust_add_trust (&trust->sslFlags, CERTDB_TRUSTED_CLIENT_CA);
 	if (tCA)
-		e_cert_trust_add_trust(&trust->sslFlags, CERTDB_TRUSTED_CA);
+		e_cert_trust_add_trust (&trust->sslFlags, CERTDB_TRUSTED_CA);
 	if (user)
-		e_cert_trust_add_trust(&trust->sslFlags, CERTDB_USER);
+		e_cert_trust_add_trust (&trust->sslFlags, CERTDB_USER);
 	if (warn)
-		e_cert_trust_add_trust(&trust->sslFlags, CERTDB_SEND_WARN);
+		e_cert_trust_add_trust (&trust->sslFlags, CERTDB_SEND_WARN);
 }
 
 void
@@ -154,19 +154,19 @@ e_cert_trust_set_email_trust (CERTCertTrust *trust,
 {
 	trust->emailFlags = 0;
 	if (peer || tPeer)
-		e_cert_trust_add_trust(&trust->emailFlags, CERTDB_VALID_PEER);
+		e_cert_trust_add_trust (&trust->emailFlags, CERTDB_VALID_PEER);
 	if (tPeer)
-		e_cert_trust_add_trust(&trust->emailFlags, CERTDB_TRUSTED);
+		e_cert_trust_add_trust (&trust->emailFlags, CERTDB_TRUSTED);
 	if (ca || tCA)
-		e_cert_trust_add_trust(&trust->emailFlags, CERTDB_VALID_CA);
+		e_cert_trust_add_trust (&trust->emailFlags, CERTDB_VALID_CA);
 	if (tClientCA)
-		e_cert_trust_add_trust(&trust->emailFlags, CERTDB_TRUSTED_CLIENT_CA);
+		e_cert_trust_add_trust (&trust->emailFlags, CERTDB_TRUSTED_CLIENT_CA);
 	if (tCA)
-		e_cert_trust_add_trust(&trust->emailFlags, CERTDB_TRUSTED_CA);
+		e_cert_trust_add_trust (&trust->emailFlags, CERTDB_TRUSTED_CA);
 	if (user)
-		e_cert_trust_add_trust(&trust->emailFlags, CERTDB_USER);
+		e_cert_trust_add_trust (&trust->emailFlags, CERTDB_USER);
 	if (warn)
-		e_cert_trust_add_trust(&trust->emailFlags, CERTDB_SEND_WARN);
+		e_cert_trust_add_trust (&trust->emailFlags, CERTDB_SEND_WARN);
 }
 
 void
@@ -181,19 +181,19 @@ e_cert_trust_set_objsign_trust (CERTCertTrust *trust,
 {
 	trust->objectSigningFlags = 0;
 	if (peer || tPeer)
-		e_cert_trust_add_trust(&trust->objectSigningFlags, CERTDB_VALID_PEER);
+		e_cert_trust_add_trust (&trust->objectSigningFlags, CERTDB_VALID_PEER);
 	if (tPeer)
-		e_cert_trust_add_trust(&trust->objectSigningFlags, CERTDB_TRUSTED);
+		e_cert_trust_add_trust (&trust->objectSigningFlags, CERTDB_TRUSTED);
 	if (ca || tCA)
-		e_cert_trust_add_trust(&trust->objectSigningFlags, CERTDB_VALID_CA);
+		e_cert_trust_add_trust (&trust->objectSigningFlags, CERTDB_VALID_CA);
 	if (tClientCA)
-		e_cert_trust_add_trust(&trust->objectSigningFlags, CERTDB_TRUSTED_CLIENT_CA);
+		e_cert_trust_add_trust (&trust->objectSigningFlags, CERTDB_TRUSTED_CLIENT_CA);
 	if (tCA)
-		e_cert_trust_add_trust(&trust->objectSigningFlags, CERTDB_TRUSTED_CA);
+		e_cert_trust_add_trust (&trust->objectSigningFlags, CERTDB_TRUSTED_CA);
 	if (user)
-		e_cert_trust_add_trust(&trust->objectSigningFlags, CERTDB_USER);
+		e_cert_trust_add_trust (&trust->objectSigningFlags, CERTDB_USER);
 	if (warn)
-		e_cert_trust_add_trust(&trust->objectSigningFlags, CERTDB_SEND_WARN);
+		e_cert_trust_add_trust (&trust->objectSigningFlags, CERTDB_SEND_WARN);
 }
 
 void
@@ -311,9 +311,9 @@ e_cert_trust_set_user (CERTCertTrust *trust)
 PRBool
 e_cert_trust_has_any_ca (CERTCertTrust *trust)
 {
-	if (e_cert_trust_has_trust(trust->sslFlags, CERTDB_VALID_CA) ||
-		e_cert_trust_has_trust(trust->emailFlags, CERTDB_VALID_CA) ||
-		e_cert_trust_has_trust(trust->objectSigningFlags, CERTDB_VALID_CA))
+	if (e_cert_trust_has_trust (trust->sslFlags, CERTDB_VALID_CA) ||
+		e_cert_trust_has_trust (trust->emailFlags, CERTDB_VALID_CA) ||
+		e_cert_trust_has_trust (trust->objectSigningFlags, CERTDB_VALID_CA))
 		return PR_TRUE;
 
 	return PR_FALSE;
@@ -364,9 +364,9 @@ e_cert_trust_has_peer (CERTCertTrust *trust,
 PRBool
 e_cert_trust_has_any_user (CERTCertTrust *trust)
 {
-	if (e_cert_trust_has_trust(trust->sslFlags, CERTDB_USER) ||
-		e_cert_trust_has_trust(trust->emailFlags, CERTDB_USER) ||
-		e_cert_trust_has_trust(trust->objectSigningFlags, CERTDB_USER))
+	if (e_cert_trust_has_trust (trust->sslFlags, CERTDB_USER) ||
+		e_cert_trust_has_trust (trust->emailFlags, CERTDB_USER) ||
+		e_cert_trust_has_trust (trust->objectSigningFlags, CERTDB_USER))
 		return PR_TRUE;
 
 	return PR_FALSE;

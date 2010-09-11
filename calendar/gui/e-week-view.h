@@ -260,7 +260,7 @@ struct _EWeekView {
 	PangoFontDescription *small_font_desc;
 
 	/* The widths of various pieces of text, used to determine which of
-	   several date formats to display, set in e_week_view_style_set(). */
+	   several date formats to display, set in e_week_view_style_set (). */
 	gint space_width;		/* One space character ' '. */
 	gint colon_width;		/* Size of ':' in the font. */
 	gint slash_width;		/* Size of '/' in the font. */
@@ -390,8 +390,8 @@ void		e_week_view_set_multi_week_view	(EWeekView *week_view,
 						 gboolean multi_week_view);
 
 /* Whether to update the base date when the time range changes */
-gboolean	e_week_view_get_update_base_date(EWeekView *week_view);
-void		e_week_view_set_update_base_date(EWeekView *week_view,
+gboolean	e_week_view_get_update_base_date (EWeekView *week_view);
+void		e_week_view_set_update_base_date (EWeekView *week_view,
 						 gboolean update_base_date);
 
 /* The number of weeks shown in the multi-week view. */
@@ -401,8 +401,8 @@ void		e_week_view_set_weeks_shown	(EWeekView *week_view,
 
 /* Whether the weekend (Sat/Sun) should be compressed into 1 cell in the Month
    view. In the Week view they are always compressed. */
-gboolean	e_week_view_get_compress_weekend(EWeekView *week_view);
-void		e_week_view_set_compress_weekend(EWeekView *week_view,
+gboolean	e_week_view_get_compress_weekend (EWeekView *week_view);
+void		e_week_view_set_compress_weekend (EWeekView *week_view,
 						 gboolean compress_weekend);
 
 /* Whether we display event end times. */

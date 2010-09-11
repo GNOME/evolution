@@ -22,7 +22,7 @@
 
 #if GTK_MAJOR_VERSION == 2 && GTK_MINOR_VERSION == 21 && GTK_MICRO_VERSION == 1
 #define gdk_drag_context_get_selected_action(context) \
-	gdk_drag_context_get_action(context)
+	gdk_drag_context_get_action (context)
 #endif
 
 #if GTK_CHECK_VERSION (2,90,5)

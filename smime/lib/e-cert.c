@@ -118,7 +118,7 @@ e_cert_dispose (GObject *object)
 	if (ec->priv->serial_number)
 		PORT_Free (ec->priv->serial_number);
 
-	g_free(ec->priv->usage_string);
+	g_free (ec->priv->usage_string);
 
 	if (ec->priv->sha1_fingerprint)
 		PORT_Free (ec->priv->sha1_fingerprint);
@@ -131,12 +131,12 @@ e_cert_dispose (GObject *object)
 	if (ec->priv->delete) {
 		printf ("attempting to delete cert marked for deletion\n");
 		if (e_cert_get_cert_type (ec) == E_CERT_USER) {
-			PK11_DeleteTokenCertAndKey(ec->priv->cert, NULL);
-		} else if (!PK11_IsReadOnly(ec->priv->cert->slot)) {
+			PK11_DeleteTokenCertAndKey (ec->priv->cert, NULL);
+		} else if (!PK11_IsReadOnly (ec->priv->cert->slot)) {
 			/* If the list of built-ins does contain a non-removable
 			   copy of this certificate, our call will not remove
 			   the certificate permanently, but rather remove all trust. */
-			SEC_DeletePermCertificate(ec->priv->cert);
+			SEC_DeletePermCertificate (ec->priv->cert);
 		}
 	}
 
@@ -157,7 +157,7 @@ e_cert_class_init (ECertClass *klass)
 {
 	GObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS(klass);
+	object_class = G_OBJECT_CLASS (klass);
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
 
@@ -241,16 +241,16 @@ e_cert_populate (ECert *cert)
 
 	cert->priv->serial_number = CERT_Hexify (&cert->priv->cert->serialNumber, TRUE);
 
-	memset(fingerprint, 0, sizeof fingerprint);
-	PK11_HashBuf(SEC_OID_SHA1, fingerprint,
+	memset (fingerprint, 0, sizeof fingerprint);
+	PK11_HashBuf (SEC_OID_SHA1, fingerprint,
 		     cert->priv->cert->derCert.data,
 		     cert->priv->cert->derCert.len);
 	fpItem.data = fingerprint;
 	fpItem.len = SHA1_LENGTH;
 	cert->priv->sha1_fingerprint = CERT_Hexify (&fpItem, TRUE);
 
-	memset(fingerprint, 0, sizeof fingerprint);
-	PK11_HashBuf(SEC_OID_MD5, fingerprint,
+	memset (fingerprint, 0, sizeof fingerprint);
+	PK11_HashBuf (SEC_OID_MD5, fingerprint,
 		     cert->priv->cert->derCert.data,
 		     cert->priv->cert->derCert.len);
 	fpItem.data = fingerprint;
@@ -280,7 +280,7 @@ e_cert_new_from_der (gchar *data, guint32 len)
 		return NULL;
 
 	if (cert->dbhandle == NULL)
-		cert->dbhandle = CERT_GetDefaultCertDB();
+		cert->dbhandle = CERT_GetDefaultCertDB ();
 
 	return e_cert_new (cert);
 }
@@ -416,7 +416,7 @@ static struct {
 };
 
 const gchar *
-e_cert_get_usage(ECert *cert)
+e_cert_get_usage (ECert *cert)
 {
 	if (cert->priv->usage_string == NULL) {
 		gint i;
@@ -427,12 +427,12 @@ e_cert_get_usage(ECert *cert)
 			if (icert->keyUsage & usageinfo[i].bit) {
 				if (str->len != 0)
 					g_string_append(str, ", ");
-				g_string_append(str, _(usageinfo[i].text));
+				g_string_append (str, _(usageinfo[i].text));
 			}
 		}
 
 		cert->priv->usage_string = str->str;
-		g_string_free(str, FALSE);
+		g_string_free (str, FALSE);
 	}
 
 	return cert->priv->usage_string;
@@ -469,10 +469,10 @@ e_cert_get_chain (ECert *ecert)
 
 		l = g_list_append (l, ecert);
 
-		if (SECITEM_CompareItem(&cert->derIssuer, &cert->derSubject) == SECEqual)
+		if (SECITEM_CompareItem (&cert->derIssuer, &cert->derSubject) == SECEqual)
 			break;
 
-		next_cert = CERT_FindCertIssuer (cert, PR_Now(), certUsageSSLClient);
+		next_cert = CERT_FindCertIssuer (cert, PR_Now (), certUsageSSLClient);
 		if (!next_cert)
 			break;
 
@@ -484,9 +484,9 @@ e_cert_get_chain (ECert *ecert)
 }
 
 ECert *
-e_cert_get_ca_cert(ECert *ecert)
+e_cert_get_ca_cert (ECert *ecert)
 {
-	CERTCertificate *cert, *next = e_cert_get_internal_cert(ecert), *internal;
+	CERTCertificate *cert, *next = e_cert_get_internal_cert (ecert), *internal;
 
 	cert = next;
 	internal = cert;
@@ -495,13 +495,13 @@ e_cert_get_ca_cert(ECert *ecert)
 			CERT_DestroyCertificate (cert);
 
 		cert = next;
-		next = CERT_FindCertIssuer (cert, PR_Now(), certUsageAnyCA);
+		next = CERT_FindCertIssuer (cert, PR_Now (), certUsageAnyCA);
 	} while (next && next != cert);
 
 	if (cert == internal)
-		return g_object_ref(ecert);
+		return g_object_ref (ecert);
 	else
-		return e_cert_new(cert);
+		return e_cert_new (cert);
 }
 
 static gboolean
@@ -509,7 +509,7 @@ get_int_value (SECItem *versionItem,
 	       unsigned long *version)
 {
 	SECStatus srv;
-	srv = SEC_ASN1DecodeInteger(versionItem,version);
+	srv = SEC_ASN1DecodeInteger (versionItem,version);
 	if (srv != SECSuccess) {
 		g_warning ("could not decode version of cert");
 		return FALSE;
@@ -565,7 +565,7 @@ process_serial_number_der (SECItem      *serialItem,
 
 	e_asn1_object_set_display_name (item, _("Serial Number"));
 
-	serialNumber = CERT_Hexify(serialItem, 1);
+	serialNumber = CERT_Hexify (serialItem, 1);
 
 	e_asn1_object_set_display_value (item, serialNumber);
 	PORT_Free (serialNumber); /* XXX the right free to use? */
@@ -622,7 +622,7 @@ get_default_oid_format (SECItem *oid,
 static gboolean
 get_oid_text (SECItem *oid, gchar **text)
 {
-	SECOidTag oidTag = SECOID_FindOIDTag(oid);
+	SECOidTag oidTag = SECOID_FindOIDTag (oid);
 	gchar *temp;
 
 	switch (oidTag) {
@@ -765,7 +765,7 @@ static gboolean
 process_subject_public_key_info (CERTSubjectPublicKeyInfo *spki,
 				 EASN1Object *parentSequence)
 {
-	EASN1Object *spkiSequence = e_asn1_object_new();
+	EASN1Object *spkiSequence = e_asn1_object_new ();
 	EASN1Object *sequenceItem;
 	EASN1Object *printableItem;
 	SECItem data;
@@ -810,8 +810,8 @@ process_ns_cert_type_extensions (SECItem  *extData,
 
 	decoded.data = NULL;
 	decoded.len  = 0;
-	if (SECSuccess != SEC_ASN1DecodeItem(NULL, &decoded,
-					     SEC_ASN1_GET(SEC_BitStringTemplate), extData)) {
+	if (SECSuccess != SEC_ASN1DecodeItem (NULL, &decoded,
+					     SEC_ASN1_GET (SEC_BitStringTemplate), extData)) {
 		g_string_append (text, _("Error: Unable to process extension"));
 		return TRUE;
 	}
@@ -859,8 +859,8 @@ process_key_usage_extensions (SECItem *extData, GString *text)
 
 	decoded.data = NULL;
 	decoded.len  = 0;
-	if (SECSuccess != SEC_ASN1DecodeItem(NULL, &decoded,
-					     SEC_ASN1_GET(SEC_BitStringTemplate), extData)) {
+	if (SECSuccess != SEC_ASN1DecodeItem (NULL, &decoded,
+					     SEC_ASN1_GET (SEC_BitStringTemplate), extData)) {
 		g_string_append (text, _("Error: Unable to process extension"));
 		return TRUE;
 	}
@@ -930,7 +930,7 @@ process_single_extension (CERTCertExtension *extension,
 	GString *str = g_string_new ("");
 	gchar *text;
 	EASN1Object *extensionItem;
-	SECOidTag oidTag = SECOID_FindOIDTag(&extension->id);
+	SECOidTag oidTag = SECOID_FindOIDTag (&extension->id);
 
 	get_oid_text (&extension->id, &text);
 
@@ -1027,14 +1027,14 @@ process_name (CERTName *name, gchar **value)
 				return FALSE;
 
 			/* This function returns a string in UTF8 format. */
-			decodeItem = CERT_DecodeAVAValue(&ava->value);
+			decodeItem = CERT_DecodeAVAValue (&ava->value);
 			if (!decodeItem) {
 				return FALSE;
 			}
 
 			avavalue = g_string_new_len ((gchar *)decodeItem->data, decodeItem->len);
 
-			SECITEM_FreeItem(decodeItem, PR_TRUE);
+			SECITEM_FreeItem (decodeItem, PR_TRUE);
 
 			/* Translators: This string is used in Certificate details for fields like Issuer
 			   or Subject, which shows the field name on the left and its respective value
@@ -1111,28 +1111,28 @@ create_tbs_certificate_asn1_struct (ECert *cert, EASN1Object **seq)
 	g_object_unref (subitem);
 
 #ifdef notyet
-	nsCOMPtr<nsIASN1Sequence> validitySequence = new nsNSSASN1Sequence();
+	nsCOMPtr<nsIASN1Sequence> validitySequence = new nsNSSASN1Sequence ();
 	nssComponent->GetPIPNSSBundleString(NS_LITERAL_STRING("CertDumpValidity").get(),
 					    text);
-	validitySequence->SetDisplayName(text);
-	asn1Objects->AppendElement(validitySequence, PR_FALSE);
+	validitySequence->SetDisplayName (text);
+	asn1Objects->AppendElement (validitySequence, PR_FALSE);
 	nssComponent->GetPIPNSSBundleString(NS_LITERAL_STRING("CertDumpNotBefore").get(),
 					    text);
 	nsCOMPtr<nsIX509CertValidity> validityData;
-	GetValidity(getter_AddRefs(validityData));
+	GetValidity (getter_AddRefs (validityData));
 	PRTime notBefore, notAfter;
 
-	validityData->GetNotBefore(&notBefore);
-	validityData->GetNotAfter(&notAfter);
+	validityData->GetNotBefore (&notBefore);
+	validityData->GetNotAfter (&notAfter);
 	validityData = 0;
-	rv = ProcessTime(notBefore, text.get(), validitySequence);
-	if (NS_FAILED(rv))
+	rv = ProcessTime (notBefore, text.get (), validitySequence);
+	if (NS_FAILED (rv))
 		return rv;
 
 	nssComponent->GetPIPNSSBundleString(NS_LITERAL_STRING("CertDumpNotAfter").get(),
 					    text);
-	rv = ProcessTime(notAfter, text.get(), validitySequence);
-	if (NS_FAILED(rv))
+	rv = ProcessTime (notAfter, text.get (), validitySequence);
+	if (NS_FAILED (rv))
 		return rv;
 #endif
 
@@ -1258,13 +1258,13 @@ e_cert_mark_for_deletion (ECert *cert)
 
 #if 0
 	/* make sure user is logged in to the token */
-	nsCOMPtr<nsIInterfaceRequestor> ctx = new PipUIContext();
+	nsCOMPtr<nsIInterfaceRequestor> ctx = new PipUIContext ();
 #endif
 
-	if (PK11_NeedLogin(cert->priv->cert->slot)
-	    && !PK11_NeedUserInit(cert->priv->cert->slot)
-	    && !PK11_IsInternal(cert->priv->cert->slot)) {
-		if (SECSuccess != PK11_Authenticate(cert->priv->cert->slot, PR_TRUE, NULL)) {
+	if (PK11_NeedLogin (cert->priv->cert->slot)
+	    && !PK11_NeedUserInit (cert->priv->cert->slot)
+	    && !PK11_IsInternal (cert->priv->cert->slot)) {
+		if (SECSuccess != PK11_Authenticate (cert->priv->cert->slot, PR_TRUE, NULL)) {
 			return FALSE;
 		}
 	}
@@ -1285,7 +1285,7 @@ e_cert_get_cert_type (ECert *ecert)
 		if (e_cert_trust_has_any_user (cert->trust))
 			return E_CERT_USER;
 		if (e_cert_trust_has_any_ca (cert->trust)
-		    || CERT_IsCACert(cert,NULL))
+		    || CERT_IsCACert (cert,NULL))
 			return E_CERT_CA;
 		if (e_cert_trust_has_peer (cert->trust, PR_TRUE, PR_FALSE, PR_FALSE))
 			return E_CERT_SITE;

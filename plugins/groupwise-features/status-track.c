@@ -50,7 +50,7 @@ format_date (const gchar * value)
 	time = e_gw_connection_get_date_from_string (value);
 	str = ctime (&time);
 
-	str[strlen(str)-1] = '\0';
+	str[strlen (str)-1] = '\0';
 	return str;
 }
 
@@ -126,7 +126,7 @@ gw_track_message_status_cb (GtkAction *action,
 	win = (GtkScrolledWindow *) gtk_scrolled_window_new (NULL, NULL);
 	gtk_container_add (GTK_CONTAINER (content_area), GTK_WIDGET (win));
 	vbox = (GtkVBox *) gtk_vbox_new (FALSE, 12);
-	gtk_scrolled_window_add_with_viewport (win, GTK_WIDGET(vbox));
+	gtk_scrolled_window_add_with_viewport (win, GTK_WIDGET (vbox));
 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (table), FALSE, TRUE, 0);
 	gtk_scrolled_window_set_policy (win, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
@@ -140,7 +140,7 @@ gw_track_message_status_cb (GtkAction *action,
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
 	gtk_table_attach (table, widget , 0, 1, row,  row + 1, GTK_FILL, 0, 0, 0);
-	widget = gtk_label_new (camel_mime_message_get_subject(msg));
+	widget = gtk_label_new (camel_mime_message_get_subject (msg));
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_table_attach (table, widget , 1, 2, row,  row + 1, GTK_FILL, 0, 0, 0);
 	row++;
@@ -162,7 +162,7 @@ gw_track_message_status_cb (GtkAction *action,
 	/* creation date */
 	time = camel_mime_message_get_date (msg, NULL);
 	time_str = ctime (&time);
-	time_str[strlen(time_str)-1] = '\0' ;
+	time_str[strlen (time_str)-1] = '\0' ;
 	boldmsg = g_strdup_printf ("<b>%s</b>", _("Creation date:"));
 	widget = gtk_label_new (boldmsg);
 	g_free (boldmsg);
@@ -186,7 +186,7 @@ gw_track_message_status_cb (GtkAction *action,
 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (table), FALSE, TRUE, 0);
 	cnc = get_cnc (camel_folder_get_parent_store (folder));
 
-	if (E_IS_GW_CONNECTION(cnc)) {
+	if (E_IS_GW_CONNECTION (cnc)) {
 		GSList *recipient_list;
 		e_gw_connection_get_item (
 			cnc, get_container_id (cnc, "Sent Items"),
@@ -211,46 +211,46 @@ gw_track_message_status_cb (GtkAction *action,
 
 			if (recipient->delivered_date) {
 				label = g_string_append (label, _("Delivered: "));
-				label = g_string_append (label, format_date(recipient->delivered_date));
+				label = g_string_append (label, format_date (recipient->delivered_date));
 				label = g_string_append_c (label, '\n');
 			}
 
 			if (recipient->opened_date) {
 				label = g_string_append (label, _("Opened: "));
-				label = g_string_append (label, format_date(recipient->opened_date));
+				label = g_string_append (label, format_date (recipient->opened_date));
 				label = g_string_append_c (label, '\n');
 			}
 			if (recipient->accepted_date) {
 				label = g_string_append (label, _("Accepted: "));
-				label = g_string_append (label, format_date(recipient->accepted_date));
+				label = g_string_append (label, format_date (recipient->accepted_date));
 				label = g_string_append_c (label, '\n');
 			}
 			if (recipient->deleted_date) {
 				label = g_string_append (label, _("Deleted: "));
-				label = g_string_append (label, format_date(recipient->deleted_date));
+				label = g_string_append (label, format_date (recipient->deleted_date));
 				label = g_string_append_c (label, '\n');
 			}
 			if (recipient->declined_date) {
 				label = g_string_append (label, _("Declined: "));
-				label = g_string_append (label, format_date(recipient->declined_date));
+				label = g_string_append (label, format_date (recipient->declined_date));
 				label = g_string_append_c (label, '\n');
 			}
 			if (recipient->completed_date) {
 				label = g_string_append (label, _("Completed: "));
-				label = g_string_append (label, format_date(recipient->completed_date));
+				label = g_string_append (label, format_date (recipient->completed_date));
 				label = g_string_append_c (label, '\n');
 			}
 			if (recipient->undelivered_date) {
 				label = g_string_append (label, _("Undelivered: "));
-				label = g_string_append (label, format_date(recipient->undelivered_date));
+				label = g_string_append (label, format_date (recipient->undelivered_date));
 				label = g_string_append_c (label, '\n');
 			}
 
-			detail = GTK_LABEL(gtk_label_new (label->str));
+			detail = GTK_LABEL (gtk_label_new (label->str));
 			g_string_free (label, TRUE);
 			gtk_label_set_selectable (detail, TRUE);
 			gtk_label_set_use_markup (detail, TRUE);
-			gtk_table_attach (table, GTK_WIDGET(detail) , 1, 2, row,  row+1, GTK_FILL, 0, 0, 0);
+			gtk_table_attach (table, GTK_WIDGET (detail) , 1, 2, row,  row+1, GTK_FILL, 0, 0, 0);
 			row++;
 		}
 	}

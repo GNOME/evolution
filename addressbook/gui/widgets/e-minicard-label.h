@@ -73,7 +73,7 @@ struct _EMinicardLabelClass
 };
 
 GType      e_minicard_label_get_type (void);
-GnomeCanvasItem *e_minicard_label_new(GnomeCanvasGroup *parent);
+GnomeCanvasItem *e_minicard_label_new (GnomeCanvasGroup *parent);
 void e_minicard_label_construct (GnomeCanvasItem *item);
 
 G_END_DECLS

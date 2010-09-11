@@ -51,7 +51,7 @@ commit_groupwise_addressbook (EPlugin *epl, EConfigTarget *target)
 	g_free (relative_uri);
 
 	source_group = e_source_peek_group (source);
-	l = e_source_group_peek_sources(source_group);
+	l = e_source_group_peek_sources (source_group);
 	if (l && l->data ) {
 		e_source_set_property(source, "auth", e_source_get_property(l->data, "auth"));
 		e_source_set_property(source, "user", e_source_get_property(l->data, "user"));

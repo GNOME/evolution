@@ -270,7 +270,7 @@ preview_recur (RecurrencePage *rpage)
 
 	tag_calendar_by_comp (E_CALENDAR (priv->preview_calendar), comp,
 			      client, zone, TRUE, FALSE);
-	g_object_unref(comp);
+	g_object_unref (comp);
 }
 
 static GObject *

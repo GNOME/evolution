@@ -59,7 +59,7 @@ add_day_to_time (time_t time, gint days)
 }
 
 static void
-feed_input_data(ESendOptionsDialog * dialog, gint state, gpointer data)
+feed_input_data (ESendOptionsDialog * dialog, gint state, gpointer data)
 {
 	EMsgComposer *comp;
 	gchar value[100];

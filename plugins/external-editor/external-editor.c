@@ -59,7 +59,7 @@ static void ee_editor_command_changed (GtkWidget *textbox);
 static void ee_editor_immediate_launch_changed (GtkWidget *checkbox);
 static void async_external_editor (EMsgComposer *composer);
 static gboolean editor_running (void);
-static gboolean key_press_cb(GtkWidget * widget, GdkEventKey * event, EMsgComposer *composer);
+static gboolean key_press_cb (GtkWidget * widget, GdkEventKey * event, EMsgComposer *composer);
 
 /* used to track when the external editor is active */
 static GThread *editor_thread;
@@ -78,7 +78,7 @@ ee_editor_command_changed (GtkWidget *textbox)
 	const gchar *editor;
 	GConfClient *gconf;
 
-	editor = gtk_entry_get_text (GTK_ENTRY(textbox));
+	editor = gtk_entry_get_text (GTK_ENTRY (textbox));
 	d(printf ("\n\aeditor is : [%s] \n\a", editor));
 
 	/* gconf access for every key-press. Sucky ? */
@@ -118,7 +118,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 
 	editor = gconf_client_get_string (gconf, EDITOR_GCONF_KEY_COMMAND, NULL);
 	if (editor) {
-		gtk_entry_set_text (GTK_ENTRY(textbox), editor);
+		gtk_entry_set_text (GTK_ENTRY (textbox), editor);
 		g_free (editor);
 	}
 
@@ -137,7 +137,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	g_signal_connect (textbox, "changed", G_CALLBACK(ee_editor_command_changed), textbox);
 
 	g_signal_connect (checkbox, "toggled",
-			  G_CALLBACK(ee_editor_immediate_launch_changed), checkbox);
+			  G_CALLBACK (ee_editor_immediate_launch_changed), checkbox);
 
 	gtk_widget_show_all (vbox);
 	return vbox;
@@ -346,10 +346,10 @@ async_external_editor (EMsgComposer *composer)
 			gchar *htmltext;
 			GArray *array;
 
-			htmltext = camel_text_to_html(buf, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
+			htmltext = camel_text_to_html (buf, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
 
 			array = g_array_sized_new (TRUE, TRUE,
-						   sizeof (gpointer), 2 * sizeof(gpointer));
+						   sizeof (gpointer), 2 * sizeof (gpointer));
 			array = g_array_append_val (array, composer);
 			array = g_array_append_val (array, htmltext);
 
@@ -366,7 +366,7 @@ static void launch_editor (GtkAction *action, EMsgComposer *composer)
 {
 	d(printf ("\n\nexternal_editor plugin is launched \n\n"));
 
-	if (editor_running()) {
+	if (editor_running ()) {
 		d(printf("not opening editor, because it's still running\n"));
 		return;
 	}
@@ -386,7 +386,7 @@ static GtkActionEntry entries[] = {
 };
 
 static gboolean
-key_press_cb(GtkWidget * widget, GdkEventKey * event, EMsgComposer *composer)
+key_press_cb (GtkWidget * widget, GdkEventKey * event, EMsgComposer *composer)
 {
 	GConfClient *gconf;
 	gboolean immediately;
@@ -436,7 +436,7 @@ editor_running (void)
 static gboolean
 delete_cb (GtkWidget *widget, EMsgComposer *composer)
 {
-	if (editor_running()) {
+	if (editor_running ()) {
 		e_alert_run_dialog_for_args (NULL, "org.gnome.evolution.plugins.external-editor:editor-still-running", NULL);
 		return TRUE;
 	}
@@ -460,10 +460,10 @@ e_plugin_ui_init (GtkUIManager *manager, EMsgComposer *composer)
 	html = gtkhtml_editor_get_html (editor);
 
 	g_signal_connect (G_OBJECT(html), "key_press_event",
-			  G_CALLBACK(key_press_cb), composer);
+			  G_CALLBACK (key_press_cb), composer);
 
 	g_signal_connect (G_OBJECT(composer), "delete-event",
-			  G_CALLBACK(delete_cb), composer);
+			  G_CALLBACK (delete_cb), composer);
 
 	return TRUE;
 }

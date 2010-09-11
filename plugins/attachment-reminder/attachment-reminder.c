@@ -115,17 +115,17 @@ ask_for_missing_attachment (EPlugin *ep, GtkWindow *window)
 
 	/*Check buttons*/
 	check = gtk_check_button_new_with_mnemonic (_("_Do not show this message again."));
-	gtk_container_set_border_width((GtkContainer *)check, 12);
+	gtk_container_set_border_width ((GtkContainer *)check, 12);
 	content_area = gtk_dialog_get_content_area (dialog);
 	gtk_box_pack_start (GTK_BOX (content_area), check, TRUE, TRUE, 0);
 	gtk_widget_show (check);
 
 	response = gtk_dialog_run ((GtkDialog *) dialog);
 
-	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)))
 		e_plugin_enable (ep, FALSE);
 
-	gtk_widget_destroy((GtkWidget *)dialog);
+	gtk_widget_destroy ((GtkWidget *)dialog);
 
 	if (response == GTK_RESPONSE_OK)
 		gtk_action_activate (E_COMPOSER_ACTION_ATTACH (window));
@@ -151,7 +151,7 @@ check_for_attachment_clues (gchar *msg)
 	g_object_unref (gconf);
 
 	msg_length = strlen (msg);
-	for (list = clue_list;list && !ret_val;list=g_slist_next(list)) {
+	for (list = clue_list;list && !ret_val;list=g_slist_next (list)) {
 		gchar *needle = g_utf8_strdown (list->data, -1);
 		if (g_strstr_len (msg, msg_length, needle)) {
 			ret_val = TRUE;
@@ -226,7 +226,7 @@ commit_changes (UIData *ui)
 			model, &iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
 
 		/* Check if the keyword is not empty */
-		if ((keyword) && (g_utf8_strlen(g_strstrip(keyword), -1) > 0))
+		if ((keyword) && (g_utf8_strlen (g_strstrip (keyword), -1) > 0))
 			clue_list = g_slist_append (clue_list, keyword);
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
@@ -305,17 +305,17 @@ clue_remove_clicked (GtkButton *button, UIData *ui)
 	/* Get the path and move to the previous node :) */
 	path = gtk_tree_model_get_path (model, &iter);
 	if (path)
-		valid = gtk_tree_path_prev(path);
+		valid = gtk_tree_path_prev (path);
 
 	gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
 
 	len = gtk_tree_model_iter_n_children (model, NULL);
 	if (len > 0) {
-		if (gtk_list_store_iter_is_valid (GTK_LIST_STORE(model), &iter)) {
+		if (gtk_list_store_iter_is_valid (GTK_LIST_STORE (model), &iter)) {
 			gtk_tree_selection_select_iter (selection, &iter);
 		} else {
 			if (path && valid) {
-				gtk_tree_model_get_iter(model, &iter, path);
+				gtk_tree_model_get_iter (model, &iter, path);
 				gtk_tree_selection_select_iter (selection, &iter);
 			}
 		}
@@ -324,7 +324,7 @@ clue_remove_clicked (GtkButton *button, UIData *ui)
 		gtk_widget_set_sensitive (ui->clue_remove, FALSE);
 	}
 
-	gtk_widget_grab_focus(ui->treeview);
+	gtk_widget_grab_focus (ui->treeview);
 	gtk_tree_path_free (path);
 
 	commit_changes (ui);
@@ -385,7 +385,7 @@ e_plugin_lib_get_configure_widget (EPlugin *plugin)
 	GtkCellRenderer *renderer;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
-	GConfClient *gconf = gconf_client_get_default();
+	GConfClient *gconf = gconf_client_get_default ();
 	GtkWidget *hbox;
 	GSList *clue_list = NULL, *list;
 

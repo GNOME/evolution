@@ -42,7 +42,7 @@ static void ea_minicard_view_class_init (EaMinicardViewClass *klass);
 static gint ea_minicard_view_get_n_children (AtkObject *obj);
 static AtkObject *ea_minicard_view_ref_child (AtkObject *obj, gint i);
 
-static AtkStateSet *ea_minicard_view_ref_state_set(AtkObject *obj);
+static AtkStateSet *ea_minicard_view_ref_state_set (AtkObject *obj);
 
 static void atk_selection_interface_init (AtkSelectionIface *iface);
 static gboolean selection_interface_add_selection (AtkSelection *selection,
@@ -170,14 +170,14 @@ ea_minicard_view_get_name (AtkObject *accessible)
 
 	ATK_OBJECT_CLASS (parent_class)->set_name (accessible, string);
 	g_free (string);
-	g_object_unref(book);
+	g_object_unref (book);
 	return accessible->name;
 }
 
 static G_CONST_RETURN gchar *
 ea_minicard_view_get_description (AtkObject *accessible)
 {
-	g_return_val_if_fail (EA_IS_MINICARD_VIEW(accessible), NULL);
+	g_return_val_if_fail (EA_IS_MINICARD_VIEW (accessible), NULL);
 	if (accessible->description)
 		return accessible->description;
 
@@ -190,7 +190,7 @@ ea_minicard_view_new (GObject *obj)
 	GObject *object;
 	AtkObject *accessible;
 
-	g_return_val_if_fail (E_IS_MINICARD_VIEW(obj), NULL);
+	g_return_val_if_fail (E_IS_MINICARD_VIEW (obj), NULL);
 	object = g_object_new (EA_TYPE_MINICARD_VIEW, NULL);
 	accessible = ATK_OBJECT (object);
 	atk_object_initialize (accessible, obj);
@@ -208,7 +208,7 @@ ea_minicard_view_get_n_children (AtkObject *accessible)
 	g_return_val_if_fail (EA_IS_MINICARD_VIEW (accessible), -1);
 
 	reflow = E_REFLOW (atk_gobject_accessible_get_object (
-		ATK_GOBJECT_ACCESSIBLE(accessible)));
+		ATK_GOBJECT_ACCESSIBLE (accessible)));
 
 	if (!reflow)
 		return -1;
@@ -309,7 +309,7 @@ selection_interface_clear_selection (AtkSelection *selection)
 	EReflow *reflow = NULL;
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (selection);
-	reflow = E_REFLOW(atk_gobject_accessible_get_object (atk_gobj));
+	reflow = E_REFLOW (atk_gobject_accessible_get_object (atk_gobj));
 
 	if (!reflow)
 		return FALSE;
@@ -347,7 +347,7 @@ selection_interface_is_child_selected (AtkSelection *selection, gint i)
 	EReflow *reflow = NULL;
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (selection);
-	reflow = E_REFLOW(atk_gobject_accessible_get_object (atk_gobj));
+	reflow = E_REFLOW (atk_gobject_accessible_get_object (atk_gobj));
 
 	if (!reflow)
 		return FALSE;

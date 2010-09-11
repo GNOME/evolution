@@ -132,7 +132,7 @@ struct _itip_puri {
 
 void format_itip (EPlugin *ep, EMFormatHookTarget *target);
 GtkWidget *itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
-static void itip_attachment_frame(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri);
+static void itip_attachment_frame (EMFormat *emf, CamelStream *stream, EMFormatPURI *puri);
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 typedef struct {
@@ -229,7 +229,7 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 {
 	EIterator *it;
 
-	it = e_list_get_iterator((EList *)pitip->accounts);
+	it = e_list_get_iterator ((EList *)pitip->accounts);
 
 	if (!pitip->to_address && pitip->msg) {
 		EAccount *account = em_utils_guess_account (pitip->msg, pitip->folder);
@@ -245,12 +245,12 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 
 	/* Look through the list of attendees to find the user's address */
 	if (!pitip->to_address)
-		while (e_iterator_is_valid(it)) {
-			const EAccount *account = e_iterator_get(it);
+		while (e_iterator_is_valid (it)) {
+			const EAccount *account = e_iterator_get (it);
 			icalproperty *prop = NULL;
 
 			if (!account->enabled) {
-				e_iterator_next(it);
+				e_iterator_next (it);
 				continue;
 			}
 
@@ -285,7 +285,7 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 
 				break;
 			}
-			e_iterator_next(it);
+			e_iterator_next (it);
 		}
 
 	e_iterator_reset (it);
@@ -300,12 +300,12 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 	 * general. Hence, we choose to iterate through the accounts list again.
 	 */
 	if (!pitip->to_address)
-		while (e_iterator_is_valid(it)) {
-			const EAccount *account = e_iterator_get(it);
+		while (e_iterator_is_valid (it)) {
+			const EAccount *account = e_iterator_get (it);
 			icalproperty *prop = NULL;
 
 			if (!account->enabled) {
-				e_iterator_next(it);
+				e_iterator_next (it);
 				continue;
 			}
 
@@ -340,10 +340,10 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 
 				break;
 			}
-			e_iterator_next(it);
+			e_iterator_next (it);
 		}
 
-	g_object_unref(it);
+	g_object_unref (it);
 }
 
 static void
@@ -387,12 +387,12 @@ find_from_address (struct _itip_puri *pitip, icalcomponent *ical_comp)
 	if (param)
 		pitip->from_name = g_strdup (icalparameter_get_cn (param));
 
-	it = e_list_get_iterator((EList *)pitip->accounts);
-	while (e_iterator_is_valid(it)) {
-		const EAccount *account = e_iterator_get(it);
+	it = e_list_get_iterator ((EList *)pitip->accounts);
+	while (e_iterator_is_valid (it)) {
+		const EAccount *account = e_iterator_get (it);
 
 		if (!account->enabled) {
-			e_iterator_next(it);
+			e_iterator_next (it);
 			continue;
 		}
 
@@ -402,9 +402,9 @@ find_from_address (struct _itip_puri *pitip, icalcomponent *ical_comp)
 
 			break;
 		}
-		e_iterator_next(it);
+		e_iterator_next (it);
 	}
-	g_object_unref(it);
+	g_object_unref (it);
 	g_free (organizer_sentby_clean);
 	g_free (organizer_clean);
 }
@@ -1723,7 +1723,7 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *
 				pitip->delegator_address = g_strdup (itip_strip_mailto (delfrom));
 			}
 		}
-		g_free(my_address);
+		g_free (my_address);
 		prop = NULL;
 
 		/* Determine any delegate sections */
@@ -2017,7 +2017,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 				}
 			} else {
 				/* Either not a recurring appointment or "apply-to-all" is not selected. So just delete this instance alone */
-				camel_folder_summary_remove_uid(pitip->folder->summary, pitip->uid);
+				camel_folder_summary_remove_uid (pitip->folder->summary, pitip->uid);
 				camel_folder_change_info_remove_uid (changes, pitip->uid);
 			}
 			camel_folder_changed (pitip->folder, changes);
@@ -2180,7 +2180,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	gboolean response_enabled;
 	gboolean have_alarms = FALSE;
 
-	info = (struct _itip_puri *) em_format_find_puri((EMFormat *)efh, pobject->classid);
+	info = (struct _itip_puri *) em_format_find_puri ((EMFormat *)efh, pobject->classid);
 
 	/* Accounts */
 	info->accounts = itip_addresses_get ();
@@ -2552,7 +2552,7 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 	    !camel_folder_get_message_user_flag (target->format->folder, target->format->uid, "$has_cal"))
 		camel_folder_set_message_user_flag (target->format->folder, target->format->uid, "$has_cal", TRUE);
 
-	puri = (struct _itip_puri *)em_format_add_puri(target->format, sizeof(struct _itip_puri), classid, target->part, itip_attachment_frame);
+	puri = (struct _itip_puri *)em_format_add_puri (target->format, sizeof (struct _itip_puri), classid, target->part, itip_attachment_frame);
 
 	em_format_html_add_pobject ((EMFormatHTML *) target->format, sizeof (EMFormatHTMLPObject), classid, target->part, format_itip_object);
 
@@ -2748,12 +2748,12 @@ itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 }
 
 static void
-itip_attachment_frame(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
+itip_attachment_frame (EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 {
 	struct _itip_puri *info = (struct _itip_puri *)puri;
 
 	d(printf("writing to frame content, handler is '%s'\n", info->handle->mime_type));
-	info->handle->handler(emf, stream, info->puri.part, info->handle, FALSE);
-	camel_stream_close(stream, NULL);
+	info->handle->handler (emf, stream, info->puri.part, info->handle, FALSE);
+	camel_stream_close (stream, NULL);
 }
 

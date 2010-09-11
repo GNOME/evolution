@@ -60,7 +60,7 @@ xml_to_gchar (xmlChar *xml, EmailProvider *provider)
 	tmp = xml ? strstr((gchar *) xml, "\%EMAIL") : NULL;
 
 	if (!tmp) {
-		gxml = xml ? g_strdup((gchar *) xml) : NULL;
+		gxml = xml ? g_strdup ((gchar *) xml) : NULL;
 	} else {
 	decodepart:
 		*tmp = 0;
@@ -83,7 +83,7 @@ xml_to_gchar (xmlChar *xml, EmailProvider *provider)
 		}
 	}
 
-	xmlFree(xml);
+	xmlFree (xml);
 
 	return gxml;
 }
@@ -124,15 +124,15 @@ handle_incoming (xmlNodePtr head, EmailProvider *provider)
 
 	while (node) {
 		if (strcmp ((gchar *)node->name, "hostname") == 0) {
-			provider->recv_hostname = xml_to_gchar(xmlNodeGetContent(node), provider);
+			provider->recv_hostname = xml_to_gchar (xmlNodeGetContent (node), provider);
 		} else if (strcmp ((gchar *)node->name, "port") == 0) {
-			provider->recv_port = xml_to_gchar(xmlNodeGetContent(node), provider);
+			provider->recv_port = xml_to_gchar (xmlNodeGetContent (node), provider);
 		} else if (strcmp ((gchar *)node->name, "socketType") == 0) {
-			provider->recv_socket_type = xml_to_gchar(xmlNodeGetContent(node), provider);
+			provider->recv_socket_type = xml_to_gchar (xmlNodeGetContent (node), provider);
 		} else if (strcmp ((gchar *)node->name, "username") == 0) {
-			provider->recv_username = xml_to_gchar(xmlNodeGetContent(node), provider);
+			provider->recv_username = xml_to_gchar (xmlNodeGetContent (node), provider);
 		} else if (strcmp ((gchar *)node->name, "authentication") == 0) {
-			provider->recv_auth = xml_to_gchar(xmlNodeGetContent(node), provider);
+			provider->recv_auth = xml_to_gchar (xmlNodeGetContent (node), provider);
 		}
 
 		node = node->next;
@@ -148,15 +148,15 @@ handle_outgoing (xmlNodePtr head, EmailProvider *provider)
 
 	while (node) {
 		if (strcmp ((gchar *)node->name, "hostname") == 0) {
-			provider->send_hostname = xml_to_gchar(xmlNodeGetContent(node), provider);
+			provider->send_hostname = xml_to_gchar (xmlNodeGetContent (node), provider);
 		} else if (strcmp ((gchar *)node->name, "port") == 0) {
-			provider->send_port = xml_to_gchar(xmlNodeGetContent(node), provider);
+			provider->send_port = xml_to_gchar (xmlNodeGetContent (node), provider);
 		} else if (strcmp ((gchar *)node->name, "socketType") == 0) {
-			provider->send_socket_type = xml_to_gchar(xmlNodeGetContent(node), provider);
+			provider->send_socket_type = xml_to_gchar (xmlNodeGetContent (node), provider);
 		} else if (strcmp ((gchar *)node->name, "username") == 0) {
-			provider->send_username = xml_to_gchar(xmlNodeGetContent(node), provider);
+			provider->send_username = xml_to_gchar (xmlNodeGetContent (node), provider);
 		} else if (strcmp ((gchar *)node->name, "authentication") == 0) {
-			provider->send_auth = xml_to_gchar(xmlNodeGetContent(node), provider);
+			provider->send_auth = xml_to_gchar (xmlNodeGetContent (node), provider);
 		}
 
 		node = node->next;
@@ -211,7 +211,7 @@ parse_message (const gchar *msg, gint length, EmailProvider *provider)
 		node = node->next;
 	}
 
-	xmlFreeDoc(doc);
+	xmlFreeDoc (doc);
 
 	return TRUE;
 }
@@ -272,8 +272,8 @@ guess_when_online (EmailProvider *provider)
 
 	g_object_unref (proxy);
 	g_object_unref (msg);
-	g_object_unref(session);
-	g_free(url);
+	g_object_unref (session);
+	g_free (url);
 
 	return TRUE;
 
@@ -312,7 +312,7 @@ out:
 }
 
 gboolean
-mail_guess_servers(EmailProvider *provider)
+mail_guess_servers (EmailProvider *provider)
 {
 	if (is_online () && guess_when_online (provider))
 		return TRUE;
@@ -328,7 +328,7 @@ main (gint argc, gchar **argv)
 	g_thread_init (NULL);
 	g_type_init ();
 
-	provider = g_new0(EmailProvider, 1);
+	provider = g_new0 (EmailProvider, 1);
 
 	provider->email = "sragavan@iijmio-mail.jp";
 	provider->domain = "iijmio-mail.jp";

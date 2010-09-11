@@ -92,7 +92,7 @@ free_data (EAddressbookModel *model)
 }
 
 static void
-remove_book_view(EAddressbookModel *model)
+remove_book_view (EAddressbookModel *model)
 {
 	if (model->priv->book_view && model->priv->create_contact_id)
 		g_signal_handler_disconnect (
@@ -178,7 +178,7 @@ create_contact (EBookView *book_view,
 }
 
 static void
-remove_contact(EBookView *book_view,
+remove_contact (EBookView *book_view,
 	       GList *ids,
 	       EAddressbookModel *model)
 {
@@ -229,7 +229,7 @@ remove_contact(EBookView *book_view,
 }
 
 static void
-modify_contact(EBookView *book_view,
+modify_contact (EBookView *book_view,
 	       const GList *contact_list,
 	       EAddressbookModel *model)
 {
@@ -365,7 +365,7 @@ addressbook_model_idle_cb (EAddressbookModel *model)
 		if (limit_str && *limit_str)
 			limit = atoi (limit_str);
 
-		remove_book_view(model);
+		remove_book_view (model);
 
 		if (model->priv->first_get_view) {
 			model->priv->first_get_view = FALSE;
@@ -456,7 +456,7 @@ addressbook_model_get_property (GObject *object,
 static void
 addressbook_model_dispose (GObject *object)
 {
-	EAddressbookModel *model = E_ADDRESSBOOK_MODEL(object);
+	EAddressbookModel *model = E_ADDRESSBOOK_MODEL (object);
 
 	remove_book_view (model);
 	free_data (model);

@@ -506,7 +506,7 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 	g_slist_free (categories_pixbufs);
 
 	cairo_destroy (cr);
-	g_object_unref(comp);
+	g_object_unref (comp);
 	gdk_gc_set_clip_mask (gc, NULL);
 }
 

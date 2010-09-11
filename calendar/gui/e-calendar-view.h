@@ -217,7 +217,7 @@ void		e_calendar_view_new_appointment_full
 						 gboolean meeting,
 						 gboolean no_past_date);
 void		e_calendar_view_new_appointment	(ECalendarView *cal_view);
-void		e_calendar_view_edit_appointment(ECalendarView *cal_view,
+void		e_calendar_view_edit_appointment (ECalendarView *cal_view,
 						 ECal *client,
 						 icalcomponent *icalcomp,
 						 gboolean meeting);

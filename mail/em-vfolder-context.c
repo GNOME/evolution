@@ -35,14 +35,14 @@
 
 #include "em-filter-folder-element.h"
 
-static EFilterElement *vfolder_new_element(ERuleContext *rc, const gchar *type);
+static EFilterElement *vfolder_new_element (ERuleContext *rc, const gchar *type);
 
 static ERuleContextClass *parent_class = NULL;
 
 static void
 em_vfolder_context_class_init (EMVFolderContextClass *klass)
 {
-	parent_class = g_type_class_ref(E_TYPE_RULE_CONTEXT);
+	parent_class = g_type_class_ref (E_TYPE_RULE_CONTEXT);
 
 	((ERuleContextClass *)klass)->new_element = vfolder_new_element;
 }
@@ -63,7 +63,7 @@ em_vfolder_context_init (EMVFolderContext *vc)
 }
 
 GType
-em_vfolder_context_get_type(void)
+em_vfolder_context_get_type (void)
 {
 	static GType type = 0;
 
@@ -99,14 +99,14 @@ em_vfolder_context_get_type(void)
 EMVFolderContext *
 em_vfolder_context_new (void)
 {
-	return g_object_new (em_vfolder_context_get_type(), NULL, NULL);
+	return g_object_new (em_vfolder_context_get_type (), NULL, NULL);
 }
 
 static EFilterElement *
 vfolder_new_element (ERuleContext *rc, const gchar *type)
 {
 	if (!strcmp(type, "system-flag")) {
-		return (EFilterElement *) e_filter_option_new();
+		return (EFilterElement *) e_filter_option_new ();
 	} else if (!strcmp(type, "score")) {
 		return (EFilterElement *) e_filter_int_new_type("score", -3, 3);
 	} else if (!strcmp(type, "folder-curi")) {
@@ -115,9 +115,9 @@ vfolder_new_element (ERuleContext *rc, const gchar *type)
 			ff->store_camel_uri = TRUE;
 		return (EFilterElement *) ff;
 	} else if (!strcmp(type, "folder")) {
-		return (EFilterElement *) em_filter_folder_element_new();
+		return (EFilterElement *) em_filter_folder_element_new ();
 	} else {
-		return parent_class->new_element(rc, type);
+		return parent_class->new_element (rc, type);
 	}
 }
 

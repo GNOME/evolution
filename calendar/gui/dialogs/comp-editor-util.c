@@ -223,7 +223,7 @@ comp_editor_strip_categories (const gchar *categories)
 				start = p;
 				end = p;
 			} else
-				end = g_utf8_next_char(p) - 1;
+				end = g_utf8_next_char (p) - 1;
 		}
 	}
 

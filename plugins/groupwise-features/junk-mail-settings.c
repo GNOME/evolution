@@ -48,7 +48,7 @@ static void
 junk_dialog_response (GtkWidget *dialog, gint response, JunkSettings *js)
 {
 	if (response == GTK_RESPONSE_ACCEPT) {
-		commit_changes(js);
+		commit_changes (js);
 		abort_changes (js);
 	}
 	else
@@ -96,7 +96,7 @@ gw_junk_mail_settings_cb (GtkAction *action, EShellView *shell_view)
 	msg = g_strdup_printf("<b>%s</b>", _("Junk Mail Settings"));
 	gtk_label_set_markup (GTK_LABEL (w), msg);
 	gtk_box_pack_start ((GtkBox *) box, w, FALSE, FALSE, 6);
-	g_free(msg);
+	g_free (msg);
 
 	junk_tab = junk_settings_new (cnc);
 	w = (GtkWidget *)junk_tab->vbox;

@@ -191,7 +191,7 @@ void		e_cal_model_set_flags		(ECalModel *model,
 icaltimezone *	e_cal_model_get_timezone	(ECalModel *model);
 void		e_cal_model_set_timezone	(ECalModel *model,
 						 icaltimezone *zone);
-void		e_cal_model_set_default_category(ECalModel *model,
+void		e_cal_model_set_default_category (ECalModel *model,
 						 const gchar *default_cat);
 gboolean	e_cal_model_get_use_24_hour_format
 						(ECalModel *model);
@@ -240,7 +240,7 @@ ECalModelComponent *
 		e_cal_model_get_component_for_uid
 						(ECalModel *model,
 						 const ECalComponentId *id);
-gchar *		e_cal_model_date_value_to_string(ECalModel *model,
+gchar *		e_cal_model_date_value_to_string (ECalModel *model,
 						 gconstpointer value);
 void		e_cal_model_generate_instances	(ECalModel *model,
 						 time_t start,

@@ -69,7 +69,7 @@ typedef struct {
 	GSList *list_iterator;
 } LDIFImporter;
 
-static void ldif_import_done(LDIFImporter *gci);
+static void ldif_import_done (LDIFImporter *gci);
 
 static struct {
 	const gchar *ldif_attribute;
@@ -129,7 +129,7 @@ ldif_fields[] = {
 };
 
 static GString *
-getValue( gchar **src )
+getValue ( gchar **src )
 {
 	GString *dest = g_string_new("");
 	gchar *s = *src;
@@ -254,16 +254,16 @@ parseLine (GHashTable *dn_contact_hash, EContact *contact,
 		return FALSE;
 	}
 
-	colon = (gchar *)strchr( ptr, ':' );
+	colon = (gchar *)strchr ( ptr, ':' );
 	if (colon) {
 		gint i;
 
 		*colon = 0;
 		value = colon + 1;
-		while (isspace(*value))
+		while (isspace (*value))
 			value++;
 
-		ldif_value = getValue(&value );
+		ldif_value = getValue (&value );
 
 		field_handled = FALSE;
 		for (i = 0; i < G_N_ELEMENTS (ldif_fields); i++) {
@@ -342,7 +342,7 @@ parseLine (GHashTable *dn_contact_hash, EContact *contact,
 }
 
 static EContact *
-getNextLDIFEntry(GHashTable *dn_contact_hash, FILE *f )
+getNextLDIFEntry (GHashTable *dn_contact_hash, FILE *f )
 {
 	EContact *contact;
 	EContactAddress *work_address, *home_address;
@@ -353,7 +353,7 @@ getNextLDIFEntry(GHashTable *dn_contact_hash, FILE *f )
 	str = g_string_new ("");
 	/* read from the file until we get to a blank line (or eof) */
 	while (!feof (f)) {
-		if (!fgets (line, sizeof(line), f))
+		if (!fgets (line, sizeof (line), f))
 			break;
 		if (line[0] == '\n' || (line[0] == '\r' && line[1] == '\n'))
 			break;
@@ -469,7 +469,7 @@ add_to_notes (EContact *contact, EContactField field)
 }
 
 static gboolean
-ldif_import_contacts(gpointer d)
+ldif_import_contacts (gpointer d)
 {
 	LDIFImporter *gci = d;
 	EContact *contact;
@@ -480,15 +480,15 @@ ldif_import_contacts(gpointer d)
 	   ones till the end */
 
 	if (gci->state == 0) {
-		while (count < 50 && (contact = getNextLDIFEntry(gci->dn_contact_hash, gci->file))) {
+		while (count < 50 && (contact = getNextLDIFEntry (gci->dn_contact_hash, gci->file))) {
 			if (e_contact_get (contact, E_CONTACT_IS_LIST)) {
-				gci->list_contacts = g_slist_prepend(gci->list_contacts, contact);
+				gci->list_contacts = g_slist_prepend (gci->list_contacts, contact);
 			} else {
-				add_to_notes(contact, E_CONTACT_OFFICE);
-				add_to_notes(contact, E_CONTACT_SPOUSE);
-				add_to_notes(contact, E_CONTACT_BLOG_URL);
-				e_book_add_contact(gci->book, contact, NULL);
-				gci->contacts = g_slist_prepend(gci->contacts, contact);
+				add_to_notes (contact, E_CONTACT_OFFICE);
+				add_to_notes (contact, E_CONTACT_SPOUSE);
+				add_to_notes (contact, E_CONTACT_BLOG_URL);
+				e_book_add_contact (gci->book, contact, NULL);
+				gci->contacts = g_slist_prepend (gci->contacts, contact);
 			}
 			count++;
 		}
@@ -500,8 +500,8 @@ ldif_import_contacts(gpointer d)
 	if (gci->state == 1) {
 		for (iter = gci->list_iterator;count < 50 && iter;iter=iter->next) {
 			contact = iter->data;
-			resolve_list_card(gci, contact);
-			e_book_add_contact(gci->book, contact, NULL);
+			resolve_list_card (gci, contact);
+			e_book_add_contact (gci->book, contact, NULL);
 			count++;
 		}
 		gci->list_iterator = iter;
@@ -509,7 +509,7 @@ ldif_import_contacts(gpointer d)
 			gci->state = 2;
 	}
 	if (gci->state == 2) {
-		ldif_import_done(gci);
+		ldif_import_done (gci);
 		return FALSE;
 	} else {
 		e_import_status (
@@ -523,12 +523,12 @@ static void
 primary_selection_changed_cb (ESourceSelector *selector, EImportTarget *target)
 {
 	g_datalist_set_data_full(&target->data, "ldif-source",
-				 g_object_ref(e_source_selector_peek_primary_selection(selector)),
+				 g_object_ref (e_source_selector_peek_primary_selection (selector)),
 				 g_object_unref);
 }
 
 static GtkWidget *
-ldif_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
+ldif_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *vbox, *selector;
 	ESource *primary;
@@ -547,7 +547,7 @@ ldif_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 	primary = g_datalist_get_data(&target->data, "ldif-source");
 	if (primary == NULL) {
 		primary = e_source_list_peek_source_any (source_list);
-		g_object_ref(primary);
+		g_object_ref (primary);
 		g_datalist_set_data_full (
 			&target->data, "ldif-source", primary,
 			(GDestroyNotify) g_object_unref);
@@ -570,7 +570,7 @@ static const gchar *supported_extensions[3] = {
 };
 
 static gboolean
-ldif_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
+ldif_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	gchar *ext;
 	gint i;
@@ -586,12 +586,12 @@ ldif_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (strncmp(s->uri_src, "file:///", 8) != 0)
 		return FALSE;
 
-	ext = strrchr(s->uri_src, '.');
+	ext = strrchr (s->uri_src, '.');
 	if (ext == NULL)
 		return FALSE;
 
 	for (i = 0; supported_extensions[i] != NULL; i++) {
-		if (g_ascii_strcasecmp(supported_extensions[i], ext) == 0)
+		if (g_ascii_strcasecmp (supported_extensions[i], ext) == 0)
 			return TRUE;
 	}
 
@@ -599,27 +599,27 @@ ldif_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static void
-ldif_import_done(LDIFImporter *gci)
+ldif_import_done (LDIFImporter *gci)
 {
 	if (gci->idle_id)
-		g_source_remove(gci->idle_id);
+		g_source_remove (gci->idle_id);
 
 	fclose (gci->file);
-	g_object_unref(gci->book);
-	g_slist_foreach(gci->contacts, (GFunc) g_object_unref, NULL);
-	g_slist_foreach(gci->list_contacts, (GFunc) g_object_unref, NULL);
-	g_slist_free(gci->contacts);
-	g_slist_free(gci->list_contacts);
-	g_hash_table_destroy(gci->dn_contact_hash);
+	g_object_unref (gci->book);
+	g_slist_foreach (gci->contacts, (GFunc) g_object_unref, NULL);
+	g_slist_foreach (gci->list_contacts, (GFunc) g_object_unref, NULL);
+	g_slist_free (gci->contacts);
+	g_slist_free (gci->list_contacts);
+	g_hash_table_destroy (gci->dn_contact_hash);
 
-	e_import_complete(gci->import, gci->target);
-	g_object_unref(gci->import);
+	e_import_complete (gci->import, gci->target);
+	g_object_unref (gci->import);
 
 	g_free (gci);
 }
 
 static void
-ldif_import(EImport *ei, EImportTarget *target, EImportImporter *im)
+ldif_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	LDIFImporter *gci;
 	EBook *book;
@@ -630,43 +630,43 @@ ldif_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	book = e_book_new(g_datalist_get_data(&target->data, "ldif-source"), NULL);
 	if (book == NULL) {
 		g_message(G_STRLOC ":Couldn't create EBook.");
-		e_import_complete(ei, target);
+		e_import_complete (ei, target);
 		return;
 	}
 
-	filename = g_filename_from_uri(s->uri_src, NULL, NULL);
+	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
 	if (filename != NULL) {
 		file = g_fopen(filename, "r");
 		g_free (filename);
 	}
 	if (file == NULL) {
 		g_message(G_STRLOC ":Can't open .ldif file");
-		e_import_complete(ei, target);
-		g_object_unref(book);
+		e_import_complete (ei, target);
+		g_object_unref (book);
 		return;
 	}
 
-	gci = g_malloc0(sizeof(*gci));
+	gci = g_malloc0 (sizeof (*gci));
 	g_datalist_set_data(&target->data, "ldif-data", gci);
-	gci->import = g_object_ref(ei);
+	gci->import = g_object_ref (ei);
 	gci->target = target;
 	gci->book = book;
 	gci->file = file;
-	fseek(file, 0, SEEK_END);
-	gci->size = ftell(file);
-	fseek(file, 0, SEEK_SET);
+	fseek (file, 0, SEEK_END);
+	gci->size = ftell (file);
+	fseek (file, 0, SEEK_SET);
 	gci->dn_contact_hash = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) NULL);
 
-	e_book_open(gci->book, FALSE, NULL);
+	e_book_open (gci->book, FALSE, NULL);
 
-	gci->idle_id = g_idle_add(ldif_import_contacts, gci);
+	gci->idle_id = g_idle_add (ldif_import_contacts, gci);
 }
 
 static void
-ldif_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
+ldif_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	LDIFImporter *gci = g_datalist_get_data(&target->data, "ldif-data");
 
@@ -706,9 +706,9 @@ ldif_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 
 	while (contact = getNextLDIFEntry (dn_contact_hash, file), contact != NULL) {
 		if (!e_contact_get (contact, E_CONTACT_IS_LIST)) {
-			add_to_notes(contact, E_CONTACT_OFFICE);
-			add_to_notes(contact, E_CONTACT_SPOUSE);
-			add_to_notes(contact, E_CONTACT_BLOG_URL);
+			add_to_notes (contact, E_CONTACT_OFFICE);
+			add_to_notes (contact, E_CONTACT_SPOUSE);
+			add_to_notes (contact, E_CONTACT_BLOG_URL);
 		}
 
 		contacts = g_list_prepend (contacts, contact);
@@ -737,7 +737,7 @@ static EImportImporter ldif_importer = {
 };
 
 EImportImporter *
-evolution_ldif_importer_peek(void)
+evolution_ldif_importer_peek (void)
 {
 	ldif_importer.name = _("LDAP Data Interchange Format (.ldif)");
 	ldif_importer.description = _("Evolution LDIF importer");

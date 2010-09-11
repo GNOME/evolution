@@ -35,7 +35,7 @@ G_BEGIN_DECLS
 struct _EMFormat;
 
 gboolean em_utils_ask_open_many (GtkWindow *parent, gint how_many);
-gboolean em_utils_prompt_user(GtkWindow *parent, const gchar *promptkey, const gchar *tag, ...);
+gboolean em_utils_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, ...);
 
 GPtrArray *em_utils_uids_copy (GPtrArray *uids);
 void em_utils_uids_free (GPtrArray *uids);
@@ -52,21 +52,21 @@ void em_utils_flag_for_followup_completed (GtkWindow *parent, CamelFolder *folde
 
 /* This stuff that follows probably doesn't belong here, then again, the stuff above probably belongs elsewhere */
 
-void em_utils_selection_set_mailbox(GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids);
-void em_utils_selection_get_mailbox(GtkSelectionData *data, CamelFolder *folder);
-void em_utils_selection_get_message(GtkSelectionData *data, CamelFolder *folder);
+void em_utils_selection_set_mailbox (GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids);
+void em_utils_selection_get_mailbox (GtkSelectionData *data, CamelFolder *folder);
+void em_utils_selection_get_message (GtkSelectionData *data, CamelFolder *folder);
 /* FIXME: be nice if these also worked on CamelFolder's, no easy way to get uri from folder yet tho */
-void em_utils_selection_set_uidlist(GtkSelectionData *data, const gchar *uri, GPtrArray *uids);
-void em_utils_selection_get_uidlist(GtkSelectionData *data, CamelFolder *dest, gint move, GError **error);
-void em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids);
-void em_utils_selection_get_urilist(GtkSelectionData *data, CamelFolder *folder);
+void em_utils_selection_set_uidlist (GtkSelectionData *data, const gchar *uri, GPtrArray *uids);
+void em_utils_selection_get_uidlist (GtkSelectionData *data, CamelFolder *dest, gint move, GError **error);
+void em_utils_selection_set_urilist (GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids);
+void em_utils_selection_get_urilist (GtkSelectionData *data, CamelFolder *folder);
 
-gchar *em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part, gboolean mode);
+gchar *em_utils_temp_save_part (GtkWidget *parent, CamelMimePart *part, gboolean mode);
 
-gboolean em_utils_folder_is_drafts(CamelFolder *folder, const gchar *uri);
-gboolean em_utils_folder_is_templates(CamelFolder *folder, const gchar *uri);
-gboolean em_utils_folder_is_sent(CamelFolder *folder, const gchar *uri);
-gboolean em_utils_folder_is_outbox(CamelFolder *folder, const gchar *uri);
+gboolean em_utils_folder_is_drafts (CamelFolder *folder, const gchar *uri);
+gboolean em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri);
+gboolean em_utils_folder_is_sent (CamelFolder *folder, const gchar *uri);
+gboolean em_utils_folder_is_outbox (CamelFolder *folder, const gchar *uri);
 
 gchar *em_utils_get_proxy_uri (const gchar *uri);
 

@@ -124,9 +124,9 @@ struct _MailMsgListNode {
 	MailMsg *msg;
 };
 
-static void sub_editor_busy(EMSubscribeEditor *se, gint dir);
-static gint sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node);
-static void sub_selection_changed(GtkTreeSelection *selection, EMSubscribe *sub);
+static void sub_editor_busy (EMSubscribeEditor *se, gint dir);
+static gint sub_queue_fill_level (EMSubscribe *sub, EMSubscribeNode *node);
+static void sub_selection_changed (GtkTreeSelection *selection, EMSubscribe *sub);
 
 static gboolean
 test_contains (const gchar *where, const gchar *what)
@@ -203,22 +203,22 @@ update_filtering_column (EMSubscribeEditor *se, struct _EMSubscribe *sub)
 }
 
 static void
-sub_node_free(EMSubscribeNode *node)
+sub_node_free (EMSubscribeNode *node)
 {
 	d(printf("sub node free '%s'\n", node->info?node->info->full_name:"<unknown>"));
 	if (node->path)
-		gtk_tree_path_free(node->path);
-	g_free(node);
+		gtk_tree_path_free (node->path);
+	g_free (node);
 }
 
 static void
-sub_ref(EMSubscribe *sub)
+sub_ref (EMSubscribe *sub)
 {
 	sub->ref_count++;
 }
 
 static void
-sub_unref(EMSubscribe *sub)
+sub_unref (EMSubscribe *sub)
 {
 	GSList *l;
 
@@ -232,7 +232,7 @@ sub_unref(EMSubscribe *sub)
 		if (sub->list_store)
 			g_object_unref (sub->list_store);
 		if (sub->folders)
-			g_hash_table_destroy(sub->folders);
+			g_hash_table_destroy (sub->folders);
 		g_slist_free (sub->all_selectable);
 		g_slist_foreach (sub->tree_expanded_paths, (GFunc) gtk_tree_path_free, NULL);
 		g_slist_free (sub->tree_expanded_paths);
@@ -240,14 +240,14 @@ sub_unref(EMSubscribe *sub)
 		while (l) {
 			GSList *n = l->next;
 
-			camel_store_free_folder_info(sub->store, (CamelFolderInfo *)l->data);
-			g_slist_free_1(l);
+			camel_store_free_folder_info (sub->store, (CamelFolderInfo *)l->data);
+			g_slist_free_1 (l);
 			l = n;
 		}
 		if (sub->store)
 			g_object_unref (sub->store);
-		g_free(sub->store_uri);
-		g_free(sub);
+		g_free (sub->store_uri);
+		g_free (sub);
 	}
 }
 
@@ -299,9 +299,9 @@ sub_folder_done (struct _zsubscribe_msg *m)
 	/* make sure the tree view matches the correct state */
 	/* all actions are done on tree store, synced to list store */
 	model = m->sub->tree_store;
-	if (gtk_tree_model_get_iter_from_string(model, &iter, m->path)) {
+	if (gtk_tree_model_get_iter_from_string (model, &iter, m->path)) {
 		issub = (m->node->info->flags & CAMEL_FOLDER_SUBSCRIBED) != 0;
-		gtk_tree_model_get(model, &iter, COL_SUBSCRIBED, &subscribed, COL_INFO_NODE, &node, -1);
+		gtk_tree_model_get (model, &iter, COL_SUBSCRIBED, &subscribed, COL_INFO_NODE, &node, -1);
 		if (node == m->node) {
 			gtk_tree_store_set ((GtkTreeStore *)model, &iter, COL_SUBSCRIBED, issub, -1);
 		} else {
@@ -314,20 +314,20 @@ sub_folder_done (struct _zsubscribe_msg *m)
 	if (msgListNode) {
 		next = (struct _zsubscribe_msg *) msgListNode->msg;
 		/* Free the memory of the MailMsgListNode which won't be used anymore. */
-		g_free(msgListNode);
+		g_free (msgListNode);
 		next->sub->subscribe_id = next->base.seq;
                 mail_msg_unordered_push (next);
 	} else {
 		/* should it go off the model instead? */
-		sub_selection_changed(gtk_tree_view_get_selection(m->sub->tree), m->sub);
+		sub_selection_changed (gtk_tree_view_get_selection (m->sub->tree), m->sub);
 	}
 }
 
 static void
 sub_folder_free (struct _zsubscribe_msg *m)
 {
-	g_free(m->path);
-	sub_unref(m->sub);
+	g_free (m->path);
+	sub_unref (m->sub);
 }
 
 static MailMsgInfo sub_subscribe_folder_info = {
@@ -348,10 +348,10 @@ sub_subscribe_folder (EMSubscribe *sub, EMSubscribeNode *node, gint state, const
 
 	m = mail_msg_new (&sub_subscribe_folder_info);
 	m->sub = sub;
-	sub_ref(sub);
+	sub_ref (sub);
 	m->node = node;
 	m->subscribe = state;
-	m->path = g_strdup(spath);
+	m->path = g_strdup (spath);
 
 	id = m->base.seq;
 	if (sub->subscribe_id == -1) {
@@ -359,7 +359,7 @@ sub_subscribe_folder (EMSubscribe *sub, EMSubscribeNode *node, gint state, const
 		d(printf("running subscribe folder '%s'\n", spath));
 		mail_msg_unordered_push (m);
 	} else {
-		msgListNode = g_malloc0(sizeof(MailMsgListNode));
+		msgListNode = g_malloc0 (sizeof (MailMsgListNode));
 		msgListNode->msg = (MailMsg *) m;
 		d(printf("queueing subscribe folder '%s'\n", spath));
 		g_queue_push_tail (&sub->subscribe, msgListNode);
@@ -385,11 +385,11 @@ sub_fill_levels (EMSubscribe *sub, CamelFolderInfo *info, GtkTreeIter *parent)
 	while (fi) {
 		gboolean known = FALSE;
 
-		if ((node = g_hash_table_lookup(sub->folders, fi->full_name)) == NULL) {
+		if ((node = g_hash_table_lookup (sub->folders, fi->full_name)) == NULL) {
 			gboolean state;
 
-			gtk_tree_store_append(treestore, &iter, parent);
-			node = g_malloc0(sizeof(*node));
+			gtk_tree_store_append (treestore, &iter, parent);
+			node = g_malloc0 (sizeof (*node));
 			node->info = fi;
 			state = (fi->flags & CAMEL_FOLDER_SUBSCRIBED) != 0;
 			gtk_tree_store_set (treestore, &iter,
@@ -407,8 +407,8 @@ sub_fill_levels (EMSubscribe *sub, CamelFolderInfo *info, GtkTreeIter *parent)
 				gtk_tree_path_free (path);
 			}
 			if ((fi->flags & CAMEL_FOLDER_NOINFERIORS) == 0)
-				node->path = gtk_tree_model_get_path((GtkTreeModel *)treestore, &iter);
-			g_hash_table_insert(sub->folders, fi->full_name, node);
+				node->path = gtk_tree_model_get_path ((GtkTreeModel *)treestore, &iter);
+			g_hash_table_insert (sub->folders, fi->full_name, node);
 		} else if (node->path) {
 			gtk_tree_model_get_iter (GTK_TREE_MODEL (treestore), &iter, node->path);
 			known = TRUE;
@@ -496,18 +496,18 @@ static void
 sub_folderinfo_free (struct _emse_folderinfo_msg *m)
 {
 	if (m->info)
-		m->sub->info_list = g_slist_prepend(m->sub->info_list, m->info);
+		m->sub->info_list = g_slist_prepend (m->sub->info_list, m->info);
 
 	if (!m->sub->cancel)
-		sub_editor_busy(m->sub->editor, -1);
+		sub_editor_busy (m->sub->editor, -1);
 
 	/* Now we just load the children on demand, so set the
 	   expand state to true if m->node is not NULL
 	*/
 	if (m->node)
-		gtk_tree_view_expand_row(m->sub->tree, m->node->path, FALSE);
+		gtk_tree_view_expand_row (m->sub->tree, m->node->path, FALSE);
 
-	sub_unref(m->sub);
+	sub_unref (m->sub);
 }
 
 static MailMsgInfo sub_folderinfo_info = {
@@ -519,7 +519,7 @@ static MailMsgInfo sub_folderinfo_info = {
 };
 
 static gint
-sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node)
+sub_queue_fill_level (EMSubscribe *sub, EMSubscribeNode *node)
 {
 	struct _emse_folderinfo_msg *m;
 	gint id;
@@ -528,14 +528,14 @@ sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node)
 		 node?node->info->full_name:"<root>"));
 
 	m = mail_msg_new (&sub_folderinfo_info);
-	sub_ref(sub);
+	sub_ref (sub);
 	m->sub = sub;
 	m->node = node;
 	m->seq = sub->seq;
 
 	sub->pending_id = m->base.seq;
 
-	sub_editor_busy(sub->editor, 1);
+	sub_editor_busy (sub->editor, 1);
 
 	id = m->base.seq;
 
@@ -563,19 +563,19 @@ update_buttons_sesitivity (EMSubscribeEditor *se)
 /* (un) subscribes the current selection */
 
 static void
-sub_subscribe_toggled(GtkCellRendererToggle *render, const gchar *spath, EMSubscribe *sub)
+sub_subscribe_toggled (GtkCellRendererToggle *render, const gchar *spath, EMSubscribe *sub)
 {
 	GtkTreeIter iter;
-	GtkTreeModel *model = gtk_tree_view_get_model(sub->tree);
+	GtkTreeModel *model = gtk_tree_view_get_model (sub->tree);
 	EMSubscribeNode *node;
 	gboolean subscribed;
 
 	d(printf("subscribe toggled?\n"));
 
-	if (gtk_tree_model_get_iter_from_string(model, &iter, spath)) {
+	if (gtk_tree_model_get_iter_from_string (model, &iter, spath)) {
 		gchar *free_path;
 
-		gtk_tree_model_get(model, &iter, COL_SUBSCRIBED, &subscribed, COL_INFO_NODE, &node, -1);
+		gtk_tree_model_get (model, &iter, COL_SUBSCRIBED, &subscribed, COL_INFO_NODE, &node, -1);
 		g_return_if_fail (node != NULL);
 		subscribed = !subscribed;
 		d(printf("new state is %s\n", subscribed?"subscribed":"not subscribed"));
@@ -593,17 +593,17 @@ sub_subscribe_toggled(GtkCellRendererToggle *render, const gchar *spath, EMSubsc
 			spath = free_path;
 		}
 
-		sub_subscribe_folder(sub, node, subscribed, spath);
+		sub_subscribe_folder (sub, node, subscribed, spath);
 	}
 }
 
-static void sub_do_changed(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
+static void sub_do_changed (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {
 	EMSubscribe *sub = data;
 	EMSubscribeNode *node;
 	gboolean subscribed;
 
-	gtk_tree_model_get(model, iter, COL_SUBSCRIBED, &subscribed, COL_INFO_NODE, &node, -1);
+	gtk_tree_model_get (model, iter, COL_SUBSCRIBED, &subscribed, COL_INFO_NODE, &node, -1);
 
 	if (subscribed)
 		sub->selected_subscribed_count++;
@@ -611,25 +611,25 @@ static void sub_do_changed(GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *
 }
 
 static void
-sub_selection_changed(GtkTreeSelection *selection, EMSubscribe *sub)
+sub_selection_changed (GtkTreeSelection *selection, EMSubscribe *sub)
 {
 	sub->selected_count = 0;
 	sub->selected_subscribed_count = 0;
-	gtk_tree_selection_selected_foreach(selection, sub_do_changed, sub);
+	gtk_tree_selection_selected_foreach (selection, sub_do_changed, sub);
 }
 
 /* double-clicking causes a node item to be evaluated directly */
-static void sub_row_activated(GtkTreeView *tree, GtkTreePath *path, GtkTreeViewColumn *col, EMSubscribe *sub)
+static void sub_row_activated (GtkTreeView *tree, GtkTreePath *path, GtkTreeViewColumn *col, EMSubscribe *sub)
 {
-	if (!gtk_tree_view_row_expanded(tree, path))
-		gtk_tree_view_expand_row(tree, path, FALSE);
+	if (!gtk_tree_view_row_expanded (tree, path))
+		gtk_tree_view_expand_row (tree, path, FALSE);
 	else
-		gtk_tree_view_collapse_row(tree, path);
+		gtk_tree_view_collapse_row (tree, path);
 
 }
 
 static void
-sub_destroy(GtkWidget *w, EMSubscribe *sub)
+sub_destroy (GtkWidget *w, EMSubscribe *sub)
 {
 	struct _zsubscribe_msg *m;
 	MailMsgListNode *msgListNode;
@@ -638,28 +638,28 @@ sub_destroy(GtkWidget *w, EMSubscribe *sub)
 	sub->cancel = TRUE;
 
 	if (sub->pending_id != -1)
-		mail_msg_cancel(sub->pending_id);
+		mail_msg_cancel (sub->pending_id);
 
 	if (sub->subscribe_id != -1)
-		mail_msg_cancel(sub->subscribe_id);
+		mail_msg_cancel (sub->subscribe_id);
 
 	while ((msgListNode = g_queue_pop_head (&sub->subscribe)) != NULL) {
 		m = (struct _zsubscribe_msg *) msgListNode->msg;
 		/* Free the memory of MailMsgListNode which won't be used anymore. */
-		g_free(msgListNode);
-		mail_msg_unref(m);
+		g_free (msgListNode);
+		mail_msg_unref (m);
 	}
 
-	sub_unref(sub);
+	sub_unref (sub);
 }
 
 static EMSubscribe *
-subscribe_new(EMSubscribeEditor *se, const gchar *uri)
+subscribe_new (EMSubscribeEditor *se, const gchar *uri)
 {
 	EMSubscribe *sub;
 
-	sub = g_malloc0(sizeof(*sub));
-	sub->store_uri = g_strdup(uri);
+	sub = g_malloc0 (sizeof (*sub));
+	sub->store_uri = g_strdup (uri);
 	sub->editor = se;
 	sub->ref_count = 1;
 	sub->pending_id = -1;
@@ -671,17 +671,17 @@ subscribe_new(EMSubscribeEditor *se, const gchar *uri)
 }
 
 static void
-subscribe_set_store(EMSubscribe *sub, CamelStore *store)
+subscribe_set_store (EMSubscribe *sub, CamelStore *store)
 {
-	if (store == NULL || !camel_store_supports_subscriptions(store)) {
+	if (store == NULL || !camel_store_supports_subscriptions (store)) {
 		GtkWidget *w = gtk_label_new(_("This store does not support subscriptions, or they are not enabled."));
 
-		gtk_label_set_line_wrap((GtkLabel *)w, TRUE);
-		sub->widget = gtk_viewport_new(NULL, NULL);
-		gtk_viewport_set_shadow_type((GtkViewport *)sub->widget, GTK_SHADOW_IN);
-		gtk_container_add((GtkContainer *)sub->widget, w);
-		gtk_widget_show(w);
-		gtk_widget_show(sub->widget);
+		gtk_label_set_line_wrap ((GtkLabel *)w, TRUE);
+		sub->widget = gtk_viewport_new (NULL, NULL);
+		gtk_viewport_set_shadow_type ((GtkViewport *)sub->widget, GTK_SHADOW_IN);
+		gtk_container_add ((GtkContainer *)sub->widget, w);
+		gtk_widget_show (w);
+		gtk_widget_show (sub->widget);
 	} else {
 		GtkTreeSelection *selection;
 		GtkTreeViewColumn *column;
@@ -720,8 +720,8 @@ subscribe_set_store(EMSubscribe *sub, CamelStore *store)
 		sub->widget = gtk_scrolled_window_new (NULL, NULL);
 		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sub->widget), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 		gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (sub->widget), GTK_SHADOW_IN);
-		gtk_container_add((GtkContainer *)sub->widget, (GtkWidget *)sub->tree);
-		gtk_widget_show(sub->widget);
+		gtk_container_add ((GtkContainer *)sub->widget, (GtkWidget *)sub->tree);
+		gtk_widget_show (sub->widget);
 
 		renderer = gtk_cell_renderer_toggle_new ();
 		g_object_set(renderer, "activatable", TRUE, NULL);
@@ -741,7 +741,7 @@ subscribe_set_store(EMSubscribe *sub, CamelStore *store)
 		gtk_tree_view_column_pack_start (column, renderer, TRUE);
 		gtk_tree_view_column_add_attribute (
 			column, renderer, "text", COL_NAME);
-		gtk_tree_view_set_expander_column(sub->tree, gtk_tree_view_get_column(sub->tree, 1));
+		gtk_tree_view_set_expander_column (sub->tree, gtk_tree_view_get_column (sub->tree, 1));
 
 		selection = gtk_tree_view_get_selection (sub->tree);
 		gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
@@ -753,39 +753,39 @@ subscribe_set_store(EMSubscribe *sub, CamelStore *store)
 		g_signal_connect(sub->tree, "row-activated", G_CALLBACK(sub_row_activated), sub);
 		g_signal_connect(sub->tree, "destroy", G_CALLBACK(sub_destroy), sub);
 
-		sub_selection_changed(selection, sub);
+		sub_selection_changed (selection, sub);
 		g_signal_connect(selection, "changed", G_CALLBACK(sub_selection_changed), sub);
 
-		sub_queue_fill_level(sub, NULL);
+		sub_queue_fill_level (sub, NULL);
 
 		update_buttons_sesitivity (sub->editor);
 	}
 
-	gtk_box_pack_start((GtkBox *)sub->editor->vbox, sub->widget, TRUE, TRUE, 0);
+	gtk_box_pack_start ((GtkBox *)sub->editor->vbox, sub->widget, TRUE, TRUE, 0);
 }
 
 static void
-sub_editor_destroy(GtkWidget *w, EMSubscribeEditor *se)
+sub_editor_destroy (GtkWidget *w, EMSubscribeEditor *se)
 {
 	/* need to clean out pending store opens */
 	d(printf("editor destroyed, freeing editor\n"));
 	if (se->busy_id)
-		g_source_remove(se->busy_id);
+		g_source_remove (se->busy_id);
 	if (se->refilter_id != 0)
 		g_source_remove (se->refilter_id);
 	se->refilter_id = 0;
 
-	g_free(se);
+	g_free (se);
 }
 
 static void
-sub_editor_close(GtkWidget *w, EMSubscribeEditor *se)
+sub_editor_close (GtkWidget *w, EMSubscribeEditor *se)
 {
-	gtk_widget_destroy((GtkWidget *)se->dialog);
+	gtk_widget_destroy ((GtkWidget *)se->dialog);
 }
 
 static void
-sub_editor_refresh(GtkWidget *w, EMSubscribeEditor *se)
+sub_editor_refresh (GtkWidget *w, EMSubscribeEditor *se)
 {
 	EMSubscribe *sub = se->current;
 	GSList *l;
@@ -798,8 +798,8 @@ sub_editor_refresh(GtkWidget *w, EMSubscribeEditor *se)
 
 	/* drop any currently pending */
 	if (sub->pending_id != -1) {
-		mail_msg_cancel(sub->pending_id);
-		mail_msg_wait(sub->pending_id);
+		mail_msg_cancel (sub->pending_id);
+		mail_msg_wait (sub->pending_id);
 	}
 
 	g_slist_free (sub->all_selectable);
@@ -813,7 +813,7 @@ sub_editor_refresh(GtkWidget *w, EMSubscribeEditor *se)
 	gtk_list_store_clear ((GtkListStore *)sub->list_store);
 
 	if (sub->folders)
-		g_hash_table_destroy(sub->folders);
+		g_hash_table_destroy (sub->folders);
 	sub->folders = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) NULL,
@@ -824,22 +824,22 @@ sub_editor_refresh(GtkWidget *w, EMSubscribeEditor *se)
 	while (l) {
 		GSList *n = l->next;
 
-		camel_store_free_folder_info(sub->store, (CamelFolderInfo *)l->data);
-		g_slist_free_1(l);
+		camel_store_free_folder_info (sub->store, (CamelFolderInfo *)l->data);
+		g_slist_free_1 (l);
 		l = n;
 	}
 
-	sub_queue_fill_level(sub, NULL);
+	sub_queue_fill_level (sub, NULL);
 }
 
 static void
-sub_editor_got_store(gchar *uri, CamelStore *store, gpointer data)
+sub_editor_got_store (gchar *uri, CamelStore *store, gpointer data)
 {
 	struct _EMSubscribe *sub = data;
 
 	if (!sub->cancel)
-		subscribe_set_store(sub, store);
-	sub_unref(sub);
+		subscribe_set_store (sub, store);
+	sub_unref (sub);
 }
 
 static void
@@ -889,14 +889,14 @@ sub_editor_combobox_changed (GtkWidget *w, EMSubscribeEditor *se)
 		if (i == n) {
 			se->current = sub;
 			if (sub->widget) {
-				gtk_widget_show(sub->widget);
+				gtk_widget_show (sub->widget);
 			} else if (sub->store_id == -1) {
-				sub_ref(sub);
-				sub->store_id = mail_get_store(sub->store_uri, NULL, sub_editor_got_store, sub);
+				sub_ref (sub);
+				sub->store_id = mail_get_store (sub->store_uri, NULL, sub_editor_got_store, sub);
 			}
 		} else {
 			if (sub->widget)
-				gtk_widget_hide(sub->widget);
+				gtk_widget_hide (sub->widget);
 		}
 		i++;
 
@@ -909,26 +909,26 @@ sub_editor_combobox_changed (GtkWidget *w, EMSubscribeEditor *se)
 		update_filtering_column (se, se->current);
 }
 
-static gboolean sub_editor_timeout(EMSubscribeEditor *se)
+static gboolean sub_editor_timeout (EMSubscribeEditor *se)
 {
-	gtk_progress_bar_pulse((GtkProgressBar *)se->progress);
+	gtk_progress_bar_pulse ((GtkProgressBar *)se->progress);
 
 	return TRUE;
 }
 
-static void sub_editor_busy(EMSubscribeEditor *se, gint dir)
+static void sub_editor_busy (EMSubscribeEditor *se, gint dir)
 {
 	gint was;
 
 	was = se->busy != 0;
 	se->busy += dir;
 	if (was && !se->busy) {
-		g_source_remove(se->busy_id);
+		g_source_remove (se->busy_id);
 		se->busy_id = 0;
-		gtk_widget_hide(se->progress);
+		gtk_widget_hide (se->progress);
 	} else if (!was && se->busy) {
-		se->busy_id = g_timeout_add(1000/5, (GSourceFunc)sub_editor_timeout, se);
-		gtk_widget_show(se->progress);
+		se->busy_id = g_timeout_add (1000/5, (GSourceFunc)sub_editor_timeout, se);
+		gtk_widget_show (se->progress);
 	}
 }
 
@@ -1084,7 +1084,7 @@ collapse_all_cb (GtkButton *button, EMSubscribeEditor *se)
 }
 
 GtkWidget *
-em_subscribe_editor_new(void)
+em_subscribe_editor_new (void)
 {
 	EMSubscribeEditor *se;
 	EAccountList *accounts;
@@ -1096,7 +1096,7 @@ em_subscribe_editor_new(void)
 	GtkListStore *store;
 	GtkTreeIter gtiter;
 
-	se = g_malloc0(sizeof(*se));
+	se = g_malloc0 (sizeof (*se));
 	g_queue_init (&se->stores);
 
 	/* XXX I think we're leaking the GtkBuilder. */
@@ -1118,16 +1118,16 @@ em_subscribe_editor_new(void)
 
 	/* FIXME: This is just to get the shadow, is there a better way? */
 	w = gtk_label_new(_("Please select a server."));
-	se->none_selected = gtk_viewport_new(NULL, NULL);
-	gtk_viewport_set_shadow_type((GtkViewport *)se->none_selected, GTK_SHADOW_IN);
-	gtk_container_add((GtkContainer *)se->none_selected, w);
-	gtk_widget_show(w);
+	se->none_selected = gtk_viewport_new (NULL, NULL);
+	gtk_viewport_set_shadow_type ((GtkViewport *)se->none_selected, GTK_SHADOW_IN);
+	gtk_container_add ((GtkContainer *)se->none_selected, w);
+	gtk_widget_show (w);
 
-	gtk_box_pack_start((GtkBox *)se->vbox, se->none_selected, TRUE, TRUE, 0);
-	gtk_widget_show(se->none_selected);
+	gtk_box_pack_start ((GtkBox *)se->vbox, se->none_selected, TRUE, TRUE, 0);
+	gtk_widget_show (se->none_selected);
 
 	se->progress = e_builder_get_widget(builder, "progress_bar");
-	gtk_widget_hide(se->progress);
+	gtk_widget_hide (se->progress);
 
 	se->filter_entry = e_builder_get_widget (builder, "filter_entry");
 	gtk_entry_set_icon_sensitive (GTK_ENTRY (se->filter_entry), GTK_ENTRY_ICON_SECONDARY, FALSE);
@@ -1189,7 +1189,7 @@ em_subscribe_editor_new(void)
 			d(printf("not adding account '%s'\n", account->name));
 		}
 	}
-	g_object_unref(iter);
+	g_object_unref (iter);
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (se->combobox), 0);
 	g_signal_connect(se->combobox, "changed", G_CALLBACK(sub_editor_combobox_changed), se);

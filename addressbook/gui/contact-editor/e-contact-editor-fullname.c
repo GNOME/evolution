@@ -28,8 +28,8 @@
 
 #include "e-contact-editor-fullname.h"
 
-static void fill_in_info(EContactEditorFullname *editor);
-static void extract_info(EContactEditorFullname *editor);
+static void fill_in_info (EContactEditorFullname *editor);
+static void extract_info (EContactEditorFullname *editor);
 
 /* The arguments we take */
 enum {
@@ -55,11 +55,11 @@ e_contact_editor_fullname_set_property (GObject *object,
 
 	switch (property_id) {
 	case PROP_NAME:
-		e_contact_name_free(e_contact_editor_fullname->name);
+		e_contact_name_free (e_contact_editor_fullname->name);
 
 		if (g_value_get_pointer (value) != NULL) {
-			e_contact_editor_fullname->name = e_contact_name_copy(g_value_get_pointer (value));
-			fill_in_info(e_contact_editor_fullname);
+			e_contact_editor_fullname->name = e_contact_name_copy (g_value_get_pointer (value));
+			fill_in_info (e_contact_editor_fullname);
 		}
 		else {
 			e_contact_editor_fullname->name = NULL;
@@ -118,8 +118,8 @@ e_contact_editor_fullname_get_property (GObject *object,
 
 	switch (property_id) {
 	case PROP_NAME:
-		extract_info(e_contact_editor_fullname);
-		g_value_set_pointer (value, e_contact_name_copy(e_contact_editor_fullname->name));
+		extract_info (e_contact_editor_fullname);
+		g_value_set_pointer (value, e_contact_name_copy (e_contact_editor_fullname->name));
 		break;
 	case PROP_EDITABLE:
 		g_value_set_boolean (value, e_contact_editor_fullname->editable ? TRUE : FALSE);
@@ -133,15 +133,15 @@ e_contact_editor_fullname_get_property (GObject *object,
 static void
 e_contact_editor_fullname_dispose (GObject *object)
 {
-	EContactEditorFullname *e_contact_editor_fullname = E_CONTACT_EDITOR_FULLNAME(object);
+	EContactEditorFullname *e_contact_editor_fullname = E_CONTACT_EDITOR_FULLNAME (object);
 
 	if (e_contact_editor_fullname->builder) {
-		g_object_unref(e_contact_editor_fullname->builder);
+		g_object_unref (e_contact_editor_fullname->builder);
 		e_contact_editor_fullname->builder = NULL;
 	}
 
 	if (e_contact_editor_fullname->name) {
-		e_contact_name_free(e_contact_editor_fullname->name);
+		e_contact_name_free (e_contact_editor_fullname->name);
 		e_contact_editor_fullname->name = NULL;
 	}
 
@@ -261,14 +261,14 @@ fill_in_field (EContactEditorFullname *editor,
 
 	if (entry) {
 		if (string)
-			gtk_entry_set_text(entry, string);
+			gtk_entry_set_text (entry, string);
 		else
 			gtk_entry_set_text(entry, "");
 	}
 }
 
 static void
-fill_in_info(EContactEditorFullname *editor)
+fill_in_info (EContactEditorFullname *editor)
 {
 	EContactName *name = editor->name;
 	if (name) {
@@ -284,7 +284,7 @@ static gchar *
 extract_field (EContactEditorFullname *editor,
                const gchar *field)
 {
-	GtkWidget *widget = e_builder_get_widget(editor->builder, field);
+	GtkWidget *widget = e_builder_get_widget (editor->builder, field);
 	GtkEntry *entry = NULL;
 
 	if (GTK_IS_ENTRY (widget))
@@ -293,17 +293,17 @@ extract_field (EContactEditorFullname *editor,
 		entry = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (widget)));
 
 	if (entry)
-		return g_strdup (gtk_entry_get_text(entry));
+		return g_strdup (gtk_entry_get_text (entry));
 	else
 		return NULL;
 }
 
 static void
-extract_info(EContactEditorFullname *editor)
+extract_info (EContactEditorFullname *editor)
 {
 	EContactName *name = editor->name;
 	if (!name) {
-		name = e_contact_name_new();
+		name = e_contact_name_new ();
 		editor->name = name;
 	}
 

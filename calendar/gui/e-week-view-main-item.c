@@ -266,7 +266,7 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 		layout = pango_cairo_create_layout (cr);
 		pango_layout_set_font_description (layout, font_desc);
 		pango_layout_set_text (layout, buffer, -1);
-		pango_layout_set_markup (layout, buffer, strlen(buffer));
+		pango_layout_set_markup (layout, buffer, strlen (buffer));
 	} else {
 		g_date_strftime (buffer, sizeof (buffer),
 				 format_string ? format_string : "%d", date);

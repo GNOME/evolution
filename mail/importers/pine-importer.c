@@ -62,7 +62,7 @@ struct _pine_import_msg {
 };
 
 static gboolean
-pine_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
+pine_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	gchar *maildir, *addrfile;
 	gboolean md_exists, addr_exists;
@@ -71,11 +71,11 @@ pine_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 		return FALSE;
 
 	maildir = g_build_filename(g_get_home_dir (), "mail", NULL);
-	md_exists = g_file_test(maildir, G_FILE_TEST_IS_DIR);
-	g_free(maildir);
+	md_exists = g_file_test (maildir, G_FILE_TEST_IS_DIR);
+	g_free (maildir);
 
 	addrfile = g_build_filename(g_get_home_dir (), ".addressbook", NULL);
-	addr_exists = g_file_test(addrfile, G_FILE_TEST_IS_REGULAR);
+	addr_exists = g_file_test (addrfile, G_FILE_TEST_IS_REGULAR);
 	g_free (addrfile);
 
 	return md_exists || addr_exists;
@@ -96,7 +96,7 @@ FIXME: we dont handle aliases in lists.
 */
 
 static void
-import_contact(EBook *book, gchar *line)
+import_contact (EBook *book, gchar *line)
 {
 	gchar **strings, *addr, **addrs;
 	gint i;
@@ -105,14 +105,14 @@ import_contact(EBook *book, gchar *line)
 	EContact *card;
 	gsize len;
 
-	card = e_contact_new();
+	card = e_contact_new ();
 	strings = g_strsplit(line, "\t", 5);
 	if (strings[0] && strings[1] && strings[2]) {
-		e_contact_set(card, E_CONTACT_NICKNAME, strings[0]);
-		e_contact_set(card, E_CONTACT_FULL_NAME, strings[1]);
+		e_contact_set (card, E_CONTACT_NICKNAME, strings[0]);
+		e_contact_set (card, E_CONTACT_FULL_NAME, strings[1]);
 
 		addr = strings[2];
-		len = strlen(addr);
+		len = strlen (addr);
 		if (addr[0] == '(' && addr[len-1] == ')') {
 			addr[0] = 0;
 			addr[len-1] = 0;
@@ -126,37 +126,37 @@ import_contact(EBook *book, gchar *line)
 				EDestination *d;
 				EVCardAttribute *attr;
 
-				d = e_destination_new();
-				e_destination_set_email(d, addrs[i]);
+				d = e_destination_new ();
+				e_destination_set_email (d, addrs[i]);
 
 				attr = e_vcard_attribute_new (NULL, EVC_EMAIL);
 				e_destination_export_to_vcard_attribute (d, attr);
-				list = g_list_append(list, attr);
-				g_object_unref(d);
+				list = g_list_append (list, attr);
+				g_object_unref (d);
 			}
-			e_contact_set_attributes(card, E_CONTACT_EMAIL, list);
-			g_list_foreach(list, (GFunc)e_vcard_attribute_free, NULL);
-			g_list_free(list);
-			g_strfreev(addrs);
-			e_contact_set(card, E_CONTACT_IS_LIST, GINT_TO_POINTER(TRUE));
+			e_contact_set_attributes (card, E_CONTACT_EMAIL, list);
+			g_list_foreach (list, (GFunc)e_vcard_attribute_free, NULL);
+			g_list_free (list);
+			g_strfreev (addrs);
+			e_contact_set (card, E_CONTACT_IS_LIST, GINT_TO_POINTER (TRUE));
 		} else {
-			e_contact_set(card, E_CONTACT_EMAIL_1, strings[2]);
+			e_contact_set (card, E_CONTACT_EMAIL_1, strings[2]);
 		}
 
 		/*name = e_contact_name_from_string(strings[1]);*/
 
 		if (strings[3] && strings[4])
-			e_contact_set(card, E_CONTACT_NOTE, strings[4]);
+			e_contact_set (card, E_CONTACT_NOTE, strings[4]);
 
 		/* FIXME Error checking */
-		e_book_add_contact(book, card, NULL);
-		g_object_unref(card);
+		e_book_add_contact (book, card, NULL);
+		g_object_unref (card);
 	}
 	g_strfreev (strings);
 }
 
 static void
-import_contacts(void)
+import_contacts (void)
 {
 	ESource *primary;
 	ESourceList *source_list;
@@ -168,51 +168,51 @@ import_contacts(void)
 
 	printf("importing pine addressbook\n");
 
-	if (!e_book_get_addressbooks(&source_list, NULL))
+	if (!e_book_get_addressbooks (&source_list, NULL))
 		return;
 
 	name = g_build_filename(g_get_home_dir(), ".addressbook", NULL);
 	fp = fopen(name, "r");
-	g_free(name);
+	g_free (name);
 	if (fp == NULL)
 		return;
 
-	primary = e_source_list_peek_source_any(source_list);
+	primary = e_source_list_peek_source_any (source_list);
 	/* FIXME Better error handling */
-	if ((book = e_book_new(primary,NULL)) == NULL) {
-		fclose(fp);
+	if ((book = e_book_new (primary,NULL)) == NULL) {
+		fclose (fp);
 		g_warning ("Could not create EBook.");
 		return;
 	}
 
-	e_book_open(book, TRUE, NULL);
-	g_object_unref(primary);
-	g_object_unref(source_list);
+	e_book_open (book, TRUE, NULL);
+	g_object_unref (primary);
+	g_object_unref (source_list);
 
 	line = g_string_new("");
-	g_string_set_size(line, 256);
+	g_string_set_size (line, 256);
 	offset = 0;
-	while (fgets(line->str+offset, 256, fp)) {
+	while (fgets (line->str+offset, 256, fp)) {
 		gsize len;
 
-		len = strlen(line->str+offset)+offset;
+		len = strlen (line->str+offset)+offset;
 		if (line->str[len-1] == '\n')
-			g_string_truncate(line, len-1);
-		else if (!feof(fp)) {
+			g_string_truncate (line, len-1);
+		else if (!feof (fp)) {
 			offset = len;
-			g_string_set_size(line, len+256);
+			g_string_set_size (line, len+256);
 			continue;
 		} else {
-			g_string_truncate(line, len);
+			g_string_truncate (line, len);
 		}
 
-		import_contact(book, line->str);
+		import_contact (book, line->str);
 		offset = 0;
 	}
 
-	g_string_free(line, TRUE);
-	fclose(fp);
-	g_object_unref(book);
+	g_string_free (line, TRUE);
+	fclose (fp);
+	g_object_unref (book);
 }
 
 static gchar *
@@ -228,17 +228,17 @@ static MailImporterSpecial pine_special_folders[] = {
 };
 
 static void
-pine_import_exec(struct _pine_import_msg *m)
+pine_import_exec (struct _pine_import_msg *m)
 {
 	if (GPOINTER_TO_INT(g_datalist_get_data(&m->target->data, "pine-do-addr")))
-		import_contacts();
+		import_contacts ();
 
 	if (GPOINTER_TO_INT(g_datalist_get_data(&m->target->data, "pine-do-mail"))) {
 		gchar *path;
 
 		path = g_build_filename(g_get_home_dir(), "mail", NULL);
-		mail_importer_import_folders_sync(path, pine_special_folders, 0, m->status);
-		g_free(path);
+		mail_importer_import_folders_sync (path, pine_special_folders, 0, m->status);
+		g_free (path);
 	}
 }
 
@@ -250,29 +250,29 @@ pine_import_done (struct _pine_import_msg *m)
 	if (m->base.error == NULL) {
 		GConfClient *gconf;
 
-		gconf = gconf_client_get_default();
+		gconf = gconf_client_get_default ();
 		if (GPOINTER_TO_INT(g_datalist_get_data(&m->target->data, "pine-do-addr")))
 			gconf_client_set_bool(gconf, "/apps/evolution/importer/pine/addr", TRUE, NULL);
 		if (GPOINTER_TO_INT(g_datalist_get_data(&m->target->data, "pine-do-mail")))
 			gconf_client_set_bool(gconf, "/apps/evolution/importer/pine/mail", TRUE, NULL);
-		g_object_unref(gconf);
+		g_object_unref (gconf);
 	}
 
-	e_import_complete(m->import, (EImportTarget *)m->target);
+	e_import_complete (m->import, (EImportTarget *)m->target);
 }
 
 static void
 pine_import_free (struct _pine_import_msg *m)
 {
-	camel_operation_unref(m->status);
+	camel_operation_unref (m->status);
 
-	g_free(m->status_what);
-	g_mutex_free(m->status_lock);
+	g_free (m->status_what);
+	g_mutex_free (m->status_lock);
 
-	g_source_remove(m->status_timeout_id);
+	g_source_remove (m->status_timeout_id);
 	m->status_timeout_id = 0;
 
-	g_object_unref(m->import);
+	g_object_unref (m->import);
 }
 
 static void
@@ -288,11 +288,11 @@ pine_status (CamelOperation *op,
 	else if (pc == CAMEL_OPERATION_END)
 		pc = 100;
 
-	g_mutex_lock(importer->status_lock);
-	g_free(importer->status_what);
-	importer->status_what = g_strdup(what);
+	g_mutex_lock (importer->status_lock);
+	g_free (importer->status_what);
+	importer->status_what = g_strdup (what);
 	importer->status_pc = pc;
-	g_mutex_unlock(importer->status_lock);
+	g_mutex_unlock (importer->status_lock);
 }
 
 static gboolean
@@ -302,11 +302,11 @@ pine_status_timeout (struct _pine_import_msg *importer)
 	gchar *what;
 
 	if (importer->status_what) {
-		g_mutex_lock(importer->status_lock);
+		g_mutex_lock (importer->status_lock);
 		what = importer->status_what;
 		importer->status_what = NULL;
 		pc = importer->status_pc;
-		g_mutex_unlock(importer->status_lock);
+		g_mutex_unlock (importer->status_lock);
 
 		e_import_status (
 			importer->import, (EImportTarget *)
@@ -331,15 +331,15 @@ mail_importer_pine_import (EImport *ei,
 	struct _pine_import_msg *m;
 	gint id;
 
-	m = mail_msg_new(&pine_import_info);
+	m = mail_msg_new (&pine_import_info);
 	g_datalist_set_data(&target->data, "pine-msg", m);
 	m->import = ei;
-	g_object_ref(m->import);
+	g_object_ref (m->import);
 	m->target = target;
 	m->status_timeout_id = g_timeout_add (
 		100, (GSourceFunc) pine_status_timeout, m);
-	m->status_lock = g_mutex_new();
-	m->status = camel_operation_new(pine_status, m);
+	m->status_lock = g_mutex_new ();
+	m->status = camel_operation_new (pine_status, m);
 
 	id = m->base.seq;
 
@@ -375,7 +375,7 @@ checkbox_addr_toggle_cb (GtkToggleButton *tb,
 }
 
 static GtkWidget *
-pine_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
+pine_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *box, *w;
 	GConfClient *gconf;
@@ -386,7 +386,7 @@ pine_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 		gconf, "/apps/evolution/importer/pine/mail", NULL);
 	done_addr = gconf_client_get_bool (
 		gconf, "/apps/evolution/importer/pine/address", NULL);
-	g_object_unref(gconf);
+	g_object_unref (gconf);
 
 	g_datalist_set_data (
 		&target->data, "pine-do-mail",
@@ -395,40 +395,40 @@ pine_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 		&target->data, "pine-do-addr",
 		GINT_TO_POINTER (!done_addr));
 
-	box = gtk_vbox_new(FALSE, 2);
+	box = gtk_vbox_new (FALSE, 2);
 
 	w = gtk_check_button_new_with_label(_("Mail"));
-	gtk_toggle_button_set_active((GtkToggleButton *)w, !done_mail);
+	gtk_toggle_button_set_active ((GtkToggleButton *)w, !done_mail);
 	g_signal_connect(w, "toggled", G_CALLBACK(checkbox_mail_toggle_cb), target);
-	gtk_box_pack_start((GtkBox *)box, w, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)box, w, FALSE, FALSE, 0);
 
 	w = gtk_check_button_new_with_label(_("Address Book"));
-	gtk_toggle_button_set_active((GtkToggleButton *)w, !done_addr);
+	gtk_toggle_button_set_active ((GtkToggleButton *)w, !done_addr);
 	g_signal_connect(w, "toggled", G_CALLBACK(checkbox_addr_toggle_cb), target);
-	gtk_box_pack_start((GtkBox *)box, w, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)box, w, FALSE, FALSE, 0);
 
-	gtk_widget_show_all(box);
+	gtk_widget_show_all (box);
 
 	return box;
 }
 
 static void
-pine_import(EImport *ei, EImportTarget *target, EImportImporter *im)
+pine_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	if (GPOINTER_TO_INT(g_datalist_get_data(&target->data, "pine-do-mail"))
 	    || GPOINTER_TO_INT(g_datalist_get_data(&target->data, "pine-do-addr")))
-		mail_importer_pine_import(ei, target);
+		mail_importer_pine_import (ei, target);
 	else
-		e_import_complete(ei, target);
+		e_import_complete (ei, target);
 }
 
 static void
-pine_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
+pine_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	struct _pine_import_msg *m = g_datalist_get_data(&target->data, "pine-msg");
 
 	if (m)
-		camel_operation_cancel(m->status);
+		camel_operation_cancel (m->status);
 }
 
 static EImportImporter pine_importer = {
@@ -442,7 +442,7 @@ static EImportImporter pine_importer = {
 };
 
 EImportImporter *
-pine_importer_peek(void)
+pine_importer_peek (void)
 {
 	pine_importer.name = _("Evolution Pine importer");
 	pine_importer.description = _("Import mail from Pine.");

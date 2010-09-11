@@ -121,19 +121,19 @@ mail_tool_get_local_movemail_path (const guchar *uri,
 	data_dir = mail_session_get_data_dir ();
 	path = g_build_filename (data_dir, "spool", NULL);
 
-	if (g_stat(path, &st) == -1 && g_mkdir_with_parents(path, 0700) == -1) {
+	if (g_stat (path, &st) == -1 && g_mkdir_with_parents (path, 0700) == -1) {
 		g_set_error (
 			error, G_FILE_ERROR,
 			g_file_error_from_errno (errno),
 			_("Could not create spool directory '%s': %s"),
-			path, g_strerror(errno));
-		g_free(path);
+			path, g_strerror (errno));
+		g_free (path);
 		return NULL;
 	}
 
 	full = g_strdup_printf("%s/movemail.%s", path, safe_uri);
-	g_free(path);
-	g_free(safe_uri);
+	g_free (path);
+	g_free (safe_uri);
 
 	return full;
 }
@@ -149,7 +149,7 @@ mail_tool_do_movemail (const gchar *source_url, GError **error)
 	CamelURL *uri;
 	gboolean success;
 
-	uri = camel_url_new(source_url, error);
+	uri = camel_url_new (source_url, error);
 	if (uri == NULL)
 		return NULL;
 
@@ -160,7 +160,7 @@ mail_tool_do_movemail (const gchar *source_url, GError **error)
 			CAMEL_SERVICE_ERROR_URL_INVALID,
 			_("Trying to movemail a non-mbox source '%s'"),
 			source_url);
-		camel_url_free(uri);
+		camel_url_free (uri);
 		return NULL;
 	}
 
@@ -172,7 +172,7 @@ mail_tool_do_movemail (const gchar *source_url, GError **error)
 
 	/* Movemail from source (source_url) to dest_path */
 	success = camel_movemail (uri->path, dest_path, error) != -1;
-	camel_url_free(uri);
+	camel_url_free (uri);
 
 	if (g_stat (dest_path, &sb) < 0 || sb.st_size == 0) {
 		g_unlink (dest_path); /* Clean up the movemail.foo file. */
@@ -202,7 +202,7 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 	gchar *fwd_subj;
 	const gint max_subject_length = 1024;
 
-	subject = camel_mime_message_get_subject(msg);
+	subject = camel_mime_message_get_subject (msg);
 
 	if (subject && *subject) {
 		/* Truncate insanely long subjects */
@@ -240,10 +240,10 @@ mail_tool_remove_xevolution_headers (CamelMimeMessage *message)
 
 	for (scan = ((CamelMimePart *)message)->headers;scan;scan=scan->next)
 		if (!strncmp(scan->name, "X-Evolution", 11))
-			camel_header_raw_append(&list, scan->name, scan->value, scan->offset);
+			camel_header_raw_append (&list, scan->name, scan->value, scan->offset);
 
 	for (scan=list;scan;scan=scan->next)
-		camel_medium_remove_header((CamelMedium *)message, scan->name);
+		camel_medium_remove_header ((CamelMedium *)message, scan->name);
 
 	return list;
 }
@@ -276,7 +276,7 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 
 	/* rip off the X-Evolution headers */
 	xev = mail_tool_remove_xevolution_headers (message);
-	camel_header_raw_clear(&xev);
+	camel_header_raw_clear (&xev);
 
 	/* remove Bcc headers */
 	camel_medium_remove_header (CAMEL_MEDIUM (message), "Bcc");
@@ -310,7 +310,7 @@ mail_tool_uri_to_folder (const gchar *uri, guint32 flags, GError **error)
 		offset = 6;
 	else if (!strncmp(uri, "email:", 6)) {
 		/* FIXME?: the filter:get_folder callback should do this itself? */
-		curi = em_uri_to_camel(uri);
+		curi = em_uri_to_camel (uri);
 		if (uri == NULL) {
 			g_set_error (
 				error,
@@ -323,7 +323,7 @@ mail_tool_uri_to_folder (const gchar *uri, guint32 flags, GError **error)
 
 	url = camel_url_new (uri + offset, error);
 	if (!url) {
-		g_free(curi);
+		g_free (curi);
 		return NULL;
 	}
 
@@ -357,7 +357,7 @@ mail_tool_uri_to_folder (const gchar *uri, guint32 flags, GError **error)
 		mail_folder_cache_note_folder (mail_folder_cache_get_default (), folder);
 
 	camel_url_free (url);
-	g_free(curi);
+	g_free (curi);
 
 	return folder;
 }
@@ -421,16 +421,16 @@ mail_tools_folder_to_url (CamelFolder *folder)
 
 	url = camel_url_copy (service->url);
 	if (service->provider->url_flags  & CAMEL_URL_FRAGMENT_IS_PATH) {
-		camel_url_set_fragment(url, full_name);
+		camel_url_set_fragment (url, full_name);
 	} else {
-		gchar *name = g_alloca(strlen(full_name)+2);
+		gchar *name = g_alloca (strlen (full_name)+2);
 
 		sprintf(name, "/%s", full_name);
-		camel_url_set_path(url, name);
+		camel_url_set_path (url, name);
 	}
 
-	out = camel_url_to_string(url, CAMEL_URL_HIDE_ALL);
-	camel_url_free(url);
+	out = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+	camel_url_free (url);
 
 	return out;
 }

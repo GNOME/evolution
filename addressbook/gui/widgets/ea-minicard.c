@@ -139,11 +139,11 @@ ea_minicard_get_name (AtkObject *accessible)
 	gchar *string;
 	EMinicard *card;
 
-	g_return_val_if_fail (EA_IS_MINICARD(accessible), NULL);
+	g_return_val_if_fail (EA_IS_MINICARD (accessible), NULL);
 	memset (name, '\0', BUFFERSIZE);
 
-	card = E_MINICARD(atk_gobject_accessible_get_object
-			 (ATK_GOBJECT_ACCESSIBLE(accessible)));
+	card = E_MINICARD (atk_gobject_accessible_get_object
+			 (ATK_GOBJECT_ACCESSIBLE (accessible)));
 	if (!card)
 		return NULL;
 
@@ -186,8 +186,8 @@ ea_minicard_new (GObject *obj)
 	GObject *object;
 	AtkObject *accessible;
 
-	g_return_val_if_fail(obj != NULL, NULL);
-	g_return_val_if_fail (E_IS_MINICARD(obj), NULL);
+	g_return_val_if_fail (obj != NULL, NULL);
+	g_return_val_if_fail (E_IS_MINICARD (obj), NULL);
 
 	object = g_object_new (EA_TYPE_MINICARD, NULL);
 	accessible = ATK_OBJECT (object);

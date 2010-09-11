@@ -63,7 +63,7 @@ void		em_utils_forward_messages	(EShell *shell,
 						 const gchar *from_uri);
 void		em_utils_redirect_message	(EShell *shell,
 						 CamelMimeMessage *message);
-void		em_utils_redirect_message_by_uid(EShell *shell,
+void		em_utils_redirect_message_by_uid (EShell *shell,
 						 CamelFolder *folder,
 						 const gchar *uid);
 void		em_utils_forward_message_raw	(CamelFolder *folder,

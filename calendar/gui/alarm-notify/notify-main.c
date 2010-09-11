@@ -78,7 +78,7 @@ main (gint argc, gchar **argv)
 	 *       this once that is fixed. */
 
 	/* Initialize Camel's type system. */
-	camel_object_get_type();
+	camel_object_get_type ();
 
 	icon_theme = gtk_icon_theme_get_default ();
 	gtk_icon_theme_append_search_path (icon_theme, EVOLUTION_ICONDIR);

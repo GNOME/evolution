@@ -59,7 +59,7 @@ struct _elm_import_msg {
 };
 
 static GHashTable *
-parse_elm_rc(const gchar *elmrc)
+parse_elm_rc (const gchar *elmrc)
 {
 	gchar line[4096];
 	FILE *handle;
@@ -70,7 +70,7 @@ parse_elm_rc(const gchar *elmrc)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_free);
 
-	if (!g_file_test(elmrc, G_FILE_TEST_IS_REGULAR))
+	if (!g_file_test (elmrc, G_FILE_TEST_IS_REGULAR))
 		return prefs;
 
 	handle = fopen (elmrc, "r");
@@ -111,7 +111,7 @@ parse_elm_rc(const gchar *elmrc)
 		*end = 0;
 		value = g_strdup (linestart);
 
-		g_hash_table_insert(prefs, key, value);
+		g_hash_table_insert (prefs, key, value);
 	}
 
 	fclose (handle);
@@ -120,7 +120,7 @@ parse_elm_rc(const gchar *elmrc)
 }
 
 static gchar *
-elm_get_rc(EImport *ei, const gchar *name)
+elm_get_rc (EImport *ei, const gchar *name)
 {
 	GHashTable *prefs;
 	gchar *elmrc;
@@ -128,19 +128,19 @@ elm_get_rc(EImport *ei, const gchar *name)
 	prefs = g_object_get_data((GObject *)ei, "elm-rc");
 	if (prefs == NULL) {
 		elmrc = g_build_filename(g_get_home_dir(), ".elm/elmrc", NULL);
-		prefs = parse_elm_rc(elmrc);
-		g_free(elmrc);
+		prefs = parse_elm_rc (elmrc);
+		g_free (elmrc);
 		g_object_set_data((GObject *)ei, "elm-rc", prefs);
 	}
 
 	if (prefs == NULL)
 		return NULL;
 	else
-		return g_hash_table_lookup(prefs, name);
+		return g_hash_table_lookup (prefs, name);
 }
 
 static gboolean
-elm_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
+elm_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	const gchar *maildir;
 	gchar *elmdir;
@@ -150,8 +150,8 @@ elm_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 		return FALSE;
 
 	elmdir = g_build_filename(g_get_home_dir (), ".elm", NULL);
-	exists = g_file_test(elmdir, G_FILE_TEST_IS_DIR);
-	g_free(elmdir);
+	exists = g_file_test (elmdir, G_FILE_TEST_IS_DIR);
+	g_free (elmdir);
 	if (!exists)
 		return FALSE;
 
@@ -159,12 +159,12 @@ elm_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (maildir == NULL)
 		maildir = "Mail";
 
-	if (!g_path_is_absolute(maildir))
-		elmdir = g_build_filename(g_get_home_dir (), maildir, NULL);
+	if (!g_path_is_absolute (maildir))
+		elmdir = g_build_filename (g_get_home_dir (), maildir, NULL);
 	else
 		elmdir = g_strdup (maildir);
 
-	mailexists = g_file_test(elmdir, G_FILE_TEST_IS_DIR);
+	mailexists = g_file_test (elmdir, G_FILE_TEST_IS_DIR);
 	g_free (elmdir);
 
 	return mailexists;
@@ -191,47 +191,47 @@ elm_import_exec (struct _elm_import_msg *m)
 	if (maildir == NULL)
 		maildir = "Mail";
 
-	if (!g_path_is_absolute(maildir))
-		elmdir = g_build_filename(g_get_home_dir (), maildir, NULL);
+	if (!g_path_is_absolute (maildir))
+		elmdir = g_build_filename (g_get_home_dir (), maildir, NULL);
 	else
-		elmdir = g_strdup(maildir);
+		elmdir = g_strdup (maildir);
 
-	mail_importer_import_folders_sync(elmdir, elm_special_folders, 0, m->status);
-	g_free(elmdir);
+	mail_importer_import_folders_sync (elmdir, elm_special_folders, 0, m->status);
+	g_free (elmdir);
 }
 
 static void
-elm_import_done(struct _elm_import_msg *m)
+elm_import_done (struct _elm_import_msg *m)
 {
 	printf("importing complete\n");
 
 	if (m->base.error == NULL) {
 		GConfClient *gconf;
 
-		gconf = gconf_client_get_default();
+		gconf = gconf_client_get_default ();
 		gconf_client_set_bool(gconf, "/apps/evolution/importer/elm/mail", TRUE, NULL);
-		g_object_unref(gconf);
+		g_object_unref (gconf);
 	}
 
-	e_import_complete(m->import, (EImportTarget *)m->target);
+	e_import_complete (m->import, (EImportTarget *)m->target);
 }
 
 static void
-elm_import_free(struct _elm_import_msg *m)
+elm_import_free (struct _elm_import_msg *m)
 {
-	camel_operation_unref(m->status);
+	camel_operation_unref (m->status);
 
-	g_free(m->status_what);
-	g_mutex_free(m->status_lock);
+	g_free (m->status_what);
+	g_mutex_free (m->status_lock);
 
-	g_source_remove(m->status_timeout_id);
+	g_source_remove (m->status_timeout_id);
 	m->status_timeout_id = 0;
 
-	g_object_unref(m->import);
+	g_object_unref (m->import);
 }
 
 static void
-elm_status(CamelOperation *op, const gchar *what, gint pc, gpointer data)
+elm_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
 {
 	struct _elm_import_msg *importer = data;
 
@@ -240,28 +240,28 @@ elm_status(CamelOperation *op, const gchar *what, gint pc, gpointer data)
 	else if (pc == CAMEL_OPERATION_END)
 		pc = 100;
 
-	g_mutex_lock(importer->status_lock);
-	g_free(importer->status_what);
-	importer->status_what = g_strdup(what);
+	g_mutex_lock (importer->status_lock);
+	g_free (importer->status_what);
+	importer->status_what = g_strdup (what);
 	importer->status_pc = pc;
-	g_mutex_unlock(importer->status_lock);
+	g_mutex_unlock (importer->status_lock);
 }
 
 static gboolean
-elm_status_timeout(gpointer data)
+elm_status_timeout (gpointer data)
 {
 	struct _elm_import_msg *importer = data;
 	gint pc;
 	gchar *what;
 
 	if (importer->status_what) {
-		g_mutex_lock(importer->status_lock);
+		g_mutex_lock (importer->status_lock);
 		what = importer->status_what;
 		importer->status_what = NULL;
 		pc = importer->status_pc;
-		g_mutex_unlock(importer->status_lock);
+		g_mutex_unlock (importer->status_lock);
 
-		e_import_status(importer->import, (EImportTarget *)importer->target, what, pc);
+		e_import_status (importer->import, (EImportTarget *)importer->target, what, pc);
 	}
 
 	return TRUE;
@@ -276,19 +276,19 @@ static MailMsgInfo elm_import_info = {
 };
 
 static gint
-mail_importer_elm_import(EImport *ei, EImportTarget *target)
+mail_importer_elm_import (EImport *ei, EImportTarget *target)
 {
 	struct _elm_import_msg *m;
 	gint id;
 
-	m = mail_msg_new(&elm_import_info);
+	m = mail_msg_new (&elm_import_info);
 	g_datalist_set_data(&target->data, "elm-msg", m);
 	m->import = ei;
-	g_object_ref(m->import);
+	g_object_ref (m->import);
 	m->target = (EImportTargetHome *)target;
-	m->status_timeout_id = g_timeout_add(100, elm_status_timeout, m);
-	m->status_lock = g_mutex_new();
-	m->status = camel_operation_new(elm_status, m);
+	m->status_timeout_id = g_timeout_add (100, elm_status_timeout, m);
+	m->status_lock = g_mutex_new ();
+	m->status = camel_operation_new (elm_status, m);
 
 	id = m->base.seq;
 
@@ -306,7 +306,7 @@ checkbox_toggle_cb (GtkToggleButton *tb, EImportTarget *target)
 }
 
 static GtkWidget *
-elm_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
+elm_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *box, *w;
 	GConfClient *gconf;
@@ -315,39 +315,39 @@ elm_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 	gconf = gconf_client_get_default ();
 	done_mail = gconf_client_get_bool (
 		gconf, "/apps/evolution/importer/elm/mail", NULL);
-	g_object_unref(gconf);
+	g_object_unref (gconf);
 
 	g_datalist_set_data (
 		&target->data, "elm-do-mail", GINT_TO_POINTER(!done_mail));
 
-	box = gtk_vbox_new(FALSE, 2);
+	box = gtk_vbox_new (FALSE, 2);
 
 	w = gtk_check_button_new_with_label(_("Mail"));
-	gtk_toggle_button_set_active((GtkToggleButton *)w, !done_mail);
+	gtk_toggle_button_set_active ((GtkToggleButton *)w, !done_mail);
 	g_signal_connect(w, "toggled", G_CALLBACK(checkbox_toggle_cb), target);
 
-	gtk_box_pack_start((GtkBox *)box, w, FALSE, FALSE, 0);
-	gtk_widget_show_all(box);
+	gtk_box_pack_start ((GtkBox *)box, w, FALSE, FALSE, 0);
+	gtk_widget_show_all (box);
 
 	return box;
 }
 
 static void
-elm_import(EImport *ei, EImportTarget *target, EImportImporter *im)
+elm_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	if (GPOINTER_TO_INT(g_datalist_get_data(&target->data, "elm-do-mail")))
-		mail_importer_elm_import(ei, target);
+		mail_importer_elm_import (ei, target);
 	else
-		e_import_complete(ei, target);
+		e_import_complete (ei, target);
 }
 
 static void
-elm_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
+elm_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	struct _elm_import_msg *m = g_datalist_get_data(&target->data, "elm-msg");
 
 	if (m)
-		camel_operation_cancel(m->status);
+		camel_operation_cancel (m->status);
 }
 
 static EImportImporter elm_importer = {
@@ -361,7 +361,7 @@ static EImportImporter elm_importer = {
 };
 
 EImportImporter *
-elm_importer_peek(void)
+elm_importer_peek (void)
 {
 	elm_importer.name = _("Evolution Elm importer");
 	elm_importer.description = _("Import mail from Elm.");

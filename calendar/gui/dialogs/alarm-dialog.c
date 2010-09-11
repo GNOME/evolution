@@ -481,7 +481,7 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	/* remove the X-EVOLUTION-NEEDS-DESCRIPTION property, so that
 	 * we don't re-set the alarm's description */
 	icalcomp = e_cal_component_alarm_get_icalcomponent (alarm);
-	icalprop = icalcomponent_get_first_property(icalcomp, ICAL_X_PROPERTY);
+	icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
 	while (icalprop) {
 		const gchar *x_name;
 
@@ -527,7 +527,7 @@ alarm_to_malarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm )
                     e_destination_set_email (dest, a->value);
             }
             e_destination_store_append_destination (destination_store, dest);
-            g_object_unref(GTK_OBJECT (dest));
+            g_object_unref (GTK_OBJECT (dest));
         }
         e_cal_component_free_attendee_list (attendee_list);
     }
@@ -1217,7 +1217,7 @@ alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm)
 	e_load_ui_builder_definition (dialog.builder, "alarm-dialog.ui");
 
 	if (!get_widgets (&dialog)) {
-		g_object_unref(dialog.builder);
+		g_object_unref (dialog.builder);
 		return FALSE;
 	}
 

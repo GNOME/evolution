@@ -42,7 +42,7 @@ ecp_init (GObject *o)
 static void
 ecp_target_free (EConfig *ec, EConfigTarget *t)
 {
-	struct _EABConfigPrivate *p = _PRIVATE(ec);
+	struct _EABConfigPrivate *p = _PRIVATE (ec);
 
 	if (ec->target == t) {
 		switch (t->type) {
@@ -50,7 +50,7 @@ ecp_target_free (EConfig *ec, EConfigTarget *t)
 			EABConfigTargetSource *s = (EABConfigTargetSource *)t;
 
 			if (p->source_changed_id) {
-				g_signal_handler_disconnect(s->source, p->source_changed_id);
+				g_signal_handler_disconnect (s->source, p->source_changed_id);
 				p->source_changed_id = 0;
 			}
 			break; }
@@ -70,17 +70,17 @@ ecp_target_free (EConfig *ec, EConfigTarget *t)
 }
 
 static void
-ecp_source_changed(struct _ESource *source, EConfig *ec)
+ecp_source_changed (struct _ESource *source, EConfig *ec)
 {
-	e_config_target_changed(ec, E_CONFIG_TARGET_CHANGED_STATE);
+	e_config_target_changed (ec, E_CONFIG_TARGET_CHANGED_STATE);
 }
 
 static void
 ecp_set_target (EConfig *ec, EConfigTarget *t)
 {
-	struct _EABConfigPrivate *p = _PRIVATE(ec);
+	struct _EABConfigPrivate *p = _PRIVATE (ec);
 
-	((EConfigClass *)ecp_parent_class)->set_target(ec, t);
+	((EConfigClass *)ecp_parent_class)->set_target (ec, t);
 
 	if (t) {
 		switch (t->type) {
@@ -99,7 +99,7 @@ ecp_class_init (GObjectClass *klass)
 	((EConfigClass *)klass)->set_target = ecp_set_target;
 	((EConfigClass *)klass)->target_free = ecp_target_free;
 
-	g_type_class_add_private(klass, sizeof(struct _EABConfigPrivate));
+	g_type_class_add_private (klass, sizeof (struct _EABConfigPrivate));
 }
 
 GType
@@ -127,7 +127,7 @@ eab_config_get_type (void)
 EABConfig *
 eab_config_new (gint type, const gchar *menuid)
 {
-	EABConfig *ecp = g_object_new (eab_config_get_type(), NULL);
+	EABConfig *ecp = g_object_new (eab_config_get_type (), NULL);
 	e_config_construct (&ecp->config, type, menuid);
 	return ecp;
 }

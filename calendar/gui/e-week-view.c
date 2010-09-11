@@ -86,7 +86,7 @@ typedef struct {
 
 static void e_week_view_destroy (GtkObject *object);
 static void e_week_view_realize (GtkWidget *widget);
-static void e_week_view_set_colors(EWeekView *week_view, GtkWidget *widget);
+static void e_week_view_set_colors (EWeekView *week_view, GtkWidget *widget);
 static void e_week_view_unrealize (GtkWidget *widget);
 static void e_week_view_style_set (GtkWidget *widget,
 				   GtkStyle  *previous_style);
@@ -915,7 +915,7 @@ e_week_view_realize (GtkWidget *widget)
 	colormap = gtk_widget_get_colormap (widget);
 
 	/* Allocate the colors. */
-	e_week_view_set_colors(week_view, widget);
+	e_week_view_set_colors (week_view, widget);
 
 	gdk_gc_set_colormap (week_view->main_gc, colormap);
 
@@ -949,7 +949,7 @@ color_inc (GdkColor c, gint amount)
 }
 
 static void
-e_week_view_set_colors(EWeekView *week_view, GtkWidget *widget)
+e_week_view_set_colors (EWeekView *week_view, GtkWidget *widget)
 {
 	GtkStyle *style;
 
@@ -1086,7 +1086,7 @@ e_week_view_style_set (GtkWidget *widget,
 	week_view = E_WEEK_VIEW (widget);
 	style = gtk_widget_get_style (widget);
 
-	e_week_view_set_colors(week_view, widget);
+	e_week_view_set_colors (week_view, widget);
 	if (week_view->spans) {
 		for (span_num = 0; span_num < week_view->spans->len;
 				span_num++) {
@@ -1546,7 +1546,7 @@ e_week_view_focus (GtkWidget *widget, GtkDirectionType direction)
 			current_day = span->start_day;
 
 			if ((week_view->focused_jump_button != current_day) &&
-			    e_week_view_is_jump_button_visible(week_view, current_day)) {
+			    e_week_view_is_jump_button_visible (week_view, current_day)) {
 
 				/* focus go to the jump button */
 				e_week_view_stop_editing_event (week_view);
@@ -2316,7 +2316,7 @@ e_week_view_get_day_position	(EWeekView	*week_view,
 
 /* Returns the bounding box for a span of an event. Usually this can easily
    be determined by the start & end days and row of the span, which are set in
-   e_week_view_layout_event(). Though we need a special case for the weekends
+   e_week_view_layout_event (). Though we need a special case for the weekends
    when they are compressed, since the span may not fit.
    The bounding box includes the entire width of the days in the view (but
    not the vertical line down the right of the last day), though the displayed
@@ -3179,7 +3179,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		g_signal_connect (span->text_item, "event",
 				  G_CALLBACK (e_week_view_on_text_item_event),
 				  week_view);
-		g_signal_emit_by_name (G_OBJECT(week_view),
+		g_signal_emit_by_name (G_OBJECT (week_view),
 				       "event_added", event);
 
 	}
@@ -3978,7 +3978,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 
 	if (string_is_empty (text) && !on_server) {
 		e_cal_component_get_uid (comp, &uid);
-		g_signal_handlers_disconnect_by_func(item, e_week_view_on_text_item_event, week_view);
+		g_signal_handlers_disconnect_by_func (item, e_week_view_on_text_item_event, week_view);
 		e_week_view_foreach_event_with_uid (week_view, uid,
 						    e_week_view_remove_event_cb, NULL);
 		week_view->event_destroyed = TRUE;

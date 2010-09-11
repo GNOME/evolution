@@ -134,9 +134,9 @@ emfs_create_name_changed (GtkEntry *entry, EMFolderSelector *emfs)
 	if (gtk_entry_get_text_length (emfs->name_entry) > 0)
 		text = gtk_entry_get_text (emfs->name_entry);
 
-	path = em_folder_tree_get_selected_uri(emfs->emft);
+	path = em_folder_tree_get_selected_uri (emfs->emft);
 	active = text && path && !strchr (text, '/');
-	g_free(path);
+	g_free (path);
 
 	gtk_dialog_set_response_sensitive ((GtkDialog *) emfs, GTK_RESPONSE_OK, active);
 }
@@ -235,11 +235,11 @@ emfs_create_name_activate (GtkEntry *entry, EMFolderSelector *emfs)
 		const gchar *text;
 
 		text = gtk_entry_get_text (emfs->name_entry);
-		path = em_folder_tree_get_selected_uri(emfs->emft);
+		path = em_folder_tree_get_selected_uri (emfs->emft);
 
 		if (text && path && !strchr (text, '/'))
 			g_signal_emit_by_name (emfs, "response", GTK_RESPONSE_OK);
-		g_free(path);
+		g_free (path);
 	}
 }
 
@@ -262,7 +262,7 @@ em_folder_selector_create_new (GtkWindow *parent,
 		EM_TYPE_FOLDER_SELECTOR,
 		"transient-for", parent, NULL);
 	em_folder_selector_construct (emfs, emft, flags, title, text, _("C_reate"));
-	em_folder_tree_set_excluded(emft, EMFT_EXCLUDE_NOINFERIORS);
+	em_folder_tree_set_excluded (emft, EMFT_EXCLUDE_NOINFERIORS);
 
 	hbox = gtk_hbox_new (FALSE, 0);
 	w = gtk_label_new_with_mnemonic (_("Folder _name:"));
@@ -310,7 +310,7 @@ em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 		CamelURL *url;
 		gchar *newpath;
 
-		provider = camel_provider_get(uri, NULL);
+		provider = camel_provider_get (uri, NULL);
 
 		name = gtk_entry_get_text (emfs->name_entry);
 
@@ -326,10 +326,10 @@ em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 			gchar *path;
 
 			path = g_strdup_printf("%s/%s", (url->path == NULL || strcmp(url->path, "/") == 0) ? "":url->path, name);
-			camel_url_set_path(url, path);
+			camel_url_set_path (url, path);
 			if (path[0] == '/') {
-				newpath = g_strdup(path+1);
-				g_free(path);
+				newpath = g_strdup (path+1);
+				g_free (path);
 			} else
 				newpath = path;
 		}
@@ -369,13 +369,13 @@ em_folder_selector_get_selected_path (EMFolderSelector *emfs)
 		return emfs->selected_path;
 	}
 
-	if ((uri = em_folder_tree_get_selected_uri(emfs->emft)) == NULL) {
+	if ((uri = em_folder_tree_get_selected_uri (emfs->emft)) == NULL) {
 		d(printf ("no selected folder?\n"));
 		return NULL;
 	}
-	g_free(uri);
+	g_free (uri);
 
-	path = em_folder_tree_get_selected_path(emfs->emft);
+	path = em_folder_tree_get_selected_path (emfs->emft);
 	if (emfs->name_entry) {
 		const gchar *name;
 		gchar *newpath;
@@ -383,10 +383,10 @@ em_folder_selector_get_selected_path (EMFolderSelector *emfs)
 		name = gtk_entry_get_text (emfs->name_entry);
 		newpath = g_strdup_printf ("%s/%s", path?path:"", name);
 
-		g_free(path);
+		g_free (path);
 		emfs->selected_path = g_strdup (newpath);
 	} else {
-		g_free(emfs->selected_path);
+		g_free (emfs->selected_path);
 		emfs->selected_path = path?path:g_strdup("");
 	}
 

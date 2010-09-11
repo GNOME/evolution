@@ -43,7 +43,7 @@ GArray* e_week_view_layout_events	(GArray		*events,
 /* Returns which 'cell' in the table the day appears in. Note that most days
    have a height of 2 rows, but Sat/Sun are sometimes compressed so they have
    a height of only 1 row. */
-void e_week_view_layout_get_day_position(gint		 day,
+void e_week_view_layout_get_day_position (gint		 day,
 					 gboolean	 multi_week_view,
 					 gint		 weeks_shown,
 					 gint		 display_start_day,

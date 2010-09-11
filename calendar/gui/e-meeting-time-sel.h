@@ -70,7 +70,7 @@ G_BEGIN_DECLS
 /* This is used to specify the format used when displaying the dates.
    The full format is like 'Sunday, September 12, 1999'. The abbreviated format
    is like 'Sun 12/9/99'. The short format is like '12/9/99'. The actual
-   format used is determined in e_meeting_time_selector_style_set(), once we
+   format used is determined in e_meeting_time_selector_style_set (), once we
    know the font being used. */
 typedef enum
 {
@@ -228,7 +228,7 @@ struct _EMeetingTimeSelector {
 	/* These are the x pixel coordinates in the entire scroll region of
 	   the start and end times. Set to meeting_positions_valid to FALSE to
 	   invalidate. They will then be recomputed when needed. Always access
-	   with e_meeting_time_selector_get_meeting_time_positions(). */
+	   with e_meeting_time_selector_get_meeting_time_positions (). */
 	gint meeting_positions_valid;
 	gint meeting_positions_in_scroll_area;
 	gint meeting_start_x;

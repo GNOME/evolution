@@ -483,8 +483,8 @@ get_current_account (TaskPage *page)
 	if (!str)
 		return NULL;
 
-	for (it = e_list_get_iterator((EList *)priv->accounts); e_iterator_is_valid(it); e_iterator_next(it)) {
-		EAccount *a = (EAccount *)e_iterator_get(it);
+	for (it = e_list_get_iterator ((EList *)priv->accounts); e_iterator_is_valid (it); e_iterator_next (it)) {
+		EAccount *a = (EAccount *)e_iterator_get (it);
 		gchar *full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
 
 		if (!g_ascii_strcasecmp (full, str)) {
@@ -1184,7 +1184,7 @@ remove_clicked_cb (GtkButton *btn, TaskPage *page)
 	for (tmp = paths; tmp; tmp=tmp->next) {
 		path = tmp->data;
 
-		gtk_tree_model_get_iter (GTK_TREE_MODEL(priv->model), &iter, path);
+		gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
 
 		gtk_tree_model_get (GTK_TREE_MODEL (priv->model), &iter, E_MEETING_STORE_ADDRESS_COL, &address, -1);
 		ia = e_meeting_store_find_attendee (priv->model, address, NULL);
@@ -1357,7 +1357,7 @@ task_page_set_info_string (TaskPage *tpage, const gchar *icon, const gchar *msg)
 	priv = tpage->priv;
 
 	gtk_image_set_from_stock (GTK_IMAGE (priv->info_icon), icon, GTK_ICON_SIZE_BUTTON);
-	gtk_label_set_markup (GTK_LABEL(priv->info_string), msg);
+	gtk_label_set_markup (GTK_LABEL (priv->info_string), msg);
 
 	if (msg && icon)
 		gtk_widget_show (priv->info_hbox);
@@ -1489,8 +1489,8 @@ date_changed_cb (EDateEdit *dedit,
 	CompEditorPageDates dates;
 	gboolean date_set, time_set;
 	ECalComponentDateTime start_dt, due_dt;
-	struct icaltimetype start_tt = icaltime_null_time();
-	struct icaltimetype due_tt = icaltime_null_time();
+	struct icaltimetype start_tt = icaltime_null_time ();
+	struct icaltimetype due_tt = icaltime_null_time ();
 
 	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (tpage)))
 		return;
@@ -1624,8 +1624,8 @@ static void
 times_updated (TaskPage *tpage, gboolean adjust_end_time)
 {
 	TaskPagePrivate *priv;
-	struct icaltimetype start_tt = icaltime_null_time();
-	struct icaltimetype end_tt = icaltime_null_time();
+	struct icaltimetype start_tt = icaltime_null_time ();
+	struct icaltimetype end_tt = icaltime_null_time ();
 	gboolean date_set;
 	gboolean set_start_date = FALSE, set_end_date = FALSE, adjust_by_hour;
 	icaltimezone *zone;
@@ -1756,7 +1756,7 @@ source_changed_cb (ESourceComboBox *source_combo_box, TaskPage *tpage)
 		if (client) {
 			gchar *backend_addr = NULL;
 
-			e_cal_get_cal_address(client, &backend_addr, NULL);
+			e_cal_get_cal_address (client, &backend_addr, NULL);
 
 			if (priv->is_assignment)
 				task_page_select_organizer (tpage, backend_addr);
@@ -1984,7 +1984,7 @@ task_page_select_organizer (TaskPage *tpage, const gchar *backend_address)
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
 	client = comp_editor_get_client (editor);
 
-	def_account = itip_addresses_get_default();
+	def_account = itip_addresses_get_default ();
 	if (def_account && def_account->enabled)
 		def_address = g_strdup_printf("%s <%s>", def_account->id->name, def_account->id->address);
 
@@ -2061,12 +2061,12 @@ task_page_construct (TaskPage *tpage, EMeetingStore *model, ECal *client)
 	}
 
 	priv->accounts = itip_addresses_get ();
-	for (it = e_list_get_iterator((EList *)priv->accounts);
-	     e_iterator_is_valid(it);
-	     e_iterator_next(it)) {
+	for (it = e_list_get_iterator ((EList *)priv->accounts);
+	     e_iterator_is_valid (it);
+	     e_iterator_next (it)) {
 		gchar *full = NULL;
 
-		a = (EAccount *)e_iterator_get(it);
+		a = (EAccount *)e_iterator_get (it);
 
 		/* skip disabled accounts */
 		if (!a->enabled)
@@ -2074,10 +2074,10 @@ task_page_construct (TaskPage *tpage, EMeetingStore *model, ECal *client)
 
 		full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
 
-		priv->address_strings = g_list_append(priv->address_strings, full);
+		priv->address_strings = g_list_append (priv->address_strings, full);
 	}
 
-	g_object_unref(it);
+	g_object_unref (it);
 
 	if (priv->address_strings) {
 		GList *l;

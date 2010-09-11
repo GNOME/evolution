@@ -246,7 +246,7 @@ ea_day_view_cell_ref_state_set (AtkObject *obj)
   gint parent_x, parent_y, parent_width, parent_height;
 
   state_set = ATK_OBJECT_CLASS (parent_class)->ref_state_set (obj);
-  g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(obj));
+  g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (obj));
   if (!g_obj)
 	  return state_set;
 
@@ -337,7 +337,7 @@ component_interface_get_extents (AtkComponent *component,
 
 	g_return_if_fail (EA_IS_DAY_VIEW_CELL (component));
 
-	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(component));
+	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (component));
 	if (!g_obj)
 		/* defunct object*/
 		return;

@@ -315,7 +315,7 @@ set_nss_error (GError **error)
 }
 
 static SECStatus PR_CALLBACK
-collect_certs(gpointer arg, SECItem **certs, gint numcerts)
+collect_certs (gpointer arg, SECItem **certs, gint numcerts)
 {
 	CERTDERCerts *collectArgs;
 	SECItem *cert;
@@ -324,17 +324,17 @@ collect_certs(gpointer arg, SECItem **certs, gint numcerts)
 	collectArgs = (CERTDERCerts *)arg;
 
 	collectArgs->numcerts = numcerts;
-	collectArgs->rawCerts = (SECItem *) PORT_ArenaZAlloc(
+	collectArgs->rawCerts = (SECItem *) PORT_ArenaZAlloc (
 		collectArgs->arena, sizeof (SECItem) * numcerts);
 	if (collectArgs->rawCerts == NULL)
-		return(SECFailure);
+		return (SECFailure);
 
 	cert = collectArgs->rawCerts;
 
 	while (numcerts--) {
-		rv = SECITEM_CopyItem(collectArgs->arena, cert, *certs);
+		rv = SECITEM_CopyItem (collectArgs->arena, cert, *certs);
 		if (rv == SECFailure)
-			return(SECFailure);
+			return (SECFailure);
 		cert++;
 		certs++;
 	}
@@ -349,14 +349,14 @@ e_cert_db_get_certs_from_package (PRArenaPool *arena,
 {
 	/*nsNSSShutDownPreventionLock locker;*/
 	CERTDERCerts *collectArgs =
-		(CERTDERCerts *)PORT_ArenaZAlloc(arena, sizeof(CERTDERCerts));
+		(CERTDERCerts *)PORT_ArenaZAlloc (arena, sizeof (CERTDERCerts));
 	SECStatus sec_rv;
 
 	if (!collectArgs)
 		return NULL;
 
 	collectArgs->arena = arena;
-	sec_rv = CERT_DecodeCertPackage(data,
+	sec_rv = CERT_DecodeCertPackage (data,
 					length, collect_certs,
 					(gpointer)collectArgs);
 
@@ -425,21 +425,21 @@ static void
 initialize_nss (void)
 {
 	/* Use camel_init() to initialise NSS consistently... */
-	camel_init(e_get_user_data_dir(), TRUE);
+	camel_init (e_get_user_data_dir (), TRUE);
 
 	/* ... except for the bits we only seem to do here. FIXME */
-	PK11_SetPasswordFunc(pk11_password);
+	PK11_SetPasswordFunc (pk11_password);
 
 	/* Enable ciphers for PKCS#12 */
-	SEC_PKCS12EnableCipher(PKCS12_RC4_40, 1);
-	SEC_PKCS12EnableCipher(PKCS12_RC4_128, 1);
-	SEC_PKCS12EnableCipher(PKCS12_RC2_CBC_40, 1);
-	SEC_PKCS12EnableCipher(PKCS12_RC2_CBC_128, 1);
-	SEC_PKCS12EnableCipher(PKCS12_DES_56, 1);
-	SEC_PKCS12EnableCipher(PKCS12_DES_EDE3_168, 1);
-	SEC_PKCS12SetPreferredCipher(PKCS12_DES_EDE3_168, 1);
+	SEC_PKCS12EnableCipher (PKCS12_RC4_40, 1);
+	SEC_PKCS12EnableCipher (PKCS12_RC4_128, 1);
+	SEC_PKCS12EnableCipher (PKCS12_RC2_CBC_40, 1);
+	SEC_PKCS12EnableCipher (PKCS12_RC2_CBC_128, 1);
+	SEC_PKCS12EnableCipher (PKCS12_DES_56, 1);
+	SEC_PKCS12EnableCipher (PKCS12_DES_EDE3_168, 1);
+	SEC_PKCS12SetPreferredCipher (PKCS12_DES_EDE3_168, 1);
 #ifdef notyet
-	PORT_SetUCS2_ASCIIConversionFunction(ucs2_ascii_conversion_fn);
+	PORT_SetUCS2_ASCIIConversionFunction (ucs2_ascii_conversion_fn);
 #endif
 }
 
@@ -458,7 +458,7 @@ install_loadable_roots (void)
 		for (i = 0; i < module->slotCount; i++) {
 			PK11SlotInfo *slot = module->slots[i];
 			if (PK11_IsPresent (slot)) {
-				if (PK11_HasRootCerts(slot)) {
+				if (PK11_HasRootCerts (slot)) {
 					RootsModule = module;
 					break;
 				}
@@ -541,15 +541,15 @@ e_cert_db_class_init (ECertDBClass *klass)
 {
 	GObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS(klass);
+	object_class = G_OBJECT_CLASS (klass);
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	object_class->dispose = e_cert_db_dispose;
 
-	initialize_nss();
+	initialize_nss ();
 	/* check to see if you have a rootcert module installed */
-	install_loadable_roots();
+	install_loadable_roots ();
 
 	e_cert_db_signals[PK11_PASSWD] =
 		g_signal_new ("pk11_passwd",
@@ -644,9 +644,9 @@ e_cert_db_find_cert_by_nickname (ECertDB *certdb,
 	CERTCertificate *cert = NULL;
 
 	/*PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("Getting \"%s\"\n", asciiname));*/
-	cert = PK11_FindCertFromNickname((gchar *)nickname, NULL);
+	cert = PK11_FindCertFromNickname ((gchar *)nickname, NULL);
 	if (!cert) {
-		cert = CERT_FindCertByNickname(CERT_GetDefaultCertDB(), (gchar *)nickname);
+		cert = CERT_FindCertByNickname (CERT_GetDefaultCertDB (), (gchar *)nickname);
 	}
 
 	if (cert) {
@@ -678,22 +678,22 @@ e_cert_db_find_cert_by_key (ECertDB *certdb,
 		return NULL;
 	}
 
-	dummy = NSSBase64_DecodeBuffer(NULL, &keyItem, db_key,
-				       (PRUint32)PL_strlen(db_key));
+	dummy = NSSBase64_DecodeBuffer (NULL, &keyItem, db_key,
+				       (PRUint32)PL_strlen (db_key));
 
 	/* someday maybe we can speed up the search using the moduleID and slotID*/
-	moduleID = NS_NSS_GET_LONG(keyItem.data);
-	slotID = NS_NSS_GET_LONG(&keyItem.data[NS_NSS_LONG]);
+	moduleID = NS_NSS_GET_LONG (keyItem.data);
+	slotID = NS_NSS_GET_LONG (&keyItem.data[NS_NSS_LONG]);
 
 	/* build the issuer/SN structure*/
-	issuerSN.serialNumber.len = NS_NSS_GET_LONG(&keyItem.data[NS_NSS_LONG*2]);
-	issuerSN.derIssuer.len = NS_NSS_GET_LONG(&keyItem.data[NS_NSS_LONG*3]);
+	issuerSN.serialNumber.len = NS_NSS_GET_LONG (&keyItem.data[NS_NSS_LONG*2]);
+	issuerSN.derIssuer.len = NS_NSS_GET_LONG (&keyItem.data[NS_NSS_LONG*3]);
 	issuerSN.serialNumber.data= &keyItem.data[NS_NSS_LONG*4];
 	issuerSN.derIssuer.data= &keyItem.data[NS_NSS_LONG*4+
 					       issuerSN.serialNumber.len];
 
-	cert = CERT_FindCertByIssuerAndSN(CERT_GetDefaultCertDB(), &issuerSN);
-	PR_FREEIF(keyItem.data);
+	cert = CERT_FindCertByIssuerAndSN (CERT_GetDefaultCertDB (), &issuerSN);
+	PR_FREEIF (keyItem.data);
 	if (cert) {
 		ECert *ecert = e_cert_new (cert);
 		return e_cert;
@@ -736,7 +736,7 @@ e_cert_db_find_cert_by_email_address (ECertDB *certdb,
 	CERTCertList *certlist;
 
 	any_cert = CERT_FindCertByNicknameOrEmailAddr (
-		CERT_GetDefaultCertDB(), (gchar *) email);
+		CERT_GetDefaultCertDB (), (gchar *) email);
 
 	if (!any_cert) {
 		set_nss_error (error);
@@ -745,32 +745,32 @@ e_cert_db_find_cert_by_email_address (ECertDB *certdb,
 
 	/* any_cert now contains a cert with the right subject,
 	 * but it might not have the correct usage. */
-	certlist = CERT_CreateSubjectCertList(NULL,
-					      CERT_GetDefaultCertDB(),
+	certlist = CERT_CreateSubjectCertList (NULL,
+					      CERT_GetDefaultCertDB (),
 					      &any_cert->derSubject,
-					      PR_Now(), PR_TRUE);
+					      PR_Now (), PR_TRUE);
 	if (!certlist) {
 		set_nss_error (error);
-		CERT_DestroyCertificate(any_cert);
+		CERT_DestroyCertificate (any_cert);
 		return NULL;
 	}
 
 	if (SECSuccess != CERT_FilterCertListByUsage (
 		certlist, certUsageEmailRecipient, PR_FALSE)) {
 		set_nss_error (error);
-		CERT_DestroyCertificate(any_cert);
+		CERT_DestroyCertificate (any_cert);
 		CERT_DestroyCertList (certlist);
 		return NULL;
 	}
 
-	if (CERT_LIST_END(CERT_LIST_HEAD(certlist), certlist)) {
+	if (CERT_LIST_END (CERT_LIST_HEAD (certlist), certlist)) {
 		set_nss_error (error);
-		CERT_DestroyCertificate(any_cert);
+		CERT_DestroyCertificate (any_cert);
 		CERT_DestroyCertList (certlist);
 		return NULL;
 	}
 
-	cert = e_cert_new (CERT_DupCertificate (CERT_LIST_HEAD(certlist)->cert));
+	cert = e_cert_new (CERT_DupCertificate (CERT_LIST_HEAD (certlist)->cert));
 
 	CERT_DestroyCertList (certlist);
 	CERT_DestroyCertificate (any_cert);
@@ -803,7 +803,7 @@ confirm_download_ca_cert (ECertDB *cert_db,
 }
 
 static gboolean
-handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
+handle_ca_cert_download (ECertDB *cert_db, GList *certs, GError **error)
 {
 	ECert *certToShow;
 	SECItem der;
@@ -853,13 +853,13 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 		cert1IssuerName = e_cert_get_issuer_name (cert1);
 		cert1SubjectName = e_cert_get_subject_name (cert1);
 
-		if (!strcmp(cert1IssuerName, cert0SubjectName)) {
+		if (!strcmp (cert1IssuerName, cert0SubjectName)) {
 			/* In this case, the first cert in the list signed the second,
 			   so the first cert is the root.  Let's display the last cert
 			   in the list. */
 			certToShow = E_CERT (g_list_last (certs)->data);
 		}
-		else if (!strcmp(cert0IssuerName, cert1SubjectName)) {
+		else if (!strcmp (cert0IssuerName, cert1SubjectName)) {
 			/* In this case the second cert has signed the first cert.  The
 			   first cert is the leaf, so let's display it. */
 			certToShow = cert0;
@@ -884,10 +884,10 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 
 	{
 		/*PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("Creating temp cert\n"));*/
-		CERTCertDBHandle *certdb = CERT_GetDefaultCertDB();
-		tmpCert = CERT_FindCertByDERCert(certdb, &der);
+		CERTCertDBHandle *certdb = CERT_GetDefaultCertDB ();
+		tmpCert = CERT_FindCertByDERCert (certdb, &der);
 		if (!tmpCert) {
-			tmpCert = CERT_NewTempCertificate(certdb, &der,
+			tmpCert = CERT_NewTempCertificate (certdb, &der,
 							  NULL, PR_FALSE, PR_TRUE);
 		}
 		if (!tmpCert) {
@@ -898,7 +898,7 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 	}
 
 #if 0
-	CERTCertificateCleaner tmpCertCleaner(tmpCert);
+	CERTCertificateCleaner tmpCertCleaner (tmpCert);
 #endif
 
 	if (tmpCert->isperm) {
@@ -921,7 +921,7 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 
 		/*PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("trust is %d\n", trustBits));*/
 
-		nickname = CERT_MakeCANickname(tmpCert);
+		nickname = CERT_MakeCANickname (tmpCert);
 
 		/*PR_LOG(gPIPNSSLog, PR_LOG_DEBUG, ("Created nick \"%s\"\n", nickname.get()));*/
 
@@ -932,11 +932,11 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 					   trust_email,
 					   trust_objsign);
 
-		srv = CERT_AddTempCertToPerm(tmpCert,
+		srv = CERT_AddTempCertToPerm (tmpCert,
 					     nickname,
 					     &trust);
 
-		if (srv != SECSuccess && PORT_GetError() != SEC_ERROR_TOKEN_NOT_LOGGED_IN) {
+		if (srv != SECSuccess && PORT_GetError () != SEC_ERROR_TOKEN_NOT_LOGGED_IN) {
 			set_nss_error (error);
 			return FALSE;
 		}
@@ -952,20 +952,20 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 			if (i == selCertIndex)
 				continue;
 
-			certToShow = do_QueryElementAt(x509Certs, i);
-			certToShow->GetRawDER(&der.len, (PRUint8 **)&der.data);
+			certToShow = do_QueryElementAt (x509Certs, i);
+			certToShow->GetRawDER (&der.len, (PRUint8 **)&der.data);
 
 			CERTCertificate *tmpCert2 =
-				CERT_NewTempCertificate(certdb, &der, nsnull, PR_FALSE, PR_TRUE);
+				CERT_NewTempCertificate (certdb, &der, nsnull, PR_FALSE, PR_TRUE);
 
 			if (!tmpCert2) {
 				NS_ASSERTION(0, "Couldn't create temp cert from DER blob\n");
 				continue;  /* Let's try to import the rest of 'em */
 			}
-			nickname.Adopt(CERT_MakeCANickname(tmpCert2));
-			CERT_AddTempCertToPerm(tmpCert2, NS_CONST_CAST(gchar *,nickname.get()),
-					       defaultTrust.GetTrust());
-			CERT_DestroyCertificate(tmpCert2);
+			nickname.Adopt (CERT_MakeCANickname (tmpCert2));
+			CERT_AddTempCertToPerm (tmpCert2, NS_CONST_CAST (gchar *,nickname.get ()),
+					       defaultTrust.GetTrust ());
+			CERT_DestroyCertificate (tmpCert2);
 		}
 #endif
 		return TRUE;
@@ -978,7 +978,7 @@ e_cert_db_delete_cert (ECertDB *certdb,
 		       ECert   *ecert)
 {
 	/*  nsNSSShutDownPreventionLock locker;
-	    nsNSSCertificate *nssCert = NS_STATIC_CAST(nsNSSCertificate*, aCert); */
+	    nsNSSCertificate *nssCert = NS_STATIC_CAST (nsNSSCertificate*, aCert); */
 
 	CERTCertificate *cert;
 
@@ -998,7 +998,7 @@ e_cert_db_delete_cert (ECertDB *certdb,
 		CERTCertTrust trust;
 
 		e_cert_trust_init_with_values (&trust, 0, 0, 0);
-		CERT_ChangeCertTrust(CERT_GetDefaultCertDB(),
+		CERT_ChangeCertTrust (CERT_GetDefaultCertDB (),
 					   cert, &trust);
 	}
 
@@ -1014,7 +1014,7 @@ e_cert_db_import_certs (ECertDB *certdb,
 			GError **error)
 {
 	/*nsNSSShutDownPreventionLock locker;*/
-	PRArenaPool *arena = PORT_NewArena(DER_DEFAULT_CHUNKSIZE);
+	PRArenaPool *arena = PORT_NewArena (DER_DEFAULT_CHUNKSIZE);
 	GList *certs = NULL;
 	CERTDERCerts *certCollection = e_cert_db_get_certs_from_package (arena, data, length);
 	gint i;
@@ -1022,7 +1022,7 @@ e_cert_db_import_certs (ECertDB *certdb,
 
 	if (!certCollection) {
 		set_nss_error (error);
-		PORT_FreeArena(arena, PR_FALSE);
+		PORT_FreeArena (arena, PR_FALSE);
 		return FALSE;
 	}
 
@@ -1036,14 +1036,14 @@ e_cert_db_import_certs (ECertDB *certdb,
 			set_nss_error (error);
 			g_list_foreach (certs, (GFunc)g_object_unref, NULL);
 			g_list_free (certs);
-			PORT_FreeArena(arena, PR_FALSE);
+			PORT_FreeArena (arena, PR_FALSE);
 			return FALSE;
 		}
 		certs = g_list_append (certs, cert);
 	}
 	switch (cert_type) {
 	case E_CERT_CA:
-		rv = handle_ca_cert_download(certdb, certs, error);
+		rv = handle_ca_cert_download (certdb, certs, error);
 		if (rv && imported_certs) {
 			GList *l;
 
@@ -1062,13 +1062,13 @@ e_cert_db_import_certs (ECertDB *certdb,
 	default:
 		/* We only deal with import CA certs in this method currently.*/
 		set_nss_error (error);
-		PORT_FreeArena(arena, PR_FALSE);
+		PORT_FreeArena (arena, PR_FALSE);
 		rv = FALSE;
 	}
 
 	g_list_foreach (certs, (GFunc)g_object_unref, NULL);
 	g_list_free (certs);
-	PORT_FreeArena(arena, PR_FALSE);
+	PORT_FreeArena (arena, PR_FALSE);
 	return rv;
 }
 
@@ -1085,16 +1085,16 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 	SECItem **rawCerts;
 	gint numcerts;
 	gint i;
-	PRArenaPool *arena = PORT_NewArena(DER_DEFAULT_CHUNKSIZE);
+	PRArenaPool *arena = PORT_NewArena (DER_DEFAULT_CHUNKSIZE);
 	CERTDERCerts *certCollection = e_cert_db_get_certs_from_package (arena, data, length);
 
 	if (!certCollection) {
 		set_nss_error (error);
-		PORT_FreeArena(arena, PR_FALSE);
+		PORT_FreeArena (arena, PR_FALSE);
 		return FALSE;
 	}
 
-	cert = CERT_NewTempCertificate(CERT_GetDefaultCertDB(), certCollection->rawCerts,
+	cert = CERT_NewTempCertificate (CERT_GetDefaultCertDB (), certCollection->rawCerts,
 				       (gchar *)NULL, PR_FALSE, PR_TRUE);
 	if (!cert) {
 		set_nss_error (error);
@@ -1102,7 +1102,7 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 		goto loser;
 	}
 	numcerts = certCollection->numcerts;
-	rawCerts = (SECItem **) PORT_Alloc(sizeof(SECItem *) * numcerts);
+	rawCerts = (SECItem **) PORT_Alloc (sizeof (SECItem *) * numcerts);
 	if (!rawCerts) {
 		set_nss_error (error);
 		rv = FALSE;
@@ -1113,7 +1113,7 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 		rawCerts[i] = &certCollection->rawCerts[i];
 	}
 
-	srv = CERT_ImportCerts(CERT_GetDefaultCertDB(), certUsageEmailSigner,
+	srv = CERT_ImportCerts (CERT_GetDefaultCertDB (), certUsageEmailSigner,
 			       numcerts, rawCerts, NULL, PR_TRUE, PR_FALSE,
 			       NULL);
 	if (srv != SECSuccess) {
@@ -1121,7 +1121,7 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 		rv = FALSE;
 		goto loser;
 	}
-	CERT_SaveSMimeProfile(cert, NULL, NULL);
+	CERT_SaveSMimeProfile (cert, NULL, NULL);
 
 	if (imported_certs) {
 		*imported_certs = NULL;
@@ -1137,12 +1137,12 @@ e_cert_db_import_email_cert (ECertDB *certdb,
 		*imported_certs = g_slist_reverse (*imported_certs);
 	}
 
-	PORT_Free(rawCerts);
+	PORT_Free (rawCerts);
  loser:
 	if (cert)
-		CERT_DestroyCertificate(cert);
+		CERT_DestroyCertificate (cert);
 	if (arena)
-		PORT_FreeArena(arena, PR_TRUE);
+		PORT_FreeArena (arena, PR_TRUE);
 	return rv;
 }
 
@@ -1160,16 +1160,16 @@ default_nickname (CERTCertificate *cert)
 	PK11SlotInfo *slot=NULL;
 	CK_OBJECT_HANDLE keyHandle;
 
-	CERTCertDBHandle *defaultcertdb = CERT_GetDefaultCertDB();
+	CERTCertDBHandle *defaultcertdb = CERT_GetDefaultCertDB ();
 
-	username = CERT_GetCommonName(&cert->subject);
+	username = CERT_GetCommonName (&cert->subject);
 	if (username == NULL)
 		username = PL_strdup("");
 
 	if (username == NULL)
 		goto loser;
 
-	caname = CERT_GetOrgName(&cert->issuer);
+	caname = CERT_GetOrgName (&cert->issuer);
 	if (caname == NULL)
 		caname = PL_strdup("");
 
@@ -1180,19 +1180,19 @@ default_nickname (CERTCertificate *cert)
 
 	nickFmt = "%1$s's %2$s ID";
 
-	nickname = PR_smprintf(nickFmt, username, caname);
+	nickname = PR_smprintf (nickFmt, username, caname);
 	/*
 	 * We need to see if the private key exists on a token, if it does
 	 * then we need to check for nicknames that already exist on the smart
 	 * card.
 	 */
-	slot = PK11_KeyForCertExists(cert, &keyHandle, NULL);
+	slot = PK11_KeyForCertExists (cert, &keyHandle, NULL);
 	if (slot == NULL) {
 		goto loser;
 	}
-	if (!PK11_IsInternal(slot)) {
+	if (!PK11_IsInternal (slot)) {
 		tmp = PR_smprintf("%s:%s", PK11_GetTokenName(slot), nickname);
-		PR_Free(nickname);
+		PR_Free (nickname);
 		nickname = tmp;
 		tmp = NULL;
 	}
@@ -1205,27 +1205,27 @@ default_nickname (CERTCertificate *cert)
 		if (nickname == NULL)
 			goto loser;
 
-		if (PK11_IsInternal(slot)) {
+		if (PK11_IsInternal (slot)) {
 			/* look up the nickname to make sure it isn't in use already */
-			dummycert = CERT_FindCertByNickname(defaultcertdb, nickname);
+			dummycert = CERT_FindCertByNickname (defaultcertdb, nickname);
 
 		} else {
 			/*
 			 * Check the cert against others that already live on the smart
 			 * card.
 			 */
-			dummycert = PK11_FindCertFromNickname(nickname, NULL);
+			dummycert = PK11_FindCertFromNickname (nickname, NULL);
 			if (dummycert != NULL) {
 				/*
 				 * Make sure the subject names are different.
 				 */
-				if (CERT_CompareName(&cert->subject, &dummycert->subject) == SECEqual) {
+				if (CERT_CompareName (&cert->subject, &dummycert->subject) == SECEqual) {
 					/*
 					 * There is another certificate with the same nickname and
 					 * the same subject name on the smart card, so let's use this
 					 * nickname.
 					 */
-					CERT_DestroyCertificate(dummycert);
+					CERT_DestroyCertificate (dummycert);
 					dummycert = NULL;
 				}
 			}
@@ -1234,32 +1234,32 @@ default_nickname (CERTCertificate *cert)
 			goto done;
 
 		/* found a cert, destroy it and loop */
-		CERT_DestroyCertificate(dummycert);
-		if (tmp != nickname) PR_Free(nickname);
+		CERT_DestroyCertificate (dummycert);
+		if (tmp != nickname) PR_Free (nickname);
 		count++;
 	} /* end of while (1) */
 
  loser:
 	if (nickname) {
-		PR_Free(nickname);
+		PR_Free (nickname);
 	}
 	nickname = NULL;
  done:
 	if (caname) {
-		PR_Free(caname);
+		PR_Free (caname);
 	}
 	if (username)  {
-		PR_Free(username);
+		PR_Free (username);
 	}
 	if (slot != NULL) {
-		PK11_FreeSlot(slot);
+		PK11_FreeSlot (slot);
 		if (nickname != NULL) {
 			tmp = nickname;
-			nickname = strchr(tmp, ':');
+			nickname = strchr (tmp, ':');
 			if (nickname != NULL) {
 				nickname++;
-				nickname = PL_strdup(nickname);
-				PR_Free(tmp);
+				nickname = PL_strdup (nickname);
+				PR_Free (tmp);
 				tmp = NULL;
 			} else {
 				nickname = tmp;
@@ -1267,8 +1267,8 @@ default_nickname (CERTCertificate *cert)
 			}
 		}
 	}
-	PR_FREEIF(tmp);
-	return(nickname);
+	PR_FREEIF (tmp);
+	return (nickname);
 }
 
 gboolean
@@ -1286,7 +1286,7 @@ e_cert_db_import_user_cert (ECertDB *certdb,
 	PRArenaPool *arena;
 	CERTCertificate * cert=NULL;
 
-	arena = PORT_NewArena(DER_DEFAULT_CHUNKSIZE);
+	arena = PORT_NewArena (DER_DEFAULT_CHUNKSIZE);
 	if (arena == NULL) {
 		set_nss_error (error);
 		goto loser;
@@ -1298,19 +1298,19 @@ e_cert_db_import_user_cert (ECertDB *certdb,
 		goto loser;
 	}
 
-	cert = CERT_NewTempCertificate(CERT_GetDefaultCertDB(), collectArgs->rawCerts,
+	cert = CERT_NewTempCertificate (CERT_GetDefaultCertDB (), collectArgs->rawCerts,
 				       (gchar *)NULL, PR_FALSE, PR_TRUE);
 	if (!cert) {
 		set_nss_error (error);
 		goto loser;
 	}
 
-	slot = PK11_KeyForCertExists(cert, NULL, NULL);
+	slot = PK11_KeyForCertExists (cert, NULL, NULL);
 	if (slot == NULL) {
 		set_nss_error (error);
 		goto loser;
 	}
-	PK11_FreeSlot(slot);
+	PK11_FreeSlot (slot);
 
 	/* pick a nickname for the cert */
 	if (cert->nickname) {
@@ -1320,31 +1320,31 @@ e_cert_db_import_user_cert (ECertDB *certdb,
 		nickname = cert->nickname;
 	}
 	else {
-		nickname = default_nickname(cert);
+		nickname = default_nickname (cert);
 	}
 
 	/* user wants to import the cert */
-	slot = PK11_ImportCertForKey(cert, nickname, NULL);
+	slot = PK11_ImportCertForKey (cert, nickname, NULL);
 	if (!slot) {
 		set_nss_error (error);
 		goto loser;
 	}
-	PK11_FreeSlot(slot);
+	PK11_FreeSlot (slot);
 	numCACerts = collectArgs->numcerts - 1;
 
 	if (numCACerts) {
 		CACerts = collectArgs->rawCerts+1;
-		if (!CERT_ImportCAChain(CACerts, numCACerts, certUsageUserCertImport)) {
+		if (!CERT_ImportCAChain (CACerts, numCACerts, certUsageUserCertImport)) {
 			rv = TRUE;
 		}
 	}
 
  loser:
 	if (arena) {
-		PORT_FreeArena(arena, PR_FALSE);
+		PORT_FreeArena (arena, PR_FALSE);
 	}
 	if (cert) {
-		CERT_DestroyCertificate(cert);
+		CERT_DestroyCertificate (cert);
 	}
 	return rv;
 }
@@ -1491,10 +1491,10 @@ e_cert_db_login_to_slot (ECertDB *cert_db,
 			PK11_InitPin (slot, "", pwd);
 		}
 
-		PK11_SetPasswordFunc(pk11_password);
+		PK11_SetPasswordFunc (pk11_password);
 		if (PK11_Authenticate (slot, PR_TRUE, NULL) != SECSuccess) {
 			printf ("PK11_Authenticate failed (err = %d/%d)\n",
-				PORT_GetError(), PORT_GetError() + 0x2000);
+				PORT_GetError (), PORT_GetError () + 0x2000);
 			return FALSE;
 		}
 	}

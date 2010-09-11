@@ -161,7 +161,7 @@ create_folder_done (struct _EMCreateFolder *m)
 			(ssi->sf)->cnc = ccnc;
 
 			(ssi->sf)->container_id = g_strdup (get_container_id ((ssi->sf)->cnc, m->full_name));
-			share_folder(ssi->sf);
+			share_folder (ssi->sf);
 		}
 
 		m->done (m, m->user_data);
@@ -233,7 +233,7 @@ create_folder (CamelStore *store, const gchar *full_name, void (* done) (struct 
 }
 
 static void
-users_dialog_response(GtkWidget *dialog, gint response, struct ShareInfo *ssi)
+users_dialog_response (GtkWidget *dialog, gint response, struct ShareInfo *ssi)
 {
 	struct _EMFolderTreeModelStoreInfo *si;
 	EMFolderSelector *emfs = ssi->emfs;
@@ -242,7 +242,7 @@ users_dialog_response(GtkWidget *dialog, gint response, struct ShareInfo *ssi)
 
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy ((GtkWidget *) emfs);
-		gtk_widget_destroy(dialog);
+		gtk_widget_destroy (dialog);
 		return;
 	}
 
@@ -262,16 +262,16 @@ users_dialog_response(GtkWidget *dialog, gint response, struct ShareInfo *ssi)
 		return;
 	}
 
-	if (CAMEL_IS_VEE_STORE(store)) {
+	if (CAMEL_IS_VEE_STORE (store)) {
 		EMVFolderRule *rule;
 
 		/* ensures vfolder is running */
 		vfolder_load_storage ();
 
-		rule = em_vfolder_rule_new();
-		e_filter_rule_set_name((EFilterRule *)rule, path);
-		vfolder_gui_add_rule(rule);
-		gtk_widget_destroy((GtkWidget *)emfs);
+		rule = em_vfolder_rule_new ();
+		e_filter_rule_set_name ((EFilterRule *)rule, path);
+		vfolder_gui_add_rule (rule);
+		gtk_widget_destroy ((GtkWidget *)emfs);
 	} else {
 		g_object_ref (emfs);
 		ssi->d = dialog;
@@ -292,7 +292,7 @@ new_folder_response (EMFolderSelector *emfs, gint response, EMFolderTreeModel *m
 	EGwConnection *cnc;
 	CamelStore *store;
 
-	ssi = g_new0(struct ShareInfo, 1);
+	ssi = g_new0 (struct ShareInfo, 1);
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy ((GtkWidget *) emfs);
 		return;
@@ -309,17 +309,17 @@ new_folder_response (EMFolderSelector *emfs, gint response, EMFolderTreeModel *m
 	users_dialog = gtk_dialog_new_with_buttons (
 			_("Users"), NULL, GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 	w = gtk_label_new_with_mnemonic (_("Enter the users and set permissions"));
-	gtk_widget_show(w);
+	gtk_widget_show (w);
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (users_dialog));
-	gtk_box_pack_start(GTK_BOX (content_area), (GtkWidget *) w, TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (content_area), (GtkWidget *) w, TRUE, TRUE, 6);
 	ssi->sf = share_folder_new (cnc, NULL);
 	gtk_widget_set_sensitive (GTK_WIDGET ((ssi->sf)->table), TRUE);
 	ssi->model = model;
 	ssi->emfs = emfs;
 	gtk_widget_reparent (GTK_WIDGET ((ssi->sf)->table), content_area);
-	gtk_widget_hide((GtkWidget*) emfs);
+	gtk_widget_hide ((GtkWidget*) emfs);
 	gtk_window_resize (GTK_WINDOW (users_dialog), 350, 300);
-	gtk_widget_show(users_dialog);
+	gtk_widget_show (users_dialog);
 	g_signal_connect (users_dialog, "response", G_CALLBACK (users_dialog_response), ssi);
 
 	g_object_unref (store);
@@ -343,11 +343,11 @@ gw_new_shared_folder_cb (GtkAction *action, EShellView *shell_view)
 	uri = em_folder_tree_get_selected_uri (folder_tree);
 	if (uri != NULL)
 		em_folder_selector_set_selected ((EMFolderSelector *) dialog, uri);
-	g_free(uri);
+	g_free (uri);
 
 	g_signal_connect (dialog, "response", G_CALLBACK (new_folder_response), gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree)));
 	gtk_window_set_title (GTK_WINDOW (dialog), "New Shared Folder" );
-	gtk_widget_show(dialog);
+	gtk_widget_show (dialog);
 }
 
 GtkWidget *
@@ -364,7 +364,7 @@ org_gnome_shared_folder_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_d
 	CamelFolder *folder = target->folder;
 
 	folder_name = g_strdup (camel_folder_get_full_name (folder));
-	folderuri = g_strdup(target->uri);
+	folderuri = g_strdup (target->uri);
 	if (folderuri && folder_name)
 		account = g_strrstr(folderuri, "groupwise");
 	else
@@ -424,7 +424,7 @@ get_cnc (CamelStore *store)
 		if (!store)
 			return  NULL;
 
-		service = CAMEL_SERVICE(store);
+		service = CAMEL_SERVICE (store);
 		url = service->url;
 		server_name = g_strdup (url->host);
 		user = g_strdup (url->user);
@@ -432,7 +432,7 @@ get_cnc (CamelStore *store)
 		use_ssl = g_strdup (camel_url_get_param (url, "use_ssl"));
 		if (property_value == NULL)
 			port = g_strdup ("7191");
-		else if (strlen(property_value) == 0)
+		else if (strlen (property_value) == 0)
 			port = g_strdup ("7191");
 		else
 			port = g_strdup (property_value);
@@ -456,7 +456,7 @@ get_cnc (CamelStore *store)
 }
 
 gchar *
-get_container_id(EGwConnection *cnc, const gchar *fname)
+get_container_id (EGwConnection *cnc, const gchar *fname)
 {
 	GList *container_list = NULL;
 	gchar *id = NULL;

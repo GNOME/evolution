@@ -47,7 +47,7 @@ void e_minicard_view_a11y_init (void)
 
 	if (atk_get_root ()) {
 		g_signal_add_emission_hook (g_signal_lookup ("event",
-					    e_minicard_get_type()),
+					    e_minicard_get_type ()),
 					    0, ea_addressbook_focus_watcher,
 					    NULL, (GDestroyNotify) NULL);
 	}

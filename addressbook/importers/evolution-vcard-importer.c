@@ -64,7 +64,7 @@ typedef struct {
 	EBook *book;
 } VCardImporter;
 
-static void vcard_import_done(VCardImporter *gci);
+static void vcard_import_done (VCardImporter *gci);
 
 static void
 add_to_notes (EContact *contact, EContactField field)
@@ -91,7 +91,7 @@ add_to_notes (EContact *contact, EContactField field)
 }
 
 static void
-vcard_import_contact(VCardImporter *gci, EContact *contact)
+vcard_import_contact (VCardImporter *gci, EContact *contact)
 {
 	EContactPhoto *photo;
 	GList *attrs, *attr;
@@ -239,7 +239,7 @@ vcard_import_contact(VCardImporter *gci, EContact *contact)
 }
 
 static gboolean
-vcard_import_contacts(gpointer data)
+vcard_import_contacts (gpointer data)
 {
 	VCardImporter *gci = data;
 	gint count = 0;
@@ -247,7 +247,7 @@ vcard_import_contacts(gpointer data)
 
 	if (gci->state == 0) {
 		while (count < 50 && iterator) {
-			vcard_import_contact(gci, iterator->data);
+			vcard_import_contact (gci, iterator->data);
 			count++;
 			iterator = iterator->next;
 		}
@@ -257,7 +257,7 @@ vcard_import_contacts(gpointer data)
 			gci->state = 1;
 	}
 	if (gci->state == 1) {
-		vcard_import_done(gci);
+		vcard_import_done (gci);
 		return FALSE;
 	} else {
 		e_import_status (
@@ -385,12 +385,12 @@ static void
 primary_selection_changed_cb (ESourceSelector *selector, EImportTarget *target)
 {
 	g_datalist_set_data_full(&target->data, "vcard-source",
-				 g_object_ref(e_source_selector_peek_primary_selection(selector)),
+				 g_object_ref (e_source_selector_peek_primary_selection (selector)),
 				 g_object_unref);
 }
 
 static GtkWidget *
-vcard_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
+vcard_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *vbox, *selector;
 	ESource *primary;
@@ -409,7 +409,7 @@ vcard_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 	primary = g_datalist_get_data(&target->data, "vcard-source");
 	if (primary == NULL) {
 		primary = e_source_list_peek_source_any (source_list);
-		g_object_ref(primary);
+		g_object_ref (primary);
 		g_datalist_set_data_full (
 			&target->data, "vcard-source", primary,
 			(GDestroyNotify) g_object_unref);
@@ -428,7 +428,7 @@ vcard_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static gboolean
-vcard_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
+vcard_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	EImportTargetURI *s;
 	gchar *filename;
@@ -447,29 +447,29 @@ vcard_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
 	if (filename == NULL)
 		return FALSE;
-	retval = (guess_vcard_encoding(filename) != VCARD_ENCODING_NONE);
+	retval = (guess_vcard_encoding (filename) != VCARD_ENCODING_NONE);
 	g_free (filename);
 
 	return retval;
 }
 
 static void
-vcard_import_done(VCardImporter *gci)
+vcard_import_done (VCardImporter *gci)
 {
 	if (gci->idle_id)
-		g_source_remove(gci->idle_id);
+		g_source_remove (gci->idle_id);
 
 	g_object_unref (gci->book);
 	g_list_foreach (gci->contactlist, (GFunc) g_object_unref, NULL);
 	g_list_free (gci->contactlist);
 
-	e_import_complete(gci->import, gci->target);
-	g_object_unref(gci->import);
+	e_import_complete (gci->import, gci->target);
+	g_object_unref (gci->import);
 	g_free (gci);
 }
 
 static void
-vcard_import(EImport *ei, EImportTarget *target, EImportImporter *im)
+vcard_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	VCardImporter *gci;
 	gchar *contents;
@@ -478,18 +478,18 @@ vcard_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	EImportTargetURI *s = (EImportTargetURI *)target;
 	gchar *filename;
 
-	filename = g_filename_from_uri(s->uri_src, NULL, NULL);
+	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
 	if (filename == NULL) {
 		g_message(G_STRLOC ": Couldn't get filename from URI '%s'", s->uri_src);
-		e_import_complete(ei, target);
+		e_import_complete (ei, target);
 		return;
 	}
-	encoding = guess_vcard_encoding(filename);
+	encoding = guess_vcard_encoding (filename);
 	if (encoding == VCARD_ENCODING_NONE) {
 		g_free (filename);
 		/* This check is superfluous, we've already
 		 * checked otherwise we can't get here ... */
-		e_import_complete(ei, target);
+		e_import_complete (ei, target);
 		return;
 	}
 
@@ -497,22 +497,22 @@ vcard_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (book == NULL) {
 		g_message(G_STRLOC ":Couldn't create EBook.");
 		g_free (filename);
-		e_import_complete(ei, target);
+		e_import_complete (ei, target);
 		return;
 	}
 
 	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
 		g_message (G_STRLOC ":Couldn't read file.");
 		g_free (filename);
-		e_import_complete(ei, target);
-		g_object_unref(book);
+		e_import_complete (ei, target);
+		g_object_unref (book);
 		return;
 	}
 
 	g_free (filename);
-	gci = g_malloc0(sizeof(*gci));
+	gci = g_malloc0 (sizeof (*gci));
 	g_datalist_set_data(&target->data, "vcard-data", gci);
-	gci->import = g_object_ref(ei);
+	gci->import = g_object_ref (ei);
 	gci->target = target;
 	gci->book = book;
 
@@ -535,16 +535,16 @@ vcard_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	gci->contactlist = eab_contact_list_from_string (contents);
 	g_free (contents);
 	gci->iterator = gci->contactlist;
-	gci->total = g_list_length(gci->contactlist);
+	gci->total = g_list_length (gci->contactlist);
 
 	if (gci->iterator)
-		gci->idle_id = g_idle_add(vcard_import_contacts, gci);
+		gci->idle_id = g_idle_add (vcard_import_contacts, gci);
 	else
-		vcard_import_done(gci);
+		vcard_import_done (gci);
 }
 
 static void
-vcard_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
+vcard_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	VCardImporter *gci = g_datalist_get_data(&target->data, "vcard-data");
 
@@ -618,7 +618,7 @@ static EImportImporter vcard_importer = {
 };
 
 EImportImporter *
-evolution_vcard_importer_peek(void)
+evolution_vcard_importer_peek (void)
 {
 	vcard_importer.name = _("vCard (.vcf, .gcrd)");
 	vcard_importer.description = _("Evolution vCard Importer");

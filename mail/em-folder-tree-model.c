@@ -218,7 +218,7 @@ account_changed_cb (EAccountList *accounts,
 	if (!account->enabled ||!(uri = account->source->url))
 		return;
 
-	if (!(provider = camel_provider_get(uri, NULL)))
+	if (!(provider = camel_provider_get (uri, NULL)))
 		return;
 
 	/* make sure the new store belongs in the tree */
@@ -717,7 +717,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 			if (camel_store_folder_uri_equal (si->store, fi->uri, curi)) {
 				add_flags = CAMEL_FOLDER_TYPE_SENT;
 			}
-			g_free(curi);
+			g_free (curi);
 		}
 	}
 
@@ -832,9 +832,9 @@ folder_subscribed (CamelStore *store,
 		goto done;
 
 	/* Get our parent folder's path. */
-	dirname = g_alloca(strlen(fi->full_name)+1);
-	strcpy(dirname, fi->full_name);
-	p = strrchr(dirname, '/');
+	dirname = g_alloca (strlen (fi->full_name)+1);
+	strcpy (dirname, fi->full_name);
+	p = strrchr (dirname, '/');
 	if (p == NULL) {
 		/* User subscribed to a toplevel folder. */
 		reference = si->row;
@@ -998,7 +998,7 @@ folder_renamed (CamelStore *store,
 	em_folder_tree_model_remove_folders (model, si, &iter);
 
 	parent = g_strdup (info->new->full_name);
-	p = strrchr(parent, '/');
+	p = strrchr (parent, '/');
 	if (p)
 		*p = 0;
 	if (p == NULL || parent == p)

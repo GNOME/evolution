@@ -58,5 +58,5 @@ proxyLogin* proxy_dialog_new (void);
 static void proxy_soap_login (gchar *email, GtkWindow *error_parent);
 gchar *parse_email_for_name (gchar *email);
 static void proxy_login_update_tree (void);
-static void proxy_login_tree_view_changed_cb(GtkDialog *dialog);
+static void proxy_login_tree_view_changed_cb (GtkDialog *dialog);
 static gint proxy_get_password (EAccount *account, gchar **user_name, gchar **password);

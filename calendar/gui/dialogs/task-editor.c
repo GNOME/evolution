@@ -335,7 +335,7 @@ task_editor_init (TaskEditor *te)
 		G_CALLBACK (gtk_widget_hide), NULL);
 	g_signal_connect (
 		te->priv->task_details_window, "delete-event",
-		G_CALLBACK(gtk_widget_hide), NULL);
+		G_CALLBACK (gtk_widget_hide), NULL);
 
 	te->priv->task_details_page = task_details_page_new (editor);
 	content_area = gtk_dialog_get_content_area (
@@ -434,18 +434,18 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 			EIterator *it;
 
 			accounts = itip_addresses_get ();
-			for (it = e_list_get_iterator((EList *)accounts);
-				e_iterator_is_valid(it);
-				e_iterator_next(it)) {
+			for (it = e_list_get_iterator ((EList *)accounts);
+				e_iterator_is_valid (it);
+				e_iterator_next (it)) {
 				EMeetingAttendee *ia;
 
-				account = (EAccount*)e_iterator_get(it);
+				account = (EAccount*)e_iterator_get (it);
 
 				ia = e_meeting_store_find_attendee (priv->model, account->id->address, &row);
 				if (ia != NULL)
 					e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_STATUS);
 			}
-			g_object_unref(it);
+			g_object_unref (it);
 		} else if (e_cal_get_organizer_must_attend (client)) {
 			EMeetingAttendee *ia;
 

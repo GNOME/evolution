@@ -200,7 +200,7 @@ add_esource (const gchar *conf_key, GwAccountInfo *info,  const gchar *source_na
 
 	offline_sync = camel_url_get_param (url, "offline_sync");
 
-	client = gconf_client_get_default();
+	client = gconf_client_get_default ();
 	source_list = e_source_list_new_for_gconf (client, conf_key);
 	group = e_source_group_new (group_name,  GROUPWISE_URI_PREFIX);
 
@@ -275,7 +275,7 @@ remove_esource (const gchar *conf_key, const gchar *group_name, gchar * source_n
 	GSList *node_tobe_deleted;
 	const gchar *source_selection_key;
 
-        client = gconf_client_get_default();
+        client = gconf_client_get_default ();
         list = e_source_list_new_for_gconf (client, conf_key);
 	groups = e_source_list_peek_groups (list);
 
@@ -518,7 +518,7 @@ get_addressbook_names_from_server (gchar *source_url)
 
 		cnc = e_gw_connection_new (uri, url->user, password);
 		g_free (password);
-		if (!E_IS_GW_CONNECTION(cnc)) {
+		if (!E_IS_GW_CONNECTION (cnc)) {
 			if (count == 3)
 				break;
 		}
@@ -529,7 +529,7 @@ get_addressbook_names_from_server (gchar *source_url)
 
 	g_free (key);
 
-	if (E_IS_GW_CONNECTION(cnc))  {
+	if (E_IS_GW_CONNECTION (cnc))  {
 		book_list = NULL;
 		status = e_gw_connection_get_address_book_list (cnc, &book_list);
 		if (status == E_GW_CONNECTION_STATUS_OK)
@@ -603,11 +603,11 @@ add_addressbook_sources (EAccount *account)
 	if (!temp_list)
 		return FALSE;
 	for (; temp_list != NULL; temp_list = g_list_next (temp_list)) {
-		const gchar *book_name =  e_gw_container_get_name (E_GW_CONTAINER(temp_list->data));
+		const gchar *book_name =  e_gw_container_get_name (E_GW_CONTAINER (temp_list->data));
 		/* is_writable is set to TRUE if the book has isPersonal property,
 		 * by e_gw_connection_get_address_book_list()
 		 */
-		is_writable = e_gw_container_get_is_writable (E_GW_CONTAINER(temp_list->data));
+		is_writable = e_gw_container_get_is_writable (E_GW_CONTAINER (temp_list->data));
 		if (is_writable &&
 		    !g_ascii_strncasecmp (book_name, "Novell GroupWise Address Book", strlen (book_name))) {
 			/* This is a hack to not to show multiple groupwise system address books
@@ -711,7 +711,7 @@ modify_addressbook_sources ( EAccount *account, GwAccountInfo *existing_account_
 	for (; groups != NULL &&  !found_group; groups = g_slist_next (groups)) {
 
 		group = E_SOURCE_GROUP (groups->data);
-		if ( strcmp ( e_source_group_peek_base_uri(group), old_base_uri) == 0 && strcmp (e_source_group_peek_name (group), existing_account_info->name) == 0) {
+		if ( strcmp ( e_source_group_peek_base_uri (group), old_base_uri) == 0 && strcmp (e_source_group_peek_name (group), existing_account_info->name) == 0) {
 			found_group = TRUE;
 			if (!delete_group) {
 				e_source_group_set_name (group, account->name);
@@ -812,7 +812,7 @@ account_added (EAccountList *account_listener, EAccount *account)
 		if (!parent)
 			return;
 
-		parent_url = camel_url_new (e_account_get_string(parent, E_ACCOUNT_SOURCE_URL), NULL);
+		parent_url = camel_url_new (e_account_get_string (parent, E_ACCOUNT_SOURCE_URL), NULL);
 		add_proxy_sources (info, parent_url->user);
 	} else {
 		status = add_addressbook_sources (account);
@@ -1035,7 +1035,7 @@ camel_gw_listener_new (void)
 	CamelGwListener *config_listener;
 
 	config_listener = g_object_new (CAMEL_TYPE_GW_LISTENER, NULL);
-	config_listener->priv->gconf_client = gconf_client_get_default();
+	config_listener->priv->gconf_client = gconf_client_get_default ();
 
 	camel_gw_listener_construct (config_listener);
 

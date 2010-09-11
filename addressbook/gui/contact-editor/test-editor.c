@@ -76,7 +76,7 @@ editor_closed_cb (EContactEditor *ce, gpointer data)
 		exit (0);
 }
 
-gint main( gint argc, gchar *argv[] )
+gint main ( gint argc, gchar *argv[] )
 {
 	gchar *cardstr;
 	EContactEditor *ce;
@@ -98,7 +98,7 @@ gint main( gint argc, gchar *argv[] )
 	g_signal_connect (ce, "editor_closed",
 			  G_CALLBACK (editor_closed_cb), NULL);
 
-	gtk_main();
+	gtk_main ();
 
 	/* Not reached. */
 	return 0;

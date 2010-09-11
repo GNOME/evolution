@@ -33,7 +33,7 @@
 static CamelGwListener *config_listener = NULL;
 
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
-GtkWidget* org_gnome_gw_account_setup(struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
+GtkWidget* org_gnome_gw_account_setup (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 void ensure_mandatory_esource_properties (EPlugin *ep, ESEventTargetUpgrade *target);
 
 static gboolean
@@ -88,15 +88,15 @@ ensure_mandatory_esource_properties (EPlugin *ep, ESEventTargetUpgrade *target)
 	EAccountList *al;
 	EIterator *it;
 
-	client = gconf_client_get_default();
+	client = gconf_client_get_default ();
 	al = e_account_list_new (client);
 
-	for (it = e_list_get_iterator((EList *)al);
-			e_iterator_is_valid(it);
-			e_iterator_next(it)) {
+	for (it = e_list_get_iterator ((EList *)al);
+			e_iterator_is_valid (it);
+			e_iterator_next (it)) {
 		EAccount *a;
 
-		a = (EAccount *) e_iterator_get(it);
+		a = (EAccount *) e_iterator_get (it);
 		if (!a->enabled || !is_groupwise_account (a))
 			continue;
 		set_esource_props ("/apps/evolution/calendar/sources", a, client, a->name);
@@ -124,10 +124,10 @@ e_plugin_lib_enable (EPlugin *ep, gint enable)
 	return 0;
 }
 
-GtkWidget * org_gnome_groupwise_account_setup(struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
+GtkWidget * org_gnome_groupwise_account_setup (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
 GtkWidget *
-org_gnome_groupwise_account_setup(struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
+org_gnome_groupwise_account_setup (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data)
 {
 	if (data->old)
 		return data->old;

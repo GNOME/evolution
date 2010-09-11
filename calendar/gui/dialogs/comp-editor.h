@@ -150,7 +150,7 @@ void		comp_editor_delete_comp		(CompEditor *editor);
 gboolean	comp_editor_send_comp		(CompEditor *editor,
 						 ECalComponentItipMethod method,
 						 gboolean strip_alarms);
-GSList *	comp_editor_get_mime_attach_list(CompEditor *editor);
+GSList *	comp_editor_get_mime_attach_list (CompEditor *editor);
 gboolean	comp_editor_close		(CompEditor *editor);
 
 void		comp_editor_sensitize_attachment_bar

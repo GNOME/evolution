@@ -410,7 +410,7 @@ e_week_view_layout_get_day_position	(gint		 day,
 /* Returns TRUE if the event span is visible or FALSE if it isn't.
    It also returns the number of days of the span that are visible.
    Usually this can easily be determined by the start & end days and row of
-   the span, which are set in e_week_view_layout_event(). Though we need a
+   the span, which are set in e_week_view_layout_event (). Though we need a
    special case for the weekends when they are compressed, since the span may
    not fit. */
 gboolean

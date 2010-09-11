@@ -39,7 +39,7 @@ write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream, gin
 	ECal *client = NULL;
 	GList *objects;
 	icaltimezone *utc;
-	time_t start = time(NULL), end;
+	time_t start = time (NULL), end;
 	icalcomponent *top_level;
 	gchar *email = NULL;
 	GList *users = NULL;

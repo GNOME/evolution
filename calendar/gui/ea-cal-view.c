@@ -49,11 +49,11 @@ static void atk_action_interface_init (AtkActionIface *iface);
 static gboolean action_interface_do_action (AtkAction *action, gint i);
 static gint action_interface_get_n_actions (AtkAction *action);
 static G_CONST_RETURN gchar *
-action_interface_get_description(AtkAction *action, gint i);
+action_interface_get_description (AtkAction *action, gint i);
 static G_CONST_RETURN gchar *
 action_interface_get_keybinding (AtkAction *action, gint i);
 static G_CONST_RETURN gchar *
-action_interface_action_get_name(AtkAction *action, gint i);
+action_interface_action_get_name (AtkAction *action, gint i);
 
 static gpointer parent_class = NULL;
 
@@ -185,7 +185,7 @@ ea_cal_view_get_parent (AtkObject *accessible)
 	cal_view = E_CALENDAR_VIEW (widget);
 	gnomeCalendar = e_calendar_view_get_calendar (cal_view);
 
-	return gtk_widget_get_accessible (GTK_WIDGET(gnomeCalendar));
+	return gtk_widget_get_accessible (GTK_WIDGET (gnomeCalendar));
 }
 
 static void
@@ -197,7 +197,7 @@ ea_cal_view_event_changed_cb (ECalendarView *cal_view, ECalendarViewEvent *event
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
-	atk_obj = gtk_widget_get_accessible (GTK_WIDGET(cal_view));
+	atk_obj = gtk_widget_get_accessible (GTK_WIDGET (cal_view));
 	if (!EA_IS_CAL_VIEW (atk_obj))
 		return;
 
@@ -235,7 +235,7 @@ ea_cal_view_event_added_cb (ECalendarView *cal_view, ECalendarViewEvent *event,
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
-	atk_obj = gtk_widget_get_accessible (GTK_WIDGET(cal_view));
+	atk_obj = gtk_widget_get_accessible (GTK_WIDGET (cal_view));
 	if (!EA_IS_CAL_VIEW (atk_obj))
 		return;
 
@@ -274,7 +274,7 @@ idle_dates_changed (gpointer data)
 	g_return_val_if_fail (data, FALSE);
 	g_return_val_if_fail (EA_IS_CAL_VIEW (data), FALSE);
 
-	ea_cal_view = ATK_OBJECT(data);
+	ea_cal_view = ATK_OBJECT (data);
 
 	if (ea_cal_view->name) {
 		g_free (ea_cal_view->name);
@@ -382,7 +382,7 @@ action_interface_get_n_actions (AtkAction *action)
 }
 
 static G_CONST_RETURN gchar *
-action_interface_get_description(AtkAction *action, gint index)
+action_interface_get_description (AtkAction *action, gint index)
 {
 	return action_interface_action_get_name (action, index);
 }
@@ -425,7 +425,7 @@ action_interface_get_keybinding (AtkAction *action, gint index)
 }
 
 static G_CONST_RETURN gchar *
-action_interface_action_get_name(AtkAction *action, gint i)
+action_interface_action_get_name (AtkAction *action, gint i)
 {
 	if (i >= 0 && i < CAL_VIEW_ACTION_NUM)
 		return action_name[i];

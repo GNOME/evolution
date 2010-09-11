@@ -88,6 +88,6 @@ typedef struct _MailAccountViewClass {
 
 GType mail_account_view_get_type (void);
 MailAccountView *mail_account_view_new (EAccount *account);
-GtkWidget * mail_account_view_get_tab_widget(MailAccountView *mcv);
+GtkWidget * mail_account_view_get_tab_widget (MailAccountView *mcv);
 void mail_account_view_activate (MailAccountView *mcv, GtkWidget *tree, GtkWidget *folder_tree, GtkWidget *check_mail, GtkWidget *sort_by, gboolean act);
 #endif

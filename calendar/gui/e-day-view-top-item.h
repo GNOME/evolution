@@ -70,8 +70,8 @@ void		e_day_view_top_item_get_day_label
 						 gint day,
 						 gchar *buffer,
 						 gint buffer_len);
-EDayView *	e_day_view_top_item_get_day_view(EDayViewTopItem *top_item);
-void		e_day_view_top_item_set_day_view(EDayViewTopItem *top_item,
+EDayView *	e_day_view_top_item_get_day_view (EDayViewTopItem *top_item);
+void		e_day_view_top_item_set_day_view (EDayViewTopItem *top_item,
 						 EDayView *day_view);
 gboolean	e_day_view_top_item_get_show_dates
 						(EDayViewTopItem *top_item);

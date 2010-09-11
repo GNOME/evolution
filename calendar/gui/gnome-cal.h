@@ -135,7 +135,7 @@ void		gnome_calendar_next		(GnomeCalendar *gcal);
 void		gnome_calendar_previous		(GnomeCalendar *gcal);
 void		gnome_calendar_goto		(GnomeCalendar *gcal,
 						 time_t new_time);
-void		gnome_calendar_update_view_times(GnomeCalendar *gcal,
+void		gnome_calendar_update_view_times (GnomeCalendar *gcal,
 						 time_t start_time);
 void		gnome_calendar_dayjump		(GnomeCalendar *gcal,
 						 time_t time);
@@ -149,7 +149,7 @@ void		gnome_calendar_display_view	(GnomeCalendar *gcal,
 						 GnomeCalendarViewType view_type);
 
 struct _ECalendarView *
-		gnome_calendar_get_calendar_view(GnomeCalendar *gcal,
+		gnome_calendar_get_calendar_view (GnomeCalendar *gcal,
 						 GnomeCalendarViewType view_type);
 
 gboolean	gnome_calendar_get_range_selected

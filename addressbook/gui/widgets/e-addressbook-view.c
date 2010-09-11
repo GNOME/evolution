@@ -316,13 +316,13 @@ addressbook_view_create_table_view (EAddressbookView *view,
 
 	g_signal_connect (
 		widget, "double_click",
-		G_CALLBACK(table_double_click), view);
+		G_CALLBACK (table_double_click), view);
 	g_signal_connect (
 		widget, "right_click",
-		G_CALLBACK(table_right_click), view);
+		G_CALLBACK (table_right_click), view);
 	g_signal_connect (
 		widget, "white_space_event",
-		G_CALLBACK(table_white_space_event), view);
+		G_CALLBACK (table_white_space_event), view);
 	g_signal_connect_swapped (
 		widget, "selection_change",
 		G_CALLBACK (addressbook_view_emit_selection_change), view);
@@ -748,7 +748,7 @@ addressbook_view_class_init (EAddressbookViewClass *class)
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EAddressbookViewPrivate));
 
-	object_class = G_OBJECT_CLASS(class);
+	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = addressbook_view_set_property;
 	object_class->get_property = addressbook_view_get_property;
 	object_class->dispose = addressbook_view_dispose;
@@ -1174,7 +1174,7 @@ contact_print_button_draw_page (GtkPrintOperation *operation,
 
 	while (e_printable_data_left (printable)) {
 		cairo_save (cr);
-		contact_page_draw_footer(operation,context,page_nr++);
+		contact_page_draw_footer (operation,context,page_nr++);
 		e_printable_print_page (
 			printable, context, page_width - 16, top_margin + 10, TRUE);
 		cairo_restore (cr);
@@ -1336,7 +1336,7 @@ addressbook_view_confirm_delete (GtkWindow *parent,
 }
 
 void
-e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
+e_addressbook_view_delete_selection (EAddressbookView *view, gboolean is_delete)
 {
 	GList *list, *l;
 	gboolean plural = FALSE, is_list = FALSE;
@@ -1360,7 +1360,7 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 	list = e_addressbook_view_get_selected (view);
 	contact = list->data;
 
-	if (g_list_next(list))
+	if (g_list_next (list))
 		plural = TRUE;
 	else
 		name = e_contact_get (contact, E_CONTACT_FILE_AS);
@@ -1382,7 +1382,7 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 
 	/* confirm delete */
 	if (is_delete && !addressbook_view_confirm_delete (
-			GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET(view))),
+			GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (view))),
 			plural, is_list, name)) {
 		g_free (name);
 		g_list_foreach (list, (GFunc) g_object_unref, NULL);
@@ -1393,7 +1393,7 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 	if (e_book_check_static_capability (book, "bulk-remove")) {
 		GList *ids = NULL;
 
-		for (l=list;l;l=g_list_next(l)) {
+		for (l=list;l;l=g_list_next (l)) {
 			contact = l->data;
 
 			ids = g_list_prepend (ids, (gchar *)e_contact_get_const (contact, E_CONTACT_UID));
@@ -1408,7 +1408,7 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 		g_list_free (ids);
 	}
 	else {
-		for (l=list;l;l=g_list_next(l)) {
+		for (l=list;l;l=g_list_next (l)) {
 			contact = l->data;
 			/* Remove the card. */
 			e_book_remove_contact_async (book,
@@ -1437,7 +1437,7 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 		select = e_table_model_to_view_row (E_TABLE (etable), row);
 
 	/* Sets the cursor, before the deleted row if its the last row */
-		if (select == e_table_model_row_count (E_TABLE(etable)->model) - 1)
+		if (select == e_table_model_row_count (E_TABLE (etable)->model) - 1)
 			select = select - 1;
 		else
 			select = select + 1;
@@ -1539,7 +1539,7 @@ view_transfer_contacts (EAddressbookView *view,
 
 	eab_transfer_contacts (book, contacts, delete_from_source, parent);
 
-	g_object_unref(book);
+	g_object_unref (book);
 }
 
 void

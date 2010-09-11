@@ -174,7 +174,7 @@ setup_e_table (ECalListView *cal_list_view)
 
 	/* Create the header columns */
 
-	extras = e_table_extras_new();
+	extras = e_table_extras_new ();
 
 	/* Normal string fields */
 

@@ -54,6 +54,6 @@ typedef struct _MailSettingsViewClass {
 
 GType mail_settings_view_get_type (void);
 MailSettingsView *mail_settings_view_new (void);
-GtkWidget * mail_settings_view_get_tab_widget(MailSettingsView *mcv);
+GtkWidget * mail_settings_view_get_tab_widget (MailSettingsView *mcv);
 void mail_settings_view_activate (MailSettingsView *mcv, GtkWidget *tree, GtkWidget *folder_tree, GtkWidget *check_mail, GtkWidget *sort_by, GtkWidget *slider, gboolean act);
 #endif

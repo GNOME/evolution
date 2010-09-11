@@ -78,7 +78,7 @@ itip_addresses_get (void)
 EAccount *
 itip_addresses_get_default (void)
 {
-	return (EAccount *)e_account_list_get_default(itip_addresses_get());
+	return (EAccount *)e_account_list_get_default (itip_addresses_get ());
 }
 
 gboolean
@@ -109,7 +109,7 @@ itip_organizer_is_user_ex (ECalComponent *comp, ECal *client, gboolean skip_cap_
 			return FALSE;
 		}
 
-		user_org = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
+		user_org = e_account_list_find (itip_addresses_get (), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
 	}
 
 	return user_org;
@@ -134,7 +134,7 @@ itip_sentby_is_user (ECalComponent *comp, ECal *client)
 	e_cal_component_get_organizer (comp, &organizer);
 	if (organizer.sentby != NULL) {
 		strip = itip_strip_mailto (organizer.sentby);
-		user_sentby = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
+		user_sentby = e_account_list_find (itip_addresses_get (), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
 	}
 
 	return user_sentby;
@@ -229,10 +229,10 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 		address = NULL;
 	}
 
-	for (it = e_list_get_iterator((EList *)al);
-			e_iterator_is_valid(it);
-			e_iterator_next(it)) {
-		a = (EAccount *) e_iterator_get(it);
+	for (it = e_list_get_iterator ((EList *)al);
+			e_iterator_is_valid (it);
+			e_iterator_next (it)) {
+		a = (EAccount *) e_iterator_get (it);
 
 		if (!a->enabled)
 			continue;
@@ -881,7 +881,7 @@ comp_limit_attendees (ECalComponent *comp)
 		attendee_text = g_strdup (itip_strip_mailto (attendee));
 		g_free (attendee);
 		attendee_text = g_strstrip (attendee_text);
-		found = match = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, attendee_text) != NULL;
+		found = match = e_account_list_find (itip_addresses_get (), E_ACCOUNT_FIND_ID_ADDRESS, attendee_text) != NULL;
 
 		if (!found) {
 			param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
@@ -889,11 +889,11 @@ comp_limit_attendees (ECalComponent *comp)
 				attendee_sentby = icalparameter_get_sentby (param);
 				attendee_sentby_text = g_strdup (itip_strip_mailto (attendee_sentby));
 				attendee_sentby_text = g_strstrip (attendee_sentby_text);
-				found = match = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, attendee_sentby_text) != NULL;
+				found = match = e_account_list_find (itip_addresses_get (), E_ACCOUNT_FIND_ID_ADDRESS, attendee_sentby_text) != NULL;
 			}
 		}
 
-		g_free(attendee_text);
+		g_free (attendee_text);
 		g_free (attendee_sentby_text);
 
 		if (!match)

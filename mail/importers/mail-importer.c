@@ -76,7 +76,7 @@ static struct {
 };
 
 static guint32
-decode_status(const gchar *status)
+decode_status (const gchar *status)
 {
 	const gchar *p;
 	guint32 flags = 0;
@@ -93,9 +93,9 @@ decode_status(const gchar *status)
 }
 
 static guint32
-decode_mozilla_status(const gchar *tmp)
+decode_mozilla_status (const gchar *tmp)
 {
-	unsigned long status = strtoul(tmp, NULL, 16);
+	unsigned long status = strtoul (tmp, NULL, 16);
 	guint32 flags = 0;
 	gint i;
 
@@ -114,7 +114,7 @@ import_mbox_exec (struct _import_mbox_msg *m)
 	gint fd;
 	CamelMessageInfo *info;
 
-	if (g_stat(m->path, &st) == -1) {
+	if (g_stat (m->path, &st) == -1) {
 		g_warning("cannot find source file to import '%s': %s", m->path, g_strerror(errno));
 		return;
 	}
@@ -128,79 +128,79 @@ import_mbox_exec (struct _import_mbox_msg *m)
 	if (folder == NULL)
 		return;
 
-	if (S_ISREG(st.st_mode)) {
+	if (S_ISREG (st.st_mode)) {
 		CamelOperation *oldcancel = NULL;
 
-		fd = g_open(m->path, O_RDONLY|O_BINARY, 0);
+		fd = g_open (m->path, O_RDONLY|O_BINARY, 0);
 		if (fd == -1) {
 			g_warning("cannot find source file to import '%s': %s", m->path, g_strerror(errno));
 			goto fail1;
 		}
 
-		mp = camel_mime_parser_new();
-		camel_mime_parser_scan_from(mp, TRUE);
-		if (camel_mime_parser_init_with_fd(mp, fd) == -1) { /* will never happen - 0 is unconditionally returned */
+		mp = camel_mime_parser_new ();
+		camel_mime_parser_scan_from (mp, TRUE);
+		if (camel_mime_parser_init_with_fd (mp, fd) == -1) { /* will never happen - 0 is unconditionally returned */
 			goto fail2;
 		}
 
 		if (m->cancel)
-			oldcancel = camel_operation_register(m->cancel);
+			oldcancel = camel_operation_register (m->cancel);
 
 		camel_operation_start (
 			NULL, _("Importing '%s'"),
 			camel_folder_get_full_name (folder));
-		camel_folder_freeze(folder);
-		while (camel_mime_parser_step(mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM) {
+		camel_folder_freeze (folder);
+		while (camel_mime_parser_step (mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM) {
 			CamelMimeMessage *msg;
 			const gchar *tmp;
 			gint pc = 0;
 			guint32 flags = 0;
 
 			if (st.st_size > 0)
-				pc = (gint)(100.0 * ((double)camel_mime_parser_tell(mp) / (double)st.st_size));
-			camel_operation_progress(NULL, pc);
+				pc = (gint)(100.0 * ((double)camel_mime_parser_tell (mp) / (double)st.st_size));
+			camel_operation_progress (NULL, pc);
 
-			msg = camel_mime_message_new();
-			if (camel_mime_part_construct_from_parser((CamelMimePart *)msg, mp, NULL) == -1) {
+			msg = camel_mime_message_new ();
+			if (camel_mime_part_construct_from_parser ((CamelMimePart *)msg, mp, NULL) == -1) {
 				/* set exception? */
 				g_object_unref (msg);
 				break;
 			}
 
-			info = camel_message_info_new(NULL);
+			info = camel_message_info_new (NULL);
 
 			tmp = camel_medium_get_header((CamelMedium *)msg, "X-Mozilla-Status");
 			if (tmp)
-				flags |= decode_mozilla_status(tmp);
+				flags |= decode_mozilla_status (tmp);
 			tmp = camel_medium_get_header((CamelMedium *)msg, "Status");
 			if (tmp)
-				flags |= decode_status(tmp);
+				flags |= decode_status (tmp);
 			tmp = camel_medium_get_header((CamelMedium *)msg, "X-Status");
 			if (tmp)
-				flags |= decode_status(tmp);
+				flags |= decode_status (tmp);
 
-			camel_message_info_set_flags(info, flags, ~0);
+			camel_message_info_set_flags (info, flags, ~0);
 			camel_folder_append_message (
 				folder, msg, info, NULL, &m->base.error);
-			camel_message_info_free(info);
+			camel_message_info_free (info);
 			g_object_unref (msg);
 
 			if (m->base.error != NULL)
 				break;
 
-			camel_mime_parser_step(mp, NULL, NULL);
+			camel_mime_parser_step (mp, NULL, NULL);
 		}
-		camel_folder_sync(folder, FALSE, NULL);
-		camel_folder_thaw(folder);
-		camel_operation_end(NULL);
+		camel_folder_sync (folder, FALSE, NULL);
+		camel_folder_thaw (folder);
+		camel_operation_end (NULL);
 		/* TODO: these api's are a bit weird, registering the old is the same as deregistering */
 		if (m->cancel)
-			camel_operation_register(oldcancel);
+			camel_operation_register (oldcancel);
 	fail2:
 		g_object_unref (mp);
 	}
 fail1:
-	camel_folder_sync(folder, FALSE, NULL);
+	camel_folder_sync (folder, FALSE, NULL);
 	g_object_unref (folder);
 }
 
@@ -208,16 +208,16 @@ static void
 import_mbox_done (struct _import_mbox_msg *m)
 {
 	if (m->done)
-		m->done(m->done_data, &m->base.error);
+		m->done (m->done_data, &m->base.error);
 }
 
 static void
 import_mbox_free (struct _import_mbox_msg *m)
 {
 	if (m->cancel)
-		camel_operation_unref(m->cancel);
-	g_free(m->uri);
-	g_free(m->path);
+		camel_operation_unref (m->cancel);
+	g_free (m->uri);
+	g_free (m->path);
 }
 
 static MailMsgInfo import_mbox_info = {
@@ -229,19 +229,19 @@ static MailMsgInfo import_mbox_info = {
 };
 
 gint
-mail_importer_import_mbox(const gchar *path, const gchar *folderuri, CamelOperation *cancel, void (*done)(gpointer data, GError **), gpointer data)
+mail_importer_import_mbox (const gchar *path, const gchar *folderuri, CamelOperation *cancel, void (*done)(gpointer data, GError **), gpointer data)
 {
 	struct _import_mbox_msg *m;
 	gint id;
 
-	m = mail_msg_new(&import_mbox_info);
-	m->path = g_strdup(path);
-	m->uri = g_strdup(folderuri);
+	m = mail_msg_new (&import_mbox_info);
+	m->path = g_strdup (path);
+	m->uri = g_strdup (folderuri);
 	m->done = done;
 	m->done_data = data;
 	if (cancel) {
 		m->cancel = cancel;
-		camel_operation_ref(cancel);
+		camel_operation_ref (cancel);
 	}
 
 	id = m->base.seq;
@@ -251,21 +251,21 @@ mail_importer_import_mbox(const gchar *path, const gchar *folderuri, CamelOperat
 }
 
 void
-mail_importer_import_mbox_sync(const gchar *path, const gchar *folderuri, CamelOperation *cancel)
+mail_importer_import_mbox_sync (const gchar *path, const gchar *folderuri, CamelOperation *cancel)
 {
 	struct _import_mbox_msg *m;
 
-	m = mail_msg_new(&import_mbox_info);
-	m->path = g_strdup(path);
-	m->uri = g_strdup(folderuri);
+	m = mail_msg_new (&import_mbox_info);
+	m->path = g_strdup (path);
+	m->uri = g_strdup (folderuri);
 	if (cancel) {
 		m->cancel = cancel;
-		camel_operation_ref(cancel);
+		camel_operation_ref (cancel);
 	}
 
-	import_mbox_exec(m);
-	import_mbox_done(m);
-	mail_msg_unref(m);
+	import_mbox_exec (m);
+	import_mbox_done (m);
+	mail_msg_unref (m);
 }
 
 struct _import_folders_data {
@@ -276,7 +276,7 @@ struct _import_folders_data {
 };
 
 static void
-import_folders_rec(struct _import_folders_data *m, const gchar *filepath, const gchar *folderparent)
+import_folders_rec (struct _import_folders_data *m, const gchar *filepath, const gchar *folderparent)
 {
 	GDir *dir;
 	const gchar *d;
@@ -285,7 +285,7 @@ import_folders_rec(struct _import_folders_data *m, const gchar *filepath, const 
 	gchar *filefull, *foldersub, *uri, *utf8_filename;
 	const gchar *folder;
 
-	dir = g_dir_open(filepath, 0, NULL);
+	dir = g_dir_open (filepath, 0, NULL);
 	if (dir == NULL)
 		return;
 
@@ -295,17 +295,17 @@ import_folders_rec(struct _import_folders_data *m, const gchar *filepath, const 
 	camel_operation_start(NULL, _("Scanning %s"), utf8_filename);
 	g_free (utf8_filename);
 
-	while ( (d=g_dir_read_name(dir))) {
+	while ( (d=g_dir_read_name (dir))) {
 		if (d[0] == '.')
 			continue;
 
-		filefull = g_build_filename(filepath, d, NULL);
+		filefull = g_build_filename (filepath, d, NULL);
 
 		/* skip non files and directories, and skip directories in mozilla mode */
-		if (g_stat(filefull, &st) == -1
-		    || !(S_ISREG(st.st_mode)
-			 || (m->elmfmt && S_ISDIR(st.st_mode)))) {
-			g_free(filefull);
+		if (g_stat (filefull, &st) == -1
+		    || !(S_ISREG (st.st_mode)
+			 || (m->elmfmt && S_ISDIR (st.st_mode)))) {
+			g_free (filefull);
 			continue;
 		}
 
@@ -314,7 +314,7 @@ import_folders_rec(struct _import_folders_data *m, const gchar *filepath, const 
 			gint i;
 
 			for (i=0;m->special_folders[i].orig;i++)
-				if (strcmp(m->special_folders[i].orig, folder) == 0) {
+				if (strcmp (m->special_folders[i].orig, folder) == 0) {
 					folder = m->special_folders[i].new;
 					break;
 				}
@@ -325,32 +325,32 @@ import_folders_rec(struct _import_folders_data *m, const gchar *filepath, const 
 		}
 
 		printf("importing to uri %s\n", uri);
-		mail_importer_import_mbox_sync(filefull, uri, m->cancel);
-		g_free(uri);
+		mail_importer_import_mbox_sync (filefull, uri, m->cancel);
+		g_free (uri);
 
 		/* This little gem re-uses the stat buffer and filefull to automagically scan mozilla-format folders */
 		if (!m->elmfmt) {
 			gchar *tmp = g_strdup_printf("%s.sbd", filefull);
 
-			g_free(filefull);
+			g_free (filefull);
 			filefull = tmp;
-			if (g_stat(filefull, &st) == -1) {
-				g_free(filefull);
+			if (g_stat (filefull, &st) == -1) {
+				g_free (filefull);
 				continue;
 			}
 		}
 
-		if (S_ISDIR(st.st_mode)) {
+		if (S_ISDIR (st.st_mode)) {
 			foldersub = folderparent?g_strdup_printf("%s/%s", folderparent, folder):g_strdup(folder);
-			import_folders_rec(m, filefull, foldersub);
-			g_free(foldersub);
+			import_folders_rec (m, filefull, foldersub);
+			g_free (foldersub);
 		}
 
-		g_free(filefull);
+		g_free (filefull);
 	}
-	g_dir_close(dir);
+	g_dir_close (dir);
 
-	camel_operation_end(NULL);
+	camel_operation_end (NULL);
 }
 
 /**
@@ -369,7 +369,7 @@ import_folders_rec(struct _import_folders_data *m, const gchar *filepath, const 
  * standard unix directories.
  **/
 void
-mail_importer_import_folders_sync(const gchar *filepath, MailImporterSpecial special_folders[], gint flags, CamelOperation *cancel)
+mail_importer_import_folders_sync (const gchar *filepath, MailImporterSpecial special_folders[], gint flags, CamelOperation *cancel)
 {
 	struct _import_folders_data m;
 	CamelOperation *oldcancel = NULL;
@@ -379,10 +379,10 @@ mail_importer_import_folders_sync(const gchar *filepath, MailImporterSpecial spe
 	m.cancel = cancel;
 
 	if (cancel)
-		oldcancel = camel_operation_register(cancel);
+		oldcancel = camel_operation_register (cancel);
 
-	import_folders_rec(&m, filepath, NULL);
+	import_folders_rec (&m, filepath, NULL);
 
 	if (cancel)
-		camel_operation_register(oldcancel);
+		camel_operation_register (oldcancel);
 }

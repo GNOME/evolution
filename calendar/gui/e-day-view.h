@@ -125,7 +125,7 @@ typedef enum
    The full format is like 'Thursday 12 September'. The abbreviated format is
    like 'Thu 12 Sep'. The no weekday format is like '12 Sep'. The short format
    is like '12'. The actual format used is determined in
-   e_day_view_recalc_cell_sizes(), once we know the font being used. */
+   e_day_view_recalc_cell_sizes (), once we know the font being used. */
 typedef enum
 {
 	E_DAY_VIEW_DATE_FULL,
@@ -259,7 +259,7 @@ struct _EDayView {
 
 	/* These are set to FALSE whenever an event in the corresponding array
 	   is changed. Any function that needs the events sorted calls
-	   e_day_view_ensure_events_sorted(). */
+	   e_day_view_ensure_events_sorted (). */
 	gboolean long_events_sorted;
 	gboolean events_sorted[E_DAY_VIEW_MAX_DAYS];
 
@@ -537,8 +537,8 @@ void	   e_day_view_set_work_day_end_minute	(EDayView *day_view,
 /* Whether we display the Marcus Bains Line in the main canvas and time
    canvas. */
 void	   e_day_view_marcus_bains_update	(EDayView *day_view);
-gboolean   e_day_view_marcus_bains_get_show_line(EDayView *day_view);
-void	   e_day_view_marcus_bains_set_show_line(EDayView *day_view,
+gboolean   e_day_view_marcus_bains_get_show_line (EDayView *day_view);
+void	   e_day_view_marcus_bains_set_show_line (EDayView *day_view,
 						 gboolean show_line);
 const gchar *
 	   e_day_view_marcus_bains_get_day_view_color

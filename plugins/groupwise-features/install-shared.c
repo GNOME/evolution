@@ -132,19 +132,19 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 			}
 		}
 
-		g_strfreev(names);
+		g_strfreev (names);
 		gtk_widget_destroy ((GtkWidget *)emfs);
 	}
 
 }
 
 static void
-accept_free(gpointer data)
+accept_free (gpointer data)
 {
 	struct AcceptData *accept_data = data;
 
 	g_object_unref (accept_data->msg);
-	g_free(accept_data);
+	g_free (accept_data);
 }
 
 static void
@@ -159,13 +159,13 @@ apply_clicked (GtkAssistant *assistant, CamelMimeMessage *msg)
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (assistant));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	accept_data = g_new0(struct AcceptData, 1);
+	accept_data = g_new0 (struct AcceptData, 1);
 	folder_tree = (EMFolderTree *) em_folder_tree_new ();
 
 	dialog = em_folder_selector_create_new (parent, folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));
-	uri = em_folder_tree_get_selected_uri(folder_tree);
+	uri = em_folder_tree_get_selected_uri (folder_tree);
 	em_folder_selector_set_selected ((EMFolderSelector *) dialog, uri);
-	g_free(uri);
+	g_free (uri);
 	accept_data->msg = msg;
 	g_object_ref (msg);
 	accept_data->model = EM_FOLDER_TREE_MODEL (gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree)));
@@ -194,12 +194,12 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 
 	if (((gchar *)camel_medium_get_header (CAMEL_MEDIUM(msg),"X-notification")) == NULL
 	    || (from_addr = camel_mime_message_get_from ((CamelMimeMessage *)target->message)) == NULL
-	    || !camel_internet_address_get(from_addr, 0, &name, &email)
+	    || !camel_internet_address_get (from_addr, 0, &name, &email)
 	    || (dw = camel_medium_get_content (CAMEL_MEDIUM (msg))) == NULL) {
 		return;
 	} else {
 		if (CAMEL_IS_MULTIPART (dw)) {
-			dw = camel_medium_get_content ((CamelMedium *)camel_multipart_get_part((CamelMultipart *)dw, 0));
+			dw = camel_medium_get_content ((CamelMedium *)camel_multipart_get_part ((CamelMultipart *)dw, 0));
 			if (dw == NULL)
 				return;
 		}
@@ -210,7 +210,7 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 		camel_stream_write (stream, "", 1, NULL);
 
 		from_addr = camel_mime_message_get_from ((CamelMimeMessage *)target->message);
-		if (from_addr && camel_internet_address_get(from_addr, 0, &name, &email)) {
+		if (from_addr && camel_internet_address_get (from_addr, 0, &name, &email)) {
 			GtkWidget *page;
 			GtkAssistant *assistant = GTK_ASSISTANT (gtk_assistant_new ());
 

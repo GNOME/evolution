@@ -55,7 +55,7 @@ ea_calendar_helpers_get_accessible_for (GnomeCanvasItem *canvas_item)
                 if (E_IS_TEXT (canvas_item)) {
 		atk_obj = ea_cal_view_event_new (g_obj);
                 }
-                else if (GNOME_IS_CANVAS_PIXBUF(canvas_item)) {
+                else if (GNOME_IS_CANVAS_PIXBUF (canvas_item)) {
                         atk_obj = ea_jump_button_new (g_obj);
                 }
                 else
@@ -86,7 +86,7 @@ ea_calendar_helpers_get_cal_view_from (GnomeCanvasItem *canvas_item)
 	/* canvas_item->canvas is the ECanvas for day view */
 	/* parent of canvas_item->canvas is the EDayView or EWeekView widget */
 	canvas = canvas_item->canvas;
-	view_widget = gtk_widget_get_parent (GTK_WIDGET(canvas));
+	view_widget = gtk_widget_get_parent (GTK_WIDGET (canvas));
 	if (!view_widget || !E_IS_CALENDAR_VIEW (view_widget))
 		return NULL;
 

@@ -1125,7 +1125,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	grid_x1 = day_view->day_offsets[0] - x;
 	grid_x2 = day_view->day_offsets[day_view->days_shown] - x;
 
-	cairo_save(cr);
+	cairo_save (cr);
 	gdk_cairo_set_source_color (cr,
 		&day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
 

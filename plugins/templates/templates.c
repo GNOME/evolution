@@ -131,8 +131,8 @@ commit_changes (UIData *ui)
 		gtk_tree_model_get (model, &iter, CLUE_VALUE_COLUMN, &value, -1);
 
 		/* Check if the keyword and value are not empty */
-		if ((keyword) && (value) && (g_utf8_strlen(g_strstrip(keyword), -1) > 0)
-			&& (g_utf8_strlen(g_strstrip(value), -1) > 0)) {
+		if ((keyword) && (value) && (g_utf8_strlen (g_strstrip (keyword), -1) > 0)
+			&& (g_utf8_strlen (g_strstrip (value), -1) > 0)) {
 			key = g_strdup_printf("%s=%s", keyword, value);
 			clue_list = g_slist_append (clue_list, key);
 		}
@@ -252,7 +252,7 @@ clue_add_clicked (GtkButton *button, UIData *ui)
 	gtk_tree_model_foreach (model, (GtkTreeModelForeachFunc) clue_foreach_check_isempty, ui);
 
 	/* Disconnect from signal so that we can create an empty row */
-	g_signal_handlers_disconnect_matched(G_OBJECT(model), G_SIGNAL_MATCH_FUNC, 0, 0, NULL, clue_check_isempty, ui);
+	g_signal_handlers_disconnect_matched (G_OBJECT (model), G_SIGNAL_MATCH_FUNC, 0, 0, NULL, clue_check_isempty, ui);
 
 	/* TODO : Trim and check for blank strings */
 	new_clue = g_strdup ("");
@@ -265,7 +265,7 @@ clue_add_clicked (GtkButton *button, UIData *ui)
 
 	if (path) {
 		gtk_tree_view_set_cursor (GTK_TREE_VIEW (ui->treeview), path, focus_col, TRUE);
-		gtk_tree_view_row_activated(GTK_TREE_VIEW(ui->treeview), path, focus_col);
+		gtk_tree_view_row_activated (GTK_TREE_VIEW (ui->treeview), path, focus_col);
 		gtk_tree_path_free (path);
 	}
 
@@ -291,17 +291,17 @@ clue_remove_clicked (GtkButton *button, UIData *ui)
 	/* Get the path and move to the previous node :) */
 	path = gtk_tree_model_get_path (model, &iter);
 	if (path)
-		valid = gtk_tree_path_prev(path);
+		valid = gtk_tree_path_prev (path);
 
 	gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
 
 	len = gtk_tree_model_iter_n_children (model, NULL);
 	if (len > 0) {
-		if (gtk_list_store_iter_is_valid (GTK_LIST_STORE(model), &iter)) {
+		if (gtk_list_store_iter_is_valid (GTK_LIST_STORE (model), &iter)) {
 			gtk_tree_selection_select_iter (selection, &iter);
 		} else {
 			if (path && valid) {
-				gtk_tree_model_get_iter(model, &iter, path);
+				gtk_tree_model_get_iter (model, &iter, path);
 				gtk_tree_selection_select_iter (selection, &iter);
 			}
 		}
@@ -310,7 +310,7 @@ clue_remove_clicked (GtkButton *button, UIData *ui)
 		gtk_widget_set_sensitive (ui->clue_remove, FALSE);
 	}
 
-	gtk_widget_grab_focus(ui->treeview);
+	gtk_widget_grab_focus (ui->treeview);
 	gtk_tree_path_free (path);
 
 	commit_changes (ui);
@@ -344,7 +344,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	GtkCellRenderer *renderer_key, *renderer_value;
 	GtkTreeSelection *selection;
 	GtkTreeIter iter;
-	GConfClient *gconf = gconf_client_get_default();
+	GConfClient *gconf = gconf_client_get_default ();
 	GtkWidget *hbox;
 	GSList *clue_list = NULL, *list;
 	GtkTreeModel *model;
@@ -444,7 +444,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 		gchar **temp = g_strsplit (list->data, "=", 2);
 		gtk_list_store_append (ui->store, &iter);
 		gtk_list_store_set (ui->store, &iter, CLUE_KEYWORD_COLUMN, temp[0], CLUE_VALUE_COLUMN, temp[1], -1);
-		g_strfreev(temp);
+		g_strfreev (temp);
 	}
 
 	if (clue_list) {
@@ -483,7 +483,7 @@ create_new_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *mes
 	template = g_object_get_data (G_OBJECT (action), "template");
 
 	/* The new message we are creating */
-	new = camel_mime_message_new();
+	new = camel_mime_message_new ();
 
 	/* make the exact copy of the template message, with all
 	   its attachments and message structure */
@@ -499,7 +499,7 @@ create_new_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *mes
 	header = ((CamelMimePart *)message)->headers;
 	while (header) {
 		if (g_ascii_strncasecmp (header->name, "content-", 8) != 0) {
-			camel_medium_add_header((CamelMedium *) new,
+			camel_medium_add_header ((CamelMedium *) new,
 					header->name,
 					header->value);
 		}

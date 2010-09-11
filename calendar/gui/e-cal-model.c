@@ -2690,7 +2690,7 @@ e_cal_model_component_class_init (ECalModelComponentClass *class)
 static void
 e_cal_model_component_finalize (GObject *object)
 {
-	ECalModelComponent *comp_data = E_CAL_MODEL_COMPONENT(object);
+	ECalModelComponent *comp_data = E_CAL_MODEL_COMPONENT (object);
 
 	if (comp_data->client) {
 		g_object_unref (comp_data->client);

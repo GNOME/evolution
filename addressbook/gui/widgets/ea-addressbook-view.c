@@ -88,7 +88,7 @@ ea_ab_view_class_init (EAddressbookViewClass *class)
 static G_CONST_RETURN gchar *
 ea_ab_view_get_name (AtkObject *accessible)
 {
-	g_return_val_if_fail (EA_IS_AB_VIEW(accessible), NULL);
+	g_return_val_if_fail (EA_IS_AB_VIEW (accessible), NULL);
 	if (accessible->name)
 		return accessible->name;
 
@@ -110,8 +110,8 @@ ea_ab_view_new (GObject *obj)
 	GObject *object;
 	AtkObject *accessible;
 
-	g_return_val_if_fail(obj != NULL, NULL);
-	g_return_val_if_fail (E_IS_ADDRESSBOOK_VIEW(obj), NULL);
+	g_return_val_if_fail (obj != NULL, NULL);
+	g_return_val_if_fail (E_IS_ADDRESSBOOK_VIEW (obj), NULL);
 
 	object = g_object_new (EA_TYPE_AB_VIEW, NULL);
 

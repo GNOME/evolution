@@ -109,7 +109,7 @@ static GtkTargetEntry target_table[] = {
 
 static void e_day_view_destroy (GtkObject *object);
 static void e_day_view_realize (GtkWidget *widget);
-static void e_day_view_set_colors(EDayView *day_view, GtkWidget *widget);
+static void e_day_view_set_colors (EDayView *day_view, GtkWidget *widget);
 static void e_day_view_unrealize (GtkWidget *widget);
 static void e_day_view_style_set (GtkWidget *widget,
 				  GtkStyle  *previous_style);
@@ -1432,7 +1432,7 @@ e_day_view_realize (GtkWidget *widget)
 
 	/* Allocate the colors. */
 
-	e_day_view_set_colors(day_view, widget);
+	e_day_view_set_colors (day_view, widget);
 
 	gdk_gc_set_colormap (day_view->main_gc, colormap);
 
@@ -1461,7 +1461,7 @@ e_day_view_realize (GtkWidget *widget)
 }
 
 static void
-e_day_view_set_colors(EDayView *day_view, GtkWidget *widget)
+e_day_view_set_colors (EDayView *day_view, GtkWidget *widget)
 {
 	GtkStyle *style;
 
@@ -1611,7 +1611,7 @@ e_day_view_style_set (GtkWidget *widget,
 		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->style_set)(widget, previous_style);
 
 	day_view = E_DAY_VIEW (widget);
-	e_day_view_set_colors(day_view, widget);
+	e_day_view_set_colors (day_view, widget);
 
 	for (week_day = 0; week_day < E_DAY_VIEW_MAX_DAYS; week_day++) {
 		for (event_num = 0; event_num < day_view->events[week_day]->len; event_num++) {
@@ -4917,7 +4917,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 		g_object_set_data (G_OBJECT (event->canvas_item), "event-day", GINT_TO_POINTER (E_DAY_VIEW_LONG_EVENT));
 		g_signal_connect (event->canvas_item, "event",
 				  G_CALLBACK (e_day_view_on_text_item_event), day_view);
-		g_signal_emit_by_name (G_OBJECT(day_view),
+		g_signal_emit_by_name (G_OBJECT (day_view),
 				       "event_added", event);
 
 		e_day_view_update_long_event_label (day_view, event_num);
@@ -4974,7 +4974,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 			       "clip_width", (gdouble) text_w,
 			       "clip_height", (gdouble) item_h,
 			       NULL);
-	e_canvas_item_move_absolute(event->canvas_item,
+	e_canvas_item_move_absolute (event->canvas_item,
 				    text_x, item_y);
 
 	g_object_unref (layout);
@@ -5068,7 +5068,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 				num_icons++;
 
 			num_icons += cal_comp_util_get_n_icons (comp, NULL);
-			g_object_unref(comp);
+			g_object_unref (comp);
 		}
 
 		if (num_icons > 0) {
@@ -5104,7 +5104,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 			g_object_set_data (G_OBJECT (event->canvas_item), "event-day", GINT_TO_POINTER (day));
 			g_signal_connect (event->canvas_item, "event",
 					  G_CALLBACK (e_day_view_on_text_item_event), day_view);
-			g_signal_emit_by_name (G_OBJECT(day_view),
+			g_signal_emit_by_name (G_OBJECT (day_view),
 					       "event_added", event);
 
 			e_day_view_update_event_label (day_view, day, event_num);
@@ -5116,7 +5116,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 				       "clip_height", (gdouble) item_h,
 				       "x_offset", (gdouble) icons_offset,
 				       NULL);
-		e_canvas_item_move_absolute(event->canvas_item,
+		e_canvas_item_move_absolute (event->canvas_item,
 					    item_x, item_y);
 	}
 }
@@ -5442,7 +5442,7 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 static void
 e_day_view_goto_start_of_work_day (EDayView *day_view)
 {
-	g_return_if_fail(day_view!=NULL);
+	g_return_if_fail (day_view!=NULL);
 
 	if (day_view->selection_in_top_canvas)
 		return;
@@ -5492,7 +5492,7 @@ e_day_view_goto_end_of_work_day (EDayView *day_view)
 static void
 e_day_view_change_duration_to_start_of_work_day (EDayView *day_view)
 {
-	g_return_if_fail(day_view != NULL);
+	g_return_if_fail (day_view != NULL);
 
 	if (day_view->selection_in_top_canvas)
 		return;
@@ -5525,7 +5525,7 @@ e_day_view_change_duration_to_start_of_work_day (EDayView *day_view)
 static void
 e_day_view_change_duration_to_end_of_work_day (EDayView *day_view)
 {
-	g_return_if_fail(day_view != NULL);
+	g_return_if_fail (day_view != NULL);
 
 	if (day_view->selection_in_top_canvas)
 		return;
@@ -5604,7 +5604,7 @@ e_day_view_focus (GtkWidget *widget, GtkDirectionType direction)
 	if ((new_day == -1) && (new_event_num == -1)) {
 		/* focus should go to the day view widget itself
 		 */
-		gtk_widget_grab_focus (GTK_WIDGET(day_view));
+		gtk_widget_grab_focus (GTK_WIDGET (day_view));
 		return TRUE;
 	}
 
@@ -5732,7 +5732,7 @@ e_day_view_get_next_tab_event (EDayView *day_view, GtkDirectionType direction,
 	g_return_val_if_fail (day_out != NULL, FALSE);
 	g_return_val_if_fail (event_num_out != NULL, FALSE);
 
-	days_shown = e_day_view_get_days_shown(day_view);
+	days_shown = e_day_view_get_days_shown (day_view);
 	*day_out = -1;
 	*event_num_out = -1;
 
@@ -6144,7 +6144,7 @@ e_day_view_start_editing_event (EDayView *day_view,
 
 	/* We must grab the focus before setting the initial text, since
 	   grabbing the focus will result in a call to
-	   e_day_view_on_editing_started(), which will reset the text to get
+	   e_day_view_on_editing_started (), which will reset the text to get
 	   rid of the start and end times. */
 	e_canvas_item_grab_focus (event->canvas_item, TRUE);
 
@@ -7175,7 +7175,7 @@ e_day_view_get_event_position (EDayView *day_view,
 	if (event->num_columns == 0)
 		return FALSE;
 
-	e_day_view_get_event_rows(day_view, day, event_num, &start_row, &end_row);
+	e_day_view_get_event_rows (day_view, day, event_num, &start_row, &end_row);
 
 	cols_in_row = day_view->cols_per_row[day][start_row];
 	start_col = event->start_row_or_col;

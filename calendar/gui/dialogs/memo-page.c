@@ -564,8 +564,8 @@ get_current_account (MemoPage *page)
 	if (!str)
 		return NULL;
 
-	for (it = e_list_get_iterator((EList *)priv->accounts); e_iterator_is_valid(it); e_iterator_next(it)) {
-		EAccount *a = (EAccount *)e_iterator_get(it);
+	for (it = e_list_get_iterator ((EList *)priv->accounts); e_iterator_is_valid (it); e_iterator_next (it)) {
+		EAccount *a = (EAccount *)e_iterator_get (it);
 		gchar *full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
 
 		if (!g_ascii_strcasecmp (full, str)) {
@@ -659,7 +659,7 @@ memo_page_fill_component (CompEditorPage *page,
 		if (i == 50 && uc && uc < (gunichar)-2)
 			sumText.value = txt = g_strdup_printf ("%.*s...", idxToUse, str);
 		else
-			sumText.value = txt = g_strndup(str, idxToUse);
+			sumText.value = txt = g_strndup (str, idxToUse);
 
 		sumText.altrep = NULL;
 
@@ -670,7 +670,7 @@ memo_page_fill_component (CompEditorPage *page,
 
 		e_cal_component_set_description_list (comp, &l);
 
-		g_free(txt);
+		g_free (txt);
 	}
 
 	if (str)
@@ -779,7 +779,7 @@ memo_page_set_info_string (MemoPage *mpage, const gchar *icon, const gchar *msg)
 	priv = mpage->priv;
 
 	gtk_image_set_from_stock (GTK_IMAGE (priv->info_icon), icon, GTK_ICON_SIZE_BUTTON);
-	gtk_label_set_markup (GTK_LABEL(priv->info_string), msg);
+	gtk_label_set_markup (GTK_LABEL (priv->info_string), msg);
 
 	if (msg && icon)
 		gtk_widget_show (priv->info_hbox);
@@ -914,7 +914,7 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 		if (client) {
 			gchar *backend_addr = NULL;
 
-			e_cal_get_cal_address(client, &backend_addr, NULL);
+			e_cal_get_cal_address (client, &backend_addr, NULL);
 
 			if (flags & COMP_EDITOR_IS_SHARED)
 				memo_page_select_organizer (mpage, backend_addr);
@@ -1012,7 +1012,7 @@ init_widgets (MemoPage *mpage)
 	e_buffer_tagger_connect (view);
 
 	/* Categories button */
-	g_signal_connect(
+	g_signal_connect (
 		priv->categories_btn, "clicked",
 		G_CALLBACK (categories_clicked_cb), mpage);
 
@@ -1096,7 +1096,7 @@ memo_page_select_organizer (MemoPage *mpage, const gchar *backend_address)
 	ESource *source = NULL;
 	const gchar *user_addr = NULL;
 
-	def_account = itip_addresses_get_default();
+	def_account = itip_addresses_get_default ();
 	if (def_account && def_account->enabled)
 		def_address = g_strdup_printf("%s <%s>", def_account->id->name, def_account->id->address);
 
@@ -1169,12 +1169,12 @@ memo_page_construct (MemoPage *mpage)
 
 	if (flags & COMP_EDITOR_IS_SHARED) {
 		priv->accounts = itip_addresses_get ();
-		for (it = e_list_get_iterator((EList *)priv->accounts);
-				e_iterator_is_valid(it);
-				e_iterator_next(it)) {
+		for (it = e_list_get_iterator ((EList *)priv->accounts);
+				e_iterator_is_valid (it);
+				e_iterator_next (it)) {
 			gchar *full = NULL;
 
-			a = (EAccount *)e_iterator_get(it);
+			a = (EAccount *)e_iterator_get (it);
 
 			/* skip disabled accounts */
 			if (!a->enabled)
@@ -1182,10 +1182,10 @@ memo_page_construct (MemoPage *mpage)
 
 			full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
 
-			priv->address_strings = g_list_append(priv->address_strings, full);
+			priv->address_strings = g_list_append (priv->address_strings, full);
 		}
 
-		g_object_unref(it);
+		g_object_unref (it);
 
 		if (priv->address_strings) {
 			GList *l;

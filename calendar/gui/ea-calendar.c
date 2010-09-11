@@ -59,7 +59,7 @@ gnome_calendar_a11y_init (void)
 	/* we only add focus watcher when accessibility is enabled
 	 */
 	if (atk_get_root ()) {
-		EA_SET_FACTORY (gnome_calendar_get_type(), ea_gnome_calendar);
+		EA_SET_FACTORY (gnome_calendar_get_type (), ea_gnome_calendar);
 
 		/* force loading some types */
 		e_text_type = g_type_class_ref (E_TYPE_TEXT);
@@ -76,11 +76,11 @@ gnome_calendar_a11y_init (void)
                                             0, ea_calendar_focus_watcher,
                                             NULL, (GDestroyNotify) NULL);
 		g_signal_add_emission_hook (g_signal_lookup ("event-after",
-							     e_day_view_get_type()),
+							     e_day_view_get_type ()),
 					    0, ea_calendar_focus_watcher,
 					    NULL, (GDestroyNotify) NULL);
 		g_signal_add_emission_hook (g_signal_lookup ("event",
-							     e_day_view_main_item_get_type()),
+							     e_day_view_main_item_get_type ()),
 					    0, ea_calendar_focus_watcher,
 					    NULL, (GDestroyNotify) NULL);
 		g_signal_add_emission_hook (g_signal_lookup ("event-after",
@@ -88,7 +88,7 @@ gnome_calendar_a11y_init (void)
 					    0, ea_calendar_focus_watcher,
 					    NULL, (GDestroyNotify) NULL);
 		g_signal_add_emission_hook (g_signal_lookup ("event",
-							     e_week_view_main_item_get_type()),
+							     e_week_view_main_item_get_type ()),
 					    0, ea_calendar_focus_watcher,
 					    NULL, (GDestroyNotify) NULL);
 
@@ -98,13 +98,13 @@ gnome_calendar_a11y_init (void)
 void
 e_cal_view_a11y_init (void)
 {
-	EA_SET_FACTORY (e_calendar_view_get_type(), ea_cal_view);
+	EA_SET_FACTORY (e_calendar_view_get_type (), ea_cal_view);
 }
 
 void
 e_day_view_a11y_init (void)
 {
-	EA_SET_FACTORY (e_day_view_get_type(), ea_day_view);
+	EA_SET_FACTORY (e_day_view_get_type (), ea_day_view);
 }
 
 void

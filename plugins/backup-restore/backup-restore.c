@@ -84,7 +84,7 @@ sanity_check (const gchar *filename)
 	gint result;
 	gchar *quotedfname, *toolfname;
 
-	quotedfname = g_shell_quote(filename);
+	quotedfname = g_shell_quote (filename);
 	toolfname = g_build_filename (EVOLUTION_TOOLSDIR, "evolution-backup", NULL);
 
 	command =  g_strdup_printf("%s --check %s", toolfname, quotedfname);
@@ -103,7 +103,7 @@ sanity_check (const gchar *filename)
 }
 
 static guint32
-dialog_prompt_user(GtkWindow *parent, const gchar *string, const gchar *tag, ...)
+dialog_prompt_user (GtkWindow *parent, const gchar *string, const gchar *tag, ...)
 {
 	GtkWidget *mbox, *check = NULL;
 	va_list ap;
@@ -111,9 +111,9 @@ dialog_prompt_user(GtkWindow *parent, const gchar *string, const gchar *tag, ...
 	guint32 mask = 0;
 	EAlert *alert = NULL;
 
-	va_start(ap, tag);
-	alert = e_alert_new_valist(tag, ap);
-	va_end(ap);
+	va_start (ap, tag);
+	alert = e_alert_new_valist (tag, ap);
+	va_end (ap);
 
 	mbox = e_alert_dialog_new (parent, alert);
 	g_object_unref (alert);
@@ -121,7 +121,7 @@ dialog_prompt_user(GtkWindow *parent, const gchar *string, const gchar *tag, ...
 	check = gtk_check_button_new_with_mnemonic (string);
 	/* We should hardcode this to true */
 	gtk_toggle_button_set_active ((GtkToggleButton *)check, TRUE);
-	gtk_container_set_border_width((GtkContainer *)check, 12);
+	gtk_container_set_border_width ((GtkContainer *)check, 12);
 	gtk_box_pack_start ((GtkBox *)gtk_dialog_get_content_area ((GtkDialog *) mbox), check, TRUE, TRUE, 0);
 	gtk_widget_show (check);
 
@@ -129,10 +129,10 @@ dialog_prompt_user(GtkWindow *parent, const gchar *string, const gchar *tag, ...
 
 	if (button == GTK_RESPONSE_YES)
 		mask |= BR_OK;
-	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)))
 		mask |= BR_START;
 
-	gtk_widget_destroy(mbox);
+	gtk_widget_destroy (mbox);
 
 	return mask;
 }

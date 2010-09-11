@@ -396,8 +396,8 @@ eab_query_address_default (const gchar *email,
 gint
 e_utf8_casefold_collate_len (const gchar *str1, const gchar *str2, gint len)
 {
-	gchar *s1 = g_utf8_casefold(str1, len);
-	gchar *s2 = g_utf8_casefold(str2, len);
+	gchar *s1 = g_utf8_casefold (str1, len);
+	gchar *s2 = g_utf8_casefold (str2, len);
 	gint rv;
 
 	rv = g_utf8_collate (s1, s2);

@@ -585,9 +585,9 @@ find_my_address (EItipControl *itip, icalcomponent *ical_comp, icalparameter_par
 
 			g_free (delegator_clean);
 		} else {
-			it = e_list_get_iterator((EList *)priv->accounts);
-			while (e_iterator_is_valid(it)) {
-				const EAccount *account = e_iterator_get(it);
+			it = e_list_get_iterator ((EList *)priv->accounts);
+			while (e_iterator_is_valid (it)) {
+				const EAccount *account = e_iterator_get (it);
 
 				/* Check for a matching address */
 				if (attendee_clean != NULL
@@ -600,7 +600,7 @@ find_my_address (EItipControl *itip, icalcomponent *ical_comp, icalparameter_par
 					g_free (attendee_clean);
 					g_free (name_clean);
 					g_free (my_alt_address);
-					g_object_unref(it);
+					g_object_unref (it);
 					return;
 				}
 
@@ -609,9 +609,9 @@ find_my_address (EItipControl *itip, icalcomponent *ical_comp, icalparameter_par
 				    && !g_ascii_strcasecmp (account->id->name, name_clean))
 					my_alt_address = g_strdup (attendee_clean);
 
-				e_iterator_next(it);
+				e_iterator_next (it);
 			}
-			g_object_unref(it);
+			g_object_unref (it);
 		}
 
 		g_free (attendee_clean);

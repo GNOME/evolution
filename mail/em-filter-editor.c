@@ -176,7 +176,7 @@ em_filter_editor_construct (EMFilterEditor *fe,
 
 	for (i = 0; source_names[i].source; i++) {
 		gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), source_names[i].name);
-		sources = g_slist_append (sources, g_strdup(source_names[i].source));
+		sources = g_slist_append (sources, g_strdup (source_names[i].source));
 	}
 
 	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 0);

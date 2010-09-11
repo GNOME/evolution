@@ -271,7 +271,7 @@ alarm_list_dialog_run (GtkWidget *parent, ECal *ecal, EAlarmList *list_store)
 	e_load_ui_builder_definition (dialog.builder, "alarm-list-dialog.ui");
 
 	if (!get_widgets (&dialog)) {
-		g_object_unref(dialog.builder);
+		g_object_unref (dialog.builder);
 		return FALSE;
 	}
 
@@ -316,7 +316,7 @@ alarm_list_dialog_peek (ECal *ecal, EAlarmList *list_store)
 	e_load_ui_builder_definition (dialog->builder, "alarm-list-dialog.ui");
 
 	if (!get_widgets (dialog)) {
-		g_object_unref(dialog->builder);
+		g_object_unref (dialog->builder);
 		return NULL;
 	}
 

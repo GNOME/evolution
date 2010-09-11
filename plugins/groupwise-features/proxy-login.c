@@ -317,7 +317,7 @@ proxy_soap_login (gchar *email, GtkWindow *error_parent)
 
 	for (i=0; email[i]!='\0' && email[i]!='@' ; i++);
 	if (email[i]=='@')
-		name = g_strndup(email, i);
+		name = g_strndup (email, i);
 	else {
 		e_alert_run_dialog_for_args (error_parent,
 					     "org.gnome.evolution.proxy-login:invalid-user",
@@ -343,24 +343,24 @@ proxy_soap_login (gchar *email, GtkWindow *error_parent)
 	proxy_cnc = e_gw_connection_get_proxy_connection (cnc, user_name, password, email, &permissions);
 
 	if (proxy_cnc) {
-		parent = camel_url_new (e_account_get_string(srcAccount, E_ACCOUNT_SOURCE_URL), NULL);
+		parent = camel_url_new (e_account_get_string (srcAccount, E_ACCOUNT_SOURCE_URL), NULL);
 		parent_source_url = camel_url_to_string (parent, CAMEL_URL_HIDE_PASSWORD);
 		uri = camel_url_copy (parent);
 		camel_url_set_user (uri, name);
 		proxy_source_url = camel_url_to_string (uri, CAMEL_URL_HIDE_PASSWORD);
-		dstAccount = e_account_new();
-		e_account_set_string(dstAccount, E_ACCOUNT_ID_ADDRESS, email);
+		dstAccount = e_account_new ();
+		e_account_set_string (dstAccount, E_ACCOUNT_ID_ADDRESS, email);
 		dstAccount->enabled = TRUE;
-		e_account_set_string(dstAccount, E_ACCOUNT_SOURCE_URL, proxy_source_url);
+		e_account_set_string (dstAccount, E_ACCOUNT_SOURCE_URL, proxy_source_url);
 		e_account_set_string (dstAccount, E_ACCOUNT_TRANSPORT_URL, proxy_source_url);
 		e_account_set_string (dstAccount, E_ACCOUNT_NAME, email);
 		e_account_set_string (dstAccount, E_ACCOUNT_ID_NAME, name);
 		e_account_set_string (dstAccount, E_ACCOUNT_PROXY_PARENT_UID, srcAccount->uid);
-		e_account_list_add(accounts, dstAccount);
+		e_account_list_add (accounts, dstAccount);
 		e_account_list_change (accounts, srcAccount);
-		e_account_list_save(accounts);
+		e_account_list_save (accounts);
 		g_object_set_data ((GObject *)dstAccount, "permissions", GINT_TO_POINTER(permissions));
-		mail_get_store(e_account_get_string(dstAccount, E_ACCOUNT_SOURCE_URL), NULL, proxy_login_add_new_store, dstAccount);
+		mail_get_store (e_account_get_string (dstAccount, E_ACCOUNT_SOURCE_URL), NULL, proxy_login_add_new_store, dstAccount);
 
 		g_free (proxy_source_url);
 		g_free (parent_source_url);
@@ -395,7 +395,7 @@ proxy_login_add_new_store (gchar *uri, CamelStore *store, gpointer user_data)
 }
 
 static void
-proxy_login_tree_view_changed_cb(GtkDialog *dialog)
+proxy_login_tree_view_changed_cb (GtkDialog *dialog)
 {
 	proxyLoginPrivate *priv = pld->priv;
 	GtkTreeSelection* account_select;
@@ -412,7 +412,7 @@ proxy_login_tree_view_changed_cb(GtkDialog *dialog)
 	gtk_tree_model_get (model, &iter, ACCOUNT_NAME, &account_mailid, -1);
 	account_mailid = g_strrstr (account_mailid, "\n") + 1;
 	account_name_tbox = e_builder_get_widget (priv->builder, "account_name");
-	gtk_entry_set_text((GtkEntry*) account_name_tbox,account_mailid);
+	gtk_entry_set_text ((GtkEntry*) account_name_tbox,account_mailid);
 }
 
 static void
@@ -459,14 +459,14 @@ proxy_login_update_tree (void)
 
 	gtk_tree_store_clear (priv->store);
 	if (proxy_list != NULL) {
-		n = g_list_length(proxy_list);
+		n = g_list_length (proxy_list);
 		for (i=0;i<n;i=i+2) {
-			proxy_name = g_list_nth_data(proxy_list,i);
-			proxy_email = g_list_nth_data(proxy_list,i+1);
+			proxy_name = g_list_nth_data (proxy_list,i);
+			proxy_email = g_list_nth_data (proxy_list,i+1);
 			gtk_tree_store_append (priv->store, &iter, NULL);
 			gtk_tree_store_set (priv->store, &iter, 0, broken_image, 1, g_strconcat(proxy_name, "\n", proxy_email, NULL), -1);
 		}
-		gtk_tree_view_set_model (GTK_TREE_VIEW(priv->tree),GTK_TREE_MODEL (priv->store));
+		gtk_tree_view_set_model (GTK_TREE_VIEW (priv->tree),GTK_TREE_MODEL (priv->store));
 	}
 
 	g_free (file_name);
@@ -513,7 +513,7 @@ gw_proxy_login_cb (GtkAction *action, EShellView *shell_view)
 	if (cnc)
 		g_object_unref (cnc);
 
-	pld = proxy_login_new();
+	pld = proxy_login_new ();
 	priv = pld->priv;
 
 	priv->builder = gtk_builder_new ();

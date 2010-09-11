@@ -187,7 +187,7 @@ message_push (Message *msg)
  * use a static ring-buffer so we can call this twice
  * in a printf without getting nonsense results.
  */
-d(#define DEBUGGING_ON)
+d (#define DEBUGGING_ON)
 #ifdef DEBUGGING_ON
 static const gchar *
 e_ctime (const time_t *timep)
@@ -482,7 +482,7 @@ add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 		ECalComponentAlarmInstance *instance;
 		gpointer alarm_id;
 		QueuedAlarm *qa;
-		d(time_t tnow = time(NULL));
+		d (time_t tnow = time (NULL));
 
 		instance = l->data;
 
@@ -594,7 +594,7 @@ load_alarms_for_today (ClientAlarms *ca)
 
 	day_end = time_day_end_with_zone (now, zone);
 	d(printf("%s:%d (load_alarms_for_today) - From %s to %s\n",__FILE__, __LINE__,
-		 g_strdup (ctime (&from)), g_strdup (e_ctime(&day_end))));
+		 g_strdup (ctime (&from)), g_strdup (e_ctime (&day_end))));
 	load_alarms (ca, from, day_end);
 }
 
@@ -1607,7 +1607,7 @@ popup_notification (time_t trigger, CompQueuedAlarms *cqa,
 	}
 
 	n = notify_notification_new (summary, body, "stock_appointment-reminder", NULL);
-	if (!notify_notification_show(n, NULL))
+	if (!notify_notification_show (n, NULL))
 	    g_warning ("Could not send notification to daemon\n");
 
 	/* create the private structure */
@@ -1659,7 +1659,7 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 			flag = 1;
 #ifdef HAVE_CANBERRA
 			ca_context_play (
-				ca_gtk_context_get(), 0,
+				ca_gtk_context_get (), 0,
 				CA_PROP_MEDIA_FILENAME, filename, NULL);
 #endif
 		}
@@ -1986,7 +1986,7 @@ alarm_queue_add_async (struct _alarm_client_msg *msg)
 	ca = lookup_client (client);
 	if (ca) {
 		/* We already have it. Unref the passed one*/
-		g_object_unref(client);
+		g_object_unref (client);
 		return;
 	}
 

@@ -104,8 +104,8 @@ gint		e_addressbook_model_find	(EAddressbookModel *model,
 EBook *		e_addressbook_model_get_book	(EAddressbookModel *model);
 void		e_addressbook_model_set_book	(EAddressbookModel *model,
 						 EBook *book);
-gboolean	e_addressbook_model_get_editable(EAddressbookModel *model);
-void		e_addressbook_model_set_editable(EAddressbookModel *model,
+gboolean	e_addressbook_model_get_editable (EAddressbookModel *model);
+void		e_addressbook_model_set_editable (EAddressbookModel *model,
 						 gboolean editable);
 gchar *		e_addressbook_model_get_query	(EAddressbookModel *model);
 void		e_addressbook_model_set_query	(EAddressbookModel *model,

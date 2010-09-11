@@ -26,10 +26,10 @@
 
 G_BEGIN_DECLS
 
-struct _EImportImporter *ical_importer_peek(void);
-struct _EImportImporter *vcal_importer_peek(void);
+struct _EImportImporter *ical_importer_peek (void);
+struct _EImportImporter *vcal_importer_peek (void);
 
-struct _EImportImporter *gnome_calendar_importer_peek(void);
+struct _EImportImporter *gnome_calendar_importer_peek (void);
 
 G_END_DECLS
 

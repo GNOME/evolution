@@ -197,7 +197,7 @@ calendar_config_get_24_hour_format	(void)
 	/* If the locale defines 'am' and 'pm' strings then the user has the
 	   choice of 12-hour or 24-hour time format, with 12-hour as the
 	   default. If the locale doesn't have 'am' and 'pm' strings we have
-	   to use 24-hour format, or strftime()/strptime() won't work. */
+	   to use 24-hour format, or strftime ()/strptime () won't work. */
 	if (calendar_config_locale_supports_12_hour_format ())
 		return gconf_client_get_bool (config, CALENDAR_CONFIG_24HOUR, NULL);
 
@@ -345,7 +345,7 @@ calendar_config_set_month_hpane_pos	(gint	      hpane_pos)
 GSList   *
 calendar_config_get_tasks_selected (void)
 {
-	calendar_config_init();
+	calendar_config_init ();
 
 	return gconf_client_get_list (config, CALENDAR_CONFIG_TASKS_SELECTED_TASKS, GCONF_VALUE_STRING, NULL);
 }
@@ -589,7 +589,7 @@ calendar_config_set_default_reminder_units (CalUnits units)
 {
 	calendar_config_init ();
 
-	gconf_client_set_string (config, CALENDAR_CONFIG_DEFAULT_REMINDER_UNITS, units_to_string(units), NULL);
+	gconf_client_set_string (config, CALENDAR_CONFIG_DEFAULT_REMINDER_UNITS, units_to_string (units), NULL);
 }
 
 /**

@@ -91,7 +91,7 @@ struct _ShareFolderClass {
 
 GType share_folderget_type (void);
 struct _ShareFolder * share_folder_new (EGwConnection *ccnc, gchar *id);
-void share_folder(struct _ShareFolder *sf);
+void share_folder (struct _ShareFolder *sf);
 gchar * get_container_id (EGwConnection *cnc, const gchar *fname);
 EGwConnection * get_cnc (CamelStore *store);
 

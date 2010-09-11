@@ -82,7 +82,7 @@ void mail_view_show_list (MailView *mv);
 void mail_view_close_view (MailView *mv);
 void mail_view_set_check_email (MailView *mv, GtkWidget *button);
 void mail_view_set_sort_by  (MailView *mv, GtkWidget *button);
-void mail_view_check_mail(MailView *mv, gboolean deep);
+void mail_view_check_mail (MailView *mv, gboolean deep);
 void mail_view_set_folder_tree_widget (MailView *mv, GtkWidget *tree);
 void mail_view_set_folder_tree (MailView *mv, GtkWidget *tree);
 void mail_view_save (MailView *mv);

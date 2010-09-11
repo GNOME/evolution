@@ -66,7 +66,7 @@ struct _EMFormatCache {
 #define INLINE_ON (1)
 #define INLINE_OFF (2)
 
-static void emf_builtin_init(EMFormatClass *);
+static void emf_builtin_init (EMFormatClass *);
 
 enum {
 	EMF_COMPLETE,
@@ -77,23 +77,23 @@ static gpointer parent_class;
 static guint signals[EMF_LAST_SIGNAL];
 
 static void
-emf_free_cache(EMFormatCache *efc)
+emf_free_cache (EMFormatCache *efc)
 {
 	if (efc->valid)
-		camel_cipher_validity_free(efc->valid);
+		camel_cipher_validity_free (efc->valid);
 	if (efc->secured)
 		g_object_unref (efc->secured);
-	g_free(efc);
+	g_free (efc);
 }
 
 static EMFormatCache *
-emf_insert_cache(EMFormat *emf, const gchar *partid)
+emf_insert_cache (EMFormat *emf, const gchar *partid)
 {
 	EMFormatCache *new;
 
-	new = g_malloc0(sizeof(*new)+strlen(partid));
-	strcpy(new->partid, partid);
-	g_hash_table_insert(emf->inline_table, new->partid, new);
+	new = g_malloc0 (sizeof (*new)+strlen (partid));
+	strcpy (new->partid, partid);
+	g_hash_table_insert (emf->inline_table, new->partid, new);
 
 	return new;
 }
@@ -103,10 +103,10 @@ emf_clone_inlines (gpointer key, gpointer val, gpointer data)
 {
 	EMFormatCache *emfc = val, *new;
 
-	new = emf_insert_cache((EMFormat *)data, emfc->partid);
+	new = emf_insert_cache ((EMFormat *)data, emfc->partid);
 	new->state = emfc->state;
 	if (emfc->valid)
-		new->valid = camel_cipher_validity_clone(emfc->valid);
+		new->valid = camel_cipher_validity_clone (emfc->valid);
 	if (emfc->secured)
 		g_object_ref ((new->secured = emfc->secured));
 }
@@ -149,12 +149,12 @@ emf_finalize (GObject *object)
 
 	g_hash_table_destroy (emf->inline_table);
 
-	em_format_clear_headers(emf);
-	camel_cipher_validity_free(emf->valid);
-	g_free(emf->charset);
+	em_format_clear_headers (emf);
+	camel_cipher_validity_free (emf->valid);
+	g_free (emf->charset);
 	g_free (emf->default_charset);
-	g_string_free(emf->part_id, TRUE);
-	g_free(emf->uid);
+	g_string_free (emf->part_id, TRUE);
+	g_free (emf->uid);
 
 	if (emf->pending_uri_table != NULL)
 		g_hash_table_destroy (emf->pending_uri_table);
@@ -177,7 +177,7 @@ static const EMFormatHandler *
 emf_find_handler (EMFormat *emf,
                   const gchar *mime_type)
 {
-	EMFormatClass *emfc = (EMFormatClass *)G_OBJECT_GET_CLASS(emf);
+	EMFormatClass *emfc = (EMFormatClass *)G_OBJECT_GET_CLASS (emf);
 
 	return g_hash_table_lookup (emfc->type_handlers, mime_type);
 }
@@ -195,22 +195,22 @@ emf_format_clone (EMFormat *emf,
 		emf->priv->redraw_idle_id = 0;
 	}
 
-	em_format_clear_puri_tree(emf);
+	em_format_clear_puri_tree (emf);
 
 	if (emf != emfsource) {
-		g_hash_table_remove_all(emf->inline_table);
+		g_hash_table_remove_all (emf->inline_table);
 		if (emfsource) {
 			GList *link;
 
 			/* We clone the current state here */
-			g_hash_table_foreach(emfsource->inline_table, emf_clone_inlines, emf);
+			g_hash_table_foreach (emfsource->inline_table, emf_clone_inlines, emf);
 			emf->mode = emfsource->mode;
-			g_free(emf->charset);
-			emf->charset = g_strdup(emfsource->charset);
+			g_free (emf->charset);
+			emf->charset = g_strdup (emfsource->charset);
 			g_free (emf->default_charset);
 			emf->default_charset = g_strdup (emfsource->default_charset);
 
-			em_format_clear_headers(emf);
+			em_format_clear_headers (emf);
 
 			link = g_queue_peek_head_link (&emfsource->header_list);
 			while (link != NULL) {
@@ -231,8 +231,8 @@ emf_format_clone (EMFormat *emf,
 	}
 
 	if (uid != emf->uid) {
-		g_free(emf->uid);
-		emf->uid = g_strdup(uid);
+		g_free (emf->uid);
+		emf->uid = g_strdup (uid);
 	}
 
 	if (msg != emf->message) {
@@ -243,7 +243,7 @@ emf_format_clone (EMFormat *emf,
 		emf->message = msg;
 	}
 
-	g_string_truncate(emf->part_id, 0);
+	g_string_truncate (emf->part_id, 0);
 	if (folder != NULL)
 		/* TODO build some string based on the folder name/location? */
 		g_string_append_printf(emf->part_id, ".%p", (gpointer) folder);
@@ -267,16 +267,16 @@ emf_format_secure (EMFormat *emf,
 	if (emf->valid == NULL) {
 		emf->valid = valid;
 	} else {
-		camel_dlist_addtail(&emf->valid_parent->children, (CamelDListNode *)valid);
-		camel_cipher_validity_envelope(emf->valid_parent, valid);
+		camel_dlist_addtail (&emf->valid_parent->children, (CamelDListNode *)valid);
+		camel_cipher_validity_envelope (emf->valid_parent, valid);
 	}
 
 	emf->valid_parent = valid;
 
 	len = emf->part_id->len;
 	g_string_append_printf(emf->part_id, ".secured");
-	em_format_part(emf, stream, part);
-	g_string_truncate(emf->part_id, len);
+	em_format_part (emf, stream, part);
+	g_string_truncate (emf->part_id, len);
 
 	emf->valid_parent = save;
 }
@@ -365,7 +365,7 @@ emf_init (EMFormat *emf)
 	emf->composer = FALSE;
 	emf->print = FALSE;
 	g_queue_init (&emf->header_list);
-	em_format_default_headers(emf);
+	em_format_default_headers (emf);
 	emf->part_id = g_string_new("");
 	emf->validity_found = 0;
 
@@ -424,8 +424,8 @@ void
 em_format_class_add_handler (EMFormatClass *emfc,
                              EMFormatHandler *info)
 {
-	info->old = g_hash_table_lookup(emfc->type_handlers, info->mime_type);
-	g_hash_table_insert(emfc->type_handlers, (gpointer) info->mime_type, info);
+	info->old = g_hash_table_lookup (emfc->type_handlers, info->mime_type);
+	g_hash_table_insert (emfc->type_handlers, (gpointer) info->mime_type, info);
 }
 
 struct _class_handlers {
@@ -448,10 +448,10 @@ merge_missing (gpointer key, gpointer value, gpointer userdata)
 }
 
 void
-em_format_merge_handler(EMFormat *new, EMFormat *old)
+em_format_merge_handler (EMFormat *new, EMFormat *old)
 {
-	EMFormatClass *oldc = (EMFormatClass *)G_OBJECT_GET_CLASS(old);
-	EMFormatClass *newc = (EMFormatClass *)G_OBJECT_GET_CLASS(new);
+	EMFormatClass *oldc = (EMFormatClass *)G_OBJECT_GET_CLASS (old);
+	EMFormatClass *newc = (EMFormatClass *)G_OBJECT_GET_CLASS (new);
 	struct _class_handlers fclasses;
 
 	fclasses.old = oldc;
@@ -477,17 +477,17 @@ em_format_class_remove_handler (EMFormatClass *emfc,
 
 	/* TODO: thread issues? */
 
-	current = g_hash_table_lookup(emfc->type_handlers, info->mime_type);
+	current = g_hash_table_lookup (emfc->type_handlers, info->mime_type);
 	if (current == info) {
 		current = info->old;
 		if (current)
-			g_hash_table_insert(emfc->type_handlers, (gpointer) current->mime_type, current);
+			g_hash_table_insert (emfc->type_handlers, (gpointer) current->mime_type, current);
 		else
-			g_hash_table_remove(emfc->type_handlers, info->mime_type);
+			g_hash_table_remove (emfc->type_handlers, info->mime_type);
 	} else {
 		while (current && current->old != info)
 			current = current->old;
-		g_return_if_fail(current != NULL);
+		g_return_if_fail (current != NULL);
 		current->old = info->old;
 	}
 }
@@ -533,18 +533,18 @@ em_format_fallback_handler (EMFormat *emf,
 {
 	gchar *mime, *s;
 
-	s = strchr(mime_type, '/');
+	s = strchr (mime_type, '/');
 	if (s == NULL)
 		mime = (gchar *)mime_type;
 	else {
 		gsize len = (s-mime_type)+1;
 
-		mime = g_alloca(len+2);
-		strncpy(mime, mime_type, len);
+		mime = g_alloca (len+2);
+		strncpy (mime, mime_type, len);
 		strcpy(mime+len, "*");
 	}
 
-	return em_format_find_handler(emf, mime);
+	return em_format_find_handler (emf, mime);
 }
 
 /**
@@ -583,20 +583,20 @@ em_format_add_puri (EMFormat *emf,
 
 	d(printf("adding puri for part: %s\n", emf->part_id->str));
 
-	if (size < sizeof(*puri)) {
+	if (size < sizeof (*puri)) {
 		g_warning (
 			"size (%" G_GSIZE_FORMAT
 			") less than size of puri\n", size);
 		size = sizeof (*puri);
 	}
 
-	puri = g_malloc0(size);
+	puri = g_malloc0 (size);
 
 	puri->format = emf;
 	puri->func = func;
 	puri->use_count = 0;
-	puri->cid = g_strdup(cid);
-	puri->part_id = g_strdup(emf->part_id->str);
+	puri->cid = g_strdup (cid);
+	puri->part_id = g_strdup (emf->part_id->str);
 
 	if (part) {
 		g_object_ref (part);
@@ -604,7 +604,7 @@ em_format_add_puri (EMFormat *emf,
 	}
 
 	if (part != NULL && cid == NULL) {
-		tmp = camel_mime_part_get_content_id(part);
+		tmp = camel_mime_part_get_content_id (part);
 		if (tmp)
 			puri->cid = g_strdup_printf("cid:%s", tmp);
 		else
@@ -614,20 +614,20 @@ em_format_add_puri (EMFormat *emf,
 
 		/* Not quite same as old behaviour, it also put in the
 		 * relative uri and a fallback for no parent uri. */
-		tmp = camel_mime_part_get_content_location(part);
+		tmp = camel_mime_part_get_content_location (part);
 		puri->uri = NULL;
 		if (tmp == NULL) {
 			/* No location, don't set a uri at all,
 			 * html parts do this themselves. */
 		} else {
-			if (strchr(tmp, ':') == NULL && emf->base != NULL) {
+			if (strchr (tmp, ':') == NULL && emf->base != NULL) {
 				CamelURL *uri;
 
-				uri = camel_url_new_with_base(emf->base, tmp);
-				puri->uri = camel_url_to_string(uri, 0);
-				camel_url_free(uri);
+				uri = camel_url_new_with_base (emf->base, tmp);
+				puri->uri = camel_url_to_string (uri, 0);
+				camel_url_free (uri);
 			} else {
-				puri->uri = g_strdup(tmp);
+				puri->uri = g_strdup (tmp);
 			}
 		}
 	}
@@ -805,38 +805,38 @@ em_format_part_as (EMFormat *emf,
 	   This is actually only required for html, but, *shrug* */
 	tmp = camel_medium_get_header((CamelMedium *)part, "Content-Base");
 	if (tmp == NULL) {
-		tmp = camel_mime_part_get_content_location(part);
-		if (tmp && strchr(tmp, ':') == NULL)
+		tmp = camel_mime_part_get_content_location (part);
+		if (tmp && strchr (tmp, ':') == NULL)
 			tmp = NULL;
 	} else {
-		tmp = basestr = camel_header_location_decode(tmp);
+		tmp = basestr = camel_header_location_decode (tmp);
 	}
 	d(printf("content-base is '%s'\n", tmp?tmp:"<unset>"));
 	if (tmp
-	    && (base = camel_url_new(tmp, NULL))) {
+	    && (base = camel_url_new (tmp, NULL))) {
 		emf->base = base;
 		d(printf("Setting content base '%s'\n", tmp));
 	}
-	g_free(basestr);
+	g_free (basestr);
 
 	if (mime_type != NULL) {
 		gboolean is_fallback = FALSE;
 		if (g_ascii_strcasecmp(mime_type, "application/octet-stream") == 0) {
-			emf->snoop_mime_type = mime_type = em_format_snoop_type(part);
+			emf->snoop_mime_type = mime_type = em_format_snoop_type (part);
 			if (mime_type == NULL)
 				mime_type = "application/octet-stream";
 		}
 
-		handle = em_format_find_handler(emf, mime_type);
+		handle = em_format_find_handler (emf, mime_type);
 		if (handle == NULL) {
-			handle = em_format_fallback_handler(emf, mime_type);
+			handle = em_format_fallback_handler (emf, mime_type);
 			is_fallback = TRUE;
 		}
 
 		if (handle != NULL
-		    && !em_format_is_attachment(emf, part)) {
+		    && !em_format_is_attachment (emf, part)) {
 			d(printf("running handler for type '%s'\n", mime_type));
-			handle->handler(emf, stream, part, handle, is_fallback);
+			handle->handler (emf, stream, part, handle, is_fallback);
 			goto finish;
 		}
 		d(printf("this type is an attachment? '%s'\n", mime_type));
@@ -852,7 +852,7 @@ finish:
 	emf->snoop_mime_type = snoop_save;
 
 	if (base)
-		camel_url_free(base);
+		camel_url_free (base);
 }
 
 void
@@ -976,16 +976,16 @@ void
 em_format_set_charset (EMFormat *emf,
                        const gchar *charset)
 {
-	if ((emf->charset && charset && g_ascii_strcasecmp(emf->charset, charset) == 0)
+	if ((emf->charset && charset && g_ascii_strcasecmp (emf->charset, charset) == 0)
 	    || (emf->charset == NULL && charset == NULL)
 	    || (emf->charset == charset))
 		return;
 
-	g_free(emf->charset);
-	emf->charset = g_strdup(charset);
+	g_free (emf->charset);
+	emf->charset = g_strdup (charset);
 
 	if (emf->message)
-		em_format_queue_redraw(emf);
+		em_format_queue_redraw (emf);
 }
 
 /**
@@ -1002,13 +1002,13 @@ em_format_set_default_charset (EMFormat *emf,
                                const gchar *charset)
 {
 	if ((emf->default_charset && charset &&
-	    g_ascii_strcasecmp(emf->default_charset, charset) == 0)
+	    g_ascii_strcasecmp (emf->default_charset, charset) == 0)
 	    || (emf->default_charset == NULL && charset == NULL)
 	    || (emf->default_charset == charset))
 		return;
 
-	g_free(emf->default_charset);
-	emf->default_charset = g_strdup(charset);
+	g_free (emf->default_charset);
+	emf->default_charset = g_strdup (charset);
 
 	if (emf->message && emf->charset == NULL)
 		em_format_queue_redraw (emf);
@@ -1085,9 +1085,9 @@ em_format_add_header (EMFormat *emf,
 {
 	EMFormatHeader *h;
 
-	h = g_malloc(sizeof(*h) + strlen(name));
+	h = g_malloc (sizeof (*h) + strlen (name));
 	h->flags = flags;
-	strcpy(h->name, name);
+	strcpy (h->name, name);
 	g_queue_push_tail (&emf->header_list, h);
 }
 
@@ -1125,7 +1125,7 @@ em_format_is_attachment (EMFormat *emf,
 		 || camel_content_type_is(dw->mime_type, "application", "x-inlinepgp-encrypted")
 		 || camel_content_type_is(dw->mime_type, "x-evolution", "evolution-rss-feed")
 		 || (camel_content_type_is (dw->mime_type, "text", "*")
-		     && camel_mime_part_get_filename(part) == NULL));
+		     && camel_mime_part_get_filename (part) == NULL));
 }
 
 /**
@@ -1182,9 +1182,9 @@ em_format_set_inline (EMFormat *emf,
 	g_return_if_fail (EM_IS_FORMAT (emf));
 	g_return_if_fail (part_id != NULL);
 
-	emfc = g_hash_table_lookup(emf->inline_table, part_id);
+	emfc = g_hash_table_lookup (emf->inline_table, part_id);
 	if (emfc == NULL) {
-		emfc = emf_insert_cache(emf, part_id);
+		emfc = emf_insert_cache (emf, part_id);
 	} else if (emfc->state != INLINE_UNSET && (emfc->state & 1) == state)
 		return;
 
@@ -1302,9 +1302,9 @@ em_format_format_content (EMFormat *emf,
 	CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *)part);
 
 	if (camel_content_type_is (dw->mime_type, "text", "*"))
-		em_format_format_text(emf, stream, (CamelDataWrapper *)part);
+		em_format_format_text (emf, stream, (CamelDataWrapper *)part);
 	else
-		camel_data_wrapper_decode_to_stream(dw, stream, NULL);
+		camel_data_wrapper_decode_to_stream (dw, stream, NULL);
 }
 
 /**
@@ -1342,18 +1342,18 @@ em_format_format_text (EMFormat *emf,
 		 * out windows-cp125#, do some simple sanity checking
 		 * before we move on... */
 
-		null = camel_stream_null_new();
+		null = camel_stream_null_new ();
 		filter_stream = camel_stream_filter_new (null);
 		g_object_unref (null);
 
-		windows = (CamelMimeFilterWindows *)camel_mime_filter_windows_new(charset);
+		windows = (CamelMimeFilterWindows *)camel_mime_filter_windows_new (charset);
 		camel_stream_filter_add (
 			CAMEL_STREAM_FILTER (filter_stream),
 			CAMEL_MIME_FILTER (windows));
 
 		camel_data_wrapper_decode_to_stream (
 			dw, (CamelStream *)filter_stream, NULL);
-		camel_stream_flush((CamelStream *)filter_stream, NULL);
+		camel_stream_flush ((CamelStream *)filter_stream, NULL);
 		g_object_unref (filter_stream);
 
 		charset = camel_mime_filter_windows_real_charset (windows);
@@ -1388,13 +1388,13 @@ em_format_format_text (EMFormat *emf,
 			(CamelDataWrapper *) dw :
 			camel_medium_get_content ((CamelMedium *)dw),
 		(CamelStream *)filter_stream, NULL);
-	camel_stream_flush((CamelStream *)filter_stream, NULL);
+	camel_stream_flush ((CamelStream *)filter_stream, NULL);
 	g_object_unref (filter_stream);
 	camel_stream_reset (mem_stream, NULL);
 
 	if (max == -1 || size == -1 || size < (max * 1024) || emf->composer) {
-		camel_stream_write_to_stream(mem_stream, (CamelStream *)stream, NULL);
-		camel_stream_flush((CamelStream *)stream, NULL);
+		camel_stream_write_to_stream (mem_stream, (CamelStream *)stream, NULL);
+		camel_stream_flush ((CamelStream *)stream, NULL);
 	} else {
 		EM_FORMAT_GET_CLASS (emf)->format_optional (
 			emf, stream, (CamelMimePart *)dw, mem_stream);
@@ -1480,7 +1480,7 @@ emf_application_xpkcs7mime (EMFormat *emf,
 	GError *local_error = NULL;
 
 	/* should this perhaps run off a key of ".secured" ? */
-	emfc = g_hash_table_lookup(emf->inline_table, emf->part_id->str);
+	emfc = g_hash_table_lookup (emf->inline_table, emf->part_id->str);
 	if (emfc && emfc->valid) {
 		em_format_format_secure (
 			emf, stream, emfc->secured,
@@ -1488,14 +1488,14 @@ emf_application_xpkcs7mime (EMFormat *emf,
 		return;
 	}
 
-	context = camel_smime_context_new(emf->session);
+	context = camel_smime_context_new (emf->session);
 
 	emf->validity_found |=
 		EM_FORMAT_VALIDITY_FOUND_ENCRYPTED |
 		EM_FORMAT_VALIDITY_FOUND_SMIME;
 
-	opart = camel_mime_part_new();
-	valid = camel_cipher_decrypt(context, part, opart, &local_error);
+	opart = camel_mime_part_new ();
+	valid = camel_cipher_decrypt (context, part, opart, &local_error);
 	if (valid == NULL) {
 		em_format_format_error (
 			emf, stream, "%s",
@@ -1503,16 +1503,16 @@ emf_application_xpkcs7mime (EMFormat *emf,
 			_("Could not parse S/MIME message: Unknown error"));
 		g_clear_error (&local_error);
 
-		em_format_part_as(emf, stream, part, NULL);
+		em_format_part_as (emf, stream, part, NULL);
 	} else {
 		if (emfc == NULL)
-			emfc = emf_insert_cache(emf, emf->part_id->str);
+			emfc = emf_insert_cache (emf, emf->part_id->str);
 
-		emfc->valid = camel_cipher_validity_clone(valid);
+		emfc->valid = camel_cipher_validity_clone (valid);
 		g_object_ref ((emfc->secured = opart));
 
 		add_validity_found (emf, valid);
-		em_format_format_secure(emf, stream, opart, valid);
+		em_format_format_secure (emf, stream, opart, valid);
 	}
 
 	g_object_unref (opart);
@@ -1532,20 +1532,20 @@ emf_multipart_appledouble (EMFormat *emf,
 	CamelMimePart *mime_part;
 	gint len;
 
-	if (!CAMEL_IS_MULTIPART(mp)) {
-		em_format_format_source(emf, stream, part);
+	if (!CAMEL_IS_MULTIPART (mp)) {
+		em_format_format_source (emf, stream, part);
 		return;
 	}
 
-	mime_part = camel_multipart_get_part(mp, 1);
+	mime_part = camel_multipart_get_part (mp, 1);
 	if (mime_part) {
 		/* try the data fork for something useful, doubtful but who knows */
 		len = emf->part_id->len;
 		g_string_append_printf(emf->part_id, ".appledouble.1");
-		em_format_part(emf, stream, mime_part);
-		g_string_truncate(emf->part_id, len);
+		em_format_part (emf, stream, mime_part);
+		g_string_truncate (emf->part_id, len);
 	} else
-		em_format_format_source(emf, stream, part);
+		em_format_format_source (emf, stream, part);
 
 }
 
@@ -1560,18 +1560,18 @@ emf_multipart_mixed (EMFormat *emf,
 	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)part);
 	gint i, nparts, len;
 
-	if (!CAMEL_IS_MULTIPART(mp)) {
-		em_format_format_source(emf, stream, part);
+	if (!CAMEL_IS_MULTIPART (mp)) {
+		em_format_format_source (emf, stream, part);
 		return;
 	}
 
 	len = emf->part_id->len;
-	nparts = camel_multipart_get_number(mp);
+	nparts = camel_multipart_get_number (mp);
 	for (i = 0; i < nparts; i++) {
-		part = camel_multipart_get_part(mp, i);
+		part = camel_multipart_get_part (mp, i);
 		g_string_append_printf(emf->part_id, ".mixed.%d", i);
-		em_format_part(emf, stream, part);
-		g_string_truncate(emf->part_id, len);
+		em_format_part (emf, stream, part);
+		g_string_truncate (emf->part_id, len);
 	}
 }
 
@@ -1587,19 +1587,19 @@ emf_multipart_alternative (EMFormat *emf,
 	gint i, nparts, bestid = 0;
 	CamelMimePart *best = NULL;
 
-	if (!CAMEL_IS_MULTIPART(mp)) {
-		em_format_format_source(emf, stream, part);
+	if (!CAMEL_IS_MULTIPART (mp)) {
+		em_format_format_source (emf, stream, part);
 		return;
 	}
 
 	/* as per rfc, find the last part we know how to display */
-	nparts = camel_multipart_get_number(mp);
+	nparts = camel_multipart_get_number (mp);
 	for (i = 0; i < nparts; i++) {
 		CamelContentType *type;
 		gchar *mime_type;
 
 		/* is it correct to use the passed in *part here? */
-		part = camel_multipart_get_part(mp, i);
+		part = camel_multipart_get_part (mp, i);
 
 		if (!part || !camel_mime_part_get_content_size (part))
 			continue;
@@ -1619,17 +1619,17 @@ emf_multipart_alternative (EMFormat *emf,
 			bestid = i;
 		}
 
-		g_free(mime_type);
+		g_free (mime_type);
 	}
 
 	if (best) {
 		gint len = emf->part_id->len;
 
 		g_string_append_printf(emf->part_id, ".alternative.%d", bestid);
-		em_format_part(emf, stream, best);
-		g_string_truncate(emf->part_id, len);
+		em_format_part (emf, stream, best);
+		g_string_truncate (emf->part_id, len);
 	} else
-		emf_multipart_mixed(emf, stream, part, info, is_fallback);
+		emf_multipart_mixed (emf, stream, part, info, is_fallback);
 }
 
 static void
@@ -1648,7 +1648,7 @@ emf_multipart_encrypted (EMFormat *emf,
 	GError *local_error = NULL;
 
 	/* should this perhaps run off a key of ".secured" ? */
-	emfc = g_hash_table_lookup(emf->inline_table, emf->part_id->str);
+	emfc = g_hash_table_lookup (emf->inline_table, emf->part_id->str);
 	if (emfc && emfc->valid) {
 		em_format_format_secure (
 			emf, stream, emfc->secured,
@@ -1657,7 +1657,7 @@ emf_multipart_encrypted (EMFormat *emf,
 	}
 
 	mpe = (CamelMultipartEncrypted*)camel_medium_get_content ((CamelMedium *)part);
-	if (!CAMEL_IS_MULTIPART_ENCRYPTED(mpe)) {
+	if (!CAMEL_IS_MULTIPART_ENCRYPTED (mpe)) {
 		em_format_format_error (
 			emf, stream, _("Could not parse MIME message. "
 			"Displaying as source."));
@@ -1679,9 +1679,9 @@ emf_multipart_encrypted (EMFormat *emf,
 		EM_FORMAT_VALIDITY_FOUND_ENCRYPTED |
 		EM_FORMAT_VALIDITY_FOUND_PGP;
 
-	context = camel_gpg_context_new(emf->session);
-	opart = camel_mime_part_new();
-	valid = camel_cipher_decrypt(context, part, opart, &local_error);
+	context = camel_gpg_context_new (emf->session);
+	opart = camel_mime_part_new ();
+	valid = camel_cipher_decrypt (context, part, opart, &local_error);
 	if (valid == NULL) {
 		em_format_format_error (
 			emf, stream, local_error->message ?
@@ -1695,13 +1695,13 @@ emf_multipart_encrypted (EMFormat *emf,
 		em_format_part_as(emf, stream, part, "multipart/mixed");
 	} else {
 		if (emfc == NULL)
-			emfc = emf_insert_cache(emf, emf->part_id->str);
+			emfc = emf_insert_cache (emf, emf->part_id->str);
 
-		emfc->valid = camel_cipher_validity_clone(valid);
+		emfc->valid = camel_cipher_validity_clone (valid);
 		g_object_ref ((emfc->secured = opart));
 
 		add_validity_found (emf, valid);
-		em_format_format_secure(emf, stream, opart, valid);
+		em_format_format_secure (emf, stream, opart, valid);
 	}
 
 	/* TODO: Make sure when we finalize this part, it is zero'd out */
@@ -1734,16 +1734,16 @@ emf_multipart_related (EMFormat *emf,
 	gchar *oldpartid;
 	GList *link;
 
-	if (!CAMEL_IS_MULTIPART(mp)) {
-		em_format_format_source(emf, stream, part);
+	if (!CAMEL_IS_MULTIPART (mp)) {
+		em_format_format_source (emf, stream, part);
 		return;
 	}
 
 	/* FIXME: put this stuff in a shared function */
-	nparts = camel_multipart_get_number(mp);
-	content_type = camel_mime_part_get_content_type(part);
+	nparts = camel_multipart_get_number (mp);
+	content_type = camel_mime_part_get_content_type (part);
 	start = camel_content_type_param (content_type, "start");
-	if (start && strlen(start)>2) {
+	if (start && strlen (start)>2) {
 		gint len;
 		const gchar *cid;
 
@@ -1752,32 +1752,32 @@ emf_multipart_related (EMFormat *emf,
 		start++;
 
 		for (i=0; i<nparts; i++) {
-			body_part = camel_multipart_get_part(mp, i);
-			cid = camel_mime_part_get_content_id(body_part);
+			body_part = camel_multipart_get_part (mp, i);
+			cid = camel_mime_part_get_content_id (body_part);
 
-			if (cid && !strncmp(cid, start, len) && strlen(cid) == len) {
+			if (cid && !strncmp (cid, start, len) && strlen (cid) == len) {
 				display_part = body_part;
 				displayid = i;
 				break;
 			}
 		}
 	} else {
-		display_part = camel_multipart_get_part(mp, 0);
+		display_part = camel_multipart_get_part (mp, 0);
 	}
 
 	if (display_part == NULL) {
-		emf_multipart_mixed(emf, stream, part, info, is_fallback);
+		emf_multipart_mixed (emf, stream, part, info, is_fallback);
 		return;
 	}
 
-	em_format_push_level(emf);
+	em_format_push_level (emf);
 
-	oldpartid = g_strdup(emf->part_id->str);
+	oldpartid = g_strdup (emf->part_id->str);
 	partidlen = emf->part_id->len;
 
 	/* queue up the parts for possible inclusion */
 	for (i = 0; i < nparts; i++) {
-		body_part = camel_multipart_get_part(mp, i);
+		body_part = camel_multipart_get_part (mp, i);
 		if (body_part != display_part) {
 			EMFormatPURI *puri;
 
@@ -1786,15 +1786,15 @@ emf_multipart_related (EMFormat *emf,
 			puri = em_format_add_puri (
 				emf, sizeof (EMFormatPURI), NULL,
 				body_part, emf_write_related);
-			g_string_truncate(emf->part_id, partidlen);
+			g_string_truncate (emf->part_id, partidlen);
 			d(printf(" part '%s' '%s' added\n", puri->uri?puri->uri:"", puri->cid));
 		}
 	}
 
 	g_string_append_printf(emf->part_id, ".related.%d", displayid);
-	em_format_part(emf, stream, display_part);
-	g_string_truncate(emf->part_id, partidlen);
-	camel_stream_flush(stream, NULL);
+	em_format_part (emf, stream, display_part);
+	g_string_truncate (emf->part_id, partidlen);
+	camel_stream_flush (stream, NULL);
 
 	link = g_queue_peek_head_link (emf->pending_uri_level->data);
 
@@ -1804,7 +1804,7 @@ emf_multipart_related (EMFormat *emf,
 		if (puri->use_count == 0) {
 			if (puri->func == emf_write_related) {
 				g_string_printf(emf->part_id, "%s", puri->part_id);
-				em_format_part(emf, stream, puri->part);
+				em_format_part (emf, stream, puri->part);
 			}
 		}
 
@@ -1812,9 +1812,9 @@ emf_multipart_related (EMFormat *emf,
 	}
 
 	g_string_printf(emf->part_id, "%s", oldpartid);
-	g_free(oldpartid);
+	g_free (oldpartid);
 
-	em_format_pull_level(emf);
+	em_format_pull_level (emf);
 }
 
 static void
@@ -1830,7 +1830,7 @@ emf_multipart_signed (EMFormat *emf,
 	EMFormatCache *emfc;
 
 	/* should this perhaps run off a key of ".secured" ? */
-	emfc = g_hash_table_lookup(emf->inline_table, emf->part_id->str);
+	emfc = g_hash_table_lookup (emf->inline_table, emf->part_id->str);
 	if (emfc && emfc->valid) {
 		em_format_format_secure (
 			emf, stream, emfc->secured,
@@ -1845,7 +1845,7 @@ emf_multipart_signed (EMFormat *emf,
 		em_format_format_error (
 			emf, stream, _("Could not parse MIME message. "
 			"Displaying as source."));
-		em_format_format_source(emf, stream, part);
+		em_format_format_source (emf, stream, part);
 		return;
 	}
 
@@ -1855,12 +1855,12 @@ emf_multipart_signed (EMFormat *emf,
 #ifdef ENABLE_SMIME
 		if (g_ascii_strcasecmp("application/x-pkcs7-signature", mps->protocol) == 0
 		    || g_ascii_strcasecmp("application/pkcs7-signature", mps->protocol) == 0) {
-			cipher = camel_smime_context_new(emf->session);
+			cipher = camel_smime_context_new (emf->session);
 			emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_SMIME;
 		} else
 #endif
 			if (g_ascii_strcasecmp("application/pgp-signature", mps->protocol) == 0) {
-				cipher = camel_gpg_context_new(emf->session);
+				cipher = camel_gpg_context_new (emf->session);
 				emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_PGP;
 			}
 	}
@@ -1874,7 +1874,7 @@ emf_multipart_signed (EMFormat *emf,
 		CamelCipherValidity *valid;
 		GError *local_error = NULL;
 
-		valid = camel_cipher_verify(cipher, part, &local_error);
+		valid = camel_cipher_verify (cipher, part, &local_error);
 		if (valid == NULL) {
 			em_format_format_error (
 				emf, stream, local_error->message ?
@@ -1889,13 +1889,13 @@ emf_multipart_signed (EMFormat *emf,
 			em_format_part_as(emf, stream, part, "multipart/mixed");
 		} else {
 			if (emfc == NULL)
-				emfc = emf_insert_cache(emf, emf->part_id->str);
+				emfc = emf_insert_cache (emf, emf->part_id->str);
 
-			emfc->valid = camel_cipher_validity_clone(valid);
+			emfc->valid = camel_cipher_validity_clone (valid);
 			g_object_ref ((emfc->secured = cpart));
 
 			add_validity_found (emf, valid);
-			em_format_format_secure(emf, stream, cpart, valid);
+			em_format_format_secure (emf, stream, cpart, valid);
 		}
 
 		g_object_unref (cipher);
@@ -1982,8 +1982,8 @@ emf_message_rfc822 (EMFormat *emf,
 	const EMFormatHandler *handle;
 	gint len;
 
-	if (!CAMEL_IS_MIME_MESSAGE(dw)) {
-		em_format_format_source(emf, stream, part);
+	if (!CAMEL_IS_MIME_MESSAGE (dw)) {
+		em_format_format_source (emf, stream, part);
 		return;
 	}
 
@@ -1992,9 +1992,9 @@ emf_message_rfc822 (EMFormat *emf,
 
 	handle = em_format_find_handler(emf, "x-evolution/message/rfc822");
 	if (handle)
-		handle->handler(emf, stream, (CamelMimePart *)dw, handle, FALSE);
+		handle->handler (emf, stream, (CamelMimePart *)dw, handle, FALSE);
 
-	g_string_truncate(emf->part_id, len);
+	g_string_truncate (emf->part_id, len);
 }
 
 static void
@@ -2032,9 +2032,9 @@ emf_inlinepgp_signed (EMFormat *emf,
 
 	emf->validity_found |= EM_FORMAT_VALIDITY_FOUND_SIGNED | EM_FORMAT_VALIDITY_FOUND_PGP;
 
-	cipher = camel_gpg_context_new(emf->session);
+	cipher = camel_gpg_context_new (emf->session);
 	/* Verify the signature of the message */
-	valid = camel_cipher_verify(cipher, ipart, &local_error);
+	valid = camel_cipher_verify (cipher, ipart, &local_error);
 	if (!valid) {
 		em_format_format_error (
 			emf, stream, local_error->message ?
@@ -2043,7 +2043,7 @@ emf_inlinepgp_signed (EMFormat *emf,
 		if (local_error->message)
 			em_format_format_error (
 				emf, stream, "%s", local_error->message);
-		em_format_format_source(emf, stream, ipart);
+		em_format_format_source (emf, stream, ipart);
 		/* I think this will loop: em_format_part_as(emf, stream, part, "text/plain"); */
 		g_clear_error (&local_error);
 		g_object_unref (cipher);
@@ -2051,11 +2051,11 @@ emf_inlinepgp_signed (EMFormat *emf,
 	}
 
 	/* Setup output stream */
-	ostream = camel_stream_mem_new();
+	ostream = camel_stream_mem_new ();
 	filtered_stream = camel_stream_filter_new (ostream);
 
 	/* Add PGP header / footer filter */
-	pgp_filter = (CamelMimeFilterPgp *)camel_mime_filter_pgp_new();
+	pgp_filter = (CamelMimeFilterPgp *)camel_mime_filter_pgp_new ();
 	camel_stream_filter_add (
 		CAMEL_STREAM_FILTER (filtered_stream),
 		CAMEL_MIME_FILTER (pgp_filter));
@@ -2065,7 +2065,7 @@ emf_inlinepgp_signed (EMFormat *emf,
 	dw = camel_medium_get_content ((CamelMedium *)ipart);
 	camel_data_wrapper_decode_to_stream (
 		dw, (CamelStream *)filtered_stream, NULL);
-	camel_stream_flush((CamelStream *)filtered_stream, NULL);
+	camel_stream_flush ((CamelStream *)filtered_stream, NULL);
 	g_object_unref (filtered_stream);
 
 	/* Create a new text/plain MIME part containing the signed
@@ -2093,7 +2093,7 @@ emf_inlinepgp_signed (EMFormat *emf,
 
 	add_validity_found (emf, valid);
 	/* Pass it off to the real formatter */
-	em_format_format_secure(emf, stream, opart, valid);
+	em_format_format_secure (emf, stream, opart, valid);
 
 	/* Clean Up */
 	g_object_unref (dw);
@@ -2120,8 +2120,8 @@ emf_inlinepgp_encrypted (EMFormat *emf,
 		EM_FORMAT_VALIDITY_FOUND_ENCRYPTED |
 		EM_FORMAT_VALIDITY_FOUND_PGP;
 
-	cipher = camel_gpg_context_new(emf->session);
-	opart = camel_mime_part_new();
+	cipher = camel_gpg_context_new (emf->session);
+	opart = camel_mime_part_new ();
 	/* Decrypt the message */
 	valid = camel_cipher_decrypt (cipher, ipart, opart, &local_error);
 	if (!valid) {
@@ -2133,7 +2133,7 @@ emf_inlinepgp_encrypted (EMFormat *emf,
 		else
 			em_format_format_error (
 				emf, stream, _("Unknown error"));
-		em_format_format_source(emf, stream, ipart);
+		em_format_format_source (emf, stream, ipart);
 		/* I think this will loop: em_format_part_as(emf, stream, part, "text/plain"); */
 
 		g_clear_error (&local_error);
@@ -2157,7 +2157,7 @@ emf_inlinepgp_encrypted (EMFormat *emf,
 
 	add_validity_found (emf, valid);
 	/* Pass it off to the real formatter */
-	em_format_format_secure(emf, stream, opart, valid);
+	em_format_format_secure (emf, stream, opart, valid);
 
 	/* Clean Up */
 	g_object_unref (opart);

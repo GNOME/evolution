@@ -123,7 +123,7 @@ GtkActionGroup *
 EMFormatHTML *	e_mail_reader_get_formatter	(EMailReader *reader);
 gboolean	e_mail_reader_get_hide_deleted	(EMailReader *reader);
 GtkWidget *	e_mail_reader_get_message_list	(EMailReader *reader);
-guint		e_mail_reader_open_selected_mail(EMailReader *reader);
+guint		e_mail_reader_open_selected_mail (EMailReader *reader);
 GtkMenu *	e_mail_reader_get_popup_menu	(EMailReader *reader);
 GPtrArray *	e_mail_reader_get_selected_uids	(EMailReader *reader);
 EShellBackend *	e_mail_reader_get_shell_backend	(EMailReader *reader);
@@ -149,7 +149,7 @@ void		e_mail_reader_create_charset_menu
 void		e_mail_reader_show_search_bar	(EMailReader *reader);
 gboolean	e_mail_reader_get_enable_show_folder
 						(EMailReader *reader);
-void		e_mail_reader_enable_show_folder(EMailReader *reader);
+void		e_mail_reader_enable_show_folder (EMailReader *reader);
 
 G_END_DECLS
 

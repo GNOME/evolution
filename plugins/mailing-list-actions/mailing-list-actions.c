@@ -165,7 +165,7 @@ emla_list_action_do (CamelFolder *folder,
 		}
 
 		/* get URL portion */
-		url = g_strndup(headerpos, end - headerpos);
+		url = g_strndup (headerpos, end - headerpos);
 
 		if (strncmp (url, "mailto:", 6) == 0) {
 			if (emla_action_headers[t].interactive)

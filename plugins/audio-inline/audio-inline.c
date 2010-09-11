@@ -164,7 +164,7 @@ org_gnome_audio_inline_gst_callback (GstBus * bus, GstMessage * message, gpointe
 			{
 			      GstState old_state, new_state;
 
-			      if (GST_MESSAGE_SRC(message) != GST_OBJECT (po->playbin))
+			      if (GST_MESSAGE_SRC (message) != GST_OBJECT (po->playbin))
 				      break;
 
 			      gst_message_parse_state_changed (message, &old_state, &new_state, NULL);
@@ -231,7 +231,7 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 			uri = g_filename_to_uri (po->filename, NULL, NULL);
 			g_object_set (G_OBJECT (po->playbin), "uri", uri, NULL);
 			g_free (uri);
-			org_gnome_audio_inline_set_audiosink(po->playbin);
+			org_gnome_audio_inline_set_audiosink (po->playbin);
 
 			bus = gst_element_get_bus (po->playbin);
 			po->bus_id = gst_bus_add_watch (bus, org_gnome_audio_inline_gst_callback, po);
@@ -260,7 +260,7 @@ org_gnome_audio_inline_add_button (GtkWidget *box, const gchar *stock_icon, GCal
 {
 	GtkWidget *button;
 
-	button = gtk_button_new_from_stock(stock_icon);
+	button = gtk_button_new_from_stock (stock_icon);
 	gtk_widget_set_sensitive (button, sensitive);
 	g_signal_connect (button, "clicked", cb, data);
 
@@ -299,7 +299,7 @@ org_gnome_audio_inline_format (gpointer ep, EMFormatHookTarget *t)
 
 	d(printf ("audio inline formatter: format classid %s\n", classid));
 
-	pobj = (struct _org_gnome_audio_inline_pobject *) em_format_html_add_pobject ((EMFormatHTML *) t->format, sizeof(*pobj), classid,
+	pobj = (struct _org_gnome_audio_inline_pobject *) em_format_html_add_pobject ((EMFormatHTML *) t->format, sizeof (*pobj), classid,
 										      t->part, org_gnome_audio_inline_button_panel);
 	g_object_ref (t->part);
 	pobj->part = t->part;

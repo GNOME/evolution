@@ -29,11 +29,11 @@
 #include <mail/em-vfolder-rule.h>
 #include <shell/e-shell-view.h>
 
-void vfolder_load_storage(void);
-void vfolder_revert(void);
+void vfolder_load_storage (void);
+void vfolder_revert (void);
 
 void vfolder_edit (EShellView *shell_view);
-void vfolder_edit_rule(const gchar *name);
+void vfolder_edit_rule (const gchar *name);
 EFilterPart *vfolder_create_part (const gchar *name);
 EFilterRule *vfolder_clone_rule (EFilterRule *in);
 void vfolder_gui_add_rule (EMVFolderRule *rule);

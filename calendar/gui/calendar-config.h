@@ -114,11 +114,11 @@ void	  calendar_config_set_memos_selected (GSList *selected);
 gboolean  calendar_config_get_hide_completed_tasks	(void);
 void	  calendar_config_set_hide_completed_tasks	(gboolean	hide);
 
-CalUnits  calendar_config_get_hide_completed_tasks_units(void);
-void	  calendar_config_set_hide_completed_tasks_units(CalUnits	units);
+CalUnits  calendar_config_get_hide_completed_tasks_units (void);
+void	  calendar_config_set_hide_completed_tasks_units (CalUnits	units);
 
-gint	  calendar_config_get_hide_completed_tasks_value(void);
-void	  calendar_config_set_hide_completed_tasks_value(gint		value);
+gint	  calendar_config_get_hide_completed_tasks_value (void);
+void	  calendar_config_set_hide_completed_tasks_value (gint		value);
 
 gchar *	  calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed);
 
@@ -141,7 +141,7 @@ void calendar_config_set_free_busy (GSList * url_list);
 
 /* Returns TRUE if the locale has 'am' and 'pm' strings defined, i.e. it
    supports 12-hour time format. */
-gboolean  calendar_config_locale_supports_12_hour_format(void);
+gboolean  calendar_config_locale_supports_12_hour_format (void);
 
 void	  calendar_config_set_dir_path (const gchar *);
 gchar *	  calendar_config_get_dir_path (void);

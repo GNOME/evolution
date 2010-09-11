@@ -336,12 +336,12 @@ mark_all_as_read (CamelFolder *folder)
 	gint i;
 
 	uids =  camel_folder_get_uids (folder);
-	camel_folder_freeze(folder);
+	camel_folder_freeze (folder);
 	for (i=0;i<uids->len;i++)
 		camel_folder_set_message_flags (
 			folder, uids->pdata[i],
 			CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-	camel_folder_thaw(folder);
+	camel_folder_thaw (folder);
 	camel_folder_free_uids (folder, uids);
 }
 

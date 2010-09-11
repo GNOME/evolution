@@ -225,20 +225,20 @@ e_minicard_view_widget_set_property (GObject *object,
 		if (emvw->book)
 			g_object_unref (emvw->book);
 		if (g_value_get_object (value)) {
-			emvw->book = E_BOOK(g_value_get_object (value));
+			emvw->book = E_BOOK (g_value_get_object (value));
 			if (emvw->book)
-				g_object_ref(emvw->book);
+				g_object_ref (emvw->book);
 		} else
 			emvw->book = NULL;
 		if (emvw->emv)
-			g_object_set(emvw->emv,
+			g_object_set (emvw->emv,
 				     "book", emvw->book,
 				       NULL);
 		break;
 	case PROP_QUERY:
-		emvw->query = g_strdup(g_value_get_string (value));
+		emvw->query = g_strdup (g_value_get_string (value));
 		if (emvw->emv)
-			g_object_set(emvw->emv,
+			g_object_set (emvw->emv,
 				     "query", emvw->query,
 				     NULL);
 		break;
@@ -295,14 +295,14 @@ e_minicard_view_widget_get_property (GObject *object,
 static void
 e_minicard_view_widget_dispose (GObject *object)
 {
-	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(object);
+	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET (object);
 
 	if (view->book) {
 		g_object_unref (view->book);
 		view->book = NULL;
 	}
 	if (view->query) {
-		g_free(view->query);
+		g_free (view->query);
 		view->query = NULL;
 	}
 
@@ -311,8 +311,8 @@ e_minicard_view_widget_dispose (GObject *object)
 		view->adapter = NULL;
 	}
 
-	if (G_OBJECT_CLASS(parent_class)->dispose)
-		G_OBJECT_CLASS(parent_class)->dispose (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
@@ -360,7 +360,7 @@ right_click (EMinicardView *view, GdkEvent *event, EMinicardViewWidget *widget)
 static void
 e_minicard_view_widget_style_set (GtkWidget *widget, GtkStyle *previous_style)
 {
-	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(widget);
+	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET (widget);
 	GtkStyle *style;
 
 	style = gtk_widget_get_style (widget);
@@ -370,34 +370,34 @@ e_minicard_view_widget_style_set (GtkWidget *widget, GtkStyle *previous_style)
 			view->background, "fill_color_gdk",
 			&style->base[GTK_STATE_NORMAL], NULL);
 
-	if (GTK_WIDGET_CLASS(parent_class)->style_set)
-		GTK_WIDGET_CLASS(parent_class)->style_set (widget, previous_style);
+	if (GTK_WIDGET_CLASS (parent_class)->style_set)
+		GTK_WIDGET_CLASS (parent_class)->style_set (widget, previous_style);
 }
 
 static void
 e_minicard_view_widget_realize (GtkWidget *widget)
 {
-	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(widget);
+	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET (widget);
 	GtkStyle *style = gtk_widget_get_style (widget);
 
-	view->background = gnome_canvas_item_new(gnome_canvas_root( GNOME_CANVAS(view) ),
-						 e_canvas_background_get_type(),
+	view->background = gnome_canvas_item_new (gnome_canvas_root ( GNOME_CANVAS (view) ),
+						 e_canvas_background_get_type (),
 						 "fill_color_gdk", &style->base[GTK_STATE_NORMAL],
 						 NULL );
 
-	view->emv = gnome_canvas_item_new(
-		gnome_canvas_root( GNOME_CANVAS(view) ),
-		e_minicard_view_get_type(),
+	view->emv = gnome_canvas_item_new (
+		gnome_canvas_root ( GNOME_CANVAS (view) ),
+		e_minicard_view_get_type (),
 		"height", (double) 100,
 		"minimum_width", (double) 100,
 		"adapter", view->adapter,
 		"column_width", view->column_width,
 		NULL );
 
-	g_signal_connect (E_REFLOW(view->emv)->selection,
+	g_signal_connect (E_REFLOW (view->emv)->selection,
 			  "selection_changed",
 			  G_CALLBACK (selection_change), view);
-	g_signal_connect (E_REFLOW(view->emv)->selection,
+	g_signal_connect (E_REFLOW (view->emv)->selection,
 			  "selection_row_changed",
 			  G_CALLBACK (selection_row_change), view);
 	g_signal_connect (view->emv,
@@ -413,49 +413,49 @@ e_minicard_view_widget_realize (GtkWidget *widget)
 			  "right_click",
 			  G_CALLBACK (right_click), view);
 
-	if (GTK_WIDGET_CLASS(parent_class)->realize)
-		GTK_WIDGET_CLASS(parent_class)->realize (widget);
+	if (GTK_WIDGET_CLASS (parent_class)->realize)
+		GTK_WIDGET_CLASS (parent_class)->realize (widget);
 }
 
 static void
-e_minicard_view_widget_size_allocate(GtkWidget *widget, GtkAllocation *allocation)
+e_minicard_view_widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
-	if (GTK_WIDGET_CLASS(parent_class)->size_allocate)
-		GTK_WIDGET_CLASS(parent_class)->size_allocate (widget, allocation);
+	if (GTK_WIDGET_CLASS (parent_class)->size_allocate)
+		GTK_WIDGET_CLASS (parent_class)->size_allocate (widget, allocation);
 
 	if (gtk_widget_get_realized (widget)) {
 		gdouble width;
-		EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(widget);
+		EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET (widget);
 
-		gnome_canvas_item_set( view->emv,
+		gnome_canvas_item_set ( view->emv,
 				       "height", (double) allocation->height,
 				       NULL );
-		gnome_canvas_item_set( view->emv,
+		gnome_canvas_item_set ( view->emv,
 				       "minimum_width", (double) allocation->width,
 				       NULL );
-		g_object_get(view->emv,
+		g_object_get (view->emv,
 			     "width", &width,
 			     NULL);
-		width = MAX(width, allocation->width);
+		width = MAX (width, allocation->width);
 		gnome_canvas_set_scroll_region (GNOME_CANVAS (view), 0, 0, width - 1, allocation->height - 1);
 	}
 }
 
 static void
-e_minicard_view_widget_reflow(ECanvas *canvas)
+e_minicard_view_widget_reflow (ECanvas *canvas)
 {
 	gdouble width;
-	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(canvas);
+	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET (canvas);
 	GtkAllocation allocation;
 
-	if (E_CANVAS_CLASS(parent_class)->reflow)
-		E_CANVAS_CLASS(parent_class)->reflow (canvas);
+	if (E_CANVAS_CLASS (parent_class)->reflow)
+		E_CANVAS_CLASS (parent_class)->reflow (canvas);
 
 	g_object_get (view->emv, "width", &width, NULL);
 	gtk_widget_get_allocation (GTK_WIDGET (canvas), &allocation);
 
 	gnome_canvas_set_scroll_region (
-		GNOME_CANVAS(canvas), 0, 0,
+		GNOME_CANVAS (canvas), 0, 0,
 		MAX (width, allocation.width) - 1,
 		allocation.height - 1);
 }
@@ -479,13 +479,13 @@ e_minicard_view_widget_get_view             (EMinicardViewWidget       *view)
 }
 
 static gboolean
-e_minicard_view_widget_real_focus_in_event(GtkWidget *widget, GdkEventFocus *event)
+e_minicard_view_widget_real_focus_in_event (GtkWidget *widget, GdkEventFocus *event)
 {
 	GnomeCanvas *canvas;
 	EMinicardViewWidget *view;
 
 	canvas = GNOME_CANVAS (widget);
-	view = E_MINICARD_VIEW_WIDGET(widget);
+	view = E_MINICARD_VIEW_WIDGET (widget);
 
 	if (!canvas->focused_item) {
 		EReflow *reflow = E_REFLOW (view->emv);
@@ -497,8 +497,8 @@ e_minicard_view_widget_real_focus_in_event(GtkWidget *widget, GdkEventFocus *eve
 		}
 	}
 
-	if (GTK_WIDGET_CLASS(parent_class)->focus_in_event)
-		return GTK_WIDGET_CLASS(parent_class)->focus_in_event (widget, event);
+	if (GTK_WIDGET_CLASS (parent_class)->focus_in_event)
+		return GTK_WIDGET_CLASS (parent_class)->focus_in_event (widget, event);
 
 	return FALSE;
 

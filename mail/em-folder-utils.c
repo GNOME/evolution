@@ -180,7 +180,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m)
 					camel_folder_free_uids (fromfolder, uids);
 
 					if (m->delete && m->base.error == NULL)
-						camel_folder_sync(fromfolder, TRUE, NULL);
+						camel_folder_sync (fromfolder, TRUE, NULL);
 
 					g_object_unref (fromfolder);
 					g_object_unref (tofolder);
@@ -246,7 +246,7 @@ static MailMsgInfo copy_folders_info = {
 };
 
 gint
-em_folder_utils_copy_folders(CamelStore *fromstore, const gchar *frombase, CamelStore *tostore, const gchar *tobase, gint delete)
+em_folder_utils_copy_folders (CamelStore *fromstore, const gchar *frombase, CamelStore *tostore, const gchar *tobase, gint delete)
 {
 	struct _EMCopyFolders *m;
 	gint seq;
@@ -329,7 +329,7 @@ emfu_copy_folder_selected (const gchar *uri, gpointer data)
 	if (tobase == NULL)
 		tobase = "";
 
-	em_folder_utils_copy_folders(fromstore, cfd->fi->full_name, tostore, tobase, cfd->delete);
+	em_folder_utils_copy_folders (fromstore, cfd->fi->full_name, tostore, tobase, cfd->delete);
 
 	camel_url_free (url);
 fail:
@@ -345,7 +345,7 @@ fail:
 
 /* tree here is the 'destination' selector, not 'self' */
 static gboolean
-emfu_copy_folder_exclude(EMFolderTree *tree, GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
+emfu_copy_folder_exclude (EMFolderTree *tree, GtkTreeModel *model, GtkTreeIter *iter, gpointer data)
 {
 	struct _copy_folder_data *cfd = data;
 	gint fromvfolder, tovfolder;
@@ -356,9 +356,9 @@ emfu_copy_folder_exclude(EMFolderTree *tree, GtkTreeModel *model, GtkTreeIter *i
 	/* handles moving to/from vfolders */
 
 	fromvfolder = strncmp(cfd->fi->uri, "vfolder:", 8) == 0;
-	gtk_tree_model_get(model, iter, COL_STRING_URI, &touri, COL_UINT_FLAGS, &flags, COL_BOOL_IS_STORE, &is_store, -1);
+	gtk_tree_model_get (model, iter, COL_STRING_URI, &touri, COL_UINT_FLAGS, &flags, COL_BOOL_IS_STORE, &is_store, -1);
 	tovfolder = strncmp(touri, "vfolder:", 8) == 0;
-	g_free(touri);
+	g_free (touri);
 
 	/* moving from vfolder to normal- not allowed */
 	if (fromvfolder && !tovfolder && cfd->delete)
@@ -650,23 +650,23 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs, gint response, gpointer 
 		EM_FOLDER_TREE_MODEL (model), store);
 	if (si == NULL) {
 		g_object_unref (store);
-		g_return_if_reached();
+		g_return_if_reached ();
 	}
 
 	/* HACK: we need to create vfolders using the vfolder editor */
-	if (CAMEL_IS_VEE_STORE(store)) {
+	if (CAMEL_IS_VEE_STORE (store)) {
 		EMVFolderRule *rule;
 
 		/* ensures vfolder is running */
 		vfolder_load_storage ();
 
-		rule = em_vfolder_rule_new();
-		e_filter_rule_set_name((EFilterRule *)rule, path);
-		vfolder_gui_add_rule(rule);
-		gtk_widget_destroy((GtkWidget *)emfs);
+		rule = em_vfolder_rule_new ();
+		e_filter_rule_set_name ((EFilterRule *)rule, path);
+		vfolder_gui_add_rule (rule);
+		gtk_widget_destroy ((GtkWidget *)emfs);
 	} else {
 		/* Temp data to pass to create_folder_real function */
-		emcftd = (struct _EMCreateFolderTempData *) g_malloc(sizeof(struct _EMCreateFolderTempData));
+		emcftd = (struct _EMCreateFolderTempData *) g_malloc (sizeof (struct _EMCreateFolderTempData));
 		emcftd->emfs = emfs;
 		emcftd->uri = g_strdup (uri);
 		emcftd->emft = (EMFolderTree *) data;

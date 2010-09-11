@@ -312,7 +312,7 @@ do_delete (gpointer data, gpointer user_data)
 	const gchar *id;
 
 	id = e_contact_get_const (contact, E_CONTACT_UID);
-	e_book_remove_contact(book, id, NULL);
+	e_book_remove_contact (book, id, NULL);
 }
 
 static void
@@ -374,7 +374,7 @@ do_copy (gpointer data, gpointer user_data)
 	book = process->destination;
 
 	process->count++;
-	eab_merging_book_add_contact(book, contact, contact_added_cb, process);
+	eab_merging_book_add_contact (book, contact, contact_added_cb, process);
 }
 
 static void

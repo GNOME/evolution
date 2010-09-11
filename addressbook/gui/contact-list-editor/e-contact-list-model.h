@@ -65,7 +65,7 @@ void		e_contact_list_model_add_destination
 						 EDestination *dest);
 void		e_contact_list_model_add_email	(EContactListModel *model,
 						 const gchar *email);
-void		e_contact_list_model_add_contact(EContactListModel *model,
+void		e_contact_list_model_add_contact (EContactListModel *model,
 						 EContact *contact,
 						 gint email_num);
 void		e_contact_list_model_remove_row	(EContactListModel *model,

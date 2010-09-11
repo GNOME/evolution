@@ -72,9 +72,9 @@ struct _EPKCS12Private {
 static GObjectClass *parent_class;
 
 /* static callback functions for the NSS PKCS#12 library */
-static SECItem * PR_CALLBACK nickname_collision(SECItem *, PRBool *, gpointer );
+static SECItem * PR_CALLBACK nickname_collision (SECItem *, PRBool *, gpointer );
 
-static gboolean handle_error(gint myerr);
+static gboolean handle_error (gint myerr);
 
 #define PKCS12_BUFFER_SIZE         2048
 #define PKCS12_RESTORE_OK          1
@@ -107,7 +107,7 @@ e_pkcs12_class_init (EPKCS12Class *klass)
 {
 	GObjectClass *object_class;
 
-	object_class = G_OBJECT_CLASS(klass);
+	object_class = G_OBJECT_CLASS (klass);
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
 
@@ -179,7 +179,7 @@ input_to_decoder (SEC_PKCS12DecoderContext *dcx, const gchar *path, GError **err
 		}
 
 		/* feed the file data into the decoder */
-		srv = SEC_PKCS12DecoderUpdate(dcx,
+		srv = SEC_PKCS12DecoderUpdate (dcx,
 					      (guchar *) buf,
 					      amount);
 		if (srv) {
@@ -212,7 +212,7 @@ prompt_for_password (gchar *title, gchar *prompt, SECItem *pwd)
 		guchar *outptr;
 		gunichar2 c;
 
-		SECITEM_AllocItem(NULL, pwd, sizeof (gunichar2) * (len + 1));
+		SECITEM_AllocItem (NULL, pwd, sizeof (gunichar2) * (len + 1));
 
 		outptr =  pwd->data;
 		while (inptr && (c = (gunichar2) (g_utf8_get_char (inptr) & 0xffff))) {
@@ -298,16 +298,16 @@ import_from_file_helper (EPKCS12 *pkcs12, PK11SlotInfo *slot,
 	   We should use that error code instead of inventing a new one
 	   for every error possible. */
 	if (srv != SECSuccess) {
-		if (SEC_ERROR_BAD_PASSWORD == PORT_GetError()) {
+		if (SEC_ERROR_BAD_PASSWORD == PORT_GetError ()) {
 			*aWantRetry = TRUE;
 		}
-		handle_error(PKCS12_NSS_ERROR);
+		handle_error (PKCS12_NSS_ERROR);
 	} else if (!rv) {
-		handle_error(PKCS12_RESTORE_FAILED);
+		handle_error (PKCS12_RESTORE_FAILED);
 	}
 	/* finish the decoder */
 	if (dcx)
-		SEC_PKCS12DecoderFinish(dcx);
+		SEC_PKCS12DecoderFinish (dcx);
 	return TRUE;
 }
 
@@ -321,7 +321,7 @@ e_pkcs12_import_from_file (EPKCS12 *pkcs12, const gchar *path, GError **error)
 
 	printf ("importing pkcs12 from '%s'\n", path);
 
-	slot = PK11_GetInternalKeySlot();
+	slot = PK11_GetInternalKeySlot ();
 
 	if (!e_cert_db_login_to_slot (e_cert_db_peek (), slot))
 		return FALSE;
@@ -345,7 +345,7 @@ e_pkcs12_export_to_file (EPKCS12 *pkcs12,
 /* what to do when the nickname collides with one already in the db.
    TODO: not handled, throw a dialog allowing the nick to be changed? */
 static SECItem * PR_CALLBACK
-nickname_collision(SECItem *oldNick, PRBool *cancel, gpointer wincx)
+nickname_collision (SECItem *oldNick, PRBool *cancel, gpointer wincx)
 {
 	/* nsNSSShutDownPreventionLock locker; */
 	gint count = 1;
@@ -391,24 +391,24 @@ nickname_collision(SECItem *oldNick, PRBool *cancel, gpointer wincx)
 			g_free (nickname);
 			nickname = g_strdup (default_nickname);
 		}
-		cert = CERT_FindCertByNickname(CERT_GetDefaultCertDB(),
+		cert = CERT_FindCertByNickname (CERT_GetDefaultCertDB (),
 					       nickname);
 		if (!cert) {
 			break;
 		}
-		CERT_DestroyCertificate(cert);
+		CERT_DestroyCertificate (cert);
 		count++;
 	}
 
 	new_nick = PR_Malloc (sizeof (SECItem));
 	new_nick->type = siAsciiString;
 	new_nick->data = (guchar *)nickname;
-	new_nick->len  = strlen((gchar *)new_nick->data);
+	new_nick->len  = strlen ((gchar *)new_nick->data);
 	return new_nick;
 }
 
 static gboolean
-handle_error(gint myerr)
+handle_error (gint myerr)
 {
 	printf ("handle_error (%d)\n", myerr);
 

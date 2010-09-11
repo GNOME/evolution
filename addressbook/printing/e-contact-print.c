@@ -293,7 +293,7 @@ e_contact_print_contact (EContact *contact,
 	page_height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
 
 	cr = gtk_print_context_get_cairo_context (ctxt->context);
-	cairo_save(cr);
+	cairo_save (cr);
 	ctxt->y += get_font_height (ctxt->style->headings_font) * .2;
 
 	file_as = e_contact_get (contact, E_CONTACT_FILE_AS);
@@ -393,7 +393,7 @@ contacts_added (EBookView *book_view,
                 EContactPrintContext *ctxt)
 {
 	while (contact_list != NULL) {
-		ctxt->contact_list = g_list_insert_sorted(
+		ctxt->contact_list = g_list_insert_sorted (
 			ctxt->contact_list,
 			g_object_ref (contact_list->data),
 			(GCompareFunc) contact_compare);
@@ -509,12 +509,12 @@ e_contact_build_style (EContactPrintStyle *style)
 	g_free (filename);
 
 	if (styledoc) {
-		xmlNodePtr stylenode = xmlDocGetRootElement(styledoc);
+		xmlNodePtr stylenode = xmlDocGetRootElement (styledoc);
 		xmlNodePtr node;
 		for (node = stylenode->children; node; node = node->next) {
 			gchar *data = (gchar *)xmlNodeGetContent ( node );
 			if (!strcmp( (gchar *)node->name, "title" )) {
-				get_string(data, &(style->title));
+				get_string (data, &(style->title));
 			} else if (!strcmp( (gchar *)node->name, "type" )) {
 				if (g_ascii_strcasecmp (data, "cards") == 0)
 					style->type = E_CONTACT_PRINT_TYPE_CARDS;
@@ -523,35 +523,35 @@ e_contact_build_style (EContactPrintStyle *style)
 				else if (g_ascii_strcasecmp (data, "phone_list") == 0)
 					style->type = E_CONTACT_PRINT_TYPE_PHONE_LIST;
 			} else if (!strcmp( (gchar *)node->name, "sections_start_new_page" )) {
-				style->sections_start_new_page = get_bool(data);
+				style->sections_start_new_page = get_bool (data);
 			} else if (!strcmp( (gchar *)node->name, "num_columns" )) {
-				style->num_columns = get_integer(data);
+				style->num_columns = get_integer (data);
 			} else if (!strcmp( (gchar *)node->name, "blank_forms" )) {
-				style->blank_forms = get_integer(data);
+				style->blank_forms = get_integer (data);
 			} else if (!strcmp( (gchar *)node->name, "letter_headings" )) {
-				style->letter_headings = get_bool(data);
+				style->letter_headings = get_bool (data);
 			} else if (!strcmp( (gchar *)node->name, "headings_font" )) {
-				get_font( data, &(style->headings_font) );
+				get_font ( data, &(style->headings_font) );
 			} else if (!strcmp( (gchar *)node->name, "body_font" )) {
-				get_font( data, &(style->body_font) );
+				get_font ( data, &(style->body_font) );
 			} else if (!strcmp( (gchar *)node->name, "print_using_grey" )) {
-				style->print_using_grey = get_bool(data);
+				style->print_using_grey = get_bool (data);
 			} else if (!strcmp( (gchar *)node->name, "paper_width" )) {
-				style->paper_width = get_float(data);
+				style->paper_width = get_float (data);
 			} else if (!strcmp( (gchar *)node->name, "paper_height" )) {
-				style->paper_height = get_float(data);
+				style->paper_height = get_float (data);
 			} else if (!strcmp( (gchar *)node->name, "top_margin" )) {
-				style->top_margin = get_float(data);
+				style->top_margin = get_float (data);
 			} else if (!strcmp( (gchar *)node->name, "left_margin" )) {
-				style->left_margin = get_float(data);
+				style->left_margin = get_float (data);
 			} else if (!strcmp( (gchar *)node->name, "bottom_margin" )) {
-				style->bottom_margin = get_float(data);
+				style->bottom_margin = get_float (data);
 			} else if (!strcmp( (gchar *)node->name, "right_margin" )) {
-				style->right_margin = get_float(data);
+				style->right_margin = get_float (data);
 			} else if (!strcmp( (gchar *)node->name, "page_width" )) {
-				style->page_width = get_float(data);
+				style->page_width = get_float (data);
 			} else if (!strcmp( (gchar *)node->name, "page_height" )) {
-				style->page_height = get_float(data);
+				style->page_height = get_float (data);
 			} else if (!strcmp( (gchar *)node->name, "orientation" )) {
 				if (data) {
 					style->orientation_portrait =
@@ -560,28 +560,28 @@ e_contact_build_style (EContactPrintStyle *style)
 					style->orientation_portrait = TRUE;
 				}
 			} else if (!strcmp( (gchar *)node->name, "header_font" )) {
-				get_font( data, &(style->header_font) );
+				get_font ( data, &(style->header_font) );
 			} else if (!strcmp( (gchar *)node->name, "left_header" )) {
-				get_string(data, &(style->left_header));
+				get_string (data, &(style->left_header));
 			} else if (!strcmp( (gchar *)node->name, "center_header" )) {
-				get_string(data, &(style->center_header));
+				get_string (data, &(style->center_header));
 			} else if (!strcmp( (gchar *)node->name, "right_header" )) {
-				get_string(data, &(style->right_header));
+				get_string (data, &(style->right_header));
 			} else if (!strcmp( (gchar *)node->name, "footer_font" )) {
-				get_font( data, &(style->footer_font) );
+				get_font ( data, &(style->footer_font) );
 			} else if (!strcmp( (gchar *)node->name, "left_footer" )) {
-				get_string(data, &(style->left_footer));
+				get_string (data, &(style->left_footer));
 			} else if (!strcmp( (gchar *)node->name, "center_footer" )) {
-				get_string(data, &(style->center_footer));
+				get_string (data, &(style->center_footer));
 			} else if (!strcmp( (gchar *)node->name, "right_footer" )) {
-				get_string(data, &(style->right_footer));
+				get_string (data, &(style->right_footer));
 			} else if (!strcmp( (gchar *)node->name, "reverse_on_even_pages" )) {
-				style->reverse_on_even_pages = get_bool(data);
+				style->reverse_on_even_pages = get_bool (data);
 			}
 			if (data)
 				xmlFree (data);
 		}
-		xmlFreeDoc(styledoc);
+		xmlFreeDoc (styledoc);
 	}
 
 }

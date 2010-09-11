@@ -103,7 +103,7 @@ load_source_auth_cb (EBook *book, const GError *error, gpointer closure)
 					"%s", _("Accessing LDAP Server anonymously"));
 				g_signal_connect (
 					dialog, "response",
-					G_CALLBACK(gtk_widget_destroy), NULL);
+					G_CALLBACK (gtk_widget_destroy), NULL);
 				gtk_widget_show (dialog);
 				error = NULL;
 
@@ -179,7 +179,7 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 	gchar *pass_dup = NULL;
 	const gchar *auth;
 	const gchar *user;
-	gchar *uri = remove_parameters_from_uri(e_book_get_uri (book));
+	gchar *uri = remove_parameters_from_uri (e_book_get_uri (book));
 	const gchar *auth_domain = e_source_get_property (source, "auth-domain");
 	const gchar *component_name;
 
@@ -256,7 +256,7 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 static void
 auth_required_cb (EBook *book, gpointer data)
 {
-	LoadSourceData *load_source_data = g_new0(LoadSourceData, 1);
+	LoadSourceData *load_source_data = g_new0 (LoadSourceData, 1);
 
 	load_source_data->source = g_object_ref (g_object_ref (e_book_get_source (book)));
 	load_source_data->cancelled = FALSE;

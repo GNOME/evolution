@@ -40,10 +40,10 @@ static void e_minicard_label_get_property  (GObject *object, guint prop_id, GVal
 static gboolean e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event);
 static void e_minicard_label_realize (GnomeCanvasItem *item);
 static void e_minicard_label_unrealize (GnomeCanvasItem *item);
-static void e_minicard_label_reflow(GnomeCanvasItem *item, gint flags);
+static void e_minicard_label_reflow (GnomeCanvasItem *item, gint flags);
 static void e_minicard_label_style_set (EMinicardLabel *label, GtkStyle *previous_style);
 
-static void e_minicard_label_resize_children( EMinicardLabel *e_minicard_label );
+static void e_minicard_label_resize_children ( EMinicardLabel *e_minicard_label );
 
 static void set_colors (EMinicardLabel *label);
 
@@ -193,7 +193,7 @@ e_minicard_label_init (EMinicardLabel *minicard_label)
 
   minicard_label->max_field_name_length = -1;
 
-  e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(minicard_label), e_minicard_label_reflow);
+  e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (minicard_label), e_minicard_label_reflow);
 }
 
 static void
@@ -208,12 +208,12 @@ e_minicard_label_set_property  (GObject *object, guint prop_id, const GValue *va
 	switch (prop_id) {
 	case PROP_WIDTH:
 		e_minicard_label->width = g_value_get_double (value);
-		e_minicard_label_resize_children(e_minicard_label);
+		e_minicard_label_resize_children (e_minicard_label);
 		e_canvas_item_request_reflow (item);
 		break;
 	case PROP_HAS_FOCUS:
 		if (e_minicard_label->field && (g_value_get_boolean (value) != E_FOCUS_NONE))
-			e_canvas_item_grab_focus(e_minicard_label->field, FALSE);
+			e_canvas_item_grab_focus (e_minicard_label->field, FALSE);
 		break;
 	case PROP_FIELD:
 		gnome_canvas_item_set( e_minicard_label->field, "text", g_value_get_string (value), NULL );
@@ -285,16 +285,16 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 	GnomeCanvasGroup *group;
 
 	e_minicard_label = E_MINICARD_LABEL (item);
-	group = GNOME_CANVAS_GROUP( item );
+	group = GNOME_CANVAS_GROUP ( item );
 
-	if (GNOME_CANVAS_ITEM_CLASS( parent_class )->realize)
-		(* GNOME_CANVAS_ITEM_CLASS( parent_class )->realize) (item);
+	if (GNOME_CANVAS_ITEM_CLASS ( parent_class )->realize)
+		(* GNOME_CANVAS_ITEM_CLASS ( parent_class )->realize) (item);
 
-	e_canvas_item_request_reflow(item);
+	e_canvas_item_request_reflow (item);
 
 	e_minicard_label->rect =
-	  gnome_canvas_item_new( group,
-				 gnome_canvas_rect_get_type(),
+	  gnome_canvas_item_new ( group,
+				 gnome_canvas_rect_get_type (),
 				 "x1", (double) 0,
 				 "y1", (double) 0,
 				 "x2", (double) e_minicard_label->width - 1,
@@ -302,8 +302,8 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 				 "outline_color", NULL,
 				 NULL );
 	e_minicard_label->fieldname =
-	  gnome_canvas_item_new( group,
-				 e_text_get_type(),
+	  gnome_canvas_item_new ( group,
+				 e_text_get_type (),
 				 "anchor", GTK_ANCHOR_NW,
 				 "clip_width", (double) ( e_minicard_label->width / 2 - 4 ),
 				 "clip", TRUE,
@@ -312,11 +312,11 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 				 "draw_background", FALSE,
 				 "im_context", E_CANVAS (item->canvas)->im_context,
 				 NULL );
-	e_canvas_item_move_absolute(e_minicard_label->fieldname, 2, 1);
+	e_canvas_item_move_absolute (e_minicard_label->fieldname, 2, 1);
 
 	e_minicard_label->field =
-	  gnome_canvas_item_new( group,
-				 e_text_get_type(),
+	  gnome_canvas_item_new ( group,
+				 e_text_get_type (),
 				 "anchor", GTK_ANCHOR_NW,
 				 "clip_width", (double) ( ( e_minicard_label->width + 1 ) / 2 - 4 ),
 				 "clip", TRUE,
@@ -326,18 +326,18 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 				 "draw_background", FALSE,
 				 "im_context", E_CANVAS (item->canvas)->im_context,
 				 NULL );
-	e_canvas_item_move_absolute(e_minicard_label->field, ( e_minicard_label->width / 2 + 2), 1);
+	e_canvas_item_move_absolute (e_minicard_label->field, ( e_minicard_label->width / 2 + 2), 1);
 
 	set_colors (e_minicard_label);
 
-	e_canvas_item_request_reflow(item);
+	e_canvas_item_request_reflow (item);
 }
 
 static void
 e_minicard_label_unrealize (GnomeCanvasItem *item)
 {
-	if (GNOME_CANVAS_ITEM_CLASS( parent_class )->unrealize)
-		(* GNOME_CANVAS_ITEM_CLASS( parent_class )->unrealize) (item);
+	if (GNOME_CANVAS_ITEM_CLASS ( parent_class )->unrealize)
+		(* GNOME_CANVAS_ITEM_CLASS ( parent_class )->unrealize) (item);
 }
 
 static gboolean
@@ -356,7 +356,7 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 
 			parent = GNOME_CANVAS_ITEM (e_minicard_label)->parent;
 			if (parent)
-				e_canvas_item_grab_focus(parent, FALSE);
+				e_canvas_item_grab_focus (parent, FALSE);
 		}
 		break;
 	case GDK_FOCUS_CHANGE: {
@@ -383,14 +383,14 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 	}
 
-	if (GNOME_CANVAS_ITEM_CLASS( parent_class )->event)
-		return (* GNOME_CANVAS_ITEM_CLASS( parent_class )->event) (item, event);
+	if (GNOME_CANVAS_ITEM_CLASS ( parent_class )->event)
+		return (* GNOME_CANVAS_ITEM_CLASS ( parent_class )->event) (item, event);
 	else
 		return 0;
 }
 
 static void
-e_minicard_label_resize_children(EMinicardLabel *e_minicard_label)
+e_minicard_label_resize_children (EMinicardLabel *e_minicard_label)
 {
 	gdouble left_width;
 	gdouble fieldnamewidth;
@@ -403,10 +403,10 @@ e_minicard_label_resize_children(EMinicardLabel *e_minicard_label)
 
 	fieldnamewidth = (double) MAX ( left_width, 0 );
 	fieldwidth = (double) MAX ( e_minicard_label->width - 8 - left_width, 0 );
-	gnome_canvas_item_set( e_minicard_label->fieldname,
+	gnome_canvas_item_set ( e_minicard_label->fieldname,
 			       "clip_width", is_rtl ? fieldwidth : fieldnamewidth,
 			       NULL );
-	gnome_canvas_item_set( e_minicard_label->field,
+	gnome_canvas_item_set ( e_minicard_label->field,
 			       "clip_width", is_rtl ? fieldnamewidth : fieldwidth,
 			       NULL );
 }
@@ -461,9 +461,9 @@ e_minicard_label_style_set (EMinicardLabel *label, GtkStyle *previous_style)
 }
 
 static void
-e_minicard_label_reflow(GnomeCanvasItem *item, gint flags)
+e_minicard_label_reflow (GnomeCanvasItem *item, gint flags)
 {
-	EMinicardLabel *e_minicard_label = E_MINICARD_LABEL(item);
+	EMinicardLabel *e_minicard_label = E_MINICARD_LABEL (item);
 
 	gint old_height;
 	gdouble text_height;
@@ -471,13 +471,13 @@ e_minicard_label_reflow(GnomeCanvasItem *item, gint flags)
 
 	old_height = e_minicard_label->height;
 
-	g_object_get(e_minicard_label->fieldname,
+	g_object_get (e_minicard_label->fieldname,
 		     "text_height", &text_height,
 		     NULL);
 
 	e_minicard_label->height = text_height;
 
-	g_object_get(e_minicard_label->field,
+	g_object_get (e_minicard_label->field,
 		     "text_height", &text_height,
 		     NULL);
 
@@ -485,12 +485,12 @@ e_minicard_label_reflow(GnomeCanvasItem *item, gint flags)
 		e_minicard_label->height = text_height;
 	e_minicard_label->height += 3;
 
-	gnome_canvas_item_set( e_minicard_label->rect,
+	gnome_canvas_item_set ( e_minicard_label->rect,
 			       "x2", (double) e_minicard_label->width - 1,
 			       "y2", (double) e_minicard_label->height - 1,
 			       NULL );
 
-	gnome_canvas_item_set( e_minicard_label->fieldname,
+	gnome_canvas_item_set ( e_minicard_label->fieldname,
 			       "clip_height", (double) e_minicard_label->height - 3,
 			       NULL );
 
@@ -499,16 +499,16 @@ e_minicard_label_reflow(GnomeCanvasItem *item, gint flags)
 	else
 		left_width = e_minicard_label->width / 2 - 4;
 
-	e_canvas_item_move_absolute(e_minicard_label->field, left_width + 6, 1);
+	e_canvas_item_move_absolute (e_minicard_label->field, left_width + 6, 1);
 
 	if (old_height != e_minicard_label->height)
-		e_canvas_item_request_parent_reflow(item);
+		e_canvas_item_request_parent_reflow (item);
 }
 
 GnomeCanvasItem *
-e_minicard_label_new(GnomeCanvasGroup *parent)
+e_minicard_label_new (GnomeCanvasGroup *parent)
 {
-	GnomeCanvasItem *item = gnome_canvas_item_new(parent, e_minicard_label_get_type(), NULL);
+	GnomeCanvasItem *item = gnome_canvas_item_new (parent, e_minicard_label_get_type (), NULL);
 	return item;
 }
 

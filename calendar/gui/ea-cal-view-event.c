@@ -253,8 +253,8 @@ ea_cal_view_event_dispose (GObject *object)
                 a11y->state_set = NULL;
         }
 
-        if (G_OBJECT_CLASS(parent_class)->dispose)
-                G_OBJECT_CLASS(parent_class)->dispose (object);
+        if (G_OBJECT_CLASS (parent_class)->dispose)
+                G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static G_CONST_RETURN gchar *
@@ -276,7 +276,7 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 	g_obj = atk_gobject_accessible_get_object (atk_gobj);
 	if (!g_obj || !E_IS_TEXT (g_obj))
 		return NULL;
-	event = ea_calendar_helpers_get_cal_view_event_from (GNOME_CANVAS_ITEM(g_obj));
+	event = ea_calendar_helpers_get_cal_view_event_from (GNOME_CANVAS_ITEM (g_obj));
 	if (!is_comp_data_valid (event))
 		return NULL;
 
@@ -356,7 +356,7 @@ ea_cal_view_event_get_index_in_parent (AtkObject *accessible)
 	ECalendarViewEvent *cal_view_event;
 
 	g_return_val_if_fail (EA_IS_CAL_VIEW_EVENT (accessible), -1);
-	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(accessible));
+	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (accessible));
 	if (!g_obj)
 		/* defunct object*/
 		return -1;
@@ -459,7 +459,7 @@ ea_cal_view_get_extents (AtkComponent   *component,
 
 	g_return_if_fail (EA_IS_CAL_VIEW_EVENT (component));
 
-	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(component));
+	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (component));
 	if (!g_obj)
 		/* defunct object*/
 		return;

@@ -73,11 +73,11 @@ static void epech_dialog_finalize (GObject *object);
 static void epech_dialog_init (GObject *object);
 static void epech_dialog_dispose (GObject *object);
 static void epech_setup_widgets (CustomHeaderOptionsDialog *mch);
-static gint epech_check_existing_composer_window(gconstpointer a, gconstpointer b);
+static gint epech_check_existing_composer_window (gconstpointer a, gconstpointer b);
 static void commit_changes (ConfigData *cd);
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
-gboolean e_plugin_ui_init(GtkUIManager *ui_manager, EMsgComposer *composer);
+gboolean e_plugin_ui_init (GtkUIManager *ui_manager, EMsgComposer *composer);
 GtkWidget *org_gnome_email_custom_header_config_option (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
 gint
@@ -101,8 +101,8 @@ epech_get_widgets_data (CustomHeaderOptionsDialog *mch)
 	for (index_column = 0;
 		index_column < priv->email_custom_header_details->len; index_column++) {
 
-		sub_combo_box_get = &g_array_index(priv->combo_box_header_value, HeaderValueComboBox,index_column);
-		selected_item = gtk_combo_box_get_active((GtkComboBox *)sub_combo_box_get->header_value_combo_box);
+		sub_combo_box_get = &g_array_index (priv->combo_box_header_value, HeaderValueComboBox,index_column);
+		selected_item = gtk_combo_box_get_active ((GtkComboBox *)sub_combo_box_get->header_value_combo_box);
 		g_array_append_val (priv->header_index_type, selected_item);
 	}
 }
@@ -139,13 +139,13 @@ epech_fill_widgets_with_data (CustomHeaderOptionsDialog *mch)
 
 	for (set_index_column = 0;
 		set_index_column < priv->email_custom_header_details->len;set_index_column++) {
-		sub_combo_box_fill = &g_array_index(priv->combo_box_header_value, HeaderValueComboBox,set_index_column);
+		sub_combo_box_fill = &g_array_index (priv->combo_box_header_value, HeaderValueComboBox,set_index_column);
 
 		if (priv->flag == 0) {
 			gtk_combo_box_set_active ((GtkComboBox *)sub_combo_box_fill->header_value_combo_box,0);
 		} else {
 			gtk_combo_box_set_active ((GtkComboBox *)sub_combo_box_fill->header_value_combo_box,
-				g_array_index(priv->header_index_type, gint, set_index_column));
+				g_array_index (priv->header_index_type, gint, set_index_column));
 		}
 	}
 }
@@ -227,7 +227,7 @@ epech_dialog_run (CustomHeaderOptionsDialog *mch, GtkWidget *parent)
 	e_load_ui_builder_definition (
 		priv->builder, "org-gnome-email-custom-header.ui");
 
-	if (!epech_get_widgets(mch)) {
+	if (!epech_get_widgets (mch)) {
 		g_object_unref (priv->builder);
 		d (printf ("\n Could not get the Widgets\n"));
 	}
@@ -275,27 +275,27 @@ epech_load_from_gconf (GConfClient *client,const gchar *path,CustomHeaderOptions
 	for (q = header_list,pos = 0; q != NULL; q = q->next,pos++) {
 		gchar **parse_header_list;
 
-		memset(&temp_header_value_details,0,sizeof(CustomSubHeader));
+		memset (&temp_header_value_details,0,sizeof (CustomSubHeader));
 		temp_header_details.sub_header_type_value = g_array_new (TRUE, TRUE, sizeof (CustomSubHeader));
 		buffer = q->data;
 		parse_header_list = g_strsplit_set (buffer, "=;,", -1);
 		temp_header_details.header_type_value = g_string_new("");
 		if (temp_header_details.header_type_value) {
-			g_string_assign(temp_header_details.header_type_value, parse_header_list[0]);
+			g_string_assign (temp_header_details.header_type_value, parse_header_list[0]);
 		}
 
 		for (index = 0; parse_header_list[index+1] ; ++index) {
 			temp_header_value_details.sub_header_string_value = g_string_new("");
 
 			if (temp_header_value_details.sub_header_string_value) {
-				g_string_assign(temp_header_value_details.sub_header_string_value, parse_header_list[index+1]);
+				g_string_assign (temp_header_value_details.sub_header_string_value, parse_header_list[index+1]);
 			}
 
-			g_array_append_val(temp_header_details.sub_header_type_value, temp_header_value_details);
+			g_array_append_val (temp_header_details.sub_header_type_value, temp_header_value_details);
 		}
 
 		temp_header_details.number_of_subtype_header = index;
-		g_array_append_val(priv->email_custom_header_details, temp_header_details);
+		g_array_append_val (priv->email_custom_header_details, temp_header_details);
 	}
 
 	temp_header_details.number_of_header = pos;
@@ -334,7 +334,7 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 
 		/* To create an empty label widget. Text will be added dynamically. */
 		priv->header_type_name_label = gtk_label_new ("");
-		temp_header_ptr = &g_array_index(priv->email_custom_header_details, EmailCustomHeaderDetails,header_section_id);
+		temp_header_ptr = &g_array_index (priv->email_custom_header_details, EmailCustomHeaderDetails,header_section_id);
                 str = (temp_header_ptr->header_type_value)->str;
                 if (strcmp (str, security_field) == 0) {
 			str = _(security_field);
@@ -348,21 +348,21 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 		gtk_misc_set_alignment (GTK_MISC (priv->header_type_name_label), 0, 0.5);
 		gtk_widget_show (priv->header_type_name_label);
 		sub_combo_box.header_value_combo_box = gtk_combo_box_new_text ();
-		g_array_append_val(priv->combo_box_header_value, sub_combo_box);
+		g_array_append_val (priv->combo_box_header_value, sub_combo_box);
 	}
 
 	for (sub_index = 0,row_combo = 0,column_combo = 1; sub_index < priv->combo_box_header_value->len;
                 sub_index++,row_combo++,column_combo++) {
-		temp = &g_array_index(priv->email_custom_header_details, EmailCustomHeaderDetails,sub_index);
+		temp = &g_array_index (priv->email_custom_header_details, EmailCustomHeaderDetails,sub_index);
 
-		sub_combo_box_ptr = &g_array_index(priv->combo_box_header_value, HeaderValueComboBox,sub_index);
+		sub_combo_box_ptr = &g_array_index (priv->combo_box_header_value, HeaderValueComboBox,sub_index);
 		gtk_table_attach (GTK_TABLE (priv->header_table),
 			sub_combo_box_ptr->header_value_combo_box, 1, 2, row_combo, column_combo,
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
 			(GtkAttachOptions) (GTK_FILL), 0, 0);
 
 		for (sub_type_index = 0; sub_type_index < temp->number_of_subtype_header; sub_type_index++) {
-			temp_header_value_ptr = &g_array_index(temp->sub_header_type_value, CustomSubHeader,sub_type_index);
+			temp_header_value_ptr = &g_array_index (temp->sub_header_type_value, CustomSubHeader,sub_type_index);
 			str = (temp_header_value_ptr->sub_header_string_value)->str;
 			for (i = 0; security_values[i].value != NULL; i++) {
 				if (strcmp (str, security_values[i].value) == 0) {
@@ -465,12 +465,12 @@ epech_append_to_custom_header (CustomHeaderOptionsDialog *dialog, gint state, gp
 
 		for (index_subtype = 0; index_subtype < priv->email_custom_header_details->len; index_subtype++) {
 
-			temp_header_ptr = &g_array_index(priv->email_custom_header_details, EmailCustomHeaderDetails,index_subtype);
+			temp_header_ptr = &g_array_index (priv->email_custom_header_details, EmailCustomHeaderDetails,index_subtype);
 
 			for (sub_type_index = 0; sub_type_index < temp_header_ptr->number_of_subtype_header; sub_type_index++) {
-				temp_header_value_ptr = &g_array_index(temp_header_ptr->sub_header_type_value, CustomSubHeader,sub_type_index);
+				temp_header_value_ptr = &g_array_index (temp_header_ptr->sub_header_type_value, CustomSubHeader,sub_type_index);
 
-				if (sub_type_index == g_array_index(priv->header_index_type, gint, index_subtype)) {
+				if (sub_type_index == g_array_index (priv->header_index_type, gint, index_subtype)) {
 					e_msg_composer_modify_header (composer, (temp_header_ptr->header_type_value)->str,
 						(temp_header_value_ptr->sub_header_string_value)->str);
 				}
@@ -509,7 +509,7 @@ epech_custom_header_options_commit (EMsgComposer *comp, gpointer user_data)
 }
 
 static gint
-epech_check_existing_composer_window(gconstpointer compowindow, gconstpointer other_compowindow)
+epech_check_existing_composer_window (gconstpointer compowindow, gconstpointer other_compowindow)
 {
 	if ((compowindow) && (other_compowindow)) {
 		if (((EmailCustomHeaderWindow *)compowindow)->epech_window == (GdkWindow *)other_compowindow) {
@@ -546,13 +546,13 @@ static void action_email_custom_header_cb (GtkAction *action, EMsgComposer *comp
 	new_email_custom_header_window = g_object_get_data ((GObject *) composer, "compowindow");
 
 	window = gtk_widget_get_window (menuitem);
-	if (epech_check_existing_composer_window(new_email_custom_header_window,window) == 0) {
+	if (epech_check_existing_composer_window (new_email_custom_header_window,window) == 0) {
 		dialog = new_email_custom_header_window->epech_dialog;
 	} else {
 		dialog = epech_dialog_new ();
 		if (dialog) {
                         EmailCustomHeaderWindow *new_email_custom_header_window;
-                        new_email_custom_header_window = g_new0(EmailCustomHeaderWindow, 1);
+                        new_email_custom_header_window = g_new0 (EmailCustomHeaderWindow, 1);
                         new_email_custom_header_window->epech_window = window;
                         new_email_custom_header_window->epech_dialog = dialog;
                         g_object_set_data_full ((GObject *) composer, "compowindow", new_email_custom_header_window, destroy_compo_data);
@@ -610,11 +610,11 @@ commit_changes (ConfigData *cd)
 			-1);
 
                 /* Check if the keyword is not empty */
-                if ((keyword) && (g_utf8_strlen(g_strstrip(keyword), -1) > 0)) {
-                        if ((value) && (g_utf8_strlen(g_strstrip(value), -1) > 0)) {
+                if ((keyword) && (g_utf8_strlen (g_strstrip (keyword), -1) > 0)) {
+                        if ((value) && (g_utf8_strlen (g_strstrip (value), -1) > 0)) {
                                 keyword = g_strconcat (keyword, "=", value, NULL);
                         }
-                        header_config_list = g_slist_append (header_config_list, g_strdup(keyword));
+                        header_config_list = g_slist_append (header_config_list, g_strdup (keyword));
                 }
 
 		g_free (keyword);
@@ -717,17 +717,17 @@ header_remove_clicked (GtkButton *button, ConfigData *cd)
 	/* Get the path and move to the previous node :) */
 	path = gtk_tree_model_get_path (model, &iter);
 	if (path)
-		valid = gtk_tree_path_prev(path);
+		valid = gtk_tree_path_prev (path);
 
 	gtk_list_store_remove (GTK_LIST_STORE (model), &iter);
 
 	len = gtk_tree_model_iter_n_children (model, NULL);
 	if (len > 0) {
-		if (gtk_list_store_iter_is_valid (GTK_LIST_STORE(model), &iter)) {
+		if (gtk_list_store_iter_is_valid (GTK_LIST_STORE (model), &iter)) {
 			gtk_tree_selection_select_iter (selection, &iter);
 		} else {
 			if (path && valid) {
-				gtk_tree_model_get_iter(model, &iter, path);
+				gtk_tree_model_get_iter (model, &iter, path);
 				gtk_tree_selection_select_iter (selection, &iter);
 			}
 		}
@@ -736,7 +736,7 @@ header_remove_clicked (GtkButton *button, ConfigData *cd)
 		gtk_widget_set_sensitive (cd->header_remove, FALSE);
 	}
 
-	gtk_widget_grab_focus(cd->treeview);
+	gtk_widget_grab_focus (cd->treeview);
 	gtk_tree_path_free (path);
 
 	commit_changes (cd);
@@ -804,7 +804,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gchar *buffer;
 	GtkTreeViewColumn *col;
 	gint col_pos;
-	GConfClient *client = gconf_client_get_default();
+	GConfClient *client = gconf_client_get_default ();
 	ConfigData *cd = g_new0 (ConfigData, 1);
 
 	GtkWidget *ech_configuration_box;
@@ -885,7 +885,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 			renderer, "text", HEADER_KEY_COLUMN, NULL);
 	col = gtk_tree_view_get_column (GTK_TREE_VIEW (cd->treeview), col_pos -1);
 	gtk_tree_view_column_set_resizable (col, TRUE);
-	gtk_tree_view_column_set_reorderable(col, TRUE);
+	gtk_tree_view_column_set_reorderable (col, TRUE);
 	g_object_set (col, "min-width", 50, NULL);
 
 	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
@@ -901,7 +901,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 			renderer, "text", HEADER_VALUE_COLUMN, NULL);
 	col = gtk_tree_view_get_column (GTK_TREE_VIEW (cd->treeview), col_pos -1);
 	gtk_tree_view_column_set_resizable (col, TRUE);
-	gtk_tree_view_column_set_reorderable(col, TRUE);
+	gtk_tree_view_column_set_reorderable (col, TRUE);
 	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
 
 	g_signal_connect (

@@ -136,14 +136,14 @@ check_and_set_default_mail (void)
 	GConfClient *client = gconf_client_get_default ();
 	gchar *mailer;
 
-	mailer  = gconf_client_get_string(client, GCONF_KEY_MAILTO_COMMAND, NULL);
+	mailer  = gconf_client_get_string (client, GCONF_KEY_MAILTO_COMMAND, NULL);
 	if (mailer && *mailer && (strcmp (mailer, ANJAL_MAILTO_COMMAND) == 0)) {
 		g_object_unref (client);
 		return; /* Anjal is the default mailer */
 	}
 
-	gconf_client_set_bool(client, GCONF_KEY_MAILTO_ENABLED, TRUE, NULL);
-	gconf_client_set_string(client, GCONF_KEY_MAILTO_COMMAND, ANJAL_MAILTO_COMMAND, NULL);
+	gconf_client_set_bool (client, GCONF_KEY_MAILTO_ENABLED, TRUE, NULL);
+	gconf_client_set_string (client, GCONF_KEY_MAILTO_COMMAND, ANJAL_MAILTO_COMMAND, NULL);
 	g_object_unref (client);
 }
 
@@ -161,7 +161,7 @@ idle_cb (MailCappletShell *mshell G_GNUC_UNUSED)
 static void
 create_default_shell (void)
 {
-	main_window = mail_capplet_shell_new(socket_id, FALSE, TRUE);
+	main_window = mail_capplet_shell_new (socket_id, FALSE, TRUE);
 	if (!socket_id)
 		gtk_widget_show (main_window);
 	g_idle_add ((GSourceFunc) idle_cb, remaining_args);
@@ -219,15 +219,15 @@ main (gint argc, gchar *argv[])
 
 	if (!gtk_init_with_args (&argc, &argv, _("Anjal email client"), entries, NULL, &error)) {
 		g_error ("Unable to start Anjal: %s\n", error->message);
-		g_error_free(error);
+		g_error_free (error);
 	}
 
 	if (!g_thread_get_initialized ())
 		g_thread_init (NULL);
 
-	client = gconf_client_get_default();
+	client = gconf_client_get_default ();
 
-	e_passwords_init();
+	e_passwords_init ();
 	gtk_icon_theme_append_search_path (gtk_icon_theme_get_default(), PACKAGE_DATA_DIR G_DIR_SEPARATOR_S "anjal" G_DIR_SEPARATOR_S "icons");
 	categories_icon_theme_hack ();
 

@@ -43,7 +43,7 @@ e_plugin_lib_enable (EPlugin *ep, gint enable)
 }
 
 void
-org_gnome_evolution_profiler_event(EPlugin *ep, EProfileEventTarget *t)
+org_gnome_evolution_profiler_event (EPlugin *ep, EProfileEventTarget *t)
 {
 	static FILE *fp;
 
@@ -54,7 +54,7 @@ org_gnome_evolution_profiler_event(EPlugin *ep, EProfileEventTarget *t)
 		fp = fopen(name, "w");
 		if (fp)
 			fprintf(stderr, "Generating profiling data in '%s'\n", name);
-		g_free(name);
+		g_free (name);
 	}
 
 	if (fp)

@@ -205,7 +205,7 @@ do_save_calendar_rdf (FormatHandler *handler, ESourceSelector *selector, ECalSou
 	stream = open_for_writing (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (selector))), dest_uri, &error);
 
 	if (stream && e_cal_get_object_list_as_comp (source_client, "#t", &objects, NULL)) {
-		xmlBufferPtr buffer=xmlBufferCreate();
+		xmlBufferPtr buffer=xmlBufferCreate ();
 		xmlDocPtr doc = xmlNewDoc((xmlChar *) "1.0");
 		xmlNodePtr fnode;
 

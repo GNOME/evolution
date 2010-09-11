@@ -692,7 +692,7 @@ use_common_book_cb (EBook *book, const GError *error, gpointer closure)
 	query_parts[p] = NULL;
 	qj = g_strjoinv (" ", query_parts);
 	for (i = 0; query_parts[i] != NULL; i++)
-		g_free(query_parts[i]);
+		g_free (query_parts[i]);
 	if (p > 1) {
 		gchar *s;
 		s = g_strdup_printf ("(or %s)", qj);

@@ -55,7 +55,7 @@ GtkWidget * org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data);
 static void proxy_add_account (GtkWidget *button, EAccount *account);
 static void proxy_remove_account (GtkWidget *button, EAccount *account);
 static void proxy_update_tree_view (EAccount *account);
-static void proxy_cancel(GtkWidget *button, EAccount *account);
+static void proxy_cancel (GtkWidget *button, EAccount *account);
 static void proxy_edit_account (GtkWidget *button, EAccount *account);
 void proxy_abort (GtkWidget *button, EConfigHookItemFactoryData *data);
 void proxy_commit (GtkWidget *button, EConfigHookItemFactoryData *data);

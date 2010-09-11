@@ -80,10 +80,10 @@ struct _EMFormatHookClass {
 	GHashTable *format_classes;
 };
 
-GType em_format_hook_get_type(void);
+GType em_format_hook_get_type (void);
 
 /* register a type as a possible formatter hook point */
-void em_format_hook_register_type(GType type);
+void em_format_hook_register_type (GType type);
 
 G_END_DECLS
 

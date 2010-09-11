@@ -54,7 +54,7 @@ struct _MailMsgInfo {
 };
 
 /* setup ports */
-void mail_msg_init(void);
+void mail_msg_init (void);
 void mail_msg_cleanup (void);
 
 gboolean mail_in_main_thread (void);
@@ -64,10 +64,10 @@ gpointer mail_msg_new (MailMsgInfo *info);
 gpointer mail_msg_ref (gpointer msg);
 void mail_msg_unref (gpointer msg);
 void mail_msg_check_error (gpointer msg);
-void mail_msg_cancel(guint msgid);
-void mail_msg_wait(guint msgid);
-void mail_msg_wait_all(void);
-gint mail_msg_active(guint msgid);
+void mail_msg_cancel (guint msgid);
+void mail_msg_wait (guint msgid);
+void mail_msg_wait_all (void);
+gint mail_msg_active (guint msgid);
 
 /* dispatch a message */
 void mail_msg_main_loop_push (gpointer msg);
@@ -99,11 +99,11 @@ typedef enum _mail_async_event_t {
 typedef void (*MailAsyncFunc)(gpointer , gpointer , gpointer );
 
 /* create a new async event handler */
-MailAsyncEvent *mail_async_event_new(void);
+MailAsyncEvent *mail_async_event_new (void);
 /* forward a camel event (or other call) to the gui thread */
-guint mail_async_event_emit(MailAsyncEvent *ea, mail_async_event_t type, MailAsyncFunc func, gpointer , gpointer , gpointer );
+guint mail_async_event_emit (MailAsyncEvent *ea, mail_async_event_t type, MailAsyncFunc func, gpointer , gpointer , gpointer );
 /* wait for all outstanding async events to complete */
-gint mail_async_event_destroy(MailAsyncEvent *ea);
+gint mail_async_event_destroy (MailAsyncEvent *ea);
 
 void mail_mt_set_backend (gchar *backend);
 
@@ -119,7 +119,7 @@ typedef enum {
 
 typedef gpointer (*MailMainFunc)();
 
-gpointer mail_call_main(mail_call_t type, MailMainFunc func, ...);
+gpointer mail_call_main (mail_call_t type, MailMainFunc func, ...);
 
 /* A generic proxy event for anything that can be proxied during the life of the mailer (almost nothing) */
 /* Note that almost all objects care about the lifecycle of their events, so this cannot be used */

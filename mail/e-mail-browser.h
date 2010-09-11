@@ -66,7 +66,7 @@ void		e_mail_browser_close		(EMailBrowser *browser);
 gboolean	e_mail_browser_get_show_deleted	(EMailBrowser *browser);
 void		e_mail_browser_set_show_deleted (EMailBrowser *browser,
 						 gboolean show_deleted);
-EFocusTracker *	e_mail_browser_get_focus_tracker(EMailBrowser *browser);
+EFocusTracker *	e_mail_browser_get_focus_tracker (EMailBrowser *browser);
 GtkUIManager *	e_mail_browser_get_ui_manager	(EMailBrowser *browser);
 
 G_END_DECLS

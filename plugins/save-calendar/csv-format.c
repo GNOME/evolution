@@ -243,7 +243,7 @@ add_string_to_csv (GString *line, const gchar *value, CsvConfig *config)
 {
 	/* Will add a string to the record and will check for the need for quotes */
 
-	if ((value) && (strlen(value)>0)) {
+	if ((value) && (strlen (value)>0)) {
 		gboolean needquotes = string_needsquotes (value, config);
 
 		if (needquotes)
@@ -261,7 +261,7 @@ static gchar *
 userstring_to_systemstring (const gchar *userstring)
 {
 	const gchar *text = userstring;
-	gint i=0, len = strlen(text);
+	gint i=0, len = strlen (text);
 	GString *str = g_string_new ("");
 	gchar *retval = NULL;
 
@@ -340,11 +340,11 @@ do_save_calendar_csv (FormatHandler *handler,
 
 	config = g_new (CsvConfig, 1);
 
-	tmp = gtk_entry_get_text (GTK_ENTRY(d->delimiter_entry));
+	tmp = gtk_entry_get_text (GTK_ENTRY (d->delimiter_entry));
 	config->delimiter = userstring_to_systemstring (tmp?tmp:", ");
-	tmp = gtk_entry_get_text (GTK_ENTRY(d->newline_entry));
+	tmp = gtk_entry_get_text (GTK_ENTRY (d->newline_entry));
 	config->newline = userstring_to_systemstring (tmp?tmp:"\\n");
-	tmp = gtk_entry_get_text (GTK_ENTRY(d->quote_entry));
+	tmp = gtk_entry_get_text (GTK_ENTRY (d->quote_entry));
 	config->quote = userstring_to_systemstring (tmp?tmp:"\"");
 	config->header = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (d->header_check));
 
@@ -379,10 +379,10 @@ do_save_calendar_csv (FormatHandler *handler,
 			};
 
 			line = g_string_new ("");
-			for (i=0;i<G_N_ELEMENTS(labels);i++) {
+			for (i=0;i<G_N_ELEMENTS (labels);i++) {
 				if (i>0)
-					line = g_string_append(line, config->delimiter);
-				line = g_string_append(line, _(labels[i]));
+					line = g_string_append (line, config->delimiter);
+				line = g_string_append (line, _(labels[i]));
 			}
 
 			line = g_string_append (line, config->newline);

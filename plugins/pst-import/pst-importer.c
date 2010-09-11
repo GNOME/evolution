@@ -83,7 +83,7 @@ static void pst_process_journal (PstImporter *m, pst_item *item);
 
 static void pst_import_file (PstImporter *m);
 gchar *foldername_to_utf8 (const gchar *pstname);
-gchar *string_to_utf8(const gchar *string);
+gchar *string_to_utf8 (const gchar *string);
 void contact_set_date (EContact *contact, EContactField id, FILETIME *date);
 struct icaltimetype get_ical_date (FILETIME *date, gboolean is_date);
 gchar *rfc2445_datetime_format (FILETIME *ft);
@@ -512,7 +512,7 @@ pst_import_folders (PstImporter *m, pst_desc_tree *topitem)
 		} else {
 			while (d_ptr != topitem && d_ptr->next == NULL) {
 				if (m->folder_uri) {
-					g_free(m->folder_uri);
+					g_free (m->folder_uri);
 				}
 
 				m->folder_uri = g_strdup (m->parent_uri);
@@ -613,7 +613,7 @@ pst_process_item (PstImporter *m, pst_desc_tree *d_ptr)
  * @return utf8 representation (caller should free), or NULL for error.
  */
 gchar *
-string_to_utf8(const gchar *string)
+string_to_utf8 (const gchar *string)
 {
 	gchar *utf8;
 
@@ -632,7 +632,7 @@ foldername_to_utf8 (const gchar *pstname)
 {
 	gchar *utf8name, *folder_name;
 
-	utf8name = string_to_utf8(pstname);
+	utf8name = string_to_utf8 (pstname);
 
 	if (utf8name == NULL) {
 		folder_name = camel_url_encode (pstname, NULL);
@@ -694,7 +694,7 @@ pst_create_folder (PstImporter *m)
 	dest_len = strlen (dest);
 	dest_end = dest + dest_len;
 
-	pos = dest + strlen(parent);
+	pos = dest + strlen (parent);
 
 	while (pos != NULL && pos < dest_end) {
 		pos = g_strstr_len (pos+1, dest_end-pos, "/");
@@ -753,7 +753,7 @@ attachment_to_part (PstImporter *m, pst_item_attach *attach)
 		attach_rc = pst_attach_to_mem (&m->pst, attach);
 
 		camel_mime_part_set_content (part, (gchar *) attach_rc.data, attach_rc.size, mimetype);
-		free(attach_rc.data);
+		free (attach_rc.data);
 	}
 
 	return part;
@@ -787,7 +787,7 @@ pst_process_email (PstImporter *m, pst_item *item)
 			camel_mime_message_set_subject (msg, "(lost subject)");
 		} else {
 			camel_mime_message_set_subject (msg, subj);
-			g_free(subj);
+			g_free (subj);
 		}
 	}
 
@@ -886,7 +886,7 @@ pst_process_email (PstImporter *m, pst_item *item)
 
 	for (attach = item->attach; attach; attach = attach->next) {
 		if (attach->data.data || attach->i_id) {
-			part = attachment_to_part(m, attach);
+			part = attachment_to_part (m, attach);
 			camel_multipart_add_part (mp, part);
 			g_object_unref (part);
 		}
@@ -1192,9 +1192,9 @@ set_cal_attachments (ECal *cal, ECalComponent *ec, PstImporter *m, pst_item_atta
 		CamelStream *stream;
 		struct stat st;
 
-		part = attachment_to_part(m, attach);
+		part = attachment_to_part (m, attach);
 
-		orig_filename = camel_mime_part_get_filename(part);
+		orig_filename = camel_mime_part_get_filename (part);
 
 		if (orig_filename == NULL) {
 			g_warning("Ignoring unnamed attachment");
@@ -1209,24 +1209,24 @@ set_cal_attachments (ECal *cal, ECalComponent *ec, PstImporter *m, pst_item_atta
 		g_free (tmp);
 		g_free (filename);
 
-		dirname = g_path_get_dirname(path);
-		if (g_mkdir_with_parents(dirname, 0777) == -1) {
+		dirname = g_path_get_dirname (path);
+		if (g_mkdir_with_parents (dirname, 0777) == -1) {
 			g_warning("Could not create directory %s: %s", dirname, g_strerror(errno));
-			g_free(dirname);
+			g_free (dirname);
 			attach = attach->next;
 			continue;
 		}
-		g_free(dirname);
+		g_free (dirname);
 
-		if (g_access(path, F_OK) == 0) {
-			if (g_access(path, W_OK) != 0) {
+		if (g_access (path, F_OK) == 0) {
+			if (g_access (path, W_OK) != 0) {
 				g_warning("Could not write file %s - file exists", path);
 				attach = attach->next;
 				continue;
 			}
 		}
 
-		if (g_stat(path, &st) != -1 && !S_ISREG(st.st_mode)) {
+		if (g_stat (path, &st) != -1 && !S_ISREG (st.st_mode)) {
 			g_warning("Could not write file %s - not a file", path);
 			attach = attach->next;
 			continue;
@@ -1392,7 +1392,7 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gcha
 		}
 
 		e_cal_component_add_alarm (ec, alarm);
-		e_cal_component_alarm_free(alarm);
+		e_cal_component_alarm_free (alarm);
 
 	}
 
@@ -1441,7 +1441,7 @@ pst_process_appointment (PstImporter *m, pst_item *item)
 
 	if (!e_cal_create_object (m->calendar, e_cal_component_get_icalcomponent (ec), NULL, NULL)) {
 		g_warning("Creation of appointment failed");
-		g_free(ec);
+		g_free (ec);
 	}
 
 	g_object_unref (ec);
@@ -1465,7 +1465,7 @@ pst_process_task (PstImporter *m, pst_item *item)
 
 	if (!e_cal_create_object (m->tasks, e_cal_component_get_icalcomponent (ec), NULL, NULL)) {
 		g_warning("Creation of task failed");
-		g_free(ec);
+		g_free (ec);
 	}
 
 	g_object_unref (ec);
@@ -1512,7 +1512,7 @@ pst_process_journal (PstImporter *m, pst_item *item)
 
 	if (!e_cal_create_object (m->journal, e_cal_component_get_icalcomponent (ec), NULL, NULL)) {
 		g_warning("Creation of journal entry failed");
-		g_free(ec);
+		g_free (ec);
 	}
 
 	g_object_unref (ec);

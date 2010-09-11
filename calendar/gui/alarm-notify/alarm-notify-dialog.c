@@ -281,7 +281,7 @@ notified_alarms_dialog_new (void)
 
 	e_buffer_tagger_connect (GTK_TEXT_VIEW (an->description));
 
-	gtk_tree_view_set_model (GTK_TREE_VIEW(an->treeview), model);
+	gtk_tree_view_set_model (GTK_TREE_VIEW (an->treeview), model);
 
 	gtk_window_set_keep_above (GTK_WINDOW (an->dialog), TRUE);
 
@@ -383,7 +383,7 @@ add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na, time_t trigge
 	funcinfo->func = func;
 	funcinfo->func_data = func_data;
 
-	gtk_list_store_append (GTK_LIST_STORE(model), &iter);
+	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
 
 	current_zone = config_data_get_timezone ();
 	start = timet_to_str_with_zone (occur_start, current_zone);
@@ -393,17 +393,17 @@ add_alarm_to_notified_alarms_dialog (AlarmNotificationsDialog *na, time_t trigge
 		summary, start, str_time);
 	g_free (start);
 	g_free (end);
-	gtk_list_store_set (GTK_LIST_STORE(model), &iter,
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
 		ALARM_DISPLAY_COLUMN, to_display, -1);
 	g_free (to_display);
 	g_free (str_time);
 
-	gtk_list_store_set (GTK_LIST_STORE(model), &iter, ALARM_SUMMARY_COLUMN, summary, -1);
-	gtk_list_store_set (GTK_LIST_STORE(model), &iter, ALARM_DESCRIPTION_COLUMN, description, -1);
-	gtk_list_store_set (GTK_LIST_STORE(model), &iter, ALARM_LOCATION_COLUMN, location, -1);
-	gtk_list_store_set (GTK_LIST_STORE(model), &iter, ALARM_START_COLUMN, occur_start, -1);
-	gtk_list_store_set (GTK_LIST_STORE(model), &iter, ALARM_END_COLUMN, occur_end, -1);
-	gtk_list_store_set (GTK_LIST_STORE(model), &iter, ALARM_FUNCINFO_COLUMN, funcinfo, -1);
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter, ALARM_SUMMARY_COLUMN, summary, -1);
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter, ALARM_DESCRIPTION_COLUMN, description, -1);
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter, ALARM_LOCATION_COLUMN, location, -1);
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter, ALARM_START_COLUMN, occur_start, -1);
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter, ALARM_END_COLUMN, occur_end, -1);
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter, ALARM_FUNCINFO_COLUMN, funcinfo, -1);
 
 	return iter;
 }

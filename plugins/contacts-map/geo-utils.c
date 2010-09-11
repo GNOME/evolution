@@ -52,7 +52,7 @@ add_marker (ChamplainLayer *layer, gdouble lat, gdouble lng, EContact *contact)
 	champlain_marker_set_use_markup (CHAMPLAIN_MARKER (marker), FALSE);
 	champlain_base_marker_set_position (CHAMPLAIN_BASE_MARKER (marker), lat, lng);
 
-	champlain_layer_add_marker (layer, CHAMPLAIN_BASE_MARKER(marker));
+	champlain_layer_add_marker (layer, CHAMPLAIN_BASE_MARKER (marker));
 }
 
 GeoclueGeocode*

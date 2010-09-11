@@ -1379,7 +1379,7 @@ process_completed_tasks (GnomeCalendar *gcal, gboolean config_changed)
 #if 0 /* KILL-BONOBO */
 	GnomeCalendarPrivate *priv;
 
-	g_return_if_fail (GNOME_IS_CALENDAR(gcal));
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	priv = gcal->priv;
 
@@ -1596,7 +1596,7 @@ gnome_calendar_goto_date (GnomeCalendar *gcal,
 	gboolean need_updating = FALSE;
 	icaltimezone *timezone;
 
-	g_return_if_fail (GNOME_IS_CALENDAR(gcal));
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	model = gnome_calendar_get_model (gcal);
 	week_start_day = e_cal_model_get_week_start_day (model);
@@ -1920,9 +1920,9 @@ gnome_calendar_display_view (GnomeCalendar *gcal,
 }
 
 static void
-non_intrusive_error_remove(GtkWidget *w, gpointer data)
+non_intrusive_error_remove (GtkWidget *w, gpointer data)
 {
-	g_hash_table_remove(non_intrusive_error_table, data);
+	g_hash_table_remove (non_intrusive_error_table, data);
 }
 
 GtkWidget *

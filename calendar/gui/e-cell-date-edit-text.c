@@ -126,7 +126,7 @@ cell_date_edit_text_get_text (ECellText *cell,
 	/* Note that although the property may be in a different
 	   timezone, we convert it to the current timezone to display
 	   it in the table. If the user actually edits the value,
-	   it will be set to the current timezone. See set_value(). */
+	   it will be set to the current timezone. See set_value (). */
 	tmp_tm = icaltimetype_to_tm_with_zone (&dv->tt, dv->zone, timezone);
 
 	return e_datetime_format_format_tm (

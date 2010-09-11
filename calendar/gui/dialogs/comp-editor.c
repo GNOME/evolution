@@ -428,7 +428,7 @@ save_comp (CompEditor *editor)
 		}
 
 		/* retrieve all timezones */
-		if (IS_COMP_EDITOR_PAGE(l->data))
+		if (IS_COMP_EDITOR_PAGE (l->data))
 			comp_editor_page_fill_timezones (l->data, timezones);
 	}
 
@@ -520,7 +520,7 @@ save_comp (CompEditor *editor)
 			GTK_BUTTONS_OK,
 			"%s", (error != NULL) ? error->message :
 			_("Could not update object"));
-		gtk_dialog_run (GTK_DIALOG(dialog));
+		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
 
 		if (error)
@@ -810,15 +810,15 @@ action_save_cb (GtkAction *action,
 		gboolean response = 1;
 	/*FIXME: Cannot use mail functions from calendar!!!! */
 #if 0
-		ECalComponentVType vtype = e_cal_component_get_vtype(editor->priv->comp);
+		ECalComponentVType vtype = e_cal_component_get_vtype (editor->priv->comp);
 
 		if (vtype == E_CAL_COMPONENT_EVENT)
-			response = em_utils_prompt_user((GtkWindow *)widget,
+			response = em_utils_prompt_user ((GtkWindow *)widget,
 							 NULL,
 							 "calendar:ask-send-event-pending-download",
 							  NULL);
 		else
-			response = em_utils_prompt_user((GtkWindow *)widget,
+			response = em_utils_prompt_user ((GtkWindow *)widget,
 							 NULL,
 							 "calendar:ask-send-task-pending-download",
 							  NULL);
@@ -1872,7 +1872,7 @@ prompt_and_save_changes (CompEditor *editor, gboolean send)
 	if (!priv->changed)
 		return TRUE;
 
-	switch (save_component_dialog (GTK_WINDOW(editor), priv->comp)) {
+	switch (save_component_dialog (GTK_WINDOW (editor), priv->comp)) {
 	case GTK_RESPONSE_YES: /* Save */
 		if (!e_cal_is_read_only (priv->client, &read_only, NULL) || read_only) {
 			e_alert_run_dialog_for_args (
@@ -2341,7 +2341,7 @@ comp_editor_append_widget (CompEditor *editor,
 	g_signal_connect (
 		page, "map",
 		G_CALLBACK (page_mapped_cb), page);
-	g_signal_connect(
+	g_signal_connect (
 		page, "unmap",
 		G_CALLBACK (page_unmapped_cb), page);
 		*/
@@ -2408,7 +2408,7 @@ comp_editor_append_page (CompEditor *editor,
 	g_signal_connect (
 		page_widget, "map",
 		G_CALLBACK (page_mapped_cb), page);
-	g_signal_connect(
+	g_signal_connect (
 		page_widget, "unmap",
 		G_CALLBACK (page_unmapped_cb), page);
 
@@ -2642,7 +2642,7 @@ fill_widgets (CompEditor *editor)
 		action, G_CALLBACK (action_classification_cb), editor);
 
 	for (iter = priv->pages; iter != NULL; iter = iter->next) {
-		if (IS_COMP_EDITOR_PAGE(iter->data))
+		if (IS_COMP_EDITOR_PAGE (iter->data))
 			comp_editor_page_fill_widgets (iter->data, priv->comp);
 	}
 
@@ -2699,7 +2699,7 @@ set_attendees_for_delegation (ECalComponent *comp,
 		const gchar *attendee = icalproperty_get_attendee (prop);
 		const gchar *delfrom = NULL;
 
-		param = icalproperty_get_first_parameter(prop, ICAL_DELEGATEDFROM_PARAMETER);
+		param = icalproperty_get_first_parameter (prop, ICAL_DELEGATEDFROM_PARAMETER);
 		if (param)
 			delfrom = icalparameter_get_delegatedfrom (param);
 		if (!(g_str_equal (itip_strip_mailto (attendee), address) ||
@@ -2901,7 +2901,7 @@ comp_editor_get_current_comp (CompEditor *editor, gboolean *correct)
 	comp_editor_copy_new_attendees (comp, priv->comp);
 	if (priv->changed) {
 		for (l = priv->pages; l != NULL; l = l->next) {
-			if (IS_COMP_EDITOR_PAGE(l->data))
+			if (IS_COMP_EDITOR_PAGE (l->data))
 				all_ok = comp_editor_page_fill_component (l->data, comp) && all_ok;
 		}
 	}
@@ -3076,7 +3076,7 @@ page_dates_changed_cb (CompEditor *editor,
 	GList *l;
 
 	for (l = priv->pages; l != NULL; l = l->next)
-		if (page != (CompEditorPage *) l->data && IS_COMP_EDITOR_PAGE(l->data))
+		if (page != (CompEditorPage *) l->data && IS_COMP_EDITOR_PAGE (l->data))
 			comp_editor_page_set_dates (l->data, dates);
 
 	if (!priv->warned && priv->existing_org && !priv->user_org &&

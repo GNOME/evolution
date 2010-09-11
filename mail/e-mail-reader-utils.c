@@ -391,7 +391,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	uid = MESSAGE_LIST (message_list)->cursor_uid;
 	g_return_if_fail (uid != NULL);
 
-	if (!gtk_widget_get_mapped (GTK_WIDGET(web_view)))
+	if (!gtk_widget_get_mapped (GTK_WIDGET (web_view)))
 		goto whole_message;
 
 	if (src_message == NULL) {
@@ -710,7 +710,7 @@ headers_changed_cb (GConfClient *client,
 		client, "/apps/evolution/mail/display/headers",
 		GCONF_VALUE_STRING, NULL);
 	em_format_clear_headers (EM_FORMAT (formatter));
-	for (p = header_config_list; p; p = g_slist_next(p)) {
+	for (p = header_config_list; p; p = g_slist_next (p)) {
 		EMailReaderHeader *h;
 		gchar *xml = (gchar *)p->data;
 

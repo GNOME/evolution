@@ -41,7 +41,7 @@ G_DEFINE_TYPE (AnjalMailView, anjal_mail_view, GTK_TYPE_NOTEBOOK)
 static void
 anjal_mail_view_init (AnjalMailView  *shell)
 {
-	shell->priv = g_new0(AnjalMailViewPrivate, 1);
+	shell->priv = g_new0 (AnjalMailViewPrivate, 1);
 	shell->priv->started = TRUE;
 }
 
@@ -107,30 +107,30 @@ anjal_mail_view_set_folder_uri (AnjalMailView *mv, const gchar *uri)
 	if (!mv || !uri)
 		return;
 
-	ANJAL_MAIL_VIEW_GET_CLASS(mv)->set_folder_uri (mv, uri);
+	ANJAL_MAIL_VIEW_GET_CLASS (mv)->set_folder_uri (mv, uri);
 }
 
 void
 anjal_mail_view_set_folder_tree_widget (AnjalMailView *mv, GtkWidget *tree)
 {
-	ANJAL_MAIL_VIEW_GET_CLASS(mv)->set_folder_tree_widget (mv, tree);
+	ANJAL_MAIL_VIEW_GET_CLASS (mv)->set_folder_tree_widget (mv, tree);
 }
 
 void
 anjal_mail_view_set_folder_tree (AnjalMailView *mv, GtkWidget *tree)
 {
-	ANJAL_MAIL_VIEW_GET_CLASS(mv)->set_folder_tree (mv, (EMFolderTree *)tree);
+	ANJAL_MAIL_VIEW_GET_CLASS (mv)->set_folder_tree (mv, (EMFolderTree *)tree);
 }
 
 void
 anjal_mail_view_set_search (AnjalMailView *view, const gchar *search)
 {
-	ANJAL_MAIL_VIEW_GET_CLASS(view)->set_search (view, search);
+	ANJAL_MAIL_VIEW_GET_CLASS (view)->set_search (view, search);
 }
 
 void
 anjal_mail_view_init_search (AnjalMailView *mv, GtkWidget *search)
 {
-	ANJAL_MAIL_VIEW_GET_CLASS(mv)->init_search (mv, search);
+	ANJAL_MAIL_VIEW_GET_CLASS (mv)->init_search (mv, search);
 }
 

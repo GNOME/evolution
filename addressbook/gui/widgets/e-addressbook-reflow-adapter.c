@@ -59,7 +59,7 @@ enum {
 static guint signals[LAST_SIGNAL] = {0, };
 
 static void
-unlink_model(EAddressbookReflowAdapter *adapter)
+unlink_model (EAddressbookReflowAdapter *adapter)
 {
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
@@ -108,9 +108,9 @@ text_height (PangoLayout *layout, const gchar *text)
 }
 
 static void
-addressbook_dispose(GObject *object)
+addressbook_dispose (GObject *object)
 {
-	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(object);
+	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER (object);
 
 	unlink_model (adapter);
 }
@@ -124,7 +124,7 @@ addressbook_set_width (EReflowModel *erm, gint width)
 static gint
 addressbook_count (EReflowModel *erm)
 {
-	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(erm);
+	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER (erm);
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
 	return e_addressbook_model_contact_count (priv->model);
@@ -134,7 +134,7 @@ addressbook_count (EReflowModel *erm)
 static gint
 addressbook_height (EReflowModel *erm, gint i, GnomeCanvasGroup *parent)
 {
-	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(erm);
+	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER (erm);
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 	EContactField field;
 	gint count = 0;
@@ -146,9 +146,9 @@ addressbook_height (EReflowModel *erm, gint i, GnomeCanvasGroup *parent)
 	layout = gtk_widget_create_pango_layout (
 		GTK_WIDGET (GNOME_CANVAS_ITEM (parent)->canvas), "");
 
-	string = e_contact_get(contact, E_CONTACT_FILE_AS);
+	string = e_contact_get (contact, E_CONTACT_FILE_AS);
 	height = text_height (layout, string ? string : "") + 10.0;
-	g_free(string);
+	g_free (string);
 
 	for (field = E_CONTACT_FULL_NAME;
 	     field != E_CONTACT_LAST_SIMPLE_STRING && count < 5; field++) {
@@ -156,12 +156,12 @@ addressbook_height (EReflowModel *erm, gint i, GnomeCanvasGroup *parent)
 		if (field == E_CONTACT_FAMILY_NAME || field == E_CONTACT_GIVEN_NAME)
 			continue;
 
-		string = e_contact_get(contact, field);
+		string = e_contact_get (contact, field);
 		if (string && *string) {
 			gint this_height;
 			gint field_text_height;
 
-			this_height = text_height (layout, e_contact_pretty_name(field));
+			this_height = text_height (layout, e_contact_pretty_name (field));
 
 			field_text_height = text_height (layout, string);
 			if (this_height < field_text_height)
@@ -184,7 +184,7 @@ addressbook_height (EReflowModel *erm, gint i, GnomeCanvasGroup *parent)
 static gint
 addressbook_compare (EReflowModel *erm, gint n1, gint n2)
 {
-	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(erm);
+	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER (erm);
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 	EContact *contact1, *contact2;
 
@@ -201,7 +201,7 @@ addressbook_compare (EReflowModel *erm, gint n1, gint n2)
 			file_as1 = e_contact_get_const (contact1, E_CONTACT_FILE_AS);
 			file_as2 = e_contact_get_const (contact2, E_CONTACT_FILE_AS);
 			if (file_as1 && file_as2)
-				return g_utf8_collate(file_as1, file_as2);
+				return g_utf8_collate (file_as1, file_as2);
 			if (file_as1)
 				return -1;
 			if (file_as2)
@@ -209,7 +209,7 @@ addressbook_compare (EReflowModel *erm, gint n1, gint n2)
 			uid1 = e_contact_get_const (contact1, E_CONTACT_UID);
 			uid2 = e_contact_get_const (contact2, E_CONTACT_UID);
 			if (uid1 && uid2)
-				return strcmp(uid1, uid2);
+				return strcmp (uid1, uid2);
 			if (uid1)
 				return -1;
 			if (uid2)
@@ -248,19 +248,19 @@ adapter_open_contact (EMinicard *card,
 static GnomeCanvasItem *
 addressbook_incarnate (EReflowModel *erm, gint i, GnomeCanvasGroup *parent)
 {
-	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(erm);
+	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER (erm);
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 	GnomeCanvasItem *item;
 
-	item = gnome_canvas_item_new(parent,
-				     e_minicard_get_type(),
+	item = gnome_canvas_item_new (parent,
+				     e_minicard_get_type (),
 				     "contact", e_addressbook_model_contact_at (priv->model, i),
 				     "editable", e_addressbook_model_get_editable (priv->model),
 				     NULL);
 
 #if 0
 	g_signal_connect (item, "selected",
-			  G_CALLBACK(card_selected), 0, emvm);
+			  G_CALLBACK (card_selected), 0, emvm);
 #endif
 
 	g_signal_connect (item, "drag_begin",
@@ -275,10 +275,10 @@ addressbook_incarnate (EReflowModel *erm, gint i, GnomeCanvasGroup *parent)
 static void
 addressbook_reincarnate (EReflowModel *erm, gint i, GnomeCanvasItem *item)
 {
-	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(erm);
+	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER (erm);
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
-	gnome_canvas_item_set(item,
+	gnome_canvas_item_set (item,
 			      "contact", e_addressbook_model_contact_at (priv->model, i),
 			      NULL);
 }
@@ -353,7 +353,7 @@ addressbook_set_property (GObject *object,
                           const GValue *value,
                           GParamSpec *pspec)
 {
-	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(object);
+	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER (object);
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
 	switch (prop_id) {
@@ -384,7 +384,7 @@ addressbook_get_property (GObject *object,
                           GValue *value,
                           GParamSpec *pspec)
 {
-	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(object);
+	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER (object);
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
 	switch (prop_id) {
@@ -453,7 +453,7 @@ e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 
 	signals[DRAG_BEGIN] =
 		g_signal_new ("drag_begin",
-			      G_OBJECT_CLASS_TYPE(object_class),
+			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EAddressbookReflowAdapterClass, drag_begin),
 			      NULL, NULL,
@@ -481,7 +481,7 @@ e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 static void
 e_addressbook_reflow_adapter_init (GtkObject *object)
 {
-	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(object);
+	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER (object);
 	EAddressbookReflowAdapterPrivate *priv;
 
 	priv = adapter->priv = g_new0 (EAddressbookReflowAdapterPrivate, 1);
@@ -528,29 +528,29 @@ e_addressbook_reflow_adapter_construct (EAddressbookReflowAdapter *adapter,
 	priv->model = model;
 	g_object_ref (priv->model);
 
-	priv->create_contact_id = g_signal_connect(priv->model,
+	priv->create_contact_id = g_signal_connect (priv->model,
 						"contact_added",
-						G_CALLBACK(create_contact),
+						G_CALLBACK (create_contact),
 						adapter);
-	priv->remove_contact_id = g_signal_connect(priv->model,
+	priv->remove_contact_id = g_signal_connect (priv->model,
 						"contacts_removed",
-						G_CALLBACK(remove_contacts),
+						G_CALLBACK (remove_contacts),
 						adapter);
-	priv->modify_contact_id = g_signal_connect(priv->model,
+	priv->modify_contact_id = g_signal_connect (priv->model,
 						"contact_changed",
-						G_CALLBACK(modify_contact),
+						G_CALLBACK (modify_contact),
 						adapter);
-	priv->model_changed_id = g_signal_connect(priv->model,
+	priv->model_changed_id = g_signal_connect (priv->model,
 						  "model_changed",
-						  G_CALLBACK(model_changed),
+						  G_CALLBACK (model_changed),
 						  adapter);
-	priv->search_started_id = g_signal_connect(priv->model,
+	priv->search_started_id = g_signal_connect (priv->model,
 						   "search_started",
-						   G_CALLBACK(search_started),
+						   G_CALLBACK (search_started),
 						   adapter);
-	priv->search_result_id = g_signal_connect(priv->model,
+	priv->search_result_id = g_signal_connect (priv->model,
 						  "search_result",
-						  G_CALLBACK(search_result),
+						  G_CALLBACK (search_result),
 						  adapter);
 }
 
@@ -563,7 +563,7 @@ e_addressbook_reflow_adapter_new (EAddressbookModel *model)
 
 	e_addressbook_reflow_adapter_construct (et, model);
 
-	return E_REFLOW_MODEL(et);
+	return E_REFLOW_MODEL (et);
 }
 
 

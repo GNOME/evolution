@@ -110,12 +110,12 @@ reg_match (gchar *str, gchar *regstr)
 	gint error;
 	gint ret;
 
-	error = regcomp(&reg, regstr, REG_EXTENDED|REG_ICASE|REG_NOSUB);
+	error = regcomp (&reg, regstr, REG_EXTENDED|REG_ICASE|REG_NOSUB);
 	if (error != 0) {
 		return 0;
 	}
-	error = regexec(&reg, str, 0, NULL, 0);
-	regfree(&reg);
+	error = regexec (&reg, str, 0, NULL, 0);
+	regfree (&reg);
 	return (error == 0);
 }
 #endif
@@ -199,7 +199,7 @@ rule_match_subject (ERuleContext *context, EFilterRule *rule, const gchar *subje
 }
 
 static void
-rule_match_mlist(ERuleContext *context, EFilterRule *rule, const gchar *mlist)
+rule_match_mlist (ERuleContext *context, EFilterRule *rule, const gchar *mlist)
 {
 	EFilterPart *part;
 	EFilterElement *element;
@@ -208,13 +208,13 @@ rule_match_mlist(ERuleContext *context, EFilterRule *rule, const gchar *mlist)
 		return;
 
 	part = e_rule_context_create_part(context, "mlist");
-	e_filter_rule_add_part(rule, part);
+	e_filter_rule_add_part (rule, part);
 
 	element = e_filter_part_find_element(part, "mlist-type");
 	e_filter_option_set_current((EFilterOption *)element, "is");
 
 	element = e_filter_part_find_element (part, "mlist");
-	e_filter_input_set_value((EFilterInput *)element, mlist);
+	e_filter_input_set_value ((EFilterInput *)element, mlist);
 }
 
 static void
@@ -266,7 +266,7 @@ rule_from_message (EFilterRule *rule, ERuleContext *context, CamelMimeMessage *m
 
 		from = camel_mime_message_get_from (msg);
 		for (i = 0; from && camel_internet_address_get (from, i, &name, &address); i++) {
-			rule_add_sender(context, rule, address);
+			rule_add_sender (context, rule, address);
 			if (name == NULL || name[0] == '\0')
 				name = address;
 			namestr = g_strdup_printf(_("Mail from %s"), name);
@@ -287,12 +287,12 @@ rule_from_message (EFilterRule *rule, ERuleContext *context, CamelMimeMessage *m
 
 		mlist = camel_header_raw_check_mailing_list (&((CamelMimePart *)msg)->headers);
 		if (mlist) {
-			rule_match_mlist(context, rule, mlist);
+			rule_match_mlist (context, rule, mlist);
 			name = g_strdup_printf (_("%s mailing list"), mlist);
-			e_filter_rule_set_name(rule, name);
-			g_free(name);
+			e_filter_rule_set_name (rule, name);
+			g_free (name);
 		}
-		g_free(mlist);
+		g_free (mlist);
 	}
 }
 
@@ -300,12 +300,12 @@ EFilterRule *
 em_vfolder_rule_from_message (EMVFolderContext *context, CamelMimeMessage *msg, gint flags, const gchar *source)
 {
 	EMVFolderRule *rule;
-	gchar *euri = em_uri_from_camel(source);
+	gchar *euri = em_uri_from_camel (source);
 
 	rule = em_vfolder_rule_new ();
 	em_vfolder_rule_add_source (rule, euri);
 	rule_from_message ((EFilterRule *)rule, (ERuleContext *)context, msg, flags);
-	g_free(euri);
+	g_free (euri);
 
 	return (EFilterRule *)rule;
 }
@@ -314,12 +314,12 @@ EFilterRule *
 em_vfolder_rule_from_address (EMVFolderContext *context, CamelInternetAddress *addr, gint flags, const gchar *source)
 {
 	EMVFolderRule *rule;
-	gchar *euri = em_uri_from_camel(source);
+	gchar *euri = em_uri_from_camel (source);
 
 	rule = em_vfolder_rule_new ();
 	em_vfolder_rule_add_source (rule, euri);
 	rule_from_address ((EFilterRule *)rule, (ERuleContext *)context, addr, flags);
-	g_free(euri);
+	g_free (euri);
 
 	return (EFilterRule *)rule;
 }
@@ -366,7 +366,7 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const gchar *source, gint fl
 }
 
 void
-mail_filter_rename_uri(CamelStore *store, const gchar *olduri, const gchar *newuri)
+mail_filter_rename_uri (CamelStore *store, const gchar *olduri, const gchar *newuri)
 {
 	EMFilterContext *fc;
 	const gchar *config_dir;
@@ -374,8 +374,8 @@ mail_filter_rename_uri(CamelStore *store, const gchar *olduri, const gchar *newu
 	GList *changed;
 	gchar *eolduri, *enewuri;
 
-	eolduri = em_uri_from_camel(olduri);
-	enewuri = em_uri_from_camel(newuri);
+	eolduri = em_uri_from_camel (olduri);
+	enewuri = em_uri_from_camel (newuri);
 
 	fc = em_filter_context_new ();
 	config_dir = mail_session_get_config_dir ();
@@ -384,23 +384,23 @@ mail_filter_rename_uri(CamelStore *store, const gchar *olduri, const gchar *newu
 	e_rule_context_load ((ERuleContext *)fc, system, user);
 	g_free (system);
 
-	changed = e_rule_context_rename_uri((ERuleContext *)fc, eolduri, enewuri, g_str_equal);
+	changed = e_rule_context_rename_uri ((ERuleContext *)fc, eolduri, enewuri, g_str_equal);
 	if (changed) {
 		d(printf("Folder rename '%s' -> '%s' changed filters, resaving\n", olduri, newuri));
-		if (e_rule_context_save((ERuleContext *)fc, user) == -1)
+		if (e_rule_context_save ((ERuleContext *)fc, user) == -1)
 			g_warning("Could not write out changed filter rules\n");
-		e_rule_context_free_uri_list((ERuleContext *)fc, changed);
+		e_rule_context_free_uri_list ((ERuleContext *)fc, changed);
 	}
 
-	g_free(user);
-	g_object_unref(fc);
+	g_free (user);
+	g_object_unref (fc);
 
-	g_free(enewuri);
-	g_free(eolduri);
+	g_free (enewuri);
+	g_free (eolduri);
 }
 
 void
-mail_filter_delete_uri(CamelStore *store, const gchar *uri)
+mail_filter_delete_uri (CamelStore *store, const gchar *uri)
 {
 	EMFilterContext *fc;
 	const gchar *config_dir;
@@ -408,7 +408,7 @@ mail_filter_delete_uri(CamelStore *store, const gchar *uri)
 	GList *deleted;
 	gchar *euri;
 
-	euri = em_uri_from_camel(uri);
+	euri = em_uri_from_camel (uri);
 
 	fc = em_filter_context_new ();
 	config_dir = mail_session_get_config_dir ();
@@ -464,7 +464,7 @@ mail_filter_delete_uri(CamelStore *store, const gchar *uri)
 		e_rule_context_free_uri_list ((ERuleContext *) fc, deleted);
 	}
 
-	g_free(user);
-	g_object_unref(fc);
-	g_free(euri);
+	g_free (user);
+	g_object_unref (fc);
+	g_free (euri);
 }

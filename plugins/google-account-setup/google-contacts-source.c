@@ -209,7 +209,7 @@ struct ui_data {
 };
 
 static void
-destroy_ui_data(gpointer data)
+destroy_ui_data (gpointer data)
 {
 	struct ui_data *ui = data;
 

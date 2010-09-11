@@ -150,8 +150,8 @@ show_map_general (ESourceSelector *selector)
 			/* Get the lat & lng and add the marker asynchronously */
 			i = 0;
 			addr = NULL;
-			while (!addr && i<G_N_ELEMENTS(addr_fields)) {
-				addr = e_contact_get(contact, addr_fields[i]);
+			while (!addr && i<G_N_ELEMENTS (addr_fields)) {
+				addr = e_contact_get (contact, addr_fields[i]);
 				i++;
 			}
 
@@ -169,7 +169,7 @@ show_map_general (ESourceSelector *selector)
 					*min_lat = lat;
 				}
 				if (!max_lat) {
-					max_lat = g_malloc (sizeof(gdouble));
+					max_lat = g_malloc (sizeof (gdouble));
 					*max_lat = lat;
 				}
 				if (!min_lng) {

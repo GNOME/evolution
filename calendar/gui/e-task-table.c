@@ -737,7 +737,7 @@ task_table_query_tooltip (GtkWidget *widget,
 	e_cal_component_get_organizer (new_comp, &organizer);
 	if (organizer.cn) {
 		gchar *ptr;
-		ptr = strchr( organizer.value, ':');
+		ptr = strchr ( organizer.value, ':');
 
 		if (ptr) {
 			ptr++;

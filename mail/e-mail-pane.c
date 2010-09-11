@@ -40,7 +40,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 static void
 e_mail_pane_init (EMailPane  *shell)
 {
-	shell->priv = g_new0(EMailPanePrivate, 1);
+	shell->priv = g_new0 (EMailPanePrivate, 1);
 }
 
 static void

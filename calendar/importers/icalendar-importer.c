@@ -97,13 +97,13 @@ is_icalcomp_usable (icalcomponent *icalcomp)
 }
 
 static void
-ivcal_import_done(ICalImporter *ici)
+ivcal_import_done (ICalImporter *ici)
 {
 	g_object_unref (ici->client);
 	icalcomponent_free (ici->icalcomp);
 
-	e_import_complete(ici->import, ici->target);
-	g_object_unref(ici->import);
+	e_import_complete (ici->import, ici->target);
+	g_object_unref (ici->import);
 	g_free (ici);
 }
 
@@ -206,22 +206,22 @@ static void
 button_toggled_cb (GtkWidget *widget, struct _selector_data *sd)
 {
 	g_datalist_set_data_full(&sd->target->data, "primary-source",
-				 g_object_ref(e_source_selector_peek_primary_selection((ESourceSelector *)sd->selector)),
+				 g_object_ref (e_source_selector_peek_primary_selection ((ESourceSelector *)sd->selector)),
 				 g_object_unref);
 	g_datalist_set_data(&sd->target->data, "primary-type", GINT_TO_POINTER(import_type_map[sd->page]));
-	gtk_notebook_set_current_page((GtkNotebook *)sd->notebook, sd->page);
+	gtk_notebook_set_current_page ((GtkNotebook *)sd->notebook, sd->page);
 }
 
 static void
 primary_selection_changed_cb (ESourceSelector *selector, EImportTarget *target)
 {
 	g_datalist_set_data_full(&target->data, "primary-source",
-				 g_object_ref(e_source_selector_peek_primary_selection(selector)),
+				 g_object_ref (e_source_selector_peek_primary_selection (selector)),
 				 g_object_unref);
 }
 
 static GtkWidget *
-ivcal_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
+ivcal_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *vbox, *hbox, *first = NULL;
 	GSList *group = NULL;
@@ -251,9 +251,9 @@ ivcal_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 
 		selector = e_source_selector_new (source_list);
 		e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
-		scrolled = gtk_scrolled_window_new(NULL, NULL);
-		gtk_scrolled_window_set_policy((GtkScrolledWindow *)scrolled, GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-		gtk_container_add((GtkContainer *)scrolled, selector);
+		scrolled = gtk_scrolled_window_new (NULL, NULL);
+		gtk_scrolled_window_set_policy ((GtkScrolledWindow *)scrolled, GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+		gtk_container_add ((GtkContainer *)scrolled, selector);
 		gtk_notebook_append_page (GTK_NOTEBOOK (nb), scrolled, NULL);
 
 		/* FIXME What if no sources? */
@@ -265,7 +265,7 @@ ivcal_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 		rb = gtk_radio_button_new_with_label (group, _(import_type_strings[i]));
 		gtk_box_pack_start (GTK_BOX (hbox), rb, FALSE, FALSE, 6);
 
-		sd = g_malloc0(sizeof(*sd));
+		sd = g_malloc0 (sizeof (*sd));
 		sd->target = target;
 		sd->selector = selector;
 		sd->notebook = nb;
@@ -283,7 +283,7 @@ ivcal_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 		g_object_unref (source_list);
 	}
 	if (first)
-		gtk_toggle_button_set_active((GtkToggleButton *)first, TRUE);
+		gtk_toggle_button_set_active ((GtkToggleButton *)first, TRUE);
 
 	gtk_widget_show_all (vbox);
 
@@ -291,7 +291,7 @@ ivcal_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static gboolean
-ivcal_import_items(gpointer d)
+ivcal_import_items (gpointer d)
 {
 	ICalImporter *ici = d;
 
@@ -312,24 +312,24 @@ ivcal_import_items(gpointer d)
 		g_return_val_if_reached (FALSE);
 	}
 
-	ivcal_import_done(ici);
+	ivcal_import_done (ici);
 	ici->idle_id = 0;
 
 	return FALSE;
 }
 
 static void
-ivcal_opened(ECal *ecal, const GError *error, ICalImporter *ici)
+ivcal_opened (ECal *ecal, const GError *error, ICalImporter *ici)
 {
 	if (!ici->cancelled && !error) {
 		e_import_status(ici->import, ici->target, _("Importing..."), 0);
-		ici->idle_id = g_idle_add(ivcal_import_items, ici);
+		ici->idle_id = g_idle_add (ivcal_import_items, ici);
 	} else
-		ivcal_import_done(ici);
+		ivcal_import_done (ici);
 }
 
 static void
-ivcal_import(EImport *ei, EImportTarget *target, icalcomponent *icalcomp)
+ivcal_import (EImport *ei, EImportTarget *target, icalcomponent *icalcomp)
 {
 	ECal *client;
 	ECalSourceType type;
@@ -338,27 +338,27 @@ ivcal_import(EImport *ei, EImportTarget *target, icalcomponent *icalcomp)
 
 	client = e_auth_new_cal_from_source (g_datalist_get_data(&target->data, "primary-source"), type);
 	if (client) {
-		ICalImporter *ici = g_malloc0(sizeof(*ici));
+		ICalImporter *ici = g_malloc0 (sizeof (*ici));
 
 		ici->import = ei;
 		g_datalist_set_data(&target->data, "ivcal-data", ici);
-		g_object_ref(ei);
+		g_object_ref (ei);
 		ici->target = target;
 		ici->icalcomp = icalcomp;
 		ici->client = client;
 		ici->source_type = type;
 		e_import_status(ei, target, _("Opening calendar"), 0);
 		g_signal_connect(client, "cal-opened-ex", G_CALLBACK(ivcal_opened), ici);
-		e_cal_open_async(client, TRUE);
+		e_cal_open_async (client, TRUE);
 		return;
 	} else {
-		icalcomponent_free(icalcomp);
-		e_import_complete(ei, target);
+		icalcomponent_free (icalcomp);
+		e_import_complete (ei, target);
 	}
 }
 
 static void
-ivcal_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
+ivcal_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	ICalImporter *ici = g_datalist_get_data(&target->data, "ivcal-data");
 
@@ -372,7 +372,7 @@ ivcal_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
  */
 
 static gboolean
-ical_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
+ical_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	gchar *filename;
 	gchar *contents;
@@ -414,7 +414,7 @@ ical_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static void
-ical_import(EImport *ei, EImportTarget *target, EImportImporter *im)
+ical_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	gchar *filename;
 	gchar *contents;
@@ -423,13 +423,13 @@ ical_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 
 	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
 	if (!filename) {
-		e_import_complete(ei, target);
+		e_import_complete (ei, target);
 		return;
 	}
 
 	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
 		g_free (filename);
-		e_import_complete(ei, target);
+		e_import_complete (ei, target);
 		return;
 	}
 	g_free (filename);
@@ -438,9 +438,9 @@ ical_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	g_free (contents);
 
 	if (icalcomp)
-		ivcal_import(ei, target, icalcomp);
+		ivcal_import (ei, target, icalcomp);
 	else
-		e_import_complete(ei, target);
+		e_import_complete (ei, target);
 }
 
 static GtkWidget *
@@ -488,7 +488,7 @@ static EImportImporter ical_importer = {
 };
 
 EImportImporter *
-ical_importer_peek(void)
+ical_importer_peek (void)
 {
 	ical_importer.name = _("iCalendar files (.ics)");
 	ical_importer.description = _("Evolution iCalendar importer");
@@ -502,7 +502,7 @@ ical_importer_peek(void)
  */
 
 static gboolean
-vcal_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
+vcal_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	gchar *filename;
 	gchar *contents;
@@ -525,7 +525,7 @@ vcal_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 
 	/* Z: Wow, this is *efficient* */
 
-	if (g_file_get_contents(filename, &contents, NULL, NULL)) {
+	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
 		VObject *vcal;
 		icalcomponent *icalcomp;
 
@@ -599,24 +599,24 @@ load_vcalendar_file (const gchar *filename)
 }
 
 static void
-vcal_import(EImport *ei, EImportTarget *target, EImportImporter *im)
+vcal_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	gchar *filename;
 	icalcomponent *icalcomp;
 	EImportTargetURI *s = (EImportTargetURI *)target;
 
-	filename = g_filename_from_uri(s->uri_src, NULL, NULL);
+	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
 	if (!filename) {
-		e_import_complete(ei, target);
+		e_import_complete (ei, target);
 		return;
 	}
 
-	icalcomp = load_vcalendar_file(filename);
+	icalcomp = load_vcalendar_file (filename);
 	g_free (filename);
 	if (icalcomp)
-		ivcal_import(ei, target, icalcomp);
+		ivcal_import (ei, target, icalcomp);
 	else
-		e_import_complete(ei, target);
+		e_import_complete (ei, target);
 }
 
 static GtkWidget *
@@ -657,7 +657,7 @@ static EImportImporter vcal_importer = {
 };
 
 EImportImporter *
-vcal_importer_peek(void)
+vcal_importer_peek (void)
 {
 	vcal_importer.name = _("vCalendar files (.vcs)");
 	vcal_importer.description = _("Evolution vCalendar importer");
@@ -668,7 +668,7 @@ vcal_importer_peek(void)
 /* ********************************************************************** */
 
 static gboolean
-gnome_calendar_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
+gnome_calendar_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	gchar *filename;
 	gboolean res;
@@ -677,14 +677,14 @@ gnome_calendar_supported(EImport *ei, EImportTarget *target, EImportImporter *im
 		return FALSE;
 
 	filename = g_build_filename(g_get_home_dir (), "user-cal.vcf", NULL);
-	res = g_file_test(filename, G_FILE_TEST_IS_REGULAR);
+	res = g_file_test (filename, G_FILE_TEST_IS_REGULAR);
 	g_free (filename);
 
 	return res;
 }
 
 static void
-gnome_calendar_import(EImport *ei, EImportTarget *target, EImportImporter *im)
+gnome_calendar_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	icalcomponent *icalcomp = NULL;
 	gchar *filename;
@@ -728,7 +728,7 @@ gnome_calendar_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (!icalcomp)
 		goto out;
 
-	ici = g_malloc0(sizeof(*ici));
+	ici = g_malloc0 (sizeof (*ici));
 	g_datalist_set_data_full(&target->data, "gnomecal-data", ici, g_free);
 
 	/* Wait for client to finish opening the calendar & tasks folders. */
@@ -752,7 +752,7 @@ gnome_calendar_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 		    && tasks_state == E_CAL_LOAD_LOADED)
 			break;
 
-		g_usleep(1000000);
+		g_usleep (1000000);
 		if (ici->cancelled)
 			goto out;
 	}
@@ -788,23 +788,23 @@ gnome_calendar_import(EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (tasks_client)
 		g_object_unref (tasks_client);
 
-	e_import_complete(ei, target);
+	e_import_complete (ei, target);
 }
 
 static void
-calendar_toggle_cb(GtkToggleButton *tb, EImportTarget *target)
+calendar_toggle_cb (GtkToggleButton *tb, EImportTarget *target)
 {
 	g_datalist_set_data(&target->data, "gnomecal-do-cal", GINT_TO_POINTER(gtk_toggle_button_get_active(tb)));
 }
 
 static void
-tasks_toggle_cb(GtkToggleButton *tb, EImportTarget *target)
+tasks_toggle_cb (GtkToggleButton *tb, EImportTarget *target)
 {
 	g_datalist_set_data(&target->data, "gnomecal-do-tasks", GINT_TO_POINTER(gtk_toggle_button_get_active(tb)));
 }
 
 static GtkWidget *
-gnome_calendar_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
+gnome_calendar_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWidget *hbox, *w;
 	GConfClient *gconf;
@@ -813,7 +813,7 @@ gnome_calendar_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im
 	gconf = gconf_client_get_default ();
 	done_cal = gconf_client_get_bool (gconf, "/apps/evolution/importer/gnome-calendar/calendar", NULL);
 	done_tasks = gconf_client_get_bool (gconf, "/apps/evolution/importer/gnome-calendar/tasks", NULL);
-	g_object_unref(gconf);
+	g_object_unref (gconf);
 
 	g_datalist_set_data(&target->data, "gnomecal-do-cal", GINT_TO_POINTER(!done_cal));
 	g_datalist_set_data(&target->data, "gnomecal-do-tasks", GINT_TO_POINTER(!done_tasks));
@@ -821,12 +821,12 @@ gnome_calendar_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im
 	hbox = gtk_hbox_new (FALSE, 2);
 
 	w = gtk_check_button_new_with_label (_("Calendar Events"));
-	gtk_toggle_button_set_active((GtkToggleButton *)w, !done_cal);
+	gtk_toggle_button_set_active ((GtkToggleButton *)w, !done_cal);
 	g_signal_connect (w, "toggled", G_CALLBACK (calendar_toggle_cb), target);
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
 
 	w = gtk_check_button_new_with_label (_("Tasks"));
-	gtk_toggle_button_set_active((GtkToggleButton *)w, !done_tasks);
+	gtk_toggle_button_set_active ((GtkToggleButton *)w, !done_tasks);
 	g_signal_connect (w, "toggled", G_CALLBACK (tasks_toggle_cb), target);
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, FALSE, 0);
 
@@ -836,7 +836,7 @@ gnome_calendar_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im
 }
 
 static void
-gnome_calendar_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
+gnome_calendar_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	ICalIntelligentImporter *ici = g_datalist_get_data(&target->data, "gnomecal-data");
 
@@ -855,7 +855,7 @@ static EImportImporter gnome_calendar_importer = {
 };
 
 EImportImporter *
-gnome_calendar_importer_peek(void)
+gnome_calendar_importer_peek (void)
 {
 	gnome_calendar_importer.name = _("Gnome Calendar");
 	gnome_calendar_importer.description = _("Evolution Calendar intelligent importer");

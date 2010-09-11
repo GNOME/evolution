@@ -163,8 +163,8 @@ gconf_jh_headers_changed (GConfClient *client, guint cnxn_id,
 	value = g_ptr_array_new ();
 	while (node && node->data) {
 		gchar **tok = g_strsplit (node->data, "=", 2);
-		g_ptr_array_add (name, g_strdup(tok[0]));
-		g_ptr_array_add (value, g_strdup(tok[1]));
+		g_ptr_array_add (name, g_strdup (tok[0]));
+		g_ptr_array_add (value, g_strdup (tok[1]));
 		node = node->next;
 		g_strfreev (tok);
 	}
@@ -576,13 +576,13 @@ mail_config_get_lookup_book_local_only (void)
 static void
 folder_deleted_cb (MailFolderCache *cache, CamelStore *store, const gchar *uri, gpointer user_data)
 {
-	mail_config_uri_deleted(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name, uri);
+	mail_config_uri_deleted (CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS (store))->compare_folder_name, uri);
 }
 
 static void
 folder_renamed_cb (MailFolderCache *cache, CamelStore *store, const gchar *olduri, const gchar *newuri, gpointer user_data)
 {
-	mail_config_uri_renamed(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name,
+	mail_config_uri_renamed (CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS (store))->compare_folder_name,
 				olduri, newuri);
 }
 

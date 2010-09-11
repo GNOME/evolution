@@ -66,7 +66,7 @@ EMFormatHTMLPrint *
 void		em_format_html_print_message	(EMFormatHTMLPrint *efhp,
 						 CamelFolder *folder,
 						 const gchar *uid);
-void		em_format_html_print_raw_message(EMFormatHTMLPrint *efhp,
+void		em_format_html_print_raw_message (EMFormatHTMLPrint *efhp,
 						 CamelMimeMessage *msg);
 
 G_END_DECLS

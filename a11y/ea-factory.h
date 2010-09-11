@@ -96,12 +96,12 @@ type_as_function ## _factory_get_type (void)					\
 }
 
 #define EA_FACTORY(type, type_as_function, opt_create_accessible)		\
-        EA_FACTORY_PARTA(type, type_as_function, opt_create_accessible)		\
-        EA_FACTORY_PARTB(type, type_as_function, opt_create_accessible)
+        EA_FACTORY_PARTA (type, type_as_function, opt_create_accessible)		\
+        EA_FACTORY_PARTB (type, type_as_function, opt_create_accessible)
 
 #define EA_FACTORY_GOBJECT(type, type_as_function, opt_create_accessible)	\
-        EA_FACTORY_PARTA_GOBJECT(type, type_as_function, opt_create_accessible)	\
-        EA_FACTORY_PARTB(type, type_as_function, opt_create_accessible)
+        EA_FACTORY_PARTA_GOBJECT (type, type_as_function, opt_create_accessible)	\
+        EA_FACTORY_PARTB (type, type_as_function, opt_create_accessible)
 
 #define EA_SET_FACTORY(obj_type, type_as_function)				\
 {                                                                               \

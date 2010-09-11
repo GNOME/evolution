@@ -431,7 +431,7 @@ day_event_cb (GnomeCanvasItem *item, GdkEvent *event, gpointer data)
 	priv = wp->priv;
 
 	if (event->type == GDK_KEY_PRESS)
-		return handle_key_press_event(wp, event);
+		return handle_key_press_event (wp, event);
 
 	if (!(event->type == GDK_BUTTON_PRESS && event->button.button == 1))
 		return FALSE;

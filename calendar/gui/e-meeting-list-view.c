@@ -542,7 +542,7 @@ build_table (EMeetingListView *lview)
 						     NULL);
 	col = gtk_tree_view_get_column (view, pos -1);
 	gtk_tree_view_column_set_resizable (col, TRUE);
-	gtk_tree_view_column_set_reorderable(col, TRUE);
+	gtk_tree_view_column_set_reorderable (col, TRUE);
 	gtk_tree_view_column_set_expand (col, TRUE);
 	g_object_set (col, "min-width", 50, NULL);
 	g_object_set_data (G_OBJECT (col), "mtg-store-col", GINT_TO_POINTER (E_MEETING_STORE_ATTENDEE_COL));
@@ -559,7 +559,7 @@ build_table (EMeetingListView *lview)
 						     NULL);
 	col = gtk_tree_view_get_column (view, pos -1);
 	gtk_tree_view_column_set_resizable (col, TRUE);
-	gtk_tree_view_column_set_reorderable(col, TRUE);
+	gtk_tree_view_column_set_reorderable (col, TRUE);
 	g_object_set_data (G_OBJECT (col), "mtg-store-col", GINT_TO_POINTER (E_MEETING_STORE_TYPE_COL));
 	g_signal_connect (renderer, "edited", G_CALLBACK (type_edited_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_TYPE_COL), renderer);
@@ -571,7 +571,7 @@ build_table (EMeetingListView *lview)
 						     NULL);
 	col = gtk_tree_view_get_column (view, pos -1);
 	gtk_tree_view_column_set_resizable (col, TRUE);
-	gtk_tree_view_column_set_reorderable(col, TRUE);
+	gtk_tree_view_column_set_reorderable (col, TRUE);
 	g_object_set_data (G_OBJECT (col), "mtg-store-col", GINT_TO_POINTER (E_MEETING_STORE_ROLE_COL));
 	g_signal_connect (renderer, "edited", G_CALLBACK (role_edited_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_ROLE_COL), renderer);
@@ -584,7 +584,7 @@ build_table (EMeetingListView *lview)
 						     NULL);
 	col = gtk_tree_view_get_column (view, pos -1);
 	gtk_tree_view_column_set_resizable (col, TRUE);
-	gtk_tree_view_column_set_reorderable(col, TRUE);
+	gtk_tree_view_column_set_reorderable (col, TRUE);
 	g_object_set_data (G_OBJECT (col), "mtg-store-col", GINT_TO_POINTER (E_MEETING_STORE_RSVP_COL));
 	g_signal_connect (renderer, "edited", G_CALLBACK (rsvp_edited_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_RSVP_COL), renderer);
@@ -596,7 +596,7 @@ build_table (EMeetingListView *lview)
 						     NULL);
 	col = gtk_tree_view_get_column (view, pos -1);
 	gtk_tree_view_column_set_resizable (col, TRUE);
-	gtk_tree_view_column_set_reorderable(col, TRUE);
+	gtk_tree_view_column_set_reorderable (col, TRUE);
 	g_object_set_data (G_OBJECT (col), "mtg-store-col", GINT_TO_POINTER (E_MEETING_STORE_STATUS_COL));
 	g_signal_connect (renderer, "edited", G_CALLBACK (status_edited_cb), view);
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_STATUS_COL), renderer);
@@ -695,7 +695,7 @@ e_meeting_list_view_new (EMeetingStore *store)
 		build_table (view);
 	}
 
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW(view));
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (view));
 	g_signal_connect (selection, "changed", G_CALLBACK (row_activated_cb), view);
 	return view;
 }
@@ -831,7 +831,7 @@ process_section (EMeetingListView *view, GList *destinations, icalparameter_role
 				if (!g_ascii_strcasecmp (attr, "icscalendar")) {
 
 					/* FIXME: this does not work, have to use first
-					   e_destination_use_contact() */
+					   e_destination_use_contact () */
 					contact = e_destination_get_contact (dest);
 					if (contact) {
 						attendee = e_contact_get (contact, E_CONTACT_FREEBUSY_URL);

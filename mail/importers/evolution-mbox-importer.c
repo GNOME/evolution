@@ -70,14 +70,14 @@ typedef struct {
 } MboxImporter;
 
 static void
-folder_selected(EMFolderSelectionButton *button, EImportTargetURI *target)
+folder_selected (EMFolderSelectionButton *button, EImportTargetURI *target)
 {
-	g_free(target->uri_dest);
-	target->uri_dest = g_strdup(em_folder_selection_button_get_selection(button));
+	g_free (target->uri_dest);
+	target->uri_dest = g_strdup (em_folder_selection_button_get_selection (button));
 }
 
 static GtkWidget *
-mbox_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
+mbox_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	GtkWindow *window;
 	GtkWidget *hbox, *w;
@@ -111,24 +111,24 @@ mbox_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (!select_uri)
 		select_uri = g_strdup (e_mail_local_get_folder_uri (E_MAIL_FOLDER_INBOX));
 
-	hbox = gtk_hbox_new(FALSE, 0);
+	hbox = gtk_hbox_new (FALSE, 0);
 
 	w = gtk_label_new_with_mnemonic (_("_Destination folder:"));
-	gtk_box_pack_start((GtkBox *)hbox, w, FALSE, TRUE, 6);
+	gtk_box_pack_start ((GtkBox *)hbox, w, FALSE, TRUE, 6);
 
 	label = GTK_LABEL (w);
 
-	w = em_folder_selection_button_new(
+	w = em_folder_selection_button_new (
 		_("Select folder"), _("Select folder to import into"));
 	gtk_label_set_mnemonic_widget (label, w);
 	em_folder_selection_button_set_selection ((EMFolderSelectionButton *)w, select_uri);
 	folder_selected (EM_FOLDER_SELECTION_BUTTON (w), (EImportTargetURI *)target);
 	g_signal_connect (w, "selected", G_CALLBACK(folder_selected), target);
-	gtk_box_pack_start((GtkBox *)hbox, w, FALSE, TRUE, 6);
+	gtk_box_pack_start ((GtkBox *)hbox, w, FALSE, TRUE, 6);
 
-	w = gtk_vbox_new(FALSE, 0);
-	gtk_box_pack_start((GtkBox *)w, hbox, FALSE, FALSE, 0);
-	gtk_widget_show_all(w);
+	w = gtk_vbox_new (FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)w, hbox, FALSE, FALSE, 0);
+	gtk_widget_show_all (w);
 
 	g_free (select_uri);
 
@@ -136,7 +136,7 @@ mbox_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 }
 
 static gboolean
-mbox_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
+mbox_supported (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	gchar signature[6];
 	gboolean ret = FALSE;
@@ -154,20 +154,20 @@ mbox_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (strncmp(s->uri_src, "file:///", strlen("file:///")) != 0)
 		return FALSE;
 
-	filename = g_filename_from_uri(s->uri_src, NULL, NULL);
-	fd = g_open(filename, O_RDONLY, 0);
-	g_free(filename);
+	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
+	fd = g_open (filename, O_RDONLY, 0);
+	g_free (filename);
 	if (fd != -1) {
-		n = read(fd, signature, 5);
+		n = read (fd, signature, 5);
 		ret = n == 5 && memcmp(signature, "From ", 5) == 0;
-		close(fd);
+		close (fd);
 	}
 
 	return ret;
 }
 
 static void
-mbox_status(CamelOperation *op, const gchar *what, gint pc, gpointer data)
+mbox_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
 {
 	MboxImporter *importer = data;
 
@@ -176,77 +176,77 @@ mbox_status(CamelOperation *op, const gchar *what, gint pc, gpointer data)
 	else if (pc == CAMEL_OPERATION_END)
 		pc = 100;
 
-	g_mutex_lock(importer->status_lock);
-	g_free(importer->status_what);
-	importer->status_what = g_strdup(what);
+	g_mutex_lock (importer->status_lock);
+	g_free (importer->status_what);
+	importer->status_what = g_strdup (what);
 	importer->status_pc = pc;
-	g_mutex_unlock(importer->status_lock);
+	g_mutex_unlock (importer->status_lock);
 }
 
 static gboolean
-mbox_status_timeout(gpointer data)
+mbox_status_timeout (gpointer data)
 {
 	MboxImporter *importer = data;
 	gint pc;
 	gchar *what;
 
 	if (importer->status_what) {
-		g_mutex_lock(importer->status_lock);
+		g_mutex_lock (importer->status_lock);
 		what = importer->status_what;
 		importer->status_what = NULL;
 		pc = importer->status_pc;
-		g_mutex_unlock(importer->status_lock);
+		g_mutex_unlock (importer->status_lock);
 
-		e_import_status(importer->import, (EImportTarget *)importer->target, what, pc);
+		e_import_status (importer->import, (EImportTarget *)importer->target, what, pc);
 	}
 
 	return TRUE;
 }
 
 static void
-mbox_import_done(gpointer data, GError **error)
+mbox_import_done (gpointer data, GError **error)
 {
 	MboxImporter *importer = data;
 
-	g_source_remove(importer->status_timeout_id);
-	g_free(importer->status_what);
-	g_mutex_free(importer->status_lock);
-	camel_operation_unref(importer->cancel);
+	g_source_remove (importer->status_timeout_id);
+	g_free (importer->status_what);
+	g_mutex_free (importer->status_lock);
+	camel_operation_unref (importer->cancel);
 
-	e_import_complete(importer->import, importer->target);
-	g_free(importer);
+	e_import_complete (importer->import, importer->target);
+	g_free (importer);
 }
 
 static void
-mbox_import(EImport *ei, EImportTarget *target, EImportImporter *im)
+mbox_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	MboxImporter *importer;
 	gchar *filename;
 
 	/* TODO: do we validate target? */
 
-	importer = g_malloc0(sizeof(*importer));
+	importer = g_malloc0 (sizeof (*importer));
 	g_datalist_set_data(&target->data, "mbox-data", importer);
 	importer->import = ei;
 	importer->target = target;
-	importer->status_lock = g_mutex_new();
-	importer->status_timeout_id = g_timeout_add(100, mbox_status_timeout, importer);
-	importer->cancel = camel_operation_new(mbox_status, importer);
+	importer->status_lock = g_mutex_new ();
+	importer->status_timeout_id = g_timeout_add (100, mbox_status_timeout, importer);
+	importer->cancel = camel_operation_new (mbox_status, importer);
 
-	filename = g_filename_from_uri(((EImportTargetURI *)target)->uri_src, NULL, NULL);
+	filename = g_filename_from_uri (((EImportTargetURI *)target)->uri_src, NULL, NULL);
 	mail_importer_import_mbox (
 		filename, ((EImportTargetURI *)target)->uri_dest,
 		importer->cancel, mbox_import_done, importer);
-	g_free(filename);
+	g_free (filename);
 }
 
 static void
-mbox_cancel(EImport *ei, EImportTarget *target, EImportImporter *im)
+mbox_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	MboxImporter *importer = g_datalist_get_data(&target->data, "mbox-data");
 
 	if (importer)
-		camel_operation_cancel(importer->cancel);
+		camel_operation_cancel (importer->cancel);
 }
 
 static MboxImporterCreatePreviewFunc create_preview_func = NULL;
@@ -321,7 +321,7 @@ mbox_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 
 	g_free (filename);
 
-	mp = camel_mime_parser_new();
+	mp = camel_mime_parser_new ();
 	camel_mime_parser_scan_from (mp, TRUE);
 	if (camel_mime_parser_init_with_fd (mp, fd) == -1) {
 		g_object_unref (mp);
@@ -332,7 +332,7 @@ mbox_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 		CamelMimeMessage *msg;
 		gchar *from;
 
-		msg = camel_mime_message_new();
+		msg = camel_mime_message_new ();
 		if (camel_mime_part_construct_from_parser (
 			(CamelMimePart *)msg, mp, NULL) == -1) {
 			g_object_unref (msg);
@@ -426,7 +426,7 @@ static EImportImporter mbox_importer = {
 };
 
 EImportImporter *
-mbox_importer_peek(void)
+mbox_importer_peek (void)
 {
 	mbox_importer.name = _("Berkeley Mailbox (mbox)");
 	mbox_importer.description = _("Importer Berkeley Mailbox format folders");

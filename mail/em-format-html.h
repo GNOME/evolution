@@ -261,7 +261,7 @@ EMFormatHTMLPObject *
 		em_format_html_find_pobject	(EMFormatHTML *efh,
 						 const gchar *classid);
 EMFormatHTMLPObject *
-		em_format_html_find_pobject_func(EMFormatHTML *efh,
+		em_format_html_find_pobject_func (EMFormatHTML *efh,
 						 CamelMimePart *part,
 						 EMFormatHTMLPObjectFunc func);
 void		em_format_html_remove_pobject	(EMFormatHTML *efh,
@@ -273,8 +273,8 @@ EMFormatHTMLJob *
 						 gpointer data);
 void		em_format_html_job_queue	(EMFormatHTML *efh,
 						 EMFormatHTMLJob *job);
-gboolean	em_format_html_get_show_real_date(EMFormatHTML *efh);
-void		em_format_html_set_show_real_date(EMFormatHTML *efh,
+gboolean	em_format_html_get_show_real_date (EMFormatHTML *efh);
+void		em_format_html_set_show_real_date (EMFormatHTML *efh,
 						 gboolean show_real_date);
 
 gchar *		em_format_html_format_cert_infos (CamelCipherCertInfo *first_cinfo);

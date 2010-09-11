@@ -37,7 +37,7 @@ struct _EMFormatQuotePrivate {
 	gint dummy;
 };
 
-static void emfq_builtin_init(EMFormatQuoteClass *efhc);
+static void emfq_builtin_init (EMFormatQuoteClass *efhc);
 
 static gpointer parent_class;
 
@@ -69,18 +69,18 @@ emfq_format_clone (EMFormat *emf,
 	EM_FORMAT_CLASS (parent_class)->format_clone (emf, folder, uid, msg, src);
 
 	gconf = gconf_client_get_default ();
-	camel_stream_reset(emfq->stream, NULL);
+	camel_stream_reset (emfq->stream, NULL);
 	if (gconf_client_get_bool(gconf, "/apps/evolution/mail/composer/top_signature", NULL))
 		camel_stream_printf (emfq->stream, "<br>\n");
 	g_object_unref (gconf);
 	handle = em_format_find_handler(emf, "x-evolution/message/prefix");
 	if (handle)
-		handle->handler(emf, emfq->stream, (CamelMimePart *)msg, handle, FALSE);
+		handle->handler (emf, emfq->stream, (CamelMimePart *)msg, handle, FALSE);
 	handle = em_format_find_handler(emf, "x-evolution/message/rfc822");
 	if (handle)
-		handle->handler(emf, emfq->stream, (CamelMimePart *)msg, handle, FALSE);
+		handle->handler (emf, emfq->stream, (CamelMimePart *)msg, handle, FALSE);
 
-	camel_stream_flush(emfq->stream, NULL);
+	camel_stream_flush (emfq->stream, NULL);
 
 	g_signal_emit_by_name(emf, "complete");
 }
@@ -531,7 +531,7 @@ emfq_text_plain (EMFormat *emf,
 	flags = emfq->text_html_flags;
 
 	/* Check for RFC 2646 flowed text. */
-	type = camel_mime_part_get_content_type(part);
+	type = camel_mime_part_get_content_type (part);
 	if (camel_content_type_is(type, "text", "plain")
 	    && (format = camel_content_type_param(type, "format"))
 	    && !g_ascii_strcasecmp(format, "flowed"))
@@ -546,7 +546,7 @@ emfq_text_plain (EMFormat *emf,
 		g_object_unref (sig_strip);
 	}
 
-	html_filter = camel_mime_filter_tohtml_new(flags, rgb);
+	html_filter = camel_mime_filter_tohtml_new (flags, rgb);
 	camel_stream_filter_add (
 		CAMEL_STREAM_FILTER (filtered_stream), html_filter);
 	g_object_unref (html_filter);
@@ -599,7 +599,7 @@ emfq_text_html (EMFormat *emf,
                 gboolean is_fallback)
 {
 	camel_stream_write_string(stream, "\n<!-- text/html -->\n", NULL);
-	em_format_format_text(emf, stream, (CamelDataWrapper *)part);
+	em_format_format_text (emf, stream, (CamelDataWrapper *)part);
 }
 
 static void

@@ -85,7 +85,7 @@ struct _EMailViewClass {
 
 GType		e_mail_view_get_type		(void);
 EShellView *	e_mail_view_get_shell_view	(EMailView *view);
-void		e_mail_view_update_view_instance(EMailView *view);
+void		e_mail_view_update_view_instance (EMailView *view);
 GalViewInstance *
 		e_mail_view_get_view_instance	(EMailView *view);
 void		e_mail_view_set_search_strings	(EMailView *view,

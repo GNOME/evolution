@@ -82,13 +82,13 @@ struct _EMConfigClass {
 	EConfigClass config_class;
 };
 
-GType em_config_get_type(void);
+GType em_config_get_type (void);
 
-EMConfig *em_config_new(gint type, const gchar *menuid);
+EMConfig *em_config_new (gint type, const gchar *menuid);
 
-EMConfigTargetFolder *em_config_target_new_folder(EMConfig *emp, CamelFolder *folder, const gchar *uri);
-EMConfigTargetPrefs *em_config_target_new_prefs(EMConfig *emp, GConfClient *gconf);
-EMConfigTargetAccount *em_config_target_new_account(EMConfig *emp, EAccount *account);
+EMConfigTargetFolder *em_config_target_new_folder (EMConfig *emp, CamelFolder *folder, const gchar *uri);
+EMConfigTargetPrefs *em_config_target_new_prefs (EMConfig *emp, GConfClient *gconf);
+EMConfigTargetAccount *em_config_target_new_account (EMConfig *emp, EAccount *account);
 
 G_END_DECLS
 

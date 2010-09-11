@@ -55,7 +55,7 @@ struct _StoreInfo {
 	guint removed : 1;
 };
 
-CamelStore *vfolder_store;  /* XXX write a get() function for this */
+CamelStore *vfolder_store;  /* XXX write a get () function for this */
 static GHashTable *store_table;
 
 static MailAsyncEvent *async_event;

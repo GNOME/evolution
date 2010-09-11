@@ -49,13 +49,13 @@ typedef struct {
 } ui_data;
 
 GtkWidget *
-plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data);
+plugin_webdav_contacts (EPlugin *epl, EConfigHookItemFactoryData *data);
 
 gint
-e_plugin_lib_enable(EPlugin *ep, gint enable);
+e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 static void
-ensure_webdav_contacts_source_group(void)
+ensure_webdav_contacts_source_group (void)
 {
 	ESourceList  *source_list;
 
@@ -70,7 +70,7 @@ ensure_webdav_contacts_source_group(void)
 }
 
 static void
-remove_webdav_contacts_source_group(void)
+remove_webdav_contacts_source_group (void)
 {
 	ESourceList  *source_list;
 	ESourceGroup *group;
@@ -86,21 +86,21 @@ remove_webdav_contacts_source_group(void)
 	if (group) {
 		GSList *sources;
 
-		sources = e_source_group_peek_sources(group);
+		sources = e_source_group_peek_sources (group);
 
 		if (NULL == sources) {
-			e_source_list_remove_group(source_list, group);
-			e_source_list_sync(source_list, NULL);
+			e_source_list_remove_group (source_list, group);
+			e_source_list_sync (source_list, NULL);
 		}
 	}
-	g_object_unref(source_list);
+	g_object_unref (source_list);
 }
 
 static void
-set_ui_from_source(ui_data *data)
+set_ui_from_source (ui_data *data)
 {
 	ESource    *source  = data->source;
-	const gchar *url     = e_source_get_uri(source);
+	const gchar *url     = e_source_get_uri (source);
 	SoupURI     *suri    = soup_uri_new (url);
 	gchar       *url_ui;
 	const gchar *property;
@@ -120,7 +120,7 @@ set_ui_from_source(ui_data *data)
 	} else {
 		avoid_ifmatch = FALSE;
 	}
-	gtk_toggle_button_set_active(data->avoid_ifmatch_toggle, avoid_ifmatch);
+	gtk_toggle_button_set_active (data->avoid_ifmatch_toggle, avoid_ifmatch);
 
 	/* it's really a http or https protocol */
 	if (suri)
@@ -149,8 +149,8 @@ static void
 set_source_from_ui (ui_data *data)
 {
 	ESource    *source        = data->source;
-	gboolean    avoid_ifmatch = gtk_toggle_button_get_active(data->avoid_ifmatch_toggle);
-	const gchar *url           = gtk_entry_get_text(data->url_entry);
+	gboolean    avoid_ifmatch = gtk_toggle_button_get_active (data->avoid_ifmatch_toggle);
+	const gchar *url           = gtk_entry_get_text (data->url_entry);
 	SoupURI     *suri          = soup_uri_new (url);
 	gchar       *url_noprotocol;
 	gboolean    use_ssl;
@@ -197,7 +197,7 @@ destroy_ui_data (gpointer data)
 }
 
 GtkWidget *
-plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data)
+plugin_webdav_contacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EABConfigTargetSource *t = (EABConfigTargetSource *) data->target;
 	ESource      *source;
@@ -222,62 +222,62 @@ plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data)
 		return NULL;
 	}
 
-	uidata         = g_malloc0(sizeof(uidata[0]));
+	uidata         = g_malloc0 (sizeof (uidata[0]));
 	uidata->source = source;
 
 	/* Build up the UI */
 	parent = data->parent;
-	vbox   = gtk_widget_get_ancestor(gtk_widget_get_parent(parent), GTK_TYPE_VBOX);
+	vbox   = gtk_widget_get_ancestor (gtk_widget_get_parent (parent), GTK_TYPE_VBOX);
 
-	vbox2 = gtk_vbox_new(FALSE, 6);
-	gtk_box_pack_start(GTK_BOX(vbox), vbox2, FALSE, FALSE, 0);
+	vbox2 = gtk_vbox_new (FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (vbox), vbox2, FALSE, FALSE, 0);
 
-	section = gtk_label_new(NULL);
+	section = gtk_label_new (NULL);
 	buff = g_strconcat ("<b>", _("Server"), "</b>", NULL);
-	gtk_label_set_markup(GTK_LABEL(section), buff);
+	gtk_label_set_markup (GTK_LABEL (section), buff);
 	g_free (buff);
-	gtk_misc_set_alignment(GTK_MISC(section), 0.0, 0.0);
-	gtk_box_pack_start(GTK_BOX(vbox2), section, FALSE, FALSE, 0);
+	gtk_misc_set_alignment (GTK_MISC (section), 0.0, 0.0);
+	gtk_box_pack_start (GTK_BOX (vbox2), section, FALSE, FALSE, 0);
 
-	hbox = GTK_BOX(gtk_hbox_new(FALSE, 10));
-	gtk_box_pack_start(GTK_BOX(vbox2), GTK_WIDGET(hbox), TRUE, TRUE, 0);
+	hbox = GTK_BOX (gtk_hbox_new (FALSE, 10));
+	gtk_box_pack_start (GTK_BOX (vbox2), GTK_WIDGET (hbox), TRUE, TRUE, 0);
 
 	spacer = gtk_label_new("   ");
-	gtk_box_pack_start(hbox, spacer, FALSE, FALSE, 0);
+	gtk_box_pack_start (hbox, spacer, FALSE, FALSE, 0);
 
 	label = gtk_label_new(_("URL:"));
-	gtk_box_pack_start(hbox, label, FALSE, FALSE, 0);
+	gtk_box_pack_start (hbox, label, FALSE, FALSE, 0);
 
-	uidata->url_entry = GTK_ENTRY(gtk_entry_new());
-	gtk_box_pack_start(hbox, GTK_WIDGET(uidata->url_entry), TRUE, TRUE, 0);
+	uidata->url_entry = GTK_ENTRY (gtk_entry_new ());
+	gtk_box_pack_start (hbox, GTK_WIDGET (uidata->url_entry), TRUE, TRUE, 0);
 
-	hbox = GTK_BOX(gtk_hbox_new(FALSE, 10));
-	gtk_box_pack_start(GTK_BOX(vbox2), GTK_WIDGET(hbox), TRUE, TRUE, 0);
+	hbox = GTK_BOX (gtk_hbox_new (FALSE, 10));
+	gtk_box_pack_start (GTK_BOX (vbox2), GTK_WIDGET (hbox), TRUE, TRUE, 0);
 
 	spacer = gtk_label_new("   ");
-	gtk_box_pack_start(hbox, spacer, FALSE, FALSE, 0);
+	gtk_box_pack_start (hbox, spacer, FALSE, FALSE, 0);
 
 	label = gtk_label_new_with_mnemonic(_("User_name:"));
-	gtk_box_pack_start(hbox, label, FALSE, FALSE, 0);
+	gtk_box_pack_start (hbox, label, FALSE, FALSE, 0);
 
-	uidata->username_entry = GTK_ENTRY(gtk_entry_new());
-	gtk_box_pack_start(hbox, GTK_WIDGET(uidata->username_entry), TRUE, TRUE, 0);
+	uidata->username_entry = GTK_ENTRY (gtk_entry_new ());
+	gtk_box_pack_start (hbox, GTK_WIDGET (uidata->username_entry), TRUE, TRUE, 0);
 
-	hbox = GTK_BOX(gtk_hbox_new(FALSE, 10));
-	gtk_box_pack_start(GTK_BOX(vbox2), GTK_WIDGET(hbox), TRUE, TRUE, 0);
+	hbox = GTK_BOX (gtk_hbox_new (FALSE, 10));
+	gtk_box_pack_start (GTK_BOX (vbox2), GTK_WIDGET (hbox), TRUE, TRUE, 0);
 
 	spacer = gtk_label_new("   ");
-	gtk_box_pack_start(hbox, spacer, FALSE, FALSE, 0);
+	gtk_box_pack_start (hbox, spacer, FALSE, FALSE, 0);
 
-	uidata->avoid_ifmatch_toggle = GTK_TOGGLE_BUTTON(
-			gtk_check_button_new_with_mnemonic(
+	uidata->avoid_ifmatch_toggle = GTK_TOGGLE_BUTTON (
+			gtk_check_button_new_with_mnemonic (
 				_("_Avoid IfMatch (needed on Apache < 2.2.8)")));
-	gtk_box_pack_start(hbox, GTK_WIDGET(uidata->avoid_ifmatch_toggle),
+	gtk_box_pack_start (hbox, GTK_WIDGET (uidata->avoid_ifmatch_toggle),
 			   FALSE, FALSE, 0);
 
-	set_ui_from_source(uidata);
+	set_ui_from_source (uidata);
 
-	gtk_widget_show_all(vbox2);
+	gtk_widget_show_all (vbox2);
 
 	uidata->box = vbox2;
 	g_object_set_data_full(G_OBJECT(epl), "wwidget", uidata, destroy_ui_data);
@@ -291,12 +291,12 @@ plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data)
 }
 
 gint
-e_plugin_lib_enable(EPlugin *ep, gint enable)
+e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
 	if (enable) {
-		ensure_webdav_contacts_source_group();
+		ensure_webdav_contacts_source_group ();
 	} else {
-		remove_webdav_contacts_source_group();
+		remove_webdav_contacts_source_group ();
 	}
 	return 0;
 }

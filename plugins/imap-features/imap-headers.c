@@ -97,28 +97,28 @@ imap_headers_commit (EPlugin *efp, EConfigHookItemFactoryData *data)
 
 		temp = mail_config_get_account_by_source_url (account->source->url);
 
-		url = camel_url_new (e_account_get_string(account, E_ACCOUNT_SOURCE_URL), NULL);
+		url = camel_url_new (e_account_get_string (account, E_ACCOUNT_SOURCE_URL), NULL);
 
 		model = gtk_tree_view_get_model (ui->custom_headers_tree);
-		if (gtk_tree_model_get_iter_first(model, &iter)) {
+		if (gtk_tree_model_get_iter_first (model, &iter)) {
 			do
 			{
 				header = NULL;
 				gtk_tree_model_get (model, &iter, 0, &header, -1);
-				str = g_string_append (str, g_strstrip(header));
+				str = g_string_append (str, g_strstrip (header));
 				str = g_string_append (str, " ");
 				g_free (header);
-			} while (gtk_tree_model_iter_next(model, &iter));
+			} while (gtk_tree_model_iter_next (model, &iter));
 		}
 
-		header = g_strstrip(g_strdup(str->str));
+		header = g_strstrip (g_strdup (str->str));
 		camel_url_set_param (url, "imap_custom_headers", header);
 		g_free (header);
 
-		if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui->all_headers))) {
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ui->all_headers))) {
 			camel_url_set_param (url, "all_headers", "1");
 			camel_url_set_param (url, "basic_headers", NULL);
-		} else if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(ui->basic_headers))) {
+		} else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (ui->basic_headers))) {
 			camel_url_set_param (url, "basic_headers", "1");
 			camel_url_set_param (url, "all_headers", NULL);
 		} else {
@@ -191,8 +191,8 @@ epif_add_header (GtkButton *button, EPImapFeaturesData *ui)
 	GtkTreeSelection *selection;
 
 	model = gtk_tree_view_get_model (ui->custom_headers_tree);
-	gtk_tree_store_append (GTK_TREE_STORE(model), &iter, NULL);
-	gtk_tree_store_set (GTK_TREE_STORE(model), &iter, 0, gtk_entry_get_text (ui->entry_header), -1);
+	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, NULL);
+	gtk_tree_store_set (GTK_TREE_STORE (model), &iter, 0, gtk_entry_get_text (ui->entry_header), -1);
 
 	selection = gtk_tree_view_get_selection (ui->custom_headers_tree);
 	gtk_tree_selection_select_iter (selection, &iter);
@@ -223,7 +223,7 @@ epif_remove_header_clicked (GtkButton *button, EPImapFeaturesData *ui)
 
 	if (gtk_tree_selection_get_selected (select, &model, &iter)) {
 		path = gtk_tree_model_get_path (model, &iter);
-		gtk_tree_store_remove(GTK_TREE_STORE(model), &iter);
+		gtk_tree_store_remove (GTK_TREE_STORE (model), &iter);
 
 		if (gtk_tree_path_prev (path)) {
 			gtk_tree_model_get_iter (model, &iter, path);
@@ -241,7 +241,7 @@ epif_remove_header_clicked (GtkButton *button, EPImapFeaturesData *ui)
 static void
 epif_fetch_all_headers_toggled (GtkWidget *all_option, EPImapFeaturesData *ui)
 {
-	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(all_option)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (all_option)))
 		gtk_widget_set_sensitive (ui->custom_headers_box, FALSE);
 	else
 		gtk_widget_set_sensitive (ui->custom_headers_box, TRUE);
@@ -288,10 +288,10 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	ui->remove_header = GTK_BUTTON(e_builder_get_widget (builder, "removeHeader"));
 	ui->entry_header = GTK_ENTRY (e_builder_get_widget (builder, "customHeaderEntry"));
 
-	url = camel_url_new (e_account_get_string(account, E_ACCOUNT_SOURCE_URL), NULL);
+	url = camel_url_new (e_account_get_string (account, E_ACCOUNT_SOURCE_URL), NULL);
 
 	ui->store = gtk_tree_store_new (1, G_TYPE_STRING);
-	gtk_tree_view_set_model (ui->custom_headers_tree, GTK_TREE_MODEL(ui->store));
+	gtk_tree_view_set_model (ui->custom_headers_tree, GTK_TREE_MODEL (ui->store));
 
 	selection = gtk_tree_view_get_selection (ui->custom_headers_tree);
 
@@ -304,7 +304,7 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 			ui->custom_headers_array = g_strsplit (custom_headers, " ", -1);
 			while (ui->custom_headers_array[i] ) {
-				if (strlen(g_strstrip(ui->custom_headers_array[i]))) {
+				if (strlen (g_strstrip (ui->custom_headers_array[i]))) {
 					gtk_tree_store_append (ui->store, &iter, NULL);
 					gtk_tree_store_set (ui->store, &iter, 0, ui->custom_headers_array[i], -1);
 

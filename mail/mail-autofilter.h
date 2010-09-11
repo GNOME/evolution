@@ -37,15 +37,15 @@ enum {
 	AUTO_MLIST = 8
 };
 
-EFilterRule *em_vfolder_rule_from_message(EMVFolderContext *context, CamelMimeMessage *msg, gint flags, const gchar *source);
-EFilterRule *filter_rule_from_message(EMFilterContext *context, CamelMimeMessage *msg, gint flags);
-EFilterRule *em_vfolder_rule_from_address(EMVFolderContext *context, CamelInternetAddress *addr, gint flags, const gchar *source);
+EFilterRule *em_vfolder_rule_from_message (EMVFolderContext *context, CamelMimeMessage *msg, gint flags, const gchar *source);
+EFilterRule *filter_rule_from_message (EMFilterContext *context, CamelMimeMessage *msg, gint flags);
+EFilterRule *em_vfolder_rule_from_address (EMVFolderContext *context, CamelInternetAddress *addr, gint flags, const gchar *source);
 
 /* easiest place to put this */
-void  filter_gui_add_from_message(CamelMimeMessage *msg, const gchar *source, gint flags);
+void  filter_gui_add_from_message (CamelMimeMessage *msg, const gchar *source, gint flags);
 
 /* Also easiest place for these, we should really share a global rule context for this stuff ... */
-void mail_filter_rename_uri(CamelStore *store, const gchar *olduri, const gchar *newuri);
-void mail_filter_delete_uri(CamelStore *store, const gchar *uri);
+void mail_filter_rename_uri (CamelStore *store, const gchar *olduri, const gchar *newuri);
+void mail_filter_delete_uri (CamelStore *store, const gchar *uri);
 
 #endif

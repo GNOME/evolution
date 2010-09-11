@@ -186,7 +186,7 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recip
 	else
 		res = TRUE;
 
-	g_string_free(str, TRUE);
+	g_string_free (str, TRUE);
 
 	return res;
 }
@@ -457,7 +457,7 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 	 * Since the e-plugin framework doesn't provide a way to return a value from the plugin,
 	 * use 'presend_check_status' to set whether the check passed / failed.
 	 */
-	eme = em_event_peek();
+	eme = em_event_peek ();
 	target = em_event_target_new_composer (eme, composer, 0);
 	g_object_set_data (G_OBJECT (composer), "presend_check_status", GINT_TO_POINTER(0));
 
@@ -624,7 +624,7 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 	g_object_unref (sdi->composer);
 	if (sdi->emcs)
 		emcs_unref (sdi->emcs);
-	camel_message_info_free(info);
+	camel_message_info_free (info);
 	g_free (sdi);
 }
 
@@ -685,7 +685,7 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer)
 	table = e_msg_composer_get_header_table (composer);
 	account = e_composer_header_table_get_account (table);
 
-	sdi = g_malloc (sizeof(struct _save_draft_info));
+	sdi = g_malloc (sizeof (struct _save_draft_info));
 	sdi->composer = g_object_ref (composer);
 	sdi->emcs = g_object_get_data (G_OBJECT (composer), "emcs");
 	if (sdi->emcs)
@@ -700,11 +700,11 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer)
 
 		if (!folder || !account->enabled) {
 			if (e_alert_run_dialog_for_args ((GtkWindow *)composer, "mail:ask-default-drafts", NULL) != GTK_RESPONSE_YES) {
-				g_object_unref(composer);
+				g_object_unref (composer);
 				g_object_unref (msg);
 				if (sdi->emcs)
-					emcs_unref(sdi->emcs);
-				g_free(sdi);
+					emcs_unref (sdi->emcs);
+				g_free (sdi);
 				return;
 			}
 
@@ -716,8 +716,8 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer)
 		g_object_ref (folder);
 	}
 
-	info = camel_message_info_new(NULL);
-	camel_message_info_set_flags(info, CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN, ~0);
+	info = camel_message_info_new (NULL);
+	camel_message_info_set_flags (info, CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN, ~0);
 
 	mail_append_mail (folder, msg, info, save_draft_done, sdi);
 	g_object_unref (folder);
@@ -756,7 +756,7 @@ create_new_composer (EShell *shell,
 	if (from_uri != NULL) {
 		GList *list;
 
-		account = mail_config_get_account_by_source_url(from_uri);
+		account = mail_config_get_account_by_source_url (from_uri);
 
 		list = g_list_prepend (NULL, (gpointer) from_uri);
 		e_composer_header_table_set_post_to_list (table, list);
@@ -821,7 +821,7 @@ em_utils_compose_new_message_with_mailto (EShell *shell,
 	table = e_msg_composer_get_header_table (composer);
 
 	if (from_uri
-	    && (account = mail_config_get_account_by_source_url(from_uri)))
+	    && (account = mail_config_get_account_by_source_url (from_uri)))
 		e_composer_header_table_set_account_name (table, account->name);
 
 	composer_set_no_change (composer);
@@ -868,7 +868,7 @@ replace_variables (GSList *clues, CamelMimeMessage *message, gchar **pstr)
 					string_changed = TRUE;
 				} else
 					count1 = FALSE;
-				g_strfreev(temp);
+				g_strfreev (temp);
 			}
 
 			if (!count1) {
@@ -1299,8 +1299,8 @@ forward_non_attached (EShell *shell,
 			composer = create_new_composer (shell, subject, from_uri);
 
 			if (composer) {
-				if (CAMEL_IS_MULTIPART(camel_medium_get_content ((CamelMedium *)message)))
-					e_msg_composer_add_message_attachments(composer, message, FALSE);
+				if (CAMEL_IS_MULTIPART (camel_medium_get_content ((CamelMedium *)message)))
+					e_msg_composer_add_message_attachments (composer, message, FALSE);
 
 				e_msg_composer_set_body_text (composer, text, len);
 
@@ -1604,10 +1604,10 @@ em_utils_redirect_message_by_uid (EShell *shell,
 }
 
 static void
-emu_handle_receipt_message(CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data, GError **error)
+emu_handle_receipt_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data, GError **error)
 {
 	if (msg)
-		em_utils_handle_receipt(folder, uid, msg);
+		em_utils_handle_receipt (folder, uid, msg);
 
 	/* we dont care really if we can't get the message */
 	g_clear_error (error);
@@ -1621,7 +1621,7 @@ em_utils_handle_receipt (CamelFolder *folder, const gchar *uid, CamelMimeMessage
 	const gchar *addr;
 	CamelMessageInfo *info;
 
-	info = camel_folder_get_message_info(folder, uid);
+	info = camel_folder_get_message_info (folder, uid);
 	if (info == NULL)
 		return;
 
@@ -1631,7 +1631,7 @@ em_utils_handle_receipt (CamelFolder *folder, const gchar *uid, CamelMimeMessage
 	}
 
 	if (msg == NULL) {
-		mail_get_messagex(folder, uid, emu_handle_receipt_message, NULL, mail_msg_unordered_push);
+		mail_get_messagex (folder, uid, emu_handle_receipt_message, NULL, mail_msg_unordered_push);
 		camel_folder_free_message_info (folder, info);
 		return;
 	}
@@ -1650,13 +1650,13 @@ em_utils_handle_receipt (CamelFolder *folder, const gchar *uid, CamelMimeMessage
 	if (addr == NULL) {
 		addr = "";
 	} else {
-		while (camel_mime_is_lwsp(*addr))
+		while (camel_mime_is_lwsp (*addr))
 			addr++;
 	}
 
 	if (account && (account->receipt_policy == E_ACCOUNT_RECEIPT_ALWAYS || account->receipt_policy == E_ACCOUNT_RECEIPT_ASK)
 	    && e_alert_run_dialog_for_args (e_shell_get_active_window (NULL), "mail:ask-receipt", addr, camel_mime_message_get_subject(msg), NULL) == GTK_RESPONSE_YES)
-		em_utils_send_receipt(folder, msg);
+		em_utils_send_receipt (folder, msg);
 }
 
 static void
@@ -1887,7 +1887,7 @@ reply_get_composer (EShell *shell,
 	g_free (subject);
 
 	/* add post-to, if nessecary */
-	if (postto && camel_address_length((CamelAddress *)postto)) {
+	if (postto && camel_address_length ((CamelAddress *)postto)) {
 		gchar *store_url = NULL;
 		gchar *post;
 
@@ -1902,10 +1902,10 @@ reply_get_composer (EShell *shell,
 				store_url[strlen (store_url)-1] = '\0';
 		}
 
-		post = camel_address_encode((CamelAddress *)postto);
+		post = camel_address_encode ((CamelAddress *)postto);
 		e_composer_header_table_set_post_to_base (
 			table, store_url ? store_url : "", post);
-		g_free(post);
+		g_free (post);
 		g_free (store_url);
 	}
 
@@ -1965,14 +1965,14 @@ get_reply_list (CamelMimeMessage *message, CamelInternetAddress *to)
 		p++;
 
 	addr = g_strndup (header, p - header);
-	camel_internet_address_add(to, NULL, addr);
+	camel_internet_address_add (to, NULL, addr);
 	g_free (addr);
 
 	return TRUE;
 }
 
 gboolean
-em_utils_is_munged_list_message(CamelMimeMessage *message)
+em_utils_is_munged_list_message (CamelMimeMessage *message)
 {
 	CamelInternetAddress *reply_to, *list;
 	gboolean result = FALSE;
@@ -1982,12 +1982,12 @@ em_utils_is_munged_list_message(CamelMimeMessage *message)
 		list = camel_internet_address_new ();
 
 		if (get_reply_list (message, list) &&
-		    camel_address_length (CAMEL_ADDRESS(list)) == camel_address_length (CAMEL_ADDRESS(reply_to))) {
+		    camel_address_length (CAMEL_ADDRESS (list)) == camel_address_length (CAMEL_ADDRESS (reply_to))) {
 			gint i;
 			const gchar *r_name, *r_addr;
 			const gchar *l_name, *l_addr;
 
-			for (i = 0; i < camel_address_length (CAMEL_ADDRESS(list)); i++) {
+			for (i = 0; i < camel_address_length (CAMEL_ADDRESS (list)); i++) {
 				if (!camel_internet_address_get (reply_to, i, &r_name, &r_addr))
 					break;
 				if (!camel_internet_address_get (list, i, &l_name, &l_addr))
@@ -1995,7 +1995,7 @@ em_utils_is_munged_list_message(CamelMimeMessage *message)
 				if (strcmp (l_addr, r_addr))
 					break;
 			}
-			if (i == camel_address_length (CAMEL_ADDRESS(list)))
+			if (i == camel_address_length (CAMEL_ADDRESS (list)))
 				result = TRUE;
 		}
 		g_object_unref (list);
@@ -2037,7 +2037,7 @@ get_reply_sender (CamelMimeMessage *message, CamelInternetAddress *to, CamelNNTP
 	if (postto
 	    && ((posthdr = camel_medium_get_header((CamelMedium *)message, "Followup-To"))
 		 || (posthdr = camel_medium_get_header((CamelMedium *)message, "Newsgroups")))) {
-		camel_address_decode((CamelAddress *)postto, posthdr);
+		camel_address_decode ((CamelAddress *)postto, posthdr);
 		return;
 	}
 
@@ -2066,7 +2066,7 @@ get_reply_from (CamelMimeMessage *message, CamelInternetAddress *to, CamelNNTPAd
 	if (postto
 	    && ((posthdr = camel_medium_get_header((CamelMedium *)message, "Followup-To"))
 		 || (posthdr = camel_medium_get_header((CamelMedium *)message, "Newsgroups")))) {
-		camel_address_decode((CamelAddress *)postto, posthdr);
+		camel_address_decode ((CamelAddress *)postto, posthdr);
 		return;
 	}
 
@@ -2103,14 +2103,14 @@ get_reply_all (CamelMimeMessage *message, CamelInternetAddress *to, CamelInterne
 	/* check whether there is a 'Newsgroups: ' header in there */
 	if (postto) {
 		if ((posthdr = camel_medium_get_header((CamelMedium *)message, "Followup-To")))
-			camel_address_decode((CamelAddress *)postto, posthdr);
+			camel_address_decode ((CamelAddress *)postto, posthdr);
 		if ((posthdr = camel_medium_get_header((CamelMedium *)message, "Newsgroups")))
-			camel_address_decode((CamelAddress *)postto, posthdr);
+			camel_address_decode ((CamelAddress *)postto, posthdr);
 	}
 
 	rcpt_hash = em_utils_generate_account_hash ();
 
-	reply_to = get_reply_to(message);
+	reply_to = get_reply_to (message);
 	to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 	cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 
@@ -2139,10 +2139,10 @@ get_reply_all (CamelMimeMessage *message, CamelInternetAddress *to, CamelInterne
 	}
 
 	/* if To: is still empty, may we removed duplicates (i.e. ourself), so add the original To if it was set */
-	if (camel_address_length((CamelAddress *)to) == 0
-	    && (camel_internet_address_get(to_addrs, 0, &name, &addr)
-		|| camel_internet_address_get(cc_addrs, 0, &name, &addr))) {
-		camel_internet_address_add(to, name, addr);
+	if (camel_address_length ((CamelAddress *)to) == 0
+	    && (camel_internet_address_get (to_addrs, 0, &name, &addr)
+		|| camel_internet_address_get (cc_addrs, 0, &name, &addr))) {
+		camel_internet_address_add (to, name, addr);
 	}
 
 	g_hash_table_destroy (rcpt_hash);
@@ -2375,7 +2375,7 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message, EMFormat *
 		break;
 	case MAIL_CONFIG_REPLY_OUTLOOK:
 		text = em_utils_message_to_html (message, _("-----Original Message-----"), EM_FORMAT_QUOTE_HEADERS, &len, source, start_bottom ? "<BR>" : NULL, &validity_found);
-		e_msg_composer_set_body_text(composer, text, len);
+		e_msg_composer_set_body_text (composer, text, len);
 		g_free (text);
 		emu_update_composers_security (composer, validity_found);
 		break;
@@ -2386,7 +2386,7 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message, EMFormat *
 		credits = attribution_format (ATTRIBUTION, message);
 		text = em_utils_message_to_html (message, credits, EM_FORMAT_QUOTE_CITE, &len, source, start_bottom ? "<BR>" : NULL, &validity_found);
 		g_free (credits);
-		e_msg_composer_set_body_text(composer, text, len);
+		e_msg_composer_set_body_text (composer, text, len);
 		g_free (text);
 		emu_update_composers_security (composer, validity_found);
 		break;
@@ -2439,8 +2439,8 @@ reply_to_message (CamelFolder *folder,
 
 	if (message != NULL) {
 		/* get_message_free() will also unref the message, so we need
-		   an extra ref for em_utils_reply_to_message() to drop. */
-		g_object_ref(message);
+		   an extra ref for em_utils_reply_to_message () to drop. */
+		g_object_ref (message);
 		em_utils_reply_to_message (
 			rd->shell, folder, uid, message, rd->mode, rd->source);
 	}
@@ -2490,13 +2490,13 @@ em_utils_reply_to_message (EShell *shell,
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	if (folder && uid && message == NULL) {
-		struct _reply_data *rd = g_malloc0(sizeof(*rd));
+		struct _reply_data *rd = g_malloc0 (sizeof (*rd));
 
 		rd->shell = g_object_ref (shell);
 		rd->mode = mode;
 		rd->source = source;
 		if (rd->source)
-			g_object_ref(rd->source);
+			g_object_ref (rd->source);
 		mail_get_message (
 			folder, uid, reply_to_message,
 			rd, mail_msg_unordered_push);
@@ -2504,10 +2504,10 @@ em_utils_reply_to_message (EShell *shell,
 		return NULL;
 	}
 
-	g_return_val_if_fail(message != NULL, NULL);
+	g_return_val_if_fail (message != NULL, NULL);
 
-	to = camel_internet_address_new();
-	cc = camel_internet_address_new();
+	to = camel_internet_address_new ();
+	cc = camel_internet_address_new ();
 
 	account = em_utils_guess_account_with_recipients (message, folder);
 	flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
@@ -2515,13 +2515,13 @@ em_utils_reply_to_message (EShell *shell,
 	switch (mode) {
 	case REPLY_MODE_FROM:
 		if (folder)
-			postto = camel_nntp_address_new();
+			postto = camel_nntp_address_new ();
 
 		get_reply_from (message, to, postto);
 		break;
 	case REPLY_MODE_SENDER:
 		if (folder)
-			postto = camel_nntp_address_new();
+			postto = camel_nntp_address_new ();
 
 		get_reply_sender (message, to, postto);
 		break;
@@ -2533,9 +2533,9 @@ em_utils_reply_to_message (EShell *shell,
 	case REPLY_MODE_ALL:
 		flags |= CAMEL_MESSAGE_ANSWERED_ALL;
 		if (folder)
-			postto = camel_nntp_address_new();
+			postto = camel_nntp_address_new ();
 
-		get_reply_all(message, to, cc, postto);
+		get_reply_all (message, to, cc, postto);
 		break;
 	}
 
@@ -2550,7 +2550,7 @@ em_utils_reply_to_message (EShell *shell,
 
 	composer_set_body (composer, message, source);
 
-	g_object_unref(message);
+	g_object_unref (message);
 	emcs = g_object_get_data (G_OBJECT (composer), "emcs");
 	emcs_set_folder_info (emcs, folder, uid, flags, flags);
 

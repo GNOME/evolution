@@ -39,7 +39,7 @@ static G_CONST_RETURN gchar *
 static gint	ea_week_view_main_item_get_n_children
 						(AtkObject *accessible);
 static AtkObject *
-		ea_week_view_main_item_ref_child(AtkObject *accessible,
+		ea_week_view_main_item_ref_child (AtkObject *accessible,
 						 gint i);
 static AtkObject *
 		ea_week_view_main_item_get_parent
@@ -72,7 +72,7 @@ static gint	table_interface_get_index_at	(AtkTable *table,
 static gint	table_interface_get_column_at_index
 						(AtkTable *table,
 						 gint index);
-static gint	table_interface_get_row_at_index(AtkTable *table,
+static gint	table_interface_get_row_at_index (AtkTable *table,
 						 gint index);
 static AtkObject *
 		table_interface_ref_at		(AtkTable *table,
@@ -226,7 +226,7 @@ ea_week_view_main_item_get_type (void)
 		 */
 
 		factory = atk_registry_get_factory (atk_get_default_registry (),
-						    e_week_view_main_item_get_type());
+						    e_week_view_main_item_get_type ());
 		derived_atk_type = atk_object_factory_get_accessible_type (factory);
 		g_type_query (derived_atk_type, &query);
 
@@ -405,7 +405,7 @@ ea_week_view_main_item_ref_child (AtkObject *accessible, gint index)
 		g_object_unref (cell);
 	}
 
-	return g_object_ref (atk_gobject_accessible_for_object (G_OBJECT(cell)));
+	return g_object_ref (atk_gobject_accessible_for_object (G_OBJECT (cell)));
 }
 
 static AtkObject *
@@ -607,11 +607,11 @@ ea_week_view_main_item_get_cell_data (EaWeekViewMainItem *ea_main_item)
 	main_item = E_WEEK_VIEW_MAIN_ITEM (g_obj);
 	week_view = e_week_view_main_item_get_week_view (main_item);
 
-	cell_data = g_object_get_data (G_OBJECT(ea_main_item),
+	cell_data = g_object_get_data (G_OBJECT (ea_main_item),
 				       "ea-week-view-cell-table");
 	if (!cell_data) {
 		cell_data = ea_cell_table_create (week_view->weeks_shown, 7, TRUE);
-		g_object_set_data (G_OBJECT(ea_main_item),
+		g_object_set_data (G_OBJECT (ea_main_item),
 				   "ea-week-view-cell-table", cell_data);
 	}
 	return cell_data;
@@ -624,10 +624,10 @@ ea_week_view_main_item_destory_cell_data (EaWeekViewMainItem *ea_main_item)
 
 	g_return_if_fail (ea_main_item);
 
-	cell_data = g_object_get_data (G_OBJECT(ea_main_item),
+	cell_data = g_object_get_data (G_OBJECT (ea_main_item),
 				       "ea-week-view-cell-table");
 	if (cell_data) {
-		g_object_set_data (G_OBJECT(ea_main_item),
+		g_object_set_data (G_OBJECT (ea_main_item),
 				   "ea-week-view-cell-table", NULL);
 		ea_cell_table_destroy (cell_data);
 	}
@@ -657,7 +657,7 @@ component_interface_get_extents (AtkComponent *component,
 
 	g_return_if_fail (EA_IS_WEEK_VIEW_MAIN_ITEM (component));
 
-	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE(component));
+	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (component));
 	if (!g_obj)
 		/* defunct object*/
 		return;

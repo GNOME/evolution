@@ -365,7 +365,7 @@ task_details_page_fill_component (CompEditorPage *page,
 		/* COMPLETED today or before */
 		icaltoday = icaltime_current_time_with_zone (zone);
 		icaltimezone_convert_time (&icaltoday, zone,
-				icaltimezone_get_utc_timezone());
+				icaltimezone_get_utc_timezone ());
 
 		if (icaltime_compare_date_only (icalcomplete, icaltoday) > 0) {
 			comp_editor_page_display_validation_error (
@@ -498,7 +498,7 @@ complete_date_changed (TaskDetailsPage *tdpage, time_t ctime, gboolean complete)
 {
 	CompEditorPageDates dates = {NULL, NULL, NULL, NULL};
 	icaltimezone *zone;
-	struct icaltimetype completed_tt = icaltime_null_time();
+	struct icaltimetype completed_tt = icaltime_null_time ();
 
 	/* Get the current time in UTC. */
 	zone = icaltimezone_get_utc_timezone ();

@@ -183,7 +183,7 @@ backup (const gchar *filename)
 	gchar *quotedfname;
 
 	g_return_if_fail (filename && *filename);
-	quotedfname = g_shell_quote(filename);
+	quotedfname = g_shell_quote (filename);
 
 	CANCEL (complete);
 	txt = _("Shutting down Evolution");
@@ -244,7 +244,7 @@ restore (const gchar *filename)
 		return;
 	}
 
-	quotedfname = g_shell_quote(filename);
+	quotedfname = g_shell_quote (filename);
 
 	/* FIXME Will the versioned setting always work? */
 	CANCEL (complete);
@@ -296,7 +296,7 @@ check (const gchar *filename)
 	gchar *quotedfname;
 
 	g_return_val_if_fail (filename && *filename, FALSE);
-	quotedfname = g_shell_quote(filename);
+	quotedfname = g_shell_quote (filename);
 
 	command = g_strdup_printf ("tar ztf %s 1>/dev/null", quotedfname);
 	result = system (command);
@@ -353,11 +353,11 @@ thread_start (gpointer data)
 
 	complete = TRUE;
 
-	return GINT_TO_POINTER(result);
+	return GINT_TO_POINTER (result);
 }
 
 static gboolean
-idle_cb(gpointer data)
+idle_cb (gpointer data)
 {
 	if (gui_arg) {
 		/* Show progress dialog */
@@ -476,7 +476,7 @@ main (gint argc, gchar **argv)
 		gtk_container_set_border_width (GTK_CONTAINER (action_area), 0);
 
 		if (oper && file)
-			str = g_strdup_printf(oper, file);
+			str = g_strdup_printf (oper, file);
 
 		container = gtk_table_new (2, 3, FALSE);
 		gtk_table_set_col_spacings (GTK_TABLE (container), 12);

@@ -302,7 +302,7 @@ ea_gnome_calendar_ref_child (AtkObject *obj, gint i)
 		break;
 	}
 	if (child)
-		g_object_ref(child);
+		g_object_ref (child);
 	return child;
 }
 
@@ -316,7 +316,7 @@ ea_gcal_dates_change_cb (GnomeCalendar *gcal, gpointer data)
 	g_return_if_fail (EA_IS_GNOME_CALENDAR (data));
 
 	new_name = ea_gnome_calendar_get_label_description (gcal);
-	atk_object_set_name (ATK_OBJECT(data), new_name);
+	atk_object_set_name (ATK_OBJECT (data), new_name);
 	g_signal_emit_by_name (data, "visible_data_changed");
 
 #ifdef ACC_DEBUG

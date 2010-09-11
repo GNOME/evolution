@@ -455,7 +455,7 @@ update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentD
 		e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->start_timezone),
 					       start_zone);
 	def_zone = calendar_config_get_icaltimezone ();
-	if (!def_zone || !start_zone || strcmp (icaltimezone_get_tzid(def_zone), icaltimezone_get_tzid (start_zone)))
+	if (!def_zone || !start_zone || strcmp (icaltimezone_get_tzid (def_zone), icaltimezone_get_tzid (start_zone)))
 		 homezone = FALSE;
 
 	action = comp_editor_get_action (editor, "view-time-zone");
@@ -952,8 +952,8 @@ get_current_account (EventPage *epage)
 	if (!str)
 		return NULL;
 
-	for (it = e_list_get_iterator((EList *)priv->accounts); e_iterator_is_valid(it); e_iterator_next(it)) {
-		EAccount *a = (EAccount *)e_iterator_get(it);
+	for (it = e_list_get_iterator ((EList *)priv->accounts); e_iterator_is_valid (it); e_iterator_next (it)) {
+		EAccount *a = (EAccount *)e_iterator_get (it);
 		gchar *full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
 
 		if (!g_ascii_strcasecmp (full, str)) {
@@ -1659,8 +1659,8 @@ static
 void update_end_time_combo (EventPage *epage)
 {
 	EventPagePrivate *priv;
-	struct icaltimetype start_tt = icaltime_null_time();
-	struct icaltimetype end_tt = icaltime_null_time();
+	struct icaltimetype start_tt = icaltime_null_time ();
+	struct icaltimetype end_tt = icaltime_null_time ();
 	time_t start_timet,end_timet;
 	gint hours,minutes;
 
@@ -1709,7 +1709,7 @@ hour_minute_changed (EventPage *epage)
 {
 	EventPagePrivate *priv;
 	gint for_hours, for_minutes;
-	struct icaltimetype end_tt = icaltime_null_time();
+	struct icaltimetype end_tt = icaltime_null_time ();
 
 	priv = epage->priv;
 
@@ -1892,7 +1892,7 @@ remove_clicked_cb (GtkButton *btn, EventPage *epage)
 	for (tmp = paths; tmp; tmp=tmp->next) {
 		path = tmp->data;
 
-		gtk_tree_model_get_iter (GTK_TREE_MODEL(priv->model), &iter, path);
+		gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
 
 		gtk_tree_model_get (GTK_TREE_MODEL (priv->model), &iter, E_MEETING_STORE_ADDRESS_COL, &address, -1);
 		ia = e_meeting_store_find_attendee (priv->model, address, NULL);
@@ -2014,8 +2014,8 @@ void
 event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 {
 	EventPagePrivate *priv = epage->priv;
-	struct icaltimetype start_tt = icaltime_null_time();
-	struct icaltimetype end_tt = icaltime_null_time();
+	struct icaltimetype start_tt = icaltime_null_time ();
+	struct icaltimetype end_tt = icaltime_null_time ();
 	CompEditor *editor;
 	GtkAction *action;
 	gboolean date_set;
@@ -2171,7 +2171,7 @@ event_page_set_info_string (EventPage *epage, const gchar *icon, const gchar *ms
 	priv = epage->priv;
 
 	gtk_image_set_from_stock (GTK_IMAGE (priv->info_icon), icon, GTK_ICON_SIZE_BUTTON);
-	gtk_label_set_markup (GTK_LABEL(priv->info_string), msg);
+	gtk_label_set_markup (GTK_LABEL (priv->info_string), msg);
 
 	if (msg && icon)
 		gtk_widget_show (priv->info_hbox);
@@ -2415,8 +2415,8 @@ static void
 times_updated (EventPage *epage, gboolean adjust_end_time)
 {
 	EventPagePrivate *priv;
-	struct icaltimetype start_tt = icaltime_null_time();
-	struct icaltimetype end_tt = icaltime_null_time();
+	struct icaltimetype start_tt = icaltime_null_time ();
+	struct icaltimetype end_tt = icaltime_null_time ();
 	gboolean date_set, all_day_event;
 	gboolean set_start_date = FALSE, set_end_date = FALSE;
 	icaltimezone *start_zone;
@@ -2660,7 +2660,7 @@ source_changed_cb (ESourceComboBox *source_combo_box, EventPage *epage)
 		if (client) {
 			gchar *backend_addr = NULL;
 
-			e_cal_get_cal_address(client, &backend_addr, NULL);
+			e_cal_get_cal_address (client, &backend_addr, NULL);
 
 			if (priv->is_meeting)
 				event_page_select_organizer (epage, backend_addr);
@@ -2979,7 +2979,7 @@ init_widgets (EventPage *epage)
 	update_end_time_combo ( epage);
 
 	/* Hour and Minute selector */
-	gtk_spin_button_set_range( (GtkSpinButton*) priv->hour_selector, 0, G_MAXINT);
+	gtk_spin_button_set_range ( (GtkSpinButton*) priv->hour_selector, 0, G_MAXINT);
 	g_signal_connect (priv->hour_selector, "value-changed", G_CALLBACK (hour_sel_changed), epage);
 	g_signal_connect (priv->minute_selector, "value-changed", G_CALLBACK (minute_sel_changed), epage);
 
@@ -3081,7 +3081,7 @@ event_page_select_organizer (EventPage *epage, const gchar *backend_address)
 	ESource *source = NULL;
 	const gchar *user_addr = NULL;
 
-	def_account = itip_addresses_get_default();
+	def_account = itip_addresses_get_default ();
 	if (def_account && def_account->enabled)
 		def_address = g_strdup_printf("%s <%s>", def_account->id->name, def_account->id->address);
 
@@ -3159,12 +3159,12 @@ event_page_construct (EventPage *epage, EMeetingStore *model)
 	}
 
 	priv->accounts = itip_addresses_get ();
-	for (it = e_list_get_iterator((EList *)priv->accounts);
-	     e_iterator_is_valid(it);
-	     e_iterator_next(it)) {
+	for (it = e_list_get_iterator ((EList *)priv->accounts);
+	     e_iterator_is_valid (it);
+	     e_iterator_next (it)) {
 		gchar *full = NULL;
 
-		a = (EAccount *)e_iterator_get(it);
+		a = (EAccount *)e_iterator_get (it);
 
 		/* skip disabled accounts */
 		if (!a->enabled)
@@ -3172,10 +3172,10 @@ event_page_construct (EventPage *epage, EMeetingStore *model)
 
 		full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
 
-		priv->address_strings = g_list_append(priv->address_strings, full);
+		priv->address_strings = g_list_append (priv->address_strings, full);
 	}
 
-	g_object_unref(it);
+	g_object_unref (it);
 
 	if (priv->address_strings) {
 		GList *l;
@@ -3331,7 +3331,7 @@ event_page_get_alarm_page (EventPage *epage)
 
 	tmp = GW("dialog-vbox1");
 	alarm_page = GW("vbox2");
-	g_object_ref(alarm_page);
+	g_object_ref (alarm_page);
 	gtk_container_remove ((GtkContainer *)tmp, alarm_page);
 
 	return alarm_page;
@@ -3349,8 +3349,8 @@ event_page_get_attendee_page (EventPage *epage)
 	priv = epage->priv;
 
 	apage = priv->list_box;
-	g_object_ref(apage);
-	gtk_container_remove ((GtkContainer *)gtk_widget_get_parent(apage), apage);
+	g_object_ref (apage);
+	gtk_container_remove ((GtkContainer *)gtk_widget_get_parent (apage), apage);
 	gtk_widget_hide (priv->attendee_box);
 
 	return apage;

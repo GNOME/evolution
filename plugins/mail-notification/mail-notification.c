@@ -553,7 +553,7 @@ new_notify_status (EMEventTargetFolder *t)
 	if (is_part_enabled (GCONF_KEY_STATUS_NOTIFICATION)) {
 		gchar *safetext;
 
-		safetext = g_markup_escape_text(msg, strlen(msg));
+		safetext = g_markup_escape_text (msg, strlen (msg));
 		if (notify) {
 			notify_notification_update (
 				notify, _("New email"),
@@ -581,7 +581,7 @@ new_notify_status (EMEventTargetFolder *t)
 					500, notification_callback, notify);
 			}
 		}
-		g_free(safetext);
+		g_free (safetext);
 	}
 #endif
 
@@ -688,17 +688,17 @@ do_play_sound (gboolean beep, gboolean use_theme, const gchar *file)
 	if (!beep) {
 #ifdef HAVE_CANBERRA
 		if (!use_theme && file && *file)
-			ca_context_play(mailnotification, 0,
+			ca_context_play (mailnotification, 0,
 			CA_PROP_MEDIA_FILENAME, file,
 			NULL);
 		else
-			ca_context_play(mailnotification, 0,
+			ca_context_play (mailnotification, 0,
 			CA_PROP_EVENT_ID,"message-new-email",
 			NULL);
 #endif
 	}
 	else
-		gdk_beep();
+		gdk_beep ();
 }
 
 struct _SoundConfigureWidgets
@@ -740,8 +740,8 @@ sound_play_cb (GtkWidget *widget, gpointer data)
 		return;
 
 	file = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (scw->filechooser));
-	do_play_sound (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (scw->beep)),
-		       gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON (scw->use_theme)),
+	do_play_sound (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (scw->beep)),
+		       gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (scw->use_theme)),
 		       file);
 	g_free (file);
 }
@@ -805,15 +805,15 @@ enable_sound (gint enable)
 {
 #ifdef HAVE_CANBERRA
 	if (enable) {
-		ca_context_create(&mailnotification);
-		ca_context_change_props(
+		ca_context_create (&mailnotification);
+		ca_context_change_props (
 			mailnotification,
 			CA_PROP_APPLICATION_NAME,
 			"mailnotification Plugin",
 			NULL);
 	}
 	else
-		ca_context_destroy(mailnotification);
+		ca_context_destroy (mailnotification);
 #endif
 }
 
