@@ -247,7 +247,9 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 	/* TODO: add position/size saving/restoring */
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 300, 360);
+#if !GTK_CHECK_VERSION(2,21,8)
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+#endif
 
 	gtk_dialog_add_buttons (
 		GTK_DIALOG (dialog),

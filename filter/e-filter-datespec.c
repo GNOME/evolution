@@ -277,7 +277,9 @@ button_clicked (GtkButton *button, EFilterDatespec *fds)
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
+#if !GTK_CHECK_VERSION(2,21,8)
 	gtk_dialog_set_has_separator (dialog, FALSE);
+#endif
 
 	p->notebook_type = e_builder_get_widget (builder, "notebook_type");
 	p->combobox_type = e_builder_get_widget (builder, "combobox_type");

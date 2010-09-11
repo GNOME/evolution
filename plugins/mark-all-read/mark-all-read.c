@@ -111,7 +111,9 @@ prompt_user (gboolean has_subfolders)
 	dialog = gtk_dialog_new ();
 	widget = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
 	gtk_widget_hide (widget);
+#if !GTK_CHECK_VERSION(2,21,8)
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+#endif
 	gtk_window_set_title (GTK_WINDOW (dialog), "");
 	g_signal_connect (
 		dialog, "map",

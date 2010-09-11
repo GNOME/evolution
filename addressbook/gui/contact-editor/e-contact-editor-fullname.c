@@ -195,7 +195,9 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 	content_area = gtk_dialog_get_content_area (dialog);
 
 	gtk_widget_realize (GTK_WIDGET (e_contact_editor_fullname));
+#if !GTK_CHECK_VERSION(2,21,8)
 	gtk_dialog_set_has_separator (dialog, FALSE);
+#endif
 	gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
 	gtk_container_set_border_width (GTK_CONTAINER (content_area), 0);
 

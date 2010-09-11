@@ -138,7 +138,9 @@ e_alert_dialog_constructed (GObject *obj)
 	action_area = gtk_dialog_get_action_area ((GtkDialog*) self);
 	content_area = gtk_dialog_get_content_area ((GtkDialog*) self);
 
+#if !GTK_CHECK_VERSION(2,21,8)
 	gtk_dialog_set_has_separator ((GtkDialog*) self, FALSE);
+#endif
 
 	gtk_widget_ensure_style ((GtkWidget *)self);
 	gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
