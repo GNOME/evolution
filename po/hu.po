@@ -10,13 +10,13 @@
 # Laszlo Dvornik <dvornik at gnome dot hu>, 2004.
 # Gabor Kelemen <kelemeng at gnome dot hu>, 2004, 2005, 2006, 2007, 2008, 2009, 2010.
 # Zoltán Nitsch <regisztralj at gmail dot com>, 2008.
-#: ../shell/main.c:532
+#: ../shell/main.c:534
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-08 21:09+0200\n"
-"PO-Revision-Date: 2010-09-08 21:08+0200\n"
+"POT-Creation-Date: 2010-09-11 15:17+0200\n"
+"PO-Revision-Date: 2010-09-11 15:16+0200\n"
 "Last-Translator: Gabor Kelemen <kelemeng at gnome dot hu>\n"
 "Language-Team: Hungarian <gnome at fsf dot hu>\n"
 "MIME-Version: 1.0\n"
@@ -3296,7 +3296,7 @@ msgstr "_Típus:"
 #: ../modules/addressbook/ldap-config.ui.h:26
 #: ../plugins/groupwise-features/properties.ui.h:11
 #: ../widgets/menus/gal-view-instance-save-as-dialog.ui.h:2
-#: ../widgets/misc/e-signature-script-dialog.c:284
+#: ../widgets/misc/e-signature-script-dialog.c:286
 msgid "_Name:"
 msgstr "_Név:"
 
@@ -3525,7 +3525,7 @@ msgid "_Options"
 msgstr "_Beállítások"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1095 ../mail/e-mail-browser.c:159
-#: ../shell/e-shell-window-actions.c:1657 ../smime/gui/smime-ui.ui.h:45
+#: ../shell/e-shell-window-actions.c:1657 ../smime/gui/smime-ui.ui.h:46
 msgid "_View"
 msgstr "_Nézet"
 
@@ -3945,7 +3945,7 @@ msgstr "Fi_gyelmeztetés"
 #: ../calendar/gui/dialogs/event-page.ui.h:12
 #: ../calendar/gui/dialogs/memo-page.ui.h:6
 #: ../calendar/gui/dialogs/task-page.ui.h:8
-#: ../widgets/misc/e-attachment-dialog.c:347
+#: ../widgets/misc/e-attachment-dialog.c:349
 msgid "_Description:"
 msgstr "_Leírás:"
 
@@ -8263,7 +8263,7 @@ msgid "Unable to activate the address selector control."
 msgstr "Nem aktiválható a címkiválasztás vezérlése."
 
 #: ../composer/mail-composer.error.xml.h:21
-msgid "You cannot attach the file n{0}' to this message."
+msgid "You cannot attach the file &quot;{0}&quot; to this message."
 msgstr "Nem csatolhatja a(z) „{0}” fájlt ehhez az üzenethez."
 
 #: ../composer/mail-composer.error.xml.h:22
@@ -8347,39 +8347,39 @@ msgid "Email address:"
 msgstr "E-mail cím:"
 
 #: ../capplet/settings/mail-account-view.c:490
-msgid "<span size=\"large\" weight=\"bold\">Details:</span>"
-msgstr "<span size=\"large\" weight=\"bold\">Adatok:</span>"
+msgid "Details:"
+msgstr "Részletek:"
 
-#: ../capplet/settings/mail-account-view.c:496
-msgid "<span size=\"large\" weight=\"bold\">Receiving</span>"
-msgstr "<span size=\"large\" weight=\"bold\">Fogadás</span>"
+#: ../capplet/settings/mail-account-view.c:498
+msgid "Receiving"
+msgstr "Fogadás"
 
-#: ../capplet/settings/mail-account-view.c:501
+#: ../capplet/settings/mail-account-view.c:505
 msgid "Server type:"
 msgstr "Kiszolgáló típusa:"
 
-#: ../capplet/settings/mail-account-view.c:510
+#: ../capplet/settings/mail-account-view.c:514
 msgid "Server address:"
 msgstr "Kiszolgáló címe:"
 
-#: ../capplet/settings/mail-account-view.c:519
+#: ../capplet/settings/mail-account-view.c:523
 msgid "Username:"
 msgstr "Felhasználónév:"
 
-#: ../capplet/settings/mail-account-view.c:528
+#: ../capplet/settings/mail-account-view.c:532
 msgid "Use encryption:"
 msgstr "Titkosítás használata:"
 
-#: ../capplet/settings/mail-account-view.c:533
-#: ../capplet/settings/mail-account-view.c:566
+#: ../capplet/settings/mail-account-view.c:537
+#: ../capplet/settings/mail-account-view.c:572
 msgid "never"
 msgstr "soha"
 
-#: ../capplet/settings/mail-account-view.c:545
-msgid "<span size=\"large\" weight=\"bold\">Sending</span>"
-msgstr "<span size=\"large\" weight=\"bold\">Küldés</span>"
+#: ../capplet/settings/mail-account-view.c:549
+msgid "Sending"
+msgstr "Küldés"
 
-#: ../capplet/settings/mail-account-view.c:585
+#: ../capplet/settings/mail-account-view.c:591
 msgid ""
 "To use the email application you'll need to setup an account. Put your email "
 "address and password in below and we'll try and work out all the settings. "
@@ -8390,7 +8390,7 @@ msgstr ""
 "beállításokat. Ha ez nem sikerül, akkor meg kell adnia a "
 "levelezőszolgáltatás adatait is."
 
-#: ../capplet/settings/mail-account-view.c:587
+#: ../capplet/settings/mail-account-view.c:593
 msgid ""
 "Sorry, we can't work out the settings to get your mail automatically. Please "
 "enter them below. We've tried to make a start with the details you just "
@@ -8400,11 +8400,11 @@ msgstr ""
 "meghatározása. Lentebb adja meg ezeket. Az imént megadott adatok kiindulási "
 "alapként szolgálnak, de szükség lehet a módosításukra."
 
-#: ../capplet/settings/mail-account-view.c:589
+#: ../capplet/settings/mail-account-view.c:595
 msgid "You can specify more options to configure the account."
 msgstr "További beállítások megadásával személyre szabhatja a fiókot."
 
-#: ../capplet/settings/mail-account-view.c:591
+#: ../capplet/settings/mail-account-view.c:597
 msgid ""
 "Now we need your settings for sending mail. We've tried to make some guesses "
 "but you should check them over to make sure."
@@ -8413,11 +8413,11 @@ msgstr ""
 "megadott adatok kiindulási alapként szolgálnak, de szükség lehet a "
 "módosításukra."
 
-#: ../capplet/settings/mail-account-view.c:592
+#: ../capplet/settings/mail-account-view.c:598
 msgid "You can specify your default settings for your account."
 msgstr "Megadhatja a fiók alapértelmezett beállításait."
 
-#: ../capplet/settings/mail-account-view.c:593
+#: ../capplet/settings/mail-account-view.c:599
 msgid ""
 "Time to check things over before we try and connect to the server and fetch "
 "your mail."
@@ -8425,101 +8425,101 @@ msgstr ""
 "Ellenőrizze újra a beállításokat, mielőtt megpróbál csatlakozni a "
 "kiszolgálóhoz, és lekérni leveleit."
 
-#: ../capplet/settings/mail-account-view.c:608
+#: ../capplet/settings/mail-account-view.c:614
 #: ../mail/em-account-editor.c:2101 ../mail/em-account-editor.c:2222
 #: ../mail/mail-config.ui.h:62
 msgid "Identity"
 msgstr "Személyazonosság"
 
-#: ../capplet/settings/mail-account-view.c:608
+#: ../capplet/settings/mail-account-view.c:614
 msgid "Next - Receiving mail"
 msgstr "Következő – Levelek fogadása"
 
-#: ../capplet/settings/mail-account-view.c:609
+#: ../capplet/settings/mail-account-view.c:615
 msgid "Receiving mail"
 msgstr "Levelek fogadása"
 
-#: ../capplet/settings/mail-account-view.c:609
-#: ../capplet/settings/mail-account-view.c:610
+#: ../capplet/settings/mail-account-view.c:615
+#: ../capplet/settings/mail-account-view.c:616
 msgid "Next - Sending mail"
 msgstr "Következő – Levél küldése"
 
-#: ../capplet/settings/mail-account-view.c:609
+#: ../capplet/settings/mail-account-view.c:615
 msgid "Back - Identity"
 msgstr "Vissza – Személyazonosság"
 
-#: ../capplet/settings/mail-account-view.c:609
+#: ../capplet/settings/mail-account-view.c:615
 msgid "Next - Receiving options"
 msgstr "Következő – Fogadás beállításai"
 
-#: ../capplet/settings/mail-account-view.c:610
+#: ../capplet/settings/mail-account-view.c:616
 msgid "Receiving options"
 msgstr "Fogadás beállításai"
 
-#: ../capplet/settings/mail-account-view.c:610
-#: ../capplet/settings/mail-account-view.c:612
+#: ../capplet/settings/mail-account-view.c:616
+#: ../capplet/settings/mail-account-view.c:618
 msgid "Back - Receiving mail"
 msgstr "Vissza – Levelek fogadása"
 
-#: ../capplet/settings/mail-account-view.c:612
+#: ../capplet/settings/mail-account-view.c:618
 msgid "Sending mail"
 msgstr "Levél küldése"
 
-#: ../capplet/settings/mail-account-view.c:612
-#: ../capplet/settings/mail-account-view.c:613
+#: ../capplet/settings/mail-account-view.c:618
+#: ../capplet/settings/mail-account-view.c:619
 msgid "Next - Review account"
 msgstr "Következő – Postafiók áttekintése"
 
-#: ../capplet/settings/mail-account-view.c:612
+#: ../capplet/settings/mail-account-view.c:618
 msgid "Next - Defaults"
 msgstr "Következő – Alapértékek"
 
-#: ../capplet/settings/mail-account-view.c:612
+#: ../capplet/settings/mail-account-view.c:618
 msgid "Back - Receiving options"
 msgstr "Vissza – Fogadás beállításai"
 
-#: ../capplet/settings/mail-account-view.c:613
+#: ../capplet/settings/mail-account-view.c:619
 #: ../mail/em-account-editor.c:2988 ../mail/mail-config.ui.h:34
 msgid "Defaults"
 msgstr "Alapértékek"
 
-#: ../capplet/settings/mail-account-view.c:613
+#: ../capplet/settings/mail-account-view.c:619
 msgid "Back - Sending mail"
 msgstr "Vissza – Levél küldése"
 
-#: ../capplet/settings/mail-account-view.c:615
+#: ../capplet/settings/mail-account-view.c:621
 msgid "Review account"
 msgstr "Postafiók áttekintése"
 
-#: ../capplet/settings/mail-account-view.c:615
+#: ../capplet/settings/mail-account-view.c:621
 msgid "Finish"
 msgstr "Befejezés"
 
-#: ../capplet/settings/mail-account-view.c:615
+#: ../capplet/settings/mail-account-view.c:621
 msgid "Back - Sending"
 msgstr "Vissza – Küldés"
 
-#: ../capplet/settings/mail-account-view.c:719
+#: ../capplet/settings/mail-account-view.c:726
 msgid "Setup Google contacts with Evolution"
 msgstr "Google névjegyek beállítása az Evolutionhöz"
 
-#: ../capplet/settings/mail-account-view.c:720
+#: ../capplet/settings/mail-account-view.c:727
 msgid "Setup Google calendar with Evolution"
 msgstr "Google naptár beállítása az Evolutionhöz"
 
-#: ../capplet/settings/mail-account-view.c:725
+#: ../capplet/settings/mail-account-view.c:732
 msgid "You may need to enable IMAP access."
 msgstr "Szükség lehet az IMAP hozzáférés engedélyezésére."
 
-#: ../capplet/settings/mail-account-view.c:733
-msgid "<span size=\"large\" weight=\"bold\">Google account settings:</span>"
-msgstr "<span size=\"large\" weight=\"bold\">Google fiók beállításai:</span>"
+#: ../capplet/settings/mail-account-view.c:740
+msgid "Google account settings:"
+msgstr "Google fiók beállításai:"
 
-#: ../capplet/settings/mail-account-view.c:757
+#: ../capplet/settings/mail-account-view.c:767
 msgid "Setup Yahoo calendar with Evolution"
 msgstr "Yahoo naptár beállítása az Evolutionhöz"
 
-#: ../capplet/settings/mail-account-view.c:761
+#: ../capplet/settings/mail-account-view.c:771
 msgid ""
 "Yahoo calendars are named as firstname_lastname. We have tried to form the "
 "calendar name. So please confirm and re-enter the calendar name if it is not "
@@ -8529,24 +8529,24 @@ msgstr ""
 "létrehozni a naptárnevet. Erősítse meg, vagy adja meg a naptár nevét ha az "
 "nem megfelelő."
 
-#: ../capplet/settings/mail-account-view.c:768
-msgid "<span size=\"large\" weight=\"bold\">Yahoo account settings:</span>"
-msgstr "<span size=\"large\" weight=\"bold\">Yahoo fiók beállításai:</span>"
+#: ../capplet/settings/mail-account-view.c:778
+msgid "Yahoo account settings:"
+msgstr "Yahoo fiók beállításai:"
 
-#: ../capplet/settings/mail-account-view.c:780
+#: ../capplet/settings/mail-account-view.c:792
 msgid "Yahoo Calendar name:"
 msgstr "Yahoo naptár neve:"
 
-#: ../capplet/settings/mail-account-view.c:1049
+#: ../capplet/settings/mail-account-view.c:1061
 msgid "Password:"
 msgstr "Jelszó:"
 
-#: ../capplet/settings/mail-account-view.c:1117
+#: ../capplet/settings/mail-account-view.c:1129
 #: ../capplet/settings/mail-settings-view.c:267
 msgid "Close Tab"
 msgstr "Lap bezárása"
 
-#: ../capplet/settings/mail-account-view.c:1127
+#: ../capplet/settings/mail-account-view.c:1139
 msgid "Account Wizard"
 msgstr "Postafiók-asszisztens"
 
@@ -8573,9 +8573,9 @@ msgid "On This Computer"
 msgstr "Ezen a számítógépen"
 
 #: ../capplet/settings/mail-settings-view.c:146
-#: ../plugins/groupwise-features/share-folder.c:737
-msgid "Modify"
-msgstr "Módosítás"
+#, c-format
+msgid "Modify %s..."
+msgstr "%s módosítása…"
 
 #: ../capplet/settings/mail-settings-view.c:148
 msgid "Add a new account"
@@ -8981,40 +8981,40 @@ msgstr "%s melléklet"
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Nem dolgozható fel az S/MIME-üzenet: Ismeretlen hiba"
 
-#: ../em-format/em-format.c:1661 ../em-format/em-format.c:1845
+#: ../em-format/em-format.c:1662 ../em-format/em-format.c:1846
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Nem értelmezhető a MIME-üzenet. Forrásként kerül megjelenítésre."
 
-#: ../em-format/em-format.c:1671
+#: ../em-format/em-format.c:1672
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Nem támogatott titkosítási típus a levél titkosított részében"
 
-#: ../em-format/em-format.c:1687
+#: ../em-format/em-format.c:1688
 msgid "Could not parse PGP/MIME message"
 msgstr "Nem dolgozható fel a PGP/MIME-üzenet"
 
-#: ../em-format/em-format.c:1688
+#: ../em-format/em-format.c:1689
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "Nem dolgozható fel a PGP/MIME-üzenet: Ismeretlen hiba"
 
-#: ../em-format/em-format.c:1870
+#: ../em-format/em-format.c:1871
 msgid "Unsupported signature format"
 msgstr "Nem támogatott aláírási formátum"
 
-#: ../em-format/em-format.c:1880 ../em-format/em-format.c:2040
+#: ../em-format/em-format.c:1881 ../em-format/em-format.c:2041
 msgid "Error verifying signature"
 msgstr "Hiba az aláírás ellenőrzésekor"
 
-#: ../em-format/em-format.c:1881 ../em-format/em-format.c:2028
-#: ../em-format/em-format.c:2041
+#: ../em-format/em-format.c:1882 ../em-format/em-format.c:2029
+#: ../em-format/em-format.c:2042
 msgid "Unknown error verifying signature"
 msgstr "Ismeretlen hiba az aláírás ellenőrzésekor"
 
-#: ../em-format/em-format.c:2128
+#: ../em-format/em-format.c:2129
 msgid "Could not parse PGP message: "
 msgstr "Nem dolgozható fel a PGP üzenet: "
 
-#: ../em-format/em-format.c:2134 ../plugins/caldav/caldav-browse-server.c:203
+#: ../em-format/em-format.c:2135 ../plugins/caldav/caldav-browse-server.c:203
 #: ../plugins/caldav/caldav-browse-server.c:1254 ../plugins/face/face.c:169
 #: ../smime/gui/certificate-manager.c:100
 msgid "Unknown error"
@@ -9199,11 +9199,11 @@ msgstr "Bejövő"
 msgid "Outgoing"
 msgstr "Kimenő"
 
-#: ../filter/e-rule-editor.c:268
+#: ../filter/e-rule-editor.c:270
 msgid "Add Rule"
 msgstr "Szabály hozzáadása"
 
-#: ../filter/e-rule-editor.c:355
+#: ../filter/e-rule-editor.c:359
 msgid "Edit Rule"
 msgstr "Szabály szerkesztése"
 
@@ -9360,7 +9360,7 @@ msgstr "Erről a _címről"
 msgid "Create Search _Folder"
 msgstr "_Keresőmappa létrehozása"
 
-#: ../mail/e-mail-label-dialog.c:220
+#: ../mail/e-mail-label-dialog.c:222
 msgid "_Label name:"
 msgstr "Címke_név:"
 
@@ -10625,7 +10625,7 @@ msgstr "_Mappanév:"
 #: ../mail/em-folder-tree-model.c:149 ../mail/em-folder-tree-model.c:152
 #: ../mail/em-folder-tree-model.c:158 ../mail/em-folder-tree-model.c:160
 #: ../mail/em-folder-tree-model.c:167 ../mail/em-folder-tree-model.c:169
-#: ../mail/mail-vfolder.c:1064 ../mail/mail-vfolder.c:1129
+#: ../mail/mail-vfolder.c:1067 ../mail/mail-vfolder.c:1132
 msgid "Search Folders"
 msgstr "Keresőmappák"
 
@@ -10836,7 +10836,7 @@ msgstr ""
 "személy számára nagyon nehéz lenne az üzenet tartalmát elfogadható időn "
 "belül megjeleníteni."
 
-#: ../mail/em-format-html-display.c:235 ../smime/gui/smime-ui.ui.h:46
+#: ../mail/em-format-html-display.c:235 ../smime/gui/smime-ui.ui.h:47
 msgid "_View Certificate"
 msgstr "_Tanúsítvány megtekintése"
 
@@ -10965,18 +10965,19 @@ msgstr "Válasszon egy kiszolgálót."
 msgid "No server has been selected"
 msgstr "Nincs kiszolgáló kiválasztva"
 
-#. Translators: This message is shown only for ten or more messages to be opened.
-#. The %d is replaced with the actual count of messages. If you need a '%' in your text,
-#. then write it doubled, like '%%'.
+#. Translators: This message is shown only for ten or more
+#. * messages to be opened.  The %d is replaced with the actual
+#. * count of messages. If you need a '%' in your text, then
+#. * write it doubled, like '%%'.
 #: ../mail/em-utils.c:106
 #, c-format
-msgid "Are you sure you want to open %d messages at once?"
+msgid "Are you sure you want to open %d message at once?"
 msgid_plural "Are you sure you want to open %d messages at once?"
 msgstr[0] "Valóban meg akar nyitni egyszerre %d üzenetet?"
 msgstr[1] "Valóban meg akar nyitni egyszerre %d üzenetet?"
 
 #: ../mail/em-utils.c:152
-#: ../modules/mailto-handler/evolution-mailto-handler.c:146
+#: ../modules/mailto-handler/evolution-mailto-handler.c:148
 msgid "_Do not show this message again"
 msgstr "_Ne mutassa ezt többé"
 
@@ -12269,27 +12270,27 @@ msgstr "%s levelezőlista"
 msgid "Add Filter Rule"
 msgstr "Szűrőszabály hozzáadása"
 
-#. Translators: The first %s is name of the affected filter rule(s),
-#. the second %s is uri of the removed folder. For more than one filter
-#. rule is each of them on a separate line, with four spaces in front
-#. of its name, without quotes.
-#: ../mail/mail-autofilter.c:450
+#. Translators: The first %s is name of the affected
+#. * filter rule(s), the second %s is URI of the removed
+#. * folder. For more than one filter rule is each of
+#. * them on a separate line, with four spaces in front
+#. * of its name, without quotes.
+#: ../mail/mail-autofilter.c:451
 #, c-format
 msgid ""
-"The filter rule \"%s\" has been updated, because it used just removed "
-"folder\n"
+"The filter rule \"%s\" has been modified to account for the deleted folder\n"
 "\"%s\"."
 msgid_plural ""
 "The following filter rules\n"
-"%s have been updated, because they used just removed folder\n"
+"%s have been modified to account for the deleted folder\n"
 "\"%s\"."
 msgstr[0] ""
-"A(z) „%s” szűrőszabály frissítésre került, mivel az éppen eltávolított "
-"mappát használta:\n"
+"A(z) „%s” szűrőszabály módosítva lett, hogy figyelembe vegye ezt a törölt "
+"mappát:\n"
 "„%s”."
 msgstr[1] ""
 "A következő szűrőszabályok:\n"
-"„%s” frissítésre kerültek, mivel az éppen eltávolított mappát használták:\n"
+"„%s” módosítva lettek, hogy figyelembe vegyék ezt a törölt mappát:\n"
 "„%s”."
 
 #. Translators: This is part of the line with 'Top Posting Option' text. See Edit|Preferences|Composer Preferences for the usage
@@ -12948,7 +12949,7 @@ msgstr "_Rendszer alapértelmezéseinek használata"
 msgid "_Use the same fonts as other applications"
 msgstr "_A többi alkalmazás által használt betűkészlet használata"
 
-#: ../mail/mail-config.ui.h:184 ../smime/gui/smime-ui.ui.h:47
+#: ../mail/mail-config.ui.h:184 ../smime/gui/smime-ui.ui.h:48
 msgid "a"
 msgstr "a"
 
@@ -12957,7 +12958,7 @@ msgstr "a"
 msgid "addresses"
 msgstr "címre"
 
-#: ../mail/mail-config.ui.h:187 ../smime/gui/smime-ui.ui.h:48
+#: ../mail/mail-config.ui.h:187 ../smime/gui/smime-ui.ui.h:49
 msgid "b"
 msgstr "b"
 
@@ -13371,34 +13372,35 @@ msgstr "Keresőmappák frissítése erre: „%s:%s”"
 msgid "Updating Search Folders for '%s'"
 msgstr "Keresőmappák frissítése ehhez: „%s”"
 
-#. Translators: The first %s is name of the affected search folder(s),
-#. the second %s is uri of the removed folder. For more than one search
-#. folder is each of them on a separate line, with four spaces in front
-#. of its name, without quotes.
-#: ../mail/mail-vfolder.c:674
+#. Translators: The first %s is name of the affected
+#. * search folder(s), the second %s is the URI of the
+#. * removed folder. For more than one search folder is
+#. * each of them on a separate line, with four spaces
+#. * in front of its name, without quotes.
+#: ../mail/mail-vfolder.c:675
 #, c-format
 msgid ""
-"The Search Folder \"%s\" has been updated, because it used just removed "
+"The Search Folder \"%s\" has been modified to account for the deleted "
 "folder\n"
 "\"%s\"."
 msgid_plural ""
 "The following Search Folders\n"
-"%s have been updated, because they used just removed folder\n"
+"%s have been modified to account for the deleted folder\n"
 "\"%s\"."
 msgstr[0] ""
-"A(z) „%s” keresőmappa frissítésre került, mivel az éppen eltávolított mappát "
-"használta:\n"
+"A(z) „%s” keresőmappa módosítva lett, hogy figyelembe vegye ezt a törölt "
+"mappát:\n"
 "„%s”."
 msgstr[1] ""
 "A következő keresőmappák:\n"
-"„%s” frissítésre kerültek, mivel az éppen eltávolított mappát használták:\n"
+"„%s” módosítva lettek, hogy figyelembe vegyék ezt a törölt mappát:\n"
 "„%s”."
 
-#: ../mail/mail-vfolder.c:1182
+#: ../mail/mail-vfolder.c:1185
 msgid "Edit Search Folder"
 msgstr "Keresőmappa szerkesztése"
 
-#: ../mail/mail-vfolder.c:1287
+#: ../mail/mail-vfolder.c:1290
 msgid "New Search Folder"
 msgstr "Új keresőmappa"
 
@@ -14805,19 +14807,19 @@ msgstr "kártya"
 msgid "I_mport"
 msgstr "I_mportálás"
 
-#: ../modules/calendar/e-cal-attachment-handler.c:341
+#: ../modules/calendar/e-cal-attachment-handler.c:343
 msgid "Select a Calendar"
 msgstr "Válasszon naptárat"
 
-#: ../modules/calendar/e-cal-attachment-handler.c:368
+#: ../modules/calendar/e-cal-attachment-handler.c:370
 msgid "Select a Task List"
 msgstr "Válasszon feladatlistát"
 
-#: ../modules/calendar/e-cal-attachment-handler.c:378
+#: ../modules/calendar/e-cal-attachment-handler.c:380
 msgid "I_mport to Calendar"
 msgstr "I_mportálás naptárba"
 
-#: ../modules/calendar/e-cal-attachment-handler.c:385
+#: ../modules/calendar/e-cal-attachment-handler.c:387
 msgid "I_mport to Tasks"
 msgstr "Imp_ortálás a feladatok közé"
 
@@ -16063,7 +16065,7 @@ msgstr ""
 "Az Evolution minden indulásakor ellenőrizze, hogy az-e az alapértelmezett "
 "levelezőkliens."
 
-#: ../modules/mailto-handler/evolution-mailto-handler.c:138
+#: ../modules/mailto-handler/evolution-mailto-handler.c:140
 msgid "Do you want to make Evolution your default email client?"
 msgstr "Szeretné beállítani az Evolutiont alapértelmezett e-mail kliensnek?"
 
@@ -16328,23 +16330,23 @@ msgstr "Evolution mentés"
 msgid "Evolution Restore"
 msgstr "Evolution visszaállítás"
 
-#: ../plugins/backup-restore/backup.c:494
+#: ../plugins/backup-restore/backup.c:496
 msgid "Backing up Evolution Data"
 msgstr "Az Evolution adatainak mentése"
 
-#: ../plugins/backup-restore/backup.c:495
+#: ../plugins/backup-restore/backup.c:497
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Várjon, amíg az Evolution menti az adatokat."
 
-#: ../plugins/backup-restore/backup.c:497
+#: ../plugins/backup-restore/backup.c:499
 msgid "Restoring Evolution Data"
 msgstr "Az Evolution adatok visszaállítása"
 
-#: ../plugins/backup-restore/backup.c:498
+#: ../plugins/backup-restore/backup.c:500
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Várjon, amíg az Evolution visszaállítja az adatokat."
 
-#: ../plugins/backup-restore/backup.c:516
+#: ../plugins/backup-restore/backup.c:518
 msgid "This may take a while depending on the amount of data in your account."
 msgstr ""
 "Ez eltarthat egy ideig, a postafiókjában lévő adatmennyiségtől függően."
@@ -17466,6 +17468,10 @@ msgstr "Egyéni értesítés"
 msgid "Add   "
 msgstr "Hozzáadás   "
 
+#: ../plugins/groupwise-features/share-folder.c:737
+msgid "Modify"
+msgstr "Módosítás"
+
 #: ../plugins/groupwise-features/status-track.c:123
 msgid "Message Status"
 msgstr "Üzenetállapot"
@@ -18285,22 +18291,18 @@ msgid "Beep or play sound file."
 msgstr "Hangjelzés vagy hangfájl lejátszása."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:2
-msgid "Blink icon in notification area."
-msgstr "Villogó ikon az értesítési területen."
-
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid "Enable D-Bus messages."
 msgstr "D-Bus üzenetek engedélyezése."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid "Enable icon in notification area."
 msgstr "Értesítésiterület-ikon engedélyezése."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:5
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
 msgid "Generates a D-Bus message when new mail messages arrive."
 msgstr "D-BUS üzenetet hoz létre, ha új levél érkezik."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:5
 msgid ""
 "If \"true\", then beep, otherwise will play sound file when new messages "
 "arrive."
@@ -18308,69 +18310,65 @@ msgstr ""
 "Ha igazra van állítva, akkor új üzenet érkezésekor hangjelzés, egyébként "
 "hang lejátszása történik."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
 msgid "Notify new messages for Inbox only."
 msgstr "Értesítés csak a Beérkezett üzenetek új üzenetei esetén."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Play sound when new messages arrive."
 msgstr "Hangfájl lejátszása új üzenet érkezésekor."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
 msgid "Play themed sound when new messages arrive, if not in beep mode."
 msgstr ""
 "Új üzenet beérkezésekor hangfájl lejátszása a témából, ha nem a hangjelzés "
 "mód van beállítva."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
 msgid "Popup message together with the icon."
 msgstr "Felugró üzenet megjelenítése az ikonnal együtt."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
 msgid "Show new mail icon in notification area when new messages arrive."
 msgstr ""
 "Új üzenet érkezésekor az új üzenet ikon megjelenítése az értesítési "
 "területen."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
 msgid "Sound file name to be played."
 msgstr "Lejátszandó hangfájl neve."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:13
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
 msgid "Sound file to be played when new messages arrive, if not in beep mode."
 msgstr ""
 "Új üzenet beérkezésekor lejátszandó hangfájl, ha nem a hangjelzés mód van "
 "beállítva."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:13
 msgid "Use sound theme"
 msgstr "Hangtéma használata"
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
 msgid "Whether play sound or beep when new messages arrive."
 msgstr "Hangfájl lejátszása vagy hangjelzése új üzenet érkezésekor."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
 msgid "Whether show message over the icon when new messages arrive."
 msgstr "Új üzenet érkezésekor az üzenet megjelenítése az ikon felett."
 
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:17
-msgid "Whether the icon should blink or not."
-msgstr "Villogjon-e az ikon."
-
-#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:18
+#: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
 msgid "Whether to notify new messages in Inbox folder only."
 msgstr "Csak a Beérkezett üzenetek mappába érkezett új üzenetekről értesítsen?"
 
-#: ../plugins/mail-notification/mail-notification.c:370
+#: ../plugins/mail-notification/mail-notification.c:352
 msgid "Evolution's Mail Notification"
 msgstr "Evolution levélértesítés"
 
-#: ../plugins/mail-notification/mail-notification.c:392
+#: ../plugins/mail-notification/mail-notification.c:374
 msgid "Mail Notification Properties"
 msgstr "Levélértesítés tulajdonságai"
 
-#: ../plugins/mail-notification/mail-notification.c:528
+#: ../plugins/mail-notification/mail-notification.c:507
 #, c-format
 msgid ""
 "You have received %d new message\n"
@@ -18387,67 +18385,63 @@ msgstr[1] ""
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../plugins/mail-notification/mail-notification.c:540
+#: ../plugins/mail-notification/mail-notification.c:519
 #, c-format
 msgid "From: %s"
 msgstr "Feladó: %s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../plugins/mail-notification/mail-notification.c:553
+#: ../plugins/mail-notification/mail-notification.c:532
 #, c-format
 msgid "Subject: %s"
 msgstr "Tárgy: %s"
 
-#: ../plugins/mail-notification/mail-notification.c:563
+#: ../plugins/mail-notification/mail-notification.c:542
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
 msgstr[0] "%d új üzenete érkezett."
 msgstr[1] "%d új üzenete érkezett."
 
-#: ../plugins/mail-notification/mail-notification.c:585
-#: ../plugins/mail-notification/mail-notification.c:592
+#: ../plugins/mail-notification/mail-notification.c:559
+#: ../plugins/mail-notification/mail-notification.c:566
 msgid "New email"
 msgstr "Új e-mail"
 
-#: ../plugins/mail-notification/mail-notification.c:653
+#: ../plugins/mail-notification/mail-notification.c:627
 msgid "Show icon in _notification area"
 msgstr "Iko_n megjelenítése az értesítési területen"
 
-#: ../plugins/mail-notification/mail-notification.c:681
-msgid "B_link icon in notification area"
-msgstr "Villogó ikon az é_rtesítési területen"
-
-#: ../plugins/mail-notification/mail-notification.c:691
+#: ../plugins/mail-notification/mail-notification.c:656
 msgid "Popup _message together with the icon"
 msgstr "Üzenet _megjelenítése az ikonnal együtt"
 
-#: ../plugins/mail-notification/mail-notification.c:878
+#: ../plugins/mail-notification/mail-notification.c:843
 msgid "_Play sound when new messages arrive"
 msgstr "Hangfájl le_játszása új üzenet beérkezésekor"
 
-#: ../plugins/mail-notification/mail-notification.c:907
+#: ../plugins/mail-notification/mail-notification.c:872
 msgid "_Beep"
 msgstr "_Hangjelzés"
 
-#: ../plugins/mail-notification/mail-notification.c:920
+#: ../plugins/mail-notification/mail-notification.c:885
 msgid "Use sound _theme"
 msgstr "_Hangtéma használata"
 
-#: ../plugins/mail-notification/mail-notification.c:939
+#: ../plugins/mail-notification/mail-notification.c:904
 msgid "Play _file:"
 msgstr "_Fájl lejátszása:"
 
-#: ../plugins/mail-notification/mail-notification.c:950
+#: ../plugins/mail-notification/mail-notification.c:915
 msgid "Select sound file"
 msgstr "Hangfájl kiválasztása"
 
-#: ../plugins/mail-notification/mail-notification.c:1008
+#: ../plugins/mail-notification/mail-notification.c:973
 msgid "Notify new messages for _Inbox only"
 msgstr "Értesítés csak a B_eérkezett üzenetek új üzeneteire"
 
-#: ../plugins/mail-notification/mail-notification.c:1017
+#: ../plugins/mail-notification/mail-notification.c:982
 msgid "Generate a _D-Bus message"
 msgstr "_D-Bus üzenet előállítása"
 
@@ -18815,15 +18809,15 @@ msgstr ""
 "Csak a jelenlegi mappában, vagy annak almappáiban is olvasottként kívánja "
 "jelölni az üzeneteket?"
 
-#: ../plugins/mark-all-read/mark-all-read.c:194
+#: ../plugins/mark-all-read/mark-all-read.c:196
 msgid "In Current Folder and _Subfolders"
 msgstr "A jelenlegi _mappában és almappáiban"
 
-#: ../plugins/mark-all-read/mark-all-read.c:208
+#: ../plugins/mark-all-read/mark-all-read.c:210
 msgid "In Current _Folder Only"
 msgstr "_Csak a jelenlegi mappában"
 
-#: ../plugins/mark-all-read/mark-all-read.c:437
+#: ../plugins/mark-all-read/mark-all-read.c:439
 msgid "Mark Me_ssages as Read"
 msgstr "Üzenetek megjelölése _olvasottként"
 
@@ -19130,11 +19124,11 @@ msgstr "iCal"
 msgid "Could not publish calendar: Calendar backend no longer exists"
 msgstr "A naptár nem tehető közzé: A naptár-háttérprogram már nem létezik"
 
-#: ../plugins/publish-calendar/url-editor-dialog.c:476
+#: ../plugins/publish-calendar/url-editor-dialog.c:478
 msgid "New Location"
 msgstr "Új hely"
 
-#: ../plugins/publish-calendar/url-editor-dialog.c:478
+#: ../plugins/publish-calendar/url-editor-dialog.c:480
 msgid "Edit Location"
 msgstr "Hely szerkesztése"
 
@@ -19579,7 +19573,7 @@ msgstr "Az oldalsáv látható"
 msgid "Skip development warning dialog"
 msgstr "A fejlesztői verzióra figyelmeztető párbeszédablak átugrása"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:330
+#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:332
 msgid "Start in offline mode"
 msgstr "Indítás kapcsolat nélküli módban"
 
@@ -20090,7 +20084,7 @@ msgid "Preparing to quit..."
 msgstr "Felkészülés a kilépésre…"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:179
+#: ../shell/main.c:181
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -20126,7 +20120,7 @@ msgstr ""
 "Reméljük, élvezni fogja kemény munkánk eredményét, és várjuk\n"
 "hozzájárulását! \n"
 
-#: ../shell/main.c:203
+#: ../shell/main.c:205
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -20134,56 +20128,56 @@ msgstr ""
 "Köszönettel\n"
 "Az Evolution Csapat\n"
 
-#: ../shell/main.c:210
+#: ../shell/main.c:212
 msgid "Do not tell me again"
 msgstr "Ne jelenítse meg többé"
 
-#: ../shell/main.c:326
+#: ../shell/main.c:328
 msgid "Start Evolution activating the specified component"
 msgstr "Az Evolution indítása a megadott összetevő aktiválásával"
 
-#: ../shell/main.c:328
+#: ../shell/main.c:330
 msgid "Apply the given geometry to the main window"
 msgstr "Az adott geometria alkalmazása a főablakra"
 
-#: ../shell/main.c:332
+#: ../shell/main.c:334
 msgid "Start in online mode"
 msgstr "Indítás online módban"
 
-#: ../shell/main.c:334
+#: ../shell/main.c:336
 msgid "Start in \"express\" mode"
 msgstr "Indítás expressz módban"
 
-#: ../shell/main.c:337
+#: ../shell/main.c:339
 msgid "Forcibly shut down Evolution"
 msgstr "Az Evolution kényszerített bezárása"
 
-#: ../shell/main.c:340
+#: ../shell/main.c:342
 msgid "Send the debugging output of all components to a file."
 msgstr "Minden összetevő hibakereső üzeneteit fájlba irányítja."
 
-#: ../shell/main.c:342
+#: ../shell/main.c:344
 msgid "Disable loading of any plugins."
 msgstr "Minden bővítmény betöltésének kikapcsolása."
 
-#: ../shell/main.c:344
+#: ../shell/main.c:346
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr ""
 "A levelező, névjegyek és feladatok előnézeti ablaktáblájának letiltása."
 
-#: ../shell/main.c:348
+#: ../shell/main.c:350
 msgid "Import URIs or file names given as rest of arguments."
 msgstr "A többi paraméterben megadott URI-címek vagy fájlnevek importálása"
 
-#: ../shell/main.c:350
+#: ../shell/main.c:352
 msgid "Request a running Evolution process to quit"
 msgstr "Futó Evolution folyamat kilépésre kérése"
 
-#: ../shell/main.c:474 ../shell/main.c:482
+#: ../shell/main.c:476 ../shell/main.c:484
 msgid "- The Evolution PIM and Email Client"
 msgstr "– Az Evolution PIM- és levelezőkliens"
 
-#: ../shell/main.c:544
+#: ../shell/main.c:546
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -20624,11 +20618,12 @@ msgstr ""
 msgid "Your Certificates"
 msgstr "Az Ön tanúsítványai"
 
-#: ../smime/gui/smime-ui.ui.h:43
+#. This is a verb, as in "make a backup".
+#: ../smime/gui/smime-ui.ui.h:44
 msgid "_Backup"
 msgstr "Biztonsági _mentés"
 
-#: ../smime/gui/smime-ui.ui.h:44
+#: ../smime/gui/smime-ui.ui.h:45
 msgid "_Edit CA Trust"
 msgstr "_CA megbízhatóság szerkesztése"
 
@@ -20956,7 +20951,7 @@ msgstr "„%s” nézeteinek meghatározása"
 msgid "Table"
 msgstr "Táblázat"
 
-#: ../widgets/menus/gal-view-instance-save-as-dialog.c:274
+#: ../widgets/menus/gal-view-instance-save-as-dialog.c:276
 msgid "Save Current View"
 msgstr "Jelenlegi nézet mentése"
 
@@ -20996,15 +20991,15 @@ msgstr "Protokoll"
 msgid "Attachment Properties"
 msgstr "Melléklet tulajdonságai"
 
-#: ../widgets/misc/e-attachment-dialog.c:330
+#: ../widgets/misc/e-attachment-dialog.c:332
 msgid "_Filename:"
 msgstr "Fájl_név:"
 
-#: ../widgets/misc/e-attachment-dialog.c:365
+#: ../widgets/misc/e-attachment-dialog.c:367
 msgid "MIME Type:"
 msgstr "MIME-típus:"
 
-#: ../widgets/misc/e-attachment-dialog.c:373
+#: ../widgets/misc/e-attachment-dialog.c:375
 #: ../widgets/misc/e-attachment-store.c:525
 msgid "_Suggest automatic display of attachment"
 msgstr "_Javasolja a melléklet automatikus megjelenítését"
@@ -21173,11 +21168,11 @@ msgstr "Hónap naptár"
 msgid "Character Encoding"
 msgstr "Karakterkódolás"
 
-#: ../widgets/misc/e-charset-combo-box.c:120
+#: ../widgets/misc/e-charset-combo-box.c:122
 msgid "Enter the character set to use"
 msgstr "Adja meg a használandó karakterkészlet"
 
-#: ../widgets/misc/e-charset-combo-box.c:339
+#: ../widgets/misc/e-charset-combo-box.c:341
 msgid "Other..."
 msgstr "Egyéb…"
 
@@ -21573,7 +21568,7 @@ msgstr "Aláírás-parancsfájl szerkesztése"
 msgid "Add _Script"
 msgstr "_Parancsfájl hozzáadása"
 
-#: ../widgets/misc/e-signature-script-dialog.c:268
+#: ../widgets/misc/e-signature-script-dialog.c:270
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -21582,11 +21577,11 @@ msgstr ""
 "Ennek a parancsfájlnak a kimenete lesz az aláírása.\n"
 "Az itt megadott név csak megjelenítés célját szolgálja."
 
-#: ../widgets/misc/e-signature-script-dialog.c:313
+#: ../widgets/misc/e-signature-script-dialog.c:315
 msgid "S_cript:"
 msgstr "_Parancsfájl:"
 
-#: ../widgets/misc/e-signature-script-dialog.c:344
+#: ../widgets/misc/e-signature-script-dialog.c:346
 msgid "Script file must be executable."
 msgstr "A parancsfájlnak végrehajthatónak kell lennie."
 
