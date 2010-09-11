@@ -48,7 +48,6 @@
 /* This depends on ECalendar which is why I didn't put it in gal. */
 #include <misc/e-calendar.h>
 
-static void e_cell_date_edit_destroy		(GtkObject	*object);
 static void e_cell_date_edit_get_property	(GObject	*object,
 						 guint		 property_id,
 						 GValue		*value,
@@ -57,6 +56,7 @@ static void e_cell_date_edit_set_property	(GObject	*object,
 						 guint		 property_id,
 						 const GValue	*value,
 						 GParamSpec	*pspec);
+static void e_cell_date_edit_dispose		(GObject	*object);
 
 static gint e_cell_date_edit_do_popup		(ECellPopup	*ecp,
 						 GdkEvent	*event,
@@ -117,15 +117,12 @@ static void
 e_cell_date_edit_class_init (ECellDateEditClass *class)
 {
 	GObjectClass *object_class;
-	GtkObjectClass *gtk_object_class;
 	ECellPopupClass	*ecpc;
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = e_cell_date_edit_get_property;
 	object_class->set_property = e_cell_date_edit_set_property;
-
-	gtk_object_class = GTK_OBJECT_CLASS (class);
-	gtk_object_class->destroy = e_cell_date_edit_destroy;
+	object_class->dispose = e_cell_date_edit_dispose;
 
 	ecpc = E_CELL_POPUP_CLASS (class);
 	ecpc->popup = e_cell_date_edit_do_popup;
@@ -355,22 +352,6 @@ e_cell_date_edit_new			(void)
 	return g_object_new (e_cell_date_edit_get_type (), NULL);
 }
 
-/*
- * GtkObject::destroy method
- */
-static void
-e_cell_date_edit_destroy		(GtkObject *object)
-{
-	ECellDateEdit *ecde = E_CELL_DATE_EDIT (object);
-
-	e_cell_date_edit_set_get_time_callback (ecde, NULL, NULL, NULL);
-
-	gtk_widget_destroy (ecde->popup_window);
-	ecde->popup_window = NULL;
-
-	GTK_OBJECT_CLASS (e_cell_date_edit_parent_class)->destroy (object);
-}
-
 static void
 e_cell_date_edit_get_property		(GObject	*object,
 					 guint		 property_id,
@@ -478,6 +459,22 @@ e_cell_date_edit_set_property		(GObject	*object,
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+e_cell_date_edit_dispose (GObject *object)
+{
+	ECellDateEdit *ecde = E_CELL_DATE_EDIT (object);
+
+	e_cell_date_edit_set_get_time_callback (ecde, NULL, NULL, NULL);
+
+	if (ecde->popup_window != NULL) {
+		gtk_widget_destroy (ecde->popup_window);
+		ecde->popup_window = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_cell_date_edit_parent_class)->dispose (object);
 }
 
 static gint

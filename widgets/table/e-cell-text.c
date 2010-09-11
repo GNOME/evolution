@@ -1481,9 +1481,6 @@ ect_max_width_by_row (ECellView *ecell_view,
 	return width + 8;
 }
 
-/*
- * GtkObject::destroy method
- */
 static void
 ect_finalize (GObject *object)
 {
@@ -1493,6 +1490,7 @@ ect_finalize (GObject *object)
 
 	G_OBJECT_CLASS (e_cell_text_parent_class)->finalize (object);
 }
+
 /* Set_arg handler for the text item */
 static void
 ect_set_property (GObject *object,

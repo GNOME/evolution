@@ -66,7 +66,7 @@ typedef enum {
 } ECellActions;
 
 typedef struct {
-	GtkObject       object;
+	GObject parent;
 } ECell;
 
 typedef struct _ECellView {
@@ -84,7 +84,7 @@ typedef struct _ECellView {
 #define E_CELL_IS_FOCUSED(ecell_view) (ecell_view->focus_x1 != -1)
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	ECellView *(*new_view)         (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view);
 	void       (*kill_view)        (ECellView *ecell_view);

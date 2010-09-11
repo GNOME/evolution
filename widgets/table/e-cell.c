@@ -28,7 +28,7 @@
 
 #include "e-cell.h"
 
-G_DEFINE_TYPE (ECell, e_cell, GTK_TYPE_OBJECT)
+G_DEFINE_TYPE (ECell, e_cell, G_TYPE_OBJECT)
 
 #define ECVIEW_EC_CLASS(v) (E_CELL_GET_CLASS (v->ecell))
 

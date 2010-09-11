@@ -156,9 +156,6 @@ e_cell_popup_new		(void)
 	return (ECell*) ecp;
 }
 
-/*
- * GtkObject::destroy method
- */
 static void
 e_cell_popup_dispose (GObject *object)
 {
