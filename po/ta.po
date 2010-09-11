@@ -12114,7 +12114,7 @@ msgstr[0] ""
 " வடிப்பி விதி \"% s\" மேம்படுத்தப்பட்டுவிட்டது, \n"
 " சமீபத்தில் நீக்கிய அடைவு \"%s\" க்கு கணக்கு காட்ட."
 msgstr[1] ""
-"கீழ் காணும் வடிப்பி விதிகள் \"% s\" மேம்படுத்தப்பட்டுவிட்டன.\n"
+"கீழ் காணும் வடிப்பி விதிகள் % s மேம்படுத்தப்பட்டுவிட்டன.\n"
 "சமீபத்தில் நீக்கிய அடைவு \"%s\" க்கு கணக்கு காட்ட .\n"
 
 #. Translators: This is part of the line with 'Top Posting Option' text. See Edit|Preferences|Composer Preferences for the usage
