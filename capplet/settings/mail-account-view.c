@@ -130,7 +130,7 @@ struct _server_prefill {
 	gchar *send;
 	gchar *proto;
 	gchar *ssl;
-} std_server [] = {
+} std_server[] = {
 	{"gmail", "imap.gmail.com", "smtp.gmail.com", "imap", "always"},
 	{"yahoo", "pop3.yahoo.com", "smtp.yahoo.com", "pop", "never"},
 	{"aol", "imap.aol.com", "smtp.aol.com", "pop", "never"},

@@ -255,13 +255,13 @@ e_logger_get_logs (ELogger *logger,
 			break;
 
 		len = strlen (tmp);
-		if (len > 0 && tmp [len - 1] != '\n' && !feof (fp)) {
+		if (len > 0 && tmp[len - 1] != '\n' && !feof (fp)) {
 			/* there are more characters on a row than 249, so read them all */
 			GString *str = g_string_sized_new (1024);
 
 			g_string_append (str, tmp);
 
-			while (!feof (fp) && len > 0 && tmp [len - 1] != '\n') {
+			while (!feof (fp) && len > 0 && tmp[len - 1] != '\n') {
 				tmp = fgets (buf, sizeof (buf), fp);
 				if (!tmp)
 					break;

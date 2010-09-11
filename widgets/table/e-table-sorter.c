@@ -97,16 +97,16 @@ ets_dispose (GObject *object)
 		ets->sort_info_changed_id = 0;
 		ets->group_info_changed_id = 0;
 
-		g_object_unref(ets->sort_info);
+		g_object_unref (ets->sort_info);
 		ets->sort_info = NULL;
 	}
 
 	if (ets->full_header)
-		g_object_unref(ets->full_header);
+		g_object_unref (ets->full_header);
 	ets->full_header = NULL;
 
 	if (ets->source)
-		g_object_unref(ets->source);
+		g_object_unref (ets->source);
 	ets->source = NULL;
 
 	G_OBJECT_CLASS (ets_parent_class)->dispose (object);
@@ -121,14 +121,14 @@ ets_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpe
 	case PROP_SORT_INFO:
 		if (ets->sort_info) {
 			if (ets->sort_info_changed_id)
-				g_signal_handler_disconnect(ets->sort_info, ets->sort_info_changed_id);
+				g_signal_handler_disconnect (ets->sort_info, ets->sort_info_changed_id);
 			if (ets->group_info_changed_id)
-				g_signal_handler_disconnect(ets->sort_info, ets->group_info_changed_id);
-			g_object_unref(ets->sort_info);
+				g_signal_handler_disconnect (ets->sort_info, ets->group_info_changed_id);
+			g_object_unref (ets->sort_info);
 		}
 
-		ets->sort_info = E_TABLE_SORT_INFO(g_value_get_object (value));
-		g_object_ref(ets->sort_info);
+		ets->sort_info = E_TABLE_SORT_INFO (g_value_get_object (value));
+		g_object_ref (ets->sort_info);
 		ets->sort_info_changed_id = g_signal_connect (ets->sort_info, "sort_info_changed",
 							      G_CALLBACK (ets_sort_info_changed), ets);
 		ets->group_info_changed_id = g_signal_connect (ets->sort_info, "group_info_changed",
@@ -155,8 +155,8 @@ ets_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *psp
 static void
 ets_class_init (ETableSorterClass *klass)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS(klass);
-	ESorterClass *sorter_class = E_SORTER_CLASS(klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	ESorterClass *sorter_class = E_SORTER_CLASS (klass);
 
 	object_class->dispose                   = ets_dispose;
 	object_class->set_property              = ets_set_property;
@@ -200,11 +200,11 @@ e_table_sorter_new (ETableModel *source, ETableHeader *full_header, ETableSortIn
 	ETableSorter *ets = g_object_new (E_TABLE_SORTER_TYPE, NULL);
 
 	ets->sort_info = sort_info;
-	g_object_ref(ets->sort_info);
+	g_object_ref (ets->sort_info);
 	ets->full_header = full_header;
-	g_object_ref(ets->full_header);
+	g_object_ref (ets->full_header);
 	ets->source = source;
-	g_object_ref(ets->source);
+	g_object_ref (ets->source);
 
 	ets->table_model_changed_id = g_signal_connect (source, "model_changed",
 							G_CALLBACK (ets_model_changed), ets);
@@ -227,38 +227,38 @@ e_table_sorter_new (ETableModel *source, ETableHeader *full_header, ETableSortIn
 static void
 ets_model_changed (ETableModel *etm, ETableSorter *ets)
 {
-	ets_clean(ets);
+	ets_clean (ets);
 }
 
 static void
 ets_model_row_changed (ETableModel *etm, gint row, ETableSorter *ets)
 {
-	ets_clean(ets);
+	ets_clean (ets);
 }
 
 static void
 ets_model_cell_changed (ETableModel *etm, gint col, gint row, ETableSorter *ets)
 {
-	ets_clean(ets);
+	ets_clean (ets);
 }
 
 static void
 ets_model_rows_inserted (ETableModel *etm, gint row, gint count, ETableSorter *ets)
 {
-	ets_clean(ets);
+	ets_clean (ets);
 }
 
 static void
 ets_model_rows_deleted (ETableModel *etm, gint row, gint count, ETableSorter *ets)
 {
-	ets_clean(ets);
+	ets_clean (ets);
 }
 
 static void
 ets_sort_info_changed (ETableSortInfo *info, ETableSorter *ets)
 {
 	d(g_print ("sort info changed\n"));
-	ets_clean(ets);
+	ets_clean (ets);
 }
 
 struct qsort_data {
@@ -273,7 +273,7 @@ struct qsort_data {
 /* FIXME: Make it not cache the second and later columns (as if anyone cares.) */
 
 static gint
-qsort_callback(gconstpointer data1, gconstpointer data2, gpointer user_data)
+qsort_callback (gconstpointer data1, gconstpointer data2, gpointer user_data)
 {
 	struct qsort_data *qd = (struct qsort_data *) user_data;
 	gint row1 = *(gint *)data1;
@@ -300,19 +300,19 @@ qsort_callback(gconstpointer data1, gconstpointer data2, gpointer user_data)
 }
 
 static void
-ets_clean(ETableSorter *ets)
+ets_clean (ETableSorter *ets)
 {
-	g_free(ets->sorted);
+	g_free (ets->sorted);
 	ets->sorted = NULL;
 
-	g_free(ets->backsorted);
+	g_free (ets->backsorted);
 	ets->backsorted = NULL;
 
 	ets->needs_sorting = -1;
 }
 
 static void
-ets_sort(ETableSorter *ets)
+ets_sort (ETableSorter *ets)
 {
 	gint rows;
 	gint i;
@@ -324,11 +324,11 @@ ets_sort(ETableSorter *ets)
 	if (ets->sorted)
 		return;
 
-	rows = e_table_model_row_count(ets->source);
-	group_cols = e_table_sort_info_grouping_get_count(ets->sort_info);
-	cols = e_table_sort_info_sorting_get_count(ets->sort_info) + group_cols;
+	rows = e_table_model_row_count (ets->source);
+	group_cols = e_table_sort_info_grouping_get_count (ets->sort_info);
+	cols = e_table_sort_info_sorting_get_count (ets->sort_info) + group_cols;
 
-	ets->sorted = g_new(int, rows);
+	ets->sorted = g_new (int, rows);
 	for (i = 0; i < rows; i++)
 		ets->sorted[i] = i;
 
@@ -345,11 +345,11 @@ ets_sort(ETableSorter *ets)
 		ETableCol *col;
 
 		if (j < group_cols)
-			column = e_table_sort_info_grouping_get_nth(ets->sort_info, j);
+			column = e_table_sort_info_grouping_get_nth (ets->sort_info, j);
 		else
-			column = e_table_sort_info_sorting_get_nth(ets->sort_info, j - group_cols);
+			column = e_table_sort_info_sorting_get_nth (ets->sort_info, j - group_cols);
 
-		col = e_table_header_get_column_by_col_idx(ets->full_header, column.column);
+		col = e_table_header_get_column_by_col_idx (ets->full_header, column.column);
 		if (col == NULL)
 			col = e_table_header_get_column (ets->full_header, e_table_header_count (ets->full_header) - 1);
 
@@ -361,7 +361,7 @@ ets_sort(ETableSorter *ets)
 		qd.ascending[j] = column.ascending;
 	}
 
-	g_qsort_with_data (ets->sorted, rows, sizeof(gint), qsort_callback, &qd);
+	g_qsort_with_data (ets->sorted, rows, sizeof (gint), qsort_callback, &qd);
 
 	g_free (qd.vals);
 	g_free (qd.ascending);
@@ -370,17 +370,17 @@ ets_sort(ETableSorter *ets)
 }
 
 static void
-ets_backsort(ETableSorter *ets)
+ets_backsort (ETableSorter *ets)
 {
 	gint i, rows;
 
 	if (ets->backsorted)
 		return;
 
-	ets_sort(ets);
+	ets_sort (ets);
 
-	rows = e_table_model_row_count(ets->source);
-	ets->backsorted = g_new0(int, rows);
+	rows = e_table_model_row_count (ets->source);
+	ets->backsorted = g_new0 (int, rows);
 
 	for (i = 0; i < rows; i++) {
 		ets->backsorted[ets->sorted[i]] = i;
@@ -390,14 +390,14 @@ ets_backsort(ETableSorter *ets)
 static gint
 ets_model_to_sorted (ESorter *es, gint row)
 {
-	ETableSorter *ets = E_TABLE_SORTER(es);
-	gint rows = e_table_model_row_count(ets->source);
+	ETableSorter *ets = E_TABLE_SORTER (es);
+	gint rows = e_table_model_row_count (ets->source);
 
-	g_return_val_if_fail(row >= 0, -1);
-	g_return_val_if_fail(row < rows, -1);
+	g_return_val_if_fail (row >= 0, -1);
+	g_return_val_if_fail (row < rows, -1);
 
-	if (ets_needs_sorting(es))
-		ets_backsort(ets);
+	if (ets_needs_sorting (es))
+		ets_backsort (ets);
 
 	if (ets->backsorted)
 		return ets->backsorted[row];
@@ -408,14 +408,14 @@ ets_model_to_sorted (ESorter *es, gint row)
 static gint
 ets_sorted_to_model (ESorter *es, gint row)
 {
-	ETableSorter *ets = E_TABLE_SORTER(es);
-	gint rows = e_table_model_row_count(ets->source);
+	ETableSorter *ets = E_TABLE_SORTER (es);
+	gint rows = e_table_model_row_count (ets->source);
 
-	g_return_val_if_fail(row >= 0, -1);
-	g_return_val_if_fail(row < rows, -1);
+	g_return_val_if_fail (row >= 0, -1);
+	g_return_val_if_fail (row < rows, -1);
 
-	if (ets_needs_sorting(es))
-		ets_sort(ets);
+	if (ets_needs_sorting (es))
+		ets_sort (ets);
 
 	if (ets->sorted)
 		return ets->sorted[row];
@@ -426,9 +426,9 @@ ets_sorted_to_model (ESorter *es, gint row)
 static void
 ets_get_model_to_sorted_array (ESorter *es, gint **array, gint *count)
 {
-	ETableSorter *ets = E_TABLE_SORTER(es);
+	ETableSorter *ets = E_TABLE_SORTER (es);
 	if (array || count) {
-		ets_backsort(ets);
+		ets_backsort (ets);
 
 		if (array)
 			*array = ets->backsorted;
@@ -440,9 +440,9 @@ ets_get_model_to_sorted_array (ESorter *es, gint **array, gint *count)
 static void
 ets_get_sorted_to_model_array (ESorter *es, gint **array, gint *count)
 {
-	ETableSorter *ets = E_TABLE_SORTER(es);
+	ETableSorter *ets = E_TABLE_SORTER (es);
 	if (array || count) {
-		ets_sort(ets);
+		ets_sort (ets);
 
 		if (array)
 			*array = ets->sorted;
@@ -452,11 +452,11 @@ ets_get_sorted_to_model_array (ESorter *es, gint **array, gint *count)
 }
 
 static gboolean
-ets_needs_sorting(ESorter *es)
+ets_needs_sorting (ESorter *es)
 {
-	ETableSorter *ets = E_TABLE_SORTER(es);
+	ETableSorter *ets = E_TABLE_SORTER (es);
 	if (ets->needs_sorting < 0) {
-		if (e_table_sort_info_sorting_get_count(ets->sort_info) + e_table_sort_info_grouping_get_count(ets->sort_info))
+		if (e_table_sort_info_sorting_get_count (ets->sort_info) + e_table_sort_info_grouping_get_count (ets->sort_info))
 			ets->needs_sorting = 1;
 		else
 			ets->needs_sorting = 0;

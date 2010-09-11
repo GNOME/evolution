@@ -1736,7 +1736,7 @@ e_day_view_style_set (GtkWidget *widget,
 	for (hour = 0; hour < 24; hour++) {
 		g_snprintf (buffer, sizeof (buffer), "%02i", hour);
 		pango_layout_set_text (layout, buffer, -1);
-		pango_layout_get_pixel_size (layout, &day_view->small_hour_widths [hour], NULL);
+		pango_layout_get_pixel_size (layout, &day_view->small_hour_widths[hour], NULL);
 
 		day_view->max_small_hour_width = MAX (day_view->max_small_hour_width, day_view->small_hour_widths[hour]);
 	}

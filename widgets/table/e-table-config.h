@@ -73,8 +73,8 @@ typedef struct {
 	GtkWidget *group_label;
 	GtkWidget *fields_label;
 
-	ETableConfigSortWidgets sort [4];
-	ETableConfigSortWidgets group [4];
+	ETableConfigSortWidgets sort[4];
+	ETableConfigSortWidgets group[4];
 
 	ETable               *available;
 	ETableWithout        *available_model;

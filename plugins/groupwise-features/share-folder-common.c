@@ -469,7 +469,7 @@ get_container_id(EGwConnection *cnc, const gchar *fname)
 
 	names = g_strsplit (fname, "/", -1);
 	if (names) {
-		while (names [parts])
+		while (names[parts])
 			parts++;
 		fname = names[i];
 	}

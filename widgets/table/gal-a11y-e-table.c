@@ -92,7 +92,7 @@ init_child_item (GalA11yETable *a11y)
 		return FALSE;
 
 	table = E_TABLE (gtk_accessible_get_widget (GTK_ACCESSIBLE (a11y)));
-	if (table && gtk_widget_get_mapped (GTK_WIDGET (table)) && table->group && E_IS_TABLE_GROUP_CONTAINER(table->group)) {
+	if (table && gtk_widget_get_mapped (GTK_WIDGET (table)) && table->group && E_IS_TABLE_GROUP_CONTAINER (table->group)) {
 		ETableGroupContainer *etgc =  (ETableGroupContainer *)table->group;
 		GList *list;
 
@@ -181,8 +181,8 @@ et_ref_child (AtkObject *accessible,
 		ETableClickToAdd * etcta;
 
 		if (et && et->use_click_to_add && et->click_to_add) {
-			etcta = E_TABLE_CLICK_TO_ADD(et->click_to_add);
-			accessible = atk_gobject_accessible_for_object (G_OBJECT(etcta));
+			etcta = E_TABLE_CLICK_TO_ADD (et->click_to_add);
+			accessible = atk_gobject_accessible_for_object (G_OBJECT (etcta));
 			if (accessible)
 				g_object_ref (accessible);
 			return accessible;

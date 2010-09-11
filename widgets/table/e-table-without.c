@@ -266,9 +266,9 @@ e_table_without_construct (ETableWithout                 *etw,
 			   ETableWithoutFreeKeyFunc       free_duplicated_key_func,
 			   void                          *closure)
 {
-	if (e_table_subset_construct (E_TABLE_SUBSET(etw), source, 1) == NULL)
+	if (e_table_subset_construct (E_TABLE_SUBSET (etw), source, 1) == NULL)
 		return NULL;
-	E_TABLE_SUBSET(etw)->n_map = 0;
+	E_TABLE_SUBSET (etw)->n_map = 0;
 
 	etw->priv->hash_func                = hash_func;
 	etw->priv->compare_func	    = compare_func;
@@ -387,7 +387,7 @@ e_table_without_show_all   (ETableWithout *etw)
 	}
 	etw->priv->hash = g_hash_table_new (etw->priv->hash_func, etw->priv->compare_func);
 
-	row_count = e_table_model_row_count (E_TABLE_MODEL(etss->source));
+	row_count = e_table_model_row_count (E_TABLE_MODEL (etss->source));
 	g_free (etss->map_table);
 	etss->map_table = g_new (int, row_count);
 

@@ -29,13 +29,26 @@
 #include <table/e-tree.h>
 #include <shell/e-shell-backend.h>
 
-G_BEGIN_DECLS
+/* Standard GObject macros */
+#define MESSAGE_LIST_TYPE \
+	(message_list_get_type ())
+#define MESSAGE_LIST(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), MESSAGE_LIST_TYPE, MessageList))
+#define MESSAGE_LIST_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), MESSAGE_LIST_TYPE, MessageListClass))
+#define IS_MESSAGE_LIST(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), MESSAGE_LIST_TYPE))
+#define IS_MESSAGE_LIST_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), MESSAGE_LIST_TYPE))
+#define MESSAGE_LIST_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), MESSAGE_LIST_TYPE, MessageListClass))
 
-#define MESSAGE_LIST_TYPE        (message_list_get_type ())
-#define MESSAGE_LIST(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MESSAGE_LIST_TYPE, MessageList))
-#define MESSAGE_LIST_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), MESSAGE_LIST_TYPE, MessageListClass))
-#define IS_MESSAGE_LIST(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), MESSAGE_LIST_TYPE))
-#define IS_MESSAGE_LIST_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), MESSAGE_LIST_TYPE))
+G_BEGIN_DECLS
 
 enum {
 	COL_MESSAGE_STATUS,
@@ -136,7 +149,8 @@ struct _MessageList {
 	/* list of outstanding regeneration requests */
 	GList *regen;
 	GMutex *regen_lock; /* when writing to the regen, guard with this lock too */
-	gchar *pending_select_uid; /* set if we were busy regnerating while we had a select come in */
+	gchar *pending_select_uid;	/* set if we were busy regnerating
+					 * while we had a select come in */
 	gboolean pending_select_fallback;
 	guint regen_timeout_id;
 	gpointer regen_timeout_msg;

@@ -123,7 +123,7 @@ static void	e_text_text_model_reposition	(ETextModel *model,
 						 gpointer repos_data,
 						 gpointer data);
 
-static void _get_tep(EText *text);
+static void _get_tep (EText *text);
 
 static void calc_height (EText *text);
 
@@ -133,7 +133,7 @@ static void e_text_do_popup (EText *text, GdkEventButton *button, gint position)
 
 static void e_text_update_primary_selection (EText *text);
 static void e_text_paste (EText *text, GdkAtom selection);
-static void e_text_insert(EText *text, const gchar *string);
+static void e_text_insert (EText *text, const gchar *string);
 
 static void reset_layout_attrs (EText *text);
 
@@ -213,11 +213,11 @@ e_text_dispose (GObject *object)
 	text->model_repos_signal_id = 0;
 
 	if (text->model)
-		g_object_unref(text->model);
+		g_object_unref (text->model);
 	text->model = NULL;
 
 	if (text->tep_command_id)
-		g_signal_handler_disconnect(text->tep,
+		g_signal_handler_disconnect (text->tep,
 					    text->tep_command_id);
 	text->tep_command_id = 0;
 
@@ -233,13 +233,13 @@ e_text_dispose (GObject *object)
 	text->stipple = NULL;
 
 	if (text->timeout_id) {
-		g_source_remove(text->timeout_id);
+		g_source_remove (text->timeout_id);
 		text->timeout_id = 0;
 	}
 
 	if (text->timer) {
-		g_timer_stop(text->timer);
-		g_timer_destroy(text->timer);
+		g_timer_stop (text->timer);
+		g_timer_destroy (text->timer);
 		text->timer = NULL;
 	}
 
@@ -289,7 +289,7 @@ insert_preedit_text (EText *text)
 	if (text->layout == NULL || !GTK_IS_IM_CONTEXT (text->im_context))
 		return;
 
-	text->text = e_text_model_get_text(text->model);
+	text->text = e_text_model_get_text (text->model);
 	length = strlen (text->text);
 
 	g_string_prepend_len (tmp_string, text->text,length);
@@ -424,7 +424,7 @@ reset_layout (EText *text)
 
 		context = pango_layout_get_context (text->layout);
 
-		font_options = get_font_options();
+		font_options = get_font_options ();
 		pango_cairo_context_set_font_options (context, font_options);
 		cairo_font_options_destroy (font_options);
 		pango_layout_context_changed (text->layout);
@@ -469,7 +469,7 @@ static void
 e_text_text_model_changed (ETextModel *model, EText *text)
 {
 	gint model_len = e_text_model_get_text_length (model);
-	text->text = e_text_model_get_text(model);
+	text->text = e_text_model_get_text (model);
 
 	/* Make sure our selection doesn't extend past the bounds of our text. */
 	text->selection_start = CLAMP (text->selection_start, 0, model_len);
@@ -478,7 +478,7 @@ e_text_text_model_changed (ETextModel *model, EText *text)
 	text->needs_reset_layout = 1;
 	text->needs_split_into_lines = 1;
 	text->needs_redraw = 1;
-	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(text));
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (text));
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (text));
 
 	g_signal_emit (text, e_text_signals[E_TEXT_CHANGED], 0);
@@ -628,7 +628,7 @@ calc_height (EText *text)
 	text->width = width;
 
 	if (old_height != text->height || old_width != text->width)
-		e_canvas_item_request_parent_reflow(item);
+		e_canvas_item_request_parent_reflow (item);
 }
 
 static void
@@ -730,7 +730,7 @@ e_text_set_property (GObject *object,
 					  G_CALLBACK (e_text_text_model_reposition),
 					  text);
 
-		text->text = e_text_model_get_text(text->model);
+		text->text = e_text_model_get_text (text->model);
 		g_signal_emit (text, e_text_signals[E_TEXT_CHANGED], 0);
 
 		text->needs_split_into_lines = 1;
@@ -739,17 +739,17 @@ e_text_set_property (GObject *object,
 
 	case PROP_EVENT_PROCESSOR:
 		if (text->tep && text->tep_command_id)
-			g_signal_handler_disconnect(text->tep,
+			g_signal_handler_disconnect (text->tep,
 						    text->tep_command_id);
 		if (text->tep) {
-			g_object_unref(text->tep);
+			g_object_unref (text->tep);
 		}
-		text->tep = E_TEXT_EVENT_PROCESSOR(g_value_get_object (value));
-		g_object_ref(text->tep);
+		text->tep = E_TEXT_EVENT_PROCESSOR (g_value_get_object (value));
+		g_object_ref (text->tep);
 		text->tep_command_id =
-			g_signal_connect(text->tep,
+			g_signal_connect (text->tep,
 					 "command",
-					 G_CALLBACK(e_text_command),
+					 G_CALLBACK (e_text_command),
 					 text);
 		if (!text->allow_newlines)
 			g_object_set (text->tep,
@@ -758,7 +758,7 @@ e_text_set_property (GObject *object,
 		break;
 
 	case PROP_TEXT:
-		e_text_model_set_text(text->model, g_value_get_string (value));
+		e_text_model_set_text (text->model, g_value_get_string (value));
 		break;
 
 	case PROP_BOLD:
@@ -920,11 +920,11 @@ e_text_set_property (GObject *object,
 
 	case PROP_BREAK_CHARACTERS:
 		if (text->break_characters) {
-			g_free(text->break_characters);
+			g_free (text->break_characters);
 			text->break_characters = NULL;
 		}
 		if (g_value_get_string (value))
-			text->break_characters = g_strdup( g_value_get_string (value) );
+			text->break_characters = g_strdup ( g_value_get_string (value) );
 		text->needs_split_into_lines = 1;
 		needs_reflow = 1;
 		break;
@@ -978,7 +978,7 @@ e_text_set_property (GObject *object,
 
 	case PROP_ALLOW_NEWLINES:
 		text->allow_newlines = g_value_get_boolean (value);
-		_get_tep(text);
+		_get_tep (text);
 		g_object_set (text->tep,
 			      "allow_newlines", g_value_get_boolean (value),
 			      NULL);
@@ -1051,7 +1051,7 @@ e_text_get_property (GObject *object,
 		break;
 
 	case PROP_EVENT_PROCESSOR:
-		_get_tep(text);
+		_get_tep (text);
 		g_value_set_object (value, text->tep);
 		break;
 
@@ -1212,7 +1212,7 @@ e_text_reflow (GnomeCanvasItem *item, gint flags)
 
 	if (text->needs_calc_height) {
 		calc_height (text);
-		gnome_canvas_item_request_update(item);
+		gnome_canvas_item_request_update (item);
 		text->needs_calc_height = 0;
 		text->needs_recalc_bounds = 1;
 	}
@@ -1308,14 +1308,14 @@ e_text_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-_get_tep(EText *text)
+_get_tep (EText *text)
 {
 	if (!text->tep) {
-		text->tep = e_text_event_processor_emacs_like_new();
+		text->tep = e_text_event_processor_emacs_like_new ();
 		text->tep_command_id =
-			g_signal_connect(text->tep,
+			g_signal_connect (text->tep,
 					 "command",
-					 G_CALLBACK(e_text_command),
+					 G_CALLBACK (e_text_command),
 					 text);
 	}
 }
@@ -1417,8 +1417,8 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	GtkStateType state;
 
 	text = E_TEXT (item);
-	canvas = GNOME_CANVAS_ITEM(text)->canvas;
-	widget = GTK_WIDGET(canvas);
+	canvas = GNOME_CANVAS_ITEM (text)->canvas;
+	widget = GTK_WIDGET (canvas);
 	state = gtk_widget_get_state (widget);
 	style = gtk_widget_get_style (widget);
 	window = gtk_widget_get_window (widget);
@@ -1433,9 +1433,9 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		gdouble thisx = item->x1 - x;
 		gdouble thisy = item->y1 - y;
 		gdouble thiswidth, thisheight;
-		widget = GTK_WIDGET(item->canvas);
+		widget = GTK_WIDGET (item->canvas);
 
-		g_object_get(text,
+		g_object_get (text,
 			     "width", &thiswidth,
 			     "height", &thisheight,
 			     NULL);
@@ -1472,7 +1472,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 		widget = gtk_widget_get_parent (widget);
 
-		while (widget && !GTK_IS_BUTTON(widget)) {
+		while (widget && !GTK_IS_BUTTON (widget)) {
 			if (gtk_widget_get_has_window (widget)) {
 				widget = NULL;
 				break;
@@ -1616,14 +1616,14 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			end_index = MAX (text->selection_start, text->selection_end);
 
 			/* convert these into byte indices */
-			start_index = g_utf8_offset_to_pointer(text->text, start_index) - text->text;
-			end_index = g_utf8_offset_to_pointer(text->text, end_index) - text->text;
+			start_index = g_utf8_offset_to_pointer (text->text, start_index) - text->text;
+			end_index = g_utf8_offset_to_pointer (text->text, end_index) - text->text;
 
 			if (text->has_selection) {
-				selection_gc = style->base_gc [GTK_STATE_SELECTED];
+				selection_gc = style->base_gc[GTK_STATE_SELECTED];
 				text_gc = style->text_gc[GTK_STATE_SELECTED];
 			} else {
-				selection_gc = style->base_gc [GTK_STATE_ACTIVE];
+				selection_gc = style->base_gc[GTK_STATE_ACTIVE];
 				text_gc = style->text_gc[GTK_STATE_ACTIVE];
 			}
 
@@ -1868,12 +1868,12 @@ get_position_from_xy (EText *text, gint x, gint y)
 static gboolean
 _blink_scroll_timeout (gpointer data)
 {
-	EText *text = E_TEXT(data);
+	EText *text = E_TEXT (data);
 	gulong current_time;
 	gboolean scroll = FALSE;
 	gboolean redraw = FALSE;
 
-	g_timer_elapsed(text->timer, &current_time);
+	g_timer_elapsed (text->timer, &current_time);
 
 	if (text->scroll_start + SCROLL_WAIT_TIME > 1000000) {
 		if (current_time > text->scroll_start - (1000000 - SCROLL_WAIT_TIME) &&
@@ -1922,8 +1922,8 @@ _blink_scroll_timeout (gpointer data)
 			e_tep_event.type = GDK_MOTION_NOTIFY;
 			e_tep_event.motion.state = text->last_state;
 			e_tep_event.motion.time = 0;
-			e_tep_event.motion.position = get_position_from_xy(text, text->lastx, text->lasty);
-			_get_tep(text);
+			e_tep_event.motion.position = get_position_from_xy (text, text->lastx, text->lasty);
+			_get_tep (text);
 			e_text_event_processor_handle_event (text->tep,
 							     &e_tep_event);
 			text->scroll_start = current_time;
@@ -1942,7 +1942,7 @@ _blink_scroll_timeout (gpointer data)
 	}
 	if (redraw) {
 		text->needs_redraw = 1;
-		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
+		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (text));
 	}
 	return TRUE;
 }
@@ -1972,10 +1972,10 @@ start_editing (EText *text)
 	text->xofs_edit = 0;
 	text->yofs_edit = 0;
 	if (text->timeout_id == 0)
-		text->timeout_id = g_timeout_add(10, _blink_scroll_timeout, text);
-	text->timer = g_timer_new();
-	g_timer_elapsed(text->timer, &(text->scroll_start));
-	g_timer_start(text->timer);
+		text->timeout_id = g_timeout_add (10, _blink_scroll_timeout, text);
+	text->timer = g_timer_new ();
+	g_timer_elapsed (text->timer, &(text->scroll_start));
+	g_timer_start (text->timer);
 }
 
 void
@@ -1997,8 +1997,8 @@ e_text_stop_editing (EText *text)
 		text->default_cursor_shown = TRUE;
 	}
 	if (text->timer) {
-		g_timer_stop(text->timer);
-		g_timer_destroy(text->timer);
+		g_timer_stop (text->timer);
+		g_timer_destroy (text->timer);
 		text->timer = NULL;
 	}
 }
@@ -2007,7 +2007,7 @@ void
 e_text_cancel_editing (EText *text)
 {
 	if (text->revert)
-		e_text_model_set_text(text->model, text->revert);
+		e_text_model_set_text (text->model, text->revert);
 	e_text_stop_editing (text);
 }
 
@@ -2021,7 +2021,7 @@ _click (gpointer data)
 static gint
 e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 {
-	EText *text = E_TEXT(item);
+	EText *text = E_TEXT (item);
 	ETextEventProcessorEvent e_tep_event;
 	GdkWindow *window;
 
@@ -2094,18 +2094,18 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 
 				e_text_stop_editing (text);
 				if (text->timeout_id) {
-					g_source_remove(text->timeout_id);
+					g_source_remove (text->timeout_id);
 					text->timeout_id = 0;
 				}
 				if (text->show_cursor || text->draw_borders) {
 					text->show_cursor = FALSE;
 					text->needs_redraw = 1;
-					gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
+					gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (text));
 				}
 			}
 			if (text->line_wrap)
 				text->needs_split_into_lines = 1;
-			e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(text));
+			e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (text));
 		}
 		return_val = 0;
 		break;
@@ -2160,7 +2160,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 				e_tep_event.key.length = 0;
 			}
 #endif
-			_get_tep(text);
+			_get_tep (text);
 			ret = e_text_event_processor_handle_event (text->tep, &e_tep_event);
 
 			if (event->type == GDK_KEY_PRESS)
@@ -2188,8 +2188,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			e_tep_event.button.time = button.time;
 			e_tep_event.button.state = button.state;
 			e_tep_event.button.button = button.button;
-			e_tep_event.button.position = get_position_from_xy(text, button.x, button.y);
-			_get_tep(text);
+			e_tep_event.button.position = get_position_from_xy (text, button.x, button.y);
+			_get_tep (text);
 			return_val = e_text_event_processor_handle_event (text->tep,
 									  &e_tep_event);
 			e_tep_event.type = GDK_BUTTON_RELEASE;
@@ -2239,8 +2239,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			e_tep_event.button.time = button.time;
 			e_tep_event.button.state = button.state;
 			e_tep_event.button.button = button.button;
-			e_tep_event.button.position = get_position_from_xy(text, button.x, button.y);
-			_get_tep(text);
+			e_tep_event.button.position = get_position_from_xy (text, button.x, button.y);
+			_get_tep (text);
 			return_val = e_text_event_processor_handle_event (text->tep,
 									  &e_tep_event);
 			if (event->button.button == 1) {
@@ -2259,8 +2259,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			GdkEventMotion motion = event->motion;
 			e_tep_event.motion.time = motion.time;
 			e_tep_event.motion.state = motion.state;
-			e_tep_event.motion.position = get_position_from_xy(text, motion.x, motion.y);
-			_get_tep(text);
+			e_tep_event.motion.position = get_position_from_xy (text, motion.x, motion.y);
+			_get_tep (text);
 			return_val = e_text_event_processor_handle_event (text->tep,
 								       &e_tep_event);
 			text->lastx = motion.x;
@@ -2272,7 +2272,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		text->pointer_in = TRUE;
 		if (text->editing || text->draw_borders) {
 			if (text->default_cursor_shown) {
-				gdk_window_set_cursor(window, text->i_cursor);
+				gdk_window_set_cursor (window, text->i_cursor);
 				text->default_cursor_shown = FALSE;
 			}
 		}
@@ -2281,7 +2281,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		text->pointer_in = FALSE;
 		if (text->editing || text->draw_borders) {
 			if (!text->default_cursor_shown) {
-				gdk_window_set_cursor(window, text->default_cursor);
+				gdk_window_set_cursor (window, text->default_cursor);
 				text->default_cursor_shown = TRUE;
 			}
 		}
@@ -2291,8 +2291,8 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 	}
 	if (return_val)
 		return return_val;
-	if (GNOME_CANVAS_ITEM_CLASS(e_text_parent_class)->event)
-		return GNOME_CANVAS_ITEM_CLASS(e_text_parent_class)->event(item, event);
+	if (GNOME_CANVAS_ITEM_CLASS (e_text_parent_class)->event)
+		return GNOME_CANVAS_ITEM_CLASS (e_text_parent_class)->event (item, event);
 	else
 		return 0;
 }
@@ -2321,15 +2321,15 @@ e_text_copy_clipboard (EText *text)
 }
 
 void
-e_text_delete_selection(EText *text)
+e_text_delete_selection (EText *text)
 {
 	gint sel_start, sel_end;
 
-	sel_start = MIN(text->selection_start, text->selection_end);
-	sel_end   = MAX(text->selection_start, text->selection_end);
+	sel_start = MIN (text->selection_start, text->selection_end);
+	sel_end   = MAX (text->selection_start, text->selection_end);
 
 	if (sel_start != sel_end)
-		e_text_model_delete(text->model, sel_start, sel_end - sel_start);
+		e_text_model_delete (text->model, sel_start, sel_end - sel_start);
 }
 
 void
@@ -2348,7 +2348,7 @@ e_text_paste_clipboard (EText *text)
 	command.position = E_TEP_SELECTION;
 	command.string = "";
 	command.value = 0;
-	e_text_command(text->tep, &command, text);
+	e_text_command (text->tep, &command, text);
 }
 
 void
@@ -2360,7 +2360,7 @@ e_text_select_all (EText *text)
 	command.position = E_TEP_SELECT_ALL;
 	command.string = "";
 	command.value = 0;
-	e_text_command(text->tep, &command, text);
+	e_text_command (text->tep, &command, text);
 }
 
 static void
@@ -2372,8 +2372,8 @@ primary_get_cb (GtkClipboard     *clipboard,
 	EText *text = E_TEXT (data);
 	gint sel_start, sel_end;
 
-	sel_start = MIN(text->selection_start, text->selection_end);
-	sel_end   = MAX(text->selection_start, text->selection_end);
+	sel_start = MIN (text->selection_start, text->selection_end);
+	sel_end   = MAX (text->selection_start, text->selection_end);
 
 	/* convert sel_start/sel_end to byte indices */
 	sel_start = g_utf8_offset_to_pointer (text->text, sel_start) - text->text;
@@ -2471,7 +2471,7 @@ popup_menu_placement_cb (GtkMenu *menu,
                          gboolean *push_in,
                          gpointer user_data)
 {
-	EText *text = E_TEXT(user_data);
+	EText *text = E_TEXT (user_data);
 	GnomeCanvasItem *item = &text->item;
 	GnomeCanvas *parent = item->canvas;
 
@@ -2502,7 +2502,7 @@ popup_targets_received (GtkClipboard     *clipboard,
 	g_free (closure);
 
 	gtk_menu_attach_to_widget (GTK_MENU (popup_menu),
-				   GTK_WIDGET(GNOME_CANVAS_ITEM (text)->canvas),
+				   GTK_WIDGET (GNOME_CANVAS_ITEM (text)->canvas),
 				   popup_menu_detach);
 
 	/* cut menu item */
@@ -2669,7 +2669,7 @@ find_offset_into_line (EText *text, gint offset_into_text, gchar **start_of_line
 }
 
 /* direction = TRUE (move forward), FALSE (move backward)
-   Any error shall return length(text->text) or 0 or
+   Any error shall return length (text->text) or 0 or
    text->selection_end (as deemed fit) */
 static gint
 _get_updated_position (EText *text, gboolean direction)
@@ -2693,7 +2693,7 @@ _get_updated_position (EText *text, gboolean direction)
 		return 0;
 
 	/* check for validness of full text->text */
-	if (!g_utf8_validate(text->text, -1, NULL))
+	if (!g_utf8_validate (text->text, -1, NULL))
 		return text->selection_end;
 
 	/* get layout's PangoLogAttr to facilitate moving when
@@ -2731,13 +2731,13 @@ _get_updated_position (EText *text, gboolean direction)
 	}
 
 	if (log_attrs)
-		g_free(log_attrs);
+		g_free (log_attrs);
 
 	return new_pos;
 }
 
 static gint
-_get_position(EText *text, ETextEventProcessorCommand *command)
+_get_position (EText *text, ETextEventProcessorCommand *command)
 {
 	gint length, obj_num;
 	gunichar unival;
@@ -2812,7 +2812,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 			new_pos = length;
 		else
 			/* get updated position to display cursor */
-			new_pos = _get_updated_position(text, TRUE);
+			new_pos = _get_updated_position (text, TRUE);
 
 		break;
 
@@ -3010,7 +3010,7 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 }
 
 static void
-e_text_insert(EText *text, const gchar *string)
+e_text_insert (EText *text, const gchar *string)
 {
 	gint len = strlen (string);
 
@@ -3022,7 +3022,7 @@ e_text_insert(EText *text, const gchar *string)
 			gchar *new_string = g_malloc (len + 1);
 			gchar *j = new_string;
 
-			for (i = string; *i; i = g_utf8_next_char(i)) {
+			for (i = string; *i; i = g_utf8_next_char (i)) {
 				if (*i != '\n') {
 					gunichar c;
 					gint charlen;
@@ -3034,12 +3034,12 @@ e_text_insert(EText *text, const gchar *string)
 				}
 			}
 			*j = 0;
-			e_text_model_insert_length(text->model, text->selection_start, new_string, utf8len);
+			e_text_model_insert_length (text->model, text->selection_start, new_string, utf8len);
 			g_free (new_string);
 		}
 		else {
 			utf8len = g_utf8_strlen (string, -1);
-			e_text_model_insert_length(text->model, text->selection_start, string, utf8len);
+			e_text_model_insert_length (text->model, text->selection_start, string, utf8len);
 		}
 	}
 }
@@ -3097,16 +3097,16 @@ e_text_command (ETextEventProcessor *tep,
                 ETextEventProcessorCommand *command,
                 gpointer data)
 {
-	EText *text = E_TEXT(data);
+	EText *text = E_TEXT (data);
 	gboolean scroll = TRUE;
 	gboolean use_start = TRUE;
 
 	switch (command->action) {
 	case E_TEP_MOVE:
-		text->selection_start = _get_position(text, command);
+		text->selection_start = _get_position (text, command);
 		text->selection_end = text->selection_start;
 		if (text->timer) {
-			g_timer_reset(text->timer);
+			g_timer_reset (text->timer);
 		}
 
 		use_start = TRUE;
@@ -3115,7 +3115,7 @@ e_text_command (ETextEventProcessor *tep,
 		text->selection_start =
 			e_text_model_validate_position (
 			text->model, text->selection_start); /* paranoia */
-		text->selection_end = _get_position(text, command);
+		text->selection_end = _get_position (text, command);
 
 		e_text_update_primary_selection (text);
 
@@ -3124,11 +3124,11 @@ e_text_command (ETextEventProcessor *tep,
 		break;
 	case E_TEP_DELETE:
 		if (text->selection_end == text->selection_start) {
-			text->selection_end = _get_position(text, command);
+			text->selection_end = _get_position (text, command);
 		}
-		e_text_delete_selection(text);
+		e_text_delete_selection (text);
 		if (text->timer) {
-			g_timer_reset(text->timer);
+			g_timer_reset (text->timer);
 		}
 
 		use_start = FALSE;
@@ -3138,11 +3138,11 @@ e_text_command (ETextEventProcessor *tep,
 	case E_TEP_INSERT:
 		if (g_utf8_validate (command->string, command->value, NULL)) {
 			if (text->selection_end != text->selection_start) {
-				e_text_delete_selection(text);
+				e_text_delete_selection (text);
 			}
-			e_text_insert(text, command->string);
+			e_text_insert (text, command->string);
 			if (text->timer) {
-				g_timer_reset(text->timer);
+				g_timer_reset (text->timer);
 			}
 		}
 		break;
@@ -3150,14 +3150,14 @@ e_text_command (ETextEventProcessor *tep,
 		e_text_copy_clipboard (text);
 
 		if (text->timer) {
-			g_timer_reset(text->timer);
+			g_timer_reset (text->timer);
 		}
 		scroll = FALSE;
 		break;
 	case E_TEP_PASTE:
 		e_text_paste (text, GDK_NONE);
 		if (text->timer) {
-			g_timer_reset(text->timer);
+			g_timer_reset (text->timer);
 		}
 		break;
 	case E_TEP_GET_SELECTION:
@@ -3166,15 +3166,15 @@ e_text_command (ETextEventProcessor *tep,
 	case E_TEP_ACTIVATE:
 		g_signal_emit (text, e_text_signals[E_TEXT_ACTIVATE], 0);
 		if (text->timer) {
-			g_timer_reset(text->timer);
+			g_timer_reset (text->timer);
 		}
 		break;
 	case E_TEP_SET_SELECT_BY_WORD:
 		text->select_by_word = command->value;
 		break;
 	case E_TEP_GRAB:
-		e_canvas_item_grab (E_CANVAS (GNOME_CANVAS_ITEM(text)->canvas),
-				    GNOME_CANVAS_ITEM(text),
+		e_canvas_item_grab (E_CANVAS (GNOME_CANVAS_ITEM (text)->canvas),
+				    GNOME_CANVAS_ITEM (text),
 				    GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK,
 				    text->i_cursor,
 				    command->time,
@@ -3183,8 +3183,8 @@ e_text_command (ETextEventProcessor *tep,
 		scroll = FALSE;
 		break;
 	case E_TEP_UNGRAB:
-		e_canvas_item_ungrab (E_CANVAS (GNOME_CANVAS_ITEM(text)->canvas),
-				      GNOME_CANVAS_ITEM(text),
+		e_canvas_item_ungrab (E_CANVAS (GNOME_CANVAS_ITEM (text)->canvas),
+				      GNOME_CANVAS_ITEM (text),
 				      command->time);
 		scroll = FALSE;
 		break;
@@ -3311,7 +3311,7 @@ e_text_command (ETextEventProcessor *tep,
 	}
 
 	text->needs_redraw = 1;
-	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(text));
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (text));
 }
 
 /* Class initialization function for the text item */
@@ -3704,7 +3704,7 @@ e_text_init (EText *text)
 
 	text->handle_popup            = FALSE;
 
-	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(text), e_text_reflow);
+	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (text), e_text_reflow);
 }
 
 /* IM Context Callbacks */

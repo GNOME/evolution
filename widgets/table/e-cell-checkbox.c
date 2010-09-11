@@ -37,7 +37,7 @@
 
 G_DEFINE_TYPE (ECellCheckbox, e_cell_checkbox, E_TYPE_CELL_TOGGLE)
 
-static GdkPixbuf *checks [2];
+static GdkPixbuf *checks[2];
 
 static void
 ecc_print (ECellView *ecell_view, GtkPrintContext *context,
@@ -66,8 +66,8 @@ e_cell_checkbox_class_init (ECellCheckboxClass *klass)
 	ECellClass *ecc = E_CELL_CLASS (klass);
 
 	ecc->print = ecc_print;
-	checks [0] = gdk_pixbuf_new_from_xpm_data (check_empty_xpm);
-	checks [1] = gdk_pixbuf_new_from_xpm_data (check_filled_xpm);
+	checks[0] = gdk_pixbuf_new_from_xpm_data (check_empty_xpm);
+	checks[1] = gdk_pixbuf_new_from_xpm_data (check_filled_xpm);
 }
 
 static void

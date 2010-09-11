@@ -68,7 +68,7 @@ struct _ETableFieldChooserClass
 	GtkVBoxClass parent_class;
 };
 
-GtkWidget *e_table_field_chooser_new(void);
+GtkWidget *e_table_field_chooser_new (void);
 GType      e_table_field_chooser_get_type (void);
 
 G_END_DECLS

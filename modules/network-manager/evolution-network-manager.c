@@ -62,10 +62,11 @@ network_manager_get_shell (ENetworkManager *extension)
 }
 
 static void
-nm_connection_closed_cb (GDBusConnection *pconnection, gboolean remote_peer_vanished, GError *error, gpointer user_data)
+nm_connection_closed_cb (GDBusConnection *pconnection,
+                         gboolean remote_peer_vanished,
+                         GError *error,
+                         ENetworkManager *extension)
 {
-	ENetworkManager *extension = user_data;
-
 	g_object_unref (extension->connection);
 	extension->connection = NULL;
 
@@ -75,12 +76,12 @@ nm_connection_closed_cb (GDBusConnection *pconnection, gboolean remote_peer_vani
 
 static void
 network_manager_signal_cb (GDBusConnection *connection,
-	const gchar *sender_name,
-	const gchar *object_path,
-	const gchar *interface_name,
-	const gchar *signal_name,
-	GVariant *parameters,
-	gpointer user_data)
+                           const gchar *sender_name,
+                           const gchar *object_path,
+                           const gchar *interface_name,
+                           const gchar *signal_name,
+                           GVariant *parameters,
+                           gpointer user_data)
 {
 	ENetworkManager *extension = user_data;
 	EShell *shell;
@@ -122,7 +123,8 @@ network_manager_check_initial_state (ENetworkManager *extension)
 
 	/* XXX Assuming this should be safe to call synchronously. */
 	response = g_dbus_connection_send_message_with_reply_sync (
-		extension->connection, message, G_DBUS_SEND_MESSAGE_FLAGS_NONE, 100, NULL, NULL, &error);
+		extension->connection, message,
+		G_DBUS_SEND_MESSAGE_FLAGS_NONE, 100, NULL, NULL, &error);
 
 	if (response != NULL) {
 		GVariant *body = g_dbus_message_get_body (response);
@@ -181,7 +183,10 @@ network_manager_connect (ENetworkManager *extension)
 		goto fail;
 	}
 
-	g_signal_connect (extension->connection, "closed", G_CALLBACK (nm_connection_closed_cb), extension);
+	g_signal_connect (
+		extension->connection, "closed",
+		G_CALLBACK (nm_connection_closed_cb), extension);
+
 	network_manager_check_initial_state (extension);
 
 	return FALSE;

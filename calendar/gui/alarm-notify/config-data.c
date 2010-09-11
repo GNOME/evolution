@@ -30,12 +30,12 @@
 #include <libedataserver/e-source-list.h>
 #include "config-data.h"
 
-
-
-#define KEY_LAST_NOTIFICATION_TIME "/apps/evolution/calendar/notify/last_notification_time"
+#define KEY_LAST_NOTIFICATION_TIME \
+	"/apps/evolution/calendar/notify/last_notification_time"
 #define KEY_PROGRAMS "/apps/evolution/calendar/notify/programs"
 
-/* Whether we have initied ourselves by reading the data from the configuration engine */
+/* Whether we have initied ourselves by reading
+ * the data from the configuration engine. */
 static gboolean inited = FALSE;
 static GConfClient *conf_client = NULL;
 static ESourceList *calendar_source_list = NULL, *tasks_source_list = NULL;
@@ -202,20 +202,23 @@ icaltimezone *
 config_data_get_timezone (void)
 {
 	gchar *location;
+	const gchar *key;
 	icaltimezone *local_timezone;
 
 	ensure_inited ();
 
-	if (gconf_client_get_bool (conf_client, "/apps/evolution/calendar/display/use_system_timezone", NULL))
+	key = "/apps/evolution/calendar/display/user_system_timezone";
+	if (gconf_client_get_bool (conf_client, key, NULL))
 		location = e_cal_util_get_system_timezone_location ();
-	else
-		location = gconf_client_get_string (conf_client, "/apps/evolution/calendar/display/timezone", NULL);
-
-	if (location && location[0]) {
-		local_timezone = icaltimezone_get_builtin_timezone (location);
-	} else {
-		local_timezone = icaltimezone_get_utc_timezone ();
+	else {
+		key = "/apps/evolution/calendar/display/timezone";
+		location = gconf_client_get_string (conf_client, key, NULL);
 	}
+
+	if (location && location[0])
+		local_timezone = icaltimezone_get_builtin_timezone (location);
+	else
+		local_timezone = icaltimezone_get_utc_timezone ();
 
 	g_free (location);
 
@@ -228,9 +231,10 @@ config_data_get_24_hour_format (void)
 	ensure_inited ();
 
 	if (locale_supports_12_hour_format ()) {
-		return gconf_client_get_bool (conf_client,
-					      "/apps/evolution/calendar/display/use_24hour_format",
-					      NULL);
+		const gchar *key;
+
+		key = "/apps/evolution/calendar/display/use_24hour_format";
+		return gconf_client_get_bool (conf_client, key, NULL);
 	}
 
 	return TRUE;
@@ -308,7 +312,8 @@ config_data_get_last_notification_time (ECal *cal)
 			const gchar *last_notified = e_source_get_property (source, "last-notified");
 			GTimeVal tmval = {0};
 
-			if (last_notified && *last_notified && g_time_val_from_iso8601 (last_notified, &tmval)) {
+			if (last_notified && *last_notified &&
+				g_time_val_from_iso8601 (last_notified, &tmval)) {
 				time_t now = time (NULL), val = (time_t) tmval.tv_sec;
 
 				if (val > now)

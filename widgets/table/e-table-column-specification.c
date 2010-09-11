@@ -41,15 +41,15 @@ G_DEFINE_TYPE (ETableColumnSpecification, etcs, G_TYPE_OBJECT)
 static void
 free_strings (ETableColumnSpecification *etcs)
 {
-	g_free(etcs->title);
+	g_free (etcs->title);
 	etcs->title = NULL;
-	g_free(etcs->pixbuf);
+	g_free (etcs->pixbuf);
 	etcs->pixbuf = NULL;
-	g_free(etcs->cell);
+	g_free (etcs->cell);
 	etcs->cell = NULL;
-	g_free(etcs->compare);
+	g_free (etcs->compare);
 	etcs->compare = NULL;
-	g_free(etcs->search);
+	g_free (etcs->search);
 	etcs->search = NULL;
 	g_free (etcs->sortable);
 	etcs->sortable = NULL;
@@ -60,7 +60,7 @@ etcs_finalize (GObject *object)
 {
 	ETableColumnSpecification *etcs = E_TABLE_COLUMN_SPECIFICATION (object);
 
-	free_strings(etcs);
+	free_strings (etcs);
 
 	G_OBJECT_CLASS (etcs_parent_class)->finalize (object);
 }
@@ -104,7 +104,7 @@ void
 e_table_column_specification_load_from_node (ETableColumnSpecification *etcs,
 					     const xmlNode       *node)
 {
-	free_strings(etcs);
+	free_strings (etcs);
 
 	etcs->model_col     = e_xml_get_integer_prop_by_name (node, (const guchar *)"model_col");
 	etcs->compare_col   = e_xml_get_integer_prop_by_name_with_default (node, (const guchar *)"compare_col", etcs->model_col);

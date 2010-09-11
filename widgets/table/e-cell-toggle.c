@@ -275,7 +275,7 @@ cell_toggle_event (ECellView *ecell_view,
 			return FALSE;
 		/* Fall through */
 	case GDK_BUTTON_PRESS:
-		if (!e_table_model_is_cell_editable(ecell_view->e_table_model, model_col, row))
+		if (!e_table_model_is_cell_editable (ecell_view->e_table_model, model_col, row))
 			return FALSE;
 
 		etog_set_value (toggle_view, model_col, view_col, row, value + 1);
@@ -327,7 +327,7 @@ cell_toggle_print (ECellView *ecell_view,
 	image = g_ptr_array_index (priv->pixbufs, value);
 	if (image) {
 		cr = gtk_print_context_get_cairo_context (context);
-		cairo_save(cr);
+		cairo_save (cr);
 		cairo_translate (cr, 0 , 0);
 		image = gdk_pixbuf_add_alpha (image, TRUE, 255, 255, 255);
 		image_width = (gdouble)gdk_pixbuf_get_width (image);
@@ -338,7 +338,7 @@ cell_toggle_print (ECellView *ecell_view,
 		cairo_clip (cr);
 		gdk_cairo_set_source_pixbuf (cr, image, 0, image_height / 4);
 		cairo_paint (cr);
-		cairo_restore(cr);
+		cairo_restore (cr);
 	}
 }
 

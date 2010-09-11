@@ -47,7 +47,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint gal_view_collection_signals [LAST_SIGNAL] = { 0, };
+static guint gal_view_collection_signals[LAST_SIGNAL] = { 0, };
 
 /**
  * gal_view_collection_display_view:
@@ -65,7 +65,7 @@ gal_view_collection_display_view (GalViewCollection *collection,
 	g_return_if_fail (GAL_IS_VIEW (view));
 
 	g_signal_emit (collection,
-		       gal_view_collection_signals [DISPLAY_VIEW], 0,
+		       gal_view_collection_signals[DISPLAY_VIEW], 0,
 		       view);
 }
 
@@ -76,20 +76,20 @@ gal_view_collection_changed (GalViewCollection *collection)
 	g_return_if_fail (GAL_IS_VIEW_COLLECTION (collection));
 
 	g_signal_emit (collection,
-		       gal_view_collection_signals [CHANGED], 0);
+		       gal_view_collection_signals[CHANGED], 0);
 }
 
 static void
 gal_view_collection_item_free (GalViewCollectionItem *item)
 {
-	g_free(item->id);
+	g_free (item->id);
 	if (item->view) {
 		if (item->view_changed_id)
 			g_signal_handler_disconnect (item->view,
 						     item->view_changed_id);
-		g_object_unref(item->view);
+		g_object_unref (item->view);
 	}
-	g_free(item);
+	g_free (item);
 }
 
 static gchar *
@@ -101,13 +101,13 @@ gal_view_generate_string (GalViewCollection *collection,
 	gchar *pointer;
 
 	if (which == 1)
-		ret_val = g_strdup(gal_view_get_title(view));
+		ret_val = g_strdup (gal_view_get_title (view));
 	else
 		ret_val = g_strdup_printf("%s_%d", gal_view_get_title(view), which);
-	for (pointer = ret_val; *pointer; pointer = g_utf8_next_char(pointer)) {
-		if (!g_unichar_isalnum(g_utf8_get_char(pointer))) {
+	for (pointer = ret_val; *pointer; pointer = g_utf8_next_char (pointer)) {
+		if (!g_unichar_isalnum (g_utf8_get_char (pointer))) {
 			gchar *ptr = pointer;
-			for (; ptr < g_utf8_next_char(pointer); *ptr = '_', ptr++)
+			for (; ptr < g_utf8_next_char (pointer); *ptr = '_', ptr++)
 				;
 		}
 	}
@@ -124,11 +124,11 @@ gal_view_check_string (GalViewCollection *collection,
 		return FALSE;
 
 	for (i = 0; i < collection->view_count; i++) {
-		if (!strcmp(string, collection->view_data[i]->id))
+		if (!strcmp (string, collection->view_data[i]->id))
 			return FALSE;
 	}
 	for (i = 0; i < collection->removed_view_count; i++) {
-		if (!strcmp(string, collection->removed_view_data[i]->id))
+		if (!strcmp (string, collection->removed_view_data[i]->id))
 			return FALSE;
 	}
 	return TRUE;
@@ -142,17 +142,17 @@ gal_view_generate_id (GalViewCollection *collection,
 	for (i = 1; TRUE; i++) {
 		gchar *try;
 
-		try = gal_view_generate_string(collection, view, i);
-		if (gal_view_check_string(collection, try))
+		try = gal_view_generate_string (collection, view, i);
+		if (gal_view_check_string (collection, try))
 			return try;
-		g_free(try);
+		g_free (try);
 	}
 }
 
 static void
 gal_view_collection_dispose (GObject *object)
 {
-	GalViewCollection *collection = GAL_VIEW_COLLECTION(object);
+	GalViewCollection *collection = GAL_VIEW_COLLECTION (object);
 	gint i;
 
 	for (i = 0; i < collection->view_count; i++) {
@@ -171,14 +171,14 @@ gal_view_collection_dispose (GObject *object)
 	for (i = 0; i < collection->removed_view_count; i++) {
 		gal_view_collection_item_free (collection->removed_view_data[i]);
 	}
-	g_free(collection->removed_view_data);
+	g_free (collection->removed_view_data);
 	collection->removed_view_data  = NULL;
 	collection->removed_view_count = 0;
 
-	g_free(collection->system_dir);
+	g_free (collection->system_dir);
 	collection->system_dir = NULL;
 
-	g_free(collection->local_dir);
+	g_free (collection->local_dir);
 	collection->local_dir = NULL;
 
 	g_free (collection->default_view);
@@ -198,7 +198,7 @@ gal_view_collection_class_init (GalViewCollectionClass *klass)
 
 	object_class->dispose = gal_view_collection_dispose;
 
-	gal_view_collection_signals [DISPLAY_VIEW] =
+	gal_view_collection_signals[DISPLAY_VIEW] =
 		g_signal_new ("display_view",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -207,7 +207,7 @@ gal_view_collection_class_init (GalViewCollectionClass *klass)
 			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1, GAL_TYPE_VIEW);
 
-	gal_view_collection_signals [CHANGED] =
+	gal_view_collection_signals[CHANGED] =
 		g_signal_new ("changed",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -277,11 +277,11 @@ gal_view_collection_set_storage_directories  (GalViewCollection *collection,
 	g_return_if_fail (system_dir != NULL);
 	g_return_if_fail (local_dir != NULL);
 
-	g_free(collection->system_dir);
-	g_free(collection->local_dir);
+	g_free (collection->system_dir);
+	g_free (collection->local_dir);
 
-	collection->system_dir = g_strdup(system_dir);
-	collection->local_dir = g_strdup(local_dir);
+	collection->system_dir = g_strdup (system_dir);
+	collection->local_dir = g_strdup (local_dir);
 }
 
 /**
@@ -315,9 +315,9 @@ view_changed (GalView *view,
 	item->changed = TRUE;
 	item->ever_changed = TRUE;
 
-	g_signal_handler_block(G_OBJECT(item->view), item->view_changed_id);
-	gal_view_collection_changed(item->collection);
-	g_signal_handler_unblock(G_OBJECT(item->view), item->view_changed_id);
+	g_signal_handler_block (G_OBJECT (item->view), item->view_changed_id);
+	gal_view_collection_changed (item->collection);
+	g_signal_handler_unblock (G_OBJECT (item->view), item->view_changed_id);
 }
 
 /* Use factory list to load a GalView file. */
@@ -329,7 +329,7 @@ gal_view_collection_real_load_view_from_file (GalViewCollection *collection, con
 
 	factory = NULL;
 	for (factories = collection->factory_list; factories; factories = factories->next) {
-		if (type && !strcmp(gal_view_factory_get_type_code(factories->data), type)) {
+		if (type && !strcmp (gal_view_factory_get_type_code (factories->data), type)) {
 			factory = factories->data;
 			break;
 		}
@@ -339,7 +339,7 @@ gal_view_collection_real_load_view_from_file (GalViewCollection *collection, con
 
 		view = gal_view_factory_new_view (factory, title);
 		gal_view_set_title (view, title);
-		gal_view_load(view, filename);
+		gal_view_load (view, filename);
 		return view;
 	}
 	return NULL;
@@ -358,7 +358,7 @@ load_single_file (GalViewCollection *collection,
 		  xmlNode *node)
 {
 	GalViewCollectionItem *item;
-	item = g_new(GalViewCollectionItem, 1);
+	item = g_new (GalViewCollectionItem, 1);
 	item->ever_changed = local;
 	item->changed = FALSE;
 	item->built_in = !local;
@@ -371,13 +371,13 @@ load_single_file (GalViewCollection *collection,
 
 	if (item->filename) {
 		gchar *fullpath;
-		fullpath = g_build_filename(dir, item->filename, NULL);
+		fullpath = g_build_filename (dir, item->filename, NULL);
 		item->view = gal_view_collection_real_load_view_from_file (collection, item->type, item->title, dir, fullpath);
-		g_free(fullpath);
+		g_free (fullpath);
 		if (item->view) {
 			item->view_changed_id =
 				g_signal_connect(item->view, "changed",
-						 G_CALLBACK(view_changed), item);
+						 G_CALLBACK (view_changed), item);
 		}
 	}
 	return item;
@@ -409,7 +409,7 @@ load_single_dir (GalViewCollection *collection,
 		g_free (filename);
 		return;
 	}
-	root = xmlDocGetRootElement(doc);
+	root = xmlDocGetRootElement (doc);
 	for (child = root->xmlChildrenNode; child; child = child->next) {
 		gchar *id;
 		gboolean found = FALSE;
@@ -420,7 +420,7 @@ load_single_dir (GalViewCollection *collection,
 
 		id = e_xml_get_string_prop_by_name(child, (const guchar *)"id");
 		for (i = 0; i < collection->view_count; i++) {
-			if (!strcmp(id, collection->view_data[i]->id)) {
+			if (!strcmp (id, collection->view_data[i]->id)) {
 				if (!local)
 					collection->view_data[i]->built_in = TRUE;
 				found = TRUE;
@@ -429,7 +429,7 @@ load_single_dir (GalViewCollection *collection,
 		}
 		if (!found) {
 			for (i = 0; i < collection->removed_view_count; i++) {
-				if (!strcmp(id, collection->removed_view_data[i]->id)) {
+				if (!strcmp (id, collection->removed_view_data[i]->id)) {
 					if (!local)
 						collection->removed_view_data[i]->built_in = TRUE;
 					found = TRUE;
@@ -441,16 +441,16 @@ load_single_dir (GalViewCollection *collection,
 		if (!found) {
 			GalViewCollectionItem *item = load_single_file (collection, dir, local, child);
 			if (item->filename && *item->filename) {
-				collection->view_data = g_renew(GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
+				collection->view_data = g_renew (GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
 				collection->view_data[collection->view_count] = item;
 				collection->view_count++;
 			} else {
-				collection->removed_view_data = g_renew(GalViewCollectionItem *, collection->removed_view_data, collection->removed_view_count + 1);
+				collection->removed_view_data = g_renew (GalViewCollectionItem *, collection->removed_view_data, collection->removed_view_count + 1);
 				collection->removed_view_data[collection->removed_view_count] = item;
 				collection->removed_view_count++;
 			}
 		}
-		g_free(id);
+		g_free (id);
 	}
 
 	default_view = e_xml_get_string_prop_by_name (root, (const guchar *)"default-view");
@@ -463,8 +463,8 @@ load_single_dir (GalViewCollection *collection,
 		collection->default_view = default_view;
 	}
 
-	g_free(filename);
-	xmlFreeDoc(doc);
+	g_free (filename);
+	xmlFreeDoc (doc);
 }
 
 /**
@@ -487,9 +487,9 @@ gal_view_collection_load              (GalViewCollection *collection)
 	if ((g_mkdir_with_parents (collection->local_dir, 0777) == -1) && (errno != EEXIST))
 		g_warning ("Unable to create dir %s: %s", collection->local_dir, g_strerror(errno));
 
-	load_single_dir(collection, collection->local_dir, TRUE);
-	load_single_dir(collection, collection->system_dir, FALSE);
-	gal_view_collection_changed(collection);
+	load_single_dir (collection, collection->local_dir, TRUE);
+	load_single_dir (collection, collection->system_dir, FALSE);
+	gal_view_collection_changed (collection);
 
 	collection->loaded = TRUE;
 }
@@ -516,7 +516,7 @@ gal_view_collection_save              (GalViewCollection *collection)
 
 	doc = xmlNewDoc((const guchar *)"1.0");
 	root = xmlNewNode(NULL, (const guchar *)"GalViewCollection");
-	xmlDocSetRootElement(doc, root);
+	xmlDocSetRootElement (doc, root);
 
 	if (collection->default_view && !collection->default_view_built_in) {
 		e_xml_set_string_prop_by_name(root, (const guchar *)"default-view", collection->default_view);
@@ -535,9 +535,9 @@ gal_view_collection_save              (GalViewCollection *collection)
 			e_xml_set_string_prop_by_name(child, (const guchar *)"type", item->type);
 
 			if (item->changed) {
-				filename = g_build_filename(collection->local_dir, item->filename, NULL);
-				gal_view_save(item->view, filename);
-				g_free(filename);
+				filename = g_build_filename (collection->local_dir, item->filename, NULL);
+				gal_view_save (item->view, filename);
+				g_free (filename);
 			}
 		}
 	}
@@ -555,8 +555,8 @@ gal_view_collection_save              (GalViewCollection *collection)
 	filename = g_build_filename(collection->local_dir, "galview.xml", NULL);
 	if (e_xml_save_file (filename, doc) == -1)
 		g_warning ("Unable to save view to %s - %s", filename, g_strerror(errno));
-	xmlFreeDoc(doc);
-	g_free(filename);
+	xmlFreeDoc (doc);
+	g_free (filename);
 }
 
 /**
@@ -608,8 +608,8 @@ gal_view_collection_get_view_item (GalViewCollection *collection,
 {
 	g_return_val_if_fail (collection != NULL, NULL);
 	g_return_val_if_fail (GAL_IS_VIEW_COLLECTION (collection), NULL);
-	g_return_val_if_fail(n < collection->view_count, NULL);
-	g_return_val_if_fail(n >= 0, NULL);
+	g_return_val_if_fail (n < collection->view_count, NULL);
+	g_return_val_if_fail (n >= 0, NULL);
 
 	return collection->view_data[n];
 }
@@ -630,8 +630,8 @@ gal_view_collection_get_view_id_by_index (GalViewCollection *collection, gint n)
 {
 	g_return_val_if_fail (collection != NULL, NULL);
 	g_return_val_if_fail (GAL_IS_VIEW_COLLECTION (collection), NULL);
-	g_return_val_if_fail(n < collection->view_count, NULL);
-	g_return_val_if_fail(n >= 0, NULL);
+	g_return_val_if_fail (n < collection->view_count, NULL);
+	g_return_val_if_fail (n >= 0, NULL);
 
 	return g_strdup (collection->view_data[n]->id);
 }
@@ -647,27 +647,27 @@ gal_view_collection_append                   (GalViewCollection *collection,
 	g_return_if_fail (view != NULL);
 	g_return_if_fail (GAL_IS_VIEW (view));
 
-	item = g_new(GalViewCollectionItem, 1);
+	item = g_new (GalViewCollectionItem, 1);
 	item->ever_changed = TRUE;
 	item->changed = TRUE;
 	item->built_in = FALSE;
-	item->title = g_strdup(gal_view_get_title(view));
-	item->type = g_strdup(gal_view_get_type_code(view));
-	item->id = gal_view_generate_id(collection, view);
+	item->title = g_strdup (gal_view_get_title (view));
+	item->type = g_strdup (gal_view_get_type_code (view));
+	item->id = gal_view_generate_id (collection, view);
 	item->filename = g_strdup_printf("%s.galview", item->id);
 	item->view = view;
 	item->collection = collection;
-	g_object_ref(view);
+	g_object_ref (view);
 
 	item->view_changed_id =
 		g_signal_connect(item->view, "changed",
 				 G_CALLBACK (view_changed), item);
 
-	collection->view_data = g_renew(GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
+	collection->view_data = g_renew (GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
 	collection->view_data[collection->view_count] = item;
 	collection->view_count++;
 
-	gal_view_collection_changed(collection);
+	gal_view_collection_changed (collection);
 }
 
 void
@@ -681,20 +681,20 @@ gal_view_collection_delete_view              (GalViewCollection *collection,
 	g_return_if_fail (i >= 0 && i < collection->view_count);
 
 	item = collection->view_data[i];
-	memmove(collection->view_data + i, collection->view_data + i + 1, (collection->view_count - i - 1) * sizeof(GalViewCollectionItem *));
+	memmove (collection->view_data + i, collection->view_data + i + 1, (collection->view_count - i - 1) * sizeof (GalViewCollectionItem *));
 	collection->view_count--;
 	if (item->built_in) {
-		g_free(item->filename);
+		g_free (item->filename);
 		item->filename = NULL;
 
-		collection->removed_view_data = g_renew(GalViewCollectionItem *, collection->removed_view_data, collection->removed_view_count + 1);
+		collection->removed_view_data = g_renew (GalViewCollectionItem *, collection->removed_view_data, collection->removed_view_count + 1);
 		collection->removed_view_data[collection->removed_view_count] = item;
 		collection->removed_view_count++;
 	} else {
 		gal_view_collection_item_free (item);
 	}
 
-	gal_view_collection_changed(collection);
+	gal_view_collection_changed (collection);
 }
 
 void
@@ -710,26 +710,26 @@ gal_view_collection_copy_view                (GalViewCollection *collection,
 
 	view = collection->view_data[i]->view;
 
-	item = g_new(GalViewCollectionItem, 1);
+	item = g_new (GalViewCollectionItem, 1);
 	item->ever_changed = TRUE;
 	item->changed = FALSE;
 	item->built_in = FALSE;
-	item->title = g_strdup(gal_view_get_title(view));
-	item->type = g_strdup(gal_view_get_type_code(view));
-	item->id = gal_view_generate_id(collection, view);
+	item->title = g_strdup (gal_view_get_title (view));
+	item->type = g_strdup (gal_view_get_type_code (view));
+	item->id = gal_view_generate_id (collection, view);
 	item->filename = g_strdup_printf("%s.galview", item->id);
-	item->view = gal_view_clone(view);
+	item->view = gal_view_clone (view);
 	item->collection = collection;
 
 	item->view_changed_id =
 		g_signal_connect(item->view, "changed",
 				 G_CALLBACK (view_changed), item);
 
-	collection->view_data = g_renew(GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
+	collection->view_data = g_renew (GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
 	collection->view_data[collection->view_count] = item;
 	collection->view_count++;
 
-	gal_view_collection_changed(collection);
+	gal_view_collection_changed (collection);
 }
 
 gboolean
@@ -752,27 +752,27 @@ gal_view_collection_append_with_title (GalViewCollection *collection, const gcha
 
 	d(g_print("%s: %p\n", G_STRFUNC, view));
 
-	item = g_new(GalViewCollectionItem, 1);
+	item = g_new (GalViewCollectionItem, 1);
 	item->ever_changed = TRUE;
 	item->changed = TRUE;
 	item->built_in = FALSE;
-	item->title = g_strdup(gal_view_get_title(view));
-	item->type = g_strdup(gal_view_get_type_code(view));
-	item->id = gal_view_generate_id(collection, view);
+	item->title = g_strdup (gal_view_get_title (view));
+	item->type = g_strdup (gal_view_get_type_code (view));
+	item->id = gal_view_generate_id (collection, view);
 	item->filename = g_strdup_printf("%s.galview", item->id);
 	item->view = view;
 	item->collection = collection;
-	g_object_ref(view);
+	g_object_ref (view);
 
 	item->view_changed_id =
 		g_signal_connect(item->view, "changed",
 				 G_CALLBACK (view_changed), item);
 
-	collection->view_data = g_renew(GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
+	collection->view_data = g_renew (GalViewCollectionItem *, collection->view_data, collection->view_count + 1);
 	collection->view_data[collection->view_count] = item;
 	collection->view_count++;
 
-	gal_view_collection_changed(collection);
+	gal_view_collection_changed (collection);
 	return item->id;
 }
 
@@ -803,7 +803,7 @@ gal_view_collection_set_nth_view (GalViewCollection *collection, gint i, GalView
 
 	item->ever_changed = TRUE;
 	item->changed = TRUE;
-	item->type = g_strdup(gal_view_get_type_code(view));
+	item->type = g_strdup (gal_view_get_type_code (view));
 
 	item->view_changed_id =
 		g_signal_connect(item->view, "changed",

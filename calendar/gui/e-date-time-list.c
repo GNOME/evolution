@@ -33,7 +33,7 @@
 #define IS_VALID_ITER(dt_list, iter)     (iter!= NULL && iter->user_data != NULL && \
                                           dt_list->stamp == iter->stamp)
 
-static GType column_types [E_DATE_TIME_LIST_NUM_COLUMNS];
+static GType column_types[E_DATE_TIME_LIST_NUM_COLUMNS];
 
 static void         e_date_time_list_init            (EDateTimeList      *file_list);
 static void         e_date_time_list_class_init      (EDateTimeListClass *class);
@@ -97,7 +97,7 @@ e_date_time_list_get_type (void)
 			NULL
 		};
 
-		column_types [E_DATE_TIME_LIST_COLUMN_DESCRIPTION] = G_TYPE_STRING;
+		column_types[E_DATE_TIME_LIST_COLUMN_DESCRIPTION] = G_TYPE_STRING;
 
 		date_time_list_type = g_type_register_static (G_TYPE_OBJECT, "EDateTimeList",
 							      &date_time_list_info, 0);
@@ -255,7 +255,7 @@ e_date_time_list_get_column_type (GtkTreeModel *tree_model,
 			      index >= 0, G_TYPE_INVALID);
 
 	date_time_list->columns_dirty = TRUE;
-	return column_types [index];
+	return column_types[index];
 }
 
 const ECalComponentDateTime *
@@ -401,7 +401,7 @@ e_date_time_list_get_path (GtkTreeModel *tree_model,
 static gchar *
 get_exception_string (ECalComponentDateTime *dt)
 {
-	static gchar buf [256];
+	static gchar buf[256];
 	struct tm tmp_tm;
 
 	tmp_tm.tm_year  = dt->value->year - 1900;
@@ -438,7 +438,7 @@ e_date_time_list_get_value (GtkTreeModel *tree_model,
 	g_return_if_fail (E_DATE_TIME_LIST (tree_model)->stamp == iter->stamp);
 	g_return_if_fail (IS_VALID_ITER (date_time_list, iter));
 
-	g_value_init (value, column_types [column]);
+	g_value_init (value, column_types[column]);
 
 	if (!date_time_list->list)
 		return;

@@ -122,8 +122,8 @@ e_table_memory_new (void)
 gpointer
 e_table_memory_get_data (ETableMemory *etmm, gint row)
 {
-	g_return_val_if_fail(row >= 0, NULL);
-	g_return_val_if_fail(row < etmm->priv->num_rows, NULL);
+	g_return_val_if_fail (row >= 0, NULL);
+	g_return_val_if_fail (row < etmm->priv->num_rows, NULL);
 
 	return etmm->priv->data[row];
 }
@@ -139,8 +139,8 @@ e_table_memory_get_data (ETableMemory *etmm, gint row)
 void
 e_table_memory_set_data (ETableMemory *etmm, gint row, gpointer data)
 {
-	g_return_if_fail(row >= 0);
-	g_return_if_fail(row < etmm->priv->num_rows);
+	g_return_if_fail (row >= 0);
+	g_return_if_fail (row < etmm->priv->num_rows);
 
 	etmm->priv->data[row] = data;
 }
@@ -161,15 +161,15 @@ e_table_memory_insert (ETableMemory *etmm,
 		       gint row,
 		       gpointer data)
 {
-	g_return_if_fail(row >= -1);
-	g_return_if_fail(row <= etmm->priv->num_rows);
+	g_return_if_fail (row >= -1);
+	g_return_if_fail (row <= etmm->priv->num_rows);
 
 	if (!etmm->priv->frozen)
-		e_table_model_pre_change(E_TABLE_MODEL(etmm));
+		e_table_model_pre_change (E_TABLE_MODEL (etmm));
 
 	if (row == -1)
 		row = etmm->priv->num_rows;
-	etmm->priv->data = g_renew(gpointer, etmm->priv->data, etmm->priv->num_rows + 1);
+	etmm->priv->data = g_renew (gpointer, etmm->priv->data, etmm->priv->num_rows + 1);
 	memmove (
 		etmm->priv->data + row + 1,
 		etmm->priv->data + row,
@@ -177,7 +177,7 @@ e_table_memory_insert (ETableMemory *etmm,
 	etmm->priv->data[row] = data;
 	etmm->priv->num_rows++;
 	if (!etmm->priv->frozen)
-		e_table_model_row_inserted(E_TABLE_MODEL(etmm), row);
+		e_table_model_row_inserted (E_TABLE_MODEL (etmm), row);
 }
 
 
@@ -196,11 +196,11 @@ e_table_memory_remove (ETableMemory *etmm, gint row)
 {
 	gpointer ret;
 
-	g_return_val_if_fail(row >= 0, NULL);
-	g_return_val_if_fail(row < etmm->priv->num_rows, NULL);
+	g_return_val_if_fail (row >= 0, NULL);
+	g_return_val_if_fail (row < etmm->priv->num_rows, NULL);
 
 	if (!etmm->priv->frozen)
-		e_table_model_pre_change(E_TABLE_MODEL(etmm));
+		e_table_model_pre_change (E_TABLE_MODEL (etmm));
 	ret = etmm->priv->data[row];
 	memmove (
 		etmm->priv->data + row,
@@ -208,7 +208,7 @@ e_table_memory_remove (ETableMemory *etmm, gint row)
 		(etmm->priv->num_rows - row - 1) * sizeof (gpointer));
 	etmm->priv->num_rows--;
 	if (!etmm->priv->frozen)
-		e_table_model_row_deleted(E_TABLE_MODEL(etmm), row);
+		e_table_model_row_deleted (E_TABLE_MODEL (etmm), row);
 	return ret;
 }
 
@@ -225,12 +225,12 @@ void
 e_table_memory_clear (ETableMemory *etmm)
 {
 	if (!etmm->priv->frozen)
-		e_table_model_pre_change(E_TABLE_MODEL(etmm));
-	g_free(etmm->priv->data);
+		e_table_model_pre_change (E_TABLE_MODEL (etmm));
+	g_free (etmm->priv->data);
 	etmm->priv->data = NULL;
 	etmm->priv->num_rows = 0;
 	if (!etmm->priv->frozen)
-		e_table_model_changed(E_TABLE_MODEL(etmm));
+		e_table_model_changed (E_TABLE_MODEL (etmm));
 }
 
 /**
@@ -243,12 +243,12 @@ e_table_memory_clear (ETableMemory *etmm)
  *
  **/
 void
-e_table_memory_freeze(ETableMemory *etmm)
+e_table_memory_freeze (ETableMemory *etmm)
 {
 	ETableMemoryPriv *priv = etmm->priv;
 
 	if (priv->frozen == 0)
-		e_table_model_pre_change(E_TABLE_MODEL(etmm));
+		e_table_model_pre_change (E_TABLE_MODEL (etmm));
 
 	priv->frozen++;
 }
@@ -263,13 +263,13 @@ e_table_memory_freeze(ETableMemory *etmm)
  *
  **/
 void
-e_table_memory_thaw(ETableMemory *etmm)
+e_table_memory_thaw (ETableMemory *etmm)
 {
 	ETableMemoryPriv *priv = etmm->priv;
 
 	if (priv->frozen > 0)
 		priv->frozen--;
 	if (priv->frozen == 0) {
-		e_table_model_changed(E_TABLE_MODEL(etmm));
+		e_table_model_changed (E_TABLE_MODEL (etmm));
 	}
 }

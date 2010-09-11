@@ -275,7 +275,7 @@ get_iter (GtkTreeModel *model, GtkTreeIter *iter, GtkTreePath *path)
 	g_return_val_if_fail (E_IS_MEETING_STORE (model), FALSE);
 	g_return_val_if_fail (gtk_tree_path_get_depth (path) > 0, FALSE);
 
-	row = gtk_tree_path_get_indices (path) [0];
+	row = gtk_tree_path_get_indices (path)[0];
 
 	if (!ROW_VALID (E_MEETING_STORE (model), row))
 	       return FALSE;

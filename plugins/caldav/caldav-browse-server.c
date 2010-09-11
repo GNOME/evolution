@@ -271,18 +271,18 @@ add_collection_node_to_tree (GtkTreeStore *store, GtkTreeIter *parent_iter, cons
 		/* pick the last non-empty path part */
 		gint idx = 0;
 
-		while (tmp [idx]) {
+		while (tmp[idx]) {
 			idx++;
 		}
 
 		idx--;
 
-		while (idx >= 0 && !tmp [idx][0]) {
+		while (idx >= 0 && !tmp[idx][0]) {
 			idx--;
 		}
 
 		if (idx >= 0)
-			path = tmp [idx];
+			path = tmp[idx];
 	}
 
 	displayname = soup_uri_decode (path);

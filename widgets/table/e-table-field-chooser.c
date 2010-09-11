@@ -99,36 +99,36 @@ ensure_nonzero_step_increments (ETableFieldChooser *etfc)
 		gtk_adjustment_set_step_increment (ha, 16.0);
 }
 
-static void allocate_callback(GtkWidget *canvas, GtkAllocation *allocation, ETableFieldChooser *etfc)
+static void allocate_callback (GtkWidget *canvas, GtkAllocation *allocation, ETableFieldChooser *etfc)
 {
 	gdouble height;
 	etfc->last_alloc = *allocation;
-	gnome_canvas_item_set( etfc->item,
+	gnome_canvas_item_set ( etfc->item,
 			       "width", (gdouble) allocation->width,
 			       NULL );
-	g_object_get(etfc->item,
+	g_object_get (etfc->item,
 		     "height", &height,
 		     NULL);
-	height = MAX(height, allocation->height);
-	gnome_canvas_set_scroll_region(GNOME_CANVAS( etfc->canvas ), 0, 0, allocation->width - 1, height - 1);
-	gnome_canvas_item_set( etfc->rect,
+	height = MAX (height, allocation->height);
+	gnome_canvas_set_scroll_region (GNOME_CANVAS ( etfc->canvas ), 0, 0, allocation->width - 1, height - 1);
+	gnome_canvas_item_set ( etfc->rect,
 			       "x2", (gdouble) allocation->width,
 			       "y2", (gdouble) height,
 			       NULL );
 	ensure_nonzero_step_increments (etfc);
 }
 
-static void resize(GnomeCanvas *canvas, ETableFieldChooser *etfc)
+static void resize (GnomeCanvas *canvas, ETableFieldChooser *etfc)
 {
 	gdouble height;
-	g_object_get(etfc->item,
+	g_object_get (etfc->item,
 		     "height", &height,
 		     NULL);
 
-	height = MAX(height, etfc->last_alloc.height);
+	height = MAX (height, etfc->last_alloc.height);
 
-	gnome_canvas_set_scroll_region (GNOME_CANVAS(etfc->canvas), 0, 0, etfc->last_alloc.width - 1, height - 1);
-	gnome_canvas_item_set( etfc->rect,
+	gnome_canvas_set_scroll_region (GNOME_CANVAS (etfc->canvas), 0, 0, etfc->last_alloc.width - 1, height - 1);
+	gnome_canvas_item_set ( etfc->rect,
 			       "x2", (gdouble) etfc->last_alloc.width,
 			       "y2", (gdouble) height,
 			       NULL );
@@ -185,8 +185,8 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 
 	gtk_widget_push_colormap (gdk_rgb_get_colormap ());
 
-	etfc->rect = gnome_canvas_item_new(gnome_canvas_root( GNOME_CANVAS( etfc->canvas ) ),
-					   gnome_canvas_rect_get_type(),
+	etfc->rect = gnome_canvas_item_new (gnome_canvas_root ( GNOME_CANVAS ( etfc->canvas ) ),
+					   gnome_canvas_rect_get_type (),
 					   "x1", (gdouble) 0,
 					   "y1", (gdouble) 0,
 					   "x2", (gdouble) 100,
@@ -194,8 +194,8 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 					   "fill_color", "white",
 					   NULL );
 
-	etfc->item = gnome_canvas_item_new(gnome_canvas_root(etfc->canvas),
-					   e_table_field_chooser_item_get_type(),
+	etfc->item = gnome_canvas_item_new (gnome_canvas_root (etfc->canvas),
+					   e_table_field_chooser_item_get_type (),
 					   "width", (gdouble) 100,
 					   "full_header", etfc->full_header,
 					   "header", etfc->header,
@@ -206,7 +206,7 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 			  G_CALLBACK ( resize ),
 			  etfc);
 
-	gnome_canvas_set_scroll_region ( GNOME_CANVAS( etfc->canvas ),
+	gnome_canvas_set_scroll_region ( GNOME_CANVAS ( etfc->canvas ),
 					 0, 0,
 					 100, 100 );
 
@@ -216,13 +216,13 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 			  etfc);
 
 	gtk_widget_pop_colormap ();
-	gtk_widget_show_all(widget);
+	gtk_widget_show_all (widget);
 }
 
 static void
 e_table_field_chooser_dispose (GObject *object)
 {
-	ETableFieldChooser *etfc = E_TABLE_FIELD_CHOOSER(object);
+	ETableFieldChooser *etfc = E_TABLE_FIELD_CHOOSER (object);
 
 	g_free (etfc->dnd_code);
 	etfc->dnd_code = NULL;
@@ -249,14 +249,14 @@ e_table_field_chooser_new (void)
 static void
 e_table_field_chooser_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
-	ETableFieldChooser *etfc = E_TABLE_FIELD_CHOOSER(object);
+	ETableFieldChooser *etfc = E_TABLE_FIELD_CHOOSER (object);
 
 	switch (prop_id) {
 	case PROP_DND_CODE:
-		g_free(etfc->dnd_code);
-		etfc->dnd_code = g_strdup(g_value_get_string(value));
+		g_free (etfc->dnd_code);
+		etfc->dnd_code = g_strdup (g_value_get_string (value));
 		if (etfc->item)
-			g_object_set(etfc->item,
+			g_object_set (etfc->item,
 				     "dnd_code", etfc->dnd_code,
 				     NULL);
 		break;
@@ -264,13 +264,13 @@ e_table_field_chooser_set_property (GObject *object, guint prop_id, const GValue
 		if (etfc->full_header)
 			g_object_unref (etfc->full_header);
 		if (g_value_get_object (value))
-			etfc->full_header = E_TABLE_HEADER(g_value_get_object (value));
+			etfc->full_header = E_TABLE_HEADER (g_value_get_object (value));
 		else
 			etfc->full_header = NULL;
 		if (etfc->full_header)
 			g_object_ref (etfc->full_header);
 		if (etfc->item)
-			g_object_set(etfc->item,
+			g_object_set (etfc->item,
 				     "full_header", etfc->full_header,
 				     NULL);
 		break;
@@ -278,13 +278,13 @@ e_table_field_chooser_set_property (GObject *object, guint prop_id, const GValue
 		if (etfc->header)
 			g_object_unref (etfc->header);
 		if (g_value_get_object (value))
-			etfc->header = E_TABLE_HEADER(g_value_get_object (value));
+			etfc->header = E_TABLE_HEADER (g_value_get_object (value));
 		else
 			etfc->header = NULL;
 		if (etfc->header)
 			g_object_ref (etfc->header);
 		if (etfc->item)
-			g_object_set(etfc->item,
+			g_object_set (etfc->item,
 				     "header", etfc->header,
 				     NULL);
 		break;
@@ -296,7 +296,7 @@ e_table_field_chooser_set_property (GObject *object, guint prop_id, const GValue
 static void
 e_table_field_chooser_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
-	ETableFieldChooser *etfc = E_TABLE_FIELD_CHOOSER(object);
+	ETableFieldChooser *etfc = E_TABLE_FIELD_CHOOSER (object);
 
 	switch (prop_id) {
 	case PROP_DND_CODE:

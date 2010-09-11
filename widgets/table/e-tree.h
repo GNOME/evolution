@@ -309,9 +309,9 @@ gboolean        e_tree_find_next                  (ETree                *et,
 /* This function is only needed in single_selection_mode. */
 void            e_tree_right_click_up             (ETree                *et);
 
-ETableItem *	e_tree_get_item(ETree * et);
+ETableItem *	e_tree_get_item (ETree * et);
 
-GnomeCanvasItem * e_tree_get_header_item(ETree * et);
+GnomeCanvasItem * e_tree_get_header_item (ETree * et);
 
 void e_tree_set_info_message (ETree *tree, const gchar *info_message);
 

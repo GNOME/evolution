@@ -39,7 +39,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint e_table_sort_info_signals [LAST_SIGNAL] = { 0, };
+static guint e_table_sort_info_signals[LAST_SIGNAL] = { 0, };
 
 static void
 etsi_finalize (GObject *object)
@@ -47,11 +47,11 @@ etsi_finalize (GObject *object)
 	ETableSortInfo *etsi = E_TABLE_SORT_INFO (object);
 
 	if (etsi->groupings)
-		g_free(etsi->groupings);
+		g_free (etsi->groupings);
 	etsi->groupings = NULL;
 
 	if (etsi->sortings)
-		g_free(etsi->sortings);
+		g_free (etsi->sortings);
 	etsi->sortings = NULL;
 
 	G_OBJECT_CLASS (e_table_sort_info_parent_class)->finalize (object);
@@ -79,7 +79,7 @@ e_table_sort_info_class_init (ETableSortInfoClass *klass)
 
 	object_class->finalize = etsi_finalize;
 
-	e_table_sort_info_signals [SORT_INFO_CHANGED] =
+	e_table_sort_info_signals[SORT_INFO_CHANGED] =
 		g_signal_new ("sort_info_changed",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -88,7 +88,7 @@ e_table_sort_info_class_init (ETableSortInfoClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	e_table_sort_info_signals [GROUP_INFO_CHANGED] =
+	e_table_sort_info_signals[GROUP_INFO_CHANGED] =
 		g_signal_new ("group_info_changed",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -110,7 +110,7 @@ e_table_sort_info_sort_info_changed (ETableSortInfo *info)
 	if (info->frozen) {
 		info->sort_info_changed = 1;
 	} else {
-		g_signal_emit (G_OBJECT (info), e_table_sort_info_signals [SORT_INFO_CHANGED], 0);
+		g_signal_emit (G_OBJECT (info), e_table_sort_info_signals[SORT_INFO_CHANGED], 0);
 	}
 }
 
@@ -123,7 +123,7 @@ e_table_sort_info_group_info_changed (ETableSortInfo *info)
 	if (info->frozen) {
 		info->group_info_changed = 1;
 	} else {
-		g_signal_emit (G_OBJECT (info), e_table_sort_info_signals [GROUP_INFO_CHANGED], 0);
+		g_signal_emit (G_OBJECT (info), e_table_sort_info_signals[GROUP_INFO_CHANGED], 0);
 	}
 }
 
@@ -164,11 +164,11 @@ e_table_sort_info_thaw               (ETableSortInfo *info)
 
 	if (info->sort_info_changed) {
 		info->sort_info_changed = 0;
-		e_table_sort_info_sort_info_changed(info);
+		e_table_sort_info_sort_info_changed (info);
 	}
 	if (info->group_info_changed) {
 		info->group_info_changed = 0;
-		e_table_sort_info_group_info_changed(info);
+		e_table_sort_info_group_info_changed (info);
 	}
 }
 
@@ -194,7 +194,7 @@ e_table_sort_info_grouping_real_truncate  (ETableSortInfo *info, gint length)
 		info->group_count = length;
 	}
 	if (length > info->group_count) {
-		info->groupings = g_realloc(info->groupings, length * sizeof(ETableSortColumn));
+		info->groupings = g_realloc (info->groupings, length * sizeof (ETableSortColumn));
 		info->group_count = length;
 	}
 }
@@ -210,8 +210,8 @@ e_table_sort_info_grouping_real_truncate  (ETableSortInfo *info, gint length)
 void
 e_table_sort_info_grouping_truncate  (ETableSortInfo *info, gint length)
 {
-	e_table_sort_info_grouping_real_truncate(info, length);
-	e_table_sort_info_group_info_changed(info);
+	e_table_sort_info_grouping_real_truncate (info, length);
+	e_table_sort_info_group_info_changed (info);
 }
 
 /**
@@ -245,10 +245,10 @@ void
 e_table_sort_info_grouping_set_nth   (ETableSortInfo *info, gint n, ETableSortColumn column)
 {
 	if (n >= info->group_count) {
-		e_table_sort_info_grouping_real_truncate(info, n + 1);
+		e_table_sort_info_grouping_real_truncate (info, n + 1);
 	}
 	info->groupings[n] = column;
-	e_table_sort_info_group_info_changed(info);
+	e_table_sort_info_group_info_changed (info);
 }
 
 /**
@@ -270,7 +270,7 @@ e_table_sort_info_sorting_real_truncate  (ETableSortInfo *info, gint length)
 		info->sort_count = length;
 	}
 	if (length > info->sort_count) {
-		info->sortings = g_realloc(info->sortings, length * sizeof(ETableSortColumn));
+		info->sortings = g_realloc (info->sortings, length * sizeof (ETableSortColumn));
 		info->sort_count = length;
 	}
 }
@@ -287,7 +287,7 @@ void
 e_table_sort_info_sorting_truncate  (ETableSortInfo *info, gint length)
 {
 	e_table_sort_info_sorting_real_truncate  (info, length);
-	e_table_sort_info_sort_info_changed(info);
+	e_table_sort_info_sort_info_changed (info);
 }
 
 /**
@@ -321,10 +321,10 @@ void
 e_table_sort_info_sorting_set_nth   (ETableSortInfo *info, gint n, ETableSortColumn column)
 {
 	if (n >= info->sort_count) {
-		e_table_sort_info_sorting_real_truncate(info, n + 1);
+		e_table_sort_info_sorting_real_truncate (info, n + 1);
 	}
 	info->sortings[n] = column;
-	e_table_sort_info_sort_info_changed(info);
+	e_table_sort_info_sort_info_changed (info);
 }
 
 /**
@@ -366,14 +366,14 @@ e_table_sort_info_load_from_node (ETableSortInfo *info,
 			ETableSortColumn column;
 			column.column = e_xml_get_integer_prop_by_name (grouping, (const guchar *)"column");
 			column.ascending = e_xml_get_bool_prop_by_name (grouping, (const guchar *)"ascending");
-			e_table_sort_info_grouping_set_nth(info, i++, column);
+			e_table_sort_info_grouping_set_nth (info, i++, column);
 		}
 		i = 0;
 		for (; grouping && !strcmp ((gchar *)grouping->name, "leaf"); grouping = grouping->xmlChildrenNode) {
 			ETableSortColumn column;
 			column.column = e_xml_get_integer_prop_by_name (grouping, (const guchar *)"column");
 			column.ascending = e_xml_get_bool_prop_by_name (grouping, (const guchar *)"ascending");
-			e_table_sort_info_sorting_set_nth(info, i++, column);
+			e_table_sort_info_sorting_set_nth (info, i++, column);
 		}
 	} else {
 		gint gcnt = 0;
@@ -387,15 +387,15 @@ e_table_sort_info_load_from_node (ETableSortInfo *info,
 			if (!strcmp ((gchar *)grouping->name, "group")) {
 				column.column = e_xml_get_integer_prop_by_name (grouping, (const guchar *)"column");
 				column.ascending = e_xml_get_bool_prop_by_name (grouping, (const guchar *)"ascending");
-				e_table_sort_info_grouping_set_nth(info, gcnt++, column);
+				e_table_sort_info_grouping_set_nth (info, gcnt++, column);
 			} else if (!strcmp ((gchar *)grouping->name, "leaf")) {
 				column.column = e_xml_get_integer_prop_by_name (grouping, (const guchar *)"column");
 				column.ascending = e_xml_get_bool_prop_by_name (grouping, (const guchar *)"ascending");
-				e_table_sort_info_sorting_set_nth(info, scnt++, column);
+				e_table_sort_info_sorting_set_nth (info, scnt++, column);
 			}
 		}
 	}
-	g_signal_emit (G_OBJECT (info), e_table_sort_info_signals [SORT_INFO_CHANGED], 0);
+	g_signal_emit (G_OBJECT (info), e_table_sort_info_signals[SORT_INFO_CHANGED], 0);
 }
 
 /**
@@ -420,7 +420,7 @@ e_table_sort_info_save_to_node (ETableSortInfo *info,
 	grouping = xmlNewChild (parent, NULL, (const guchar *)"grouping", NULL);
 
 	for (i = 0; i < group_count; i++) {
-		ETableSortColumn column = e_table_sort_info_grouping_get_nth(info, i);
+		ETableSortColumn column = e_table_sort_info_grouping_get_nth (info, i);
 		xmlNode *new_node = xmlNewChild(grouping, NULL, (const guchar *)"group", NULL);
 
 		e_xml_set_integer_prop_by_name (new_node, (const guchar *)"column", column.column);
@@ -428,7 +428,7 @@ e_table_sort_info_save_to_node (ETableSortInfo *info,
 	}
 
 	for (i = 0; i < sort_count; i++) {
-		ETableSortColumn column = e_table_sort_info_sorting_get_nth(info, i);
+		ETableSortColumn column = e_table_sort_info_sorting_get_nth (info, i);
 		xmlNode *new_node = xmlNewChild(grouping, NULL, (const guchar *)"leaf", NULL);
 
 		e_xml_set_integer_prop_by_name (new_node, (const guchar *)"column", column.column);
@@ -443,15 +443,15 @@ e_table_sort_info_duplicate (ETableSortInfo *info)
 {
 	ETableSortInfo *new_info;
 
-	new_info = e_table_sort_info_new();
+	new_info = e_table_sort_info_new ();
 
 	new_info->group_count = info->group_count;
-	new_info->groupings = g_new(ETableSortColumn, new_info->group_count);
-	memmove(new_info->groupings, info->groupings, sizeof (ETableSortColumn) * new_info->group_count);
+	new_info->groupings = g_new (ETableSortColumn, new_info->group_count);
+	memmove (new_info->groupings, info->groupings, sizeof (ETableSortColumn) * new_info->group_count);
 
 	new_info->sort_count = info->sort_count;
-	new_info->sortings = g_new(ETableSortColumn, new_info->sort_count);
-	memmove(new_info->sortings, info->sortings, sizeof (ETableSortColumn) * new_info->sort_count);
+	new_info->sortings = g_new (ETableSortColumn, new_info->sort_count);
+	memmove (new_info->sortings, info->sortings, sizeof (ETableSortColumn) * new_info->sort_count);
 
 	new_info->can_group = info->can_group;
 

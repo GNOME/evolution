@@ -393,9 +393,9 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 	if (specification->columns) {
 		gint i;
 
-		for (i = 0; specification->columns [i]; i++)
+		for (i = 0; specification->columns[i]; i++)
 			e_table_column_specification_save_to_node (
-				specification->columns [i],
+				specification->columns[i],
 				node);
 	}
 

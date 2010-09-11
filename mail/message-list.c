@@ -236,7 +236,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint message_list_signals [LAST_SIGNAL] = {0, };
+static guint message_list_signals[LAST_SIGNAL] = {0, };
 
 static const gchar *status_icons[] = {
 	"mail-unread",
@@ -1449,7 +1449,7 @@ get_trimmed_subject (CamelMessageInfo *info)
 		if (mlist_len &&
 		    *subject == '[' &&
 		    !g_ascii_strncasecmp ((gchar *) subject + 1, mlist, mlist_len) &&
-		    subject [1 + mlist_len] == ']') {
+		    subject[1 + mlist_len] == ']') {
 			subject += 1 + mlist_len + 1;  /* jump over "[mailing-list]" */
 			found_mlist = TRUE;
 
@@ -1590,7 +1590,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		/* This is astonisngly poorly written code */
 
 		/* To add to the woes, what color to show when the user choose multiple labels ?
-		Don't say that I need to have the new labels [with subject] column visible always */
+		Don't say that I need to have the new labels[with subject] column visible always */
 
 		colour = camel_message_info_user_tag(msg_info, "color");
 		due_by = camel_message_info_user_tag(msg_info, "due-by");
@@ -4479,7 +4479,7 @@ regen_list_exec (struct _regen_list_msg *m)
 				looking_for = m->ml->ensure_uid;
 
 			for (i = 0; i < uids->len; i++) {
-				if (g_str_equal (looking_for, uids->pdata [i]))
+				if (g_str_equal (looking_for, uids->pdata[i]))
 					break;
 			}
 

@@ -42,7 +42,8 @@ ea_calendar_helpers_get_accessible_for (GnomeCanvasItem *canvas_item)
 	AtkObject *atk_obj = NULL;
 	GObject *g_obj;
 
-	g_return_val_if_fail ((E_IS_TEXT (canvas_item)) || (GNOME_IS_CANVAS_ITEM (canvas_item)), NULL);;
+	g_return_val_if_fail ((E_IS_TEXT (canvas_item)) ||
+		(GNOME_IS_CANVAS_ITEM (canvas_item)), NULL);
 
 	g_obj = G_OBJECT (canvas_item);
 	/* we cannot use atk_gobject_accessible_for_object here,
@@ -78,7 +79,8 @@ ea_calendar_helpers_get_cal_view_from (GnomeCanvasItem *canvas_item)
 	GtkWidget *view_widget = NULL;
 
 	g_return_val_if_fail (canvas_item, NULL);
-	g_return_val_if_fail ((E_IS_TEXT (canvas_item)) || (GNOME_IS_CANVAS_ITEM (canvas_item)), NULL);
+	g_return_val_if_fail ((E_IS_TEXT (canvas_item)) ||
+		(GNOME_IS_CANVAS_ITEM (canvas_item)), NULL);
 
 	/* canvas_item is the e_text for the event */
 	/* canvas_item->canvas is the ECanvas for day view */

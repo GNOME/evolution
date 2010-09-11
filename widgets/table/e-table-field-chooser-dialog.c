@@ -100,10 +100,10 @@ e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_choos
 
 	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
 
-	widget = e_table_field_chooser_new();
-	e_table_field_chooser_dialog->etfc = E_TABLE_FIELD_CHOOSER(widget);
+	widget = e_table_field_chooser_new ();
+	e_table_field_chooser_dialog->etfc = E_TABLE_FIELD_CHOOSER (widget);
 
-	g_object_set(widget,
+	g_object_set (widget,
 		     "dnd_code", e_table_field_chooser_dialog->dnd_code,
 		     "full_header", e_table_field_chooser_dialog->full_header,
 		     "header", e_table_field_chooser_dialog->header,
@@ -112,7 +112,7 @@ e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_choos
 	content_area = gtk_dialog_get_content_area (dialog);
 	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
 
-	gtk_widget_show (GTK_WIDGET(widget));
+	gtk_widget_show (GTK_WIDGET (widget));
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Add a Column"));
 }
@@ -147,13 +147,13 @@ e_table_field_chooser_dialog_dispose (GObject *object)
 static void
 e_table_field_chooser_dialog_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
-	ETableFieldChooserDialog *etfcd = E_TABLE_FIELD_CHOOSER_DIALOG(object);
+	ETableFieldChooserDialog *etfcd = E_TABLE_FIELD_CHOOSER_DIALOG (object);
 	switch (prop_id) {
 	case PROP_DND_CODE:
-		g_free(etfcd->dnd_code);
-		etfcd->dnd_code = g_strdup(g_value_get_string (value));
+		g_free (etfcd->dnd_code);
+		etfcd->dnd_code = g_strdup (g_value_get_string (value));
 		if (etfcd->etfc)
-			g_object_set(etfcd->etfc,
+			g_object_set (etfcd->etfc,
 				     "dnd_code", etfcd->dnd_code,
 				     NULL);
 		break;
@@ -161,13 +161,13 @@ e_table_field_chooser_dialog_set_property (GObject *object, guint prop_id, const
 		if (etfcd->full_header)
 			g_object_unref (etfcd->full_header);
 		if (g_value_get_object (value))
-			etfcd->full_header = E_TABLE_HEADER(g_value_get_object (value));
+			etfcd->full_header = E_TABLE_HEADER (g_value_get_object (value));
 		else
 			etfcd->full_header = NULL;
 		if (etfcd->full_header)
 			g_object_ref (etfcd->full_header);
 		if (etfcd->etfc)
-			g_object_set(etfcd->etfc,
+			g_object_set (etfcd->etfc,
 				     "full_header", etfcd->full_header,
 				     NULL);
 		break;
@@ -175,13 +175,13 @@ e_table_field_chooser_dialog_set_property (GObject *object, guint prop_id, const
 		if (etfcd->header)
 			g_object_unref (etfcd->header);
 		if (g_value_get_object (value))
-			etfcd->header = E_TABLE_HEADER(g_value_get_object (value));
+			etfcd->header = E_TABLE_HEADER (g_value_get_object (value));
 		else
 			etfcd->header = NULL;
 		if (etfcd->header)
 			g_object_ref (etfcd->header);
 		if (etfcd->etfc)
-			g_object_set(etfcd->etfc,
+			g_object_set (etfcd->etfc,
 				     "header", etfcd->header,
 				     NULL);
 		break;
@@ -193,7 +193,7 @@ e_table_field_chooser_dialog_set_property (GObject *object, guint prop_id, const
 static void
 e_table_field_chooser_dialog_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
-	ETableFieldChooserDialog *etfcd = E_TABLE_FIELD_CHOOSER_DIALOG(object);
+	ETableFieldChooserDialog *etfcd = E_TABLE_FIELD_CHOOSER_DIALOG (object);
 	switch (prop_id) {
 	case PROP_DND_CODE:
 		g_value_set_string (value, g_strdup (etfcd->dnd_code));

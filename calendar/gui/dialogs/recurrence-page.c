@@ -1055,7 +1055,7 @@ make_recur_month_num_combo (gint month_index)
 	/* Relation */
 	for (i = 0; i < G_N_ELEMENTS (options); i++) {
 		gtk_tree_store_append (store, &iter, NULL);
-		gtk_tree_store_set (store, &iter, 0, _(options [i]), 1, month_num_options_map [i], -1);
+		gtk_tree_store_set (store, &iter, 0, _(options[i]), 1, month_num_options_map[i], -1);
 	}
 
 	/* Current date */
@@ -1106,7 +1106,7 @@ make_recur_month_combobox (void)
 {
 	static const gchar *options[] = {
 		/* For Translator : 'day' is part of the sentence of the form 'appointment recurs/Every [x] month(s) on the [first] [day] [forever]'
-		   (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
+		   (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 		   the name of a week day (like 'Monday' or 'Friday') always follow. */
 		N_("day"),
 		N_("Monday"),

@@ -572,7 +572,7 @@ memo_table_query_tooltip (GtkWidget *widget,
 			&tmp_tm, use_24_hour_format,
 			FALSE, FALSE, buff, 1000);
 
-		if (buff [0]) {
+		if (buff[0]) {
 			/* Translators: This is followed by an event's start date/time */
 			g_string_append (tmp2, _("Start: "));
 			g_string_append (tmp2, buff);
@@ -588,7 +588,7 @@ memo_table_query_tooltip (GtkWidget *widget,
 			&tmp_tm, use_24_hour_format,
 			FALSE, FALSE, buff, 1000);
 
-		if (buff [0]) {
+		if (buff[0]) {
 			if (tmp2->len)
 				g_string_append (tmp2, "; ");
 

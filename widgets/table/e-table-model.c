@@ -34,7 +34,7 @@
 
 #define d(x)
 
-d(static gint depth = 0;)
+d (static gint depth = 0;)
 
 G_DEFINE_TYPE (ETableModel, e_table_model, G_TYPE_OBJECT)
 
@@ -50,7 +50,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint e_table_model_signals [LAST_SIGNAL] = { 0, };
+static guint e_table_model_signals[LAST_SIGNAL] = { 0, };
 
 /**
  * e_table_model_column_count:
@@ -216,7 +216,7 @@ e_table_model_get_save_id (ETableModel *e_table_model, gint row)
 }
 
 gboolean
-e_table_model_has_change_pending(ETableModel *e_table_model)
+e_table_model_has_change_pending (ETableModel *e_table_model)
 {
 	g_return_val_if_fail (e_table_model != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), FALSE);
@@ -277,7 +277,7 @@ e_table_model_class_init (ETableModelClass *klass)
 
 	object_class->finalize = e_table_model_finalize;
 
-	e_table_model_signals [MODEL_NO_CHANGE] =
+	e_table_model_signals[MODEL_NO_CHANGE] =
 		g_signal_new ("model_no_change",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -286,7 +286,7 @@ e_table_model_class_init (ETableModelClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	e_table_model_signals [MODEL_CHANGED] =
+	e_table_model_signals[MODEL_CHANGED] =
 		g_signal_new ("model_changed",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -295,7 +295,7 @@ e_table_model_class_init (ETableModelClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	e_table_model_signals [MODEL_PRE_CHANGE] =
+	e_table_model_signals[MODEL_PRE_CHANGE] =
 		g_signal_new ("model_pre_change",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -304,7 +304,7 @@ e_table_model_class_init (ETableModelClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	e_table_model_signals [MODEL_ROW_CHANGED] =
+	e_table_model_signals[MODEL_ROW_CHANGED] =
 		g_signal_new ("model_row_changed",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -313,7 +313,7 @@ e_table_model_class_init (ETableModelClass *klass)
 			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
-	e_table_model_signals [MODEL_CELL_CHANGED] =
+	e_table_model_signals[MODEL_CELL_CHANGED] =
 		g_signal_new ("model_cell_changed",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -322,7 +322,7 @@ e_table_model_class_init (ETableModelClass *klass)
 			      e_marshal_VOID__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
-	e_table_model_signals [MODEL_ROWS_INSERTED] =
+	e_table_model_signals[MODEL_ROWS_INSERTED] =
 		g_signal_new ("model_rows_inserted",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -331,7 +331,7 @@ e_table_model_class_init (ETableModelClass *klass)
 			      e_marshal_VOID__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
-	e_table_model_signals [MODEL_ROWS_DELETED] =
+	e_table_model_signals[MODEL_ROWS_DELETED] =
 		g_signal_new ("model_rows_deleted",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -392,12 +392,12 @@ e_table_model_pre_change (ETableModel *e_table_model)
 	if (ETM_FROZEN (e_table_model))
 		return;
 
-	d(print_tabs());
+	d (print_tabs ());
 	d(g_print("Emitting pre_change on model 0x%p, a %s.\n", e_table_model, g_type_name (GTK_OBJECT(e_table_model)->klass->type)));
-	d(depth++);
+	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
-		       e_table_model_signals [MODEL_PRE_CHANGE], 0);
-	d(depth--);
+		       e_table_model_signals[MODEL_PRE_CHANGE], 0);
+	d (depth--);
 }
 
 /**
@@ -422,12 +422,12 @@ e_table_model_no_change (ETableModel *e_table_model)
 	if (ETM_FROZEN (e_table_model))
 		return;
 
-	d(print_tabs());
+	d (print_tabs ());
 	d(g_print("Emitting model_no_change on model 0x%p, a %s.\n", e_table_model, g_type_name (GTK_OBJECT(e_table_model)->klass->type)));
-	d(depth++);
+	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
-		       e_table_model_signals [MODEL_NO_CHANGE], 0);
-	d(depth--);
+		       e_table_model_signals[MODEL_NO_CHANGE], 0);
+	d (depth--);
 }
 
 /**
@@ -452,12 +452,12 @@ e_table_model_changed (ETableModel *e_table_model)
 	if (ETM_FROZEN (e_table_model))
 		return;
 
-	d(print_tabs());
+	d (print_tabs ());
 	d(g_print("Emitting model_changed on model 0x%p, a %s.\n", e_table_model, g_type_name (GTK_OBJECT(e_table_model)->klass->type)));
-	d(depth++);
+	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
-		       e_table_model_signals [MODEL_CHANGED], 0);
-	d(depth--);
+		       e_table_model_signals[MODEL_CHANGED], 0);
+	d (depth--);
 }
 
 /**
@@ -479,12 +479,12 @@ e_table_model_row_changed (ETableModel *e_table_model, gint row)
 	if (ETM_FROZEN (e_table_model))
 		return;
 
-	d(print_tabs());
+	d (print_tabs ());
 	d(g_print("Emitting row_changed on model 0x%p, a %s, row %d.\n", e_table_model, g_type_name (GTK_OBJECT(e_table_model)->klass->type), row));
-	d(depth++);
+	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
-		       e_table_model_signals [MODEL_ROW_CHANGED], 0, row);
-	d(depth--);
+		       e_table_model_signals[MODEL_ROW_CHANGED], 0, row);
+	d (depth--);
 }
 
 /**
@@ -507,12 +507,12 @@ e_table_model_cell_changed (ETableModel *e_table_model, gint col, gint row)
 	if (ETM_FROZEN (e_table_model))
 		return;
 
-	d(print_tabs());
+	d (print_tabs ());
 	d(g_print("Emitting cell_changed on model 0x%p, a %s, row %d, col %d.\n", e_table_model, g_type_name (GTK_OBJECT(e_table_model)->klass->type), row, col));
-	d(depth++);
+	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
-		       e_table_model_signals [MODEL_CELL_CHANGED], 0, col, row);
-	d(depth--);
+		       e_table_model_signals[MODEL_CELL_CHANGED], 0, col, row);
+	d (depth--);
 }
 
 /**
@@ -535,12 +535,12 @@ e_table_model_rows_inserted (ETableModel *e_table_model, gint row, gint count)
 	if (ETM_FROZEN (e_table_model))
 		return;
 
-	d(print_tabs());
+	d (print_tabs ());
 	d(g_print("Emitting row_inserted on model 0x%p, a %s, row %d.\n", e_table_model, g_type_name (GTK_OBJECT(e_table_model)->klass->type), row));
-	d(depth++);
+	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
-		       e_table_model_signals [MODEL_ROWS_INSERTED], 0, row, count);
-	d(depth--);
+		       e_table_model_signals[MODEL_ROWS_INSERTED], 0, row, count);
+	d (depth--);
 }
 
 /**
@@ -555,7 +555,7 @@ e_table_model_rows_inserted (ETableModel *e_table_model, gint row, gint count)
 void
 e_table_model_row_inserted (ETableModel *e_table_model, gint row)
 {
-	e_table_model_rows_inserted(e_table_model, row, 1);
+	e_table_model_rows_inserted (e_table_model, row, 1);
 }
 
 /**
@@ -578,12 +578,12 @@ e_table_model_rows_deleted (ETableModel *e_table_model, gint row, gint count)
 	if (ETM_FROZEN (e_table_model))
 		return;
 
-	d(print_tabs());
+	d (print_tabs ());
 	d(g_print("Emitting row_deleted on model 0x%p, a %s, row %d.\n", e_table_model, g_type_name (GTK_OBJECT(e_table_model)->klass->type), row));
-	d(depth++);
+	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
-		       e_table_model_signals [MODEL_ROWS_DELETED], 0, row, count);
-	d(depth--);
+		       e_table_model_signals[MODEL_ROWS_DELETED], 0, row, count);
+	d (depth--);
 }
 
 /**
@@ -598,7 +598,7 @@ e_table_model_rows_deleted (ETableModel *e_table_model, gint row, gint count)
 void
 e_table_model_row_deleted (ETableModel *e_table_model, gint row)
 {
-	e_table_model_rows_deleted(e_table_model, row, 1);
+	e_table_model_rows_deleted (e_table_model, row, 1);
 }
 
 void

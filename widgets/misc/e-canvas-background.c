@@ -66,7 +66,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint ecb_signals [LAST_SIGNAL] = { 0, };
+static guint ecb_signals[LAST_SIGNAL] = { 0, };
 
 enum {
 	PROP_0,
@@ -93,7 +93,7 @@ get_color (ECanvasBackground *ecb)
 static void
 ecb_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2)
 {
-	gdouble   i2c [6];
+	gdouble   i2c[6];
 	ArtPoint c1, c2, i1, i2;
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
 
@@ -380,7 +380,7 @@ ecb_draw (GnomeCanvasItem *item,
 {
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
 	gint x1, x2, y1, y2;
-	gdouble i2c [6];
+	gdouble i2c[6];
 	ArtPoint upper_left, lower_right, ecb_base_point;
 
 	/*
@@ -520,7 +520,7 @@ ecb_class_init (ECanvasBackgroundClass *ecb_class)
 							      "Y2",
 							      0.0, G_MAXDOUBLE, 0.0,
 							      G_PARAM_READWRITE));
-	ecb_signals [STYLE_SET] =
+	ecb_signals[STYLE_SET] =
 		g_signal_new ("style_set",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,

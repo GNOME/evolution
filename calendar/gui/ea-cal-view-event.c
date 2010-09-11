@@ -547,7 +547,7 @@ ea_cal_view_get_extents (AtkComponent   *component,
 
 #define CAL_VIEW_EVENT_ACTION_NUM 1
 
-static const gchar * action_name [CAL_VIEW_EVENT_ACTION_NUM] = {
+static const gchar * action_name[CAL_VIEW_EVENT_ACTION_NUM] = {
         N_("Grab Focus")
 };
 
@@ -588,7 +588,7 @@ static G_CONST_RETURN gchar *
 ea_cal_view_event_action_get_name (AtkAction *action, gint i)
 {
         if (i >= 0 && i < CAL_VIEW_EVENT_ACTION_NUM)
-                return action_name [i];
+                return action_name[i];
         return NULL;
 }
 

@@ -94,14 +94,14 @@ static struct {
 	const gchar *name;
 	const gchar *pretty_name;
 }
-common_location [] =
+common_location[] =
 {
 	{ "WORK",  N_ ("Work Email")  },
 	{ "HOME",  N_ ("Home Email")  },
 	{ "OTHER", N_ ("Other Email") }
 };
 
-static guint signals [LAST_SIGNAL] = {0, };
+static guint signals[LAST_SIGNAL] = {0, };
 
 GType
 e_minicard_get_type (void)
@@ -200,7 +200,7 @@ e_minicard_class_init (EMinicardClass *class)
 							      E_TYPE_CONTACT,
 							      G_PARAM_READWRITE));
 
-	signals [SELECTED] =
+	signals[SELECTED] =
 		g_signal_new ("selected",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -209,7 +209,7 @@ e_minicard_class_init (EMinicardClass *class)
 			      e_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, G_TYPE_POINTER);
 
-	signals [DRAG_BEGIN] =
+	signals[DRAG_BEGIN] =
 		g_signal_new ("drag_begin",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -218,7 +218,7 @@ e_minicard_class_init (EMinicardClass *class)
 			      e_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, G_TYPE_POINTER);
 
-	signals [OPEN_CONTACT] =
+	signals[OPEN_CONTACT] =
 		g_signal_new ("open-contact",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -228,7 +228,7 @@ e_minicard_class_init (EMinicardClass *class)
 			      G_TYPE_NONE, 1,
 			      E_TYPE_CONTACT);
 
-	signals [STYLE_SET] =
+	signals[STYLE_SET] =
 		g_signal_new ("style_set",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_FIRST,
@@ -800,8 +800,8 @@ get_email_location (EVCardAttribute *attr)
 	gint i;
 
 	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
-		if (e_vcard_attribute_has_type (attr, common_location [i].name))
-			return _(common_location [i].pretty_name);
+		if (e_vcard_attribute_has_type (attr, common_location[i].name))
+			return _(common_location[i].pretty_name);
 	}
 
 	return _("Other Email");

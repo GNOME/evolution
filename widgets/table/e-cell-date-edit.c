@@ -63,7 +63,7 @@ static gint e_cell_date_edit_do_popup		(ECellPopup	*ecp,
 						 gint             row,
 						 gint             view_col);
 static void e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde);
-static void e_cell_date_edit_select_matching_time(ECellDateEdit	*ecde,
+static void e_cell_date_edit_select_matching_time (ECellDateEdit	*ecde,
 						  gchar		*time);
 static void e_cell_date_edit_show_popup		(ECellDateEdit	*ecde,
 						 gint             row,
@@ -329,11 +329,11 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 			    G_CALLBACK (e_cell_date_edit_on_ok_clicked),
 			    ecde);
 
-	g_signal_connect((ecde->popup_window),
+	g_signal_connect ((ecde->popup_window),
 			    "key_press_event",
 			    G_CALLBACK (e_cell_date_edit_key_press),
 			    ecde);
-	g_signal_connect((ecde->popup_window),
+	g_signal_connect ((ecde->popup_window),
 			    "button_press_event",
 			    G_CALLBACK (e_cell_date_edit_button_press),
 			    ecde);

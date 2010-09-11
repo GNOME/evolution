@@ -1326,7 +1326,7 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	for (day = 0; day < 7; day++) {
 		layout_set_day_text (calitem, layout, day_index);
 		gdk_draw_layout (drawable, fg_gc,
-				 text_x - calitem->day_widths [day_index],
+				 text_x - calitem->day_widths[day_index],
 				 text_y,
 				 layout);
 		text_x += (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
@@ -1368,11 +1368,11 @@ get_digit_fomat ()
 	gint minor = 0;
 	gint revision = 0;
 
-	major = atoi (split [0]);
-	minor = atoi (split [1]);
+	major = atoi (split[0]);
+	minor = atoi (split[1]);
 
 	if (g_strv_length (split) > 2)
-		revision = atoi (split [2]);
+		revision = atoi (split[2]);
 	g_strfreev (split);
 
 	if (major > 2 || minor > 2 || (minor == 2 && revision > 2)) {

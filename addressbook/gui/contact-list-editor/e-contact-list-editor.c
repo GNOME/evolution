@@ -586,8 +586,8 @@ contact_list_editor_email_entry_key_press_event_cb (GtkWidget *widget,
 
 			text = gtk_entry_get_text (entry);
 
-			for (i = 0; text && text [i] && i < cpos; i++) {
-				if (text [i] == '\"')
+			for (i = 0; text && text[i] && i < cpos; i++) {
+				if (text[i] == '\"')
 					quotes++;
 			}
 

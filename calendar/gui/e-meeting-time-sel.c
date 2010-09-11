@@ -97,7 +97,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static gint signals [LAST_SIGNAL] = { 0 };
+static gint signals[LAST_SIGNAL] = { 0 };
 
 static void e_meeting_time_selector_alloc_named_color (EMeetingTimeSelector * mts,
 						       const gchar *name, GdkColor *c);
@@ -869,7 +869,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	e_meeting_time_selector_update_end_date_edit (mts);
 	e_meeting_time_selector_update_date_popup_menus (mts);
 
-	g_signal_emit (mts, signals [CHANGED], 0);
+	g_signal_emit (mts, signals[CHANGED], 0);
 }
 
 /* This adds a color to the color key beneath the main display. If color is
@@ -1125,11 +1125,11 @@ style_change_idle_func (EMeetingTimeSelector *mts)
 	max_hour_width = 0;
 	for (hour = 0; hour < 24; hour++) {
 		if (e_meeting_time_selector_get_use_24_hour_format (mts))
-			pango_layout_set_text (layout, EMeetingTimeSelectorHours [hour], -1);
+			pango_layout_set_text (layout, EMeetingTimeSelectorHours[hour], -1);
 		else
-			pango_layout_set_text (layout, EMeetingTimeSelectorHours12 [hour], -1);
+			pango_layout_set_text (layout, EMeetingTimeSelectorHours12[hour], -1);
 
-		pango_layout_get_pixel_size (layout, &mts->hour_widths [hour], NULL);
+		pango_layout_get_pixel_size (layout, &mts->hour_widths[hour], NULL);
 		max_hour_width = MAX (max_hour_width, mts->hour_widths[hour]);
 	}
 
@@ -1326,7 +1326,7 @@ e_meeting_time_selector_set_meeting_time (EMeetingTimeSelector *mts,
 	e_meeting_time_selector_update_start_date_edit (mts);
 	e_meeting_time_selector_update_end_date_edit (mts);
 
-	g_signal_emit (mts, signals [CHANGED], 0);
+	g_signal_emit (mts, signals[CHANGED], 0);
 
 	return TRUE;
 }
@@ -1915,7 +1915,7 @@ e_meeting_time_selector_autopick (EMeetingTimeSelector *mts,
 			e_meeting_time_selector_update_start_date_edit (mts);
 			e_meeting_time_selector_update_end_date_edit (mts);
 
-			g_signal_emit (mts, signals [CHANGED], 0);
+			g_signal_emit (mts, signals[CHANGED], 0);
 
 			return;
 		}
@@ -2476,7 +2476,7 @@ e_meeting_time_selector_on_start_time_changed (GtkWidget *widget,
 	gtk_widget_queue_draw (mts->display_top);
 	gtk_widget_queue_draw (mts->display_main);
 
-	g_signal_emit (mts, signals [CHANGED], 0);
+	g_signal_emit (mts, signals[CHANGED], 0);
 }
 
 /* This is called when the meeting end time GnomeDateEdit is changed,
@@ -2525,7 +2525,7 @@ e_meeting_time_selector_on_end_time_changed (GtkWidget *widget,
 	gtk_widget_queue_draw (mts->display_top);
 	gtk_widget_queue_draw (mts->display_main);
 
-	g_signal_emit (mts, signals [CHANGED], 0);
+	g_signal_emit (mts, signals[CHANGED], 0);
 }
 
 /* This updates the ranges shown in the GnomeDateEdit popup menus, according
@@ -2741,7 +2741,7 @@ e_meeting_time_selector_drag_meeting_time (EMeetingTimeSelector *mts,
 	if (set_both_times
 	    || mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_END
 	    || mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_START)
-		g_signal_emit (mts, signals [CHANGED], 0);
+		g_signal_emit (mts, signals[CHANGED], 0);
 }
 
 /* This is the timeout function which handles auto-scrolling when the user is
@@ -2882,7 +2882,7 @@ e_meeting_time_selector_timeout_handler (gpointer data)
 	if (set_both_times
 	    || mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_END
 	    || mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_START)
-		g_signal_emit (mts, signals [CHANGED], 0);
+		g_signal_emit (mts, signals[CHANGED], 0);
 
  scroll:
 	/* Redraw the canvases. We freeze and thaw the layouts so that they
@@ -3122,7 +3122,7 @@ static void
 row_inserted_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {
 	EMeetingTimeSelector *mts = E_MEETING_TIME_SELECTOR (data);
-	gint row = gtk_tree_path_get_indices (path) [0];
+	gint row = gtk_tree_path_get_indices (path)[0];
 	/* Update the scroll region. */
 	e_meeting_time_selector_update_main_canvas_scroll_region (mts);
 
@@ -3138,7 +3138,7 @@ static void
 row_changed_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {
 	EMeetingTimeSelector *mts = E_MEETING_TIME_SELECTOR (data);
-	gint row = gtk_tree_path_get_indices (path) [0];
+	gint row = gtk_tree_path_get_indices (path)[0];
 
 	/* Get the latest free/busy info */
 	e_meeting_time_selector_refresh_free_busy (mts, row, FALSE);

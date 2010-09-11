@@ -75,7 +75,7 @@ e_table_group_container_child_node_free (ETableGroupContainer          *etgc,
 	gtk_object_destroy (GTK_OBJECT (child));
 	e_table_model_free_value (etg->model, etgc->ecol->col_idx,
 				  child_node->key);
-	g_free(child_node->string);
+	g_free (child_node->string);
 	gtk_object_destroy (GTK_OBJECT (child_node->text));
 	gtk_object_destroy (GTK_OBJECT (child_node->rect));
 }
@@ -120,7 +120,7 @@ etgc_dispose (GObject *object)
 	etgc->selection_model = NULL;
 
 	if (etgc->rect)
-		gtk_object_destroy (GTK_OBJECT(etgc->rect));
+		gtk_object_destroy (GTK_OBJECT (etgc->rect));
 	etgc->rect = NULL;
 
 	G_OBJECT_CLASS (etgc_parent_class)->dispose (object);
@@ -145,11 +145,11 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 				   ETableModel *model, ETableSortInfo *sort_info, gint n)
 {
 	ETableCol *col;
-	ETableSortColumn column = e_table_sort_info_grouping_get_nth(sort_info, n);
+	ETableSortColumn column = e_table_sort_info_grouping_get_nth (sort_info, n);
 	GtkWidget *widget;
 	GtkStyle *style;
 
-	col = e_table_header_get_column_by_col_idx(full_header, column.column);
+	col = e_table_header_get_column_by_col_idx (full_header, column.column);
 	if (col == NULL)
 		col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
 
@@ -202,7 +202,7 @@ e_table_group_container_new (GnomeCanvasGroup *parent, ETableHeader *full_header
 static gint
 etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 {
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(item);
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (item);
 	gboolean return_val = TRUE;
 	gboolean change_focus = FALSE;
 	gboolean use_col = FALSE;
@@ -282,7 +282,7 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 				}
 			}
 			if (direction == E_FOCUS_END)
-				list = g_list_last(etgc->children);
+				list = g_list_last (etgc->children);
 			else
 				list = etgc->children;
 			if (list) {
@@ -306,7 +306,7 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 	}
 	if (return_val == FALSE) {
-		if (GNOME_CANVAS_ITEM_CLASS(etgc_parent_class)->event)
+		if (GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->event)
 			return GNOME_CANVAS_ITEM_CLASS (etgc_parent_class)->event (item, event);
 	}
 	return return_val;
@@ -426,7 +426,7 @@ create_child_node (ETableGroupContainer *etgc, gpointer val)
 {
 	ETableGroup *child;
 	ETableGroupContainerChildNode *child_node;
-	ETableGroup *etg = E_TABLE_GROUP(etgc);
+	ETableGroup *etg = E_TABLE_GROUP (etgc);
 
 	child_node = g_new (ETableGroupContainerChildNode, 1);
 	child_node->rect = gnome_canvas_item_new (GNOME_CANVAS_GROUP (etgc),
@@ -442,7 +442,7 @@ create_child_node (ETableGroupContainer *etgc, gpointer val)
 						  NULL);
 	child = e_table_group_new (GNOME_CANVAS_GROUP (etgc), etg->full_header,
 				   etg->header, etg->model, etgc->sort_info, etgc->n + 1);
-	gnome_canvas_item_set(GNOME_CANVAS_ITEM(child),
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (child),
 			      "alternating_row_colors", etgc->alternating_row_colors,
 			      "horizontal_draw_grid", etgc->horizontal_draw_grid,
 			      "vertical_draw_grid", etgc->vertical_draw_grid,
@@ -547,10 +547,10 @@ etgc_add_array (ETableGroup *etg, const gint *array, gint count)
 
 		comp_val = (*comp)(lastval, val, cmp_cache);
 		if (comp_val != 0) {
-			child_node = create_child_node(etgc, lastval);
+			child_node = create_child_node (etgc, lastval);
 			child = child_node->child;
 
-			e_table_group_add_array(child, array + laststart, i - laststart);
+			e_table_group_add_array (child, array + laststart, i - laststart);
 			child_node->count = i - laststart;
 
 			etgc->children = g_list_append (etgc->children, child_node);
@@ -562,10 +562,10 @@ etgc_add_array (ETableGroup *etg, const gint *array, gint count)
 
 	e_table_sorting_utils_free_cmp_cache (cmp_cache);
 
-	child_node = create_child_node(etgc, lastval);
+	child_node = create_child_node (etgc, lastval);
 	child = child_node->child;
 
-	e_table_group_add_array(child, array + laststart, i - laststart);
+	e_table_group_add_array (child, array + laststart, i - laststart);
 	child_node->count = i - laststart;
 
 	etgc->children = g_list_append (etgc->children, child_node);
@@ -582,15 +582,15 @@ etgc_add_all (ETableGroup *etg)
 	gint *array;
 	gint count;
 
-	e_sorter_get_sorted_to_model_array(sorter, &array, &count);
+	e_sorter_get_sorted_to_model_array (sorter, &array, &count);
 
-	etgc_add_array(etg, array, count);
+	etgc_add_array (etg, array, count);
 }
 
 static gboolean
 etgc_remove (ETableGroup *etg, gint row)
 {
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 	GList *list;
 
 	for (list = etgc->children; list; list = g_list_next (list)) {
@@ -617,12 +617,12 @@ etgc_remove (ETableGroup *etg, gint row)
 static gint
 etgc_row_count (ETableGroup *etg)
 {
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 	GList *list;
 	gint count = 0;
-	for (list = etgc->children; list; list = g_list_next(list)) {
+	for (list = etgc->children; list; list = g_list_next (list)) {
 		ETableGroup *group = ((ETableGroupContainerChildNode *)list->data)->child;
-		gint this_count = e_table_group_row_count(group);
+		gint this_count = e_table_group_row_count (group);
 		count += this_count;
 	}
 	return count;
@@ -631,7 +631,7 @@ etgc_row_count (ETableGroup *etg)
 static void
 etgc_increment (ETableGroup *etg, gint position, gint amount)
 {
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 	GList *list;
 
 	for (list = etgc->children; list; list = g_list_next (list))
@@ -642,7 +642,7 @@ etgc_increment (ETableGroup *etg, gint position, gint amount)
 static void
 etgc_decrement (ETableGroup *etg, gint position, gint amount)
 {
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 	GList *list;
 
 	for (list = etgc->children; list; list = g_list_next (list))
@@ -653,7 +653,7 @@ etgc_decrement (ETableGroup *etg, gint position, gint amount)
 static void
 etgc_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
 {
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 	if (etgc->children) {
 		if (direction == E_FOCUS_END)
 			e_table_group_set_focus (((ETableGroupContainerChildNode *)g_list_last (etgc->children)->data)->child,
@@ -667,7 +667,7 @@ etgc_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
 static gint
 etgc_get_focus_column (ETableGroup *etg)
 {
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 	if (etgc->children) {
 		GList *list;
 		for (list = etgc->children; list; list = list->next) {
@@ -684,7 +684,7 @@ etgc_get_focus_column (ETableGroup *etg)
 static void
 etgc_compute_location (ETableGroup *etg, gint *x, gint *y, gint *row, gint *col)
 {
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 
 	if (row)
 		*row = -1;
@@ -710,7 +710,7 @@ etgc_compute_location (ETableGroup *etg, gint *x, gint *y, gint *row, gint *col)
 static void
 etgc_get_mouse_over (ETableGroup *etg, gint *row, gint *col)
 {
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 
 	if (row)
 		*row = -1;
@@ -741,7 +741,7 @@ etgc_get_mouse_over (ETableGroup *etg, gint *row, gint *col)
 static void
 etgc_get_cell_geometry (ETableGroup *etg, gint *row, gint *col, gint *x, gint *y, gint *width, gint *height)
 {
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 
 	gint ypos;
 
@@ -768,7 +768,7 @@ etgc_get_cell_geometry (ETableGroup *etg, gint *row, gint *col, gint *x, gint *y
 
 static void etgc_thaw (ETableGroup *etg)
 {
-	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(etg));
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (etg));
 }
 
 static void
@@ -820,7 +820,7 @@ etgc_set_property (GObject *object, guint prop_id, const GValue *value, GParamSp
 	case PROP_SELECTION_MODEL:
 		if (etgc->selection_model)
 			g_object_unref (etgc->selection_model);
-		etgc->selection_model = E_SELECTION_MODEL(g_value_get_object (value));
+		etgc->selection_model = E_SELECTION_MODEL (g_value_get_object (value));
 		if (etgc->selection_model)
 			g_object_ref (etgc->selection_model);
 		for (list = etgc->children; list; list = g_list_next (list)) {
@@ -1030,7 +1030,7 @@ etgc_class_init (ETableGroupContainerClass *klass)
 static void
 etgc_reflow (GnomeCanvasItem *item, gint flags)
 {
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(item);
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (item);
 	gboolean frozen;
 
         g_object_get (etgc,
@@ -1068,7 +1068,7 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 				pango_font_metrics_unref (metrics);
 			}
 
-			extra_height = MAX(extra_height, BUTTON_HEIGHT + BUTTON_PADDING * 2);
+			extra_height = MAX (extra_height, BUTTON_HEIGHT + BUTTON_PADDING * 2);
 
 			running_height = extra_height;
 
@@ -1090,15 +1090,15 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 					      "height", &item_height,
 					      NULL);
 
-				e_canvas_item_move_absolute (GNOME_CANVAS_ITEM(child_node->text),
+				e_canvas_item_move_absolute (GNOME_CANVAS_ITEM (child_node->text),
 							    GROUP_INDENT,
 							    running_height - BUTTON_PADDING);
 
-				e_canvas_item_move_absolute (GNOME_CANVAS_ITEM(child),
+				e_canvas_item_move_absolute (GNOME_CANVAS_ITEM (child),
 							    GROUP_INDENT,
 							    running_height);
 
-				gnome_canvas_item_set (GNOME_CANVAS_ITEM(child_node->rect),
+				gnome_canvas_item_set (GNOME_CANVAS_ITEM (child_node->rect),
 						      "x1", (gdouble) 0,
 						      "x2", (gdouble) running_width + GROUP_INDENT,
 						      "y1", (gdouble) running_height - extra_height,
@@ -1122,7 +1122,7 @@ etgc_init (ETableGroupContainer *container)
 {
 	container->children = NULL;
 
-	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM(container), etgc_reflow);
+	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (container), etgc_reflow);
 
 	container->alternating_row_colors = 1;
 	container->horizontal_draw_grid = 1;
@@ -1220,10 +1220,10 @@ e_table_group_container_print_page  (EPrintable *ep,
 			return;
 		} else {
 			child_node = child->data;
-			child_printable = e_table_group_get_printable(child_node->child);
+			child_printable = e_table_group_get_printable (child_node->child);
 			if (child_printable)
 				g_object_ref (child_printable);
-			e_printable_reset(child_printable);
+			e_printable_reset (child_printable);
 		}
 	}
 
@@ -1236,13 +1236,13 @@ e_table_group_container_print_page  (EPrintable *ep,
 	pango_font_description_free (desc);
 
 	while (1) {
-		child_height = e_printable_height(child_printable, context, width,yd + 2 * TEXT_AREA_HEIGHT, quantize);
+		child_height = e_printable_height (child_printable, context, width,yd + 2 * TEXT_AREA_HEIGHT, quantize);
 		cr = gtk_print_context_get_cairo_context (context);
 		cairo_save (cr);
 		cairo_rectangle (cr, 0, 0, width,TEXT_AREA_HEIGHT);
 		cairo_rectangle (cr, 0, 0, 2 * TEXT_AREA_HEIGHT, child_height + TEXT_AREA_HEIGHT);
 		cairo_set_source_rgb (cr, .7, .7, .7);
-		cairo_fill(cr);
+		cairo_fill (cr);
 		cairo_restore (cr);
 
 		cairo_save (cr);
@@ -1250,7 +1250,7 @@ e_table_group_container_print_page  (EPrintable *ep,
 		cairo_clip (cr);
 		cairo_restore (cr);
 
-		cairo_move_to(cr, 0, 0);
+		cairo_move_to (cr, 0, 0);
 		if (groupcontext->etgc->ecol->text)
 			string = g_strdup_printf ("%s : %s (%d item%s)",
 						  groupcontext->etgc->ecol->text,
@@ -1264,17 +1264,17 @@ e_table_group_container_print_page  (EPrintable *ep,
 						  child_node->count == 1 ? "" : "s");
 		pango_layout_set_text (layout, string, -1);
 		pango_cairo_show_layout (cr, layout);
-		g_free(string);
+		g_free (string);
 
-		cairo_translate(cr, 2 * TEXT_AREA_HEIGHT, TEXT_AREA_HEIGHT);
-		cairo_move_to(cr, 0, 0);
+		cairo_translate (cr, 2 * TEXT_AREA_HEIGHT, TEXT_AREA_HEIGHT);
+		cairo_move_to (cr, 0, 0);
 		cairo_rectangle (cr, 0, 0, width - 2 * TEXT_AREA_HEIGHT,child_height);
-		cairo_clip(cr);
+		cairo_clip (cr);
 
 		e_printable_print_page (child_printable, context, width-2 * TEXT_AREA_HEIGHT, height , quantize);
 		yd += child_height + TEXT_AREA_HEIGHT;
 
-		if (e_printable_data_left(child_printable))
+		if (e_printable_data_left (child_printable))
 			break;
 
 		    child = child->next;
@@ -1286,10 +1286,10 @@ e_table_group_container_print_page  (EPrintable *ep,
 		    child_node = child->data;
 		if (child_printable)
 			g_object_unref (child_printable);
-		    child_printable = e_table_group_get_printable(child_node->child);
+		    child_printable = e_table_group_get_printable (child_node->child);
 		if (child_printable)
 			g_object_ref (child_printable);
-		 e_printable_reset(child_printable);
+		 e_printable_reset (child_printable);
 	}
 	if (groupcontext->child_printable)
 		g_object_unref (groupcontext->child_printable);
@@ -1343,10 +1343,10 @@ e_table_group_container_height      (EPrintable *ep,
 			return 0;
 		} else {
 			child_node = child->data;
-			child_printable = e_table_group_get_printable(child_node->child);
+			child_printable = e_table_group_get_printable (child_node->child);
 			if (child_printable)
 				g_object_ref (child_printable);
-			e_printable_reset(child_printable);
+			e_printable_reset (child_printable);
 		}
 	}
 
@@ -1354,12 +1354,12 @@ e_table_group_container_height      (EPrintable *ep,
 		return 0;
 
 	while (1) {
-		child_height = e_printable_height(child_printable, context, width - 36, yd - (yd == -1 ? 0 : TEXT_AREA_HEIGHT), quantize);
+		child_height = e_printable_height (child_printable, context, width - 36, yd - (yd == -1 ? 0 : TEXT_AREA_HEIGHT), quantize);
 
 		height -= child_height + TEXT_AREA_HEIGHT;
 
 		if (yd != -1) {
-			if (!e_printable_will_fit(child_printable, context, width - 36, yd - (yd == -1 ? 0 : TEXT_AREA_HEIGHT), quantize)) {
+			if (!e_printable_will_fit (child_printable, context, width - 36, yd - (yd == -1 ? 0 : TEXT_AREA_HEIGHT), quantize)) {
 				break;
 			}
 
@@ -1374,10 +1374,10 @@ e_table_group_container_height      (EPrintable *ep,
 		child_node = child->data;
 		if (child_printable)
 			g_object_unref (child_printable);
-		child_printable = e_table_group_get_printable(child_node->child);
+		child_printable = e_table_group_get_printable (child_node->child);
 		if (child_printable)
 			g_object_ref (child_printable);
-		e_printable_reset(child_printable);
+		e_printable_reset (child_printable);
 	}
 	if (child_printable)
 		g_object_unref (child_printable);
@@ -1411,10 +1411,10 @@ e_table_group_container_will_fit      (EPrintable *ep,
 			return will_fit;
 		} else {
 			child_node = child->data;
-			child_printable = e_table_group_get_printable(child_node->child);
+			child_printable = e_table_group_get_printable (child_node->child);
 			if (child_printable)
 				g_object_ref (child_printable);
-			e_printable_reset(child_printable);
+			e_printable_reset (child_printable);
 		}
 	}
 
@@ -1422,10 +1422,10 @@ e_table_group_container_will_fit      (EPrintable *ep,
 		will_fit = FALSE;
 	else {
 		while (1) {
-			child_height = e_printable_height(child_printable, context, width - 36, yd - (yd == -1 ? 0 : TEXT_AREA_HEIGHT), quantize);
+			child_height = e_printable_height (child_printable, context, width - 36, yd - (yd == -1 ? 0 : TEXT_AREA_HEIGHT), quantize);
 
 			if (yd != -1) {
-				if (!e_printable_will_fit(child_printable, context, width - 36, yd - (yd == -1 ? 0 : TEXT_AREA_HEIGHT), quantize)) {
+				if (!e_printable_will_fit (child_printable, context, width - 36, yd - (yd == -1 ? 0 : TEXT_AREA_HEIGHT), quantize)) {
 					will_fit = FALSE;
 					break;
 				}
@@ -1441,10 +1441,10 @@ e_table_group_container_will_fit      (EPrintable *ep,
 			child_node = child->data;
 			if (child_printable)
 				g_object_unref (child_printable);
-			child_printable = e_table_group_get_printable(child_node->child);
+			child_printable = e_table_group_get_printable (child_node->child);
 			if (child_printable)
 				g_object_ref (child_printable);
-			e_printable_reset(child_printable);
+			e_printable_reset (child_printable);
 		}
 	}
 
@@ -1465,17 +1465,17 @@ e_table_group_container_printable_destroy (gpointer data,
 	g_object_unref (groupcontext->etgc);
 	if (groupcontext->child_printable)
 		g_object_ref (groupcontext->child_printable);
-	g_free(groupcontext);
+	g_free (groupcontext);
 }
 
 static EPrintable *
 etgc_get_printable (ETableGroup *etg)
 {
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
-	EPrintable *printable = e_printable_new();
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
+	EPrintable *printable = e_printable_new ();
 	ETGCPrintContext *groupcontext;
 
-	groupcontext = g_new(ETGCPrintContext, 1);
+	groupcontext = g_new (ETGCPrintContext, 1);
 	groupcontext->etgc = etgc;
 	g_object_ref (etgc);
 	groupcontext->child = etgc->children;
@@ -1483,23 +1483,23 @@ etgc_get_printable (ETableGroup *etg)
 
 	g_signal_connect (printable,
 			  "print_page",
-			  G_CALLBACK(e_table_group_container_print_page),
+			  G_CALLBACK (e_table_group_container_print_page),
 			  groupcontext);
 	g_signal_connect (printable,
 			  "data_left",
-			  G_CALLBACK(e_table_group_container_data_left),
+			  G_CALLBACK (e_table_group_container_data_left),
 			  groupcontext);
 	g_signal_connect (printable,
 			  "reset",
-			  G_CALLBACK(e_table_group_container_reset),
+			  G_CALLBACK (e_table_group_container_reset),
 			  groupcontext);
 	g_signal_connect (printable,
 			  "height",
-			  G_CALLBACK(e_table_group_container_height),
+			  G_CALLBACK (e_table_group_container_height),
 			  groupcontext);
 	g_signal_connect (printable,
 			  "will_fit",
-			  G_CALLBACK(e_table_group_container_will_fit),
+			  G_CALLBACK (e_table_group_container_will_fit),
 			  groupcontext);
 	g_object_weak_ref (G_OBJECT (printable),
 			   e_table_group_container_printable_destroy,

@@ -274,6 +274,6 @@ gal_view_changed (GalView *view)
 {
 	g_return_if_fail (GAL_IS_VIEW (view));
 
-	g_signal_emit (view, signals [CHANGED], 0);
+	g_signal_emit (view, signals[CHANGED], 0);
 }
 

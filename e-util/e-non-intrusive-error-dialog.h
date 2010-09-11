@@ -34,7 +34,7 @@ struct _log_data {
         const gchar *text;
         const gchar *stock_id;
         GdkPixbuf *pbuf;
-} ldata [] = {
+} ldata[] = {
         { E_LOG_ERROR, N_("Error"), N_("Errors"), GTK_STOCK_DIALOG_ERROR },
         { E_LOG_WARNING, N_("Warning"), N_("Warnings and Errors"), GTK_STOCK_DIALOG_WARNING },
         { E_LOG_DEBUG, N_("Debug"), N_("Error, Warnings and Debug messages"), GTK_STOCK_DIALOG_INFO }

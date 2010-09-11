@@ -89,7 +89,7 @@ free_value (ETableMemoryStore *etms, gint col, gpointer value)
 static gint
 etms_column_count (ETableModel *etm)
 {
-	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE(etm);
+	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
 	return etms->priv->col_count;
 }
@@ -97,7 +97,7 @@ etms_column_count (ETableModel *etm)
 static gpointer
 etms_value_at (ETableModel *etm, gint col, gint row)
 {
-	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE(etm);
+	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
 	return STORE_LOCATOR (etms, col, row);
 }
@@ -105,7 +105,7 @@ etms_value_at (ETableModel *etm, gint col, gint row)
 static void
 etms_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
 {
-	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE(etm);
+	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
 	e_table_model_pre_change (etm);
 
@@ -117,7 +117,7 @@ etms_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
 static gboolean
 etms_is_cell_editable (ETableModel *etm, gint col, gint row)
 {
-	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE(etm);
+	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
 	return etms->priv->columns[col].editable;
 }
@@ -126,7 +126,7 @@ etms_is_cell_editable (ETableModel *etm, gint col, gint row)
 static gpointer
 etms_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 {
-	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE(etm);
+	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
 	return duplicate_value (etms, col, value);
 }
@@ -134,7 +134,7 @@ etms_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 static void
 etms_free_value (ETableModel *etm, gint col, gpointer value)
 {
-	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE(etm);
+	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
 	free_value (etms, col, value);
 }
@@ -142,7 +142,7 @@ etms_free_value (ETableModel *etm, gint col, gpointer value)
 static gpointer
 etms_initialize_value (ETableModel *etm, gint col)
 {
-	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE(etm);
+	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
 	switch (etms->priv->columns[col].type) {
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING:
@@ -163,7 +163,7 @@ etms_initialize_value (ETableModel *etm, gint col)
 static gboolean
 etms_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 {
-	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE(etm);
+	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
 	switch (etms->priv->columns[col].type) {
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING:
@@ -184,7 +184,7 @@ etms_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 static gchar *
 etms_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 {
-	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE(etm);
+	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 
 	switch (etms->priv->columns[col].type) {
 	case E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING:
@@ -205,7 +205,7 @@ etms_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 static void
 etms_append_row (ETableModel *etm, ETableModel *source, gint row)
 {
-	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE(etm);
+	ETableMemoryStore *etms = E_TABLE_MEMORY_STORE (etm);
 	gpointer *new_data;
 	gint i;
 	gint row_count;
@@ -348,7 +348,7 @@ e_table_memory_store_insert_array (ETableMemoryStore *etms, gint row, gpointer *
 		 etms->priv->col_count * (row_count - row - 1) * sizeof (gpointer));
 
 	for (i = 0; i < etms->priv->col_count; i++) {
-		STORE_LOCATOR(etms, i, row) = duplicate_value(etms, i, store[i]);
+		STORE_LOCATOR (etms, i, row) = duplicate_value (etms, i, store[i]);
 	}
 
 	e_table_memory_insert (E_TABLE_MEMORY (etms), row, data);
@@ -389,7 +389,7 @@ e_table_memory_store_insert_adopt_array (ETableMemoryStore *etms, gint row, gpoi
 		 etms->priv->col_count * (row_count - row - 1) * sizeof (gpointer));
 
 	for (i = 0; i < etms->priv->col_count; i++) {
-		STORE_LOCATOR(etms, i, row) = store[i];
+		STORE_LOCATOR (etms, i, row) = store[i];
 	}
 
 	e_table_memory_insert (E_TABLE_MEMORY (etms), row, data);
@@ -436,8 +436,8 @@ e_table_memory_store_change_array (ETableMemoryStore *etms, gint row, gpointer *
 	e_table_model_pre_change (E_TABLE_MODEL (etms));
 
 	for (i = 0; i < etms->priv->col_count; i++) {
-		free_value (etms, i, STORE_LOCATOR(etms, i, row));
-		STORE_LOCATOR(etms, i, row) = duplicate_value(etms, i, store[i]);
+		free_value (etms, i, STORE_LOCATOR (etms, i, row));
+		STORE_LOCATOR (etms, i, row) = duplicate_value (etms, i, store[i]);
 	}
 
 	e_table_memory_set_data (E_TABLE_MEMORY (etms), row, data);
@@ -495,8 +495,8 @@ e_table_memory_store_change_adopt_array (ETableMemoryStore *etms, gint row, gpoi
 	g_return_if_fail (row >= 0 && row < e_table_model_row_count (E_TABLE_MODEL (etms)));
 
 	for (i = 0; i < etms->priv->col_count; i++) {
-		free_value (etms, i, STORE_LOCATOR(etms, i, row));
-		STORE_LOCATOR(etms, i, row) = store[i];
+		free_value (etms, i, STORE_LOCATOR (etms, i, row));
+		STORE_LOCATOR (etms, i, row) = store[i];
 	}
 
 	e_table_memory_set_data (E_TABLE_MEMORY (etms), row, data);

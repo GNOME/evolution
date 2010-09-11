@@ -102,7 +102,8 @@ get_cnc (GtkWindow *parent_window)
 }
 
 static void
-e_send_options_load_general_opts (ESendOptionsGeneral *gopts, EGwSendOptionsGeneral *ggopts)
+e_send_options_load_general_opts (ESendOptionsGeneral *gopts,
+                                  EGwSendOptionsGeneral *ggopts)
 {
 	time_t temp;
 
@@ -127,7 +128,8 @@ e_send_options_load_general_opts (ESendOptionsGeneral *gopts, EGwSendOptionsGene
 }
 
 static void
-e_send_options_load_status_options (ESendOptionsStatusTracking *sopts, EGwSendOptionsStatusTracking *gsopts)
+e_send_options_load_status_options (ESendOptionsStatusTracking *sopts,
+                                    EGwSendOptionsStatusTracking *gsopts)
 {
 	sopts->tracking_enabled = gsopts->tracking_enabled;
 	sopts->track_when = gsopts->track_when;
@@ -251,7 +253,8 @@ send_options_finalize (void)
 }
 
 static void
-e_send_options_copy_general_opts (ESendOptionsGeneral *gopts, EGwSendOptionsGeneral *ggopts)
+e_send_options_copy_general_opts (ESendOptionsGeneral *gopts,
+                                  EGwSendOptionsGeneral *ggopts)
 {
 	ggopts->priority = gopts->priority;
 
@@ -282,7 +285,8 @@ e_send_options_copy_general_opts (ESendOptionsGeneral *gopts, EGwSendOptionsGene
 }
 
 static void
-e_send_options_copy_status_options (ESendOptionsStatusTracking *sopts, EGwSendOptionsStatusTracking *gsopts)
+e_send_options_copy_status_options (ESendOptionsStatusTracking *sopts,
+                                    EGwSendOptionsStatusTracking *gsopts)
 {
 	gsopts->tracking_enabled = sopts->tracking_enabled;
 	gsopts->track_when = sopts->track_when;
@@ -296,7 +300,8 @@ e_send_options_copy_status_options (ESendOptionsStatusTracking *sopts, EGwSendOp
 }
 
 static gboolean
-check_status_options_changed (EGwSendOptionsStatusTracking *n_sopts, EGwSendOptionsStatusTracking *o_sopts)
+check_status_options_changed (EGwSendOptionsStatusTracking *n_sopts,
+                              EGwSendOptionsStatusTracking *o_sopts)
 {
 	return (!(n_sopts->tracking_enabled == o_sopts->tracking_enabled
 		&& n_sopts->track_when == o_sopts->track_when
@@ -309,7 +314,8 @@ check_status_options_changed (EGwSendOptionsStatusTracking *n_sopts, EGwSendOpti
 }
 
 static gboolean
-check_general_changed (EGwSendOptionsGeneral *n_gopts, EGwSendOptionsGeneral *o_gopts)
+check_general_changed (EGwSendOptionsGeneral *n_gopts,
+                       EGwSendOptionsGeneral *o_gopts)
 {
 	return (!(n_gopts->priority == o_gopts->priority
 		&& n_gopts->delay_enabled == o_gopts->delay_enabled
@@ -359,7 +365,7 @@ get_source (ESourceList *list)
 {
 	GSList *p, *l;
 	gchar **temp = g_strsplit (account->source->url, ";", -1);
-	gchar *uri = temp [0];
+	gchar *uri = temp[0];
 
 	l = e_source_list_peek_groups (list);
 
@@ -409,7 +415,9 @@ add_return_value (EGwSendOptionsReturnNotify track,
 }
 
 static void
-put_options_in_source (ESource *source, EGwSendOptionsGeneral *gopts, EGwSendOptionsStatusTracking *sopts)
+put_options_in_source (ESource *source,
+                       EGwSendOptionsGeneral *gopts,
+                       EGwSendOptionsStatusTracking *sopts)
 {
 	gchar *value;
 	const gchar *val;
@@ -534,7 +542,9 @@ send_options_commit (EPlugin *epl, EConfigHookItemFactoryData *data)
 			status = e_gw_connection_modify_settings (n_cnc, n_opts);
 
 		if (!changed || status != E_GW_CONNECTION_STATUS_OK) {
-			g_warning (G_STRLOC "Cannot modify Send Options:  %s", e_gw_connection_get_error_message (status));
+			g_warning (
+				G_STRLOC "Cannot modify Send Options:  %s",
+				e_gw_connection_get_error_message (status));
 			g_object_unref (n_opts);
 			n_opts = NULL;
 		} else

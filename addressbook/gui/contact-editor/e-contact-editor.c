@@ -117,7 +117,7 @@ static struct {
 	const gchar *type_1;
 	const gchar *type_2;
 }
-phones [] = {
+phones[] = {
 	{ E_CONTACT_PHONE_ASSISTANT,    EVC_X_ASSISTANT,       NULL    },
 	{ E_CONTACT_PHONE_BUSINESS,     "WORK",                "VOICE" },
 	{ E_CONTACT_PHONE_BUSINESS_FAX, "WORK",                "FAX"   },
@@ -138,21 +138,21 @@ phones [] = {
 };
 
 /* Defaults from the table above */
-static const gint phones_default [] = { 1, 6, 9, 2, 7, 12, 10, 10 };
+static const gint phones_default[] = { 1, 6, 9, 2, 7, 12, 10, 10 };
 
-static EContactField addresses [] = {
+static EContactField addresses[] = {
 	E_CONTACT_ADDRESS_WORK,
 	E_CONTACT_ADDRESS_HOME,
 	E_CONTACT_ADDRESS_OTHER
 };
 
-static EContactField address_labels [] = {
+static EContactField address_labels[] = {
 	E_CONTACT_ADDRESS_LABEL_WORK,
 	E_CONTACT_ADDRESS_LABEL_HOME,
 	E_CONTACT_ADDRESS_LABEL_OTHER
 };
 
-static const gchar *address_name [] = {
+static const gchar *address_name[] = {
 	"work",
 	"home",
 	"other"
@@ -162,7 +162,7 @@ static struct {
 	EContactField field;
 	const gchar *pretty_name;
 }
-im_service [] =
+im_service[] =
 {
 	{ E_CONTACT_IM_AIM,       N_ ("AIM")       },
 	{ E_CONTACT_IM_JABBER,    N_ ("Jabber")    },
@@ -175,13 +175,13 @@ im_service [] =
 };
 
 /* Defaults from the table above */
-static const gint im_service_default [] = { 0, 2, 4, 5 };
+static const gint im_service_default[] = { 0, 2, 4, 5 };
 
 static struct {
 	const gchar *name;
 	const gchar *pretty_name;
 }
-common_location [] =
+common_location[] =
 {
 	{ "WORK",  N_ ("Work")  },
 	{ "HOME",  N_ ("Home")  },
@@ -189,7 +189,7 @@ common_location [] =
 };
 
 /* Default from the table above */
-static const gint email_default [] = { 0, 1, 2, 2 };
+static const gint email_default[] = { 0, 1, 2, 2 };
 
 #define STRING_IS_EMPTY(x)      (!(x) || !(*(x)))
 #define STRING_MAKE_NON_NULL(x) ((x) ? (x) : "")
@@ -731,7 +731,7 @@ init_email_record_location (EContactEditor *editor, gint record)
 	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (location_combo_box)));
 
 	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
-		gtk_combo_box_append_text (location_combo_box, _(common_location [i].pretty_name));
+		gtk_combo_box_append_text (location_combo_box, _(common_location[i].pretty_name));
 	}
 
 	g_signal_connect_swapped (location_combo_box, "changed", G_CALLBACK (gtk_widget_grab_focus), email_entry);
@@ -756,7 +756,7 @@ fill_in_email_record (EContactEditor *editor, gint record, const gchar *address,
 	g_free (widget_name);
 
 	set_combo_box_active (editor, GTK_COMBO_BOX (location_combo_box),
-				 location >= 0 ? location : email_default [2]);
+				 location >= 0 ? location : email_default[2]);
 	set_entry_text (editor, GTK_ENTRY (email_entry), address ? address : "");
 }
 
@@ -784,13 +784,13 @@ extract_email_record (EContactEditor *editor, gint record, gchar **address, gint
 static const gchar *
 email_index_to_location (gint index)
 {
-	return common_location [index].name;
+	return common_location[index].name;
 }
 
 static const gchar *
 im_index_to_location (gint index)
 {
-	return common_location [index].name;
+	return common_location[index].name;
 }
 
 static void
@@ -806,7 +806,7 @@ get_email_location (EVCardAttribute *attr)
 	gint i;
 
 	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
-		if (e_vcard_attribute_has_type (attr, common_location [i].name))
+		if (e_vcard_attribute_has_type (attr, common_location[i].name))
 			return i;
 	}
 
@@ -819,7 +819,7 @@ get_im_location (EVCardAttribute *attr)
 	gint i;
 
 	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
-		if (e_vcard_attribute_has_type (attr, common_location [i].name))
+		if (e_vcard_attribute_has_type (attr, common_location[i].name))
 			return i;
 	}
 
@@ -832,8 +832,8 @@ get_phone_type (EVCardAttribute *attr)
 	gint i;
 
 	for (i = 0; i < G_N_ELEMENTS (phones); i++) {
-		if (e_vcard_attribute_has_type (attr, phones [i].type_1) &&
-		    (phones [i].type_2 == NULL || e_vcard_attribute_has_type (attr, phones [i].type_2)))
+		if (e_vcard_attribute_has_type (attr, phones[i].type_1) &&
+		    (phones[i].type_2 == NULL || e_vcard_attribute_has_type (attr, phones[i].type_2)))
 			return i;
 	}
 
@@ -959,7 +959,7 @@ fill_in_email (EContactEditor *editor)
 	/* Clear */
 
 	for (record_n = 1; record_n <= EMAIL_SLOTS; record_n++) {
-		fill_in_email_record (editor, record_n, NULL, email_default [record_n - 1]);
+		fill_in_email_record (editor, record_n, NULL, email_default[record_n - 1]);
 	}
 
 	/* Fill in */
@@ -1242,7 +1242,7 @@ fill_in_phone_record (EContactEditor *editor, gint record, const gchar *phone, g
 
 	set_combo_box_active (editor, GTK_COMBO_BOX (phone_type_combo_box),
 				 phone_type >= 0 ? phone_type :
-				 phones_default [record - 1]);
+				 phones_default[record - 1]);
 	set_entry_text (editor, GTK_ENTRY (phone_entry), phone ? phone : "");
 
 	if (phone && *phone && record >= 5)
@@ -1389,7 +1389,7 @@ init_phone_record_type (EContactEditor *editor, gint record)
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (
 			store, &iter,
-			0, e_contact_pretty_name (phones [i].field_id),
+			0, e_contact_pretty_name (phones[i].field_id),
 			1, TRUE,
 			-1);
 	}
@@ -1430,7 +1430,7 @@ sensitize_phone_types (EContactEditor *editor, GtkWidget *combo_box)
 
 		gtk_list_store_set (
 			GTK_LIST_STORE (model), &iter,
-			1, is_field_supported (editor, phones [i].field_id),
+			1, is_field_supported (editor, phones[i].field_id),
 			-1);
 
 		valid = gtk_tree_model_iter_next (model, &iter);
@@ -1496,7 +1496,7 @@ init_im_record_location (EContactEditor *editor, gint record)
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (
 			store, &iter,
-			0, _(common_location [i].pretty_name),
+			0, _(common_location[i].pretty_name),
 			1, TRUE,
 			-1);
 	}
@@ -1536,7 +1536,7 @@ init_im_record_service (EContactEditor *editor, gint record)
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (
 			store, &iter,
-			0, im_service [i].pretty_name,
+			0, im_service[i].pretty_name,
 			1, TRUE,
 			-1);
 	}
@@ -1587,7 +1587,7 @@ fill_in_im_record (EContactEditor *editor, gint record, gint service, const gcha
 				 location >= 0 ? location : 0);
 #endif
 	set_combo_box_active (editor, GTK_COMBO_BOX (service_combo_box),
-				 service >= 0 ? service : im_service_default [record - 1]);
+				 service >= 0 ? service : im_service_default[record - 1]);
 	set_entry_text (editor, GTK_ENTRY (name_entry), name ? name : "");
 }
 
@@ -1608,7 +1608,7 @@ fill_in_im (EContactEditor *editor)
 	/* Fill in */
 
 	for (record_n = 1, i = 0; i < G_N_ELEMENTS (im_service); i++) {
-		im_attr_list = e_contact_get_attributes (editor->contact, im_service [i].field);
+		im_attr_list = e_contact_get_attributes (editor->contact, im_service[i].field);
 
 		for (l = im_attr_list; l && record_n <= IM_SLOTS; l = g_list_next (l)) {
 			EVCardAttribute *attr = l->data;
@@ -1689,7 +1689,7 @@ extract_im (EContactEditor *editor)
 			e_vcard_attribute_add_value (attr, name);
 			set_ui_slot (attr, i);
 
-			service_attr_list [service] = g_list_append (service_attr_list [service], attr);
+			service_attr_list[service] = g_list_append (service_attr_list[service], attr);
 		}
 
 		g_free (name);
@@ -1703,7 +1703,7 @@ extract_im (EContactEditor *editor)
 
 		/* Splice in the old attributes, minus the filled_in_slots first */
 
-		old_service_attr_list = e_contact_get_attributes (editor->contact, im_service [i].field);
+		old_service_attr_list = e_contact_get_attributes (editor->contact, im_service[i].field);
 		filled_in_slots = MIN (remaining_slots, g_list_length (old_service_attr_list));
 		remaining_slots -= filled_in_slots;
 
@@ -1715,12 +1715,12 @@ extract_im (EContactEditor *editor)
 		}
 
 		old_service_attr_list = l;
-		service_attr_list [i] = g_list_concat (service_attr_list [i], old_service_attr_list);
+		service_attr_list[i] = g_list_concat (service_attr_list[i], old_service_attr_list);
 
-		e_contact_set_attributes (editor->contact, im_service [i].field,
-					  service_attr_list [i]);
+		e_contact_set_attributes (editor->contact, im_service[i].field,
+					  service_attr_list[i]);
 
-		free_attr_list (service_attr_list [i]);
+		free_attr_list (service_attr_list[i]);
 	}
 
 	g_free (service_attr_list);
@@ -1744,7 +1744,7 @@ sensitize_im_types (EContactEditor *editor, GtkWidget *combo_box)
 
 		gtk_list_store_set (
 			GTK_LIST_STORE (model), &iter,
-			1, is_field_supported (editor, im_service [i].field),
+			1, is_field_supported (editor, im_service[i].field),
 			-1);
 
 		valid = gtk_tree_model_iter_next (model, &iter);
@@ -1933,8 +1933,8 @@ fill_in_address_record (EContactEditor *editor, gint record)
 	EContactAddress *address;
 	gchar           *address_label;
 
-	address = e_contact_get (editor->contact, addresses [record]);
-	address_label = e_contact_get (editor->contact, address_labels [record]);
+	address = e_contact_get (editor->contact, addresses[record]);
+	address_label = e_contact_get (editor->contact, address_labels[record]);
 
 	if (address &&
 	    (!STRING_IS_EMPTY (address->street)   ||
@@ -2079,12 +2079,12 @@ extract_address_record (EContactEditor *editor, gint record)
 	    !STRING_IS_EMPTY (address->code)     ||
 	    !STRING_IS_EMPTY (address->po)       ||
 	    !STRING_IS_EMPTY (address->country)) {
-		e_contact_set (editor->contact, addresses [record], address);
-		set_address_label (editor->contact, address_labels [record], address);
+		e_contact_set (editor->contact, addresses[record], address);
+		set_address_label (editor->contact, address_labels[record], address);
 	}
 	else {
-		e_contact_set (editor->contact, addresses [record], NULL);
-		set_address_label (editor->contact, address_labels [record], NULL);
+		e_contact_set (editor->contact, addresses[record], NULL);
+		set_address_label (editor->contact, address_labels[record], NULL);
 	}
 
 	g_boxed_free (e_contact_address_get_type (), address);
@@ -2158,7 +2158,7 @@ sensitize_address (EContactEditor *editor)
 		gboolean enabled = TRUE;
 
 		if (!editor->target_editable ||
-		    !(is_field_supported (editor, addresses [i]) ||
+		    !(is_field_supported (editor, addresses[i]) ||
 		      is_field_supported (editor, address_labels[i])))
 			enabled = FALSE;
 
@@ -2181,7 +2181,7 @@ FieldMapping;
  * - Set sensitivity based on backend capabilities.
  * - Set sensitivity based on book writeability. */
 
-static FieldMapping simple_field_map [] = {
+static FieldMapping simple_field_map[] = {
 	{ "entry-homepage",       E_CONTACT_HOMEPAGE_URL, TRUE,  TRUE  },
 	{ "accellabel-homepage",  E_CONTACT_HOMEPAGE_URL, FALSE, TRUE  },
 
@@ -2515,7 +2515,7 @@ init_simple (EContactEditor *editor)
 	gint       i;
 
 	for (i = 0; i < G_N_ELEMENTS (simple_field_map); i++) {
-		widget = e_builder_get_widget (editor->builder, simple_field_map [i].widget_name);
+		widget = e_builder_get_widget (editor->builder, simple_field_map[i].widget_name);
 		if (!widget)
 			continue;
 
@@ -2545,15 +2545,15 @@ fill_in_simple (EContactEditor *editor)
 	for (i = 0; i < G_N_ELEMENTS (simple_field_map); i++) {
 		GtkWidget *widget;
 
-		if (simple_field_map [i].field_id < 0 ||
-		    !simple_field_map [i].process_data)
+		if (simple_field_map[i].field_id < 0 ||
+		    !simple_field_map[i].process_data)
 			continue;
 
-		widget = e_builder_get_widget (editor->builder, simple_field_map [i].widget_name);
+		widget = e_builder_get_widget (editor->builder, simple_field_map[i].widget_name);
 		if (!widget)
 			continue;
 
-		fill_in_simple_field (editor, widget, simple_field_map [i].field_id);
+		fill_in_simple_field (editor, widget, simple_field_map[i].field_id);
 	}
 
 	/* --- Special cases --- */
@@ -2595,15 +2595,15 @@ extract_simple (EContactEditor *editor)
 	for (i = 0; i < G_N_ELEMENTS (simple_field_map); i++) {
 		GtkWidget *widget;
 
-		if (simple_field_map [i].field_id < 0 ||
-		    !simple_field_map [i].process_data)
+		if (simple_field_map[i].field_id < 0 ||
+		    !simple_field_map[i].process_data)
 			continue;
 
-		widget = e_builder_get_widget (editor->builder, simple_field_map [i].widget_name);
+		widget = e_builder_get_widget (editor->builder, simple_field_map[i].widget_name);
 		if (!widget)
 			continue;
 
-		extract_simple_field (editor, widget, simple_field_map [i].field_id);
+		extract_simple_field (editor, widget, simple_field_map[i].field_id);
 	}
 
 	/* Special cases */
@@ -2620,15 +2620,15 @@ sensitize_simple (EContactEditor *editor)
 		GtkWidget *widget;
 		gboolean   enabled = TRUE;
 
-		widget = e_builder_get_widget (editor->builder, simple_field_map [i].widget_name);
+		widget = e_builder_get_widget (editor->builder, simple_field_map[i].widget_name);
 		if (!widget)
 			continue;
 
-		if (simple_field_map [i].field_id >= 0 &&
-		    !is_field_supported (editor, simple_field_map [i].field_id))
+		if (simple_field_map[i].field_id >= 0 &&
+		    !is_field_supported (editor, simple_field_map[i].field_id))
 			enabled = FALSE;
 
-		if (simple_field_map [i].desensitize_for_read_only &&
+		if (simple_field_map[i].desensitize_for_read_only &&
 		    !editor->target_editable)
 			enabled = FALSE;
 
@@ -3228,7 +3228,7 @@ e_contact_editor_close (EABEditor *editor)
 	}
 }
 
-static const EContactField  non_string_fields [] = {
+static const EContactField  non_string_fields[] = {
 	E_CONTACT_FULL_NAME,
 	E_CONTACT_ADDRESS,
 	E_CONTACT_ADDRESS_HOME,

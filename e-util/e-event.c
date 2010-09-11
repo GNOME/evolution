@@ -451,14 +451,13 @@ emph_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 	EEventHookClass *class;
 	GSList *items = NULL;
 
-	g_return_val_if_fail (((EEventHookClass *)G_OBJECT_GET_CLASS (eph))->event != NULL, -1);
-
 	d(printf("loading event hook\n"));
 
 	if (((EPluginHookClass *)e_event_hook_parent_class)->construct (eph, ep, root) == -1)
 		return -1;
 
-	class = (EEventHookClass *)G_OBJECT_GET_CLASS (eph);
+	class = E_EVENT_HOOK_GET_CLASS (eph);
+	g_return_val_if_fail (class->event != NULL, -1);
 
 	node = root->children;
 	while (node) {

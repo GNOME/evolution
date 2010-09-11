@@ -152,12 +152,12 @@ gal_a11y_e_cell_toggle_new (ETableItem *item,
 	GalA11yECellToggle *toggle_cell;
 	gint value;
 
-	a11y = ATK_OBJECT(g_object_new (GAL_A11Y_TYPE_E_CELL_TOGGLE, NULL));
+	a11y = ATK_OBJECT (g_object_new (GAL_A11Y_TYPE_E_CELL_TOGGLE, NULL));
 
 	g_return_val_if_fail (a11y != NULL, NULL);
 
-	cell = GAL_A11Y_E_CELL(a11y);
-	toggle_cell = GAL_A11Y_E_CELL_TOGGLE(a11y);
+	cell = GAL_A11Y_E_CELL (a11y);
+	toggle_cell = GAL_A11Y_E_CELL_TOGGLE (a11y);
 	a11y->role  = ATK_ROLE_TABLE_CELL;
 
         gal_a11y_e_cell_construct (a11y,

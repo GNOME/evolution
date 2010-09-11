@@ -126,7 +126,7 @@ gal_a11y_e_cell_ref_state_set (AtkObject *accessible)
 
 	g_return_val_if_fail (cell->state_set, NULL);
 
-	g_object_ref(cell->state_set);
+	g_object_ref (cell->state_set);
 
 	return cell->state_set;
 }
@@ -364,7 +364,7 @@ gal_a11y_e_cell_remove_action_by_name (GalA11yECell *cell,
 static gint
 gal_a11y_e_cell_action_get_n_actions (AtkAction *action)
 {
-	GalA11yECell *cell = GAL_A11Y_E_CELL(action);
+	GalA11yECell *cell = GAL_A11Y_E_CELL (action);
 	if (cell->action_list != NULL)
 		return g_list_length (cell->action_list);
 	else
@@ -375,7 +375,7 @@ static G_CONST_RETURN gchar *
 gal_a11y_e_cell_action_get_name (AtkAction *action,
                            gint      index)
 {
-	GalA11yECell *cell = GAL_A11Y_E_CELL(action);
+	GalA11yECell *cell = GAL_A11Y_E_CELL (action);
 	ActionInfo *info = _gal_a11y_e_cell_get_action_info (cell, index);
 
 	if (info == NULL)
@@ -387,7 +387,7 @@ static G_CONST_RETURN gchar *
 gal_a11y_e_cell_action_get_description (AtkAction *action,
 					gint      index)
 {
-	GalA11yECell *cell = GAL_A11Y_E_CELL(action);
+	GalA11yECell *cell = GAL_A11Y_E_CELL (action);
 	ActionInfo *info = _gal_a11y_e_cell_get_action_info (cell, index);
 
 	if (info == NULL)
@@ -400,7 +400,7 @@ gal_a11y_e_cell_action_set_description (AtkAction   *action,
 					gint        index,
 					const gchar *desc)
 {
-	GalA11yECell *cell = GAL_A11Y_E_CELL(action);
+	GalA11yECell *cell = GAL_A11Y_E_CELL (action);
 	ActionInfo *info = _gal_a11y_e_cell_get_action_info (cell, index);
 
 	if (info == NULL)
@@ -414,7 +414,7 @@ static G_CONST_RETURN gchar *
 gal_a11y_e_cell_action_get_keybinding (AtkAction *action,
 				       gint      index)
 {
-	GalA11yECell *cell = GAL_A11Y_E_CELL(action);
+	GalA11yECell *cell = GAL_A11Y_E_CELL (action);
 	ActionInfo *info = _gal_a11y_e_cell_get_action_info (cell, index);
 	if (info == NULL)
 		return NULL;
@@ -443,7 +443,7 @@ static gboolean
 gal_a11y_e_cell_action_do_action (AtkAction *action,
 				  gint      index)
 {
-	GalA11yECell *cell = GAL_A11Y_E_CELL(action);
+	GalA11yECell *cell = GAL_A11Y_E_CELL (action);
 	ActionInfo *info = _gal_a11y_e_cell_get_action_info (cell, index);
 
 	if (!is_valid (ATK_OBJECT (action)))

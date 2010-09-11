@@ -62,7 +62,7 @@ static void
 feed_input_data(ESendOptionsDialog * dialog, gint state, gpointer data)
 {
 	EMsgComposer *comp;
-	gchar value [100];
+	gchar value[100];
 	gchar *temp = NULL;
 
 	comp = (EMsgComposer *) data;

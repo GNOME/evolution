@@ -65,7 +65,7 @@ struct _GalDefineViewsDialogClass {
 	GtkDialogClass parent_class;
 };
 
-GType		gal_define_views_dialog_get_type(void);
+GType		gal_define_views_dialog_get_type (void);
 GtkWidget *	gal_define_views_dialog_new	(GalViewCollection *collection);
 
 G_END_DECLS

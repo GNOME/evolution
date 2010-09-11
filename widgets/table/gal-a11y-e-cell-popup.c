@@ -92,7 +92,7 @@ gal_a11y_e_cell_popup_new (ETableItem *item,
 	ECellPopup *popupcell;
 	ECellView* child_view = NULL;
 
-	popupcell=  E_CELL_POPUP(cell_view->ecell);
+	popupcell=  E_CELL_POPUP (cell_view->ecell);
 
 	if (popupcell && popupcell->popup_cell_view)
 		child_view = popupcell->popup_cell_view->child_view;
@@ -116,7 +116,7 @@ gal_a11y_e_cell_popup_new (ETableItem *item,
 					   row);
 		}
 	g_return_val_if_fail (a11y != NULL, NULL);
-	cell = GAL_A11Y_E_CELL(a11y);
+	cell = GAL_A11Y_E_CELL (a11y);
 	gal_a11y_e_cell_add_action (cell,
 				    "popup",
 				    /* Translators: description of a "popup" action */

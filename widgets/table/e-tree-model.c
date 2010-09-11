@@ -57,7 +57,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint e_tree_model_signals [LAST_SIGNAL] = {0, };
+static guint e_tree_model_signals[LAST_SIGNAL] = {0, };
 
 
 static void
@@ -65,7 +65,7 @@ e_tree_model_class_init (ETreeModelClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	e_tree_model_signals [PRE_CHANGE] =
+	e_tree_model_signals[PRE_CHANGE] =
 		g_signal_new ("pre_change",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -74,7 +74,7 @@ e_tree_model_class_init (ETreeModelClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	e_tree_model_signals [NO_CHANGE] =
+	e_tree_model_signals[NO_CHANGE] =
 		g_signal_new ("no_change",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -83,7 +83,7 @@ e_tree_model_class_init (ETreeModelClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	e_tree_model_signals [REBUILT] =
+	e_tree_model_signals[REBUILT] =
 		g_signal_new ("rebuilt",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -92,7 +92,7 @@ e_tree_model_class_init (ETreeModelClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	e_tree_model_signals [NODE_CHANGED] =
+	e_tree_model_signals[NODE_CHANGED] =
 		g_signal_new ("node_changed",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -101,7 +101,7 @@ e_tree_model_class_init (ETreeModelClass *klass)
 			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
-	e_tree_model_signals [NODE_DATA_CHANGED] =
+	e_tree_model_signals[NODE_DATA_CHANGED] =
 		g_signal_new ("node_data_changed",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -110,7 +110,7 @@ e_tree_model_class_init (ETreeModelClass *klass)
 			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
-	e_tree_model_signals [NODE_COL_CHANGED] =
+	e_tree_model_signals[NODE_COL_CHANGED] =
 		g_signal_new ("node_col_changed",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -119,7 +119,7 @@ e_tree_model_class_init (ETreeModelClass *klass)
 			      e_marshal_VOID__POINTER_INT,
 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_INT);
 
-	e_tree_model_signals [NODE_INSERTED] =
+	e_tree_model_signals[NODE_INSERTED] =
 		g_signal_new ("node_inserted",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -128,7 +128,7 @@ e_tree_model_class_init (ETreeModelClass *klass)
 			      e_marshal_VOID__POINTER_POINTER,
 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
 
-	e_tree_model_signals [NODE_REMOVED] =
+	e_tree_model_signals[NODE_REMOVED] =
 		g_signal_new ("node_removed",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -137,7 +137,7 @@ e_tree_model_class_init (ETreeModelClass *klass)
 			      e_marshal_VOID__POINTER_POINTER_INT,
 			      G_TYPE_NONE, 3, G_TYPE_POINTER, G_TYPE_POINTER, G_TYPE_INT);
 
-	e_tree_model_signals [NODE_DELETED] =
+	e_tree_model_signals[NODE_DELETED] =
 		g_signal_new ("node_deleted",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -146,7 +146,7 @@ e_tree_model_class_init (ETreeModelClass *klass)
 			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
-	e_tree_model_signals [NODE_REQUEST_COLLAPSE] =
+	e_tree_model_signals[NODE_REQUEST_COLLAPSE] =
 		g_signal_new ("node_request_collapse",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -228,7 +228,7 @@ e_tree_model_pre_change  (ETreeModel *tree_model)
 
 	d(g_print("Emitting pre_change on model 0x%p, a %s.\n", tree_model, g_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [PRE_CHANGE], 0);
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[PRE_CHANGE], 0);
 }
 
 /**
@@ -248,7 +248,7 @@ e_tree_model_no_change  (ETreeModel *tree_model)
 
 	d(g_print("Emitting no_change on model 0x%p, a %s.\n", tree_model, g_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NO_CHANGE], 0);
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[NO_CHANGE], 0);
 }
 
 /**
@@ -268,7 +268,7 @@ e_tree_model_rebuilt  (ETreeModel *tree_model)
 
 	d(g_print("Emitting rebuilt on model 0x%p, a %s.\n", tree_model, g_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [REBUILT], 0);
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[REBUILT], 0);
 }
 /**
  * e_tree_model_node_changed:
@@ -287,7 +287,7 @@ e_tree_model_node_changed  (ETreeModel *tree_model, ETreePath node)
 
 	d(g_print("Emitting node_changed on model 0x%p, a %s.\n", tree_model, g_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_CHANGED], 0, node);
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[NODE_CHANGED], 0, node);
 }
 
 /**
@@ -307,7 +307,7 @@ e_tree_model_node_data_changed  (ETreeModel *tree_model, ETreePath node)
 
 	d(g_print("Emitting node_data_changed on model 0x%p, a %s.\n", tree_model, g_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_DATA_CHANGED], 0, node);
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[NODE_DATA_CHANGED], 0, node);
 }
 
 /**
@@ -327,7 +327,7 @@ e_tree_model_node_col_changed  (ETreeModel *tree_model, ETreePath node, gint col
 
 	d(g_print("Emitting node_col_changed on model 0x%p, a %s.\n", tree_model, g_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_COL_CHANGED], 0, node, col);
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[NODE_COL_CHANGED], 0, node, col);
 }
 
 /**
@@ -348,7 +348,7 @@ e_tree_model_node_inserted (ETreeModel *tree_model,
 
 	d(g_print("Emitting node_inserted on model 0x%p, a %s.\n", tree_model, g_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_INSERTED], 0,
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[NODE_INSERTED], 0,
 		       parent_node, inserted_node);
 }
 
@@ -368,7 +368,7 @@ e_tree_model_node_removed  (ETreeModel *tree_model, ETreePath parent_node, ETree
 
 	d(g_print("Emitting node_removed on model 0x%p, a %s.\n", tree_model, g_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_REMOVED], 0,
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[NODE_REMOVED], 0,
 		       parent_node, removed_node, old_position);
 }
 
@@ -387,7 +387,7 @@ e_tree_model_node_deleted  (ETreeModel *tree_model, ETreePath deleted_node)
 
 	d(g_print("Emitting node_deleted on model 0x%p, a %s.\n", tree_model, g_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_DELETED], 0, deleted_node);
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[NODE_DELETED], 0, deleted_node);
 }
 
 /**
@@ -405,7 +405,7 @@ e_tree_model_node_request_collapse  (ETreeModel *tree_model, ETreePath collapsed
 
 	d(g_print("Emitting node_request_collapse on model 0x%p, a %s.\n", tree_model, g_type_name (GTK_OBJECT(tree_model)->klass->type)));
 
-	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NODE_REQUEST_COLLAPSE], 0, collapsed_node);
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[NODE_REQUEST_COLLAPSE], 0, collapsed_node);
 }
 
 
@@ -437,8 +437,8 @@ e_tree_model_get_root (ETreeModel *etree)
 	g_return_val_if_fail (etree != NULL, NULL);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
 
-	if (ETM_CLASS(etree)->get_root)
-		return ETM_CLASS(etree)->get_root(etree);
+	if (ETM_CLASS (etree)->get_root)
+		return ETM_CLASS (etree)->get_root (etree);
 	else
 		return NULL;
 }
@@ -455,9 +455,9 @@ e_tree_model_get_root (ETreeModel *etree)
 ETreePath
 e_tree_model_node_get_parent (ETreeModel *etree, ETreePath node)
 {
-	g_return_val_if_fail(etree != NULL, NULL);
-	if (ETM_CLASS(etree)->get_parent)
-		return ETM_CLASS(etree)->get_parent(etree, node);
+	g_return_val_if_fail (etree != NULL, NULL);
+	if (ETM_CLASS (etree)->get_parent)
+		return ETM_CLASS (etree)->get_parent (etree, node);
 	else
 		return NULL;
 }
@@ -477,8 +477,8 @@ e_tree_model_node_get_first_child (ETreeModel *etree, ETreePath node)
 	g_return_val_if_fail (etree != NULL, NULL);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
 
-	if (ETM_CLASS(etree)->get_first_child)
-		return ETM_CLASS(etree)->get_first_child(etree, node);
+	if (ETM_CLASS (etree)->get_first_child)
+		return ETM_CLASS (etree)->get_first_child (etree, node);
 	else
 		return NULL;
 }
@@ -498,8 +498,8 @@ e_tree_model_node_get_last_child (ETreeModel *etree, ETreePath node)
 	g_return_val_if_fail (etree != NULL, NULL);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
 
-	if (ETM_CLASS(etree)->get_last_child)
-		return ETM_CLASS(etree)->get_last_child(etree, node);
+	if (ETM_CLASS (etree)->get_last_child)
+		return ETM_CLASS (etree)->get_last_child (etree, node);
 	else
 		return NULL;
 }
@@ -519,8 +519,8 @@ e_tree_model_node_get_next (ETreeModel *etree, ETreePath node)
 	g_return_val_if_fail (etree != NULL, NULL);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
 
-	if (ETM_CLASS(etree)->get_next)
-		return ETM_CLASS(etree)->get_next(etree, node);
+	if (ETM_CLASS (etree)->get_next)
+		return ETM_CLASS (etree)->get_next (etree, node);
 	else
 		return NULL;
 }
@@ -540,8 +540,8 @@ e_tree_model_node_get_prev (ETreeModel *etree, ETreePath node)
 	g_return_val_if_fail (etree != NULL, NULL);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
 
-	if (ETM_CLASS(etree)->get_prev)
-		return ETM_CLASS(etree)->get_prev(etree, node);
+	if (ETM_CLASS (etree)->get_prev)
+		return ETM_CLASS (etree)->get_prev (etree, node);
 	else
 		return NULL;
 }
@@ -558,10 +558,10 @@ e_tree_model_node_get_prev (ETreeModel *etree, ETreePath node)
 gboolean
 e_tree_model_node_is_root (ETreeModel *etree, ETreePath node)
 {
-	g_return_val_if_fail(etree != NULL, FALSE);
+	g_return_val_if_fail (etree != NULL, FALSE);
 
-	if (ETM_CLASS(etree)->is_root)
-		return ETM_CLASS(etree)->is_root(etree, node);
+	if (ETM_CLASS (etree)->is_root)
+		return ETM_CLASS (etree)->is_root (etree, node);
 	else
 		return FALSE;
 }
@@ -578,11 +578,11 @@ e_tree_model_node_is_root (ETreeModel *etree, ETreePath node)
 gboolean
 e_tree_model_node_is_expandable (ETreeModel *etree, ETreePath node)
 {
-	g_return_val_if_fail(etree != NULL, FALSE);
-	g_return_val_if_fail(node != NULL, FALSE);
+	g_return_val_if_fail (etree != NULL, FALSE);
+	g_return_val_if_fail (node != NULL, FALSE);
 
-	if (ETM_CLASS(etree)->is_expandable)
-		return ETM_CLASS(etree)->is_expandable(etree, node);
+	if (ETM_CLASS (etree)->is_expandable)
+		return ETM_CLASS (etree)->is_expandable (etree, node);
 	else
 		return FALSE;
 }
@@ -590,9 +590,9 @@ e_tree_model_node_is_expandable (ETreeModel *etree, ETreePath node)
 guint
 e_tree_model_node_get_children (ETreeModel *etree, ETreePath node, ETreePath **nodes)
 {
-	g_return_val_if_fail(etree != NULL, 0);
-	if (ETM_CLASS(etree)->get_children)
-		return ETM_CLASS(etree)->get_children (etree, node, nodes);
+	g_return_val_if_fail (etree != NULL, 0);
+	if (ETM_CLASS (etree)->get_children)
+		return ETM_CLASS (etree)->get_children (etree, node, nodes);
 	else
 		return 0;
 }
@@ -612,8 +612,8 @@ e_tree_model_node_depth (ETreeModel *etree, ETreePath node)
 	g_return_val_if_fail (etree != NULL, 0);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), 0);
 
-	if (ETM_CLASS(etree)->depth)
-		return ETM_CLASS(etree)->depth(etree, node);
+	if (ETM_CLASS (etree)->depth)
+		return ETM_CLASS (etree)->depth (etree, node);
 	else
 		return 0;
 }
@@ -633,8 +633,8 @@ e_tree_model_icon_at (ETreeModel *etree, ETreePath node)
 	g_return_val_if_fail (etree != NULL, NULL);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
 
-	if (ETM_CLASS(etree)->icon_at)
-		return ETM_CLASS(etree)->icon_at (etree, node);
+	if (ETM_CLASS (etree)->icon_at)
+		return ETM_CLASS (etree)->icon_at (etree, node);
 	else
 		return NULL;
 }
@@ -653,8 +653,8 @@ e_tree_model_get_expanded_default (ETreeModel *etree)
 	g_return_val_if_fail (etree != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), FALSE);
 
-	if (ETM_CLASS(etree)->get_expanded_default)
-		return ETM_CLASS(etree)->get_expanded_default (etree);
+	if (ETM_CLASS (etree)->get_expanded_default)
+		return ETM_CLASS (etree)->get_expanded_default (etree);
 	else
 		return FALSE;
 }
@@ -673,8 +673,8 @@ e_tree_model_column_count (ETreeModel *etree)
 	g_return_val_if_fail (etree != NULL, 0);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), 0);
 
-	if (ETM_CLASS(etree)->column_count)
-		return ETM_CLASS(etree)->column_count (etree);
+	if (ETM_CLASS (etree)->column_count)
+		return ETM_CLASS (etree)->column_count (etree);
 	else
 		return 0;
 }
@@ -693,8 +693,8 @@ e_tree_model_has_save_id (ETreeModel *etree)
 	g_return_val_if_fail (etree != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), FALSE);
 
-	if (ETM_CLASS(etree)->has_save_id)
-		return ETM_CLASS(etree)->has_save_id (etree);
+	if (ETM_CLASS (etree)->has_save_id)
+		return ETM_CLASS (etree)->has_save_id (etree);
 	else
 		return FALSE;
 }
@@ -714,8 +714,8 @@ e_tree_model_get_save_id (ETreeModel *etree, ETreePath node)
 	g_return_val_if_fail (etree != NULL, NULL);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
 
-	if (ETM_CLASS(etree)->get_save_id)
-		return ETM_CLASS(etree)->get_save_id (etree, node);
+	if (ETM_CLASS (etree)->get_save_id)
+		return ETM_CLASS (etree)->get_save_id (etree, node);
 	else
 		return NULL;
 }
@@ -734,8 +734,8 @@ e_tree_model_has_get_node_by_id (ETreeModel *etree)
 	g_return_val_if_fail (etree != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), FALSE);
 
-	if (ETM_CLASS(etree)->has_get_node_by_id)
-		return ETM_CLASS(etree)->has_get_node_by_id (etree);
+	if (ETM_CLASS (etree)->has_get_node_by_id)
+		return ETM_CLASS (etree)->has_get_node_by_id (etree);
 	else
 		return FALSE;
 }
@@ -758,8 +758,8 @@ e_tree_model_get_node_by_id (ETreeModel *etree, const gchar *save_id)
 	g_return_val_if_fail (etree != NULL, NULL);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
 
-	if (ETM_CLASS(etree)->get_node_by_id)
-		return ETM_CLASS(etree)->get_node_by_id (etree, save_id);
+	if (ETM_CLASS (etree)->get_node_by_id)
+		return ETM_CLASS (etree)->get_node_by_id (etree, save_id);
 	else
 		return NULL;
 }
@@ -778,8 +778,8 @@ e_tree_model_has_change_pending (ETreeModel *etree)
 	g_return_val_if_fail (etree != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), FALSE);
 
-	if (ETM_CLASS(etree)->has_change_pending)
-		return ETM_CLASS(etree)->has_change_pending (etree);
+	if (ETM_CLASS (etree)->has_change_pending)
+		return ETM_CLASS (etree)->has_change_pending (etree);
 	else
 		return FALSE;
 }
@@ -810,8 +810,8 @@ e_tree_model_sort_value_at (ETreeModel *etree, ETreePath node, gint col)
 	g_return_val_if_fail (etree != NULL, NULL);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
 
-	if (ETM_CLASS(etree)->sort_value_at)
-		return ETM_CLASS(etree)->sort_value_at (etree, node, col);
+	if (ETM_CLASS (etree)->sort_value_at)
+		return ETM_CLASS (etree)->sort_value_at (etree, node, col);
 	else
 		return NULL;
 }
@@ -841,8 +841,8 @@ e_tree_model_value_at (ETreeModel *etree, ETreePath node, gint col)
 	g_return_val_if_fail (etree != NULL, NULL);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
 
-	if (ETM_CLASS(etree)->value_at)
-		return ETM_CLASS(etree)->value_at (etree, node, col);
+	if (ETM_CLASS (etree)->value_at)
+		return ETM_CLASS (etree)->value_at (etree, node, col);
 	else
 		return NULL;
 }
@@ -853,8 +853,8 @@ e_tree_model_set_value_at (ETreeModel *etree, ETreePath node, gint col, gconstpo
 	g_return_if_fail (etree != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (etree));
 
-	if (ETM_CLASS(etree)->set_value_at)
-		ETM_CLASS(etree)->set_value_at (etree, node, col, val);
+	if (ETM_CLASS (etree)->set_value_at)
+		ETM_CLASS (etree)->set_value_at (etree, node, col, val);
 }
 
 /**
@@ -869,10 +869,10 @@ e_tree_model_set_value_at (ETreeModel *etree, ETreePath node, gint col, gconstpo
 gboolean
 e_tree_model_node_is_editable (ETreeModel *etree, ETreePath node, gint col)
 {
-	g_return_val_if_fail(etree != NULL, FALSE);
+	g_return_val_if_fail (etree != NULL, FALSE);
 
-	if (ETM_CLASS(etree)->is_editable)
-		return ETM_CLASS(etree)->is_editable(etree, node, col);
+	if (ETM_CLASS (etree)->is_editable)
+		return ETM_CLASS (etree)->is_editable (etree, node, col);
 	else
 		return FALSE;
 }
@@ -889,10 +889,10 @@ e_tree_model_node_is_editable (ETreeModel *etree, ETreePath node, gint col)
 gpointer
 e_tree_model_duplicate_value (ETreeModel *etree, gint col, gconstpointer value)
 {
-	g_return_val_if_fail(etree != NULL, NULL);
+	g_return_val_if_fail (etree != NULL, NULL);
 
-	if (ETM_CLASS(etree)->duplicate_value)
-		return ETM_CLASS(etree)->duplicate_value(etree, col, value);
+	if (ETM_CLASS (etree)->duplicate_value)
+		return ETM_CLASS (etree)->duplicate_value (etree, col, value);
 	else
 		return NULL;
 }
@@ -909,10 +909,10 @@ e_tree_model_duplicate_value (ETreeModel *etree, gint col, gconstpointer value)
 void
 e_tree_model_free_value (ETreeModel *etree, gint col, gpointer value)
 {
-	g_return_if_fail(etree != NULL);
+	g_return_if_fail (etree != NULL);
 
-	if (ETM_CLASS(etree)->free_value)
-		ETM_CLASS(etree)->free_value(etree, col, value);
+	if (ETM_CLASS (etree)->free_value)
+		ETM_CLASS (etree)->free_value (etree, col, value);
 }
 
 /**
@@ -927,10 +927,10 @@ e_tree_model_free_value (ETreeModel *etree, gint col, gpointer value)
 gpointer
 e_tree_model_initialize_value (ETreeModel *etree, gint col)
 {
-	g_return_val_if_fail(etree != NULL, NULL);
+	g_return_val_if_fail (etree != NULL, NULL);
 
-	if (ETM_CLASS(etree)->initialize_value)
-		return ETM_CLASS(etree)->initialize_value(etree, col);
+	if (ETM_CLASS (etree)->initialize_value)
+		return ETM_CLASS (etree)->initialize_value (etree, col);
 	else
 		return NULL;
 }
@@ -947,10 +947,10 @@ e_tree_model_initialize_value (ETreeModel *etree, gint col)
 gboolean
 e_tree_model_value_is_empty (ETreeModel *etree, gint col, gconstpointer value)
 {
-	g_return_val_if_fail(etree != NULL, TRUE);
+	g_return_val_if_fail (etree != NULL, TRUE);
 
-	if (ETM_CLASS(etree)->value_is_empty)
-		return ETM_CLASS(etree)->value_is_empty(etree, col, value);
+	if (ETM_CLASS (etree)->value_is_empty)
+		return ETM_CLASS (etree)->value_is_empty (etree, col, value);
 	else
 		return TRUE;
 }
@@ -969,8 +969,8 @@ e_tree_model_value_to_string (ETreeModel *etree, gint col, gconstpointer value)
 {
 	g_return_val_if_fail(etree != NULL, g_strdup(""));
 
-	if (ETM_CLASS(etree)->value_to_string)
-		return ETM_CLASS(etree)->value_to_string(etree, col, value);
+	if (ETM_CLASS (etree)->value_to_string)
+		return ETM_CLASS (etree)->value_to_string (etree, col, value);
 	else
 		return g_strdup("");
 }

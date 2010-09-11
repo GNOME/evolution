@@ -85,7 +85,7 @@ gint main( gint argc, gchar *argv[] )
 
 	cardstr = NULL;
 	if (argc == 2)
-		cardstr = read_file (argv [1]);
+		cardstr = read_file (argv[1]);
 
 	if (cardstr == NULL)
 		cardstr = TEST_VCARD;

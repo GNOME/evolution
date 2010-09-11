@@ -2104,7 +2104,7 @@ em_utils_url_unescape_amp (const gchar *url)
 		return NULL;
 
 	amps = 0;
-	for (i = 0; url [i]; i++) {
+	for (i = 0; url[i]; i++) {
 		if (url [i] == '&' && strncmp (url + i, "&amp;", 5) == 0)
 			amps++;
 	}
@@ -2114,13 +2114,13 @@ em_utils_url_unescape_amp (const gchar *url)
 	if (!amps)
 		return buff;
 
-	for (i = 0, j = 0; url [i]; i++, j++) {
-		buff [j] = url [i];
+	for (i = 0, j = 0; url[i]; i++, j++) {
+		buff[j] = url[i];
 
 		if (url [i] == '&' && strncmp (url + i, "&amp;", 5) == 0)
 			i += 4;
 	}
-	buff [j] = 0;
+	buff[j] = 0;
 
 	return buff;
 }
@@ -2330,7 +2330,6 @@ emu_restore_folder_tree_state (EMFolderTree *folder_tree)
 	GKeyFile *key_file;
 	const gchar *config_dir;
 	gchar *filename;
-	GError *error = NULL;
 
 	g_return_if_fail (folder_tree != NULL);
 	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));

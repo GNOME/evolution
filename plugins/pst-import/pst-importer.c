@@ -103,7 +103,7 @@ GtkWidget *em_folder_selection_button_new (const gchar *title, const gchar *capt
 void        em_folder_selection_button_set_selection (EMFolderSelectionButton *button, const gchar *uri);
 const gchar *em_folder_selection_button_get_selection (EMFolderSelectionButton *button);
 
-static guchar pst_signature [] = { '!', 'B', 'D', 'N' };
+static guchar pst_signature[] = { '!', 'B', 'D', 'N' };
 
 struct _PstImporter {
 	MailMsg base;

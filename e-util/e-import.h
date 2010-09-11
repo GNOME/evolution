@@ -54,14 +54,26 @@ typedef struct _EImportImporter EImportImporter;
 typedef struct _EImportFactory EImportFactory;
 typedef struct _EImportTarget EImportTarget;
 
-typedef void (*EImportCompleteFunc)(EImport *ei, gpointer data);
-typedef void (*EImportStatusFunc)(EImport *ei, const gchar *what, gint pc, gpointer data);
+typedef void		(*EImportCompleteFunc)	(EImport *ei,
+						 gpointer data);
+typedef void		(*EImportStatusFunc)	(EImport *ei,
+						 const gchar *what,
+						 gint pc,
+						 gpointer data);
 
-typedef void (*EImportFactoryFunc)(EImport *ei, gpointer data);
-typedef void (*EImportImporterFunc)(EImportImporter *importer, gpointer data);
-typedef gboolean (*EImportSupportedFunc)(EImport *ei, EImportTarget *, EImportImporter *im);
-typedef GtkWidget *(*EImportWidgetFunc)(EImport *ei, EImportTarget *, EImportImporter *im);
-typedef void (*EImportImportFunc)(EImport *ei, EImportTarget *, EImportImporter *im);
+typedef void		(*EImportFactoryFunc)	(EImport *ei,
+						 gpointer data);
+typedef void		(*EImportImporterFunc)	(EImportImporter *importer,
+						 gpointer data);
+typedef gboolean	(*EImportSupportedFunc)	(EImport *ei,
+						 EImportTarget *,
+						 EImportImporter *im);
+typedef GtkWidget *	(*EImportWidgetFunc)	(EImport *ei,
+						 EImportTarget *,
+						 EImportImporter *im);
+typedef void		(*EImportImportFunc)	(EImport *ei,
+						 EImportTarget *,
+						 EImportImporter *im);
 
 /* The global target types, implementors may add additional ones */
 enum _e_import_target_t {
@@ -76,7 +88,8 @@ enum _e_import_target_t {
  * @type: target type
  * @priority: Priority of importer.  Higher values will be processed first.
  * @supported: Callback to see if this target is supported by the importer.
- * @get_widget: A widget factory for this importer, if it needs any extra information in the assistant.  It will update the target.
+ * @get_widget: A widget factory for this importer, if it needs any extra
+ * information in the assistant.  It will update the target.
  * @import: Run the import.
  * @cancel: Cancel the import.
  * @get_preview: Callback to create a preview widget for just importing data.

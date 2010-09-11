@@ -66,7 +66,7 @@ ectr_model_row_changed_cb (ETableModel *etm,
 }
 
 static void
-kill_view_cb(ECellView *subcell_view,
+kill_view_cb (ECellView *subcell_view,
              gpointer psubcell_a11ies)
 {
         GList *node;
@@ -75,7 +75,7 @@ kill_view_cb(ECellView *subcell_view,
 
         for (node = subcell_a11ies; node != NULL; node = g_list_next (node))
         {
-            subcell = GAL_A11Y_E_CELL(node->data);
+            subcell = GAL_A11Y_E_CELL (node->data);
             if (subcell && subcell->cell_view == subcell_view)
             {
                 d(fprintf(stderr, "subcell_view %p deleted before the a11y object %p\n", subcell_view, subcell));
@@ -90,7 +90,7 @@ ectr_subcell_weak_ref (GalA11yECellTree *a11y,
 {
         ECellView *subcell_view = subcell_a11y ? subcell_a11y->cell_view : NULL;
         if (subcell_a11y && subcell_view && subcell_view->kill_view_cb_data)
-            subcell_view->kill_view_cb_data = g_list_remove(subcell_view->kill_view_cb_data, subcell_a11y);
+            subcell_view->kill_view_cb_data = g_list_remove (subcell_view->kill_view_cb_data, subcell_a11y);
 
 	g_signal_handler_disconnect (GAL_A11Y_E_CELL (a11y)->item->table_model,
 				     a11y->model_row_changed_id);
@@ -252,8 +252,8 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
         if (subcell_a11y && subcell_view)
         {
             subcell_view->kill_view_cb = kill_view_cb;
-            if (!g_list_find(subcell_view->kill_view_cb_data, subcell_a11y))
-                subcell_view->kill_view_cb_data = g_list_append(subcell_view->kill_view_cb_data, subcell_a11y);
+            if (!g_list_find (subcell_view->kill_view_cb_data, subcell_a11y))
+                subcell_view->kill_view_cb_data = g_list_append (subcell_view->kill_view_cb_data, subcell_a11y);
         }
 
 	g_object_weak_ref (G_OBJECT (subcell_a11y), (GWeakNotify) ectr_subcell_weak_ref, a11y);

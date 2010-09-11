@@ -362,22 +362,22 @@ e_week_view_layout_get_day_position	(gint		 day,
 
 		wd = 0; /* number of used rows in column */
 		for (i = m; i < M; i++) {
-			arr [i - m] += wk (i);
-			wd += arr [i - m];
+			arr[i - m] += wk (i);
+			wd += arr[i - m];
 		}
 
 		while (wd != 6 && any) {
 			any = FALSE;
 
 			for (i = M - 1; i >= m; i--) {
-				if (arr [i - m] > 1) {
+				if (arr[i - m] > 1) {
 					any = TRUE;
 
 					if (wd > 6) { /* too many rows, make last shorter */
-						arr [i - m] --;
+						arr[i - m] --;
 						wd--;
 					} else if (wd < 6) { /* free rows left, enlarge those bigger */
-						arr [i - m] ++;
+						arr[i - m] ++;
 						wd++;
 					}
 
@@ -390,7 +390,7 @@ e_week_view_layout_get_day_position	(gint		 day,
 				any = TRUE;
 
 				for (i = m; i < M; i++) {
-					arr [i - m] += 3;
+					arr[i - m] += 3;
 					wd += 3;
 				}
 			}

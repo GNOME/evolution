@@ -62,7 +62,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint signals [LAST_SIGNAL] = {0, };
+static guint signals[LAST_SIGNAL] = {0, };
 
 enum DndTargetType {
 	DND_TARGET_TYPE_VCARD_LIST,
@@ -552,7 +552,7 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 							       FALSE,
 							       G_PARAM_READWRITE));
 
-	signals [CREATE_CONTACT] =
+	signals[CREATE_CONTACT] =
 		g_signal_new ("create-contact",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
@@ -560,7 +560,7 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	signals [CREATE_CONTACT_LIST] =
+	signals[CREATE_CONTACT_LIST] =
 		g_signal_new ("create-contact-list",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
@@ -568,7 +568,7 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	signals [RIGHT_CLICK] =
+	signals[RIGHT_CLICK] =
 		g_signal_new ("right_click",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -644,7 +644,7 @@ e_minicard_view_jump_to_letter (EMinicardView *view,
 #if 0
 	gchar uft_str[6 + 1];
 
-	utf_str [g_unichar_to_utf8 (letter, utf_str)] = '\0';
+	utf_str[g_unichar_to_utf8 (letter, utf_str)] = '\0';
 	e_reflow_sorted_jump (E_REFLOW_SORTED (view),
 			      (GCompareFunc) compare_to_utf_str,
 			      utf_str);

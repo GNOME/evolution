@@ -56,12 +56,12 @@ etss_get_view_row (ETableSubset *etss, gint row)
 	const gint * const map_table = etss->map_table;
 	gint i;
 
-	gint end = MIN(etss->n_map, etss->last_access + 10);
-	gint start = MAX(0, etss->last_access - 10);
+	gint end = MIN (etss->n_map, etss->last_access + 10);
+	gint start = MAX (0, etss->last_access - 10);
 	gint initial = MAX (MIN (etss->last_access, end), start);
 
 	for (i = initial; i < end; i++) {
-		if (map_table [i] == row) {
+		if (map_table[i] == row) {
 			d(g_print("a) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return i;
@@ -69,7 +69,7 @@ etss_get_view_row (ETableSubset *etss, gint row)
 	}
 
 	for (i = initial - 1; i >= start; i--) {
-		if (map_table [i] == row) {
+		if (map_table[i] == row) {
 			d(g_print("b) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return i;
@@ -77,7 +77,7 @@ etss_get_view_row (ETableSubset *etss, gint row)
 	}
 
 	for (i = 0; i < n; i++) {
-		if (map_table [i] == row) {
+		if (map_table[i] == row) {
 			d(g_print("c) Found %d from %d\n", i, etss->last_access));
 			etss->last_access = i;
 			return i;
@@ -156,7 +156,7 @@ etss_value_at (ETableModel *etm, gint col, gint row)
 
 	etss->last_access = row;
 	d(g_print("g) Setting last_access to %d\n", row));
-	return e_table_model_value_at (etss->source, col, MAP_ROW(etss, row));
+	return e_table_model_value_at (etss->source, col, MAP_ROW (etss, row));
 }
 
 static void
@@ -168,7 +168,7 @@ etss_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
 
 	etss->last_access = row;
 	d(g_print("h) Setting last_access to %d\n", row));
-	e_table_model_set_value_at (etss->source, col, MAP_ROW(etss, row), val);
+	e_table_model_set_value_at (etss->source, col, MAP_ROW (etss, row), val);
 }
 
 static gboolean
@@ -178,7 +178,7 @@ etss_is_cell_editable (ETableModel *etm, gint col, gint row)
 
 	g_return_val_if_fail (VALID_ROW (etss, row), FALSE);
 
-	return e_table_model_is_cell_editable (etss->source, col, MAP_ROW(etss, row));
+	return e_table_model_is_cell_editable (etss->source, col, MAP_ROW (etss, row));
 }
 
 static gboolean
@@ -195,7 +195,7 @@ etss_get_save_id (ETableModel *etm, gint row)
 	g_return_val_if_fail (VALID_ROW (etss, row), NULL);
 
 	if (e_table_model_has_save_id (etss->source))
-		return e_table_model_get_save_id (etss->source, MAP_ROW(etss, row));
+		return e_table_model_get_save_id (etss->source, MAP_ROW (etss, row));
 	else
 		return g_strdup_printf ("%d", MAP_ROW(etss, row));
 }
@@ -341,50 +341,50 @@ etss_proxy_model_rows_deleted_real (ETableSubset *etss, ETableModel *etm, gint r
 static void
 etss_proxy_model_pre_change (ETableModel *etm, ETableSubset *etss)
 {
-	if (ETSS_CLASS(etss)->proxy_model_pre_change)
-		(ETSS_CLASS(etss)->proxy_model_pre_change) (etss, etm);
+	if (ETSS_CLASS (etss)->proxy_model_pre_change)
+		(ETSS_CLASS (etss)->proxy_model_pre_change) (etss, etm);
 }
 
 static void
 etss_proxy_model_no_change (ETableModel *etm, ETableSubset *etss)
 {
-	if (ETSS_CLASS(etss)->proxy_model_no_change)
-		(ETSS_CLASS(etss)->proxy_model_no_change) (etss, etm);
+	if (ETSS_CLASS (etss)->proxy_model_no_change)
+		(ETSS_CLASS (etss)->proxy_model_no_change) (etss, etm);
 }
 
 static void
 etss_proxy_model_changed (ETableModel *etm, ETableSubset *etss)
 {
-	if (ETSS_CLASS(etss)->proxy_model_changed)
-		(ETSS_CLASS(etss)->proxy_model_changed) (etss, etm);
+	if (ETSS_CLASS (etss)->proxy_model_changed)
+		(ETSS_CLASS (etss)->proxy_model_changed) (etss, etm);
 }
 
 static void
 etss_proxy_model_row_changed (ETableModel *etm, gint row, ETableSubset *etss)
 {
-	if (ETSS_CLASS(etss)->proxy_model_row_changed)
-		(ETSS_CLASS(etss)->proxy_model_row_changed) (etss, etm, row);
+	if (ETSS_CLASS (etss)->proxy_model_row_changed)
+		(ETSS_CLASS (etss)->proxy_model_row_changed) (etss, etm, row);
 }
 
 static void
 etss_proxy_model_cell_changed (ETableModel *etm, gint col, gint row, ETableSubset *etss)
 {
-	if (ETSS_CLASS(etss)->proxy_model_cell_changed)
-		(ETSS_CLASS(etss)->proxy_model_cell_changed) (etss, etm, col, row);
+	if (ETSS_CLASS (etss)->proxy_model_cell_changed)
+		(ETSS_CLASS (etss)->proxy_model_cell_changed) (etss, etm, col, row);
 }
 
 static void
 etss_proxy_model_rows_inserted (ETableModel *etm, gint row, gint col, ETableSubset *etss)
 {
-	if (ETSS_CLASS(etss)->proxy_model_rows_inserted)
-		(ETSS_CLASS(etss)->proxy_model_rows_inserted) (etss, etm, row, col);
+	if (ETSS_CLASS (etss)->proxy_model_rows_inserted)
+		(ETSS_CLASS (etss)->proxy_model_rows_inserted) (etss, etm, row, col);
 }
 
 static void
 etss_proxy_model_rows_deleted (ETableModel *etm, gint row, gint col, ETableSubset *etss)
 {
-	if (ETSS_CLASS(etss)->proxy_model_rows_deleted)
-		(ETSS_CLASS(etss)->proxy_model_rows_deleted) (etss, etm, row, col);
+	if (ETSS_CLASS (etss)->proxy_model_rows_deleted)
+		(ETSS_CLASS (etss)->proxy_model_rows_deleted) (etss, etm, row, col);
 }
 
 ETableModel *
@@ -406,7 +406,7 @@ e_table_subset_construct (ETableSubset *etss, ETableModel *source, gint nvals)
 
 	/* Init */
 	for (i = 0; i < nvals; i++)
-		etss->map_table [i] = i;
+		etss->map_table[i] = i;
 
 	etss->table_model_pre_change_id    = g_signal_connect (G_OBJECT (source), "model_pre_change",
 							G_CALLBACK (etss_proxy_model_pre_change), etss);

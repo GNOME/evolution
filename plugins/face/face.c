@@ -75,7 +75,7 @@ get_face_base64 (void)
 	if (g_file_get_contents (filename, &file_contents, &length, NULL)) {
 		if (length > 0) {
 			file_contents = g_realloc (file_contents, length + 1);
-			file_contents [length] = 0;
+			file_contents[length] = 0;
 		} else {
 			g_free (file_contents);
 			file_contents = NULL;

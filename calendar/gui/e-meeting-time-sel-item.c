@@ -485,9 +485,9 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 	hour_y = mts->row_height + 4 - scroll_y;
 	while (hour < mts->last_hour_shown) {
 		if (calendar_config_get_24_hour_format ())
-			pango_layout_set_text (layout, EMeetingTimeSelectorHours [hour], -1);
+			pango_layout_set_text (layout, EMeetingTimeSelectorHours[hour], -1);
 		else
-			pango_layout_set_text (layout, EMeetingTimeSelectorHours12 [hour], -1);
+			pango_layout_set_text (layout, EMeetingTimeSelectorHours12[hour], -1);
 
 		gdk_draw_layout (drawable, gc,
 				 hour_x,

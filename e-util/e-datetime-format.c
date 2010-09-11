@@ -85,10 +85,10 @@ ensure_loaded (void)
 	keys = g_key_file_get_keys (keyfile, KEYS_GROUPNAME, NULL, NULL);
 
 	if (keys) {
-		for (i = 0;  keys [i]; i++) {
-			str = g_key_file_get_string (keyfile, KEYS_GROUPNAME, keys [i], NULL);
+		for (i = 0;  keys[i]; i++) {
+			str = g_key_file_get_string (keyfile, KEYS_GROUPNAME, keys[i], NULL);
 			if (str)
-				g_hash_table_insert (key2fmt, g_strdup (keys [i]), str);
+				g_hash_table_insert (key2fmt, g_strdup (keys[i]), str);
 		}
 
 		g_strfreev (keys);
@@ -240,11 +240,11 @@ format_internal (const gchar *key, DTFormatKind kind, time_t tvalue, struct tm *
 	}
 
 	fmt = get_format_internal (key, kind);
-	for (i = 0; fmt [i]; i++) {
-		if (fmt [i] == '%') {
-			if (fmt [i + 1] == '%') {
+	for (i = 0; fmt[i]; i++) {
+		if (fmt[i] == '%') {
+			if (fmt[i + 1] == '%') {
 				i++;
-			} else if (fmt [i + 1] == 'a' && fmt [i + 2] == 'd' && (fmt [i + 3] == 0 || !g_ascii_isalpha (fmt [i + 3]))) {
+			} else if (fmt[i + 1] == 'a' && fmt[i + 2] == 'd' && (fmt[i + 3] == 0 || !g_ascii_isalpha (fmt[i + 3]))) {
 				gchar *ad;
 
 				/* "%ad" for abbreviated date */
@@ -262,7 +262,7 @@ format_internal (const gchar *key, DTFormatKind kind, time_t tvalue, struct tm *
 				ad = format_relative_date (tvalue, ttoday, &value, &today);
 				if (ad)
 					g_string_append (use_fmt, ad);
-				else if (g_ascii_isspace (fmt [i + 3]))
+				else if (g_ascii_isspace (fmt[i + 3]))
 					i++;
 
 				g_free (ad);
@@ -285,7 +285,7 @@ format_internal (const gchar *key, DTFormatKind kind, time_t tvalue, struct tm *
 static void
 fill_combo_formats (GtkWidget *combo, const gchar *key, DTFormatKind kind)
 {
-	const gchar *date_items [] = {
+	const gchar *date_items[] = {
 		N_ ("Use locale default"),
 		"%m/%d/%y",	/* American style */
 		"%m/%d/%Y",	/* American style, full year */
@@ -295,7 +295,7 @@ fill_combo_formats (GtkWidget *combo, const gchar *key, DTFormatKind kind)
 		NULL
 	};
 
-	const gchar *time_items [] = {
+	const gchar *time_items[] = {
 		N_ ("Use locale default"),
 		"%I:%M:%S %p",	/* 12hours style */
 		"%I:%M %p",	/* 12hours style, without seconds */
@@ -304,7 +304,7 @@ fill_combo_formats (GtkWidget *combo, const gchar *key, DTFormatKind kind)
 		NULL
 	};
 
-	const gchar *datetime_items [] = {
+	const gchar *datetime_items[] = {
 		N_ ("Use locale default"),
 		"%m/%d/%y %I:%M:%S %p",	/* American style */
 		"%m/%d/%Y %I:%M:%S %p",	/* American style, full year */
@@ -321,7 +321,7 @@ fill_combo_formats (GtkWidget *combo, const gchar *key, DTFormatKind kind)
 		NULL
 	};
 
-	const gchar *shortdate_items [] = {
+	const gchar *shortdate_items[] = {
 		"%A, %B %d",
 		"%A, %d %B",
 		"%a, %b %d",
@@ -354,7 +354,7 @@ fill_combo_formats (GtkWidget *combo, const gchar *key, DTFormatKind kind)
 
 	fmt = get_format_internal (key, kind);
 
-	for (i = 0; items [i]; i++) {
+	for (i = 0; items[i]; i++) {
 		if (i == 0) {
 			gtk_combo_box_append_text ((GtkComboBox *) combo, _(items[i]));
 		} else {

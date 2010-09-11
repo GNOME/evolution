@@ -103,7 +103,7 @@ pixbuf_kill_view (ECellView *ecell_view)
             ecell_view, pixbuf_view->cell_view.kill_view_cb_data);
 
     if (pixbuf_view->cell_view.kill_view_cb_data)
-        g_list_free(pixbuf_view->cell_view.kill_view_cb_data);
+        g_list_free (pixbuf_view->cell_view.kill_view_cb_data);
 
     g_free (pixbuf_view);
 }

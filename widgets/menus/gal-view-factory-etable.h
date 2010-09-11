@@ -62,7 +62,7 @@ struct _GalViewFactoryEtableClass {
 	GalViewFactoryClass parent_class;
 };
 
-GType		gal_view_factory_etable_get_type(void);
+GType		gal_view_factory_etable_get_type (void);
 ETableSpecification *
 		gal_view_factory_etable_get_specification
 						(GalViewFactoryEtable *factory);

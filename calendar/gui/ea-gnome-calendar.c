@@ -218,7 +218,7 @@ ea_gnome_calendar_get_label_description (GnomeCalendar *gcal)
 		if (start_tm.tm_year == end_tm.tm_year) {
 			if (start_tm.tm_mon == end_tm.tm_mon) {
 				if (start_tm.tm_mday == end_tm.tm_mday) {
-					buffer [0] = '\0';
+					buffer[0] = '\0';
 				} else {
 					e_utf8_strftime (buffer, sizeof (buffer),
 							"%d", &start_tm);

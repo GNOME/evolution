@@ -61,7 +61,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint signals [LAST_SIGNAL] = {0, };
+static guint signals[LAST_SIGNAL] = {0, };
 
 GType
 e_minicard_view_widget_get_type (void)
@@ -142,7 +142,7 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *class)
 							      0.0, G_MAXDOUBLE, 150.0,
 							      G_PARAM_READWRITE));
 
-	signals [CREATE_CONTACT] =
+	signals[CREATE_CONTACT] =
 		g_signal_new ("create-contact",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -151,7 +151,7 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *class)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	signals [CREATE_CONTACT_LIST] =
+	signals[CREATE_CONTACT_LIST] =
 		g_signal_new ("create-contact-list",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -160,7 +160,7 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *class)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	signals [SELECTION_CHANGE] =
+	signals[SELECTION_CHANGE] =
 		g_signal_new ("selection_change",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -169,7 +169,7 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *class)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	signals [COLUMN_WIDTH_CHANGED] =
+	signals[COLUMN_WIDTH_CHANGED] =
 		g_signal_new ("column_width_changed",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -178,7 +178,7 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *class)
 			      g_cclosure_marshal_VOID__DOUBLE,
 			      G_TYPE_NONE, 1, G_TYPE_DOUBLE);
 
-	signals [RIGHT_CLICK] =
+	signals[RIGHT_CLICK] =
 		g_signal_new ("right_click",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -319,7 +319,7 @@ static void
 selection_change (ESelectionModel *esm, EMinicardViewWidget *widget)
 {
 	g_signal_emit (widget,
-		       signals [SELECTION_CHANGE], 0);
+		       signals[SELECTION_CHANGE], 0);
 }
 
 static void
@@ -332,7 +332,7 @@ static void
 column_width_changed (ESelectionModel *esm, double width, EMinicardViewWidget *widget)
 {
 	g_signal_emit (widget,
-		       signals [COLUMN_WIDTH_CHANGED], 0, width);
+		       signals[COLUMN_WIDTH_CHANGED], 0, width);
 }
 
 static void
@@ -352,7 +352,7 @@ right_click (EMinicardView *view, GdkEvent *event, EMinicardViewWidget *widget)
 {
 	guint ret_val;
 	g_signal_emit (widget,
-		       signals [RIGHT_CLICK], 0,
+		       signals[RIGHT_CLICK], 0,
 		       event, &ret_val);
 	return ret_val;
 }
@@ -493,7 +493,7 @@ e_minicard_view_widget_real_focus_in_event(GtkWidget *widget, GdkEventFocus *eve
 			gint unsorted = e_sorter_sorted_to_model (E_SORTER (reflow->sorter), 0);
 
 			if (unsorted != -1)
-				canvas->focused_item = reflow->items [unsorted];
+				canvas->focused_item = reflow->items[unsorted];
 		}
 	}
 

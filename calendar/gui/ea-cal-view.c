@@ -300,7 +300,7 @@ ea_cal_view_dates_change_cb (GnomeCalendar *gcal, gpointer data)
 
 #define CAL_VIEW_ACTION_NUM 5
 
-static const gchar * action_name [CAL_VIEW_ACTION_NUM] = {
+static const gchar * action_name[CAL_VIEW_ACTION_NUM] = {
 	N_("New Appointment"),
 	N_("New All Day Event"),
 	N_("New Meeting"),
@@ -428,6 +428,6 @@ static G_CONST_RETURN gchar *
 action_interface_action_get_name(AtkAction *action, gint i)
 {
 	if (i >= 0 && i < CAL_VIEW_ACTION_NUM)
-		return action_name [i];
+		return action_name[i];
 	return NULL;
 }

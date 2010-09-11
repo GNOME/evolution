@@ -524,7 +524,7 @@ ect_do_action_edit (AtkAction *action)
 	GalA11yECell *a11y = GAL_A11Y_E_CELL (action);
 	ETableModel *e_table_model = a11y->item->table_model;
 
-	if (e_table_model_is_cell_editable(e_table_model, a11y->model_col, a11y->row)) {
+	if (e_table_model_is_cell_editable (e_table_model, a11y->model_col, a11y->row)) {
 		e_table_item_enter_edit (a11y->item, a11y->view_col, a11y->row);
 	}
 }

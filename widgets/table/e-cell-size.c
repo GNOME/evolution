@@ -32,9 +32,9 @@
 G_DEFINE_TYPE (ECellSize, e_cell_size, E_TYPE_CELL_TEXT)
 
 static gchar *
-ecd_get_text(ECellText *cell, ETableModel *model, gint col, gint row)
+ecd_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
 {
-	gint size = GPOINTER_TO_INT(e_table_model_value_at(model, col, row));
+	gint size = GPOINTER_TO_INT (e_table_model_value_at (model, col, row));
 	gfloat fsize;
 
 	if (size < 1024) {
@@ -51,9 +51,9 @@ ecd_get_text(ECellText *cell, ETableModel *model, gint col, gint row)
 }
 
 static void
-ecd_free_text(ECellText *cell, gchar *text)
+ecd_free_text (ECellText *cell, gchar *text)
 {
-	g_free(text);
+	g_free (text);
 }
 
 static void
@@ -100,7 +100,7 @@ e_cell_size_new (const gchar *fontname, GtkJustification justify)
 {
 	ECellSize *ecd = g_object_new (E_TYPE_CELL_SIZE, NULL);
 
-	e_cell_text_construct(E_CELL_TEXT(ecd), fontname, justify);
+	e_cell_text_construct (E_CELL_TEXT (ecd), fontname, justify);
 
 	return (ECell *) ecd;
 }

@@ -51,7 +51,7 @@ struct _MagicInsertMatch
 
 typedef struct _MagicInsertMatch MagicInsertMatch;
 
-static MagicInsertMatch mim [] = {
+static MagicInsertMatch mim[] = {
 	/* prefixed expressions */
 	{ "(news|telnet|nntp|file|http|ftp|sftp|https|webcal)://([-a-z0-9]+(:[-a-z0-9]+)?@)?[-a-z0-9.]+[-a-z0-9](:[0-9]*)?(([.])?/[-a-z0-9_$.+!*(),;:@%&=?/~#']*[^]'.}>\\) ,?!;:\"]?)?", NULL, NULL },
 	{ "(sip|h323|callto):([-_a-z0-9.'\\+]+(:[0-9]{1,5})?(/[-_a-z0-9.']+)?)(@([-_a-z0-9.%=?]+|([0-9]{1,3}.){3}[0-9]{1,3})?)?(:[0-9]{1,5})?", NULL, NULL },
@@ -72,11 +72,11 @@ init_magic_links (void)
 		return;
 
 	for (i = 0; i < G_N_ELEMENTS (mim); i++) {
-		mim [i].preg = g_new0 (regex_t, 1);
-		if (regcomp (mim [i].preg, mim [i].regex, REG_EXTENDED | REG_ICASE)) {
+		mim[i].preg = g_new0 (regex_t, 1);
+		if (regcomp (mim[i].preg, mim[i].regex, REG_EXTENDED | REG_ICASE)) {
 			/* error */
-			g_free (mim [i].preg);
-			mim [i].preg = 0;
+			g_free (mim[i].preg);
+			mim[i].preg = 0;
 		}
 	}
 }
@@ -87,7 +87,7 @@ markup_text (GtkTextBuffer *buffer)
 	GtkTextIter start, end;
 	gchar *text;
 	gint i;
-	regmatch_t pmatch [2];
+	regmatch_t pmatch[2];
 	gboolean any;
 	const gchar *str;
 	gint offset = 0;
@@ -104,14 +104,14 @@ markup_text (GtkTextBuffer *buffer)
 	while (any) {
 		any = FALSE;
 		for (i = 0; i < G_N_ELEMENTS (mim); i++) {
-			if (mim [i].preg && !regexec (mim [i].preg, str, 2, pmatch, 0)) {
-				gtk_text_buffer_get_iter_at_offset (buffer, &start, offset + pmatch [0].rm_so);
-				gtk_text_buffer_get_iter_at_offset (buffer, &end, offset + pmatch [0].rm_eo);
+			if (mim[i].preg && !regexec (mim[i].preg, str, 2, pmatch, 0)) {
+				gtk_text_buffer_get_iter_at_offset (buffer, &start, offset + pmatch[0].rm_so);
+				gtk_text_buffer_get_iter_at_offset (buffer, &end, offset + pmatch[0].rm_eo);
 				gtk_text_buffer_apply_tag_by_name (buffer, E_BUFFER_TAGGER_LINK_TAG, &start, &end);
 
 				any = TRUE;
-				str += pmatch [0].rm_eo;
-				offset += pmatch [0].rm_eo;
+				str += pmatch[0].rm_eo;
+				offset += pmatch[0].rm_eo;
 				break;
 			}
 		}

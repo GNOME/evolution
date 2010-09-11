@@ -56,7 +56,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint signals [LAST_SIGNAL] = {0, };
+static guint signals[LAST_SIGNAL] = {0, };
 
 static void
 unlink_model(EAddressbookReflowAdapter *adapter)
@@ -451,7 +451,7 @@ e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 							      E_TYPE_ADDRESSBOOK_MODEL,
 							      G_PARAM_READABLE));
 
-	signals [DRAG_BEGIN] =
+	signals[DRAG_BEGIN] =
 		g_signal_new ("drag_begin",
 			      G_OBJECT_CLASS_TYPE(object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -460,7 +460,7 @@ e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 			      e_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, G_TYPE_POINTER);
 
-	signals [OPEN_CONTACT] =
+	signals[OPEN_CONTACT] =
 		g_signal_new ("open-contact",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,

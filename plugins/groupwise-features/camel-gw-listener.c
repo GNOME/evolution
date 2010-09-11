@@ -940,7 +940,7 @@ prune_proxies (void) {
 	GError *err = NULL;
 	const gchar *parent_id_name = NULL;
 	gint i;
-	ECalSourceType types [] = { E_CAL_SOURCE_TYPE_EVENT,
+	ECalSourceType types[] = { E_CAL_SOURCE_TYPE_EVENT,
 				    E_CAL_SOURCE_TYPE_TODO,
 				    E_CAL_SOURCE_TYPE_JOURNAL
 				  };

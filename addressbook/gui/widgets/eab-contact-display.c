@@ -64,7 +64,7 @@ static struct {
 	const gchar *name;
 	const gchar *pretty_name;
 }
-common_location [] =
+common_location[] =
 {
 	{ "WORK",  N_ ("Work")  },
 	{ "HOME",  N_ ("Home")  },
@@ -453,8 +453,8 @@ get_email_location (EVCardAttribute *attr)
 	gint i;
 
 	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
-		if (e_vcard_attribute_has_type (attr, common_location [i].name))
-			return _(common_location [i].pretty_name);
+		if (e_vcard_attribute_has_type (attr, common_location[i].name))
+			return _(common_location[i].pretty_name);
 	}
 
 	return _("Other");

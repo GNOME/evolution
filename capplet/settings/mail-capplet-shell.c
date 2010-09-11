@@ -122,7 +122,7 @@ mail_capplet_shell_class_init (MailCappletShellClass *klass)
 	klass->ctrl_w_pressed = ms_ctrl_w_pressed;
 	klass->ctrl_q_pressed = ms_ctrl_q_pressed;
 
-	mail_capplet_shell_signals [CTRL_W_PRESSED] =
+	mail_capplet_shell_signals[CTRL_W_PRESSED] =
 		g_signal_new ("ctrl_w_pressed",
 				G_TYPE_FROM_CLASS (object_class),
 					  G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
@@ -131,7 +131,7 @@ mail_capplet_shell_class_init (MailCappletShellClass *klass)
 				g_cclosure_marshal_VOID__VOID,
 				G_TYPE_NONE, 0);
 
-	mail_capplet_shell_signals [CTRL_Q_PRESSED] =
+	mail_capplet_shell_signals[CTRL_Q_PRESSED] =
 		g_signal_new ("ctrl_q_pressed",
 				G_TYPE_FROM_CLASS (object_class),
 					  G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,

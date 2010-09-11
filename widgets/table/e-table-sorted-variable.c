@@ -57,20 +57,20 @@ etsv_dispose (GObject *object)
 	etsv->sort_info_changed_id = 0;
 
 	if (etsv->sort_idle_id) {
-		g_source_remove(etsv->sort_idle_id);
+		g_source_remove (etsv->sort_idle_id);
 		etsv->sort_idle_id = 0;
 	}
 	if (etsv->insert_idle_id) {
-		g_source_remove(etsv->insert_idle_id);
+		g_source_remove (etsv->insert_idle_id);
 		etsv->insert_idle_id = 0;
 	}
 
 	if (etsv->sort_info)
-		g_object_unref(etsv->sort_info);
+		g_object_unref (etsv->sort_info);
 	etsv->sort_info = NULL;
 
 	if (etsv->full_header)
-		g_object_unref(etsv->full_header);
+		g_object_unref (etsv->full_header);
 	etsv->full_header = NULL;
 
 	G_OBJECT_CLASS (etsv_parent_class)->dispose (object);
@@ -79,7 +79,7 @@ etsv_dispose (GObject *object)
 static void
 etsv_class_init (ETableSortedVariableClass *klass)
 {
-	ETableSubsetVariableClass *etssv_class = E_TABLE_SUBSET_VARIABLE_CLASS(klass);
+	ETableSubsetVariableClass *etssv_class = E_TABLE_SUBSET_VARIABLE_CLASS (klass);
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	object_class->dispose = etsv_dispose;
@@ -101,18 +101,18 @@ etsv_init (ETableSortedVariable *etsv)
 }
 
 static gboolean
-etsv_sort_idle(ETableSortedVariable *etsv)
+etsv_sort_idle (ETableSortedVariable *etsv)
 {
-	g_object_ref(etsv);
-	etsv_sort(etsv);
+	g_object_ref (etsv);
+	etsv_sort (etsv);
 	etsv->sort_idle_id = 0;
 	etsv->insert_count = 0;
-	g_object_unref(etsv);
+	g_object_unref (etsv);
 	return FALSE;
 }
 
 static gboolean
-etsv_insert_idle(ETableSortedVariable *etsv)
+etsv_insert_idle (ETableSortedVariable *etsv)
 {
 	etsv->insert_count = 0;
 	etsv->insert_idle_id = 0;
@@ -123,8 +123,8 @@ static void
 etsv_add       (ETableSubsetVariable *etssv,
 		gint                  row)
 {
-	ETableModel *etm = E_TABLE_MODEL(etssv);
-	ETableSubset *etss = E_TABLE_SUBSET(etssv);
+	ETableModel *etm = E_TABLE_MODEL (etssv);
+	ETableSubset *etss = E_TABLE_SUBSET (etssv);
 	ETableSortedVariable *etsv = E_TABLE_SORTED_VARIABLE (etssv);
 	gint i;
 
@@ -132,7 +132,7 @@ etsv_add       (ETableSubsetVariable *etssv,
 
 	if (etss->n_map + 1 > etssv->n_vals_allocated) {
 		etssv->n_vals_allocated += INCREMENT_AMOUNT;
-		etss->map_table = g_realloc (etss->map_table, (etssv->n_vals_allocated) * sizeof(gint));
+		etss->map_table = g_realloc (etss->map_table, (etssv->n_vals_allocated) * sizeof (gint));
 	}
 	i = etss->n_map;
 	if (etsv->sort_idle_id == 0) {
@@ -141,14 +141,14 @@ etsv_add       (ETableSubsetVariable *etssv,
 		etsv->insert_count++;
 		if (etsv->insert_count > ETSV_INSERT_MAX) {
 			/* schedule a sort, and append instead */
-			etsv->sort_idle_id = g_idle_add_full(50, (GSourceFunc) etsv_sort_idle, etsv, NULL);
+			etsv->sort_idle_id = g_idle_add_full (50, (GSourceFunc) etsv_sort_idle, etsv, NULL);
 		} else {
 			/* make sure we have an idle handler to reset the count every now and then */
 			if (etsv->insert_idle_id == 0) {
-				etsv->insert_idle_id = g_idle_add_full(40, (GSourceFunc) etsv_insert_idle, etsv, NULL);
+				etsv->insert_idle_id = g_idle_add_full (40, (GSourceFunc) etsv_insert_idle, etsv, NULL);
 			}
-			i = e_table_sorting_utils_insert(etss->source, etsv->sort_info, etsv->full_header, etss->map_table, etss->n_map, row);
-			memmove(etss->map_table + i + 1, etss->map_table + i, (etss->n_map - i) * sizeof(gint));
+			i = e_table_sorting_utils_insert (etss->source, etsv->sort_info, etsv->full_header, etss->map_table, etss->n_map, row);
+			memmove (etss->map_table + i + 1, etss->map_table + i, (etss->n_map - i) * sizeof (gint));
 		}
 	}
 	etss->map_table[i] = row;
@@ -160,25 +160,25 @@ etsv_add       (ETableSubsetVariable *etssv,
 static void
 etsv_add_all   (ETableSubsetVariable *etssv)
 {
-	ETableModel *etm = E_TABLE_MODEL(etssv);
-	ETableSubset *etss = E_TABLE_SUBSET(etssv);
+	ETableModel *etm = E_TABLE_MODEL (etssv);
+	ETableSubset *etss = E_TABLE_SUBSET (etssv);
 	ETableSortedVariable *etsv = E_TABLE_SORTED_VARIABLE (etssv);
 	gint rows;
 	gint i;
 
-	e_table_model_pre_change(etm);
+	e_table_model_pre_change (etm);
 
-	rows = e_table_model_row_count(etss->source);
+	rows = e_table_model_row_count (etss->source);
 
 	if (etss->n_map + rows > etssv->n_vals_allocated) {
-		etssv->n_vals_allocated += MAX(INCREMENT_AMOUNT, rows);
-		etss->map_table = g_realloc (etss->map_table, etssv->n_vals_allocated * sizeof(gint));
+		etssv->n_vals_allocated += MAX (INCREMENT_AMOUNT, rows);
+		etss->map_table = g_realloc (etss->map_table, etssv->n_vals_allocated * sizeof (gint));
 	}
 	for (i = 0; i < rows; i++)
 		etss->map_table[etss->n_map++] = i;
 
 	if (etsv->sort_idle_id == 0) {
-		etsv->sort_idle_id = g_idle_add_full(50, (GSourceFunc) etsv_sort_idle, etsv, NULL);
+		etsv->sort_idle_id = g_idle_add_full (50, (GSourceFunc) etsv_sort_idle, etsv, NULL);
 	}
 
 	e_table_model_changed (etm);
@@ -196,35 +196,35 @@ e_table_sorted_variable_new (ETableModel *source, ETableHeader *full_header, ETa
 	}
 
 	etsv->sort_info = sort_info;
-	g_object_ref(etsv->sort_info);
+	g_object_ref (etsv->sort_info);
 	etsv->full_header = full_header;
-	g_object_ref(etsv->full_header);
+	g_object_ref (etsv->full_header);
 
 	etsv->sort_info_changed_id = g_signal_connect (G_OBJECT (sort_info), "sort_info_changed",
 						       G_CALLBACK (etsv_sort_info_changed), etsv);
 
-	return E_TABLE_MODEL(etsv);
+	return E_TABLE_MODEL (etsv);
 }
 
 static void
 etsv_sort_info_changed (ETableSortInfo *info, ETableSortedVariable *etsv)
 {
-	etsv_sort(etsv);
+	etsv_sort (etsv);
 }
 
 static void
-etsv_sort(ETableSortedVariable *etsv)
+etsv_sort (ETableSortedVariable *etsv)
 {
-	ETableSubset *etss = E_TABLE_SUBSET(etsv);
+	ETableSubset *etss = E_TABLE_SUBSET (etsv);
 	static gint reentering = 0;
 	if (reentering)
 		return;
 	reentering = 1;
 
-	e_table_model_pre_change(E_TABLE_MODEL(etsv));
+	e_table_model_pre_change (E_TABLE_MODEL (etsv));
 
-	e_table_sorting_utils_sort(etss->source, etsv->sort_info, etsv->full_header, etss->map_table, etss->n_map);
+	e_table_sorting_utils_sort (etss->source, etsv->sort_info, etsv->full_header, etss->map_table, etss->n_map);
 
-	e_table_model_changed (E_TABLE_MODEL(etsv));
+	e_table_model_changed (E_TABLE_MODEL (etsv));
 	reentering = 0;
 }

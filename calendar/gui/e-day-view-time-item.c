@@ -996,10 +996,10 @@ e_day_view_time_item_get_column_width (EDayViewTimeItem *time_item)
 	 * it needs a language tag that I don't know where to get. */
 	for (digit = '0'; digit <= '9'; digit++) {
 		PangoLayout *layout;
-		gchar digit_str [2];
+		gchar digit_str[2];
 
-		digit_str [0] = digit;
-		digit_str [1] = '\0';
+		digit_str[0] = digit;
+		digit_str[1] = '\0';
 
 		layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), digit_str);
 		pango_layout_set_font_description (layout, day_view->large_font_desc);

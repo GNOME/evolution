@@ -114,7 +114,7 @@ struct _ArtRender {
 
   art_boolean clear;
   ArtPixMaxDepth clear_color[ART_MAX_CHAN + 1];
-  art_u32 opacity; /* [0..0x10000] */
+  art_u32 opacity; /*[0..0x10000] */
 
   ArtCompositingMode compositing_mode;
 

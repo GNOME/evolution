@@ -222,7 +222,7 @@ struct _GnomeCanvasItemClass {
 	gboolean (* event)                (GnomeCanvasItem *item, GdkEvent *event);
 
 	/* Reserved for future expansion */
-	gpointer spare_vmethods [4];
+	gpointer spare_vmethods[4];
 };
 
 GType gnome_canvas_item_get_type (void) G_GNUC_CONST;
@@ -496,7 +496,7 @@ struct _GnomeCanvasClass {
 	void (* request_update) (GnomeCanvas *canvas);
 
 	/* Reserved for future expansion */
-	gpointer spare_vmethods [4];
+	gpointer spare_vmethods[4];
 };
 
 GType gnome_canvas_get_type (void) G_GNUC_CONST;

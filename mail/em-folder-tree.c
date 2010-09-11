@@ -80,11 +80,18 @@ struct _selected_uri {
 };
 
 struct _EMFolderTreePrivate {
-	GSList *select_uris;	/* selected_uri structures of each path pending selection. */
-	GHashTable *select_uris_table; /*Removed as they're encountered, so use this to find uri's not presnet but selected */
+	/* selected_uri structures of each path pending selection. */
+	GSList *select_uris;
+
+	/* Removed as they're encountered, so use this
+	 * to find URI's not presnet but selected. */
+	GHashTable *select_uris_table;
 
 	guint32 excluded;
-	gboolean (*excluded_func)(EMFolderTree *folder_tree, GtkTreeModel *model, GtkTreeIter *iter, gpointer data);
+	gboolean	(*excluded_func)	(EMFolderTree *folder_tree,
+						 GtkTreeModel *model,
+						 GtkTreeIter *iter,
+						 gpointer data);
 	gpointer excluded_data;
 
 	guint cursor_set:1;	/* set to TRUE means we or something
@@ -233,7 +240,8 @@ folder_tree_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 	path = gtk_tree_row_reference_get_path (m->root);
 	gtk_tree_model_get_iter (model, &root, path);
 
-	/* if we had an error, then we need to re-set the load subdirs state and collapse the node */
+	/* If we had an error, then we need to re-set the
+	 * load subdirs state and collapse the node. */
 	if (!m->fi && m->base.error != NULL) {
 		gtk_tree_store_set(
 			GTK_TREE_STORE (model), &root,
@@ -259,7 +267,9 @@ folder_tree_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 
 		titer = iter; /* Preserve the last valid iter */
 
-		gtk_tree_model_get (model, &iter, COL_BOOL_IS_STORE, &is_store_node, COL_BOOL_IS_FOLDER, &is_folder_node, -1);
+		gtk_tree_model_get (
+			model, &iter, COL_BOOL_IS_STORE, &is_store_node,
+			COL_BOOL_IS_FOLDER, &is_folder_node, -1);
 
 		/* stop on a "Loading..." node */
 		if (!is_store_node && !is_folder_node) {
@@ -810,8 +820,13 @@ folder_tree_key_press_event (GtkWidget *widget,
 	GtkTreeSelection *selection;
 	GtkTreeView *tree_view;
 
-	if (event && event->type == GDK_KEY_PRESS && (event->keyval == GDK_space || event->keyval == '.' || event->keyval == ',' || event->keyval == '[' || event->keyval == ']')) {
-		g_signal_emit (widget, signals [HIDDEN_KEY_EVENT], 0, event);
+	if (event && event->type == GDK_KEY_PRESS &&
+		(event->keyval == GDK_space ||
+		 event->keyval == '.' ||
+		 event->keyval == ',' ||
+		 event->keyval == '[' ||
+		 event->keyval == ']')) {
+		g_signal_emit (widget, signals[HIDDEN_KEY_EVENT], 0, event);
 
 		return TRUE;
 	}
@@ -1081,7 +1096,9 @@ render_display_name (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 		 * Do not translate the "folder-display|" part. Remove it
 		 * from your translation.
 		 */
-		display = g_strdup_printf (C_("folder-display", "%s (%u%s)"), name, unread, subdirs_unread ? "+" : "");
+		display = g_strdup_printf (
+			C_("folder-display", "%s (%u%s)"),
+			name, unread, subdirs_unread ? "+" : "");
 		g_free (name);
 	} else
 		display = name;
@@ -1180,6 +1197,7 @@ folder_tree_new (EMFolderTree *folder_tree)
 	GtkCellRenderer *renderer;
 	GtkWidget *tree;
 	GConfClient *gconf;
+	const gchar *key;
 
 	gconf = mail_config_get_gconf_client ();
 
@@ -1201,10 +1219,13 @@ folder_tree_new (EMFolderTree *folder_tree)
 		render_icon, NULL, NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
-	if (!gconf_client_get_bool (gconf, "/apps/evolution/mail/display/no_folder_dots", NULL))
-		g_object_set (G_OBJECT (renderer), "ellipsize", PANGO_ELLIPSIZE_END, NULL);
+	key = "/apps/evolution/mail/display/no_folder_dots";
+	if (!gconf_client_get_bool (gconf, key, NULL))
+		g_object_set (
+			renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
-	gtk_tree_view_column_set_cell_data_func (column, renderer, render_display_name, NULL, NULL);
+	gtk_tree_view_column_set_cell_data_func (
+		column, renderer, render_display_name, NULL, NULL);
 	folder_tree->priv->text_renderer = g_object_ref (renderer);
 
 	g_signal_connect_swapped (
@@ -1321,11 +1342,12 @@ folder_tree_init (EMFolderTree *folder_tree)
 	em_folder_tree_construct (folder_tree);
 }
 
-/* Sets a selectable widget, which will be used for update-actions and select-all
-   selectable interface functions. This can be NULL, then nothing can be selected
-   and calling selectable function does nothing. */
+/* Sets a selectable widget, which will be used for update-actions and
+ * select-all selectable interface functions. This can be NULL, then nothing
+ * can be selected and calling selectable function does nothing. */
 void
-em_folder_tree_set_selectable_widget (EMFolderTree *folder_tree, GtkWidget *selectable)
+em_folder_tree_set_selectable_widget (EMFolderTree *folder_tree,
+                                      GtkWidget *selectable)
 {
 	if (selectable)
 		g_return_if_fail (E_IS_SELECTABLE (selectable));
@@ -1344,36 +1366,45 @@ folder_tree_selectable_update_actions (ESelectable *selectable,
 	folder_tree = EM_FOLDER_TREE (selectable);
 	g_return_if_fail (folder_tree != NULL);
 
-	if (folder_tree->priv->selectable) {
-		ESelectableInterface *iface = E_SELECTABLE_GET_INTERFACE (folder_tree->priv->selectable);
+	if (folder_tree->priv->selectable != NULL) {
+		ESelectableInterface *interface;
+		ESelectable *selectable;
 
-		g_return_if_fail (iface != NULL);
-		g_return_if_fail (iface->update_actions != NULL);
+		selectable = E_SELECTABLE (folder_tree->priv->selectable);
+		interface = E_SELECTABLE_GET_INTERFACE (selectable);
+		g_return_if_fail (interface->update_actions != NULL);
 
-		iface->update_actions (E_SELECTABLE (folder_tree->priv->selectable), focus_tracker, clipboard_targets, n_clipboard_targets);
+		interface->update_actions (
+			selectable, focus_tracker,
+			clipboard_targets, n_clipboard_targets);
 	}
 }
 
-#define folder_tree_selectable_func(_func)									\
-static void													\
-folder_tree_selectable_ ## _func (ESelectable *selectable)							\
-{														\
-	EMFolderTree *folder_tree;										\
-														\
-	folder_tree = EM_FOLDER_TREE (selectable);								\
-	g_return_if_fail (folder_tree != NULL);									\
-														\
-	if (folder_tree->priv->selectable) {									\
-		ESelectableInterface *iface = E_SELECTABLE_GET_INTERFACE (folder_tree->priv->selectable);	\
-														\
-		g_return_if_fail (iface != NULL);								\
-		if (iface-> _func ) {										\
-			if (gtk_widget_get_can_focus (folder_tree->priv->selectable) &&				\
-			    !gtk_widget_has_focus (folder_tree->priv->selectable))				\
-				gtk_widget_grab_focus (folder_tree->priv->selectable);				\
-			iface-> _func (E_SELECTABLE (folder_tree->priv->selectable));				\
-		}												\
-	}													\
+#define folder_tree_selectable_func(_func)				\
+static void								\
+folder_tree_selectable_ ## _func (ESelectable *selectable)		\
+{									\
+	ESelectableInterface *interface;				\
+	EMFolderTree *folder_tree;					\
+									\
+									\
+	folder_tree = EM_FOLDER_TREE (selectable);			\
+	g_return_if_fail (folder_tree != NULL);				\
+									\
+	if (folder_tree->priv->selectable == NULL)			\
+		return;							\
+									\
+	selectable = E_SELECTABLE (folder_tree->priv->selectable);	\
+	interface = E_SELECTABLE_GET_INTERFACE (selectable);		\
+									\
+	if (interface-> _func == NULL)					\
+		return;							\
+									\
+	if (gtk_widget_get_can_focus (GTK_WIDGET (selectable)) &&	\
+	    !gtk_widget_has_focus (GTK_WIDGET (selectable)))		\
+		gtk_widget_grab_focus (GTK_WIDGET (selectable));	\
+									\
+	interface-> _func (selectable);					\
 }
 
 folder_tree_selectable_func (cut_clipboard);
@@ -1539,7 +1570,9 @@ tree_drag_data_get (GtkWidget *widget,
 	switch (info) {
 	case DND_DRAG_TYPE_FOLDER:
 		/* dragging to a new location in the folder tree */
-		gtk_selection_data_set(selection, drag_atoms[info], 8, (guchar *)uri, strlen (uri) + 1);
+		gtk_selection_data_set (
+			selection, drag_atoms[info], 8,
+			(guchar *) uri, strlen (uri) + 1);
 		break;
 	case DND_DRAG_TYPE_TEXT_URI_LIST:
 		/* dragging to nautilus or something, probably */
@@ -1561,7 +1594,6 @@ fail:
 	g_free (uri);
 }
 
-/* TODO: Merge the drop handling code/menu's into one spot using a popup target for details */
 /* Drop handling */
 struct _DragDataReceivedAsync {
 	MailMsg base;
@@ -1620,18 +1652,26 @@ folder_tree_drop_async__desc (struct _DragDataReceivedAsync *m)
 		url = camel_url_new ((gchar *)data, NULL);
 
 		if (m->move)
-			buf = g_strdup_printf (_("Moving folder %s"), url->fragment ? url->fragment : url->path + 1);
+			buf = g_strdup_printf (
+				_("Moving folder %s"), url->fragment ?
+				url->fragment : url->path + 1);
 		else
-			buf = g_strdup_printf (_("Copying folder %s"), url->fragment ? url->fragment : url->path + 1);
+			buf = g_strdup_printf (
+				_("Copying folder %s"), url->fragment ?
+				url->fragment : url->path + 1);
 
 		camel_url_free (url);
 
 		return buf;
 	} else {
 		if (m->move)
-			return g_strdup_printf (_("Moving messages into folder %s"), m->full_name);
+			return g_strdup_printf (
+				_("Moving messages into folder %s"),
+				m->full_name);
 		else
-			return g_strdup_printf (_("Copying messages into folder %s"), m->full_name);
+			return g_strdup_printf (
+				_("Copying messages into folder %s"),
+				m->full_name);
 	}
 }
 
@@ -1648,7 +1688,8 @@ folder_tree_drop_async__exec (struct _DragDataReceivedAsync *m)
 		g_set_error (
 			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 			_("Cannot drop message(s) into toplevel store"));
-	} else if ((folder = camel_store_get_folder (m->store, m->full_name, 0, &m->base.error))) {
+	} else if ((folder = camel_store_get_folder (
+		m->store, m->full_name, 0, &m->base.error))) {
 		switch (m->info) {
 		case DND_DROP_TYPE_UID_LIST:
 			/* import a list of uids from another evo folder */
@@ -1766,7 +1807,11 @@ tree_drag_data_received (GtkWidget *widget,
 static gboolean
 is_special_local_folder (const gchar *name)
 {
-	return (!strcmp (name, "Drafts") || !strcmp (name, "Inbox") || !strcmp (name, "Outbox") || !strcmp (name, "Sent") || !strcmp (name, "Templates"));
+	return strcmp (name, "Drafts") == 0
+		|| strcmp (name, "Inbox") == 0
+		|| strcmp (name, "Outbox") == 0
+		|| strcmp (name, "Sent") == 0
+		|| strcmp (name, "Templates") == 0;
 }
 
 static GdkAtom
@@ -1849,7 +1894,8 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 
 			gtk_tree_path_free(src_path);
 
-			if ((src_flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX || (src_flags & CAMEL_FOLDER_SYSTEM) != 0) {
+			if ((src_flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX ||
+			    (src_flags & CAMEL_FOLDER_SYSTEM) != 0) {
 				/* allow only copy of the Inbox and other system folders */
 				GdkAtom xfolder;
 
@@ -1903,13 +1949,15 @@ folder_tree_drop_target (EMFolderTree *folder_tree,
 				goto done;
 			}
 
-			/* don't allow copying/moving of the UNMATCHED vfolder */
-			if (!strcmp (url->protocol, "vfolder") && !strcmp (url_path, CAMEL_UNMATCHED_NAME)) {
+			/* Don't allow copying/moving the UNMATCHED vfolder. */
+			if (!strcmp (url->protocol, "vfolder") &&
+				!strcmp (url_path, CAMEL_UNMATCHED_NAME)) {
 				camel_url_free (url);
 				goto done;
 			}
 
-			/* don't allow copying/moving of any vTrash/vJunk folder nor maildir 'inbox' */
+			/* Don't allow copying/moving any vTrash/vJunk
+			 * folder nor maildir 'inbox'. */
 			if (strcmp(url_path, CAMEL_VTRASH_NAME) == 0
 			    || strcmp(url_path, CAMEL_VJUNK_NAME) == 0
 			    /* Dont allow drag from maildir 'inbox' */
@@ -2016,7 +2064,8 @@ tree_drag_drop (GtkWidget *widget,
 		priv->autoexpand_id = 0;
 	}
 
-	if (!gtk_tree_view_get_path_at_pos (tree_view, x, y, &path, &column, &cell_x, &cell_y))
+	if (!gtk_tree_view_get_path_at_pos (
+		tree_view, x, y, &path, &column, &cell_x, &cell_y))
 		return FALSE;
 
 	target = folder_tree_drop_target (
@@ -2162,7 +2211,9 @@ tree_drag_motion (GtkWidget *widget,
 
 	gtk_tree_model_get_iter (model, &iter, path);
 
-	if (gtk_tree_model_iter_has_child (model, &iter) && !gtk_tree_view_row_expanded (tree_view, path)) {
+	if (gtk_tree_model_iter_has_child (model, &iter) &&
+		!gtk_tree_view_row_expanded (tree_view, path)) {
+
 		if (priv->autoexpand_id != 0) {
 			GtkTreePath *autoexpand_path;
 
@@ -2172,12 +2223,16 @@ tree_drag_motion (GtkWidget *widget,
 				gtk_tree_row_reference_free (priv->autoexpand_row);
 				priv->autoexpand_row = gtk_tree_row_reference_new (model, path);
 				g_source_remove (priv->autoexpand_id);
-				priv->autoexpand_id = g_timeout_add (600, (GSourceFunc) tree_autoexpand, folder_tree);
+				priv->autoexpand_id = g_timeout_add (
+					600, (GSourceFunc)
+					tree_autoexpand, folder_tree);
 			}
 
 			gtk_tree_path_free (autoexpand_path);
 		} else {
-			priv->autoexpand_id = g_timeout_add (600, (GSourceFunc) tree_autoexpand, folder_tree);
+			priv->autoexpand_id = g_timeout_add (
+				600, (GSourceFunc)
+				tree_autoexpand, folder_tree);
 			priv->autoexpand_row = gtk_tree_row_reference_new (model, path);
 		}
 	} else if (priv->autoexpand_id != 0) {
@@ -2241,17 +2296,37 @@ em_folder_tree_enable_drag_and_drop (EMFolderTree *folder_tree)
 		setup = 1;
 	}
 
-	gtk_drag_source_set((GtkWidget *)tree_view, GDK_BUTTON1_MASK, drag_types, NUM_DRAG_TYPES, GDK_ACTION_COPY | GDK_ACTION_MOVE);
-	gtk_drag_dest_set((GtkWidget *)tree_view, GTK_DEST_DEFAULT_ALL, drop_types, NUM_DROP_TYPES, GDK_ACTION_COPY | GDK_ACTION_MOVE);
+	gtk_drag_source_set (
+		GTK_WIDGET (tree_view), GDK_BUTTON1_MASK,drag_types,
+		NUM_DRAG_TYPES, GDK_ACTION_COPY | GDK_ACTION_MOVE);
+	gtk_drag_dest_set (
+		GTK_WIDGET (tree_view), GTK_DEST_DEFAULT_ALL, drop_types,
+		NUM_DROP_TYPES, GDK_ACTION_COPY | GDK_ACTION_MOVE);
 
-	g_signal_connect (tree_view, "drag-begin", G_CALLBACK (tree_drag_begin), folder_tree);
-	g_signal_connect (tree_view, "drag-data-delete", G_CALLBACK (tree_drag_data_delete), folder_tree);
-	g_signal_connect (tree_view, "drag-data-get", G_CALLBACK (tree_drag_data_get), folder_tree);
-	g_signal_connect (tree_view, "drag-data-received", G_CALLBACK (tree_drag_data_received), folder_tree);
-	g_signal_connect (tree_view, "drag-drop", G_CALLBACK (tree_drag_drop), folder_tree);
-	g_signal_connect (tree_view, "drag-end", G_CALLBACK (tree_drag_end), folder_tree);
-	g_signal_connect (tree_view, "drag-leave", G_CALLBACK (tree_drag_leave), folder_tree);
-	g_signal_connect (tree_view, "drag-motion", G_CALLBACK (tree_drag_motion), folder_tree);
+	g_signal_connect (
+		tree_view, "drag-begin",
+		G_CALLBACK (tree_drag_begin), folder_tree);
+	g_signal_connect (
+		tree_view, "drag-data-delete",
+		G_CALLBACK (tree_drag_data_delete), folder_tree);
+	g_signal_connect (
+		tree_view, "drag-data-get",
+		G_CALLBACK (tree_drag_data_get), folder_tree);
+	g_signal_connect (
+		tree_view, "drag-data-received",
+		G_CALLBACK (tree_drag_data_received), folder_tree);
+	g_signal_connect (
+		tree_view, "drag-drop",
+		G_CALLBACK (tree_drag_drop), folder_tree);
+	g_signal_connect (
+		tree_view, "drag-end",
+		G_CALLBACK (tree_drag_end), folder_tree);
+	g_signal_connect (
+		tree_view, "drag-leave",
+		G_CALLBACK (tree_drag_leave), folder_tree);
+	g_signal_connect (
+		tree_view, "drag-motion",
+		G_CALLBACK (tree_drag_motion), folder_tree);
 }
 
 void
@@ -2309,7 +2384,10 @@ em_folder_tree_get_selected_uris (EMFolderTree *folder_tree)
 }
 
 static void
-get_selected_uris_path_iterate (GtkTreeModel *model, GtkTreePath *treepath, GtkTreeIter *iter, gpointer data)
+get_selected_uris_path_iterate (GtkTreeModel *model,
+                                GtkTreePath *treepath,
+                                GtkTreeIter *iter,
+                                gpointer data)
 {
 	GList **list = (GList **) data;
 	gchar *full_name;
@@ -2328,13 +2406,16 @@ em_folder_tree_get_selected_paths (EMFolderTree *folder_tree)
 	tree_view = GTK_TREE_VIEW (folder_tree);
 	selection = gtk_tree_view_get_selection (tree_view);
 
-	gtk_tree_selection_selected_foreach (selection, get_selected_uris_path_iterate, &list);
+	gtk_tree_selection_selected_foreach (
+		selection, get_selected_uris_path_iterate, &list);
 
 	return list;
 }
 
 void
-em_folder_tree_set_selected_list (EMFolderTree *folder_tree, GList *list, gboolean expand_only)
+em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
+                                  GList *list,
+                                  gboolean expand_only)
 {
 	EMFolderTreePrivate *priv = folder_tree->priv;
 	gint id = 0;
@@ -2348,7 +2429,8 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree, GList *list, gboole
 		CamelURL *url;
 
 		u->uri = g_strdup(list->data);
-		u->store = (CamelStore *)camel_session_get_service (session, u->uri, CAMEL_PROVIDER_STORE, NULL);
+		u->store = (CamelStore *) camel_session_get_service (
+			session, u->uri, CAMEL_PROVIDER_STORE, NULL);
 
 		url = camel_url_new(u->uri, NULL);
 		if (u->store == NULL || url == NULL) {
@@ -2369,8 +2451,9 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree, GList *list, gboole
 			if (path == NULL)
 				path = "";
 
-			/* This makes sure all our parents up to the root are expanded */
-			/* FIXME: Why does the expanded state store this made up path rather than the euri? */
+			/* This makes sure all our parents up to the root are
+			 * expanded.  FIXME: Why does the expanded state store
+			 * this made up path rather than the euri? */
 			if ((account = mail_config_get_account_by_source_url(u->uri)))
 				expand_key = g_strdup_printf ("%s/%s", account->uid, path);
 			else if (CAMEL_IS_VEE_STORE (u->store))
@@ -2480,7 +2563,8 @@ em_folder_tree_select_next_path (EMFolderTree *folder_tree, gboolean skip_read_f
 		gtk_tree_model_get (model, &iter, COL_UINT_UNREAD, &unread, -1);
 
 		/* TODO : Flags here for better options */
-		} while (skip_read_folders && unread <=0 && gtk_tree_path_compare (current_path, path));
+		} while (skip_read_folders && unread <=0 &&
+			gtk_tree_path_compare (current_path, path));
 	}
 
 	if (path) {
@@ -2748,11 +2832,6 @@ em_folder_tree_get_selected_folder_info (EMFolderTree *folder_tree)
 	fi->uri = g_strdup (uri);
 	fi->name = g_strdup (name);
 
-	d(g_print ("em_folder_tree_get_selected_folder_info: fi->full_name=[%s], fi->uri=[%s], fi->name=[%s]\n",
-		   fi->full_name, fi->uri, fi->name));
-	d(g_print ("em_folder_tree_get_selected_folder_info: full_name=[%s], uri=[%s], name=[%s]\n",
-		   full_name, uri, name));
-
 	if (!fi->full_name)
 		goto done;
 
@@ -2840,7 +2919,7 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 	groups = NULL;
 
 	for (ii = 0; groups_arr[ii] != NULL; ii++) {
-		groups = g_slist_prepend (groups, groups_arr [ii]);
+		groups = g_slist_prepend (groups, groups_arr[ii]);
 	}
 
 	groups = g_slist_sort (groups, sort_by_store_and_uri);

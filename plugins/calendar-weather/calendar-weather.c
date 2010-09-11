@@ -69,7 +69,7 @@ e_plugin_lib_enable (EPlugin *epl, gint enable)
 		{ NULL,				NULL }
 	};
 
-	tmp = _(categories [0].description);
+	tmp = _(categories[0].description);
 
 	/* Add the categories icons if we don't have them. */
 	for (l = e_categories_get_list (); l; l = g_list_next (l)) {

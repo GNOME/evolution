@@ -152,7 +152,7 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 				(len * H_PADDING)) / len;
 		else
 			extra_width = 0;
-		for (p = rows [i]; p != NULL; p = p->next) {
+		for (p = rows[i]; p != NULL; p = p->next) {
 			GtkAllocation child_allocation;
 
 			child_allocation.x = x;
@@ -169,7 +169,7 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 	}
 
 	for (i = 0; i <= row_last; i++)
-		g_list_free (rows [i]);
+		g_list_free (rows[i]);
 	g_free (rows);
 
 	return y - allocation.y;

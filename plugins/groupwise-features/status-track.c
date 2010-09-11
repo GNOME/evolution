@@ -50,7 +50,7 @@ format_date (const gchar * value)
 	time = e_gw_connection_get_date_from_string (value);
 	str = ctime (&time);
 
-	str [strlen(str)-1] = '\0';
+	str[strlen(str)-1] = '\0';
 	return str;
 }
 

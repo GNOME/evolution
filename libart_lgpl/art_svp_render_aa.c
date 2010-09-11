@@ -119,7 +119,7 @@ art_svp_render_delete_active (gint *active_segs, gint j, gint n_active_segs)
    bulletproof.
 
    Speed: Needs more aggressive culling of bounding boxes.  Can
-   probably speed up the [x0,x1) clipping of step values.  Can do more
+   probably speed up the[x0,x1) clipping of step values.  Can do more
    of the step calculation in fixed point.
 
    Precision: No known problems, although it should be tested

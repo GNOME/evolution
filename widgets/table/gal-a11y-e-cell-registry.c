@@ -101,7 +101,7 @@ static void
 init_default_registry (void)
 {
 	if (default_registry == NULL) {
-		default_registry = g_object_new (gal_a11y_e_cell_registry_get_type(), NULL);
+		default_registry = g_object_new (gal_a11y_e_cell_registry_get_type (), NULL);
 	}
 }
 

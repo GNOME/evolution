@@ -82,7 +82,7 @@ ecv_kill_view (ECellView *ecv)
 		(vbox_view->cell_view.kill_view_cb)(ecv, vbox_view->cell_view.kill_view_cb_data);
 
         if (vbox_view->cell_view.kill_view_cb_data)
-            g_list_free(vbox_view->cell_view.kill_view_cb_data);
+            g_list_free (vbox_view->cell_view.kill_view_cb_data);
 
 	/* kill our subcell view */
 	for (i = 0; i < vbox_view->subcell_view_count; i++)
@@ -181,7 +181,7 @@ ecv_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 	for (i = 0; i < vbox_view->subcell_view_count; i++) {
 		gint height = e_cell_height (vbox_view->subcell_views[i], vbox_view->model_cols[i], view_col, row);
 		if (y < subcell_offset + height)
-			return e_cell_event(vbox_view->subcell_views[i], event, vbox_view->model_cols[i], view_col, row, flags, actions);
+			return e_cell_event (vbox_view->subcell_views[i], event, vbox_view->model_cols[i], view_col, row, flags, actions);
 		subcell_offset += height;
 	}
 	return 0;
@@ -215,7 +215,7 @@ ecv_max_width (ECellView *ecell_view, gint model_col, gint view_col)
 
 	for (i = 0; i < vbox_view->subcell_view_count; i++) {
 		gint width = e_cell_max_width (vbox_view->subcell_views[i], vbox_view->model_cols[i], view_col);
-		max_width = MAX(width, max_width);
+		max_width = MAX (width, max_width);
 	}
 
 	return max_width;

@@ -123,7 +123,7 @@ void          e_table_group_compute_location  (ETableGroup       *etg,
 					       gint               *y,
 					       gint               *row,
 					       gint               *col);
-void          e_table_group_get_mouse_over(ETableGroup       *etg,
+void          e_table_group_get_mouse_over (ETableGroup       *etg,
 					       gint               *row,
 					       gint               *col);
 void          e_table_group_get_cell_geometry (ETableGroup       *etg,

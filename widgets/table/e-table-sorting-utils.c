@@ -33,17 +33,17 @@
 
 /* This takes source rows. */
 static gint
-etsu_compare(ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, gint row1, gint row2, gpointer cmp_cache)
+etsu_compare (ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, gint row1, gint row2, gpointer cmp_cache)
 {
 	gint j;
-	gint sort_count = e_table_sort_info_sorting_get_count(sort_info);
+	gint sort_count = e_table_sort_info_sorting_get_count (sort_info);
 	gint comp_val = 0;
 	gint ascending = 1;
 
 	for (j = 0; j < sort_count; j++) {
-		ETableSortColumn column = e_table_sort_info_sorting_get_nth(sort_info, j);
+		ETableSortColumn column = e_table_sort_info_sorting_get_nth (sort_info, j);
 		ETableCol *col;
-		col = e_table_header_get_column_by_col_idx(full_header, column.column);
+		col = e_table_header_get_column_by_col_idx (full_header, column.column);
 		if (col == NULL)
 			col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
 		comp_val = (*col->compare)(e_table_model_value_at (source, col->compare_col, row1),
@@ -82,7 +82,7 @@ typedef struct {
 /* FIXME: Make it not cache the second and later columns (as if anyone cares.) */
 
 static gint
-e_sort_callback(gconstpointer data1, gconstpointer data2, gpointer user_data)
+e_sort_callback (gconstpointer data1, gconstpointer data2, gpointer user_data)
 {
 	gint row1 = *(gint *)data1;
 	gint row2 = *(gint *)data2;
@@ -109,7 +109,7 @@ e_sort_callback(gconstpointer data1, gconstpointer data2, gpointer user_data)
 }
 
 void
-e_table_sorting_utils_sort(ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, gint *map_table, gint rows)
+e_table_sorting_utils_sort (ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, gint *map_table, gint rows)
 {
 	gint total_rows;
 	gint i;
@@ -117,26 +117,26 @@ e_table_sorting_utils_sort(ETableModel *source, ETableSortInfo *sort_info, ETabl
 	gint cols;
 	ETableSortClosure closure;
 
-	g_return_if_fail(source != NULL);
-	g_return_if_fail(E_IS_TABLE_MODEL(source));
-	g_return_if_fail(sort_info != NULL);
-	g_return_if_fail(E_IS_TABLE_SORT_INFO(sort_info));
-	g_return_if_fail(full_header != NULL);
-	g_return_if_fail(E_IS_TABLE_HEADER(full_header));
+	g_return_if_fail (source != NULL);
+	g_return_if_fail (E_IS_TABLE_MODEL (source));
+	g_return_if_fail (sort_info != NULL);
+	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
+	g_return_if_fail (full_header != NULL);
+	g_return_if_fail (E_IS_TABLE_HEADER (full_header));
 
-	total_rows = e_table_model_row_count(source);
-	cols = e_table_sort_info_sorting_get_count(sort_info);
+	total_rows = e_table_model_row_count (source);
+	cols = e_table_sort_info_sorting_get_count (sort_info);
 	closure.cols = cols;
 
-	closure.vals = g_new(gpointer , total_rows * cols);
-	closure.ascending = g_new(int, cols);
-	closure.compare = g_new(GCompareDataFunc, cols);
+	closure.vals = g_new (gpointer , total_rows * cols);
+	closure.ascending = g_new (int, cols);
+	closure.compare = g_new (GCompareDataFunc, cols);
 	closure.cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
 	for (j = 0; j < cols; j++) {
-		ETableSortColumn column = e_table_sort_info_sorting_get_nth(sort_info, j);
+		ETableSortColumn column = e_table_sort_info_sorting_get_nth (sort_info, j);
 		ETableCol *col;
-		col = e_table_header_get_column_by_col_idx(full_header, column.column);
+		col = e_table_header_get_column_by_col_idx (full_header, column.column);
 		if (col == NULL)
 			col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
 		for (i = 0; i < rows; i++) {
@@ -147,11 +147,11 @@ e_table_sorting_utils_sort(ETableModel *source, ETableSortInfo *sort_info, ETabl
 	}
 
 	g_qsort_with_data (
-		map_table, rows, sizeof(gint), e_sort_callback, &closure);
+		map_table, rows, sizeof (gint), e_sort_callback, &closure);
 
-	g_free(closure.vals);
-	g_free(closure.ascending);
-	g_free(closure.compare);
+	g_free (closure.vals);
+	g_free (closure.ascending);
+	g_free (closure.compare);
 	e_table_sorting_utils_free_cmp_cache (closure.cmp_cache);
 }
 
@@ -163,17 +163,17 @@ e_table_sorting_utils_affects_sort  (ETableSortInfo *sort_info,
 	gint j;
 	gint cols;
 
-	g_return_val_if_fail(sort_info != NULL, TRUE);
-	g_return_val_if_fail(E_IS_TABLE_SORT_INFO(sort_info), TRUE);
-	g_return_val_if_fail(full_header != NULL, TRUE);
-	g_return_val_if_fail(E_IS_TABLE_HEADER(full_header), TRUE);
+	g_return_val_if_fail (sort_info != NULL, TRUE);
+	g_return_val_if_fail (E_IS_TABLE_SORT_INFO (sort_info), TRUE);
+	g_return_val_if_fail (full_header != NULL, TRUE);
+	g_return_val_if_fail (E_IS_TABLE_HEADER (full_header), TRUE);
 
-	cols = e_table_sort_info_sorting_get_count(sort_info);
+	cols = e_table_sort_info_sorting_get_count (sort_info);
 
 	for (j = 0; j < cols; j++) {
-		ETableSortColumn column = e_table_sort_info_sorting_get_nth(sort_info, j);
+		ETableSortColumn column = e_table_sort_info_sorting_get_nth (sort_info, j);
 		ETableCol *tablecol;
-		tablecol = e_table_header_get_column_by_col_idx(full_header, column.column);
+		tablecol = e_table_header_get_column_by_col_idx (full_header, column.column);
 		if (tablecol == NULL)
 			tablecol = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
 		if (col == tablecol->compare_col)
@@ -184,14 +184,14 @@ e_table_sorting_utils_affects_sort  (ETableSortInfo *sort_info,
 
 /* FIXME: This could be done in time log n instead of time n with a binary search. */
 gint
-e_table_sorting_utils_insert(ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, gint *map_table, gint rows, gint row)
+e_table_sorting_utils_insert (ETableModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, gint *map_table, gint rows, gint row)
 {
 	gint i;
 	gpointer cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
 	i = 0;
 	/* handle insertions when we have a 'sort group' */
-	while (i < rows && etsu_compare(source, sort_info, full_header, map_table[i], row, cmp_cache) < 0)
+	while (i < rows && etsu_compare (source, sort_info, full_header, map_table[i], row, cmp_cache) < 0)
 		i++;
 
 	e_table_sorting_utils_free_cmp_cache (cmp_cache);
@@ -212,13 +212,13 @@ e_table_sorting_utils_check_position (ETableModel *source, ETableSortInfo *sort_
 	cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
 	i = view_row;
-	if (i < rows - 1 && etsu_compare(source, sort_info, full_header, map_table[i + 1], row, cmp_cache) < 0) {
+	if (i < rows - 1 && etsu_compare (source, sort_info, full_header, map_table[i + 1], row, cmp_cache) < 0) {
 		i++;
-		while (i < rows - 1 && etsu_compare(source, sort_info, full_header, map_table[i], row, cmp_cache) < 0)
+		while (i < rows - 1 && etsu_compare (source, sort_info, full_header, map_table[i], row, cmp_cache) < 0)
 			i++;
-	} else if (i > 0 && etsu_compare(source, sort_info, full_header, map_table[i - 1], row, cmp_cache) > 0) {
+	} else if (i > 0 && etsu_compare (source, sort_info, full_header, map_table[i - 1], row, cmp_cache) > 0) {
 		i--;
-		while (i > 0 && etsu_compare(source, sort_info, full_header, map_table[i], row, cmp_cache) > 0)
+		while (i > 0 && etsu_compare (source, sort_info, full_header, map_table[i], row, cmp_cache) > 0)
 			i--;
 	}
 
@@ -229,17 +229,17 @@ e_table_sorting_utils_check_position (ETableModel *source, ETableSortInfo *sort_
 
 /* This takes source rows. */
 static gint
-etsu_tree_compare(ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, ETreePath path1, ETreePath path2, gpointer cmp_cache)
+etsu_tree_compare (ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, ETreePath path1, ETreePath path2, gpointer cmp_cache)
 {
 	gint j;
-	gint sort_count = e_table_sort_info_sorting_get_count(sort_info);
+	gint sort_count = e_table_sort_info_sorting_get_count (sort_info);
 	gint comp_val = 0;
 	gint ascending = 1;
 
 	for (j = 0; j < sort_count; j++) {
-		ETableSortColumn column = e_table_sort_info_sorting_get_nth(sort_info, j);
+		ETableSortColumn column = e_table_sort_info_sorting_get_nth (sort_info, j);
 		ETableCol *col;
-		col = e_table_header_get_column_by_col_idx(full_header, column.column);
+		col = e_table_header_get_column_by_col_idx (full_header, column.column);
 		if (col == NULL)
 			col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
 		comp_val = (*col->compare)(e_tree_model_value_at (source, path1, col->compare_col),
@@ -255,7 +255,7 @@ etsu_tree_compare(ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *f
 }
 
 static gint
-e_sort_tree_callback(gconstpointer data1, gconstpointer data2, gpointer user_data)
+e_sort_tree_callback (gconstpointer data1, gconstpointer data2, gpointer user_data)
 {
 	ETreePath *path1 = *(ETreePath *)data1;
 	ETreePath *path2 = *(ETreePath *)data2;
@@ -265,33 +265,33 @@ e_sort_tree_callback(gconstpointer data1, gconstpointer data2, gpointer user_dat
 }
 
 void
-e_table_sorting_utils_tree_sort(ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, ETreePath *map_table, gint count)
+e_table_sorting_utils_tree_sort (ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, ETreePath *map_table, gint count)
 {
 	ETableSortClosure closure;
 	gint cols;
 	gint i, j;
 	gint *map;
 	ETreePath *map_copy;
-	g_return_if_fail(source != NULL);
-	g_return_if_fail(E_IS_TREE_MODEL(source));
-	g_return_if_fail(sort_info != NULL);
-	g_return_if_fail(E_IS_TABLE_SORT_INFO(sort_info));
-	g_return_if_fail(full_header != NULL);
-	g_return_if_fail(E_IS_TABLE_HEADER(full_header));
+	g_return_if_fail (source != NULL);
+	g_return_if_fail (E_IS_TREE_MODEL (source));
+	g_return_if_fail (sort_info != NULL);
+	g_return_if_fail (E_IS_TABLE_SORT_INFO (sort_info));
+	g_return_if_fail (full_header != NULL);
+	g_return_if_fail (E_IS_TABLE_HEADER (full_header));
 
-	cols = e_table_sort_info_sorting_get_count(sort_info);
+	cols = e_table_sort_info_sorting_get_count (sort_info);
 	closure.cols = cols;
 
-	closure.vals = g_new(gpointer , count * cols);
-	closure.ascending = g_new(int, cols);
+	closure.vals = g_new (gpointer , count * cols);
+	closure.ascending = g_new (int, cols);
 	closure.compare = g_new (GCompareDataFunc, cols);
 	closure.cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
 	for (j = 0; j < cols; j++) {
-		ETableSortColumn column = e_table_sort_info_sorting_get_nth(sort_info, j);
+		ETableSortColumn column = e_table_sort_info_sorting_get_nth (sort_info, j);
 		ETableCol *col;
 
-		col = e_table_header_get_column_by_col_idx(full_header, column.column);
+		col = e_table_header_get_column_by_col_idx (full_header, column.column);
 		if (col == NULL)
 			col = e_table_header_get_column (full_header, e_table_header_count (full_header) - 1);
 
@@ -302,15 +302,15 @@ e_table_sorting_utils_tree_sort(ETreeModel *source, ETableSortInfo *sort_info, E
 		closure.compare[j] = col->compare;
 	}
 
-	map = g_new(int, count);
+	map = g_new (int, count);
 	for (i = 0; i < count; i++) {
 		map[i] = i;
 	}
 
 	g_qsort_with_data (
-		map, count, sizeof(gint), e_sort_callback, &closure);
+		map, count, sizeof (gint), e_sort_callback, &closure);
 
-	map_copy = g_new(ETreePath, count);
+	map_copy = g_new (ETreePath, count);
 	for (i = 0; i < count; i++) {
 		map_copy[i] = map_table[i];
 	}
@@ -318,12 +318,12 @@ e_table_sorting_utils_tree_sort(ETreeModel *source, ETableSortInfo *sort_info, E
 		map_table[i] = map_copy[map[i]];
 	}
 
-	g_free(map);
-	g_free(map_copy);
+	g_free (map);
+	g_free (map_copy);
 
-	g_free(closure.vals);
-	g_free(closure.ascending);
-	g_free(closure.compare);
+	g_free (closure.vals);
+	g_free (closure.ascending);
+	g_free (closure.compare);
 	e_table_sorting_utils_free_cmp_cache (closure.cmp_cache);
 }
 
@@ -338,13 +338,13 @@ e_table_sorting_utils_tree_check_position (ETreeModel *source, ETableSortInfo *s
 	i = old_index;
 	path = map_table[i];
 
-	if (i < count - 1 && etsu_tree_compare(source, sort_info, full_header, map_table[i + 1], path, cmp_cache) < 0) {
+	if (i < count - 1 && etsu_tree_compare (source, sort_info, full_header, map_table[i + 1], path, cmp_cache) < 0) {
 		i++;
-		while (i < count - 1 && etsu_tree_compare(source, sort_info, full_header, map_table[i], path, cmp_cache) < 0)
+		while (i < count - 1 && etsu_tree_compare (source, sort_info, full_header, map_table[i], path, cmp_cache) < 0)
 			i++;
-	} else if (i > 0 && etsu_tree_compare(source, sort_info, full_header, map_table[i - 1], path, cmp_cache) > 0) {
+	} else if (i > 0 && etsu_tree_compare (source, sort_info, full_header, map_table[i - 1], path, cmp_cache) > 0) {
 		i--;
-		while (i > 0 && etsu_tree_compare(source, sort_info, full_header, map_table[i], path, cmp_cache) > 0)
+		while (i > 0 && etsu_tree_compare (source, sort_info, full_header, map_table[i], path, cmp_cache) > 0)
 			i--;
 	}
 
@@ -355,7 +355,7 @@ e_table_sorting_utils_tree_check_position (ETreeModel *source, ETableSortInfo *s
 
 /* FIXME: This does not pay attention to making sure that it's a stable insert.  This needs to be fixed. */
 gint
-e_table_sorting_utils_tree_insert(ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, ETreePath *map_table, gint count, ETreePath path)
+e_table_sorting_utils_tree_insert (ETreeModel *source, ETableSortInfo *sort_info, ETableHeader *full_header, ETreePath *map_table, gint count, ETreePath path)
 {
 	gsize start;
 	gsize end;
@@ -366,7 +366,7 @@ e_table_sorting_utils_tree_insert(ETreeModel *source, ETableSortInfo *sort_info,
 	closure.full_header = full_header;
 	closure.cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
-	e_bsearch(&path, map_table, count, sizeof(ETreePath), e_sort_tree_callback, &closure, &start, &end);
+	e_bsearch (&path, map_table, count, sizeof (ETreePath), e_sort_tree_callback, &closure, &start, &end);
 
 	e_table_sorting_utils_free_cmp_cache (closure.cmp_cache);
 

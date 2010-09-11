@@ -347,7 +347,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 
 	if (g_label == NULL) {
 		GtkWidget *button = gtk_button_new_with_label("Hi");
-		GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+		GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 		gtk_container_add (GTK_CONTAINER (window), button);
 		gtk_widget_ensure_style (window);
 		gtk_widget_ensure_style (button);
@@ -396,7 +396,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 			inner_width -= arrow_width + HEADER_PADDING;
 		break;
 	default:
-		g_return_if_reached();
+		g_return_if_reached ();
 	}
 
 	if (inner_width < 1)

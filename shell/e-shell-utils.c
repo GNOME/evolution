@@ -236,9 +236,9 @@ e_shell_run_save_dialog (EShell *shell,
 		gchar **flts = g_strsplit (filters, ";", -1);
 		gint i;
 
-		for (i = 0; flts [i]; i++) {
+		for (i = 0; flts[i]; i++) {
 			GtkFileFilter *filter = gtk_file_filter_new ();
-			gchar *flt = flts [i];
+			gchar *flt = flts[i];
 			gchar *delim = strchr (flt, ':'), *next = NULL;
 
 			if (delim) {
@@ -269,7 +269,7 @@ e_shell_run_save_dialog (EShell *shell,
 			gtk_file_chooser_add_filter (file_chooser, filter);
 		}
 
-		if (flts && flts [0]) {
+		if (flts && flts[0]) {
 			GtkFileFilter *filter = gtk_file_filter_new ();
 
 			gtk_file_filter_add_pattern (filter, "*");

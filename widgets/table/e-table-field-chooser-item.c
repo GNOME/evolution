@@ -50,7 +50,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint etfci_signals [LAST_SIGNAL] = { 0, };
+static guint etfci_signals[LAST_SIGNAL] = { 0, };
 #endif
 
 /* workaround for avoiding API breakage */
@@ -96,7 +96,7 @@ etfci_find_button (ETableFieldChooserItem *etfci, gdouble loc)
 	gint count;
 	gdouble height = 0;
 
-	count = e_table_header_count(etfci->combined_header);
+	count = e_table_header_count (etfci->combined_header);
 	for (i = 0; i < count; i++) {
 		ETableCol *ecol;
 
@@ -108,7 +108,7 @@ etfci_find_button (ETableFieldChooserItem *etfci, gdouble loc)
 		if (height > loc)
 			return i;
 	}
-	return MAX(0, count - 1);
+	return MAX (0, count - 1);
 }
 
 static void
@@ -158,7 +158,7 @@ etfci_reflow (GnomeCanvasItem *item, gint flags)
 
 	old_height = etfci->height;
 
-	count = e_table_header_count(etfci->combined_header);
+	count = e_table_header_count (etfci->combined_header);
 	for (i = 0; i < count; i++) {
 		ETableCol *ecol;
 
@@ -172,9 +172,9 @@ etfci_reflow (GnomeCanvasItem *item, gint flags)
 	etfci->height = height;
 
 	if (old_height != etfci->height)
-		e_canvas_item_request_parent_reflow(item);
+		e_canvas_item_request_parent_reflow (item);
 
-	gnome_canvas_item_request_update(item);
+	gnome_canvas_item_request_update (item);
 }
 
 static void
@@ -184,7 +184,7 @@ etfci_update (GnomeCanvasItem *item,
               gint flags)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
-	gdouble   i2c [6];
+	gdouble   i2c[6];
 	ArtPoint c1, c2, i1, i2;
 
 	if (GNOME_CANVAS_ITEM_CLASS (etfci_parent_class)->update)
@@ -257,14 +257,14 @@ etfci_drop_full_header (ETableFieldChooserItem *etfci)
 		g_object_unref (header);
 	etfci->full_header = NULL;
 	etfci->height = 0;
-	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (etfci));
 }
 
 static void
 full_header_structure_changed (ETableHeader *header,
                                ETableFieldChooserItem *etfci)
 {
-	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (etfci));
 }
 
 static void
@@ -272,7 +272,7 @@ full_header_dimension_changed (ETableHeader *header,
                                gint col,
                                ETableFieldChooserItem *etfci)
 {
-	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (etfci));
 }
 
 static void
@@ -284,11 +284,11 @@ etfci_add_full_header (ETableFieldChooserItem *etfci,
 
 	etfci->full_header_structure_change_id = g_signal_connect (
 		header, "structure_change",
-		G_CALLBACK(full_header_structure_changed), etfci);
+		G_CALLBACK (full_header_structure_changed), etfci);
 	etfci->full_header_dimension_change_id = g_signal_connect (
 		header, "dimension_change",
-		G_CALLBACK(full_header_dimension_changed), etfci);
-	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
+		G_CALLBACK (full_header_dimension_changed), etfci);
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (etfci));
 }
 
 static void
@@ -311,14 +311,14 @@ etfci_drop_table_header (ETableFieldChooserItem *etfci)
 		g_object_unref (header);
 	etfci->header = NULL;
 	etfci->height = 0;
-	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (etfci));
 }
 
 static void
 table_header_structure_changed (ETableHeader *header,
                                 ETableFieldChooserItem *etfci)
 {
-	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (etfci));
 }
 
 static void
@@ -326,7 +326,7 @@ table_header_dimension_changed (ETableHeader *header,
                                 gint col,
                                 ETableFieldChooserItem *etfci)
 {
-	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (etfci));
 }
 
 static void
@@ -338,11 +338,11 @@ etfci_add_table_header (ETableFieldChooserItem *etfci,
 
 	etfci->table_header_structure_change_id = g_signal_connect (
 		header, "structure_change",
-		G_CALLBACK(table_header_structure_changed), etfci);
+		G_CALLBACK (table_header_structure_changed), etfci);
 	etfci->table_header_dimension_change_id = g_signal_connect (
 		header, "dimension_change",
-		G_CALLBACK(table_header_dimension_changed), etfci);
-	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
+		G_CALLBACK (table_header_dimension_changed), etfci);
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (etfci));
 }
 
 static void
@@ -361,23 +361,23 @@ etfci_set_property (GObject *object,
 	case PROP_FULL_HEADER:
 		etfci_drop_full_header (etfci);
 		if (g_value_get_object (value))
-			etfci_add_full_header (etfci, E_TABLE_HEADER(g_value_get_object (value)));
+			etfci_add_full_header (etfci, E_TABLE_HEADER (g_value_get_object (value)));
 		break;
 
 	case PROP_HEADER:
 		etfci_drop_table_header (etfci);
 		if (g_value_get_object (value))
-			etfci_add_table_header (etfci, E_TABLE_HEADER(g_value_get_object (value)));
+			etfci_add_table_header (etfci, E_TABLE_HEADER (g_value_get_object (value)));
 		break;
 
 	case PROP_DND_CODE:
-		g_free(etfci->dnd_code);
-		etfci->dnd_code = g_strdup(g_value_get_string (value));
+		g_free (etfci->dnd_code);
+		etfci->dnd_code = g_strdup (g_value_get_string (value));
 		break;
 
 	case PROP_WIDTH:
 		etfci->width = g_value_get_double (value);
-		gnome_canvas_item_request_update(item);
+		gnome_canvas_item_request_update (item);
 		break;
 	}
 }
@@ -416,12 +416,12 @@ etfci_drag_data_get (GtkWidget          *widget,
 {
 	if (etfci->drag_col != -1) {
 		gchar *string = g_strdup_printf("%d", etfci->drag_col);
-		gtk_selection_data_set(selection_data,
+		gtk_selection_data_set (selection_data,
 				       GDK_SELECTION_TYPE_STRING,
-				       sizeof(string[0]),
+				       sizeof (string[0]),
 				       (guchar *)string,
-				       strlen(string));
-		g_free(string);
+				       strlen (string));
+		g_free (string);
 	}
 }
 
@@ -450,7 +450,7 @@ etfci_realize (GnomeCanvasItem *item)
 	etfci->drag_data_get_id = g_signal_connect (
 		item->canvas, "drag_data_get",
 		G_CALLBACK (etfci_drag_data_get), etfci);
-	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(etfci));
+	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (etfci));
 }
 
 static void
@@ -557,16 +557,16 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, gdouble x, gdo
 	gint drag_col;
 	gint button_height;
 
-	GtkTargetEntry  etfci_drag_types [] = {
+	GtkTargetEntry  etfci_drag_types[] = {
 		{ (gchar *) TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
 	};
 
 	if (etfci->combined_header == NULL)
 		return;
 
-	drag_col = etfci_find_button(etfci, y);
+	drag_col = etfci_find_button (etfci, y);
 
-	if (drag_col < 0 || drag_col > e_table_header_count(etfci->combined_header))
+	if (drag_col < 0 || drag_col > e_table_header_count (etfci->combined_header))
 		return;
 
 	ecol = e_table_header_get_column (etfci->combined_header, drag_col);
@@ -581,7 +581,7 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, gdouble x, gdo
 	d(g_print ("etfci - %s\n", etfci_drag_types[0].target));
 	list = gtk_target_list_new (etfci_drag_types, G_N_ELEMENTS (etfci_drag_types));
 	context = gtk_drag_begin (widget, list, GDK_ACTION_MOVE, 1, event);
-	g_free(etfci_drag_types[0].target);
+	g_free (etfci_drag_types[0].target);
 
 	button_height = e_table_header_compute_height (ecol, widget);
 	window = gtk_widget_get_window (widget);
@@ -721,6 +721,6 @@ etfci_init (ETableFieldChooserItem *etfci)
 	etfci->maybe_drag = 0;
 	etfci->drag_end_id = 0;
 
-	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM (etfci), etfci_reflow);
+	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (etfci), etfci_reflow);
 }
 

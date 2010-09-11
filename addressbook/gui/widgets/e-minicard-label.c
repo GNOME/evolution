@@ -67,7 +67,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint e_minicard_label_signals [LAST_SIGNAL] = {0, };
+static guint e_minicard_label_signals[LAST_SIGNAL] = {0, };
 
 GType
 e_minicard_label_get_type (void)
@@ -166,7 +166,7 @@ e_minicard_label_class_init (EMinicardLabelClass *klass)
 							       FALSE,
 							       G_PARAM_READWRITE));
 
-	e_minicard_label_signals [STYLE_SET] =
+	e_minicard_label_signals[STYLE_SET] =
 		g_signal_new ("style_set",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_FIRST,

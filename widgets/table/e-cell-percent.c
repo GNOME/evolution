@@ -59,7 +59,7 @@ ecp_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
 }
 
 static void
-ecp_free_text(ECellText *cell, gchar *text)
+ecp_free_text (ECellText *cell, gchar *text)
 {
 	/* Do Nothing. */
 }
@@ -145,7 +145,7 @@ e_cell_percent_new (const gchar *fontname, GtkJustification justify)
 {
 	ECellPercent *ecn = g_object_new (E_TYPE_CELL_PERCENT, NULL);
 
-	e_cell_text_construct (E_CELL_TEXT(ecn), fontname, justify);
+	e_cell_text_construct (E_CELL_TEXT (ecn), fontname, justify);
 
 	return (ECell *) ecn;
 }

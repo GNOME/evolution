@@ -58,7 +58,7 @@ gal_a11y_e_table_column_header_ref_state_set (AtkObject *accessible)
 
 	g_return_val_if_fail (priv->state_set, NULL);
 
-	g_object_ref(priv->state_set);
+	g_object_ref (priv->state_set);
 
 	return priv->state_set;
 }
@@ -213,17 +213,17 @@ gal_a11y_e_table_column_header_new (ETableCol *ecol, ETableItem *item)
 
 	g_return_val_if_fail (E_IS_TABLE_COL (ecol), NULL);
 
-	a11y = g_object_new (gal_a11y_e_table_column_header_get_type(), NULL);
+	a11y = g_object_new (gal_a11y_e_table_column_header_get_type (), NULL);
 	accessible  = ATK_OBJECT (a11y);
 	atk_object_initialize (accessible, ecol);
 
 	GET_PRIVATE (a11y)->item = item;
 	GET_PRIVATE (a11y)->state_set = atk_state_set_new ();
 
-	atk_state_set_add_state (GET_PRIVATE(a11y)->state_set, ATK_STATE_VISIBLE);
-	atk_state_set_add_state (GET_PRIVATE(a11y)->state_set, ATK_STATE_SHOWING);
-	atk_state_set_add_state (GET_PRIVATE(a11y)->state_set, ATK_STATE_SENSITIVE);
-	atk_state_set_add_state (GET_PRIVATE(a11y)->state_set, ATK_STATE_ENABLED);
+	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_VISIBLE);
+	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_SHOWING);
+	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_SENSITIVE);
+	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_ENABLED);
 
 	if (ecol->text)
 		atk_object_set_name (accessible, ecol->text);

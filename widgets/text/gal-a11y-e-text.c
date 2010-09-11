@@ -146,7 +146,7 @@ et_get_text (AtkText *text,
 static gboolean
 is_a_seperator (gunichar c)
 {
-	return g_unichar_ispunct(c) || g_unichar_isspace(c);
+	return g_unichar_ispunct (c) || g_unichar_isspace (c);
 }
 
 static gint
@@ -480,7 +480,7 @@ et_get_caret_offset (AtkText *text)
 	EText *etext;
 	gint offset;
 
-	g_return_val_if_fail (ATK_IS_GOBJECT_ACCESSIBLE(text), -1);
+	g_return_val_if_fail (ATK_IS_GOBJECT_ACCESSIBLE (text), -1);
 	obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
 	if (obj == NULL)
 		return -1;
@@ -526,14 +526,14 @@ et_get_character_extents (AtkText *text,
         GtkWidget *widget;
 	PangoRectangle pango_pos;
 
-        g_return_if_fail (ATK_IS_GOBJECT_ACCESSIBLE(text));
+        g_return_if_fail (ATK_IS_GOBJECT_ACCESSIBLE (text));
         obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
         if (obj == NULL)
             return;
         g_return_if_fail (E_IS_TEXT (obj));
-        etext = E_TEXT(obj);
-        canvas = GNOME_CANVAS_ITEM(etext)->canvas;
-        widget = GTK_WIDGET(canvas);
+        etext = E_TEXT (obj);
+        canvas = GNOME_CANVAS_ITEM (etext)->canvas;
+        widget = GTK_WIDGET (canvas);
         window = gtk_widget_get_window (widget);
         gdk_window_get_origin (window, &x_widget, &y_widget);
 
@@ -604,14 +604,14 @@ et_get_offset_at_point (AtkText *text,
         gint index;
         gint trailing;
 
-        g_return_val_if_fail (ATK_IS_GOBJECT_ACCESSIBLE(text), -1);
+        g_return_val_if_fail (ATK_IS_GOBJECT_ACCESSIBLE (text), -1);
         obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
         if (obj == NULL)
             return -1;
         g_return_val_if_fail (E_IS_TEXT (obj), -1);
-        etext = E_TEXT(obj);
-        canvas = GNOME_CANVAS_ITEM(etext)->canvas;
-        widget = GTK_WIDGET(canvas);
+        etext = E_TEXT (obj);
+        canvas = GNOME_CANVAS_ITEM (etext)->canvas;
+        widget = GTK_WIDGET (canvas);
 	window = gtk_widget_get_window (widget);
 	gdk_window_get_origin (window, &x_widget, &y_widget);
 
@@ -880,7 +880,7 @@ et_delete_text (AtkEditableText *text,
 	GObject *obj;
 	EText *etext;
 
-	g_return_if_fail (ATK_IS_GOBJECT_ACCESSIBLE(text));
+	g_return_if_fail (ATK_IS_GOBJECT_ACCESSIBLE (text));
 	obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
 	if (obj == NULL)
 		return;

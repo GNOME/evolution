@@ -158,7 +158,7 @@ e_day_view_layout_day_events (GArray	   *events,
 		group_starts[row] = row;
 
 		/* row doesn't contain any event at the moment */
-		grid [row] = e_bit_array_new (0);
+		grid[row] = e_bit_array_new (0);
 	}
 
 	/* Iterate over the events, finding which rows they cover, and putting
@@ -186,8 +186,8 @@ e_day_view_layout_day_events (GArray	   *events,
 	/* Free the grid and compute maximum number of columns used. */
 	res = 0;
 	for (row = 0; row < rows; row++) {
-		res = MAX (res, e_bit_array_bit_count (grid [row]));
-		g_object_unref (grid [row]);
+		res = MAX (res, e_bit_array_bit_count (grid[row]));
+		g_object_unref (grid[row]);
 	}
 	g_free (grid);
 
@@ -227,8 +227,8 @@ e_day_view_layout_day_event (EDayViewEvent *event,
 	for (col = 0; max_cols <= 0 || col < max_cols; col++) {
 		free_col = col;
 		for (row = start_row; row <= end_row; row++) {
-			if (e_bit_array_bit_count (grid [row]) > col &&
-			    e_bit_array_value_at (grid [row], col)) {
+			if (e_bit_array_bit_count (grid[row]) > col &&
+			    e_bit_array_value_at (grid[row], col)) {
 				free_col = -1;
 				break;
 			}
@@ -255,12 +255,12 @@ e_day_view_layout_day_event (EDayViewEvent *event,
 	   the event covers are in one group. */
 	for (row = start_row; row <= end_row; row++) {
 		/* resize the array if necessary */
-		if (e_bit_array_bit_count (grid [row]) <= free_col)
+		if (e_bit_array_bit_count (grid[row]) <= free_col)
 			e_bit_array_insert (
-				grid [row], e_bit_array_bit_count (grid [row]),
-				free_col - e_bit_array_bit_count (grid [row]) + 1);
+				grid[row], e_bit_array_bit_count (grid[row]),
+				free_col - e_bit_array_bit_count (grid[row]) + 1);
 
-		e_bit_array_change_one_row (grid [row], free_col, TRUE);
+		e_bit_array_change_one_row (grid[row], free_col, TRUE);
 		cols_per_row[row]++;
 		group_starts[row] = group_start;
 	}
@@ -315,8 +315,8 @@ e_day_view_expand_day_event (EDayViewEvent *event,
 	clashed = FALSE;
 	for (col = event->start_row_or_col + 1; col < cols_per_row[start_row]; col++) {
 		for (row = start_row; row <= end_row; row++) {
-			if (e_bit_array_bit_count (grid [row]) > col &&
-			    e_bit_array_value_at (grid [row], col)) {
+			if (e_bit_array_bit_count (grid[row]) > col &&
+			    e_bit_array_value_at (grid[row], col)) {
 				clashed = TRUE;
 				break;
 			}

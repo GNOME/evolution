@@ -1829,7 +1829,7 @@ on_date_entry_focus_out			(GtkEntry	*entry,
 		if (dedit->priv->has_been_changed) {
 			/* The previous one didn't emit changed signal,
 			 * but we want it even here, thus doing itself. */
-			g_signal_emit (dedit, signals [CHANGED], 0);
+			g_signal_emit (dedit, signals[CHANGED], 0);
 			dedit->priv->has_been_changed = FALSE;
 		}
 	} else {

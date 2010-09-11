@@ -101,8 +101,8 @@ gal_view_new_dialog_init (GalViewNewDialog *dialog)
 		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 
-	gtk_window_set_resizable (GTK_WINDOW(dialog), TRUE);
-	gtk_window_set_modal (GTK_WINDOW(dialog), TRUE);
+	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_window_set_title (GTK_WINDOW(dialog), _("Define New View"));
 
 	dialog->collection = NULL;
@@ -112,10 +112,10 @@ gal_view_new_dialog_init (GalViewNewDialog *dialog)
 static void
 gal_view_new_dialog_dispose (GObject *object)
 {
-	GalViewNewDialog *gal_view_new_dialog = GAL_VIEW_NEW_DIALOG(object);
+	GalViewNewDialog *gal_view_new_dialog = GAL_VIEW_NEW_DIALOG (object);
 
 	if (gal_view_new_dialog->builder)
-		g_object_unref(gal_view_new_dialog->builder);
+		g_object_unref (gal_view_new_dialog->builder);
 	gal_view_new_dialog->builder = NULL;
 
 	if (G_OBJECT_CLASS (gal_view_new_dialog_parent_class)->dispose)
@@ -126,7 +126,7 @@ GtkWidget*
 gal_view_new_dialog_new (GalViewCollection *collection)
 {
 	GtkWidget *widget =
-		gal_view_new_dialog_construct(g_object_new (GAL_VIEW_NEW_DIALOG_TYPE, NULL),
+		gal_view_new_dialog_construct (g_object_new (GAL_VIEW_NEW_DIALOG_TYPE, NULL),
 					      collection);
 	return widget;
 }
@@ -209,16 +209,16 @@ gal_view_new_dialog_construct (GalViewNewDialog  *dialog,
 	gtk_tree_view_append_column (GTK_TREE_VIEW (dialog->list), column);
 
 	iterator = dialog->collection->factory_list;
-	for (; iterator; iterator = g_list_next(iterator) ) {
+	for (; iterator; iterator = g_list_next (iterator) ) {
 		GalViewFactory *factory = iterator->data;
 		GtkTreeIter iter;
 
-		g_object_ref(factory);
+		g_object_ref (factory);
 		gtk_list_store_append (dialog->list_store,
 				       &iter);
 		gtk_list_store_set (dialog->list_store,
 				    &iter,
-				    0, gal_view_factory_get_title(factory),
+				    0, gal_view_factory_get_title (factory),
 				    1, factory,
 				    -1);
 	}
@@ -233,7 +233,7 @@ gal_view_new_dialog_construct (GalViewNewDialog  *dialog,
 
 	sensitize_ok_response (dialog);
 
-	return GTK_WIDGET(dialog);
+	return GTK_WIDGET (dialog);
 }
 
 static void
@@ -247,8 +247,8 @@ gal_view_new_dialog_set_property (GObject *object, guint prop_id, const GValue *
 	switch (prop_id) {
 	case PROP_NAME:
 		entry = e_builder_get_widget(dialog->builder, "entry-name");
-		if (entry && GTK_IS_ENTRY(entry)) {
-			gtk_entry_set_text(GTK_ENTRY(entry), g_value_get_string (value));
+		if (entry && GTK_IS_ENTRY (entry)) {
+			gtk_entry_set_text (GTK_ENTRY (entry), g_value_get_string (value));
 		}
 		break;
 	default:
@@ -268,7 +268,7 @@ gal_view_new_dialog_get_property (GObject *object, guint prop_id, GValue *value,
 	switch (prop_id) {
 	case PROP_NAME:
 		entry = e_builder_get_widget(dialog->builder, "entry-name");
-		if (entry && GTK_IS_ENTRY(entry)) {
+		if (entry && GTK_IS_ENTRY (entry)) {
 			g_value_set_string (value, gtk_entry_get_text (GTK_ENTRY (entry)));
 		}
 		break;

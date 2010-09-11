@@ -33,15 +33,15 @@
 G_DEFINE_TYPE (ECellNumber, e_cell_number, E_TYPE_CELL_TEXT)
 
 static gchar *
-ecn_get_text(ECellText *cell, ETableModel *model, gint col, gint row)
+ecn_get_text (ECellText *cell, ETableModel *model, gint col, gint row)
 {
-	return e_format_number(GPOINTER_TO_INT (e_table_model_value_at(model, col, row)));
+	return e_format_number (GPOINTER_TO_INT (e_table_model_value_at (model, col, row)));
 }
 
 static void
-ecn_free_text(ECellText *cell, gchar *text)
+ecn_free_text (ECellText *cell, gchar *text)
 {
-	g_free(text);
+	g_free (text);
 }
 
 static void
@@ -76,7 +76,7 @@ e_cell_number_new (const gchar *fontname, GtkJustification justify)
 {
 	ECellNumber *ecn = g_object_new (E_TYPE_CELL_NUMBER, NULL);
 
-	e_cell_text_construct(E_CELL_TEXT(ecn), fontname, justify);
+	e_cell_text_construct (E_CELL_TEXT (ecn), fontname, justify);
 
 	return (ECell *) ecn;
 }

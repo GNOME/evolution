@@ -38,15 +38,15 @@ ea_cell_table_create (gint rows, gint columns, gboolean column_first)
 
 	cell_data->column_labels = g_new0 (gchar *, columns);
 	for (index = columns -1; index >= 0; --index)
-		cell_data->column_labels [index] = NULL;
+		cell_data->column_labels[index] = NULL;
 
 	cell_data->row_labels = g_new0 (gchar *, rows);
 	for (index = rows -1; index >= 0; --index)
-		cell_data->row_labels [index] = NULL;
+		cell_data->row_labels[index] = NULL;
 
 	cell_data->cells = g_new0 (gpointer, (columns * rows));
 	for (index = (columns * rows) -1; index >= 0; --index)
-		cell_data->cells [index] = NULL;
+		cell_data->cells[index] = NULL;
 	return cell_data;
 }
 
@@ -57,13 +57,13 @@ ea_cell_table_destroy (EaCellTable * cell_data)
 	g_return_if_fail (cell_data);
 
 	for (index = 0; index < cell_data->columns; ++index)
-		if (cell_data->column_labels [index])
-			g_free (cell_data->column_labels [index]);
+		if (cell_data->column_labels[index])
+			g_free (cell_data->column_labels[index]);
 	g_free (cell_data->column_labels);
 
 	for (index = 0; index < cell_data->rows; ++index)
-		if (cell_data->row_labels [index])
-			g_free (cell_data->row_labels [index]);
+		if (cell_data->row_labels[index])
+			g_free (cell_data->row_labels[index]);
 	g_free (cell_data->row_labels);
 
 	for (index = (cell_data->columns * cell_data->rows) -1;
@@ -119,7 +119,7 @@ ea_cell_table_get_cell_at_index (EaCellTable * cell_data,
 	g_return_val_if_fail (cell_data, NULL);
 
 	if (index >=0 && index < (cell_data->columns * cell_data->rows))
-		return cell_data->cells [index];
+		return cell_data->cells[index];
 	return NULL;
 }
 

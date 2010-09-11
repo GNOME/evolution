@@ -35,7 +35,7 @@
 #define IS_VALID_ITER(dt_list, iter) (iter!= NULL && iter->user_data != NULL && \
                                       dt_list->stamp == iter->stamp)
 
-static GType column_types [E_ALARM_LIST_NUM_COLUMNS];
+static GType column_types[E_ALARM_LIST_NUM_COLUMNS];
 
 static void         e_alarm_list_init            (EAlarmList         *file_list);
 static void         e_alarm_list_class_init      (EAlarmListClass    *class);
@@ -99,7 +99,7 @@ e_alarm_list_get_type (void)
 			NULL
 		};
 
-		column_types [E_ALARM_LIST_COLUMN_DESCRIPTION] = G_TYPE_STRING;
+		column_types[E_ALARM_LIST_COLUMN_DESCRIPTION] = G_TYPE_STRING;
 
 		alarm_list_type = g_type_register_static (G_TYPE_OBJECT, "EAlarmList",
 							  &alarm_list_info, 0);
@@ -257,7 +257,7 @@ e_alarm_list_get_column_type (GtkTreeModel *tree_model,
 			      index >= 0, G_TYPE_INVALID);
 
 	alarm_list->columns_dirty = TRUE;
-	return column_types [index];
+	return column_types[index];
 }
 
 const ECalComponentAlarm *
@@ -563,7 +563,7 @@ e_alarm_list_get_value (GtkTreeModel *tree_model,
 	g_return_if_fail (E_ALARM_LIST (tree_model)->stamp == iter->stamp);
 	g_return_if_fail (IS_VALID_ITER (alarm_list, iter));
 
-	g_value_init (value, column_types [column]);
+	g_value_init (value, column_types[column]);
 
 	if (!alarm_list->list)
 		return;

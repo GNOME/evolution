@@ -91,7 +91,7 @@ refresh_type_changed (GtkComboBox *refresh_type, ESource *source)
 		gtk_widget_hide (refresh_hbox);
 	}
 
-	buff [0] = '0' + active;
+	buff[0] = '0' + active;
 	e_source_set_property (source, "refresh-type", buff);
 }
 
@@ -200,7 +200,7 @@ e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_box_pack_start ((GtkBox *)box2, w2, FALSE, TRUE, 2);
 
 	value = e_source_get_property (source, "refresh-type");
-	gtk_combo_box_set_active ((GtkComboBox *)w2, (value && *value && !value[1] && value [0] >= '0' && value [0] <= '2') ? value [0] - '0' : 0);
+	gtk_combo_box_set_active ((GtkComboBox *)w2, (value && *value && !value[1] && value[0] >= '0' && value[0] <= '2') ? value[0] - '0' : 0);
 
 	w1 = w2;
 	w2 = e_plugin_util_add_refresh (NULL, NULL, source, "refresh");

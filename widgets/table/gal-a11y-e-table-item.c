@@ -87,16 +87,16 @@ eti_ref_state_set (AtkObject *accessible)
 {
 	GalA11yETableItemPrivate *priv = GET_PRIVATE (accessible);
 
-        g_object_ref(priv->state_set);
+        g_object_ref (priv->state_set);
 
         return priv->state_set;
 }
 
 inline static gint
-view_to_model_row(ETableItem *eti, gint row)
+view_to_model_row (ETableItem *eti, gint row)
 {
 	if (eti->uses_source_model) {
-		ETableSubset *etss = E_TABLE_SUBSET(eti->table_model);
+		ETableSubset *etss = E_TABLE_SUBSET (eti->table_model);
 		if (row >= 0 && row < etss->n_map) {
 			eti->row_guess = row;
 			return etss->map_table[row];
@@ -107,20 +107,20 @@ view_to_model_row(ETableItem *eti, gint row)
 }
 
 inline static gint
-view_to_model_col(ETableItem *eti, gint col)
+view_to_model_col (ETableItem *eti, gint col)
 {
 	ETableCol *ecol = e_table_header_get_column (eti->header, col);
 	return ecol ? ecol->col_idx : -1;
 }
 
 inline static gint
-model_to_view_row(ETableItem *eti, gint row)
+model_to_view_row (ETableItem *eti, gint row)
 {
 	gint i;
 	if (row == -1)
 		return -1;
 	if (eti->uses_source_model) {
-		ETableSubset *etss = E_TABLE_SUBSET(eti->table_model);
+		ETableSubset *etss = E_TABLE_SUBSET (eti->table_model);
 		if (eti->row_guess >= 0 && eti->row_guess < etss->n_map) {
 			if (etss->map_table[eti->row_guess] == row) {
 				return eti->row_guess;
@@ -136,7 +136,7 @@ model_to_view_row(ETableItem *eti, gint row)
 }
 
 inline static gint
-model_to_view_col(ETableItem *eti, gint col)
+model_to_view_col (ETableItem *eti, gint col)
 {
 	gint i;
 	if (col == -1)
@@ -203,7 +203,7 @@ eti_dispose (GObject *object)
 	GalA11yETableItemPrivate *priv = GET_PRIVATE (a11y);
 
 	if (priv->columns) {
-		g_free(priv->columns);
+		g_free (priv->columns);
 		priv->columns = NULL;
 	}
 
@@ -307,7 +307,7 @@ eti_ref_accessible_at_point (AtkComponent *component,
 
 	tableOrTree = gtk_widget_get_parent (GTK_WIDGET (item->parent.canvas));
 
-	if (E_IS_TREE(tableOrTree))
+	if (E_IS_TREE (tableOrTree))
 		e_tree_get_cell_at (E_TREE (tableOrTree), x, y, &row, &col);
 	else
 		e_table_get_cell_at (E_TABLE (tableOrTree), x, y, &row, &col);
@@ -693,15 +693,15 @@ eti_rows_inserted (ETableModel * model, gint row, gint count,
 	g_return_if_fail (table_item);
 	item_a11y = GAL_A11Y_E_TABLE_ITEM (table_item);
 
-        n_cols = atk_table_get_n_columns (ATK_TABLE(table_item));
-	n_rows = atk_table_get_n_rows (ATK_TABLE(table_item));
+        n_cols = atk_table_get_n_columns (ATK_TABLE (table_item));
+	n_rows = atk_table_get_n_rows (ATK_TABLE (table_item));
 
-	old_nrows = GET_PRIVATE(item_a11y)->rows;
+	old_nrows = GET_PRIVATE (item_a11y)->rows;
 
 	g_return_if_fail (n_cols > 0 && n_rows > 0);
 	g_return_if_fail (old_nrows == n_rows - count);
 
-	GET_PRIVATE(table_item)->rows = n_rows;
+	GET_PRIVATE (table_item)->rows = n_rows;
 
 	g_signal_emit_by_name (table_item, "row-inserted", row,
 			       count, NULL);
@@ -726,14 +726,14 @@ eti_rows_deleted (ETableModel * model, gint row, gint count,
 		atk_gobject_accessible_get_object (
 		ATK_GOBJECT_ACCESSIBLE (table_item)));
 
-	n_rows = atk_table_get_n_rows (ATK_TABLE(table_item));
-        n_cols = atk_table_get_n_columns (ATK_TABLE(table_item));
+	n_rows = atk_table_get_n_rows (ATK_TABLE (table_item));
+        n_cols = atk_table_get_n_columns (ATK_TABLE (table_item));
 
-	old_nrows = GET_PRIVATE(table_item)->rows;
+	old_nrows = GET_PRIVATE (table_item)->rows;
 
 	g_return_if_fail ( row+count <= old_nrows);
 	g_return_if_fail (old_nrows == n_rows + count);
-	GET_PRIVATE(table_item)->rows = n_rows;
+	GET_PRIVATE (table_item)->rows = n_rows;
 
 	g_signal_emit_by_name (table_item, "row-deleted", row,
 			       count, NULL);
@@ -810,11 +810,11 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
         /* Compare with previously saved column headers. */
         for (i = 0; i < n_cols && cols[i]; i++) {
                 for (j = 0; j < prev_n_cols && prev_cols[j]; j++) {
-                        if (prev_cols [j] == cols[i] && i != j) {
+                        if (prev_cols[j] == cols[i] && i != j) {
 
                                 reorder_found = TRUE;
-                                state [i] = ETI_HEADER_REORDERED;
-				reorder [i] = j;
+                                state[i] = ETI_HEADER_REORDERED;
+				reorder[i] = j;
 
                                 break;
                         } else if (prev_cols[j] == cols[i]) {
@@ -833,7 +833,7 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
         /* Now try to find if there are removed columns. */
         for (i = 0; i < prev_n_cols && prev_cols[i]; i++) {
                 for (j = 0; j < n_cols && cols[j]; j++)
-                        if (prev_cols [j] == cols[i])
+                        if (prev_cols[j] == cols[i])
 				break;
 
                 /* Removed columns found. */
@@ -855,11 +855,11 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
 		for (i = 0; i < prev_n_cols; i ++ ) {
 			if (prev_state[i] == ETI_HEADER_REMOVED) {
 				g_signal_emit_by_name (
-					G_OBJECT(a11y_item),
+					G_OBJECT (a11y_item),
 					"column-deleted", i, 1);
 				for (j = 0; j < n_rows; j++)
 					g_signal_emit_by_name (
-						G_OBJECT(a11y_item),
+						G_OBJECT (a11y_item),
 						"children_changed::remove",
 						((j+1)*prev_n_cols+i),
 						NULL, NULL);
@@ -871,11 +871,11 @@ eti_header_structure_changed (ETableHeader *eth, AtkObject *a11y)
 		for (i = 0; i < n_cols; i++) {
 			if (state[i] == ETI_HEADER_NEW_ADDED) {
 				g_signal_emit_by_name (
-					G_OBJECT(a11y_item),
+					G_OBJECT (a11y_item),
 					"column-inserted", i, 1);
 				for (j = 0; j < n_rows; j++)
 					g_signal_emit_by_name (
-						G_OBJECT(a11y_item),
+						G_OBJECT (a11y_item),
 						"children_changed::add",
 						((j+1)*n_cols+i),
 						NULL, NULL);
@@ -1052,13 +1052,13 @@ gal_a11y_e_table_item_new (ETableItem *item)
 
 	GET_PRIVATE (a11y)->state_set = atk_state_set_new ();
 
-	atk_state_set_add_state (GET_PRIVATE(a11y)->state_set, ATK_STATE_TRANSIENT);
-	atk_state_set_add_state (GET_PRIVATE(a11y)->state_set, ATK_STATE_ENABLED);
-	atk_state_set_add_state (GET_PRIVATE(a11y)->state_set, ATK_STATE_SENSITIVE);
-	atk_state_set_add_state (GET_PRIVATE(a11y)->state_set, ATK_STATE_SHOWING);
-	atk_state_set_add_state (GET_PRIVATE(a11y)->state_set, ATK_STATE_VISIBLE);
+	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_TRANSIENT);
+	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_ENABLED);
+	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_SENSITIVE);
+	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_SHOWING);
+	atk_state_set_add_state (GET_PRIVATE (a11y)->state_set, ATK_STATE_VISIBLE);
 
-	accessible  = ATK_OBJECT(a11y);
+	accessible  = ATK_OBJECT (a11y);
 
 	/* Initialize cell data. */
 	GET_PRIVATE (a11y)->cols = item->cols;

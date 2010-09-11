@@ -59,7 +59,7 @@ enum {
 static void
 etgl_dispose (GObject *object)
 {
-	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF(object);
+	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (object);
 
 	if (etgl->ets) {
 		g_object_unref (etgl->ets);
@@ -97,7 +97,7 @@ etgl_dispose (GObject *object)
 		etgl->etgl_key_press_id = 0;
 		etgl->etgl_start_drag_id = 0;
 
-		gtk_object_destroy (GTK_OBJECT(etgl->item));
+		gtk_object_destroy (GTK_OBJECT (etgl->item));
 		etgl->item = NULL;
 	}
 
@@ -118,14 +118,14 @@ e_table_group_leaf_construct (GnomeCanvasGroup *parent,
 			      ETableModel      *model,
 			      ETableSortInfo   *sort_info)
 {
-	etgl->is_grouped = e_table_sort_info_grouping_get_count(sort_info) > 0 ? TRUE : FALSE;
+	etgl->is_grouped = e_table_sort_info_grouping_get_count (sort_info) > 0 ? TRUE : FALSE;
 
 	if (etgl->is_grouped)
-		etgl->ets = E_TABLE_SUBSET(e_table_sorted_variable_new (model,
+		etgl->ets = E_TABLE_SUBSET (e_table_sorted_variable_new (model,
 									full_header,
 									sort_info));
 	else
-		etgl->ets = E_TABLE_SUBSET(e_table_sorted_new (model,
+		etgl->ets = E_TABLE_SUBSET (e_table_sorted_new (model,
 							       full_header,
 							       sort_info));
 
@@ -166,24 +166,24 @@ e_table_group_leaf_new       (GnomeCanvasGroup *parent,
 static void
 etgl_cursor_change (GtkObject *object, gint row, ETableGroupLeaf *etgl)
 {
-	if (row < E_TABLE_SUBSET(etgl->ets)->n_map)
-		e_table_group_cursor_change (E_TABLE_GROUP(etgl),
-					     E_TABLE_SUBSET(etgl->ets)->map_table[row]);
+	if (row < E_TABLE_SUBSET (etgl->ets)->n_map)
+		e_table_group_cursor_change (E_TABLE_GROUP (etgl),
+					     E_TABLE_SUBSET (etgl->ets)->map_table[row]);
 }
 
 static void
 etgl_cursor_activated (GtkObject *object, gint view_row, ETableGroupLeaf *etgl)
 {
-	if (view_row < E_TABLE_SUBSET(etgl->ets)->n_map)
-		e_table_group_cursor_activated (E_TABLE_GROUP(etgl),
-						E_TABLE_SUBSET(etgl->ets)->map_table[view_row]);
+	if (view_row < E_TABLE_SUBSET (etgl->ets)->n_map)
+		e_table_group_cursor_activated (E_TABLE_GROUP (etgl),
+						E_TABLE_SUBSET (etgl->ets)->map_table[view_row]);
 }
 
 static void
 etgl_double_click (GtkObject *object, gint model_row, gint model_col, GdkEvent *event,
 		   ETableGroupLeaf *etgl)
 {
-	e_table_group_double_click (E_TABLE_GROUP(etgl), model_row, model_col, event);
+	e_table_group_double_click (E_TABLE_GROUP (etgl), model_row, model_col, event);
 }
 
 static gboolean
@@ -193,10 +193,10 @@ etgl_key_press (GtkObject *object,
                 GdkEvent *event,
                 ETableGroupLeaf *etgl)
 {
-	if (row < E_TABLE_SUBSET(etgl->ets)->n_map && row >= 0)
+	if (row < E_TABLE_SUBSET (etgl->ets)->n_map && row >= 0)
 		return e_table_group_key_press (
-			E_TABLE_GROUP(etgl),
-			E_TABLE_SUBSET(etgl->ets)->map_table[row],
+			E_TABLE_GROUP (etgl),
+			E_TABLE_SUBSET (etgl->ets)->map_table[row],
 			col, event);
 	else
 		return FALSE;
@@ -206,16 +206,16 @@ static gboolean
 etgl_start_drag (GtkObject *object, gint model_row, gint model_col, GdkEvent *event,
 		 ETableGroupLeaf *etgl)
 {
-	return e_table_group_start_drag (E_TABLE_GROUP(etgl), model_row, model_col, event);
+	return e_table_group_start_drag (E_TABLE_GROUP (etgl), model_row, model_col, event);
 }
 
 static gboolean
 etgl_right_click (GtkObject *object, gint view_row, gint model_col, GdkEvent *event,
 		  ETableGroupLeaf *etgl)
 {
-	if (view_row < E_TABLE_SUBSET(etgl->ets)->n_map)
-		return e_table_group_right_click (E_TABLE_GROUP(etgl),
-						  E_TABLE_SUBSET(etgl->ets)->map_table[view_row],
+	if (view_row < E_TABLE_SUBSET (etgl->ets)->n_map)
+		return e_table_group_right_click (E_TABLE_GROUP (etgl),
+						  E_TABLE_SUBSET (etgl->ets)->map_table[view_row],
 						  model_col,
 						  event);
 	else
@@ -229,9 +229,9 @@ etgl_click (GtkObject *object,
             GdkEvent *event,
             ETableGroupLeaf *etgl)
 {
-	if (row < E_TABLE_SUBSET(etgl->ets)->n_map)
-		return e_table_group_click (E_TABLE_GROUP(etgl),
-					    E_TABLE_SUBSET(etgl->ets)->map_table[row],
+	if (row < E_TABLE_SUBSET (etgl->ets)->n_map)
+		return e_table_group_click (E_TABLE_GROUP (etgl),
+					    E_TABLE_SUBSET (etgl->ets)->map_table[row],
 					    col,
 					    event);
 	else
@@ -241,12 +241,12 @@ etgl_click (GtkObject *object,
 static void
 etgl_reflow (GnomeCanvasItem *item, gint flags)
 {
-	ETableGroupLeaf *leaf = E_TABLE_GROUP_LEAF(item);
+	ETableGroupLeaf *leaf = E_TABLE_GROUP_LEAF (item);
 
-	g_object_get(leaf->item,
+	g_object_get (leaf->item,
 		     "height", &leaf->height,
 		     NULL);
-	g_object_get(leaf->item,
+	g_object_get (leaf->item,
 		     "width", &leaf->width,
 		     NULL);
 
@@ -256,13 +256,13 @@ etgl_reflow (GnomeCanvasItem *item, gint flags)
 static void
 etgl_realize (GnomeCanvasItem *item)
 {
-	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF(item);
+	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (item);
 
 	if (GNOME_CANVAS_ITEM_CLASS (etgl_parent_class)->realize)
 		GNOME_CANVAS_ITEM_CLASS (etgl_parent_class)->realize (item);
 
-	etgl->item = E_TABLE_ITEM(gnome_canvas_item_new (
-		GNOME_CANVAS_GROUP(etgl),
+	etgl->item = E_TABLE_ITEM (gnome_canvas_item_new (
+		GNOME_CANVAS_GROUP (etgl),
 		e_table_item_get_type (),
 		"ETableHeader", E_TABLE_GROUP(etgl)->header,
 		"ETableModel", etgl->ets,
@@ -279,35 +279,35 @@ etgl_realize (GnomeCanvasItem *item)
 
 	etgl->etgl_cursor_change_id    = g_signal_connect (etgl->item,
 							   "cursor_change",
-							   G_CALLBACK(etgl_cursor_change),
+							   G_CALLBACK (etgl_cursor_change),
 							   etgl);
 	etgl->etgl_cursor_activated_id = g_signal_connect (etgl->item,
 							   "cursor_activated",
-							   G_CALLBACK(etgl_cursor_activated),
+							   G_CALLBACK (etgl_cursor_activated),
 							   etgl);
 	etgl->etgl_double_click_id     = g_signal_connect (etgl->item,
 							   "double_click",
-							   G_CALLBACK(etgl_double_click),
+							   G_CALLBACK (etgl_double_click),
 							   etgl);
 
 	etgl->etgl_right_click_id      = g_signal_connect (etgl->item,
 							   "right_click",
-							   G_CALLBACK(etgl_right_click),
+							   G_CALLBACK (etgl_right_click),
 							   etgl);
 	etgl->etgl_click_id            = g_signal_connect (etgl->item,
 							   "click",
-							   G_CALLBACK(etgl_click),
+							   G_CALLBACK (etgl_click),
 							   etgl);
 	etgl->etgl_key_press_id        = g_signal_connect (etgl->item,
 							   "key_press",
-							   G_CALLBACK(etgl_key_press),
+							   G_CALLBACK (etgl_key_press),
 							   etgl);
 	etgl->etgl_start_drag_id       = g_signal_connect (etgl->item,
 							   "start_drag",
-							   G_CALLBACK(etgl_start_drag),
+							   G_CALLBACK (etgl_start_drag),
 							   etgl);
 
-	e_canvas_item_request_reflow(item);
+	e_canvas_item_request_reflow (item);
 }
 
 static void
@@ -315,8 +315,8 @@ etgl_add (ETableGroup *etg, gint row)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
-	if (E_IS_TABLE_SUBSET_VARIABLE(etgl->ets)) {
-		e_table_subset_variable_add (E_TABLE_SUBSET_VARIABLE(etgl->ets), row);
+	if (E_IS_TABLE_SUBSET_VARIABLE (etgl->ets)) {
+		e_table_subset_variable_add (E_TABLE_SUBSET_VARIABLE (etgl->ets), row);
 	}
 }
 
@@ -325,8 +325,8 @@ etgl_add_array (ETableGroup *etg, const gint *array, gint count)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
-	if (E_IS_TABLE_SUBSET_VARIABLE(etgl->ets)) {
-		e_table_subset_variable_add_array (E_TABLE_SUBSET_VARIABLE(etgl->ets), array, count);
+	if (E_IS_TABLE_SUBSET_VARIABLE (etgl->ets)) {
+		e_table_subset_variable_add_array (E_TABLE_SUBSET_VARIABLE (etgl->ets), array, count);
 	}
 }
 
@@ -335,8 +335,8 @@ etgl_add_all (ETableGroup *etg)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
-	if (E_IS_TABLE_SUBSET_VARIABLE(etgl->ets)) {
-		e_table_subset_variable_add_all (E_TABLE_SUBSET_VARIABLE(etgl->ets));
+	if (E_IS_TABLE_SUBSET_VARIABLE (etgl->ets)) {
+		e_table_subset_variable_add_all (E_TABLE_SUBSET_VARIABLE (etgl->ets));
 	}
 }
 
@@ -345,8 +345,8 @@ etgl_remove (ETableGroup *etg, gint row)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
-	if (E_IS_TABLE_SUBSET_VARIABLE(etgl->ets)) {
-		return e_table_subset_variable_remove (E_TABLE_SUBSET_VARIABLE(etgl->ets), row);
+	if (E_IS_TABLE_SUBSET_VARIABLE (etgl->ets)) {
+		return e_table_subset_variable_remove (E_TABLE_SUBSET_VARIABLE (etgl->ets), row);
 	}
 	return FALSE;
 }
@@ -356,7 +356,7 @@ etgl_increment (ETableGroup *etg, gint position, gint amount)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
-	if (E_IS_TABLE_SUBSET_VARIABLE(etgl->ets)) {
+	if (E_IS_TABLE_SUBSET_VARIABLE (etgl->ets)) {
 		e_table_subset_variable_increment (
 			E_TABLE_SUBSET_VARIABLE (etgl->ets),
 			position, amount);
@@ -368,7 +368,7 @@ etgl_decrement (ETableGroup *etg, gint position, gint amount)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
-	if (E_IS_TABLE_SUBSET_VARIABLE(etgl->ets)) {
+	if (E_IS_TABLE_SUBSET_VARIABLE (etgl->ets)) {
 		e_table_subset_variable_decrement (
 			E_TABLE_SUBSET_VARIABLE (etgl->ets),
 			position, amount);
@@ -380,7 +380,7 @@ etgl_row_count (ETableGroup *etg)
 {
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
-	return e_table_model_row_count(E_TABLE_MODEL(etgl->ets));
+	return e_table_model_row_count (E_TABLE_MODEL (etgl->ets));
 }
 
 static void
@@ -391,7 +391,7 @@ etgl_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
 	if (direction == E_FOCUS_END) {
 		e_table_item_set_cursor (
 			etgl->item, view_col,
-			e_table_model_row_count (E_TABLE_MODEL(etgl->ets)) - 1);
+			e_table_model_row_count (E_TABLE_MODEL (etgl->ets)) - 1);
 	} else {
 		e_table_item_set_cursor (etgl->item, view_col, 0);
 	}
@@ -465,7 +465,7 @@ etgl_set_property (GObject *object,
 	case PROP_WIDTH:
 		etgl->minimum_width = g_value_get_double (value);
 		if (etgl->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etgl->item),
 					       "minimum_width", etgl->minimum_width,
 					       NULL);
 		}
@@ -473,20 +473,20 @@ etgl_set_property (GObject *object,
 	case PROP_LENGTH_THRESHOLD:
 		etgl->length_threshold = g_value_get_int (value);
 		if (etgl->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etgl->item),
 					       "length_threshold", etgl->length_threshold,
 					       NULL);
 		}
 		break;
 	case PROP_SELECTION_MODEL:
 		if (etgl->selection_model)
-			g_object_unref(etgl->selection_model);
-		etgl->selection_model = E_SELECTION_MODEL(g_value_get_object (value));
+			g_object_unref (etgl->selection_model);
+		etgl->selection_model = E_SELECTION_MODEL (g_value_get_object (value));
 		if (etgl->selection_model) {
-			g_object_ref(etgl->selection_model);
+			g_object_ref (etgl->selection_model);
 		}
 		if (etgl->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etgl->item),
 					       "selection_model", etgl->selection_model,
 					       NULL);
 		}
@@ -495,7 +495,7 @@ etgl_set_property (GObject *object,
 	case PROP_UNIFORM_ROW_HEIGHT:
 		etgl->uniform_row_height = g_value_get_boolean (value);
 		if (etgl->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etgl->item),
 					       "uniform_row_height", etgl->uniform_row_height,
 					       NULL);
 		}
@@ -504,7 +504,7 @@ etgl_set_property (GObject *object,
 	case PROP_TABLE_ALTERNATING_ROW_COLORS:
 		etgl->alternating_row_colors = g_value_get_boolean (value);
 		if (etgl->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etgl->item),
 					       "alternating_row_colors", etgl->alternating_row_colors,
 					       NULL);
 		}
@@ -513,7 +513,7 @@ etgl_set_property (GObject *object,
 	case PROP_TABLE_HORIZONTAL_DRAW_GRID:
 		etgl->horizontal_draw_grid = g_value_get_boolean (value);
 		if (etgl->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etgl->item),
 					       "horizontal_draw_grid", etgl->horizontal_draw_grid,
 					       NULL);
 		}
@@ -522,7 +522,7 @@ etgl_set_property (GObject *object,
 	case PROP_TABLE_VERTICAL_DRAW_GRID:
 		etgl->vertical_draw_grid = g_value_get_boolean (value);
 		if (etgl->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etgl->item),
 					       "vertical_draw_grid", etgl->vertical_draw_grid,
 					       NULL);
 		}
@@ -531,7 +531,7 @@ etgl_set_property (GObject *object,
 	case PROP_TABLE_DRAW_FOCUS:
 		etgl->draw_focus = g_value_get_boolean (value);
 		if (etgl->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etgl->item),
 					       "drawfocus", etgl->draw_focus,
 					       NULL);
 		}
@@ -540,7 +540,7 @@ etgl_set_property (GObject *object,
 	case PROP_CURSOR_MODE:
 		etgl->cursor_mode = g_value_get_int (value);
 		if (etgl->item) {
-			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),
+			gnome_canvas_item_set (GNOME_CANVAS_ITEM (etgl->item),
 					       "cursor_mode", etgl->cursor_mode,
 					       NULL);
 		}

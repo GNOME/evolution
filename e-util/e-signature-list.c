@@ -44,7 +44,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint signals [LAST_SIGNAL] = { 0 };
+static guint signals[LAST_SIGNAL] = { 0 };
 
 static void e_signature_list_finalize (GObject *object);
 static void e_signature_list_dispose (GObject *object);

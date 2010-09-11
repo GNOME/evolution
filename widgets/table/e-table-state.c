@@ -84,7 +84,7 @@ e_table_state_init (ETableState *state)
 {
 	state->columns = NULL;
 	state->expansions = NULL;
-	state->sort_info = e_table_sort_info_new();
+	state->sort_info = e_table_sort_info_new ();
 }
 
 ETableState *
@@ -124,9 +124,9 @@ e_table_state_load_from_file    (ETableState *state,
 
 	doc = e_xml_parse_file (filename);
 	if (doc) {
-		xmlNode *node = xmlDocGetRootElement(doc);
-		e_table_state_load_from_node(state, node);
-		xmlFreeDoc(doc);
+		xmlNode *node = xmlDocGetRootElement (doc);
+		e_table_state_load_from_node (state, node);
+		xmlFreeDoc (doc);
 		return TRUE;
 	}
 	return FALSE;
@@ -141,11 +141,11 @@ e_table_state_load_from_string  (ETableState *state,
 	g_return_if_fail (E_IS_TABLE_STATE (state));
 	g_return_if_fail (xml != NULL);
 
-	doc = xmlParseMemory ((gchar *) xml, strlen(xml));
+	doc = xmlParseMemory ((gchar *) xml, strlen (xml));
 	if (doc) {
-		xmlNode *node = xmlDocGetRootElement(doc);
-		e_table_state_load_from_node(state, node);
-		xmlFreeDoc(doc);
+		xmlNode *node = xmlDocGetRootElement (doc);
+		e_table_state_load_from_node (state, node);
+		xmlFreeDoc (doc);
 	}
 }
 
@@ -176,27 +176,27 @@ e_table_state_load_from_node (ETableState *state,
 	children = node->xmlChildrenNode;
 	for (; children; children = children->next) {
 		if (!strcmp ((gchar *)children->name, "column")) {
-			int_and_double *column_info = g_new(int_and_double, 1);
+			int_and_double *column_info = g_new (int_and_double, 1);
 
-			column_info->column = e_xml_get_integer_prop_by_name(
+			column_info->column = e_xml_get_integer_prop_by_name (
 				children, (const guchar *)"source");
 			column_info->expansion =
-				e_xml_get_double_prop_by_name_with_default(
+				e_xml_get_double_prop_by_name_with_default (
 					children, (const guchar *)"expansion", 1);
 
 			list = g_list_append (list, column_info);
 		} else if (state->sort_info == NULL &&
 			   !strcmp ((gchar *)children->name, "grouping")) {
-			state->sort_info = e_table_sort_info_new();
-			e_table_sort_info_load_from_node(
+			state->sort_info = e_table_sort_info_new ();
+			e_table_sort_info_load_from_node (
 				state->sort_info, children, state_version);
 		}
 	}
-	g_free(state->columns);
-	g_free(state->expansions);
-	state->col_count = g_list_length(list);
-	state->columns = g_new(int, state->col_count);
-	state->expansions = g_new(double, state->col_count);
+	g_free (state->columns);
+	g_free (state->expansions);
+	state->col_count = g_list_length (list);
+	state->columns = g_new (int, state->col_count);
+	state->expansions = g_new (double, state->col_count);
 
 	if (!state->sort_info)
 		state->sort_info = e_table_sort_info_new ();
@@ -204,12 +204,12 @@ e_table_state_load_from_node (ETableState *state,
 	for (iterator = list, i = 0; iterator; i++) {
 		int_and_double *column_info = iterator->data;
 
-		state->columns [i] = column_info->column;
-		state->expansions [i] = column_info->expansion;
+		state->columns[i] = column_info->column;
+		state->expansions[i] = column_info->expansion;
 		g_free (column_info);
 		iterator = g_list_next (iterator);
 	}
-	g_list_free(list);
+	g_list_free (list);
 }
 
 void
@@ -239,12 +239,12 @@ e_table_state_save_to_string    (ETableState *state)
 	g_return_val_if_fail (E_IS_TABLE_STATE (state), NULL);
 
 	doc = xmlNewDoc((const guchar *)"1.0");
-	xmlDocSetRootElement(doc, e_table_state_save_to_node(state, NULL));
-	xmlDocDumpMemory(doc, &string, &length);
-	xmlFreeDoc(doc);
+	xmlDocSetRootElement (doc, e_table_state_save_to_node (state, NULL));
+	xmlDocDumpMemory (doc, &string, &length);
+	xmlFreeDoc (doc);
 
-	ret_val = g_strdup((gchar *)string);
-	xmlFree(string);
+	ret_val = g_strdup ((gchar *)string);
+	xmlFree (string);
 	return ret_val;
 }
 
@@ -281,7 +281,7 @@ e_table_state_save_to_node      (ETableState *state,
 				"expansion", expansion);
 	}
 
-	e_table_sort_info_save_to_node(state->sort_info, node);
+	e_table_sort_info_save_to_node (state->sort_info, node);
 
 	return node;
 }

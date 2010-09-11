@@ -106,7 +106,7 @@ e_meeting_list_view_class_init (EMeetingListViewClass *klass)
 
 	object_class->finalize = e_meeting_list_view_finalize;
 
-	e_meeting_list_view_signals [ATTENDEE_ADDED] =
+	e_meeting_list_view_signals[ATTENDEE_ADDED] =
 		g_signal_new ("attendee_added",
 			      G_TYPE_FROM_CLASS (klass),
 			      G_SIGNAL_RUN_LAST,
@@ -141,8 +141,8 @@ e_meeting_list_view_init (EMeetingListView *view)
 
 	priv->name_selector = e_name_selector_new ();
 
-	for (i = 0; sections [i]; i++)
-		add_section (priv->name_selector, sections [i]);
+	for (i = 0; sections[i]; i++)
+		add_section (priv->name_selector, sections[i]);
 
 	name_selector_dialog = e_name_selector_peek_dialog (view->priv->name_selector);
 	gtk_window_set_title (GTK_WINDOW (name_selector_dialog), _("Attendees"));
@@ -245,7 +245,7 @@ e_meeting_list_view_add_attendee_to_name_selector (EMeetingListView *view, EMeet
 
 	name_selector_model = e_name_selector_peek_model (priv->name_selector);
 	i = get_index_from_role (e_meeting_attendee_get_role (ma));
-	e_name_selector_model_peek_section (name_selector_model, sections [i],
+	e_name_selector_model_peek_section (name_selector_model, sections[i],
 					    NULL, &destination_store);
 	des = e_destination_new ();
 	e_destination_set_email (des, itip_strip_mailto (e_meeting_attendee_get_address (ma)));
@@ -268,7 +268,7 @@ e_meeting_list_view_remove_attendee_from_name_selector (EMeetingListView *view, 
 
 	name_selector_model = e_name_selector_peek_model (priv->name_selector);
 	i = get_index_from_role (e_meeting_attendee_get_role (ma));
-	e_name_selector_model_peek_section (name_selector_model, sections [i],
+	e_name_selector_model_peek_section (name_selector_model, sections[i],
 					    NULL, &destination_store);
 	destinations = e_destination_store_list_destinations (destination_store);
 	madd = itip_strip_mailto (e_meeting_attendee_get_address (ma));
@@ -910,7 +910,7 @@ name_selector_dialog_close_cb (ENameSelectorDialog *dialog, gint response, gpoin
 		EDestinationStore *destination_store;
 		GList             *destinations;
 
-		e_name_selector_model_peek_section (name_selector_model, sections [i],
+		e_name_selector_model_peek_section (name_selector_model, sections[i],
 						    NULL, &destination_store);
 		if (!destination_store) {
 			g_warning ("destination store is NULL\n");
@@ -918,7 +918,7 @@ name_selector_dialog_close_cb (ENameSelectorDialog *dialog, gint response, gpoin
 		}
 
 		destinations = e_destination_store_list_destinations (destination_store);
-		process_section (view, destinations, roles [i], &la);
+		process_section (view, destinations, roles[i], &la);
 		g_list_free (destinations);
 	}
 

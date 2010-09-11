@@ -224,6 +224,6 @@ AtkObject *gal_a11y_e_cell_vbox_new	(ETableItem *item,
 	gaev = GAL_A11Y_E_CELL_VBOX (a11y);
 	ecvv = (ECellVboxView *) (gaec->cell_view);
 	gaev->a11y_subcell_count = ecvv->subcell_view_count;
-	gaev->a11y_subcells = g_malloc0 (sizeof(AtkObject *)*gaev->a11y_subcell_count);
+	gaev->a11y_subcells = g_malloc0 (sizeof (AtkObject *)*gaev->a11y_subcell_count);
 	return a11y;
 }

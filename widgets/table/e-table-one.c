@@ -32,10 +32,10 @@ G_DEFINE_TYPE (ETableOne, e_table_one, E_TABLE_MODEL_TYPE)
 static gint
 one_column_count (ETableModel *etm)
 {
-	ETableOne *one = E_TABLE_ONE(etm);
+	ETableOne *one = E_TABLE_ONE (etm);
 
 	if (one->source)
-		return e_table_model_column_count(one->source);
+		return e_table_model_column_count (one->source);
 	else
 		return 0;
 }
@@ -49,7 +49,7 @@ one_row_count (ETableModel *etm)
 static gpointer
 one_value_at (ETableModel *etm, gint col, gint row)
 {
-	ETableOne *one = E_TABLE_ONE(etm);
+	ETableOne *one = E_TABLE_ONE (etm);
 
 	if (one->data)
 		return one->data[col];
@@ -60,21 +60,21 @@ one_value_at (ETableModel *etm, gint col, gint row)
 static void
 one_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer val)
 {
-	ETableOne *one = E_TABLE_ONE(etm);
+	ETableOne *one = E_TABLE_ONE (etm);
 
 	if (one->data && one->source) {
-		e_table_model_free_value(one->source, col, one->data[col]);
-		one->data[col] = e_table_model_duplicate_value(one->source, col, val);
+		e_table_model_free_value (one->source, col, one->data[col]);
+		one->data[col] = e_table_model_duplicate_value (one->source, col, val);
 	}
 }
 
 static gboolean
 one_is_cell_editable (ETableModel *etm, gint col, gint row)
 {
-	ETableOne *one = E_TABLE_ONE(etm);
+	ETableOne *one = E_TABLE_ONE (etm);
 
 	if (one->source)
-		return e_table_model_is_cell_editable(one->source, col, -1);
+		return e_table_model_is_cell_editable (one->source, col, -1);
 	else
 		return FALSE;
 }
@@ -83,10 +83,10 @@ one_is_cell_editable (ETableModel *etm, gint col, gint row)
 static gpointer
 one_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 {
-	ETableOne *one = E_TABLE_ONE(etm);
+	ETableOne *one = E_TABLE_ONE (etm);
 
 	if (one->source)
-		return e_table_model_duplicate_value(one->source, col, value);
+		return e_table_model_duplicate_value (one->source, col, value);
 	else
 		return (gpointer)value;
 }
@@ -94,16 +94,16 @@ one_duplicate_value (ETableModel *etm, gint col, gconstpointer value)
 static void
 one_free_value (ETableModel *etm, gint col, gpointer value)
 {
-	ETableOne *one = E_TABLE_ONE(etm);
+	ETableOne *one = E_TABLE_ONE (etm);
 
 	if (one->source)
-		e_table_model_free_value(one->source, col, value);
+		e_table_model_free_value (one->source, col, value);
 }
 
 static gpointer
 one_initialize_value (ETableModel *etm, gint col)
 {
-	ETableOne *one = E_TABLE_ONE(etm);
+	ETableOne *one = E_TABLE_ONE (etm);
 
 	if (one->source)
 		return e_table_model_initialize_value (one->source, col);
@@ -114,7 +114,7 @@ one_initialize_value (ETableModel *etm, gint col)
 static gboolean
 one_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 {
-	ETableOne *one = E_TABLE_ONE(etm);
+	ETableOne *one = E_TABLE_ONE (etm);
 
 	if (one->source)
 		return e_table_model_value_is_empty (one->source, col, value);
@@ -125,7 +125,7 @@ one_value_is_empty (ETableModel *etm, gint col, gconstpointer value)
 static gchar *
 one_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 {
-	ETableOne *one = E_TABLE_ONE(etm);
+	ETableOne *one = E_TABLE_ONE (etm);
 
 	if (one->source)
 		return e_table_model_value_to_string (one->source, col, value);
@@ -149,10 +149,10 @@ one_dispose (GObject *object)
 		gint col_count;
 
 		if (one->source) {
-			col_count = e_table_model_column_count(one->source);
+			col_count = e_table_model_column_count (one->source);
 
 			for (i = 0; i < col_count; i++)
-				e_table_model_free_value(one->source, i, one->data[i]);
+				e_table_model_free_value (one->source, i, one->data[i]);
 		}
 
 		g_free (one->data);
@@ -160,7 +160,7 @@ one_dispose (GObject *object)
 	one->data = NULL;
 
 	if (one->source)
-		g_object_unref(one->source);
+		g_object_unref (one->source);
 	one->source = NULL;
 
 	G_OBJECT_CLASS (e_table_one_parent_class)->dispose (object);
@@ -204,14 +204,14 @@ e_table_one_new (ETableModel *source)
 	eto = g_object_new (E_TABLE_ONE_TYPE, NULL);
 	eto->source = source;
 
-	col_count = e_table_model_column_count(source);
-	eto->data = g_new(gpointer , col_count);
+	col_count = e_table_model_column_count (source);
+	eto->data = g_new (gpointer , col_count);
 	for (i = 0; i < col_count; i++) {
-		eto->data[i] = e_table_model_initialize_value(source, i);
+		eto->data[i] = e_table_model_initialize_value (source, i);
 	}
 
 	if (source)
-		g_object_ref(source);
+		g_object_ref (source);
 
 	return (ETableModel *) eto;
 }
@@ -222,15 +222,15 @@ e_table_one_commit (ETableOne *one)
 	if (one->source) {
 		gint empty = TRUE;
 		gint col;
-		gint cols = e_table_model_column_count(one->source);
+		gint cols = e_table_model_column_count (one->source);
 		for (col = 0; col < cols; col++) {
-			if (!e_table_model_value_is_empty(one->source, col, one->data[col])) {
+			if (!e_table_model_value_is_empty (one->source, col, one->data[col])) {
 				empty = FALSE;
 				break;
 			}
 		}
 		if (!empty) {
-			e_table_model_append_row(one->source, E_TABLE_MODEL(one), 0);
+			e_table_model_append_row (one->source, E_TABLE_MODEL (one), 0);
 		}
 	}
 }

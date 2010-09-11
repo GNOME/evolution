@@ -30,7 +30,7 @@ G_DEFINE_TYPE (EReflowModel, e_reflow_model, G_TYPE_OBJECT)
 
 #define d(x)
 
-d(static gint depth = 0;)
+d (static gint depth = 0;)
 
 enum {
 	MODEL_CHANGED,
@@ -41,7 +41,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint e_reflow_model_signals [LAST_SIGNAL] = { 0, };
+static guint e_reflow_model_signals[LAST_SIGNAL] = { 0, };
 
 /**
  * e_reflow_model_set_width:
@@ -151,7 +151,7 @@ e_reflow_model_class_init (EReflowModelClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
-	e_reflow_model_signals [MODEL_CHANGED] =
+	e_reflow_model_signals[MODEL_CHANGED] =
 		g_signal_new ("model_changed",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -160,7 +160,7 @@ e_reflow_model_class_init (EReflowModelClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	e_reflow_model_signals [COMPARISON_CHANGED] =
+	e_reflow_model_signals[COMPARISON_CHANGED] =
 		g_signal_new ("comparison_changed",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -169,7 +169,7 @@ e_reflow_model_class_init (EReflowModelClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	e_reflow_model_signals [MODEL_ITEMS_INSERTED] =
+	e_reflow_model_signals[MODEL_ITEMS_INSERTED] =
 		g_signal_new ("model_items_inserted",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -178,7 +178,7 @@ e_reflow_model_class_init (EReflowModelClass *klass)
 			      e_marshal_NONE__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
-	e_reflow_model_signals [MODEL_ITEM_CHANGED] =
+	e_reflow_model_signals[MODEL_ITEM_CHANGED] =
 		g_signal_new ("model_item_changed",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -187,7 +187,7 @@ e_reflow_model_class_init (EReflowModelClass *klass)
 			      g_cclosure_marshal_VOID__INT,
 			      G_TYPE_NONE, 1, G_TYPE_INT);
 
-	e_reflow_model_signals [MODEL_ITEM_REMOVED] =
+	e_reflow_model_signals[MODEL_ITEM_REMOVED] =
 		g_signal_new ("model_item_removed",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -243,12 +243,12 @@ e_reflow_model_changed (EReflowModel *e_reflow_model)
 	g_return_if_fail (e_reflow_model != NULL);
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
 
-	d(print_tabs());
+	d (print_tabs ());
 	d(g_print("Emitting model_changed on model 0x%p.\n", e_reflow_model));
-	d(depth++);
+	d (depth++);
 	g_signal_emit (e_reflow_model,
-		       e_reflow_model_signals [MODEL_CHANGED], 0);
-	d(depth--);
+		       e_reflow_model_signals[MODEL_CHANGED], 0);
+	d (depth--);
 }
 
 /**
@@ -266,12 +266,12 @@ e_reflow_model_comparison_changed (EReflowModel *e_reflow_model)
 	g_return_if_fail (e_reflow_model != NULL);
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
 
-	d(print_tabs());
+	d (print_tabs ());
 	d(g_print("Emitting comparison_changed on model 0x%p.\n", e_reflow_model));
-	d(depth++);
+	d (depth++);
 	g_signal_emit (e_reflow_model,
-		       e_reflow_model_signals [COMPARISON_CHANGED], 0);
-	d(depth--);
+		       e_reflow_model_signals[COMPARISON_CHANGED], 0);
+	d (depth--);
 }
 
 /**
@@ -288,13 +288,13 @@ e_reflow_model_items_inserted (EReflowModel *e_reflow_model, gint position, gint
 	g_return_if_fail (e_reflow_model != NULL);
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
 
-	d(print_tabs());
+	d (print_tabs ());
 	d(g_print("Emitting items_inserted on model 0x%p, position=%d, count=%d.\n", e_reflow_model, position, count));
-	d(depth++);
+	d (depth++);
 	g_signal_emit (e_reflow_model,
-		       e_reflow_model_signals [MODEL_ITEMS_INSERTED], 0,
+		       e_reflow_model_signals[MODEL_ITEMS_INSERTED], 0,
 		       position, count);
-	d(depth--);
+	d (depth--);
 }
 
 /**
@@ -312,13 +312,13 @@ e_reflow_model_item_removed    (EReflowModel     *e_reflow_model,
 	g_return_if_fail (e_reflow_model != NULL);
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
 
-	d(print_tabs());
+	d (print_tabs ());
 	d(g_print("Emitting item_removed on model 0x%p, n=%d.\n", e_reflow_model, n));
-	d(depth++);
+	d (depth++);
 	g_signal_emit (e_reflow_model,
-		       e_reflow_model_signals [MODEL_ITEM_REMOVED], 0,
+		       e_reflow_model_signals[MODEL_ITEM_REMOVED], 0,
 		       n);
-	d(depth--);
+	d (depth--);
 }
 
 /**
@@ -338,11 +338,11 @@ e_reflow_model_item_changed (EReflowModel *e_reflow_model, gint n)
 	g_return_if_fail (e_reflow_model != NULL);
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
 
-	d(print_tabs());
+	d (print_tabs ());
 	d(g_print("Emitting item_changed on model 0x%p, n=%d.\n", e_reflow_model, n));
-	d(depth++);
+	d (depth++);
 	g_signal_emit (e_reflow_model,
-		       e_reflow_model_signals [MODEL_ITEM_CHANGED], 0,
+		       e_reflow_model_signals[MODEL_ITEM_CHANGED], 0,
 		       n);
-	d(depth--);
+	d (depth--);
 }

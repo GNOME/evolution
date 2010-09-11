@@ -279,8 +279,8 @@ setup_e_table (ECalListView *cal_list_view)
 	canvas = GNOME_CANVAS (cal_list_view->table->table_canvas);
 	style = gtk_widget_get_style (GTK_WIDGET (canvas));
 
-	style->fg [GTK_STATE_SELECTED] = style->text [GTK_STATE_NORMAL];
-	style->fg [GTK_STATE_ACTIVE]   = style->text [GTK_STATE_NORMAL];
+	style->fg[GTK_STATE_SELECTED] = style->text[GTK_STATE_NORMAL];
+	style->fg[GTK_STATE_ACTIVE]   = style->text[GTK_STATE_NORMAL];
 	gtk_widget_set_style (GTK_WIDGET (canvas), style);
 
 	/* Connect signals */

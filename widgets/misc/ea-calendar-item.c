@@ -350,18 +350,19 @@ ea_calendar_item_get_description (AtkObject *accessible)
 static AtkStateSet*
 ea_calendar_item_ref_state_set (AtkObject *accessible)
 {
-        AtkStateSet *state_set;
-        GObject *g_obj;
+	AtkStateSet *state_set;
+	GObject *g_obj;
 
-        state_set = ATK_OBJECT_CLASS (parent_class)->ref_state_set (accessible);
-        g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (accessible));
-        if (!g_obj)
-                return state_set;
+	state_set = ATK_OBJECT_CLASS (parent_class)->ref_state_set (accessible);
+	g_obj = atk_gobject_accessible_get_object (
+		ATK_GOBJECT_ACCESSIBLE (accessible));
+	if (!g_obj)
+		return state_set;
 
-        atk_state_set_add_state (state_set, ATK_STATE_ENABLED);
-        atk_state_set_add_state (state_set, ATK_STATE_SENSITIVE);
+	atk_state_set_add_state (state_set, ATK_STATE_ENABLED);
+	atk_state_set_add_state (state_set, ATK_STATE_SENSITIVE);
 
-        return state_set;
+	return state_set;
 }
 
 static gint

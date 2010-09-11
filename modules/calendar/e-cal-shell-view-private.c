@@ -38,7 +38,7 @@
 #  define ETC_LOCALTIME       "/etc/localtime"
 #endif
 
-static const gchar * files_to_check [CHECK_NB] = {
+static const gchar * files_to_check[CHECK_NB] = {
         ETC_TIMEZONE,
         ETC_TIMEZONE_MAJ,
         ETC_SYSCONFIG_CLOCK,

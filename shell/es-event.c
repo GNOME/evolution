@@ -122,9 +122,11 @@ es_event_target_new (ESEvent *eme)
 ESEventTargetState *
 es_event_target_new_state (ESEvent *eme, gint state)
 {
-	ESEventTargetState *t = e_event_target_new (&eme->event, ES_EVENT_TARGET_STATE, sizeof (*t));
+	ESEventTargetState *t;
 	guint32 mask = ~0;
 
+	t = e_event_target_new (
+		&eme->event, ES_EVENT_TARGET_STATE, sizeof (*t));
 	t->state = state;
 
 	if (state)
@@ -140,8 +142,10 @@ es_event_target_new_state (ESEvent *eme, gint state)
 ESEventTargetUpgrade *
 es_event_target_new_upgrade (ESEvent *eme, gint major, gint minor, gint revision)
 {
-	ESEventTargetUpgrade *t = e_event_target_new (&eme->event, ES_EVENT_TARGET_UPGRADE, sizeof (*t));
+	ESEventTargetUpgrade *t;
 
+	t = e_event_target_new (
+		&eme->event, ES_EVENT_TARGET_UPGRADE, sizeof (*t));
 	t->major = major;
 	t->minor = minor;
 	t->revision = revision;
@@ -152,8 +156,10 @@ es_event_target_new_upgrade (ESEvent *eme, gint major, gint minor, gint revision
 ESEventTargetComponent *
 es_event_target_new_component (ESEvent *eme, const gchar *id)
 {
-	ESEventTargetComponent *t = e_event_target_new (&eme->event, ES_EVENT_TARGET_COMPONENT, sizeof (*t));
+	ESEventTargetComponent *t;
 
+	t = e_event_target_new (
+		&eme->event, ES_EVENT_TARGET_COMPONENT, sizeof (*t));
 	t->id = id;
 
 	return t;

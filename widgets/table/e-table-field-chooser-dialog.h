@@ -62,7 +62,7 @@ struct _ETableFieldChooserDialogClass
 	GtkDialogClass parent_class;
 };
 
-GtkWidget *e_table_field_chooser_dialog_new(void);
+GtkWidget *e_table_field_chooser_dialog_new (void);
 GType      e_table_field_chooser_dialog_get_type (void);
 
 G_END_DECLS

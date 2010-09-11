@@ -30,7 +30,7 @@
 
 #define d(x)
 
-d(static gint depth = 0)
+d (static gint depth = 0)
 
 struct _ETableSearchPrivate {
 	guint timeout_id;
@@ -47,7 +47,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint e_table_search_signals [LAST_SIGNAL] = { 0, };
+static guint e_table_search_signals[LAST_SIGNAL] = { 0, };
 
 static gboolean
 e_table_search_search (ETableSearch *e_table_search,
@@ -58,7 +58,7 @@ e_table_search_search (ETableSearch *e_table_search,
 	g_return_val_if_fail (E_IS_TABLE_SEARCH (e_table_search), FALSE);
 
 	g_signal_emit (G_OBJECT (e_table_search),
-		       e_table_search_signals [SEARCH_SEARCH],
+		       e_table_search_signals[SEARCH_SEARCH],
 		       0, string, flags, &ret_val);
 
 	return ret_val;
@@ -70,7 +70,7 @@ e_table_search_accept (ETableSearch *e_table_search)
 	g_return_if_fail (E_IS_TABLE_SEARCH (e_table_search));
 
 	g_signal_emit (G_OBJECT (e_table_search),
-		       e_table_search_signals [SEARCH_ACCEPT], 0);
+		       e_table_search_signals[SEARCH_ACCEPT], 0);
 }
 
 static gboolean
@@ -123,7 +123,7 @@ e_table_search_class_init (ETableSearchClass *klass)
 
 	object_class->finalize = e_table_search_finalize;
 
-	e_table_search_signals [SEARCH_SEARCH] =
+	e_table_search_signals[SEARCH_SEARCH] =
 		g_signal_new ("search",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -132,7 +132,7 @@ e_table_search_class_init (ETableSearchClass *klass)
 			      e_marshal_BOOLEAN__STRING_INT,
 			      G_TYPE_BOOLEAN, 2, G_TYPE_STRING, G_TYPE_INT);
 
-	e_table_search_signals [SEARCH_ACCEPT] =
+	e_table_search_signals[SEARCH_ACCEPT] =
 		g_signal_new ("accept",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -178,7 +178,7 @@ e_table_search_input_character (ETableSearch *ets, gunichar character)
 	g_return_if_fail (ets != NULL);
 	g_return_if_fail (E_IS_TABLE_SEARCH (ets));
 
-	character_utf8 [g_unichar_to_utf8 (character, character_utf8)] = 0;
+	character_utf8[g_unichar_to_utf8 (character, character_utf8)] = 0;
 
 	temp_string = g_strdup_printf ("%s%s", ets->priv->search_string, character_utf8);
 	if (e_table_search_search (ets, temp_string,

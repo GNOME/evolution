@@ -727,7 +727,7 @@ idle_handler (gpointer data)
 	/* Reset idle id */
 	canvas->idle_id = 0;
 
-	g_signal_emit (canvas, signals [REFLOW], 0);
+	g_signal_emit (canvas, signals[REFLOW], 0);
 
 	GDK_THREADS_LEAVE ();
 

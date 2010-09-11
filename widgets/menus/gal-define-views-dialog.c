@@ -96,10 +96,10 @@ gdvd_button_new_dialog_callback (GtkWidget *widget, gint id, GalDefineViewsDialo
 			     NULL);
 
 		if (name && factory) {
-			g_strchomp(name);
+			g_strchomp (name);
 			if (*name != '\0') {
 				view = gal_view_factory_new_view (factory, name);
-				gal_view_collection_append(dialog->collection, view);
+				gal_view_collection_append (dialog->collection, view);
 
 				item = dialog->collection->view_data[dialog->collection->view_count-1];
 				gtk_list_store_append (GTK_LIST_STORE (dialog->model), &iter);
@@ -121,7 +121,7 @@ gdvd_button_new_dialog_callback (GtkWidget *widget, gint id, GalDefineViewsDialo
 }
 
 static void
-gdvd_button_new_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
+gdvd_button_new_callback (GtkWidget *widget, GalDefineViewsDialog *dialog)
 {
 	GtkWidget *view_new_dialog = gal_view_new_dialog_new (dialog->collection);
 	gtk_window_set_transient_for (GTK_WINDOW (view_new_dialog), GTK_WINDOW (dialog));
@@ -131,7 +131,7 @@ gdvd_button_new_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 }
 
 static void
-gdvd_button_modify_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
+gdvd_button_modify_callback (GtkWidget *widget, GalDefineViewsDialog *dialog)
 {
 	GtkTreeIter iter;
 	GalViewCollectionItem *item;
@@ -148,7 +148,7 @@ gdvd_button_modify_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 }
 
 static void
-gdvd_button_delete_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
+gdvd_button_delete_callback (GtkWidget *widget, GalDefineViewsDialog *dialog)
 {
 	gint row;
 	GtkTreeIter iter;
@@ -207,7 +207,7 @@ gdvd_selection_changed_callback (GtkTreeSelection *selection, GalDefineViewsDial
 }
 
 static void
-gdvd_connect_signal(GalDefineViewsDialog *dialog, const gchar *widget_name, const gchar *signal, GCallback handler)
+gdvd_connect_signal (GalDefineViewsDialog *dialog, const gchar *widget_name, const gchar *signal, GCallback handler)
 {
 	GtkWidget *widget;
 
@@ -279,10 +279,10 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 static void
 gal_define_views_dialog_dispose (GObject *object)
 {
-	GalDefineViewsDialog *gal_define_views_dialog = GAL_DEFINE_VIEWS_DIALOG(object);
+	GalDefineViewsDialog *gal_define_views_dialog = GAL_DEFINE_VIEWS_DIALOG (object);
 
 	if (gal_define_views_dialog->builder)
-		g_object_unref(gal_define_views_dialog->builder);
+		g_object_unref (gal_define_views_dialog->builder);
 	gal_define_views_dialog->builder = NULL;
 
 	if (G_OBJECT_CLASS (gal_define_views_dialog_parent_class)->dispose)
@@ -290,7 +290,7 @@ gal_define_views_dialog_dispose (GObject *object)
 }
 
 static void
-gal_define_views_dialog_set_collection(GalDefineViewsDialog *dialog,
+gal_define_views_dialog_set_collection (GalDefineViewsDialog *dialog,
 				       GalViewCollection *collection)
 {
 	gint i;
@@ -384,9 +384,9 @@ gal_define_views_dialog_set_property (GObject *object, guint prop_id, const GVal
 	switch (prop_id) {
 	case PROP_COLLECTION:
 		if (g_value_get_object (value))
-			gal_define_views_dialog_set_collection(dialog, GAL_VIEW_COLLECTION(g_value_get_object (value)));
+			gal_define_views_dialog_set_collection (dialog, GAL_VIEW_COLLECTION (g_value_get_object (value)));
 		else
-			gal_define_views_dialog_set_collection(dialog, NULL);
+			gal_define_views_dialog_set_collection (dialog, NULL);
 		break;
 
 	default:

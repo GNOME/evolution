@@ -33,13 +33,6 @@
 
 G_DEFINE_TYPE (GalDefineViewsModel, gal_define_views_model, E_TABLE_MODEL_TYPE)
 
-/*
- * GalDefineViewsModel callbacks
- * These are the callbacks that define the behavior of our custom model.
- */
-static void gal_define_views_model_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
-static void gal_define_views_model_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
-
 enum {
 	PROP_0,
 	PROP_EDITABLE,
@@ -47,12 +40,64 @@ enum {
 };
 
 static void
-gdvm_dispose(GObject *object)
+gal_define_views_model_set_property (GObject *object,
+                                     guint property_id,
+                                     const GValue *value,
+                                     GParamSpec *pspec)
 {
-	GalDefineViewsModel *model = GAL_DEFINE_VIEWS_MODEL(object);
+	GalDefineViewsModel *model;
+
+	model = GAL_DEFINE_VIEWS_MODEL (object);
+
+	switch (property_id) {
+		case PROP_EDITABLE:
+			model->editable = g_value_get_boolean (value);
+			return;
+
+		case PROP_COLLECTION:
+			e_table_model_pre_change (E_TABLE_MODEL (object));
+			if (g_value_get_object (value))
+				model->collection = GAL_VIEW_COLLECTION (
+					g_value_get_object (value));
+			else
+				model->collection = NULL;
+			e_table_model_changed (E_TABLE_MODEL (object));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+gal_define_views_model_get_property (GObject *object,
+                                     guint property_id,
+                                     GValue *value,
+                                     GParamSpec *pspec)
+{
+	GalDefineViewsModel *model;
+
+	model = GAL_DEFINE_VIEWS_MODEL (object);
+
+	switch (property_id) {
+		case PROP_EDITABLE:
+			g_value_set_boolean (value, model->editable);
+			return;
+
+		case PROP_COLLECTION:
+			g_value_set_object (value, model->collection);
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+gdvm_dispose (GObject *object)
+{
+	GalDefineViewsModel *model = GAL_DEFINE_VIEWS_MODEL (object);
 
 	if (model->collection)
-		g_object_unref(model->collection);
+		g_object_unref (model->collection);
 	model->collection = NULL;
 
 	if (G_OBJECT_CLASS (gal_define_views_model_parent_class)->dispose)
@@ -70,9 +115,9 @@ gdvm_col_count (ETableModel *etc)
 static gint
 gdvm_row_count (ETableModel *etc)
 {
-	GalDefineViewsModel *views = GAL_DEFINE_VIEWS_MODEL(etc);
+	GalDefineViewsModel *views = GAL_DEFINE_VIEWS_MODEL (etc);
 	if (views->collection)
-		return gal_view_collection_get_count(views->collection);
+		return gal_view_collection_get_count (views->collection);
 	else
 		return 0;
 }
@@ -81,10 +126,10 @@ gdvm_row_count (ETableModel *etc)
 static gpointer
 gdvm_value_at (ETableModel *etc, gint col, gint row)
 {
-	GalDefineViewsModel *views = GAL_DEFINE_VIEWS_MODEL(etc);
+	GalDefineViewsModel *views = GAL_DEFINE_VIEWS_MODEL (etc);
 	const gchar *value;
 
-	value = gal_view_get_title (gal_view_collection_get_view(views->collection, row));
+	value = gal_view_get_title (gal_view_collection_get_view (views->collection, row));
 
 	return (gpointer)(value ? value : "");
 }
@@ -93,11 +138,11 @@ gdvm_value_at (ETableModel *etc, gint col, gint row)
 static void
 gdvm_set_value_at (ETableModel *etc, gint col, gint row, gconstpointer val)
 {
-	GalDefineViewsModel *views = GAL_DEFINE_VIEWS_MODEL(etc);
+	GalDefineViewsModel *views = GAL_DEFINE_VIEWS_MODEL (etc);
 	if (views->editable) {
-		e_table_model_pre_change(etc);
-		gal_view_set_title(gal_view_collection_get_view(views->collection, row), val);
-		e_table_model_cell_changed(etc, col, row);
+		e_table_model_pre_change (etc);
+		gal_view_set_title (gal_view_collection_get_view (views->collection, row), val);
+		e_table_model_cell_changed (etc, col, row);
 	}
 }
 
@@ -105,7 +150,7 @@ gdvm_set_value_at (ETableModel *etc, gint col, gint row, gconstpointer val)
 static gboolean
 gdvm_is_cell_editable (ETableModel *etc, gint col, gint row)
 {
-	return GAL_DEFINE_VIEWS_MODEL(etc)->editable;
+	return GAL_DEFINE_VIEWS_MODEL (etc)->editable;
 }
 
 static void
@@ -117,14 +162,14 @@ gdvm_append_row (ETableModel *etm, ETableModel *source, gint row)
 static gpointer
 gdvm_duplicate_value (ETableModel *etc, gint col, gconstpointer value)
 {
-	return g_strdup(value);
+	return g_strdup (value);
 }
 
 /* This function frees the value passed to it. */
 static void
 gdvm_free_value (ETableModel *etc, gint col, gpointer value)
 {
-	g_free(value);
+	g_free (value);
 }
 
 static gpointer
@@ -142,7 +187,7 @@ gdvm_value_is_empty (ETableModel *etc, gint col, gconstpointer value)
 static gchar *
 gdvm_value_to_string (ETableModel *etc, gint col, gconstpointer value)
 {
-	return g_strdup(value);
+	return g_strdup (value);
 }
 
 /**
@@ -156,11 +201,11 @@ void
 gal_define_views_model_append (GalDefineViewsModel *model,
 			       GalView             *view)
 {
-	ETableModel *etm = E_TABLE_MODEL(model);
+	ETableModel *etm = E_TABLE_MODEL (model);
 
-	e_table_model_pre_change(etm);
-	gal_view_collection_append(model->collection, view);
-	e_table_model_row_inserted(etm, gal_view_collection_get_count(model->collection) - 1);
+	e_table_model_pre_change (etm);
+	gal_view_collection_append (model->collection, view);
+	e_table_model_row_inserted (etm, gal_view_collection_get_count (model->collection) - 1);
 }
 
 static void
@@ -206,50 +251,6 @@ gal_define_views_model_init (GalDefineViewsModel *model)
 	model->collection = NULL;
 }
 
-static void
-gal_define_views_model_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
-{
-	GalDefineViewsModel *model;
-
-	model = GAL_DEFINE_VIEWS_MODEL (object);
-
-	switch (prop_id) {
-	case PROP_EDITABLE:
-		model->editable = g_value_get_boolean (value);
-		break;
-
-	case PROP_COLLECTION:
-		e_table_model_pre_change(E_TABLE_MODEL(object));
-		if (g_value_get_object (value))
-			model->collection = GAL_VIEW_COLLECTION(g_value_get_object (value));
-		else
-			model->collection = NULL;
-		e_table_model_changed(E_TABLE_MODEL(object));
-		break;
-	}
-}
-
-static void
-gal_define_views_model_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
-{
-	GalDefineViewsModel *model;
-
-	model = GAL_DEFINE_VIEWS_MODEL (object);
-
-	switch (prop_id) {
-	case PROP_EDITABLE:
-		g_value_set_boolean (value, model->editable);
-		break;
-
-	case PROP_COLLECTION:
-		g_value_set_object (value, model->collection);
-
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
-		break;
-	}
-}
-
 /**
  * gal_define_views_model_new
  *
@@ -265,7 +266,7 @@ gal_define_views_model_new (void)
 
 	et = g_object_new (GAL_DEFINE_VIEWS_MODEL_TYPE, NULL);
 
-	return E_TABLE_MODEL(et);
+	return E_TABLE_MODEL (et);
 }
 
 /**
@@ -281,7 +282,7 @@ GalView *
 gal_define_views_model_get_view (GalDefineViewsModel *model,
 				 gint n)
 {
-	return gal_view_collection_get_view(model->collection, n);
+	return gal_view_collection_get_view (model->collection, n);
 }
 
 /**
@@ -295,9 +296,9 @@ void
 gal_define_views_model_delete_view (GalDefineViewsModel *model,
 				    gint n)
 {
-	e_table_model_pre_change(E_TABLE_MODEL(model));
-	gal_view_collection_delete_view(model->collection, n);
-	e_table_model_row_deleted(E_TABLE_MODEL(model), n);
+	e_table_model_pre_change (E_TABLE_MODEL (model));
+	gal_view_collection_delete_view (model->collection, n);
+	e_table_model_row_deleted (E_TABLE_MODEL (model), n);
 }
 
 /**
@@ -311,8 +312,8 @@ void
 gal_define_views_model_copy_view (GalDefineViewsModel *model,
 				  gint n)
 {
-	ETableModel *etm = E_TABLE_MODEL(model);
-	e_table_model_pre_change(etm);
-	gal_view_collection_copy_view(model->collection, n);
-	e_table_model_row_inserted(etm, gal_view_collection_get_count(model->collection) - 1);
+	ETableModel *etm = E_TABLE_MODEL (model);
+	e_table_model_pre_change (etm);
+	gal_view_collection_copy_view (model->collection, n);
+	e_table_model_row_inserted (etm, gal_view_collection_get_count (model->collection) - 1);
 }

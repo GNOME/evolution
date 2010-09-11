@@ -82,7 +82,7 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 			folder_name = (gchar *)path;
 			parent_name = NULL;
 		} else {
-			while (names [parts])
+			while (names[parts])
 				parts++;
 			folder_name = names[parts -1];
 			if (parts >= 2)

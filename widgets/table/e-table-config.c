@@ -60,7 +60,7 @@ enum {
 	COLUMN_VALUE
 };
 
-static guint e_table_config_signals [LAST_SIGNAL] = { 0, };
+static guint e_table_config_signals[LAST_SIGNAL] = { 0, };
 
 static void
 config_finalize (GObject *object)
@@ -96,7 +96,7 @@ e_table_config_changed (ETableConfig *config, ETableState *state)
 {
 	g_return_if_fail (E_IS_TABLE_CONFIG (config));
 
-	g_signal_emit(G_OBJECT(config), e_table_config_signals [CHANGED], 0, state);
+	g_signal_emit (G_OBJECT (config), e_table_config_signals[CHANGED], 0, state);
 }
 
 static void
@@ -136,7 +136,7 @@ e_table_config_class_init (ETableConfigClass *klass)
 	object_class->finalize = config_finalize;
 	object_class->get_property = config_get_property;
 
-	e_table_config_signals [CHANGED] =
+	e_table_config_signals[CHANGED] =
 		g_signal_new ("changed",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -269,28 +269,28 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 	if (is_sort) {
 		count = e_table_sort_info_sorting_get_count (
 			config->temp_state->sort_info);
-		widgets = &config->sort [0];
+		widgets = &config->sort[0];
 	} else {
 		count = e_table_sort_info_grouping_get_count (
 			config->temp_state->sort_info);
-		widgets = &config->group [0];
+		widgets = &config->group[0];
 	}
 
 	for (i = 0; i < 4; i++) {
 		gboolean sensitive = (i <= count);
 		const gchar *text = "";
 
-		gtk_widget_set_sensitive (widgets [i].frames, sensitive);
+		gtk_widget_set_sensitive (widgets[i].frames, sensitive);
 
 		/*
 		 * Sorting is set, auto select the text
 		 */
 		g_signal_handler_block (
-			widgets [i].radio_ascending,
-			widgets [i].toggled_id);
+			widgets[i].radio_ascending,
+			widgets[i].toggled_id);
 		g_signal_handler_block (
-			widgets [i].combo,
-			widgets [i].changed_id);
+			widgets[i].combo,
+			widgets[i].changed_id);
 
 		if (i < count) {
 			GtkToggleButton *a, *d;
@@ -322,21 +322,25 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 			 * Update radio buttons
 			 */
 			a = GTK_TOGGLE_BUTTON (
-				widgets [i].radio_ascending);
+				widgets[i].radio_ascending);
 			d = GTK_TOGGLE_BUTTON (
-				widgets [i].radio_descending);
+				widgets[i].radio_descending);
 
 			gtk_toggle_button_set_active (col.ascending ? a:d, 1);
 		} else {
 			GtkToggleButton *t;
 
 			t = GTK_TOGGLE_BUTTON (
-				widgets [i].radio_ascending);
+				widgets[i].radio_ascending);
 
 			if (is_sort)
-				g_return_if_fail (widgets [i].radio_ascending != config->group [i].radio_ascending);
+				g_return_if_fail (
+					widgets[i].radio_ascending !=
+					config->group[i].radio_ascending);
 			else
-				g_return_if_fail (widgets [i].radio_ascending != config->sort [i].radio_ascending);
+				g_return_if_fail (
+					widgets[i].radio_ascending !=
+					config->sort[i].radio_ascending);
 			gtk_toggle_button_set_active (t, 1);
 		}
 
@@ -345,11 +349,11 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 			GTK_COMBO_BOX (widgets[i].combo), text);
 
 		g_signal_handler_unblock (
-			widgets [i].radio_ascending,
-			widgets [i].toggled_id);
+			widgets[i].radio_ascending,
+			widgets[i].toggled_id);
 		g_signal_handler_unblock (
-			widgets [i].combo,
-			widgets [i].changed_id);
+			widgets[i].combo,
+			widgets[i].changed_id);
 	}
 }
 
@@ -384,10 +388,10 @@ config_sort_info_update (ETableConfig *config)
 			g_string_append (res, ", ");
 	}
 
-	if (res->str [0] == 0)
+	if (res->str[0] == 0)
 		g_string_append (res, _("Not sorted"));
 
-	gtk_label_set_text (GTK_LABEL(config->sort_label), res->str);
+	gtk_label_set_text (GTK_LABEL (config->sort_label), res->str);
 
 	g_string_free (res, TRUE);
 }
@@ -425,7 +429,7 @@ config_group_info_update (ETableConfig *config)
 		if ((i+1) != count)
 			g_string_append (res, ", ");
 	}
-	if (res->str [0] == 0)
+	if (res->str[0] == 0)
 		g_string_append (res, _("No grouping"));
 
 	gtk_label_set_text (GTK_LABEL (config->group_label), res->str);
@@ -450,7 +454,7 @@ setup_fields (ETableConfig *config)
 					idx++;
 
 			e_table_subset_variable_add (config->shown_model, idx);
-			e_table_without_hide (config->available_model, GINT_TO_POINTER(idx));
+			e_table_without_hide (config->available_model, GINT_TO_POINTER (idx));
 		}
 	}
 	e_table_model_thaw ((ETableModel *)config->available_model);
@@ -470,7 +474,7 @@ config_fields_info_update (ETableConfig *config)
 			if ((*column)->disabled)
 				continue;
 
-			if (config->state->columns [i] != j)
+			if (config->state->columns[i] != j)
 				continue;
 
 			g_string_append (res, dgettext (config->domain, (*column)->title));
@@ -497,15 +501,16 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 
 	gtk_widget_grab_focus (GTK_WIDGET (
 		is_sort
-		? config->sort [0].combo
-		: config->group [0].combo));
+		? config->sort[0].combo
+		: config->group[0].combo));
 
 	if (is_sort)
 		dialog = GTK_DIALOG (config->dialog_sort);
 	else
 		dialog = GTK_DIALOG (config->dialog_group_by);
 
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (config->dialog_toplevel));
+	gtk_window_set_transient_for (
+		GTK_WINDOW (dialog), GTK_WINDOW (config->dialog_toplevel));
 
 	do {
 		response = gtk_dialog_run (dialog);
@@ -572,7 +577,7 @@ do_fields_config_dialog (ETableConfig *config)
 		GTK_WINDOW (config->dialog_toplevel));
 
 	do {
-		response = gtk_dialog_run (GTK_DIALOG(config->dialog_show_fields));
+		response = gtk_dialog_run (GTK_DIALOG (config->dialog_show_fields));
 		switch (response) {
 		case GTK_RESPONSE_OK:
 			g_object_unref (config->state);
@@ -624,9 +629,11 @@ create_store (ETableConfig *config)
 }
 
 static const gchar *spec =
-"<ETableSpecification gettext-domain=\"" GETTEXT_PACKAGE "\" no-headers=\"true\" cursor-mode=\"line\" "
-" draw-grid=\"false\" draw-focus=\"true\" selection-mode=\"browse\">"
-"<ETableColumn model_col= \"0\" _title=\"Name\" minimum_width=\"30\" resizable=\"true\" cell=\"string\" compare=\"string\"/>"
+"<ETableSpecification gettext-domain=\"" GETTEXT_PACKAGE "\""
+" no-headers=\"true\" cursor-mode=\"line\" draw-grid=\"false\" "
+" draw-focus=\"true\" selection-mode=\"browse\">"
+"<ETableColumn model_col= \"0\" _title=\"Name\" minimum_width=\"30\""
+" resizable=\"true\" cell=\"string\" compare=\"string\"/>"
 "<ETableState> <column source=\"0\"/>"
 "<grouping/>"
 "</ETableState>"
@@ -741,7 +748,10 @@ e_table_proxy_gtk_combo_text_new (void)
 }
 
 static void
-connect_button (ETableConfig *config, GtkBuilder *builder, const gchar *widget_name, GCallback cback)
+connect_button (ETableConfig *config,
+                GtkBuilder *builder,
+                const gchar *widget_name,
+                GCallback cback)
 {
 	GtkWidget *button = e_builder_get_widget (builder, widget_name);
 
@@ -755,9 +765,12 @@ static gint
 get_source_model_col_index (ETableConfig *config, gint idx)
 {
 	gint visible_index;
-	ETableModel *src_model = E_TABLE_SUBSET (config->available_model)->source;
+	ETableModel *src_model;
 
-        visible_index = e_table_subset_view_to_model_row (E_TABLE_SUBSET (config->available_model), idx);
+	src_model = E_TABLE_SUBSET (config->available_model)->source;
+
+	visible_index = e_table_subset_view_to_model_row (
+		E_TABLE_SUBSET (config->available_model), idx);
 
 	return GPOINTER_TO_INT (e_table_model_value_at (src_model, 1, visible_index));
 }
@@ -822,32 +835,34 @@ configure_sort_dialog (ETableConfig *config, GtkBuilder *builder)
 	const gchar *algs[] = {"alignment4", "alignment3", "alignment2", "alignment1", NULL};
 
 	for (i = 0; i < 4; i++) {
-		gchar buffer [80];
+		gchar buffer[80];
 
 		snprintf (buffer, sizeof (buffer), "sort-combo-%d", i + 1);
-		config->sort [i].combo = e_table_proxy_gtk_combo_text_new ();
-		gtk_widget_show (GTK_WIDGET (config->sort [i].combo));
-		gtk_container_add (GTK_CONTAINER (e_builder_get_widget (builder, algs [i])), config->sort [i].combo);
+		config->sort[i].combo = e_table_proxy_gtk_combo_text_new ();
+		gtk_widget_show (GTK_WIDGET (config->sort[i].combo));
+		gtk_container_add (
+			GTK_CONTAINER (e_builder_get_widget (
+			builder, algs[i])), config->sort[i].combo);
 		configure_combo_box_add (
 			GTK_COMBO_BOX (config->sort[i].combo), "", "");
 
 		snprintf (buffer, sizeof (buffer), "frame-sort-%d", i + 1);
-		config->sort [i].frames =
+		config->sort[i].frames =
 			e_builder_get_widget (builder, buffer);
 
 		snprintf (
 			buffer, sizeof (buffer),
 			"radiobutton-ascending-sort-%d", i+1);
-		config->sort [i].radio_ascending = e_builder_get_widget (
+		config->sort[i].radio_ascending = e_builder_get_widget (
 			builder, buffer);
 
 		snprintf (
 			buffer, sizeof (buffer),
 			"radiobutton-descending-sort-%d", i+1);
-		config->sort [i].radio_descending = e_builder_get_widget (
+		config->sort[i].radio_descending = e_builder_get_widget (
 			builder, buffer);
 
-		config->sort [i].e_table_config = config;
+		config->sort[i].e_table_config = config;
 	}
 
 	for (l = config->column_names; l; l = l->next) {
@@ -864,15 +879,15 @@ configure_sort_dialog (ETableConfig *config, GtkBuilder *builder)
 	 * After we have runtime modified things, signal connect
 	 */
 	for (i = 0; i < 4; i++) {
-		config->sort [i].changed_id = g_signal_connect (
-			config->sort [i].combo,
+		config->sort[i].changed_id = g_signal_connect (
+			config->sort[i].combo,
 			"changed", G_CALLBACK (sort_combo_changed),
-			&config->sort [i]);
+			&config->sort[i]);
 
-		config->sort [i].toggled_id = g_signal_connect (
-			config->sort [i].radio_ascending,
+		config->sort[i].toggled_id = g_signal_connect (
+			config->sort[i].radio_ascending,
 			"toggled", G_CALLBACK (sort_ascending_toggled),
-			&config->sort [i]);
+			&config->sort[i]);
 	}
 }
 
@@ -936,39 +951,41 @@ configure_group_dialog (ETableConfig *config, GtkBuilder *builder)
 	const gchar *vboxes[] = {"vbox7", "vbox9", "vbox11", "vbox13", NULL};
 
 	for (i = 0; i < 4; i++) {
-		gchar buffer [80];
+		gchar buffer[80];
 
 		snprintf (buffer, sizeof (buffer), "group-combo-%d", i + 1);
-		config->group [i].combo = e_table_proxy_gtk_combo_text_new ();
-		gtk_widget_show (GTK_WIDGET (config->group [i].combo));
-		gtk_box_pack_start (GTK_BOX (e_builder_get_widget (builder, vboxes [i])), config->group [i].combo, FALSE, FALSE, 0);
+		config->group[i].combo = e_table_proxy_gtk_combo_text_new ();
+		gtk_widget_show (GTK_WIDGET (config->group[i].combo));
+		gtk_box_pack_start (
+			GTK_BOX (e_builder_get_widget (builder, vboxes[i])),
+			config->group[i].combo, FALSE, FALSE, 0);
 
 		configure_combo_box_add (
 			GTK_COMBO_BOX (config->group[i].combo), "", "");
 
 		snprintf (buffer, sizeof (buffer), "frame-group-%d", i + 1);
-		config->group [i].frames =
+		config->group[i].frames =
 			e_builder_get_widget (builder, buffer);
 
 		snprintf (
 			buffer, sizeof (buffer),
 			"radiobutton-ascending-group-%d", i+1);
-		config->group [i].radio_ascending = e_builder_get_widget (
+		config->group[i].radio_ascending = e_builder_get_widget (
 			builder, buffer);
 
 		snprintf (
 			buffer, sizeof (buffer),
 			"radiobutton-descending-group-%d", i+1);
-		config->group [i].radio_descending = e_builder_get_widget (
+		config->group[i].radio_descending = e_builder_get_widget (
 			builder, buffer);
 
 		snprintf (
 			buffer, sizeof (buffer),
 			"checkbutton-group-%d", i+1);
-		config->group [i].view_check = e_builder_get_widget (
+		config->group[i].view_check = e_builder_get_widget (
 			builder, buffer);
 
-		config->group [i].e_table_config = config;
+		config->group[i].e_table_config = config;
 	}
 
 	for (l = config->column_names; l; l = l->next) {
@@ -985,15 +1002,15 @@ configure_group_dialog (ETableConfig *config, GtkBuilder *builder)
 	 * After we have runtime modified things, signal connect
 	 */
 	for (i = 0; i < 4; i++) {
-		config->group [i].changed_id = g_signal_connect (
-			config->group [i].combo,
+		config->group[i].changed_id = g_signal_connect (
+			config->group[i].combo,
 			"changed", G_CALLBACK (group_combo_changed),
-			&config->group [i]);
+			&config->group[i]);
 
-		config->group [i].toggled_id = g_signal_connect (
-			config->group [i].radio_ascending,
+		config->group[i].toggled_id = g_signal_connect (
+			config->group[i].radio_ascending,
 			"toggled", G_CALLBACK (group_ascending_toggled),
-			&config->group [i]);
+			&config->group[i]);
 	}
 }
 
@@ -1017,12 +1034,20 @@ config_button_add (GtkWidget *widget, ETableConfig *config)
 
 	count = g_list_length (columns);
 
-	config->temp_state->columns = g_renew (int, config->temp_state->columns, config->temp_state->col_count + count);
-	config->temp_state->expansions = g_renew (double, config->temp_state->expansions, config->temp_state->col_count + count);
+	config->temp_state->columns = g_renew (
+		int, config->temp_state->columns,
+		config->temp_state->col_count + count);
+	config->temp_state->expansions = g_renew (
+		gdouble, config->temp_state->expansions,
+		config->temp_state->col_count + count);
 	i = config->temp_state->col_count;
 	for (column = columns; column; column = column->next) {
-		config->temp_state->columns[i] = get_source_model_col_index (config, GPOINTER_TO_INT (column->data));
-		config->temp_state->expansions[i] = config->source_spec->columns[config->temp_state->columns[i]]->expansion;
+		config->temp_state->columns[i] =
+			get_source_model_col_index (
+			config, GPOINTER_TO_INT (column->data));
+		config->temp_state->expansions[i] =
+			config->source_spec->columns
+			[config->temp_state->columns[i]]->expansion;
 		i++;
 	}
 	config->temp_state->col_count += count;
@@ -1043,12 +1068,22 @@ config_button_remove (GtkWidget *widget, ETableConfig *config)
 	for (column = columns; column; column = column->next) {
 		gint row = GPOINTER_TO_INT (column->data);
 
-		memmove (config->temp_state->columns + row, config->temp_state->columns + row + 1, sizeof (gint) * (config->temp_state->col_count - row - 1));
-		memmove (config->temp_state->expansions + row, config->temp_state->expansions + row + 1, sizeof (gdouble) * (config->temp_state->col_count - row - 1));
+		memmove (
+			config->temp_state->columns + row,
+			config->temp_state->columns + row + 1,
+			sizeof (gint) * (config->temp_state->col_count - row - 1));
+		memmove (
+			config->temp_state->expansions + row,
+			config->temp_state->expansions + row + 1,
+			sizeof (gdouble) * (config->temp_state->col_count - row - 1));
 		config->temp_state->col_count--;
 	}
-	config->temp_state->columns = g_renew (int, config->temp_state->columns, config->temp_state->col_count);
-	config->temp_state->expansions = g_renew (double, config->temp_state->expansions, config->temp_state->col_count);
+	config->temp_state->columns = g_renew (
+		int, config->temp_state->columns,
+		config->temp_state->col_count);
+	config->temp_state->expansions = g_renew (
+		gdouble, config->temp_state->expansions,
+		config->temp_state->col_count);
 
 	g_list_free (columns);
 
@@ -1180,7 +1215,9 @@ configure_fields_dialog (ETableConfig *config, GtkBuilder *builder)
 		      "model", &config->available_model,
 		      NULL);
 	gtk_widget_show_all (etable);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (e_builder_get_widget (builder, "label-available")), etable);
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (e_builder_get_widget (
+		builder, "label-available")), etable);
 
 	/* "custom-shown" widget */
 	etable = e_table_proxy_etable_shown_new (store);
@@ -1192,12 +1229,22 @@ configure_fields_dialog (ETableConfig *config, GtkBuilder *builder)
 		      "model", &config->shown_model,
 		      NULL);
 	gtk_widget_show_all (etable);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (e_builder_get_widget (builder, "label-displayed")), etable);
+	gtk_label_set_mnemonic_widget (
+		GTK_LABEL (e_builder_get_widget (
+		builder, "label-displayed")), etable);
 
-	connect_button (config, builder, "button-add",    G_CALLBACK (config_button_add));
-	connect_button (config, builder, "button-remove", G_CALLBACK (config_button_remove));
-	connect_button (config, builder, "button-up",     G_CALLBACK (config_button_up));
-	connect_button (config, builder, "button-down",   G_CALLBACK (config_button_down));
+	connect_button (
+		config, builder, "button-add",
+		G_CALLBACK (config_button_add));
+	connect_button (
+		config, builder, "button-remove",
+		G_CALLBACK (config_button_remove));
+	connect_button (
+		config, builder, "button-up",
+		G_CALLBACK (config_button_up));
+	connect_button (
+		config, builder, "button-down",
+		G_CALLBACK (config_button_down));
 
 	setup_fields (config);
 

@@ -95,7 +95,7 @@ e_popup_menu_create_with_domain (EPopupMenu *menu_list,
 
 		separator = !strcmp ("", menu_list[i].name);
 
-		if ((!(separator && last_item_separator)) && !(menu_list [i].disable_mask & hide_mask)) {
+		if ((!(separator && last_item_separator)) && !(menu_list[i].disable_mask & hide_mask)) {
 			GtkWidget *item = NULL;
 
 			if (!separator) {

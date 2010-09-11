@@ -240,7 +240,7 @@ e_text_to_html_full (const gchar *input, guint flags, guint32 color)
 			saw_citation = is_citation (cur, saw_citation);
 			if (saw_citation) {
 				if (!colored) {
-					gchar font [25];
+					gchar font[25];
 
 					g_snprintf (font, 25, "<FONT COLOR=\"#%06x\">", color);
 

@@ -88,11 +88,11 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 	ETableSearchFunc search = NULL;
 
 	if (col_spec->cell)
-		cell = e_table_extras_get_cell(ete, col_spec->cell);
+		cell = e_table_extras_get_cell (ete, col_spec->cell);
 	if (col_spec->compare)
-		compare = e_table_extras_get_compare(ete, col_spec->compare);
+		compare = e_table_extras_get_compare (ete, col_spec->compare);
 	if (col_spec->search)
-		search = e_table_extras_get_search(ete, col_spec->search);
+		search = e_table_extras_get_search (ete, col_spec->search);
 
 	if (cell && compare) {
 		gchar *title = dgettext (domain, col_spec->title);
@@ -184,7 +184,7 @@ e_table_util_calculate_current_search_col (ETableHeader *header,
 	ETableCol *col = NULL;
 	count = e_table_sort_info_grouping_get_count (sort_info);
 	for (i = 0; i < count; i++) {
-		ETableSortColumn column = e_table_sort_info_grouping_get_nth(sort_info, i);
+		ETableSortColumn column = e_table_sort_info_grouping_get_nth (sort_info, i);
 
 		col = e_table_header_get_column (full_header, column.column);
 
@@ -197,7 +197,7 @@ e_table_util_calculate_current_search_col (ETableHeader *header,
 	if (col == NULL) {
 		count = e_table_sort_info_sorting_get_count (sort_info);
 		for (i = 0; i < count; i++) {
-			ETableSortColumn column = e_table_sort_info_sorting_get_nth(sort_info, i);
+			ETableSortColumn column = e_table_sort_info_sorting_get_nth (sort_info, i);
 
 			col = e_table_header_get_column (full_header, column.column);
 

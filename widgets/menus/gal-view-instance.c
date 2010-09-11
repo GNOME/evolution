@@ -55,7 +55,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint gal_view_instance_signals [LAST_SIGNAL] = { 0, };
+static guint gal_view_instance_signals[LAST_SIGNAL] = { 0, };
 
 static void
 gal_view_instance_changed (GalViewInstance *instance)
@@ -64,7 +64,7 @@ gal_view_instance_changed (GalViewInstance *instance)
 	g_return_if_fail (GAL_IS_VIEW_INSTANCE (instance));
 
 	g_signal_emit (instance,
-		       gal_view_instance_signals [CHANGED], 0);
+		       gal_view_instance_signals[CHANGED], 0);
 }
 
 static void
@@ -74,7 +74,7 @@ gal_view_instance_display_view (GalViewInstance *instance, GalView *view)
 	g_return_if_fail (GAL_IS_VIEW_INSTANCE (instance));
 
 	g_signal_emit (instance,
-		       gal_view_instance_signals [DISPLAY_VIEW], 0,
+		       gal_view_instance_signals[DISPLAY_VIEW], 0,
 		       view);
 }
 
@@ -86,7 +86,7 @@ save_current_view (GalViewInstance *instance)
 
 	doc = xmlNewDoc((const guchar *)"1.0");
 	root = xmlNewNode (NULL, (const guchar *)"GalViewCurrentView");
-	xmlDocSetRootElement(doc, root);
+	xmlDocSetRootElement (doc, root);
 
 	if (instance->current_id)
 		e_xml_set_string_prop_by_name (root, (const guchar *)"current_view", instance->current_id);
@@ -95,7 +95,7 @@ save_current_view (GalViewInstance *instance)
 
 	if (e_xml_save_file (instance->current_view_filename, doc) == -1)
 		g_warning ("Unable to save view to %s - %s", instance->current_view_filename, g_strerror(errno));
-	xmlFreeDoc(doc);
+	xmlFreeDoc (doc);
 }
 
 static void
@@ -105,7 +105,7 @@ view_changed (GalView *view, GalViewInstance *instance)
 		g_free (instance->current_id);
 		instance->current_id = NULL;
 		save_current_view (instance);
-		gal_view_instance_changed(instance);
+		gal_view_instance_changed (instance);
 	}
 
 	gal_view_save (view, instance->custom_filename);
@@ -137,8 +137,8 @@ connect_view (GalViewInstance *instance, GalView *view)
 		disconnect_view (instance);
 	instance->current_view = view;
 
-	instance->current_title = g_strdup (gal_view_get_title(view));
-	instance->current_type = g_strdup (gal_view_get_type_code(view));
+	instance->current_title = g_strdup (gal_view_get_title (view));
+	instance->current_type = g_strdup (gal_view_get_type_code (view));
 	instance->view_changed_id =
 		g_signal_connect(instance->current_view, "changed",
 				 G_CALLBACK (view_changed), instance);
@@ -149,7 +149,7 @@ connect_view (GalViewInstance *instance, GalView *view)
 static void
 gal_view_instance_dispose (GObject *object)
 {
-	GalViewInstance *instance = GAL_VIEW_INSTANCE(object);
+	GalViewInstance *instance = GAL_VIEW_INSTANCE (object);
 
 	if (instance->collection) {
 		if (instance->collection_changed_id) {
@@ -179,7 +179,7 @@ gal_view_instance_class_init (GalViewInstanceClass *klass)
 
 	object_class->dispose = gal_view_instance_dispose;
 
-	gal_view_instance_signals [DISPLAY_VIEW] =
+	gal_view_instance_signals[DISPLAY_VIEW] =
 		g_signal_new ("display_view",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -188,7 +188,7 @@ gal_view_instance_class_init (GalViewInstanceClass *klass)
 			      g_cclosure_marshal_VOID__OBJECT,
 			      G_TYPE_NONE, 1, GAL_TYPE_VIEW);
 
-	gal_view_instance_signals [CHANGED] =
+	gal_view_instance_signals[CHANGED] =
 		g_signal_new ("changed",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -197,7 +197,7 @@ gal_view_instance_class_init (GalViewInstanceClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	gal_view_instance_signals [LOADED] =
+	gal_view_instance_signals[LOADED] =
 		g_signal_new ("loaded",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_FIRST,
@@ -253,10 +253,10 @@ load_current_view (GalViewInstance *instance)
 #ifdef G_OS_WIN32
 		gchar *locale_filename = g_win32_locale_filename_from_utf8 (instance->current_view_filename);
 		if (locale_filename != NULL)
-			doc = xmlParseFile(locale_filename);
+			doc = xmlParseFile (locale_filename);
 		g_free (locale_filename);
 #else
-		doc = xmlParseFile(instance->current_view_filename);
+		doc = xmlParseFile (instance->current_view_filename);
 #endif
 	}
 
@@ -270,14 +270,14 @@ load_current_view (GalViewInstance *instance)
 			if (index != -1) {
 				view = gal_view_collection_get_view (instance->collection,
 								     index);
-				view = gal_view_clone(view);
+				view = gal_view_clone (view);
 				connect_view (instance, view);
 			}
 		}
 		return;
 	}
 
-	root = xmlDocGetRootElement(doc);
+	root = xmlDocGetRootElement (doc);
 	instance->current_id = e_xml_get_string_prop_by_name_with_default (root, (const guchar *)"current_view", NULL);
 
 	if (instance->current_id != NULL) {
@@ -287,7 +287,7 @@ load_current_view (GalViewInstance *instance)
 		if (index != -1) {
 			view = gal_view_collection_get_view (instance->collection,
 							     index);
-			view = gal_view_clone(view);
+			view = gal_view_clone (view);
 		}
 	}
 	if (view == NULL) {
@@ -301,7 +301,7 @@ load_current_view (GalViewInstance *instance)
 
 	connect_view (instance, view);
 
-	xmlFreeDoc(doc);
+	xmlFreeDoc (doc);
 }
 
 /**
@@ -415,11 +415,11 @@ gal_view_instance_set_custom_view (GalViewInstance *instance, GalView *view)
 	connect_view (instance, view);
 	gal_view_save (view, instance->custom_filename);
 	save_current_view (instance);
-	gal_view_instance_changed(instance);
+	gal_view_instance_changed (instance);
 }
 
 static void
-dialog_response(GtkWidget *dialog, gint id, GalViewInstance *instance)
+dialog_response (GtkWidget *dialog, gint id, GalViewInstance *instance)
 {
 	if (id == GTK_RESPONSE_OK) {
 		gal_view_instance_save_as_dialog_save (GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (dialog));
@@ -436,8 +436,8 @@ gal_view_instance_save_as (GalViewInstance *instance)
 
 	dialog = gal_view_instance_save_as_dialog_new (instance);
 	g_signal_connect(dialog, "response",
-			 G_CALLBACK(dialog_response), instance);
-	gtk_widget_show(dialog);
+			 G_CALLBACK (dialog_response), instance);
+	gtk_widget_show (dialog);
 }
 
 /* This is idempotent.  Once it's been called once, the rest of the calls are ignored. */

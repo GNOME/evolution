@@ -44,7 +44,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint signals [LAST_SIGNAL] = { 0, };
+static guint signals[LAST_SIGNAL] = { 0, };
 
 typedef struct ETreeMemoryPath ETreeMemoryPath;
 
@@ -93,7 +93,7 @@ e_tree_memory_path_depth (ETreeMemoryPath *path)
 {
 	gint depth = 0;
 
-	g_return_val_if_fail(path != NULL, -1);
+	g_return_val_if_fail (path != NULL, -1);
 
 	for ( path = path->parent; path; path = path->parent)
 		depth++;
@@ -178,12 +178,12 @@ e_tree_path_unlink (ETreeMemoryPath *path)
  *
  **/
 void
-e_tree_memory_freeze(ETreeMemory *etmm)
+e_tree_memory_freeze (ETreeMemory *etmm)
 {
 	ETreeMemoryPriv *priv = etmm->priv;
 
 	if (priv->frozen == 0)
-		e_tree_model_pre_change(E_TREE_MODEL(etmm));
+		e_tree_model_pre_change (E_TREE_MODEL (etmm));
 
 	priv->frozen++;
 }
@@ -198,14 +198,14 @@ e_tree_memory_freeze(ETreeMemory *etmm)
  *
  **/
 void
-e_tree_memory_thaw(ETreeMemory *etmm)
+e_tree_memory_thaw (ETreeMemory *etmm)
 {
 	ETreeMemoryPriv *priv = etmm->priv;
 
 	if (priv->frozen > 0)
 		priv->frozen--;
 	if (priv->frozen == 0) {
-		e_tree_model_node_changed(E_TREE_MODEL(etmm), priv->root);
+		e_tree_model_node_changed (E_TREE_MODEL (etmm), priv->root);
 	}
 }
 
@@ -234,7 +234,7 @@ etmm_dispose (GObject *object)
 static ETreePath
 etmm_get_root (ETreeModel *etm)
 {
-	ETreeMemoryPriv *priv = E_TREE_MEMORY(etm)->priv;
+	ETreeMemoryPriv *priv = E_TREE_MEMORY (etm)->priv;
 	return priv->root;
 }
 
@@ -319,7 +319,7 @@ etmm_get_children (ETreeModel *etm, ETreePath node, ETreePath **nodes)
 static guint
 etmm_depth (ETreeModel *etm, ETreePath path)
 {
-	return e_tree_memory_path_depth(path);
+	return e_tree_memory_path_depth (path);
 }
 
 static gboolean
@@ -358,7 +358,7 @@ e_tree_memory_class_init (ETreeMemoryClass *klass)
 	ETreeModelClass *tree_class = (ETreeModelClass *) klass;
 	GObjectClass  *object_class = (GObjectClass *) klass;
 
-	signals [FILL_IN_CHILDREN] =
+	signals[FILL_IN_CHILDREN] =
 		g_signal_new ("fill_in_children",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -499,7 +499,7 @@ e_tree_memory_node_insert (ETreeMemory *tree_model,
 	ETreeMemoryPath *new_path;
 	ETreeMemoryPath *parent_path = parent_node;
 
-	g_return_val_if_fail(tree_model != NULL, NULL);
+	g_return_val_if_fail (tree_model != NULL, NULL);
 
 	priv = tree_model->priv;
 
@@ -508,7 +508,7 @@ e_tree_memory_node_insert (ETreeMemory *tree_model,
 	priv = tree_model->priv;
 
 	if (!tree_model->priv->frozen)
-		e_tree_model_pre_change(E_TREE_MODEL(tree_model));
+		e_tree_model_pre_change (E_TREE_MODEL (tree_model));
 
 	new_path = g_slice_new0 (ETreeMemoryPath);
 
@@ -518,11 +518,11 @@ e_tree_memory_node_insert (ETreeMemory *tree_model,
 	if (parent_path != NULL) {
 		e_tree_memory_path_insert (parent_path, position, new_path);
 		if (!tree_model->priv->frozen)
-			e_tree_model_node_inserted (E_TREE_MODEL(tree_model), parent_path, new_path);
+			e_tree_model_node_inserted (E_TREE_MODEL (tree_model), parent_path, new_path);
 	} else {
 		priv->root = new_path;
 		if (!tree_model->priv->frozen)
-			e_tree_model_node_changed(E_TREE_MODEL(tree_model), new_path);
+			e_tree_model_node_changed (E_TREE_MODEL (tree_model), new_path);
 	}
 
 	return new_path;
@@ -560,7 +560,7 @@ e_tree_memory_node_insert_before (ETreeMemory *etree,
 	ETreeMemoryPath *sibling_path = sibling;
 	gint position = 0;
 
-	g_return_val_if_fail(etree != NULL, NULL);
+	g_return_val_if_fail (etree != NULL, NULL);
 
 	if (sibling != NULL) {
 		for (child = parent_path->first_child; child; child = child->next_sibling) {
@@ -575,14 +575,14 @@ e_tree_memory_node_insert_before (ETreeMemory *etree,
 
 /* just blows away child data, doesn't take into account unlinking/etc */
 static void
-child_free(ETreeMemory *etree, ETreeMemoryPath *node)
+child_free (ETreeMemory *etree, ETreeMemoryPath *node)
 {
 	ETreeMemoryPath *child, *next;
 
 	child = node->first_child;
 	while (child) {
 		next = child->next_sibling;
-		child_free(etree, child);
+		child_free (etree, child);
 		child = next;
 	}
 
@@ -611,10 +611,10 @@ e_tree_memory_node_remove (ETreeMemory *etree, ETreePath node)
 	gpointer ret = path->node_data;
 	gint old_position = 0;
 
-	g_return_val_if_fail(etree != NULL, NULL);
+	g_return_val_if_fail (etree != NULL, NULL);
 
 	if (!etree->priv->frozen) {
-		e_tree_model_pre_change(E_TREE_MODEL(etree));
+		e_tree_model_pre_change (E_TREE_MODEL (etree));
 		for (old_position = 0, sibling = path;
 		     sibling;
 		     old_position++, sibling = sibling->prev_sibling)
@@ -628,15 +628,15 @@ e_tree_memory_node_remove (ETreeMemory *etree, ETreePath node)
 
 	/*printf("removing %d nodes from position %d\n", visible, base);*/
 	if (!etree->priv->frozen)
-		e_tree_model_node_removed(E_TREE_MODEL(etree), parent, path, old_position);
+		e_tree_model_node_removed (E_TREE_MODEL (etree), parent, path, old_position);
 
-	child_free(etree, path);
+	child_free (etree, path);
 
 	if (path == etree->priv->root)
 		etree->priv->root = NULL;
 
 	if (!etree->priv->frozen)
-		e_tree_model_node_deleted(E_TREE_MODEL(etree), path);
+		e_tree_model_node_deleted (E_TREE_MODEL (etree), path);
 
 	return ret;
 }
@@ -648,7 +648,7 @@ typedef struct {
 } MemoryAndClosure;
 
 static gint
-sort_callback(gconstpointer data1, gconstpointer data2, gpointer user_data)
+sort_callback (gconstpointer data1, gconstpointer data2, gpointer user_data)
 {
 	ETreePath path1 = *(ETreePath *)data1;
 	ETreePath path2 = *(ETreePath *)data2;
@@ -676,7 +676,7 @@ e_tree_memory_sort_node             (ETreeMemory             *etmm,
 	for (child = path->first_child; child; child = child->next_sibling)
 		i++;
 
-	children = g_new(ETreeMemoryPath *, i);
+	children = g_new (ETreeMemoryPath *, i);
 
 	count = i;
 
@@ -711,9 +711,9 @@ e_tree_memory_sort_node             (ETreeMemory             *etmm,
 
 	path->last_child = last;
 
-	g_free(children);
+	g_free (children);
 
-	e_tree_model_node_changed(E_TREE_MODEL(etmm), node);
+	e_tree_model_node_changed (E_TREE_MODEL (etmm), node);
 }
 
 void

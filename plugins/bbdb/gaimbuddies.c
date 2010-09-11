@@ -531,7 +531,7 @@ get_buddy_icon_from_setting (xmlNodePtr setting)
 	gchar *icon = NULL;
 
 	icon = get_node_text (setting);
-	if (icon [0] != '/') {
+	if (icon[0] != '/') {
 		gchar *path;
 
 		path = g_build_path ("/", g_get_home_dir (), ".purple/icons", icon, NULL);
