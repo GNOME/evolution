@@ -12115,7 +12115,8 @@ msgstr[0] ""
 " சமீபத்தில் நீக்கிய அடைவு \"%s\" க்கு கணக்கு காட்ட."
 msgstr[1] ""
 "கீழ் காணும் வடிப்பி விதிகள் % s மேம்படுத்தப்பட்டுவிட்டன.\n"
-"சமீபத்தில் நீக்கிய அடைவு \"%s\" க்கு கணக்கு காட்ட .\n"
+"சமீபத்தில் நீக்கிய அடைவு \"%s\" க்கு கணக்கு \n"
+"காட்ட ."
 
 #. Translators: This is part of the line with 'Top Posting Option' text. See Edit|Preferences|Composer Preferences for the usage
 #: ../mail/mail-config.ui.h:2
