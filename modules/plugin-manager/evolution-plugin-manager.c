@@ -12,30 +12,38 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
- *
- * Authors:
- *		Michael Zucchi <notzed@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
 
 /* A plugin manager ui */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include <gtk/gtk.h>
+#include <config.h>
 #include <glib/gi18n-lib.h>
+
 #include <string.h>
 #include <stdio.h>
 
-#include "e-util/e-plugin.h"
-#include "shell/e-shell-window.h"
-#include "shell/e-shell-window-actions.h"
+#include <e-util/e-plugin.h>
+#include <e-util/e-extension.h>
+#include <shell/e-shell-window.h>
+#include <shell/e-shell-window-actions.h>
 
-#define d(S) (S)
+/* Standard GObject macros */
+#define E_TYPE_PLUGIN_MANAGER \
+	(e_plugin_manager_get_type ())
+#define E_PLUGIN_MANAGER(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_PLUGIN_MANAGER, EPluginManager))
+
+typedef struct _EPluginManager EPluginManager;
+typedef struct _EPluginManagerClass EPluginManagerClass;
+
+struct _EPluginManager {
+	EExtension parent;
+};
+
+struct _EPluginManagerClass {
+	EExtensionClass parent_class;
+};
 
 enum {
 	LABEL_NAME,
@@ -62,16 +70,11 @@ static struct {
 
 typedef struct _Manager Manager;
 struct _Manager {
-	GtkTreeView *treeview;
-	GtkTreeModel *model;
-
 	GtkLabel *labels[LABEL_LAST];
 	GtkLabel *items[LABEL_LAST];
 
 	GtkWidget *config_plugin_label;
 	GtkWidget *active_cfg_widget;
-
-	GSList *plugins;
 };
 
 /* for tracking if we're shown */
@@ -80,8 +83,14 @@ static GtkWidget *configure_page;
 static gint last_selected_page;
 static gulong switch_page_handler_id;
 
-gboolean	e_plugin_ui_init		(GtkUIManager *ui_manager,
-						 EShellWindow *shell_window);
+/* Module Entry Points */
+void e_module_load (GTypeModule *type_module);
+void e_module_unload (GTypeModule *type_module);
+
+/* Forward Declarations */
+GType e_plugin_manager_get_type (void);
+
+G_DEFINE_DYNAMIC_TYPE (EPluginManager, e_plugin_manager, E_TYPE_EXTENSION)
 
 static void
 eppm_set_label (GtkLabel *l, const gchar *v)
@@ -98,12 +107,14 @@ eppm_switch_page_cb (GtkNotebook *notebook,
 }
 
 static void
-eppm_show_plugin (Manager *m, EPlugin *ep, GtkWidget *cfg_widget)
+eppm_show_plugin (Manager *m,
+                  EPlugin *ep,
+                  GtkWidget *cfg_widget)
 {
 	if (ep) {
 		gchar *string;
 
-		string = g_strdup_printf ("<span><b>%s</b></span>", ep->name);
+		string = g_markup_printf_escaped ("<b>%s</b>", ep->name);
 		gtk_label_set_markup (GTK_LABEL (m->items[LABEL_NAME]), string);
 		gtk_label_set_markup (GTK_LABEL (m->config_plugin_label), string);
 		g_free (string);
@@ -170,7 +181,10 @@ eppm_selection_changed (GtkTreeSelection *selection, Manager *m)
 		EPlugin *ep;
 		GtkWidget *cfg_widget = NULL;
 
-		gtk_tree_model_get (model, &iter, COL_PLUGIN_DATA, &ep, COL_PLUGIN_CFG_WIDGET, &cfg_widget, -1);
+		gtk_tree_model_get (
+			model, &iter,
+			COL_PLUGIN_DATA, &ep,
+			COL_PLUGIN_CFG_WIDGET, &cfg_widget, -1);
 		eppm_show_plugin (m, ep, cfg_widget);
 
 	} else {
@@ -184,7 +198,9 @@ eppm_selection_changed (GtkTreeSelection *selection, Manager *m)
 }
 
 static void
-eppm_enable_toggled (GtkCellRendererToggle *renderer, const gchar *path_string, Manager *m)
+eppm_enable_toggled (GtkCellRendererToggle *renderer,
+                     const gchar *path_string,
+                     GtkTreeModel *model)
 {
 	GtkTreePath *path;
 	GtkTreeIter iter;
@@ -192,32 +208,18 @@ eppm_enable_toggled (GtkCellRendererToggle *renderer, const gchar *path_string, 
 
 	path = gtk_tree_path_new_from_string (path_string);
 
-	if (gtk_tree_model_get_iter (m->model, &iter, path)) {
-		gtk_tree_model_get (m->model, &iter, COL_PLUGIN_DATA, &plugin, -1);
+	if (gtk_tree_model_get_iter (model, &iter, path)) {
+		gtk_tree_model_get (
+			model, &iter, COL_PLUGIN_DATA, &plugin, -1);
+
 		e_plugin_enable (plugin, !plugin->enabled);
 
-		g_warning ("%s", plugin->name);
-
-		gtk_list_store_set (GTK_LIST_STORE (m->model), &iter,
-				    COL_PLUGIN_ENABLED, plugin->enabled,
-				    -1);
+		gtk_list_store_set (
+			GTK_LIST_STORE (model), &iter,
+			COL_PLUGIN_ENABLED, plugin->enabled, -1);
 	}
 
 	gtk_tree_path_free (path);
-}
-
-static void
-eppm_free (gpointer data)
-{
-	Manager *m = data;
-	GSList *l;
-
-	for (l = m->plugins; l; l = g_slist_next (l))
-		g_object_unref (l->data);
-
-	g_slist_free (m->plugins);
-	g_object_unref (m->model);
-	g_free (m);
 }
 
 static void
@@ -231,9 +233,10 @@ action_plugin_manager_cb (GtkAction *action,
 	GtkWidget *overview_page;
 	GtkWidget *content_area;
 	GtkListStore *store;
+	GtkTreeView *tree_view;
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
-	GSList *l;
+	GSList *plugins, *link;
 	gchar *string;
 	GtkWidget *subvbox;
 
@@ -256,13 +259,15 @@ action_plugin_manager_cb (GtkAction *action,
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
 	gtk_box_pack_start (GTK_BOX (content_area), hbox, TRUE, TRUE, 0);
 
-	string = g_strdup_printf ("<i>%s</i>", _("Note: Some changes will not take effect until restart"));
+	string = g_markup_printf_escaped (
+		"<i>%s</i>", _("Note: Some changes "
+		"will not take effect until restart"));
 
-	w = g_object_new (gtk_label_get_type (),
-			  "label", string,
-			  "wrap", FALSE,
-			  "use_markup", TRUE,
-			  NULL);
+	w = g_object_new (
+		GTK_TYPE_LABEL,
+		"label", string,
+		"wrap", FALSE,
+		"use_markup", TRUE, NULL);
 	gtk_widget_show (w);
 	g_free (string);
 
@@ -282,7 +287,9 @@ action_plugin_manager_cb (GtkAction *action,
 	g_object_ref_sink (configure_page);
 	gtk_container_set_border_width (GTK_CONTAINER (overview_page), 12);
 	gtk_container_set_border_width (GTK_CONTAINER (configure_page), 12);
-	gtk_notebook_append_page_menu (GTK_NOTEBOOK (notebook), overview_page, gtk_label_new (_("Overview")), NULL);
+	gtk_notebook_append_page_menu (
+		GTK_NOTEBOOK (notebook), overview_page,
+		gtk_label_new (_("Overview")), NULL);
 
 	gtk_widget_show (notebook);
 	gtk_widget_show (overview_page);
@@ -290,98 +297,104 @@ action_plugin_manager_cb (GtkAction *action,
 
 	/* name of plugin on "Configuration" tab */
 	m->config_plugin_label = g_object_new (
-		gtk_label_get_type (),
+		GTK_TYPE_LABEL,
 		"wrap", TRUE,
 		"selectable", FALSE,
 		"xalign", 0.0,
 		"yalign", 0.0, NULL);
 	gtk_widget_show (m->config_plugin_label);
-	gtk_box_pack_start (GTK_BOX (configure_page), m->config_plugin_label, FALSE, FALSE, 0);
+	gtk_box_pack_start (
+		GTK_BOX (configure_page),
+		m->config_plugin_label, FALSE, FALSE, 0);
 
-	store = gtk_list_store_new (4, G_TYPE_BOOLEAN, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_POINTER);
+	store = gtk_list_store_new (
+		4, G_TYPE_BOOLEAN, G_TYPE_STRING,
+		G_TYPE_POINTER, G_TYPE_POINTER);
 
 	/* fill store */
-	m->plugins = e_plugin_list_plugins ();
+	plugins = e_plugin_list_plugins ();
 
-	for (l = m->plugins; l; l = g_slist_next (l)) {
-		EPlugin *ep = l->data;
+	for (link = plugins; link != NULL; link = g_slist_next (link)) {
+		EPlugin *ep = E_PLUGIN (link->data);
 		GtkTreeIter iter;
 		GtkWidget *cfg_widget;
 
 		if (!g_getenv ("EVO_SHOW_ALL_PLUGINS")) {
-			/* hide ourselves always */
 			if (ep->flags & E_PLUGIN_FLAGS_SYSTEM_PLUGIN)
-				continue;
-
-		} else {
-			/* Never ever show plugin-manager. User may disable it */
-			if (!strcmp (ep->id, "org.gnome.evolution.plugin.manager"))
 				continue;
 		}
 
 		cfg_widget = e_plugin_get_configure_widget (ep);
 		if (cfg_widget) {
 			gtk_widget_hide (cfg_widget);
-			gtk_box_pack_start (GTK_BOX (configure_page), cfg_widget, TRUE, TRUE, 12);
+			gtk_box_pack_start (
+				GTK_BOX (configure_page),
+				cfg_widget, TRUE, TRUE, 12);
 		}
 
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter,
-				    COL_PLUGIN_ENABLED, ep->enabled,
-				    COL_PLUGIN_NAME, ep->name ? ep->name : ep->id,
-				    COL_PLUGIN_DATA, ep,
-				    COL_PLUGIN_CFG_WIDGET, cfg_widget,
-				    -1);
-
+		gtk_list_store_set (
+			store, &iter,
+			COL_PLUGIN_ENABLED, ep->enabled,
+			COL_PLUGIN_NAME, ep->name ? ep->name : ep->id,
+			COL_PLUGIN_DATA, ep,
+			COL_PLUGIN_CFG_WIDGET, cfg_widget, -1);
 	}
 
 	/* setup the treeview */
-	m->treeview = GTK_TREE_VIEW (gtk_tree_view_new ());
-	gtk_tree_view_set_reorderable (m->treeview, FALSE);
-	gtk_tree_view_set_model (m->treeview, GTK_TREE_MODEL (store));
-	gtk_tree_view_set_search_column (m->treeview, COL_PLUGIN_NAME);
-	gtk_tree_view_set_headers_visible (m->treeview, TRUE);
-
-	m->model = GTK_TREE_MODEL (store);
+	tree_view = GTK_TREE_VIEW (gtk_tree_view_new ());
+	gtk_tree_view_set_reorderable (tree_view, FALSE);
+	gtk_tree_view_set_model (tree_view, GTK_TREE_MODEL (store));
+	gtk_tree_view_set_search_column (tree_view, COL_PLUGIN_NAME);
+	gtk_tree_view_set_headers_visible (tree_view, TRUE);
 
 	renderer = gtk_cell_renderer_toggle_new ();
-	gtk_tree_view_insert_column_with_attributes (m->treeview,
-						     COL_PLUGIN_ENABLED, _("Enabled"),
-						     renderer, "active", COL_PLUGIN_ENABLED,
-						     NULL);
-	g_signal_connect (renderer, "toggled", G_CALLBACK (eppm_enable_toggled), m);
+	gtk_tree_view_insert_column_with_attributes (
+		tree_view, COL_PLUGIN_ENABLED, _("Enabled"),
+		renderer, "active", COL_PLUGIN_ENABLED, NULL);
+	g_signal_connect (
+		renderer, "toggled",
+		G_CALLBACK (eppm_enable_toggled), store),
 
 	renderer = gtk_cell_renderer_text_new ();
-	gtk_tree_view_insert_column_with_attributes (m->treeview,
-						     COL_PLUGIN_NAME, _("Plugin"),
-						     renderer, "text", COL_PLUGIN_NAME,
-						     NULL);
+	gtk_tree_view_insert_column_with_attributes (
+		tree_view, COL_PLUGIN_NAME, _("Plugin"),
+		renderer, "text", COL_PLUGIN_NAME, NULL);
 
 	/* set sort column */
-	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (m->model), COL_PLUGIN_NAME, GTK_SORT_ASCENDING);
+	gtk_tree_sortable_set_sort_column_id (
+		GTK_TREE_SORTABLE (store),
+		COL_PLUGIN_NAME, GTK_SORT_ASCENDING);
 
 	w = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (w), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (w), GTK_SHADOW_IN);
-	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (m->treeview));
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (w),
+		GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (w), GTK_SHADOW_IN);
+	gtk_container_add (GTK_CONTAINER (w), GTK_WIDGET (tree_view));
 
 	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (w), FALSE, TRUE, 0);
 
-	/* Show all widgets in hbox before we pack there notebook, because not all widgets in notebook
-	   are going to be visible at one moment. */
+	/* Show all widgets in hbox before we pack the notebook, because not
+	 * all widgets in notebook are going to be visible at one moment. */
 	gtk_widget_show_all (hbox);
 
 	gtk_box_pack_start (GTK_BOX (hbox), notebook, TRUE, TRUE, 0);
 
 	/* this is plugin's name label */
 	subvbox = gtk_vbox_new (FALSE, 6);
-	m->items[0] = g_object_new (gtk_label_get_type (),
-				    "wrap", TRUE,
-				    "selectable", FALSE,
-				    "xalign", 0.0,
-				    "yalign", 0.0, NULL);
-	gtk_box_pack_start (GTK_BOX (subvbox), GTK_WIDGET (m->items[0]), TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (overview_page), subvbox, FALSE, TRUE, 0);
+	m->items[0] = g_object_new (
+		GTK_TYPE_LABEL,
+		"wrap", TRUE,
+		"selectable", FALSE,
+		"xalign", 0.0,
+		"yalign", 0.0, NULL);
+	gtk_box_pack_start (
+		GTK_BOX (subvbox),
+		GTK_WIDGET (m->items[0]), TRUE, TRUE, 0);
+	gtk_box_pack_start (
+		GTK_BOX (overview_page), subvbox, FALSE, TRUE, 0);
 
 	/* this is every other data */
 	for (i = 1; i < LABEL_LAST; i++) {
@@ -389,62 +402,133 @@ action_plugin_manager_cb (GtkAction *action,
 
 		subvbox = gtk_vbox_new (FALSE, 6);
 
-		markup = g_strdup_printf ("<span weight=\"bold\">%s:</span>", _(label_info[i].label));
-		m->labels[i] = g_object_new (gtk_label_get_type (),
-					     "label", markup,
-					     "use_markup", TRUE,
-					     "xalign", 0.0,
-					     "yalign", 0.0, NULL);
-		gtk_box_pack_start (GTK_BOX (subvbox), GTK_WIDGET (m->labels[i]), FALSE, TRUE, 0);
+		markup = g_markup_printf_escaped (
+			"<span weight=\"bold\">%s:</span>",
+			_(label_info[i].label));
+		m->labels[i] = g_object_new (
+			GTK_TYPE_LABEL,
+			"label", markup,
+			"use_markup", TRUE,
+			"xalign", 0.0,
+			"yalign", 0.0, NULL);
+		gtk_box_pack_start (
+			GTK_BOX (subvbox),
+			GTK_WIDGET (m->labels[i]), FALSE, TRUE, 0);
 		g_free (markup);
 
-		m->items[i] = g_object_new (gtk_label_get_type (),
-					    "wrap", TRUE,
-					    "selectable", TRUE,
-					    "can-focus", FALSE,
-					    "xalign", 0.0,
-					    "yalign", 0.0, NULL);
-		gtk_box_pack_start (GTK_BOX (subvbox), GTK_WIDGET (m->items[i]), TRUE, TRUE, 0);
+		m->items[i] = g_object_new (
+			GTK_TYPE_LABEL,
+			"wrap", TRUE,
+			"selectable", TRUE,
+			"can-focus", FALSE,
+			"xalign", 0.0,
+			"yalign", 0.0, NULL);
+		gtk_box_pack_start (
+			GTK_BOX (subvbox),
+			GTK_WIDGET (m->items[i]), TRUE, TRUE, 0);
 
-		gtk_box_pack_start (GTK_BOX (overview_page), subvbox, FALSE, TRUE, 12);
+		gtk_box_pack_start (
+			GTK_BOX (overview_page), subvbox, FALSE, TRUE, 12);
 	}
 
 	gtk_widget_show_all (overview_page);
 
-	selection = gtk_tree_view_get_selection (m->treeview);
+	selection = gtk_tree_view_get_selection (tree_view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
-	g_signal_connect (selection, "changed", G_CALLBACK (eppm_selection_changed), m);
+	g_signal_connect (
+		selection, "changed",
+		G_CALLBACK (eppm_selection_changed), m);
 
-	atk_object_set_name (gtk_widget_get_accessible (GTK_WIDGET (m->treeview)), _("Plugin"));
+	atk_object_set_name (
+		gtk_widget_get_accessible (
+		GTK_WIDGET (tree_view)), _("Plugin"));
 
 	gtk_dialog_run (GTK_DIALOG (dialog));
 
 	gtk_widget_destroy (dialog);
-	eppm_free (m);
+
+	g_slist_foreach (plugins, (GFunc) g_object_unref, NULL);
+	g_slist_free (plugins);
+
+	g_object_unref (store);
+
+	g_free (m);
 }
 
-static GtkActionEntry entries[] = {
-
-	{ "plugin-manager",
-	  NULL,
-	  N_("_Plugins"),
-	  NULL,
-	  N_("Enable and disable plugins"),
-	  G_CALLBACK (action_plugin_manager_cb) }
-};
-
-gboolean
-e_plugin_ui_init (GtkUIManager *ui_manager,
-                  EShellWindow *shell_window)
+static void
+plugin_manager_constructed (GObject *object)
 {
+	EExtensible *extensible;
+	EPluginManager *extension;
+	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
+	GtkUIManager *ui_manager;
+	GtkAction *action;
+	const gchar *action_name;
+	const gchar *action_label;
+	const gchar *action_tooltip;
+	const gchar *widget_path;
+	guint merge_id;
 
+	extension = E_PLUGIN_MANAGER (object);
+	extensible = e_extension_get_extensible (E_EXTENSION (extension));
+
+	shell_window = E_SHELL_WINDOW (extensible);
 	action_group = E_SHELL_WINDOW_ACTION_GROUP_SHELL (shell_window);
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 
-	/* Add actions to the "shell" action group. */
-	gtk_action_group_add_actions (
-		action_group, entries,
-		G_N_ELEMENTS (entries), shell_window);
+	action_name = "plugin-manager";
+	action_label = _("_Plugins");
+	action_tooltip = _("Enable and disable plugins");
+	widget_path = "/main-menu/edit-menu/administrative-actions";
 
-	return TRUE;
+	action = gtk_action_new (
+		action_name, action_label, action_tooltip, NULL);
+
+	g_signal_connect (
+		action, "activate",
+		G_CALLBACK (action_plugin_manager_cb), extension);
+
+	gtk_action_group_add_action (action_group, action);
+
+	gtk_ui_manager_add_ui (
+		ui_manager, merge_id, widget_path, action_name,
+		action_name, GTK_UI_MANAGER_AUTO, FALSE);
+
+	g_object_unref (action);
+}
+
+static void
+e_plugin_manager_class_init (EPluginManagerClass *class)
+{
+	GObjectClass *object_class;
+	EExtensionClass *extension_class;
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->constructed = plugin_manager_constructed;
+
+	extension_class = E_EXTENSION_CLASS (class);
+	extension_class->extensible_type = E_TYPE_SHELL_WINDOW;
+}
+
+static void
+e_plugin_manager_class_finalize (EPluginManagerClass *class)
+{
+}
+
+static void
+e_plugin_manager_init (EPluginManager *extension)
+{
+}
+
+G_MODULE_EXPORT void
+e_module_load (GTypeModule *type_module)
+{
+	e_plugin_manager_register_type (type_module);
+}
+
+G_MODULE_EXPORT void
+e_module_unload (GTypeModule *type_module)
+{
 }

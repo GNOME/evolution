@@ -25,6 +25,7 @@ SUBDIRS = \
 	composer-autosave \
 	mailto-handler \
 	plugin-lib \
+	plugin-manager \
 	startup-wizard \
 	$(MONO_DIR) \
 	$(PYTHON_DIR) \
