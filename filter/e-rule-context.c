@@ -774,8 +774,8 @@ e_rule_context_add_rule_gui (ERuleContext *context,
 			       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 			       GTK_STOCK_OK, GTK_RESPONSE_OK,
 			       NULL);
-#if !GTK_CHECK_VERSION(2,21,8)
-	gtk_dialog_set_has_separator (dialog, FALSE);
+#if !GTK_CHECK_VERSION(2,90,7)
+	g_object_set (dialog, "has-separator", FALSE, NULL);
 #endif
 
 	gtk_window_set_title ((GtkWindow *) dialog, title);

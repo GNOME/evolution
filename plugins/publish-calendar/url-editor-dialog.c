@@ -378,8 +378,8 @@ url_editor_dialog_construct (UrlEditorDialog *dialog)
 	gtk_container_add (GTK_CONTAINER (content_area), toplevel);
 
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
-#if !GTK_CHECK_VERSION(2,21,8)
-	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+#if !GTK_CHECK_VERSION(2,90,7)
+	g_object_set (dialog, "has-separator", FALSE, NULL);
 #endif
 
 	dialog->cancel = gtk_dialog_add_button (GTK_DIALOG (dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);

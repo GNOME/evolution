@@ -379,8 +379,8 @@ do_properties (GtkMenuItem *item, gpointer user_data)
 
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
-#if !GTK_CHECK_VERSION(2,21,8)
-	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+#if !GTK_CHECK_VERSION(2,90,7)
+	g_object_set (dialog, "has-separator", FALSE, NULL);
 #endif
 	gtk_container_add (GTK_CONTAINER (content_area), vbox);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 10);

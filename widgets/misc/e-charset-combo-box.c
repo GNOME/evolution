@@ -103,8 +103,8 @@ charset_combo_box_run_dialog (ECharsetComboBox *combo_box)
 
 	dialog = GTK_DIALOG (widget);
 
-#if !GTK_CHECK_VERSION(2,21,8)
-	gtk_dialog_set_has_separator (dialog, FALSE);
+#if !GTK_CHECK_VERSION(2,90,7)
+	g_object_set (dialog, "has-separator", FALSE, NULL);
 #endif
 	gtk_dialog_set_default_response (dialog, GTK_RESPONSE_OK);
 

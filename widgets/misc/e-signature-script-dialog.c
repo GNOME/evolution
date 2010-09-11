@@ -243,8 +243,8 @@ e_signature_script_dialog_init (ESignatureScriptDialog *dialog)
 		GTK_DIALOG (dialog),
 		GTK_STOCK_SAVE, GTK_RESPONSE_OK);
 
-#if !GTK_CHECK_VERSION(2,21,8)
-	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
+#if !GTK_CHECK_VERSION(2,90,7)
+	g_object_set (dialog, "has-separator", FALSE, NULL);
 #endif
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
