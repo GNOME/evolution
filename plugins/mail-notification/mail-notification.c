@@ -261,11 +261,9 @@ enable_dbus (gint enable)
 /*                     Notification area part                           */
 /* -------------------------------------------------------------------  */
 
-#define GCONF_KEY_STATUS_BLINK		GCONF_KEY_ROOT "status-blink-icon"
 #define GCONF_KEY_STATUS_NOTIFICATION	GCONF_KEY_ROOT "status-notification"
 
 static GtkStatusIcon *status_icon = NULL;
-static guint blink_timeout_id = 0;
 static guint status_count = 0;
 
 #ifdef HAVE_LIBNOTIFY
@@ -284,11 +282,6 @@ remove_notification (void)
 
 	gtk_status_icon_set_visible (status_icon, FALSE);
 	g_object_unref (status_icon);
-
-	if (blink_timeout_id) {
-		g_source_remove (blink_timeout_id);
-		blink_timeout_id = 0;
-	}
 
 	status_icon = NULL;
 	status_count = 0;
@@ -340,17 +333,6 @@ notification_callback (gpointer notify)
 	return (!notify_notification_show (notify, NULL));
 }
 #endif
-
-static gboolean
-stop_blinking_cb (gpointer data)
-{
-	blink_timeout_id = 0;
-
-	if (status_icon)
-		gtk_status_icon_set_blinking (status_icon, FALSE);
-
-	return FALSE;
-}
 
 /* -------------------------------------------------------------------  */
 
@@ -453,11 +435,6 @@ notifyActionCallback (NotifyNotification *n, gchar *label, gpointer a)
 
 	gtk_status_icon_set_visible (status_icon, FALSE);
 	g_object_unref (status_icon);
-
-	if (blink_timeout_id) {
-		g_source_remove (blink_timeout_id);
-		blink_timeout_id = 0;
-	}
 
 	status_icon = NULL;
 	status_count = 0;
@@ -569,11 +546,6 @@ new_notify_status (EMEventTargetFolder *t)
 
 	gtk_status_icon_set_tooltip_text (status_icon, msg);
 
-	if (new_icon && is_part_enabled (GCONF_KEY_STATUS_BLINK)) {
-		gtk_status_icon_set_blinking (status_icon, TRUE);
-		blink_timeout_id = g_timeout_add_seconds (15, stop_blinking_cb, NULL);
-	}
-
 	gtk_status_icon_set_visible (status_icon, TRUE);
 
 #ifdef HAVE_LIBNOTIFY
@@ -679,15 +651,6 @@ get_config_widget_status (void)
 	gtk_widget_show (widget);
 
 	container = widget;
-
-	text = _("B_link icon in notification area");
-	widget = gtk_check_button_new_with_mnemonic (text);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	gconf_bridge_bind_property (
-		bridge, GCONF_KEY_STATUS_BLINK,
-		G_OBJECT (widget), "active");
 
 #ifdef HAVE_LIBNOTIFY
 	text = _("Popup _message together with the icon");

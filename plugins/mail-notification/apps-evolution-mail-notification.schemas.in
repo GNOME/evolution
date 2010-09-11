@@ -36,17 +36,6 @@
       </locale>
     </schema>
     <schema>
-      <key>/schemas/apps/evolution/eplugin/mail-notification/status-blink-icon</key>
-      <applyto>/apps/evolution/eplugin/mail-notification/status-blink-icon</applyto>
-      <owner>evolution-mail</owner>
-      <type>bool</type>
-      <default>true</default>
-      <locale name="C">
-        <short>Blink icon in notification area.</short>
-        <long>Whether the icon should blink or not.</long>
-      </locale>
-    </schema>
-    <schema>
       <key>/schemas/apps/evolution/eplugin/mail-notification/status-notification</key>
       <applyto>/apps/evolution/eplugin/mail-notification/status-notification</applyto>
       <owner>evolution-mail</owner>
