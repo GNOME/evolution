@@ -427,6 +427,7 @@ gnome_calendar_constructed (GObject *object)
 	calendar_view = e_day_view_new (model);
 	e_calendar_view_set_calendar (calendar_view, gcal);
 	gcal->priv->views[GNOME_CAL_DAY_VIEW] = calendar_view;
+	g_object_ref_sink (calendar_view);
 
 	g_signal_connect_swapped (
 		calendar_view, "selection-changed",
@@ -438,6 +439,7 @@ gnome_calendar_constructed (GObject *object)
 	e_day_view_set_days_shown (E_DAY_VIEW (calendar_view), 5);
 	e_calendar_view_set_calendar (calendar_view, gcal);
 	gcal->priv->views[GNOME_CAL_WORK_WEEK_VIEW] = calendar_view;
+	g_object_ref_sink (calendar_view);
 
 	g_signal_connect_swapped (
 		calendar_view, "notify::working-days",
@@ -447,6 +449,7 @@ gnome_calendar_constructed (GObject *object)
 	calendar_view = e_week_view_new (model);
 	e_calendar_view_set_calendar (calendar_view, gcal);
 	gcal->priv->views[GNOME_CAL_WEEK_VIEW] = calendar_view;
+	g_object_ref_sink (calendar_view);
 
 	g_signal_connect_swapped (
 		calendar_view, "selection-changed",
@@ -464,6 +467,7 @@ gnome_calendar_constructed (GObject *object)
 	e_week_view_set_weeks_shown (E_WEEK_VIEW (calendar_view), 6);
 	e_calendar_view_set_calendar (calendar_view, gcal);
 	gcal->priv->views[GNOME_CAL_MONTH_VIEW] = calendar_view;
+	g_object_ref_sink (calendar_view);
 
 	g_signal_connect_swapped (
 		calendar_view, "selection-changed",
@@ -479,6 +483,7 @@ gnome_calendar_constructed (GObject *object)
 	calendar_view = e_cal_list_view_new (model);
 	e_calendar_view_set_calendar (calendar_view, gcal);
 	gcal->priv->views[GNOME_CAL_LIST_VIEW] = calendar_view;
+	g_object_ref_sink (calendar_view);
 
 	g_signal_connect_swapped (
 		calendar_view, "selection-changed",
