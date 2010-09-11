@@ -18,12 +18,12 @@
 # Fran Diéguez <frandieguez@ubuntu.com>, 2009, 2010.
 # Fran Dieguez <frandieguez@ubuntu.com>, 2010.
 #
-#: ../shell/main.c:534
+#: ../shell/main.c:533
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-11 14:35+0200\n"
+"POT-Creation-Date: 2010-09-11 15:46+0200\n"
 "PO-Revision-Date: 2010-09-11 14:42+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@ubuntu.com>\n"
 "Language-Team: Galician <gnome-gl-list@gnome.org>\n"
@@ -5790,7 +5790,7 @@ msgstr "Visualización de calendario para un mes"
 msgid "calendar view for one or more weeks"
 msgstr "vista de calendario para unha ou máis semanas"
 
-#: ../calendar/gui/gnome-cal.c:2306
+#: ../calendar/gui/gnome-cal.c:2311
 msgid "Purging"
 msgstr "Limpando"
 
@@ -8786,7 +8786,7 @@ msgstr "Visual"
 #: ../e-util/e-datetime-format.c:196
 #: ../modules/calendar/e-cal-shell-view-actions.c:1790
 #: ../plugins/itip-formatter/itip-view.c:191
-#: ../widgets/table/e-cell-date-edit.c:311
+#: ../widgets/table/e-cell-date-edit.c:308
 msgid "Today"
 msgstr "Hoxe"
 
@@ -19715,7 +19715,7 @@ msgstr "A barra lateral é visíbel"
 msgid "Skip development warning dialog"
 msgstr "Saltar o diálogo de aviso de desenvolvemento"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:332
+#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:331
 msgid "Start in offline mode"
 msgstr "Iniciar en modo sen conexión"
 
@@ -20230,7 +20230,7 @@ msgid "Preparing to quit..."
 msgstr "Preparándose para saír..."
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:181
+#: ../shell/main.c:180
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -20267,7 +20267,7 @@ msgstr ""
 "Esperamos que lles sexa de proveito o resultado do noso duro traballo, e\n"
 "agardamos ansiosamente as súas colaboracións!\n"
 
-#: ../shell/main.c:205
+#: ../shell/main.c:204
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -20275,57 +20275,57 @@ msgstr ""
 "Grazas\n"
 "O equipo do Evolution\n"
 
-#: ../shell/main.c:212
+#: ../shell/main.c:211
 msgid "Do not tell me again"
 msgstr "Non preguntarme de novo"
 
-#: ../shell/main.c:328
+#: ../shell/main.c:327
 msgid "Start Evolution activating the specified component"
 msgstr "Iniciar o Evolution activando o compoñente especificado"
 
-#: ../shell/main.c:330
+#: ../shell/main.c:329
 msgid "Apply the given geometry to the main window"
 msgstr "Aplicar a xeometría fornecida á xanela principal"
 
-#: ../shell/main.c:334
+#: ../shell/main.c:333
 msgid "Start in online mode"
 msgstr "Iniciar en modo con conexión"
 
-#: ../shell/main.c:336
+#: ../shell/main.c:335
 msgid "Start in \"express\" mode"
 msgstr "Iniciar en modo \"express\""
 
-#: ../shell/main.c:339
+#: ../shell/main.c:338
 msgid "Forcibly shut down Evolution"
 msgstr "Forzar o peche de todos os compoñentes do Evolution"
 
-#: ../shell/main.c:342
+#: ../shell/main.c:341
 msgid "Send the debugging output of all components to a file."
 msgstr "Enviar a saída da depuración de todos os compoñentes a un ficheiro."
 
-#: ../shell/main.c:344
+#: ../shell/main.c:343
 msgid "Disable loading of any plugins."
 msgstr "Desactivar a carga de calquera engadido."
 
-#: ../shell/main.c:346
+#: ../shell/main.c:345
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Desactivar o panel de previsualización de correo, contactos e tarefas."
 
-#: ../shell/main.c:350
+#: ../shell/main.c:349
 msgid "Import URIs or file names given as rest of arguments."
 msgstr ""
 "Imporatar os URIs ou nomes de ficheiros fornecidos como o resto dos "
 "argumentos."
 
-#: ../shell/main.c:352
+#: ../shell/main.c:351
 msgid "Request a running Evolution process to quit"
 msgstr "Reiniciando o Evolution"
 
-#: ../shell/main.c:476 ../shell/main.c:484
+#: ../shell/main.c:475 ../shell/main.c:483
 msgid "- The Evolution PIM and Email Client"
 msgstr "- O cliente de correo e PIM do Evolution"
 
-#: ../shell/main.c:546
+#: ../shell/main.c:545
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -21779,21 +21779,21 @@ msgstr "elemento de calendario do Evolution"
 msgid "popup list"
 msgstr "lista emerxente"
 
-#: ../widgets/table/e-cell-date-edit.c:303
+#: ../widgets/table/e-cell-date-edit.c:300
 msgid "Now"
 msgstr "Agora"
 
 #. Translators: "None" as a label of a button to unset date in a date table cell
-#: ../widgets/table/e-cell-date-edit.c:320
+#: ../widgets/table/e-cell-date-edit.c:317
 msgctxt "table-date"
 msgid "None"
 msgstr "Ningún"
 
-#: ../widgets/table/e-cell-date-edit.c:328
+#: ../widgets/table/e-cell-date-edit.c:325
 msgid "OK"
 msgstr "Aceptar"
 
-#: ../widgets/table/e-cell-date-edit.c:872
+#: ../widgets/table/e-cell-date-edit.c:869
 #, c-format
 msgid "The time must be in the format: %s"
 msgstr "A data ten que ser introducida no formato: %s"
