@@ -19,6 +19,7 @@ libevolution_module_composer_autosave_la_LIBADD =		\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/composer/libcomposer.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
+	$(top_builddir)/e-util/libeutil.la			\
 	$(EVOLUTION_MAIL_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)
 
