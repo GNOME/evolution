@@ -542,7 +542,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	/* Signatures */
 	signature_list = e_get_signature_list ();
-	container = e_builder_get_widget (prefs->builder, "alignSignatures");
+	container = e_builder_get_widget (prefs->builder, "signature-alignment");
 	widget = e_signature_manager_new (signature_list);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
@@ -568,7 +568,8 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	signature_tree_view = e_signature_manager_get_tree_view (
 		E_SIGNATURE_MANAGER (widget));
 
-	container = e_builder_get_widget (prefs->builder, "scrolled-sig");
+	container = e_builder_get_widget (
+		prefs->builder, "signature-preview-scrolled-window");
 	widget = e_signature_preview_new ();
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);

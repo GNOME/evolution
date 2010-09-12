@@ -634,20 +634,19 @@ emmp_widget_glade (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 static EMConfigItem emmp_items[] = {
 	{ E_CONFIG_BOOK, (gchar *) "", (gchar *) "preferences_toplevel", emmp_widget_glade },
 	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) "vboxMailGeneral", emmp_widget_glade },
-	{ E_CONFIG_SECTION, (gchar *) "00.general/00.fonts", (gchar *) "vboxMessageFonts", emmp_widget_glade },
-	{ E_CONFIG_SECTION, (gchar *) "00.general/10.display", (gchar *) "vboxMessageDisplay", emmp_widget_glade },
-	{ E_CONFIG_SECTION, (gchar *) "00.general/20.delete", (gchar *) "vboxDeletingMail", emmp_widget_glade },
-	{ E_CONFIG_SECTION, (gchar *) "00.general/30.newmail", (gchar *) "vboxNewMailNotify", emmp_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.general/00.fonts", (gchar *) "message-fonts-table", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/10.display", (gchar *) "message-display-vbox", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/20.delete", (gchar *) "delete-mail-vbox", emmp_widget_glade },
 	{ E_CONFIG_PAGE, (gchar *) "10.html", (gchar *) "vboxHtmlMail", emmp_widget_glade },
-	{ E_CONFIG_SECTION, (gchar *) "10.html/00.general", (gchar *) "vbox173", emmp_widget_glade },
-	{ E_CONFIG_SECTION, (gchar *) "10.html/10.images", (gchar *) "vbox190", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "10.html/00.general", (gchar *) "mail-general-vbox", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "10.html/10.images", (gchar *) "loading-images-vbox", emmp_widget_glade },
 	{ E_CONFIG_PAGE, (gchar *) "20.labels", (gchar *) "frameColours", emmp_widget_glade },
 	/* this is a table, so we can't use it { E_CONFIG_SECTION, "20.labels/00.labels", "tableColours", emmp_widget_glade }, */
 	{ E_CONFIG_PAGE, (gchar *) "30.headers", (gchar *) "vboxHeaderTab", emmp_widget_glade },
 	/* no subvbox for section { E_CONFIG_PAGE, "30.headers/00.headers", "vbox199", emmp_widget_glade }, */
-	{ E_CONFIG_PAGE, (gchar *) "40.junk", (gchar *) "vbox161", emmp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "40.junk", (gchar *) "vboxJunk", emmp_widget_glade },
 	/* no subvbox for section { E_CONFIG_SECTION, "40.junk/00.general", xxx, emmp_widget_glade } */
-	{ E_CONFIG_SECTION, (gchar *) "40.junk/10.options", (gchar *) "vbox204", emmp_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "40.junk/10.options", (gchar *) "junk-general-table", emmp_widget_glade },
 };
 
 static void
@@ -1053,7 +1052,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	g_slist_free (header_add_list);
 
 	/* date/time format */
-	table = e_builder_get_widget (prefs->builder, "datetime_format_table");
+	table = e_builder_get_widget (prefs->builder, "datetime-format-table");
 	/* To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list */
 	e_datetime_format_add_setup_widget (table, 0, "mail", "table",  DTFormatKindDateTime, _("_Table column:"));
 	/* To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview */

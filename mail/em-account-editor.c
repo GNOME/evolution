@@ -2222,8 +2222,8 @@ emae_identity_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Identity")));
 	}
 
-	emae_queue_widgets (emae, builder, "account_vbox", "identity_required_table",
-			    "identity_optional_table", "identity_optional_frame",
+	emae_queue_widgets (emae, builder, "account_vbox", "identity-required-table",
+			    "identity-optional-table", "identity_optional_frame",
 			    "identity_address", NULL);
 
 	g_object_unref (builder);
@@ -2261,7 +2261,7 @@ emae_receive_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Receiving Email")));
 	}
 
-	emae_queue_widgets (emae, builder, "source_type_table", "table4", "vbox181", "vbox179", NULL);
+	emae_queue_widgets (emae, builder, "source-type-table", "table4", "vbox181", "vbox179", NULL);
 
 	g_object_unref (builder);
 
@@ -2743,7 +2743,7 @@ emae_send_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *ol
 		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Sending Email")));
 	}
 
-	emae_queue_widgets (emae, builder, "transport_type_table", "vbox12", "vbox183", "vbox61", NULL);
+	emae_queue_widgets (emae, builder, "transport-type-table", "vbox12", "vbox183", "vbox61", NULL);
 
 	g_object_unref (builder);
 
@@ -3143,14 +3143,14 @@ static EMConfigItem emae_editor_items[] = {
 	{ E_CONFIG_BOOK, (gchar *) "" },
 	{ E_CONFIG_PAGE, (gchar *) "00.identity", (gchar *) "vboxIdentityBorder", emae_identity_page },
 	{ E_CONFIG_SECTION, (gchar *) "00.identity/00.name", (gchar *) "account_vbox", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.identity/10.required", (gchar *) "identity_required_table", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.identity/20.info", (gchar *) "identity_optional_table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.identity/10.required", (gchar *) "identity-required-table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.identity/20.info", (gchar *) "identity-optional-table", emae_widget_glade },
 
 	{ E_CONFIG_PAGE, (gchar *) "10.receive", (gchar *) "vboxSourceBorder", emae_receive_page },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/00.type", (gchar *) "source_type_table", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/10.config", (gchar *) "table4", emae_widget_glade },
-	{ E_CONFIG_SECTION, (gchar *) "10.receive/20.security", (gchar *) "vbox181", emae_widget_glade },
-	{ E_CONFIG_SECTION, (gchar *) "10.receive/30.auth", (gchar *) "vbox179", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/00.type", (gchar *) "source-type-table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/10.config", (gchar *) "source-config-table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/20.security", (gchar *) "source-security-table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/30.auth", (gchar *) "source-auth-table", emae_widget_glade },
 
 	/* Most sections for this is auto-generated from the camel config */
 	{ E_CONFIG_PAGE, (gchar *) "20.receive_options", (gchar *) N_("Receiving Options"), },
@@ -3158,14 +3158,14 @@ static EMConfigItem emae_editor_items[] = {
 	{ E_CONFIG_ITEM_TABLE, (gchar *) "20.receive_options/10.mailcheck/00.autocheck", NULL, emae_receive_options_item, },
 
 	{ E_CONFIG_PAGE, (gchar *) "30.send", (gchar *) "vboxTransportBorder", emae_send_page },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "30.send/00.type", (gchar *) "transport_type_table", emae_widget_glade },
-	{ E_CONFIG_SECTION, (gchar *) "30.send/10.config", (gchar *) "vbox12", emae_widget_glade },
-	{ E_CONFIG_SECTION, (gchar *) "30.send/20.security", (gchar *) "vbox183", emae_widget_glade },
-	{ E_CONFIG_SECTION, (gchar *) "30.send/30.auth", (gchar *) "vbox61", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "30.send/00.type", (gchar *) "transport-type-table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "30.send/10.config", (gchar *) "transport-server-table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "30.send/20.security", (gchar *) "transport-security-table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "30.send/30.auth", (gchar *) "transport-auth-table", emae_widget_glade },
 
 	{ E_CONFIG_PAGE, (gchar *) "40.defaults", (gchar *) "vboxFoldersBorder", emae_defaults_page },
-	{ E_CONFIG_SECTION, (gchar *) "40.defaults/00.folders", (gchar *) "vbox184", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "40.defaults/10.composing", (gchar *) "table8", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "40.defaults/00.folders", (gchar *) "special-folders-table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "40.defaults/10.composing", (gchar *) "composing-messages-table", emae_widget_glade },
 
 	{ E_CONFIG_PAGE, (gchar *) "50.security", (gchar *) "vboxSecurityBorder", emae_security_page },
 	/* 1x1 table (!) not vbox: { E_CONFIG_SECTION, "50.security/00.gpg", "table19", emae_widget_glade }, */
@@ -3211,14 +3211,14 @@ static EMConfigItem emae_assistant_items[] = {
 
 	{ E_CONFIG_PAGE, (gchar *) "00.identity", (gchar *) "vboxIdentityBorder", emae_identity_page },
 	{ E_CONFIG_SECTION, (gchar *) "00.identity/00.name", (gchar *) "account_vbox", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.identity/10.required", (gchar *) "identity_required_table", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.identity/20.info", (gchar *) "identity_optional_table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.identity/10.required", (gchar *) "identity-required-table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.identity/20.info", (gchar *) "identity-optional-table", emae_widget_glade },
 
 	{ E_CONFIG_PAGE, (gchar *) "10.receive", (gchar *) "vboxSourceBorder", emae_receive_page },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/00.type", (gchar *) "source_type_table", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/10.config", (gchar *) "table4", emae_widget_glade },
-	{ E_CONFIG_SECTION, (gchar *) "10.receive/20.security", (gchar *) "vbox181", emae_widget_glade },
-	{ E_CONFIG_SECTION, (gchar *) "10.receive/30.auth", (gchar *) "vbox179", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/00.type", (gchar *) "source-type-table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/10.config", (gchar *) "source-config-table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/20.security", (gchar *) "source-security-table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/30.auth", (gchar *) "source-auth-table", emae_widget_glade },
 
 	/* Most sections for this is auto-generated fromt the camel config */
 	{ E_CONFIG_PAGE, (gchar *) "20.receive_options", (gchar *) N_("Receiving Options"), },
@@ -3226,14 +3226,14 @@ static EMConfigItem emae_assistant_items[] = {
 	{ E_CONFIG_ITEM_TABLE, (gchar *) "20.receive_options/10.mailcheck/00.autocheck", NULL, emae_receive_options_item, },
 
 	{ E_CONFIG_PAGE, (gchar *) "30.send", (gchar *) "vboxTransportBorder", emae_send_page },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "30.send/00.type", (gchar *) "transport_type_table", emae_widget_glade },
-	{ E_CONFIG_SECTION, (gchar *) "30.send/10.config", (gchar *) "vbox12", emae_widget_glade },
-	{ E_CONFIG_SECTION, (gchar *) "30.send/20.security", (gchar *) "vbox183", emae_widget_glade },
-	{ E_CONFIG_SECTION, (gchar *) "30.send/30.auth", (gchar *) "vbox61", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "30.send/00.type", (gchar *) "transport-type-table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "30.send/10.config", (gchar *) "transport-server-table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "30.send/20.security", (gchar *) "transport-security-table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "30.send/30.auth", (gchar *) "transport-auth-table", emae_widget_glade },
 
 	{ E_CONFIG_PAGE, (gchar *) "40.defaults", (gchar *) "vboxFoldersBorder", emae_defaults_page },
-	{ E_CONFIG_SECTION, (gchar *) "40.defaults/00.folders", (gchar *) "vbox184", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "40.defaults/10.composing", (gchar *) "table8", emae_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "40.defaults/00.folders", (gchar *) "special-folders-table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "40.defaults/10.composing", (gchar *) "composing-messages-table", emae_widget_glade },
 
 	{ E_CONFIG_PAGE, (gchar *) "40.management", (gchar *) "management_frame", emae_management_page },
 
