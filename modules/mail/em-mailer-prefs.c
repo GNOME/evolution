@@ -131,34 +131,6 @@ em_mailer_prefs_init (EMMailerPrefs *preferences)
 	preferences->gconf = mail_config_get_gconf_client ();
 }
 
-static gboolean
-mark_seen_timeout_transform (const GValue *src_value,
-                             GValue *dst_value,
-                             gpointer user_data)
-{
-	gdouble v_double;
-
-	/* Shell Settings (gint) -> Spin Button (double) */
-	v_double = (gdouble) g_value_get_int (src_value);
-	g_value_set_double (dst_value, v_double / 1000.0);
-
-	return TRUE;
-}
-
-static gboolean
-mark_seen_timeout_reverse_transform (const GValue *src_value,
-                                     GValue *dst_value,
-                                     gpointer user_data)
-{
-	gdouble v_double;
-
-	/* Spin Button (double) -> Shell Settings (gint) */
-	v_double = g_value_get_double (src_value);
-	g_value_set_int (dst_value, v_double * 1000);
-
-	return TRUE;
-}
-
 enum {
 	JH_LIST_COLUMN_NAME,
 	JH_LIST_COLUMN_VALUE
@@ -847,56 +819,6 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	/* General tab */
 
 	/* Message Display */
-	widget = e_builder_get_widget (prefs->builder, "chkMarkTimeout");
-	e_mutual_binding_new (
-		shell_settings, "mail-mark-seen",
-		widget, "active");
-
-	/* The "mark seen" timeout requires special transform functions
-	 * because we display the timeout value to the user in seconds
-	 * but store the settings value in milliseconds. */
-	widget = e_builder_get_widget (prefs->builder, "spinMarkTimeout");
-	prefs->timeout = GTK_SPIN_BUTTON (widget);
-	e_mutual_binding_new (
-		shell_settings, "mail-mark-seen",
-		widget, "sensitive");
-	e_mutual_binding_new_full (
-		shell_settings, "mail-mark-seen-timeout",
-		widget, "value",
-		mark_seen_timeout_transform,
-		mark_seen_timeout_reverse_transform,
-		NULL, NULL);
-
-	widget = e_builder_get_widget (prefs->builder, "mlimit_checkbutton");
-	e_mutual_binding_new (
-		shell_settings, "mail-force-message-limit",
-		widget, "active");
-
-	widget = e_builder_get_widget (prefs->builder, "mlimit_spin");
-	e_mutual_binding_new (
-		shell_settings, "mail-force-message-limit",
-		widget, "sensitive");
-	e_mutual_binding_new (
-		shell_settings, "mail-message-text-part-limit",
-		widget, "value");
-
-	widget = e_builder_get_widget (prefs->builder, "address_checkbox");
-	e_mutual_binding_new (
-		shell_settings, "mail-address-compress",
-		widget, "active");
-
-	widget = e_builder_get_widget (prefs->builder, "address_spin");
-	e_mutual_binding_new (
-		shell_settings, "mail-address-compress",
-		widget, "sensitive");
-	e_mutual_binding_new (
-		shell_settings, "mail-address-count",
-		widget, "value");
-
-	widget = e_builder_get_widget (prefs->builder, "magic_spacebar_checkbox");
-	e_mutual_binding_new (
-		shell_settings, "mail-magic-spacebar",
-		widget, "active");
 
 	widget = e_builder_get_widget (prefs->builder, "view-check");
 	e_mutual_binding_new (
@@ -926,11 +848,6 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		e_binding_transform_string_to_color,
 		e_binding_transform_color_to_string,
 		NULL, NULL);
-
-	widget = e_builder_get_widget (prefs->builder, "chkEnableSearchFolders");
-	e_mutual_binding_new (
-		shell_settings, "mail-enable-search-folders",
-		widget, "active");
 
 	/* Deleting Mail */
 	widget = e_builder_get_widget (prefs->builder, "chkEmptyTrashOnExit");
@@ -1195,15 +1112,6 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	jh_tree_refill (prefs);
 	g_signal_connect (G_OBJECT (prefs->junk_header_add), "clicked", G_CALLBACK (jh_add_cb), prefs);
 	g_signal_connect (G_OBJECT (prefs->junk_header_remove), "clicked", G_CALLBACK (jh_remove_cb), prefs);
-
-	/* Sanitize the dialog for Express mode */
-	e_shell_hide_widgets_for_express_mode (shell, prefs->builder,
-					       "hboxReadTimeout",
-					       "hboxMailSizeLimit",
-					       "hboxShrinkAddresses",
-					       "magic_spacebar_checkbox",
-					       "hboxEnableSearchFolders",
-					       NULL);
 
 	/* get our toplevel widget */
 	target = em_config_target_new_prefs (ec, prefs->gconf);
