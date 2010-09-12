@@ -466,9 +466,7 @@ alert_user(CamelSession *session, CamelSessionAlertType type, const gchar *promp
 		e_flag_wait (m->done);
 		result = m->result;
 		mail_msg_unref (m);
-	}
-
-	if (m->ismain)
+	} else if (m->ismain)
 		mail_msg_unref (m);
 
 	return result;
