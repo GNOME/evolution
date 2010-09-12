@@ -1000,11 +1000,15 @@ certificate_manager_config_init (EShell *shell)
 	CertificateManagerData *cfm_data;
 	GtkWidget *preferences_window;
 	GtkWidget *widget;
+	PK11SlotInfo* slot;
+	ECertDB *cert_db;
 
 	g_return_if_fail (E_IS_SHELL (shell));
 
 	/* We need to peek the db here to make sure it (and NSS) are fully initialized. */
-	e_cert_db_peek ();
+	cert_db = e_cert_db_peek();
+	slot = PK11_GetInternalKeySlot();
+	e_cert_db_login_to_slot(cert_db, slot);
 
 	cfm_data = g_new0 (CertificateManagerData, 1);
 
