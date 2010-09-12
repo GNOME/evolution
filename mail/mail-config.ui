@@ -1,10 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
+  <!-- interface-requires evolution 0.0 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="adjustment1">
-    <property name="upper">10</property>
     <property name="value">1.5</property>
+    <property name="upper">10</property>
     <property name="step_increment">1</property>
     <property name="page_increment">1</property>
   </object>
@@ -14,9 +15,9 @@
     <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment3">
+    <property name="value">5</property>
     <property name="lower">1</property>
     <property name="upper">100</property>
-    <property name="value">5</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
@@ -280,8 +281,8 @@ For example: "Work" or "Personal"</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <accessibility>
-                          <relation type="labelled-by" target="label464"/>
                           <relation type="labelled-by" target="identity_address_label"/>
+                          <relation type="labelled-by" target="label464"/>
                         </accessibility>
                       </object>
                       <packing>
@@ -325,8 +326,8 @@ For example: "Work" or "Personal"</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <accessibility>
-                          <relation type="labelled-by" target="identity_full_name_label"/>
                           <relation type="labelled-by" target="label464"/>
+                          <relation type="labelled-by" target="identity_full_name_label"/>
                         </accessibility>
                       </object>
                       <packing>
@@ -430,7 +431,7 @@ For example: "Work" or "Personal"</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
-                        <signal name="clicked" handler="sigAddNewClicked" swapped="no"/>
+                        <signal name="clicked" handler="sigAddNewClicked"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -454,8 +455,8 @@ For example: "Work" or "Personal"</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <accessibility>
-                      <relation type="labelled-by" target="label466"/>
                       <relation type="labelled-by" target="identity_organization_label"/>
+                      <relation type="labelled-by" target="label466"/>
                     </accessibility>
                   </object>
                   <packing>
@@ -486,8 +487,8 @@ For example: "Work" or "Personal"</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <accessibility>
-                      <relation type="labelled-by" target="reply_to_label"/>
                       <relation type="labelled-by" target="label466"/>
+                      <relation type="labelled-by" target="reply_to_label"/>
                     </accessibility>
                   </object>
                   <packing>
@@ -1637,8 +1638,10 @@ For example: "Work" or "Personal"</property>
                         </child>
                         <child>
                           <object class="EMFolderSelectionButton" id="sent_button">
-                            <property name="title" translatable="yes">Select Sent Folder</property>
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="receives_default">False</property>
+                            <property name="title">Select Sent Folder</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -1651,8 +1654,10 @@ For example: "Work" or "Personal"</property>
                         </child>
                         <child>
                           <object class="EMFolderSelectionButton" id="drafts_button">
-                            <property name="title" translatable="yes">Select Drafts Folder</property>
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="receives_default">False</property>
+                            <property name="title">Select Drafts Folder</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
@@ -1716,81 +1721,70 @@ For example: "Work" or "Personal"</property>
                             <property name="bottom_attach">5</property>
                           </packing>
                         </child>
-
                         <child>
                           <object class="GtkCheckButton" id="trash_folder_check">
+                            <property name="label" translatable="yes">_Trash Folder:</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">_Trash Folder:</property>
+                            <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
-                            <property name="relief">GTK_RELIEF_NORMAL</property>
-                            <property name="focus_on_click">True</property>
-                            <property name="active">False</property>
-                            <property name="inconsistent">False</property>
                             <property name="draw_indicator">True</property>
                           </object>
                           <packing>
-                            <property name="left_attach">0</property>
-                            <property name="right_attach">1</property>
                             <property name="top_attach">2</property>
                             <property name="bottom_attach">3</property>
-                            <property name="x_options">fill</property>
+                            <property name="x_options">GTK_FILL</property>
                             <property name="y_options"></property>
                           </packing>
                         </child>
-
                         <child>
                           <object class="EMFolderSelectionButton" id="trash_folder_butt">
-                            <property name="title" translatable="yes">Select Trash Folder</property>
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="receives_default">False</property>
+                            <property name="title">Select Trash Folder</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
                             <property name="top_attach">2</property>
                             <property name="bottom_attach">3</property>
-                            <property name="x_options">fill</property>
-                            <property name="y_options">fill</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options">GTK_FILL</property>
                           </packing>
                         </child>
-
                         <child>
                           <object class="GtkCheckButton" id="junk_folder_check">
+                            <property name="label" translatable="yes">_Junk Folder:</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">_Junk Folder:</property>
+                            <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
-                            <property name="relief">GTK_RELIEF_NORMAL</property>
-                            <property name="focus_on_click">True</property>
-                            <property name="active">False</property>
-                            <property name="inconsistent">False</property>
                             <property name="draw_indicator">True</property>
                           </object>
                           <packing>
-                            <property name="left_attach">0</property>
-                            <property name="right_attach">1</property>
                             <property name="top_attach">3</property>
                             <property name="bottom_attach">4</property>
-                            <property name="x_options">fill</property>
+                            <property name="x_options">GTK_FILL</property>
                             <property name="y_options"></property>
                           </packing>
                         </child>
-
                         <child>
                           <object class="EMFolderSelectionButton" id="junk_folder_butt">
-                            <property name="title" translatable="yes">Select Junk Folder</property>
                             <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="receives_default">False</property>
+                            <property name="title">Select Junk Folder</property>
                           </object>
                           <packing>
                             <property name="left_attach">1</property>
                             <property name="right_attach">2</property>
                             <property name="top_attach">3</property>
                             <property name="bottom_attach">4</property>
-                            <property name="x_options">fill</property>
-                            <property name="y_options">fill</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options">GTK_FILL</property>
                           </packing>
                         </child>
-
                         <child>
                           <object class="GtkFixed" id="trash_folder_fixed">
                             <property name="visible">True</property>
@@ -1800,11 +1794,10 @@ For example: "Work" or "Personal"</property>
                             <property name="right_attach">3</property>
                             <property name="top_attach">2</property>
                             <property name="bottom_attach">3</property>
-                            <property name="x_options">fill</property>
-                            <property name="y_options">fill</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options">GTK_FILL</property>
                           </packing>
                         </child>
-
                         <child>
                           <object class="GtkFixed" id="junk_folder_fixed">
                             <property name="visible">True</property>
@@ -1814,15 +1807,9 @@ For example: "Work" or "Personal"</property>
                             <property name="right_attach">3</property>
                             <property name="top_attach">3</property>
                             <property name="bottom_attach">4</property>
-                            <property name="x_options">fill</property>
-                            <property name="y_options">fill</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options">GTK_FILL</property>
                           </packing>
-                        </child>
-                        <child>
-                          <placeholder/>
-                        </child>
-                        <child>
-                          <placeholder/>
                         </child>
                         <child>
                           <placeholder/>
@@ -2938,7 +2925,7 @@ For example: "Work" or "Personal"</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="title" translatable="yes">Select HTML fixed width font</property>
-                                <signal name="font-set" handler="changed" swapped="no"/>
+                                <signal name="font_set" handler="changed"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -2955,7 +2942,7 @@ For example: "Work" or "Personal"</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
                                 <property name="title" translatable="yes">Select HTML variable width font</property>
-                                <signal name="font-set" handler="changed" swapped="no"/>
+                                <signal name="font_set" handler="changed"/>
                               </object>
                               <packing>
                                 <property name="left_attach">1</property>
@@ -3127,7 +3114,6 @@ For example: "Work" or "Personal"</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
                             <property name="use_underline">True</property>
                             <property name="draw_indicator">True</property>
                           </object>
@@ -5178,7 +5164,7 @@ For example: "Work" or "Personal"</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="title" translatable="yes">Select HTML fixed width font for printing</property>
-                        <signal name="font-set" handler="changed" swapped="no"/>
+                        <signal name="font_set" handler="changed"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -5195,7 +5181,7 @@ For example: "Work" or "Personal"</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">False</property>
                         <property name="title" translatable="yes">Select HTML variable width font for printing</property>
-                        <signal name="font-set" handler="changed" swapped="no"/>
+                        <signal name="font_set" handler="changed"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -5226,7 +5212,6 @@ For example: "Work" or "Personal"</property>
   </object>
   <object class="GtkDialog" id="add_script_signature">
     <property name="type_hint">normal</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
