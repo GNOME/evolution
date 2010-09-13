@@ -135,4 +135,7 @@ gboolean             e_cert_db_export_pkcs12_file (ECertDB *cert_db,
 gboolean             e_cert_db_login_to_slot      (ECertDB *cert_db,
 						   PK11SlotInfo *slot);
 
+gboolean	     e_cert_db_change_cert_trust  (CERTCertificate *cert,
+						   CERTCertTrust *trust);
+
 #endif /* _E_CERT_DB_H_ */
