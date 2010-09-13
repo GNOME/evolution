@@ -36,6 +36,7 @@
 #include <mail/mail-mt.h>
 #include <mail/mail-config.h>
 #include <mail/mail-vfolder.h>
+#include <mail/em-utils.h>
 #include <mail/em-vfolder-rule.h>
 #include <filter/e-filter-rule.h>
 #include <e-gw-container.h>
@@ -329,16 +330,14 @@ new_folder_response (EMFolderSelector *emfs, gint response, EMFolderTreeModel *m
 void
 gw_new_shared_folder_cb (GtkAction *action, EShellView *shell_view)
 {
-	EShellSidebar *shell_sidebar;
-	EMFolderTree *folder_tree = NULL;
+	EMFolderTree *folder_tree;
 	GtkWidget *dialog;
 	gchar *uri;
 	gpointer parent;
 
 	parent = e_shell_view_get_shell_window (shell_view);
-
-	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
-	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
+	folder_tree = (EMFolderTree *) em_folder_tree_new ();
+	emu_restore_folder_tree_state (folder_tree);
 
 	dialog = em_folder_selector_create_new (parent, folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));
 	uri = em_folder_tree_get_selected_uri (folder_tree);
@@ -349,8 +348,6 @@ gw_new_shared_folder_cb (GtkAction *action, EShellView *shell_view)
 	g_signal_connect (dialog, "response", G_CALLBACK (new_folder_response), gtk_tree_view_get_model (GTK_TREE_VIEW (folder_tree)));
 	gtk_window_set_title (GTK_WINDOW (dialog), "New Shared Folder" );
 	gtk_widget_show(dialog);
-
-	g_object_unref (folder_tree);
 }
 
 GtkWidget *
