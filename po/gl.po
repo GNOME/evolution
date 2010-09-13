@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-11 18:05+0200\n"
-"PO-Revision-Date: 2010-09-11 18:06+0200\n"
+"POT-Creation-Date: 2010-09-13 10:35+0200\n"
+"PO-Revision-Date: 2010-09-13 10:38+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@ubuntu.com>\n"
 "Language-Team: Galician <gnome-gl-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3805,7 +3805,7 @@ msgstr "Converter en actividade recorrente"
 
 #: ../calendar/gui/dialogs/event-editor.c:245
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
-#: ../plugins/groupwise-features/send-options.c:210
+#: ../plugins/groupwise-features/send-options.c:212
 #: ../widgets/misc/e-send-options.ui.h:19
 msgid "Send Options"
 msgstr "Opcións de envío"
@@ -4225,7 +4225,7 @@ msgid "21st to 31st"
 msgstr "Do 21 ao 31"
 
 #. For Translator : 'day' is part of the sentence of the form 'appointment recurs/Every [x] month(s) on the [first] [day] [forever]'
-#. (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
+#. (dropdown menu options are in[square brackets]). This means that after 'first', either the string 'day' or
 #. the name of a week day (like 'Monday' or 'Friday') always follow.
 #: ../calendar/gui/dialogs/recurrence-page.c:1111
 msgid "day"
@@ -9474,7 +9474,7 @@ msgid "Name"
 msgstr "Nome"
 
 #: ../mail/e-mail-local.c:37 ../mail/em-folder-properties.c:283
-#: ../mail/em-folder-tree-model.c:696 ../mail/em-folder-tree.c:2761
+#: ../mail/em-folder-tree-model.c:696 ../mail/em-folder-tree.c:2840
 #: ../modules/mail/e-mail-shell-view-private.c:1062
 msgid "Inbox"
 msgstr "Caixa de entrada"
@@ -10691,64 +10691,46 @@ msgstr "SEN EQUIVALENCIA"
 msgid "Loading..."
 msgstr "Cargando..."
 
-#: ../mail/em-folder-tree.c:184
+#: ../mail/em-folder-tree.c:191
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Examinando os cartafoles en «%s»"
 
-#: ../mail/em-folder-tree.c:601
+#: ../mail/em-folder-tree.c:611
 msgid "Folder names cannot contain '/'"
 msgstr "Os nomes dos cartafoles non poden conter o carácter '/'"
 
-#. Translators: This is the string used for displaying the
-#. * folder names in folder trees. The first "%s" will be
-#. * replaced by the folder's name and "%u" will be replaced
-#. * with the number of unread messages in the folder. The
-#. * second %s will be replaced with a "+" letter for collapsed
-#. * folders with unread messages in some subfolder too,
-#. * or with an empty string for other cases.
-#. *
-#. * Most languages should translate this as "%s (%u%s)". The
-#. * languages that use localized digits (like Persian) may
-#. * need to replace "%u" with "%Iu". Right-to-left languages
-#. * (like Arabic and Hebrew) may need to add bidirectional
-#. * formatting codes to take care of the cases the folder
-#. * name appears in either direction.
-#. *
-#. * Do not translate the "folder-display|" part. Remove it
-#. * from your translation.
-#.
-#: ../mail/em-folder-tree.c:1084
+#: ../mail/em-folder-tree.c:1100
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../mail/em-folder-tree.c:1318
+#: ../mail/em-folder-tree.c:1339
 msgid "Mail Folder Tree"
 msgstr "Árbore de cartafoles de correo"
 
-#: ../mail/em-folder-tree.c:1623 ../mail/em-folder-utils.c:92
+#: ../mail/em-folder-tree.c:1656 ../mail/em-folder-utils.c:92
 #, c-format
 msgid "Moving folder %s"
 msgstr "Movendo o cartafol %s"
 
-#: ../mail/em-folder-tree.c:1625 ../mail/em-folder-utils.c:94
+#: ../mail/em-folder-tree.c:1660 ../mail/em-folder-utils.c:94
 #, c-format
 msgid "Copying folder %s"
 msgstr "Copiando cartafol %s"
 
-#: ../mail/em-folder-tree.c:1632 ../mail/message-list.c:2164
+#: ../mail/em-folder-tree.c:1669 ../mail/message-list.c:2164
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Movendo mensaxes ao cartafol %s"
 
-#: ../mail/em-folder-tree.c:1634 ../mail/message-list.c:2166
+#: ../mail/em-folder-tree.c:1673 ../mail/message-list.c:2166
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copiando mensaxes ao cartafol %s"
 
-#: ../mail/em-folder-tree.c:1650
+#: ../mail/em-folder-tree.c:1690
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Non é posíbel soltar as mensaxes no almacenamento do nivel superior"
@@ -10762,7 +10744,7 @@ msgid "Copy Folder To"
 msgstr "_Copiar cartafol a..."
 
 #: ../mail/em-folder-utils.c:533
-#: ../plugins/groupwise-features/share-folder-common.c:136
+#: ../plugins/groupwise-features/share-folder-common.c:137
 #, c-format
 msgid "Creating folder '%s'"
 msgstr "Creando o cartafol «%s»"
@@ -10773,7 +10755,7 @@ msgstr "Crear cartafol"
 
 #: ../mail/em-folder-utils.c:694
 #: ../plugins/groupwise-features/install-shared.c:165
-#: ../plugins/groupwise-features/share-folder-common.c:343
+#: ../plugins/groupwise-features/share-folder-common.c:342
 msgid "Specify where to create the folder:"
 msgstr "Especificar onde crear o cartafol:"
 
@@ -13413,7 +13395,7 @@ msgstr "Introduza o contrasinal"
 msgid "User canceled operation."
 msgstr "O usuario cancelou a operación."
 
-#: ../mail/mail-session.c:724
+#: ../mail/mail-session.c:722
 #, c-format
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
@@ -13421,7 +13403,7 @@ msgstr ""
 "Non se proporcionou ningún enderezo de destino; foi cancelado o reenvío da "
 "mensaxe."
 
-#: ../mail/mail-session.c:733
+#: ../mail/mail-session.c:731
 #, c-format
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr ""
@@ -17207,8 +17189,8 @@ msgstr ""
 "%s"
 
 #: ../plugins/google-account-setup/google-source.c:548
-#: ../plugins/mail-to-task/mail-to-task.c:736
-#: ../plugins/mail-to-task/mail-to-task.c:952
+#: ../plugins/mail-to-task/mail-to-task.c:737
+#: ../plugins/mail-to-task/mail-to-task.c:953
 msgid "Unknown error."
 msgstr "Erro descoñecido."
 
@@ -17261,7 +17243,7 @@ msgid "Rese_nd Meeting..."
 msgstr "Ree_nviar cita..."
 
 #: ../plugins/groupwise-features/install-shared.c:165
-#: ../plugins/groupwise-features/share-folder-common.c:343
+#: ../plugins/groupwise-features/share-folder-common.c:342
 msgid "Create folder"
 msgstr "Crear cartafol"
 
@@ -17580,20 +17562,20 @@ msgstr "Proxy"
 msgid "Add User"
 msgstr "Engadir usuario"
 
-#: ../plugins/groupwise-features/send-options.c:212
+#: ../plugins/groupwise-features/send-options.c:214
 msgid "Advanced send options"
 msgstr "Opcións de envío avanzadas"
 
-#: ../plugins/groupwise-features/share-folder-common.c:309
+#: ../plugins/groupwise-features/share-folder-common.c:310
 #: ../plugins/groupwise-features/share-folder.c:726
 msgid "Users"
 msgstr "Usuarios"
 
-#: ../plugins/groupwise-features/share-folder-common.c:310
+#: ../plugins/groupwise-features/share-folder-common.c:311
 msgid "Enter the users and set permissions"
 msgstr "Introduza os usuarios e defina os permisos"
 
-#: ../plugins/groupwise-features/share-folder-common.c:410
+#: ../plugins/groupwise-features/share-folder-common.c:407
 msgid "Sharing"
 msgstr "Compartir"
 
@@ -18594,7 +18576,7 @@ msgstr "Reproducir un son cando cheguen mensaxes novas."
 msgid "Created from a mail by %s"
 msgstr "Creado desde un correo electrónico por %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:489
+#: ../plugins/mail-to-task/mail-to-task.c:490
 #, c-format
 msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
@@ -18603,7 +18585,7 @@ msgstr ""
 "O calendario seleccionado contén xa unha actividade «%s». Quere editar a  "
 "actividade vella?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:492
+#: ../plugins/mail-to-task/mail-to-task.c:493
 #, c-format
 msgid ""
 "Selected task list contains task '%s' already. Would you like to edit the "
@@ -18612,7 +18594,7 @@ msgstr ""
 "A lista de tarefas seleccionadas contén xa unha tarefa «%s». Quere editar a "
 "actividade vella?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:495
+#: ../plugins/mail-to-task/mail-to-task.c:496
 #, c-format
 msgid ""
 "Selected memo list contains memo '%s' already. Would you like to edit the "
@@ -18624,7 +18606,7 @@ msgstr ""
 #. Translators: Codewise it is impossible to provide separate strings for all
 #. combinations of singular and plural. Please translate it in the way that you
 #. feel is most appropriate for your language.
-#: ../plugins/mail-to-task/mail-to-task.c:515
+#: ../plugins/mail-to-task/mail-to-task.c:516
 msgid ""
 "Selected calendar contains some events for the given mails already. Would "
 "you like to create new events anyway?"
@@ -18635,7 +18617,7 @@ msgstr ""
 #. Translators: Codewise it is impossible to provide separate strings for all
 #. combinations of singular and plural. Please translate it in the way that you
 #. feel is most appropriate for your language.
-#: ../plugins/mail-to-task/mail-to-task.c:521
+#: ../plugins/mail-to-task/mail-to-task.c:522
 msgid ""
 "Selected task list contains some tasks for the given mails already. Would "
 "you like to create new tasks anyway?"
@@ -18646,7 +18628,7 @@ msgstr ""
 #. Translators: Codewise it is impossible to provide separate strings for all
 #. combinations of singular and plural. Please translate it in the way that you
 #. feel is most appropriate for your language.
-#: ../plugins/mail-to-task/mail-to-task.c:527
+#: ../plugins/mail-to-task/mail-to-task.c:528
 msgid ""
 "Selected memo list contains some memos for the given mails already. Would "
 "you like to create new memos anyway?"
@@ -18657,7 +18639,7 @@ msgstr ""
 #. Translators: Codewise it is impossible to provide separate strings for all
 #. combinations of singular and plural. Please translate it in the way that you
 #. feel is most appropriate for your language.
-#: ../plugins/mail-to-task/mail-to-task.c:548
+#: ../plugins/mail-to-task/mail-to-task.c:549
 msgid ""
 "Selected calendar contains an event for the given mail already. Would you "
 "like to create new event anyway?"
@@ -18674,7 +18656,7 @@ msgstr[1] ""
 #. Translators: Codewise it is impossible to provide separate strings for all
 #. combinations of singular and plural. Please translate it in the way that you
 #. feel is most appropriate for your language.
-#: ../plugins/mail-to-task/mail-to-task.c:557
+#: ../plugins/mail-to-task/mail-to-task.c:558
 msgid ""
 "Selected task list contains a task for the given mail already. Would you "
 "like to create new task anyway?"
@@ -18691,7 +18673,7 @@ msgstr[1] ""
 #. Translators: Codewise it is impossible to provide separate strings for all
 #. combinations of singular and plural. Please translate it in the way that you
 #. feel is most appropriate for your language.
-#: ../plugins/mail-to-task/mail-to-task.c:566
+#: ../plugins/mail-to-task/mail-to-task.c:567
 msgid ""
 "Selected memo list contains a memo for the given mail already. Would you "
 "like to create new memo anyway?"
@@ -18705,25 +18687,25 @@ msgstr[1] ""
 "A lista de notas seleccionada xa contén notas para os correos dados. Quere "
 "crear notas novas de todas maneiras?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:625
+#: ../plugins/mail-to-task/mail-to-task.c:626
 msgid "[No Summary]"
 msgstr "[Sen resumo]"
 
-#: ../plugins/mail-to-task/mail-to-task.c:636
+#: ../plugins/mail-to-task/mail-to-task.c:637
 msgid "Invalid object returned from a server"
 msgstr "O obxecto devolto polo servidor non é válido"
 
-#: ../plugins/mail-to-task/mail-to-task.c:707
+#: ../plugins/mail-to-task/mail-to-task.c:708
 #, c-format
 msgid "An error occurred during processing: %s"
 msgstr "Produciuse un erro no proceso: %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:736
+#: ../plugins/mail-to-task/mail-to-task.c:737
 #, c-format
 msgid "Cannot open calendar. %s"
 msgstr "Non é posíbel abrir o calendario. %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:743
+#: ../plugins/mail-to-task/mail-to-task.c:744
 msgid ""
 "Selected source is read only, thus cannot create event there. Select other "
 "source, please."
@@ -18731,7 +18713,7 @@ msgstr ""
 "A orixe seleccionada é só de lectura, polo que non é posíbel crear eventos "
 "nela. Seleccione outra orixe."
 
-#: ../plugins/mail-to-task/mail-to-task.c:746
+#: ../plugins/mail-to-task/mail-to-task.c:747
 msgid ""
 "Selected source is read only, thus cannot create task there. Select other "
 "source, please."
@@ -18739,7 +18721,7 @@ msgstr ""
 "A orixe seleccionada é só de lectura, polo que non é posíbel crear tarefas "
 "nela. Seleccione outra orixe."
 
-#: ../plugins/mail-to-task/mail-to-task.c:749
+#: ../plugins/mail-to-task/mail-to-task.c:750
 msgid ""
 "Selected source is read only, thus cannot create memo there. Select other "
 "source, please."
@@ -18747,40 +18729,40 @@ msgstr ""
 "A orixe seleccionada é só de lectura, polo que non é posíbel crear notas "
 "nela. Seleccione outra orixe."
 
-#: ../plugins/mail-to-task/mail-to-task.c:952
+#: ../plugins/mail-to-task/mail-to-task.c:953
 #, c-format
 msgid "Cannot get source list. %s"
 msgstr "Non é posíbel obter a lista orixe. %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1071
+#: ../plugins/mail-to-task/mail-to-task.c:1072
 msgid "Create an _Event"
 msgstr "Cr_ear unha actividade"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1073
+#: ../plugins/mail-to-task/mail-to-task.c:1074
 msgid "Create a new event from the selected message"
 msgstr "Crear unha actividade nova a partir da mensaxe seleccionada"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1078
+#: ../plugins/mail-to-task/mail-to-task.c:1079
 msgid "Create a Mem_o"
 msgstr "Crear unha n_ota"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1080
+#: ../plugins/mail-to-task/mail-to-task.c:1081
 msgid "Create a new memo from the selected message"
 msgstr "Crear unha nota nova a partir da mensaxe seleccionada"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1085
+#: ../plugins/mail-to-task/mail-to-task.c:1086
 msgid "Create a _Task"
 msgstr "Crear unha _tarefa"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1087
+#: ../plugins/mail-to-task/mail-to-task.c:1088
 msgid "Create a new task from the selected message"
 msgstr "Crear unha tarefa nova a partir da mensaxe seleccionada"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1095
+#: ../plugins/mail-to-task/mail-to-task.c:1096
 msgid "Create a _Meeting"
 msgstr "Crear unha _cita"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1097
+#: ../plugins/mail-to-task/mail-to-task.c:1098
 msgid "Create a new meeting from the selected message"
 msgstr "Crear unha cita nova a partir da mensaxe seleccionada"
 
@@ -21808,28 +21790,28 @@ msgstr "A porcentaxe ten que ser un valor entre 0 e 100, incluídos"
 msgid "click to add"
 msgstr "prema para engadir"
 
-#: ../widgets/table/e-table-config.c:381 ../widgets/table/e-table-config.c:423
+#: ../widgets/table/e-table-config.c:385 ../widgets/table/e-table-config.c:427
 msgid "(Ascending)"
 msgstr "(Ascendente)"
 
-#: ../widgets/table/e-table-config.c:381 ../widgets/table/e-table-config.c:423
+#: ../widgets/table/e-table-config.c:385 ../widgets/table/e-table-config.c:427
 msgid "(Descending)"
 msgstr "(Descendente)"
 
-#: ../widgets/table/e-table-config.c:388
+#: ../widgets/table/e-table-config.c:392
 msgid "Not sorted"
 msgstr "Sen ordenar"
 
-#: ../widgets/table/e-table-config.c:429
+#: ../widgets/table/e-table-config.c:433
 msgid "No grouping"
 msgstr "Sen agrupar"
 
-#: ../widgets/table/e-table-config.c:647
+#: ../widgets/table/e-table-config.c:654
 #: ../widgets/table/e-table-config.ui.h:11
 msgid "Show Fields"
 msgstr "Mostrar os campos"
 
-#: ../widgets/table/e-table-config.c:667
+#: ../widgets/table/e-table-config.c:674
 msgid "Available Fields"
 msgstr "Campos dispoñíbeis"
 
@@ -22775,7 +22757,6 @@ msgstr "Métodos de entrada"
 #~ msgid "_Select Today"
 #~ msgstr "_Seleccionar hoxe"
 
-#~| msgid "New _Task"
 #~ msgid "New Tab"
 #~ msgstr "Novo _separador"
 
