@@ -457,6 +457,8 @@ static const gchar * add_curly_braces_to_uuid (const gchar * string_uuid)
 	return curly_braced_uuid_string;
 }
 
+#define SENSAPI_DLL "sensapi.dll"
+
 static void
 windows_sens_constructed (GObject *object)
 {
@@ -549,7 +551,27 @@ windows_sens_constructed (GObject *object)
 
 		IsNetworkAlive_t pIsNetworkAlive = NULL;
 
-		HMODULE hDLL=LoadLibrary ("sensapi.dll");
+		char *buf = NULL;
+		char dummy;
+		int n, k;
+		HMODULE hDLL = NULL;
+
+		n = GetSystemDirectory (&dummy, 0);
+
+		if (n <= 0)
+			goto cleanup;
+
+		buf = g_malloc (n + 1 + strlen (SENSAPI_DLL));
+		k = GetSystemDirectory (buf, n);
+  
+		if (k == 0 || k > n)
+			goto cleanup;
+
+		if (!G_IS_DIR_SEPARATOR (buf[strlen (buf) -1]))
+			strcat (buf, G_DIR_SEPARATOR_S);
+		strcat (buf, SENSAPI_DLL);
+
+		hDLL=LoadLibrary (buf);
 
 		if ((pIsNetworkAlive=(IsNetworkAlive_t) GetProcAddress (hDLL, "IsNetworkAlive"))) {
 			DWORD Network;
@@ -559,6 +581,9 @@ windows_sens_constructed (GObject *object)
 		FreeLibrary (hDLL);
 
 		e_shell_set_network_available (shell, alive);
+
+cleanup:
+		g_free (buf);
 	}
 }
 
