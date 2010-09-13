@@ -679,7 +679,7 @@ edit_ca (GtkWidget *widget, CertificateManagerData *cfm)
 							   trust_email,
 							   trust_objsign);
 
-				CERT_ChangeCertTrust (CERT_GetDefaultCertDB(), icert, &trust);
+				e_cert_db_change_cert_trust (icert, &trust);
 			}
 
 			gtk_widget_destroy (dialog);
@@ -1097,18 +1097,13 @@ certificate_manager_config_new (EPreferencesWindow *window)
 	GtkWidget *parent;
 	GtkWidget *widget;
 	CertificateManagerData *cfm_data;
-	PK11SlotInfo* slot;
-	ECertDB *cert_db;
 
 	shell = e_preferences_window_get_shell (window);
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	/* We need to peek the db here to make sure it (and NSS) are fully initialized. */
-
-	cert_db = e_cert_db_peek();
-	slot = PK11_GetInternalKeySlot();
-	e_cert_db_login_to_slot(cert_db, slot);
+	e_cert_db_peek ();
 
 	cfm_data = g_new0 (CertificateManagerData, 1);
 

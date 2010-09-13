@@ -936,7 +936,18 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 					     nickname,
 					     &trust);
 
-		if (srv != SECSuccess && PORT_GetError() != SEC_ERROR_TOKEN_NOT_LOGGED_IN) {
+		/*
+		  If this fails with SEC_ERROR_TOKEN_NOT_LOGGED_IN, it seems
+		  that the import *has* worked, but the setting of trust bits
+		  failed -- so only set the trust. This *has* to be an NSS bug?
+		*/
+		if (srv != SECSuccess &&
+		    PORT_GetError () == SEC_ERROR_TOKEN_NOT_LOGGED_IN &&
+		    e_cert_db_login_to_slot (NULL, PK11_GetInternalKeySlot()))
+			srv = CERT_ChangeCertTrust (CERT_GetDefaultCertDB (),
+						    tmpCert, &trust);
+
+		if (srv != SECSuccess) {
 			set_nss_error (error);
 			return FALSE;
 		}
@@ -971,6 +982,27 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 		return TRUE;
 	}
 }
+gboolean e_cert_db_change_cert_trust(CERTCertificate *cert, CERTCertTrust *trust)
+{
+	SECStatus srv;
+
+	srv = CERT_ChangeCertTrust (CERT_GetDefaultCertDB (),
+				    cert, trust);
+	if (srv != SECSuccess &&
+	    PORT_GetError () == SEC_ERROR_TOKEN_NOT_LOGGED_IN &&
+	    e_cert_db_login_to_slot (NULL, PK11_GetInternalKeySlot()))
+		srv = CERT_ChangeCertTrust (CERT_GetDefaultCertDB (),
+					    cert, trust);
+
+	if (srv != SECSuccess) {
+		glong err = PORT_GetError ();
+		g_warning ("CERT_ChangeCertTrust() failed: %s\n",
+			   nss_error_to_string(err));
+		return FALSE;
+	}
+	return TRUE;
+}
+
 
 /* deleting certificates */
 gboolean
@@ -998,8 +1030,7 @@ e_cert_db_delete_cert (ECertDB *certdb,
 		CERTCertTrust trust;
 
 		e_cert_trust_init_with_values (&trust, 0, 0, 0);
-		CERT_ChangeCertTrust(CERT_GetDefaultCertDB(),
-					   cert, &trust);
+		e_cert_db_change_cert_trust (cert, &trust);
 	}
 
 	return TRUE;
