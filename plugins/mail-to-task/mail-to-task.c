@@ -306,7 +306,7 @@ set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
 	const gchar *comp_uid = NULL;
 	const gchar *local_store;
 	gint ii, n_parts;
-	gchar *uri;
+	gchar *path;
 
 	struct {
 		gchar **uris;
@@ -323,9 +323,10 @@ set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
 
 	e_cal_component_get_uid (comp, &comp_uid);
 	local_store = e_cal_get_local_attachment_store (client);
-	uri = g_build_path ("/", local_store, comp_uid, NULL);
-	destination = g_file_new_for_uri (uri);
-	g_free (uri);
+	path = g_build_path ("/", local_store, comp_uid, NULL);
+	
+	destination = g_file_new_for_path (path);
+	g_free (path);
 
 	/* Create EAttachments from the MIME parts and add them to the
 	 * attachment store. */
