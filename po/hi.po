@@ -3,19 +3,20 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 #
 #: ../shell/main.c:603
-# Rajesh Ranjan <rranjan@redhat.com>, 2004, 2005, 2006, 2008, 2009.
+# Rajesh Ranjan <rranjan@redhat.com>, 2004, 2005, 2006, 2008, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: hi\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-03-09 04:41+0000\n"
-"PO-Revision-Date: 2009-03-13 13:06+0530\n"
+"PO-Revision-Date: 2010-09-13 13:05+0530\n"
 "Last-Translator: Rajesh Ranjan <rranjan@redhat.com>\n"
-"Language-Team: Hindi <hindi.sf.net>\n"
+"Language-Team: Hindi <fedora-trans-hi@redhat.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -19882,7 +19883,7 @@ msgstr ""
 "एवोल्यूशन में स्वागत है. अगला कुछ स्क्रीन आपके एवोल्यूशन को आपके ईमेल खाते से जुड़ने में सक्षम "
 "बनायेगा, और अन्य अनुप्रयोगों से फ़ाइल को आयात करेगा. \n"
 "\n"
-"जारी रखने के लिए कृपया \"आगे बढाएँ\" बटन क्लिक करें. "
+"जारी रखने के लिए कृपया \"आगे\" बटन क्लिक करें. "
 
 #: ../plugins/startup-wizard/startup-wizard.c:135
 msgid "Importing files"
