@@ -73,7 +73,7 @@ ctd_response (GtkWidget *w, guint id, CertTrustDialogData *data)
 		e_cert_trust_add_peer_trust (&trust, FALSE,
 					     gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->trust_button)),
 					     FALSE);
-		CERT_ChangeCertTrust (CERT_GetDefaultCertDB (), icert, &trust);
+		e_cert_db_change_cert_trust (icert, &trust);
 		break;
 	case GTK_RESPONSE_ACCEPT: {
 		/* just *what on earth* was chris thinking here!?!?!  copied from certificate-manager.c */
@@ -101,7 +101,7 @@ ctd_response (GtkWidget *w, guint id, CertTrustDialogData *data)
 						   trust_email,
 						   trust_objsign);
 
-			CERT_ChangeCertTrust (CERT_GetDefaultCertDB (), icert, &trust);
+			e_cert_db_change_cert_trust (icert, &trust);
 		}
 
 		gtk_widget_destroy (dialog);
