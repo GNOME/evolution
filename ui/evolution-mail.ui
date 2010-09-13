@@ -1,6 +1,9 @@
 <ui>
   <menubar name='main-menu'>
     <menu action='file-menu'>
+      <placeholder name='mail-send-receiver'>
+        <menuitem action='send-receive'/>
+      </placeholder>
       <placeholder name='long-running-actions'>
         <menuitem action='mail-global-expunge'/>
         <menuitem action='mail-download'/>

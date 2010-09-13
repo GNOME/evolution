@@ -6,7 +6,7 @@
       <menuitem action='new-window'/>
 #endif
       <separator/>
-      <menuitem action='send-receive'/>
+      <placeholder name='mail-send-receiver'/>
       <placeholder name='file-actions'/>
       <separator/>
       <menuitem action='import'/>
