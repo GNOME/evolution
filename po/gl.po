@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-09-13 22:04+0000\n"
+"POT-Creation-Date: 2010-09-14 08:08+0000\n"
 "PO-Revision-Date: 2010-09-13 10:38+0200\n"
 "Last-Translator: Fran Dieguez <frandieguez@ubuntu.com>\n"
 "Language-Team: Galician <gnome-gl-list@gnome.org>\n"
@@ -4029,6 +4029,40 @@ msgstr "durante"
 
 #. TRANSLATORS: 'until' in a sense of 'duration'; example string: Time: [date] [time] until [ date ] [ time ]
 #: ../calendar/gui/dialogs/event-page.ui.h:25
+#| msgid "until"
+msgctxt "eventpage"
+msgid "until"
+msgstr "até"
+
+#: ../calendar/gui/dialogs/memo-editor.c:109 ../calendar/gui/print.c:2614
+msgid "Memo"
+msgstr "Nota"
+
+#: ../calendar/gui/dialogs/memo-editor.c:156
+msgid "Print this memo"
+msgstr "Imprimir esta nota"
+
+#: ../calendar/gui/dialogs/memo-page.c:338
+msgid "Memo's start date is in the past"
+msgstr "A hora de inicio da nota non está no pasado"
+
+#: ../calendar/gui/dialogs/memo-page.c:376
+msgid "Memo cannot be edited, because the selected memo list is read only"
+msgstr "A nota non pode ser editada porque a nota solicitado é de só lectura"
+
+#: ../calendar/gui/dialogs/memo-page.c:380
+msgid "Memo cannot be fully edited, because you are not the organizer"
+msgstr "A nota non pode ser totalmente editada porque vostede é o organizador"
+
+#: ../calendar/gui/dialogs/memo-page.c:907
+#, c-format
+msgid "Unable to open memos in '%s'."
+msgstr "Non é posíbel abrir as notas en «%s»."
+
+#: ../calendar/gui/dialogs/memo-page.c:1078 ../em-format/em-format-quote.c:270
+#: ../em-format/em-format.c:1040 ../mail/em-format-html.c:2289
+#: ../mail/em-format-html.c:2348 ../mail/em-format-html.c:2372
+#: ../mail/message-list.etspec.h:20 ../modules/mail/em-mailer-prefs.c:74
 msgid "To"
 msgstr "Para"
 
@@ -22046,3 +22080,1495 @@ msgstr "Seleccionar todo"
 #: ../widgets/text/e-text.c:2548
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid "<span size=\"large\" weight=\"bold\">Details:</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Detalles de envío:</span>"
+
+#~ msgid "<span size=\"large\" weight=\"bold\">Receiving</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Detalles de recepción:</span>"
+
+#~ msgid "<span size=\"large\" weight=\"bold\">Sending</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Detalles de envío:</span>"
+
+#~ msgid "<span size=\"large\" weight=\"bold\">Google account settings:</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Detalles persoais:</span>"
+
+#~ msgid "<span size=\"large\" weight=\"bold\">Yahoo account settings:</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Xestión de conta</span>"
+
+#~ msgid "Blink icon in notification area."
+#~ msgstr "Volver intermitente a icona da área de notificación."
+
+#~ msgid "Whether the icon should blink or not."
+#~ msgstr "Se a icona se debería volver intermitente ou non."
+
+# (pofilter) accelerators: accelerator _ is missing from translation
+#~ msgid "B_link icon in notification area"
+#~ msgstr "Volver _intermitente a icona da área de notificación"
+
+#~ msgid "Unable to reconstruct message from autosave file"
+#~ msgstr "Non é posíbel obter a mensaxe do editor"
+
+#~ msgid ""
+#~ "Evolution backup can start only when Evolution is not running. Please "
+#~ "make sure that you save and close all your unsaved windows before "
+#~ "proceeding.  If you want Evolution to restart automatically after backup, "
+#~ "please enable the toggle button."
+#~ msgstr ""
+#~ "A copia de seguranza do Evolution só pode comezar cando o Evolution non "
+#~ "se estea executando. Asegúrese de que garda e pecha todas as xanelas non "
+#~ "gardadas antes de proceder. Se quere que o Evolution se reinicie "
+#~ "automaticamente despois da copia de seguranza, active o botón de estado."
+
+#~ msgid ""
+#~ "This will delete all your current Evolution data and settings and restore "
+#~ "them from your backup. Evolution restore can start only when Evolution is "
+#~ "not running. Please make sure that you close all your unsaved windows "
+#~ "before you proceed. If you want Evolution to restart automatically "
+#~ "restart after restore, please enable the toggle button."
+#~ msgstr ""
+#~ "Isto eliminará todos os datos e configuracións actuais do Evolution e "
+#~ "restauraraos desde a sua copia de seguranza. A restauración do Evolution "
+#~ "só pode comezar cando o Evolution non se estea executando. Asegúrese de "
+#~ "que pecha todas as xanelas non gardadas antes de proceder. Se quere que o "
+#~ "Evolution se reinicie automaticamente despois da restauración, active o "
+#~ "botón de estado."
+
+#~ msgid "Success"
+#~ msgstr "Éxito"
+
+#~ msgid "Backend busy"
+#~ msgstr "Backend ocupado"
+
+#~ msgid "Repository offline"
+#~ msgstr "Repositorio desconectado"
+
+#~ msgid "Address Book does not exist"
+#~ msgstr "A axenda de enderezos non existe"
+
+#~ msgid "No Self Contact defined"
+#~ msgstr "Ningún contacto propio definido"
+
+#~ msgid "Permission denied"
+#~ msgstr "Permiso denegado"
+
+#~ msgid "Contact not found"
+#~ msgstr "Contacto non encontrado"
+
+#~ msgid "Contact ID already exists"
+#~ msgstr "O ID de contacto xa existe"
+
+#~ msgid "Protocol not supported"
+#~ msgstr "O protocolo non é compatíbel"
+
+#~ msgid "Could not cancel"
+#~ msgstr "Non foi posíbel cancelar"
+
+#~ msgid "Authentication Failed"
+#~ msgstr "Produciuse un fallo na autenticación"
+
+#~ msgid "Authentication Required"
+#~ msgstr "Autenticación requirida"
+
+#~ msgid "TLS not Available"
+#~ msgstr "TLS non dispoñíbel"
+
+#~ msgid "No such source"
+#~ msgstr "Non existe esa orixe"
+
+#~ msgid "Not available in offline mode"
+#~ msgstr "Non dispoñíbel en modo sen conexión"
+
+#~ msgid "Other error"
+#~ msgstr "Outro erro"
+
+#~ msgid "Invalid server version"
+#~ msgstr "Versión do servidor non válida"
+
+#~ msgid "Unsupported authentication method"
+#~ msgstr "Método de autenticación non incompatíbel"
+
+#~ msgid "The event could not be deleted due to a corba error"
+#~ msgstr "Non foi posíbel eliminar a actividade debido a un erro de Corba"
+
+#~ msgid "The task could not be deleted due to a corba error"
+#~ msgstr "Non foi posíbel eliminar a tarefa debido a un erro de Corba"
+
+#~ msgid "The memo could not be deleted due to a corba error"
+#~ msgstr "Non foi posíbel eliminar a nota debido a un erro de Corba"
+
+#~ msgid "The item could not be deleted due to a corba error"
+#~ msgstr "Non foi posíbel eliminar o elemento debido a un erro de Corba"
+
+#~ msgid "Could not parse PGP message: Unknown error"
+#~ msgstr "Non foi posíbel analizar a mensaxe PGP: erro descoñecido"
+
+#~ msgid "Text"
+#~ msgstr "Texto"
+
+#~ msgid "Text to display"
+#~ msgstr "Texto a mostrar"
+
+#~ msgid "X"
+#~ msgstr "X"
+
+#~ msgid "X position"
+#~ msgstr "Posición X"
+
+#~ msgid "Y"
+#~ msgstr "Y"
+
+#~ msgid "Y position"
+#~ msgstr "Posición Y"
+
+#~ msgid "Width"
+#~ msgstr "Largura"
+
+#~ msgid "Height"
+#~ msgstr "Altura"
+
+#~ msgid "Height for text box"
+#~ msgstr "Altura da caixa de texto"
+
+#~ msgid "Editable"
+#~ msgstr "Editábel"
+
+#~ msgid "Is this rich text item editable?"
+#~ msgstr "É este elemento de texto rico editábel?"
+
+#~ msgid "Visible"
+#~ msgstr "Visíbel"
+
+#~ msgid "Is this rich text item visible?"
+#~ msgstr "É este elemento de texto rico visíbel?"
+
+#~ msgid "Cursor Visible"
+#~ msgstr "Cursor visíbel"
+
+#~ msgid "Is the cursor visible in this rich text item?"
+#~ msgstr "Está o cursor visíbel no elemento de texto rico?"
+
+#~ msgid "Cursor Blink"
+#~ msgstr "Parpadeo do cursor"
+
+#~ msgid "Does the cursor blink in this rich text item?"
+#~ msgstr "Parpadea o cursor neste elemento de texto rico?"
+
+#~ msgid "Grow Height"
+#~ msgstr "Incrementar a altura"
+
+#~ msgid "Should the text box height grow if the text does not fit?"
+#~ msgstr "Debe a caixa de texto medrar en altura se o texto non colle nela?"
+
+#~ msgid "Wrap Mode"
+#~ msgstr "Modo de axuste"
+
+#~ msgid "Wrap mode for multiline text"
+#~ msgstr "O modo de axuste para o texto con múltiples liñas"
+
+#~ msgid "Justification"
+#~ msgstr "Aliñamento"
+
+#~ msgid "Justification mode"
+#~ msgstr "Modo de aliñamento"
+
+#~ msgid "Direction"
+#~ msgstr "Dirección"
+
+#~ msgid "Text direction"
+#~ msgstr "Dirección do texto"
+
+#~ msgid "Anchor"
+#~ msgstr "Áncora"
+
+#~ msgid "Anchor point for text"
+#~ msgstr "Punto de áncora para o texto"
+
+#~ msgid "Pixels Above Lines"
+#~ msgstr "Píxeles por enriba das liñas"
+
+#~ msgid "Number of pixels to put above lines"
+#~ msgstr "Número de píxeles a poñer enriba das liñas"
+
+#~ msgid "Pixels Below Lines"
+#~ msgstr "Píxeles debaixo das liñas"
+
+#~ msgid "Number of pixels to put below lines"
+#~ msgstr "Número de píxeles a poñer embaixo das liñas"
+
+#~ msgid "Left Margin"
+#~ msgstr "Marxe esquerda"
+
+#~ msgid "Number of pixels in the left margin"
+#~ msgstr "Número de píxeles na marxe esquerda"
+
+#~ msgid "Right Margin"
+#~ msgstr "Marxe dereita"
+
+#~ msgid "Number of pixels in the right margin"
+#~ msgstr "Número de píxeles na marxe dereita"
+
+#~ msgid "Indentation"
+#~ msgstr "Sangría"
+
+#~ msgid "Number of pixels for indentation"
+#~ msgstr "Número de píxeles para a sangría."
+
+#~ msgid "Text to render"
+#~ msgstr "Texto a renderizar"
+
+#~ msgid "Markup"
+#~ msgstr "Marcado"
+
+#~ msgid "Marked up text to render"
+#~ msgstr "Texto marcado para renderizar"
+
+#~ msgid "Font"
+#~ msgstr "Tipo de letra"
+
+#~ msgid "Font description as a string"
+#~ msgstr "Descrición do tipo de letra como unha cadea"
+
+#~ msgid "Font description"
+#~ msgstr "Descrición do tipo de letra"
+
+#~ msgid "Font description as a PangoFontDescription struct"
+#~ msgstr ""
+#~ "Descrición do tipo de letra como unha estrutura PangoFontDescription"
+
+#~ msgid "Font family"
+#~ msgstr "Familia do tipo de letra"
+
+#~ msgid "Name of the font family, e.g. Sans, Helvetica, Times, Monospace"
+#~ msgstr ""
+#~ "Nome da familia do tipo de letra, p.ex. Sans, Helvetica, Times, Monospace"
+
+#~ msgid "Font style"
+#~ msgstr "Estilo do tipo de letra"
+
+#~ msgid "Font variant"
+#~ msgstr "Variante do tipo de letra"
+
+#~ msgid "Font weight"
+#~ msgstr "Anchura do tipo de letra"
+
+#~ msgid "Font stretch"
+#~ msgstr "Estiramento do tipo de letra"
+
+#~ msgid "Font size"
+#~ msgstr "Tamaño do tipo de letra"
+
+#~ msgid ""
+#~ "Font size (as a multiple of PANGO_SCALE, eg. 12*PANGO_SCALE for a 12pt "
+#~ "font size)"
+#~ msgstr ""
+#~ "Tamaño do tipo de letra (como un múltiplo de PANGO_SCALE, p.ex. "
+#~ "12*PANGO_SCALE para un tamaño de tipo de letra de 12pt)"
+
+#~ msgid "Font points"
+#~ msgstr "Puntos do tipo de letra"
+
+#~ msgid "Font size in points (eg. 12 for a 12pt font size)"
+#~ msgstr ""
+#~ "Tamaño do tipo de letra en puntos (p.ex 12 para un tamaño de tipo de "
+#~ "letra de 12pt)"
+
+#~ msgid "Rise"
+#~ msgstr "Elevación"
+
+#~ msgid ""
+#~ "Offset of text above the baseline (below the baseline if rise is negative)"
+#~ msgstr ""
+#~ "Desprazamento do texto por enriba da liña base (por embaixo se a "
+#~ "elevación é negativa)"
+
+#~ msgid "Strikethrough"
+#~ msgstr "Riscado"
+
+#~ msgid "Whether to strike through the text"
+#~ msgstr "Indica se riscar ou non o texto"
+
+#~ msgid "Underline"
+#~ msgstr "Subliñado"
+
+#~ msgid "Style of underline for this text"
+#~ msgstr "Estilo do subliñado para este texto"
+
+#~ msgid "Scale"
+#~ msgstr "Escala"
+
+#~ msgid "Size of font, relative to default size"
+#~ msgstr "Tamaño do tipo de letra, relativo ao tamaño predefinido"
+
+#~ msgid "Text color, as string"
+#~ msgstr "Cor do texto, como unha cadea"
+
+#~ msgid "Text color, as a GdkColor"
+#~ msgstr "Cor do texto, como un GdkColor"
+
+#~ msgid "Text color, as an R/G/B/A combined integer"
+#~ msgstr "Cor do texto, como un enteiro combinado R/G/B/A"
+
+#~ msgid "Text width"
+#~ msgstr "Largura do texto"
+
+#~ msgid "Width of the rendered text"
+#~ msgstr "Anchura do texto renderizado"
+
+#~ msgid "Text height"
+#~ msgstr "Altura do texto"
+
+#~ msgid "Height of the rendered text"
+#~ msgstr "Altura do texto renderizado"
+
+#~ msgid "Whether this tag affects the font family"
+#~ msgstr "Indica se esta etiqueta afecta á familia do tipo de letra"
+
+#, fuzzy
+#~ msgid "Font style set"
+#~ msgstr "Disp_osición"
+
+#~ msgid "Whether this tag affects the font style"
+#~ msgstr "Indica se esta etiqueta afecta ao estilo de tipo de letra"
+
+#~ msgid "Whether this tag affects the font variant"
+#~ msgstr "Indica se esta etiqueta afecta á variante do tipo de letra"
+
+#~ msgid "Whether this tag affects the font weight"
+#~ msgstr "Indica se esta etiqueta afecta ao peso do tipo de letra"
+
+#~ msgid "Whether this tag affects the font stretch"
+#~ msgstr "Indica se esta etiqueta afecta ao estiramento do tipo de letra"
+
+#~ msgid "Whether this tag affects the font size"
+#~ msgstr "Indica se esta etiqueta afecta ao tamaño do tipo de letra"
+
+#, fuzzy
+#~ msgid "Rise set"
+#~ msgstr "está definida"
+
+#~ msgid "Whether this tag affects the rise"
+#~ msgstr "Indica se esta etiqueta afecta á elevación"
+
+#, fuzzy
+#~ msgid "Strikethrough set"
+#~ msgstr "Riscado"
+
+#~ msgid "Whether this tag affects strikethrough"
+#~ msgstr "Indica se esta etiqueta afecta ao riscado"
+
+#, fuzzy
+#~ msgid "Underline set"
+#~ msgstr "Subliñar columna"
+
+#~ msgid "Whether this tag affects underlining"
+#~ msgstr "Indica se esta etiqueta afecta ao subliñado"
+
+#, fuzzy
+#~ msgid "Scale set"
+#~ msgstr "Data de envío"
+
+#~ msgid "Whether this tag affects font scaling"
+#~ msgstr "Indica se esta etiqueta afecta ao escalado do tipo de letra"
+
+#~ msgid "Antialiased"
+#~ msgstr "Antialias"
+
+# (pofilter) variables: (u'translation contains variables not in original: %d',)
+#~ msgid "The antialiasing mode of the canvas."
+#~ msgstr "O modo antialias do canvas."
+
+#~ msgid "Default Sync Address:"
+#~ msgstr "Enderezo de sincronización predefinido:"
+
+#~ msgid "Could not load address book"
+#~ msgstr "Non foi posíbel cargar a axenda de enderezos"
+
+#~ msgid "Could not read pilot's Address application block"
+#~ msgstr "Non foi posíbel ler o bloque de Aplicativo de enderezos do pilot"
+
+#~ msgid "Split Multi-Day Events:"
+#~ msgstr "Dividir eventos de días múltiples:"
+
+#~ msgid "Could not start evolution-data-server"
+#~ msgstr "Non foi posíbel iniciar o evolution-data-server"
+
+#~ msgid "Could not read pilot's Calendar application block"
+#~ msgstr "Non foi posíbel ler o bloque do Aplicativo de Calendario do pilot"
+
+#~ msgid "Could not read pilot's Memo application block"
+#~ msgstr "Non foi posíbel ler o bloque do Aplicativo Memo do pilot"
+
+#~ msgid "Could not write pilot's Memo application block"
+#~ msgstr "Non foi posíbel escribir o bloque do Aplicativo Memo do pilot"
+
+#~ msgid "Default Priority:"
+#~ msgstr "Prioridade predefinida:"
+
+#~ msgid "Could not read pilot's ToDo application block"
+#~ msgstr ""
+#~ "Non foi posíbel ler o bloque do Aplicativo Tarefas pendentes do pilot"
+
+#~ msgid "Could not write pilot's ToDo application block"
+#~ msgstr ""
+#~ "Non foi posíbel escribir o bloque do Aplicativo Tarefas pendentes do pilot"
+
+#~ msgid "GNOME Pilot is not installed."
+#~ msgstr "O Bug buddy non está instalado."
+
+#~ msgid "GNOME Pilot could not be run."
+#~ msgstr "Non foi posíbel executar o Bug Buddy."
+
+#~ msgid "GNOME Pilot _Synchronization..."
+#~ msgstr "_Sincronización con GNOME Pilot..."
+
+#~ msgid "Set up GNOME Pilot configuration"
+#~ msgstr "Definir a configuración do GNOME Pilot"
+
+#~ msgid "Sync with:"
+#~ msgstr "Sincronizar con:"
+
+#~ msgid "Sync Private Records:"
+#~ msgstr "Sincronizar rexistros privados:"
+
+#~ msgid "Sync Categories:"
+#~ msgstr "Sincronizar categorías:"
+
+#~ msgid "Guides you through your initial account setup."
+#~ msgstr "Guíao durante a configuración inicial da súa conta."
+
+#~ msgid "Setup Assistant"
+#~ msgstr "Asistente de configuración"
+
+#~ msgid "Importing data."
+#~ msgstr "Importando datos."
+
+#~ msgid "Please wait"
+#~ msgstr "Espere"
+
+#~ msgid "Do not d_elete"
+#~ msgstr "Non _eliminar"
+
+#~ msgid "Show week numbers in date navigator"
+#~ msgstr "Mostrar os números de semana no navegador de datas"
+
+#~ msgid "Whether to show week number in the Day and Work Week View."
+#~ msgstr ""
+#~ "Indica se se mostra o número de semana nas visualizacións Diaria e de "
+#~ "Semana laborábel."
+
+#~ msgid "Show week n_umber in Day and Work Week View"
+#~ msgstr ""
+#~ "Mostrar o _número de semana nas visualizacións Diaria e de Semana "
+#~ "laborábel"
+
+#~ msgid "Appoint_ment"
+#~ msgstr "_Cita"
+
+#~ msgid "_Task"
+#~ msgstr "_Tarefa"
+
+#~ msgid "_From Field"
+#~ msgstr "Campo _De"
+
+#~ msgid "Toggles whether the From chooser is displayed"
+#~ msgstr "Alterna entre se se mostra ou non o selector do campo De"
+
+#~ msgid "Show"
+#~ msgstr "Mostrar"
+
+#~ msgid "Hide"
+#~ msgstr "Ocultar"
+
+#~ msgid "Receiving details:"
+#~ msgstr "Detalles de recepción:"
+
+#~ msgid "Sending details:"
+#~ msgstr "Detalles de envío"
+
+#~ msgid "Show \"From\" field when sending a mail message"
+#~ msgstr "Mostrar o campo \"De\" ao enviar unha mensaxe de correo"
+
+#~ msgid ""
+#~ "Show the \"From\" field when sending a mail message. This is controlled "
+#~ "from the View menu when a mail account is chosen."
+#~ msgstr ""
+#~ "Mostrar o campo \"De\" ao enviar unha mensaxe de correo. Isto pódese "
+#~ "configurar desde o menú Ver cando se selecciona unha conta de correo."
+
+#~ msgid "address card"
+#~ msgstr "tarxeta de enderezo"
+
+#~ msgid "calendar information"
+#~ msgstr "información de calendario"
+
+#~ msgid "Check whether Evolution is the default mail client on startup."
+#~ msgstr ""
+#~ "Verificar se o Evolution é o cliente de correo predefinido ao iniciar."
+
+#~ msgid "Default Mail Client"
+#~ msgstr "Cliente de correo predefinido"
+
+#~ msgid "<b>Top Posting Option</b> (Not Recommended)"
+#~ msgstr "<b>Opción para responder por encima</b> (Non se recomenda)"
+
+#~ msgid "<b>Server</b>"
+#~ msgstr "<b>Servidor</b>"
+
+#~ msgid "<b>Users:</b>"
+#~ msgstr "<b>Usuarios:</b>"
+
+#~ msgid "<b>Account Name</b>"
+#~ msgstr "<b>Nome da conta</b>"
+
+#~ msgid "_Accept"
+#~ msgstr "_Aceptar"
+
+#~ msgid "Edit"
+#~ msgstr "Editar"
+
+#~ msgid "Import"
+#~ msgstr "Importar"
+
+#~ msgid "View"
+#~ msgstr "Ver"
+
+#~ msgid "{0}"
+#~ msgstr "{0}"
+
+#~ msgid "{1}"
+#~ msgstr "{1}"
+
+#~ msgid "Web Log:"
+#~ msgstr "Rexistro _web:"
+
+#~ msgid "_Web Log:"
+#~ msgstr "Rexistro _web:"
+
+#~ msgid "Source Book"
+#~ msgstr "Axenda de enderezos de orixe"
+
+#~ msgid "Target Book"
+#~ msgstr "Axenda de enderezos de destino"
+
+#~ msgid "Is New Contact"
+#~ msgstr "É un contacto novo"
+
+#~ msgid "Writable Fields"
+#~ msgstr "Campos que se poden escribir"
+
+#~ msgid "Required Fields"
+#~ msgstr "Campos requiridos"
+
+#~ msgid "Changed"
+#~ msgstr "Modificado"
+
+#~ msgid "Shell"
+#~ msgstr "Terminal"
+
+#~ msgid "The EShell singleton"
+#~ msgstr "O singleton de EShell"
+
+#~ msgid "Book"
+#~ msgstr "Axenda de enderezos"
+
+#~ msgid "Is New List"
+#~ msgstr "É unha lista nova"
+
+#~ msgid "Query"
+#~ msgstr "Consulta"
+
+#~ msgid "Model"
+#~ msgstr "Modelo"
+
+#~ msgid "Shell View"
+#~ msgstr "Visualización de terminal"
+
+#~ msgid "Source"
+#~ msgstr "Orixe"
+
+#~ msgid "Has Focus"
+#~ msgstr "Ten foco"
+
+#~ msgid "Field"
+#~ msgstr "Campo"
+
+#~ msgid "Field Name"
+#~ msgstr "Nome do campo"
+
+#~ msgid "Max field name length"
+#~ msgstr "Lonxitude máxima do campo"
+
+#~ msgid "Column Width"
+#~ msgstr "Largura da columna"
+
+#~ msgid "Adapter"
+#~ msgstr "Adaptador"
+
+#~ msgid "Selected"
+#~ msgstr "Seleccionado"
+
+#~ msgid "Has Cursor"
+#~ msgstr "Posúe cursor"
+
+#~ msgid "Calendar repository is offline."
+#~ msgstr "O repositorio de calendarios está desconectado."
+
+#~ msgid "Error on '{0}'"
+#~ msgstr "Erro en '{0}'"
+
+#~ msgid "No response from the server."
+#~ msgstr "Non hai resposta do servidor."
+
+#~ msgid "Unable to load the calendar"
+#~ msgstr "Non é posíbel cargar o calendario"
+
+#~ msgid "{0}."
+#~ msgstr "{0}."
+
+#~ msgid "Check this to use system timezone in Evolution."
+#~ msgstr "Active isto para empregar o fuso horario do sistema en Evolution."
+
+#~ msgid "Attendee_s..."
+#~ msgstr "Participante_s..."
+
+#~ msgid "Default Client"
+#~ msgstr "Cliente predefinido"
+
+#~ msgid "Shell Settings"
+#~ msgstr "Configuración do Exchange"
+
+#~ msgid "Application-wide settings"
+#~ msgstr "Configuración do completado automático"
+
+#~ msgid "A_ttendees..."
+#~ msgstr "Par_ticipantes..."
+
+#~ msgid "0%"
+#~ msgstr "0%"
+
+#~ msgid "10%"
+#~ msgstr "10%"
+
+#~ msgid "20%"
+#~ msgstr "20%"
+
+#~ msgid "30%"
+#~ msgstr "30%"
+
+#~ msgid "40%"
+#~ msgstr "40%"
+
+#~ msgid "50%"
+#~ msgstr "50%"
+
+#~ msgid "60%"
+#~ msgstr "60%"
+
+#~ msgid "70%"
+#~ msgstr "70%"
+
+#~ msgid "80%"
+#~ msgstr "80%"
+
+#~ msgid "90%"
+#~ msgstr "90%"
+
+#~ msgid "100%"
+#~ msgstr "100%"
+
+#~ msgid "_Select Today"
+#~ msgstr "_Seleccionar hoxe"
+
+#~ msgid "New Tab"
+#~ msgstr "Novo _separador"
+
+#~ msgid "Name of the logger"
+#~ msgstr "Nome do compoñente que se está rexistrando"
+
+#~ msgid "Filename"
+#~ msgstr "Nome do f_icheiro:"
+
+#~ msgid "The filename of the module"
+#~ msgstr "Modificar o nome deste cartafol"
+
+#~ msgid "Whether the plugin is enabled"
+#~ msgstr "Indica se o engadido está activado"
+
+#~ msgid "Focus Tracker"
+#~ msgstr "Enfocar o tracker"
+
+#~ msgid "Shell Module"
+#~ msgstr "Modo de selección"
+
+#~ msgid "The mail shell backend"
+#~ msgstr "A infraestrutura da terminal de mail"
+
+#~ msgid "Show Deleted"
+#~ msgstr "Eliminada"
+
+#~ msgid "To Do"
+#~ msgstr "Tarefas pendentes"
+
+#~ msgid "Later"
+#~ msgstr "Máis tarde"
+
+#~ msgid "Unable to create new folder `%s': %s"
+#~ msgstr "Non é posíbel crear un cartafol novo: `%s': %s"
+
+#~ msgid "Unable to copy folder `%s' to `%s': %s"
+#~ msgstr "Non é posíbel copiar o cartafol `%s' en `%s': %s"
+
+#~ msgid "Unable to scan for existing mailboxes at `%s': %s"
+#~ msgstr "Non é posíbel examinar as caixas de correo existentes en `%s': %s"
+
+#~ msgid ""
+#~ "The location and hierarchy of the Evolution mailbox folders has changed "
+#~ "since Evolution 1.x.\n"
+#~ "\n"
+#~ "Please be patient while Evolution migrates your folders..."
+#~ msgstr ""
+#~ "A localización e a xerarquía dos cartafoles da caixa de correo "
+#~ "modificouse desde Evolution 1.x.\n"
+#~ "\n"
+#~ "Agarde mentres o Evolution migra os seus cartafoles..."
+
+#~ msgid "Unable to open old POP keep-on-server data `%s': %s"
+#~ msgstr "Non é posíbel abrir os datos antigos POP keep-on-server `%s': %s"
+
+#~ msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
+#~ msgstr ""
+#~ "Non é posíbel crear o cartafol de datos POP3 keep-on-server `%s': %s"
+
+#~ msgid "Unable to copy POP3 keep-on-server data `%s': %s"
+#~ msgstr "Non é posíbel copiar os datos POP3 keep-on-server `%s': %s"
+
+#~ msgid "Failed to create local mail storage `%s': %s"
+#~ msgstr ""
+#~ "Produciuse un fallo ao crear o almacenamento de correo local `%s': %s"
+
+#~ msgid ""
+#~ "Unable to read settings from previous Evolution install, `evolution/"
+#~ "config.xmldb' does not exist or is corrupt."
+#~ msgstr ""
+#~ "Non é posíbel ler a configuración da instalación anterior do Evolution: "
+#~ "`evolution/config.xmldb' non existe ou está danado."
+
+#~ msgid "Allows Evolution to display text part of limited size"
+#~ msgstr ""
+#~ "Permite que o Evolution mostre unha parte de texto de tamaño limitado"
+
+#~ msgid "Enable to render message text part of limited size."
+#~ msgstr ""
+#~ "Active isto para renderizar a parte da mensaxe de texto de tamaño "
+#~ "limitado."
+
+#~ msgid "Text message part limit"
+#~ msgstr "Límite da parte de texto da mensaxe"
+
+#~ msgid "    "
+#~ msgstr "    "
+
+#~ msgid "Because \"{0}\"."
+#~ msgstr "Por causa de \"{0}\"."
+
+#~ msgid "Because \"{2}\"."
+#~ msgstr "Por causa de \"{2}\"."
+
+#~ msgid ""
+#~ "The following Search Folder(s):\n"
+#~ "{0}\n"
+#~ "Used the now removed folder:\n"
+#~ "    \"{1}\"\n"
+#~ "And have been updated."
+#~ msgstr ""
+#~ "Os seguintes cartafoles de busca:\n"
+#~ "{0}\n"
+#~ "usan o cartafol que se eliminou agora:\n"
+#~ "    \"{1}\"\n"
+#~ "e foron actualizados."
+
+#~ msgid ""
+#~ "The following filter rule(s):\n"
+#~ "{0}\n"
+#~ "Used the now removed folder:\n"
+#~ "    \"{1}\"\n"
+#~ "And have been updated."
+#~ msgstr ""
+#~ "As seguintes regras de filtraxe:\n"
+#~ "{0}\n"
+#~ "usan o cartafol que se eliminou agora:\n"
+#~ "    \"{1}\"\n"
+#~ "e foron actualizadas."
+
+#~ msgid "Shell Backend"
+#~ msgstr "Infraestrutura shell"
+
+#~ msgid ""
+#~ "There are only hidden messages in this folder. Use View->Show Hidden "
+#~ "Messages to show them."
+#~ msgstr ""
+#~ "Só hai mensaxes ocultas neste cartafol. Use Ver -> Mostrar mensaxes "
+#~ "ocultas para velas."
+
+#~ msgid "Table column:"
+#~ msgstr "Columna da táboa:"
+
+#~ msgid "Source List"
+#~ msgstr "Orixe"
+
+#~ msgid "The registry of address books"
+#~ msgstr "Non foi posíbel obter unha lista de axendas de enderezos"
+
+#~ msgid "Current View"
+#~ msgstr "_Visualización actual"
+
+#~ msgid "The currently selected address book view"
+#~ msgstr "A visualización de axenda de enderezo seleccionada actualmente"
+
+#~ msgid "Previewed Contact"
+#~ msgstr "Contacto novo"
+
+#~ msgid "The contact being shown in the preview pane"
+#~ msgstr "Indica se se mostra o panel de previsualización."
+
+#~ msgid "Preview is Visible"
+#~ msgstr "A barra lateral é visíbel"
+
+#~ msgid "Whether the preview pane is visible"
+#~ msgstr "Indica se se mostra o panel de previsualización."
+
+#~ msgid "LDAP Servers"
+#~ msgstr "Servidores LDAP"
+
+#~ msgid "Autocompletion Settings"
+#~ msgstr "Configuración do completado automático"
+
+#~ msgid ""
+#~ "The location and hierarchy of the Evolution contact folders has changed "
+#~ "since Evolution 1.x.\n"
+#~ "\n"
+#~ "Please be patient while Evolution migrates your folders..."
+#~ msgstr ""
+#~ "A localización e a xerarquía dos cartafoles de contactos do Evolution "
+#~ "modificouse desde o Evolution 1.x.\n"
+#~ "\n"
+#~ "Sexa paciente mentres o Evolution migra os seus cartafoles..."
+
+#~ msgid ""
+#~ "The format of mailing list contacts has changed.\n"
+#~ "\n"
+#~ "Please be patient while Evolution migrates your folders..."
+#~ msgstr ""
+#~ "Modificouse o formato dos contactos da lista de correo.\n"
+#~ "\n"
+#~ "Sexa paciente mentres o Evolution migra os seus cartafoles..."
+
+#~ msgid ""
+#~ "The way Evolution stores some phone numbers has changed.\n"
+#~ "\n"
+#~ "Please be patient while Evolution migrates your folders..."
+#~ msgstr ""
+#~ "Modificouse a maneira en que o Evolution almacena algúns números de "
+#~ "teléfono.\n"
+#~ "\n"
+#~ "Sexa paciente mentres o Evolution migra os seus cartafoles..."
+
+#~ msgid ""
+#~ "Evolution's Palm Sync changelog and map files have changed.\n"
+#~ "\n"
+#~ "Please be patient while Evolution migrates your Pilot Sync data..."
+#~ msgstr ""
+#~ "Modificouse o rexistro de modificacións e os ficheiros de mapa no Palm "
+#~ "Sync do Evolution.\n"
+#~ "\n"
+#~ "Sexa paciente mentres o Evolution migra os seus datos Pilot Sync..."
+
+#~ msgid "Source Selector Widget"
+#~ msgstr "Selector de orixe de notas"
+
+#~ msgid "This widget displays groups of address books"
+#~ msgstr "Non foi posíbel obter unha lista de axendas de enderezos"
+
+#~ msgid "Save as vCard..."
+#~ msgstr "Gardar como vCard..."
+
+#~ msgid "3268"
+#~ msgstr "3268"
+
+#~ msgid "389"
+#~ msgstr "389"
+
+#~ msgid "636"
+#~ msgstr "636"
+
+#~ msgid "The registry of calendars"
+#~ msgstr "Calendario primario"
+
+#~ msgid ""
+#~ "The location and hierarchy of the Evolution calendar folders has changed "
+#~ "since Evolution 1.x.\n"
+#~ "\n"
+#~ "Please be patient while Evolution migrates your folders..."
+#~ msgstr ""
+#~ "A localización e xerarquía dos cartafoles de calendario do Evolution "
+#~ "modificouse desde o Evolution 1.x.\n"
+#~ "\n"
+#~ "Agarde mentres o Evolution migra os seus cartafoles..."
+
+#~ msgid "Unable to migrate old settings from evolution/config.xmldb"
+#~ msgstr ""
+#~ "Non é posíbel migrar a configuración antiga desde evolution/config.xmldb"
+
+#~ msgid "Unable to migrate calendar `%s'"
+#~ msgstr "Non foi posíbel migrar o calendario `%s'"
+
+#~ msgid "Date Navigator Widget"
+#~ msgstr "Widget do navegador de datas"
+
+#~ msgid "This widget displays a miniature calendar"
+#~ msgstr "Este widget mostra unha calendario en miniatura"
+
+#~ msgid "Default Calendar Client"
+#~ msgstr "Cliente de correo predefinido"
+
+#~ msgid "Default client for calendar operations"
+#~ msgstr "O cliente predefinido para as operacións no calendario"
+
+#~ msgid "This widget displays groups of calendars"
+#~ msgstr "Este widget mostra grupos de calendarios"
+
+#~ msgid "The registry of memo lists"
+#~ msgstr "Lista de notas primaria"
+
+#~ msgid "The memo table model"
+#~ msgstr "Modelo da táboa"
+
+#~ msgid "Default Memo Client"
+#~ msgstr "Cliente de recordatorios predefinido"
+
+#~ msgid "Default client for memo operations"
+#~ msgstr "Cliente predefinido para as operacións nas citas"
+
+#~ msgid "This widget displays groups of memo lists"
+#~ msgstr "Este widget mostra os grupos de listas de recordatorios"
+
+#~ msgid "The registry of task lists"
+#~ msgstr "Lista de tarefas primaria"
+
+#~ msgid "The task table model"
+#~ msgstr "Modelo da táboa"
+
+#~ msgid ""
+#~ "The location and hierarchy of the Evolution task folders has changed "
+#~ "since Evolution 1.x.\n"
+#~ "\n"
+#~ "Please be patient while Evolution migrates your folders..."
+#~ msgstr ""
+#~ "A localización e xerarquía dos cartafoles de tarefas do Evolution "
+#~ "modificouse desde o Evolution 1.x.\n"
+#~ "\n"
+#~ "Agarde mentres o Evolution migra os seus cartafoles..."
+
+#~ msgid "Unable to migrate tasks `%s'"
+#~ msgstr "Non foi posíbel migrar as tarefas `%s'"
+
+#~ msgid "Default Task Client"
+#~ msgstr "Cliente de tarefas predefinido"
+
+#~ msgid "Default client for task operations"
+#~ msgstr "Cliente predefinido para a operación na tarefa"
+
+#~ msgid "This widget displays groups of task lists"
+#~ msgstr "Este widget mostra os grupos de listas de tarefas"
+
+#~ msgid "Group by Threads"
+#~ msgstr "Agr_upar por fíos"
+
+#~ msgid "Whether to group messages by threads"
+#~ msgstr "Indica se as mensaxes se agrupan por fíos"
+
+#~ msgid "Hide _Read Messages"
+#~ msgstr "Ocultar as mensaxes _lidas"
+
+#~ msgid "Temporarily hide all messages that have already been read"
+#~ msgstr "Ocultar temporalmente todas as mensaxes lidas"
+
+#~ msgid "Hide S_elected Messages"
+#~ msgstr "Ocultar as mensaxes s_eleccionadas"
+
+#~ msgid "Temporarily hide the selected messages"
+#~ msgstr "Ocultar temporalmente as mensaxes seleccionadas"
+
+#~ msgid "Show Hidde_n Messages"
+#~ msgstr "Mostrar as mensaxes o_cultas"
+
+#~ msgid "Show messages that have been temporarily hidden"
+#~ msgstr "Mostrar as mensaxes ocultas temporalmente"
+
+#~ msgid "Hide _Deleted Messages"
+#~ msgstr "Ocultar as mensaxes elimina_das"
+
+#~ msgid ""
+#~ "Hide deleted messages rather than displaying them with a line through them"
+#~ msgstr "Ocultar as mensaxes eliminadas en vez de mostralas riscadas"
+
+#~ msgid ""
+#~ "List of clues for the attachment reminder plugin to look for in a message "
+#~ "body."
+#~ msgstr ""
+#~ "Lista de pistas do engadido de aviso de anexos para buscar no corpo dunha "
+#~ "mensaxe."
+
+#~ msgid "Add Hula support to Evolution."
+#~ msgstr "Engade a compatibilidade de Hula con Evolution."
+
+#~ msgid "Hula Support"
+#~ msgstr "Compatibilidade con Hula"
+
+#~ msgid "%ld KB"
+#~ msgstr "%ld KB"
+
+#~ msgid "Toolbar Style"
+#~ msgstr "Estilo da _barra de ferramentas"
+
+#~ msgid "The switcher's toolbar style"
+#~ msgstr "O estilo da barra de ferramentas do alternador"
+
+#~ msgid "Whether the switcher is visible"
+#~ msgstr "Se a barra lateral debería ser visíbel."
+
+#~ msgid "Switcher Action"
+#~ msgstr "Cambiar a %s"
+
+#~ msgid "The switcher action for this shell view"
+#~ msgstr "A acción do alternador para esta visualización de terminal de ordes"
+
+#~ msgid "Page Number"
+#~ msgstr "Número de serie"
+
+#~ msgid "The notebook page number of the shell view"
+#~ msgstr ""
+#~ "O número de páxina do libro de notas da visualización de terminal de ordes"
+
+#~ msgid "Search Rule"
+#~ msgstr "Filtro de busca"
+
+#~ msgid "Criteria for the current search results"
+#~ msgstr "Criterio para os resultados da búsqueda actual"
+
+#~ msgid "The EShellBackend for this shell view"
+#~ msgstr "O EShellBackend para esta visualizacion de terminal de ordes"
+
+#~ msgid "Shell Content Widget"
+#~ msgstr "Widget de contido de intérprete de ordes"
+
+#~ msgid "The content widget appears in a shell window's right pane"
+#~ msgstr ""
+#~ "O contido do wiget aparece no panel dereito da xanela da terminal de ordes"
+
+#~ msgid "Shell Sidebar Widget"
+#~ msgstr "Largura predefinida da barra lateral"
+
+#~ msgid "The sidebar widget appears in a shell window's left pane"
+#~ msgstr ""
+#~ "A barra lateral do widget aparece no panel da esquerda da xanela da "
+#~ "terminal de ordes"
+
+#~ msgid "Shell Taskbar Widget"
+#~ msgstr "Widget da barra de ferramentas da terminal de ordes"
+
+#~ msgid "The taskbar widget appears at the bottom of a shell window"
+#~ msgstr ""
+#~ "O widget da barra de ferramentas aparece na parte inferior da xanela da "
+#~ "terminal de ordes"
+
+#~ msgid "Shell Window"
+#~ msgstr "_Xanela nova"
+
+#~ msgid "The window to which the shell view belongs"
+#~ msgstr "A xanela á que pertence a visualización da terminal de ordes"
+
+#~ msgid "The key file holding widget state data"
+#~ msgstr "O ficheiro chave que contén os datos de estado do wiget"
+
+#~ msgid "The title of the shell view"
+#~ msgstr "O título da visualización da terminal de sesión"
+
+#~ msgid "Current View ID"
+#~ msgstr "_Visualización actual"
+
+#~ msgid "The current GAL view ID"
+#~ msgstr "Gardar a visualización personalizada actual"
+
+#~ msgid "Active Shell View"
+#~ msgstr "Visualización da terminal de ordes activa"
+
+#~ msgid "Name of the active shell view"
+#~ msgstr "Nome da visualización nova:"
+
+#~ msgid "The shell window's EFocusTracker"
+#~ msgstr "O EFocusTracker da xanela da terminal de ordes"
+
+#~ msgid "Geometry"
+#~ msgstr "Xeometría"
+
+#~ msgid "Initial window geometry string"
+#~ msgstr "A cadea da xeometría inicial da xanela"
+
+#~ msgid "Whether the shell window is in safe mode"
+#~ msgstr "Indica se o engadido está activado"
+
+#~ msgid "Sidebar Visible"
+#~ msgstr "A barra lateral é visíbel"
+
+#~ msgid "Whether the shell window's side bar is visible"
+#~ msgstr "Se os botóns da xanela deberían ser visíbeis."
+
+#~ msgid "Switcher Visible"
+#~ msgstr "A barra lateral é visíbel"
+
+#~ msgid "Whether the shell window's switcher buttons are visible"
+#~ msgstr "Se os botóns da xanela deberían ser visíbeis."
+
+#~ msgid "Taskbar Visible"
+#~ msgstr "A barra de estado é visíbel"
+
+#~ msgid "Whether the shell window's task bar is visible"
+#~ msgstr "Se a barra de estado debería ser visíbel."
+
+#~ msgid "Whether the shell window's tool bar is visible"
+#~ msgstr "Se os botóns da xanela deberían ser visíbeis."
+
+#~ msgid "UI Manager"
+#~ msgstr "Xestor"
+
+#~ msgid "The shell window's GtkUIManager"
+#~ msgstr "O GtkUIManager da xanela da terminal de ordes"
+
+#~ msgid "Module Directory"
+#~ msgstr "Cartafol onde gardar"
+
+#~ msgid "The directory from which to load EModules"
+#~ msgstr "O cartafol desde o cal ler EModules"
+
+#~ msgid "Network Available"
+#~ msgstr "TLS non dispoñíbel"
+
+#~ msgid "Whether the network is available"
+#~ msgstr "Indica se o engadido está activado"
+
+#~ msgid "Online"
+#~ msgstr "Conectado"
+
+#~ msgid "Forcibly re-migrate from Evolution 1.4"
+#~ msgstr "Forza a remigración desde o Evolution 1.4"
+
+#~ msgid "Insufficient disk space for upgrade."
+#~ msgstr "Espazo en disco insuficiente para a actualización."
+
+#~ msgid "Really delete old data?"
+#~ msgstr "Está seguro de que quere eliminar os datos antigos?"
+
+#~ msgid ""
+#~ "The entire contents of the &quot;evolution&quot; directory are about to "
+#~ "be permanently removed.\n"
+#~ "\n"
+#~ "It is suggested you manually verify that all of your mail, contact, and "
+#~ "calendar data is present, and that this version of Evolution operates "
+#~ "correctly before deleting this old data.\n"
+#~ "\n"
+#~ "Once deleted, you cannot downgrade to the previous version of Evolution "
+#~ "without manual intervention.\n"
+#~ msgstr ""
+#~ "Todo o contido do cartafol &quot;evolution&quot; vaise eliminar "
+#~ "permanentemente.\n"
+#~ "\n"
+#~ "Suxíreselle que verifique manualmente que todos os datos do seu correo, "
+#~ "contactos, e calendarios están presentes, e que esta versión do Evolution "
+#~ "funciona correctamente antes de eliminar os datos antigos.\n"
+#~ "\n"
+#~ "Unha vez eliminados, non poderá desactualizarse á versión anterior do "
+#~ "Evolution sen intervención manual.\n"
+
+#~ msgid ""
+#~ "The previous version of Evolution stored its data in a different "
+#~ "location.\n"
+#~ "\n"
+#~ "If you choose to remove this data, the entire contents of the &quot;"
+#~ "evolution&quot; directory will be removed permanently. If you choose to "
+#~ "keep this data, then you may manually remove the contents of &quot;"
+#~ "evolution&quot; at your convenience.\n"
+#~ msgstr ""
+#~ "As versións anteriores do Evolution gardan os seus datos nunha "
+#~ "localización diferente.\n"
+#~ "\n"
+#~ "Se escolle eliminar estes datos, todos os contidos do cartafol &quot;"
+#~ "evolution&quot; serán eliminados permanentemente. Se escolle gardar estes "
+#~ "datos, entón poderá eliminar os contidos de &quot;evolution&quot; cando o "
+#~ "vexa conveniente.\n"
+
+#~ msgid ""
+#~ "Upgrading your data and settings will require up to {0} of disk space, "
+#~ "but you only have {1} available.\n"
+#~ "\n"
+#~ "You will need to make more space available in your home directory before "
+#~ "you can continue."
+#~ msgstr ""
+#~ "A actualización dos seus datos e configuración requirirá até {0} de "
+#~ "espazo no disco, mais só ten {1} dispoñíbeis.\n"
+#~ "\n"
+#~ "Necesitará facer máis espazo dispoñíbel no seu cartafol persoal antes de "
+#~ "que poida continuar."
+
+#~ msgid "_Keep Data"
+#~ msgstr "_Conservar os datos"
+
+#~ msgid "_Remind Me Later"
+#~ msgstr "_Avisarme máis tarde"
+
+#~ msgid "Collection"
+#~ msgstr "Colección"
+
+#~ msgid "Instance"
+#~ msgstr "Instancia"
+
+#~ msgid "Factory"
+#~ msgstr "Factoría"
+
+#~ msgid "Action"
+#~ msgstr "_Accións"
+
+#~ msgid "A GtkRadioAction"
+#~ msgstr "Un GtkRadioAction"
+
+#~ msgid "Show _Attachment Bar"
+#~ msgstr "Mostrar a _barra de anexos"
+
+#~ msgid "Fill color"
+#~ msgstr "Encher con cor"
+
+#~ msgid "GDK fill color"
+#~ msgstr "Encher con cor GDK"
+
+#~ msgid "Fill stipple"
+#~ msgstr "Encher con liña de puntos"
+
+#~ msgid "X2"
+#~ msgstr "X2"
+
+#~ msgid "Y2"
+#~ msgstr "Y2"
+
+#~ msgid "Minimum width"
+#~ msgstr "Largura mínima"
+
+#~ msgid "Minimum Width"
+#~ msgstr "Largura mínima"
+
+#~ msgid "Spacing"
+#~ msgstr "Espazamento"
+
+#~ msgid "The button state is online"
+#~ msgstr "O estado do botón é conectado"
+
+#~ msgid "Horizontal Position"
+#~ msgstr "Posición horizontal do panel"
+
+#~ msgid "Pane position when oriented horizontally"
+#~ msgstr "Posición do panel ao orientalo horizontalmente"
+
+#~ msgid "Vertical Position"
+#~ msgstr "Posición vertical do panel"
+
+#~ msgid "Pane position when oriented vertically"
+#~ msgstr "Posición do panel ao orientalo verticalmente"
+
+#~ msgid "Proportion"
+#~ msgstr "_Propiedades"
+
+#~ msgid "Proportion of the 2nd pane size"
+#~ msgstr "Proporción do tamaño do segundo panel"
+
+#~ msgid "Fixed Resize"
+#~ msgstr "_Redimensionar"
+
+#~ msgid "Keep the 2nd pane fixed during resize"
+#~ msgstr "Manter o segundo panel fixo durante o redimensionado"
+
+#~ msgid "Cursor Row"
+#~ msgstr "Fila de cursor"
+
+#~ msgid "Sorter"
+#~ msgstr "Clasificador"
+
+#~ msgid "Selection Mode"
+#~ msgstr "Modo de selección"
+
+#~ msgid "Cursor Mode"
+#~ msgstr "Modo do cursor"
+
+#~ msgid "Selected Column"
+#~ msgstr "Columna seleccionada"
+
+#~ msgid "Focused Column"
+#~ msgstr "Columna enfocada"
+
+#~ msgid "Unselected Column"
+#~ msgstr "Columna non seleccionada"
+
+#~ msgid "Strikeout Column"
+#~ msgstr "Riscar columna"
+
+#~ msgid "Bold Column"
+#~ msgstr "Columna en negra"
+
+#~ msgid "Color Column"
+#~ msgstr "Cor da columna"
+
+#~ msgid "BG Color Column"
+#~ msgstr "Cor de fondo da columna"
+
+#~ msgid "State"
+#~ msgstr "Estado"
+
+#~ msgid "Alternating Row Colors"
+#~ msgstr "Alternar as cores das filas"
+
+#~ msgid "Horizontal Draw Grid"
+#~ msgstr "Debuxar a grade horizontal"
+
+#~ msgid "Vertical Draw Grid"
+#~ msgstr "Debuxar a grade vertical"
+
+#~ msgid "Draw focus"
+#~ msgstr "Debuxar o foco"
+
+#~ msgid "Cursor mode"
+#~ msgstr "Modo de cursor"
+
+#~ msgid "Selection model"
+#~ msgstr "Modelo de selección"
+
+#~ msgid "Length Threshold"
+#~ msgstr "Límite de lonxitude"
+
+#~ msgid "Uniform row height"
+#~ msgstr "Altura uniforme da fila"
+
+#~ msgid "Frozen"
+#~ msgstr "Conxelado"
+
+#~ msgid "Table header"
+#~ msgstr "Cabeceira da táboa"
+
+#~ msgid "Table model"
+#~ msgstr "Modelo da táboa"
+
+#~ msgid "Cursor row"
+#~ msgstr "Fila do cursor"
+
+#~ msgid "Sort Info"
+#~ msgstr "Ordenar a información"
+
+#~ msgid "Always search"
+#~ msgstr "Buscar sempre"
+
+#~ msgid "Use click to add"
+#~ msgstr "Premer para engadir"
+
+#~ msgid "Vertical Row Spacing"
+#~ msgstr "Debuxar a grade vertical"
+
+#~ msgid ""
+#~ "Vertical space between rows. It is added to top and to bottom of a row"
+#~ msgstr ""
+#~ "Espazo vertical entre filas. Engádese na parte superior e inferior dunha "
+#~ "fila"
+
+#~ msgid "ETree table adapter"
+#~ msgstr "Adaptador de táboa Etree"
+
+#~ msgid "Retro Look"
+#~ msgstr "Aparencia retro"
+
+#~ msgid "Draw lines and +/- expanders."
+#~ msgstr "Debuxar liñas e expansores +/-."
+
+#~ msgid "Expander Size"
+#~ msgstr "Tamaño do expansor"
+
+#~ msgid "Size of the expander arrow"
+#~ msgstr "Tamaño da frecha do expansor"
+
+#~ msgid "popup"
+#~ msgstr "emerxente"
+
+#~ msgid "edit"
+#~ msgstr "editar"
+
+#~ msgid "toggle"
+#~ msgstr "alternar o estado"
+
+#~ msgid "expand"
+#~ msgstr "expandir"
+
+#~ msgid "Event Processor"
+#~ msgstr "Procesador de eventos"
+
+#~ msgid "Bold"
+#~ msgstr "Negra"
+
+#~ msgid "Clip Width"
+#~ msgstr "Largura do clip"
+
+#~ msgid "Clip Height"
+#~ msgstr "Altura do clip"
+
+#~ msgid "Clip"
+#~ msgstr "Clip"
+
+#~ msgid "Fill clip rectangle"
+#~ msgstr "Encher o rectángulo do clip"
+
+#~ msgid "X Offset"
+#~ msgstr "Desprazamento X"
+
+#~ msgid "Y Offset"
+#~ msgstr "Desprazamento Y"
+
+#~ msgid "Use ellipsis"
+#~ msgstr "Usar a elipse"
+
+#~ msgid "Ellipsis"
+#~ msgstr "Elipse"
+
+#~ msgid "Line wrap"
+#~ msgstr "Axuste de liña"
+
+#~ msgid "Break characters"
+#~ msgstr "Caracteres de quebra"
+
+#~ msgid "Max lines"
+#~ msgstr "Máximo de liñas"
+
+#~ msgid "Draw borders"
+#~ msgstr "Debuxar os bordos"
+
+#~ msgid "Allow newlines"
+#~ msgstr "Permitir liñas novas"
+
+#~ msgid "Draw background"
+#~ msgstr "Debuxar o fondo"
+
+#~ msgid "Draw button"
+#~ msgstr "Debuxar o botón"
+
+#~ msgid "Cursor position"
+#~ msgstr "Posición do cursor"
+
+#~ msgid "IM Context"
+#~ msgstr "Contexto MI"
+
+#~ msgid "Handle Popup"
+#~ msgstr "Tirador emerxente"
