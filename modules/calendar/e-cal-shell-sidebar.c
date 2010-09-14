@@ -149,32 +149,32 @@ cal_shell_sidebar_backend_error_cb (ECalShellSidebar *cal_shell_sidebar,
 	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
 	GtkWidget *dialog;
-	const gchar *uri;
-	gchar *uri_no_passwd;
+	const gchar *cal_name;
+	const gchar *cal_group;
 
 	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	uri = e_cal_get_uri (client);
-	uri_no_passwd = get_uri_without_password (uri);
+	cal_name = e_source_peek_name ( e_cal_get_source ( client ));
+	cal_group = e_source_group_peek_name ( e_source_peek_group( e_cal_get_source ( client)));
 
 	/* Translators: This string is displayed in a message dialog when
 	 *              our connection to the calendar service detects an
-	 *              out-of-band error.  The first string is a URI for
-	 *              the source of the error, the second string is the
-	 *              error message. */
+	 *              out-of-band error.  The first string is a name of 
+	 *              group in which calendar for the source of error is
+	 *              defined and the second string is name of calendar 
+	 *              and the third string is the error message. */
 	dialog = gtk_message_dialog_new (
 		GTK_WINDOW (shell_window),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
-		_("Error on %s\n%s"),
-		uri_no_passwd, message);
+		_("Error on %s: %s\n%s"),
+		cal_group, cal_name, message);
 
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
 
-	g_free (uri_no_passwd);
 }
 
 static void
