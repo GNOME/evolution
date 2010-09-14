@@ -579,7 +579,7 @@ static ECalConfigItem eccp_items[] = {
 	{ E_CONFIG_SECTION,       (gchar *) "10.display/10.taskList",       (gchar *) "taskList",          eccp_widget_glade },
 	{ E_CONFIG_PAGE,          (gchar *) "15.alarms",                    (gchar *) "alarms",            eccp_widget_glade },
 	{ E_CONFIG_PAGE,          (gchar *) "20.freeBusy",                  (gchar *) "freebusy",          eccp_widget_glade },
-	{ E_CONFIG_SECTION,       (gchar *) "20.freeBusy/00.defaultServer", (gchar *) "defaultFBServer",   eccp_widget_glade },
+	{ E_CONFIG_SECTION,       (gchar *) "20.freeBusy/00.defaultServer", (gchar *) "default-freebusy-vbox",   eccp_widget_glade },
 };
 
 static void

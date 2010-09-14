@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
+  <!-- interface-requires evolution 0.0 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="adjustment1">
     <property name="value">1.5</property>
@@ -257,8 +258,8 @@ For example: "Work" or "Personal"</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">&#x25CF;</property>
                     <accessibility>
-                      <relation type="labelled-by" target="identity_address_label"/>
                       <relation type="labelled-by" target="identity-required-header"/>
+                      <relation type="labelled-by" target="identity_address_label"/>
                     </accessibility>
                   </object>
                   <packing>
@@ -303,8 +304,8 @@ For example: "Work" or "Personal"</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">&#x25CF;</property>
                     <accessibility>
-                      <relation type="labelled-by" target="identity-required-header"/>
                       <relation type="labelled-by" target="identity_full_name_label"/>
+                      <relation type="labelled-by" target="identity-required-header"/>
                     </accessibility>
                   </object>
                   <packing>
@@ -419,8 +420,8 @@ For example: "Work" or "Personal"</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">&#x25CF;</property>
                     <accessibility>
-                      <relation type="labelled-by" target="identity_organization_label"/>
                       <relation type="labelled-by" target="identity-optional-header"/>
+                      <relation type="labelled-by" target="identity_organization_label"/>
                     </accessibility>
                   </object>
                   <packing>
@@ -452,8 +453,8 @@ For example: "Work" or "Personal"</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">&#x25CF;</property>
                     <accessibility>
-                      <relation type="labelled-by" target="identity-optional-header"/>
                       <relation type="labelled-by" target="reply_to_label"/>
+                      <relation type="labelled-by" target="identity-optional-header"/>
                     </accessibility>
                   </object>
                   <packing>
@@ -1499,16 +1500,54 @@ For example: "Work" or "Personal"</property>
                   <placeholder/>
                 </child>
                 <child>
-                  <placeholder/>
+                  <object class="EMFolderSelectionButton" id="drafts_button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                  </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <object class="EMFolderSelectionButton" id="sent_button">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">1</property>
+                    <property name="bottom_attach">2</property>
+                  </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <object class="EMFolderSelectionButton" id="trash_folder_butt">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">2</property>
+                    <property name="bottom_attach">3</property>
+                  </packing>
                 </child>
                 <child>
-                  <placeholder/>
+                  <object class="EMFolderSelectionButton" id="junk_folder_butt">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
+                    <property name="top_attach">3</property>
+                    <property name="bottom_attach">4</property>
+                  </packing>
                 </child>
               </object>
             </child>
@@ -4954,15 +4993,15 @@ for display purposes only. </property>
   </object>
   <object class="GtkSizeGroup" id="composer-label-size-group">
     <widgets>
-      <widget name="lblCharset"/>
-      <widget name="lblReplyStyle"/>
       <widget name="lblForwardStyle"/>
+      <widget name="lblReplyStyle"/>
+      <widget name="lblCharset"/>
     </widgets>
   </object>
   <object class="GtkSizeGroup" id="composer-combo-box-size-group">
     <widgets>
-      <widget name="comboboxReplyStyle"/>
       <widget name="comboboxForwardStyle"/>
+      <widget name="comboboxReplyStyle"/>
     </widgets>
   </object>
 </interface>

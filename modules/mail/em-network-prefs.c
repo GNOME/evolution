@@ -267,7 +267,7 @@ ignore_hosts_entry_changed_cb (GtkWidget *widget, const gchar *key)
 static EMConfigItem emnp_items[] = {
 	{ E_CONFIG_BOOK, (gchar *) "", (gchar *) "network_preferences_toplevel", emnp_widget_glade },
 	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) "vboxNetworkGeneral", emnp_widget_glade },
-	{ E_CONFIG_SECTION, (gchar *) "00.general/00.proxy", (gchar *) "frameProxy", emnp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/00.proxy", (gchar *) "proxy-vbox", emnp_widget_glade },
 };
 
 static void

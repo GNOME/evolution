@@ -634,11 +634,10 @@ emmp_widget_glade (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 static EMConfigItem emmp_items[] = {
 	{ E_CONFIG_BOOK, (gchar *) "", (gchar *) "preferences_toplevel", emmp_widget_glade },
 	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) "vboxMailGeneral", emmp_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.general/00.fonts", (gchar *) "message-fonts-table", emmp_widget_glade },
 	{ E_CONFIG_SECTION, (gchar *) "00.general/10.display", (gchar *) "message-display-vbox", emmp_widget_glade },
 	{ E_CONFIG_SECTION, (gchar *) "00.general/20.delete", (gchar *) "delete-mail-vbox", emmp_widget_glade },
 	{ E_CONFIG_PAGE, (gchar *) "10.html", (gchar *) "vboxHtmlMail", emmp_widget_glade },
-	{ E_CONFIG_SECTION, (gchar *) "10.html/00.general", (gchar *) "mail-general-vbox", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "10.html/00.general", (gchar *) "html-general-vbox", emmp_widget_glade },
 	{ E_CONFIG_SECTION, (gchar *) "10.html/10.images", (gchar *) "loading-images-vbox", emmp_widget_glade },
 	{ E_CONFIG_PAGE, (gchar *) "20.labels", (gchar *) "frameColours", emmp_widget_glade },
 	/* this is a table, so we can't use it { E_CONFIG_SECTION, "20.labels/00.labels", "tableColours", emmp_widget_glade }, */

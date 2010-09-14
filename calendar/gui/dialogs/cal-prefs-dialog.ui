@@ -1234,9 +1234,10 @@
       </packing>
     </child>
     <child>
-      <object class="GtkVBox" id="vbox16">
+      <object class="GtkVBox" id="alarms">
         <property name="visible">True</property>
         <property name="border_width">12</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkLabel" id="label67">
@@ -1319,9 +1320,10 @@
       <object class="GtkVBox" id="freebusy">
         <property name="visible">True</property>
         <property name="border_width">12</property>
+        <property name="orientation">vertical</property>
         <property name="spacing">12</property>
         <child>
-          <object class="GtkLabel" id="label25">
+          <object class="GtkLabel" id="default-freebusy-header">
             <property name="visible">True</property>
             <property name="xalign">0</property>
             <property name="label" translatable="yes">Default Free/Busy Server</property>
@@ -1336,22 +1338,13 @@
           </packing>
         </child>
         <child>
-          <object class="GtkHBox" id="hbox12">
+          <object class="GtkAlignment" id="default-freebusy-alignment">
             <property name="visible">True</property>
-            <property name="spacing">12</property>
+            <property name="left_padding">12</property>
             <child>
-              <object class="GtkLabel" id="label27">
+              <object class="GtkVBox" id="default-freebusy-vbox">
                 <property name="visible">True</property>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkVBox" id="vbox7">
-                <property name="visible">True</property>
+                <property name="orientation">vertical</property>
                 <property name="spacing">6</property>
                 <child>
                   <object class="GtkHBox" id="hbox18">
@@ -1372,6 +1365,7 @@
                       <object class="GtkEntry" id="template_url">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="invisible_char">&#x25CF;</property>
                       </object>
                       <packing>
                         <property name="position">1</property>
@@ -1398,13 +1392,11 @@
                   </packing>
                 </child>
               </object>
-              <packing>
-                <property name="position">1</property>
-              </packing>
             </child>
           </object>
           <packing>
             <property name="expand">False</property>
+            <property name="fill">False</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -1426,8 +1418,8 @@
   </object>
   <object class="GtkSizeGroup" id="day_begins_ends_sizegroup">
     <widgets>
-      <widget name="day_start_label"/>
       <widget name="day_end_label"/>
+      <widget name="day_start_label"/>
     </widgets>
   </object>
 </interface>

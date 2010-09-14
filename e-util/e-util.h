@@ -34,11 +34,6 @@
  * for backward-compatibility (not that we really care about that). */
 #include <libedataserver/e-data-server-util.h>
 
-/* Convenience macro to help migrate from libglade to GtkBuilder.
- * Use it as a direct replacement for glade_xml_get_widget(). */
-#define e_builder_get_widget(builder, name) \
-	GTK_WIDGET (gtk_builder_get_object ((builder), (name)))
-
 G_BEGIN_DECLS
 
 typedef enum {
@@ -60,6 +55,8 @@ GtkAction *	e_lookup_action			(GtkUIManager *ui_manager,
 						 const gchar *action_name);
 GtkActionGroup *e_lookup_action_group		(GtkUIManager *ui_manager,
 						 const gchar *group_name);
+GtkWidget *	e_builder_get_widget		(GtkBuilder *builder,
+						 const gchar *widget_name);
 void		e_load_ui_builder_definition	(GtkBuilder *builder,
 						 const gchar *basename);
 gint		e_action_compare_by_label	(GtkAction *action1,

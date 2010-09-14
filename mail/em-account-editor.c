@@ -175,10 +175,8 @@ struct _EMAccountEditorPrivate {
 	GtkButton *sent_folder_button;
 	GtkToggleButton *trash_folder_check;
 	GtkButton *trash_folder_button;
-	GtkWidget *trash_folder_fixed;
 	GtkToggleButton *junk_folder_check;
 	GtkButton *junk_folder_button;
-	GtkWidget *junk_folder_fixed;
 	GtkButton *restore_folders_button;
 
 	/* Security */
@@ -1346,9 +1344,10 @@ static struct _provider_host_info emae_transport_host_info[] = {
 	{ 0 },
 };
 
-/* This is used to map each of the two services in a typical account to the widgets that represent each service.
-   i.e. the receiving (source) service, and the sending (transport) service.
-   It is used throughout the following code to drive each page */
+/* This is used to map each of the two services in a typical account to
+ * the widgets that represent each service.  i.e. the receiving (source)
+ * service, and the sending (transport) service.  It is used throughout
+ * the following code to drive each page. */
 static struct _service_info {
 	gint account_uri_key;
 	gint save_passwd_key;
@@ -1380,23 +1379,69 @@ static struct _service_info {
 	const gchar *remember_password;
 
 	struct _provider_host_info *host_info;
+
 } emae_service_info[CAMEL_NUM_PROVIDER_TYPES] = {
-	{ E_ACCOUNT_SOURCE_URL, E_ACCOUNT_SOURCE_SAVE_PASSWD,
-	  "source_frame", "source_type_dropdown",
-	  "source_vbox", "source_description", "source_host", "source_host_label", "source_user", "source_user_label", "source_path", "source_path_label", "source_path_entry",
-	  "source_security_frame", "source_ssl_hbox", "source_use_ssl", "source_ssl_disabled",
-	  NULL, "source_auth_frame",
-	  "source_auth_dropdown", "source_check_supported",
+
+	{ E_ACCOUNT_SOURCE_URL,
+	  E_ACCOUNT_SOURCE_SAVE_PASSWD,
+
+	  "source-config-section",
+	  "source_type_dropdown",
+
+	  "vboxSourceBorder",
+	  "source_description",
+	  "source_host",
+	  "source_host_label",
+	  "source_user",
+	  "source_user_label",
+	  "source_path",
+	  "source_path_label",
+	  "source_path_entry",
+
+	  "source-security-section",
+	  "source_ssl_hbox",
+	  "source_use_ssl",
+	  "source_ssl_disabled",
+
+	  NULL,
+	  "source-auth-section",
+
+	  "source_auth_dropdown",
+	  "source_check_supported",
+
 	  "source_remember_password",
-	  emae_source_host_info,
-	},
-	{ E_ACCOUNT_TRANSPORT_URL, E_ACCOUNT_TRANSPORT_SAVE_PASSWD,
-	  "transport_frame", "transport_type_dropdown",
-	  "transport_vbox", "transport_description", "transport_host", "transport_host_label", "transport_user", "transport_user_label", NULL, NULL, NULL,
-	  "transport_security_frame", "transport_ssl_hbox", "transport_use_ssl", "transport_ssl_disabled",
-	  "transport_needs_auth", "transport_auth_frame",
-	  "transport_auth_dropdown", "transport_check_supported",
+
+	  emae_source_host_info },
+
+	{ E_ACCOUNT_TRANSPORT_URL,
+	  E_ACCOUNT_TRANSPORT_SAVE_PASSWD,
+
+	  "transport-server-section",
+	  "transport_type_dropdown",
+
+	  "vboxTransportBorder",
+	  "transport_description",
+	  "transport_host",
+	  "transport_host_label",
+	  "transport_user",
+	  "transport_user_label",
+	  NULL,
+	  NULL,
+	  NULL,
+
+	  "transport-security-section",
+	  "transport_ssl_hbox",
+	  "transport_use_ssl",
+	  "transport_ssl_disabled",
+
+	  "transport_needs_auth",
+	  "transport-auth-section",
+
+	  "transport_auth_dropdown",
+	  "transport_check_supported",
+
 	  "transport_remember_password",
+
 	  emae_transport_host_info,
 	},
 };
@@ -2189,7 +2234,7 @@ emae_identity_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	for (i=0;i<G_N_ELEMENTS (emae_identity_entries);i++)
 		priv->identity_entries[i] = emae_account_entry (emae, emae_identity_entries[i].name, emae_identity_entries[i].item, builder);
 
-	priv->management_frame = e_builder_get_widget (builder, "management_frame");
+	priv->management_frame = e_builder_get_widget (builder, "management-section");
 
 	priv->default_account = GTK_TOGGLE_BUTTON (e_builder_get_widget (builder, "management_default"));
 	if (!e_get_default_account ()
@@ -2222,9 +2267,14 @@ emae_identity_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Identity")));
 	}
 
-	emae_queue_widgets (emae, builder, "account_vbox", "identity-required-table",
-			    "identity-optional-table", "identity_optional_frame",
-			    "identity_address", NULL);
+	emae_queue_widgets (
+		emae, builder,
+		"account_vbox",
+		"identity-required-table",
+		"identity-optional-table",
+		"identity-optional-section",
+		"identity_address",
+		NULL);
 
 	g_object_unref (builder);
 
@@ -2261,7 +2311,13 @@ emae_receive_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Receiving Email")));
 	}
 
-	emae_queue_widgets (emae, builder, "source-type-table", "table4", "vbox181", "vbox179", NULL);
+	emae_queue_widgets (
+		emae, builder,
+		"source-type-table",
+		"source-config-table",
+		"source-security-vbox",
+		"source-auth-vbox",
+		NULL);
 
 	g_object_unref (builder);
 
@@ -2743,7 +2799,13 @@ emae_send_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *ol
 		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Sending Email")));
 	}
 
-	emae_queue_widgets (emae, builder, "transport-type-table", "vbox12", "vbox183", "vbox61", NULL);
+	emae_queue_widgets (
+		emae, builder,
+		"transport-type-table",
+		"transport-server-table",
+		"transport-security-table",
+		"transport-auth-table",
+		NULL);
 
 	g_object_unref (builder);
 
@@ -2852,7 +2914,10 @@ emae_real_url_folder_changed (EMFolderSelectionButton *folder, EMAccountEditor *
 }
 
 static void
-setup_checkable_folder (EMAccountEditor *emae, guint32 flag, GtkWidget *check, GtkWidget *button, GtkWidget *fixed)
+setup_checkable_folder (EMAccountEditor *emae,
+                        guint32 flag,
+                        GtkWidget *check,
+                        GtkWidget *button)
 {
 	EAccount *account;
 	gboolean available;
@@ -2868,7 +2933,7 @@ setup_checkable_folder (EMAccountEditor *emae, guint32 flag, GtkWidget *check, G
 	account = em_account_editor_get_modified_account (emae);
 	g_return_if_fail (account != NULL);
 
-	folderbutt = (EMFolderSelectionButton *)button;
+	folderbutt = EM_FOLDER_SELECTION_BUTTON (button);
 	url = emae_account_url (emae, emae_service_info[emae->priv->source.type].account_uri_key);
 
 	emae_get_checkable_folder_keys_widgets (emae, flag, NULL, NULL, &param_key);
@@ -2911,11 +2976,9 @@ setup_checkable_folder (EMAccountEditor *emae, guint32 flag, GtkWidget *check, G
 	if (available) {
 		gtk_widget_show (check);
 		gtk_widget_show (button);
-		gtk_widget_show (fixed);
 	} else {
 		gtk_widget_hide (check);
 		gtk_widget_hide (button);
-		gtk_widget_hide (fixed);
 	}
 
 	camel_url_free (url);
@@ -2946,13 +3009,17 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 
 	priv->trash_folder_check = GTK_TOGGLE_BUTTON (e_builder_get_widget (builder, "trash_folder_check"));
 	priv->trash_folder_button = GTK_BUTTON (e_builder_get_widget (builder, "trash_folder_butt"));
-	priv->trash_folder_fixed = e_builder_get_widget (builder, "trash_folder_fixed");
-	setup_checkable_folder (emae, CAMEL_PROVIDER_ALLOW_REAL_TRASH_FOLDER, GTK_WIDGET (priv->trash_folder_check), GTK_WIDGET (priv->trash_folder_button), priv->trash_folder_fixed);
+	setup_checkable_folder (
+		emae, CAMEL_PROVIDER_ALLOW_REAL_TRASH_FOLDER,
+		GTK_WIDGET (priv->trash_folder_check),
+		GTK_WIDGET (priv->trash_folder_button));
 
 	priv->junk_folder_check = GTK_TOGGLE_BUTTON (e_builder_get_widget (builder, "junk_folder_check"));
 	priv->junk_folder_button = GTK_BUTTON (e_builder_get_widget (builder, "junk_folder_butt"));
-	priv->junk_folder_fixed = e_builder_get_widget (builder, "junk_folder_fixed");
-	setup_checkable_folder (emae, CAMEL_PROVIDER_ALLOW_REAL_JUNK_FOLDER, GTK_WIDGET (priv->junk_folder_check), GTK_WIDGET (priv->junk_folder_button), priv->junk_folder_fixed);
+	setup_checkable_folder (
+		emae, CAMEL_PROVIDER_ALLOW_REAL_JUNK_FOLDER,
+		GTK_WIDGET (priv->junk_folder_check),
+		GTK_WIDGET (priv->junk_folder_button));
 
 	/* Special Folders "Reset Defaults" button */
 	priv->restore_folders_button = (GtkButton *)e_builder_get_widget (builder, "default_folders_button");
@@ -2987,7 +3054,12 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	}else {
 		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Defaults")));
 	}
-	emae_queue_widgets (emae, builder, "vbox184", "table8", NULL);
+
+	emae_queue_widgets (
+		emae, builder,
+		"special-folders-table",
+		"composing-messages-table",
+		NULL);
 
 	g_object_unref (builder);
 
@@ -3149,8 +3221,8 @@ static EMConfigItem emae_editor_items[] = {
 	{ E_CONFIG_PAGE, (gchar *) "10.receive", (gchar *) "vboxSourceBorder", emae_receive_page },
 	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/00.type", (gchar *) "source-type-table", emae_widget_glade },
 	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/10.config", (gchar *) "source-config-table", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/20.security", (gchar *) "source-security-table", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/30.auth", (gchar *) "source-auth-table", emae_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "10.receive/20.security", (gchar *) "source-security-vbox", emae_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "10.receive/30.auth", (gchar *) "source-auth-vbox", emae_widget_glade },
 
 	/* Most sections for this is auto-generated from the camel config */
 	{ E_CONFIG_PAGE, (gchar *) "20.receive_options", (gchar *) N_("Receiving Options"), },
@@ -3217,8 +3289,8 @@ static EMConfigItem emae_assistant_items[] = {
 	{ E_CONFIG_PAGE, (gchar *) "10.receive", (gchar *) "vboxSourceBorder", emae_receive_page },
 	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/00.type", (gchar *) "source-type-table", emae_widget_glade },
 	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/10.config", (gchar *) "source-config-table", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/20.security", (gchar *) "source-security-table", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/30.auth", (gchar *) "source-auth-table", emae_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "10.receive/20.security", (gchar *) "source-security-vbox", emae_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "10.receive/30.auth", (gchar *) "source-auth-vbox", emae_widget_glade },
 
 	/* Most sections for this is auto-generated fromt the camel config */
 	{ E_CONFIG_PAGE, (gchar *) "20.receive_options", (gchar *) N_("Receiving Options"), },
@@ -3232,7 +3304,7 @@ static EMConfigItem emae_assistant_items[] = {
 	{ E_CONFIG_SECTION_TABLE, (gchar *) "30.send/30.auth", (gchar *) "transport-auth-table", emae_widget_glade },
 
 	{ E_CONFIG_PAGE, (gchar *) "40.defaults", (gchar *) "vboxFoldersBorder", emae_defaults_page },
-	{ E_CONFIG_SECTION, (gchar *) "40.defaults/00.folders", (gchar *) "special-folders-table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "40.defaults/00.folders", (gchar *) "special-folders-table", emae_widget_glade },
 	{ E_CONFIG_SECTION_TABLE, (gchar *) "40.defaults/10.composing", (gchar *) "composing-messages-table", emae_widget_glade },
 
 	{ E_CONFIG_PAGE, (gchar *) "40.management", (gchar *) "management_frame", emae_management_page },

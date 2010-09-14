@@ -224,7 +224,7 @@ eppm_enable_toggled (GtkCellRendererToggle *renderer,
 
 static void
 action_plugin_manager_cb (GtkAction *action,
-                          EShellWindow *shell_window)
+                          EExtension *extension)
 {
 	Manager *m;
 	gint i;
@@ -239,13 +239,17 @@ action_plugin_manager_cb (GtkAction *action,
 	GSList *plugins, *link;
 	gchar *string;
 	GtkWidget *subvbox;
+	EExtensible *extensible;
 
 	m = g_malloc0 (sizeof (*m));
+
+	/* Retrieve the parent EShellWindow. */
+	extensible = e_extension_get_extensible (extension);
 
 	/* Setup the ui */
 	dialog = gtk_dialog_new_with_buttons (
 		_("Plugin Manager"),
-		GTK_WINDOW (shell_window),
+		GTK_WINDOW (extensible),
 		GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
 

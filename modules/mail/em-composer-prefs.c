@@ -320,12 +320,7 @@ static EMConfigItem emcp_items[] = {
 
 	{ E_CONFIG_SECTION,
 	  (gchar *) "00.general/00.behavior",
-	  (gchar *) "vboxBehavior",
-	  emcp_widget_glade },
-
-	{ E_CONFIG_SECTION,
-	  (gchar *) "00.general/10.alerts",
-	  (gchar *) "vboxAlerts",
+	  (gchar *) "default-behavior-vbox",
 	  emcp_widget_glade },
 
 	{ E_CONFIG_PAGE,
@@ -340,14 +335,14 @@ static EMConfigItem emcp_items[] = {
 	  (gchar *) "vboxSpellChecking",
 	  emcp_widget_glade },
 
-	{ E_CONFIG_SECTION,
+	{ E_CONFIG_SECTION_TABLE,
 	  (gchar *) "20.spellcheck/00.languages",
-	  (gchar *) "vbox178",
+	  (gchar *) "languages-table",
 	  emcp_widget_glade },
 
 	{ E_CONFIG_SECTION,
 	  (gchar *) "20.spellcheck/00.options",
-	  (gchar *) "vboxOptions",
+	  (gchar *) "spell-options-vbox",
 	  emcp_widget_glade },
 };
 

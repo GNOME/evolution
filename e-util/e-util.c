@@ -285,6 +285,44 @@ e_lookup_action_group (GtkUIManager *ui_manager,
 }
 
 /**
+ * e_builder_get_widget:
+ * @builder: a #GtkBuilder
+ * @widget_name: name of a widget in @builder
+ *
+ * Gets the widget named @widget_name.  Note that this function does not
+ * increment the reference count of the returned widget.  If @widget_name
+ * could not be found in the @builder<!-- -->'s object tree, a run-time
+ * warning is emitted since this usually indicates a programming error.
+ *
+ * This is a convenience function to work around the awkwardness of
+ * #GtkBuilder returning #GObject pointers, when the vast majority of
+ * the time you want a #GtkWidget pointer.
+ *
+ * If you need something from @builder other than a #GtkWidget, or you
+ * want to test for the existence of some widget name without incurring
+ * a run-time warning, use gtk_builder_get_object().
+ *
+ * Returns: the widget named @widget_name, or %NULL
+ **/
+GtkWidget *
+e_builder_get_widget (GtkBuilder *builder,
+                      const gchar *widget_name)
+{
+	GObject *object;
+
+	g_return_val_if_fail (GTK_IS_BUILDER (builder), NULL);
+	g_return_val_if_fail (widget_name != NULL, NULL);
+
+	object = gtk_builder_get_object (builder, widget_name);
+	if (object == NULL) {
+		g_warning ("Could not find widget '%s'", widget_name);
+		return NULL;
+	}
+
+	return GTK_WIDGET (object);
+}
+
+/**
  * e_load_ui_builder_definition:
  * @builder: a #GtkBuilder
  * @basename: basename of the UI definition file
