@@ -796,8 +796,6 @@ filter_rule_get_widget (EFilterRule *rule,
 	inruleame = gtk_vbox_new (FALSE, 6);
 	gtk_box_pack_start (GTK_BOX (hbox), inruleame, TRUE, TRUE, 0);
 
-	gtk_box_pack_start (GTK_BOX (inruleame), hbox, FALSE, FALSE, 3);
-
 	l = rule->parts;
 	i = 0;
 	while (l) {
