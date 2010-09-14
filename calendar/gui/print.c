@@ -2885,7 +2885,8 @@ print_title (GtkPrintContext *context, const gchar *text, gdouble page_width)
 
 	cairo_move_to (cr, 0.0, 0.0);
 	pango_cairo_show_layout (cr, layout);
-
+	cairo_translate (cr, 0.0, 18);
+	cairo_save (cr);
 	cairo_restore (cr);
 
 	g_object_unref (layout);

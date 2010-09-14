@@ -1194,7 +1194,7 @@ e_table_group_container_print_page  (EPrintable *ep,
 	GtkPageSetup *setup;
 	gdouble yd;
 	gdouble page_height, page_margin;
-	gdouble child_height;
+	gdouble child_height, child_margin = 0;
 	ETableGroupContainerChildNode *child_node;
 	GList *child;
 	EPrintable *child_printable;
@@ -1236,17 +1236,27 @@ e_table_group_container_print_page  (EPrintable *ep,
 	pango_font_description_free (desc);
 
 	while (1) {
-		child_height = e_printable_height (child_printable, context, width,yd + 2 * TEXT_AREA_HEIGHT, quantize);
+		child_height = e_printable_height(child_printable, context, width,yd, quantize);
+		if (child_height < 0)
+			child_height = -child_height;
+		if (yd < 2 * TEXT_AREA_HEIGHT + 20 + child_height )
+		{
+			cairo_show_page (cr);
+			cairo_translate(cr, -2 * TEXT_AREA_HEIGHT, -TEXT_AREA_HEIGHT);
+			break;
+		}
+
 		cr = gtk_print_context_get_cairo_context (context);
 		cairo_save (cr);
-		cairo_rectangle (cr, 0, 0, width,TEXT_AREA_HEIGHT);
-		cairo_rectangle (cr, 0, 0, 2 * TEXT_AREA_HEIGHT, child_height + TEXT_AREA_HEIGHT);
+		cairo_rectangle (cr, 0.0, 0.0, width, TEXT_AREA_HEIGHT);
+		cairo_rectangle (cr, 0.0, 0.0, 2 * TEXT_AREA_HEIGHT, child_height + 2 * TEXT_AREA_HEIGHT);
 		cairo_set_source_rgb (cr, .7, .7, .7);
 		cairo_fill (cr);
 		cairo_restore (cr);
+		child_margin = TEXT_AREA_HEIGHT;
 
 		cairo_save (cr);
-		cairo_rectangle (cr, 0, 0, width, TEXT_AREA_HEIGHT);
+		cairo_rectangle (cr, 2 * TEXT_AREA_HEIGHT, TEXT_AREA_HEIGHT, width - 2 * TEXT_AREA_HEIGHT, TEXT_AREA_HEIGHT);
 		cairo_clip (cr);
 		cairo_restore (cr);
 
@@ -1268,28 +1278,36 @@ e_table_group_container_print_page  (EPrintable *ep,
 
 		cairo_translate (cr, 2 * TEXT_AREA_HEIGHT, TEXT_AREA_HEIGHT);
 		cairo_move_to (cr, 0, 0);
-		cairo_rectangle (cr, 0, 0, width - 2 * TEXT_AREA_HEIGHT,child_height);
+		cairo_save (cr);
+		cairo_rectangle (cr, 0, child_margin, width - 2 * TEXT_AREA_HEIGHT, child_height + child_margin + 20);
 		cairo_clip (cr);
 
-		e_printable_print_page (child_printable, context, width-2 * TEXT_AREA_HEIGHT, height , quantize);
-		yd += child_height + TEXT_AREA_HEIGHT;
+		e_printable_print_page (child_printable, context, width-2 * TEXT_AREA_HEIGHT, child_margin, quantize);
+		yd -= child_height + TEXT_AREA_HEIGHT;
 
-		if (e_printable_data_left (child_printable))
-			break;
+		if (e_printable_data_left (child_printable)){
+			cairo_restore (cr);
+			cairo_translate(cr, -2 * TEXT_AREA_HEIGHT, -TEXT_AREA_HEIGHT);
+ 			break;
+		}
 
-		    child = child->next;
+		child = child->next;
 		if (!child) {
 			child_printable = NULL;
 			break;
 		}
 
-		    child_node = child->data;
+		child_node = child->data;
 		if (child_printable)
 			g_object_unref (child_printable);
-		    child_printable = e_table_group_get_printable (child_node->child);
+		   
+		child_printable = e_table_group_get_printable(child_node->child);
+		cairo_restore(cr);
+		cairo_translate(cr, -2 * TEXT_AREA_HEIGHT, child_height + child_margin + 20);
+		
 		if (child_printable)
 			g_object_ref (child_printable);
-		 e_printable_reset (child_printable);
+		e_printable_reset (child_printable);
 	}
 	if (groupcontext->child_printable)
 		g_object_unref (groupcontext->child_printable);
