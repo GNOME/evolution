@@ -186,6 +186,10 @@ e_mail_shell_settings_init (EShell *shell)
 		"/apps/evolution/mail/display/side_bar_search");
 
 	e_shell_settings_install_property_for_key (
+		"mail-thread-by-subject",
+		"/apps/evolution/mail/display/thread_subject");
+
+	e_shell_settings_install_property_for_key (
 		"mail-use-custom-fonts",
 		"/apps/evolution/mail/display/fonts/use_custom");
 

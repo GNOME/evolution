@@ -847,6 +847,11 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		e_binding_transform_color_to_string,
 		NULL, NULL);
 
+	widget = e_builder_get_widget (prefs->builder, "thread-by-subject");
+	e_mutual_binding_new (
+		shell_settings, "mail-thread-by-subject",
+		widget, "active");
+
 	/* Deleting Mail */
 	widget = e_builder_get_widget (prefs->builder, "chkEmptyTrashOnExit");
 	e_mutual_binding_new (

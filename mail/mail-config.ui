@@ -258,8 +258,8 @@ For example: "Work" or "Personal"</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">&#x25CF;</property>
                     <accessibility>
-                      <relation type="labelled-by" target="identity-required-header"/>
                       <relation type="labelled-by" target="identity_address_label"/>
+                      <relation type="labelled-by" target="identity-required-header"/>
                     </accessibility>
                   </object>
                   <packing>
@@ -304,8 +304,8 @@ For example: "Work" or "Personal"</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">&#x25CF;</property>
                     <accessibility>
-                      <relation type="labelled-by" target="identity_full_name_label"/>
                       <relation type="labelled-by" target="identity-required-header"/>
+                      <relation type="labelled-by" target="identity_full_name_label"/>
                     </accessibility>
                   </object>
                   <packing>
@@ -420,8 +420,8 @@ For example: "Work" or "Personal"</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">&#x25CF;</property>
                     <accessibility>
-                      <relation type="labelled-by" target="identity-optional-header"/>
                       <relation type="labelled-by" target="identity_organization_label"/>
+                      <relation type="labelled-by" target="identity-optional-header"/>
                     </accessibility>
                   </object>
                   <packing>
@@ -453,8 +453,8 @@ For example: "Work" or "Personal"</property>
                     <property name="can_focus">True</property>
                     <property name="invisible_char">&#x25CF;</property>
                     <accessibility>
-                      <relation type="labelled-by" target="reply_to_label"/>
                       <relation type="labelled-by" target="identity-optional-header"/>
+                      <relation type="labelled-by" target="reply_to_label"/>
                     </accessibility>
                   </object>
                   <packing>
@@ -1497,9 +1497,6 @@ For example: "Work" or "Personal"</property>
                   </packing>
                 </child>
                 <child>
-                  <placeholder/>
-                </child>
-                <child>
                   <object class="EMFolderSelectionButton" id="drafts_button">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
@@ -1548,6 +1545,9 @@ For example: "Work" or "Personal"</property>
                     <property name="top_attach">3</property>
                     <property name="bottom_attach">4</property>
                   </packing>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
               </object>
             </child>
@@ -2626,6 +2626,19 @@ For example: "Work" or "Personal"</property>
                       </object>
                       <packing>
                         <property name="position">4</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton" id="thread-by-subject">
+                        <property name="label" translatable="yes">F_all back to threading messages by subject</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="use_underline">True</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="position">5</property>
                       </packing>
                     </child>
                   </object>
@@ -4993,15 +5006,15 @@ for display purposes only. </property>
   </object>
   <object class="GtkSizeGroup" id="composer-label-size-group">
     <widgets>
-      <widget name="lblForwardStyle"/>
-      <widget name="lblReplyStyle"/>
       <widget name="lblCharset"/>
+      <widget name="lblReplyStyle"/>
+      <widget name="lblForwardStyle"/>
     </widgets>
   </object>
   <object class="GtkSizeGroup" id="composer-combo-box-size-group">
     <widgets>
-      <widget name="comboboxForwardStyle"/>
       <widget name="comboboxReplyStyle"/>
+      <widget name="comboboxForwardStyle"/>
     </widgets>
   </object>
 </interface>
