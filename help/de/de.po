@@ -22,15 +22,16 @@
 #
 # Andre Klapper <ak-47@gmx.net>, 2007-2009.
 # Mario Blättermann <mariobl@gnome.org>, 2009, 2010.
-# Christian Kirbach <christian.kirbach@googlemail.com>, 2009, 2010.
+# Christian Kirbach  <Christian.Kirbach@googlemail.com>, 2009, 2010.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-30 12:59+0000\n"
-"PO-Revision-Date: 2010-05-10 21:20+0200\n"
-"Last-Translator: Christian Kirbach <christian.kirbach@googlemail.com>\n"
-"Language-Team: German <translation-team-de@lists.sourceforge.net>\n"
+"POT-Creation-Date: 2010-09-14 08:12+0000\n"
+"PO-Revision-Date: 2010-09-14 15:57+0200\n"
+"Last-Translator: Christian Kirbach  <Christian.Kirbach@googlemail.com>\n"
+"Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -146,7 +147,6 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1099(None)
-#, fuzzy
 msgid ""
 "@@image: 'figures/evo_backup_warning.png'; "
 "md5=c05e6d67bae4ae0b9e7fcb9701cbdfe6"
@@ -155,7 +155,6 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1107(None)
-#, fuzzy
 msgid ""
 "@@image: 'figures/evo_backup_prgsbar.png'; "
 "md5=9df6295eb38525fbbfc64cb8928d7fb0"
@@ -165,7 +164,7 @@ msgstr "a"
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1125(None)
 msgid "@@image: 'figures/evo_restore.png'; md5=THIS FILE DOESN'T EXIST"
-msgstr ""
+msgstr "a"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -177,7 +176,6 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1299(None)
-#, fuzzy
 #| msgid ""
 #| "@@image: 'figures/evo_mailnotification.png'; "
 #| "md5=3ec09c3f9b49aee5be6f5fc2df69350d"
@@ -209,7 +207,6 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1582(None)
-#, fuzzy
 #| msgid ""
 #| "@@image: 'figures/evo_customheader.png'; "
 #| "md5=469f72793711212ce624d602e08e3a98"
@@ -219,6 +216,7 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:1635(None)
+#, fuzzy
 msgid ""
 "@@image: 'figures/evo_offline.png'; md5=1efa5688aaa2aa59a37e614e32c4f7eb"
 msgstr "a"
@@ -277,7 +275,6 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:3457(None)
-#, fuzzy
 msgid ""
 "@@image: 'figures/evo_contacteditor_a.png'; "
 "md5=fba5d6ebd22fceb554dabb0fc8c02cd3"
@@ -307,7 +304,6 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:4001(None)
-#, fuzzy
 msgid ""
 "@@image: 'figures/google_cal_view.png'; md5=e9ad85fb604b18447bcf9be09a540989"
 msgstr "a"
@@ -345,11 +341,10 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5369(None)
-#, fuzzy
 msgid ""
 "@@image: 'figures/exchng-rec-options.png'; "
 "md5=31a2bbe7ef9de1dc79da40949e0dc7ae"
-msgstr "a"
+msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -376,19 +371,17 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5733(None)
-#, fuzzy
 msgid ""
 "@@image: 'figures/folder_size_preference.png'; "
 "md5=8d9067996afa74c865417b5b9171d4c0"
-msgstr "a"
+msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:5737(None)
-#, fuzzy
 msgid ""
 "@@image: 'figures/folder_size_mapi.png'; md5=4b20ea9d82999051360f14da27e7c15d"
-msgstr "a"
+msgstr ""
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -417,6 +410,7 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6171(None)
+#, fuzzy
 msgid ""
 "@@image: 'figures/evo_gwstatustrack.png'; "
 "md5=d4eb84e2d55870af1408c430ce8c0e66"
@@ -425,6 +419,7 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6225(None)
+#, fuzzy
 msgid ""
 "@@image: 'figures/evo_sendstatus_a.png'; md5=36ca2211056c859eb776124bfc364705"
 msgstr "a"
@@ -432,6 +427,7 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6292(None)
+#, fuzzy
 msgid ""
 "@@image: 'figures/evo_calstatus_a.png'; md5=99fb98faa3e644f6433c078ba71a0353"
 msgstr "a"
@@ -439,6 +435,7 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6433(None)
+#, fuzzy
 msgid ""
 "@@image: 'figures/evo_proxyadd_a.png'; md5=51357617967f0610eb95dab5814540ad"
 msgstr "a"
@@ -462,7 +459,6 @@ msgstr "a"
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6713(None)
-#, fuzzy
 msgid "@@image: 'figures/evo_imapheader_a.png'; md5=THIS FILE DOESN'T EXIST"
 msgstr "a"
 
@@ -505,7 +501,7 @@ msgstr "a"
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:7082(None)
 msgid "@@image: 'figures/network_pref.png'; md5=THIS FILE DOESN'T EXIST"
-msgstr ""
+msgstr "a"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -12291,8 +12287,11 @@ msgstr ""
 "Empfängers verbleiben soll."
 
 #: C/evolution.xml:6116(para)
+#| msgid ""
+#| "An email is send to all the recipients to invite them to your updated "
+#| "event."
 msgid ""
-"An email is send to all the recipients to invite them to your updated event."
+"An email is sent to all the recipients to invite them to your updated event."
 msgstr ""
 "Eine E-Mail wird an alle Teilnehmer verschickt, um diese zu Ihrem "
 "aktualisierten Ereignis einzuladen."
@@ -14311,8 +14310,9 @@ msgstr ""
 "dargestellt werden sollen."
 
 #: C/evolution.xml:7039(title)
-msgid "Show week numbers in date navigator:"
-msgstr "Wochennummern im Datumsnavigator anzeigen:"
+#| msgid "Show week numbers in date navigator:"
+msgid "Show week numbers:"
+msgstr "Wochennummern anzeigen:"
 
 #: C/evolution.xml:7040(para)
 msgid "Shows the week numbers next to the respective weeks in the calendar."
