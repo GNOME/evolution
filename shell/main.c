@@ -31,10 +31,16 @@
 #ifdef DATADIR
 #undef DATADIR
 #endif
-#include <io.h>
-#include <conio.h>
-#define _WIN32_WINNT 0x0501
+#define _WIN32_WINNT 0x0601
 #include <windows.h>
+#include <conio.h>
+#include <io.h>
+#ifndef PROCESS_DEP_ENABLE
+#define PROCESS_DEP_ENABLE 0x00000001
+#endif
+#ifndef PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION
+#define PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION 0x00000002
+#endif
 #endif
 
 #include <dbus/dbus-glib.h>
@@ -458,6 +464,26 @@ main (gint argc, gchar **argv)
 
 #ifdef G_OS_WIN32
 	gchar *path;
+
+	/* Reduce risks */
+	{
+		typedef BOOL (WINAPI *t_SetDllDirectoryA) (LPCSTR lpPathName);
+		t_SetDllDirectoryA p_SetDllDirectoryA;
+
+		p_SetDllDirectoryA = GetProcAddress (GetModuleHandle ("kernel32.dll"), "SetDllDirectoryA");
+		if (p_SetDllDirectoryA)
+			(*p_SetDllDirectoryA) ("");
+	}
+#ifndef _WIN64
+	{
+		typedef BOOL (WINAPI *t_SetProcessDEPPolicy) (DWORD dwFlags);
+		t_SetProcessDEPPolicy p_SetProcessDEPPolicy;
+
+		p_SetProcessDEPPolicy = GetProcAddress (GetModuleHandle ("kernel32.dll"), "SetProcessDEPPolicy");
+		if (p_SetProcessDEPPolicy)
+			(*p_SetProcessDEPPolicy) (PROCESS_DEP_ENABLE|PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION);
+	}
+#endif
 
 	if (fileno (stdout) != -1 && _get_osfhandle (fileno (stdout)) != -1) {
 		/* stdout is fine, presumably redirected to a file or pipe */

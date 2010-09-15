@@ -36,11 +36,23 @@
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-passwords.h>
 
-#include "e-util/e-util-private.h"
 #include "alarm.h"
 #include "alarm-queue.h"
 #include "alarm-notify.h"
 #include "config-data.h"
+
+#ifdef G_OS_WIN32
+#include <windows.h>
+#include <conio.h>
+#ifndef PROCESS_DEP_ENABLE
+#define PROCESS_DEP_ENABLE 0x00000001
+#endif
+#ifndef PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION
+#define PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION 0x00000002
+#endif
+#endif
+
+#include "e-util/e-util-private.h"
 
 gint
 main (gint argc, gchar **argv)
@@ -50,6 +62,26 @@ main (gint argc, gchar **argv)
 	UniqueApp *app;
 #ifdef G_OS_WIN32
 	gchar *path;
+
+	/* Reduce risks */
+	{
+		typedef BOOL (WINAPI *t_SetDllDirectoryA) (LPCSTR lpPathName);
+		t_SetDllDirectoryA p_SetDllDirectoryA;
+
+		p_SetDllDirectoryA = GetProcAddress (GetModuleHandle ("kernel32.dll"), "SetDllDirectoryA");
+		if (p_SetDllDirectoryA)
+			(*p_SetDllDirectoryA) ("");
+	}
+#ifndef _WIN64
+	{
+		typedef BOOL (WINAPI *t_SetProcessDEPPolicy) (DWORD dwFlags);
+		t_SetProcessDEPPolicy p_SetProcessDEPPolicy;
+
+		p_SetProcessDEPPolicy = GetProcAddress (GetModuleHandle ("kernel32.dll"), "SetProcessDEPPolicy");
+		if (p_SetProcessDEPPolicy)
+			(*p_SetProcessDEPPolicy) (PROCESS_DEP_ENABLE|PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION);
+	}
+#endif
 #endif
 
 	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
