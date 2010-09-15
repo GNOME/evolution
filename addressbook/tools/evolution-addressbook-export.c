@@ -30,6 +30,20 @@
 
 #include "evolution-addressbook-export.h"
 
+#ifdef G_OS_WIN32
+#ifdef DATADIR
+#undef DATADIR
+#endif
+#include <windows.h>
+#include <conio.h>
+#ifndef PROCESS_DEP_ENABLE
+#define PROCESS_DEP_ENABLE 0x00000001
+#endif
+#ifndef PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION
+#define PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION 0x00000002
+#endif
+#endif
+
 /* Command-Line Options */
 static gchar *opt_output_file = NULL;
 static gboolean opt_list_folders_mode = FALSE;
@@ -74,6 +88,28 @@ main (gint argc, gchar **argv)
 	gint current_action = ACTION_NOTHING;
 	gint IsCSV = FALSE;
 	gint IsVCard = FALSE;
+
+#ifdef G_OS_WIN32
+	/* Reduce risks */
+	{
+		typedef BOOL (WINAPI *t_SetDllDirectoryA) (LPCSTR lpPathName);
+		t_SetDllDirectoryA p_SetDllDirectoryA;
+
+		p_SetDllDirectoryA = GetProcAddress (GetModuleHandle ("kernel32.dll"), "SetDllDirectoryA");
+		if (p_SetDllDirectoryA)
+			(*p_SetDllDirectoryA) ("");
+	}
+#ifndef _WIN64
+	{
+		typedef BOOL (WINAPI *t_SetProcessDEPPolicy) (DWORD dwFlags);
+		t_SetProcessDEPPolicy p_SetProcessDEPPolicy;
+
+		p_SetProcessDEPPolicy = GetProcAddress (GetModuleHandle ("kernel32.dll"), "SetProcessDEPPolicy");
+		if (p_SetProcessDEPPolicy)
+			(*p_SetProcessDEPPolicy) (PROCESS_DEP_ENABLE|PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION);
+	}
+#endif
+#endif
 
 	g_type_init ();
 
