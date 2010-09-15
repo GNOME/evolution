@@ -461,7 +461,7 @@ sub_folderinfo_exec (struct _emse_folderinfo_msg *m)
 			CAMEL_STORE_FOLDER_INFO_SUBSCRIPTION_LIST |
 			CAMEL_STORE_FOLDER_INFO_RECURSIVE,
 			&m->base.error);
-		camel_operation_unregister (m->base.cancel);
+		camel_operation_unregister ();
 	}
 }
 

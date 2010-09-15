@@ -219,7 +219,7 @@ elm_import_done (struct _elm_import_msg *m)
 static void
 elm_import_free (struct _elm_import_msg *m)
 {
-	camel_operation_unref (m->status);
+	g_object_unref (m->status);
 
 	g_free (m->status_what);
 	g_mutex_free (m->status_lock);
@@ -234,11 +234,6 @@ static void
 elm_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
 {
 	struct _elm_import_msg *importer = data;
-
-	if (pc == CAMEL_OPERATION_START)
-		pc = 0;
-	else if (pc == CAMEL_OPERATION_END)
-		pc = 100;
 
 	g_mutex_lock (importer->status_lock);
 	g_free (importer->status_what);
@@ -288,7 +283,11 @@ mail_importer_elm_import (EImport *ei, EImportTarget *target)
 	m->target = (EImportTargetHome *)target;
 	m->status_timeout_id = g_timeout_add (100, elm_status_timeout, m);
 	m->status_lock = g_mutex_new ();
-	m->status = camel_operation_new (elm_status, m);
+	m->status = camel_operation_new ();
+
+	g_signal_connect (
+		m->status, "status",
+		G_CALLBACK (elm_status), m);
 
 	id = m->base.seq;
 

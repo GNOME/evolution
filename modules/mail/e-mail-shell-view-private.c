@@ -730,7 +730,7 @@ e_mail_shell_view_private_dispose (EMailShellView *mail_shell_view)
 	}
 
 	if (priv->search_account_cancel != NULL) {
-		camel_operation_unref (priv->search_account_cancel);
+		g_object_unref (priv->search_account_cancel);
 		priv->search_account_cancel = NULL;
 	}
 }

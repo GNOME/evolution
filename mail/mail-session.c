@@ -635,9 +635,8 @@ static gpointer ms_thread_msg_new (CamelSession *session, CamelSessionThreadOps 
 		MailMsg *m = mail_msg_new (&ms_thread_info_dummy);
 
 		msg->data = m;
-		camel_operation_unref (msg->op);
-		msg->op = m->cancel;
-		camel_operation_ref (msg->op);
+		g_object_unref (msg->op);
+		msg->op = g_object_ref (m->cancel);
 	}
 
 	return msg;

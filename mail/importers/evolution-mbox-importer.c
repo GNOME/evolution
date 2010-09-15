@@ -171,11 +171,6 @@ mbox_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
 {
 	MboxImporter *importer = data;
 
-	if (pc == CAMEL_OPERATION_START)
-		pc = 0;
-	else if (pc == CAMEL_OPERATION_END)
-		pc = 100;
-
 	g_mutex_lock (importer->status_lock);
 	g_free (importer->status_what);
 	importer->status_what = g_strdup (what);
@@ -211,7 +206,7 @@ mbox_import_done (gpointer data, GError **error)
 	g_source_remove (importer->status_timeout_id);
 	g_free (importer->status_what);
 	g_mutex_free (importer->status_lock);
-	camel_operation_unref (importer->cancel);
+	g_object_unref (importer->cancel);
 
 	e_import_complete (importer->import, importer->target);
 	g_free (importer);
@@ -231,7 +226,11 @@ mbox_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 	importer->target = target;
 	importer->status_lock = g_mutex_new ();
 	importer->status_timeout_id = g_timeout_add (100, mbox_status_timeout, importer);
-	importer->cancel = camel_operation_new (mbox_status, importer);
+	importer->cancel = camel_operation_new ();
+
+	g_signal_connect (
+		importer->cancel, "status",
+		G_CALLBACK (mbox_status), importer);
 
 	filename = g_filename_from_uri (((EImportTargetURI *)target)->uri_src, NULL, NULL);
 	mail_importer_import_mbox (

@@ -671,7 +671,7 @@ dbx_import_imported (DbxImporter *m)
 static void
 dbx_import_free (DbxImporter *m)
 {
-	camel_operation_unref (m->status);
+	g_object_unref (m->status);
 
 	g_free (m->status_what);
 	g_mutex_free (m->status_lock);
@@ -719,12 +719,6 @@ dbx_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
 {
 	DbxImporter *importer = data;
 
-	if (pc == CAMEL_OPERATION_START) {
-		pc = 0;
-	} else if (pc == CAMEL_OPERATION_END) {
-		pc = 100;
-	}
-
 	g_mutex_lock (importer->status_lock);
 	g_free (importer->status_what);
 	importer->status_what = g_strdup (what);
@@ -752,7 +746,11 @@ org_gnome_evolution_readdbx_import (EImport *ei, EImportTarget *target, EImportI
 	m->status_timeout_id = g_timeout_add (100, dbx_status_timeout, m);
 	/*m->status_timeout_id = NULL;*/
 	m->status_lock = g_mutex_new ();
-	m->status = camel_operation_new (dbx_status, m);
+	m->status = camel_operation_new ();
+
+	g_signal_connect (
+		m->status, "status",
+		G_CALLBACK (dbx_status), m);
 
 	id = m->base.seq;
 

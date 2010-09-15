@@ -146,7 +146,7 @@ free_send_info (struct _send_info *info)
 {
 	g_free (info->uri);
 	if (info->cancel)
-		camel_operation_unref (info->cancel);
+		g_object_unref (info->cancel);
 	if (info->timeout_id != 0)
 		g_source_remove (info->timeout_id);
 	g_free (info->what);
@@ -325,20 +325,11 @@ set_send_account (struct _send_info *info, const gchar *account_url)
 
 /* for camel operation status */
 static void
-operation_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
+operation_status (CamelOperation *op,
+                  const gchar *what,
+                  gint pc,
+                  struct _send_info *info)
 {
-	struct _send_info *info = data;
-
-	/*printf("Operation '%s', percent %d\n");*/
-	switch (pc) {
-	case CAMEL_OPERATION_START:
-		pc = 0;
-		break;
-	case CAMEL_OPERATION_END:
-		pc = 100;
-		break;
-	}
-
 	set_send_status (info, what, pc);
 }
 
@@ -538,9 +529,13 @@ build_dialog (GtkWindow *parent,
 
 			info->uri = g_strdup (source->url);
 			info->keep_on_server = source->keep_on_server;
-			info->cancel = camel_operation_new (operation_status, info);
+			info->cancel = camel_operation_new ();
 			info->state = SEND_ACTIVE;
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
+
+			g_signal_connect (
+				info->cancel, "status",
+				G_CALLBACK (operation_status), info);
 
 			g_hash_table_insert (data->active, info->uri, info);
 			list = g_list_prepend (list, info);
@@ -624,9 +619,13 @@ build_dialog (GtkWindow *parent,
 
 			info->uri = g_strdup (destination);
 			info->keep_on_server = FALSE;
-			info->cancel = camel_operation_new (operation_status, info);
+			info->cancel = camel_operation_new ();
 			info->state = SEND_ACTIVE;
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
+
+			g_signal_connect (
+				info->cancel, "status",
+				G_CALLBACK (operation_status), info);
 
 			g_hash_table_insert (data->active, (gpointer) SEND_URI_KEY, info);
 			list = g_list_prepend (list, info);
@@ -1240,11 +1239,15 @@ mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 	info->status_label = NULL;
 	info->uri = g_strdup (uri);
 	info->keep_on_server = keep_on_server;
-	info->cancel = camel_operation_new (operation_status, info);
+	info->cancel = camel_operation_new ();
 	info->cancel_button = NULL;
 	info->data = data;
 	info->state = SEND_ACTIVE;
 	info->timeout_id = 0;
+
+	g_signal_connect (
+		info->cancel, "status",
+		G_CALLBACK (operation_status), info);
 
 	d(printf("Adding new info %p\n", info));
 

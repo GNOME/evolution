@@ -264,7 +264,7 @@ pine_import_done (struct _pine_import_msg *m)
 static void
 pine_import_free (struct _pine_import_msg *m)
 {
-	camel_operation_unref (m->status);
+	g_object_unref (m->status);
 
 	g_free (m->status_what);
 	g_mutex_free (m->status_lock);
@@ -282,11 +282,6 @@ pine_status (CamelOperation *op,
              gpointer data)
 {
 	struct _pine_import_msg *importer = data;
-
-	if (pc == CAMEL_OPERATION_START)
-		pc = 0;
-	else if (pc == CAMEL_OPERATION_END)
-		pc = 100;
 
 	g_mutex_lock (importer->status_lock);
 	g_free (importer->status_what);
@@ -339,7 +334,11 @@ mail_importer_pine_import (EImport *ei,
 	m->status_timeout_id = g_timeout_add (
 		100, (GSourceFunc) pine_status_timeout, m);
 	m->status_lock = g_mutex_new ();
-	m->status = camel_operation_new (pine_status, m);
+	m->status = camel_operation_new ();
+
+	g_signal_connect (
+		m->status, "status",
+		G_CALLBACK (pine_status), m);
 
 	id = m->base.seq;
 

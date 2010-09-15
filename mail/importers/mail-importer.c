@@ -215,7 +215,7 @@ static void
 import_mbox_free (struct _import_mbox_msg *m)
 {
 	if (m->cancel)
-		camel_operation_unref (m->cancel);
+		g_object_unref (m->cancel);
 	g_free (m->uri);
 	g_free (m->path);
 }
@@ -239,10 +239,8 @@ mail_importer_import_mbox (const gchar *path, const gchar *folderuri, CamelOpera
 	m->uri = g_strdup (folderuri);
 	m->done = done;
 	m->done_data = data;
-	if (cancel) {
-		m->cancel = cancel;
-		camel_operation_ref (cancel);
-	}
+	if (cancel)
+		m->cancel = g_object_ref (cancel);
 
 	id = m->base.seq;
 	mail_msg_fast_ordered_push (m);
@@ -258,10 +256,8 @@ mail_importer_import_mbox_sync (const gchar *path, const gchar *folderuri, Camel
 	m = mail_msg_new (&import_mbox_info);
 	m->path = g_strdup (path);
 	m->uri = g_strdup (folderuri);
-	if (cancel) {
-		m->cancel = cancel;
-		camel_operation_ref (cancel);
-	}
+	if (cancel)
+		m->cancel = g_object_ref (cancel);
 
 	import_mbox_exec (m);
 	import_mbox_done (m);

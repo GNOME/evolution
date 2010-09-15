@@ -75,9 +75,15 @@ mail_msg_new (MailMsgInfo *info)
 	msg->info = info;
 	msg->ref_count = 1;
 	msg->seq = mail_msg_seq++;
-	msg->cancel = camel_operation_new (mail_operation_status, GINT_TO_POINTER (msg->seq));
+	msg->cancel = camel_operation_new ();
+
 	msg->priv = g_slice_new0 (MailMsgPrivate);
 	msg->priv->cancelable = TRUE;
+
+	g_signal_connect (
+		msg->cancel, "status",
+		G_CALLBACK (mail_operation_status),
+		GINT_TO_POINTER (msg->seq));
 
 	g_hash_table_insert (mail_msg_active_table, GINT_TO_POINTER (msg->seq), msg);
 
@@ -140,10 +146,8 @@ mail_msg_free (MailMsg *mail_msg)
 	if (mail_msg->priv->activity != NULL)
 		g_object_unref (mail_msg->priv->activity);
 
-	if (mail_msg->cancel != NULL) {
-		camel_operation_mute (mail_msg->cancel);
-		camel_operation_unref (mail_msg->cancel);
-	}
+	if (mail_msg->cancel != NULL)
+		g_object_unref (mail_msg->cancel);
 
 	if (mail_msg->error != NULL)
 		g_error_free (mail_msg->error);
@@ -470,7 +474,7 @@ mail_msg_proxy (MailMsg *msg)
 
 	if (msg->info->desc != NULL && msg->cancel) {
 		camel_operation_end (msg->cancel);
-		camel_operation_unregister (msg->cancel);
+		camel_operation_unregister ();
 	}
 
 	g_async_queue_push (msg_reply_queue, msg);
@@ -979,14 +983,6 @@ mail_operation_status (CamelOperation *op,
 	m = mail_msg_new (&op_status_info);
 	m->op = op;
 	m->what = g_strdup (what);
-	switch (pc) {
-	case CAMEL_OPERATION_START:
-		pc = 0;
-		break;
-	case CAMEL_OPERATION_END:
-		pc = 100;
-		break;
-	}
 	m->pc = pc;
 	m->data = data;
 	mail_msg_main_loop_push (m);

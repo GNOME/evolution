@@ -1540,7 +1540,7 @@ static void
 pst_import_free (PstImporter *m)
 {
 //	pst_close (&m->pst);
-	camel_operation_unref (m->status);
+	g_object_unref (m->status);
 
 	g_free (m->status_what);
 	g_mutex_free (m->status_lock);
@@ -1588,12 +1588,6 @@ pst_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
 {
 	PstImporter *importer = data;
 
-	if (pc == CAMEL_OPERATION_START) {
-		pc = 0;
-	} else if (pc == CAMEL_OPERATION_END) {
-		pc = 100;
-	}
-
 	g_mutex_lock (importer->status_lock);
 	g_free (importer->status_what);
 	importer->status_what = g_strdup (what);
@@ -1625,7 +1619,11 @@ pst_import (EImport *ei, EImportTarget *target)
 	m->status_timeout_id = g_timeout_add (100, pst_status_timeout, m);
 	/*m->status_timeout_id = NULL;*/
 	m->status_lock = g_mutex_new ();
-	m->status = camel_operation_new (pst_status, m);
+	m->status = camel_operation_new ();
+
+	g_signal_connect (
+		m->status, "status",
+		G_CALLBACK (pst_status), m);
 
 	id = m->base.seq;
 

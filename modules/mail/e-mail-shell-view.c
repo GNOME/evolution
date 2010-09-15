@@ -504,7 +504,7 @@ all_accounts:
 
 		if (priv->search_account_cancel != NULL) {
 			camel_operation_cancel (priv->search_account_cancel);
-			camel_operation_unref (priv->search_account_cancel);
+			g_object_unref (priv->search_account_cancel);
 			priv->search_account_cancel = NULL;
 		}
 
@@ -537,7 +537,7 @@ all_accounts:
 	if (search_folder != NULL) {
 		if (priv->search_account_cancel != NULL) {
 			camel_operation_cancel (priv->search_account_cancel);
-			camel_operation_unref (priv->search_account_cancel);
+			g_object_unref (priv->search_account_cancel);
 			priv->search_account_cancel = NULL;
 		}
 
@@ -589,7 +589,7 @@ all_accounts:
 
 	camel_vee_folder_set_expression (search_folder, query);
 
-	priv->search_account_cancel = camel_operation_new (NULL, NULL);
+	priv->search_account_cancel = camel_operation_new ();
 
 	/* This takes ownership of the folder list. */
 	mail_shell_view_setup_search_results_folder (
@@ -621,7 +621,7 @@ current_account:
 
 		if (priv->search_account_cancel != NULL) {
 			camel_operation_cancel (priv->search_account_cancel);
-			camel_operation_unref (priv->search_account_cancel);
+			g_object_unref (priv->search_account_cancel);
 			priv->search_account_cancel = NULL;
 		}
 
@@ -654,7 +654,7 @@ current_account:
 	if (search_folder != NULL) {
 		if (priv->search_account_cancel != NULL) {
 			camel_operation_cancel (priv->search_account_cancel);
-			camel_operation_unref (priv->search_account_cancel);
+			g_object_unref (priv->search_account_cancel);
 			priv->search_account_cancel = NULL;
 		}
 
@@ -688,7 +688,7 @@ current_account:
 
 	camel_vee_folder_set_expression (search_folder, query);
 
-	priv->search_account_cancel = camel_operation_new (NULL, NULL);
+	priv->search_account_cancel = camel_operation_new ();
 
 	/* This takes ownership of the folder list. */
 	mail_shell_view_setup_search_results_folder (
