@@ -515,7 +515,7 @@ notification_clicked (GtkButton *button, ShareFolder *sf)
 	gtk_window_set_type_hint (GTK_WINDOW (sf->window), GDK_WINDOW_TYPE_HINT_DIALOG);
 
 	builder = gtk_builder_new ();
-	e_load_ui_builder_definition (builder, "properties.ui");
+	e_load_ui_builder_definition (builder, "notification.ui");
 
 	vbox = GTK_WIDGET (e_builder_get_widget (builder, "vbox191"));
 	gtk_container_add (GTK_CONTAINER (sf->window), vbox);

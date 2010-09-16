@@ -65,6 +65,7 @@ liborg_gnome_groupwise_features_la_LDFLAGS = -module -avoid-version $(NO_UNDEFIN
 
 ui_DATA =			\
 	properties.ui	\
+	notification.ui	\
 	junk-settings.ui 	\
 	proxy-add-dialog.ui	\
 	proxy-listing.ui	\
