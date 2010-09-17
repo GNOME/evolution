@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-09-15 18:37+0000\n"
-"PO-Revision-Date: 2010-09-17 01:40+0800\n"
+"POT-Creation-Date: 2010-09-16 23:46+0000\n"
+"PO-Revision-Date: 2010-09-17 10:15+0800\n"
 "Last-Translator: Aron Xu <happyaron.xu@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -2081,7 +2081,7 @@ msgstr "确认销毁"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:11
 msgid "Count of default recurrence for a new event. -1 means forever."
-msgstr "一个新事件的默认重现次数。-1 代表永远重现。"
+msgstr "一个新事件的默认重复次数。-1 代表永远重现。"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:12
 msgid "Days on which the start and end of work hours should be indicated."
@@ -2684,7 +2684,7 @@ msgstr "公开"
 #: ../calendar/gui/dialogs/event-editor.c:343
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:4
 msgid "Recurrence"
-msgstr "再现"
+msgstr "重复"
 
 #: ../calendar/gui/caltypes.xml.h:17
 #: ../calendar/gui/e-cal-list-view.etspec.h:8
@@ -2693,12 +2693,12 @@ msgstr "再现"
 #: ../calendar/gui/tasktypes.xml.h:22
 #: ../plugins/save-calendar/csv-format.c:363
 msgid "Summary"
-msgstr "概要"
+msgstr "摘要"
 
 #: ../calendar/gui/caltypes.xml.h:18 ../calendar/gui/memotypes.xml.h:15
 #: ../calendar/gui/tasktypes.xml.h:23
 msgid "Summary Contains"
-msgstr "概要含有"
+msgstr "摘要含有"
 
 #: ../calendar/gui/caltypes.xml.h:19 ../calendar/gui/memotypes.xml.h:16
 #: ../calendar/gui/tasktypes.xml.h:25 ../mail/em-filter-i18n.h:10
@@ -3308,7 +3308,7 @@ msgstr "备忘 - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:675
 msgid "No Summary"
-msgstr "没有概要"
+msgstr "没有摘要"
 
 #: ../calendar/gui/dialogs/comp-editor.c:786
 msgid "Keep original item?"
@@ -3617,7 +3617,7 @@ msgstr "切换是否将时间显示为忙"
 
 #: ../calendar/gui/dialogs/event-editor.c:238
 msgid "_Recurrence"
-msgstr "再现(_R)"
+msgstr "重复(_R)"
 
 #: ../calendar/gui/dialogs/event-editor.c:240
 msgid "Make this a recurring event"
@@ -3817,7 +3817,7 @@ msgstr "位置(_L)："
 
 #: ../calendar/gui/dialogs/event-page.ui.h:14
 msgid "_Summary:"
-msgstr "概要(_S)："
+msgstr "摘要(_S)："
 
 #: ../calendar/gui/dialogs/event-page.ui.h:15
 msgid "_Time:"
@@ -3893,7 +3893,7 @@ msgstr "开始日期(_R)："
 #: ../calendar/gui/dialogs/memo-page.ui.h:4
 #: ../calendar/gui/dialogs/task-page.ui.h:6
 msgid "Su_mmary:"
-msgstr "概要(_M)："
+msgstr "摘要(_M)："
 
 #: ../calendar/gui/dialogs/memo-page.ui.h:5
 msgid "T_o:"
@@ -3947,7 +3947,7 @@ msgstr "此约会含有 Evolution 无法编辑的再现。"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:892
 msgid "Recurrence date is invalid"
-msgstr "再现日期无效"
+msgstr "重复日期无效"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:932
 msgid "End time of the recurrence was before event's start"
@@ -4090,7 +4090,7 @@ msgstr "预览"
 
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:5
 msgid "This appointment rec_urs"
-msgstr "此约会重现(_U)"
+msgstr "此约会重复(_U)"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:8
@@ -4416,7 +4416,7 @@ msgstr "类别："
 #: ../calendar/gui/e-cal-component-preview.c:237
 #: ../calendar/gui/e-itip-control.c:1164 ../calendar/gui/e-itip-control.ui.h:9
 msgid "Summary:"
-msgstr "概要："
+msgstr "摘要："
 
 #: ../calendar/gui/e-cal-component-preview.c:246
 #: ../calendar/gui/e-cal-component-preview.c:259
@@ -5361,7 +5361,7 @@ msgstr "备忘"
 
 #: ../calendar/gui/e-memo-table.c:492 ../calendar/gui/e-task-table.c:709
 msgid "* No Summary *"
-msgstr "* 没有概要 *"
+msgstr "* 无摘要 *"
 
 #. Translators: This is followed by an event's start date/time
 #: ../calendar/gui/e-memo-table.c:577 ../calendar/gui/e-task-table.c:789
@@ -5459,7 +5459,7 @@ msgstr "有提醒。"
 
 #: ../calendar/gui/ea-cal-view-event.c:289
 msgid "It has recurrences."
-msgstr "有再现。"
+msgstr "有重复。"
 
 #: ../calendar/gui/ea-cal-view-event.c:292
 msgid "It is a meeting."
@@ -5969,7 +5969,7 @@ msgstr "预定 "
 #: ../calendar/gui/print.c:2637
 #, c-format
 msgid "Summary: %s"
-msgstr "概要：%s"
+msgstr "摘要：%s"
 
 #: ../calendar/gui/print.c:2661
 msgid "Attendees: "
@@ -6086,7 +6086,7 @@ msgstr "备忘"
 #: ../calendar/importers/icalendar-importer.c:941
 msgctxt "iCalImp"
 msgid "has recurrences"
-msgstr "有再现"
+msgstr "有重复"
 
 #: ../calendar/importers/icalendar-importer.c:946
 msgctxt "iCalImp"
@@ -6133,7 +6133,7 @@ msgstr "分类"
 #: ../calendar/importers/icalendar-importer.c:1284
 msgctxt "iCalImp"
 msgid "Summary"
-msgstr "概要"
+msgstr "摘要"
 
 #. Translators: Appointment's location
 #: ../calendar/importers/icalendar-importer.c:990
@@ -14758,7 +14758,7 @@ msgstr "描述含有"
 #: ../modules/calendar/e-memo-shell-view-actions.c:782
 #: ../modules/calendar/e-task-shell-view-actions.c:981
 msgid "Summary contains"
-msgstr "概要含有"
+msgstr "摘要含有"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1713
 msgid "Print this calendar"
@@ -18026,7 +18026,7 @@ msgstr[0] "选定的备忘列表已经包含给定邮件的备忘。您仍然要
 
 #: ../plugins/mail-to-task/mail-to-task.c:626
 msgid "[No Summary]"
-msgstr "[没有概要]"
+msgstr "[无摘要]"
 
 #: ../plugins/mail-to-task/mail-to-task.c:637
 msgid "Invalid object returned from a server"
@@ -18173,7 +18173,7 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
-"将向 URL “{0}”发送电子邮件。您可以自动发送此信息，或者先看看再改改。\n"
+"将向 URL“{0}”发送电子邮件。您可以自动发送此信息，或者先看看再改改。\n"
 "\n"
 "稍后这封信发出之后，您应该能够从邮件列表收到响应。"
 
@@ -18318,7 +18318,7 @@ msgstr "首选 HTML"
 
 #: ../plugins/prefer-plain/prefer-plain.c:198
 msgid "Let Evolution choose the best part to show."
-msgstr "让Evolution选择最好的部分显示。"
+msgstr "让 Evolution 选择最好的部分显示。"
 
 #: ../plugins/prefer-plain/prefer-plain.c:199
 msgid "Show plain text if present"
@@ -21283,1134 +21283,3 @@ msgstr "全选"
 #: ../widgets/text/e-text.c:2548
 msgid "Input Methods"
 msgstr "输入法"
-
-#~ msgid "Unable to reconstruct message from autosave file"
-#~ msgstr "无法从自动保存的文件重建信息"
-
-#~ msgid "<span size=\"large\" weight=\"bold\">Details:</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">详情：</span>"
-
-#~ msgid "<span size=\"large\" weight=\"bold\">Receiving</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">正在接收</span>"
-
-#~ msgid "<span size=\"large\" weight=\"bold\">Sending</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">正在发送</span>"
-
-#~ msgid "<span size=\"large\" weight=\"bold\">Google account settings:</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Google 帐号设置：</span>"
-
-#~ msgid "<span size=\"large\" weight=\"bold\">Yahoo account settings:</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Yahoo 帐号设置：</span>"
-
-#~ msgid "Blink icon in notification area."
-#~ msgstr "闪烁通知区域图标。"
-
-#~ msgid "Whether the icon should blink or not."
-#~ msgstr "是否闪烁图标。"
-
-#~ msgid "B_link icon in notification area"
-#~ msgstr "闪烁通知区图标(_L)"
-
-#~ msgid ""
-#~ "Evolution backup can start only when Evolution is not running. Please "
-#~ "make sure that you save and close all your unsaved windows before "
-#~ "proceeding.  If you want Evolution to restart automatically after backup, "
-#~ "please enable the toggle button."
-#~ msgstr ""
-#~ "Evolution 备份只能在 Evolution 未运行时启动。请确保在开始之前您保存和关闭"
-#~ "了您的所有的未保存的窗口。如果您想让 Evolution 在备份后自动重启动，请启用"
-#~ "切换按钮。"
-
-#~ msgid ""
-#~ "This will delete all your current Evolution data and settings and restore "
-#~ "them from your backup. Evolution restore can start only when Evolution is "
-#~ "not running. Please make sure that you close all your unsaved windows "
-#~ "before you proceed. If you want Evolution to restart automatically "
-#~ "restart after restore, please enable the toggle button."
-#~ msgstr ""
-#~ "这将删除您当前的所有 Evolution 数据和设置并从您的备份中恢复它们。"
-#~ "Evolution 恢复只能在 Evolution 未运行时启动。请确保在开始之前您保存和关闭"
-#~ "了您的所有的未保存的窗口。如果您想让 Evolution 在恢复后自动重启动，请启用"
-#~ "切换按钮。"
-
-#~ msgid "{0}"
-#~ msgstr "{0}"
-
-#~ msgid "{1}"
-#~ msgstr "{1}"
-
-#~ msgid "Default Sync Address:"
-#~ msgstr "默认同步地址："
-
-#~ msgid "Could not load address book"
-#~ msgstr "无法载入地址簿"
-
-#~ msgid "Could not read pilot's Address application block"
-#~ msgstr "无法读入 Pilot 的地址应用程序块"
-
-#~ msgid "Web Log:"
-#~ msgstr "网络日志："
-
-#~ msgid "_Web Log:"
-#~ msgstr "_Web 日志："
-
-#~ msgid "Editable"
-#~ msgstr "可编辑"
-
-#~ msgid "Source Book"
-#~ msgstr "来源地址簿"
-
-#~ msgid "Target Book"
-#~ msgstr "目标地址簿"
-
-#~ msgid "Is New Contact"
-#~ msgstr "为新联系人"
-
-#~ msgid "Writable Fields"
-#~ msgstr "可写域"
-
-#~ msgid "Required Fields"
-#~ msgstr "必需域"
-
-#~ msgid "Changed"
-#~ msgstr "已更改"
-
-#~ msgid "Shell"
-#~ msgstr "外壳"
-
-#~ msgid "The EShell singleton"
-#~ msgstr "EShell 的一个"
-
-#~ msgid "Book"
-#~ msgstr "地址簿"
-
-#~ msgid "Is New List"
-#~ msgstr "为新列表"
-
-#~ msgid "Query"
-#~ msgstr "查询"
-
-#~ msgid "Model"
-#~ msgstr "模型"
-
-#~ msgid "Shell View"
-#~ msgstr "外壳视图"
-
-#~ msgid "Source"
-#~ msgstr "来源"
-
-#~ msgid "Width"
-#~ msgstr "宽度"
-
-#~ msgid "Height"
-#~ msgstr "高度"
-
-#~ msgid "Has Focus"
-#~ msgstr "有焦点"
-
-#~ msgid "Field"
-#~ msgstr "域"
-
-#~ msgid "Field Name"
-#~ msgstr "域名"
-
-#~ msgid "Text Model"
-#~ msgstr "文字模型"
-
-#~ msgid "Max field name length"
-#~ msgstr "最大域名长度"
-
-#~ msgid "Column Width"
-#~ msgstr "列宽"
-
-#~ msgid "Adapter"
-#~ msgstr "适配器"
-
-#~ msgid "Selected"
-#~ msgstr "已选择"
-
-#~ msgid "Has Cursor"
-#~ msgstr "有光标"
-
-#~ msgid "Success"
-#~ msgstr "成功"
-
-#~ msgid "Backend busy"
-#~ msgstr "后台忙"
-
-#~ msgid "Repository offline"
-#~ msgstr "仓库脱机"
-
-#~ msgid "Address Book does not exist"
-#~ msgstr "地址簿不存在"
-
-#~ msgid "No Self Contact defined"
-#~ msgstr "未定义自身联系人"
-
-#~ msgid "Permission denied"
-#~ msgstr "没有权限"
-
-#~ msgid "Contact not found"
-#~ msgstr "找不到联系人"
-
-#~ msgid "Contact ID already exists"
-#~ msgstr "联系人 ID 已经存在"
-
-#~ msgid "Protocol not supported"
-#~ msgstr "不支持的协议"
-
-#~ msgid "Could not cancel"
-#~ msgstr "无法取消"
-
-#~ msgid "Authentication Failed"
-#~ msgstr "认证失败"
-
-#~ msgid "Authentication Required"
-#~ msgstr "必须认证"
-
-#~ msgid "TLS not Available"
-#~ msgstr "TLS 不可用"
-
-#~ msgid "No such source"
-#~ msgstr "没有来源"
-
-#~ msgid "Not available in offline mode"
-#~ msgstr "脱机模式下不可用"
-
-#~ msgid "Other error"
-#~ msgstr "其它错误"
-
-#~ msgid "Invalid server version"
-#~ msgstr "无效的服务器版本"
-
-#~ msgid "Unsupported authentication method"
-#~ msgstr "不支持的认证方式"
-
-#~ msgid "Calendar repository is offline."
-#~ msgstr "日历仓库脱机。"
-
-#~ msgid "Error on '{0}'"
-#~ msgstr "{0} 出错"
-
-#~ msgid "No response from the server."
-#~ msgstr "服务器无响应。"
-
-#~ msgid "Unable to load the calendar"
-#~ msgstr "无法载入日历"
-
-#~ msgid "{0}."
-#~ msgstr "{0}。"
-
-#~ msgid "Split Multi-Day Events:"
-#~ msgstr "分割多日事件："
-
-#~ msgid "Could not start evolution-data-server"
-#~ msgstr "无法启动 evolution-data-server"
-
-#~ msgid "Could not read pilot's Calendar application block"
-#~ msgstr "无法读入 Pilot 日历应用程序块"
-
-#~ msgid "Could not read pilot's Memo application block"
-#~ msgstr "无法读入 Pilot 的备忘应用程序块"
-
-#~ msgid "Could not write pilot's Memo application block"
-#~ msgstr "无法写入 Pilot 备忘应用程序块"
-
-#~ msgid "Default Priority:"
-#~ msgstr "默认优先级："
-
-#~ msgid "Could not read pilot's ToDo application block"
-#~ msgstr "无法读入 Pilot ToDo 应用程序块"
-
-#~ msgid "Could not write pilot's ToDo application block"
-#~ msgstr "无法写入 Pilot ToDo 应用程序块"
-
-#~ msgid "Show week numbers in date navigator"
-#~ msgstr "在日期导航器中显示周数"
-
-#~ msgid "Whether to show week number in the Day and Work Week View."
-#~ msgstr "是否在日视图和工作日视图中显示周数。"
-
-#~ msgid "Show week n_umber in Day and Work Week View"
-#~ msgstr "在日视图和工作日视图中显示周数(_U)"
-
-#~ msgid "Save"
-#~ msgstr "保存"
-
-#~ msgid "The event could not be deleted due to a corba error"
-#~ msgstr "无法删除事件，原因是 corba 错误"
-
-#~ msgid "The task could not be deleted due to a corba error"
-#~ msgstr "无法删除任务，原因是 corba 错误"
-
-#~ msgid "The memo could not be deleted due to a corba error"
-#~ msgstr "无法删除备忘，原因是 corba 错误"
-
-#~ msgid "The item could not be deleted due to a corba error"
-#~ msgstr "无法删除项目，原因是 corba 错误"
-
-#~ msgid "Appoint_ment"
-#~ msgstr "约会(_M)"
-
-#~ msgid "Attendee_s..."
-#~ msgstr "出席者(_S)..."
-
-#~ msgid "_Task"
-#~ msgstr "任务(_T)"
-
-#~ msgid "Default Client"
-#~ msgstr "默认客户端"
-
-#~ msgid "Shell Settings"
-#~ msgstr "外壳设置"
-
-#~ msgid "Application-wide settings"
-#~ msgstr "应用程序级设置"
-
-#~ msgid "A_ttendees..."
-#~ msgstr "出席者(_T)..."
-
-#~ msgid "0%"
-#~ msgstr "0%"
-
-#~ msgid "10%"
-#~ msgstr "10%"
-
-#~ msgid "20%"
-#~ msgstr "20%"
-
-#~ msgid "30%"
-#~ msgstr "30%"
-
-#~ msgid "40%"
-#~ msgstr "40%"
-
-#~ msgid "50%"
-#~ msgstr "50%"
-
-#~ msgid "60%"
-#~ msgstr "60%"
-
-#~ msgid "70%"
-#~ msgstr "70%"
-
-#~ msgid "80%"
-#~ msgstr "80%"
-
-#~ msgid "90%"
-#~ msgstr "90%"
-
-#~ msgid "100%"
-#~ msgstr "100%"
-
-#~ msgid "_Select Today"
-#~ msgstr "选择今天(_S)"
-
-#~ msgid "_From Field"
-#~ msgstr "发件人域(_F)"
-
-#~ msgid "Toggles whether the From chooser is displayed"
-#~ msgstr "是否显示发件人选择器"
-
-#~ msgid "Show"
-#~ msgstr "显示"
-
-#~ msgid "Hide"
-#~ msgstr "隐藏"
-
-#~ msgid "address card"
-#~ msgstr "地址卡"
-
-#~ msgid "calendar information"
-#~ msgstr "日历信息"
-
-#, fuzzy
-#~ msgid "Name of the logger"
-#~ msgstr "记录日志的组件名称"
-
-#~ msgid "Filename"
-#~ msgstr "文件名"
-
-#, fuzzy
-#~ msgid "The filename of the module"
-#~ msgstr "更改此文件夹的名称"
-
-#~ msgid "Whether the plugin is enabled"
-#~ msgstr "插件是否已启用"
-
-#~ msgid "Could not parse PGP message: Unknown error"
-#~ msgstr "无法解析 PGP 信息：未知错误"
-
-#, fuzzy
-#~ msgid "Shell Module"
-#~ msgstr "选择模式"
-
-#~ msgid "Show Deleted"
-#~ msgstr "显示删除的"
-
-#~ msgid "To Do"
-#~ msgstr "待办"
-
-#~ msgid "Later"
-#~ msgstr "稍候"
-
-#~ msgid "Unable to create new folder `%s': %s"
-#~ msgstr "无法创建新文件夹“%s”：%s"
-
-#~ msgid "Unable to copy folder `%s' to `%s': %s"
-#~ msgstr "无法将文件夹“%s”复制为“%s”：%s"
-
-#~ msgid "Unable to scan for existing mailboxes at `%s': %s"
-#~ msgstr "无法扫描位于“%s”的已有邮箱：%s"
-
-#~ msgid ""
-#~ "The location and hierarchy of the Evolution mailbox folders has changed "
-#~ "since Evolution 1.x.\n"
-#~ "\n"
-#~ "Please be patient while Evolution migrates your folders..."
-#~ msgstr ""
-#~ "Evolution 任务文件夹的位置和层次与 Evolution 1.x 不同。\n"
-#~ "\n"
-#~ "请稍候，Evolution 正在升迁您的文件夹..."
-
-#~ msgid "Unable to open old POP keep-on-server data `%s': %s"
-#~ msgstr "无法打开旧的 POP 保留在服务器上的数据“%s”：%s"
-
-#~ msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
-#~ msgstr "无法创建 POP3 保留在服务器上的数据目录“%s”：%s"
-
-#~ msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-#~ msgstr "无法复制 POP3 在服务器上保留的数据“%s”：%s"
-
-#~ msgid "Failed to create local mail storage `%s': %s"
-#~ msgstr "创建本地邮件存储“%s”失败：%s"
-
-#~ msgid ""
-#~ "Unable to read settings from previous Evolution install, `evolution/"
-#~ "config.xmldb' does not exist or is corrupt."
-#~ msgstr ""
-#~ "无法从先前的 Evolution 安装中读取设置，“evolution/config.xmldb”不存在或者"
-#~ "已损坏。"
-
-#~ msgid "Allows Evolution to display text part of limited size"
-#~ msgstr "允许 Evolution 显示被限制大小的文本部分"
-
-#~ msgid "Enable to render message text part of limited size."
-#~ msgstr "允许渲染被限制大小的信息文本部分。"
-
-#~ msgid "Text message part limit"
-#~ msgstr "文本信息部分限制"
-
-#~ msgid "<b>Top Posting Option</b> (Not Recommended)"
-#~ msgstr "<b>Top Posting 选项</b> (不推荐)"
-
-#~ msgid "    "
-#~ msgstr "    "
-
-#~ msgid "Because \"{0}\"."
-#~ msgstr "原因是“{0}”。"
-
-#~ msgid "Because \"{2}\"."
-#~ msgstr "原因是“{2}”。"
-
-#~ msgid "Do not d_elete"
-#~ msgstr "不删除(_E)"
-
-#~ msgid ""
-#~ "The following Search Folder(s):\n"
-#~ "{0}\n"
-#~ "Used the now removed folder:\n"
-#~ "    \"{1}\"\n"
-#~ "And have been updated."
-#~ msgstr ""
-#~ "下列搜索文件夹：\n"
-#~ "{0}\n"
-#~ "使用现已删除的文件夹：\n"
-#~ "   “{1}”\n"
-#~ "已经更新。"
-
-#~ msgid ""
-#~ "The following filter rule(s):\n"
-#~ "{0}\n"
-#~ "Used the now removed folder:\n"
-#~ "    \"{1}\"\n"
-#~ "And have been updated."
-#~ msgstr ""
-#~ "下列过滤规则：\n"
-#~ "{0}\n"
-#~ "使用现已删除的文件夹：\n"
-#~ "   “{1}”\n"
-#~ "已经更新。"
-
-#~ msgid "Table column:"
-#~ msgstr "表格栏："
-
-#~ msgid "Source List"
-#~ msgstr "来源列表"
-
-#, fuzzy
-#~ msgid "The registry of address books"
-#~ msgstr "无法获得地址簿列表"
-
-#~ msgid "Current View"
-#~ msgstr "当前视图"
-
-#, fuzzy
-#~ msgid "Previewed Contact"
-#~ msgstr "新建联系人"
-
-#, fuzzy
-#~ msgid "The contact being shown in the preview pane"
-#~ msgstr "是否显示预览面板。"
-
-#, fuzzy
-#~ msgid "Preview is Visible"
-#~ msgstr "侧边栏可见"
-
-#, fuzzy
-#~ msgid "Whether the preview pane is visible"
-#~ msgstr "是否显示预览面板。"
-
-#~ msgid "LDAP Servers"
-#~ msgstr "LDAP 服务器"
-
-#~ msgid "Autocompletion Settings"
-#~ msgstr "自动补全设置"
-
-#~ msgid ""
-#~ "The location and hierarchy of the Evolution contact folders has changed "
-#~ "since Evolution 1.x.\n"
-#~ "\n"
-#~ "Please be patient while Evolution migrates your folders..."
-#~ msgstr ""
-#~ "Evolution 联系人文件夹的位置和层次与 Evolution 1.x 不同。\n"
-#~ "\n"
-#~ "请稍候，Evolution 正在升迁您的文件夹..."
-
-#~ msgid ""
-#~ "The format of mailing list contacts has changed.\n"
-#~ "\n"
-#~ "Please be patient while Evolution migrates your folders..."
-#~ msgstr ""
-#~ "邮件列表联系人的格式已经更改。\n"
-#~ "\n"
-#~ "请稍候，Evolution 正在升迁您的文件夹..."
-
-#~ msgid ""
-#~ "The way Evolution stores some phone numbers has changed.\n"
-#~ "\n"
-#~ "Please be patient while Evolution migrates your folders..."
-#~ msgstr ""
-#~ "Evolution 存储某些电话号码的方式已经更改。\n"
-#~ "\n"
-#~ "请稍候，Evolution 正在升迁您的文件夹..."
-
-#~ msgid ""
-#~ "Evolution's Palm Sync changelog and map files have changed.\n"
-#~ "\n"
-#~ "Please be patient while Evolution migrates your Pilot Sync data..."
-#~ msgstr ""
-#~ "Evolution Palm 同步更新日志和地图文件已经更改。\n"
-#~ "\n"
-#~ "请稍候，Evolution 正在升迁您的 Pilot 同步数据..."
-
-#, fuzzy
-#~ msgid "Source Selector Widget"
-#~ msgstr "备忘来源选择器"
-
-#, fuzzy
-#~ msgid "This widget displays groups of address books"
-#~ msgstr "无法获得地址簿列表"
-
-#~ msgid "Save as vCard..."
-#~ msgstr "另存为 VCard..."
-
-#~ msgid "3268"
-#~ msgstr "3268"
-
-#~ msgid "389"
-#~ msgstr "389"
-
-#~ msgid "636"
-#~ msgstr "636"
-
-#~ msgid ""
-#~ "The location and hierarchy of the Evolution calendar folders has changed "
-#~ "since Evolution 1.x.\n"
-#~ "\n"
-#~ "Please be patient while Evolution migrates your folders..."
-#~ msgstr ""
-#~ "Evolution 日历文件夹的位置和层次与 Evolution 1.x 不同。\n"
-#~ "\n"
-#~ "请稍候，Evolution 正在升迁您的文件夹..."
-
-#~ msgid "Unable to migrate old settings from evolution/config.xmldb"
-#~ msgstr "无法从 evolution/config.xmldb 中升迁旧设置"
-
-#~ msgid "Unable to migrate calendar `%s'"
-#~ msgstr "无法升迁日历“%s”"
-
-#~| msgid "Default Mail Client"
-#~ msgid "Default Calendar Client"
-#~ msgstr "默认邮件客户端"
-
-#, fuzzy
-#~ msgid "The registry of memo lists"
-#~ msgstr "打印备忘列表"
-
-#, fuzzy
-#~ msgid "The memo table model"
-#~ msgstr "表格模型"
-
-#~| msgid "Default Mail Client"
-#~ msgid "Default Memo Client"
-#~ msgstr "默认邮件客户端"
-
-#, fuzzy
-#~ msgid "The registry of task lists"
-#~ msgstr "打印任务列表"
-
-#, fuzzy
-#~ msgid "The task table model"
-#~ msgstr "表格模型"
-
-#~ msgid ""
-#~ "The location and hierarchy of the Evolution task folders has changed "
-#~ "since Evolution 1.x.\n"
-#~ "\n"
-#~ "Please be patient while Evolution migrates your folders..."
-#~ msgstr ""
-#~ "Evolution 任务文件夹的位置和层次与 Evolution 1.x 不同。\n"
-#~ "\n"
-#~ "请稍候，Evolution 正在升迁您的文件夹..."
-
-#~ msgid "Unable to migrate tasks `%s'"
-#~ msgstr "无法升迁任务“%s”"
-
-#~| msgid "Default Mail Client"
-#~ msgid "Default Task Client"
-#~ msgstr "默认邮件客户端"
-
-#~| msgid "Default value for thread expand state"
-#~ msgid "Default client for task operations"
-#~ msgstr "话题的默认展开状态"
-
-#~| msgid "_Group By Threads"
-#~ msgid "Group by Threads"
-#~ msgstr "按线索分组(_G)"
-
-#~ msgid "Hide _Read Messages"
-#~ msgstr "隐藏已读的信息(_R)"
-
-#~ msgid "Temporarily hide all messages that have already been read"
-#~ msgstr "暂时隐藏所有已读信息"
-
-#~ msgid "Hide S_elected Messages"
-#~ msgstr "隐藏选中的信息(_E)"
-
-#~ msgid "Temporarily hide the selected messages"
-#~ msgstr "暂时隐藏选中信息"
-
-#~ msgid "Show Hidde_n Messages"
-#~ msgstr "显示隐藏的信息(_N)"
-
-#~ msgid "Show messages that have been temporarily hidden"
-#~ msgstr "显示暂时被隐藏的信息"
-
-#~ msgid "Hide _Deleted Messages"
-#~ msgstr "隐藏已删除的信息(_D)"
-
-#~ msgid ""
-#~ "Hide deleted messages rather than displaying them with a line through them"
-#~ msgstr "隐藏已删除的信息而不是在上面显示一条线"
-
-#~ msgid ""
-#~ "List of clues for the attachment reminder plugin to look for in a message "
-#~ "body."
-#~ msgstr "信息主体中的用于附件提醒插件的线索列表。"
-
-#~ msgid "Check whether Evolution is the default mail client on startup."
-#~ msgstr "在启动时检查 Evolution 是不是默认的邮件客户端。"
-
-#~ msgid "Default Mail Client"
-#~ msgstr "默认邮件客户端"
-
-#~ msgid "<b>Server</b>"
-#~ msgstr "<b>服务器</b>"
-
-#~ msgid "<b>Users:</b>"
-#~ msgstr "<b>用户数：</b>"
-
-#~ msgid "<b>Account Name</b>"
-#~ msgstr "<b>帐号名</b>"
-
-#~ msgid "Hula Support"
-#~ msgstr "Hula 支持"
-
-#~ msgid "_Accept"
-#~ msgstr "接受(_A)"
-
-#~ msgid "Guides you through your initial account setup."
-#~ msgstr "指引您进行初始帐号的设置。"
-
-#~ msgid "Setup Assistant"
-#~ msgstr "设置助手"
-
-#~ msgid "Importing data."
-#~ msgstr "正在导入数据。"
-
-#~ msgid "Please wait"
-#~ msgstr "请稍候"
-
-#~ msgid "%ld KB"
-#~ msgstr "%ld KB"
-
-#~ msgid "Toolbar Style"
-#~ msgstr "工具栏样式"
-
-#~ msgid "Toolbar Visible"
-#~ msgstr "工具栏可见"
-
-#~ msgid "Whether the switcher is visible"
-#~ msgstr "切换器是否可见"
-
-#, fuzzy
-#~ msgid "Switcher Action"
-#~ msgstr "切换到 %s"
-
-#~ msgid "Page Number"
-#~ msgstr "页码"
-
-#~| msgid "Search Filter"
-#~ msgid "Search Rule"
-#~ msgstr "搜索过滤器"
-
-#, fuzzy
-#~ msgid "Criteria for the current search results"
-#~ msgstr "取消当前邮件操作"
-
-#, fuzzy
-#~ msgid "Shell Sidebar Widget"
-#~ msgstr "默认侧边栏宽度"
-
-#, fuzzy
-#~ msgid "Shell Taskbar Widget"
-#~ msgstr "选择任务列表"
-
-#, fuzzy
-#~ msgid "Shell Window"
-#~ msgstr "新建窗口(_W)"
-
-#, fuzzy
-#~ msgid "Current View ID"
-#~ msgstr "当前视图(_C)"
-
-#, fuzzy
-#~ msgid "The current GAL view ID"
-#~ msgstr "当前时间"
-
-#~ msgid "GNOME Pilot is not installed."
-#~ msgstr "GNOME Pilot 没有安装。"
-
-#~ msgid "GNOME Pilot could not be run."
-#~ msgstr "GNOME Pilot 不能运行。"
-
-#~ msgid "GNOME Pilot _Synchronization..."
-#~ msgstr "GNOME Pilot 同步(_S)..."
-
-#~ msgid "Set up GNOME Pilot configuration"
-#~ msgstr "设置 GNOME Pilot 配置"
-
-#, fuzzy
-#~ msgid "Name of the active shell view"
-#~ msgstr "新视图的名称："
-
-#~ msgid "Safe Mode"
-#~ msgstr "安全模式"
-
-#, fuzzy
-#~ msgid "Whether the shell window is in safe mode"
-#~ msgstr "插件是否已启用"
-
-#~| msgid "Sidebar is visible"
-#~ msgid "Sidebar Visible"
-#~ msgstr "侧边栏可见"
-
-#~| msgid "Whether the switcher is visible"
-#~ msgid "Whether the shell window's side bar is visible"
-#~ msgstr "切换器是否可见"
-
-#~| msgid "Sidebar is visible"
-#~ msgid "Switcher Visible"
-#~ msgstr "侧边栏可见"
-
-#~| msgid "Whether the window buttons should be visible."
-#~ msgid "Whether the shell window's switcher buttons are visible"
-#~ msgstr "窗口按钮是否可见。"
-
-#~ msgid "Taskbar Visible"
-#~ msgstr "任务栏可见"
-
-#~| msgid "Whether the switcher is visible"
-#~ msgid "Whether the shell window's task bar is visible"
-#~ msgstr "切换器是否可见"
-
-#~| msgid "Whether the switcher is visible"
-#~ msgid "Whether the shell window's tool bar is visible"
-#~ msgstr "切换器是否可见"
-
-#~ msgid "UI Manager"
-#~ msgstr "UI 管理器"
-
-#~ msgid "Module Directory"
-#~ msgstr "模块目录"
-
-#~ msgid "Network Available"
-#~ msgstr "网络可用"
-
-#~ msgid "Whether the network is available"
-#~ msgstr "网络是否可用"
-
-#~ msgid "Online"
-#~ msgstr "在线"
-
-#, fuzzy
-#~ msgid "Whether the shell is online"
-#~ msgstr "插件是否已启用"
-
-#~ msgid "Forcibly re-migrate from Evolution 1.4"
-#~ msgstr "强制从 Evolution 1.4 重新升迁"
-
-#~ msgid "Insufficient disk space for upgrade."
-#~ msgstr "磁盘空间不足以进行升级。"
-
-#~ msgid "Really delete old data?"
-#~ msgstr "真的要删除旧数据吗？"
-
-#~ msgid ""
-#~ "The entire contents of the &quot;evolution&quot; directory are about to "
-#~ "be permanently removed.\n"
-#~ "\n"
-#~ "It is suggested you manually verify that all of your mail, contact, and "
-#~ "calendar data is present, and that this version of Evolution operates "
-#~ "correctly before deleting this old data.\n"
-#~ "\n"
-#~ "Once deleted, you cannot downgrade to the previous version of Evolution "
-#~ "without manual intervention.\n"
-#~ msgstr ""
-#~ "即将永久删除“evolution”目录的全部内容。\n"
-#~ "\n"
-#~ "我们建议您在删除旧数据之前，手动检查您全部的邮件、联系人和日历信息都存在，"
-#~ "并且确认此版本的 Evolution 工作正常。\n"
-#~ "\n"
-#~ "删除之后，您将无法降级至先前版本的 Evolution，除非您手动从头来过。\n"
-
-#, fuzzy
-#~ msgid ""
-#~ "The previous version of Evolution stored its data in a different "
-#~ "location.\n"
-#~ "\n"
-#~ "If you choose to remove this data, the entire contents of the &quot;"
-#~ "evolution&quot; directory will be removed permanently. If you choose to "
-#~ "keep this data, then you may manually remove the contents of &quot;"
-#~ "evolution&quot; at your convenience.\n"
-#~ msgstr ""
-#~ "先前版本的 Evolution 将其数据存储在不同的位置。\n"
-#~ "\n"
-#~ "如果您选择删除此数据，“evolution”目录中的全部内容都将被永久删除。如果您选"
-#~ "择保留此数据，那么您可以在您方便的时候手动删除“evolution”目录。\n"
-
-#~ msgid ""
-#~ "Upgrading your data and settings will require up to {0} of disk space, "
-#~ "but you only have {1} available.\n"
-#~ "\n"
-#~ "You will need to make more space available in your home directory before "
-#~ "you can continue."
-#~ msgstr ""
-#~ "升级您的数据和设置需要多至 {0} 的磁盘空间，但您现在只有 {1}。\n"
-#~ "\n"
-#~ "您需要在继续之前在主目录中腾出更多空间。"
-
-#~ msgid "_Keep Data"
-#~ msgstr "保留数据(_K)"
-
-#~ msgid "_Remind Me Later"
-#~ msgstr "稍后提醒(_R)"
-
-#~ msgid "Edit"
-#~ msgstr "编辑"
-
-#~ msgid "Import"
-#~ msgstr "导入"
-
-#~ msgid "View"
-#~ msgstr "查看"
-
-#~ msgid "Collection"
-#~ msgstr "收藏"
-
-#~ msgid "Instance"
-#~ msgstr "实例"
-
-#~ msgid "Factory"
-#~ msgstr "工厂"
-
-#~ msgid "Action"
-#~ msgstr "活动"
-
-#~ msgid "Show _Attachment Bar"
-#~ msgstr "显示附件栏(_A)"
-
-#~ msgid "Fill color"
-#~ msgstr "填充颜色"
-
-#~ msgid "GDK fill color"
-#~ msgstr "GDK 填充颜色"
-
-#~ msgid "Fill stipple"
-#~ msgstr "点绘填充"
-
-#~ msgid "X1"
-#~ msgstr "X1"
-
-#~ msgid "X2"
-#~ msgstr "X2"
-
-#~ msgid "Y1"
-#~ msgstr "Y1"
-
-#~ msgid "Y2"
-#~ msgstr "Y2"
-
-#~ msgid "Minimum width"
-#~ msgstr "最小宽度"
-
-#~ msgid "Minimum Width"
-#~ msgstr "最小宽度"
-
-#~ msgid "Spacing"
-#~ msgstr "间距"
-
-#~ msgid "The button state is online"
-#~ msgstr "按钮状态为在线"
-
-#, fuzzy
-#~ msgid "Horizontal Position"
-#~ msgstr "水平面板位置"
-
-#, fuzzy
-#~ msgid "Vertical Position"
-#~ msgstr "竖直面板的位置"
-
-#~| msgid "Position"
-#~ msgid "Proportion"
-#~ msgstr "位置"
-
-#~| msgid "_Resize"
-#~ msgid "Fixed Resize"
-#~ msgstr "缩放(_R)"
-
-#~ msgid "Sync with:"
-#~ msgstr "同步对象："
-
-#~ msgid "Sync Private Records:"
-#~ msgstr "同步私有记录："
-
-#~ msgid "Sync Categories:"
-#~ msgstr "同步类别："
-
-#~ msgid "Cursor Row"
-#~ msgstr "光标行"
-
-#~ msgid "Cursor Column"
-#~ msgstr "光标列"
-
-#~ msgid "Sorter"
-#~ msgstr "排序"
-
-#~ msgid "Selection Mode"
-#~ msgstr "选择模式"
-
-#~ msgid "Cursor Mode"
-#~ msgstr "光标模式"
-
-#~ msgid "Selected Column"
-#~ msgstr "选中列"
-
-#~ msgid "Focused Column"
-#~ msgstr "聚焦列"
-
-#~ msgid "Unselected Column"
-#~ msgstr "未选列"
-
-#~ msgid "Strikeout Column"
-#~ msgstr "给列加删除线"
-
-#~ msgid "Underline Column"
-#~ msgstr "给列加下划线"
-
-#~ msgid "Bold Column"
-#~ msgstr "给列加粗"
-
-#~ msgid "Color Column"
-#~ msgstr "给列着色"
-
-#~ msgid "BG Color Column"
-#~ msgstr "给列着背景色"
-
-#~ msgid "State"
-#~ msgstr "状态"
-
-#~ msgid "Alternating Row Colors"
-#~ msgstr "交替行色"
-
-#~ msgid "Horizontal Draw Grid"
-#~ msgstr "水平绘制网格"
-
-#~ msgid "Vertical Draw Grid"
-#~ msgstr "竖直绘制网格"
-
-#~ msgid "Draw focus"
-#~ msgstr "绘制焦点"
-
-#~ msgid "Cursor mode"
-#~ msgstr "光标模式"
-
-#~ msgid "Selection model"
-#~ msgstr "选择模型"
-
-#~ msgid "Length Threshold"
-#~ msgstr "长度阀值"
-
-#~ msgid "Uniform row height"
-#~ msgstr "统一行高"
-
-#~ msgid "Frozen"
-#~ msgstr "冻结"
-
-#~ msgid "Table header"
-#~ msgstr "表头"
-
-#~ msgid "Table model"
-#~ msgstr "表格模型"
-
-#~ msgid "Cursor row"
-#~ msgstr "光标行"
-
-#~ msgid "Sort Info"
-#~ msgstr "排序信息"
-
-#~ msgid "Always search"
-#~ msgstr "总是搜索"
-
-#~ msgid "Use click to add"
-#~ msgstr "单击可添加"
-
-#, fuzzy
-#~ msgid "Vertical Row Spacing"
-#~ msgstr "标识器间距"
-
-#~ msgid "ETree table adapter"
-#~ msgstr "ETree 表格适配器"
-
-#~ msgid "Retro Look"
-#~ msgstr "火箭外观"
-
-#~ msgid "Draw lines and +/- expanders."
-#~ msgstr "绘制行和 +/- 扩展柄。"
-
-#~ msgid "Expander Size"
-#~ msgstr "扩展器大小"
-
-#~ msgid "Size of the expander arrow"
-#~ msgstr "扩展器箭头的大小"
-
-#~ msgid "popup"
-#~ msgstr "弹出"
-
-#~ msgid "edit"
-#~ msgstr "编辑"
-
-#~ msgid "toggle"
-#~ msgstr "切换"
-
-#~ msgid "expand"
-#~ msgstr "展开"
-
-#~ msgid "Event Processor"
-#~ msgstr "事件处理器"
-
-#~ msgid "Text"
-#~ msgstr "文字"
-
-#~ msgid "Bold"
-#~ msgstr "粗体"
-
-#~ msgid "Strikeout"
-#~ msgstr "删除线"
-
-#~ msgid "Anchor"
-#~ msgstr "锚点"
-
-#~ msgid "Justification"
-#~ msgstr "两端对齐"
-
-#~ msgid "Clip Width"
-#~ msgstr "裁剪宽度"
-
-#~ msgid "Clip Height"
-#~ msgstr "裁剪高度"
-
-#~ msgid "Clip"
-#~ msgstr "裁剪"
-
-#~ msgid "Fill clip rectangle"
-#~ msgstr "填充裁剪矩形"
-
-#~ msgid "X Offset"
-#~ msgstr "水平偏移"
-
-#~ msgid "Y Offset"
-#~ msgstr "竖直偏移"
-
-#~ msgid "Text width"
-#~ msgstr "文字宽度"
-
-#~ msgid "Text height"
-#~ msgstr "文字高度"
-
-#~ msgid "Use ellipsis"
-#~ msgstr "使用椭圆"
-
-#~ msgid "Ellipsis"
-#~ msgstr "椭圆"
-
-#~ msgid "Line wrap"
-#~ msgstr "换行"
-
-#~ msgid "Break characters"
-#~ msgstr "换行字符"
-
-#~ msgid "Max lines"
-#~ msgstr "最多行数"
-
-#~ msgid "Draw borders"
-#~ msgstr "绘制边框"
-
-#~ msgid "Allow newlines"
-#~ msgstr "允许新行"
-
-#~ msgid "Draw background"
-#~ msgstr "绘制背景"
-
-#~ msgid "Draw button"
-#~ msgstr "绘制按钮"
-
-#~ msgid "Cursor position"
-#~ msgstr "光标位置"
-
-#~ msgid "IM Context"
-#~ msgstr "输入法环境"
-
-#~ msgid "Handle Popup"
-#~ msgstr "处理弹出"
