@@ -38,6 +38,9 @@
 
 #include "e-shell-window-actions.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define E_SHELL_SEARCHBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_SEARCHBAR, EShellSearchbarPrivate))
@@ -416,7 +419,7 @@ shell_searchbar_entry_key_press_cb (EShellSearchbar *searchbar,
 	if ((key_event->state & mask) != GDK_MOD1_MASK)
 		return FALSE;
 
-	if (key_event->keyval != GDK_Down)
+	if (key_event->keyval != GDK_KEY_Down)
 		return FALSE;
 
 	shell_view = e_shell_searchbar_get_shell_view (searchbar);

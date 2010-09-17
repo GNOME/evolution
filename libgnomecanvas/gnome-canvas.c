@@ -94,6 +94,7 @@
 #include "gnome-canvas-marshal.h"
 #include "gnome-canvas-marshal.c"
 
+/* backward-compatibility cruft */
 #include "e-util/gtk-compat.h"
 
 /* We must run our idle update handler *before* GDK wants to redraw. */

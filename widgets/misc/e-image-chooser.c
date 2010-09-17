@@ -29,6 +29,8 @@
 #include "e-image-chooser.h"
 #include "e-util/e-util.h"
 #include "e-util/e-icon-factory.h"
+
+/* backward-compatibility cruft */
 #include "e-util/gtk-compat.h"
 
 #define E_IMAGE_CHOOSER_GET_PRIVATE(obj) \

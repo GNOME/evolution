@@ -33,6 +33,9 @@
 #include <e-util/e-extensible.h>
 #include <e-util/e-util-private.h>
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define E_IMPORT_ASSISTANT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_IMPORT_ASSISTANT, EImportAssistantPrivate))
@@ -1166,7 +1169,7 @@ import_assistant_key_press_event (GtkWidget *widget,
 {
 	GtkWidgetClass *parent_class;
 
-	if (event->keyval == GDK_Escape) {
+	if (event->keyval == GDK_KEY_Escape) {
 		g_signal_emit_by_name (widget, "cancel");
 		return TRUE;
 	}

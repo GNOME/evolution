@@ -39,6 +39,9 @@
 #include "e-table-item.h"
 #include "e-table-sorting-utils.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define TITLE_HEIGHT         16
 
 /* workaround for avoiding API breakage */
@@ -212,37 +215,37 @@ etgc_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	switch (event->type) {
 	case GDK_KEY_PRESS:
-		if (event->key.keyval == GDK_Tab ||
-		    event->key.keyval == GDK_KP_Tab ||
-		    event->key.keyval == GDK_ISO_Left_Tab) {
+		if (event->key.keyval == GDK_KEY_Tab ||
+		    event->key.keyval == GDK_KEY_KP_Tab ||
+		    event->key.keyval == GDK_KEY_ISO_Left_Tab) {
 			change_focus = TRUE;
 			use_col      = TRUE;
 			start_col    = (event->key.state & GDK_SHIFT_MASK) ? -1 : 0;
 			direction    = (event->key.state & GDK_SHIFT_MASK) ? E_FOCUS_END : E_FOCUS_START;
-		} else if (event->key.keyval == GDK_Left ||
-			   event->key.keyval == GDK_KP_Left) {
+		} else if (event->key.keyval == GDK_KEY_Left ||
+			   event->key.keyval == GDK_KEY_KP_Left) {
 			change_focus = TRUE;
 			use_col      = TRUE;
 			start_col    = -1;
 			direction    = E_FOCUS_END;
-		} else if (event->key.keyval == GDK_Right ||
-			   event->key.keyval == GDK_KP_Right) {
+		} else if (event->key.keyval == GDK_KEY_Right ||
+			   event->key.keyval == GDK_KEY_KP_Right) {
 			change_focus = TRUE;
 			use_col   = TRUE;
 			start_col = 0;
 			direction = E_FOCUS_START;
-		} else if (event->key.keyval == GDK_Down ||
-			   event->key.keyval == GDK_KP_Down) {
+		} else if (event->key.keyval == GDK_KEY_Down ||
+			   event->key.keyval == GDK_KEY_KP_Down) {
 			change_focus = TRUE;
 			use_col      = FALSE;
 			direction    = E_FOCUS_START;
-		} else if (event->key.keyval == GDK_Up ||
-			   event->key.keyval == GDK_KP_Up) {
+		} else if (event->key.keyval == GDK_KEY_Up ||
+			   event->key.keyval == GDK_KEY_KP_Up) {
 			change_focus = TRUE;
 			use_col      = FALSE;
 			direction    = E_FOCUS_END;
-		} else if (event->key.keyval == GDK_Return ||
-			   event->key.keyval == GDK_KP_Enter) {
+		} else if (event->key.keyval == GDK_KEY_Return ||
+			   event->key.keyval == GDK_KEY_KP_Enter) {
 			change_focus = TRUE;
 			use_col      = FALSE;
 			direction    = E_FOCUS_START;

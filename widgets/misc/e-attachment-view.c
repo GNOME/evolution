@@ -29,11 +29,13 @@
 #include "e-util/e-selection.h"
 #include "e-util/e-ui-manager.h"
 #include "e-util/e-util.h"
-#include "e-util/gtk-compat.h"
 
 #include "e-attachment-dialog.h"
 #include "e-attachment-handler-image.h"
 #include "e-attachment-handler-sendto.h"
+
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
 
 enum {
 	UPDATE_ACTIONS,
@@ -1323,7 +1325,7 @@ e_attachment_view_key_press_event (EAttachmentView *view,
 
 	editable = e_attachment_view_get_editable (view);
 
-	if (event->keyval == GDK_Delete && editable) {
+	if (event->keyval == GDK_KEY_Delete && editable) {
 		e_attachment_view_remove_selected (view, TRUE);
 		return TRUE;
 	}

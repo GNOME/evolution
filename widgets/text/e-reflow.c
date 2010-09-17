@@ -927,7 +927,7 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 			break;
 #if 0
 			if (event->key.keyval == GDK_Tab ||
-			    event->key.keyval == GDK_KP_Tab ||
+			    event->key.keyval == GDK_KEY_KP_Tab ||
 			    event->key.keyval == GDK_ISO_Left_Tab) {
 				gint i;
 				gint count;

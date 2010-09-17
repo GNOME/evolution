@@ -28,6 +28,9 @@
 #include "e-signature-tree-view.h"
 #include "e-signature-script-dialog.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define E_SIGNATURE_MANAGER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SIGNATURE_MANAGER, ESignatureManagerPrivate))
@@ -81,7 +84,7 @@ static gboolean
 signature_manager_key_press_event_cb (ESignatureManager *manager,
                                       GdkEventKey *event)
 {
-	if (event->keyval == GDK_Delete) {
+	if (event->keyval == GDK_KEY_Delete) {
 		e_signature_manager_remove_signature (manager);
 		return TRUE;
 	}

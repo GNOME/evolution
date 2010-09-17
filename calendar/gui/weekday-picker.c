@@ -35,7 +35,8 @@
 #include <e-util/e-util.h>
 #include "weekday-picker.h"
 
-
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
 
 #define PADDING 2
 
@@ -393,16 +394,16 @@ handle_key_press_event (WeekdayPicker *wp, GdkEvent *event)
 		priv->focus_day = priv->week_start_day;
 
 	switch (keyval) {
-		case GDK_Up:
-		case GDK_Right:
+		case GDK_KEY_Up:
+		case GDK_KEY_Right:
 			priv->focus_day += 1;
 			break;
-		case GDK_Down:
-		case GDK_Left:
+		case GDK_KEY_Down:
+		case GDK_KEY_Left:
 			priv->focus_day -= 1;
 			break;
-		case GDK_space:
-		case GDK_Return:
+		case GDK_KEY_space:
+		case GDK_KEY_Return:
 			day_clicked (wp, priv->focus_day);
 			return TRUE;
 		default:

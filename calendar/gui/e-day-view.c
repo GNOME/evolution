@@ -62,6 +62,9 @@
 #include "misc.h"
 #include <e-util/e-icon-factory.h>
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 /* The minimum amount of space wanted on each side of the date string. */
 #define E_DAY_VIEW_DATE_X_PAD	4
 
@@ -5307,7 +5310,7 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	/* The Escape key aborts a resize operation. */
 	if (day_view->resize_drag_pos != E_CALENDAR_VIEW_POS_NONE) {
-		if (keyval == GDK_Escape) {
+		if (keyval == GDK_KEY_Escape) {
 			gdk_pointer_ungrab (event->time);
 			e_day_view_abort_resize (day_view);
 		}
@@ -5318,25 +5321,25 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	if (((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
 		&&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
 		&&((event->state & GDK_MOD1_MASK) == GDK_MOD1_MASK)) {
-		if (keyval == GDK_Up || keyval == GDK_KP_Up)
+		if (keyval == GDK_KEY_Up || keyval == GDK_KEY_KP_Up)
 			return e_day_view_event_move ((ECalendarView *) day_view, E_CAL_VIEW_MOVE_UP);
-		else if (keyval == GDK_Down || keyval == GDK_KP_Down)
+		else if (keyval == GDK_KEY_Down || keyval == GDK_KEY_KP_Down)
 			return e_day_view_event_move ((ECalendarView *) day_view, E_CAL_VIEW_MOVE_DOWN);
-		else if (keyval == GDK_Left || keyval == GDK_KP_Left)
+		else if (keyval == GDK_KEY_Left || keyval == GDK_KEY_KP_Left)
 			return e_day_view_event_move ((ECalendarView *) day_view, E_CAL_VIEW_MOVE_LEFT);
-		else if (keyval == GDK_Right || keyval == GDK_KP_Right)
+		else if (keyval == GDK_KEY_Right || keyval == GDK_KEY_KP_Right)
 			return e_day_view_event_move ((ECalendarView *) day_view, E_CAL_VIEW_MOVE_RIGHT);
 	}
 
 	/*Go to the start/end of a work day*/
-	if ((keyval == GDK_Home)
+	if ((keyval == GDK_KEY_Home)
 			&&((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
 			&&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
 			&&((event->state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
 		e_day_view_goto_start_of_work_day (day_view);
 		return TRUE;
 	}
-	if ((keyval == GDK_End)
+	if ((keyval == GDK_KEY_End)
 	    &&((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
 	    &&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
 	    &&((event->state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
@@ -5345,14 +5348,14 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	}
 
 	/* In DayView, Shift+Home/End, Change the duration to the time that begins/ends the current work day */
-	if ((keyval == GDK_Home)
+	if ((keyval == GDK_KEY_Home)
 	    &&((event->state & GDK_SHIFT_MASK) == GDK_SHIFT_MASK)
 	    &&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
 	    &&((event->state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
 		e_day_view_change_duration_to_start_of_work_day (day_view);
 		return TRUE;
 	}
-	if ((keyval == GDK_End)
+	if ((keyval == GDK_KEY_End)
 	    &&((event->state & GDK_SHIFT_MASK) == GDK_SHIFT_MASK)
 	    &&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
 	    &&((event->state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
@@ -5364,16 +5367,16 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	stop_emission = TRUE;
 	if (event->state & GDK_SHIFT_MASK) {
 		switch (keyval) {
-		case GDK_Up:
+		case GDK_KEY_Up:
 			e_day_view_cursor_key_up_shifted (day_view, event);
 			break;
-		case GDK_Down:
+		case GDK_KEY_Down:
 			e_day_view_cursor_key_down_shifted (day_view, event);
 			break;
-		case GDK_Left:
+		case GDK_KEY_Left:
 			e_day_view_cursor_key_left_shifted (day_view, event);
 			break;
-		case GDK_Right:
+		case GDK_KEY_Right:
 			e_day_view_cursor_key_right_shifted (day_view, event);
 			break;
 		default:
@@ -5382,22 +5385,22 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 		}
 	} else if (!(event->state & GDK_MOD1_MASK)) {
 		switch (keyval) {
-		case GDK_Up:
+		case GDK_KEY_Up:
 			e_day_view_cursor_key_up (day_view, event);
 			break;
-		case GDK_Down:
+		case GDK_KEY_Down:
 			e_day_view_cursor_key_down (day_view, event);
 			break;
-		case GDK_Left:
+		case GDK_KEY_Left:
 			e_day_view_cursor_key_left (day_view, event);
 			break;
-		case GDK_Right:
+		case GDK_KEY_Right:
 			e_day_view_cursor_key_right (day_view, event);
 			break;
-		case GDK_Page_Up:
+		case GDK_KEY_Page_Up:
 			e_day_view_scroll (day_view, E_DAY_VIEW_PAGE_STEP);
 			break;
-		case GDK_Page_Down:
+		case GDK_KEY_Page_Down:
 			e_day_view_scroll (day_view, -E_DAY_VIEW_PAGE_STEP);
 			break;
 		default:
@@ -5415,11 +5418,11 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	/* We only want to start an edit with a return key or a simple
 	   character. */
-	if ((keyval != GDK_Return) &&
+	if ((keyval != GDK_KEY_Return) &&
 	    (((keyval >= 0x20) && (keyval <= 0xFF)
 	      && (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)))
 	     || (event->length == 0)
-	     || (keyval == GDK_Tab))) {
+	     || (keyval == GDK_KEY_Tab))) {
 		return FALSE;
 	}
 
@@ -6285,7 +6288,7 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 	switch (event->type) {
 	case GDK_KEY_PRESS:
 		tooltip_destroy (day_view, item);
-		if (!E_TEXT (item)->preedit_len && event && event->key.keyval == GDK_Return) {
+		if (!E_TEXT (item)->preedit_len && event && event->key.keyval == GDK_KEY_Return) {
 			day_view->resize_event_num = -1;
 
 			/* We set the keyboard focus to the EDayView, so the
@@ -6296,19 +6299,19 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			   other events getting to the EText item. */
 			g_signal_stop_emission_by_name (item, "event");
 			return TRUE;
-		} else if (event->key.keyval == GDK_Escape) {
+		} else if (event->key.keyval == GDK_KEY_Escape) {
 			cancel_editing (day_view);
 			g_signal_stop_emission_by_name (item, "event");
 			/* focus should go to day view when stop editing */
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 			return TRUE;
-               } else if ((event->key.keyval == GDK_Up)
+               } else if ((event->key.keyval == GDK_KEY_Up)
                           && (event->key.state & GDK_SHIFT_MASK)
                           && (event->key.state & GDK_CONTROL_MASK)
                           && !(event->key.state & GDK_MOD1_MASK)) {
                        e_day_view_change_event_end_time_up (day_view);
                        return TRUE;
-               } else if ((event->key.keyval == GDK_Down)
+               } else if ((event->key.keyval == GDK_KEY_Down)
                           && (event->key.state & GDK_SHIFT_MASK)
                           && (event->key.state & GDK_CONTROL_MASK)
                           && !(event->key.state & GDK_MOD1_MASK)) {

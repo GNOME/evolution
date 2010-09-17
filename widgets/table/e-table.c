@@ -53,6 +53,9 @@
 #include "e-table-subset.h"
 #include "e-table-utils.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define COLUMN_HEADER_HEIGHT 16
 
 #define d(x)
@@ -845,8 +848,8 @@ group_key_press (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *
 	adjustment = gtk_layout_get_vadjustment (layout);
 
 	switch (key->keyval) {
-	case GDK_Page_Down:
-	case GDK_KP_Page_Down:
+	case GDK_KEY_Page_Down:
+	case GDK_KEY_KP_Page_Down:
 		page_size = gtk_adjustment_get_page_size (adjustment);
 		upper = gtk_adjustment_get_value (adjustment);
 		value = gtk_adjustment_get_value (adjustment);
@@ -865,8 +868,8 @@ group_key_press (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *
 			row_local, col_local, key->state);
 		return_val = 1;
 		break;
-	case GDK_Page_Up:
-	case GDK_KP_Page_Up:
+	case GDK_KEY_Page_Up:
+	case GDK_KEY_KP_Page_Up:
 		page_size = gtk_adjustment_get_page_size (adjustment);
 		upper = gtk_adjustment_get_upper (adjustment);
 		value = gtk_adjustment_get_value (adjustment);
@@ -885,7 +888,7 @@ group_key_press (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *
 			row_local, col_local, key->state);
 		return_val = 1;
 		break;
-	case GDK_BackSpace:
+	case GDK_KEY_BackSpace:
 		init_search (et);
 		if (e_table_search_backspace (et->search))
 			return TRUE;
@@ -895,9 +898,9 @@ group_key_press (ETableGroup *etg, gint row, gint col, GdkEvent *event, ETable *
 		if ((key->state & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK |
 			GDK_MOD1_MASK | GDK_MOD2_MASK | GDK_MOD3_MASK |
 			GDK_MOD4_MASK | GDK_MOD5_MASK)) == 0
-		    && ((key->keyval >= GDK_a && key->keyval <= GDK_z) ||
-			(key->keyval >= GDK_A && key->keyval <= GDK_Z) ||
-			(key->keyval >= GDK_0 && key->keyval <= GDK_9)))
+		    && ((key->keyval >= GDK_KEY_a && key->keyval <= GDK_KEY_z) ||
+			(key->keyval >= GDK_KEY_A && key->keyval <= GDK_KEY_Z) ||
+			(key->keyval >= GDK_KEY_0 && key->keyval <= GDK_KEY_9)))
 			e_table_search_input_character (et->search, key->keyval);
 		g_signal_emit (G_OBJECT (et), et_signals[KEY_PRESS], 0,
 			       row, col, event, &return_val);
@@ -1223,9 +1226,9 @@ canvas_vbox_event (ECanvasVbox *vbox, GdkEventKey *key, ETable *etable)
 		return FALSE;
 	}
 	switch (key->keyval) {
-		case GDK_Tab:
-		case GDK_KP_Tab:
-		case GDK_ISO_Left_Tab:
+		case GDK_KEY_Tab:
+		case GDK_KEY_KP_Tab:
+		case GDK_KEY_ISO_Left_Tab:
 			if ((key->state & GDK_CONTROL_MASK) && etable->click_to_add) {
 				gnome_canvas_item_grab_focus (etable->click_to_add);
 				break;
@@ -1245,9 +1248,9 @@ click_to_add_event (ETableClickToAdd *etcta, GdkEventKey *key, ETable *etable)
 		return FALSE;
 	}
 	switch (key->keyval) {
-		case GDK_Tab:
-		case GDK_KP_Tab:
-		case GDK_ISO_Left_Tab:
+		case GDK_KEY_Tab:
+		case GDK_KEY_KP_Tab:
+		case GDK_KEY_ISO_Left_Tab:
 			if (key->state & GDK_CONTROL_MASK) {
 				if (etable->group) {
 					if (e_table_model_row_count (etable->model) > 0)

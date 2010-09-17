@@ -53,9 +53,11 @@
 #include <glib/gi18n.h>
 #include "e-util/e-text-event-processor-emacs-like.h"
 #include "e-util/e-util.h"
-#include "e-util/gtk-compat.h"
 
 #include "e-text.h"
+
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
 
 G_DEFINE_TYPE (EText, e_text, GNOME_TYPE_CANVAS_ITEM)
 
@@ -2113,7 +2115,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		/* Handle S-F10 key binding here. */
 
-		if (event->key.keyval == GDK_F10
+		if (event->key.keyval == GDK_KEY_F10
 		    && (event->key.state & GDK_SHIFT_MASK)
 		    && text->handle_popup ) {
 

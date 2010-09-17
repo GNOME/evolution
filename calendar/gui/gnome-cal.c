@@ -69,6 +69,9 @@
 #include "e-memo-table.h"
 #include "e-task-table.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define d(x)
 
 /* hash table define for non intrusive error dialog */
@@ -628,66 +631,66 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 	binding_set = gtk_binding_set_new (G_OBJECT_CLASS_NAME (class));
 
 	/* Alt+PageUp/PageDown, go to the first/last day of the month */
-	gtk_binding_entry_add_signal (binding_set, GDK_Page_Up,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Page_Up,
 				      GDK_MOD1_MASK,
 				      "goto_date", 1,
 				      G_TYPE_ENUM,
 				      GNOME_CAL_GOTO_FIRST_DAY_OF_MONTH);
-	gtk_binding_entry_add_signal (binding_set, GDK_KP_Page_Up,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Page_Up,
 				      GDK_MOD1_MASK,
 				      "goto_date", 1,
 				      G_TYPE_ENUM,
 				      GNOME_CAL_GOTO_FIRST_DAY_OF_MONTH);
-	gtk_binding_entry_add_signal (binding_set, GDK_Page_Down,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Page_Down,
 				      GDK_MOD1_MASK,
 				      "goto_date", 1,
 				      G_TYPE_ENUM,
 				      GNOME_CAL_GOTO_LAST_DAY_OF_MONTH);
-	gtk_binding_entry_add_signal (binding_set, GDK_KP_Page_Down,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Page_Down,
 				      GDK_MOD1_MASK,
 				      "goto_date", 1,
 				      G_TYPE_ENUM,
 				      GNOME_CAL_GOTO_LAST_DAY_OF_MONTH);
 
 	/* Alt+Home/End, go to the first/last day of the week */
-	gtk_binding_entry_add_signal (binding_set, GDK_Home,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Home,
 				      GDK_MOD1_MASK,
 				      "goto_date", 1,
 				      G_TYPE_ENUM,
 				      GNOME_CAL_GOTO_FIRST_DAY_OF_WEEK);
-	gtk_binding_entry_add_signal (binding_set, GDK_End,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_End,
 				      GDK_MOD1_MASK,
 				      "goto_date", 1,
 				      G_TYPE_ENUM,
 				      GNOME_CAL_GOTO_LAST_DAY_OF_WEEK);
-	gtk_binding_entry_add_signal (binding_set, GDK_KP_Home,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_Home,
 				      GDK_MOD1_MASK,
 				      "goto_date", 1,
 				      G_TYPE_ENUM,
 				      GNOME_CAL_GOTO_FIRST_DAY_OF_WEEK);
-	gtk_binding_entry_add_signal (binding_set, GDK_KP_End,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_KP_End,
 				      GDK_MOD1_MASK,
 				      "goto_date", 1,
 				      G_TYPE_ENUM,
 				      GNOME_CAL_GOTO_LAST_DAY_OF_WEEK);
 
 	/*Alt+Left/Right, go to the same day of the previous/next week*/
-	gtk_binding_entry_add_signal (binding_set,GDK_Left,
+	gtk_binding_entry_add_signal (binding_set,GDK_KEY_Left,
 				      GDK_MOD1_MASK,
 				      "goto_date",1,
 				      G_TYPE_ENUM,
 				      GNOME_CAL_GOTO_SAME_DAY_OF_PREVIOUS_WEEK);
-	gtk_binding_entry_add_signal (binding_set,GDK_KP_Left,
+	gtk_binding_entry_add_signal (binding_set,GDK_KEY_KP_Left,
 				      GDK_MOD1_MASK,
 				      "goto_date",1,
 				      G_TYPE_ENUM,
 				      GNOME_CAL_GOTO_SAME_DAY_OF_PREVIOUS_WEEK);
-	gtk_binding_entry_add_signal (binding_set,GDK_Right,
+	gtk_binding_entry_add_signal (binding_set,GDK_KEY_Right,
 				      GDK_MOD1_MASK,
 				      "goto_date",1,
 				      G_TYPE_ENUM,
 				      GNOME_CAL_GOTO_SAME_DAY_OF_NEXT_WEEK);
-	gtk_binding_entry_add_signal (binding_set,GDK_KP_Right,
+	gtk_binding_entry_add_signal (binding_set,GDK_KEY_KP_Right,
 				      GDK_MOD1_MASK,
 				      "goto_date",1,
 				      G_TYPE_ENUM,
@@ -695,27 +698,27 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 
 	/* Ctrl+Y/J/K/M/L to switch between
 	 * DayView/WorkWeekView/WeekView/MonthView/ListView */
-	gtk_binding_entry_add_signal (binding_set, GDK_y,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_y,
 				      GDK_CONTROL_MASK,
 				      "change_view", 1,
 				      G_TYPE_ENUM,
 				      GNOME_CAL_DAY_VIEW);
-	gtk_binding_entry_add_signal (binding_set, GDK_j,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_j,
 				      GDK_CONTROL_MASK,
 				      "change_view", 1,
 				      G_TYPE_ENUM,
 				      GNOME_CAL_WORK_WEEK_VIEW);
-	gtk_binding_entry_add_signal (binding_set, GDK_k,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_k,
 				      GDK_CONTROL_MASK,
 				      "change_view", 1,
 				      G_TYPE_ENUM,
 				      GNOME_CAL_WEEK_VIEW);
-	gtk_binding_entry_add_signal (binding_set, GDK_m,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_m,
 				      GDK_CONTROL_MASK,
 				      "change_view", 1,
 				      G_TYPE_ENUM,
 				      GNOME_CAL_MONTH_VIEW);
-	gtk_binding_entry_add_signal (binding_set, GDK_l,
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_l,
 				      GDK_CONTROL_MASK,
 				      "change_view", 1,
 				      G_TYPE_ENUM,

@@ -54,11 +54,14 @@
 #include "e-util/e-util.h"
 #include "misc/e-canvas.h"
 #include "e-util/e-unicode.h"
-#include "e-util/gtk-compat.h"
 
 #include "e-table.h"
 #include "e-cell-text.h"
 #include "e-table-item.h"
+
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define d(x)
 #define DO_SELECTION 1
 #define VIEW_TO_CELL(view) E_CELL_TEXT (((ECellView *)view)->ecell)
@@ -974,7 +977,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 				return 1;
 		}
 
-		if (event->key.keyval == GDK_Escape) {
+		if (event->key.keyval == GDK_KEY_Escape) {
 			/* if not changed, then pass this even to parent */
 			return_val = text_view->edit != NULL && text_view->edit->text && text_view->edit->old_text && 0 != strcmp (text_view->edit->text, text_view->edit->old_text);
 			ect_cancel_edit (text_view);
@@ -992,7 +995,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 		if (edit_display) {
 			GdkEventKey key = event->key;
 			if (key.type == GDK_KEY_PRESS &&
-			    (key.keyval == GDK_KP_Enter || key.keyval == GDK_Return)) {
+			    (key.keyval == GDK_KEY_KP_Enter || key.keyval == GDK_KEY_Return)) {
 				/* stop editing when it's only GDK_KEY_PRESS event */
 				e_table_item_leave_edit_ (text_view->cell_view.e_table_item_view);
 			} else {

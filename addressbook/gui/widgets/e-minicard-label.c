@@ -33,6 +33,9 @@
 #include <misc/e-canvas-utils.h>
 #include <gdk/gdkkeysyms.h>
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 static void e_minicard_label_init		(EMinicardLabel		 *card);
 static void e_minicard_label_class_init	(EMinicardLabelClass	 *klass);
 static void e_minicard_label_set_property  (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
@@ -349,7 +352,7 @@ e_minicard_label_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	switch (event->type) {
 	case GDK_KEY_PRESS:
-		if (event->key.keyval == GDK_Escape) {
+		if (event->key.keyval == GDK_KEY_Escape) {
 			GnomeCanvasItem *parent;
 
 			e_text_cancel_editing (E_TEXT (e_minicard_label->field));

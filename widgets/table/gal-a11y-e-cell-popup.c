@@ -32,6 +32,9 @@
 #include "gal-a11y-e-cell-popup.h"
 #include "gal-a11y-e-cell-registry.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 static AtkObjectClass *parent_class = NULL;
 #define PARENT_TYPE (gal_a11y_e_cell_get_type ())
 
@@ -142,7 +145,7 @@ popup_cell_action (GalA11yECell *cell)
 	event.key.send_event = TRUE;
 	event.key.time = GDK_CURRENT_TIME;
 	event.key.state = GDK_MOD1_MASK;
-	event.key.keyval = GDK_Down;
+	event.key.keyval = GDK_KEY_Down;
 
 	g_signal_emit_by_name (cell->item, "event", &event, &finished);
 }

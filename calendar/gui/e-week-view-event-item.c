@@ -40,6 +40,7 @@
 
 #include <text/e-text.h>
 
+/* backward-compatibility cruft */
 #include "e-util/gtk-compat.h"
 
 #define E_WEEK_VIEW_EVENT_ITEM_GET_PRIVATE(obj) \

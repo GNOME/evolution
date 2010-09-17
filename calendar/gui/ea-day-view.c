@@ -28,6 +28,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+/* backward-compatibility cruft */
 #include <e-util/gtk-compat.h>
 
 static void ea_day_view_class_init (EaDayViewClass *klass);

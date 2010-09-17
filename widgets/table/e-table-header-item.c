@@ -37,7 +37,6 @@
 #include <glib/gi18n.h>
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
-#include "e-util/gtk-compat.h"
 #include "misc/e-canvas.h"
 #include "misc/e-popup-menu.h"
 
@@ -55,6 +54,9 @@
 #include "remove-col.xpm"
 #include "arrow-up.xpm"
 #include "arrow-down.xpm"
+
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
 
 enum {
 	BUTTON_PRESSED,
@@ -1939,7 +1941,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 		break;
 	}
 	case GDK_KEY_PRESS:
-		if ((e->key.keyval == GDK_F10) && (e->key.state & GDK_SHIFT_MASK)) {
+		if ((e->key.keyval == GDK_KEY_F10) && (e->key.state & GDK_SHIFT_MASK)) {
 			EthiHeaderInfo *info = g_new (EthiHeaderInfo, 1);
 			ETableCol *ecol;
 			GtkMenu *popup;
@@ -1962,12 +1964,12 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 				GTK_MENU (popup),
 				NULL, NULL, NULL, NULL,
 				0, GDK_CURRENT_TIME);
-		} else if (e->key.keyval == GDK_space) {
+		} else if (e->key.keyval == GDK_KEY_space) {
 			ETableCol *ecol;
 
 			ecol = e_table_header_get_column (ethi->eth, ethi->selected_col);
 			ethi_change_sort_state (ethi, ecol);
-		} else if ((e->key.keyval == GDK_Right) || (e->key.keyval == GDK_KP_Right)) {
+		} else if ((e->key.keyval == GDK_KEY_Right) || (e->key.keyval == GDK_KEY_KP_Right)) {
 			ETableCol *ecol;
 
 			if ((ethi->selected_col < 0) || (ethi->selected_col >= ethi->eth->col_count - 1))
@@ -1976,7 +1978,7 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 				ethi->selected_col++;
 			ecol = e_table_header_get_column (ethi->eth, ethi->selected_col);
 			ethi_change_sort_state (ethi, ecol);
-		} else if ((e->key.keyval == GDK_Left) || (e->key.keyval == GDK_KP_Left)) {
+		} else if ((e->key.keyval == GDK_KEY_Left) || (e->key.keyval == GDK_KEY_KP_Left)) {
 			ETableCol *ecol;
 
 			if ((ethi->selected_col <= 0) || (ethi->selected_col >= ethi->eth->col_count))

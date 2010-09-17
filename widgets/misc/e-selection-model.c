@@ -29,6 +29,9 @@
 
 #include "e-selection-model.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 G_DEFINE_TYPE (
 	ESelectionModel,
 	e_selection_model,
@@ -704,14 +707,14 @@ e_selection_model_key_press (ESelectionModel *selection,
 	selection->old_selection = -1;
 
 	switch (key->keyval) {
-	case GDK_Up:
-	case GDK_KP_Up:
+	case GDK_KEY_Up:
+	case GDK_KEY_KP_Up:
 		return move_selection (selection, TRUE, key->state);
-	case GDK_Down:
-	case GDK_KP_Down:
+	case GDK_KEY_Down:
+	case GDK_KEY_KP_Down:
 		return move_selection (selection, FALSE, key->state);
-	case GDK_space:
-	case GDK_KP_Space:
+	case GDK_KEY_space:
+	case GDK_KEY_KP_Space:
 		if (selection->mode != GTK_SELECTION_SINGLE) {
 			gint row = e_selection_model_cursor_row (selection);
 			gint col = e_selection_model_cursor_col (selection);
@@ -725,8 +728,8 @@ e_selection_model_key_press (ESelectionModel *selection,
 			return TRUE;
 		}
 		break;
-	case GDK_Return:
-	case GDK_KP_Enter:
+	case GDK_KEY_Return:
+	case GDK_KEY_KP_Enter:
 		if (selection->mode != GTK_SELECTION_SINGLE) {
 			gint row = e_selection_model_cursor_row (selection);
 			gint col = e_selection_model_cursor_col (selection);
@@ -737,8 +740,8 @@ e_selection_model_key_press (ESelectionModel *selection,
 			return TRUE;
 		}
 		break;
-	case GDK_Home:
-	case GDK_KP_Home:
+	case GDK_KEY_Home:
+	case GDK_KEY_KP_Home:
 		if (selection->cursor_mode == E_CURSOR_LINE) {
 			gint row = 0;
 			gint cursor_col = e_selection_model_cursor_col (selection);
@@ -748,8 +751,8 @@ e_selection_model_key_press (ESelectionModel *selection,
 			return TRUE;
 		}
 		break;
-	case GDK_End:
-	case GDK_KP_End:
+	case GDK_KEY_End:
+	case GDK_KEY_KP_End:
 		if (selection->cursor_mode == E_CURSOR_LINE) {
 			gint row = e_selection_model_row_count (selection) - 1;
 			gint cursor_col = e_selection_model_cursor_col (selection);

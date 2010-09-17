@@ -27,6 +27,9 @@
 
 #include "e-util/e-binding.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define E_SEARCH_BAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SEARCH_BAR, ESearchBarPrivate))
@@ -416,7 +419,7 @@ search_bar_key_press_event (GtkWidget *widget,
 {
 	GtkWidgetClass *widget_class;
 
-	if (event->keyval == GDK_Escape) {
+	if (event->keyval == GDK_KEY_Escape) {
 		gtk_widget_hide (widget);
 		return TRUE;
 	}

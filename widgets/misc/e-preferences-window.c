@@ -25,6 +25,9 @@
 #include <gdk/gdkkeysyms.h>
 #include <e-util/e-util.h>
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define SWITCH_PAGE_INTERVAL 250
 
 #define E_PREFERENCES_WINDOW_GET_PRIVATE(obj) \
@@ -353,7 +356,7 @@ e_preferences_window_init (EPreferencesWindow *window)
 	accel_group = gtk_accel_group_new ();
 	gtk_widget_add_accelerator (
 		widget, "activate", accel_group,
-		GDK_Escape, (GdkModifierType) 0,
+		GDK_KEY_Escape, (GdkModifierType) 0,
 		GTK_ACCEL_VISIBLE);
 	gtk_window_add_accel_group (GTK_WINDOW (window), accel_group);
 	gtk_widget_grab_default (widget);

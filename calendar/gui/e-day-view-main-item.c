@@ -41,6 +41,7 @@
 #include "comp-util.h"
 #include "calendar-config.h"
 
+/* backward-compatibility cruft */
 #include "e-util/gtk-compat.h"
 
 #define E_DAY_VIEW_MAIN_ITEM_GET_PRIVATE(obj) \

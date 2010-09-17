@@ -59,6 +59,9 @@
 #include "event-page.h"
 #include "e-send-options-utils.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define EVENT_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), TYPE_EVENT_PAGE, EventPagePrivate))
@@ -1996,12 +1999,12 @@ list_view_event (EMeetingListView *list_view, GdkEvent *event, EventPage *epage)
 static gboolean
 list_key_press (EMeetingListView *list_view, GdkEventKey *event, EventPage *epage)
 {
-	if (event->keyval == GDK_Delete) {
+	if (event->keyval == GDK_KEY_Delete) {
 
 		remove_clicked_cb (NULL, epage);
 
 		return TRUE;
-	} else if (event->keyval == GDK_Insert) {
+	} else if (event->keyval == GDK_KEY_Insert) {
 		add_clicked_cb (NULL, epage);
 
 		return TRUE;

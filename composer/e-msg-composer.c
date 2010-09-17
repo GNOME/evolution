@@ -67,6 +67,9 @@
 #include <X11/XF86keysym.h>
 #endif
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define d(x)
 
 #define E_MSG_COMPOSER_GET_PRIVATE(obj) \
@@ -2008,17 +2011,17 @@ msg_composer_key_press_event (GtkWidget *widget,
 	}
 #endif /* HAVE_XFREE */
 
-	if (event->keyval == GDK_Escape) {
+	if (event->keyval == GDK_KEY_Escape) {
 		gtk_action_activate (ACTION (CLOSE));
 		return TRUE;
 	}
 
-	if (event->keyval == GDK_Tab && gtk_widget_is_focus (input_widget)) {
+	if (event->keyval == GDK_KEY_Tab && gtk_widget_is_focus (input_widget)) {
 		gtkhtml_editor_run_command (editor, "grab-focus");
 		return TRUE;
 	}
 
-	if (event->keyval == GDK_ISO_Left_Tab &&
+	if (event->keyval == GDK_KEY_ISO_Left_Tab &&
 		gtk_widget_is_focus (GTK_WIDGET (html))) {
 		gtk_widget_grab_focus (input_widget);
 		return TRUE;

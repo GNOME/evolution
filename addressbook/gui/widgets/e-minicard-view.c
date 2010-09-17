@@ -36,6 +36,9 @@
 #include "e-util/e-util.h"
 #include "ea-addressbook.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 static void e_minicard_view_drag_data_get (GtkWidget *widget,
 					  GdkDragContext *context,
 					  GtkSelectionData *selection_data,
@@ -402,7 +405,7 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 	case GDK_KEY_PRESS:
 		if (event->key.keyval & GDK_SHIFT_MASK &&
-			event->key.keyval == GDK_F10) {
+			event->key.keyval == GDK_KEY_F10) {
 			e_minicard_view_right_click (view, event);
 		}
 		break;

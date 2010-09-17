@@ -59,6 +59,9 @@
 #include <clutter-gtk/clutter-gtk.h>
 #endif
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define E_MAIL_READER_GET_PRIVATE(obj) \
 	((EMailReaderPrivate *) g_object_get_qdata \
 	(G_OBJECT (obj), quark_private))
@@ -2075,24 +2078,24 @@ mail_reader_key_press_event_cb (EMailReader *reader,
 
 	/* <keyval> alone */
 	switch (event->keyval) {
-		case GDK_Delete:
-		case GDK_KP_Delete:
+		case GDK_KEY_Delete:
+		case GDK_KEY_KP_Delete:
 			action_name = "mail-delete";
 			break;
 
-		case GDK_Return:
-		case GDK_KP_Enter:
-		case GDK_ISO_Enter:
+		case GDK_KEY_Return:
+		case GDK_KEY_KP_Enter:
+		case GDK_KEY_ISO_Enter:
 			action_name = "mail-message-open";
 			break;
 
-		case GDK_period:
-		case GDK_bracketright:
+		case GDK_KEY_period:
+		case GDK_KEY_bracketright:
 			action_name = "mail-next-unread";
 			break;
 
-		case GDK_comma:
-		case GDK_bracketleft:
+		case GDK_KEY_comma:
+		case GDK_KEY_bracketleft:
 			action_name = "mail-previous-unread";
 			break;
 
@@ -2106,7 +2109,7 @@ mail_reader_key_press_event_cb (EMailReader *reader,
 			break;
 #endif
 
-		case GDK_exclam:
+		case GDK_KEY_exclam:
 			action_name = "mail-toggle-important";
 			break;
 
@@ -2120,11 +2123,11 @@ ctrl:
 
 	/* Ctrl + <keyval> */
 	switch (event->keyval) {
-		case GDK_period:
+		case GDK_KEY_period:
 			action_name = "mail-next-unread";
 			break;
 
-		case GDK_comma:
+		case GDK_KEY_comma:
 			action_name = "mail-previous-unread";
 			break;
 

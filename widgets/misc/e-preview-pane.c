@@ -23,6 +23,9 @@
 
 #include <gdk/gdkkeysyms.h>
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define E_PREVIEW_PANE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_PREVIEW_PANE, EPreviewPanePrivate))
@@ -205,7 +208,7 @@ e_preview_pane_class_init (EPreviewPaneClass *class)
 	binding_set = gtk_binding_set_by_class (class);
 
 	gtk_binding_entry_add_signal (
-		binding_set, GDK_f, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
+		binding_set, GDK_KEY_f, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
 		"show-search-bar", 0);
 }
 

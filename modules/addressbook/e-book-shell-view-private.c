@@ -373,7 +373,7 @@ book_shell_view_selector_key_press_event_cb (EShellView *shell_view,
 	/* Needed for the ACTION() macro. */
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	if (event->keyval == GDK_Delete) {
+	if (event->keyval == GDK_KEY_Delete) {
 		gtk_action_activate (ACTION (ADDRESS_BOOK_DELETE));
 		return TRUE;
 	}

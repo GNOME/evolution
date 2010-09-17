@@ -48,6 +48,9 @@
 
 #include <gconf/gconf-client.h>
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define d(x)
 
 #define EDITOR_GCONF_KEY_COMMAND "/apps/evolution/eplugin/external-editor/editor-command"
@@ -393,12 +396,12 @@ key_press_cb (GtkWidget * widget, GdkEventKey * event, EMsgComposer *composer)
 
 	/* we don't want to start the editor on any modifier keys */
 	switch (event->keyval) {
-	case GDK_Alt_L:
-	case GDK_Alt_R:
-	case GDK_Super_L:
-	case GDK_Super_R:
-	case GDK_Control_L:
-	case GDK_Control_R:
+	case GDK_KEY_Alt_L:
+	case GDK_KEY_Alt_R:
+	case GDK_KEY_Super_L:
+	case GDK_KEY_Super_R:
+	case GDK_KEY_Control_L:
+	case GDK_KEY_Control_R:
 		return FALSE;
 	default:
 		break;

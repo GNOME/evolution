@@ -25,6 +25,9 @@
 
 #include "e-combo-cell-editable.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 struct _EComboCellEditablePriv {
 	GtkEntry *entry;
 	GtkWidget *popup;
@@ -61,13 +64,13 @@ static gboolean
 popup_key_press_cb (GtkWidget *widget, GdkEventKey *event, EComboCellEditable *ecce)
 {
 	switch (event->keyval) {
-	case GDK_Escape:
+	case GDK_KEY_Escape:
 		ecce->priv->cancelled = TRUE;
 		kill_popup (ecce);
 		break;
 
-	case GDK_Return:
-	case GDK_KP_Enter:
+	case GDK_KEY_Return:
+	case GDK_KEY_KP_Enter:
 		ecce->priv->cancelled = FALSE;
 		kill_popup (ecce);
 		break;
@@ -275,7 +278,7 @@ entry_activated_cb (GtkEntry *entry, EComboCellEditable *widget)
 static gboolean
 entry_key_press_event_cb (GtkEntry *entry, GdkEventKey *key_event, EComboCellEditable *ecce)
 {
-	if (key_event->keyval == GDK_Escape) {
+	if (key_event->keyval == GDK_KEY_Escape) {
 		ecce->priv->cancelled = TRUE;
 		gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (ecce));
 		gtk_cell_editable_remove_widget (GTK_CELL_EDITABLE (ecce));
@@ -283,7 +286,7 @@ entry_key_press_event_cb (GtkEntry *entry, GdkEventKey *key_event, EComboCellEdi
 	}
 
 	if (key_event->state & GDK_MOD1_MASK
-		&& key_event->keyval == GDK_Down) {
+		&& key_event->keyval == GDK_KEY_Down) {
 		if (!ecce->priv->popup)
 			show_popup (ecce);
 

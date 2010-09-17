@@ -41,6 +41,9 @@
 #include "e-table-item.h"
 #include <gtk/gtk.h>
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define E_CELL_POPUP_ARROW_WIDTH	16
 #define E_CELL_POPUP_ARROW_XPAD		3
 #define E_CELL_POPUP_ARROW_YPAD		3
@@ -340,7 +343,7 @@ ecp_event (ECellView *ecv, GdkEvent *event, gint model_col, gint view_col,
 	case GDK_KEY_PRESS:
 		if (e_table_model_is_cell_editable (ecv->e_table_model, model_col, row) &&
 		    event->key.state & GDK_MOD1_MASK
-		    && event->key.keyval == GDK_Down) {
+		    && event->key.keyval == GDK_KEY_Down) {
 			return e_cell_popup_do_popup (ecp_view, event, row, view_col);
 		}
 		break;

@@ -29,6 +29,7 @@
 #include "gailcanvasitemfactory.h"
 #include "gailcanvaswidgetfactory.h"
 
+/* backward-compatibility cruft */
 #include "e-util/gtk-compat.h"
 
 static void       gail_canvas_class_init          (GailCanvasClass *klass);

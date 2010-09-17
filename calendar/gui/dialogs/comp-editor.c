@@ -59,6 +59,9 @@
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-ui-manager.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define COMP_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), TYPE_COMP_EDITOR, CompEditorPrivate))
@@ -1456,7 +1459,7 @@ comp_editor_key_press_event (GtkWidget *widget,
 
 	editor = COMP_EDITOR (widget);
 
-	if (event->keyval == GDK_Escape) {
+	if (event->keyval == GDK_KEY_Escape) {
 		commit_all_fields (editor);
 
 		if (prompt_and_save_changes (editor, TRUE))

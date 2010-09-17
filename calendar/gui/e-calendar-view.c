@@ -62,6 +62,9 @@
 #include "goto.h"
 #include "misc.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define E_CALENDAR_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CALENDAR_VIEW, ECalendarViewPrivate))
@@ -875,7 +878,7 @@ e_calendar_view_class_init (ECalendarViewClass *class)
 	binding_set = gtk_binding_set_by_class (class);
 
 	gtk_binding_entry_add_signal (
-		binding_set, GDK_o, GDK_CONTROL_MASK, "open-event", 0);
+		binding_set, GDK_KEY_o, GDK_CONTROL_MASK, "open-event", 0);
 
 	/* init the accessibility support for e_day_view */
 	e_cal_view_a11y_init ();

@@ -38,6 +38,9 @@
 #include <e-util/e-util.h>
 #include <e-util/e-extensible.h>
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 static const gint e_calendar_item_days_in_month[12] = {
 	31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 };
@@ -1869,24 +1872,24 @@ e_calendar_item_key_press_event (ECalendarItem *calitem, GdkEvent *event)
 
 	multi_selection = event->key.state & GDK_SHIFT_MASK;
 	switch (keyval) {
-	case GDK_Up:
+	case GDK_KEY_Up:
 		e_calendar_item_selection_add_days (calitem, -7,
 						    multi_selection);
 		break;
-	case GDK_Down:
+	case GDK_KEY_Down:
 		e_calendar_item_selection_add_days (calitem, 7,
 						    multi_selection);
 		break;
-	case GDK_Left:
+	case GDK_KEY_Left:
 		e_calendar_item_selection_add_days (calitem, -1,
 						    multi_selection);
 		break;
-	case GDK_Right:
+	case GDK_KEY_Right:
 		e_calendar_item_selection_add_days (calitem, 1,
 						    multi_selection);
 		break;
-	case GDK_space:
-	case GDK_Return:
+	case GDK_KEY_space:
+	case GDK_KEY_Return:
 		e_calendar_item_stop_selecting (calitem, event->key.time);
 		break;
 	default:

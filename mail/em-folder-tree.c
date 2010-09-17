@@ -44,7 +44,6 @@
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util.h"
-#include "e-util/gtk-compat.h"
 
 #include "misc/e-selectable.h"
 
@@ -65,6 +64,9 @@
 #include "em-event.h"
 
 #include "e-mail-local.h"
+
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
 
 #define d(x)
 
@@ -821,7 +823,7 @@ folder_tree_key_press_event (GtkWidget *widget,
 	GtkTreeView *tree_view;
 
 	if (event && event->type == GDK_KEY_PRESS &&
-		(event->keyval == GDK_space ||
+		(event->keyval == GDK_KEY_space ||
 		 event->keyval == '.' ||
 		 event->keyval == ',' ||
 		 event->keyval == '[' ||

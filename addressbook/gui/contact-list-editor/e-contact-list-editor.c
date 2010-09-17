@@ -26,7 +26,6 @@
 #include <e-util/e-util-private.h>
 #include <e-util/e-alert-dialog.h>
 #include <e-util/e-selection.h>
-#include <e-util/gtk-compat.h>
 #include "shell/e-shell.h"
 
 #include <string.h>
@@ -47,6 +46,9 @@
 #include "e-contact-editor.h"
 #include "e-contact-list-model.h"
 #include "eab-contact-merging.h"
+
+/* backward-compatibility cruft */
+#include <e-util/gtk-compat.h>
 
 #define E_CONTACT_LIST_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -572,7 +574,7 @@ contact_list_editor_email_entry_key_press_event_cb (GtkWidget *widget,
 
 	editor = contact_list_editor_extract (widget);
 
-	if (event->keyval == GDK_comma) {
+	if (event->keyval == GDK_KEY_comma) {
 		GtkEntry *entry;
 		gint cpos = -1;
 
@@ -596,7 +598,7 @@ contact_list_editor_email_entry_key_press_event_cb (GtkWidget *widget,
 		}
 	}
 
-	if (can_comma || event->keyval == GDK_Return) {
+	if (can_comma || event->keyval == GDK_KEY_Return) {
 		g_signal_emit_by_name (widget, "activate", 0);
 		contact_list_editor_add_email (editor);
 
@@ -827,7 +829,7 @@ contact_list_editor_tree_view_key_press_event_cb (GtkWidget *widget,
 
 	editor = contact_list_editor_extract (widget);
 
-	if (event->keyval == GDK_Delete) {
+	if (event->keyval == GDK_KEY_Delete) {
 		g_signal_emit_by_name (WIDGET (REMOVE_BUTTON), "clicked");
 		return TRUE;
 	}

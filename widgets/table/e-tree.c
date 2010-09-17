@@ -52,6 +52,9 @@
 #include "e-tree.h"
 #include "e-tree-table-adapter.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define COLUMN_HEADER_HEIGHT 16
 
 #define d(x)
@@ -938,8 +941,8 @@ item_key_press (ETableItem *eti, gint row, gint col, GdkEvent *event, ETree *et)
 	value = gtk_adjustment_get_value (adjustment);
 
 	switch (key->keyval) {
-	case GDK_Page_Down:
-	case GDK_KP_Page_Down:
+	case GDK_KEY_Page_Down:
+	case GDK_KEY_KP_Page_Down:
 		y = CLAMP (value + (2 * page_size - 50), 0, upper);
 		y -= value;
 		e_tree_get_cell_at (et, 30, y, &row_local, &col_local);
@@ -956,8 +959,8 @@ item_key_press (ETableItem *eti, gint row, gint col, GdkEvent *event, ETree *et)
 
 		return_val = 1;
 		break;
-	case GDK_Page_Up:
-	case GDK_KP_Page_Up:
+	case GDK_KEY_Page_Up:
+	case GDK_KEY_KP_Page_Up:
 		y = CLAMP (value - (page_size - 50), 0, upper);
 		y -= value;
 		e_tree_get_cell_at (et, 30, y, &row_local, &col_local);
@@ -974,10 +977,10 @@ item_key_press (ETableItem *eti, gint row, gint col, GdkEvent *event, ETree *et)
 
 		return_val = 1;
 		break;
-	case GDK_plus:
-	case GDK_KP_Add:
-	case GDK_Right:
-	case GDK_KP_Right:
+	case GDK_KEY_plus:
+	case GDK_KEY_KP_Add:
+	case GDK_KEY_Right:
+	case GDK_KEY_KP_Right:
 		/* Only allow if the Shift modifier is used.
 		 * eg. Ctrl-Equal shouldn't be handled.  */
 		if ((key->state & (GDK_SHIFT_MASK | GDK_LOCK_MASK |
@@ -990,10 +993,10 @@ item_key_press (ETableItem *eti, gint row, gint col, GdkEvent *event, ETree *et)
 		}
 		return_val = 1;
 		break;
-	case GDK_underscore:
-	case GDK_KP_Subtract:
-	case GDK_Left:
-	case GDK_KP_Left:
+	case GDK_KEY_underscore:
+	case GDK_KEY_KP_Subtract:
+	case GDK_KEY_Left:
+	case GDK_KEY_KP_Left:
 		/* Only allow if the Shift modifier is used.
 		 * eg. Ctrl-Minus shouldn't be handled.  */
 		if ((key->state & (GDK_SHIFT_MASK | GDK_LOCK_MASK |
@@ -1006,7 +1009,7 @@ item_key_press (ETableItem *eti, gint row, gint col, GdkEvent *event, ETree *et)
 		}
 		return_val = 1;
 		break;
-	case GDK_BackSpace:
+	case GDK_KEY_BackSpace:
 		if (e_table_search_backspace (et->priv->search))
 			return TRUE;
 		/* Fallthrough */
@@ -1014,9 +1017,9 @@ item_key_press (ETableItem *eti, gint row, gint col, GdkEvent *event, ETree *et)
 		if ((key->state & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK |
 			GDK_MOD1_MASK | GDK_MOD2_MASK | GDK_MOD3_MASK |
 			GDK_MOD4_MASK | GDK_MOD5_MASK)) == 0
-		    && ((key->keyval >= GDK_a && key->keyval <= GDK_z) ||
-			(key->keyval >= GDK_A && key->keyval <= GDK_Z) ||
-			(key->keyval >= GDK_0 && key->keyval <= GDK_9))) {
+		    && ((key->keyval >= GDK_KEY_a && key->keyval <= GDK_KEY_z) ||
+			(key->keyval >= GDK_KEY_A && key->keyval <= GDK_KEY_Z) ||
+			(key->keyval >= GDK_KEY_0 && key->keyval <= GDK_KEY_9))) {
 			e_table_search_input_character (et->priv->search, key->keyval);
 		}
 		path = e_tree_table_adapter_node_at_row (et->priv->etta, row);

@@ -73,10 +73,10 @@ mail_shell_view_folder_tree_key_press_event_cb (EMailShellView *mail_shell_view,
 
 	/* <keyval> alone */
 	switch (event->keyval) {
-		case GDK_period:
-		case GDK_comma:
-		case GDK_bracketleft:
-		case GDK_bracketright:
+		case GDK_KEY_period:
+		case GDK_KEY_comma:
+		case GDK_KEY_bracketleft:
+		case GDK_KEY_bracketright:
 			goto emit;
 
 		default:
@@ -86,8 +86,8 @@ mail_shell_view_folder_tree_key_press_event_cb (EMailShellView *mail_shell_view,
 ctrl:
 	/* Ctrl + <keyval> */
 	switch (event->keyval) {
-		case GDK_period:
-		case GDK_comma:
+		case GDK_KEY_period:
+		case GDK_KEY_comma:
 			goto emit;
 
 		default:
@@ -178,11 +178,11 @@ mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
 		return FALSE;
 
 	switch (event->keyval) {
-		case GDK_space:
+		case GDK_KEY_space:
 			action = ACTION (MAIL_SMART_FORWARD);
 			break;
 
-		case GDK_BackSpace:
+		case GDK_KEY_BackSpace:
 			action = ACTION (MAIL_SMART_BACKWARD);
 			break;
 

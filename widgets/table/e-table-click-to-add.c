@@ -41,6 +41,9 @@
 #include "e-table-header.h"
 #include "e-table-one.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 enum {
 	CURSOR_CHANGE,
 	STYLE_SET,
@@ -330,10 +333,10 @@ item_key_press (ETableItem *item,
                 ETableClickToAdd *etcta)
 {
 	switch (event->key.keyval) {
-		case GDK_Return:
-		case GDK_KP_Enter:
-		case GDK_ISO_Enter:
-		case GDK_3270_Enter:
+		case GDK_KEY_Return:
+		case GDK_KEY_KP_Enter:
+		case GDK_KEY_ISO_Enter:
+		case GDK_KEY_3270_Enter:
 			finish_editing (etcta);
 			return TRUE;
 	}
@@ -436,14 +439,14 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 
 	case GDK_KEY_PRESS:
 		switch (e->key.keyval) {
-		case GDK_Tab:
-		case GDK_KP_Tab:
-		case GDK_ISO_Left_Tab:
+		case GDK_KEY_Tab:
+		case GDK_KEY_KP_Tab:
+		case GDK_KEY_ISO_Left_Tab:
 			finish_editing (etcta);
 			break;
 		default:
 			return FALSE;
-		case GDK_Escape:
+		case GDK_KEY_Escape:
 			if (etcta->row) {
 				e_table_item_leave_edit (E_TABLE_ITEM (etcta->row));
 				etcta_drop_one (etcta);

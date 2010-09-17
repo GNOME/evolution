@@ -42,6 +42,9 @@
 #include <mail/mail-mt.h>
 #include <mail/e-mail-store.h>
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 enum {
 	CTRL_W_PRESSED,
 	CTRL_Q_PRESSED,
@@ -141,10 +144,10 @@ mail_capplet_shell_class_init (MailCappletShellClass *klass)
 				G_TYPE_NONE, 0);
 
 	binding_set = gtk_binding_set_by_class (klass);
-	gtk_binding_entry_add_signal (binding_set, GDK_W, GDK_CONTROL_MASK, "ctrl_w_pressed", 0);
-	gtk_binding_entry_add_signal (binding_set, GDK_w, GDK_CONTROL_MASK, "ctrl_w_pressed", 0);
-	gtk_binding_entry_add_signal (binding_set, GDK_Q, GDK_CONTROL_MASK, "ctrl_q_pressed", 0);
-	gtk_binding_entry_add_signal (binding_set, GDK_Q, GDK_CONTROL_MASK, "ctrl_q_pressed", 0);
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_W, GDK_CONTROL_MASK, "ctrl_w_pressed", 0);
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_w, GDK_CONTROL_MASK, "ctrl_w_pressed", 0);
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Q, GDK_CONTROL_MASK, "ctrl_q_pressed", 0);
+	gtk_binding_entry_add_signal (binding_set, GDK_KEY_Q, GDK_CONTROL_MASK, "ctrl_q_pressed", 0);
 
 };
 

@@ -39,6 +39,9 @@
 #include <glib/gi18n.h>
 #include "e-unicode.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define d(x)
 
 #define FONT_TESTING
@@ -53,7 +56,7 @@ e_utf8_from_gtk_event_key (GtkWidget *widget, guint keyval, const gchar *string)
 	gchar *utf;
 	gint unilen;
 
-	if (keyval == GDK_VoidSymbol) {
+	if (keyval == GDK_KEY_VoidSymbol) {
 		utf = e_utf8_from_locale_string_sized (string, strlen (string));
 	} else {
 		unival = gdk_keyval_to_unicode (keyval);

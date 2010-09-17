@@ -34,6 +34,9 @@
 #include "gnome-canvas-rich-text.h"
 #include "gnome-canvas-i18n.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 struct _GnomeCanvasRichTextPrivate {
 	GtkTextLayout *layout;
 	GtkTextBuffer *buffer;
@@ -1000,8 +1003,8 @@ gnome_canvas_rich_text_key_press_event (GnomeCanvasItem *item,
 		extend_selection = TRUE;
 
 	switch (event->keyval) {
-	case GDK_Return:
-	case GDK_KP_Enter:
+	case GDK_KEY_Return:
+	case GDK_KEY_KP_Enter:
 		gtk_text_buffer_delete_selection (
 			get_buffer (text), TRUE, text->_priv->editable);
 		gtk_text_buffer_insert_interactive_at_cursor (
@@ -1009,14 +1012,14 @@ gnome_canvas_rich_text_key_press_event (GnomeCanvasItem *item,
 		handled = TRUE;
 		break;
 
-	case GDK_Tab:
+	case GDK_KEY_Tab:
 		gtk_text_buffer_insert_interactive_at_cursor (
 			get_buffer(text), "\t", 1, text->_priv->editable);
 		handled = TRUE;
 		break;
 
 	/* MOVEMENT */
-	case GDK_Right:
+	case GDK_KEY_Right:
 		if (event->state & GDK_CONTROL_MASK) {
 			gnome_canvas_rich_text_move_cursor (
 				text, GTK_MOVEMENT_WORDS, 1,
@@ -1030,7 +1033,7 @@ gnome_canvas_rich_text_key_press_event (GnomeCanvasItem *item,
 			handled = TRUE;
 		}
 		break;
-	case GDK_Left:
+	case GDK_KEY_Left:
 		if (event->state & GDK_CONTROL_MASK) {
 			gnome_canvas_rich_text_move_cursor (
 				text, GTK_MOVEMENT_WORDS, -1,
@@ -1044,7 +1047,7 @@ gnome_canvas_rich_text_key_press_event (GnomeCanvasItem *item,
 			handled = TRUE;
 		}
 		break;
-	case GDK_f:
+	case GDK_KEY_f:
 		if (event->state & GDK_CONTROL_MASK) {
 			gnome_canvas_rich_text_move_cursor (
 				text, GTK_MOVEMENT_LOGICAL_POSITIONS, 1,
@@ -1058,7 +1061,7 @@ gnome_canvas_rich_text_key_press_event (GnomeCanvasItem *item,
 			handled = TRUE;
 		}
 		break;
-	case GDK_b:
+	case GDK_KEY_b:
 		if (event->state & GDK_CONTROL_MASK) {
 			gnome_canvas_rich_text_move_cursor (
 				text, GTK_MOVEMENT_LOGICAL_POSITIONS, -1,
@@ -1072,19 +1075,19 @@ gnome_canvas_rich_text_key_press_event (GnomeCanvasItem *item,
 			handled = TRUE;
 		}
 		break;
-	case GDK_Up:
+	case GDK_KEY_Up:
 		gnome_canvas_rich_text_move_cursor (
 			text, GTK_MOVEMENT_DISPLAY_LINES, -1,
 			extend_selection);
 		handled = TRUE;
 		break;
-	case GDK_Down:
+	case GDK_KEY_Down:
 		gnome_canvas_rich_text_move_cursor (
 			text, GTK_MOVEMENT_DISPLAY_LINES, 1,
 			extend_selection);
 		handled = TRUE;
 		break;
-	case GDK_p:
+	case GDK_KEY_p:
 		if (event->state & GDK_CONTROL_MASK) {
 			gnome_canvas_rich_text_move_cursor (
 				text, GTK_MOVEMENT_DISPLAY_LINES, -1,
@@ -1092,7 +1095,7 @@ gnome_canvas_rich_text_key_press_event (GnomeCanvasItem *item,
 			handled = TRUE;
 		}
 		break;
-	case GDK_n:
+	case GDK_KEY_n:
 		if (event->state & GDK_CONTROL_MASK) {
 			gnome_canvas_rich_text_move_cursor (
 				text, GTK_MOVEMENT_DISPLAY_LINES, 1,
@@ -1100,19 +1103,19 @@ gnome_canvas_rich_text_key_press_event (GnomeCanvasItem *item,
 			handled = TRUE;
 		}
 		break;
-	case GDK_Home:
+	case GDK_KEY_Home:
 		gnome_canvas_rich_text_move_cursor (
 			text, GTK_MOVEMENT_PARAGRAPH_ENDS, -1,
 			extend_selection);
 		handled = TRUE;
 		break;
-	case GDK_End:
+	case GDK_KEY_End:
 		gnome_canvas_rich_text_move_cursor (
 			text, GTK_MOVEMENT_PARAGRAPH_ENDS, 1,
 			extend_selection);
 		handled = TRUE;
 		break;
-	case GDK_a:
+	case GDK_KEY_a:
 		if (event->state & GDK_CONTROL_MASK) {
 			gnome_canvas_rich_text_move_cursor (
 				text, GTK_MOVEMENT_PARAGRAPH_ENDS, -1,
@@ -1120,7 +1123,7 @@ gnome_canvas_rich_text_key_press_event (GnomeCanvasItem *item,
 			handled = TRUE;
 		}
 		break;
-	case GDK_e:
+	case GDK_KEY_e:
 		if (event->state & GDK_CONTROL_MASK) {
 			gnome_canvas_rich_text_move_cursor (
 				text, GTK_MOVEMENT_PARAGRAPH_ENDS, 1,
@@ -1130,8 +1133,8 @@ gnome_canvas_rich_text_key_press_event (GnomeCanvasItem *item,
 		break;
 
 	/* DELETING TEXT */
-	case GDK_Delete:
-	case GDK_KP_Delete:
+	case GDK_KEY_Delete:
+	case GDK_KEY_KP_Delete:
 		if (event->state & GDK_CONTROL_MASK) {
 			gnome_canvas_rich_text_delete_from_cursor (
 				text, GTK_DELETE_WORD_ENDS, 1);
@@ -1143,7 +1146,7 @@ gnome_canvas_rich_text_key_press_event (GnomeCanvasItem *item,
 			handled = TRUE;
 		}
 		break;
-	case GDK_d:
+	case GDK_KEY_d:
 		if (event->state & GDK_CONTROL_MASK) {
 			gnome_canvas_rich_text_delete_from_cursor (
 				text, GTK_DELETE_CHARS, 1);
@@ -1155,7 +1158,7 @@ gnome_canvas_rich_text_key_press_event (GnomeCanvasItem *item,
 			handled = TRUE;
 		}
 		break;
-	case GDK_BackSpace:
+	case GDK_KEY_BackSpace:
 		if (event->state & GDK_CONTROL_MASK) {
 			gnome_canvas_rich_text_delete_from_cursor (
 				text, GTK_DELETE_WORD_ENDS, -1);
@@ -1167,28 +1170,28 @@ gnome_canvas_rich_text_key_press_event (GnomeCanvasItem *item,
 		}
 		handled = TRUE;
 		break;
-	case GDK_k:
+	case GDK_KEY_k:
 		if (event->state & GDK_CONTROL_MASK) {
 			gnome_canvas_rich_text_delete_from_cursor (
 				text, GTK_DELETE_PARAGRAPH_ENDS, 1);
 			handled = TRUE;
 		}
 		break;
-	case GDK_u:
+	case GDK_KEY_u:
 		if (event->state & GDK_CONTROL_MASK) {
 			gnome_canvas_rich_text_delete_from_cursor (
 				text, GTK_DELETE_PARAGRAPHS, 1);
 			handled = TRUE;
 		}
 		break;
-	case GDK_space:
+	case GDK_KEY_space:
 		if (event->state & GDK_MOD1_MASK) {
 			gnome_canvas_rich_text_delete_from_cursor (
 				text, GTK_DELETE_WHITESPACE, 1);
 			handled = TRUE;
 		}
 		break;
-	case GDK_backslash:
+	case GDK_KEY_backslash:
 		if (event->state & GDK_MOD1_MASK) {
 			gnome_canvas_rich_text_delete_from_cursor (
 				text, GTK_DELETE_WHITESPACE, 1);

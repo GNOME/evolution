@@ -34,6 +34,9 @@
 #include "e-canvas-utils.h"
 #include "e-canvas-vbox.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 static void e_canvas_vbox_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
 static void e_canvas_vbox_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static void e_canvas_vbox_dispose (GObject *object);
@@ -207,16 +210,16 @@ e_canvas_vbox_event (GnomeCanvasItem *item, GdkEvent *event)
 	switch (event->type) {
 	case GDK_KEY_PRESS:
 		switch (event->key.keyval) {
-		case GDK_Left:
-		case GDK_KP_Left:
-		case GDK_Right:
-		case GDK_KP_Right:
-		case GDK_Down:
-		case GDK_KP_Down:
-		case GDK_Up:
-		case GDK_KP_Up:
-		case GDK_Return:
-		case GDK_KP_Enter:
+		case GDK_KEY_Left:
+		case GDK_KEY_KP_Left:
+		case GDK_KEY_Right:
+		case GDK_KEY_KP_Right:
+		case GDK_KEY_Down:
+		case GDK_KEY_KP_Down:
+		case GDK_KEY_Up:
+		case GDK_KEY_KP_Up:
+		case GDK_KEY_Return:
+		case GDK_KEY_KP_Enter:
 			return_val = TRUE;
 			break;
 		default:

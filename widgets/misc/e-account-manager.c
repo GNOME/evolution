@@ -26,6 +26,9 @@
 #include "e-util/e-binding.h"
 #include "e-account-tree-view.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define E_ACCOUNT_MANAGER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ACCOUNT_MANAGER, EAccountManagerPrivate))
@@ -81,7 +84,7 @@ static gboolean
 account_manager_key_press_event_cb (EAccountManager *manager,
                                     GdkEventKey *event)
 {
-	if (event->keyval == GDK_Delete) {
+	if (event->keyval == GDK_KEY_Delete) {
 		e_account_manager_delete_account (manager);
 		return TRUE;
 	}

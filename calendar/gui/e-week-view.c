@@ -65,6 +65,9 @@
 /* Images */
 #include "art/jump.xpm"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define E_WEEK_VIEW_SMALL_FONT_PTSIZE 7
 
 #define E_WEEK_VIEW_JUMP_BUTTON_WIDTH	16
@@ -3497,7 +3500,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 	switch (gdkevent->type) {
 	case GDK_KEY_PRESS:
 		tooltip_destroy (week_view, item);
-		if (!E_TEXT (item)->preedit_len && gdkevent && gdkevent->key.keyval == GDK_Return) {
+		if (!E_TEXT (item)->preedit_len && gdkevent && gdkevent->key.keyval == GDK_KEY_Return) {
 			/* We set the keyboard focus to the EDayView, so the
 			   EText item loses it and stops the edit. */
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
@@ -3506,7 +3509,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 			   other events getting to the EText item. */
 			g_signal_stop_emission_by_name (GTK_OBJECT (item), "event");
 			return TRUE;
-		} else if (gdkevent->key.keyval == GDK_Escape) {
+		} else if (gdkevent->key.keyval == GDK_KEY_Escape) {
 			cancel_editing (week_view);
 			g_signal_stop_emission_by_name (GTK_OBJECT (item), "event");
 			/* focus should go to week view when stop editing */
@@ -4368,7 +4371,7 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	/* The Escape key aborts a resize operation. */
 #if 0
 	if (week_view->resize_drag_pos != E_CALENDAR_VIEW_POS_NONE) {
-		if (event->keyval == GDK_Escape) {
+		if (event->keyval == GDK_KEY_Escape) {
 			e_week_view_abort_resize (week_view, event->time);
 		}
 		return FALSE;
@@ -4381,28 +4384,28 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 		&& !(event->state & GDK_MOD1_MASK)) {
 		stop_emission = TRUE;
 		switch (keyval) {
-		case GDK_Page_Up:
+		case GDK_KEY_Page_Up:
 			if (!week_view->multi_week_view)
 				e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_UP);
 			else
 				e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_PAGE_UP);
 			break;
-		case GDK_Page_Down:
+		case GDK_KEY_Page_Down:
 			if (!week_view->multi_week_view)
 				e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_DOWN);
 			else
 				e_week_view_scroll_a_step (week_view, E_CAL_VIEW_MOVE_PAGE_DOWN);
 			break;
-		case GDK_Up:
+		case GDK_KEY_Up:
 			e_week_view_cursor_key_up (week_view);
 			break;
-		case GDK_Down:
+		case GDK_KEY_Down:
 			e_week_view_cursor_key_down (week_view);
 			break;
-		case GDK_Left:
+		case GDK_KEY_Left:
 			e_week_view_cursor_key_left (week_view);
 			break;
-		case GDK_Right:
+		case GDK_KEY_Right:
 			e_week_view_cursor_key_right (week_view);
 			break;
 		default:
@@ -4417,13 +4420,13 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	if (((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK)
 		&&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
 		&&((event->state & GDK_MOD1_MASK) == GDK_MOD1_MASK)) {
-		if (keyval == GDK_Up || keyval == GDK_KP_Up)
+		if (keyval == GDK_KEY_Up || keyval == GDK_KEY_KP_Up)
 			return e_week_view_event_move ((ECalendarView *) week_view, E_CAL_VIEW_MOVE_UP);
-		else if (keyval == GDK_Down || keyval == GDK_KP_Down)
+		else if (keyval == GDK_KEY_Down || keyval == GDK_KEY_KP_Down)
 			return e_week_view_event_move ((ECalendarView *) week_view, E_CAL_VIEW_MOVE_DOWN);
-		else if (keyval == GDK_Left || keyval == GDK_KP_Left)
+		else if (keyval == GDK_KEY_Left || keyval == GDK_KEY_KP_Left)
 			return e_week_view_event_move ((ECalendarView *) week_view, E_CAL_VIEW_MOVE_LEFT);
-		else if (keyval == GDK_Right || keyval == GDK_KP_Right)
+		else if (keyval == GDK_KEY_Right || keyval == GDK_KEY_KP_Right)
 			return e_week_view_event_move ((ECalendarView *) week_view, E_CAL_VIEW_MOVE_RIGHT);
 	}
 
@@ -4432,12 +4435,12 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	/* We only want to start an edit with a return key or a simple
 	   character. */
-	if (event->keyval == GDK_Return) {
+	if (event->keyval == GDK_KEY_Return) {
 		initial_text = NULL;
 	} else if (((event->keyval >= 0x20) && (event->keyval <= 0xFF)
 		    && (event->state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)))
 		   || (event->length == 0)
-		   || (event->keyval == GDK_Tab)) {
+		   || (event->keyval == GDK_KEY_Tab)) {
 		return FALSE;
 	} else
 		initial_text = e_utf8_from_gtk_event_key (widget, event->keyval, event->string);
@@ -4544,13 +4547,13 @@ e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 	}
 	else if (event->type == GDK_KEY_PRESS) {
 		/* return, if Tab, Control or Alt is pressed */
-		if ((event->key.keyval == GDK_Tab) ||
+		if ((event->key.keyval == GDK_KEY_Tab) ||
 		    (event->key.state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)))
 			return FALSE;
 		/* with a return key or a simple character (from 0x20 to 0xff),
 		 * jump to the day
 		 */
-		if ((event->key.keyval == GDK_Return) ||
+		if ((event->key.keyval == GDK_KEY_Return) ||
 		    ((event->key.keyval >= 0x20) &&
 		     (event->key.keyval <= 0xFF))) {
 			e_week_view_jump_to_button_item (week_view, item);

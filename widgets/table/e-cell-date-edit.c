@@ -48,6 +48,9 @@
 /* This depends on ECalendar which is why I didn't put it in gal. */
 #include <misc/e-calendar.h>
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 static void e_cell_date_edit_get_property	(GObject	*object,
 						 guint		 property_id,
 						 GValue		*value,
@@ -726,7 +729,7 @@ e_cell_date_edit_key_press		(GtkWidget	*popup_window,
 					 ECellDateEdit	*ecde)
 {
 	/* If the Escape key is pressed we hide the popup. */
-	if (event->keyval != GDK_Escape)
+	if (event->keyval != GDK_KEY_Escape)
 		return FALSE;
 
 	e_cell_date_edit_hide_popup (ecde);

@@ -29,6 +29,9 @@
 #include "e-util/e-util.h"
 #include "e-buffer-tagger.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 enum EBufferTaggerState
 {
 	E_BUFFER_TAGGER_STATE_NONE                = 0,
@@ -378,8 +381,8 @@ textview_key_press_event (GtkWidget *text_view, GdkEventKey *event)
 		return FALSE;
 
 	switch (event->keyval) {
-	case GDK_Return:
-	case GDK_KP_Enter:
+	case GDK_KEY_Return:
+	case GDK_KEY_KP_Enter:
 		buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
 		gtk_text_buffer_get_iter_at_mark (buffer, &iter, gtk_text_buffer_get_insert (buffer));
 		if (invoke_link_if_present (buffer, &iter))
@@ -427,8 +430,8 @@ textview_event_after (GtkTextView *textview, GdkEvent  *ev)
 		GdkEventKey *event_key = (GdkEventKey *)ev;
 
 		switch (event_key->keyval) {
-		case GDK_Control_L:
-		case GDK_Control_R:
+		case GDK_KEY_Control_L:
+		case GDK_KEY_Control_R:
 			update_ctrl_state (textview, ev->type == GDK_KEY_PRESS);
 			break;
 		}

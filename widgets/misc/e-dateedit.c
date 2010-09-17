@@ -44,6 +44,9 @@
 #include <e-util/e-extensible.h>
 #include "e-calendar.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define E_DATE_EDIT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_DATE_EDIT, EDateEditPrivate))
@@ -1496,7 +1499,7 @@ on_date_popup_key_press			(GtkWidget	*widget,
 
 	window = gtk_widget_get_window (dedit->priv->cal_popup);
 
-	if (event->keyval != GDK_Escape) {
+	if (event->keyval != GDK_KEY_Escape) {
 		gdk_keyboard_grab (window, TRUE, GDK_CURRENT_TIME);
 		return FALSE;
 	}
@@ -1714,8 +1717,8 @@ on_date_entry_key_press			(GtkWidget	*widget,
 					 EDateEdit	*dedit)
 {
 	if (event->state & GDK_MOD1_MASK
-	    && (event->keyval == GDK_Up || event->keyval == GDK_Down
-		|| event->keyval == GDK_Return)) {
+	    && (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_Down
+		|| event->keyval == GDK_KEY_Return)) {
 		g_signal_stop_emission_by_name (widget,
 						"key_press_event");
 		e_date_edit_show_date_popup (dedit);
@@ -1724,7 +1727,7 @@ on_date_entry_key_press			(GtkWidget	*widget,
 
 	/* If the user hits the return key emit a "date_changed" signal if
 	   needed. But let the signal carry on. */
-	if (event->keyval == GDK_Return) {
+	if (event->keyval == GDK_KEY_Return) {
 		e_date_edit_check_date_changed (dedit);
 		return FALSE;
 	}
@@ -1745,9 +1748,9 @@ on_time_entry_key_press			(GtkWidget	*widget,
 	   but the combo steals any Up/Down keys, so we use Alt+Return. */
 #if 0
 	if (event->state & GDK_MOD1_MASK
-	    && (event->keyval == GDK_Up || event->keyval == GDK_Down)) {
+	    && (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_Down)) {
 #else
-	if (event->state & GDK_MOD1_MASK && event->keyval == GDK_Return) {
+	if (event->state & GDK_MOD1_MASK && event->keyval == GDK_KEY_Return) {
 #endif
 		g_signal_stop_emission_by_name (widget, "key_press_event");
 		g_signal_emit_by_name (child, "activate", 0);
@@ -1756,7 +1759,7 @@ on_time_entry_key_press			(GtkWidget	*widget,
 
 	/* Stop the return key from emitting the activate signal, and check
 	   if we need to emit a "time_changed" signal. */
-	if (event->keyval == GDK_Return) {
+	if (event->keyval == GDK_KEY_Return) {
 		g_signal_stop_emission_by_name (widget,
 						"key_press_event");
 		e_date_edit_check_time_changed (dedit);
@@ -1780,7 +1783,7 @@ on_time_entry_key_release		(GtkWidget	*widget,
 					 GdkEventKey	*event,
 					 EDateEdit	*dedit)
 {
-	if (event->keyval == GDK_Up || event->keyval == GDK_Down) {
+	if (event->keyval == GDK_KEY_Up || event->keyval == GDK_KEY_Down) {
 		g_signal_stop_emission_by_name (widget,
 						"key_release_event");
 		e_date_edit_check_time_changed (dedit);

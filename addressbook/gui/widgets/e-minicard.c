@@ -40,6 +40,9 @@
 #include <libebook/e-destination.h>
 #include "ea-addressbook.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 static void e_minicard_init		(EMinicard		 *card);
 static void e_minicard_class_init	(EMinicardClass	 *class);
 static void e_minicard_set_property  (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
@@ -637,9 +640,9 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		break;
 	case GDK_KEY_PRESS:
-		if (event->key.keyval == GDK_Tab ||
-			event->key.keyval == GDK_KP_Tab ||
-			event->key.keyval == GDK_ISO_Left_Tab) {
+		if (event->key.keyval == GDK_KEY_Tab ||
+			event->key.keyval == GDK_KEY_KP_Tab ||
+			event->key.keyval == GDK_KEY_ISO_Left_Tab) {
 
 			EMinicardView *view = E_MINICARD_VIEW (item->parent);
 			EReflow *reflow = E_REFLOW (view);
@@ -701,8 +704,8 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 				}
 			}
 		}
-		else if (event->key.keyval == GDK_Return ||
-				event->key.keyval == GDK_KP_Enter) {
+		else if (event->key.keyval == GDK_KEY_Return ||
+				event->key.keyval == GDK_KEY_KP_Enter) {
 			e_minicard_activate_editor (e_minicard);
 			return TRUE;
 		}

@@ -55,6 +55,9 @@
 #include "../e-meeting-store.h"
 #include "../e-meeting-list-view.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define TASK_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), TYPE_TASK_PAGE, TaskPagePrivate))
@@ -1288,12 +1291,12 @@ list_view_event (EMeetingListView *list_view, GdkEvent *event, TaskPage *page) {
 static gboolean
 list_key_press (EMeetingListView *list_view, GdkEventKey *event, TaskPage *page)
 {
-	if (event->keyval == GDK_Delete) {
+	if (event->keyval == GDK_KEY_Delete) {
 
 		remove_clicked_cb (NULL, page);
 
 		return TRUE;
-	} else if (event->keyval == GDK_Insert) {
+	} else if (event->keyval == GDK_KEY_Insert) {
 		add_clicked_cb (NULL, page);
 
 		return TRUE;

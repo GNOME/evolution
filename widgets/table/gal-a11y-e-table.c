@@ -22,8 +22,6 @@
 
 #include <config.h>
 
-#include "e-util/gtk-compat.h"
-
 #include "a11y/gal-a11y-util.h"
 #include "table/e-table.h"
 #include "table/e-table-click-to-add.h"
@@ -34,6 +32,9 @@
 #include "gal-a11y-e-table.h"
 #include "gal-a11y-e-table-factory.h"
 #include "gal-a11y-e-table-item.h"
+
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
 
 #define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yETableClass))
 static AtkObjectClass *parent_class;

@@ -38,6 +38,9 @@
 #include "mail/em-format-html-display.h"
 #include "mail/message-list.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define E_MAIL_BROWSER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_BROWSER, EMailBrowserPrivate))
@@ -639,7 +642,7 @@ static gboolean
 mail_browser_key_press_event (GtkWidget *widget,
                               GdkEventKey *event)
 {
-	if (event->keyval == GDK_Escape) {
+	if (event->keyval == GDK_KEY_Escape) {
 		e_mail_browser_close (E_MAIL_BROWSER (widget));
 		return TRUE;
 	}

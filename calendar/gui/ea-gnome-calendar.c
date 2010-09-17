@@ -29,6 +29,7 @@
 #include <libedataserver/e-data-server-util.h>
 #include <glib/gi18n.h>
 
+/* backward-compatibility cruft */
 #include <e-util/gtk-compat.h>
 
 static void ea_gnome_calendar_class_init (EaGnomeCalendarClass *klass);

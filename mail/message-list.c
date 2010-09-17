@@ -41,7 +41,6 @@
 #include "e-util/e-profile-event.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
-#include "e-util/gtk-compat.h"
 
 #include "misc/e-selectable.h"
 
@@ -67,6 +66,9 @@
 #include "mail-ops.h"
 #include "mail-tools.h"
 #include "message-list.h"
+
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
 
 #if HAVE_CLUTTER
 #include <clutter/clutter.h>

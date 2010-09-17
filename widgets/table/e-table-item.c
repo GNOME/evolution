@@ -48,6 +48,9 @@
 #include "e-table-item.h"
 #include "e-table-subset.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 /* workaround for avoiding API breakage */
 #define eti_get_type e_table_item_get_type
 G_DEFINE_TYPE (ETableItem, eti, GNOME_TYPE_CANVAS_ITEM)
@@ -2524,8 +2527,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		eti->in_key_press = TRUE;
 
 		switch (e->key.keyval) {
-		case GDK_Left:
-		case GDK_KP_Left:
+		case GDK_KEY_Left:
+		case GDK_KEY_KP_Left:
 			if (eti_editing (eti)) {
 				handled = FALSE;
 				break;
@@ -2540,8 +2543,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			return_val = 1;
 			break;
 
-		case GDK_Right:
-		case GDK_KP_Right:
+		case GDK_KEY_Right:
+		case GDK_KEY_KP_Right:
 			if (eti_editing (eti)) {
 				handled = FALSE;
 				break;
@@ -2556,12 +2559,12 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			return_val = 1;
 			break;
 
-		case GDK_Up:
-		case GDK_KP_Up:
-		case GDK_Down:
-		case GDK_KP_Down:
+		case GDK_KEY_Up:
+		case GDK_KEY_KP_Up:
+		case GDK_KEY_Down:
+		case GDK_KEY_KP_Down:
 			if ((e->key.state & GDK_MOD1_MASK)
-			    && ((e->key.keyval == GDK_Down ) || (e->key.keyval == GDK_KP_Down))) {
+			    && ((e->key.keyval == GDK_KEY_Down ) || (e->key.keyval == GDK_KEY_KP_Down))) {
 				gint view_col = model_to_view_col (eti, cursor_col);
 
 				if ((view_col >= 0) && (view_col < eti->cols))
@@ -2570,8 +2573,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			} else
 			return_val = e_selection_model_key_press (E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
 			break;
-		case GDK_Home:
-		case GDK_KP_Home:
+		case GDK_KEY_Home:
+		case GDK_KEY_KP_Home:
 			if (eti_editing (eti)) {
 				handled = FALSE;
 				break;
@@ -2583,8 +2586,8 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			} else
 				return_val = e_selection_model_key_press (E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
 			break;
-		case GDK_End:
-		case GDK_KP_End:
+		case GDK_KEY_End:
+		case GDK_KEY_KP_End:
 			if (eti_editing (eti)) {
 				handled = FALSE;
 				break;
@@ -2596,9 +2599,9 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			} else
 				return_val = e_selection_model_key_press (E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
 			break;
-		case GDK_Tab:
-		case GDK_KP_Tab:
-		case GDK_ISO_Left_Tab:
+		case GDK_KEY_Tab:
+		case GDK_KEY_KP_Tab:
+		case GDK_KEY_ISO_Left_Tab:
 			if ((e->key.state & GDK_CONTROL_MASK) != 0) {
 				return_val = FALSE;
 				break;
@@ -2636,10 +2639,10 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			break;
 			}
 
-		case GDK_Return:
-		case GDK_KP_Enter:
-		case GDK_ISO_Enter:
-		case GDK_3270_Enter:
+		case GDK_KEY_Return:
+		case GDK_KEY_KP_Enter:
+		case GDK_KEY_ISO_Enter:
+		case GDK_KEY_3270_Enter:
 			if (eti_editing (eti)) {
 				ecell_view = eti->cell_views[eti->editing_col];
 				return_val = eti_e_cell_event (eti, ecell_view, e, e->key.time,
@@ -2661,23 +2664,23 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 		if (!handled) {
 			switch (e->key.keyval) {
-			case GDK_Scroll_Lock:
-			case GDK_Sys_Req:
-			case GDK_Shift_L:
-			case GDK_Shift_R:
-			case GDK_Control_L:
-			case GDK_Control_R:
-			case GDK_Caps_Lock:
-			case GDK_Shift_Lock:
-			case GDK_Meta_L:
-			case GDK_Meta_R:
-			case GDK_Alt_L:
-			case GDK_Alt_R:
-			case GDK_Super_L:
-			case GDK_Super_R:
-			case GDK_Hyper_L:
-			case GDK_Hyper_R:
-			case GDK_ISO_Lock:
+			case GDK_KEY_Scroll_Lock:
+			case GDK_KEY_Sys_Req:
+			case GDK_KEY_Shift_L:
+			case GDK_KEY_Shift_R:
+			case GDK_KEY_Control_L:
+			case GDK_KEY_Control_R:
+			case GDK_KEY_Caps_Lock:
+			case GDK_KEY_Shift_Lock:
+			case GDK_KEY_Meta_L:
+			case GDK_KEY_Meta_R:
+			case GDK_KEY_Alt_L:
+			case GDK_KEY_Alt_R:
+			case GDK_KEY_Super_L:
+			case GDK_KEY_Super_R:
+			case GDK_KEY_Hyper_L:
+			case GDK_KEY_Hyper_R:
+			case GDK_KEY_ISO_Lock:
 				break;
 
 			default:

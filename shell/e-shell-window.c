@@ -421,7 +421,7 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 	gtk_widget_add_accelerator (
 		GTK_WIDGET (item), "clicked",
 		gtk_ui_manager_get_accel_group (ui_manager),
-		GDK_N, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
+		GDK_KEY_N, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
 	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), item, 0);
 	gtk_widget_show (GTK_WIDGET (item));
 

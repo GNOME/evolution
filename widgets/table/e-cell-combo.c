@@ -68,6 +68,9 @@
 #include "e-cell-combo.h"
 #include "e-cell-text.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define d(x)
 
 /* The height to make the popup list if there aren't any items in it. */
@@ -628,14 +631,14 @@ e_cell_combo_key_press			(GtkWidget	*popup_window,
 					 ECellCombo	*ecc)
 {
 	/* If the Escape key is pressed we hide the popup. */
-	if (event->keyval != GDK_Escape
-	    && event->keyval != GDK_Return
-	    && event->keyval != GDK_KP_Enter
-	    && event->keyval != GDK_ISO_Enter
-	    && event->keyval != GDK_3270_Enter)
+	if (event->keyval != GDK_KEY_Escape
+	    && event->keyval != GDK_KEY_Return
+	    && event->keyval != GDK_KEY_KP_Enter
+	    && event->keyval != GDK_KEY_ISO_Enter
+	    && event->keyval != GDK_KEY_3270_Enter)
 		return FALSE;
 
-	if (event->keyval == GDK_Escape && (!ecc->popup_window||!gtk_widget_get_visible (ecc->popup_window)))
+	if (event->keyval == GDK_KEY_Escape && (!ecc->popup_window||!gtk_widget_get_visible (ecc->popup_window)))
 		return FALSE;
 
 	gtk_grab_remove (ecc->popup_window);
@@ -646,7 +649,7 @@ e_cell_combo_key_press			(GtkWidget	*popup_window,
 	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);
 	d(g_print("%s: popup_shown = FALSE\n", __FUNCTION__));
 
-	if (event->keyval != GDK_Escape)
+	if (event->keyval != GDK_KEY_Escape)
 		e_cell_combo_update_cell (ecc);
 
 	e_cell_combo_restart_edit (ecc);
