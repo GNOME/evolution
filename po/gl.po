@@ -16,20 +16,22 @@
 # Antón Méixome <meixome@mancomun.org>, 2009.
 # Antón Méixome <meixome@certima.net>, 2010.
 # Fran Diéguez <frandieguez@ubuntu.com>, 2009, 2010.
-#: ../shell/main.c:537
+# Fran Dieguez <frandieguez@ubuntu.com>, 2010.
+#
+#: ../shell/main.c:563
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-14 10:48+0200\n"
-"PO-Revision-Date: 2010-03-20 15:07+0100\n"
-"Last-Translator: Fran Diéguez <frandieguez@ubuntu.com>\n"
-"Language-Team: Galician <proxecto@trasno.net>\n"
+"POT-Creation-Date: 2010-09-18 19:18+0200\n"
+"PO-Revision-Date: 2010-09-18 19:19+0200\n"
+"Last-Translator: Fran Dieguez <frandieguez@ubuntu.com>\n"
+"Language-Team: Galician <gnome-gl-list@gnome.org>\n"
+"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: gl\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
 #. For Translators: {0} is the name of the address book source
@@ -285,8 +287,8 @@ msgstr "Aniversario"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
 #: ../addressbook/gui/widgets/eab-contact-display.c:582
-#: ../calendar/gui/e-calendar-view.c:1986 ../capplet/anjal-settings-main.c:118
-#: ../shell/main.c:122
+#: ../calendar/gui/e-calendar-view.c:1986 ../capplet/anjal-settings-main.c:124
+#: ../shell/main.c:128
 msgid "Birthday"
 msgstr "Aniversario"
 
@@ -1745,31 +1747,31 @@ msgstr "Non foi posíbel obter unha lista de axendas de enderezos"
 msgid "failed to open book"
 msgstr "produciuse un fallo ao abrir a axenda de enderezos"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:45
+#: ../addressbook/tools/evolution-addressbook-export.c:59
 msgid "Specify the output file instead of standard output"
 msgstr "Especifique o ficheiro de saída en vez da saída estándar"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:46
+#: ../addressbook/tools/evolution-addressbook-export.c:60
 msgid "OUTPUTFILE"
 msgstr "FICHEIRO DE SAÍDA"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:49
+#: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid "List local address book folders"
 msgstr "Listar os cartafoles de axendas de enderezos locais"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:52
+#: ../addressbook/tools/evolution-addressbook-export.c:66
 msgid "Show cards as vcard or csv file"
 msgstr "Mostrar tarxetas como un ficheiro vcard ou csv"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:53
+#: ../addressbook/tools/evolution-addressbook-export.c:67
 msgid "[vcard|csv]"
 msgstr "[vcard|csv]"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:56
+#: ../addressbook/tools/evolution-addressbook-export.c:70
 msgid "Export in asynchronous mode"
 msgstr "Exportar en modo asíncrono"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:59
+#: ../addressbook/tools/evolution-addressbook-export.c:73
 msgid ""
 "The number of cards in one output file in asynchronous mode, default size "
 "100."
@@ -1777,29 +1779,29 @@ msgstr ""
 "Número de cartas nun ficheiro de saída en modo asíncrono. O tamaño "
 "predefinido é 100."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:61
+#: ../addressbook/tools/evolution-addressbook-export.c:75
 msgid "NUMBER"
 msgstr "NÚMERO"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:101
+#: ../addressbook/tools/evolution-addressbook-export.c:137
 msgid ""
 "Command line arguments error, please use --help option to see the usage."
 msgstr ""
 "Erro nos argumentos da liña de ordes. Use a opción --help para ver o uso."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:115
+#: ../addressbook/tools/evolution-addressbook-export.c:151
 msgid "Only support csv or vcard format."
 msgstr "Só permite os formatos csv ou vcard."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:124
+#: ../addressbook/tools/evolution-addressbook-export.c:160
 msgid "In async mode, output must be file."
 msgstr "En modo asíncrono a saída debe ser un ficheiro."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:132
+#: ../addressbook/tools/evolution-addressbook-export.c:168
 msgid "In normal mode, there is no need for the size option."
 msgstr "En modo normal non é necesaria a opción de tamaño."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:163
+#: ../addressbook/tools/evolution-addressbook-export.c:199
 msgid "Unhandled error"
 msgstr "Erro inmanexábel"
 
@@ -2859,8 +2861,8 @@ msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain."
 msgstr ""
-"O modelo URL para usar como modo de emerxencia de datos de dispoñibilidade: %"
-"u substitúese pola parte de usuario do enderezo de correo e %d substitúese "
+"O modelo URL para usar como modo de emerxencia de datos de dispoñibilidade: "
+"%u substitúese pola parte de usuario do enderezo de correo e %d substitúese "
 "polo dominio."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:85
@@ -2880,8 +2882,8 @@ msgid ""
 msgstr ""
 "O estilo de disposición determina onde dispoñer o panel de previsualización "
 "en relación coa lista de recordatorios. \"0\" (Visualización clásica) mostra "
-"o panel de previsualización debaixo da lista de recordatorios. \"1"
-"\" (Visualización vertical) mostra o panel de previsualización ao lado da "
+"o panel de previsualización debaixo da lista de recordatorios. "
+"\"1\" (Visualización vertical) mostra o panel de previsualización ao lado da "
 "lista de recordatorios."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:87
@@ -3325,7 +3327,7 @@ msgstr "días"
 #: ../filter/filter.ui.h:14 ../modules/calendar/e-cal-shell-view-actions.c:336
 #: ../plugins/google-account-setup/google-contacts-source.c:333
 #: ../plugins/publish-calendar/publish-calendar.ui.h:30
-#: ../widgets/misc/e-send-options.ui.h:39
+#: ../widgets/misc/e-send-options.ui.h:37
 msgid "days"
 msgstr "días"
 
@@ -3366,6 +3368,7 @@ msgstr "Alarmas"
 #. Translators: "None" indicates no second time zone set for a day view
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:107
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:156
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:64
 #: ../calendar/gui/e-day-view-time-item.c:797
 msgctxt "cal-second-zone"
 msgid "None"
@@ -3482,193 +3485,185 @@ msgstr "minutos"
 msgid "Monday"
 msgstr "Luns"
 
-#. Translators: "None" for not including threads;
-#. * part of "Include threads: None"
-#. Translators: Used in send options dialog
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:23
-#: ../filter/e-filter-rule.c:759 ../widgets/misc/e-send-options.ui.h:12
-msgid "None"
-msgstr "Ningún"
-
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:24
 #: ../mail/mail-config.ui.h:80
 msgid "Pick a color"
 msgstr "Seleccionar unha cor"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:25
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:24
 msgid "S_un"
 msgstr "_Dom"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:26
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:25
 #: ../calendar/gui/dialogs/recurrence-page.c:1119
 #: ../calendar/gui/e-itip-control.c:739
 msgid "Saturday"
 msgstr "Sábado"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:27
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:26
 msgid "Sc_roll Month View by a week"
 msgstr "Desp_razar a vista de mes por semana"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:28
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:27
 msgid "Se_cond zone:"
 msgstr "Seg_undo fuso horario:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:29
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:28
 msgid "Select the calendars for alarm notification"
 msgstr "Seleccione os calendarios para a notificación de alarma"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:30
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:29
 msgid "Sh_ow a reminder"
 msgstr "M_ostrar un aviso"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:31
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:30
 msgid "Show a _reminder"
 msgstr "Mostrar un a_viso"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:32
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:31
 msgid "Show week _numbers in date navigator"
 msgstr "Mostrar os _números das semanas no navegador de datas"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:33
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:32
 msgid "Show week n_umber in Day and Work Week View"
 msgstr ""
 "Mostrar o _número de semana nas visualizacións Diaria e de Semana laborábel"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:34
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:33
 #: ../calendar/gui/dialogs/recurrence-page.c:1120
 #: ../calendar/gui/e-itip-control.c:733
 msgid "Sunday"
 msgstr "Domingo"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:35
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:34
 msgid "T_asks due today:"
 msgstr "T_arefas que vencen hoxe:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:36
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:35
 msgid "T_hu"
 msgstr "_Xov"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:37
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:36
 #: ../calendar/gui/dialogs/calendar-setup.c:379
 msgid "Task List"
 msgstr "Lista de tarefas"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:38
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:37
 msgid "Template:"
 msgstr "Modelo:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:39
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:38
 #: ../calendar/gui/dialogs/recurrence-page.c:1117
 #: ../calendar/gui/e-itip-control.c:737
 msgid "Thursday"
 msgstr "Xoves"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:40
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:39
 #: ../e-util/e-non-intrusive-error-dialog.c:287
 #: ../widgets/misc/e-dateedit.c:613
 msgid "Time"
 msgstr "Hora"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:41
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:40
 #: ../calendar/gui/dialogs/event-page.ui.h:13
 msgid "Time _zone:"
 msgstr "Fuso _horario:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:42
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:41
 msgid "Time format:"
 msgstr "Formato da hora:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:43
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:42
 #: ../calendar/gui/dialogs/recurrence-page.c:1115
 #: ../calendar/gui/e-itip-control.c:735
 msgid "Tuesday"
 msgstr "Martes"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:44
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:43
 msgid "Use s_ystem time zone"
 msgstr "Empregar o fuso horario do s_istema"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:45
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:44
 #: ../calendar/gui/dialogs/recurrence-page.c:1116
 #: ../calendar/gui/e-itip-control.c:736
 msgid "Wednesday"
 msgstr "Mércores"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:46
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:45
 msgid "Wee_k starts on:"
 msgstr "A _semana comeza en:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:47
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:46
 #: ../modules/calendar/e-cal-shell-view-actions.c:1578
 msgid "Work Week"
 msgstr "Semana laboral"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:48
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:47
 msgid "Work days:"
 msgstr "Días laborábeis:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:49
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:48
 msgid "_12 hour (AM/PM)"
 msgstr "_12 horas (AM/PM)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:50
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:49
 msgid "_24 hour"
 msgstr "_24 horas"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:51
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:50
 msgid "_Ask for confirmation when deleting items"
 msgstr "_Pedir confirmación ao eliminar elementos"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:52
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:51
 msgid "_Compress weekends in month view"
 msgstr "_Comprimir as fins de semana na visualización mensual"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:53
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:52
 msgid "_Day begins:"
 msgstr "A _xornada comeza ás:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:54
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:53
 msgid "_Fri"
 msgstr "_Ven"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:55
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:54
 msgid "_Hide completed tasks after"
 msgstr "_Ocultar as tarefas terminadas despois de"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:56
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:55
 msgid "_Mon"
 msgstr "_Lun"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:57
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:56
 msgid "_Overdue tasks:"
 msgstr "Tarefas _atrasadas:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:58
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:57
 msgid "_Sat"
 msgstr "_Sáb"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:59
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:58
 msgid "_Show appointment end times in week and month view"
 msgstr ""
 "_Mostrar os prazos finais das citas nas visualizacións semanal e mensual"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:60
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:59
 msgid "_Time divisions:"
 msgstr "Di_visións horarias:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:61
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:60
 msgid "_Tue"
 msgstr "_Mar"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:62
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:61
 msgid "_Wed"
 msgstr "Mé_r"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:63
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:62
 msgid "before every anniversary/birthday"
 msgstr "antes de cada data especial ou aniversario"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:64
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:63
 msgid "before every appointment"
 msgstr "antes de cada cita"
 
@@ -4148,7 +4143,7 @@ msgstr "Converter en actividade recorrente"
 #: ../calendar/gui/dialogs/event-editor.c:229
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../plugins/groupwise-features/send-options.c:211
-#: ../widgets/misc/e-send-options.ui.h:19
+#: ../widgets/misc/e-send-options.ui.h:17
 msgid "Send Options"
 msgstr "Opcións de envío"
 
@@ -4671,7 +4666,7 @@ msgstr "Baixa"
 #: ../calendar/gui/e-cal-component-preview.c:316
 #: ../calendar/gui/e-cal-model.c:1315 ../calendar/gui/e-task-table.c:509
 #: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1177
-#: ../widgets/misc/e-send-options.ui.h:13
+#: ../widgets/misc/e-send-options.ui.h:11
 msgid "Normal"
 msgstr "Normal"
 
@@ -4708,7 +4703,7 @@ msgstr "Estado"
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-details-page.ui.h:20
 #: ../calendar/gui/e-task-table.c:511 ../calendar/gui/tasktypes.xml.h:24
-#: ../widgets/misc/e-send-options.ui.h:24
+#: ../widgets/misc/e-send-options.ui.h:22
 msgid "Undefined"
 msgstr "Indefinida"
 
@@ -4717,7 +4712,7 @@ msgid "_Date completed:"
 msgstr "_Data completada:"
 
 #: ../calendar/gui/dialogs/task-details-page.ui.h:22
-#: ../widgets/misc/e-send-options.ui.h:34
+#: ../widgets/misc/e-send-options.ui.h:32
 msgid "_Priority:"
 msgstr "_Prioridade:"
 
@@ -8539,24 +8534,24 @@ msgstr "_Recuperar"
 msgid "_Save Draft"
 msgstr "_Gardar borrador"
 
-#: ../capplet/anjal-settings-main.c:199
+#: ../capplet/anjal-settings-main.c:224
 msgid "Run Anjal in a window"
 msgstr "Executar Anjar nunha xanela"
 
-#: ../capplet/anjal-settings-main.c:200
+#: ../capplet/anjal-settings-main.c:225
 msgid "Make Anjal the default email client"
 msgstr "Facer Anjal o cliente de correo electrónico predefinido"
 
 #. TRANSLATORS: don't translate the terms in brackets
-#: ../capplet/anjal-settings-main.c:207
+#: ../capplet/anjal-settings-main.c:232
 msgid "ID of the socket to embed in"
 msgstr "ID do socket para incrustar"
 
-#: ../capplet/anjal-settings-main.c:208
+#: ../capplet/anjal-settings-main.c:233
 msgid "socket"
 msgstr "socket"
 
-#: ../capplet/anjal-settings-main.c:221
+#: ../capplet/anjal-settings-main.c:246
 msgid "Anjal email client"
 msgstr "Cliente de correo Anjal"
 
@@ -9376,11 +9371,17 @@ msgstr "Se se cumpre calquera condición"
 msgid "_Find items:"
 msgstr "_Buscar elementos:"
 
+#. Translators: "None" for not including threads;
+#. * part of "Include threads: None"
+#: ../filter/e-filter-rule.c:759
+msgid "None"
+msgstr "Ningún"
+
 #: ../filter/e-filter-rule.c:760
 msgid "All related"
 msgstr "Todos os relacionados"
 
-#: ../filter/e-filter-rule.c:761 ../widgets/misc/e-send-options.ui.h:16
+#: ../filter/e-filter-rule.c:761 ../widgets/misc/e-send-options.ui.h:14
 msgid "Replies"
 msgstr "Respostas"
 
@@ -11732,8 +11733,8 @@ msgid ""
 "Never load images off the net. \"1\" - Load images in messages from "
 "contacts. \"2\" - Always load images off the net."
 msgstr ""
-"Cargar as imaxes das mensaxes HTML sobre HTTP. Os valores posíbeis son: \"0"
-"\" - Non cargar nunca as imaxes de fóra da rede. \"1\" - Cargar as imaxes "
+"Cargar as imaxes das mensaxes HTML sobre HTTP. Os valores posíbeis son: "
+"\"0\" - Non cargar nunca as imaxes de fóra da rede. \"1\" - Cargar as imaxes "
 "nas mensaxes dos contactos. \"2\" - Cargar sempre as imaxes de fóra da rede."
 
 #: ../mail/evolution-mail.schemas.in.h:98
@@ -12107,8 +12108,8 @@ msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
-"Isto pode ter tres valores posíbeis: \"0\" para erros; \"1\" para avisos; \"2"
-"\" para mensaxes de depuración."
+"Isto pode ter tres valores posíbeis: \"0\" para erros; \"1\" para avisos; "
+"\"2\" para mensaxes de depuración."
 
 #: ../mail/evolution-mail.schemas.in.h:176
 msgid ""
@@ -14364,8 +14365,8 @@ msgid ""
 msgstr ""
 "O estilo de disposición determina onde dispoñer o panel de previsualización "
 "en relación coa lista de contactos. \"0\" (Visualización clásica) mostra o "
-"panel de previsualización debaixo da lista de contactos. \"1"
-"\" (Visualización vertical) mostra o panel de previsualización ao lado da "
+"panel de previsualización debaixo da lista de contactos. "
+"\"1\" (Visualización vertical) mostra o panel de previsualización ao lado da "
 "lista de contactos."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:12
@@ -16463,110 +16464,110 @@ msgid "Restore Evolution data and settings from an archive file"
 msgstr ""
 "Facer copia de seguranza e restaurar os datos e a configuración do Evolution"
 
-#: ../plugins/backup-restore/backup.c:63
+#: ../plugins/backup-restore/backup.c:77
 msgid "Backup Evolution directory"
 msgstr "Facer unha copia de seguranza do cartafol do Evolution"
 
-#: ../plugins/backup-restore/backup.c:65
+#: ../plugins/backup-restore/backup.c:79
 msgid "Restore Evolution directory"
 msgstr "Restaurar o cartafol do Evolution"
 
-#: ../plugins/backup-restore/backup.c:67
+#: ../plugins/backup-restore/backup.c:81
 msgid "Check Evolution Backup"
 msgstr "Verificar a copia de seguranza do Evolution"
 
-#: ../plugins/backup-restore/backup.c:69
+#: ../plugins/backup-restore/backup.c:83
 msgid "Restart Evolution"
 msgstr "Reiniciar o Evolution"
 
-#: ../plugins/backup-restore/backup.c:71
+#: ../plugins/backup-restore/backup.c:85
 msgid "With Graphical User Interface"
 msgstr "Con interface gráfica de usuario"
 
-#: ../plugins/backup-restore/backup.c:189
-#: ../plugins/backup-restore/backup.c:251
+#: ../plugins/backup-restore/backup.c:203
+#: ../plugins/backup-restore/backup.c:265
 msgid "Shutting down Evolution"
 msgstr "Pechando o Evolution"
 
-#: ../plugins/backup-restore/backup.c:196
+#: ../plugins/backup-restore/backup.c:210
 msgid "Backing Evolution accounts and settings"
 msgstr ""
 "Facendo unha copia de seguranza das contas e configuracións do Evolution"
 
-#: ../plugins/backup-restore/backup.c:202
+#: ../plugins/backup-restore/backup.c:216
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
 "Facendo unha copia de seguranza dos datos do Evolution (correos, contactos, "
 "calendario, tarefas e notas)"
 
-#: ../plugins/backup-restore/backup.c:213
+#: ../plugins/backup-restore/backup.c:227
 msgid "Backup complete"
 msgstr "Terminou a copia de seguranza"
 
-#: ../plugins/backup-restore/backup.c:218
-#: ../plugins/backup-restore/backup.c:239
-#: ../plugins/backup-restore/backup.c:285
+#: ../plugins/backup-restore/backup.c:232
+#: ../plugins/backup-restore/backup.c:253
+#: ../plugins/backup-restore/backup.c:299
 msgid "Restarting Evolution"
 msgstr "Reiniciando o Evolution"
 
-#: ../plugins/backup-restore/backup.c:255
+#: ../plugins/backup-restore/backup.c:269
 msgid "Backup current Evolution data"
 msgstr "Facendo unha copia dos datos actuais do Evolution"
 
-#: ../plugins/backup-restore/backup.c:260
+#: ../plugins/backup-restore/backup.c:274
 msgid "Extracting files from backup"
 msgstr "Extraendo ficheiros da copia de seguranza"
 
-#: ../plugins/backup-restore/backup.c:267
+#: ../plugins/backup-restore/backup.c:281
 msgid "Loading Evolution settings"
 msgstr "Cargando a configuración do Evolution"
 
-#: ../plugins/backup-restore/backup.c:274
+#: ../plugins/backup-restore/backup.c:288
 msgid "Removing temporary backup files"
 msgstr "Eliminando os ficheiros temporais da copia de seguranza"
 
-#: ../plugins/backup-restore/backup.c:281
+#: ../plugins/backup-restore/backup.c:295
 msgid "Ensuring local sources"
 msgstr "Asegurando as orixes locais"
 
-#: ../plugins/backup-restore/backup.c:428
+#: ../plugins/backup-restore/backup.c:464
 #, c-format
 msgid "Backing up to the folder %s"
 msgstr "Facendo a copia de seguranza no cartafol %s"
 
-#: ../plugins/backup-restore/backup.c:433
+#: ../plugins/backup-restore/backup.c:469
 #, c-format
 msgid "Restoring from the folder %s"
 msgstr "Restaurando desde o cartafol %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
-#: ../plugins/backup-restore/backup.c:453
+#: ../plugins/backup-restore/backup.c:489
 msgid "Evolution Backup"
 msgstr "Copia de seguranza do Evolution"
 
-#: ../plugins/backup-restore/backup.c:453
+#: ../plugins/backup-restore/backup.c:489
 msgid "Evolution Restore"
 msgstr "Restauración do Evolution"
 
-#: ../plugins/backup-restore/backup.c:488
+#: ../plugins/backup-restore/backup.c:524
 msgid "Backing up Evolution Data"
 msgstr "Facendo unha copia de seguranza dos datos do Evolution"
 
-#: ../plugins/backup-restore/backup.c:489
+#: ../plugins/backup-restore/backup.c:525
 msgid "Please wait while Evolution is backing up your data."
 msgstr ""
 "Agarde mentres o Evolution está facendo unha copia de seguranza dos seus "
 "datos."
 
-#: ../plugins/backup-restore/backup.c:491
+#: ../plugins/backup-restore/backup.c:527
 msgid "Restoring Evolution Data"
 msgstr "Restaurando os datos do Evolution"
 
-#: ../plugins/backup-restore/backup.c:492
+#: ../plugins/backup-restore/backup.c:528
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Agarde mentres o Evolution restaura os seus datos."
 
-#: ../plugins/backup-restore/backup.c:510
+#: ../plugins/backup-restore/backup.c:546
 msgid "This may take a while depending on the amount of data in your account."
 msgstr ""
 "Isto podería levar algún tempo, dependendo da cantidade de datos da súa "
@@ -17096,7 +17097,7 @@ msgid "Protected"
 msgstr "Protexido"
 
 #: ../plugins/email-custom-header/email-custom-header.c:324
-#: ../widgets/misc/e-send-options.ui.h:18
+#: ../widgets/misc/e-send-options.ui.h:16
 msgid "Secret"
 msgstr "Secreto"
 
@@ -19813,8 +19814,8 @@ msgid ""
 "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List "
 "View."
 msgstr ""
-"Visión inicial da barra de widgets de anexos. \"0\" é Visión de iconas, \"1"
-"\" é Visión en lista."
+"Visión inicial da barra de widgets de anexos. \"0\" é Visión de iconas, "
+"\"1\" é Visión en lista."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:23
 msgid "Last upgraded configuration version"
@@ -19876,7 +19877,7 @@ msgstr "A barra lateral é visíbel"
 msgid "Skip development warning dialog"
 msgstr "Saltar o diálogo de aviso de desenvolvemento"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:348
+#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:354
 msgid "Start in offline mode"
 msgstr "Iniciar en modo sen conexión"
 
@@ -20590,7 +20591,7 @@ msgid "Whether the shell is online"
 msgstr "Indica se o engadido está activado"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:178
+#: ../shell/main.c:184
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -20627,7 +20628,7 @@ msgstr ""
 "Esperamos que lles sexa de proveito o resultado do noso duro traballo, e\n"
 "agardamos ansiosamente as súas colaboracións!\n"
 
-#: ../shell/main.c:202
+#: ../shell/main.c:208
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -20635,61 +20636,61 @@ msgstr ""
 "Grazas\n"
 "O equipo do Evolution\n"
 
-#: ../shell/main.c:209
+#: ../shell/main.c:215
 msgid "Do not tell me again"
 msgstr "Non preguntarme de novo"
 
-#: ../shell/main.c:344
+#: ../shell/main.c:350
 msgid "Start Evolution activating the specified component"
 msgstr "Iniciar o Evolution activando o compoñente especificado"
 
-#: ../shell/main.c:346
+#: ../shell/main.c:352
 msgid "Apply the given geometry to the main window"
 msgstr "Aplicar a xeometría fornecida á xanela principal"
 
-#: ../shell/main.c:350
+#: ../shell/main.c:356
 msgid "Start in online mode"
 msgstr "Iniciar en modo con conexión"
 
-#: ../shell/main.c:352
+#: ../shell/main.c:358
 msgid "Start in \"express\" mode"
 msgstr "Iniciar en modo \"express\""
 
-#: ../shell/main.c:355
+#: ../shell/main.c:361
 msgid "Forcibly shut down Evolution"
 msgstr "Forzar o peche de todos os compoñentes do Evolution"
 
-#: ../shell/main.c:359
+#: ../shell/main.c:365
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "Forza a remigración desde o Evolution 1.4"
 
-#: ../shell/main.c:362
+#: ../shell/main.c:368
 msgid "Send the debugging output of all components to a file."
 msgstr "Enviar a saída da depuración de todos os compoñentes a un ficheiro."
 
-#: ../shell/main.c:364
+#: ../shell/main.c:370
 msgid "Disable loading of any plugins."
 msgstr "Desactivar a carga de calquera engadido."
 
-#: ../shell/main.c:366
+#: ../shell/main.c:372
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Desactivar o panel de previsualización de correo, contactos e tarefas."
 
-#: ../shell/main.c:370
+#: ../shell/main.c:376
 msgid "Import URIs or file names given as rest of arguments."
 msgstr ""
 "Imporatar os URIs ou nomes de ficheiros fornecidos como o resto dos "
 "argumentos."
 
-#: ../shell/main.c:372
+#: ../shell/main.c:378
 msgid "Request a running Evolution process to quit"
 msgstr "Reiniciando o Evolution"
 
-#: ../shell/main.c:489
+#: ../shell/main.c:515
 msgid "- The Evolution PIM and Email Client"
 msgstr "- O cliente de correo e PIM do Evolution"
 
-#: ../shell/main.c:549
+#: ../shell/main.c:575
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -22127,85 +22128,91 @@ msgstr ""
 "Ningunha\n"
 "Notificación de recepción de correo"
 
-#: ../widgets/misc/e-send-options.ui.h:14
+#: ../widgets/misc/e-send-options.ui.h:12
 msgid "Proprietary"
 msgstr "Prioridade"
 
-#: ../widgets/misc/e-send-options.ui.h:15
+#: ../widgets/misc/e-send-options.ui.h:13
 msgid "R_eply requested"
 msgstr "R_esposta requirida"
 
-#: ../widgets/misc/e-send-options.ui.h:17
+#: ../widgets/misc/e-send-options.ui.h:15
 msgid "Return Notification"
 msgstr "<b>Devolver notificación</b>"
 
-#: ../widgets/misc/e-send-options.ui.h:20
+#: ../widgets/misc/e-send-options.ui.h:18
 msgid "Sta_tus Tracking"
 msgstr "Seguimento de es_tado"
 
-#: ../widgets/misc/e-send-options.ui.h:21
+#: ../widgets/misc/e-send-options.ui.h:19
 msgid "Standard"
 msgstr "Tipo de letra es_tándar:"
 
-#: ../widgets/misc/e-send-options.ui.h:22
+#: ../widgets/misc/e-send-options.ui.h:20
 msgid "Status Tracking"
 msgstr "Seguimento de es_tado"
 
-#: ../widgets/misc/e-send-options.ui.h:23
+#: ../widgets/misc/e-send-options.ui.h:21
 msgid "Top Secret"
 msgstr "Alto secreto"
 
-#: ../widgets/misc/e-send-options.ui.h:25
+#: ../widgets/misc/e-send-options.ui.h:23
 msgid "When acce_pted:"
 msgstr "Ao ace_ptar:"
 
-#: ../widgets/misc/e-send-options.ui.h:26
+#: ../widgets/misc/e-send-options.ui.h:24
 msgid "When co_mpleted:"
 msgstr "Ao co_mpletar:"
 
-#: ../widgets/misc/e-send-options.ui.h:27
+#: ../widgets/misc/e-send-options.ui.h:25
 msgid "When decli_ned:"
 msgstr "Ao _rexeitar:"
 
-#: ../widgets/misc/e-send-options.ui.h:28
+#: ../widgets/misc/e-send-options.ui.h:26
 msgid "Wi_thin"
 msgstr "Den_tro"
 
-#: ../widgets/misc/e-send-options.ui.h:29
+#: ../widgets/misc/e-send-options.ui.h:27
 msgid "_After:"
 msgstr "_Despois:"
 
-#: ../widgets/misc/e-send-options.ui.h:30
+#: ../widgets/misc/e-send-options.ui.h:28
 msgid "_All information"
 msgstr "_Toda a información"
 
-#: ../widgets/misc/e-send-options.ui.h:31
+#: ../widgets/misc/e-send-options.ui.h:29
 msgid "_Classification:"
 msgstr "_Clasificación:"
 
-#: ../widgets/misc/e-send-options.ui.h:32
+#: ../widgets/misc/e-send-options.ui.h:30
 msgid "_Delay message delivery"
 msgstr "_Atrasar a entrega da mensaxe"
 
-#: ../widgets/misc/e-send-options.ui.h:33
+#: ../widgets/misc/e-send-options.ui.h:31
 msgid "_Delivered"
 msgstr "_Entregada"
 
-#: ../widgets/misc/e-send-options.ui.h:35
+#: ../widgets/misc/e-send-options.ui.h:33
 msgid "_Set expiration date"
 msgstr "_Definir a data de vencemento"
 
-#: ../widgets/misc/e-send-options.ui.h:36
+#: ../widgets/misc/e-send-options.ui.h:34
 msgid "_Until:"
 msgstr "_Até:"
 
-#: ../widgets/misc/e-send-options.ui.h:37
+#: ../widgets/misc/e-send-options.ui.h:35
 msgid "_When convenient"
 msgstr "_Cando sexa conveniente"
 
-#: ../widgets/misc/e-send-options.ui.h:38
+#: ../widgets/misc/e-send-options.ui.h:36
 msgid "_When opened:"
 msgstr "_Ao abrir:"
+
+#. Translators: Used in send options dialog
+#: ../widgets/misc/e-send-options.ui.h:39
+msgctxt "send-options"
+msgid "None"
+msgstr "Ningún"
 
 #: ../widgets/misc/e-signature-editor.c:133
 #: ../widgets/misc/e-signature-editor.c:549
