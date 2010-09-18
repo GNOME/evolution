@@ -152,15 +152,6 @@ mail_msg_free (MailMsg *mail_msg)
 	shell_backend = e_shell_get_backend_by_name (
 		shell, shell_builtin_backend);
 
-	g_mutex_lock (mail_msg_lock);
-
-	g_hash_table_remove (
-		mail_msg_active_table,
-		GINT_TO_POINTER (mail_msg->seq));
-	g_cond_broadcast (mail_msg_cond);
-
-	g_mutex_unlock (mail_msg_lock);
-
 	if (mail_msg->priv->activity != NULL) {
 		e_activity_complete (mail_msg->priv->activity);
 		g_object_unref (mail_msg->priv->activity);
@@ -220,6 +211,15 @@ mail_msg_unref (gpointer msg)
 
 	if (mail_msg->info->free)
 		mail_msg->info->free (mail_msg);
+
+	g_mutex_lock (mail_msg_lock);
+
+	g_hash_table_remove (
+		mail_msg_active_table,
+		GINT_TO_POINTER (mail_msg->seq));
+	g_cond_broadcast (mail_msg_cond);
+
+	g_mutex_unlock (mail_msg_lock);
 
 	/* Destroy the message from an idle callback
 	 * so we know we're in the main loop thread. */
