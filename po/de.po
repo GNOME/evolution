@@ -20,14 +20,15 @@
 # Mario Blättermann <mariobl@gnome.org>, 2010.
 # Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009, 2010.
 #
-#: ../shell/main.c:533
+#: ../shell/main.c:559
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-14 23:55+0200\n"
-"PO-Revision-Date: 2010-09-15 00:00+0200\n"
-"Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=evolution\n"
+"POT-Creation-Date: 2010-09-15 18:37+0000\n"
+"PO-Revision-Date: 2010-09-16 15:45+0100\n"
+"Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -276,8 +277,8 @@ msgstr "Jahrestag"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
 #: ../addressbook/gui/widgets/eab-contact-display.c:582
-#: ../calendar/gui/e-calendar-view.c:2019 ../capplet/anjal-settings-main.c:117
-#: ../shell/main.c:122
+#: ../calendar/gui/e-calendar-view.c:2019 ../capplet/anjal-settings-main.c:123
+#: ../shell/main.c:128
 msgid "Birthday"
 msgstr "Geburtstag"
 
@@ -287,7 +288,7 @@ msgid "Blog:"
 msgstr "Blog:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:5
-#: ../calendar/gui/dialogs/event-page.ui.h:10
+#: ../calendar/gui/dialogs/event-page.ui.h:4
 #: ../calendar/gui/dialogs/memo-page.ui.h:1
 msgid "Ca_tegories..."
 msgstr "Ka_tegorien …"
@@ -426,7 +427,7 @@ msgstr "_Blog:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:33
 #: ../calendar/gui/dialogs/event-page.c:882
-#: ../calendar/gui/dialogs/event-page.ui.h:17
+#: ../calendar/gui/dialogs/event-page.ui.h:11
 #: ../plugins/itip-formatter/itip-view.c:1921
 msgid "_Calendar:"
 msgstr "_Kalender:"
@@ -923,7 +924,7 @@ msgid "Car Phone"
 msgstr "Autotelefon"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:8
-#: ../calendar/gui/dialogs/event-page.ui.h:11
+#: ../calendar/gui/dialogs/event-page.ui.h:5
 #: ../calendar/gui/e-cal-list-view.etspec.h:1
 #: ../calendar/gui/e-calendar-table.etspec.h:3
 #: ../calendar/gui/e-memo-table.etspec.h:1
@@ -1489,61 +1490,61 @@ msgstr "Adressbuchliste konnte nicht abgerufen werden"
 msgid "failed to open book"
 msgstr "Adressbuch konnte nicht geöffnet werden"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:45
+#: ../addressbook/tools/evolution-addressbook-export.c:59
 msgid "Specify the output file instead of standard output"
 msgstr "Die angegebene Ausgabedatei statt der Standardausgabe verwenden"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:46
+#: ../addressbook/tools/evolution-addressbook-export.c:60
 msgid "OUTPUTFILE"
 msgstr "AUSGABEDATEI"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:49
+#: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid "List local address book folders"
 msgstr "Lokale Adressbuchordner auflisten"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:52
+#: ../addressbook/tools/evolution-addressbook-export.c:66
 msgid "Show cards as vcard or csv file"
 msgstr "Karten als vcard- oder csv-Datei anzeigen"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:53
+#: ../addressbook/tools/evolution-addressbook-export.c:67
 msgid "[vcard|csv]"
 msgstr "[vcard|csv]"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:56
+#: ../addressbook/tools/evolution-addressbook-export.c:70
 msgid "Export in asynchronous mode"
 msgstr "Im asynchronen Modus exportieren"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:59
+#: ../addressbook/tools/evolution-addressbook-export.c:73
 msgid ""
 "The number of cards in one output file in asynchronous mode, default size "
 "100."
 msgstr ""
 "Die Anzahl der Karten pro Ausgabedatei im asynchronen Modus, Vorgabe: 100."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:61
+#: ../addressbook/tools/evolution-addressbook-export.c:75
 msgid "NUMBER"
 msgstr "ANZAHL"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:101
+#: ../addressbook/tools/evolution-addressbook-export.c:137
 msgid ""
 "Command line arguments error, please use --help option to see the usage."
 msgstr ""
 "Argumentfehler in Befehlszeile, bitte übergeben Sie den »--help«-Parameter, "
 "um Hinweise zum Aufruf zu erhalten."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:115
+#: ../addressbook/tools/evolution-addressbook-export.c:151
 msgid "Only support csv or vcard format."
 msgstr "Es werden ausschließlich die Formate »csv« oder »vcard« unterstützt."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:124
+#: ../addressbook/tools/evolution-addressbook-export.c:160
 msgid "In async mode, output must be file."
 msgstr "Im asynchronen Modus muss die Ausgabe in eine Datei erfolgen."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:132
+#: ../addressbook/tools/evolution-addressbook-export.c:168
 msgid "In normal mode, there is no need for the size option."
 msgstr "Im normalen Modus müssen Sie die Größe nicht angeben."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:163
+#: ../addressbook/tools/evolution-addressbook-export.c:199
 msgid "Unhandled error"
 msgstr "Unbehandelter Fehler"
 
@@ -2060,7 +2061,7 @@ msgstr "_Schlummer"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:7
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:22
-#: ../calendar/gui/dialogs/event-page.ui.h:24 ../e-util/e-plugin-util.c:424
+#: ../calendar/gui/dialogs/event-page.ui.h:26 ../e-util/e-plugin-util.c:424
 #: ../filter/filter.ui.h:15
 #: ../plugins/google-account-setup/google-contacts-source.c:335
 msgid "hours"
@@ -2073,7 +2074,7 @@ msgstr "Ort des Termins"
 #. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:9
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:24
-#: ../calendar/gui/dialogs/event-page.ui.h:25 ../e-util/e-plugin-util.c:423
+#: ../calendar/gui/dialogs/event-page.ui.h:27 ../e-util/e-plugin-util.c:423
 #: ../filter/filter.ui.h:17 ../modules/addressbook/ldap-config.ui.h:34
 #: ../plugins/google-account-setup/google-contacts-source.c:334
 msgid "minutes"
@@ -3011,20 +3012,16 @@ msgstr "nach"
 msgid "before"
 msgstr "vor"
 
-#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:16
-#: ../calendar/gui/dialogs/recurrence-page.ui.h:8
 msgid "day(s)"
 msgstr "Tag(e)"
 
 #. Translators: This is the last part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
-#. Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:17 ../e-util/e-plugin-util.c:425
 #: ../filter/filter.ui.h:14 ../modules/calendar/e-cal-shell-view-actions.c:336
 #: ../plugins/google-account-setup/google-contacts-source.c:336
 #: ../plugins/publish-calendar/publish-calendar.ui.h:30
-#: ../widgets/misc/e-send-options.ui.h:43
 msgid "days"
 msgstr "Tage"
 
@@ -3059,13 +3056,14 @@ msgstr "_Hinzufügen"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:2
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:9
-#: ../calendar/gui/dialogs/event-page.ui.h:7
+#: ../calendar/gui/dialogs/event-page.ui.h:1
 msgid "Alarms"
 msgstr "Alarme"
 
 #. Translators: "None" indicates no second time zone set for a day view
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:108
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:157
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:75
 #: ../calendar/gui/e-day-view-time-item.c:797
 msgctxt "cal-second-zone"
 msgid "None"
@@ -3181,199 +3179,191 @@ msgstr "Minuten"
 msgid "Monday"
 msgstr "Montag"
 
-#. Translators: "None" for not including threads;
-#. * part of "Include threads: None"
-#. Translators: Used in send options dialog
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:23
-#: ../filter/e-filter-rule.c:749 ../widgets/misc/e-send-options.ui.h:12
-msgid "None"
-msgstr "Keine"
-
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:24
 #: ../mail/mail-config.ui.h:85
 msgid "Pick a color"
 msgstr "Eine Farbe auswählen"
 
 #. Sunday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:26
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:25
 msgid "S_un"
 msgstr "_So"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:27
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:26
 #: ../calendar/gui/dialogs/recurrence-page.c:1117
 #: ../calendar/gui/e-itip-control.c:739
 msgid "Saturday"
 msgstr "Samstag"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:28
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:27
 msgid "Sc_roll Month View by a week"
 msgstr "Monatsansicht _wochenweise blättern"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:29
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:28
 msgid "Se_cond zone:"
 msgstr "Z_weite Zone:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:30
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:29
 msgid "Select the calendars for alarm notification"
 msgstr "Kalender für Alarmbenachrichtigung auswählen"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:32
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:31
 msgid "Sh_ow a reminder"
 msgstr "Eine _Erinnerung anzeigen"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:34
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:33
 msgid "Show a _reminder"
 msgstr "Eine _Erinnerung anzeigen"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:35
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:34
 msgid "Show week _numbers"
 msgstr "_Wochennummern anzeigen"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:36
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:35
 #: ../calendar/gui/dialogs/recurrence-page.c:1118
 #: ../calendar/gui/e-itip-control.c:733
 msgid "Sunday"
 msgstr "Sonntag"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:37
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:36
 msgid "T_asks due today:"
 msgstr "Heute fällige _Aufgaben:"
 
 #. Thursday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:39
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:38
 msgid "T_hu"
 msgstr "D_o"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:40
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:39
 #: ../calendar/gui/dialogs/calendar-setup.c:381
 msgid "Task List"
 msgstr "Aufgabenliste"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:41
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:40
 msgid "Template:"
 msgstr "Vorlage:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:42
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:41
 #: ../calendar/gui/dialogs/recurrence-page.c:1115
 #: ../calendar/gui/e-itip-control.c:737
 msgid "Thursday"
 msgstr "Donnerstag"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:43
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:42
 #: ../e-util/e-non-intrusive-error-dialog.c:287
 #: ../widgets/misc/e-dateedit.c:595
 msgid "Time"
 msgstr "Uhrzeit"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:44
-#: ../calendar/gui/dialogs/event-page.ui.h:15
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:43
+#: ../calendar/gui/dialogs/event-page.ui.h:9
 msgid "Time _zone:"
 msgstr "Zeit_zone:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:45
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:44
 msgid "Time format:"
 msgstr "Zeitformat:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:46
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:45
 #: ../calendar/gui/dialogs/recurrence-page.c:1113
 #: ../calendar/gui/e-itip-control.c:735
 msgid "Tuesday"
 msgstr "Dienstag"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:47
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:46
 msgid "Use s_ystem time zone"
 msgstr "Zeitzone des S_ystems verwenden"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:48
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:47
 #: ../calendar/gui/dialogs/recurrence-page.c:1114
 #: ../calendar/gui/e-itip-control.c:736
 msgid "Wednesday"
 msgstr "Mittwoch"
 
 #. A weekday like "Monday" follows
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:50
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:49
 msgid "Wee_k starts on:"
 msgstr "W_oche beginnt am:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:51
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:50
 #: ../modules/calendar/e-cal-shell-view-actions.c:1639
 msgid "Work Week"
 msgstr "Arbeitswoche"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:52
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:51
 msgid "Work days:"
 msgstr "Arbeitstage:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:53
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:52
 msgid "_12 hour (AM/PM)"
 msgstr "_12 Stunden"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:54
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:53
 msgid "_24 hour"
 msgstr "_24 Stunden"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:55
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:54
 msgid "_Ask for confirmation when deleting items"
 msgstr "Beim _Löschen von Objekten nachfragen"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:56
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:55
 msgid "_Compress weekends in month view"
 msgstr "Wochenenden in Monatsansicht _komprimieren"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:57
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:56
 msgid "_Day begins:"
 msgstr "_Tag beginnt:"
 
 #. Friday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:59
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:58
 msgid "_Fri"
 msgstr "_Fr"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:60
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:59
 msgid "_Hide completed tasks after"
 msgstr "Erledigte Aufgaben _verbergen nach"
 
 #. Monday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:62
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:61
 msgid "_Mon"
 msgstr "_Mo"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:63
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:62
 msgid "_Overdue tasks:"
 msgstr "_Überfällige Aufgaben:"
 
 #. Saturday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:65
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:64
 msgid "_Sat"
 msgstr "S_a"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:66
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:65
 msgid "_Show appointment end times in week and month view"
 msgstr "_Endzeiten von Terminen in Wochen- und Monatsansicht anzeigen"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:67
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:66
 msgid "_Time divisions:"
 msgstr "Zeit_unterteilungen:"
 
 #. Tuesday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:69
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:68
 msgid "_Tue"
 msgstr "_Di"
 
 #. Wednesday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:71
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:70
 msgid "_Wed"
 msgstr "M_i"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:73
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:72
 msgid "before every anniversary/birthday"
 msgstr "vor jedem Jahrestag/Geburtstag"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:75
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:74
 msgid "before every appointment"
 msgstr "vor jedem Termin"
 
@@ -3861,7 +3851,7 @@ msgstr "Dies zu einem wiederkehrenden Ereignis machen"
 #: ../calendar/gui/dialogs/event-editor.c:245
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../plugins/groupwise-features/send-options.c:212
-#: ../widgets/misc/e-send-options.ui.h:19
+#: ../widgets/misc/e-send-options.ui.h:22
 msgid "Send Options"
 msgstr "Versandoptionen"
 
@@ -3891,7 +3881,7 @@ msgid "Appointment"
 msgstr "Termin"
 
 #: ../calendar/gui/dialogs/event-editor.c:385
-#: ../calendar/gui/dialogs/event-page.ui.h:9
+#: ../calendar/gui/dialogs/event-page.ui.h:3
 #: ../calendar/gui/e-meeting-list-view.c:148
 msgid "Attendees"
 msgstr "Teilnehmer"
@@ -3922,7 +3912,7 @@ msgid "This event has alarms"
 msgstr "Dieses Ereignis enthält Alarme"
 
 #: ../calendar/gui/dialogs/event-page.c:890
-#: ../calendar/gui/dialogs/event-page.ui.h:14
+#: ../calendar/gui/dialogs/event-page.ui.h:8
 #: ../calendar/gui/dialogs/memo-page.ui.h:2
 msgid "Or_ganizer:"
 msgstr "Or_ganisator:"
@@ -4027,70 +4017,71 @@ msgctxt "cal-alarms"
 msgid "None"
 msgstr "Keine"
 
-#. TRANSLATORS: Predefined alarm's description
 #: ../calendar/gui/dialogs/event-page.ui.h:2
-msgid "1 day before appointment"
-msgstr "1 Tag vor dem Termin"
-
-#. TRANSLATORS: Predefined alarm's description
-#: ../calendar/gui/dialogs/event-page.ui.h:4
-msgid "1 hour before appointment"
-msgstr "1 Stunde vor dem Termin"
-
-#. TRANSLATORS: Predefined alarm's description
-#: ../calendar/gui/dialogs/event-page.ui.h:6
-msgid "15 minutes before appointment"
-msgstr "15 Minuten vor dem Termin"
-
-#: ../calendar/gui/dialogs/event-page.ui.h:8
 #: ../calendar/gui/dialogs/task-page.ui.h:1
 #: ../calendar/gui/e-meeting-time-sel.c:578
 msgid "Atte_ndees..."
 msgstr "Teil_nehmer …"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:12
+#: ../calendar/gui/dialogs/event-page.ui.h:6
 msgid "Custom Alarm:"
 msgstr "Benutzerdefinierter Alarm:"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:13
+#: ../calendar/gui/dialogs/event-page.ui.h:7
 msgid "Event Description"
 msgstr "Ereignisbeschreibung"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:16
+#: ../calendar/gui/dialogs/event-page.ui.h:10
 msgid "_Alarm"
 msgstr "A_larm"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:18
+#: ../calendar/gui/dialogs/event-page.ui.h:12
 #: ../calendar/gui/dialogs/memo-page.ui.h:6
 #: ../calendar/gui/dialogs/task-page.ui.h:8
 #: ../widgets/misc/e-attachment-dialog.c:349
 msgid "_Description:"
 msgstr "_Beschreibung:"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:19
+#: ../calendar/gui/dialogs/event-page.ui.h:13
 #: ../plugins/calendar-weather/calendar-weather.c:358
 msgid "_Location:"
 msgstr "O_rt:"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:20
+#: ../calendar/gui/dialogs/event-page.ui.h:14
 msgid "_Summary:"
 msgstr "Zu_sammenfassung:"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:21
+#: ../calendar/gui/dialogs/event-page.ui.h:15
 msgid "_Time:"
 msgstr "_Zeit:"
 
+#. TRANSLATORS: Predefined alarm's description
+#: ../calendar/gui/dialogs/event-page.ui.h:17
+msgctxt "eventpage"
+msgid "1 day before appointment"
+msgstr "1 Tag vor dem Termin"
+
+#. TRANSLATORS: Predefined alarm's description
+#: ../calendar/gui/dialogs/event-page.ui.h:19
+msgctxt "eventpage"
+msgid "1 hour before appointment"
+msgstr "1 Stunde vor dem Termin"
+
+#. TRANSLATORS: Predefined alarm's description
+#: ../calendar/gui/dialogs/event-page.ui.h:21
+msgctxt "eventpage"
+msgid "15 minutes before appointment"
+msgstr "15 Minuten vor dem Termin"
+
 #. TRANSLATORS: 'for' in a sense of 'duration'; example string: Time: [date] [time] for [ H ] hours [ M ] minutes
-#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/event-page.ui.h:23
-#: ../calendar/gui/dialogs/recurrence-page.ui.h:10
+msgctxt "eventpage"
 msgid "for"
 msgstr "für"
 
 #. TRANSLATORS: 'until' in a sense of 'duration'; example string: Time: [date] [time] until [ date ] [ time ]
-#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/dialogs/event-page.ui.h:27
-#: ../calendar/gui/dialogs/recurrence-page.ui.h:16
+#: ../calendar/gui/dialogs/event-page.ui.h:25
+msgctxt "eventpage"
 msgid "until"
 msgstr "bis"
 
@@ -4347,22 +4338,44 @@ msgid "This appointment rec_urs"
 msgstr "Dieser Termin wird _wiederholt"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:8
+msgctxt "recurrpage"
+msgid "day(s)"
+msgstr "Tag(e)"
+
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:10
+msgctxt "recurrpage"
+msgid "for"
+msgstr "für"
+
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:12
+msgctxt "recurrpage"
 msgid "forever"
 msgstr "immer"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:14
+msgctxt "recurrpage"
 msgid "month(s)"
 msgstr "Monat(e)"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:16
+msgctxt "recurrpage"
+msgid "until"
+msgstr "bis"
+
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:18
+msgctxt "recurrpage"
 msgid "week(s)"
 msgstr "Woche(n)"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:20
+msgctxt "recurrpage"
 msgid "year(s)"
 msgstr "Jahr(e)"
 
@@ -4412,7 +4425,7 @@ msgstr "Abgeschlossen"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:6
 #: ../calendar/gui/e-cal-component-preview.c:314
 #: ../calendar/gui/e-task-table.c:511 ../calendar/gui/tasktypes.xml.h:14
-#: ../mail/message-list.c:1183 ../widgets/misc/e-send-options.ui.h:8
+#: ../mail/message-list.c:1183 ../widgets/misc/e-send-options.ui.h:13
 msgid "High"
 msgstr "Hoch"
 
@@ -4431,7 +4444,7 @@ msgstr "In Bearbeitung"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:10
 #: ../calendar/gui/e-cal-component-preview.c:318
 #: ../calendar/gui/e-task-table.c:513 ../calendar/gui/tasktypes.xml.h:16
-#: ../mail/message-list.c:1181 ../widgets/misc/e-send-options.ui.h:9
+#: ../mail/message-list.c:1181 ../widgets/misc/e-send-options.ui.h:14
 msgid "Low"
 msgstr "Niedrig"
 
@@ -4440,7 +4453,7 @@ msgstr "Niedrig"
 #: ../calendar/gui/e-cal-component-preview.c:316
 #: ../calendar/gui/e-cal-model.c:1269 ../calendar/gui/e-task-table.c:512
 #: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1182
-#: ../widgets/misc/e-send-options.ui.h:13
+#: ../widgets/misc/e-send-options.ui.h:16
 msgid "Normal"
 msgstr "Normal"
 
@@ -4477,7 +4490,7 @@ msgstr "Status"
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-details-page.ui.h:20
 #: ../calendar/gui/e-task-table.c:514 ../calendar/gui/tasktypes.xml.h:24
-#: ../widgets/misc/e-send-options.ui.h:24
+#: ../widgets/misc/e-send-options.ui.h:27
 msgid "Undefined"
 msgstr "Nicht festgelegt"
 
@@ -4486,7 +4499,7 @@ msgid "_Date completed:"
 msgstr "A_bgeschlossen am:"
 
 #: ../calendar/gui/dialogs/task-details-page.ui.h:22
-#: ../widgets/misc/e-send-options.ui.h:36
+#: ../widgets/misc/e-send-options.ui.h:35
 msgid "_Priority:"
 msgstr "_Priorität:"
 
@@ -8403,24 +8416,24 @@ msgstr "_Wiederherstellen"
 msgid "_Save Draft"
 msgstr "Entwurf _speichern"
 
-#: ../capplet/anjal-settings-main.c:198
+#: ../capplet/anjal-settings-main.c:223
 msgid "Run Anjal in a window"
 msgstr "Anjal in einem Fenster ausführen"
 
-#: ../capplet/anjal-settings-main.c:199
+#: ../capplet/anjal-settings-main.c:224
 msgid "Make Anjal the default email client"
 msgstr "Anjal als vorgegebenes E-Mail-Programm festlegen"
 
 #. TRANSLATORS: don't translate the terms in brackets
-#: ../capplet/anjal-settings-main.c:206
+#: ../capplet/anjal-settings-main.c:231
 msgid "ID of the socket to embed in"
 msgstr "Kennung des Sockets zur Einbettung"
 
-#: ../capplet/anjal-settings-main.c:207
+#: ../capplet/anjal-settings-main.c:232
 msgid "socket"
 msgstr "socket"
 
-#: ../capplet/anjal-settings-main.c:220
+#: ../capplet/anjal-settings-main.c:245
 msgid "Anjal email client"
 msgstr "Anjal E-Mail-Programm"
 
@@ -9286,11 +9299,17 @@ msgstr "Falls irgendeine Bedingung zutrifft"
 msgid "_Find items:"
 msgstr "Objekte _suchen:"
 
+#. Translators: "None" for not including threads;
+#. * part of "Include threads: None"
+#: ../filter/e-filter-rule.c:749
+msgid "None"
+msgstr "Keine"
+
 #: ../filter/e-filter-rule.c:750
 msgid "All related"
 msgstr "Alle mit Bezug"
 
-#: ../filter/e-filter-rule.c:751 ../widgets/misc/e-send-options.ui.h:16
+#: ../filter/e-filter-rule.c:751 ../widgets/misc/e-send-options.ui.h:19
 msgid "Replies"
 msgstr "Antworten"
 
@@ -16468,106 +16487,106 @@ msgstr ""
 "Sichern und Wiederherstellen von Evolution-Daten und Einstellungen aus einer "
 "Archivdatei"
 
-#: ../plugins/backup-restore/backup.c:63
+#: ../plugins/backup-restore/backup.c:77
 msgid "Backup Evolution directory"
 msgstr "Evolution-Sicherungsordner"
 
-#: ../plugins/backup-restore/backup.c:65
+#: ../plugins/backup-restore/backup.c:79
 msgid "Restore Evolution directory"
 msgstr "Evolution-Wiederherstellungsordner"
 
-#: ../plugins/backup-restore/backup.c:67
+#: ../plugins/backup-restore/backup.c:81
 msgid "Check Evolution Backup"
 msgstr "Evolution-Datensicherung"
 
-#: ../plugins/backup-restore/backup.c:69
+#: ../plugins/backup-restore/backup.c:83
 msgid "Restart Evolution"
 msgstr "Evolution neu starten"
 
-#: ../plugins/backup-restore/backup.c:71
+#: ../plugins/backup-restore/backup.c:85
 msgid "With Graphical User Interface"
 msgstr "Mit grafischer Oberfläche"
 
-#: ../plugins/backup-restore/backup.c:189
-#: ../plugins/backup-restore/backup.c:251
+#: ../plugins/backup-restore/backup.c:203
+#: ../plugins/backup-restore/backup.c:265
 msgid "Shutting down Evolution"
 msgstr "Evolution wird heruntergefahren"
 
-#: ../plugins/backup-restore/backup.c:196
+#: ../plugins/backup-restore/backup.c:210
 msgid "Backing Evolution accounts and settings"
 msgstr "Sichern der Evolution-Konten und -Einstellungen"
 
-#: ../plugins/backup-restore/backup.c:202
+#: ../plugins/backup-restore/backup.c:216
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
 "Sichern der Evolution-Daten (E-Mails, Kontakte, Kalender, Aufgaben, Notizen)"
 
-#: ../plugins/backup-restore/backup.c:213
+#: ../plugins/backup-restore/backup.c:227
 msgid "Backup complete"
 msgstr "Sicherung komplett"
 
-#: ../plugins/backup-restore/backup.c:218
-#: ../plugins/backup-restore/backup.c:239
-#: ../plugins/backup-restore/backup.c:285
+#: ../plugins/backup-restore/backup.c:232
+#: ../plugins/backup-restore/backup.c:253
+#: ../plugins/backup-restore/backup.c:299
 msgid "Restarting Evolution"
 msgstr "Evolution wird neugestartet"
 
-#: ../plugins/backup-restore/backup.c:255
+#: ../plugins/backup-restore/backup.c:269
 msgid "Back up current Evolution data"
 msgstr "Aktuelle Evolution-Daten sichern"
 
-#: ../plugins/backup-restore/backup.c:260
+#: ../plugins/backup-restore/backup.c:274
 msgid "Extracting files from backup"
 msgstr "Dateien aus dem Sicherungsarchiv extrahieren"
 
-#: ../plugins/backup-restore/backup.c:267
+#: ../plugins/backup-restore/backup.c:281
 msgid "Loading Evolution settings"
 msgstr "Evolution-Einstellungen laden"
 
-#: ../plugins/backup-restore/backup.c:274
+#: ../plugins/backup-restore/backup.c:288
 msgid "Removing temporary backup files"
 msgstr "Entfernen der temporären Sicherungsdateien"
 
-#: ../plugins/backup-restore/backup.c:281
+#: ../plugins/backup-restore/backup.c:295
 msgid "Ensuring local sources"
 msgstr "Lokale Quellen sicherstellen"
 
-#: ../plugins/backup-restore/backup.c:428
+#: ../plugins/backup-restore/backup.c:464
 #, c-format
 msgid "Backing up to the folder %s"
 msgstr "Sichern nach %s"
 
-#: ../plugins/backup-restore/backup.c:433
+#: ../plugins/backup-restore/backup.c:469
 #, c-format
 msgid "Restoring from the folder %s"
 msgstr "Wiederherstellen von %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
-#: ../plugins/backup-restore/backup.c:455
+#: ../plugins/backup-restore/backup.c:491
 msgid "Evolution Backup"
 msgstr "Evolution-Datensicherung"
 
-#: ../plugins/backup-restore/backup.c:455
+#: ../plugins/backup-restore/backup.c:491
 msgid "Evolution Restore"
 msgstr "Evolution-Wiederherstellung"
 
-#: ../plugins/backup-restore/backup.c:496
+#: ../plugins/backup-restore/backup.c:532
 msgid "Backing up Evolution Data"
 msgstr "Sichern der Evolution-Daten"
 
-#: ../plugins/backup-restore/backup.c:497
+#: ../plugins/backup-restore/backup.c:533
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Bitte warten Sie, während Evolution Ihre Daten sichert."
 
-#: ../plugins/backup-restore/backup.c:499
+#: ../plugins/backup-restore/backup.c:535
 msgid "Restoring Evolution Data"
 msgstr "Wiederherstellen der Evolution-Daten"
 
-#: ../plugins/backup-restore/backup.c:500
+#: ../plugins/backup-restore/backup.c:536
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Bitte warten Sie, während Evolution Ihre Daten wiederherstellt."
 
-#: ../plugins/backup-restore/backup.c:518
+#: ../plugins/backup-restore/backup.c:554
 msgid "This may take a while depending on the amount of data in your account."
 msgstr "Dies kann abhängig von den Daten in Ihrem Konto einige Zeit dauern."
 
@@ -17083,7 +17102,7 @@ msgid "Protected"
 msgstr "Geschützt"
 
 #: ../plugins/email-custom-header/email-custom-header.c:324
-#: ../widgets/misc/e-send-options.ui.h:18
+#: ../widgets/misc/e-send-options.ui.h:21
 msgid "Secret"
 msgstr "Geheim"
 
@@ -19822,7 +19841,7 @@ msgstr "Seitenleiste anzeigen"
 msgid "Skip development warning dialog"
 msgstr "Entwicklungs-Warndialog nicht anzeigen"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:331
+#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:337
 msgid "Start in offline mode"
 msgstr "Im Offline-Modus starten"
 
@@ -20335,7 +20354,7 @@ msgid "Preparing to quit..."
 msgstr "Beenden wird vorbereitet …"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:180
+#: ../shell/main.c:186
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -20374,7 +20393,7 @@ msgstr ""
 "Wir hoffen, dass Ihnen das Ergebnis unserer harten Arbeit\n"
 "gefällt und freuen uns auf Ihren Beitrag zu diesem Projekt!\n"
 
-#: ../shell/main.c:204
+#: ../shell/main.c:210
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -20382,55 +20401,55 @@ msgstr ""
 "Vielen Dank\n"
 "Das Evolution-Team\n"
 
-#: ../shell/main.c:211
+#: ../shell/main.c:217
 msgid "Do not tell me again"
 msgstr "Nicht mehr anzeigen"
 
-#: ../shell/main.c:327
+#: ../shell/main.c:333
 msgid "Start Evolution activating the specified component"
 msgstr "Beim Start von Evolution die angegebene Komponente aktivieren"
 
-#: ../shell/main.c:329
+#: ../shell/main.c:335
 msgid "Apply the given geometry to the main window"
 msgstr "Die angegebene Geometrie auf das Hauptfenster anwenden"
 
-#: ../shell/main.c:333
+#: ../shell/main.c:339
 msgid "Start in online mode"
 msgstr "Im Online-Modus starten"
 
-#: ../shell/main.c:335
+#: ../shell/main.c:341
 msgid "Start in \"express\" mode"
 msgstr "Im Express-Modus starten"
 
-#: ../shell/main.c:338
+#: ../shell/main.c:344
 msgid "Forcibly shut down Evolution"
 msgstr "Evolution zum Herunterfahren zwingen"
 
-#: ../shell/main.c:341
+#: ../shell/main.c:347
 msgid "Send the debugging output of all components to a file."
 msgstr "Die Diagnoseausgabe aller Komponenten in eine Datei umleiten."
 
-#: ../shell/main.c:343
+#: ../shell/main.c:349
 msgid "Disable loading of any plugins."
 msgstr "Das Laden von allen Plugins deaktivieren."
 
-#: ../shell/main.c:345
+#: ../shell/main.c:351
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Die Vorschau von E-Mails, Kontakten und Aufgaben deaktivieren."
 
-#: ../shell/main.c:349
+#: ../shell/main.c:355
 msgid "Import URIs or file names given as rest of arguments."
 msgstr "Die Adressen oder Dateinamen in den restlichen Argumenten importieren."
 
-#: ../shell/main.c:351
+#: ../shell/main.c:357
 msgid "Request a running Evolution process to quit"
 msgstr "Einen laufenden Evolution-Prozess zum Beenden auffordern"
 
-#: ../shell/main.c:475 ../shell/main.c:483
+#: ../shell/main.c:501 ../shell/main.c:509
 msgid "- The Evolution PIM and Email Client"
 msgstr "– Die Evolution PIM- und E-Mail-Anwendung"
 
-#: ../shell/main.c:545
+#: ../shell/main.c:571
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -21685,99 +21704,115 @@ msgid "Delivery Options"
 msgstr "Zustellungsoptionen"
 
 #: ../widgets/misc/e-send-options.ui.h:6
-msgid "For Your Eyes Only"
-msgstr "Streng geheim"
-
-#: ../widgets/misc/e-send-options.ui.h:7
-msgid "Gene_ral Options"
-msgstr "Allge_meine Optionen"
-
-#: ../widgets/misc/e-send-options.ui.h:10
-msgid "Mail Receipt"
-msgstr "Empfangsbestätigung"
-
-#: ../widgets/misc/e-send-options.ui.h:14
-msgid "Proprietary"
-msgstr "Proprietär"
-
-#: ../widgets/misc/e-send-options.ui.h:15
-msgid "R_eply requested"
-msgstr "Rüc_kmeldung gewünscht"
-
-#: ../widgets/misc/e-send-options.ui.h:17
-msgid "Return Notification"
-msgstr "Rücksendemitteilung"
-
-#: ../widgets/misc/e-send-options.ui.h:20
-msgid "Sta_tus Tracking"
-msgstr "Sta_tusverfolgung"
-
-#: ../widgets/misc/e-send-options.ui.h:21
-msgid "Standard"
-msgstr "Standard"
-
-#: ../widgets/misc/e-send-options.ui.h:22
-msgid "Status Tracking"
-msgstr "Statusverfolgung"
-
-#: ../widgets/misc/e-send-options.ui.h:23
-msgid "Top Secret"
-msgstr "Streng geheim"
-
-#: ../widgets/misc/e-send-options.ui.h:25
-msgid "When acce_pted:"
-msgstr "Wenn a_ngenommen:"
-
-#: ../widgets/misc/e-send-options.ui.h:26
-msgid "When co_mpleted:"
-msgstr "Wenn a_bgeschlossen:"
-
-#: ../widgets/misc/e-send-options.ui.h:27
-msgid "When decli_ned:"
-msgstr "Wenn abge_lehnt:"
-
-#. Translators: This is part of 'Within [ X ] days', where [ X ] is a spinner with a number
-#: ../widgets/misc/e-send-options.ui.h:29
-msgid "Wi_thin"
-msgstr "B_innen"
-
-#. Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number
-#: ../widgets/misc/e-send-options.ui.h:31
-msgid "_After"
-msgstr "D_anach"
-
-#: ../widgets/misc/e-send-options.ui.h:32
-msgid "_All information"
-msgstr "_Alle Informationen"
-
-#: ../widgets/misc/e-send-options.ui.h:33
-msgid "_Classification:"
-msgstr "E_instufung:"
-
-#: ../widgets/misc/e-send-options.ui.h:34
-msgid "_Delay message delivery"
-msgstr "Nachrichtenzustellung ver_zögern"
-
-#: ../widgets/misc/e-send-options.ui.h:35
-msgid "_Delivered"
-msgstr "Zuge_stellt"
-
-#: ../widgets/misc/e-send-options.ui.h:37
-msgid "_Set expiration date"
-msgstr "_Verfallsdatum angeben"
-
-#. Translators: This is part of 'Until [ date ]', where [ date ] is a date picker
-#: ../widgets/misc/e-send-options.ui.h:39
+msgctxt "ESendOptions"
 msgid "_Until"
 msgstr "_Bis"
 
-#: ../widgets/misc/e-send-options.ui.h:40
+#: ../widgets/misc/e-send-options.ui.h:7
+msgctxt "ESendOptionsAfter"
+msgid "_After"
+msgstr "D_anach"
+
+#: ../widgets/misc/e-send-options.ui.h:8
+msgctxt "ESendOptionsAfter"
+msgid "days"
+msgstr "Tage"
+
+#: ../widgets/misc/e-send-options.ui.h:9
+msgctxt "ESendOptionsWithin"
+msgid "Wi_thin"
+msgstr "B_innen"
+
+#: ../widgets/misc/e-send-options.ui.h:10
+msgctxt "ESendOptionsWithin"
+msgid "days"
+msgstr "Tage"
+
+#: ../widgets/misc/e-send-options.ui.h:11
+msgid "For Your Eyes Only"
+msgstr "Streng geheim"
+
+#: ../widgets/misc/e-send-options.ui.h:12
+msgid "Gene_ral Options"
+msgstr "Allge_meine Optionen"
+
+#: ../widgets/misc/e-send-options.ui.h:15
+msgid "Mail Receipt"
+msgstr "Empfangsbestätigung"
+
+#: ../widgets/misc/e-send-options.ui.h:17
+msgid "Proprietary"
+msgstr "Proprietär"
+
+#: ../widgets/misc/e-send-options.ui.h:18
+msgid "R_eply requested"
+msgstr "Rüc_kmeldung gewünscht"
+
+#: ../widgets/misc/e-send-options.ui.h:20
+msgid "Return Notification"
+msgstr "Rücksendemitteilung"
+
+#: ../widgets/misc/e-send-options.ui.h:23
+msgid "Sta_tus Tracking"
+msgstr "Sta_tusverfolgung"
+
+#: ../widgets/misc/e-send-options.ui.h:24
+msgid "Standard"
+msgstr "Standard"
+
+#: ../widgets/misc/e-send-options.ui.h:25
+msgid "Status Tracking"
+msgstr "Statusverfolgung"
+
+#: ../widgets/misc/e-send-options.ui.h:26
+msgid "Top Secret"
+msgstr "Streng geheim"
+
+#: ../widgets/misc/e-send-options.ui.h:28
+msgid "When acce_pted:"
+msgstr "Wenn a_ngenommen:"
+
+#: ../widgets/misc/e-send-options.ui.h:29
+msgid "When co_mpleted:"
+msgstr "Wenn a_bgeschlossen:"
+
+#: ../widgets/misc/e-send-options.ui.h:30
+msgid "When decli_ned:"
+msgstr "Wenn abge_lehnt:"
+
+#: ../widgets/misc/e-send-options.ui.h:31
+msgid "_All information"
+msgstr "_Alle Informationen"
+
+#: ../widgets/misc/e-send-options.ui.h:32
+msgid "_Classification:"
+msgstr "E_instufung:"
+
+#: ../widgets/misc/e-send-options.ui.h:33
+msgid "_Delay message delivery"
+msgstr "Nachrichtenzustellung ver_zögern"
+
+#: ../widgets/misc/e-send-options.ui.h:34
+msgid "_Delivered"
+msgstr "Zuge_stellt"
+
+#: ../widgets/misc/e-send-options.ui.h:36
+msgid "_Set expiration date"
+msgstr "_Verfallsdatum angeben"
+
+#: ../widgets/misc/e-send-options.ui.h:37
 msgid "_When convenient"
 msgstr "_Wenn passend"
 
-#: ../widgets/misc/e-send-options.ui.h:41
+#: ../widgets/misc/e-send-options.ui.h:38
 msgid "_When opened:"
 msgstr "_Wenn geöffnet:"
+
+#. Translators: Used in send options dialog
+#: ../widgets/misc/e-send-options.ui.h:40
+msgctxt "send-options"
+msgid "None"
+msgstr "Keine"
 
 #: ../widgets/misc/e-signature-editor.c:136
 #: ../widgets/misc/e-signature-editor.c:524
@@ -22161,30 +22196,6 @@ msgstr "Alle auswählen"
 #: ../widgets/text/e-text.c:2548
 msgid "Input Methods"
 msgstr "Eingabemethoden"
-
-#~ msgctxt "recurrpage"
-#~ msgid "day(s)"
-#~ msgstr "Tag(e)"
-
-#~ msgctxt "recurrpage"
-#~ msgid "for"
-#~ msgstr "für"
-
-#~ msgctxt "recurrpage"
-#~ msgid "until"
-#~ msgstr "bis"
-
-#~ msgctxt "ESendOptionsAfter"
-#~ msgid "days"
-#~ msgstr "Tage"
-
-#~ msgctxt "ESendOptionsWithin"
-#~ msgid "days"
-#~ msgstr "Tage"
-
-#~ msgctxt "send-options"
-#~ msgid "None"
-#~ msgstr "Keine"
 
 #~ msgid "<span size=\"large\" weight=\"bold\">Details:</span>"
 #~ msgstr "<span size=\"large\" weight=\"bold\">Details:</span>"
