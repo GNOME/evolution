@@ -20,15 +20,15 @@
 # Mario Blättermann <mariobl@gnome.org>, 2010.
 # Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009, 2010.
 #
-#: ../shell/main.c:533
+#: ../shell/main.c:559
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-09-12 11:12+0000\n"
-"PO-Revision-Date: 2010-09-12 14:12+0200\n"
-"Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
+"POT-Creation-Date: 2010-09-15 18:37+0000\n"
+"PO-Revision-Date: 2010-09-16 15:45+0100\n"
+"Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -277,8 +277,8 @@ msgstr "Jahrestag"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
 #: ../addressbook/gui/widgets/eab-contact-display.c:582
-#: ../calendar/gui/e-calendar-view.c:2019 ../capplet/anjal-settings-main.c:117
-#: ../shell/main.c:122
+#: ../calendar/gui/e-calendar-view.c:2019 ../capplet/anjal-settings-main.c:123
+#: ../shell/main.c:128
 msgid "Birthday"
 msgstr "Geburtstag"
 
@@ -1490,61 +1490,61 @@ msgstr "Adressbuchliste konnte nicht abgerufen werden"
 msgid "failed to open book"
 msgstr "Adressbuch konnte nicht geöffnet werden"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:45
+#: ../addressbook/tools/evolution-addressbook-export.c:59
 msgid "Specify the output file instead of standard output"
 msgstr "Die angegebene Ausgabedatei statt der Standardausgabe verwenden"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:46
+#: ../addressbook/tools/evolution-addressbook-export.c:60
 msgid "OUTPUTFILE"
 msgstr "AUSGABEDATEI"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:49
+#: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid "List local address book folders"
 msgstr "Lokale Adressbuchordner auflisten"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:52
+#: ../addressbook/tools/evolution-addressbook-export.c:66
 msgid "Show cards as vcard or csv file"
 msgstr "Karten als vcard- oder csv-Datei anzeigen"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:53
+#: ../addressbook/tools/evolution-addressbook-export.c:67
 msgid "[vcard|csv]"
 msgstr "[vcard|csv]"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:56
+#: ../addressbook/tools/evolution-addressbook-export.c:70
 msgid "Export in asynchronous mode"
 msgstr "Im asynchronen Modus exportieren"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:59
+#: ../addressbook/tools/evolution-addressbook-export.c:73
 msgid ""
 "The number of cards in one output file in asynchronous mode, default size "
 "100."
 msgstr ""
 "Die Anzahl der Karten pro Ausgabedatei im asynchronen Modus, Vorgabe: 100."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:61
+#: ../addressbook/tools/evolution-addressbook-export.c:75
 msgid "NUMBER"
 msgstr "ANZAHL"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:101
+#: ../addressbook/tools/evolution-addressbook-export.c:137
 msgid ""
 "Command line arguments error, please use --help option to see the usage."
 msgstr ""
 "Argumentfehler in Befehlszeile, bitte übergeben Sie den »--help«-Parameter, "
 "um Hinweise zum Aufruf zu erhalten."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:115
+#: ../addressbook/tools/evolution-addressbook-export.c:151
 msgid "Only support csv or vcard format."
 msgstr "Es werden ausschließlich die Formate »csv« oder »vcard« unterstützt."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:124
+#: ../addressbook/tools/evolution-addressbook-export.c:160
 msgid "In async mode, output must be file."
 msgstr "Im asynchronen Modus muss die Ausgabe in eine Datei erfolgen."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:132
+#: ../addressbook/tools/evolution-addressbook-export.c:168
 msgid "In normal mode, there is no need for the size option."
 msgstr "Im normalen Modus müssen Sie die Größe nicht angeben."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:163
+#: ../addressbook/tools/evolution-addressbook-export.c:199
 msgid "Unhandled error"
 msgstr "Unbehandelter Fehler"
 
@@ -4077,7 +4077,7 @@ msgstr "15 Minuten vor dem Termin"
 #: ../calendar/gui/dialogs/event-page.ui.h:23
 msgctxt "eventpage"
 msgid "for"
-msgstr "für"
+msgstr "für"
 
 #. TRANSLATORS: 'until' in a sense of 'duration'; example string: Time: [date] [time] until [ date ] [ time ]
 #: ../calendar/gui/dialogs/event-page.ui.h:25
@@ -8416,24 +8416,24 @@ msgstr "_Wiederherstellen"
 msgid "_Save Draft"
 msgstr "Entwurf _speichern"
 
-#: ../capplet/anjal-settings-main.c:198
+#: ../capplet/anjal-settings-main.c:223
 msgid "Run Anjal in a window"
 msgstr "Anjal in einem Fenster ausführen"
 
-#: ../capplet/anjal-settings-main.c:199
+#: ../capplet/anjal-settings-main.c:224
 msgid "Make Anjal the default email client"
 msgstr "Anjal als vorgegebenes E-Mail-Programm festlegen"
 
 #. TRANSLATORS: don't translate the terms in brackets
-#: ../capplet/anjal-settings-main.c:206
+#: ../capplet/anjal-settings-main.c:231
 msgid "ID of the socket to embed in"
 msgstr "Kennung des Sockets zur Einbettung"
 
-#: ../capplet/anjal-settings-main.c:207
+#: ../capplet/anjal-settings-main.c:232
 msgid "socket"
 msgstr "socket"
 
-#: ../capplet/anjal-settings-main.c:220
+#: ../capplet/anjal-settings-main.c:245
 msgid "Anjal email client"
 msgstr "Anjal E-Mail-Programm"
 
@@ -10839,7 +10839,7 @@ msgid "Copy Folder To"
 msgstr "Ordner kopieren nach"
 
 #: ../mail/em-folder-utils.c:533
-#: ../plugins/groupwise-features/share-folder-common.c:136
+#: ../plugins/groupwise-features/share-folder-common.c:137
 #, c-format
 msgid "Creating folder '%s'"
 msgstr "Ordner »%s« wird angelegt"
@@ -10850,7 +10850,7 @@ msgstr "Ordner anlegen"
 
 #: ../mail/em-folder-utils.c:694
 #: ../plugins/groupwise-features/install-shared.c:165
-#: ../plugins/groupwise-features/share-folder-common.c:343
+#: ../plugins/groupwise-features/share-folder-common.c:342
 msgid "Specify where to create the folder:"
 msgstr "Angeben, wo der Ordner angelegt werden soll:"
 
@@ -16487,106 +16487,106 @@ msgstr ""
 "Sichern und Wiederherstellen von Evolution-Daten und Einstellungen aus einer "
 "Archivdatei"
 
-#: ../plugins/backup-restore/backup.c:63
+#: ../plugins/backup-restore/backup.c:77
 msgid "Backup Evolution directory"
 msgstr "Evolution-Sicherungsordner"
 
-#: ../plugins/backup-restore/backup.c:65
+#: ../plugins/backup-restore/backup.c:79
 msgid "Restore Evolution directory"
 msgstr "Evolution-Wiederherstellungsordner"
 
-#: ../plugins/backup-restore/backup.c:67
+#: ../plugins/backup-restore/backup.c:81
 msgid "Check Evolution Backup"
 msgstr "Evolution-Datensicherung"
 
-#: ../plugins/backup-restore/backup.c:69
+#: ../plugins/backup-restore/backup.c:83
 msgid "Restart Evolution"
 msgstr "Evolution neu starten"
 
-#: ../plugins/backup-restore/backup.c:71
+#: ../plugins/backup-restore/backup.c:85
 msgid "With Graphical User Interface"
 msgstr "Mit grafischer Oberfläche"
 
-#: ../plugins/backup-restore/backup.c:189
-#: ../plugins/backup-restore/backup.c:251
+#: ../plugins/backup-restore/backup.c:203
+#: ../plugins/backup-restore/backup.c:265
 msgid "Shutting down Evolution"
 msgstr "Evolution wird heruntergefahren"
 
-#: ../plugins/backup-restore/backup.c:196
+#: ../plugins/backup-restore/backup.c:210
 msgid "Backing Evolution accounts and settings"
 msgstr "Sichern der Evolution-Konten und -Einstellungen"
 
-#: ../plugins/backup-restore/backup.c:202
+#: ../plugins/backup-restore/backup.c:216
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
 "Sichern der Evolution-Daten (E-Mails, Kontakte, Kalender, Aufgaben, Notizen)"
 
-#: ../plugins/backup-restore/backup.c:213
+#: ../plugins/backup-restore/backup.c:227
 msgid "Backup complete"
 msgstr "Sicherung komplett"
 
-#: ../plugins/backup-restore/backup.c:218
-#: ../plugins/backup-restore/backup.c:239
-#: ../plugins/backup-restore/backup.c:285
+#: ../plugins/backup-restore/backup.c:232
+#: ../plugins/backup-restore/backup.c:253
+#: ../plugins/backup-restore/backup.c:299
 msgid "Restarting Evolution"
 msgstr "Evolution wird neugestartet"
 
-#: ../plugins/backup-restore/backup.c:255
+#: ../plugins/backup-restore/backup.c:269
 msgid "Back up current Evolution data"
 msgstr "Aktuelle Evolution-Daten sichern"
 
-#: ../plugins/backup-restore/backup.c:260
+#: ../plugins/backup-restore/backup.c:274
 msgid "Extracting files from backup"
 msgstr "Dateien aus dem Sicherungsarchiv extrahieren"
 
-#: ../plugins/backup-restore/backup.c:267
+#: ../plugins/backup-restore/backup.c:281
 msgid "Loading Evolution settings"
 msgstr "Evolution-Einstellungen laden"
 
-#: ../plugins/backup-restore/backup.c:274
+#: ../plugins/backup-restore/backup.c:288
 msgid "Removing temporary backup files"
 msgstr "Entfernen der temporären Sicherungsdateien"
 
-#: ../plugins/backup-restore/backup.c:281
+#: ../plugins/backup-restore/backup.c:295
 msgid "Ensuring local sources"
 msgstr "Lokale Quellen sicherstellen"
 
-#: ../plugins/backup-restore/backup.c:428
+#: ../plugins/backup-restore/backup.c:464
 #, c-format
 msgid "Backing up to the folder %s"
 msgstr "Sichern nach %s"
 
-#: ../plugins/backup-restore/backup.c:433
+#: ../plugins/backup-restore/backup.c:469
 #, c-format
 msgid "Restoring from the folder %s"
 msgstr "Wiederherstellen von %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
-#: ../plugins/backup-restore/backup.c:455
+#: ../plugins/backup-restore/backup.c:491
 msgid "Evolution Backup"
 msgstr "Evolution-Datensicherung"
 
-#: ../plugins/backup-restore/backup.c:455
+#: ../plugins/backup-restore/backup.c:491
 msgid "Evolution Restore"
 msgstr "Evolution-Wiederherstellung"
 
-#: ../plugins/backup-restore/backup.c:496
+#: ../plugins/backup-restore/backup.c:532
 msgid "Backing up Evolution Data"
 msgstr "Sichern der Evolution-Daten"
 
-#: ../plugins/backup-restore/backup.c:497
+#: ../plugins/backup-restore/backup.c:533
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Bitte warten Sie, während Evolution Ihre Daten sichert."
 
-#: ../plugins/backup-restore/backup.c:499
+#: ../plugins/backup-restore/backup.c:535
 msgid "Restoring Evolution Data"
 msgstr "Wiederherstellen der Evolution-Daten"
 
-#: ../plugins/backup-restore/backup.c:500
+#: ../plugins/backup-restore/backup.c:536
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Bitte warten Sie, während Evolution Ihre Daten wiederherstellt."
 
-#: ../plugins/backup-restore/backup.c:518
+#: ../plugins/backup-restore/backup.c:554
 msgid "This may take a while depending on the amount of data in your account."
 msgstr "Dies kann abhängig von den Daten in Ihrem Konto einige Zeit dauern."
 
@@ -17320,8 +17320,8 @@ msgstr ""
 "%s"
 
 #: ../plugins/google-account-setup/google-source.c:548
-#: ../plugins/mail-to-task/mail-to-task.c:736
-#: ../plugins/mail-to-task/mail-to-task.c:952
+#: ../plugins/mail-to-task/mail-to-task.c:737
+#: ../plugins/mail-to-task/mail-to-task.c:953
 msgid "Unknown error."
 msgstr "Unbekannter Fehler."
 
@@ -17374,7 +17374,7 @@ msgid "Rese_nd Meeting..."
 msgstr "Besprechung er_neut versenden …"
 
 #: ../plugins/groupwise-features/install-shared.c:165
-#: ../plugins/groupwise-features/share-folder-common.c:343
+#: ../plugins/groupwise-features/share-folder-common.c:342
 msgid "Create folder"
 msgstr "Ordner anlegen"
 
@@ -17705,16 +17705,16 @@ msgstr "Benutzer hinzufügen"
 msgid "Advanced send options"
 msgstr "Erweiterte Versandoptionen"
 
-#: ../plugins/groupwise-features/share-folder-common.c:309
+#: ../plugins/groupwise-features/share-folder-common.c:310
 #: ../plugins/groupwise-features/share-folder.c:726
 msgid "Users"
 msgstr "Benutzer"
 
-#: ../plugins/groupwise-features/share-folder-common.c:310
+#: ../plugins/groupwise-features/share-folder-common.c:311
 msgid "Enter the users and set permissions"
 msgstr "Eingabe der Benutzer und Festlegen der Rechte"
 
-#: ../plugins/groupwise-features/share-folder-common.c:410
+#: ../plugins/groupwise-features/share-folder-common.c:407
 msgid "Sharing"
 msgstr "Freigeben"
 
@@ -18725,7 +18725,7 @@ msgstr "Beim Eintreffen neuer E-Mails benachrichtigen"
 msgid "Created from a mail by %s"
 msgstr "Erstellt aus einer Nachricht an %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:489
+#: ../plugins/mail-to-task/mail-to-task.c:490
 #, c-format
 msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
@@ -18734,7 +18734,7 @@ msgstr ""
 "Der ausgewählte Kalender enthält bereits das Ereignis »%s«. Möchten Sie das "
 "alte Ereignis bearbeiten?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:492
+#: ../plugins/mail-to-task/mail-to-task.c:493
 #, c-format
 msgid ""
 "Selected task list contains task '%s' already. Would you like to edit the "
@@ -18743,7 +18743,7 @@ msgstr ""
 "Die ausgewählte Aufgabenliste enthält bereits die Aufgabe »%s«. Möchten Sie "
 "die alte Aufgabe bearbeiten?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:495
+#: ../plugins/mail-to-task/mail-to-task.c:496
 #, c-format
 msgid ""
 "Selected memo list contains memo '%s' already. Would you like to edit the "
@@ -18755,7 +18755,7 @@ msgstr ""
 #. Translators: Codewise it is impossible to provide separate strings for all
 #. combinations of singular and plural. Please translate it in the way that you
 #. feel is most appropriate for your language.
-#: ../plugins/mail-to-task/mail-to-task.c:515
+#: ../plugins/mail-to-task/mail-to-task.c:516
 msgid ""
 "Selected calendar contains some events for the given mails already. Would "
 "you like to create new events anyway?"
@@ -18766,7 +18766,7 @@ msgstr ""
 #. Translators: Codewise it is impossible to provide separate strings for all
 #. combinations of singular and plural. Please translate it in the way that you
 #. feel is most appropriate for your language.
-#: ../plugins/mail-to-task/mail-to-task.c:521
+#: ../plugins/mail-to-task/mail-to-task.c:522
 msgid ""
 "Selected task list contains some tasks for the given mails already. Would "
 "you like to create new tasks anyway?"
@@ -18777,7 +18777,7 @@ msgstr ""
 #. Translators: Codewise it is impossible to provide separate strings for all
 #. combinations of singular and plural. Please translate it in the way that you
 #. feel is most appropriate for your language.
-#: ../plugins/mail-to-task/mail-to-task.c:527
+#: ../plugins/mail-to-task/mail-to-task.c:528
 msgid ""
 "Selected memo list contains some memos for the given mails already. Would "
 "you like to create new memos anyway?"
@@ -18788,7 +18788,7 @@ msgstr ""
 #. Translators: Codewise it is impossible to provide separate strings for all
 #. combinations of singular and plural. Please translate it in the way that you
 #. feel is most appropriate for your language.
-#: ../plugins/mail-to-task/mail-to-task.c:548
+#: ../plugins/mail-to-task/mail-to-task.c:549
 msgid ""
 "Selected calendar contains an event for the given mail already. Would you "
 "like to create new event anyway?"
@@ -18805,7 +18805,7 @@ msgstr[1] ""
 #. Translators: Codewise it is impossible to provide separate strings for all
 #. combinations of singular and plural. Please translate it in the way that you
 #. feel is most appropriate for your language.
-#: ../plugins/mail-to-task/mail-to-task.c:557
+#: ../plugins/mail-to-task/mail-to-task.c:558
 msgid ""
 "Selected task list contains a task for the given mail already. Would you "
 "like to create new task anyway?"
@@ -18822,7 +18822,7 @@ msgstr[1] ""
 #. Translators: Codewise it is impossible to provide separate strings for all
 #. combinations of singular and plural. Please translate it in the way that you
 #. feel is most appropriate for your language.
-#: ../plugins/mail-to-task/mail-to-task.c:566
+#: ../plugins/mail-to-task/mail-to-task.c:567
 msgid ""
 "Selected memo list contains a memo for the given mail already. Would you "
 "like to create new memo anyway?"
@@ -18836,25 +18836,25 @@ msgstr[1] ""
 "Die ausgewählte Notizliste enthält bereits einige Notizen für die "
 "vorliegenden E-Mails. Möchten Sie dennoch neue Notizen erstellen?"
 
-#: ../plugins/mail-to-task/mail-to-task.c:625
+#: ../plugins/mail-to-task/mail-to-task.c:626
 msgid "[No Summary]"
 msgstr "[Keine Zusammenfassung]"
 
-#: ../plugins/mail-to-task/mail-to-task.c:636
+#: ../plugins/mail-to-task/mail-to-task.c:637
 msgid "Invalid object returned from a server"
 msgstr "Ein ungültiges Objekt wurde vom Server zurückgegeben."
 
-#: ../plugins/mail-to-task/mail-to-task.c:707
+#: ../plugins/mail-to-task/mail-to-task.c:708
 #, c-format
 msgid "An error occurred during processing: %s"
 msgstr "Ein Fehler ist während der Verarbeitung aufgetreten: %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:736
+#: ../plugins/mail-to-task/mail-to-task.c:737
 #, c-format
 msgid "Cannot open calendar. %s"
 msgstr "Kalender konnte nicht geöffnet werden. %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:743
+#: ../plugins/mail-to-task/mail-to-task.c:744
 msgid ""
 "Selected source is read only, thus cannot create event there. Select other "
 "source, please."
@@ -18862,7 +18862,7 @@ msgstr ""
 "Die gewählte Quelle ist schreibgeschützt, daher kann kein neues Ereignis "
 "erstellt werden. Bitte wählen Sie eine andere Quelle aus."
 
-#: ../plugins/mail-to-task/mail-to-task.c:746
+#: ../plugins/mail-to-task/mail-to-task.c:747
 msgid ""
 "Selected source is read only, thus cannot create task there. Select other "
 "source, please."
@@ -18870,7 +18870,7 @@ msgstr ""
 "Die gewählte Quelle ist schreibgeschützt, daher kann keine neue Aufgabe "
 "erstellt werden. Bitte wählen Sie eine andere Quelle aus."
 
-#: ../plugins/mail-to-task/mail-to-task.c:749
+#: ../plugins/mail-to-task/mail-to-task.c:750
 msgid ""
 "Selected source is read only, thus cannot create memo there. Select other "
 "source, please."
@@ -18878,40 +18878,40 @@ msgstr ""
 "Die gewählte Quelle ist schreibgeschützt, daher kann keine neue Notiz "
 "erstellt werden. Bitte wählen Sie eine andere Quelle aus."
 
-#: ../plugins/mail-to-task/mail-to-task.c:952
+#: ../plugins/mail-to-task/mail-to-task.c:953
 #, c-format
 msgid "Cannot get source list. %s"
 msgstr "Die Liste der Quelle konnte nicht erhalten werden. %s"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1071
+#: ../plugins/mail-to-task/mail-to-task.c:1072
 msgid "Create an _Event"
 msgstr "Ein _Ereignis anlegen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1073
+#: ../plugins/mail-to-task/mail-to-task.c:1074
 msgid "Create a new event from the selected message"
 msgstr "Ein neues Ereignis mit Hilfe der gewählten Nachricht anlegen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1078
+#: ../plugins/mail-to-task/mail-to-task.c:1079
 msgid "Create a Mem_o"
 msgstr "Eine _Notiz anlegen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1080
+#: ../plugins/mail-to-task/mail-to-task.c:1081
 msgid "Create a new memo from the selected message"
 msgstr "Eine neue Notiz mit Hilfe der gewählten Nachricht anlegen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1085
+#: ../plugins/mail-to-task/mail-to-task.c:1086
 msgid "Create a _Task"
 msgstr "Eine _Aufgabe anlegen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1087
+#: ../plugins/mail-to-task/mail-to-task.c:1088
 msgid "Create a new task from the selected message"
 msgstr "Eine neue Aufgabe mit Hilfe der gewählten Nachricht anlegen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1095
+#: ../plugins/mail-to-task/mail-to-task.c:1096
 msgid "Create a _Meeting"
 msgstr "Eine _Besprechung anlegen"
 
-#: ../plugins/mail-to-task/mail-to-task.c:1097
+#: ../plugins/mail-to-task/mail-to-task.c:1098
 msgid "Create a new meeting from the selected message"
 msgstr "Eine neue Besprechung mit Hilfe der gewählten Nachricht anlegen"
 
@@ -19841,7 +19841,7 @@ msgstr "Seitenleiste anzeigen"
 msgid "Skip development warning dialog"
 msgstr "Entwicklungs-Warndialog nicht anzeigen"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:331
+#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:337
 msgid "Start in offline mode"
 msgstr "Im Offline-Modus starten"
 
@@ -20354,7 +20354,7 @@ msgid "Preparing to quit..."
 msgstr "Beenden wird vorbereitet …"
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:180
+#: ../shell/main.c:186
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -20393,7 +20393,7 @@ msgstr ""
 "Wir hoffen, dass Ihnen das Ergebnis unserer harten Arbeit\n"
 "gefällt und freuen uns auf Ihren Beitrag zu diesem Projekt!\n"
 
-#: ../shell/main.c:204
+#: ../shell/main.c:210
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -20401,55 +20401,55 @@ msgstr ""
 "Vielen Dank\n"
 "Das Evolution-Team\n"
 
-#: ../shell/main.c:211
+#: ../shell/main.c:217
 msgid "Do not tell me again"
 msgstr "Nicht mehr anzeigen"
 
-#: ../shell/main.c:327
+#: ../shell/main.c:333
 msgid "Start Evolution activating the specified component"
 msgstr "Beim Start von Evolution die angegebene Komponente aktivieren"
 
-#: ../shell/main.c:329
+#: ../shell/main.c:335
 msgid "Apply the given geometry to the main window"
 msgstr "Die angegebene Geometrie auf das Hauptfenster anwenden"
 
-#: ../shell/main.c:333
+#: ../shell/main.c:339
 msgid "Start in online mode"
 msgstr "Im Online-Modus starten"
 
-#: ../shell/main.c:335
+#: ../shell/main.c:341
 msgid "Start in \"express\" mode"
 msgstr "Im Express-Modus starten"
 
-#: ../shell/main.c:338
+#: ../shell/main.c:344
 msgid "Forcibly shut down Evolution"
 msgstr "Evolution zum Herunterfahren zwingen"
 
-#: ../shell/main.c:341
+#: ../shell/main.c:347
 msgid "Send the debugging output of all components to a file."
 msgstr "Die Diagnoseausgabe aller Komponenten in eine Datei umleiten."
 
-#: ../shell/main.c:343
+#: ../shell/main.c:349
 msgid "Disable loading of any plugins."
 msgstr "Das Laden von allen Plugins deaktivieren."
 
-#: ../shell/main.c:345
+#: ../shell/main.c:351
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Die Vorschau von E-Mails, Kontakten und Aufgaben deaktivieren."
 
-#: ../shell/main.c:349
+#: ../shell/main.c:355
 msgid "Import URIs or file names given as rest of arguments."
 msgstr "Die Adressen oder Dateinamen in den restlichen Argumenten importieren."
 
-#: ../shell/main.c:351
+#: ../shell/main.c:357
 msgid "Request a running Evolution process to quit"
 msgstr "Einen laufenden Evolution-Prozess zum Beenden auffordern"
 
-#: ../shell/main.c:475 ../shell/main.c:483
+#: ../shell/main.c:501 ../shell/main.c:509
 msgid "- The Evolution PIM and Email Client"
 msgstr "– Die Evolution PIM- und E-Mail-Anwendung"
 
-#: ../shell/main.c:545
+#: ../shell/main.c:571
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
