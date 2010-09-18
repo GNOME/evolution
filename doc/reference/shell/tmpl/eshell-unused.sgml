@@ -95,6 +95,37 @@ e-shell-window.sgml
 
 @window: 
 
+<!-- ##### FUNCTION e_activity_cancel ##### -->
+<para>
+
+</para>
+
+@activity: 
+
+<!-- ##### FUNCTION e_activity_get_allow_cancel ##### -->
+<para>
+
+</para>
+
+@activity: 
+@Returns: 
+
+<!-- ##### FUNCTION e_activity_is_cancelled ##### -->
+<para>
+
+</para>
+
+@activity: 
+@Returns: 
+
+<!-- ##### FUNCTION e_activity_set_allow_cancel ##### -->
+<para>
+
+</para>
+
+@activity: 
+@allow_cancel: 
+
 <!-- ##### FUNCTION e_get_user_data_dir ##### -->
 <para>
 

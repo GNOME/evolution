@@ -96,12 +96,13 @@ shell_taskbar_activity_add (EShellTaskbar *shell_taskbar,
 	GtkBox *box;
 	GtkWidget *proxy;
 
+	/* Proxy widgets manage their own visibility.
+	 * Don't call gtk_widget_show() on it here. */
 	proxy = e_activity_proxy_new (activity);
 	box = GTK_BOX (shell_taskbar->priv->hbox);
 	gtk_box_pack_start (box, proxy, TRUE, TRUE, 0);
 	gtk_box_reorder_child (box, proxy, 0);
 	gtk_widget_show (GTK_WIDGET (box));
-	gtk_widget_show (proxy);
 
 	g_hash_table_insert (
 		shell_taskbar->priv->proxy_table,
@@ -176,13 +177,14 @@ shell_taskbar_get_property (GObject *object,
 }
 
 static gboolean
-disconnect_remove (EActivity      *activity,
-		   EActivityProxy *proxy,
-		   EShellTaskbar  *shell_taskbar)
+disconnect_remove (EActivity *activity,
+                   EActivityProxy *proxy,
+                   EShellTaskbar *shell_taskbar)
 {
-	g_signal_handlers_disconnect_matched
-		(activity, G_SIGNAL_MATCH_DATA,
-		 0, 0, NULL, NULL, shell_taskbar);
+	g_signal_handlers_disconnect_matched (
+		activity, G_SIGNAL_MATCH_DATA,
+		0, 0, NULL, NULL, shell_taskbar);
+
 	return TRUE;
 }
 
@@ -217,9 +219,8 @@ shell_taskbar_dispose (GObject *object)
 		priv->hbox = NULL;
 	}
 
-	g_hash_table_foreach_remove (priv->proxy_table,
-				     (GHRFunc) disconnect_remove,
-				     object);
+	g_hash_table_foreach_remove (
+		priv->proxy_table, (GHRFunc) disconnect_remove, object);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_shell_taskbar_parent_class)->dispose (object);

@@ -65,18 +65,16 @@ struct _EActivityClass {
 };
 
 GType		e_activity_get_type		(void);
-EActivity *	e_activity_new			(const gchar *primary_text);
+EActivity *	e_activity_new			(void);
 EActivity *	e_activity_newv			(const gchar *format,
 						 ...) G_GNUC_PRINTF (1, 2);
-void		e_activity_cancel		(EActivity *activity);
 void		e_activity_complete		(EActivity *activity);
 void		e_activity_clicked		(EActivity *activity);
 gchar *		e_activity_describe		(EActivity *activity);
-gboolean	e_activity_is_cancelled		(EActivity *activity);
 gboolean	e_activity_is_completed		(EActivity *activity);
-gboolean	e_activity_get_allow_cancel	(EActivity *activity);
-void		e_activity_set_allow_cancel	(EActivity *activity,
-						 gboolean allow_cancel);
+GCancellable *	e_activity_get_cancellable	(EActivity *activity);
+void		e_activity_set_cancellable	(EActivity *activity,
+						 GCancellable *cancellable);
 gboolean	e_activity_get_clickable	(EActivity *activity);
 void		e_activity_set_clickable	(EActivity *activity,
 						 gboolean clickable);

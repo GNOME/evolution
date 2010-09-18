@@ -461,14 +461,12 @@ EActionComboBoxPrivate
 EActivity
 e_activity_new
 e_activity_newv
-e_activity_cancel
 e_activity_complete
 e_activity_clicked
 e_activity_describe
-e_activity_is_cancelled
 e_activity_is_completed
-e_activity_get_allow_cancel
-e_activity_set_allow_cancel
+e_activity_get_cancellable
+e_activity_set_cancellable
 e_activity_get_clickable
 e_activity_set_clickable
 e_activity_get_icon_name

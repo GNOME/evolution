@@ -31,7 +31,7 @@ e-activity
 
 </para>
 
-@primary_text: 
+@void: 
 @Returns: 
 
 
@@ -43,14 +43,6 @@ e-activity
 @format: 
 @Varargs: 
 @Returns: 
-
-
-<!-- ##### FUNCTION e_activity_cancel ##### -->
-<para>
-
-</para>
-
-@activity: 
 
 
 <!-- ##### FUNCTION e_activity_complete ##### -->
@@ -78,15 +70,6 @@ e-activity
 @Returns: 
 
 
-<!-- ##### FUNCTION e_activity_is_cancelled ##### -->
-<para>
-
-</para>
-
-@activity: 
-@Returns: 
-
-
 <!-- ##### FUNCTION e_activity_is_completed ##### -->
 <para>
 
@@ -96,7 +79,7 @@ e-activity
 @Returns: 
 
 
-<!-- ##### FUNCTION e_activity_get_allow_cancel ##### -->
+<!-- ##### FUNCTION e_activity_get_cancellable ##### -->
 <para>
 
 </para>
@@ -105,13 +88,13 @@ e-activity
 @Returns: 
 
 
-<!-- ##### FUNCTION e_activity_set_allow_cancel ##### -->
+<!-- ##### FUNCTION e_activity_set_cancellable ##### -->
 <para>
 
 </para>
 
 @activity: 
-@allow_cancel: 
+@cancellable: 
 
 
 <!-- ##### FUNCTION e_activity_get_clickable ##### -->

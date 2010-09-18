@@ -240,8 +240,11 @@ shell_prepare_for_offline (EShell *shell)
 	if (shell->priv->preparing_for_line_change != NULL)
 		return;
 
-	shell->priv->preparing_for_line_change =
-		e_activity_new (_("Preparing to go offline..."));
+	shell->priv->preparing_for_line_change = e_activity_new ();
+
+	e_activity_set_primary_text (
+		shell->priv->preparing_for_line_change,
+		_("Preparing to go offline..."));
 
 	g_object_add_toggle_ref (
 		G_OBJECT (shell->priv->preparing_for_line_change),
@@ -290,8 +293,11 @@ shell_prepare_for_online (EShell *shell)
 	if (shell->priv->preparing_for_line_change != NULL)
 		return;
 
-	shell->priv->preparing_for_line_change =
-		e_activity_new (_("Preparing to go online..."));
+	shell->priv->preparing_for_line_change = e_activity_new ();
+
+	e_activity_set_primary_text (
+		shell->priv->preparing_for_line_change,
+		_("Preparing to go online..."));
 
 	g_object_add_toggle_ref (
 		G_OBJECT (shell->priv->preparing_for_line_change),
@@ -349,8 +355,11 @@ shell_prepare_for_quit (EShell *shell)
 	if (shell->priv->preparing_for_quit != NULL)
 		return;
 
-	shell->priv->preparing_for_quit =
-		e_activity_new (_("Preparing to quit..."));
+	shell->priv->preparing_for_quit = e_activity_new ();
+
+	e_activity_set_primary_text (
+		shell->priv->preparing_for_quit,
+		_("Preparing to quit..."));
 
 	g_object_add_toggle_ref (
 		G_OBJECT (shell->priv->preparing_for_quit),

@@ -23,6 +23,7 @@
 
 #include <stdarg.h>
 #include <glib/gi18n.h>
+#include <camel/camel.h>
 
 #include "e-util/e-util.h"
 
@@ -31,20 +32,20 @@
 	((obj), E_TYPE_ACTIVITY, EActivityPrivate))
 
 struct _EActivityPrivate {
+	GCancellable *cancellable;
+
 	gchar *icon_name;
 	gchar *primary_text;
 	gchar *secondary_text;
 	gdouble percent;
 
-	guint allow_cancel	: 1;
-	guint cancelled		: 1;
 	guint clickable		: 1;
 	guint completed		: 1;
 };
 
 enum {
 	PROP_0,
-	PROP_ALLOW_CANCEL,
+	PROP_CANCELLABLE,
 	PROP_CLICKABLE,
 	PROP_ICON_NAME,
 	PROP_PERCENT,
@@ -67,6 +68,19 @@ G_DEFINE_TYPE (
 	e_activity,
 	G_TYPE_OBJECT)
 
+static void
+activity_camel_status_cb (EActivity *activity,
+                          const gchar *description,
+                          gint percent)
+{
+	/* CamelOperation::status signals are always emitted from idle
+	 * callbacks, so we don't have to screw around with locking. */
+
+	g_object_set (
+		activity, "percent", (gdouble) percent,
+		"primary-text", description, NULL);
+}
+
 static gboolean
 activity_describe_accumulator (GSignalInvocationHint *ihint,
                                GValue *return_accu,
@@ -82,16 +96,24 @@ activity_describe_accumulator (GSignalInvocationHint *ihint,
 }
 
 static void
+activity_emit_cancelled (EActivity *activity)
+{
+	/* This signal should only be emitted via our GCancellable,
+	 * which is why we don't expose this function publicly. */
+	g_signal_emit (activity, signals[CANCELLED], 0);
+}
+
+static void
 activity_set_property (GObject *object,
                        guint property_id,
                        const GValue *value,
                        GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ALLOW_CANCEL:
-			e_activity_set_allow_cancel (
+		case PROP_CANCELLABLE:
+			e_activity_set_cancellable (
 				E_ACTIVITY (object),
-				g_value_get_boolean (value));
+				g_value_get_object (value));
 			return;
 
 		case PROP_CLICKABLE:
@@ -135,9 +157,9 @@ activity_get_property (GObject *object,
                        GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ALLOW_CANCEL:
-			g_value_set_boolean (
-				value, e_activity_get_allow_cancel (
+		case PROP_CANCELLABLE:
+			g_value_set_object (
+				value, e_activity_get_cancellable (
 				E_ACTIVITY (object)));
 			return;
 
@@ -176,6 +198,26 @@ activity_get_property (GObject *object,
 }
 
 static void
+activity_dispose (GObject *object)
+{
+	EActivityPrivate *priv;
+
+	priv = E_ACTIVITY_GET_PRIVATE (object);
+
+	if (priv->cancellable != NULL) {
+		g_signal_handlers_disconnect_matched (
+			priv->cancellable,
+			G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, object);
+		g_object_unref (priv->cancellable);
+		priv->cancellable = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_activity_parent_class)->dispose (object);
+}
+
+static void
 activity_finalize (GObject *object)
 {
 	EActivityPrivate *priv;
@@ -188,12 +230,6 @@ activity_finalize (GObject *object)
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_activity_parent_class)->finalize (object);
-}
-
-static void
-activity_cancelled (EActivity *activity)
-{
-	activity->priv->cancelled = TRUE;
 }
 
 static void
@@ -212,21 +248,22 @@ static gchar *
 activity_describe (EActivity *activity)
 {
 	GString *string;
+	GCancellable *cancellable;
 	const gchar *text;
-	gboolean cancelled;
-	gboolean completed;
 	gdouble percent;
 
 	string = g_string_sized_new (256);
+	cancellable = e_activity_get_cancellable (activity);
 	text = e_activity_get_primary_text (activity);
-	cancelled = e_activity_is_cancelled (activity);
-	completed = e_activity_is_completed (activity);
 	percent = e_activity_get_percent (activity);
 
-	if (cancelled) {
+	if (text == NULL)
+		return NULL;
+
+	if (g_cancellable_is_cancelled (cancellable)) {
 		/* Translators: This is a cancelled activity. */
 		g_string_printf (string, _("%s (cancelled)"), text);
-	} else if (completed) {
+	} else if (e_activity_is_completed (activity)) {
 		/* Translators: This is a completed activity. */
 		g_string_printf (string, _("%s (completed)"), text);
 	} else if (percent < 0.0) {
@@ -254,21 +291,21 @@ e_activity_class_init (EActivityClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = activity_set_property;
 	object_class->get_property = activity_get_property;
+	object_class->dispose = activity_dispose;
 	object_class->finalize = activity_finalize;
 
-	class->cancelled = activity_cancelled;
 	class->completed = activity_completed;
 	class->clicked = activity_clicked;
 	class->describe = activity_describe;
 
 	g_object_class_install_property (
 		object_class,
-		PROP_ALLOW_CANCEL,
-		g_param_spec_boolean (
-			"allow-cancel",
+		PROP_CANCELLABLE,
+		g_param_spec_object (
+			"cancellable",
 			NULL,
 			NULL,
-			FALSE,
+			G_TYPE_CANCELLABLE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
@@ -373,11 +410,9 @@ e_activity_init (EActivity *activity)
 }
 
 EActivity *
-e_activity_new (const gchar *primary_text)
+e_activity_new (void)
 {
-	return g_object_new (
-		E_TYPE_ACTIVITY,
-		"primary-text", primary_text, NULL);
+	return g_object_new (E_TYPE_ACTIVITY, NULL);
 }
 
 EActivity *
@@ -387,9 +422,11 @@ e_activity_newv (const gchar *format, ...)
 	gchar *primary_text;
 	va_list args;
 
+	activity = e_activity_new ();
+
 	va_start (args, format);
 	primary_text = g_strdup_vprintf (format, args);
-	activity = e_activity_new (primary_text);
+	e_activity_set_primary_text (activity, primary_text);
 	g_free (primary_text);
 	va_end (args);
 
@@ -397,28 +434,15 @@ e_activity_newv (const gchar *format, ...)
 }
 
 void
-e_activity_cancel (EActivity *activity)
-{
-	g_return_if_fail (E_IS_ACTIVITY (activity));
-
-	if (!activity->priv->allow_cancel)
-		return;
-
-	if (activity->priv->cancelled)
-		return;
-
-	if (activity->priv->completed)
-		return;
-
-	g_signal_emit (activity, signals[CANCELLED], 0);
-}
-
-void
 e_activity_complete (EActivity *activity)
 {
+	GCancellable *cancellable;
+
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
-	if (activity->priv->cancelled)
+	cancellable = e_activity_get_cancellable (activity);
+
+	if (g_cancellable_is_cancelled (cancellable))
 		return;
 
 	if (activity->priv->completed)
@@ -449,14 +473,6 @@ e_activity_describe (EActivity *activity)
 }
 
 gboolean
-e_activity_is_cancelled (EActivity *activity)
-{
-	g_return_val_if_fail (E_IS_ACTIVITY (activity), FALSE);
-
-	return activity->priv->cancelled;
-}
-
-gboolean
 e_activity_is_completed (EActivity *activity)
 {
 	g_return_val_if_fail (E_IS_ACTIVITY (activity), FALSE);
@@ -464,23 +480,47 @@ e_activity_is_completed (EActivity *activity)
 	return activity->priv->completed;
 }
 
-gboolean
-e_activity_get_allow_cancel (EActivity *activity)
+GCancellable *
+e_activity_get_cancellable (EActivity *activity)
 {
-	g_return_val_if_fail (E_IS_ACTIVITY (activity), FALSE);
+	g_return_val_if_fail (E_IS_ACTIVITY (activity), NULL);
 
-	return activity->priv->allow_cancel;
+	return activity->priv->cancellable;
 }
 
 void
-e_activity_set_allow_cancel (EActivity *activity,
-                            gboolean allow_cancel)
+e_activity_set_cancellable (EActivity *activity,
+                            GCancellable *cancellable)
 {
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
-	activity->priv->allow_cancel = allow_cancel;
+	if (cancellable != NULL) {
+		g_return_if_fail (G_IS_CANCELLABLE (cancellable));
+		g_object_ref (cancellable);
+	}
 
-	g_object_notify (G_OBJECT (activity), "allow-cancel");
+	if (activity->priv->cancellable != NULL) {
+		g_signal_handlers_disconnect_matched (
+			activity->priv->cancellable,
+			G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, activity);
+		g_object_unref (activity->priv->cancellable);
+	}
+
+	activity->priv->cancellable = cancellable;
+
+	if (G_IS_CANCELLABLE (cancellable))
+		g_signal_connect_swapped (
+			cancellable, "cancelled",
+			G_CALLBACK (activity_emit_cancelled), activity);
+
+	/* If this is a CamelOperation, listen for status updates
+	 * from it and propagate them to our own status properties. */
+	if (CAMEL_IS_OPERATION (cancellable))
+		g_signal_connect_swapped (
+			cancellable, "status",
+			G_CALLBACK (activity_camel_status_cb), activity);
+
+	g_object_notify (G_OBJECT (activity), "cancellable");
 }
 
 gboolean

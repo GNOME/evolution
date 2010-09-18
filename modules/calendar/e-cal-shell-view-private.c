@@ -810,8 +810,9 @@ e_cal_shell_view_set_status_message (ECalShellView *cal_shell_view,
 			activity = NULL;
 		}
 	} else if (activity == NULL) {
-		activity = e_activity_new (status_message);
+		activity = e_activity_new ();
 		e_activity_set_percent (activity, percent);
+		e_activity_set_primary_text (activity, status_message);
 		e_shell_backend_add_activity (shell_backend, activity);
 	} else {
 		e_activity_set_percent (activity, percent);

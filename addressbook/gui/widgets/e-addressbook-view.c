@@ -1082,8 +1082,9 @@ status_message (EAddressbookView *view,
 		}
 
 	} else if (activity == NULL) {
-		activity = e_activity_new (status);
+		activity = e_activity_new ();
 		view->priv->activity = activity;
+		e_activity_set_primary_text (activity, status);
 		e_shell_backend_add_activity (shell_backend, activity);
 
 	} else

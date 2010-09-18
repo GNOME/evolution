@@ -40,16 +40,8 @@
  *     to rework or get rid of the functions that use this. */
 const gchar *shell_builtin_backend = "mail";
 
-static void mail_operation_status		(CamelOperation *op,
-						 const gchar *what,
-						 gint pc,
-						 gpointer data);
-
 /* background operation status stuff */
 struct _MailMsgPrivate {
-	/* XXX We need to keep track of the state external to the
-	 *     pointer itself for locking/race conditions. */
-	gint activity_state;
 	EActivity *activity;
 	GtkWidget *error;
 	gboolean cancelable;
@@ -63,6 +55,28 @@ static GMutex *mail_msg_lock;
 static GCond *mail_msg_cond;
 
 MailAsyncEvent *mail_async_event;
+
+static void
+mail_msg_cancelled (CamelOperation *operation,
+                    gpointer user_data)
+{
+	mail_msg_cancel (GPOINTER_TO_UINT (user_data));
+}
+
+static gboolean
+mail_msg_submit (EActivity *activity)
+{
+	EShell *shell;
+	EShellBackend *shell_backend;
+
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (
+		shell, shell_builtin_backend);
+
+	e_shell_backend_add_activity (shell_backend, activity);
+
+	return FALSE;
+}
 
 gpointer
 mail_msg_new (MailMsgInfo *info)
@@ -78,42 +92,28 @@ mail_msg_new (MailMsgInfo *info)
 	msg->cancel = camel_operation_new ();
 
 	msg->priv = g_slice_new0 (MailMsgPrivate);
+	msg->priv->activity = e_activity_new ();
 	msg->priv->cancelable = TRUE;
 
+	e_activity_set_percent (msg->priv->activity, 0.0);
+
+	e_activity_set_cancellable (
+		msg->priv->activity,
+		G_CANCELLABLE (msg->cancel));
+
 	g_signal_connect (
-		msg->cancel, "status",
-		G_CALLBACK (mail_operation_status),
+		msg->cancel, "cancelled",
+		G_CALLBACK (mail_msg_cancelled),
 		GINT_TO_POINTER (msg->seq));
 
-	g_hash_table_insert (mail_msg_active_table, GINT_TO_POINTER (msg->seq), msg);
+	g_hash_table_insert (
+		mail_msg_active_table, GINT_TO_POINTER (msg->seq), msg);
 
 	d(printf("New message %p\n", msg));
 
 	g_mutex_unlock (mail_msg_lock);
 
 	return msg;
-}
-
-static void
-end_event_callback (CamelObject *o, EActivity *activity, gpointer error)
-{
-	EShell *shell;
-	EShellBackend *shell_backend;
-
-	shell = e_shell_get_default ();
-	shell_backend = e_shell_get_backend_by_name (
-		shell, shell_builtin_backend);
-
-	if (activity != NULL) {
-		e_activity_complete (activity);
-		g_object_unref (activity);
-	}
-
-	if (error != NULL) {
-		activity = e_alert_activity_new_warning (error);
-		e_shell_backend_add_activity (shell_backend, activity);
-		g_object_unref (activity);
-	}
 }
 
 #ifdef MALLOC_CHECK
@@ -140,11 +140,31 @@ checkmem (gpointer p)
 }
 #endif
 
-static void
+static gboolean
 mail_msg_free (MailMsg *mail_msg)
 {
-	if (mail_msg->priv->activity != NULL)
+	EShell *shell;
+	EShellBackend *shell_backend;
+
+	/* This is an idle callback. */
+
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (
+		shell, shell_builtin_backend);
+
+	g_mutex_lock (mail_msg_lock);
+
+	g_hash_table_remove (
+		mail_msg_active_table,
+		GINT_TO_POINTER (mail_msg->seq));
+	g_cond_broadcast (mail_msg_cond);
+
+	g_mutex_unlock (mail_msg_lock);
+
+	if (mail_msg->priv->activity != NULL) {
+		e_activity_complete (mail_msg->priv->activity);
 		g_object_unref (mail_msg->priv->activity);
+	}
 
 	if (mail_msg->cancel != NULL)
 		g_object_unref (mail_msg->cancel);
@@ -152,8 +172,20 @@ mail_msg_free (MailMsg *mail_msg)
 	if (mail_msg->error != NULL)
 		g_error_free (mail_msg->error);
 
+	if (mail_msg->priv->error != NULL) {
+		EActivity *activity;
+		GtkWidget *widget;
+
+		widget = mail_msg->priv->error;
+		activity = e_alert_activity_new_warning (widget);
+		e_shell_backend_add_activity (shell_backend, activity);
+		g_object_unref (activity);
+	}
+
 	g_slice_free (MailMsgPrivate, mail_msg->priv);
 	g_slice_free1 (mail_msg->info->size, mail_msg);
+
+	return FALSE;
 }
 
 gpointer
@@ -172,8 +204,6 @@ void
 mail_msg_unref (gpointer msg)
 {
 	MailMsg *mail_msg = msg;
-	EActivity *activity = NULL;
-	GtkWidget *error = NULL;
 
 	g_return_if_fail (mail_msg != NULL);
 	g_return_if_fail (mail_msg->ref_count > 0);
@@ -191,36 +221,9 @@ mail_msg_unref (gpointer msg)
 	if (mail_msg->info->free)
 		mail_msg->info->free (mail_msg);
 
-	g_mutex_lock (mail_msg_lock);
-
-	g_hash_table_remove (
-		mail_msg_active_table, GINT_TO_POINTER (mail_msg->seq));
-	g_cond_broadcast (mail_msg_cond);
-
-	/* We need to make sure we dont lose a reference here YUCK YUCK */
-	/* This is tightly integrated with the code in do_op_status,
-	   as it closely relates to the CamelOperation setup in msg_new () above */
-	if (mail_msg->priv->activity_state == 1) {
-		/* tell the other to free it itself */
-		mail_msg->priv->activity_state = 3;
-		g_mutex_unlock (mail_msg_lock);
-		return;
-	} else {
-		activity = mail_msg->priv->activity;
-		if (activity != NULL)
-			g_object_ref (activity);
-		error = mail_msg->priv->error;
-	}
-
-	g_mutex_unlock (mail_msg_lock);
-
-	mail_msg_free (mail_msg);
-
-	if (activity != NULL)
-		mail_async_event_emit (
-			mail_async_event, MAIL_ASYNC_GUI,
-			(MailAsyncFunc) end_event_callback,
-			NULL, activity, error);
+	/* Destroy the message from an idle callback
+	 * so we know we're in the main loop thread. */
+	g_idle_add ((GSourceFunc) mail_msg_free, mail_msg);
 }
 
 /* hash table of ops->dialogue of active errors */
@@ -442,6 +445,11 @@ mail_msg_idle_cb (void)
 	G_UNLOCK (idle_source_id);
 	/* check the main loop queue */
 	while ((msg = g_async_queue_try_pop (main_loop_queue)) != NULL) {
+		g_idle_add_full (
+			G_PRIORITY_DEFAULT,
+			(GSourceFunc) mail_msg_submit,
+			g_object_ref (msg->priv->activity),
+			(GDestroyNotify) g_object_unref);
 		if (msg->info->exec != NULL)
 			msg->info->exec (msg);
 		if (msg->info->done != NULL)
@@ -468,6 +476,12 @@ mail_msg_proxy (MailMsg *msg)
 		camel_operation_start (msg->cancel, "%s", text);
 		g_free (text);
 	}
+
+	g_idle_add_full (
+		G_PRIORITY_DEFAULT,
+		(GSourceFunc) mail_msg_submit,
+		g_object_ref (msg->priv->activity),
+		(GDestroyNotify) g_object_unref);
 
 	if (msg->info->exec != NULL)
 		msg->info->exec (msg);
@@ -838,154 +852,6 @@ mail_call_main (mail_call_t type, MailMainFunc func, ...)
 	mail_msg_unref (m);
 
 	return ret;
-}
-
-/* ******************************************************************************** */
-
-struct _op_status_msg {
-	MailMsg base;
-
-	CamelOperation *op;
-	gchar *what;
-	gint pc;
-	gpointer data;
-};
-
-static void
-op_cancelled_cb (EActivity *activity,
-                 gpointer user_data)
-{
-	mail_msg_cancel (GPOINTER_TO_UINT (user_data));
-}
-
-static void
-op_status_exec (struct _op_status_msg *m)
-{
-	EShell *shell;
-	EShellBackend *shell_backend;
-	MailMsg *msg;
-	MailMsgPrivate *data;
-	gchar *out, *p, *o, c;
-	gint pc;
-
-	g_return_if_fail (mail_in_main_thread ());
-
-	shell = e_shell_get_default ();
-	shell_backend = e_shell_get_backend_by_name (
-		shell, shell_builtin_backend);
-
-	g_mutex_lock (mail_msg_lock);
-
-	msg = g_hash_table_lookup (mail_msg_active_table, m->data);
-
-	if (msg == NULL) {
-		g_mutex_unlock (mail_msg_lock);
-		return;
-	}
-
-	data = msg->priv;
-
-	out = g_alloca (strlen (m->what) * 2 + 1);
-	o = out;
-	p = m->what;
-	while ((c = *p++)) {
-		if (c == '%')
-			*o++ = '%';
-		*o++ = c;
-	}
-	*o = 0;
-
-	pc = m->pc;
-
-	if (data->activity == NULL) {
-		gchar *what;
-
-		/* its being created/removed?  well leave it be */
-		if (data->activity_state == 1 || data->activity_state == 3) {
-			g_mutex_unlock (mail_msg_lock);
-			return;
-		} else {
-			data->activity_state = 1;
-
-			g_mutex_unlock (mail_msg_lock);
-			if (msg->info->desc)
-				what = msg->info->desc (msg);
-			else if (m->what)
-				what = g_strdup (m->what);
-			/* uncommenting because message is not very useful for a user, see bug 271734*/
-			else {
-				what = g_strdup("");
-			}
-
-			data->activity = e_activity_new (what);
-			e_activity_set_allow_cancel (data->activity, TRUE);
-			e_activity_set_percent (data->activity, 0.0);
-			e_shell_backend_add_activity (shell_backend, data->activity);
-
-			g_signal_connect (
-				data->activity, "cancelled",
-				G_CALLBACK (op_cancelled_cb),
-				GUINT_TO_POINTER (msg->seq));
-
-			g_free (what);
-			g_mutex_lock (mail_msg_lock);
-			if (data->activity_state == 3) {
-				EActivity *activity;
-
-				activity = g_object_ref (data->activity);
-
-				g_mutex_unlock (mail_msg_lock);
-				mail_msg_free (msg);
-
-				if (activity != 0)
-					mail_async_event_emit (
-						mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc) end_event_callback,
-								NULL, activity, NULL);
-			} else {
-				data->activity_state = 2;
-				g_mutex_unlock (mail_msg_lock);
-			}
-			return;
-		}
-	} else if (data->activity != NULL) {
-		e_activity_set_primary_text (data->activity, out);
-		e_activity_set_percent (data->activity, pc);
-		g_mutex_unlock (mail_msg_lock);
-	} else {
-		g_mutex_unlock (mail_msg_lock);
-	}
-}
-
-static void
-op_status_free (struct _op_status_msg *m)
-{
-	g_free (m->what);
-}
-
-static MailMsgInfo op_status_info = {
-	sizeof (struct _op_status_msg),
-	(MailMsgDescFunc) NULL,
-	(MailMsgExecFunc) op_status_exec,
-	(MailMsgDoneFunc) NULL,
-	(MailMsgFreeFunc) op_status_free
-};
-
-static void
-mail_operation_status (CamelOperation *op,
-                       const gchar *what,
-                       gint pc,
-                       gpointer data)
-{
-	struct _op_status_msg *m;
-
-	d(printf("got operation statys: %s %d%%\n", what, pc));
-
-	m = mail_msg_new (&op_status_info);
-	m->op = op;
-	m->what = g_strdup (what);
-	m->pc = pc;
-	m->data = data;
-	mail_msg_main_loop_push (m);
 }
 
 void

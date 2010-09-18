@@ -168,7 +168,7 @@ e_timeout_activity_set_timeout (ETimeoutActivity *timeout_activity,
 	g_return_if_fail (E_IS_TIMEOUT_ACTIVITY (timeout_activity));
 
 	if (timeout_activity->priv->timeout_id > 0)
-		e_activity_cancel (E_ACTIVITY (timeout_activity));
+		g_source_remove (timeout_activity->priv->timeout_id);
 
 	timeout_activity->priv->timeout_id = g_timeout_add_seconds (
 		seconds, (GSourceFunc) timeout_activity_cb, timeout_activity);

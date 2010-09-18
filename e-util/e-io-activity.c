@@ -27,13 +27,11 @@
 
 struct _EIOActivityPrivate {
 	GAsyncResult *async_result;
-	GCancellable *cancellable;
 };
 
 enum {
 	PROP_0,
-	PROP_ASYNC_RESULT,
-	PROP_CANCELLABLE
+	PROP_ASYNC_RESULT
 };
 
 G_DEFINE_TYPE (
@@ -50,12 +48,6 @@ io_activity_set_property (GObject *object,
 	switch (property_id) {
 		case PROP_ASYNC_RESULT:
 			e_io_activity_set_async_result (
-				E_IO_ACTIVITY (object),
-				g_value_get_object (value));
-			return;
-
-		case PROP_CANCELLABLE:
-			e_io_activity_set_cancellable (
 				E_IO_ACTIVITY (object),
 				g_value_get_object (value));
 			return;
@@ -76,12 +68,6 @@ io_activity_get_property (GObject *object,
 				value, e_io_activity_get_async_result (
 				E_IO_ACTIVITY (object)));
 			return;
-
-		case PROP_CANCELLABLE:
-			g_value_set_object (
-				value, e_io_activity_get_cancellable (
-				E_IO_ACTIVITY (object)));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -99,29 +85,8 @@ io_activity_dispose (GObject *object)
 		priv->async_result = NULL;
 	}
 
-	if (priv->cancellable != NULL) {
-		g_object_unref (priv->cancellable);
-		priv->cancellable = NULL;
-	}
-
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_io_activity_parent_class)->dispose (object);
-}
-
-static void
-io_activity_cancelled (EActivity *activity)
-{
-	EIOActivity *io_activity;
-	GCancellable *cancellable;
-
-	/* Chain up to parent's cancelled() method. */
-	E_ACTIVITY_CLASS (e_io_activity_parent_class)->cancelled (activity);
-
-	io_activity = E_IO_ACTIVITY (activity);
-	cancellable = e_io_activity_get_cancellable (io_activity);
-
-	if (cancellable != NULL)
-		g_cancellable_cancel (cancellable);
 }
 
 static void
@@ -158,7 +123,6 @@ e_io_activity_class_init (EIOActivityClass *class)
 	object_class->dispose = io_activity_dispose;
 
 	activity_class = E_ACTIVITY_CLASS (class);
-	activity_class->cancelled = io_activity_cancelled;
 	activity_class->completed = io_activity_completed;
 
 	g_object_class_install_property (
@@ -169,17 +133,6 @@ e_io_activity_class_init (EIOActivityClass *class)
 			"Asynchronous Result",
 			NULL,
 			G_TYPE_ASYNC_RESULT,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_CANCELLABLE,
-		g_param_spec_object (
-			"cancellable",
-			"Cancellable",
-			NULL,
-			G_TYPE_CANCELLABLE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 }
@@ -236,36 +189,3 @@ e_io_activity_set_async_result (EIOActivity *io_activity,
 	g_object_notify (G_OBJECT (io_activity), "async-result");
 }
 
-GCancellable *
-e_io_activity_get_cancellable (EIOActivity *io_activity)
-{
-	g_return_val_if_fail (E_IS_IO_ACTIVITY (io_activity), NULL);
-
-	return io_activity->priv->cancellable;
-}
-
-void
-e_io_activity_set_cancellable (EIOActivity *io_activity,
-                               GCancellable *cancellable)
-{
-	g_return_if_fail (E_IS_IO_ACTIVITY (io_activity));
-
-	if (cancellable != NULL) {
-		g_return_if_fail (G_IS_CANCELLABLE (cancellable));
-		g_object_ref (cancellable);
-	}
-
-	if (io_activity->priv->cancellable != NULL)
-		g_object_unref (io_activity->priv->cancellable);
-
-	io_activity->priv->cancellable = cancellable;
-
-	g_object_freeze_notify (G_OBJECT (io_activity));
-
-	e_activity_set_allow_cancel (
-		E_ACTIVITY (io_activity), (cancellable != NULL));
-
-	g_object_notify (G_OBJECT (io_activity), "cancellable");
-
-	g_object_thaw_notify (G_OBJECT (io_activity));
-}

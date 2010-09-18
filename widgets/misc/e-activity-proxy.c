@@ -47,19 +47,33 @@ G_DEFINE_TYPE (
 	GTK_TYPE_EVENT_BOX)
 
 static void
+activity_proxy_cancel (EActivity *activity)
+{
+	GCancellable *cancellable;
+
+	/* We shouldn't get here unless the EActivity has a GCancellable,
+	 * since otherwise the cancel button is invisible and unclickable.
+	 * g_cancellable_cancel() will emit a warning if this breaks. */
+
+	cancellable = e_activity_get_cancellable (activity);
+	g_cancellable_cancel (cancellable);
+}
+
+static void
 activity_proxy_update (EActivityProxy *proxy)
 {
-	EActivity *activity = proxy->priv->activity;
+	EActivity *activity;
+	GCancellable *cancellable;
 	const gchar *icon_name;
-	gboolean allow_cancel;
 	gboolean cancelled;
 	gboolean clickable;
 	gboolean completed;
 	gboolean sensitive;
 	gchar *description;
 
-	allow_cancel = e_activity_get_allow_cancel (activity);
-	cancelled = e_activity_is_cancelled (activity);
+	activity = proxy->priv->activity;
+	cancellable = e_activity_get_cancellable (activity);
+	cancelled = g_cancellable_is_cancelled (cancellable);
 	clickable = e_activity_get_clickable (activity);
 	completed = e_activity_is_completed (activity);
 	icon_name = e_activity_get_icon_name (activity);
@@ -67,6 +81,7 @@ activity_proxy_update (EActivityProxy *proxy)
 	description = e_activity_describe (activity);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (proxy), description);
 	gtk_label_set_text (GTK_LABEL (proxy->priv->label), description);
+	gtk_widget_set_visible (GTK_WIDGET (proxy), (description != NULL));
 	g_free (description);
 
 	/* Note, an activity requires an icon name in order to
@@ -93,7 +108,7 @@ activity_proxy_update (EActivityProxy *proxy)
 		gtk_widget_hide (proxy->priv->image);
 	}
 
-	if (allow_cancel)
+	if (cancellable != NULL)
 		gtk_widget_show (proxy->priv->cancel);
 	else
 		gtk_widget_hide (proxy->priv->cancel);
@@ -202,7 +217,7 @@ activity_proxy_constructed (GObject *object)
 
 	g_signal_connect_swapped (
 		proxy->priv->cancel, "clicked",
-		G_CALLBACK (e_activity_cancel), proxy->priv->activity);
+		G_CALLBACK (activity_proxy_cancel), proxy->priv->activity);
 
 	g_signal_connect_swapped (
 		proxy->priv->activity, "cancelled",
