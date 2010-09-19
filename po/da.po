@@ -66,8 +66,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-15 20:35+0200\n"
-"PO-Revision-Date: 2010-09-14 21:02+0200\n"
+"POT-Creation-Date: 2010-09-19 17:34+0200\n"
+"PO-Revision-Date: 2010-09-19 17:22+0200\n"
 "Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "MIME-Version: 1.0\n"
@@ -2995,7 +2995,7 @@ msgstr "før"
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:16
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:8
 msgid "day(s)"
-msgstr "dag(er)"
+msgstr "dage"
 
 #. Translators: This is the last part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
@@ -3019,11 +3019,11 @@ msgstr "ekstra gange hver"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:21
 msgid "hour(s)"
-msgstr "time(r)"
+msgstr "timer"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:23
 msgid "minute(s)"
-msgstr "minutt(er)"
+msgstr "minutter"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:25
 msgid "start of appointment"
@@ -4055,7 +4055,7 @@ msgstr "_Tid:"
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:10
 #, fuzzy
 msgid "for"
-msgstr "varighed"
+msgstr "i"
 
 #. TRANSLATORS: 'until' in a sense of 'duration'; example string: Time: [date] [time] until [ date ] [ time ]
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
@@ -4318,13 +4318,13 @@ msgstr "altid"
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:14
 #, fuzzy
 msgid "month(s)"
-msgstr "måned(er)"
+msgstr "måneder"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:18
 #, fuzzy
 msgid "week(s)"
-msgstr "uge(r)"
+msgstr "uger"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:20
@@ -21950,32 +21950,26 @@ msgstr "Marker alt"
 msgid "Input Methods"
 msgstr "Indtastningsmetoder"
 
-#~| msgid "day(s)"
 #~ msgctxt "recurrpage"
 #~ msgid "day(s)"
-#~ msgstr "dag(e)"
+#~ msgstr "dage"
 
-#~| msgid "for"
 #~ msgctxt "recurrpage"
 #~ msgid "for"
 #~ msgstr "for"
 
-#~| msgid "until"
 #~ msgctxt "recurrpage"
 #~ msgid "until"
 #~ msgstr "indtil"
 
-#~| msgid "days"
 #~ msgctxt "ESendOptionsAfter"
 #~ msgid "days"
 #~ msgstr "dage"
 
-#~| msgid "days"
 #~ msgctxt "ESendOptionsWithin"
 #~ msgid "days"
 #~ msgstr "dage"
 
-#~| msgid "None"
 #~ msgctxt "send-options"
 #~ msgid "None"
 #~ msgstr "Ingen"
