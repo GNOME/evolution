@@ -65,8 +65,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-19 17:34+0200\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=evolution\n"
+"POT-Creation-Date: 2010-09-18 10:36+0000\n"
 "PO-Revision-Date: 2010-09-19 17:22+0200\n"
 "Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -319,7 +320,7 @@ msgid "Blog:"
 msgstr "Blog:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:5
-#: ../calendar/gui/dialogs/event-page.ui.h:10
+#: ../calendar/gui/dialogs/event-page.ui.h:4
 #: ../calendar/gui/dialogs/memo-page.ui.h:1
 msgid "Ca_tegories..."
 msgstr "Ka_tegorier..."
@@ -458,7 +459,7 @@ msgstr "_Blog:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:33
 #: ../calendar/gui/dialogs/event-page.c:882
-#: ../calendar/gui/dialogs/event-page.ui.h:17
+#: ../calendar/gui/dialogs/event-page.ui.h:11
 #: ../plugins/itip-formatter/itip-view.c:1921
 msgid "_Calendar:"
 msgstr "_Kalender:"
@@ -955,7 +956,7 @@ msgid "Car Phone"
 msgstr "Biltelefon"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:8
-#: ../calendar/gui/dialogs/event-page.ui.h:11
+#: ../calendar/gui/dialogs/event-page.ui.h:5
 #: ../calendar/gui/e-cal-list-view.etspec.h:1
 #: ../calendar/gui/e-calendar-table.etspec.h:3
 #: ../calendar/gui/e-memo-table.etspec.h:1
@@ -2059,7 +2060,7 @@ msgstr "_Udsæt"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:7
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:22
-#: ../calendar/gui/dialogs/event-page.ui.h:24 ../e-util/e-plugin-util.c:424
+#: ../calendar/gui/dialogs/event-page.ui.h:26 ../e-util/e-plugin-util.c:424
 #: ../filter/filter.ui.h:15
 #: ../plugins/google-account-setup/google-contacts-source.c:335
 msgid "hours"
@@ -2072,7 +2073,7 @@ msgstr "placering af aftale"
 #. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:9
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:24
-#: ../calendar/gui/dialogs/event-page.ui.h:25 ../e-util/e-plugin-util.c:423
+#: ../calendar/gui/dialogs/event-page.ui.h:27 ../e-util/e-plugin-util.c:423
 #: ../filter/filter.ui.h:17 ../modules/addressbook/ldap-config.ui.h:34
 #: ../plugins/google-account-setup/google-contacts-source.c:334
 msgid "minutes"
@@ -2991,20 +2992,16 @@ msgstr "efter"
 msgid "before"
 msgstr "før"
 
-#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:16
-#: ../calendar/gui/dialogs/recurrence-page.ui.h:8
 msgid "day(s)"
 msgstr "dage"
 
 #. Translators: This is the last part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
-#. Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:17 ../e-util/e-plugin-util.c:425
 #: ../filter/filter.ui.h:14 ../modules/calendar/e-cal-shell-view-actions.c:336
 #: ../plugins/google-account-setup/google-contacts-source.c:336
 #: ../plugins/publish-calendar/publish-calendar.ui.h:30
-#: ../widgets/misc/e-send-options.ui.h:43
 msgid "days"
 msgstr "dage"
 
@@ -3039,13 +3036,14 @@ msgstr "_Tilføj"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:2
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:9
-#: ../calendar/gui/dialogs/event-page.ui.h:7
+#: ../calendar/gui/dialogs/event-page.ui.h:1
 msgid "Alarms"
 msgstr "Påmindelser"
 
 #. Translators: "None" indicates no second time zone set for a day view
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:108
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:157
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:75
 #: ../calendar/gui/e-day-view-time-item.c:797
 msgctxt "cal-second-zone"
 msgid "None"
@@ -3160,199 +3158,191 @@ msgstr "Minutter"
 msgid "Monday"
 msgstr "Mandag"
 
-#. Translators: "None" for not including threads;
-#. * part of "Include threads: None"
-#. Translators: Used in send options dialog
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:23
-#: ../filter/e-filter-rule.c:749 ../widgets/misc/e-send-options.ui.h:12
-msgid "None"
-msgstr "Ingen"
-
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:24
 #: ../mail/mail-config.ui.h:85
 msgid "Pick a color"
 msgstr "Vælg en farve"
 
 #. Sunday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:26
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:25
 msgid "S_un"
 msgstr "_Søn"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:27
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:26
 #: ../calendar/gui/dialogs/recurrence-page.c:1117
 #: ../calendar/gui/e-itip-control.c:739
 msgid "Saturday"
 msgstr "Lørdag"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:28
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:27
 msgid "Sc_roll Month View by a week"
 msgstr "_Rul månedsvisningen med en uge ad gangen"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:29
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:28
 msgid "Se_cond zone:"
 msgstr "An_den zone:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:30
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:29
 msgid "Select the calendars for alarm notification"
 msgstr "Vælg kalendere hvor påmindelser ved alarm skal aktiveres"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:32
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:31
 msgid "Sh_ow a reminder"
 msgstr "_Vis en påmindelse"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:34
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:33
 msgid "Show a _reminder"
 msgstr "Vis en på_mindelse"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:35
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:34
 msgid "Show week _numbers"
 msgstr "Vis uge_numre"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:36
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:35
 #: ../calendar/gui/dialogs/recurrence-page.c:1118
 #: ../calendar/gui/e-itip-control.c:733
 msgid "Sunday"
 msgstr "Søndag"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:37
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:36
 msgid "T_asks due today:"
 msgstr "_Dagens opgaver:"
 
 #. Thursday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:39
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:38
 msgid "T_hu"
 msgstr "T_or"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:40
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:39
 #: ../calendar/gui/dialogs/calendar-setup.c:381
 msgid "Task List"
 msgstr "Opgaveliste"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:41
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:40
 msgid "Template:"
 msgstr "Skabelon:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:42
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:41
 #: ../calendar/gui/dialogs/recurrence-page.c:1115
 #: ../calendar/gui/e-itip-control.c:737
 msgid "Thursday"
 msgstr "Torsdag"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:43
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:42
 #: ../e-util/e-non-intrusive-error-dialog.c:287
 #: ../widgets/misc/e-dateedit.c:595
 msgid "Time"
 msgstr "Tid"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:44
-#: ../calendar/gui/dialogs/event-page.ui.h:15
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:43
+#: ../calendar/gui/dialogs/event-page.ui.h:9
 msgid "Time _zone:"
 msgstr "Tids_zone:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:45
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:44
 msgid "Time format:"
 msgstr "Tidsformat:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:46
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:45
 #: ../calendar/gui/dialogs/recurrence-page.c:1113
 #: ../calendar/gui/e-itip-control.c:735
 msgid "Tuesday"
 msgstr "Tirsdag"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:47
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:46
 msgid "Use s_ystem time zone"
 msgstr "Brug s_ystemtidszonen"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:48
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:47
 #: ../calendar/gui/dialogs/recurrence-page.c:1114
 #: ../calendar/gui/e-itip-control.c:736
 msgid "Wednesday"
 msgstr "Onsdag"
 
 #. A weekday like "Monday" follows
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:50
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:49
 msgid "Wee_k starts on:"
 msgstr "_Ugen starter:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:51
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:50
 #: ../modules/calendar/e-cal-shell-view-actions.c:1639
 msgid "Work Week"
 msgstr "Arbejdsuge"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:52
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:51
 msgid "Work days:"
 msgstr "Arbejdsdage:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:53
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:52
 msgid "_12 hour (AM/PM)"
 msgstr "_12 timer (AM/PM)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:54
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:53
 msgid "_24 hour"
 msgstr "_24 timer"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:55
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:54
 msgid "_Ask for confirmation when deleting items"
 msgstr "Spørg efter bekræftelse ved sletning _af tilførsler"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:56
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:55
 msgid "_Compress weekends in month view"
 msgstr "_Komprimér weekender i månedsvisning"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:57
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:56
 msgid "_Day begins:"
 msgstr "_Dagen begynder:"
 
 #. Friday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:59
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:58
 msgid "_Fri"
 msgstr "_Fre"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:60
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:59
 msgid "_Hide completed tasks after"
 msgstr "Sk_jul udførte opgaver efter"
 
 #. Monday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:62
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:61
 msgid "_Mon"
 msgstr "_Man"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:63
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:62
 msgid "_Overdue tasks:"
 msgstr "_Opgaver der skulle have været udført:"
 
 #. Saturday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:65
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:64
 msgid "_Sat"
 msgstr "L_ør"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:66
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:65
 msgid "_Show appointment end times in week and month view"
 msgstr "_Vis sluttiderne for aftaler i uge- og måneds-oversigterne"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:67
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:66
 msgid "_Time divisions:"
 msgstr "_Tidsinddelinger:"
 
 #. Tuesday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:69
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:68
 msgid "_Tue"
 msgstr "T_irs"
 
 #. Wednesday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:71
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:70
 msgid "_Wed"
 msgstr "_Ons"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:73
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:72
 msgid "before every anniversary/birthday"
 msgstr "før hver jubilæum/fødselsdag"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:75
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:74
 msgid "before every appointment"
 msgstr "før hver aftale"
 
@@ -3829,7 +3819,7 @@ msgstr "Gør denne begivenhed tilbagevendende"
 #: ../calendar/gui/dialogs/event-editor.c:245
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../plugins/groupwise-features/send-options.c:212
-#: ../widgets/misc/e-send-options.ui.h:19
+#: ../widgets/misc/e-send-options.ui.h:22
 msgid "Send Options"
 msgstr "Afsendelsesindstillinger"
 
@@ -3859,7 +3849,7 @@ msgid "Appointment"
 msgstr "Aftale"
 
 #: ../calendar/gui/dialogs/event-editor.c:385
-#: ../calendar/gui/dialogs/event-page.ui.h:9
+#: ../calendar/gui/dialogs/event-page.ui.h:3
 #: ../calendar/gui/e-meeting-list-view.c:148
 msgid "Attendees"
 msgstr "Deltagere"
@@ -3888,7 +3878,7 @@ msgid "This event has alarms"
 msgstr "Denne begivenhed har påmindelser"
 
 #: ../calendar/gui/dialogs/event-page.c:890
-#: ../calendar/gui/dialogs/event-page.ui.h:14
+#: ../calendar/gui/dialogs/event-page.ui.h:8
 #: ../calendar/gui/dialogs/memo-page.ui.h:2
 msgid "Or_ganizer:"
 msgstr "Or_ganisator:"
@@ -3993,75 +3983,71 @@ msgctxt "cal-alarms"
 msgid "None"
 msgstr "Ingen"
 
-#. TRANSLATORS: Predefined alarm's description
 #: ../calendar/gui/dialogs/event-page.ui.h:2
-#, fuzzy
-msgid "1 day before appointment"
-msgstr "1 dag før aftalen"
-
-#. TRANSLATORS: Predefined alarm's description
-#: ../calendar/gui/dialogs/event-page.ui.h:4
-#, fuzzy
-msgid "1 hour before appointment"
-msgstr "1 time før aftalen"
-
-#. TRANSLATORS: Predefined alarm's description
-#: ../calendar/gui/dialogs/event-page.ui.h:6
-#, fuzzy
-msgid "15 minutes before appointment"
-msgstr "15 minutter før aftalen"
-
-#: ../calendar/gui/dialogs/event-page.ui.h:8
 #: ../calendar/gui/dialogs/task-page.ui.h:1
 #: ../calendar/gui/e-meeting-time-sel.c:578
 msgid "Atte_ndees..."
 msgstr "D_eltagere..."
 
-#: ../calendar/gui/dialogs/event-page.ui.h:12
+#: ../calendar/gui/dialogs/event-page.ui.h:6
 msgid "Custom Alarm:"
 msgstr "Brugertilpasset lyd ved påmindelser:"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:13
+#: ../calendar/gui/dialogs/event-page.ui.h:7
 msgid "Event Description"
 msgstr "Beskrivelse af begivenhed"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:16
+#: ../calendar/gui/dialogs/event-page.ui.h:10
 msgid "_Alarm"
 msgstr "_Påmindelser"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:18
+#: ../calendar/gui/dialogs/event-page.ui.h:12
 #: ../calendar/gui/dialogs/memo-page.ui.h:6
 #: ../calendar/gui/dialogs/task-page.ui.h:8
 #: ../widgets/misc/e-attachment-dialog.c:349
 msgid "_Description:"
 msgstr "_Beskrivelse:"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:19
+#: ../calendar/gui/dialogs/event-page.ui.h:13
 #: ../plugins/calendar-weather/calendar-weather.c:358
 msgid "_Location:"
 msgstr "_Sted:"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:20
+#: ../calendar/gui/dialogs/event-page.ui.h:14
 msgid "_Summary:"
 msgstr "_Sammendrag:"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:21
+#: ../calendar/gui/dialogs/event-page.ui.h:15
 msgid "_Time:"
 msgstr "_Tid:"
 
+#. TRANSLATORS: Predefined alarm's description
+#: ../calendar/gui/dialogs/event-page.ui.h:17
+msgctxt "eventpage"
+msgid "1 day before appointment"
+msgstr "1 dag før aftalen"
+
+#. TRANSLATORS: Predefined alarm's description
+#: ../calendar/gui/dialogs/event-page.ui.h:19
+msgctxt "eventpage"
+msgid "1 hour before appointment"
+msgstr "1 time før aftalen"
+
+#. TRANSLATORS: Predefined alarm's description
+#: ../calendar/gui/dialogs/event-page.ui.h:21
+msgctxt "eventpage"
+msgid "15 minutes before appointment"
+msgstr "15 minutter før aftalen"
+
 #. TRANSLATORS: 'for' in a sense of 'duration'; example string: Time: [date] [time] for [ H ] hours [ M ] minutes
-#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/event-page.ui.h:23
-#: ../calendar/gui/dialogs/recurrence-page.ui.h:10
-#, fuzzy
+msgctxt "eventpage"
 msgid "for"
 msgstr "i"
 
 #. TRANSLATORS: 'until' in a sense of 'duration'; example string: Time: [date] [time] until [ date ] [ time ]
-#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/dialogs/event-page.ui.h:27
-#: ../calendar/gui/dialogs/recurrence-page.ui.h:16
-#, fuzzy
+#: ../calendar/gui/dialogs/event-page.ui.h:25
+msgctxt "eventpage"
 msgid "until"
 msgstr "indtil"
 
@@ -4309,26 +4295,44 @@ msgid "This appointment rec_urs"
 msgstr "Denne aftale er gen_tages"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:8
+msgctxt "recurrpage"
+msgid "day(s)"
+msgstr "dage"
+
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:10
+msgctxt "recurrpage"
+msgid "for"
+msgstr "for"
+
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:12
-#, fuzzy
+msgctxt "recurrpage"
 msgid "forever"
 msgstr "altid"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:14
-#, fuzzy
+msgctxt "recurrpage"
 msgid "month(s)"
 msgstr "måneder"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:16
+msgctxt "recurrpage"
+msgid "until"
+msgstr "indtil"
+
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:18
-#, fuzzy
+msgctxt "recurrpage"
 msgid "week(s)"
 msgstr "uger"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:20
-#, fuzzy
+msgctxt "recurrpage"
 msgid "year(s)"
 msgstr "år"
 
@@ -4378,7 +4382,7 @@ msgstr "Fuldført"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:6
 #: ../calendar/gui/e-cal-component-preview.c:314
 #: ../calendar/gui/e-task-table.c:511 ../calendar/gui/tasktypes.xml.h:14
-#: ../mail/message-list.c:1183 ../widgets/misc/e-send-options.ui.h:8
+#: ../mail/message-list.c:1183 ../widgets/misc/e-send-options.ui.h:13
 msgid "High"
 msgstr "Høj"
 
@@ -4397,7 +4401,7 @@ msgstr "I gang"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:10
 #: ../calendar/gui/e-cal-component-preview.c:318
 #: ../calendar/gui/e-task-table.c:513 ../calendar/gui/tasktypes.xml.h:16
-#: ../mail/message-list.c:1181 ../widgets/misc/e-send-options.ui.h:9
+#: ../mail/message-list.c:1181 ../widgets/misc/e-send-options.ui.h:14
 msgid "Low"
 msgstr "Lav"
 
@@ -4406,7 +4410,7 @@ msgstr "Lav"
 #: ../calendar/gui/e-cal-component-preview.c:316
 #: ../calendar/gui/e-cal-model.c:1269 ../calendar/gui/e-task-table.c:512
 #: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1182
-#: ../widgets/misc/e-send-options.ui.h:13
+#: ../widgets/misc/e-send-options.ui.h:16
 msgid "Normal"
 msgstr "Normal"
 
@@ -4443,7 +4447,7 @@ msgstr "Status"
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-details-page.ui.h:20
 #: ../calendar/gui/e-task-table.c:514 ../calendar/gui/tasktypes.xml.h:24
-#: ../widgets/misc/e-send-options.ui.h:24
+#: ../widgets/misc/e-send-options.ui.h:27
 msgid "Undefined"
 msgstr "Udefineret"
 
@@ -4452,7 +4456,7 @@ msgid "_Date completed:"
 msgstr "_Dato for fuldførelse:"
 
 #: ../calendar/gui/dialogs/task-details-page.ui.h:22
-#: ../widgets/misc/e-send-options.ui.h:36
+#: ../widgets/misc/e-send-options.ui.h:35
 msgid "_Priority:"
 msgstr "_Prioritet:"
 
@@ -9215,11 +9219,17 @@ msgstr "Hvis én eller flere betingelser er opfyldt"
 msgid "_Find items:"
 msgstr "_Find punkter:"
 
+#. Translators: "None" for not including threads;
+#. * part of "Include threads: None"
+#: ../filter/e-filter-rule.c:749
+msgid "None"
+msgstr "Ingen"
+
 #: ../filter/e-filter-rule.c:750
 msgid "All related"
 msgstr "Alle relaterede"
 
-#: ../filter/e-filter-rule.c:751 ../widgets/misc/e-send-options.ui.h:16
+#: ../filter/e-filter-rule.c:751 ../widgets/misc/e-send-options.ui.h:19
 msgid "Replies"
 msgstr "Svar"
 
@@ -16903,7 +16913,7 @@ msgid "Protected"
 msgstr "Beskyttet"
 
 #: ../plugins/email-custom-header/email-custom-header.c:324
-#: ../widgets/misc/e-send-options.ui.h:18
+#: ../widgets/misc/e-send-options.ui.h:21
 msgid "Secret"
 msgstr "Hemmeligt"
 
@@ -21470,102 +21480,115 @@ msgid "Delivery Options"
 msgstr "Valgmuligheder for levering"
 
 #: ../widgets/misc/e-send-options.ui.h:6
-msgid "For Your Eyes Only"
-msgstr "Som kun du må se"
-
-#: ../widgets/misc/e-send-options.ui.h:7
-msgid "Gene_ral Options"
-msgstr "Gene_relle valgmuligheder"
-
-#: ../widgets/misc/e-send-options.ui.h:10
-msgid "Mail Receipt"
-msgstr "Kvittering for brev"
-
-#: ../widgets/misc/e-send-options.ui.h:14
-msgid "Proprietary"
-msgstr "Proprietær"
-
-#: ../widgets/misc/e-send-options.ui.h:15
-msgid "R_eply requested"
-msgstr "_Svar forespurgt"
-
-#: ../widgets/misc/e-send-options.ui.h:17
-msgid "Return Notification"
-msgstr "Returnér påmindelse"
-
-#: ../widgets/misc/e-send-options.ui.h:20
-msgid "Sta_tus Tracking"
-msgstr "Sta_tus-sporing"
-
-#: ../widgets/misc/e-send-options.ui.h:21
-msgid "Standard"
-msgstr "Standard"
-
-#: ../widgets/misc/e-send-options.ui.h:22
-msgid "Status Tracking"
-msgstr "Statussporing"
-
-#: ../widgets/misc/e-send-options.ui.h:23
-msgid "Top Secret"
-msgstr "Strengt fortroligt"
-
-#: ../widgets/misc/e-send-options.ui.h:25
-msgid "When acce_pted:"
-msgstr "Ved _godkendelse:"
-
-#: ../widgets/misc/e-send-options.ui.h:26
-msgid "When co_mpleted:"
-msgstr "Ved _fuldførelse:"
-
-#: ../widgets/misc/e-send-options.ui.h:27
-msgid "When decli_ned:"
-msgstr "Ved afvis_ning:"
-
-#. Translators: This is part of 'Within [ X ] days', where [ X ] is a spinner with a number
-#: ../widgets/misc/e-send-options.ui.h:29
-#, fuzzy
-msgid "Wi_thin"
-msgstr "_Inden for"
-
-#. Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number
-#: ../widgets/misc/e-send-options.ui.h:31
-#, fuzzy
-msgid "_After"
-msgstr "_Efter"
-
-#: ../widgets/misc/e-send-options.ui.h:32
-msgid "_All information"
-msgstr "_Al information"
-
-#: ../widgets/misc/e-send-options.ui.h:33
-msgid "_Classification:"
-msgstr "_Klassificering:"
-
-#: ../widgets/misc/e-send-options.ui.h:34
-msgid "_Delay message delivery"
-msgstr "_Forsink levering af brev"
-
-#: ../widgets/misc/e-send-options.ui.h:35
-msgid "_Delivered"
-msgstr "_Leveret"
-
-#: ../widgets/misc/e-send-options.ui.h:37
-msgid "_Set expiration date"
-msgstr "_Sæt udløbsdato"
-
-#. Translators: This is part of 'Until [ date ]', where [ date ] is a date picker
-#: ../widgets/misc/e-send-options.ui.h:39
-#, fuzzy
+msgctxt "ESendOptions"
 msgid "_Until"
 msgstr "_Indtil"
 
-#: ../widgets/misc/e-send-options.ui.h:40
+#: ../widgets/misc/e-send-options.ui.h:7
+msgctxt "ESendOptionsAfter"
+msgid "_After"
+msgstr "_Efter"
+
+#: ../widgets/misc/e-send-options.ui.h:8
+msgctxt "ESendOptionsAfter"
+msgid "days"
+msgstr "dage"
+
+#: ../widgets/misc/e-send-options.ui.h:9
+msgctxt "ESendOptionsWithin"
+msgid "Wi_thin"
+msgstr "_Inden for"
+
+#: ../widgets/misc/e-send-options.ui.h:10
+msgctxt "ESendOptionsWithin"
+msgid "days"
+msgstr "dage"
+
+#: ../widgets/misc/e-send-options.ui.h:11
+msgid "For Your Eyes Only"
+msgstr "Som kun du må se"
+
+#: ../widgets/misc/e-send-options.ui.h:12
+msgid "Gene_ral Options"
+msgstr "Gene_relle valgmuligheder"
+
+#: ../widgets/misc/e-send-options.ui.h:15
+msgid "Mail Receipt"
+msgstr "Kvittering for brev"
+
+#: ../widgets/misc/e-send-options.ui.h:17
+msgid "Proprietary"
+msgstr "Proprietær"
+
+#: ../widgets/misc/e-send-options.ui.h:18
+msgid "R_eply requested"
+msgstr "_Svar forespurgt"
+
+#: ../widgets/misc/e-send-options.ui.h:20
+msgid "Return Notification"
+msgstr "Returnér påmindelse"
+
+#: ../widgets/misc/e-send-options.ui.h:23
+msgid "Sta_tus Tracking"
+msgstr "Sta_tus-sporing"
+
+#: ../widgets/misc/e-send-options.ui.h:24
+msgid "Standard"
+msgstr "Standard"
+
+#: ../widgets/misc/e-send-options.ui.h:25
+msgid "Status Tracking"
+msgstr "Statussporing"
+
+#: ../widgets/misc/e-send-options.ui.h:26
+msgid "Top Secret"
+msgstr "Strengt fortroligt"
+
+#: ../widgets/misc/e-send-options.ui.h:28
+msgid "When acce_pted:"
+msgstr "Ved _godkendelse:"
+
+#: ../widgets/misc/e-send-options.ui.h:29
+msgid "When co_mpleted:"
+msgstr "Ved _fuldførelse:"
+
+#: ../widgets/misc/e-send-options.ui.h:30
+msgid "When decli_ned:"
+msgstr "Ved afvis_ning:"
+
+#: ../widgets/misc/e-send-options.ui.h:31
+msgid "_All information"
+msgstr "_Al information"
+
+#: ../widgets/misc/e-send-options.ui.h:32
+msgid "_Classification:"
+msgstr "_Klassificering:"
+
+#: ../widgets/misc/e-send-options.ui.h:33
+msgid "_Delay message delivery"
+msgstr "_Forsink levering af brev"
+
+#: ../widgets/misc/e-send-options.ui.h:34
+msgid "_Delivered"
+msgstr "_Leveret"
+
+#: ../widgets/misc/e-send-options.ui.h:36
+msgid "_Set expiration date"
+msgstr "_Sæt udløbsdato"
+
+#: ../widgets/misc/e-send-options.ui.h:37
 msgid "_When convenient"
 msgstr "_Når det er belejligt"
 
-#: ../widgets/misc/e-send-options.ui.h:41
+#: ../widgets/misc/e-send-options.ui.h:38
 msgid "_When opened:"
 msgstr "_Ved åbning:"
+
+#. Translators: Used in send options dialog
+#: ../widgets/misc/e-send-options.ui.h:40
+msgctxt "send-options"
+msgid "None"
+msgstr "Ingen"
 
 #: ../widgets/misc/e-signature-editor.c:136
 #: ../widgets/misc/e-signature-editor.c:524
@@ -21949,30 +21972,6 @@ msgstr "Marker alt"
 #: ../widgets/text/e-text.c:2548
 msgid "Input Methods"
 msgstr "Indtastningsmetoder"
-
-#~ msgctxt "recurrpage"
-#~ msgid "day(s)"
-#~ msgstr "dage"
-
-#~ msgctxt "recurrpage"
-#~ msgid "for"
-#~ msgstr "for"
-
-#~ msgctxt "recurrpage"
-#~ msgid "until"
-#~ msgstr "indtil"
-
-#~ msgctxt "ESendOptionsAfter"
-#~ msgid "days"
-#~ msgstr "dage"
-
-#~ msgctxt "ESendOptionsWithin"
-#~ msgid "days"
-#~ msgstr "dage"
-
-#~ msgctxt "send-options"
-#~ msgid "None"
-#~ msgstr "Ingen"
 
 #~ msgid "Unable to reconstruct message from autosave file"
 #~ msgstr "Ikke i stand til at rekonstruere brev fra autogemt fil"
