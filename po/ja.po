@@ -8,13 +8,13 @@
 # Takayuki KUSANO <AE5T-KSN@asahi-net.or.jp>, 2009-2010.
 # OKANO Takayoshi <kano@na.rim.or.jp>, 2010.
 #
-#: ../shell/main.c:533
+#: ../shell/main.c:559
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-09-13 04:48+0000\n"
+"POT-Creation-Date: 2010-09-20 00:47+0000\n"
 "PO-Revision-Date: 2010-09-13 13:21+0900\n"
 "Last-Translator: Takayuki KUSANO <AE5T-KSN@asahi-net.or.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -63,8 +63,8 @@ msgid ""
 "your caps lock might be on."
 msgstr ""
 "パスワードのつづりが正しいか、そしてサポートされているログイン方法を利用して"
-"いるか確認してください。パスワードは大文字/小文字を区別することに留意して下さ"
-"い ([Caps Lock] キーが押下されているかもしれません)。"
+"いるか確認してください。パスワードは大文字/小文字を区別することに留意してくだ"
+"さい ([Caps Lock] キーが押下されているかもしれません)。"
 
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "Could not get schema information for LDAP server."
@@ -82,7 +82,7 @@ msgid ""
 msgstr ""
 "現在のところ Evolution からは GroupWise システムのアドレス帳のみアクセス可能"
 "です。GroupWise Frequent Contact と Groupwise Personal Contacts フォルダを取"
-"得したいのであれば、いったん他の GroupWise メール・クライアントをご利用下さ"
+"得したいのであれば、いったん他の GroupWise メール・クライアントをご利用くださ"
 "い。"
 
 #: ../addressbook/addressbook.error.xml.h:12
@@ -248,8 +248,8 @@ msgstr "記念日"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
 #: ../addressbook/gui/widgets/eab-contact-display.c:582
-#: ../calendar/gui/e-calendar-view.c:2019 ../capplet/anjal-settings-main.c:117
-#: ../shell/main.c:122
+#: ../calendar/gui/e-calendar-view.c:2019 ../capplet/anjal-settings-main.c:123
+#: ../shell/main.c:128
 msgid "Birthday"
 msgstr "誕生日"
 
@@ -1454,61 +1454,61 @@ msgstr "アドレス帳の一覧を取得できませんでした"
 msgid "failed to open book"
 msgstr "アドレス帳を開けませんでした"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:45
+#: ../addressbook/tools/evolution-addressbook-export.c:59
 msgid "Specify the output file instead of standard output"
 msgstr "標準出力のかわりに出力するファイルを指定する"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:46
+#: ../addressbook/tools/evolution-addressbook-export.c:60
 msgid "OUTPUTFILE"
 msgstr "OUTPUTFILE"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:49
+#: ../addressbook/tools/evolution-addressbook-export.c:63
 msgid "List local address book folders"
 msgstr "ローカルにあるアドレス帳フォルダの一覧を出力する"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:52
+#: ../addressbook/tools/evolution-addressbook-export.c:66
 msgid "Show cards as vcard or csv file"
 msgstr "表示するカードの種類を指定する (vCard または CSV 形式)"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:53
+#: ../addressbook/tools/evolution-addressbook-export.c:67
 msgid "[vcard|csv]"
 msgstr "[vcard|csv]"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:56
+#: ../addressbook/tools/evolution-addressbook-export.c:70
 msgid "Export in asynchronous mode"
-msgstr "非同期モードでエキスポートする"
+msgstr "非同期モードでエクスポートする"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:59
+#: ../addressbook/tools/evolution-addressbook-export.c:73
 msgid ""
 "The number of cards in one output file in asynchronous mode, default size "
 "100."
 msgstr ""
 "非同期モードで1出力ファイルにあるカードの数を指定する (デフォルト: 100)"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:61
+#: ../addressbook/tools/evolution-addressbook-export.c:75
 msgid "NUMBER"
 msgstr "NUMBER"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:101
+#: ../addressbook/tools/evolution-addressbook-export.c:137
 msgid ""
 "Command line arguments error, please use --help option to see the usage."
 msgstr ""
-"コマンドラインの引数エラーです (`--help` を指定してオプションを確認して下さ"
+"コマンドラインの引数エラーです (`--help` を指定してオプションを確認してくださ"
 "い)"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:115
+#: ../addressbook/tools/evolution-addressbook-export.c:151
 msgid "Only support csv or vcard format."
 msgstr "CSV または vCard のフォーマットのみサポートしています"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:124
+#: ../addressbook/tools/evolution-addressbook-export.c:160
 msgid "In async mode, output must be file."
 msgstr "非同期モードではファイルに出力してください"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:132
+#: ../addressbook/tools/evolution-addressbook-export.c:168
 msgid "In normal mode, there is no need for the size option."
 msgstr "標準モードではサイズ・オプションを指定する必要はありません"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:163
+#: ../addressbook/tools/evolution-addressbook-export.c:199
 msgid "Unhandled error"
 msgstr "処理できないエラー"
 
@@ -4934,7 +4934,7 @@ msgid ""
 "Please review the following information, and then select an action from the "
 "menu below."
 msgstr ""
-"次の情報を確認してください。それから下にあるメニューから行動を選択して下さ"
+"次の情報を確認してください。それから下にあるメニューから行動を選択してくださ"
 "い。"
 
 #. Translators: "None" used as a default value for events without Summary received by mail
@@ -8216,24 +8216,24 @@ msgstr "復旧する(_R)"
 msgid "_Save Draft"
 msgstr "草案を保存する(_S)"
 
-#: ../capplet/anjal-settings-main.c:198
+#: ../capplet/anjal-settings-main.c:223
 msgid "Run Anjal in a window"
 msgstr "Anjal をウインドウで実行"
 
-#: ../capplet/anjal-settings-main.c:199
+#: ../capplet/anjal-settings-main.c:224
 msgid "Make Anjal the default email client"
 msgstr "Anjal をデフォルトの E-メールクライアントにする"
 
 #. TRANSLATORS: don't translate the terms in brackets
-#: ../capplet/anjal-settings-main.c:206
+#: ../capplet/anjal-settings-main.c:231
 msgid "ID of the socket to embed in"
 msgstr "埋め込むソケットのID"
 
-#: ../capplet/anjal-settings-main.c:207
+#: ../capplet/anjal-settings-main.c:232
 msgid "socket"
 msgstr "ソケット"
 
-#: ../capplet/anjal-settings-main.c:220
+#: ../capplet/anjal-settings-main.c:245
 msgid "Anjal email client"
 msgstr "Anjal E-メール・クライアント"
 
@@ -14004,8 +14004,8 @@ msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
 msgstr ""
-"検索条件を満足するメッセージはありません。検索条件をクリアするか変更して下さ"
-"い。"
+"検索条件を満足するメッセージはありません。検索条件をクリアするか変更してくだ"
+"さい。"
 
 #: ../mail/message-list.c:4645
 msgid "There are no messages in this folder."
@@ -16097,107 +16097,107 @@ msgstr "Evolutionの設定のリストア(_E)..."
 msgid "Restore Evolution data and settings from an archive file"
 msgstr "Evolution のデータと設定をアーカイブファイルからリストアします"
 
-#: ../plugins/backup-restore/backup.c:63
+#: ../plugins/backup-restore/backup.c:77
 msgid "Backup Evolution directory"
 msgstr "Evolution フォルダのバックアップ"
 
-#: ../plugins/backup-restore/backup.c:65
+#: ../plugins/backup-restore/backup.c:79
 msgid "Restore Evolution directory"
 msgstr "Evolution フォルダのリストア"
 
-#: ../plugins/backup-restore/backup.c:67
+#: ../plugins/backup-restore/backup.c:81
 msgid "Check Evolution Backup"
 msgstr "バックアップの確認"
 
-#: ../plugins/backup-restore/backup.c:69
+#: ../plugins/backup-restore/backup.c:83
 msgid "Restart Evolution"
 msgstr "Evolution の再起動"
 
-#: ../plugins/backup-restore/backup.c:71
+#: ../plugins/backup-restore/backup.c:85
 msgid "With Graphical User Interface"
 msgstr "GUI を表示する"
 
-#: ../plugins/backup-restore/backup.c:189
-#: ../plugins/backup-restore/backup.c:251
+#: ../plugins/backup-restore/backup.c:203
+#: ../plugins/backup-restore/backup.c:265
 msgid "Shutting down Evolution"
 msgstr "Evolution のシャットダウン中"
 
-#: ../plugins/backup-restore/backup.c:196
+#: ../plugins/backup-restore/backup.c:210
 msgid "Backing Evolution accounts and settings"
 msgstr "Evolution アカウントと設定のバックアップ中"
 
-#: ../plugins/backup-restore/backup.c:202
+#: ../plugins/backup-restore/backup.c:216
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
 "Evolution のデータ (メール、連絡先、カレンダ、タスク、メモ) をバックアップし"
 "ています"
 
-#: ../plugins/backup-restore/backup.c:213
+#: ../plugins/backup-restore/backup.c:227
 msgid "Backup complete"
 msgstr "バックアップが完了しました"
 
-#: ../plugins/backup-restore/backup.c:218
-#: ../plugins/backup-restore/backup.c:239
-#: ../plugins/backup-restore/backup.c:285
+#: ../plugins/backup-restore/backup.c:232
+#: ../plugins/backup-restore/backup.c:253
+#: ../plugins/backup-restore/backup.c:299
 msgid "Restarting Evolution"
 msgstr "Evolution のリストア中"
 
-#: ../plugins/backup-restore/backup.c:255
+#: ../plugins/backup-restore/backup.c:269
 msgid "Back up current Evolution data"
 msgstr "現在の Evolution データをバックアップする"
 
-#: ../plugins/backup-restore/backup.c:260
+#: ../plugins/backup-restore/backup.c:274
 msgid "Extracting files from backup"
 msgstr "バックアップからファイルを展開しています"
 
-#: ../plugins/backup-restore/backup.c:267
+#: ../plugins/backup-restore/backup.c:281
 msgid "Loading Evolution settings"
 msgstr "Evolution の設定を読み込んでいます"
 
-#: ../plugins/backup-restore/backup.c:274
+#: ../plugins/backup-restore/backup.c:288
 msgid "Removing temporary backup files"
 msgstr "作業用のバックアップ・ファイルを削除しています"
 
-#: ../plugins/backup-restore/backup.c:281
+#: ../plugins/backup-restore/backup.c:295
 msgid "Ensuring local sources"
 msgstr "バックアップ元のファイルを確認しています"
 
-#: ../plugins/backup-restore/backup.c:428
+#: ../plugins/backup-restore/backup.c:464
 #, c-format
 msgid "Backing up to the folder %s"
 msgstr "%s にバックアップしています"
 
-#: ../plugins/backup-restore/backup.c:433
+#: ../plugins/backup-restore/backup.c:469
 #, c-format
 msgid "Restoring from the folder %s"
 msgstr "%s からリストアしています"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
-#: ../plugins/backup-restore/backup.c:455
+#: ../plugins/backup-restore/backup.c:491
 msgid "Evolution Backup"
 msgstr "Evolution のバックアップ"
 
-#: ../plugins/backup-restore/backup.c:455
+#: ../plugins/backup-restore/backup.c:491
 msgid "Evolution Restore"
 msgstr "Evolution のリストア"
 
-#: ../plugins/backup-restore/backup.c:496
+#: ../plugins/backup-restore/backup.c:532
 msgid "Backing up Evolution Data"
 msgstr "Evolution データのバックアップ中"
 
-#: ../plugins/backup-restore/backup.c:497
+#: ../plugins/backup-restore/backup.c:533
 msgid "Please wait while Evolution is backing up your data."
 msgstr "データのバックアップが完了するまで少々お待ちください。"
 
-#: ../plugins/backup-restore/backup.c:499
+#: ../plugins/backup-restore/backup.c:535
 msgid "Restoring Evolution Data"
 msgstr "Evolution データのリストア中"
 
-#: ../plugins/backup-restore/backup.c:500
+#: ../plugins/backup-restore/backup.c:536
 msgid "Please wait while Evolution is restoring your data."
 msgstr "データのリストアが完了するまで少々お待ちください。"
 
-#: ../plugins/backup-restore/backup.c:518
+#: ../plugins/backup-restore/backup.c:554
 msgid "This may take a while depending on the amount of data in your account."
 msgstr "アカウントのデータ量に応じて時間がかかるかもしれません。"
 
@@ -16901,8 +16901,8 @@ msgstr "サーバ"
 #, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
 msgstr ""
-"カレンダの一覧にアクセスするために %s というユーザのパスワードを入力して下さ"
-"い。"
+"カレンダの一覧にアクセスするために %s というユーザのパスワードを入力してくだ"
+"さい。"
 
 #: ../plugins/google-account-setup/google-source.c:548
 #, c-format
@@ -19390,7 +19390,7 @@ msgstr "サイドバーを表示するかどうか"
 msgid "Skip development warning dialog"
 msgstr "開発版であることを警告するダイアログをスキップするかどうか"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:331
+#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:337
 msgid "Start in offline mode"
 msgstr "オフライン・モードで起動するかどうか"
 
@@ -19902,7 +19902,7 @@ msgid "Preparing to quit..."
 msgstr "終了の準備中..."
 
 #. Preview/Alpha/Beta version warning message
-#: ../shell/main.c:180
+#: ../shell/main.c:186
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -19939,7 +19939,7 @@ msgstr ""
 "私たちの激務の成果に満足してくれることを願い、\n"
 "そしてあなたの貢献を熱心に待つことにします!\n"
 
-#: ../shell/main.c:204
+#: ../shell/main.c:210
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -19947,55 +19947,55 @@ msgstr ""
 "感謝します\n"
 "Evolution 開発チーム\n"
 
-#: ../shell/main.c:211
+#: ../shell/main.c:217
 msgid "Do not tell me again"
 msgstr "次回からこのメッセージを表示しない"
 
-#: ../shell/main.c:327
+#: ../shell/main.c:333
 msgid "Start Evolution activating the specified component"
 msgstr "指定したコンポーネントを有効にして Evolution を起動する"
 
-#: ../shell/main.c:329
+#: ../shell/main.c:335
 msgid "Apply the given geometry to the main window"
 msgstr "指定した座標をメインウィンドウに適用する"
 
-#: ../shell/main.c:333
+#: ../shell/main.c:339
 msgid "Start in online mode"
 msgstr "オンライン・モードで起動する"
 
-#: ../shell/main.c:335
+#: ../shell/main.c:341
 msgid "Start in \"express\" mode"
 msgstr "エクスプレス・モードで起動する"
 
-#: ../shell/main.c:338
+#: ../shell/main.c:344
 msgid "Forcibly shut down Evolution"
 msgstr "Evolution を強制的に終了する"
 
-#: ../shell/main.c:341
+#: ../shell/main.c:347
 msgid "Send the debugging output of all components to a file."
 msgstr "すべてのコンポーネントのデバッグ出力をファイルへ送る"
 
-#: ../shell/main.c:343
+#: ../shell/main.c:349
 msgid "Disable loading of any plugins."
 msgstr "プラグインを読み込まない"
 
-#: ../shell/main.c:345
+#: ../shell/main.c:351
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "メール/連絡先/タスクのプレビュー・ペインを無効にして起動する"
 
-#: ../shell/main.c:349
+#: ../shell/main.c:355
 msgid "Import URIs or file names given as rest of arguments."
 msgstr "残りの引数で指定した URI やファイルをインポートする。"
 
-#: ../shell/main.c:351
+#: ../shell/main.c:357
 msgid "Request a running Evolution process to quit"
 msgstr "実行中の Evolution のプロセスを終了するよう要求する"
 
-#: ../shell/main.c:475 ../shell/main.c:483
+#: ../shell/main.c:501 ../shell/main.c:509
 msgid "- The Evolution PIM and Email Client"
 msgstr "- Evolution PIM とメール・クライアント"
 
-#: ../shell/main.c:545
+#: ../shell/main.c:571
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
