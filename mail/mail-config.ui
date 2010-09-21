@@ -2901,6 +2901,7 @@ For example: "Work" or "Personal"</property>
                         <property name="use_underline">True</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
+                        <property name="group">radImagesNever</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -2917,6 +2918,7 @@ For example: "Work" or "Personal"</property>
                         <property name="use_underline">True</property>
                         <property name="active">True</property>
                         <property name="draw_indicator">True</property>
+                        <property name="group">radImagesNever</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
