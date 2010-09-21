@@ -225,7 +225,7 @@ etcta_set_property (GObject *object,
 					      NULL);
 		if (etcta->text)
 			gnome_canvas_item_set (etcta->text,
-					      "width", etcta->width - 4,
+					      "width", (etcta->width < 4 ? 4 : etcta->width) - 4,
 					      NULL);
 		if (etcta->rect)
 			gnome_canvas_item_set (etcta->rect,
