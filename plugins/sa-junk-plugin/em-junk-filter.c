@@ -98,7 +98,14 @@ gchar *em_junk_sa_spamc_gconf_binary = NULL;
 gchar *em_junk_sa_spamd_gconf_binary = NULL;
 
 static gint
-pipe_to_sa_full (CamelMimeMessage *msg, const gchar *in, const gchar **argv, gint rv_err, gint wait_for_termination, GByteArray *output_buffer, GError **error)
+pipe_to_sa_full (CamelMimeMessage *msg,
+                 const gchar *in,
+                 const gchar **argv,
+                 gint rv_err,
+                 gint wait_for_termination,
+                 GByteArray *output_buffer,
+                 GCancellable *cancellable,
+                 GError **error)
 {
 	gint result, status, errnosav, fds[2], out_fds[2];
 	CamelStream *stream;
@@ -186,25 +193,27 @@ pipe_to_sa_full (CamelMimeMessage *msg, const gchar *in, const gchar **argv, gin
 	if (msg) {
 		stream = camel_stream_fs_new_with_fd (fds[1]);
 
-		camel_data_wrapper_write_to_stream (
-			CAMEL_DATA_WRAPPER (msg), stream, NULL);
-		camel_stream_flush (stream, NULL);
-		camel_stream_close (stream, NULL);
+		camel_data_wrapper_write_to_stream_sync (
+			CAMEL_DATA_WRAPPER (msg), stream, cancellable, NULL);
+		camel_stream_flush (stream, cancellable, NULL);
+		camel_stream_close (stream, cancellable, NULL);
 		g_object_unref (stream);
 	} else if (in) {
-		camel_write (fds[1], in, strlen (in), NULL);
+		camel_write (fds[1], in, strlen (in), cancellable, NULL);
 		close (fds[1]);
 	}
 
 	if (output_buffer) {
-		CamelStreamMem *memstream;
+		CamelStream *memstream;
 
 		stream = camel_stream_fs_new_with_fd (out_fds[0]);
 
-		memstream = (CamelStreamMem *) camel_stream_mem_new ();
-		camel_stream_mem_set_byte_array (memstream, output_buffer);
+		memstream = camel_stream_mem_new ();
+		camel_stream_mem_set_byte_array (
+			CAMEL_STREAM_MEM (memstream), output_buffer);
 
-		camel_stream_write_to_stream (stream, (CamelStream *) memstream, NULL);
+		camel_stream_write_to_stream (
+			stream, memstream, cancellable, NULL);
 		g_object_unref (stream);
 		g_byte_array_append (output_buffer, (guchar *)"", 1);
 
@@ -248,9 +257,13 @@ pipe_to_sa_full (CamelMimeMessage *msg, const gchar *in, const gchar **argv, gin
 }
 
 static gint
-pipe_to_sa (CamelMimeMessage *msg, const gchar *in, const gchar **argv, GError **error)
+pipe_to_sa (CamelMimeMessage *msg,
+            const gchar *in,
+            const gchar **argv,
+            GCancellable *cancellable,
+            GError **error)
 {
-	return pipe_to_sa_full (msg, in, argv, -1, 1, NULL, error);
+	return pipe_to_sa_full (msg, in, argv, -1, 1, NULL, cancellable, error);
 }
 
 static gchar *
@@ -283,7 +296,7 @@ em_junk_sa_test_spamd_running (const gchar *binary, gboolean system)
 
 	argv[i] = NULL;
 
-	rv = pipe_to_sa (NULL, "From test@127.0.0.1", argv, NULL) == 0;
+	rv = pipe_to_sa (NULL, "From test@127.0.0.1", argv, NULL, NULL) == 0;
 
 	d(fprintf (stderr, "result: %d (%s)\n", rv, rv ? "success" : "failed"));
 
@@ -307,7 +320,7 @@ em_junk_sa_test_allow_tell (void)
 		NULL
 	};
 
-	no_allow_tell = pipe_to_sa (NULL, "\n" , argv, NULL);
+	no_allow_tell = pipe_to_sa (NULL, "\n" , argv, NULL, NULL);
 	em_junk_sa_allow_tell_tested = TRUE;
 }
 
@@ -320,7 +333,7 @@ em_junk_sa_test_spamassassin (void)
 		NULL,
 	};
 
-	if (pipe_to_sa (NULL, NULL, argv, NULL) != 0)
+	if (pipe_to_sa (NULL, NULL, argv, NULL, NULL) != 0)
 		em_junk_sa_available = FALSE;
 	else
 		em_junk_sa_available = TRUE;
@@ -358,7 +371,7 @@ em_junk_sa_run_spamd (const gchar *binary)
 
 	d(fprintf (stderr, "trying to run %s with socket path %s\n", binary, em_junk_sa_get_socket_path ()));
 
-	if (!pipe_to_sa_full (NULL, NULL, argv, -1, 0, NULL, NULL)) {
+	if (!pipe_to_sa_full (NULL, NULL, argv, -1, 0, NULL, NULL, NULL)) {
 		struct timespec time_req;
 		struct stat stat_buf;
 
@@ -448,7 +461,7 @@ em_junk_sa_test_spamd (void)
 		   argv [i++] = "ps ax|grep -v grep|grep -E 'spamd.*(\\-L|\\-\\-local)'|grep -E -v '\\ \\-p\\ |\\ \\-\\-port\\ '";
 		   argv[i] = NULL;
 
-		   if (pipe_to_sa (NULL, NULL, argv, NULL) != 0) {
+		   if (pipe_to_sa (NULL, NULL, argv, NULL, NULL) != 0) {
 			   try_system_spamd = FALSE;
 			   d(fprintf (stderr, "there's no system spamd with -L/--local parameter running\n"));
 		   }
@@ -612,7 +625,7 @@ em_junk_sa_check_junk (EPlugin *ep, EMJunkTarget *target)
 
 	argv[i] = NULL;
 
-	rv = pipe_to_sa_full (msg, NULL, argv, 0, 1, out, &target->error) != 0;
+	rv = pipe_to_sa_full (msg, NULL, argv, 0, 1, out, NULL, &target->error) != 0;
 
 	if (!rv && out && out->data && !strcmp ((const gchar *)out->data, "0/0\n")) {
 		/* an error occurred */
@@ -624,7 +637,7 @@ em_junk_sa_check_junk (EPlugin *ep, EMJunkTarget *target)
 			argv[socket_i] = to_free = g_strdup (em_junk_sa_get_socket_path ());
 			G_UNLOCK (socket_path);
 
-			rv = pipe_to_sa_full (msg, NULL, argv, 0, 1, out, &target->error) != 0;
+			rv = pipe_to_sa_full (msg, NULL, argv, 0, 1, out, NULL, &target->error) != 0;
 		} else if (!em_junk_sa_use_spamc)
 			/* in case respawning were too fast we fallback to spamassassin */
 			rv = em_junk_sa_check_junk (ep, target);
@@ -655,7 +668,7 @@ get_spamassassin_version ()
 	if (!em_junk_sa_checked_spamassassin_version) {
 		out = g_byte_array_new ();
 
-		if (pipe_to_sa_full (NULL, NULL, argv, -1, 1, out, NULL) != 0) {
+		if (pipe_to_sa_full (NULL, NULL, argv, -1, 1, out, NULL, NULL) != 0) {
 			if (out)
 				g_byte_array_free (out, TRUE);
 			return em_junk_sa_spamassassin_version;
@@ -716,7 +729,7 @@ em_junk_sa_report_junk (EPlugin *ep, EMJunkTarget *target)
 		G_LOCK (report);
 		pipe_to_sa (msg, NULL,
 			    (no_allow_tell ? argv : argv2),
-			    &target->error);
+			    NULL, &target->error);
 		G_UNLOCK (report);
 	}
 }
@@ -756,7 +769,7 @@ em_junk_sa_report_non_junk (EPlugin *ep, EMJunkTarget *target)
 		G_LOCK (report);
 		pipe_to_sa (msg, NULL,
 			    (no_allow_tell ? argv : argv2),
-			    &target->error);
+			    NULL, &target->error);
 		G_UNLOCK (report);
 	}
 }
@@ -784,7 +797,7 @@ em_junk_sa_commit_reports (EPlugin *ep)
 			argv[2] = "--local";
 
 		G_LOCK (report);
-		pipe_to_sa (NULL, NULL, argv, NULL);
+		pipe_to_sa (NULL, NULL, argv, NULL, NULL);
 		G_UNLOCK (report);
 	}
 }

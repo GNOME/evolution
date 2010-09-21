@@ -141,6 +141,7 @@ static gssize
 sync_stream_write (CamelStream *stream,
                    const gchar *string,
                    gsize len,
+                   GCancellable *cancellable,
                    GError **error)
 {
 	EMSyncStream *emss = EM_SYNC_STREAM (stream);
@@ -168,6 +169,7 @@ sync_stream_write (CamelStream *stream,
 
 static gint
 sync_stream_flush (CamelStream *stream,
+                   GCancellable *cancellable,
                    GError **error)
 {
 	EMSyncStream *emss = EM_SYNC_STREAM (stream);
@@ -189,6 +191,7 @@ sync_stream_flush (CamelStream *stream,
 
 static gint
 sync_stream_close (CamelStream *stream,
+                   GCancellable *cancellable,
                    GError **error)
 {
 	EMSyncStream *emss = EM_SYNC_STREAM (stream);

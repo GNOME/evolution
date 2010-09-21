@@ -360,7 +360,7 @@ mar_all_sub_folders (CamelStore *store,
 				return FALSE;
 		}
 
-		folder = camel_store_get_folder (
+		folder = camel_store_get_folder_sync (
 			store, fi->full_name, 0, cancellable, error);
 		if (folder == NULL)
 			return FALSE;
@@ -392,7 +392,7 @@ mar_got_folder (gchar *folder_uri,
 	parent_store = camel_folder_get_parent_store (folder);
 
 	/* FIXME Not passing a GCancellable or GError here. */
-	folder_info = camel_store_get_folder_info (
+	folder_info = camel_store_get_folder_info_sync (
 		parent_store, full_name,
 		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
 		CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);

@@ -150,8 +150,7 @@ void		mail_fetch_mail			(const gchar *source,
 void		mail_filter_folder		(CamelFolder *source_folder,
 						 GPtrArray *uids,
 						 const gchar *type,
-						 gboolean notify,
-						 CamelOperation *cancel);
+						 gboolean notify);
 
 /* convenience functions for above */
 void mail_filter_on_demand (CamelFolder *folder, GPtrArray *uids);

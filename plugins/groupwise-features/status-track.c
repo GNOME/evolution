@@ -74,7 +74,7 @@ get_selected_message (EShellView *shell_view,
 		*selected_uid = g_strdup (g_ptr_array_index (uids, 0));
 
 		/* FIXME Not passing a GCancellable or GError here. */
-		msg = camel_folder_get_message (
+		msg = camel_folder_get_message_sync (
 			*folder, *selected_uid, NULL, NULL);
 	}
 

@@ -153,8 +153,8 @@ mail_backend_delete_junk (CamelStore *store,
 	guint32 mask;
 	guint ii;
 
-	/* FIXME camel_store_get_junk() may block. */
-	folder = camel_store_get_junk (store, NULL, NULL);
+	/* FIXME camel_store_get_junk_folder_sync() may block. */
+	folder = camel_store_get_junk_folder_sync (store, NULL, NULL);
 	if (folder == NULL)
 		return;
 

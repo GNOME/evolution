@@ -92,8 +92,8 @@ org_gnome_format_tnef (gpointer ep, EMFormatHookTarget *t)
 	content = camel_medium_get_content ((CamelMedium *)t->part);
 	if (content == NULL)
 		goto fail;
-	if (camel_data_wrapper_decode_to_stream (content, out, NULL) == -1
-	    || camel_stream_close (out, NULL) == -1) {
+	if (camel_data_wrapper_decode_to_stream_sync (content, out, NULL, NULL) == -1
+	    || camel_stream_close (out, NULL, NULL) == -1) {
 		g_object_unref (out);
 		goto fail;
 	}
@@ -138,7 +138,8 @@ org_gnome_format_tnef (gpointer ep, EMFormatHookTarget *t)
 
 		stream = camel_stream_fs_new_with_name (path, O_RDONLY, 0, NULL);
 		content = camel_data_wrapper_new ();
-		camel_data_wrapper_construct_from_stream (content, stream, NULL);
+		camel_data_wrapper_construct_from_stream_sync (
+			content, stream, NULL, NULL);
 		g_object_unref (stream);
 
 		part = camel_mime_part_new ();

@@ -193,13 +193,14 @@ mail_attachment_handler_message_rfc822 (EAttachmentView *view,
 	length = gtk_selection_data_get_length (selection_data);
 
 	stream = camel_stream_mem_new ();
-	camel_stream_write (stream, data, length, NULL);
+	camel_stream_write (stream, data, length, NULL, NULL);
 	camel_stream_reset (stream, NULL);
 
 	message = camel_mime_message_new ();
 	wrapper = CAMEL_DATA_WRAPPER (message);
 
-	if (camel_data_wrapper_construct_from_stream (wrapper, stream, NULL) == -1)
+	if (!camel_data_wrapper_construct_from_stream_sync (
+		wrapper, stream, NULL, NULL))
 		goto exit;
 
 	store = e_attachment_view_get_store (view);
@@ -296,7 +297,7 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 	/* Handle one message. */
 	if (uids->len == 1) {
 		/* FIXME Not passing a GCancellable here. */
-		message = camel_folder_get_message (
+		message = camel_folder_get_message_sync (
 			folder, uids->pdata[0], NULL, &local_error);
 		if (message == NULL)
 			goto exit;
@@ -321,7 +322,7 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 
 	for (ii = 0; ii < uids->len; ii++) {
 		/* FIXME Not passing a GCancellable here. */
-		message = camel_folder_get_message (
+		message = camel_folder_get_message_sync (
 			folder, uids->pdata[ii], NULL, &local_error);
 		if (message == NULL) {
 			g_object_unref (multipart);

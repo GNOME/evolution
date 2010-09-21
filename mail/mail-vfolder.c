@@ -263,8 +263,7 @@ vfolder_adduri_exec (struct _adduri_msg *m)
 		while (l && !vfolder_shutdown) {
 			if (m->remove)
 				camel_vee_folder_remove_folder (
-					CAMEL_VEE_FOLDER (l->data),
-					folder, m->base.cancellable);
+					CAMEL_VEE_FOLDER (l->data), folder);
 			else
 				camel_vee_folder_add_folder ((CamelVeeFolder *)l->data, folder);
 			l = l->next;
@@ -834,7 +833,7 @@ rule_changed (EFilterRule *rule, CamelFolder *folder)
 
 		oldname = g_strdup (full_name);
 		/* FIXME Not passing a GCancellable or GError. */
-		camel_store_rename_folder (
+		camel_store_rename_folder_sync (
 			vfolder_store, oldname, rule->name, NULL, NULL);
 		g_free (oldname);
 	}
@@ -869,7 +868,7 @@ context_rule_added (ERuleContext *ctx,
 
 	/* this always runs quickly */
 	/* FIXME Not passing a GCancellable or GError. */
-	folder = camel_store_get_folder (
+	folder = camel_store_get_folder_sync (
 		vfolder_store, rule->name, 0, NULL, NULL);
 	if (folder) {
 		g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), folder);
@@ -900,7 +899,8 @@ context_rule_removed (ERuleContext *ctx,
 	G_UNLOCK (vfolder);
 
 	/* FIXME Not passing a GCancellable  or GError. */
-	camel_store_delete_folder (vfolder_store, rule->name, NULL, NULL);
+	camel_store_delete_folder_sync (
+		vfolder_store, rule->name, NULL, NULL);
 	/* this must be unref'd after its deleted */
 	if (folder)
 		g_object_unref ((CamelFolder *) folder);

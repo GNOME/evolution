@@ -273,7 +273,8 @@ struct _EMFormatClass {
 	/* use for unparsable content */
 	void		(*format_source)	(EMFormat *emf,
 						 CamelStream *stream,
-						 CamelMimePart *mime_part);
+						 CamelMimePart *mime_part,
+						 GCancellable *cancellable);
 	/* for outputing secure(d) content */
 	void		(*format_secure)	(EMFormat *emf,
 						 CamelStream *stream,
@@ -288,7 +289,8 @@ struct _EMFormatClass {
 	void		(*format_optional)	(EMFormat *emf,
 						 CamelStream *filter_stream,
 						 CamelMimePart *mime_part,
-						 CamelStream *mem_stream);
+						 CamelStream *mem_stream,
+						 GCancellable *cancellable);
 
 	gboolean	(*is_inline)		(EMFormat *emf,
 						 const gchar *part_id,
@@ -392,7 +394,8 @@ void		em_format_format_secure		(EMFormat *emf,
 						 GCancellable *cancellable);
 void		em_format_format_source		(EMFormat *emf,
 						 CamelStream *stream,
-						 CamelMimePart *mime_part);
+						 CamelMimePart *mime_part,
+						 GCancellable *cancellable);
 
 gboolean	em_format_busy			(EMFormat *emf);
 
@@ -405,7 +408,8 @@ void		em_format_format_content	(EMFormat *emf,
 /* raw content text parts - should this just be checked/done by above? */
 void		em_format_format_text		(EMFormat *emf,
 						 CamelStream *stream,
-						 CamelDataWrapper *part);
+						 CamelDataWrapper *part,
+						 GCancellable *cancellable);
 
 void		em_format_part_as		(EMFormat *emf,
 						 CamelStream *stream,

@@ -59,7 +59,6 @@ struct _filter_mail_msg {
 	CamelFolder *source_folder; /* where they come from */
 	GPtrArray *source_uids;	/* uids to copy, or NULL == copy all */
 	CamelUIDCache *cache;  /* UID cache if we are to cache the uids, NULL otherwise */
-	CamelOperation *cancel;
 	CamelFilterDriver *driver;
 	gint delete;		/* delete messages after filtering them? */
 	CamelFolder *destination; /* default destination for any messages, NULL for none */
@@ -93,16 +92,10 @@ em_filter_folder_element_exec (struct _filter_mail_msg *m)
 	CamelFolder *folder;
 	GPtrArray *uids, *folder_uids = NULL;
 
-	if (m->cancel)
-		camel_operation_register (m->cancel);
-
 	folder = m->source_folder;
 
-	if (folder == NULL || camel_folder_get_message_count (folder) == 0) {
-		if (m->cancel)
-			camel_operation_unregister ();
+	if (folder == NULL || camel_folder_get_message_count (folder) == 0)
 		return;
-	}
 
 	if (m->destination) {
 		camel_folder_freeze (m->destination);
@@ -126,7 +119,7 @@ em_filter_folder_element_exec (struct _filter_mail_msg *m)
 
 	/* sync our source folder */
 	if (!m->cache)
-		camel_folder_sync (
+		camel_folder_synchronize_sync (
 			folder, FALSE, m->base.cancellable, &m->base.error);
 	camel_folder_thaw (folder);
 
@@ -137,9 +130,6 @@ em_filter_folder_element_exec (struct _filter_mail_msg *m)
 	   see also fetch_mail_fetch () below */
 	g_object_unref (m->driver);
 	m->driver = NULL;
-
-	if (m->cancel)
-		camel_operation_unregister ();
 }
 
 static void
@@ -155,9 +145,6 @@ em_filter_folder_element_free (struct _filter_mail_msg *m)
 
 	if (m->source_uids)
 		em_utils_uids_free (m->source_uids);
-
-	if (m->cancel)
-		g_object_unref (m->cancel);
 
 	if (m->destination)
 		g_object_unref (m->destination);
@@ -178,8 +165,7 @@ static MailMsgInfo em_filter_folder_element_info = {
 
 void
 mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
-		    const gchar *type, gboolean notify,
-		    CamelOperation *cancel)
+		    const gchar *type, gboolean notify)
 {
 	struct _filter_mail_msg *m;
 
@@ -189,8 +175,6 @@ mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
 	m->source_uids = uids;
 	m->cache = NULL;
 	m->delete = FALSE;
-	if (cancel)
-		m->cancel = g_object_ref (cancel);
 
 	m->driver = camel_session_get_filter_driver (session, type, NULL);
 
@@ -207,13 +191,13 @@ mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,
 void
 mail_filter_on_demand (CamelFolder *folder, GPtrArray *uids)
 {
-	mail_filter_folder (folder, uids, E_FILTER_SOURCE_DEMAND, FALSE, NULL);
+	mail_filter_folder (folder, uids, E_FILTER_SOURCE_DEMAND, FALSE);
 }
 
 void
 mail_filter_junk (CamelFolder *folder, GPtrArray *uids)
 {
-	mail_filter_folder (folder, uids, E_FILTER_SOURCE_JUNKTEST, FALSE, NULL);
+	mail_filter_folder (folder, uids, E_FILTER_SOURCE_JUNKTEST, FALSE);
 }
 
 /* ********************************************************************** */
@@ -250,9 +234,6 @@ fetch_mail_exec (struct _fetch_mail_msg *m)
 {
 	struct _filter_mail_msg *fm = (struct _filter_mail_msg *)m;
 	gint i;
-
-	if (m->cancellable)
-		camel_operation_register (CAMEL_OPERATION (m->cancellable));
 
 	fm->destination = e_mail_local_get_folder (E_MAIL_FOLDER_LOCAL_INBOX);
 	if (fm->destination == NULL)
@@ -315,8 +296,8 @@ fetch_mail_exec (struct _fetch_mail_msg *m)
 					em_filter_folder_element_exec (fm);
 
 					/* need to uncancel so writes/etc. don't fail */
-					if (g_error_matches (fm->base.error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-						camel_operation_uncancel (NULL);
+					if (g_cancellable_is_cancelled (m->cancellable))
+						g_cancellable_reset (m->cancellable);
 
 					/* save the cache of uids that we've just downloaded */
 					camel_uid_cache_save (cache);
@@ -333,7 +314,8 @@ fetch_mail_exec (struct _fetch_mail_msg *m)
 				if ((fm->delete || cache_uids) && fm->base.error == NULL) {
 					/* expunge messages (downloaded so far) */
 					/* FIXME Not passing a GCancellable or GError here. */
-					camel_folder_sync (folder, fm->delete, NULL, NULL);
+					camel_folder_synchronize_sync (
+						folder, fm->delete, NULL, NULL);
 				}
 
 				camel_uid_cache_destroy (cache);
@@ -350,9 +332,6 @@ fetch_mail_exec (struct _fetch_mail_msg *m)
 		}
 	}
 fail:
-	if (m->cancellable)
-		camel_operation_unregister ();
-
 	/* we unref this here as it may have more work to do (syncing
 	   folders and whatnot) before we are really done */
 	/* should this be cancellable too? (i.e. above unregister above) */
@@ -488,7 +467,8 @@ mail_send_message (struct _send_queue_msg *m,
 	gint i;
 	GError *local_error = NULL;
 
-	message = camel_folder_get_message (queue, uid, cancellable, error);
+	message = camel_folder_get_message_sync (
+		queue, uid, cancellable, error);
 	if (!message)
 		return;
 
@@ -559,7 +539,7 @@ mail_send_message (struct _send_queue_msg *m,
 		if (xport == NULL)
 			goto exit;
 
-		if (!camel_transport_send_to (
+		if (!camel_transport_send_to_sync (
 			xport, message, from, recipients, cancellable, error))
 			goto exit;
 	}
@@ -581,7 +561,7 @@ mail_send_message (struct _send_queue_msg *m,
 		folder = mail_tool_uri_to_folder (uri, 0, NULL, NULL);
 		if (folder) {
 			/* FIXME Not passing a GCancellable or GError here. */
-			camel_folder_append_message (
+			camel_folder_append_message_sync (
 				folder, message, info, NULL, NULL, NULL);
 			g_object_unref (folder);
 			folder = NULL;
@@ -631,7 +611,7 @@ mail_send_message (struct _send_queue_msg *m,
 			g_object_ref (folder);
 		}
 
-		if (!camel_folder_append_message (
+		if (!camel_folder_append_message_sync (
 			folder, message, info,
 			NULL, cancellable, &local_error)) {
 
@@ -657,7 +637,7 @@ mail_send_message (struct _send_queue_msg *m,
 				folder = sent_folder;
 
 				g_clear_error (&local_error);
-				camel_folder_append_message (
+				camel_folder_append_message_sync (
 					folder, message, info,
 					NULL, cancellable, &local_error);
 			}
@@ -682,7 +662,7 @@ mail_send_message (struct _send_queue_msg *m,
 		/* Sync it to disk, since if it crashes in between,
 		 * we keep sending it again on next start. */
 		/* FIXME Not passing a GCancellable or GError here. */
-		camel_folder_sync (queue, FALSE, NULL, NULL);
+		camel_folder_synchronize_sync (queue, FALSE, NULL, NULL);
 	}
 
 	if (err->len) {
@@ -698,7 +678,7 @@ exit:
 
 	/* FIXME Not passing a GCancellable or GError here. */
 	if (folder) {
-		camel_folder_sync (folder, FALSE, NULL, NULL);
+		camel_folder_synchronize_sync (folder, FALSE, NULL, NULL);
 		g_object_unref (folder);
 	}
 	if (info)
@@ -785,13 +765,7 @@ send_queue_exec (struct _send_queue_msg *m)
 		return;
 	}
 
-	if (m->cancellable)
-		camel_operation_register (CAMEL_OPERATION (m->cancellable));
-	else
-		camel_operation_register (CAMEL_OPERATION (m->base.cancellable));
-
-	if (!m->cancellable)
-		camel_operation_start (NULL, _("Sending message"));
+	camel_operation_push_message (m->cancellable, _("Sending message"));
 
 	/* NB: This code somewhat abuses the 'exception' stuff.  Apart from
 	 *     fatal problems, it is also used as a mechanism to accumualte
@@ -807,7 +781,7 @@ send_queue_exec (struct _send_queue_msg *m)
 
 		if (!m->cancellable)
 			camel_operation_progress (
-				NULL, (i+1) * 100 / send_uids->len);
+				m->cancellable, (i+1) * 100 / send_uids->len);
 
 		mail_send_message (
 			m, m->queue, send_uids->pdata[i], m->destination,
@@ -865,17 +839,13 @@ send_queue_exec (struct _send_queue_msg *m)
 
 	/* FIXME Not passing a GCancellable or GError here. */
 	if (j <= 0 && m->base.error == NULL)
-		camel_folder_sync (m->queue, TRUE, NULL, NULL);
+		camel_folder_synchronize_sync (m->queue, TRUE, NULL, NULL);
 
 	/* FIXME Not passing a GCancellable or GError here. */
 	if (sent_folder)
-		camel_folder_sync (sent_folder, FALSE, NULL, NULL);
+		camel_folder_synchronize_sync (sent_folder, FALSE, NULL, NULL);
 
-	if (!m->cancellable)
-		camel_operation_end (NULL);
-
-	camel_operation_unregister ();
-
+	camel_operation_pop_message (m->cancellable);
 }
 
 static void
@@ -971,7 +941,7 @@ append_mail_exec (struct _append_msg *m)
 	camel_mime_message_set_date (
 		m->message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 
-	camel_folder_append_message (
+	camel_folder_append_message_sync (
 		m->folder, m->message,
 		m->info, &m->appended_uid,
 		m->base.cancellable, &m->base.error);
@@ -1072,8 +1042,8 @@ transfer_messages_exec (struct _transfer_msg *m)
 	camel_folder_freeze (m->source);
 	camel_folder_freeze (dest);
 
-	camel_folder_transfer_messages_to (
-		m->source, m->uids, dest, NULL, m->delete,
+	camel_folder_transfer_messages_to_sync (
+		m->source, m->uids, dest, m->delete, NULL,
 		m->base.cancellable, &m->base.error);
 
 	/* make sure all deleted messages are marked as seen */
@@ -1091,7 +1061,7 @@ transfer_messages_exec (struct _transfer_msg *m)
 	camel_folder_thaw (dest);
 
 	/* FIXME Not passing a GCancellable or GError here. */
-	camel_folder_sync (dest, FALSE, NULL, NULL);
+	camel_folder_synchronize_sync (dest, FALSE, NULL, NULL);
 	g_object_unref (dest);
 }
 
@@ -1173,7 +1143,7 @@ get_folderinfo_exec (struct _get_folderinfo_msg *m)
 {
 	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 
-	m->info = camel_store_get_folder_info (
+	m->info = camel_store_get_folder_info_sync (
 		m->store, NULL, flags,
 		m->base.cancellable, &m->base.error);
 }
@@ -1548,7 +1518,7 @@ remove_folder_rec (CamelStore *store,
 
 		d(printf ("deleting folder '%s'\n", fi->full_name));
 
-		folder = camel_store_get_folder (
+		folder = camel_store_get_folder_sync (
 			store, fi->full_name, 0, cancellable, error);
 		if (folder == NULL)
 			return FALSE;
@@ -1566,7 +1536,7 @@ remove_folder_rec (CamelStore *store,
 			camel_folder_free_uids (folder, uids);
 
 			/* FIXME Not passing a GCancellable or GError here. */
-			camel_folder_sync (folder, TRUE, NULL, NULL);
+			camel_folder_synchronize_sync (folder, TRUE, NULL, NULL);
 			camel_folder_thaw (folder);
 		}
 
@@ -1574,11 +1544,11 @@ remove_folder_rec (CamelStore *store,
 		 * from this folder.
 		 * FIXME Not passing a GCancellable or GError here. */
 		if (camel_store_supports_subscriptions (store))
-			camel_store_unsubscribe_folder (
+			camel_store_unsubscribe_folder_sync (
 				store, fi->full_name, NULL, NULL);
 
 		/* Then delete the folder from the store */
-		if (!camel_store_delete_folder (
+		if (!camel_store_delete_folder_sync (
 			store, fi->full_name, cancellable, error))
 			return FALSE;
 
@@ -1600,7 +1570,7 @@ remove_folder_exec (struct _remove_folder_msg *m)
 	full_name = camel_folder_get_full_name (m->folder);
 	parent_store = camel_folder_get_parent_store (m->folder);
 
-	fi = camel_store_get_folder_info (
+	fi = camel_store_get_folder_info_sync (
 		parent_store, full_name,
 		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
 		CAMEL_STORE_FOLDER_INFO_FAST |
@@ -1672,7 +1642,7 @@ sync_folder_desc (struct _sync_folder_msg *m)
 static void
 sync_folder_exec (struct _sync_folder_msg *m)
 {
-	camel_folder_sync (
+	camel_folder_synchronize_sync (
 		m->folder, FALSE, m->base.cancellable, &m->base.error);
 }
 
@@ -1740,7 +1710,7 @@ sync_store_desc (struct _sync_store_msg *m)
 static void
 sync_store_exec (struct _sync_store_msg *m)
 {
-	camel_store_sync (
+	camel_store_synchronize_sync (
 		m->store, m->expunge,
 		m->base.cancellable, &m->base.error);
 }
@@ -1792,7 +1762,7 @@ refresh_folder_desc (struct _sync_folder_msg *m)
 static void
 refresh_folder_exec (struct _sync_folder_msg *m)
 {
-	camel_folder_refresh_info (
+	camel_folder_refresh_info_sync (
 		m->folder, m->base.cancellable, &m->base.error);
 }
 
@@ -1830,7 +1800,7 @@ expunge_folder_desc (struct _sync_folder_msg *m)
 static void
 expunge_folder_exec (struct _sync_folder_msg *m)
 {
-	camel_folder_expunge (
+	camel_folder_expunge_sync (
 		m->folder, m->base.cancellable, &m->base.error);
 }
 
@@ -1894,7 +1864,7 @@ empty_trash_exec (struct _empty_trash_msg *m)
 	}
 
 	if (trash) {
-		camel_folder_expunge (
+		camel_folder_expunge_sync (
 			trash, m->base.cancellable, &m->base.error);
 		g_object_unref (trash);
 	}
@@ -1962,7 +1932,7 @@ get_message_exec (struct _get_message_msg *m)
 	if (g_cancellable_is_cancelled (m->base.cancellable))
 		m->message = NULL;
 	else
-		m->message = camel_folder_get_message (
+		m->message = camel_folder_get_message_sync (
 			m->folder, m->uid,
 			m->base.cancellable, &m->base.error);
 }
@@ -2094,7 +2064,7 @@ get_messages_exec (struct _get_messages_msg *m)
 	for (i=0; i<m->uids->len; i++) {
 		gint pc = ((i+1) * 100) / m->uids->len;
 
-		message = camel_folder_get_message (
+		message = camel_folder_get_message_sync (
 			m->folder, m->uids->pdata[i],
 			m->base.cancellable, &m->base.error);
 		camel_operation_progress (
@@ -2237,7 +2207,7 @@ save_messages_exec (struct _save_messages_msg *m)
 		CamelMimeMessage *message;
 		gint pc = ((i+1) * 100) / m->uids->len;
 
-		message = camel_folder_get_message (
+		message = camel_folder_get_message_sync (
 			m->folder, m->uids->pdata[i],
 			m->base.cancellable, &m->base.error);
 		camel_operation_progress (
@@ -2250,16 +2220,22 @@ save_messages_exec (struct _save_messages_msg *m)
 		/* we need to flush after each stream write since we are writing to the same fd */
 		from = camel_mime_message_build_mbox_from (message);
 		if (camel_stream_write_string (
-			stream, from, &m->base.error) == -1
-		    || camel_stream_flush (stream, &m->base.error) == -1
-		    || camel_data_wrapper_write_to_stream (
-			(CamelDataWrapper *) message,
-			(CamelStream *)filtered_stream, &m->base.error) == -1
+			stream, from,
+			m->base.cancellable, &m->base.error) == -1
 		    || camel_stream_flush (
-			(CamelStream *)filtered_stream, &m->base.error) == -1
+			stream, m->base.cancellable, &m->base.error) == -1
+		    || camel_data_wrapper_write_to_stream_sync (
+			(CamelDataWrapper *) message,
+			(CamelStream *)filtered_stream,
+			m->base.cancellable, &m->base.error) == -1
+		    || camel_stream_flush (
+			(CamelStream *)filtered_stream,
+			m->base.cancellable, &m->base.error) == -1
 		    || camel_stream_write_string (
-			stream, "\n", &m->base.error) == -1
-		    || camel_stream_flush (stream, &m->base.error) == -1) {
+			stream, "\n",
+			m->base.cancellable, &m->base.error) == -1
+		    || camel_stream_flush (stream,
+			m->base.cancellable, &m->base.error) == -1) {
 			g_prefix_error (
 				&m->base.error,
 				_("Error saving messages to: %s:\n"),
@@ -2377,9 +2353,9 @@ save_part_exec (struct _save_part_msg *m)
 
 	content = camel_medium_get_content (CAMEL_MEDIUM (m->part));
 
-	if (camel_data_wrapper_decode_to_stream (
-		content, stream, &m->base.error) == -1
-	    || camel_stream_flush (stream, &m->base.error) == -1)
+	if (camel_data_wrapper_decode_to_stream_sync (
+		content, stream, m->base.cancellable, &m->base.error) == -1
+	    || camel_stream_flush (stream, m->base.cancellable, &m->base.error) == -1)
 		g_prefix_error (&m->base.error, _("Could not write data: "));
 
 	g_object_unref (stream);
@@ -2451,14 +2427,14 @@ prep_offline_exec (struct _prep_offline_msg *m)
 				CAMEL_DISCO_FOLDER (folder),
 				"(match-all)", m->cancel, &m->base.error);
 		} else if (CAMEL_IS_OFFLINE_FOLDER (folder)) {
-			camel_offline_folder_downsync (
+			camel_offline_folder_downsync_sync (
 				CAMEL_OFFLINE_FOLDER (folder),
 				"(match-all)", m->cancel, &m->base.error);
 		}
 		/* prepare_for_offline should do this? */
 		/* of course it should all be atomic, but ... */
 		/* FIXME Not passing a GCancellable here. */
-		camel_folder_sync (folder, FALSE, NULL, NULL);
+		camel_folder_synchronize_sync (folder, FALSE, NULL, NULL);
 		g_object_unref (folder);
 	}
 }
@@ -2547,26 +2523,16 @@ set_offline_exec (struct _set_offline_msg *m)
 			return;
 		}
 	} else if (CAMEL_IS_OFFLINE_STORE (m->store)) {
-		if (!m->offline) {
-			camel_offline_store_set_network_state (
-				CAMEL_OFFLINE_STORE (m->store),
-				CAMEL_OFFLINE_STORE_NETWORK_AVAIL,
-				m->base.cancellable,
-				&m->base.error);
-			return;
-		} else {
-			camel_offline_store_set_network_state (
-				CAMEL_OFFLINE_STORE (m->store),
-				CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL,
-				m->base.cancellable,
-				&m->base.error);
-			return;
-		}
+		camel_offline_store_set_online_sync (
+			CAMEL_OFFLINE_STORE (m->store),
+			!m->offline, m->base.cancellable,
+			&m->base.error);
+		return;
 	}
 
 	if (m->offline)
-		camel_service_disconnect (CAMEL_SERVICE (m->store),
-					  TRUE, &m->base.error);
+		camel_service_disconnect_sync (
+			CAMEL_SERVICE (m->store), TRUE, &m->base.error);
 }
 
 static void
@@ -2639,7 +2605,7 @@ prepare_offline_exec (struct _set_offline_msg *m)
 			CAMEL_DISCO_STORE (m->store),
 			m->base.cancellable, &m->base.error);
 	} else if (CAMEL_IS_OFFLINE_STORE (m->store)) {
-		camel_offline_store_prepare_for_offline (
+		camel_offline_store_prepare_for_offline_sync (
 			CAMEL_OFFLINE_STORE (m->store),
 			m->base.cancellable, &m->base.error);
 	}
@@ -2722,12 +2688,10 @@ check_service_exec (struct _check_msg *m)
 	CamelService *service;
 
 	service = camel_session_get_service (session, m->url, m->type, &m->base.error);
-	if (!service) {
-		camel_operation_unregister ();
+	if (!service)
 		return;
-	}
 
-	m->authtypes = camel_service_query_auth_types (
+	m->authtypes = camel_service_query_auth_types_sync (
 		service, m->base.cancellable, &m->base.error);
 	g_object_unref (service);
 }

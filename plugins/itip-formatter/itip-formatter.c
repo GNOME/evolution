@@ -2574,7 +2574,7 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 
 	byte_array = g_byte_array_new ();
 	stream = camel_stream_mem_new_with_byte_array (byte_array);
-	camel_data_wrapper_decode_to_stream (content, stream, NULL);
+	camel_data_wrapper_decode_to_stream_sync (content, stream, NULL, NULL);
 
 	if (byte_array->len == 0)
 		puri->vcalendar = NULL;
@@ -2761,6 +2761,6 @@ itip_attachment_frame (EMFormat *emf,
 		emf, stream, info->puri.part,
 		info->handle, cancellable, FALSE);
 
-	camel_stream_close (stream, NULL);
+	camel_stream_close (stream, cancellable, NULL);
 }
 

@@ -55,7 +55,7 @@ mail_tool_get_inbox (const gchar *url,
 	if (!store)
 		return NULL;
 
-	folder = camel_store_get_inbox (store, cancellable, error);
+	folder = camel_store_get_inbox_folder_sync (store, cancellable, error);
 	g_object_unref (store);
 
 	return folder;
@@ -96,7 +96,8 @@ mail_tool_get_trash (const gchar *url,
 	if (connect ||
 		(CAMEL_SERVICE (store)->status == CAMEL_SERVICE_CONNECTED ||
 		is_local_provider (store)))
-		trash = camel_store_get_trash (store, cancellable, error);
+		trash = camel_store_get_trash_folder_sync (
+			store, cancellable, error);
 	else
 		trash = NULL;
 
@@ -351,13 +352,13 @@ mail_tool_uri_to_folder (const gchar *uri,
 
 		if (offset) {
 			if (offset == 7)
-				folder = camel_store_get_trash (
+				folder = camel_store_get_trash_folder_sync (
 					store, cancellable, error);
 			else if (offset == 6)
-				folder = camel_store_get_junk (
+				folder = camel_store_get_junk_folder_sync (
 					store, cancellable, error);
 		} else
-			folder = camel_store_get_folder (
+			folder = camel_store_get_folder_sync (
 				store, name, flags, cancellable, error);
 		g_object_unref (store);
 	}

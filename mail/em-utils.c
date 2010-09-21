@@ -560,8 +560,8 @@ em_utils_write_messages_to_stream (CamelFolder *folder, GPtrArray *uids, CamelSt
 		CamelMimeMessage *message;
 		gchar *from;
 
-		/* FIXME camel_folder_get_message() may block. */
-		message = camel_folder_get_message (
+		/* FIXME camel_folder_get_message_sync() may block. */
+		message = camel_folder_get_message_sync (
 			folder, uids->pdata[i], NULL, NULL);
 		if (message == NULL) {
 			res = -1;
@@ -571,10 +571,10 @@ em_utils_write_messages_to_stream (CamelFolder *folder, GPtrArray *uids, CamelSt
 		/* we need to flush after each stream write since we are writing to the same stream */
 		from = camel_mime_message_build_mbox_from (message);
 
-		if (camel_stream_write_string (stream, from, NULL) == -1
-		    || camel_stream_flush (stream, NULL) == -1
-		    || camel_data_wrapper_write_to_stream ((CamelDataWrapper *)message, (CamelStream *)filtered_stream, NULL) == -1
-		    || camel_stream_flush ((CamelStream *)filtered_stream, NULL) == -1)
+		if (camel_stream_write_string (stream, from, NULL, NULL) == -1
+		    || camel_stream_flush (stream, NULL, NULL) == -1
+		    || camel_data_wrapper_write_to_stream_sync ((CamelDataWrapper *)message, (CamelStream *)filtered_stream, NULL, NULL) == -1
+		    || camel_stream_flush ((CamelStream *)filtered_stream, NULL, NULL) == -1)
 			res = -1;
 
 		g_free (from);
@@ -606,13 +606,14 @@ em_utils_read_messages_from_stream (CamelFolder *folder, CamelStream *stream)
 
 		/* NB: de-from filter, once written */
 		msg = camel_mime_message_new ();
-		if (camel_mime_part_construct_from_parser ((CamelMimePart *)msg, mp, NULL) == -1) {
+		if (!camel_mime_part_construct_from_parser_sync (
+			(CamelMimePart *)msg, mp, NULL, NULL)) {
 			g_object_unref (msg);
 			break;
 		}
 
-		/* FIXME camel_folder_append_message() may block. */
-		success = camel_folder_append_message (
+		/* FIXME camel_folder_append_message_sync() may block. */
+		success = camel_folder_append_message_sync (
 			folder, msg, NULL, NULL, NULL, NULL);
 		g_object_unref (msg);
 
@@ -716,9 +717,10 @@ em_utils_selection_get_message (GtkSelectionData *selection_data,
 	stream = (CamelStream *)
 		camel_stream_mem_new_with_buffer ((gchar *)data, length);
 	msg = camel_mime_message_new ();
-	if (camel_data_wrapper_construct_from_stream ((CamelDataWrapper *)msg, stream, NULL) == 0)
-		/* FIXME camel_folder_append_message() may block. */
-		camel_folder_append_message (
+	if (camel_data_wrapper_construct_from_stream_sync (
+		(CamelDataWrapper *)msg, stream, NULL, NULL))
+		/* FIXME camel_folder_append_message_sync() may block. */
+		camel_folder_append_message_sync (
 			folder, msg, NULL, NULL, NULL, NULL);
 	g_object_unref (msg);
 	g_object_unref (stream);
@@ -812,9 +814,9 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
 	folder = mail_tool_uri_to_folder (
 		(gchar *) data, 0, cancellable, error);
 	if (folder) {
-		/* FIXME camel_folder_transfer_messages_to() may block. */
-		camel_folder_transfer_messages_to (
-			folder, uids, dest, NULL, move, cancellable, error);
+		/* FIXME camel_folder_transfer_messages_to_sync() may block. */
+		camel_folder_transfer_messages_to_sync (
+			folder, uids, dest, move, NULL, cancellable, error);
 		g_object_unref (folder);
 	}
 
@@ -1264,15 +1266,15 @@ em_utils_message_to_html (CamelMimeMessage *message,
                           guint32 *validity_found)
 {
 	EMFormatQuote *emfq;
-	CamelStreamMem *mem;
+	CamelStream *mem;
 	GByteArray *buf;
 	gchar *text;
 
 	buf = g_byte_array_new ();
-	mem = (CamelStreamMem *) camel_stream_mem_new ();
-	camel_stream_mem_set_byte_array (mem, buf);
+	mem = camel_stream_mem_new ();
+	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (mem), buf);
 
-	emfq = em_format_quote_new (credits, (CamelStream *)mem, flags);
+	emfq = em_format_quote_new (credits, mem, flags);
 	((EMFormat *) emfq)->composer = TRUE;
 
 	if (!source) {
@@ -1295,9 +1297,9 @@ em_utils_message_to_html (CamelMimeMessage *message,
 	g_object_unref (emfq);
 
 	if (append && *append)
-		camel_stream_write ((CamelStream*)mem, append, strlen (append), NULL);
+		camel_stream_write_string (mem, append, NULL, NULL);
 
-	camel_stream_write((CamelStream *)mem, "", 1, NULL);
+	camel_stream_write(mem, "", 1, NULL, NULL);
 	g_object_unref (mem);
 
 	text = (gchar *)buf->data;

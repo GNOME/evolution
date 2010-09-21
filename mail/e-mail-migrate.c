@@ -556,11 +556,11 @@ migrate_folders (CamelStore *store,
 		g_idle_add ((GSourceFunc) update_states_in_main_thread, info);
 
 		if (is_local)
-			folder = camel_store_get_folder (
+			folder = camel_store_get_folder_sync (
 				store, fi->full_name,
 				CAMEL_STORE_IS_MIGRATING, NULL, NULL);
 		else
-			folder = camel_store_get_folder (
+			folder = camel_store_get_folder_sync (
 				store, fi->full_name, 0, NULL, NULL);
 
 		if (folder != NULL)
@@ -656,7 +656,7 @@ migrate_to_db (EShellBackend *shell_backend)
 
 	em_migrate_set_progress ( (double)i/(len+1));
 	store = setup_local_store (shell_backend, session);
-	info = camel_store_get_folder_info (
+	info = camel_store_get_folder_info_sync (
 		store, NULL,
 		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
 		CAMEL_STORE_FOLDER_INFO_FAST |
@@ -697,7 +697,7 @@ migrate_to_db (EShellBackend *shell_backend)
 			e_mail_store_add_by_uri (service->url, name);
 
 			store = (CamelStore *) camel_session_get_service (CAMEL_SESSION (session), service->url, CAMEL_PROVIDER_STORE, NULL);
-			info = camel_store_get_folder_info (
+			info = camel_store_get_folder_info_sync (
 				store, NULL,
 				CAMEL_STORE_FOLDER_INFO_RECURSIVE |
 				CAMEL_STORE_FOLDER_INFO_FAST |

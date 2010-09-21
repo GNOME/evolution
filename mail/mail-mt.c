@@ -298,16 +298,24 @@ void
 mail_msg_cancel (guint msgid)
 {
 	MailMsg *msg;
+	GCancellable *cancellable = NULL;
 
 	g_mutex_lock (mail_msg_lock);
 
 	msg = g_hash_table_lookup (
 		mail_msg_active_table, GINT_TO_POINTER (msgid));
 
-	if (msg != NULL && msg->cancellable != NULL)
-		camel_operation_cancel (CAMEL_OPERATION (msg->cancellable));
+	/* Hold a reference to the GCancellable so it doesn't finalize
+	 * itself on us between unlocking the mutex and cancelling. */
+	if (msg != NULL && !g_cancellable_is_cancelled (msg->cancellable))
+		cancellable = g_object_ref (msg->cancellable);
 
 	g_mutex_unlock (mail_msg_lock);
+
+	if (cancellable != NULL) {
+		camel_operation_cancel (CAMEL_OPERATION (cancellable));
+		g_object_unref (cancellable);
+	}
 }
 
 /* waits for a message to be finished processing (freed)
@@ -474,7 +482,7 @@ mail_msg_proxy (MailMsg *msg)
 {
 	if (msg->info->desc != NULL) {
 		gchar *text = msg->info->desc (msg);
-		camel_operation_start (msg->cancellable, "%s", text);
+		camel_operation_push_message (msg->cancellable, "%s", text);
 		g_free (text);
 	}
 
@@ -488,7 +496,7 @@ mail_msg_proxy (MailMsg *msg)
 		msg->info->exec (msg);
 
 	if (msg->info->desc != NULL)
-		camel_operation_end (msg->cancellable);
+		camel_operation_pop_message (msg->cancellable);
 
 	g_async_queue_push (msg_reply_queue, msg);
 

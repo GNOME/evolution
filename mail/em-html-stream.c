@@ -64,7 +64,7 @@ html_stream_dispose (GObject *object)
 
 	if (emhs->html_stream) {
 		/* set 'in finalise' flag */
-		camel_stream_close (CAMEL_STREAM (emhs), NULL);
+		camel_stream_close (CAMEL_STREAM (emhs), NULL, NULL);
 	}
 }
 

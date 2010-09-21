@@ -146,7 +146,12 @@ struct _attach_puri {
         camel_cipher_validity_encrypt_t encrypt;
 };
 
-static void efhd_message_prefix (EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info);
+static void	efhd_message_prefix		(EMFormat *emf,
+						 CamelStream *stream,
+						 CamelMimePart *part,
+						 const EMFormatHandler *info,
+						 GCancellable *cancellable,
+						 gboolean is_fallback);
 
 static void efhd_builtin_init (EMFormatHTMLDisplayClass *efhc);
 
@@ -428,14 +433,16 @@ efhd_format_attachment (EMFormat *emf,
 		stream, EM_FORMAT_HTML_VPAD
 		"<table cellspacing=0 cellpadding=0><tr><td>"
 		"<table width=10 cellspacing=0 cellpadding=0>"
-		"<tr><td></td></tr></table></td>", NULL);
+		"<tr><td></td></tr></table></td>",
+		cancellable, NULL);
 
 	camel_stream_printf (
 		stream, "<td><object classid=\"%s\"></object></td>", classid);
 
 	camel_stream_write_string (
 		stream, "<td><table width=3 cellspacing=0 cellpadding=0>"
-		"<tr><td></td></tr></table></td><td><font size=-1>", NULL);
+		"<tr><td></td></tr></table></td><td><font size=-1>",
+		cancellable, NULL);
 
 	/* output some info about it */
 	/* FIXME: should we look up mime_type from object again? */
@@ -443,13 +450,13 @@ efhd_format_attachment (EMFormat *emf,
 	html = camel_text_to_html (
 		text, EM_FORMAT_HTML (emf)->text_html_flags &
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
-	camel_stream_write_string (stream, html, NULL);
+	camel_stream_write_string (stream, html, cancellable, NULL);
 	g_free (html);
 	g_free (text);
 
 	camel_stream_write_string (
 		stream, "</font></td></tr><tr></table>\n"
-		EM_FORMAT_HTML_VPAD, NULL);
+		EM_FORMAT_HTML_VPAD, cancellable, NULL);
 
 	if (handle && info->shown)
 		handle->handler (
@@ -462,7 +469,8 @@ static void
 efhd_format_optional (EMFormat *emf,
                       CamelStream *fstream,
                       CamelMimePart *part,
-                      CamelStream *mstream)
+                      CamelStream *mstream,
+                      GCancellable *cancellable)
 {
 	gchar *classid, *html;
 	struct _attach_puri *info;
@@ -494,7 +502,7 @@ efhd_format_optional (EMFormat *emf,
 	camel_stream_write_string (
 		stream, EM_FORMAT_HTML_VPAD
 		"<table cellspacing=0 cellpadding=0><tr><td>"
-		"<h3><font size=-1 color=red>", NULL);
+		"<h3><font size=-1 color=red>", cancellable, NULL);
 
 	html = camel_text_to_html (
 		_("Evolution cannot render this email as it is too "
@@ -502,18 +510,21 @@ efhd_format_optional (EMFormat *emf,
 		  "with an external text editor."),
 		EM_FORMAT_HTML (emf)->text_html_flags &
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
-	camel_stream_write_string (stream, html, NULL);
+	camel_stream_write_string (stream, html, cancellable, NULL);
 	camel_stream_write_string (
-		stream, "</font></h3></td></tr></table>\n", NULL);
+		stream, "</font></h3></td></tr></table>\n",
+		cancellable, NULL);
 	camel_stream_write_string (
-		stream, "<table cellspacing=0 cellpadding=0><tr>", NULL);
+		stream, "<table cellspacing=0 cellpadding=0><tr>",
+		cancellable, NULL);
 	camel_stream_printf (
 		stream, "<td><object classid=\"%s\"></object>"
 		"</td></tr></table>", classid);
 
 	g_free (html);
 
-	camel_stream_write_string (stream, EM_FORMAT_HTML_VPAD, NULL);
+	camel_stream_write_string (
+		stream, EM_FORMAT_HTML_VPAD, cancellable, NULL);
 
 	g_free (classid);
 }
@@ -664,7 +675,7 @@ em_format_html_display_new (void)
 /* ********************************************************************** */
 
 static EMFormatHandler type_builtin_table[] = {
-	{ (gchar *) "x-evolution/message/prefix", (EMFormatFunc)efhd_message_prefix },
+	{ (gchar *) "x-evolution/message/prefix", efhd_message_prefix },
 	{ (gchar *) "x-evolution/message/post-header", (EMFormatFunc)efhd_message_add_bar }
 };
 
@@ -687,12 +698,18 @@ efhd_write_image (EMFormat *emf,
 
 	/* TODO: identical to efh_write_image */
 	d(printf("writing image '%s'\n", puri->cid));
-	camel_data_wrapper_decode_to_stream (dw, stream, NULL);
-	camel_stream_close (stream, NULL);
+	camel_data_wrapper_decode_to_stream_sync (
+		dw, stream, cancellable, NULL);
+	camel_stream_close (stream, cancellable, NULL);
 }
 
 static void
-efhd_message_prefix (EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
+efhd_message_prefix (EMFormat *emf,
+                     CamelStream *stream,
+                     CamelMimePart *part,
+                     const EMFormatHandler *info,
+                     GCancellable *cancellable,
+                     gboolean is_fallback)
 {
 	const gchar *flag, *comp, *due;
 	time_t date;
@@ -711,7 +728,9 @@ efhd_message_prefix (EMFormat *emf, CamelStream *stream, CamelMimePart *part, EM
 	if (iconpath) {
 		CamelMimePart *iconpart;
 
-		iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", iconpath);
+		iconpart = em_format_html_file_part (
+			(EMFormatHTML *)emf, "image/png",
+			iconpath, cancellable);
 		g_free (iconpath);
 		if (iconpart) {
 			gchar *classid;
@@ -874,7 +893,7 @@ efhd_attachment_frame (EMFormat *emf,
 			emf, stream, info->puri.part,
 			info->handle, cancellable, FALSE);
 
-	camel_stream_close (stream, NULL);
+	camel_stream_close (stream, cancellable, NULL);
 }
 
 static void

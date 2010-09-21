@@ -115,11 +115,11 @@ struct _PstImporter {
 	gchar *status_what;
 	gint status_pc;
 	gint status_timeout_id;
-	CamelOperation *status;
+	GCancellable *status;
 
 	pst_file pst;
 
-	CamelOperation *cancel;
+	GCancellable *cancellable;
 	CamelFolder *folder;
 	gchar *parent_uri;
 	gchar *folder_name;
@@ -381,10 +381,6 @@ open_ecal (ECalSourceType type, const gchar *name)
 static void
 pst_import_import (PstImporter *m)
 {
-	CamelOperation *oldcancel = NULL;
-
-	oldcancel = camel_operation_register (m->status);
-
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-addr"))) {
 		/* Hack - grab the first address book we can find
 		   TODO - add a selection mechanism in get_widget */
@@ -437,7 +433,6 @@ pst_import_import (PstImporter *m)
 		g_object_unref (m->journal);
 	}
 */
-	camel_operation_register (oldcancel);
 }
 
 static void
@@ -451,7 +446,7 @@ pst_import_file (PstImporter *m)
 	filename = g_filename_from_uri (((EImportTargetURI *)m->target)->uri_src, NULL, NULL);
 	m->parent_uri = g_strdup (((EImportTargetURI *)m->target)->uri_dest); /* Destination folder, was set in our widget */
 
-	camel_operation_start (NULL, _("Importing '%s'"), filename);
+	camel_operation_push_message (NULL, _("Importing '%s'"), filename);
 
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-mail"))) {
 		mail_tool_uri_to_folder (
@@ -463,7 +458,7 @@ pst_import_file (PstImporter *m)
 
 	if (ret < 0) {
 		g_free (filename);
-		camel_operation_end (NULL);
+		camel_operation_pop_message (NULL);
 		return;
 	}
 
@@ -488,7 +483,7 @@ pst_import_file (PstImporter *m)
 
 	camel_operation_progress (NULL, 4);
 
-	camel_operation_end (NULL);
+	camel_operation_pop_message (NULL);
 
 	pst_freeItem (item);
 
@@ -559,7 +554,8 @@ pst_process_item (PstImporter *m, pst_desc_tree *d_ptr)
 
 	if (item->folder != NULL) {
 		pst_process_folder (m, item);
-		camel_operation_start (NULL, _("Importing '%s'"), item->file_as.str);
+		camel_operation_push_message (
+			NULL, _("Importing '%s'"), item->file_as.str);
 	} else {
 		if (m->folder_count && (m->current_item < m->folder_count)) {
 			camel_operation_progress (NULL, (m->current_item * 100) / m->folder_count);
@@ -605,7 +601,7 @@ pst_process_item (PstImporter *m, pst_desc_tree *d_ptr)
 	pst_freeItem (item);
 
 	if (d_ptr->next == NULL) {
-		camel_operation_end (NULL);
+		camel_operation_pop_message (NULL);
 	}
 }
 
@@ -829,7 +825,7 @@ pst_process_email (PstImporter *m, pst_item *item)
 		/*g_message ("  Email headers... %s...", item->email->header);*/
 
 		stream = camel_stream_mem_new_with_buffer (item->email->header.str, strlen (item->email->header.str));
-		if (camel_data_wrapper_construct_from_stream ((CamelDataWrapper *)msg, stream, NULL) == -1)
+		if (!camel_data_wrapper_construct_from_stream_sync ((CamelDataWrapper *)msg, stream, NULL, NULL))
 			g_warning ("Error reading headers, skipped");
 
 	} else {
@@ -924,13 +920,13 @@ pst_process_email (PstImporter *m, pst_item *item)
 		camel_message_info_set_flags (info, CAMEL_MESSAGE_DRAFT, ~0);
 
 	/* FIXME Not passing a GCancellable or GError here. */
-	success = camel_folder_append_message (
+	success = camel_folder_append_message_sync (
 		m->folder, msg, info, NULL, NULL, NULL);
 	camel_message_info_free (info);
 	g_object_unref (msg);
 
 	/* FIXME Not passing a GCancellable or GError here. */
-	camel_folder_sync (m->folder, FALSE, NULL, NULL);
+	camel_folder_synchronize_sync (m->folder, FALSE, NULL, NULL);
 	camel_folder_thaw (m->folder);
 
 	if (!success) {
@@ -1249,8 +1245,8 @@ set_cal_attachments (ECal *cal, ECalComponent *ec, PstImporter *m, pst_item_atta
 
 		content = camel_medium_get_content (CAMEL_MEDIUM (part));
 
-		if (camel_data_wrapper_decode_to_stream (content, stream, NULL) == -1
-			|| camel_stream_flush (stream, NULL) == -1)
+		if (camel_data_wrapper_decode_to_stream_sync (content, stream, NULL, NULL) == -1
+			|| camel_stream_flush (stream, NULL, NULL) == -1)
 		{
 			g_warning ("Could not write attachment to %s: %s", path, g_strerror (errno));
 			g_object_unref (stream);
@@ -1628,7 +1624,7 @@ pst_import (EImport *ei, EImportTarget *target)
 	m->status_timeout_id = g_timeout_add (100, pst_status_timeout, m);
 	/*m->status_timeout_id = NULL;*/
 	m->status_lock = g_mutex_new ();
-	m->status = camel_operation_new ();
+	m->status = (GCancellable *) camel_operation_new ();
 
 	g_signal_connect (
 		m->status, "status",
@@ -1662,7 +1658,7 @@ org_credativ_evolution_readpst_cancel (EImport *ei, EImportTarget *target, EImpo
 	PstImporter *m = g_datalist_get_data (&target->data, "pst-msg");
 
 	if (m) {
-		camel_operation_cancel (m->status);
+		g_cancellable_cancel (m->status);
 	}
 }
 

@@ -104,7 +104,7 @@ typedef struct {
 	gchar *status_what;
 	gint status_pc;
 	gint status_timeout_id;
-	CamelOperation *status;
+	GCancellable *cancellable;
 
 	guint32 *indices;
 	guint32 index_count;
@@ -551,7 +551,7 @@ dbx_import_file (DbxImporter *m)
 	filename = g_filename_from_uri (((EImportTargetURI *)m->target)->uri_src, NULL, NULL);
 	m->parent_uri = g_strdup (((EImportTargetURI *)m->target)->uri_dest); /* Destination folder, was set in our widget */
 
-	camel_operation_start (NULL, _("Importing '%s'"), filename);
+	camel_operation_push_message (NULL, _("Importing '%s'"), filename);
 	folder = mail_tool_uri_to_folder (
 		m->parent_uri, CAMEL_STORE_FOLDER_CREATE,
 		m->base.cancellable, &m->base.error);
@@ -592,7 +592,7 @@ dbx_import_file (DbxImporter *m)
 		gboolean success;
 
 		camel_operation_progress (NULL, 100 * i / m->index_count);
-		camel_operation_progress (m->status, 100 * i / m->index_count);
+		camel_operation_progress (m->cancellable, 100 * i / m->index_count);
 
 		if (!dbx_read_email (m, m->indices[i], tmpfile, &dbx_flags)) {
 			d(printf("Cannot read email index %d at %x\n",
@@ -615,7 +615,8 @@ dbx_import_file (DbxImporter *m)
 		camel_mime_parser_init_with_fd (mp, tmpfile);
 
 		msg = camel_mime_message_new ();
-		if (camel_mime_part_construct_from_parser ((CamelMimePart *)msg, mp, NULL) == -1) {
+		if (!camel_mime_part_construct_from_parser_sync (
+			(CamelMimePart *)msg, mp, NULL, NULL)) {
 			/* set exception? */
 			g_object_unref (msg);
 			g_object_unref (mp);
@@ -624,7 +625,7 @@ dbx_import_file (DbxImporter *m)
 
 		info = camel_message_info_new (NULL);
 		camel_message_info_set_flags (info, flags, ~0);
-		success = camel_folder_append_message (
+		success = camel_folder_append_message_sync (
 			folder, msg, info, NULL,
 			m->base.cancellable, &m->base.error);
 		camel_message_info_free (info);
@@ -641,7 +642,7 @@ dbx_import_file (DbxImporter *m)
 	if (m->indices)
 		g_free (m->indices);
 	/* FIXME Not passing GCancellable or GError here. */
-	camel_folder_sync (folder, FALSE, NULL, NULL);
+	camel_folder_synchronize_sync (folder, FALSE, NULL, NULL);
 	camel_folder_thaw (folder);
 	g_object_unref (folder);
 	if (missing && m->base.error == NULL) {
@@ -651,19 +652,13 @@ dbx_import_file (DbxImporter *m)
 			"bodies were not present in the DBX file",
 			m->index_count - missing, missing);
 	}
-	camel_operation_end (NULL);
+	camel_operation_pop_message (NULL);
 }
 
 static void
 dbx_import_import (DbxImporter *m)
 {
-	CamelOperation *oldcancel = NULL;
-
-	oldcancel = camel_operation_register (m->status);
-
 	dbx_import_file (m);
-
-	camel_operation_register (oldcancel);
 }
 
 static void
@@ -675,8 +670,6 @@ dbx_import_imported (DbxImporter *m)
 static void
 dbx_import_free (DbxImporter *m)
 {
-	g_object_unref (m->status);
-
 	g_free (m->status_what);
 	g_mutex_free (m->status_lock);
 
@@ -750,10 +743,10 @@ org_gnome_evolution_readdbx_import (EImport *ei, EImportTarget *target, EImportI
 	m->status_timeout_id = g_timeout_add (100, dbx_status_timeout, m);
 	/*m->status_timeout_id = NULL;*/
 	m->status_lock = g_mutex_new ();
-	m->status = camel_operation_new ();
+	m->cancellable = (GCancellable *) camel_operation_new ();
 
 	g_signal_connect (
-		m->status, "status",
+		m->cancellable, "status",
 		G_CALLBACK (dbx_status), m);
 
 	id = m->base.seq;
@@ -767,7 +760,7 @@ org_gnome_evolution_readdbx_cancel (EImport *ei, EImportTarget *target, EImportI
 	DbxImporter *m = g_datalist_get_data (&target->data, "dbx-msg");
 
 	if (m) {
-		camel_operation_cancel (m->status);
+		g_cancellable_cancel (m->cancellable);
 	}
 }
 

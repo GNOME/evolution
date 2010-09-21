@@ -473,7 +473,7 @@ composer_get_message (EMsgComposer *composer, gboolean save_html_object_data)
 
 	/* actually get the message now, this will sign/encrypt etc */
 	message = e_msg_composer_get_message (
-		composer, save_html_object_data, &error);
+		composer, save_html_object_data, NULL, &error);
 
 	/* Ignore cancellations. */
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
@@ -670,7 +670,7 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer)
 	local_drafts_folder_uri =
 		e_mail_local_get_folder_uri (E_MAIL_FOLDER_DRAFTS);
 
-	msg = e_msg_composer_get_message_draft (composer, &error);
+	msg = e_msg_composer_get_message_draft (composer, NULL, &error);
 
 	/* Ignore cancellations. */
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
@@ -742,7 +742,7 @@ em_utils_composer_print_cb (EMsgComposer *composer,
 	CamelMimeMessage *message;
 	EMFormatHTMLPrint *efhp;
 
-	message = e_msg_composer_get_message_print (composer, 1);
+	message = e_msg_composer_get_message_print (composer, 1, NULL);
 
 	efhp = em_format_html_print_new (NULL, action);
 	em_format_html_print_raw_message (efhp, message);
@@ -966,7 +966,8 @@ traverse_parts (GSList *clues, CamelMimeMessage *message, CamelDataWrapper *cont
 
 		byte_array = g_byte_array_new ();
 		stream = camel_stream_mem_new_with_byte_array (byte_array);
-		camel_data_wrapper_decode_to_stream (content, stream, NULL);
+		camel_data_wrapper_decode_to_stream_sync (
+			content, stream, NULL, NULL);
 
 		str = g_strndup ((gchar *) byte_array->data, byte_array->len);
 		g_object_unref (stream);
@@ -974,7 +975,8 @@ traverse_parts (GSList *clues, CamelMimeMessage *message, CamelDataWrapper *cont
 		if (replace_variables (clues, message, &str)) {
 			stream = camel_stream_mem_new_with_buffer (str, strlen (str));
 			camel_stream_reset (stream, NULL);
-			camel_data_wrapper_construct_from_stream (content, stream, NULL);
+			camel_data_wrapper_construct_from_stream_sync (
+				content, stream, NULL, NULL);
 			g_object_unref (stream);
 		}
 
@@ -1008,7 +1010,7 @@ edit_message (EShell *shell,
 		g_slist_free (clue_list);
 	}
 
-	composer = e_msg_composer_new_with_message (shell, message);
+	composer = e_msg_composer_new_with_message (shell, message, NULL);
 
 	if (em_utils_folder_is_drafts (drafts, NULL)) {
 		struct emcs_t *emcs;
@@ -1548,7 +1550,7 @@ redirect_get_composer (EShell *shell,
 	account = em_utils_guess_account_with_recipients (message, NULL);
 
 	composer = e_msg_composer_new_redirect (
-		shell, message, account ? account->name : NULL);
+		shell, message, account ? account->name : NULL, NULL);
 
 	return composer;
 }
@@ -1741,7 +1743,8 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 	/* Translators: First %s is an email address, second %s is the subject of the email, third %s is the date */
 			     _("Your message to %s about \"%s\" on %s has been read."),
 			     self_address, message_subject, message_date);
-	camel_data_wrapper_construct_from_stream (receipt_text, stream, NULL);
+	camel_data_wrapper_construct_from_stream_sync (
+		receipt_text, stream, NULL, NULL);
 	g_object_unref (stream);
 
 	part = camel_mime_part_new ();
@@ -1769,7 +1772,8 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 			     "Original-Message-ID: %s\n"
 			     "Disposition: manual-action/MDN-sent-manually; displayed\n",
 			     ua, recipient, message_id);
-	camel_data_wrapper_construct_from_stream (receipt_data, stream, NULL);
+	camel_data_wrapper_construct_from_stream_sync (
+		receipt_data, stream, NULL, NULL);
 	g_object_unref (stream);
 
 	g_free (ua);

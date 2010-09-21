@@ -175,7 +175,7 @@ org_gnome_prefer_plain_multipart_alternative (gpointer ep, EMFormatHookTarget *t
 		}
 		return;
 	} else if (!CAMEL_IS_MULTIPART (mp)) {
-		em_format_format_source (t->format, t->stream, t->part);
+		em_format_format_source (t->format, t->stream, t->part, NULL);
 		return;
 	}
 

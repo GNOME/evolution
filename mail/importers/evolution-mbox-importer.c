@@ -332,8 +332,8 @@ mbox_get_preview (EImport *ei, EImportTarget *target, EImportImporter *im)
 		gchar *from;
 
 		msg = camel_mime_message_new ();
-		if (camel_mime_part_construct_from_parser (
-			(CamelMimePart *)msg, mp, NULL) == -1) {
+		if (!camel_mime_part_construct_from_parser_sync (
+			(CamelMimePart *)msg, mp, NULL, NULL)) {
 			g_object_unref (msg);
 			break;
 		}

@@ -266,10 +266,8 @@ activity_describe (EActivity *activity)
 	} else if (e_activity_is_completed (activity)) {
 		/* Translators: This is a completed activity. */
 		g_string_printf (string, _("%s (completed)"), text);
-	} else if (percent < 0.0) {
-		/* Translators: This is an activity whose percent
-		 * complete is unknown. */
-		g_string_printf (string, _("%s..."), text);
+	} else if (percent <= 0.0) {
+		g_string_printf (string, _("%s"), text);
 	} else {
 		/* Translators: This is an activity whose percent
 		 * complete is known. */

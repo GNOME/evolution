@@ -1281,7 +1281,8 @@ em_format_format_secure (EMFormat *emf,
 void
 em_format_format_source (EMFormat *emf,
                          CamelStream *stream,
-                         CamelMimePart *mime_part)
+                         CamelMimePart *mime_part,
+                         GCancellable *cancellable)
 {
 	EMFormatClass *class;
 
@@ -1292,7 +1293,7 @@ em_format_format_source (EMFormat *emf,
 	class = EM_FORMAT_GET_CLASS (emf);
 	g_return_if_fail (class->format_source != NULL);
 
-	class->format_source (emf, stream, mime_part);
+	class->format_source (emf, stream, mime_part, cancellable);
 }
 
 gboolean
@@ -1318,9 +1319,11 @@ em_format_format_content (EMFormat *emf,
 	CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *)part);
 
 	if (camel_content_type_is (dw->mime_type, "text", "*"))
-		em_format_format_text (emf, stream, (CamelDataWrapper *)part);
+		em_format_format_text (
+			emf, stream, (CamelDataWrapper *)part, cancellable);
 	else
-		camel_data_wrapper_decode_to_stream (dw, stream, NULL);
+		camel_data_wrapper_decode_to_stream_sync (
+			dw, stream, cancellable, NULL);
 }
 
 /**
@@ -1328,13 +1331,15 @@ em_format_format_content (EMFormat *emf,
  * @emf:
  * @stream: Where to write the converted text
  * @part: Part whose container is to be formatted
+ * @cancellable: optional #GCancellable object, or %NULL
  *
  * Decode/output a part's content to @stream.
  **/
 void
 em_format_format_text (EMFormat *emf,
                        CamelStream *stream,
-                       CamelDataWrapper *dw)
+                       CamelDataWrapper *dw,
+                       GCancellable *cancellable)
 {
 	CamelStream *filter_stream;
 	CamelMimeFilter *filter;
@@ -1367,9 +1372,9 @@ em_format_format_text (EMFormat *emf,
 			CAMEL_STREAM_FILTER (filter_stream),
 			CAMEL_MIME_FILTER (windows));
 
-		camel_data_wrapper_decode_to_stream (
-			dw, (CamelStream *)filter_stream, NULL);
-		camel_stream_flush ((CamelStream *)filter_stream, NULL);
+		camel_data_wrapper_decode_to_stream_sync (
+			dw, (CamelStream *)filter_stream, cancellable, NULL);
+		camel_stream_flush ((CamelStream *)filter_stream, cancellable, NULL);
 		g_object_unref (filter_stream);
 
 		charset = camel_mime_filter_windows_real_charset (windows);
@@ -1399,21 +1404,22 @@ em_format_format_text (EMFormat *emf,
 	}
 	g_object_unref (gconf);
 
-	size = camel_data_wrapper_decode_to_stream (
+	size = camel_data_wrapper_decode_to_stream_sync (
 		emf->mode == EM_FORMAT_MODE_SOURCE ?
 			(CamelDataWrapper *) dw :
 			camel_medium_get_content ((CamelMedium *)dw),
-		(CamelStream *)filter_stream, NULL);
-	camel_stream_flush ((CamelStream *)filter_stream, NULL);
+		(CamelStream *)filter_stream, cancellable, NULL);
+	camel_stream_flush ((CamelStream *)filter_stream, cancellable, NULL);
 	g_object_unref (filter_stream);
 	camel_stream_reset (mem_stream, NULL);
 
 	if (max == -1 || size == -1 || size < (max * 1024) || emf->composer) {
-		camel_stream_write_to_stream (mem_stream, (CamelStream *)stream, NULL);
-		camel_stream_flush ((CamelStream *)stream, NULL);
+		camel_stream_write_to_stream (mem_stream, (CamelStream *)stream, cancellable, NULL);
+		camel_stream_flush ((CamelStream *)stream, cancellable, NULL);
 	} else {
 		EM_FORMAT_GET_CLASS (emf)->format_optional (
-			emf, stream, (CamelMimePart *)dw, mem_stream);
+			emf, stream, (CamelMimePart *)dw,
+			mem_stream, cancellable);
 	}
 
 	if (windows)
@@ -1513,7 +1519,7 @@ emf_application_xpkcs7mime (EMFormat *emf,
 		EM_FORMAT_VALIDITY_FOUND_SMIME;
 
 	opart = camel_mime_part_new ();
-	valid = camel_cipher_decrypt (
+	valid = camel_cipher_context_decrypt_sync (
 		context, part, opart, cancellable, &local_error);
 	if (valid == NULL) {
 		em_format_format_error (
@@ -1554,7 +1560,7 @@ emf_multipart_appledouble (EMFormat *emf,
 	gint len;
 
 	if (!CAMEL_IS_MULTIPART (mp)) {
-		em_format_format_source (emf, stream, part);
+		em_format_format_source (emf, stream, part, cancellable);
 		return;
 	}
 
@@ -1566,7 +1572,7 @@ emf_multipart_appledouble (EMFormat *emf,
 		em_format_part (emf, stream, mime_part, cancellable);
 		g_string_truncate (emf->part_id, len);
 	} else
-		em_format_format_source (emf, stream, part);
+		em_format_format_source (emf, stream, part, cancellable);
 
 }
 
@@ -1583,7 +1589,7 @@ emf_multipart_mixed (EMFormat *emf,
 	gint i, nparts, len;
 
 	if (!CAMEL_IS_MULTIPART (mp)) {
-		em_format_format_source (emf, stream, part);
+		em_format_format_source (emf, stream, part, cancellable);
 		return;
 	}
 
@@ -1611,20 +1617,36 @@ emf_multipart_alternative (EMFormat *emf,
 	CamelMimePart *best = NULL;
 
 	if (!CAMEL_IS_MULTIPART (mp)) {
-		em_format_format_source (emf, stream, part);
+		em_format_format_source (emf, stream, part, cancellable);
 		return;
 	}
 
 	/* as per rfc, find the last part we know how to display */
 	nparts = camel_multipart_get_number (mp);
 	for (i = 0; i < nparts; i++) {
+		CamelDataWrapper *data_wrapper;
 		CamelContentType *type;
+		CamelStream *null_stream;
 		gchar *mime_type;
+		gsize content_size;
 
 		/* is it correct to use the passed in *part here? */
 		part = camel_multipart_get_part (mp, i);
 
-		if (!part || !camel_mime_part_get_content_size (part))
+		if (part == NULL)
+			continue;
+
+		/* This may block even though the stream does not.
+		 * XXX Pretty inefficient way to test if the MIME part
+		 *     is empty.  Surely there's a quicker way? */
+		null_stream = camel_stream_null_new ();
+		data_wrapper = camel_medium_get_content (CAMEL_MEDIUM (part));
+		camel_data_wrapper_decode_to_stream_sync (
+			data_wrapper, null_stream, cancellable, NULL);
+		content_size = CAMEL_STREAM_NULL (null_stream)->written;
+		g_object_unref (null_stream);
+
+		if (content_size == 0)
 			continue;
 
 		type = camel_mime_part_get_content_type (part);
@@ -1687,7 +1709,7 @@ emf_multipart_encrypted (EMFormat *emf,
 		em_format_format_error (
 			emf, stream, _("Could not parse MIME message. "
 			"Displaying as source."));
-		em_format_format_source (emf, stream, part);
+		em_format_format_source (emf, stream, part, cancellable);
 		return;
 	}
 
@@ -1709,7 +1731,7 @@ emf_multipart_encrypted (EMFormat *emf,
 
 	context = camel_gpg_context_new (emf->session);
 	opart = camel_mime_part_new ();
-	valid = camel_cipher_decrypt (
+	valid = camel_cipher_context_decrypt_sync (
 		context, part, opart, cancellable, &local_error);
 	if (valid == NULL) {
 		em_format_format_error (
@@ -1748,7 +1770,7 @@ emf_write_related (EMFormat *emf,
                    GCancellable *cancellable)
 {
 	em_format_format_content (emf, stream, puri->part, cancellable);
-	camel_stream_close (stream, NULL);
+	camel_stream_close (stream, cancellable, NULL);
 }
 
 /* RFC 2387 */
@@ -1769,7 +1791,7 @@ emf_multipart_related (EMFormat *emf,
 	GList *link;
 
 	if (!CAMEL_IS_MULTIPART (mp)) {
-		em_format_format_source (emf, stream, part);
+		em_format_format_source (emf, stream, part, cancellable);
 		return;
 	}
 
@@ -1829,7 +1851,7 @@ emf_multipart_related (EMFormat *emf,
 	g_string_append_printf(emf->part_id, ".related.%d", displayid);
 	em_format_part (emf, stream, display_part, cancellable);
 	g_string_truncate (emf->part_id, partidlen);
-	camel_stream_flush (stream, NULL);
+	camel_stream_flush (stream, NULL, NULL);
 
 	link = g_queue_peek_head_link (emf->pending_uri_level->data);
 
@@ -1883,7 +1905,7 @@ emf_multipart_signed (EMFormat *emf,
 		em_format_format_error (
 			emf, stream, _("Could not parse MIME message. "
 			"Displaying as source."));
-		em_format_format_source (emf, stream, part);
+		em_format_format_source (emf, stream, part, cancellable);
 		return;
 	}
 
@@ -1914,7 +1936,7 @@ emf_multipart_signed (EMFormat *emf,
 		CamelCipherValidity *valid;
 		GError *local_error = NULL;
 
-		valid = camel_cipher_verify (
+		valid = camel_cipher_context_verify_sync (
 			cipher, part, cancellable, &local_error);
 		if (valid == NULL) {
 			em_format_format_error (
@@ -1981,9 +2003,9 @@ emf_application_mbox (EMFormat *emf,
 	camel_mime_parser_scan_from (parser, TRUE);
 
 	mem_stream = camel_stream_mem_new ();
-	camel_data_wrapper_decode_to_stream (
+	camel_data_wrapper_decode_to_stream_sync (
 		camel_medium_get_content (CAMEL_MEDIUM (mime_part)),
-		mem_stream, NULL);
+		mem_stream, NULL, NULL);
 	camel_seekable_stream_seek (
 		CAMEL_SEEKABLE_STREAM (mem_stream), 0, CAMEL_STREAM_SET, NULL);
 	camel_mime_parser_init_with_stream (parser, mem_stream, NULL);
@@ -1997,7 +2019,7 @@ emf_application_mbox (EMFormat *emf,
 		message = camel_mime_message_new ();
 		mime_part = CAMEL_MIME_PART (message);
 
-		if (camel_mime_part_construct_from_parser (mime_part, parser, NULL) == -1) {
+		if (!camel_mime_part_construct_from_parser_sync (mime_part, parser, NULL, NULL)) {
 			g_object_unref (message);
 			break;
 		}
@@ -2031,7 +2053,7 @@ emf_message_rfc822 (EMFormat *emf,
 	gint len;
 
 	if (!CAMEL_IS_MIME_MESSAGE (dw)) {
-		em_format_format_source (emf, stream, part);
+		em_format_format_source (emf, stream, part, cancellable);
 		return;
 	}
 
@@ -2055,7 +2077,8 @@ emf_message_deliverystatus (EMFormat *emf,
                             GCancellable *cancellable,
                             gboolean is_fallback)
 {
-	em_format_format_text (emf, stream, (CamelDataWrapper *)part);
+	em_format_format_text (
+		emf, stream, (CamelDataWrapper *)part, cancellable);
 }
 
 static void
@@ -2086,7 +2109,8 @@ emf_inlinepgp_signed (EMFormat *emf,
 
 	cipher = camel_gpg_context_new (emf->session);
 	/* Verify the signature of the message */
-	valid = camel_cipher_verify (cipher, ipart, cancellable, &local_error);
+	valid = camel_cipher_context_verify_sync (
+		cipher, ipart, cancellable, &local_error);
 	if (!valid) {
 		em_format_format_error (
 			emf, stream, local_error->message ?
@@ -2095,7 +2119,7 @@ emf_inlinepgp_signed (EMFormat *emf,
 		if (local_error->message)
 			em_format_format_error (
 				emf, stream, "%s", local_error->message);
-		em_format_format_source (emf, stream, ipart);
+		em_format_format_source (emf, stream, ipart, cancellable);
 		/* I think this will loop: em_format_part_as(emf, stream, part, "text/plain"); */
 		g_clear_error (&local_error);
 		g_object_unref (cipher);
@@ -2115,9 +2139,9 @@ emf_inlinepgp_signed (EMFormat *emf,
 
 	/* Pass through the filters that have been setup */
 	dw = camel_medium_get_content ((CamelMedium *)ipart);
-	camel_data_wrapper_decode_to_stream (
-		dw, (CamelStream *)filtered_stream, NULL);
-	camel_stream_flush ((CamelStream *)filtered_stream, NULL);
+	camel_data_wrapper_decode_to_stream_sync (
+		dw, (CamelStream *)filtered_stream, NULL, NULL);
+	camel_stream_flush ((CamelStream *)filtered_stream, NULL, NULL);
 	g_object_unref (filtered_stream);
 
 	/* Create a new text/plain MIME part containing the signed
@@ -2135,7 +2159,7 @@ emf_inlinepgp_signed (EMFormat *emf,
 	camel_content_type_unref (content_type);
 
 	dw = camel_data_wrapper_new ();
-	camel_data_wrapper_construct_from_stream (dw, ostream, NULL);
+	camel_data_wrapper_construct_from_stream_sync (dw, ostream, NULL, NULL);
 	camel_data_wrapper_set_mime_type (dw, type);
 	g_free (type);
 
@@ -2166,7 +2190,6 @@ emf_inlinepgp_encrypted (EMFormat *emf,
 	CamelCipherValidity *valid;
 	CamelMimePart *opart;
 	CamelDataWrapper *dw;
-	CamelOperation *operation;
 	gchar *mime_type;
 	GError *local_error = NULL;
 
@@ -2178,16 +2201,8 @@ emf_inlinepgp_encrypted (EMFormat *emf,
 	opart = camel_mime_part_new ();
 
 	/* Decrypt the message */
-	operation = camel_operation_registered ();
-	if (operation != NULL)
-		camel_operation_start (operation, _("Decrypting message"));
-	valid = camel_cipher_decrypt (
-		cipher, ipart, opart,
-		G_CANCELLABLE (operation), &local_error);
-	if (operation != NULL) {
-		camel_operation_end (operation);
-		g_object_unref (operation);
-	}
+	valid = camel_cipher_context_decrypt_sync (
+		cipher, ipart, opart, cancellable, &local_error);
 
 	if (!valid) {
 		em_format_format_error (
@@ -2198,7 +2213,7 @@ emf_inlinepgp_encrypted (EMFormat *emf,
 		else
 			em_format_format_error (
 				emf, stream, _("Unknown error"));
-		em_format_format_source (emf, stream, ipart);
+		em_format_format_source (emf, stream, ipart, cancellable);
 		/* I think this will loop: em_format_part_as(emf, stream, part, "text/plain"); */
 
 		g_clear_error (&local_error);
@@ -2302,7 +2317,7 @@ em_format_snoop_type (CamelMimePart *part)
 		byte_array = g_byte_array_new ();
 		stream = camel_stream_mem_new_with_byte_array (byte_array);
 
-		if (camel_data_wrapper_decode_to_stream (dw, stream, NULL) > 0) {
+		if (camel_data_wrapper_decode_to_stream_sync (dw, stream, NULL, NULL) > 0) {
 			gchar *content_type;
 
 			content_type = g_content_type_guess (

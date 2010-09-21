@@ -88,7 +88,7 @@ emfq_format_clone (EMFormat *emf,
 			CAMEL_MIME_PART (msg),
 			handle, cancellable, FALSE);
 
-	camel_stream_flush (emfq->stream, NULL);
+	camel_stream_flush (emfq->stream, cancellable, NULL);
 
 	g_signal_emit_by_name(emf, "complete");
 }
@@ -104,7 +104,8 @@ emfq_format_error (EMFormat *emf,
 static void
 emfq_format_source (EMFormat *emf,
                     CamelStream *stream,
-                    CamelMimePart *part)
+                    CamelMimePart *part,
+                    GCancellable *cancellable)
 {
 	CamelStream *filtered_stream;
 	CamelMimeFilter *html_filter;
@@ -119,7 +120,8 @@ emfq_format_source (EMFormat *emf,
 	g_object_unref (html_filter);
 
 	em_format_format_text (
-		emf, filtered_stream, CAMEL_DATA_WRAPPER (part));
+		emf, filtered_stream,
+		CAMEL_DATA_WRAPPER (part), cancellable);
 
 	g_object_unref (filtered_stream);
 }
@@ -140,18 +142,19 @@ emfq_format_attachment (EMFormat *emf,
 
 	camel_stream_write_string (
 		stream, "<table border=1 cellspacing=0 cellpadding=0>"
-		"<tr><td><font size=-1>\n", NULL);
+		"<tr><td><font size=-1>\n", cancellable, NULL);
 
 	/* output some info about it */
 	text = em_format_describe_part (part, mime_type);
 	html = camel_text_to_html (
 		text, emfq->text_html_flags &
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
-	camel_stream_write_string (stream, html, NULL);
+	camel_stream_write_string (stream, html, cancellable, NULL);
 	g_free (html);
 	g_free (text);
 
-	camel_stream_write_string (stream, "</font></td></tr></table>", NULL);
+	camel_stream_write_string (
+		stream, "</font></td></tr></table>", cancellable, NULL);
 
 	handle->handler (emf, stream, part, handle, cancellable, FALSE);
 }
@@ -518,7 +521,8 @@ emfq_format_message (EMFormat *emf,
 	if (emfq->flags & EM_FORMAT_QUOTE_CITE)
 		camel_stream_write_string (
 			stream, "</blockquote><!--+GtkHTML:"
-			"<DATA class=\"ClueFlow\" clear=\"orig\">-->", NULL);
+			"<DATA class=\"ClueFlow\" clear=\"orig\">-->",
+			cancellable, NULL);
 }
 
 static void
@@ -565,9 +569,9 @@ emfq_text_plain (EMFormat *emf,
 
 	em_format_format_text (
 		EM_FORMAT (emfq), filtered_stream,
-		CAMEL_DATA_WRAPPER (part));
+		CAMEL_DATA_WRAPPER (part), cancellable);
 
-	camel_stream_flush (filtered_stream, NULL);
+	camel_stream_flush (filtered_stream, cancellable, NULL);
 	g_object_unref (filtered_stream);
 }
 
@@ -586,10 +590,12 @@ emfq_text_enriched (EMFormat *emf,
 	if (g_strcmp0 (info->mime_type, "text/richtext") == 0) {
 		flags = CAMEL_MIME_FILTER_ENRICHED_IS_RICHTEXT;
 		camel_stream_write_string (
-			stream, "\n<!-- text/richtext -->\n", NULL);
+			stream, "\n<!-- text/richtext -->\n",
+			cancellable, NULL);
 	} else {
 		camel_stream_write_string (
-			stream, "\n<!-- text/enriched -->\n", NULL);
+			stream, "\n<!-- text/enriched -->\n",
+			cancellable, NULL);
 	}
 
 	enriched = camel_mime_filter_enriched_new (flags);
@@ -598,9 +604,9 @@ emfq_text_enriched (EMFormat *emf,
 		CAMEL_STREAM_FILTER (filtered_stream), enriched);
 	g_object_unref (enriched);
 
-	camel_stream_write_string (stream, "<br><hr><br>", NULL);
+	camel_stream_write_string (stream, "<br><hr><br>", cancellable, NULL);
 	em_format_format_text (
-		emf, filtered_stream, CAMEL_DATA_WRAPPER (part));
+		emf, filtered_stream, CAMEL_DATA_WRAPPER (part), cancellable);
 	g_object_unref (filtered_stream);
 }
 
@@ -612,8 +618,10 @@ emfq_text_html (EMFormat *emf,
                 GCancellable *cancellable,
                 gboolean is_fallback)
 {
-	camel_stream_write_string(stream, "\n<!-- text/html -->\n", NULL);
-	em_format_format_text (emf, stream, (CamelDataWrapper *)part);
+	camel_stream_write_string (
+		stream, "\n<!-- text/html -->\n", cancellable, NULL);
+	em_format_format_text (
+		emf, stream, (CamelDataWrapper *)part, cancellable);
 }
 
 static void

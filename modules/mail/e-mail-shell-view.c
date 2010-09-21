@@ -59,8 +59,6 @@ search_results_exec (SearchResultsMsg *msg)
 {
 	GList *copied_list;
 
-	camel_operation_register (msg->cancel);
-
 	copied_list = g_list_copy (msg->folder_list);
 	g_list_foreach (copied_list, (GFunc) g_object_ref, NULL);
 

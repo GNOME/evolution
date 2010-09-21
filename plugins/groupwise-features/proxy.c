@@ -664,7 +664,7 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 		priv->builder_tab = gtk_builder_new ();
 		e_load_ui_builder_definition (priv->builder_tab, "proxy-listing.ui");
 
-		if (account->enabled && (store->state == CAMEL_OFFLINE_STORE_NETWORK_AVAIL)) {
+		if (account->enabled && camel_offline_store_get_online (store)) {
 			priv->tab_dialog = GTK_WIDGET (e_builder_get_widget (priv->builder_tab, "proxy_vbox"));
 			priv->tree = GTK_TREE_VIEW (e_builder_get_widget (priv->builder_tab, "proxy_access_list"));
 			priv->store =  gtk_tree_store_new (2,

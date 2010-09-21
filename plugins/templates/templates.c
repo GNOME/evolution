@@ -488,10 +488,11 @@ create_new_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *mes
 	/* make the exact copy of the template message, with all
 	   its attachments and message structure */
 	mem = camel_stream_mem_new ();
-	camel_data_wrapper_write_to_stream (
-		CAMEL_DATA_WRAPPER (template), mem, NULL);
+	camel_data_wrapper_write_to_stream_sync (
+		CAMEL_DATA_WRAPPER (template), mem, NULL, NULL);
 	camel_stream_reset (mem, NULL);
-	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (new), mem, NULL);
+	camel_data_wrapper_construct_from_stream_sync (
+		CAMEL_DATA_WRAPPER (new), mem, NULL, NULL);
 	g_object_unref (mem);
 
 	/* Add the headers from the message we are replying to, so CC and that
@@ -566,7 +567,7 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 		guint ii;
 
 		/* FIXME Not passing a GCancellable or GError here. */
-		folder = camel_store_get_folder (
+		folder = camel_store_get_folder_sync (
 			store, folder_info->full_name, 0, NULL, NULL);
 		folder_name = camel_folder_get_name (folder);
 
@@ -614,7 +615,7 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 				continue;
 
 			/* FIXME Not passing a GCancellable or GError here. */
-			template = camel_folder_get_message (
+			template = camel_folder_get_message_sync (
 				folder, uid, NULL, NULL);
 			g_object_ref (template);
 
@@ -679,7 +680,7 @@ action_template_cb (GtkAction *action,
 	/* Get the templates folder and all UIDs of the messages there. */
 	folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
 
-	msg = e_msg_composer_get_message_draft (composer, &error);
+	msg = e_msg_composer_get_message_draft (composer, NULL, &error);
 
 	/* Ignore cancellations. */
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
@@ -768,7 +769,7 @@ update_actions_cb (EShellView *shell_view)
 	full_name = camel_folder_get_full_name (templates_folder);
 
 	/* FIXME Not passing a GCancellable or GError here. */
-	folder_info = camel_store_get_folder_info (
+	folder_info = camel_store_get_folder_info_sync (
 		store, full_name,
 		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
 		CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);

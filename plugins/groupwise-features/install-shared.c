@@ -104,7 +104,8 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 			if (e_gw_connection_accept_shared_folder (cnc, folder_name, container_id, (gchar *)item_id, NULL) == E_GW_CONNECTION_STATUS_OK) {
 
 				/* FIXME Not passing a GCancellable or GError here. */
-				folder = camel_store_get_folder (store, "Mailbox", 0, NULL, NULL);
+				folder = camel_store_get_folder_sync (
+					store, "Mailbox", 0, NULL, NULL);
 				/*changes = camel_folder_change_info_new ();
 				camel_folder_change_info_remove_uid (changes, (gchar *) item_id);
 				camel_folder_summary_remove_uid (folder->summary, item_id);*/
@@ -210,8 +211,8 @@ org_gnome_popup_wizard (EPlugin *ep, EMEventTargetMessage *target)
 
 		byte_array = g_byte_array_new ();
 		stream = camel_stream_mem_new_with_byte_array (byte_array);
-		camel_data_wrapper_write_to_stream (dw, stream, NULL);
-		camel_stream_write (stream, "", 1, NULL);
+		camel_data_wrapper_write_to_stream_sync (dw, stream, NULL, NULL);
+		camel_stream_write (stream, "", 1, NULL, NULL);
 
 		from_addr = camel_mime_message_get_from ((CamelMimeMessage *)target->message);
 		if (from_addr && camel_internet_address_get (from_addr, 0, &name, &email)) {

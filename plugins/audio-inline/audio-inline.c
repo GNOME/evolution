@@ -210,8 +210,9 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 
 		stream = camel_stream_fs_new_with_name (po->filename, O_RDWR | O_CREAT | O_TRUNC, 0600, NULL);
 		data = camel_medium_get_content (CAMEL_MEDIUM (po->part));
-		camel_data_wrapper_decode_to_stream (data, stream, NULL);
-		camel_stream_flush (stream, NULL);
+		camel_data_wrapper_decode_to_stream_sync (
+			data, stream, NULL, NULL);
+		camel_stream_flush (stream, NULL, NULL);
 		g_object_unref (stream);
 
 		d(printf ("audio inline formatter: init gst playbin\n"));

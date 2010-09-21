@@ -196,7 +196,7 @@ e_read_signature_file (ESignature *signature,
 	output_stream = camel_stream_mem_new ();
 	camel_stream_mem_set_byte_array (
 		CAMEL_STREAM_MEM (output_stream), buffer);
-	camel_stream_write_to_stream (input_stream, output_stream, NULL);
+	camel_stream_write_to_stream (input_stream, output_stream, NULL, NULL);
 	g_object_unref (output_stream);
 	g_object_unref (input_stream);
 
@@ -290,7 +290,8 @@ e_run_signature_script (const gchar *filename)
 			CAMEL_STREAM_MEM (output_stream), buffer);
 
 		input_stream = camel_stream_fs_new_with_fd (in_fds[0]);
-		camel_stream_write_to_stream (input_stream, output_stream, NULL);
+		camel_stream_write_to_stream (
+			input_stream, output_stream, NULL, NULL);
 		g_object_unref (input_stream);
 
 		g_object_unref (output_stream);

@@ -130,8 +130,6 @@ import_mbox_exec (struct _import_mbox_msg *m)
 		return;
 
 	if (S_ISREG (st.st_mode)) {
-		CamelOperation *oldcancel = NULL;
-
 		fd = g_open (m->path, O_RDONLY|O_BINARY, 0);
 		if (fd == -1) {
 			g_warning("cannot find source file to import '%s': %s", m->path, g_strerror(errno));
@@ -144,11 +142,8 @@ import_mbox_exec (struct _import_mbox_msg *m)
 			goto fail2;
 		}
 
-		if (m->cancel)
-			oldcancel = camel_operation_register (m->cancel);
-
-		camel_operation_start (
-			NULL, _("Importing '%s'"),
+		camel_operation_push_message (
+			m->base.cancellable, _("Importing '%s'"),
 			camel_folder_get_full_name (folder));
 		camel_folder_freeze (folder);
 		while (camel_mime_parser_step (mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM) {
@@ -159,10 +154,11 @@ import_mbox_exec (struct _import_mbox_msg *m)
 
 			if (st.st_size > 0)
 				pc = (gint)(100.0 * ((double)camel_mime_parser_tell (mp) / (double)st.st_size));
-			camel_operation_progress (NULL, pc);
+			camel_operation_progress (m->base.cancellable, pc);
 
 			msg = camel_mime_message_new ();
-			if (camel_mime_part_construct_from_parser ((CamelMimePart *)msg, mp, NULL) == -1) {
+			if (!camel_mime_part_construct_from_parser_sync (
+				(CamelMimePart *)msg, mp, NULL, NULL)) {
 				/* set exception? */
 				g_object_unref (msg);
 				break;
@@ -181,7 +177,7 @@ import_mbox_exec (struct _import_mbox_msg *m)
 				flags |= decode_status (tmp);
 
 			camel_message_info_set_flags (info, flags, ~0);
-			camel_folder_append_message (
+			camel_folder_append_message_sync (
 				folder, msg, info, NULL,
 				m->base.cancellable, &m->base.error);
 			camel_message_info_free (info);
@@ -193,18 +189,16 @@ import_mbox_exec (struct _import_mbox_msg *m)
 			camel_mime_parser_step (mp, NULL, NULL);
 		}
 		/* FIXME Not passing a GCancellable or GError here. */
-		camel_folder_sync (folder, FALSE, NULL, NULL);
+		camel_folder_synchronize_sync (folder, FALSE, NULL, NULL);
 		camel_folder_thaw (folder);
-		camel_operation_end (NULL);
+		camel_operation_pop_message (m->base.cancellable);
 		/* TODO: these api's are a bit weird, registering the old is the same as deregistering */
-		if (m->cancel)
-			camel_operation_register (oldcancel);
 	fail2:
 		g_object_unref (mp);
 	}
 fail1:
 	/* FIXME Not passing a GCancellable or GError here. */
-	camel_folder_sync (folder, FALSE, NULL, NULL);
+	camel_folder_synchronize_sync (folder, FALSE, NULL, NULL);
 	g_object_unref (folder);
 }
 
@@ -292,7 +286,7 @@ import_folders_rec (struct _import_folders_data *m, const gchar *filepath, const
 	data_dir = mail_session_get_data_dir ();
 
 	utf8_filename = g_filename_to_utf8 (filepath, -1, NULL, NULL, NULL);
-	camel_operation_start(NULL, _("Scanning %s"), utf8_filename);
+	camel_operation_push_message (NULL, _("Scanning %s"), utf8_filename);
 	g_free (utf8_filename);
 
 	while ( (d=g_dir_read_name (dir))) {
@@ -350,7 +344,7 @@ import_folders_rec (struct _import_folders_data *m, const gchar *filepath, const
 	}
 	g_dir_close (dir);
 
-	camel_operation_end (NULL);
+	camel_operation_pop_message (NULL);
 }
 
 /**
@@ -372,17 +366,10 @@ void
 mail_importer_import_folders_sync (const gchar *filepath, MailImporterSpecial special_folders[], gint flags, CamelOperation *cancel)
 {
 	struct _import_folders_data m;
-	CamelOperation *oldcancel = NULL;
 
 	m.special_folders = special_folders;
 	m.elmfmt = (flags & MAIL_IMPORTER_MOZFMT) == 0;
 	m.cancel = cancel;
 
-	if (cancel)
-		oldcancel = camel_operation_register (cancel);
-
 	import_folders_rec (&m, filepath, NULL);
-
-	if (cancel)
-		camel_operation_register (oldcancel);
 }

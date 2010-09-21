@@ -104,7 +104,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m)
 	const gchar *tmp;
 	gint fromlen;
 
-	fi = camel_store_get_folder_info (
+	fi = camel_store_get_folder_info_sync (
 		m->fromstore, m->frombase, flags,
 		m->base.cancellable, &m->base.error);
 	if (fi == NULL)
@@ -147,7 +147,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m)
 			if ((info->flags & CAMEL_FOLDER_NOSELECT) == 0) {
 				d(printf ("this folder is selectable\n"));
 				if (m->tostore == m->fromstore && m->delete) {
-					camel_store_rename_folder (
+					camel_store_rename_folder_sync (
 						m->fromstore, info->full_name, toname->str,
 						m->base.cancellable, &m->base.error);
 					if (m->base.error != NULL)
@@ -155,18 +155,18 @@ emft_copy_folders__exec (struct _EMCopyFolders *m)
 
 					/* this folder no longer exists, unsubscribe it */
 					if (camel_store_supports_subscriptions (m->fromstore))
-						camel_store_unsubscribe_folder (
+						camel_store_unsubscribe_folder_sync (
 							m->fromstore, info->full_name, NULL, NULL);
 
 					deleted = 1;
 				} else {
-					fromfolder = camel_store_get_folder (
+					fromfolder = camel_store_get_folder_sync (
 						m->fromstore, info->full_name, 0,
 						m->base.cancellable, &m->base.error);
 					if (fromfolder == NULL)
 						goto exception;
 
-					tofolder = camel_store_get_folder (
+					tofolder = camel_store_get_folder_sync (
 						m->tostore, toname->str,
 						CAMEL_STORE_FOLDER_CREATE,
 						m->base.cancellable,
@@ -177,15 +177,15 @@ emft_copy_folders__exec (struct _EMCopyFolders *m)
 					}
 
 					uids = camel_folder_get_uids (fromfolder);
-					camel_folder_transfer_messages_to (
+					camel_folder_transfer_messages_to_sync (
 						fromfolder, uids, tofolder,
-						NULL, m->delete,
+						m->delete, NULL,
 						m->base.cancellable,
 						&m->base.error);
 					camel_folder_free_uids (fromfolder, uids);
 
 					if (m->delete && m->base.error == NULL)
-						camel_folder_sync (
+						camel_folder_synchronize_sync (
 							fromfolder, TRUE,
 							NULL, NULL);
 
@@ -202,7 +202,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m)
 			/* subscribe to the new folder if appropriate */
 			if (camel_store_supports_subscriptions (m->tostore)
 			    && !camel_store_folder_is_subscribed (m->tostore, toname->str))
-				camel_store_subscribe_folder (
+				camel_store_subscribe_folder_sync (
 					m->tostore, toname->str, NULL, NULL);
 
 			info = info->next;
@@ -220,10 +220,10 @@ emft_copy_folders__exec (struct _EMCopyFolders *m)
 		   since otherwise the users sees a failed operation
 		   with no error message or even any warnings */
 		if (camel_store_supports_subscriptions (m->fromstore))
-			camel_store_unsubscribe_folder (
+			camel_store_unsubscribe_folder_sync (
 				m->fromstore, info->full_name, NULL, NULL);
 
-		camel_store_delete_folder (
+		camel_store_delete_folder_sync (
 			m->fromstore, info->full_name, NULL, NULL);
 		l = l->next;
 	}
@@ -548,12 +548,12 @@ emfu_create_folder__exec (struct _EMCreateFolder *m)
 {
 	d(printf ("creating folder parent='%s' name='%s' full_name='%s'\n", m->parent, m->name, m->full_name));
 
-	if ((m->fi = camel_store_create_folder (
+	if ((m->fi = camel_store_create_folder_sync (
 		m->store, m->parent, m->name,
 		m->base.cancellable, &m->base.error))) {
 
 		if (camel_store_supports_subscriptions (m->store))
-			camel_store_subscribe_folder (
+			camel_store_subscribe_folder_sync (
 				m->store, m->full_name,
 				m->base.cancellable, &m->base.error);
 	}
@@ -751,7 +751,7 @@ emfu_unsubscribe_folder__exec (struct _folder_unsub_t *msg)
 		path = url->path + 1;
 
 	if (path != NULL)
-		camel_store_unsubscribe_folder (
+		camel_store_unsubscribe_folder_sync (
 			store, path, msg->base.cancellable,
 			&msg->base.error);
 

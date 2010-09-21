@@ -195,8 +195,8 @@ real_flush_updates (gpointer o, gpointer event_data, gpointer data)
 			 * ensure their changes will be tracked correctly. */
 			CamelFolder *folder;
 
-			/* FIXME camel_store_get_folder() may block. */
-			folder = camel_store_get_folder (
+			/* FIXME camel_store_get_folder_sync() may block. */
+			folder = camel_store_get_folder_sync (
 				up->store, up->full_name, 0, NULL, NULL);
 
 			if (folder) {
@@ -802,12 +802,12 @@ ping_store_exec (struct _ping_store_msg *m)
 			CAMEL_DISCO_STORE (m->store)) !=CAMEL_DISCO_STORE_OFFLINE)
 			online = TRUE;
 		else if (CAMEL_IS_OFFLINE_STORE (m->store) &&
-			CAMEL_OFFLINE_STORE (m->store)->state !=
-			CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL)
+			camel_offline_store_get_online (
+			CAMEL_OFFLINE_STORE (m->store)))
 			online = TRUE;
 	}
 	if (online)
-		camel_store_noop (
+		camel_store_noop_sync (
 			m->store, m->base.cancellable, &m->base.error);
 }
 
@@ -1140,8 +1140,8 @@ mail_folder_cache_note_store (MailFolderCache *self,
 		}
 	} else if (CAMEL_IS_OFFLINE_STORE (store)) {
 		if (camel_session_get_online (session) &&
-			CAMEL_OFFLINE_STORE (store)->state ==
-			CAMEL_OFFLINE_STORE_NETWORK_UNAVAIL) {
+			!camel_offline_store_get_online (
+			CAMEL_OFFLINE_STORE (store))) {
 			/* Note: we use the 'id' here, even though its not the right id, its still ok */
 			ud->id = mail_store_set_offline (store, FALSE, store_online_cb, ud);
 		} else {

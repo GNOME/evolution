@@ -126,7 +126,8 @@ static void	efh_format_message		(EMFormat *emf,
 						 CamelStream *stream,
 						 CamelMimePart *part,
 						 const EMFormatHandler *info,
-						 GCancellable *cancellable);
+						 GCancellable *cancellable,
+						 gboolean is_fallback);
 
 static void	efh_format_secure		(EMFormat *emf,
 						 CamelStream *stream,
@@ -194,7 +195,7 @@ efh_format_exec (struct _format_msg *m)
 	if (format->mode == EM_FORMAT_MODE_SOURCE) {
 		em_format_format_source (
 			format, (CamelStream *) m->estream,
-			(CamelMimePart *) m->message);
+			(CamelMimePart *) m->message, m->base.cancellable);
 	} else {
 		const EMFormatHandler *handle;
 		const gchar *mime_type;
@@ -218,7 +219,7 @@ efh_format_exec (struct _format_msg *m)
 				m->base.cancellable, FALSE);
 	}
 
-	camel_stream_flush ((CamelStream *)m->estream, NULL);
+	camel_stream_flush ((CamelStream *)m->estream, m->base.cancellable, NULL);
 
 	puri_level = format->pending_uri_level;
 	base = format->base;
@@ -256,8 +257,8 @@ efh_format_exec (struct _format_msg *m)
 			d(printf("out of jobs, closing root stream\n"));
 			camel_stream_write_string (
 				(CamelStream *) m->estream,
-				"</body>\n</html>\n", NULL);
-			camel_stream_close ((CamelStream *)m->estream, NULL);
+				"</body>\n</html>\n", m->base.cancellable, NULL);
+			camel_stream_close ((CamelStream *)m->estream, m->base.cancellable, NULL);
 			g_object_unref (m->estream);
 			m->estream = NULL;
 		}
@@ -286,7 +287,7 @@ efh_format_free (struct _format_msg *m)
 	d(printf("formatter freed\n"));
 	g_object_unref (m->format);
 	if (m->estream) {
-		camel_stream_close ((CamelStream *)m->estream, NULL);
+		camel_stream_close ((CamelStream *)m->estream, m->base.cancellable, NULL);
 		g_object_unref (m->estream);
 	}
 	if (m->folder)
@@ -696,7 +697,8 @@ efh_format_error (EMFormat *emf,
 static void
 efh_format_source (EMFormat *emf,
                    CamelStream *stream,
-                   CamelMimePart *part)
+                   CamelMimePart *part,
+                   GCancellable *cancellable)
 {
 	CamelStream *filtered_stream;
 	CamelMimeFilter *filter;
@@ -712,11 +714,11 @@ efh_format_source (EMFormat *emf,
 		CAMEL_STREAM_FILTER (filtered_stream), filter);
 	g_object_unref (filter);
 
-	camel_stream_write_string (stream, "<table><tr><td><tt>", NULL);
-	em_format_format_text (emf, (CamelStream *) filtered_stream, dw);
+	camel_stream_write_string (stream, "<table><tr><td><tt>", cancellable, NULL);
+	em_format_format_text (emf, (CamelStream *) filtered_stream, dw, cancellable);
 	g_object_unref (filtered_stream);
 
-	camel_stream_write_string(stream, "</tt></td></tr></table>", NULL);
+	camel_stream_write_string(stream, "</tt></td></tr></table>", cancellable, NULL);
 }
 
 static void
@@ -739,19 +741,19 @@ efh_format_attachment (EMFormat *emf,
 		"<tr><td></td></tr></table></td>"
 		"<td><table width=3 cellspacing=0 cellpadding=0>"
 		"<tr><td></td></tr></table></td><td><font size=-1>\n",
-		NULL);
+		cancellable, NULL);
 
 	/* output some info about it */
 	text = em_format_describe_part (part, mime_type);
 	html = camel_text_to_html (
 		text, ((EMFormatHTML *)emf)->text_html_flags &
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
-	camel_stream_write_string (stream, html, NULL);
+	camel_stream_write_string (stream, html, cancellable, NULL);
 	g_free (html);
 	g_free (text);
 
 	camel_stream_write_string (
-		stream, "</font></td></tr><tr></table>", NULL);
+		stream, "</font></td></tr><tr></table>", cancellable, NULL);
 
 	if (handle && em_format_is_inline (emf, emf->part_id->str, part, handle))
 		handle->handler (emf, stream, part, handle, cancellable, FALSE);
@@ -1226,7 +1228,10 @@ em_format_html_set_show_real_date (EMFormatHTML *efh,
 }
 
 CamelMimePart *
-em_format_html_file_part (EMFormatHTML *efh, const gchar *mime_type, const gchar *filename)
+em_format_html_file_part (EMFormatHTML *efh,
+                          const gchar *mime_type,
+                          const gchar *filename,
+                          GCancellable *cancellable)
 {
 	CamelMimePart *part;
 	CamelStream *stream;
@@ -1238,7 +1243,8 @@ em_format_html_file_part (EMFormatHTML *efh, const gchar *mime_type, const gchar
 		return NULL;
 
 	dw = camel_data_wrapper_new ();
-	camel_data_wrapper_construct_from_stream (dw, stream, NULL);
+	camel_data_wrapper_construct_from_stream_sync (
+		dw, stream, cancellable, NULL);
 	g_object_unref (stream);
 	if (mime_type)
 		camel_data_wrapper_set_mime_type (dw, mime_type);
@@ -1437,7 +1443,8 @@ emfh_gethttp (struct _EMFormatHTMLJob *job,
 			camel_http_stream_set_proxy ((CamelHttpStream *)instream, proxy);
 			g_free (proxy);
 		}
-		camel_operation_start (cancellable, _("Retrieving '%s'"), job->u.uri);
+		camel_operation_push_message (
+			cancellable, _("Retrieving '%s'"), job->u.uri);
 		tmp_stream = (CamelHttpStream *)instream;
 		content_type = camel_http_stream_get_content_type (tmp_stream);
 		length = camel_header_raw_find(&tmp_stream->headers, "Content-Length", NULL);
@@ -1446,7 +1453,8 @@ emfh_gethttp (struct _EMFormatHTMLJob *job,
 			total = atoi (length);
 		camel_content_type_unref (content_type);
 	} else
-		camel_operation_start_transient (cancellable, _("Retrieving '%s'"), job->u.uri);
+		camel_operation_push_message (
+			cancellable, _("Retrieving '%s'"), job->u.uri);
 
 	camel_url_free (url);
 
@@ -1462,7 +1470,7 @@ emfh_gethttp (struct _EMFormatHTMLJob *job,
 			break;
 		}
 		/* FIXME: progress reporting in percentage, can we get the length always?  do we care? */
-		n = camel_stream_read (instream, buffer, sizeof (buffer), NULL);
+		n = camel_stream_read (instream, buffer, sizeof (buffer), cancellable, NULL);
 		if (n > 0) {
 			nread += n;
 			/* If we didn't get a valid Content-Length header, do not try to calculate percentage */
@@ -1471,18 +1479,18 @@ emfh_gethttp (struct _EMFormatHTMLJob *job,
 				camel_operation_progress (cancellable, pc_complete);
 			}
 			d(printf("  read %d bytes\n", n));
-			if (costream && camel_stream_write (costream, buffer, n, NULL) == -1) {
+			if (costream && camel_stream_write (costream, buffer, n, cancellable, NULL) == -1) {
 				n = -1;
 				break;
 			}
 
-			camel_stream_write (job->stream, buffer, n, NULL);
+			camel_stream_write (job->stream, buffer, n, cancellable, NULL);
 		}
 	} while (n>0);
 
 	/* indicates success */
 	if (n == 0)
-		camel_stream_close (job->stream, NULL);
+		camel_stream_close (job->stream, cancellable, NULL);
 
 	if (costream) {
 		/* do not store broken files in a cache */
@@ -1493,7 +1501,7 @@ emfh_gethttp (struct _EMFormatHTMLJob *job,
 
 	g_object_unref (instream);
 done:
-	camel_operation_end (cancellable);
+	camel_operation_pop_message (cancellable);
 badurl:
 	g_free (job->u.uri);
 }
@@ -1649,7 +1657,7 @@ efh_format_secure (EMFormat *emf,
 		else
 			icon = smime_encrypt_table[valid->encrypt.status].icon;
 		iconpath = e_icon_factory_get_icon_filename (icon, GTK_ICON_SIZE_DIALOG);
-		iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", iconpath);
+		iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", iconpath, cancellable);
 		if (iconpart) {
 			(void)em_format_add_puri (emf, sizeof (EMFormatPURI), classid, iconpart, efh_write_image);
 			g_object_unref (iconpart);
@@ -1682,13 +1690,14 @@ efh_format_secure (EMFormat *emf,
 }
 
 static void
-efh_text_plain (EMFormatHTML *efh,
+efh_text_plain (EMFormat *emf,
                 CamelStream *stream,
                 CamelMimePart *part,
                 const EMFormatHandler *info,
                 GCancellable *cancellable,
                 gboolean is_fallback)
 {
+	EMFormatHTML *efh = EM_FORMAT_HTML (emf);
 	CamelStream *filtered_stream;
 	CamelMimeFilter *html_filter;
 	CamelMultipart *mp;
@@ -1721,7 +1730,10 @@ efh_text_plain (EMFormatHTML *efh,
 	   filters a bit.  Perhaps the superclass should just deal with
 	   html anyway and be done with it ... */
 
-	efhc = g_hash_table_lookup (efh->priv->text_inline_parts, ((EMFormat *)efh)->part_id->str);
+	efhc = g_hash_table_lookup (
+		efh->priv->text_inline_parts,
+		emf->part_id->str);
+
 	if (efhc == NULL || (mp = efhc->textmp) == NULL) {
 		EMInlineFilter *inline_filter;
 		CamelStream *null;
@@ -1729,8 +1741,8 @@ efh_text_plain (EMFormatHTML *efh,
 
 		/* if we had to snoop the part type to get here, then
 		 * use that as the base type, yuck */
-		if (((EMFormat *)efh)->snoop_mime_type == NULL
-		    || (ct = camel_content_type_decode (((EMFormat *)efh)->snoop_mime_type)) == NULL) {
+		if (emf->snoop_mime_type == NULL
+		    || (ct = camel_content_type_decode (emf->snoop_mime_type)) == NULL) {
 			ct = dw->mime_type;
 			camel_content_type_ref (ct);
 		}
@@ -1742,14 +1754,14 @@ efh_text_plain (EMFormatHTML *efh,
 		camel_stream_filter_add (
 			CAMEL_STREAM_FILTER (filtered_stream),
 			CAMEL_MIME_FILTER (inline_filter));
-		camel_data_wrapper_decode_to_stream (
-			dw, (CamelStream *)filtered_stream, NULL);
-		camel_stream_close ((CamelStream *)filtered_stream, NULL);
+		camel_data_wrapper_decode_to_stream_sync (
+			dw, (CamelStream *)filtered_stream, cancellable, NULL);
+		camel_stream_close ((CamelStream *)filtered_stream, cancellable, NULL);
 		g_object_unref (filtered_stream);
 
 		mp = em_inline_filter_get_multipart (inline_filter);
 		if (efhc == NULL)
-			efhc = efh_insert_cache (efh, ((EMFormat *)efh)->part_id->str);
+			efhc = efh_insert_cache (efh, emf->part_id->str);
 		efhc->textmp = mp;
 
 		g_object_unref (inline_filter);
@@ -1766,7 +1778,7 @@ efh_text_plain (EMFormatHTML *efh,
 
 	/* We handle our made-up multipart here, so we don't recursively call ourselves */
 
-	len = ((EMFormat *)efh)->part_id->len;
+	len = emf->part_id->len;
 	count = camel_multipart_get_number (mp);
 	for (i=0;i<count;i++) {
 		CamelMimePart *newpart = camel_multipart_get_part (mp, i);
@@ -1788,16 +1800,19 @@ efh_text_plain (EMFormatHTML *efh,
 					&efh->priv->colors[
 					EM_FORMAT_HTML_COLOR_TEXT]));
 			camel_stream_write_string (
-				stream, "<tt>\n" EFH_MESSAGE_START, NULL);
-			em_format_format_text ((EMFormat *)efh, (CamelStream *)filtered_stream, (CamelDataWrapper *)newpart);
-			camel_stream_flush ((CamelStream *)filtered_stream, NULL);
-			camel_stream_write_string (stream, "</tt>\n", NULL);
-			camel_stream_write_string (stream, "</div>\n", NULL);
+				stream, "<tt>\n" EFH_MESSAGE_START, cancellable, NULL);
+			em_format_format_text (
+				emf, filtered_stream,
+				(CamelDataWrapper *) newpart,
+				cancellable);
+			camel_stream_flush ((CamelStream *)filtered_stream, cancellable, NULL);
+			camel_stream_write_string (stream, "</tt>\n", cancellable, NULL);
+			camel_stream_write_string (stream, "</div>\n", cancellable, NULL);
 		} else {
-			g_string_append_printf(((EMFormat *)efh)->part_id, ".inline.%d", i);
+			g_string_append_printf (emf->part_id, ".inline.%d", i);
 			em_format_part (
-				EM_FORMAT (efh), stream, newpart, cancellable);
-			g_string_truncate (((EMFormat *)efh)->part_id, len);
+				emf, stream, newpart, cancellable);
+			g_string_truncate (emf->part_id, len);
 		}
 	}
 
@@ -1805,8 +1820,14 @@ efh_text_plain (EMFormatHTML *efh,
 }
 
 static void
-efh_text_enriched (EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
+efh_text_enriched (EMFormat *emf,
+                   CamelStream *stream,
+                   CamelMimePart *part,
+                   const EMFormatHandler *info,
+                   GCancellable *cancellable,
+                   gboolean is_fallback)
 {
+	EMFormatHTML *efh = EM_FORMAT_HTML (emf);
 	CamelStream *filtered_stream;
 	CamelMimeFilter *enriched;
 	guint32 flags = 0;
@@ -1814,10 +1835,12 @@ efh_text_enriched (EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, 
 	if (!strcmp(info->mime_type, "text/richtext")) {
 		flags = CAMEL_MIME_FILTER_ENRICHED_IS_RICHTEXT;
 		camel_stream_write_string (
-			stream, "\n<!-- text/richtext -->\n", NULL);
+			stream, "\n<!-- text/richtext -->\n",
+			cancellable, NULL);
 	} else {
 		camel_stream_write_string (
-			stream, "\n<!-- text/enriched -->\n", NULL);
+			stream, "\n<!-- text/enriched -->\n",
+			cancellable, NULL);
 	}
 
 	enriched = camel_mime_filter_enriched_new (flags);
@@ -1838,10 +1861,12 @@ efh_text_enriched (EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, 
 			&efh->priv->colors[
 			EM_FORMAT_HTML_COLOR_TEXT]));
 
-	em_format_format_text ((EMFormat *)efh, (CamelStream *)filtered_stream, (CamelDataWrapper *)part);
+	em_format_format_text (
+		emf, (CamelStream *) filtered_stream,
+		(CamelDataWrapper *)part, cancellable);
 
 	g_object_unref (filtered_stream);
-	camel_stream_write_string (stream, "</div>", NULL);
+	camel_stream_write_string (stream, "</div>", cancellable, NULL);
 }
 
 static void
@@ -1863,12 +1888,19 @@ efh_write_text_html (EMFormat *emf,
 		camel_data_wrapper_write_to_stream (dw, out);
 	g_object_unref (out);
 #endif
-	em_format_format_text (emf, stream, (CamelDataWrapper *)puri->part);
+	em_format_format_text (
+		emf, stream, (CamelDataWrapper *)puri->part, cancellable);
 }
 
 static void
-efh_text_html (EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
+efh_text_html (EMFormat *emf,
+               CamelStream *stream,
+               CamelMimePart *part,
+               const EMFormatHandler *info,
+               GCancellable *cancellable,
+               gboolean is_fallback)
 {
+	EMFormatHTML *efh = EM_FORMAT_HTML (emf);
 	const gchar *location;
 	gchar *cid = NULL;
 
@@ -1892,15 +1924,15 @@ efh_text_html (EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	   shouldn't blindly inherit the container's location. */
 	location = camel_mime_part_get_content_location (part);
 	if (location == NULL) {
-		if (((EMFormat *)efh)->base)
-			cid = camel_url_to_string (((EMFormat *)efh)->base, 0);
+		if (emf->base)
+			cid = camel_url_to_string (emf->base, 0);
 		else
-			cid = g_strdup (((EMFormat *)efh)->part_id->str);
+			cid = g_strdup (emf->part_id->str);
 	} else {
-		if (strchr (location, ':') == NULL && ((EMFormat *)efh)->base != NULL) {
+		if (strchr (location, ':') == NULL && emf->base != NULL) {
 			CamelURL *uri;
 
-			uri = camel_url_new_with_base (((EMFormat *)efh)->base, location);
+			uri = camel_url_new_with_base (emf->base, location);
 			cid = camel_url_to_string (uri, 0);
 			camel_url_free (uri);
 		} else {
@@ -1908,7 +1940,9 @@ efh_text_html (EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 		}
 	}
 
-	em_format_add_puri ((EMFormat *)efh, sizeof (EMFormatPURI), cid, part, efh_write_text_html);
+	em_format_add_puri (
+		emf, sizeof (EMFormatPURI), cid,
+		part, efh_write_text_html);
 	d(printf("adding iframe, location %s\n", cid));
 	camel_stream_printf (stream,
 			    "<iframe src=\"%s\" frameborder=0 scrolling=no>could not get %s</iframe>\n"
@@ -1919,7 +1953,12 @@ efh_text_html (EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 
 /* This is a lot of code for something useless ... */
 static void
-efh_message_external (EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
+efh_message_external (EMFormat *emf,
+                      CamelStream *stream,
+                      CamelMimePart *part,
+                      const EMFormatHandler *info,
+                      GCancellable *cancellable,
+                      gboolean is_fallback)
 {
 	CamelContentType *type;
 	const gchar *access_type;
@@ -2013,8 +2052,14 @@ fail:
 }
 
 static void
-efh_message_deliverystatus (EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
+efh_message_deliverystatus (EMFormat *emf,
+                            CamelStream *stream,
+                            CamelMimePart *part,
+                            const EMFormatHandler *info,
+                            GCancellable *cancellable,
+                            gboolean is_fallback)
 {
+	EMFormatHTML *efh = EM_FORMAT_HTML (emf);
 	CamelStream *filtered_stream;
 	CamelMimeFilter *html_filter;
 	guint32 rgb = 0x737373;
@@ -2038,12 +2083,14 @@ efh_message_deliverystatus (EMFormatHTML *efh, CamelStream *stream, CamelMimePar
 		CAMEL_STREAM_FILTER (filtered_stream), html_filter);
 	g_object_unref (html_filter);
 
-	camel_stream_write_string (stream, "<tt>\n" EFH_MESSAGE_START, NULL);
-	em_format_format_text ((EMFormat *)efh, (CamelStream *)filtered_stream, (CamelDataWrapper *)part);
-	camel_stream_flush ((CamelStream *)filtered_stream, NULL);
-	camel_stream_write_string (stream, "</tt>\n", NULL);
+	camel_stream_write_string (stream, "<tt>\n" EFH_MESSAGE_START, cancellable, NULL);
+	em_format_format_text (
+		emf, filtered_stream,
+		(CamelDataWrapper *)part, cancellable);
+	camel_stream_flush (filtered_stream, cancellable, NULL);
+	camel_stream_write_string (stream, "</tt>\n", cancellable, NULL);
 
-	camel_stream_write_string (stream, "</div>", NULL);
+	camel_stream_write_string (stream, "</div>", cancellable, NULL);
 }
 
 static void
@@ -2054,7 +2101,7 @@ emfh_write_related (EMFormat *emf,
 {
 	em_format_format_content (emf, stream, puri->part, cancellable);
 
-	camel_stream_close (stream, NULL);
+	camel_stream_close (stream, cancellable, NULL);
 }
 
 static void
@@ -2109,7 +2156,8 @@ efh_multipart_related (EMFormat *emf,
                        CamelStream *stream,
                        CamelMimePart *part,
                        const EMFormatHandler *info,
-                       GCancellable *cancellable)
+                       GCancellable *cancellable,
+                       gboolean is_fallback)
 {
 	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)part);
 	CamelMimePart *body_part, *display_part = NULL;
@@ -2121,7 +2169,7 @@ efh_multipart_related (EMFormat *emf,
 	struct _EMFormatHTMLJob *job;
 
 	if (!CAMEL_IS_MULTIPART (mp)) {
-		em_format_format_source (emf, stream, part);
+		em_format_format_source (emf, stream, part, cancellable);
 		return;
 	}
 
@@ -2175,7 +2223,7 @@ efh_multipart_related (EMFormat *emf,
 	g_string_append_printf(emf->part_id, "related.%d", displayid);
 	em_format_part (emf, stream, display_part, cancellable);
 	g_string_truncate (emf->part_id, partidlen);
-	camel_stream_flush (stream, NULL);
+	camel_stream_flush (stream, cancellable, NULL);
 
 	/* queue a job to check for un-referenced parts to add as attachments */
 	job = em_format_html_job_new (
@@ -2196,55 +2244,62 @@ efh_write_image (EMFormat *emf,
 	CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *)puri->part);
 
 	d(printf("writing image '%s'\n", puri->cid));
-	camel_data_wrapper_decode_to_stream (dw, stream, NULL);
-	camel_stream_close (stream, NULL);
+	camel_data_wrapper_decode_to_stream_sync (
+		dw, stream, cancellable, NULL);
+	camel_stream_close (stream, cancellable, NULL);
 }
 
 static void
-efh_image (EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info)
+efh_image (EMFormat *emf,
+           CamelStream *stream,
+           CamelMimePart *part,
+           const EMFormatHandler *info,
+           GCancellable *cancellable,
+           gboolean is_fallback)
 {
 	EMFormatPURI *puri;
 
-	puri = em_format_add_puri ((EMFormat *)efh, sizeof (EMFormatPURI), NULL, part, efh_write_image);
-	d(printf("adding image '%s'\n", puri->cid));
-	camel_stream_printf(stream, "<img hspace=10 vspace=10 src=\"%s\">", puri->cid);
+	puri = em_format_add_puri (
+		emf, sizeof (EMFormatPURI), NULL, part, efh_write_image);
+	camel_stream_printf (
+		stream, "<img hspace=10 vspace=10 src=\"%s\">", puri->cid);
 }
 
 static EMFormatHandler type_builtin_table[] = {
-	{ (gchar *) "image/gif", (EMFormatFunc)efh_image },
-	{ (gchar *) "image/jpeg", (EMFormatFunc)efh_image },
-	{ (gchar *) "image/png", (EMFormatFunc)efh_image },
-	{ (gchar *) "image/x-png", (EMFormatFunc)efh_image },
-	{ (gchar *) "image/tiff", (EMFormatFunc)efh_image },
-	{ (gchar *) "image/x-bmp", (EMFormatFunc)efh_image },
-	{ (gchar *) "image/bmp", (EMFormatFunc)efh_image },
-	{ (gchar *) "image/svg", (EMFormatFunc)efh_image },
-	{ (gchar *) "image/x-cmu-raster", (EMFormatFunc)efh_image },
-	{ (gchar *) "image/x-ico", (EMFormatFunc)efh_image },
-	{ (gchar *) "image/x-portable-anymap", (EMFormatFunc)efh_image },
-	{ (gchar *) "image/x-portable-bitmap", (EMFormatFunc)efh_image },
-	{ (gchar *) "image/x-portable-graymap", (EMFormatFunc)efh_image },
-	{ (gchar *) "image/x-portable-pixmap", (EMFormatFunc)efh_image },
-	{ (gchar *) "image/x-xpixmap", (EMFormatFunc)efh_image },
-	{ (gchar *) "text/enriched", (EMFormatFunc)efh_text_enriched },
-	{ (gchar *) "text/plain", (EMFormatFunc)efh_text_plain },
-	{ (gchar *) "text/html", (EMFormatFunc)efh_text_html },
-	{ (gchar *) "text/richtext", (EMFormatFunc)efh_text_enriched },
-	{ (gchar *) "text/*", (EMFormatFunc)efh_text_plain },
-	{ (gchar *) "message/external-body", (EMFormatFunc)efh_message_external },
-	{ (gchar *) "message/delivery-status", (EMFormatFunc)efh_message_deliverystatus },
-	{ (gchar *) "multipart/related", (EMFormatFunc)efh_multipart_related },
+	{ (gchar *) "image/gif", efh_image },
+	{ (gchar *) "image/jpeg", efh_image },
+	{ (gchar *) "image/png", efh_image },
+	{ (gchar *) "image/x-png", efh_image },
+	{ (gchar *) "image/tiff", efh_image },
+	{ (gchar *) "image/x-bmp", efh_image },
+	{ (gchar *) "image/bmp", efh_image },
+	{ (gchar *) "image/svg", efh_image },
+	{ (gchar *) "image/x-cmu-raster", efh_image },
+	{ (gchar *) "image/x-ico", efh_image },
+	{ (gchar *) "image/x-portable-anymap", efh_image },
+	{ (gchar *) "image/x-portable-bitmap", efh_image },
+	{ (gchar *) "image/x-portable-graymap", efh_image },
+	{ (gchar *) "image/x-portable-pixmap", efh_image },
+	{ (gchar *) "image/x-xpixmap", efh_image },
+	{ (gchar *) "text/enriched", efh_text_enriched },
+	{ (gchar *) "text/plain", efh_text_plain },
+	{ (gchar *) "text/html", efh_text_html },
+	{ (gchar *) "text/richtext", efh_text_enriched },
+	{ (gchar *) "text/*", efh_text_plain },
+	{ (gchar *) "message/external-body", efh_message_external },
+	{ (gchar *) "message/delivery-status", efh_message_deliverystatus },
+	{ (gchar *) "multipart/related", efh_multipart_related },
 
 	/* This is where one adds those busted, non-registered types,
 	   that some idiot mailer writers out there decide to pull out
 	   of their proverbials at random. */
 
-	{ (gchar *) "image/jpg", (EMFormatFunc)efh_image },
-	{ (gchar *) "image/pjpeg", (EMFormatFunc)efh_image },
+	{ (gchar *) "image/jpg", efh_image },
+	{ (gchar *) "image/pjpeg", efh_image },
 
 	/* special internal types */
 
-	{ (gchar *) "x-evolution/message/rfc822", (EMFormatFunc)efh_format_message }
+	{ (gchar *) "x-evolution/message/rfc822", efh_format_message }
 };
 
 static void
@@ -2840,7 +2895,8 @@ efh_format_headers (EMFormatHTML *efh,
 			if (icon_info != NULL) {
 				iconpart = em_format_html_file_part (
 					(EMFormatHTML *) emf, "image/png",
-					gtk_icon_info_get_filename (icon_info));
+					gtk_icon_info_get_filename (icon_info),
+					cancellable);
 				gtk_icon_info_free (icon_info);
 			}
 
@@ -2861,7 +2917,8 @@ efh_format_message (EMFormat *emf,
                     CamelStream *stream,
                     CamelMimePart *part,
                     const EMFormatHandler *info,
-                    GCancellable *cancellable)
+                    GCancellable *cancellable,
+                    gboolean is_fallback)
 {
 	const EMFormatHandler *handle;
 

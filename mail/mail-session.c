@@ -636,8 +636,8 @@ static gpointer ms_thread_msg_new (CamelSession *session, CamelSessionThreadOps 
 		MailMsg *m = mail_msg_new (&ms_thread_info_dummy);
 
 		msg->data = m;
-		g_object_unref (msg->op);
-		msg->op = g_object_ref (m->cancellable);
+		g_object_unref (msg->cancellable);
+		msg->cancellable = g_object_ref (m->cancellable);
 	}
 
 	return msg;
@@ -737,9 +737,9 @@ ms_forward_to (CamelSession *session,
 
 	/* make copy of the message, because we are going to modify it */
 	mem = camel_stream_mem_new ();
-	camel_data_wrapper_write_to_stream ((CamelDataWrapper *)message, mem, NULL);
+	camel_data_wrapper_write_to_stream_sync ((CamelDataWrapper *)message, mem, NULL, NULL);
 	camel_seekable_stream_seek (CAMEL_SEEKABLE_STREAM (mem), 0, CAMEL_STREAM_SET, NULL);
-	camel_data_wrapper_construct_from_stream ((CamelDataWrapper *)forward, mem, NULL);
+	camel_data_wrapper_construct_from_stream_sync ((CamelDataWrapper *)forward, mem, NULL, NULL);
 	g_object_unref (mem);
 
 	/* clear previous recipients */

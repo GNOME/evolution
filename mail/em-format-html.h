@@ -248,7 +248,8 @@ void		em_format_html_set_show_sender_photo
 /* retrieves a pseudo-part icon wrapper for a file */
 CamelMimePart *	em_format_html_file_part	(EMFormatHTML *efh,
 						 const gchar *mime_type,
-						 const gchar *filename);
+						 const gchar *filename,
+						 GCancellable *cancellable);
 
 /* for implementers */
 EMFormatHTMLPObject *

@@ -110,7 +110,8 @@ msg_composer_url_requested_cb (GtkHTML *html,
 	array = g_byte_array_new ();
 	camel_stream = camel_stream_mem_new_with_byte_array (array);
 	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
-	camel_data_wrapper_decode_to_stream (wrapper, camel_stream, NULL);
+	camel_data_wrapper_decode_to_stream_sync (
+		wrapper, camel_stream, NULL, NULL);
 
 	gtk_html_write (html, stream, (gchar *) array->data, array->len);
 

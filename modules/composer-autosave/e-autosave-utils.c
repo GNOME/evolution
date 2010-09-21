@@ -140,8 +140,8 @@ load_snapshot_loaded_cb (GFile *snapshot_file,
 	 * and feeding the parser a direct file stream would block. */
 	message = camel_mime_message_new ();
 	camel_stream = camel_stream_mem_new_with_buffer (contents, length);
-	camel_data_wrapper_construct_from_stream (
-		CAMEL_DATA_WRAPPER (message), camel_stream, &error);
+	camel_data_wrapper_construct_from_stream_sync (
+		CAMEL_DATA_WRAPPER (message), camel_stream, NULL, &error);
 	g_object_unref (camel_stream);
 	g_free (contents);
 
@@ -161,7 +161,7 @@ load_snapshot_loaded_cb (GFile *snapshot_file,
 	 * the same file. */
 	shell = E_SHELL (object);
 	g_object_ref (snapshot_file);
-	composer = e_msg_composer_new_with_message (shell, message);
+	composer = e_msg_composer_new_with_message (shell, message, NULL);
 	g_object_set_data_full (
 		G_OBJECT (composer),
 		SNAPSHOT_FILE_KEY, snapshot_file,
@@ -228,7 +228,8 @@ save_snapshot_replace_cb (GFile *snapshot_file,
 
 	/* Extract a MIME message from the composer. */
 	composer = E_MSG_COMPOSER (object);
-	message = e_msg_composer_get_message_draft (composer, &error);
+	message = e_msg_composer_get_message_draft (
+		composer, context->cancellable, &error);
 
 	g_object_unref (object);
 
@@ -251,8 +252,8 @@ save_snapshot_replace_cb (GFile *snapshot_file,
 	camel_stream = camel_stream_mem_new ();
 	camel_stream_mem_set_byte_array (
 		CAMEL_STREAM_MEM (camel_stream), buffer);
-	camel_data_wrapper_decode_to_stream (
-		CAMEL_DATA_WRAPPER (message), camel_stream, NULL);
+	camel_data_wrapper_decode_to_stream_sync (
+		CAMEL_DATA_WRAPPER (message), camel_stream, NULL, NULL);
 	g_object_unref (camel_stream);
 	g_object_unref (message);
 

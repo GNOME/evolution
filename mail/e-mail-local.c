@@ -83,7 +83,7 @@ e_mail_local_init (const gchar *data_dir)
 
 		/* FIXME camel_store_get_folder() may block. */
 		default_local_folders[ii].folder_uri = folder_uri;
-		default_local_folders[ii].folder = camel_store_get_folder (
+		default_local_folders[ii].folder = camel_store_get_folder_sync (
 			CAMEL_STORE (service), display_name,
 			CAMEL_STORE_FOLDER_CREATE, NULL, NULL);
 	}

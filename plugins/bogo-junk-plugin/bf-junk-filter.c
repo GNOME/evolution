@@ -71,7 +71,12 @@ gpointer em_junk_bf_validate_binary (EPlugin *ep, EMJunkTarget *target);
 void em_junk_bf_report_junk (EPlugin *ep, EMJunkTarget *target);
 void em_junk_bf_report_non_junk (EPlugin *ep, EMJunkTarget *target);
 void em_junk_bf_commit_reports (EPlugin *ep, EMJunkTarget *target);
-static gint pipe_to_bogofilter (CamelMimeMessage *msg, const gchar **argv, GError **error);
+
+static gint
+pipe_to_bogofilter (CamelMimeMessage *msg,
+                    const gchar **argv,
+                    GCancellable *cancellable,
+                    GError **error);
 
 /* eplugin stuff */
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
@@ -97,7 +102,8 @@ init_db (void)
 	camel_mime_parser_scan_from (parser, FALSE);
 	g_object_unref (stream);
 
-	camel_mime_part_construct_from_parser ((CamelMimePart *) msg, parser, NULL);
+	camel_mime_part_construct_from_parser_sync (
+		(CamelMimePart *) msg, parser, NULL, NULL);
 	g_object_unref (parser);
 
 	d(fprintf (stderr, "Initing the bogofilter DB with Welcome message\n"));
@@ -106,13 +112,16 @@ init_db (void)
 		argv[2] = "--unicode=yes";
 	}
 
-	pipe_to_bogofilter (msg, argv, NULL);
+	pipe_to_bogofilter (msg, argv, NULL, NULL);
 	g_object_unref (msg);
 
 }
 
 static gint
-pipe_to_bogofilter (CamelMimeMessage *msg, const gchar **argv, GError **error)
+pipe_to_bogofilter (CamelMimeMessage *msg,
+                    const gchar **argv,
+                    GCancellable *cancellable,
+                    GError **error)
 {
 	GPid child_pid;
 	gint bf_in;
@@ -164,10 +173,10 @@ retry:
 	}
 
 	stream = camel_stream_fs_new_with_fd (bf_in);
-	camel_data_wrapper_write_to_stream (
-		CAMEL_DATA_WRAPPER (msg), stream, NULL);
-	camel_stream_flush (stream, NULL);
-	camel_stream_close (stream, NULL);
+	camel_data_wrapper_write_to_stream_sync (
+		CAMEL_DATA_WRAPPER (msg), stream, cancellable, NULL);
+	camel_stream_flush (stream, cancellable, NULL);
+	camel_stream_close (stream, cancellable, NULL);
 	g_object_unref (stream);
 
 #ifndef G_OS_WIN32
@@ -265,7 +274,7 @@ em_junk_bf_check_junk (EPlugin *ep, EMJunkTarget *target)
 		argv[1] = "--unicode=yes";
 	}
 
-	rv = pipe_to_bogofilter (msg, argv, &target->error);
+	rv = pipe_to_bogofilter (msg, argv, NULL, &target->error);
 
 	d(fprintf (stderr, "em_junk_bf_check_junk rv = %d\n", rv));
 
@@ -293,7 +302,7 @@ em_junk_bf_report_junk (EPlugin *ep, EMJunkTarget *target)
 		argv[2] = "--unicode=yes";
 	}
 
-	pipe_to_bogofilter (msg, argv, &target->error);
+	pipe_to_bogofilter (msg, argv, NULL, &target->error);
 }
 
 void
@@ -317,7 +326,7 @@ em_junk_bf_report_non_junk (EPlugin *ep, EMJunkTarget *target)
 		argv[2] = "--unicode=yes";
 	}
 
-	pipe_to_bogofilter (msg, argv, &target->error);
+	pipe_to_bogofilter (msg, argv, NULL, &target->error);
 }
 
 void

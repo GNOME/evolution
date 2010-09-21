@@ -105,7 +105,8 @@ org_gnome_vcard_inline_decode (VCardInlinePObject *vcard_object,
 	/* Stream takes ownership of the byte array. */
 	stream = camel_stream_mem_new_with_byte_array (array);
 	data_wrapper = camel_medium_get_content (medium);
-	camel_data_wrapper_decode_to_stream (data_wrapper, stream, NULL);
+	camel_data_wrapper_decode_to_stream_sync (
+		data_wrapper, stream, NULL, NULL);
 
 	/* because the result is not NULL-terminated */
 	g_byte_array_append (array, padding, 2);

@@ -200,7 +200,7 @@ folder_tree_get_folder_info__exec (struct _EMFolderTreeGetFolderInfo *m)
 {
 	guint32 flags = m->flags | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 
-	m->fi = camel_store_get_folder_info (
+	m->fi = camel_store_get_folder_info_sync (
 		m->store, m->top, flags,
 		m->base.cancellable, &m->base.error);
 
@@ -625,7 +625,7 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 
 	/* Check for duplicate folder name. */
 	/* FIXME camel_store_get_folder_info() may block. */
-	folder_info = camel_store_get_folder_info (
+	folder_info = camel_store_get_folder_info_sync (
 		store, new_full_name,
 		CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
 	if (folder_info != NULL) {
@@ -636,8 +636,8 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 		goto exit;
 	}
 
-	/* FIXME camel_store_rename_folder() may block. */
-	if (!camel_store_rename_folder (
+	/* FIXME camel_store_rename_folder_sync() may block. */
+	if (!camel_store_rename_folder_sync (
 		store, old_full_name, new_full_name, NULL, &local_error)) {
 		e_alert_run_dialog_for_args (
 			parent, "mail:no-rename-folder",
@@ -1531,8 +1531,8 @@ tree_drag_data_delete (GtkWidget *widget,
 	if (is_store)
 		goto fail;
 
-	/* FIXME camel_store_delete_folder() may block. */
-	camel_store_delete_folder (store, full_name, NULL, NULL);
+	/* FIXME camel_store_delete_folder_sync() may block. */
+	camel_store_delete_folder_sync (store, full_name, NULL, NULL);
 
 fail:
 	gtk_tree_path_free (src_path);
@@ -1582,8 +1582,8 @@ tree_drag_data_get (GtkWidget *widget,
 		break;
 	case DND_DRAG_TYPE_TEXT_URI_LIST:
 		/* dragging to nautilus or something, probably */
-		/* FIXME camel_store_get_folder() may block. */
-		if ((folder = camel_store_get_folder (
+		/* FIXME camel_store_get_folder_sync() may block. */
+		if ((folder = camel_store_get_folder_sync (
 			store, full_name, 0, NULL, NULL))) {
 
 			GPtrArray *uids = camel_folder_get_uids (folder);
@@ -1698,7 +1698,7 @@ folder_tree_drop_async__exec (struct _DragDataReceivedAsync *m)
 		g_set_error (
 			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 			_("Cannot drop message(s) into toplevel store"));
-	} else if ((folder = camel_store_get_folder (
+	} else if ((folder = camel_store_get_folder_sync (
 		m->store, m->full_name, 0,
 		m->base.cancellable, &m->base.error))) {
 
@@ -2810,9 +2810,9 @@ em_folder_tree_get_selected_folder (EMFolderTree *folder_tree)
 		gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store,
 				    COL_STRING_FULL_NAME, &full_name, -1);
 
-	/* FIXME camel_store_get_folder() may block. */
+	/* FIXME camel_store_get_folder_sync() may block. */
 	if (store && full_name)
-		folder = camel_store_get_folder (
+		folder = camel_store_get_folder_sync (
 			store, full_name,
 			CAMEL_STORE_FOLDER_INFO_FAST, NULL, NULL);
 

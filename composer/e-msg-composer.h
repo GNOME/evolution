@@ -71,12 +71,14 @@ struct _EMsgComposerClass {
 GType		e_msg_composer_get_type		(void);
 EMsgComposer *	e_msg_composer_new		(EShell *shell);
 EMsgComposer *	e_msg_composer_new_with_message	(EShell *shell,
-						 CamelMimeMessage *msg);
+						 CamelMimeMessage *msg,
+						 GCancellable *cancellable);
 EMsgComposer *	e_msg_composer_new_from_url	(EShell *shell,
 						 const gchar *url);
 EMsgComposer *	e_msg_composer_new_redirect	(EShell *shell,
 						 CamelMimeMessage *message,
-						 const gchar *resent_from);
+						 const gchar *resent_from,
+						 GCancellable *cancellable);
 EFocusTracker *	e_msg_composer_get_focus_tracker
 						(EMsgComposer *composer);
 CamelSession *	e_msg_composer_get_session	(EMsgComposer *composer);
@@ -115,14 +117,17 @@ void		e_msg_composer_add_inline_image_from_mime_part
 CamelMimeMessage *
 		e_msg_composer_get_message	(EMsgComposer *composer,
 						 gboolean save_html_object_data,
+						 GCancellable *cancellable,
 						 GError **error);
 CamelMimeMessage *
 		e_msg_composer_get_message_print
 						(EMsgComposer *composer,
-						 gboolean save_html_object_data);
+						 gboolean save_html_object_data,
+						 GCancellable *cancellable);
 CamelMimeMessage *
 		e_msg_composer_get_message_draft
 						(EMsgComposer *composer,
+						 GCancellable *cancellable,
 						 GError **error);
 void		e_msg_composer_show_sig_file	(EMsgComposer *composer);
 
@@ -143,7 +148,8 @@ gboolean	e_msg_composer_can_close	(EMsgComposer *composer,
 						 gboolean can_save_draft);
 
 EMsgComposer *	e_msg_composer_load_from_file	(EShell *shell,
-						 const gchar *filename);
+						 const gchar *filename,
+						 GCancellable *cancellable);
 
 void		e_msg_composer_reply_indent	(EMsgComposer *composer);
 
