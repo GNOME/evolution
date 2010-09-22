@@ -303,8 +303,11 @@ void mail_msg_cancel (guint msgid)
 
 	m = g_hash_table_lookup (mail_msg_active_table, GINT_TO_POINTER (msgid));
 
-	if (m != NULL && m->cancel != NULL && !camel_operation_cancel_check (m->cancel))
+	if (m != NULL && m->cancel != NULL && !camel_operation_cancel_check (m->cancel)) {
+		g_signal_handlers_block_by_func (m->cancel, mail_msg_cancelled, GINT_TO_POINTER (m->seq));
 		camel_operation_cancel (m->cancel);
+		g_signal_handlers_unblock_by_func (m->cancel, mail_msg_cancelled, GINT_TO_POINTER (m->seq));
+	}
 
 	g_mutex_unlock (mail_msg_lock);
 }
