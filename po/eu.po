@@ -1,4 +1,4 @@
-# translation of eu_to_be_translate.po to Basque
+# translation of eu_to_transl.po to Basque
 # Copyright (C) 2001, 2004, 2006, 2007, 2008, 2009, 2010 Free Software Foundation, Inc.
 #
 # Hizkuntza Politikarako Sailburuordetza <hizpol@ej-gv.es>, 2004.
@@ -6,10 +6,11 @@
 #: ../shell/main.c:559
 msgid ""
 msgstr ""
-"Project-Id-Version: eu_to_be_translate\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-22 19:39+0200\n"
-"PO-Revision-Date: 2010-09-22 19:40+0200\n"
+"Project-Id-Version: eu_to_transl\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=evolution\n"
+"POT-Creation-Date: 2010-09-23 05:04+0000\n"
+"PO-Revision-Date: 2010-09-23 16:36+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
 "Language-Team: Basque <itzulpena@euskalgnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -261,7 +262,7 @@ msgid "Blog:"
 msgstr "Blog-a:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:5
-#: ../calendar/gui/dialogs/event-page.ui.h:10
+#: ../calendar/gui/dialogs/event-page.ui.h:4
 #: ../calendar/gui/dialogs/memo-page.ui.h:1
 msgid "Ca_tegories..."
 msgstr "Ka_tegoriak..."
@@ -400,7 +401,7 @@ msgstr "_Blog-a:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:33
 #: ../calendar/gui/dialogs/event-page.c:882
-#: ../calendar/gui/dialogs/event-page.ui.h:17
+#: ../calendar/gui/dialogs/event-page.ui.h:11
 #: ../plugins/itip-formatter/itip-view.c:1921
 msgid "_Calendar:"
 msgstr "_Egutegia:"
@@ -896,7 +897,7 @@ msgid "Car Phone"
 msgstr "Autoko telefonoa"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:8
-#: ../calendar/gui/dialogs/event-page.ui.h:11
+#: ../calendar/gui/dialogs/event-page.ui.h:5
 #: ../calendar/gui/e-cal-list-view.etspec.h:1
 #: ../calendar/gui/e-calendar-table.etspec.h:3
 #: ../calendar/gui/e-memo-table.etspec.h:1
@@ -2000,7 +2001,7 @@ msgstr "_Utzi geroko"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:7
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:22
-#: ../calendar/gui/dialogs/event-page.ui.h:24 ../e-util/e-plugin-util.c:424
+#: ../calendar/gui/dialogs/event-page.ui.h:26 ../e-util/e-plugin-util.c:424
 #: ../filter/filter.ui.h:15
 #: ../plugins/google-account-setup/google-contacts-source.c:335
 msgid "hours"
@@ -2013,7 +2014,7 @@ msgstr "hitzorduaren helbidea"
 #. Translators: This is part of 'Timeout: 1 [slider] 5 minutes' option
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:9
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:24
-#: ../calendar/gui/dialogs/event-page.ui.h:25 ../e-util/e-plugin-util.c:423
+#: ../calendar/gui/dialogs/event-page.ui.h:27 ../e-util/e-plugin-util.c:423
 #: ../filter/filter.ui.h:17 ../modules/addressbook/ldap-config.ui.h:34
 #: ../plugins/google-account-setup/google-contacts-source.c:334
 msgid "minutes"
@@ -2930,20 +2931,16 @@ msgstr "geroago"
 msgid "before"
 msgstr "lehenago"
 
-#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:16
-#: ../calendar/gui/dialogs/recurrence-page.ui.h:8
 msgid "day(s)"
 msgstr "egun"
 
 #. Translators: This is the last part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
-#. Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:17 ../e-util/e-plugin-util.c:425
 #: ../filter/filter.ui.h:14 ../modules/calendar/e-cal-shell-view-actions.c:336
 #: ../plugins/google-account-setup/google-contacts-source.c:336
 #: ../plugins/publish-calendar/publish-calendar.ui.h:30
-#: ../widgets/misc/e-send-options.ui.h:43
 msgid "days"
 msgstr "egun"
 
@@ -2978,9 +2975,18 @@ msgstr "_Gehitu"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.ui.h:2
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:9
-#: ../calendar/gui/dialogs/event-page.ui.h:7
+#: ../calendar/gui/dialogs/event-page.ui.h:1
 msgid "Alarms"
 msgstr "Alarmak"
+
+#. Translators: "None" indicates no second time zone set for a day view
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:108
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:157
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:75
+#: ../calendar/gui/e-day-view-time-item.c:797
+msgctxt "cal-second-zone"
+msgid "None"
+msgstr "Bat ere ez"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:184
 #: ../calendar/gui/e-day-view-time-item.c:824
@@ -3093,199 +3099,191 @@ msgstr "minutu"
 msgid "Monday"
 msgstr "Astelehena"
 
-#. Translators: "None" for not including threads;
-#. * part of "Include threads: None"
-#. Translators: Used in send options dialog
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:23
-#: ../filter/e-filter-rule.c:749 ../widgets/misc/e-send-options.ui.h:12
-msgid "None"
-msgstr "Bat ere ez"
-
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:24
 #: ../mail/mail-config.ui.h:85
 msgid "Pick a color"
 msgstr "Aukeratu kolorea"
 
 #. Sunday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:26
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:25
 msgid "S_un"
 msgstr "_ig."
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:27
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:26
 #: ../calendar/gui/dialogs/recurrence-page.c:1117
 #: ../calendar/gui/e-itip-control.c:739
 msgid "Saturday"
 msgstr "Larunbata"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:28
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:27
 msgid "Sc_roll Month View by a week"
 msgstr "_Korritu 'Hileko ikuspegia' aste bat"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:29
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:28
 msgid "Se_cond zone:"
 msgstr "_Bigarren zona:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:30
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:29
 msgid "Select the calendars for alarm notification"
 msgstr "Hautatu egutegiak alarmen jakinarazpenerako"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:32
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:31
 msgid "Sh_ow a reminder"
 msgstr "Era_kutsi oroigarria hitzordua hasi baino"
 
 #. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:34
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:33
 msgid "Show a _reminder"
 msgstr "Erakutsi _oroigarria"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:35
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:34
 msgid "Show week _numbers"
 msgstr "E_rakutsi aste-zenbakiak"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:36
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:35
 #: ../calendar/gui/dialogs/recurrence-page.c:1118
 #: ../calendar/gui/e-itip-control.c:733
 msgid "Sunday"
 msgstr "Igandea"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:37
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:36
 msgid "T_asks due today:"
 msgstr "_Gaurko zereginak:"
 
 #. Thursday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:39
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:38
 msgid "T_hu"
 msgstr "o_g."
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:40
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:39
 #: ../calendar/gui/dialogs/calendar-setup.c:381
 msgid "Task List"
 msgstr "Zereginen zerrenda"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:41
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:40
 msgid "Template:"
 msgstr "Txantiloia"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:42
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:41
 #: ../calendar/gui/dialogs/recurrence-page.c:1115
 #: ../calendar/gui/e-itip-control.c:737
 msgid "Thursday"
 msgstr "Osteguna"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:43
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:42
 #: ../e-util/e-non-intrusive-error-dialog.c:287
 #: ../widgets/misc/e-dateedit.c:595
 msgid "Time"
 msgstr "Ordua"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:44
-#: ../calendar/gui/dialogs/event-page.ui.h:15
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:43
+#: ../calendar/gui/dialogs/event-page.ui.h:9
 msgid "Time _zone:"
 msgstr "_Ordu-zona:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:45
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:44
 msgid "Time format:"
 msgstr "Ordu-formatua:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:46
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:45
 #: ../calendar/gui/dialogs/recurrence-page.c:1113
 #: ../calendar/gui/e-itip-control.c:735
 msgid "Tuesday"
 msgstr "Asteartea"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:47
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:46
 msgid "Use s_ystem time zone"
 msgstr "Erabili _sistemaren ordu-zona"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:48
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:47
 #: ../calendar/gui/dialogs/recurrence-page.c:1114
 #: ../calendar/gui/e-itip-control.c:736
 msgid "Wednesday"
 msgstr "Asteazkena"
 
 #. A weekday like "Monday" follows
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:50
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:49
 msgid "Wee_k starts on:"
 msgstr "Astearen _hasiera:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:51
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:50
 #: ../modules/calendar/e-cal-shell-view-actions.c:1639
 msgid "Work Week"
 msgstr "Lan-astea"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:52
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:51
 msgid "Work days:"
 msgstr "Lanegunak:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:53
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:52
 msgid "_12 hour (AM/PM)"
 msgstr "_12 ordu (AM/PM)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:54
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:53
 msgid "_24 hour"
 msgstr "_24 ordu"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:55
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:54
 msgid "_Ask for confirmation when deleting items"
 msgstr "Eskatu _berrespena elementuak ezabatzeko"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:56
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:55
 msgid "_Compress weekends in month view"
 msgstr "_Konprimitu asteburuak hileko ikuspegian"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:57
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:56
 msgid "_Day begins:"
 msgstr "_Egunaren hasiera:"
 
 #. Friday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:59
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:58
 msgid "_Fri"
 msgstr "_or."
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:60
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:59
 msgid "_Hide completed tasks after"
 msgstr "Ezkutatu _burututako zereginak"
 
 #. Monday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:62
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:61
 msgid "_Mon"
 msgstr "_al."
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:63
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:62
 msgid "_Overdue tasks:"
 msgstr "_Atzeratutako zereginak:"
 
 #. Saturday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:65
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:64
 msgid "_Sat"
 msgstr "_lr."
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:66
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:65
 msgid "_Show appointment end times in week and month view"
 msgstr "_Erakutsi hitzorduen amaiera-orduak asteko eta hileko ikuspegietan"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:67
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:66
 msgid "_Time divisions:"
 msgstr "Or_duen zatiketa:"
 
 #. Tuesday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:69
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:68
 msgid "_Tue"
 msgstr "a_r."
 
 #. Wednesday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:71
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:70
 msgid "_Wed"
 msgstr "a_z."
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:73
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:72
 msgid "before every anniversary/birthday"
 msgstr "urteurrena/urtebetetzea baino lehen"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:75
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:74
 msgid "before every appointment"
 msgstr "lehenago"
 
@@ -3759,7 +3757,7 @@ msgstr "Egin hau gertaera errepikakorra"
 #: ../calendar/gui/dialogs/event-editor.c:245
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../plugins/groupwise-features/send-options.c:212
-#: ../widgets/misc/e-send-options.ui.h:19
+#: ../widgets/misc/e-send-options.ui.h:22
 msgid "Send Options"
 msgstr "Bidaltzeko aukerak"
 
@@ -3789,7 +3787,7 @@ msgid "Appointment"
 msgstr "Hitzordua"
 
 #: ../calendar/gui/dialogs/event-editor.c:385
-#: ../calendar/gui/dialogs/event-page.ui.h:9
+#: ../calendar/gui/dialogs/event-page.ui.h:3
 #: ../calendar/gui/e-meeting-list-view.c:148
 msgid "Attendees"
 msgstr "Partaideak"
@@ -3817,7 +3815,7 @@ msgid "This event has alarms"
 msgstr "Gertaerak alarmak ditu."
 
 #: ../calendar/gui/dialogs/event-page.c:890
-#: ../calendar/gui/dialogs/event-page.ui.h:14
+#: ../calendar/gui/dialogs/event-page.ui.h:8
 #: ../calendar/gui/dialogs/memo-page.ui.h:2
 msgid "Or_ganizer:"
 msgstr "_Antolatzailea:"
@@ -3916,70 +3914,77 @@ msgstr[1] "Hitzordua baino %d minutu lehenago"
 msgid "Customize"
 msgstr "Pertsonalizatu"
 
-#. TRANSLATORS: Predefined alarm's description
+#. Translators: "None" for "No alarm set"
+#: ../calendar/gui/dialogs/event-page.c:3021
+msgctxt "cal-alarms"
+msgid "None"
+msgstr "Bat ere ez"
+
 #: ../calendar/gui/dialogs/event-page.ui.h:2
-msgid "1 day before appointment"
-msgstr "Hitzordua baino egun 1 lehenago"
-
-#. TRANSLATORS: Predefined alarm's description
-#: ../calendar/gui/dialogs/event-page.ui.h:4
-msgid "1 hour before appointment"
-msgstr "Hitzordua baino ordu 1 lehenago"
-
-#. TRANSLATORS: Predefined alarm's description
-#: ../calendar/gui/dialogs/event-page.ui.h:6
-msgid "15 minutes before appointment"
-msgstr "Hitzordua baino 15 minutu lehenago"
-
-#: ../calendar/gui/dialogs/event-page.ui.h:8
 #: ../calendar/gui/dialogs/task-page.ui.h:1
 #: ../calendar/gui/e-meeting-time-sel.c:578
 msgid "Atte_ndees..."
 msgstr "_Partaideak..."
 
-#: ../calendar/gui/dialogs/event-page.ui.h:12
+#: ../calendar/gui/dialogs/event-page.ui.h:6
 msgid "Custom Alarm:"
 msgstr "Alarma pertsonalizatua:"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:13
+#: ../calendar/gui/dialogs/event-page.ui.h:7
 msgid "Event Description"
 msgstr "Gertaeraren azalpena:"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:16
+#: ../calendar/gui/dialogs/event-page.ui.h:10
 msgid "_Alarm"
 msgstr "_Alarmak"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:18
+#: ../calendar/gui/dialogs/event-page.ui.h:12
 #: ../calendar/gui/dialogs/memo-page.ui.h:6
 #: ../calendar/gui/dialogs/task-page.ui.h:8
 #: ../widgets/misc/e-attachment-dialog.c:349
 msgid "_Description:"
 msgstr "_Azalpena:"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:19
+#: ../calendar/gui/dialogs/event-page.ui.h:13
 #: ../plugins/calendar-weather/calendar-weather.c:358
 msgid "_Location:"
 msgstr "_Kokalekua:"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:20
+#: ../calendar/gui/dialogs/event-page.ui.h:14
 msgid "_Summary:"
 msgstr "_Laburpena:"
 
-#: ../calendar/gui/dialogs/event-page.ui.h:21
+#: ../calendar/gui/dialogs/event-page.ui.h:15
 msgid "_Time:"
 msgstr "_Ordua:"
 
+#. TRANSLATORS: Predefined alarm's description
+#: ../calendar/gui/dialogs/event-page.ui.h:17
+msgctxt "eventpage"
+msgid "1 day before appointment"
+msgstr "Hitzordua baino egun 1 lehenago"
+
+#. TRANSLATORS: Predefined alarm's description
+#: ../calendar/gui/dialogs/event-page.ui.h:19
+msgctxt "eventpage"
+msgid "1 hour before appointment"
+msgstr "Hitzordua baino ordu 1 lehenago"
+
+#. TRANSLATORS: Predefined alarm's description
+#: ../calendar/gui/dialogs/event-page.ui.h:21
+msgctxt "eventpage"
+msgid "15 minutes before appointment"
+msgstr "Hitzordua baino 15 minutu lehenago"
+
 #. TRANSLATORS: 'for' in a sense of 'duration'; example string: Time: [date] [time] for [ H ] hours [ M ] minutes
-#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/event-page.ui.h:23
-#: ../calendar/gui/dialogs/recurrence-page.ui.h:10
+msgctxt "eventpage"
 msgid "for"
 msgstr "nondik"
 
 #. TRANSLATORS: 'until' in a sense of 'duration'; example string: Time: [date] [time] until [ date ] [ time ]
-#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
-#: ../calendar/gui/dialogs/event-page.ui.h:27
-#: ../calendar/gui/dialogs/recurrence-page.ui.h:16
+#: ../calendar/gui/dialogs/event-page.ui.h:25
+msgctxt "eventpage"
 msgid "until"
 msgstr "arte"
 
@@ -4225,22 +4230,45 @@ msgid "This appointment rec_urs"
 msgstr "Hitzorduaren _baliabideak"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:8
+msgctxt "recurrpage"
+msgid "day(s)"
+msgstr "egun"
+
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:10
+#, fuzzy
+msgctxt "recurrpage"
+msgid "for"
+msgstr "nondik"
+
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:12
+msgctxt "recurrpage"
 msgid "forever"
 msgstr "betiko"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:14
+msgctxt "recurrpage"
 msgid "month(s)"
 msgstr "hilabete"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
+#: ../calendar/gui/dialogs/recurrence-page.ui.h:16
+msgctxt "recurrpage"
+msgid "until"
+msgstr "arte"
+
+#. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:18
+msgctxt "recurrpage"
 msgid "week(s)"
 msgstr "aste"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:20
+msgctxt "recurrpage"
 msgid "year(s)"
 msgstr "urte"
 
@@ -4290,7 +4318,7 @@ msgstr "Eginda"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:6
 #: ../calendar/gui/e-cal-component-preview.c:314
 #: ../calendar/gui/e-task-table.c:511 ../calendar/gui/tasktypes.xml.h:14
-#: ../mail/message-list.c:1183 ../widgets/misc/e-send-options.ui.h:8
+#: ../mail/message-list.c:1183 ../widgets/misc/e-send-options.ui.h:13
 msgid "High"
 msgstr "Handia"
 
@@ -4309,7 +4337,7 @@ msgstr "Egiten ari da"
 #: ../calendar/gui/dialogs/task-details-page.ui.h:10
 #: ../calendar/gui/e-cal-component-preview.c:318
 #: ../calendar/gui/e-task-table.c:513 ../calendar/gui/tasktypes.xml.h:16
-#: ../mail/message-list.c:1181 ../widgets/misc/e-send-options.ui.h:9
+#: ../mail/message-list.c:1181 ../widgets/misc/e-send-options.ui.h:14
 msgid "Low"
 msgstr "Txikia"
 
@@ -4318,7 +4346,7 @@ msgstr "Txikia"
 #: ../calendar/gui/e-cal-component-preview.c:316
 #: ../calendar/gui/e-cal-model.c:1269 ../calendar/gui/e-task-table.c:512
 #: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1182
-#: ../widgets/misc/e-send-options.ui.h:13
+#: ../widgets/misc/e-send-options.ui.h:16
 msgid "Normal"
 msgstr "Normala"
 
@@ -4355,7 +4383,7 @@ msgstr "Egoera"
 #. To Translators: This is task priority
 #: ../calendar/gui/dialogs/task-details-page.ui.h:20
 #: ../calendar/gui/e-task-table.c:514 ../calendar/gui/tasktypes.xml.h:24
-#: ../widgets/misc/e-send-options.ui.h:24
+#: ../widgets/misc/e-send-options.ui.h:27
 msgid "Undefined"
 msgstr "Definitu gabe"
 
@@ -4364,7 +4392,7 @@ msgid "_Date completed:"
 msgstr "_Osatze-data:"
 
 #: ../calendar/gui/dialogs/task-details-page.ui.h:22
-#: ../widgets/misc/e-send-options.ui.h:36
+#: ../widgets/misc/e-send-options.ui.h:35
 msgid "_Priority:"
 msgstr "_Lehentasuna:"
 
@@ -4602,6 +4630,12 @@ msgstr ""
 "Kokaleku geografikoa formatu honetan idatzi behar da: \n"
 "\n"
 "45.436845,125.862501"
+
+#. Translators: "None" for task's status
+#: ../calendar/gui/e-cal-model-tasks.c:709
+msgctxt "cal-task-status"
+msgid "None"
+msgstr "Bat ere ez"
 
 #: ../calendar/gui/e-cal-model-tasks.c:1065 ../calendar/gui/e-cal-model.c:1275
 #: ../calendar/gui/e-meeting-list-view.c:187
@@ -4965,6 +4999,13 @@ msgid ""
 "Please review the following information, and then select an action from the "
 "menu below."
 msgstr "Aztertu ondorengo informazioa, eta hautatu ekintza bat beheko menuan."
+
+#. Translators: "None" used as a default value for events without Summary received by mail
+#: ../calendar/gui/e-itip-control.c:1160
+#: ../plugins/itip-formatter/itip-formatter.c:2320
+msgctxt "cal-itip"
+msgid "None"
+msgstr "Bat ere ez"
 
 #: ../calendar/gui/e-itip-control.c:1200
 #: ../plugins/itip-formatter/itip-formatter.c:2336
@@ -5800,6 +5841,77 @@ msgstr "Libre/lanpetuta informazioa"
 msgid "Calendar information"
 msgstr "Egutegi-informazioa"
 
+#. Translators: This is part of the subject
+#. * line of a meeting request or update email.
+#. * The full subject line would be:
+#. * "Accepted: Meeting Name".
+#: ../calendar/gui/itip-utils.c:678
+msgctxt "Meeting"
+msgid "Accepted"
+msgstr "Onartua"
+
+#. Translators: This is part of the subject
+#. * line of a meeting request or update email.
+#. * The full subject line would be:
+#. * "Tentatively Accepted: Meeting Name".
+#: ../calendar/gui/itip-utils.c:685
+msgctxt "Meeting"
+msgid "Tentatively Accepted"
+msgstr "Oraingoz onartua"
+
+#. Translators: This is part of the subject
+#. * line of a meeting request or update email.
+#. * The full subject line would be:
+#. * "Declined: Meeting Name".
+#. Translators: This is part of the subject line of a
+#. * meeting request or update email.  The full subject
+#. * line would be: "Declined: Meeting Name".
+#: ../calendar/gui/itip-utils.c:692 ../calendar/gui/itip-utils.c:740
+msgctxt "Meeting"
+msgid "Declined"
+msgstr "Ukatua"
+
+#. Translators: This is part of the subject
+#. * line of a meeting request or update email.
+#. * The full subject line would be:
+#. * "Delegated: Meeting Name".
+#: ../calendar/gui/itip-utils.c:699
+msgctxt "Meeting"
+msgid "Delegated"
+msgstr "Delegatua"
+
+#. Translators: This is part of the subject line of a
+#. * meeting request or update email.  The full subject
+#. * line would be: "Updated: Meeting Name".
+#: ../calendar/gui/itip-utils.c:712
+msgctxt "Meeting"
+msgid "Updated"
+msgstr "Eguneratua"
+
+#. Translators: This is part of the subject line of a
+#. * meeting request or update email.  The full subject
+#. * line would be: "Cancel: Meeting Name".
+#: ../calendar/gui/itip-utils.c:719
+msgctxt "Meeting"
+msgid "Cancel"
+msgstr "Utzi"
+
+#. Translators: This is part of the subject line of a
+#. * meeting request or update email.  The full subject
+#. * line would be: "Refresh: Meeting Name".
+#: ../calendar/gui/itip-utils.c:726
+msgctxt "Meeting"
+msgid "Refresh"
+msgstr "Freskatu"
+
+#. Translators: This is part of the subject line of a
+#. * meeting request or update email.  The full subject
+#. * line would be: "Counter-proposal: Meeting Name".
+#: ../calendar/gui/itip-utils.c:733
+msgctxt "Meeting"
+msgid "Counter-proposal"
+msgstr "Kontraproposamena"
+
 #: ../calendar/gui/itip-utils.c:803
 #, c-format
 msgid "Free/Busy information (%s to %s)"
@@ -6098,6 +6210,151 @@ msgstr "Egutegi-gertaerak"
 #: ../calendar/importers/icalendar-importer.c:861
 msgid "Evolution Calendar intelligent importer"
 msgstr "Evolution-en egutegiaren inportatzaile adimenduna"
+
+#: ../calendar/importers/icalendar-importer.c:926
+#: ../calendar/importers/icalendar-importer.c:1243
+msgctxt "iCalImp"
+msgid "Meeting"
+msgstr "Bilera"
+
+#: ../calendar/importers/icalendar-importer.c:926
+#: ../calendar/importers/icalendar-importer.c:1243
+msgctxt "iCalImp"
+msgid "Event"
+msgstr "Gertaera"
+
+#: ../calendar/importers/icalendar-importer.c:929
+#: ../calendar/importers/icalendar-importer.c:1244
+msgctxt "iCalImp"
+msgid "Task"
+msgstr "Zeregina"
+
+#: ../calendar/importers/icalendar-importer.c:932
+#: ../calendar/importers/icalendar-importer.c:1245
+msgctxt "iCalImp"
+msgid "Memo"
+msgstr "Zirkularra"
+
+#: ../calendar/importers/icalendar-importer.c:941
+msgctxt "iCalImp"
+msgid "has recurrences"
+msgstr "errepikapenak ditu"
+
+#: ../calendar/importers/icalendar-importer.c:946
+msgctxt "iCalImp"
+msgid "is an instance"
+msgstr "instantzia bat da"
+
+#: ../calendar/importers/icalendar-importer.c:951
+msgctxt "iCalImp"
+msgid "has alarms"
+msgstr "alarmak ditu"
+
+#: ../calendar/importers/icalendar-importer.c:956
+msgctxt "iCalImp"
+msgid "has attachments"
+msgstr "eranskinak ditu"
+
+#. Translators: Appointment's classification
+#: ../calendar/importers/icalendar-importer.c:969
+msgctxt "iCalImp"
+msgid "Public"
+msgstr "Publikoa"
+
+#. Translators: Appointment's classification
+#: ../calendar/importers/icalendar-importer.c:972
+msgctxt "iCalImp"
+msgid "Private"
+msgstr "Pribatua"
+
+#. Translators: Appointment's classification
+#: ../calendar/importers/icalendar-importer.c:975
+msgctxt "iCalImp"
+msgid "Confidential"
+msgstr "Konfidentziala"
+
+#. Translators: Appointment's classification section name
+#: ../calendar/importers/icalendar-importer.c:979
+msgctxt "iCalImp"
+msgid "Classification"
+msgstr "Sailkapena"
+
+#. Translators: Appointment's summary
+#. Translators: Column header for a component summary
+#: ../calendar/importers/icalendar-importer.c:984
+#: ../calendar/importers/icalendar-importer.c:1284
+msgctxt "iCalImp"
+msgid "Summary"
+msgstr "Laburpena"
+
+#. Translators: Appointment's location
+#: ../calendar/importers/icalendar-importer.c:990
+msgctxt "iCalImp"
+msgid "Location"
+msgstr "Kokalekua"
+
+#. Translators: Appointment's start time
+#. Translators: Column header for a component start date/time
+#: ../calendar/importers/icalendar-importer.c:998
+#: ../calendar/importers/icalendar-importer.c:1280
+msgctxt "iCalImp"
+msgid "Start"
+msgstr "Hasiera"
+
+#. Translators: 'Due' like the time due a task should be finished
+#: ../calendar/importers/icalendar-importer.c:1009
+msgctxt "iCalImp"
+msgid "Due"
+msgstr "Muga"
+
+#. Translators: Appointment's end time
+#: ../calendar/importers/icalendar-importer.c:1021
+msgctxt "iCalImp"
+msgid "End"
+msgstr "Amaiera"
+
+#. Translators: Appointment's categories
+#: ../calendar/importers/icalendar-importer.c:1031
+msgctxt "iCalImp"
+msgid "Categories"
+msgstr "Kategoriak"
+
+#. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
+#: ../calendar/importers/icalendar-importer.c:1055
+msgctxt "iCalImp"
+msgid "Completed"
+msgstr "Eginda"
+
+#. Translators: Appointment's URL
+#: ../calendar/importers/icalendar-importer.c:1063
+msgctxt "iCalImp"
+msgid "URL"
+msgstr "URLa"
+
+#. Translators: Appointment's organizer
+#: ../calendar/importers/icalendar-importer.c:1074
+#: ../calendar/importers/icalendar-importer.c:1077
+msgctxt "iCalImp"
+msgid "Organizer"
+msgstr "Antolatzailea"
+
+#. Translators: Appointment's attendees
+#: ../calendar/importers/icalendar-importer.c:1097
+#: ../calendar/importers/icalendar-importer.c:1100
+msgctxt "iCalImp"
+msgid "Attendees"
+msgstr "Partaideak"
+
+#: ../calendar/importers/icalendar-importer.c:1114
+msgctxt "iCalImp"
+msgid "Description"
+msgstr "Azalpena"
+
+#. Translators: Column header for a component type; it can be Event, Task or Memo
+#: ../calendar/importers/icalendar-importer.c:1276
+msgctxt "iCalImp"
+msgid "Type"
+msgstr "Mota"
 
 #.
 #. *
@@ -8897,11 +9154,17 @@ msgstr "Baldintzaren bat betetzen bada"
 msgid "_Find items:"
 msgstr "_Bilatu elementuak:"
 
+#. Translators: "None" for not including threads;
+#. * part of "Include threads: None"
+#: ../filter/e-filter-rule.c:749
+msgid "None"
+msgstr "Bat ere ez"
+
 #: ../filter/e-filter-rule.c:750
 msgid "All related"
 msgstr "Erlazionatutako guztiak"
 
-#: ../filter/e-filter-rule.c:751 ../widgets/misc/e-send-options.ui.h:16
+#: ../filter/e-filter-rule.c:751 ../widgets/misc/e-send-options.ui.h:19
 msgid "Replies"
 msgstr "Erantzunak"
 
@@ -9885,6 +10148,12 @@ msgstr ""
 "lizentzia-kontratua,\n"
 "eta, onartzeko, hautatu kontrol-laukia.\n"
 
+#. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
+#: ../mail/em-account-editor.c:901 ../widgets/misc/e-signature-combo-box.c:79
+msgctxt "mail-signature"
+msgid "None"
+msgstr "Bat ere ez"
+
 #: ../mail/em-account-editor.c:985
 msgid "Never"
 msgstr "Inoiz ere ez"
@@ -9896,6 +10165,12 @@ msgstr "Beti"
 #: ../mail/em-account-editor.c:987
 msgid "Ask for each message"
 msgstr "Galdetu mezu bakoitzean"
+
+#. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
+#: ../mail/em-account-editor.c:1723 ../widgets/misc/e-account-tree-view.c:128
+msgctxt "mail-receiving"
+msgid "None"
+msgstr "Bat ere ez"
 
 #: ../mail/em-account-editor.c:2098
 msgid "Mail Configuration"
@@ -10359,6 +10634,12 @@ msgstr "\"%s\": karpetak eskaneatzen"
 #: ../mail/em-folder-tree.c:611
 msgid "Folder names cannot contain '/'"
 msgstr "Karpeta-izenak ezin du '/' karaktererik eduki."
+
+#: ../mail/em-folder-tree.c:1100
+#, c-format
+msgctxt "folder-display"
+msgid "%s (%u%s)"
+msgstr "%s (%u%s)"
 
 #: ../mail/em-folder-tree.c:1339
 msgid "Mail Folder Tree"
@@ -11897,6 +12178,16 @@ msgstr "Hautatu karpeta"
 #: ../plugins/pst-import/pst-importer.c:300
 msgid "Select folder to import into"
 msgstr "Hautatu inportazioetarako karpeta"
+
+#: ../mail/importers/evolution-mbox-importer.c:382
+msgctxt "mboxImp"
+msgid "Subject"
+msgstr "Gaia"
+
+#: ../mail/importers/evolution-mbox-importer.c:387
+msgctxt "mboxImp"
+msgid "From"
+msgstr "Nork"
 
 #: ../mail/importers/evolution-mbox-importer.c:431
 #: ../shell/e-shell-utils.c:251
@@ -14089,15 +14380,30 @@ msgstr "Erakutsi _beti helbidea auto-osatutako kontaktuarekin"
 msgid "On LDAP Servers"
 msgstr "LDAP zerbitzarian"
 
+#: ../modules/addressbook/e-book-shell-backend.c:280
+msgctxt "New"
+msgid "_Contact"
+msgstr "_Kontaktua"
+
 #: ../modules/addressbook/e-book-shell-backend.c:282
 #: ../modules/addressbook/e-book-shell-view-actions.c:773
 msgid "Create a new contact"
 msgstr "Sortu kontaktu berria"
 
+#: ../modules/addressbook/e-book-shell-backend.c:287
+msgctxt "New"
+msgid "Contact _List"
+msgstr "Kontaktuen _zerrenda"
+
 #: ../modules/addressbook/e-book-shell-backend.c:289
 #: ../modules/addressbook/e-book-shell-view-actions.c:780
 msgid "Create a new contact list"
 msgstr "Sortu kontaktu-zerrenda berria"
+
+#: ../modules/addressbook/e-book-shell-backend.c:297
+msgctxt "New"
+msgid "Address _Book"
+msgstr "Helbide-_liburua"
 
 #: ../modules/addressbook/e-book-shell-backend.c:299
 #: ../modules/addressbook/e-book-shell-view-actions.c:703
@@ -14520,18 +14826,38 @@ msgstr "Eguraldia"
 msgid "Birthdays & Anniversaries"
 msgstr "Urtebetetzeak eta urteurrenak"
 
+#: ../modules/calendar/e-cal-shell-backend.c:406
+msgctxt "New"
+msgid "_Appointment"
+msgstr "_Hitzordua"
+
 #: ../modules/calendar/e-cal-shell-backend.c:408
 #: ../modules/calendar/e-cal-shell-view-actions.c:1433
 msgid "Create a new appointment"
 msgstr "Sortu hitzordu berria"
 
+#: ../modules/calendar/e-cal-shell-backend.c:413
+msgctxt "New"
+msgid "All Day A_ppointment"
+msgstr "Egun _osoko hitzordua"
+
 #: ../modules/calendar/e-cal-shell-backend.c:415
 msgid "Create a new all-day appointment"
 msgstr "Sortu egun osoko hitzordu berria"
 
+#: ../modules/calendar/e-cal-shell-backend.c:420
+msgctxt "New"
+msgid "M_eeting"
+msgstr "_Bilera"
+
 #: ../modules/calendar/e-cal-shell-backend.c:422
 msgid "Create a new meeting request"
 msgstr "Sortu bilera-eskaera berria"
+
+#: ../modules/calendar/e-cal-shell-backend.c:430
+msgctxt "New"
+msgid "Cale_ndar"
+msgstr "_Egutegia"
 
 #: ../modules/calendar/e-cal-shell-backend.c:432
 #: ../modules/calendar/e-cal-shell-view-actions.c:1328
@@ -14960,9 +15286,24 @@ msgstr "_Gorde iCalendar gisa..."
 msgid "Print the selected task"
 msgstr "Inprimatu hautatutako zeregina"
 
+#: ../modules/calendar/e-memo-shell-backend.c:279
+msgctxt "New"
+msgid "Mem_o"
+msgstr "_Zirkularra"
+
+#: ../modules/calendar/e-memo-shell-backend.c:286
+msgctxt "New"
+msgid "_Shared Memo"
+msgstr "_Partekatutako zirkularra"
+
 #: ../modules/calendar/e-memo-shell-backend.c:288
 msgid "Create a new shared memo"
 msgstr "Sortu partekatutako zirkular berria"
+
+#: ../modules/calendar/e-memo-shell-backend.c:296
+msgctxt "New"
+msgid "Memo Li_st"
+msgstr "Zirkularren _zerrenda"
 
 #: ../modules/calendar/e-memo-shell-backend.c:298
 #: ../modules/calendar/e-memo-shell-view-actions.c:601
@@ -15069,9 +15410,24 @@ msgstr "Ezabatu zirkularrak"
 msgid "Delete Memo"
 msgstr "Ezabatu zirkularra"
 
+#: ../modules/calendar/e-task-shell-backend.c:278
+msgctxt "New"
+msgid "_Task"
+msgstr "_Zeregina"
+
+#: ../modules/calendar/e-task-shell-backend.c:285
+msgctxt "New"
+msgid "Assigne_d Task"
+msgstr "E_sleitutako zeregina"
+
 #: ../modules/calendar/e-task-shell-backend.c:287
 msgid "Create a new assigned task"
 msgstr "Sortu esleitutako zeregin berria"
+
+#: ../modules/calendar/e-task-shell-backend.c:295
+msgctxt "New"
+msgid "Tas_k List"
+msgstr "_Zereginen zerrenda"
 
 #: ../modules/calendar/e-task-shell-backend.c:297
 #: ../modules/calendar/e-task-shell-view-actions.c:725
@@ -15226,9 +15582,26 @@ msgstr "Ezabatu zeregina"
 msgid "%d attached messages"
 msgstr "Erantsitako %d mezu"
 
+#. Translators: "None" for a junk hook name,
+#. * when the junk plugin is not enabled.
+#: ../modules/mail/e-mail-junk-hook.c:89
+msgctxt "mail-junk-hook"
+msgid "None"
+msgstr "Bat ere ez"
+
+#: ../modules/mail/e-mail-shell-backend.c:171
+msgctxt "New"
+msgid "_Mail Message"
+msgstr "_Mezua"
+
 #: ../modules/mail/e-mail-shell-backend.c:173
 msgid "Compose a new mail message"
 msgstr "Prestatu posta-mezu berria"
+
+#: ../modules/mail/e-mail-shell-backend.c:181
+msgctxt "New"
+msgid "Mail _Folder"
+msgstr "Posta _karpeta"
 
 #: ../modules/mail/e-mail-shell-backend.c:183
 msgid "Create a new mail folder"
@@ -16346,6 +16719,13 @@ msgstr "Eguraldia: trumoi-ekaitza"
 msgid "Select a location"
 msgstr "Hautatu kokaleku bat"
 
+#. Translators: "None" location for a weather calendar
+#: ../plugins/calendar-weather/calendar-weather.c:328
+#: ../plugins/calendar-weather/calendar-weather.c:373
+msgctxt "weather-cal-location"
+msgid "None"
+msgstr "Bat ere ez"
+
 #: ../plugins/calendar-weather/calendar-weather.c:448
 msgid "_Units:"
 msgstr "_Unitateak:"
@@ -16459,13 +16839,20 @@ msgid "Protected"
 msgstr "Babestua"
 
 #: ../plugins/email-custom-header/email-custom-header.c:324
-#: ../widgets/misc/e-send-options.ui.h:18
+#: ../widgets/misc/e-send-options.ui.h:21
 msgid "Secret"
 msgstr "Ezkutukoa"
 
 #: ../plugins/email-custom-header/email-custom-header.c:325
 msgid "Top secret"
 msgstr "Ezkutu gorenekoa"
+
+#. Translators: "None" as an email custom header option in a dialog invoked by Insert->Custom Header from Composer,
+#. indicating the header will not be added to a mail message
+#: ../plugins/email-custom-header/email-custom-header.c:379
+msgctxt "email-custom-header"
+msgid "None"
+msgstr "Bat ere ez"
 
 #: ../plugins/email-custom-header/email-custom-header.c:571
 msgid "_Custom Header"
@@ -17026,6 +17413,12 @@ msgstr "Proxy fitxa eskuragarri egongo da kontua konektatutakoan soilik."
 #: ../plugins/groupwise-features/proxy.c:695
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "Proxy fitxa kontua gaitutakoan soilik egongo da eskuragarri."
+
+#. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
+#: ../plugins/groupwise-features/proxy.c:700
+msgctxt "GW"
+msgid "Proxy"
+msgstr "Proxy-a"
 
 #: ../plugins/groupwise-features/proxy.c:926
 #: ../plugins/groupwise-features/share-folder.c:691
@@ -19805,9 +20198,19 @@ msgstr ""
 "\n"
 "Jarraitzea aukeratu baduzu, zenbait datu zahar ezingo dituzu erabili.\n"
 
+#: ../shell/test/e-test-shell-backend.c:60
+msgctxt "New"
+msgid "_Test Item"
+msgstr "_Probako elementua"
+
 #: ../shell/test/e-test-shell-backend.c:62
 msgid "Create a new test item"
 msgstr "Sortu probako elementu berria"
+
+#: ../shell/test/e-test-shell-backend.c:70
+msgctxt "New"
+msgid "Test _Source"
+msgstr "Probako _iturburua"
 
 #: ../shell/test/e-test-shell-backend.c:72
 msgid "Create a new test source"
@@ -20755,6 +21158,13 @@ msgstr "_Gaur"
 msgid "_None"
 msgstr "_Bat ere ez"
 
+#. Translators: "None" for date field of a date edit, shown when
+#. * there is no date set.
+#: ../widgets/misc/e-dateedit.c:1685 ../widgets/misc/e-dateedit.c:1917
+msgctxt "date"
+msgid "None"
+msgstr "Bat ere ez"
+
 #: ../widgets/misc/e-dateedit.c:1812
 msgid "Invalid Date Value"
 msgstr "Baliogabeko data balioa"
@@ -20964,99 +21374,115 @@ msgid "Delivery Options"
 msgstr "Banatzeko aukerak"
 
 #: ../widgets/misc/e-send-options.ui.h:6
-msgid "For Your Eyes Only"
-msgstr "Zure begientzako soilik"
-
-#: ../widgets/misc/e-send-options.ui.h:7
-msgid "Gene_ral Options"
-msgstr "Aukera _orokorrak"
-
-#: ../widgets/misc/e-send-options.ui.h:10
-msgid "Mail Receipt"
-msgstr "Posta-agiria"
-
-#: ../widgets/misc/e-send-options.ui.h:14
-msgid "Proprietary"
-msgstr "Jabea"
-
-#: ../widgets/misc/e-send-options.ui.h:15
-msgid "R_eply requested"
-msgstr "_Erantzutea eskatu da"
-
-#: ../widgets/misc/e-send-options.ui.h:17
-msgid "Return Notification"
-msgstr "Itzuli jakinarazpena"
-
-#: ../widgets/misc/e-send-options.ui.h:20
-msgid "Sta_tus Tracking"
-msgstr "_Egoeraren jarraipena"
-
-#: ../widgets/misc/e-send-options.ui.h:21
-msgid "Standard"
-msgstr "Estandarra"
-
-#: ../widgets/misc/e-send-options.ui.h:22
-msgid "Status Tracking"
-msgstr "Egoeraren jarraipena"
-
-#: ../widgets/misc/e-send-options.ui.h:23
-msgid "Top Secret"
-msgstr "Ezkutu gorenekoa"
-
-#: ../widgets/misc/e-send-options.ui.h:25
-msgid "When acce_pted:"
-msgstr "_Onartzean:"
-
-#: ../widgets/misc/e-send-options.ui.h:26
-msgid "When co_mpleted:"
-msgstr "Osatzean:"
-
-#: ../widgets/misc/e-send-options.ui.h:27
-msgid "When decli_ned:"
-msgstr "Ba_ztertzean:"
-
-#. Translators: This is part of 'Within [ X ] days', where [ X ] is a spinner with a number
-#: ../widgets/misc/e-send-options.ui.h:29
-msgid "Wi_thin"
-msgstr "_Barruan"
-
-#. Translators: This is part of 'After [ X ] days', where [ X ] is a spinner with a number
-#: ../widgets/misc/e-send-options.ui.h:31
-msgid "_After"
-msgstr "O_ndoren:"
-
-#: ../widgets/misc/e-send-options.ui.h:32
-msgid "_All information"
-msgstr "_Informazioa guztia"
-
-#: ../widgets/misc/e-send-options.ui.h:33
-msgid "_Classification:"
-msgstr "_Sailkapena:"
-
-#: ../widgets/misc/e-send-options.ui.h:34
-msgid "_Delay message delivery"
-msgstr "_Atzeratu mezuen banaketa"
-
-#: ../widgets/misc/e-send-options.ui.h:35
-msgid "_Delivered"
-msgstr "_Banatuta"
-
-#: ../widgets/misc/e-send-options.ui.h:37
-msgid "_Set expiration date"
-msgstr "_Ezarri iraungitze-data"
-
-#. Translators: This is part of 'Until [ date ]', where [ date ] is a date picker
-#: ../widgets/misc/e-send-options.ui.h:39
+msgctxt "ESendOptions"
 msgid "_Until"
 msgstr "A_rte:"
 
-#: ../widgets/misc/e-send-options.ui.h:40
+#: ../widgets/misc/e-send-options.ui.h:7
+msgctxt "ESendOptionsAfter"
+msgid "_After"
+msgstr "O_ndoren:"
+
+#: ../widgets/misc/e-send-options.ui.h:8
+msgctxt "ESendOptionsAfter"
+msgid "days"
+msgstr "egun"
+
+#: ../widgets/misc/e-send-options.ui.h:9
+msgctxt "ESendOptionsWithin"
+msgid "Wi_thin"
+msgstr "_Barruan"
+
+#: ../widgets/misc/e-send-options.ui.h:10
+msgctxt "ESendOptionsWithin"
+msgid "days"
+msgstr "egun"
+
+#: ../widgets/misc/e-send-options.ui.h:11
+msgid "For Your Eyes Only"
+msgstr "Zure begientzako soilik"
+
+#: ../widgets/misc/e-send-options.ui.h:12
+msgid "Gene_ral Options"
+msgstr "Aukera _orokorrak"
+
+#: ../widgets/misc/e-send-options.ui.h:15
+msgid "Mail Receipt"
+msgstr "Posta-agiria"
+
+#: ../widgets/misc/e-send-options.ui.h:17
+msgid "Proprietary"
+msgstr "Jabea"
+
+#: ../widgets/misc/e-send-options.ui.h:18
+msgid "R_eply requested"
+msgstr "_Erantzutea eskatu da"
+
+#: ../widgets/misc/e-send-options.ui.h:20
+msgid "Return Notification"
+msgstr "Itzuli jakinarazpena"
+
+#: ../widgets/misc/e-send-options.ui.h:23
+msgid "Sta_tus Tracking"
+msgstr "_Egoeraren jarraipena"
+
+#: ../widgets/misc/e-send-options.ui.h:24
+msgid "Standard"
+msgstr "Estandarra"
+
+#: ../widgets/misc/e-send-options.ui.h:25
+msgid "Status Tracking"
+msgstr "Egoeraren jarraipena"
+
+#: ../widgets/misc/e-send-options.ui.h:26
+msgid "Top Secret"
+msgstr "Ezkutu gorenekoa"
+
+#: ../widgets/misc/e-send-options.ui.h:28
+msgid "When acce_pted:"
+msgstr "_Onartzean:"
+
+#: ../widgets/misc/e-send-options.ui.h:29
+msgid "When co_mpleted:"
+msgstr "Osatzean:"
+
+#: ../widgets/misc/e-send-options.ui.h:30
+msgid "When decli_ned:"
+msgstr "Ba_ztertzean:"
+
+#: ../widgets/misc/e-send-options.ui.h:31
+msgid "_All information"
+msgstr "_Informazioa guztia"
+
+#: ../widgets/misc/e-send-options.ui.h:32
+msgid "_Classification:"
+msgstr "_Sailkapena:"
+
+#: ../widgets/misc/e-send-options.ui.h:33
+msgid "_Delay message delivery"
+msgstr "_Atzeratu mezuen banaketa"
+
+#: ../widgets/misc/e-send-options.ui.h:34
+msgid "_Delivered"
+msgstr "_Banatuta"
+
+#: ../widgets/misc/e-send-options.ui.h:36
+msgid "_Set expiration date"
+msgstr "_Ezarri iraungitze-data"
+
+#: ../widgets/misc/e-send-options.ui.h:37
 msgid "_When convenient"
 msgstr "_Komeni denean"
 
-#: ../widgets/misc/e-send-options.ui.h:41
+#: ../widgets/misc/e-send-options.ui.h:38
 msgid "_When opened:"
 msgstr "_Irekitzean:"
+
+#. Translators: Used in send options dialog
+#: ../widgets/misc/e-send-options.ui.h:40
+msgctxt "send-options"
+msgid "None"
+msgstr "Bat ere ez"
 
 #: ../widgets/misc/e-signature-editor.c:136
 #: ../widgets/misc/e-signature-editor.c:524
@@ -21171,6 +21597,12 @@ msgstr "Zerrenda laster-leihoan"
 #: ../widgets/table/e-cell-date-edit.c:300
 msgid "Now"
 msgstr "Orain"
+
+#. Translators: "None" as a label of a button to unset date in a date table cell
+#: ../widgets/table/e-cell-date-edit.c:317
+msgctxt "table-date"
+msgid "None"
+msgstr "Bat ere ez"
 
 #: ../widgets/table/e-cell-date-edit.c:325
 msgid "OK"
@@ -21661,9 +22093,6 @@ msgstr "Sarrerako metodoak"
 
 #~ msgid "Attendee_s..."
 #~ msgstr "_Partaideak..."
-
-#~ msgid "_Task"
-#~ msgstr "_Zeregina"
 
 #~ msgid "Default Client"
 #~ msgstr "Bezero lehenetsia"
