@@ -1,3 +1,37 @@
+Evolution 2.32.0 2010-09-27
+---------------------------
+
+Bug Fixes:
+	Bug 626066 - log in to NSS database on demand for changing trust
+	             (David Woodhouse)
+
+Translations:
+	Kenneth Nielsen (da)
+	Mario Blättermann (de)
+	Christian Kirbach (de)
+	Bakaoukas Nikolaos (el)
+	Mattias Põldaru (et)
+	Ivar Smolin (et)
+	Inaki Larranaga Murgoitio (eu)
+	Timo Jyrinki (fi)
+	Fran Diéguez (gl)
+	Andika Triwidada (id)
+	Luca Ferretti (it)
+	Takayuki KUSANO (ja)
+	Žygimantas Beručka (lt)
+	Kjartan Maraas (nb)
+	Wouter Bolsterlee (nl)
+	Hannie Dumoleyn (nl)
+	Piotr Drąg (pl)
+	Duarte Loreto (pt)
+	Djavan Fagundes (pt_BR)
+	Yuri Myasoedov (ru)
+	Miloš Popović (sr)
+	Daniel Nylander (sv)
+	Funda Wang (zh_CN)
+	Chao-Hsiung Liao (zh_HK)
+	Aron Xu (zh_CN)
+
 Evolution 2.31.92 2010-09-13
 ----------------------------
 
