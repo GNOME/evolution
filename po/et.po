@@ -17,9 +17,9 @@ msgstr ""
 "Project-Id-Version: Evolution MASTER\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-09-12 17:51+0000\n"
-"PO-Revision-Date: 2010-09-19 00:35+0300\n"
-"Last-Translator: Mattias Põldaru <mahfiaz gmail com>\n"
+"POT-Creation-Date: 2010-09-24 21:05+0000\n"
+"PO-Revision-Date: 2010-09-26 09:01+0300\n"
+"Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -437,9 +437,8 @@ msgstr "_Vali aadressiraamat"
 msgid "Dr."
 msgstr "Dr"
 
-# see on mõnus pähkel, kuidas tõlkida esquire, mis nüüdsel ajal kõige rohkem peaks tähendama briti päritolu härrasmeest http://en.wikipedia.org/wiki/Esquire
 msgid "Esq."
-msgstr ""
+msgstr "Esq"
 
 msgid "Full Name"
 msgstr "Täisnimi"
@@ -1845,18 +1844,18 @@ msgid ""
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
 "list. \"1\" (Vertical View) places the preview pane next to the memo list."
 msgstr ""
-"Paigutusstiil määrab, kus asetseb eelvaatluspaan märkmeloendi suhtes. \"0"
-"\" (klassikaline vaade) asetab eelvaatluspaani märkmeloendi alla. \"1"
-"\" (vertikaalne vaade) asetab eelvaatluspaani märkmeloendi kõrvale."
+"Paigutusstiil määrab, kus asetseb eelvaatluspaan märkmeloendi suhtes. "
+"\"0\" (klassikaline vaade) asetab eelvaatluspaani märkmeloendi alla. "
+"\"1\" (vertikaalne vaade) asetab eelvaatluspaani märkmeloendi kõrvale."
 
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. \"0\" (Classic View) places the preview pane below the task "
 "list. \"1\" (Vertical View) places the preview pane next to the task list."
 msgstr ""
-"Paigutusstiil määrab, kus asetseb eelvaatluspaan ülesandeloendi suhtes. \"0"
-"\" (klassikaline vaade) asetab eelvaatluspaani ülesandeloendi alla. \"1"
-"\" (vertikaalne vaade) asetab eelvaatluspaani ülesandeloendi kõrvale."
+"Paigutusstiil määrab, kus asetseb eelvaatluspaan ülesandeloendi suhtes. "
+"\"0\" (klassikaline vaade) asetab eelvaatluspaani ülesandeloendi alla. "
+"\"1\" (vertikaalne vaade) asetab eelvaatluspaani ülesandeloendi kõrvale."
 
 msgid "The second timezone for a Day View"
 msgstr "Päeva vaate teine ajavöönd"
@@ -8848,9 +8847,9 @@ msgid ""
 "message list. \"1\" (Vertical View) places the preview pane next to the "
 "message list."
 msgstr ""
-"Paigutusstiil määrab, kus asetseb eelvaatluspaan sõnumiloendi suhtes. \"0"
-"\" (klassikaline vaade) asetab eelvaatluspaani sõnumiloendi alla. \"1"
-"\" (vertikaalne vaade) asetab eelvaatluspaani sõnumiloendi kõrvale."
+"Paigutusstiil määrab, kus asetseb eelvaatluspaan sõnumiloendi suhtes. "
+"\"0\" (klassikaline vaade) asetab eelvaatluspaani sõnumiloendi alla. "
+"\"1\" (vertikaalne vaade) asetab eelvaatluspaani sõnumiloendi kõrvale."
 
 msgid "The terminal font for mail display."
 msgstr "Terminali kirjatüüp sõnumikuvas."
@@ -9124,13 +9123,6 @@ msgstr[1] ""
 "%s muudeti, kuna kustutati kaust\n"
 "\"%s\"."
 
-#. Translators: This is part of the line with 'Top Posting Option' text. See Edit|Preferences|Composer Preferences for the usage
-msgid "(Not Recommended)"
-msgstr "(pole soovitatav)"
-
-msgid "(Note: Requires restart of the application)"
-msgstr "(Märkus: rakendus tuleb taaskäivitada)"
-
 msgid "Account Information"
 msgstr "Konto andmed"
 
@@ -9139,6 +9131,12 @@ msgstr "Lisa _uus allkiri..."
 
 msgid "Al_ways sign outgoing messages when using this account"
 msgstr "Selle konto väljuvad sõnumid _allkirjastatakse alati"
+
+#. This is in the context of: Ask for confirmation before...
+#, fuzzy
+#| msgid "Prompt when mailing list redirects private reply back to list"
+msgid "Allowing a _mailing list to redirect a private reply to the list"
+msgstr "Hoiata, kui meililist suunab eravastuse tagasi listi"
 
 msgid "Also encrypt to sel_f when sending encrypted messages"
 msgstr "Krüptitud sõnumi saatmisel krüptitakse see ka _endale"
@@ -9182,9 +9180,6 @@ msgstr "Sissetulevale postile rakendatakse _rämpsukontrolli"
 msgid "Check spelling while I _type"
 msgstr "Sisestamise käigus kon_trollitakse õigekirja"
 
-msgid "Checks incoming mail messages to be Junk"
-msgstr "Sissetulevate sõnumite seest rämpsu kontrollimine"
-
 msgid "Cle_ar"
 msgstr "_Puhasta"
 
@@ -9202,6 +9197,9 @@ msgstr "Seadistused"
 
 msgid "Confirm _when expunging a folder"
 msgstr "_Enne kausta puhastamist küsitakse kinnitust"
+
+msgid "Confirmations"
+msgstr "Nõusoleku küsimised"
 
 msgid "Default Behavior"
 msgstr "Vaikimisi käitumine"
@@ -9221,9 +9219,6 @@ msgstr "Väljuvate sõnumite _digitaalne allkirjastamine (vaikimisi)"
 msgid "Displayed Message Headers"
 msgstr "Kuvatavad sõnumi päised"
 
-msgid "Do not display messages when text si_ze exceeds"
-msgstr "Sõnumite tekstiosa ei _kuvata, kui selle suurus ületab"
-
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr "Minu _aadressiraamatus olevate saatjate sõnumeid ei märgita rämpsuks"
 
@@ -9239,26 +9234,17 @@ msgstr "E-posti _aadress:"
 msgid "Empty trash folders on e_xit"
 msgstr "Väljumisel tühjendatakse _prügikaustad"
 
-msgid "Enable Magic S_pacebar"
-msgstr "Võ_lutühik on lubatud"
-
-msgid "Enable Sea_rch Folders"
-msgstr "_Otsingukaustad on lubatud"
-
 msgid "Encry_ption certificate:"
 msgstr "_Krüptimissertifikaat:"
 
 msgid "Encrypt out_going messages (by default)"
 msgstr "Väljuvate sõnumite _krüptimine (vaikimisi)"
 
-msgid "Fi_xed-width:"
-msgstr "Fi_kseeritud laiusega:"
+msgid "F_all back to threading messages by subject"
+msgstr "Varuvaria_ndina koostatakse jutulõng teema alusel"
 
-msgid "Fix_ed width Font:"
+msgid "Fix_ed Width Font:"
 msgstr "Fi_kseeritud laiusega kirjatüüp:"
-
-msgid "Font Properties"
-msgstr "Kirjatüübi omadused"
 
 msgid "Format messages in _HTML"
 msgstr "Sõnumid vormindatakse _HTML-is"
@@ -9290,9 +9276,6 @@ msgstr "Samal joonel"
 msgid "Inline (Outlook style)"
 msgstr "Sõnumi sees (nagu Outlookis)"
 
-msgid "KB"
-msgstr "KB"
-
 msgid "Labels"
 msgstr "Sildid"
 
@@ -9311,19 +9294,11 @@ msgstr "Postkasti asukoht"
 msgid "Message Display"
 msgstr "Sõnumi kuva"
 
-msgid "Message Fonts"
-msgstr "Sõnumi kirjatüübid"
-
 msgid "Message Receipts"
 msgstr "Lugemiskinnitused"
 
 msgid "No _Proxy for:"
 msgstr "Proksit _ei kasutata aadressitele:"
-
-msgid ""
-"Note: you will not be prompted for a password until you connect for the "
-"first time"
-msgstr "Märkus: parooli ei küsita enne kui esimesel ühendumisel"
 
 msgid "Option is ignored if a match for custom junk headers is found."
 msgstr "Seda valikut eiratakse kohandatud rämpspostipäiste vastavuse korral."
@@ -9343,23 +9318,8 @@ msgstr "Pa_rool:"
 msgid "Port:"
 msgstr "Port:"
 
-msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr "Ainult _pimekoopia adressaatidega sõnumi saatmisel küsitakse kinnitust"
-
 msgid "Pretty Good Privacy (PGP/GPG)"
 msgstr "Pretty Good Privacy (PGP/GPG)"
-
-msgid "Printed Fonts"
-msgstr "Printimise kirjatüübid"
-
-msgid "Prompt when mailing list redirects private reply back to list"
-msgstr "Hoiata, kui meililist suunab eravastuse tagasi listi"
-
-msgid "Prompt when sending private replies to mailing _list messages"
-msgstr "Hoiata _meililisti kirjadele eravastusega vastamisel"
-
-msgid "Prompt when sending replies to _many recipients"
-msgstr "Hoiata _paljudele saajatele korraga vastamisel"
 
 msgid "Proxy Settings"
 msgstr "Proksi sätted"
@@ -9375,6 +9335,9 @@ msgstr "Kellele-_vastata:"
 
 msgid "Remember _password"
 msgstr "Parool jäetakse _meelde"
+
+msgid "Replies and Forwards"
+msgstr "Vastused ja edastamised"
 
 msgid "Required Information"
 msgstr "Nõutud andmed"
@@ -9409,41 +9372,41 @@ msgstr "Tavaline ki_rjatüüp:"
 msgid "Secure MIME (S/MIME)"
 msgstr "Turvaline MIME (S/MIME)"
 
-msgid "Select Drafts Folder"
-msgstr "Mustandite kausta valimine"
-
 msgid "Select HTML fixed width font"
 msgstr "Vali HTML fikseeritud laiusega kirjatüüp"
-
-msgid "Select HTML fixed width font for printing"
-msgstr "Vali printimise jaoks HTML fikseeritud laiusega kirjatüüp"
 
 msgid "Select HTML variable width font"
 msgstr "Vali HTML muutuva laiusega kirjatüüp"
 
-msgid "Select HTML variable width font for printing"
-msgstr "Vali printimise jaoks HTML muutuva laiusega kirjatüüp"
-
-msgid "Select Junk Folder"
-msgstr "Rämpsposti kausta valimine"
-
-msgid "Select Sent Folder"
-msgstr "Saadetud kirjade kausta valimine"
-
-msgid "Select Trash Folder"
-msgstr "Prügikasti kausta valimine"
-
 msgid "Sender Photograph"
 msgstr "Saatja foto"
 
-msgid "Sending Mail"
-msgstr "E-posti saatmine"
+#. This is in the context of: Ask for confirmation before...
+#, fuzzy
+#| msgid "Prompt when sending private replies to mailing _list messages"
+msgid "Sending a _private reply to a mailing list message"
+msgstr "Hoiata _meililisti kirjadele eravastusega vastamisel"
+
+#. This is in the context of: Ask for confirmation before...
+#, fuzzy
+#| msgid "_Prompt when sending messages with an empty subject line"
+msgid "Sending a message with an _empty subject line"
+msgstr "Tühja _teemareaga sõnumi saatmisel küsitakse kinnitust"
+
+#. This is in the context of: Ask for confirmation before...
+#, fuzzy
+#| msgid "Pr_ompt when sending messages with only Bcc recipients defined"
+msgid "Sending a message with only _Bcc recipients defined"
+msgstr "Ainult _pimekoopia adressaatidega sõnumi saatmisel küsitakse kinnitust"
+
+#. This is in the context of: Ask for confirmation before...
+#, fuzzy
+#| msgid "Send reply to all recipients?"
+msgid "Sending a reply to a large _number of recipients"
+msgstr "Kas vastata kõigile adressaatidele?"
 
 msgid "Sent _Messages Folder:"
 msgstr "Saadetud _sõnumite kaust:"
-
-msgid "Sent and Draft Messages"
-msgstr "Saadetud sõnumid ja mustandid"
 
 msgid "Ser_ver requires authentication"
 msgstr "Server vajab _autentimist"
@@ -9472,6 +9435,9 @@ msgstr "Allkirjad"
 msgid "Signing _algorithm:"
 msgstr "All_kirjastamisalgoritm:"
 
+msgid "Special Folders"
+msgstr "Erikaustad"
+
 msgid "Spell Checking"
 msgstr "Õigekirja kontrollimine"
 
@@ -9496,9 +9462,10 @@ msgstr ""
 "Selle skripti väljundit kasutatakse sinu signatuurina.\n"
 "Nimevälja kasutatakse ainult kuvamiseks. "
 
-#. Translators: Section name for options related to Top Posting. See Edit|Preferences|Composer Preferences for better understanding
-msgid "Top Posting Option"
-msgstr "Tipp-postituse valik"
+msgid ""
+"To help avoid email accidents and embarrassments, ask for confirmation "
+"before taking the following checkmarked actions:"
+msgstr ""
 
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
@@ -9513,11 +9480,8 @@ msgstr "_Kasutajanimi:"
 msgid "Use Authe_ntication"
 msgstr "Kasutatakse _autentimist"
 
-msgid "User_name:"
-msgstr "Kasutaja_nimi:"
-
-msgid "V_ariable-width:"
-msgstr "_Muutuva laiusega:"
+msgid "User _Name:"
+msgstr "Kasutaja _nimi:"
 
 msgid "_Add Signature"
 msgstr "Allkirja _lisamine"
@@ -9543,14 +9507,14 @@ msgstr "_Edastamise laad:"
 msgid "_Junk Folder:"
 msgstr "_Rämpsukaust:"
 
-msgid "_Keep Signature above the original message on replying"
+msgid "_Keep signature above the original message on replying"
 msgstr "Vastamisel paigutatakse a_llkiri algsest sõnumist ettepoole"
 
 msgid "_Languages"
 msgstr "_Keeled"
 
-msgid "_Load images in messages from contacts"
-msgstr "Pildid _laaditakse kontaktide poolt saadetud sõnumites"
+msgid "_Load images only in messages from contacts"
+msgstr "Pildid _laaditakse ainult kontaktide poolt saadetud sõnumites"
 
 msgid "_Lookup in local address book only"
 msgstr "_Otsitakse ainult kohalikest aadressiraamatutest"
@@ -9561,9 +9525,6 @@ msgstr "See konto on _määratud minu vaikimisi kontoks"
 msgid "_Manual proxy configuration:"
 msgstr "_Käsitsi seadistatav proksi:"
 
-msgid "_Mark messages as read after"
-msgstr "Sõnum _märgitakse loetuks pärast"
-
 msgid "_Never load images from the Internet"
 msgstr "Internetist ei laadita kunagi ü_htegi pilti"
 
@@ -9573,9 +9534,6 @@ msgstr "_Rada:"
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr ""
 "HTML-sõnumi saatmisel seda mittesoovivatele kontaktidele _küsitakse kinnitust"
-
-msgid "_Prompt when sending messages with an empty subject line"
-msgstr "Tühja _teemareaga sõnumi saatmisel küsitakse kinnitust"
 
 msgid "_Reply style:"
 msgstr "_Vastamise stiil:"
@@ -9590,15 +9548,11 @@ msgid "_Server:"
 msgstr "_Server:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-msgid "_Show image animations"
-msgstr "_Pildianimatsioone näitatakse"
+msgid "_Show animated images"
+msgstr "Näidatakse _animeeritud pilte"
 
 msgid "_Show the photograph of sender in the message preview"
 msgstr "E-sõnumi eelvaates näidatakse saatja _fotot"
-
-#. Translators: This is part of 'Shrink To / Cc / Bcc headers to [X] addresses', where [X] is a spin with a number
-msgid "_Shrink To / Cc / Bcc headers to "
-msgstr "Kellele / koopia / pimekoopia välju vä_hendatakse"
 
 msgid "_Trash Folder:"
 msgstr "_Prügikaust:"
@@ -9614,10 +9568,6 @@ msgstr "_Kirjatüüp on sama, mis teistes rakendustes"
 
 msgid "a"
 msgstr "a"
-
-#. Translators: This is part of 'Shrink To / Cc / Bcc headers to [X] addresses', where [X] is a spin with a number
-msgid "addresses"
-msgstr "aadressid"
 
 msgid "b"
 msgstr "b"
@@ -10709,9 +10659,9 @@ msgid ""
 "contact list. \"1\" (Vertical View) places the preview pane next to the "
 "contact list."
 msgstr ""
-"Paigutusstiil määrab, kus asetseb eelvaatluspaan kontaktiloendi suhtes. \"0"
-"\" (klassikaline vaade) asetab eelvaatluspaani kontaktiloendi alla. \"1"
-"\" (vertikaalne vaade) asetab eelvaatluspaani kontaktiloendi kõrvale."
+"Paigutusstiil määrab, kus asetseb eelvaatluspaan kontaktiloendi suhtes. "
+"\"0\" (klassikaline vaade) asetab eelvaatluspaani kontaktiloendi alla. "
+"\"1\" (vertikaalne vaade) asetab eelvaatluspaani kontaktiloendi kõrvale."
 
 msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
@@ -11088,10 +11038,10 @@ msgstr "Kalender ja ülesanded"
 
 #, c-format
 msgid ""
-"Error on %s\n"
+"Error on %s: %s\n"
 "%s"
 msgstr ""
-"Viga tegevusel %s:\n"
+"Viga tegevusel %s: %s\n"
 "%s"
 
 msgid "Loading calendars"
@@ -11386,6 +11336,14 @@ msgstr "Märkme_loend"
 
 msgid "Create a new memo list"
 msgstr "Uue märkmeloendi loomine"
+
+#, c-format
+msgid ""
+"Error on %s\n"
+"%s"
+msgstr ""
+"Viga tegevusel %s:\n"
+"%s"
 
 msgid "Loading memos"
 msgstr "Märkmete laadimine"
@@ -11955,6 +11913,27 @@ msgstr ""
 msgid "Do you want to make Evolution your default email client?"
 msgstr "Kas soovid Evolutioni määrata vaikimisi e-posti kliendiks?"
 
+msgid "Author(s)"
+msgstr "Autor(id)"
+
+msgid "Plugin Manager"
+msgstr "Pluginahaldur"
+
+msgid "Note: Some changes will not take effect until restart"
+msgstr "Märkus: mõned muudatused rakenduvad alles pärast taaskäivitamist"
+
+msgid "Overview"
+msgstr "Ülevaade"
+
+msgid "Plugin"
+msgstr "Plugin"
+
+msgid "_Plugins"
+msgstr "_Pluginad"
+
+msgid "Enable and disable plugins"
+msgstr "Pluginate lubamine ja keelamine"
+
 msgid "Hello Python"
 msgstr "Tere Python"
 
@@ -12374,6 +12353,9 @@ msgstr "_URL:"
 
 msgid "Use _SSL"
 msgstr "Kasutatakse _SSL-i"
+
+msgid "User_name:"
+msgstr "Kasutaja_nimi:"
 
 msgid "Brows_e server for a calendar"
 msgstr "_Sirvi serverit kalendri leidmiseks"
@@ -12819,6 +12801,9 @@ msgstr "Sõnum on edukalt tagasi võetud"
 msgid "Insert Send options"
 msgstr "Saatmisvalikute lisamine"
 
+msgid "The participants will receive the following notification.\n"
+msgstr "Osalejad saavad järgneva teate.\n"
+
 msgid "Add Send Options to GroupWise messages"
 msgstr "Saatmisvalikute lisamine GroupWise'i sõnumitele"
 
@@ -12913,9 +12898,6 @@ msgstr "Kon_taktid..."
 msgid "Shared Folder Notification"
 msgstr "Jagatud kausta teavitus"
 
-msgid "The participants will receive the following notification.\n"
-msgstr "Osalejad saavad järgneva teate.\n"
-
 msgid "Users:"
 msgstr "Kasutajad:"
 
@@ -12924,9 +12906,6 @@ msgstr "_Väljajagamata"
 
 msgid "_Shared With..."
 msgstr "_Jagatud kellega..."
-
-msgid "_Sharing"
-msgstr "_Jagamine"
 
 msgid "Access Rights"
 msgstr "Ligipääsuõigused"
@@ -14064,30 +14043,6 @@ msgstr "Kõigi loetuksmärkimine"
 msgid "Mark all messages in a folder as read."
 msgstr "Kõigi kaustas olevate sõnumite märkimine loetuks."
 
-msgid "Manage your Evolution plugins."
-msgstr "Evolutioni pluginate haldamine."
-
-msgid "Plugin Manager"
-msgstr "Pluginahaldur"
-
-msgid "Author(s)"
-msgstr "Autor(id)"
-
-msgid "Note: Some changes will not take effect until restart"
-msgstr "Märkus: mõned muudatused rakenduvad alles pärast taaskäivitamist"
-
-msgid "Overview"
-msgstr "Ülevaade"
-
-msgid "Plugin"
-msgstr "Plugin"
-
-msgid "_Plugins"
-msgstr "_Pluginad"
-
-msgid "Enable and disable plugins"
-msgstr "Pluginate lubamine ja keelamine"
-
 #. but then we also need to create our own section frame
 msgid "Plain Text Mode"
 msgstr "Lihtteksti režiim"
@@ -14428,19 +14383,6 @@ msgstr "Valitud märkme salvestamine faili"
 
 msgid "Save the selected task list to disk"
 msgstr "Valitud ülesandeloendi salvestamine faili"
-
-msgid "Sort mail message threads by subject."
-msgstr "Jutulõngade koostamine teema järgi."
-
-msgid "Subject Threading"
-msgstr "Jutulõng teema järgi"
-
-msgid "Thread messages by subject"
-msgstr "Jutulõngade koostamine teema järgi"
-
-#. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
-msgid "F_all back to threading messages by subject"
-msgstr "Varuvaria_ndina koostatakse jutulõng teema alusel"
 
 msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
@@ -16423,3 +16365,101 @@ msgstr "Vali kõik"
 
 msgid "Input Methods"
 msgstr "Sisestusmeetodid"
+
+#~ msgid "(Not Recommended)"
+#~ msgstr "(pole soovitatav)"
+
+#~ msgid "(Note: Requires restart of the application)"
+#~ msgstr "(Märkus: rakendus tuleb taaskäivitada)"
+
+#~ msgid "Checks incoming mail messages to be Junk"
+#~ msgstr "Sissetulevate sõnumite seest rämpsu kontrollimine"
+
+#~ msgid "Do not display messages when text si_ze exceeds"
+#~ msgstr "Sõnumite tekstiosa ei _kuvata, kui selle suurus ületab"
+
+#~ msgid "Enable Magic S_pacebar"
+#~ msgstr "Võ_lutühik on lubatud"
+
+#~ msgid "Enable Sea_rch Folders"
+#~ msgstr "_Otsingukaustad on lubatud"
+
+#~ msgid "Fi_xed-width:"
+#~ msgstr "Fi_kseeritud laiusega:"
+
+#~ msgid "Font Properties"
+#~ msgstr "Kirjatüübi omadused"
+
+#~ msgid "KB"
+#~ msgstr "KB"
+
+#~ msgid "Message Fonts"
+#~ msgstr "Sõnumi kirjatüübid"
+
+#~ msgid ""
+#~ "Note: you will not be prompted for a password until you connect for the "
+#~ "first time"
+#~ msgstr "Märkus: parooli ei küsita enne kui esimesel ühendumisel"
+
+#~ msgid "Printed Fonts"
+#~ msgstr "Printimise kirjatüübid"
+
+#~ msgid "Prompt when sending replies to _many recipients"
+#~ msgstr "Hoiata _paljudele saajatele korraga vastamisel"
+
+#~ msgid "Select Drafts Folder"
+#~ msgstr "Mustandite kausta valimine"
+
+#~ msgid "Select HTML fixed width font for printing"
+#~ msgstr "Vali printimise jaoks HTML fikseeritud laiusega kirjatüüp"
+
+#~ msgid "Select HTML variable width font for printing"
+#~ msgstr "Vali printimise jaoks HTML muutuva laiusega kirjatüüp"
+
+#~ msgid "Select Junk Folder"
+#~ msgstr "Rämpsposti kausta valimine"
+
+#~ msgid "Select Sent Folder"
+#~ msgstr "Saadetud kirjade kausta valimine"
+
+#~ msgid "Select Trash Folder"
+#~ msgstr "Prügikasti kausta valimine"
+
+#~ msgid "Sending Mail"
+#~ msgstr "E-posti saatmine"
+
+#~ msgid "Sent and Draft Messages"
+#~ msgstr "Saadetud sõnumid ja mustandid"
+
+#~ msgid "Top Posting Option"
+#~ msgstr "Tipp-postituse valik"
+
+#~ msgid "V_ariable-width:"
+#~ msgstr "_Muutuva laiusega:"
+
+#~ msgid "_Mark messages as read after"
+#~ msgstr "Sõnum _märgitakse loetuks pärast"
+
+#~ msgid "_Show image animations"
+#~ msgstr "_Pildianimatsioone näitatakse"
+
+#~ msgid "_Shrink To / Cc / Bcc headers to "
+#~ msgstr "Kellele / koopia / pimekoopia välju vä_hendatakse"
+
+#~ msgid "addresses"
+#~ msgstr "aadressid"
+
+#~ msgid "_Sharing"
+#~ msgstr "_Jagamine"
+
+#~ msgid "Manage your Evolution plugins."
+#~ msgstr "Evolutioni pluginate haldamine."
+
+#~ msgid "Sort mail message threads by subject."
+#~ msgstr "Jutulõngade koostamine teema järgi."
+
+#~ msgid "Subject Threading"
+#~ msgstr "Jutulõng teema järgi"
+
+#~ msgid "Thread messages by subject"
+#~ msgstr "Jutulõngade koostamine teema järgi"
