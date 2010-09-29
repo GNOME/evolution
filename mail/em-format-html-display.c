@@ -781,24 +781,27 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	GtkWidget *widget;
 	gpointer parent;
 	EMFormat *emf = (EMFormat *) efh;
-	CamelMessageInfo *mi = NULL;
 	guint32 size = 0;
 
 	/* FIXME: handle default shown case */
 	d(printf("adding attachment button/content\n"));
 
-	mi = camel_folder_summary_uid (emf->folder->summary, emf->uid);
-	if (mi) {
-		const CamelMessageContentInfo *ci;
+	if (emf->folder && emf->folder->summary && emf->uid) {
+		CamelMessageInfo *mi;
 
-		ci = camel_folder_summary_guess_content_info (mi, camel_mime_part_get_content_type (pobject->part));
-		if (ci) {
-			size = ci->size;
-			/* what if its not encoded in base64 ? is it a case to consider? */
-			if (ci->encoding && !g_ascii_strcasecmp (ci->encoding, "base64"))
-				size = size/1.37;
+		mi = camel_folder_summary_uid (emf->folder->summary, emf->uid);
+		if (mi) {
+			const CamelMessageContentInfo *ci;
+
+			ci = camel_folder_summary_guess_content_info (mi, camel_mime_part_get_content_type (pobject->part));
+			if (ci) {
+				size = ci->size;
+				/* what if its not encoded in base64 ? is it a case to consider? */
+				if (ci->encoding && !g_ascii_strcasecmp (ci->encoding, "base64"))
+					size = size/1.37;
+			}
+			camel_message_info_free (mi);
 		}
-		camel_message_info_free (mi);
 	}
 
 	info = (struct _attach_puri *)em_format_find_puri((EMFormat *)efh, pobject->classid);
