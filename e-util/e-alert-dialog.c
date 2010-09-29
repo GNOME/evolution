@@ -102,17 +102,6 @@ e_alert_dialog_dispose (GObject *object)
 }
 
 static void
-dialog_response_cb (GtkWidget *w, guint button, gpointer user_data)
-{
-	EAlertDialogPrivate *priv = ALERT_DIALOG_PRIVATE (w);
-
-	if (button == GTK_RESPONSE_HELP) {
-		g_signal_stop_emission_by_name(w, "response");
-		e_display_help (GTK_WINDOW (w), e_alert_peek_help_uri (priv->alert));
-	}
-}
-
-static void
 e_alert_dialog_init (EAlertDialog *self)
 {
 	self->priv = ALERT_DIALOG_PRIVATE (self);
@@ -156,11 +145,6 @@ e_alert_dialog_constructed (GObject *obj)
 	if (e_alert_get_flags (alert) & GTK_DIALOG_MODAL)
 		gtk_window_set_modal ((GtkWindow *)self, TRUE);
 	gtk_window_set_destroy_with_parent ((GtkWindow *)self, TRUE);
-
-	if (e_alert_peek_help_uri (alert)) {
-		gtk_dialog_add_button ((GtkDialog*) self, GTK_STOCK_HELP, GTK_RESPONSE_HELP);
-		g_signal_connect(self, "response", G_CALLBACK(dialog_response_cb), NULL);
-	}
 
 	b = e_alert_peek_buttons (alert);
 	if (b == NULL) {

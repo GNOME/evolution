@@ -22,56 +22,40 @@
  *
  */
 
-#ifndef _E_ALERT_H
-#define _E_ALERT_H
+#ifndef E_ALERT_H
+#define E_ALERT_H
 
 #include <stdarg.h>
 #include <gtk/gtk.h>
 
-/*
- * Some standard alerts, if these are altered or added to,
- * update devel-docs/misc/errors.txt
- *
- * Several more basic ones are needed.
- */
-
-#define E_ALERT_INFO "builtin:info"
-#define E_ALERT_INFO_PRIMARY "builtin:info-primary"
-#define E_ALERT_WARNING "builtin:warning"
-#define E_ALERT_WARNING_PRIMARY "builtin:warning-primary"
-#define E_ALERT_ERROR "builtin:error"
-#define E_ALERT_ERROR_PRIMARY "builtin:error-primary"
+/* Standard GObject macros */
+#define E_TYPE_ALERT \
+	(e_alert_get_type())
+#define E_ALERT(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_ALERT, EAlert))
+#define E_ALERT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_ALERT, EAlertClass))
+#define E_IS_ALERT(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_ALERT))
+#define E_IS_ALERT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_ALERT))
+#define E_ALERT_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_ALERT, EAlertClass))
 
 /* takes filename, returns OK if yes */
-#define E_ALERT_ASK_FILE_EXISTS_OVERWRITE "system:ask-save-file-exists-overwrite"
+#define E_ALERT_ASK_FILE_EXISTS_OVERWRITE \
+	"system:ask-save-file-exists-overwrite"
 /* takes filename, reason */
 #define E_ALERT_NO_SAVE_FILE "system:no-save-file"
 /* takes filename, reason */
 #define E_ALERT_NO_LOAD_FILE "system:no-save-file"
 
 G_BEGIN_DECLS
-
-#define E_TYPE_ALERT e_alert_get_type()
-
-#define E_ALERT(obj) \
-  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-  E_TYPE_ALERT, EAlert))
-
-#define E_ALERT_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_CAST ((klass), \
-  E_TYPE_ALERT, EAlertClass))
-
-#define E_IS_ALERT(obj) \
-  (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-  E_TYPE_ALERT))
-
-#define E_IS_ALERT_CLASS(klass) \
-  (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-  E_TYPE_ALERT))
-
-#define E_ALERT_GET_CLASS(obj) \
-  (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-  E_TYPE_ALERT, EAlertClass))
 
 typedef struct _EAlert EAlert;
 typedef struct _EAlertClass EAlertClass;
@@ -84,33 +68,35 @@ struct _e_alert_button {
 	gint response;
 };
 
-struct _EAlert
-{
-  GObject parent;
-  EAlertPrivate *priv;
+struct _EAlert {
+	GObject parent;
+	EAlertPrivate *priv;
 };
 
-struct _EAlertClass
-{
-  GObjectClass parent_class;
+struct _EAlertClass {
+	GObjectClass parent_class;
 };
 
-GType e_alert_get_type (void);
-
-EAlert *e_alert_new (const gchar *tag, ...) G_GNUC_NULL_TERMINATED;
-EAlert *e_alert_new_valist (const gchar *tag, va_list ap);
-EAlert *e_alert_new_array (const gchar *tag, GPtrArray *args);
-
-guint32 e_alert_get_flags (EAlert *alert);
-const gchar *e_alert_peek_stock_image (EAlert *alert);
-gint e_alert_get_default_response (EAlert *alert);
-gchar *e_alert_get_title (EAlert *alert, gboolean escaped);
-gchar *e_alert_get_primary_text (EAlert *alert, gboolean escaped);
-gchar *e_alert_get_secondary_text (EAlert *alert, gboolean escaped);
-const gchar *e_alert_peek_help_uri (EAlert *alert);
-gboolean e_alert_get_scroll (EAlert *alert);
-struct _e_alert_button *e_alert_peek_buttons (EAlert *alert);
+GType		e_alert_get_type		(void);
+EAlert *	e_alert_new			(const gchar *tag,
+						 ...) G_GNUC_NULL_TERMINATED;
+EAlert *	e_alert_new_valist		(const gchar *tag,
+						 va_list ap);
+EAlert *	e_alert_new_array		(const gchar *tag,
+						 GPtrArray *args);
+guint32		e_alert_get_flags		(EAlert *alert);
+const gchar *	e_alert_peek_stock_image	(EAlert *alert);
+gint		e_alert_get_default_response	(EAlert *alert);
+gchar *		e_alert_get_title		(EAlert *alert,
+						 gboolean escaped);
+gchar *		e_alert_get_primary_text	(EAlert *alert,
+						 gboolean escaped);
+gchar *		e_alert_get_secondary_text	(EAlert *alert,
+						 gboolean escaped);
+gboolean	e_alert_get_scroll		(EAlert *alert);
+struct _e_alert_button *
+		e_alert_peek_buttons		(EAlert *alert);
 
 G_END_DECLS
 
-#endif /* _E_ALERT_H */
+#endif /* E_ALERT_H */

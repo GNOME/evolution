@@ -41,6 +41,10 @@
 
 #define d(x)
 
+#define E_ALERT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ALERT, EAlertPrivate))
+
 struct _e_alert {
 	guint32 flags;
 	const gchar *id;
@@ -49,7 +53,6 @@ struct _e_alert {
 	const gchar *title;
 	const gchar *primary;
 	const gchar *secondary;
-	const gchar *help_uri;
 	gboolean scroll;
 	struct _e_alert_button *buttons;
 };
@@ -70,17 +73,11 @@ static struct _e_alert_button default_ok_button = {
 
 static struct _e_alert default_alerts[] = {
 	{ GTK_DIALOG_MODAL, "error", 3, GTK_RESPONSE_OK,
-	  N_("Evolution Error"), "{0}", "{1}", NULL, FALSE,
-	  &default_ok_button },
-	{ GTK_DIALOG_MODAL, "error-primary", 3, GTK_RESPONSE_OK,
-	  N_("Evolution Error"), "{0}", NULL, NULL, FALSE,
+	  N_("Evolution Error"), "{0}", "{1}", FALSE,
 	  &default_ok_button },
 	{ GTK_DIALOG_MODAL, "warning", 1, GTK_RESPONSE_OK,
-	  N_("Evolution Warning"), "{0}", "{1}", NULL, FALSE,
-	  &default_ok_button },
-	{ GTK_DIALOG_MODAL, "warning-primary", 1, GTK_RESPONSE_OK,
-	  N_("Evolution Warning"), "{0}", NULL, NULL, FALSE,
-	  &default_ok_button },
+	  N_("Evolution Warning"), "{0}", "{1}", FALSE,
+	  &default_ok_button }
 };
 
 /* ********************************************************************** */
@@ -141,18 +138,13 @@ G_DEFINE_TYPE (
 	e_alert,
 	G_TYPE_OBJECT)
 
-#define ALERT_PRIVATE(o) \
-  (G_TYPE_INSTANCE_GET_PRIVATE ((o), E_TYPE_ALERT, EAlertPrivate))
-
-enum
-{
+enum {
 	PROP_0,
 	PROP_TAG,
 	PROP_ARGS
 };
 
-struct _EAlertPrivate
-{
+struct _EAlertPrivate {
 	gchar *tag;
 	GPtrArray *args;
 	struct _e_alert *definition;
@@ -166,7 +158,6 @@ struct _EAlertPrivate
   <title>Window Title</title>?
   <primary>Primary error text.</primary>?
   <secondary>Secondary error text.</secondary>?
-  <help uri="help uri"/> ?
   <button stock="stock-button-id"? label="button label"?
       response="response_id"? /> *
  </error>
@@ -278,12 +269,6 @@ e_alert_load (const gchar *path)
 				} else if (!strcmp((gchar *)scan->name, "title")) {
 					if ((tmp = (gchar *)xmlNodeGetContent (scan))) {
 						e->title = g_strdup (dgettext (table->translation_domain, tmp));
-						xmlFree (tmp);
-					}
-				} else if (!strcmp((gchar *)scan->name, "help")) {
-					tmp = (gchar *)xmlGetProp(scan, (const guchar *)"uri");
-					if (tmp) {
-						e->help_uri = g_strdup (tmp);
 						xmlFree (tmp);
 					}
 				} else if (!strcmp((gchar *)scan->name, "button")) {
@@ -497,7 +482,7 @@ e_alert_class_init (EAlertClass *klass)
 static void
 e_alert_init (EAlert *self)
 {
-	self->priv = ALERT_PRIVATE (self);
+	self->priv = E_ALERT_GET_PRIVATE (self);
 }
 
 /**
@@ -679,13 +664,6 @@ e_alert_get_secondary_text (EAlert *alert,
 			alert->priv->args, escaped);
 
 	return g_string_free (formatted, FALSE);
-}
-
-const gchar *
-e_alert_peek_help_uri (EAlert *alert)
-{
-	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, NULL);
-	return alert->priv->definition->help_uri;
 }
 
 gboolean
