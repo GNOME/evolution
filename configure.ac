@@ -98,7 +98,7 @@ else
 	LIBEDATASERVERUI="libedataserverui-1.2"
 
 	GTK="gtk+-2.0"
-	gtk_minimum_version="2.20.0"
+	gtk_minimum_version="2.22.0"
 
 	GAIL="gail"
 	gail_minimum_version="1.9.0"

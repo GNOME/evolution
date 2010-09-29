@@ -760,17 +760,10 @@ prepare_progress_page (GtkAssistant *assistant,
 	priv = E_IMPORT_ASSISTANT_GET_PRIVATE (assistant);
 	page = &priv->selection_page;
 
-#if GTK_CHECK_VERSION(2,21,2)
 	/* Because we're a GTK_ASSISTANT_PAGE_PROGRESS, this will
 	 * prevent the assistant window from being closed via window
 	 * manager decorations while importing. */
 	gtk_assistant_commit (assistant);
-#else
-	/* Hide all GtkAssistant buttons. */
-	gtk_widget_hide (assistant->back);
-	gtk_widget_hide (assistant->forward);
-	gtk_widget_hide (assistant->cancel);
-#endif
 
 	/* Install a custom "Cancel Import" button. */
 	cancel_button = gtk_button_new_with_mnemonic (_("_Cancel Import"));
