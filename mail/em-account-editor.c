@@ -3526,7 +3526,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 	}
 
 	if (ok && (pageid == NULL || !strcmp (pageid, "10.receive"))) {
-		if (emae->type == EMAE_PAGES && refresh) {
+		if (emae->type != EMAE_NOTEBOOK && refresh) {
 			emae_refresh_providers (emae, &emae->priv->source);
 		}
 		ok = emae_service_complete (emae, &emae->priv->source);
@@ -3536,7 +3536,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 	}
 
 	if (ok && (pageid == NULL || !strcmp (pageid, "30.send"))) {
-		if (emae->type == EMAE_PAGES && refresh) {
+		if (emae->type != EMAE_NOTEBOOK && refresh) {
 			emae_refresh_providers (emae, &emae->priv->transport);
 		}
 		ok = emae_service_complete (emae, &emae->priv->transport);
