@@ -772,6 +772,7 @@ time_range_changed_cb (ECalModel *model, time_t start_time, time_t end_time, gpo
 
 	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
 		e_day_view_free_events (day_view);
+		day_view->requires_update = TRUE;
 		return;
 	}
 
@@ -866,6 +867,8 @@ model_row_changed_cb (ETableModel *etm, gint row, gpointer user_data)
 	EDayView *day_view = E_DAY_VIEW (user_data);
 
 	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
+		e_day_view_free_events (day_view);
+		day_view->requires_update = TRUE;
 		return;
 	}
 
@@ -878,6 +881,8 @@ model_cell_changed_cb (ETableModel *etm, gint col, gint row, gpointer user_data)
 	EDayView *day_view = E_DAY_VIEW (user_data);
 
 	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
+		e_day_view_free_events (day_view);
+		day_view->requires_update = TRUE;
 		return;
 	}
 
@@ -892,6 +897,8 @@ model_rows_inserted_cb (ETableModel *etm, gint row, gint count, gpointer user_da
 	gint i;
 
 	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
+		e_day_view_free_events (day_view);
+		day_view->requires_update = TRUE;
 		return;
 	}
 
@@ -922,6 +929,8 @@ model_comps_deleted_cb (ETableModel *etm, gpointer data, gpointer user_data)
 	GSList *l, *list = data;
 
 	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
+		e_day_view_free_events (day_view);
+		day_view->requires_update = TRUE;
 		return;
 	}
 
@@ -964,8 +973,11 @@ timezone_changed_cb (ECalModel *cal_model, icaltimezone *old_zone,
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
-	if (!cal_view->in_focus)
+	if (!cal_view->in_focus) {
+		e_day_view_free_events (day_view);
+		day_view->requires_update = TRUE;
 		return;
+	}
 
 	/* If our time hasn't been set yet, just return. */
 	if (day_view->lower == 0 && day_view->upper == 0)
@@ -1311,6 +1323,8 @@ e_day_view_init (EDayView *day_view)
 		GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
 
 	e_drag_dest_add_calendar_targets (day_view->main_canvas);
+
+	day_view->requires_update = FALSE;
 }
 
 static void
@@ -1940,6 +1954,22 @@ e_day_view_focus_in (GtkWidget *widget, GdkEventFocus *event)
 #if 0
 	GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
 #endif
+
+	if (E_CALENDAR_VIEW (day_view)->in_focus && day_view->requires_update) {
+		time_t my_start = 0, my_end = 0, model_start = 0, model_end = 0;
+
+		day_view->requires_update = FALSE;
+
+		e_cal_model_get_time_range (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), &model_start, &model_end);
+
+		if (e_calendar_view_get_visible_time_range (E_CALENDAR_VIEW (day_view), &my_start, &my_end) &&
+		    model_start == my_start && model_end == my_end) {
+			/* update only when the same time range is set in a view and in a model;
+			   otherwise time range change invokes also query update */
+			e_day_view_recalc_day_starts (day_view, day_view->lower);
+			e_day_view_update_query (day_view);
+		}
+	}
 
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
@@ -2741,8 +2771,11 @@ e_day_view_set_mins_per_row (EDayView *day_view,
 	g_object_notify (G_OBJECT (day_view), "mins-per-row");
 
 	/* If we aren't visible, we'll sort it out later. */
-	if (!E_CALENDAR_VIEW (day_view)->in_focus)
-	    return;
+	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
+		e_day_view_free_events (day_view);
+		day_view->requires_update = TRUE;
+		return;
+	}
 
 	for (day = 0; day < E_DAY_VIEW_MAX_DAYS; day++)
 		day_view->need_layout[day] = TRUE;
@@ -3802,8 +3835,13 @@ e_day_view_update_query (EDayView *day_view)
 {
 	gint rows, r;
 
-	if (!E_CALENDAR_VIEW (day_view)->in_focus)
+	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
+		e_day_view_free_events (day_view);
+		day_view->requires_update = TRUE;
 		return;
+	}
+
+	day_view->requires_update = FALSE;
 
 	e_day_view_stop_editing_event (day_view);
 
@@ -4742,8 +4780,11 @@ e_day_view_check_layout (EDayView *day_view)
 	gint max_cols = -1;
 
 	/* Don't bother if we aren't visible. */
-	if (!E_CALENDAR_VIEW (day_view)->in_focus)
-	    return;
+	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
+		e_day_view_free_events (day_view);
+		day_view->requires_update = TRUE;
+		return;
+	}
 
 	/* Make sure the events are sorted (by start and size). */
 	e_day_view_ensure_events_sorted (day_view);
