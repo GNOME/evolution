@@ -354,6 +354,8 @@ struct _EWeekView {
 	guint32 bc_event_time;
 	time_t before_click_dtstart;
 	time_t before_click_dtend;
+
+	gboolean requires_update;
 };
 
 struct _EWeekViewClass {

@@ -277,8 +277,11 @@ week_view_model_cell_changed_cb (EWeekView *week_view,
                                  gint col,
                                  gint row)
 {
-	if (!E_CALENDAR_VIEW (week_view)->in_focus)
+	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
+		e_week_view_free_events (week_view);
+		week_view->requires_update = TRUE;
 		return;
+	}
 
 	week_view_update_row (week_view, row);
 }
@@ -290,8 +293,11 @@ week_view_model_comps_deleted_cb (EWeekView *week_view,
 	GSList *l, *list = data;
 
 	/* FIXME Stop editing? */
-	if (!E_CALENDAR_VIEW (week_view)->in_focus)
+	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
+		e_week_view_free_events (week_view);
+		week_view->requires_update = TRUE;
 		return;
+	}
 
 	for (l = list; l != NULL; l = g_slist_next (l)) {
 		gint event_num;
@@ -321,8 +327,11 @@ static void
 week_view_model_row_changed_cb (EWeekView *week_view,
                                 gint row)
 {
-	if (!E_CALENDAR_VIEW (week_view)->in_focus)
+	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
+		e_week_view_free_events (week_view);
+		week_view->requires_update = TRUE;
 		return;
+	}
 
 	week_view_update_row (week_view, row);
 }
@@ -335,8 +344,11 @@ week_view_model_rows_inserted_cb (EWeekView *week_view,
 	ECalModel *model;
 	gint i;
 
-	if (!E_CALENDAR_VIEW (week_view)->in_focus)
+	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
+		e_week_view_free_events (week_view);
+		week_view->requires_update = TRUE;
 		return;
+	}
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 
@@ -416,6 +428,7 @@ week_view_time_range_changed_cb (EWeekView *week_view,
 
 	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
 		e_week_view_free_events (week_view);
+		week_view->requires_update = TRUE;
 		return;
 	}
 
@@ -440,8 +453,11 @@ timezone_changed_cb (ECalModel *cal_model,
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-	if (!cal_view->in_focus)
+	if (!cal_view->in_focus) {
+		e_week_view_free_events (week_view);
+		week_view->requires_update = TRUE;
 		return;
+	}
 
 	/* If we don't have a valid date set yet, just return. */
 	if (!g_date_valid (&week_view->first_day_shown))
@@ -829,6 +845,8 @@ e_week_view_init (EWeekView *week_view)
 	week_view->move_cursor = gdk_cursor_new (GDK_FLEUR);
 	week_view->resize_width_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 	week_view->last_cursor_set = NULL;
+
+	week_view->requires_update = FALSE;
 }
 
 /**
@@ -1369,6 +1387,21 @@ e_week_view_focus_in (GtkWidget *widget, GdkEventFocus *event)
 	GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
 #endif
 
+	if (E_CALENDAR_VIEW (week_view)->in_focus && week_view->requires_update) {
+		time_t my_start = 0, my_end = 0, model_start = 0, model_end = 0;
+
+		week_view->requires_update = FALSE;
+
+		e_cal_model_get_time_range (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), &model_start, &model_end);
+
+		if (e_calendar_view_get_visible_time_range (E_CALENDAR_VIEW (week_view), &my_start, &my_end) &&
+		    model_start == my_start && model_end == my_end) {
+			/* update only when the same time range is set in a view and in a model;
+			   otherwise time range change invokes also query update */
+			e_week_view_update_query (week_view);
+		}
+	}
+
 	gtk_widget_queue_draw (week_view->main_canvas);
 
 	return FALSE;
@@ -1594,8 +1627,11 @@ e_week_view_update_query (EWeekView *week_view)
 {
 	gint rows, r;
 
-	if (!E_CALENDAR_VIEW (week_view)->in_focus)
+	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
+		e_week_view_free_events (week_view);
+		week_view->requires_update = TRUE;
 		return;
+	}
 
 	gtk_widget_queue_draw (week_view->main_canvas);
 	e_week_view_free_events (week_view);
@@ -2822,8 +2858,11 @@ static void
 e_week_view_check_layout (EWeekView *week_view)
 {
 	/* Don't bother if we aren't visible. */
-	if (!E_CALENDAR_VIEW (week_view)->in_focus)
-	    return;
+	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
+		e_week_view_free_events (week_view);
+		week_view->requires_update = TRUE;
+		return;
+	}
 
 	/* Make sure the events are sorted (by start and size). */
 	e_week_view_ensure_events_sorted (week_view);

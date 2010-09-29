@@ -1823,11 +1823,19 @@ gnome_calendar_set_view (GnomeCalendar *gcal,
                          GnomeCalendarViewType view_type)
 {
 	ECalendarView *calendar_view;
+	gint ii;
 
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	gcal->priv->current_view_type = view_type;
 	gnome_calendar_set_range_selected (gcal, FALSE);
+
+	E_CALENDAR_VIEW (gcal->priv->views[view_type])->in_focus = TRUE;
+	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++) {
+		if (ii == view_type)
+			continue;
+		E_CALENDAR_VIEW (gcal->priv->views[ii])->in_focus = FALSE;
+	}
 
 	calendar_view = gnome_calendar_get_calendar_view (gcal, view_type);
 	gtk_widget_grab_focus (GTK_WIDGET (calendar_view));
@@ -1843,7 +1851,6 @@ gnome_calendar_display_view (GnomeCalendar *gcal,
 	gboolean preserve_day;
 	gboolean range_selected;
 	time_t start_time;
-	gint ii;
 
 	view = gnome_calendar_get_calendar_view (gcal, view_type);
 
@@ -1894,14 +1901,6 @@ gnome_calendar_display_view (GnomeCalendar *gcal,
 	range_selected = gnome_calendar_get_range_selected (gcal);
 	gnome_calendar_set_view (gcal, view_type);
 	gnome_calendar_set_range_selected (gcal, range_selected);
-
-	/* XXX Move this to set_view()? */
-	E_CALENDAR_VIEW (gcal->priv->views[view_type])->in_focus = TRUE;
-	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++) {
-		if (ii == view_type)
-			continue;
-		E_CALENDAR_VIEW (gcal->priv->views[ii])->in_focus = FALSE;
-	}
 
 	/* For the week & month views we want the selection in the date
 	   navigator to be rounded to the nearest week when the arrow buttons
