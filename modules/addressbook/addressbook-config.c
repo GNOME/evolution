@@ -609,7 +609,7 @@ eabc_general_use_in_cal (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkW
 	if (group)
 		base_uri = e_source_group_peek_base_uri (group);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (use_in_cal_setting), (use_in_cal && g_str_equal (use_in_cal, "1")) || (!use_in_cal && base_uri && g_str_has_prefix (base_uri, "file://")));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (use_in_cal_setting), (use_in_cal && g_str_equal (use_in_cal, "1")) || (!use_in_cal && base_uri && g_str_has_prefix (base_uri, "local:")));
 
 	g_signal_connect (use_in_cal_setting, "toggled", G_CALLBACK (use_in_cal_changed_cb), sdialog);
 
@@ -630,7 +630,7 @@ eabc_general_offline (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 	const gchar *offline_sync;
 	gboolean is_local_book;
 
-	is_local_book = g_str_has_prefix (e_source_group_peek_base_uri (sdialog->source_group), "file:");
+	is_local_book = g_str_has_prefix (e_source_group_peek_base_uri (sdialog->source_group), "local:");
 	offline_sync =  e_source_get_property (sdialog->source, "offline_sync");
 	if (old)
 		return old;
