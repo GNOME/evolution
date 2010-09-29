@@ -607,8 +607,9 @@ mail_send_message (struct _send_queue_msg *m,
 				g_string_append_printf (
 					err, _("Failed to append to %s: %s\n"
 					"Appending to local 'Sent' folder instead."),
-					sent_folder_uri, local_error->message);
-				g_clear_error (&local_error);
+					sent_folder_uri, local_error ? local_error->message : _("Unknown error"));
+				if (local_error)
+					g_clear_error (&local_error);
 			}
 		}
 
