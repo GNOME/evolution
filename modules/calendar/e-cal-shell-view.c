@@ -66,6 +66,7 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	GtkRadioAction *action;
 	time_t start_range;
 	time_t end_range;
+	time_t now_time;
 	gboolean range_search;
 	gchar *start, *end;
 	gchar *query;
@@ -80,6 +81,9 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	cal_shell_sidebar = E_CAL_SHELL_SIDEBAR (shell_sidebar);
 
 	searchbar = e_cal_shell_content_get_searchbar (cal_shell_content);
+
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	now_time = time_day_begin (icaltime_as_timet (icaltime_current_time_with_zone (e_cal_model_get_timezone (gnome_calendar_get_model (calendar)))));
 
 	action = GTK_RADIO_ACTION (ACTION (CALENDAR_SEARCH_ANY_FIELD_CONTAINS));
 	value = gtk_radio_action_get_current_value (action);
@@ -145,8 +149,8 @@ cal_shell_view_execute_search (EShellView *shell_view)
 
 		case CALENDAR_FILTER_ACTIVE_APPOINTMENTS:
 			/* Show a year's worth of appointments. */
-			start_range = time (NULL);
-			end_range = time_add_day (start_range, 365);
+			start_range = now_time;
+			end_range = time_day_end (time_add_day (start_range, 365));
 			start = isodate_from_time_t (start_range);
 			end = isodate_from_time_t (end_range);
 
@@ -161,8 +165,8 @@ cal_shell_view_execute_search (EShellView *shell_view)
 			break;
 
 		case CALENDAR_FILTER_NEXT_7_DAYS_APPOINTMENTS:
-			start_range = time (NULL);
-			end_range = time_add_day (start_range, 7);
+			start_range = now_time;
+			end_range = time_day_end (time_add_day (start_range, 7));
 			start = isodate_from_time_t (start_range);
 			end = isodate_from_time_t (end_range);
 
@@ -207,7 +211,6 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	}
 
 	/* Submit the query. */
-	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 	gnome_calendar_set_search_query (
 		calendar, query, range_search, start_range, end_range);
 	g_free (query);

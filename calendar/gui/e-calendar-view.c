@@ -350,6 +350,10 @@ calendar_view_constructed (GObject *object)
 	 * the GType accurately.  See GInstanceInitFunc documentation
 	 * for details of the problem. */
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
+
+	/* Chain up to parent's constructed() method. */
+	if (G_OBJECT_CLASS (e_calendar_view_parent_class)->constructed)
+		G_OBJECT_CLASS (e_calendar_view_parent_class)->constructed (object);
 }
 
 static void
