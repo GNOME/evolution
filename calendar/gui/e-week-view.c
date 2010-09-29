@@ -552,6 +552,8 @@ week_view_constructed (GObject *object)
 	calendar_view = E_CALENDAR_VIEW (object);
 	model = e_calendar_view_get_model (calendar_view);
 
+	e_week_view_recalc_display_start_day (E_WEEK_VIEW (object));
+
 	g_signal_connect_swapped (
 		model, "notify::week-start-day",
 		G_CALLBACK (week_view_notify_week_start_day_cb), object);
@@ -2008,6 +2010,7 @@ e_week_view_set_multi_week_view	(EWeekView	*week_view,
 	gtk_adjustment_set_page_increment (adjustment, page_increment);
 	gtk_adjustment_set_page_size (adjustment, page_size);
 
+	e_week_view_recalc_display_start_day (week_view);
 	e_week_view_recalc_cell_sizes (week_view);
 
 	if (g_date_valid (&week_view->first_day_shown))
