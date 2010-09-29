@@ -27,8 +27,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <glib.h>
 #include <glib/gi18n.h>
+#include <glib/gstdio.h>
 #include <gtk/gtk.h>
+
+#include <libedataserver/e-data-server-util.h>
 
 #ifdef G_OS_WIN32
 #ifdef DATADIR
@@ -50,10 +54,9 @@
 #define EVOUSERDATADIR_MAGIC "#EVO_USERDATADIR#"
 
 #define EVOLUTION "evolution"
-#define EVOLUTION_DIR "$HOME/.evolution/"
-#define EVOLUTION_DIR_BACKUP "$HOME/.evolution-old/"
+#define EVOLUTION_DIR "$DATADIR/"
+#define EVOLUTION_DIR_FILE EVOLUTION ".dir"
 #define GCONF_DUMP_FILE "backup-restore-gconf.xml"
-#define GCONF_DUMP_PATH EVOLUTION_DIR GCONF_DUMP_FILE
 #define GCONF_DIR "/apps/evolution"
 #define ARCHIVE_NAME "evolution-backup.tar.gz"
 
@@ -93,7 +96,7 @@ static GOptionEntry options[] = {
 #define print_and_run(x) G_STMT_START { g_message ("%s", x); system (x); } G_STMT_END
 #define CANCEL(x) if (x) return;
 
-static gboolean check (const gchar *filename);
+static gboolean check (const gchar *filename, gboolean *is_new_format);
 
 static GString *
 replace_string (const gchar *text, const gchar *find, const gchar *replace)
@@ -111,7 +114,7 @@ replace_string (const gchar *text, const gchar *find, const gchar *replace)
 
 	p = text;
 	while (next = strstr (p, find), next) {
-		if (p + 1 < next)
+		if (p < next)
 			g_string_append_len (str, p, next - p);
 
 		if (replace && *replace)
@@ -123,6 +126,64 @@ replace_string (const gchar *text, const gchar *find, const gchar *replace)
 	g_string_append (str, p);
 
 	return str;
+}
+
+static const gchar *
+strip_home_dir (const gchar *dir)
+{
+	const gchar *home_dir, *res;
+
+	g_return_val_if_fail (dir != NULL, NULL);
+
+	home_dir = g_get_home_dir ();
+	g_return_val_if_fail (home_dir != NULL, dir);
+	g_return_val_if_fail (*home_dir != '\0', dir);
+
+	res = dir;
+	if (g_str_has_prefix (res, home_dir))
+		res += strlen (home_dir);
+
+	if (*res == G_DIR_SEPARATOR)
+		res++;
+
+	return res;
+}
+
+static GString *
+replace_variables (const gchar *str)
+{
+	GString *res = NULL, *use;
+	const gchar *strip_datadir, *strip_configdir;
+
+	g_return_val_if_fail (str != NULL, NULL);
+
+	strip_datadir = strip_home_dir (e_get_user_data_dir ());
+	strip_configdir = strip_home_dir (e_get_user_config_dir ());
+
+	#define repl(_find, _replace)						\
+		use = replace_string (res ? res->str : str, _find, _replace);	\
+		g_return_val_if_fail (use != NULL, NULL);			\
+		if (res)							\
+			g_string_free (res, TRUE);				\
+		res = use;
+
+	repl ("$HOME", g_get_home_dir ());
+	repl ("$TMP", g_get_tmp_dir ());
+	repl ("$DATADIR", e_get_user_data_dir ());
+	repl ("$CONFIGDIR", e_get_user_config_dir ());
+	repl ("$STRIPDATADIR", strip_datadir);
+	repl ("$STRIPCONFIGDIR", strip_configdir);
+
+	#undef repl
+
+	g_return_val_if_fail (res != NULL, NULL);
+
+	/* remove trailing dir separator */
+	while (res->len > 0 && res->str[res->len - 1] == G_DIR_SEPARATOR) {
+		g_string_truncate (res, res->len - 1);
+	}
+
+	return res;
 }
 
 static void
@@ -137,11 +198,11 @@ replace_in_file (const gchar *filename, const gchar *find, const gchar *replace)
 	g_return_if_fail (*find);
 	g_return_if_fail (replace != NULL);
 
-	if (strstr (filename, "$HOME")) {
-		filenamestr = replace_string (filename, "$HOME", g_get_home_dir ());
+	if (strstr (filename, "$")) {
+		filenamestr = replace_variables (filename);
 
 		if (!filenamestr) {
-			g_warning ("%s: Replace string on $HOME failed!", G_STRFUNC);
+			g_warning ("%s: Replace variables in '%s' failed!", G_STRFUNC, filename);
 			return;
 		}
 
@@ -178,9 +239,9 @@ run_cmd (const gchar *cmd)
 	if (!cmd)
 		return;
 
-	if (strstr (cmd, "$HOME") != NULL) {
+	if (strstr (cmd, "$") != NULL) {
 		/* read the doc for g_get_home_dir to know why replacing it here */
-		GString *str = replace_string (cmd, "$HOME", g_get_home_dir ());
+		GString *str = replace_variables (cmd);
 
 		if (str) {
 			print_and_run (str->str);
@@ -188,6 +249,32 @@ run_cmd (const gchar *cmd)
 		}
 	} else
 		print_and_run (cmd);
+}
+
+static void
+write_dir_file (void)
+{
+	GString *content, *filename;
+	GError *error = NULL;
+
+	filename = replace_variables ("$HOME/" EVOLUTION_DIR_FILE);
+	g_return_if_fail (filename != NULL);
+
+	content = replace_variables (
+		"[dirs]\n"
+		"data=$STRIPDATADIR\n"
+		"config=$STRIPCONFIGDIR\n");
+	g_return_if_fail (content != NULL);
+
+	g_file_set_contents (filename->str, content->str, content->len, &error);
+
+	if (error) {
+		g_warning ("Failed to write file '%s': %s\n", filename->str, error->message);
+		g_error_free (error);
+	}
+
+	g_string_free (filename, TRUE);
+	g_string_free (content, TRUE);
 }
 
 static void
@@ -204,13 +291,15 @@ backup (const gchar *filename)
 	/* FIXME Will the versioned setting always work? */
 	run_cmd (EVOLUTION " --quit");
 
-	run_cmd ("rm $HOME/.evolution/.running");
+	run_cmd ("rm $DATADIR/.running");
 
 	CANCEL (complete);
 	txt = _("Backing Evolution accounts and settings");
-	run_cmd ("gconftool-2 --dump " GCONF_DIR " > " GCONF_DUMP_PATH);
+	run_cmd ("gconftool-2 --dump " GCONF_DIR " > " EVOLUTION_DIR GCONF_DUMP_FILE);
 
-	replace_in_file (GCONF_DUMP_PATH, e_get_user_data_dir (), EVOUSERDATADIR_MAGIC);
+	replace_in_file (EVOLUTION_DIR GCONF_DUMP_FILE, e_get_user_data_dir (), EVOUSERDATADIR_MAGIC);
+
+	write_dir_file ();
 
 	CANCEL (complete);
 	txt = _("Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)");
@@ -219,10 +308,12 @@ backup (const gchar *filename)
 	/* FIXME compression type?" */
 	/* FIXME date/time stamp?" */
 	/* FIXME backup location?" */
-	command = g_strdup_printf ("cd $HOME && tar chf - .evolution .camel_certs | gzip > %s", quotedfname);
+	command = g_strdup_printf ("cd $HOME && tar chf - $STRIPDATADIR $STRIPCONFIGDIR .camel_certs " EVOLUTION_DIR_FILE " | gzip > %s", quotedfname);
 	run_cmd (command);
 	g_free (command);
 	g_free (quotedfname);
+
+	run_cmd ("rm $HOME/" EVOLUTION_DIR_FILE);
 
 	txt = _("Backup complete");
 
@@ -238,24 +329,68 @@ backup (const gchar *filename)
 }
 
 static void
+extract_backup_dirs (const gchar *filename, gchar **data_dir, gchar **config_dir)
+{
+	GKeyFile *key_file;
+	GError *error = NULL;
+
+	g_return_if_fail (filename != NULL);
+	g_return_if_fail (data_dir != NULL);
+	g_return_if_fail (config_dir != NULL);
+
+	key_file = g_key_file_new ();
+	g_key_file_load_from_file (key_file, filename, G_KEY_FILE_NONE, &error);
+
+	if (error) {
+		g_warning ("Failed to read '%s': %s", filename, error->message);
+		g_error_free (error);
+	} else {
+		gchar *tmp;
+
+		tmp = g_key_file_get_value (key_file, "dirs", "data", NULL);
+		if (tmp)
+			*data_dir = g_shell_quote (tmp);
+		g_free (tmp);
+
+		tmp = g_key_file_get_value (key_file, "dirs", "config", NULL);
+		if (tmp)
+			*config_dir = g_shell_quote (tmp);
+		g_free (tmp);
+	}
+
+	g_key_file_free (key_file);
+}
+
+static gint
+get_dir_level (const gchar *dir)
+{
+	gint res = 0, i;
+
+	g_return_val_if_fail (dir != NULL, -1);
+
+	for (i = 0; dir[i]; i++) {
+		if (dir[i] == '/' || dir[i] == '\\')
+			res++;
+	}
+
+	if (i > 0)
+		res++;
+
+	return res;
+}
+
+static void
 restore (const gchar *filename)
 {
 	gchar *command;
 	gchar *quotedfname;
+	gboolean is_new_format = FALSE;
 
 	g_return_if_fail (filename && *filename);
 
-	if (!check (filename)) {
+	if (!check (filename, &is_new_format)) {
 		g_message ("Cannot restore from an incorrect archive '%s'.", filename);
-
-		if (restart_arg) {
-			CANCEL (complete);
-			txt = _("Restarting Evolution");
-			complete=TRUE;
-			run_cmd (EVOLUTION);
-		}
-
-		return;
+		goto end;
 	}
 
 	quotedfname = g_shell_quote (filename);
@@ -267,50 +402,116 @@ restore (const gchar *filename)
 
 	CANCEL (complete);
 	txt = _("Back up current Evolution data");
-	run_cmd ("mv " EVOLUTION_DIR " " EVOLUTION_DIR_BACKUP);
-	run_cmd ("mv $HOME/.camel_certs ~/.camel_certs_old");
+	run_cmd ("mv $DATADIR $DATADIR_old");
+	run_cmd ("mv $CONFIGDIR $CONFIGDIR_old");
+	run_cmd ("mv $HOME/.camel_certs $HOME/.camel_certs_old");
 
 	CANCEL (complete);
 	txt = _("Extracting files from backup");
-	command = g_strdup_printf ("cd $HOME && gzip -cd %s| tar xf -", quotedfname);
-	run_cmd (command);
-	g_free (command);
+
+	if (is_new_format) {
+		GString *dir_fn;
+		gchar *data_dir = NULL, *config_dir = NULL;
+
+		command = g_strdup_printf ("cd $TMP && tar xzf %s " EVOLUTION_DIR_FILE, quotedfname);
+		run_cmd (command);
+		g_free (command);
+
+		dir_fn = replace_variables ("$TMP" G_DIR_SEPARATOR_S EVOLUTION_DIR_FILE);
+		if (!dir_fn) {
+			g_warning ("Failed to create evolution's dir filename");
+			goto end;
+		}
+
+		/* data_dir and config_dir are quoted inside extract_backup_dirs */
+		extract_backup_dirs (dir_fn->str, &data_dir, &config_dir);
+
+		g_unlink (dir_fn->str);
+		g_string_free (dir_fn, TRUE);
+
+		if (!data_dir || !config_dir) {
+			g_warning ("Failed to get old data_dir (%p)/config_dir (%p)", data_dir, config_dir);
+			g_free (data_dir);
+			g_free (config_dir);
+			goto end;
+		}
+
+		g_mkdir_with_parents (e_get_user_data_dir (), 0700);
+		g_mkdir_with_parents (e_get_user_config_dir (), 0700);
+
+		command = g_strdup_printf ("cd $DATADIR && tar xzf %s %s --strip-components=%d", quotedfname, data_dir, get_dir_level (data_dir));
+		run_cmd (command);
+		g_free (command);
+
+		command = g_strdup_printf ("cd $CONFIGDIR && tar xzf %s %s --strip-components=%d", quotedfname, config_dir, get_dir_level (config_dir));
+		run_cmd (command);
+		g_free (command);
+
+		command = g_strdup_printf ("cd $HOME && tar xzf %s .camel_certs", quotedfname);
+		run_cmd (command);
+		g_free (command);
+
+		g_free (data_dir);
+		g_free (config_dir);
+	} else {
+		run_cmd ("mv $HOME/.evolution $HOME/.evolution_old");
+
+		command = g_strdup_printf ("cd $HOME && gzip -cd %s | tar xf -", quotedfname);
+		run_cmd (command);
+		g_free (command);
+	}
+
 	g_free (quotedfname);
 
 	CANCEL (complete);
 	txt = _("Loading Evolution settings");
 
-	replace_in_file (GCONF_DUMP_PATH, EVOUSERDATADIR_MAGIC, e_get_user_data_dir ());
-
-	run_cmd ("gconftool-2 --load " GCONF_DUMP_PATH);
+	if (is_new_format) {
+		/* new format has it in DATADIR... */
+		replace_in_file (EVOLUTION_DIR GCONF_DUMP_FILE, EVOUSERDATADIR_MAGIC, e_get_user_data_dir ());
+		run_cmd ("gconftool-2 --load " EVOLUTION_DIR GCONF_DUMP_FILE);
+		run_cmd ("rm " EVOLUTION_DIR GCONF_DUMP_FILE);
+	} else {
+		/* ... old format in ~/.evolution */
+		replace_in_file ("$HOME/.evolution/" GCONF_DUMP_FILE, EVOUSERDATADIR_MAGIC, e_get_user_data_dir ());
+		run_cmd ("gconftool-2 --load " "$HOME/.evolution/" GCONF_DUMP_FILE);
+		run_cmd ("rm " "$HOME/.evolution/" GCONF_DUMP_FILE);
+	}
 
 	CANCEL (complete);
 	txt = _("Removing temporary backup files");
-	run_cmd ("rm -rf " GCONF_DUMP_PATH);
-	run_cmd ("rm -rf " EVOLUTION_DIR_BACKUP);
+	run_cmd ("rm -rf $DATADIR_old");
+	run_cmd ("rm -rf $CONFIGDIR_old");
 	run_cmd ("rm -rf $HOME/.camel_certs_old");
-	run_cmd ("rm $HOME/.evolution/.running");
+	run_cmd ("rm $DATADIR/.running");
+
+	if (!is_new_format)
+		run_cmd ("rm -rf $HOME/.evolution_old");
 
 	CANCEL (complete);
 	txt = _("Ensuring local sources");
 
+ end:
 	if (restart_arg) {
 		CANCEL (complete);
 		txt = _("Restarting Evolution");
 		complete=TRUE;
 		run_cmd (EVOLUTION);
 	}
-
 }
 
 static gboolean
-check (const gchar *filename)
+check (const gchar *filename, gboolean *is_new_format)
 {
 	gchar *command;
 	gchar *quotedfname;
+	gboolean is_new = TRUE;
 
 	g_return_val_if_fail (filename && *filename, FALSE);
 	quotedfname = g_shell_quote (filename);
+
+	if (is_new_format)
+		*is_new_format = FALSE;
 
 	command = g_strdup_printf ("tar ztf %s 1>/dev/null", quotedfname);
 	result = system (command);
@@ -322,14 +523,28 @@ check (const gchar *filename)
 		return FALSE;
 	}
 
-	command = g_strdup_printf ("tar ztf %s | grep -e \"^\\.evolution/$\"", quotedfname);
+	command = g_strdup_printf ("tar ztf %s | grep -e \"%s$\"", quotedfname, EVOLUTION_DIR_FILE);
 	result = system (command);
 	g_free (command);
+
+	if (result) {
+		command = g_strdup_printf ("tar ztf %s | grep -e \"^\\.evolution/$\"", quotedfname);
+		result = system (command);
+		g_free (command);
+		is_new = FALSE;
+	}
 
 	g_message ("Second result %d", result);
 	if (result) {
 		g_free (quotedfname);
 		return FALSE;
+	}
+
+	if (is_new) {
+		if (is_new_format)
+			*is_new_format = TRUE;
+		g_free (quotedfname);
+		return TRUE;
 	}
 
 	command = g_strdup_printf ("tar ztf %s | grep -e \"^\\.evolution/%s$\"", quotedfname, GCONF_DUMP_FILE);
@@ -363,7 +578,7 @@ thread_start (gpointer data)
 	else if (restore_op)
 		restore (res_file);
 	else if (check_op)
-		check (chk_file);
+		check (chk_file, NULL);
 
 	complete = TRUE;
 
@@ -582,7 +797,7 @@ main (gint argc, gchar **argv)
 		gtk_widget_show_all (progress_dialog);
 	} else if (check_op) {
 		/* For sanity we don't need gui */
-		check (chk_file);
+		check (chk_file, NULL);
 		exit (result == 0 ? 0 : 1);
 	}
 
