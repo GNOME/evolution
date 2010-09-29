@@ -3316,9 +3316,6 @@ e_day_view_convert_event_coords (EDayView *day_view,
 	*x_return = event_x;
 	*y_return = event_y;
 
-	if (event_window != window)
-		g_warning ("Couldn't find event window\n");
-
 	return (event_window == window) ? TRUE : FALSE;
 }
 
