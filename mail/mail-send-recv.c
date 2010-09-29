@@ -529,7 +529,7 @@ build_dialog (GtkWindow *parent,
 
 			info->uri = g_strdup (source->url);
 			info->keep_on_server = source->keep_on_server;
-			info->cancellable = (GCancellable *) camel_operation_new ();
+			info->cancellable = camel_operation_new ();
 			info->state = SEND_ACTIVE;
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 
@@ -619,7 +619,7 @@ build_dialog (GtkWindow *parent,
 
 			info->uri = g_strdup (destination);
 			info->keep_on_server = FALSE;
-			info->cancellable = (GCancellable *) camel_operation_new ();
+			info->cancellable = camel_operation_new ();
 			info->state = SEND_ACTIVE;
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 
@@ -1250,7 +1250,7 @@ mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 	info->status_label = NULL;
 	info->uri = g_strdup (uri);
 	info->keep_on_server = keep_on_server;
-	info->cancellable = (GCancellable *) camel_operation_new ();
+	info->cancellable = camel_operation_new ();
 	info->cancel_button = NULL;
 	info->data = data;
 	info->state = SEND_ACTIVE;

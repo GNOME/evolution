@@ -1918,7 +1918,7 @@ struct _get_message_msg {
 	void (*done) (CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data);
 	gpointer data;
 	CamelMimeMessage *message;
-	CamelOperation *cancel;
+	GCancellable *cancellable;
 };
 
 static gchar *
@@ -1950,7 +1950,7 @@ get_message_free (struct _get_message_msg *m)
 {
 	g_free (m->uid);
 	g_object_unref (m->folder);
-	g_object_unref (m->cancel);
+	g_object_unref (m->cancellable);
 
 	if (m->message)
 		g_object_unref (m->message);
@@ -1978,7 +1978,7 @@ mail_get_message (CamelFolder *folder, const gchar *uid, void (*done) (CamelFold
 	m->uid = g_strdup (uid);
 	m->data = data;
 	m->done = (void (*) (CamelFolder *, const gchar *, CamelMimeMessage *, gpointer )) done;
-	m->cancel = camel_operation_new ();
+	m->cancellable = camel_operation_new ();
 	id = m->base.seq;
 
 	dispatch (m);
@@ -1991,10 +1991,16 @@ typedef void (*get_done)(CamelFolder *folder, const gchar *uid, CamelMimeMessage
 static void
 get_messagex_done (struct _get_message_msg *m)
 {
-	if (m->done && !camel_operation_cancel_check (m->cancel)) {
-		get_done done = (get_done)m->done;
-		done (m->folder, m->uid, m->message, m->data, &m->base.error);
-	}
+	get_done done;
+
+	if (!m->done)
+		return;
+
+	if (camel_operation_cancel_check (CAMEL_OPERATION (m->cancellable)))
+		return;
+
+	done = (get_done)m->done;
+	done (m->folder, m->uid, m->message, m->data, &m->base.error);
 }
 
 static MailMsgInfo get_messagex_info = {
@@ -2027,7 +2033,7 @@ mail_get_messagex (CamelFolder *folder,
 	m->uid = g_strdup (uid);
 	m->data = data;
 	m->done = (void (*) (CamelFolder *, const gchar *, CamelMimeMessage *, gpointer )) done;
-	m->cancel = camel_operation_new ();
+	m->cancellable = camel_operation_new ();
 	id = m->base.seq;
 
 	dispatch (m);

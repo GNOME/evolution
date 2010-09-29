@@ -1624,7 +1624,7 @@ pst_import (EImport *ei, EImportTarget *target)
 	m->status_timeout_id = g_timeout_add (100, pst_status_timeout, m);
 	/*m->status_timeout_id = NULL;*/
 	m->status_lock = g_mutex_new ();
-	m->status = (GCancellable *) camel_operation_new ();
+	m->cancellable = camel_operation_new ();
 
 	g_signal_connect (
 		m->status, "status",

@@ -58,7 +58,7 @@ struct _pine_import_msg {
 	gchar *status_what;
 	gint status_pc;
 	gint status_timeout_id;
-	CamelOperation *status;
+	GCancellable *cancellable;
 };
 
 static gboolean
@@ -237,7 +237,8 @@ pine_import_exec (struct _pine_import_msg *m)
 		gchar *path;
 
 		path = g_build_filename(g_get_home_dir(), "mail", NULL);
-		mail_importer_import_folders_sync (path, pine_special_folders, 0, m->status);
+		mail_importer_import_folders_sync (
+			path, pine_special_folders, 0, m->cancellable);
 		g_free (path);
 	}
 }
@@ -264,7 +265,7 @@ pine_import_done (struct _pine_import_msg *m)
 static void
 pine_import_free (struct _pine_import_msg *m)
 {
-	g_object_unref (m->status);
+	g_object_unref (m->cancellable);
 
 	g_free (m->status_what);
 	g_mutex_free (m->status_lock);
@@ -334,10 +335,10 @@ mail_importer_pine_import (EImport *ei,
 	m->status_timeout_id = g_timeout_add (
 		100, (GSourceFunc) pine_status_timeout, m);
 	m->status_lock = g_mutex_new ();
-	m->status = camel_operation_new ();
+	m->cancellable = camel_operation_new ();
 
 	g_signal_connect (
-		m->status, "status",
+		m->cancellable, "status",
 		G_CALLBACK (pine_status), m);
 
 	id = m->base.seq;
@@ -427,7 +428,7 @@ pine_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
 	struct _pine_import_msg *m = g_datalist_get_data(&target->data, "pine-msg");
 
 	if (m)
-		camel_operation_cancel (m->status);
+		g_cancellable_cancel (m->cancellable);
 }
 
 static EImportImporter pine_importer = {

@@ -89,7 +89,7 @@ mail_msg_new (MailMsgInfo *info)
 	msg->info = info;
 	msg->ref_count = 1;
 	msg->seq = mail_msg_seq++;
-	msg->cancellable = (GCancellable *) camel_operation_new ();
+	msg->cancellable = camel_operation_new ();
 
 	msg->priv = g_slice_new0 (MailMsgPrivate);
 	msg->priv->activity = e_activity_new ();

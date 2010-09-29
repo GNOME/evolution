@@ -153,7 +153,7 @@ struct _EMailShellViewPrivate {
 	/* Search folders for interactive search. */
 	CamelVeeFolder *search_account_all;
 	CamelVeeFolder *search_account_current;
-	CamelOperation *search_account_cancel;
+	GCancellable *search_account_cancel;
 
 	guint show_deleted : 1;
 };

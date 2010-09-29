@@ -46,8 +46,8 @@ EImportImporter *pine_importer_peek (void);
 #define MSG_FLAG_MARKED 0x0004
 #define MSG_FLAG_EXPUNGED 0x0008
 
-gint mail_importer_import_mbox (const gchar *path, const gchar *folderuri, CamelOperation *cancel, void (*done)(gpointer data, GError **), gpointer data);
-void mail_importer_import_mbox_sync (const gchar *path, const gchar *folderuri, CamelOperation *cancel);
+gint mail_importer_import_mbox (const gchar *path, const gchar *folderuri, GCancellable *cancellable, void (*done)(gpointer data, GError **), gpointer data);
+void mail_importer_import_mbox_sync (const gchar *path, const gchar *folderuri, GCancellable *cancellable);
 
 struct _MailImporterSpecial {
 	const gchar *orig, *new;
@@ -58,6 +58,6 @@ typedef struct _MailImporterSpecial MailImporterSpecial;
 #define MAIL_IMPORTER_MOZFMT (1<<0)
 
 /* api in flux */
-void mail_importer_import_folders_sync (const gchar *filepath, MailImporterSpecial special_folders[], gint flags, CamelOperation *cancel);
+void mail_importer_import_folders_sync (const gchar *filepath, MailImporterSpecial special_folders[], gint flags, GCancellable *cancellable);
 
 #endif

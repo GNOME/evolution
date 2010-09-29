@@ -44,7 +44,7 @@ typedef struct {
 	MailMsg base;
 
 	CamelFolder *folder;
-	CamelOperation *cancel;
+	GCancellable *cancellable;
 	GList *folder_list;
 } SearchResultsMsg;
 
@@ -94,7 +94,7 @@ static MailMsgInfo search_results_setup_info = {
 static gint
 mail_shell_view_setup_search_results_folder (CamelFolder *folder,
                                              GList *folder_list,
-                                             CamelOperation *cancel)
+                                             GCancellable *cancellable)
 {
 	SearchResultsMsg *msg;
 	gint id;
@@ -103,7 +103,7 @@ mail_shell_view_setup_search_results_folder (CamelFolder *folder,
 
 	msg = mail_msg_new (&search_results_setup_info);
 	msg->folder = folder;
-	msg->cancel = cancel;
+	msg->cancellable = cancellable;
 	msg->folder_list = folder_list;
 
 	id = msg->base.seq;
@@ -501,7 +501,7 @@ all_accounts:
 		}
 
 		if (priv->search_account_cancel != NULL) {
-			camel_operation_cancel (priv->search_account_cancel);
+			g_cancellable_cancel (priv->search_account_cancel);
 			g_object_unref (priv->search_account_cancel);
 			priv->search_account_cancel = NULL;
 		}
@@ -534,7 +534,7 @@ all_accounts:
 	/* If we already have a search folder, reuse it. */
 	if (search_folder != NULL) {
 		if (priv->search_account_cancel != NULL) {
-			camel_operation_cancel (priv->search_account_cancel);
+			g_cancellable_cancel (priv->search_account_cancel);
 			g_object_unref (priv->search_account_cancel);
 			priv->search_account_cancel = NULL;
 		}
@@ -620,7 +620,7 @@ current_account:
 		}
 
 		if (priv->search_account_cancel != NULL) {
-			camel_operation_cancel (priv->search_account_cancel);
+			g_cancellable_cancel (priv->search_account_cancel);
 			g_object_unref (priv->search_account_cancel);
 			priv->search_account_cancel = NULL;
 		}
@@ -653,7 +653,7 @@ current_account:
 	/* If we already have a search folder, reuse it. */
 	if (search_folder != NULL) {
 		if (priv->search_account_cancel != NULL) {
-			camel_operation_cancel (priv->search_account_cancel);
+			g_cancellable_cancel (priv->search_account_cancel);
 			g_object_unref (priv->search_account_cancel);
 			priv->search_account_cancel = NULL;
 		}

@@ -55,7 +55,7 @@ struct _elm_import_msg {
 	gchar *status_what;
 	gint status_pc;
 	gint status_timeout_id;
-	CamelOperation *status;
+	GCancellable *status;
 };
 
 static GHashTable *
@@ -196,7 +196,8 @@ elm_import_exec (struct _elm_import_msg *m)
 	else
 		elmdir = g_strdup (maildir);
 
-	mail_importer_import_folders_sync (elmdir, elm_special_folders, 0, m->status);
+	mail_importer_import_folders_sync (
+		elmdir, elm_special_folders, 0, m->status);
 	g_free (elmdir);
 }
 
@@ -346,7 +347,7 @@ elm_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
 	struct _elm_import_msg *m = g_datalist_get_data(&target->data, "elm-msg");
 
 	if (m)
-		camel_operation_cancel (m->status);
+		g_cancellable_cancel (m->status);
 }
 
 static EImportImporter elm_importer = {

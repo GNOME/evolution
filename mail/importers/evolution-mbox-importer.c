@@ -64,7 +64,7 @@ typedef struct {
 	gchar *status_what;
 	gint status_pc;
 	gint status_timeout_id;
-	CamelOperation *cancel;	/* cancel/status port */
+	GCancellable *cancellable;	/* cancel/status port */
 
 	gchar *uri;
 } MboxImporter;
@@ -206,7 +206,7 @@ mbox_import_done (gpointer data, GError **error)
 	g_source_remove (importer->status_timeout_id);
 	g_free (importer->status_what);
 	g_mutex_free (importer->status_lock);
-	g_object_unref (importer->cancel);
+	g_object_unref (importer->cancellable);
 
 	e_import_complete (importer->import, importer->target);
 	g_free (importer);
@@ -226,16 +226,16 @@ mbox_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 	importer->target = target;
 	importer->status_lock = g_mutex_new ();
 	importer->status_timeout_id = g_timeout_add (100, mbox_status_timeout, importer);
-	importer->cancel = camel_operation_new ();
+	importer->cancellable = camel_operation_new ();
 
 	g_signal_connect (
-		importer->cancel, "status",
+		importer->cancellable, "status",
 		G_CALLBACK (mbox_status), importer);
 
 	filename = g_filename_from_uri (((EImportTargetURI *)target)->uri_src, NULL, NULL);
 	mail_importer_import_mbox (
 		filename, ((EImportTargetURI *)target)->uri_dest,
-		importer->cancel, mbox_import_done, importer);
+		importer->cancellable, mbox_import_done, importer);
 	g_free (filename);
 }
 
@@ -245,7 +245,7 @@ mbox_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
 	MboxImporter *importer = g_datalist_get_data(&target->data, "mbox-data");
 
 	if (importer)
-		camel_operation_cancel (importer->cancel);
+		g_cancellable_cancel (importer->cancellable);
 }
 
 static MboxImporterCreatePreviewFunc create_preview_func = NULL;
