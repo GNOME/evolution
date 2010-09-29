@@ -227,6 +227,16 @@ cal_model_get_property (GObject *object,
 }
 
 static void
+cal_model_constructed (GObject *object)
+{
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
+
+	/* Chain up to parent's constructed() method. */
+	if (G_OBJECT_CLASS (parent_class)->constructed)
+		G_OBJECT_CLASS (parent_class)->constructed (object);
+}
+
+static void
 cal_model_dispose (GObject *object)
 {
 	ECalModelPrivate *priv;
@@ -302,6 +312,7 @@ e_cal_model_class_init (ECalModelClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = cal_model_set_property;
 	object_class->get_property = cal_model_get_property;
+	object_class->constructed = cal_model_constructed;
 	object_class->dispose = cal_model_dispose;
 	object_class->finalize = cal_model_finalize;
 
@@ -465,8 +476,6 @@ e_cal_model_init (ECalModel *model)
 	model->priv->notify_modified = NULL;
 	model->priv->notify_removed = NULL;
 	model->priv->notify_lock = g_mutex_new ();
-
-	e_extensible_load_extensions (E_EXTENSIBLE (model));
 }
 
 /* ETableModel methods */

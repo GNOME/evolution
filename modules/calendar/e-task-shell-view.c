@@ -106,6 +106,7 @@ task_shell_view_execute_search (EShellView *shell_view)
 	ECalModel *model;
 	time_t start_range;
 	time_t end_range;
+	time_t now_time;
 	gchar *start, *end;
 	gchar *query;
 	gchar *temp;
@@ -116,6 +117,11 @@ task_shell_view_execute_search (EShellView *shell_view)
 
 	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
 	searchbar = e_task_shell_content_get_searchbar (task_shell_content);
+
+	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	model = e_task_table_get_model (task_table);
+	now_time = time_day_begin (icaltime_as_timet (icaltime_current_time_with_zone (e_cal_model_get_timezone (model))));
 
 	action = GTK_RADIO_ACTION (ACTION (TASK_SEARCH_ANY_FIELD_CONTAINS));
 	value = gtk_radio_action_get_current_value (action);
@@ -177,8 +183,8 @@ task_shell_view_execute_search (EShellView *shell_view)
 			break;
 
 		case TASK_FILTER_NEXT_7_DAYS_TASKS:
-			start_range = time (NULL);
-			end_range = time_add_day (start_range, 7);
+			start_range = now_time;
+			end_range = time_day_end (time_add_day (start_range, 7));
 			start = isodate_from_time_t (start_range);
 			end = isodate_from_time_t (end_range);
 
@@ -191,8 +197,8 @@ task_shell_view_execute_search (EShellView *shell_view)
 			break;
 
 		case TASK_FILTER_ACTIVE_TASKS:
-			start_range = time (NULL);
-			end_range = time_add_day (start_range, 365);
+			start_range = now_time;
+			end_range = time_day_end (time_add_day (start_range, 365));
 			start = isodate_from_time_t (start_range);
 			end = isodate_from_time_t (end_range);
 
@@ -207,7 +213,7 @@ task_shell_view_execute_search (EShellView *shell_view)
 
 		case TASK_FILTER_OVERDUE_TASKS:
 			start_range = 0;
-			end_range = time (NULL);
+			end_range = time_day_end (now_time);
 			start = isodate_from_time_t (start_range);
 			end = isodate_from_time_t (end_range);
 
@@ -264,9 +270,6 @@ task_shell_view_execute_search (EShellView *shell_view)
 	}
 
 	/* Submit the query. */
-	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
-	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	model = e_task_table_get_model (task_table);
 	e_cal_model_set_search_query (model, query);
 	g_free (query);
 
