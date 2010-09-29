@@ -75,10 +75,11 @@ e_bit_array_delete_real (EBitArray *eba, gint row, gboolean move_selection_mode)
 	gint i;
 	gint last;
 	gint selected = FALSE;
-	if (eba->bit_count >= 0) {
+
+	if (eba->bit_count > 0) {
 		guint32 bitmask;
 		box = row >> 5;
-		last = eba->bit_count >> 5;
+		last = (eba->bit_count - 1) >> 5;
 
 		/* Build bitmasks for the left and right half of the box */
 		bitmask = BITMASK_RIGHT (row) >> 1;
