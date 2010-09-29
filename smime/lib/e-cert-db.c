@@ -936,17 +936,31 @@ handle_ca_cert_download(ECertDB *cert_db, GList *certs, GError **error)
 					     nickname,
 					     &trust);
 
-		/*
-		  If this fails with SEC_ERROR_TOKEN_NOT_LOGGED_IN, it seems
-		  that the import *has* worked, but the setting of trust bits
-		  failed -- so only set the trust. This *has* to be an NSS bug?
+		/* If we aren't logged into the token, then what *should*
+		   happen is the above call should fail, and we should
+		   authenticate and then try again. But see NSS bug #595861.
+		   With NSS 3.12.6 at least, the above call will fail, but
+		   it *will* have added the cert to the database, with
+		   random trust bits. We have to authenticate and then set
+		   the trust bits correctly. And calling
+		   CERT_AddTempCertToPerm() again doesn't work either -- it'll
+		   fail even though it arguably ought to succeed (which is
+		   probably another NSS bug).
+		   So if we get SEC_ERROR_TOKEN_NOT_LOGGED_IN, we first try
+		   CERT_ChangeCertTrust(), and if that doesn't work we hope
+		   we're on a fixed version of NSS and we try calling
+		   CERT_AddTempCertToPerm() again instead.
 		*/
 		if (srv != SECSuccess &&
 		    PORT_GetError () == SEC_ERROR_TOKEN_NOT_LOGGED_IN &&
-		    e_cert_db_login_to_slot (NULL, PK11_GetInternalKeySlot()))
+		    e_cert_db_login_to_slot (NULL, PK11_GetInternalKeySlot())) {
 			srv = CERT_ChangeCertTrust (CERT_GetDefaultCertDB (),
 						    tmpCert, &trust);
-
+			if (srv != SECSuccess)
+				srv = CERT_AddTempCertToPerm (tmpCert,
+							      nickname,
+							      &trust);
+		}
 		if (srv != SECSuccess) {
 			set_nss_error (error);
 			return FALSE;
