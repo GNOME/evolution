@@ -665,17 +665,64 @@ current_account:
 
 	/* Create a new search folder. */
 
-	store = camel_folder_get_parent_store (folder);
+	if (folder) {
+		store = camel_folder_get_parent_store (folder);
+	} else {
+		GtkTreeView *tree_view;
+		GtkTreeSelection *selection;
+		GtkTreeModel *model;
+		GtkTreeIter iter;
+	
+		store = NULL;
+		tree_view = GTK_TREE_VIEW (folder_tree);
+		selection = gtk_tree_view_get_selection (tree_view);
+
+		if (gtk_tree_selection_get_selected (selection, &model, &iter))
+			gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store, -1);
+	}
+
 	list = NULL;  /* list of CamelFolders */
 
-	if (store->folders != NULL) {
-		GPtrArray *array;
-		guint ii;
+	if (store) {
+		CamelFolderInfo *root, *fi;
 
-		array = camel_object_bag_list (store->folders);
-		for (ii = 0; ii < array->len; ii++)
-			list = g_list_append (list, array->pdata[ii]);
+		root = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE, NULL);
+		fi = root;
+		while (fi) {
+			CamelFolderInfo *next;
+
+			if ((fi->flags & CAMEL_FOLDER_NOSELECT) == 0) {
+				CamelFolder *fldr;
+
+				fldr = camel_store_get_folder (store, fi->full_name, 0, NULL);
+				if (fldr)
+					list = g_list_prepend (list, fldr);
+			}
+
+			/* pick the next */
+			next = fi->child;
+			if (!next)
+				next = fi->next;
+			if (!next) {
+				next = fi->parent;
+				while (next) {
+					if (next->next) {
+						next = next->next;
+						break;
+					}
+
+					next = next->parent;
+				}
+			}
+
+			fi = next;
+		}
+
+		if (root)
+			camel_store_free_folder_info_full (store, root);
 	}
+
+	list = g_list_reverse (list);
 
 	/* FIXME Using data_dir like this is not portable. */
 	uri = g_strdup_printf ("vfolder:%s/vfolder", data_dir);
