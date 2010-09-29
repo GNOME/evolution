@@ -231,7 +231,7 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 
 	it = e_list_get_iterator ((EList *)pitip->accounts);
 
-	if (!pitip->to_address && pitip->msg) {
+	if (!pitip->to_address && pitip->msg && pitip->folder) {
 		EAccount *account = em_utils_guess_account (pitip->msg, pitip->folder);
 
 		if (account) {
@@ -821,6 +821,8 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 	CamelURL *url;
 	gchar *uri;
 	ESource *source = NULL, *current_source = NULL;
+
+	g_return_if_fail (pitip->folder != NULL);
 
 	e_cal_component_get_uid (comp, &uid);
 	rid = e_cal_component_get_recurid_as_string (comp);
@@ -1973,7 +1975,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 	}
 
 	/* FIXME Remove this and handle this at the groupwise mail provider */
-	if (delete_invitation_from_cache) {
+	if (delete_invitation_from_cache && pitip->folder) {
 		CamelFolderChangeInfo *changes = NULL;
 		const gchar *tag = NULL;
 		CamelMessageInfo *mi;
@@ -2025,7 +2027,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 		}
 	}
 
-	if (!save_schedules && pitip->delete_message)
+	if (!save_schedules && pitip->delete_message && pitip->folder)
 		camel_folder_delete_message (pitip->folder, pitip->uid);
 
         if (itip_view_get_rsvp (ITIP_VIEW (pitip->view)) && status) {
@@ -2095,7 +2097,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 		}
 
                 e_cal_component_rescan (comp);
-                if (itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, pitip->current_ecal, pitip->top_level, NULL, NULL, TRUE, FALSE)) {
+                if (itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, pitip->current_ecal, pitip->top_level, NULL, NULL, TRUE, FALSE) && pitip->folder) {
 			camel_folder_set_message_flags (
 				pitip->folder, pitip->uid,
 				CAMEL_MESSAGE_ANSWERED,
@@ -2134,7 +2136,7 @@ in_proper_folder (CamelFolder *folder)
 	gchar *uri;
 
 	if (!folder)
-		return res;
+		return FALSE;
 
 	uri = mail_tools_folder_to_url (folder);
 
