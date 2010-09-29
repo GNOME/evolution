@@ -74,11 +74,30 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, const GError *error)
                                  "to download its contents.");
 	}
 
-	else if (uri && !strncmp (uri, "file:", 5)) {
-		gchar *path = g_filename_from_uri (uri, NULL, NULL);
+	else if (uri && g_str_has_prefix (uri, "local:")) {
+		const gchar *user_data_dir;
+		const gchar *source_dir;
+		gchar *mangled_source_dir;
+		gchar *path;
+
+		user_data_dir = e_get_user_data_dir ();
+		source_dir = e_source_peek_relative_uri (source);
+
+		if (!source_dir || !g_str_equal (source_dir, "system"))
+			source_dir = e_source_peek_uid (source);
+
+		/* Mangle the URI to not contain invalid characters. */
+		mangled_source_dir = g_strdelimit (g_strdup (source_dir), ":/", '_');
+
+		path = g_build_filename (
+			user_data_dir, "addressbook", mangled_source_dir, NULL);
+
+		g_free (mangled_source_dir);
+
 		label = g_strdup_printf (
 			_("This address book cannot be opened.  Please check that the "
 			  "path %s exists and that permissions are set to access it."), path);
+
 		g_free (path);
 		label_string = label;
 	}

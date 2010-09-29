@@ -1703,7 +1703,7 @@ search_address_in_addressbooks (const gchar *address, gboolean local_only, gbool
 		if (!group)
 			continue;
 
-		if (local_only && !(e_source_group_peek_base_uri (group) && g_str_has_prefix (e_source_group_peek_base_uri (group), "file://")))
+		if (local_only && !(e_source_group_peek_base_uri (group) && g_str_has_prefix (e_source_group_peek_base_uri (group), "local:")))
 			continue;
 
 		for (s = e_source_group_peek_sources (group); s; s = g_slist_next (s)) {
