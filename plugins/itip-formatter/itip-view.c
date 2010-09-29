@@ -2006,7 +2006,7 @@ itip_view_get_rsvp (ItipView *view)
 
 	priv = view->priv;
 
-	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->rsvp_check));
+	return priv->rsvp_show && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (priv->rsvp_check));
 }
 
 void
