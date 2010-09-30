@@ -218,9 +218,8 @@ flush_updates (MailFolderCache *self)
 {
 	if (self->priv->update_id == -1 && !g_queue_is_empty (&self->priv->updates))
 		self->priv->update_id = mail_async_event_emit (
-			mail_async_event, MAIL_ASYNC_GUI,
-			(MailAsyncFunc) real_flush_updates,
-			self, NULL, NULL);
+			mail_async_event, (MailAsyncFunc)
+			real_flush_updates, self, NULL, NULL);
 }
 
 /* This is how unread counts work (and don't work):

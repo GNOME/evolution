@@ -583,7 +583,6 @@ struct _proxy_msg {
 	MailMsg base;
 
 	MailAsyncEvent *ea;
-	mail_async_event_t type;
 
 	GThread *thread;
 	guint idle_id;
@@ -637,7 +636,6 @@ mail_async_event_new (void)
 
 guint
 mail_async_event_emit (MailAsyncEvent *ea,
-                       mail_async_event_t type,
                        MailAsyncFunc func,
                        gpointer o,
                        gpointer event_data,
@@ -654,7 +652,6 @@ mail_async_event_emit (MailAsyncEvent *ea,
 	m->event_data = event_data;
 	m->data = data;
 	m->ea = ea;
-	m->type = type;
 	m->thread = NULL;
 
 	id = m->base.seq;
@@ -665,14 +662,11 @@ mail_async_event_emit (MailAsyncEvent *ea,
 	/* We use an idle function instead of our own message port only
 	 * because the gui message ports's notification buffer might
 	 * overflow and deadlock us. */
-	if (type == MAIL_ASYNC_GUI) {
-		if (mail_in_main_thread ())
-			m->idle_id = g_idle_add (
-				(GSourceFunc) idle_async_event, m);
-		else
-			mail_msg_main_loop_push (m);
-	} else
-		mail_msg_fast_ordered_push (m);
+	if (mail_in_main_thread ())
+		m->idle_id = g_idle_add (
+			(GSourceFunc) idle_async_event, m);
+	else
+		mail_msg_main_loop_push (m);
 
 	return id;
 }

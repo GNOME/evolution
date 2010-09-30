@@ -879,7 +879,7 @@ folder_subscribed_cb (CamelStore *store,
 	fi = camel_folder_info_clone (event_data);
 
 	mail_async_event_emit (
-		mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)
+		mail_async_event, (MailAsyncFunc)
 		folder_subscribed, store, fi, model);
 }
 
@@ -923,7 +923,7 @@ folder_unsubscribed_cb (CamelStore *store,
 	fi = camel_folder_info_clone (event_data);
 
 	mail_async_event_emit (
-		mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)
+		mail_async_event, (MailAsyncFunc)
 		folder_unsubscribed, store, fi, model);
 }
 
@@ -943,7 +943,7 @@ folder_created_cb (CamelStore *store,
 	fi = camel_folder_info_clone (event_data);
 
 	mail_async_event_emit (
-		mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)
+		mail_async_event, (MailAsyncFunc)
 		folder_subscribed, store, fi, model);
 }
 
@@ -963,7 +963,7 @@ folder_deleted_cb (CamelStore *store,
 	fi = camel_folder_info_clone (event_data);
 
 	mail_async_event_emit (
-		mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)
+		mail_async_event, (MailAsyncFunc)
 		folder_unsubscribed_cb, store, fi, model);
 }
 
@@ -1042,7 +1042,7 @@ folder_renamed_cb (CamelStore *store,
 	rinfo->new = camel_folder_info_clone (info);
 
 	mail_async_event_emit (
-		mail_async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)
+		mail_async_event, (MailAsyncFunc)
 		folder_renamed, store, rinfo, model);
 }
 

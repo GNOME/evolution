@@ -3693,7 +3693,7 @@ folder_changed (CamelFolder *folder,
 	}
 
 	mail_async_event_emit (
-		ml->async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)
+		ml->async_event, (MailAsyncFunc)
 		main_folder_changed, folder, changes, ml);
 }
 
