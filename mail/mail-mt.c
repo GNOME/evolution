@@ -346,37 +346,16 @@ mail_msg_wait (guint msgid)
 	}
 }
 
-gint mail_msg_active (guint msgid)
+gboolean
+mail_msg_active (void)
 {
-	gint active;
+	gboolean active;
 
 	g_mutex_lock (mail_msg_lock);
-	if (msgid == (guint)-1)
-		active = g_hash_table_size (mail_msg_active_table) > 0;
-	else
-		active = g_hash_table_lookup (mail_msg_active_table, GINT_TO_POINTER (msgid)) != NULL;
+	active = g_hash_table_size (mail_msg_active_table) > 0;
 	g_mutex_unlock (mail_msg_lock);
 
 	return active;
-}
-
-void mail_msg_wait_all (void)
-{
-	if (mail_in_main_thread ()) {
-		g_mutex_lock (mail_msg_lock);
-		while (g_hash_table_size (mail_msg_active_table) > 0) {
-			g_mutex_unlock (mail_msg_lock);
-			gtk_main_iteration ();
-			g_mutex_lock (mail_msg_lock);
-		}
-		g_mutex_unlock (mail_msg_lock);
-	} else {
-		g_mutex_lock (mail_msg_lock);
-		while (g_hash_table_size (mail_msg_active_table) > 0) {
-			g_cond_wait (mail_msg_cond, mail_msg_lock);
-		}
-		g_mutex_unlock (mail_msg_lock);
-	}
 }
 
 /* **************************************** */
@@ -505,30 +484,6 @@ mail_msg_proxy (MailMsg *msg)
 		idle_source_id = g_idle_add (
 			(GSourceFunc) mail_msg_idle_cb, NULL);
 	G_UNLOCK (idle_source_id);
-}
-
-void
-mail_msg_cleanup (void)
-{
-	mail_msg_wait_all ();
-
-	G_LOCK (idle_source_id);
-	if (idle_source_id != 0) {
-		GSource *source;
-
-		/* Cancel the idle source. */
-		source = g_main_context_find_source_by_id (
-			g_main_context_default (), idle_source_id);
-		g_source_destroy (source);
-		idle_source_id = 0;
-	}
-	G_UNLOCK (idle_source_id);
-
-	g_async_queue_unref (main_loop_queue);
-	main_loop_queue = NULL;
-
-	g_async_queue_unref (msg_reply_queue);
-	msg_reply_queue = NULL;
 }
 
 void

@@ -196,7 +196,7 @@ mail_backend_final_sync (CamelStore *store,
 static gboolean
 mail_backend_poll_to_quit (EActivity *activity)
 {
-	return mail_msg_active ((guint) -1);
+	return mail_msg_active ();
 }
 
 /* Helper for mail_backend_prepare_for_quit_cb() */
@@ -249,7 +249,7 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 	/* Now we poll until all activities are actually cancelled.
 	 * Reffing the activity delays quitting; the reference count
 	 * acts like a counting semaphore. */
-	if (mail_msg_active ((guint) -1))
+	if (mail_msg_active ())
 		g_timeout_add_seconds_full (
 			G_PRIORITY_DEFAULT, QUIT_POLL_INTERVAL,
 			(GSourceFunc) mail_backend_poll_to_quit,
