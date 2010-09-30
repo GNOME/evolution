@@ -22,4 +22,7 @@ which gnome-autogen.sh || {
     echo "You need to install gnome-common from the GNOME git"
     exit 1
 }
+
+autopoint --force || exit $?
+
 USE_GNOME2_MACROS=1 . gnome-autogen.sh
