@@ -71,8 +71,8 @@ struct _MailFolderCachePrivate {
 	GMutex *stores_mutex;
 	/* List of folder changes to be executed in gui thread */
 	GQueue updates;
-	/* event id for the async event of flushing all pending updates */
-	gint update_id;
+	/* idle source id for flushing all pending updates */
+	guint update_id;
 	/* hack for people who LIKE to have unsent count */
 	gint count_sent;
 	gint count_trash;
@@ -151,11 +151,10 @@ free_update (struct _folder_update *up)
 	g_free (up);
 }
 
-static void
-real_flush_updates (gpointer o, gpointer event_data, gpointer data)
+static gboolean
+flush_updates_idle_cb (MailFolderCache *self)
 {
 	struct _folder_update *up;
-	MailFolderCache *self = (MailFolderCache*) o;
 
 	g_mutex_lock (self->priv->stores_mutex);
 	while ((up = g_queue_pop_head (&self->priv->updates)) != NULL) {
@@ -209,17 +208,23 @@ real_flush_updates (gpointer o, gpointer event_data, gpointer data)
 
 		g_mutex_lock (self->priv->stores_mutex);
 	}
-	self->priv->update_id = -1;
+	self->priv->update_id = 0;
 	g_mutex_unlock (self->priv->stores_mutex);
+
+	return FALSE;
 }
 
 static void
 flush_updates (MailFolderCache *self)
 {
-	if (self->priv->update_id == -1 && !g_queue_is_empty (&self->priv->updates))
-		self->priv->update_id = mail_async_event_emit (
-			mail_async_event, (MailAsyncFunc)
-			real_flush_updates, self, NULL, NULL);
+	if (self->priv->update_id > 0)
+		return;
+
+	if (g_queue_is_empty (&self->priv->updates))
+		return;
+
+	self->priv->update_id = g_idle_add (
+		(GSourceFunc) flush_updates_idle_cb, self);
 }
 
 /* This is how unread counts work (and don't work):
@@ -1052,7 +1057,6 @@ mail_folder_cache_init (MailFolderCache *self)
 	self->priv->stores_mutex = g_mutex_new ();
 
 	g_queue_init (&self->priv->updates);
-	self->priv->update_id = -1;
 	self->priv->count_sent = getenv("EVOLUTION_COUNT_SENT") != NULL;
 	self->priv->count_trash = getenv("EVOLUTION_COUNT_TRASH") != NULL;
 
