@@ -3583,43 +3583,55 @@ build_flat_diff (MessageList *ml, CamelFolderChangeInfo *changes)
 }
 #endif /* BROKEN_ETREE */
 
-static void
-mail_folder_hide_by_flag (CamelFolder *folder, MessageList *ml, CamelFolderChangeInfo **changes, gint flag)
+static CamelFolderChangeInfo *
+mail_folder_hide_by_flag (CamelFolder *folder,
+                          MessageList *ml,
+                          CamelFolderChangeInfo *changes,
+                          gint flag)
 {
-	CamelFolderChangeInfo *newchanges, *oldchanges = *changes;
+	CamelFolderChangeInfo *newchanges;
 	CamelMessageInfo *info;
 	gint i;
 
 	newchanges = camel_folder_change_info_new ();
 
-	for (i = 0; i < oldchanges->uid_changed->len; i++) {
-		ETreePath node = g_hash_table_lookup (ml->uid_nodemap, oldchanges->uid_changed->pdata[i]);
+	for (i = 0; i < changes->uid_changed->len; i++) {
+		ETreePath node;
 		guint32 flags;
 
-		info = camel_folder_get_message_info (folder, oldchanges->uid_changed->pdata[i]);
+		node = g_hash_table_lookup (
+			ml->uid_nodemap, changes->uid_changed->pdata[i]);
+		info = camel_folder_get_message_info (
+			folder, changes->uid_changed->pdata[i]);
 		if (info)
 			flags = camel_message_info_flags (info);
 
 		if (node != NULL && info != NULL && (flags & flag) != 0)
-			camel_folder_change_info_remove_uid (newchanges, oldchanges->uid_changed->pdata[i]);
+			camel_folder_change_info_remove_uid (
+				newchanges, changes->uid_changed->pdata[i]);
 		else if (node == NULL && info != NULL && (flags & flag) == 0)
-			camel_folder_change_info_add_uid (newchanges, oldchanges->uid_changed->pdata[i]);
+			camel_folder_change_info_add_uid (
+				newchanges, changes->uid_changed->pdata[i]);
 		else
-			camel_folder_change_info_change_uid (newchanges, oldchanges->uid_changed->pdata[i]);
+			camel_folder_change_info_change_uid (
+				newchanges, changes->uid_changed->pdata[i]);
 		if (info)
 			camel_folder_free_message_info (folder, info);
 	}
 
 	if (newchanges->uid_added->len > 0 || newchanges->uid_removed->len > 0) {
-		for (i = 0; i < oldchanges->uid_added->len; i++)
-			camel_folder_change_info_add_uid (newchanges, oldchanges->uid_added->pdata[i]);
-		for (i = 0; i < oldchanges->uid_removed->len; i++)
-			camel_folder_change_info_remove_uid (newchanges, oldchanges->uid_removed->pdata[i]);
-		camel_folder_change_info_free (oldchanges);
-		*changes = newchanges;
+		for (i = 0; i < changes->uid_added->len; i++)
+			camel_folder_change_info_add_uid (
+				newchanges, changes->uid_added->pdata[i]);
+		for (i = 0; i < changes->uid_removed->len; i++)
+			camel_folder_change_info_remove_uid (
+				newchanges, changes->uid_removed->pdata[i]);
 	} else {
-		camel_folder_change_info_free (newchanges);
+		camel_folder_change_info_clear (newchanges);
+		camel_folder_change_info_cat (newchanges, changes);
 	}
+
+	return newchanges;
 }
 
 static void
@@ -3627,6 +3639,7 @@ folder_changed (CamelFolder *folder,
                 CamelFolderChangeInfo *changes,
                 MessageList *ml)
 {
+	CamelFolderChangeInfo *altered_changes = NULL;
 	gint i;
 
 	if (ml->priv->destroyed)
@@ -3644,11 +3657,18 @@ folder_changed (CamelFolder *folder,
 
 		/* check if the hidden state has changed, if so modify accordingly, then regenerate */
 		if (ml->hidejunk || ml->hidedeleted)
-			mail_folder_hide_by_flag (folder, ml, &changes, (ml->hidejunk ? CAMEL_MESSAGE_JUNK : 0) | (ml->hidedeleted ? CAMEL_MESSAGE_DELETED : 0));
+			altered_changes = mail_folder_hide_by_flag (
+				folder, ml, changes,
+				(ml->hidejunk ? CAMEL_MESSAGE_JUNK : 0) |
+				(ml->hidedeleted ? CAMEL_MESSAGE_DELETED : 0));
+		else {
+			altered_changes = camel_folder_change_info_new ();
+			camel_folder_change_info_cat (altered_changes, changes);
+		}
 
-		if (changes->uid_added->len == 0 && changes->uid_removed->len == 0 && changes->uid_changed->len < 100) {
-			for (i = 0; i < changes->uid_changed->len; i++) {
-				ETreePath node = g_hash_table_lookup (ml->uid_nodemap, changes->uid_changed->pdata[i]);
+		if (altered_changes->uid_added->len == 0 && altered_changes->uid_removed->len == 0 && altered_changes->uid_changed->len < 100) {
+			for (i = 0; i < altered_changes->uid_changed->len; i++) {
+				ETreePath node = g_hash_table_lookup (ml->uid_nodemap, altered_changes->uid_changed->pdata[i]);
 				if (node) {
 					e_tree_model_pre_change (ml->model);
 					e_tree_model_node_data_changed (ml->model, node);
@@ -3657,14 +3677,15 @@ folder_changed (CamelFolder *folder,
 				}
 			}
 
-			camel_folder_change_info_free (changes);
+			camel_folder_change_info_free (altered_changes);
 
 			g_signal_emit (ml, message_list_signals[MESSAGE_LIST_BUILT], 0);
 			return;
 		}
 	}
 
-	mail_regen_list (ml, ml->search, NULL, changes);
+	/* XXX This apparently eats the ChangeFolderChangeInfo. */
+	mail_regen_list (ml, ml->search, NULL, altered_changes);
 }
 
 /**
