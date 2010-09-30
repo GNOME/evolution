@@ -78,8 +78,6 @@ struct _MailSession {
 	gboolean interactive;
 	FILE *filter_logfile;
 	GList *junk_plugins;
-
-	MailAsyncEvent *async;
 };
 
 struct _MailSessionClass {
@@ -107,7 +105,6 @@ G_DEFINE_TYPE (MailSession, mail_session, CAMEL_TYPE_SESSION)
 static void
 mail_session_finalize (GObject *object)
 {
-	MailSession *session = (MailSession *) object;
 	GConfClient *client;
 
 	client = mail_config_get_gconf_client ();
@@ -121,8 +118,6 @@ mail_session_finalize (GObject *object)
 		gconf_client_notify_remove (client, session_gconf_proxy_id);
 		session_gconf_proxy_id = 0;
 	}
-
-	mail_async_event_destroy (session->async);
 
 	g_free (mail_data_dir);
 	g_free (mail_config_dir);
@@ -155,8 +150,6 @@ mail_session_class_init (MailSessionClass *class)
 static void
 mail_session_init (MailSession *session)
 {
-	session->async = mail_async_event_new ();
-	session->junk_plugins = NULL;
 }
 
 static gchar *
@@ -482,49 +475,38 @@ get_folder (CamelFilterDriver *d,
 	return mail_tool_uri_to_folder (uri, 0, NULL, error);
 }
 
-static void
-main_play_sound (CamelFilterDriver *driver, gchar *filename, gpointer user_data)
+static gboolean
+session_play_sound_cb (const gchar *filename)
 {
-	if (filename && *filename) {
 #ifdef HAVE_CANBERRA
-		ca_context_play (ca_gtk_context_get (), 0,
-				CA_PROP_MEDIA_FILENAME, filename,
-				NULL);
+	if (filename != NULL && *filename != '\0')
+		ca_context_play (
+			ca_gtk_context_get (), 0,
+			CA_PROP_MEDIA_FILENAME, filename,
+			NULL);
+	else
 #endif
-	} else
 		gdk_beep ();
 
-	g_free (filename);
-	g_object_unref (session);
+	return FALSE;
 }
 
 static void
-session_play_sound (CamelFilterDriver *driver, const gchar *filename, gpointer user_data)
+session_play_sound (CamelFilterDriver *driver,
+                    const gchar *filename,
+                    gpointer user_data)
 {
-	MailSession *ms = (MailSession *) session;
-
-	g_object_ref (session);
-
-	mail_async_event_emit (ms->async, MAIL_ASYNC_GUI, (MailAsyncFunc) main_play_sound,
-			       driver, g_strdup (filename), user_data);
+	g_idle_add_full (
+		G_PRIORITY_DEFAULT_IDLE,
+		(GSourceFunc) session_play_sound_cb,
+		g_strdup (filename), (GDestroyNotify) g_free);
 }
 
 static void
-main_system_beep (CamelFilterDriver *driver, gpointer user_data)
+session_system_beep (CamelFilterDriver *driver,
+                     gpointer user_data)
 {
-	gdk_beep ();
-	g_object_unref (session);
-}
-
-static void
-session_system_beep (CamelFilterDriver *driver, gpointer user_data)
-{
-	MailSession *ms = (MailSession *) session;
-
-	g_object_ref (session);
-
-	mail_async_event_emit (ms->async, MAIL_ASYNC_GUI, (MailAsyncFunc) main_system_beep,
-			       driver, user_data, NULL);
+	g_idle_add ((GSourceFunc) session_play_sound_cb, NULL);
 }
 
 static CamelFilterDriver *
