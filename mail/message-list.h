@@ -159,9 +159,6 @@ struct _MessageList {
 
 	/* the current camel folder thread tree, if any */
 	CamelFolderThread *thread_tree;
-
-	/* for message/folder chagned event handling */
-	struct _MailAsyncEvent *async_event;
 };
 
 struct _MessageListClass {

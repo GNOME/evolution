@@ -83,21 +83,6 @@ void mail_msg_set_cancelable (gpointer msg, gboolean status);
 gchar *mail_get_password (CamelService *service, const gchar *prompt,
 			 gboolean secret, gboolean *cache);
 
-/* asynchronous event proxies */
-typedef struct _MailAsyncEvent {
-	GMutex *lock;
-	GSList *tasks;
-} MailAsyncEvent;
-
-typedef void (*MailAsyncFunc)(gpointer , gpointer , gpointer );
-
-/* create a new async event handler */
-MailAsyncEvent *mail_async_event_new (void);
-/* forward a camel event (or other call) to the gui thread */
-guint mail_async_event_emit (MailAsyncEvent *ea, MailAsyncFunc func, gpointer , gpointer , gpointer );
-/* wait for all outstanding async events to complete */
-gint mail_async_event_destroy (MailAsyncEvent *ea);
-
 void mail_mt_set_backend (gchar *backend);
 
 /* Call a function in the gui thread, wait for it to return, type is the marshaller to use */
@@ -113,9 +98,5 @@ typedef enum {
 typedef gpointer (*MailMainFunc)();
 
 gpointer mail_call_main (mail_call_t type, MailMainFunc func, ...);
-
-/* A generic proxy event for anything that can be proxied during the life of the mailer (almost nothing) */
-/* Note that almost all objects care about the lifecycle of their events, so this cannot be used */
-extern MailAsyncEvent *mail_async_event;
 
 #endif /* _MAIL_MT */

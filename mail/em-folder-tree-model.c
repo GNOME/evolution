@@ -812,9 +812,9 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 }
 
 static void
-folder_subscribed (CamelStore *store,
-                   CamelFolderInfo *fi,
-                   EMFolderTreeModel *model)
+folder_subscribed_cb (CamelStore *store,
+                      CamelFolderInfo *fi,
+                      EMFolderTreeModel *model)
 {
 	EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *reference;
@@ -825,11 +825,11 @@ folder_subscribed (CamelStore *store,
 
 	si = em_folder_tree_model_lookup_store_info (model, store);
 	if (si == NULL)
-		goto done;
+		return;
 
 	/* Make sure we don't already know about it? */
 	if (g_hash_table_lookup (si->full_hash, fi->full_name))
-		goto done;
+		return;
 
 	/* Get our parent folder's path. */
 	dirname = g_alloca (strlen (fi->full_name)+1);
@@ -844,7 +844,7 @@ folder_subscribed (CamelStore *store,
 	}
 
 	if (!gtk_tree_row_reference_valid (reference))
-		goto done;
+		return;
 
 	path = gtk_tree_row_reference_get_path (reference);
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &parent, path);
@@ -855,38 +855,19 @@ folder_subscribed (CamelStore *store,
 		GTK_TREE_MODEL (model), &parent,
 		COL_BOOL_LOAD_SUBDIRS, &load, -1);
 	if (load)
-		goto done;
+		return;
 
 	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, &parent);
 
 	em_folder_tree_model_set_folder_info (model, &iter, si, fi, TRUE);
 
 	g_signal_emit (model, signals[FOLDER_ADDED], 0, fi->full_name, fi->uri);
-
-done:
-	g_object_unref (store);
-	camel_folder_info_free (fi);
 }
 
 static void
-folder_subscribed_cb (CamelStore *store,
-                      gpointer event_data,
-                      EMFolderTreeModel *model)
-{
-	CamelFolderInfo *fi;
-
-	g_object_ref (store);
-	fi = camel_folder_info_clone (event_data);
-
-	mail_async_event_emit (
-		mail_async_event, (MailAsyncFunc)
-		folder_subscribed, store, fi, model);
-}
-
-static void
-folder_unsubscribed (CamelStore *store,
-                     CamelFolderInfo *fi,
-                     EMFolderTreeModel *model)
+folder_unsubscribed_cb (CamelStore *store,
+                        CamelFolderInfo *fi,
+                        EMFolderTreeModel *model)
 {
 	EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *reference;
@@ -895,76 +876,43 @@ folder_unsubscribed (CamelStore *store,
 
 	si = em_folder_tree_model_lookup_store_info (model, store);
 	if (si == NULL)
-		goto done;
+		return;
 
 	reference = g_hash_table_lookup (si->full_hash, fi->full_name);
 	if (!gtk_tree_row_reference_valid (reference))
-		goto done;
+		return;
 
 	path = gtk_tree_row_reference_get_path (reference);
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
 	gtk_tree_path_free (path);
 
 	em_folder_tree_model_remove_folders (model, si, &iter);
-
-done:
-	g_object_unref (store);
-	camel_folder_info_free (fi);
-}
-
-static void
-folder_unsubscribed_cb (CamelStore *store,
-                        gpointer event_data,
-                        EMFolderTreeModel *model)
-{
-	CamelFolderInfo *fi;
-
-	g_object_ref (store);
-	fi = camel_folder_info_clone (event_data);
-
-	mail_async_event_emit (
-		mail_async_event, (MailAsyncFunc)
-		folder_unsubscribed, store, fi, model);
 }
 
 static void
 folder_created_cb (CamelStore *store,
-                   gpointer event_data,
+                   CamelFolderInfo *fi,
                    EMFolderTreeModel *model)
 {
-	CamelFolderInfo *fi;
-
 	/* We only want created events to do more
 	 * work if we don't support subscriptions. */
 	if (camel_store_supports_subscriptions (store))
 		return;
 
-	g_object_ref (store);
-	fi = camel_folder_info_clone (event_data);
-
-	mail_async_event_emit (
-		mail_async_event, (MailAsyncFunc)
-		folder_subscribed, store, fi, model);
+	folder_subscribed_cb (store, fi, model);
 }
 
 static void
 folder_deleted_cb (CamelStore *store,
-                   gpointer event_data,
+                   CamelFolderInfo *fi,
                    EMFolderTreeModel *model)
 {
-	CamelFolderInfo *fi;
-
 	/* We only want deleted events to do more
 	 * work if we don't support subscriptions. */
 	if (camel_store_supports_subscriptions (store))
 		return;
 
-	g_object_ref (store);
-	fi = camel_folder_info_clone (event_data);
-
-	mail_async_event_emit (
-		mail_async_event, (MailAsyncFunc)
-		folder_unsubscribed_cb, store, fi, model);
+	folder_unsubscribed_cb (store, fi, model);
 }
 
 typedef struct {
@@ -973,9 +921,10 @@ typedef struct {
 } RenameInfo;
 
 static void
-folder_renamed (CamelStore *store,
-                RenameInfo *info,
-                EMFolderTreeModel *model)
+folder_renamed_cb (CamelStore *store,
+                   const gchar *old_name,
+                   CamelFolderInfo *info,
+                   EMFolderTreeModel *model)
 {
 	EMFolderTreeModelStoreInfo *si;
 	GtkTreeRowReference *reference;
@@ -985,11 +934,11 @@ folder_renamed (CamelStore *store,
 
 	si = em_folder_tree_model_lookup_store_info (model, store);
 	if (si == NULL)
-		goto done;
+		return;
 
-	reference = g_hash_table_lookup (si->full_hash, info->old_base);
+	reference = g_hash_table_lookup (si->full_hash, old_name);
 	if (!gtk_tree_row_reference_valid (reference))
-		goto done;
+		return;
 
 	path = gtk_tree_row_reference_get_path (reference);
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
@@ -997,7 +946,7 @@ folder_renamed (CamelStore *store,
 
 	em_folder_tree_model_remove_folders (model, si, &iter);
 
-	parent = g_strdup (info->new->full_name);
+	parent = g_strdup (info->full_name);
 	p = strrchr (parent, '/');
 	if (p)
 		*p = 0;
@@ -1010,40 +959,14 @@ folder_renamed (CamelStore *store,
 	g_free (parent);
 
 	if (!gtk_tree_row_reference_valid (reference))
-		goto done;
+		return;
 
 	path = gtk_tree_row_reference_get_path (reference);
 	gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &root, path);
 	gtk_tree_path_free (path);
 
 	gtk_tree_store_append (GTK_TREE_STORE (model), &iter, &root);
-	em_folder_tree_model_set_folder_info (model, &iter, si, info->new, TRUE);
-
-done:
-	g_object_unref (store);
-
-	g_free (info->old_base);
-	camel_folder_info_free (info->new);
-	g_free (info);
-}
-
-static void
-folder_renamed_cb (CamelStore *store,
-                   const gchar *old_name,
-                   CamelFolderInfo *info,
-                   EMFolderTreeModel *model)
-{
-	RenameInfo *rinfo;
-
-	g_object_ref (store);
-
-	rinfo = g_new0 (RenameInfo, 1);
-	rinfo->old_base = g_strdup (old_name);
-	rinfo->new = camel_folder_info_clone (info);
-
-	mail_async_event_emit (
-		mail_async_event, (MailAsyncFunc)
-		folder_renamed, store, rinfo, model);
+	em_folder_tree_model_set_folder_info (model, &iter, si, info, TRUE);
 }
 
 void

@@ -54,8 +54,6 @@ static GHashTable *mail_msg_active_table;
 static GMutex *mail_msg_lock;
 static GCond *mail_msg_cond;
 
-MailAsyncEvent *mail_async_event;
-
 static void
 mail_msg_cancelled (CamelOperation *operation,
                     gpointer user_data)
@@ -497,8 +495,6 @@ mail_msg_init (void)
 
 	mail_msg_active_table = g_hash_table_new (NULL, NULL);
 	main_thread = g_thread_self ();
-
-	mail_async_event = mail_async_event_new ();
 }
 
 static gint
@@ -575,132 +571,6 @@ gboolean
 mail_in_main_thread (void)
 {
 	return (g_thread_self () == main_thread);
-}
-
-/* ********************************************************************** */
-
-struct _proxy_msg {
-	MailMsg base;
-
-	MailAsyncEvent *ea;
-
-	GThread *thread;
-	guint idle_id;
-
-	MailAsyncFunc func;
-	gpointer o;
-	gpointer event_data;
-	gpointer data;
-};
-
-static void
-do_async_event (struct _proxy_msg *m)
-{
-	m->thread = g_thread_self ();
-	m->func (m->o, m->event_data, m->data);
-	m->thread = NULL;
-
-	g_mutex_lock (m->ea->lock);
-	m->ea->tasks = g_slist_remove (m->ea->tasks, m);
-	g_mutex_unlock (m->ea->lock);
-}
-
-static gint
-idle_async_event (struct _proxy_msg *m)
-{
-	m->idle_id = 0;
-	do_async_event (m);
-	mail_msg_unref (m);
-
-	return FALSE;
-}
-
-static MailMsgInfo async_event_info = {
-	sizeof (struct _proxy_msg),
-	(MailMsgDescFunc) NULL,
-	(MailMsgExecFunc) do_async_event,
-	(MailMsgDoneFunc) NULL,
-	(MailMsgFreeFunc) NULL
-};
-
-MailAsyncEvent *
-mail_async_event_new (void)
-{
-	MailAsyncEvent *ea;
-
-	ea = g_malloc0 (sizeof (*ea));
-	ea->lock = g_mutex_new ();
-
-	return ea;
-}
-
-guint
-mail_async_event_emit (MailAsyncEvent *ea,
-                       MailAsyncFunc func,
-                       gpointer o,
-                       gpointer event_data,
-                       gpointer data)
-{
-	struct _proxy_msg *m;
-	guint id;
-
-	/* We dont have a reply port for this, we dont
-	 * care when/if it gets executed, just queue it. */
-	m = mail_msg_new (&async_event_info);
-	m->func = func;
-	m->o = o;
-	m->event_data = event_data;
-	m->data = data;
-	m->ea = ea;
-	m->thread = NULL;
-
-	id = m->base.seq;
-	g_mutex_lock (ea->lock);
-	ea->tasks = g_slist_prepend (ea->tasks, m);
-	g_mutex_unlock (ea->lock);
-
-	/* We use an idle function instead of our own message port only
-	 * because the gui message ports's notification buffer might
-	 * overflow and deadlock us. */
-	if (mail_in_main_thread ())
-		m->idle_id = g_idle_add (
-			(GSourceFunc) idle_async_event, m);
-	else
-		mail_msg_main_loop_push (m);
-
-	return id;
-}
-
-gint
-mail_async_event_destroy (MailAsyncEvent *ea)
-{
-	gint id;
-	struct _proxy_msg *m;
-
-	g_mutex_lock (ea->lock);
-	while (ea->tasks) {
-		m = ea->tasks->data;
-		id = m->base.seq;
-		if (m->thread == g_thread_self ()) {
-			g_warning("Destroying async event from inside an event, returning EDEADLK");
-			g_mutex_unlock (ea->lock);
-			errno = EDEADLK;
-			return -1;
-		}
-		if (m->idle_id > 0) {
-			g_source_remove (m->idle_id);
-			m->idle_id = 0;
-		}
-		g_mutex_unlock (ea->lock);
-		mail_msg_wait (id);
-		g_mutex_lock (ea->lock);
-	}
-	g_mutex_unlock (ea->lock);
-
-	g_mutex_free (ea->lock);
-	g_free (ea);
-
-	return 0;
 }
 
 /* ********************************************************************** */

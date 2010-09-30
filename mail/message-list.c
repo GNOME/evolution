@@ -2399,7 +2399,6 @@ message_list_init (MessageList *message_list)
 	message_list->ensure_uid = NULL;
 
 	message_list->uid_nodemap = g_hash_table_new (g_str_hash, g_str_equal);
-	message_list->async_event = mail_async_event_new ();
 
 	message_list->cursor_uid = NULL;
 	message_list->last_sel_single = FALSE;
@@ -2437,11 +2436,6 @@ message_list_destroy (GtkObject *object)
 	MessageListPrivate *p = message_list->priv;
 
 	p->destroyed = TRUE;
-
-	if (message_list->async_event) {
-		mail_async_event_destroy (message_list->async_event);
-		message_list->async_event = NULL;
-	}
 
 	if (message_list->folder) {
 		mail_regen_cancel (message_list);
@@ -3629,15 +3623,13 @@ mail_folder_hide_by_flag (CamelFolder *folder, MessageList *ml, CamelFolderChang
 }
 
 static void
-main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
+folder_changed (CamelFolder *folder,
+                CamelFolderChangeInfo *changes,
+                MessageList *ml)
 {
-	MessageList *ml = MESSAGE_LIST (user_data);
-	CamelFolderChangeInfo *changes = (CamelFolderChangeInfo *)event_data;
-	CamelFolder *folder = (CamelFolder *)o;
 	gint i;
 
-	/* may be NULL if we're in the process of being destroyed */
-	if (ml->async_event == NULL)
+	if (ml->priv->destroyed)
 		return;
 
 	d(printf("folder changed event, changes = %p\n", changes));
@@ -3673,28 +3665,6 @@ main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	}
 
 	mail_regen_list (ml, ml->search, NULL, changes);
-}
-
-static void
-folder_changed (CamelFolder *folder,
-                CamelFolderChangeInfo *info,
-                MessageList *ml)
-{
-	CamelFolderChangeInfo *changes;
-
-	if (ml->priv->destroyed)
-		return;
-
-	if (info != NULL) {
-		changes = camel_folder_change_info_new ();
-		camel_folder_change_info_cat (changes, info);
-	} else {
-		changes = NULL;
-	}
-
-	mail_async_event_emit (
-		ml->async_event, (MailAsyncFunc)
-		main_folder_changed, folder, changes, ml);
 }
 
 /**
