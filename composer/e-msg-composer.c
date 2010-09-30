@@ -47,6 +47,7 @@
 
 #include "e-util/e-account-utils.h"
 #include "e-util/e-alert-dialog.h"
+#include "e-util/e-alert-sink.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-extensible.h"
 #include "e-util/e-plugin-ui.h"
@@ -124,6 +125,7 @@ G_DEFINE_TYPE_WITH_CODE (
 	EMsgComposer,
 	e_msg_composer,
 	GTKHTML_TYPE_EDITOR,
+	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, NULL)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 /**

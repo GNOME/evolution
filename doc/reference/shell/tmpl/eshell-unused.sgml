@@ -88,6 +88,42 @@ e-shell-window.sgml
 </para>
 
 
+<!-- ##### MACRO E_ALERT_ERROR ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO E_ALERT_ERROR_PRIMARY ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO E_ALERT_INFO ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO E_ALERT_INFO_PRIMARY ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO E_ALERT_WARNING ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO E_ALERT_WARNING_PRIMARY ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### MACRO E_SHELL_WINDOW_ACTION_SYNC_OPTIONS ##### -->
 <para>
 

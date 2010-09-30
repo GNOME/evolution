@@ -38,6 +38,7 @@
 #include "e-util.h"
 #include "e-util-private.h"
 #include "e-alert.h"
+#include "e-alert-sink.h"
 
 #define d(x)
 
@@ -46,14 +47,11 @@
 	((obj), E_TYPE_ALERT, EAlertPrivate))
 
 struct _e_alert {
-	guint32 flags;
 	const gchar *id;
-	gint type;
+	GtkMessageType message_type;
 	gint default_response;
-	const gchar *title;
-	const gchar *primary;
-	const gchar *secondary;
-	gboolean scroll;
+	const gchar *primary_text;
+	const gchar *secondary_text;
 	struct _e_alert_button *buttons;
 };
 
@@ -72,12 +70,10 @@ static struct _e_alert_button default_ok_button = {
 };
 
 static struct _e_alert default_alerts[] = {
-	{ GTK_DIALOG_MODAL, "error", 3, GTK_RESPONSE_OK,
-	  N_("Evolution Error"), "{0}", "{1}", FALSE,
-	  &default_ok_button },
-	{ GTK_DIALOG_MODAL, "warning", 1, GTK_RESPONSE_OK,
-	  N_("Evolution Warning"), "{0}", "{1}", FALSE,
-	  &default_ok_button }
+	{ "error", GTK_MESSAGE_ERROR, GTK_RESPONSE_OK,
+	  "{0}", "{1}", &default_ok_button },
+	{ "warning", GTK_MESSAGE_WARNING, GTK_RESPONSE_OK,
+	  "{0}", "{1}", &default_ok_button }
 };
 
 /* ********************************************************************** */
@@ -109,28 +105,16 @@ map_response (const gchar *name)
 	return 0;
 }
 
-static struct {
-	const gchar *name;
-	const gchar *icon;
-} type_map[] = {
-	{ "info", GTK_STOCK_DIALOG_INFO },
-	{ "warning", GTK_STOCK_DIALOG_WARNING },
-	{ "question", GTK_STOCK_DIALOG_QUESTION },
-	{ "error", GTK_STOCK_DIALOG_ERROR },
-};
-
-static gint
-map_type (const gchar *name)
+static GtkMessageType
+map_type (const gchar *nick)
 {
-	gint i;
+	GEnumClass *class;
+	GEnumValue *value;
 
-	if (name) {
-		for (i = 0; i < G_N_ELEMENTS (type_map); i++)
-			if (!strcmp (name, type_map[i].name))
-				return i;
-	}
+	class = g_type_class_peek (GTK_TYPE_MESSAGE_TYPE);
+	value = g_enum_get_value_by_nick (class, nick);
 
-	return 3;
+	return (value != NULL) ? value->value : GTK_MESSAGE_ERROR;
 }
 
 G_DEFINE_TYPE (
@@ -140,22 +124,28 @@ G_DEFINE_TYPE (
 
 enum {
 	PROP_0,
+	PROP_ARGS,
 	PROP_TAG,
-	PROP_ARGS
+	PROP_MESSAGE_TYPE,
+	PROP_PRIMARY_TEXT,
+	PROP_SECONDARY_TEXT
 };
 
 struct _EAlertPrivate {
 	gchar *tag;
 	GPtrArray *args;
+	gchar *primary_text;
+	gchar *secondary_text;
 	struct _e_alert *definition;
+	GtkMessageType message_type;
+	gint default_response;
 };
 
 /*
   XML format:
 
  <error id="error-id" type="info|warning|question|error"?
-      response="default_response"? modal="true"? >
-  <title>Window Title</title>?
+      response="default_response"? >
   <primary>Primary error text.</primary>?
   <secondary>Secondary error text.</secondary>?
   <button stock="stock-button-id"? label="button label"?
@@ -225,20 +215,12 @@ e_alert_load (const gchar *path)
 
 			e = g_malloc0 (sizeof (*e));
 			e->id = g_strdup (tmp);
-			e->scroll = FALSE;
 
 			xmlFree (tmp);
 			lastbutton = (struct _e_alert_button *)&e->buttons;
 
-			tmp = (gchar *)xmlGetProp(error, (const guchar *)"modal");
-			if (tmp) {
-				if (!strcmp(tmp, "true"))
-					e->flags |= GTK_DIALOG_MODAL;
-				xmlFree (tmp);
-			}
-
 			tmp = (gchar *)xmlGetProp(error, (const guchar *)"type");
-			e->type = map_type (tmp);
+			e->message_type = map_type (tmp);
 			if (tmp)
 				xmlFree (tmp);
 
@@ -248,27 +230,15 @@ e_alert_load (const gchar *path)
 				xmlFree (tmp);
 			}
 
-			tmp = (gchar *)xmlGetProp(error, (const guchar *)"scroll");
-			if (tmp) {
-				if (!strcmp(tmp, "yes"))
-					e->scroll = TRUE;
-				xmlFree (tmp);
-			}
-
 			for (scan = error->children;scan;scan=scan->next) {
 				if (!strcmp((gchar *)scan->name, "primary")) {
 					if ((tmp = (gchar *)xmlNodeGetContent (scan))) {
-						e->primary = g_strdup (dgettext (table->translation_domain, tmp));
+						e->primary_text = g_strdup (dgettext (table->translation_domain, tmp));
 						xmlFree (tmp);
 					}
 				} else if (!strcmp((gchar *)scan->name, "secondary")) {
 					if ((tmp = (gchar *)xmlNodeGetContent (scan))) {
-						e->secondary = g_strdup (dgettext (table->translation_domain, tmp));
-						xmlFree (tmp);
-					}
-				} else if (!strcmp((gchar *)scan->name, "title")) {
-					if ((tmp = (gchar *)xmlNodeGetContent (scan))) {
-						e->title = g_strdup (dgettext (table->translation_domain, tmp));
+						e->secondary_text = g_strdup (dgettext (table->translation_domain, tmp));
 						xmlFree (tmp);
 					}
 				} else if (!strcmp((gchar *)scan->name, "button")) {
@@ -361,120 +331,232 @@ e_alert_load_tables (void)
 	g_free (base);
 }
 
-static void
-e_alert_get_property (GObject *object, guint property_id,
-		      GValue *value, GParamSpec *pspec)
+static gchar *
+alert_format_string (const gchar *format,
+                     GPtrArray *args)
 {
-	EAlert *alert = (EAlert*) object;
+	GString *string;
+	const gchar *end, *newstart;
+	gint id;
 
-	switch (property_id)
-	{
-		case PROP_TAG:
-			g_value_set_string (value, alert->priv->tag);
-			break;
-		case PROP_ARGS:
-			g_value_set_boxed (value, alert->priv->args);
-			break;
-		default:
-			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+	string = g_string_sized_new (strlen (format));
+
+	while (format
+	       && (newstart = strchr (format, '{'))
+	       && (end = strchr (newstart+1, '}'))) {
+		g_string_append_len (string, format, newstart - format);
+		id = atoi (newstart + 1);
+		if (id < args->len) {
+			g_string_append (string, args->pdata[id]);
+		} else
+			g_warning("Error references argument %d not supplied by caller", id);
+		format = end + 1;
 	}
+
+	g_string_append (string, format);
+
+	return g_string_free (string, FALSE);
 }
 
 static void
-e_alert_set_property (GObject *object, guint property_id,
-		      const GValue *value, GParamSpec *pspec)
+alert_set_tag (EAlert *alert,
+               const gchar *tag)
 {
-	EAlert *alert = (EAlert*) object;
-
-	switch (property_id)
-	{
-		case PROP_TAG:
-			alert->priv->tag = g_value_dup_string (value);
-			break;
-		case PROP_ARGS:
-			alert->priv->args = g_value_dup_boxed (value);
-			break;
-		default:
-			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-	}
-}
-
-static void
-e_alert_dispose (GObject *object)
-{
-	EAlert *alert = (EAlert*) object;
-
-	if (alert->priv->tag) {
-		g_free (alert->priv->tag);
-		alert->priv->tag = NULL;
-	}
-
-	if (alert->priv->args) {
-		/* arg strings will be freed automatically since we set a free func when
-		 * creating the ptr array */
-		g_boxed_free (G_TYPE_PTR_ARRAY, alert->priv->args);
-		alert->priv->args = NULL;
-	}
-
-	G_OBJECT_CLASS (e_alert_parent_class)->dispose (object);
-}
-
-static void
-e_alert_constructed (GObject *obj)
-{
-	EAlert *alert = E_ALERT (obj);
-
+	struct _e_alert *definition;
 	struct _e_alert_table *table;
 	gchar *domain, *id;
 
-	g_return_if_fail (alert_table);
-	g_return_if_fail (alert->priv->tag);
+	alert->priv->tag = g_strdup (tag);
 
-	domain = g_alloca (strlen (alert->priv->tag)+1);
-	strcpy (domain, alert->priv->tag);
+	g_return_if_fail (alert_table);
+
+	domain = g_alloca (strlen (tag) + 1);
+	strcpy (domain, tag);
 	id = strchr (domain, ':');
 	if (id)
 		*id++ = 0;
+	else {
+		g_warning ("Alert tag '%s' is missing a domain", tag);
+		return;
+	}
 
 	table = g_hash_table_lookup (alert_table, domain);
 	g_return_if_fail (table);
 
-	alert->priv->definition = g_hash_table_lookup (table->alerts, id);
+	definition = g_hash_table_lookup (table->alerts, id);
+	g_warn_if_fail (definition);
 
-	g_warn_if_fail (alert->priv->definition);
-
+	alert->priv->definition = definition;
+	e_alert_set_message_type (alert, definition->message_type);
+	e_alert_set_default_response (alert, definition->default_response);
 }
 
 static void
-e_alert_class_init (EAlertClass *klass)
+alert_set_property (GObject *object,
+                    guint property_id,
+                    const GValue *value,
+                    GParamSpec *pspec)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	EAlert *alert = (EAlert*) object;
 
-	g_type_class_add_private (klass, sizeof (EAlertPrivate));
+	switch (property_id) {
+		case PROP_TAG:
+			alert_set_tag (
+				E_ALERT (object),
+				g_value_get_string (value));
+			return;
 
-	object_class->get_property = e_alert_get_property;
-	object_class->set_property = e_alert_set_property;
-	object_class->dispose = e_alert_dispose;
-	object_class->constructed = e_alert_constructed;
+		case PROP_ARGS:
+			alert->priv->args = g_value_dup_boxed (value);
+			return;
 
-	g_object_class_install_property (object_class,
-					 PROP_TAG,
-					 g_param_spec_string ("tag",
-							      "alert tag",
-							      "A tag describing the alert",
-							      "",
-							      G_PARAM_READWRITE |
-							      G_PARAM_CONSTRUCT_ONLY |
-							      G_PARAM_STATIC_STRINGS));
-	g_object_class_install_property (object_class,
-					 PROP_ARGS,
-					 g_param_spec_boxed ("args",
-							     "Arguments",
-							     "Arguments for formatting the alert",
-							     G_TYPE_PTR_ARRAY,
-							     G_PARAM_READWRITE |
-							     G_PARAM_CONSTRUCT_ONLY |
-							     G_PARAM_STATIC_STRINGS));
+		case PROP_MESSAGE_TYPE:
+			e_alert_set_message_type (
+				E_ALERT (object),
+				g_value_get_enum (value));
+			return;
+
+		case PROP_PRIMARY_TEXT:
+			e_alert_set_primary_text (
+				E_ALERT (object),
+				g_value_get_string (value));
+			return;
+
+		case PROP_SECONDARY_TEXT:
+			e_alert_set_secondary_text (
+				E_ALERT (object),
+				g_value_get_string (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+alert_get_property (GObject *object,
+                    guint property_id,
+                    GValue *value,
+                    GParamSpec *pspec)
+{
+	EAlert *alert = (EAlert*) object;
+
+	switch (property_id) {
+		case PROP_TAG:
+			g_value_set_string (value, alert->priv->tag);
+			return;
+
+		case PROP_ARGS:
+			g_value_set_boxed (value, alert->priv->args);
+			return;
+
+		case PROP_MESSAGE_TYPE:
+			g_value_set_enum (
+				value, e_alert_get_message_type (
+				E_ALERT (object)));
+			return;
+
+		case PROP_PRIMARY_TEXT:
+			g_value_set_string (
+				value, e_alert_get_primary_text (
+				E_ALERT (object)));
+			return;
+
+		case PROP_SECONDARY_TEXT:
+			g_value_set_string (
+				value, e_alert_get_secondary_text (
+				E_ALERT (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+alert_finalize (GObject *object)
+{
+	EAlertPrivate *priv;
+
+	priv = E_ALERT_GET_PRIVATE (object);
+
+	g_free (priv->tag);
+	g_free (priv->primary_text);
+	g_free (priv->secondary_text);
+
+	g_ptr_array_free (priv->args, TRUE);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_alert_parent_class)->finalize (object);
+}
+
+
+static void
+e_alert_class_init (EAlertClass *class)
+{
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
+
+	g_type_class_add_private (class, sizeof (EAlertPrivate));
+
+	object_class->set_property = alert_set_property;
+	object_class->get_property = alert_get_property;
+	object_class->finalize = alert_finalize;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ARGS,
+		g_param_spec_boxed (
+			"args",
+			"Arguments",
+			"Arguments for formatting the alert",
+			G_TYPE_PTR_ARRAY,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_TAG,
+		g_param_spec_string (
+			"tag",
+			"alert tag",
+			"A tag describing the alert",
+			"",
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MESSAGE_TYPE,
+		g_param_spec_enum (
+			"message-type",
+			NULL,
+			NULL,
+			GTK_TYPE_MESSAGE_TYPE,
+			GTK_MESSAGE_ERROR,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_PRIMARY_TEXT,
+		g_param_spec_string (
+			"primary-text",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SECONDARY_TEXT,
+		g_param_spec_string (
+			"secondary-text",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
 
 	e_alert_load_tables ();
 }
@@ -502,17 +584,17 @@ EAlert *
 e_alert_new (const gchar *tag, ...)
 {
 	EAlert *e;
-	va_list ap;
+	va_list va;
 
-	va_start (ap, tag);
-	e = e_alert_new_valist (tag, ap);
-	va_end (ap);
+	va_start (va, tag);
+	e = e_alert_new_valist (tag, va);
+	va_end (va);
 
 	return e;
 }
 
 EAlert *
-e_alert_new_valist (const gchar *tag, va_list ap)
+e_alert_new_valist (const gchar *tag, va_list va)
 {
 	EAlert *alert;
 	GPtrArray *args;
@@ -520,10 +602,10 @@ e_alert_new_valist (const gchar *tag, va_list ap)
 
 	args = g_ptr_array_new_with_free_func (g_free);
 
-	tmp = va_arg (ap, gchar *);
+	tmp = va_arg (va, gchar *);
 	while (tmp) {
 		g_ptr_array_add (args, g_strdup (tmp));
-		tmp = va_arg (ap, gchar *);
+		tmp = va_arg (va, gchar *);
 	}
 
 	alert = e_alert_new_array (tag, args);
@@ -539,138 +621,114 @@ e_alert_new_array (const gchar *tag, GPtrArray *args)
 	return g_object_new (E_TYPE_ALERT, "tag", tag, "args", args, NULL);
 }
 
-/* unfortunately, gmarkup_escape doesn't expose its gstring based api :( */
-static void
-e_alert_append_text_escaped (GString *out, const gchar *text)
-{
-	gchar *markup;
-
-	markup = g_markup_escape_text (text, -1);
-	g_string_append (out, markup);
-	g_free (markup);
-}
-
-static void
-e_alert_format_string (GString *out,
-                       const gchar *fmt,
-                       GPtrArray *args,
-                       gboolean escape_args)
-{
-	const gchar *end, *newstart;
-	gint id;
-
-	while (fmt
-	       && (newstart = strchr (fmt, '{'))
-	       && (end = strchr (newstart+1, '}'))) {
-		g_string_append_len (out, fmt, newstart-fmt);
-		id = atoi (newstart+1);
-		if (id < args->len) {
-			if (escape_args)
-				e_alert_append_text_escaped (out, args->pdata[id]);
-			else
-				g_string_append (out, args->pdata[id]);
-		} else
-			g_warning("Error references argument %d not supplied by caller", id);
-		fmt = end+1;
-	}
-
-	g_string_append (out, fmt);
-}
-
-guint32
-e_alert_get_flags (EAlert *alert)
-{
-	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, 0);
-	return alert->priv->definition->flags;
-}
-
-const gchar *
-e_alert_peek_stock_image (EAlert *alert)
-{
-	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, NULL);
-	return type_map[alert->priv->definition->type].icon;
-}
-
 gint
 e_alert_get_default_response (EAlert *alert)
 {
-	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, 0);
-	return alert->priv->definition->default_response;
+	g_return_val_if_fail (E_IS_ALERT (alert), 0);
+
+	return alert->priv->default_response;
 }
 
-gchar *
-e_alert_get_title (EAlert *alert,
-                   gboolean escaped)
+void
+e_alert_set_default_response (EAlert *alert,
+                              gint response_id)
 {
-	GString *formatted;
+	g_return_if_fail (E_IS_ALERT (alert));
 
-	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, NULL);
-
-	formatted = g_string_new ("");
-
-	if (alert->priv->definition->title != NULL)
-		e_alert_format_string (
-			formatted, alert->priv->definition->title,
-			alert->priv->args, escaped);
-
-	return g_string_free (formatted, FALSE);
+	alert->priv->default_response = response_id;
 }
 
-gchar *
-e_alert_get_primary_text (EAlert *alert,
-                          gboolean escaped)
+GtkMessageType
+e_alert_get_message_type (EAlert *alert)
 {
-	GString *formatted;
+	g_return_val_if_fail (E_IS_ALERT (alert), GTK_MESSAGE_OTHER);
 
-	g_return_val_if_fail (alert && alert->priv, NULL);
-
-	formatted = g_string_new ("");
-
-	if (alert->priv->definition != NULL)
-		if (alert->priv->definition->primary != NULL) {
-			e_alert_format_string (
-				formatted, alert->priv->definition->primary,
-				alert->priv->args, escaped);
-		} else {
-			gchar *title;
-
-			title = e_alert_get_title (alert, escaped);
-			g_string_append (formatted, title);
-			g_free (title);
-		}
-	else {
-		g_string_append_printf (
-			formatted,
-			_("Internal error, unknown error '%s' requested"),
-			alert->priv->tag);
-	}
-
-	return g_string_free (formatted, FALSE);
+	return alert->priv->message_type;
 }
 
-gchar *
-e_alert_get_secondary_text (EAlert *alert,
-                            gboolean escaped)
+void
+e_alert_set_message_type (EAlert *alert,
+                          GtkMessageType message_type)
 {
-	GString *formatted;
+	g_return_if_fail (E_IS_ALERT (alert));
 
-	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, NULL);
+	alert->priv->message_type = message_type;
 
-	formatted = g_string_new ("");
-
-	if (alert->priv->definition->secondary != NULL)
-		e_alert_format_string (
-			formatted, alert->priv->definition->secondary,
-			alert->priv->args, escaped);
-
-	return g_string_free (formatted, FALSE);
+	g_object_notify (G_OBJECT (alert), "message-type");
 }
 
-gboolean
-e_alert_get_scroll (EAlert *alert)
+const gchar *
+e_alert_get_primary_text (EAlert *alert)
 {
-	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, FALSE);
-	return alert->priv->definition->scroll;
+	g_return_val_if_fail (E_IS_ALERT (alert), NULL);
+
+	if (alert->priv->primary_text != NULL)
+		goto exit;
+
+	if (alert->priv->definition == NULL)
+		goto exit;
+
+	if (alert->priv->definition->primary_text == NULL)
+		goto exit;
+
+	if (alert->priv->args == NULL)
+		goto exit;
+
+	alert->priv->primary_text = alert_format_string (
+		alert->priv->definition->primary_text,
+		alert->priv->args);
+
+exit:
+	return alert->priv->primary_text;
+}
+
+void
+e_alert_set_primary_text (EAlert *alert,
+                            const gchar *primary_text)
+{
+	g_return_if_fail (E_IS_ALERT (alert));
+
+	g_free (alert->priv->primary_text);
+	alert->priv->primary_text = g_strdup (primary_text);
+
+	g_object_notify (G_OBJECT (alert), "primary-text");
+}
+
+const gchar *
+e_alert_get_secondary_text (EAlert *alert)
+{
+	g_return_val_if_fail (E_IS_ALERT (alert), NULL);
+
+	if (alert->priv->secondary_text != NULL)
+		goto exit;
+
+	if (alert->priv->definition == NULL)
+		goto exit;
+
+	if (alert->priv->definition->secondary_text == NULL)
+		goto exit;
+
+	if (alert->priv->args == NULL)
+		goto exit;
+
+	alert->priv->secondary_text = alert_format_string (
+		alert->priv->definition->secondary_text,
+		alert->priv->args);
+
+exit:
+	return alert->priv->secondary_text;
+}
+
+void
+e_alert_set_secondary_text (EAlert *alert,
+                            const gchar *secondary_text)
+{
+	g_return_if_fail (E_IS_ALERT (alert));
+
+	g_free (alert->priv->secondary_text);
+	alert->priv->secondary_text = g_strdup (secondary_text);
+
+	g_object_notify (G_OBJECT (alert), "secondary-text");
 }
 
 struct _e_alert_button *
@@ -678,4 +736,61 @@ e_alert_peek_buttons (EAlert *alert)
 {
 	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, NULL);
 	return alert->priv->definition->buttons;
+}
+
+GtkWidget *
+e_alert_create_image (EAlert *alert,
+                      GtkIconSize size)
+{
+	const gchar *stock_id;
+
+	g_return_val_if_fail (E_IS_ALERT (alert), NULL);
+
+	switch (e_alert_get_message_type (alert)) {
+		case GTK_MESSAGE_INFO:
+			stock_id = GTK_STOCK_DIALOG_INFO;
+			break;
+		case GTK_MESSAGE_WARNING:
+			stock_id = GTK_STOCK_DIALOG_WARNING;
+			break;
+		case GTK_MESSAGE_QUESTION:
+			stock_id = GTK_STOCK_DIALOG_QUESTION;
+			break;
+		case GTK_MESSAGE_ERROR:
+			stock_id = GTK_STOCK_DIALOG_ERROR;
+			break;
+		default:
+			stock_id = GTK_STOCK_MISSING_IMAGE;
+			g_warn_if_reached ();
+			break;
+	}
+
+	return gtk_image_new_from_stock (stock_id, size);
+}
+
+void
+e_alert_submit (GtkWidget *widget,
+                const gchar *tag,
+                ...)
+{
+	va_list va;
+
+	va_start (va, tag);
+	e_alert_submit_valist (widget, tag, va);
+	va_end (va);
+}
+
+void
+e_alert_submit_valist (GtkWidget *widget,
+                       const gchar *tag,
+                       va_list va)
+{
+	EAlert *alert;
+
+	g_return_if_fail (GTK_IS_WIDGET (widget));
+	g_return_if_fail (tag != NULL);
+
+	alert = e_alert_new_valist (tag, va);
+	e_alert_sink_submit_alert (widget, alert);
+	g_object_unref (alert);
 }

@@ -113,16 +113,20 @@ e_alert_dialog_constructed (GObject *obj)
 	EAlertDialog *self = (EAlertDialog*) obj;
 	EAlert *alert;
 	struct _e_alert_button *b;
-	GtkWidget *hbox, *w, *scroll=NULL;
 	GtkWidget *action_area;
 	GtkWidget *content_area;
-	GString *out;
-	gchar *title, *primary, *secondary;
+	GtkWidget *container;
+	GtkWidget *widget;
+	PangoAttribute *attr;
+	PangoAttrList *list;
+	const gchar *primary, *secondary;
 
 	g_return_if_fail (self != NULL);
 
 	self->priv = ALERT_DIALOG_PRIVATE (self);
 	alert = self->priv->alert;
+
+	gtk_window_set_title (GTK_WINDOW (self), " ");
 
 	action_area = gtk_dialog_get_action_area ((GtkDialog*) self);
 	content_area = gtk_dialog_get_content_area ((GtkDialog*) self);
@@ -142,8 +146,6 @@ e_alert_dialog_constructed (GObject *obj)
 			"Something called %s() with a NULL parent window.  "
 			"This is no longer legal, please fix it.", G_STRFUNC);
 
-	if (e_alert_get_flags (alert) & GTK_DIALOG_MODAL)
-		gtk_window_set_modal ((GtkWindow *)self, TRUE);
 	gtk_window_set_destroy_with_parent ((GtkWindow *)self, TRUE);
 
 	b = e_alert_peek_buttons (alert);
@@ -174,56 +176,51 @@ e_alert_dialog_constructed (GObject *obj)
 		gtk_dialog_set_default_response ((GtkDialog*) self,
 						e_alert_get_default_response (alert));
 
-	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_container_set_border_width ((GtkContainer *)hbox, 12);
+	widget = gtk_hbox_new (FALSE, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
+	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
 
-	w = gtk_image_new_from_stock
-		(e_alert_peek_stock_image (alert), GTK_ICON_SIZE_DIALOG);
-	gtk_misc_set_alignment ((GtkMisc *)w, 0.0, 0.0);
-	gtk_box_pack_start ((GtkBox *)hbox, w, FALSE, FALSE, 12);
+	container = widget;
 
-	title = e_alert_get_title (alert, FALSE);
-	gtk_window_set_title ((GtkWindow *)self, title);
+	widget = e_alert_create_image (alert, GTK_ICON_SIZE_DIALOG);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
 
-	out = g_string_new ("");
-	primary = e_alert_get_primary_text (alert, TRUE);
-	if (primary) {
-		g_string_append_printf (out,
-					"<span weight=\"bold\" size=\"larger\">%s</span>\n\n",
-					primary);
-	}
+	widget = gtk_vbox_new (FALSE, 12);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
 
-	secondary = e_alert_get_secondary_text (alert, TRUE);
-	if (secondary) {
-		g_string_append (out, secondary);
-	}
+	container = widget;
 
-	g_free (secondary);
-	g_free (title);
-	g_free (primary);
+	primary = e_alert_get_primary_text (alert);
+	secondary = e_alert_get_secondary_text (alert);
 
-	if (e_alert_get_scroll (alert)) {
-		scroll = gtk_scrolled_window_new (NULL, NULL);
-		gtk_scrolled_window_set_policy (
-			GTK_SCROLLED_WINDOW (scroll),
-			GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-	}
-	w = gtk_label_new (NULL);
-	gtk_label_set_selectable ((GtkLabel *)w, TRUE);
-	gtk_label_set_line_wrap ((GtkLabel *)w, TRUE);
-	gtk_label_set_markup ((GtkLabel *)w, out->str);
-	gtk_widget_set_can_focus (w, FALSE);
-	g_string_free (out, TRUE);
-	if (e_alert_get_scroll (alert)) {
-		gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *)scroll, w);
-		gtk_box_pack_start ((GtkBox *)hbox, scroll, FALSE, FALSE, 0);
-		gtk_window_set_default_size ((GtkWindow *)self, 360, 180);
-	} else
-		gtk_box_pack_start ((GtkBox *)hbox, w, TRUE, TRUE, 0);
+	list = pango_attr_list_new ();
+	attr = pango_attr_scale_new (PANGO_SCALE_LARGE);
+	pango_attr_list_insert (list, attr);
+	attr = pango_attr_weight_new (PANGO_WEIGHT_BOLD);
+	pango_attr_list_insert (list, attr);
 
-	gtk_widget_show_all (hbox);
+	widget = gtk_label_new (primary);
+	gtk_label_set_attributes (GTK_LABEL (widget), list);
+	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_set_can_focus (widget, FALSE);
+	gtk_widget_show (widget);
 
-	gtk_box_pack_start (GTK_BOX (content_area), hbox, TRUE, TRUE, 0);
+	widget = gtk_label_new (secondary);
+	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_set_can_focus (widget, FALSE);
+	gtk_widget_show (widget);
+
+	pango_attr_list_unref (list);
 }
 
 static void

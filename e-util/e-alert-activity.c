@@ -109,23 +109,22 @@ alert_activity_constructed (GObject *object)
 	EAlertActivity *alert_activity;
 	EAlert *alert;
 	GtkWidget *message_dialog;
-	gchar *primary_text;
-	gchar *secondary_text;
+	const gchar *primary_text;
+	const gchar *secondary_text;
 
+	activity = E_ACTIVITY (object);
 	alert_activity = E_ALERT_ACTIVITY (object);
+
 	message_dialog = e_alert_activity_get_message_dialog (alert_activity);
-
 	alert = e_alert_dialog_get_alert (E_ALERT_DIALOG (message_dialog));
-	primary_text = e_alert_get_primary_text (alert, FALSE);
-	secondary_text = e_alert_get_secondary_text (alert, FALSE);
-	g_object_unref (alert);
 
-	activity = E_ACTIVITY (alert_activity);
+	primary_text = e_alert_get_primary_text (alert);
 	e_activity_set_primary_text (activity, primary_text);
+
+	secondary_text = e_alert_get_secondary_text (alert);
 	e_activity_set_secondary_text (activity, secondary_text);
 
-	g_free (primary_text);
-	g_free (secondary_text);
+	g_object_unref (alert);
 
 	/* This is a constructor property, so can't do it in init().
 	 * XXX What we really want to do is override the property's

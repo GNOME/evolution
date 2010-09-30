@@ -25,6 +25,7 @@
 #include <glib/gi18n.h>
 
 #include <e-util/e-alert-dialog.h>
+#include <e-util/e-alert-sink.h>
 #include <e-util/e-signature-utils.h>
 #include <misc/e-web-view.h>
 
@@ -64,10 +65,11 @@ static const gchar *ui =
 "  </toolbar>\n"
 "</ui>";
 
-G_DEFINE_TYPE (
+G_DEFINE_TYPE_WITH_CODE (
 	ESignatureEditor,
 	e_signature_editor,
-	GTKHTML_TYPE_EDITOR)
+	GTKHTML_TYPE_EDITOR,
+	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, NULL))
 
 static void
 handle_error (GError **error)
@@ -150,8 +152,8 @@ action_save_and_close_cb (GtkAction *action,
 	gtkhtml_editor_save (GTKHTML_EDITOR (editor), filename, html, &error);
 
 	if (error != NULL) {
-		e_alert_run_dialog_for_args (
-			GTK_WINDOW (editor),
+		e_alert_submit (
+			GTK_WIDGET (editor),
 			"mail:no-save-signature",
 			error->message, NULL);
 		g_clear_error (&error);
@@ -165,8 +167,8 @@ action_save_and_close_cb (GtkAction *action,
 
 	/* Make sure the signature name is not blank. */
 	if (*signature_name == '\0') {
-		e_alert_run_dialog_for_args (
-			GTK_WINDOW (editor),
+		e_alert_submit (
+			GTK_WIDGET (editor),
 			"mail:blank-signature", NULL);
 		gtk_widget_grab_focus (entry);
 		g_free (signature_name);
@@ -178,8 +180,8 @@ action_save_and_close_cb (GtkAction *action,
 	same_name = (ESignature *) e_signature_list_find (
 		signature_list, E_SIGNATURE_FIND_NAME, signature_name);
 	if (same_name != NULL && !e_signature_is_equal (signature, same_name)) {
-		e_alert_run_dialog_for_args (
-			GTK_WINDOW (editor),
+		e_alert_submit (
+			GTK_WIDGET (editor),
 			"mail:signature-already-exists",
 			signature_name, NULL);
 		gtk_widget_grab_focus (entry);

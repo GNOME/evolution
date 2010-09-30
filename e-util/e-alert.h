@@ -81,21 +81,32 @@ GType		e_alert_get_type		(void);
 EAlert *	e_alert_new			(const gchar *tag,
 						 ...) G_GNUC_NULL_TERMINATED;
 EAlert *	e_alert_new_valist		(const gchar *tag,
-						 va_list ap);
+						 va_list va);
 EAlert *	e_alert_new_array		(const gchar *tag,
 						 GPtrArray *args);
-guint32		e_alert_get_flags		(EAlert *alert);
-const gchar *	e_alert_peek_stock_image	(EAlert *alert);
 gint		e_alert_get_default_response	(EAlert *alert);
-gchar *		e_alert_get_title		(EAlert *alert,
-						 gboolean escaped);
-gchar *		e_alert_get_primary_text	(EAlert *alert,
-						 gboolean escaped);
-gchar *		e_alert_get_secondary_text	(EAlert *alert,
-						 gboolean escaped);
-gboolean	e_alert_get_scroll		(EAlert *alert);
+void		e_alert_set_default_response	(EAlert *alert,
+						 gint response_id);
+GtkMessageType	e_alert_get_message_type	(EAlert *alert);
+void		e_alert_set_message_type	(EAlert *alert,
+						 GtkMessageType message_type);
+const gchar *	e_alert_get_primary_text	(EAlert *alert);
+void		e_alert_set_primary_text	(EAlert *alert,
+						 const gchar *primary_text);
+const gchar *	e_alert_get_secondary_text	(EAlert *alert);
+void		e_alert_set_secondary_text	(EAlert *alert,
+						 const gchar *secondary_text);
 struct _e_alert_button *
 		e_alert_peek_buttons		(EAlert *alert);
+GtkWidget *	e_alert_create_image		(EAlert *alert,
+						 GtkIconSize size);
+
+void		e_alert_submit			(GtkWidget *widget,
+						 const gchar *tag,
+						 ...) G_GNUC_NULL_TERMINATED;
+void		e_alert_submit_valist		(GtkWidget *widget,
+						 const gchar *tag,
+						 va_list va);
 
 G_END_DECLS
 

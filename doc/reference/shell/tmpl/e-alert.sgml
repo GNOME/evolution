@@ -20,48 +20,6 @@ User Alert Handling
 <!-- ##### SECTION Image ##### -->
 
 
-<!-- ##### MACRO E_ALERT_INFO ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO E_ALERT_INFO_PRIMARY ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO E_ALERT_WARNING ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO E_ALERT_WARNING_PRIMARY ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO E_ALERT_ERROR ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### MACRO E_ALERT_ERROR_PRIMARY ##### -->
-<para>
-
-</para>
-
-
-
 <!-- ##### MACRO E_ALERT_ASK_FILE_EXISTS_OVERWRITE ##### -->
 <para>
 

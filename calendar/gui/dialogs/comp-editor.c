@@ -37,6 +37,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <e-util/e-util.h>
 #include <e-util/e-binding.h>
+#include <e-util/e-alert-sink.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
 #include <e-util/gconf-bridge.h>
@@ -193,7 +194,9 @@ static void	page_dates_changed_cb		(CompEditor *editor,
 static void obj_modified_cb (ECal *client, GList *objs, CompEditor *editor);
 static void obj_removed_cb (ECal *client, GList *uids, CompEditor *editor);
 
-G_DEFINE_TYPE (CompEditor, comp_editor, GTK_TYPE_WINDOW)
+G_DEFINE_TYPE_WITH_CODE (
+	CompEditor, comp_editor, GTK_TYPE_WINDOW,
+	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, NULL))
 
 enum {
 	OBJECT_CREATED,
@@ -831,9 +834,8 @@ action_save_cb (GtkAction *action,
 	}
 
 	if (!e_cal_is_read_only (priv->client, &read_only, NULL) || read_only) {
-		e_alert_run_dialog_for_args (
-			(GtkWindow *) gtk_widget_get_toplevel (
-				GTK_WIDGET (editor)),
+		e_alert_submit (
+			GTK_WIDGET (editor),
 			"calendar:prompt-read-only-cal-editor",
 			e_source_peek_name (
 				e_cal_get_source (priv->client)),
@@ -1878,9 +1880,8 @@ prompt_and_save_changes (CompEditor *editor, gboolean send)
 	switch (save_component_dialog (GTK_WINDOW (editor), priv->comp)) {
 	case GTK_RESPONSE_YES: /* Save */
 		if (!e_cal_is_read_only (priv->client, &read_only, NULL) || read_only) {
-			e_alert_run_dialog_for_args (
-				(GtkWindow *) gtk_widget_get_toplevel (
-					GTK_WIDGET (editor)),
+			e_alert_submit (
+				GTK_WIDGET (editor),
 				"calendar:prompt-read-only-cal-editor",
 				e_source_peek_name (
 					e_cal_get_source (priv->client)),
