@@ -49,6 +49,9 @@ struct _EShellBackendPrivate {
 	 * would leak its EShellBackend reference. */
 	EShellViewClass *shell_view_class;
 
+	/* This tracks what the backend is busy doing. */
+	GQueue *activities;
+
 	gchar *config_dir;
 	gchar *data_dir;
 
@@ -57,12 +60,21 @@ struct _EShellBackendPrivate {
 
 enum {
 	ACTIVITY_ADDED,
+	ACTIVITY_REMOVED,
 	LAST_SIGNAL
 };
 
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_ABSTRACT_TYPE (EShellBackend, e_shell_backend, E_TYPE_EXTENSION)
+
+static void
+shell_backend_activity_finalized_cb (EShellBackend *shell_backend,
+                                     EActivity *finalized_activity)
+{
+	g_queue_remove (shell_backend->priv->activities, finalized_activity);
+	g_object_unref (shell_backend);
+}
 
 static GObject *
 shell_backend_constructor (GType type,
@@ -112,6 +124,9 @@ shell_backend_finalize (GObject *object)
 	EShellBackendPrivate *priv;
 
 	priv = E_SHELL_BACKEND_GET_PRIVATE (object);
+
+	g_warn_if_fail (g_queue_is_empty (priv->activities));
+	g_queue_free (priv->activities);
 
 	g_free (priv->config_dir);
 	g_free (priv->data_dir);
@@ -200,6 +215,7 @@ static void
 e_shell_backend_init (EShellBackend *shell_backend)
 {
 	shell_backend->priv = E_SHELL_BACKEND_GET_PRIVATE (shell_backend);
+	shell_backend->priv->activities = g_queue_new ();
 }
 
 /**
@@ -303,6 +319,15 @@ e_shell_backend_add_activity (EShellBackend *shell_backend,
 {
 	g_return_if_fail (E_IS_SHELL_BACKEND (shell_backend));
 	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	g_queue_push_tail (shell_backend->priv->activities, activity);
+
+	/* We reference the backend on every activity to
+	 * guarantee the backend outlives the activity. */
+	g_object_weak_ref (
+		G_OBJECT (activity), (GWeakNotify)
+		shell_backend_activity_finalized_cb,
+		g_object_ref (shell_backend));
 
 	g_signal_emit (shell_backend, signals[ACTIVITY_ADDED], 0, activity);
 }
