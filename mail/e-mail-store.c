@@ -58,8 +58,6 @@ struct _StoreInfo {
 CamelStore *vfolder_store;  /* XXX write a get () function for this */
 static GHashTable *store_table;
 
-static MailAsyncEvent *async_event;
-
 static StoreInfo *
 store_info_new (CamelStore *store,
                 const gchar *display_name)
@@ -181,7 +179,8 @@ mail_store_add (CamelStore *store,
 	em_folder_tree_model_add_store (
 		default_model, store, store_info->display_name);
 
-	mail_folder_cache_note_store (mail_folder_cache_get_default (),
+	mail_folder_cache_note_store (
+		mail_folder_cache_get_default (),
 		store, NULL,
 		mail_store_note_store_cb,
 		store_info_ref (store_info));
@@ -198,17 +197,9 @@ mail_store_add_local_done_cb (CamelStore *store,
 	for (ii = 0; ii < E_MAIL_NUM_LOCAL_FOLDERS; ii++) {
 		folder = e_mail_local_get_folder (ii);
 		if (folder != NULL)
-			mail_folder_cache_note_folder (mail_folder_cache_get_default (), folder);
+			mail_folder_cache_note_folder (
+				mail_folder_cache_get_default (), folder);
 	}
-}
-
-static void
-mail_store_add_local_cb (CamelStore *local_store,
-                         const gchar *display_name)
-{
-	mail_store_add (
-		local_store, display_name,
-		(AddStoreCallback) mail_store_add_local_done_cb);
 }
 
 static void
@@ -223,10 +214,9 @@ mail_store_load_accounts (const gchar *data_dir)
 	e_mail_local_init (data_dir);
 	local_store = e_mail_local_get_store ();
 
-	mail_async_event_emit (
-		async_event, MAIL_ASYNC_GUI,
-		(MailAsyncFunc) mail_store_add_local_cb,
-		local_store, _("On This Computer"), NULL);
+	mail_store_add (
+		local_store, _("On This Computer"),
+		(AddStoreCallback) mail_store_add_local_done_cb);
 
 	/* Set up remote stores. */
 
@@ -281,8 +271,6 @@ e_mail_store_init (const gchar *data_dir)
 		g_direct_hash, g_direct_equal,
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) store_table_free);
-
-	async_event = mail_async_event_new ();
 
 	mail_store_load_accounts (data_dir);
 
@@ -341,14 +329,6 @@ fail:
 	return NULL;
 }
 
-/* Helper for e_mail_store_remove() */
-static void
-mail_store_remove_cb (CamelStore *store)
-{
-	camel_service_disconnect_sync (CAMEL_SERVICE (store), TRUE, NULL);
-	g_object_unref (store);
-}
-
 void
 e_mail_store_remove (CamelStore *store)
 {
@@ -356,7 +336,6 @@ e_mail_store_remove (CamelStore *store)
 
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (store_table != NULL);
-	g_return_if_fail (async_event != NULL);
 
 	/* Because the store table holds a reference to each store used
 	 * as a key in it, none of them will ever be gc'ed, meaning any
@@ -369,15 +348,15 @@ e_mail_store_remove (CamelStore *store)
 	g_object_ref (store);
 
 	g_hash_table_remove (store_table, store);
-	mail_folder_cache_note_store_remove (mail_folder_cache_get_default (), store);
+	mail_folder_cache_note_store_remove (
+		mail_folder_cache_get_default (), store);
 
 	default_model = em_folder_tree_model_get_default ();
 	em_folder_tree_model_remove_store (default_model, store);
 
-	mail_async_event_emit (
-		async_event, MAIL_ASYNC_THREAD,
-		(MailAsyncFunc) mail_store_remove_cb,
-		store, NULL, NULL);
+	camel_service_disconnect_sync (CAMEL_SERVICE (store), TRUE, NULL);
+
+	g_object_unref (store);
 }
 
 void
