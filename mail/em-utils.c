@@ -84,8 +84,6 @@ extern const gchar *shell_builtin_backend;
 /* Used in em_util_ask_open_many() */
 #define TOO_MANY 10
 
-static void emu_save_part_done (CamelMimePart *part, gchar *name, gint done, gpointer data);
-
 #define d(x)
 
 gboolean
@@ -941,68 +939,6 @@ em_utils_selection_get_urilist (GtkSelectionData *selection_data,
 	}
 
 	g_strfreev (uris);
-}
-
-static void
-emu_save_part_done (CamelMimePart *part, gchar *name, gint done, gpointer data)
-{
-	((gint *)data)[0] = done;
-}
-
-/**
- * em_utils_temp_save_part:
- * @parent:
- * @part:
- * @mode: readonly or not.
- *
- * Save a part's content to a temporary file, and return the
- * filename.
- *
- * Return value: NULL if anything failed.
- **/
-gchar *
-em_utils_temp_save_part (GtkWidget *parent, CamelMimePart *part, gboolean mode)
-{
-	const gchar *filename;
-	gchar *tmpdir, *path, *utf8_mfilename = NULL, *mfilename = NULL;
-	gint done;
-	GtkWidget *w;
-
-	tmpdir = e_mkdtemp("evolution-tmp-XXXXXX");
-	if (tmpdir == NULL) {
-		w = e_alert_dialog_new_for_args ((GtkWindow *)parent, "mail:no-create-tmp-path", g_strerror(errno), NULL);
-		em_utils_show_error_silent (w);
-		return NULL;
-	}
-
-	filename = camel_mime_part_get_filename (part);
-	if (filename == NULL) {
-		/* This is the default filename used for temporary file creation */
-		filename = _("Unknown");
-	} else {
-		utf8_mfilename = g_strdup (filename);
-		e_filename_make_safe (utf8_mfilename);
-		mfilename = g_filename_from_utf8 ((const gchar *) utf8_mfilename, -1, NULL, NULL, NULL);
-		g_free (utf8_mfilename);
-		filename = (const gchar *) mfilename;
-	}
-
-	path = g_build_filename (tmpdir, filename, NULL);
-	g_free (tmpdir);
-	g_free (mfilename);
-
-	/* FIXME: This doesn't handle default charsets */
-	if (mode)
-		mail_msg_wait (mail_save_part (part, path, emu_save_part_done, &done, TRUE));
-	else
-		mail_msg_wait (mail_save_part (part, path, emu_save_part_done, &done, FALSE));
-	if (!done) {
-		/* mail_save_part should popup an error box automagically */
-		g_free (path);
-		path = NULL;
-	}
-
-	return path;
 }
 
 /** em_utils_folder_is_templates:

@@ -61,8 +61,6 @@ void em_utils_selection_get_uidlist (GtkSelectionData *data, CamelFolder *dest, 
 void em_utils_selection_set_urilist (GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids);
 void em_utils_selection_get_urilist (GtkSelectionData *data, CamelFolder *folder);
 
-gchar *em_utils_temp_save_part (GtkWidget *parent, CamelMimePart *part, gboolean mode);
-
 gboolean em_utils_folder_is_drafts (CamelFolder *folder, const gchar *uri);
 gboolean em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri);
 gboolean em_utils_folder_is_sent (CamelFolder *folder, const gchar *uri);

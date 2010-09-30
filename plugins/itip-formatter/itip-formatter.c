@@ -42,6 +42,7 @@
 #include <mail/mail-mt.h>
 #include <libedataserver/e-account-list.h>
 #include <e-util/e-alert-dialog.h>
+#include <e-util/e-mktemp.h>
 #include <calendar/gui/calendar-config.h>
 #include <calendar/gui/itip-utils.h>
 #include <calendar/common/authentication.h>
@@ -1009,6 +1010,108 @@ message_foreach_part (CamelMimePart *part, GSList **part_list)
 	}
 }
 
+static void
+attachment_load_finished (EAttachment *attachment,
+                          GAsyncResult *result,
+                          gpointer user_data)
+{
+	struct {
+		GFile *file;
+		gboolean done;
+	} *status = user_data;
+
+	/* Should be no need to check for error here. */
+	e_attachment_load_finish (attachment, result, NULL);
+
+	status->done = TRUE;
+}
+
+static void
+attachment_save_finished (EAttachment *attachment,
+                          GAsyncResult *result,
+                          gpointer user_data)
+{
+	GError *error = NULL;
+
+	struct {
+		GFile *file;
+		gboolean done;
+	} *status = user_data;
+
+	status->file = e_attachment_save_finish (attachment, result, &error);
+	status->done = TRUE;
+
+	/* XXX Error handling needs improvement. */
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+}
+
+static gchar *
+get_uri_for_part (CamelMimePart *mime_part)
+{
+	EAttachment *attachment;
+	GFile *temp_directory;
+	gchar *template;
+	gchar *path;
+
+	struct {
+		GFile *file;
+		gboolean done;
+	} status;
+
+	/* XXX Error handling leaves much to be desired. */
+
+	template = g_strdup_printf (PACKAGE "-%s-XXXXXX", g_get_user_name ());
+	path = e_mkdtemp (template);
+	g_free (template);
+
+	if (path == NULL)
+		return NULL;
+
+	temp_directory = g_file_new_for_path (path);
+	g_free (path);
+
+	attachment = e_attachment_new ();
+	e_attachment_set_mime_part (attachment, mime_part);
+
+	status.done = FALSE;
+
+	e_attachment_load_async (
+		attachment, (GAsyncReadyCallback)
+		attachment_load_finished, &status);
+
+	/* Loading should be instantaneous since we already have
+	 * the full content, but we still have to crank the main
+	 * loop until the callback gets triggered. */
+	while (!status.done)
+		gtk_main_iteration ();
+
+	status.file = NULL;
+	status.done = FALSE;
+
+	e_attachment_save_async (
+		attachment, temp_directory, (GAsyncReadyCallback)
+		attachment_save_finished, &status);
+
+	/* We can't return until we have results, so crank
+	 * the main loop until the callback gets triggered. */
+	while (!status.done)
+		gtk_main_iteration ();
+
+	if (status.file != NULL) {
+		path = g_file_get_path (status.file);
+		g_object_unref (status.file);
+	} else
+		path = NULL;
+
+	g_object_unref (attachment);
+	g_object_unref (temp_directory);
+
+	return path;
+}
+
 static gboolean
 update_item (struct _itip_puri *pitip, ItipViewResponse response)
 {
@@ -1116,8 +1219,9 @@ update_item (struct _itip_puri *pitip, ItipViewResponse response)
 					if (part == (CamelMimePart *) msg || part == pitip->part)
 						continue;
 
-					new_uri = em_utils_temp_save_part (NULL, part, FALSE);
-					new_attachments = g_slist_append (new_attachments, new_uri);
+					new_uri = get_uri_for_part (part);
+					if (new_uri != NULL)
+						new_attachments = g_slist_append (new_attachments, new_uri);
 				}
 
 				g_slist_free (parts);
@@ -1125,8 +1229,9 @@ update_item (struct _itip_puri *pitip, ItipViewResponse response)
 			} else if (!g_ascii_strncasecmp (uri, "cid:", 4)) {
 				part = camel_mime_message_get_part_by_content_id (msg, uri + 4);
 				if (part) {
-					new_uri = em_utils_temp_save_part (NULL, part, FALSE);
-					new_attachments = g_slist_append (new_attachments, new_uri);
+					new_uri = get_uri_for_part (part);
+					if (new_uri != NULL)
+						new_attachments = g_slist_append (new_attachments, new_uri);
 				}
 
 			} else {

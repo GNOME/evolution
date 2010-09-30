@@ -120,10 +120,6 @@ gint mail_save_messages (CamelFolder *folder, GPtrArray *uids, const gchar *path
 			void (*done) (CamelFolder *folder, GPtrArray *uids, gchar *path, gpointer data),
 			gpointer data);
 
-gint mail_save_part (CamelMimePart *part, const gchar *path,
-		    void (*done)(CamelMimePart *part, gchar *path, gint saved, gpointer data),
-		    gpointer data, gboolean readonly);
-
 /* yeah so this is messy, but it does a lot, maybe i can consolidate all user_data's to be the one */
 void		mail_send_queue			(CamelFolder *queue,
 						 const gchar *destination,
