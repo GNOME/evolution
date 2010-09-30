@@ -19132,7 +19132,7 @@ msgstr "選択したタスクの一覧をディスクに保存します"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
 msgid "Sort mail message threads by subject."
-msgstr "件名でメールのスレッドを並べかえるます。"
+msgstr "件名でメールのスレッドを並べかえます。"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
 msgid "Subject Threading"
