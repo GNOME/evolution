@@ -83,7 +83,6 @@ struct _EMapPrivate {
 /* Internal prototypes */
 
 static void e_map_finalize (GObject *object);
-static void e_map_destroy (GtkObject *object);
 static void e_map_realize (GtkWidget *widget);
 static void e_map_size_request (GtkWidget *widget, GtkRequisition *requisition);
 static void e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation);
@@ -122,16 +121,12 @@ static void
 e_map_class_init (EMapClass *class)
 {
 	GObjectClass *gobject_class;
-	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
 	gobject_class = (GObjectClass *) class;
-	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 
 	gobject_class->finalize = e_map_finalize;
-
-	object_class->destroy = e_map_destroy;
 
 	class->set_scroll_adjustments = e_map_set_scroll_adjustments;
 	widget_class->set_scroll_adjustments_signal = g_signal_new ("set_scroll_adjustments",
@@ -179,26 +174,6 @@ e_map_init (EMap *view)
 	gtk_widget_set_has_window (widget, TRUE);
 }
 
-/* Destroy handler for the map view */
-
-static void
-e_map_destroy (GtkObject *object)
-{
-	EMap *view;
-	EMapPrivate *priv;
-
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (E_IS_MAP (object));
-
-	view = E_MAP (object);
-	priv = view->priv;
-
-	g_signal_handlers_disconnect_by_func (priv->hadj, adjustment_changed_cb, view);
-	g_signal_handlers_disconnect_by_func (priv->vadj, adjustment_changed_cb, view);
-
-	GTK_OBJECT_CLASS (e_map_parent_class)->destroy (object);
-}
-
 /* Finalize handler for the map view */
 
 static void
@@ -212,6 +187,9 @@ e_map_finalize (GObject *object)
 
 	view = E_MAP (object);
 	priv = view->priv;
+
+	g_signal_handlers_disconnect_by_func (priv->hadj, adjustment_changed_cb, view);
+	g_signal_handlers_disconnect_by_func (priv->vadj, adjustment_changed_cb, view);
 
 	g_object_unref ((priv->hadj));
 	priv->hadj = NULL;
