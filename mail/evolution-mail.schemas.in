@@ -871,26 +871,48 @@
     <!-- Subscribe dialog -->
 
     <schema>
-      <key>/schemas/apps/evolution/mail/subscribe_window/width</key>
-      <applyto>/apps/evolution/mail/subscribe_window/width</applyto>
-      <owner>evolution-mail</owner>
-      <type>int</type>
-      <default>600</default>
-      <locale name="C">
-         <short>Subscribe dialog default width</short>
-         <long>Default width of the subscribe dialog.</long>
-      </locale>
-    </schema>
-
-    <schema>
-      <key>/schemas/apps/evolution/mail/subscribe_window/height</key>
-      <applyto>/apps/evolution/mail/subscribe_window/height</applyto>
+      <key>/schemas/apps/evolution/mail/subscription_editor_height</key>
+      <applyto>/apps/evolution/mail/subscription_editor_height</applyto>
       <owner>evolution-mail</owner>
       <type>int</type>
       <default>400</default>
       <locale name="C">
-         <short>Subscribe dialog default height</short>
-         <long>Default height of the subscribe dialog.</long>
+        <short>"Folder Subscriptions" window height</short>
+        <long>
+          Initial height of the "Folder Subscriptions" window.
+          The value updates as the user resizes the window vertically.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/subscription_editor_maximized</key>
+      <applyto>/apps/evolution/mail/subscription_editor_maximized</applyto>
+      <type>bool</type>
+      <locale name="C">
+        <short>"Folder Subscriptions" window maximize state</short>
+        <long>
+          Initial maximize state of the "Folder Subscriptions" window.
+          The value updates when the user maximizes or unmaximizes the
+          window.  Note, this particular value is not used by Evolution
+          since the "Folder Subscriptions" window cannot be maximized.
+          This key exists only as an implementation detail.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/subscription_editor_width</key>
+      <applyto>/apps/evolution/mail/subscription_editor_width</applyto>
+      <owner>evolution-mail</owner>
+      <type>int</type>
+      <default>600</default>
+      <locale name="C">
+        <short>"Folder Subscriptions" window width</short>
+        <long>
+          Initial width of the "Folder Subscriptions" window.
+          The value updates as the user resizes the window horizontally.
+        </long>
       </locale>
     </schema>
 

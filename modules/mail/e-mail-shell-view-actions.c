@@ -833,18 +833,30 @@ static void
 action_mail_tools_subscriptions_cb (GtkAction *action,
                                     EMailShellView *mail_shell_view)
 {
+	EMailShellSidebar *mail_shell_sidebar;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
+	EMFolderTree *folder_tree;
+	EAccount *account = NULL;
 	GtkWidget *dialog;
+	gchar *uri;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	dialog = em_subscribe_editor_new ();
-	gtk_window_set_transient_for (
-		GTK_WINDOW (dialog), GTK_WINDOW (shell_window));
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+
+	uri = em_folder_tree_get_selected_uri (folder_tree);
+	if (uri != NULL) {
+		account = mail_config_get_account_by_source_url (uri);
+		g_free (uri);
+	}
+
+	dialog = em_subscription_editor_new (
+		GTK_WINDOW (shell_window), session, account);
 	gtk_dialog_run (GTK_DIALOG (dialog));
-	/* XXX Dialog destroys itself. */
+	gtk_widget_destroy (dialog);
 }
 
 static void

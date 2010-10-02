@@ -80,7 +80,7 @@ mailinclude_HEADERS =					\
 	em-inline-filter.h				\
 	em-junk.h					\
 	em-search-context.h				\
-	em-subscribe-editor.h				\
+	em-subscription-editor.h			\
 	em-sync-stream.h				\
 	em-utils.h					\
 	em-vfolder-context.h				\
@@ -149,7 +149,7 @@ libevolution_mail_la_SOURCES =				\
 	em-inline-filter.c				\
 	em-junk.c					\
 	em-search-context.c				\
-	em-subscribe-editor.c				\
+	em-subscription-editor.c			\
 	em-sync-stream.c				\
 	em-utils.c					\
 	em-vfolder-context.c				\

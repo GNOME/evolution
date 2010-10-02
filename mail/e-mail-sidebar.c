@@ -371,6 +371,7 @@ mail_sidebar_check_state (EMailSidebar *sidebar)
 	if (is_trash)
 		state |= E_MAIL_SIDEBAR_FOLDER_IS_TRASH;
 
+	g_object_unref (store);
 	g_free (full_name);
 	g_free (uri);
 
