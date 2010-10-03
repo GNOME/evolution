@@ -372,48 +372,6 @@ mail_tool_uri_to_folder (const gchar *uri,
 	return folder;
 }
 
-/**
- * mail_tools_x_evolution_message_parse:
- * @in: GtkSelectionData->data
- * @inlen: GtkSelectionData->length
- * @uids: pointer to a gptrarray that will be filled with uids on success
- *
- * Parses the GtkSelectionData and returns a CamelFolder and a list of
- * UIDs specified by the selection.
- **/
-CamelFolder *
-mail_tools_x_evolution_message_parse (gchar *in, guint inlen, GPtrArray **uids)
-{
-	/* format: "uri\0uid1\0uid2\0uid3\0...\0uidn" */
-	gchar *inptr, *inend;
-	CamelFolder *folder;
-
-	if (in == NULL)
-		return NULL;
-
-	/* FIXME Not passing a GCancellable or GError here. */
-	folder = mail_tool_uri_to_folder (in, 0, NULL, NULL);
-
-	if (!folder)
-		return NULL;
-
-	/* split the uids */
-	inend = in + inlen;
-	inptr = in + strlen (in) + 1;
-	*uids = g_ptr_array_new ();
-	while (inptr < inend) {
-		gchar *start = inptr;
-
-		while (inptr < inend && *inptr)
-			inptr++;
-
-		g_ptr_array_add (*uids, g_strndup (start, inptr - start));
-		inptr++;
-	}
-
-	return folder;
-}
-
 /* FIXME: This should be a property on CamelFolder */
 gchar *
 mail_tools_folder_to_url (CamelFolder *folder)
