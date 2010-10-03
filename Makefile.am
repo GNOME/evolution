@@ -95,12 +95,14 @@ DISTCLEANFILES = 			\
 endif
 
 MAINTAINERCLEANFILES =			\
+	$(srcdir)/ABOUT-NLS		\
 	$(srcdir)/INSTALL		\
 	$(srcdir)/aclocal.m4		\
 	$(srcdir)/autoscan.log		\
 	$(srcdir)/compile		\
 	$(srcdir)/config.guess		\
 	$(srcdir)/config.h.in		\
+	$(srcdir)/config.rpath		\
 	$(srcdir)/config.sub		\
 	$(srcdir)/configure.scan	\
 	$(srcdir)/depcomp		\
@@ -110,14 +112,52 @@ MAINTAINERCLEANFILES =			\
 	$(srcdir)/mkinstalldirs		\
 	$(srcdir)/gnome-doc-utils.make	\
 	$(srcdir)/gtk-doc.make		\
+	$(srcdir)/m4/codeset.m4		\
+	$(srcdir)/m4/gettext.m4		\
+	$(srcdir)/m4/glibc2.m4		\
+	$(srcdir)/m4/glibc21.m4		\
 	$(srcdir)/m4/gnome-doc-utils.m4	\
 	$(srcdir)/m4/gtk-doc.m4		\
+	$(srcdir)/m4/iconv.m4		\
+	$(srcdir)/m4/intdiv0.m4		\
+	$(srcdir)/m4/intl.m4		\
+	$(srcdir)/m4/intldir.m4		\
+	$(srcdir)/m4/intlmacosx.m4	\
 	$(srcdir)/m4/intltool.m4	\
+	$(srcdir)/m4/intmax.m4		\
+	$(srcdir)/m4/inttypes-pri.m4	\
+	$(srcdir)/m4/inttypes_h.m4	\
+	$(srcdir)/m4/lcmessage.m4	\
+	$(srcdir)/m4/lib-ld.m4		\
+	$(srcdir)/m4/lib-link.m4	\
+	$(srcdir)/m4/lib-prefix.m4	\
 	$(srcdir)/m4/libtool.m4		\
+	$(srcdir)/m4/lock.m4		\
+	$(srcdir)/m4/longlong.m4	\
 	$(srcdir)/m4/ltoptions.m4	\
 	$(srcdir)/m4/ltsugar.m4		\
 	$(srcdir)/m4/ltversion.m4	\
-	$(srcdir)/m4/lt~obsolete.m4
+	$(srcdir)/m4/lt~obsolete.m4	\
+	$(srcdir)/m4/nls.m4		\
+	$(srcdir)/m4/po.m4		\
+	$(srcdir)/m4/printf-posix.m4	\
+	$(srcdir)/m4/progtest.m4	\
+	$(srcdir)/m4/size_max.m4	\
+	$(srcdir)/m4/stdint_h.m4	\
+	$(srcdir)/m4/uintmax_t.m4	\
+	$(srcdir)/m4/visibility.m4	\
+	$(srcdir)/m4/wchar_t.m4		\
+	$(srcdir)/m4/wint_t.m4		\
+	$(srcdir)/m4/xsize.m4		\
+	$(srcdir)/po/Makefile.in.in~	\
+	$(srcdir)/po/Makevars.template	\
+	$(srcdir)/po/Rules-quot		\
+	$(srcdir)/po/boldquot.sed	\
+	$(srcdir)/po/en@boldquot.header	\
+	$(srcdir)/po/en@quot.header	\
+	$(srcdir)/po/insert-header.sin	\
+	$(srcdir)/po/quot.sed		\
+	$(srcdir)/po/remove-potcdate.sin
 
 # Scrollkeeper must be disabled for distcheck to work because
 # distcheck uses a custom prefix.  See GNOME bug #354357.
