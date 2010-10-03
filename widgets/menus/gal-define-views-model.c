@@ -205,7 +205,8 @@ gal_define_views_model_append (GalDefineViewsModel *model,
 
 	e_table_model_pre_change (etm);
 	gal_view_collection_append (model->collection, view);
-	e_table_model_row_inserted (etm, gal_view_collection_get_count (model->collection) - 1);
+	e_table_model_row_inserted (
+		etm, gal_view_collection_get_count (model->collection) - 1);
 }
 
 static void
@@ -315,5 +316,6 @@ gal_define_views_model_copy_view (GalDefineViewsModel *model,
 	ETableModel *etm = E_TABLE_MODEL (model);
 	e_table_model_pre_change (etm);
 	gal_view_collection_copy_view (model->collection, n);
-	e_table_model_row_inserted (etm, gal_view_collection_get_count (model->collection) - 1);
+	e_table_model_row_inserted (
+		etm, gal_view_collection_get_count (model->collection) - 1);
 }

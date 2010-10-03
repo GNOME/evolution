@@ -488,7 +488,6 @@ alert_finalize (GObject *object)
 	G_OBJECT_CLASS (e_alert_parent_class)->finalize (object);
 }
 
-
 static void
 e_alert_class_init (EAlertClass *class)
 {

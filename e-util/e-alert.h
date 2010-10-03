@@ -30,7 +30,7 @@
 
 /* Standard GObject macros */
 #define E_TYPE_ALERT \
-	(e_alert_get_type())
+	(e_alert_get_type ())
 #define E_ALERT(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_ALERT, EAlert))

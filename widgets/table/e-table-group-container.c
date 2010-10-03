@@ -1239,13 +1239,13 @@ e_table_group_container_print_page  (EPrintable *ep,
 	pango_font_description_free (desc);
 
 	while (1) {
-		child_height = e_printable_height(child_printable, context, width,yd, quantize);
+		child_height = e_printable_height (child_printable, context, width,yd, quantize);
 		if (child_height < 0)
 			child_height = -child_height;
 		if (yd < 2 * TEXT_AREA_HEIGHT + 20 + child_height )
 		{
 			cairo_show_page (cr);
-			cairo_translate(cr, -2 * TEXT_AREA_HEIGHT, -TEXT_AREA_HEIGHT);
+			cairo_translate (cr, -2 * TEXT_AREA_HEIGHT, -TEXT_AREA_HEIGHT);
 			break;
 		}
 
@@ -1288,10 +1288,10 @@ e_table_group_container_print_page  (EPrintable *ep,
 		e_printable_print_page (child_printable, context, width-2 * TEXT_AREA_HEIGHT, child_margin, quantize);
 		yd -= child_height + TEXT_AREA_HEIGHT;
 
-		if (e_printable_data_left (child_printable)){
+		if (e_printable_data_left (child_printable)) {
 			cairo_restore (cr);
-			cairo_translate(cr, -2 * TEXT_AREA_HEIGHT, -TEXT_AREA_HEIGHT);
- 			break;
+			cairo_translate (cr, -2 * TEXT_AREA_HEIGHT, -TEXT_AREA_HEIGHT);
+			break;
 		}
 
 		child = child->next;
@@ -1303,11 +1303,11 @@ e_table_group_container_print_page  (EPrintable *ep,
 		child_node = child->data;
 		if (child_printable)
 			g_object_unref (child_printable);
-		   
-		child_printable = e_table_group_get_printable(child_node->child);
-		cairo_restore(cr);
-		cairo_translate(cr, -2 * TEXT_AREA_HEIGHT, child_height + child_margin + 20);
-		
+
+		child_printable = e_table_group_get_printable (child_node->child);
+		cairo_restore (cr);
+		cairo_translate (cr, -2 * TEXT_AREA_HEIGHT, child_height + child_margin + 20);
+
 		if (child_printable)
 			g_object_ref (child_printable);
 		e_printable_reset (child_printable);

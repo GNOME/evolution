@@ -1107,7 +1107,8 @@ mail_notebook_view_set_folder (EMailReader *reader,
 						priv->tab_picker)),
 				FALSE);
 
-			tab = (EMailTab *)e_mail_tab_new_full (camel_folder_get_full_name (folder), NULL, 1);
+			tab = (EMailTab *) e_mail_tab_new_full (
+				camel_folder_get_full_name (folder), NULL, 1);
 			g_object_set_data ((GObject *)tab, "page", priv->current_view);
 			g_object_set_data ((GObject *)priv->current_view, "page", tab);
 			g_object_set_data ((GObject *)priv->current_view, "tab", tab);

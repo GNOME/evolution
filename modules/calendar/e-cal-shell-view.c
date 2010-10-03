@@ -63,7 +63,10 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	EActionComboBox *combo_box;
 	GnomeCalendar *calendar;
 	ECalendar *date_navigator;
+	ECalModel *model;
 	GtkRadioAction *action;
+	icaltimezone *timezone;
+	struct icaltimetype current_time;
 	time_t start_range;
 	time_t end_range;
 	time_t now_time;
@@ -83,7 +86,10 @@ cal_shell_view_execute_search (EShellView *shell_view)
 	searchbar = e_cal_shell_content_get_searchbar (cal_shell_content);
 
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
-	now_time = time_day_begin (icaltime_as_timet (icaltime_current_time_with_zone (e_cal_model_get_timezone (gnome_calendar_get_model (calendar)))));
+	model = gnome_calendar_get_model (calendar);
+	timezone = e_cal_model_get_timezone (model);
+	current_time = icaltime_current_time_with_zone (timezone);
+	now_time = time_day_begin (icaltime_as_timet (current_time));
 
 	action = GTK_RADIO_ACTION (ACTION (CALENDAR_SEARCH_ANY_FIELD_CONTAINS));
 	value = gtk_radio_action_get_current_value (action);

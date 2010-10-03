@@ -672,13 +672,15 @@ current_account:
 		GtkTreeSelection *selection;
 		GtkTreeModel *model;
 		GtkTreeIter iter;
-	
+
 		store = NULL;
 		tree_view = GTK_TREE_VIEW (folder_tree);
 		selection = gtk_tree_view_get_selection (tree_view);
 
 		if (gtk_tree_selection_get_selected (selection, &model, &iter))
-			gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store, -1);
+			gtk_tree_model_get (
+				model, &iter,
+				COL_POINTER_CAMEL_STORE, &store, -1);
 	}
 
 	list = NULL;  /* list of CamelFolders */
@@ -686,7 +688,10 @@ current_account:
 	if (store) {
 		CamelFolderInfo *root, *fi;
 
-		root = camel_store_get_folder_info_sync (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE, NULL, NULL);
+		/* FIXME This call blocks the main loop. */
+		root = camel_store_get_folder_info_sync (
+			store, NULL,
+			CAMEL_STORE_FOLDER_INFO_RECURSIVE, NULL, NULL);
 		fi = root;
 		while (fi) {
 			CamelFolderInfo *next;
@@ -694,7 +699,9 @@ current_account:
 			if ((fi->flags & CAMEL_FOLDER_NOSELECT) == 0) {
 				CamelFolder *fldr;
 
-				fldr = camel_store_get_folder_sync (store, fi->full_name, 0, NULL, NULL);
+				/* FIXME This call blocks the main loop. */
+				fldr = camel_store_get_folder_sync (
+					store, fi->full_name, 0, NULL, NULL);
 				if (fldr)
 					list = g_list_prepend (list, fldr);
 			}

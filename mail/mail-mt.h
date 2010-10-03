@@ -85,7 +85,9 @@ gchar *mail_get_password (CamelService *service, const gchar *prompt,
 
 void mail_mt_set_backend (gchar *backend);
 
-/* Call a function in the gui thread, wait for it to return, type is the marshaller to use */
+/* Call a function in the GUI thread, wait for it to return, type is
+ * the marshaller to use.  FIXME This thing is horrible, please put
+ * it out of its misery. */
 typedef enum {
 	MAIL_CALL_p_p,
 	MAIL_CALL_p_pp,

@@ -324,7 +324,7 @@ set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
 	e_cal_component_get_uid (comp, &comp_uid);
 	local_store = e_cal_get_local_attachment_store (client);
 	path = g_build_path ("/", local_store, comp_uid, NULL);
-	
+
 	destination = g_file_new_for_path (path);
 	g_free (path);
 

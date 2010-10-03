@@ -937,23 +937,22 @@ handle_ca_cert_download (ECertDB *cert_db, GList *certs, GError **error)
 					     &trust);
 
 		/* If we aren't logged into the token, then what *should*
-		   happen is the above call should fail, and we should
-		   authenticate and then try again. But see NSS bug #595861.
-		   With NSS 3.12.6 at least, the above call will fail, but
-		   it *will* have added the cert to the database, with
-		   random trust bits. We have to authenticate and then set
-		   the trust bits correctly. And calling
-		   CERT_AddTempCertToPerm() again doesn't work either -- it'll
-		   fail even though it arguably ought to succeed (which is
-		   probably another NSS bug).
-		   So if we get SEC_ERROR_TOKEN_NOT_LOGGED_IN, we first try
-		   CERT_ChangeCertTrust(), and if that doesn't work we hope
-		   we're on a fixed version of NSS and we try calling
-		   CERT_AddTempCertToPerm() again instead.
-		*/
+		 * happen is the above call should fail, and we should
+		 * authenticate and then try again. But see NSS bug #595861.
+		 * With NSS 3.12.6 at least, the above call will fail, but
+		 * it *will* have added the cert to the database, with
+		 * random trust bits. We have to authenticate and then set
+		 * the trust bits correctly. And calling
+		 * CERT_AddTempCertToPerm() again doesn't work either -- it'll
+		 * fail even though it arguably ought to succeed (which is
+		 * probably another NSS bug).
+		 * So if we get SEC_ERROR_TOKEN_NOT_LOGGED_IN, we first try
+		 * CERT_ChangeCertTrust(), and if that doesn't work we hope
+		 * we're on a fixed version of NSS and we try calling
+		 * CERT_AddTempCertToPerm() again instead. */
 		if (srv != SECSuccess &&
 		    PORT_GetError () == SEC_ERROR_TOKEN_NOT_LOGGED_IN &&
-		    e_cert_db_login_to_slot (NULL, PK11_GetInternalKeySlot())) {
+		    e_cert_db_login_to_slot (NULL, PK11_GetInternalKeySlot ())) {
 			srv = CERT_ChangeCertTrust (CERT_GetDefaultCertDB (),
 						    tmpCert, &trust);
 			if (srv != SECSuccess)
@@ -996,7 +995,7 @@ handle_ca_cert_download (ECertDB *cert_db, GList *certs, GError **error)
 		return TRUE;
 	}
 }
-gboolean e_cert_db_change_cert_trust(CERTCertificate *cert, CERTCertTrust *trust)
+gboolean e_cert_db_change_cert_trust (CERTCertificate *cert, CERTCertTrust *trust)
 {
 	SECStatus srv;
 
@@ -1004,19 +1003,18 @@ gboolean e_cert_db_change_cert_trust(CERTCertificate *cert, CERTCertTrust *trust
 				    cert, trust);
 	if (srv != SECSuccess &&
 	    PORT_GetError () == SEC_ERROR_TOKEN_NOT_LOGGED_IN &&
-	    e_cert_db_login_to_slot (NULL, PK11_GetInternalKeySlot()))
+	    e_cert_db_login_to_slot (NULL, PK11_GetInternalKeySlot ()))
 		srv = CERT_ChangeCertTrust (CERT_GetDefaultCertDB (),
 					    cert, trust);
 
 	if (srv != SECSuccess) {
-		glong err = PORT_GetError();
+		glong err = PORT_GetError ();
 		g_warning ("CERT_ChangeCertTrust() failed: %s\n",
-			   nss_error_to_string(err));
+			   nss_error_to_string (err));
 		return FALSE;
 	}
 	return TRUE;
 }
-
 
 /* deleting certificates */
 gboolean
@@ -1035,16 +1033,16 @@ e_cert_db_delete_cert (ECertDB *certdb,
 	cert = e_cert_get_internal_cert (ecert);
 	if (cert->slot && e_cert_get_cert_type (ecert) != E_CERT_USER) {
 		/* To delete a cert of a slot (builtin, most likely), mark it as
-		   completely untrusted.  This way we keep a copy cached in the
-		   local database, and next time we try to load it off of the
-		   external token/slot, we'll know not to trust it.  We don't
-		   want to do that with user certs, because a user may  re-store
-		   the cert onto the card again at which point we *will* want to
-		   trust that cert if it chains up properly. */
+		 * completely untrusted.  This way we keep a copy cached in the
+		 * local database, and next time we try to load it off of the
+		 * external token/slot, we'll know not to trust it.  We don't
+		 * want to do that with user certs, because a user may  re-store
+		 * the cert onto the card again at which point we *will* want to
+		 * trust that cert if it chains up properly. */
 		CERTCertTrust trust;
 
 		e_cert_trust_init_with_values (&trust, 0, 0, 0);
-		return e_cert_db_change_cert_trust(cert, &trust);
+		return e_cert_db_change_cert_trust (cert, &trust);
 	}
 
 	return TRUE;

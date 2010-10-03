@@ -551,9 +551,9 @@ windows_sens_constructed (GObject *object)
 
 		IsNetworkAlive_t pIsNetworkAlive = NULL;
 
-		char *buf = NULL;
-		char dummy;
-		int n, k;
+		gchar *buf = NULL;
+		gchar dummy;
+		gint n, k;
 		HMODULE hDLL = NULL;
 
 		n = GetSystemDirectory (&dummy, 0);
@@ -563,7 +563,7 @@ windows_sens_constructed (GObject *object)
 
 		buf = g_malloc (n + 1 + strlen (SENSAPI_DLL));
 		k = GetSystemDirectory (buf, n);
-  
+
 		if (k == 0 || k > n)
 			goto cleanup;
 

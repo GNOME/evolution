@@ -148,16 +148,16 @@ cal_shell_sidebar_backend_error_cb (ECalShellSidebar *cal_shell_sidebar,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
+	ESourceGroup *source_group;
+	ESource *source;
 	GtkWidget *dialog;
-	const gchar *cal_name;
-	const gchar *cal_group;
 
 	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	cal_name = e_source_peek_name ( e_cal_get_source ( client ));
-	cal_group = e_source_group_peek_name ( e_source_peek_group( e_cal_get_source ( client)));
+	source = e_cal_get_source (client);
+	source_group = e_source_peek_group (source);
 
 	/* Translators: This string is displayed in a message dialog when
 	 *              our connection to the calendar service detects an
@@ -170,7 +170,8 @@ cal_shell_sidebar_backend_error_cb (ECalShellSidebar *cal_shell_sidebar,
 		GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
 		_("Error on %s: %s\n%s"),
-		cal_group, cal_name, message);
+		e_source_group_peek_name (source_group),
+		e_source_peek_name (source), message);
 
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);

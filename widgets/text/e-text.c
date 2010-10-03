@@ -3036,12 +3036,16 @@ e_text_insert (EText *text, const gchar *string)
 				}
 			}
 			*j = 0;
-			e_text_model_insert_length (text->model, text->selection_start, new_string, utf8len);
+			e_text_model_insert_length (
+				text->model, text->selection_start,
+				new_string, utf8len);
 			g_free (new_string);
 		}
 		else {
 			utf8len = g_utf8_strlen (string, -1);
-			e_text_model_insert_length (text->model, text->selection_start, string, utf8len);
+			e_text_model_insert_length (
+				text->model, text->selection_start,
+				string, utf8len);
 		}
 	}
 }

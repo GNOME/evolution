@@ -261,18 +261,28 @@ em_format_hook_get_type (void)
 
 	if (!type) {
 		static const GTypeInfo info = {
-			sizeof (EMFormatHookClass), NULL, NULL, (GClassInitFunc) emfh_class_init, NULL, NULL,
-			sizeof (EMFormatHook), 0, (GInstanceInitFunc) NULL,
+			sizeof (EMFormatHookClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) emfh_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EMFormatHook),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) NULL,
+			NULL   /* value_table */
 		};
 
-		emfh_parent_class = g_type_class_ref (e_plugin_hook_get_type ());
-		type = g_type_register_static(e_plugin_hook_get_type(), "EMFormatHook", &info, 0);
+		emfh_parent_class = g_type_class_ref (E_TYPE_PLUGIN_HOOK);
+		type = g_type_register_static (
+			E_TYPE_PLUGIN_HOOK, "EMFormatHook", &info, 0);
 	}
 
 	return type;
 }
 
-void em_format_hook_register_type (GType type)
+void
+em_format_hook_register_type (GType type)
 {
 	EMFormatClass *klass;
 

@@ -1257,7 +1257,9 @@ click_to_add_event (ETableClickToAdd *etcta, GdkEventKey *key, ETable *etable)
 						focus_first_etable_item (etable->group);
 					else
 						gtk_widget_child_focus (
-							gtk_widget_get_toplevel (GTK_WIDGET (etable->table_canvas)), GTK_DIR_TAB_FORWARD);
+							gtk_widget_get_toplevel (
+							GTK_WIDGET (etable->table_canvas)),
+							GTK_DIR_TAB_FORWARD);
 					break;
 				}
 			}

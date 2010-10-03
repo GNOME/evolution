@@ -581,11 +581,13 @@ get_widget (EFilterRule *fr, ERuleContext *rc)
 
 	hadj = gtk_adjustment_new (0.0, 0.0, 1.0, 1.0 ,1.0, 1.0);
 	vadj = gtk_adjustment_new (0.0, 0.0, 1.0, 1.0 ,1.0, 1.0);
-	scrolledwindow = gtk_scrolled_window_new (GTK_ADJUSTMENT (hadj), GTK_ADJUSTMENT (vadj));
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow),
-                                        GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolledwindow), parts);
+	scrolledwindow = gtk_scrolled_window_new (
+		GTK_ADJUSTMENT (hadj), GTK_ADJUSTMENT (vadj));
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (scrolledwindow),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_add_with_viewport (
+		GTK_SCROLLED_WINDOW (scrolledwindow), parts);
 
 	gtk_box_pack_start (GTK_BOX (inframe), scrolledwindow, TRUE, TRUE, 0);
 

@@ -93,7 +93,7 @@ shared_folder_commit (EPlugin *ep, EConfigTarget *tget)
 {
 	EMConfigTargetFolder *target =  (EMConfigTargetFolder *)tget->config->target;
 	CamelStore *parent_store;
-	EMFolderTreeModel *model = em_folder_tree_model_new(); /*mail_component_peek_tree_model (mail_component_peek ());*/
+	EMFolderTreeModel *model = em_folder_tree_model_new (); /*mail_component_peek_tree_model (mail_component_peek ());*/
 
 	parent_store = camel_folder_get_parent_store (target->folder);
 

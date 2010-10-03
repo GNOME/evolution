@@ -133,7 +133,9 @@ e_contact_editor_fullname_get_property (GObject *object,
 static void
 e_contact_editor_fullname_dispose (GObject *object)
 {
-	EContactEditorFullname *e_contact_editor_fullname = E_CONTACT_EDITOR_FULLNAME (object);
+	EContactEditorFullname *e_contact_editor_fullname;
+
+	e_contact_editor_fullname = E_CONTACT_EDITOR_FULLNAME (object);
 
 	if (e_contact_editor_fullname->builder) {
 		g_object_unref (e_contact_editor_fullname->builder);

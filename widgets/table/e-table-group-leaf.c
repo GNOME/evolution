@@ -112,24 +112,26 @@ etgl_dispose (GObject *object)
 
 static void
 e_table_group_leaf_construct (GnomeCanvasGroup *parent,
-			      ETableGroupLeaf  *etgl,
-			      ETableHeader     *full_header,
-			      ETableHeader     *header,
-			      ETableModel      *model,
-			      ETableSortInfo   *sort_info)
+                              ETableGroupLeaf  *etgl,
+                              ETableHeader     *full_header,
+                              ETableHeader     *header,
+                              ETableModel      *model,
+                              ETableSortInfo   *sort_info)
 {
-	etgl->is_grouped = e_table_sort_info_grouping_get_count (sort_info) > 0 ? TRUE : FALSE;
+	etgl->is_grouped =
+		(e_table_sort_info_grouping_get_count (sort_info) > 0);
 
 	if (etgl->is_grouped)
-		etgl->ets = E_TABLE_SUBSET (e_table_sorted_variable_new (model,
-									full_header,
-									sort_info));
+		etgl->ets = E_TABLE_SUBSET (
+			e_table_sorted_variable_new (
+			model, full_header, sort_info));
 	else
-		etgl->ets = E_TABLE_SUBSET (e_table_sorted_new (model,
-							       full_header,
-							       sort_info));
+		etgl->ets = E_TABLE_SUBSET (
+			e_table_sorted_new (
+			model, full_header, sort_info));
 
-	e_table_group_construct (parent, E_TABLE_GROUP (etgl), full_header, header, model);
+	e_table_group_construct (
+		parent, E_TABLE_GROUP (etgl), full_header, header, model);
 }
 
 /**
@@ -146,11 +148,11 @@ e_table_group_leaf_construct (GnomeCanvasGroup *parent,
  * Returns: The new %ETableGroupLeaf.
  */
 ETableGroup *
-e_table_group_leaf_new       (GnomeCanvasGroup *parent,
-			      ETableHeader     *full_header,
-			      ETableHeader     *header,
-			      ETableModel      *model,
-			      ETableSortInfo   *sort_info)
+e_table_group_leaf_new (GnomeCanvasGroup *parent,
+                        ETableHeader     *full_header,
+                        ETableHeader     *header,
+                        ETableModel      *model,
+                        ETableSortInfo   *sort_info)
 {
 	ETableGroupLeaf *etgl;
 
@@ -316,7 +318,8 @@ etgl_add (ETableGroup *etg, gint row)
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
 	if (E_IS_TABLE_SUBSET_VARIABLE (etgl->ets)) {
-		e_table_subset_variable_add (E_TABLE_SUBSET_VARIABLE (etgl->ets), row);
+		e_table_subset_variable_add (
+			E_TABLE_SUBSET_VARIABLE (etgl->ets), row);
 	}
 }
 
@@ -326,7 +329,8 @@ etgl_add_array (ETableGroup *etg, const gint *array, gint count)
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
 	if (E_IS_TABLE_SUBSET_VARIABLE (etgl->ets)) {
-		e_table_subset_variable_add_array (E_TABLE_SUBSET_VARIABLE (etgl->ets), array, count);
+		e_table_subset_variable_add_array (
+			E_TABLE_SUBSET_VARIABLE (etgl->ets), array, count);
 	}
 }
 
@@ -336,7 +340,8 @@ etgl_add_all (ETableGroup *etg)
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
 	if (E_IS_TABLE_SUBSET_VARIABLE (etgl->ets)) {
-		e_table_subset_variable_add_all (E_TABLE_SUBSET_VARIABLE (etgl->ets));
+		e_table_subset_variable_add_all (
+			E_TABLE_SUBSET_VARIABLE (etgl->ets));
 	}
 }
 
@@ -346,7 +351,8 @@ etgl_remove (ETableGroup *etg, gint row)
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
 
 	if (E_IS_TABLE_SUBSET_VARIABLE (etgl->ets)) {
-		return e_table_subset_variable_remove (E_TABLE_SUBSET_VARIABLE (etgl->ets), row);
+		return e_table_subset_variable_remove (
+			E_TABLE_SUBSET_VARIABLE (etgl->ets), row);
 	}
 	return FALSE;
 }

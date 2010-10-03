@@ -480,9 +480,11 @@ ldif_import_contacts (gpointer d)
 	   ones till the end */
 
 	if (gci->state == 0) {
-		while (count < 50 && (contact = getNextLDIFEntry (gci->dn_contact_hash, gci->file))) {
+		while (count < 50 && (contact = getNextLDIFEntry (
+			gci->dn_contact_hash, gci->file))) {
 			if (e_contact_get (contact, E_CONTACT_IS_LIST)) {
-				gci->list_contacts = g_slist_prepend (gci->list_contacts, contact);
+				gci->list_contacts = g_slist_prepend (
+					gci->list_contacts, contact);
 			} else {
 				add_to_notes (contact, E_CONTACT_OFFICE);
 				add_to_notes (contact, E_CONTACT_SPOUSE);

@@ -252,7 +252,9 @@ gw_track_message_status_cb (GtkAction *action,
 			g_string_free (label, TRUE);
 			gtk_label_set_selectable (detail, TRUE);
 			gtk_label_set_use_markup (detail, TRUE);
-			gtk_table_attach (table, GTK_WIDGET (detail) , 1, 2, row,  row+1, GTK_FILL, 0, 0, 0);
+			gtk_table_attach (
+				table, GTK_WIDGET (detail),
+				1, 2, row, row + 1, GTK_FILL, 0, 0, 0);
 			row++;
 		}
 	}

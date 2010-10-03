@@ -455,7 +455,9 @@ main (gint argc, gchar **argv)
 		typedef BOOL (WINAPI *t_SetDllDirectoryA) (LPCSTR lpPathName);
 		t_SetDllDirectoryA p_SetDllDirectoryA;
 
-		p_SetDllDirectoryA = GetProcAddress (GetModuleHandle ("kernel32.dll"), "SetDllDirectoryA");
+		p_SetDllDirectoryA = GetProcAddress (
+			GetModuleHandle ("kernel32.dll"),
+			"SetDllDirectoryA");
 		if (p_SetDllDirectoryA)
 			(*p_SetDllDirectoryA) ("");
 	}
@@ -464,9 +466,13 @@ main (gint argc, gchar **argv)
 		typedef BOOL (WINAPI *t_SetProcessDEPPolicy) (DWORD dwFlags);
 		t_SetProcessDEPPolicy p_SetProcessDEPPolicy;
 
-		p_SetProcessDEPPolicy = GetProcAddress (GetModuleHandle ("kernel32.dll"), "SetProcessDEPPolicy");
+		p_SetProcessDEPPolicy = GetProcAddress (
+			GetModuleHandle ("kernel32.dll"),
+			"SetProcessDEPPolicy");
 		if (p_SetProcessDEPPolicy)
-			(*p_SetProcessDEPPolicy) (PROCESS_DEP_ENABLE|PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION);
+			(*p_SetProcessDEPPolicy) (
+				PROCESS_DEP_ENABLE |
+				PROCESS_DEP_DISABLE_ATL_THUNK_EMULATION);
 	}
 #endif
 
