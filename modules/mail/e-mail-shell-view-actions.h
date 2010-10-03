@@ -105,6 +105,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-label-none")
 #define E_SHELL_WINDOW_ACTION_MAIL_LOAD_IMAGES(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-load-images")
+#define E_SHELL_WINDOW_ACTION_MAIL_MANAGE_SUBSCRIPTIONS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-manage-subscriptions")
 #define E_SHELL_WINDOW_ACTION_MAIL_MARK_IMPORTANT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-mark-important")
 #define E_SHELL_WINDOW_ACTION_MAIL_MARK_JUNK(window) \

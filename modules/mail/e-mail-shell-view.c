@@ -843,6 +843,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gboolean folder_is_trash;
 	gboolean folder_has_unread_rec = FALSE;
 	gboolean folder_tree_and_message_list_agree = TRUE;
+	gboolean store_supports_subscriptions;
 	gboolean have_enabled_account;
 
 	/* Chain up to parent's update_actions() method. */
@@ -878,6 +879,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		(state & E_MAIL_SIDEBAR_FOLDER_IS_STORE);
 	folder_is_trash =
 		(state & E_MAIL_SIDEBAR_FOLDER_IS_TRASH);
+	store_supports_subscriptions =
+		(state & E_MAIL_SIDEBAR_STORE_SUPPORTS_SUBSCRIPTIONS);
 
 	uri = em_folder_tree_get_selected_uri (folder_tree);
 	if (uri != NULL) {
@@ -983,6 +986,10 @@ mail_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (MAIL_FOLDER_MARK_ALL_AS_READ);
 	sensitive = folder_has_unread_rec && !folder_is_store;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MAIL_MANAGE_SUBSCRIPTIONS);
+	sensitive = folder_is_store && store_supports_subscriptions;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_TOOLS_SUBSCRIPTIONS);

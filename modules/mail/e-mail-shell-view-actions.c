@@ -1029,6 +1029,20 @@ static GtkActionEntry mail_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_mail_label_none_cb) },
 
+	/* This is the same as "mail-tools-subscriptions" but only
+	 * appears in the sidebar context menu when right-clicking
+	 * on a store that supports folder subscriptions.  No need
+	 * for a special callback because Folder->Subscriptions...
+	 * already tries to open the "Folder Subscriptions" dialog
+	 * according to the highlighted item in the sidebar, which
+	 * is exactly the behavior we want here. */
+	{ "mail-manage-subscriptions",
+	  NULL,
+	  N_("_Manage Subscriptions"),
+	  NULL,
+	  N_("Subscribe or unsubscribe to folders on remote servers"),
+	  G_CALLBACK (action_mail_tools_subscriptions_cb) },
+
 	{ "mail-smart-backward",
 	  NULL,
 	  NULL,  /* No menu item; key press only */
@@ -1153,7 +1167,11 @@ static EPopupActionEntry mail_popup_entries[] = {
 
 	{ "mail-popup-folder-unsubscribe",
 	  NULL,
-	  "mail-folder-unsubscribe" }
+	  "mail-folder-unsubscribe" },
+
+	{ "mail-popup-manage-subscriptions",
+	  NULL,
+	  "mail-manage-subscriptions" }
 };
 
 static GtkToggleActionEntry mail_toggle_entries[] = {
