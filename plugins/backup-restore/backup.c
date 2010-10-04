@@ -77,11 +77,11 @@ static gboolean complete = FALSE;
 
 static GOptionEntry options[] = {
 	{ "backup", '\0', 0, G_OPTION_ARG_NONE, &backup_op,
-	  N_("Backup Evolution directory"), NULL },
+	  N_("Back up Evolution directory"), NULL },
 	{ "restore", '\0', 0, G_OPTION_ARG_NONE, &restore_op,
 	  N_("Restore Evolution directory"), NULL },
 	{ "check", '\0', 0, G_OPTION_ARG_NONE, &check_op,
-	  N_("Check Evolution Backup"), NULL },
+	  N_("Check Evolution Back up"), NULL },
 	{ "restart", '\0', 0, G_OPTION_ARG_NONE, &restart_arg,
 	  N_("Restart Evolution"), NULL },
 	{ "gui", '\0', 0, G_OPTION_ARG_NONE, &gui_arg,
@@ -315,7 +315,7 @@ backup (const gchar *filename)
 
 	run_cmd ("rm $HOME/" EVOLUTION_DIR_FILE);
 
-	txt = _("Backup complete");
+	txt = _("Back up complete");
 
 	if (restart_arg) {
 
@@ -407,7 +407,7 @@ restore (const gchar *filename)
 	run_cmd ("mv $HOME/.camel_certs $HOME/.camel_certs_old");
 
 	CANCEL (complete);
-	txt = _("Extracting files from backup");
+	txt = _("Extracting files from back up");
 
 	if (is_new_format) {
 		GString *dir_fn;
@@ -479,7 +479,7 @@ restore (const gchar *filename)
 	}
 
 	CANCEL (complete);
-	txt = _("Removing temporary backup files");
+	txt = _("Removing temporary back up files");
 	run_cmd ("rm -rf $DATADIR_old");
 	run_cmd ("rm -rf $CONFIGDIR_old");
 	run_cmd ("rm -rf $HOME/.camel_certs_old");
@@ -616,7 +616,7 @@ dlg_response (GtkWidget *dlg, gint response, gpointer data)
 		/* backup was canceled, delete the backup file as it is not needed now */
 		gchar *cmd, *filename;
 
-		g_message ("Backup canceled, removing partial backup file.");
+		g_message ("Back up canceled, removing partial back up file.");
 
 		filename = g_shell_quote (bk_file);
 		cmd = g_strconcat ("rm ", filename, NULL);
@@ -703,7 +703,7 @@ main (gint argc, gchar **argv)
 		gtk_window_set_default_icon_name ("evolution");
 
 		/* Backup / Restore only can have GUI. We should restrict the rest */
-		progress_dialog = gtk_dialog_new_with_buttons (backup_op ? _("Evolution Backup"): _("Evolution Restore"),
+		progress_dialog = gtk_dialog_new_with_buttons (backup_op ? _("Evolution Back up"): _("Evolution Restore"),
 							  NULL,
 							  GTK_DIALOG_MODAL,
 							  GTK_STOCK_CANCEL,

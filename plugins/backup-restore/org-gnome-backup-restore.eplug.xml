@@ -5,9 +5,9 @@
     id="org.gnome.plugin.backup.restore"
     type="shlib"
     location="@PLUGINDIR@/liborg-gnome-backup-restore@SOEXT@"
-    _name="Backup and Restore">
+    _name="Back up and Restore">
     <author name="JP Rosevear" email="jpr@novell.com"/>
-    <_description>Backup and restore your Evolution data and settings.</_description>
+    <_description>Back up and restore your Evolution data and settings.</_description>
 
     <hook class="org.gnome.evolution.ui:1.0">
       <ui-manager id="org.gnome.evolution.shell">
