@@ -1121,14 +1121,6 @@ scroll_to (EMap *view, gint x, gint y)
 {
 	EMapPrivate *priv;
 	gint xofs, yofs;
-	GdkWindow *window;
-	GtkAllocation allocation;
-	GdkGC *gc;
-	gint src_x, src_y;
-	gint dest_x, dest_y;
-#if 0  /* see comment below */
-	GdkEvent *event;
-#endif
 
 	priv = view->priv;
 
@@ -1143,91 +1135,7 @@ scroll_to (EMap *view, gint x, gint y)
 	priv->xofs = x;
 	priv->yofs = y;
 
-	if (!gtk_widget_is_drawable (GTK_WIDGET (view)))
-		return;
-
-	gtk_widget_get_allocation (GTK_WIDGET (view), &allocation);
-
-	if (abs (xofs) >= allocation.width || abs (yofs) >= allocation.height)
-	{
-		GdkRectangle area;
-
-		area.x = 0;
-		area.y = 0;
-		area.width = allocation.width;
-		area.height = allocation.height;
-
-		request_paint_area (view, &area);
-		return;
-	}
-
-	window = gtk_widget_get_window (GTK_WIDGET (view));
-
-	/* Copy the window area */
-
-	src_x = xofs < 0 ? 0 : xofs;
-	src_y = yofs < 0 ? 0 : yofs;
-	dest_x = xofs < 0 ? -xofs : 0;
-	dest_y = yofs < 0 ? -yofs : 0;
-
-	gc = gdk_gc_new (window);
-	gdk_gc_set_exposures (gc, TRUE);
-
-	gdk_draw_drawable (
-		GDK_DRAWABLE (window),
-		gc, GDK_DRAWABLE (window),
-		src_x, src_y, dest_x, dest_y,
-		allocation.width - abs (xofs),
-		allocation.height - abs (yofs));
-
-	g_object_unref (gc);
-
-	/* Add the scrolled-in region */
-
-	if (xofs)
-	{
-		GdkRectangle r;
-
-		r.x = xofs < 0 ? 0 : allocation.width - xofs;
-		r.y = 0;
-		r.width = abs (xofs);
-		r.height = allocation.height;
-
-		request_paint_area (view, &r);
-	}
-
-	if (yofs)
-	{
-		GdkRectangle r;
-
-		r.x = 0;
-		r.y = yofs < 0 ? 0 : allocation.height - yofs;
-		r.width = allocation.width;
-		r.height = abs (yofs);
-
-		request_paint_area (view, &r);
-	}
-
-	/* Process graphics exposures */
-
-	/* XXX gdk_event_get_graphics_expose() is deprecated now.
-	 *     The map widget seems to work fine without this logic
-	 *     (I think it was just an optimization) but leaving it
-	 *     intact in case I'm wrong and we need to rewrite it. */
-#if 0
-	while ((event = gdk_event_get_graphics_expose (window)) != NULL)
-	{
-		gtk_widget_event (GTK_WIDGET (view), event);
-
-		if (event->expose.count == 0)
-		{
-			gdk_event_free (event);
-			break;
-		}
-
-		gdk_event_free (event);
-	}
-#endif
+        gtk_widget_queue_draw (GTK_WIDGET (view));
 }
 
 static gint divide_seq[] =
