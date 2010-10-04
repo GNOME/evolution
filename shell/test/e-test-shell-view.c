@@ -74,6 +74,7 @@ test_shell_view_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	EShellView *shell_view;
 	EActivity *activity;
+	GCancellable *cancellable;
 	GtkWidget *widget;
 
 	/* Chain up to parent's constructed() method. */
@@ -94,9 +95,12 @@ test_shell_view_constructed (GObject *object)
 	gtk_container_add (GTK_CONTAINER (shell_sidebar), widget);
 	gtk_widget_show (widget);
 
-	activity = e_activity_new ("Test Activity");
-	e_activity_set_allow_cancel (activity, TRUE);
+	activity = e_activity_new ();
+	cancellable = g_cancellable_new ();
+	e_activity_set_cancellable (activity, cancellable);
+	e_activity_set_primary_text (activity, "Test Activity");
 	e_shell_backend_add_activity (shell_backend, activity);
+	g_object_unref (cancellable);
 	priv->activity = activity;
 }
 

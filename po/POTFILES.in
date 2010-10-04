@@ -207,7 +207,7 @@ mail/em-format-html-print.c
 mail/em-format-html.c
 mail/em-html-stream.c
 mail/em-junk.c
-mail/em-subscribe-editor.c
+mail/em-subscription-editor.c
 mail/em-sync-stream.c
 mail/em-utils.c
 mail/em-vfolder-editor.c
