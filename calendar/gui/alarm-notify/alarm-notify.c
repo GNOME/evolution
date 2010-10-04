@@ -374,12 +374,13 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 		const gchar *name = e_source_get_property (source, "auth-domain");
 
 		if (!name)
-			name = e_source_peek_name (source);
+			name = "Calendar";
 
 		if (!e_passwords_get_password (name, pass_key)) {
 			g_mutex_unlock (an->priv->mutex);
 			g_free (str_uri);
 			g_free (pass_key);
+
 			return;
 		}
 	}
@@ -394,6 +395,7 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 		e_cal_set_default_timezone (client, config_data_get_timezone (), NULL);
 		e_cal_open_async (client, FALSE);
 	}
+
 	g_free (str_uri);
 	g_free (pass_key);
 	g_mutex_unlock (an->priv->mutex);

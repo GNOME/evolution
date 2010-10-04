@@ -70,7 +70,6 @@ typedef struct {
 	GtkWidget *description;
 	GtkWidget *location;
 	GtkWidget *treeview;
-	GtkWidget *scrolledwindow;
 
 	AlarmFuncInfo *cur_funcinfo;
 
@@ -265,13 +264,12 @@ notified_alarms_dialog_new (void)
 	an->description = e_builder_get_widget (an->builder, "description-label");
 	an->location = e_builder_get_widget (an->builder, "location-label");
 	an->treeview = e_builder_get_widget (an->builder, "appointments-treeview");
-	an->scrolledwindow = e_builder_get_widget (an->builder, "treeview-scrolledwindow");
 	snooze_btn = e_builder_get_widget (an->builder, "snooze-button");
 	an->snooze_btn = snooze_btn;
 	an->dismiss_btn = e_builder_get_widget (an->builder, "dismiss-button");
 	edit_btn = e_builder_get_widget (an->builder, "edit-button");
 
-	if (!(an->dialog && an->scrolledwindow && an->treeview && an->snooze_time_min && an->snooze_time_hrs
+	if (!(an->dialog && an->treeview && an->snooze_time_min && an->snooze_time_hrs
 	      && an->description && an->location && edit_btn && snooze_btn && an->dismiss_btn)) {
 		g_warning ("alarm_notify_dialog(): Could not find all widgets in alarm-notify.ui file!");
 		g_object_unref (an->builder);
@@ -441,8 +439,10 @@ fill_in_labels (AlarmNotify *an, const gchar *summary, const gchar *description,
 	GtkTextTagTable *table = gtk_text_tag_table_new ();
 	GtkTextBuffer *buffer =  gtk_text_buffer_new (table);
 	gtk_text_buffer_set_text (buffer, description, -1);
+	e_buffer_tagger_disconnect (GTK_TEXT_VIEW (an->description));
 	gtk_text_view_set_buffer (GTK_TEXT_VIEW (an->description), buffer);
 	gtk_label_set_text (GTK_LABEL (an->location), location);
+	e_buffer_tagger_connect (GTK_TEXT_VIEW (an->description));
 	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (an->description));
 	g_object_unref (table);
 	g_object_unref (buffer);
