@@ -42,8 +42,8 @@
 
 /* */
 
-#define E_MAP_GET_WIDTH(map) gdk_pixbuf_get_width(((EMapPrivate *) E_MAP(map)->priv)->map_render_pixbuf)
-#define E_MAP_GET_HEIGHT(map) gdk_pixbuf_get_height(((EMapPrivate *) E_MAP(map)->priv)->map_render_pixbuf)
+#define E_MAP_GET_WIDTH(map) gtk_adjustment_get_upper((map)->priv->hadj)
+#define E_MAP_GET_HEIGHT(map) gtk_adjustment_get_upper((map)->priv->vadj)
 
 /* Zoom state - keeps track of animation hacks */
 
