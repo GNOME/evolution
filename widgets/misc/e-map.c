@@ -359,7 +359,7 @@ e_map_expose (GtkWidget *widget, GdkEventExpose *event)
 {
 	EMap *view;
 	EMapPrivate *priv;
-	gint width, height;
+        cairo_t *cr;
 
 	if (!gtk_widget_is_drawable (widget))
 	        return FALSE;
@@ -368,45 +368,18 @@ e_map_expose (GtkWidget *widget, GdkEventExpose *event)
 	priv = view->priv;
 	if (!priv->map_render_pixbuf) return FALSE;
 
-	width = MIN (event->area.width, E_MAP_GET_WIDTH (view));
-	height = MIN (event->area.height, E_MAP_GET_HEIGHT (view));
+        cr = gdk_cairo_create (event->window);
+        gdk_cairo_region (cr, event->region);
+        cairo_clip (cr);
 
-	/* This satisfies paranoia. To be removed */
+        gdk_cairo_set_source_pixbuf (cr, 
+                                     priv->map_render_pixbuf,
+                                     - priv->xofs,
+                                     - priv->yofs);
+        cairo_paint (cr);
+        
+        cairo_destroy (cr);
 
-	if (priv->xofs + width > gdk_pixbuf_get_width (priv->map_render_pixbuf))
-		width = gdk_pixbuf_get_width (priv->map_render_pixbuf) - priv->xofs;
-
-	if (priv->yofs + height > gdk_pixbuf_get_height (priv->map_render_pixbuf))
-		height = gdk_pixbuf_get_height (priv->map_render_pixbuf) - priv->yofs;
-
-	/* We rely on the fast case always being the case, since we load and
-   * preprocess the source pixbuf ourselves */
-
-	if (gdk_pixbuf_get_colorspace (priv->map_render_pixbuf) == GDK_COLORSPACE_RGB && !gdk_pixbuf_get_has_alpha (priv->map_render_pixbuf) &&
-	    gdk_pixbuf_get_bits_per_sample (priv->map_render_pixbuf) == 8)
-	{
-		GtkStyle *style;
-		GdkWindow *window;
-		guchar *pixels;
-		gint rowstride;
-
-		style = gtk_widget_get_style (GTK_WIDGET (view));
-		window = gtk_widget_get_window (GTK_WIDGET (view));
-
-		rowstride = gdk_pixbuf_get_rowstride (priv->map_render_pixbuf);
-		pixels = gdk_pixbuf_get_pixels (priv->map_render_pixbuf) +
-			(event->area.y + priv->yofs) * rowstride + 3 *
-			(event->area.x + priv->xofs);
-		gdk_draw_rgb_image_dithalign (
-			window, style->black_gc, event->area.x, event->area.y,
-			width, height, GDK_RGB_DITHER_NORMAL, pixels,
-			rowstride, 0, 0);
-		return FALSE;
-	}
-
-#ifdef DEBUG
-	g_print ("Doing hard redraw.\n");
-#endif
 	return FALSE;
 }
 
