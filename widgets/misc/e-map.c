@@ -95,7 +95,6 @@ static void e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj
 
 static void update_render_pixbuf (EMap *map, GdkInterpType interp, gboolean render_overlays);
 static void set_scroll_area (EMap *view);
-static void request_paint_area (EMap *view, GdkRectangle *area);
 static void center_at (EMap *map, gint x, gint y, gboolean scroll);
 static void smooth_center_at (EMap *map, gint x, gint y);
 static void scroll_to (EMap *view, gint x, gint y);
@@ -287,7 +286,6 @@ static void
 e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
 	EMap *view;
-	GdkRectangle area;
 
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (E_IS_MAP (widget));
@@ -308,11 +306,7 @@ e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 			window, allocation->x, allocation->y,
 			allocation->width, allocation->height);
 
-		area.x = 0;
-		area.y = 0;
-		area.width = allocation->width;
-		area.height = allocation->height;
-		request_paint_area (E_MAP (widget), &area);
+                gtk_widget_queue_draw (widget);
 	}
 
 	update_render_pixbuf (view, GDK_INTERP_BILINEAR, TRUE);
@@ -360,19 +354,60 @@ e_map_motion (GtkWidget *widget, GdkEventMotion *event)
 
 /* Expose handler for the map view */
 
-static gint
+static gboolean
 e_map_expose (GtkWidget *widget, GdkEventExpose *event)
 {
 	EMap *view;
+	EMapPrivate *priv;
+	gint width, height;
 
-	g_return_val_if_fail (widget != NULL, FALSE);
-	g_return_val_if_fail (E_IS_MAP (widget), FALSE);
-	g_return_val_if_fail (event != NULL, FALSE);
+	if (!gtk_widget_is_drawable (widget))
+	        return FALSE;
 
 	view = E_MAP (widget);
+	priv = view->priv;
+	if (!priv->map_render_pixbuf) return FALSE;
 
-	request_paint_area (view, &event->area);
-	return TRUE;
+	width = MIN (event->area.width, E_MAP_GET_WIDTH (view));
+	height = MIN (event->area.height, E_MAP_GET_HEIGHT (view));
+
+	/* This satisfies paranoia. To be removed */
+
+	if (priv->xofs + width > gdk_pixbuf_get_width (priv->map_render_pixbuf))
+		width = gdk_pixbuf_get_width (priv->map_render_pixbuf) - priv->xofs;
+
+	if (priv->yofs + height > gdk_pixbuf_get_height (priv->map_render_pixbuf))
+		height = gdk_pixbuf_get_height (priv->map_render_pixbuf) - priv->yofs;
+
+	/* We rely on the fast case always being the case, since we load and
+   * preprocess the source pixbuf ourselves */
+
+	if (gdk_pixbuf_get_colorspace (priv->map_render_pixbuf) == GDK_COLORSPACE_RGB && !gdk_pixbuf_get_has_alpha (priv->map_render_pixbuf) &&
+	    gdk_pixbuf_get_bits_per_sample (priv->map_render_pixbuf) == 8)
+	{
+		GtkStyle *style;
+		GdkWindow *window;
+		guchar *pixels;
+		gint rowstride;
+
+		style = gtk_widget_get_style (GTK_WIDGET (view));
+		window = gtk_widget_get_window (GTK_WIDGET (view));
+
+		rowstride = gdk_pixbuf_get_rowstride (priv->map_render_pixbuf);
+		pixels = gdk_pixbuf_get_pixels (priv->map_render_pixbuf) +
+			(event->area.y + priv->yofs) * rowstride + 3 *
+			(event->area.x + priv->xofs);
+		gdk_draw_rgb_image_dithalign (
+			window, style->black_gc, event->area.x, event->area.y,
+			width, height, GDK_RGB_DITHER_NORMAL, pixels,
+			rowstride, 0, 0);
+		return FALSE;
+	}
+
+#ifdef DEBUG
+	g_print ("Doing hard redraw.\n");
+#endif
+	return FALSE;
 }
 
 /* Set_scroll_adjustments handler for the map view */
@@ -814,26 +849,10 @@ e_map_get_closest_point (EMap *map, gdouble longitude, gdouble latitude, gboolea
  * ------------------ */
 
 static void
-repaint_visible (EMap *map)
-{
-	GdkRectangle area;
-	GtkAllocation allocation;
-
-	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
-
-	area.x = 0;
-	area.y = 0;
-	area.width = allocation.width;
-	area.height = allocation.height;
-
-	request_paint_area (map, &area);
-}
-
-static void
 update_and_paint (EMap *map)
 {
 	update_render_pixbuf (map, GDK_INTERP_BILINEAR, TRUE);
-	repaint_visible (map);
+	gtk_widget_queue_draw (GTK_WIDGET (map));
 }
 
 static gint
@@ -927,59 +946,6 @@ update_render_pixbuf (EMap *map,
 /* Queues a repaint of the specified area in window coordinates */
 
 static void
-request_paint_area (EMap *view, GdkRectangle *area)
-{
-	EMapPrivate *priv;
-	gint width, height;
-
-	if (!gtk_widget_is_drawable (GTK_WIDGET (view)) ||
-	    !gtk_widget_get_realized (GTK_WIDGET (view))) return;
-
-	priv = view->priv;
-	if (!priv->map_render_pixbuf) return;
-
-	width = MIN (area->width, E_MAP_GET_WIDTH (view));
-	height = MIN (area->height, E_MAP_GET_HEIGHT (view));
-
-	/* This satisfies paranoia. To be removed */
-
-	if (priv->xofs + width > gdk_pixbuf_get_width (priv->map_render_pixbuf))
-		width = gdk_pixbuf_get_width (priv->map_render_pixbuf) - priv->xofs;
-
-	if (priv->yofs + height > gdk_pixbuf_get_height (priv->map_render_pixbuf))
-		height = gdk_pixbuf_get_height (priv->map_render_pixbuf) - priv->yofs;
-
-	/* We rely on the fast case always being the case, since we load and
-   * preprocess the source pixbuf ourselves */
-
-	if (gdk_pixbuf_get_colorspace (priv->map_render_pixbuf) == GDK_COLORSPACE_RGB && !gdk_pixbuf_get_has_alpha (priv->map_render_pixbuf) &&
-	    gdk_pixbuf_get_bits_per_sample (priv->map_render_pixbuf) == 8)
-	{
-		GtkStyle *style;
-		GdkWindow *window;
-		guchar *pixels;
-		gint rowstride;
-
-		style = gtk_widget_get_style (GTK_WIDGET (view));
-		window = gtk_widget_get_window (GTK_WIDGET (view));
-
-		rowstride = gdk_pixbuf_get_rowstride (priv->map_render_pixbuf);
-		pixels = gdk_pixbuf_get_pixels (priv->map_render_pixbuf) +
-			(area->y + priv->yofs) * rowstride + 3 *
-			(area->x + priv->xofs);
-		gdk_draw_rgb_image_dithalign (
-			window, style->black_gc, area->x, area->y,
-			width, height, GDK_RGB_DITHER_NORMAL, pixels,
-			rowstride, 0, 0);
-		return;
-	}
-
-#ifdef DEBUG
-	g_print ("Doing hard redraw.\n");
-#endif
-}
-
-static void
 put_pixel_with_clipping (GdkPixbuf *pixbuf, gint x, gint y, guint rgba)
 {
 	gint    width, height;
@@ -1045,18 +1011,15 @@ update_render_point (EMap *map, EMapPoint *point)
 static void
 repaint_point (EMap *map, EMapPoint *point)
 {
-	GdkRectangle area;
 	gdouble px, py;
 
 	if (!e_map_point_is_in_view (map, point)) return;
 
 	e_map_world_to_window (map, point->longitude, point->latitude, &px, &py);
 
-	area.x = (gint) px - 2;
-	area.y = (gint) py - 2;
-	area.width = 5;
-	area.height = 5;
-	request_paint_area (map, &area);
+	gtk_widget_queue_draw_area (GTK_WIDGET (map),
+                                    (gint) px - 2, (gint) py - 2,
+                                    5, 5);
 }
 
 static void
@@ -1358,7 +1321,6 @@ static void
 zoom_in_smooth (EMap *map)
 {
 	GtkAllocation allocation;
-	GdkRectangle area;
 	EMapPrivate *priv;
 	GdkWindow *window;
 	gint width, height;
@@ -1368,11 +1330,6 @@ zoom_in_smooth (EMap *map)
 	g_return_if_fail (gtk_widget_get_realized (GTK_WIDGET (map)));
 
 	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
-
-	area.x = 0;
-	area.y = 0;
-	area.width = allocation.width;
-	area.height = allocation.height;
 
 	priv = map->priv;
 	window = gtk_widget_get_window (GTK_WIDGET (map));
@@ -1388,7 +1345,7 @@ zoom_in_smooth (EMap *map)
 	 * the way (look ugly) while zooming */
 
 	update_render_pixbuf (map, GDK_INTERP_BILINEAR, FALSE);
-	request_paint_area (map, &area);
+	gtk_widget_draw (GTK_WIDGET (map), NULL);
 
 	/* Find out where in the area we're going to zoom to */
 
@@ -1407,28 +1364,22 @@ zoom_in_smooth (EMap *map)
 	/* Set new scroll offsets and paint the zoomed map */
 
 	e_map_world_to_window (map, priv->zoom_target_long, priv->zoom_target_lat, &x, &y);
-	priv->xofs = CLAMP (priv->xofs + x - area.width / 2.0, 0, E_MAP_GET_WIDTH (map) - area.width);
-	priv->yofs = CLAMP (priv->yofs + y - area.height / 2.0, 0, E_MAP_GET_HEIGHT (map) - area.height);
+	priv->xofs = CLAMP (priv->xofs + x - allocation.width / 2.0, 0, E_MAP_GET_WIDTH (map) - allocation.width);
+	priv->yofs = CLAMP (priv->yofs + y - allocation.height / 2.0, 0, E_MAP_GET_HEIGHT (map) - allocation.height);
 
-	request_paint_area (map, &area);
+	gtk_widget_draw (GTK_WIDGET (map), NULL);
 }
 
 static void
 zoom_in (EMap *map)
 {
-	GtkAllocation allocation;
-	GdkRectangle area;
 	EMapPrivate *priv;
 	gdouble x, y;
+        GtkAllocation allocation;
 
 	priv = map->priv;
 
-	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
-
-	area.x = 0;
-	area.y = 0;
-	area.width = allocation.width;
-	area.height = allocation.height;
+        gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
 
 	priv->zoom_state = E_MAP_ZOOMED_IN;
 
@@ -1438,13 +1389,13 @@ zoom_in (EMap *map)
 		map, priv->zoom_target_long,
 		priv->zoom_target_lat, &x, &y);
 	priv->xofs = CLAMP (
-		priv->xofs + x - area.width / 2.0,
-		0, E_MAP_GET_WIDTH (map) - area.width);
+		priv->xofs + x - allocation.width / 2.0,
+		0, E_MAP_GET_WIDTH (map) - allocation.width);
 	priv->yofs = CLAMP (
-		priv->yofs + y - area.height / 2.0,
-		0, E_MAP_GET_HEIGHT (map) - area.height);
+		priv->yofs + y - allocation.height / 2.0,
+		0, E_MAP_GET_HEIGHT (map) - allocation.height);
 
-	request_paint_area (map, &area);
+	gtk_widget_queue_draw (GTK_WIDGET (map));
 }
 
 static void
@@ -1476,8 +1427,8 @@ zoom_out (EMap *map)
 
 	e_map_world_to_window (map, longitude, latitude, &x, &y);
 	center_at (map, x + priv->xofs, y + priv->yofs, FALSE);
-/*	request_paint_area (map, &area); */
-	repaint_visible (map);
+
+	gtk_widget_queue_draw (GTK_WIDGET (map));
 }
 
 static void
