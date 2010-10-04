@@ -1,3 +1,92 @@
+Evolution 2.91.0 2010-10-04
+---------------------------
+
+Bug Fixes:
+	Bug 346438 - Error dialog too wide. (Vibha Yadav)
+	Bug 510020 - Add "Manage Subscriptions" to store context menus
+	             (Matthew Barnes)
+	Bug 563471 - Printing tasks fails when grouped by category
+	             (Vibha Yadav)
+	Bug 604080 - Predefined account SSL not propagated to UI (Milan Crha)
+	Bug 611154 - problem in accessing folder property (Vibha Yadav)
+	Bug 616250 - Restore and Backup options aren't fully descriptive
+	             (Milan Crha)
+	Bug 624321 - Reply requested today does not work. (Bharath Acharya)
+	Bug 626066 - work around NSS bug #595861 (David Woodhouse)
+	Bug 626066 - log in to NSS database on demand for changing trust
+	             (David Woodhouse)
+	Bug 628522 - invalid access off end of array in e_bit_array_delete()
+	             (David Woodhouse)
+	Bug 629150 - Empty calendar view (Milan Crha)
+	Bug 629266 - Crash on search in Current Account (Milan Crha)
+	Bug 629462 - Tasks 'Due' filters don't work properly (Milan Crha)
+	Bug 629480 - calendar-gui-WARNING: Couldn't find event window
+	             (Milan Crha)
+	Bug 629482 - assertion `child->parent==NULL' fail (Bharath Acharya)
+	Bug 629636 - Doesn't recognize local ESource-s (Milan Crha)
+	Bug 629645 - Sets negative 'width' property (Milan Crha)
+	Bug 629735 - Mail preference glitch (Punit Jain)
+	Bug 629737 - [publish-calendar] Could not find widget 'file_label'
+	             (Milan Crha)
+	Bug 629799 - Crash importing a mail with an ics attachment (Milan Crha)
+	Bug 629934 - Month view defaults to Monday as start of week
+	             (Milan Crha)
+	Bug 629972 - [backup-restore] Problems restoring old data (Milan Crha)
+	Bug 630118 - Endless recursive loop in mail_msg_cancel()
+	             (Matthew Barnes)
+	Bug 630269 - Hang on mail operation cancel (Milan Crha)
+	Bug 630294 - Shouldn't send invitation reply when has no organizer
+	             (Milan Crha)
+	Bug 630700 - Crash on message send (Milan Crha)
+
+Other Changes:
+	* Convert plugin-manager to an EExtension. (Matthew Barnes)
+	* Remove uninteresting mail options from Preferences. (Matthew Barnes)
+	* Reorganize composer preferences (Matthew Barnes)
+	* Avoid dll hijacking Load sensapi.dll only from system directory
+	  where it should normally be and not from any random place.
+	  (Fridrich Štrba)
+	* Kill the subject-thread plugin. (Matthew Barnes)
+	* Adapt to CamelOperation API changes. (Matthew Barnes)
+	* Increase safety on Windows Call SetDllDirectory() to reduce risk of
+	  DLL hijacking, and call SetProcessDEPPolicy() to reduce risk of rogue
+	  code execution. (Fridrich Štrba)
+	* Use new GDK keysym names if available. (Matthew Barnes)
+	* Add a GCancellable to EActivity. (Matthew Barnes)
+	* Adapt to Camel API changes. (Matthew Barnes)
+	* Bump gtk+-2.0 requirement to 2.22.0. (Matthew Barnes)
+	* camel_operation_new() now returns a GCancellable pointer.
+	  (Matthew Barnes)
+	* Kill em_utils_temp_save_part(). (Matthew Barnes)
+	* EAttachmentPaned: Use gtk_expander_set_label_fill() (Matthew Barnes)
+	* Remove MailAsyncEvent. (Matthew Barnes)
+	* Use upstream gettext instead the glib one (Javier Jardón)
+	* Rewrite the folder subscription editor. (Matthew Barnes)
+	* Remove unused mail_tools_x_evolution_message_parse() (Matthew Barnes)
+	* Get rid of deprecated GtkObject in EMap widget (Milan Bouchet-Valat)
+
+Translations:
+	Marek Cernocky (cs)
+	Kenneth Nielsen (da)
+	Mario Blättermann (de)
+	Christian Kirbach (de)
+	Bakaoukas Nikolaos (el)
+	Mattias Põldaru (et)
+	Ivar Smolin (et)
+	Inaki Larranaga Murgoitio (eu)
+	Andika Triwidada (id)
+	Luca Ferretti (it)
+	Takayuki KUSANO (ja)
+	Žygimantas Beručka (lt)
+	Kjartan Maraas (nb)
+	Wouter Bolsterlee (nl)
+	Hannie Dumoleyn (nl)
+	Piotr Drąg (pl)
+	Duarte Loreto (pt)
+	Djavan Fagundes (pt_BR)
+	Miloš Popović (sr)
+	Daniel Nylander (sv)
+
 Evolution 2.31.92 2010-09-13
 ----------------------------
 
