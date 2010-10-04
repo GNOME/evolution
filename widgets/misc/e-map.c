@@ -94,7 +94,7 @@ static gint e_map_key_press (GtkWidget *widget, GdkEventKey *event);
 static void e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj, GtkAdjustment *vadj);
 
 static void update_render_pixbuf (EMap *map, GdkInterpType interp, gboolean render_overlays);
-static void set_scroll_area (EMap *view);
+static void set_scroll_area (EMap *view, int width, int height);
 static void center_at (EMap *map, gint x, gint y);
 static void smooth_center_at (EMap *map, gint x, gint y);
 static void scroll_to (EMap *view, gint x, gint y);
@@ -904,7 +904,7 @@ update_render_pixbuf (EMap *map,
 
 	/* Compute image offsets with respect to window */
 
-	set_scroll_area (map);
+	set_scroll_area (map, width, height);
 }
 
 /* Queues a repaint of the specified area in window coordinates */
@@ -1432,11 +1432,10 @@ adjustment_changed_cb (GtkAdjustment *adj, gpointer data)
 }
 
 static void
-set_scroll_area (EMap *view)
+set_scroll_area (EMap *view, int width, int height)
 {
 	EMapPrivate *priv;
 	GtkAllocation allocation;
-	gint upper, page_size;
 
 	priv = view->priv;
 
@@ -1461,27 +1460,16 @@ set_scroll_area (EMap *view)
 	/* Set scroll bounds and new offsets */
 
 	gtk_adjustment_set_lower (priv->hadj, 0);
-	if (priv->map_render_pixbuf) {
-		gint width = gdk_pixbuf_get_width (priv->map_render_pixbuf);
-		gtk_adjustment_set_upper (priv->hadj, width);
-	}
+	gtk_adjustment_set_upper (priv->hadj, width);
 
 	gtk_adjustment_set_lower (priv->vadj, 0);
-	if (priv->map_render_pixbuf) {
-		gint height = gdk_pixbuf_get_height (priv->map_render_pixbuf);
-		gtk_adjustment_set_upper (priv->vadj, height);
-	}
+	gtk_adjustment_set_upper (priv->vadj, height);
 
 	g_object_thaw_notify (G_OBJECT (priv->hadj));
 	g_object_thaw_notify (G_OBJECT (priv->vadj));
 
-	upper = gtk_adjustment_get_upper (priv->hadj);
-	page_size = gtk_adjustment_get_page_size (priv->hadj);
-	priv->xofs = CLAMP (priv->xofs, 0, upper - page_size);
-
-	upper = gtk_adjustment_get_upper (priv->vadj);
-	page_size = gtk_adjustment_get_page_size (priv->vadj);
-	priv->yofs = CLAMP (priv->yofs, 0, upper - page_size);
+	priv->xofs = CLAMP (priv->xofs, 0, width - allocation.width);
+	priv->yofs = CLAMP (priv->yofs, 0, height - allocation.height);
 
 	gtk_adjustment_set_value (priv->hadj, priv->xofs);
 	gtk_adjustment_set_value (priv->vadj, priv->yofs);
