@@ -974,7 +974,8 @@ repaint_point (EMap *map, EMapPoint *point)
 {
 	gdouble px, py;
 
-	if (!e_map_point_is_in_view (map, point)) return;
+        if (!gtk_widget_is_drawable (GTK_WIDGET (map)))
+          return;
 
 	e_map_world_to_window (map, point->longitude, point->latitude, &px, &py);
 
