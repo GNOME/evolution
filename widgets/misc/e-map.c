@@ -1361,28 +1361,28 @@ zoom_in (EMap *map)
 }
 
 static void
-zoom_out (EMap *map)
+e_map_get_current_location (EMap *map, double *longitude, double *latitude)
 {
 	GtkAllocation allocation;
-	GdkRectangle area;
+
+	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
+
+	e_map_window_to_world (map,
+                               allocation.width / 2.0, allocation.height / 2.0,
+		               longitude, latitude);
+}
+
+static void
+zoom_out (EMap *map)
+{
 	EMapPrivate *priv;
 	gdouble longitude, latitude;
 	gdouble x, y;
 
 	priv = map->priv;
 
-	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
-
-	area.x = 0;
-	area.y = 0;
-	area.width = allocation.width;
-	area.height = allocation.height;
-
 	/* Must be done before update_render_surface() */
-
-	e_map_window_to_world (
-		map, area.width / 2, area.height / 2,
-		&longitude, &latitude);
+        e_map_get_current_location (map, &longitude, &latitude);
 
 	priv->zoom_state = E_MAP_ZOOMED_OUT;
 	update_render_surface (map, TRUE);
