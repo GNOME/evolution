@@ -97,7 +97,7 @@ static void e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj
 
 static void update_render_surface (EMap *map, gboolean render_overlays);
 static void set_scroll_area (EMap *view, int width, int height);
-static void center_at (EMap *map, gint x, gint y);
+static void center_at (EMap *map, double longitude, double latitude);
 static void smooth_center_at (EMap *map, gint x, gint y);
 static void scroll_to (EMap *view, gint x, gint y);
 static void zoom_do (EMap *map);
@@ -580,24 +580,33 @@ e_map_window_to_world (EMap *map, gdouble win_x, gdouble win_y, gdouble *world_l
 		((gdouble) height / 2.0) * 90.0;
 }
 
-void
-e_map_world_to_window (EMap *map, gdouble world_longitude, gdouble world_latitude, gdouble *win_x, gdouble *win_y)
+static void
+e_map_world_to_render_surface (EMap *map, gdouble world_longitude, gdouble world_latitude, gdouble *win_x, gdouble *win_y)
 {
-	EMapPrivate *priv;
 	gint width, height;
-
-	g_return_if_fail (map);
-
-	priv = map->priv;
-	g_return_if_fail (priv->map_render_surface);
-	g_return_if_fail (world_longitude >= -180.0 && world_longitude <= 180.0);
-	g_return_if_fail (world_latitude >= -90.0 && world_latitude <= 90.0);
 
 	width = E_MAP_GET_WIDTH (map);
 	height = E_MAP_GET_HEIGHT (map);
 
-	*win_x = (width / 2.0 + (width / 2.0) * world_longitude / 180.0) - priv->xofs;
-	*win_y = (height / 2.0 - (height / 2.0) * world_latitude / 90.0) - priv->yofs;
+	*win_x = (width / 2.0 + (width / 2.0) * world_longitude / 180.0);
+	*win_y = (height / 2.0 - (height / 2.0) * world_latitude / 90.0);
+}
+
+void
+e_map_world_to_window (EMap *map, gdouble world_longitude, gdouble world_latitude, gdouble *win_x, gdouble *win_y)
+{
+        EMapPrivate *priv;
+
+	g_return_if_fail (E_IS_MAP (map));
+	g_return_if_fail (gtk_widget_get_realized (GTK_WIDGET (map)));
+	g_return_if_fail (world_longitude >= -180.0 && world_longitude <= 180.0);
+	g_return_if_fail (world_latitude >= -90.0 && world_latitude <= 90.0);
+
+        priv = map->priv;
+
+        e_map_world_to_render_surface (map, world_longitude, world_latitude, win_x, win_y);
+        *win_x -= priv->xofs;
+        *win_y -= priv->yofs;
 
 #ifdef DEBUG
 	printf ("Map size: (%d, %d)\nCoords: (%.1f, %.1f) -> (%.1f, %.1f)\n---\n", width, height, world_longitude, world_latitude, *win_x, *win_y);
@@ -985,11 +994,14 @@ repaint_point (EMap *map, EMapPoint *point)
 }
 
 static void
-center_at (EMap *map, gint x, gint y)
+center_at (EMap *map, double longitude, double latitude)
 {
 	EMapPrivate *priv;
 	GtkAllocation allocation;
 	gint pb_width, pb_height;
+        double x, y;
+
+        e_map_world_to_render_surface (map, longitude, latitude, &x, &y);
 
 	priv = map->priv;
 
@@ -998,13 +1010,13 @@ center_at (EMap *map, gint x, gint y)
 
 	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
 
-	x = CLAMP (x - (allocation.width / 2), 0, pb_width - allocation.width);
-	y = CLAMP (y - (allocation.height / 2), 0, pb_height - allocation.height);
+	priv->xofs = CLAMP (x - (allocation.width / 2), 0, pb_width - allocation.width);
+	priv->yofs = CLAMP (y - (allocation.height / 2), 0, pb_height - allocation.height);
 
-        priv->xofs = x;
-        priv->yofs = y;
         gtk_adjustment_set_value (priv->hadj, priv->xofs);
         gtk_adjustment_set_value (priv->vadj, priv->yofs);
+
+        gtk_widget_queue_draw (GTK_WIDGET (map));
 }
 
 static void
@@ -1377,7 +1389,6 @@ zoom_out (EMap *map)
 {
 	EMapPrivate *priv;
 	gdouble longitude, latitude;
-	gdouble x, y;
 
 	priv = map->priv;
 
@@ -1387,10 +1398,7 @@ zoom_out (EMap *map)
 	priv->zoom_state = E_MAP_ZOOMED_OUT;
 	update_render_surface (map, TRUE);
 
-	e_map_world_to_window (map, longitude, latitude, &x, &y);
-	center_at (map, x + priv->xofs, y + priv->yofs);
-
-	gtk_widget_queue_draw (GTK_WIDGET (map));
+	center_at (map, longitude, latitude);
 }
 
 static void
