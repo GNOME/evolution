@@ -988,7 +988,9 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_UNSUBSCRIBE);
-	sensitive = !folder_is_store && folder_can_be_deleted;
+	sensitive =
+		store_supports_subscriptions &&
+		!folder_is_store && folder_can_be_deleted;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_MARK_ALL_AS_READ);
