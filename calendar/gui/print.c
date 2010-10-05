@@ -479,6 +479,7 @@ print_text_size_bold (GtkPrintContext *context, const gchar *text,
 	return w;
 }
 
+#if 0  /* KILL-BONOBO */
 static void
 titled_box (GtkPrintContext *context, const gchar *text,
             PangoFontDescription *font, PangoAlignment alignment,
@@ -495,6 +496,13 @@ titled_box (GtkPrintContext *context, const gchar *text,
 	*y2 += 2;
 	print_text (context, font, text, alignment, *x1, *x2, *y1 + 1.0, *y1 + size * 1.4);
 	*y1 += size * 1.4;
+}
+#endif /* KILL-BONOBO */
+
+static gboolean
+get_show_week_numbers (void)
+{
+	return e_shell_settings_get_boolean (e_shell_get_shell_settings (e_shell_get_default ()), "cal-show-week-numbers");
 }
 
 enum datefmt {
@@ -587,12 +595,15 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 	gdouble font_size;
 	gdouble header_size, col_width, row_height, text_xpad, w;
 	gdouble cell_top, cell_bottom, cell_left, cell_right, text_right;
+	gboolean week_numbers;
 
 	/* Translators: These are workday abbreviations, e.g. Su=Sunday and Th=thursday */
 	const gchar *daynames[] =
 		{ N_("Su"), N_("Mo"), N_("Tu"), N_("We"),
 		  N_("Th"), N_("Fr"), N_("Sa") };
 	cairo_t *cr;
+
+	week_numbers = get_show_week_numbers ();
 
 	/* Print the title, e.g. 'June 2001', in the top 16% of the area. */
 	format_date (month, titleflags, buf, 100);
@@ -607,7 +618,7 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 	pango_font_description_free (font);
 
 	y1 += header_size;
-	col_width = (x2 - x1) / 7;
+	col_width = (x2 - x1) / (7 + (week_numbers ? 1 : 0));
 
 	/* The top row with the day abbreviations gets an extra bit of
 	   vertical space around it. */
@@ -640,7 +651,7 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 		print_text (
 			context, font_bold,
 			_(daynames[weekday]), PANGO_ALIGN_RIGHT,
-			x1 + x * col_width, x1 + (x + 1) * col_width,
+			x1 + (x + (week_numbers ? 1 : 0)) * col_width, x1 + (x + 1 + (week_numbers ? 1 : 0)) * col_width,
 			y1, y1 + row_height * 1.4);
 		weekday = (weekday + 1) % 7;
 	}
@@ -653,9 +664,39 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 		cell_top = y1 + y * row_height;
 		cell_bottom = cell_top + row_height;
 
+		if (week_numbers) {
+			cell_left = x1;
+			/* We add a 0.05 to make sure the cells meet up with
+			   each other. Otherwise you sometimes get lines
+			   between them which looks bad. Maybe I'm not using
+			   coords in the way gnome-print expects. */
+			cell_right = cell_left + col_width + 0.05;
+			text_right = cell_right - text_xpad;
+
+			/* last week can be empty */
+			for (x = 0; x < 7; x++) {
+				day = days[y * 7 + x];
+				if (day != 0)
+					break;
+			}
+
+			if (day != 0) {
+				time_t week_begin = time_week_begin_with_zone (now, week_start_day, zone);
+
+				tm = *convert_timet_to_struct_tm (week_begin, zone);
+
+				/* month in e_calendar_item_get_week_number is also zero-based */
+				sprintf (buf, "%d", e_calendar_item_get_week_number (NULL, tm.tm_mday, tm.tm_mon, tm.tm_year + 1900));
+
+				print_text (context, font_normal, buf, PANGO_ALIGN_RIGHT,
+					    cell_left, text_right,
+					    cell_top, cell_bottom);
+			}
+		}
+
 		for (x = 0; x < 7; x++) {
 
-			cell_left = x1 + x * col_width;
+			cell_left = x1 + (x + (week_numbers ? 1 : 0)) * col_width;
 			/* We add a 0.05 to make sure the cells meet up with
 			   each other. Otherwise you sometimes get lines
 			   between them which looks bad. Maybe I'm not using
@@ -1936,7 +1977,7 @@ print_year_summary (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence
 			l = left + col_width * col;
 			r = l + col_width;
 			print_month_small (context, gcal, now,
-					   l + 8, t - 8, r - 8, b + 8,
+					   l + 8, t - 8, r - 8 - (get_show_week_numbers () ? 1 : 0), b + 8,
 					   DATE_MONTH, 0, 0, TRUE);
 			now = time_add_month_with_zone (now, 1, zone);
 		}
@@ -2144,7 +2185,7 @@ print_day_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 	GtkPageSetup *setup;
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	gint i, days = 1;
-	gdouble todo, l;
+	gdouble todo, l, week_numbers_inc;
 	gchar buf[100];
 	gdouble width, height;
 
@@ -2152,6 +2193,7 @@ print_day_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 
 	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
 	height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
+	week_numbers_inc = get_show_week_numbers () ? SMALL_MONTH_WIDTH / 7.0 : 0;
 
 	for (i = 0; i < days; i++) {
 		todo = width * 0.75;
@@ -2171,16 +2213,16 @@ print_day_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 			      0.0, HEADER_HEIGHT + 3.5, 1.0, 0.9);
 
 		/* Print the 2 mini calendar-months. */
-		l = width - SMALL_MONTH_PAD - SMALL_MONTH_WIDTH * 2  - SMALL_MONTH_SPACING;
+		l = width - SMALL_MONTH_PAD - (SMALL_MONTH_WIDTH + week_numbers_inc) * 2  - SMALL_MONTH_SPACING;
 
 		 print_month_small (context, gcal, date,
-				   l, 4, l + SMALL_MONTH_WIDTH, HEADER_HEIGHT + 4,
+				   l, 4, l + SMALL_MONTH_WIDTH + week_numbers_inc, HEADER_HEIGHT + 4,
 				   DATE_MONTH | DATE_YEAR, date, date, FALSE);
 
-		l += SMALL_MONTH_SPACING + SMALL_MONTH_WIDTH;
+		l += SMALL_MONTH_SPACING + SMALL_MONTH_WIDTH + week_numbers_inc;
 		print_month_small (context, gcal,
 				   time_add_month_with_zone (date, 1, zone),
-				   l, 4, l + SMALL_MONTH_WIDTH, HEADER_HEIGHT + 4,
+				   l, 4, l + SMALL_MONTH_WIDTH + week_numbers_inc, HEADER_HEIGHT + 4,
 				   DATE_MONTH | DATE_YEAR, 0, 0, FALSE);
 
 		/* Print the date, e.g. '8th May, 2001'. */
@@ -2207,7 +2249,7 @@ print_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 {
 	GtkPageSetup *setup;
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
-	gdouble l;
+	gdouble l, week_numbers_inc;
 	gchar buf[100];
 	time_t when;
 	gint week_start_day;
@@ -2218,6 +2260,7 @@ print_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 
 	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
 	height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
+	week_numbers_inc = get_show_week_numbers () ? SMALL_MONTH_WIDTH / 7.0 : 0;
 
 	tm = *convert_timet_to_struct_tm (date, zone);
 	week_start_day = calendar_config_get_week_start_day ();
@@ -2247,17 +2290,17 @@ print_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
                       0.0, HEADER_HEIGHT + 2.0 + 20, 1.0, 0.9);
 
 	/* Print the 2 mini calendar-months. */
-	l = width - SMALL_MONTH_PAD - SMALL_MONTH_WIDTH * 2
+	l = width - SMALL_MONTH_PAD - (SMALL_MONTH_WIDTH + week_numbers_inc) * 2
 		- SMALL_MONTH_SPACING;
 	print_month_small (context, gcal, when,
-			   l, 4, l + SMALL_MONTH_WIDTH, HEADER_HEIGHT + 10,
+			   l, 4, l + SMALL_MONTH_WIDTH + week_numbers_inc, HEADER_HEIGHT + 10,
 			   DATE_MONTH | DATE_YEAR, when,
 			   time_add_week_with_zone (when, 1, zone), FALSE);
 
-	l += SMALL_MONTH_SPACING + SMALL_MONTH_WIDTH;
+	l += SMALL_MONTH_SPACING + SMALL_MONTH_WIDTH + week_numbers_inc;
 	print_month_small (context, gcal,
 			   time_add_month_with_zone (when, 1, zone),
-			   l, 4, l + SMALL_MONTH_WIDTH, HEADER_HEIGHT + 10,
+			   l, 4, l + SMALL_MONTH_WIDTH + week_numbers_inc, HEADER_HEIGHT + 10,
 			   DATE_MONTH | DATE_YEAR, when,
 			   time_add_week_with_zone (when, 1, zone), FALSE);
 
@@ -2282,12 +2325,13 @@ print_month_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	gchar buf[100];
 	gdouble width, height;
-	gdouble l;
+	gdouble l, week_numbers_inc;
 
 	setup = gtk_print_context_get_page_setup (context);
 
 	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
 	height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
+	week_numbers_inc = get_show_week_numbers () ? SMALL_MONTH_WIDTH / 7.0 : 0;
 
 	/* Print the main month view. */
 	print_month_summary (context, gcal, date, 0.0, width, HEADER_HEIGHT, height);
@@ -2295,12 +2339,12 @@ print_month_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 	/* Print the border around the header. */
 	print_border (context, 0.0, width, 0.0, HEADER_HEIGHT + 10, 1.0, 0.9);
 
-	l = width - SMALL_MONTH_PAD - SMALL_MONTH_WIDTH;
+	l = width - SMALL_MONTH_PAD - SMALL_MONTH_WIDTH - week_numbers_inc;
 
 	/* Print the 2 mini calendar-months. */
 	print_month_small (context, gcal,
 			   time_add_month_with_zone (date, 1, zone),
-			   l, 4, l + SMALL_MONTH_WIDTH, HEADER_HEIGHT + 4,
+			   l, 4, l + SMALL_MONTH_WIDTH + week_numbers_inc, HEADER_HEIGHT + 4,
 			   DATE_MONTH | DATE_YEAR, 0, 0, FALSE);
 
 	print_month_small (context, gcal,
