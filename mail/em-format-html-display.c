@@ -493,7 +493,7 @@ efhd_format_optional (EMFormat *emf,
 	info->snoop_mime_type = "text/plain";
 	info->attachment = e_attachment_new ();
 	e_attachment_set_mime_part (info->attachment, info->puri.part);
-	info->mstream = (CamelStreamMem *) mstream;
+	info->mstream = (CamelStreamMem *) g_object_ref (mstream);
 	if (emf->valid) {
 		info->sign = emf->valid->sign.status;
 		info->encrypt = emf->valid->encrypt.status;
