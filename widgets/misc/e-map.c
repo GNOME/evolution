@@ -842,6 +842,8 @@ e_map_zoom_to_location (EMap *map, gdouble longitude, gdouble latitude)
 
         e_map_set_zoom (map, E_MAP_ZOOMED_IN);
         center_at (map, longitude, latitude);
+        /* need to reget location, centering might have clipped it */
+        e_map_get_current_location (map, &longitude, &latitude);
 
         e_map_tween_new (map,
                          150,
@@ -853,14 +855,25 @@ e_map_zoom_to_location (EMap *map, gdouble longitude, gdouble latitude)
 void
 e_map_zoom_out (EMap *map)
 {
-        double longitude, latitude;
+        double longitude, latitude, actual_longitude, actual_latitude;
+        double prevzoom;
 
 	g_return_if_fail (map);
 	g_return_if_fail (gtk_widget_get_realized (GTK_WIDGET (map)));
 
         e_map_get_current_location (map, &longitude, &latitude);
+        prevzoom = e_map_get_magnification (map);
         e_map_set_zoom (map, E_MAP_ZOOMED_OUT);
         center_at (map, longitude, latitude);
+
+        /* need to reget location, centering might have clipped it */
+        e_map_get_current_location (map, &actual_longitude, &actual_latitude);
+
+        e_map_tween_new (map,
+                         150,
+                         longitude - actual_longitude,
+                         latitude - actual_latitude,
+                         prevzoom / e_map_get_magnification (map));
 }
 
 void
