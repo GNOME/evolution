@@ -152,7 +152,7 @@ inline_filter_scan (CamelMimeFilter *f, gchar *in, gsize len, gint final)
 	EMInlineFilter *emif = (EMInlineFilter *)f;
 	gchar *inptr = in, *inend = in+len;
 	gchar *data_start = in;
-	gchar *start;
+	gchar *start = in;
 
 	while (inptr < inend) {
 		gint rest_len;
@@ -292,9 +292,13 @@ inline_filter_scan (CamelMimeFilter *f, gchar *in, gsize len, gint final)
 		/* always stop as plain, especially when not read those tags fully */
 		emif->state = EMIF_PLAIN;
 
-		inline_filter_add_part (emif, data_start, inend-data_start);
+		inline_filter_add_part (emif, data_start, inend - data_start);
+	} else if (start > data_start) {
+		/* backup the last line, in case the tag is divided within buffers */
+		camel_mime_filter_backup (f, start, inend - start);
+		g_byte_array_append (emif->data, (guchar *)data_start, start - data_start);
 	} else {
-		g_byte_array_append (emif->data, (guchar *)data_start, inend-data_start);
+		g_byte_array_append (emif->data, (guchar *)data_start, inend - data_start);
 	}
 
 	return 0;
