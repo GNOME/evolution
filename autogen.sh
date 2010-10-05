@@ -4,6 +4,8 @@
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
+cd $srcdir
+
 PKG_NAME="Evolution"
 REQUIRED_AUTOCONF_VERSION=2.58
 REQUIRED_AUTOMAKE_VERSION=1.10
