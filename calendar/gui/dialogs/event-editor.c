@@ -355,6 +355,8 @@ event_editor_constructor (GType type,
 		comp_editor_append_page (editor, page, _("Free/Busy"), TRUE);
 		schedule_page_update_free_busy (priv->sched_page);
 
+		e_binding_new (action_group, "visible", comp_editor_page_get_widget (page), "visible");
+
 		/* Alarm page */
 		alarm_page = event_page_get_alarm_page (priv->event_page);
 		comp_editor_append_widget (editor, alarm_page, _("Alarm"), TRUE);
