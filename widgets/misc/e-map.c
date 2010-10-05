@@ -1445,30 +1445,22 @@ set_scroll_area (EMap *view, int width, int height)
 
 	gtk_widget_get_allocation (GTK_WIDGET (view), &allocation);
 
-	/* Set scroll increments */
-
-	gtk_adjustment_set_page_size (priv->hadj, allocation.width);
-	gtk_adjustment_set_page_increment (priv->hadj, allocation.width / 2);
-	gtk_adjustment_set_step_increment (priv->hadj, SCROLL_STEP_SIZE);
-
-	gtk_adjustment_set_page_size (priv->vadj, allocation.height);
-	gtk_adjustment_set_page_increment (priv->vadj, allocation.height / 2);
-	gtk_adjustment_set_step_increment (priv->vadj, SCROLL_STEP_SIZE);
-
-	/* Set scroll bounds and new offsets */
-
-	gtk_adjustment_set_lower (priv->hadj, 0);
-	gtk_adjustment_set_upper (priv->hadj, width);
-
-	gtk_adjustment_set_lower (priv->vadj, 0);
-	gtk_adjustment_set_upper (priv->vadj, height);
-
-	g_object_thaw_notify (G_OBJECT (priv->hadj));
-	g_object_thaw_notify (G_OBJECT (priv->vadj));
-
 	priv->xofs = CLAMP (priv->xofs, 0, width - allocation.width);
 	priv->yofs = CLAMP (priv->yofs, 0, height - allocation.height);
 
-	gtk_adjustment_set_value (priv->hadj, priv->xofs);
-	gtk_adjustment_set_value (priv->vadj, priv->yofs);
+        gtk_adjustment_configure (priv->hadj,
+                                  priv->xofs,
+                                  0, width,
+                                  SCROLL_STEP_SIZE,
+                                  allocation.width / 2,
+                                  allocation.width);
+        gtk_adjustment_configure (priv->vadj,
+                                  priv->yofs,
+                                  0, height,
+                                  SCROLL_STEP_SIZE,
+                                  allocation.height / 2,
+                                  allocation.height);
+
+	g_object_thaw_notify (G_OBJECT (priv->hadj));
+	g_object_thaw_notify (G_OBJECT (priv->vadj));
 }
