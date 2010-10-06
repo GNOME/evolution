@@ -320,6 +320,10 @@ e_shell_backend_add_activity (EShellBackend *shell_backend,
 	g_return_if_fail (E_IS_SHELL_BACKEND (shell_backend));
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
+	/* skip already cancelled activities */
+	if (g_cancellable_is_cancelled (e_activity_get_cancellable (activity)))
+		return;
+
 	g_queue_push_tail (shell_backend->priv->activities, activity);
 
 	/* We reference the backend on every activity to
