@@ -2392,27 +2392,47 @@ print_year_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 }
 #endif
 
+static gboolean
+same_date (struct tm tm1, time_t t2, icaltimezone *zone)
+{
+	struct tm tm2;
+
+	tm2 = *convert_timet_to_struct_tm (t2, zone);
+
+	return
+	    tm1.tm_mday == tm2.tm_mday &&
+	    tm1.tm_mon == tm2.tm_mon &&
+	    tm1.tm_year == tm2.tm_year;
+}
+
 static void
 write_label_piece (time_t t,
+		   time_t *start_cmp,
                    gchar *buffer,
                    gint size,
                    gchar *stext,
                    const gchar *etext)
 {
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
-	struct tm *tmp_tm;
+	struct tm tmp_tm;
 	gint len;
 
-	tmp_tm = convert_timet_to_struct_tm (t, zone);
+	tmp_tm = *convert_timet_to_struct_tm (t, zone);
 
 	if (stext != NULL)
 		strcat (buffer, stext);
 
 	len = strlen (buffer);
-	e_time_format_date_and_time (tmp_tm,
-				     calendar_config_get_24_hour_format (),
-				     FALSE, FALSE,
-				     &buffer[len], size - len);
+	if (start_cmp && same_date (tmp_tm, *start_cmp, zone))
+		e_time_format_time (&tmp_tm,
+				    calendar_config_get_24_hour_format (),
+				    FALSE,
+				    &buffer[len], size - len);
+	else
+		e_time_format_date_and_time (&tmp_tm,
+					     calendar_config_get_24_hour_format (),
+					     FALSE, FALSE,
+					     &buffer[len], size - len);
 	if (etext != NULL)
 		strcat (buffer, etext);
 }
@@ -2485,12 +2505,12 @@ print_date_label (GtkPrintContext *context, ECalComponent *comp, ECal *client,
 	buffer[0] = '\0';
 
 	if (start > 0)
-		write_label_piece (start, buffer, 1024, NULL, NULL);
+		write_label_piece (start, NULL, buffer, 1024, NULL, NULL);
 
 	if (end > 0 && start > 0) {
 		/* Translators: This is part of "START to END" text,
 		 * where START and END are date/times. */
-		write_label_piece (end, buffer, 1024, _(" to "), NULL);
+		write_label_piece (end, &start, buffer, 1024, _(" to "), NULL);
 	}
 
 	if (complete > 0) {
@@ -2498,11 +2518,11 @@ print_date_label (GtkPrintContext *context, ECalComponent *comp, ECal *client,
 			/* Translators: This is part of "START to END
 			 * (Completed COMPLETED)", where COMPLETED is a
 			 * completed date/time. */
-			write_label_piece (complete, buffer, 1024, _(" (Completed "), ")");
+			write_label_piece (complete, NULL, buffer, 1024, _(" (Completed "), ")");
 		} else {
 			/* Translators: This is part of "Completed COMPLETED",
 			 * where COMPLETED is a completed date/time. */
-			write_label_piece (complete, buffer, 1024, _("Completed "), NULL);
+			write_label_piece (complete, &start, buffer, 1024, _("Completed "), NULL);
 		}
 	}
 
@@ -2510,17 +2530,17 @@ print_date_label (GtkPrintContext *context, ECalComponent *comp, ECal *client,
 		if (start > 0) {
 			/* Translators: This is part of "START (Due DUE)",
 			 * where START and DUE are dates/times. */
-			write_label_piece (due, buffer, 1024, _(" (Due "), ")");
+			write_label_piece (due, NULL, buffer, 1024, _(" (Due "), ")");
 		} else {
 			/* Translators: This is part of "Due DUE",
 			 * where DUE is a date/time due the event
 			 * should be finished. */
-			write_label_piece (due, buffer, 1024, _("Due "), NULL);
+			write_label_piece (due, &start, buffer, 1024, _("Due "), NULL);
 		}
 	}
 
 	print_text_size_bold (context, buffer, PANGO_ALIGN_LEFT,
-			      left, right, top, top - 15);
+			      left, right, top, top + 24);
 }
 
 static void
