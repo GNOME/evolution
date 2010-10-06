@@ -206,7 +206,7 @@ action_calendar_taskpad_open_url_cb (GtkAction *action,
 	/* XXX We only open the URI of the first selected task. */
 	prop = icalcomponent_get_first_property (
 		comp_data->icalcomp, ICAL_URL_PROPERTY);
-	g_return_if_fail (prop == NULL);
+	g_return_if_fail (prop != NULL);
 
 	uri = icalproperty_get_url (prop);
 	e_show_uri (GTK_WINDOW (shell_window), uri);
