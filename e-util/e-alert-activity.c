@@ -124,8 +124,6 @@ alert_activity_constructed (GObject *object)
 	secondary_text = e_alert_get_secondary_text (alert);
 	e_activity_set_secondary_text (activity, secondary_text);
 
-	g_object_unref (alert);
-
 	/* This is a constructor property, so can't do it in init().
 	 * XXX What we really want to do is override the property's
 	 *     default value, but GObject does not support that. */

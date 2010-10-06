@@ -130,8 +130,8 @@ action_save_cb (GtkAction *action,
 			if (response != GTK_RESPONSE_OK)
 				return;
 		} else {
-			e_alert_run_dialog_for_args (
-				GTK_WINDOW (composer),
+			e_alert_submit (
+				GTK_WIDGET (composer),
 				E_ALERT_NO_SAVE_FILE, filename,
 				g_strerror (errno_saved), NULL);
 			return;
@@ -140,8 +140,8 @@ action_save_cb (GtkAction *action,
 		close (fd);
 
 	if (!gtkhtml_editor_save (editor, filename, TRUE, &error)) {
-		e_alert_run_dialog_for_args (
-			GTK_WINDOW (composer),
+		e_alert_submit (
+			GTK_WIDGET (composer),
 			E_ALERT_NO_SAVE_FILE,
 			filename, error->message, NULL);
 		g_error_free (error);
@@ -252,20 +252,6 @@ static GtkActionEntry entries[] = {
 	  N_("Close the current file"),
 	  G_CALLBACK (action_close_cb) },
 
-	{ "print",
-	  GTK_STOCK_PRINT,
-	  N_("_Print..."),
-	  "<Control>p",
-	  NULL,
-	  G_CALLBACK (action_print_cb) },
-
-	{ "print-preview",
-	  GTK_STOCK_PRINT_PREVIEW,
-	  N_("Print Pre_view"),
-	  "<Shift><Control>p",
-	  NULL,
-	  G_CALLBACK (action_print_preview_cb) },
-
 	{ "save",
 	  GTK_STOCK_SAVE,
 	  N_("_Save"),
@@ -279,20 +265,6 @@ static GtkActionEntry entries[] = {
 	  NULL,
 	  N_("Save the current file with a different name"),
 	  G_CALLBACK (action_save_as_cb) },
-
-	{ "save-draft",
-	  GTK_STOCK_SAVE,
-	  N_("Save as _Draft"),
-	  "<Control>s",
-	  N_("Save as draft"),
-	  G_CALLBACK (action_save_draft_cb) },
-
-	{ "send",
-	  "mail-send",
-	  N_("S_end"),
-	  "<Control>Return",
-	  N_("Send this message"),
-	  G_CALLBACK (action_send_cb) },
 
 	{ "new-message",
 	  "mail-message-new",
@@ -316,6 +288,37 @@ static GtkActionEntry entries[] = {
 	  NULL,
 	  NULL,
 	  NULL }
+};
+
+static GtkActionEntry async_entries[] = {
+
+	{ "print",
+	  GTK_STOCK_PRINT,
+	  N_("_Print..."),
+	  "<Control>p",
+	  NULL,
+	  G_CALLBACK (action_print_cb) },
+
+	{ "print-preview",
+	  GTK_STOCK_PRINT_PREVIEW,
+	  N_("Print Pre_view"),
+	  "<Shift><Control>p",
+	  NULL,
+	  G_CALLBACK (action_print_preview_cb) },
+
+	{ "save-draft",
+	  GTK_STOCK_SAVE,
+	  N_("Save as _Draft"),
+	  "<Control>s",
+	  N_("Save as draft"),
+	  G_CALLBACK (action_save_draft_cb) },
+
+	{ "send",
+	  "mail-send",
+	  N_("S_end"),
+	  "<Control>Return",
+	  N_("Send this message"),
+	  G_CALLBACK (action_send_cb) },
 };
 
 static GtkToggleActionEntry toggle_entries[] = {
@@ -414,6 +417,15 @@ e_composer_actions_init (EMsgComposer *composer)
 	gtk_action_group_add_toggle_actions (
 		action_group, toggle_entries,
 		G_N_ELEMENTS (toggle_entries), composer);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+
+	/* Asynchronous Actions */
+	action_group = composer->priv->async_actions;
+	gtk_action_group_set_translation_domain (
+		action_group, GETTEXT_PACKAGE);
+	gtk_action_group_add_actions (
+		action_group, async_entries,
+		G_N_ELEMENTS (async_entries), composer);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* Character Set Actions */

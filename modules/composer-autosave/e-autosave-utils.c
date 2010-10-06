@@ -37,6 +37,7 @@ struct _LoadContext {
 
 struct _SaveContext {
 	GCancellable *cancellable;
+	GOutputStream *output_stream;
 };
 
 static void
@@ -53,6 +54,9 @@ save_context_free (SaveContext *context)
 {
 	if (context->cancellable != NULL)
 		g_object_unref (context->cancellable);
+
+	if (context->output_stream != NULL)
+		g_object_unref (context->output_stream);
 
 	g_slice_free (SaveContext, context);
 }
@@ -194,15 +198,12 @@ save_snapshot_splice_cb (GOutputStream *output_stream,
 }
 
 static void
-save_snapshot_replace_cb (GFile *snapshot_file,
-                          GAsyncResult *result,
-                          GSimpleAsyncResult *simple)
+save_snapshot_get_message_cb (EMsgComposer *composer,
+                              GAsyncResult *result,
+                              GSimpleAsyncResult *simple)
 {
-	GObject *object;
-	EMsgComposer *composer;
 	SaveContext *context;
 	CamelMimeMessage *message;
-	GFileOutputStream *output_stream;
 	GInputStream *input_stream;
 	CamelStream *camel_stream;
 	GByteArray *buffer;
@@ -210,34 +211,13 @@ save_snapshot_replace_cb (GFile *snapshot_file,
 
 	context = g_simple_async_result_get_op_res_gpointer (simple);
 
-	output_stream = g_file_replace_finish (snapshot_file, result, &error);
-
-	if (error != NULL) {
-		g_warn_if_fail (output_stream == NULL);
-		g_simple_async_result_set_from_error (simple, error);
-		g_simple_async_result_complete (simple);
-		g_object_unref (simple);
-		g_error_free (error);
-		return;
-	}
-
-	g_return_if_fail (G_IS_OUTPUT_STREAM (output_stream));
-
-	/* g_async_result_get_source_object() returns a new reference. */
-	object = g_async_result_get_source_object (G_ASYNC_RESULT (simple));
-
-	/* Extract a MIME message from the composer. */
-	composer = E_MSG_COMPOSER (object);
-	message = e_msg_composer_get_message_draft (
-		composer, context->cancellable, &error);
-
-	g_object_unref (object);
+	message = e_msg_composer_get_message_draft_finish (
+		composer, result, &error);
 
 	if (error != NULL) {
 		g_warn_if_fail (message == NULL);
 		g_simple_async_result_set_from_error (simple, error);
 		g_simple_async_result_complete (simple);
-		g_object_unref (output_stream);
 		g_object_unref (simple);
 		g_error_free (error);
 		return;
@@ -255,6 +235,7 @@ save_snapshot_replace_cb (GFile *snapshot_file,
 	camel_data_wrapper_decode_to_stream_sync (
 		CAMEL_DATA_WRAPPER (message), camel_stream, NULL, NULL);
 	g_object_unref (camel_stream);
+
 	g_object_unref (message);
 
 	/* Load the buffer into a GMemoryInputStream. */
@@ -268,7 +249,7 @@ save_snapshot_replace_cb (GFile *snapshot_file,
 
 	/* Splice the input and output streams. */
 	g_output_stream_splice_async (
-		G_OUTPUT_STREAM (output_stream), input_stream,
+		context->output_stream, input_stream,
 		G_OUTPUT_STREAM_SPLICE_CLOSE_SOURCE |
 		G_OUTPUT_STREAM_SPLICE_CLOSE_TARGET,
 		G_PRIORITY_DEFAULT, context->cancellable,
@@ -276,7 +257,45 @@ save_snapshot_replace_cb (GFile *snapshot_file,
 		simple);
 
 	g_object_unref (input_stream);
-	g_object_unref (output_stream);
+}
+
+static void
+save_snapshot_replace_cb (GFile *snapshot_file,
+                          GAsyncResult *result,
+                          GSimpleAsyncResult *simple)
+{
+	GObject *object;
+	SaveContext *context;
+	GFileOutputStream *output_stream;
+	GError *error = NULL;
+
+	context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	/* Output stream might be NULL, so don't use cast macro. */
+	output_stream = g_file_replace_finish (snapshot_file, result, &error);
+	context->output_stream = (GOutputStream *) output_stream;
+
+	if (error != NULL) {
+		g_warn_if_fail (output_stream == NULL);
+		g_simple_async_result_set_from_error (simple, error);
+		g_simple_async_result_complete (simple);
+		g_object_unref (simple);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (G_IS_OUTPUT_STREAM (output_stream));
+
+	/* g_async_result_get_source_object() returns a new reference. */
+	object = g_async_result_get_source_object (G_ASYNC_RESULT (simple));
+
+	/* Extract a MIME message from the composer. */
+	e_msg_composer_get_message_draft (
+		E_MSG_COMPOSER (object), G_PRIORITY_DEFAULT,
+		context->cancellable, (GAsyncReadyCallback)
+		save_snapshot_get_message_cb, simple);
+
+	g_object_unref (object);
 }
 
 static EMsgComposer *

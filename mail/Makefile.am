@@ -45,6 +45,7 @@ mailinclude_HEADERS =					\
 	e-mail-backend.h				\
 	e-mail-browser.h				\
 	e-mail-display.h				\
+	e-mail-folder-utils.h				\
 	e-mail-label-action.h				\
 	e-mail-label-dialog.h				\
 	e-mail-label-list-store.h			\
@@ -55,6 +56,7 @@ mailinclude_HEADERS =					\
 	e-mail-reader.h					\
 	e-mail-reader-utils.h				\
 	e-mail-session.h				\
+	e-mail-session-utils.h				\
 	e-mail-sidebar.h				\
 	e-mail-store.h					\
 	e-mail-tag-editor.h				\
@@ -114,6 +116,7 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-backend.c				\
 	e-mail-browser.c				\
 	e-mail-display.c				\
+	e-mail-folder-utils.c				\
 	e-mail-label-action.c				\
 	e-mail-label-dialog.c				\
 	e-mail-label-list-store.c			\
@@ -124,6 +127,7 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-reader.c					\
 	e-mail-reader-utils.c				\
 	e-mail-session.c				\
+	e-mail-session-utils.c				\
 	e-mail-sidebar.c				\
 	e-mail-store.c					\
 	e-mail-tag-editor.c				\

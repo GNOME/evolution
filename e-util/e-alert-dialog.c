@@ -24,95 +24,90 @@
 #include "e-alert-dialog.h"
 #include "e-util.h"
 
+#define E_ALERT_DIALOG_GET_PRIVATE(o) \
+		(G_TYPE_INSTANCE_GET_PRIVATE ((o), E_TYPE_ALERT_DIALOG, EAlertDialogPrivate))
+
+struct _EAlertDialogPrivate {
+	GtkWindow *parent;
+	EAlert *alert;
+};
+
+enum {
+	PROP_0,
+	PROP_ALERT
+};
+
 G_DEFINE_TYPE (
 	EAlertDialog,
 	e_alert_dialog,
 	GTK_TYPE_DIALOG)
 
-#define ALERT_DIALOG_PRIVATE(o) \
-		(G_TYPE_INSTANCE_GET_PRIVATE ((o), E_TYPE_ALERT_DIALOG, EAlertDialogPrivate))
-
-struct _EAlertDialogPrivate
-{
-	GtkWindow *parent;
-	EAlert *alert;
-};
-
-enum
-{
-	PROP_0,
-	PROP_PARENT,
-	PROP_ALERT
-};
-
 static void
-e_alert_dialog_set_property (GObject *object, guint property_id,
-			     const GValue *value, GParamSpec *pspec)
+alert_dialog_set_alert (EAlertDialog *dialog,
+                        EAlert *alert)
 {
-	EAlertDialog *dialog = (EAlertDialog*) object;
+	g_return_if_fail (E_IS_ALERT (alert));
+	g_return_if_fail (dialog->priv->alert == NULL);
 
-	switch (property_id)
-	{
-		case PROP_PARENT:
-			dialog->priv->parent = g_value_dup_object (value);
-			break;
-		case PROP_ALERT:
-			dialog->priv->alert = g_value_dup_object (value);
-			break;
-		default:
-			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-	}
+	dialog->priv->alert = g_object_ref (alert);
 }
 
 static void
-e_alert_dialog_get_property (GObject *object, guint property_id,
-			     GValue *value, GParamSpec *pspec)
+alert_dialog_set_property (GObject *object,
+                           guint property_id,
+                           const GValue *value,
+                           GParamSpec *pspec)
 {
-	EAlertDialog *dialog = (EAlertDialog*) object;
-
-	switch (property_id)
-	{
-		case PROP_PARENT:
-			g_value_set_object (value, dialog->priv->parent);
-			break;
+	switch (property_id) {
 		case PROP_ALERT:
-			g_value_set_object (value, dialog->priv->alert);
-			break;
-		default:
-			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+			alert_dialog_set_alert (
+				E_ALERT_DIALOG (object),
+				g_value_get_object (value));
+			return;
 	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
-e_alert_dialog_dispose (GObject *object)
+alert_dialog_get_property (GObject *object,
+                           guint property_id,
+                           GValue *value,
+                           GParamSpec *pspec)
 {
-	EAlertDialog *dialog = (EAlertDialog*) object;
-
-	if (dialog->priv->parent) {
-		g_object_unref (dialog->priv->parent);
-		dialog->priv->parent = NULL;
+	switch (property_id) {
+		case PROP_ALERT:
+			g_value_set_object (
+				value, e_alert_dialog_get_alert (
+				E_ALERT_DIALOG (object)));
+			return;
 	}
 
-	if (dialog->priv->alert) {
-		g_object_unref (dialog->priv->alert);
-		dialog->priv->alert = NULL;
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+alert_dialog_dispose (GObject *object)
+{
+	EAlertDialogPrivate *priv;
+
+	priv = E_ALERT_DIALOG_GET_PRIVATE (object);
+
+	if (priv->alert) {
+		g_object_unref (priv->alert);
+		priv->alert = NULL;
 	}
 
+	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_alert_dialog_parent_class)->dispose (object);
 }
 
 static void
-e_alert_dialog_init (EAlertDialog *self)
+alert_dialog_constructed (GObject *object)
 {
-	self->priv = ALERT_DIALOG_PRIVATE (self);
-}
-
-static void
-e_alert_dialog_constructed (GObject *obj)
-{
-	EAlertDialog *self = (EAlertDialog*) obj;
+	EAlertDialog *self = (EAlertDialog*) object;
 	EAlert *alert;
-	struct _e_alert_button *b;
+	EAlertButton *b;
 	GtkWidget *action_area;
 	GtkWidget *content_area;
 	GtkWidget *container;
@@ -123,58 +118,49 @@ e_alert_dialog_constructed (GObject *obj)
 
 	g_return_if_fail (self != NULL);
 
-	self->priv = ALERT_DIALOG_PRIVATE (self);
-	alert = self->priv->alert;
+	alert = e_alert_dialog_get_alert (E_ALERT_DIALOG (self));
 
 	gtk_window_set_title (GTK_WINDOW (self), " ");
 
-	action_area = gtk_dialog_get_action_area ((GtkDialog*) self);
-	content_area = gtk_dialog_get_content_area ((GtkDialog*) self);
+	action_area = gtk_dialog_get_action_area (GTK_DIALOG (self));
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (self));
 
 #if !GTK_CHECK_VERSION(2,90,7)
 	g_object_set (self, "has-separator", FALSE, NULL);
 #endif
 
-	gtk_widget_ensure_style ((GtkWidget *)self);
+	gtk_widget_ensure_style (GTK_WIDGET (self));
 	gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
 	gtk_container_set_border_width (GTK_CONTAINER (content_area), 0);
 
-	if (self->priv->parent)
-		gtk_window_set_transient_for ((GtkWindow *)self, self->priv->parent);
-	else
-		g_warning (
-			"Something called %s() with a NULL parent window.  "
-			"This is no longer legal, please fix it.", G_STRFUNC);
-
-	gtk_window_set_destroy_with_parent ((GtkWindow *)self, TRUE);
+	gtk_window_set_destroy_with_parent (GTK_WINDOW (self), TRUE);
 
 	b = e_alert_peek_buttons (alert);
 	if (b == NULL) {
-		gtk_dialog_add_button ((GtkDialog*) self, GTK_STOCK_OK, GTK_RESPONSE_OK);
+		gtk_dialog_add_button (
+			GTK_DIALOG (self), GTK_STOCK_OK, GTK_RESPONSE_OK);
 	} else {
 		for (; b; b=b->next) {
 			if (b->stock) {
-				if (b->label) {
-#if 0
-					/* FIXME: So although this looks like it will work, it wont.
-					   Need to do it the hard way ... it also breaks the
-					   default_response stuff */
-					w = gtk_button_new_from_stock (b->stock);
-					gtk_button_set_label ((GtkButton *)w, b->label);
-					gtk_widget_show (w);
-					gtk_dialog_add_action_widget (self, w, b->response);
-#endif
-					gtk_dialog_add_button ((GtkDialog*) self, b->label, b->response);
-				} else
-					gtk_dialog_add_button ((GtkDialog*) self, b->stock, b->response);
+				if (b->label != NULL)
+					gtk_dialog_add_button (
+						GTK_DIALOG (self),
+						b->label, b->response);
+				else
+					gtk_dialog_add_button (
+						GTK_DIALOG (self),
+						b->stock, b->response);
 			} else
-				gtk_dialog_add_button ((GtkDialog*) self, b->label, b->response);
+				gtk_dialog_add_button (
+					GTK_DIALOG (self),
+					b->label, b->response);
 		}
 	}
 
 	if (e_alert_get_default_response (alert))
-		gtk_dialog_set_default_response ((GtkDialog*) self,
-						e_alert_get_default_response (alert));
+		gtk_dialog_set_default_response (
+			GTK_DIALOG (self),
+			e_alert_get_default_response (alert));
 
 	widget = gtk_hbox_new (FALSE, 12);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
@@ -224,90 +210,118 @@ e_alert_dialog_constructed (GObject *obj)
 }
 
 static void
-e_alert_dialog_class_init (EAlertDialogClass *klass)
+alert_dialog_response (GtkDialog *dialog,
+                       gint response_id)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	EAlert *alert;
 
-	g_type_class_add_private (klass, sizeof (EAlertDialogPrivate));
-
-	object_class->dispose = e_alert_dialog_dispose;
-	object_class->get_property = e_alert_dialog_get_property;
-	object_class->set_property = e_alert_dialog_set_property;
-	object_class->constructed = e_alert_dialog_constructed;
-
-	g_object_class_install_property (object_class,
-					 PROP_PARENT,
-					 g_param_spec_object ("parent",
-							      "parent window",
-							      "A parent window to be transient for",
-							      GTK_TYPE_WINDOW,
-							      G_PARAM_READWRITE |
-							      G_PARAM_CONSTRUCT_ONLY |
-							      G_PARAM_STATIC_STRINGS));
-	g_object_class_install_property (object_class,
-					 PROP_ALERT,
-					 g_param_spec_object ("alert",
-							     "alert",
-							     "EAlert to be displayed",
-							     E_TYPE_ALERT,
-							      G_PARAM_READWRITE |
-							     G_PARAM_CONSTRUCT_ONLY |
-							     G_PARAM_STATIC_STRINGS));
+	alert = e_alert_dialog_get_alert (E_ALERT_DIALOG (dialog));
+	e_alert_response (alert, response_id);
 }
 
-GtkWidget*
+static void
+e_alert_dialog_class_init (EAlertDialogClass *class)
+{
+	GObjectClass *object_class;
+	GtkDialogClass *dialog_class;
+
+	g_type_class_add_private (class, sizeof (EAlertDialogPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = alert_dialog_set_property;
+	object_class->get_property = alert_dialog_get_property;
+	object_class->dispose = alert_dialog_dispose;
+	object_class->constructed = alert_dialog_constructed;
+
+	dialog_class = GTK_DIALOG_CLASS (class);
+	dialog_class->response = alert_dialog_response;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ALERT,
+		g_param_spec_object (
+			"alert",
+			"Alert",
+			"Alert to be displayed",
+			E_TYPE_ALERT,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+}
+
+static void
+e_alert_dialog_init (EAlertDialog *self)
+{
+	self->priv = E_ALERT_DIALOG_GET_PRIVATE (self);
+}
+
+GtkWidget *
 e_alert_dialog_new (GtkWindow *parent,
                     EAlert *alert)
 {
+	g_return_val_if_fail (E_IS_ALERT (alert), NULL);
+
 	return g_object_new (
 		E_TYPE_ALERT_DIALOG,
-		"parent", parent, "alert", alert, NULL);
+		"alert", alert, "transient-for", parent, NULL);
 }
 
-GtkWidget*
-e_alert_dialog_new_for_args (GtkWindow *parent, const gchar *tag, ...)
-{
-	GtkWidget *d;
-	EAlert *e;
-	va_list ap;
-
-	va_start (ap, tag);
-	e = e_alert_new_valist (tag, ap);
-	va_end (ap);
-
-	d = e_alert_dialog_new (parent, e);
-	g_object_unref (e);
-
-	return d;
-}
-
-gint
-e_alert_run_dialog (GtkWindow *parent, EAlert *alert)
+GtkWidget *
+e_alert_dialog_new_for_args (GtkWindow *parent,
+                             const gchar *tag,
+                             ...)
 {
 	GtkWidget *dialog;
-	gint res;
+	EAlert *alert;
+	va_list ap;
+
+	g_return_val_if_fail (tag != NULL, NULL);
+
+	va_start (ap, tag);
+	alert = e_alert_new_valist (tag, ap);
+	va_end (ap);
 
 	dialog = e_alert_dialog_new (parent, alert);
 
-	res = gtk_dialog_run ((GtkDialog *)dialog);
-	gtk_widget_destroy (dialog);
+	g_object_unref (alert);
 
-	return res;
+	return dialog;
 }
 
 gint
-e_alert_run_dialog_for_args (GtkWindow *parent, const gchar *tag, ...)
+e_alert_run_dialog (GtkWindow *parent,
+                    EAlert *alert)
 {
-	EAlert *e;
-	va_list ap;
+	GtkWidget *dialog;
 	gint response;
 
+	g_return_val_if_fail (E_IS_ALERT (alert), 0);
+
+	dialog = e_alert_dialog_new (parent, alert);
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
+
+	return response;
+}
+
+gint
+e_alert_run_dialog_for_args (GtkWindow *parent,
+                             const gchar *tag,
+                             ...)
+{
+	EAlert *alert;
+	gint response;
+	va_list ap;
+
+	g_return_val_if_fail (tag != NULL, 0);
+
 	va_start (ap, tag);
-	e = e_alert_new_valist (tag, ap);
+	alert = e_alert_new_valist (tag, ap);
 	va_end (ap);
 
-	response = e_alert_run_dialog (parent, e);
-	g_object_unref (e);
+	response = e_alert_run_dialog (parent, alert);
+
+	g_object_unref (alert);
 
 	return response;
 }
@@ -329,7 +343,7 @@ e_alert_dialog_count_buttons (EAlertDialog *dialog)
 
 	g_return_val_if_fail (E_IS_ALERT_DIALOG (dialog), 0);
 
-	container = gtk_dialog_get_action_area ((GtkDialog*) dialog);
+	container = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
 	children = gtk_container_get_children (GTK_CONTAINER (container));
 
 	/* Iterate over the children looking for buttons. */
@@ -346,19 +360,14 @@ e_alert_dialog_count_buttons (EAlertDialog *dialog)
  * e_alert_dialog_get_alert:
  * @dialog: a #EAlertDialog
  *
- * Convenience API for getting the #EAlert associated with @dialog
+ * Returns the #EAlert associated with @dialog.
  *
- * Return value: the #EAlert associated with @dialog.  The alert should be
- * unreffed when no longer needed.
- */
+ * Returns: the #EAlert associated with @dialog
+ **/
 EAlert *
 e_alert_dialog_get_alert (EAlertDialog *dialog)
 {
-	EAlert *alert = NULL;
+	g_return_val_if_fail (E_IS_ALERT_DIALOG (dialog), NULL);
 
-	g_return_val_if_fail (dialog != NULL, NULL);
-
-	g_object_get (dialog, "alert", &alert,
-		      NULL);
-	return alert;
+	return dialog->priv->alert;
 }

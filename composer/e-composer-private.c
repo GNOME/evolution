@@ -176,6 +176,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->window_group = gtk_window_group_new ();
 	gtk_window_group_add_window (priv->window_group, window);
 
+	priv->async_actions = gtk_action_group_new ("async");
 	priv->charset_actions = gtk_action_group_new ("charset");
 	priv->composer_actions = gtk_action_group_new ("composer");
 
@@ -253,17 +254,31 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	priv->focus_tracker = focus_tracker;
 
-	/* Construct the header table. */
-
 	container = editor->vbox;
+
+	/* Construct the activity bar. */
+
+	widget = e_activity_bar_new ();
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	priv->activity_bar = g_object_ref (widget);
+	/* EActivityBar controls its own visibility. */
+
+	/* Construct the alert bar for errors. */
+
+	widget = e_alert_bar_new ();
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	priv->alert_bar = g_object_ref (widget);
+	/* EAlertBar controls its own visibility. */
+
+	/* Construct the header table. */
 
 	widget = e_composer_header_table_new (shell);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
-	gtk_box_pack_start (GTK_BOX (editor->vbox), widget, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	if (small_screen_mode)
-		gtk_box_reorder_child (GTK_BOX (editor->vbox), widget, 1);
+		gtk_box_reorder_child (GTK_BOX (container), widget, 1);
 	else
-		gtk_box_reorder_child (GTK_BOX (editor->vbox), widget, 2);
+		gtk_box_reorder_child (GTK_BOX (container), widget, 2);
 
 	priv->header_table = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -399,8 +414,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 	g_signal_connect (
 		html, "url-requested",
 		G_CALLBACK (msg_composer_url_requested_cb), composer);
-
-	priv->mail_sent = FALSE;
 }
 
 void
@@ -436,6 +449,16 @@ e_composer_private_dispose (EMsgComposer *composer)
 		composer->priv->header_table = NULL;
 	}
 
+	if (composer->priv->activity_bar != NULL) {
+		g_object_unref (composer->priv->activity_bar);
+		composer->priv->activity_bar = NULL;
+	}
+
+	if (composer->priv->alert_bar != NULL) {
+		g_object_unref (composer->priv->alert_bar);
+		composer->priv->alert_bar = NULL;
+	}
+
 	if (composer->priv->attachment_paned != NULL) {
 		g_object_unref (composer->priv->attachment_paned);
 		composer->priv->attachment_paned = NULL;
@@ -449,6 +472,11 @@ e_composer_private_dispose (EMsgComposer *composer)
 	if (composer->priv->window_group != NULL) {
 		g_object_unref (composer->priv->window_group);
 		composer->priv->window_group = NULL;
+	}
+
+	if (composer->priv->async_actions != NULL) {
+		g_object_unref (composer->priv->async_actions);
+		composer->priv->async_actions = NULL;
 	}
 
 	if (composer->priv->charset_actions != NULL) {

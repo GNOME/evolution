@@ -9,7 +9,9 @@ widgetsinclude_HEADERS =			\
 	e-account-manager.h			\
 	e-account-tree-view.h			\
 	e-action-combo-box.h			\
+	e-activity-bar.h			\
 	e-activity-proxy.h			\
+	e-alert-bar.h				\
 	e-attachment.h				\
 	e-attachment-button.h			\
 	e-attachment-dialog.h			\
@@ -85,7 +87,9 @@ libemiscwidgets_la_SOURCES =			\
 	e-account-manager.c			\
 	e-account-tree-view.c			\
 	e-action-combo-box.c			\
+	e-activity-bar.c			\
 	e-activity-proxy.c			\
+	e-alert-bar.c				\
 	e-attachment.c				\
 	e-attachment-button.c			\
 	e-attachment-dialog.c			\

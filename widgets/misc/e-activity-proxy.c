@@ -69,6 +69,7 @@ activity_proxy_update (EActivityProxy *proxy)
 	gboolean clickable;
 	gboolean completed;
 	gboolean sensitive;
+	gboolean visible;
 	gchar *description;
 
 	activity = proxy->priv->activity;
@@ -108,10 +109,8 @@ activity_proxy_update (EActivityProxy *proxy)
 		gtk_widget_hide (proxy->priv->image);
 	}
 
-	if (cancellable != NULL)
-		gtk_widget_show (proxy->priv->cancel);
-	else
-		gtk_widget_hide (proxy->priv->cancel);
+	visible = (cancellable != NULL);
+	gtk_widget_set_visible (proxy->priv->cancel, visible);
 
 	sensitive = !(cancelled || completed);
 	gtk_widget_set_sensitive (proxy->priv->cancel, sensitive);

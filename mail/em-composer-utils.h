@@ -37,8 +37,8 @@ EMsgComposer *	em_utils_compose_new_message_with_mailto
 						 const gchar *url,
 						 const gchar *from_uri);
 GtkWidget *	em_utils_edit_message		(EShell *shell,
-						 CamelMimeMessage *message,
-						 CamelFolder *folder);
+						 CamelFolder *folder,
+						 CamelMimeMessage *message);
 void		em_utils_edit_messages		(EShell *shell,
 						 CamelFolder *folder,
 						 GPtrArray *uids,

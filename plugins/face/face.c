@@ -466,7 +466,7 @@ face_handle_send (EPlugin *ep, EMEventTargetComposer *target)
 		gchar *face = get_face_base64 ();
 
 		if (face)
-			e_msg_composer_modify_header (target->composer, "Face", face);
+			e_msg_composer_set_header (target->composer, "Face", face);
 
 		g_free (face);
 	}

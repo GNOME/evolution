@@ -61,8 +61,10 @@ typedef struct _EAlert EAlert;
 typedef struct _EAlertClass EAlertClass;
 typedef struct _EAlertPrivate EAlertPrivate;
 
-struct _e_alert_button {
-	struct _e_alert_button *next;
+typedef struct _EAlertButton EAlertButton;
+
+struct _EAlertButton {
+	EAlertButton *next;
 	const gchar *stock;
 	const gchar *label;
 	gint response;
@@ -75,6 +77,10 @@ struct _EAlert {
 
 struct _EAlertClass {
 	GObjectClass parent_class;
+
+	/* Signals */
+	void		(*response)		(EAlert *alert,
+						 gint response_id);
 };
 
 GType		e_alert_get_type		(void);
@@ -96,10 +102,12 @@ void		e_alert_set_primary_text	(EAlert *alert,
 const gchar *	e_alert_get_secondary_text	(EAlert *alert);
 void		e_alert_set_secondary_text	(EAlert *alert,
 						 const gchar *secondary_text);
-struct _e_alert_button *
-		e_alert_peek_buttons		(EAlert *alert);
+const gchar *	e_alert_get_stock_id		(EAlert *alert);
+EAlertButton *	e_alert_peek_buttons		(EAlert *alert);
 GtkWidget *	e_alert_create_image		(EAlert *alert,
 						 GtkIconSize size);
+void		e_alert_response		(EAlert *alert,
+						 gint response_id);
 
 void		e_alert_submit			(GtkWidget *widget,
 						 const gchar *tag,

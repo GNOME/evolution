@@ -471,7 +471,7 @@ epech_append_to_custom_header (CustomHeaderOptionsDialog *dialog, gint state, gp
 				temp_header_value_ptr = &g_array_index (temp_header_ptr->sub_header_type_value, CustomSubHeader,sub_type_index);
 
 				if (sub_type_index == g_array_index (priv->header_index_type, gint, index_subtype)) {
-					e_msg_composer_modify_header (composer, (temp_header_ptr->header_type_value)->str,
+					e_msg_composer_set_header (composer, (temp_header_ptr->header_type_value)->str,
 						(temp_header_value_ptr->sub_header_string_value)->str);
 				}
 			}

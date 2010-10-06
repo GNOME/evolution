@@ -462,9 +462,12 @@ check_close_browser_reader (EMailReader *reader)
 		GtkWindow *parent;
 		gint response;
 		EShell *shell;
+		EMailBackend *backend;
 		EShellBackend *shell_backend;
 
-		shell_backend = e_mail_reader_get_shell_backend (reader);
+		backend = e_mail_reader_get_backend (reader);
+
+		shell_backend = E_SHELL_BACKEND (backend);
 		shell = e_shell_backend_get_shell (shell_backend);
 
 		parent = e_shell_get_active_window (shell);
@@ -714,16 +717,20 @@ action_mail_message_edit_cb (GtkAction *action,
 	EMailBackend *backend;
 	EShellBackend *shell_backend;
 	CamelFolder *folder;
+	const gchar *folder_uri;
 	GPtrArray *uids;
+	gboolean replace;
 
 	backend = e_mail_reader_get_backend (reader);
 	folder = e_mail_reader_get_folder (reader);
+	folder_uri = e_mail_reader_get_folder_uri (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
-	em_utils_edit_messages (shell, folder, uids, FALSE);
+	replace = em_utils_folder_is_drafts (folder, folder_uri);
+	em_utils_edit_messages (shell, folder, uids, replace);
 }
 
 static void

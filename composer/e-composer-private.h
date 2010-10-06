@@ -24,20 +24,44 @@
 
 #include <errno.h>
 
-#include <glib/gi18n-lib.h>
+#include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
+
 #include <glib/gstdio.h>
+#include <glib/gi18n-lib.h>
+
+#include <gconf/gconf.h>
+#include <gconf/gconf-client.h>
 
 #include "e-composer-actions.h"
+#include "e-composer-activity.h"
 #include "e-composer-header-table.h"
+#include "e-util/e-alert-sink.h"
 #include "e-util/e-binding.h"
 #include "e-util/e-charset.h"
+#include "e-util/e-extensible.h"
+#include "e-util/e-marshal.h"
 #include "e-util/e-mktemp.h"
+#include "e-util/e-plugin-ui.h"
 #include "e-util/e-selection.h"
 #include "e-util/e-util.h"
 #include "e-util/gconf-bridge.h"
+#include "widgets/misc/e-activity-bar.h"
+#include "widgets/misc/e-alert-bar.h"
+#include "widgets/misc/e-attachment.h"
 #include "widgets/misc/e-attachment-icon-view.h"
 #include "widgets/misc/e-attachment-paned.h"
 #include "widgets/misc/e-attachment-store.h"
+#include "widgets/misc/e-signature-combo-box.h"
+#include "widgets/misc/e-web-view.h"
+#include "shell/e-shell.h"
+
+#ifdef HAVE_XFREE
+#include <X11/XF86keysym.h>
+#endif
+
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
 
 #define E_MSG_COMPOSER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -92,15 +116,19 @@ struct _EMsgComposerPrivate {
 
 	GtkWidget *html_editor;
 	GtkWidget *header_table;
+	GtkWidget *activity_bar;
+	GtkWidget *alert_bar;
 	GtkWidget *attachment_paned;
 
 	EFocusTracker *focus_tracker;
 	GtkWindowGroup *window_group;
 
+	GtkActionGroup *async_actions;
 	GtkActionGroup *charset_actions;
 	GtkActionGroup *composer_actions;
 
-	GPtrArray *extra_hdr_names, *extra_hdr_values;
+	GPtrArray *extra_hdr_names;
+	GPtrArray *extra_hdr_values;
 	GArray *gconf_bridge_binding_ids;
 
 	GtkWidget *focused_entry;
@@ -111,9 +139,10 @@ struct _EMsgComposerPrivate {
 	GHashTable *inline_images_by_url;
 	GList *current_images;
 
-	gchar *mime_type, *mime_body, *charset;
+	gchar *mime_type;
+	gchar *mime_body;
+	gchar *charset;
 
-	guint32 is_alternative         : 1;
 	guint32 autosaved              : 1;
 	guint32 mode_post              : 1;
 	guint32 in_signature_insert    : 1;
@@ -122,12 +151,6 @@ struct _EMsgComposerPrivate {
 	CamelMimeMessage *redirect;
 
 	gboolean is_from_message;
-
-	/* The mail composed has been sent. This bit will be set when
-	 * the mail passed sanity checking and is sent out, which
-	 * indicates that the composer can be destroyed. This bit can
-	 * be set/get by using API e_msg_composer_{set,get}_mail_sent (). */
-	gboolean mail_sent;
 };
 
 void		e_composer_private_constructed	(EMsgComposer *composer);

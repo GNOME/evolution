@@ -52,7 +52,7 @@ struct _e_alert {
 	gint default_response;
 	const gchar *primary_text;
 	const gchar *secondary_text;
-	struct _e_alert_button *buttons;
+	EAlertButton *buttons;
 };
 
 struct _e_alert_table {
@@ -65,7 +65,7 @@ static GHashTable *alert_table;
 
 /* ********************************************************************** */
 
-static struct _e_alert_button default_ok_button = {
+static EAlertButton default_ok_button = {
 	NULL, "gtk-ok", NULL, GTK_RESPONSE_OK
 };
 
@@ -78,49 +78,15 @@ static struct _e_alert default_alerts[] = {
 
 /* ********************************************************************** */
 
-static struct {
-	const gchar *name;
-	gint id;
-} response_map[] = {
-	{ "GTK_RESPONSE_REJECT", GTK_RESPONSE_REJECT },
-	{ "GTK_RESPONSE_ACCEPT", GTK_RESPONSE_ACCEPT },
-	{ "GTK_RESPONSE_OK", GTK_RESPONSE_OK },
-	{ "GTK_RESPONSE_CANCEL", GTK_RESPONSE_CANCEL },
-	{ "GTK_RESPONSE_CLOSE", GTK_RESPONSE_CLOSE },
-	{ "GTK_RESPONSE_YES", GTK_RESPONSE_YES },
-	{ "GTK_RESPONSE_NO", GTK_RESPONSE_NO },
-	{ "GTK_RESPONSE_APPLY", GTK_RESPONSE_APPLY },
-	{ "GTK_RESPONSE_HELP", GTK_RESPONSE_HELP },
+struct _EAlertPrivate {
+	gchar *tag;
+	GPtrArray *args;
+	gchar *primary_text;
+	gchar *secondary_text;
+	struct _e_alert *definition;
+	GtkMessageType message_type;
+	gint default_response;
 };
-
-static gint
-map_response (const gchar *name)
-{
-	gint i;
-
-	for (i = 0; i < G_N_ELEMENTS (response_map); i++)
-		if (!strcmp (name, response_map[i].name))
-			return response_map[i].id;
-
-	return 0;
-}
-
-static GtkMessageType
-map_type (const gchar *nick)
-{
-	GEnumClass *class;
-	GEnumValue *value;
-
-	class = g_type_class_peek (GTK_TYPE_MESSAGE_TYPE);
-	value = g_enum_get_value_by_nick (class, nick);
-
-	return (value != NULL) ? value->value : GTK_MESSAGE_ERROR;
-}
-
-G_DEFINE_TYPE (
-	EAlert,
-	e_alert,
-	G_TYPE_OBJECT)
 
 enum {
 	PROP_0,
@@ -131,15 +97,43 @@ enum {
 	PROP_SECONDARY_TEXT
 };
 
-struct _EAlertPrivate {
-	gchar *tag;
-	GPtrArray *args;
-	gchar *primary_text;
-	gchar *secondary_text;
-	struct _e_alert *definition;
-	GtkMessageType message_type;
-	gint default_response;
+enum {
+	RESPONSE,
+	LAST_SIGNAL
 };
+
+static gulong signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (
+	EAlert,
+	e_alert,
+	G_TYPE_OBJECT)
+
+static gint
+map_response (const gchar *name)
+{
+	GEnumClass *class;
+	GEnumValue *value;
+
+	class = g_type_class_ref (GTK_TYPE_RESPONSE_TYPE);
+	value = g_enum_get_value_by_name (class, name);
+	g_type_class_unref (class);
+
+	return (value != NULL) ? value->value : 0;
+}
+
+static GtkMessageType
+map_type (const gchar *nick)
+{
+	GEnumClass *class;
+	GEnumValue *value;
+
+	class = g_type_class_ref (GTK_TYPE_MESSAGE_TYPE);
+	value = g_enum_get_value_by_nick (class, nick);
+	g_type_class_unref (class);
+
+	return (value != NULL) ? value->value : GTK_MESSAGE_ERROR;
+}
 
 /*
   XML format:
@@ -152,9 +146,6 @@ struct _EAlertPrivate {
       response="response_id"? /> *
  </error>
 
- The tool e-error-tool is used to extract the translatable strings for
- translation.
-
 */
 static void
 e_alert_load (const gchar *path)
@@ -162,7 +153,7 @@ e_alert_load (const gchar *path)
 	xmlDocPtr doc = NULL;
 	xmlNodePtr root, error, scan;
 	struct _e_alert *e;
-	struct _e_alert_button *lastbutton;
+	EAlertButton *lastbutton;
 	struct _e_alert_table *table;
 	gchar *tmp;
 
@@ -217,7 +208,7 @@ e_alert_load (const gchar *path)
 			e->id = g_strdup (tmp);
 
 			xmlFree (tmp);
-			lastbutton = (struct _e_alert_button *)&e->buttons;
+			lastbutton = (EAlertButton *)&e->buttons;
 
 			tmp = (gchar *)xmlGetProp(error, (const guchar *)"type");
 			e->message_type = map_type (tmp);
@@ -242,7 +233,7 @@ e_alert_load (const gchar *path)
 						xmlFree (tmp);
 					}
 				} else if (!strcmp((gchar *)scan->name, "button")) {
-					struct _e_alert_button *b;
+					EAlertButton *b;
 					gchar *label = NULL;
 					gchar *stock = NULL;
 
@@ -557,6 +548,16 @@ e_alert_class_init (EAlertClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
+	signals[RESPONSE] = g_signal_new (
+		"response",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAlertClass, response),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__INT,
+		G_TYPE_NONE, 1,
+		G_TYPE_INT);
+
 	e_alert_load_tables ();
 }
 
@@ -730,16 +731,8 @@ e_alert_set_secondary_text (EAlert *alert,
 	g_object_notify (G_OBJECT (alert), "secondary-text");
 }
 
-struct _e_alert_button *
-e_alert_peek_buttons (EAlert *alert)
-{
-	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, NULL);
-	return alert->priv->definition->buttons;
-}
-
-GtkWidget *
-e_alert_create_image (EAlert *alert,
-                      GtkIconSize size)
+const gchar *
+e_alert_get_stock_id (EAlert *alert)
 {
 	const gchar *stock_id;
 
@@ -764,7 +757,36 @@ e_alert_create_image (EAlert *alert,
 			break;
 	}
 
+	return stock_id;
+}
+
+EAlertButton *
+e_alert_peek_buttons (EAlert *alert)
+{
+	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, NULL);
+	return alert->priv->definition->buttons;
+}
+
+GtkWidget *
+e_alert_create_image (EAlert *alert,
+                      GtkIconSize size)
+{
+	const gchar *stock_id;
+
+	g_return_val_if_fail (E_IS_ALERT (alert), NULL);
+
+	stock_id = e_alert_get_stock_id (alert);
+
 	return gtk_image_new_from_stock (stock_id, size);
+}
+
+void
+e_alert_response (EAlert *alert,
+                  gint response_id)
+{
+	g_return_if_fail (E_IS_ALERT (alert));
+
+	g_signal_emit (alert, signals[RESPONSE], 0, response_id);
 }
 
 void

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <error-list domain="mail-composer">
 
- <error id="no-attach" type="error" modal="true">
+ <error id="no-attach" type="error">
   <_primary>You cannot attach the file &quot;{0}&quot; to this message.</_primary>
   <!--For Translators: '{1}' is the exception description,describing why the file could not be attached to the message -->
   <secondary>{1}</secondary>
@@ -35,7 +35,7 @@
   <button _label="_Send" response="GTK_RESPONSE_YES"/>
  </error>
 
- <error id="exit-unsaved" modal="true" type="warning" default="GTK_RESPONSE_YES">
+ <error id="exit-unsaved" type="warning" default="GTK_RESPONSE_YES">
   <_primary>Are you sure you want to discard the message, titled '{0}', you are composing?</_primary>
   <_secondary>Closing this composer window will discard the message permanently, unless you choose to save the message in your Drafts folder. This will allow you to continue the message at a later date.</_secondary>
   <button _label="_Discard Changes" response="GTK_RESPONSE_NO"/>
@@ -43,30 +43,39 @@
   <button _label="_Save Draft" response="GTK_RESPONSE_YES"/>
  </error>
 
- <error id="no-build-message" type="error" modal="true">
+ <error id="no-build-message" type="error">
   <_primary>Could not create message.</_primary>
   <_secondary>Because &quot;{0}&quot;, you may need to select different mail options.</_secondary>
  </error>
 
- <error id="no-sig-file" type="warning" modal="true">
+ <error id="no-sig-file" type="warning">
   <_primary>Could not read signature file &quot;{0}&quot;.</_primary>
   <_secondary>Because &quot;{1}&quot;.</_secondary>
  </error>
 
- <error id="all-accounts-deleted" type="warning" modal="true">
+ <error id="all-accounts-deleted" type="warning">
   <_primary>All accounts have been removed.</_primary>
   <_secondary>You need to configure an account before you can compose mail.</_secondary>
  </error>
 
- <error id="no-address-control" type="error" modal="true">
-  <_primary>Could not create composer window.</_primary>
-  <_secondary>Unable to activate the address selector control.</_secondary>
+ <error id="append-to-outbox-error" type="error">
+  <_primary>An error occurred while saving to your Outbox folder.</_primary>
+  <_secondary>The reported error was &quot;{0}&quot;. The message has not been sent.</_secondary>
  </error>
 
- <error id="no-editor-control" type="error" modal="true">
-  <_primary>Could not create composer window.</_primary>
-  <_secondary xml:space="preserve">Unable to activate the HTML editor control.
-
-Please make sure that you have the correct version of gtkhtml and libgtkhtml installed.</_secondary>
+ <error id="save-draft-error" type="error">
+  <_primary>An error occurred while saving to your Drafts folder.</_primary>
+  <_secondary>The reported error was &quot;{0}&quot;. The message has most likely not been saved.</_secondary>
  </error>
+
+ <error id="send-error" type="error">
+  <_primary>An error occurred while sending.</_primary>
+  <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+ </error>
+
+ <error id="saved-to-outbox" type="info">
+  <_primary>Message saved to Outbox.</_primary>
+  <_secondary>Because you are working offline, the message has been saved to your local Outbox folder. When you are back online you can send the message by clicking the Send/Receive button in Evolution's toolbar.</_secondary>
+ </error>
+
 </error-list>

@@ -519,7 +519,7 @@ create_new_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *mes
 			camel_mime_message_get_recipients (template, CAMEL_RECIPIENT_TYPE_BCC));
 
 	/* Create the composer */
-	em_utils_edit_message (shell, new, folder);
+	em_utils_edit_message (shell, folder, new);
 
 	g_object_unref (new);
 }
@@ -549,7 +549,7 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
                               guint *action_count,
                               guint merge_id,
                               CamelFolderInfo *folder_info,
-			      CamelFolder *message_folder,
+                              CamelFolder *message_folder,
                               const gchar *message_uid)
 {
 	CamelStore *store;
@@ -669,28 +669,26 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 }
 
 static void
-action_template_cb (GtkAction *action,
-                    EMsgComposer *composer)
+got_message_draft_cb (EMsgComposer *composer,
+                      GAsyncResult *result)
 {
+	CamelMimeMessage *message;
 	CamelMessageInfo *info;
-	CamelMimeMessage *msg;
 	CamelFolder *folder;
 	GError *error = NULL;
 
-	/* Get the templates folder and all UIDs of the messages there. */
-	folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
-
-	msg = e_msg_composer_get_message_draft (composer, NULL, &error);
+	message = e_msg_composer_get_message_draft_finish (
+		composer, result, &error);
 
 	/* Ignore cancellations. */
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_warn_if_fail (msg == NULL);
+		g_warn_if_fail (message == NULL);
 		g_error_free (error);
 		return;
 	}
 
 	if (error != NULL) {
-		g_warn_if_fail (msg == NULL);
+		g_warn_if_fail (message == NULL);
 		e_alert_run_dialog_for_args (
 			GTK_WINDOW (composer),
 			"mail-composer:no-build-message",
@@ -699,7 +697,10 @@ action_template_cb (GtkAction *action,
 		return;
 	}
 
-	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (msg));
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	/* Get the templates folder and all UIDs of the messages there. */
+	folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
 
 	info = camel_message_info_new (NULL);
 
@@ -709,7 +710,19 @@ action_template_cb (GtkAction *action,
 	camel_message_info_set_flags (
 		info, CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DRAFT, ~0);
 
-	mail_append_mail (folder, msg, info, NULL, composer);
+	mail_append_mail (folder, message, info, NULL, composer);
+
+	g_object_unref (message);
+}
+
+static void
+action_template_cb (GtkAction *action,
+                    EMsgComposer *composer)
+{
+	/* XXX Pass a GCancellable */
+	e_msg_composer_get_message_draft (
+		composer, G_PRIORITY_DEFAULT, NULL,
+		(GAsyncReadyCallback) got_message_draft_cb, NULL);
 }
 
 static GtkActionEntry composer_entries[] = {

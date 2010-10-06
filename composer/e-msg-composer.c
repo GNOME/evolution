@@ -37,45 +37,53 @@
 #include <ctype.h>
 #include <fcntl.h>
 
-#include <glib.h>
-
-#include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
-
-#include <gconf/gconf.h>
-#include <gconf/gconf-client.h>
-
 #include "e-util/e-account-utils.h"
 #include "e-util/e-alert-dialog.h"
-#include "e-util/e-alert-sink.h"
 #include "e-util/e-dialog-utils.h"
-#include "e-util/e-extensible.h"
-#include "e-util/e-plugin-ui.h"
 #include "e-util/e-signature-utils.h"
 #include "e-util/e-util-private.h"
-#include "e-signature-combo-box.h"
-#include "shell/e-shell.h"
 #include "em-format/em-format.h"
 #include "em-format/em-format-quote.h"
-#include "misc/e-web-view.h"
 
-#include "e-msg-composer.h"
-#include "e-attachment.h"
 #include "e-composer-private.h"
-#include "e-composer-header-table.h"
 
-#ifdef HAVE_XFREE
-#include <X11/XF86keysym.h>
-#endif
+typedef struct _AsyncContext AsyncContext;
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
+struct _AsyncContext {
+	EActivity *activity;
 
-#define d(x)
+	CamelMimeMessage *message;
+	CamelDataWrapper *top_level_part;
+	CamelDataWrapper *text_plain_part;
 
-#define E_MSG_COMPOSER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MSG_COMPOSER, EMsgComposerPrivate))
+	EAccount *account;
+	CamelSession *session;
+	CamelInternetAddress *from;
+
+	CamelTransferEncoding plain_encoding;
+	GtkPrintOperationAction print_action;
+
+	GPtrArray *recipients;
+
+	guint skip_content  : 1;
+	guint need_thread   : 1;
+	guint pgp_sign      : 1;
+	guint pgp_encrypt   : 1;
+	guint smime_sign    : 1;
+	guint smime_encrypt : 1;
+};
+
+/* Flags for building a message. */
+typedef enum {
+	COMPOSER_FLAG_HTML_CONTENT		= 1 << 0,
+	COMPOSER_FLAG_SAVE_OBJECT_DATA		= 1 << 1,
+	COMPOSER_FLAG_PRIORITIZE_MESSAGE	= 1 << 2,
+	COMPOSER_FLAG_REQUEST_READ_RECEIPT	= 1 << 3,
+	COMPOSER_FLAG_PGP_SIGN			= 1 << 4,
+	COMPOSER_FLAG_PGP_ENCRYPT		= 1 << 5,
+	COMPOSER_FLAG_SMIME_SIGN		= 1 << 6,
+	COMPOSER_FLAG_SMIME_ENCRYPT		= 1 << 7
+} ComposerFlags;
 
 enum {
 	PROP_0,
@@ -84,6 +92,7 @@ enum {
 };
 
 enum {
+	PRESEND,
 	SEND,
 	SAVE_DRAFT,
 	PRINT,
@@ -91,11 +100,6 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL];
-
-/* local prototypes */
-static GList *add_recipients (GList *list, const gchar *recips);
-
-static void handle_mailto (EMsgComposer *composer, const gchar *mailto);
 
 /* used by e_msg_composer_add_message_attachments () */
 static void	add_attachments_from_multipart	(EMsgComposer *composer,
@@ -121,12 +125,45 @@ static void	handle_multipart_signed		(EMsgComposer *composer,
 						 GCancellable *cancellable,
 						 gint depth);
 
+static void	e_msg_composer_alert_sink_init	(EAlertSinkInterface *interface);
+
 G_DEFINE_TYPE_WITH_CODE (
 	EMsgComposer,
 	e_msg_composer,
 	GTKHTML_TYPE_EDITOR,
-	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, NULL)
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_ALERT_SINK, e_msg_composer_alert_sink_init)
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
+
+static void
+async_context_free (AsyncContext *context)
+{
+	if (context->activity != NULL)
+		g_object_unref (context->activity);
+
+	if (context->message != NULL)
+		g_object_unref (context->message);
+
+	if (context->top_level_part != NULL)
+		g_object_unref (context->top_level_part);
+
+	if (context->text_plain_part != NULL)
+		g_object_unref (context->text_plain_part);
+
+	if (context->account != NULL)
+		g_object_unref (context->account);
+
+	if (context->session != NULL)
+		g_object_unref (context->session);
+
+	if (context->from != NULL)
+		g_object_unref (context->from);
+
+	if (context->recipients != NULL)
+		g_ptr_array_free (context->recipients, TRUE);
+
+	g_slice_free (AsyncContext, context);
+}
 
 /**
  * emcu_part_to_html:
@@ -179,52 +216,6 @@ emcu_part_to_html (CamelMimePart *part,
 	g_byte_array_free (buf, FALSE);
 
 	return text;
-}
-
-/* copy of em_utils_prompt_user from mailer */
-static gboolean
-emcu_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, ...)
-{
-	GtkDialog *mbox;
-	GtkWidget *check = NULL;
-	GtkWidget *container;
-	va_list ap;
-	gint button;
-	GConfClient *gconf = gconf_client_get_default ();
-	EAlert *alert = NULL;
-
-	if (promptkey
-	    && !gconf_client_get_bool (gconf, promptkey, NULL)) {
-		g_object_unref (gconf);
-		return TRUE;
-	}
-
-	va_start (ap, tag);
-	alert = e_alert_new_valist (tag, ap);
-	va_end (ap);
-
-	mbox = (GtkDialog*) e_alert_dialog_new (parent, alert);
-	g_object_unref (alert);
-
-	if (promptkey) {
-		check = gtk_check_button_new_with_mnemonic (_("_Do not show this message again."));
-		gtk_container_set_border_width ((GtkContainer *)check, 12);
-		container = gtk_dialog_get_content_area (mbox);
-		gtk_box_pack_start (GTK_BOX (container), check, TRUE, TRUE, 0);
-		gtk_widget_show (check);
-	}
-
-	button = gtk_dialog_run (mbox);
-	if (promptkey)
-		gconf_client_set_bool (
-			gconf, promptkey,
-			!gtk_toggle_button_get_active (
-			GTK_TOGGLE_BUTTON (check)), NULL);
-
-	gtk_widget_destroy ((GtkWidget*) mbox);
-	g_object_unref (gconf);
-
-	return button == GTK_RESPONSE_YES;
 }
 
 /* copy of mail_tool_remove_xevolution_headers */
@@ -607,42 +598,413 @@ account_hash_algo_to_camel_hash (const gchar *hash_algo)
 	return res;
 }
 
-static CamelMimeMessage *
-build_message (EMsgComposer *composer,
-               gboolean html_content,
-               gboolean save_html_object_data,
-               GCancellable *cancellable,
-               GError **error)
+static void
+composer_add_charset_filter (CamelStream *stream,
+                             const gchar *charset)
 {
-	GtkhtmlEditor *editor;
-	EMsgComposerPrivate *p = composer->priv;
+	CamelMimeFilter *filter;
 
+	filter = camel_mime_filter_charset_new ("UTF-8", charset);
+	camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), filter);
+	g_object_unref (filter);
+}
+
+static void
+composer_add_quoted_printable_filter (CamelStream *stream)
+{
+	CamelMimeFilter *filter;
+
+	filter = camel_mime_filter_basic_new (CAMEL_MIME_FILTER_BASIC_QP_ENC);
+	camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), filter);
+	g_object_unref (filter);
+
+	filter = camel_mime_filter_canon_new (CAMEL_MIME_FILTER_CANON_FROM);
+	camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), filter);
+	g_object_unref (filter);
+}
+
+/* Helper for composer_build_message_thread() */
+static gboolean
+composer_build_message_pgp (AsyncContext *context,
+                            GCancellable *cancellable,
+                            GError **error)
+{
+	CamelCipherContext *cipher;
+	CamelDataWrapper *content;
+	CamelMimePart *mime_part;
+	const gchar *pgp_userid;
+	gboolean have_pgp_key;
+
+	/* Return silently if we're not signing or encrypting with PGP. */
+	if (!context->pgp_sign && !context->pgp_encrypt)
+		return TRUE;
+
+	have_pgp_key =
+		(context->account != NULL) &&
+		(context->account->pgp_key != NULL) &&
+		(context->account->pgp_key[0] != '\0');
+
+	mime_part = camel_mime_part_new ();
+
+	camel_medium_set_content (
+		CAMEL_MEDIUM (mime_part),
+		context->top_level_part);
+
+	if (context->top_level_part == context->text_plain_part)
+		camel_mime_part_set_encoding (
+			mime_part, context->plain_encoding);
+
+	g_object_unref (context->top_level_part);
+	context->top_level_part = NULL;
+
+	if (have_pgp_key)
+		pgp_userid = context->account->pgp_key;
+	else
+		camel_internet_address_get (
+			context->from, 0, NULL, &pgp_userid);
+
+	if (context->pgp_sign) {
+		CamelMimePart *npart;
+		gboolean success;
+
+		npart = camel_mime_part_new ();
+
+		cipher = camel_gpg_context_new (context->session);
+		if (context->account != NULL)
+			camel_gpg_context_set_always_trust (
+				CAMEL_GPG_CONTEXT (cipher),
+				context->account->pgp_always_trust);
+
+		success = camel_cipher_context_sign_sync (
+			cipher, pgp_userid,
+			account_hash_algo_to_camel_hash (
+				(context->account != NULL) ?
+				e_account_get_string (context->account,
+				E_ACCOUNT_PGP_HASH_ALGORITHM) : NULL),
+			mime_part, npart, cancellable, error);
+
+		g_object_unref (cipher);
+
+		g_object_unref (mime_part);
+
+		if (!success) {
+			g_object_unref (npart);
+			return FALSE;
+		}
+
+		mime_part = npart;
+	}
+
+	if (context->pgp_encrypt) {
+		CamelMimePart *npart;
+		gboolean encrypt_to_self;
+		gboolean success;
+
+		encrypt_to_self =
+			(context->account != NULL) &&
+			(context->account->pgp_encrypt_to_self) &&
+			(pgp_userid != NULL);
+
+		npart = camel_mime_part_new ();
+
+		/* Check to see if we should encrypt to self.
+		 * NB gets removed immediately after use */
+		if (encrypt_to_self)
+			g_ptr_array_add (
+				context->recipients,
+				g_strdup (pgp_userid));
+
+		cipher = camel_gpg_context_new (context->session);
+		if (context->account != NULL)
+			camel_gpg_context_set_always_trust (
+				CAMEL_GPG_CONTEXT (cipher),
+				context->account->pgp_always_trust);
+
+		success = camel_cipher_context_encrypt_sync (
+			cipher, pgp_userid, context->recipients,
+			mime_part, npart, cancellable, error);
+
+		g_object_unref (cipher);
+
+		if (encrypt_to_self)
+			g_ptr_array_set_size (
+				context->recipients,
+				context->recipients->len - 1);
+
+		g_object_unref (mime_part);
+
+		if (!success) {
+			g_object_unref (npart);
+			return FALSE;
+		}
+
+		mime_part = npart;
+	}
+
+	content = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
+	context->top_level_part = g_object_ref (content);
+
+	g_object_unref (mime_part);
+
+	return TRUE;
+}
+
+#ifdef HAVE_SSL
+static gboolean
+composer_build_message_smime (AsyncContext *context,
+                              GCancellable *cancellable,
+                              GError **error)
+{
+	CamelCipherContext *cipher;
+	CamelMimePart *mime_part;
+	gboolean have_signing_certificate;
+	gboolean have_encryption_certificate;
+
+	/* Return silently if we're not signing or encrypting with S/MIME. */
+	if (!context->smime_sign && !context->smime_encrypt)
+		return TRUE;
+
+	have_signing_certificate =
+		(context->account != NULL) &&
+		(context->account->smime_sign_key != NULL) &&
+		(context->account->smime_sign_key[0] != '\0');
+
+	have_encryption_certificate =
+		(context->account != NULL) &&
+		(context->account->smime_encrypt_key != NULL) &&
+		(context->account->smime_encrypt_key[0] != '\0');
+
+	if (context->smime_sign && !have_signing_certificate) {
+		g_set_error (
+			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			_("Cannot sign outgoing message: "
+			  "No signing certificate set for "
+			  "this account"));
+		return FALSE;
+	}
+
+	if (context->smime_encrypt && !have_encryption_certificate) {
+		g_set_error (
+			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			_("Cannot encrypt outgoing message: "
+			  "No encryption certificate set for "
+			  "this account"));
+		return FALSE;
+	}
+
+	mime_part = camel_mime_part_new ();
+
+	camel_medium_set_content (
+		CAMEL_MEDIUM (mime_part),
+		context->top_level_part);
+
+	if (context->top_level_part == context->text_plain_part)
+		camel_mime_part_set_encoding (
+			mime_part, context->plain_encoding);
+
+	g_object_unref (context->top_level_part);
+	context->top_level_part = NULL;
+
+	if (context->smime_sign) {
+		CamelMimePart *npart;
+		gboolean success;
+
+		npart = camel_mime_part_new ();
+
+		cipher = camel_smime_context_new (context->session);
+
+		/* if we're also encrypting, envelope-sign rather than clear-sign */
+		if (context->smime_encrypt) {
+			camel_smime_context_set_sign_mode (
+				(CamelSMIMEContext *) cipher,
+				CAMEL_SMIME_SIGN_ENVELOPED);
+			camel_smime_context_set_encrypt_key (
+				(CamelSMIMEContext *) cipher, TRUE,
+				context->account->smime_encrypt_key);
+		} else if (have_encryption_certificate) {
+			camel_smime_context_set_encrypt_key (
+				(CamelSMIMEContext *) cipher, TRUE,
+				context->account->smime_encrypt_key);
+		}
+
+		success = camel_cipher_context_sign_sync (
+			cipher, context->account->smime_sign_key,
+			account_hash_algo_to_camel_hash (
+				(context->account != NULL) ?
+				e_account_get_string (context->account,
+				E_ACCOUNT_SMIME_HASH_ALGORITHM) : NULL),
+			mime_part, npart, cancellable, error);
+
+		g_object_unref (cipher);
+
+		g_object_unref (mime_part);
+
+		if (!success) {
+			g_object_unref (npart);
+			return FALSE;
+		}
+
+		mime_part = npart;
+	}
+
+	if (context->smime_encrypt) {
+		gboolean success;
+
+		/* check to see if we should encrypt to self, NB removed after use */
+		if (context->account->smime_encrypt_to_self)
+			g_ptr_array_add (
+				context->recipients, g_strdup (
+				context->account->smime_encrypt_key));
+
+		cipher = camel_smime_context_new (context->session);
+		camel_smime_context_set_encrypt_key (
+			(CamelSMIMEContext *) cipher, TRUE,
+			context->account->smime_encrypt_key);
+
+		success = camel_cipher_context_encrypt_sync (
+			cipher, NULL,
+			context->recipients, mime_part,
+			CAMEL_MIME_PART (context->message),
+			cancellable, error);
+
+		g_object_unref (cipher);
+
+		if (!success)
+			return FALSE;
+
+		if (context->account->smime_encrypt_to_self)
+			g_ptr_array_set_size (
+				context->recipients,
+				context->recipients->len - 1);
+	}
+
+	/* we replaced the message directly, we don't want to do reparenting foo */
+	if (context->smime_encrypt) {
+		context->skip_content = TRUE;
+	} else {
+		CamelDataWrapper *content;
+
+		content = camel_medium_get_content (
+			CAMEL_MEDIUM (mime_part));
+		context->top_level_part = g_object_ref (content);
+	}
+
+	g_object_unref (mime_part);
+
+	return TRUE;
+}
+#endif
+
+static void
+composer_build_message_thread (GSimpleAsyncResult *simple,
+                               EMsgComposer *composer,
+                               GCancellable *cancellable)
+{
+	AsyncContext *context;
+	GError *error = NULL;
+
+	context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	/* Setup working recipient list if we're encrypting. */
+	if (context->pgp_encrypt || context->smime_encrypt) {
+		gint ii, jj;
+
+		const gchar *types[] = {
+			CAMEL_RECIPIENT_TYPE_TO,
+			CAMEL_RECIPIENT_TYPE_CC,
+			CAMEL_RECIPIENT_TYPE_BCC
+		};
+
+		context->recipients = g_ptr_array_new_with_free_func (
+			(GDestroyNotify) g_free);
+		for (ii = 0; ii < G_N_ELEMENTS (types); ii++) {
+			CamelInternetAddress *addr;
+			const gchar *address;
+
+			addr = camel_mime_message_get_recipients (
+				context->message, types[ii]);
+			for (jj = 0; camel_internet_address_get (addr, jj, NULL, &address); jj++)
+				g_ptr_array_add (
+					context->recipients,
+					g_strdup (address));
+		}
+	}
+
+	if (!composer_build_message_pgp (context, cancellable, &error)) {
+		g_simple_async_result_set_from_error (simple, error);
+		g_error_free (error);
+		return;
+	}
+
+#if defined (HAVE_NSS)
+	if (!composer_build_message_smime (context, cancellable, &error)) {
+		g_simple_async_result_set_from_error (simple, error);
+		g_error_free (error);
+		return;
+	}
+#endif /* HAVE_NSS */
+}
+
+static void
+composer_add_evolution_format_header (CamelMedium *medium,
+                                      ComposerFlags flags)
+{
+	GString *string;
+
+	string = g_string_sized_new (128);
+
+	if (flags & COMPOSER_FLAG_HTML_CONTENT)
+		g_string_append (string, "text/html");
+	else
+		g_string_append (string, "text/plain");
+
+	if (flags & COMPOSER_FLAG_PGP_SIGN)
+		g_string_append (string, ", pgp-sign");
+
+	if (flags & COMPOSER_FLAG_PGP_ENCRYPT)
+		g_string_append (string, ", pgp-encrypt");
+
+	if (flags & COMPOSER_FLAG_SMIME_SIGN)
+		g_string_append (string, ", smime-sign");
+
+	if (flags & COMPOSER_FLAG_SMIME_ENCRYPT)
+		g_string_append (string, ", smime-encrypt");
+
+	camel_medium_add_header (
+		medium, "X-Evolution-Format", string->str);
+
+	g_string_free (string, TRUE);
+}
+
+static void
+composer_build_message (EMsgComposer *composer,
+                        ComposerFlags flags,
+                        gint io_priority,
+                        GCancellable *cancellable,
+                        GAsyncReadyCallback callback,
+                        gpointer user_data)
+{
+	EMsgComposerPrivate *priv;
+	GSimpleAsyncResult *simple;
+	AsyncContext *context;
+	GtkhtmlEditor *editor;
 	EAttachmentView *view;
 	EAttachmentStore *store;
 	EComposerHeaderTable *table;
-	GtkToggleAction *action;
-	CamelDataWrapper *plain, *html, *current;
-	CamelTransferEncoding plain_encoding;
+	CamelDataWrapper *html;
 	const gchar *iconv_charset = NULL;
-	GPtrArray *recipients = NULL;
 	CamelMultipart *body = NULL;
 	CamelContentType *type;
-	CamelMimeMessage *new;
 	CamelSession *session;
 	CamelStream *stream;
+	CamelStream *mem_stream;
 	CamelMimePart *part;
 	GByteArray *data;
 	EAccount *account;
 	gchar *charset;
-	gboolean pgp_sign;
-	gboolean pgp_encrypt;
-	gboolean smime_sign;
-	gboolean smime_encrypt;
 	gint i;
-	GError *local_error = NULL;
 
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
-
+	priv = composer->priv;
 	editor = GTKHTML_EDITOR (composer);
 	table = e_msg_composer_get_header_table (composer);
 	account = e_composer_header_table_get_account (table);
@@ -650,55 +1012,129 @@ build_message (EMsgComposer *composer,
 	store = e_attachment_view_get_store (view);
 	session = e_msg_composer_get_session (composer);
 
-	/* evil kludgy hack for Redirect */
-	if (p->redirect) {
-		build_message_headers (composer, p->redirect, TRUE);
-		g_object_ref (p->redirect);
-		return p->redirect;
+	/* Do all the non-blocking work here, and defer
+	 * any blocking operations to a separate thread. */
+
+	context = g_slice_new0 (AsyncContext);
+	context->account = g_object_ref (account);
+	context->session = g_object_ref (session);
+	context->from = e_msg_composer_get_from (composer);
+
+	if (flags & COMPOSER_FLAG_PGP_SIGN)
+		context->pgp_sign = TRUE;
+
+	if (flags & COMPOSER_FLAG_PGP_ENCRYPT)
+		context->pgp_encrypt = TRUE;
+
+	if (flags & COMPOSER_FLAG_SMIME_SIGN)
+		context->smime_sign = TRUE;
+
+	if (flags & COMPOSER_FLAG_SMIME_ENCRYPT)
+		context->smime_encrypt = TRUE;
+
+	context->need_thread =
+		context->pgp_sign || context->pgp_encrypt ||
+		context->smime_sign || context->smime_encrypt;
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (composer), callback,
+		user_data, composer_build_message);
+
+	g_simple_async_result_set_op_res_gpointer (
+		simple, context, (GDestroyNotify) async_context_free);
+
+	/* If this is a redirected message, just tweak the headers. */
+	if (priv->redirect) {
+		context->message = g_object_ref (priv->redirect);
+		build_message_headers (composer, context->message, TRUE);
+		g_simple_async_result_complete (simple);
+		g_object_unref (simple);
+		return;
 	}
 
-	new = camel_mime_message_new ();
-	build_message_headers (composer, new, FALSE);
-	for (i = 0; i < p->extra_hdr_names->len; i++) {
+	context->message = camel_mime_message_new ();
+
+	build_message_headers (composer, context->message, FALSE);
+	for (i = 0; i < priv->extra_hdr_names->len; i++) {
 		camel_medium_add_header (
-			CAMEL_MEDIUM (new),
-			p->extra_hdr_names->pdata[i],
-			p->extra_hdr_values->pdata[i]);
+			CAMEL_MEDIUM (context->message),
+			priv->extra_hdr_names->pdata[i],
+			priv->extra_hdr_values->pdata[i]);
 	}
 
-	/* Message Disposition Notification */
-	action = GTK_TOGGLE_ACTION (ACTION (REQUEST_READ_RECEIPT));
-	if (gtk_toggle_action_get_active (action)) {
+	/* Disposition-Notification-To */
+	if (flags & COMPOSER_FLAG_REQUEST_READ_RECEIPT) {
 		gchar *mdn_address = account->id->reply_to;
 		if (!mdn_address || !*mdn_address)
 			mdn_address = account->id->address;
 
 		camel_medium_add_header (
-			CAMEL_MEDIUM (new),
+			CAMEL_MEDIUM (context->message),
 			"Disposition-Notification-To", mdn_address);
 	}
 
-	/* Message Priority */
-	action = GTK_TOGGLE_ACTION (ACTION (PRIORITIZE_MESSAGE));
-	if (gtk_toggle_action_get_active (action))
+	/* X-Priority */
+	if (flags & COMPOSER_FLAG_PRIORITIZE_MESSAGE)
 		camel_medium_add_header (
-			CAMEL_MEDIUM (new), "X-Priority", "1");
+			CAMEL_MEDIUM (context->message),
+			"X-Priority", "1");
 
-	if (p->mime_body) {
-		if (text_requires_quoted_printable (p->mime_body, -1)) {
-			plain_encoding = CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
+	if (account != NULL) {
+		/* X-Evolution-Account */
+		camel_medium_set_header (
+			CAMEL_MEDIUM (context->message),
+			"X-Evolution-Account", account->uid);
+
+		/* X-Evolution-Fcc */
+		camel_medium_set_header (
+			CAMEL_MEDIUM (context->message),
+			"X-Evolution-Fcc", account->sent_folder_uri);
+
+		/* X-Evolution-Transport */
+		camel_medium_set_header (
+			CAMEL_MEDIUM (context->message),
+			"X-Evolution-Transport", account->transport->url);
+
+		/* Organization */
+		if (account->id->organization != NULL) {
+			gchar *organization;
+
+			organization = camel_header_encode_string (
+				(const guchar *) account->id->organization);
+			camel_medium_set_header (
+				CAMEL_MEDIUM (context->message),
+				"Organization", organization);
+			g_free (organization);
+		}
+	}
+
+	/* X-Evolution-Format */
+	composer_add_evolution_format_header (
+		CAMEL_MEDIUM (context->message), flags);
+
+	/* Build the text/plain part. */
+
+	if (priv->mime_body) {
+		if (text_requires_quoted_printable (priv->mime_body, -1)) {
+			context->plain_encoding =
+				CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
 		} else {
-			plain_encoding = CAMEL_TRANSFER_ENCODING_7BIT;
-			for (i = 0; p->mime_body[i]; i++) {
-				if ((guchar) p->mime_body[i] > 127) {
-					plain_encoding = CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
+			context->plain_encoding = CAMEL_TRANSFER_ENCODING_7BIT;
+			for (i = 0; priv->mime_body[i]; i++) {
+				if ((guchar) priv->mime_body[i] > 127) {
+					context->plain_encoding =
+					CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
 					break;
 				}
 			}
 		}
+
 		data = g_byte_array_new ();
-		g_byte_array_append (data, (const guint8 *)p->mime_body, strlen (p->mime_body));
-		type = camel_content_type_decode (p->mime_type);
+		g_byte_array_append (
+			data, (const guint8 *) priv->mime_body,
+			strlen (priv->mime_body));
+		type = camel_content_type_decode (priv->mime_type);
+
 	} else {
 		gchar *text;
 		gsize length;
@@ -708,78 +1144,70 @@ build_message (EMsgComposer *composer,
 		g_byte_array_append (data, (guint8 *) text, (guint) length);
 		g_free (text);
 
-		/* FIXME: we may want to do better than this... */
-
 		type = camel_content_type_new ("text", "plain");
-		if ((charset = best_charset (data, p->charset, &plain_encoding))) {
+		charset = best_charset (
+			data, priv->charset, &context->plain_encoding);
+		if (charset != NULL) {
 			camel_content_type_set_param (type, "charset", charset);
 			iconv_charset = camel_iconv_charset_name (charset);
 			g_free (charset);
 		}
 	}
 
-	stream = camel_stream_mem_new_with_byte_array (data);
+	mem_stream = camel_stream_mem_new_with_byte_array (data);
+	stream = camel_stream_filter_new (mem_stream);
+	g_object_unref (mem_stream);
 
-	/* convert the stream to the appropriate charset */
-	if (iconv_charset && g_ascii_strcasecmp (iconv_charset, "UTF-8") != 0) {
-		CamelStream *filter_stream;
-		CamelMimeFilter *filter;
+	/* Convert the stream to the appropriate charset. */
+	if (iconv_charset && g_ascii_strcasecmp (iconv_charset, "UTF-8") != 0)
+		composer_add_charset_filter (stream, iconv_charset);
 
-		filter_stream = camel_stream_filter_new (stream);
-		g_object_unref (stream);
+	/* Encode the stream to quoted-printable if necessary. */
+	if (context->plain_encoding == CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE)
+		composer_add_quoted_printable_filter (stream);
 
-		stream = filter_stream;
-		filter = camel_mime_filter_charset_new ("UTF-8", iconv_charset);
-		camel_stream_filter_add (
-			CAMEL_STREAM_FILTER (filter_stream), filter);
-		g_object_unref (filter);
-	}
-
-	if (plain_encoding == CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE) {
-		/* encode to quoted-printable by ourself, together with
-		 * taking care of "\nFrom " text */
-		CamelStream *filter_stream;
-		CamelMimeFilter *mf, *qp;
-
-		if (!CAMEL_IS_STREAM_FILTER (stream)) {
-			filter_stream = camel_stream_filter_new (stream);
-			g_object_unref (stream);
-
-			stream = filter_stream;
-		}
-
-		qp = camel_mime_filter_basic_new (
-			CAMEL_MIME_FILTER_BASIC_QP_ENC);
-		camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), qp);
-		g_object_unref (qp);
-
-		mf = camel_mime_filter_canon_new (CAMEL_MIME_FILTER_CANON_FROM);
-		camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), mf);
-		g_object_unref (mf);
-	}
-
-	/* construct the content object */
-	plain = camel_data_wrapper_new ();
+	/* Construct the content object.  This does not block since
+	 * we're constructing the data wrapper from a memory stream. */
+	context->top_level_part = camel_data_wrapper_new ();
 	camel_data_wrapper_construct_from_stream_sync (
-		plain, stream, NULL, NULL);
+		context->top_level_part, stream, NULL, NULL);
 	g_object_unref (stream);
 
-	if (plain_encoding == CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE) {
-		/* to not re-encode the data when pushing it to a part */
-		plain->encoding = plain_encoding;
-	}
+	context->text_plain_part = g_object_ref (context->top_level_part);
 
-	camel_data_wrapper_set_mime_type_field (plain, type);
+	/* Avoid re-encoding the data when adding it to a MIME part. */
+	if (context->plain_encoding == CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE)
+		context->top_level_part->encoding = context->plain_encoding;
+
+	camel_data_wrapper_set_mime_type_field (
+		context->top_level_part, type);
+
 	camel_content_type_unref (type);
 
-	if (html_content) {
+	/* Build the text/html part, and wrap it and the text/plain part
+	 * in a multipart/alternative part.  Additionally, if there are
+	 * inline images then wrap the multipart/alternative part along
+	 * with the images in a multipart/related part.
+	 *
+	 * So the structure of all this will be:
+	 *
+	 *    multipart/related
+	 *        multipart/alternative
+	 *            text/plain
+	 *            text/html
+	 *        image/<<whatever>>
+	 *        image/<<whatever>>
+	 *        ...
+	 */
+
+	if (flags & COMPOSER_FLAG_HTML_CONTENT) {
 		gchar *text;
 		gsize length;
 		gboolean pre_encode;
 
 		clear_current_images (composer);
 
-		if (save_html_object_data)
+		if (flags & COMPOSER_FLAG_SAVE_OBJECT_DATA)
 			gtkhtml_editor_run_command (editor, "save-data-on");
 
 		data = g_byte_array_new ();
@@ -788,45 +1216,30 @@ build_message (EMsgComposer *composer,
 		pre_encode = text_requires_quoted_printable (text, length);
 		g_free (text);
 
-		if (save_html_object_data)
+		if (flags & COMPOSER_FLAG_SAVE_OBJECT_DATA)
 			gtkhtml_editor_run_command (editor, "save-data-off");
 
+		mem_stream = camel_stream_mem_new_with_byte_array (data);
+		stream = camel_stream_filter_new (mem_stream);
+		g_object_unref (mem_stream);
+
+		if (pre_encode)
+			composer_add_quoted_printable_filter (stream);
+
+		/* Construct the content object.  This does not block since
+		 * we're constructing the data wrapper from a memory stream. */
 		html = camel_data_wrapper_new ();
-
-		stream = camel_stream_mem_new_with_byte_array (data);
-
-		if (pre_encode) {
-			/* encode to quoted-printable by ourself, together with
-			 * taking care of "\nFrom " text */
-			CamelStream *filter_stream;
-			CamelMimeFilter *mf, *qp;
-
-			if (!CAMEL_IS_STREAM_FILTER (stream)) {
-				filter_stream = camel_stream_filter_new (stream);
-				g_object_unref (stream);
-
-				stream = filter_stream;
-			}
-
-			qp = camel_mime_filter_basic_new (
-				CAMEL_MIME_FILTER_BASIC_QP_ENC);
-			camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), qp);
-			g_object_unref (qp);
-
-			mf = camel_mime_filter_canon_new (CAMEL_MIME_FILTER_CANON_FROM);
-			camel_stream_filter_add (CAMEL_STREAM_FILTER (stream), mf);
-			g_object_unref (mf);
-		}
-
 		camel_data_wrapper_construct_from_stream_sync (
 			html, stream, NULL, NULL);
 		g_object_unref (stream);
-		camel_data_wrapper_set_mime_type (html, "text/html; charset=utf-8");
 
-		if (pre_encode) {
-			/* to not re-encode the data when pushing it to a part */
-			html->encoding = CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
-		}
+		camel_data_wrapper_set_mime_type (
+			html, "text/html; charset=utf-8");
+
+		/* Avoid re-encoding the data when adding it to a MIME part. */
+		if (pre_encode)
+			html->encoding =
+				CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE;
 
 		/* Build the multipart/alternative */
 		body = camel_multipart_new ();
@@ -834,357 +1247,124 @@ build_message (EMsgComposer *composer,
 			CAMEL_DATA_WRAPPER (body), "multipart/alternative");
 		camel_multipart_set_boundary (body, NULL);
 
+		/* Add the text/plain part. */
 		part = camel_mime_part_new ();
-		camel_medium_set_content (CAMEL_MEDIUM (part), plain);
-		g_object_unref (plain);
-		camel_mime_part_set_encoding (part, plain_encoding);
+		camel_medium_set_content (
+			CAMEL_MEDIUM (part), context->top_level_part);
+		camel_mime_part_set_encoding (part, context->plain_encoding);
 		camel_multipart_add_part (body, part);
 		g_object_unref (part);
 
+		/* Add the text/html part. */
 		part = camel_mime_part_new ();
 		camel_medium_set_content (CAMEL_MEDIUM (part), html);
-		g_object_unref (html);
-		camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE);
+		camel_mime_part_set_encoding (
+			part, CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE);
 		camel_multipart_add_part (body, part);
 		g_object_unref (part);
 
-		/* If there are inlined images, construct a
-		 * multipart/related containing the
-		 * multipart/alternative and the images.
-		 */
-		if (p->current_images) {
+		g_object_unref (context->top_level_part);
+		g_object_unref (html);
+
+		/* If there are inlined images, construct a multipart/related
+		 * containing the multipart/alternative and the images. */
+		if (priv->current_images) {
 			CamelMultipart *html_with_images;
 
 			html_with_images = camel_multipart_new ();
 			camel_data_wrapper_set_mime_type (
 				CAMEL_DATA_WRAPPER (html_with_images),
-				"multipart/related; type=\"multipart/alternative\"");
+				"multipart/related; "
+				"type=\"multipart/alternative\"");
 			camel_multipart_set_boundary (html_with_images, NULL);
 
 			part = camel_mime_part_new ();
-			camel_medium_set_content (CAMEL_MEDIUM (part), CAMEL_DATA_WRAPPER (body));
-			g_object_unref (body);
+			camel_medium_set_content (
+				CAMEL_MEDIUM (part),
+				CAMEL_DATA_WRAPPER (body));
 			camel_multipart_add_part (html_with_images, part);
 			g_object_unref (part);
+
+			g_object_unref (body);
 
 			add_inlined_images (composer, html_with_images);
 			clear_current_images (composer);
 
-			current = CAMEL_DATA_WRAPPER (html_with_images);
+			context->top_level_part =
+				CAMEL_DATA_WRAPPER (html_with_images);
 		} else
-			current = CAMEL_DATA_WRAPPER (body);
-	} else
-		current = plain;
+			context->top_level_part =
+				CAMEL_DATA_WRAPPER (body);
+	}
 
+	/* If there are attachments, wrap what we've built so far
+	 * along with the attachments in a multipart/mixed part. */
 	if (e_attachment_store_get_num_attachments (store) > 0) {
 		CamelMultipart *multipart = camel_multipart_new ();
-
-		if (p->is_alternative) {
-			camel_data_wrapper_set_mime_type (
-				CAMEL_DATA_WRAPPER (multipart),
-				"multipart/alternative");
-		}
 
 		/* Generate a random boundary. */
 		camel_multipart_set_boundary (multipart, NULL);
 
 		part = camel_mime_part_new ();
-		camel_medium_set_content (CAMEL_MEDIUM (part), current);
-		if (current == plain)
-			camel_mime_part_set_encoding (part, plain_encoding);
-		g_object_unref (current);
+		camel_medium_set_content (
+			CAMEL_MEDIUM (part),
+			context->top_level_part);
+		if (context->top_level_part == context->text_plain_part)
+			camel_mime_part_set_encoding (
+				part, context->plain_encoding);
 		camel_multipart_add_part (multipart, part);
 		g_object_unref (part);
 
 		e_attachment_store_add_to_multipart (
-			store, multipart, p->charset);
+			store, multipart, priv->charset);
 
-		if (p->is_alternative) {
-			for (i = camel_multipart_get_number (multipart); i > 1; i--) {
-				part = camel_multipart_get_part (multipart, i - 1);
-				camel_medium_remove_header (CAMEL_MEDIUM (part), "Content-Disposition");
-			}
-		}
-
-		current = CAMEL_DATA_WRAPPER (multipart);
+		g_object_unref (context->top_level_part);
+		context->top_level_part = CAMEL_DATA_WRAPPER (multipart);
 	}
 
-	action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-	pgp_sign = gtk_toggle_action_get_active (action);
+	/* Run any blocking operations in a separate thread. */
+	if (context->need_thread)
+		g_simple_async_result_run_in_thread (
+			simple, (GSimpleAsyncThreadFunc)
+			composer_build_message_thread,
+			io_priority, cancellable);
+	else
+		g_simple_async_result_complete (simple);
 
-	action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
-	pgp_encrypt = gtk_toggle_action_get_active (action);
+	g_object_unref (simple);
+}
 
-#if defined (HAVE_NSS)
-	action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
-	smime_sign = gtk_toggle_action_get_active (action);
+static CamelMimeMessage *
+composer_build_message_finish (EMsgComposer *composer,
+                               GAsyncResult *result,
+                               GError **error)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *context;
 
-	action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
-	smime_encrypt = gtk_toggle_action_get_active (action);
-#else
-	smime_sign = FALSE;
-	smime_encrypt = FALSE;
-#endif
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (composer), composer_build_message), NULL);
 
-	/* Setup working recipient list if we're encrypting */
-	if (pgp_encrypt || smime_encrypt) {
-		gint j;
-		const gchar *types[] = {
-			CAMEL_RECIPIENT_TYPE_TO,
-			CAMEL_RECIPIENT_TYPE_CC,
-			CAMEL_RECIPIENT_TYPE_BCC
-		};
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	context = g_simple_async_result_get_op_res_gpointer (simple);
 
-		recipients = g_ptr_array_new ();
-		for (i = 0; i < G_N_ELEMENTS (types); i++) {
-			CamelInternetAddress *addr;
-			const gchar *address;
+	if (g_simple_async_result_propagate_error (simple, error))
+		return NULL;
 
-			addr = camel_mime_message_get_recipients (new, types[i]);
-			for (j=0;camel_internet_address_get (addr, j, NULL, &address); j++)
-				g_ptr_array_add (recipients, g_strdup (address));
+	/* Finalize some details before returning. */
 
-		}
-	}
+	if (!context->skip_content)
+		camel_medium_set_content (
+			CAMEL_MEDIUM (context->message),
+			context->top_level_part);
 
-	if (pgp_sign || pgp_encrypt) {
-		const gchar *pgp_userid;
-		CamelInternetAddress *from = NULL;
-		CamelCipherContext *cipher;
+	if (context->top_level_part == context->text_plain_part)
+		camel_mime_part_set_encoding (
+			CAMEL_MIME_PART (context->message),
+			context->plain_encoding);
 
-		part = camel_mime_part_new ();
-		camel_medium_set_content (CAMEL_MEDIUM (part), current);
-		if (current == plain)
-			camel_mime_part_set_encoding (part, plain_encoding);
-		g_object_unref (current);
-
-		if (account && account->pgp_key && *account->pgp_key) {
-			pgp_userid = account->pgp_key;
-		} else {
-			from = e_msg_composer_get_from (composer);
-			camel_internet_address_get (from, 0, NULL, &pgp_userid);
-		}
-
-		if (pgp_sign) {
-			CamelMimePart *npart = camel_mime_part_new ();
-
-			cipher = camel_gpg_context_new (session);
-			if (account != NULL)
-				camel_gpg_context_set_always_trust (
-					CAMEL_GPG_CONTEXT (cipher),
-					account->pgp_always_trust);
-
-			camel_cipher_context_sign_sync (
-				cipher, pgp_userid,
-				account_hash_algo_to_camel_hash (
-				account ? e_account_get_string (account, E_ACCOUNT_PGP_HASH_ALGORITHM) : NULL),
-				part, npart, cancellable, &local_error);
-
-			g_object_unref (cipher);
-
-			if (local_error != NULL) {
-				g_object_unref (npart);
-				goto exception;
-			}
-
-			g_object_unref (part);
-			part = npart;
-		}
-
-		if (pgp_encrypt) {
-			CamelMimePart *npart = camel_mime_part_new ();
-
-			/* Check to see if we should encrypt to self.
-			 * NB gets removed immediately after use */
-			if (account && account->pgp_encrypt_to_self && pgp_userid)
-				g_ptr_array_add (recipients, g_strdup (pgp_userid));
-
-			cipher = camel_gpg_context_new (session);
-			if (account != NULL)
-				camel_gpg_context_set_always_trust (
-					CAMEL_GPG_CONTEXT (cipher),
-					account->pgp_always_trust);
-
-			camel_cipher_context_encrypt_sync (
-				cipher, pgp_userid, recipients,
-				part, npart, cancellable, &local_error);
-
-			g_object_unref (cipher);
-
-			if (account && account->pgp_encrypt_to_self && pgp_userid)
-				g_ptr_array_set_size (recipients, recipients->len - 1);
-
-			if (local_error != NULL) {
-				g_object_unref (npart);
-				goto exception;
-			}
-
-			g_object_unref (part);
-			part = npart;
-		}
-
-		if (from)
-			g_object_unref (from);
-
-		current = camel_medium_get_content (CAMEL_MEDIUM (part));
-		g_object_ref (current);
-		g_object_unref (part);
-	}
-
-#if defined (HAVE_NSS)
-	if (smime_sign || smime_encrypt) {
-		CamelInternetAddress *from = NULL;
-		CamelCipherContext *cipher;
-
-		part = camel_mime_part_new ();
-		camel_medium_set_content ((CamelMedium *)part, current);
-		if (current == plain)
-			camel_mime_part_set_encoding (part, plain_encoding);
-		g_object_unref (current);
-
-		if (smime_sign && (account == NULL ||
-				account->smime_sign_key == NULL ||
-				account->smime_sign_key[0] == 0)) {
-			g_set_error (
-				&local_error,
-				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
-				_("Cannot sign outgoing message: "
-				  "No signing certificate set for "
-				  "this account"));
-			goto exception;
-		}
-
-		if (smime_encrypt && (account == NULL ||
-				account->smime_sign_key == NULL ||
-				account->smime_sign_key[0] == 0)) {
-			g_set_error (
-				&local_error,
-				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
-				_("Cannot encrypt outgoing message: "
-				  "No encryption certificate set for "
-				  "this account"));
-			goto exception;
-		}
-
-		if (smime_sign) {
-			CamelMimePart *npart = camel_mime_part_new ();
-
-			cipher = camel_smime_context_new (session);
-
-			/* if we're also encrypting, envelope-sign rather than clear-sign */
-			if (smime_encrypt) {
-				camel_smime_context_set_sign_mode (
-					(CamelSMIMEContext *) cipher,
-					CAMEL_SMIME_SIGN_ENVELOPED);
-				camel_smime_context_set_encrypt_key (
-					(CamelSMIMEContext *) cipher,
-					TRUE, account->smime_encrypt_key);
-			} else if (account &&
-					account->smime_encrypt_key &&
-					*account->smime_encrypt_key) {
-				camel_smime_context_set_encrypt_key (
-					(CamelSMIMEContext *) cipher,
-					TRUE, account->smime_encrypt_key);
-			}
-
-			camel_cipher_context_sign_sync (
-				cipher, account->smime_sign_key,
-				account_hash_algo_to_camel_hash (
-					(account != NULL) ?
-					e_account_get_string (account,
-					E_ACCOUNT_SMIME_HASH_ALGORITHM) : NULL),
-				part, npart, cancellable, &local_error);
-
-			g_object_unref (cipher);
-
-			if (local_error != NULL) {
-				g_object_unref (npart);
-				goto exception;
-			}
-
-			g_object_unref (part);
-			part = npart;
-		}
-
-		if (smime_encrypt) {
-
-			/* check to see if we should encrypt to self, NB removed after use */
-			if (account->smime_encrypt_to_self)
-				g_ptr_array_add (
-					recipients, g_strdup (
-					account->smime_encrypt_key));
-
-			cipher = camel_smime_context_new (session);
-			camel_smime_context_set_encrypt_key (
-				(CamelSMIMEContext *) cipher, TRUE,
-				account->smime_encrypt_key);
-
-			camel_cipher_context_encrypt_sync (
-				cipher, NULL, recipients, part,
-				(CamelMimePart *) new, cancellable,
-				&local_error);
-
-			g_object_unref (cipher);
-
-			if (local_error != NULL)
-				goto exception;
-
-			if (account->smime_encrypt_to_self)
-				g_ptr_array_set_size (recipients, recipients->len - 1);
-		}
-
-		if (from)
-			g_object_unref (from);
-
-		/* we replaced the message directly, we don't want to do reparenting foo */
-		if (smime_encrypt) {
-			g_object_unref (part);
-			goto skip_content;
-		} else {
-			current = camel_medium_get_content ((CamelMedium *)part);
-			g_object_ref (current);
-			g_object_unref (part);
-		}
-	}
-#endif /* HAVE_NSS */
-
-	camel_medium_set_content (CAMEL_MEDIUM (new), current);
-	if (current == plain)
-		camel_mime_part_set_encoding (CAMEL_MIME_PART (new), plain_encoding);
-	g_object_unref (current);
-
-#if defined (HAVE_NSS)
-skip_content:
-#endif
-	if (recipients) {
-		for (i=0; i<recipients->len; i++)
-			g_free (recipients->pdata[i]);
-		g_ptr_array_free (recipients, TRUE);
-	}
-
-	/* Attach whether this message was written in HTML */
-	camel_medium_set_header (
-		CAMEL_MEDIUM (new), "X-Evolution-Format",
-		html_content ? "text/html" : "text/plain");
-
-	return new;
-
-exception:
-
-	if (part != CAMEL_MIME_PART (new))
-		g_object_unref (part);
-
-	g_object_unref (new);
-
-	if (recipients) {
-		for (i=0; i<recipients->len; i++)
-			g_free (recipients->pdata[i]);
-		g_ptr_array_free (recipients, TRUE);
-	}
-
-	g_propagate_error (error, local_error);
-
-	return NULL;
+	return g_object_ref (context->message);
 }
 
 /* Signatures */
@@ -1677,6 +1857,11 @@ msg_composer_delete_event_cb (EMsgComposer *composer)
 	EShell *shell;
 
 	shell = e_msg_composer_get_shell (composer);
+
+	/* If the "async" action group is insensitive, it means an
+	 * asynchronous operation is in progress.  Block the event. */
+	if (!gtk_action_group_get_sensitive (composer->priv->async_actions))
+		return TRUE;
 
 	if (g_list_length (e_shell_get_watched_windows (shell)) == 1) {
 		/* This is the last watched window, use the quit
@@ -2219,6 +2404,56 @@ msg_composer_object_deleted (GtkhtmlEditor *editor)
 		gtkhtml_editor_set_paragraph_data (editor, "signature", "0");
 }
 
+static gboolean
+msg_composer_presend (EMsgComposer *composer)
+{
+	/* This keeps the signal accumulator at TRUE. */
+	return TRUE;
+}
+
+static void
+msg_composer_submit_alert (EAlertSink *alert_sink,
+                           EAlert *alert)
+{
+	EMsgComposerPrivate *priv;
+	EAlertBar *alert_bar;
+	GtkWidget *dialog;
+	GtkWindow *parent;
+
+	priv = E_MSG_COMPOSER_GET_PRIVATE (alert_sink);
+
+	switch (e_alert_get_message_type (alert)) {
+		case GTK_MESSAGE_INFO:
+		case GTK_MESSAGE_WARNING:
+		case GTK_MESSAGE_ERROR:
+			alert_bar = E_ALERT_BAR (priv->alert_bar);
+			e_alert_bar_add_alert (alert_bar, alert);
+			break;
+
+		default:
+			parent = GTK_WINDOW (alert_sink);
+			dialog = e_alert_dialog_new (parent, alert);
+			gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
+			break;
+	}
+}
+
+static gboolean
+msg_composer_accumulator_false_abort (GSignalInvocationHint *ihint,
+                                      GValue *return_accu,
+                                      const GValue *handler_return,
+                                      gpointer dummy)
+{
+	gboolean v_boolean;
+
+	v_boolean = g_value_get_boolean (handler_return);
+	g_value_set_boolean (return_accu, v_boolean);
+
+	/* FALSE means abort the signal emission. */
+	return v_boolean;
+}
+
 static void
 e_msg_composer_class_init (EMsgComposerClass *class)
 {
@@ -2250,6 +2485,8 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 	editor_class->link_clicked = msg_composer_link_clicked;
 	editor_class->object_deleted = msg_composer_object_deleted;
 
+	class->presend = msg_composer_presend;
+
 	g_object_class_install_property (
 		object_class,
 		PROP_FOCUS_TRACKER,
@@ -2271,30 +2508,54 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 
+	signals[PRESEND] = g_signal_new (
+		"presend",
+		G_OBJECT_CLASS_TYPE (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMsgComposerClass, presend),
+		msg_composer_accumulator_false_abort,
+		NULL,
+		e_marshal_BOOLEAN__VOID,
+		G_TYPE_BOOLEAN, 0);
+
 	signals[SEND] = g_signal_new (
 		"send",
 		G_OBJECT_CLASS_TYPE (class),
 		G_SIGNAL_RUN_LAST,
-		0, NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
+		G_STRUCT_OFFSET (EMsgComposerClass, send),
+		NULL, NULL,
+		e_marshal_VOID__OBJECT_OBJECT,
+		G_TYPE_NONE, 2,
+		CAMEL_TYPE_MIME_MESSAGE,
+		E_TYPE_ACTIVITY);
 
 	signals[SAVE_DRAFT] = g_signal_new (
 		"save-draft",
 		G_OBJECT_CLASS_TYPE (class),
 		G_SIGNAL_RUN_LAST,
-		0, NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
+		G_STRUCT_OFFSET (EMsgComposerClass, save_draft),
+		NULL, NULL,
+		e_marshal_VOID__OBJECT_OBJECT,
+		G_TYPE_NONE, 2,
+		CAMEL_TYPE_MIME_MESSAGE,
+		E_TYPE_ACTIVITY);
 
 	signals[PRINT] = g_signal_new (
 		"print",
 		G_OBJECT_CLASS_TYPE (class),
 		G_SIGNAL_RUN_LAST,
 		0, NULL, NULL,
-		g_cclosure_marshal_VOID__ENUM,
-		G_TYPE_NONE, 1,
-		GTK_TYPE_PRINT_OPERATION_ACTION);
+		e_marshal_VOID__ENUM_OBJECT_OBJECT,
+		G_TYPE_NONE, 3,
+		GTK_TYPE_PRINT_OPERATION_ACTION,
+		CAMEL_TYPE_MIME_MESSAGE,
+		E_TYPE_ACTIVITY);
+}
+
+static void
+e_msg_composer_alert_sink_init (EAlertSinkInterface *interface)
+{
+	interface->submit_alert = msg_composer_submit_alert;
 }
 
 static void
@@ -3214,6 +3475,51 @@ e_msg_composer_get_shell (EMsgComposer *composer)
 	return E_SHELL (composer->priv->shell);
 }
 
+static void
+msg_composer_send_cb (EMsgComposer *composer,
+                      GAsyncResult *result,
+                      AsyncContext *context)
+{
+	CamelMimeMessage *message;
+	GtkhtmlEditor *editor;
+	GError *error = NULL;
+
+	message = e_msg_composer_get_message_finish (composer, result, &error);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (message == NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	if (error != NULL) {
+		g_warn_if_fail (message == NULL);
+		async_context_free (context);
+		e_alert_submit (
+			GTK_WIDGET (composer),
+			"mail-composer:no-build-message",
+			error->message, NULL);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	g_signal_emit (
+		composer, signals[SEND], 0,
+		message, context->activity);
+
+	g_object_unref (message);
+
+	async_context_free (context);
+
+	/* XXX This should be elsewhere. */
+	editor = GTKHTML_EDITOR (composer);
+	gtkhtml_editor_set_changed (editor, FALSE);
+}
+
 /**
  * e_msg_composer_send:
  * @composer: an #EMsgComposer
@@ -3223,15 +3529,84 @@ e_msg_composer_get_shell (EMsgComposer *composer)
 void
 e_msg_composer_send (EMsgComposer *composer)
 {
-	GtkhtmlEditor *editor;
+	AsyncContext *context;
+	GtkAction *action;
+	EActivityBar *activity_bar;
+	GCancellable *cancellable;
+	gboolean proceed_with_send = TRUE;
+	const gchar *icon_name;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	editor = GTKHTML_EDITOR (composer);
+	/* This gives the user a chance to abort the send. */
+	g_signal_emit (composer, signals[PRESEND], 0, &proceed_with_send);
 
-	g_signal_emit (composer, signals[SEND], 0);
+	if (!proceed_with_send)
+		return;
+
+	context = g_slice_new0 (AsyncContext);
+	context->activity = e_composer_activity_new (composer);
+
+	cancellable = camel_operation_new ();
+	e_activity_set_cancellable (context->activity, cancellable);
+	g_object_unref (cancellable);
+
+	action = ACTION (SEND);
+	icon_name = gtk_action_get_icon_name (action);
+	e_activity_set_icon_name (context->activity, icon_name);
+
+	activity_bar = E_ACTIVITY_BAR (composer->priv->activity_bar);
+	e_activity_bar_set_activity (activity_bar, context->activity);
+
+	e_msg_composer_get_message (
+		composer, G_PRIORITY_DEFAULT, cancellable,
+		(GAsyncReadyCallback) msg_composer_send_cb,
+		context);
+}
+
+static void
+msg_composer_save_draft_cb (EMsgComposer *composer,
+                            GAsyncResult *result,
+                            AsyncContext *context)
+{
+	CamelMimeMessage *message;
+	GtkhtmlEditor *editor;
+	GError *error = NULL;
+
+	message = e_msg_composer_get_message_draft_finish (
+		composer, result, &error);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (message == NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	if (error != NULL) {
+		g_warn_if_fail (message == NULL);
+		async_context_free (context);
+		e_alert_submit (
+			GTK_WIDGET (composer),
+			"mail-composer:no-build-message",
+			error->message, NULL);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	g_signal_emit (
+		composer, signals[SAVE_DRAFT], 0,
+		message, context->activity);
+
+	g_object_unref (message);
+
+	async_context_free (context);
 
 	/* XXX This should be elsewhere. */
+	editor = GTKHTML_EDITOR (composer);
 	gtkhtml_editor_set_changed (editor, FALSE);
 }
 
@@ -3244,32 +3619,113 @@ e_msg_composer_send (EMsgComposer *composer)
 void
 e_msg_composer_save_draft (EMsgComposer *composer)
 {
-	GtkhtmlEditor *editor;
+	AsyncContext *context;
+	GtkAction *action;
+	EActivityBar *activity_bar;
+	GCancellable *cancellable;
+	const gchar *icon_name;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	editor = GTKHTML_EDITOR (composer);
+	context = g_slice_new0 (AsyncContext);
+	context->activity = e_composer_activity_new (composer);
 
-	g_signal_emit (composer, signals[SAVE_DRAFT], 0);
+	cancellable = camel_operation_new ();
+	e_activity_set_cancellable (context->activity, cancellable);
+	g_object_unref (cancellable);
 
-	/* XXX This should be elsewhere. */
-	gtkhtml_editor_set_changed (editor, FALSE);
+	action = ACTION (SAVE_DRAFT);
+	icon_name = gtk_action_get_icon_name (action);
+	e_activity_set_icon_name (context->activity, icon_name);
+
+	activity_bar = E_ACTIVITY_BAR (composer->priv->activity_bar);
+	e_activity_bar_set_activity (activity_bar, context->activity);
+
+	e_msg_composer_get_message_draft (
+		composer, G_PRIORITY_DEFAULT, cancellable,
+		(GAsyncReadyCallback) msg_composer_save_draft_cb,
+		context);
+}
+
+static void
+msg_composer_print_cb (EMsgComposer *composer,
+                       GAsyncResult *result,
+                       AsyncContext *context)
+{
+	CamelMimeMessage *message;
+	GError *error = NULL;
+
+	message = e_msg_composer_get_message_print_finish (
+		composer, result, &error);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (message == NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	if (error != NULL) {
+		g_warn_if_fail (message == NULL);
+		async_context_free (context);
+		e_alert_submit (
+			GTK_WIDGET (composer),
+			"mail-composer:no-build-message",
+			error->message, NULL);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	g_signal_emit (
+		composer, signals[PRINT], 0,
+		context->print_action, message, context->activity);
+
+	g_object_unref (message);
+
+	async_context_free (context);
 }
 
 /**
  * e_msg_composer_print:
  * @composer: an #EMsgComposer
- * @action: the print action to start
+ * @print_action: the print action to start
  *
  * Print the message in @composer.
  **/
 void
 e_msg_composer_print (EMsgComposer *composer,
-                      GtkPrintOperationAction action)
+                      GtkPrintOperationAction print_action)
 {
+	AsyncContext *context;
+	GtkAction *action;
+	EActivityBar *activity_bar;
+	GCancellable *cancellable;
+	const gchar *icon_name;
+
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	g_signal_emit (composer, signals[PRINT], 0, action);
+	context = g_slice_new0 (AsyncContext);
+	context->activity = e_composer_activity_new (composer);
+	context->print_action = print_action;
+
+	cancellable = camel_operation_new ();
+	e_activity_set_cancellable (context->activity, cancellable);
+	g_object_unref (cancellable);
+
+	action = ACTION (PRINT);
+	icon_name = gtk_action_get_icon_name (action);
+	e_activity_set_icon_name (context->activity, icon_name);
+
+	activity_bar = E_ACTIVITY_BAR (composer->priv->activity_bar);
+	e_activity_bar_set_activity (activity_bar, context->activity);
+
+	e_msg_composer_get_message_print (
+		composer, G_PRIORITY_DEFAULT, cancellable,
+		(GAsyncReadyCallback) msg_composer_print_cb,
+		context);
 }
 
 static GList *
@@ -3542,78 +3998,161 @@ e_msg_composer_set_body (EMsgComposer *composer,
 
 /**
  * e_msg_composer_add_header:
- * @composer: a composer object
- * @name: the header name
- * @value: the header value
+ * @composer: an #EMsgComposer
+ * @name: the header's name
+ * @value: the header's value
  *
- * Adds a header with @name and @value to the message. This header
- * may not be displayed by the composer, but will be included in
- * the message it outputs.
+ * Adds a new custom header created from @name and @value.  The header
+ * is not shown in the user interface but will be added to the resulting
+ * MIME message when sending or saving.
  **/
 void
 e_msg_composer_add_header (EMsgComposer *composer,
                            const gchar *name,
                            const gchar *value)
 {
-	EMsgComposerPrivate *p = composer->priv;
+	EMsgComposerPrivate *priv;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (value != NULL);
 
-	g_ptr_array_add (p->extra_hdr_names, g_strdup (name));
-	g_ptr_array_add (p->extra_hdr_values, g_strdup (value));
+	priv = composer->priv;
+
+	g_ptr_array_add (priv->extra_hdr_names, g_strdup (name));
+	g_ptr_array_add (priv->extra_hdr_values, g_strdup (value));
 }
 
 /**
- * e_msg_composer_modify_header :
- * @composer : a composer object
- * @name: the header name
- * @change_value: the header value to put in place of the previous
- *                value
+ * e_msg_composer_set_header:
+ * @composer: an #EMsgComposer
+ * @name: the header's name
+ * @value: the header's value
  *
- * Searches for a header with name=@name ,if found it removes
- * that header and adds a new header with the @name and @change_value .
- * If not found then it creates a new header with @name and @change_value .
+ * Replaces all custom headers matching @name that were added with
+ * e_msg_composer_add_header() or e_msg_composer_set_header(), with
+ * a new custom header created from @name and @value.  The header is
+ * not shown in the user interface but will be added to the resulting
+ * MIME message when sending or saving.
  **/
 void
-e_msg_composer_modify_header (EMsgComposer *composer,
-                              const gchar *name,
-                              const gchar *change_value)
+e_msg_composer_set_header (EMsgComposer *composer,
+                           const gchar *name,
+                           const gchar *value)
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (name != NULL);
-	g_return_if_fail (change_value != NULL);
+	g_return_if_fail (value != NULL);
 
 	e_msg_composer_remove_header (composer, name);
-	e_msg_composer_add_header (composer, name, change_value);
+	e_msg_composer_add_header (composer, name, value);
 }
 
 /**
- * e_msg_composer_modify_header :
- * @composer : a composer object
- * @name: the header name
+ * e_msg_composer_remove_header:
+ * @composer: an #EMsgComposer
+ * @name: the header's name
  *
- * Searches for the header and if found it removes it .
+ * Removes all custom headers matching @name that were added with
+ * e_msg_composer_add_header() or e_msg_composer_set_header().
  **/
 void
 e_msg_composer_remove_header (EMsgComposer *composer,
                               const gchar *name)
 {
-	EMsgComposerPrivate *p;
-	gint i;
+	EMsgComposerPrivate *priv;
+	guint ii;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (name != NULL);
 
-	p = composer->priv;
+	priv = composer->priv;
 
-	for (i = 0; i < p->extra_hdr_names->len; i++) {
-		if (strcmp (p->extra_hdr_names->pdata[i], name) == 0) {
-			g_ptr_array_remove_index (p->extra_hdr_names, i);
-			g_ptr_array_remove_index (p->extra_hdr_values, i);
+	for (ii = 0; ii < priv->extra_hdr_names->len; ii++) {
+		if (g_strcmp0 (priv->extra_hdr_names->pdata[ii], name) == 0) {
+			g_free (priv->extra_hdr_names->pdata[ii]);
+			g_free (priv->extra_hdr_values->pdata[ii]);
+			g_ptr_array_remove_index (priv->extra_hdr_names, ii);
+			g_ptr_array_remove_index (priv->extra_hdr_values, ii);
 		}
 	}
+}
+
+/**
+ * e_msg_composer_set_draft_headers:
+ * @composer: an #EMsgComposer
+ * @folder_uri: folder URI of the last saved draft
+ * @message_uid: message UID of the last saved draft
+ *
+ * Add special X-Evolution-Draft headers to remember the most recently
+ * saved draft message, even across Evolution sessions.  These headers
+ * can be used to mark the draft message for deletion after saving a
+ * newer draft or sending the composed message.
+ **/
+void
+e_msg_composer_set_draft_headers (EMsgComposer *composer,
+                                  const gchar *folder_uri,
+                                  const gchar *message_uid)
+{
+	const gchar *header_name;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (folder_uri != NULL);
+	g_return_if_fail (message_uid != NULL);
+
+	header_name = "X-Evolution-Draft-Folder";
+	e_msg_composer_set_header (composer, header_name, folder_uri);
+
+	header_name = "X-Evolution-Draft-Message";
+	e_msg_composer_set_header (composer, header_name, message_uid);
+}
+
+/**
+ * e_msg_composer_set_source_headers:
+ * @composer: an #EMsgComposer
+ * @folder_uri: folder URI of the source message
+ * @message_uid: message UID of the source message
+ * @flags: flags to set on the source message after sending
+ *
+ * Add special X-Evolution-Source headers to remember the message being
+ * forwarded or replied to, even across Evolution sessions.  These headers
+ * can be used to set appropriate flags on the source message after sending
+ * the composed message.
+ **/
+void
+e_msg_composer_set_source_headers (EMsgComposer *composer,
+                                   const gchar *folder_uri,
+                                   const gchar *message_uid,
+                                   CamelMessageFlags flags)
+{
+	GString *buffer;
+	const gchar *header_name;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (folder_uri != NULL);
+	g_return_if_fail (message_uid != NULL);
+
+	buffer = g_string_sized_new (32);
+
+	if (flags & CAMEL_MESSAGE_ANSWERED)
+		g_string_append (buffer, "ANSWERED ");
+	if (flags & CAMEL_MESSAGE_ANSWERED_ALL)
+		g_string_append (buffer, "ANSWERED_ALL ");
+	if (flags & CAMEL_MESSAGE_FORWARDED)
+		g_string_append (buffer, "FORWARDED ");
+	if (flags & CAMEL_MESSAGE_SEEN)
+		g_string_append (buffer, "SEEN ");
+
+	header_name = "X-Evolution-Source-Folder";
+	e_msg_composer_set_header (composer, header_name, folder_uri);
+
+	header_name = "X-Evolution-Source-Message";
+	e_msg_composer_set_header (composer, header_name, message_uid);
+
+	header_name = "X-Evolution-Source-Flags";
+	e_msg_composer_set_header (composer, header_name, buffer->str);
+
+	g_string_free (buffer, TRUE);
 }
 
 /**
@@ -3745,207 +4284,211 @@ e_msg_composer_add_inline_image_from_mime_part (EMsgComposer  *composer,
 			g_strdup (location), part);
 }
 
-/**
- * e_msg_composer_get_message:
- * @composer: A message composer widget
- *
- * Retrieve the message edited by the user as a CamelMimeMessage.  The
- * CamelMimeMessage object is created on the fly; subsequent calls to this
- * function will always create new objects from scratch.
- *
- * Returns: A pointer to the new CamelMimeMessage object
- **/
-CamelMimeMessage *
-e_msg_composer_get_message (EMsgComposer *composer,
-                            gboolean save_html_object_data,
-                            GCancellable *cancellable,
-                            GError **error)
+static void
+composer_get_message_ready (EMsgComposer *composer,
+                            GAsyncResult *result,
+                            GSimpleAsyncResult *simple)
 {
-	EAttachmentView *view;
-	EAttachmentStore *store;
-	GtkhtmlEditor *editor;
-	gboolean html_content;
+	CamelMimeMessage *message;
+	GError *error = NULL;
 
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+	message = composer_build_message_finish (composer, result, &error);
 
-	view = e_msg_composer_get_attachment_view (composer);
-	store = e_attachment_view_get_store (view);
+	if (message != NULL)
+		g_simple_async_result_set_op_res_gpointer (
+			simple, message, (GDestroyNotify) g_object_unref);
 
-	if (e_attachment_store_get_num_loading (store) > 0) {
-		if (!emcu_prompt_user (GTK_WINDOW (composer), NULL,
-			"mail-composer:ask-send-message-pending-download", NULL)) {
-			return NULL;
-		}
+	if (error != NULL) {
+		g_warn_if_fail (message == NULL);
+		g_simple_async_result_set_from_error (simple, error);
+		g_error_free (error);
 	}
 
-	editor = GTKHTML_EDITOR (composer);
-	html_content = gtkhtml_editor_get_html_mode (editor);
+	g_simple_async_result_complete (simple);
 
-	return build_message (
-		composer, html_content,
-		save_html_object_data, cancellable, error);
+	g_object_unref (simple);
 }
 
-static gchar *
-msg_composer_get_message_print_helper (EMsgComposer *composer,
-                                       gboolean html_content)
+/**
+ * e_msg_composer_get_message:
+ * @composer: an #EMsgComposer
+ *
+ * Retrieve the message edited by the user as a #CamelMimeMessage.  The
+ * #CamelMimeMessage object is created on the fly; subsequent calls to this
+ * function will always create new objects from scratch.
+ **/
+void
+e_msg_composer_get_message (EMsgComposer *composer,
+                            gint io_priority,
+                            GCancellable *cancellable,
+                            GAsyncReadyCallback callback,
+                            gpointer user_data)
 {
-	GtkToggleAction *action;
-	GString *string;
+	GSimpleAsyncResult *simple;
+	GtkAction *action;
+	ComposerFlags flags = 0;
 
-	string = g_string_sized_new (128);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	if (html_content)
-		g_string_append (string, "text/html");
-	else
-		g_string_append (string, "text/plain");
+	simple = g_simple_async_result_new (
+		G_OBJECT (composer), callback,
+		user_data, e_msg_composer_get_message);
 
-	action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-	if (gtk_toggle_action_get_active (action))
-		g_string_append (string, ", pgp-sign");
-	gtk_toggle_action_set_active (action, FALSE);
+	if (gtkhtml_editor_get_html_mode (GTKHTML_EDITOR (composer)))
+		flags |= COMPOSER_FLAG_HTML_CONTENT;
 
-	action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
-	if (gtk_toggle_action_get_active (action))
-		g_string_append (string, ", pgp-encrypt");
-	gtk_toggle_action_set_active (action, FALSE);
+	action = ACTION (PRIORITIZE_MESSAGE);
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		flags |= COMPOSER_FLAG_PRIORITIZE_MESSAGE;
 
-	action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
-	if (gtk_toggle_action_get_active (action))
-		g_string_append (string, ", smime-sign");
-	gtk_toggle_action_set_active (action, FALSE);
+	action = ACTION (REQUEST_READ_RECEIPT);
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		flags |= COMPOSER_FLAG_REQUEST_READ_RECEIPT;
 
-	action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
-	if (gtk_toggle_action_get_active (action))
-		g_string_append (string, ", smime-encrypt");
-	gtk_toggle_action_set_active (action, FALSE);
+	action = ACTION (PGP_SIGN);
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		flags |= COMPOSER_FLAG_PGP_SIGN;
 
-	return g_string_free (string, FALSE);
+	action = ACTION (PGP_ENCRYPT);
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		flags |= COMPOSER_FLAG_PGP_ENCRYPT;
+
+#ifdef HAVE_NSS
+	action = ACTION (SMIME_SIGN);
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		flags |= COMPOSER_FLAG_SMIME_SIGN;
+
+	action = ACTION (SMIME_ENCRYPT);
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
+		flags |= COMPOSER_FLAG_SMIME_ENCRYPT;
+#endif
+
+	composer_build_message (
+		composer, flags, io_priority,
+		cancellable, (GAsyncReadyCallback)
+		composer_get_message_ready, simple);
 }
 
 CamelMimeMessage *
+e_msg_composer_get_message_finish (EMsgComposer *composer,
+                                   GAsyncResult *result,
+                                   GError **error)
+{
+	GSimpleAsyncResult *simple;
+	CamelMimeMessage *message;
+
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (composer),
+		e_msg_composer_get_message), NULL);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	message = g_simple_async_result_get_op_res_gpointer (simple);
+
+	if (g_simple_async_result_propagate_error (simple, error))
+		return NULL;
+
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
+
+	return g_object_ref (message);
+}
+
+void
 e_msg_composer_get_message_print (EMsgComposer *composer,
-                                  gboolean save_html_object_data,
-                                  GCancellable *cancellable)
+                                  gint io_priority,
+                                  GCancellable *cancellable,
+                                  GAsyncReadyCallback callback,
+                                  gpointer user_data)
 {
-	EShell *shell;
-	GtkhtmlEditor *editor;
-	EMsgComposer *temp_composer;
-	CamelMimeMessage *msg;
-	gboolean html_content;
-	gchar *flags;
+	GSimpleAsyncResult *simple;
+	ComposerFlags flags = 0;
 
-	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	editor = GTKHTML_EDITOR (composer);
-	html_content = gtkhtml_editor_get_html_mode (editor);
+	simple = g_simple_async_result_new (
+		G_OBJECT (composer), callback,
+		user_data, e_msg_composer_get_message_print);
 
-	msg = build_message (
-		composer, html_content, save_html_object_data,
-		cancellable, NULL);
-	if (msg == NULL)
-		return NULL;
+	flags |= COMPOSER_FLAG_HTML_CONTENT;
+	flags |= COMPOSER_FLAG_SAVE_OBJECT_DATA;
 
-	shell = e_msg_composer_get_shell (composer);
-	temp_composer = e_msg_composer_new_with_message (
-		shell, msg, cancellable);
-	g_object_unref (msg);
-
-	/* Override composer flags. */
-	flags = msg_composer_get_message_print_helper (
-		temp_composer, html_content);
-
-	msg = build_message (
-		temp_composer, TRUE, save_html_object_data,
-		cancellable, NULL);
-	if (msg != NULL)
-		camel_medium_set_header (
-			CAMEL_MEDIUM (msg), "X-Evolution-Format", flags);
-
-	gtk_widget_destroy (GTK_WIDGET (temp_composer));
-	g_free (flags);
-
-	return msg;
+	composer_build_message (
+		composer, flags, io_priority,
+		cancellable, (GAsyncReadyCallback)
+		composer_get_message_ready, simple);
 }
 
 CamelMimeMessage *
-e_msg_composer_get_message_draft (EMsgComposer *composer,
-                                  GCancellable *cancellable,
-                                  GError **error)
+e_msg_composer_get_message_print_finish (EMsgComposer *composer,
+                                         GAsyncResult *result,
+                                         GError **error)
 {
-	GtkhtmlEditor *editor;
-	EComposerHeaderTable *table;
-	GtkToggleAction *action;
-	CamelMimeMessage *msg;
-	EAccount *account;
-	gboolean html_content;
-	gboolean pgp_encrypt;
-	gboolean pgp_sign;
-	gboolean smime_encrypt;
-	gboolean smime_sign;
-	GString *flags;
+	GSimpleAsyncResult *simple;
+	CamelMimeMessage *message;
 
-	editor = GTKHTML_EDITOR (composer);
-	table = e_msg_composer_get_header_table (composer);
-	html_content = gtkhtml_editor_get_html_mode (editor);
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (composer),
+		e_msg_composer_get_message_print), NULL);
 
-	action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-	pgp_sign = gtk_toggle_action_get_active (action);
-	gtk_toggle_action_set_active (action, FALSE);
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	message = g_simple_async_result_get_op_res_gpointer (simple);
 
-	action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
-	pgp_encrypt = gtk_toggle_action_get_active (action);
-	gtk_toggle_action_set_active (action, FALSE);
-
-	action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
-	smime_sign = gtk_toggle_action_get_active (action);
-	gtk_toggle_action_set_active (action, FALSE);
-
-	action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
-	smime_encrypt = gtk_toggle_action_get_active (action);
-	gtk_toggle_action_set_active (action, FALSE);
-
-	msg = build_message (composer, TRUE, TRUE, cancellable, error);
-	if (msg == NULL)
+	if (g_simple_async_result_propagate_error (simple, error))
 		return NULL;
 
-	action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-	gtk_toggle_action_set_active (action, pgp_sign);
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
-	action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
-	gtk_toggle_action_set_active (action, pgp_encrypt);
+	return g_object_ref (message);
+}
 
-	action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
-	gtk_toggle_action_set_active (action, smime_sign);
+void
+e_msg_composer_get_message_draft (EMsgComposer *composer,
+                                  gint io_priority,
+                                  GCancellable *cancellable,
+                                  GAsyncReadyCallback callback,
+                                  gpointer user_data)
+{
+	GSimpleAsyncResult *simple;
+	ComposerFlags flags = 0;
 
-	action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
-	gtk_toggle_action_set_active (action, smime_encrypt);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	/* Attach account info to the draft. */
-	account = e_composer_header_table_get_account (table);
-	if (account && account->name)
-		camel_medium_set_header (
-			CAMEL_MEDIUM (msg),
-			"X-Evolution-Account", account->uid);
+	simple = g_simple_async_result_new (
+		G_OBJECT (composer), callback,
+		user_data, e_msg_composer_get_message_draft);
 
-	flags = g_string_new (html_content ? "text/html" : "text/plain");
+	if (gtkhtml_editor_get_html_mode (GTKHTML_EDITOR (composer)))
+		flags |= COMPOSER_FLAG_HTML_CONTENT;
 
-	/* This should probably only save the setting if it is
-	 * different from the from-account default? */
-	if (pgp_sign)
-		g_string_append (flags, ", pgp-sign");
-	if (pgp_encrypt)
-		g_string_append (flags, ", pgp-encrypt");
-	if (smime_sign)
-		g_string_append (flags, ", smime-sign");
-	if (smime_encrypt)
-		g_string_append (flags, ", smime-encrypt");
+	composer_build_message (
+		composer, flags, io_priority,
+		cancellable, (GAsyncReadyCallback)
+		composer_get_message_ready, simple);
+}
 
-	camel_medium_set_header (
-		CAMEL_MEDIUM (msg), "X-Evolution-Format", flags->str);
-	g_string_free (flags, TRUE);
+CamelMimeMessage *
+e_msg_composer_get_message_draft_finish (EMsgComposer *composer,
+                                         GAsyncResult *result,
+                                         GError **error)
+{
+	GSimpleAsyncResult *simple;
+	CamelMimeMessage *message;
 
-	return msg;
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (composer),
+		e_msg_composer_get_message_draft), NULL);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	message = g_simple_async_result_get_op_res_gpointer (simple);
+
+	if (g_simple_async_result_propagate_error (simple, error))
+		return NULL;
+
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
+
+	return g_object_ref (message);
 }
 
 /**
@@ -4153,50 +4696,6 @@ e_msg_composer_can_close (EMsgComposer *composer,
 	return res;
 }
 
-EMsgComposer *
-e_msg_composer_load_from_file (EShell *shell,
-                               const gchar *filename,
-                               GCancellable *cancellable)
-{
-	CamelStream *stream;
-	CamelMimeMessage *message;
-	EMsgComposer *composer;
-
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-	g_return_val_if_fail (filename != NULL, NULL);
-
-	stream = camel_stream_fs_new_with_name (
-		filename, O_RDONLY, 0, NULL);
-	if (stream == NULL)
-		return NULL;
-
-	message = camel_mime_message_new ();
-	camel_data_wrapper_construct_from_stream_sync (
-		CAMEL_DATA_WRAPPER (message), stream, NULL, NULL);
-	g_object_unref (stream);
-
-	composer = e_msg_composer_new_with_message (
-		shell, message, cancellable);
-	if (composer != NULL)
-		gtk_widget_show (GTK_WIDGET (composer));
-
-	return composer;
-}
-
-void
-e_msg_composer_set_alternative (EMsgComposer *composer,
-                                gboolean alt)
-{
-	GtkhtmlEditor *editor;
-
-	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
-	editor = GTKHTML_EDITOR (composer);
-
-	composer->priv->is_alternative = alt;
-	gtkhtml_editor_set_html_mode (editor, !alt);
-}
-
 void
 e_msg_composer_reply_indent (EMsgComposer *composer)
 {
@@ -4329,21 +4828,4 @@ e_save_spell_languages (GList *spell_languages)
 		g_warning ("%s", error->message);
 		g_error_free (error);
 	}
-}
-
-void
-e_msg_composer_set_mail_sent (EMsgComposer *composer,
-                              gboolean mail_sent)
-{
-	g_return_if_fail (composer != NULL);
-
-	composer->priv->mail_sent = mail_sent;
-}
-
-gboolean
-e_msg_composer_get_mail_sent (EMsgComposer *composer)
-{
-	g_return_val_if_fail (composer != NULL, FALSE);
-
-	return composer->priv->mail_sent;
 }
