@@ -527,7 +527,7 @@ alarm_to_malarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm )
                     e_destination_set_email (dest, a->value);
             }
             e_destination_store_append_destination (destination_store, dest);
-            g_object_unref (GTK_OBJECT (dest));
+            g_object_unref (G_OBJECT (dest));
         }
         e_cal_component_free_attendee_list (attendee_list);
     }

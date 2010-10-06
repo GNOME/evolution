@@ -62,7 +62,7 @@ enum {
 
 static void gnome_canvas_shape_class_init   (GnomeCanvasShapeClass *class);
 static void gnome_canvas_shape_init         (GnomeCanvasShape      *bpath);
-static void gnome_canvas_shape_destroy      (GtkObject               *object);
+static void gnome_canvas_shape_destroy      (GnomeCanvasItem       *object);
 static void gnome_canvas_shape_set_property (GObject               *object,
 					     guint                  param_id,
 					     const GValue          *value,
@@ -124,11 +124,9 @@ static void
 gnome_canvas_shape_class_init (GnomeCanvasShapeClass *class)
 {
 	GObjectClass         *gobject_class;
-	GtkObjectClass       *object_class;
 	GnomeCanvasItemClass *item_class;
 
 	gobject_class = (GObjectClass *) class;
-	object_class = (GtkObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
 
 	parent_class = g_type_class_peek_parent (class);
@@ -217,8 +215,7 @@ gnome_canvas_shape_class_init (GnomeCanvasShapeClass *class)
                                          g_param_spec_pointer ("dash", NULL, NULL,
                                                                (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
-	object_class->destroy = gnome_canvas_shape_destroy;
-
+	item_class->destroy = gnome_canvas_shape_destroy;
 	item_class->update = gnome_canvas_shape_update;
 	item_class->realize = gnome_canvas_shape_realize;
 	item_class->unrealize = gnome_canvas_shape_unrealize;
@@ -261,7 +258,7 @@ gnome_canvas_shape_init (GnomeCanvasShape *shape)
 }
 
 static void
-gnome_canvas_shape_destroy (GtkObject *object)
+gnome_canvas_shape_destroy (GnomeCanvasItem *object)
 {
 	GnomeCanvasShape *shape;
 	GnomeCanvasShapePriv *priv;
@@ -285,8 +282,8 @@ gnome_canvas_shape_destroy (GtkObject *object)
 		shape->priv = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy)
+		GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy (object);
 }
 
 /**

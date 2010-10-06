@@ -199,13 +199,13 @@ static void
 gnome_canvas_rich_text_class_init (GnomeCanvasRichTextClass *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
 	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (klass);
 
 	parent_class = g_type_class_peek_parent (klass);
 
 	gobject_class->set_property = gnome_canvas_rich_text_set_property;
 	gobject_class->get_property = gnome_canvas_rich_text_get_property;
+	gobject_class->finalize = gnome_canvas_rich_text_finalize;
 
 	g_object_class_install_property (
 		gobject_class,
@@ -381,15 +381,13 @@ gnome_canvas_rich_text_class_init (GnomeCanvasRichTextClass *klass)
 	/* Signals */
 	signals[TAG_CHANGED] = g_signal_new (
 		"tag_changed",
-		G_TYPE_FROM_CLASS (object_class),
+		G_TYPE_FROM_CLASS (gobject_class),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnomeCanvasRichTextClass, tag_changed),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
 		G_TYPE_OBJECT);
-
-	gobject_class->finalize = gnome_canvas_rich_text_finalize;
 
 	item_class->update = gnome_canvas_rich_text_update;
 	item_class->realize = gnome_canvas_rich_text_realize;
@@ -405,7 +403,7 @@ static void
 gnome_canvas_rich_text_init (GnomeCanvasRichText *text)
 {
 #if 0
-	GtkObject *object = GTK_OBJECT (text);
+	GObject *object = G_OBJECT (text);
 
 	object->flags |= GNOME_CANVAS_ITEM_ALWAYS_REDRAW;
 #endif

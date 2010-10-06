@@ -299,13 +299,13 @@ e_tree_state_change (ETree *et)
 }
 
 static void
-change_trigger (GtkObject *object, ETree *et)
+change_trigger (GObject *object, ETree *et)
 {
 	e_tree_state_change (et);
 }
 
 static void
-search_col_change_trigger (GtkObject *object, ETree *et)
+search_col_change_trigger (GObject *object, ETree *et)
 {
 	clear_current_search_col (et);
 	e_tree_state_change (et);
@@ -431,7 +431,7 @@ et_dispose (GObject *object)
 		et->priv->last_drop_context = NULL;
 
 		if (et->priv->info_text)
-			gtk_object_destroy (GTK_OBJECT (et->priv->info_text));
+			g_object_run_dispose (G_OBJECT (et->priv->info_text));
 		et->priv->info_text = NULL;
 		et->priv->info_text_resize_id = 0;
 
@@ -2532,7 +2532,7 @@ e_tree_drag_highlight (ETree *tree,
 			"y2", (gdouble) y + height - 1,
 			NULL);
 	} else {
-		gtk_object_destroy (GTK_OBJECT (tree->priv->drop_highlight));
+		g_object_run_dispose (G_OBJECT (tree->priv->drop_highlight));
 		tree->priv->drop_highlight = NULL;
 	}
 }
@@ -2544,7 +2544,7 @@ e_tree_drag_unhighlight (ETree *tree)
 	g_return_if_fail (E_IS_TREE (tree));
 
 	if (tree->priv->drop_highlight) {
-		gtk_object_destroy (GTK_OBJECT (tree->priv->drop_highlight));
+		g_object_run_dispose (G_OBJECT (tree->priv->drop_highlight));
 		tree->priv->drop_highlight = NULL;
 	}
 }
@@ -3639,7 +3639,7 @@ e_tree_set_info_message (ETree *tree, const gchar *info_message)
 
 	if (!info_message || !*info_message) {
 		g_signal_handler_disconnect (tree, tree->priv->info_text_resize_id);
-		gtk_object_destroy (GTK_OBJECT (tree->priv->info_text));
+		g_object_run_dispose (G_OBJECT (tree->priv->info_text));
 		tree->priv->info_text = NULL;
 		return;
 	}

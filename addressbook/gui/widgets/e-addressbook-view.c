@@ -73,7 +73,7 @@ static void	search_result			(EAddressbookView *view,
 						 const gchar *error_msg);
 static void	folder_bar_message		(EAddressbookView *view,
 						 const gchar *status);
-static void	stop_state_changed		(GtkObject *object,
+static void	stop_state_changed		(GObject *object,
 						 EAddressbookView *view);
 static void	backend_died			(EAddressbookView *view);
 static void	command_state_change		(EAddressbookView *view);
@@ -1124,7 +1124,7 @@ folder_bar_message (EAddressbookView *view,
 }
 
 static void
-stop_state_changed (GtkObject *object, EAddressbookView *view)
+stop_state_changed (GObject *object, EAddressbookView *view)
 {
 	command_state_change (view);
 }

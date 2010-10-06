@@ -38,7 +38,7 @@ GtkWidget *	comp_editor_new_date_edit	(gboolean show_date,
 						 gboolean show_time,
 						 gboolean make_time_insensitive);
 
-struct tm comp_editor_get_current_time (GtkObject *object, gpointer data);
+struct tm comp_editor_get_current_time (GObject *object, gpointer data);
 
 gchar *comp_editor_strip_categories (const gchar *categories);
 

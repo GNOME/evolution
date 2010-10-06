@@ -35,7 +35,6 @@ enum {
 
 static void gnome_canvas_bpath_class_init   (GnomeCanvasBpathClass *class);
 static void gnome_canvas_bpath_init         (GnomeCanvasBpath      *bpath);
-static void gnome_canvas_bpath_destroy      (GtkObject               *object);
 static void gnome_canvas_bpath_set_property (GObject               *object,
 					     guint                  param_id,
 					     const GValue          *value,
@@ -79,11 +78,9 @@ static void
 gnome_canvas_bpath_class_init (GnomeCanvasBpathClass *class)
 {
 	GObjectClass         *gobject_class;
-	GtkObjectClass       *object_class;
 	GnomeCanvasItemClass *item_class;
 
 	gobject_class = (GObjectClass *) class;
-	object_class = (GtkObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
 
 	parent_class = g_type_class_peek_parent (class);
@@ -94,8 +91,6 @@ gnome_canvas_bpath_class_init (GnomeCanvasBpathClass *class)
 
 	gobject_class->set_property = gnome_canvas_bpath_set_property;
 	gobject_class->get_property = gnome_canvas_bpath_get_property;
-
-	object_class->destroy = gnome_canvas_bpath_destroy;
 
 	g_object_class_install_property (gobject_class,
                                          PROP_BPATH,
@@ -110,13 +105,6 @@ static void
 gnome_canvas_bpath_init (GnomeCanvasBpath *bpath)
 {
 
-}
-
-static void
-gnome_canvas_bpath_destroy (GtkObject *object)
-{
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 static void

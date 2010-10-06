@@ -61,7 +61,7 @@
 #include "goto.h"
 #include "misc.h"
 
-static void      e_cal_list_view_destroy                (GtkObject *object);
+static void      e_cal_list_view_dispose                (GObject *object);
 
 static GList    *e_cal_list_view_get_selected_events    (ECalendarView *cal_view);
 static gboolean  e_cal_list_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
@@ -83,16 +83,16 @@ G_DEFINE_TYPE (ECalListView, e_cal_list_view, E_TYPE_CALENDAR_VIEW)
 static void
 e_cal_list_view_class_init (ECalListViewClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 	ECalendarViewClass *view_class;
 
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 	view_class = (ECalendarViewClass *) class;
 
 	/* Method override */
-	object_class->destroy		= e_cal_list_view_destroy;
+	object_class->dispose		= e_cal_list_view_dispose;
 
 	widget_class->popup_menu = e_cal_list_view_popup_menu;
 
@@ -317,7 +317,7 @@ e_cal_list_view_new (ECalModel *model)
 }
 
 static void
-e_cal_list_view_destroy (GtkObject *object)
+e_cal_list_view_dispose (GObject *object)
 {
 	ECalListView *cal_list_view;
 
@@ -345,7 +345,8 @@ e_cal_list_view_destroy (GtkObject *object)
 		cal_list_view->table = NULL;
 	}
 
-	GTK_OBJECT_CLASS (e_cal_list_view_parent_class)->destroy (object);
+	if (G_OBJECT_CLASS (e_cal_list_view_parent_class)->dispose)
+		G_OBJECT_CLASS (e_cal_list_view_parent_class)->dispose (object);
 }
 
 static void

@@ -35,11 +35,11 @@ G_BEGIN_DECLS
 #define E_IS_PRINTABLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_PRINTABLE_TYPE))
 
 typedef struct {
-	GtkObject   base;
+	GObject   base;
 } EPrintable;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	/*
 	 * Signals

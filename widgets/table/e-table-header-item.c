@@ -555,7 +555,7 @@ ethi_add_destroy_marker (ETableHeaderItem *ethi)
 	gdouble x1;
 
 	if (ethi->remove_item)
-		gtk_object_destroy (GTK_OBJECT (ethi->remove_item));
+		g_object_run_dispose (G_OBJECT (ethi->remove_item));
 
 	if (!ethi->stipple)
 		ethi->stipple = gdk_bitmap_create_from_data  (
@@ -585,7 +585,7 @@ ethi_remove_destroy_marker (ETableHeaderItem *ethi)
 	if (!ethi->remove_item)
 		return;
 
-	gtk_object_destroy (GTK_OBJECT (ethi->remove_item));
+	g_object_run_dispose (G_OBJECT (ethi->remove_item));
 	ethi->remove_item = NULL;
 }
 

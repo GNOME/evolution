@@ -75,12 +75,12 @@ e_table_group_container_child_node_free (ETableGroupContainer          *etgc,
 	ETableGroup *etg = E_TABLE_GROUP (etgc);
 	ETableGroup *child = child_node->child;
 
-	gtk_object_destroy (GTK_OBJECT (child));
+	g_object_run_dispose (G_OBJECT (child));
 	e_table_model_free_value (etg->model, etgc->ecol->col_idx,
 				  child_node->key);
 	g_free (child_node->string);
-	gtk_object_destroy (GTK_OBJECT (child_node->text));
-	gtk_object_destroy (GTK_OBJECT (child_node->rect));
+	g_object_run_dispose (G_OBJECT (child_node->text));
+	g_object_run_dispose (G_OBJECT (child_node->rect));
 }
 
 static void
@@ -123,7 +123,7 @@ etgc_dispose (GObject *object)
 	etgc->selection_model = NULL;
 
 	if (etgc->rect)
-		gtk_object_destroy (GTK_OBJECT (etgc->rect));
+		g_object_run_dispose (G_OBJECT (etgc->rect));
 	etgc->rect = NULL;
 
 	G_OBJECT_CLASS (etgc_parent_class)->dispose (object);

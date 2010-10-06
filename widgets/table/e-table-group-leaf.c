@@ -97,7 +97,7 @@ etgl_dispose (GObject *object)
 		etgl->etgl_key_press_id = 0;
 		etgl->etgl_start_drag_id = 0;
 
-		gtk_object_destroy (GTK_OBJECT (etgl->item));
+		g_object_run_dispose (G_OBJECT (etgl->item));
 		etgl->item = NULL;
 	}
 
@@ -166,7 +166,7 @@ e_table_group_leaf_new (GnomeCanvasGroup *parent,
 }
 
 static void
-etgl_cursor_change (GtkObject *object, gint row, ETableGroupLeaf *etgl)
+etgl_cursor_change (GObject *object, gint row, ETableGroupLeaf *etgl)
 {
 	if (row < E_TABLE_SUBSET (etgl->ets)->n_map)
 		e_table_group_cursor_change (E_TABLE_GROUP (etgl),
@@ -174,7 +174,7 @@ etgl_cursor_change (GtkObject *object, gint row, ETableGroupLeaf *etgl)
 }
 
 static void
-etgl_cursor_activated (GtkObject *object, gint view_row, ETableGroupLeaf *etgl)
+etgl_cursor_activated (GObject *object, gint view_row, ETableGroupLeaf *etgl)
 {
 	if (view_row < E_TABLE_SUBSET (etgl->ets)->n_map)
 		e_table_group_cursor_activated (E_TABLE_GROUP (etgl),
@@ -182,14 +182,14 @@ etgl_cursor_activated (GtkObject *object, gint view_row, ETableGroupLeaf *etgl)
 }
 
 static void
-etgl_double_click (GtkObject *object, gint model_row, gint model_col, GdkEvent *event,
+etgl_double_click (GObject *object, gint model_row, gint model_col, GdkEvent *event,
 		   ETableGroupLeaf *etgl)
 {
 	e_table_group_double_click (E_TABLE_GROUP (etgl), model_row, model_col, event);
 }
 
 static gboolean
-etgl_key_press (GtkObject *object,
+etgl_key_press (GObject *object,
                 gint row,
                 gint col,
                 GdkEvent *event,
@@ -205,14 +205,14 @@ etgl_key_press (GtkObject *object,
 }
 
 static gboolean
-etgl_start_drag (GtkObject *object, gint model_row, gint model_col, GdkEvent *event,
+etgl_start_drag (GObject *object, gint model_row, gint model_col, GdkEvent *event,
 		 ETableGroupLeaf *etgl)
 {
 	return e_table_group_start_drag (E_TABLE_GROUP (etgl), model_row, model_col, event);
 }
 
 static gboolean
-etgl_right_click (GtkObject *object, gint view_row, gint model_col, GdkEvent *event,
+etgl_right_click (GObject *object, gint view_row, gint model_col, GdkEvent *event,
 		  ETableGroupLeaf *etgl)
 {
 	if (view_row < E_TABLE_SUBSET (etgl->ets)->n_map)
@@ -225,7 +225,7 @@ etgl_right_click (GtkObject *object, gint view_row, gint model_col, GdkEvent *ev
 }
 
 static gboolean
-etgl_click (GtkObject *object,
+etgl_click (GObject *object,
             gint row,
             gint col,
             GdkEvent *event,

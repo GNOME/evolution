@@ -28,12 +28,12 @@
 
 #include "e-printable.h"
 
-#define EP_CLASS(e) ((EPrintableClass *)((GtkObject *)e)->klass)
+#define EP_CLASS(e) ((EPrintableClass *)((GObject *)e)->klass)
 
 G_DEFINE_TYPE (
 	EPrintable,
 	e_printable,
-	GTK_TYPE_OBJECT)
+	G_TYPE_OBJECT)
 
 enum {
 	PRINT_PAGE,

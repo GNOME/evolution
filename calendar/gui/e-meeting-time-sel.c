@@ -270,7 +270,7 @@ meeting_time_selector_get_property (GObject *object,
 }
 
 static void
-meeting_time_selector_destroy (GtkObject *object)
+meeting_time_selector_dispose (GObject *object)
 {
 	EMeetingTimeSelector *mts;
 
@@ -304,15 +304,14 @@ meeting_time_selector_destroy (GtkObject *object)
 		mts->style_change_idle_id = 0;
 	}
 
-	if (GTK_OBJECT_CLASS (e_meeting_time_selector_parent_class)->destroy)
-		(*GTK_OBJECT_CLASS (e_meeting_time_selector_parent_class)->destroy)(object);
+	if (G_OBJECT_CLASS (e_meeting_time_selector_parent_class)->dispose)
+		G_OBJECT_CLASS (e_meeting_time_selector_parent_class)->dispose (object);
 }
 
 static void
 e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * class)
 {
 	GObjectClass *object_class;
-	GtkObjectClass *gtk_object_class;
 	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (class, sizeof (EMeetingTimeSelectorPrivate));
@@ -320,9 +319,7 @@ e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = meeting_time_selector_set_property;
 	object_class->get_property = meeting_time_selector_get_property;
-
-	gtk_object_class = GTK_OBJECT_CLASS (class);
-	gtk_object_class->destroy = meeting_time_selector_destroy;
+	object_class->dispose = meeting_time_selector_dispose;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = e_meeting_time_selector_realize;
@@ -1459,7 +1456,7 @@ e_meeting_time_selector_refresh_cb (gpointer data)
 	if (mts->display_main != NULL)
 		gtk_widget_queue_draw (mts->display_main);
 
-	g_object_unref (GTK_OBJECT (mts));
+	g_object_unref (G_OBJECT (mts));
 
 	return FALSE;
 }
@@ -1508,9 +1505,9 @@ e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, gint row, 
 		gint i;
 
 		for (i = 0; i < e_meeting_store_count_actual_attendees (mts->model); i++)
-			g_object_ref (GTK_OBJECT (mts));
+			g_object_ref (G_OBJECT (mts));
 	} else {
-		g_object_ref (GTK_OBJECT (mts));
+		g_object_ref (G_OBJECT (mts));
 	}
 
 	if (all)

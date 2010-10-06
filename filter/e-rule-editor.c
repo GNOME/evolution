@@ -569,17 +569,18 @@ rule_editor_finalize (GObject *object)
 }
 
 static void
-rule_editor_destroy (GtkObject *gtk_object)
+rule_editor_dispose (GObject *object)
 {
-	ERuleEditor *editor = E_RULE_EDITOR (gtk_object);
+	ERuleEditor *editor = E_RULE_EDITOR (object);
 
 	if (editor->dialog != NULL) {
 		gtk_widget_destroy (GTK_WIDGET (editor->dialog));
 		editor->dialog = NULL;
 	}
 
-	/* Chain up to parent's destroy() method. */
-	GTK_OBJECT_CLASS (e_rule_editor_parent_class)->destroy (gtk_object);
+	/* Chain up to parent's dispose() method. */
+	if (G_OBJECT_CLASS (e_rule_editor_parent_class)->dispose)
+		G_OBJECT_CLASS (e_rule_editor_parent_class)->dispose (object);
 }
 
 static void
@@ -644,15 +645,12 @@ static void
 e_rule_editor_class_init (ERuleEditorClass *class)
 {
 	GObjectClass *object_class;
-	GtkObjectClass *gtk_object_class;
 
 	g_type_class_add_private (class, sizeof (ERuleEditorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = rule_editor_finalize;
-
-	gtk_object_class = GTK_OBJECT_CLASS (class);
-	gtk_object_class->destroy = rule_editor_destroy;
+	object_class->dispose = rule_editor_dispose;
 
 	class->set_source = rule_editor_set_source;
 	class->set_sensitive = rule_editor_set_sensitive;

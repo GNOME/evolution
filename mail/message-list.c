@@ -2430,58 +2430,6 @@ message_list_init (MessageList *message_list)
 }
 
 static void
-message_list_destroy (GtkObject *object)
-{
-	MessageList *message_list = MESSAGE_LIST (object);
-	MessageListPrivate *p = message_list->priv;
-
-	p->destroyed = TRUE;
-
-	if (message_list->folder) {
-		mail_regen_cancel (message_list);
-
-		if (message_list->uid_nodemap) {
-			g_hash_table_foreach (message_list->uid_nodemap, (GHFunc)clear_info, message_list);
-			g_hash_table_destroy (message_list->uid_nodemap);
-			message_list->uid_nodemap = NULL;
-		}
-
-		g_signal_handlers_disconnect_by_func (
-			message_list->folder, folder_changed, message_list);
-		g_object_unref (message_list->folder);
-		message_list->folder = NULL;
-	}
-
-	if (p->invisible) {
-		g_object_unref (p->invisible);
-		p->invisible = NULL;
-	}
-
-	if (message_list->extras) {
-		g_object_unref (message_list->extras);
-		message_list->extras = NULL;
-	}
-
-	if (message_list->model) {
-		g_object_unref (message_list->model);
-		message_list->model = NULL;
-	}
-
-	if (message_list->idle_id != 0) {
-		g_source_remove (message_list->idle_id);
-		message_list->idle_id = 0;
-	}
-
-	if (message_list->seen_id) {
-		g_source_remove (message_list->seen_id);
-		message_list->seen_id = 0;
-	}
-
-	/* Chain up to parent's destroy() method. */
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
-}
-
-static void
 message_list_set_property (GObject *object,
                            guint property_id,
                            const GValue *value,
@@ -2530,9 +2478,10 @@ message_list_get_property (GObject *object,
 static void
 message_list_dispose (GObject *object)
 {
+	MessageList *message_list = MESSAGE_LIST (object);
 	MessageListPrivate *priv;
 
-	priv = MESSAGE_LIST_GET_PRIVATE (object);
+	priv = MESSAGE_LIST_GET_PRIVATE (message_list);
 
 	if (priv->shell_backend != NULL) {
 		g_object_unref (priv->shell_backend);
@@ -2547,6 +2496,48 @@ message_list_dispose (GObject *object)
 	if (priv->paste_target_list != NULL) {
 		gtk_target_list_unref (priv->paste_target_list);
 		priv->paste_target_list = NULL;
+	}
+
+	priv->destroyed = TRUE;
+
+	if (message_list->folder) {
+		mail_regen_cancel (message_list);
+
+		if (message_list->uid_nodemap) {
+			g_hash_table_foreach (message_list->uid_nodemap, (GHFunc)clear_info, message_list);
+			g_hash_table_destroy (message_list->uid_nodemap);
+			message_list->uid_nodemap = NULL;
+		}
+
+		g_signal_handlers_disconnect_by_func (
+			message_list->folder, folder_changed, message_list);
+		g_object_unref (message_list->folder);
+		message_list->folder = NULL;
+	}
+
+	if (priv->invisible) {
+		g_object_unref (priv->invisible);
+		priv->invisible = NULL;
+	}
+
+	if (message_list->extras) {
+		g_object_unref (message_list->extras);
+		message_list->extras = NULL;
+	}
+
+	if (message_list->model) {
+		g_object_unref (message_list->model);
+		message_list->model = NULL;
+	}
+
+	if (message_list->idle_id != 0) {
+		g_source_remove (message_list->idle_id);
+		message_list->idle_id = 0;
+	}
+
+	if (message_list->seen_id) {
+		g_source_remove (message_list->seen_id);
+		message_list->seen_id = 0;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -2610,7 +2601,6 @@ static void
 message_list_class_init (MessageListClass *class)
 {
 	GObjectClass *object_class;
-	GtkObjectClass *gtk_object_class;
 	gint i;
 
 	for (i = 0; i < G_N_ELEMENTS (ml_drag_info); i++)
@@ -2624,9 +2614,6 @@ message_list_class_init (MessageListClass *class)
 	object_class->get_property = message_list_get_property;
 	object_class->dispose = message_list_dispose;
 	object_class->finalize = message_list_finalize;
-
-	gtk_object_class = GTK_OBJECT_CLASS (class);
-	gtk_object_class->destroy = message_list_destroy;
 
 	class->message_list_built = NULL;
 

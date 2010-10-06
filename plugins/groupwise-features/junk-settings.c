@@ -41,7 +41,7 @@ typedef struct _JunkEntry JunkEntry;
 
 static void junk_settings_class_init (JunkSettingsClass *class);
 static void junk_settings_init       (JunkSettings *js);
-static void junk_settings_destroy    (GtkObject *obj);
+static void junk_settings_dispose    (GObject *obj);
 static void junk_settings_finalise   (GObject *obj);
 static void free_all (JunkSettings *js);
 static void get_junk_list (JunkSettings *js);
@@ -75,12 +75,11 @@ junk_settings_get_type (void)
 static void
 junk_settings_class_init (JunkSettingsClass *klass)
 {
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	parent_class = g_type_class_ref (gtk_vbox_get_type ());
-	object_class->destroy = junk_settings_destroy;
-	gobject_class->finalize = junk_settings_finalise;
+	object_class->dispose = junk_settings_dispose;
+	object_class->finalize = junk_settings_finalise;
 }
 
 static void
@@ -94,11 +93,13 @@ junk_settings_finalise (GObject *obj)
 }
 
 static void
-junk_settings_destroy (GtkObject *obj)
+junk_settings_dispose (GObject *obj)
 {
 	JunkSettings *js = (JunkSettings *) obj;
 	free_all (js);
-	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
+
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (obj);
 }
 
 static void

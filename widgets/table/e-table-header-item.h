@@ -56,7 +56,7 @@ typedef struct {
 	gint              resize_start_pos;
 	gint              resize_min_width;
 
-	GtkObject       *resize_guide;
+	gpointer	  resize_guide;
 
 	gint              group_indent_width;
 

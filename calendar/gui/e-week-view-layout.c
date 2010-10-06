@@ -97,9 +97,9 @@ e_week_view_layout_events	(GArray		*events,
 			span = &g_array_index (old_spans, EWeekViewEventSpan,
 					       span_num);
 			if (span->background_item)
-				gtk_object_destroy (GTK_OBJECT (span->background_item));
+				g_object_run_dispose (G_OBJECT (span->background_item));
 			if (span->text_item)
-				gtk_object_destroy (GTK_OBJECT (span->text_item));
+				g_object_run_dispose (G_OBJECT (span->text_item));
 		}
 		g_array_free (old_spans, TRUE);
 	}

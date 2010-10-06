@@ -138,7 +138,7 @@ typedef struct {
 #define GNOME_CANVAS_ITEM_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_ITEM, GnomeCanvasItemClass))
 
 struct _GnomeCanvasItem {
-	GtkObject object;
+	GObject object;
 
 	/* Parent canvas for this item */
 	GnomeCanvas *canvas;
@@ -156,13 +156,13 @@ struct _GnomeCanvasItem {
 	/* Bounding box for this item (in canvas coordinates) */
 	gdouble x1, y1, x2, y2;
 
-	/* XXX GtkObject flags are sealed now, so we have to provide
+	/* XXX GObject flags are sealed now, so we have to provide
 	 *     our own.  This breaks ABI compatibility with upstream. */
 	GnomeCanvasItemFlags flags;
 };
 
 struct _GnomeCanvasItemClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	/* Tell the item to update itself.  The flags are from the update flags
 	 * defined above.  The item should update its internal state from its
@@ -183,6 +183,9 @@ struct _GnomeCanvasItemClass {
 
 	/* Unmap an item */
 	void (* unmap) (GnomeCanvasItem *item);
+
+	/* Destroy item; called inside GObject's dispose of the base class */
+	void (* destroy) (GnomeCanvasItem *item);
 
 	/* Return the microtile coverage of the item */
 	ArtUta *(* coverage) (GnomeCanvasItem *item);
@@ -425,9 +428,6 @@ struct _GnomeCanvas {
 
 	/* Idle handler ID */
 	guint idle_id;
-
-	/* Signal handler ID for destruction of the root item */
-	guint root_destroy_id;
 
 	/* Area that is being redrawn.  Contains (x1, y1) but not (x2, y2).
 	 * Specified in canvas pixel coordinates.

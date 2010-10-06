@@ -66,7 +66,7 @@ enum {
 };
 
 static void
-etcta_cursor_change (GtkObject *object, gint row, gint col, ETableClickToAdd *etcta)
+etcta_cursor_change (GObject *object, gint row, gint col, ETableClickToAdd *etcta)
 {
 	g_signal_emit (etcta,
 		       etcta_signals[CURSOR_CHANGE], 0,
@@ -360,7 +360,7 @@ finish_editing (ETableClickToAdd *etcta)
 		e_table_item_leave_edit (E_TABLE_ITEM (etcta->row));
 		e_table_one_commit (E_TABLE_ONE (etcta->one));
 		etcta_drop_one (etcta);
-		gtk_object_destroy (GTK_OBJECT (etcta->row));
+		g_object_run_dispose (G_OBJECT (etcta->row));
 		etcta->row = NULL;
 
 		one = e_table_one_new (etcta->model);
@@ -401,11 +401,11 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 
 	case GDK_BUTTON_PRESS:
 		if (etcta->text) {
-			gtk_object_destroy (GTK_OBJECT (etcta->text));
+			g_object_run_dispose (G_OBJECT (etcta->text));
 			etcta->text = NULL;
 		}
 		if (etcta->rect) {
-			gtk_object_destroy (GTK_OBJECT (etcta->rect));
+			g_object_run_dispose (G_OBJECT (etcta->rect));
 			etcta->rect = NULL;
 		}
 		if (!etcta->row) {
@@ -450,7 +450,7 @@ etcta_event (GnomeCanvasItem *item, GdkEvent *e)
 			if (etcta->row) {
 				e_table_item_leave_edit (E_TABLE_ITEM (etcta->row));
 				etcta_drop_one (etcta);
-				gtk_object_destroy (GTK_OBJECT (etcta->row));
+				g_object_run_dispose (G_OBJECT (etcta->row));
 				etcta->row = NULL;
 				create_rect_and_text (etcta);
 				e_canvas_item_move_absolute (etcta->text, 3, 3);
@@ -613,7 +613,7 @@ e_table_click_to_add_commit (ETableClickToAdd *etcta)
 	if (etcta->row) {
 		e_table_one_commit (E_TABLE_ONE (etcta->one));
 		etcta_drop_one (etcta);
-		gtk_object_destroy (GTK_OBJECT (etcta->row));
+		g_object_run_dispose (G_OBJECT (etcta->row));
 		etcta->row = NULL;
 	}
 	create_rect_and_text (etcta);

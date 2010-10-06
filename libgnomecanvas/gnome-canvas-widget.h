@@ -78,8 +78,6 @@ struct _GnomeCanvasWidget {
 	gint cx, cy;			/* Top-left canvas coordinates for widget */
 	gint cwidth, cheight;		/* Size of widget in pixels */
 
-	guint destroy_id;		/* Signal connection id for destruction of child widget */
-
 	guint size_pixels : 1;		/* Is size specified in (unchanging) pixels or units (get scaled)? */
 	guint in_destroy : 1;		/* Is child widget being destroyed? */
 };

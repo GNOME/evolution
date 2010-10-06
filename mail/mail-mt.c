@@ -227,14 +227,16 @@ mail_msg_unref (gpointer msg)
 /* hash table of ops->dialogue of active errors */
 static GHashTable *active_errors = NULL;
 
-static void error_destroy (GtkObject *o, gpointer data)
+static void
+error_finalized (gpointer data, GObject *gone_gd)
 {
 	g_hash_table_remove (active_errors, data);
 }
 
-static void error_response (GtkObject *o, gint button, gpointer data)
+static void
+error_response (GtkWidget *dialog, gint button, gpointer data)
 {
-	gtk_widget_destroy ((GtkWidget *)o);
+	gtk_widget_destroy (dialog);
 }
 
 void
@@ -284,7 +286,7 @@ mail_msg_check_error (gpointer msg)
 
 	g_hash_table_insert (active_errors, m->info, gd);
 	g_signal_connect(gd, "response", G_CALLBACK(error_response), m->info);
-	g_signal_connect(gd, "destroy", G_CALLBACK(error_destroy), m->info);
+	g_object_weak_ref (G_OBJECT (gd), error_finalized, m->info);
 	if (m->priv->cancelable)
 		m->priv->error = (GtkWidget *) gd;
 	else

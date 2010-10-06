@@ -479,7 +479,7 @@ e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 }
 
 static void
-e_addressbook_reflow_adapter_init (GtkObject *object)
+e_addressbook_reflow_adapter_init (GObject *object)
 {
 	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER (object);
 	EAddressbookReflowAdapterPrivate *priv;

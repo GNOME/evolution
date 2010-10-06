@@ -51,7 +51,7 @@ enum {
 
 static void gnome_canvas_polygon_class_init (GnomeCanvasPolygonClass *class);
 static void gnome_canvas_polygon_init       (GnomeCanvasPolygon      *poly);
-static void gnome_canvas_polygon_destroy    (GtkObject               *object);
+static void gnome_canvas_polygon_destroy    (GnomeCanvasItem        *object);
 static void gnome_canvas_polygon_set_property (GObject              *object,
 					       guint                 param_id,
 					       const GValue         *value,
@@ -94,28 +94,25 @@ gnome_canvas_polygon_get_type (void)
 static void
 gnome_canvas_polygon_class_init (GnomeCanvasPolygonClass *class)
 {
-	GObjectClass *gobject_class;
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	gobject_class = (GObjectClass *) class;
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
 
 	parent_class = g_type_class_peek_parent (class);
 
-	gobject_class->set_property = gnome_canvas_polygon_set_property;
-	gobject_class->get_property = gnome_canvas_polygon_get_property;
+	object_class->set_property = gnome_canvas_polygon_set_property;
+	object_class->get_property = gnome_canvas_polygon_get_property;
 
         g_object_class_install_property
-                (gobject_class,
+                (object_class,
                  PROP_POINTS,
                  g_param_spec_boxed ("points", NULL, NULL,
 				     GNOME_TYPE_CANVAS_POINTS,
 				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
-	object_class->destroy = gnome_canvas_polygon_destroy;
-
+	item_class->destroy = gnome_canvas_polygon_destroy;
 	item_class->update = gnome_canvas_polygon_update;
 }
 
@@ -126,7 +123,7 @@ gnome_canvas_polygon_init (GnomeCanvasPolygon *poly)
 }
 
 static void
-gnome_canvas_polygon_destroy (GtkObject *object)
+gnome_canvas_polygon_destroy (GnomeCanvasItem *object)
 {
 	GnomeCanvasPolygon *poly;
 
@@ -142,8 +139,8 @@ gnome_canvas_polygon_destroy (GtkObject *object)
 
 	poly->path_def = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy)
+		GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy (object);
 }
 
 static void

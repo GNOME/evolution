@@ -106,7 +106,7 @@ struct _EItipControlPrivate {
 #define HTML_BODY_END   "</body>"
 #define HTML_FOOTER     "</html>"
 
-static void e_itip_control_destroy	(GtkObject               *obj);
+static void e_itip_control_dispose	(GObject               *obj);
 
 static void find_my_address (EItipControl *itip, icalcomponent *ical_comp, icalparameter_partstat *status);
 static gboolean object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data);
@@ -117,11 +117,11 @@ G_DEFINE_TYPE (EItipControl, e_itip_control, GTK_TYPE_VBOX)
 static void
 e_itip_control_class_init (EItipControlClass *klass)
 {
-	GtkObjectClass *gtkobject_class;
+	GObjectClass *object_class;
 
-	gtkobject_class = GTK_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (klass);
 
-	gtkobject_class->destroy = e_itip_control_destroy;
+	object_class->dispose = e_itip_control_dispose;
 }
 
 static void
@@ -488,7 +488,7 @@ clean_up (EItipControl *itip)
 }
 
 static void
-e_itip_control_destroy (GtkObject *obj)
+e_itip_control_dispose (GObject *obj)
 {
 	EItipControl *itip = E_ITIP_CONTROL (obj);
 	EItipControlPrivate *priv;
@@ -518,7 +518,8 @@ e_itip_control_destroy (GtkObject *obj)
 		itip->priv = NULL;
 	}
 
-	(* GTK_OBJECT_CLASS (e_itip_control_parent_class)->destroy) (obj);
+	if (G_OBJECT_CLASS (e_itip_control_parent_class)->dispose)
+		G_OBJECT_CLASS (e_itip_control_parent_class)->dispose (obj);
 }
 
 GtkWidget *

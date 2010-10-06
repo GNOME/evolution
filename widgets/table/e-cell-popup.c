@@ -461,7 +461,7 @@ e_cell_popup_do_popup			(ECellPopupView	*ecp_view,
 
 	ecp->popup_cell_view = ecp_view;
 
-	popup_func = E_CELL_POPUP_CLASS (GTK_OBJECT_GET_CLASS (ecp))->popup;
+	popup_func = E_CELL_POPUP_CLASS (G_OBJECT_GET_CLASS (ecp))->popup;
 
 	ecp->popup_view_col = view_col;
 	ecp->popup_row = row;

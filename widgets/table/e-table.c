@@ -662,7 +662,7 @@ group_info_changed (ETableSortInfo *info, ETable *et)
 	if (et->is_grouped || will_be_grouped) {
 		et->need_rebuild = TRUE;
 		if (!et->rebuild_idle_id) {
-			gtk_object_destroy (GTK_OBJECT (et->group));
+			g_object_run_dispose (G_OBJECT (et->group));
 			et->group = NULL;
 			et->rebuild_idle_id = g_idle_add_full (20, changed_idle, et, NULL);
 		}
@@ -923,7 +923,7 @@ et_table_model_changed (ETableModel *model, ETable *et)
 {
 	et->need_rebuild = TRUE;
 	if (!et->rebuild_idle_id) {
-		gtk_object_destroy (GTK_OBJECT (et->group));
+		g_object_run_dispose (G_OBJECT (et->group));
 		et->group = NULL;
 		et->rebuild_idle_id = g_idle_add_full (20, changed_idle, et, NULL);
 	}
@@ -1065,7 +1065,7 @@ changed_idle (gpointer data)
 		GtkAllocation allocation;
 
 		if (et->group)
-			gtk_object_destroy (GTK_OBJECT (et->group));
+			g_object_run_dispose (G_OBJECT (et->group));
 		et_build_groups (et);
 
 		widget = GTK_WIDGET (et->table_canvas);
@@ -1110,7 +1110,7 @@ static gboolean
 white_item_event (GnomeCanvasItem *white_item, GdkEvent *event, ETable *e_table)
 {
 	gboolean return_val = 0;
-	g_signal_emit (GTK_OBJECT (e_table), et_signals[WHITE_SPACE_EVENT], 0,
+	g_signal_emit (G_OBJECT (e_table), et_signals[WHITE_SPACE_EVENT], 0,
 		       event, &return_val);
 	return return_val;
 }
@@ -2317,7 +2317,7 @@ et_set_property (GObject *object,
 			g_signal_connect (G_OBJECT (etable->click_to_add), "cursor_change",
 					  G_CALLBACK (click_to_add_cursor_change), etable);
 		} else {
-			gtk_object_destroy (GTK_OBJECT (etable->click_to_add));
+			g_object_run_dispose (G_OBJECT (etable->click_to_add));
 			etable->click_to_add = NULL;
 		}
 		break;
@@ -2739,7 +2739,7 @@ e_table_drag_highlight (ETable *table,
 				       NULL);
 	} else {
 		if (table->drop_highlight) {
-			gtk_object_destroy (GTK_OBJECT (table->drop_highlight));
+			g_object_run_dispose (G_OBJECT (table->drop_highlight));
 			table->drop_highlight = NULL;
 		}
 	}
@@ -2758,7 +2758,7 @@ e_table_drag_unhighlight (ETable *table)
 	g_return_if_fail (E_IS_TABLE (table));
 
 	if (table->drop_highlight) {
-		gtk_object_destroy (GTK_OBJECT (table->drop_highlight));
+		g_object_run_dispose (G_OBJECT (table->drop_highlight));
 		table->drop_highlight = NULL;
 	}
 }
@@ -3108,7 +3108,7 @@ static void
 context_destroyed (gpointer data)
 {
 	ETable *et = data;
-	/* if (!GTK_OBJECT_DESTROYED (et)) */
+	/* if (!G_OBJECT_DESTROYED (et)) */
 /* FIXME: */
 	{
 		et->last_drop_x       = 0;

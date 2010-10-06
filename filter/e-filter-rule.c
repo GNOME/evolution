@@ -649,7 +649,7 @@ filter_rule_get_widget (EFilterRule *rule,
 	GtkWidget *add, *label, *name, *w;
 	GtkWidget *combobox;
 	GtkWidget *scrolledwindow;
-	GtkObject *hadj, *vadj;
+	GtkAdjustment *hadj, *vadj;
 	GList *l;
 	gchar *text;
 	EFilterPart *part;
@@ -807,8 +807,8 @@ filter_rule_get_widget (EFilterRule *rule,
 
 	hadj = gtk_adjustment_new (0.0, 0.0, 1.0, 1.0, 1.0, 1.0);
 	vadj = gtk_adjustment_new (0.0, 0.0, 1.0, 1.0, 1.0, 1.0);
-	scrolledwindow = gtk_scrolled_window_new (
-		GTK_ADJUSTMENT (hadj), GTK_ADJUSTMENT (vadj));
+	scrolledwindow = gtk_scrolled_window_new (hadj, vadj);
+
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (scrolledwindow),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);

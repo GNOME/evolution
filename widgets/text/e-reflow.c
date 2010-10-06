@@ -398,7 +398,7 @@ item_removed (EReflowModel *model, gint i, EReflow *reflow)
 	}
 
 	if (reflow->items[i])
-		gtk_object_destroy (GTK_OBJECT (reflow->items[i]));
+		g_object_run_dispose (G_OBJECT (reflow->items[i]));
 
 	memmove (reflow->heights + i, reflow->heights + i + 1, (reflow->count - i - 1) * sizeof (gint));
 	memmove (reflow->items + i, reflow->items + i + 1, (reflow->count - i - 1) * sizeof (GnomeCanvasItem *));
@@ -482,7 +482,7 @@ model_changed (EReflowModel *model, EReflow *reflow)
 
 	for (i = 0; i < count; i++) {
 		if (reflow->items[i])
-			gtk_object_destroy (GTK_OBJECT (reflow->items[i]));
+			g_object_run_dispose (G_OBJECT (reflow->items[i]));
 	}
 	g_free (reflow->items);
 	g_free (reflow->heights);
@@ -530,7 +530,7 @@ set_empty (EReflow *reflow)
 							    reflow->minimum_width / 2,
 							    0);
 			} else {
-				gtk_object_destroy (GTK_OBJECT (reflow->empty_text));
+				g_object_run_dispose (G_OBJECT (reflow->empty_text));
 				reflow->empty_text = NULL;
 			}
 		} else {
@@ -553,7 +553,7 @@ set_empty (EReflow *reflow)
 		}
 	} else {
 		if (reflow->empty_text) {
-			gtk_object_destroy (GTK_OBJECT (reflow->empty_text));
+			g_object_run_dispose (G_OBJECT (reflow->empty_text));
 			reflow->empty_text = NULL;
 		}
 	}

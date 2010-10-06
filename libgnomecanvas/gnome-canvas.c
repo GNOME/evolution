@@ -136,7 +136,7 @@ static gint  emit_event                       (GnomeCanvas *canvas, GdkEvent *ev
 
 static guint item_signals[ITEM_LAST_SIGNAL];
 
-static GtkObjectClass *item_parent_class;
+static GObjectClass *item_parent_class;
 
 /**
  * gnome_canvas_item_get_type:
@@ -165,7 +165,7 @@ gnome_canvas_item_get_type (void)
 			NULL			/* value_table */
 		};
 
-		canvas_item_type = g_type_register_static (GTK_TYPE_OBJECT, "GnomeCanvasItem",
+		canvas_item_type = g_type_register_static (G_TYPE_OBJECT, "GnomeCanvasItem",
 							   &object_info, 0);
 	}
 
@@ -361,6 +361,9 @@ gnome_canvas_item_dispose (GObject *object)
 
 	g_free (item->xform);
 	item->xform = NULL;
+
+	if (GNOME_CANVAS_ITEM_GET_CLASS (item)->destroy)
+		GNOME_CANVAS_ITEM_GET_CLASS (item)->destroy (item);
 
 	G_OBJECT_CLASS (item_parent_class)->dispose (object);
 	/* items should remove any reference to item->canvas after the
@@ -1355,7 +1358,7 @@ static void gnome_canvas_group_get_property (GObject               *object,
 					    GValue                *value,
 					    GParamSpec            *pspec);
 
-static void gnome_canvas_group_destroy     (GtkObject             *object);
+static void gnome_canvas_group_destroy     (GnomeCanvasItem *object);
 
 static void   gnome_canvas_group_update      (GnomeCanvasItem *item, gdouble *affine,
 					      ArtSVP *clip_path, gint flags);
@@ -1418,36 +1421,33 @@ gnome_canvas_group_get_type (void)
 static void
 gnome_canvas_group_class_init (GnomeCanvasGroupClass *class)
 {
-	GObjectClass *gobject_class;
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
-	gobject_class = (GObjectClass *) class;
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
 
 	group_parent_class = g_type_class_peek_parent (class);
 
-	gobject_class->set_property = gnome_canvas_group_set_property;
-	gobject_class->get_property = gnome_canvas_group_get_property;
+	object_class->set_property = gnome_canvas_group_set_property;
+	object_class->get_property = gnome_canvas_group_get_property;
 
 	g_object_class_install_property
-		(gobject_class, GROUP_PROP_X,
+		(object_class, GROUP_PROP_X,
 		 g_param_spec_double ("x",
 				      "X",
 				      "X",
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 	g_object_class_install_property
-		(gobject_class, GROUP_PROP_Y,
+		(object_class, GROUP_PROP_Y,
 		 g_param_spec_double ("y",
 				      "Y",
 				      "Y",
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
-	object_class->destroy = gnome_canvas_group_destroy;
-
+	item_class->destroy = gnome_canvas_group_destroy;
 	item_class->update = gnome_canvas_group_update;
 	item_class->realize = gnome_canvas_group_realize;
 	item_class->unrealize = gnome_canvas_group_unrealize;
@@ -1553,7 +1553,7 @@ gnome_canvas_group_get_property (GObject *gobject, guint param_id,
 
 /* Destroy handler for canvas groups */
 static void
-gnome_canvas_group_destroy (GtkObject *object)
+gnome_canvas_group_destroy (GnomeCanvasItem *object)
 {
 	GnomeCanvasGroup *group;
 
@@ -1562,12 +1562,12 @@ gnome_canvas_group_destroy (GtkObject *object)
 	group = GNOME_CANVAS_GROUP (object);
 
 	while (group->item_list) {
-		// child is unref'ed by the child's group_remove ().
-		gtk_object_destroy (GTK_OBJECT (group->item_list->data));
+		/* child is unref'ed by the child's group_remove (). */
+		g_object_run_dispose (G_OBJECT (group->item_list->data));
 	}
 
-	if (GTK_OBJECT_CLASS (group_parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (group_parent_class)->destroy) (object);
+	if (GNOME_CANVAS_ITEM_CLASS (group_parent_class)->destroy)
+		GNOME_CANVAS_ITEM_CLASS (group_parent_class)->destroy (object);
 }
 
 /* Update handler for canvas groups */
@@ -1941,7 +1941,7 @@ enum {
 
 static void gnome_canvas_class_init          (GnomeCanvasClass *class);
 static void gnome_canvas_init                (GnomeCanvas      *canvas);
-static void gnome_canvas_destroy             (GtkObject        *object);
+static void gnome_canvas_dispose             (GObject          *object);
 static void gnome_canvas_map                 (GtkWidget        *widget);
 static void gnome_canvas_unmap               (GtkWidget        *widget);
 static void gnome_canvas_realize             (GtkWidget        *widget);
@@ -2055,20 +2055,17 @@ gnome_canvas_set_property (GObject      *object,
 static void
 gnome_canvas_class_init (GnomeCanvasClass *klass)
 {
-	GObjectClass   *gobject_class;
-	GtkObjectClass *object_class;
+	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
 
-	gobject_class = (GObjectClass *)klass;
-	object_class  = (GtkObjectClass *) klass;
+	object_class = (GObjectClass *)klass;
 	widget_class  = (GtkWidgetClass *) klass;
 
 	canvas_parent_class = g_type_class_peek_parent (klass);
 
-	gobject_class->set_property = gnome_canvas_set_property;
-	gobject_class->get_property = gnome_canvas_get_property;
-
-	object_class->destroy = gnome_canvas_destroy;
+	object_class->set_property = gnome_canvas_set_property;
+	object_class->get_property = gnome_canvas_get_property;
+	object_class->dispose = gnome_canvas_dispose;
 
 	widget_class->map = gnome_canvas_map;
 	widget_class->unmap = gnome_canvas_unmap;
@@ -2098,7 +2095,7 @@ gnome_canvas_class_init (GnomeCanvasClass *klass)
 							       FALSE,
 							       G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 
-	g_object_class_install_property (gobject_class, PROP_FOCUSED_ITEM,
+	g_object_class_install_property (object_class, PROP_FOCUSED_ITEM,
 					 g_param_spec_object ("focused_item", NULL, NULL,
 					 GNOME_TYPE_CANVAS_ITEM,
 					 (G_PARAM_READABLE | G_PARAM_WRITABLE)));
@@ -2128,9 +2125,9 @@ gnome_canvas_class_init (GnomeCanvasClass *klass)
  * never ever do this, so we panic if this happens.
  */
 G_GNUC_NORETURN static void
-panic_root_destroyed (GtkObject *object, gpointer data)
+panic_root_finalized (gpointer data, GObject *gone_object)
 {
-	g_error ("Eeeek, root item %p of canvas %p was destroyed!", object, data);
+	g_error ("Eeeek, root item %p of canvas %p was destroyed!", gone_object, data);
 }
 
 /* Object initialization function for GnomeCanvas */
@@ -2182,9 +2179,7 @@ gnome_canvas_init (GnomeCanvas *canvas)
 
 	g_object_ref_sink (canvas->root);
 
-	canvas->root_destroy_id = g_signal_connect (canvas->root, "destroy",
-						    G_CALLBACK (panic_root_destroyed),
-						    canvas);
+	g_object_weak_ref (G_OBJECT (canvas->root), panic_root_finalized, canvas);
 
 	canvas->need_repick = TRUE;
 }
@@ -2227,32 +2222,28 @@ shutdown_transients (GnomeCanvas *canvas)
 	remove_idle (canvas);
 }
 
-/* Destroy handler for GnomeCanvas */
+/* Dispose handler for GnomeCanvas */
 static void
-gnome_canvas_destroy (GtkObject *object)
+gnome_canvas_dispose (GObject *object)
 {
 	GnomeCanvas *canvas;
 
 	g_return_if_fail (GNOME_IS_CANVAS (object));
 
-	/* remember, destroy can be run multiple times! */
+	/* remember, dispose can be run multiple times! */
 
 	canvas = GNOME_CANVAS (object);
 
-	if (canvas->root_destroy_id) {
-		g_signal_handler_disconnect (canvas->root, canvas->root_destroy_id);
-		canvas->root_destroy_id = 0;
-	}
 	if (canvas->root) {
-		gtk_object_destroy (GTK_OBJECT (canvas->root));
+		g_object_weak_unref (G_OBJECT (canvas->root), panic_root_finalized, canvas);
 		g_object_unref (G_OBJECT (canvas->root));
 		canvas->root = NULL;
 	}
 
 	shutdown_transients (canvas);
 
-	if (GTK_OBJECT_CLASS (canvas_parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (canvas_parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (canvas_parent_class)->dispose)
+		G_OBJECT_CLASS (canvas_parent_class)->dispose (object);
 }
 
 /**

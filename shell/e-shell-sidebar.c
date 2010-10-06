@@ -158,6 +158,16 @@ shell_sidebar_dispose (GObject *object)
 		priv->shell_view = NULL;
 	}
 
+	/* Unparent the widget before destroying it to avoid
+	 * writing a custom GtkContainer::remove() method. */
+
+	if (priv->event_box != NULL) {
+		gtk_widget_unparent (priv->event_box);
+		gtk_widget_destroy (priv->event_box);
+		g_object_unref (priv->event_box);
+		priv->event_box = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_shell_sidebar_parent_class)->dispose (object);
 }
@@ -205,27 +215,6 @@ shell_sidebar_constructed (GObject *object)
 	g_free (label);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
-}
-
-static void
-shell_sidebar_destroy (GtkObject *gtk_object)
-{
-	EShellSidebarPrivate *priv;
-
-	priv = E_SHELL_SIDEBAR_GET_PRIVATE (gtk_object);
-
-	/* Unparent the widget before destroying it to avoid
-	 * writing a custom GtkContainer::remove() method. */
-
-	if (priv->event_box != NULL) {
-		gtk_widget_unparent (priv->event_box);
-		gtk_widget_destroy (priv->event_box);
-		g_object_unref (priv->event_box);
-		priv->event_box = NULL;
-	}
-
-	/* Chain up to parent's destroy() method. */
-	GTK_OBJECT_CLASS (e_shell_sidebar_parent_class)->destroy (gtk_object);
 }
 
 static void
@@ -304,7 +293,6 @@ static void
 e_shell_sidebar_class_init (EShellSidebarClass *class)
 {
 	GObjectClass *object_class;
-	GtkObjectClass *gtk_object_class;
 	GtkWidgetClass *widget_class;
 	GtkContainerClass *container_class;
 
@@ -316,9 +304,6 @@ e_shell_sidebar_class_init (EShellSidebarClass *class)
 	object_class->dispose = shell_sidebar_dispose;
 	object_class->finalize = shell_sidebar_finalize;
 	object_class->constructed = shell_sidebar_constructed;
-
-	gtk_object_class = GTK_OBJECT_CLASS (class);
-	gtk_object_class->destroy = shell_sidebar_destroy;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->size_request = shell_sidebar_size_request;

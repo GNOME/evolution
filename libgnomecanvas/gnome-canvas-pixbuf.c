@@ -83,7 +83,7 @@ enum {
 
 static void gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class);
 static void gnome_canvas_pixbuf_init (GnomeCanvasPixbuf *cpb);
-static void gnome_canvas_pixbuf_destroy (GtkObject *object);
+static void gnome_canvas_pixbuf_destroy (GnomeCanvasItem *object);
 static void gnome_canvas_pixbuf_set_property (GObject *object,
 					      guint param_id,
 					      const GValue *value,
@@ -151,11 +151,9 @@ static void
 gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class)
 {
         GObjectClass *gobject_class;
-	GtkObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
         gobject_class = (GObjectClass *) class;
-	object_class = (GtkObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
 
 	parent_class = g_type_class_peek_parent (class);
@@ -237,8 +235,7 @@ gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class)
                                     GTK_ANCHOR_NW,
                                     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
-	object_class->destroy = gnome_canvas_pixbuf_destroy;
-
+	item_class->destroy = gnome_canvas_pixbuf_destroy;
 	item_class->update = gnome_canvas_pixbuf_update;
 	item_class->draw = gnome_canvas_pixbuf_draw;
 	item_class->render = gnome_canvas_pixbuf_render;
@@ -264,7 +261,7 @@ gnome_canvas_pixbuf_init (GnomeCanvasPixbuf *gcp)
 
 /* Destroy handler for the pixbuf canvas item */
 static void
-gnome_canvas_pixbuf_destroy (GtkObject *object)
+gnome_canvas_pixbuf_destroy (GnomeCanvasItem *object)
 {
 	GnomeCanvasItem *item;
 	GnomeCanvasPixbuf *gcp;
@@ -290,8 +287,8 @@ gnome_canvas_pixbuf_destroy (GtkObject *object)
 	    gcp->priv = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy)
+		GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy (object);
 }
 
 
@@ -744,37 +741,7 @@ gnome_canvas_pixbuf_update (GnomeCanvasItem *item,
 	if (parent_class->update)
 		(* parent_class->update) (item, affine, clip_path, flags);
 
-        /* the optimzations below cause rarely triggered redrawing bugs and
-	 * don't seem to actually save much performance. so it's probably
-	 * better to turn them off, than to chase subtle optimization bugs
-	 * throughgout all of gnome-canvas-pixbuf.c - TIMJ
-	 */
-#ifdef USE_BROKEN_OPTIMIZATIONS
-	if (((flags & GNOME_CANVAS_UPDATE_VISIBILITY)
-	     && !(GTK_OBJECT_FLAGS (item) & GNOME_CANVAS_ITEM_VISIBLE))
-	    || (flags & GNOME_CANVAS_UPDATE_AFFINE)
-	    || priv->need_pixbuf_update
-	    || priv->need_xform_update) {
-		gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
-	}
-
-	/* If we need a pixbuf update, or if the item changed visibility to
-	 * shown, recompute the bounding box.
-	 */
-	if (priv->need_pixbuf_update
-	    || priv->need_xform_update
-	    || ((flags & GNOME_CANVAS_UPDATE_VISIBILITY)
-		&& (GTK_OBJECT_FLAGS (gcp) & GNOME_CANVAS_ITEM_VISIBLE))
-	    || (flags & GNOME_CANVAS_UPDATE_AFFINE)) {
-		recompute_bounding_box (gcp, affine);
-#ifdef GNOME_CANVAS_PIXBUF_VERBOSE
-		g_print ("BBox is %g %g %g %g\n", item->x1, item->y1, item->x2, item->y2);
-#endif
-		gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
-		priv->need_pixbuf_update = FALSE;
-		priv->need_xform_update = FALSE;
-	}
-#else   /* ordinary update logic */
+	/* ordinary update logic */
         gnome_canvas_request_redraw (
 		item->canvas, item->x1, item->y1, item->x2, item->y2);
         recompute_bounding_box (gcp, affine);
@@ -782,7 +749,6 @@ gnome_canvas_pixbuf_update (GnomeCanvasItem *item,
 		item->canvas, item->x1, item->y1, item->x2, item->y2);
         priv->need_pixbuf_update = FALSE;
         priv->need_xform_update = FALSE;
-#endif
 }
 
 

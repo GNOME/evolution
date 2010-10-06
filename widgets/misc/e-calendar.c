@@ -65,7 +65,7 @@
 #define E_CALENDAR_AUTO_MOVE_TIMEOUT		150
 #define E_CALENDAR_AUTO_MOVE_TIMEOUT_DELAY	2
 
-static void e_calendar_destroy		(GtkObject	*object);
+static void e_calendar_dispose		(GObject	*object);
 static void e_calendar_realize		(GtkWidget	*widget);
 static void e_calendar_style_set	(GtkWidget	*widget,
 					 GtkStyle	*previous_style);
@@ -105,13 +105,13 @@ G_DEFINE_TYPE (
 static void
 e_calendar_class_init (ECalendarClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass   *object_class;
 	GtkWidgetClass *widget_class;
 
-	object_class = (GtkObjectClass *) class;
+	object_class = (GObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 
-	object_class->destroy = e_calendar_destroy;
+	object_class->dispose = e_calendar_dispose;
 
 	widget_class->realize		   = e_calendar_realize;
 	widget_class->style_set		   = e_calendar_style_set;
@@ -223,7 +223,7 @@ e_calendar_new			(void)
 }
 
 static void
-e_calendar_destroy		(GtkObject *object)
+e_calendar_dispose		(GObject *object)
 {
 	ECalendar *cal;
 
@@ -237,8 +237,8 @@ e_calendar_destroy		(GtkObject *object)
 		cal->timeout_id = 0;
 	}
 
-	if (GTK_OBJECT_CLASS (e_calendar_parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (e_calendar_parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (e_calendar_parent_class)->dispose)
+		G_OBJECT_CLASS (e_calendar_parent_class)->dispose (object);
 }
 
 static void

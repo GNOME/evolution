@@ -393,7 +393,7 @@ e_table_model_pre_change (ETableModel *e_table_model)
 		return;
 
 	d (print_tabs ());
-	d(g_print("Emitting pre_change on model 0x%p, a %s.\n", e_table_model, g_type_name (GTK_OBJECT(e_table_model)->klass->type)));
+	d(g_print("Emitting pre_change on model 0x%p, a %s.\n", e_table_model, g_type_name (G_OBJECT(e_table_model)->klass->type)));
 	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
 		       e_table_model_signals[MODEL_PRE_CHANGE], 0);
@@ -423,7 +423,7 @@ e_table_model_no_change (ETableModel *e_table_model)
 		return;
 
 	d (print_tabs ());
-	d(g_print("Emitting model_no_change on model 0x%p, a %s.\n", e_table_model, g_type_name (GTK_OBJECT(e_table_model)->klass->type)));
+	d(g_print("Emitting model_no_change on model 0x%p, a %s.\n", e_table_model, g_type_name (G_OBJECT(e_table_model)->klass->type)));
 	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
 		       e_table_model_signals[MODEL_NO_CHANGE], 0);
@@ -453,7 +453,7 @@ e_table_model_changed (ETableModel *e_table_model)
 		return;
 
 	d (print_tabs ());
-	d(g_print("Emitting model_changed on model 0x%p, a %s.\n", e_table_model, g_type_name (GTK_OBJECT(e_table_model)->klass->type)));
+	d(g_print("Emitting model_changed on model 0x%p, a %s.\n", e_table_model, g_type_name (G_OBJECT(e_table_model)->klass->type)));
 	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
 		       e_table_model_signals[MODEL_CHANGED], 0);
@@ -480,7 +480,7 @@ e_table_model_row_changed (ETableModel *e_table_model, gint row)
 		return;
 
 	d (print_tabs ());
-	d(g_print("Emitting row_changed on model 0x%p, a %s, row %d.\n", e_table_model, g_type_name (GTK_OBJECT(e_table_model)->klass->type), row));
+	d(g_print("Emitting row_changed on model 0x%p, a %s, row %d.\n", e_table_model, g_type_name (G_OBJECT(e_table_model)->klass->type), row));
 	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
 		       e_table_model_signals[MODEL_ROW_CHANGED], 0, row);
@@ -508,7 +508,7 @@ e_table_model_cell_changed (ETableModel *e_table_model, gint col, gint row)
 		return;
 
 	d (print_tabs ());
-	d(g_print("Emitting cell_changed on model 0x%p, a %s, row %d, col %d.\n", e_table_model, g_type_name (GTK_OBJECT(e_table_model)->klass->type), row, col));
+	d(g_print("Emitting cell_changed on model 0x%p, a %s, row %d, col %d.\n", e_table_model, g_type_name (G_OBJECT(e_table_model)->klass->type), row, col));
 	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
 		       e_table_model_signals[MODEL_CELL_CHANGED], 0, col, row);
@@ -536,7 +536,7 @@ e_table_model_rows_inserted (ETableModel *e_table_model, gint row, gint count)
 		return;
 
 	d (print_tabs ());
-	d(g_print("Emitting row_inserted on model 0x%p, a %s, row %d.\n", e_table_model, g_type_name (GTK_OBJECT(e_table_model)->klass->type), row));
+	d(g_print("Emitting row_inserted on model 0x%p, a %s, row %d.\n", e_table_model, g_type_name (G_OBJECT(e_table_model)->klass->type), row));
 	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
 		       e_table_model_signals[MODEL_ROWS_INSERTED], 0, row, count);
@@ -579,7 +579,7 @@ e_table_model_rows_deleted (ETableModel *e_table_model, gint row, gint count)
 		return;
 
 	d (print_tabs ());
-	d(g_print("Emitting row_deleted on model 0x%p, a %s, row %d.\n", e_table_model, g_type_name (GTK_OBJECT(e_table_model)->klass->type), row));
+	d(g_print("Emitting row_deleted on model 0x%p, a %s, row %d.\n", e_table_model, g_type_name (G_OBJECT(e_table_model)->klass->type), row));
 	d (depth++);
 	g_signal_emit (G_OBJECT (e_table_model),
 		       e_table_model_signals[MODEL_ROWS_DELETED], 0, row, count);

@@ -435,7 +435,7 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 
 	scrollbar_width =
 		requisition.width
-		+ GTK_SCROLLED_WINDOW_CLASS (GTK_OBJECT_GET_CLASS (popup))->scrollbar_spacing;
+		+ GTK_SCROLLED_WINDOW_CLASS (G_OBJECT_GET_CLASS (popup))->scrollbar_spacing;
 
 	avail_height = gdk_screen_height () - *y;
 
@@ -491,7 +491,7 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	if (show_hscroll)
 		work_height +=
 			requisition.height +
-			GTK_SCROLLED_WINDOW_CLASS (GTK_OBJECT_GET_CLASS (popup))->scrollbar_spacing;
+			GTK_SCROLLED_WINDOW_CLASS (G_OBJECT_GET_CLASS (popup))->scrollbar_spacing;
 
 	/* Check if it fits in the available height. */
 	if (work_height + list_requisition.height > avail_height) {

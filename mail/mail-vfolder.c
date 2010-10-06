@@ -1189,7 +1189,7 @@ vfolder_edit_rule (const gchar *uri)
 	url = camel_url_new (uri, NULL);
 	if (url && url->fragment
 	    && (rule = e_rule_context_find_rule ((ERuleContext *)context, url->fragment, NULL))) {
-		g_object_ref ((GtkObject *)rule);
+		g_object_ref (G_OBJECT (rule));
 		newrule = e_filter_rule_clone (rule);
 
 		w = e_filter_rule_get_widget ((EFilterRule *)newrule, (ERuleContext *)context);

@@ -84,7 +84,7 @@ enum {
 
 static void gnome_canvas_line_class_init   (GnomeCanvasLineClass *class);
 static void gnome_canvas_line_init         (GnomeCanvasLine      *line);
-static void gnome_canvas_line_destroy      (GtkObject            *object);
+static void gnome_canvas_line_destroy      (GnomeCanvasItem      *object);
 static void gnome_canvas_line_set_property (GObject              *object,
 					    guint                 param_id,
 					    const GValue         *value,
@@ -136,11 +136,9 @@ static void
 gnome_canvas_line_class_init (GnomeCanvasLineClass *class)
 {
 	GObjectClass *gobject_class;
-	GtkObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
 	gobject_class = (GObjectClass *) class;
-	object_class = (GtkObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
 
 	parent_class = g_type_class_peek_parent (class);
@@ -254,8 +252,7 @@ gnome_canvas_line_class_init (GnomeCanvasLineClass *class)
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
-	object_class->destroy = gnome_canvas_line_destroy;
-
+	item_class->destroy = gnome_canvas_line_destroy;
 	item_class->update = gnome_canvas_line_update;
 	item_class->realize = gnome_canvas_line_realize;
 	item_class->unrealize = gnome_canvas_line_unrealize;
@@ -280,7 +277,7 @@ gnome_canvas_line_init (GnomeCanvasLine *line)
 }
 
 static void
-gnome_canvas_line_destroy (GtkObject *object)
+gnome_canvas_line_destroy (GnomeCanvasItem *object)
 {
 	GnomeCanvasLine *line;
 
@@ -319,8 +316,8 @@ gnome_canvas_line_destroy (GtkObject *object)
 		art_svp_free (line->last_svp);
 	line->last_svp = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy)
+		GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy (object);
 }
 
 /* Computes the bounding box of the line, including its arrow points.  Assumes that the number of

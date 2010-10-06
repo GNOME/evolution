@@ -141,13 +141,13 @@ filter_int_get_widget (EFilterElement *element)
 {
 	EFilterInt *filter_int = E_FILTER_INT (element);
 	GtkWidget *widget;
-	GtkObject *adjustment;
+	GtkAdjustment *adjustment;
 
 	adjustment = gtk_adjustment_new (
 		0.0, (gfloat) filter_int->min,
 		(gfloat) filter_int->max, 1.0, 1.0, 0);
 	widget = gtk_spin_button_new (
-		GTK_ADJUSTMENT (adjustment),
+		adjustment,
 		filter_int->max > filter_int->min + 1000 ? 5.0 : 1.0, 0);
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (widget), TRUE);
 

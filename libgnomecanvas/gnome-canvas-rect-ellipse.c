@@ -57,7 +57,6 @@ enum {
 
 static void gnome_canvas_re_class_init (GnomeCanvasREClass *class);
 static void gnome_canvas_re_init       (GnomeCanvasRE      *re);
-static void gnome_canvas_re_destroy    (GtkObject          *object);
 static void gnome_canvas_re_set_property (GObject              *object,
 					  guint                 param_id,
 					  const GValue         *value,
@@ -102,10 +101,8 @@ static void
 gnome_canvas_re_class_init (GnomeCanvasREClass *class)
 {
 	GObjectClass *gobject_class;
-	GtkObjectClass *object_class;
 
 	gobject_class = (GObjectClass *) class;
-	object_class = (GtkObjectClass *) class;
 
 	re_parent_class = g_type_class_peek_parent (class);
 
@@ -136,8 +133,6 @@ gnome_canvas_re_class_init (GnomeCanvasREClass *class)
                  g_param_spec_double ("y2", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-
-	object_class->destroy = gnome_canvas_re_destroy;
 }
 
 static void
@@ -148,16 +143,6 @@ gnome_canvas_re_init (GnomeCanvasRE *re)
 	re->x2 = 0.0;
 	re->y2 = 0.0;
 	re->path_dirty = 0;
-}
-
-static void
-gnome_canvas_re_destroy (GtkObject *object)
-{
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (GNOME_IS_CANVAS_RE (object));
-
-	if (GTK_OBJECT_CLASS (re_parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (re_parent_class)->destroy) (object);
 }
 
 static void

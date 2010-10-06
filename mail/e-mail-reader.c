@@ -109,14 +109,7 @@ static gchar *default_xfer_messages_uri;
 static GQuark quark_private;
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_INTERFACE (EMailReader, e_mail_reader, GTK_TYPE_OBJECT)
-
-static void
-mail_reader_destroy (GObject *object)
-{
-	/* This will free the private struct. */
-	g_object_set_qdata (object, quark_private, NULL);
-}
+G_DEFINE_INTERFACE (EMailReader, e_mail_reader, G_TYPE_OBJECT)
 
 static void
 mail_reader_private_free (EMailReaderPrivate *priv)
@@ -3227,10 +3220,6 @@ init_private:
 		G_OBJECT (reader), quark_private,
 		g_slice_new0 (EMailReaderPrivate),
 		(GDestroyNotify) mail_reader_private_free);
-
-	g_signal_connect (
-		reader, "destroy",
-		G_CALLBACK (mail_reader_destroy), NULL);
 }
 
 void

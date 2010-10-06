@@ -192,7 +192,7 @@ gnome_canvas_item_invoke_point (GnomeCanvasItem *item,
 	y = i.y;
 #endif
 
-	return (* GNOME_CANVAS_ITEM_CLASS (GTK_OBJECT_GET_CLASS (item))->point) (
+	return (* GNOME_CANVAS_ITEM_CLASS (G_OBJECT_GET_CLASS (item))->point) (
 		item, x, y, cx, cy, actual_item);
 }
 

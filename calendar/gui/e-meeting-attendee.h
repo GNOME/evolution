@@ -64,13 +64,13 @@ typedef enum
 } EMeetingAttendeeEditLevel;
 
 struct _EMeetingAttendee {
-	GtkObject parent;
+	GObject parent;
 
 	EMeetingAttendeePrivate *priv;
 };
 
 struct _EMeetingAttendeeClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	void (* changed) (EMeetingAttendee *ia);
 };

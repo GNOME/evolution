@@ -48,7 +48,7 @@ folder_selector_finalize (GObject *object)
 }
 
 static void
-folder_selector_destroy (GtkObject *object)
+folder_selector_dispose (GObject *object)
 {
 	EMFolderSelector *emfs = EM_FOLDER_SELECTOR (object);
 	GtkTreeModel *model;
@@ -59,23 +59,21 @@ folder_selector_destroy (GtkObject *object)
 		emfs->created_id = 0;
 	}
 
-	/* Chain up to parent's destroy() method. */
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	/* Chain up to parent's dispose() method. */
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
 folder_selector_class_init (EMFolderSelectorClass *class)
 {
 	GObjectClass *object_class;
-	GtkObjectClass *gtk_object_class;
 
 	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = folder_selector_finalize;
-
-	gtk_object_class = GTK_OBJECT_CLASS (class);
-	gtk_object_class->destroy = folder_selector_destroy;
+	object_class->dispose = folder_selector_dispose;
 }
 
 static void

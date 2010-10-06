@@ -364,14 +364,14 @@ e_canvas_vbox_reflow ( GnomeCanvasItem *item, gint flags )
 void
 e_canvas_vbox_add_item (ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
 {
-	if (E_CANVAS_VBOX_CLASS (GTK_OBJECT_GET_CLASS (e_canvas_vbox))->add_item)
-		(E_CANVAS_VBOX_CLASS (GTK_OBJECT_GET_CLASS (e_canvas_vbox))->add_item) (e_canvas_vbox, item);
+	if (E_CANVAS_VBOX_CLASS (G_OBJECT_GET_CLASS (e_canvas_vbox))->add_item)
+		(E_CANVAS_VBOX_CLASS (G_OBJECT_GET_CLASS (e_canvas_vbox))->add_item) (e_canvas_vbox, item);
 }
 
 void
 e_canvas_vbox_add_item_start (ECanvasVbox *e_canvas_vbox, GnomeCanvasItem *item)
 {
-	if (E_CANVAS_VBOX_CLASS (GTK_OBJECT_GET_CLASS (e_canvas_vbox))->add_item_start)
-		(E_CANVAS_VBOX_CLASS (GTK_OBJECT_GET_CLASS (e_canvas_vbox))->add_item_start) (e_canvas_vbox, item);
+	if (E_CANVAS_VBOX_CLASS (G_OBJECT_GET_CLASS (e_canvas_vbox))->add_item_start)
+		(E_CANVAS_VBOX_CLASS (G_OBJECT_GET_CLASS (e_canvas_vbox))->add_item_start) (e_canvas_vbox, item);
 }
 

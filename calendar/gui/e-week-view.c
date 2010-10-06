@@ -87,7 +87,7 @@ typedef struct {
 	ECalModelComponent *comp_data;
 } AddEventData;
 
-static void e_week_view_destroy (GtkObject *object);
+static void e_week_view_dispose (GObject *object);
 static void e_week_view_realize (GtkWidget *widget);
 static void e_week_view_set_colors (EWeekView *week_view, GtkWidget *widget);
 static void e_week_view_unrealize (GtkWidget *widget);
@@ -647,7 +647,6 @@ static void
 e_week_view_class_init (EWeekViewClass *class)
 {
 	GObjectClass *object_class;
-	GtkObjectClass *gtk_object_class;
 	GtkWidgetClass *widget_class;
 	ECalendarViewClass *view_class;
 
@@ -655,9 +654,7 @@ e_week_view_class_init (EWeekViewClass *class)
 	object_class->set_property = week_view_set_property;
 	object_class->get_property = week_view_get_property;
 	object_class->constructed = week_view_constructed;
-
-	gtk_object_class = GTK_OBJECT_CLASS (class);
-	gtk_object_class->destroy = e_week_view_destroy;
+	object_class->dispose = e_week_view_dispose;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = e_week_view_realize;
@@ -713,7 +710,7 @@ static void
 e_week_view_init (EWeekView *week_view)
 {
 	GnomeCanvasGroup *canvas_group;
-	GtkObject *adjustment;
+	GtkAdjustment *adjustment;
 	GdkPixbuf *pixbuf;
 	gint i;
 
@@ -840,7 +837,7 @@ e_week_view_init (EWeekView *week_view)
 	 */
 	adjustment = gtk_adjustment_new (0, -52, 52, 1, 1, 1);
 
-	week_view->vscrollbar = gtk_vscrollbar_new (GTK_ADJUSTMENT (adjustment));
+	week_view->vscrollbar = gtk_vscrollbar_new (adjustment);
 	gtk_table_attach (GTK_TABLE (week_view), week_view->vscrollbar,
 			  2, 3, 1, 2, 0, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (week_view->vscrollbar);
@@ -874,7 +871,7 @@ e_week_view_new (ECalModel *model)
 }
 
 static void
-e_week_view_destroy (GtkObject *object)
+e_week_view_dispose (GObject *object)
 {
 	EWeekView *week_view;
 
@@ -918,7 +915,8 @@ e_week_view_destroy (GtkObject *object)
 		week_view->scroll_by_week_notif_id = 0;
 	}
 
-	GTK_OBJECT_CLASS (e_week_view_parent_class)->destroy (object);
+	if (G_OBJECT_CLASS (e_week_view_parent_class)->dispose)
+		G_OBJECT_CLASS (e_week_view_parent_class)->dispose (object);
 }
 
 static void
@@ -2292,11 +2290,11 @@ e_week_view_remove_event_cb (EWeekView *week_view,
 					       event->spans_index + span_num);
 
 			if (span->text_item) {
-				gtk_object_destroy (GTK_OBJECT (span->text_item));
+				g_object_run_dispose (G_OBJECT (span->text_item));
 				span->text_item = NULL;
 			}
 			if (span->background_item) {
-				gtk_object_destroy (GTK_OBJECT (span->background_item));
+				g_object_run_dispose (G_OBJECT (span->background_item));
 				span->background_item = NULL;
 			}
 		}
@@ -2762,9 +2760,9 @@ e_week_view_free_events (EWeekView *week_view)
 			span = &g_array_index (week_view->spans,
 					       EWeekViewEventSpan, span_num);
 			if (span->background_item)
-				gtk_object_destroy (GTK_OBJECT (span->background_item));
+				g_object_run_dispose (G_OBJECT (span->background_item));
 			if (span->text_item)
-				gtk_object_destroy (GTK_OBJECT (span->text_item));
+				g_object_run_dispose (G_OBJECT (span->text_item));
 		}
 		g_array_free (week_view->spans, TRUE);
 		week_view->spans = NULL;
@@ -3129,9 +3127,9 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	if (!e_week_view_get_span_position (week_view, event_num, span_num,
 					    &span_x, &span_y, &span_w)) {
 		if (span->background_item)
-			gtk_object_destroy (GTK_OBJECT (span->background_item));
+			g_object_run_dispose (G_OBJECT (span->background_item));
 		if (span->text_item)
-			gtk_object_destroy (GTK_OBJECT (span->text_item));
+			g_object_run_dispose (G_OBJECT (span->text_item));
 		span->background_item = NULL;
 		span->text_item = NULL;
 
@@ -3549,11 +3547,11 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 			/* Stop the signal last or we will also stop any
 			   other events getting to the EText item. */
-			g_signal_stop_emission_by_name (GTK_OBJECT (item), "event");
+			g_signal_stop_emission_by_name (G_OBJECT (item), "event");
 			return TRUE;
 		} else if (gdkevent->key.keyval == GDK_KEY_Escape) {
 			cancel_editing (week_view);
-			g_signal_stop_emission_by_name (GTK_OBJECT (item), "event");
+			g_signal_stop_emission_by_name (G_OBJECT (item), "event");
 			/* focus should go to week view when stop editing */
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 			return TRUE;
@@ -3582,7 +3580,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 					     event->comp_data->client,
 					     event->comp_data->icalcomp, FALSE);
 
-		g_signal_stop_emission_by_name (GTK_OBJECT (item), "event");
+		g_signal_stop_emission_by_name (G_OBJECT (item), "event");
 		return TRUE;
 	case GDK_BUTTON_PRESS:
 		tooltip_destroy (week_view, item);
@@ -3613,7 +3611,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 						     (GdkEventButton*) gdkevent,
 						     event_num);
 
-			g_signal_stop_emission_by_name (GTK_OBJECT (item->canvas),
+			g_signal_stop_emission_by_name (G_OBJECT (item->canvas),
 						    "button_press_event");
 			return TRUE;
 		}
@@ -3625,7 +3623,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 		/* Only let the EText handle the event while editing. */
 		if (!E_TEXT (item)->editing) {
-			g_signal_stop_emission_by_name (GTK_OBJECT (item), "event");
+			g_signal_stop_emission_by_name (G_OBJECT (item), "event");
 
 			if (gdkevent) {
 				week_view->drag_event_x = gdkevent->button.x;
@@ -3660,7 +3658,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 			/* Stop the signal last or we will also stop any
 			   other events getting to the EText item. */
-			g_signal_stop_emission_by_name (GTK_OBJECT (item), "event");
+			g_signal_stop_emission_by_name (G_OBJECT (item), "event");
 			return TRUE;
 		}
 		week_view->pressed_event_num = -1;

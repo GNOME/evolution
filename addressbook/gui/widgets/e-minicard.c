@@ -69,7 +69,7 @@ static gpointer parent_class;
 static void
 e_minicard_field_destroy (EMinicardField *field)
 {
-	gtk_object_destroy (GTK_OBJECT (field->label));
+	g_object_run_dispose (G_OBJECT (field->label));
 	g_free (field);
 }
 

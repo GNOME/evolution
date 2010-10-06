@@ -36,7 +36,7 @@
 #define etg_get_type e_table_group_get_type
 G_DEFINE_TYPE (ETableGroup, etg, GNOME_TYPE_CANVAS_GROUP)
 
-#define ETG_CLASS(e) (E_TABLE_GROUP_CLASS(GTK_OBJECT_GET_CLASS(e)))
+#define ETG_CLASS(e) (E_TABLE_GROUP_CLASS(G_OBJECT_GET_CLASS(e)))
 
 enum {
 	CURSOR_CHANGE,

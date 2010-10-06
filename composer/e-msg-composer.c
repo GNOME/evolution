@@ -1776,17 +1776,6 @@ msg_composer_get_property (GObject *object,
 }
 
 static void
-msg_composer_dispose (GObject *object)
-{
-	EMsgComposer *composer = E_MSG_COMPOSER (object);
-
-	e_composer_private_dispose (composer);
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_msg_composer_parent_class)->dispose (object);
-}
-
-static void
 msg_composer_finalize (GObject *object)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (object);
@@ -1951,7 +1940,7 @@ msg_composer_constructed (GObject *object)
 }
 
 static void
-msg_composer_destroy (GtkObject *object)
+msg_composer_dispose (GObject *object)
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (object);
 	EShell *shell;
@@ -1969,8 +1958,11 @@ msg_composer_destroy (GtkObject *object)
 	g_signal_handlers_disconnect_by_func (
 		shell, msg_composer_prepare_for_quit_cb, composer);
 
-	/* Chain up to parent's destroy() method. */
-	GTK_OBJECT_CLASS (e_msg_composer_parent_class)->destroy (object);
+	e_composer_private_dispose (composer);
+
+	/* Chain up to parent's dispose() method. */
+	if (G_OBJECT_CLASS (e_msg_composer_parent_class)->dispose)
+		G_OBJECT_CLASS (e_msg_composer_parent_class)->dispose (object);
 }
 
 static void
@@ -2231,7 +2223,6 @@ static void
 e_msg_composer_class_init (EMsgComposerClass *class)
 {
 	GObjectClass *object_class;
-	GtkObjectClass *gtk_object_class;
 	GtkWidgetClass *widget_class;
 	GtkhtmlEditorClass *editor_class;
 
@@ -2243,9 +2234,6 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 	object_class->dispose = msg_composer_dispose;
 	object_class->finalize = msg_composer_finalize;
 	object_class->constructed = msg_composer_constructed;
-
-	gtk_object_class = GTK_OBJECT_CLASS (class);
-	gtk_object_class->destroy = msg_composer_destroy;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->map = msg_composer_map;

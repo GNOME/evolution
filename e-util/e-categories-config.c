@@ -128,5 +128,5 @@ e_categories_config_open_dialog_for_entry (GtkEntry *entry)
 		gtk_entry_set_text (GTK_ENTRY (entry), text);
 	}
 
-	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 }

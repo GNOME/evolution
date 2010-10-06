@@ -702,8 +702,28 @@ static void
 folder_tree_dispose (GObject *object)
 {
 	EMFolderTreePrivate *priv;
+	GtkTreeModel *model;
 
 	priv = EM_FOLDER_TREE_GET_PRIVATE (object);
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (object));
+
+	if (priv->loaded_row_id != 0) {
+		g_signal_handler_disconnect (model, priv->loaded_row_id);
+		priv->loaded_row_id = 0;
+	}
+
+	if (priv->autoscroll_id != 0) {
+		g_source_remove (priv->autoscroll_id);
+		priv->autoscroll_id = 0;
+	}
+
+	if (priv->autoexpand_id != 0) {
+		gtk_tree_row_reference_free (priv->autoexpand_row);
+		priv->autoexpand_row = NULL;
+
+		g_source_remove (priv->autoexpand_id);
+		priv->autoexpand_id = 0;
+	}
 
 	if (priv->text_renderer != NULL) {
 		g_object_unref (priv->text_renderer);
@@ -732,38 +752,6 @@ folder_tree_finalize (GObject *object)
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-static void
-em_folder_tree_destroy (GtkObject *object)
-{
-	EMFolderTreePrivate *priv;
-	GtkTreeModel *model;
-
-	priv = EM_FOLDER_TREE_GET_PRIVATE (object);
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (object));
-
-	if (priv->loaded_row_id != 0) {
-		g_signal_handler_disconnect (model, priv->loaded_row_id);
-		priv->loaded_row_id = 0;
-	}
-
-	if (priv->autoscroll_id != 0) {
-		g_source_remove (priv->autoscroll_id);
-		priv->autoscroll_id = 0;
-	}
-
-	if (priv->autoexpand_id != 0) {
-		gtk_tree_row_reference_free (priv->autoexpand_row);
-		priv->autoexpand_row = NULL;
-
-		g_source_remove (priv->autoexpand_id);
-		priv->autoexpand_id = 0;
-	}
-
-	/* Chain up to parent's destroy() method. */
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
 
 static gboolean
@@ -964,7 +952,6 @@ static void
 folder_tree_class_init (EMFolderTreeClass *class)
 {
 	GObjectClass *object_class;
-	GtkObjectClass *gtk_object_class;
 	GtkWidgetClass *widget_class;
 	GtkTreeViewClass *tree_view_class;
 
@@ -974,9 +961,6 @@ folder_tree_class_init (EMFolderTreeClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = folder_tree_dispose;
 	object_class->finalize = folder_tree_finalize;
-
-	gtk_object_class = GTK_OBJECT_CLASS (class);
-	gtk_object_class->destroy = em_folder_tree_destroy;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->button_press_event = folder_tree_button_press_event;

@@ -49,7 +49,7 @@ enum {
 
 static void gnome_canvas_widget_class_init (GnomeCanvasWidgetClass *class);
 static void gnome_canvas_widget_init       (GnomeCanvasWidget      *witem);
-static void gnome_canvas_widget_destroy    (GtkObject              *object);
+static void gnome_canvas_widget_destroy    (GnomeCanvasItem      *object);
 static void gnome_canvas_widget_get_property (GObject            *object,
 					      guint               param_id,
 					      GValue             *value,
@@ -116,11 +116,9 @@ static void
 gnome_canvas_widget_class_init (GnomeCanvasWidgetClass *class)
 {
 	GObjectClass *gobject_class;
-	GtkObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
 	gobject_class = (GObjectClass *) class;
-	object_class = (GtkObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
 
 	parent_class = g_type_class_peek_parent (class);
@@ -172,13 +170,25 @@ gnome_canvas_widget_class_init (GnomeCanvasWidgetClass *class)
 				       FALSE,
 				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
-	object_class->destroy = gnome_canvas_widget_destroy;
-
+	item_class->destroy = gnome_canvas_widget_destroy;
 	item_class->update = gnome_canvas_widget_update;
 	item_class->point = gnome_canvas_widget_point;
 	item_class->bounds = gnome_canvas_widget_bounds;
 	item_class->render = gnome_canvas_widget_render;
 	item_class->draw = gnome_canvas_widget_draw;
+}
+
+static void
+do_destroy (gpointer data, GObject *gone_object)
+{
+	GnomeCanvasWidget *witem;
+
+	witem = data;
+
+	if (!witem->in_destroy) {
+		witem->in_destroy = TRUE;
+		g_object_run_dispose (G_OBJECT (witem));
+	}
 }
 
 static void
@@ -193,7 +203,7 @@ gnome_canvas_widget_init (GnomeCanvasWidget *witem)
 }
 
 static void
-gnome_canvas_widget_destroy (GtkObject *object)
+gnome_canvas_widget_destroy (GnomeCanvasItem *object)
 {
 	GnomeCanvasWidget *witem;
 
@@ -203,13 +213,13 @@ gnome_canvas_widget_destroy (GtkObject *object)
 	witem = GNOME_CANVAS_WIDGET (object);
 
 	if (witem->widget && !witem->in_destroy) {
-		g_signal_handler_disconnect (witem->widget, witem->destroy_id);
+		g_object_weak_unref (G_OBJECT (witem->widget), do_destroy, witem);
 		gtk_widget_destroy (witem->widget);
 		witem->widget = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy)
+		GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy (object);
 }
 
 static void
@@ -290,18 +300,6 @@ recalc_bounds (GnomeCanvasWidget *witem)
 }
 
 static void
-do_destroy (GtkObject *object, gpointer data)
-{
-	GnomeCanvasWidget *witem;
-
-	witem = data;
-
-	witem->in_destroy = TRUE;
-
-	gtk_object_destroy (data);
-}
-
-static void
 gnome_canvas_widget_set_property (GObject            *object,
 				  guint               param_id,
 				  const GValue       *value,
@@ -325,16 +323,14 @@ gnome_canvas_widget_set_property (GObject            *object,
 	switch (param_id) {
 	case PROP_WIDGET:
 		if (witem->widget) {
-			g_signal_handler_disconnect (witem->widget, witem->destroy_id);
+			g_object_weak_unref (G_OBJECT (witem->widget), do_destroy, witem);
 			gtk_container_remove (GTK_CONTAINER (item->canvas), witem->widget);
 		}
 
 		obj = g_value_get_object (value);
 		if (obj) {
 			witem->widget = GTK_WIDGET (obj);
-			witem->destroy_id = g_signal_connect (obj, "destroy",
-							      G_CALLBACK (do_destroy),
-							      witem);
+			g_object_weak_ref (obj, do_destroy, witem);
 			gtk_layout_put (GTK_LAYOUT (item->canvas), witem->widget,
 					witem->cx + item->canvas->zoom_xofs,
 					witem->cy + item->canvas->zoom_yofs);

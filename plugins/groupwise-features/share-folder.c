@@ -43,7 +43,7 @@ typedef struct _SharedUser SharedUser;
 
 static void share_folder_class_init (ShareFolderClass *class);
 static void share_folder_init       (ShareFolder *sf);
-static void share_folder_destroy    (GtkObject *obj);
+static void share_folder_dispose    (GObject *obj);
 static void share_folder_finalise   (GObject *obj);
 static void free_user_node (EShUsers *user);
 static void free_node (SharedUser *user);
@@ -87,12 +87,11 @@ share_folder_get_type (void)
 static void
 share_folder_class_init (ShareFolderClass *klass)
 {
-	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
-	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 
 	parent_class = g_type_class_ref (gtk_vbox_get_type ());
-	object_class->destroy = share_folder_destroy;
-	gobject_class->finalize = share_folder_finalise;
+	object_class->dispose = share_folder_dispose;
+	object_class->finalize = share_folder_finalise;
 }
 
 static void
@@ -105,12 +104,14 @@ share_folder_finalise (GObject *obj)
 }
 
 static void
-share_folder_destroy (GtkObject *obj)
+share_folder_dispose (GObject *obj)
 {
 
 	ShareFolder *sf = (ShareFolder *) obj;
 	free_all (sf);
-	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
+
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (obj);
 }
 
 static void

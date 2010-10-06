@@ -40,14 +40,14 @@ typedef struct _EDelegateDialogClass	EDelegateDialogClass;
 typedef struct _EDelegateDialogPrivate	EDelegateDialogPrivate;
 
 struct _EDelegateDialog {
-	GtkObject object;
+	GObject object;
 
 	/* Private data */
 	EDelegateDialogPrivate *priv;
 };
 
 struct _EDelegateDialogClass {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 };
 
 GType            e_delegate_dialog_get_type          (void);

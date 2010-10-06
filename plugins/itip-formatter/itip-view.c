@@ -888,7 +888,7 @@ set_buttons (ItipView *view)
 }
 
 static void
-itip_view_destroy (GtkObject *object)
+itip_view_dispose (GObject *object)
 {
 	ItipView *view = ITIP_VIEW (object);
 	ItipViewPrivate *priv = view->priv;
@@ -915,17 +915,18 @@ itip_view_destroy (GtkObject *object)
 		view->priv = NULL;
 	}
 
-	GTK_OBJECT_CLASS (itip_view_parent_class)->destroy (object);
+	if (G_OBJECT_CLASS (itip_view_parent_class)->dispose)
+		G_OBJECT_CLASS (itip_view_parent_class)->dispose (object);
 }
 
 static void
 itip_view_class_init (ItipViewClass *klass)
 {
-	GtkObjectClass *gtkobject_class;
+	GObjectClass *object_class;
 
-	gtkobject_class = GTK_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (klass);
 
-	gtkobject_class->destroy = itip_view_destroy;
+	object_class->dispose = itip_view_dispose;
 
 	signals[SOURCE_SELECTED] =
 		g_signal_new ("source_selected",

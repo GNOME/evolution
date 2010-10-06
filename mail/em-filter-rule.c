@@ -519,7 +519,7 @@ get_widget (EFilterRule *fr, ERuleContext *rc)
 	GtkWidget *widget, *hbox, *add, *label;
 	GtkWidget *parts, *inframe, *w;
 	GtkWidget *scrolledwindow;
-	GtkObject *hadj, *vadj;
+	GtkAdjustment *hadj, *vadj;
 	GList *l;
 	EFilterPart *part;
 	struct _rule_data *data;
@@ -581,8 +581,8 @@ get_widget (EFilterRule *fr, ERuleContext *rc)
 
 	hadj = gtk_adjustment_new (0.0, 0.0, 1.0, 1.0 ,1.0, 1.0);
 	vadj = gtk_adjustment_new (0.0, 0.0, 1.0, 1.0 ,1.0, 1.0);
-	scrolledwindow = gtk_scrolled_window_new (
-		GTK_ADJUSTMENT (hadj), GTK_ADJUSTMENT (vadj));
+	scrolledwindow = gtk_scrolled_window_new (hadj, vadj);
+
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (scrolledwindow),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);

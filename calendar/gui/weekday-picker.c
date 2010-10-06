@@ -191,7 +191,7 @@ configure_items (WeekdayPicker *wp)
 }
 
 static void
-weekday_picker_destroy (GtkObject *object)
+weekday_picker_dispose (GObject *object)
 {
 	WeekdayPicker *wp;
 	WeekdayPickerPrivate *priv;
@@ -205,8 +205,9 @@ weekday_picker_destroy (GtkObject *object)
 	g_free (priv);
 	wp->priv = NULL;
 
-	/* Chain up to parent's destroy() method. */
-	GTK_OBJECT_CLASS (weekday_picker_parent_class)->destroy (object);
+	/* Chain up to parent's dispose() method. */
+	if (G_OBJECT_CLASS (weekday_picker_parent_class)->dispose)
+		G_OBJECT_CLASS (weekday_picker_parent_class)->dispose (object);
 }
 
 static void
@@ -342,11 +343,11 @@ weekday_picker_focus (GtkWidget *widget,
 static void
 weekday_picker_class_init (WeekdayPickerClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	object_class = GTK_OBJECT_CLASS (class);
-	object_class->destroy = weekday_picker_destroy;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = weekday_picker_dispose;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = weekday_picker_realize;
@@ -530,7 +531,7 @@ weekday_picker_set_days (WeekdayPicker *wp, guint8 day_mask)
 	priv->day_mask = day_mask;
 	colorize_items (wp);
 
-	g_signal_emit (GTK_OBJECT (wp), wp_signals[CHANGED], 0);
+	g_signal_emit (G_OBJECT (wp), wp_signals[CHANGED], 0);
 }
 
 /**

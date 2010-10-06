@@ -993,7 +993,7 @@ free_event_array (GArray *array)
 	for (event_num = 0; event_num < array->len; event_num++) {
 		event = &g_array_index (array, EDayViewEvent, event_num);
 		if (event->canvas_item)
-			gtk_object_destroy (GTK_OBJECT (event->canvas_item));
+			g_object_run_dispose (G_OBJECT (event->canvas_item));
 	}
 
 	g_array_set_size (array, 0);

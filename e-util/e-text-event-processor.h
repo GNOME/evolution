@@ -51,7 +51,7 @@ struct _ETextEventProcessor
 
 struct _ETextEventProcessorClass
 {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	/* signals */
 	void (* command) (ETextEventProcessor *tep, ETextEventProcessorCommand *command);

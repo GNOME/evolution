@@ -148,7 +148,7 @@ comp_editor_new_date_edit (gboolean show_date,
    FIXME: Should probably use the timezone from somewhere in the component
    rather than the current timezone. */
 struct tm
-comp_editor_get_current_time (GtkObject *object, gpointer data)
+comp_editor_get_current_time (GObject *object, gpointer data)
 {
 	icaltimezone *zone;
 	struct icaltimetype tt;

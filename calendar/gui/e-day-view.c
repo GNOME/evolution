@@ -110,7 +110,7 @@ static GtkTargetEntry target_table[] = {
 	{ (gchar *) "application/x-e-calendar-event", 0, 0 }
 };
 
-static void e_day_view_destroy (GtkObject *object);
+static void e_day_view_dispose (GObject *object);
 static void e_day_view_realize (GtkWidget *widget);
 static void e_day_view_set_colors (EDayView *day_view, GtkWidget *widget);
 static void e_day_view_unrealize (GtkWidget *widget);
@@ -608,7 +608,6 @@ static void
 e_day_view_class_init (EDayViewClass *class)
 {
 	GObjectClass *object_class;
-	GtkObjectClass *gtk_object_class;
 	GtkWidgetClass *widget_class;
 	ECalendarViewClass *view_class;
 
@@ -616,9 +615,7 @@ e_day_view_class_init (EDayViewClass *class)
 	object_class->set_property = day_view_set_property;
 	object_class->get_property = day_view_get_property;
 	object_class->constructed = day_view_constructed;
-
-	gtk_object_class = GTK_OBJECT_CLASS (class);
-	gtk_object_class->destroy = e_day_view_destroy;
+	object_class->dispose = e_day_view_dispose;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = e_day_view_realize;
@@ -1377,7 +1374,7 @@ e_day_view_new (ECalModel *model)
 }
 
 static void
-e_day_view_destroy (GtkObject *object)
+e_day_view_dispose (GObject *object)
 {
 	EDayView *day_view;
 	gint day;
@@ -1428,7 +1425,8 @@ e_day_view_destroy (GtkObject *object)
 		}
 	}
 
-	GTK_OBJECT_CLASS (e_day_view_parent_class)->destroy (object);
+	if (G_OBJECT_CLASS (e_day_view_parent_class)->dispose)
+		G_OBJECT_CLASS (e_day_view_parent_class)->dispose (object);
 }
 
 static void
@@ -2121,7 +2119,7 @@ e_day_view_remove_event_cb (EDayView *day_view,
 	}
 
 	if (event->canvas_item)
-		gtk_object_destroy (GTK_OBJECT (event->canvas_item));
+		g_object_run_dispose (G_OBJECT (event->canvas_item));
 
 	if (is_comp_data_valid (event))
 		g_object_unref (event->comp_data);
@@ -4653,7 +4651,7 @@ e_day_view_free_event_array (EDayView *day_view,
 	for (event_num = 0; event_num < array->len; event_num++) {
 		event = &g_array_index (array, EDayViewEvent, event_num);
 		if (event->canvas_item)
-			gtk_object_destroy (GTK_OBJECT (event->canvas_item));
+			g_object_run_dispose (G_OBJECT (event->canvas_item));
 
 		if (is_comp_data_valid (event))
 			g_object_unref (event->comp_data);
@@ -4849,7 +4847,7 @@ e_day_view_reshape_long_events (EDayView *day_view)
 
 		if (event->num_columns == 0) {
 			if (event->canvas_item) {
-				gtk_object_destroy (GTK_OBJECT (event->canvas_item));
+				g_object_run_dispose (G_OBJECT (event->canvas_item));
 				event->canvas_item = NULL;
 			}
 		} else {
@@ -4883,7 +4881,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 						 &item_x, &item_y,
 						 &item_w, &item_h)) {
 		if (event->canvas_item) {
-			gtk_object_destroy (GTK_OBJECT (event->canvas_item));
+			g_object_run_dispose (G_OBJECT (event->canvas_item));
 			event->canvas_item = NULL;
 		}
 		return;
@@ -5075,7 +5073,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 					    &item_x, &item_y,
 					    &item_w, &item_h)) {
 		if (event->canvas_item) {
-			gtk_object_destroy (GTK_OBJECT (event->canvas_item));
+			g_object_run_dispose (G_OBJECT (event->canvas_item));
 			event->canvas_item = NULL;
 		}
 	} else {

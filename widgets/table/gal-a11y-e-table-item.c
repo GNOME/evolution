@@ -69,7 +69,7 @@ static gboolean gal_a11y_e_table_item_unref_selection (GalA11yETableItem *a11y);
 static AtkObject* eti_ref_at (AtkTable *table, gint row, gint column);
 
 static void
-item_destroyed (GtkObject *item, gpointer user_data)
+item_finalized (gpointer user_data, GObject *gone_item)
 {
 	GalA11yETableItem *a11y = GAL_A11Y_E_TABLE_ITEM (user_data);
 	GalA11yETableItemPrivate *priv = GET_PRIVATE (a11y);
@@ -1098,9 +1098,8 @@ gal_a11y_e_table_item_new (ETableItem *item)
 	}
 
 	if (item)
-		g_signal_connect (G_OBJECT (item), "destroy",
-				   G_CALLBACK (item_destroyed),
-				   a11y);
+		g_object_weak_ref (G_OBJECT (item), item_finalized, a11y);
+
 	esm = item->selection;
 
 	if (esm != NULL) {

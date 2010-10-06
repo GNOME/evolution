@@ -44,7 +44,7 @@ enum {
 
 static void gnome_canvas_clipgroup_class_init      (GnomeCanvasClipgroupClass *klass);
 static void gnome_canvas_clipgroup_init            (GnomeCanvasClipgroup      *clipgroup);
-static void gnome_canvas_clipgroup_destroy         (GtkObject                 *object);
+static void gnome_canvas_clipgroup_destroy         (GnomeCanvasItem           *object);
 static void gnome_canvas_clipgroup_set_property    (GObject                   *object,
                                                     guint                      param_id,
                                                     const GValue              *value,
@@ -119,17 +119,15 @@ static void
 gnome_canvas_clipgroup_class_init (GnomeCanvasClipgroupClass *klass)
 {
         GObjectClass *gobject_class;
-	GtkObjectClass *object_class;
 	GnomeCanvasItemClass *item_class;
 
         gobject_class = (GObjectClass *) klass;
-	object_class = (GtkObjectClass *) klass;
 	item_class = (GnomeCanvasItemClass *) klass;
 	parent_class = g_type_class_ref (GNOME_TYPE_CANVAS_GROUP);
 
-	object_class->destroy	    = gnome_canvas_clipgroup_destroy;
 	gobject_class->set_property = gnome_canvas_clipgroup_set_property;
 	gobject_class->get_property = gnome_canvas_clipgroup_get_property;
+	item_class->destroy	    = gnome_canvas_clipgroup_destroy;
 	item_class->update	    = gnome_canvas_clipgroup_update;
 	item_class->render	    = gnome_canvas_clipgroup_render;
 
@@ -153,7 +151,7 @@ gnome_canvas_clipgroup_init (GnomeCanvasClipgroup *clipgroup)
 }
 
 static void
-gnome_canvas_clipgroup_destroy (GtkObject *object)
+gnome_canvas_clipgroup_destroy (GnomeCanvasItem *object)
 {
 	GnomeCanvasClipgroup *clipgroup;
 
@@ -172,8 +170,8 @@ gnome_canvas_clipgroup_destroy (GtkObject *object)
 		clipgroup->svp = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy)
+		GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy (object);
 }
 
 static void
