@@ -70,6 +70,7 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EMailReader *reader;
+	EMailBackend *backend;
 	GPtrArray *uids;
 	gint i;
 	GtkWindow *window;
@@ -79,8 +80,9 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 	guint n_views, ii;
 
 	reader = E_MAIL_READER (view);
+	backend = e_mail_reader_get_backend (reader);
 
-	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	uids = e_mail_reader_get_selected_uids (reader);

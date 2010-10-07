@@ -60,11 +60,10 @@
 #include "em-folder-properties.h"
 
 #include "e-mail-local.h"
+#include "e-mail-session.h"
 #include "e-mail-store.h"
 
 #define d(x)
-
-extern CamelSession *session;
 
 static gboolean
 emfu_is_special_local_folder (const gchar *name)
@@ -282,7 +281,9 @@ struct _copy_folder_data {
 };
 
 static void
-emfu_copy_folder_selected (const gchar *uri, gpointer data)
+emfu_copy_folder_selected (EMailSession *session,
+                           const gchar *uri,
+                           gpointer data)
 {
 	struct _copy_folder_data *cfd = data;
 	CamelStore *fromstore = NULL, *tostore = NULL;
@@ -299,7 +300,7 @@ emfu_copy_folder_selected (const gchar *uri, gpointer data)
 	local_store = e_mail_local_get_store ();
 
 	fromstore = camel_session_get_store (
-		session, cfd->fi->uri, &local_error);
+		CAMEL_SESSION (session), cfd->fi->uri, &local_error);
 	if (fromstore == NULL) {
 		e_alert_run_dialog_for_args (
 			e_shell_get_active_window (NULL),
@@ -320,7 +321,8 @@ emfu_copy_folder_selected (const gchar *uri, gpointer data)
 		goto fail;
 	}
 
-	tostore = camel_session_get_store (session, uri, &local_error);
+	tostore = camel_session_get_store (
+		CAMEL_SESSION (session), uri, &local_error);
 	if (tostore == NULL) {
 		e_alert_run_dialog_for_args (
 			e_shell_get_active_window (NULL),
@@ -387,6 +389,7 @@ emfu_copy_folder_exclude (EMFolderTree *tree, GtkTreeModel *model, GtkTreeIter *
 /* FIXME: these functions must be documented */
 void
 em_folder_utils_copy_folder (GtkWindow *parent,
+                             EMailSession *session,
                              CamelFolderInfo *folderinfo,
                              gint delete)
 {
@@ -403,7 +406,7 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 	cfd->delete = delete;
 
 	/* XXX Do we leak this reference. */
-	emft = (EMFolderTree *) em_folder_tree_new ();
+	emft = (EMFolderTree *) em_folder_tree_new (session);
 	emu_restore_folder_tree_state (emft);
 
 	em_folder_tree_set_excluded_func (
@@ -422,7 +425,7 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 
 		uri = em_folder_selector_get_selected_uri (
 			EM_FOLDER_SELECTOR (dialog));
-		emfu_copy_folder_selected (uri, cfd);
+		emfu_copy_folder_selected (session, uri, cfd);
 	}
 
 	gtk_widget_destroy (dialog);
@@ -635,9 +638,12 @@ new_folder_created_cb (CamelFolderInfo *fi, gpointer user_data)
 }
 
 static void
-emfu_popup_new_folder_response (EMFolderSelector *emfs, gint response, gpointer data)
+emfu_popup_new_folder_response (EMFolderSelector *emfs,
+                                gint response,
+                                EMFolderTree *folder_tree)
 {
 	EMFolderTreeModelStoreInfo *si;
+	EMailSession *session;
 	GtkTreeModel *model;
 	const gchar *uri, *path;
 	CamelStore *store;
@@ -655,8 +661,11 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs, gint response, gpointer 
 
 	g_print ("DEBUG: %s (%s)\n", path, uri);
 
+	session = em_folder_tree_get_session (folder_tree);
+
 	store = (CamelStore *) camel_session_get_service (
-		session, uri, CAMEL_PROVIDER_STORE, NULL);
+		CAMEL_SESSION (session), uri,
+		CAMEL_PROVIDER_STORE, NULL);
 	if (store == NULL)
 		return;
 
@@ -670,21 +679,21 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs, gint response, gpointer 
 
 	/* HACK: we need to create vfolders using the vfolder editor */
 	if (CAMEL_IS_VEE_STORE (store)) {
-		EMVFolderRule *rule;
+		EFilterRule *rule;
 
 		/* ensures vfolder is running */
-		vfolder_load_storage ();
+		vfolder_load_storage (session);
 
-		rule = em_vfolder_rule_new ();
-		e_filter_rule_set_name ((EFilterRule *)rule, path);
-		vfolder_gui_add_rule (rule);
+		rule = em_vfolder_rule_new (session);
+		e_filter_rule_set_name (rule, path);
+		vfolder_gui_add_rule (EM_VFOLDER_RULE (rule));
 		gtk_widget_destroy ((GtkWidget *)emfs);
 	} else {
 		/* Temp data to pass to create_folder_real function */
 		emcftd = (struct _EMCreateFolderTempData *) g_malloc (sizeof (struct _EMCreateFolderTempData));
 		emcftd->emfs = emfs;
 		emcftd->uri = g_strdup (uri);
-		emcftd->emft = (EMFolderTree *) data;
+		emcftd->emft = folder_tree;
 
 		g_object_ref (emfs);
 		emfu_create_folder_real (si->store, path, new_folder_created_cb, emcftd);
@@ -695,12 +704,19 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs, gint response, gpointer 
 
 /* FIXME: these functions must be documented */
 void
-em_folder_utils_create_folder (CamelFolderInfo *folderinfo, EMFolderTree *emft, GtkWindow *parent)
+em_folder_utils_create_folder (CamelFolderInfo *folderinfo,
+                               EMFolderTree *emft,
+                               GtkWindow *parent)
 {
 	EMFolderTree *folder_tree;
+	EMailSession *session;
 	GtkWidget *dialog;
 
-	folder_tree = (EMFolderTree *) em_folder_tree_new ();
+	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
+
+	session = em_folder_tree_get_session (emft);
+
+	folder_tree = (EMFolderTree *) em_folder_tree_new (session);
 	emu_restore_folder_tree_state (folder_tree);
 
 	dialog = em_folder_selector_create_new (
@@ -719,6 +735,7 @@ em_folder_utils_create_folder (CamelFolderInfo *folderinfo, EMFolderTree *emft, 
 
 struct _folder_unsub_t {
 	MailMsg base;
+	EMailSession *session;
 	gchar *folder_uri;
 };
 
@@ -738,7 +755,8 @@ emfu_unsubscribe_folder__exec (struct _folder_unsub_t *msg)
 	gint url_flags;
 
 	store = camel_session_get_store (
-		session, msg->folder_uri, &msg->base.error);
+		CAMEL_SESSION (msg->session),
+		msg->folder_uri, &msg->base.error);
 	if (store == NULL)
 		return;
 
@@ -761,6 +779,7 @@ emfu_unsubscribe_folder__exec (struct _folder_unsub_t *msg)
 static void
 emfu_unsubscribe_folder__free (struct _folder_unsub_t *msg)
 {
+	g_object_unref (msg->session);
 	g_free (msg->folder_uri);
 }
 
@@ -773,13 +792,16 @@ static MailMsgInfo unsubscribe_info = {
 };
 
 void
-em_folder_utils_unsubscribe_folder (const gchar *folder_uri)
+em_folder_utils_unsubscribe_folder (EMailSession *session,
+                                    const gchar *folder_uri)
 {
 	struct _folder_unsub_t *unsub;
 
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (folder_uri != NULL);
 
 	unsub = mail_msg_new (&unsubscribe_info);
+	unsub->session = g_object_ref (session);
 	unsub->folder_uri = g_strdup (folder_uri);
 
 	mail_msg_unordered_push (unsub);

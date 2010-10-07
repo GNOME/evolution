@@ -212,6 +212,8 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	EShellSettings *shell_settings;
 	EShellSearchbar *searchbar;
 	EActionComboBox *combo_box;
+	EMailBackend *backend;
+	EMailSession *session;
 	EMFolderTree *folder_tree;
 	GtkTreeSelection *selection;
 	GtkWidget *message_list;
@@ -248,6 +250,9 @@ mail_shell_view_execute_search (EShellView *shell_view)
 
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
 
 	mail_shell_content = E_MAIL_SHELL_CONTENT (shell_content);
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
@@ -550,7 +555,7 @@ all_accounts:
 
 	/* FIXME Using data_dir like this is not portable. */
 	uri = g_strdup_printf ("vfolder:%s/vfolder", data_dir);
-	store = camel_session_get_store (session, uri, NULL);
+	store = camel_session_get_store (CAMEL_SESSION (session), uri, NULL);
 	g_free (uri);
 
 	search_folder = (CamelVeeFolder *) camel_vee_folder_new (
@@ -562,7 +567,8 @@ all_accounts:
 	while (iter != NULL) {
 		folder_uri = iter->data;
 		/* FIXME Not passing a GCancellable or GError here. */
-		folder = mail_tool_uri_to_folder (folder_uri, 0, NULL, NULL);
+		folder = e_mail_session_uri_to_folder_sync (
+			E_MAIL_SESSION (session), folder_uri, 0, NULL, NULL);
 
 		if (folder != NULL)
 			list = g_list_append (list, folder);
@@ -577,7 +583,8 @@ all_accounts:
 	while (iter != NULL) {
 		folder_uri = iter->data;
 		/* FIXME Not passing a GCancellable or GError here. */
-		folder = mail_tool_uri_to_folder (folder_uri, 0, NULL, NULL);
+		folder = e_mail_session_uri_to_folder_sync (
+			E_MAIL_SESSION (session), folder_uri, 0, NULL, NULL);
 
 		if (folder != NULL)
 			list = g_list_append (list, folder);
@@ -733,7 +740,7 @@ current_account:
 
 	/* FIXME Using data_dir like this is not portable. */
 	uri = g_strdup_printf ("vfolder:%s/vfolder", data_dir);
-	store = camel_session_get_store (session, uri, NULL);
+	store = camel_session_get_store (CAMEL_SESSION (session), uri, NULL);
 	g_free (uri);
 
 	search_folder = (CamelVeeFolder *) camel_vee_folder_new (

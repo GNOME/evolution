@@ -801,14 +801,17 @@ mail_shell_view_create_filter_cb (CamelFolder *folder,
                                   gpointer user_data)
 {
 	struct {
+		EMailSession *session;
 		const gchar *source;
 		gint type;
 	} *filter_data = user_data;
 
 	if (message != NULL)
 		filter_gui_add_from_message (
-			message, filter_data->source, filter_data->type);
+			filter_data->session, message,
+			filter_data->source, filter_data->type);
 
+	g_object_unref (filter_data->session);
 	g_free (filter_data);
 }
 
@@ -817,6 +820,10 @@ e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
                                                gint filter_type)
 {
 	EMailShellContent *mail_shell_content;
+	EShellBackend *shell_backend;
+	EShellView *shell_view;
+	EMailBackend *backend;
+	EMailSession *session;
 	EMailReader *reader;
 	EMailView *mail_view;
 	CamelFolder *folder;
@@ -825,6 +832,7 @@ e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
 	GPtrArray *uids;
 
 	struct {
+		EMailSession *session;
 		const gchar *source;
 		gint type;
 	} *filter_data;
@@ -833,6 +841,12 @@ e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
 
 	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
@@ -848,6 +862,7 @@ e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
 
 	if (uids->len == 1) {
 		filter_data = g_malloc (sizeof (*filter_data));
+		filter_data->session = g_object_ref (session);
 		filter_data->source = filter_source;
 		filter_data->type = filter_type;
 
@@ -868,14 +883,17 @@ mail_shell_view_create_vfolder_cb (CamelFolder *folder,
                                    gpointer user_data)
 {
 	struct {
+		EMailSession *session;
 		gchar *uri;
 		gint type;
 	} *vfolder_data = user_data;
 
 	if (message != NULL)
 		vfolder_gui_add_from_message (
-			message, vfolder_data->type, vfolder_data->uri);
+			vfolder_data->session, message,
+			vfolder_data->type, vfolder_data->uri);
 
+	g_object_unref (vfolder_data->session);
 	g_free (vfolder_data->uri);
 	g_free (vfolder_data);
 }
@@ -885,6 +903,10 @@ e_mail_shell_view_create_vfolder_from_selected (EMailShellView *mail_shell_view,
                                                 gint vfolder_type)
 {
 	EMailShellContent *mail_shell_content;
+	EShellBackend *shell_backend;
+	EShellView *shell_view;
+	EMailBackend *backend;
+	EMailSession *session;
 	EMailReader *reader;
 	EMailView *mail_view;
 	CamelFolder *folder;
@@ -892,6 +914,7 @@ e_mail_shell_view_create_vfolder_from_selected (EMailShellView *mail_shell_view,
 	GPtrArray *uids;
 
 	struct {
+		EMailSession *session;
 		gchar *uri;
 		gint type;
 	} *vfolder_data;
@@ -901,6 +924,12 @@ e_mail_shell_view_create_vfolder_from_selected (EMailShellView *mail_shell_view,
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);
 
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+
 	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
@@ -908,6 +937,7 @@ e_mail_shell_view_create_vfolder_from_selected (EMailShellView *mail_shell_view,
 
 	if (uids->len == 1) {
 		vfolder_data = g_malloc (sizeof (*vfolder_data));
+		vfolder_data->session = g_object_ref (session);
 		vfolder_data->uri = g_strdup (folder_uri);
 		vfolder_data->type = vfolder_type;
 

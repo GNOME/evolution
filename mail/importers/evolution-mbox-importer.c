@@ -44,6 +44,7 @@
 #include "shell/e-shell-view.h"
 #include "shell/e-shell-sidebar.h"
 
+#include "mail/e-mail-backend.h"
 #include "mail/e-mail-local.h"
 #include "mail/e-mail-store.h"
 #include "mail/em-folder-selection-button.h"
@@ -79,13 +80,23 @@ folder_selected (EMFolderSelectionButton *button, EImportTargetURI *target)
 static GtkWidget *
 mbox_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailSession *session;
 	GtkWindow *window;
 	GtkWidget *hbox, *w;
 	GtkLabel *label;
 	gchar *select_uri = NULL;
 
+	/* XXX Dig up the EMailSession from the default EShell.
+	 *     Since the EImport framework doesn't allow for user
+	 *     data, I don't see how else to get to it. */
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+
 	/* preselect the folder selected in a mail view */
-	window = e_shell_get_active_window (e_shell_get_default ());
+	window = e_shell_get_active_window (shell);
 	if (E_IS_SHELL_WINDOW (window)) {
 		EShellWindow *shell_window;
 		const gchar *view;
@@ -119,7 +130,8 @@ mbox_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 	label = GTK_LABEL (w);
 
 	w = em_folder_selection_button_new (
-		_("Select folder"), _("Select folder to import into"));
+		session, _("Select folder"),
+		_("Select folder to import into"));
 	gtk_label_set_mnemonic_widget (label, w);
 	em_folder_selection_button_set_selection ((EMFolderSelectionButton *)w, select_uri);
 	folder_selected (EM_FOLDER_SELECTION_BUTTON (w), (EImportTargetURI *)target);
@@ -215,8 +227,18 @@ mbox_import_done (gpointer data, GError **error)
 static void
 mbox_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailSession *session;
 	MboxImporter *importer;
 	gchar *filename;
+
+	/* XXX Dig up the EMailSession from the default EShell.
+	 *     Since the EImport framework doesn't allow for user
+	 *     data, I don't see how else to get to it. */
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
 	/* TODO: do we validate target? */
 
@@ -234,7 +256,7 @@ mbox_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 
 	filename = g_filename_from_uri (((EImportTargetURI *)target)->uri_src, NULL, NULL);
 	mail_importer_import_mbox (
-		filename, ((EImportTargetURI *)target)->uri_dest,
+		session, filename, ((EImportTargetURI *)target)->uri_dest,
 		importer->cancellable, mbox_import_done, importer);
 	g_free (filename);
 }

@@ -244,6 +244,20 @@ mail_shell_content_get_action_group (EMailReader *reader)
 	return E_SHELL_WINDOW_ACTION_GROUP_MAIL (shell_window);
 }
 
+static EMailBackend *
+mail_shell_content_get_backend (EMailReader *reader)
+{
+	EMailShellContentPrivate *priv;
+
+	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
+
+	/* Forward this to our internal EMailView, which
+	 * also implements the EMailReader interface. */
+	reader = E_MAIL_READER (priv->mail_view);
+
+	return e_mail_reader_get_backend (reader);
+}
+
 static EMFormatHTML *
 mail_shell_content_get_formatter (EMailReader *reader)
 {
@@ -298,20 +312,6 @@ mail_shell_content_get_popup_menu (EMailReader *reader)
 	reader = E_MAIL_READER (priv->mail_view);
 
 	return e_mail_reader_get_popup_menu (reader);
-}
-
-static EShellBackend *
-mail_shell_content_get_shell_backend (EMailReader *reader)
-{
-	EMailShellContentPrivate *priv;
-
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
-
-	/* Forward this to our internal EMailView, which
-	 * also implements the EMailReader interface. */
-	reader = E_MAIL_READER (priv->mail_view);
-
-	return e_mail_reader_get_shell_backend (reader);
 }
 
 static GtkWindow *
@@ -412,11 +412,11 @@ static void
 mail_shell_content_reader_init (EMailReaderInterface *interface)
 {
 	interface->get_action_group = mail_shell_content_get_action_group;
+	interface->get_backend = mail_shell_content_get_backend;
 	interface->get_formatter = mail_shell_content_get_formatter;
 	interface->get_hide_deleted = mail_shell_content_get_hide_deleted;
 	interface->get_message_list = mail_shell_content_get_message_list;
 	interface->get_popup_menu = mail_shell_content_get_popup_menu;
-	interface->get_shell_backend = mail_shell_content_get_shell_backend;
 	interface->get_window = mail_shell_content_get_window;
 	interface->set_folder = mail_shell_content_set_folder;
 	interface->show_search_bar = mail_shell_content_show_search_bar;

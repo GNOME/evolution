@@ -77,7 +77,7 @@ filter_int_clone (EFilterElement *element)
 	EFilterInt *filter_int = E_FILTER_INT (element);
 	EFilterInt *clone;
 
-	clone = e_filter_int_new_type (
+	clone = (EFilterInt *) e_filter_int_new_type (
 		filter_int->type, filter_int->min, filter_int->max);
 	clone->val = filter_int->val;
 
@@ -200,33 +200,26 @@ e_filter_int_init (EFilterInt *filter_int)
 	filter_int->max = G_MAXINT;
 }
 
-/**
- * filter_int_new:
- *
- * Create a new EFilterInt object.
- *
- * Return value: A new #EFilterInt object.
- **/
-EFilterInt *
+EFilterElement *
 e_filter_int_new (void)
 {
 	return g_object_new (E_TYPE_FILTER_INT, NULL);
 }
 
-EFilterInt *
+EFilterElement *
 e_filter_int_new_type (const gchar *type,
                        gint min,
                        gint max)
 {
 	EFilterInt *filter_int;
 
-	filter_int = e_filter_int_new ();
+	filter_int = g_object_new (E_TYPE_FILTER_INT, NULL);
 
 	filter_int->type = g_strdup (type);
 	filter_int->min = min;
 	filter_int->max = max;
 
-	return filter_int;
+	return E_FILTER_ELEMENT (filter_int);
 }
 
 void

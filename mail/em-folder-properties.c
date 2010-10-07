@@ -36,6 +36,7 @@
 #include "em-folder-properties.h"
 #include "em-config.h"
 
+#include "e-mail-backend.h"
 #include "e-mail-local.h"
 #include "mail-ops.h"
 #include "mail-mt.h"
@@ -347,8 +348,14 @@ em_folder_properties_show (EShellView *shell_view,
                            CamelFolder *folder,
                            const gchar *uri)
 {
+	EShellBackend *shell_backend;
+	EMailSession *session;
+
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 	g_return_if_fail (uri != NULL);
+
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
 	/* HACK: its the old behaviour, not very 'neat' but it works */
 	if (!strncmp (uri, "vfolder:", 8)) {
@@ -368,7 +375,9 @@ em_folder_properties_show (EShellView *shell_view,
 	}
 
 	if (folder == NULL)
-		mail_get_folder (uri, 0, emfp_dialog_got_folder, shell_view, mail_msg_unordered_push);
+		mail_get_folder (
+			session, uri, 0, emfp_dialog_got_folder,
+			shell_view, mail_msg_unordered_push);
 	else
 		emfp_dialog_got_folder ((gchar *)uri, folder, shell_view);
 }

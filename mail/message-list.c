@@ -112,7 +112,7 @@ struct _MLSelection {
 struct _MessageListPrivate {
 	GtkWidget *invisible;	/* 4 selection */
 
-	EShellBackend *shell_backend;
+	EMailBackend *backend;
 
 	struct _MLSelection clipboard;
 	gboolean destroyed;
@@ -137,9 +137,9 @@ struct _MessageListPrivate {
 
 enum {
 	PROP_0,
+	PROP_BACKEND,
 	PROP_COPY_TARGET_LIST,
-	PROP_PASTE_TARGET_LIST,
-	PROP_SHELL_BACKEND
+	PROP_PASTE_TARGET_LIST
 };
 
 static gpointer parent_class;
@@ -1403,17 +1403,16 @@ add_all_labels_foreach (ETreeModel *etm, ETreePath node, gpointer data)
 static EMailLabelListStore *
 ml_get_label_list_store (MessageList *message_list)
 {
-	EShellBackend *shell_backend;
 	EShell *shell;
 	EShellSettings *shell_settings;
-	EMailLabelListStore *store;
+	EMailBackend *backend;
 
-	shell_backend = message_list_get_shell_backend (message_list);
-	shell = e_shell_backend_get_shell (shell_backend);
+	backend = message_list_get_backend (message_list);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
 	shell_settings = e_shell_get_shell_settings (shell);
-	store = e_shell_settings_get_object (shell_settings, "mail-label-list-store");
 
-	return store;
+	return e_shell_settings_get_object (
+		shell_settings, "mail-label-list-store");
 }
 
 static const gchar *
@@ -2100,8 +2099,10 @@ static void
 ml_selection_received (GtkWidget *widget,
                        GtkSelectionData *selection_data,
                        guint time,
-                       MessageList *ml)
+                       MessageList *message_list)
 {
+	EMailBackend *backend;
+	EMailSession *session;
 	GdkAtom target;
 
 	target = gtk_selection_data_get_target (selection_data);
@@ -2111,9 +2112,13 @@ ml_selection_received (GtkWidget *widget,
 		return;
 	}
 
+	backend = message_list_get_backend (message_list);
+	session = e_mail_backend_get_session (backend);
+
 	/* FIXME Not passing a GCancellable or GError here. */
 	em_utils_selection_get_uidlist (
-		selection_data, ml->folder, FALSE, NULL, NULL);
+		selection_data, session, message_list->folder,
+		FALSE, NULL, NULL);
 }
 
 static void
@@ -2150,6 +2155,7 @@ struct _drop_msg {
 	GtkSelectionData *selection;
 
 	CamelFolder *folder;
+	MessageList *message_list;
 
 	guint32 action;
 	guint info;
@@ -2175,10 +2181,16 @@ ml_drop_async_desc (struct _drop_msg *m)
 static void
 ml_drop_async_exec (struct _drop_msg *m)
 {
+	EMailBackend *backend;
+	EMailSession *session;
+
+	backend = message_list_get_backend (m->message_list);
+	session = e_mail_backend_get_session (backend);
+
 	switch (m->info) {
 	case DND_X_UID_LIST:
 		em_utils_selection_get_uidlist (
-			m->selection, m->folder,
+			m->selection, session, m->folder,
 			m->action == GDK_ACTION_MOVE,
 			m->base.cancellable,
 			&m->base.error);
@@ -2214,6 +2226,7 @@ ml_drop_async_free (struct _drop_msg *m)
 {
 	g_object_unref (m->context);
 	g_object_unref (m->folder);
+	g_object_unref (m->message_list);
 	gtk_selection_data_free (m->selection);
 }
 
@@ -2257,10 +2270,9 @@ ml_tree_drag_data_received (ETree *tree,
 		return;
 
 	m = mail_msg_new (&ml_drop_async_info);
-	m->context = context;
-	g_object_ref (context);
-	m->folder = ml->folder;
-	g_object_ref (m->folder);
+	m->context = g_object_ref (context);
+	m->folder = g_object_ref (ml->folder);
+	m->message_list = g_object_ref (ml);
 	m->action = gdk_drag_context_get_selected_action (context);
 	m->info = info;
 
@@ -2368,12 +2380,13 @@ ml_tree_sorting_changed (ETreeTableAdapter *adapter, MessageList *ml)
  */
 
 static void
-message_list_set_shell_backend (MessageList *message_list,
-                               EShellBackend *shell_backend)
+message_list_set_backend (MessageList *message_list,
+                          EMailBackend *backend)
 {
-	g_return_if_fail (message_list->priv->shell_backend == NULL);
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (message_list->priv->backend == NULL);
 
-	message_list->priv->shell_backend = g_object_ref (shell_backend);
+	message_list->priv->backend = g_object_ref (backend);
 }
 
 static void
@@ -2436,8 +2449,8 @@ message_list_set_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_SHELL_BACKEND:
-			message_list_set_shell_backend (
+		case PROP_BACKEND:
+			message_list_set_backend (
 				MESSAGE_LIST (object),
 				g_value_get_object (value));
 			return;
@@ -2453,6 +2466,12 @@ message_list_get_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_BACKEND:
+			g_value_set_object (
+				value, message_list_get_backend (
+				MESSAGE_LIST (object)));
+			return;
+
 		case PROP_COPY_TARGET_LIST:
 			g_value_set_boxed (
 				value, message_list_get_copy_target_list (
@@ -2462,12 +2481,6 @@ message_list_get_property (GObject *object,
 		case PROP_PASTE_TARGET_LIST:
 			g_value_set_boxed (
 				value, message_list_get_paste_target_list (
-				MESSAGE_LIST (object)));
-			return;
-
-		case PROP_SHELL_BACKEND:
-			g_value_set_object (
-				value, message_list_get_shell_backend (
 				MESSAGE_LIST (object)));
 			return;
 	}
@@ -2483,9 +2496,9 @@ message_list_dispose (GObject *object)
 
 	priv = MESSAGE_LIST_GET_PRIVATE (message_list);
 
-	if (priv->shell_backend != NULL) {
-		g_object_unref (priv->shell_backend);
-		priv->shell_backend = NULL;
+	if (priv->backend != NULL) {
+		g_object_unref (priv->backend);
+		priv->backend = NULL;
 	}
 
 	if (priv->copy_target_list != NULL) {
@@ -2617,6 +2630,17 @@ message_list_class_init (MessageListClass *class)
 
 	class->message_list_built = NULL;
 
+	g_object_class_install_property (
+		object_class,
+		PROP_BACKEND,
+		g_param_spec_object (
+			"backend",
+			"Mail Backend",
+			"The mail backend",
+			E_TYPE_MAIL_BACKEND,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
 	/* Inherited from ESelectableInterface */
 	g_object_class_override_property (
 		object_class,
@@ -2628,17 +2652,6 @@ message_list_class_init (MessageListClass *class)
 		object_class,
 		PROP_PASTE_TARGET_LIST,
 		"paste-target-list");
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL_BACKEND,
-		g_param_spec_object (
-			"shell-backend",
-			"Shell Backend",
-			"The mail shell backend",
-			E_TYPE_SHELL_BACKEND,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
 
 	message_list_signals[MESSAGE_SELECTED] =
 		g_signal_new ("message_selected",
@@ -2833,27 +2846,27 @@ message_list_get_type (void)
  * Returns a new message-list widget.
  **/
 GtkWidget *
-message_list_new (EShellBackend *shell_backend)
+message_list_new (EMailBackend *backend)
 {
 	GtkWidget *message_list;
 
-	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), NULL);
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 
 	message_list = g_object_new (
 		message_list_get_type (),
-		"shell-backend", shell_backend, NULL);
+		"backend", backend, NULL);
 
 	message_list_construct (MESSAGE_LIST (message_list));
 
 	return message_list;
 }
 
-EShellBackend *
-message_list_get_shell_backend (MessageList *message_list)
+EMailBackend *
+message_list_get_backend (MessageList *message_list)
 {
 	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), NULL);
 
-	return message_list->priv->shell_backend;
+	return message_list->priv->backend;
 }
 
 static void

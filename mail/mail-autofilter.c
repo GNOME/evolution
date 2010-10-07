@@ -30,9 +30,9 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
+#include "e-mail-session.h"
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
-#include "mail-session.h"
 #include "em-utils.h"
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
@@ -297,50 +297,69 @@ rule_from_message (EFilterRule *rule, ERuleContext *context, CamelMimeMessage *m
 }
 
 EFilterRule *
-em_vfolder_rule_from_message (EMVFolderContext *context, CamelMimeMessage *msg, gint flags, const gchar *source)
+em_vfolder_rule_from_message (EMVFolderContext *context,
+                              CamelMimeMessage *msg,
+                              gint flags,
+                              const gchar *source)
 {
-	EMVFolderRule *rule;
+	EFilterRule *rule;
+	EMailSession *session;
 	gchar *euri = em_uri_from_camel (source);
 
-	rule = em_vfolder_rule_new ();
-	em_vfolder_rule_add_source (rule, euri);
-	rule_from_message ((EFilterRule *)rule, (ERuleContext *)context, msg, flags);
+	session = em_vfolder_context_get_session (context);
+
+	rule = em_vfolder_rule_new (session);
+	em_vfolder_rule_add_source (EM_VFOLDER_RULE (rule), euri);
+	rule_from_message (rule, E_RULE_CONTEXT (context), msg, flags);
 	g_free (euri);
 
-	return (EFilterRule *)rule;
+	return rule;
 }
 
 EFilterRule *
-em_vfolder_rule_from_address (EMVFolderContext *context, CamelInternetAddress *addr, gint flags, const gchar *source)
+em_vfolder_rule_from_address (EMVFolderContext *context,
+                              CamelInternetAddress *addr,
+                              gint flags,
+                              const gchar *source)
 {
-	EMVFolderRule *rule;
+	EFilterRule *rule;
+	EMailSession *session;
 	gchar *euri = em_uri_from_camel (source);
 
-	rule = em_vfolder_rule_new ();
-	em_vfolder_rule_add_source (rule, euri);
-	rule_from_address ((EFilterRule *)rule, (ERuleContext *)context, addr, flags);
+	session = em_vfolder_context_get_session (context);
+
+	rule = em_vfolder_rule_new (session);
+	em_vfolder_rule_add_source (EM_VFOLDER_RULE (rule), euri);
+	rule_from_address (rule, E_RULE_CONTEXT (context), addr, flags);
 	g_free (euri);
 
-	return (EFilterRule *)rule;
+	return rule;
 }
 
 EFilterRule *
-filter_rule_from_message (EMFilterContext *context, CamelMimeMessage *msg, gint flags)
+filter_rule_from_message (EMFilterContext *context,
+                          CamelMimeMessage *msg,
+                          gint flags)
 {
-	EMFilterRule *rule;
+	EFilterRule *rule;
 	EFilterPart *part;
 
 	rule = em_filter_rule_new ();
-	rule_from_message ((EFilterRule *)rule, (ERuleContext *)context, msg, flags);
+	rule_from_message (rule, E_RULE_CONTEXT (context), msg, flags);
 
 	part = em_filter_context_next_action (context, NULL);
-	em_filter_rule_add_action (rule, e_filter_part_clone (part));
 
-	return (EFilterRule *)rule;
+	em_filter_rule_add_action (
+		EM_FILTER_RULE (rule), e_filter_part_clone (part));
+
+	return rule;
 }
 
 void
-filter_gui_add_from_message (CamelMimeMessage *msg, const gchar *source, gint flags)
+filter_gui_add_from_message (EMailSession *session,
+                             CamelMimeMessage *msg,
+                             const gchar *source,
+                             gint flags)
 {
 	EMFilterContext *fc;
 	const gchar *config_dir;
@@ -349,7 +368,7 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const gchar *source, gint fl
 
 	g_return_if_fail (msg != NULL);
 
-	fc = em_filter_context_new ();
+	fc = em_filter_context_new (session);
 	config_dir = mail_session_get_config_dir ();
 	user = g_build_filename (config_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
@@ -366,7 +385,10 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const gchar *source, gint fl
 }
 
 void
-mail_filter_rename_uri (CamelStore *store, const gchar *olduri, const gchar *newuri)
+mail_filter_rename_uri (EMailSession *session,
+                        CamelStore *store,
+                        const gchar *olduri,
+                        const gchar *newuri)
 {
 	EMFilterContext *fc;
 	const gchar *config_dir;
@@ -377,7 +399,7 @@ mail_filter_rename_uri (CamelStore *store, const gchar *olduri, const gchar *new
 	eolduri = em_uri_from_camel (olduri);
 	enewuri = em_uri_from_camel (newuri);
 
-	fc = em_filter_context_new ();
+	fc = em_filter_context_new (session);
 	config_dir = mail_session_get_config_dir ();
 	user = g_build_filename (config_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
@@ -400,7 +422,9 @@ mail_filter_rename_uri (CamelStore *store, const gchar *olduri, const gchar *new
 }
 
 void
-mail_filter_delete_uri (CamelStore *store, const gchar *uri)
+mail_filter_delete_uri (EMailSession *session,
+                        CamelStore *store,
+                        const gchar *uri)
 {
 	EMFilterContext *fc;
 	const gchar *config_dir;
@@ -410,7 +434,7 @@ mail_filter_delete_uri (CamelStore *store, const gchar *uri)
 
 	euri = em_uri_from_camel (uri);
 
-	fc = em_filter_context_new ();
+	fc = em_filter_context_new (session);
 	config_dir = mail_session_get_config_dir ();
 	user = g_build_filename (config_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);

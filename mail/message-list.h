@@ -27,7 +27,7 @@
 #include <camel/camel.h>
 
 #include <table/e-tree.h>
-#include <shell/e-shell-backend.h>
+#include <mail/e-mail-backend.h>
 
 /* Standard GObject macros */
 #define MESSAGE_LIST_TYPE \
@@ -178,8 +178,8 @@ typedef enum {
 } MessageListSelectDirection;
 
 GType		message_list_get_type		(void);
-GtkWidget *	message_list_new		(EShellBackend *shell_backend);
-EShellBackend *	message_list_get_shell_backend	(MessageList *message_list);
+GtkWidget *	message_list_new		(EMailBackend *backend);
+EMailBackend *	message_list_get_backend	(MessageList *message_list);
 void		message_list_set_folder		(MessageList *message_list,
 						 CamelFolder *camel_folder,
 						 const gchar *uri,

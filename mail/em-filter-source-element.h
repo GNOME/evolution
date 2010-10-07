@@ -45,7 +45,7 @@ struct _EMFilterSourceElementClass {
 };
 
 GType em_filter_source_element_get_type (void);
-EMFilterSourceElement *em_filter_source_element_new (void);
+EFilterElement *em_filter_source_element_new (void);
 
 void em_filter_source_element_set_current (EMFilterSourceElement *src, const gchar *url);
 

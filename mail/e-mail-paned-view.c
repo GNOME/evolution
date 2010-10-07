@@ -344,6 +344,20 @@ mail_paned_view_get_action_group (EMailReader *reader)
 	return E_SHELL_WINDOW_ACTION_GROUP_MAIL (shell_window);
 }
 
+static EMailBackend *
+mail_paned_view_get_backend (EMailReader *reader)
+{
+	EMailView *view;
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+
+	view = E_MAIL_VIEW (reader);
+	shell_view = e_mail_view_get_shell_view (view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	return E_MAIL_BACKEND (shell_backend);
+}
+
 static EMFormatHTML *
 mail_paned_view_get_formatter (EMailReader *reader)
 {
@@ -387,18 +401,6 @@ mail_paned_view_get_popup_menu (EMailReader *reader)
 	widget = gtk_ui_manager_get_widget (ui_manager, "/mail-preview-popup");
 
 	return GTK_MENU (widget);
-}
-
-static EShellBackend *
-mail_paned_view_get_shell_backend (EMailReader *reader)
-{
-	EMailView *view;
-	EShellView *shell_view;
-
-	view = E_MAIL_VIEW (reader);
-	shell_view = e_mail_view_get_shell_view (view);
-
-	return e_shell_view_get_shell_backend (shell_view);
 }
 
 static GtkWindow *
@@ -582,7 +584,7 @@ mail_paned_view_constructed (GObject *object)
 
 	container = widget;
 
-	widget = message_list_new (shell_backend);
+	widget = message_list_new (E_MAIL_BACKEND (shell_backend));
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->message_list = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -894,11 +896,11 @@ static void
 e_mail_paned_view_reader_init (EMailReaderInterface *interface)
 {
 	interface->get_action_group = mail_paned_view_get_action_group;
+	interface->get_backend = mail_paned_view_get_backend;
 	interface->get_formatter = mail_paned_view_get_formatter;
 	interface->get_hide_deleted = mail_paned_view_get_hide_deleted;
 	interface->get_message_list = mail_paned_view_get_message_list;
 	interface->get_popup_menu = mail_paned_view_get_popup_menu;
-	interface->get_shell_backend = mail_paned_view_get_shell_backend;
 	interface->get_window = mail_paned_view_get_window;
 	interface->set_folder = mail_paned_view_set_folder;
 	interface->show_search_bar = mail_paned_view_show_search_bar;

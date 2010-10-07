@@ -24,6 +24,7 @@
 
 #include <glib.h>
 #include <camel/camel.h>
+#include <mail/e-mail-session.h>
 
 G_BEGIN_DECLS
 
@@ -40,7 +41,8 @@ typedef enum {
 	E_MAIL_NUM_LOCAL_FOLDERS
 } EMailLocalFolder;
 
-void		e_mail_local_init		(const gchar *data_dir);
+void		e_mail_local_init		(EMailSession *session,
+						 const gchar *data_dir);
 CamelFolder *	e_mail_local_get_folder		(EMailLocalFolder type);
 const gchar *	e_mail_local_get_folder_uri	(EMailLocalFolder type);
 CamelStore *	e_mail_local_get_store		(void);

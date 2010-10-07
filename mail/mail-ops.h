@@ -29,19 +29,22 @@ G_BEGIN_DECLS
 #include <camel/camel.h>
 #include <libedataserver/e-account.h>
 
-#include "mail-mt.h"
+#include <mail/mail-mt.h>
+#include <mail/e-mail-session.h>
 
 void mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMessageInfo *info,
 		       void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, gint ok,
 				    const gchar *appended_uid, gpointer data),
 		       gpointer data);
 
-void mail_transfer_messages (CamelFolder *source, GPtrArray *uids,
-			     gboolean delete_from_source,
-			     const gchar *dest_uri,
-			     guint32 dest_flags,
-			     void (*done) (gboolean ok, gpointer data),
-			     gpointer data);
+void		mail_transfer_messages		(EMailSession *session,
+						 CamelFolder *source,
+						 GPtrArray *uids,
+						 gboolean delete_from_source,
+						 const gchar *dest_uri,
+						 guint32 dest_flags,
+						 void (*done) (gboolean ok, gpointer data),
+						 gpointer data);
 
 /* get a single message, asynchronously */
 gint mail_get_message (CamelFolder *folder, const gchar *uid,
@@ -60,9 +63,12 @@ gint mail_get_messages (CamelFolder *folder, GPtrArray *uids,
 			gpointer data);
 
 /* same for a folder */
-gint mail_get_folder (const gchar *uri, guint32 flags,
-		     void (*done) (gchar *uri, CamelFolder *folder, gpointer data), gpointer data,
-		     MailMsgDispatchFunc dispatch);
+gint		mail_get_folder			(EMailSession *session,
+						 const gchar *uri,
+						 guint32 flags,
+						 void (*done) (gchar *uri, CamelFolder *folder, gpointer data),
+						 gpointer data,
+						 MailMsgDispatchFunc dispatch);
 
 /* get quota information for a folder */
 gint mail_get_folder_quota (CamelFolder *folder,
@@ -71,8 +77,11 @@ gint mail_get_folder_quota (CamelFolder *folder,
 		 gpointer data, MailMsgDispatchFunc dispatch);
 
 /* and for a store */
-gint mail_get_store (const gchar *uri, GCancellable *cancellable,
-		    void (*done) (gchar *uri, CamelStore *store, gpointer data), gpointer data);
+gint		mail_get_store			(EMailSession *session,
+						 const gchar *uri,
+						 GCancellable *cancellable,
+						 void (*done) (gchar *uri, CamelStore *store, gpointer data),
+						 gpointer data);
 
 /* build an attachment */
 void mail_build_attachment (CamelFolder *folder, GPtrArray *uids,
@@ -94,9 +103,10 @@ void mail_expunge_folder (CamelFolder *folder,
 			  void (*done) (CamelFolder *folder, gpointer data),
 			  gpointer data);
 
-void mail_empty_trash (EAccount *account,
-		       void (*done) (EAccount *account, gpointer data),
-		       gpointer data);
+void		mail_empty_trash		(EMailSession *session,
+						 EAccount *account,
+						 void (*done) (EAccount *account, gpointer data),
+						 gpointer data);
 
 /* get folder info asynchronously */
 gint		mail_get_folderinfo		(CamelStore *store,
@@ -121,7 +131,8 @@ gint mail_save_messages (CamelFolder *folder, GPtrArray *uids, const gchar *path
 			gpointer data);
 
 /* yeah so this is messy, but it does a lot, maybe i can consolidate all user_data's to be the one */
-void		mail_send_queue			(CamelFolder *queue,
+void		mail_send_queue			(EMailSession *session,
+						 CamelFolder *queue,
 						 const gchar *destination,
 						 const gchar *type,
 						 GCancellable *cancellable,
@@ -132,7 +143,8 @@ void		mail_send_queue			(CamelFolder *queue,
 						 void (*done)(const gchar *destination, gpointer data),
 						 gpointer data);
 
-void		mail_fetch_mail			(const gchar *source,
+void		mail_fetch_mail			(EMailSession *session,
+						 const gchar *source,
 						 gint keep,
 						 const gchar *type,
 						 GCancellable *cancellable,
@@ -143,19 +155,18 @@ void		mail_fetch_mail			(const gchar *source,
 						 void (*done)(const gchar *source, gpointer data),
 						 gpointer data);
 
-void		mail_filter_folder		(CamelFolder *source_folder,
+void		mail_filter_folder		(EMailSession *session,
+						 CamelFolder *source_folder,
 						 GPtrArray *uids,
 						 const gchar *type,
 						 gboolean notify);
 
-/* convenience functions for above */
-void mail_filter_on_demand (CamelFolder *folder, GPtrArray *uids);
-void mail_filter_junk (CamelFolder *folder, GPtrArray *uids);
-
 /* Work Offline */
-void mail_prep_offline (const gchar *uri, CamelOperation *cancel,
-		       void (*done)(const gchar *, gpointer data),
-		       gpointer data);
+void		mail_prep_offline		(EMailSession *session,
+						 const gchar *uri,
+						 CamelOperation *cancel,
+						 void (*done)(const gchar *, gpointer data),
+						 gpointer data);
 gint mail_store_set_offline (CamelStore *store, gboolean offline,
 			   void (*done)(CamelStore *, gpointer data),
 			   gpointer data);
@@ -164,8 +175,11 @@ gint mail_store_prepare_offline (CamelStore *store);
 /* filter driver execute shell command async callback */
 void mail_execute_shell_command (CamelFilterDriver *driver, gint argc, gchar **argv, gpointer data);
 
-gint mail_check_service (const gchar *url, CamelProviderType type,
-		       void (*done)(const gchar *url, CamelProviderType type, GList *authtypes, gpointer data), gpointer data);
+gint		mail_check_service		(EMailSession *session,
+						 const gchar *url,
+						 CamelProviderType type,
+						 void (*done)(const gchar *url, CamelProviderType type, GList *authtypes, gpointer data),
+						 gpointer data);
 
 G_END_DECLS
 

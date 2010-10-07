@@ -126,10 +126,10 @@ em_filter_rule_finalise (GObject *obj)
  *
  * Return value: A new #EMFilterRule object.
  **/
-EMFilterRule *
+EFilterRule *
 em_filter_rule_new (void)
 {
-	return (EMFilterRule *)g_object_new (em_filter_rule_get_type (), NULL, NULL);
+	return g_object_new (em_filter_rule_get_type (), NULL, NULL);
 }
 
 void

@@ -23,8 +23,6 @@
 
 #include <glib/gi18n.h>
 
-#include "mail/mail-session.h"
-
 #define CHECK_LOCAL_FOLDER_TYPE(type) \
 	((type) < G_N_ELEMENTS (default_local_folders))
 
@@ -45,7 +43,8 @@ static struct {
 static CamelStore *local_store;
 
 void
-e_mail_local_init (const gchar *data_dir)
+e_mail_local_init (EMailSession *session,
+                   const gchar *data_dir)
 {
 	static gboolean initialized = FALSE;
 	CamelService *service;
@@ -55,6 +54,7 @@ e_mail_local_init (const gchar *data_dir)
 	GError *local_error = NULL;
 
 	g_return_if_fail (!initialized);
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (data_dir != NULL);
 
 	url = camel_url_new ("mbox:", NULL);
@@ -64,7 +64,8 @@ e_mail_local_init (const gchar *data_dir)
 
 	temp = camel_url_to_string (url, 0);
 	service = camel_session_get_service (
-		session, temp, CAMEL_PROVIDER_STORE, &local_error);
+		CAMEL_SESSION (session), temp,
+		CAMEL_PROVIDER_STORE, &local_error);
 	g_free (temp);
 
 	if (local_error != NULL)

@@ -43,13 +43,14 @@
 #include "mail-mt.h"
 #include "mail-tools.h"
 #include "e-mail-local.h"
-#include "mail-session.h"
+#include "e-mail-session.h"
 
 #include "mail-importer.h"
 
 struct _import_mbox_msg {
 	MailMsg base;
 
+	EMailSession *session;
 	gchar *path;
 	gchar *uri;
 	GCancellable *cancellable;
@@ -122,8 +123,8 @@ import_mbox_exec (struct _import_mbox_msg *m)
 	if (m->uri == NULL || m->uri[0] == 0)
 		folder = e_mail_local_get_folder (E_MAIL_FOLDER_INBOX);
 	else
-		folder = mail_tool_uri_to_folder (
-			m->uri, CAMEL_STORE_FOLDER_CREATE,
+		folder = e_mail_session_uri_to_folder_sync (
+			m->session, m->uri, CAMEL_STORE_FOLDER_CREATE,
 			m->base.cancellable, &m->base.error);
 
 	if (folder == NULL)
@@ -212,6 +213,7 @@ import_mbox_done (struct _import_mbox_msg *m)
 static void
 import_mbox_free (struct _import_mbox_msg *m)
 {
+	g_object_unref (m->session);
 	if (m->cancellable)
 		g_object_unref (m->cancellable);
 	g_free (m->uri);
@@ -227,12 +229,18 @@ static MailMsgInfo import_mbox_info = {
 };
 
 gint
-mail_importer_import_mbox (const gchar *path, const gchar *folderuri, GCancellable *cancellable, void (*done)(gpointer data, GError **), gpointer data)
+mail_importer_import_mbox (EMailSession *session,
+                           const gchar *path,
+                           const gchar *folderuri,
+                           GCancellable *cancellable,
+                           void (*done)(gpointer data, GError **),
+                           gpointer data)
 {
 	struct _import_mbox_msg *m;
 	gint id;
 
 	m = mail_msg_new (&import_mbox_info);
+	m->session = g_object_ref (session);
 	m->path = g_strdup (path);
 	m->uri = g_strdup (folderuri);
 	m->done = done;
@@ -247,11 +255,15 @@ mail_importer_import_mbox (const gchar *path, const gchar *folderuri, GCancellab
 }
 
 void
-mail_importer_import_mbox_sync (const gchar *path, const gchar *folderuri, GCancellable *cancellable)
+mail_importer_import_mbox_sync (EMailSession *session,
+                                const gchar *path,
+                                const gchar *folderuri,
+                                GCancellable *cancellable)
 {
 	struct _import_mbox_msg *m;
 
 	m = mail_msg_new (&import_mbox_info);
+	m->session = g_object_ref (session);
 	m->path = g_strdup (path);
 	m->uri = g_strdup (folderuri);
 	if (cancellable)
@@ -264,13 +276,16 @@ mail_importer_import_mbox_sync (const gchar *path, const gchar *folderuri, GCanc
 
 struct _import_folders_data {
 	MailImporterSpecial *special_folders;
+	EMailSession *session;
 	GCancellable *cancellable;
 
 	guint elmfmt:1;
 };
 
 static void
-import_folders_rec (struct _import_folders_data *m, const gchar *filepath, const gchar *folderparent)
+import_folders_rec (struct _import_folders_data *m,
+                    const gchar *filepath,
+                    const gchar *folderparent)
 {
 	GDir *dir;
 	const gchar *d;
@@ -319,7 +334,8 @@ import_folders_rec (struct _import_folders_data *m, const gchar *filepath, const
 		}
 
 		printf("importing to uri %s\n", uri);
-		mail_importer_import_mbox_sync (filefull, uri, m->cancellable);
+		mail_importer_import_mbox_sync (
+			m->session, filefull, uri, m->cancellable);
 		g_free (uri);
 
 		/* This little gem re-uses the stat buffer and filefull to automagically scan mozilla-format folders */
@@ -363,12 +379,17 @@ import_folders_rec (struct _import_folders_data *m, const gchar *filepath, const
  * standard unix directories.
  **/
 void
-mail_importer_import_folders_sync (const gchar *filepath, MailImporterSpecial special_folders[], gint flags, GCancellable *cancellable)
+mail_importer_import_folders_sync (EMailSession *session,
+                                   const gchar *filepath,
+                                   MailImporterSpecial special_folders[],
+                                   gint flags,
+                                   GCancellable *cancellable)
 {
 	struct _import_folders_data m;
 
 	m.special_folders = special_folders;
 	m.elmfmt = (flags & MAIL_IMPORTER_MOZFMT) == 0;
+	m.session = g_object_ref (session);
 	m.cancellable = cancellable;
 
 	import_folders_rec (&m, filepath, NULL);

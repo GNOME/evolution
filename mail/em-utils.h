@@ -28,6 +28,7 @@
 #include <camel/camel.h>
 
 #include <mail/e-mail-reader.h>
+#include <mail/e-mail-session.h>
 #include <mail/em-folder-tree.h>
 
 G_BEGIN_DECLS
@@ -42,7 +43,7 @@ void em_utils_uids_free (GPtrArray *uids);
 
 gboolean em_utils_check_user_can_send_mail (void);
 
-void em_utils_edit_filters (GtkWidget *parent);
+void em_utils_edit_filters (GtkWidget *parent, EMailSession *session);
 void em_filename_make_safe (gchar *string);
 void em_utils_edit_vfolders (GtkWidget *parent);
 
@@ -57,7 +58,7 @@ void em_utils_selection_get_mailbox (GtkSelectionData *data, CamelFolder *folder
 void em_utils_selection_get_message (GtkSelectionData *data, CamelFolder *folder);
 /* FIXME: be nice if these also worked on CamelFolder's, no easy way to get uri from folder yet tho */
 void em_utils_selection_set_uidlist (GtkSelectionData *data, const gchar *uri, GPtrArray *uids);
-void em_utils_selection_get_uidlist (GtkSelectionData *data, CamelFolder *dest, gint move, GCancellable *cancellable, GError **error);
+void em_utils_selection_get_uidlist (GtkSelectionData *data, EMailSession *session, CamelFolder *dest, gint move, GCancellable *cancellable, GError **error);
 void em_utils_selection_set_urilist (GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids);
 void em_utils_selection_get_urilist (GtkSelectionData *data, CamelFolder *folder);
 
@@ -72,7 +73,7 @@ gchar *em_utils_get_proxy_uri (const gchar *uri);
 gchar *em_utils_message_to_html (CamelMimeMessage *msg, const gchar *credits, guint32 flags, gssize *len, struct _EMFormat *source, const gchar *append, guint32 *validity_found);
 
 void em_utils_expunge_folder (GtkWidget *parent, CamelFolder *folder);
-void em_utils_empty_trash (GtkWidget *parent);
+void em_utils_empty_trash (GtkWidget *parent, EMailSession *session);
 
 /* returns the folder name portion of an URI */
 gchar *em_utils_folder_name_from_uri (const gchar *uri);

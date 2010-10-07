@@ -22,9 +22,8 @@
 #ifndef E_MAIL_BROWSER_H
 #define E_MAIL_BROWSER_H
 
-#include <gtk/gtk.h>
+#include <mail/e-mail-backend.h>
 #include <misc/e-focus-tracker.h>
-#include <shell/e-shell-backend.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_BROWSER \
@@ -61,7 +60,7 @@ struct _EMailBrowserClass {
 };
 
 GType		e_mail_browser_get_type		(void);
-GtkWidget *	e_mail_browser_new		(EShellBackend *shell_backend);
+GtkWidget *	e_mail_browser_new		(EMailBackend *backend);
 void		e_mail_browser_close		(EMailBrowser *browser);
 gboolean	e_mail_browser_get_show_deleted	(EMailBrowser *browser);
 void		e_mail_browser_set_show_deleted (EMailBrowser *browser,

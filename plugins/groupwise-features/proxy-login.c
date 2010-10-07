@@ -30,6 +30,7 @@
 
 #include <libedataserverui/e-passwords.h>
 #include <mail/em-folder-tree.h>
+#include <mail/e-mail-backend.h>
 #include <mail/e-mail-store.h>
 #include <mail/mail-config.h>
 #include <mail/em-folder-selector.h>
@@ -307,6 +308,9 @@ proxy_soap_login (gchar *email, GtkWindow *error_parent)
 	EAccountList *accounts = e_get_account_list ();
 	EAccount *srcAccount;
 	EAccount *dstAccount;
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailSession *session;
 	EGwConnection *proxy_cnc, *cnc;
 	CamelURL *uri = NULL, *parent = NULL;
 	gchar *password = NULL, *user_name = NULL;
@@ -314,6 +318,10 @@ proxy_soap_login (gchar *email, GtkWindow *error_parent)
 	gchar *name;
 	gint i;
 	gint permissions = 0;
+
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
 	for (i=0; email[i]!='\0' && email[i]!='@' ; i++);
 	if (email[i]=='@')
@@ -360,7 +368,7 @@ proxy_soap_login (gchar *email, GtkWindow *error_parent)
 		e_account_list_change (accounts, srcAccount);
 		e_account_list_save (accounts);
 		g_object_set_data ((GObject *)dstAccount, "permissions", GINT_TO_POINTER(permissions));
-		mail_get_store (e_account_get_string (dstAccount, E_ACCOUNT_SOURCE_URL), NULL, proxy_login_add_new_store, dstAccount);
+		mail_get_store (session, e_account_get_string (dstAccount, E_ACCOUNT_SOURCE_URL), NULL, proxy_login_add_new_store, dstAccount);
 
 		g_free (proxy_source_url);
 		g_free (parent_source_url);
@@ -381,8 +389,15 @@ proxy_soap_login (gchar *email, GtkWindow *error_parent)
 static void
 proxy_login_add_new_store (gchar *uri, CamelStore *store, gpointer user_data)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailSession *session;
 	EAccount *account = user_data;
 	gint permissions = GPOINTER_TO_INT(g_object_get_data ((GObject *)account, "permissions"));
+
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
 	if (store == NULL)
 		return;
@@ -391,7 +406,7 @@ proxy_login_add_new_store (gchar *uri, CamelStore *store, gpointer user_data)
 	    store->mode &= !CAMEL_STORE_WRITE;
 
 	store->flags |= CAMEL_STORE_PROXY;
-	e_mail_store_add (store, account->name);
+	e_mail_store_add (session, store, account->name);
 }
 
 static void

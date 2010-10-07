@@ -23,6 +23,7 @@
 
 #include "e-util/e-binding.h"
 
+#include "mail/e-mail-backend.h"
 #include "mail/e-mail-sidebar.h"
 #include "mail/em-folder-utils.h"
 
@@ -116,10 +117,13 @@ mail_shell_sidebar_constructed (GObject *object)
 {
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellSettings *shell_settings;
+	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	EShell *shell;
+	EMailBackend *backend;
+	EMailSession *session;
 	GtkTreeSelection *selection;
 	GtkTreeView *tree_view;
 	GtkWidget *container;
@@ -130,10 +134,14 @@ mail_shell_sidebar_constructed (GObject *object)
 
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (object);
 
@@ -152,7 +160,7 @@ mail_shell_sidebar_constructed (GObject *object)
 
 	container = widget;
 
-	widget = e_mail_sidebar_new ();
+	widget = e_mail_sidebar_new (session);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	mail_shell_sidebar->priv->folder_tree = g_object_ref (widget);
 	gtk_widget_show (widget);

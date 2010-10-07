@@ -25,6 +25,7 @@
 #define __EM_COMPOSER_UTILS_H__
 
 #include <em-format/em-format.h>
+#include <mail/e-mail-session.h>
 #include <composer/e-msg-composer.h>
 
 G_BEGIN_DECLS
@@ -70,10 +71,12 @@ void		em_utils_forward_message_raw	(CamelFolder *folder,
 						 CamelMimeMessage *message,
 						 const gchar *address,
 						 GError **error);
-void		em_utils_handle_receipt		(CamelFolder *folder,
+void		em_utils_handle_receipt		(EMailSession *session,
+						 CamelFolder *folder,
 						 const gchar *uid,
 						 CamelMimeMessage *msg);
-void		em_utils_send_receipt		(CamelFolder *folder,
+void		em_utils_send_receipt		(EMailSession *session,
+						 CamelFolder *folder,
 						 CamelMimeMessage *message);
 
 enum {

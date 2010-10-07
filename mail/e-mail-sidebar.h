@@ -76,7 +76,7 @@ struct _EMailSidebarClass {
 };
 
 GType		e_mail_sidebar_get_type		(void);
-GtkWidget *	e_mail_sidebar_new		(void);
+GtkWidget *	e_mail_sidebar_new		(EMailSession *session);
 GKeyFile *	e_mail_sidebar_get_key_file	(EMailSidebar *sidebar);
 void		e_mail_sidebar_set_key_file	(EMailSidebar *sidebar,
 						 GKeyFile *key_file);

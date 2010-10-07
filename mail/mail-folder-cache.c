@@ -47,11 +47,11 @@
 #include "mail-mt.h"
 #include "mail-folder-cache.h"
 #include "mail-ops.h"
-#include "mail-session.h"
 #include "mail-tools.h"
 
 #include "em-utils.h"
 #include "e-mail-local.h"
+#include "e-mail-session.h"
 
 #define w(x)
 #define d(x)
@@ -1093,6 +1093,7 @@ mail_folder_cache_get_default (void)
  */
 void
 mail_folder_cache_note_store (MailFolderCache *self,
+                              CamelSession *session,
                               CamelStore *store,
                               GCancellable *cancellable,
                               NoteDoneFunc done,

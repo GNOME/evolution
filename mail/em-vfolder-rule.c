@@ -41,19 +41,25 @@
 #include "e-util/e-alert.h"
 #include "e-util/e-util-private.h"
 
-#define d(x)
+#define EM_VFOLDER_RULE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_VFOLDER_RULE, EMVFolderRulePrivate))
+
+struct _EMVFolderRulePrivate {
+	EMailSession *session;
+};
+
+enum {
+	PROP_0,
+	PROP_SESSION
+};
 
 static gint validate (EFilterRule *, EAlert **alert);
 static gint vfolder_eq (EFilterRule *fr, EFilterRule *cm);
 static xmlNodePtr xml_encode (EFilterRule *);
 static gint xml_decode (EFilterRule *, xmlNodePtr, ERuleContext *f);
 static void rule_copy (EFilterRule *dest, EFilterRule *src);
-/*static void build_code(EFilterRule *, GString *out);*/
 static GtkWidget *get_widget (EFilterRule *fr, ERuleContext *f);
-
-static void em_vfolder_rule_class_init (EMVFolderRuleClass *klass);
-static void em_vfolder_rule_init (EMVFolderRule *vr);
-static void em_vfolder_rule_finalise (GObject *obj);
 
 /* DO NOT internationalise these strings */
 static const gchar *with_names[] = {
@@ -63,104 +69,167 @@ static const gchar *with_names[] = {
 	"local"
 };
 
-static EFilterRuleClass *parent_class = NULL;
+G_DEFINE_TYPE (
+	EMVFolderRule,
+	em_vfolder_rule,
+	E_TYPE_FILTER_RULE)
 
-GType
-em_vfolder_rule_get_type (void)
+static void
+vfolder_rule_set_session (EMVFolderRule *rule,
+                          EMailSession *session)
 {
-	static GType type = 0;
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (rule->priv->session == NULL);
 
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof (EMVFolderRuleClass),
-			NULL, /* base_class_init */
-			NULL, /* base_class_finalize */
-			(GClassInitFunc)em_vfolder_rule_class_init,
-			NULL, /* class_finalize */
-			NULL, /* class_data */
-			sizeof (EMVFolderRule),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc)em_vfolder_rule_init,
-		};
+	rule->priv->session = g_object_ref (session);
+}
 
-		type = g_type_register_static(E_TYPE_FILTER_RULE, "EMVFolderRule", &info, 0);
+static void
+vfolder_rule_set_property (GObject *object,
+                           guint property_id,
+                           const GValue *value,
+                           GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SESSION:
+			vfolder_rule_set_session (
+				EM_VFOLDER_RULE (object),
+				g_value_get_object (value));
+			return;
 	}
 
-	return type;
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
-em_vfolder_rule_class_init (EMVFolderRuleClass *klass)
+vfolder_rule_get_property (GObject *object,
+                           guint property_id,
+                           GValue *value,
+                           GParamSpec *pspec)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	EFilterRuleClass *fr_class =(EFilterRuleClass *)klass;
+	switch (property_id) {
+		case PROP_SESSION:
+			g_value_set_object (
+				value,
+				em_vfolder_rule_get_session (
+				EM_VFOLDER_RULE (object)));
+			return;
+	}
 
-	parent_class = g_type_class_ref (E_TYPE_FILTER_RULE);
-
-	object_class->finalize = em_vfolder_rule_finalise;
-
-	/* override methods */
-	fr_class->validate = validate;
-	fr_class->eq = vfolder_eq;
-	fr_class->xml_encode = xml_encode;
-	fr_class->xml_decode = xml_decode;
-	fr_class->copy = rule_copy;
-	/*fr_class->build_code = build_code;*/
-	fr_class->get_widget = get_widget;
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
-em_vfolder_rule_init (EMVFolderRule *vr)
+vfolder_rule_dispose (GObject *object)
 {
-	vr->with = EM_VFOLDER_RULE_WITH_SPECIFIC;
-	vr->rule.source = g_strdup("incoming");
+	EMVFolderRulePrivate *priv;
+
+	priv = EM_VFOLDER_RULE_GET_PRIVATE (object);
+
+	if (priv->session != NULL) {
+		g_object_unref (priv->session);
+		priv->session = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (em_vfolder_rule_parent_class)->dispose (object);
 }
 
 static void
-em_vfolder_rule_finalise (GObject *obj)
+vfolder_rule_finalize (GObject *object)
 {
-	EMVFolderRule *vr =(EMVFolderRule *)obj;
+	EMVFolderRule *rule = EM_VFOLDER_RULE (object);
 
-	g_list_foreach (vr->sources, (GFunc)g_free, NULL);
-	g_list_free (vr->sources);
+	g_list_foreach (rule->sources, (GFunc) g_free, NULL);
+	g_list_free (rule->sources);
 
-        G_OBJECT_CLASS (parent_class)->finalize (obj);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (em_vfolder_rule_parent_class)->finalize (object);
 }
 
-/**
- * em_vfolder_rule_new:
- *
- * Create a new EMVFolderRule object.
- *
- * Return value: A new #EMVFolderRule object.
- **/
-EMVFolderRule *
-em_vfolder_rule_new (void)
+static void
+em_vfolder_rule_class_init (EMVFolderRuleClass *class)
 {
-	return (EMVFolderRule *)g_object_new (em_vfolder_rule_get_type (), NULL, NULL);
+	GObjectClass *object_class;
+	EFilterRuleClass *filter_rule_class;
+
+	g_type_class_add_private (class, sizeof (EMVFolderRulePrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = vfolder_rule_set_property;
+	object_class->get_property = vfolder_rule_get_property;
+	object_class->dispose = vfolder_rule_dispose;
+	object_class->finalize = vfolder_rule_finalize;
+
+	filter_rule_class = E_FILTER_RULE_CLASS (class);
+	filter_rule_class->validate = validate;
+	filter_rule_class->eq = vfolder_eq;
+	filter_rule_class->xml_encode = xml_encode;
+	filter_rule_class->xml_decode = xml_decode;
+	filter_rule_class->copy = rule_copy;
+	filter_rule_class->get_widget = get_widget;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SESSION,
+		g_param_spec_object (
+			"session",
+			NULL,
+			NULL,
+			E_TYPE_MAIL_SESSION,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+}
+
+static void
+em_vfolder_rule_init (EMVFolderRule *rule)
+{
+	rule->priv = EM_VFOLDER_RULE_GET_PRIVATE (rule);
+
+	rule->with = EM_VFOLDER_RULE_WITH_SPECIFIC;
+	rule->rule.source = g_strdup ("incoming");
+}
+
+EFilterRule *
+em_vfolder_rule_new (EMailSession *session)
+{
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+
+	return g_object_new (
+		EM_TYPE_VFOLDER_RULE, "session", session, NULL);
+}
+
+EMailSession *
+em_vfolder_rule_get_session (EMVFolderRule *rule)
+{
+	g_return_val_if_fail (EM_IS_VFOLDER_RULE (rule), NULL);
+
+	return rule->priv->session;
 }
 
 void
-em_vfolder_rule_add_source (EMVFolderRule *vr, const gchar *uri)
+em_vfolder_rule_add_source (EMVFolderRule *rule,
+                            const gchar *uri)
 {
-	g_return_if_fail (EM_IS_VFOLDER_RULE (vr));
+	g_return_if_fail (EM_IS_VFOLDER_RULE (rule));
 	g_return_if_fail (uri);
 
-	vr->sources = g_list_append (vr->sources, g_strdup (uri));
+	rule->sources = g_list_append (rule->sources, g_strdup (uri));
 
-	e_filter_rule_emit_changed ((EFilterRule *)vr);
+	e_filter_rule_emit_changed (E_FILTER_RULE (rule));
 }
 
 const gchar *
-em_vfolder_rule_find_source (EMVFolderRule *vr, const gchar *uri)
+em_vfolder_rule_find_source (EMVFolderRule *rule,
+                             const gchar *uri)
 {
 	GList *l;
 
-	g_return_val_if_fail (EM_IS_VFOLDER_RULE (vr), NULL);
+	g_return_val_if_fail (EM_IS_VFOLDER_RULE (rule), NULL);
 
 	/* only does a simple string or address comparison, should
 	   probably do a decoded url comparison */
-	l = vr->sources;
+	l = rule->sources;
 	while (l) {
 		if (l->data == uri || !strcmp (l->data, uri))
 			return l->data;
@@ -171,31 +240,33 @@ em_vfolder_rule_find_source (EMVFolderRule *vr, const gchar *uri)
 }
 
 void
-em_vfolder_rule_remove_source (EMVFolderRule *vr, const gchar *uri)
+em_vfolder_rule_remove_source (EMVFolderRule *rule,
+                               const gchar *uri)
 {
 	gchar *found;
 
-	g_return_if_fail (EM_IS_VFOLDER_RULE (vr));
+	g_return_if_fail (EM_IS_VFOLDER_RULE (rule));
 
-	found =(gchar *)em_vfolder_rule_find_source (vr, uri);
+	found =(gchar *)em_vfolder_rule_find_source (rule, uri);
 	if (found) {
-		vr->sources = g_list_remove (vr->sources, found);
+		rule->sources = g_list_remove (rule->sources, found);
 		g_free (found);
-		e_filter_rule_emit_changed ((EFilterRule *)vr);
+		e_filter_rule_emit_changed (E_FILTER_RULE (rule));
 	}
 }
 
 const gchar *
-em_vfolder_rule_next_source (EMVFolderRule *vr, const gchar *last)
+em_vfolder_rule_next_source (EMVFolderRule *rule,
+                             const gchar *last)
 {
 	GList *node;
 
 	if (last == NULL) {
-		node = vr->sources;
+		node = rule->sources;
 	} else {
-		node = g_list_find (vr->sources, (gchar *)last);
+		node = g_list_find (rule->sources, (gchar *)last);
 		if (node == NULL)
-			node = vr->sources;
+			node = rule->sources;
 		else
 			node = g_list_next (node);
 	}
@@ -227,7 +298,7 @@ validate (EFilterRule *fr, EAlert **alert)
 		return 0;
 	}
 
-	return E_FILTER_RULE_CLASS (parent_class)->validate (fr, alert);
+	return E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->validate (fr, alert);
 }
 
 static gint
@@ -249,7 +320,7 @@ list_eq (GList *al, GList *bl)
 static gint
 vfolder_eq (EFilterRule *fr, EFilterRule *cm)
 {
-        return E_FILTER_RULE_CLASS (parent_class)->eq (fr, cm)
+        return E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->eq (fr, cm)
 		&& list_eq (((EMVFolderRule *)fr)->sources, ((EMVFolderRule *)cm)->sources);
 }
 
@@ -260,7 +331,7 @@ xml_encode (EFilterRule *fr)
 	xmlNodePtr node, set, work;
 	GList *l;
 
-        node = E_FILTER_RULE_CLASS (parent_class)->xml_encode (fr);
+        node = E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->xml_encode (fr);
 	g_return_val_if_fail (node != NULL, NULL);
 	g_return_val_if_fail (vr->with < G_N_ELEMENTS (with_names), NULL);
 
@@ -301,7 +372,7 @@ xml_decode (EFilterRule *fr, xmlNodePtr node, struct _ERuleContext *f)
 	EMVFolderRule *vr =(EMVFolderRule *)fr;
 	gchar *tmp;
 
-        result = E_FILTER_RULE_CLASS (parent_class)->xml_decode (fr, node, f);
+        result = E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->xml_decode (fr, node, f);
 	if (result != 0)
 		return result;
 
@@ -362,7 +433,7 @@ rule_copy (EFilterRule *dest, EFilterRule *src)
 
 	vdest->with = vsrc->with;
 
-	E_FILTER_RULE_CLASS (parent_class)->copy (dest, src);
+	E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->copy (dest, src);
 }
 
 enum {
@@ -510,13 +581,16 @@ static void
 source_add (GtkWidget *widget, struct _source_data *data)
 {
 	EMFolderTree *emft;
+	EMailSession *session;
 	GtkWidget *dialog;
 	gpointer parent;
 
 	parent = gtk_widget_get_toplevel (widget);
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	emft =(EMFolderTree *) em_folder_tree_new ();
+	session = em_vfolder_rule_get_session (data->vr);
+
+	emft = (EMFolderTree *) em_folder_tree_new (session);
 	emu_restore_folder_tree_state (emft);
 	em_folder_tree_set_excluded (emft, EMFT_EXCLUDE_NOSELECT);
 
@@ -590,7 +664,7 @@ get_widget (EFilterRule *fr, ERuleContext *rc)
 	GObject *object;
 	gint i;
 
-        widget = E_FILTER_RULE_CLASS (parent_class)->get_widget (fr, rc);
+        widget = E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->get_widget (fr, rc);
 
 	data = g_malloc0 (sizeof (*data));
 	data->rc = rc;

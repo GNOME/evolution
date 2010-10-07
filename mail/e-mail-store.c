@@ -32,7 +32,6 @@
 #include "mail/em-folder-tree-model.h"
 #include "mail/mail-folder-cache.h"
 #include "mail/mail-mt.h"
-#include "mail/mail-session.h"
 
 typedef struct _StoreInfo StoreInfo;
 
@@ -160,7 +159,8 @@ mail_store_note_store_cb (CamelStore *store,
 }
 
 static void
-mail_store_add (CamelStore *store,
+mail_store_add (EMailSession *session,
+                CamelStore *store,
                 const gchar *display_name,
                 AddStoreCallback callback)
 {
@@ -181,7 +181,7 @@ mail_store_add (CamelStore *store,
 
 	mail_folder_cache_note_store (
 		mail_folder_cache_get_default (),
-		store, NULL,
+		CAMEL_SESSION (session), store, NULL,
 		mail_store_note_store_cb,
 		store_info_ref (store_info));
 }
@@ -203,7 +203,8 @@ mail_store_add_local_done_cb (CamelStore *store,
 }
 
 static void
-mail_store_load_accounts (const gchar *data_dir)
+mail_store_load_accounts (EMailSession *session,
+                          const gchar *data_dir)
 {
 	CamelStore *local_store;
 	EAccountList *account_list;
@@ -211,11 +212,11 @@ mail_store_load_accounts (const gchar *data_dir)
 
 	/* Set up the local store. */
 
-	e_mail_local_init (data_dir);
+	e_mail_local_init (session, data_dir);
 	local_store = e_mail_local_get_store ();
 
 	mail_store_add (
-		local_store, _("On This Computer"),
+		session, local_store, _("On This Computer"),
 		(AddStoreCallback) mail_store_add_local_done_cb);
 
 	/* Set up remote stores. */
@@ -247,18 +248,19 @@ mail_store_load_accounts (const gchar *data_dir)
 		if (g_str_has_prefix (uri, "mbox:"))
 			continue;
 
-		e_mail_store_add_by_uri (uri, display_name);
+		e_mail_store_add_by_uri (session, uri, display_name);
 	}
 
 	g_object_unref (iter);
 }
 
 void
-e_mail_store_init (const gchar *data_dir)
+e_mail_store_init (EMailSession *session,
+                   const gchar *data_dir)
 {
 	static gboolean initialized = FALSE;
 
-	g_return_if_fail (data_dir != NULL);
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
 	/* This function is idempotent, but there should
 	 * be no need to call it more than once. */
@@ -272,29 +274,33 @@ e_mail_store_init (const gchar *data_dir)
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) store_table_free);
 
-	mail_store_load_accounts (data_dir);
+	mail_store_load_accounts (session, data_dir);
 
 	initialized = TRUE;
 }
 
 void
-e_mail_store_add (CamelStore *store,
+e_mail_store_add (EMailSession *session,
+                  CamelStore *store,
                   const gchar *display_name)
 {
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (display_name != NULL);
 
-	mail_store_add (store, display_name, NULL);
+	mail_store_add (session, store, display_name, NULL);
 }
 
 CamelStore *
-e_mail_store_add_by_uri (const gchar *uri,
+e_mail_store_add_by_uri (EMailSession *session,
+                         const gchar *uri,
                          const gchar *display_name)
 {
 	CamelService *service;
 	CamelProvider *provider;
 	GError *local_error = NULL;
 
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 	g_return_val_if_fail (uri != NULL, NULL);
 	g_return_val_if_fail (display_name != NULL, NULL);
 
@@ -309,11 +315,12 @@ e_mail_store_add_by_uri (const gchar *uri,
 		return NULL;
 
 	service = camel_session_get_service (
-		session, uri, CAMEL_PROVIDER_STORE, &local_error);
+		CAMEL_SESSION (session), uri,
+		CAMEL_PROVIDER_STORE, &local_error);
 	if (service == NULL)
 		goto fail;
 
-	e_mail_store_add (CAMEL_STORE (service), display_name);
+	e_mail_store_add (session, CAMEL_STORE (service), display_name);
 
 	g_object_unref (service);
 
@@ -360,11 +367,13 @@ e_mail_store_remove (CamelStore *store)
 }
 
 void
-e_mail_store_remove_by_uri (const gchar *uri)
+e_mail_store_remove_by_uri (EMailSession *session,
+                            const gchar *uri)
 {
 	CamelService *service;
 	CamelProvider *provider;
 
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (uri != NULL);
 
 	provider = camel_provider_get (uri, NULL);
@@ -375,7 +384,8 @@ e_mail_store_remove_by_uri (const gchar *uri)
 		return;
 
 	service = camel_session_get_service (
-		session, uri, CAMEL_PROVIDER_STORE, NULL);
+		CAMEL_SESSION (session), uri,
+		CAMEL_PROVIDER_STORE, NULL);
 	if (service == NULL)
 		return;
 

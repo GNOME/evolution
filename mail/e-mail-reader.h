@@ -29,8 +29,8 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel.h>
+#include <mail/e-mail-backend.h>
 #include <mail/em-format-html.h>
-#include <shell/e-shell-backend.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_READER \
@@ -84,12 +84,12 @@ struct _EMailReaderInterface {
 
 	GtkActionGroup *
 			(*get_action_group)	(EMailReader *reader);
+	EMailBackend *	(*get_backend)		(EMailReader *reader);
 	EMFormatHTML *	(*get_formatter)	(EMailReader *reader);
 	gboolean	(*get_hide_deleted)	(EMailReader *reader);
 	GtkWidget *	(*get_message_list)	(EMailReader *reader);
 	GtkMenu *	(*get_popup_menu)	(EMailReader *reader);
 	GPtrArray *	(*get_selected_uids)	(EMailReader *reader);
-	EShellBackend *	(*get_shell_backend)	(EMailReader *reader);
 	GtkWindow *	(*get_window)		(EMailReader *reader);
 
 	CamelFolder *	(*get_folder)		(EMailReader *reader);
@@ -120,13 +120,14 @@ GtkAction *	e_mail_reader_get_action	(EMailReader *reader,
 						 const gchar *action_name);
 GtkActionGroup *
 		e_mail_reader_get_action_group	(EMailReader *reader);
+EMailBackend *	e_mail_reader_get_backend	(EMailReader *reader);
 EMFormatHTML *	e_mail_reader_get_formatter	(EMailReader *reader);
 gboolean	e_mail_reader_get_hide_deleted	(EMailReader *reader);
 GtkWidget *	e_mail_reader_get_message_list	(EMailReader *reader);
-guint		e_mail_reader_open_selected_mail (EMailReader *reader);
+guint		e_mail_reader_open_selected_mail
+						(EMailReader *reader);
 GtkMenu *	e_mail_reader_get_popup_menu	(EMailReader *reader);
 GPtrArray *	e_mail_reader_get_selected_uids	(EMailReader *reader);
-EShellBackend *	e_mail_reader_get_shell_backend	(EMailReader *reader);
 GtkWindow *	e_mail_reader_get_window	(EMailReader *reader);
 CamelFolder *	e_mail_reader_get_folder	(EMailReader *reader);
 const gchar *	e_mail_reader_get_folder_uri	(EMailReader *reader);
@@ -149,7 +150,8 @@ void		e_mail_reader_create_charset_menu
 void		e_mail_reader_show_search_bar	(EMailReader *reader);
 gboolean	e_mail_reader_get_enable_show_folder
 						(EMailReader *reader);
-void		e_mail_reader_enable_show_folder (EMailReader *reader);
+void		e_mail_reader_enable_show_folder
+						(EMailReader *reader);
 
 G_END_DECLS
 

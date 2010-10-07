@@ -35,6 +35,7 @@
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-account-utils.h"
 
+#include "e-mail-backend.h"
 #include "e-mail-store.h"
 #include "em-config.h"
 #include "em-account-editor.h"
@@ -46,8 +47,14 @@
 	((obj), EM_TYPE_ACCOUNT_PREFS, EMAccountPrefsPrivate))
 
 struct _EMAccountPrefsPrivate {
+	EMailSession *session;
 	gpointer assistant; /* weak pointer */
 	gpointer editor;    /* weak pointer */
+};
+
+enum {
+	PROP_0,
+	PROP_SESSION
 };
 
 G_DEFINE_TYPE (
@@ -56,18 +63,21 @@ G_DEFINE_TYPE (
 	E_TYPE_ACCOUNT_MANAGER)
 
 static void
-account_prefs_enable_account_cb (EAccountTreeView *tree_view)
+account_prefs_enable_account_cb (EAccountTreeView *tree_view,
+                                 EMAccountPrefs *prefs)
 {
 	EAccount *account;
 
 	account = e_account_tree_view_get_selected (tree_view);
 	g_return_if_fail (account != NULL);
 
-	e_mail_store_add_by_uri (account->source->url, account->name);
+	e_mail_store_add_by_uri (
+		prefs->priv->session, account->source->url, account->name);
 }
 
 static void
-account_prefs_disable_account_cb (EAccountTreeView *tree_view)
+account_prefs_disable_account_cb (EAccountTreeView *tree_view,
+                                  EMAccountPrefs *prefs)
 {
 	EAccountList *account_list;
 	EAccount *account;
@@ -96,7 +106,81 @@ account_prefs_disable_account_cb (EAccountTreeView *tree_view)
 
 	e_account_list_remove_account_proxies (account_list, account);
 
-	e_mail_store_remove_by_uri (account->source->url);
+	e_mail_store_remove_by_uri (
+		prefs->priv->session, account->source->url);
+}
+
+static void
+account_prefs_set_session (EMAccountPrefs *prefs,
+                           EMailSession *session)
+{
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (prefs->priv->session == NULL);
+
+	prefs->priv->session = g_object_ref (session);
+}
+
+static void
+account_prefs_set_property (GObject *object,
+                            guint property_id,
+                            const GValue *value,
+                            GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SESSION:
+			account_prefs_set_session (
+				EM_ACCOUNT_PREFS (object),
+				g_value_get_object (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+account_prefs_get_property (GObject *object,
+                            guint property_id,
+                            GValue *value,
+                            GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SESSION:
+			g_value_set_object (
+				value,
+				em_account_prefs_get_session (
+				EM_ACCOUNT_PREFS (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+account_prefs_dispose (GObject *object)
+{
+	EMAccountPrefsPrivate *priv;
+
+	priv = EM_ACCOUNT_PREFS_GET_PRIVATE (object);
+
+	if (priv->session != NULL) {
+		g_object_unref (priv->session);
+		priv->session = NULL;
+	}
+
+	if (priv->assistant != NULL) {
+		g_object_remove_weak_pointer (
+			G_OBJECT (priv->assistant), &priv->assistant);
+		priv->assistant = NULL;
+	}
+
+	if (priv->editor != NULL) {
+		g_object_remove_weak_pointer (
+			G_OBJECT (priv->editor), &priv->editor);
+		priv->editor = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (em_account_prefs_parent_class)->dispose (object);
 }
 
 static void
@@ -126,7 +210,7 @@ account_prefs_add_account (EAccountManager *manager)
 		 * The new mail account assistant.
 		 */
 		emae = em_account_editor_new (
-			NULL, EMAE_ASSISTANT,
+			NULL, EMAE_ASSISTANT, priv->session,
 			"org.gnome.evolution.mail.config.accountAssistant");
 		e_config_create_window (
 			E_CONFIG (emae->config), NULL,
@@ -176,7 +260,7 @@ account_prefs_edit_account (EAccountManager *manager)
 	 * The account editor window.
 	 */
 	emae = em_account_editor_new (
-		account, EMAE_NOTEBOOK,
+		account, EMAE_NOTEBOOK, priv->session,
 		"org.gnome.evolution.mail.config.accountEditor");
 	e_config_create_window (
 		E_CONFIG (emae->config), parent, _("Account Editor"));
@@ -229,7 +313,8 @@ account_prefs_delete_account (EAccountManager *manager)
 
 	/* Remove the account from the folder tree. */
 	if (account->enabled && account->source && account->source->url)
-		e_mail_store_remove_by_uri (account->source->url);
+		e_mail_store_remove_by_uri (
+			priv->session, account->source->url);
 
 	/* Remove all the proxies the account has created. */
 	if (has_proxies)
@@ -242,29 +327,6 @@ account_prefs_delete_account (EAccountManager *manager)
 }
 
 static void
-account_prefs_dispose (GObject *object)
-{
-	EMAccountPrefsPrivate *priv;
-
-	priv = EM_ACCOUNT_PREFS_GET_PRIVATE (object);
-
-	if (priv->assistant != NULL) {
-		g_object_remove_weak_pointer (
-			G_OBJECT (priv->assistant), &priv->assistant);
-		priv->assistant = NULL;
-	}
-
-	if (priv->editor != NULL) {
-		g_object_remove_weak_pointer (
-			G_OBJECT (priv->editor), &priv->editor);
-		priv->editor = NULL;
-	}
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (em_account_prefs_parent_class)->dispose (object);
-}
-
-static void
 em_account_prefs_class_init (EMAccountPrefsClass *class)
 {
 	GObjectClass *object_class;
@@ -273,12 +335,25 @@ em_account_prefs_class_init (EMAccountPrefsClass *class)
 	g_type_class_add_private (class, sizeof (EMAccountPrefsPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = account_prefs_set_property;
+	object_class->get_property = account_prefs_get_property;
 	object_class->dispose = account_prefs_dispose;
 
 	account_manager_class = E_ACCOUNT_MANAGER_CLASS (class);
 	account_manager_class->add_account = account_prefs_add_account;
 	account_manager_class->edit_account = account_prefs_edit_account;
 	account_manager_class->delete_account = account_prefs_delete_account;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SESSION,
+		g_param_spec_object (
+			"session",
+			NULL,
+			NULL,
+			E_TYPE_MAIL_SESSION,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 }
 
 static void
@@ -294,22 +369,42 @@ em_account_prefs_init (EMAccountPrefs *prefs)
 
 	g_signal_connect (
 		tree_view, "enable-account",
-		G_CALLBACK (account_prefs_enable_account_cb), NULL);
+		G_CALLBACK (account_prefs_enable_account_cb), prefs);
 
 	g_signal_connect (
 		tree_view, "disable-account",
-		G_CALLBACK (account_prefs_disable_account_cb), NULL);
+		G_CALLBACK (account_prefs_disable_account_cb), prefs);
 }
 
 GtkWidget *
 em_account_prefs_new (EPreferencesWindow *window)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailBackend *backend;
+	EMailSession *session;
 	EAccountList *account_list;
 
 	account_list = e_get_account_list ();
-
 	g_return_val_if_fail (E_IS_ACCOUNT_LIST (account_list), NULL);
 
+	/* XXX Figure out a better way to get the EMailSession. */
+	shell = e_preferences_window_get_shell (window);
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+
 	return g_object_new (
-		EM_TYPE_ACCOUNT_PREFS, "account-list", account_list, NULL);
+		EM_TYPE_ACCOUNT_PREFS,
+		"account-list", account_list,
+		"session", session, NULL);
+}
+
+EMailSession *
+em_account_prefs_get_session (EMAccountPrefs *prefs)
+{
+	g_return_val_if_fail (EM_IS_ACCOUNT_PREFS (prefs), NULL);
+
+	return prefs->priv->session;
 }

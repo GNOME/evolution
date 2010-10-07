@@ -40,6 +40,7 @@
 	((obj), EM_TYPE_FOLDER_SELECTION_BUTTON, EMFolderSelectionButtonPrivate))
 
 struct _EMFolderSelectionButtonPrivate {
+	EMailSession *session;
 	GtkWidget *icon;
 	GtkWidget *label;
 
@@ -56,6 +57,7 @@ enum {
 	PROP_0,
 	PROP_CAPTION,
 	PROP_MULTISELECT,
+	PROP_SESSION,
 	PROP_TITLE
 };
 
@@ -64,8 +66,12 @@ enum {
 	LAST_SIGNAL
 };
 
-static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+
+G_DEFINE_TYPE (
+	EMFolderSelectionButton,
+	em_folder_selection_button,
+	GTK_TYPE_BUTTON)
 
 static void
 folder_selection_button_unselected (EMFolderSelectionButton *button)
@@ -129,6 +135,12 @@ folder_selection_button_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_SESSION:
+			em_folder_selection_button_set_session (
+				EM_FOLDER_SELECTION_BUTTON (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_TITLE:
 			em_folder_selection_button_set_title (
 				EM_FOLDER_SELECTION_BUTTON (object),
@@ -160,6 +172,13 @@ folder_selection_button_get_property (GObject *object,
 				EM_FOLDER_SELECTION_BUTTON (object)));
 			return;
 
+		case PROP_SESSION:
+			g_value_set_object (
+				value,
+				em_folder_selection_button_get_session (
+				EM_FOLDER_SELECTION_BUTTON (object)));
+			return;
+
 		case PROP_TITLE:
 			g_value_set_string (
 				value,
@@ -169,6 +188,22 @@ folder_selection_button_get_property (GObject *object,
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+folder_selection_button_dispose (GObject *object)
+{
+	EMFolderSelectionButtonPrivate *priv;
+
+	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (object);
+
+	if (priv->session != NULL) {
+		g_object_unref (priv->session);
+		priv->session = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (em_folder_selection_button_parent_class)->dispose (object);
 }
 
 static void
@@ -186,7 +221,7 @@ folder_selection_button_finalize (GObject *object)
 	g_free (priv->uri);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (em_folder_selection_button_parent_class)->finalize (object);
 }
 
 static void
@@ -204,7 +239,7 @@ folder_selection_button_clicked (GtkButton *button)
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (button));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	emft = (EMFolderTree *) em_folder_tree_new ();
+	emft = (EMFolderTree *) em_folder_tree_new (priv->session);
 	emu_restore_folder_tree_state (emft);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (emft));
@@ -255,17 +290,17 @@ exit:
 }
 
 static void
-folder_selection_button_class_init (EMFolderSelectionButtonClass *class)
+em_folder_selection_button_class_init (EMFolderSelectionButtonClass *class)
 {
 	GObjectClass *object_class;
 	GtkButtonClass *button_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMFolderSelectionButtonPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = folder_selection_button_set_property;
 	object_class->get_property = folder_selection_button_get_property;
+	object_class->dispose = folder_selection_button_dispose;
 	object_class->finalize = folder_selection_button_finalize;
 
 	button_class = GTK_BUTTON_CLASS (class);
@@ -295,6 +330,17 @@ folder_selection_button_class_init (EMFolderSelectionButtonClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_SESSION,
+		g_param_spec_object (
+			"session",
+			NULL,
+			NULL,
+			E_TYPE_MAIL_SESSION,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_TITLE,
 		g_param_spec_string (
 			"title",
@@ -315,7 +361,7 @@ folder_selection_button_class_init (EMFolderSelectionButtonClass *class)
 }
 
 static void
-folder_selection_button_init (EMFolderSelectionButton *emfsb)
+em_folder_selection_button_init (EMFolderSelectionButton *emfsb)
 {
 	GtkWidget *box;
 
@@ -341,40 +387,17 @@ folder_selection_button_init (EMFolderSelectionButton *emfsb)
 	folder_selection_button_set_contents (emfsb);
 }
 
-GType
-em_folder_selection_button_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMFolderSelectionButtonClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) folder_selection_button_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMFolderSelectionButton),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) folder_selection_button_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_BUTTON, "EMFolderSelectionButton",
-			&type_info, 0);
-	}
-
-	return type;
-}
-
 GtkWidget *
-em_folder_selection_button_new (const gchar *title,
+em_folder_selection_button_new (EMailSession *session,
+                                const gchar *title,
                                 const gchar *caption)
 {
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+
 	return g_object_new (
 		EM_TYPE_FOLDER_SELECTION_BUTTON,
-		"title", title, "caption", caption, NULL);
+		"session", session, "title", title,
+		"caption", caption, NULL);
 }
 
 const gchar *
@@ -489,6 +512,33 @@ em_folder_selection_button_set_selection_mult (EMFolderSelectionButton *button,
 	g_free (caption);
 }
 
+EMailSession *
+em_folder_selection_button_get_session (EMFolderSelectionButton *button)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button), NULL);
+
+	return button->priv->session;
+}
+
+void
+em_folder_selection_button_set_session (EMFolderSelectionButton *button,
+                                        EMailSession *session)
+{
+	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
+
+	if (session != NULL) {
+		g_return_if_fail (E_IS_MAIL_SESSION (session));
+		g_object_ref (session);
+	}
+
+	if (button->priv->session != NULL)
+		g_object_unref (button->priv->session);
+
+	button->priv->session = session;
+
+	g_object_notify (G_OBJECT (button), "session");
+}
+
 const gchar *
 em_folder_selection_button_get_title (EMFolderSelectionButton *button)
 {
@@ -501,7 +551,7 @@ void
 em_folder_selection_button_set_title (EMFolderSelectionButton *button,
                                       const gchar *title)
 {
-	g_return_if_fail (EM_FOLDER_SELECTION_BUTTON (button));
+	g_return_if_fail (EM_IS_FOLDER_SELECTION_BUTTON (button));
 
 	g_free (button->priv->title);
 	button->priv->title = g_strdup (title);

@@ -24,17 +24,27 @@
 #include <gconf/gconf-client.h>
 #include <libedataserver/e-account-list.h>
 
-#include "e-util/e-signature-list.h"
-#include "mail/e-mail-label-list-store.h"
-#include "mail/mail-session.h"
+#include <e-util/e-signature-list.h>
+
+#include <mail/e-mail-backend.h>
+#include <mail/e-mail-label-list-store.h>
+
+#include <shell/e-shell.h>
 
 void
-e_mail_shell_settings_init (EShell *shell)
+e_mail_shell_settings_init (EShellBackend *shell_backend)
 {
+	EShell *shell;
 	EShellSettings *shell_settings;
+	EMailBackend *backend;
+	EMailSession *session;
 	gpointer object;
 
+	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
 
 	/*** Global Objects ***/
 
@@ -58,9 +68,9 @@ e_mail_shell_settings_init (EShell *shell)
 			NULL,
 			G_PARAM_READWRITE));
 
-	g_object_ref (session);
 	e_shell_settings_set_pointer (
-		shell_settings, "mail-session", session);
+		shell_settings, "mail-session",
+		g_object_ref (session));
 
 	/*** Mail Preferences ***/
 

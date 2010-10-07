@@ -474,9 +474,12 @@ e_mail_sidebar_get_type (void)
 }
 
 GtkWidget *
-e_mail_sidebar_new (void)
+e_mail_sidebar_new (EMailSession *session)
 {
-	return g_object_new (E_TYPE_MAIL_SIDEBAR, NULL);
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+
+	return g_object_new (
+		E_TYPE_MAIL_SIDEBAR, "session", session, NULL);
 }
 
 GKeyFile *

@@ -44,13 +44,13 @@
 #include "widgets/misc/e-charset-combo-box.h"
 #include "shell/e-shell-utils.h"
 
+#include "e-mail-backend.h"
 #include "e-mail-label-manager.h"
 #include "e-mail-reader-utils.h"
 #include "mail-config.h"
 #include "em-folder-selection-button.h"
 #include "em-junk.h"
 #include "em-config.h"
-#include "mail-session.h"
 
 enum {
 	HEADER_LIST_NAME_COLUMN, /* displayable name of the header (may be a translation) */
@@ -104,6 +104,7 @@ em_mailer_prefs_finalize (GObject *object)
 {
 	EMMailerPrefs *prefs = (EMMailerPrefs *) object;
 
+	g_object_unref (prefs->session);
 	g_object_unref (prefs->builder);
 
 	if (prefs->labels_change_notify_id) {
@@ -660,7 +661,7 @@ static void
 junk_plugin_changed (GtkWidget *combo, EMMailerPrefs *prefs)
 {
 	gchar *def_plugin = gtk_combo_box_get_active_text (GTK_COMBO_BOX (combo));
-	const GList *plugins = mail_session_get_junk_plugins ();
+	const GList *plugins = mail_session_get_junk_plugins (prefs->session);
 
 	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/junk/default_plugin", def_plugin, NULL);
 	while (plugins) {
@@ -669,7 +670,8 @@ junk_plugin_changed (GtkWidget *combo, EMMailerPrefs *prefs)
 		if (iface->plugin_name && def_plugin && !strcmp (iface->plugin_name, def_plugin)) {
 			gboolean status;
 
-			session->junk_plugin = CAMEL_JUNK_PLUGIN (&iface->camel);
+			CAMEL_SESSION (prefs->session)->junk_plugin =
+				CAMEL_JUNK_PLUGIN (&iface->camel);
 			status = e_plugin_invoke (iface->hook->plugin, iface->validate_binary, NULL) != NULL;
 			if ((gboolean)status == TRUE) {
 				gchar *text, *html;
@@ -701,7 +703,7 @@ junk_plugin_setup (GtkComboBox *combo_box, EMMailerPrefs *prefs)
 	GtkCellRenderer *cell;
 	gint index = 0;
 	gboolean def_set = FALSE;
-	const GList *plugins = mail_session_get_junk_plugins ();
+	const GList *plugins = mail_session_get_junk_plugins (prefs->session);
 	gchar *pdefault = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/junk/default_plugin", NULL);
 
 	store = gtk_list_store_new (1, G_TYPE_STRING);
@@ -1127,11 +1129,22 @@ GtkWidget *
 em_mailer_prefs_new (EPreferencesWindow *window)
 {
 	EMMailerPrefs *new;
-	EShell *shell = e_preferences_window_get_shell (window);
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailBackend *backend;
+	EMailSession *session;
 
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+	/* XXX Figure out a better way to get the EMailSession. */
+	shell = e_preferences_window_get_shell (window);
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
 
 	new = g_object_new (EM_TYPE_MAILER_PREFS, NULL);
+
+	/* FIXME This should be a constructor property. */
+	new->session = g_object_ref (session);
 
 	/* FIXME Kill this function. */
 	em_mailer_prefs_construct (new, shell);

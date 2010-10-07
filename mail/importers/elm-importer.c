@@ -41,7 +41,9 @@
 #include "mail-importer.h"
 
 #include "mail/mail-mt.h"
+#include "mail/e-mail-backend.h"
 #include "e-util/e-import.h"
+#include "shell/e-shell.h"
 
 #define d(x)
 
@@ -184,8 +186,18 @@ static MailImporterSpecial elm_special_folders[] = {
 static void
 elm_import_exec (struct _elm_import_msg *m)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailSession *session;
 	const gchar *maildir;
 	gchar *elmdir;
+
+	/* XXX Dig up the EMailSession from the default EShell.
+	 *     Since the EImport framework doesn't allow for user
+	 *     data, I don't see how else to get to it. */
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
 	maildir = elm_get_rc(m->import, "maildir");
 	if (maildir == NULL)
@@ -197,7 +209,7 @@ elm_import_exec (struct _elm_import_msg *m)
 		elmdir = g_strdup (maildir);
 
 	mail_importer_import_folders_sync (
-		elmdir, elm_special_folders, 0, m->status);
+		session, elmdir, elm_special_folders, 0, m->status);
 	g_free (elmdir);
 }
 

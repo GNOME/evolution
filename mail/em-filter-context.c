@@ -36,129 +36,96 @@
 /* For poking into filter-folder guts */
 #include "em-filter-folder-element.h"
 
-#define d(x)
+#define EM_FILTER_CONTEXT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_FILTER_CONTEXT, EMFilterContextPrivate))
 
-static void em_filter_context_class_init (EMFilterContextClass *klass);
-static void em_filter_context_init (EMFilterContext *fc);
-static void em_filter_context_finalise (GObject *obj);
+struct _EMFilterContextPrivate {
+	EMailSession *session;
+	GList *actions;
+};
 
-static GList *filter_rename_uri (ERuleContext *rc, const gchar *olduri, const gchar *newuri, GCompareFunc cmp);
-static GList *filter_delete_uri (ERuleContext *rc, const gchar *uri, GCompareFunc cmp);
-static EFilterElement *filter_new_element (ERuleContext *rc, const gchar *name);
+enum {
+	PROP_0,
+	PROP_SESSION
+};
 
-static ERuleContextClass *parent_class = NULL;
+G_DEFINE_TYPE (
+	EMFilterContext,
+	em_filter_context,
+	E_TYPE_RULE_CONTEXT)
 
-GType
-em_filter_context_get_type (void)
+static void
+filter_context_set_session (EMFilterContext *context,
+                            EMailSession *session)
 {
-	static GType type = 0;
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (context->priv->session == NULL);
 
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof (EMFilterContextClass),
-			NULL, /* base_class_init */
-			NULL, /* base_class_finalize */
-			(GClassInitFunc) em_filter_context_class_init,
-			NULL, /* class_finalize */
-			NULL, /* class_data */
-			sizeof (EMFilterContext),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc) em_filter_context_init,
-		};
+	context->priv->session = g_object_ref (session);
+}
 
-		type = g_type_register_static(E_TYPE_RULE_CONTEXT, "EMFilterContext", &info, 0);
+static void
+filter_context_set_property (GObject *object,
+                             guint property_id,
+                             const GValue *value,
+                             GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SESSION:
+			filter_context_set_session (
+				EM_FILTER_CONTEXT (object),
+				g_value_get_object (value));
+			return;
 	}
 
-	return type;
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
-em_filter_context_class_init (EMFilterContextClass *klass)
+filter_context_get_property (GObject *object,
+                             guint property_id,
+                             GValue *value,
+                             GParamSpec *pspec)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	ERuleContextClass *rc_class = E_RULE_CONTEXT_CLASS (klass);
+	switch (property_id) {
+		case PROP_SESSION:
+			g_value_set_object (
+				value,
+				em_filter_context_get_session (
+				EM_FILTER_CONTEXT (object)));
+			return;
+	}
 
-	parent_class = g_type_class_ref (E_TYPE_RULE_CONTEXT);
-
-	object_class->finalize = em_filter_context_finalise;
-
-	/* override methods */
-	rc_class->rename_uri = filter_rename_uri;
-	rc_class->delete_uri = filter_delete_uri;
-	rc_class->new_element = filter_new_element;
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
-em_filter_context_init (EMFilterContext *fc)
+filter_context_dispose (GObject *object)
 {
-	e_rule_context_add_part_set((ERuleContext *) fc, "partset", e_filter_part_get_type(),
-				   e_rule_context_add_part, e_rule_context_next_part);
-	e_rule_context_add_part_set((ERuleContext *) fc, "actionset", e_filter_part_get_type(),
-				  (ERuleContextPartFunc) em_filter_context_add_action,
-				  (ERuleContextNextPartFunc) em_filter_context_next_action);
+	EMFilterContextPrivate *priv;
 
-	e_rule_context_add_rule_set((ERuleContext *) fc, "ruleset", em_filter_rule_get_type(),
-				  (ERuleContextRuleFunc) e_rule_context_add_rule, e_rule_context_next_rule);
+	priv = EM_FILTER_CONTEXT_GET_PRIVATE (object);
+
+	if (priv->session != NULL) {
+		g_object_unref (priv->session);
+		priv->session = NULL;
+	}
+
+	g_list_foreach (priv->actions, (GFunc) g_object_unref, NULL);
+	g_list_free (priv->actions);
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (em_filter_context_parent_class)->dispose (object);
 }
 
-static void
-em_filter_context_finalise (GObject *obj)
-{
-	EMFilterContext *fc = (EMFilterContext *)obj;
-
-	g_list_foreach (fc->actions, (GFunc)g_object_unref, NULL);
-	g_list_free (fc->actions);
-
-        G_OBJECT_CLASS (parent_class)->finalize (obj);
-}
-
-/**
- * em_filter_context_new:
- *
- * Create a new EMFilterContext object.
- *
- * Return value: A new #EMFilterContext object.
- **/
-EMFilterContext *
-em_filter_context_new (void)
-{
-	return (EMFilterContext *) g_object_new (em_filter_context_get_type (), NULL, NULL);
-}
-
-void
-em_filter_context_add_action (EMFilterContext *fc, EFilterPart *action)
-{
-	d(printf("find action : "));
-	fc->actions = g_list_append (fc->actions, action);
-}
-
-EFilterPart *
-em_filter_context_find_action (EMFilterContext *fc, const gchar *name)
-{
-	d(printf("find action : "));
-	return e_filter_part_find_list (fc->actions, name);
-}
-
-EFilterPart *
-em_filter_context_create_action (EMFilterContext *fc, const gchar *name)
-{
-	EFilterPart *part;
-
-	if ((part = em_filter_context_find_action (fc, name)))
-		return e_filter_part_clone (part);
-
-	return NULL;
-}
-
-EFilterPart *
-em_filter_context_next_action (EMFilterContext *fc, EFilterPart *last)
-{
-	return e_filter_part_next_list (fc->actions, last);
-}
-
-/* We search for any folders in our actions list that need updating, update them */
+/* We search for any folders in our actions list that need updating
+ * and update them. */
 static GList *
-filter_rename_uri (ERuleContext *rc, const gchar *olduri, const gchar *newuri, GCompareFunc cmp)
+filter_context_rename_uri (ERuleContext *context,
+                           const gchar *olduri,
+                           const gchar *newuri,
+                           GCompareFunc cmp)
 {
 	EFilterRule *rule;
 	GList *l, *el;
@@ -167,36 +134,24 @@ filter_rename_uri (ERuleContext *rc, const gchar *olduri, const gchar *newuri, G
 	gint count = 0;
 	GList *changed = NULL;
 
-	d(printf("uri '%s' renamed to '%s'\n", olduri, newuri));
-
-	/* For all rules, for all actions, for all elements, rename any folder elements */
-	/* Yes we could do this inside each part itself, but not today */
+	/* For all rules, for all actions, for all elements, rename any
+	 * folder elements.  XXX Yes we could do this inside each part
+	 * itself, but not today. */
 	rule = NULL;
-	while ((rule = e_rule_context_next_rule (rc, rule, NULL))) {
+	while ((rule = e_rule_context_next_rule (context, rule, NULL))) {
 		gint rulecount = 0;
-
-		d(printf("checking rule '%s'\n", rule->name));
 
 		l = EM_FILTER_RULE (rule)->actions;
 		while (l) {
 			action = l->data;
 
-			d(printf("checking action '%s'\n", action->name));
-
 			el = action->elements;
 			while (el) {
 				element = el->data;
 
-				d(printf("checking element '%s'\n", element->name));
-				if (EM_IS_FILTER_FOLDER_ELEMENT (element)) {
-					d(printf(" is folder, existing uri = '%s'\n",
-						 FILTER_FOLDER (element)->uri));
-				}
-
 				if (EM_IS_FILTER_FOLDER_ELEMENT (element)
-				    && cmp (((EMFilterFolderElement *)element)->uri, olduri)) {
-					d(printf(" Changed!\n"));
-					em_filter_folder_element_set_value ((EMFilterFolderElement *)element, newuri);
+				    && cmp (em_filter_folder_element_get_uri (EM_FILTER_FOLDER_ELEMENT (element)), olduri)) {
+					em_filter_folder_element_set_uri (EM_FILTER_FOLDER_ELEMENT (element), newuri);
 					rulecount++;
 				}
 				el = el->next;
@@ -212,16 +167,17 @@ filter_rename_uri (ERuleContext *rc, const gchar *olduri, const gchar *newuri, G
 		count += rulecount;
 	}
 
-	/* might need to call parent class, if it did anything ... parent_class->rename_uri(f, olduri, newuri, cmp); */
-
 	return changed;
 }
 
 static GList *
-filter_delete_uri (ERuleContext *rc, const gchar *uri, GCompareFunc cmp)
+filter_context_delete_uri (ERuleContext *context,
+                           const gchar *uri,
+                           GCompareFunc cmp)
 {
 	/* We basically do similar to above, but when we find it,
-	   Remove the action, and if thats the last action, this might create an empty rule?  remove the rule? */
+	 * remove the action, and if thats the last action, this
+	 * might create an empty rule?  Remove the rule? */
 
 	EFilterRule *rule;
 	GList *l, *el;
@@ -230,35 +186,23 @@ filter_delete_uri (ERuleContext *rc, const gchar *uri, GCompareFunc cmp)
 	gint count = 0;
 	GList *deleted = NULL;
 
-	d(printf("uri '%s' deleted\n", uri));
-
-	/* For all rules, for all actions, for all elements, check deleted folder elements */
-	/* Yes we could do this inside each part itself, but not today */
+	/* For all rules, for all actions, for all elements, check
+	 * deleted folder elements. XXX  Yes we could do this inside
+	 * each part itself, but not today. */
 	rule = NULL;
-	while ((rule = e_rule_context_next_rule (rc, rule, NULL))) {
+	while ((rule = e_rule_context_next_rule (context, rule, NULL))) {
 		gint recorded = 0;
-
-		d(printf("checking rule '%s'\n", rule->name));
 
 		l = EM_FILTER_RULE (rule)->actions;
 		while (l) {
 			action = l->data;
 
-			d(printf("checking action '%s'\n", action->name));
-
 			el = action->elements;
 			while (el) {
 				element = el->data;
 
-				d(printf("checking element '%s'\n", element->name));
-				if (EM_IS_FILTER_FOLDER_ELEMENT (element)) {
-					d(printf(" is folder, existing uri = '%s'\n",
-						 FILTER_FOLDER (element)->uri));
-				}
-
 				if (EM_IS_FILTER_FOLDER_ELEMENT (element)
-				    && cmp (((EMFilterFolderElement *)element)->uri, uri)) {
-					d(printf(" Deleted!\n"));
+				    && cmp (em_filter_folder_element_get_uri (EM_FILTER_FOLDER_ELEMENT (element)), uri)) {
 					/* check if last action, if so, remove rule instead? */
 					l = l->next;
 					em_filter_rule_remove_action ((EMFilterRule *)rule, action);
@@ -276,23 +220,135 @@ filter_delete_uri (ERuleContext *rc, const gchar *uri, GCompareFunc cmp)
 		}
 	}
 
-	/* TODO: could call parent and merge lists */
-
 	return deleted;
 }
 
 static EFilterElement *
-filter_new_element (ERuleContext *rc, const gchar *type)
+filter_context_new_element (ERuleContext *context,
+                            const gchar *type)
 {
-	if (!strcmp(type, "folder")) {
-		return (EFilterElement *) em_filter_folder_element_new ();
-	} else if (!strcmp(type, "system-flag")) {
-		return (EFilterElement *) e_filter_option_new ();
-	} else if (!strcmp(type, "score")) {
-		return (EFilterElement *) e_filter_int_new_type("score", -3, 3);
-	} else if (!strcmp(type, "source")) {
-		return (EFilterElement *) em_filter_source_element_new ();
-	} else {
-		return parent_class->new_element (rc, type);
-	}
+	EMFilterContextPrivate *priv;
+
+	priv = EM_FILTER_CONTEXT_GET_PRIVATE (context);
+
+	if (strcmp (type, "folder") == 0)
+		return em_filter_folder_element_new (priv->session);
+
+	if (strcmp (type, "system-flag") == 0)
+		return e_filter_option_new ();
+
+	if (strcmp (type, "score") == 0)
+		return e_filter_int_new_type ("score", -3, 3);
+
+	if (strcmp (type, "source") == 0)
+		return em_filter_source_element_new ();
+
+	return E_RULE_CONTEXT_CLASS (em_filter_context_parent_class)->
+		new_element (context, type);
 }
+
+static void
+em_filter_context_class_init (EMFilterContextClass *class)
+{
+	GObjectClass *object_class;
+	ERuleContextClass *rule_context_class;
+
+	g_type_class_add_private (class, sizeof (EMFilterContextPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = filter_context_set_property;
+	object_class->get_property = filter_context_get_property;
+	object_class->dispose = filter_context_dispose;
+
+	rule_context_class = E_RULE_CONTEXT_CLASS (class);
+	rule_context_class->rename_uri = filter_context_rename_uri;
+	rule_context_class->delete_uri = filter_context_delete_uri;
+	rule_context_class->new_element = filter_context_new_element;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SESSION,
+		g_param_spec_object (
+			"session",
+			NULL,
+			NULL,
+			E_TYPE_MAIL_SESSION,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+}
+
+static void
+em_filter_context_init (EMFilterContext *context)
+{
+	context->priv = EM_FILTER_CONTEXT_GET_PRIVATE (context);
+
+	e_rule_context_add_part_set (
+		E_RULE_CONTEXT (context),
+		"partset", E_TYPE_FILTER_PART,
+		(ERuleContextPartFunc) e_rule_context_add_part,
+		(ERuleContextNextPartFunc) e_rule_context_next_part);
+
+	e_rule_context_add_part_set (
+		E_RULE_CONTEXT (context),
+		"actionset", E_TYPE_FILTER_PART,
+		(ERuleContextPartFunc) em_filter_context_add_action,
+		(ERuleContextNextPartFunc) em_filter_context_next_action);
+
+	e_rule_context_add_rule_set (
+		E_RULE_CONTEXT (context),
+		"ruleset", EM_TYPE_FILTER_RULE,
+		(ERuleContextRuleFunc) e_rule_context_add_rule,
+		(ERuleContextNextRuleFunc) e_rule_context_next_rule);
+}
+
+EMFilterContext *
+em_filter_context_new (EMailSession *session)
+{
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+
+	return g_object_new (
+		EM_TYPE_FILTER_CONTEXT, "session", session, NULL);
+}
+
+EMailSession *
+em_filter_context_get_session (EMFilterContext *context)
+{
+	g_return_val_if_fail (EM_IS_FILTER_CONTEXT (context), NULL);
+
+	return context->priv->session;
+}
+
+void
+em_filter_context_add_action (EMFilterContext *context,
+                              EFilterPart *action)
+{
+	context->priv->actions =
+		g_list_append (context->priv->actions, action);
+}
+
+EFilterPart *
+em_filter_context_find_action (EMFilterContext *context,
+                               const gchar *name)
+{
+	return e_filter_part_find_list (context->priv->actions, name);
+}
+
+EFilterPart *
+em_filter_context_create_action (EMFilterContext *context,
+                                 const gchar *name)
+{
+	EFilterPart *part;
+
+	if ((part = em_filter_context_find_action (context, name)))
+		return e_filter_part_clone (part);
+
+	return NULL;
+}
+
+EFilterPart *
+em_filter_context_next_action (EMFilterContext *context,
+                               EFilterPart *last)
+{
+	return e_filter_part_next_list (context->priv->actions, last);
+}
+

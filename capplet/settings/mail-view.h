@@ -24,6 +24,7 @@
 #define _MAIL_VIEW_H_
 
 #include <shell/e-shell-view.h>
+#include <mail/e-mail-session.h>
 
 #include "anjal-mail-view.h"
 
@@ -48,6 +49,7 @@ typedef struct _MailViewPrivate MailViewPrivate;
 typedef struct _MailView {
 	AnjalMailView parent;
 
+	EMailSession *session;
 	GtkWidget *tree; /* Actual tree */
 	GtkWidget *folder_tree;
 	GtkWidget *slider;

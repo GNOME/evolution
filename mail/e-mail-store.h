@@ -24,16 +24,21 @@
 
 #include <glib.h>
 #include <camel/camel.h>
+#include <mail/e-mail-session.h>
 
 G_BEGIN_DECLS
 
-void		e_mail_store_init		(const gchar *data_dir);
-void		e_mail_store_add		(CamelStore *store,
+void		e_mail_store_init		(EMailSession *session,
+						 const gchar *data_dir);
+void		e_mail_store_add		(EMailSession *session,
+						 CamelStore *store,
 						 const gchar *display_name);
-CamelStore *	e_mail_store_add_by_uri		(const gchar *uri,
+CamelStore *	e_mail_store_add_by_uri		(EMailSession *session,
+						 const gchar *uri,
 						 const gchar *display_name);
 void		e_mail_store_remove		(CamelStore *store);
-void		e_mail_store_remove_by_uri	(const gchar *uri);
+void		e_mail_store_remove_by_uri	(EMailSession *session,
+						 const gchar *uri);
 void		e_mail_store_foreach		(GHFunc func,
 						 gpointer user_data);
 

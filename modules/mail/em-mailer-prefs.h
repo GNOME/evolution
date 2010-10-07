@@ -26,6 +26,7 @@
 #include <gtk/gtk.h>
 #include <gconf/gconf-client.h>
 #include <shell/e-shell.h>
+#include <mail/e-mail-session.h>
 #include <widgets/misc/e-preferences-window.h>
 
 /* Standard GObject macros */
@@ -54,6 +55,8 @@ typedef struct _EMMailerPrefsClass EMMailerPrefsClass;
 
 struct _EMMailerPrefs {
 	GtkVBox parent_object;
+
+	EMailSession *session;
 
 	GtkBuilder *builder;
 	GConfClient *gconf;

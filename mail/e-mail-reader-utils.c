@@ -32,6 +32,7 @@
 #include "filter/e-filter-rule.h"
 #include "misc/e-web-view.h"
 
+#include "mail/e-mail-backend.h"
 #include "mail/e-mail-browser.h"
 #include "mail/em-composer-utils.h"
 #include "mail/em-format-html-print.h"
@@ -64,6 +65,7 @@ gboolean
 e_mail_reader_confirm_delete (EMailReader *reader)
 {
 	EShell *shell;
+	EMailBackend *backend;
 	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
 	CamelFolder *folder;
@@ -80,10 +82,11 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), FALSE);
 
+	backend = e_mail_reader_get_backend (reader);
 	folder = e_mail_reader_get_folder (reader);
 	window = e_mail_reader_get_window (reader);
 
-	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
@@ -131,6 +134,8 @@ void
 e_mail_reader_mark_as_read (EMailReader *reader,
                             const gchar *uid)
 {
+	EMailBackend *backend;
+	EMailSession *session;
 	EMFormatHTML *formatter;
 	CamelFolder *folder;
 	guint32 mask, set;
@@ -140,7 +145,10 @@ e_mail_reader_mark_as_read (EMailReader *reader,
 	g_return_if_fail (uid != NULL);
 
 	folder = e_mail_reader_get_folder (reader);
+	backend = e_mail_reader_get_backend (reader);
 	formatter = e_mail_reader_get_formatter (reader);
+
+	session = e_mail_backend_get_session (backend);
 
 	flags = camel_folder_get_message_flags (folder, uid);
 
@@ -148,7 +156,7 @@ e_mail_reader_mark_as_read (EMailReader *reader,
 		CamelMimeMessage *message;
 
 		message = EM_FORMAT (formatter)->message;
-		em_utils_handle_receipt (folder, uid, message);
+		em_utils_handle_receipt (session, folder, uid, message);
 	}
 
 	mask = CAMEL_MESSAGE_SEEN;
@@ -213,6 +221,7 @@ guint
 e_mail_reader_open_selected (EMailReader *reader)
 {
 	EShell *shell;
+	EMailBackend *backend;
 	EShellBackend *shell_backend;
 	CamelFolder *folder;
 	GtkWindow *window;
@@ -223,13 +232,14 @@ e_mail_reader_open_selected (EMailReader *reader)
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), 0);
 
-	shell_backend = e_mail_reader_get_shell_backend (reader);
-	shell = e_shell_backend_get_shell (shell_backend);
-
+	backend = e_mail_reader_get_backend (reader);
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	window = e_mail_reader_get_window (reader);
+
+	shell_backend = E_SHELL_BACKEND (backend);
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	if (!em_utils_ask_open_many (window, uids->len)) {
 		em_utils_uids_free (uids);
@@ -288,7 +298,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 		const gchar *uid = views->pdata[ii];
 		GtkWidget *browser;
 
-		browser = e_mail_browser_new (shell_backend);
+		browser = e_mail_browser_new (backend);
 		e_mail_reader_set_folder (
 			E_MAIL_READER (browser), folder, folder_uri);
 		e_mail_reader_set_message (E_MAIL_READER (browser), uid);
@@ -387,6 +397,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
                                 gint reply_mode)
 {
 	EShell *shell;
+	EMailBackend *backend;
 	EShellBackend *shell_backend;
 	EMFormatHTML *formatter;
 	GtkWidget *message_list;
@@ -404,14 +415,15 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	shell_backend = e_mail_reader_get_shell_backend (reader);
+	backend = e_mail_reader_get_backend (reader);
+	folder = e_mail_reader_get_folder (reader);
+	formatter = e_mail_reader_get_formatter (reader);
+	message_list = e_mail_reader_get_message_list (reader);
+
+	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
-	formatter = e_mail_reader_get_formatter (reader);
 	web_view = em_format_html_get_web_view (formatter);
-
-	folder = e_mail_reader_get_folder (reader);
-	message_list = e_mail_reader_get_message_list (reader);
 
 	uid = MESSAGE_LIST (message_list)->cursor_uid;
 	g_return_if_fail (uid != NULL);
@@ -502,14 +514,19 @@ mail_reader_create_filter_cb (CamelFolder *folder,
                               gpointer user_data)
 {
 	struct {
+		EMailSession *session;
 		const gchar *source;
 		gint type;
 	} *filter_data = user_data;
 
 	if (message != NULL)
 		filter_gui_add_from_message (
-			message, filter_data->source, filter_data->type);
+			filter_data->session,
+			message,
+			filter_data->source,
+			filter_data->type);
 
+	g_object_unref (filter_data->session);
 	g_free (filter_data);
 }
 
@@ -517,17 +534,23 @@ void
 e_mail_reader_create_filter_from_selected (EMailReader *reader,
                                            gint filter_type)
 {
+	EMailBackend *backend;
+	EMailSession *session;
 	CamelFolder *folder;
 	const gchar *filter_source;
 	const gchar *folder_uri;
 	GPtrArray *uids;
 
 	struct {
+		EMailSession *session;
 		const gchar *source;
 		gint type;
 	} *filter_data;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	backend = e_mail_reader_get_backend (reader);
+	session = e_mail_backend_get_session (backend);
 
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
@@ -543,6 +566,7 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 
 	if (uids->len == 1) {
 		filter_data = g_malloc (sizeof (*filter_data));
+		filter_data->session = g_object_ref (session);
 		filter_data->source = filter_source;
 		filter_data->type = filter_type;
 
@@ -563,14 +587,17 @@ mail_reader_create_vfolder_cb (CamelFolder *folder,
                                gpointer user_data)
 {
 	struct {
+		EMailSession *session;
 		gchar *uri;
 		gint type;
 	} *vfolder_data = user_data;
 
 	if (message != NULL)
 		vfolder_gui_add_from_message (
-			message, vfolder_data->type, vfolder_data->uri);
+			vfolder_data->session, message,
+			vfolder_data->type, vfolder_data->uri);
 
+	g_object_unref (vfolder_data->session);
 	g_free (vfolder_data->uri);
 	g_free (vfolder_data);
 }
@@ -579,16 +606,22 @@ void
 e_mail_reader_create_vfolder_from_selected (EMailReader *reader,
                                             gint vfolder_type)
 {
+	EMailBackend *backend;
+	EMailSession *session;
 	CamelFolder *folder;
 	const gchar *folder_uri;
 	GPtrArray *uids;
 
 	struct {
+		EMailSession *session;
 		gchar *uri;
 		gint type;
 	} *vfolder_data;
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	backend = e_mail_reader_get_backend (reader);
+	session = e_mail_backend_get_session (backend);
 
 	folder = e_mail_reader_get_folder (reader);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
@@ -596,6 +629,7 @@ e_mail_reader_create_vfolder_from_selected (EMailReader *reader,
 
 	if (uids->len == 1) {
 		vfolder_data = g_malloc (sizeof (*vfolder_data));
+		vfolder_data->session = g_object_ref (session);
 		vfolder_data->uri = g_strdup (folder_uri);
 		vfolder_data->type = vfolder_type;
 

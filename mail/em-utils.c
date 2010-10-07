@@ -74,7 +74,7 @@
 #include "em-composer-utils.h"
 #include "em-format-quote.h"
 #include "e-mail-local.h"
-#include "mail-session.h"
+#include "e-mail-session.h"
 
 /* XXX This is a dirty hack on a dirty hack.  We really need
  *     to rework or get rid of the functions that use this. */
@@ -266,17 +266,21 @@ static EMFilterSource em_filter_source_element_names[] = {
 /**
  * em_utils_edit_filters:
  * @parent: parent window
+ * @session: an #EMailSession
  *
  * Opens or raises the filters editor dialog so that the user may edit
  * his/her filters. If @parent is non-NULL, then the dialog will be
  * created as a child window of @parent's toplevel window.
  **/
 void
-em_utils_edit_filters (GtkWidget *parent)
+em_utils_edit_filters (GtkWidget *parent,
+                       EMailSession *session)
 {
 	const gchar *config_dir;
 	gchar *user, *system;
 	EMFilterContext *fc;
+
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
 	if (filter_editor) {
 		gtk_window_present (GTK_WINDOW (filter_editor));
@@ -285,7 +289,7 @@ em_utils_edit_filters (GtkWidget *parent)
 
 	config_dir = mail_session_get_config_dir ();
 
-	fc = em_filter_context_new ();
+	fc = em_filter_context_new (session);
 	user = g_build_filename (config_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	e_rule_context_load ((ERuleContext *) fc, system, user);
@@ -366,6 +370,7 @@ em_utils_flag_for_followup (EMailReader *reader,
                             GPtrArray *uids)
 {
 	EShell *shell;
+	EMailBackend *backend;
 	EShellSettings *shell_settings;
 	EShellBackend *shell_backend;
 	EMFormatHTML *formatter;
@@ -378,11 +383,13 @@ em_utils_flag_for_followup (EMailReader *reader,
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 
-	editor = e_mail_tag_editor_new ();
 	window = e_mail_reader_get_window (reader);
+	backend = e_mail_reader_get_backend (reader);
+
+	editor = e_mail_tag_editor_new ();
 	gtk_window_set_transient_for (GTK_WINDOW (editor), window);
 
-	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
@@ -759,6 +766,7 @@ em_utils_selection_set_uidlist (GtkSelectionData *selection_data,
 /**
  * em_utils_selection_get_uidlist:
  * @data: selection data
+ * @session: an #EMailSession
  * @move: do we delete the messages.
  *
  * Convert a uid list into a copy/move operation.
@@ -767,6 +775,7 @@ em_utils_selection_set_uidlist (GtkSelectionData *selection_data,
  **/
 void
 em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
+                                EMailSession *session,
                                 CamelFolder *dest,
                                 gint move,
                                 GCancellable *cancellable,
@@ -780,6 +789,7 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
 	gint length;
 
 	g_return_if_fail (selection_data != NULL);
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
 	data = gtk_selection_data_get_data (selection_data);
 	length = gtk_selection_data_get_length (selection_data);
@@ -808,9 +818,9 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
 		return;
 	}
 
-	/* FIXME mail_tool_uri_to_folder() may block. */
-	folder = mail_tool_uri_to_folder (
-		(gchar *) data, 0, cancellable, error);
+	/* FIXME e_mail_session_uri_to_folder_sync() may block. */
+	folder = e_mail_session_uri_to_folder_sync (
+		session, (gchar *) data, 0, cancellable, error);
 	if (folder) {
 		/* FIXME camel_folder_transfer_messages_to_sync() may block. */
 		camel_folder_transfer_messages_to_sync (
@@ -1274,16 +1284,20 @@ em_utils_expunge_folder (GtkWidget *parent, CamelFolder *folder)
 /**
  * em_utils_empty_trash:
  * @parent: parent window
+ * @session: an #EMailSession
  *
  * Empties all Trash folders.
  **/
 void
-em_utils_empty_trash (GtkWidget *parent)
+em_utils_empty_trash (GtkWidget *parent,
+                      EMailSession *session)
 {
 	CamelProvider *provider;
 	EAccountList *accounts;
 	EAccount *account;
 	EIterator *iter;
+
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
 	if (!em_utils_prompt_user((GtkWindow *) parent, "/apps/evolution/mail/prompts/empty_trash", "mail:ask-empty-trash", NULL))
 		return;
@@ -1299,7 +1313,7 @@ em_utils_empty_trash (GtkWidget *parent)
 			if (provider) {
 				/* make sure this store is a remote store */
 				if (provider->flags & CAMEL_PROVIDER_IS_STORAGE) {
-					mail_empty_trash (account, NULL, NULL);
+					mail_empty_trash (session, account, NULL, NULL);
 				}
 			}
 		}
@@ -1310,7 +1324,7 @@ em_utils_empty_trash (GtkWidget *parent)
 	g_object_unref (iter);
 
 	/* Now empty the local trash folder */
-	mail_empty_trash (NULL, NULL, NULL);
+	mail_empty_trash (session, NULL, NULL, NULL);
 }
 
 gchar *

@@ -438,11 +438,14 @@ mail_view_switch_to_settings (MailView* mv, MailViewChild *mpv)
 }
 
 static MailViewChild *
-mail_view_add_account (MailView *mv, gpointer data, gboolean block)
+mail_view_add_account (MailView *mv,
+                       gpointer data,
+                       gboolean block)
 {
-	MailAccountView *msv  = mail_account_view_new (data);
+	MailAccountView *msv;
 	gint position = 0;
 
+	msv = mail_account_view_new (data, mv->session);
 	gtk_widget_show ((GtkWidget *)msv);
 	if (!block)
 		mv->priv->current_view = (MailViewChild *)msv;

@@ -65,8 +65,8 @@ struct _EFilterIntClass {
 };
 
 GType		e_filter_int_get_type		(void);
-EFilterInt *	e_filter_int_new		(void);
-EFilterInt *	e_filter_int_new_type		(const gchar *type,
+EFilterElement *e_filter_int_new		(void);
+EFilterElement *e_filter_int_new_type		(const gchar *type,
 						 gint min,
 						 gint max);
 void		e_filter_int_set_value		(EFilterInt *f_int,

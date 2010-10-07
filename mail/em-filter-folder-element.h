@@ -16,41 +16,66 @@
  *
  * Authors:
  *		Not Zed <notzed@lostzed.mmc.com.au>
- *      Jeffrey Stedfast <fejj@ximian.com>
+ *      Jeelementrey Stedfast <fejj@ximian.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
-#ifndef _EM_FILTER_FOLDER_ELEMENT_H
-#define _EM_FILTER_FOLDER_ELEMENT_H
+#ifndef EM_FILTER_FOLDER_ELEMENT_H
+#define EM_FILTER_FOLDER_ELEMENT_H
 
-#include "filter/e-filter-element.h"
+#include <mail/e-mail-session.h>
+#include <filter/e-filter-element.h>
 
-#define EM_FILTER_FOLDER_ELEMENT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), em_filter_folder_element_get_type(), EMFilterFolderElement))
-#define EM_FILTER_FOLDER_ELEMENT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), em_filter_folder_element_get_type(), EMFilterFolderElementClass))
-#define EM_IS_FILTER_FOLDER_ELEMENT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), em_filter_folder_element_get_type()))
-#define EM_IS_FILTER_FOLDER_ELEMENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), em_filter_folder_element_get_type()))
-#define EM_FILTER_FOLDER_ELEMENT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), em_filter_folder_element_get_type(), EMFilterFolderElementClass))
+/* Standard GObject macros */
+#define EM_TYPE_FILTER_FOLDER_ELEMENT \
+	(em_filter_folder_element_get_type ())
+#define EM_FILTER_FOLDER_ELEMENT(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_FILTER_FOLDER_ELEMENT, EMFilterFolderElement))
+#define EM_FILTER_FOLDER_ELEMENT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_FILTER_FOLDER_ELEMENT, EMFilterFolderElementClass))
+#define EM_IS_FILTER_FOLDER_ELEMENT(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_FILTER_FOLDER_ELEMENT))
+#define EM_IS_FILTER_FOLDER_ELEMENT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_FILTER_FOLDER_ELEMENT))
+#define EM_FILTER_FOLDER_ELEMENT_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_FILTER_FOLDER_ELEMENT, EMFilterFolderElementClass))
+
+G_BEGIN_DECLS
 
 typedef struct _EMFilterFolderElement EMFilterFolderElement;
 typedef struct _EMFilterFolderElementClass EMFilterFolderElementClass;
+typedef struct _EMFilterFolderElementPrivate EMFilterFolderElementPrivate;
 
 struct _EMFilterFolderElement {
-	EFilterElement parent_object;
+	EFilterElement parent;
+	EMFilterFolderElementPrivate *priv;
 
-	gchar *uri;
-	gboolean store_camel_uri; /* true if uri should contain camel uri, otherwise contains evolution's uri with an Account ID */
+	/* TRUE if 'uri' should contain Camel URI, otherwise
+	 * contains Evolution's URI with an Account ID. */
+	gboolean store_camel_uri;
 };
 
 struct _EMFilterFolderElementClass {
 	EFilterElementClass parent_class;
 };
 
-GType em_filter_folder_element_get_type (void);
-EMFilterFolderElement *em_filter_folder_element_new (void);
+GType		em_filter_folder_element_get_type (void);
+EFilterElement *em_filter_folder_element_new	(EMailSession *session);
+EMailSession *	em_filter_folder_element_get_session
+						(EMFilterFolderElement *element);
+const gchar *	em_filter_folder_element_get_uri
+						(EMFilterFolderElement *element);
+void		em_filter_folder_element_set_uri
+						(EMFilterFolderElement *element,
+						 const gchar *uri);
 
-/* methods */
-void em_filter_folder_element_set_value (EMFilterFolderElement *ff, const gchar *uri);
+G_END_DECLS
 
-#endif /* _EM_FILTER_FOLDER_ELEMENT_H */
+#endif /* EM_FILTER_FOLDER_ELEMENT_H */

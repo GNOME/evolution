@@ -75,7 +75,7 @@ struct _EFilterOptionClass {
 };
 
 GType		e_filter_option_get_type	(void);
-EFilterOption *	e_filter_option_new		(void);
+EFilterElement *e_filter_option_new		(void);
 void		e_filter_option_set_current	(EFilterOption *option,
 						 const gchar *name);
 const gchar *	e_filter_option_get_current	(EFilterOption *option);

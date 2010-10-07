@@ -44,7 +44,9 @@
 #include "mail-importer.h"
 
 #include "mail/mail-mt.h"
+#include "mail/e-mail-backend.h"
 #include "e-util/e-import.h"
+#include "shell/e-shell.h"
 
 #define d(x)
 
@@ -230,6 +232,17 @@ static MailImporterSpecial pine_special_folders[] = {
 static void
 pine_import_exec (struct _pine_import_msg *m)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailSession *session;
+
+	/* XXX Dig up the EMailSession from the default EShell.
+	 *     Since the EImport framework doesn't allow for user
+	 *     data, I don't see how else to get to it. */
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+
 	if (GPOINTER_TO_INT(g_datalist_get_data(&m->target->data, "pine-do-addr")))
 		import_contacts ();
 
@@ -238,7 +251,7 @@ pine_import_exec (struct _pine_import_msg *m)
 
 		path = g_build_filename(g_get_home_dir(), "mail", NULL);
 		mail_importer_import_folders_sync (
-			path, pine_special_folders, 0, m->cancellable);
+			session, path, pine_special_folders, 0, m->cancellable);
 		g_free (path);
 	}
 }

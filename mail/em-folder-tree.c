@@ -64,6 +64,7 @@
 #include "em-event.h"
 
 #include "e-mail-local.h"
+#include "e-mail-session.h"
 
 /* backward-compatibility cruft */
 #include "e-util/gtk-compat.h"
@@ -82,6 +83,8 @@ struct _selected_uri {
 };
 
 struct _EMFolderTreePrivate {
+	EMailSession *session;
+
 	/* selected_uri structures of each path pending selection. */
 	GSList *select_uris;
 
@@ -117,6 +120,11 @@ struct _EMFolderTreePrivate {
 
 	/* Signal handler IDs */
 	gulong selection_changed_handler_id;
+};
+
+enum {
+	PROP_0,
+	PROP_SESSION
 };
 
 enum {
@@ -159,7 +167,6 @@ static GdkAtom drop_atoms[NUM_DROP_TYPES];
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-extern CamelSession *session;
 extern CamelStore *vfolder_store;
 
 struct _folder_tree_selection_data {
@@ -442,6 +449,7 @@ folder_tree_expand_node (const gchar *key,
 	GtkTreeModel *model;
 	GtkTreePath *path;
 	EAccount *account;
+	EMailSession *session;
 	CamelStore *store;
 	const gchar *p;
 	gchar *uid;
@@ -460,9 +468,11 @@ folder_tree_expand_node (const gchar *key,
 	tree_view = GTK_TREE_VIEW (folder_tree);
 	model = gtk_tree_view_get_model (tree_view);
 
+	session = em_folder_tree_get_session (folder_tree);
+
 	if ((account = e_get_account_by_uid (uid)) && account->enabled) {
 		store = (CamelStore *) camel_session_get_service (
-			session, account->source->url,
+			CAMEL_SESSION (session), account->source->url,
 			CAMEL_PROVIDER_STORE, NULL);
 
 		if (store == NULL)
@@ -699,6 +709,51 @@ exit:
 }
 
 static void
+folder_tree_set_session (EMFolderTree *folder_tree,
+                         EMailSession *session)
+{
+	g_return_if_fail (CAMEL_IS_SESSION (session));
+	g_return_if_fail (folder_tree->priv->session == NULL);
+
+	folder_tree->priv->session = g_object_ref (session);
+}
+
+static void
+folder_tree_set_property (GObject *object,
+                          guint property_id,
+                          const GValue *value,
+                          GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SESSION:
+			folder_tree_set_session (
+				EM_FOLDER_TREE (object),
+				g_value_get_object (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+folder_tree_get_property (GObject *object,
+                          guint property_id,
+                          GValue *value,
+                          GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SESSION:
+			g_value_set_object (
+				value,
+				em_folder_tree_get_session (
+				EM_FOLDER_TREE (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
 folder_tree_dispose (GObject *object)
 {
 	EMFolderTreePrivate *priv;
@@ -723,6 +778,11 @@ folder_tree_dispose (GObject *object)
 
 		g_source_remove (priv->autoexpand_id);
 		priv->autoexpand_id = 0;
+	}
+
+	if (priv->session != NULL) {
+		g_object_unref (priv->session);
+		priv->session = NULL;
 	}
 
 	if (priv->text_renderer != NULL) {
@@ -959,6 +1019,8 @@ folder_tree_class_init (EMFolderTreeClass *class)
 	g_type_class_add_private (class, sizeof (EMFolderTreePrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = folder_tree_set_property;
+	object_class->get_property = folder_tree_get_property;
 	object_class->dispose = folder_tree_dispose;
 	object_class->finalize = folder_tree_finalize;
 
@@ -971,6 +1033,17 @@ folder_tree_class_init (EMFolderTreeClass *class)
 	tree_view_class->row_activated = folder_tree_row_activated;
 	tree_view_class->test_collapse_row = folder_tree_test_collapse_row;
 	tree_view_class->row_expanded = folder_tree_row_expanded;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SESSION,
+		g_param_spec_object (
+			"session",
+			NULL,
+			NULL,
+			E_TYPE_MAIL_SESSION,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 
 	signals[FOLDER_SELECTED] = g_signal_new (
 		"folder-selected",
@@ -1451,9 +1524,20 @@ em_folder_tree_get_type (void)
 }
 
 GtkWidget *
-em_folder_tree_new (void)
+em_folder_tree_new (EMailSession *session)
 {
-	return g_object_new (EM_TYPE_FOLDER_TREE, NULL);
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+
+	return g_object_new (
+		EM_TYPE_FOLDER_TREE, "session", session, NULL);
+}
+
+EMailSession *
+em_folder_tree_get_session (EMFolderTree *folder_tree)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
+
+	return folder_tree->priv->session;
 }
 
 static void
@@ -1597,6 +1681,7 @@ struct _DragDataReceivedAsync {
 	/* Only selection->data and selection->length are valid */
 	GtkSelectionData *selection;
 
+	EMailSession *session;
 	CamelStore *store;
 	gchar *full_name;
 	guint32 action;
@@ -1619,8 +1704,10 @@ folder_tree_drop_folder (struct _DragDataReceivedAsync *m)
 
 	d(printf(" * Drop folder '%s' onto '%s'\n", data, m->full_name));
 
-	if (!(folder = mail_tool_uri_to_folder (
-		(gchar *)data, 0, m->base.cancellable, &m->base.error)))
+	folder = e_mail_session_uri_to_folder_sync (
+		m->session, (gchar *) data, 0,
+		m->base.cancellable, &m->base.error);
+	if (folder == NULL)
 		return;
 
 	full_name = camel_folder_get_full_name (folder);
@@ -1690,7 +1777,7 @@ folder_tree_drop_async__exec (struct _DragDataReceivedAsync *m)
 		case DND_DROP_TYPE_UID_LIST:
 			/* import a list of uids from another evo folder */
 			em_utils_selection_get_uidlist (
-				m->selection, folder, m->move,
+				m->selection, m->session, folder, m->move,
 				m->base.cancellable, &m->base.error);
 			m->moved = m->move && (m->base.error == NULL);
 			break;
@@ -1712,6 +1799,7 @@ folder_tree_drop_async__exec (struct _DragDataReceivedAsync *m)
 static void
 folder_tree_drop_async__free (struct _DragDataReceivedAsync *m)
 {
+	g_object_unref (m->session);
 	g_object_unref (m->context);
 	g_object_unref (m->store);
 	g_free (m->full_name);
@@ -1747,6 +1835,7 @@ tree_drag_data_received (GtkWidget *widget,
 	GtkTreeModel *model;
 	GtkTreeView *tree_view;
 	GtkTreePath *dest_path;
+	EMailSession *session;
 	struct _DragDataReceivedAsync *m;
 	gboolean is_store;
 	CamelStore *store;
@@ -1755,6 +1844,8 @@ tree_drag_data_received (GtkWidget *widget,
 
 	tree_view = GTK_TREE_VIEW (folder_tree);
 	model = gtk_tree_view_get_model (tree_view);
+
+	session = em_folder_tree_get_session (folder_tree);
 
 	if (!gtk_tree_view_get_dest_row_at_pos (tree_view, x, y, &dest_path, &pos))
 		return;
@@ -1788,10 +1879,9 @@ tree_drag_data_received (GtkWidget *widget,
 	}
 
 	m = mail_msg_new (&folder_tree_drop_async_info);
-	m->context = context;
-	g_object_ref (context);
-	m->store = store;
-	g_object_ref (store);
+	m->session = g_object_ref (session);
+	m->context = g_object_ref (context);
+	m->store = g_object_ref (store);
 	m->full_name = full_name;
 	m->action = gdk_drag_context_get_selected_action (context);
 	m->info = info;
@@ -2416,7 +2506,10 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
                                   gboolean expand_only)
 {
 	EMFolderTreePrivate *priv = folder_tree->priv;
+	EMailSession *session;
 	gint id = 0;
+
+	session = em_folder_tree_get_session (folder_tree);
 
 	/* FIXME: need to remove any currently selected stuff? */
 	if (!expand_only)
@@ -2428,7 +2521,8 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
 
 		u->uri = g_strdup (list->data);
 		u->store = (CamelStore *) camel_session_get_service (
-			session, u->uri, CAMEL_PROVIDER_STORE, NULL);
+			CAMEL_SESSION (session), u->uri,
+			CAMEL_PROVIDER_STORE, NULL);
 
 		url = camel_url_new (u->uri, NULL);
 		if (u->store == NULL || url == NULL) {

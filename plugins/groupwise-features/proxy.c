@@ -40,7 +40,8 @@
 #include <mail/em-account-editor.h>
 #include <mail/em-config.h>
 #include <mail/mail-ops.h>
-#include <mail/mail-session.h>
+#include <mail/e-mail-backend.h>
+#include <shell/e-shell.h>
 #include <libedataserver/e-account.h>
 #include <libedataserver/e-account-list.h>
 #include <e-util/e-icon-factory.h>
@@ -637,6 +638,9 @@ GtkWidget*
 org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailSession *session;
 	EAccount *account;
 	GtkButton *addProxy, *removeProxy, *editProxy;
 	proxyDialog *prd;
@@ -644,13 +648,18 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 	CamelOfflineStore *store;
 	gint pag_num;
 
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
 	/* We are using some g_object_set on this. We shuold also avoid double-free later. So reffing */
 	g_object_ref (account);
 
 	store = (CamelOfflineStore *) camel_session_get_service (
-		session, e_account_get_string (account, E_ACCOUNT_SOURCE_URL),
+		CAMEL_SESSION (session),
+		e_account_get_string (account, E_ACCOUNT_SOURCE_URL),
 		CAMEL_PROVIDER_STORE, NULL);
 	if (store == NULL)
 		return NULL;

@@ -36,7 +36,6 @@
 #include <glib/gi18n.h>
 
 #include "mail-config.h"
-#include "mail-session.h"
 #include "mail-tools.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
@@ -65,6 +64,7 @@ struct _EMFolderTreeModelPrivate {
 	GtkTreeSelection *selection;  /* weak reference */
 
 	EAccountList *accounts;
+	EMailSession *session;
 
 	/* EAccount -> EMFolderTreeStoreInfo */
 	GHashTable *account_index;
@@ -82,7 +82,8 @@ struct _EMFolderTreeModelPrivate {
 
 enum {
 	PROP_0,
-	PROP_SELECTION
+	PROP_SELECTION,
+	PROP_SESSION
 };
 
 enum {
@@ -204,9 +205,12 @@ account_changed_cb (EAccountList *accounts,
                     EMFolderTreeModel *model)
 {
 	EMFolderTreeModelStoreInfo *si;
+	EMailSession *session;
 	CamelProvider *provider;
 	CamelStore *store;
 	gchar *uri;
+
+	session = em_folder_tree_model_get_session (model);
 
 	si = g_hash_table_lookup (model->priv->account_index, account);
 	if (si == NULL)
@@ -226,7 +230,8 @@ account_changed_cb (EAccountList *accounts,
 		return;
 
 	store = (CamelStore *) camel_session_get_service (
-		session, uri, CAMEL_PROVIDER_STORE, NULL);
+		CAMEL_SESSION (session), uri,
+		CAMEL_PROVIDER_STORE, NULL);
 	if (store == NULL)
 		return;
 
@@ -250,27 +255,24 @@ account_removed_cb (EAccountList *accounts,
 
 /* HACK: FIXME: the component should listen to the account object directly */
 static void
-add_new_store (gchar *uri,
-               CamelStore *store,
-               gpointer user_data)
-{
-	EAccount *account = user_data;
-
-	if (store == NULL)
-		return;
-
-	e_mail_store_add (store, account->name);
-}
-
-static void
 account_added_cb (EAccountList *accounts,
                   EAccount *account,
                   EMFolderTreeModel *model)
 {
+	EMailSession *session;
+	CamelStore *store;
 	const gchar *uri;
 
+	session = em_folder_tree_model_get_session (model);
 	uri = e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
-	mail_get_store (uri, NULL, add_new_store, account);
+
+	store = (CamelStore *) camel_session_get_service (
+		CAMEL_SESSION (session), uri, CAMEL_PROVIDER_STORE, NULL);
+
+	if (store != NULL) {
+		e_mail_store_add (session, store, account->name);
+		g_object_unref (store);
+	}
 }
 
 static void
@@ -293,6 +295,12 @@ folder_tree_model_set_property (GObject *object,
 				EM_FOLDER_TREE_MODEL (object),
 				g_value_get_object (value));
 			return;
+
+		case PROP_SESSION:
+			em_folder_tree_model_set_session (
+				EM_FOLDER_TREE_MODEL (object),
+				g_value_get_object (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -309,6 +317,13 @@ folder_tree_model_get_property (GObject *object,
 			g_value_set_object (
 				value,
 				em_folder_tree_model_get_selection (
+				EM_FOLDER_TREE_MODEL (object)));
+			return;
+
+		case PROP_SESSION:
+			g_value_set_object (
+				value,
+				em_folder_tree_model_get_session (
 				EM_FOLDER_TREE_MODEL (object)));
 			return;
 	}
@@ -328,6 +343,11 @@ folder_tree_model_dispose (GObject *object)
 			G_OBJECT (priv->selection), (GWeakNotify)
 			folder_tree_model_selection_finalized_cb, object);
 		priv->selection = NULL;
+	}
+
+	if (priv->session != NULL) {
+		g_object_unref (priv->session);
+		priv->session = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -378,6 +398,16 @@ folder_tree_model_class_init (EMFolderTreeModelClass *class)
 			"Selection",
 			NULL,
 			GTK_TYPE_TREE_SELECTION,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SESSION,
+		g_param_spec_object (
+			"session",
+			NULL,
+			NULL,
+			E_TYPE_MAIL_SESSION,
 			G_PARAM_READWRITE));
 
 	signals[LOADING_ROW] = g_signal_new (
@@ -609,6 +639,33 @@ em_folder_tree_model_set_selection (EMFolderTreeModel *model,
 			folder_tree_model_selection_finalized_cb, model);
 
 	g_object_notify (G_OBJECT (model), "selection");
+}
+
+EMailSession *
+em_folder_tree_model_get_session (EMFolderTreeModel *model)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
+
+	return model->priv->session;
+}
+
+void
+em_folder_tree_model_set_session (EMFolderTreeModel *model,
+                                  EMailSession *session)
+{
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+
+	if (session != NULL) {
+		g_return_if_fail (E_IS_MAIL_SESSION (session));
+		g_object_ref (session);
+	}
+
+	if (model->priv->session != NULL)
+		g_object_unref (model->priv->session);
+
+	model->priv->session = session;
+
+	g_object_notify (G_OBJECT (model), "session");
 }
 
 void

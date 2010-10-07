@@ -25,22 +25,23 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel.h>
-#include <shell/e-shell-backend.h>
+#include <mail/e-mail-backend.h>
 
 G_BEGIN_DECLS
 
 /* send/receive all uri's */
-GtkWidget *	mail_send_receive		(GtkWindow *parent);
+GtkWidget *	mail_send_receive		(GtkWindow *parent,
+						 EMailSession *session);
 
 /* receive a single uri */
-void		mail_receive_uri		(const gchar *uri,
+void		mail_receive_uri		(EMailSession *session,
+						 const gchar *uri,
 						 gboolean keep_on_server);
 
-void		mail_send			(void);
+void		mail_send			(EMailSession *session);
 
 /* setup auto receive stuff */
-void		mail_autoreceive_init		(EShellBackend *shell_backend,
-						 CamelSession *session);
+void		mail_autoreceive_init		(EMailBackend *backend);
 
 G_END_DECLS
 

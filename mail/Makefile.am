@@ -54,6 +54,7 @@ mailinclude_HEADERS =					\
 	e-mail-migrate.h				\
 	e-mail-reader.h					\
 	e-mail-reader-utils.h				\
+	e-mail-session.h				\
 	e-mail-sidebar.h				\
 	e-mail-store.h					\
 	e-mail-tag-editor.h				\
@@ -92,7 +93,6 @@ mailinclude_HEADERS =					\
 	mail-mt.h					\
 	mail-ops.h					\
 	mail-send-recv.h				\
-	mail-session.h					\
 	mail-tools.h					\
 	mail-vfolder.h					\
 	message-list.h
@@ -123,6 +123,7 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-migrate.c				\
 	e-mail-reader.c					\
 	e-mail-reader-utils.c				\
+	e-mail-session.c				\
 	e-mail-sidebar.c				\
 	e-mail-store.c					\
 	e-mail-tag-editor.c				\
@@ -161,7 +162,6 @@ libevolution_mail_la_SOURCES =				\
 	mail-mt.c					\
 	mail-ops.c					\
 	mail-send-recv.c				\
-	mail-session.c					\
 	mail-tools.c					\
 	mail-vfolder.c					\
 	message-list.c

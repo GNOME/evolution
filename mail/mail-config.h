@@ -69,7 +69,7 @@ typedef enum {
 GType		evolution_mail_config_get_type	(void);
 
 /* Configuration */
-void		mail_config_init		(void);
+void		mail_config_init		(CamelSession *session);
 void		mail_config_write		(void);
 
 GConfClient *	mail_config_get_gconf_client	(void);
@@ -98,7 +98,7 @@ gchar *		mail_config_folder_to_safe_url	(CamelFolder *folder);
 
 gint		mail_config_get_sync_timeout	(void);
 
-void		mail_config_reload_junk_headers	(void);
+void		mail_config_reload_junk_headers	(CamelSession *session);
 gboolean	mail_config_get_lookup_book	(void);
 gboolean	mail_config_get_lookup_book_local_only (void);
 

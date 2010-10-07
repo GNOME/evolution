@@ -22,8 +22,10 @@
  *
  */
 
-#include <string.h>
 #include "e-mail-backend.h"
+
+#include <string.h>
+#include <libedataserver/e-data-server-util.h>
 
 #include "e-util/e-account-utils.h"
 #include "e-util/e-alert-dialog.h"
@@ -35,6 +37,7 @@
 
 #include "mail/e-mail-local.h"
 #include "mail/e-mail-migrate.h"
+#include "mail/e-mail-session.h"
 #include "mail/e-mail-store.h"
 #include "mail/em-event.h"
 #include "mail/em-folder-tree-model.h"
@@ -42,7 +45,6 @@
 #include "mail/mail-autofilter.h"
 #include "mail/mail-folder-cache.h"
 #include "mail/mail-ops.h"
-#include "mail/mail-session.h"
 #include "mail/mail-vfolder.h"
 
 #define E_MAIL_BACKEND_GET_PRIVATE(obj) \
@@ -52,13 +54,21 @@
 #define QUIT_POLL_INTERVAL 1  /* seconds */
 
 struct _EMailBackendPrivate {
-	gint placeholder;  /* for future expansion */
+	EMailSession *session;
 };
 
-static gpointer parent_class;
+enum {
+	PROP_0,
+	PROP_SESSION
+};
 
 /* FIXME Kill this thing.  It's a horrible hack. */
 extern gint camel_application_is_exiting;
+
+G_DEFINE_ABSTRACT_TYPE (
+	EMailBackend,
+	e_mail_backend,
+	E_TYPE_SHELL_BACKEND)
 
 static const gchar *
 mail_shell_backend_get_data_dir (EShellBackend *backend)
@@ -100,9 +110,11 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
                                      EMailBackend *backend)
 {
 	GtkWindow *window;
+	EMailSession *session;
 	gboolean synchronize = FALSE;
 
 	window = e_shell_get_active_window (shell);
+	session = e_mail_backend_get_session (backend);
 
 	if (e_shell_get_network_available (shell))
 		synchronize = em_utils_prompt_user (
@@ -110,7 +122,8 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 
 	if (!synchronize) {
 		mail_cancel_all ();
-		camel_session_set_network_available (session, FALSE);
+		camel_session_set_network_available (
+			CAMEL_SESSION (session), FALSE);
 	}
 
 	e_mail_store_foreach (
@@ -135,7 +148,10 @@ mail_backend_prepare_for_online_cb (EShell *shell,
                                     EActivity *activity,
                                     EMailBackend *backend)
 {
-	camel_session_set_online (session, TRUE);
+	EMailSession *session;
+
+	session = e_mail_backend_get_session (backend);
+	camel_session_set_online (CAMEL_SESSION (session), TRUE);
 
 	e_mail_store_foreach (
 		(GHFunc) mail_store_prepare_for_online_cb, activity);
@@ -203,7 +219,7 @@ mail_backend_poll_to_quit (EActivity *activity)
 static void
 mail_backend_ready_to_quit (EActivity *activity)
 {
-	mail_session_shutdown ();
+	camel_shutdown ();
 	emu_free_mail_cache ();
 
 	/* Do this last.  It may terminate the process. */
@@ -304,18 +320,26 @@ mail_backend_quit_requested_cb (EShell *shell,
 static void
 mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
                                 CamelStore *store,
-                                const gchar *uri)
+                                const gchar *uri,
+                                EMailBackend *backend)
 {
-	mail_filter_delete_uri (store, uri);
+	EMailSession *session;
+
+	session = e_mail_backend_get_session (backend);
+	mail_filter_delete_uri (session, store, uri);
 }
 
 static void
 mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
                                 CamelStore *store,
                                 const gchar *old_uri,
-                                const gchar *new_uri)
+                                const gchar *new_uri,
+                                EMailBackend *backend)
 {
-	mail_filter_rename_uri (store, old_uri, new_uri);
+	EMailSession *session;
+
+	session = e_mail_backend_get_session (backend);
+	mail_filter_rename_uri (session, store, old_uri, new_uri);
 }
 
 static void
@@ -370,31 +394,86 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 }
 
 static gboolean
-mail_backend_idle_cb (EShellBackend *shell_backend)
+mail_backend_idle_cb (EMailBackend *backend)
 {
+	EMailSession *session;
+	EShellBackend *shell_backend;
 	const gchar *data_dir;
 
+	session = e_mail_backend_get_session (backend);
+
+	shell_backend = E_SHELL_BACKEND (backend);
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
-	e_mail_store_init (data_dir);
+
+	e_mail_store_init (session, data_dir);
 
 	return FALSE;
 }
 
 static void
+mail_backend_get_property (GObject *object,
+                           guint property_id,
+                           GValue *value,
+                           GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SESSION:
+			g_value_set_object (
+				value,
+				e_mail_backend_get_session (
+				E_MAIL_BACKEND (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+mail_backend_dispose (GObject *object)
+{
+	EMailBackendPrivate *priv;
+
+	priv = E_MAIL_BACKEND_GET_PRIVATE (object);
+
+	if (priv->session != NULL) {
+		g_object_unref (priv->session);
+		priv->session = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_mail_backend_parent_class)->dispose (object);
+}
+
+static void
 mail_backend_constructed (GObject *object)
 {
+	EMailBackendPrivate *priv;
 	EShell *shell;
 	EShellBackend *shell_backend;
 	MailFolderCache *folder_cache;
+	EMFolderTreeModel *folder_tree_model;
+
+	priv = E_MAIL_BACKEND_GET_PRIVATE (object);
 
 	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);
 
-	/* This also initializes Camel, so it needs to happen early. */
-	mail_session_start ();
+	if (camel_init (e_get_user_data_dir (), TRUE) != 0)
+		exit (0);
 
-	e_binding_new (shell, "online", session, "online");
-	e_account_combo_box_set_session (session);  /* XXX Don't ask... */
+	camel_provider_init ();
+
+	priv->session = e_mail_session_new ();
+
+	e_binding_new (shell, "online", priv->session, "online");
+
+	/* FIXME This is an evil hack that needs to die.
+	 *       Give EAccountComboBox a CamelSession property. */
+	e_account_combo_box_set_session (CAMEL_SESSION (priv->session));
+
+	/* FIXME EMailBackend should own the default EMFolderTreeModel. */
+	folder_tree_model = em_folder_tree_model_get_default ();
+	em_folder_tree_model_set_session (folder_tree_model, priv->session);
 
 	folder_cache = mail_folder_cache_get_default ();
 
@@ -420,17 +499,19 @@ mail_backend_constructed (GObject *object)
 
 	g_signal_connect (
 		folder_cache, "folder-deleted",
-		G_CALLBACK (mail_backend_folder_deleted_cb), NULL);
+		G_CALLBACK (mail_backend_folder_deleted_cb),
+		shell_backend);
 
 	g_signal_connect (
 		folder_cache, "folder-renamed",
-		G_CALLBACK (mail_backend_folder_renamed_cb), NULL);
+		G_CALLBACK (mail_backend_folder_renamed_cb),
+		shell_backend);
 
 	g_signal_connect (
 		folder_cache, "folder-changed",
 		G_CALLBACK (mail_backend_folder_changed_cb), shell);
 
-	mail_config_init ();
+	mail_config_init (CAMEL_SESSION (priv->session));
 	mail_msg_init ();
 
 	/* Defer initializing CamelStores until after the main loop
@@ -439,54 +520,46 @@ mail_backend_constructed (GObject *object)
 }
 
 static void
-mail_backend_class_init (EMailBackendClass *class)
+e_mail_backend_class_init (EMailBackendClass *class)
 {
 	GObjectClass *object_class;
 	EShellBackendClass *shell_backend_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailBackendPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->get_property = mail_backend_get_property;
+	object_class->dispose = mail_backend_dispose;
 	object_class->constructed = mail_backend_constructed;
 
 	shell_backend_class = E_SHELL_BACKEND_CLASS (class);
 	shell_backend_class->migrate = e_mail_migrate;
 	shell_backend_class->get_data_dir = mail_shell_backend_get_data_dir;
 	shell_backend_class->get_config_dir = mail_shell_backend_get_config_dir;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SESSION,
+		g_param_spec_object (
+			"session",
+			NULL,
+			NULL,
+			E_TYPE_MAIL_SESSION,
+			G_PARAM_READABLE));
 }
 
 static void
-mail_backend_init (EMailBackend *backend)
+e_mail_backend_init (EMailBackend *backend)
 {
 	backend->priv = E_MAIL_BACKEND_GET_PRIVATE (backend);
 }
 
-GType
-e_mail_backend_get_type (void)
+EMailSession *
+e_mail_backend_get_session (EMailBackend *backend)
 {
-	static GType type = 0;
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMailBackendClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) mail_backend_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMailBackend),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) mail_backend_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_SHELL_BACKEND, "EMailBackend", &type_info,
-			G_TYPE_FLAG_ABSTRACT);
-	}
-
-	return type;
+	return backend->priv->session;
 }
 
 gboolean

@@ -22,31 +22,51 @@
  *
  */
 
-#ifndef _EM_VFOLDER_CONTEXT_H
-#define _EM_VFOLDER_CONTEXT_H
+#ifndef EM_VFOLDER_CONTEXT_H
+#define EM_VFOLDER_CONTEXT_H
 
-#include "filter/e-rule-context.h"
+#include <mail/e-mail-session.h>
+#include <filter/e-rule-context.h>
 
-#define EM_VFOLDER_CONTEXT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), em_vfolder_context_get_type(), EMVFolderContext))
-#define EM_VFOLDER_CONTEXT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), em_vfolder_context_get_type(), EMVFolderContextClass))
-#define EM_IS_VFOLDER_CONTEXT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), em_vfolder_context_get_type()))
-#define EM_IS_VFOLDER_CONTEXT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), em_vfolder_context_get_type()))
-#define EM_VFOLDER_CONTEXT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), em_vfolder_context_get_type(), EMVFolderContextClass))
+/* Standard GObject macros */
+#define EM_TYPE_VFOLDER_CONTEXT \
+	(em_vfolder_context_get_type ())
+#define EM_VFOLDER_CONTEXT(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_VFOLDER_CONTEXT, EMVFolderContext))
+#define EM_VFOLDER_CONTEXT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_VFOLDER_CONTEXT, EMVFolderContextClass))
+#define EM_IS_VFOLDER_CONTEXT(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_VFOLDER_CONTEXT))
+#define EM_IS_VFOLDER_CONTEXT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_VFOLDER_CONTEXT))
+#define EM_VFOLDER_CONTEXT_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_VFOLDER_CONTEXT, EMVFolderContextClass))
+
+G_BEGIN_DECLS
 
 typedef struct _EMVFolderContext EMVFolderContext;
 typedef struct _EMVFolderContextClass EMVFolderContextClass;
+typedef struct _EMVFolderContextPrivate EMVFolderContextPrivate;
 
 struct _EMVFolderContext {
-	ERuleContext parent_object;
-
+	ERuleContext parent;
+	EMVFolderContextPrivate *priv;
 };
 
 struct _EMVFolderContextClass {
 	ERuleContextClass parent_class;
 };
 
-GType em_vfolder_context_get_type (void);
+GType		em_vfolder_context_get_type	(void);
+EMVFolderContext *
+		em_vfolder_context_new		(EMailSession *session);
+EMailSession *	em_vfolder_context_get_session	(EMVFolderContext *context);
 
-EMVFolderContext *em_vfolder_context_new (void);
+G_END_DECLS
 
-#endif /* _EM_VFOLDER_CONTEXT_H */
+#endif /* EM_VFOLDER_CONTEXT_H */

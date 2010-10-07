@@ -36,7 +36,6 @@
 #include "mail-ops.h"
 #include "mail-tools.h"
 #include "mail-config.h"
-#include "mail-session.h"
 #include "mail-send-recv.h"
 
 #include "e-util/e-account-utils.h"
@@ -46,6 +45,7 @@
 #include "shell/e-shell.h"
 
 #include "e-mail-local.h"
+#include "e-mail-session.h"
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "composer/e-msg-composer.h"
@@ -221,10 +221,13 @@ static void
 composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info,
 			 gint queued, const gchar *appended_uid, gpointer data)
 {
+	CamelSession *session;
 	struct emcs_t *emcs;
 	struct _send_data *send = data;
 
 	emcs = send->emcs;
+
+	session = e_msg_composer_get_session (send->composer);
 
 	if (queued) {
 		if (emcs && emcs->drafts_folder) {
@@ -257,7 +260,7 @@ composer_send_queued_cb (CamelFolder *folder, CamelMimeMessage *msg, CamelMessag
 
 		if (send->send && camel_session_get_online (session)) {
 			/* queue a message send */
-			mail_send ();
+			mail_send (E_MAIL_SESSION (session));
 		}
 	} else
 		gtk_widget_show (GTK_WIDGET (send->composer));
@@ -658,12 +661,15 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer)
 	CamelFolder *folder = NULL;
 	CamelMimeMessage *msg;
 	CamelMessageInfo *info;
+	CamelSession *session;
 	EAccount *account;
 	GError *error = NULL;
 
 	/* need to get stuff from the composer here, since it could
 	 * get destroyed while we're in mail_msg_wait() a little lower
 	 * down, waiting for the folder to open */
+
+	session = e_msg_composer_get_session (composer);
 
 	local_drafts_folder =
 		e_mail_local_get_folder (E_MAIL_FOLDER_DRAFTS);
@@ -704,7 +710,11 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer)
 	    strcmp (account->drafts_folder_uri, local_drafts_folder_uri) != 0) {
 		gint id;
 
-		id = mail_get_folder (account->drafts_folder_uri, 0, save_draft_folder, &folder, mail_msg_unordered_push);
+		id = mail_get_folder (
+			E_MAIL_SESSION (session),
+			account->drafts_folder_uri, 0,
+			save_draft_folder, &folder,
+			mail_msg_unordered_push);
 		mail_msg_wait (id);
 
 		if (!folder || !account->enabled) {
@@ -1619,10 +1629,16 @@ em_utils_redirect_message_by_uid (EShell *shell,
 }
 
 static void
-emu_handle_receipt_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data, GError **error)
+emu_handle_receipt_message (CamelFolder *folder,
+                            const gchar *uid,
+                            CamelMimeMessage *msg,
+                            gpointer data,
+                            GError **error)
 {
+	EMailSession *session = E_MAIL_SESSION (data);
+
 	if (msg)
-		em_utils_handle_receipt (folder, uid, msg);
+		em_utils_handle_receipt (session, folder, uid, msg);
 
 	/* we dont care really if we can't get the message */
 	g_clear_error (error);
@@ -1630,7 +1646,10 @@ emu_handle_receipt_message (CamelFolder *folder, const gchar *uid, CamelMimeMess
 
 /* Message disposition notifications, rfc 2298 */
 void
-em_utils_handle_receipt (CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg)
+em_utils_handle_receipt (EMailSession *session,
+                         CamelFolder *folder,
+                         const gchar *uid,
+                         CamelMimeMessage *msg)
 {
 	EAccount *account;
 	const gchar *addr;
@@ -1646,7 +1665,9 @@ em_utils_handle_receipt (CamelFolder *folder, const gchar *uid, CamelMimeMessage
 	}
 
 	if (msg == NULL) {
-		mail_get_messagex (folder, uid, emu_handle_receipt_message, NULL, mail_msg_unordered_push);
+		mail_get_messagex (
+			folder, uid, emu_handle_receipt_message,
+			session, mail_msg_unordered_push);
 		camel_folder_free_message_info (folder, info);
 		return;
 	}
@@ -1671,19 +1692,27 @@ em_utils_handle_receipt (CamelFolder *folder, const gchar *uid, CamelMimeMessage
 
 	if (account && (account->receipt_policy == E_ACCOUNT_RECEIPT_ALWAYS || account->receipt_policy == E_ACCOUNT_RECEIPT_ASK)
 	    && e_alert_run_dialog_for_args (e_shell_get_active_window (NULL), "mail:ask-receipt", addr, camel_mime_message_get_subject(msg), NULL) == GTK_RESPONSE_YES)
-		em_utils_send_receipt (folder, msg);
+		em_utils_send_receipt (session, folder, msg);
 }
 
 static void
-em_utils_receipt_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info,
-		       gint queued, const gchar *appended_uid, gpointer data)
+em_utils_receipt_done (CamelFolder *folder,
+                       CamelMimeMessage *msg,
+                       CamelMessageInfo *info,
+                       gint queued,
+                       const gchar *appended_uid,
+                       gpointer data)
 {
+	EMailSession *session = E_MAIL_SESSION (data);
+
 	camel_message_info_free (info);
-	mail_send ();
+	mail_send (session);
 }
 
 void
-em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
+em_utils_send_receipt (EMailSession *session,
+                       CamelFolder *folder,
+                       CamelMimeMessage *message)
 {
 	/* See RFC #3798 for a description of message receipts */
 	EAccount *account = em_utils_guess_account_with_recipients (message, folder);
@@ -1815,7 +1844,8 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 	out_folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
 	camel_message_info_set_flags (
 		info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-	mail_append_mail (out_folder, receipt, info, em_utils_receipt_done, NULL);
+	mail_append_mail (
+		out_folder, receipt, info, em_utils_receipt_done, session);
 }
 
 /* Replying to messages... */
@@ -2584,11 +2614,14 @@ post_header_clicked_cb (EComposerPostHeader *header,
                         EMsgComposer *composer)
 {
 	GtkTreeSelection *selection;
+	CamelSession *session;
 	GtkWidget *folder_tree;
 	GtkWidget *dialog;
 	GList *list;
 
-	folder_tree = em_folder_tree_new ();
+	session = e_msg_composer_get_session (composer);
+
+	folder_tree = em_folder_tree_new (E_MAIL_SESSION (session));
 	emu_restore_folder_tree_state (EM_FOLDER_TREE (folder_tree));
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));

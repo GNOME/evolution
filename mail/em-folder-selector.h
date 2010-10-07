@@ -68,7 +68,6 @@ struct _EMFolderSelector {
 
 struct _EMFolderSelectorClass {
 	GtkDialogClass parent_class;
-
 };
 
 enum {

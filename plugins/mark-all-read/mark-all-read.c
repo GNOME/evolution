@@ -421,15 +421,19 @@ action_mail_mark_read_recursive_cb (GtkAction *action,
 {
 	EShellSidebar *shell_sidebar;
 	EMFolderTree *folder_tree;
+	EMailSession *session;
 	gchar *folder_uri;
 
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
+
+	session = em_folder_tree_get_session (folder_tree);
+
 	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
 	g_return_if_fail (folder_uri != NULL);
 
 	mail_get_folder (
-		folder_uri, 0, mar_got_folder,
+		session, folder_uri, 0, mar_got_folder,
 		NULL, mail_msg_unordered_push);
 
 	g_object_unref (folder_tree);

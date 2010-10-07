@@ -65,6 +65,7 @@
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserverui/e-source-selector-dialog.h>
 
+#include <mail/e-mail-backend.h>
 #include <mail/e-mail-local.h>
 #include <mail/mail-mt.h>
 #include <mail/mail-tools.h>
@@ -542,6 +543,9 @@ dbx_read_email (DbxImporter *m, guint32 offset, gint bodyfd, gint *flags)
 static void
 dbx_import_file (DbxImporter *m)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailSession *session;
 	gchar *filename;
 	CamelFolder *folder;
 	gint tmpfile;
@@ -551,9 +555,16 @@ dbx_import_file (DbxImporter *m)
 	filename = g_filename_from_uri (((EImportTargetURI *)m->target)->uri_src, NULL, NULL);
 	m->parent_uri = g_strdup (((EImportTargetURI *)m->target)->uri_dest); /* Destination folder, was set in our widget */
 
+	/* XXX Dig up the EMailSession from the default EShell.
+	 *     Since the EImport framework doesn't allow for user
+	 *     data, I don't see how else to get to it. */
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+
 	camel_operation_push_message (NULL, _("Importing '%s'"), filename);
-	folder = mail_tool_uri_to_folder (
-		m->parent_uri, CAMEL_STORE_FOLDER_CREATE,
+	folder = e_mail_session_uri_to_folder_sync (
+		session, m->parent_uri, CAMEL_STORE_FOLDER_CREATE,
 		m->base.cancellable, &m->base.error);
 	if (!folder)
 		return;

@@ -38,6 +38,7 @@
 
 #include "e-mail-browser.h"
 #include "e-mail-reader.h"
+#include "e-mail-session.h"
 #include "e-mail-store.h"
 #include "em-account-editor.h"
 #include "em-account-prefs.h"
@@ -52,7 +53,6 @@
 #include "mail-config.h"
 #include "mail-ops.h"
 #include "mail-send-recv.h"
-#include "mail-session.h"
 #include "mail-vfolder.h"
 #include "importers/mail-importer.h"
 
@@ -237,12 +237,14 @@ mail_shell_backend_handle_email_uri_cb (gchar *folder_uri,
                                         gpointer user_data)
 {
 	EShellBackend *shell_backend = user_data;
+	EMailBackend *backend;
 	CamelURL *url = user_data;
 	EShell *shell;
 	const gchar *forward;
 	const gchar *reply;
 	const gchar *uid;
 
+	backend = E_MAIL_BACKEND (shell_backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	if (folder == NULL) {
@@ -290,7 +292,7 @@ mail_shell_backend_handle_email_uri_cb (gchar *folder_uri,
 		GtkWidget *browser;
 
 		/* FIXME Should pass in the shell module. */
-		browser = e_mail_browser_new (shell_backend);
+		browser = e_mail_browser_new (backend);
 		e_mail_reader_set_folder (
 			E_MAIL_READER (browser), folder, folder_uri);
 		e_mail_reader_set_message (E_MAIL_READER (browser), uid);
@@ -306,7 +308,12 @@ mail_shell_backend_handle_uri_cb (EShell *shell,
                                   const gchar *uri,
                                   EMailShellBackend *mail_shell_backend)
 {
+	EMailBackend *backend;
+	EMailSession *session;
 	gboolean handled = TRUE;
+
+	backend = E_MAIL_BACKEND (mail_shell_backend);
+	session = e_mail_backend_get_session (backend);
 
 	if (g_str_has_prefix (uri, "mailto:")) {
 		if (em_utils_check_user_can_send_mail ())
@@ -321,7 +328,7 @@ mail_shell_backend_handle_uri_cb (EShell *shell,
 			gchar *curi = em_uri_to_camel (uri);
 
 			mail_get_folder (
-				curi, 0,
+				session, curi, 0,
 				mail_shell_backend_handle_email_uri_cb,
 				mail_shell_backend, mail_msg_unordered_push);
 			g_free (curi);
@@ -357,8 +364,14 @@ mail_shell_backend_send_receive_cb (EShell *shell,
                                     GtkWindow *parent,
                                     EShellBackend *shell_backend)
 {
+	EMailBackend *backend;
+	EMailSession *session;
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+
 	em_utils_clear_get_password_canceled_accounts_flag ();
-	mail_send_receive (parent);
+	mail_send_receive (parent, session);
 }
 
 static void
@@ -469,7 +482,7 @@ mail_shell_backend_constructed (GObject *object)
 		G_CALLBACK (mail_shell_backend_window_created_cb),
 		shell_backend);
 
-	e_mail_shell_settings_init (shell);
+	e_mail_shell_settings_init (shell_backend);
 
 	/* Setup preference widget factories */
 	preferences_window = e_shell_get_preferences_window (shell);
@@ -513,6 +526,8 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 	EMailShellBackendPrivate *priv;
 	EShell *shell;
 	EShellSettings *shell_settings;
+	EMailBackend *backend;
+	EMailSession *session;
 	gboolean enable_search_folders;
 
 	priv = E_MAIL_SHELL_BACKEND_GET_PRIVATE (shell_backend);
@@ -520,12 +535,15 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+
 	enable_search_folders = e_shell_settings_get_boolean (
 		shell_settings, "mail-enable-search-folders");
 	if (enable_search_folders)
-		vfolder_load_storage ();
+		vfolder_load_storage (session);
 
-	mail_autoreceive_init (shell_backend, session);
+	mail_autoreceive_init (backend);
 
 	if (g_getenv ("CAMEL_FLUSH_CHANGES") != NULL)
 		priv->mail_sync_source_id = g_timeout_add_seconds (

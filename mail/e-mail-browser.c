@@ -48,9 +48,9 @@
 #define MAIL_BROWSER_GCONF_PREFIX "/apps/evolution/mail/mail_browser"
 
 struct _EMailBrowserPrivate {
+	EMailBackend *backend;
 	GtkUIManager *ui_manager;
 	EFocusTracker *focus_tracker;
-	EShellBackend *shell_backend;
 	GtkActionGroup *action_group;
 	EMFormatHTMLDisplay *formatter;
 
@@ -65,9 +65,9 @@ struct _EMailBrowserPrivate {
 
 enum {
 	PROP_0,
+	PROP_BACKEND,
 	PROP_FOCUS_TRACKER,
 	PROP_GROUP_BY_THREADS,
-	PROP_SHELL_BACKEND,
 	PROP_SHOW_DELETED,
 	PROP_UI_MANAGER
 };
@@ -339,12 +339,13 @@ mail_browser_status_message_cb (EMailBrowser *browser,
 }
 
 static void
-mail_browser_set_shell_backend (EMailBrowser *browser,
-                                EShellBackend *shell_backend)
+mail_browser_set_backend (EMailBrowser *browser,
+                          EMailBackend *backend)
 {
-	g_return_if_fail (browser->priv->shell_backend == NULL);
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (browser->priv->backend == NULL);
 
-	browser->priv->shell_backend = g_object_ref (shell_backend);
+	browser->priv->backend = g_object_ref (backend);
 }
 
 static void
@@ -354,16 +355,16 @@ mail_browser_set_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_BACKEND:
+			mail_browser_set_backend (
+				E_MAIL_BROWSER (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_GROUP_BY_THREADS:
 			e_mail_reader_set_group_by_threads (
 				E_MAIL_READER (object),
 				g_value_get_boolean (value));
-			return;
-
-		case PROP_SHELL_BACKEND:
-			mail_browser_set_shell_backend (
-				E_MAIL_BROWSER (object),
-				g_value_get_object (value));
 			return;
 
 		case PROP_SHOW_DELETED:
@@ -383,6 +384,12 @@ mail_browser_get_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_BACKEND:
+			g_value_set_object (
+				value, e_mail_reader_get_backend (
+				E_MAIL_READER (object)));
+			return;
+
 		case PROP_FOCUS_TRACKER:
 			g_value_set_object (
 				value, e_mail_browser_get_focus_tracker (
@@ -392,12 +399,6 @@ mail_browser_get_property (GObject *object,
 		case PROP_GROUP_BY_THREADS:
 			g_value_set_boolean (
 				value, e_mail_reader_get_group_by_threads (
-				E_MAIL_READER (object)));
-			return;
-
-		case PROP_SHELL_BACKEND:
-			g_value_set_object (
-				value, e_mail_reader_get_shell_backend (
 				E_MAIL_READER (object)));
 			return;
 
@@ -424,6 +425,11 @@ mail_browser_dispose (GObject *object)
 
 	priv = E_MAIL_BROWSER_GET_PRIVATE (object);
 
+	if (priv->backend != NULL) {
+		g_object_unref (priv->backend);
+		priv->backend = NULL;
+	}
+
 	if (priv->ui_manager != NULL) {
 		g_object_unref (priv->ui_manager);
 		priv->ui_manager = NULL;
@@ -432,11 +438,6 @@ mail_browser_dispose (GObject *object)
 	if (priv->focus_tracker != NULL) {
 		g_object_unref (priv->focus_tracker);
 		priv->focus_tracker = NULL;
-	}
-
-	if (priv->shell_backend != NULL) {
-		g_object_unref (priv->shell_backend);
-		priv->shell_backend = NULL;
 	}
 
 	if (priv->action_group != NULL) {
@@ -485,6 +486,7 @@ mail_browser_constructed (GObject *object)
 	EMailBrowserPrivate *priv;
 	EMFormatHTML *formatter;
 	EMailReader *reader;
+	EMailBackend *backend;
 	EShellBackend *shell_backend;
 	EShell *shell;
 	EFocusTracker *focus_tracker;
@@ -509,8 +511,9 @@ mail_browser_constructed (GObject *object)
 	priv = E_MAIL_BROWSER_GET_PRIVATE (object);
 
 	reader = E_MAIL_READER (object);
+	backend = e_mail_reader_get_backend (reader);
 
-	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	ui_manager = e_ui_manager_new ();
@@ -527,7 +530,7 @@ mail_browser_constructed (GObject *object)
 	/* The message list is a widget, but it is not shown in the browser.
 	 * Unfortunately, the widget is inseparable from its model, and the
 	 * model is all we need. */
-	priv->message_list = message_list_new (shell_backend);
+	priv->message_list = message_list_new (backend);
 	g_object_ref_sink (priv->message_list);
 
 	g_signal_connect_swapped (
@@ -662,6 +665,16 @@ mail_browser_get_action_group (EMailReader *reader)
 	return priv->action_group;
 }
 
+static EMailBackend *
+mail_browser_get_backend (EMailReader *reader)
+{
+	EMailBrowserPrivate *priv;
+
+	priv = E_MAIL_BROWSER_GET_PRIVATE (reader);
+
+	return priv->backend;
+}
+
 static gboolean
 mail_browser_get_hide_deleted (EMailReader *reader)
 {
@@ -704,16 +717,6 @@ mail_browser_get_popup_menu (EMailReader *reader)
 	widget = gtk_ui_manager_get_widget (ui_manager, "/mail-preview-popup");
 
 	return GTK_MENU (widget);
-}
-
-static EShellBackend *
-mail_browser_get_shell_backend (EMailReader *reader)
-{
-	EMailBrowserPrivate *priv;
-
-	priv = E_MAIL_BROWSER_GET_PRIVATE (reader);
-
-	return priv->shell_backend;
 }
 
 static GtkWindow *
@@ -780,6 +783,17 @@ mail_browser_class_init (EMailBrowserClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_BACKEND,
+		g_param_spec_object (
+			"backend",
+			"Mail Backend",
+			"The mail backend",
+			E_TYPE_MAIL_BACKEND,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_FOCUS_TRACKER,
 		g_param_spec_object (
 			"focus-tracker",
@@ -796,17 +810,6 @@ mail_browser_class_init (EMailBrowserClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_SHELL_BACKEND,
-		g_param_spec_object (
-			"shell-backend",
-			"Shell Module",
-			"The mail shell backend",
-			E_TYPE_SHELL_BACKEND,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_SHOW_DELETED,
 		g_param_spec_boolean (
 			"show-deleted",
@@ -820,11 +823,11 @@ static void
 mail_browser_interface_init (EMailReaderInterface *interface)
 {
 	interface->get_action_group = mail_browser_get_action_group;
+	interface->get_backend = mail_browser_get_backend;
 	interface->get_formatter = mail_browser_get_formatter;
 	interface->get_hide_deleted = mail_browser_get_hide_deleted;
 	interface->get_message_list = mail_browser_get_message_list;
 	interface->get_popup_menu = mail_browser_get_popup_menu;
-	interface->get_shell_backend = mail_browser_get_shell_backend;
 	interface->get_window = mail_browser_get_window;
 	interface->set_message = mail_browser_set_message;
 	interface->show_search_bar = mail_browser_show_search_bar;
@@ -884,13 +887,13 @@ e_mail_browser_get_type (void)
 }
 
 GtkWidget *
-e_mail_browser_new (EShellBackend *shell_backend)
+e_mail_browser_new (EMailBackend *backend)
 {
-	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), NULL);
+	g_return_val_if_fail (E_IS_MAIL_BACKEND (backend), NULL);
 
 	return g_object_new (
 		E_TYPE_MAIL_BROWSER,
-		"shell-backend", shell_backend, NULL);
+		"backend", backend, NULL);
 }
 
 void

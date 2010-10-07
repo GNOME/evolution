@@ -29,6 +29,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <e-util/e-config.h>
+#include <mail/e-mail-backend.h>
 #include <mail/em-config.h>
 #include <mail/em-folder-properties.h>
 #include <mail/em-folder-tree.h>
@@ -243,6 +244,7 @@ users_dialog_response (GtkWidget *dialog, gint response, struct ShareInfo *ssi)
 	struct _EMFolderTreeModelStoreInfo *si;
 	EMFolderSelector *emfs = ssi->emfs;
 	const gchar *uri, *path;
+	EMailSession *session;
 	CamelStore *store;
 
 	if (response != GTK_RESPONSE_OK) {
@@ -253,11 +255,12 @@ users_dialog_response (GtkWidget *dialog, gint response, struct ShareInfo *ssi)
 
 	uri = em_folder_selector_get_selected_uri (emfs);
 	path = em_folder_selector_get_selected_path (emfs);
+	session = em_folder_tree_get_session (emfs->emft);
 
 	d(printf ("Creating new folder: %s (%s)\n", path, uri));
 
 	store = (CamelStore *) camel_session_get_service (
-		session, uri, CAMEL_PROVIDER_STORE, NULL);
+		CAMEL_SESSION (session), uri, CAMEL_PROVIDER_STORE, NULL);
 	if (store == NULL)
 		return;
 
@@ -268,14 +271,14 @@ users_dialog_response (GtkWidget *dialog, gint response, struct ShareInfo *ssi)
 	}
 
 	if (CAMEL_IS_VEE_STORE (store)) {
-		EMVFolderRule *rule;
+		EFilterRule *rule;
 
 		/* ensures vfolder is running */
-		vfolder_load_storage ();
+		vfolder_load_storage (session);
 
-		rule = em_vfolder_rule_new ();
-		e_filter_rule_set_name ((EFilterRule *)rule, path);
-		vfolder_gui_add_rule (rule);
+		rule = em_vfolder_rule_new (session);
+		e_filter_rule_set_name (rule, path);
+		vfolder_gui_add_rule (EM_VFOLDER_RULE (rule));
 		gtk_widget_destroy ((GtkWidget *)emfs);
 	} else {
 		g_object_ref (emfs);
@@ -336,12 +339,17 @@ void
 gw_new_shared_folder_cb (GtkAction *action, EShellView *shell_view)
 {
 	EMFolderTree *folder_tree;
+	EShellBackend *shell_backend;
+	EMailSession *session;
 	GtkWidget *dialog;
 	gchar *uri;
 	gpointer parent;
 
 	parent = e_shell_view_get_shell_window (shell_view);
-	folder_tree = (EMFolderTree *) em_folder_tree_new ();
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+
+	folder_tree = (EMFolderTree *) em_folder_tree_new (session);
 	emu_restore_folder_tree_state (folder_tree);
 
 	dialog = em_folder_selector_create_new (parent, folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));

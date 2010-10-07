@@ -28,7 +28,7 @@
 
 #include "mail/em-junk.h"
 #include "mail/em-utils.h"
-#include "mail/mail-session.h"
+#include "mail/e-mail-session.h"
 
 #define E_MAIL_JUNK_HOOK_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -209,6 +209,10 @@ mail_junk_hook_construct (EPluginHook *hook,
                           xmlNodePtr node)
 {
 	EMailJunkHookPrivate *priv;
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailBackend *backend;
+	EMailSession *session;
 	gchar *property;
 
 	priv = E_MAIL_JUNK_HOOK_GET_PRIVATE (hook);
@@ -258,8 +262,15 @@ mail_junk_hook_construct (EPluginHook *hook,
 	if (priv->interface.commit_reports == NULL)
 		return -1;
 
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+
 	mail_session_add_junk_plugin (
-		priv->interface.plugin_name, &priv->interface.camel);
+		session, priv->interface.plugin_name,
+		&priv->interface.camel);
 
 	return 0;
 }

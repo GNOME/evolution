@@ -38,9 +38,9 @@
 #include <gconf/gconf-client.h>
 
 #include "e-mail-local.h"
+#include "e-mail-session.h"
 #include "mail-config.h"
 #include "mail-folder-cache.h"
-#include "mail-session.h"
 #include "mail-tools.h"
 
 typedef struct {
@@ -147,8 +147,10 @@ gconf_outlook_filenames_changed (GConfClient *client, guint cnxn_id,
 }
 
 static void
-gconf_jh_headers_changed (GConfClient *client, guint cnxn_id,
-                          GConfEntry *entry, gpointer user_data)
+gconf_jh_headers_changed (GConfClient *client,
+                          guint cnxn_id,
+                          GConfEntry *entry,
+                          CamelSession *session)
 {
 	GSList *node;
 	GPtrArray *name, *value;
@@ -168,7 +170,9 @@ gconf_jh_headers_changed (GConfClient *client, guint cnxn_id,
 		node = node->next;
 		g_strfreev (tok);
 	}
-	mail_session_set_junk_headers ((const gchar **)name->pdata, (const gchar **)value->pdata, name->len);
+	camel_session_set_junk_headers (
+		session, (const gchar **) name->pdata,
+		(const gchar **) value->pdata, name->len);
 
 	g_ptr_array_foreach (name, (GFunc) g_free, NULL);
 	g_ptr_array_foreach (value, (GFunc) g_free, NULL);
@@ -177,14 +181,17 @@ gconf_jh_headers_changed (GConfClient *client, guint cnxn_id,
 }
 
 static void
-gconf_jh_check_changed (GConfClient *client, guint cnxn_id,
-		     GConfEntry *entry, gpointer user_data)
+gconf_jh_check_changed (GConfClient *client,
+                        guint cnxn_id,
+                        GConfEntry *entry,
+                        CamelSession *session)
 {
-	config->jh_check = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/junk/check_custom_header", NULL);
+	config->jh_check = gconf_client_get_bool (
+		config->gconf, "/apps/evolution/mail/junk/check_custom_header", NULL);
 	if (!config->jh_check) {
-		mail_session_set_junk_headers (NULL, NULL, 0);
+		camel_session_set_junk_headers (session, NULL, NULL, 0);
 	} else {
-		gconf_jh_headers_changed (NULL, 0, NULL, NULL);
+		gconf_jh_headers_changed (NULL, 0, NULL, session);
 	}
 }
 
@@ -240,8 +247,7 @@ mail_config_write (void)
 GConfClient *
 mail_config_get_gconf_client (void)
 {
-	if (!config)
-		mail_config_init ();
+	g_return_val_if_fail (config != NULL, NULL);
 
 	return config->gconf;
 }
@@ -543,22 +549,22 @@ mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix)
 }
 
 void
-mail_config_reload_junk_headers (void)
+mail_config_reload_junk_headers (CamelSession *session)
 {
+	g_return_if_fail (CAMEL_IS_SESSION (session));
+
 	/* It automatically sets in the session */
 	if (config == NULL)
-		mail_config_init ();
+		mail_config_init (session);
 	else
-		gconf_jh_check_changed (config->gconf, 0, NULL, config);
+		gconf_jh_check_changed (config->gconf, 0, NULL, session);
 
 }
 
 gboolean
 mail_config_get_lookup_book (void)
 {
-	/* It automatically sets in the session */
-	if (config == NULL)
-		mail_config_init ();
+	g_return_val_if_fail (config != NULL, FALSE);
 
 	return config->book_lookup;
 }
@@ -566,9 +572,7 @@ mail_config_get_lookup_book (void)
 gboolean
 mail_config_get_lookup_book_local_only (void)
 {
-	/* It automatically sets in the session */
-	if (config == NULL)
-		mail_config_init ();
+	g_return_val_if_fail (config != NULL, FALSE);
 
 	return config->book_lookup_local_only;
 }
@@ -588,10 +592,12 @@ folder_renamed_cb (MailFolderCache *cache, CamelStore *store, const gchar *oldur
 
 /* Config struct routines */
 void
-mail_config_init (void)
+mail_config_init (CamelSession *session)
 {
 	GConfClientNotifyFunc func;
 	const gchar *key;
+
+	g_return_if_fail (CAMEL_IS_SESSION (session));
 
 	if (config)
 		return;
@@ -677,14 +683,14 @@ mail_config_init (void)
 	key = "/apps/evolution/mail/junk/check_custom_header";
 	func = (GConfClientNotifyFunc) gconf_jh_check_changed;
 	gconf_client_notify_add (
-		config->gconf, key, func, NULL, NULL, NULL);
+		config->gconf, key, func, session, NULL, NULL);
 	config->jh_check =
 		gconf_client_get_bool (config->gconf, key, NULL);
 
 	key = "/apps/evolution/mail/junk/custom_header";
 	func = (GConfClientNotifyFunc) gconf_jh_headers_changed;
 	gconf_client_notify_add (
-		config->gconf, key, func, NULL, NULL, NULL);
+		config->gconf, key, func, session, NULL, NULL);
 
 	key = "/apps/evolution/mail/junk/lookup_addressbook";
 	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
@@ -710,7 +716,7 @@ mail_config_init (void)
 	config->scripts_disabled =
 		gconf_client_get_bool (config->gconf, key, NULL);
 
-	gconf_jh_check_changed (config->gconf, 0, NULL, config);
+	gconf_jh_check_changed (config->gconf, 0, NULL, session);
 
 	g_signal_connect (mail_folder_cache_get_default (), "folder-deleted",
 			  (GCallback) folder_deleted_cb, NULL);

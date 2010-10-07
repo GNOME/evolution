@@ -24,15 +24,16 @@
 #include <glib/gi18n.h>
 
 #include "e-util/e-alert-dialog.h"
+#include "mail/e-mail-backend.h"
 #include "mail/em-composer-utils.h"
-#include "mail/mail-tools.h"
 
 #define E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_ATTACHMENT_HANDLER, EMailAttachmentHandlerPrivate))
 
 struct _EMailAttachmentHandlerPrivate {
-	gint placeholder;
+	EShell *shell;
+	EMailSession *session;
 };
 
 static gpointer parent_class;
@@ -57,16 +58,17 @@ static GtkTargetEntry target_table[] = {
 
 static void
 mail_attachment_handler_forward (GtkAction *action,
-                                 EAttachmentView *view)
+                                 EAttachmentHandler *handler)
 {
-	EShell *shell;
+	EMailAttachmentHandlerPrivate *priv;
 	EAttachment *attachment;
+	EAttachmentView *view;
 	CamelMimePart *mime_part;
 	CamelDataWrapper *wrapper;
 	GList *selected;
 
-	/* FIXME Pass this in somehow. */
-	shell = e_shell_get_default ();
+	view = e_attachment_handler_get_view (handler);
+	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
 
 	selected = e_attachment_view_get_selected_attachments (view);
 	g_return_if_fail (g_list_length (selected) == 1);
@@ -75,7 +77,8 @@ mail_attachment_handler_forward (GtkAction *action,
 	mime_part = e_attachment_get_mime_part (attachment);
 	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
-	em_utils_forward_message (shell, CAMEL_MIME_MESSAGE (wrapper), NULL);
+	em_utils_forward_message (
+		priv->shell, CAMEL_MIME_MESSAGE (wrapper), NULL);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 	g_list_free (selected);
@@ -83,16 +86,17 @@ mail_attachment_handler_forward (GtkAction *action,
 
 static void
 mail_attachment_handler_reply_all (GtkAction *action,
-                                   EAttachmentView *view)
+                                   EAttachmentHandler *handler)
 {
-	EShell *shell;
+	EMailAttachmentHandlerPrivate *priv;
 	EAttachment *attachment;
+	EAttachmentView *view;
 	CamelMimePart *mime_part;
 	CamelDataWrapper *wrapper;
 	GList *selected;
 
-	/* FIXME Pass this in somehow. */
-	shell = e_shell_get_default ();
+	view = e_attachment_handler_get_view (handler);
+	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
 
 	selected = e_attachment_view_get_selected_attachments (view);
 	g_return_if_fail (g_list_length (selected) == 1);
@@ -102,7 +106,7 @@ mail_attachment_handler_reply_all (GtkAction *action,
 	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
 	em_utils_reply_to_message (
-		shell, NULL, NULL, CAMEL_MIME_MESSAGE (wrapper),
+		priv->shell, NULL, NULL, CAMEL_MIME_MESSAGE (wrapper),
 		REPLY_MODE_ALL, NULL);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
@@ -111,16 +115,17 @@ mail_attachment_handler_reply_all (GtkAction *action,
 
 static void
 mail_attachment_handler_reply_sender (GtkAction *action,
-                                      EAttachmentView *view)
+                                      EAttachmentHandler *handler)
 {
-	EShell *shell;
+	EMailAttachmentHandlerPrivate *priv;
 	EAttachment *attachment;
+	EAttachmentView *view;
 	CamelMimePart *mime_part;
 	CamelDataWrapper *wrapper;
 	GList *selected;
 
-	/* FIXME Pass this in somehow. */
-	shell = e_shell_get_default ();
+	view = e_attachment_handler_get_view (handler);
+	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
 
 	selected = e_attachment_view_get_selected_attachments (view);
 	g_return_if_fail (g_list_length (selected) == 1);
@@ -130,7 +135,7 @@ mail_attachment_handler_reply_sender (GtkAction *action,
 	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
 	em_utils_reply_to_message (
-		shell, NULL, NULL, CAMEL_MIME_MESSAGE (wrapper),
+		priv->shell, NULL, NULL, CAMEL_MIME_MESSAGE (wrapper),
 		REPLY_MODE_SENDER, NULL);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
@@ -168,7 +173,8 @@ mail_attachment_handler_message_rfc822 (EAttachmentView *view,
                                         gint y,
                                         GtkSelectionData *selection_data,
                                         guint info,
-                                        guint time)
+                                        guint time,
+                                        EAttachmentHandler *handler)
 {
 	static GdkAtom atom = GDK_NONE;
 	EAttachmentStore *store;
@@ -231,9 +237,11 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
                                     gint y,
                                     GtkSelectionData *selection_data,
                                     guint info,
-                                    guint time)
+                                    guint time,
+                                    EAttachmentHandler *handler)
 {
 	static GdkAtom atom = GDK_NONE;
+	EMailAttachmentHandlerPrivate *priv;
 	CamelDataWrapper *wrapper;
 	CamelMimeMessage *message;
 	CamelMultipart *multipart;
@@ -257,6 +265,7 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 		return;
 
 	store = e_attachment_view_get_store (view);
+	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
@@ -290,7 +299,8 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 
 	/* The first string is the folder URI. */
 	/* FIXME Not passing a GCancellable here. */
-	folder = mail_tool_uri_to_folder (data, 0, NULL, &local_error);
+	folder = e_mail_session_uri_to_folder_sync (
+		priv->session, data, 0, NULL, &local_error);
 	if (folder == NULL)
 		goto exit;
 
@@ -384,7 +394,8 @@ exit:
 }
 
 static void
-mail_attachment_handler_update_actions (EAttachmentView *view)
+mail_attachment_handler_update_actions (EAttachmentView *view,
+                                        EAttachmentHandler *handler)
 {
 	EAttachment *attachment;
 	CamelMimePart *mime_part;
@@ -417,25 +428,58 @@ exit:
 }
 
 static void
+mail_attachment_handler_dispose (GObject *object)
+{
+	EMailAttachmentHandlerPrivate *priv;
+
+	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (object);
+
+	if (priv->shell != NULL) {
+		g_object_unref (priv->shell);
+		priv->shell = NULL;
+	}
+
+	if (priv->session != NULL) {
+		g_object_unref (priv->session);
+		priv->session = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
 mail_attachment_handler_constructed (GObject *object)
 {
+	EMailAttachmentHandlerPrivate *priv;
+	EShell *shell;
+	EShellBackend *shell_backend;
 	EAttachmentHandler *handler;
 	EAttachmentView *view;
+	EMailSession *session;
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
 	GError *error = NULL;
 
 	handler = E_ATTACHMENT_HANDLER (object);
+	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
+
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+
+	priv->shell = g_object_ref (shell);
+	priv->session = g_object_ref (session);
 
 	view = e_attachment_handler_get_view (handler);
 
 	action_group = e_attachment_view_add_action_group (view, "mail");
 	gtk_action_group_add_actions (
 		action_group, standard_entries,
-		G_N_ELEMENTS (standard_entries), view);
+		G_N_ELEMENTS (standard_entries), handler);
 
 	ui_manager = e_attachment_view_get_ui_manager (view);
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
@@ -448,17 +492,17 @@ mail_attachment_handler_constructed (GObject *object)
 	g_signal_connect (
 		view, "update-actions",
 		G_CALLBACK (mail_attachment_handler_update_actions),
-		NULL);
+		handler);
 
 	g_signal_connect (
 		view, "drag-data-received",
 		G_CALLBACK (mail_attachment_handler_message_rfc822),
-		NULL);
+		handler);
 
 	g_signal_connect (
 		view, "drag-data-received",
 		G_CALLBACK (mail_attachment_handler_x_uid_list),
-		NULL);
+		handler);
 }
 
 static GdkDragAction
@@ -487,6 +531,7 @@ mail_attachment_handler_class_init (EMailAttachmentHandlerClass *class)
 	g_type_class_add_private (class, sizeof (EMailAttachmentHandlerPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = mail_attachment_handler_dispose;
 	object_class->constructed = mail_attachment_handler_constructed;
 
 	handler_class = E_ATTACHMENT_HANDLER_CLASS (class);

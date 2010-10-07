@@ -144,10 +144,10 @@ em_filter_source_element_finalize (GObject *obj)
 	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
-EMFilterSourceElement *
+EFilterElement *
 em_filter_source_element_new (void)
 {
-	return (EMFilterSourceElement *)g_object_new (em_filter_source_element_get_type (), NULL, NULL);
+	return g_object_new (em_filter_source_element_get_type (), NULL, NULL);
 }
 
 static gint
@@ -215,9 +215,10 @@ static EFilterElement *
 filter_clone (EFilterElement *fe)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *)fe;
-	EMFilterSourceElement *cpy = em_filter_source_element_new ();
+	EMFilterSourceElement *cpy;
 	GList *i;
 
+	cpy = (EMFilterSourceElement *) em_filter_source_element_new ();
 	((EFilterElement *)cpy)->name = (gchar *)xmlStrdup ((guchar *)fe->name);
 
 	cpy->priv->current_url = g_strdup (fs->priv->current_url);

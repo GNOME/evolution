@@ -27,6 +27,8 @@
 #include <camel/camel.h>
 #include <libedataserver/e-account-list.h>
 
+#include <mail/e-mail-session.h>
+
 /* Standard GObject macros */
 #define EM_TYPE_FOLDER_TREE_MODEL \
 	(em_folder_tree_model_get_type ())
@@ -124,6 +126,11 @@ GtkTreeSelection *
 void		em_folder_tree_model_set_selection
 					(EMFolderTreeModel *model,
 					 GtkTreeSelection *selection);
+EMailSession *	em_folder_tree_model_get_session
+					(EMFolderTreeModel *model);
+void		em_folder_tree_model_set_session
+					(EMFolderTreeModel *model,
+					 EMailSession *session);
 void		em_folder_tree_model_set_folder_info
 					(EMFolderTreeModel *model,
 					 GtkTreeIter *iter,

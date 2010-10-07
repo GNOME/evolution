@@ -22,38 +22,59 @@
  *
  */
 
-#ifndef _EM_FILTER_CONTEXT_H
-#define _EM_FILTER_CONTEXT_H
+#ifndef EM_FILTER_CONTEXT_H
+#define EM_FILTER_CONTEXT_H
 
-#include "filter/e-rule-context.h"
+#include <mail/e-mail-session.h>
+#include <filter/e-rule-context.h>
 
-#define EM_TYPE_FILTER_CONTEXT            (em_filter_context_get_type ())
-#define EM_FILTER_CONTEXT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), FILTER_TYPE_CONTEXT, EMFilterContext))
-#define EM_FILTER_CONTEXT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), FILTER_TYPE_CONTEXT, EMFilterContextClass))
-#define EM_IS_FILTER_CONTEXT(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), FILTER_TYPE_CONTEXT))
-#define EM_IS_FILTER_CONTEXT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), FILTER_TYPE_CONTEXT))
-#define EM_FILTER_CONTEXT_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), FILTER_TYPE_CONTEXT, EMFilterContextClass))
+/* Standard GObject macros */
+#define EM_TYPE_FILTER_CONTEXT \
+	(em_filter_context_get_type ())
+#define EM_FILTER_CONTEXT(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_FILTER_CONTEXT, EMFilterContext))
+#define EM_FILTER_CONTEXT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_FILTER_CONTEXT, EMFilterContextClass))
+#define EM_IS_FILTER_CONTEXT(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_FILTER_CONTEXT))
+#define EM_IS_FILTER_CONTEXT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_FILTER_CONTEXT))
+#define EM_FILTER_CONTEXT_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_FILTER_CONTEXT, EMFilterContextClass))
+
+G_BEGIN_DECLS
 
 typedef struct _EMFilterContext EMFilterContext;
 typedef struct _EMFilterContextClass EMFilterContextClass;
+typedef struct _EMFilterContextPrivate EMFilterContextPrivate;
 
 struct _EMFilterContext {
-	ERuleContext parent_object;
-
-	GList *actions;
+	ERuleContext parent;
+	EMFilterContextPrivate *priv;
 };
 
 struct _EMFilterContextClass {
 	ERuleContextClass parent_class;
 };
 
-GType em_filter_context_get_type (void);
-EMFilterContext *em_filter_context_new (void);
+GType		em_filter_context_get_type	(void);
+EMFilterContext *
+		em_filter_context_new		(EMailSession *session);
+EMailSession *	em_filter_context_get_session	(EMFilterContext *context);
+void		em_filter_context_add_action	(EMFilterContext *context,
+						 EFilterPart *action);
+EFilterPart *	em_filter_context_find_action	(EMFilterContext *context,
+						 const gchar *name);
+EFilterPart *	em_filter_context_create_action	(EMFilterContext *context,
+						 const gchar *name);
+EFilterPart *	em_filter_context_next_action	(EMFilterContext *context,
+						 EFilterPart *last);
 
-/* methods */
-void em_filter_context_add_action (EMFilterContext *fc, EFilterPart *action);
-EFilterPart *em_filter_context_find_action (EMFilterContext *fc, const gchar *name);
-EFilterPart *em_filter_context_create_action (EMFilterContext *fc, const gchar *name);
-EFilterPart *em_filter_context_next_action (EMFilterContext *fc, EFilterPart *last);
+G_END_DECLS
 
-#endif /* _EM_FILTER_CONTEXT_H */
+#endif /* EM_FILTER_CONTEXT_H */

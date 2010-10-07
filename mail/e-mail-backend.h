@@ -26,6 +26,7 @@
 #ifndef E_MAIL_BACKEND_H
 #define E_MAIL_BACKEND_H
 
+#include <mail/e-mail-session.h>
 #include <shell/e-shell-backend.h>
 
 /* Standard GObject macros */
@@ -69,6 +70,7 @@ struct _EMailBackendClass {
 };
 
 GType		e_mail_backend_get_type		(void);
+EMailSession *	e_mail_backend_get_session	(EMailBackend *backend);
 gboolean	e_mail_backend_delete_junk_policy_decision
 						(EMailBackend *backend);
 gboolean	e_mail_backend_empty_trash_policy_decision

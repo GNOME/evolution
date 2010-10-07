@@ -38,11 +38,22 @@
 #include "libedataserver/e-sexp.h"
 #include "e-util/e-alert.h"
 
-#define d(x)
+#define EM_FILTER_FOLDER_ELEMENT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_FILTER_FOLDER_ELEMENT, EMFilterFolderElementPrivate))
+
+struct _EMFilterFolderElementPrivate {
+	EMailSession *session;
+	gchar *uri;
+};
+
+enum {
+	PROP_0,
+	PROP_SESSION
+};
 
 static gboolean validate (EFilterElement *fe, EAlert **alert);
 static gint folder_eq (EFilterElement *fe, EFilterElement *cm);
-static void xml_create (EFilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode (EFilterElement *fe);
 static gint xml_decode (EFilterElement *fe, xmlNodePtr node);
 static GtkWidget *get_widget (EFilterElement *fe);
@@ -50,92 +61,161 @@ static void build_code (EFilterElement *fe, GString *out, EFilterPart *ff);
 static void format_sexp (EFilterElement *, GString *);
 static void emff_copy_value (EFilterElement *de, EFilterElement *se);
 
-static void em_filter_folder_element_class_init (EMFilterFolderElementClass *class);
-static void em_filter_folder_element_init (EMFilterFolderElement *ff);
-static void em_filter_folder_element_finalise (GObject *obj);
+G_DEFINE_TYPE (
+	EMFilterFolderElement,
+	em_filter_folder_element,
+	E_TYPE_FILTER_ELEMENT)
 
-static EFilterElementClass *parent_class = NULL;
-
-GType
-em_filter_folder_element_get_type (void)
+static void
+filter_folder_element_set_session (EMFilterFolderElement *element,
+                                   EMailSession *session)
 {
-	static GType type = 0;
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (element->priv->session == NULL);
 
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof (EMFilterFolderElementClass),
-			NULL, /* base_class_init */
-			NULL, /* base_class_finalize */
-			(GClassInitFunc)em_filter_folder_element_class_init,
-			NULL, /* class_finalize */
-			NULL, /* class_data */
-			sizeof (EMFilterFolderElement),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc)em_filter_folder_element_init,
-		};
+	element->priv->session = g_object_ref (session);
+}
 
-		type = g_type_register_static(E_TYPE_FILTER_ELEMENT, "EMFilterFolderElement", &info, 0);
+static void
+filter_folder_element_set_property (GObject *object,
+                                    guint property_id,
+                                    const GValue *value,
+                                    GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SESSION:
+			filter_folder_element_set_session (
+				EM_FILTER_FOLDER_ELEMENT (object),
+				g_value_get_object (value));
+			return;
 	}
 
-	return type;
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
-em_filter_folder_element_class_init (EMFilterFolderElementClass *klass)
+filter_folder_element_get_property (GObject *object,
+                                    guint property_id,
+                                    GValue *value,
+                                    GParamSpec *pspec)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	EFilterElementClass *fe_class = E_FILTER_ELEMENT_CLASS (klass);
+	switch (property_id) {
+		case PROP_SESSION:
+			g_value_set_object (
+				value,
+				em_filter_folder_element_get_session (
+				EM_FILTER_FOLDER_ELEMENT (object)));
+			return;
+	}
 
-	parent_class = g_type_class_ref (E_TYPE_FILTER_ELEMENT);
-
-	object_class->finalize = em_filter_folder_element_finalise;
-
-	/* override methods */
-	fe_class->validate = validate;
-	fe_class->eq = folder_eq;
-	fe_class->xml_create = xml_create;
-	fe_class->xml_encode = xml_encode;
-	fe_class->xml_decode = xml_decode;
-	fe_class->get_widget = get_widget;
-	fe_class->build_code = build_code;
-	fe_class->format_sexp = format_sexp;
-	fe_class->copy_value = emff_copy_value;
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
-em_filter_folder_element_init (EMFilterFolderElement *ff)
+filter_folder_element_dispose (GObject *object)
 {
-	;
+	EMFilterFolderElementPrivate *priv;
+
+	priv = EM_FILTER_FOLDER_ELEMENT_GET_PRIVATE (object);
+
+	if (priv->session != NULL) {
+		g_object_unref (priv->session);
+		priv->session = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (em_filter_folder_element_parent_class)->dispose (object);
 }
 
 static void
-em_filter_folder_element_finalise (GObject *obj)
+filter_folder_element_finalize (GObject *object)
 {
-	EMFilterFolderElement *ff = (EMFilterFolderElement *)obj;
+	EMFilterFolderElementPrivate *priv;
 
-	g_free (ff->uri);
+	priv = EM_FILTER_FOLDER_ELEMENT_GET_PRIVATE (object);
 
-        G_OBJECT_CLASS (parent_class)->finalize (obj);
+	g_free (priv->uri);
+
+	/* Chain up to parent's finalize() method. */
+        G_OBJECT_CLASS (em_filter_folder_element_parent_class)->finalize (object);
 }
 
-/**
- * em_filter_folder_element_new:
- *
- * Create a new EMFilterFolderElement object.
- *
- * Return value: A new #EMFilterFolderElement object.
- **/
-EMFilterFolderElement *
-em_filter_folder_element_new (void)
+static void
+em_filter_folder_element_class_init (EMFilterFolderElementClass *class)
 {
-	return (EMFilterFolderElement *)g_object_new (em_filter_folder_element_get_type (), NULL, NULL);
+	GObjectClass *object_class;
+	EFilterElementClass *filter_element_class;
+
+	g_type_class_add_private (class, sizeof (EMFilterFolderElementPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = filter_folder_element_set_property;
+	object_class->get_property = filter_folder_element_get_property;
+	object_class->dispose = filter_folder_element_dispose;
+	object_class->finalize = filter_folder_element_finalize;
+
+	filter_element_class = E_FILTER_ELEMENT_CLASS (class);
+	filter_element_class->validate = validate;
+	filter_element_class->eq = folder_eq;
+	filter_element_class->xml_encode = xml_encode;
+	filter_element_class->xml_decode = xml_decode;
+	filter_element_class->get_widget = get_widget;
+	filter_element_class->build_code = build_code;
+	filter_element_class->format_sexp = format_sexp;
+	filter_element_class->copy_value = emff_copy_value;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SESSION,
+		g_param_spec_object (
+			"session",
+			NULL,
+			NULL,
+			E_TYPE_MAIL_SESSION,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+}
+
+static void
+em_filter_folder_element_init (EMFilterFolderElement *element)
+{
+	element->priv = EM_FILTER_FOLDER_ELEMENT_GET_PRIVATE (element);
+}
+
+EFilterElement *
+em_filter_folder_element_new (EMailSession *session)
+{
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+
+	return g_object_new (
+		EM_TYPE_FILTER_FOLDER_ELEMENT,
+		"session", session, NULL);
+}
+
+EMailSession *
+em_filter_folder_element_get_session (EMFilterFolderElement *element)
+{
+	g_return_val_if_fail (EM_IS_FILTER_FOLDER_ELEMENT (element), NULL);
+
+	return element->priv->session;
+}
+
+const gchar *
+em_filter_folder_element_get_uri (EMFilterFolderElement *element)
+{
+	g_return_val_if_fail (EM_IS_FILTER_FOLDER_ELEMENT (element), NULL);
+
+	return element->priv->uri;
 }
 
 void
-em_filter_folder_element_set_value (EMFilterFolderElement *ff, const gchar *uri)
+em_filter_folder_element_set_uri (EMFilterFolderElement *element,
+                                  const gchar *uri)
 {
-	g_free (ff->uri);
-	ff->uri = g_strdup (uri);
+	g_return_if_fail (EM_IS_FILTER_FOLDER_ELEMENT (element));
+
+	g_free (element->priv->uri);
+	element->priv->uri = g_strdup (uri);
 }
 
 static gboolean
@@ -145,7 +225,7 @@ validate (EFilterElement *fe, EAlert **alert)
 
 	g_warn_if_fail (alert == NULL || *alert == NULL);
 
-	if (ff->uri && *ff->uri) {
+	if (ff->priv->uri && *ff->priv->uri) {
 		return TRUE;
 	} else {
 		if (alert)
@@ -158,15 +238,8 @@ validate (EFilterElement *fe, EAlert **alert)
 static gint
 folder_eq (EFilterElement *fe, EFilterElement *cm)
 {
-        return E_FILTER_ELEMENT_CLASS (parent_class)->eq (fe, cm)
-		&& strcmp (((EMFilterFolderElement *)fe)->uri, ((EMFilterFolderElement *)cm)->uri)== 0;
-}
-
-static void
-xml_create (EFilterElement *fe, xmlNodePtr node)
-{
-	/* parent implementation */
-        E_FILTER_ELEMENT_CLASS (parent_class)->xml_create (fe, node);
+        return E_FILTER_ELEMENT_CLASS (em_filter_folder_element_parent_class)->eq (fe, cm)
+		&& strcmp (((EMFilterFolderElement *)fe)->priv->uri, ((EMFilterFolderElement *)cm)->priv->uri)== 0;
 }
 
 static xmlNodePtr
@@ -174,8 +247,6 @@ xml_encode (EFilterElement *fe)
 {
 	xmlNodePtr value, work;
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
-
-	d(printf("Encoding folder as xml\n"));
 
 	value = xmlNewNode(NULL, (const guchar *)"value");
 	xmlSetProp(value, (const guchar *)"name", (guchar *)fe->name);
@@ -185,7 +256,7 @@ xml_encode (EFilterElement *fe)
 		xmlSetProp(value, (const guchar *)"type", (const guchar *)"folder");
 
 	work = xmlNewChild(value, NULL, (const guchar *)"folder", NULL);
-	xmlSetProp(work, (const guchar *)"uri", (const guchar *)ff->uri);
+	xmlSetProp(work, (const guchar *)"uri", (const guchar *)ff->priv->uri);
 
 	return value;
 }
@@ -196,8 +267,6 @@ xml_decode (EFilterElement *fe, xmlNodePtr node)
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
 	xmlNodePtr n;
 	xmlChar *type;
-
-	d(printf("Decoding folder from xml %p\n", fe));
 
 	xmlFree (fe->name);
 	fe->name = (gchar *)xmlGetProp(node, (const guchar *)"name");
@@ -216,8 +285,8 @@ xml_decode (EFilterElement *fe, xmlNodePtr node)
 			gchar *uri;
 
 			uri = (gchar *)xmlGetProp(n, (const guchar *)"uri");
-			g_free (ff->uri);
-			ff->uri = g_strdup (uri);
+			g_free (ff->priv->uri);
+			ff->priv->uri = g_strdup (uri);
 			xmlFree (uri);
 			break;
 		}
@@ -234,12 +303,12 @@ folder_selected (EMFolderSelectionButton *button, EMFilterFolderElement *ff)
 	const gchar *uri;
 
 	uri = em_folder_selection_button_get_selection (button);
-	g_free (ff->uri);
+	g_free (ff->priv->uri);
 
 	if (ff->store_camel_uri)
-		ff->uri = g_strdup (uri);
+		ff->priv->uri = g_strdup (uri);
 	else
-		ff->uri = uri != NULL ? em_uri_from_camel (uri) : NULL;
+		ff->priv->uri = uri != NULL ? em_uri_from_camel (uri) : NULL;
 
 	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (button));
 	gtk_window_present (GTK_WINDOW (toplevel));
@@ -249,15 +318,19 @@ static GtkWidget *
 get_widget (EFilterElement *fe)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
+	EMailSession *session;
 	GtkWidget *button;
 	gchar *uri;
 
-	if (ff->store_camel_uri)
-		uri = ff->uri;
-	else
-		uri = em_uri_to_camel (ff->uri);
+	session = em_filter_folder_element_get_session (ff);
 
-	button = em_folder_selection_button_new (_("Select Folder"), NULL);
+	if (ff->store_camel_uri)
+		uri = ff->priv->uri;
+	else
+		uri = em_uri_to_camel (ff->priv->uri);
+
+	button = em_folder_selection_button_new (
+		session, _("Select Folder"), NULL);
 
 	em_folder_selection_button_set_selection (
 		EM_FOLDER_SELECTION_BUTTON (button), uri);
@@ -282,7 +355,7 @@ format_sexp (EFilterElement *fe, GString *out)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
 
-	e_sexp_encode_string (out, ff->uri);
+	e_sexp_encode_string (out, ff->priv->uri);
 }
 
 static void
@@ -290,7 +363,7 @@ emff_copy_value (EFilterElement *de, EFilterElement *se)
 {
 	if (EM_IS_FILTER_FOLDER_ELEMENT (se)) {
 		((EMFilterFolderElement *)de)->store_camel_uri = ((EMFilterFolderElement *)se)->store_camel_uri;
-		em_filter_folder_element_set_value ((EMFilterFolderElement *)de, ((EMFilterFolderElement *)se)->uri);
+		em_filter_folder_element_set_uri ((EMFilterFolderElement *)de, ((EMFilterFolderElement *)se)->priv->uri);
 	} else
-		parent_class->copy_value (de, se);
+		E_FILTER_ELEMENT_CLASS (em_filter_folder_element_parent_class)->copy_value (de, se);
 }

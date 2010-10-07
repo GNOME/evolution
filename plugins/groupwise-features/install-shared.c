@@ -31,6 +31,7 @@
 #include <gconf/gconf-client.h>
 #include <e-util/e-config.h>
 #include <shell/e-shell.h>
+#include <mail/e-mail-backend.h>
 #include <mail/em-config.h>
 #include <mail/em-event.h>
 #include <mail/em-folder-tree.h>
@@ -155,17 +156,24 @@ accept_free (gpointer data)
 static void
 apply_clicked (GtkAssistant *assistant, CamelMimeMessage *msg)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailSession *session;
 	EMFolderTree *folder_tree;
 	GtkWidget *dialog;
 	struct AcceptData *accept_data;
 	gchar *uri;
 	gpointer parent;
 
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (assistant));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	accept_data = g_new0 (struct AcceptData, 1);
-	folder_tree = (EMFolderTree *) em_folder_tree_new ();
+	folder_tree = (EMFolderTree *) em_folder_tree_new (session);
 
 	dialog = em_folder_selector_create_new (parent, folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));
 	uri = em_folder_tree_get_selected_uri (folder_tree);

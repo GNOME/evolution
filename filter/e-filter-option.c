@@ -425,14 +425,7 @@ e_filter_option_init (EFilterOption *option)
 	option->dynamic_func = NULL;
 }
 
-/**
- * filter_option_new:
- *
- * Create a new EFilterOption object.
- *
- * Return value: A new #EFilterOption object.
- **/
-EFilterOption *
+EFilterElement *
 e_filter_option_new (void)
 {
 	return g_object_new (E_TYPE_FILTER_OPTION, NULL);

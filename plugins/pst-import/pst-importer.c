@@ -52,10 +52,12 @@
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserverui/e-source-selector-dialog.h>
 
+#include <mail/e-mail-backend.h>
 #include <mail/e-mail-local.h>
 #include <mail/mail-mt.h>
 #include <mail/mail-tools.h>
 #include <mail/em-utils.h>
+#include <shell/e-shell.h>
 
 #include <libpst/libpst.h>
 #include <libpst/timeconv.h>
@@ -214,11 +216,21 @@ folder_selected (EMFolderSelectionButton *button, EImportTargetURI *target)
 static gchar *
 get_suggested_foldername (EImportTargetURI *target)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailSession *session;
 	const gchar *inbox;
 	gchar *delim, *filename;
 	gchar *rootname = NULL;
 	GString *foldername;
 	pst_file pst;
+
+	/* XXX Dig up the EMailSession from the default EShell.
+	 *     Since the EImport framework doesn't allow for user
+	 *     data, I don't see how else to get to it. */
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
 	/* Suggest a folder that is in the same mail storage as the users' inbox,
 	   with a name derived from the .PST file */
@@ -251,8 +263,10 @@ get_suggested_foldername (EImportTargetURI *target)
 		g_string_append (foldername, "outlook_data");
 	}
 
+	/* FIXME Leaking a CamelFolder reference here. */
 	/* FIXME Not passing a GCancellable or GError here. */
-	if (mail_tool_uri_to_folder (foldername->str, 0, NULL, NULL) != NULL) {
+	if (e_mail_session_uri_to_folder_sync (
+		session, foldername->str, 0, NULL, NULL) != NULL) {
 		CamelFolder *folder;
 
 		/* Folder exists - add a number */
@@ -263,7 +277,8 @@ get_suggested_foldername (EImportTargetURI *target)
 			g_string_truncate (foldername, len);
 			g_string_append_printf (foldername, "_%d", i);
 			/* FIXME Not passing a GCancellable or GError here. */
-			if ((folder=mail_tool_uri_to_folder (foldername->str, 0, NULL, NULL)) == NULL) {
+			if ((folder = e_mail_session_uri_to_folder_sync (
+				session, foldername->str, 0, NULL, NULL)) == NULL) {
 				/* Folder does not exist */
 				break;
 			}
@@ -438,10 +453,20 @@ pst_import_import (PstImporter *m)
 static void
 pst_import_file (PstImporter *m)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailSession *session;
 	gint ret;
 	gchar *filename;
 	pst_item *item = NULL;
 	pst_desc_tree *d_ptr;
+
+	/* XXX Dig up the EMailSession from the default EShell.
+	 *     Since the EImport framework doesn't allow for user
+	 *     data, I don't see how else to get to it. */
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
 	filename = g_filename_from_uri (((EImportTargetURI *)m->target)->uri_src, NULL, NULL);
 	m->parent_uri = g_strdup (((EImportTargetURI *)m->target)->uri_dest); /* Destination folder, was set in our widget */
@@ -449,8 +474,8 @@ pst_import_file (PstImporter *m)
 	camel_operation_push_message (NULL, _("Importing '%s'"), filename);
 
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-mail"))) {
-		mail_tool_uri_to_folder (
-			m->parent_uri, CAMEL_STORE_FOLDER_CREATE,
+		e_mail_session_uri_to_folder_sync (
+			session, m->parent_uri, CAMEL_STORE_FOLDER_CREATE,
 			m->base.cancellable, &m->base.error);
 	}
 
@@ -682,9 +707,19 @@ pst_process_folder (PstImporter *m, pst_item *item)
 static void
 pst_create_folder (PstImporter *m)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailSession *session;
 	const gchar *parent;
 	gchar *dest, *dest_end, *pos;
 	gint dest_len;
+
+	/* XXX Dig up the EMailSession from the default EShell.
+	 *     Since the EImport framework doesn't allow for user
+	 *     data, I don't see how else to get to it. */
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
 	parent = ((EImportTargetURI *)m->target)->uri_dest;
 	dest = g_strdup (m->folder_uri);
@@ -703,8 +738,8 @@ pst_create_folder (PstImporter *m)
 
 			*pos = '\0';
 
-			folder = mail_tool_uri_to_folder (
-				dest, CAMEL_STORE_FOLDER_CREATE,
+			folder = e_mail_session_uri_to_folder_sync (
+				session, dest, CAMEL_STORE_FOLDER_CREATE,
 				m->base.cancellable, &m->base.error);
 			g_object_unref (folder);
 			*pos = '/';
@@ -717,8 +752,8 @@ pst_create_folder (PstImporter *m)
 		g_object_unref (m->folder);
 	}
 
-	m->folder = mail_tool_uri_to_folder (
-		m->folder_uri, CAMEL_STORE_FOLDER_CREATE,
+	m->folder = e_mail_session_uri_to_folder_sync (
+		session, m->folder_uri, CAMEL_STORE_FOLDER_CREATE,
 		m->base.cancellable, &m->base.error);
 }
 

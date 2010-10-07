@@ -33,9 +33,9 @@
 
 #include <mail/e-mail-local.h>
 #include <mail/e-mail-reader.h>
+#include <mail/e-mail-session.h>
 #include <mail/em-composer-utils.h>
 #include <mail/em-utils.h>
-#include <mail/mail-session.h>
 #include <mail/mail-ops.h>
 #include <mail/message-list.h>
 #include <e-util/e-alert-dialog.h>

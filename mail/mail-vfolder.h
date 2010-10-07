@@ -29,21 +29,26 @@
 #include <mail/em-vfolder-rule.h>
 #include <shell/e-shell-view.h>
 
-void vfolder_load_storage (void);
-void vfolder_revert (void);
+void		vfolder_load_storage		(EMailSession *session);
+void		vfolder_revert			(void);
+void		vfolder_edit			(EShellView *shell_view);
+void		vfolder_edit_rule		(const gchar *name);
+EFilterPart *	vfolder_create_part		(const gchar *name);
+EFilterRule *	vfolder_clone_rule		(EFilterRule *in);
+void		vfolder_gui_add_rule		(EMVFolderRule *rule);
+void		vfolder_gui_add_from_message	(EMailSession *session,
+						 CamelMimeMessage *msg,
+						 gint flags,
+						 const gchar *source);
+void		vfolder_gui_add_from_address	(EMailSession *session,
+						 CamelInternetAddress *addr,
+						 gint flags,
+						 const gchar *source);
 
-void vfolder_edit (EShellView *shell_view);
-void vfolder_edit_rule (const gchar *name);
-EFilterPart *vfolder_create_part (const gchar *name);
-EFilterRule *vfolder_clone_rule (EFilterRule *in);
-void vfolder_gui_add_rule (EMVFolderRule *rule);
-void vfolder_gui_add_from_message (CamelMimeMessage *msg, gint flags, const gchar *source);
-void vfolder_gui_add_from_address (CamelInternetAddress *addr, gint flags, const gchar *source);
-
-GList * mail_vfolder_get_sources_local (void);
-GList * mail_vfolder_get_sources_remote (void);
+GList *		mail_vfolder_get_sources_local	(void);
+GList *		mail_vfolder_get_sources_remote	(void);
 
 /* close up, clean up */
-void mail_vfolder_shutdown (void);
+void		mail_vfolder_shutdown		(void);
 
 #endif

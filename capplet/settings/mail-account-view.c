@@ -33,7 +33,7 @@
 #include "mail-view.h"
 #include "e-util/e-config.h"
 #include "mail/mail-config.h"
-#include "mail/mail-session.h"
+#include "mail/e-mail-session.h"
 #include "mail-guess-servers.h"
 
 struct _MailAccountViewPrivate {
@@ -1019,7 +1019,8 @@ next_page (GtkWidget *entry, MailAccountView *mav)
 }
 
 static void
-mail_account_view_construct (MailAccountView *view)
+mail_account_view_construct (MailAccountView *view,
+                             EMailSession *session)
 {
 	gint i;
 	EShell *shell;
@@ -1041,7 +1042,9 @@ mail_account_view_construct (MailAccountView *view)
 	gtk_widget_show (view->pages[0]->box);
 	view->current_page = 0;
 	gtk_box_pack_start ((GtkBox *)view, view->scroll, TRUE, TRUE, 0);
-	view->edit = em_account_editor_new_for_pages (view->original, EMAE_PAGES, "org.gnome.evolution.mail.config.accountWizard", view->wpages);
+	view->edit = em_account_editor_new_for_pages (
+		view->original, EMAE_PAGES, session,
+		"org.gnome.evolution.mail.config.accountWizard", view->wpages);
 	gtk_widget_hide (e_config_create_widget (E_CONFIG (view->edit->config)));
 	view->edit->emae_check_servers = emae_check_servers;
 	if (!view->original) {
@@ -1077,13 +1080,14 @@ mail_account_view_construct (MailAccountView *view)
 }
 
 MailAccountView *
-mail_account_view_new (EAccount *account)
+mail_account_view_new (EAccount *account,
+                       EMailSession *session)
 {
 	MailAccountView *view = g_object_new (MAIL_ACCOUNT_VIEW_TYPE, NULL);
 	view->type = MAIL_VIEW_ACCOUNT;
 	view->uri = "account://";
 	view->original = account;
-	mail_account_view_construct (view);
+	mail_account_view_construct (view, session);
 
 	return view;
 }

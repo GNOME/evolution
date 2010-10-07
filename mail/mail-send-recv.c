@@ -36,6 +36,7 @@
 #include "e-util/gconf-bridge.h"
 
 #include "e-mail-local.h"
+#include "e-mail-session.h"
 #include "em-event.h"
 #include "em-filter-rule.h"
 #include "mail-config.h"
@@ -43,7 +44,6 @@
 #include "mail-mt.h"
 #include "mail-ops.h"
 #include "mail-send-recv.h"
-#include "mail-session.h"
 #include "mail-tools.h"
 
 #define d(x)
@@ -101,6 +101,7 @@ typedef enum {
 
 struct _send_info {
 	send_info_t type;		/* 0 = fetch, 1 = send */
+	EMailSession *session;
 	GCancellable *cancellable;
 	gchar *uri;
 	gboolean keep_on_server;
@@ -144,9 +145,11 @@ free_folder_info (struct _folder_info *info)
 static void
 free_send_info (struct _send_info *info)
 {
-	g_free (info->uri);
+	if (info->session)
+		g_object_unref (info->session);
 	if (info->cancellable)
 		g_object_unref (info->cancellable);
+	g_free (info->uri);
 	if (info->timeout_id != 0)
 		g_source_remove (info->timeout_id);
 	g_free (info->what);
@@ -404,6 +407,7 @@ get_receive_type (const gchar *url)
 
 static struct _send_data *
 build_dialog (GtkWindow *parent,
+              EMailSession *session,
               EAccountList *accounts,
               CamelFolder *outbox,
               const gchar *destination)
@@ -524,6 +528,7 @@ build_dialog (GtkWindow *parent,
 
 			info = g_malloc0 (sizeof (*info));
 			info->type = type;
+			info->session = g_object_ref (session);
 
 			d(printf("adding source %s\n", source->url));
 
@@ -762,13 +767,14 @@ receive_done (const gchar *uri, gpointer data)
 		local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
 
 		info->again = 0;
-		mail_send_queue (local_outbox,
-				 info->uri,
-				 E_FILTER_SOURCE_OUTGOING,
-				 info->cancellable,
-				 receive_get_folder, info,
-				 receive_status, info,
-				 receive_done, info);
+		mail_send_queue (
+			info->session,
+			local_outbox, info->uri,
+			E_FILTER_SOURCE_OUTGOING,
+			info->cancellable,
+			receive_get_folder, info,
+			receive_status, info,
+			receive_done, info);
 		return;
 	}
 
@@ -831,7 +837,8 @@ receive_get_folder (CamelFilterDriver *d,
 		return oldinfo->folder;
 	}
 	/* FIXME Not passing a GCancellable here. */
-	folder = mail_tool_uri_to_folder (uri, 0, NULL, error);
+	folder = e_mail_session_uri_to_folder_sync (
+		info->session, uri, 0, NULL, error);
 	if (!folder)
 		return NULL;
 
@@ -906,7 +913,8 @@ refresh_folders_exec (struct _refresh_folders_msg *m)
 	get_folders (m->store, m->folders, m->finfo);
 
 	for (i=0;i<m->folders->len;i++) {
-		folder = mail_tool_uri_to_folder (
+		folder = e_mail_session_uri_to_folder_sync (
+			m->info->session,
 			m->folders->pdata[i], 0,
 			m->base.cancellable, &local_error);
 		if (folder) {
@@ -986,6 +994,7 @@ receive_update_got_store (gchar *uri, CamelStore *store, gpointer data)
 	if (store) {
 		mail_folder_cache_note_store (
 			mail_folder_cache_get_default (),
+			CAMEL_SESSION (info->session),
 			store, info->cancellable,
 			receive_update_got_folderinfo, info);
 	} else {
@@ -994,7 +1003,8 @@ receive_update_got_store (gchar *uri, CamelStore *store, gpointer data)
 }
 
 GtkWidget *
-mail_send_receive (GtkWindow *parent)
+mail_send_receive (GtkWindow *parent,
+                   EMailSession *session)
 {
 	CamelFolder *local_outbox;
 	struct _send_data *data;
@@ -1009,7 +1019,7 @@ mail_send_receive (GtkWindow *parent)
 		return send_recv_dialog;
 	}
 
-	if (!camel_session_get_online (session))
+	if (!camel_session_get_online (CAMEL_SESSION (session)))
 		return send_recv_dialog;
 
 	account = e_get_default_account ();
@@ -1020,7 +1030,8 @@ mail_send_receive (GtkWindow *parent)
 
 	local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
 	data = build_dialog (
-		parent, accounts, local_outbox, account->transport->url);
+		parent, session, accounts,
+		local_outbox, account->transport->url);
 	scan = data->infos;
 	while (scan) {
 		struct _send_info *info = scan->data;
@@ -1028,7 +1039,7 @@ mail_send_receive (GtkWindow *parent)
 		switch (info->type) {
 		case SEND_RECEIVE:
 			mail_fetch_mail (
-				info->uri,
+				session, info->uri,
 				info->keep_on_server,
 				E_FILTER_SOURCE_INCOMING,
 				info->cancellable,
@@ -1039,7 +1050,7 @@ mail_send_receive (GtkWindow *parent)
 		case SEND_SEND:
 			/* todo, store the folder in info? */
 			mail_send_queue (
-				local_outbox, info->uri,
+				session, local_outbox, info->uri,
 				E_FILTER_SOURCE_OUTGOING,
 				info->cancellable,
 				receive_get_folder, info,
@@ -1048,7 +1059,7 @@ mail_send_receive (GtkWindow *parent)
 			break;
 		case SEND_UPDATE:
 			mail_get_store (
-				info->uri, info->cancellable,
+				session, info->uri, info->cancellable,
 				receive_update_got_store, info);
 			break;
 		default:
@@ -1062,6 +1073,7 @@ mail_send_receive (GtkWindow *parent)
 
 struct _auto_data {
 	EAccount *account;
+	EMailSession *session;
 	gint period;		/* in seconds */
 	gint timeout_id;
 };
@@ -1073,7 +1085,7 @@ auto_timeout (gpointer data)
 {
 	struct _auto_data *info = data;
 
-	if (camel_session_get_online (session)) {
+	if (camel_session_get_online (CAMEL_SESSION (info->session))) {
 		const gchar *uri;
 		gboolean keep_on_server;
 
@@ -1081,7 +1093,7 @@ auto_timeout (gpointer data)
 			info->account, E_ACCOUNT_SOURCE_URL);
 		keep_on_server = e_account_get_bool (
 			info->account, E_ACCOUNT_SOURCE_KEEP_ON_SERVER);
-		mail_receive_uri (uri, keep_on_server);
+		mail_receive_uri (info->session, uri, keep_on_server);
 	}
 
 	return TRUE;
@@ -1103,6 +1115,8 @@ auto_account_removed (EAccountList *eal, EAccount *ea, gpointer dummy)
 static void
 auto_account_finalised (struct _auto_data *info)
 {
+	if (info->session != NULL)
+		g_object_unref (info->session);
 	if (info->timeout_id)
 		g_source_remove (info->timeout_id);
 	g_free (info);
@@ -1131,12 +1145,15 @@ auto_account_commit (struct _auto_data *info)
 }
 
 static void
-auto_account_added (EAccountList *eal, EAccount *ea, gpointer dummy)
+auto_account_added (EAccountList *eal,
+                    EAccount *ea,
+                    EMailSession *session)
 {
 	struct _auto_data *info;
 
 	info = g_malloc0 (sizeof (*info));
 	info->account = ea;
+	info->session = g_object_ref (session);
 	g_object_set_data_full (
 		G_OBJECT (ea), "mail-autoreceive", info,
 		(GDestroyNotify) auto_account_finalised);
@@ -1178,15 +1195,15 @@ auto_online (EShell *shell)
 /* call to setup initial, and after changes are made to the config */
 /* FIXME: Need a cleanup funciton for when object is deactivated */
 void
-mail_autoreceive_init (EShellBackend *shell_backend,
-                       CamelSession *session)
+mail_autoreceive_init (EMailBackend *backend)
 {
+	EShellBackend *shell_backend;
+	EMailSession *session;
 	EAccountList *accounts;
 	EIterator *iter;
 	EShell *shell;
 
-	g_return_if_fail (E_IS_SHELL_BACKEND (shell_backend));
-	g_return_if_fail (CAMEL_IS_SESSION (session));
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
 
 	if (auto_active)
 		return;
@@ -1194,9 +1211,11 @@ mail_autoreceive_init (EShellBackend *shell_backend,
 	accounts = e_get_account_list ();
 	auto_active = g_hash_table_new (g_str_hash, g_str_equal);
 
+	session = e_mail_backend_get_session (backend);
+
 	g_signal_connect (
 		accounts, "account-added",
-		G_CALLBACK (auto_account_added), NULL);
+		G_CALLBACK (auto_account_added), session);
 	g_signal_connect (
 		accounts, "account-removed",
 		G_CALLBACK (auto_account_removed), NULL);
@@ -1208,8 +1227,10 @@ mail_autoreceive_init (EShellBackend *shell_backend,
 	     e_iterator_is_valid (iter);
 	     e_iterator_next (iter))
 		auto_account_added (
-			accounts, (EAccount *) e_iterator_get (iter), NULL);
+			accounts, (EAccount *)
+			e_iterator_get (iter), session);
 
+	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	auto_online (shell);
@@ -1222,7 +1243,9 @@ mail_autoreceive_init (EShellBackend *shell_backend,
 /* We setup the download info's in a hashtable, if we later
  * need to build the gui, we insert them in to add them. */
 void
-mail_receive_uri (const gchar *uri, gboolean keep_on_server)
+mail_receive_uri (EMailSession *session,
+                  const gchar *uri,
+                  gboolean keep_on_server)
 {
 	struct _send_info *info;
 	struct _send_data *data;
@@ -1246,6 +1269,7 @@ mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 
 	info = g_malloc0 (sizeof (*info));
 	info->type = type;
+	info->session = g_object_ref (session);
 	info->progress_bar = NULL;
 	info->status_label = NULL;
 	info->uri = g_strdup (uri);
@@ -1267,7 +1291,8 @@ mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 	switch (info->type) {
 	case SEND_RECEIVE:
 		mail_fetch_mail (
-			info->uri, info->keep_on_server,
+			info->session, info->uri,
+			info->keep_on_server,
 			E_FILTER_SOURCE_INCOMING,
 			info->cancellable,
 			receive_get_folder, info,
@@ -1278,6 +1303,7 @@ mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 		/* todo, store the folder in info? */
 		local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
 		mail_send_queue (
+			info->session,
 			local_outbox, info->uri,
 			E_FILTER_SOURCE_OUTGOING,
 			info->cancellable,
@@ -1287,6 +1313,7 @@ mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 		break;
 	case SEND_UPDATE:
 		mail_get_store (
+			info->session,
 			info->uri, info->cancellable,
 			receive_update_got_store, info);
 		break;
@@ -1296,7 +1323,7 @@ mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 }
 
 void
-mail_send (void)
+mail_send (EMailSession *session)
 {
 	CamelFolder *local_outbox;
 	EAccountService *transport;
@@ -1326,6 +1353,7 @@ mail_send (void)
 
 	info = g_malloc0 (sizeof (*info));
 	info->type = SEND_SEND;
+	info->session = g_object_ref (session);
 	info->progress_bar = NULL;
 	info->status_label = NULL;
 	info->uri = g_strdup (transport->url);
@@ -1342,10 +1370,12 @@ mail_send (void)
 
 	/* todo, store the folder in info? */
 	local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
-	mail_send_queue (local_outbox, info->uri,
-			 E_FILTER_SOURCE_OUTGOING,
-			 info->cancellable,
-			 receive_get_folder, info,
-			 receive_status, info,
-			 receive_done, info);
+	mail_send_queue (
+		session,
+		local_outbox, info->uri,
+		E_FILTER_SOURCE_OUTGOING,
+		info->cancellable,
+		receive_get_folder, info,
+		receive_status, info,
+		receive_done, info);
 }

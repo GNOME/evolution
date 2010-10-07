@@ -36,75 +36,12 @@
 
 #include <glib/gi18n.h>
 
+#include "e-mail-session.h"
 #include "em-utils.h"
 #include "mail-folder-cache.h"
-#include "mail-session.h"
 #include "mail-tools.h"
 
 /* **************************************** */
-
-CamelFolder *
-mail_tool_get_inbox (const gchar *url,
-                     GCancellable *cancellable,
-                     GError **error)
-{
-	CamelStore *store;
-	CamelFolder *folder;
-
-	store = camel_session_get_store (session, url, error);
-	if (!store)
-		return NULL;
-
-	folder = camel_store_get_inbox_folder_sync (store, cancellable, error);
-	g_object_unref (store);
-
-	return folder;
-}
-
-static gboolean
-is_local_provider (CamelStore *store)
-{
-	CamelProvider *provider;
-
-	g_return_val_if_fail (store != NULL, FALSE);
-
-	provider = camel_service_get_provider (CAMEL_SERVICE (store));
-
-	g_return_val_if_fail (provider != NULL, FALSE);
-
-	return (provider->flags & CAMEL_PROVIDER_IS_LOCAL) != 0;
-}
-
-CamelFolder *
-mail_tool_get_trash (const gchar *url,
-                     gint connect,
-                     GCancellable *cancellable,
-                     GError **error)
-{
-	CamelStore *store;
-	CamelFolder *trash;
-
-	if (connect)
-		store = camel_session_get_store (session, url, error);
-	else
-		store = (CamelStore *) camel_session_get_service (
-			session, url, CAMEL_PROVIDER_STORE, error);
-
-	if (!store)
-		return NULL;
-
-	if (connect ||
-		(CAMEL_SERVICE (store)->status == CAMEL_SERVICE_CONNECTED ||
-		is_local_provider (store)))
-		trash = camel_store_get_trash_folder_sync (
-			store, cancellable, error);
-	else
-		trash = NULL;
-
-	g_object_unref (store);
-
-	return trash;
-}
 
 #ifndef G_OS_WIN32
 
@@ -294,82 +231,6 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 	g_free (desc);
 
 	return part;
-}
-
-CamelFolder *
-mail_tool_uri_to_folder (const gchar *uri,
-                         guint32 flags,
-                         GCancellable *cancellable,
-                         GError **error)
-{
-	CamelURL *url;
-	CamelStore *store = NULL;
-	CamelFolder *folder = NULL;
-	gint offset = 0;
-	gchar *curi = NULL;
-
-	g_return_val_if_fail (uri != NULL, NULL);
-
-	/* TODO: vtrash and vjunk are no longer used for these uri's */
-	if (!strncmp (uri, "vtrash:", 7))
-		offset = 7;
-	else if (!strncmp (uri, "vjunk:", 6))
-		offset = 6;
-	else if (!strncmp(uri, "email:", 6)) {
-		/* FIXME?: the filter:get_folder callback should do this itself? */
-		curi = em_uri_to_camel (uri);
-		if (uri == NULL) {
-			g_set_error (
-				error,
-				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
-				_("Invalid folder: '%s'"), uri);
-			return NULL;
-		}
-		uri = curi;
-	}
-
-	url = camel_url_new (uri + offset, error);
-	if (!url) {
-		g_free (curi);
-		return NULL;
-	}
-
-	store = (CamelStore *) camel_session_get_service (
-		session, uri + offset, CAMEL_PROVIDER_STORE, error);
-	if (store) {
-		const gchar *name;
-
-		/* if we have a fragment, then the path is actually used by the store,
-		   so the fragment is the path to the folder instead */
-		if (url->fragment) {
-			name = url->fragment;
-		} else {
-			if (url->path && *url->path)
-				name = url->path + 1;
-			else
-				name = "";
-		}
-
-		if (offset) {
-			if (offset == 7)
-				folder = camel_store_get_trash_folder_sync (
-					store, cancellable, error);
-			else if (offset == 6)
-				folder = camel_store_get_junk_folder_sync (
-					store, cancellable, error);
-		} else
-			folder = camel_store_get_folder_sync (
-				store, name, flags, cancellable, error);
-		g_object_unref (store);
-	}
-
-	if (folder)
-		mail_folder_cache_note_folder (mail_folder_cache_get_default (), folder);
-
-	camel_url_free (url);
-	g_free (curi);
-
-	return folder;
 }
 
 /* FIXME: This should be a property on CamelFolder */

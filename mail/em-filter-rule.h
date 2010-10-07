@@ -22,16 +22,18 @@
  *
  */
 
-#ifndef _EM_FILTER_RULE_H
-#define _EM_FILTER_RULE_H
+#ifndef EM_FILTER_RULE_H
+#define EM_FILTER_RULE_H
 
 #include "filter/e-filter-rule.h"
 
-#define EM_FILTER_RULE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), em_filter_rule_get_type(), EMFilterRule))
-#define EM_FILTER_RULE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), em_filter_rule_get_type(), EMFilterRuleClass))
-#define EM_IS_FILTER_RULE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), em_filter_rule_get_type()))
-#define EM_IS_FILTER_RULE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), em_filter_rule_get_type()))
-#define EM_FILTER_RULE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), em_filter_rule_get_type(), EMFilterRuleClass))
+#define EM_TYPE_FILTER_RULE \
+	(em_filter_rule_get_type ())
+#define EM_FILTER_RULE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EM_TYPE_FILTER_RULE, EMFilterRule))
+#define EM_FILTER_RULE_CLASS(cls)    (G_TYPE_CHECK_CLASS_CAST ((cls), EM_TYPE_FILTER_RULE, EMFilterRuleClass))
+#define EM_IS_FILTER_RULE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EM_TYPE_FILTER_RULE))
+#define EM_IS_FILTER_RULE_CLASS(cls) (G_TYPE_CHECK_CLASS_TYPE ((cls), EM_TYPE_FILTER_RULE))
+#define EM_FILTER_RULE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), EM_TYPE_FILTER_RULE, EMFilterRuleClass))
 
 typedef struct _EMFilterRule EMFilterRule;
 typedef struct _EMFilterRuleClass EMFilterRuleClass;
@@ -47,7 +49,7 @@ struct _EMFilterRuleClass {
 };
 
 GType           em_filter_rule_get_type (void);
-EMFilterRule   *em_filter_rule_new      (void);
+EFilterRule *	em_filter_rule_new      (void);
 
 /* methods */
 void            em_filter_rule_add_action     (EMFilterRule *fr, EFilterPart *fp);
@@ -56,4 +58,4 @@ void            em_filter_rule_replace_action (EMFilterRule *fr, EFilterPart *fp
 
 void            em_filter_rule_build_action   (EMFilterRule *fr, GString *out);
 
-#endif /* _EM_FILTER_RULE_H */
+#endif /* EM_FILTER_RULE_H */

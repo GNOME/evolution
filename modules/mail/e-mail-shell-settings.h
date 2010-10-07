@@ -22,11 +22,11 @@
 #ifndef E_MAIL_SHELL_SETTINGS_H
 #define E_MAIL_SHELL_SETTINGS_H
 
-#include <shell/e-shell.h>
+#include <shell/e-shell-backend.h>
 
 G_BEGIN_DECLS
 
-void		e_mail_shell_settings_init	(EShell *shell);
+void		e_mail_shell_settings_init	(EShellBackend *shell_backend);
 
 G_END_DECLS
 

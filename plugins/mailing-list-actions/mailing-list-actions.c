@@ -116,15 +116,18 @@ emla_list_action_do (CamelFolder *folder,
 	gint t;
 	EMsgComposer *composer;
 	gint send_message_response;
-	EShellBackend *shell_backend;
 	EShell *shell;
+	EMailBackend *backend;
+	EShellBackend *shell_backend;
 	EAccount *account;
 	GtkWindow *window;
 
 	if (msg == NULL)
 		return;
 
-	shell_backend = e_mail_reader_get_shell_backend (action_data->reader);
+	backend = e_mail_reader_get_backend (action_data->reader);
+
+	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	window = e_mail_reader_get_window (action_data->reader);

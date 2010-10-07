@@ -37,16 +37,24 @@
 #include "em-vfolder-editor.h"
 #include "em-vfolder-rule.h"
 
-static gpointer parent_class;
+G_DEFINE_TYPE (
+	EMVFolderEditor,
+	em_vfolder_editor,
+	E_TYPE_RULE_EDITOR)
 
 static EFilterRule *
 vfolder_editor_create_rule (ERuleEditor *rule_editor)
 {
+	EMVFolderContext *context;
+	EMailSession *session;
 	EFilterRule *rule;
 	EFilterPart *part;
 
+	context = EM_VFOLDER_CONTEXT (rule_editor->context);
+	session = em_vfolder_context_get_session (context);
+
 	/* create a rule with 1 part in it */
-	rule = (EFilterRule *) em_vfolder_rule_new ();
+	rule = em_vfolder_rule_new (session);
 	part = e_rule_context_next_part (rule_editor->context, NULL);
 	e_filter_rule_add_part (rule, e_filter_part_clone (part));
 
@@ -54,18 +62,16 @@ vfolder_editor_create_rule (ERuleEditor *rule_editor)
 }
 
 static void
-vfolder_editor_class_init (EMVFolderEditorClass *class)
+em_vfolder_editor_class_init (EMVFolderEditorClass *class)
 {
 	ERuleEditorClass *rule_editor_class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	rule_editor_class = E_RULE_EDITOR_CLASS (class);
 	rule_editor_class->create_rule = vfolder_editor_create_rule;
 }
 
 static void
-vfolder_editor_init (EMVFolderEditor *vfolder_editor)
+em_vfolder_editor_init (EMVFolderEditor *vfolder_editor)
 {
 	GConfBridge *bridge;
 	const gchar *key_prefix;
@@ -77,56 +83,32 @@ vfolder_editor_init (EMVFolderEditor *vfolder_editor)
 		bridge, key_prefix, GTK_WINDOW (vfolder_editor));
 }
 
-GType
-em_vfolder_editor_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMVFolderEditorClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) vfolder_editor_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMVFolderEditor),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) vfolder_editor_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			E_TYPE_RULE_EDITOR, "EMVFolderEditor", &type_info, 0);
-	}
-
-	return type;
-}
-
 /**
  * em_vfolder_editor_new:
  *
  * Create a new EMVFolderEditor object.
  *
- * Return value: A new #EMVFolderEditor object.
+ * Returns: a new #EMVFolderEditor
  **/
 GtkWidget *
-em_vfolder_editor_new (EMVFolderContext *vc)
+em_vfolder_editor_new (EMVFolderContext *context)
 {
-	EMVFolderEditor *ve;
+	EMVFolderEditor *editor;
 	GtkBuilder *builder;
 
-	ve = g_object_new (EM_TYPE_VFOLDER_EDITOR, NULL);
+	g_return_val_if_fail (EM_IS_VFOLDER_CONTEXT (context), NULL);
+
+	editor = g_object_new (EM_TYPE_VFOLDER_EDITOR, NULL);
 
 	builder = gtk_builder_new ();
 	e_load_ui_builder_definition (builder, "filter.ui");
 
 	e_rule_editor_construct (
-		(ERuleEditor *) ve, (ERuleContext *) vc,
+		E_RULE_EDITOR (editor), E_RULE_CONTEXT (context),
 		builder, "incoming", _("Search _Folders"));
 	gtk_widget_hide (e_builder_get_widget (builder, "label17"));
 	gtk_widget_hide (e_builder_get_widget (builder, "filter_source_combobox"));
 	g_object_unref (builder);
 
-	return GTK_WIDGET (ve);
+	return GTK_WIDGET (editor);
 }

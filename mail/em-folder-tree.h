@@ -25,7 +25,7 @@
 #define EM_FOLDER_TREE_H
 
 #include <gtk/gtk.h>
-#include <camel/camel.h>
+#include <mail/e-mail-session.h>
 #include <mail/em-folder-tree-model.h>
 
 /* Standard GObject macros */
@@ -89,7 +89,8 @@ struct _EMFolderTreeClass {
 };
 
 GType		em_folder_tree_get_type		(void);
-GtkWidget *	em_folder_tree_new		(void);
+GtkWidget *	em_folder_tree_new		(EMailSession *session);
+EMailSession *	em_folder_tree_get_session	(EMFolderTree *folder_tree);
 void		em_folder_tree_enable_drag_and_drop
 						(EMFolderTree *folder_tree);
 void		em_folder_tree_set_excluded	(EMFolderTree *folder_tree,

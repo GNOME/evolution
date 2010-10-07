@@ -38,7 +38,6 @@
 #include "mail-decoration.h"
 #include <mail/em-utils.h>
 #include <mail/em-composer-utils.h>
-#include <mail/mail-session.h>
 #include <mail/mail-mt.h>
 #include <mail/e-mail-store.h>
 
@@ -68,6 +67,7 @@ static guint mail_capplet_shell_signals[LAST_SIGNAL];
 
 struct  _MailCappletShellPrivate {
 
+	EMailSession *session;
 	GtkWidget *box;
 
 	GtkWidget * top_bar;
@@ -237,17 +237,23 @@ mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean 
 
 	}
 
+	if (camel_init (e_get_user_data_dir (), TRUE) != 0)
+		exit (0);
+
+	camel_provider_init ();
+
+	shell->priv->session = e_mail_session_new ();
+
 	shell->view = mail_view_new ();
+	shell->view->session = shell->priv->session;
 	gtk_widget_show ((GtkWidget *)shell->view);
 	tmp = gtk_vbox_new (FALSE, 0);
 	gtk_box_pack_end ((GtkBox *)priv->box, (GtkWidget *)shell->view, TRUE, TRUE, 2);
 
-	/* This also initializes Camel, so it needs to happen early. */
-	mail_session_start ();
-	mail_config_init ();
+	mail_config_init (CAMEL_SESSION (shell->priv->session));
 	mail_msg_init ();
 	custom_dir = g_build_filename (e_get_user_data_dir (), "mail", NULL);
-	e_mail_store_init (custom_dir);
+	e_mail_store_init (shell->priv->session, custom_dir);
 	g_free (custom_dir);
 
 	if (just_druid) {

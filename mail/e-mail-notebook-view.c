@@ -735,6 +735,20 @@ mail_notebook_view_get_action_group (EMailReader *reader)
 	return E_SHELL_WINDOW_ACTION_GROUP_MAIL (shell_window);
 }
 
+static EMailBackend *
+mail_notebook_view_get_backend (EMailReader *reader)
+{
+	EMailView *view;
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+
+	view = E_MAIL_VIEW (reader);
+	shell_view = e_mail_view_get_shell_view (view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	return E_MAIL_BACKEND (shell_backend);
+}
+
 static EMFormatHTML *
 mail_notebook_view_get_formatter (EMailReader *reader)
 {
@@ -791,18 +805,6 @@ mail_notebook_view_get_popup_menu (EMailReader *reader)
 	reader = E_MAIL_READER (priv->current_view);
 
 	return e_mail_reader_get_popup_menu (reader);
-}
-
-static EShellBackend *
-mail_notebook_view_get_shell_backend (EMailReader *reader)
-{
-	EMailView *view;
-	EShellView *shell_view;
-
-	view = E_MAIL_VIEW (reader);
-	shell_view = e_mail_view_get_shell_view (view);
-
-	return e_shell_view_get_shell_backend (shell_view);
 }
 
 static GtkWindow *
@@ -1261,11 +1263,11 @@ static void
 e_mail_notebook_view_reader_init (EMailReaderInterface *interface)
 {
 	interface->get_action_group = mail_notebook_view_get_action_group;
+	interface->get_backend = mail_notebook_view_get_backend;
 	interface->get_formatter = mail_notebook_view_get_formatter;
 	interface->get_hide_deleted = mail_notebook_view_get_hide_deleted;
 	interface->get_message_list = mail_notebook_view_get_message_list;
 	interface->get_popup_menu = mail_notebook_view_get_popup_menu;
-	interface->get_shell_backend = mail_notebook_view_get_shell_backend;
 	interface->get_window = mail_notebook_view_get_window;
 	interface->set_folder = mail_notebook_view_set_folder;
 	interface->show_search_bar = mail_notebook_view_show_search_bar;
