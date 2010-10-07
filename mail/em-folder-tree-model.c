@@ -894,9 +894,16 @@ folder_created_cb (CamelStore *store,
                    CamelFolderInfo *fi,
                    EMFolderTreeModel *model)
 {
+	EMFolderTreeModelStoreInfo *si;
+
 	/* We only want created events to do more
 	 * work if we don't support subscriptions. */
 	if (camel_store_supports_subscriptions (store))
+		return;
+
+	/* process "folder-created" event only when store already loaded */
+	si = em_folder_tree_model_lookup_store_info (model, store);
+	if (si == NULL || g_hash_table_size (si->full_hash) == 0)
 		return;
 
 	folder_subscribed_cb (store, fi, model);
