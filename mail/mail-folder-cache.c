@@ -286,7 +286,6 @@ update_1folder (MailFolderCache *self,
 				junked = folder->summary->junk_count;
 				if (junked > 0)
 					unread -= junked;
-
 			}
 		} else {
 			d(printf(" unread count\n"));
@@ -295,7 +294,7 @@ update_1folder (MailFolderCache *self,
 			else
 				unread = camel_folder_get_unread_message_count (folder);
 		}
-	} else if (info)
+	} else if (info && !em_utils_folder_is_drafts (NULL, info->uri) && !em_utils_folder_is_outbox (NULL, info->uri))
 		unread = info->unread;
 
 	d(printf("folder updated: unread %d: '%s'\n", unread, mfi->full_name));
@@ -312,7 +311,7 @@ update_1folder (MailFolderCache *self,
 	up->msg_uid = g_strdup (msg_uid);
 	up->msg_sender = g_strdup (msg_sender);
 	up->msg_subject = g_strdup (msg_subject);
-	g_queue_push_head (&self->priv->updates, up);
+	g_queue_push_tail (&self->priv->updates, up);
 	flush_updates (self);
 }
 
@@ -435,7 +434,7 @@ unset_folder_info (MailFolderCache *self,
 		up->full_name = g_strdup (mfi->full_name);
 		up->uri = g_strdup (mfi->uri);
 
-		g_queue_push_head (&self->priv->updates, up);
+		g_queue_push_tail (&self->priv->updates, up);
 		flush_updates (self);
 	}
 }
@@ -478,7 +477,7 @@ setup_folder (MailFolderCache *self, CamelFolderInfo *fi, struct _store_info *si
 		if ((fi->flags & CAMEL_FOLDER_NOSELECT) == 0)
 			up->add = TRUE;
 
-		g_queue_push_head (&self->priv->updates, up);
+		g_queue_push_tail (&self->priv->updates, up);
 		flush_updates (self);
 	}
 }
