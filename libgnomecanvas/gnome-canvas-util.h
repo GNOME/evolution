@@ -99,9 +99,6 @@ void gnome_canvas_get_butt_points (gdouble x1, gdouble y1, gdouble x2, gdouble y
  */
 gdouble gnome_canvas_polygon_to_point (gdouble *poly, gint num_points, gdouble x, gdouble y);
 
-/* Render the svp over the buf. */
-void gnome_canvas_render_svp (GnomeCanvasBuf *buf, ArtSVP *svp, guint32 rgba);
-
 /* Sets the svp to the new value, requesting repaint on what's changed. This function takes responsibility for
  * freeing new_svp.
  */
@@ -137,9 +134,6 @@ void gnome_canvas_item_request_redraw_svp (GnomeCanvasItem *item, const ArtSVP *
 
 /* Sets the bbox to the new value, requesting full repaint. */
 void gnome_canvas_update_bbox (GnomeCanvasItem *item, gint x1, gint y1, gint x2, gint y2);
-
-/* Ensure that the buffer is in RGB format, suitable for compositing. */
-void gnome_canvas_buf_ensure_buf (GnomeCanvasBuf *buf);
 
 /* Convert from GDK line join specifier to libart. */
 ArtPathStrokeJoinType gnome_canvas_join_gdk_to_art (GdkJoinStyle gdk_join);
