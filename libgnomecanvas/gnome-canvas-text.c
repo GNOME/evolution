@@ -91,7 +91,6 @@ enum {
 	PROP_FILL_COLOR,
 	PROP_FILL_COLOR_GDK,
 	PROP_FILL_COLOR_RGBA,
-	PROP_FILL_STIPPLE,
 
 	/* Rendered size accessors */
 	PROP_TEXT_WIDTH,
@@ -442,12 +441,6 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
         g_object_class_install_property
                 (gobject_class,
-                 PROP_FILL_STIPPLE,
-                 g_param_spec_object ("fill_stipple", NULL, NULL,
-                                      GDK_TYPE_DRAWABLE,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property
-                (gobject_class,
                  PROP_TEXT_WIDTH,
                  g_param_spec_double ("text_width",
 				      "Text width",
@@ -576,10 +569,6 @@ gnome_canvas_text_destroy (GnomeCanvasItem *object)
 		pango_attr_list_unref (text->attr_list);
 	text->attr_list = NULL;
 
-	if (text->stipple)
-		g_object_unref (text->stipple);
-	text->stipple = NULL;
-
 	if (text->priv && text->priv->bitmap.buffer) {
 		g_free (text->priv->bitmap.buffer);
 	}
@@ -693,26 +682,6 @@ set_text_gc_foreground (GnomeCanvasText *text)
 
 	c.pixel = text->pixel;
 	gdk_gc_set_foreground (text->gc, &c);
-}
-
-/* Sets the stipple pattern for the text */
-static void
-set_stipple (GnomeCanvasText *text, GdkBitmap *stipple, gint reconfigure)
-{
-	if (text->stipple && !reconfigure)
-		g_object_unref (text->stipple);
-
-	text->stipple = stipple;
-	if (stipple && !reconfigure)
-		g_object_ref (stipple);
-
-	if (text->gc) {
-		if (stipple) {
-			gdk_gc_set_stipple (text->gc, stipple);
-			gdk_gc_set_fill (text->gc, GDK_STIPPLED);
-		} else
-			gdk_gc_set_fill (text->gc, GDK_SOLID);
-	}
 }
 
 static PangoFontMask
@@ -1033,10 +1002,6 @@ gnome_canvas_text_set_property (GObject            *object,
 		text->priv->render_dirty = 1;
 		break;
 
-	case PROP_FILL_STIPPLE:
-		set_stipple (text, (GdkBitmap *)g_value_get_object (value), FALSE);
-		break;
-
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
 		break;
@@ -1251,10 +1216,6 @@ gnome_canvas_text_get_property (GObject            *object,
 		g_value_set_uint (value, text->rgba);
 		break;
 
-	case PROP_FILL_STIPPLE:
-		g_value_set_object (value, text->stipple);
-		break;
-
 	case PROP_TEXT_WIDTH:
 		g_value_set_double (value, text->max_width / text->item.canvas->pixels_per_unit);
 		break;
@@ -1384,7 +1345,6 @@ gnome_canvas_text_update (GnomeCanvasItem *item,
 		(* parent_class->update) (item, affine, clip_path, flags);
 
 	set_text_gc_foreground (text);
-	set_stipple (text, text->stipple, TRUE);
 	get_bounds (text, &x1, &y1, &x2, &y2);
 
 	gnome_canvas_update_bbox (item,
@@ -1447,9 +1407,6 @@ gnome_canvas_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 		gdk_gc_set_clip_rectangle (text->gc, &rect);
 	}
-
-	if (text->stipple)
-		gnome_canvas_set_stipple_origin (item->canvas, text->gc);
 
 	gdk_draw_layout (drawable, text->gc, text->cx - x, text->cy - y, text->layout);
 

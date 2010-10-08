@@ -89,7 +89,6 @@ G_BEGIN_DECLS
  * fill_color		string			 W		X color specification for text
  * fill_color_gdk	GdkColor*		RW		Pointer to an allocated GdkColor
  * fill_color_rgba	guint			RW		RGBA value used for AA color.
- * fill_stipple		GdkBitmap*		RW		Stipple pattern for filling the text
  */
 
 #define GNOME_TYPE_CANVAS_TEXT            (gnome_canvas_text_get_type ())
@@ -115,7 +114,6 @@ struct _GnomeCanvasText {
 	gdouble         scale;
 
 	gchar *text;			/* Text to display */
-	GdkBitmap *stipple;		/* Stipple for text */
 	GdkGC *gc;			/* GC for drawing text */
         PangoLayout *layout;            /* The PangoLayout containing the text */
 
