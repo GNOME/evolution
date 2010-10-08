@@ -1377,8 +1377,6 @@ static gdouble gnome_canvas_group_point       (GnomeCanvasItem *item,
 static void   gnome_canvas_group_bounds      (GnomeCanvasItem *item,
 					      gdouble *x1, gdouble *y1,
 					      gdouble *x2, gdouble *y2);
-static void   gnome_canvas_group_render      (GnomeCanvasItem *item,
-					      GnomeCanvasBuf *buf);
 
 static GnomeCanvasItemClass *group_parent_class;
 
@@ -1454,7 +1452,6 @@ gnome_canvas_group_class_init (GnomeCanvasGroupClass *class)
 	item_class->map = gnome_canvas_group_map;
 	item_class->unmap = gnome_canvas_group_unmap;
 	item_class->draw = gnome_canvas_group_draw;
-	item_class->render = gnome_canvas_group_render;
 	item_class->point = gnome_canvas_group_point;
 	item_class->bounds = gnome_canvas_group_bounds;
 }
@@ -1846,35 +1843,6 @@ gnome_canvas_group_bounds (GnomeCanvasItem *item,
 	*y1 = miny;
 	*x2 = maxx;
 	*y2 = maxy;
-}
-
-/* Render handler for canvas groups */
-static void
-gnome_canvas_group_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
-{
-	GnomeCanvasGroup *group;
-	GnomeCanvasItem *child;
-	GList *list;
-
-	group = GNOME_CANVAS_GROUP (item);
-
-	for (list = group->item_list; list; list = list->next) {
-		child = list->data;
-
-		if (((child->flags & GNOME_CANVAS_ITEM_VISIBLE)
-		     && ((child->x1 < buf->rect.x1)
-			 && (child->y1 < buf->rect.y1)
-			 && (child->x2 > buf->rect.x0)
-			 && (child->y2 > buf->rect.y0)))
-		    || ((child->flags & GNOME_CANVAS_ITEM_ALWAYS_REDRAW)
-			&& (child->x1 < child->canvas->redraw_x2)
-			&& (child->y1 < child->canvas->redraw_y2)
-			&& (child->x2 > child->canvas->redraw_x1)
-			&& (child->y2 > child->canvas->redraw_y2)))
-			if (GNOME_CANVAS_ITEM_GET_CLASS (child)->render)
-				(* GNOME_CANVAS_ITEM_GET_CLASS (child)->render) (
-					child, buf);
-	}
 }
 
 /* Adds an item to a group */

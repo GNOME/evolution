@@ -129,7 +129,6 @@ static gdouble gnome_canvas_text_point (GnomeCanvasItem *item,
 				       GnomeCanvasItem **actual_item);
 static void gnome_canvas_text_bounds (GnomeCanvasItem *item,
 				      gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
-static void gnome_canvas_text_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf);
 
 static void gnome_canvas_text_set_markup (GnomeCanvasText *textitem,
 					  const gchar     *markup);
@@ -518,7 +517,6 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 	item_class->draw = gnome_canvas_text_draw;
 	item_class->point = gnome_canvas_text_point;
 	item_class->bounds = gnome_canvas_text_bounds;
-	item_class->render = gnome_canvas_text_render;
 }
 
 /* Object initialization function for the text item */
@@ -1457,120 +1455,6 @@ gnome_canvas_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	if (text->clip)
 		gdk_gc_set_clip_rectangle (text->gc, NULL);
-}
-
-/* Render handler for the text item */
-static void
-gnome_canvas_text_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
-{
-	GnomeCanvasText *text;
-	guint32 fg_color;
-	gint render_x = 0, render_y = 0; /* offsets for text rendering,
-					 * for clipping rectangles */
-	gint x, y;
-	gint w, h;
-	guchar *dst, *src;
-	gint src_dx, src_dy;
-	gint i, alpha;
-	gint bm_rows, bm_width;
-
-	text = GNOME_CANVAS_TEXT (item);
-
-	if (!text->text)
-		return;
-
-	fg_color = text->rgba;
-
-        gnome_canvas_buf_ensure_buf (buf);
-
-	bm_rows = (text->clip) ? text->clip_cheight : text->height;
-	bm_width = (text->clip) ? text->clip_cwidth : text->max_width;
-	if (text->priv->render_dirty ||
-	   bm_rows != text->priv->bitmap.rows ||
-	   bm_width != text->priv->bitmap.width) {
-		if (text->priv->bitmap.buffer) {
-			g_free (text->priv->bitmap.buffer);
-		}
-		text->priv->bitmap.rows =  bm_rows;
-		text->priv->bitmap.width = bm_width;
-		text->priv->bitmap.pitch = (text->priv->bitmap.width+3)&~3;
-		text->priv->bitmap.buffer = g_malloc0 (
-			text->priv->bitmap.rows * text->priv->bitmap.pitch);
-		text->priv->bitmap.num_grays = 256;
-		text->priv->bitmap.pixel_mode = ft_pixel_mode_grays;
-
-		/* What this does is when a clipping rectangle is
-		   being used shift the rendering of the text by the
-		   correct amount so that the correct result is
-		   obtained as if all text was rendered, then clipped.
-		   In this sense we can use smaller buffers and less
-		   rendeirng since hopefully FreeType2 checks to see
-		   if the glyph falls in the bounding box before
-		   rasterizing it. */
-
-		if (text->clip) {
-			render_x = text->cx - text->clip_cx;
-			render_y = text->cy - text->clip_cy;
-		}
-
-		pango_ft2_render_layout (&text->priv->bitmap, text->layout, render_x, render_y);
-
-		text->priv->render_dirty = 0;
-	}
-
-	if (text->clip) {
-		x = text->clip_cx - buf->rect.x0;
-		y = text->clip_cy - buf->rect.y0;
-	} else {
-		x = text->cx - buf->rect.x0;
-		y = text->cy - buf->rect.y0;
-	}
-
-	w = text->priv->bitmap.width;
-	h = text->priv->bitmap.rows;
-
-	src_dx = src_dy = 0;
-
-	if (x + w > buf->rect.x1 - buf->rect.x0) {
-		w = buf->rect.x1 - buf->rect.x0 - x;
-	}
-
-	if (y + h > buf->rect.y1 - buf->rect.y0) {
-		h = buf->rect.y1 - buf->rect.y0 - y;
-	}
-
-	if (x < 0) {
-		w -= - x;
-		src_dx += - x;
-		x = 0;
-	}
-
-	if (y < 0) {
-		h -= -y;
-		src_dy += - y;
-		y = 0;
-	}
-
-	dst = buf->buf + y * buf->buf_rowstride + x * 3;
-	src = text->priv->bitmap.buffer +
-		src_dy * text->priv->bitmap.pitch + src_dx;
-	while (h-- > 0) {
-		i = w;
-		while (i-- > 0) {
-			/* FIXME: Do the libart thing instead of divide by 255 */
-			alpha = ((fg_color & 0xff) * (*src)) / 255;
-			dst[0] = (dst[0] * (255 - alpha) + ((fg_color >> 24) & 0xff) * alpha) / 255;
-			dst[1] = (dst[1] * (255 - alpha) + ((fg_color >> 16) & 0xff) * alpha) / 255;
-			dst[2] = (dst[2] * (255 - alpha) + ((fg_color >> 8) & 0xff) * alpha) / 255;
-			dst += 3;
-			src += 1;
-		}
-		dst += buf->buf_rowstride - w*3;
-		src += text->priv->bitmap.pitch - w;
-	}
-
-	buf->is_bg = 0;
-	return;
 }
 
 /* Point handler for the text item */
