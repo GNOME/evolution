@@ -57,8 +57,6 @@ G_BEGIN_DECLS
  * outline_color	string		W		X color specification for outline color,
  *							or NULL pointer for no color (transparent)
  * outline_color_gdk	GdkColor*	RW		Allocated GdkColor for outline
- * fill_stipple		GdkBitmap*	RW		Stipple pattern for fill
- * outline_stipple	GdkBitmap*	RW		Stipple pattern for outline
  * width_pixels		uint		RW		Width of the outline in pixels.  The outline will
  *							not be scaled when the canvas zoom factor is changed.
  * width_units		gdouble		RW		Width of the outline in canvas units.  The outline
