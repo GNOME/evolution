@@ -2245,6 +2245,423 @@ print_day_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 }
 
 static void
+print_work_week_background (GtkPrintContext *context, GnomeCalendar *gcal,
+			    time_t whence, struct pdinfo *pdi, double left,
+			    double right, double top, double bottom)
+{
+	PangoFontDescription *font_hour, *font_minute;
+	gdouble yinc, y;
+	gdouble width = DAY_VIEW_TIME_COLUMN_WIDTH;
+	gdouble day_width;
+	gdouble font_size, max_font_size, hour_font_size, minute_font_size;
+	gchar buf[20];
+	const gchar *minute;
+	const int LONG_EVENT_OFFSET = 6;
+	gboolean use_24_hour;
+	gint i, hour, row;
+	gdouble hour_minute_xl, hour_minute_xr;
+	cairo_t *cr;
+
+	/* Fill the left time column in light-gray. */
+	print_border (context, left, left + width, top, bottom, -1.0, 0.9);
+	/* Fill the right time column in light-gray */
+	print_border (context, right - width, right, top, bottom, -1.0, 0.9);
+
+	/* Draw the border around the entire view. */
+	cr = gtk_print_context_get_cairo_context (context);
+
+	cairo_set_source_rgb (cr, 0, 0, 0);
+	print_border (context, left, right, top, bottom, 1.0, -1.0);
+
+	/* Draw the vertical line on the right of the time column. */
+	cr = gtk_print_context_get_cairo_context (context);
+	cairo_set_line_width (cr, 0.0);
+	cairo_move_to (cr, left + width, bottom);
+	cairo_line_to (cr, left + width, top);
+	cairo_stroke (cr);
+
+	cairo_move_to (cr, right - width, bottom);
+	cairo_line_to (cr, right - width, top);
+	cairo_stroke (cr);
+
+
+	/* Calculate the row height. */
+	if (top > bottom)
+		yinc = (top - bottom) / (pdi->end_hour - pdi->start_hour);
+	else
+		yinc = (bottom - top) / (pdi->end_hour - pdi->start_hour);
+
+        /* Get the 2 fonts we need. */
+	font_size = yinc * 0.6;
+	max_font_size = width * 0.5;
+	hour_font_size = MIN (font_size, max_font_size);
+	font_hour = get_font_for_size (hour_font_size, PANGO_WEIGHT_BOLD);
+
+	font_size = yinc * 0.33;
+	max_font_size = width * 0.25;
+	minute_font_size = MIN (font_size, max_font_size);
+	font_minute = get_font_for_size (minute_font_size, PANGO_WEIGHT_BOLD);
+
+	use_24_hour = calendar_config_get_24_hour_format ();
+
+	row = 0;
+	hour_minute_xl = left + width * 0.58;
+	hour_minute_xr = right - width * 0.45;
+	for (i = pdi->start_hour; i < pdi->end_hour; i++) {
+		y = top + yinc * (row + 1);
+		cr = gtk_print_context_get_cairo_context (context);
+		cairo_set_source_rgb (cr, 0, 0, 0);
+
+		if (use_24_hour) {
+			hour = i;
+			minute = "00";
+		} else {
+			if (i < 12)
+				minute = _("am");
+			else
+				minute = _("pm");
+
+			hour = i % 12;
+			if (hour == 0)
+				hour = 12;
+		}
+
+		/* the hour label/minute */
+		sprintf (buf, "%d", hour);
+		print_text (context, font_hour, buf, PANGO_ALIGN_RIGHT,
+			    left, hour_minute_xl,
+			    y - yinc, y - yinc + hour_font_size);
+		print_text (context, font_minute, minute, PANGO_ALIGN_LEFT,
+			    hour_minute_xl, left + width - 3,
+			    y - yinc, y - yinc + minute_font_size);
+
+		/* To the right */
+		print_text (context, font_hour, buf, PANGO_ALIGN_RIGHT,
+			    left, hour_minute_xr,
+			    y - yinc, y - yinc + hour_font_size);
+		print_text (context, font_minute, minute, PANGO_ALIGN_LEFT,
+			    hour_minute_xr, right - 1,
+			    y - yinc, y - yinc + minute_font_size);
+
+
+                /* Draw the horizontal line between hours, across the entire
+		   width of the day view. */
+		cr = gtk_print_context_get_cairo_context (context);
+		cairo_move_to (cr, left, y);
+		cairo_line_to (cr, right, y);
+		cairo_set_line_width (cr, 1);
+		cairo_stroke (cr);
+
+		/* Draw the horizontal line for the 1/2-hours, across the
+		   entire width except for part of the time column. */
+		cairo_move_to (cr, left + width * 0.6, y - yinc / 2);
+		cairo_line_to (cr, right, y - yinc / 2);
+		cairo_set_line_width (cr, 1);
+		cairo_stroke (cr);
+		row ++;
+	}
+
+	/* Draw the vertical lines for the days */
+	day_width = (right - left - 2*width) / pdi->days_shown;
+	for(i = 0; i < pdi->days_shown - 1; ++i){
+	  cr = gtk_print_context_get_cairo_context (context);
+	  cairo_move_to (cr, left + width + day_width * (i + 1), top);
+	  cairo_line_to (cr, left + width + day_width * (i + 1), bottom);
+	  cairo_set_line_width (cr, 1);
+	  cairo_stroke (cr);
+	}
+
+	/* And now the ones from the border to the hours, looks weird otherwise */
+	cr = gtk_print_context_get_cairo_context (context);
+	cairo_move_to (cr, left, HEADER_HEIGHT);
+	cairo_line_to (cr, left, HEADER_HEIGHT + DAY_VIEW_ROW_HEIGHT + LONG_EVENT_OFFSET);
+
+	cairo_move_to (cr, right, HEADER_HEIGHT);
+	cairo_line_to (cr, right, HEADER_HEIGHT + DAY_VIEW_ROW_HEIGHT + LONG_EVENT_OFFSET);
+	cairo_stroke (cr);
+
+	pango_font_description_free (font_hour);
+	pango_font_description_free (font_minute);
+}
+
+static void
+print_work_week_day_details (GtkPrintContext *context, GnomeCalendar *gcal,
+			     time_t whence, double left, double right,
+			     double top, double bottom, struct pdinfo *_pdi)
+{
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
+	EDayViewEvent *event;
+	PangoFontDescription *font;
+	time_t start, end;
+	struct pdinfo pdi;
+	gint rows_in_top_display, i;
+	gdouble font_size, max_font_size;
+	cairo_t *cr;
+	GdkPixbuf *pixbuf = NULL;
+#define LONG_DAY_EVENTS_TOP_SPACING 4
+#define LONG_DAY_EVENTS_BOTTOM_SPACING 2
+
+	ECalModel *model = gnome_calendar_get_model (gcal);
+
+	start = time_day_begin_with_zone (whence, zone);
+	end = time_day_end_with_zone (start, zone);
+
+	pdi.days_shown = 1;
+	pdi.day_starts[0] = start;
+	pdi.day_starts[1] = end;
+	pdi.long_events = g_array_new (FALSE, FALSE, sizeof (EDayViewEvent));
+	pdi.events[0] = g_array_new (FALSE, FALSE, sizeof (EDayViewEvent));
+	pdi.start_hour = calendar_config_get_day_start_hour ();
+	pdi.end_hour = calendar_config_get_day_end_hour ();
+	if (calendar_config_get_day_end_minute () != 0)
+		pdi.end_hour++;
+	pdi.rows = (pdi.end_hour - pdi.start_hour) * 2;
+	pdi.mins_per_row = 30;
+	pdi.start_minute_offset = pdi.start_hour * 60;
+	pdi.end_minute_offset = pdi.end_hour * 60;
+	pdi.use_24_hour_format = calendar_config_get_24_hour_format ();
+
+	/* Get the events from the server. */
+	e_cal_model_generate_instances (model, start, end, print_day_details_cb, &pdi);
+	qsort (pdi.long_events->data, pdi.long_events->len,
+	       sizeof (EDayViewEvent), e_day_view_event_sort_func);
+	qsort (pdi.events[0]->data, pdi.events[0]->len,
+	       sizeof (EDayViewEvent), e_day_view_event_sort_func);
+
+	pdi.start_hour = MIN (pdi.start_hour, _pdi->start_hour);
+	pdi.end_hour = MAX (pdi.end_hour, _pdi->end_hour);
+
+	/* TODO: This should be redundant */
+	/* Also print events outside of work hours */
+	if (pdi.events[0]->len > 0) {
+		struct icaltimetype tt;
+
+		event = &g_array_index (pdi.events[0], EDayViewEvent, 0);
+		tt = icaltime_from_timet_with_zone (event->start, FALSE, zone);
+		if (tt.hour < pdi.start_hour)
+			pdi.start_hour = tt.hour;
+		pdi.start_minute_offset = pdi.start_hour * 60;
+
+		event = &g_array_index (pdi.events[0], EDayViewEvent, pdi.events[0]->len - 1);
+		tt = icaltime_from_timet_with_zone (event->end, FALSE, zone);
+		if (tt.hour > pdi.end_hour || tt.hour == 0) {
+			pdi.end_hour = tt.hour ? tt.hour : 24;
+			if (tt.minute > 0)
+				pdi.end_hour++;
+		}
+		pdi.end_minute_offset = pdi.end_hour * 60;
+
+		pdi.rows = (pdi.end_hour - pdi.start_hour) * 2;
+	}
+
+	/* Lay them out the long events, across the top of the page. */
+	e_day_view_layout_long_events (pdi.long_events, pdi.days_shown,
+				       pdi.day_starts, &rows_in_top_display);
+
+	 /*Print the long events. */
+	font = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
+
+	/* We always leave space for DAY_VIEW_MIN_ROWS_IN_TOP_DISPLAY in the
+	   top display, but we may have more rows than that, in which case
+	   the main display area will be compressed. */
+	/* Limit long day event to half the height of the panel */
+	rows_in_top_display = MIN (MAX (rows_in_top_display,
+				   DAY_VIEW_MIN_ROWS_IN_TOP_DISPLAY),
+				   (bottom-top)*0.5/DAY_VIEW_ROW_HEIGHT);
+
+	if (rows_in_top_display > pdi.long_events->len)
+		rows_in_top_display = pdi.long_events->len;
+
+	for (i = 0; i < rows_in_top_display && i < pdi.long_events->len; i++) {
+		event = &g_array_index (pdi.long_events, EDayViewEvent, i);
+		print_day_long_event (
+			context, font, left, right,
+			top + LONG_DAY_EVENTS_TOP_SPACING, bottom,
+			DAY_VIEW_ROW_HEIGHT, event, &pdi, model);
+	}
+
+	if (rows_in_top_display < pdi.long_events->len) {
+		/* too many events */
+		cairo_t *cr = gtk_print_context_get_cairo_context (context);
+		gint x, y;
+
+		if (!pixbuf) {
+			const gchar **xpm = (const gchar **)jump_xpm;
+
+			/* this ugly thing is here only to get rid of compiler warning
+			   about unused 'jump_xpm_focused' */
+			if (pixbuf)
+				xpm = (const gchar **)jump_xpm_focused;
+
+			pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
+		}
+
+		/* Right align - 10 comes from print_day_long_event  too */
+		x = right - gdk_pixbuf_get_width (pixbuf) * 0.5 - 10;
+		/* Placing '...' over the last all day event entry printed. '-1 -1' comes
+			from print_long_day_event (top/bottom spacing in each cell) */
+		y = top + LONG_DAY_EVENTS_TOP_SPACING
+			+ DAY_VIEW_ROW_HEIGHT * (i - 1)
+			+ (DAY_VIEW_ROW_HEIGHT - 1 - 1) * 0.5;
+
+		cairo_save (cr);
+		cairo_scale (cr, 0.5, 0.5);
+		gdk_cairo_set_source_pixbuf (cr, pixbuf, x * 2.0, y * 2.0);
+		cairo_paint (cr);
+		cairo_restore (cr);
+	}
+
+	if (!rows_in_top_display)
+		rows_in_top_display++;
+
+	/* Draw the border around the long events. */
+	cr = gtk_print_context_get_cairo_context (context);
+
+	cairo_set_source_rgb (cr, 0, 0, 0);
+	print_border (
+		context, left, right,
+		top, top + rows_in_top_display * DAY_VIEW_ROW_HEIGHT +
+		LONG_DAY_EVENTS_TOP_SPACING + LONG_DAY_EVENTS_BOTTOM_SPACING,
+		1.0, -1.0);
+
+	/* Adjust the area containing the main display. */
+	top += rows_in_top_display * DAY_VIEW_ROW_HEIGHT
+		+ LONG_DAY_EVENTS_TOP_SPACING
+		+ LONG_DAY_EVENTS_BOTTOM_SPACING;
+
+	/* lay out the short events, within the day. */
+	e_day_view_layout_day_events (pdi.events[0], DAY_VIEW_ROWS,
+				      DAY_VIEW_MINS_PER_ROW, pdi.cols_per_row, -1);
+
+	/* print the short events. */
+	if (top > bottom )
+		max_font_size = ((top - bottom) / pdi.rows) - 4;
+	else
+		max_font_size = ((bottom - top ) / pdi.rows) - 4;
+	font_size = MIN(DAY_NORMAL_FONT_SIZE, max_font_size);
+	font = get_font_for_size (font_size, PANGO_WEIGHT_NORMAL);
+
+	for (i = 0; i < pdi.events[0]->len; i++) {
+		event = &g_array_index (pdi.events[0], EDayViewEvent, i);
+		print_day_event (context, font, left,
+				 right, top, bottom, event, &pdi, model);
+	}
+
+	/* Free everything. */
+	if (pixbuf)
+		g_object_unref (pixbuf);
+	free_event_array (pdi.long_events);
+	pango_font_description_free (font);
+	g_array_free (pdi.long_events, TRUE);
+	free_event_array (pdi.events[0]);
+	g_array_free (pdi.events[0], TRUE);
+}
+
+/* Figure out what the overal hour limits are */
+static gboolean
+print_work_week_view_cb (ECalComponent *comp, time_t istart, time_t iend,
+			 gpointer data)
+{
+	ECalModelGenerateInstancesData *mdata = (ECalModelGenerateInstancesData *) data;
+	struct pdinfo *pdi = (struct pdinfo *) mdata->cb_data;
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
+	struct icaltimetype tt;
+
+	tt = icaltime_from_timet_with_zone (istart, FALSE, zone);
+	pdi->start_hour = MIN (pdi->start_hour, tt.hour);
+
+	tt = icaltime_from_timet_with_zone (iend, FALSE, zone);
+	/* If we're past the hour, use the next one */
+	pdi->end_hour = MAX(pdi->end_hour, tt.minute ? tt.hour + 1 : tt.hour);
+
+	return TRUE;
+}
+
+static void
+print_work_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
+{
+	GtkPageSetup *setup;
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
+	time_t when, start, end;
+	gdouble width, height, l;
+	gint i, days = 5;
+	char buf[100];
+	const int LONG_EVENT_OFFSET = 6;
+	struct pdinfo pdi;
+	gdouble day_width, day_x;
+	ECalModel *model = gnome_calendar_get_model (gcal);
+	gdouble weeknum_inc = get_show_week_numbers () ? SMALL_MONTH_WIDTH / 7.0 : 0;
+
+	setup = gtk_print_context_get_page_setup (context);
+
+	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
+	height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
+
+	/* We always start on a Monday */
+	start = time_week_begin_with_zone (date, 1, zone);
+	end = time_add_day_with_zone (start, days, zone);
+
+	pdi.days_shown = days;
+	pdi.start_hour = calendar_config_get_day_start_hour ();
+	pdi.end_hour = calendar_config_get_day_end_hour ();
+
+	e_cal_model_generate_instances (model, start, end,
+					print_work_week_view_cb, &pdi);
+
+	print_work_week_background (context, gcal, date, &pdi, 0.0, width,
+				    HEADER_HEIGHT + DAY_VIEW_ROW_HEIGHT + LONG_EVENT_OFFSET,
+				    height);
+
+	print_border (context, 0.0, width, 0.0, HEADER_HEIGHT, 1.0, 0.9);
+
+	/* Print the 2 mini calendar-months. */
+	l = width - SMALL_MONTH_PAD - (SMALL_MONTH_WIDTH + weeknum_inc) * 2  - SMALL_MONTH_SPACING;
+
+	print_month_small (context, gcal, start,
+			   l, 4, l + SMALL_MONTH_WIDTH + weeknum_inc, HEADER_HEIGHT + 4,
+			   DATE_MONTH | DATE_YEAR, start, end, FALSE);
+
+	l += SMALL_MONTH_SPACING + SMALL_MONTH_WIDTH + weeknum_inc;
+	print_month_small (context, gcal,
+			   time_add_month_with_zone (start, 1, zone),
+			   l, 4, l + SMALL_MONTH_WIDTH + weeknum_inc, HEADER_HEIGHT + 4,
+			   DATE_MONTH | DATE_YEAR, 0, 0, FALSE);
+
+	/* Print the start day of the week, e.g. '7th May 2001'. */
+	format_date (start, DATE_DAY | DATE_MONTH | DATE_YEAR, buf, 100);
+	print_text_size_bold (context, buf, PANGO_ALIGN_LEFT,
+			      3, width,
+			      4, 4 + 24);
+
+	/* Print the end day of the week, e.g. '13th May 2001'. */
+	/* We need to substract one or the wrong day will be printed */
+	format_date (time_add_day_with_zone (end, -1, zone),
+		     DATE_DAY | DATE_MONTH | DATE_YEAR, buf, 100);
+	print_text_size_bold (context, buf, PANGO_ALIGN_LEFT,
+			      3, width,
+			      24 + 3, 24 + 3 + 24);
+
+	/* Now print each days' events */
+	day_width = (width - 2*DAY_VIEW_TIME_COLUMN_WIDTH) / days;
+	when = start;
+	for(i = 0; i < days; ++i){
+		day_x = DAY_VIEW_TIME_COLUMN_WIDTH + day_width * i;
+
+		/* Print the day, e.g. 'Tuesday'. */
+		format_date (when, DATE_DAYNAME, buf, 100);
+
+		print_text_size_bold (context, buf, PANGO_ALIGN_LEFT,
+				      day_x + 4, day_x + day_width,
+				      HEADER_HEIGHT + 4, HEADER_HEIGHT + 4 + 18);
+
+		print_work_week_day_details (context, gcal, when,
+					     day_x, day_x + day_width,
+					     HEADER_HEIGHT, height, &pdi);
+		when = time_add_day_with_zone (when, 1, zone);
+	}
+}
+
+static void
 print_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 {
 	GtkPageSetup *setup;
@@ -2554,6 +2971,8 @@ print_calendar_draw_page (GtkPrintOperation *operation,
 			print_day_view (context, pcali->gcal, pcali->start);
 			break;
 		case GNOME_CAL_WORK_WEEK_VIEW:
+			print_work_week_view (context, pcali->gcal, pcali->start);
+			break;
 		case GNOME_CAL_WEEK_VIEW:
 			print_week_view (context, pcali->gcal, pcali->start);
 			break;
