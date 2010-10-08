@@ -2766,7 +2766,7 @@ print_month_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 
 	print_month_small (context, gcal,
 			   time_add_month_with_zone (date, -1, zone),
-			   8, 4, width / 7 + 20, HEADER_HEIGHT + 4,
+			   8, 4, 8 + SMALL_MONTH_WIDTH + week_numbers_inc, HEADER_HEIGHT + 4,
 			   DATE_MONTH | DATE_YEAR, 0, 0, FALSE);
 
 	/* Print the month, e.g. 'May 2001'. */
