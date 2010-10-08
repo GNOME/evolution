@@ -4,8 +4,6 @@
 srcdir=`dirname $0`
 test -z "$srcdir" && srcdir=.
 
-olddir=`pwd`
-
 PKG_NAME="Evolution"
 REQUIRED_AUTOCONF_VERSION=2.58
 REQUIRED_AUTOMAKE_VERSION=1.10
@@ -25,8 +23,4 @@ which gnome-autogen.sh || {
     exit 1
 }
 
-cd $srcdir
-autopoint --force || exit $?
-
-cd $olddir
 USE_GNOME2_MACROS=1 . gnome-autogen.sh
