@@ -67,7 +67,6 @@ enum {
 	PROP_FILL_COLOR,
 	PROP_FILL_COLOR_GDK,
 	PROP_FILL_COLOR_RGBA,
-	PROP_FILL_STIPPLE,
 	PROP_WIDTH_PIXELS,
 	PROP_WIDTH_UNITS,
 	PROP_CAP_STYLE,
@@ -169,12 +168,6 @@ gnome_canvas_line_class_init (GnomeCanvasLineClass *class)
                  g_param_spec_uint ("fill_color_rgba", NULL, NULL,
 				    0, G_MAXUINT, 0,
 				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_FILL_STIPPLE,
-                 g_param_spec_object ("fill_stipple", NULL, NULL,
-                                      GDK_TYPE_DRAWABLE,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_WIDTH_PIXELS,
@@ -296,10 +289,6 @@ gnome_canvas_line_destroy (GnomeCanvasItem *object)
 	if (line->last_coords)
 		g_free (line->last_coords);
 	line->last_coords = NULL;
-
-	if (line->stipple)
-		g_object_unref (line->stipple);
-	line->stipple = NULL;
 
 	if (line->fill_svp)
 		art_svp_free (line->fill_svp);
@@ -606,26 +595,6 @@ set_line_gc_width (GnomeCanvasLine *line)
 				    line->join);
 }
 
-/* Sets the stipple pattern for the line */
-static void
-set_stipple (GnomeCanvasLine *line, GdkBitmap *stipple, gint reconfigure)
-{
-	if (line->stipple && !reconfigure)
-		g_object_unref (line->stipple);
-
-	line->stipple = stipple;
-	if (stipple && !reconfigure)
-		g_object_ref (stipple);
-
-	if (line->gc) {
-		if (stipple) {
-			gdk_gc_set_stipple (line->gc, stipple);
-			gdk_gc_set_fill (line->gc, GDK_STIPPLED);
-		} else
-			gdk_gc_set_fill (line->gc, GDK_SOLID);
-	}
-}
-
 static void
 gnome_canvas_line_set_property (GObject              *object,
 				guint                 param_id,
@@ -716,11 +685,6 @@ gnome_canvas_line_set_property (GObject              *object,
 	case PROP_FILL_COLOR_RGBA:
 		line->fill_rgba = g_value_get_uint (value);
 		color_changed = TRUE;
-		break;
-
-	case PROP_FILL_STIPPLE:
-		set_stipple (line, (GdkBitmap *) g_value_get_object (value), FALSE);
-		gnome_canvas_item_request_redraw_svp (item, line->fill_svp);
 		break;
 
 	case PROP_WIDTH_PIXELS:
@@ -893,10 +857,6 @@ gnome_canvas_line_get_property (GObject              *object,
 		g_value_set_uint (value, line->fill_rgba);
 		break;
 
-	case PROP_FILL_STIPPLE:
-		g_value_set_object (value, line->stipple);
-		break;
-
 	case PROP_WIDTH_PIXELS:
 		g_value_set_uint (value, line->width);
 		break;
@@ -966,7 +926,6 @@ gnome_canvas_line_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_p
 
         set_line_gc_foreground (line);
         set_line_gc_width (line);
-        set_stipple (line, line->stipple, TRUE);
 
         get_bounds_canvas (line, &x1, &y1, &x2, &y2, affine);
         gnome_canvas_update_bbox (item, x1, y1, x2, y2);
@@ -1081,9 +1040,6 @@ gnome_canvas_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	item_to_canvas (item->canvas, line->coords, points, line->num_points,
 			&actual_num_points_drawn, i2c, x, y);
-
-	if (line->stipple)
-		gnome_canvas_set_stipple_origin (item->canvas, line->gc);
 
 	gdk_draw_lines (drawable, line->gc, points, actual_num_points_drawn);
 
