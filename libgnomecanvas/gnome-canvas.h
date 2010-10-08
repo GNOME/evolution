@@ -107,29 +107,6 @@ enum {
 	GNOME_CANVAS_UPDATE_IS_VISIBLE = 1 << 4		/* Deprecated.  FIXME: remove this */
 };
 
-/* Data for rendering in antialiased mode */
-typedef struct {
-	/* 24-bit RGB buffer for rendering */
-	guchar *buf;
-
-	/* Rectangle describing the rendering area */
-	ArtIRect rect;
-
-	/* Rowstride for the buffer */
-	gint buf_rowstride;
-
-	/* Background color, given as 0xrrggbb */
-	guint32 bg_color;
-
-	/* Invariant: at least one of the following flags is true. */
-
-	/* Set when the render rectangle area is the solid color bg_color */
-	guint is_bg : 1;
-
-	/* Set when the render rectangle area is represented by the buf */
-	guint is_buf : 1;
-} GnomeCanvasBuf;
-
 #define GNOME_TYPE_CANVAS_ITEM            (gnome_canvas_item_get_type ())
 #define GNOME_CANVAS_ITEM(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_ITEM, GnomeCanvasItem))
 #define GNOME_CANVAS_ITEM_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_ITEM, GnomeCanvasItemClass))

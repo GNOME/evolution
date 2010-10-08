@@ -382,64 +382,6 @@ gnome_canvas_polygon_to_point (gdouble *poly, gint num_points, gdouble x, gdoubl
 /* Here are some helper functions for aa rendering: */
 
 /**
- * gnome_canvas_render_svp:
- * @buf: the canvas buffer to render over
- * @svp: the vector path to render
- * @rgba: the rgba color to render
- *
- * Render the svp over the buf.
- **/
-void
-gnome_canvas_render_svp (GnomeCanvasBuf *buf, ArtSVP *svp, guint32 rgba)
-{
-	guint32 fg_color, bg_color;
-	gint alpha;
-
-	if (buf->is_bg) {
-		bg_color = buf->bg_color;
-		alpha = rgba & 0xff;
-		if (alpha == 0xff)
-			fg_color = rgba >> 8;
-		else {
-			/* composite over background color */
-			gint bg_r, bg_g, bg_b;
-			gint fg_r, fg_g, fg_b;
-			gint tmp;
-
-			bg_r = (bg_color >> 16) & 0xff;
-			fg_r = (rgba >> 24) & 0xff;
-			tmp = (fg_r - bg_r) * alpha;
-			fg_r = bg_r + ((tmp + (tmp >> 8) + 0x80) >> 8);
-
-			bg_g = (bg_color >> 8) & 0xff;
-			fg_g = (rgba >> 16) & 0xff;
-			tmp = (fg_g - bg_g) * alpha;
-			fg_g = bg_g + ((tmp + (tmp >> 8) + 0x80) >> 8);
-
-			bg_b = bg_color & 0xff;
-			fg_b = (rgba >> 8) & 0xff;
-			tmp = (fg_b - bg_b) * alpha;
-			fg_b = bg_b + ((tmp + (tmp >> 8) + 0x80) >> 8);
-
-			fg_color = (fg_r << 16) | (fg_g << 8) | fg_b;
-		}
-		art_rgb_svp_aa (svp,
-				buf->rect.x0, buf->rect.y0, buf->rect.x1, buf->rect.y1,
-				fg_color, bg_color,
-				buf->buf, buf->buf_rowstride,
-				NULL);
-		buf->is_bg = 0;
-		buf->is_buf = 1;
-	} else {
-		art_rgb_svp_alpha (svp,
-				   buf->rect.x0, buf->rect.y0, buf->rect.x1, buf->rect.y1,
-				   rgba,
-				   buf->buf, buf->buf_rowstride,
-				   NULL);
-	}
-}
-
-/**
  * gnome_canvas_update_svp:
  * @canvas: the canvas containing the svp that needs updating.
  * @p_svp: a pointer to the existing svp
@@ -618,32 +560,6 @@ gnome_canvas_update_bbox (GnomeCanvasItem *item, gint x1, gint y1, gint x2, gint
 	item->x2 = x2;
 	item->y2 = y2;
 	gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
-}
-
-/**
- * gnome_canvas_buf_ensure_buf:
- * @buf: the buf that needs to be represened in RGB format
- *
- * Ensure that the buffer is in RGB format, suitable for compositing.
- **/
-void
-gnome_canvas_buf_ensure_buf (GnomeCanvasBuf *buf)
-{
-	guchar *bufptr;
-	gint y;
-
-	if (!buf->is_buf) {
-		bufptr = buf->buf;
-		for (y = buf->rect.y0; y < buf->rect.y1; y++) {
-			art_rgb_fill_run (bufptr,
-					  buf->bg_color >> 16,
-					  (buf->bg_color >> 8) & 0xff,
-					  buf->bg_color & 0xff,
-					  buf->rect.x1 - buf->rect.x0);
-			bufptr += buf->buf_rowstride;
-		}
-		buf->is_buf = 1;
-	}
 }
 
 /**
