@@ -37,7 +37,6 @@ G_DEFINE_TYPE (EMInlineFilter, em_inline_filter, CAMEL_TYPE_MIME_FILTER)
 
 enum {
 	EMIF_PLAIN,
-	EMIF_UUENC,
 	EMIF_BINHEX,
 	EMIF_POSTSCRIPT,
 	EMIF_PGPSIGNED,
@@ -51,7 +50,6 @@ static const struct {
 	guint plain:1;
 } emif_types[] = {
 	{ "text",        "plain",                 CAMEL_TRANSFER_ENCODING_DEFAULT,  1, },
-	{ "application", "octet-stream",          CAMEL_TRANSFER_ENCODING_UUENCODE, 0, },
 	{ "application", "mac-binhex40",          CAMEL_TRANSFER_ENCODING_7BIT,     0, },
 	{ "application", "postscript",            CAMEL_TRANSFER_ENCODING_7BIT,     0, },
 	{ "application", "x-inlinepgp-signed",    CAMEL_TRANSFER_ENCODING_DEFAULT,  0, },
@@ -176,28 +174,7 @@ inline_filter_scan(CamelMimeFilter *f, gchar *in, gsize len, gint final)
 
 		switch (emif->state) {
 		case EMIF_PLAIN:
-			/* This could use some funky plugin, but this'll do for now */
-			if (rest_len > 6 && strncmp (start, "begin ", 6) == 0
-			    && start[6] >= '0' && start[6] <= '7') {
-				gint i = 7;
-				gchar *name;
-
-				while (i < rest_len && start[i] >='0' && start[i] <='7')
-					i++;
-
-				restore_inptr ();
-
-				if (i >= rest_len || start[i++] != ' ')
-					break;
-
-				inline_filter_add_part(emif, data_start, start-data_start);
-
-				name = g_strndup(start+i, inptr-start-i-1);
-				emif->filename = camel_header_decode_string(name, emif->base_type?camel_content_type_param(emif->base_type, "charset"):NULL);
-				g_free(name);
-				data_start = start;
-				emif->state = EMIF_UUENC;
-			} else if (rest_len >= 45 && strncmp (start, "(This file must be converted with BinHex 4.0)", 45) == 0) {
+			if (rest_len >= 45 && strncmp (start, "(This file must be converted with BinHex 4.0)", 45) == 0) {
 				restore_inptr ();
 				inline_filter_add_part(emif, data_start, start-data_start);
 				data_start = start;
@@ -219,33 +196,6 @@ inline_filter_scan(CamelMimeFilter *f, gchar *in, gsize len, gint final)
 				emif->state = EMIF_PGPENCRYPTED;
 			}
 
-			break;
-		case EMIF_UUENC:
-			if (rest_len >= 3 && strncmp (start, "end", 3) == 0) {
-				restore_inptr ();
-				inline_filter_add_part(emif, data_start, inptr-data_start);
-				data_start = inptr;
-				emif->state = EMIF_PLAIN;
-			} else {
-				gint linelen;
-
-				/* check the length byte matches the data, if not, output what we have and re-scan this line */
-				len = ((start[0] - ' ') & 077);
-				linelen = inptr-start-1;
-				while (linelen > 0 && (start[linelen] == '\r' || start[linelen] == '\n'))
-					linelen--;
-				linelen--;
-				linelen /= 4;
-				linelen *= 3;
-				if (!(len == linelen || len == linelen-1 || len == linelen-2)) {
-					restore_inptr ();
-					inline_filter_add_part(emif, data_start, start-data_start);
-					data_start = start;
-					inptr = start;
-					emif->state = EMIF_PLAIN;
-					continue;
-				}
-			}
 			break;
 		case EMIF_BINHEX:
 			if (inptr > (start+1) && inptr[-2] == ':') {
