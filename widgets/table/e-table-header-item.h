@@ -75,7 +75,6 @@ typedef struct {
         guint            drag_motion_id, drag_end_id, drag_leave_id, drag_drop_id, drag_data_received_id, drag_data_get_id;
 	guint            sort_info_changed_id, group_info_changed_id;
 	GnomeCanvasItem *remove_item;
-	GdkBitmap       *stipple;
 
 	gchar           *dnd_code;
 
