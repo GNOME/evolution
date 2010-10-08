@@ -73,20 +73,6 @@ static void gnome_canvas_clipgroup_update          (GnomeCanvasItem           *i
  * although I am not sure.
  */
 
-#define GCG_BUF_WIDTH 128
-#define GCG_BUF_HEIGHT 128
-#define GCG_BUF_PIXELS (GCG_BUF_WIDTH * GCG_BUF_HEIGHT)
-#define GCG_BUF_SIZE (GCG_BUF_WIDTH * GCG_BUF_HEIGHT * 3)
-
-#define noSHOW_SHADOW
-
-static guchar *gcg_buf_new (void);
-static void gcg_buf_free (guchar *buf);
-static guchar *gcg_mask_new (void);
-static void gcg_mask_free (guchar *mask);
-
-static void gnome_canvas_clipgroup_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf);
-
 static GnomeCanvasGroupClass *parent_class;
 
 GType
@@ -129,7 +115,6 @@ gnome_canvas_clipgroup_class_init (GnomeCanvasClipgroupClass *klass)
 	gobject_class->get_property = gnome_canvas_clipgroup_get_property;
 	item_class->destroy	    = gnome_canvas_clipgroup_destroy;
 	item_class->update	    = gnome_canvas_clipgroup_update;
-	item_class->render	    = gnome_canvas_clipgroup_render;
 
         g_object_class_install_property (gobject_class,
                                          PROP_PATH,
@@ -291,157 +276,4 @@ gnome_canvas_clipgroup_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *c
 		item->x2 = MIN (item->x2, cbox.x1 + 1.0);
 		item->y2 = MIN (item->y2, cbox.y1 + 1.0);
 	}
-}
-
-/* non-premultiplied composition into RGB */
-
-#define COMPOSEN11(fc,fa,bc) (((255 - (guint) (fa)) * (guint) (bc) + (guint) (fc) * (guint) (fa) + 127) / 255)
-
-static void
-gnome_canvas_clipgroup_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
-{
-	GnomeCanvasClipgroup *cg;
-	GnomeCanvasBuf lbuf;
-	guchar *mask;
-
-	cg = GNOME_CANVAS_CLIPGROUP (item);
-
-	if (cg->svp) {
-		gint bw, bh, sw, sh;
-		gint x, y;
-
-		/* fixme: We could optimize background handling (lauris) */
-
-		if (buf->is_bg) {
-			gnome_canvas_buf_ensure_buf (buf);
-			buf->is_bg = FALSE;
-			buf->is_buf = TRUE;
-		}
-
-		bw = buf->rect.x1 - buf->rect.x0;
-		bh = buf->rect.y1 - buf->rect.y0;
-		if ((bw < 1) || (bh < 1)) return;
-
-		if (bw * bh <= GCG_BUF_PIXELS) {
-			/* We can go with single buffer */
-			sw = bw;
-			sh = bh;
-		} else if (bw <= (GCG_BUF_PIXELS >> 3)) {
-			/* Go with row buffer */
-			sw = bw;
-			sh =  GCG_BUF_PIXELS / bw;
-		} else if (bh <= (GCG_BUF_PIXELS >> 3)) {
-			/* Go with column buffer */
-			sw = GCG_BUF_PIXELS / bh;
-			sh = bh;
-		} else {
-			/* Tile buffer */
-			sw = GCG_BUF_WIDTH;
-			sh = GCG_BUF_HEIGHT;
-		}
-
-		/* Set up local buffer */
-		lbuf.buf = gcg_buf_new ();
-		lbuf.bg_color = buf->bg_color;
-		lbuf.is_bg = FALSE;
-		lbuf.is_buf = TRUE;
-		/* Allocate mask */
-		mask = gcg_mask_new ();
-
-		for (y = buf->rect.y0; y < buf->rect.y1; y += sh) {
-			for (x = buf->rect.x0; x < buf->rect.x1; x += sw) {
-				gint r, xx, yy;
-				/* Set up local buffer */
-				lbuf.rect.x0 = x;
-				lbuf.rect.y0 = y;
-				lbuf.rect.x1 = MIN (x + sw, buf->rect.x1);
-				lbuf.rect.y1 = MIN (y + sh, buf->rect.y1);
-				lbuf.buf_rowstride = 3 * (lbuf.rect.x1 - lbuf.rect.x0);
-				/* Copy background */
-				for (r = lbuf.rect.y0; r < lbuf.rect.y1; r++) {
-					memcpy (lbuf.buf + (r - lbuf.rect.y0) * lbuf.buf_rowstride,
-						buf->buf + (r - buf->rect.y0) * buf->buf_rowstride + (x - buf->rect.x0) * 3,
-						(lbuf.rect.x1 - lbuf.rect.x0) * 3);
-				}
-				/* Invoke render method */
-				if (((GnomeCanvasItemClass *) parent_class)->render)
-					((GnomeCanvasItemClass *) parent_class)->render (item, &lbuf);
-				/* Render mask */
-				art_gray_svp_aa (cg->svp, lbuf.rect.x0, lbuf.rect.y0, lbuf.rect.x1, lbuf.rect.y1,
-						 mask, lbuf.rect.x1 - lbuf.rect.x0);
-				/* Combine */
-				for (yy = lbuf.rect.y0; yy < lbuf.rect.y1; yy++) {
-					guchar *s, *m, *d;
-					s = lbuf.buf + (yy - lbuf.rect.y0) * lbuf.buf_rowstride;
-					m = mask + (yy - lbuf.rect.y0) * (lbuf.rect.x1 - lbuf.rect.x0);
-					d = buf->buf + (yy - buf->rect.y0) * buf->buf_rowstride + (x - buf->rect.x0) * 3;
-					for (xx = lbuf.rect.x0; xx < lbuf.rect.x1; xx++) {
-#ifndef SHOW_SHADOW
-						d[0] = COMPOSEN11 (s[0], m[0], d[0]);
-						d[1] = COMPOSEN11 (s[1], m[0], d[1]);
-						d[2] = COMPOSEN11 (s[2], m[0], d[2]);
-#else
-						d[0] = COMPOSEN11 (s[0], m[0] | 0x7f, d[0]);
-						d[1] = COMPOSEN11 (s[1], m[0] | 0x7f, d[1]);
-						d[2] = COMPOSEN11 (s[2], m[0] | 0x7f, d[2]);
-#endif
-						s += 3;
-						m += 1;
-						d += 3;
-					}
-				}
-			}
-		}
-		/* Free buffers */
-		gcg_mask_free (mask);
-		gcg_buf_free (lbuf.buf);
-	} else {
-		if (((GnomeCanvasItemClass *) parent_class)->render)
-			((GnomeCanvasItemClass *) parent_class)->render (item, buf);
-	}
-}
-
-static GSList *gcg_buffers = NULL;
-static GSList *gcg_masks = NULL;
-
-static guchar *
-gcg_buf_new (void)
-{
-	guchar *buf;
-
-	if (!gcg_buffers) {
-		buf = g_new (guchar, GCG_BUF_SIZE);
-	} else {
-		buf = (guchar *) gcg_buffers->data;
-		gcg_buffers = g_slist_remove (gcg_buffers, buf);
-	}
-
-	return buf;
-}
-
-static void
-gcg_buf_free (guchar *buf)
-{
-	gcg_buffers = g_slist_prepend (gcg_buffers, buf);
-}
-
-static guchar *
-gcg_mask_new (void)
-{
-	guchar *mask;
-
-	if (!gcg_masks) {
-		mask = g_new (guchar, GCG_BUF_PIXELS);
-	} else {
-		mask = (guchar *) gcg_masks->data;
-		gcg_masks = g_slist_remove (gcg_masks, mask);
-	}
-
-	return mask;
-}
-
-static void
-gcg_mask_free (guchar *mask)
-{
-	gcg_masks = g_slist_prepend (gcg_masks, mask);
 }

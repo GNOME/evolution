@@ -128,8 +128,6 @@ static gdouble gnome_canvas_rich_text_point (GnomeCanvasItem *item,
 static void gnome_canvas_rich_text_draw (GnomeCanvasItem *item,
 					GdkDrawable *drawable,
 					gint x, gint y, gint width, gint height);
-static void gnome_canvas_rich_text_render (GnomeCanvasItem *item,
-					  GnomeCanvasBuf *buf);
 static gint gnome_canvas_rich_text_event (GnomeCanvasItem *item,
 					 GdkEvent *event);
 static void gnome_canvas_rich_text_get_bounds (GnomeCanvasItem *text,
@@ -384,7 +382,6 @@ gnome_canvas_rich_text_class_init (GnomeCanvasRichTextClass *klass)
 	item_class->unrealize = gnome_canvas_rich_text_unrealize;
 	item_class->draw = gnome_canvas_rich_text_draw;
 	item_class->point = gnome_canvas_rich_text_point;
-	item_class->render = gnome_canvas_rich_text_render;
 	item_class->event = gnome_canvas_rich_text_event;
 	item_class->bounds = gnome_canvas_rich_text_get_bounds;
 } /* gnome_canvas_rich_text_class_init */
@@ -2099,12 +2096,6 @@ gnome_canvas_rich_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		0, 0, (x2 - x1) - (x - x1), (y2 - y1) - (y - y1),
 		NULL);
 } /* gnome_canvas_rich_text_draw */
-
-static void
-gnome_canvas_rich_text_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
-{
-	g_warning ("rich text item not implemented for anti-aliased canvas");
-} /* gnome_canvas_rich_text_render */
 
 #if 0
 static GtkTextTag *

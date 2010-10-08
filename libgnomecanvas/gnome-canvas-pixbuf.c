@@ -93,7 +93,6 @@ static void gnome_canvas_pixbuf_update (GnomeCanvasItem *item, gdouble *affine,
 					ArtSVP *clip_path, gint flags);
 static void gnome_canvas_pixbuf_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				      gint x, gint y, gint width, gint height);
-static void gnome_canvas_pixbuf_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf);
 static gdouble gnome_canvas_pixbuf_point (GnomeCanvasItem *item,
 					 gdouble x,
 					 gdouble y,
@@ -227,7 +226,6 @@ gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class)
 	item_class->destroy = gnome_canvas_pixbuf_destroy;
 	item_class->update = gnome_canvas_pixbuf_update;
 	item_class->draw = gnome_canvas_pixbuf_draw;
-	item_class->render = gnome_canvas_pixbuf_render;
 	item_class->point = gnome_canvas_pixbuf_point;
 	item_class->bounds = gnome_canvas_pixbuf_bounds;
 }
@@ -813,96 +811,6 @@ gnome_canvas_pixbuf_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	g_object_unref (pixbuf);
 	g_free (buf);
-}
-
-/* Render handler for the pixbuf canvas item */
-static void
-gnome_canvas_pixbuf_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
-{
-	GnomeCanvasPixbuf *gcp;
-	PixbufPrivate *priv;
-	gdouble i2c[6], render_affine[6];
-
-	gcp = GNOME_CANVAS_PIXBUF (item);
-	priv = gcp->priv;
-
-	if (!priv->pixbuf)
-		return;
-
-	gnome_canvas_item_i2c_affine (item, i2c);
-	compute_render_affine (gcp, render_affine, i2c);
-        gnome_canvas_buf_ensure_buf (buf);
-
-	if ((fabs (render_affine[1]) < GNOME_CANVAS_EPSILON) &&
-	    (fabs (render_affine[2]) < GNOME_CANVAS_EPSILON) &&
-	    render_affine[0] > 0.0 &&
-	    render_affine[3] > 0.0)
-	  {
-	    GdkPixbuf *dest_pixbuf;
-	    gint x0, y0, x1, y1;
-
-	    dest_pixbuf = gdk_pixbuf_new_from_data (buf->buf,
-						    GDK_COLORSPACE_RGB,
-						    FALSE,
-						    8,
-						    buf->rect.x1 - buf->rect.x0,
-						    buf->rect.y1 - buf->rect.y0,
-						    buf->buf_rowstride,
-						    NULL, NULL);
-
-	    x0 = floor (render_affine[4] - buf->rect.x0 + 0.5);
-	    y0 = floor (render_affine[5] - buf->rect.y0 + 0.5);
-
-	    x1 = x0 + floor (gdk_pixbuf_get_width (priv->pixbuf) * render_affine[0] + 0.5);
-	    y1 = y0 + floor (gdk_pixbuf_get_height (priv->pixbuf) * render_affine[3] + 0.5);
-
-	    x0 = MAX (x0, 0);
-	    x0 = MIN (x0, buf->rect.x1 - buf->rect.x0);
-	    y0 = MAX (y0, 0);
-	    y0 = MIN (y0, buf->rect.y1 - buf->rect.y0);
-
-	    x1 = MAX (x1, 0);
-	    x1 = MIN (x1, buf->rect.x1 - buf->rect.x0);
-	    y1 = MAX (y1, 0);
-	    y1 = MIN (y1, buf->rect.y1 - buf->rect.y0);
-
-	    gdk_pixbuf_composite  (priv->pixbuf,
-				   dest_pixbuf,
-				   x0, y0,
-				   x1 - x0, y1 - y0,
-				   render_affine[4] - buf->rect.x0,
-				   render_affine[5] - buf->rect.y0,
-				   render_affine[0],
-				   render_affine[3],
-				   GDK_INTERP_BILINEAR,
-				   255);
-
-	    g_object_unref (dest_pixbuf);
-	  }
-	else if (gdk_pixbuf_get_has_alpha (priv->pixbuf))
-		art_rgb_rgba_affine (buf->buf,
-				     buf->rect.x0, buf->rect.y0, buf->rect.x1, buf->rect.y1,
-				     buf->buf_rowstride,
-				     gdk_pixbuf_get_pixels (priv->pixbuf),
-				     gdk_pixbuf_get_width (priv->pixbuf),
-				     gdk_pixbuf_get_height (priv->pixbuf),
-				     gdk_pixbuf_get_rowstride (priv->pixbuf),
-				     render_affine,
-				     ART_FILTER_NEAREST,
-				     NULL);
-	else
-		art_rgb_affine (buf->buf,
-				buf->rect.x0, buf->rect.y0, buf->rect.x1, buf->rect.y1,
-				buf->buf_rowstride,
-				gdk_pixbuf_get_pixels (priv->pixbuf),
-				gdk_pixbuf_get_width (priv->pixbuf),
-				gdk_pixbuf_get_height (priv->pixbuf),
-				gdk_pixbuf_get_rowstride (priv->pixbuf),
-				render_affine,
-				ART_FILTER_NEAREST,
-				NULL);
-
-	buf->is_bg = 0;
 }
 
 

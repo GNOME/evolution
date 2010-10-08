@@ -197,14 +197,6 @@ struct _GnomeCanvasItemClass {
 	void (* draw) (GnomeCanvasItem *item, GdkDrawable *drawable,
 		       gint x, gint y, gint width, gint height);
 
-	/* Render the item over the buffer given.  The buf data structure
-	 * contains both a pointer to a packed 24-bit RGB array, and the
-	 * coordinates.  This method is only used for antialiased canvases.
-	 *
-	 * TODO: figure out where clip paths fit into the rendering framework.
-	 */
-	void (* render) (GnomeCanvasItem *item, GnomeCanvasBuf *buf);
-
 	/* Calculate the distance from an item to the specified point.  It also
          * returns a canvas item which is the item itself in the case of the
          * object being an actual leaf item, or a child in case of the object

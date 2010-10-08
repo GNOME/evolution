@@ -79,7 +79,6 @@ static void   gnome_canvas_shape_draw        (GnomeCanvasItem *item, GdkDrawable
                                               gint x, gint y, gint width, gint height);
 static gdouble gnome_canvas_shape_point       (GnomeCanvasItem *item, gdouble x, gdouble y,
                                               gint cx, gint cy, GnomeCanvasItem **actual_item);
-static void   gnome_canvas_shape_render      (GnomeCanvasItem *item, GnomeCanvasBuf *buf);
 static void   gnome_canvas_shape_bounds      (GnomeCanvasItem *item,
 					      gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
 
@@ -221,7 +220,6 @@ gnome_canvas_shape_class_init (GnomeCanvasShapeClass *class)
 	item_class->unrealize = gnome_canvas_shape_unrealize;
 	item_class->draw = gnome_canvas_shape_draw;
 	item_class->point = gnome_canvas_shape_point;
-	item_class->render = gnome_canvas_shape_render;
 	item_class->bounds = gnome_canvas_shape_bounds;
 }
 
@@ -662,25 +660,6 @@ gnome_canvas_shape_unrealize (GnomeCanvasItem *item)
 
 	if (parent_class->unrealize)
 		(* parent_class->unrealize) (item);
-}
-
-static void
-gnome_canvas_shape_render (GnomeCanvasItem *item,
-			     GnomeCanvasBuf *buf)
-{
-	GnomeCanvasShape *shape;
-
-	shape = GNOME_CANVAS_SHAPE (item);
-
-	if (shape->priv->fill_svp != NULL)
-		gnome_canvas_render_svp (buf,
-			shape->priv->fill_svp,
-			shape->priv->fill_rgba);
-
-	if (shape->priv->outline_svp != NULL)
-		gnome_canvas_render_svp (buf,
-			shape->priv->outline_svp,
-			shape->priv->outline_rgba);
 }
 
 static void

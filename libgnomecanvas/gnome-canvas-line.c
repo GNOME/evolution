@@ -102,7 +102,6 @@ static void   gnome_canvas_line_draw        (GnomeCanvasItem *item, GdkDrawable 
 static gdouble gnome_canvas_line_point       (GnomeCanvasItem *item, gdouble x, gdouble y,
 					     gint cx, gint cy, GnomeCanvasItem **actual_item);
 static void   gnome_canvas_line_bounds      (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
-static void   gnome_canvas_line_render      (GnomeCanvasItem *item, GnomeCanvasBuf *buf);
 
 static GnomeCanvasItemClass *parent_class;
 
@@ -259,8 +258,6 @@ gnome_canvas_line_class_init (GnomeCanvasLineClass *class)
 	item_class->draw = gnome_canvas_line_draw;
 	item_class->point = gnome_canvas_line_point;
 	item_class->bounds = gnome_canvas_line_bounds;
-
-	item_class->render = gnome_canvas_line_render;
 }
 
 static void
@@ -952,58 +949,6 @@ gnome_canvas_line_get_property (GObject              *object,
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
 		break;
 	}
-}
-
-static void
-gnome_canvas_line_render (GnomeCanvasItem *item,
-			  GnomeCanvasBuf *buf)
-{
-	GnomeCanvasLine *line;
-
-	line = GNOME_CANVAS_LINE (item);
-
-	if (line->fill_svp != NULL)
-		gnome_canvas_render_svp (buf, line->fill_svp, line->fill_rgba);
-
-	if (line->first_svp != NULL)
-		gnome_canvas_render_svp (buf, line->first_svp, line->fill_rgba);
-
-	if (line->last_svp != NULL)
-		gnome_canvas_render_svp (buf, line->last_svp, line->fill_rgba);
-}
-
-static ArtSVP *
-svp_from_points (const gdouble *item_coords, gint num_points, const gdouble affine[6])
-{
-	ArtVpath *vpath;
-	ArtSVP *svp;
-	gdouble x, y;
-	gint i;
-
-	vpath = art_new (ArtVpath, num_points + 2);
-
-	for (i = 0; i < num_points; i++) {
-		vpath[i].code = i == 0 ? ART_MOVETO : ART_LINETO;
-		x = item_coords[i * 2];
-		y = item_coords[i * 2 + 1];
-		vpath[i].x = x * affine[0] + y * affine[2] + affine[4];
-		vpath[i].y = x * affine[1] + y * affine[3] + affine[5];
-	}
-#if 0
-	vpath[i].code = ART_LINETO;
-	vpath[i].x = vpath[0].x;
-	vpath[i].y = vpath[0].y;
-	i++;
-#endif
-	vpath[i].code = ART_END;
-	vpath[i].x = 0;
-	vpath[i].y = 0;
-
-	svp = art_svp_from_vpath (vpath);
-
-	art_free (vpath);
-
-	return svp;
 }
 
 static void
