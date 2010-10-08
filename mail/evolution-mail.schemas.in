@@ -1154,6 +1154,23 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/prompts/reply_close_browser</key>
+      <applyto>/apps/evolution/mail/prompts/reply_close_browser</applyto>
+      <owner>evolution-mail</owner>
+      <type>string</type>
+      <default>ask</default>
+      <locale name="C">
+         <short>Prompt when replying or forwarding from a mail browser whether close it</short>
+         <long>
+	 Possible values are:
+	 never - to never close browser window
+	 always - to always close browser window
+	 ask - (or any other value) will ask user
+         </long>
+      </locale>
+    </schema>
+
        <!-- Trash settings -->
 
     <schema>

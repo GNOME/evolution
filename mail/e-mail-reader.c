@@ -415,6 +415,55 @@ action_mail_flag_for_followup_cb (GtkAction *action,
 }
 
 static void
+check_close_browser_reader (EMailReader *reader)
+{
+	GConfClient *gconf;
+	gchar *value;
+	gboolean close_it = FALSE;
+
+	g_return_if_fail (read != NULL);
+
+	/* only allow closing of a mail browser and nothing else */
+	if (!E_IS_MAIL_BROWSER (reader))
+		return;
+
+	gconf = mail_config_get_gconf_client ();
+	value = gconf_client_get_string (gconf, "/apps/evolution/mail/prompts/reply_close_browser", NULL);
+	if (value && g_str_equal (value, "always")) {
+		close_it = TRUE;
+	} else if (!value || !g_str_equal (value, "never")) {
+		GtkWidget *dialog;
+		GtkWindow *parent;
+		gint response;
+		EShell *shell;
+		EShellBackend *shell_backend;
+
+		shell_backend = e_mail_reader_get_shell_backend (reader);
+		shell = e_shell_backend_get_shell (shell_backend);
+
+		parent = e_shell_get_active_window (shell);
+		if (!parent)
+			parent = e_mail_reader_get_window (reader);
+
+		dialog = e_alert_dialog_new_for_args (parent, "mail:ask-reply-close-browser", NULL);
+		response = gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+
+		close_it = response == GTK_RESPONSE_YES || response == GTK_RESPONSE_OK;
+
+		if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_CANCEL)
+			gconf_client_set_string (
+				gconf, "/apps/evolution/mail/prompts/reply_close_browser",
+				response == GTK_RESPONSE_OK ? "always" : "never", NULL);
+	}
+
+	g_free (value);
+
+	if (close_it)
+		gtk_widget_destroy (GTK_WIDGET (reader));
+}
+
+static void
 action_mail_forward_cb (GtkAction *action,
                         EMailReader *reader)
 {
@@ -439,6 +488,8 @@ action_mail_forward_cb (GtkAction *action,
 		em_utils_forward_messages (shell, folder, uids, folder_uri);
 	else
 		em_utils_uids_free (uids);
+
+	check_close_browser_reader (reader);
 }
 
 static void
@@ -466,6 +517,8 @@ action_mail_forward_attached_cb (GtkAction *action,
 		em_utils_forward_attached (shell, folder, uids, folder_uri);
 	else
 		em_utils_uids_free (uids);
+
+	check_close_browser_reader (reader);
 }
 
 static void
@@ -493,6 +546,8 @@ action_mail_forward_inline_cb (GtkAction *action,
 		em_utils_forward_inline (shell, folder, uids, folder_uri);
 	else
 		em_utils_uids_free (uids);
+
+	check_close_browser_reader (reader);
 }
 
 static void
@@ -520,6 +575,8 @@ action_mail_forward_quoted_cb (GtkAction *action,
 		em_utils_forward_quoted (shell, folder, uids, folder_uri);
 	else
 		em_utils_uids_free (uids);
+
+	check_close_browser_reader (reader);
 }
 
 static void
@@ -911,6 +968,7 @@ action_mail_redirect_cb (GtkAction *action,
 	g_return_if_fail (uid != NULL);
 
 	em_utils_redirect_message_by_uid (shell, folder, uid);
+	check_close_browser_reader (reader);
 }
 
 static void
@@ -967,6 +1025,7 @@ action_mail_reply_all_check (CamelFolder *folder,
 	}
 
 	e_mail_reader_reply_to_message (reader, message, mode);
+	check_close_browser_reader (reader);
 }
 
 static void
@@ -1008,6 +1067,7 @@ action_mail_reply_all_cb (GtkAction *action,
 	}
 
 	e_mail_reader_reply_to_message (reader, NULL, REPLY_MODE_ALL);
+	check_close_browser_reader (reader);
 }
 
 static void
@@ -1019,9 +1079,10 @@ action_mail_reply_group_cb (GtkAction *action,
 					"/apps/evolution/mail/composer/group_reply_to_list", NULL);
 	guint32 state = e_mail_reader_check_state (reader);
 
-	if (reply_list && (state & E_MAIL_READER_SELECTION_IS_MAILING_LIST))
+	if (reply_list && (state & E_MAIL_READER_SELECTION_IS_MAILING_LIST)) {
 		e_mail_reader_reply_to_message (reader, NULL, REPLY_MODE_LIST);
-	else
+		check_close_browser_reader (reader);
+	} else
 		action_mail_reply_all_cb (action, reader);
 }
 
@@ -1030,6 +1091,7 @@ action_mail_reply_list_cb (GtkAction *action,
                            EMailReader *reader)
 {
 	e_mail_reader_reply_to_message (reader, NULL, REPLY_MODE_LIST);
+	check_close_browser_reader (reader);
 }
 
 static void
@@ -1136,6 +1198,7 @@ action_mail_reply_sender_check (CamelFolder *folder,
 	}
 
 	e_mail_reader_reply_to_message (reader, message, mode);
+	check_close_browser_reader (reader);
 }
 
 static void
@@ -1177,6 +1240,7 @@ action_mail_reply_sender_cb (GtkAction *action,
 		return;
 	}
 	e_mail_reader_reply_to_message (reader, NULL, REPLY_MODE_SENDER);
+	check_close_browser_reader (reader);
 }
 
 static void
