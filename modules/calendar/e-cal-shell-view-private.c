@@ -46,22 +46,6 @@ static const gchar * files_to_check[CHECK_NB] = {
         ETC_LOCALTIME
 };
 
-static void
-cal_shell_view_process_completed_tasks (ECalShellView *cal_shell_view,
-                                        gboolean config_changed)
-{
-#if 0
-	ECalShellContent *cal_shell_content;
-	ECalendarTable *task_table;
-
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
-
-	e_calendar_table_process_completed_tasks (
-		task_table, clients, config_changed);
-#endif
-}
-
 static struct tm
 cal_shell_view_get_current_time (ECalendarItem *calitem,
                                  ECalShellView *cal_shell_view)
