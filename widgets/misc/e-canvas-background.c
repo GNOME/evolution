@@ -271,9 +271,7 @@ ecb_set_property (GObject *object,
 
 		if (item->flags & GNOME_CANVAS_ITEM_REALIZED) {
 			get_color (ecb);
-			if (!item->canvas->aa) {
-				gdk_gc_set_foreground (ecb->priv->gc, &ecb->priv->color);
-			}
+                        gdk_gc_set_foreground (ecb->priv->gc, &ecb->priv->color);
 		}
 	}
 
@@ -349,8 +347,7 @@ ecb_realize (GnomeCanvasItem *item)
 
 	ecb->priv->gc = gdk_gc_new (bin_window);
 	get_color (ecb);
-	if (!item->canvas->aa)
-		gdk_gc_set_foreground (ecb->priv->gc, &ecb->priv->color);
+        gdk_gc_set_foreground (ecb->priv->gc, &ecb->priv->color);
 
 	set_stipple (ecb, NULL, FALSE);
 
