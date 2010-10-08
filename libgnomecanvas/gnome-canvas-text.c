@@ -770,47 +770,8 @@ gnome_canvas_text_set_property (GObject            *object,
 	color_changed = FALSE;
 	have_pixel = FALSE;
 
-	if (!text->layout) {
-
-		PangoContext *gtk_context, *context;
-		gtk_context = gtk_widget_get_pango_context (GTK_WIDGET (item->canvas));
-
-		if (item->canvas->aa)  {
-			PangoFontMap *fontmap;
-			PangoLanguage *language;
-			gint	pixels, mm;
-			gdouble	dpi_x;
-			gdouble	dpi_y;
-
-			pixels = gdk_screen_width ();
-			mm = gdk_screen_width_mm ();
-			dpi_x = (((gdouble) pixels * 25.4) / (gdouble) mm);
-
-			pixels = gdk_screen_height ();
-			mm = gdk_screen_height_mm ();
-			dpi_y = (((gdouble) pixels * 25.4) / (gdouble) mm);
-
-			/* XXX This used to call pango_ft2_get_context().
-			 *     Is there a better way to do this? */
-			fontmap = pango_ft2_font_map_new ();
-			pango_ft2_font_map_set_resolution (PANGO_FT2_FONT_MAP (fontmap), dpi_x, dpi_y);
-			context = pango_font_map_create_context (fontmap);
-
-			language = pango_context_get_language (gtk_context);
-			pango_context_set_language (context, language);
-			pango_context_set_base_dir (context,
-						    pango_context_get_base_dir (gtk_context));
-			pango_context_set_font_description (context,
-							    pango_context_get_font_description (gtk_context));
-
-		} else
-			context = gtk_context;
-
-		text->layout = pango_layout_new (context);
-
-		if (item->canvas->aa)
-			g_object_unref (G_OBJECT (context));
-	}
+	if (!text->layout)
+                text->layout = pango_layout_new (gtk_widget_get_pango_context (GTK_WIDGET (item->canvas)));
 
 	switch (param_id) {
 	case PROP_TEXT:
@@ -1089,8 +1050,7 @@ gnome_canvas_text_set_property (GObject            *object,
 		else
 			text->pixel = gnome_canvas_get_color_pixel (item->canvas, text->rgba);
 
-		if (!item->canvas->aa)
-			set_text_gc_foreground (text);
+		set_text_gc_foreground (text);
 	}
 
 	/* Calculate text dimensions */

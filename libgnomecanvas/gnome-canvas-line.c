@@ -801,8 +801,7 @@ gnome_canvas_line_set_property (GObject              *object,
 			line->fill_pixel = gnome_canvas_get_color_pixel (item->canvas,
 									 line->fill_rgba);
 
-		if (!item->canvas->aa)
-			set_line_gc_foreground (line);
+		set_line_gc_foreground (line);
 
 		gnome_canvas_item_request_redraw_svp (item, line->fill_svp);
 
@@ -1011,11 +1010,6 @@ static void
 gnome_canvas_line_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
 {
 	GnomeCanvasLine *line;
-	gint i;
-	ArtVpath *vpath;
-	ArtPoint pi, pc;
-	gdouble width;
-	ArtSVP *svp;
 	gdouble x1, y1, x2, y2;
 
 	line = GNOME_CANVAS_LINE (item);
@@ -1025,61 +1019,12 @@ gnome_canvas_line_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_p
 
 	reconfigure_arrows (line);
 
-	if (item->canvas->aa) {
-		gnome_canvas_item_reset_bounds (item);
+        set_line_gc_foreground (line);
+        set_line_gc_width (line);
+        set_stipple (line, line->stipple, TRUE);
 
-		vpath = art_new (ArtVpath, line->num_points + 2);
-
-		for (i = 0; i < line->num_points; i++) {
-			pi.x = line->coords[i * 2];
-			pi.y = line->coords[i * 2 + 1];
-			art_affine_point (&pc, &pi, affine);
-			vpath[i].code = i == 0 ? ART_MOVETO : ART_LINETO;
-			vpath[i].x = pc.x;
-			vpath[i].y = pc.y;
-		}
-		vpath[i].code = ART_END;
-		vpath[i].x = 0;
-		vpath[i].y = 0;
-
-		if (line->width_pixels)
-			width = line->width;
-		else
-			width = line->width * art_affine_expansion (affine);
-
-		if (width < 0.5)
-			width = 0.5;
-
-		svp = art_svp_vpath_stroke (vpath,
-					    gnome_canvas_join_gdk_to_art (line->join),
-					    gnome_canvas_cap_gdk_to_art (line->cap),
-					    width,
-					    4,
-					    0.25);
-		art_free (vpath);
-
-		gnome_canvas_item_update_svp_clip (item, &line->fill_svp, svp, clip_path);
-
-		if (line->first_arrow && line->first_coords) {
-			svp = svp_from_points (line->first_coords, NUM_ARROW_POINTS, affine);
-                        gnome_canvas_item_update_svp_clip (item,
-                                        &line->first_svp, svp, clip_path);
-                }
-
-		if (line->last_arrow && line->last_coords) {
-			svp = svp_from_points (line->last_coords, NUM_ARROW_POINTS, affine);
-                        gnome_canvas_item_update_svp_clip (item,
-                                        &line->last_svp, svp, clip_path);
-                }
-
-	} else {
-		set_line_gc_foreground (line);
-		set_line_gc_width (line);
-		set_stipple (line, line->stipple, TRUE);
-
-		get_bounds_canvas (line, &x1, &y1, &x2, &y2, affine);
-		gnome_canvas_update_bbox (item, x1, y1, x2, y2);
-	}
+        get_bounds_canvas (line, &x1, &y1, &x2, &y2, affine);
+        gnome_canvas_update_bbox (item, x1, y1, x2, y2);
 }
 
 static void

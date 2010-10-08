@@ -596,18 +596,7 @@ gnome_canvas_item_update_svp_clip (GnomeCanvasItem *item,
 void
 gnome_canvas_item_request_redraw_svp (GnomeCanvasItem *item, const ArtSVP *svp)
 {
-	GnomeCanvas *canvas;
-	ArtUta *uta;
-
-	canvas = item->canvas;
-	if (canvas->aa) {
-		if (svp != NULL) {
-			uta = art_uta_from_svp (svp);
-			gnome_canvas_request_redraw_uta (canvas, uta);
-		}
-	} else {
-		gnome_canvas_request_redraw (canvas, item->x1, item->y1, item->x2, item->y2);
-	}
+	gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
 }
 
 /**

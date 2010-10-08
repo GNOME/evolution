@@ -1935,7 +1935,6 @@ group_remove (GnomeCanvasGroup *group, GnomeCanvasItem *item)
 
 enum {
 	DRAW_BACKGROUND,
-	RENDER_BACKGROUND,
 	LAST_SIGNAL
 };
 
@@ -1975,8 +1974,8 @@ static GtkLayoutClass *canvas_parent_class;
 static guint canvas_signals[LAST_SIGNAL];
 
 enum {
-	PROP_AA = 1,
-	PROP_FOCUSED_ITEM
+        PROP_0,
+	PROP_FOCUSED_ITEM,
 };
 
 /**
@@ -2020,9 +2019,6 @@ gnome_canvas_get_property (GObject    *object,
 			   GParamSpec *pspec)
 {
 	switch (prop_id) {
-	case PROP_AA:
-		g_value_set_boolean (value, GNOME_CANVAS (object)->aa);
-		break;
 	case PROP_FOCUSED_ITEM:
 		g_value_set_object (value, GNOME_CANVAS (object)->focused_item);
 		break;
@@ -2039,9 +2035,6 @@ gnome_canvas_set_property (GObject      *object,
 			   GParamSpec   *pspec)
 {
 	switch (prop_id) {
-	case PROP_AA:
-		GNOME_CANVAS (object)->aa = g_value_get_boolean (value);
-		break;
 	case PROP_FOCUSED_ITEM:
 		GNOME_CANVAS (object)->focused_item = g_value_get_object (value);
 		break;
@@ -2084,16 +2077,7 @@ gnome_canvas_class_init (GnomeCanvasClass *klass)
 	widget_class->focus_out_event = gnome_canvas_focus_out;
 
 	klass->draw_background = gnome_canvas_draw_background;
-	klass->render_background = NULL;
 	klass->request_update = gnome_canvas_request_update_real;
-
-	g_object_class_install_property (G_OBJECT_CLASS (object_class),
-					 PROP_AA,
-					 g_param_spec_boolean ("aa",
-							       "Antialiased",
-							       "The antialiasing mode of the canvas.",
-							       FALSE,
-							       G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 
 	g_object_class_install_property (object_class, PROP_FOCUSED_ITEM,
 					 g_param_spec_object ("focused_item", NULL, NULL,
@@ -2109,14 +2093,6 @@ gnome_canvas_class_init (GnomeCanvasClass *klass)
 			      gnome_canvas_marshal_VOID__OBJECT_INT_INT_INT_INT,
 			      G_TYPE_NONE, 5, GDK_TYPE_DRAWABLE,
 			      G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT);
-	canvas_signals[RENDER_BACKGROUND] =
-		g_signal_new ("render_background",
-			      G_TYPE_FROM_CLASS (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GnomeCanvasClass, render_background),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__POINTER,
-			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
 	gail_canvas_init ();
 }
@@ -2157,8 +2133,6 @@ gnome_canvas_init (GnomeCanvas *canvas)
 	canvas->pick_event.type = GDK_LEAVE_NOTIFY;
 	canvas->pick_event.crossing.x = 0;
 	canvas->pick_event.crossing.y = 0;
-
-	canvas->dither = GDK_RGB_DITHER_MAX;
 
 	/* This may not be what people want, but it is set to be turned on by
 	 * default to have the same initial behavior as the canvas in GNOME 1.4.
@@ -2257,21 +2231,6 @@ GtkWidget *
 gnome_canvas_new (void)
 {
 	return GTK_WIDGET (g_object_new (gnome_canvas_get_type (), NULL));
-}
-
-/**
- * gnome_canvas_new_aa:
- *
- * Creates a new empty canvas in antialiased mode.
- *
- * Return value: A newly-created antialiased canvas.
- **/
-GtkWidget *
-gnome_canvas_new_aa (void)
-{
-	return GTK_WIDGET (g_object_new (GNOME_TYPE_CANVAS,
-					 "aa", TRUE,
-					 NULL));
 }
 
 /* Map handler for the canvas */
@@ -3004,6 +2963,9 @@ gnome_canvas_paint_rect (GnomeCanvas *canvas, gint x0, gint y0, gint x1, gint y1
 	gint draw_width, draw_height;
 	gdouble hadjustment_value;
 	gdouble vadjustment_value;
+        GdkPixmap *pixmap;
+        GdkVisual *visual;
+        gint depth;
 
 	g_return_if_fail (!canvas->need_update);
 
@@ -3036,86 +2998,32 @@ gnome_canvas_paint_rect (GnomeCanvas *canvas, gint x0, gint y0, gint x1, gint y1
 	canvas->draw_xofs = draw_x1;
 	canvas->draw_yofs = draw_y1;
 
-	if (canvas->aa) {
-		GnomeCanvasBuf buf;
-		guchar *px;
-		GdkColor *color;
-		GtkStyle *style;
+        visual = gtk_widget_get_visual (widget);
+        depth = gdk_visual_get_depth (visual);
 
-		px = g_new (guchar, draw_width * 3 * draw_height);
+        pixmap = gdk_pixmap_new (bin_window,
+                                 draw_width, draw_height, depth);
 
-		buf.buf = px;
-		buf.buf_rowstride = draw_width * 3;
-		buf.rect.x0 = draw_x1;
-		buf.rect.y0 = draw_y1;
-		buf.rect.x1 = draw_x2;
-		buf.rect.y1 = draw_y2;
-		style = gtk_widget_get_style (widget);
-		color = &style->bg[GTK_STATE_NORMAL];
-		buf.bg_color =
-			(((color->red & 0xff00) << 8) |
-			(color->green & 0xff00) | (color->blue >> 8));
-		buf.is_bg = 1;
-		buf.is_buf = 0;
+        g_signal_emit (G_OBJECT (canvas), canvas_signals[DRAW_BACKGROUND], 0, pixmap,
+                       draw_x1, draw_y1, draw_width, draw_height);
 
-		g_signal_emit (G_OBJECT (canvas), canvas_signals[RENDER_BACKGROUND], 0, &buf);
+        if (canvas->root->flags & GNOME_CANVAS_ITEM_VISIBLE)
+                (* GNOME_CANVAS_ITEM_GET_CLASS (canvas->root)->draw) (
+                        canvas->root, pixmap,
+                        draw_x1, draw_y1,
+                        draw_width, draw_height);
 
-		if (canvas->root->flags & GNOME_CANVAS_ITEM_VISIBLE)
-			(* GNOME_CANVAS_ITEM_GET_CLASS (canvas->root)->render) (canvas->root, &buf);
+        /* Copy the pixmap to the window and clean up */
 
-		if (buf.is_bg) {
-			gdk_gc_set_rgb_fg_color (canvas->pixmap_gc, color);
-			gdk_draw_rectangle (bin_window,
-					    canvas->pixmap_gc,
-					    TRUE,
-					    (draw_x1 + canvas->zoom_xofs),
-					    (draw_y1 + canvas->zoom_yofs),
-					    draw_width, draw_height);
-		} else {
-			gdk_draw_rgb_image_dithalign (bin_window,
-						      canvas->pixmap_gc,
-						      (draw_x1 + canvas->zoom_xofs),
-						      (draw_y1 + canvas->zoom_yofs),
-						      draw_width, draw_height,
-						      canvas->dither,
-						      buf.buf,
-						      buf.buf_rowstride,
-						      draw_x1, draw_y1);
-		}
+        gdk_draw_drawable (bin_window,
+                           canvas->pixmap_gc,
+                           pixmap,
+                           0, 0,
+                           draw_x1 + canvas->zoom_xofs,
+                           draw_y1 + canvas->zoom_yofs,
+                           draw_width, draw_height);
 
-		g_free (px);
-	} else {
-		GdkPixmap *pixmap;
-		GdkVisual *visual;
-		gint depth;
-
-		visual = gtk_widget_get_visual (widget);
-		depth = gdk_visual_get_depth (visual);
-
-		pixmap = gdk_pixmap_new (bin_window,
-					 draw_width, draw_height, depth);
-
-		g_signal_emit (G_OBJECT (canvas), canvas_signals[DRAW_BACKGROUND], 0, pixmap,
-			       draw_x1, draw_y1, draw_width, draw_height);
-
-		if (canvas->root->flags & GNOME_CANVAS_ITEM_VISIBLE)
-			(* GNOME_CANVAS_ITEM_GET_CLASS (canvas->root)->draw) (
-				canvas->root, pixmap,
-				draw_x1, draw_y1,
-				draw_width, draw_height);
-
-		/* Copy the pixmap to the window and clean up */
-
-		gdk_draw_drawable (bin_window,
-				   canvas->pixmap_gc,
-				   pixmap,
-				   0, 0,
-				   draw_x1 + canvas->zoom_xofs,
-				   draw_y1 + canvas->zoom_yofs,
-				   draw_width, draw_height);
-
-		g_object_unref (pixmap);
-	}
+        g_object_unref (pixmap);
 }
 
 /* Expose handler for the canvas */
@@ -4197,40 +4105,6 @@ gnome_canvas_set_stipple_origin (GnomeCanvas *canvas, GdkGC *gc)
 	g_return_if_fail (GDK_IS_GC (gc));
 
 	gdk_gc_set_ts_origin (gc, -canvas->draw_xofs, -canvas->draw_yofs);
-}
-
-/**
- * gnome_canvas_set_dither:
- * @canvas: A canvas.
- * @dither: Type of dithering used to render an antialiased canvas.
- *
- * Controls dithered rendering for antialiased canvases. The value of
- * dither should be #GDK_RGB_DITHER_NONE, #GDK_RGB_DITHER_NORMAL, or
- * #GDK_RGB_DITHER_MAX. The default canvas setting is
- * #GDK_RGB_DITHER_NORMAL.
- **/
-void
-gnome_canvas_set_dither (GnomeCanvas *canvas, GdkRgbDither dither)
-{
-	g_return_if_fail (GNOME_IS_CANVAS (canvas));
-
-	canvas->dither = dither;
-}
-
-/**
- * gnome_canvas_get_dither:
- * @canvas: A canvas.
- *
- * Returns the type of dithering used to render an antialiased canvas.
- *
- * Return value: The dither setting.
- **/
-GdkRgbDither
-gnome_canvas_get_dither (GnomeCanvas *canvas)
-{
-	g_return_val_if_fail (GNOME_IS_CANVAS (canvas), GDK_RGB_DITHER_NONE);
-
-	return canvas->dither;
 }
 
 static gboolean

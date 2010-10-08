@@ -469,12 +469,6 @@ struct _GnomeCanvas {
 
 	/* For use by internal pick_current_item() function */
 	guint in_repick : 1;
-
-	/* Whether the canvas is in antialiased mode or not */
-	guint aa : 1;
-
-	/* Which dither mode to use for antialiased mode drawing */
-	GdkRgbDither dither;
 };
 
 struct _GnomeCanvasClass {
@@ -485,12 +479,6 @@ struct _GnomeCanvasClass {
 	 */
 	void (* draw_background) (GnomeCanvas *canvas, GdkDrawable *drawable,
 				  gint x, gint y, gint width, gint height);
-
-	/* Render the background for the buffer given. The buf data structure
-	 * contains both a pointer to a packed 24-bit RGB array, and the
-	 * coordinates. This method is only used for antialiased canvases.
-	 */
-	void (* render_background) (GnomeCanvas *canvas, GnomeCanvasBuf *buf);
 
 	/* Private Virtual methods for groping the canvas inside bonobo */
 	void (* request_update) (GnomeCanvas *canvas);
@@ -509,13 +497,6 @@ GType gnome_canvas_get_type (void) G_GNUC_CONST;
  * function to set the desired scrolling limits for the canvas.
  */
 GtkWidget *gnome_canvas_new (void);
-
-/* Creates a new antialiased empty canvas.  You should push the GdkRgb colormap
- * and visual for this.
- */
-#ifndef GNOME_EXCLUDE_EXPERIMENTAL
-GtkWidget *gnome_canvas_new_aa (void);
-#endif
 
 /* Returns the root canvas item group of the canvas */
 GnomeCanvasGroup *gnome_canvas_root (GnomeCanvas *canvas);
@@ -607,16 +588,6 @@ gulong gnome_canvas_get_color_pixel (GnomeCanvas *canvas,
  * by canvas item implementations.
  */
 void gnome_canvas_set_stipple_origin (GnomeCanvas *canvas, GdkGC *gc);
-
-/* Controls the dithering used when the canvas renders.
- * Only applicable to antialiased canvases - ignored by non-antialiased canvases.
- */
-void gnome_canvas_set_dither (GnomeCanvas *canvas, GdkRgbDither dither);
-
-/* Returns the dither mode of an antialiased canvas.
- * Only applicable to antialiased canvases - ignored by non-antialiased canvases.
- */
-GdkRgbDither gnome_canvas_get_dither (GnomeCanvas *canvas);
 
 G_END_DECLS
 

@@ -335,12 +335,8 @@ gnome_canvas_shape_set_property (GObject      *object,
 	shape = GNOME_CANVAS_SHAPE (object);
 	priv = shape->priv;
 
-	if (!item->canvas->aa) {
-		gcbp_ensure_gdk (shape);
-		gdk = priv->gdk;
-	} else {
-		gdk = NULL;
-	}
+        gcbp_ensure_gdk (shape);
+        gdk = priv->gdk;
 
 	switch (param_id) {
 	case PROP_FILL_COLOR:
@@ -544,18 +540,12 @@ gnome_canvas_shape_get_property (GObject     *object,
                                  GValue      *value,
                                  GParamSpec  *pspec)
 {
-	GnomeCanvasItem         *item = GNOME_CANVAS_ITEM (object);
 	GnomeCanvasShape        *shape = GNOME_CANVAS_SHAPE (object);
 	GnomeCanvasShapePriv    *priv = shape->priv;
 	GnomeCanvasShapePrivGdk *gdk;
 
-	if (!item->canvas->aa) {
-		gcbp_ensure_gdk (shape);
-		gdk = priv->gdk;
-	}
-	else {
-		gdk = NULL;
-	}
+        gcbp_ensure_gdk (shape);
+        gdk = priv->gdk;
 
 	switch (param_id) {
 	case PROP_FILL_COLOR_GDK:
@@ -636,26 +626,23 @@ static void
 gnome_canvas_shape_realize (GnomeCanvasItem *item)
 {
 	GnomeCanvasShape *shape;
+        GtkLayout *layout;
+        GdkWindow *bin_window;
 
 	shape = GNOME_CANVAS_SHAPE (item);
 
 	if (parent_class->realize)
 		(* parent_class->realize) (item);
 
-	if (!item->canvas->aa) {
-		GtkLayout *layout;
-		GdkWindow *bin_window;
+        gcbp_ensure_gdk (shape);
 
-		gcbp_ensure_gdk (shape);
+        layout = GTK_LAYOUT (item->canvas);
+        bin_window = gtk_layout_get_bin_window (layout);
 
-		layout = GTK_LAYOUT (item->canvas);
-		bin_window = gtk_layout_get_bin_window (layout);
+        g_assert (bin_window != NULL);
 
-		g_assert (bin_window != NULL);
-
-		shape->priv->gdk->fill_gc = gdk_gc_new (bin_window);
-		shape->priv->gdk->outline_gc = gdk_gc_new (bin_window);
-	}
+        shape->priv->gdk->fill_gc = gdk_gc_new (bin_window);
+        shape->priv->gdk->outline_gc = gdk_gc_new (bin_window);
 }
 
 static void
@@ -665,15 +652,13 @@ gnome_canvas_shape_unrealize (GnomeCanvasItem *item)
 
 	shape = GNOME_CANVAS_SHAPE (item);
 
-	if (!item->canvas->aa) {
-		g_assert (shape->priv->gdk != NULL);
+        g_assert (shape->priv->gdk != NULL);
 
-		g_object_unref (shape->priv->gdk->fill_gc);
-		shape->priv->gdk->fill_gc = NULL;
+        g_object_unref (shape->priv->gdk->fill_gc);
+        shape->priv->gdk->fill_gc = NULL;
 
-		g_object_unref (shape->priv->gdk->outline_gc);
-		shape->priv->gdk->outline_gc = NULL;
-	}
+        g_object_unref (shape->priv->gdk->outline_gc);
+        shape->priv->gdk->outline_gc = NULL;
 
 	if (parent_class->unrealize)
 		(* parent_class->unrealize) (item);
@@ -838,8 +823,6 @@ gnome_canvas_shape_update_gdk (GnomeCanvasShape * shape, gdouble * affine, ArtSV
 	gint x1 = 0, y1 = 0, x2 = 0, y2 = 0;
 	gboolean bbox_set = FALSE;
 	gint width = 0; /* silence gcc */
-
-	g_assert (!((GnomeCanvasItem *) shape)->canvas->aa);
 
 	priv = shape->priv;
 	gdk = priv->gdk;
@@ -1085,11 +1068,6 @@ gnome_canvas_shape_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_
 	/* Outline width */
 	shape->priv->scale = art_affine_expansion (affine);
 
-	/* Reset bbox */
-	if (item->canvas->aa) {
-		gnome_canvas_item_reset_bounds (item);
-	}
-
 	/* Clipped fill SVP */
 
 	if ((priv->fill_set) && (priv->path) && (gnome_canvas_path_def_any_closed (priv->path))) {
@@ -1119,20 +1097,12 @@ gnome_canvas_shape_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_
 		svp2 = art_svp_writer_rewind_reap (swr);
 		art_svp_free (svp);
 
-		if (item->canvas->aa) {
-			/* Update clipped path */
-			gnome_canvas_item_update_svp_clip (item,
-							   &shape->priv->fill_svp,
-							   svp2,
-							   clip_path);
-		} else {
-			if (priv->fill_svp) {
-				art_svp_free (priv->fill_svp);
-				priv->fill_svp = NULL;
-			}
-			/* No clipping */
-			shape->priv->fill_svp = svp2;
-		}
+                if (priv->fill_svp) {
+                        art_svp_free (priv->fill_svp);
+                        priv->fill_svp = NULL;
+                }
+                /* No clipping */
+                shape->priv->fill_svp = svp2;
 	}
 
 	if (priv->outline_set && priv->path && !gnome_canvas_path_def_is_empty (priv->path)) {
@@ -1177,24 +1147,16 @@ gnome_canvas_shape_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_
 					    0.25);
 		art_free (vpath);
 
-		if (item->canvas->aa) {
-			/* Update clipped */
-			gnome_canvas_item_update_svp_clip (item, &priv->outline_svp, svp, clip_path);
-		} else {
-			if (priv->outline_svp) {
-				art_svp_free (priv->outline_svp);
-				priv->outline_svp = NULL;
-			}
-			/* No clipping (yet) */
-			shape->priv->outline_svp = svp;
-		}
+                if (priv->outline_svp) {
+                        art_svp_free (priv->outline_svp);
+                        priv->outline_svp = NULL;
+                }
+                /* No clipping (yet) */
+                shape->priv->outline_svp = svp;
 	}
 
 	/* Gdk requires additional handling */
-
-	if (!item->canvas->aa) {
-		gnome_canvas_shape_update_gdk (shape, affine, clip_path, flags);
-	}
+        gnome_canvas_shape_update_gdk (shape, affine, clip_path, flags);
 }
 
 static double
@@ -1307,8 +1269,6 @@ set_stipple (GdkGC *gc, GdkBitmap **internal_stipple, GdkBitmap *stipple, gint r
 static void
 gcbp_ensure_gdk (GnomeCanvasShape * shape)
 {
-	g_assert (!((GnomeCanvasItem *) shape)->canvas->aa);
-
 	if (!shape->priv->gdk) {
 		GnomeCanvasShapePrivGdk * gdk;
 
@@ -1342,8 +1302,6 @@ static void
 gcbp_destroy_gdk (GnomeCanvasShape * shape)
 {
 	GnomeCanvasShapePrivGdk * gdk;
-
-	g_assert (!((GnomeCanvasItem *)shape)->canvas->aa);
 
 	gdk = shape->priv->gdk;
 

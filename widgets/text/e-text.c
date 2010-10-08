@@ -1023,8 +1023,7 @@ e_text_set_property (GObject *object,
 	       text->color = color;
                gdk_rgb_find_color (colormap, &text->color);
 
-	       if (!item->canvas->aa)
-		       set_text_gc_foreground (text);
+               set_text_gc_foreground (text);
 
 	       text->needs_redraw = 1;
 	       needs_update = 1;
@@ -1235,25 +1234,23 @@ e_text_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint f
 
 	if ( text->needs_recalc_bounds
 	     || (flags & GNOME_CANVAS_UPDATE_AFFINE)) {
-		if (!item->canvas->aa) {
-			set_text_gc_foreground (text);
-			set_stipple (text, text->stipple, TRUE);
-			get_bounds (text, &x1, &y1, &x2, &y2);
-			if ( item->x1 != x1 ||
-			     item->x2 != x2 ||
-			     item->y1 != y1 ||
-			     item->y2 != y2 ) {
-				gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
-				item->x1 = x1;
-				item->y1 = y1;
-				item->x2 = x2;
-				item->y2 = y2;
-				text->needs_redraw = 1;
-				item->canvas->need_repick = TRUE;
-			}
-			if (!text->fill_clip_rectangle)
-				item->canvas->need_repick = TRUE;
-		}
+                set_text_gc_foreground (text);
+                set_stipple (text, text->stipple, TRUE);
+                get_bounds (text, &x1, &y1, &x2, &y2);
+                if ( item->x1 != x1 ||
+                     item->x2 != x2 ||
+                     item->y1 != y1 ||
+                     item->y2 != y2 ) {
+                        gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
+                        item->x1 = x1;
+                        item->y1 = y1;
+                        item->x2 = x2;
+                        item->y2 = y2;
+                        text->needs_redraw = 1;
+                        item->canvas->need_repick = TRUE;
+                }
+                if (!text->fill_clip_rectangle)
+                        item->canvas->need_repick = TRUE;
 		text->needs_recalc_bounds = 0;
 	}
 	if (text->needs_redraw) {
