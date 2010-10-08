@@ -73,9 +73,6 @@
 
 #define d(x)
 
-/* hash table define for non intrusive error dialog */
-static GHashTable *non_intrusive_error_table = NULL;
-
 /* Private part of the GnomeCalendar structure */
 struct _GnomeCalendarPrivate {
 	ECalModel *model;
@@ -164,10 +161,6 @@ static void gnome_calendar_goto_date (GnomeCalendar *gcal,
 				      GnomeCalendarGotoDateType goto_date);
 
 static void gnome_calendar_update_date_navigator (GnomeCalendar *gcal);
-
-static gboolean	gnome_calendar_hpane_resized	(GtkWidget *widget,
-						 GdkEventButton *e,
-						 GnomeCalendar *gcal);
 
 static void update_todo_view (GnomeCalendar *gcal);
 static void update_memo_view (GnomeCalendar *gcal);
@@ -1214,28 +1207,6 @@ gnome_calendar_set_search_query (GnomeCalendar *gcal,
 		e_cal_model_set_search_query (model, sexp);
 }
 
-static void
-set_timezone (GnomeCalendar *gcal)
-{
-	ECalModel *model;
-	icaltimezone *timezone;
-	GList *clients, *l;
-
-	model = gnome_calendar_get_model (gcal);
-	timezone = e_cal_model_get_timezone (model);
-
-	clients = e_cal_model_get_client_list (model);
-	for (l = clients; l != NULL; l = l->next) {
-		ECal *client = l->data;
-
-		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
-			/* FIXME Error checking */
-			e_cal_set_default_timezone (client, timezone, NULL);
-	}
-
-	g_list_free (clients);
-}
-
 struct _mupdate_todo_msg {
 	Message header;
 	GnomeCalendar *gcal;
@@ -1375,38 +1346,6 @@ update_memo_view (GnomeCalendar *gcal)
 	}
 }
 
-static void
-process_completed_tasks (GnomeCalendar *gcal, gboolean config_changed)
-{
-#if 0 /* KILL-BONOBO */
-	GnomeCalendarPrivate *priv;
-
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-
-	priv = gcal->priv;
-
-	e_calendar_table_process_completed_tasks (
-		E_CALENDAR_TABLE (priv->todo),
-		priv->clients_list[E_CAL_SOURCE_TYPE_TODO],
-		config_changed);
-#endif
-}
-
-#if 0 /* KILL-BONOBO */
-static gboolean
-update_todo_view_cb (GnomeCalendar *gcal)
-{
-	ECalModel *model;
-
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (gcal->priv->todo));
-
-	process_completed_tasks (gcal, FALSE);
-	e_cal_model_tasks_update_due_tasks (E_CAL_MODEL_TASKS (model));
-
-	return TRUE;
-}
-#endif
-
 static gboolean
 update_marcus_bains_line_cb (GnomeCalendar *gcal)
 {
@@ -1472,10 +1411,6 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	priv = g_new0 (GnomeCalendarPrivate, 1);
 	gcal->priv = priv;
 
-	if (non_intrusive_error_table == NULL)
-		non_intrusive_error_table = g_hash_table_new_full (
-			g_str_hash, g_str_equal, g_free, g_object_unref);
-
 	priv->todo_update_lock = g_mutex_new ();
 	priv->dn_query_lock = g_mutex_new ();
 
@@ -1531,11 +1466,6 @@ gnome_calendar_do_dispose (GObject *object)
 	priv->notifications = NULL;
 
 	free_dn_queries (gcal);
-
-	if (non_intrusive_error_table) {
-		g_hash_table_destroy (non_intrusive_error_table);
-		non_intrusive_error_table = NULL;
-	}
 
 	if (priv->sexp) {
 		g_free (priv->sexp);
@@ -1920,12 +1850,6 @@ gnome_calendar_display_view (GnomeCalendar *gcal,
 
 }
 
-static void
-non_intrusive_error_remove (GtkWidget *w, gpointer data)
-{
-	g_hash_table_remove (non_intrusive_error_table, data);
-}
-
 GtkWidget *
 gnome_calendar_new (void)
 {
@@ -2179,44 +2103,6 @@ gnome_calendar_update_date_navigator (GnomeCalendar *gcal)
 
 	e_calendar_item_set_selection (priv->date_navigator->calitem,
 				       &start_date, &end_date);
-}
-
-static gboolean
-gnome_calendar_hpane_resized (GtkWidget *widget,
-                              GdkEventButton *event,
-                              GnomeCalendar *gcal)
-{
-	GnomeCalendarPrivate *priv;
-	ECalendarView *view;
-	gboolean range_selected;
-	gint times_width;
-
-	priv = gcal->priv;
-
-	range_selected = gnome_calendar_get_range_selected (gcal);
-
-	if (priv->current_view_type == GNOME_CAL_MONTH_VIEW && !range_selected) {
-		priv->hpane_pos_month_view = gtk_paned_get_position (GTK_PANED (priv->hpane));
-		calendar_config_set_month_hpane_pos (priv->hpane_pos_month_view);
-	} else {
-		priv->hpane_pos = gtk_paned_get_position (GTK_PANED (priv->hpane));
-		calendar_config_set_hpane_pos (priv->hpane_pos);
-	}
-
-	/* adjust the size of the EDayView's time column */
-	view = gnome_calendar_get_calendar_view (gcal, GNOME_CAL_DAY_VIEW);
-	times_width = e_day_view_time_item_get_column_width (
-		E_DAY_VIEW_TIME_ITEM (E_DAY_VIEW (view)->time_canvas_item));
-	if (times_width < priv->hpane_pos - 20)
-		gtk_widget_set_size_request (
-			E_DAY_VIEW (view)->time_canvas,
-			times_width, -1);
-	else
-		gtk_widget_set_size_request (
-			E_DAY_VIEW (view)->time_canvas,
-			priv->hpane_pos - 20, -1);
-
-	return FALSE;
 }
 
 void
