@@ -58,7 +58,6 @@ G_BEGIN_DECLS
  *								the odd indices.
  * fill_color		string			W		X color specification for line
  * fill_color_gdk	GdkColor*		RW		Pointer to an allocated GdkColor
- * fill_stipple		GdkBitmap*		RW		Stipple pattern for the line
  * width_pixels		uint			R		Width of the line in pixels.  The line width
  *								will not be scaled when the canvas zoom factor changes.
  * width_units		gdouble			R		Width of the line in canvas units.  The line width
@@ -103,8 +102,6 @@ struct _GnomeCanvasLine {
 	gdouble *last_coords;	/* Array of points describing polygon for the last arrowhead */
 
 	GdkGC *gc;		/* GC for drawing line */
-
-	GdkBitmap *stipple;	/* Stipple pattern */
 
         ArtSVP *fill_svp;		/* The SVP for the outline shape */ /*AA*/
 	ArtSVP *first_svp;		/* The SVP for the first arrow */ /*AA*/
