@@ -579,8 +579,8 @@ get_widget (EFilterRule *fr, ERuleContext *rc)
 		l = l->next;
 	}
 
-	hadj = gtk_adjustment_new (0.0, 0.0, 1.0, 1.0 ,1.0, 1.0);
-	vadj = gtk_adjustment_new (0.0, 0.0, 1.0, 1.0 ,1.0, 1.0);
+	hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 1.0, 1.0 ,1.0, 1.0));
+	vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 1.0, 1.0 ,1.0, 1.0));
 	scrolledwindow = gtk_scrolled_window_new (hadj, vadj);
 
 	gtk_scrolled_window_set_policy (

@@ -805,8 +805,8 @@ filter_rule_get_widget (EFilterRule *rule,
 		l = g_list_next (l);
 	}
 
-	hadj = gtk_adjustment_new (0.0, 0.0, 1.0, 1.0, 1.0, 1.0);
-	vadj = gtk_adjustment_new (0.0, 0.0, 1.0, 1.0, 1.0, 1.0);
+	hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 1.0, 1.0, 1.0, 1.0));
+	vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 1.0, 1.0, 1.0, 1.0));
 	scrolledwindow = gtk_scrolled_window_new (hadj, vadj);
 
 	gtk_scrolled_window_set_policy (
