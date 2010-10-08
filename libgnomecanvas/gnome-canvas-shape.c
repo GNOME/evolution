@@ -49,8 +49,6 @@ enum {
 	PROP_OUTLINE_COLOR,
 	PROP_OUTLINE_COLOR_GDK,
 	PROP_OUTLINE_COLOR_RGBA,
-	PROP_FILL_STIPPLE,
-	PROP_OUTLINE_STIPPLE,
 	PROP_WIDTH_PIXELS,
 	PROP_WIDTH_UNITS,
 	PROP_CAP_STYLE,
@@ -87,7 +85,6 @@ static guint32 get_rgba_from_color (GdkColor * color);
 static void set_gc_foreground (GdkGC *gc, gulong pixel);
 static void gcbp_ensure_gdk (GnomeCanvasShape * bpath);
 static void gcbp_destroy_gdk (GnomeCanvasShape * bpath);
-static void set_stipple (GdkGC *gc, GdkBitmap **internal_stipple, GdkBitmap *stipple, gint reconfigure);
 static void gcbp_ensure_mask (GnomeCanvasShape * bpath, gint width, gint height);
 static void gcbp_draw_ctx_unref (GCBPDrawCtx * ctx);
 
@@ -167,16 +164,6 @@ gnome_canvas_shape_class_init (GnomeCanvasShapeClass *class)
                                          g_param_spec_uint ("outline_color_rgba", NULL, NULL,
                                                             0, G_MAXUINT, 0,
                                                             (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property (gobject_class,
-                                         PROP_FILL_STIPPLE,
-                                         g_param_spec_object ("fill_stipple", NULL, NULL,
-                                                              GDK_TYPE_DRAWABLE,
-                                                              (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property (gobject_class,
-                                         PROP_OUTLINE_STIPPLE,
-                                         g_param_spec_object ("outline_stipple", NULL, NULL,
-                                                              GDK_TYPE_DRAWABLE,
-                                                              (G_PARAM_READABLE | G_PARAM_WRITABLE)));
         g_object_class_install_property (gobject_class,
                                          PROP_WIDTH_PIXELS,
                                          g_param_spec_uint ("width_pixels", NULL, NULL,
@@ -417,20 +404,6 @@ gnome_canvas_shape_set_property (GObject      *object,
 		gnome_canvas_item_request_update (item);
 		break;
 
-	case PROP_FILL_STIPPLE:
-		if (gdk) {
-			set_stipple (gdk->fill_gc, &gdk->fill_stipple, (GdkBitmap*) g_value_get_object (value), FALSE);
-			gnome_canvas_item_request_update (item);
-		}
-		break;
-
-	case PROP_OUTLINE_STIPPLE:
-		if (gdk) {
-			set_stipple (gdk->outline_gc, &gdk->outline_stipple, (GdkBitmap*) g_value_get_object (value), FALSE);
-			gnome_canvas_item_request_update (item);
-		}
-		break;
-
 	case PROP_WIDTH_PIXELS:
 		priv->width = g_value_get_uint (value);
 		priv->width_pixels = TRUE;
@@ -568,22 +541,6 @@ gnome_canvas_shape_get_property (GObject     *object,
 
 	case PROP_OUTLINE_COLOR_RGBA:
 		g_value_set_uint (value, priv->outline_rgba);
-		break;
-
-	case PROP_FILL_STIPPLE:
-		if (gdk) {
-			g_value_set_object (value, gdk->fill_stipple);
-		} else {
-			g_value_set_object (value, NULL);
-		}
-		break;
-
-	case PROP_OUTLINE_STIPPLE:
-		if (gdk) {
-			g_value_set_object (value, gdk->outline_stipple);
-		} else {
-			g_value_set_object (value, NULL);
-		}
 		break;
 
 	case PROP_WIND:
@@ -736,10 +693,6 @@ gnome_canvas_shape_draw (GnomeCanvasItem *item,
 
 		gdk_gc_set_clip_mask (gdk->fill_gc, gdk->ctx->mask);
 
-		/* Stipple offset */
-
-		if (gdk->fill_stipple) gnome_canvas_set_stipple_origin (item->canvas, gdk->fill_gc);
-
 		/* Draw clipped rect to drawable */
 
 		gdk_draw_rectangle (drawable,
@@ -751,9 +704,6 @@ gnome_canvas_shape_draw (GnomeCanvasItem *item,
 
 	if (priv->outline_set) {
 
-		/* Stipple offset */
-
-		if (gdk->outline_stipple) gnome_canvas_set_stipple_origin (item->canvas, gdk->outline_gc);
 		/* Draw subpaths */
 
 		pos = 0;
@@ -859,18 +809,14 @@ gnome_canvas_shape_update_gdk (GnomeCanvasShape * shape, gdouble * affine, ArtSV
 						    priv->cap,
 						    priv->join);
 
-			/* Colors and stipples */
 			set_gc_foreground (gdk->outline_gc, gdk->outline_pixel);
-			set_stipple (gdk->outline_gc, &gdk->outline_stipple, gdk->outline_stipple, TRUE);
 		}
 	}
 
 	if (priv->fill_set) {
 
-		/* Colors and stipples */
 		if (gdk->fill_gc) {
 			set_gc_foreground (gdk->fill_gc, gdk->fill_pixel);
-			set_stipple (gdk->fill_gc, &gdk->fill_stipple, gdk->fill_stipple, TRUE);
 		}
 	}
 
@@ -1221,27 +1167,6 @@ set_gc_foreground (GdkGC *gc, gulong pixel)
 	gdk_gc_set_foreground (gc, &c);
 }
 
-/* Sets the stipple pattern for the specified gc */
-
-static void
-set_stipple (GdkGC *gc, GdkBitmap **internal_stipple, GdkBitmap *stipple, gint reconfigure)
-{
-	if (*internal_stipple && !reconfigure)
-		g_object_unref (*internal_stipple);
-
-	*internal_stipple = stipple;
-	if (stipple && !reconfigure)
-		g_object_ref (stipple);
-
-	if (gc) {
-		if (stipple) {
-			gdk_gc_set_stipple (gc, stipple);
-			gdk_gc_set_fill (gc, GDK_STIPPLED);
-		} else
-			gdk_gc_set_fill (gc, GDK_SOLID);
-	}
-}
-
 /* Creates private Gdk struct, if not present */
 /* We cannot do it during ::init, as we have to know canvas */
 
@@ -1255,9 +1180,6 @@ gcbp_ensure_gdk (GnomeCanvasShape * shape)
 
 		gdk->fill_pixel = get_pixel_from_rgba ((GnomeCanvasItem *) shape, shape->priv->fill_rgba);
 		gdk->outline_pixel = get_pixel_from_rgba ((GnomeCanvasItem *) shape, shape->priv->outline_rgba);
-
-		gdk->fill_stipple = NULL;
-		gdk->outline_stipple = NULL;
 
 		gdk->fill_gc = NULL;
 		gdk->outline_gc = NULL;
@@ -1287,12 +1209,6 @@ gcbp_destroy_gdk (GnomeCanvasShape * shape)
 	if (gdk) {
 		g_assert (!gdk->fill_gc);
 		g_assert (!gdk->outline_gc);
-
-		if (gdk->fill_stipple)
-			g_object_unref (gdk->fill_stipple);
-
-		if (gdk->outline_stipple)
-			g_object_unref (gdk->outline_stipple);
 
 		if (gdk->points)
 			g_free (gdk->points);

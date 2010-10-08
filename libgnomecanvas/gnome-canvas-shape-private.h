@@ -56,9 +56,6 @@ struct _GnomeCanvasShapePrivGdk {
 	gulong fill_pixel;		/* Color for fill */
 	gulong outline_pixel;		/* Color for outline */
 
-	GdkBitmap *fill_stipple;	/* Stipple for fill */
-	GdkBitmap *outline_stipple;	/* Stipple for outline */
-
 	GdkGC * fill_gc;		/* GC for filling */
 	GdkGC * outline_gc;		/* GC for outline */
 
