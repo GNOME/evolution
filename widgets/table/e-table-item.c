@@ -1669,13 +1669,6 @@ eti_realize (GnomeCanvasItem *item)
 
 	eti->grid_gc = gdk_gc_new (window);
 	gdk_gc_set_foreground (eti->grid_gc, &style->dark[GTK_STATE_NORMAL]);
-	eti->focus_gc = gdk_gc_new (window);
-	gdk_gc_set_foreground (eti->focus_gc, &style->bg[GTK_STATE_NORMAL]);
-	gdk_gc_set_background (eti->focus_gc, &style->fg[GTK_STATE_NORMAL]);
-	eti->stipple = gdk_bitmap_create_from_data (NULL, gray50_bits, gray50_width, gray50_height);
-	gdk_gc_set_ts_origin (eti->focus_gc, 0, 0);
-	gdk_gc_set_stipple (eti->focus_gc, eti->stipple);
-	gdk_gc_set_fill (eti->focus_gc, GDK_OPAQUE_STIPPLED);
 
 	g_signal_connect (GTK_LAYOUT(item->canvas), "scroll_event", G_CALLBACK (eti_tree_unfreeze), eti);
 
@@ -1732,10 +1725,6 @@ eti_unrealize (GnomeCanvasItem *item)
 	eti->fill_gc = NULL;
 	g_object_unref (eti->grid_gc);
 	eti->grid_gc = NULL;
-	g_object_unref (eti->focus_gc);
-	eti->focus_gc = NULL;
-	g_object_unref (eti->stipple);
-	eti->stipple = NULL;
 
 	eti_unrealize_cell_views (eti);
 
@@ -1760,6 +1749,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 	gdouble i2c[6];
 	ArtPoint eti_base, eti_base_item, lower_right;
 	GtkWidget *canvas = GTK_WIDGET (item->canvas);
+        GtkStyle *style = gtk_widget_get_style (canvas);
 	gint height_extra = eti->horizontal_draw_grid ? 1 : 0;
 	cairo_t *cr;
 
@@ -2034,9 +2024,18 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 	 * Draw focus
 	 */
 	if (eti->draw_focus && f_found) {
-		gdk_gc_set_ts_origin (eti->focus_gc, f_x1, f_y1);
-		gdk_draw_rectangle (drawable, eti->focus_gc, FALSE,
-				    f_x1, f_y1, f_x2 - f_x1 - 1, f_y2 - f_y1);
+                static const double dash[] = { 1.0, 1.0 };
+                cairo_set_line_width (cr, 1.0);
+                cairo_rectangle (cr,
+                                 f_x1 + 0.5, f_x2 + 0.5,
+                                 f_x2 - f_x1 - 1, f_y2 - f_y1);
+
+                gdk_cairo_set_source_color (cr, &style->bg[GTK_STATE_NORMAL]);
+                cairo_stroke_preserve (cr);
+
+                cairo_set_dash (cr, dash, G_N_ELEMENTS (dash), 0.0);
+                gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_NORMAL]);
+                cairo_stroke (cr);
 	}
 
 exit:
