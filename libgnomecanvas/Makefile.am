@@ -23,7 +23,6 @@ libgnomecanvasinclude_HEADERS =			\
 	gailcanvastextfactory.h			\
 	gailcanvaswidget.h			\
 	gailcanvaswidgetfactory.h		\
-	gnome-canvas-bpath.h			\
 	gnome-canvas-clipgroup.h		\
 	gnome-canvas-i18n.h			\
 	gnome-canvas-line.h			\
@@ -49,7 +48,6 @@ libgnomecanvas_la_SOURCES =			\
 	gailcanvastextfactory.c			\
 	gailcanvaswidget.c			\
 	gailcanvaswidgetfactory.c		\
-	gnome-canvas-bpath.c			\
 	gnome-canvas-clipgroup.c		\
 	gnome-canvas-line.c			\
 	gnome-canvas-path-def.c			\
