@@ -164,9 +164,6 @@ struct _GnomeCanvasItemClass {
 	/* Destroy item; called inside GObject's dispose of the base class */
 	void (* destroy) (GnomeCanvasItem *item);
 
-	/* Return the microtile coverage of the item */
-	ArtUta *(* coverage) (GnomeCanvasItem *item);
-
 	/* Draw an item of this type.  (x, y) are the upper-left canvas pixel
 	 * coordinates of the drawable, a temporary pixmap, where things get
 	 * drawn.  (width, height) are the dimensions of the drawable.
