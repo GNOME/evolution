@@ -34,7 +34,6 @@
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
 #include <libgnomecanvas/gnome-canvas-widget.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
-#include <libgnomecanvas/gnome-canvas-bpath.h>
 #include <libgnomecanvas/gnome-canvas-util.h>
 #include <libgnomecanvas/gnome-canvas-clipgroup.h>
 
