@@ -35,7 +35,6 @@ G_BEGIN_DECLS
  * fill_color		string		W		X color specification for fill color,
  *							or NULL pointer for no color (transparent)
  * fill_color_gdk	GdkColor*	RW		Allocated GdkColor for fill
- * fill_stipple		GdkBitmap*	RW		Stipple pattern for fill
  * x1                   gdouble		RW              Coordinates for edges of background rectangle
  * x2                   gdouble		RW              Default is all of them = -1.
  * y1                   gdouble		RW              Which means that the entire space is shown.
