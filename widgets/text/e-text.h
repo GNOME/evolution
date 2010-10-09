@@ -65,7 +65,6 @@ G_BEGIN_DECLS
  * justification	GtkJustification	RW		Justification for multiline text
  * fill_color		string			W		X color specification for text
  * fill_color_gdk	GdkColor*		RW		Pointer to an allocated GdkColor
- * fill_stipple		GdkBitmap*		RW		Stipple pattern for filling the text
  * clip_width		gdouble			RW		Width of clip rectangle
  * clip_height		gdouble			RW		Height of clip rectangle
  * clip			boolean			RW		Use clipping rectangle?
@@ -121,7 +120,6 @@ struct _EText {
 	gdouble xofs, yofs;		/* Text offset distance from anchor position */
 
 	GdkColor color;		/* Fill color */
-	GdkBitmap *stipple;		/* Stipple for text */
 	GdkGC *gc;			/* GC for drawing text */
 
 	gint cx, cy;			/* Top-left canvas coordinates for text */

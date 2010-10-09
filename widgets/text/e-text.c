@@ -94,7 +94,6 @@ enum {
 	PROP_FILL_COLOR,
 	PROP_FILL_COLOR_GDK,
 	PROP_FILL_COLOR_RGBA,
-	PROP_FILL_STIPPLE,
 	PROP_TEXT_WIDTH,
 	PROP_TEXT_HEIGHT,
 	PROP_EDITABLE,
@@ -229,10 +228,6 @@ e_text_dispose (GObject *object)
 
 	g_free (text->revert);
 	text->revert = NULL;
-
-	if (text->stipple)
-		g_object_unref (text->stipple);
-	text->stipple = NULL;
 
 	if (text->timeout_id) {
 		g_source_remove (text->timeout_id);
@@ -620,26 +615,6 @@ set_text_gc_foreground (EText *text)
 	gdk_gc_set_foreground (text->gc, &text->color);
 }
 
-/* Sets the stipple pattern for the text */
-static void
-set_stipple (EText *text, GdkBitmap *stipple, gint reconfigure)
-{
-	if (text->stipple && !reconfigure)
-		g_object_unref (text->stipple);
-
-	text->stipple = stipple;
-	if (stipple && !reconfigure)
-		g_object_ref (stipple);
-
-	if (text->gc) {
-		if (stipple) {
-			gdk_gc_set_stipple (text->gc, stipple);
-			gdk_gc_set_fill (text->gc, GDK_STIPPLED);
-		} else
-			gdk_gc_set_fill (text->gc, GDK_SOLID);
-	}
-}
-
 /* Set_arg handler for the text item */
 static void
 e_text_set_property (GObject *object,
@@ -829,12 +804,6 @@ e_text_set_property (GObject *object,
 		color.green = ((text->rgba >> 16) & 0xff) * 0x101;
 		color.blue = ((text->rgba >> 8) & 0xff) * 0x101;
 		color_changed = TRUE;
-		break;
-
-	case PROP_FILL_STIPPLE:
-		set_stipple (text, g_value_get_object (value), FALSE);
-		text->needs_redraw = 1;
-		needs_update = 1;
 		break;
 
 	case PROP_EDITABLE:
@@ -1054,10 +1023,6 @@ e_text_get_property (GObject *object,
 		g_value_set_uint (value, text->rgba);
 		break;
 
-	case PROP_FILL_STIPPLE:
-		g_value_set_object (value, text->stipple);
-		break;
-
 	case PROP_TEXT_WIDTH:
 		g_value_set_double (value, text->width / text->item.canvas->pixels_per_unit);
 		break;
@@ -1181,7 +1146,6 @@ e_text_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint f
 	if ( text->needs_recalc_bounds
 	     || (flags & GNOME_CANVAS_UPDATE_AFFINE)) {
                 set_text_gc_foreground (text);
-                set_stipple (text, text->stipple, TRUE);
                 get_bounds (text, &x1, &y1, &x2, &y2);
                 if ( item->x1 != x1 ||
                      item->x2 != x2 ||
@@ -1519,9 +1483,6 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	if (!pango_layout_get_text (text->layout))
 		return;
-
-	if (text->stipple)
-		gnome_canvas_set_stipple_origin (item->canvas, main_gc);
 
 	xpos = text->text_cx;
 	ypos = text->text_cy;
@@ -3390,13 +3351,6 @@ e_text_class_init (ETextClass *klass)
 							    "GDK fill color",
 							    0, G_MAXUINT, 0,
 							    G_PARAM_READWRITE));
-
-	g_object_class_install_property (gobject_class, PROP_FILL_STIPPLE,
-					 g_param_spec_object ("fill_stipple",
-							      "Fill stipple",
-							      "Fill stipple",
-							      GDK_TYPE_DRAWABLE,
-							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (gobject_class, PROP_TEXT_WIDTH,
 					 g_param_spec_double ("text_width",
