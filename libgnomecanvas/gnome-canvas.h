@@ -417,9 +417,6 @@ struct _GnomeCanvas {
 	/* Event mask specified when grabbing an item */
 	guint grabbed_event_mask;
 
-	/* Tolerance distance for picking items */
-	gint close_enough;
-
 	/* Whether the canvas should center the scroll region in the middle of
 	 * the window if the scroll region is smaller than the window.
 	 */
