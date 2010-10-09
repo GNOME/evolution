@@ -181,11 +181,8 @@ struct _EMeetingTimeSelector {
 	GdkColor grid_unused_color;
 	GdkColor busy_colors[E_MEETING_FREE_BUSY_LAST];
 
-	/* The stipple used for attendees with no data. */
-	GdkPixmap *stipple;
-
-	/* GC for drawing the color key. */
-	GdkGC *color_key_gc;
+        /* The pattern used for attendees with no data. */
+        cairo_pattern_t *no_info_pattern;
 
 	/* Width of the hours strings (e.g. "1:00") in the current font. */
 	gint hour_widths[24];

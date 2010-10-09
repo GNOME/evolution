@@ -277,11 +277,6 @@ meeting_time_selector_dispose (GObject *object)
 
 	e_meeting_time_selector_remove_timeout (mts);
 
-	if (mts->stipple) {
-		g_object_unref (mts->stipple);
-		mts->stipple = NULL;
-	}
-
 	if (mts->model) {
 		g_signal_handlers_disconnect_matched (
 			mts->model, G_SIGNAL_MATCH_DATA,
@@ -406,9 +401,6 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	guint accel_key;
 	time_t meeting_start_time;
 	struct tm *meeting_start_tm;
-	guchar stipple_bits[] = {
-		0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80,
-	};
 	AtkObject *a11y_label, *a11y_date_edit;
 
 	/* The default meeting time is the nearest half-hour interval in the
@@ -838,7 +830,6 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	e_meeting_time_selector_alloc_named_color (mts, "black", &mts->grid_color);
 	e_meeting_time_selector_alloc_named_color (mts, "white", &mts->grid_shadow_color);
 	e_meeting_time_selector_alloc_named_color (mts, "gray50", &mts->grid_unused_color);
-	e_meeting_time_selector_alloc_named_color (mts, "white", &mts->stipple_bg_color);
 	e_meeting_time_selector_alloc_named_color (mts, "white", &mts->attendee_list_bg_color);
 
 	e_meeting_time_selector_alloc_named_color (mts, "snow4", &mts->meeting_time_bg_color);
@@ -846,10 +837,6 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	e_meeting_time_selector_alloc_named_color (mts, "yellow", &mts->busy_colors[E_MEETING_FREE_BUSY_TENTATIVE]);
 	e_meeting_time_selector_alloc_named_color (mts, "blue", &mts->busy_colors[E_MEETING_FREE_BUSY_BUSY]);
 	e_meeting_time_selector_alloc_named_color (mts, "orange4", &mts->busy_colors[E_MEETING_FREE_BUSY_OUT_OF_OFFICE]);
-
-	/* Create the stipple, for attendees with no data. */
-	mts->stipple = gdk_bitmap_create_from_data (NULL, (gchar *)stipple_bits,
-						    8, 8);
 
 	/* Connect handlers to the adjustments  scroll the other items. */
 	layout = GTK_LAYOUT (mts->display_main);
@@ -912,35 +899,32 @@ e_meeting_time_selector_expose_key_color (GtkWidget *darea,
 	GtkAllocation allocation;
 	GdkWindow *window;
 	GtkStyle *style;
-	GdkGC *gc;
+        cairo_t *cr;
 
 	style = gtk_widget_get_style (darea);
 	window = gtk_widget_get_window (darea);
 	gtk_widget_get_allocation (darea, &allocation);
 
 	mts = g_object_get_data (G_OBJECT (darea), "data");
-	gc = mts->color_key_gc;
 
 	gtk_paint_shadow (
 		style, window, GTK_STATE_NORMAL,
 		GTK_SHADOW_IN, NULL, NULL, NULL, 0, 0,
 		allocation.width, allocation.height);
 
+        cr = gdk_cairo_create (event->window);
+
 	if (color) {
-		gdk_gc_set_foreground (gc, color);
-		gdk_draw_rectangle (
-			window, gc, TRUE, 1, 1,
-			allocation.width - 2, allocation.height - 2);
+		gdk_cairo_set_source_color (cr, color);
 	} else {
-		gdk_gc_set_foreground (gc, &mts->grid_color);
-		gdk_gc_set_background (gc, &mts->stipple_bg_color);
-		gdk_gc_set_stipple (gc, mts->stipple);
-		gdk_gc_set_fill (gc, GDK_OPAQUE_STIPPLED);
-		gdk_draw_rectangle (
-			window, gc, TRUE, 1, 1,
-			allocation.width - 2, allocation.height - 2);
-		gdk_gc_set_fill (gc, GDK_SOLID);
+                cairo_set_source (cr, mts->no_info_pattern);
 	}
+        cairo_rectangle (cr,
+                         1, 1,
+                         allocation.width - 2, allocation.height - 2);
+        cairo_fill (cr);
+
+        cairo_destroy (cr);
 
 	return TRUE;
 }
@@ -1059,6 +1043,40 @@ e_meeting_time_selector_set_week_start_day (EMeetingTimeSelector *mts,
 	g_object_notify (G_OBJECT (mts), "week-start-day");
 }
 
+static cairo_pattern_t *
+e_meeting_time_selector_create_no_info_pattern (EMeetingTimeSelector *mts)
+{
+        cairo_surface_t *surface;
+        cairo_pattern_t *pattern;
+        GdkColor color;
+        cairo_t *cr;
+
+        surface = gdk_window_create_similar_surface (gtk_widget_get_window (GTK_WIDGET (mts)),
+                                                     CAIRO_CONTENT_COLOR, 8, 8);
+        cr = cairo_create (surface);
+
+        gdk_color_parse ("white", &color);
+        gdk_cairo_set_source_color (cr, &color);
+        cairo_paint (cr);
+
+        gdk_cairo_set_source_color (cr, &mts->grid_color);
+        cairo_set_line_width (cr, 1.0);
+        cairo_move_to (cr, -1,  5);
+        cairo_line_to (cr,  9, -5);
+        cairo_move_to (cr, -1, 13);
+        cairo_line_to (cr,  9,  3);
+        cairo_stroke (cr);
+
+        cairo_destroy (cr);
+
+        pattern = cairo_pattern_create_for_surface (surface);
+        cairo_pattern_set_extend (pattern, CAIRO_EXTEND_REPEAT);
+
+        cairo_surface_destroy (surface);
+
+        return pattern;
+}
+
 static void
 e_meeting_time_selector_realize (GtkWidget *widget)
 {
@@ -1071,7 +1089,7 @@ e_meeting_time_selector_realize (GtkWidget *widget)
 	mts = E_MEETING_TIME_SELECTOR (widget);
 
 	window = gtk_widget_get_window (widget);
-	mts->color_key_gc = gdk_gc_new (window);
+        mts->no_info_pattern = e_meeting_time_selector_create_no_info_pattern (mts);
 }
 
 static void
@@ -1081,8 +1099,8 @@ e_meeting_time_selector_unrealize (GtkWidget *widget)
 
 	mts = E_MEETING_TIME_SELECTOR (widget);
 
-	g_object_unref (mts->color_key_gc);
-	mts->color_key_gc = NULL;
+        cairo_pattern_destroy (mts->no_info_pattern);
+        mts->no_info_pattern = NULL;
 
 	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->unrealize)
 		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->unrealize)(widget);

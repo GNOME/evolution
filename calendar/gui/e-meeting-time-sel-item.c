@@ -134,7 +134,6 @@ e_meeting_time_selector_item_init (EMeetingTimeSelectorItem *mts_item)
 	mts_item->mts = NULL;
 
 	mts_item->main_gc = NULL;
-	mts_item->stipple_gc = NULL;
 
 	/* Create the cursors. */
 	mts_item->normal_cursor = gdk_cursor_new (GDK_LEFT_PTR);
@@ -206,7 +205,6 @@ e_meeting_time_selector_item_realize (GnomeCanvasItem *item)
 	window = gtk_widget_get_window (GTK_WIDGET (canvas));
 
 	mts_item->main_gc = gdk_gc_new (window);
-	mts_item->stipple_gc = gdk_gc_new (window);
 }
 
 static void
@@ -218,8 +216,6 @@ e_meeting_time_selector_item_unrealize (GnomeCanvasItem *item)
 
 	g_object_unref (mts_item->main_gc);
 	mts_item->main_gc = NULL;
-	g_object_unref (mts_item->stipple_gc);
-	mts_item->stipple_gc = NULL;
 
 	if (GNOME_CANVAS_ITEM_CLASS (e_meeting_time_selector_item_parent_class)->unrealize)
 		(*GNOME_CANVAS_ITEM_CLASS (e_meeting_time_selector_item_parent_class)->unrealize)(item);
@@ -243,6 +239,25 @@ e_meeting_time_selector_item_update (GnomeCanvasItem *item, double *affine, ArtS
  */
 
 static void
+draw_strikeout_box (EMeetingTimeSelectorItem *mts_item, cairo_t *cr,
+                    int x, int y, int width, int height)
+{
+        GnomeCanvas *canvas = GNOME_CANVAS_ITEM (mts_item)->canvas;
+        EMeetingTimeSelector *mts = mts_item->mts;
+
+        cairo_save (cr);
+
+        cairo_rectangle (cr, x, y, width, height);
+        cairo_clip (cr);
+
+        cairo_translate (cr, -canvas->draw_xofs, -canvas->draw_yofs);
+        cairo_set_source (cr, mts->no_info_pattern);
+        cairo_paint (cr);
+
+        cairo_restore (cr);
+}
+
+static void
 e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint width, gint height)
 {
 	EMeetingTimeSelector *mts;
@@ -252,14 +267,13 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	gint row, row_y, start_x, end_x;
 	GDate date, last_date, current_date;
 	gboolean is_display_top, show_meeting_time;
-	GdkGC *gc, *stipple_gc;
+	GdkGC *gc;
 	cairo_t *cr;
 
 	mts_item = E_MEETING_TIME_SELECTOR_ITEM (item);
 	mts = mts_item->mts;
 	g_return_if_fail (mts != NULL);
 	gc = mts_item->main_gc;
-	stipple_gc = mts_item->stipple_gc;
 	cr = gdk_cairo_create (drawable);
 
 	is_display_top = (GTK_WIDGET (item->canvas) == mts->display_top)
@@ -311,11 +325,6 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	if (!is_display_top) {
 		gdk_cairo_set_source_color (cr, &mts->grid_color);
 		gdk_gc_set_foreground (gc, &mts->grid_color);
-		gdk_gc_set_foreground (stipple_gc, &mts->grid_color);
-		gdk_gc_set_background (stipple_gc, &mts->stipple_bg_color);
-		gdk_gc_set_stipple (stipple_gc, mts->stipple);
-		gnome_canvas_set_stipple_origin (item->canvas, stipple_gc);
-		gdk_gc_set_fill (stipple_gc, GDK_OPAQUE_STIPPLED);
 		row = y / mts->row_height;
 		row_y = row * mts->row_height - y;
 		while (row < e_meeting_store_count_actual_attendees (mts->model) && row_y < height) {
@@ -324,16 +333,16 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			if (e_meeting_attendee_get_has_calendar_info (ia)) {
 				if (e_meeting_time_selector_item_calculate_busy_range (mts, row, x, width, &start_x, &end_x)) {
 					if (start_x >= width || end_x <= 0) {
-						gdk_draw_rectangle (drawable, stipple_gc, TRUE, 0, row_y, width, mts->row_height);
+				                draw_strikeout_box (mts_item, cr, 0, row_y, width, mts->row_height);
 					} else {
 						if (start_x >= 0) {
-							gdk_draw_rectangle (drawable, stipple_gc, TRUE, 0, row_y, start_x, mts->row_height);
+							draw_strikeout_box (mts_item, cr, 0, row_y, start_x, mts->row_height);
 							cairo_move_to (cr, start_x, row_y);
 							cairo_line_to (cr, start_x, row_y + mts->row_height);
 							cairo_stroke (cr);
 						}
 						if (end_x <= width) {
-							gdk_draw_rectangle (drawable, stipple_gc, TRUE, end_x, row_y, width - end_x, mts->row_height);
+							draw_strikeout_box (mts_item, cr, end_x, row_y, width - end_x, mts->row_height);
 							cairo_move_to (cr, end_x, row_y);
 							cairo_line_to (cr, end_x, row_y + mts->row_height);
 							cairo_stroke (cr);
@@ -341,9 +350,7 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 					}
 				}
 			} else {
-				gdk_draw_rectangle (drawable, stipple_gc, TRUE,
-						    0, row_y,
-						    width, mts->row_height);
+				draw_strikeout_box (mts_item, cr, 0, row_y, width, mts->row_height);
 			}
 			row++;
 			row_y += mts->row_height;
