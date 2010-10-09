@@ -282,6 +282,7 @@ void gnome_canvas_item_i2w_affine (GnomeCanvasItem *item, gdouble affine[6]);
  * canvas pixel coordinates.
  */
 void gnome_canvas_item_i2c_affine (GnomeCanvasItem *item, gdouble affine[6]);
+void gnome_canvas_item_i2c_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix);
 
 /* Remove the item from its parent group and make the new group its parent.  The
  * item will be put on top of all the items in the new group.  The item's

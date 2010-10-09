@@ -113,9 +113,8 @@ struct _GnomeCanvasLine {
 	gdouble shape_b;		/* Distance from tip of arrowhead to trailing point, measured along shaft */
 	gdouble shape_c;		/* Distance of trailing points from outside edge of shaft */
 
-	GdkCapStyle cap;	/* Cap style for line */
-	GdkJoinStyle join;	/* Join style for line */
-	GdkLineStyle line_style;/* Style for the line */
+	cairo_line_cap_t cap;	/* Cap style for line */
+	cairo_line_join_t join;	/* Join style for line */
 
 	gulong fill_pixel;	/* Color for line */
 

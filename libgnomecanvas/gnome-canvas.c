@@ -414,6 +414,18 @@ gnome_canvas_item_update (GnomeCanvasItem *item,
 	item->flags &= ~GNOME_CANVAS_ITEM_NEED_VIS;
 }
 
+static void
+gnome_canvas_matrix_from_affine (cairo_matrix_t *matrix,
+                                 double affine[6])
+{
+  matrix->xx = affine[0];
+  matrix->yx = affine[1];
+  matrix->xy = affine[2];
+  matrix->yy = affine[3];
+  matrix->x0 = affine[4];
+  matrix->y0 = affine[5];
+}
+
 #define noHACKISH_AFFINE
 
 /*
@@ -1104,6 +1116,24 @@ gnome_canvas_item_i2c_affine (GnomeCanvasItem *item, gdouble affine[6])
 	gnome_canvas_item_i2w_affine (item, i2w);
 	gnome_canvas_w2c_affine (item->canvas, w2c);
 	art_affine_multiply (affine, i2w, w2c);
+}
+
+/**
+ * gnome_canvas_item_i2c_matrix:
+ * @item: A canvas item.
+ * @matrix: Matrix to take the resulting transformation matrix (return value).
+ *
+ * Gets the affine transform that converts from item-relative coordinates to
+ * canvas pixel coordinates.
+ **/
+void
+gnome_canvas_item_i2c_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix)
+{
+  gdouble affine;
+
+  gnome_canvas_item_i2c_affine (item, &affine);
+
+  gnome_canvas_matrix_from_affine (matrix, &affine);
 }
 
 /* Returns whether the item is an inferior of or is equal to the parent. */
