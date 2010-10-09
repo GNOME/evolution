@@ -127,7 +127,6 @@ typedef struct {
 	ECellView    cell_view;
 	GdkGC       *gc;
 	GdkCursor *i_cursor;
-	GdkBitmap *stipple;		/* Stipple for text */
 
 	GnomeCanvas *canvas;
 
@@ -397,9 +396,6 @@ ect_unrealize (ECellView *ecv)
 	if (text_view->edit) {
 		ect_cancel_edit (text_view);
 	}
-
-	if (text_view->stipple)
-		g_object_unref (text_view->stipple);
 
 	gdk_cursor_unref (text_view->i_cursor);
 
