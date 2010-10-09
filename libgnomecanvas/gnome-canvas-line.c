@@ -71,7 +71,6 @@ enum {
 	PROP_WIDTH_UNITS,
 	PROP_CAP_STYLE,
 	PROP_JOIN_STYLE,
-	PROP_LINE_STYLE,
 	PROP_FIRST_ARROWHEAD,
 	PROP_LAST_ARROWHEAD,
 	PROP_SMOOTH,
@@ -94,8 +93,6 @@ static void gnome_canvas_line_get_property (GObject              *object,
 					    GParamSpec           *pspec);
 
 static void   gnome_canvas_line_update      (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags);
-static void   gnome_canvas_line_realize     (GnomeCanvasItem *item);
-static void   gnome_canvas_line_unrealize   (GnomeCanvasItem *item);
 static void   gnome_canvas_line_draw        (GnomeCanvasItem *item, GdkDrawable *drawable,
 					     gint x, gint y, gint width, gint height);
 static gdouble gnome_canvas_line_point       (GnomeCanvasItem *item, gdouble x, gdouble y,
@@ -184,22 +181,15 @@ gnome_canvas_line_class_init (GnomeCanvasLineClass *class)
                 (gobject_class,
                  PROP_CAP_STYLE,
                  g_param_spec_enum ("cap_style", NULL, NULL,
-                                    GDK_TYPE_CAP_STYLE,
-                                    GDK_CAP_BUTT,
+                                    G_TYPE_UINT, /* XXX */
+                                    CAIRO_LINE_CAP_BUTT,
                                     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
         g_object_class_install_property
                 (gobject_class,
                  PROP_JOIN_STYLE,
                  g_param_spec_enum ("join_style", NULL, NULL,
-                                    GDK_TYPE_JOIN_STYLE,
-                                    GDK_JOIN_MITER,
-                                    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_LINE_STYLE,
-                 g_param_spec_enum ("line_style", NULL, NULL,
-                                    GDK_TYPE_LINE_STYLE,
-                                    GDK_LINE_SOLID,
+                                    G_TYPE_UINT, /* XXX */
+                                    CAIRO_LINE_JOIN_MITER,
                                     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
         g_object_class_install_property
                 (gobject_class,
@@ -246,8 +236,6 @@ gnome_canvas_line_class_init (GnomeCanvasLineClass *class)
 
 	item_class->destroy = gnome_canvas_line_destroy;
 	item_class->update = gnome_canvas_line_update;
-	item_class->realize = gnome_canvas_line_realize;
-	item_class->unrealize = gnome_canvas_line_unrealize;
 	item_class->draw = gnome_canvas_line_draw;
 	item_class->point = gnome_canvas_line_point;
 	item_class->bounds = gnome_canvas_line_bounds;
@@ -257,9 +245,8 @@ static void
 gnome_canvas_line_init (GnomeCanvasLine *line)
 {
 	line->width = 0.0;
-	line->cap = GDK_CAP_BUTT;
-	line->join = GDK_JOIN_MITER;
-	line->line_style = GDK_LINE_SOLID;
+	line->cap = CAIRO_LINE_CAP_BUTT;
+	line->join = CAIRO_LINE_JOIN_MITER;
 	line->shape_a = 0.0;
 	line->shape_b = 0.0;
 	line->shape_c = 0.0;
@@ -346,7 +333,7 @@ get_bounds (GnomeCanvasLine *line, gdouble *bx1, gdouble *by1, gdouble *bx2, gdo
 	 * the two miter vertex points and add them to the bounding box.
 	 */
 
-	if (line->join == GDK_JOIN_MITER)
+	if (line->join == CAIRO_LINE_JOIN_MITER)
 		for (i = line->num_points, coords = line->coords; i >= 3; i--, coords += 2) {
 			gdouble mx1, my1, mx2, my2;
 
@@ -561,40 +548,6 @@ reconfigure_arrows (GnomeCanvasLine *line)
 	}
 }
 
-/* Convenience function to set the line's GC's foreground color */
-static void
-set_line_gc_foreground (GnomeCanvasLine *line)
-{
-	GdkColor c;
-
-	if (!line->gc)
-		return;
-
-	c.pixel = line->fill_pixel;
-	gdk_gc_set_foreground (line->gc, &c);
-}
-
-/* Recalculate the line's width and set it in its GC */
-static void
-set_line_gc_width (GnomeCanvasLine *line)
-{
-	gint width;
-
-	if (!line->gc)
-		return;
-
-	if (line->width_pixels)
-		width = (gint) line->width;
-	else
-		width = (gint) (line->width * line->item.canvas->pixels_per_unit + 0.5);
-
-	gdk_gc_set_line_attributes (line->gc,
-				    width,
-				    line->line_style,
-				    (line->first_arrow || line->last_arrow) ? GDK_CAP_BUTT : line->cap,
-				    line->join);
-}
-
 static void
 gnome_canvas_line_set_property (GObject              *object,
 				guint                 param_id,
@@ -690,14 +643,12 @@ gnome_canvas_line_set_property (GObject              *object,
 	case PROP_WIDTH_PIXELS:
 		line->width = g_value_get_uint (value);
 		line->width_pixels = TRUE;
-		set_line_gc_width (line);
 		gnome_canvas_item_request_update (item);
 		break;
 
 	case PROP_WIDTH_UNITS:
 		line->width = fabs (g_value_get_double (value));
 		line->width_pixels = FALSE;
-		set_line_gc_width (line);
 		gnome_canvas_item_request_update (item);
 		break;
 
@@ -708,12 +659,6 @@ gnome_canvas_line_set_property (GObject              *object,
 
 	case PROP_JOIN_STYLE:
 		line->join = g_value_get_enum (value);
-		gnome_canvas_item_request_update (item);
-		break;
-
-	case PROP_LINE_STYLE:
-		line->line_style = g_value_get_enum (value);
-		set_line_gc_width (line);
 		gnome_canvas_item_request_update (item);
 		break;
 
@@ -761,8 +706,6 @@ gnome_canvas_line_set_property (GObject              *object,
 		else
 			line->fill_pixel = gnome_canvas_get_color_pixel (item->canvas,
 									 line->fill_rgba);
-
-		set_line_gc_foreground (line);
 
 		gnome_canvas_item_request_redraw_svp (item, line->fill_svp);
 
@@ -873,10 +816,6 @@ gnome_canvas_line_get_property (GObject              *object,
 		g_value_set_enum (value, line->join);
 		break;
 
-	case PROP_LINE_STYLE:
-		g_value_set_enum (value, line->line_style);
-		break;
-
 	case PROP_FIRST_ARROWHEAD:
 		g_value_set_boolean (value, line->first_arrow);
 		break;
@@ -924,56 +863,18 @@ gnome_canvas_line_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_p
 
 	reconfigure_arrows (line);
 
-        set_line_gc_foreground (line);
-        set_line_gc_width (line);
-
         get_bounds_canvas (line, &x1, &y1, &x2, &y2, affine);
         gnome_canvas_update_bbox (item, x1, y1, x2, y2);
 }
 
 static void
-gnome_canvas_line_realize (GnomeCanvasItem *item)
-{
-	GtkLayout *layout;
-	GnomeCanvasLine *line;
-	GdkWindow *bin_window;
-
-	line = GNOME_CANVAS_LINE (item);
-
-	if (parent_class->realize)
-		(* parent_class->realize) (item);
-
-	layout = GTK_LAYOUT (item->canvas);
-	bin_window = gtk_layout_get_bin_window (layout);
-	line->gc = gdk_gc_new (bin_window);
-
-#if 0
-	(* GNOME_CANVAS_ITEM_CLASS (item->object.klass)->update) (item, NULL, NULL, 0);
-#endif
-}
-
-static void
-gnome_canvas_line_unrealize (GnomeCanvasItem *item)
-{
-	GnomeCanvasLine *line;
-
-	line = GNOME_CANVAS_LINE (item);
-
-	g_object_unref (line->gc);
-	line->gc = NULL;
-
-	if (parent_class->unrealize)
-		(* parent_class->unrealize) (item);
-}
-
-static void
 item_to_canvas (GnomeCanvas *canvas, gdouble *item_coords, GdkPoint *canvas_coords, gint num_points,
-		gint *num_drawn_points, gdouble i2c[6], gint x, gint y)
+		gint *num_drawn_points, const cairo_matrix_t *matrix)
 {
 	gint i;
 	gint old_cx, old_cy;
 	gint cx, cy;
-	ArtPoint pi, pc;
+	double x, y;
 
 #ifdef VERBOSE
 	{
@@ -985,11 +886,11 @@ item_to_canvas (GnomeCanvas *canvas, gdouble *item_coords, GdkPoint *canvas_coor
 
 	/* the first point is always drawn */
 
-	pi.x = item_coords[0];
-	pi.y = item_coords[1];
-	art_affine_point (&pc, &pi, i2c);
-	cx = floor (pc.x + 0.5);
-	cy = floor (pc.y + 0.5);
+	x = item_coords[0];
+	y = item_coords[1];
+	cairo_matrix_transform_point (matrix, &x, &y);
+	cx = floor (x + 0.5);
+	cy = floor (y + 0.5);
 	canvas_coords->x = cx - x;
 	canvas_coords->y = cy - y;
 	canvas_coords++;
@@ -998,11 +899,11 @@ item_to_canvas (GnomeCanvas *canvas, gdouble *item_coords, GdkPoint *canvas_coor
 	*num_drawn_points = 1;
 
 	for (i = 1; i < num_points; i++) {
-		pi.x = item_coords[i * 2];
-		pi.y = item_coords[i * 2 + 1];
-		art_affine_point (&pc, &pi, i2c);
-		cx = floor (pc.x + 0.5);
-		cy = floor (pc.y + 0.5);
+		x = item_coords[i * 2];
+		y = item_coords[i * 2 + 1];
+	        cairo_matrix_transform_point (matrix, &x, &y);
+		cx = floor (x + 0.5);
+		cy = floor (y + 0.5);
 		if (old_cx != cx || old_cy != cy) {
 			canvas_coords->x = cx - x;
 			canvas_coords->y = cy - y;
@@ -1022,13 +923,37 @@ gnome_canvas_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	GdkPoint static_points[NUM_STATIC_POINTS];
 	GdkPoint *points;
 	gint actual_num_points_drawn;
-	gdouble i2c[6];
+	cairo_matrix_t matrix;
+        cairo_t *cr;
+        int i;
 
 	line = GNOME_CANVAS_LINE (item);
 
 	if (line->num_points == 0)
 		return;
 
+        cr = gdk_cairo_create (drawable);
+        cairo_translate (cr, -x, -y);
+
+        /* points are always centered */
+        cairo_translate (cr, 0.5, 0.5);
+
+        cairo_set_source_rgba (cr,
+                               ((line->fill_pixel >> 24) & 0xff) / 255.0,
+                               ((line->fill_pixel >> 16) & 0xff) / 255.0,
+                               ((line->fill_pixel >>  8) & 0xff) / 255.0,
+                               ((line->fill_pixel >>  0) & 0xff) / 255.0);
+	if (line->width_pixels)
+                cairo_set_line_width (cr, (gint) line->width);
+        else
+		cairo_set_line_width (cr, (gint) (line->width * line->item.canvas->pixels_per_unit + 0.5));
+        if (line->first_arrow || line->last_arrow)
+                cairo_set_line_cap (cr, CAIRO_LINE_CAP_BUTT);
+        else
+                cairo_set_line_cap (cr, line->cap);
+        cairo_set_line_join (cr, line->join);
+
+        gnome_canvas_item_i2c_matrix (item, &matrix);
 	/* Build array of canvas pixel coordinates */
 
 	if (line->num_points <= NUM_STATIC_POINTS)
@@ -1036,12 +961,13 @@ gnome_canvas_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	else
 		points = g_new (GdkPoint, line->num_points);
 
-	gnome_canvas_item_i2c_affine (item, i2c);
-
 	item_to_canvas (item->canvas, line->coords, points, line->num_points,
-			&actual_num_points_drawn, i2c, x, y);
+			&actual_num_points_drawn, &matrix);
 
-	gdk_draw_lines (drawable, line->gc, points, actual_num_points_drawn);
+        cairo_move_to (cr, points[0].x, points[0].y);
+        for (i = 1; i < actual_num_points_drawn; i++)
+                cairo_line_to (cr, points[i].x, points[i].y);
+        cairo_stroke (cr);
 
 	if (points != static_points)
 		g_free (points);
@@ -1052,14 +978,20 @@ gnome_canvas_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	if (line->first_arrow) {
 		item_to_canvas (item->canvas, line->first_coords, points, NUM_ARROW_POINTS,
-				&actual_num_points_drawn, i2c, x, y);
-		gdk_draw_polygon (drawable, line->gc, TRUE, points, actual_num_points_drawn );
+				&actual_num_points_drawn, &matrix);
+                cairo_move_to (cr, points[0].x, points[0].y);
+                for (i = 1; i < actual_num_points_drawn; i++)
+                        cairo_line_to (cr, points[i].x, points[i].y);
+                cairo_fill (cr);
 	}
 
 	if (line->last_arrow) {
 		item_to_canvas (item->canvas, line->last_coords, points, NUM_ARROW_POINTS,
-				&actual_num_points_drawn, i2c, x, y);
-		gdk_draw_polygon (drawable, line->gc, TRUE, points, actual_num_points_drawn );
+				&actual_num_points_drawn, &matrix);
+                cairo_move_to (cr, points[0].x, points[0].y);
+                for (i = 1; i < actual_num_points_drawn; i++)
+                        cairo_line_to (cr, points[i].x, points[i].y);
+                cairo_fill (cr);
 	}
 }
 
@@ -1116,8 +1048,8 @@ gnome_canvas_line_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 		 * point and the first point.
 		 */
 
-		if (((line->cap == GDK_CAP_ROUND) && (i == num_points))
-		    || ((line->join == GDK_JOIN_ROUND) && (i != num_points))) {
+		if (((line->cap == CAIRO_LINE_CAP_ROUND) && (i == num_points))
+		    || ((line->join == CAIRO_LINE_JOIN_ROUND) && (i != num_points))) {
 			dx = coords[0] - x;
 			dy = coords[1] - y;
 			dist = sqrt (dx * dx + dy * dy) - width / 2.0;
@@ -1134,9 +1066,9 @@ gnome_canvas_line_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 
 		if (i == num_points)
 			gnome_canvas_get_butt_points (coords[2], coords[3], coords[0], coords[1],
-						      width, (line->cap == GDK_CAP_PROJECTING),
+						      width, (line->cap == CAIRO_LINE_CAP_SQUARE),
 						      poly, poly + 1, poly + 2, poly + 3);
-		else if ((line->join == GDK_JOIN_MITER) && !changed_miter_to_bevel) {
+		else if ((line->join == CAIRO_LINE_JOIN_MITER) && !changed_miter_to_bevel) {
 			poly[0] = poly[6];
 			poly[1] = poly[7];
 			poly[2] = poly[4];
@@ -1151,7 +1083,7 @@ gnome_canvas_line_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 			 * from this polygon; this checks the wedges that fill the mitered point.
 			 */
 
-			if ((line->join == GDK_JOIN_BEVEL) || changed_miter_to_bevel) {
+			if ((line->join == CAIRO_LINE_JOIN_BEVEL) || changed_miter_to_bevel) {
 				poly[8] = poly[0];
 				poly[9] = poly[1];
 
@@ -1168,9 +1100,9 @@ gnome_canvas_line_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 
 		if (i == 2)
 			gnome_canvas_get_butt_points (coords[0], coords[1], coords[2], coords[3],
-						      width, (line->cap == GDK_CAP_PROJECTING),
+						      width, (line->cap == CAIRO_LINE_CAP_SQUARE),
 						      poly + 4, poly + 5, poly + 6, poly + 7);
-		else if (line->join == GDK_JOIN_MITER) {
+		else if (line->join == CAIRO_LINE_JOIN_MITER) {
 			if (!gnome_canvas_get_miter_points (coords[0], coords[1],
 							    coords[2], coords[3],
 							    coords[4], coords[5],
@@ -1199,7 +1131,7 @@ gnome_canvas_line_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 
 	/* If caps are rounded, check the distance to the cap around the final end point of the line */
 
-	if (line->cap == GDK_CAP_ROUND) {
+	if (line->cap == CAIRO_LINE_CAP_ROUND) {
 		dx = coords[0] - x;
 		dy = coords[1] - y;
 		dist = sqrt (dx * dx + dy * dy) - width / 2.0;
