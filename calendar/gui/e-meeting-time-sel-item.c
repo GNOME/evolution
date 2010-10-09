@@ -320,7 +320,7 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		cairo_restore (cr);
 	}
 
-	/* For the main display draw the stipple background for attendee's
+	/* For the main display draw the no-info pattern background for attendee's
 	   that have no calendar information. */
 	if (!is_display_top) {
 		gdk_cairo_set_source_color (cr, &mts->grid_color);
