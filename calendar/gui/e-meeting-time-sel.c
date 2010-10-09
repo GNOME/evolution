@@ -862,7 +862,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 }
 
 /* This adds a color to the color key beneath the main display. If color is
-   NULL, it displays the No Info stipple instead. */
+   NULL, it displays the No Info pattern instead. */
 static void
 e_meeting_time_selector_add_key_color (EMeetingTimeSelector * mts,
 				       GtkWidget *hbox,

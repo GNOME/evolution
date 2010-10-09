@@ -174,7 +174,6 @@ struct _EMeetingTimeSelector {
 	GdkColor bg_color;
 	GdkColor all_attendees_bg_color;
 	GdkColor meeting_time_bg_color;
-	GdkColor stipple_bg_color;
 	GdkColor attendee_list_bg_color;
 	GdkColor grid_color;
 	GdkColor grid_shadow_color;
