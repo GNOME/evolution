@@ -1757,17 +1757,11 @@ gnome_canvas_group_point (GnomeCanvasItem *item,
 	GnomeCanvasGroup *group;
 	GList *list;
 	GnomeCanvasItem *child, *point_item;
-	gint x1, y1, x2, y2;
 	gdouble gx, gy;
 	gdouble dist, best;
 	gint has_point;
 
 	group = GNOME_CANVAS_GROUP (item);
-
-	x1 = cx - item->canvas->close_enough;
-	y1 = cy - item->canvas->close_enough;
-	x2 = cx + item->canvas->close_enough;
-	y2 = cy + item->canvas->close_enough;
 
 	best = 0.0;
 	*actual_item = NULL;
@@ -1780,7 +1774,7 @@ gnome_canvas_group_point (GnomeCanvasItem *item,
 	for (list = group->item_list; list; list = list->next) {
 		child = list->data;
 
-		if ((child->x1 > x2) || (child->y1 > y2) || (child->x2 < x1) || (child->y2 < y1))
+		if ((child->x1 > cx) || (child->y1 > cy) || (child->x2 < cx) || (child->y2 < cy))
 			continue;
 
 		point_item = NULL; /* cater for incomplete item implementations */
@@ -1794,8 +1788,7 @@ gnome_canvas_group_point (GnomeCanvasItem *item,
 
 		if (has_point
 		    && point_item
-		    && ((gint) (dist * item->canvas->pixels_per_unit + 0.5)
-			<= item->canvas->close_enough)) {
+		    && ((gint) (dist * item->canvas->pixels_per_unit + 0.5) <= 0)) {
 			best = dist;
 			*actual_item = point_item;
 		}
@@ -3586,7 +3579,7 @@ gnome_canvas_get_item_at (GnomeCanvas *canvas, gdouble x, gdouble y)
 	gnome_canvas_w2c (canvas, x, y, &cx, &cy);
 
 	dist = gnome_canvas_item_invoke_point (canvas->root, x, y, cx, cy, &item);
-	if ((gint) (dist * canvas->pixels_per_unit + 0.5) <= canvas->close_enough)
+	if ((gint) (dist * canvas->pixels_per_unit + 0.5) <= 0)
 		return item;
 	else
 		return NULL;
