@@ -51,7 +51,6 @@ G_DEFINE_TYPE (
 struct _ECanvasBackgroundPrivate {
 	guint rgba;		/* Fill color, RGBA */
 	GdkColor color;		/* Fill color */
-	GdkBitmap *stipple;	/* Stipple for fill */
 	GdkGC *gc;			/* GC for filling */
 	gdouble x1;
 	gdouble x2;
@@ -73,7 +72,6 @@ enum {
 	PROP_FILL_COLOR,
 	PROP_FILL_COLOR_GDK,
 	PROP_FILL_COLOR_RGBA,
-	PROP_FILL_STIPPLE,
 	PROP_X1,
 	PROP_X2,
 	PROP_Y1,
@@ -159,38 +157,12 @@ ecb_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flag
 	}
 }
 
-/* Sets the stipple pattern for the text */
-static void
-set_stipple (ECanvasBackground *ecb, GdkBitmap *stipple, gint use_value)
-{
-	if (use_value) {
-		if (ecb->priv->stipple)
-			g_object_unref (ecb->priv->stipple);
-
-		ecb->priv->stipple = stipple;
-		if (stipple)
-			g_object_ref (stipple);
-	}
-
-	if (ecb->priv->gc) {
-		if (stipple) {
-			gdk_gc_set_stipple (ecb->priv->gc, stipple);
-			gdk_gc_set_fill (ecb->priv->gc, GDK_STIPPLED);
-		} else
-			gdk_gc_set_fill (ecb->priv->gc, GDK_SOLID);
-	}
-}
-
 static void
 ecb_dispose (GObject *object)
 {
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (object);
 
 	if (ecb->priv) {
-		if (ecb->priv->stipple)
-			g_object_unref (ecb->priv->stipple);
-		ecb->priv->stipple = NULL;
-
 		g_free (ecb->priv);
 		ecb->priv = NULL;
 	}
@@ -248,10 +220,6 @@ ecb_set_property (GObject *object,
 		color_changed = TRUE;
 		break;
 
-	case PROP_FILL_STIPPLE:
-		set_stipple (ecb, g_value_get_object (value), TRUE);
-		break;
-
 	case PROP_X1:
 		ecb->priv->x1 = g_value_get_double (value);
 		break;
@@ -296,9 +264,6 @@ ecb_get_property (GObject *object,
         case PROP_FILL_COLOR_RGBA:
 		g_value_set_uint (value, ecb->priv->rgba);
 		break;
-	case PROP_FILL_STIPPLE:
-		g_value_set_object (value, ecb->priv->stipple);
-		break;
 	case PROP_X1:
 		g_value_set_double (value, ecb->priv->x1);
 		break;
@@ -326,7 +291,6 @@ ecb_init (ECanvasBackground *ecb)
 	ecb->priv->color.red    = 0;
 	ecb->priv->color.green  = 0;
 	ecb->priv->color.blue   = 0;
-	ecb->priv->stipple      = NULL;
 	ecb->priv->gc           = NULL;
 	ecb->priv->x1           = -1.0;
 	ecb->priv->x2           = -1.0;
@@ -348,8 +312,6 @@ ecb_realize (GnomeCanvasItem *item)
 	ecb->priv->gc = gdk_gc_new (bin_window);
 	get_color (ecb);
         gdk_gc_set_foreground (ecb->priv->gc, &ecb->priv->color);
-
-	set_stipple (ecb, NULL, FALSE);
 
 	ecb->priv->needs_redraw = 1;
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ecb));
@@ -482,13 +444,6 @@ ecb_class_init (ECanvasBackgroundClass *ecb_class)
 							    "GDK fill color",
 							    0, G_MAXUINT, 0,
 							    G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_FILL_STIPPLE,
-					 g_param_spec_object ("fill_stipple",
-							      "Fill stipple",
-							      "Fill stipple",
-							      GDK_TYPE_WINDOW,
-							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_X1,
 					 g_param_spec_double ("x1",
