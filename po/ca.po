@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-10 22:58+0200\n"
-"PO-Revision-Date: 2010-09-30 23:46+0200\n"
+"POT-Creation-Date: 2010-10-10 23:01+0200\n"
+"PO-Revision-Date: 2010-10-10 23:05+0200\n"
 "Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -12604,7 +12604,6 @@ msgid "Fi_xed-width:"
 msgstr "Amplada fi_xa:"
 
 #: ../mail/mail-config.ui.h:52
-#, fuzzy
 msgid "Fix_ed width Font:"
 msgstr "Tipus de lletra d'amplada fi_xa:"
 
@@ -12729,7 +12728,6 @@ msgid "Port:"
 msgstr "Port:"
 
 #: ../mail/mail-config.ui.h:87
-#, fuzzy
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr "Pregunta quan s'enviïn missatges amb destinataris n_omés al camp CCO"
 
@@ -12995,7 +12993,6 @@ msgid "_Junk Folder:"
 msgstr "Carpeta de correu _brossa:"
 
 #: ../mail/mail-config.ui.h:158
-#, fuzzy
 msgid "_Keep Signature above the original message on replying"
 msgstr ""
 "Mantin_gues la signatura a la part superior del missatge original en "
@@ -13006,7 +13003,6 @@ msgid "_Languages"
 msgstr "_Llengües"
 
 #: ../mail/mail-config.ui.h:160
-#, fuzzy
 msgid "_Load images in messages from contacts"
 msgstr "_Carrega les imatges dels correus dels contactes"
 
@@ -13039,7 +13035,6 @@ msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr "_Pregunta quan s'enviïn missatges HTML als contactes que no ho vulguin"
 
 #: ../mail/mail-config.ui.h:169
-#, fuzzy
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "_Pregunta quan s'enviïn missatges amb l'assumpte buit"
 
@@ -13132,7 +13127,6 @@ msgid "Co_mpleted"
 msgstr "Co_mpletat"
 
 #: ../mail/mail-dialogs.ui.h:6
-#, fuzzy
 msgid "Collapse _all"
 msgstr "Contreu-ho _tot"
 
@@ -13145,7 +13139,6 @@ msgid "Do Not Forward"
 msgstr "No ho reenvïis"
 
 #: ../mail/mail-dialogs.ui.h:9
-#, fuzzy
 msgid "E_xpand all"
 msgstr "E_xpandeix-ho tot"
 
@@ -13190,7 +13183,6 @@ msgid "S_erver:"
 msgstr "S_ervidor:"
 
 #: ../mail/mail-dialogs.ui.h:23
-#, fuzzy
 msgid "S_how only items containing:"
 msgstr "_Mostra només els elements que continguin:"
 
@@ -16361,17 +16353,14 @@ msgstr ""
 "Reprodueix les adjuncions d'àudio directament des dels missatges de correu."
 
 #: ../plugins/backup-restore/backup-restore.c:160
-#, fuzzy
 msgid "Select name of the Evolution backup file"
 msgstr "Seleccioneu el nom del fitxer de còpia de seguretat de l'Evolution"
 
 #: ../plugins/backup-restore/backup-restore.c:191
-#, fuzzy
 msgid "_Restart Evolution after backup"
 msgstr "_Reinicia l'Evolution després de la còpia de seguretat"
 
 #: ../plugins/backup-restore/backup-restore.c:217
-#, fuzzy
 msgid "Select name of the Evolution backup file to restore"
 msgstr ""
 "Seleccioneu el nom del fitxer de còpia de seguretat de l'Evolution a "
@@ -16382,7 +16371,6 @@ msgid "_Restart Evolution after restore"
 msgstr "_Reinicia l'Evolution després de restaurar"
 
 #: ../plugins/backup-restore/backup-restore.c:298
-#, fuzzy
 msgid ""
 "You can restore Evolution from your backup. It can restore all the Mails, "
 "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
@@ -16394,7 +16382,6 @@ msgstr ""
 "configuració personal, els filtres de correu, etc."
 
 #: ../plugins/backup-restore/backup-restore.c:305
-#, fuzzy
 msgid "_Restore Evolution from the backup file"
 msgstr "_Restaura l'Evolution a partir del fitxer de còpia de seguretat"
 
@@ -16407,7 +16394,6 @@ msgid "Choose a file to restore"
 msgstr "Escolliu un fitxer a restaurar"
 
 #: ../plugins/backup-restore/backup-restore.c:323
-#, fuzzy
 msgid "Restore from backup"
 msgstr "Restaura a partir de la còpia de seguretat"
 
@@ -16416,7 +16402,6 @@ msgid "_Backup Evolution Settings..."
 msgstr "Fes una _còpia de seguretat dels paràmetres de l'Evolution..."
 
 #: ../plugins/backup-restore/backup-restore.c:363
-#, fuzzy
 msgid "Backup Evolution data and settings to an archive file"
 msgstr ""
 "Fes una còpia de seguretat de les dades i la configuració de l'Evolution en "
@@ -16433,7 +16418,6 @@ msgstr ""
 "fitxer d'arxiu"
 
 #: ../plugins/backup-restore/backup.c:80
-#, fuzzy
 msgid "Backup Evolution directory"
 msgstr "Fes una còpia de seguretat del directori de l'Evolution"
 
@@ -16442,7 +16426,6 @@ msgid "Restore Evolution directory"
 msgstr "Restaura el directori de l'Evolution"
 
 #: ../plugins/backup-restore/backup.c:84
-#, fuzzy
 msgid "Check Evolution Backup"
 msgstr "Comprova la còpia de seguretat de l'Evolution"
 
@@ -16472,7 +16455,6 @@ msgstr ""
 "Contactes, Calendari, Tasques, Anotacions)"
 
 #: ../plugins/backup-restore/backup.c:318
-#, fuzzy
 msgid "Backup complete"
 msgstr "S'ha completat la còpia de seguretat"
 
@@ -16486,7 +16468,6 @@ msgid "Back up current Evolution data"
 msgstr "Fes una còpia de seguretat de les dades de l'Evolution"
 
 #: ../plugins/backup-restore/backup.c:410
-#, fuzzy
 msgid "Extracting files from backup"
 msgstr "S'estan extraient els fitxers de la còpia de seguretat"
 
@@ -16495,7 +16476,6 @@ msgid "Loading Evolution settings"
 msgstr "S'està carregant la configuració de l'Evolution"
 
 #: ../plugins/backup-restore/backup.c:482
-#, fuzzy
 msgid "Removing temporary backup files"
 msgstr "S'estan suprimint els fitxers de còpia de seguretat temporals"
 
@@ -16516,7 +16496,6 @@ msgstr "S'està restaurant la còpia de seguretat de la carpeta %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
 #: ../plugins/backup-restore/backup.c:706
-#, fuzzy
 msgid "Evolution Backup"
 msgstr "Còpia de seguretat de l'Evolution"
 
@@ -16551,12 +16530,10 @@ msgstr ""
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
-#, fuzzy
 msgid "Backup and Restore"
 msgstr "Còpia de seguretat i restauració"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
-#, fuzzy
 msgid "Backup and restore your Evolution data and settings."
 msgstr "Copia i restaura les dades i la configuració de l'Evolution."
 
@@ -16565,7 +16542,6 @@ msgid "Are you sure you want to close Evolution?"
 msgstr "Segur que voleu sortir de l'Evolution?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
-#, fuzzy
 msgid ""
 "Are you sure you want to restore Evolution from the selected backup file?"
 msgstr ""
@@ -16573,7 +16549,6 @@ msgstr ""
 "seguretat seleccionat?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
-#, fuzzy
 msgid "Close and Backup Evolution"
 msgstr "Tanca i fes una còpia de seguretat de l'Evolution"
 
@@ -16586,12 +16561,10 @@ msgid "Insufficient Permissions"
 msgstr "No teniu els permisos necessaris"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
-#, fuzzy
 msgid "Invalid Evolution backup file"
 msgstr "El fitxer de còpia de seguretat de l'Evolution no és vàlid"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
-#, fuzzy
 msgid "Please select a valid backup file to restore."
 msgstr ""
 "Seleccioneu un fitxer de còpia de seguretat de l'Evolution vàlid a restaurar."
@@ -16601,7 +16574,6 @@ msgid "The selected folder is not writable."
 msgstr "La carpeta seleccionada és de només lectura."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:9
-#, fuzzy
 msgid ""
 "To backup your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding."
@@ -16611,7 +16583,6 @@ msgstr ""
 "continuar."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:10
-#, fuzzy
 msgid ""
 "To restore your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding. This will delete "
