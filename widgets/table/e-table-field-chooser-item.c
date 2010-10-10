@@ -522,12 +522,10 @@ etfci_draw (GnomeCanvasItem *item,
 	}
 }
 
-static double
-etfci_point (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy,
-	    GnomeCanvasItem **actual_item)
+static GnomeCanvasItem *
+etfci_point (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy)
 {
-	*actual_item = item;
-	return 0.0;
+	return item;
 }
 
 static gboolean

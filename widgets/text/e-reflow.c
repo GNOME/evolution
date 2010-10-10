@@ -43,7 +43,7 @@ static void e_reflow_unrealize (GnomeCanvasItem *item);
 static void e_reflow_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				    gint x, gint y, gint width, gint height);
 static void e_reflow_update (GnomeCanvasItem *item, gdouble affine[6], ArtSVP *clip_path, gint flags);
-static gdouble e_reflow_point (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy, GnomeCanvasItem **actual_item);
+static GnomeCanvasItem *e_reflow_point (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy);
 static void e_reflow_reflow (GnomeCanvasItem *item, gint flags);
 static void set_empty (EReflow *reflow);
 
@@ -1341,22 +1341,16 @@ e_reflow_update (GnomeCanvasItem *item, gdouble affine[6], ArtSVP *clip_path, gi
 	}
 }
 
-static double
+static GnomeCanvasItem *
 e_reflow_point (GnomeCanvasItem *item,
-		gdouble x, gdouble y, gint cx, gint cy,
-		GnomeCanvasItem **actual_item)
+		gdouble x, gdouble y, gint cx, gint cy)
 {
-	gdouble distance = 1;
-
-	*actual_item = NULL;
+        GnomeCanvasItem *child;
 
 	if (GNOME_CANVAS_ITEM_CLASS (e_reflow_parent_class)->point)
-		distance = GNOME_CANVAS_ITEM_CLASS (e_reflow_parent_class)->point (item, x, y, cx, cy, actual_item);
-	if ((gint) (distance * item->canvas->pixels_per_unit + 0.5) <= 0 && *actual_item)
-		return distance;
+		child = GNOME_CANVAS_ITEM_CLASS (e_reflow_parent_class)->point (item, x, y, cx, cy);
 
-	*actual_item = item;
-	return 0;
+	return child ? child : item;
 #if 0
 	if (y >= E_REFLOW_BORDER_WIDTH && y <= reflow->height - E_REFLOW_BORDER_WIDTH) {
 		gfloat n_x;

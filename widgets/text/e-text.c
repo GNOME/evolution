@@ -1674,17 +1674,15 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 }
 
 /* Point handler for the text item */
-static double
+static GnomeCanvasItem *
 e_text_point (GnomeCanvasItem *item, gdouble x, gdouble y,
-	      gint cx, gint cy, GnomeCanvasItem **actual_item)
+	      gint cx, gint cy)
 {
 	EText *text;
 	gdouble clip_width;
 	gdouble clip_height;
 
 	text = E_TEXT (item);
-
-	*actual_item = item;
 
 	/* The idea is to build bounding rectangles for each of the lines of
 	 * text (clipped by the clipping rectangle, if it is activated) and see
@@ -1710,17 +1708,17 @@ e_text_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 	    cx > text->clip_cx + clip_width ||
 	    cy < text->clip_cy ||
 	    cy > text->clip_cy + clip_height)
-		return 1;
+		return NULL;
 
 	if (text->fill_clip_rectangle || !text->text || !*text->text)
-		return 0;
+		return item;
 
 	cx -= text->cx;
 
 	if (pango_layout_xy_to_index (text->layout, cx, cy, NULL, NULL))
-		return 0;
+		return item;
 
-	return 1;
+	return NULL;
 }
 
 /* Bounds handler for the text item */

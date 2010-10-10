@@ -120,12 +120,11 @@ static void gnome_canvas_text_realize (GnomeCanvasItem *item);
 static void gnome_canvas_text_unrealize (GnomeCanvasItem *item);
 static void gnome_canvas_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				    gint x, gint y, gint width, gint height);
-static gdouble gnome_canvas_text_point (GnomeCanvasItem *item,
-				       gdouble x,
-				       gdouble y,
-				       gint cx,
-				       gint cy,
-				       GnomeCanvasItem **actual_item);
+static GnomeCanvasItem *gnome_canvas_text_point (GnomeCanvasItem *item,
+                                                 gdouble x,
+                                                 gdouble y,
+                                                 gint cx,
+                                                 gint cy);
 static void gnome_canvas_text_bounds (GnomeCanvasItem *item,
 				      gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
 
@@ -1415,27 +1414,21 @@ gnome_canvas_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 }
 
 /* Point handler for the text item */
-static double
+static GnomeCanvasItem *
 gnome_canvas_text_point (GnomeCanvasItem *item, gdouble x, gdouble y,
-			 gint cx, gint cy, GnomeCanvasItem **actual_item)
+			 gint cx, gint cy)
 {
 	GnomeCanvasText *text;
 	PangoLayoutIter *iter;
 	gint x1, y1, x2, y2;
-	gint dx, dy;
-	gdouble dist, best;
 
 	text = GNOME_CANVAS_TEXT (item);
-
-	*actual_item = item;
 
 	/* The idea is to build bounding rectangles for each of the lines of
 	 * text (clipped by the clipping rectangle, if it is activated) and see
 	 * whether the point is inside any of these.  If it is, we are done.
 	 * Otherwise, calculate the distance to the nearest rectangle.
 	 */
-
-	best = 1.0e36;
 
 	iter = pango_layout_get_iter (text->layout);
 	do {
@@ -1467,34 +1460,16 @@ gnome_canvas_text_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 
 		/* Calculate distance from point to rectangle */
 
-		if (cx < x1)
-			dx = x1 - cx;
-		else if (cx >= x2)
-			dx = cx - x2 + 1;
-		else
-			dx = 0;
-
-		if (cy < y1)
-			dy = y1 - cy;
-		else if (cy >= y2)
-			dy = cy - y2 + 1;
-		else
-			dy = 0;
-
-		if ((dx == 0) && (dy == 0)) {
+		if (cx >= x1 && cx < x2 && cy >= y1 && cy < y2) {
 			pango_layout_iter_free (iter);
-			return 0.0;
+			return item;
 		}
-
-		dist = sqrt (dx * dx + dy * dy);
-		if (dist < best)
-			best = dist;
 
 	} while (pango_layout_iter_next_line (iter));
 
 	pango_layout_iter_free (iter);
 
-	return best / item->canvas->pixels_per_unit;
+	return NULL;
 }
 
 /* Bounds handler for the text item */

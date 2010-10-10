@@ -97,12 +97,11 @@ static void gnome_canvas_pixbuf_update (GnomeCanvasItem *item, gdouble *affine,
 					ArtSVP *clip_path, gint flags);
 static void gnome_canvas_pixbuf_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				      gint x, gint y, gint width, gint height);
-static gdouble gnome_canvas_pixbuf_point (GnomeCanvasItem *item,
-					 gdouble x,
-					 gdouble y,
-					 gint cx,
-					 gint cy,
-					 GnomeCanvasItem **actual_item);
+static GnomeCanvasItem *gnome_canvas_pixbuf_point (GnomeCanvasItem *item,
+                                                   gdouble x,
+                                                   gdouble y,
+                                                   gint cx,
+                                                   gint cy);
 static void gnome_canvas_pixbuf_bounds (GnomeCanvasItem *item,
 					gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
 
@@ -884,13 +883,12 @@ gnome_canvas_pixbuf_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 
 /* Point handler for the pixbuf canvas item */
-static double
+static GnomeCanvasItem *
 gnome_canvas_pixbuf_point (GnomeCanvasItem *item,
                            gdouble x,
                            gdouble y,
                            gint cx,
-                           gint cy,
-                           GnomeCanvasItem **actual_item)
+                           gint cy)
 {
 	GnomeCanvasPixbuf *gcp;
 	PixbufPrivate *priv;
@@ -905,12 +903,10 @@ gnome_canvas_pixbuf_point (GnomeCanvasItem *item,
 	priv = gcp->priv;
 	pixbuf = priv->pixbuf;
 
-	*actual_item = item;
-
 	no_hit = item->canvas->pixels_per_unit * 2 + 10;
 
 	if (!priv->pixbuf)
-		return no_hit;
+		return NULL;
 
 	gnome_canvas_item_i2c_affine (item, i2c);
 	compute_render_affine (gcp, render_affine, i2c);
@@ -924,19 +920,19 @@ gnome_canvas_pixbuf_point (GnomeCanvasItem *item,
 
 	if (px < 0 || px >= gdk_pixbuf_get_width (pixbuf) ||
 	    py < 0 || py >= gdk_pixbuf_get_height (pixbuf))
-		return no_hit;
+		return NULL;
 
 	if (!gdk_pixbuf_get_has_alpha (pixbuf))
-		return 0.0;
+		return item;
 
 	src = gdk_pixbuf_get_pixels (pixbuf) +
 	    py * gdk_pixbuf_get_rowstride (pixbuf) +
 	    px * gdk_pixbuf_get_n_channels (pixbuf);
 
 	if (src[3] < 128)
-		return no_hit;
+		return NULL;
 	else
-		return 0.0;
+		return item;
 }
 
 
