@@ -1235,21 +1235,14 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	gdk_region_destroy (draw_region);
 }
 
-static gdouble
+static GnomeCanvasItem *
 day_view_main_item_point (GnomeCanvasItem *item,
                           gdouble x,
                           gdouble y,
                           gint cx,
-                          gint cy,
-                          GnomeCanvasItem **actual_item)
+                          gint cy)
 {
-	/* This is supposed to return the nearest item to the point
-	 * and the distance.  Since we are the only item we just return
-	 * ourself and 0 for the distance.  This is needed so that we
-	 * get button/motion events. */
-	*actual_item = item;
-
-	return 0.0;
+	return item;
 }
 
 static void

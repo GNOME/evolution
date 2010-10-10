@@ -167,13 +167,12 @@ canvas_emit_event (GnomeCanvas *canvas,
  * invariant. */
 #define HACKISH_AFFINE
 
-static double
+static GnomeCanvasItem *
 gnome_canvas_item_invoke_point (GnomeCanvasItem *item,
                                 gdouble x,
                                 gdouble y,
                                 gint cx,
-                                gint cy,
-                                GnomeCanvasItem **actual_item)
+                                gint cy)
 {
 #ifdef HACKISH_AFFINE
 	gdouble i2w[6], w2c[6], i2c[6], c2i[6];
@@ -193,7 +192,7 @@ gnome_canvas_item_invoke_point (GnomeCanvasItem *item,
 #endif
 
 	return (* GNOME_CANVAS_ITEM_CLASS (G_OBJECT_GET_CLASS (item))->point) (
-		item, x, y, cx, cy, actual_item);
+		item, x, y, cx, cy);
 }
 
 /* Re-picks the current item in the canvas, based on the event's coordinates.
@@ -287,8 +286,7 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 		/* find the closest item */
 
 		if (canvas->root->flags & GNOME_CANVAS_ITEM_VISIBLE)
-			gnome_canvas_item_invoke_point (canvas->root, x, y, cx, cy,
-							&canvas->new_current_item);
+			canvas->new_current_item = gnome_canvas_item_invoke_point (canvas->root, x, y, cx, cy);
 		else
 			canvas->new_current_item = NULL;
 	} else

@@ -121,10 +121,9 @@ static void gnome_canvas_rich_text_update (GnomeCanvasItem *item, gdouble *affin
 					  ArtSVP *clip_path, gint flags);
 static void gnome_canvas_rich_text_realize (GnomeCanvasItem *item);
 static void gnome_canvas_rich_text_unrealize (GnomeCanvasItem *item);
-static gdouble gnome_canvas_rich_text_point (GnomeCanvasItem *item,
-					   gdouble x, gdouble y,
-					   gint cx, gint cy,
-					   GnomeCanvasItem **actual_item);
+static GnomeCanvasItem * gnome_canvas_rich_text_point (GnomeCanvasItem *item,
+                                                       gdouble x, gdouble y,
+                                                       gint cx, gint cy);
 static void gnome_canvas_rich_text_draw (GnomeCanvasItem *item,
 					GdkDrawable *drawable,
 					gint x, gint y, gint width, gint height);
@@ -2008,16 +2007,13 @@ gnome_canvas_rich_text_update (GnomeCanvasItem *item, gdouble *affine,
 	gnome_canvas_update_bbox (item, x1, y1, x2, y2);
 } /* gnome_canvas_rich_text_update */
 
-static double
+static GnomeCanvasItem *
 gnome_canvas_rich_text_point (GnomeCanvasItem *item, gdouble x, gdouble y,
-			     gint cx, gint cy, GnomeCanvasItem **actual_item)
+			     gint cx, gint cy)
 {
 	GnomeCanvasRichText *text = GNOME_CANVAS_RICH_TEXT (item);
 	gdouble ax, ay;
 	gdouble x1, x2, y1, y2;
-	gdouble dx, dy;
-
-	*actual_item = item;
 
 	/* This is a lame cop-out. Anywhere inside of the bounding box. */
 
@@ -2030,23 +2026,9 @@ gnome_canvas_rich_text_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 	y2 = ay + text->_priv->height;
 
 	if ((x > x1) && (y > y1) && (x < x2) && (y < y2))
-		return 0.0;
+		return item;
 
-	if (x < x1)
-		dx = x1 - x;
-	else if (x > x2)
-		dx = x - x2;
-	else
-		dx = 0.0;
-
-	if (y < y1)
-		dy = y1 - y;
-	else if (y > y2)
-		dy = y - y2;
-	else
-		dy = 0.0;
-
-	return sqrt (dx * dx + dy * dy);
+        return NULL;
 } /* gnome_canvas_rich_text_point */
 
 static void

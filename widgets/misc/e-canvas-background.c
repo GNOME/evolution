@@ -371,23 +371,21 @@ ecb_draw (GnomeCanvasItem *item,
 			    x1, y1, x2 - x1, y2 - y1);
 }
 
-static double
-ecb_point (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy,
-	   GnomeCanvasItem **actual_item)
+static GnomeCanvasItem *
+ecb_point (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy)
 {
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
 
 	if (ecb->priv->x1 >= 0 && ecb->priv->x1 > x)
-		return 1.0;
+		return NULL;
 	if (ecb->priv->x2 >= 0 && ecb->priv->x2 < x)
-		return 1.0;
+		return NULL;
 	if (ecb->priv->y1 >= 0 && ecb->priv->y1 > y)
-		return 1.0;
+		return NULL;
 	if (ecb->priv->y2 >= 0 && ecb->priv->y2 < y)
-		return 1.0;
-	*actual_item = item;
+		return NULL;
 
-	return 0.0;
+	return item;
 }
 
 static void

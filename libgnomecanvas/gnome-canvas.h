@@ -171,14 +171,13 @@ struct _GnomeCanvasItemClass {
 	void (* draw) (GnomeCanvasItem *item, GdkDrawable *drawable,
 		       gint x, gint y, gint width, gint height);
 
-	/* Calculate the distance from an item to the specified point.  It also
-         * returns a canvas item which is the item itself in the case of the
-         * object being an actual leaf item, or a child in case of the object
-         * being a canvas group.  (cx, cy) are the canvas pixel coordinates that
-         * correspond to the item-relative coordinates (x, y).
+        /* Returns the canvas item which is at the given location. This is the
+         * item itself in the case of the object being an actual leaf item, or
+         * a child in case of the object being a canvas group.  (cx, cy) are
+         * the canvas pixel coordinates that correspond to the item-relative
+         * coordinates (x, y).
 	 */
-	gdouble (* point) (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy,
-			  GnomeCanvasItem **actual_item);
+	GnomeCanvasItem * (* point) (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy);
 
 	/* Fetch the item's bounding box (need not be exactly tight).  This
 	 * should be in item-relative coordinates.

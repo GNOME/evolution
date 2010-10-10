@@ -90,12 +90,11 @@ static void e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 					      gint		 start_weekday,
 					      gint		 cells_x,
 					      gint		 cells_y);
-static gdouble e_calendar_item_point	(GnomeCanvasItem *item,
+static GnomeCanvasItem *e_calendar_item_point	(GnomeCanvasItem *item,
 					 gdouble		  x,
 					 gdouble		  y,
 					 gint		  cx,
-					 gint		  cy,
-					 GnomeCanvasItem **actual_item);
+					 gint		  cy);
 static void e_calendar_item_stop_selecting (ECalendarItem *calitem,
 					    guint32 time);
 static void e_calendar_item_selection_add_days (ECalendarItem *calitem,
@@ -1760,13 +1759,11 @@ e_calendar_item_get_week_number	(ECalendarItem *calitem,
 /* This is supposed to return the nearest item the the point and the distance.
    Since we are the only item we just return ourself and 0 for the distance.
    This is needed so that we get button/motion events. */
-static double
+static GnomeCanvasItem *
 e_calendar_item_point (GnomeCanvasItem *item, gdouble x, gdouble y,
-			   gint cx, gint cy,
-			   GnomeCanvasItem **actual_item)
+		       gint cx, gint cy)
 {
-	*actual_item = item;
-	return 0.0;
+	return item;
 }
 
 static void

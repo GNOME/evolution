@@ -75,8 +75,8 @@ static void   gnome_canvas_shape_realize     (GnomeCanvasItem *item);
 static void   gnome_canvas_shape_unrealize   (GnomeCanvasItem *item);
 static void   gnome_canvas_shape_draw        (GnomeCanvasItem *item, GdkDrawable *drawable,
                                               gint x, gint y, gint width, gint height);
-static gdouble gnome_canvas_shape_point       (GnomeCanvasItem *item, gdouble x, gdouble y,
-                                              gint cx, gint cy, GnomeCanvasItem **actual_item);
+static GnomeCanvasItem *gnome_canvas_shape_point (GnomeCanvasItem *item, gdouble x, gdouble y,
+                                              gint cx, gint cy);
 static void   gnome_canvas_shape_bounds      (GnomeCanvasItem *item,
 					      gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
 
@@ -1084,12 +1084,11 @@ gnome_canvas_shape_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_
         gnome_canvas_shape_update_gdk (shape, affine, clip_path, flags);
 }
 
-static double
+static GnomeCanvasItem *
 gnome_canvas_shape_point (GnomeCanvasItem *item, gdouble x, gdouble y,
-			    gint cx, gint cy, GnomeCanvasItem **actual_item)
+			    gint cx, gint cy)
 {
 	GnomeCanvasShape *shape;
-	gdouble dist;
 	gint wind;
 
 #if 0
@@ -1104,35 +1103,19 @@ gnome_canvas_shape_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 	/* todo: update? */
 	if (shape->priv->fill_set && shape->priv->fill_svp) {
 		wind = art_svp_point_wind (shape->priv->fill_svp, cx, cy);
-		if ((shape->priv->wind == ART_WIND_RULE_NONZERO) && (wind != 0)) {
-			*actual_item = item;
-			return 0.0;
-		}
-		if ((shape->priv->wind == ART_WIND_RULE_ODDEVEN) && ((wind & 0x1) != 0)) {
-			*actual_item = item;
-			return 0.0;
-		}
+		if ((shape->priv->wind == ART_WIND_RULE_NONZERO) && (wind != 0))
+			return item;
+		if ((shape->priv->wind == ART_WIND_RULE_ODDEVEN) && ((wind & 0x1) != 0))
+		        return item;
 	}
 
 	if (shape->priv->outline_set && shape->priv->outline_svp) {
 		wind = art_svp_point_wind (shape->priv->outline_svp, cx, cy);
-		if (wind) {
-			*actual_item = item;
-			return 0.0;
-		}
+		if (wind)
+                        return item;
 	}
 
-	if (shape->priv->outline_set && shape->priv->outline_svp) {
-		dist = art_svp_point_dist (shape->priv->outline_svp, cx, cy);
-	} else if (shape->priv->fill_set && shape->priv->outline_svp) {
-		dist = art_svp_point_dist (shape->priv->fill_svp, cx, cy);
-	} else {
-		return 1e12;
-	}
-
-	*actual_item = item;
-
-	return dist;
+	return NULL;
 }
 
 /* Helpers */

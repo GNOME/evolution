@@ -95,8 +95,8 @@ static void gnome_canvas_line_get_property (GObject              *object,
 static void   gnome_canvas_line_update      (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags);
 static void   gnome_canvas_line_draw        (GnomeCanvasItem *item, GdkDrawable *drawable,
 					     gint x, gint y, gint width, gint height);
-static gdouble gnome_canvas_line_point       (GnomeCanvasItem *item, gdouble x, gdouble y,
-					     gint cx, gint cy, GnomeCanvasItem **actual_item);
+static GnomeCanvasItem *gnome_canvas_line_point  (GnomeCanvasItem *item, gdouble x, gdouble y,
+					     gint cx, gint cy);
 static void   gnome_canvas_line_bounds      (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
 
 static GnomeCanvasItemClass *parent_class;
@@ -995,9 +995,9 @@ gnome_canvas_line_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	}
 }
 
-static double
+static GnomeCanvasItem *
 gnome_canvas_line_point (GnomeCanvasItem *item, gdouble x, gdouble y,
-			 gint cx, gint cy, GnomeCanvasItem **actual_item)
+			 gint cx, gint cy)
 {
 	GnomeCanvasLine *line;
 	gdouble *line_points = NULL, *coords;
@@ -1014,8 +1014,6 @@ gnome_canvas_line_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 #endif
 
 	line = GNOME_CANVAS_LINE (item);
-
-	*actual_item = item;
 
 	best = 1.0e36;
 
@@ -1174,7 +1172,7 @@ done:
 	if ((line_points != static_points) && (line_points != line->coords))
 		g_free (line_points);
 
-	return best;
+	return best == 0.0 ? item : NULL;
 }
 
 static void

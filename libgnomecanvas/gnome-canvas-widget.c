@@ -62,12 +62,11 @@ static void	gnome_canvas_widget_update	(GnomeCanvasItem *item,
 						 gdouble *affine,
 						 ArtSVP *clip_path,
 						 gint flags);
-static gdouble	gnome_canvas_widget_point	(GnomeCanvasItem *item,
+static GnomeCanvasItem *gnome_canvas_widget_point (GnomeCanvasItem *item,
 						 gdouble x,
 						 gdouble y,
 						 gint cx,
-						 gint cy,
-						 GnomeCanvasItem **actual_item);
+						 gint cy);
 static void	gnome_canvas_widget_bounds	(GnomeCanvasItem *item,
 						 gdouble *x1,
 						 gdouble *y1,
@@ -424,17 +423,14 @@ gnome_canvas_widget_draw (GnomeCanvasItem *item,
 #endif
 }
 
-static double
+static GnomeCanvasItem *
 gnome_canvas_widget_point (GnomeCanvasItem *item, gdouble x, gdouble y,
-			   gint cx, gint cy, GnomeCanvasItem **actual_item)
+			   gint cx, gint cy)
 {
 	GnomeCanvasWidget *witem;
 	gdouble x1, y1, x2, y2;
-	gdouble dx, dy;
 
 	witem = GNOME_CANVAS_WIDGET (item);
-
-	*actual_item = item;
 
 	gnome_canvas_c2w (item->canvas, witem->cx, witem->cy, &x1, &y1);
 
@@ -444,25 +440,10 @@ gnome_canvas_widget_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 	/* Is point inside widget bounds? */
 
 	if ((x >= x1) && (y >= y1) && (x <= x2) && (y <= y2))
-		return 0.0;
+		return item;
 
 	/* Point is outside widget bounds */
-
-	if (x < x1)
-		dx = x1 - x;
-	else if (x > x2)
-		dx = x - x2;
-	else
-		dx = 0.0;
-
-	if (y < y1)
-		dy = y1 - y;
-	else if (y > y2)
-		dy = y - y2;
-	else
-		dy = 0.0;
-
-	return sqrt (dx * dx + dy * dy);
+        return NULL;
 }
 
 static void

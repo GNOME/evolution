@@ -54,10 +54,9 @@ static void e_meeting_time_selector_item_draw (GnomeCanvasItem *item,
 					       GdkDrawable *drawable,
 					       gint x, gint y,
 					       gint width, gint height);
-static double e_meeting_time_selector_item_point (GnomeCanvasItem *item,
-						  double x, double y,
-						  gint cx, gint cy,
-						  GnomeCanvasItem **actual_item);
+static GnomeCanvasItem *e_meeting_time_selector_item_point (GnomeCanvasItem *item,
+                                                            double x, double y,
+                                                            gint cx, gint cy);
 static gint e_meeting_time_selector_item_event (GnomeCanvasItem *item,
 						GdkEvent *event);
 static gint e_meeting_time_selector_item_button_press (EMeetingTimeSelectorItem *mts_item,
@@ -779,16 +778,11 @@ e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorIt
  * CANVAS ITEM ROUTINES - functions to be a GnomeCanvasItem.
  */
 
-/* This is supposed to return the nearest item the the point and the distance.
-   Since we are the only item we just return ourself and 0 for the distance.
-   This is needed so that we get button/motion events. */
-static double
+static GnomeCanvasItem *
 e_meeting_time_selector_item_point (GnomeCanvasItem *item, double x, double y,
-				    gint cx, gint cy,
-				    GnomeCanvasItem **actual_item)
+				    gint cx, gint cy)
 {
-	*actual_item = item;
-	return 0.0;
+	return item;
 }
 
 static gint

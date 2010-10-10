@@ -80,10 +80,9 @@ static void e_day_view_time_item_draw (GnomeCanvasItem *item,
 				       GdkDrawable *drawable,
 				       gint x, gint y,
 				       gint width, gint height);
-static double e_day_view_time_item_point (GnomeCanvasItem *item,
-					  double x, double y,
-					  gint cx, gint cy,
-					  GnomeCanvasItem **actual_item);
+static GnomeCanvasItem *e_day_view_time_item_point (GnomeCanvasItem *item,
+                                                    double x, double y,
+                                                    gint cx, gint cy);
 static gint e_day_view_time_item_event (GnomeCanvasItem *item,
 					GdkEvent *event);
 static void e_day_view_time_item_increment_time	(gint	*hour,
@@ -649,13 +648,11 @@ e_day_view_time_item_increment_time	(gint	*hour,
 	}
 }
 
-static double
+static GnomeCanvasItem *
 e_day_view_time_item_point (GnomeCanvasItem *item, double x, double y,
-			    gint cx, gint cy,
-			    GnomeCanvasItem **actual_item)
+			    gint cx, gint cy)
 {
-	*actual_item = item;
-	return 0.0;
+	return item;
 }
 
 static gint

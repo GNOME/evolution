@@ -512,13 +512,12 @@ gnome_canvas_item_invoke_update (GnomeCanvasItem *item,
  * This is potentially evil, as we are relying on matrix inversion (Lauris)
  */
 
-static double
+static GnomeCanvasItem *
 gnome_canvas_item_invoke_point (GnomeCanvasItem *item,
                                 gdouble x,
                                 gdouble y,
                                 gint cx,
-                                gint cy,
-                                GnomeCanvasItem **actual_item)
+                                gint cy)
 {
 	/* Calculate x & y in item local coordinates */
 
@@ -555,9 +554,9 @@ gnome_canvas_item_invoke_point (GnomeCanvasItem *item,
 #endif
 
 	if (GNOME_CANVAS_ITEM_GET_CLASS (item)->point)
-		return GNOME_CANVAS_ITEM_GET_CLASS (item)->point (item, x, y, cx, cy, actual_item);
+		return GNOME_CANVAS_ITEM_GET_CLASS (item)->point (item, x, y, cx, cy);
 
-	return 1e18;
+	return NULL;
 }
 
 /**
@@ -1400,10 +1399,9 @@ static void   gnome_canvas_group_draw        (GnomeCanvasItem *item,
 					      GdkDrawable *drawable,
 					      gint x, gint y,
 					      gint width, gint height);
-static gdouble gnome_canvas_group_point       (GnomeCanvasItem *item,
+static GnomeCanvasItem *gnome_canvas_group_point (GnomeCanvasItem *item,
 					      gdouble x, gdouble y,
-					      gint cx, gint cy,
-					      GnomeCanvasItem **actual_item);
+					      gint cx, gint cy);
 static void   gnome_canvas_group_bounds      (GnomeCanvasItem *item,
 					      gdouble *x1, gdouble *y1,
 					      gdouble *x2, gdouble *y2);
@@ -1746,55 +1744,34 @@ gnome_canvas_group_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 }
 
 /* Point handler for canvas groups */
-static double
+static GnomeCanvasItem *
 gnome_canvas_group_point (GnomeCanvasItem *item,
                           gdouble x,
                           gdouble y,
                           gint cx,
-                          gint cy,
-                          GnomeCanvasItem **actual_item)
+                          gint cy)
 {
 	GnomeCanvasGroup *group;
 	GList *list;
 	GnomeCanvasItem *child, *point_item;
-	gdouble gx, gy;
-	gdouble dist, best;
-	gint has_point;
 
 	group = GNOME_CANVAS_GROUP (item);
 
-	best = 0.0;
-	*actual_item = NULL;
-
-	gx = x;
-	gy = y;
-
-	dist = 0.0; /* keep gcc happy */
-
-	for (list = group->item_list; list; list = list->next) {
+	for (list = g_list_last (group->item_list); list; list = list->prev) {
 		child = list->data;
 
 		if ((child->x1 > cx) || (child->y1 > cy) || (child->x2 < cx) || (child->y2 < cy))
 			continue;
 
-		point_item = NULL; /* cater for incomplete item implementations */
+		if (!(child->flags & GNOME_CANVAS_ITEM_VISIBLE))
+                        continue;
 
-		if ((child->flags & GNOME_CANVAS_ITEM_VISIBLE)
-		    && GNOME_CANVAS_ITEM_GET_CLASS (child)->point) {
-			dist = gnome_canvas_item_invoke_point (child, gx, gy, cx, cy, &point_item);
-			has_point = TRUE;
-		} else
-			has_point = FALSE;
-
-		if (has_point
-		    && point_item
-		    && ((gint) (dist * item->canvas->pixels_per_unit + 0.5) <= 0)) {
-			best = dist;
-			*actual_item = point_item;
-		}
+		point_item = gnome_canvas_item_invoke_point (child, x, y, cx, cy);
+		if (point_item)
+                        return point_item;
 	}
 
-	return best;
+	return NULL;
 }
 
 /* Bounds handler for canvas groups */
@@ -2690,8 +2667,7 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 		/* find the closest item */
 
 		if (canvas->root->flags & GNOME_CANVAS_ITEM_VISIBLE)
-			gnome_canvas_item_invoke_point (canvas->root, x, y, cx, cy,
-							&canvas->new_current_item);
+			canvas->new_current_item = gnome_canvas_item_invoke_point (canvas->root, x, y, cx, cy);
 		else
 			canvas->new_current_item = NULL;
 	} else
@@ -3570,19 +3546,13 @@ gnome_canvas_update_now (GnomeCanvas *canvas)
 GnomeCanvasItem *
 gnome_canvas_get_item_at (GnomeCanvas *canvas, gdouble x, gdouble y)
 {
-	GnomeCanvasItem *item;
-	gdouble dist;
 	gint cx, cy;
 
 	g_return_val_if_fail (GNOME_IS_CANVAS (canvas), NULL);
 
 	gnome_canvas_w2c (canvas, x, y, &cx, &cy);
 
-	dist = gnome_canvas_item_invoke_point (canvas->root, x, y, cx, cy, &item);
-	if ((gint) (dist * canvas->pixels_per_unit + 0.5) <= 0)
-		return item;
-	else
-		return NULL;
+	return gnome_canvas_item_invoke_point (canvas->root, x, y, cx, cy);
 }
 
 /* Queues an update of the canvas */
