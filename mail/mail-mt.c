@@ -318,34 +318,6 @@ mail_msg_cancel (guint msgid)
 	}
 }
 
-/* waits for a message to be finished processing (freed)
-   the messageid is from MailMsg->seq */
-void
-mail_msg_wait (guint msgid)
-{
-	MailMsg *m;
-
-	if (mail_in_main_thread ()) {
-		g_mutex_lock (mail_msg_lock);
-		m = g_hash_table_lookup (mail_msg_active_table, GINT_TO_POINTER (msgid));
-		while (m) {
-			g_mutex_unlock (mail_msg_lock);
-			gtk_main_iteration ();
-			g_mutex_lock (mail_msg_lock);
-			m = g_hash_table_lookup (mail_msg_active_table, GINT_TO_POINTER (msgid));
-		}
-		g_mutex_unlock (mail_msg_lock);
-	} else {
-		g_mutex_lock (mail_msg_lock);
-		m = g_hash_table_lookup (mail_msg_active_table, GINT_TO_POINTER (msgid));
-		while (m) {
-			g_cond_wait (mail_msg_cond, mail_msg_lock);
-			m = g_hash_table_lookup (mail_msg_active_table, GINT_TO_POINTER (msgid));
-		}
-		g_mutex_unlock (mail_msg_lock);
-	}
-}
-
 gboolean
 mail_msg_active (void)
 {

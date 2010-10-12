@@ -64,7 +64,6 @@ gpointer mail_msg_ref (gpointer msg);
 void mail_msg_unref (gpointer msg);
 void mail_msg_check_error (gpointer msg);
 void mail_msg_cancel (guint msgid);
-void mail_msg_wait (guint msgid);
 gboolean mail_msg_active (void);
 
 /* dispatch a message */
