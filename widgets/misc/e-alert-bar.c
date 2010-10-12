@@ -189,8 +189,6 @@ e_alert_bar_init (EAlertBar *alert_bar)
 	container = widget;
 
 	attr_list = pango_attr_list_new ();
-	attr = pango_attr_scale_new  (PANGO_SCALE_LARGE);
-	pango_attr_list_insert (attr_list, attr);
 	attr = pango_attr_weight_new (PANGO_WEIGHT_BOLD);
 	pango_attr_list_insert (attr_list, attr);
 
@@ -202,7 +200,14 @@ e_alert_bar_init (EAlertBar *alert_bar)
 	alert_bar->priv->primary_label = widget;
 	gtk_widget_show (widget);
 
+	pango_attr_list_unref (attr_list);
+
+	attr_list = pango_attr_list_new ();
+	attr = pango_attr_scale_new  (PANGO_SCALE_SMALL);
+	pango_attr_list_insert (attr_list, attr);
+
 	widget = gtk_label_new (NULL);
+	gtk_label_set_attributes (GTK_LABEL (widget), attr_list);
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
