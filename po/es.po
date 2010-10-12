@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2010-10-10 21:11+0000\n"
-"PO-Revision-Date: 2010-10-12 21:54+0200\n"
+"PO-Revision-Date: 2010-10-13 01:20+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -12792,32 +12792,27 @@ msgstr "Foto del remitente"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:101
-#, fuzzy
 #| msgid "Prompt when sending private replies to mailing _list messages"
 msgid "Sending a _private reply to a mailing list message"
-msgstr ""
-"Preguntar al enviar respuestas privadas a mensajes de _listas de correo"
+msgstr "Enviando una respuesta priva_da a una lista de correo"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:103
-#, fuzzy
 #| msgid "_Prompt when sending messages with an empty subject line"
 msgid "Sending a message with an _empty subject line"
-msgstr "Pr_eguntar al enviar mensajes con el asunto vacío"
+msgstr "Enviando un correo con una línea de asunto _vacía"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:105
-#, fuzzy
 #| msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgid "Sending a message with only _Bcc recipients defined"
-msgstr "Preguntar al enviar mensajes que tan sólo tengan definido el _Cco"
+msgstr "Enviando la respuesta sólo a los destinatarios definidos en _Cco"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:107
-#, fuzzy
 #| msgid "Send reply to all recipients?"
 msgid "Sending a reply to a large _number of recipients"
-msgstr "¿Enviar respuesta a todos los destinatarios?"
+msgstr "Enviando la respuesta a un gran _número de destinatarios"
 
 #: ../mail/mail-config.ui.h:108
 msgid "Sent _Messages Folder:"
@@ -16323,18 +16318,16 @@ msgid "_Restart Evolution after back up"
 msgstr "_Reiniciar Evolution después del respaldo"
 
 #: ../plugins/backup-restore/backup-restore.c:217
-#, fuzzy
 #| msgid "Select name of the Evolution backup file to restore"
 msgid "Select name of the Evolution back up file to restore"
 msgstr ""
-"Seleccione el nombre del archivo de respaldo de Evolution para restaurar"
+"Seleccionar el nombre del archivo de respaldo de Evolution para restaurar"
 
 #: ../plugins/backup-restore/backup-restore.c:230
 msgid "_Restart Evolution after restore"
 msgstr "_Reiniciar Evolution después de la restauración"
 
 #: ../plugins/backup-restore/backup-restore.c:298
-#, fuzzy
 #| msgid ""
 #| "You can restore Evolution from your backup. It can restore all the Mails, "
 #| "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
@@ -16349,7 +16342,6 @@ msgstr ""
 "También restaura su configuración personal, filtros de correo, etc."
 
 #: ../plugins/backup-restore/backup-restore.c:305
-#, fuzzy
 #| msgid "_Restore Evolution from the backup file"
 msgid "_Restore Evolution from the back up file"
 msgstr "_Restaurar Evolution desde el archivo de respaldo"
@@ -16363,35 +16355,30 @@ msgid "Choose a file to restore"
 msgstr "Elija un archivador para restaurar"
 
 #: ../plugins/backup-restore/backup-restore.c:323
-#, fuzzy
 #| msgid "Restore from backup"
 msgid "Restore from back up"
 msgstr "Restaurar desde un respaldo"
 
 #: ../plugins/backup-restore/backup-restore.c:361
-#, fuzzy
 #| msgid "Backing up Evolution Data"
 msgid "_Back up Evolution Data..."
-msgstr "Respaldando los datos de Evolution"
+msgstr "Re_spaldar datos de Evolution…"
 
 #: ../plugins/backup-restore/backup-restore.c:363
-#, fuzzy
 #| msgid "Backup Evolution data and settings to an archive file"
 msgid "Back up Evolution data and settings to an archive file"
-msgstr "Respaldar y restaurar los datos y la configuración a un archivador"
+msgstr "Respaldar los datos y configuración de Evolution a un archivador"
 
 #: ../plugins/backup-restore/backup-restore.c:368
-#, fuzzy
 #| msgid "Restoring Evolution Data"
 msgid "R_estore Evolution Data..."
-msgstr "Restaurando los datos de Evolution"
+msgstr "R_estaurar datos de Evolution…"
 
 #: ../plugins/backup-restore/backup-restore.c:370
 msgid "Restore Evolution data and settings from an archive file"
 msgstr "Respaldar y restaurar los datos y la configuración desde un archivador"
 
 #: ../plugins/backup-restore/backup.c:80
-#, fuzzy
 #| msgid "Backup Evolution directory"
 msgid "Back up Evolution directory"
 msgstr "Respaldar el directorio de Evolution"
@@ -16401,10 +16388,9 @@ msgid "Restore Evolution directory"
 msgstr "Restaurar el directorio de Evolution"
 
 #: ../plugins/backup-restore/backup.c:84
-#, fuzzy
 #| msgid "Check Evolution Backup"
 msgid "Check Evolution Back up"
-msgstr "Comprobar respaldo de Evolution"
+msgstr "Comprobar el respaldo de Evolution"
 
 #: ../plugins/backup-restore/backup.c:86
 msgid "Restart Evolution"
@@ -16430,7 +16416,6 @@ msgstr ""
 "notas)"
 
 #: ../plugins/backup-restore/backup.c:318
-#, fuzzy
 #| msgid "Backup complete"
 msgid "Back up complete"
 msgstr "Respaldo completado"
@@ -16445,7 +16430,6 @@ msgid "Back up current Evolution data"
 msgstr "Respaldar los datos actuales de Evolution"
 
 #: ../plugins/backup-restore/backup.c:410
-#, fuzzy
 #| msgid "Extracting files from backup"
 msgid "Extracting files from back up"
 msgstr "Extrayendo archivos del respaldo"
@@ -16455,7 +16439,6 @@ msgid "Loading Evolution settings"
 msgstr "Carga la configuración de Evolution"
 
 #: ../plugins/backup-restore/backup.c:482
-#, fuzzy
 #| msgid "Removing temporary backup files"
 msgid "Removing temporary back up files"
 msgstr "Eliminando archivos temporales de respaldo"
@@ -16476,7 +16459,6 @@ msgstr "Restaurando desde la carpeta %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
 #: ../plugins/backup-restore/backup.c:706
-#, fuzzy
 #| msgid "Evolution Backup"
 msgid "Evolution Back up"
 msgstr "Respaldo de Evolution"
@@ -16508,13 +16490,11 @@ msgstr ""
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
-#, fuzzy
 #| msgid "Backup and Restore"
 msgid "Back up and Restore"
 msgstr "Respaldar y restaurar"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
-#, fuzzy
 #| msgid "Backup and restore your Evolution data and settings."
 msgid "Back up and restore your Evolution data and settings."
 msgstr "Respaldar y restaurar los datos y la configuración de Evolution"
@@ -16524,17 +16504,15 @@ msgid "Are you sure you want to close Evolution?"
 msgstr "¿Seguro que quiere cerrar Evolution?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
-#, fuzzy
 #| msgid ""
 #| "Are you sure you want to restore Evolution from the selected backup file?"
 msgid ""
 "Are you sure you want to restore Evolution from the selected back up file?"
 msgstr ""
-"¿Seguro que quiere restaurar Evolution desde el archivo de respaldo "
+"¿Está seguro de que quiere restaurar Evolution desde el archivo de respaldo "
 "seleccionado?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
-#, fuzzy
 #| msgid "Close and Backup Evolution"
 msgid "Close and Back up Evolution"
 msgstr "Cerrar y respaldar Evolution"
@@ -16548,13 +16526,11 @@ msgid "Insufficient Permissions"
 msgstr "Permisos insuficientes"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
-#, fuzzy
 #| msgid "Invalid Evolution backup file"
 msgid "Invalid Evolution back up file"
 msgstr "Archivo de respaldo de Evolution no válido"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
-#, fuzzy
 #| msgid "Please select a valid backup file to restore."
 msgid "Please select a valid back up file to restore."
 msgstr "Seleccione un archivo de respaldo válido para restaurar."
@@ -16564,7 +16540,6 @@ msgid "The selected folder is not writable."
 msgstr "No se puede escribir en la carpeta seleccionada."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:9
-#, fuzzy
 #| msgid ""
 #| "To backup your data and settings, you must first close Evolution. Please "
 #| "make sure that you save any unsaved data before proceeding."
@@ -16576,7 +16551,6 @@ msgstr ""
 "de que guarda todo dato sin guardar antes de proceder."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:10
-#, fuzzy
 #| msgid ""
 #| "To restore your data and settings, you must first close Evolution. Please "
 #| "make sure that you save any unsaved data before proceeding. This will "
@@ -16589,8 +16563,8 @@ msgid ""
 "up."
 msgstr ""
 "Para restaurar sus datos y ajustes, primero debe cerrar Evolution. Asegúrese "
-"de que guarda todo dato sin guardar antes de proceder. Esto eliminará todos "
-"sus datos y configuración actual de Evolution y los restaurará de su "
+"de que guarda todos sus datos sin guardar antes de proceder. Esto eliminará "
+"todos sus datos y configuración actual de Evolution y los restaurará de su "
 "respaldo."
 
 #: ../plugins/bbdb/bbdb.c:685 ../plugins/bbdb/bbdb.c:694
