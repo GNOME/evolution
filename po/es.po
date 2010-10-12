@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2010-10-10 21:11+0000\n"
-"PO-Revision-Date: 2010-10-12 17:13+0200\n"
+"PO-Revision-Date: 2010-10-12 21:54+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -12860,10 +12860,9 @@ msgid "Signing _algorithm:"
 msgstr "_Algoritmo de firma:"
 
 #: ../mail/mail-config.ui.h:118
-#, fuzzy
 #| msgid "Local Folders"
 msgid "Special Folders"
-msgstr "Carpetas locales"
+msgstr "Carpetas especiales"
 
 #: ../mail/mail-config.ui.h:119
 msgid "Spell Checking"
@@ -12957,7 +12956,6 @@ msgid "_Junk Folder:"
 msgstr "Carpeta de _SPAM:"
 
 #: ../mail/mail-config.ui.h:141
-#, fuzzy
 #| msgid "_Keep Signature above the original message on replying"
 msgid "_Keep signature above the original message on replying"
 msgstr "_Mantener la firma por encima del mensaje original al responder"
@@ -14010,10 +14008,9 @@ msgstr ""
 "¿Quiere borrar estos mensajes?"
 
 #: ../mail/mail.error.xml.h:124
-#, fuzzy
 #| msgid "Would you like to accept it?"
 msgid "Would you like to close the message window?"
-msgstr "¿Quiere aceptarlo?"
+msgstr "¿Quiere seleccionar la ventana de mensaje?"
 
 #: ../mail/mail.error.xml.h:125
 msgid ""
@@ -14082,10 +14079,9 @@ msgid "Your login to your server \"{0}\" as \"{0}\" failed."
 msgstr "Su inicio de sesión en su servidor «{0}» como «{0}» falló."
 
 #: ../mail/mail.error.xml.h:137
-#, fuzzy
 #| msgid "Always"
 msgid "_Always"
-msgstr "Siempre"
+msgstr "_Siempre"
 
 #: ../mail/mail.error.xml.h:138
 msgid "_Append"
@@ -14111,10 +14107,9 @@ msgid "_Expunge"
 msgstr "_Purgar"
 
 #: ../mail/mail.error.xml.h:143
-#, fuzzy
 #| msgid "No"
 msgid "_No"
-msgstr "No"
+msgstr "_No"
 
 #: ../mail/mail.error.xml.h:144
 msgid "_Open Messages"
@@ -14129,10 +14124,9 @@ msgid "_Synchronize"
 msgstr "_Sincronizar"
 
 #: ../mail/mail.error.xml.h:149
-#, fuzzy
 #| msgid "Yes"
 msgid "_Yes"
-msgstr "Sí"
+msgstr "_Sí"
 
 #: ../mail/message-list.c:1175
 msgid "Unseen"
@@ -14974,7 +14968,7 @@ msgid "Calendar and Tasks"
 msgstr "Calendario y tareas"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:172
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Error on %s\n"
 #| "%s"
@@ -14982,8 +14976,8 @@ msgid ""
 "Error on %s: %s\n"
 "%s"
 msgstr ""
-"Error en %s:\n"
-" %s"
+"Error en %s: %s\n"
+"%s"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:240
 msgid "Loading calendars"
@@ -15858,10 +15852,9 @@ msgid "N_one"
 msgstr "Ning_uno"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1041
-#, fuzzy
 #| msgid "_Subscriptions..."
 msgid "_Manage Subscriptions"
-msgstr "_Suscripciones…"
+msgstr "Gestionar _suscripciones"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1043
 #: ../modules/mail/e-mail-shell-view-actions.c:1099
@@ -16320,13 +16313,11 @@ msgstr ""
 "Reproducir los adjuntos de sonido directamente en los mensajes de correo."
 
 #: ../plugins/backup-restore/backup-restore.c:160
-#, fuzzy
 #| msgid "Select name of the Evolution backup file"
 msgid "Select name of the Evolution back up file"
-msgstr "Seleccione el nombre de archivo de respaldo Evolution"
+msgstr "Seleccionar el nombre de archivo de respaldo Evolution"
 
 #: ../plugins/backup-restore/backup-restore.c:191
-#, fuzzy
 #| msgid "_Restart Evolution after backup"
 msgid "_Restart Evolution after back up"
 msgstr "_Reiniciar Evolution después del respaldo"
