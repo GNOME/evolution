@@ -186,6 +186,28 @@ e_mail_reader_mark_selected (EMailReader *reader,
 
 	return ii;
 }
+static void
+copy_tree_state (EMailReader *src_reader, EMailReader *des_reader)
+{
+	GtkWidget *src_mlist, *des_mlist;
+	gchar *state;
+
+	g_return_if_fail (src_reader != NULL);
+	g_return_if_fail (des_reader != NULL);
+
+	src_mlist = e_mail_reader_get_message_list (src_reader);
+	if (!src_mlist)
+		return;
+
+	des_mlist = e_mail_reader_get_message_list (des_reader);
+	if (!des_mlist)
+		return;
+
+	state = e_tree_get_state (E_TREE (src_mlist));
+	if (state)
+		e_tree_set_state (E_TREE (des_mlist), state);
+	g_free (state);
+}
 
 guint
 e_mail_reader_open_selected (EMailReader *reader)
@@ -270,6 +292,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 		e_mail_reader_set_folder (
 			E_MAIL_READER (browser), folder, folder_uri);
 		e_mail_reader_set_message (E_MAIL_READER (browser), uid);
+		copy_tree_state (reader, E_MAIL_READER (browser));
 		e_mail_reader_set_group_by_threads (
 			E_MAIL_READER (browser),
 			e_mail_reader_get_group_by_threads (reader));
