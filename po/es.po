@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-10-08 12:54+0000\n"
-"PO-Revision-Date: 2010-10-10 14:41+0200\n"
+"POT-Creation-Date: 2010-10-10 21:11+0000\n"
+"PO-Revision-Date: 2010-10-12 17:13+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1561,8 +1561,8 @@ msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar from the side bar in the Calendar view."
 msgstr ""
-"«{0}» es un calendario de sólo lectura y no se puede modificar. Seleccione un "
-"calendario diferente de la barra lateral en la vista del calendario."
+"«{0}» es un calendario de sólo lectura y no se puede modificar. Seleccione "
+"un calendario diferente de la barra lateral en la vista del calendario."
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:4
@@ -2441,7 +2441,8 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:67
 msgid "Show Role field in the event/task/meeting editor"
-msgstr "Mostrar el campo «Rol» en el editor de acontecimientos/tareas/reuniones"
+msgstr ""
+"Mostrar el campo «Rol» en el editor de acontecimientos/tareas/reuniones"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:68
 msgid "Show appointment end times in week and month views"
@@ -2539,8 +2540,8 @@ msgid ""
 msgstr ""
 "El estilo de la distribución determina dónde ubicar el panel de vista previa "
 "en relación con la lista de notas. «0» (vista clásica) ubica el panel de "
-"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el panel "
-"de vista previa junto a la lista de notas."
+"vista previa debajo de la lista de notas. «1» (vista vertical) ubica el "
+"panel de vista previa junto a la lista de notas."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
 msgid ""
@@ -2562,8 +2563,8 @@ msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
 msgstr ""
-"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. «2» "
-"para mensajes de depuración."
+"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. "
+"«2» para mensajes de depuración."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:89
 msgid "Time divisions"
@@ -2724,8 +2725,8 @@ msgstr ""
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:119
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr ""
-"Indica si debe mostrar el campo «Tipo» en el editor de acontecimientos/tareas/"
-"reuniones"
+"Indica si debe mostrar el campo «Tipo» en el editor de acontecimientos/"
+"tareas/reuniones"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:120
 msgid "Whether to show week numbers in various places in the Calendar."
@@ -3838,7 +3839,7 @@ msgstr "_Disponibilidad"
 msgid "Query free / busy information for the attendees"
 msgstr "Consultar información de disponibilidad para los participantes"
 
-#: ../calendar/gui/dialogs/event-editor.c:319 ../calendar/gui/print.c:2674
+#: ../calendar/gui/dialogs/event-editor.c:319 ../calendar/gui/print.c:3094
 msgid "Appointment"
 msgstr "Cita"
 
@@ -4045,7 +4046,7 @@ msgctxt "eventpage"
 msgid "until"
 msgstr "hasta"
 
-#: ../calendar/gui/dialogs/memo-editor.c:109 ../calendar/gui/print.c:2678
+#: ../calendar/gui/dialogs/memo-editor.c:109 ../calendar/gui/print.c:3098
 msgid "Memo"
 msgstr "Nota"
 
@@ -4352,7 +4353,7 @@ msgstr "Página web"
 #: ../calendar/gui/e-cal-model-tasks.c:443
 #: ../calendar/gui/e-cal-model-tasks.c:717 ../calendar/gui/e-task-table.c:215
 #: ../calendar/gui/e-task-table.c:230 ../calendar/gui/e-task-table.c:588
-#: ../calendar/gui/print.c:2761 ../mail/em-sync-stream.c:152
+#: ../calendar/gui/print.c:3181 ../mail/em-sync-stream.c:152
 #: ../mail/em-sync-stream.c:180 ../mail/em-sync-stream.c:202
 #, c-format
 msgid "Canceled"
@@ -4366,7 +4367,7 @@ msgstr "Cancelado"
 #: ../calendar/gui/e-itip-control.c:932 ../calendar/gui/e-meeting-store.c:197
 #: ../calendar/gui/e-meeting-store.c:220 ../calendar/gui/e-task-table.c:213
 #: ../calendar/gui/e-task-table.c:228 ../calendar/gui/e-task-table.c:587
-#: ../calendar/gui/print.c:2758 ../calendar/gui/tasktypes.xml.h:9
+#: ../calendar/gui/print.c:3178 ../calendar/gui/tasktypes.xml.h:9
 #: ../plugins/save-calendar/csv-format.c:367
 msgid "Completed"
 msgstr "Terminado"
@@ -4386,7 +4387,7 @@ msgstr "Alta"
 #: ../calendar/gui/e-cal-model-tasks.c:713
 #: ../calendar/gui/e-cal-model-tasks.c:790 ../calendar/gui/e-task-table.c:211
 #: ../calendar/gui/e-task-table.c:226 ../calendar/gui/e-task-table.c:586
-#: ../calendar/gui/print.c:2755
+#: ../calendar/gui/print.c:3175
 msgid "In Progress"
 msgstr "En proceso"
 
@@ -4413,7 +4414,7 @@ msgstr "Normal"
 #: ../calendar/gui/e-cal-model-tasks.c:437
 #: ../calendar/gui/e-cal-model-tasks.c:711 ../calendar/gui/e-task-table.c:209
 #: ../calendar/gui/e-task-table.c:224 ../calendar/gui/e-task-table.c:585
-#: ../calendar/gui/print.c:2752 ../calendar/gui/tasktypes.xml.h:18
+#: ../calendar/gui/print.c:3172 ../calendar/gui/tasktypes.xml.h:18
 msgid "Not Started"
 msgstr "Sin comenzar"
 
@@ -4470,7 +4471,7 @@ msgstr "Pulse para cambiar o ver los detalles del estado de la tarea"
 msgid "_Send Options"
 msgstr "Opciones de _envío"
 
-#: ../calendar/gui/dialogs/task-editor.c:328 ../calendar/gui/print.c:2676
+#: ../calendar/gui/dialogs/task-editor.c:328 ../calendar/gui/print.c:3096
 #: ../widgets/misc/e-send-options.c:503
 msgid "Task"
 msgstr "Tarea"
@@ -4847,7 +4848,7 @@ msgid "Organizer: %s"
 msgstr "Organizador: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:1895 ../calendar/gui/print.c:2710
+#: ../calendar/gui/e-calendar-view.c:1895 ../calendar/gui/print.c:3130
 #, c-format
 msgid "Location: %s"
 msgstr "Lugar: %s"
@@ -4928,13 +4929,13 @@ msgstr "%e de %b"
 
 #. String to use in 12-hour time format for times in the morning.
 #: ../calendar/gui/e-day-view.c:1089 ../calendar/gui/e-week-view.c:767
-#: ../calendar/gui/print.c:860
+#: ../calendar/gui/print.c:860 ../calendar/gui/print.c:2321
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../calendar/gui/e-day-view.c:1092 ../calendar/gui/e-week-view.c:770
-#: ../calendar/gui/print.c:862
+#: ../calendar/gui/print.c:862 ../calendar/gui/print.c:2323
 msgid "pm"
 msgstr "pm"
 
@@ -6149,71 +6150,71 @@ msgstr "Sa"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
-#: ../calendar/gui/print.c:2513
+#: ../calendar/gui/print.c:2931
 msgid " to "
 msgstr " a "
 
 #. Translators: This is part of "START to END
 #. * (Completed COMPLETED)", where COMPLETED is a
 #. * completed date/time.
-#: ../calendar/gui/print.c:2521
+#: ../calendar/gui/print.c:2939
 msgid " (Completed "
 msgstr " (Completado "
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
-#: ../calendar/gui/print.c:2525
+#: ../calendar/gui/print.c:2943
 msgid "Completed "
 msgstr "Completado "
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
-#: ../calendar/gui/print.c:2533
+#: ../calendar/gui/print.c:2951
 msgid " (Due "
 msgstr " (Vence "
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
 #. * should be finished.
-#: ../calendar/gui/print.c:2538
+#: ../calendar/gui/print.c:2956
 msgid "Due "
 msgstr "Vence "
 
-#: ../calendar/gui/print.c:2701
+#: ../calendar/gui/print.c:3121
 #, c-format
 msgid "Summary: %s"
 msgstr "Resumen: %s"
 
-#: ../calendar/gui/print.c:2725
+#: ../calendar/gui/print.c:3145
 msgid "Attendees: "
 msgstr "Participantes: "
 
-#: ../calendar/gui/print.c:2768
+#: ../calendar/gui/print.c:3188
 #, c-format
 msgid "Status: %s"
 msgstr "Estado: %s"
 
-#: ../calendar/gui/print.c:2783
+#: ../calendar/gui/print.c:3203
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioridad: %s"
 
-#: ../calendar/gui/print.c:2801
+#: ../calendar/gui/print.c:3221
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Porcentaje completado: %i"
 
-#: ../calendar/gui/print.c:2812
+#: ../calendar/gui/print.c:3232
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../calendar/gui/print.c:2825
+#: ../calendar/gui/print.c:3245
 #, c-format
 msgid "Categories: %s"
 msgstr "Categorías: %s"
 
-#: ../calendar/gui/print.c:2836
+#: ../calendar/gui/print.c:3256
 msgid "Contacts: "
 msgstr "Contactos: "
 
@@ -10974,22 +10975,18 @@ msgid "_Account:"
 msgstr "_Cuenta:"
 
 #: ../mail/em-subscription-editor.c:1183
-#| msgid "Clear the search"
 msgid "Clear Search"
 msgstr "Limpiar búsqueda"
 
 #: ../mail/em-subscription-editor.c:1201
-#| msgid "S_how only items containing:"
 msgid "Sho_w items that contain:"
 msgstr "Sólo _mostrar elementos que contengan:"
 
 #: ../mail/em-subscription-editor.c:1238
-#| msgid "Unsubscribe from the selected folder"
 msgid "Subscribe to the selected folder"
 msgstr "Suscribirse a la carpeta seleccionada"
 
 #: ../mail/em-subscription-editor.c:1239
-#| msgid "Subscribed"
 msgid "Su_bscribe"
 msgstr "_Suscribirse"
 
@@ -11004,32 +11001,26 @@ msgid "_Unsubscribe"
 msgstr "Des_uscribir"
 
 #: ../mail/em-subscription-editor.c:1262
-#| msgid "Collapse _all"
 msgid "Collapse all folders"
 msgstr "Contraer todas las carpetas"
 
 #: ../mail/em-subscription-editor.c:1263
-#| msgid "Collapse _all"
 msgid "C_ollapse All"
 msgstr "Contraer t_odas"
 
 #: ../mail/em-subscription-editor.c:1273
-#| msgid "E_xpand all"
 msgid "Expand all folders"
 msgstr "Expandir todas las carpetas"
 
 #: ../mail/em-subscription-editor.c:1274
-#| msgid "E_xpand all"
 msgid "E_xpand All"
 msgstr "E_xpandir todas"
 
 #: ../mail/em-subscription-editor.c:1284
-#| msgid "Refresh the folder"
 msgid "Refresh the folder list"
 msgstr "Actualizar la lista de carpetas"
 
 #: ../mail/em-subscription-editor.c:1296
-#| msgid "Cancel the current mail operation"
 msgid "Stop the current operation"
 msgstr "Detener la operación de correo"
 
@@ -11079,22 +11070,19 @@ msgid "\"Filter Editor\" window width"
 msgstr "Anchura de la ventana «Editor de filtros»"
 
 #: ../mail/evolution-mail.schemas.in.h:4
-#, fuzzy
 #| msgid "\"Filter Editor\" window height"
 msgid "\"Folder Subscriptions\" window height"
-msgstr "Altura de la ventana «Editor de filtros»"
+msgstr "Altura de la ventana «Suscripciones de carpetas»"
 
 #: ../mail/evolution-mail.schemas.in.h:5
-#, fuzzy
 #| msgid "\"Filter Editor\" window maximize state"
 msgid "\"Folder Subscriptions\" window maximize state"
-msgstr "Estado maximizado de la ventana «Editor de filtros»"
+msgstr "Estado maximizado de la ventana «Suscripciones de carpetas»"
 
 #: ../mail/evolution-mail.schemas.in.h:6
-#, fuzzy
 #| msgid "\"Filter Editor\" window width"
 msgid "\"Folder Subscriptions\" window width"
-msgstr "Anchura de la ventana «Editor de filtros»"
+msgstr "Anchura de la ventana «Suscripciones de carpetas»"
 
 #: ../mail/evolution-mail.schemas.in.h:7
 msgid "\"Search Folder Editor\" window height"
@@ -11284,8 +11272,8 @@ msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
-"Determina si se debe usar la misma tipografía para las líneas «De» y «Asunto» "
-"en la columna «Mensajes» de la vista vertical."
+"Determina si se debe usar la misma tipografía para las líneas «De» y "
+"«Asunto» en la columna «Mensajes» de la vista vertical."
 
 #: ../mail/evolution-mail.schemas.in.h:46
 msgid "Directory for loading/attaching files to composer."
@@ -11467,11 +11455,10 @@ msgid ""
 "Initial height of the \"Filter Editor\" window. The value updates as the "
 "user resizes the window vertically."
 msgstr ""
-"Altura inicial de la ventana «Editor de filtros». El valor se actualiza según "
-"el usuario redimensiona verticalmente la ventana."
+"Altura inicial de la ventana «Editor de filtros». El valor se actualiza "
+"según el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:80
-#, fuzzy
 #| msgid ""
 #| "Initial height of the \"Filter Editor\" window. The value updates as the "
 #| "user resizes the window vertically."
@@ -11479,8 +11466,8 @@ msgid ""
 "Initial height of the \"Folder Subscriptions\" window. The value updates as "
 "the user resizes the window vertically."
 msgstr ""
-"Altura inicial de la ventana «Editor de filtros». El valor se actualiza según "
-"el usuario redimensiona verticalmente la ventana."
+"Altura inicial de la ventana «Suscripciones de carpetas». El valor se "
+"actualiza según el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:81
 msgid ""
@@ -11495,8 +11482,8 @@ msgid ""
 "Initial height of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window vertically."
 msgstr ""
-"Altura inicial de la ventana «Enviar y recibir correo». El valor se actualiza "
-"según el usuario redimensiona verticalmente la ventana."
+"Altura inicial de la ventana «Enviar y recibir correo». El valor se "
+"actualiza según el usuario redimensiona verticalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:83
 msgid ""
@@ -11511,7 +11498,6 @@ msgstr ""
 "puede maximizar. Esta clave existe sólo como un detalle de implementación."
 
 #: ../mail/evolution-mail.schemas.in.h:84
-#, fuzzy
 #| msgid ""
 #| "Initial maximize state of the \"Filter Editor\" window. The value updates "
 #| "when the user maximizes or unmaximizes the window. Note, this particular "
@@ -11523,10 +11509,11 @@ msgid ""
 "particular value is not used by Evolution since the \"Folder Subscriptions\" "
 "window cannot be maximized. This key exists only as an implementation detail."
 msgstr ""
-"Estado inicial maximizado de la ventana «Editor de filtros». El valor se "
-"actualiza cuando el usuario maximiza o reduce la ventana. Nota: Evolution no "
-"usa este valor en particular ya que la ventana «Editor de filtros» no se "
-"puede maximizar. Esta clave existe sólo como un detalle de implementación."
+"Estado inicial maximizado de la ventana «Suscripciones de carpetas». El "
+"valor se actualiza cuando el usuario maximiza o reduce la ventana. Nota: "
+"Evolution no usa este valor en particular ya que la ventana «Suscripciones "
+"de carpetas» no se puede maximizar. Esta clave existe sólo como un detalle "
+"de implementación."
 
 #: ../mail/evolution-mail.schemas.in.h:85
 msgid ""
@@ -11564,7 +11551,6 @@ msgstr ""
 "según el usuario redimensiona horizontalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:88
-#, fuzzy
 #| msgid ""
 #| "Initial width of the \"Filter Editor\" window. The value updates as the "
 #| "user resizes the window horizontally."
@@ -11572,8 +11558,8 @@ msgid ""
 "Initial width of the \"Folder Subscriptions\" window. The value updates as "
 "the user resizes the window horizontally."
 msgstr ""
-"Anchura inicial de la ventana «Editor de filtros». El valor se actualiza "
-"según el usuario redimensiona horizontalmente la ventana."
+"Anchura inicial de la ventana «Suscripciones de carpetas». El valor se "
+"actualiza según el usuario redimensiona horizontalmente la ventana."
 
 #: ../mail/evolution-mail.schemas.in.h:89
 msgid ""
@@ -11794,9 +11780,9 @@ msgid ""
 "Possible values are: never - to never close browser window always - to "
 "always close browser window ask - (or any other value) will ask user"
 msgstr ""
-"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana del "
-"examinador; «always» (siempre) para cerrar siempre la ventana del examinador; "
-"«ask» (preguntar) o cualquier otro valor, preguntarán al usuario"
+"Los valores posibles son: «never» (nunca) para no cerrar nunca la ventana "
+"del examinador; «always» (siempre) para cerrar siempre la ventana del "
+"examinador; «ask» (preguntar) o cualquier otro valor, preguntarán al usuario"
 
 #: ../mail/evolution-mail.schemas.in.h:130
 msgid "Prompt on empty subject"
@@ -11976,8 +11962,8 @@ msgid ""
 "Show the \"Bcc\" field when sending a mail message. This is controlled from "
 "the View menu when a mail account is chosen."
 msgstr ""
-"Mostrar el campo «Cco» al enviar un mensaje de correo. Esto se controla desde "
-"el menú Ver cuando se elige una cuenta de correo."
+"Mostrar el campo «Cco» al enviar un mensaje de correo. Esto se controla "
+"desde el menú Ver cuando se elige una cuenta de correo."
 
 #: ../mail/evolution-mail.schemas.in.h:172
 msgid ""
@@ -12044,8 +12030,8 @@ msgid ""
 "it will do that. It works by comparing the Reply-To: header with a List-"
 "Post: header, if there is one."
 msgstr ""
-"Algunas listas de correo establecen una cabecera «Responder a:» para forzar a "
-"los usuarios a responder a la lista, incluso cuando los usuarios piden que "
+"Algunas listas de correo establecen una cabecera «Responder a:» para forzar "
+"a los usuarios a responder a la lista, incluso cuando los usuarios piden que "
 "Evolution envíe una respuesta privada. Establecer esta opción a cierta "
 "intentará ignorar tales cabeceras «Responder a:», de tal forma que Evolution "
 "haga lo que se le pide. Si usa la acción de respuesta privada, responderá de "
@@ -12112,8 +12098,8 @@ msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
-"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. «2» "
-"para mensajes de depuración."
+"Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. "
+"«2» para mensajes de depuración."
 
 #: ../mail/evolution-mail.schemas.in.h:191
 msgid ""
@@ -12141,9 +12127,9 @@ msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
 msgstr ""
-"Esta clave es de una sola lectura y después de leerla se establece a «false». "
-"Esto deselecciona el correo en la lista y elimina la vista previa para esa "
-"carpeta."
+"Esta clave es de una sola lectura y después de leerla se establece a "
+"«false». Esto deselecciona el correo en la lista y elimina la vista previa "
+"para esa carpeta."
 
 #: ../mail/evolution-mail.schemas.in.h:194
 msgid ""
@@ -12463,12 +12449,11 @@ msgstr "_Firmar siempre los mensajes salientes cuando se use esta cuenta"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:5
-#, fuzzy
 #| msgid "Prompt when mailing list redirects private reply back to list"
 msgid "Allowing a _mailing list to redirect a private reply to the list"
 msgstr ""
-"Preguntar cuando una lista de correo redirija las respuestas privadas de "
-"nuevo a la lista"
+"Permitir a una li_sta de correo redireccionar una respuesta privada a la "
+"lista"
 
 #: ../mail/mail-config.ui.h:6
 msgid "Also encrypt to sel_f when sending encrypted messages"
@@ -12553,10 +12538,9 @@ msgid "Confirm _when expunging a folder"
 msgstr "_Confirmar antes de purgar una carpeta"
 
 #: ../mail/mail-config.ui.h:27
-#, fuzzy
 #| msgid "Configuration"
 msgid "Confirmations"
-msgstr "Configuración"
+msgstr "Confirmaciones"
 
 #: ../mail/mail-config.ui.h:30
 msgid "Default Behavior"
@@ -12617,7 +12601,6 @@ msgid "F_all back to threading messages by subject"
 msgstr "Agrupar los mensajes por _asunto"
 
 #: ../mail/mail-config.ui.h:46
-#, fuzzy
 #| msgid "Fix_ed width Font:"
 msgid "Fix_ed Width Font:"
 msgstr "Tipografía de anchura _fija:"
@@ -12747,10 +12730,9 @@ msgid "Remember _password"
 msgstr "Recordar contrase_ña"
 
 #: ../mail/mail-config.ui.h:83
-#, fuzzy
 #| msgid "Replies and parents"
 msgid "Replies and Forwards"
-msgstr "Respuestas y antecesores"
+msgstr "Respuestas y reenvíos"
 
 #: ../mail/mail-config.ui.h:84
 msgid "Required Information"
@@ -12938,7 +12920,6 @@ msgid "Use Authe_ntication"
 msgstr "Usar aute_nticación"
 
 #: ../mail/mail-config.ui.h:132
-#| msgid "User_name:"
 msgid "User _Name:"
 msgstr "_Nombre de usuario:"
 
@@ -12986,7 +12967,6 @@ msgid "_Languages"
 msgstr "_Idiomas"
 
 #: ../mail/mail-config.ui.h:143
-#| msgid "_Load images in messages from contacts"
 msgid "_Load images only in messages from contacts"
 msgstr "Cargar i_mágenes en los mensajes de mis contactos"
 
@@ -13033,7 +13013,6 @@ msgstr "_Servidor:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.ui.h:157
-#| msgid "Show animated images as animations."
 msgid "_Show animated images"
 msgstr "_Mostrar las imágenes animadas"
 
@@ -13509,8 +13488,8 @@ msgid ""
 "A read receipt notification has been requested for \"{1}\". Send the receipt "
 "notification to {0}?"
 msgstr ""
-"Se ha solicitado una notificación de recepción para «{1}». ¿Quiere enviar una "
-"notificación de recepción a {0}?"
+"Se ha solicitado una notificación de recepción para «{1}». ¿Quiere enviar "
+"una notificación de recepción a {0}?"
 
 #: ../mail/mail.error.xml.h:10
 msgid ""
@@ -13672,7 +13651,6 @@ msgstr ""
 "puede estar activada."
 
 #: ../mail/mail.error.xml.h:43
-#| msgid "Close this window"
 msgid "Close message window."
 msgstr "Cerrar la ventana de mensaje."
 
@@ -13812,7 +13790,6 @@ msgid "Missing folder."
 msgstr "Falta la carpeta."
 
 #: ../mail/mail.error.xml.h:77
-#| msgid "Never"
 msgid "N_ever"
 msgstr "_Nunca"
 
@@ -18191,8 +18168,8 @@ msgid ""
 "%s through %s wishes to receive the latest information for the following "
 "meeting:"
 msgstr ""
-"%s desea recibir la última información de la siguiente reunión a través de %"
-"s:"
+"%s desea recibir la última información de la siguiente reunión a través de "
+"%s:"
 
 #: ../plugins/itip-formatter/itip-view.c:400
 #, c-format
@@ -18685,8 +18662,8 @@ msgid ""
 "Selected calendar contains event '%s' already. Would you like to edit the "
 "old event?"
 msgstr ""
-"El calendario seleccionado ya contiene el acontecimiento «%s». ¿Quiere editar "
-"el acontecimiento antiguo?"
+"El calendario seleccionado ya contiene el acontecimiento «%s». ¿Quiere "
+"editar el acontecimiento antiguo?"
 
 #: ../plugins/mail-to-task/mail-to-task.c:493
 #, c-format
@@ -23077,7 +23054,8 @@ msgstr "Métodos de entrada"
 
 #~ msgid "The content widget appears in a shell window's right pane"
 #~ msgstr ""
-#~ "El widget de contenido aparece en un panel derecho de la ventana de «shell»"
+#~ "El widget de contenido aparece en un panel derecho de la ventana de "
+#~ "«shell»"
 
 #~ msgid "Shell Sidebar Widget"
 #~ msgstr "Widget de barra lateral de «shell»"
@@ -24070,8 +24048,8 @@ msgstr "Métodos de entrada"
 #~ "This is the full name of your LDAP server. For example, \"ldap.mycompany."
 #~ "com\"."
 #~ msgstr ""
-#~ "Este es el nombre completo del servidor LDAP. Por ejemplo, «ldap.miempresa."
-#~ "com»."
+#~ "Este es el nombre completo del servidor LDAP. Por ejemplo, «ldap."
+#~ "miempresa.com»."
 
 #~ msgid ""
 #~ "This is the maximum number of entries to download. Setting this number to "
