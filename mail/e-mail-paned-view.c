@@ -718,7 +718,9 @@ mail_paned_view_update_view_instance (EMailView *view)
 		priv->view_instance = NULL;
 	}
 
-	view_id = mail_config_folder_to_safe_url (folder);
+	view_id = g_strdup (folder_uri);
+	e_filename_make_safe (view_id);
+
 	if (e_shell_settings_get_boolean (shell_settings, "mail-global-view-setting"))
 		view_instance = e_shell_view_new_view_instance (shell_view, "global_view_setting");
 	else

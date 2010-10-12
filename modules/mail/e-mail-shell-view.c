@@ -603,13 +603,11 @@ all_accounts:
 		CAMEL_FOLDER (search_folder), list,
 		priv->search_account_cancel);
 
-	uri = mail_tools_folder_to_url (CAMEL_FOLDER (search_folder));
+	folder_uri = camel_folder_get_uri (CAMEL_FOLDER (search_folder));
 
 	mail_shell_view_show_search_results_folder (
 		E_MAIL_SHELL_VIEW (shell_view),
-		CAMEL_FOLDER (search_folder), uri);
-
-	g_free (uri);
+		CAMEL_FOLDER (search_folder), folder_uri);
 
 	goto execute;
 
@@ -756,13 +754,11 @@ current_account:
 		CAMEL_FOLDER (search_folder), list,
 		priv->search_account_cancel);
 
-	uri = mail_tools_folder_to_url (CAMEL_FOLDER (search_folder));
+	folder_uri = camel_folder_get_uri (CAMEL_FOLDER (search_folder));
 
 	mail_shell_view_show_search_results_folder (
 		E_MAIL_SHELL_VIEW (shell_view),
-		CAMEL_FOLDER (search_folder), uri);
-
-	g_free (uri);
+		CAMEL_FOLDER (search_folder), folder_uri);
 
 execute:
 

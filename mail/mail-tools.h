@@ -39,6 +39,4 @@ gchar *mail_tool_generate_forward_subject (CamelMimeMessage *msg);
 /* Make a message into an attachment */
 CamelMimePart *mail_tool_make_message_attachment (CamelMimeMessage *message);
 
-gchar *mail_tools_folder_to_url (CamelFolder *folder);
-
 #endif

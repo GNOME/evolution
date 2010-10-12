@@ -232,35 +232,3 @@ mail_tool_make_message_attachment (CamelMimeMessage *message)
 
 	return part;
 }
-
-/* FIXME: This should be a property on CamelFolder */
-gchar *
-mail_tools_folder_to_url (CamelFolder *folder)
-{
-	CamelService *service;
-	CamelStore *parent_store;
-	const gchar *full_name;
-	CamelURL *url;
-	gchar *out;
-
-	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
-
-	full_name = camel_folder_get_full_name (folder);
-	parent_store = camel_folder_get_parent_store (folder);
-	service = CAMEL_SERVICE (parent_store);
-
-	url = camel_url_copy (service->url);
-	if (service->provider->url_flags  & CAMEL_URL_FRAGMENT_IS_PATH) {
-		camel_url_set_fragment (url, full_name);
-	} else {
-		gchar *name = g_alloca (strlen (full_name)+2);
-
-		sprintf(name, "/%s", full_name);
-		camel_url_set_path (url, name);
-	}
-
-	out = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-	camel_url_free (url);
-
-	return out;
-}

@@ -1327,7 +1327,7 @@ mail_folder_cache_get_folder_info_flags (MailFolderCache *self,
                                          CamelFolder *folder,
                                          gint *flags)
 {
-	gchar *uri = mail_tools_folder_to_url (folder);
+	const gchar *uri = camel_folder_get_uri (folder);
 	struct _find_info fi = { uri, NULL, NULL };
 
 	if (self->priv->stores == NULL)
@@ -1348,7 +1348,6 @@ mail_folder_cache_get_folder_info_flags (MailFolderCache *self,
 	g_mutex_unlock (self->priv->stores_mutex);
 
 	camel_url_free (fi.url);
-	g_free (uri);
 
 	return fi.fi != NULL;
 }
@@ -1360,7 +1359,7 @@ mail_folder_cache_get_folder_has_children (MailFolderCache *self,
                                            CamelFolder *folder,
                                            gboolean *found)
 {
-	gchar *uri = mail_tools_folder_to_url (folder);
+	const gchar *uri = camel_folder_get_uri (folder);
 	struct _find_info fi = { uri, NULL, NULL };
 
 	g_return_val_if_fail (self != NULL, FALSE);
@@ -1380,7 +1379,6 @@ mail_folder_cache_get_folder_has_children (MailFolderCache *self,
 	g_mutex_unlock (self->priv->stores_mutex);
 
 	camel_url_free (fi.url);
-	g_free (uri);
 
 	return fi.fi != NULL && fi.fi->has_children;
 }

@@ -260,7 +260,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 		const gchar *uid = uids->pdata[ii];
 		CamelFolder *real_folder;
 		CamelMessageInfo *info;
-		gchar *real_folder_uri;
+		const gchar *real_folder_uri;
 		gchar *real_uid;
 
 		if (!CAMEL_IS_VEE_FOLDER (folder)) {
@@ -275,7 +275,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 		real_folder = camel_vee_folder_get_location (
 			CAMEL_VEE_FOLDER (folder),
 			(CamelVeeMessageInfo *) info, &real_uid);
-		real_folder_uri = mail_tools_folder_to_url (real_folder);
+		real_folder_uri = camel_folder_get_uri (real_folder);
 
 		if (em_utils_folder_is_drafts (real_folder, real_folder_uri) ||
 			em_utils_folder_is_outbox (real_folder, real_folder_uri)) {
@@ -290,7 +290,6 @@ e_mail_reader_open_selected (EMailReader *reader)
 			g_ptr_array_add (views, g_strdup (uid));
 		}
 
-		g_free (real_folder_uri);
 		camel_folder_free_message_info (folder, info);
 	}
 

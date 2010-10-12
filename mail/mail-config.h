@@ -94,8 +94,6 @@ EAccountService *
 /* static utility functions */
 gchar *		mail_config_folder_to_cachename	(CamelFolder *folder,
 						 const gchar *prefix);
-gchar *		mail_config_folder_to_safe_url	(CamelFolder *folder);
-
 gint		mail_config_get_sync_timeout	(void);
 
 void		mail_config_reload_junk_headers	(CamelSession *session);

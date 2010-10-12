@@ -522,24 +522,14 @@ mail_config_service_set_save_passwd (EAccountService *service, gboolean save_pas
 }
 
 gchar *
-mail_config_folder_to_safe_url (CamelFolder *folder)
-{
-	gchar *url;
-
-	url = mail_tools_folder_to_url (folder);
-	e_filename_make_safe (url);
-
-	return url;
-}
-
-gchar *
 mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix)
 {
 	gchar *url, *basename, *filename;
 	const gchar *config_dir;
 
 	config_dir = mail_session_get_config_dir ();
-	url = mail_config_folder_to_safe_url (folder);
+	url = g_strdup (camel_folder_get_uri (folder));
+	e_filename_make_safe (url);
 	basename = g_strdup_printf ("%s%s", prefix, url);
 	filename = g_build_filename (config_dir, "folders", basename, NULL);
 	g_free (basename);

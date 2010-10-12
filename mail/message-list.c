@@ -1646,7 +1646,8 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		CamelURL *curl;
 		EAccount *account;
 		gchar *location = NULL;
-		gchar *euri, *url;
+		const gchar *uri;
+		gchar *euri;
 
 		if (CAMEL_IS_VEE_FOLDER (message_list->folder)) {
 			folder = camel_vee_folder_get_location ((CamelVeeFolder *)message_list->folder, (CamelVeeMessageInfo *)msg_info, NULL);
@@ -1654,24 +1655,23 @@ ml_tree_value_at_ex (ETreeModel *etm,
 			folder = message_list->folder;
 		}
 
-		url = mail_tools_folder_to_url (folder);
-		euri = em_uri_from_camel (url);
+		uri = camel_folder_get_uri (folder);
+		euri = em_uri_from_camel (uri);
 
-		account = mail_config_get_account_by_source_url (url);
+		account = mail_config_get_account_by_source_url (uri);
 
 		if (account) {
-			curl = camel_url_new (url, NULL);
+			curl = camel_url_new (uri, NULL);
 			location = g_strconcat (account->name, ":", curl->path, NULL);
 		} else {
 			/* Local account */
-			euri = em_uri_from_camel (url);
+			euri = em_uri_from_camel (uri);
 			curl = camel_url_new (euri, NULL);
 			if (curl->host && !strcmp(curl->host, "local") && curl->user && !strcmp(curl->user, "local"))
 				location = g_strconcat (_("On This Computer"), ":",curl->path, NULL);
 		}
 
 		camel_url_free (curl);
-		g_free (url);
 		g_free (euri);
 
 		return location;
