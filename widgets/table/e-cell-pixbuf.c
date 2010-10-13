@@ -25,7 +25,7 @@
 
 #include <stdio.h>
 
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>

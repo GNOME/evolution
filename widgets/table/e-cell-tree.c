@@ -36,7 +36,7 @@
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 
 #include "gal-a11y-e-cell-registry.h"
 #include "gal-a11y-e-cell-tree.h"

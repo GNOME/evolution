@@ -24,7 +24,7 @@
 #ifndef _E_TABLE_H_
 #define _E_TABLE_H_
 
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 #include <gtk/gtk.h>
 #include <libxml/tree.h>
 #include <table/e-table-model.h>

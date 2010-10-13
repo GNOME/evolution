@@ -28,7 +28,7 @@
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 
 #include "gal-a11y-e-tree.h"
 #include <glib/gi18n.h>

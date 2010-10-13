@@ -24,7 +24,7 @@
 #ifndef _E_TABLE_GROUP_LEAF_H_
 #define _E_TABLE_GROUP_LEAF_H_
 
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 #include <table/e-table-group.h>
 #include <table/e-table-subset.h>
 #include <table/e-table-item.h>

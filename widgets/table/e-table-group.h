@@ -24,7 +24,7 @@
 #ifndef _E_TABLE_GROUP_H_
 #define _E_TABLE_GROUP_H_
 
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 #include <table/e-table-model.h>
 #include <table/e-table-header.h>
 #include <table/e-table-sort-info.h>

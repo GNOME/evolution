@@ -25,7 +25,7 @@
 
 #include <gtk/gtk.h>
 #include <libxml/tree.h>
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 #include <misc/e-printable.h>
 
 #include <table/e-table-extras.h>

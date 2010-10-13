@@ -26,7 +26,7 @@
 
 #include <gtk/gtk.h>
 #include <table/e-table-header.h>
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 
 G_BEGIN_DECLS
 
