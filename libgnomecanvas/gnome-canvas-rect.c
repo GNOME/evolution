@@ -34,7 +34,7 @@
 
 #include <config.h>
 #include <math.h>
-#include "gnome-canvas-rect-ellipse.h"
+#include "gnome-canvas-rect.h"
 #include "gnome-canvas-util.h"
 #include "gnome-canvas-shape.h"
 
