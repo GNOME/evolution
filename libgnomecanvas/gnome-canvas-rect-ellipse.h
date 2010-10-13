@@ -113,31 +113,6 @@ struct _GnomeCanvasRectClass {
 /* Standard Gtk function */
 GType gnome_canvas_rect_get_type (void) G_GNUC_CONST;
 
-/* Ellipse item.  No configurable or queryable arguments are available (use those in
- * GnomeCanvasRE).
- */
-
-#define GNOME_TYPE_CANVAS_ELLIPSE            (gnome_canvas_ellipse_get_type ())
-#define GNOME_CANVAS_ELLIPSE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_ELLIPSE, GnomeCanvasEllipse))
-#define GNOME_CANVAS_ELLIPSE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_ELLIPSE, GnomeCanvasEllipseClass))
-#define GNOME_IS_CANVAS_ELLIPSE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS_ELLIPSE))
-#define GNOME_IS_CANVAS_ELLIPSE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_ELLIPSE))
-#define GNOME_CANVAS_ELLIPSE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_ELLIPSE, GnomeCanvasEllipseClass))
-
-typedef struct _GnomeCanvasEllipse GnomeCanvasEllipse;
-typedef struct _GnomeCanvasEllipseClass GnomeCanvasEllipseClass;
-
-struct _GnomeCanvasEllipse {
-	GnomeCanvasRE re;
-};
-
-struct _GnomeCanvasEllipseClass {
-	GnomeCanvasREClass parent_class;
-};
-
-/* Standard Gtk function */
-GType gnome_canvas_ellipse_get_type (void) G_GNUC_CONST;
-
 G_END_DECLS
 
 #endif
