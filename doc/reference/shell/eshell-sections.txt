@@ -60,6 +60,8 @@ e_shell_backend_get_config_dir
 e_shell_backend_get_data_dir
 e_shell_backend_get_shell
 e_shell_backend_add_activity
+e_shell_backend_cancel_all
+e_shell_backend_is_busy
 e_shell_backend_start
 e_shell_backend_migrate
 <SUBSECTION Standard>

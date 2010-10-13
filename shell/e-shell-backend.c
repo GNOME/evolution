@@ -59,6 +59,11 @@ struct _EShellBackendPrivate {
 };
 
 enum {
+	PROP_0,
+	PROP_BUSY
+};
+
+enum {
 	ACTIVITY_ADDED,
 	ACTIVITY_REMOVED,
 	LAST_SIGNAL
@@ -73,7 +78,42 @@ shell_backend_activity_finalized_cb (EShellBackend *shell_backend,
                                      EActivity *finalized_activity)
 {
 	g_queue_remove (shell_backend->priv->activities, finalized_activity);
+
+	/* Only emit "notify::busy" when switching from busy to idle. */
+	if (g_queue_is_empty (shell_backend->priv->activities))
+		g_object_notify (G_OBJECT (shell_backend), "busy");
+
 	g_object_unref (shell_backend);
+}
+
+static void
+shell_backend_notify_busy_cb (EShellBackend *shell_backend,
+                              GParamSpec *pspec,
+                              EActivity *activity)
+{
+	/* Unreferencing the EActivity allows the shell to
+	 * proceed with shutdown. */
+	if (!e_shell_backend_is_busy (shell_backend)) {
+		g_signal_handlers_disconnect_by_func (
+			shell_backend,
+			shell_backend_notify_busy_cb,
+			activity);
+		g_object_unref (activity);
+	}
+}
+
+static void
+shell_backend_prepare_for_quit_cb (EShell *shell,
+                                   EActivity *activity,
+                                   EShellBackend *shell_backend)
+{
+	/* Referencing the EActivity delays shutdown; the
+	 * reference count acts like a counting semaphore. */
+	if (e_shell_backend_is_busy (shell_backend))
+		g_signal_connect (
+			shell_backend, "notify::busy",
+			G_CALLBACK (shell_backend_notify_busy_cb),
+			g_object_ref (activity));
 }
 
 static GObject *
@@ -81,25 +121,49 @@ shell_backend_constructor (GType type,
                            guint n_construct_properties,
                            GObjectConstructParam *construct_properties)
 {
-	EShellBackendPrivate *priv;
+	EShellBackend *shell_backend;
 	EShellBackendClass *class;
 	EShellViewClass *shell_view_class;
+	EShell *shell;
 	GObject *object;
 
 	/* Chain up to parent's construct() method. */
 	object = G_OBJECT_CLASS (e_shell_backend_parent_class)->constructor (
 		type, n_construct_properties, construct_properties);
 
-	class = E_SHELL_BACKEND_GET_CLASS (object);
-	priv = E_SHELL_BACKEND_GET_PRIVATE (object);
+	shell_backend = E_SHELL_BACKEND (object);
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	/* Install a reference to ourselves in the
 	 * corresponding EShellViewClass structure. */
+	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
 	shell_view_class = g_type_class_ref (class->shell_view_type);
-	shell_view_class->shell_backend = g_object_ref (object);
-	priv->shell_view_class = shell_view_class;
+	shell_view_class->shell_backend = g_object_ref (shell_backend);
+	shell_backend->priv->shell_view_class = shell_view_class;
+
+	g_signal_connect (
+		shell, "prepare-for-quit",
+		G_CALLBACK (shell_backend_prepare_for_quit_cb),
+		shell_backend);
 
 	return object;
+}
+
+static void
+shell_backend_get_property (GObject *object,
+                            guint property_id,
+                            GValue *value,
+                            GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_BUSY:
+			g_value_set_boolean (
+				value, e_shell_backend_is_busy (
+				E_SHELL_BACKEND (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
@@ -185,6 +249,7 @@ e_shell_backend_class_init (EShellBackendClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructor = shell_backend_constructor;
+	object_class->get_property = shell_backend_get_property;
 	object_class->dispose = shell_backend_dispose;
 	object_class->finalize = shell_backend_finalize;
 
@@ -193,6 +258,21 @@ e_shell_backend_class_init (EShellBackendClass *class)
 
 	class->get_config_dir = shell_backend_get_config_dir;
 	class->get_data_dir = shell_backend_get_data_dir;
+
+	/**
+	 * EShellBackend:busy
+	 *
+	 * Whether any activities are still in progress.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_BUSY,
+		g_param_spec_boolean (
+			"busy",
+			"Busy",
+			"Whether any activities are still in progress",
+			FALSE,
+			G_PARAM_READABLE));
 
 	/**
 	 * EShellBackend::activity-added
@@ -311,17 +391,22 @@ e_shell_backend_get_shell (EShellBackend *shell_backend)
  * @shell_backend: an #EShellBackend
  * @activity: an #EActivity
  *
- * Emits an #EShellBackend::activity-added signal.
+ * Emits an #EShellBackend::activity-added signal and tracks the @activity
+ * until it is finalized.
  **/
 void
 e_shell_backend_add_activity (EShellBackend *shell_backend,
                               EActivity *activity)
 {
+	GCancellable *cancellable;
+
 	g_return_if_fail (E_IS_SHELL_BACKEND (shell_backend));
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
-	/* skip already cancelled activities */
-	if (g_cancellable_is_cancelled (e_activity_get_cancellable (activity)))
+	cancellable = e_activity_get_cancellable (activity);
+
+	/* Skip cancelled activities. */
+	if (g_cancellable_is_cancelled (cancellable))
 		return;
 
 	g_queue_push_tail (shell_backend->priv->activities, activity);
@@ -334,6 +419,60 @@ e_shell_backend_add_activity (EShellBackend *shell_backend,
 		g_object_ref (shell_backend));
 
 	g_signal_emit (shell_backend, signals[ACTIVITY_ADDED], 0, activity);
+
+	/* Only emit "notify::busy" when switching from idle to busy. */
+	if (g_queue_get_length (shell_backend->priv->activities) == 1)
+		g_object_notify (G_OBJECT (shell_backend), "busy");
+}
+
+/**
+ * e_shell_backend_is_busy:
+ * @shell_backend: an #EShellBackend
+ *
+ * Returns %TRUE if any activities passed to e_shell_backend_add_activity()
+ * are still in progress, %FALSE if the @shell_backend is currently idle.
+ *
+ * Returns: %TRUE if activities are still in progress
+ **/
+gboolean
+e_shell_backend_is_busy (EShellBackend *shell_backend)
+{
+	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), FALSE);
+
+	return !g_queue_is_empty (shell_backend->priv->activities);
+}
+
+/**
+ * e_shell_backend_cancel_all:
+ * @shell_backend: an #EShellBackend
+ *
+ * Cancels all activities passed to e_shell_backend_add_activity() that
+ * have not already been finalized.  Note that an #EActivity can only be
+ * cancelled if it was given a #GCancellable object.
+ *
+ * Also, assuming all activities are cancellable, there may still be a
+ * delay before e_shell_backend_is_busy() returns %FALSE, because some
+ * activities may not be able to respond to the cancellation request
+ * immediately.  Connect to the "notify::busy" signal if you need
+ * notification of @shell_backend becoming idle.
+ **/
+void
+e_shell_backend_cancel_all (EShellBackend *shell_backend)
+{
+	GList *list, *iter;
+
+	g_return_if_fail (E_IS_SHELL_BACKEND (shell_backend));
+
+	list = g_queue_peek_head_link (shell_backend->priv->activities);
+
+	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+		EActivity *activity;
+		GCancellable *cancellable;
+
+		activity = E_ACTIVITY (iter->data);
+		cancellable = e_activity_get_cancellable (activity);
+		g_cancellable_cancel (cancellable);
+	}
 }
 
 /**
