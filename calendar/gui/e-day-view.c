@@ -35,7 +35,7 @@
 #include <misc/e-canvas-utils.h>
 #include <misc/e-popup-menu.h>
 #include <e-util/e-unicode.h>
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 #include <glib/gi18n.h>
 #include <e-util/e-binding.h>
 #include <e-util/e-categories-config.h>

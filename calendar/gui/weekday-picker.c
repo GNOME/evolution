@@ -30,8 +30,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
-#include <libgnomecanvas/gnome-canvas-text.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 #include <e-util/e-util.h>
 #include "weekday-picker.h"
 

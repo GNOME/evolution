@@ -24,7 +24,7 @@
 #ifndef WEEKDAY_PICKER_H
 #define WEEKDAY_PICKER_H
 
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 
 G_BEGIN_DECLS
 
