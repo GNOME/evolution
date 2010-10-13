@@ -59,13 +59,6 @@ typedef enum {
 	MAIL_CONFIG_DISPLAY_MAX
 } MailConfigDisplayStyle;
 
-typedef enum {
-	MAIL_CONFIG_XMAILER_NONE            = 0,
-	MAIL_CONFIG_XMAILER_EVO             = 1,
-	MAIL_CONFIG_XMAILER_OTHER           = 2,
-	MAIL_CONFIG_XMAILER_RUPERT_APPROVED = 4
-} MailConfigXMailerDisplayStyle;
-
 GType		evolution_mail_config_get_type	(void);
 
 /* Configuration */
