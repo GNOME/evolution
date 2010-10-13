@@ -42,8 +42,8 @@
 
 G_BEGIN_DECLS
 
-/* Base class for rectangle and ellipse item types.  These are defined by their top-left and
- * bottom-right corners.  Rectangles and ellipses share the following arguments:
+/* Rectangle item.  These are defined by their top-left and bottom-right corners.
+ * Rectangles have the following arguments:
  *
  * name			type		read/write	description
  * ------------------------------------------------------------------------------------------
@@ -63,35 +63,6 @@ G_BEGIN_DECLS
  *							will be scaled when the canvas zoom factor is changed.
  */
 
-#define GNOME_TYPE_CANVAS_RE            (gnome_canvas_re_get_type ())
-#define GNOME_CANVAS_RE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_RE, GnomeCanvasRE))
-#define GNOME_CANVAS_RE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_RE, GnomeCanvasREClass))
-#define GNOME_IS_CANVAS_RE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GNOME_TYPE_CANVAS_RE))
-#define GNOME_IS_CANVAS_RE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GNOME_TYPE_CANVAS_RE))
-#define GNOME_CANVAS_RE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), GNOME_TYPE_CANVAS_RE, GnomeCanvasREClass))
-
-typedef struct _GnomeCanvasRE      GnomeCanvasRE;
-typedef struct _GnomeCanvasREClass GnomeCanvasREClass;
-
-struct _GnomeCanvasRE {
-	GnomeCanvasShape item;
-
-	gdouble x1, y1, x2, y2;		/* Corners of item */
-
-	guint path_dirty : 1;
-};
-
-struct _GnomeCanvasREClass {
-	GnomeCanvasShapeClass parent_class;
-};
-
-/* Standard Gtk function */
-GType gnome_canvas_re_get_type (void) G_GNUC_CONST;
-
-/* Rectangle item.  No configurable or queryable arguments are available (use those in
- * GnomeCanvasRE).
- */
-
 #define GNOME_TYPE_CANVAS_RECT            (gnome_canvas_rect_get_type ())
 #define GNOME_CANVAS_RECT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNOME_TYPE_CANVAS_RECT, GnomeCanvasRect))
 #define GNOME_CANVAS_RECT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GNOME_TYPE_CANVAS_RECT, GnomeCanvasRectClass))
@@ -103,11 +74,15 @@ typedef struct _GnomeCanvasRect GnomeCanvasRect;
 typedef struct _GnomeCanvasRectClass GnomeCanvasRectClass;
 
 struct _GnomeCanvasRect {
-	GnomeCanvasRE re;
+	GnomeCanvasShape parent;
+
+       gdouble x1, y1, x2, y2;         /* Corners of item */
+
+       guint path_dirty : 1;
 };
 
 struct _GnomeCanvasRectClass {
-	GnomeCanvasREClass parent_class;
+	GnomeCanvasShapeClass parent_class;
 };
 
 /* Standard Gtk function */
