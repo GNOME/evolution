@@ -53,67 +53,6 @@
 #include <libart_lgpl/art_rect_svp.h>
 
 /**
- * gnome_canvas_points_new:
- * @num_points: The number of points to allocate space for in the array.
- *
- * Creates a structure that should be used to pass an array of points to
- * items.
- *
- * Return value: A newly-created array of points.  It should be filled in
- * by the user.
- **/
-GnomeCanvasPoints *
-gnome_canvas_points_new (gint num_points)
-{
-	GnomeCanvasPoints *points;
-
-	g_return_val_if_fail (num_points > 1, NULL);
-
-	points = g_new (GnomeCanvasPoints, 1);
-	points->num_points = num_points;
-	points->coords = g_new (double, 2 * num_points);
-	points->ref_count = 1;
-
-	return points;
-}
-
-/**
- * gnome_canvas_points_ref:
- * @points: A canvas points structure.
- *
- * Increases the reference count of the specified points structure.
- *
- * Return value: The canvas points structure itself.
- **/
-GnomeCanvasPoints *
-gnome_canvas_points_ref (GnomeCanvasPoints *points)
-{
-	g_return_val_if_fail (points != NULL, NULL);
-
-	points->ref_count += 1;
-	return points;
-}
-
-/**
- * gnome_canvas_points_free:
- * @points: A canvas points structure.
- *
- * Decreases the reference count of the specified points structure.  If it
- * reaches zero, then the structure is freed.
- **/
-void
-gnome_canvas_points_free (GnomeCanvasPoints *points)
-{
-	g_return_if_fail (points != NULL);
-
-	points->ref_count -= 1;
-	if (points->ref_count == 0) {
-		g_free (points->coords);
-		g_free (points);
-	}
-}
-
-/**
  * gnome_canvas_get_miter_points:
  * @x1: X coordinate of the first point
  * @y1: Y coordinate of the first point
