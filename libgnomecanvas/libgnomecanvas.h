@@ -31,7 +31,7 @@
 #include <libgnomecanvas/gnome-canvas-rich-text.h>
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
 #include <libgnomecanvas/gnome-canvas-widget.h>
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/gnome-canvas-rect.h>
 #include <libgnomecanvas/gnome-canvas-util.h>
 #include <libgnomecanvas/gnome-canvas-clipgroup.h>
 
