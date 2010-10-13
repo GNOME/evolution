@@ -28,7 +28,6 @@ libgnomecanvasinclude_HEADERS =			\
 	gnome-canvas-line.h			\
 	gnome-canvas-path-def.h			\
 	gnome-canvas-pixbuf.h			\
-	gnome-canvas-polygon.h			\
 	gnome-canvas-rect-ellipse.h		\
 	gnome-canvas-rich-text.h		\
 	gnome-canvas-shape.h			\
@@ -52,7 +51,6 @@ libgnomecanvas_la_SOURCES =			\
 	gnome-canvas-line.c			\
 	gnome-canvas-path-def.c			\
 	gnome-canvas-pixbuf.c			\
-	gnome-canvas-polygon.c			\
 	gnome-canvas-rect-ellipse.c		\
 	gnome-canvas-rich-text.c		\
 	gnome-canvas-shape-private.h		\
