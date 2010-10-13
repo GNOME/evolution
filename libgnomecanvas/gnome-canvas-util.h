@@ -141,6 +141,9 @@ ArtPathStrokeJoinType gnome_canvas_join_gdk_to_art (GdkJoinStyle gdk_join);
 /* Convert from GDK line cap specifier to libart. */
 ArtPathStrokeCapType gnome_canvas_cap_gdk_to_art (GdkCapStyle gdk_cap);
 
+/* Create a scratch cairo_t for measuring purposes */
+cairo_t *gnome_canvas_cairo_create_scratch (void);
+
 G_END_DECLS
 
 #endif

@@ -25,7 +25,6 @@ libgnomecanvasinclude_HEADERS =			\
 	gailcanvaswidgetfactory.h		\
 	gnome-canvas-clipgroup.h		\
 	gnome-canvas-i18n.h			\
-	gnome-canvas-line.h			\
 	gnome-canvas-path-def.h			\
 	gnome-canvas-pixbuf.h			\
 	gnome-canvas-rect-ellipse.h		\
@@ -48,7 +47,6 @@ libgnomecanvas_la_SOURCES =			\
 	gailcanvaswidget.c			\
 	gailcanvaswidgetfactory.c		\
 	gnome-canvas-clipgroup.c		\
-	gnome-canvas-line.c			\
 	gnome-canvas-path-def.c			\
 	gnome-canvas-pixbuf.c			\
 	gnome-canvas-rect-ellipse.c		\
