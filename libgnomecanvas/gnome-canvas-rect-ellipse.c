@@ -67,7 +67,6 @@ static void gnome_canvas_re_get_property (GObject              *object,
 					  GParamSpec           *pspec);
 
 static void gnome_canvas_rect_update      (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags);
-static void gnome_canvas_ellipse_update      (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags);
 
 static GnomeCanvasItemClass *re_parent_class;
 
@@ -283,122 +282,6 @@ gnome_canvas_rect_update (GnomeCanvasItem *item, gdouble affine[6], ArtSVP *clip
 		gnome_canvas_path_def_lineto (path_def, re->x1, re->y2);
 		gnome_canvas_path_def_lineto (path_def, re->x1, re->y1);
 		gnome_canvas_path_def_closepath_current (path_def);
-		gnome_canvas_shape_set_path_def (GNOME_CANVAS_SHAPE (item), path_def);
-		gnome_canvas_path_def_unref (path_def);
-		re->path_dirty = 0;
-	}
-
-	if (re_parent_class->update)
-		(* re_parent_class->update) (item, affine, clip_path, flags);
-}
-
-/* Ellipse item */
-
-static void gnome_canvas_ellipse_class_init (GnomeCanvasEllipseClass *class);
-
-GType
-gnome_canvas_ellipse_get_type (void)
-{
-	static GType ellipse_type;
-
-	if (!ellipse_type) {
-		const GTypeInfo object_info = {
-			sizeof (GnomeCanvasEllipseClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gnome_canvas_ellipse_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,			/* class_data */
-			sizeof (GnomeCanvasEllipse),
-			0,			/* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL			/* value_table */
-		};
-
-		ellipse_type = g_type_register_static (GNOME_TYPE_CANVAS_RE, "GnomeCanvasEllipse",
-						       &object_info, 0);
-	}
-
-	return ellipse_type;
-}
-
-static void
-gnome_canvas_ellipse_class_init (GnomeCanvasEllipseClass *class)
-{
-	GnomeCanvasItemClass *item_class;
-
-	item_class = (GnomeCanvasItemClass *) class;
-
-	item_class->update = gnome_canvas_ellipse_update;
-}
-
-#define N_PTS 90
-
-static void
-gnome_canvas_ellipse_update (GnomeCanvasItem *item, gdouble affine[6], ArtSVP *clip_path, gint flags) {
-	GnomeCanvasPathDef *path_def;
-	GnomeCanvasRE *re;
-
-	re = GNOME_CANVAS_RE (item);
-
-	if (re->path_dirty) {
-		gdouble cx, cy, rx, ry;
-		gdouble beta = 0.26521648983954400922; /* 4*(1-cos (pi/8))/(3*sin (pi/8)) */
-		gdouble sincosA = 0.70710678118654752440; /* sin (pi/4), cos (pi/4) */
-		gdouble dx1, dy1, dx2, dy2;
-		gdouble mx, my;
-
-		path_def = gnome_canvas_path_def_new ();
-
-		cx = (re->x2 + re->x1) * 0.5;
-		cy = (re->y2 + re->y1) * 0.5;
-		rx = re->x2 - cx;
-		ry = re->y2 - cy;
-
-		dx1 = beta * rx;
-		dy1 = beta * ry;
-		dx2 = beta * rx * sincosA;
-		dy2 = beta * ry * sincosA;
-		mx = rx * sincosA;
-		my = ry * sincosA;
-
-		gnome_canvas_path_def_moveto (path_def, cx + rx, cy);
-		gnome_canvas_path_def_curveto (path_def,
-					       cx + rx, cy - dy1,
-					       cx + mx + dx2, cy - my + dy2,
-					       cx + mx, cy - my);
-		gnome_canvas_path_def_curveto (path_def,
-					       cx + mx - dx2, cy - my - dy2,
-					       cx + dx1, cy - ry,
-					       cx, cy - ry);
-		gnome_canvas_path_def_curveto (path_def,
-					       cx - dx1, cy - ry,
-					       cx - mx + dx2, cy - my - dy2,
-					       cx - mx, cy - my);
-		gnome_canvas_path_def_curveto (path_def,
-					       cx - mx - dx2, cy - my + dy2,
-					       cx - rx, cy - dy1,
-					       cx - rx, cy);
-
-		gnome_canvas_path_def_curveto (path_def,
-					       cx - rx, cy + dy1,
-					       cx - mx - dx2, cy + my - dy2,
-					       cx - mx, cy + my);
-		gnome_canvas_path_def_curveto (path_def,
-					       cx - mx + dx2, cy + my + dy2,
-					       cx - dx1, cy + ry,
-					       cx, cy + ry);
-		gnome_canvas_path_def_curveto (path_def,
-					       cx + dx1, cy + ry,
-					       cx + mx - dx2, cy + my + dy2,
-					       cx + mx, cy + my);
-		gnome_canvas_path_def_curveto (path_def,
-					       cx + mx + dx2, cy + my - dy2,
-					       cx + rx, cy + dy1,
-					       cx + rx, cy);
-
-		gnome_canvas_path_def_closepath_current (path_def);
-
 		gnome_canvas_shape_set_path_def (GNOME_CANVAS_SHAPE (item), path_def);
 		gnome_canvas_path_def_unref (path_def);
 		re->path_dirty = 0;
