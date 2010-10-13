@@ -1465,6 +1465,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	EMailShellContent *mail_shell_content;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	EShellBackend *shell_backend;
 	EShell *shell;
 	EShellSearchbar *searchbar;
 	EActionComboBox *combo_box;
@@ -1479,6 +1480,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
@@ -1569,6 +1571,10 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	e_mutual_binding_new (
 		ACTION (MAIL_SHOW_DELETED), "active",
 		mail_view, "show-deleted");
+
+	e_binding_new (
+		shell_backend, "busy",
+		ACTION (MAIL_STOP), "sensitive");
 
 	/* Keep the sensitivity of "Create Search Folder from Search"
 	 * in sync with "Save Search" so that its only selectable when
