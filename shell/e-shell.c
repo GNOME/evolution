@@ -65,15 +65,16 @@ struct _EShellPrivate {
 
 	gchar *startup_view;
 
-	guint auto_reconnect	: 1;
-	guint modules_loaded	: 1;
-	guint network_available	: 1;
-	guint online		: 1;
-	guint quit_cancelled	: 1;
-	guint safe_mode		: 1;
-	guint express_mode	: 1;
-	guint meego_mode	: 1;
-	guint small_screen_mode	: 1;
+	guint auto_reconnect		: 1;
+	guint express_mode		: 1;
+	guint meego_mode		: 1;
+	guint modules_loaded		: 1;
+	guint network_available		: 1;
+	guint network_available_locked	: 1;
+	guint online			: 1;
+	guint quit_cancelled		: 1;
+	guint safe_mode			: 1;
+	guint small_screen_mode		: 1;
 };
 
 enum {
@@ -1801,6 +1802,9 @@ e_shell_set_network_available (EShell *shell,
 {
 	g_return_if_fail (E_IS_SHELL (shell));
 
+	if (shell->priv->network_available_locked)
+		return;
+
 	if (network_available == shell->priv->network_available)
 		return;
 
@@ -1818,6 +1822,26 @@ e_shell_set_network_available (EShell *shell,
 		e_shell_set_online (shell, TRUE);
 		shell->priv->auto_reconnect = FALSE;
 	}
+}
+
+/**
+ * e_shell_lock_network_available:
+ * @shell: an #EShell
+ *
+ * Locks the value of #EShell:network-available to %TRUE.  Further
+ * attempts to set the property will be ignored.
+ *
+ * This is used for the --force-online command-line option, which is
+ * intended to override the network availability status as reported
+ * by NetworkManager or other network monitoring software.
+ **/
+void
+e_shell_lock_network_available (EShell *shell)
+{
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	e_shell_set_network_available (shell, TRUE);
+	shell->priv->network_available_locked = TRUE;
 }
 
 /**

@@ -323,6 +323,14 @@ EShell
 @network_available: 
 
 
+<!-- ##### FUNCTION e_shell_lock_network_available ##### -->
+<para>
+
+</para>
+
+@shell: 
+
+
 <!-- ##### FUNCTION e_shell_get_online ##### -->
 <para>
 

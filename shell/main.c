@@ -97,6 +97,7 @@ static gboolean hide_icons = FALSE;
 static gboolean unregister_handlers = FALSE;
 #endif /* G_OS_WIN32 */
 static gboolean express_mode = FALSE;
+static gboolean force_online = FALSE;
 static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
 static gboolean setup_only = FALSE;
@@ -337,6 +338,8 @@ static GOptionEntry entries[] = {
 	  N_("Start in offline mode"), NULL },
 	{ "online", '\0', 0, G_OPTION_ARG_NONE, &start_online,
 	  N_("Start in online mode"), NULL },
+	{ "force-online", '\0', 0, G_OPTION_ARG_NONE, &force_online,
+	  N_("Ignore network availability"), NULL },
 	{ "express", '\0', 0, G_OPTION_ARG_NONE, &express_mode,
 	  N_("Start in \"express\" mode"), NULL },
 #ifdef KILL_PROCESS_CMD
@@ -387,7 +390,7 @@ create_default_shell (void)
 
 	key = "/apps/evolution/shell/start_offline";
 
-	if (start_online) {
+	if (start_online || force_online) {
 		online = TRUE;
 		gconf_client_set_bool (client, key, FALSE, &error);
 	} else if (start_offline) {
@@ -431,6 +434,9 @@ create_default_shell (void)
 		"small-screen-mode", small_screen,
 		"online", online,
 		NULL);
+
+	if (force_online)
+		e_shell_lock_network_available (shell);
 
 	g_object_unref (client);
 
@@ -575,8 +581,14 @@ main (gint argc, gchar **argv)
 	if (start_online && start_offline) {
 		g_printerr (
 			_("%s: --online and --offline cannot be used "
-			  "together.\n  Use %s --help for more information.\n"),
-			 argv[0], argv[0]);
+			  "together.\n  Run '%s --help' for more "
+			  "information.\n"), argv[0], argv[0]);
+		exit (1);
+	} else if (force_online && start_offline) {
+		g_printerr (
+			_("%s: --force-online and --offline cannot be used "
+			  "together.\n  Run '%s --help' for more "
+			  "information.\n"), argv[0], argv[0]);
 		exit (1);
 	}
 

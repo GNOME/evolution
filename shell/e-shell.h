@@ -143,6 +143,7 @@ const gchar *	e_shell_get_module_directory	(EShell *shell);
 gboolean	e_shell_get_network_available	(EShell *shell);
 void		e_shell_set_network_available	(EShell *shell,
 						 gboolean network_available);
+void		e_shell_lock_network_available	(EShell *shell);
 gboolean	e_shell_get_online		(EShell *shell);
 void		e_shell_set_online		(EShell *shell,
 						 gboolean online);

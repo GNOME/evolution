@@ -85,6 +85,23 @@ EShellBackend
 @activity: 
 
 
+<!-- ##### FUNCTION e_shell_backend_cancel_all ##### -->
+<para>
+
+</para>
+
+@shell_backend: 
+
+
+<!-- ##### FUNCTION e_shell_backend_is_busy ##### -->
+<para>
+
+</para>
+
+@shell_backend: 
+@Returns: 
+
+
 <!-- ##### FUNCTION e_shell_backend_start ##### -->
 <para>
 
