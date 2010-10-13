@@ -21,7 +21,7 @@
  */
 
 #include <text/e-text.h>
-#include <libgnomecanvas/gnome-canvas-pixbuf.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 #include "ea-calendar-helpers.h"
 #include "a11y/ea-factory.h"
 #include "ea-calendar.h"

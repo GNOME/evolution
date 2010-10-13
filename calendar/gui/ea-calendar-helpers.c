@@ -28,7 +28,7 @@
 #include "e-week-view.h"
 
 #include <text/e-text.h>
-#include <libgnomecanvas/gnome-canvas-pixbuf.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 
 /**
  * ea_calendar_helpers_get_accessible_for

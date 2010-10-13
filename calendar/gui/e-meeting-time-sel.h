@@ -24,7 +24,7 @@
 #define E_MEETING_TIME_SELECTOR_H
 
 #include <gtk/gtk.h>
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 #include <text/e-text.h>
 #include <table/e-table-model.h>
 #include <table/e-table.h>

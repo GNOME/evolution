@@ -35,7 +35,7 @@
 #include <math.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
-#include <libgnomecanvas/gnome-canvas-pixbuf.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 #include <text/e-text.h>
 #include <misc/e-canvas-utils.h>
 #include <e-util/e-unicode.h>
