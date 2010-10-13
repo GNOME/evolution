@@ -616,3 +616,24 @@ gnome_canvas_cap_gdk_to_art (GdkCapStyle gdk_cap)
 		return ART_PATH_STROKE_CAP_BUTT; /* shut up the compiler */
 	}
 }
+
+/**
+ * gnome_canvas_cairo_create_scratch:
+ *
+ * Create a scratch #cairo_t. This is useful for measuring purposes or
+ * calling functions like cairo_in_fill().
+ *
+ * Returns: A new cairo_t. Destroy with cairo_destroy() after use.
+ **/
+cairo_t *
+gnome_canvas_cairo_create_scratch (void)
+{
+        cairo_surface_t *surface;
+        cairo_t *cr;
+
+        surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 0, 0);
+        cr = cairo_create (surface);
+        cairo_surface_destroy (surface);
+
+        return cr;
+}
