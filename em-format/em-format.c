@@ -1465,6 +1465,22 @@ add_validity_found (EMFormat *emf,
 
 /* ********************************************************************** */
 
+static void
+preserve_charset_in_content_type (CamelMimePart *ipart, CamelMimePart *opart)
+{
+	CamelContentType *ict;
+
+	g_return_if_fail (ipart != NULL);
+	g_return_if_fail (opart != NULL);
+
+	ict = camel_data_wrapper_get_mime_type_field (camel_medium_get_content (CAMEL_MEDIUM (ipart)));
+	if (!ict || !camel_content_type_param (ict, "charset") || !*camel_content_type_param (ict, "charset"))
+		return;
+
+	camel_content_type_set_param (camel_data_wrapper_get_mime_type_field (camel_medium_get_content (CAMEL_MEDIUM (opart))),
+		"charset", camel_content_type_param (ict, "charset"));
+}
+
 #ifdef ENABLE_SMIME
 static void
 emf_application_xpkcs7mime (EMFormat *emf,
@@ -1496,6 +1512,7 @@ emf_application_xpkcs7mime (EMFormat *emf,
 
 	opart = camel_mime_part_new();
 	valid = camel_cipher_decrypt(context, part, opart, &local_error);
+	preserve_charset_in_content_type (part, opart);
 	if (valid == NULL) {
 		em_format_format_error (
 			emf, stream, "%s",
@@ -1682,6 +1699,7 @@ emf_multipart_encrypted (EMFormat *emf,
 	context = camel_gpg_context_new(emf->session);
 	opart = camel_mime_part_new();
 	valid = camel_cipher_decrypt(context, part, opart, &local_error);
+	preserve_charset_in_content_type (part, opart);
 	if (valid == NULL) {
 		em_format_format_error (
 			emf, stream, local_error->message ?
@@ -2153,6 +2171,7 @@ emf_inlinepgp_encrypted (EMFormat *emf,
 			camel_data_wrapper_set_mime_type (dw, snoop);
 	}
 
+	preserve_charset_in_content_type (ipart, opart);
 	g_free (mime_type);
 
 	add_validity_found (emf, valid);
