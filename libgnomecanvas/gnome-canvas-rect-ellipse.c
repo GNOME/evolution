@@ -55,58 +55,29 @@ enum {
 	PROP_Y2
 };
 
-static void gnome_canvas_re_class_init (GnomeCanvasREClass *class);
-static void gnome_canvas_re_init       (GnomeCanvasRE      *re);
-static void gnome_canvas_re_set_property (GObject              *object,
-					  guint                 param_id,
-					  const GValue         *value,
-					  GParamSpec           *pspec);
-static void gnome_canvas_re_get_property (GObject              *object,
-					  guint                 param_id,
-					  GValue               *value,
-					  GParamSpec           *pspec);
+static void gnome_canvas_rect_set_property (GObject              *object,
+                                            guint                 param_id,
+                                            const GValue         *value,
+                                            GParamSpec           *pspec);
+static void gnome_canvas_rect_get_property (GObject              *object,
+                                            guint                 param_id,
+                                            GValue               *value,
+                                            GParamSpec           *pspec);
 
-static void gnome_canvas_rect_update      (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags);
+static void gnome_canvas_rect_update       (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags);
 
-static GnomeCanvasItemClass *re_parent_class;
-
-GType
-gnome_canvas_re_get_type (void)
-{
-	static GType re_type;
-
-	if (!re_type) {
-		const GTypeInfo object_info = {
-			sizeof (GnomeCanvasREClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gnome_canvas_re_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,			/* class_data */
-			sizeof (GnomeCanvasRE),
-			0,			/* n_preallocs */
-			(GInstanceInitFunc) gnome_canvas_re_init,
-			NULL			/* value_table */
-		};
-
-		re_type = g_type_register_static (GNOME_TYPE_CANVAS_SHAPE, "GnomeCanvasRE",
-						  &object_info, 0);
-	}
-
-	return re_type;
-}
+G_DEFINE_TYPE(GnomeCanvasRect, gnome_canvas_rect, GNOME_TYPE_CANVAS_SHAPE)
 
 static void
-gnome_canvas_re_class_init (GnomeCanvasREClass *class)
+gnome_canvas_rect_class_init (GnomeCanvasRectClass *class)
 {
 	GObjectClass *gobject_class;
+        GnomeCanvasItemClass *item_class;
 
 	gobject_class = (GObjectClass *) class;
 
-	re_parent_class = g_type_class_peek_parent (class);
-
-	gobject_class->set_property = gnome_canvas_re_set_property;
-	gobject_class->get_property = gnome_canvas_re_get_property;
+	gobject_class->set_property = gnome_canvas_rect_set_property;
+	gobject_class->get_property = gnome_canvas_rect_get_property;
 
         g_object_class_install_property
                 (gobject_class,
@@ -132,133 +103,6 @@ gnome_canvas_re_class_init (GnomeCanvasREClass *class)
                  g_param_spec_double ("y2", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-}
-
-static void
-gnome_canvas_re_init (GnomeCanvasRE *re)
-{
-	re->x1 = 0.0;
-	re->y1 = 0.0;
-	re->x2 = 0.0;
-	re->y2 = 0.0;
-	re->path_dirty = 0;
-}
-
-static void
-gnome_canvas_re_set_property (GObject              *object,
-			      guint                 param_id,
-			      const GValue         *value,
-			      GParamSpec           *pspec)
-{
-	GnomeCanvasItem *item;
-	GnomeCanvasRE *re;
-
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (GNOME_IS_CANVAS_RE (object));
-
-	item = GNOME_CANVAS_ITEM (object);
-	re = GNOME_CANVAS_RE (object);
-
-	switch (param_id) {
-	case PROP_X1:
-		re->x1 = g_value_get_double (value);
-		re->path_dirty = 1;
-		gnome_canvas_item_request_update (item);
-		break;
-
-	case PROP_Y1:
-		re->y1 = g_value_get_double (value);
-		re->path_dirty = 1;
-		gnome_canvas_item_request_update (item);
-		break;
-
-	case PROP_X2:
-		re->x2 = g_value_get_double (value);
-		re->path_dirty = 1;
-		gnome_canvas_item_request_update (item);
-		break;
-
-	case PROP_Y2:
-		re->y2 = g_value_get_double (value);
-		re->path_dirty = 1;
-		gnome_canvas_item_request_update (item);
-		break;
-
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
-		break;
-	}
-}
-
-static void
-gnome_canvas_re_get_property (GObject              *object,
-			      guint                 param_id,
-			      GValue               *value,
-			      GParamSpec           *pspec)
-{
-	GnomeCanvasRE *re;
-
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (GNOME_IS_CANVAS_RE (object));
-
-	re = GNOME_CANVAS_RE (object);
-
-	switch (param_id) {
-	case PROP_X1:
-		g_value_set_double (value,  re->x1);
-		break;
-
-	case PROP_Y1:
-		g_value_set_double (value,  re->y1);
-		break;
-
-	case PROP_X2:
-		g_value_set_double (value,  re->x2);
-		break;
-
-	case PROP_Y2:
-		g_value_set_double (value,  re->y2);
-		break;
-
-	default:
-		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
-		break;
-	}
-}
-
-/* Rectangle item */
-static void gnome_canvas_rect_class_init (GnomeCanvasRectClass *class);
-
-GType
-gnome_canvas_rect_get_type (void)
-{
-	static GType rect_type;
-
-	if (!rect_type) {
-		const GTypeInfo object_info = {
-			sizeof (GnomeCanvasRectClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gnome_canvas_rect_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,			/* class_data */
-			sizeof (GnomeCanvasRect),
-			0,			/* n_preallocs */
-			(GInstanceInitFunc) NULL,
-			NULL			/* value_table */
-		};
-
-		rect_type = g_type_register_static (GNOME_TYPE_CANVAS_RE, "GnomeCanvasRect",
-						    &object_info, 0);
-	}
-
-	return rect_type;
-}
-
-static void
-gnome_canvas_rect_class_init (GnomeCanvasRectClass *class)
-{
-	GnomeCanvasItemClass *item_class;
 
 	item_class = (GnomeCanvasItemClass *) class;
 
@@ -266,27 +110,119 @@ gnome_canvas_rect_class_init (GnomeCanvasRectClass *class)
 }
 
 static void
-gnome_canvas_rect_update (GnomeCanvasItem *item, gdouble affine[6], ArtSVP *clip_path, gint flags)
-{	GnomeCanvasRE *re;
+gnome_canvas_rect_init (GnomeCanvasRect *rect)
+{
+	rect->x1 = 0.0;
+	rect->y1 = 0.0;
+	rect->x2 = 0.0;
+	rect->y2 = 0.0;
+	rect->path_dirty = 0;
+}
 
+static void
+gnome_canvas_rect_set_property (GObject              *object,
+                                guint                 param_id,
+                                const GValue         *value,
+                                GParamSpec           *pspec)
+{
+	GnomeCanvasItem *item;
+	GnomeCanvasRect *rect;
+
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (GNOME_IS_CANVAS_RECT (object));
+
+	item = GNOME_CANVAS_ITEM (object);
+	rect = GNOME_CANVAS_RECT (object);
+
+	switch (param_id) {
+	case PROP_X1:
+		rect->x1 = g_value_get_double (value);
+		rect->path_dirty = 1;
+		gnome_canvas_item_request_update (item);
+		break;
+
+	case PROP_Y1:
+		rect->y1 = g_value_get_double (value);
+		rect->path_dirty = 1;
+		gnome_canvas_item_request_update (item);
+		break;
+
+	case PROP_X2:
+		rect->x2 = g_value_get_double (value);
+		rect->path_dirty = 1;
+		gnome_canvas_item_request_update (item);
+		break;
+
+	case PROP_Y2:
+		rect->y2 = g_value_get_double (value);
+		rect->path_dirty = 1;
+		gnome_canvas_item_request_update (item);
+		break;
+
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
+		break;
+	}
+}
+
+static void
+gnome_canvas_rect_get_property (GObject              *object,
+                                guint                 param_id,
+                                GValue               *value,
+                                GParamSpec           *pspec)
+{
+	GnomeCanvasRect *rect;
+
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (GNOME_IS_CANVAS_RECT (object));
+
+	rect = GNOME_CANVAS_RECT (object);
+
+	switch (param_id) {
+	case PROP_X1:
+		g_value_set_double (value,  rect->x1);
+		break;
+
+	case PROP_Y1:
+		g_value_set_double (value,  rect->y1);
+		break;
+
+	case PROP_X2:
+		g_value_set_double (value,  rect->x2);
+		break;
+
+	case PROP_Y2:
+		g_value_set_double (value,  rect->y2);
+		break;
+
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
+		break;
+	}
+}
+
+static void
+gnome_canvas_rect_update (GnomeCanvasItem *item, gdouble affine[6], ArtSVP *clip_path, gint flags)
+{
+        GnomeCanvasRect *rect;
 	GnomeCanvasPathDef *path_def;
 
-	re = GNOME_CANVAS_RE (item);
+	rect = GNOME_CANVAS_RECT (item);
 
-	if (re->path_dirty) {
+	if (rect->path_dirty) {
 		path_def = gnome_canvas_path_def_new ();
 
-		gnome_canvas_path_def_moveto (path_def, re->x1, re->y1);
-		gnome_canvas_path_def_lineto (path_def, re->x2, re->y1);
-		gnome_canvas_path_def_lineto (path_def, re->x2, re->y2);
-		gnome_canvas_path_def_lineto (path_def, re->x1, re->y2);
-		gnome_canvas_path_def_lineto (path_def, re->x1, re->y1);
+		gnome_canvas_path_def_moveto (path_def, rect->x1, rect->y1);
+		gnome_canvas_path_def_lineto (path_def, rect->x2, rect->y1);
+		gnome_canvas_path_def_lineto (path_def, rect->x2, rect->y2);
+		gnome_canvas_path_def_lineto (path_def, rect->x1, rect->y2);
+		gnome_canvas_path_def_lineto (path_def, rect->x1, rect->y1);
 		gnome_canvas_path_def_closepath_current (path_def);
 		gnome_canvas_shape_set_path_def (GNOME_CANVAS_SHAPE (item), path_def);
 		gnome_canvas_path_def_unref (path_def);
-		re->path_dirty = 0;
+		rect->path_dirty = 0;
 	}
 
-	if (re_parent_class->update)
-		(* re_parent_class->update) (item, affine, clip_path, flags);
+	if (GNOME_CANVAS_ITEM_CLASS (gnome_canvas_rect_parent_class)->update)
+		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_rect_parent_class)->update (item, affine, clip_path, flags);
 }
