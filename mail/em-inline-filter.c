@@ -102,8 +102,10 @@ inline_filter_add_part (EMInlineFilter *emif, const gchar *data, gint len)
 	g_object_unref (mem);
 
 	if (emif_types[emif->state].plain && emif->base_type) {
-		camel_content_type_ref (emif->base_type);
-		content_type = emif->base_type;
+		/* create a copy */
+		type = camel_content_type_format (emif->base_type);
+		content_type = camel_content_type_decode (type);
+		g_free (type);
 	} else {
 		/* we want to preserve all params */
 		type = camel_content_type_format (emif->base_type);

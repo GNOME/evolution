@@ -1738,6 +1738,7 @@ efh_text_plain (EMFormat *emf,
 		EMInlineFilter *inline_filter;
 		CamelStream *null;
 		CamelContentType *ct;
+		gboolean charset_added = FALSE;
 
 		/* if we had to snoop the part type to get here, then
 		 * use that as the base type, yuck */
@@ -1745,6 +1746,11 @@ efh_text_plain (EMFormat *emf,
 		    || (ct = camel_content_type_decode (emf->snoop_mime_type)) == NULL) {
 			ct = dw->mime_type;
 			camel_content_type_ref (ct);
+		}
+
+		if (dw->mime_type && ct != dw->mime_type && camel_content_type_param (dw->mime_type, "charset")) {
+			camel_content_type_set_param (ct, "charset", camel_content_type_param (dw->mime_type, "charset"));
+			charset_added = TRUE;
 		}
 
 		null = camel_stream_null_new ();
@@ -1763,6 +1769,10 @@ efh_text_plain (EMFormat *emf,
 		if (efhc == NULL)
 			efhc = efh_insert_cache (efh, emf->part_id->str);
 		efhc->textmp = mp;
+
+		if (charset_added) {
+			camel_content_type_set_param (ct, "charset", NULL);
+		}
 
 		g_object_unref (inline_filter);
 		camel_content_type_unref (ct);
