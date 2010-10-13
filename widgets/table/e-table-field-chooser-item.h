@@ -24,7 +24,7 @@
 #ifndef _E_TABLE_FIELD_CHOOSER_ITEM_H_
 #define _E_TABLE_FIELD_CHOOSER_ITEM_H_
 
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 #include <libxml/tree.h>
 #include <table/e-table-header.h>
 

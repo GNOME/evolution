@@ -23,7 +23,7 @@
 #include <config.h>
 
 #include <gtk/gtk.h>
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 
 #include "e-util/e-util.h"
 

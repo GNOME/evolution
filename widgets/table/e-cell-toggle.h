@@ -26,7 +26,7 @@
 #ifndef E_CELL_TOGGLE_H
 #define E_CELL_TOGGLE_H
 
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <table/e-cell.h>
 

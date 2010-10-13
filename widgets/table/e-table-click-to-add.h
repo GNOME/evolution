@@ -24,7 +24,7 @@
 #define _E_TABLE_CLICK_TO_ADD_H_
 
 #include <libxml/tree.h>
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 #include <table/e-table-header.h>
 #include <table/e-table-sort-info.h>
 #include <table/e-table-item.h>

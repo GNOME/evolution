@@ -25,10 +25,7 @@
 #include <string.h>
 
 #include <gtk/gtk.h>
-#include <libgnomecanvas/gnome-canvas.h>
-#include <libgnomecanvas/gnome-canvas-util.h>
-#include <libgnomecanvas/gnome-canvas-polygon.h>
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include <glib/gi18n.h>

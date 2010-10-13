@@ -39,7 +39,7 @@
 #define E_CELL_TEXT_H
 
 #include <gtk/gtk.h>
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 #include <table/e-cell.h>
 
 /* Standard GObject macros */

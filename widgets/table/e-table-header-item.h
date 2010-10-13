@@ -26,7 +26,7 @@
 
 #include <table/e-table.h>
 #include <table/e-tree.h>
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 #include <libxml/tree.h>
 #include <table/e-table-header.h>
 #include <table/e-table-sort-info.h>

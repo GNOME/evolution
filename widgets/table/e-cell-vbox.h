@@ -29,7 +29,7 @@
 #ifndef _E_CELL_VBOX_H_
 #define _E_CELL_VBOX_H_
 
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 #include <table/e-cell.h>
 
 G_BEGIN_DECLS
