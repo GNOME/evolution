@@ -56,8 +56,7 @@ libgnomecanvas_la_SOURCES =			\
 	gnome-canvas-text.c			\
 	gnome-canvas-util.c			\
 	gnome-canvas-widget.c			\
-	gnome-canvas.c				\
-	libgnomecanvastypes.c
+	gnome-canvas.c
 
 MARSHAL_GENERATED =				\
 	gnome-canvas-marshal.c			\

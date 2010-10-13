@@ -35,11 +35,4 @@
 #include <libgnomecanvas/gnome-canvas-util.h>
 #include <libgnomecanvas/gnome-canvas-clipgroup.h>
 
-G_BEGIN_DECLS
-
-GType gnome_canvas_points_get_type (void);
-#define GNOME_TYPE_CANVAS_POINTS gnome_canvas_points_get_type()
-
-G_END_DECLS
-
 #endif /* LIBGNOMECANVAS_H */

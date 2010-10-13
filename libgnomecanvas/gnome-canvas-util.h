@@ -41,28 +41,6 @@
 
 G_BEGIN_DECLS
 
-typedef struct _GnomeCanvasPoints GnomeCanvasPoints;
-
-/* This structure defines an array of points.  X coordinates are stored in the even-numbered
- * indices, and Y coordinates are stored in the odd-numbered indices.  num_points indicates the
- * number of points, so the array is 2*num_points elements big.
- */
-struct _GnomeCanvasPoints {
-	gdouble *coords;
-	gint num_points;
-	gint ref_count;
-};
-
-/* Allocate a new GnomeCanvasPoints structure with enough space for the specified number of points */
-GnomeCanvasPoints *gnome_canvas_points_new (gint num_points);
-
-/* Increate ref count */
-GnomeCanvasPoints *gnome_canvas_points_ref (GnomeCanvasPoints *points);
-#define gnome_canvas_points_unref gnome_canvas_points_free
-
-/* Decrease ref count and free structure if it has reached zero */
-void gnome_canvas_points_free (GnomeCanvasPoints *points);
-
 /* Given three points forming an angle, compute the coordinates of the inside and outside points of
  * the mitered corner formed by a line of a given width at that angle.
  *
