@@ -25,7 +25,7 @@
 #include "e-minicard-label.h"
 
 #include <gtk/gtk.h>
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 #include <glib/gi18n.h>
 #include <e-util/e-util.h>
 #include <text/e-text.h>
