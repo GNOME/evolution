@@ -30,6 +30,7 @@
 
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-list.h>
+#include <shell/e-shell.h>
 #include <glib/gi18n.h>
 #include <libecal/e-cal.h>
 #include "calendar-setup.h"
@@ -76,6 +77,7 @@ eccp_commit (EConfig *ec, GSList *items, gpointer data)
 {
 	CalendarSourceDialog *sdialog = data;
 	xmlNodePtr xml;
+	GtkWindow *window;
 
 	if (sdialog->original_source) {
 		const gchar *color_spec;
@@ -92,6 +94,10 @@ eccp_commit (EConfig *ec, GSList *items, gpointer data)
 		e_source_group_add_source (sdialog->source_group, sdialog->source, -1);
 		e_source_list_sync (sdialog->source_list, NULL);
 	}
+
+	window = e_shell_get_active_window (e_shell_get_default ());
+	if (window)
+		gtk_widget_queue_draw (GTK_WIDGET (window));
 }
 
 static void
