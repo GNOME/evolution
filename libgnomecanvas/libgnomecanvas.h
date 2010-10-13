@@ -33,6 +33,5 @@
 #include <libgnomecanvas/gnome-canvas-widget.h>
 #include <libgnomecanvas/gnome-canvas-rect.h>
 #include <libgnomecanvas/gnome-canvas-util.h>
-#include <libgnomecanvas/gnome-canvas-clipgroup.h>
 
 #endif /* LIBGNOMECANVAS_H */
