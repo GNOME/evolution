@@ -24,7 +24,7 @@
 #define __E_MINICARD_H__
 
 #include <gtk/gtk.h>
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 #include <libebook/e-contact.h>
 
 G_BEGIN_DECLS

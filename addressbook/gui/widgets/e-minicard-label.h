@@ -24,7 +24,7 @@
 #define __E_MINICARD_LABEL_H__
 
 #include <glib.h>
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libgnomecanvas/libgnomecanvas.h>
 
 G_BEGIN_DECLS
 
