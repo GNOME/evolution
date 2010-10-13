@@ -29,6 +29,7 @@
 #include <string.h>
 #include <glib.h>
 #include <glib/gi18n.h>
+#include <libedataserver/e-flag.h>
 #include <libedataserver/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include "comp-util.h"
@@ -2323,13 +2324,53 @@ get_objects_as_list (ECalModel *model)
 	return l;
 }
 
+struct cc_data
+{
+	ECalModel *model;
+	EFlag *eflag;
+};
+
+static gboolean
+cleanup_content_cb (gpointer user_data)
+{
+	ECalModel *model;
+	ECalModelPrivate *priv;
+	GSList *slist;
+	gint len;
+	struct cc_data *data = user_data;
+
+	g_return_val_if_fail (data != NULL, FALSE);
+	g_return_val_if_fail (data->model != NULL, FALSE);
+	g_return_val_if_fail (data->eflag != NULL, FALSE);
+
+	model = data->model;
+	priv = model->priv;
+
+	g_return_val_if_fail (priv != NULL, FALSE);
+
+	e_table_model_pre_change (E_TABLE_MODEL (model));
+	len = priv->objects->len;
+
+	slist = get_objects_as_list (model);
+	g_ptr_array_set_size (priv->objects, 0);
+	g_signal_emit (G_OBJECT (model), signals[COMPS_DELETED], 0, slist);
+
+	e_table_model_rows_deleted (E_TABLE_MODEL (model), 0, len);
+
+	g_slist_foreach (slist, (GFunc)g_object_unref, NULL);
+	g_slist_free (slist);
+
+	e_flag_set (data->eflag);
+
+	return FALSE;
+}
+
 static void
 redo_queries (ECalModel *model)
 {
 	ECalModelPrivate *priv;
 	GList *l;
-	GSList *slist;
-	gint len;
+	struct cc_data data;
 
 	priv = model->priv;
 
@@ -2362,18 +2403,20 @@ redo_queries (ECalModel *model)
 		priv->full_sexp = g_strdup ("#f");
 	}
 
-	/* clean up the current contents */
-	e_table_model_pre_change (E_TABLE_MODEL (model));
-	len = priv->objects->len;
+	/* clean up the current contents, which should be done
+	   always from the main thread, because of gtk calls during removal */
+	data.model = model;
+	data.eflag = e_flag_new ();
 
-	slist = get_objects_as_list (model);
-	g_ptr_array_set_size (priv->objects, 0);
-	g_signal_emit (G_OBJECT (model), signals[COMPS_DELETED], 0, slist);
+	if (!g_main_context_is_owner (g_main_context_default ())) {
+		/* function called from other than main thread */
+		g_timeout_add (10, cleanup_content_cb, &data);
+		e_flag_wait (data.eflag);
+	} else {
+		cleanup_content_cb (&data);
+	}
 
-	e_table_model_rows_deleted (E_TABLE_MODEL (model), 0, len);
-
-	g_slist_foreach (slist, (GFunc)g_object_unref, NULL);
-	g_slist_free (slist);
+	e_flag_free (data.eflag);
 
 	/* update the query for all clients */
 	for (l = priv->clients; l != NULL; l = l->next) {
