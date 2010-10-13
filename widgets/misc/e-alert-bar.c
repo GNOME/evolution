@@ -227,14 +227,10 @@ void
 e_alert_bar_add_alert (EAlertBar *alert_bar,
                        EAlert *alert)
 {
-	gboolean show_it_now;
-
 	g_return_if_fail (E_IS_ALERT_BAR (alert_bar));
 	g_return_if_fail (E_IS_ALERT (alert));
 
-	show_it_now = g_queue_is_empty (&alert_bar->priv->alerts);
-	g_queue_push_tail (&alert_bar->priv->alerts, g_object_ref (alert));
+	g_queue_push_head (&alert_bar->priv->alerts, g_object_ref (alert));
 
-	if (show_it_now)
-		alert_bar_show_alert (alert_bar);
+	alert_bar_show_alert (alert_bar);
 }
