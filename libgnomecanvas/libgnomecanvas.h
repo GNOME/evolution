@@ -30,7 +30,6 @@
 #include <libgnomecanvas/gnome-canvas-line.h>
 #include <libgnomecanvas/gnome-canvas-text.h>
 #include <libgnomecanvas/gnome-canvas-rich-text.h>
-#include <libgnomecanvas/gnome-canvas-polygon.h>
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
 #include <libgnomecanvas/gnome-canvas-widget.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
