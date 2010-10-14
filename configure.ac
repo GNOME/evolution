@@ -303,6 +303,7 @@ dnl Check for base dependencies early.
 dnl **********************************
 PKG_CHECK_MODULES([GNOME_PLATFORM],
 	[gio-2.0 >= glib_minimum_version
+         cairo-gobject
 	 $GTK >= $gtk_minimum_version
 	 $GAIL >= $gail_minimum_version
 	 gconf-2.0 >= gconf_minimum_version
