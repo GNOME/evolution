@@ -58,8 +58,6 @@ enum {
 	PROP_DASH
 };
 
-static void gnome_canvas_shape_class_init   (GnomeCanvasShapeClass *class);
-static void gnome_canvas_shape_init         (GnomeCanvasShape      *bpath);
 static void gnome_canvas_shape_destroy      (GnomeCanvasItem       *object);
 static void gnome_canvas_shape_set_property (GObject               *object,
 					     guint                  param_id,
@@ -88,33 +86,7 @@ static void gcbp_destroy_gdk (GnomeCanvasShape * bpath);
 static void gcbp_ensure_mask (GnomeCanvasShape * bpath, gint width, gint height);
 static void gcbp_draw_ctx_unref (GCBPDrawCtx * ctx);
 
-static GnomeCanvasItemClass *parent_class;
-
-GType
-gnome_canvas_shape_get_type (void)
-{
-	static GType shape_type;
-
-	if (!shape_type) {
-		const GTypeInfo object_info = {
-			sizeof (GnomeCanvasShapeClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gnome_canvas_shape_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,			/* class_data */
-			sizeof (GnomeCanvasShape),
-			0,			/* n_preallocs */
-			(GInstanceInitFunc) gnome_canvas_shape_init,
-			NULL			/* value_table */
-		};
-
-		shape_type = g_type_register_static (GNOME_TYPE_CANVAS_ITEM, "GnomeCanvasShape",
-						     &object_info, 0);
-	}
-
-	return shape_type;
-}
+G_DEFINE_TYPE (GnomeCanvasShape, gnome_canvas_shape, GNOME_TYPE_CANVAS_ITEM)
 
 static void
 gnome_canvas_shape_class_init (GnomeCanvasShapeClass *class)
@@ -124,8 +96,6 @@ gnome_canvas_shape_class_init (GnomeCanvasShapeClass *class)
 
 	gobject_class = (GObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	/* when this gets checked into libgnomeui, change the
            GTK_TYPE_POINTER to GTK_TYPE_GNOME_CANVAS_SHAPE, and add an
@@ -208,12 +178,16 @@ gnome_canvas_shape_class_init (GnomeCanvasShapeClass *class)
 	item_class->draw = gnome_canvas_shape_draw;
 	item_class->point = gnome_canvas_shape_point;
 	item_class->bounds = gnome_canvas_shape_bounds;
+
+        g_type_class_add_private (class, sizeof (GnomeCanvasShapePriv));
 }
 
 static void
 gnome_canvas_shape_init (GnomeCanvasShape *shape)
 {
-	shape->priv = g_new (GnomeCanvasShapePriv, 1);
+	shape->priv = G_TYPE_INSTANCE_GET_PRIVATE (shape,
+                                                   GNOME_TYPE_CANVAS_SHAPE,
+                                                   GnomeCanvasShapePriv);
 
 	shape->priv->path = NULL;
 
@@ -253,22 +227,17 @@ gnome_canvas_shape_destroy (GnomeCanvasItem *object)
 
         shape = GNOME_CANVAS_SHAPE (object);
 
-	if (shape->priv) {
-		priv = shape->priv;
-		if (priv->gdk) gcbp_destroy_gdk (shape);
+        priv = shape->priv;
+        if (priv->gdk) gcbp_destroy_gdk (shape);
 
-		if (priv->path) gnome_canvas_path_def_unref (priv->path);
+        if (priv->path) gnome_canvas_path_def_unref (priv->path);
 
-		if (priv->dash.dash) g_free (priv->dash.dash);
-		if (priv->fill_svp) art_svp_free (priv->fill_svp);
-		if (priv->outline_svp) art_svp_free (priv->outline_svp);
+        if (priv->dash.dash) g_free (priv->dash.dash);
+        if (priv->fill_svp) art_svp_free (priv->fill_svp);
+        if (priv->outline_svp) art_svp_free (priv->outline_svp);
 
-		g_free (shape->priv);
-		shape->priv = NULL;
-	}
-
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy)
-		GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy (object);
+	if (GNOME_CANVAS_ITEM_CLASS (gnome_canvas_shape_parent_class)->destroy)
+		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_shape_parent_class)->destroy (object);
 }
 
 /**
@@ -586,8 +555,8 @@ gnome_canvas_shape_realize (GnomeCanvasItem *item)
 
 	shape = GNOME_CANVAS_SHAPE (item);
 
-	if (parent_class->realize)
-		(* parent_class->realize) (item);
+	if (GNOME_CANVAS_ITEM_CLASS (gnome_canvas_shape_parent_class)->realize)
+		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_shape_parent_class)->realize (item);
 
         gcbp_ensure_gdk (shape);
 
@@ -615,8 +584,8 @@ gnome_canvas_shape_unrealize (GnomeCanvasItem *item)
         g_object_unref (shape->priv->gdk->outline_gc);
         shape->priv->gdk->outline_gc = NULL;
 
-	if (parent_class->unrealize)
-		(* parent_class->unrealize) (item);
+	if (GNOME_CANVAS_ITEM_CLASS (gnome_canvas_shape_parent_class)->unrealize)
+		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_shape_parent_class)->unrealize (item);
 }
 
 static void
@@ -986,8 +955,8 @@ gnome_canvas_shape_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_
 	priv = shape->priv;
 
 	/* Common part */
-	if (parent_class->update) {
-		(* parent_class->update) (item, affine, clip_path, flags);
+	if (GNOME_CANVAS_ITEM_CLASS (gnome_canvas_shape_parent_class)->update) {
+		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_shape_parent_class)->update (item, affine, clip_path, flags);
 	}
 
 	/* Outline width */
