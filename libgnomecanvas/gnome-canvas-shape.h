@@ -15,7 +15,6 @@
 #define GNOME_CANVAS_SHAPE_H
 
 #include <libgnomecanvas/gnome-canvas.h>
-#include <libgnomecanvas/gnome-canvas-path-def.h>
 
 G_BEGIN_DECLS
 
