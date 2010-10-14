@@ -41,8 +41,6 @@
 #include "gnome-canvas-text.h"
 #include <pango/pangoft2.h>
 
-#include <libart_lgpl/art_affine.h>
-#include <libart_lgpl/art_rgb.h>
 #include "gnome-canvas-util.h"
 #include "gnome-canvas-i18n.h"
 

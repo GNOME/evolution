@@ -2112,29 +2112,23 @@ gnome_canvas_rich_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	GnomeCanvasRichText *text = GNOME_CANVAS_RICH_TEXT (item);
 	GtkStyle *style;
 	GtkWidget *widget;
-	gdouble i2w[6], w2c[6], i2c[6];
-	gdouble ax, ay;
+        cairo_matrix_t i2c;
+	gdouble ax, ay, ax2, ay2;
 	gint x1, y1, x2, y2;
-	ArtPoint i1, i2;
-	ArtPoint c1, c2;
 
-	gnome_canvas_item_i2w_affine (item, i2w);
-	gnome_canvas_w2c_affine (item->canvas, w2c);
-	art_affine_multiply (i2c, i2w, w2c);
+        gnome_canvas_item_i2c_matrix (item, &i2c);
 
 	adjust_for_anchors (text, &ax, &ay);
+	ax2 = ax + text->_priv->width;
+	ay2 = ay + text->_priv->height;
 
-	i1.x = ax;
-	i1.y = ay;
-	i2.x = ax + text->_priv->width;
-	i2.y = ay + text->_priv->height;
-	art_affine_point (&c1, &i1, i2c);
-	art_affine_point (&c2, &i2, i2c);
+        cairo_matrix_transform_point (&i2c, &ax, &ay);
+        cairo_matrix_transform_point (&i2c, &ax2, &ay2);
 
-	x1 = c1.x;
-	y1 = c1.y;
-	x2 = c2.x;
-	y2 = c2.y;
+	x1 = ax;
+	y1 = ay;
+	x2 = ax2;
+	y2 = ay2;
 
 	gtk_text_layout_set_screen_width (text->_priv->layout, x2 - x1);
 
