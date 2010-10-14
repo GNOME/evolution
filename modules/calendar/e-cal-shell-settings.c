@@ -24,11 +24,10 @@
 #include <gconf/gconf-client.h>
 #include <libecal/e-cal-util.h>
 
-#include "e-util/e-binding.h"
-
 static gboolean
-transform_string_to_icaltimezone (const GValue *src_value,
-                                  GValue *dst_value,
+transform_string_to_icaltimezone (GBinding *binding,
+                                  const GValue *source_value,
+                                  GValue *target_value,
                                   gpointer user_data)
 {
 	EShellSettings *shell_settings;
@@ -44,7 +43,7 @@ transform_string_to_icaltimezone (const GValue *src_value,
 	if (use_system_timezone)
 		timezone = e_cal_util_get_system_timezone ();
 	else
-		location = g_value_get_string (src_value);
+		location = g_value_get_string (source_value);
 
 	if (location != NULL && *location != '\0')
 		timezone = icaltimezone_get_builtin_timezone (location);
@@ -52,20 +51,21 @@ transform_string_to_icaltimezone (const GValue *src_value,
 	if (timezone == NULL)
 		timezone = icaltimezone_get_utc_timezone ();
 
-	g_value_set_pointer (dst_value, timezone);
+	g_value_set_pointer (target_value, timezone);
 
 	return TRUE;
 }
 
 static gboolean
-transform_icaltimezone_to_string (const GValue *src_value,
-                                  GValue *dst_value,
+transform_icaltimezone_to_string (GBinding *binding,
+                                  const GValue *source_value,
+                                  GValue *target_value,
                                   gpointer user_data)
 {
 	const gchar *location = NULL;
 	icaltimezone *timezone;
 
-	timezone = g_value_get_pointer (src_value);
+	timezone = g_value_get_pointer (source_value);
 
 	if (timezone != NULL)
 		location = icaltimezone_get_location (timezone);
@@ -73,14 +73,15 @@ transform_icaltimezone_to_string (const GValue *src_value,
 	if (location == NULL)
 		location = "UTC";
 
-	g_value_set_string (dst_value, location);
+	g_value_set_string (target_value, location);
 
 	return TRUE;
 }
 
 static gboolean
-transform_weekdays_gconf_to_evolution (const GValue *src_value,
-                                       GValue *dst_value,
+transform_weekdays_gconf_to_evolution (GBinding *binding,
+                                       const GValue *source_value,
+                                       GValue *target_value,
                                        gpointer user_data)
 {
 	GDateWeekday weekday;
@@ -94,7 +95,7 @@ transform_weekdays_gconf_to_evolution (const GValue *src_value,
 	/* This is purposefully verbose for better readability. */
 
 	/* GConf numbering */
-	switch (g_value_get_int (src_value)) {
+	switch (g_value_get_int (source_value)) {
 		case 0:
 			weekday = G_DATE_SUNDAY;
 			break;
@@ -123,25 +124,25 @@ transform_weekdays_gconf_to_evolution (const GValue *src_value,
 	/* Evolution numbering */
 	switch (weekday) {
 		case G_DATE_MONDAY:
-			g_value_set_int (dst_value, 0);
+			g_value_set_int (target_value, 0);
 			break;
 		case G_DATE_TUESDAY:
-			g_value_set_int (dst_value, 1);
+			g_value_set_int (target_value, 1);
 			break;
 		case G_DATE_WEDNESDAY:
-			g_value_set_int (dst_value, 2);
+			g_value_set_int (target_value, 2);
 			break;
 		case G_DATE_THURSDAY:
-			g_value_set_int (dst_value, 3);
+			g_value_set_int (target_value, 3);
 			break;
 		case G_DATE_FRIDAY:
-			g_value_set_int (dst_value, 4);
+			g_value_set_int (target_value, 4);
 			break;
 		case G_DATE_SATURDAY:
-			g_value_set_int (dst_value, 5);
+			g_value_set_int (target_value, 5);
 			break;
 		case G_DATE_SUNDAY:
-			g_value_set_int (dst_value, 6);
+			g_value_set_int (target_value, 6);
 			break;
 		default:
 			return FALSE;
@@ -151,8 +152,9 @@ transform_weekdays_gconf_to_evolution (const GValue *src_value,
 }
 
 static gboolean
-transform_weekdays_evolution_to_gconf (const GValue *src_value,
-                                       GValue *dst_value,
+transform_weekdays_evolution_to_gconf (GBinding *binding,
+                                       const GValue *source_value,
+                                       GValue *target_value,
                                        gpointer user_data)
 {
 	GDateWeekday weekday;
@@ -166,7 +168,7 @@ transform_weekdays_evolution_to_gconf (const GValue *src_value,
 	/* This is purposefully verbose for better readability. */
 
 	/* GConf numbering */
-	switch (g_value_get_int (src_value)) {
+	switch (g_value_get_int (source_value)) {
 		case 0:
 			weekday = G_DATE_MONDAY;
 			break;
@@ -195,25 +197,25 @@ transform_weekdays_evolution_to_gconf (const GValue *src_value,
 	/* Evolution numbering */
 	switch (weekday) {
 		case G_DATE_MONDAY:
-			g_value_set_int (dst_value, 1);
+			g_value_set_int (target_value, 1);
 			break;
 		case G_DATE_TUESDAY:
-			g_value_set_int (dst_value, 2);
+			g_value_set_int (target_value, 2);
 			break;
 		case G_DATE_WEDNESDAY:
-			g_value_set_int (dst_value, 3);
+			g_value_set_int (target_value, 3);
 			break;
 		case G_DATE_THURSDAY:
-			g_value_set_int (dst_value, 4);
+			g_value_set_int (target_value, 4);
 			break;
 		case G_DATE_FRIDAY:
-			g_value_set_int (dst_value, 5);
+			g_value_set_int (target_value, 5);
 			break;
 		case G_DATE_SATURDAY:
-			g_value_set_int (dst_value, 6);
+			g_value_set_int (target_value, 6);
 			break;
 		case G_DATE_SUNDAY:
-			g_value_set_int (dst_value, 0);
+			g_value_set_int (target_value, 0);
 			break;
 		default:
 			return FALSE;
@@ -234,23 +236,25 @@ enum {
 };
 
 static gboolean
-transform_working_days_bitset_to_sunday (const GValue *src_value,
-                                         GValue *dst_value,
+transform_working_days_bitset_to_sunday (GBinding *binding,
+                                         const GValue *source_value,
+                                         GValue *target_value,
                                          gpointer user_data)
 {
 	gint bitset;
 	gboolean working_day;
 
-	bitset = g_value_get_int (src_value);
+	bitset = g_value_get_int (source_value);
 	working_day = ((bitset & WORKING_DAY_SUNDAY) != 0);
-	g_value_set_boolean (dst_value, working_day);
+	g_value_set_boolean (target_value, working_day);
 
 	return TRUE;
 }
 
 static gboolean
-transform_working_days_sunday_to_bitset (const GValue *src_value,
-                                         GValue *dst_value,
+transform_working_days_sunday_to_bitset (GBinding *binding,
+                                         const GValue *source_value,
+                                         GValue *target_value,
                                          gpointer user_data)
 {
 	EShellSettings *shell_settings;
@@ -261,30 +265,32 @@ transform_working_days_sunday_to_bitset (const GValue *src_value,
 	bitset = e_shell_settings_get_int (
 		shell_settings, "cal-working-days-bitset");
 
-	bit = g_value_get_boolean (src_value) ? WORKING_DAY_SUNDAY : 0;
-	g_value_set_int (dst_value, (bitset & ~WORKING_DAY_SUNDAY) | bit);
+	bit = g_value_get_boolean (source_value) ? WORKING_DAY_SUNDAY : 0;
+	g_value_set_int (target_value, (bitset & ~WORKING_DAY_SUNDAY) | bit);
 
 	return TRUE;
 }
 
 static gboolean
-transform_working_days_bitset_to_monday (const GValue *src_value,
-                                         GValue *dst_value,
+transform_working_days_bitset_to_monday (GBinding *binding,
+                                         const GValue *source_value,
+                                         GValue *target_value,
                                          gpointer user_data)
 {
 	gint bitset;
 	gboolean working_day;
 
-	bitset = g_value_get_int (src_value);
+	bitset = g_value_get_int (source_value);
 	working_day = ((bitset & WORKING_DAY_MONDAY) != 0);
-	g_value_set_boolean (dst_value, working_day);
+	g_value_set_boolean (target_value, working_day);
 
 	return TRUE;
 }
 
 static gboolean
-transform_working_days_monday_to_bitset (const GValue *src_value,
-                                         GValue *dst_value,
+transform_working_days_monday_to_bitset (GBinding *binding,
+                                         const GValue *source_value,
+                                         GValue *target_value,
                                          gpointer user_data)
 {
 	EShellSettings *shell_settings;
@@ -295,30 +301,32 @@ transform_working_days_monday_to_bitset (const GValue *src_value,
 	bitset = e_shell_settings_get_int (
 		shell_settings, "cal-working-days-bitset");
 
-	bit = g_value_get_boolean (src_value) ? WORKING_DAY_MONDAY : 0;
-	g_value_set_int (dst_value, (bitset & ~WORKING_DAY_MONDAY) | bit);
+	bit = g_value_get_boolean (source_value) ? WORKING_DAY_MONDAY : 0;
+	g_value_set_int (target_value, (bitset & ~WORKING_DAY_MONDAY) | bit);
 
 	return TRUE;
 }
 
 static gboolean
-transform_working_days_bitset_to_tuesday (const GValue *src_value,
-                                          GValue *dst_value,
+transform_working_days_bitset_to_tuesday (GBinding *binding,
+                                          const GValue *source_value,
+                                          GValue *target_value,
                                           gpointer user_data)
 {
 	gint bitset;
 	gboolean working_day;
 
-	bitset = g_value_get_int (src_value);
+	bitset = g_value_get_int (source_value);
 	working_day = ((bitset & WORKING_DAY_TUESDAY) != 0);
-	g_value_set_boolean (dst_value, working_day);
+	g_value_set_boolean (target_value, working_day);
 
 	return TRUE;
 }
 
 static gboolean
-transform_working_days_tuesday_to_bitset (const GValue *src_value,
-                                          GValue *dst_value,
+transform_working_days_tuesday_to_bitset (GBinding *binding,
+                                          const GValue *source_value,
+                                          GValue *target_value,
                                           gpointer user_data)
 {
 	EShellSettings *shell_settings;
@@ -329,30 +337,32 @@ transform_working_days_tuesday_to_bitset (const GValue *src_value,
 	bitset = e_shell_settings_get_int (
 		shell_settings, "cal-working-days-bitset");
 
-	bit = g_value_get_boolean (src_value) ? WORKING_DAY_TUESDAY : 0;
-	g_value_set_int (dst_value, (bitset & ~WORKING_DAY_TUESDAY) | bit);
+	bit = g_value_get_boolean (source_value) ? WORKING_DAY_TUESDAY : 0;
+	g_value_set_int (target_value, (bitset & ~WORKING_DAY_TUESDAY) | bit);
 
 	return TRUE;
 }
 
 static gboolean
-transform_working_days_bitset_to_wednesday (const GValue *src_value,
-                                            GValue *dst_value,
+transform_working_days_bitset_to_wednesday (GBinding *binding,
+                                            const GValue *source_value,
+                                            GValue *target_value,
                                             gpointer user_data)
 {
 	gint bitset;
 	gboolean working_day;
 
-	bitset = g_value_get_int (src_value);
+	bitset = g_value_get_int (source_value);
 	working_day = ((bitset & WORKING_DAY_WEDNESDAY) != 0);
-	g_value_set_boolean (dst_value, working_day);
+	g_value_set_boolean (target_value, working_day);
 
 	return TRUE;
 }
 
 static gboolean
-transform_working_days_wednesday_to_bitset (const GValue *src_value,
-                                            GValue *dst_value,
+transform_working_days_wednesday_to_bitset (GBinding *binding,
+                                            const GValue *source_value,
+                                            GValue *target_value,
                                             gpointer user_data)
 {
 	EShellSettings *shell_settings;
@@ -363,30 +373,32 @@ transform_working_days_wednesday_to_bitset (const GValue *src_value,
 	bitset = e_shell_settings_get_int (
 		shell_settings, "cal-working-days-bitset");
 
-	bit = g_value_get_boolean (src_value) ? WORKING_DAY_WEDNESDAY : 0;
-	g_value_set_int (dst_value, (bitset & ~WORKING_DAY_WEDNESDAY) | bit);
+	bit = g_value_get_boolean (source_value) ? WORKING_DAY_WEDNESDAY : 0;
+	g_value_set_int (target_value, (bitset & ~WORKING_DAY_WEDNESDAY) | bit);
 
 	return TRUE;
 }
 
 static gboolean
-transform_working_days_bitset_to_thursday (const GValue *src_value,
-                                           GValue *dst_value,
+transform_working_days_bitset_to_thursday (GBinding *binding,
+                                           const GValue *source_value,
+                                           GValue *target_value,
                                            gpointer user_data)
 {
 	gint bitset;
 	gboolean working_day;
 
-	bitset = g_value_get_int (src_value);
+	bitset = g_value_get_int (source_value);
 	working_day = ((bitset & WORKING_DAY_THURSDAY) != 0);
-	g_value_set_boolean (dst_value, working_day);
+	g_value_set_boolean (target_value, working_day);
 
 	return TRUE;
 }
 
 static gboolean
-transform_working_days_thursday_to_bitset (const GValue *src_value,
-                                           GValue *dst_value,
+transform_working_days_thursday_to_bitset (GBinding *binding,
+                                           const GValue *source_value,
+                                           GValue *target_value,
                                            gpointer user_data)
 {
 	EShellSettings *shell_settings;
@@ -397,30 +409,32 @@ transform_working_days_thursday_to_bitset (const GValue *src_value,
 	bitset = e_shell_settings_get_int (
 		shell_settings, "cal-working-days-bitset");
 
-	bit = g_value_get_boolean (src_value) ? WORKING_DAY_THURSDAY : 0;
-	g_value_set_int (dst_value, (bitset & ~WORKING_DAY_THURSDAY) | bit);
+	bit = g_value_get_boolean (source_value) ? WORKING_DAY_THURSDAY : 0;
+	g_value_set_int (target_value, (bitset & ~WORKING_DAY_THURSDAY) | bit);
 
 	return TRUE;
 }
 
 static gboolean
-transform_working_days_bitset_to_friday (const GValue *src_value,
-                                         GValue *dst_value,
+transform_working_days_bitset_to_friday (GBinding *binding,
+                                         const GValue *source_value,
+                                         GValue *target_value,
                                          gpointer user_data)
 {
 	gint bitset;
 	gboolean working_day;
 
-	bitset = g_value_get_int (src_value);
+	bitset = g_value_get_int (source_value);
 	working_day = ((bitset & WORKING_DAY_FRIDAY) != 0);
-	g_value_set_boolean (dst_value, working_day);
+	g_value_set_boolean (target_value, working_day);
 
 	return TRUE;
 }
 
 static gboolean
-transform_working_days_friday_to_bitset (const GValue *src_value,
-                                         GValue *dst_value,
+transform_working_days_friday_to_bitset (GBinding *binding,
+                                         const GValue *source_value,
+                                         GValue *target_value,
                                          gpointer user_data)
 {
 	EShellSettings *shell_settings;
@@ -431,30 +445,32 @@ transform_working_days_friday_to_bitset (const GValue *src_value,
 	bitset = e_shell_settings_get_int (
 		shell_settings, "cal-working-days-bitset");
 
-	bit = g_value_get_boolean (src_value) ? WORKING_DAY_FRIDAY : 0;
-	g_value_set_int (dst_value, (bitset & ~WORKING_DAY_FRIDAY) | bit);
+	bit = g_value_get_boolean (source_value) ? WORKING_DAY_FRIDAY : 0;
+	g_value_set_int (target_value, (bitset & ~WORKING_DAY_FRIDAY) | bit);
 
 	return TRUE;
 }
 
 static gboolean
-transform_working_days_bitset_to_saturday (const GValue *src_value,
-                                           GValue *dst_value,
+transform_working_days_bitset_to_saturday (GBinding *binding,
+                                           const GValue *source_value,
+                                           GValue *target_value,
                                            gpointer user_data)
 {
 	gint bitset;
 	gboolean working_day;
 
-	bitset = g_value_get_int (src_value);
+	bitset = g_value_get_int (source_value);
 	working_day = ((bitset & WORKING_DAY_SATURDAY) != 0);
-	g_value_set_boolean (dst_value, working_day);
+	g_value_set_boolean (target_value, working_day);
 
 	return TRUE;
 }
 
 static gboolean
-transform_working_days_saturday_to_bitset (const GValue *src_value,
-                                           GValue *dst_value,
+transform_working_days_saturday_to_bitset (GBinding *binding,
+                                           const GValue *source_value,
+                                           GValue *target_value,
                                            gpointer user_data)
 {
 	EShellSettings *shell_settings;
@@ -465,8 +481,8 @@ transform_working_days_saturday_to_bitset (const GValue *src_value,
 	bitset = e_shell_settings_get_int (
 		shell_settings, "cal-working-days-bitset");
 
-	bit = g_value_get_boolean (src_value) ? WORKING_DAY_SATURDAY : 0;
-	g_value_set_int (dst_value, (bitset & ~WORKING_DAY_SATURDAY) | bit);
+	bit = g_value_get_boolean (source_value) ? WORKING_DAY_SATURDAY : 0;
+	g_value_set_int (target_value, (bitset & ~WORKING_DAY_SATURDAY) | bit);
 
 	return TRUE;
 }
@@ -602,13 +618,15 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			NULL,
 			G_PARAM_READWRITE));
 
-	e_mutual_binding_new_full (
+	g_object_bind_property_full (
 		shell_settings, "cal-timezone-string",
 		shell_settings, "cal-timezone",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
 		transform_string_to_icaltimezone,
 		transform_icaltimezone_to_string,
-		(GDestroyNotify) g_object_unref,
-		g_object_ref (shell_settings));
+		g_object_ref (shell_settings),
+		(GDestroyNotify) g_object_unref);
 
 	e_shell_settings_install_property (
 		g_param_spec_int (
@@ -620,12 +638,14 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			0,
 			G_PARAM_READWRITE));
 
-	e_mutual_binding_new_full (
+	g_object_bind_property_full (
 		shell_settings, "cal-week-start-day-gconf",
 		shell_settings, "cal-week-start-day",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
 		transform_weekdays_gconf_to_evolution,
 		transform_weekdays_evolution_to_gconf,
-		(GDestroyNotify) NULL, NULL);
+		NULL, (GDestroyNotify) NULL);
 
 	/* XXX These are my favorite.  Storing a bit array in GConf
 	 *     instead of separate boolean keys.  Brilliant move. */
@@ -638,12 +658,15 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			FALSE,
 			G_PARAM_READWRITE));
 
-	e_mutual_binding_new_full (
+	g_object_bind_property_full (
 		shell_settings, "cal-working-days-bitset",
 		shell_settings, "cal-working-days-sunday",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
 		transform_working_days_bitset_to_sunday,
 		transform_working_days_sunday_to_bitset,
-		(GDestroyNotify) NULL, shell_settings);
+		g_object_ref (shell_settings),
+		(GDestroyNotify) g_object_unref);
 
 	e_shell_settings_install_property (
 		g_param_spec_boolean (
@@ -653,12 +676,15 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			TRUE,
 			G_PARAM_READWRITE));
 
-	e_mutual_binding_new_full (
+	g_object_bind_property_full (
 		shell_settings, "cal-working-days-bitset",
 		shell_settings, "cal-working-days-monday",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
 		transform_working_days_bitset_to_monday,
 		transform_working_days_monday_to_bitset,
-		(GDestroyNotify) NULL, shell_settings);
+		g_object_ref (shell_settings),
+		(GDestroyNotify) g_object_unref);
 
 	e_shell_settings_install_property (
 		g_param_spec_boolean (
@@ -668,12 +694,15 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			TRUE,
 			G_PARAM_READWRITE));
 
-	e_mutual_binding_new_full (
+	g_object_bind_property_full (
 		shell_settings, "cal-working-days-bitset",
 		shell_settings, "cal-working-days-tuesday",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
 		transform_working_days_bitset_to_tuesday,
 		transform_working_days_tuesday_to_bitset,
-		(GDestroyNotify) NULL, shell_settings);
+		g_object_ref (shell_settings),
+		(GDestroyNotify) g_object_unref);
 
 	e_shell_settings_install_property (
 		g_param_spec_boolean (
@@ -683,12 +712,15 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			TRUE,
 			G_PARAM_READWRITE));
 
-	e_mutual_binding_new_full (
+	g_object_bind_property_full (
 		shell_settings, "cal-working-days-bitset",
 		shell_settings, "cal-working-days-wednesday",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
 		transform_working_days_bitset_to_wednesday,
 		transform_working_days_wednesday_to_bitset,
-		(GDestroyNotify) NULL, shell_settings);
+		g_object_ref (shell_settings),
+		(GDestroyNotify) g_object_unref);
 
 	e_shell_settings_install_property (
 		g_param_spec_boolean (
@@ -698,12 +730,15 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			TRUE,
 			G_PARAM_READWRITE));
 
-	e_mutual_binding_new_full (
+	g_object_bind_property_full (
 		shell_settings, "cal-working-days-bitset",
 		shell_settings, "cal-working-days-thursday",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
 		transform_working_days_bitset_to_thursday,
 		transform_working_days_thursday_to_bitset,
-		(GDestroyNotify) NULL, shell_settings);
+		g_object_ref (shell_settings),
+		(GDestroyNotify) g_object_unref);
 
 	e_shell_settings_install_property (
 		g_param_spec_boolean (
@@ -713,12 +748,15 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			TRUE,
 			G_PARAM_READWRITE));
 
-	e_mutual_binding_new_full (
+	g_object_bind_property_full (
 		shell_settings, "cal-working-days-bitset",
 		shell_settings, "cal-working-days-friday",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
 		transform_working_days_bitset_to_friday,
 		transform_working_days_friday_to_bitset,
-		(GDestroyNotify) NULL, shell_settings);
+		g_object_ref (shell_settings),
+		(GDestroyNotify) g_object_unref);
 
 	e_shell_settings_install_property (
 		g_param_spec_boolean (
@@ -728,11 +766,13 @@ e_cal_shell_backend_init_settings (EShell *shell)
 			FALSE,
 			G_PARAM_READWRITE));
 
-	e_mutual_binding_new_full (
+	g_object_bind_property_full (
 		shell_settings, "cal-working-days-bitset",
 		shell_settings, "cal-working-days-saturday",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
 		transform_working_days_bitset_to_saturday,
 		transform_working_days_saturday_to_bitset,
-		(GDestroyNotify) g_object_unref,
-		g_object_ref (shell_settings));
+		g_object_ref (shell_settings),
+		(GDestroyNotify) g_object_unref);
 }

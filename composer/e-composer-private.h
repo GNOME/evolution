@@ -37,7 +37,6 @@
 #include "e-composer-activity.h"
 #include "e-composer-header-table.h"
 #include "e-util/e-alert-sink.h"
-#include "e-util/e-binding.h"
 #include "e-util/e-charset.h"
 #include "e-util/e-extensible.h"
 #include "e-util/e-marshal.h"

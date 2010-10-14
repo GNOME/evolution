@@ -20,7 +20,6 @@
 #include <glib/gi18n-lib.h>
 
 #include <shell/e-shell.h>
-#include <e-util/e-binding.h>
 #include <e-util/e-extension.h>
 
 /* Standard GObject macros */
@@ -150,9 +149,12 @@ mailto_handler_prompt (EMailtoHandler *extension)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 12);
 	gtk_widget_show (widget);
 
-	e_mutual_binding_new_with_negation (
+	g_object_bind_property (
 		shell_settings, "mailto-handler-check",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_INVERT_BOOLEAN);
 
 	/* Direct input focus away from the checkbox. */
 	widget = gtk_dialog_get_widget_for_response (

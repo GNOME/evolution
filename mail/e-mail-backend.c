@@ -29,7 +29,6 @@
 
 #include "e-util/e-account-utils.h"
 #include "e-util/e-alert-dialog.h"
-#include "e-util/e-binding.h"
 
 #include "misc/e-account-combo-box.h"
 
@@ -465,7 +464,10 @@ mail_backend_constructed (GObject *object)
 
 	priv->session = e_mail_session_new ();
 
-	e_binding_new (shell, "online", priv->session, "online");
+	g_object_bind_property (
+		shell, "online",
+		priv->session, "online",
+		G_BINDING_SYNC_CREATE);
 
 	/* FIXME This is an evil hack that needs to die.
 	 *       Give EAccountComboBox a CamelSession property. */

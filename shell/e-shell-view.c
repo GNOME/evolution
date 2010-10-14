@@ -30,7 +30,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include "e-util/e-binding.h"
 #include "e-util/e-extensible.h"
 #include "e-util/e-file-utils.h"
 #include "e-util/e-plugin-ui.h"
@@ -655,7 +654,10 @@ shell_view_construct_searchbar (EShellView *shell_view)
 	gtk_widget_show (GTK_WIDGET (item));
 
 	action = e_shell_view_get_action (shell_view);
-	e_binding_new (action, "active", widget, "visible");
+	g_object_bind_property (
+		action, "active",
+		widget, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	gtk_toolbar_insert (GTK_TOOLBAR (main_toolbar), item, -1);
 

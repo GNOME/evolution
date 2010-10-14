@@ -27,7 +27,6 @@
 #include "mail-mt.h"
 
 #include <e-util/e-util.h>
-#include <e-util/e-binding.h>
 #include <e-util/e-account-utils.h>
 #include <e-util/e-util-private.h>
 #include <e-util/gconf-bridge.h>
@@ -1222,9 +1221,11 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 	editor->priv->notebook = widget;
 	gtk_widget_show (widget);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		editor->priv->combo_box, "active",
-		editor->priv->notebook, "page");
+		editor->priv->notebook, "page",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = gtk_vbutton_box_new ();
 	gtk_box_set_spacing (GTK_BOX (widget), 6);

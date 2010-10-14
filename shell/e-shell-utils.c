@@ -29,7 +29,6 @@
 
 #include <glib/gi18n-lib.h>
 
-#include "e-util/e-binding.h"
 #include "widgets/misc/e-import-assistant.h"
 
 /**
@@ -52,9 +51,10 @@ e_shell_configure_ui_manager (EShell *shell,
 
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell, "express-mode",
-		ui_manager, "express-mode");
+		ui_manager, "express-mode",
+		G_BINDING_SYNC_CREATE);
 }
 
 /**
@@ -77,13 +77,15 @@ e_shell_configure_web_view (EShell *shell,
 	shell_settings = e_shell_get_shell_settings (shell);
 
 #ifndef G_OS_WIN32
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "disable-printing",
-		web_view, "disable-printing");
+		web_view, "disable-printing",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "disable-save-to-disk",
-		web_view, "disable-save-to-disk");
+		web_view, "disable-save-to-disk",
+		G_BINDING_SYNC_CREATE);
 #endif
 }
 

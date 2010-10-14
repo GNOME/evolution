@@ -29,7 +29,6 @@
 
 #include <glib/gi18n.h>
 
-#include "e-util/e-binding.h"
 #include "e-util/e-extensible.h"
 #include "e-util/e-util.h"
 #include "e-util/e-alert-dialog.h"

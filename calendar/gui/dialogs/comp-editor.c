@@ -36,7 +36,6 @@
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
 #include <e-util/e-util.h>
-#include <e-util/e-binding.h>
 #include <e-util/e-alert-sink.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
@@ -1842,9 +1841,10 @@ comp_editor_init (CompEditor *editor)
 	action_group = comp_editor_get_action_group (editor, "individual");
 	action_group_2 = e_attachment_view_get_action_group (view, "editable");
 
-	e_binding_new (
+	g_object_bind_property (
 		action_group, "sensitive",
-		action_group_2, "sensitive");
+		action_group_2, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	/* Listen for attachment store changes. */
 

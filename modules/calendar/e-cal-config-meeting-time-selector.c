@@ -19,7 +19,6 @@
 #include "e-cal-config-meeting-time-selector.h"
 
 #include <shell/e-shell.h>
-#include <e-util/e-binding.h>
 #include <e-util/e-extension.h>
 #include <calendar/gui/e-meeting-time-sel.h>
 
@@ -37,17 +36,20 @@ cal_config_meeting_time_selector_constructed (GObject *object)
 	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-show-week-numbers",
-		extensible, "show-week-numbers");
+		extensible, "show-week-numbers",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-use-24-hour-format",
-		extensible, "use-24-hour-format");
+		extensible, "use-24-hour-format",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-week-start-day",
-		extensible, "week-start-day");
+		extensible, "week-start-day",
+		G_BINDING_SYNC_CREATE);
 }
 
 static void

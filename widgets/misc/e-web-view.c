@@ -28,7 +28,6 @@
 #include <camel/camel.h>
 
 #include <e-util/e-util.h>
-#include <e-util/e-binding.h>
 #include <e-util/e-extensible.h>
 #include <e-util/e-plugin-ui.h>
 
@@ -1427,9 +1426,11 @@ e_web_view_init (EWebView *web_view)
 	gtk_action_group_add_action (action_group, GTK_ACTION (popup_action));
 	g_object_unref (popup_action);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		web_view, "open-proxy",
-		popup_action, "related-action");
+		popup_action, "related-action",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	/* Support lockdown. */
 
@@ -1442,9 +1443,11 @@ e_web_view_init (EWebView *web_view)
 	gtk_action_group_add_action (action_group, GTK_ACTION (popup_action));
 	g_object_unref (popup_action);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		web_view, "print-proxy",
-		popup_action, "related-action");
+		popup_action, "related-action",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	action_group = gtk_action_group_new ("lockdown-save-to-disk");
 	gtk_action_group_set_translation_domain (action_group, domain);
@@ -1455,9 +1458,11 @@ e_web_view_init (EWebView *web_view)
 	gtk_action_group_add_action (action_group, GTK_ACTION (popup_action));
 	g_object_unref (popup_action);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		web_view, "save-as-proxy",
-		popup_action, "related-action");
+		popup_action, "related-action",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	/* Because we are loading from a hard-coded string, there is
 	 * no chance of I/O errors.  Failure here implies a malformed

@@ -31,7 +31,6 @@
 #include <glib/gi18n-lib.h>
 
 #include "e-util/e-util.h"
-#include "e-util/e-binding.h"
 #include "e-util/e-extensible.h"
 #include "widgets/misc/e-action-combo-box.h"
 #include "widgets/misc/e-hinted-entry.h"
@@ -706,27 +705,33 @@ shell_searchbar_constructed (GObject *object)
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
 
-	e_binding_new (
+	g_object_bind_property (
 		action, "sensitive",
-		widget, "secondary-icon-sensitive");
-	e_binding_new (
+		widget, "secondary-icon-sensitive",
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
 		action, "stock-id",
-		widget, "secondary-icon-stock");
-	e_binding_new (
+		widget, "secondary-icon-stock",
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
 		action, "tooltip",
-		widget, "secondary-icon-tooltip-text");
+		widget, "secondary-icon-tooltip-text",
+		G_BINDING_SYNC_CREATE);
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS (shell_window);
 
-	e_binding_new (
+	g_object_bind_property (
 		action, "sensitive",
-		widget, "primary-icon-sensitive");
-	e_binding_new (
+		widget, "primary-icon-sensitive",
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
 		action, "stock-id",
-		widget, "primary-icon-stock");
-	e_binding_new (
+		widget, "primary-icon-stock",
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
 		action, "tooltip",
-		widget, "primary-icon-tooltip-text");
+		widget, "primary-icon-tooltip-text",
+		G_BINDING_SYNC_CREATE);
 
 	widget = GTK_WIDGET (searchbar);
 	gtk_size_group_add_widget (size_group, widget);
@@ -919,9 +924,10 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	widget = gtk_hbox_new (FALSE, 3);
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 
-	e_binding_new (
+	g_object_bind_property (
 		searchbar, "filter-visible",
-		widget, "visible");
+		widget, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	box = GTK_BOX (widget);
 
@@ -933,9 +939,10 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	e_binding_new (
+	g_object_bind_property (
 		searchbar, "labels-visible",
-		widget, "visible");
+		widget, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	label = GTK_LABEL (widget);
 
@@ -952,9 +959,10 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	widget = gtk_hbox_new (FALSE, 3);
 	gtk_box_pack_start (box, widget, TRUE, TRUE, 0);
 
-	e_binding_new (
+	g_object_bind_property (
 		searchbar, "search-visible",
-		widget, "visible");
+		widget, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	box = GTK_BOX (widget);
 
@@ -964,9 +972,10 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	e_binding_new (
+	g_object_bind_property (
 		searchbar, "labels-visible",
-		widget, "visible");
+		widget, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	label = GTK_LABEL (widget);
 
@@ -1013,9 +1022,10 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	widget = gtk_hbox_new (FALSE, 3);
 	gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 
-	e_binding_new (
+	g_object_bind_property (
 		searchbar, "scope-visible",
-		widget, "visible");
+		widget, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	box = GTK_BOX (widget);
 

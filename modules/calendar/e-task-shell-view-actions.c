@@ -1119,13 +1119,15 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",
 		G_CALLBACK (action_gal_save_custom_view_cb), task_shell_view);
 
-	e_binding_new (
+	g_object_bind_property (
 		ACTION (TASK_PREVIEW), "active",
-		ACTION (TASK_VIEW_CLASSIC), "sensitive");
+		ACTION (TASK_VIEW_CLASSIC), "sensitive",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		ACTION (TASK_PREVIEW), "active",
-		ACTION (TASK_VIEW_VERTICAL), "sensitive");
+		ACTION (TASK_VIEW_VERTICAL), "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	e_web_view_set_open_proxy (web_view, ACTION (TASK_OPEN));
 	e_web_view_set_print_proxy (web_view, ACTION (TASK_PRINT));

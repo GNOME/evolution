@@ -25,7 +25,6 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 
-#include "e-util/e-binding.h"
 #include "e-util/e-selection.h"
 #include "e-util/e-ui-manager.h"
 #include "e-util/e-util.h"
@@ -858,9 +857,11 @@ e_attachment_view_init (EAttachmentView *view)
 
 	action_group = e_attachment_view_add_action_group (view, "editable");
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		view, "editable",
-		action_group, "visible");
+		action_group, "visible",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 	gtk_action_group_add_actions (
 		action_group, editable_entries,
 		G_N_ELEMENTS (editable_entries), view);

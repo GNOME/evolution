@@ -365,50 +365,62 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
 
-	e_binding_new_with_negation (
+	g_object_bind_property (
 		shell_settings, "disable-printing",
-		action_group, "visible");
+		action_group, "visible",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_INVERT_BOOLEAN);
 
 	action_group = ACTION_GROUP (LOCKDOWN_PRINT_SETUP);
 
-	e_binding_new_with_negation (
+	g_object_bind_property (
 		shell_settings, "disable-print-setup",
-		action_group, "visible");
+		action_group, "visible",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_INVERT_BOOLEAN);
 
 	action_group = ACTION_GROUP (LOCKDOWN_SAVE_TO_DISK);
 
-	e_binding_new_with_negation (
+	g_object_bind_property (
 		shell_settings, "disable-save-to-disk",
-		action_group, "visible");
+		action_group, "visible",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_INVERT_BOOLEAN);
 #endif
 
 	/* Bind GObject properties to GObject properties. */
 
 	action = ACTION (SEND_RECEIVE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell, "online",
-		action, "sensitive");
+		action, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	action = ACTION (WORK_OFFLINE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell, "online",
-		action, "visible");
+		action, "visible",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell, "network-available",
-		action, "sensitive");
+		action, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	action = ACTION (WORK_ONLINE);
 
-	e_binding_new_with_negation (
+	g_object_bind_property (
 		shell, "online",
-		action, "visible");
+		action, "visible",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_INVERT_BOOLEAN);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell, "network-available",
-		action, "sensitive");
+		action, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	/* Bind GObject properties to GConf keys. */
 

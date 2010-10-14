@@ -22,7 +22,6 @@
 #include <libedataserverui/e-name-selector.h>
 
 #include <shell/e-shell.h>
-#include <e-util/e-binding.h>
 #include <e-util/gconf-bridge.h>
 #include <misc/e-signature-combo-box.h>
 
@@ -572,13 +571,15 @@ composer_header_table_constructor (GType type,
 		priv->headers[ii]->input_widget,
 		"right-attach", 2, NULL);
 
-	e_binding_new (
+	g_object_bind_property (
 		priv->headers[ii]->input_widget, "visible",
-		priv->signature_label, "visible");
+		priv->signature_label, "visible",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		priv->headers[ii]->input_widget, "visible",
-		priv->signature_combo_box, "visible");
+		priv->signature_combo_box, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	/* Now add the signature stuff. */
 	if (!small_screen_mode) {
@@ -1052,12 +1053,14 @@ e_composer_header_table_init (EComposerHeaderTable *table)
 	 *     make the title_widget and input_widget members private. */
 	for (ii = 0; ii < E_COMPOSER_NUM_HEADERS; ii++) {
 		header = table->priv->headers[ii];
-		e_binding_new (
+		g_object_bind_property (
 			header, "visible",
-			header->title_widget, "visible");
-		e_binding_new (
+			header->title_widget, "visible",
+			G_BINDING_SYNC_CREATE);
+		g_object_bind_property (
 			header, "visible",
-			header->input_widget, "visible");
+			header->input_widget, "visible",
+			G_BINDING_SYNC_CREATE);
 	}
 }
 

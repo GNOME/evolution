@@ -19,7 +19,6 @@
 #include "e-cal-config-model.h"
 
 #include <shell/e-shell.h>
-#include <e-util/e-binding.h>
 #include <e-util/e-extension.h>
 #include <calendar/gui/e-cal-model.h>
 #include <calendar/gui/e-cal-model-tasks.h>
@@ -40,29 +39,34 @@ cal_config_model_constructed (GObject *object)
 
 	/*** ECalModel ***/
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-timezone",
-		extensible, "timezone");
+		extensible, "timezone",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-use-24-hour-format",
-		extensible, "use-24-hour-format");
+		extensible, "use-24-hour-format",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-week-start-day",
-		extensible, "week-start-day");
+		extensible, "week-start-day",
+		G_BINDING_SYNC_CREATE);
 
 	/*** ECalModelTasks ***/
 
 	if (E_IS_CAL_MODEL_TASKS (extensible)) {
 
-		e_binding_new (
+		g_object_bind_property (
 			shell_settings, "cal-tasks-color-due-today",
-			extensible, "color-due-today");
+			extensible, "color-due-today",
+			G_BINDING_SYNC_CREATE);
 
-		e_binding_new (
+		g_object_bind_property (
 			shell_settings, "cal-tasks-color-overdue",
-			extensible, "color-overdue");
+			extensible, "color-overdue",
+			G_BINDING_SYNC_CREATE);
 	}
 }
 

@@ -800,27 +800,6 @@ EAttachmentViewPrivate
 </SECTION>
 
 <SECTION>
-<FILE>e-binding</FILE>
-<TITLE>GObject Property Bindings</TITLE>
-EBinding
-EMutualBinding
-EBindingTransform
-e_binding_new
-e_binding_new_full
-e_binding_new_with_negation
-e_binding_unbind
-e_mutual_binding_new
-e_mutual_binding_new_full
-e_mutual_binding_new_with_negation
-e_mutual_binding_unbind
-e_binding_transform_color_to_string
-e_binding_transform_string_to_color
-<SUBSECTION Private>
-EBindingBase
-EBindingLink
-</SECTION>
-
-<SECTION>
 <FILE>e-bit-array</FILE>
 <TITLE>Bit Arrays (Legacy)</TITLE>
 EBitArray
@@ -1204,6 +1183,8 @@ e_file_lock_destroy
 e_file_lock_exists
 e_util_guess_mime_type
 e_util_get_category_filter_options
+e_binding_transform_color_to_string
+e_binding_transform_string_to_color
 e_charset_add_radio_actions
 e_file_replace_contents_async
 e_file_replace_contents_finish

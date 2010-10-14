@@ -274,9 +274,10 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 		memo_shell_view);
 
 	/* Keep the ECalModel in sync with the sidebar. */
-	e_binding_new (
+	g_object_bind_property (
 		shell_sidebar, "default-client",
-		model, "default-client");
+		model, "default-client",
+		G_BINDING_SYNC_CREATE);
 
 	e_memo_shell_view_actions_init (memo_shell_view);
 	e_memo_shell_view_update_sidebar (memo_shell_view);

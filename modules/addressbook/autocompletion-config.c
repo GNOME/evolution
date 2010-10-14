@@ -30,7 +30,6 @@
 #include <libedataserverui/e-source-selector.h>
 #include <libedataserverui/e-name-selector-entry.h>
 
-#include "e-util/e-binding.h"
 #include "e-util/e-datetime-format.h"
 
 static void
@@ -166,9 +165,11 @@ autocompletion_config_new (EPreferencesWindow *window)
 
 	widget = gtk_check_button_new_with_mnemonic (
 		_("Always _show address of the autocompleted contact"));
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "book-completion-show-address",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 	gtk_box_pack_start (GTK_BOX (itembox), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 

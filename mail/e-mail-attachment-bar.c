@@ -23,7 +23,6 @@
 
 #include <glib/gi18n.h>
 
-#include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 
 #include "e-attachment-store.h"
@@ -266,37 +265,53 @@ mail_attachment_bar_constructed (GObject *object)
 
 	/* Set up property-to-property bindings. */
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		object, "active-view",
-		priv->combo_box, "active");
+		priv->combo_box, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		object, "dragging",
-		priv->icon_view, "dragging");
+		priv->icon_view, "dragging",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		object, "dragging",
-		priv->tree_view, "dragging");
+		priv->tree_view, "dragging",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		object, "editable",
-		priv->icon_view, "editable");
+		priv->icon_view, "editable",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		object, "editable",
-		priv->tree_view, "editable");
+		priv->tree_view, "editable",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		object, "expanded",
-		priv->expander, "expanded");
+		priv->expander, "expanded",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		object, "expanded",
-		priv->combo_box, "visible");
+		priv->combo_box, "visible",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		object, "expanded",
-		priv->vbox, "visible");
+		priv->vbox, "visible",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	/* Set up property-to-GConf bindings. */
 

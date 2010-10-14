@@ -21,8 +21,6 @@
 
 #include "e-mail-label-action.h"
 
-#include "e-util/e-binding.h"
-
 #define E_MAIL_LABEL_ACTION_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_LABEL_ACTION, EMailLabelActionPrivate))
@@ -62,14 +60,9 @@ mail_label_action_menu_item_realize_cb (GtkWidget *menu_item)
 
 	container = widget;
 
-	/*stock_id = gtk_action_get_stock_id (action);
-	widget = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_MENU);*/
 	widget = gtk_action_create_icon (action, GTK_ICON_SIZE_MENU);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
-
-	/* XXX GtkImage calls it "stock", not "stock-id". */
-	/*e_mutual_binding_new (action, "stock-id", widget, "stock");*/
 
 	widget = gtk_label_new (NULL);
 	gtk_label_set_use_underline (GTK_LABEL (widget), TRUE);
@@ -77,7 +70,11 @@ mail_label_action_menu_item_realize_cb (GtkWidget *menu_item)
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
-	e_mutual_binding_new (action, "label", widget, "label");
+	g_object_bind_property (
+		action, "label",
+		widget, "label",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 }
 
 static GtkWidget *

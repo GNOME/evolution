@@ -31,8 +31,6 @@
 
 #include <gconf/gconf-client.h>
 
-#include <e-util/e-binding.h>
-
 #include "em-folder-properties.h"
 #include "em-config.h"
 
@@ -172,10 +170,12 @@ emfp_get_folder_item (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidg
 		switch (properties[ii]->value_type) {
 			case G_TYPE_BOOLEAN:
 				widget = gtk_check_button_new_with_label (blurb);
-				e_mutual_binding_new (
+				g_object_bind_property (
 					prop_data->object,
 					properties[ii]->name,
-					widget, "active");
+					widget, "active",
+					G_BINDING_BIDIRECTIONAL |
+					G_BINDING_SYNC_CREATE);
 				gtk_widget_show (widget);
 				gtk_table_attach (
 					GTK_TABLE (table), widget,

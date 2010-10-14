@@ -31,7 +31,6 @@
 #include <glib/gi18n-lib.h>
 
 #include "e-util/e-util.h"
-#include "e-util/e-binding.h"
 #include "widgets/misc/e-dateedit.h"
 
 #define E_MAIL_TAG_EDITOR_GET_PRIVATE(obj) \
@@ -309,7 +308,10 @@ mail_tag_editor_init (EMailTagEditor *editor)
 	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 6);
 
 	widget = e_builder_get_widget (builder, "pixmap");
-	e_binding_new (window, "icon-name", widget, "icon-name");
+	g_object_bind_property (
+		window, "icon-name",
+		widget, "icon-name",
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (builder, "message_list");
 	editor->priv->message_list = GTK_TREE_VIEW (widget);
@@ -335,15 +337,21 @@ mail_tag_editor_init (EMailTagEditor *editor)
 
 	widget = e_builder_get_widget (builder, "target_date");
 	editor->priv->target_date = E_DATE_EDIT (widget);
-	e_binding_new (
+	g_object_bind_property (
 		editor, "use-24-hour-format",
-		widget, "use-24-hour-format");
-	e_binding_new (
+		widget, "use-24-hour-format",
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
 		editor, "week-start-day",
-		widget, "week-start-day");
+		widget, "week-start-day",
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (builder, "completed");
-	e_mutual_binding_new (editor, "completed", widget, "active");
+	g_object_bind_property (
+		editor, "completed",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (builder, "clear");
 	g_signal_connect_swapped (

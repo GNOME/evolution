@@ -32,7 +32,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include "e-util/e-binding.h"
 #include "e-util/e-plugin-ui.h"
 #include "e-util/e-util-private.h"
 
@@ -210,9 +209,10 @@ task_editor_constructed (GObject *object)
 
 	priv = TASK_EDITOR_GET_PRIVATE (object);
 
-	e_binding_new (
+	g_object_bind_property (
 		object, "client",
-		priv->model, "client");
+		priv->model, "client",
+		G_BINDING_SYNC_CREATE);
 }
 
 static void

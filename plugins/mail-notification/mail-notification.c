@@ -37,7 +37,6 @@
 
 #include <time.h>
 
-#include <e-util/e-binding.h>
 #include <e-util/e-config.h>
 #include <e-util/gconf-bridge.h>
 #include <mail/em-utils.h>
@@ -640,9 +639,10 @@ get_config_widget_status (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	e_binding_new (
+	g_object_bind_property (
 		master, "active",
-		widget, "sensitive");
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	container = widget;
 
@@ -857,9 +857,10 @@ get_config_widget_sound (void)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	e_binding_new (
+	g_object_bind_property (
 		master, "active",
-		widget, "sensitive");
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	container = widget;
 

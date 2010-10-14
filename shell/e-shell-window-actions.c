@@ -1937,45 +1937,59 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 
 	g_object_set (ACTION (SEND_RECEIVE), "is-important", TRUE, NULL);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_window, "sidebar-visible",
-		ACTION (SHOW_SIDEBAR), "active");
+		ACTION (SHOW_SIDEBAR), "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_window, "switcher-visible",
-		ACTION (SHOW_SWITCHER), "active");
+		ACTION (SHOW_SWITCHER), "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_window, "taskbar-visible",
-		ACTION (SHOW_TASKBAR), "active");
+		ACTION (SHOW_TASKBAR), "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_window, "toolbar-visible",
-		ACTION (SHOW_TOOLBAR), "active");
+		ACTION (SHOW_TOOLBAR), "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		ACTION (SHOW_SIDEBAR), "active",
-		ACTION (SHOW_SWITCHER), "sensitive");
+		ACTION (SHOW_SWITCHER), "sensitive",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		ACTION (SHOW_SIDEBAR), "active",
-		ACTION (SWITCHER_STYLE_BOTH), "sensitive");
+		ACTION (SWITCHER_STYLE_BOTH), "sensitive",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		ACTION (SHOW_SIDEBAR), "active",
-		ACTION (SWITCHER_STYLE_ICONS), "sensitive");
+		ACTION (SWITCHER_STYLE_ICONS), "sensitive",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		ACTION (SHOW_SIDEBAR), "active",
-		ACTION (SWITCHER_STYLE_TEXT), "sensitive");
+		ACTION (SWITCHER_STYLE_TEXT), "sensitive",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		ACTION (SHOW_SIDEBAR), "active",
-		ACTION (SWITCHER_STYLE_USER), "sensitive");
+		ACTION (SWITCHER_STYLE_USER), "sensitive",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		ACTION (SHOW_SIDEBAR), "active",
-		ACTION (SWITCHER_MENU), "sensitive");
+		ACTION (SWITCHER_MENU), "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	/* Submitting bug reports requires bug-buddy. */
 	path = g_find_program_in_path ("bug-buddy");

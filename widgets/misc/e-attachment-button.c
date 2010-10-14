@@ -23,8 +23,6 @@
 
 #include "e-attachment-button.h"
 
-#include "e-util/e-binding.h"
-
 #define E_ATTACHMENT_BUTTON_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ATTACHMENT_BUTTON, EAttachmentButtonPrivate))
@@ -35,8 +33,8 @@ struct _EAttachmentButtonPrivate {
 	EAttachment *attachment;
 	gulong reference_handler_id;
 
-	EMutualBinding *can_show_binding;
-	EMutualBinding *shown_binding;
+	GBinding *can_show_binding;
+	GBinding *shown_binding;
 
 	GtkWidget *expand_button;
 	GtkWidget *toggle_button;
@@ -537,9 +535,11 @@ e_attachment_button_init (EAttachmentButton *button)
 	button->priv->expand_button = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		button, "expandable",
-		widget, "sensitive");
+		widget, "sensitive",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = gtk_toggle_button_new ();
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -567,9 +567,11 @@ e_attachment_button_init (EAttachmentButton *button)
 	g_object_set (renderer, "is-expander", TRUE, NULL);
 	gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		button, "expanded",
-		renderer, "is-expanded");
+		renderer, "is-expanded",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	g_object_set (renderer, "stock-size", GTK_ICON_SIZE_BUTTON, NULL);
@@ -676,11 +678,9 @@ e_attachment_button_set_attachment (EAttachmentButton *button,
 	}
 
 	if (button->priv->attachment != NULL) {
-		e_mutual_binding_unbind (
-			button->priv->can_show_binding);
+		g_object_unref (button->priv->can_show_binding);
 		button->priv->can_show_binding = NULL;
-		e_mutual_binding_unbind (
-			button->priv->shown_binding);
+		g_object_unref (button->priv->shown_binding);
 		button->priv->shown_binding = NULL;
 		g_signal_handler_disconnect (
 			button->priv->attachment,
@@ -691,17 +691,21 @@ e_attachment_button_set_attachment (EAttachmentButton *button,
 	button->priv->attachment = attachment;
 
 	if (attachment != NULL) {
-		EMutualBinding *binding;
+		GBinding *binding;
 		gulong handler_id;
 
-		binding = e_mutual_binding_new (
+		binding = g_object_bind_property (
 			attachment, "can-show",
-			button, "expandable");
+			button, "expandable",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
 		button->priv->can_show_binding = binding;
 
-		binding = e_mutual_binding_new (
+		binding = g_object_bind_property (
 			attachment, "shown",
-			button, "expanded");
+			button, "expanded",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
 		button->priv->shown_binding = binding;
 
 		handler_id = g_signal_connect_swapped (

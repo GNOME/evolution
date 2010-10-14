@@ -30,7 +30,6 @@
     <xi:include href="xml/e-account-utils.xml"/>
     <xi:include href="xml/e-alert.xml"/>
     <xi:include href="xml/e-bit-array.xml"/>
-    <xi:include href="xml/e-binding.xml"/>
     <xi:include href="xml/e-categories-config.xml"/>
     <xi:include href="xml/e-datetime-format.xml"/>
     <xi:include href="xml/e-dialog-utils.xml"/>

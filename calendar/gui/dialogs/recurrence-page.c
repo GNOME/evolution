@@ -44,7 +44,6 @@
 #include "recurrence-page.h"
 
 #include "e-util/e-util.h"
-#include "e-util/e-binding.h"
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-util-private.h"
 

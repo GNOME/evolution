@@ -22,7 +22,6 @@
 #include "e-popup-action.h"
 
 #include <glib/gi18n.h>
-#include "e-util/e-binding.h"
 
 #define E_POPUP_ACTION_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

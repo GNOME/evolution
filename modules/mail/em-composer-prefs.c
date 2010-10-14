@@ -30,7 +30,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#include "e-util/e-binding.h"
 #include "e-util/e-signature-utils.h"
 #include "e-util/gconf-bridge.h"
 
@@ -61,42 +60,9 @@ G_DEFINE_TYPE (
 	GTK_TYPE_VBOX)
 
 static gboolean
-transform_color_to_string (const GValue *src_value,
-                           GValue *dst_value,
-                           gpointer user_data)
-{
-	const GdkColor *color;
-	gchar *string;
-
-	color = g_value_get_boxed (src_value);
-	string = gdk_color_to_string (color);
-	g_value_set_string (dst_value, string);
-	g_free (string);
-
-	return TRUE;
-}
-
-static gboolean
-transform_string_to_color (const GValue *src_value,
-                           GValue *dst_value,
-                           gpointer user_data)
-{
-	GdkColor color;
-	const gchar *string;
-	gboolean success = FALSE;
-
-	string = g_value_get_string (src_value);
-	if (gdk_color_parse (string, &color)) {
-		g_value_set_boxed (dst_value, &color);
-		success = TRUE;
-	}
-
-	return success;
-}
-
-static gboolean
-transform_old_to_new_reply_style (const GValue *src_value,
-                                  GValue *dst_value,
+transform_old_to_new_reply_style (GBinding *binding,
+                                  const GValue *source_value,
+                                  GValue *target_value,
                                   gpointer user_data)
 {
 	gboolean success = TRUE;
@@ -104,21 +70,21 @@ transform_old_to_new_reply_style (const GValue *src_value,
 	/* XXX This is the kind of legacy crap we wind up
 	 *     with when we don't migrate things properly. */
 
-	switch (g_value_get_int (src_value)) {
+	switch (g_value_get_int (source_value)) {
 		case 0:  /* Quoted: 0 -> 2 */
-			g_value_set_int (dst_value, 2);
+			g_value_set_int (target_value, 2);
 			break;
 
 		case 1:  /* Do Not Quote: 1 -> 3 */
-			g_value_set_int (dst_value, 3);
+			g_value_set_int (target_value, 3);
 			break;
 
 		case 2:  /* Attach: 2 -> 0 */
-			g_value_set_int (dst_value, 0);
+			g_value_set_int (target_value, 0);
 			break;
 
 		case 3:  /* Outlook: 3 -> 1 */
-			g_value_set_int (dst_value, 1);
+			g_value_set_int (target_value, 1);
 			break;
 
 		default:
@@ -130,8 +96,9 @@ transform_old_to_new_reply_style (const GValue *src_value,
 }
 
 static gboolean
-transform_new_to_old_reply_style (const GValue *src_value,
-                                  GValue *dst_value,
+transform_new_to_old_reply_style (GBinding *binding,
+                                  const GValue *source_value,
+                                  GValue *target_value,
                                   gpointer user_data)
 {
 	gboolean success = TRUE;
@@ -139,21 +106,21 @@ transform_new_to_old_reply_style (const GValue *src_value,
 	/* XXX This is the kind of legacy crap we wind up
 	 *     with when we don't migrate things properly. */
 
-	switch (g_value_get_int (src_value)) {
+	switch (g_value_get_int (source_value)) {
 		case 0:  /* Attach: 0 -> 2 */
-			g_value_set_int (dst_value, 2);
+			g_value_set_int (target_value, 2);
 			break;
 
 		case 1:  /* Outlook: 1 -> 3 */
-			g_value_set_int (dst_value, 3);
+			g_value_set_int (target_value, 3);
 			break;
 
 		case 2:  /* Quoted: 2 -> 0 */
-			g_value_set_int (dst_value, 0);
+			g_value_set_int (target_value, 0);
 			break;
 
 		case 3:  /* Do Not Quote: 3 -> 1 */
-			g_value_set_int (dst_value, 1);
+			g_value_set_int (target_value, 1);
 			break;
 
 		default:
@@ -405,82 +372,112 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	if (e_shell_get_express_mode (shell))
 		gtk_widget_hide (widget);
 	else
-		e_mutual_binding_new (
+		g_object_bind_property (
 			shell_settings, "composer-format-html",
-			widget, "active");
+			widget, "active",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "chkPromptEmptySubject");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "composer-prompt-empty-subject",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "chkPromptBccOnly");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "composer-prompt-only-bcc",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "chkPromptPrivateListReply");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "composer-prompt-private-list-reply",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "chkPromptReplyManyRecips");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "composer-prompt-reply-many-recips",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "chkPromptListReplyTo");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "composer-prompt-list-reply-to",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "chkAutoSmileys");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "composer-magic-smileys",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "chkRequestReceipt");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "composer-request-receipt",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "chkReplyStartBottom");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "composer-reply-start-bottom",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "chkOutlookFilenames");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "composer-outlook-filenames",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "chkIgnoreListReplyTo");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "composer-ignore-list-reply-to",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "chkGroupReplyToList");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "composer-group-reply-to-list",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "chkTopSignature");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "composer-top-signature",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "chkEnableSpellChecking");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "composer-inline-spelling",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_charset_combo_box_new ();
 	container = e_builder_get_widget (prefs->builder, "hboxComposerCharset");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "composer-charset",
-		widget, "charset");
+		widget, "charset",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	/* Spell Checking */
 	widget = e_builder_get_widget (prefs->builder, "listSpellCheckLanguage");
@@ -512,28 +509,34 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_BUTTON);
 
 	widget = e_builder_get_widget (prefs->builder, "colorButtonSpellCheckColor");
-	e_mutual_binding_new_full (
+	g_object_bind_property_full (
 		shell_settings, "composer-spell-color",
 		widget, "color",
-		transform_string_to_color,
-		transform_color_to_string,
-		NULL, NULL);
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
+		e_binding_transform_string_to_color,
+		e_binding_transform_color_to_string,
+		NULL, (GDestroyNotify) NULL);
 
 	spell_setup (prefs);
 
 	/* Forwards and Replies */
 	widget = e_builder_get_widget (prefs->builder, "comboboxForwardStyle");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-forward-style",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "comboboxReplyStyle");
-	e_mutual_binding_new_full (
+	g_object_bind_property_full (
 		shell_settings, "mail-reply-style",
 		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
 		transform_old_to_new_reply_style,
 		transform_new_to_old_reply_style,
-		NULL, NULL);
+		NULL, (GDestroyNotify) NULL);
 
 	/* Signatures */
 	signature_list = e_get_signature_list ();
@@ -550,14 +553,17 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	/* Express mode does not honor this setting. */
 	if (!e_shell_get_express_mode (shell))
-		e_binding_new (
+		g_object_bind_property (
 			shell_settings, "composer-format-html",
-			widget, "prefer-html");
+			widget, "prefer-html",
+			G_BINDING_SYNC_CREATE);
 
 #ifndef G_OS_WIN32
-	e_binding_new_with_negation (
+	g_object_bind_property (
 		shell_settings, "disable-command-line",
-		widget, "allow-scripts");
+		widget, "allow-scripts",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_INVERT_BOOLEAN);
 #endif
 
 	signature_tree_view = e_signature_manager_get_tree_view (
@@ -570,14 +576,17 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	gtk_widget_show (widget);
 
 #ifndef G_OS_WIN32
-	e_binding_new_with_negation (
+	g_object_bind_property (
 		shell_settings, "disable-command-line",
-		widget, "allow-scripts");
+		widget, "allow-scripts",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_INVERT_BOOLEAN);
 #endif
 
-	e_binding_new (
+	g_object_bind_property (
 		signature_tree_view, "selected",
-		widget, "signature");
+		widget, "signature",
+		G_BINDING_SYNC_CREATE);
 
 	/* Sanitize the dialog for Express mode */
 	e_shell_hide_widgets_for_express_mode (shell, prefs->builder,

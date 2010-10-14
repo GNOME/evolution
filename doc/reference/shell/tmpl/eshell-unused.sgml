@@ -1,3 +1,31 @@
+<!-- ##### SECTION ./tmpl/e-binding.sgml:Image ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-binding.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/e-binding.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/e-binding.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-binding.sgml:Stability_Level ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-binding.sgml:Title ##### -->
+GObject Property Bindings
+
+
 <!-- ##### SECTION ./tmpl/e-shell-window.sgml.sgml.sgml.sgml:Image ##### -->
 
 
@@ -82,6 +110,28 @@ e-shell-window.sgml.sgml
 e-shell-window.sgml
 
 
+<!-- ##### STRUCT EBinding ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### USER_FUNCTION EBindingTransform ##### -->
+<para>
+
+</para>
+
+@src_value: 
+@dst_value: 
+@user_data: 
+@Returns: 
+
+<!-- ##### STRUCT EMutualBinding ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### ARG EShellSearchbar:label-visible ##### -->
 <para>
 
@@ -162,6 +212,49 @@ e-shell-window.sgml
 @activity: 
 @allow_cancel: 
 
+<!-- ##### FUNCTION e_binding_new ##### -->
+<para>
+
+</para>
+
+@src_object: 
+@src_property: 
+@dst_object: 
+@dst_property: 
+@Returns: 
+
+<!-- ##### FUNCTION e_binding_new_full ##### -->
+<para>
+
+</para>
+
+@src_object: 
+@src_property: 
+@dst_object: 
+@dst_property: 
+@transform: 
+@destroy_notify: 
+@user_data: 
+@Returns: 
+
+<!-- ##### FUNCTION e_binding_new_with_negation ##### -->
+<para>
+
+</para>
+
+@src_object: 
+@src_property: 
+@dst_object: 
+@dst_property: 
+@Returns: 
+
+<!-- ##### FUNCTION e_binding_unbind ##### -->
+<para>
+
+</para>
+
+@binding: 
+
 <!-- ##### FUNCTION e_get_user_data_dir ##### -->
 <para>
 
@@ -169,6 +262,50 @@ e-shell-window.sgml
 
 @void: 
 @Returns: 
+
+<!-- ##### FUNCTION e_mutual_binding_new ##### -->
+<para>
+
+</para>
+
+@object1: 
+@property1: 
+@object2: 
+@property2: 
+@Returns: 
+
+<!-- ##### FUNCTION e_mutual_binding_new_full ##### -->
+<para>
+
+</para>
+
+@object1: 
+@property1: 
+@object2: 
+@property2: 
+@transform: 
+@reverse_transform: 
+@destroy_notify: 
+@user_data: 
+@Returns: 
+
+<!-- ##### FUNCTION e_mutual_binding_new_with_negation ##### -->
+<para>
+
+</para>
+
+@object1: 
+@property1: 
+@object2: 
+@property2: 
+@Returns: 
+
+<!-- ##### FUNCTION e_mutual_binding_unbind ##### -->
+<para>
+
+</para>
+
+@binding: 
 
 <!-- ##### FUNCTION e_shell_content_get_search_name ##### -->
 <para>

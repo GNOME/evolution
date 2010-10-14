@@ -326,14 +326,17 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 		task_shell_view);
 
 	/* Listen for configuration changes. */
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-confirm-purge",
-		task_shell_view, "confirm-purge");
+		task_shell_view, "confirm-purge",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	/* Keep the ECalModel in sync with the sidebar. */
-	e_binding_new (
+	g_object_bind_property (
 		shell_sidebar, "default-client",
-		model, "default-client");
+		model, "default-client",
+		G_BINDING_SYNC_CREATE);
 
 	/* Hide Completed Tasks (enable/units/value) */
 	g_signal_connect_object (

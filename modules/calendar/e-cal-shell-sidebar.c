@@ -25,7 +25,6 @@
 #include <glib/gi18n.h>
 
 #include "e-util/e-alert-dialog.h"
-#include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 #include "widgets/misc/e-paned.h"
 
@@ -703,13 +702,15 @@ cal_shell_sidebar_constructed (GObject *object)
 	priv->date_navigator = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-show-week-numbers",
-		calitem, "show-week-numbers");
+		calitem, "show-week-numbers",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-week-start-day",
-		calitem, "week-start-day");
+		calitem, "week-start-day",
+		G_BINDING_SYNC_CREATE);
 
 	/* Restore widget state from the last session once
 	 * the shell view is fully initialized and visible. */

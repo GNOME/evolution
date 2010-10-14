@@ -19,7 +19,7 @@
 #include "e-mail-config-format-html.h"
 
 #include <shell/e-shell.h>
-#include <e-util/e-binding.h>
+#include <e-util/e-util.h>
 #include <e-util/e-extension.h>
 #include <mail/em-format-html.h>
 
@@ -37,27 +37,32 @@ mail_config_format_html_constructed (GObject *object)
 	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	e_binding_new_full (
+	g_object_bind_property_full (
 		shell_settings, "mail-citation-color",
 		extensible, "citation-color",
+		G_BINDING_SYNC_CREATE,
 		e_binding_transform_string_to_color,
-		NULL, NULL);
+		NULL, NULL, (GDestroyNotify) NULL);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-image-loading-policy",
-		extensible, "image-loading-policy");
+		extensible, "image-loading-policy",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-only-local-photos",
-		extensible, "only-local-photos");
+		extensible, "only-local-photos",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-show-sender-photo",
-		extensible, "show-sender-photo");
+		extensible, "show-sender-photo",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-show-real-date",
-		extensible, "show-real-date");
+		extensible, "show-real-date",
+		G_BINDING_SYNC_CREATE);
 }
 
 static void

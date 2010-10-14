@@ -41,7 +41,6 @@
 #include <table/e-cell-text.h>
 #include <table/e-cell-combo.h>
 #include <table/e-cell-date.h>
-#include <e-util/e-binding.h>
 #include <e-util/e-selection.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
@@ -444,21 +443,27 @@ task_table_constructed (GObject *object)
 		      "bg_color_column", E_CAL_MODEL_FIELD_COLOR,
 		      NULL);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		model, "timezone",
-		cell, "timezone");
+		cell, "timezone",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		model, "use-24-hour-format",
-		cell, "use-24-hour-format");
+		cell, "use-24-hour-format",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	popup_cell = e_cell_date_edit_new ();
 	e_cell_popup_set_child (E_CELL_POPUP (popup_cell), cell);
 	g_object_unref (cell);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		model, "use-24-hour-format",
-		popup_cell, "use-24-hour-format");
+		popup_cell, "use-24-hour-format",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	e_table_extras_add_cell (extras, "dateedit", popup_cell);
 	task_table->dates_cell = E_CELL_DATE_EDIT (popup_cell);

@@ -19,7 +19,6 @@
 #include "e-mail-config-web-view.h"
 
 #include <shell/e-shell.h>
-#include <e-util/e-binding.h>
 #include <e-util/e-extension.h>
 #include <misc/e-web-view.h>
 
@@ -32,21 +31,25 @@ mail_config_web_view_realize (GtkWidget *widget)
 	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-show-animated-images",
-		widget, "animate");
+		widget, "animate",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "composer-inline-spelling",
-		widget, "inline-spelling");
+		widget, "inline-spelling",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "composer-magic-links",
-		widget, "magic-links");
+		widget, "magic-links",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "composer-magic-smileys",
-		widget, "magic-smileys");
+		widget, "magic-smileys",
+		G_BINDING_SYNC_CREATE);
 }
 
 static void

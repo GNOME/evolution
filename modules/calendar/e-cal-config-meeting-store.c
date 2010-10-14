@@ -19,7 +19,6 @@
 #include "e-cal-config-meeting-store.h"
 
 #include <shell/e-shell.h>
-#include <e-util/e-binding.h>
 #include <e-util/e-extension.h>
 #include <calendar/gui/e-meeting-store.h>
 
@@ -37,13 +36,15 @@ cal_config_meeting_store_constructed (GObject *object)
 	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-free-busy-template",
-		extensible, "free-busy-template");
+		extensible, "free-busy-template",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-timezone",
-		extensible, "timezone");
+		extensible, "timezone",
+		G_BINDING_SYNC_CREATE);
 }
 
 static void

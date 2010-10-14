@@ -27,7 +27,6 @@
 
 #include "e-shell-sidebar.h"
 
-#include <e-util/e-binding.h>
 #include <e-util/e-extensible.h>
 #include <e-util/e-unicode.h>
 #include <shell/e-shell-view.h>
@@ -414,7 +413,10 @@ e_shell_sidebar_init (EShellSidebar *shell_sidebar)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	e_binding_new (shell_sidebar, "icon-name", widget, "icon-name");
+	g_object_bind_property (
+		shell_sidebar, "icon-name",
+		widget, "icon-name",
+		G_BINDING_SYNC_CREATE);
 
 	widget = gtk_label_new (NULL);
 	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
@@ -428,7 +430,10 @@ e_shell_sidebar_init (EShellSidebar *shell_sidebar)
 	gtk_label_set_attributes (GTK_LABEL (widget), attribute_list);
 	pango_attr_list_unref (attribute_list);
 
-	e_binding_new (shell_sidebar, "primary-text", widget, "label");
+	g_object_bind_property (
+		shell_sidebar, "primary-text",
+		widget, "label",
+		G_BINDING_SYNC_CREATE);
 
 	widget = gtk_label_new (NULL);
 	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
@@ -441,7 +446,10 @@ e_shell_sidebar_init (EShellSidebar *shell_sidebar)
 	gtk_label_set_attributes (GTK_LABEL (widget), attribute_list);
 	pango_attr_list_unref (attribute_list);
 
-	e_binding_new (shell_sidebar, "secondary-text", widget, "label");
+	g_object_bind_property (
+		shell_sidebar, "secondary-text",
+		widget, "label",
+		G_BINDING_SYNC_CREATE);
 }
 
 /**

@@ -391,13 +391,17 @@ e_composer_private_constructed (EMsgComposer *composer)
 				continue;
 		}
 
-		e_mutual_binding_new (
+		g_object_bind_property (
 			header, "sensitive",
-			action, "sensitive");
+			action, "sensitive",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
 
-		e_mutual_binding_new (
+		g_object_bind_property (
 			header, "visible",
-			action, "active");
+			action, "active",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
 	}
 
 	/* Install a handler for inline images. */

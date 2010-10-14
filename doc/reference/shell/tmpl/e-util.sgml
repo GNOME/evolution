@@ -335,6 +335,30 @@ Miscellaneous Utilities
 @Returns: 
 
 
+<!-- ##### FUNCTION e_binding_transform_color_to_string ##### -->
+<para>
+
+</para>
+
+@binding: 
+@source_value: 
+@target_value: 
+@user_data: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_binding_transform_string_to_color ##### -->
+<para>
+
+</para>
+
+@binding: 
+@source_value: 
+@target_value: 
+@user_data: 
+@Returns: 
+
+
 <!-- ##### FUNCTION e_charset_add_radio_actions ##### -->
 <para>
 

@@ -1494,3 +1494,64 @@ e_util_set_source_combo_box_list (GtkWidget *source_combo_box,
 	g_object_unref (gconf_client);
 }
 
+/**
+ * e_binding_transform_color_to_string:
+ * @binding: a #GBinding
+ * @source_value: a #GValue of type #GDK_TYPE_COLOR
+ * @target_value: a #GValue of type #G_TYPE_STRING
+ * @user_data: not used
+ *
+ * Transforms a #GdkColor value to a color string specification.
+ *
+ * Returns: %TRUE always
+ **/
+gboolean
+e_binding_transform_color_to_string (GBinding *binding,
+                                     const GValue *source_value,
+                                     GValue *target_value,
+                                     gpointer user_data)
+{
+	const GdkColor *color;
+	gchar *string;
+
+	g_return_val_if_fail (G_IS_BINDING (binding), FALSE);
+
+	color = g_value_get_boxed (source_value);
+	string = gdk_color_to_string (color);
+	g_value_set_string (target_value, string);
+	g_free (string);
+
+	return TRUE;
+}
+
+/**
+ * e_binding_transform_string_to_color:
+ * @binding: a #GBinding
+ * @source_value: a #GValue of type #G_TYPE_STRING
+ * @target_value: a #GValue of type #GDK_TYPE_COLOR
+ * @user_data: not used
+ *
+ * Transforms a color string specification to a #GdkColor.
+ *
+ * Returns: %TRUE if color string specification was valid
+ **/
+gboolean
+e_binding_transform_string_to_color (GBinding *binding,
+                                     const GValue *source_value,
+                                     GValue *target_value,
+                                     gpointer user_data)
+{
+	GdkColor color;
+	const gchar *string;
+	gboolean success = FALSE;
+
+	g_return_val_if_fail (G_IS_BINDING (binding), FALSE);
+
+	string = g_value_get_string (source_value);
+	if (gdk_color_parse (string, &color)) {
+		g_value_set_boxed (target_value, &color);
+		success = TRUE;
+	}
+
+	return success;
+}

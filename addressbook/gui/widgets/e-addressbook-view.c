@@ -36,7 +36,6 @@
 #include "addressbook/printing/e-contact-print.h"
 #include "ea-addressbook.h"
 
-#include "e-util/e-binding.h"
 #include "e-util/e-print.h"
 #include "e-util/e-selection.h"
 #include "e-util/e-util.h"

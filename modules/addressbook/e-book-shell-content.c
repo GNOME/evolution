@@ -23,7 +23,6 @@
 
 #include <glib/gi18n.h>
 
-#include "e-util/e-binding.h"
 #include "e-util/e-selection.h"
 #include "e-util/gconf-bridge.h"
 #include "shell/e-shell-utils.h"
@@ -245,7 +244,10 @@ book_shell_content_constructed (GObject *object)
 	priv->paned = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	e_binding_new (object, "orientation", widget, "orientation");
+	g_object_bind_property (
+		object, "orientation",
+		widget, "orientation",
+		G_BINDING_SYNC_CREATE);
 
 	container = widget;
 
@@ -277,7 +279,10 @@ book_shell_content_constructed (GObject *object)
 	priv->preview_pane = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	e_binding_new (object, "preview-visible", widget, "visible");
+	g_object_bind_property (
+		object, "preview-visible",
+		widget, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	/* Restore pane positions from the last session once
 	 * the shell view is fully initialized and visible. */

@@ -29,7 +29,6 @@
 #endif
 
 #include "e-util/e-account-utils.h"
-#include "e-util/e-binding.h"
 #include "e-util/e-charset.h"
 #include "e-util/e-util.h"
 #include "e-util/e-alert-dialog.h"
@@ -3317,9 +3316,11 @@ e_mail_reader_init (EMailReader *reader,
 	action_name = "mail-caret-mode";
 	action = e_mail_reader_get_action (reader, action_name);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		action, "active",
-		web_view, "caret-mode");
+		web_view, "caret-mode",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 connect_signals:
 

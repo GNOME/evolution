@@ -359,8 +359,12 @@ shell_window_construct_menubar (EShellWindow *shell_window)
 		gtk_container_add ((GtkContainer *)parent, child);
 		shell_window->priv->menubar_box = child;
 
-		e_mutual_binding_new (main_menu, "visible",
-				child, "visible");
+		g_object_bind_property (
+			main_menu, "visible",
+			child, "visible",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
+
 		main_menu = child;
 	}
 
@@ -392,9 +396,10 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 	box = gtk_hbox_new (FALSE, 0);
 	gtk_widget_show (box);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_window, "toolbar-visible",
-		box, "visible");
+		box, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	toolbar = e_shell_window_get_managed_widget (
 		shell_window, "/main-toolbar");
@@ -460,13 +465,15 @@ shell_window_construct_sidebar (EShellWindow *shell_window)
 	switcher = e_shell_switcher_new ();
 	shell_window->priv->switcher = g_object_ref_sink (switcher);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_window, "sidebar-visible",
-		switcher, "visible");
+		switcher, "visible",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_window, "switcher-visible",
-		switcher, "toolbar-visible");
+		switcher, "toolbar-visible",
+		G_BINDING_SYNC_CREATE);
 
 	notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), FALSE);
@@ -515,9 +522,10 @@ shell_window_construct_taskbar (EShellWindow *shell_window)
 	status_area = gtk_hbox_new (FALSE, 3);
 	gtk_container_set_border_width (GTK_CONTAINER (status_area), 3);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_window, "taskbar-visible",
-		status_area, "visible");
+		status_area, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	/* Make the status area as large as the task bar. */
 	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, NULL, &height);
@@ -528,13 +536,15 @@ shell_window_construct_taskbar (EShellWindow *shell_window)
 		GTK_BOX (status_area), online_button, FALSE, TRUE, 0);
 	gtk_widget_show (online_button);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell, "online",
-		online_button, "online");
+		online_button, "online",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell, "network-available",
-		online_button, "sensitive");
+		online_button, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	g_signal_connect (
 		online_button, "clicked",

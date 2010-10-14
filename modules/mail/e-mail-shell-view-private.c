@@ -563,9 +563,11 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 
 	/* The folder tree and scope combo box are both insensitive
 	 * when searching beyond the currently selected folder. */
-	e_mutual_binding_new (
+	g_object_bind_property (
 		folder_tree, "sensitive",
-		combo_box, "sensitive");
+		combo_box, "sensitive",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	web_view = em_format_html_get_web_view (formatter);
 
@@ -670,9 +672,11 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	e_mail_shell_view_update_search_filter (mail_shell_view);
 
 	/* This binding must come after e_mail_reader_init(). */
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_content, "group-by-threads",
-		mail_view, "group-by-threads");
+		mail_view, "group-by-threads",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	/* Populate built-in rules for search entry popup menu.
 	 * Keep the assertions, please.  If the conditions aren't

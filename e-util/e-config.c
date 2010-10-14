@@ -31,7 +31,6 @@
 #include <glib/gi18n.h>
 
 #include "e-config.h"
-#include "e-binding.h"
 
 #include <glib/gi18n.h>
 
@@ -1704,7 +1703,10 @@ ech_config_section_factory (EConfig *config,
 	/* This is why we have a custom factory for sections.
 	 * When the plugin is disabled the frame is invisible. */
 	plugin = group->hook->hook.plugin;
-	e_binding_new (plugin, "enabled", widget, "visible");
+	g_object_bind_property (
+		plugin, "enabled",
+		widget, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	parent = widget;
 

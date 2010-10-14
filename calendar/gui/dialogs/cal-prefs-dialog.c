@@ -32,7 +32,6 @@
 #include "cal-prefs-dialog.h"
 #include <widgets/misc/e-dateedit.h>
 #include "e-util/e-util.h"
-#include "e-util/e-binding.h"
 #include "e-util/e-datetime-format.h"
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-util-private.h"
@@ -637,95 +636,127 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 	e_config_add_items ((EConfig *) ec, l, NULL, NULL, eccp_free, prefs);
 
 	widget = e_builder_get_widget (prefs->builder, "use-system-tz-check");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-use-system-timezone",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 	g_signal_connect (
 		shell_settings, "notify::cal-use-system-timezone",
 		G_CALLBACK (update_system_tz_widgets), prefs);
 	g_object_notify (G_OBJECT (shell_settings), "cal-use-system-timezone");
 
 	widget = e_builder_get_widget (prefs->builder, "timezone");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-timezone",
-		widget, "timezone");
-	e_mutual_binding_new_with_negation (
+		widget, "timezone",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
 		shell_settings, "cal-use-system-timezone",
-		widget, "sensitive");
+		widget, "sensitive",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_INVERT_BOOLEAN);
 
 	/* General tab */
 	prefs->day_second_zone = e_builder_get_widget (prefs->builder, "day_second_zone");
 
 	widget = e_builder_get_widget (prefs->builder, "sun_button");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-working-days-sunday",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "mon_button");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-working-days-monday",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "tue_button");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-working-days-tuesday",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "wed_button");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-working-days-wednesday",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "thu_button");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-working-days-thursday",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "fri_button");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-working-days-friday",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "sat_button");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-working-days-saturday",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "week_start_day");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-week-start-day",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "start_of_day");
 	prefs->start_of_day = widget;  /* XXX delete this */
 	if (locale_supports_12_hour_format)
-		e_binding_new (
+		g_object_bind_property (
 			shell_settings, "cal-use-24-hour-format",
-			widget, "use-24-hour-format");
+			widget, "use-24-hour-format",
+			G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "end_of_day");
 	prefs->end_of_day = widget;  /* XXX delete this */
 	if (locale_supports_12_hour_format)
-		e_binding_new (
+		g_object_bind_property (
 			shell_settings, "cal-use-24-hour-format",
-			widget, "use-24-hour-format");
+			widget, "use-24-hour-format",
+			G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "use_12_hour");
 	gtk_widget_set_sensitive (widget, locale_supports_12_hour_format);
-	e_mutual_binding_new_with_negation (
+	g_object_bind_property (
 		shell_settings, "cal-use-24-hour-format",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_INVERT_BOOLEAN);
 
 	widget = e_builder_get_widget (prefs->builder, "use_24_hour");
 	gtk_widget_set_sensitive (widget, locale_supports_12_hour_format);
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-use-24-hour-format",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "confirm_delete");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-confirm-delete",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	prefs->default_reminder = e_builder_get_widget (prefs->builder, "default_reminder");
 	prefs->default_reminder_interval = e_builder_get_widget (prefs->builder, "default_reminder_interval");
@@ -738,34 +769,44 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 	prefs->time_divisions = e_builder_get_widget (prefs->builder, "time_divisions");
 
 	widget = e_builder_get_widget (prefs->builder, "show_end_times");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-show-event-end-times",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "compress_weekend");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-compress-weekend",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "show_week_numbers");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-show-week-numbers",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	prefs->month_scroll_by_week = e_builder_get_widget (prefs->builder, "month_scroll_by_week");
 
 	widget = e_builder_get_widget (prefs->builder, "tasks_due_today_color");
-	e_mutual_binding_new_full (
+	g_object_bind_property_full (
 		shell_settings, "cal-tasks-color-due-today",
 		widget, "color",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
 		e_binding_transform_string_to_color,
 		e_binding_transform_color_to_string,
-		(GDestroyNotify) NULL, NULL);
+		NULL, (GDestroyNotify) NULL);
 
 	widget = e_builder_get_widget (prefs->builder, "tasks_overdue_color");
-	e_mutual_binding_new_full (
+	g_object_bind_property_full (
 		shell_settings, "cal-tasks-color-overdue",
 		widget, "color",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
 		e_binding_transform_string_to_color,
 		e_binding_transform_color_to_string,
 		(GDestroyNotify) NULL, NULL);
@@ -780,9 +821,11 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 
 	/* Free/Busy tab */
 	widget = e_builder_get_widget (prefs->builder, "template_url");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-free-busy-template",
-		widget, "text");
+		widget, "text",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	/* date/time format */
 	table = e_builder_get_widget (prefs->builder, "datetime_format_table");

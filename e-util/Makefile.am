@@ -15,7 +15,6 @@ eutilinclude_HEADERS = 				\
 	e-alert-activity.h			\
 	e-alert-dialog.h			\
 	e-alert-sink.h				\
-	e-binding.h				\
 	e-bit-array.h				\
 	e-categories-config.h			\
 	e-charset.h				\
@@ -95,7 +94,6 @@ libeutil_la_SOURCES =				\
 	e-alert-activity.c			\
 	e-alert-dialog.c			\
 	e-alert-sink.c				\
-	e-binding.c				\
 	e-bit-array.c				\
 	e-categories-config.c			\
 	e-charset.c				\

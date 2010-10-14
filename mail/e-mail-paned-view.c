@@ -31,7 +31,6 @@
 #include <libedataserver/e-data-server-util.h>
 
 #include "e-util/e-util-private.h"
-#include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 #include "widgets/menus/gal-view-etable.h"
 #include "widgets/menus/gal-view-instance.h"
@@ -568,7 +567,10 @@ mail_paned_view_constructed (GObject *object)
 	priv->paned = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	e_binding_new (object, "orientation", widget, "orientation");
+	g_object_bind_property (
+		object, "orientation",
+		widget, "orientation",
+		G_BINDING_SYNC_CREATE);
 
 	container = priv->paned;
 
@@ -598,7 +600,10 @@ mail_paned_view_constructed (GObject *object)
 	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
 	gtk_widget_show (widget);
 
-	e_binding_new (object, "preview-visible", widget, "visible");
+	g_object_bind_property (
+		object, "preview-visible",
+		widget, "visible",
+		G_BINDING_SYNC_CREATE);
 
 	search_bar = e_preview_pane_get_search_bar (E_PREVIEW_PANE (widget));
 	priv->search_bar = g_object_ref (search_bar);

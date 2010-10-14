@@ -142,6 +142,18 @@ void		e_util_set_source_combo_box_list
 						(GtkWidget *source_combo_box,
 						 const gchar *source_gconf_path);
 
+/* Useful GBinding transformation functions */
+gboolean	e_binding_transform_color_to_string
+						(GBinding *binding,
+						 const GValue *source_value,
+						 GValue *target_value,
+						 gpointer user_data);
+gboolean	e_binding_transform_string_to_color
+						(GBinding *binding,
+						 const GValue *source_value,
+						 GValue *target_value,
+						 gpointer user_data);
+
 G_END_DECLS
 
 #endif /* E_UTIL_H */

@@ -33,7 +33,6 @@
 #include <glib/gi18n.h>
 
 #include <misc/e-dateedit.h>
-#include <e-util/e-binding.h>
 #include <e-util/e-plugin-ui.h>
 #include <e-util/e-util-private.h>
 #include <e-util/e-ui-manager.h>
@@ -355,7 +354,10 @@ event_editor_constructor (GType type,
 		comp_editor_append_page (editor, page, _("Free/Busy"), TRUE);
 		schedule_page_update_free_busy (priv->sched_page);
 
-		e_binding_new (action_group, "visible", comp_editor_page_get_widget (page), "visible");
+		g_object_bind_property (
+			action_group, "visible",
+			comp_editor_page_get_widget (page), "visible",
+			G_BINDING_SYNC_CREATE);
 
 		/* Alarm page */
 		alarm_page = event_page_get_alarm_page (priv->event_page);
@@ -431,9 +433,10 @@ event_editor_constructed (GObject *object)
 
 	priv = EVENT_EDITOR_GET_PRIVATE (object);
 
-	e_binding_new (
+	g_object_bind_property (
 		object, "client",
-		priv->model, "client");
+		priv->model, "client",
+		G_BINDING_SYNC_CREATE);
 }
 
 static void

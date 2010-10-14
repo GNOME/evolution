@@ -25,8 +25,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtkhtml/gtkhtml-search.h>
 
-#include "e-util/e-binding.h"
-
 /* backward-compatibility cruft */
 #include "e-util/gtk-compat.h"
 
@@ -380,9 +378,11 @@ search_bar_constructed (GObject *object)
 
 	priv = E_SEARCH_BAR_GET_PRIVATE (object);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		object, "case-sensitive",
-		priv->case_sensitive_button, "active");
+		priv->case_sensitive_button, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 }
 
 static void
@@ -584,9 +584,10 @@ e_search_bar_init (ESearchBar *search_bar)
 	search_bar->priv->entry = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	e_binding_new (
+	g_object_bind_property (
 		search_bar, "active-search",
-		widget, "secondary-icon-sensitive");
+		widget, "secondary-icon-sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	g_signal_connect_swapped (
 		widget, "activate",
@@ -610,7 +611,10 @@ e_search_bar_init (ESearchBar *search_bar)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	e_binding_new (search_bar, "active-search", widget, "sensitive");
+	g_object_bind_property (
+		search_bar, "active-search",
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	g_signal_connect_swapped (
 		widget, "clicked",
@@ -626,7 +630,10 @@ e_search_bar_init (ESearchBar *search_bar)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	e_binding_new (search_bar, "active-search", widget, "sensitive");
+	g_object_bind_property (
+		search_bar, "active-search",
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	g_signal_connect_swapped (
 		widget, "clicked",

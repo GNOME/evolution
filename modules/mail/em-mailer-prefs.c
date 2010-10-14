@@ -38,7 +38,6 @@
 #include "libedataserverui/e-cell-renderer-color.h"
 
 #include "e-util/e-util.h"
-#include "e-util/e-binding.h"
 #include "e-util/e-datetime-format.h"
 #include "e-util/e-util-private.h"
 #include "widgets/misc/e-charset-combo-box.h"
@@ -821,77 +820,106 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	/* Message Display */
 
 	widget = e_builder_get_widget (prefs->builder, "view-check");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-global-view-setting",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_charset_combo_box_new ();
 	container = e_builder_get_widget (prefs->builder, "hboxDefaultCharset");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-charset",
-		widget, "charset");
+		widget, "charset",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "chkHighlightCitations");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-mark-citations",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "colorButtonHighlightCitations");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-mark-citations",
-		widget, "sensitive");
-	e_mutual_binding_new_full (
+		widget, "sensitive",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property_full (
 		shell_settings, "mail-citation-color",
 		widget, "color",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
 		e_binding_transform_string_to_color,
 		e_binding_transform_color_to_string,
-		NULL, NULL);
+		NULL, (GDestroyNotify) NULL);
 
 	widget = e_builder_get_widget (prefs->builder, "thread-by-subject");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-thread-by-subject",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	/* Deleting Mail */
 	widget = e_builder_get_widget (prefs->builder, "chkEmptyTrashOnExit");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-empty-trash-on-exit",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "comboboxEmptyTrashDays");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-empty-trash-on-exit",
-		widget, "sensitive");
+		widget, "sensitive",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 	emmp_empty_trash_init (prefs, GTK_COMBO_BOX (widget));
 
 	widget = e_builder_get_widget (prefs->builder, "chkConfirmExpunge");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-confirm-expunge",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	/* Mail Fonts */
 	widget = e_builder_get_widget (prefs->builder, "radFontUseSame");
-	e_mutual_binding_new_with_negation (
+	g_object_bind_property (
 		shell_settings, "mail-use-custom-fonts",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_INVERT_BOOLEAN);
 
 	widget = e_builder_get_widget (prefs->builder, "FontFixed");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-font-monospace",
-		widget, "font-name");
-	e_mutual_binding_new (
+		widget, "font-name",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
 		shell_settings, "mail-use-custom-fonts",
-		widget, "sensitive");
+		widget, "sensitive",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "FontVariable");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-font-variable",
-		widget, "font-name");
-	e_mutual_binding_new (
+		widget, "font-name",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
 		shell_settings, "mail-use-custom-fonts",
-		widget, "sensitive");
+		widget, "sensitive",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	/* HTML Mail tab */
 
@@ -919,39 +947,51 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	g_signal_connect (prefs->images_always, "toggled", G_CALLBACK (http_images_changed), prefs);
 
 	widget = e_builder_get_widget (prefs->builder, "chkShowAnimatedImages");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-show-animated-images",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "chkPromptWantHTML");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-confirm-unwanted-html",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	container = e_builder_get_widget (prefs->builder, "labels-alignment");
 	widget = e_mail_label_manager_new ();
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-label-list-store",
-		widget, "list-store");
+		widget, "list-store",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	/* headers */
 	locked = !gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/headers", NULL);
 
 	widget = e_builder_get_widget (prefs->builder, "photo_show");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-show-sender-photo",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "photo_local");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-show-sender-photo",
-		widget, "sensitive");
-	e_mutual_binding_new (
+		widget, "sensitive",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
 		shell_settings, "mail-only-local-photos",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	/* always de-sensitised until the user types something in the entry */
 	prefs->add_header = GTK_BUTTON (e_builder_get_widget (prefs->builder, "cmdHeadersAdd"));
@@ -1066,25 +1106,33 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	widget = gtk_check_button_new_with_mnemonic (_("Show _original header value"));
 	gtk_widget_show (widget);
 	gtk_table_attach ((GtkTable *) table, widget, 0, 3, 2, 3, GTK_EXPAND | GTK_FILL, 0, 12, 0);
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-show-real-date",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	/* Junk prefs */
 	widget = e_builder_get_widget (prefs->builder, "chkCheckIncomingMail");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-check-for-junk",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "junk_empty_check");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-empty-junk-on-exit",
-		widget, "active");
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "junk_empty_combobox");
-	e_mutual_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-empty-junk-on-exit",
-		widget, "sensitive");
+		widget, "sensitive",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 	emmp_empty_junk_init (prefs, GTK_COMBO_BOX (widget));
 
 	prefs->default_junk_plugin = GTK_COMBO_BOX (e_builder_get_widget (prefs->builder, "default_junk_plugin"));

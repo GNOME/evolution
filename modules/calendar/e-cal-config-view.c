@@ -19,7 +19,6 @@
 #include "e-cal-config-view.h"
 
 #include <shell/e-shell.h>
-#include <e-util/e-binding.h>
 #include <e-util/e-extension.h>
 #include <calendar/gui/e-day-view.h>
 #include <calendar/gui/e-week-view.h>
@@ -42,58 +41,70 @@ cal_config_view_constructed (GObject *object)
 
 	if (E_IS_DAY_VIEW (extensible)) {
 
-		e_binding_new (
+		g_object_bind_property (
 			shell_settings, "cal-show-week-numbers",
-			E_DAY_VIEW (extensible)->week_number_label, "visible");
+			E_DAY_VIEW (extensible)->week_number_label, "visible",
+			G_BINDING_SYNC_CREATE);
 
-		e_binding_new (
+		g_object_bind_property (
 			shell_settings, "cal-marcus-bains-show-line",
-			extensible, "marcus-bains-show-line");
+			extensible, "marcus-bains-show-line",
+			G_BINDING_SYNC_CREATE);
 
-		e_binding_new (
+		g_object_bind_property (
 			shell_settings, "cal-marcus-bains-day-view-color",
-			extensible, "marcus-bains-day-view-color");
+			extensible, "marcus-bains-day-view-color",
+			G_BINDING_SYNC_CREATE);
 
-		e_binding_new (
+		g_object_bind_property (
 			shell_settings, "cal-marcus-bains-time-bar-color",
-			extensible, "marcus-bains-time-bar-color");
+			extensible, "marcus-bains-time-bar-color",
+			G_BINDING_SYNC_CREATE);
 
-		e_binding_new (
+		g_object_bind_property (
 			shell_settings, "cal-time-divisions",
-			extensible, "mins-per-row");
+			extensible, "mins-per-row",
+			G_BINDING_SYNC_CREATE);
 
-		e_binding_new (
+		g_object_bind_property (
 			shell_settings, "cal-work-day-end-hour",
-			extensible, "work-day-end-hour");
+			extensible, "work-day-end-hour",
+			G_BINDING_SYNC_CREATE);
 
-		e_binding_new (
+		g_object_bind_property (
 			shell_settings, "cal-work-day-end-minute",
-			extensible, "work-day-end-minute");
+			extensible, "work-day-end-minute",
+			G_BINDING_SYNC_CREATE);
 
-		e_binding_new (
+		g_object_bind_property (
 			shell_settings, "cal-work-day-start-hour",
-			extensible, "work-day-start-hour");
+			extensible, "work-day-start-hour",
+			G_BINDING_SYNC_CREATE);
 
-		e_binding_new (
+		g_object_bind_property (
 			shell_settings, "cal-work-day-start-minute",
-			extensible, "work-day-start-minute");
+			extensible, "work-day-start-minute",
+			G_BINDING_SYNC_CREATE);
 
-		e_binding_new (
+		g_object_bind_property (
 			shell_settings, "cal-working-days-bitset",
-			extensible, "working-days");
+			extensible, "working-days",
+			G_BINDING_SYNC_CREATE);
 	}
 
 	/*** EWeekView ***/
 
 	if (E_IS_WEEK_VIEW (extensible)) {
 
-		e_binding_new (
+		g_object_bind_property (
 			shell_settings, "cal-compress-weekend",
-			extensible, "compress-weekend");
+			extensible, "compress-weekend",
+			G_BINDING_SYNC_CREATE);
 
-		e_binding_new (
+		g_object_bind_property (
 			shell_settings, "cal-show-event-end-times",
-			extensible, "show-event-end-times");
+			extensible, "show-event-end-times",
+			G_BINDING_SYNC_CREATE);
 	}
 }
 

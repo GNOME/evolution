@@ -24,7 +24,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 #include "widgets/menus/gal-view-etable.h"
 #include "widgets/misc/e-paned.h"
@@ -413,9 +412,10 @@ cal_shell_content_constructed (GObject *object)
 		gtk_widget_show (GTK_WIDGET (calendar_view));
 	}
 
-	e_binding_new (
+	g_object_bind_property (
 		priv->calendar, "view",
-		priv->notebook, "page");
+		priv->notebook, "page",
+		G_BINDING_SYNC_CREATE);
 
 	container = priv->vpaned;
 

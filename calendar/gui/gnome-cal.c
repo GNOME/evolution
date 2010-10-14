@@ -44,7 +44,6 @@
 #include <widgets/menus/gal-view-factory-etable.h>
 #include <widgets/menus/gal-view-etable.h>
 #include <widgets/menus/gal-define-views-dialog.h>
-#include "e-util/e-binding.h"
 #include "e-util/e-util.h"
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"

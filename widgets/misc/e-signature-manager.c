@@ -24,7 +24,6 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
-#include "e-util/e-binding.h"
 #include "e-signature-tree-view.h"
 #include "e-signature-script-dialog.h"
 
@@ -535,9 +534,11 @@ e_signature_manager_init (ESignatureManager *manager)
 	manager->priv->tree_view = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	e_mutual_binding_new (
+	g_object_bind_property (
 		manager, "signature-list",
-		widget, "signature-list");
+		widget, "signature-list",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	g_signal_connect_swapped (
 		widget, "key-press-event",
@@ -587,9 +588,10 @@ e_signature_manager_init (ESignatureManager *manager)
 	manager->priv->add_script_button = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	e_binding_new (
+	g_object_bind_property (
 		manager, "allow-scripts",
-		widget, "sensitive");
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	g_signal_connect_swapped (
 		widget, "clicked",

@@ -669,14 +669,17 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	e_cal_shell_view_update_timezone (cal_shell_view);
 
 	/* Keep the ECalModel in sync with the sidebar. */
-	e_binding_new (
+	g_object_bind_property (
 		shell_sidebar, "default-client",
-		model, "default-client");
+		model, "default-client",
+		G_BINDING_SYNC_CREATE);
 
 	/* Keep the toolbar view buttons in sync with the calendar. */
-	e_mutual_binding_new (
+	g_object_bind_property (
 		calendar, "view",
-		ACTION (CALENDAR_VIEW_DAY), "current-value");
+		ACTION (CALENDAR_VIEW_DAY), "current-value",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	/* Force the main calendar to update its default source. */
 	g_signal_emit_by_name (selector, "primary-selection-changed");

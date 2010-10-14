@@ -61,7 +61,6 @@
 #include <libedataserver/e-proxy.h>
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
-#include "e-util/e-binding.h"
 #include "e-util/e-mktemp.h"
 #include "e-util/e-account-utils.h"
 #include "e-util/e-dialog-utils.h"
@@ -394,12 +393,14 @@ em_utils_flag_for_followup (EMailReader *reader,
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	/* These settings come from the calendar module. */
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "cal-use-24-hour-format",
-		editor, "use-24-hour-format");
-	e_binding_new (
+		editor, "use-24-hour-format",
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
 		shell_settings, "cal-week-start-day",
-		editor, "week-start-day");
+		editor, "week-start-day",
+		G_BINDING_SYNC_CREATE);
 
 	for (i = 0; i < uids->len; i++) {
 		CamelMessageInfo *info;

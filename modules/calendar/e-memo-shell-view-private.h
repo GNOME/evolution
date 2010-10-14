@@ -29,7 +29,6 @@
 #include <libedataserver/e-categories.h>
 #include <libedataserver/e-sexp.h>
 
-#include "e-util/e-binding.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-file-utils.h"
 #include "e-util/e-util.h"

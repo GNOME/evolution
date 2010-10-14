@@ -32,7 +32,6 @@
 #include <glib/gi18n.h>
 #include <libedataserver/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
-#include "e-util/e-binding.h"
 #include "widgets/misc/e-dateedit.h"
 #include "../calendar-config.h"
 #include "../itip-utils.h"

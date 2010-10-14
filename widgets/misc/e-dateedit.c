@@ -40,7 +40,6 @@
 #include <libedataserver/e-time-utils.h>
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
-#include <e-util/e-binding.h>
 #include <e-util/e-extensible.h>
 #include "e-calendar.h"
 
@@ -684,9 +683,10 @@ create_children			(EDateEdit	*dedit)
 	gtk_container_add (GTK_CONTAINER (bbox), priv->none_button);
 	g_signal_connect (priv->none_button, "clicked",
 			  G_CALLBACK (on_date_popup_none_button_clicked), dedit);
-	e_binding_new (
+	g_object_bind_property (
 		dedit, "allow-no-date-set",
-		priv->none_button, "visible");
+		priv->none_button, "visible",
+		G_BINDING_SYNC_CREATE);
 }
 
 /* GtkWidget::mnemonic_activate() handler for the EDateEdit */

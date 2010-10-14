@@ -21,8 +21,6 @@
 
 #include "e-mail-shell-sidebar.h"
 
-#include "e-util/e-binding.h"
-
 #include "mail/e-mail-backend.h"
 #include "mail/e-mail-sidebar.h"
 #include "mail/em-folder-utils.h"
@@ -165,13 +163,15 @@ mail_shell_sidebar_constructed (GObject *object)
 	mail_shell_sidebar->priv->folder_tree = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_view, "state-key-file",
-		widget, "key-file");
+		widget, "key-file",
+		G_BINDING_SYNC_CREATE);
 
-	e_binding_new (
+	g_object_bind_property (
 		shell_settings, "mail-side-bar-search",
-		widget, "enable-search");
+		widget, "enable-search",
+		G_BINDING_SYNC_CREATE);
 
 	g_signal_connect_swapped (
 		widget, "key-file-changed",
