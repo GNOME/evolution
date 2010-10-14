@@ -77,7 +77,7 @@ DOC_FIGURES =  \
 	figures/stock_search.png 		\
 	figures/ver_view_a.png
 
-DOC_LINGUAS = cs de el en_GB es eu fr gl oc ru sv mk zh_CN
+DOC_LINGUAS = cs de el en_GB es eu fr gl oc ru sl sv mk zh_CN
 
 check:
 	xmllint --valid --noout $(top_srcdir)/help/C/evolution.xml
