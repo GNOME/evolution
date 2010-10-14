@@ -75,9 +75,8 @@ struct _GnomeCanvasShapePriv {
 
 	guint fill_set : 1;		/* Is fill color set? */
 	guint outline_set : 1;		/* Is outline color set? */
-	guint width_pixels : 1;		/* Is outline width specified in pixels or units? */
 
-	gdouble width;			/* Width of outline, in user coords */
+	gdouble line_width;		/* Width of outline, in user coords */
 
 	guint32 fill_rgba;		/* Fill color, RGBA */
 	guint32 outline_rgba;		/* Outline color, RGBA */

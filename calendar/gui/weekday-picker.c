@@ -173,7 +173,7 @@ configure_items (WeekdayPicker *wp)
 				       "y1", (double) 0,
 				       "x2", (double) ((i + 1) * box_width),
 				       "y2", (double) (height - 1),
-				       "width_pixels", 0,
+				       "line_width", 0.0,
 				       NULL);
 
 		c = get_day_text (day);
