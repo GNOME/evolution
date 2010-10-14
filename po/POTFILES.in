@@ -179,6 +179,7 @@ filter/filter.error.xml
 mail/e-mail-attachment-bar.c
 mail/e-mail-browser.c
 mail/e-mail-display.c
+mail/e-mail-folder-utils.c
 mail/e-mail-label-dialog.c
 mail/e-mail-label-list-store.c
 mail/e-mail-label-manager.c
@@ -188,6 +189,8 @@ mail/e-mail-migrate.c
 mail/e-mail-notebook-view.c
 mail/e-mail-reader-utils.c
 mail/e-mail-reader.c
+mail/e-mail-session.c
+mail/e-mail-session-utils.c
 mail/e-mail-store.c
 mail/e-mail-tag-editor.c
 mail/em-account-editor.c
@@ -225,7 +228,6 @@ mail/mail-folder-cache.c
 mail/mail-mt.c
 mail/mail-ops.c
 mail/mail-send-recv.c
-mail/mail-session.c
 mail/mail-tools.c
 mail/mail-vfolder.c
 mail/mail.error.xml
@@ -446,6 +448,7 @@ widgets/misc/e-account-manager.c
 widgets/misc/e-account-tree-view.c
 widgets/misc/e-action-combo-box.c
 widgets/misc/e-activity-proxy.c
+widgets/misc/e-alert-bar.c
 widgets/misc/e-attachment-dialog.c
 widgets/misc/e-attachment-handler-image.c
 widgets/misc/e-attachment-handler-sendto.c
