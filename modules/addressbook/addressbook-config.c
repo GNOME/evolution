@@ -544,7 +544,14 @@ eabc_general_type (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 static void
 name_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
 {
-	e_source_set_name (sdialog->source, gtk_entry_get_text (GTK_ENTRY (sdialog->display_name)));
+	const gchar *text;
+	gchar *stripped_name;
+
+	text = gtk_entry_get_text (GTK_ENTRY (sdialog->display_name));
+
+	stripped_name = g_strstrip (g_strdup (text));
+	e_source_set_name (sdialog->source, stripped_name);
+	g_free (stripped_name);
 }
 
 static GtkWidget *
