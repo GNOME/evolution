@@ -1156,7 +1156,7 @@ e_day_view_init (EDayView *day_view)
 	day_view->drag_long_event_rect_item =
 		gnome_canvas_item_new (canvas_group,
 				       gnome_canvas_rect_get_type (),
-				       "width_pixels", 1,
+				       "line_width", 1.0,
 				       NULL);
 	gnome_canvas_item_hide (day_view->drag_long_event_rect_item);
 
@@ -1229,14 +1229,14 @@ e_day_view_init (EDayView *day_view)
 	day_view->drag_rect_item =
 		gnome_canvas_item_new (canvas_group,
 				       gnome_canvas_rect_get_type (),
-				       "width_pixels", 1,
+				       "line_width", 1.0,
 				       NULL);
 	gnome_canvas_item_hide (day_view->drag_rect_item);
 
 	day_view->drag_bar_item =
 		gnome_canvas_item_new (canvas_group,
 				       gnome_canvas_rect_get_type (),
-				       "width_pixels", 1,
+				       "line_width", 1.0,
 				       NULL);
 	gnome_canvas_item_hide (day_view->drag_bar_item);
 

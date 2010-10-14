@@ -49,8 +49,7 @@ enum {
 	PROP_OUTLINE_COLOR,
 	PROP_OUTLINE_COLOR_GDK,
 	PROP_OUTLINE_COLOR_RGBA,
-	PROP_WIDTH_PIXELS,
-	PROP_WIDTH_UNITS,
+	PROP_LINE_WIDTH,
 	PROP_CAP_STYLE,
 	PROP_JOIN_STYLE,
 	PROP_WIND,
@@ -135,14 +134,9 @@ gnome_canvas_shape_class_init (GnomeCanvasShapeClass *class)
                                                             0, G_MAXUINT, 0,
                                                             (G_PARAM_READABLE | G_PARAM_WRITABLE)));
         g_object_class_install_property (gobject_class,
-                                         PROP_WIDTH_PIXELS,
-                                         g_param_spec_uint ("width_pixels", NULL, NULL,
-                                                            0, G_MAXUINT, 0,
-                                                            (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property (gobject_class,
-                                         PROP_WIDTH_UNITS,
-                                         g_param_spec_double ("width_units", NULL, NULL,
-                                                              0.0, G_MAXDOUBLE, 0.0,
+                                         PROP_LINE_WIDTH,
+                                         g_param_spec_double ("line_width", NULL, NULL,
+                                                              0.0, G_MAXDOUBLE, 1.0,
                                                               (G_PARAM_READABLE | G_PARAM_WRITABLE)));
         g_object_class_install_property (gobject_class,
                                          PROP_CAP_STYLE,
@@ -195,9 +189,8 @@ gnome_canvas_shape_init (GnomeCanvasShape *shape)
 
 	shape->priv->fill_set = FALSE;
 	shape->priv->outline_set = FALSE;
-	shape->priv->width_pixels = FALSE;
 
-	shape->priv->width = 1.0;
+	shape->priv->line_width = 1.0;
 
 	shape->priv->fill_rgba = 0x0000003f;
 	shape->priv->outline_rgba = 0x0000007f;
@@ -373,16 +366,8 @@ gnome_canvas_shape_set_property (GObject      *object,
 		gnome_canvas_item_request_update (item);
 		break;
 
-	case PROP_WIDTH_PIXELS:
-		priv->width = g_value_get_uint (value);
-		priv->width_pixels = TRUE;
-
-		gnome_canvas_item_request_update (item);
-		break;
-
-	case PROP_WIDTH_UNITS:
-		priv->width = fabs (g_value_get_double (value));
-		priv->width_pixels = FALSE;
+	case PROP_LINE_WIDTH:
+		priv->line_width = g_value_get_double (value);
 
 		gnome_canvas_item_request_update (item);
 		break;
@@ -524,12 +509,8 @@ gnome_canvas_shape_get_property (GObject     *object,
 		g_value_set_enum (value, priv->join);
 		break;
 
-	case PROP_WIDTH_PIXELS:
-		g_value_set_uint (value, priv->width);
-		break;
-
-	case PROP_WIDTH_UNITS:
-		g_value_set_double (value, priv->width);
+	case PROP_LINE_WIDTH:
+		g_value_set_double (value, priv->line_width);
 		break;
 
 	case PROP_MITERLIMIT:
@@ -729,21 +710,12 @@ gnome_canvas_shape_update_gdk (GnomeCanvasShape * shape, gdouble * affine, ArtSV
 	if (priv->outline_set) {
 		GdkLineStyle style;
 
-		if (priv->width_pixels) {
-			width = (gint) floor (priv->width + 0.5);
-			/* Never select 0 pixels unless the user asked for it,
-			 * since that is the X11 zero width lines are non-specified */
-			if (priv->width_pixels != 0 && width == 0) {
-				width = 1;
-			}
-		} else {
-			width = (gint) floor ((priv->width * priv->scale) + 0.5);
-			/* Never select 0 pixels unless the user asked for it,
-			 * since that is the X11 zero width lines are non-speciifed */
-			if (priv->width != 0 && width == 0) {
-				width = 1;
-			}
-		}
+                width = (gint) floor ((priv->line_width * priv->scale) + 0.5);
+                /* Never select 0 pixels unless the user asked for it,
+                 * since that is the X11 zero width lines are non-speciifed */
+                if (priv->line_width != 0 && width == 0) {
+                        width = 1;
+                }
 
 		/* If dashed, set it in GdkGC */
 
@@ -1006,11 +978,7 @@ gnome_canvas_shape_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_
 
 		/* Set linewidth */
 
-		if (priv->width_pixels) {
-			width = priv->width;
-		} else {
-			width = priv->width * priv->scale;
-		}
+		width = priv->line_width * priv->scale;
 
 		if (width < 0.5) width = 0.5;
 
@@ -1300,11 +1268,7 @@ gnome_canvas_shape_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdou
 
 		/* Set linewidth */
 
-		if (priv->width_pixels) {
-			width = priv->width;
-		} else {
-			width = priv->width * priv->scale;
-		}
+		width = priv->line_width * priv->scale;
 
 		if (width < 0.5) width = 0.5;
 
