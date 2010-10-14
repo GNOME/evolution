@@ -24,6 +24,7 @@
 
 struct _EComposerActivityPrivate {
 	EMsgComposer *composer;
+	gboolean saved_editable;
 };
 
 enum {
@@ -37,13 +38,40 @@ G_DEFINE_TYPE (
 	E_TYPE_ACTIVITY)
 
 static void
-composer_activity_set_sensitive (EMsgComposer *composer,
-                                 gboolean sensitive)
+composer_activity_lock_interface (EComposerActivity *activity)
 {
 	GtkActionGroup *action_group;
+	EMsgComposer *composer;
+	EWebView *web_view;
+	gboolean editable;
+
+	composer = e_composer_activity_get_composer (activity);
+
+	web_view = e_msg_composer_get_web_view (composer);
+	editable = e_web_view_get_editable (web_view);
+	e_web_view_set_editable (web_view, FALSE);
+	activity->priv->saved_editable = editable;
 
 	action_group = composer->priv->async_actions;
-	gtk_action_group_set_sensitive (action_group, sensitive);
+	gtk_action_group_set_sensitive (action_group, FALSE);
+}
+
+static void
+composer_activity_unlock_interface (EComposerActivity *activity)
+{
+	GtkActionGroup *action_group;
+	EMsgComposer *composer;
+	EWebView *web_view;
+	gboolean editable;
+
+	composer = e_composer_activity_get_composer (activity);
+
+	editable = activity->priv->saved_editable;
+	web_view = e_msg_composer_get_web_view (composer);
+	e_web_view_set_editable (web_view, editable);
+
+	action_group = composer->priv->async_actions;
+	gtk_action_group_set_sensitive (action_group, TRUE);
 }
 
 static void
@@ -55,7 +83,7 @@ composer_activity_set_composer (EComposerActivity *activity,
 
 	activity->priv->composer = g_object_ref (composer);
 
-	composer_activity_set_sensitive (composer, FALSE);
+	composer_activity_lock_interface (activity);
 }
 
 static void
@@ -95,14 +123,14 @@ composer_activity_get_property (GObject *object,
 static void
 composer_activity_dispose (GObject *object)
 {
-	EComposerActivityPrivate *priv;
+	EComposerActivity *activity;
 
-	priv = E_COMPOSER_ACTIVITY_GET_PRIVATE (object);
+	activity = E_COMPOSER_ACTIVITY (object);
 
-	if (priv->composer != NULL) {
-		composer_activity_set_sensitive (priv->composer, TRUE);
-		g_object_unref (priv->composer);
-		priv->composer = NULL;
+	if (activity->priv->composer != NULL) {
+		composer_activity_unlock_interface (activity);
+		g_object_unref (activity->priv->composer);
+		activity->priv->composer = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */

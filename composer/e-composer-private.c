@@ -128,8 +128,9 @@ void
 e_composer_private_constructed (EMsgComposer *composer)
 {
 	EMsgComposerPrivate *priv = composer->priv;
-	EShell *shell;
 	EFocusTracker *focus_tracker;
+	EShell *shell;
+	EWebView *web_view;
 	GtkhtmlEditor *editor;
 	GtkUIManager *ui_manager;
 	GtkAction *action;
@@ -137,7 +138,6 @@ e_composer_private_constructed (EMsgComposer *composer)
 	GtkWidget *widget;
 	GtkWidget *send_widget;
 	GtkWindow *window;
-	GtkHTML *html;
 	const gchar *path;
 	gboolean small_screen_mode;
 	gchar *filename;
@@ -145,10 +145,10 @@ e_composer_private_constructed (EMsgComposer *composer)
 	GError *error = NULL;
 
 	editor = GTKHTML_EDITOR (composer);
-	html = gtkhtml_editor_get_html (editor);
 	ui_manager = gtkhtml_editor_get_ui_manager (editor);
 
 	shell = e_msg_composer_get_shell (composer);
+	web_view = e_msg_composer_get_web_view (composer);
 	small_screen_mode = e_shell_get_small_screen_mode (shell);
 
 	if (small_screen_mode) {
@@ -294,6 +294,11 @@ e_composer_private_constructed (EMsgComposer *composer)
 	priv->attachment_paned = g_object_ref (widget);
 	gtk_widget_show (widget);
 
+	g_object_bind_property (
+		web_view, "editable",
+		widget, "editable",
+		G_BINDING_SYNC_CREATE);
+
 	if (small_screen_mode) {
 		GtkWidget *tmp, *tmp1, *tmp_box, *container;
 		GtkWidget *combo;
@@ -354,7 +359,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	/* Reparent the scrolled window containing the GtkHTML widget
 	 * into the content area of the top attachment pane. */
 
-	widget = GTK_WIDGET (gtkhtml_editor_get_html (editor));
+	widget = GTK_WIDGET (web_view);
 	widget = gtk_widget_get_parent (widget);
 	container = e_attachment_paned_get_content_area (
 		E_ATTACHMENT_PANED (priv->attachment_paned));
@@ -416,7 +421,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	 *     switch to WebKit.  --mbarnes */
 
 	g_signal_connect (
-		html, "url-requested",
+		web_view, "url-requested",
 		G_CALLBACK (msg_composer_url_requested_cb), composer);
 }
 

@@ -401,11 +401,15 @@ e_composer_actions_init (EMsgComposer *composer)
 {
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
+	GtkhtmlEditor *editor;
+	EWebView *web_view;
 	gboolean visible;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	ui_manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (composer));
+	editor = GTKHTML_EDITOR (composer);
+	web_view = e_msg_composer_get_web_view (composer);
+	ui_manager = gtkhtml_editor_get_ui_manager (editor);
 
 	/* Composer Actions */
 	action_group = composer->priv->composer_actions;
@@ -444,6 +448,21 @@ e_composer_actions_init (EMsgComposer *composer)
 
 	g_object_set (
 		ACTION (SAVE_DRAFT), "short-label", _("Save Draft"), NULL);
+
+	g_object_bind_property (
+		web_view, "editable",
+		GTKHTML_EDITOR_ACTION_EDIT_MENU (editor), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		web_view, "editable",
+		GTKHTML_EDITOR_ACTION_FORMAT_MENU (editor), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		web_view, "editable",
+		GTKHTML_EDITOR_ACTION_INSERT_MENU (editor), "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 #if defined (HAVE_NSS)
 	visible = TRUE;

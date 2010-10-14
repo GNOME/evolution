@@ -451,7 +451,7 @@ gboolean
 e_plugin_ui_init (GtkUIManager *manager, EMsgComposer *composer)
 {
 	GtkhtmlEditor *editor;
-	GtkHTML *html;
+	EWebView *web_view;
 
 	editor = GTKHTML_EDITOR (composer);
 
@@ -460,13 +460,15 @@ e_plugin_ui_init (GtkUIManager *manager, EMsgComposer *composer)
 		gtkhtml_editor_get_action_group (editor, "composer"),
 		entries, G_N_ELEMENTS (entries), composer);
 
-	html = gtkhtml_editor_get_html (editor);
+	web_view = e_msg_composer_get_web_view (composer);
 
-	g_signal_connect (G_OBJECT(html), "key_press_event",
-			  G_CALLBACK (key_press_cb), composer);
+	g_signal_connect (
+		web_view, "key_press_event",
+		G_CALLBACK (key_press_cb), composer);
 
-	g_signal_connect (G_OBJECT(composer), "delete-event",
-			  G_CALLBACK (delete_cb), composer);
+	g_signal_connect (
+		web_view, "delete-event",
+		G_CALLBACK (delete_cb), composer);
 
 	return TRUE;
 }

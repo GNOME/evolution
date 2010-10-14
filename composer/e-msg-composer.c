@@ -1981,9 +1981,9 @@ msg_composer_constructed (GObject *object)
 	EAttachmentView *view;
 	EAttachmentStore *store;
 	EComposerHeaderTable *table;
+	EWebView *web_view;
 	GtkUIManager *ui_manager;
 	GtkToggleAction *action;
-	GtkHTML *html;
 	GArray *array;
 	const gchar *id;
 	gboolean active;
@@ -2002,7 +2002,7 @@ msg_composer_constructed (GObject *object)
 
 	e_composer_private_constructed (composer);
 
-	html = gtkhtml_editor_get_html (editor);
+	web_view = e_msg_composer_get_web_view (composer);
 	ui_manager = gtkhtml_editor_get_ui_manager (editor);
 	view = e_msg_composer_get_attachment_view (composer);
 	table = E_COMPOSER_HEADER_TABLE (composer->priv->header_table);
@@ -2051,21 +2051,21 @@ msg_composer_constructed (GObject *object)
 	/* Clipboard Support */
 
 	g_signal_connect (
-		html, "paste-clipboard",
+		web_view, "paste-clipboard",
 		G_CALLBACK (msg_composer_paste_clipboard_cb), composer);
 
 	/* Drag-and-Drop Support */
 
 	g_signal_connect (
-		html, "realize",
+		web_view, "realize",
 		G_CALLBACK (msg_composer_realize_gtkhtml_cb), composer);
 
 	g_signal_connect (
-		html, "drag-motion",
+		web_view, "drag-motion",
 		G_CALLBACK (msg_composer_drag_motion_cb), composer);
 
 	g_signal_connect (
-		html, "drag-data-received",
+		web_view, "drag-data-received",
 		G_CALLBACK (msg_composer_drag_data_received_cb), composer);
 
 	/* Configure Headers */
@@ -2193,10 +2193,11 @@ msg_composer_key_press_event (GtkWidget *widget,
 	EMsgComposer *composer = E_MSG_COMPOSER (widget);
 	GtkWidget *input_widget;
 	GtkhtmlEditor *editor;
-	GtkHTML *html;
+	EWebView *web_view;
 
 	editor = GTKHTML_EDITOR (widget);
-	html = gtkhtml_editor_get_html (editor);
+	composer = E_MSG_COMPOSER (widget);
+	web_view = e_msg_composer_get_web_view (composer);
 
 	input_widget =
 		e_composer_header_table_get_header (
@@ -2221,7 +2222,7 @@ msg_composer_key_press_event (GtkWidget *widget,
 	}
 
 	if (event->keyval == GDK_KEY_ISO_Left_Tab &&
-		gtk_widget_is_focus (GTK_WIDGET (html))) {
+		gtk_widget_is_focus (GTK_WIDGET (web_view))) {
 		gtk_widget_grab_focus (input_widget);
 		return TRUE;
 	}
@@ -3369,30 +3370,6 @@ e_msg_composer_new_with_message (EShell *shell,
 	return composer;
 }
 
-static void
-disable_editor (EMsgComposer *composer)
-{
-	GtkhtmlEditor *editor;
-	GtkAction *action;
-
-	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
-	editor = GTKHTML_EDITOR (composer);
-
-	gtkhtml_editor_run_command (editor, "editable-off");
-
-	action = GTKHTML_EDITOR_ACTION_EDIT_MENU (composer);
-	gtk_action_set_sensitive (action, FALSE);
-
-	action = GTKHTML_EDITOR_ACTION_FORMAT_MENU (composer);
-	gtk_action_set_sensitive (action, FALSE);
-
-	action = GTKHTML_EDITOR_ACTION_INSERT_MENU (composer);
-	gtk_action_set_sensitive (action, FALSE);
-
-	gtk_widget_set_sensitive (composer->priv->attachment_paned, FALSE);
-}
-
 /**
  * e_msg_composer_new_redirect:
  * @shell: an #EShell
@@ -3410,6 +3387,7 @@ e_msg_composer_new_redirect (EShell *shell,
 {
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
+	EWebView *web_view;
 	const gchar *subject;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
@@ -3427,7 +3405,8 @@ e_msg_composer_new_redirect (EShell *shell,
 	e_composer_header_table_set_account_name (table, resent_from);
 	e_composer_header_table_set_subject (table, subject);
 
-	disable_editor (composer);
+	web_view = e_msg_composer_get_web_view (composer);
+	e_web_view_set_editable (web_view, FALSE);
 
 	return composer;
 }
@@ -3473,6 +3452,30 @@ e_msg_composer_get_shell (EMsgComposer *composer)
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
 	return E_SHELL (composer->priv->shell);
+}
+
+/**
+ * e_msg_composer_get_web_view:
+ * @composer: an #EMsgComposer
+ *
+ * Returns the #EWebView widget in @composer.
+ *
+ * Returns: the #EWebView
+ **/
+EWebView *
+e_msg_composer_get_web_view (EMsgComposer *composer)
+{
+	GtkHTML *html;
+	GtkhtmlEditor *editor;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+
+	/* This is a convenience function to avoid
+	 * repeating this awkwardness everywhere */
+	editor = GTKHTML_EDITOR (composer);
+	html = gtkhtml_editor_get_html (editor);
+
+	return E_WEB_VIEW (html);
 }
 
 static void
@@ -3951,8 +3954,7 @@ e_msg_composer_set_body_text (EMsgComposer *composer,
  * @body: the data to initialize the composer with
  * @mime_type: the MIME type of data
  *
- * Loads the given data ginto the composer as the message body.
- * This function should only be used by the CORBA composer factory.
+ * Loads the given data into the composer as the message body.
  **/
 void
 e_msg_composer_set_body (EMsgComposer *composer,
@@ -3961,6 +3963,7 @@ e_msg_composer_set_body (EMsgComposer *composer,
 {
 	EMsgComposerPrivate *p = composer->priv;
 	EComposerHeaderTable *table;
+	EWebView *web_view;
 	gchar *buff;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
@@ -3972,8 +3975,11 @@ e_msg_composer_set_body (EMsgComposer *composer,
 		  "message body, which cannot be edited."));
 	set_editor_text (composer, buff, FALSE);
 	g_free (buff);
+
 	gtkhtml_editor_set_html_mode (GTKHTML_EDITOR (composer), FALSE);
-	disable_editor (composer);
+
+	web_view = e_msg_composer_get_web_view (composer);
+	e_web_view_set_editable (web_view, FALSE);
 
 	g_free (p->mime_body);
 	p->mime_body = g_strdup (body);
