@@ -38,11 +38,6 @@
 #include "gnome-canvas-util.h"
 #include "gnome-canvas-shape.h"
 
-#include <libart_lgpl/art_vpath.h>
-#include <libart_lgpl/art_svp.h>
-#include <libart_lgpl/art_svp_vpath.h>
-#include <libart_lgpl/art_rgb_svp.h>
-
 /* Base class for rectangle and ellipse item types */
 
 #define noVERBOSE
@@ -204,22 +199,23 @@ gnome_canvas_rect_get_property (GObject              *object,
 static void
 gnome_canvas_rect_update (GnomeCanvasItem *item, gdouble affine[6], ArtSVP *clip_path, gint flags)
 {
-        GnomeCanvasRect *rect;
-	GnomeCanvasPathDef *path_def;
-
-	rect = GNOME_CANVAS_RECT (item);
+        GnomeCanvasRect *rect = GNOME_CANVAS_RECT (item);
 
 	if (rect->path_dirty) {
-		path_def = gnome_canvas_path_def_new ();
+                cairo_t *cr;
 
-		gnome_canvas_path_def_moveto (path_def, rect->x1, rect->y1);
-		gnome_canvas_path_def_lineto (path_def, rect->x2, rect->y1);
-		gnome_canvas_path_def_lineto (path_def, rect->x2, rect->y2);
-		gnome_canvas_path_def_lineto (path_def, rect->x1, rect->y2);
-		gnome_canvas_path_def_lineto (path_def, rect->x1, rect->y1);
-		gnome_canvas_path_def_closepath_current (path_def);
-		gnome_canvas_shape_set_path_def (GNOME_CANVAS_SHAPE (item), path_def);
-		gnome_canvas_path_def_unref (path_def);
+                cr = gnome_canvas_cairo_create_scratch ();
+
+                cairo_rectangle (cr,
+                                 rect->x1, rect->y1,
+                                 rect->x2 - rect->x1,
+                                 rect->y2 - rect->y1);
+
+		gnome_canvas_shape_set_path (GNOME_CANVAS_SHAPE (item),
+                                             cairo_copy_path (cr));
+                
+                cairo_destroy (cr);
+
 		rect->path_dirty = 0;
 	}
 

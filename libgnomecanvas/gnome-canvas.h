@@ -273,6 +273,8 @@ void gnome_canvas_item_i2w (GnomeCanvasItem *item, gdouble *x, gdouble *y);
  * world coordinates.
  */
 void gnome_canvas_item_i2w_affine (GnomeCanvasItem *item, gdouble affine[6]);
+void gnome_canvas_item_i2w_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix);
+void gnome_canvas_item_w2i_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix);
 
 /* Gets the affine transform that converts from item-relative coordinates to
  * canvas pixel coordinates.
@@ -516,6 +518,8 @@ void gnome_canvas_request_redraw (GnomeCanvas *canvas, gint x1, gint y1, gint x2
  * coordinates.
  */
 void gnome_canvas_w2c_affine (GnomeCanvas *canvas, gdouble affine[6]);
+void gnome_canvas_w2c_matrix (GnomeCanvas *canvas, cairo_matrix_t *matrix);
+void gnome_canvas_c2w_matrix (GnomeCanvas *canvas, cairo_matrix_t *matrix);
 
 /* These functions convert from a coordinate system to another.  "w" is world
  * coordinates, "c" is canvas pixel coordinates (pixel coordinates that are

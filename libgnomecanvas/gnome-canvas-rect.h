@@ -38,8 +38,6 @@
 
 #include <libgnomecanvas/gnome-canvas-shape.h>
 
-#include <libart_lgpl/art_svp.h>
-
 G_BEGIN_DECLS
 
 /* Rectangle item.  These are defined by their top-left and bottom-right corners.
