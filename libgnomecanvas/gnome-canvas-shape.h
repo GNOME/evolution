@@ -35,10 +35,10 @@ G_BEGIN_DECLS
  *								not be scaled when the canvas zoom factor is changed.
  * width_units		gdouble			RW		Width of the outline in canvas units.  The outline
  *								will be scaled when the canvas zoom factor is changed.
- * cap_style		GdkCapStyle		RW		Cap ("endpoint") style for the bpath.
- * join_style		GdkJoinStyle		RW		Join ("vertex") style for the bpath.
- * wind                 ArtWindRule             RW              Winding rule for the bpath.
- * dash			ArtVpathDash		RW		Dashing pattern
+ * cap_style		cairo_line_cap_t        RW		Cap ("endpoint") style for the bpath.
+ * join_style		cairo_line_join_t	RW		Join ("vertex") style for the bpath.
+ * wind                 cairo_fill_rule_t       RW              Winding rule for the bpath.
+ * dash			XXX: disabled           RW		Dashing pattern
  * miterlimit		gdouble			RW		Minimum angle between segments, where miter join
  *								rule is applied.
  */
@@ -65,8 +65,8 @@ struct _GnomeCanvasShapeClass {
 
 /* WARNING! These are not usable from modifying shapes from user programs */
 /* These are meant, to set master shape from subclass ::update method */
-void gnome_canvas_shape_set_path_def (GnomeCanvasShape *shape, GnomeCanvasPathDef *def);
-GnomeCanvasPathDef *gnome_canvas_shape_get_path_def (GnomeCanvasShape *shape);
+void gnome_canvas_shape_set_path (GnomeCanvasShape *shape, cairo_path_t *path);
+const cairo_path_t *gnome_canvas_shape_get_path (GnomeCanvasShape *shape);
 
 /* Standard Gtk function */
 GType gnome_canvas_shape_get_type (void) G_GNUC_CONST;

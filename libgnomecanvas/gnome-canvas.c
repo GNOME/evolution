@@ -1044,6 +1044,44 @@ gnome_canvas_item_i2w_affine (GnomeCanvasItem *item, gdouble affine[6])
 	}
 }
 
+void
+gnome_canvas_item_i2w_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix)
+{
+	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
+	g_return_if_fail (matrix != NULL);
+
+	cairo_matrix_init_identity (matrix);
+
+	while (item) {
+		if (item->xform != NULL) {
+                        cairo_matrix_t tmp;
+                        gnome_canvas_matrix_from_affine (&tmp, item->xform);
+                        cairo_matrix_multiply (matrix, matrix, &tmp);
+		}
+
+		item = item->parent;
+	}
+}
+
+void
+gnome_canvas_item_w2i_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix)
+{
+	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
+	g_return_if_fail (matrix != NULL);
+
+	cairo_matrix_init_identity (matrix);
+
+	while (item) {
+		if (item->xform != NULL) {
+                        cairo_matrix_t tmp;
+                        gnome_canvas_matrix_from_affine (&tmp, item->xform);
+                        cairo_matrix_multiply (matrix, &tmp, matrix);
+		}
+
+		item = item->parent;
+	}
+}
+
 /**
  * gnome_canvas_item_w2i:
  * @item: A canvas item.
@@ -1128,11 +1166,11 @@ gnome_canvas_item_i2c_affine (GnomeCanvasItem *item, gdouble affine[6])
 void
 gnome_canvas_item_i2c_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix)
 {
-  gdouble affine;
+	cairo_matrix_t i2w, w2c;
 
-  gnome_canvas_item_i2c_affine (item, &affine);
-
-  gnome_canvas_matrix_from_affine (matrix, &affine);
+	gnome_canvas_item_i2w_matrix (item, &i2w);
+	gnome_canvas_w2c_matrix (item->canvas, &w2c);
+	cairo_matrix_multiply (matrix, &i2w, &w2c);
 }
 
 /* Returns whether the item is an inferior of or is equal to the parent. */
@@ -3838,6 +3876,50 @@ gnome_canvas_w2c_affine (GnomeCanvas *canvas, gdouble affine[6])
 	affine[3] = zooom;
 	affine[4] = -canvas->scroll_x1 * zooom;
 	affine[5] = -canvas->scroll_y1 * zooom;
+}
+
+/**
+ * gnome_canvas_w2c_matrix:
+ * @canvas: A canvas.
+ * @matrix: (out): matrix to initialize
+ *
+ * Gets the transformtion matrix that converts from world coordinates to canvas
+ * pixel coordinates.
+ **/
+void
+gnome_canvas_w2c_matrix (GnomeCanvas *canvas, cairo_matrix_t *matrix)
+{
+	g_return_if_fail (GNOME_IS_CANVAS (canvas));
+	g_return_if_fail (matrix != NULL);
+
+	cairo_matrix_init_scale (matrix,
+                                 canvas->pixels_per_unit,
+                                 canvas->pixels_per_unit);
+        cairo_matrix_translate (matrix,
+                                -canvas->scroll_x1,
+                                -canvas->scroll_y1);
+}
+
+/**
+ * gnome_canvas_c2w_matrix:
+ * @canvas: A canvas.
+ * @matrix: (out): matrix to initialize
+ *
+ * Gets the transformtion matrix that converts from canvas pixel coordinates to
+ * world coordinates.
+ **/
+void
+gnome_canvas_c2w_matrix (GnomeCanvas *canvas, cairo_matrix_t *matrix)
+{
+	g_return_if_fail (GNOME_IS_CANVAS (canvas));
+	g_return_if_fail (matrix != NULL);
+
+        cairo_matrix_init_translate (matrix,
+                                     canvas->scroll_x1,
+                                     canvas->scroll_y1);
+	cairo_matrix_scale (matrix,
+                            1 / canvas->pixels_per_unit,
+                            1 / canvas->pixels_per_unit);
 }
 
 /**

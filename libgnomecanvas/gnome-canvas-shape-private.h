@@ -14,62 +14,12 @@
  */
 
 #include <gdk/gdk.h>
-#include <libart_lgpl/art_vpath.h>
-#include <libart_lgpl/art_svp.h>
-#include <libart_lgpl/art_vpath_dash.h>
-#include <libart_lgpl/art_svp_wind.h>
 #include <libgnomecanvas/gnome-canvas.h>
-
-#include <libgnomecanvas/gnome-canvas-path-def.h>
 
 G_BEGIN_DECLS
 
-typedef struct _GnomeCanvasShapePrivGdk GnomeCanvasShapePrivGdk;
-typedef struct _GCBPDrawCtx GCBPDrawCtx;
-
-/* Per canvas private structure, holding necessary data for rendering
- * temporary masks, which are needed for drawing multipart bpaths.
- * As canvas cannot multithread, we can be sure, that masks are used
- * serially, also one set of masks per canvas is sufficent to guarantee,
- * that masks are created on needed X server. Masks grow as needed.
- * Full structure is refcounted in Bpath implementation
- */
-
-struct _GCBPDrawCtx {
-	gint refcount;
-
-	GnomeCanvas * canvas;
-
-	gint width;
-	gint height;
-
-	GdkBitmap * mask;
-	GdkBitmap * clip;
-
-	GdkGC * clear_gc;
-	GdkGC * xor_gc;
-};
-
-/* Per Bpath private structure, holding Gdk specific data */
-
-struct _GnomeCanvasShapePrivGdk {
-	gulong fill_pixel;		/* Color for fill */
-	gulong outline_pixel;		/* Color for outline */
-
-	GdkGC * fill_gc;		/* GC for filling */
-	GdkGC * outline_gc;		/* GC for outline */
-
-	gint len_points;		/* Size of allocated points array */
-	gint num_points;		/* Gdk points in canvas coords */
-	GdkPoint * points;		/* Ivariant: closed paths are before open ones */
-	GSList * closed_paths;		/* List of lengths */
-	GSList * open_paths;		/* List of lengths */
-
-	GCBPDrawCtx * ctx;		/* Pointer to per-canvas drawing context */
-};
-
 struct _GnomeCanvasShapePriv {
-	GnomeCanvasPathDef * path;      /* Our bezier path representation */
+	cairo_path_t *path;             /* Our bezier path representation */
 
 	gdouble scale;			/* CTM scaling (for pen) */
 
@@ -81,17 +31,14 @@ struct _GnomeCanvasShapePriv {
 	guint32 fill_rgba;		/* Fill color, RGBA */
 	guint32 outline_rgba;		/* Outline color, RGBA */
 
-	GdkCapStyle cap;		/* Cap style for line */
-	GdkJoinStyle join;		/* Join style for line */
-	ArtWindRule wind;		/* Winding rule */
+	cairo_line_cap_t cap;		/* Cap style for line */
+	cairo_line_join_t join;		/* Join style for line */
+	cairo_fill_rule_t wind;		/* Winding rule */
 	gdouble miterlimit;		/* Miter limit */
 
-	ArtVpathDash dash;		/* Dashing pattern */
-
-	ArtSVP * fill_svp;		/* The SVP for the filled shape */
-	ArtSVP * outline_svp;		/* The SVP for the outline shape */
-
-	GnomeCanvasShapePrivGdk * gdk;	/* Gdk specific things */
+        guint n_dash;                   /* Number of elements in dashing pattern */
+	double *dash;     		/* Dashing pattern */
+        double dash_offset;             /* Dashing offset */
 };
 
 G_END_DECLS
