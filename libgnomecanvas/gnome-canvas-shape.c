@@ -488,49 +488,6 @@ gnome_canvas_shape_draw (GnomeCanvasItem *item,
 }
 
 static void
-my_cairo_matrix_transform_rectangle (const cairo_matrix_t *matrix,
-                                     double *x1, double *y1, double *x2, double *y2)
-{
-        double maxx, maxy, minx, miny;
-        double tmpx, tmpy;
-
-        tmpx = *x1;
-        tmpy = *y1;
-        cairo_matrix_transform_point (matrix, &tmpx, &tmpy);
-        minx = maxx = tmpx;
-        miny = maxy = tmpy;
-
-        tmpx = *x2;
-        tmpy = *y1;
-        cairo_matrix_transform_point (matrix, &tmpx, &tmpy);
-        minx = MIN (minx, tmpx);
-        maxx = MAX (maxx, tmpx);
-        miny = MIN (miny, tmpy);
-        maxy = MAX (maxy, tmpy);
-
-        tmpx = *x2;
-        tmpy = *y2;
-        cairo_matrix_transform_point (matrix, &tmpx, &tmpy);
-        minx = MIN (minx, tmpx);
-        maxx = MAX (maxx, tmpx);
-        miny = MIN (miny, tmpy);
-        maxy = MAX (maxy, tmpy);
-
-        tmpx = *x1;
-        tmpy = *y2;
-        cairo_matrix_transform_point (matrix, &tmpx, &tmpy);
-        minx = MIN (minx, tmpx);
-        maxx = MAX (maxx, tmpx);
-        miny = MIN (miny, tmpy);
-        maxy = MAX (maxy, tmpy);
-
-        *x1 = minx;
-        *x2 = maxx;
-        *y1 = miny;
-        *y2 = maxy;
-}
-
-static void
 gnome_canvas_shape_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2)
 {
 	GnomeCanvasShape * shape;
@@ -573,7 +530,7 @@ gnome_canvas_shape_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_
         gnome_canvas_shape_bounds (item, &x1, &x2, &y1, &y2);
         gnome_canvas_item_i2w_matrix (item, &matrix);
 
-        my_cairo_matrix_transform_rectangle (&matrix, &x1, &y1, &x2, &y2);
+        gnome_canvas_matrix_transform_rect (&matrix, &x1, &y1, &x2, &y2);
         gnome_canvas_update_bbox (GNOME_CANVAS_ITEM (shape),
                                   floor (x1), floor (y1),
                                   ceil (x2), ceil (y2));

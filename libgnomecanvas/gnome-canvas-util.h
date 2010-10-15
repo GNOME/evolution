@@ -49,6 +49,8 @@ void gnome_canvas_update_bbox (GnomeCanvasItem *item, gint x1, gint y1, gint x2,
 /* Create a scratch cairo_t for measuring purposes */
 cairo_t *gnome_canvas_cairo_create_scratch (void);
 
+void gnome_canvas_matrix_transform_rect (const cairo_matrix_t *matrix, double *x1, double *y1, double *x2, double *y2);
+
 G_END_DECLS
 
 #endif
