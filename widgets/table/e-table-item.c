@@ -1665,11 +1665,6 @@ eti_realize (GnomeCanvasItem *item)
 	style = gtk_widget_get_style (widget);
 	window = gtk_widget_get_window (widget);
 
-	eti->fill_gc = gdk_gc_new (window);
-
-	eti->grid_gc = gdk_gc_new (window);
-	gdk_gc_set_foreground (eti->grid_gc, &style->dark[GTK_STATE_NORMAL]);
-
 	g_signal_connect (GTK_LAYOUT(item->canvas), "scroll_event", G_CALLBACK (eti_tree_unfreeze), eti);
 
 	if (eti->cell_views == NULL)
@@ -1721,17 +1716,28 @@ eti_unrealize (GnomeCanvasItem *item)
 	eti->height_cache = NULL;
 	eti->height_cache_idle_count = 0;
 
-	g_object_unref (eti->fill_gc);
-	eti->fill_gc = NULL;
-	g_object_unref (eti->grid_gc);
-	eti->grid_gc = NULL;
-
 	eti_unrealize_cell_views (eti);
 
 	eti->height = 0;
 
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->unrealize)
                 (*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->unrealize)(item);
+}
+
+static void
+eti_draw_grid_line (ETableItem *eti, cairo_t *cr, GtkStyle *style,
+                    int x1, int y1, int x2, int y2)
+{
+        cairo_save (cr);
+
+        cairo_set_line_width (cr, 1.0);
+        gdk_cairo_set_source_color (cr, &style->dark[GTK_STATE_NORMAL]);
+
+        cairo_move_to (cr, x1 + 0.5, y1 + 0.5);
+        cairo_line_to (cr, x2 + 0.5, y2 + 0.5);
+        cairo_stroke (cr);
+
+        cairo_restore (cr);
 }
 
 static void
@@ -1846,11 +1852,8 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 	f_x1 = f_x2 = f_y1 = f_y2 = -1;
 	f_found = FALSE;
 
-	if (eti->horizontal_draw_grid && first_row == 0) {
-		gdk_draw_line (
-			drawable, eti->grid_gc,
-				eti_base.x - x, yd, eti_base.x + eti->width - x, yd);
-	}
+	if (eti->horizontal_draw_grid && first_row == 0)
+		eti_draw_grid_line (eti, cr, style, eti_base.x - x, yd, eti_base.x + eti->width - x, yd);
 
 	yd += height_extra;
 
@@ -1994,10 +1997,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 		yd += height;
 
 		if (eti->horizontal_draw_grid) {
-			gdk_draw_line (
-				drawable, eti->grid_gc,
-				eti_base.x - x, yd, eti_base.x + eti->width - x, yd);
-
+		        eti_draw_grid_line (eti, cr, style, eti_base.x - x, yd, eti_base.x + eti->width - x, yd);
 			yd++;
 		}
 	}
@@ -2008,9 +2008,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 		for (col = first_col; col <= last_col; col++) {
 			ETableCol *ecol = e_table_header_get_column (eti->header, col);
 
-			gdk_draw_line (
-				drawable, eti->grid_gc,
-				xd, y_offset, xd, yd - 1);
+		        eti_draw_grid_line (eti, cr, style, xd, y_offset, xd, yd - 1);
 
 			/*
 			 * This looks wierd, but it is to draw the last line

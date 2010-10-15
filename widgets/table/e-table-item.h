@@ -79,9 +79,6 @@ typedef struct {
 	/* View row, -1 means unknown */
 	gint              old_cursor_row;
 
-	GdkGC           *fill_gc;
-	GdkGC           *grid_gc;
-
 	guint		 alternating_row_colors:1;
 	guint		 horizontal_draw_grid:1;
 	guint		 vertical_draw_grid:1;
