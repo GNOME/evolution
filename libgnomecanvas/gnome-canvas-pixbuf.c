@@ -30,7 +30,7 @@
 #include "gnome-canvas-pixbuf.h"
 
 /* Private part of the GnomeCanvasPixbuf structure */
-typedef struct {
+struct _GnomeCanvasPixbufPrivate {
 	/* Our gdk-pixbuf */
 	GdkPixbuf *pixbuf;
 
@@ -56,7 +56,7 @@ typedef struct {
 
 	/* Anchor */
 	GtkAnchorType anchor;
-} PixbufPrivate;
+};
 
 /* Object argument IDs */
 enum {
@@ -75,8 +75,6 @@ enum {
 	PROP_ANCHOR
 };
 
-static void gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class);
-static void gnome_canvas_pixbuf_init (GnomeCanvasPixbuf *cpb);
 static void gnome_canvas_pixbuf_destroy (GnomeCanvasItem *object);
 static void gnome_canvas_pixbuf_set_property (GObject *object,
 					      guint param_id,
@@ -99,44 +97,9 @@ static GnomeCanvasItem *gnome_canvas_pixbuf_point (GnomeCanvasItem *item,
 static void gnome_canvas_pixbuf_bounds (GnomeCanvasItem *item,
 					gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
 
-static GnomeCanvasItemClass *parent_class;
+G_DEFINE_TYPE (GnomeCanvasPixbuf, gnome_canvas_pixbuf, GNOME_TYPE_CANVAS_ITEM)
 
 
-
-/**
- * gnome_canvas_pixbuf_get_type:
- * @void:
- *
- * Registers the #GnomeCanvasPixbuf class if necessary, and returns the type ID
- * associated to it.
- *
- * Return value: The type ID of the #GnomeCanvasPixbuf class.
- **/
-GType
-gnome_canvas_pixbuf_get_type (void)
-{
-	static GType pixbuf_type;
-
-	if (!pixbuf_type) {
-		const GTypeInfo object_info = {
-			sizeof (GnomeCanvasPixbufClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) gnome_canvas_pixbuf_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,			/* class_data */
-			sizeof (GnomeCanvasPixbuf),
-			0,			/* n_preallocs */
-			(GInstanceInitFunc) gnome_canvas_pixbuf_init,
-			NULL			/* value_table */
-		};
-
-		pixbuf_type = g_type_register_static (GNOME_TYPE_CANVAS_ITEM, "GnomeCanvasPixbuf",
-						     &object_info, 0);
-	}
-
-	return pixbuf_type;
-}
 
 /* Class initialization function for the pixbuf canvas item */
 static void
@@ -147,8 +110,6 @@ gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class)
 
         gobject_class = (GObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	gobject_class->set_property = gnome_canvas_pixbuf_set_property;
 	gobject_class->get_property = gnome_canvas_pixbuf_get_property;
@@ -232,17 +193,20 @@ gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class)
 	item_class->draw = gnome_canvas_pixbuf_draw;
 	item_class->point = gnome_canvas_pixbuf_point;
 	item_class->bounds = gnome_canvas_pixbuf_bounds;
+
+        g_type_class_add_private (class, sizeof (GnomeCanvasPixbufPrivate));
 }
 
 /* Object initialization function for the pixbuf canvas item */
 static void
 gnome_canvas_pixbuf_init (GnomeCanvasPixbuf *gcp)
 {
-	PixbufPrivate *priv;
+	GnomeCanvasPixbufPrivate *priv;
 
-	priv = g_new0 (PixbufPrivate, 1);
-	gcp->priv = priv;
-
+	priv = gcp->priv =  G_TYPE_INSTANCE_GET_PRIVATE (gcp,
+                                                         GNOME_TYPE_CANVAS_PIXBUF,
+                                                         GnomeCanvasPixbufPrivate);
+        
 	priv->width = 0.0;
 	priv->height = 0.0;
 	priv->x = 0.0;
@@ -256,27 +220,23 @@ gnome_canvas_pixbuf_destroy (GnomeCanvasItem *object)
 {
 	GnomeCanvasItem *item;
 	GnomeCanvasPixbuf *gcp;
-	PixbufPrivate *priv;
+	GnomeCanvasPixbufPrivate *priv;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_PIXBUF (object));
 
 	item = GNOME_CANVAS_ITEM (object);
-	gcp = (GNOME_CANVAS_PIXBUF (object));
+	gcp = GNOME_CANVAS_PIXBUF (object);
 	priv = gcp->priv;
 
 	/* remember, destroy can be run multiple times! */
-
-	if (priv) {
-	    if (priv->pixbuf)
-		g_object_unref (priv->pixbuf);
-
-	    g_free (priv);
-	    gcp->priv = NULL;
+        if (priv->pixbuf) {
+            g_object_unref (priv->pixbuf);
+            priv->pixbuf = NULL;
 	}
 
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy)
-		GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy (object);
+	if (GNOME_CANVAS_ITEM_CLASS (gnome_canvas_pixbuf_parent_class)->destroy)
+		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_pixbuf_parent_class)->destroy (object);
 }
 
 
@@ -290,7 +250,7 @@ gnome_canvas_pixbuf_set_property (GObject            *object,
 {
 	GnomeCanvasItem *item;
 	GnomeCanvasPixbuf *gcp;
-	PixbufPrivate *priv;
+	GnomeCanvasPixbufPrivate *priv;
 	GdkPixbuf *pixbuf;
 	gdouble val;
 
@@ -387,7 +347,7 @@ gnome_canvas_pixbuf_get_property (GObject            *object,
 				  GParamSpec         *pspec)
 {
 	GnomeCanvasPixbuf *gcp;
-	PixbufPrivate *priv;
+	GnomeCanvasPixbufPrivate *priv;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_PIXBUF (object));
@@ -493,7 +453,7 @@ compute_viewport_affine (GnomeCanvasPixbuf *gcp,
                          gdouble *viewport_affine,
                          gdouble *i2c)
 {
-	PixbufPrivate *priv;
+	GnomeCanvasPixbufPrivate *priv;
 	ArtPoint i_c, j_c;
 	gdouble i_len, j_len;
 	gdouble si_len, sj_len;
@@ -645,7 +605,7 @@ static void
 recompute_bounding_box (GnomeCanvasPixbuf *gcp, gdouble *i2c)
 {
 	GnomeCanvasItem *item;
-	PixbufPrivate *priv;
+	GnomeCanvasPixbufPrivate *priv;
 	gdouble ra[6];
 	ArtDRect rect;
 
@@ -694,13 +654,13 @@ gnome_canvas_pixbuf_update (GnomeCanvasItem *item,
                             gint flags)
 {
 	GnomeCanvasPixbuf *gcp;
-	PixbufPrivate *priv;
+	GnomeCanvasPixbufPrivate *priv;
 
 	gcp = GNOME_CANVAS_PIXBUF (item);
 	priv = gcp->priv;
 
-	if (parent_class->update)
-		(* parent_class->update) (item, affine, clip_path, flags);
+	if (GNOME_CANVAS_ITEM_CLASS (gnome_canvas_pixbuf_parent_class)->update)
+		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_pixbuf_parent_class)->update (item, affine, clip_path, flags);
 
 	/* ordinary update logic */
         gnome_canvas_request_redraw (
@@ -781,7 +741,7 @@ gnome_canvas_pixbuf_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			  gint x, gint y, gint width, gint height)
 {
 	GnomeCanvasPixbuf *gcp;
-	PixbufPrivate *priv;
+	GnomeCanvasPixbufPrivate *priv;
 	gdouble i2c[6], render_affine[6];
 	guchar *buf;
 	GdkPixbuf *pixbuf;
@@ -853,7 +813,7 @@ gnome_canvas_pixbuf_point (GnomeCanvasItem *item,
                            gint cy)
 {
 	GnomeCanvasPixbuf *gcp;
-	PixbufPrivate *priv;
+	GnomeCanvasPixbufPrivate *priv;
 	gdouble i2c[6], render_affine[6], inv[6];
 	ArtPoint c, p;
 	gint px, py;
@@ -908,7 +868,7 @@ gnome_canvas_pixbuf_bounds (GnomeCanvasItem *item,
                             gdouble *y2)
 {
 	GnomeCanvasPixbuf *gcp;
-	PixbufPrivate *priv;
+	GnomeCanvasPixbufPrivate *priv;
 	gdouble i2c[6], viewport_affine[6];
 	ArtDRect rect;
 
