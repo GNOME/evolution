@@ -50,14 +50,6 @@ G_DEFINE_TYPE (
 
 struct _ECanvasBackgroundPrivate {
 	guint rgba;		/* Fill color, RGBA */
-	GdkColor color;		/* Fill color */
-	GdkGC *gc;			/* GC for filling */
-	gdouble x1;
-	gdouble x2;
-	gdouble y1;
-	gdouble y2;
-
-	guint needs_redraw : 1;
 };
 
 enum {
@@ -72,89 +64,15 @@ enum {
 	PROP_FILL_COLOR,
 	PROP_FILL_COLOR_GDK,
 	PROP_FILL_COLOR_RGBA,
-	PROP_X1,
-	PROP_X2,
-	PROP_Y1,
-	PROP_Y2
 };
-
-static void
-get_color (ECanvasBackground *ecb)
-{
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ecb);
-	ecb->priv->color.pixel = gnome_canvas_get_color_pixel (item->canvas,
-		GNOME_CANVAS_COLOR (ecb->priv->color.red >> 8,
-				   ecb->priv->color.green>> 8,
-				   ecb->priv->color.blue>> 8));
-}
 
 static void
 ecb_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2)
 {
-	gdouble   i2c[6];
-	ArtPoint c1, c2, i1, i2;
-	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
-
-	/* Wrong BBox's are the source of redraw nightmares */
-
-	gnome_canvas_item_i2c_affine (GNOME_CANVAS_ITEM (ecb), i2c);
-
-	i1.x = ecb->priv->x1;
-	i1.y = ecb->priv->y1;
-	i2.x = ecb->priv->x2;
-	i2.y = ecb->priv->y2;
-	art_affine_point (&c1, &i1, i2c);
-	art_affine_point (&c2, &i2, i2c);
-
-	if (ecb->priv->x1 < 0)
-		c1.x = -(gdouble)UINT_MAX;
-
-	if (ecb->priv->y1 < 0)
-		c1.y = -(gdouble)UINT_MAX;
-
-	if (ecb->priv->x2 < 0)
-		c2.x = (gdouble)UINT_MAX;
-
-	if (ecb->priv->y2 < 0)
-		c2.y = (gdouble)UINT_MAX;
-
-	*x1 = c1.x;
-	*y1 = c1.y;
-	*x2 = c2.x + 1;
-	*y2 = c2.y + 1;
-}
-
-/*
- * GnomeCanvasItem::update method
- */
-static void
-ecb_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
-{
-	ArtPoint o1, o2;
-	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
-
-	if (GNOME_CANVAS_ITEM_CLASS (ecb_parent_class)->update)
-		GNOME_CANVAS_ITEM_CLASS (ecb_parent_class)->update (item, affine, clip_path, flags);
-
-	o1.x = item->x1;
-	o1.y = item->y1;
-	o2.x = item->x2;
-	o2.y = item->y2;
-
-	ecb_bounds (item, &item->x1, &item->y1, &item->x2, &item->y2);
-	if (item->x1 != o1.x ||
-	    item->y1 != o1.y ||
-	    item->x2 != o2.x ||
-	    item->y2 != o2.y) {
-		gnome_canvas_request_redraw (item->canvas, o1.x, o1.y, o2.x, o2.y);
-		ecb->priv->needs_redraw = 1;
-	}
-
-	if (ecb->priv->needs_redraw) {
-		gnome_canvas_request_redraw (item->canvas, item->x1, item->y1,
-					     item->x2, item->y2);
-		ecb->priv->needs_redraw = 0;
-	}
+	*x1 = -G_MAXDOUBLE;
+	*y1 = -G_MAXDOUBLE;
+	*x2 = G_MAXDOUBLE;
+	*y2 = G_MAXDOUBLE;
 }
 
 static void
@@ -214,36 +132,11 @@ ecb_set_property (GObject *object,
 
         case PROP_FILL_COLOR_RGBA:
 		ecb->priv->rgba = g_value_get_uint (value);
-		color.red = ((ecb->priv->rgba >> 24) & 0xff) * 0x101;
-		color.green = ((ecb->priv->rgba >> 16) & 0xff) * 0x101;
-		color.blue = ((ecb->priv->rgba >> 8) & 0xff) * 0x101;
 		color_changed = TRUE;
 		break;
 
-	case PROP_X1:
-		ecb->priv->x1 = g_value_get_double (value);
-		break;
-	case PROP_X2:
-		ecb->priv->x2 = g_value_get_double (value);
-		break;
-	case PROP_Y1:
-		ecb->priv->y1 = g_value_get_double (value);
-		break;
-	case PROP_Y2:
-		ecb->priv->y2 = g_value_get_double (value);
-		break;
 	}
 
-	if (color_changed) {
-		ecb->priv->color = color;
-
-		if (item->flags & GNOME_CANVAS_ITEM_REALIZED) {
-			get_color (ecb);
-                        gdk_gc_set_foreground (ecb->priv->gc, &ecb->priv->color);
-		}
-	}
-
-	ecb->priv->needs_redraw = 1;
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ecb));
 }
 
@@ -258,23 +151,8 @@ ecb_get_property (GObject *object,
 	ecb = E_CANVAS_BACKGROUND (object);
 
 	switch (prop_id) {
-	case PROP_FILL_COLOR_GDK:
-		g_value_set_boxed (value, gdk_color_copy (&ecb->priv->color));
-		break;
         case PROP_FILL_COLOR_RGBA:
 		g_value_set_uint (value, ecb->priv->rgba);
-		break;
-	case PROP_X1:
-		g_value_set_double (value, ecb->priv->x1);
-		break;
-	case PROP_X2:
-		g_value_set_double (value, ecb->priv->x2);
-		break;
-	case PROP_Y1:
-		g_value_set_double (value, ecb->priv->y1);
-		break;
-	case PROP_Y2:
-		g_value_set_double (value, ecb->priv->y2);
 		break;
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
@@ -286,47 +164,6 @@ static void
 ecb_init (ECanvasBackground *ecb)
 {
 	ecb->priv               = g_new (ECanvasBackgroundPrivate, 1);
-
-	ecb->priv->color.pixel  = 0;
-	ecb->priv->color.red    = 0;
-	ecb->priv->color.green  = 0;
-	ecb->priv->color.blue   = 0;
-	ecb->priv->gc           = NULL;
-	ecb->priv->x1           = -1.0;
-	ecb->priv->x2           = -1.0;
-	ecb->priv->y1           = -1.0;
-	ecb->priv->y2           = -1.0;
-}
-
-static void
-ecb_realize (GnomeCanvasItem *item)
-{
-	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
-	GdkWindow *bin_window;
-
-	if (GNOME_CANVAS_ITEM_CLASS (ecb_parent_class)->realize)
-                GNOME_CANVAS_ITEM_CLASS (ecb_parent_class)->realize (item);
-
-	bin_window = gtk_layout_get_bin_window (GTK_LAYOUT (item->canvas));
-
-	ecb->priv->gc = gdk_gc_new (bin_window);
-	get_color (ecb);
-        gdk_gc_set_foreground (ecb->priv->gc, &ecb->priv->color);
-
-	ecb->priv->needs_redraw = 1;
-	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ecb));
-}
-
-static void
-ecb_unrealize (GnomeCanvasItem *item)
-{
-	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
-
-	g_object_unref (ecb->priv->gc);
-	ecb->priv->gc = NULL;
-
-	if (GNOME_CANVAS_ITEM_CLASS (ecb_parent_class)->unrealize)
-                GNOME_CANVAS_ITEM_CLASS (ecb_parent_class)->unrealize (item);
 }
 
 static void
@@ -338,53 +175,21 @@ ecb_draw (GnomeCanvasItem *item,
           gint height)
 {
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
-	gint x1, x2, y1, y2;
-	gdouble i2c[6];
-	ArtPoint upper_left, lower_right, ecb_base_point;
+        cairo_t *cr;
 
-	/*
-	 * Find out our real position after grouping
-	 */
-	gnome_canvas_item_i2c_affine (item, i2c);
-	ecb_base_point.x = ecb->priv->x1;
-	ecb_base_point.y = ecb->priv->y1;
-	art_affine_point (&upper_left, &ecb_base_point, i2c);
-
-	ecb_base_point.x = ecb->priv->x2;
-	ecb_base_point.y = ecb->priv->y2;
-	art_affine_point (&lower_right, &ecb_base_point, i2c);
-
-	x1 = 0;
-	y1 = 0;
-	x2 = width;
-	y2 = height;
-	if (ecb->priv->x1 >= 0 && upper_left.x > x1)
-		x1 = upper_left.x;
-	if (ecb->priv->y1 >= 0 && upper_left.y > y1)
-		y1 = upper_left.y;
-	if (ecb->priv->x2 >= 0 && lower_right.x < x2)
-		x2 = lower_right.x;
-	if (ecb->priv->y2 >= 0 && lower_right.y < y2)
-		y2 = lower_right.y;
-
-	gdk_draw_rectangle (drawable, ecb->priv->gc, TRUE,
-			    x1, y1, x2 - x1, y2 - y1);
+        cr = gdk_cairo_create (drawable);
+        cairo_set_source_rgba (cr,
+                               ((ecb->priv->rgba >> 24) & 0xff) / 255.0,
+                               ((ecb->priv->rgba >> 16) & 0xff) / 255.0,
+                               ((ecb->priv->rgba >>  8) & 0xff) / 255.0,
+                               ( ecb->priv->rgba        & 0xff) / 255.0);
+        cairo_paint (cr);
+        cairo_destroy (cr);
 }
 
 static GnomeCanvasItem *
 ecb_point (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy)
 {
-	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
-
-	if (ecb->priv->x1 >= 0 && ecb->priv->x1 > x)
-		return NULL;
-	if (ecb->priv->x2 >= 0 && ecb->priv->x2 < x)
-		return NULL;
-	if (ecb->priv->y1 >= 0 && ecb->priv->y1 > y)
-		return NULL;
-	if (ecb->priv->y2 >= 0 && ecb->priv->y2 < y)
-		return NULL;
-
 	return item;
 }
 
@@ -398,8 +203,6 @@ ecb_style_set (ECanvasBackground *ecb,
 	style = gtk_widget_get_style (GTK_WIDGET (item->canvas));
 
 	if (gtk_widget_get_realized (GTK_WIDGET (item->canvas))) {
-		gdk_gc_set_foreground (
-			ecb->priv->gc, &style->base[GTK_STATE_NORMAL]);
 		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ecb));
 	}
 }
@@ -414,11 +217,9 @@ ecb_class_init (ECanvasBackgroundClass *ecb_class)
 	object_class->set_property  = ecb_set_property;
 	object_class->get_property  = ecb_get_property;
 
-	item_class->update          = ecb_update;
-	item_class->realize         = ecb_realize;
-	item_class->unrealize       = ecb_unrealize;
 	item_class->draw            = ecb_draw;
 	item_class->point           = ecb_point;
+	item_class->bounds          = ecb_bounds;
 
 	ecb_class->style_set	    = ecb_style_set;
 
@@ -427,14 +228,14 @@ ecb_class_init (ECanvasBackgroundClass *ecb_class)
 							      "Fill color",
 							      "Fill color",
 							      NULL,
-							      G_PARAM_READWRITE));
+							      G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_FILL_COLOR_GDK,
 					 g_param_spec_boxed ("fill_color_gdk",
 							     "GDK fill color",
 							     "GDK fill color",
 							     GDK_TYPE_COLOR,
-							     G_PARAM_READWRITE));
+							     G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_FILL_COLOR_RGBA,
 					 g_param_spec_uint ("fill_color_rgba",
@@ -443,33 +244,6 @@ ecb_class_init (ECanvasBackgroundClass *ecb_class)
 							    0, G_MAXUINT, 0,
 							    G_PARAM_READWRITE));
 
-	g_object_class_install_property (object_class, PROP_X1,
-					 g_param_spec_double ("x1",
-							      "X1",
-							      "X1",
-							      0.0, G_MAXDOUBLE, 0.0,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_X2,
-					 g_param_spec_double ("x2",
-							      "X2",
-							      "X2",
-							      0.0, G_MAXDOUBLE, 0.0,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_Y1,
-					 g_param_spec_double ("y1",
-							      "Y1",
-							      "Y1",
-							      0.0, G_MAXDOUBLE, 0.0,
-							      G_PARAM_READWRITE));
-
-	g_object_class_install_property (object_class, PROP_Y2,
-					 g_param_spec_double ("y2",
-							      "Y2",
-							      "Y2",
-							      0.0, G_MAXDOUBLE, 0.0,
-							      G_PARAM_READWRITE));
 	ecb_signals[STYLE_SET] =
 		g_signal_new ("style_set",
 			      G_OBJECT_CLASS_TYPE (object_class),
