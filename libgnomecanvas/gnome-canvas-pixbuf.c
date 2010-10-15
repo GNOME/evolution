@@ -54,12 +54,6 @@ typedef struct {
 	guint x_in_pixels : 1;
 	guint y_in_pixels : 1;
 
-	/* Whether the pixbuf has changed */
-	guint need_pixbuf_update : 1;
-
-	/* Whether the transformation or size have changed */
-	guint need_xform_update : 1;
-
 	/* Anchor */
 	GtkAnchorType anchor;
 } PixbufPrivate;
@@ -335,7 +329,6 @@ gnome_canvas_pixbuf_set_property (GObject            *object,
 			priv->pixbuf = pixbuf;
 		}
 
-		priv->need_pixbuf_update = TRUE;
 		gnome_canvas_item_request_update (item);
 		break;
 
@@ -343,19 +336,16 @@ gnome_canvas_pixbuf_set_property (GObject            *object,
 		val = g_value_get_double (value);
 		g_return_if_fail (val >= 0.0);
 		priv->width = val;
-		priv->need_xform_update = TRUE;
 		gnome_canvas_item_request_update (item);
 		break;
 
 	case PROP_WIDTH_SET:
 		priv->width_set = g_value_get_boolean (value);
-		priv->need_xform_update = TRUE;
 		gnome_canvas_item_request_update (item);
 		break;
 
 	case PROP_WIDTH_IN_PIXELS:
 		priv->width_in_pixels = g_value_get_boolean (value);
-		priv->need_xform_update = TRUE;
 		gnome_canvas_item_request_update (item);
 		break;
 
@@ -363,49 +353,41 @@ gnome_canvas_pixbuf_set_property (GObject            *object,
 		val = g_value_get_double (value);
 		g_return_if_fail (val >= 0.0);
 		priv->height = val;
-		priv->need_xform_update = TRUE;
 		gnome_canvas_item_request_update (item);
 		break;
 
 	case PROP_HEIGHT_SET:
 		priv->height_set = g_value_get_boolean (value);
-		priv->need_xform_update = TRUE;
 		gnome_canvas_item_request_update (item);
 		break;
 
 	case PROP_HEIGHT_IN_PIXELS:
 		priv->height_in_pixels = g_value_get_boolean (value);
-		priv->need_xform_update = TRUE;
 		gnome_canvas_item_request_update (item);
 		break;
 
 	case PROP_X:
 		priv->x = g_value_get_double (value);
-		priv->need_xform_update = TRUE;
 		gnome_canvas_item_request_update (item);
 		break;
 
 	case PROP_X_IN_PIXELS:
 		priv->x_in_pixels = g_value_get_boolean (value);
-		priv->need_xform_update = TRUE;
 		gnome_canvas_item_request_update (item);
 		break;
 
 	case PROP_Y:
 		priv->y = g_value_get_double (value);
-		priv->need_xform_update = TRUE;
 		gnome_canvas_item_request_update (item);
 		break;
 
 	case PROP_Y_IN_PIXELS:
 		priv->y_in_pixels = g_value_get_boolean (value);
-		priv->need_xform_update = TRUE;
 		gnome_canvas_item_request_update (item);
 		break;
 
 	case PROP_ANCHOR:
 		priv->anchor = g_value_get_enum (value);
-		priv->need_xform_update = TRUE;
 		gnome_canvas_item_request_update (item);
 		break;
 
@@ -744,8 +726,6 @@ gnome_canvas_pixbuf_update (GnomeCanvasItem *item,
         recompute_bounding_box (gcp, affine);
         gnome_canvas_request_redraw (
 		item->canvas, item->x1, item->y1, item->x2, item->y2);
-        priv->need_pixbuf_update = FALSE;
-        priv->need_xform_update = FALSE;
 }
 
 
