@@ -103,3 +103,58 @@ gnome_canvas_cairo_create_scratch (void)
 
         return cr;
 }
+
+/**
+ * gnome_canvas_matrix_transform_rect:
+ * @matrix: a cairo matrix
+ * @x1: x coordinate of top left position of rectangle (in-out)
+ * @y1: y coordinate of top left position of rectangle (in-out)
+ * @x2: x coordinate of bottom right position of rectangle (in-out)
+ * @y2: y coordinate of bottom right position of rectangle (in-out)
+ *
+ * Computes the smallest rectangle containing the whole area of the given
+ * rectangle after applying the transformation given in @matrix.
+ **/
+void
+gnome_canvas_matrix_transform_rect (const cairo_matrix_t *matrix,
+                                    double *x1, double *y1, double *x2, double *y2)
+{
+        double maxx, maxy, minx, miny;
+        double tmpx, tmpy;
+
+        tmpx = *x1;
+        tmpy = *y1;
+        cairo_matrix_transform_point (matrix, &tmpx, &tmpy);
+        minx = maxx = tmpx;
+        miny = maxy = tmpy;
+
+        tmpx = *x2;
+        tmpy = *y1;
+        cairo_matrix_transform_point (matrix, &tmpx, &tmpy);
+        minx = MIN (minx, tmpx);
+        maxx = MAX (maxx, tmpx);
+        miny = MIN (miny, tmpy);
+        maxy = MAX (maxy, tmpy);
+
+        tmpx = *x2;
+        tmpy = *y2;
+        cairo_matrix_transform_point (matrix, &tmpx, &tmpy);
+        minx = MIN (minx, tmpx);
+        maxx = MAX (maxx, tmpx);
+        miny = MIN (miny, tmpy);
+        maxy = MAX (maxy, tmpy);
+
+        tmpx = *x1;
+        tmpy = *y2;
+        cairo_matrix_transform_point (matrix, &tmpx, &tmpy);
+        minx = MIN (minx, tmpx);
+        maxx = MAX (maxx, tmpx);
+        miny = MIN (miny, tmpy);
+        maxy = MAX (maxy, tmpy);
+
+        *x1 = minx;
+        *x2 = maxx;
+        *y1 = miny;
+        *y2 = maxy;
+}
+
