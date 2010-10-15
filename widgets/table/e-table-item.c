@@ -443,10 +443,10 @@ eti_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdoubl
 
 	gnome_canvas_item_i2c_affine (GNOME_CANVAS_ITEM (eti), i2c);
 
-	i1.x = eti->x1;
-	i1.y = eti->y1;
-	i2.x = eti->x1 + eti->width;
-	i2.y = eti->y1 + eti->height;
+	i1.x = 0;
+	i1.y = 0;
+	i2.x = eti->width;
+	i2.y = eti->height;
 	art_affine_point (&c1, &i1, i2c);
 	art_affine_point (&c2, &i2, i2c);
 
@@ -885,10 +885,10 @@ eti_request_region_redraw (ETableItem *eti,
 				end_col, end_row,
 				&x1, &y1, &x2, &y2);
 
-		eti_item_region_redraw (eti, eti->x1 + x1 - border,
-					eti->y1 + y1 - border,
-					eti->x1 + x2 + 1 + border,
-					eti->y1 + y2 + 1 + border);
+		eti_item_region_redraw (eti, x1 - border,
+					y1 - border,
+					x2 + 1 + border,
+					y2 + 1 + border);
 	}
 }
 
@@ -1765,12 +1765,12 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 	 * Find out our real position after grouping
 	 */
 	gnome_canvas_item_i2c_affine (item, i2c);
-	eti_base_item.x = eti->x1;
-	eti_base_item.y = eti->y1;
+	eti_base_item.x = 0;
+	eti_base_item.y = 0;
 	art_affine_point (&eti_base, &eti_base_item, i2c);
 
-	eti_base_item.x = eti->x1 + eti->width;
-	eti_base_item.y = eti->y1 + eti->height;
+	eti_base_item.x = eti->width;
+	eti_base_item.y = eti->height;
 	art_affine_point (&lower_right, &eti_base_item, i2c);
 
 	/*
@@ -2061,16 +2061,13 @@ find_cell (ETableItem *eti, gdouble x, gdouble y, gint *view_col_res, gint *view
 	if (eti->grabbed_col >= 0 && eti->grabbed_row >= 0) {
 		*view_col_res = eti->grabbed_col;
 		*view_row_res = eti->grabbed_row;
-		*x1_res = x - eti->x1 - e_table_header_col_diff (eti->header, 0, eti->grabbed_col);
-		*y1_res = y - eti->y1 - e_table_item_row_diff (eti, 0, eti->grabbed_row);
+		*x1_res = x - e_table_header_col_diff (eti->header, 0, eti->grabbed_col);
+		*y1_res = y - e_table_item_row_diff (eti, 0, eti->grabbed_row);
 		return TRUE;
 	}
 
 	if (cols == 0 || rows == 0)
 		return FALSE;
-
-	x -= eti->x1;
-	y -= eti->y1;
 
 	x1 = 0;
 	for (col = 0; col < cols - 1; col++, x1 = x2) {

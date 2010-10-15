@@ -48,7 +48,6 @@ typedef struct {
 	ETableModel     *source_model;
 	ESelectionModel *selection;
 
-	gint              x1, y1;
 	gint              minimum_width, width, height;
 
 	gint              cols, rows;
