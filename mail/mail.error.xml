@@ -472,5 +472,19 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
     <_primary>"Report Not Junk" Failed</_primary>
     <secondary xml:space="preserve">{0}</secondary>
   </error>
+
+  <error id="ask-remove-duplicates" type="question" default="GTK_RESPONSE_YES">
+    <_primary>Remove duplicate messages?</_primary>
+    <secondary>{0}</secondary>
+    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+    <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
+  </error>
+
+  <error id="info-no-remove-duplicates" type="info" default="GTK_RESPONSE_OK">
+    <_primary>No duplicate messages found.</_primary>
+    <!-- Translators: {0} is replaced with a folder name -->
+    <_secondary>Folder '{0}' doesn't contain any duplicate message.</_secondary>
+    <button stock="gtk-ok" response="GTK_RESPONSE_OK"/>
+  </error>
 </error-list>
 

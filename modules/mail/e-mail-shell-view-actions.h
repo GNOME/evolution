@@ -85,6 +85,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-folder-rename")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_SELECT_ALL(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-folder-select-all")
+#define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_REMOVE_DUPLICATES(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-folder-remove-duplicates")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_SELECT_THREAD(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-folder-select-thread")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_SELECT_SUBTHREAD(window) \
