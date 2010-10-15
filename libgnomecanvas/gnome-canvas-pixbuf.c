@@ -268,9 +268,6 @@ gnome_canvas_pixbuf_destroy (GnomeCanvasItem *object)
 	/* remember, destroy can be run multiple times! */
 
 	if (priv) {
-	    gnome_canvas_request_redraw (
-		item->canvas, item->x1, item->y1, item->x2, item->y2);
-
 	    if (priv->pixbuf)
 		g_object_unref (priv->pixbuf);
 
@@ -306,27 +303,12 @@ gnome_canvas_pixbuf_set_property (GObject            *object,
 
 	switch (param_id) {
 	case PROP_PIXBUF:
-		if (g_value_get_object (value))
-			pixbuf = GDK_PIXBUF (g_value_get_object (value));
-		else
-			pixbuf = NULL;
+		pixbuf = g_value_get_object (value);
 		if (pixbuf != priv->pixbuf) {
-			if (pixbuf) {
-				g_return_if_fail
-				    (gdk_pixbuf_get_colorspace (pixbuf) == GDK_COLORSPACE_RGB);
-				g_return_if_fail
-				    (gdk_pixbuf_get_n_channels (pixbuf) == 3
-				     || gdk_pixbuf_get_n_channels (pixbuf) == 4);
-				g_return_if_fail
-				    (gdk_pixbuf_get_bits_per_sample (pixbuf) == 8);
-
-				g_object_ref (pixbuf);
-			}
-
 			if (priv->pixbuf)
 				g_object_unref (priv->pixbuf);
 
-			priv->pixbuf = pixbuf;
+			priv->pixbuf = g_object_ref (pixbuf);
 		}
 
 		gnome_canvas_item_request_update (item);
@@ -415,7 +397,7 @@ gnome_canvas_pixbuf_get_property (GObject            *object,
 
 	switch (param_id) {
 	case PROP_PIXBUF:
-		g_value_set_object (value, G_OBJECT (priv->pixbuf));
+		g_value_set_object (value, priv->pixbuf);
 		break;
 
 	case PROP_WIDTH:
