@@ -26,6 +26,11 @@ EShellContent
 </para>
 
 
+<!-- ##### ARG EShellContent:alert-bar ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG EShellContent:shell-view ##### -->
 <para>
 
@@ -64,6 +69,15 @@ EShellContent
 </para>
 
 @shell_content: 
+
+
+<!-- ##### FUNCTION e_shell_content_get_alert_bar ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@Returns: 
 
 
 <!-- ##### FUNCTION e_shell_content_get_shell_view ##### -->

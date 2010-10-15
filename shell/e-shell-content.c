@@ -29,6 +29,8 @@
 
 #include <glib/gi18n.h>
 
+#include "e-util/e-alert-dialog.h"
+#include "e-util/e-alert-sink.h"
 #include "e-util/e-extensible.h"
 #include "e-util/e-util.h"
 #include "e-util/e-alert-dialog.h"
@@ -49,6 +51,7 @@ struct _EShellContentPrivate {
 
 	gpointer shell_view;	/* weak pointer */
 
+	GtkWidget *alert_bar;
 	GtkWidget *searchbar;	/* not referenced */
 
 	/* Custom search rules. */
@@ -57,13 +60,20 @@ struct _EShellContentPrivate {
 
 enum {
 	PROP_0,
+	PROP_ALERT_BAR,
 	PROP_SHELL_VIEW
 };
+
+/* Forward Declarations */
+static void	e_shell_content_alert_sink_init
+					(EAlertSinkInterface *interface);
 
 G_DEFINE_TYPE_WITH_CODE (
 	EShellContent,
 	e_shell_content,
 	GTK_TYPE_BIN,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_ALERT_SINK, e_shell_content_alert_sink_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL));
 
@@ -118,6 +128,12 @@ shell_content_get_property (GObject *object,
                             GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ALERT_BAR:
+			g_value_set_object (
+				value, e_shell_content_get_alert_bar (
+				E_SHELL_CONTENT (object)));
+			return;
+
 		case PROP_SHELL_VIEW:
 			g_value_set_object (
 				value, e_shell_content_get_shell_view (
@@ -141,13 +157,26 @@ shell_content_dispose (GObject *object)
 		priv->shell_view = NULL;
 	}
 
-	if (priv->user_filename) {
-		g_free (priv->user_filename);
-		priv->user_filename = NULL;
+	if (priv->alert_bar != NULL) {
+		g_object_unref (priv->alert_bar);
+		priv->alert_bar = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_shell_content_parent_class)->dispose (object);
+}
+
+static void
+shell_content_finalize (GObject *object)
+{
+	EShellContentPrivate *priv;
+
+	priv = E_SHELL_CONTENT_GET_PRIVATE (object);
+
+	g_free (priv->user_filename);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_shell_content_parent_class)->finalize (object);
 }
 
 static void
@@ -156,11 +185,17 @@ shell_content_constructed (GObject *object)
 	EShellContent *shell_content;
 	EShellBackend *shell_backend;
 	EShellView *shell_view;
+	GtkWidget *widget;
 	const gchar *config_dir;
 
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	widget = e_alert_bar_new ();
+	gtk_widget_set_parent (widget, GTK_WIDGET (shell_content));
+	shell_content->priv->alert_bar = g_object_ref_sink (widget);
+	/* EAlertBar controls its own visibility. */
 
 	/* XXX Regenerate the filename for custom saved search as done
 	 *     in shell_view_init_search_context().  ERuleContext ought
@@ -189,6 +224,10 @@ shell_content_size_request (GtkWidget *widget,
 	child = gtk_bin_get_child (GTK_BIN (widget));
 	gtk_widget_size_request (child, requisition);
 
+	gtk_widget_size_request (priv->alert_bar, &child_requisition);
+	requisition->width = MAX (requisition->width, child_requisition.width);
+	requisition->height += child_requisition.height;
+
 	if (priv->searchbar == NULL)
 		return;
 
@@ -210,20 +249,39 @@ shell_content_size_allocate (GtkWidget *widget,
 
 	gtk_widget_set_allocation (widget, allocation);
 
-	child = priv->searchbar;
-
-	if (child == NULL)
-		child_requisition.height = 0;
-	else
-		gtk_widget_size_request (child, &child_requisition);
-
 	child_allocation.x = allocation->x;
-	child_allocation.y = allocation->y;
 	child_allocation.width = allocation->width;
+
+	/* Alert bar gets to be as tall as it wants. */
+
+	child = priv->alert_bar;
+	child_allocation.y = allocation->y;
+
+	if (gtk_widget_get_visible (child))
+		gtk_widget_size_request (child, &child_requisition);
+	else
+		child_requisition.height = 0;
+
+	child_allocation.height = child_requisition.height;
+
+	gtk_widget_size_allocate (child, &child_allocation);
+
+	/* So does the search bar (if we have one). */
+
+	child = priv->searchbar;
+	child_allocation.y += child_requisition.height;
+
+	if (child != NULL)
+		gtk_widget_size_request (child, &child_requisition);
+	else
+		child_requisition.height = 0;
+
 	child_allocation.height = child_requisition.height;
 
 	if (child != NULL)
 		gtk_widget_size_allocate (child, &child_allocation);
+
+	/* The GtkBin child gets whatever vertical space is left. */
 
 	child_allocation.y += child_requisition.height;
 	child_allocation.height =
@@ -242,6 +300,12 @@ shell_content_remove (GtkContainer *container,
 	EShellContentPrivate *priv;
 
 	priv = E_SHELL_CONTENT_GET_PRIVATE (container);
+
+	if (widget == priv->alert_bar) {
+		gtk_widget_unparent (priv->alert_bar);
+		priv->alert_bar = NULL;
+		return;
+	}
 
 	if (widget == priv->searchbar) {
 		gtk_widget_unparent (priv->searchbar);
@@ -264,12 +328,47 @@ shell_content_forall (GtkContainer *container,
 
 	priv = E_SHELL_CONTENT_GET_PRIVATE (container);
 
+	if (priv->alert_bar != NULL)
+		callback (priv->alert_bar, callback_data);
+
 	if (priv->searchbar != NULL)
 		callback (priv->searchbar, callback_data);
 
 	/* Chain up to parent's forall() method. */
 	GTK_CONTAINER_CLASS (e_shell_content_parent_class)->forall (
 		container, include_internals, callback, callback_data);
+}
+
+static void
+shell_content_submit_alert (EAlertSink *alert_sink,
+                            EAlert *alert)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
+	EAlertBar *alert_bar;
+	GtkWidget *dialog;
+	GtkWindow *parent;
+
+	shell_content = E_SHELL_CONTENT (alert_sink);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	alert_bar = e_shell_content_get_alert_bar (shell_content);
+
+	switch (e_alert_get_message_type (alert)) {
+		case GTK_MESSAGE_INFO:
+		case GTK_MESSAGE_WARNING:
+		case GTK_MESSAGE_ERROR:
+			e_alert_bar_add_alert (alert_bar, alert);
+			break;
+
+		default:
+			parent = GTK_WINDOW (shell_window);
+			dialog = e_alert_dialog_new (parent, alert);
+			gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
+			break;
+	}
 }
 
 static void
@@ -285,6 +384,7 @@ e_shell_content_class_init (EShellContentClass *class)
 	object_class->set_property = shell_content_set_property;
 	object_class->get_property = shell_content_get_property;
 	object_class->dispose = shell_content_dispose;
+	object_class->finalize = shell_content_finalize;
 	object_class->constructed = shell_content_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
@@ -294,6 +394,20 @@ e_shell_content_class_init (EShellContentClass *class)
 	container_class = GTK_CONTAINER_CLASS (class);
 	container_class->remove = shell_content_remove;
 	container_class->forall = shell_content_forall;
+
+	/* EShellContent:alert-bar
+	 *
+	 * Displays informational and error messages.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_ALERT_BAR,
+		g_param_spec_object (
+			"alert-bar",
+			"Alert Bar",
+			"Displays informational and error messages",
+			E_TYPE_ALERT_BAR,
+			G_PARAM_READABLE));
 
 	/**
 	 * EShellContent:shell-view
@@ -310,6 +424,12 @@ e_shell_content_class_init (EShellContentClass *class)
 			E_TYPE_SHELL_VIEW,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
+}
+
+static void
+e_shell_content_alert_sink_init (EAlertSinkInterface *interface)
+{
+	interface->submit_alert = shell_content_submit_alert;
 }
 
 static void
@@ -413,6 +533,22 @@ e_shell_content_focus_search_results (EShellContent *shell_content)
 
 	if (shell_content_class->focus_search_results != NULL)
 		shell_content_class->focus_search_results (shell_content);
+}
+
+/**
+ * e_shell_content_get_alert_bar:
+ * @shell_content: an #EShellContent
+ *
+ * Returns the #EAlertBar used to display informational and error messages.
+ *
+ * Returns: the #EAlertBar for @shell_content
+ **/
+EAlertBar *
+e_shell_content_get_alert_bar (EShellContent *shell_content)
+{
+	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
+
+	return E_ALERT_BAR (shell_content->priv->alert_bar);
 }
 
 /**

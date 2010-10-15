@@ -765,7 +765,7 @@ shell_view_update_actions (EShellView *shell_view)
 }
 
 static void
-shell_view_class_init (EShellViewClass *class)
+e_shell_view_class_init (EShellViewClass *class)
 {
 	GObjectClass *object_class;
 
@@ -1065,10 +1065,13 @@ shell_view_class_init (EShellViewClass *class)
 }
 
 static void
-shell_view_init (EShellView *shell_view,
-                 EShellViewClass *class)
+e_shell_view_init (EShellView *shell_view,
+                   EShellViewClass *class)
 {
 	GtkSizeGroup *size_group;
+
+	/* XXX Our use of GInstanceInitFunc's 'class' parameter
+	 *     prevents us from using G_DEFINE_ABSTRACT_TYPE. */
 
 	if (class->search_context == NULL)
 		shell_view_init_search_context (class);
@@ -1093,12 +1096,12 @@ e_shell_view_get_type (void)
 			sizeof (EShellViewClass),
 			(GBaseInitFunc) NULL,
 			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) shell_view_class_init,
+			(GClassInitFunc) e_shell_view_class_init,
 			(GClassFinalizeFunc) NULL,
 			NULL,  /* class_data */
 			sizeof (EShellView),
 			0,     /* n_preallocs */
-			(GInstanceInitFunc) shell_view_init,
+			(GInstanceInitFunc) e_shell_view_init,
 			NULL   /* value_table */
 		};
 

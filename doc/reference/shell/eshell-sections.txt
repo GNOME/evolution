@@ -86,6 +86,7 @@ e_shell_content_new
 e_shell_content_set_searchbar
 e_shell_content_check_state
 e_shell_content_focus_search_results
+e_shell_content_get_alert_bar
 e_shell_content_get_shell_view
 e_shell_content_get_view_id
 e_shell_content_set_view_id
