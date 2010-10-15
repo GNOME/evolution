@@ -38,12 +38,13 @@ G_BEGIN_DECLS
 
 typedef struct _GnomeCanvasPixbuf GnomeCanvasPixbuf;
 typedef struct _GnomeCanvasPixbufClass GnomeCanvasPixbufClass;
+typedef struct _GnomeCanvasPixbufPrivate GnomeCanvasPixbufPrivate;
 
 struct _GnomeCanvasPixbuf {
 	GnomeCanvasItem item;
 
 	/* Private data */
-	gpointer priv;
+	GnomeCanvasPixbufPrivate *priv;
 };
 
 struct _GnomeCanvasPixbufClass {
