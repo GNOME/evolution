@@ -45,15 +45,9 @@ static void       gail_canvas_item_remove_focus_handler     (AtkComponent *compo
 							     guint             handler_id);
 static gboolean   is_item_on_screen                         (GnomeCanvasItem   *item);
 static void       get_item_extents                          (GnomeCanvasItem   *item,
-							     gint              *x,
-							     gint              *y,
-							     gint              *width,
-							     gint              *height);
+							     GdkRectangle      *extents);
 static gboolean   is_item_in_window                         (GnomeCanvasItem   *item,
-							     gint              x,
-							     gint              y,
-							     gint              width,
-							     gint              height);
+							     const GdkRectangle *extents);
 
 static AtkGObjectAccessibleClass *parent_class = NULL;
 
@@ -274,7 +268,7 @@ gail_canvas_item_get_extents (AtkComponent *component,
   GnomeCanvasItem *item;
   gint window_x, window_y;
   gint toplevel_x, toplevel_y;
-  gint local_x, local_y;
+  GdkRectangle extents;
 
   g_return_if_fail (GAIL_IS_CANVAS_ITEM (component));
   atk_gobj = ATK_GOBJECT_ACCESSIBLE (component);
@@ -290,8 +284,10 @@ gail_canvas_item_get_extents (AtkComponent *component,
   /* If this item has no parent canvas, something's broken */
   g_return_if_fail (GTK_IS_WIDGET (item->canvas));
 
-  get_item_extents (item, &local_x, &local_y, width, height);
-  if (!is_item_in_window (item, local_x, local_y, *width, *height))
+  get_item_extents (item, &extents);
+  *width = extents.width;
+  *height = extents.height;
+  if (!is_item_in_window (item, &extents))
     {
       *x = G_MININT;
       *y = G_MININT;
@@ -300,8 +296,8 @@ gail_canvas_item_get_extents (AtkComponent *component,
 
   gail_misc_get_origins (GTK_WIDGET (item->canvas), &window_x, &window_y,
                          &toplevel_x, &toplevel_y);
-  *x = local_x + window_x - toplevel_x;
-  *y = local_y + window_y - toplevel_y;
+  *x = extents.x + window_x - toplevel_x;
+  *y = extents.y + window_y - toplevel_y;
 
   /* If screen coordinates are requested, modify x and y appropriately */
   if (coord_type == ATK_XY_SCREEN)
@@ -356,131 +352,39 @@ gail_canvas_item_remove_focus_handler (AtkComponent *component,
 static gboolean
 is_item_on_screen (GnomeCanvasItem *item)
 {
-  gint x, y, width, height;
+  GdkRectangle extents;
 
-  get_item_extents (item, &x, &y, &width, &height);
-  return is_item_in_window (item, x, y, width, height);
+  get_item_extents (item, &extents);
+  return is_item_in_window (item, &extents);
 }
 
 static void
 get_item_extents (GnomeCanvasItem   *item,
-                  gint              *x,
-                  gint              *y,
-                  gint              *width,
-                  gint              *height)
+                  GdkRectangle      *extents)
 {
-  gdouble bx1, by1, bx2, by2;
-  gdouble i2c[6];
-  ArtPoint p1, p2, p3, p4;
-  ArtPoint q1, q2, q3, q4;
-  gdouble min_x1, min_y1, min_x2, min_y2;
-  gdouble max_x1, max_y1, max_x2, max_y2;
-  gint x1, y1, x2, y2;
-  gint scroll_x, scroll_y;
+  double x1, x2, y1, y2;
+  cairo_matrix_t i2c;
 
-  /* Get the bounding box in item-relative coordinates */
-
-  bx1 = by1 = bx2 = by2 = 0.0;
+  x1 = y1 = x2 = y2 = 0.0;
 
   if (GNOME_CANVAS_ITEM_CLASS (G_OBJECT_GET_CLASS (item))->bounds)
     GNOME_CANVAS_ITEM_CLASS (G_OBJECT_GET_CLASS (item))->bounds (
-      item, &bx1, &by1, &bx2, &by2);
+      item, &x1, &y1, &x2, &y2);
 
   /* Get the item coordinates -> canvas pixel coordinates affine */
 
-  gnome_canvas_item_i2c_affine (item, i2c);
+  gnome_canvas_item_i2c_matrix (item, &i2c);
+  gnome_canvas_matrix_transform_rect (&i2c, &x1, &y1, &x2, &y2);
 
-  /* Convert the bounding box to canvas pixel coordinates and find its minimum
-   * surrounding rectangle.
-   */
-
-  p1.x = p2.x = bx1;
-  p1.y = p4.y = by1;
-  p3.x = p4.x = bx2;
-  p2.y = p3.y = by2;
-
-  art_affine_point (&q1, &p1, i2c);
-  art_affine_point (&q2, &p2, i2c);
-  art_affine_point (&q3, &p3, i2c);
-  art_affine_point (&q4, &p4, i2c);
-
-  if (q1.x < q2.x)
-    {
-      min_x1 = q1.x;
-      max_x1 = q2.x;
-    }
-  else
-    {
-      min_x1 = q2.x;
-      max_x1 = q1.x;
-    }
-
-  if (q1.y < q2.y)
-    {
-      min_y1 = q1.y;
-      max_y1 = q2.y;
-    }
-  else
-    {
-      min_y1 = q2.y;
-      max_y1 = q1.y;
-    }
-
-  if (q3.x < q4.x)
-    {
-      min_x2 = q3.x;
-      max_x2 = q4.x;
-    }
-  else
-    {
-      min_x2 = q4.x;
-      max_x2 = q3.x;
-    }
-
-  if (q3.y < q4.y)
-    {
-      min_y2 = q3.y;
-      max_y2 = q4.y;
-    }
-  else
-    {
-      min_y2 = q4.y;
-      max_y2 = q3.y;
-    }
-
-  bx1 = MIN (min_x1, min_x2);
-  by1 = MIN (min_y1, min_y2);
-  bx2 = MAX (max_x1, max_x2);
-  by2 = MAX (max_y1, max_y2);
-
-  /* Convert to integer coordinates */
-
-  x1 = floor (bx1);
-  y1 = floor (by1);
-  x2 = ceil (bx2);
-  y2 = ceil (by2);
-
-  gnome_canvas_get_scroll_offsets (item->canvas, &scroll_x, &scroll_y);
-
-  if (x)
-    *x = x1 - scroll_x;
-
-  if (y)
-    *y = y1 - scroll_y;
-
-  if (width)
-    *width = x2 - x1;
-
-  if (height)
-    *height = y2 - y1;
+  extents->x = floor (x1);
+  extents->y = floor (y1);
+  extents->width = ceil (x2) - extents->x;
+  extents->height = ceil (y2) - extents->y;
 }
 
 static gboolean
-is_item_in_window (GnomeCanvasItem   *item,
-                   gint              x,
-                   gint              y,
-                   gint              width,
-                   gint              height)
+is_item_in_window (GnomeCanvasItem    *item,
+                   const GdkRectangle *extents)
 {
   GtkWidget *widget;
   GdkWindow *window;
@@ -490,24 +394,13 @@ is_item_in_window (GnomeCanvasItem   *item,
   window = gtk_widget_get_window (widget);
   if (window)
     {
-      gint window_width, window_height;
+      GdkRectangle window_rect;
+      
+      window_rect.x = 0;
+      window_rect.y = 0;
+      gdk_drawable_get_size (window, &window_rect.width, &window_rect.height);
 
-      gdk_window_get_geometry (window, NULL, NULL,
-                               &window_width, &window_height, NULL);
-      /*
-       * Check whether rectangles intersect
-       */
-      if (x + width <= 0  ||
-          y + height <= 0 ||
-          x > window_width  ||
-          y > window_height)
-        {
-          retval = FALSE;
-        }
-      else
-        {
-          retval = TRUE;
-        }
+      retval = gdk_rectangle_intersect (extents, &window_rect, NULL);
     }
   else
     {
