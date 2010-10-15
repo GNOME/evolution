@@ -22,7 +22,6 @@
 #ifndef E_SHELL_CONTENT_H
 #define E_SHELL_CONTENT_H
 
-#include <misc/e-alert-bar.h>
 #include <shell/e-shell-common.h>
 
 /* Standard GObject macros */
@@ -79,7 +78,7 @@ void		e_shell_content_set_searchbar	(EShellContent *shell_content,
 guint32		e_shell_content_check_state	(EShellContent *shell_content);
 void		e_shell_content_focus_search_results
 						(EShellContent *shell_content);
-EAlertBar *	e_shell_content_get_alert_bar	(EShellContent *shell_content);
+GtkWidget *	e_shell_content_get_alert_bar	(EShellContent *shell_content);
 struct _EShellView *
 		e_shell_content_get_shell_view	(EShellContent *shell_content);
 const gchar *	e_shell_content_get_view_id	(EShellContent *shell_content);

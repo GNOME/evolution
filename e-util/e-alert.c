@@ -38,6 +38,7 @@
 #include "e-util.h"
 #include "e-util-private.h"
 #include "e-alert.h"
+#include "e-alert-action.h"
 #include "e-alert-sink.h"
 
 #define d(x)
@@ -45,6 +46,8 @@
 #define E_ALERT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ALERT, EAlertPrivate))
+
+typedef struct _EAlertButton EAlertButton;
 
 struct _e_alert {
 	const gchar *id;
@@ -61,12 +64,19 @@ struct _e_alert_table {
 	GHashTable *alerts;
 };
 
+struct _EAlertButton {
+	EAlertButton *next;
+	const gchar *stock_id;
+	const gchar *label;
+	gint response_id;
+};
+
 static GHashTable *alert_table;
 
 /* ********************************************************************** */
 
 static EAlertButton default_ok_button = {
-	NULL, "gtk-ok", NULL, GTK_RESPONSE_OK
+	NULL, GTK_STOCK_OK, NULL, GTK_RESPONSE_OK
 };
 
 static struct _e_alert default_alerts[] = {
@@ -86,6 +96,11 @@ struct _EAlertPrivate {
 	struct _e_alert *definition;
 	GtkMessageType message_type;
 	gint default_response;
+
+	/* It may occur to one that we could use a GtkActionGroup here,
+	 * but we need to preserve the button order and GtkActionGroup
+	 * uses a hash table, which does not preserve order. */
+	GQueue actions;
 };
 
 enum {
@@ -233,37 +248,37 @@ e_alert_load (const gchar *path)
 						xmlFree (tmp);
 					}
 				} else if (!strcmp((gchar *)scan->name, "button")) {
-					EAlertButton *b;
+					EAlertButton *button;
 					gchar *label = NULL;
-					gchar *stock = NULL;
+					gchar *stock_id = NULL;
 
-					b = g_malloc0 (sizeof (*b));
+					button = g_new0 (EAlertButton, 1);
 					tmp = (gchar *)xmlGetProp(scan, (const guchar *)"stock");
 					if (tmp) {
-						stock = g_strdup (tmp);
-						b->stock = stock;
+						stock_id = g_strdup (tmp);
+						button->stock_id = stock_id;
 						xmlFree (tmp);
 					}
 					tmp = (gchar *)xmlGetProp(scan, (const guchar *)"label");
 					if (tmp) {
 						label = g_strdup (dgettext (table->translation_domain, tmp));
-						b->label = label;
+						button->label = label;
 						xmlFree (tmp);
 					}
 					tmp = (gchar *)xmlGetProp(scan, (const guchar *)"response");
 					if (tmp) {
-						b->response = map_response (tmp);
+						button->response_id = map_response (tmp);
 						xmlFree (tmp);
 					}
 
-					if (stock == NULL && label == NULL) {
+					if (stock_id == NULL && label == NULL) {
 						g_warning("Error file '%s': missing button details in error '%s'", path, e->id);
-						g_free (stock);
+						g_free (stock_id);
 						g_free (label);
-						g_free (b);
+						g_free (button);
 					} else {
-						lastbutton->next = b;
-						lastbutton = b;
+						lastbutton->next = button;
+						lastbutton = button;
 					}
 				}
 			}
@@ -322,6 +337,18 @@ e_alert_load_tables (void)
 	g_free (base);
 }
 
+static void
+alert_action_activate (EAlert *alert,
+                       GtkAction *action)
+{
+	GObject *object;
+	gpointer data;
+
+	object = G_OBJECT (action);
+	data = g_object_get_data (object, "e-alert-response-id");
+	e_alert_response (alert, GPOINTER_TO_INT (data));
+}
+
 static gchar *
 alert_format_string (const gchar *format,
                      GPtrArray *args)
@@ -378,8 +405,6 @@ alert_set_tag (EAlert *alert,
 	g_warn_if_fail (definition);
 
 	alert->priv->definition = definition;
-	e_alert_set_message_type (alert, definition->message_type);
-	e_alert_set_default_response (alert, definition->default_response);
 }
 
 static void
@@ -463,6 +488,20 @@ alert_get_property (GObject *object,
 }
 
 static void
+alert_dispose (GObject *object)
+{
+	EAlertPrivate *priv;
+
+	priv = E_ALERT_GET_PRIVATE (object);
+
+	while (!g_queue_is_empty (&priv->actions))
+		g_object_unref (g_queue_pop_head (&priv->actions));
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_alert_parent_class)->dispose (object);
+}
+
+static void
 alert_finalize (GObject *object)
 {
 	EAlertPrivate *priv;
@@ -480,6 +519,49 @@ alert_finalize (GObject *object)
 }
 
 static void
+alert_constructed (GObject *object)
+{
+	EAlert *alert;
+	EAlertButton *button;
+	struct _e_alert *definition;
+	gint ii = 0;
+
+	alert = E_ALERT (object);
+	definition = alert->priv->definition;
+
+	e_alert_set_message_type (alert, definition->message_type);
+	e_alert_set_default_response (alert, definition->default_response);
+
+	/* Build actions out of the button definitions. */
+	button = definition->buttons;
+	while (button != NULL) {
+		GtkAction *action;
+		gchar *action_name;
+
+		action_name = g_strdup_printf ("alert-response-%d", ii++);
+
+		if (button->stock_id != NULL) {
+			action = gtk_action_new (
+				action_name, NULL, NULL, button->stock_id);
+			e_alert_add_action (
+				alert, action, button->response_id);
+			g_object_unref (action);
+
+		} else if (button->label != NULL) {
+			action = gtk_action_new (
+				action_name, button->label, NULL, NULL);
+			e_alert_add_action (
+				alert, action, button->response_id);
+			g_object_unref (action);
+		}
+
+		g_free (action_name);
+
+		button = button->next;
+	}
+}
+
+static void
 e_alert_class_init (EAlertClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
@@ -488,7 +570,9 @@ e_alert_class_init (EAlertClass *class)
 
 	object_class->set_property = alert_set_property;
 	object_class->get_property = alert_get_property;
+	object_class->dispose = alert_dispose;
 	object_class->finalize = alert_finalize;
+	object_class->constructed = alert_constructed;
 
 	g_object_class_install_property (
 		object_class,
@@ -562,9 +646,11 @@ e_alert_class_init (EAlertClass *class)
 }
 
 static void
-e_alert_init (EAlert *self)
+e_alert_init (EAlert *alert)
 {
-	self->priv = E_ALERT_GET_PRIVATE (self);
+	alert->priv = E_ALERT_GET_PRIVATE (alert);
+
+	g_queue_init (&alert->priv->actions);
 }
 
 /**
@@ -760,11 +846,43 @@ e_alert_get_stock_id (EAlert *alert)
 	return stock_id;
 }
 
-EAlertButton *
-e_alert_peek_buttons (EAlert *alert)
+void
+e_alert_add_action (EAlert *alert,
+                    GtkAction *action,
+                    gint response_id)
 {
-	g_return_val_if_fail (alert && alert->priv && alert->priv->definition, NULL);
-	return alert->priv->definition->buttons;
+	g_return_if_fail (E_IS_ALERT (alert));
+	g_return_if_fail (GTK_ACTION (action));
+
+	g_object_set_data (
+		G_OBJECT (action), "e-alert-response-id",
+		GINT_TO_POINTER (response_id));
+
+	g_signal_connect_swapped (
+		action, "activate",
+		G_CALLBACK (alert_action_activate), alert);
+
+	g_queue_push_tail (&alert->priv->actions, g_object_ref (action));
+}
+
+GList *
+e_alert_peek_actions (EAlert *alert)
+{
+	g_return_val_if_fail (E_IS_ALERT (alert), NULL);
+
+	/* Make sure we have at least one action.  Do this on-demand
+	 * in case the XML definition did not specify any actions but
+	 * other actions were added via e_alert_add_action(). */
+	if (g_queue_is_empty (&alert->priv->actions)) {
+		GtkAction *action;
+
+		action = gtk_action_new (
+			"alert-response-0", _("_Dismiss"), NULL, NULL);
+		e_alert_add_action (alert, action, GTK_RESPONSE_CLOSE);
+		g_object_unref (action);
+	}
+
+	return g_queue_peek_head_link (&alert->priv->actions);
 }
 
 GtkWidget *

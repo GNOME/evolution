@@ -27,15 +27,10 @@
 
 #include "e-shell-window-private.h"
 
-#include <gconf/gconf-client.h>
-
-#include <e-util/e-extensible.h>
-#include <e-util/e-plugin-ui.h>
-#include <e-util/e-util-private.h>
-
 enum {
 	PROP_0,
 	PROP_ACTIVE_VIEW,
+	PROP_ALERT_BAR,
 	PROP_FOCUS_TRACKER,
 	PROP_GEOMETRY,
 	PROP_SAFE_MODE,
@@ -54,10 +49,16 @@ enum {
 
 static gulong signals[LAST_SIGNAL];
 
+/* Forward Declarations */
+static void	e_shell_window_alert_sink_init
+					(EAlertSinkInterface *interface);
+
 G_DEFINE_TYPE_WITH_CODE (
 	EShellWindow,
 	e_shell_window,
 	GTK_TYPE_WINDOW,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_ALERT_SINK, e_shell_window_alert_sink_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL))
 
@@ -251,6 +252,12 @@ shell_window_get_property (GObject *object,
 		case PROP_ACTIVE_VIEW:
 			g_value_set_string (
 				value, e_shell_window_get_active_view (
+				E_SHELL_WINDOW (object)));
+			return;
+
+		case PROP_ALERT_BAR:
+			g_value_set_object (
+				value, e_shell_window_get_alert_bar (
 				E_SHELL_WINDOW (object)));
 			return;
 
@@ -492,19 +499,29 @@ shell_window_construct_sidebar (EShellWindow *shell_window)
 static GtkWidget *
 shell_window_construct_content (EShellWindow *shell_window)
 {
-	GtkWidget *notebook;
+	GtkWidget *box;
+	GtkWidget *widget;
 
-	notebook = gtk_notebook_new ();
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (notebook), FALSE);
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (notebook), FALSE);
-	shell_window->priv->content_notebook = g_object_ref_sink (notebook);
-	gtk_widget_show (notebook);
+	box = gtk_vbox_new (FALSE, 0);
+	gtk_widget_show (box);
+
+	widget = e_alert_bar_new ();
+	gtk_box_pack_start (GTK_BOX (box), widget, FALSE, FALSE, 0);
+	shell_window->priv->alert_bar = g_object_ref (widget);
+	/* EAlertBar controls its own visibility. */
+
+	widget = gtk_notebook_new ();
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
+	gtk_box_pack_start (GTK_BOX (box), widget, TRUE, TRUE, 0);
+	shell_window->priv->content_notebook = g_object_ref (widget);
+	gtk_widget_show (widget);
 
 	g_signal_connect (
 		shell_window, "notify::active-view",
-		G_CALLBACK (shell_window_set_notebook_page), notebook);
+		G_CALLBACK (shell_window_set_notebook_page), widget);
 
-	return notebook;
+	return box;
 }
 
 static GtkWidget *
@@ -676,6 +693,34 @@ shell_window_realize (GtkWidget *widget)
 }
 
 static void
+shell_window_submit_alert (EAlertSink *alert_sink,
+                           EAlert *alert)
+{
+	EShellWindow *shell_window;
+	GtkWidget *alert_bar;
+	GtkWidget *dialog;
+
+	shell_window = E_SHELL_WINDOW (alert_sink);
+	alert_bar = e_shell_window_get_alert_bar (shell_window);
+
+	switch (e_alert_get_message_type (alert)) {
+		case GTK_MESSAGE_INFO:
+		case GTK_MESSAGE_WARNING:
+		case GTK_MESSAGE_ERROR:
+			e_alert_bar_add_alert (
+				E_ALERT_BAR (alert_bar), alert);
+			break;
+
+		default:
+			dialog = e_alert_dialog_new (
+				GTK_WINDOW (shell_window), alert);
+			gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
+			break;
+	}
+}
+
+static void
 e_shell_window_class_init (EShellWindowClass *class)
 {
 	GObjectClass *object_class;
@@ -714,6 +759,21 @@ e_shell_window_class_init (EShellWindowClass *class)
 			"Name of the active shell view",
 			NULL,
 			G_PARAM_READWRITE));
+
+	/**
+	 * EShellWindow:alert-bar
+	 *
+	 * Displays informational and error messages.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_ALERT_BAR,
+		g_param_spec_object (
+			"alert-bar",
+			"Alert Bar",
+			"Displays informational and error messages",
+			E_TYPE_ALERT_BAR,
+			G_PARAM_READABLE));
 
 	/**
 	 * EShellWindow:focus-tracker
@@ -876,6 +936,12 @@ e_shell_window_class_init (EShellWindowClass *class)
 }
 
 static void
+e_shell_window_alert_sink_init (EAlertSinkInterface *interface)
+{
+	interface->submit_alert = shell_window_submit_alert;
+}
+
+static void
 e_shell_window_init (EShellWindow *shell_window)
 {
 	shell_window->priv = E_SHELL_WINDOW_GET_PRIVATE (shell_window);
@@ -1033,6 +1099,22 @@ e_shell_window_get_shell_view_action (EShellWindow *shell_window,
 	g_free (action_name);
 
 	return action;
+}
+
+/**
+ * e_shell_window_get_alert_bar:
+ * @shell_window: an #EShellWindow
+ *
+ * Returns the #EAlertBar used to display informational and error messages.
+ *
+ * Returns: the #EAlertBar for @shell_window
+ **/
+GtkWidget *
+e_shell_window_get_alert_bar (EShellWindow *shell_window)
+{
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
+
+	return shell_window->priv->alert_bar;
 }
 
 /**

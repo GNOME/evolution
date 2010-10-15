@@ -22,10 +22,13 @@
  */
 
 #include "e-alert-dialog.h"
-#include "e-util.h"
 
-#define E_ALERT_DIALOG_GET_PRIVATE(o) \
-		(G_TYPE_INSTANCE_GET_PRIVATE ((o), E_TYPE_ALERT_DIALOG, EAlertDialogPrivate))
+#include "e-util.h"
+#include "e-alert-action.h"
+
+#define E_ALERT_DIALOG_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_ALERT_DIALOG, EAlertDialogPrivate))
 
 struct _EAlertDialogPrivate {
 	GtkWindow *parent;
@@ -94,6 +97,9 @@ alert_dialog_dispose (GObject *object)
 	priv = E_ALERT_DIALOG_GET_PRIVATE (object);
 
 	if (priv->alert) {
+		g_signal_handlers_disconnect_matched (
+			priv->alert, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, object);
 		g_object_unref (priv->alert);
 		priv->alert = NULL;
 	}
@@ -105,61 +111,67 @@ alert_dialog_dispose (GObject *object)
 static void
 alert_dialog_constructed (GObject *object)
 {
-	EAlertDialog *self = (EAlertDialog*) object;
 	EAlert *alert;
-	EAlertButton *b;
+	EAlertDialog *dialog;
 	GtkWidget *action_area;
 	GtkWidget *content_area;
 	GtkWidget *container;
 	GtkWidget *widget;
 	PangoAttribute *attr;
 	PangoAttrList *list;
+	GList *actions;
 	const gchar *primary, *secondary;
 
-	g_return_if_fail (self != NULL);
+	dialog = E_ALERT_DIALOG (object);
+	alert = e_alert_dialog_get_alert (dialog);
 
-	alert = e_alert_dialog_get_alert (E_ALERT_DIALOG (self));
+	gtk_window_set_title (GTK_WINDOW (dialog), " ");
 
-	gtk_window_set_title (GTK_WINDOW (self), " ");
-
-	action_area = gtk_dialog_get_action_area (GTK_DIALOG (self));
-	content_area = gtk_dialog_get_content_area (GTK_DIALOG (self));
+	action_area = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
+	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
 #if !GTK_CHECK_VERSION(2,90,7)
-	g_object_set (self, "has-separator", FALSE, NULL);
+	g_object_set (dialog, "has-separator", FALSE, NULL);
 #endif
 
-	gtk_widget_ensure_style (GTK_WIDGET (self));
+	gtk_widget_ensure_style (GTK_WIDGET (dialog));
 	gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
 	gtk_container_set_border_width (GTK_CONTAINER (content_area), 0);
 
-	gtk_window_set_destroy_with_parent (GTK_WINDOW (self), TRUE);
+	gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog), TRUE);
 
-	b = e_alert_peek_buttons (alert);
-	if (b == NULL) {
-		gtk_dialog_add_button (
-			GTK_DIALOG (self), GTK_STOCK_OK, GTK_RESPONSE_OK);
-	} else {
-		for (; b; b=b->next) {
-			if (b->stock) {
-				if (b->label != NULL)
-					gtk_dialog_add_button (
-						GTK_DIALOG (self),
-						b->label, b->response);
-				else
-					gtk_dialog_add_button (
-						GTK_DIALOG (self),
-						b->stock, b->response);
-			} else
-				gtk_dialog_add_button (
-					GTK_DIALOG (self),
-					b->label, b->response);
-		}
+	/* Forward EAlert::response signals to GtkDialog::response. */
+	g_signal_connect_swapped (
+		alert, "response",
+		G_CALLBACK (gtk_dialog_response), dialog);
+
+	/* Add buttons from actions. */
+	actions = e_alert_peek_actions (alert);
+	while (actions != NULL) {
+		GtkWidget *button;
+
+		/* These actions are already wired to trigger an
+		 * EAlert::response signal when activated, which
+		 * will in turn call to gtk_dialog_response(),
+		 * so we can add buttons directly to the action
+		 * area without knowing their response IDs. */
+
+		button = gtk_button_new ();
+
+		gtk_activatable_set_related_action (
+			GTK_ACTIVATABLE (button),
+			GTK_ACTION (actions->data));
+
+		gtk_box_pack_end (
+			GTK_BOX (action_area),
+			button, FALSE, TRUE, 0);
+
+		actions = g_list_next (actions);
 	}
 
 	if (e_alert_get_default_response (alert))
 		gtk_dialog_set_default_response (
-			GTK_DIALOG (self),
+			GTK_DIALOG (dialog),
 			e_alert_get_default_response (alert));
 
 	widget = gtk_hbox_new (FALSE, 12);
@@ -210,20 +222,9 @@ alert_dialog_constructed (GObject *object)
 }
 
 static void
-alert_dialog_response (GtkDialog *dialog,
-                       gint response_id)
-{
-	EAlert *alert;
-
-	alert = e_alert_dialog_get_alert (E_ALERT_DIALOG (dialog));
-	e_alert_response (alert, response_id);
-}
-
-static void
 e_alert_dialog_class_init (EAlertDialogClass *class)
 {
 	GObjectClass *object_class;
-	GtkDialogClass *dialog_class;
 
 	g_type_class_add_private (class, sizeof (EAlertDialogPrivate));
 
@@ -232,9 +233,6 @@ e_alert_dialog_class_init (EAlertDialogClass *class)
 	object_class->get_property = alert_dialog_get_property;
 	object_class->dispose = alert_dialog_dispose;
 	object_class->constructed = alert_dialog_constructed;
-
-	dialog_class = GTK_DIALOG_CLASS (class);
-	dialog_class->response = alert_dialog_response;
 
 	g_object_class_install_property (
 		object_class,
@@ -250,9 +248,9 @@ e_alert_dialog_class_init (EAlertDialogClass *class)
 }
 
 static void
-e_alert_dialog_init (EAlertDialog *self)
+e_alert_dialog_init (EAlertDialog *dialog)
 {
-	self->priv = E_ALERT_DIALOG_GET_PRIVATE (self);
+	dialog->priv = E_ALERT_DIALOG_GET_PRIVATE (dialog);
 }
 
 GtkWidget *

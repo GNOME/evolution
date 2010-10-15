@@ -35,21 +35,27 @@ G_DEFINE_INTERFACE (
 	GTK_TYPE_WIDGET)
 
 static void
-alert_sink_submit_alert (EAlertSink *alert_sink,
-                         EAlert *alert)
+alert_sink_fallback (GtkWidget *widget,
+                     EAlert *alert)
 {
 	GtkWidget *dialog;
 	gpointer parent;
 
-	/* This is just a lame fallback handler.  Implementors
-	 * are strongly encouraged to override this method. */
-
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (alert_sink));
+	parent = gtk_widget_get_toplevel (widget);
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	dialog = e_alert_dialog_new (parent, alert);
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (dialog);
+}
+
+static void
+alert_sink_submit_alert (EAlertSink *alert_sink,
+                         EAlert *alert)
+{
+	/* This is just a lame fallback handler.  Implementors
+	 * are strongly encouraged to override this method. */
+	alert_sink_fallback (GTK_WIDGET (alert_sink), alert);
 }
 
 static void
@@ -67,7 +73,7 @@ e_alert_sink_default_init (EAlertSinkInterface *interface)
  * well-defined behavior.  It's up to the widget implementing the #EAlertSink
  * interface to decide what to do with them.
  *
- * Either @widget or one of its parents must implement #EAlertSink.
+ * Either @widget or one of its ancestors must implement #EAlertSink.
  *
  * The default behavior is to display the @alert in a dialog.
  **/
@@ -75,18 +81,20 @@ void
 e_alert_sink_submit_alert (GtkWidget *widget,
                            EAlert *alert)
 {
-	EAlertSinkInterface *interface;
+	GtkWidget *ancestor;
 
 	g_return_if_fail (GTK_IS_WIDGET (widget));
 	g_return_if_fail (E_IS_ALERT (alert));
 
-	while (widget != NULL && !E_IS_ALERT_SINK (widget))
-		widget = gtk_widget_get_parent (widget);
+	ancestor = gtk_widget_get_ancestor (widget, E_TYPE_ALERT_SINK);
 
-	g_return_if_fail (E_IS_ALERT_SINK (widget));
+	if (E_IS_ALERT_SINK (ancestor)) {
+		EAlertSinkInterface *interface;
 
-	interface = E_ALERT_SINK_GET_INTERFACE (widget);
-	g_return_if_fail (interface->submit_alert != NULL);
+		interface = E_ALERT_SINK_GET_INTERFACE (ancestor);
+		g_return_if_fail (interface->submit_alert != NULL);
 
-	interface->submit_alert (E_ALERT_SINK (widget), alert);
+		interface->submit_alert (E_ALERT_SINK (ancestor), alert);
+	} else
+		alert_sink_fallback (widget, alert);
 }

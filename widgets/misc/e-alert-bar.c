@@ -21,11 +21,14 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
+#include "e-util/e-alert-action.h"
+
 #define E_ALERT_BAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ALERT_BAR, EAlertBarPrivate))
 
-#define ICON_SIZE	GTK_ICON_SIZE_DIALOG
+/* GTK_ICON_SIZE_DIALOG is a tad too big. */
+#define ICON_SIZE	GTK_ICON_SIZE_DND
 
 struct _EAlertBarPrivate {
 	GQueue alerts;
@@ -46,8 +49,8 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 	GtkLabel *label;
 	GtkInfoBar *info_bar;
 	GtkWidget *action_area;
-	EAlertButton *buttons;
 	EAlert *alert;
+	GList *actions;
 	GList *children;
 	GtkMessageType message_type;
 	const gchar *stock_id;
@@ -69,22 +72,27 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 	}
 
 	/* Add new buttons. */
-	buttons = e_alert_peek_buttons (alert);
-	if (buttons == NULL) {
-		gtk_info_bar_add_button (
-			info_bar, _("_Dismiss"), GTK_RESPONSE_CLOSE);
-	} else while (buttons != NULL) {
-		const gchar *button_text;
+	actions = e_alert_peek_actions (alert);
+	while (actions != NULL) {
+		GtkWidget *button;
 
-		if (buttons->stock != NULL)
-			button_text = buttons->stock;
-		else
-			button_text = buttons->label;
+		/* These actions are already wired to trigger an
+		 * EAlert::response signal when activated, which
+		 * will in turn call gtk_info_bar_response(), so
+		 * we can add buttons directly to the action
+		 * area without knowning their response IDs. */
 
-		gtk_info_bar_add_button (
-			info_bar, button_text, buttons->response);
+		button = gtk_button_new ();
 
-		buttons = buttons->next;
+		gtk_activatable_set_related_action (
+			GTK_ACTIVATABLE (button),
+			GTK_ACTION (actions->data));
+
+		gtk_box_pack_end (
+			GTK_BOX (action_area),
+			button, FALSE, FALSE, 0);
+
+		actions = g_list_next (actions);
 	}
 
 	response_id = e_alert_get_default_response (alert);
@@ -109,51 +117,65 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 }
 
 static void
+alert_bar_response_cb (EAlert *alert,
+                       gint response_id,
+                       EAlertBar *alert_bar)
+{
+	GQueue *queue;
+	EAlert *head;
+	GList *link;
+	gboolean was_head;
+
+	queue = &alert_bar->priv->alerts;
+	head = g_queue_peek_head (queue);
+	was_head = (alert == head);
+
+	g_signal_handlers_disconnect_by_func (
+		alert, alert_bar_response_cb, alert_bar);
+
+	/* XXX Would be easier if g_queue_remove() returned a boolean. */
+	link = g_queue_find (queue, alert);
+	if (link != NULL) {
+		g_queue_delete_link (queue, link);
+		g_object_unref (alert);
+	}
+
+	if (g_queue_is_empty (queue))
+		gtk_widget_hide (GTK_WIDGET (alert_bar));
+	else if (was_head) {
+		GtkInfoBar *info_bar = GTK_INFO_BAR (alert_bar);
+		gtk_info_bar_response (info_bar, response_id);
+		alert_bar_show_alert (alert_bar);
+	}
+}
+
+static void
 alert_bar_dispose (GObject *object)
 {
 	EAlertBarPrivate *priv;
 
 	priv = E_ALERT_BAR_GET_PRIVATE (object);
 
-	while (!g_queue_is_empty (&priv->alerts))
-		g_object_unref (g_queue_pop_head (&priv->alerts));
+	while (!g_queue_is_empty (&priv->alerts)) {
+		EAlert *alert = g_queue_pop_head (&priv->alerts);
+		g_signal_handlers_disconnect_by_func (
+			alert, alert_bar_response_cb, object);
+		g_object_unref (alert);
+	}
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_alert_bar_parent_class)->dispose (object);
 }
 
 static void
-alert_bar_response (GtkInfoBar *info_bar,
-                    gint response_id)
-{
-	EAlertBar *alert_bar;
-	EAlert *alert;
-
-	alert_bar = E_ALERT_BAR (info_bar);
-
-	alert = g_queue_pop_head (&alert_bar->priv->alerts);
-	e_alert_response (alert, response_id);
-	g_object_unref (alert);
-
-	if (!g_queue_is_empty (&alert_bar->priv->alerts))
-		alert_bar_show_alert (alert_bar);
-	else
-		gtk_widget_hide (GTK_WIDGET (alert_bar));
-}
-
-static void
 e_alert_bar_class_init (EAlertBarClass *class)
 {
 	GObjectClass *object_class;
-	GtkInfoBarClass *info_bar_class;
 
 	g_type_class_add_private (class, sizeof (EAlertBarPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = alert_bar_dispose;
-
-	info_bar_class = GTK_INFO_BAR_CLASS (class);
-	info_bar_class->response = alert_bar_response;
 }
 
 static void
@@ -229,6 +251,10 @@ e_alert_bar_add_alert (EAlertBar *alert_bar,
 {
 	g_return_if_fail (E_IS_ALERT_BAR (alert_bar));
 	g_return_if_fail (E_IS_ALERT (alert));
+
+	g_signal_connect (
+		alert, "response",
+		G_CALLBACK (alert_bar_response_cb), alert_bar);
 
 	g_queue_push_head (&alert_bar->priv->alerts, g_object_ref (alert));
 

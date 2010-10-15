@@ -36,6 +36,7 @@
 #include "e-util/e-alert-dialog.h"
 #include "filter/e-rule-editor.h"
 #include "widgets/misc/e-action-combo-box.h"
+#include "widgets/misc/e-alert-bar.h"
 #include "widgets/misc/e-hinted-entry.h"
 
 #include "e-shell-backend.h"
@@ -244,29 +245,35 @@ shell_content_size_allocate (GtkWidget *widget,
 	GtkAllocation child_allocation;
 	GtkRequisition child_requisition;
 	GtkWidget *child;
+	gint remaining_height;
 
 	priv = E_SHELL_CONTENT_GET_PRIVATE (widget);
 
+	remaining_height = allocation->height;
 	gtk_widget_set_allocation (widget, allocation);
 
 	child_allocation.x = allocation->x;
+	child_allocation.y = allocation->y;
 	child_allocation.width = allocation->width;
 
-	/* Alert bar gets to be as tall as it wants. */
+	child_requisition.height = 0;
+
+	/* Alert bar gets to be as tall as it wants (if visible). */
 
 	child = priv->alert_bar;
-	child_allocation.y = allocation->y;
+	child_allocation.y += child_requisition.height;
 
 	if (gtk_widget_get_visible (child))
 		gtk_widget_size_request (child, &child_requisition);
 	else
 		child_requisition.height = 0;
 
+	remaining_height -= child_requisition.height;
 	child_allocation.height = child_requisition.height;
 
 	gtk_widget_size_allocate (child, &child_allocation);
 
-	/* So does the search bar (if we have one). */
+	/* Search bar gets to be as tall as it wants (if we have one). */
 
 	child = priv->searchbar;
 	child_allocation.y += child_requisition.height;
@@ -276,6 +283,7 @@ shell_content_size_allocate (GtkWidget *widget,
 	else
 		child_requisition.height = 0;
 
+	remaining_height -= child_requisition.height;
 	child_allocation.height = child_requisition.height;
 
 	if (child != NULL)
@@ -284,8 +292,7 @@ shell_content_size_allocate (GtkWidget *widget,
 	/* The GtkBin child gets whatever vertical space is left. */
 
 	child_allocation.y += child_requisition.height;
-	child_allocation.height =
-		allocation->height - child_requisition.height;
+	child_allocation.height = remaining_height;
 
 	child = gtk_bin_get_child (GTK_BIN (widget));
 	if (child != NULL)
@@ -346,9 +353,8 @@ shell_content_submit_alert (EAlertSink *alert_sink,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
-	EAlertBar *alert_bar;
+	GtkWidget *alert_bar;
 	GtkWidget *dialog;
-	GtkWindow *parent;
 
 	shell_content = E_SHELL_CONTENT (alert_sink);
 	shell_view = e_shell_content_get_shell_view (shell_content);
@@ -359,12 +365,13 @@ shell_content_submit_alert (EAlertSink *alert_sink,
 		case GTK_MESSAGE_INFO:
 		case GTK_MESSAGE_WARNING:
 		case GTK_MESSAGE_ERROR:
-			e_alert_bar_add_alert (alert_bar, alert);
+			e_alert_bar_add_alert (
+				E_ALERT_BAR (alert_bar), alert);
 			break;
 
 		default:
-			parent = GTK_WINDOW (shell_window);
-			dialog = e_alert_dialog_new (parent, alert);
+			dialog = e_alert_dialog_new (
+				GTK_WINDOW (shell_window), alert);
 			gtk_dialog_run (GTK_DIALOG (dialog));
 			gtk_widget_destroy (dialog);
 			break;
@@ -395,7 +402,8 @@ e_shell_content_class_init (EShellContentClass *class)
 	container_class->remove = shell_content_remove;
 	container_class->forall = shell_content_forall;
 
-	/* EShellContent:alert-bar
+	/**
+	 * EShellContent:alert-bar
 	 *
 	 * Displays informational and error messages.
 	 **/
@@ -543,12 +551,12 @@ e_shell_content_focus_search_results (EShellContent *shell_content)
  *
  * Returns: the #EAlertBar for @shell_content
  **/
-EAlertBar *
+GtkWidget *
 e_shell_content_get_alert_bar (EShellContent *shell_content)
 {
 	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
 
-	return E_ALERT_BAR (shell_content->priv->alert_bar);
+	return shell_content->priv->alert_bar;
 }
 
 /**

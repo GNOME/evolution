@@ -39,6 +39,11 @@ EShellWindow
 
 </para>
 
+<!-- ##### ARG EShellWindow:alert-bar ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG EShellWindow:focus-tracker ##### -->
 <para>
 

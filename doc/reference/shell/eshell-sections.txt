@@ -321,6 +321,7 @@ e_shell_window_get_shell
 e_shell_window_get_shell_view
 e_shell_window_peek_shell_view
 e_shell_window_get_shell_view_action
+e_shell_window_get_alert_bar
 e_shell_window_get_focus_tracker
 e_shell_window_get_ui_manager
 e_shell_window_get_action

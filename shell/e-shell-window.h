@@ -96,6 +96,7 @@ struct _EShellView *
 GtkAction *	e_shell_window_get_shell_view_action
 						(EShellWindow *shell_window,
 						 const gchar *view_name);
+GtkWidget *	e_shell_window_get_alert_bar	(EShellWindow *shell_window);
 EFocusTracker *	e_shell_window_get_focus_tracker
 						(EShellWindow *shell_window);
 GtkUIManager *	e_shell_window_get_ui_manager	(EShellWindow *shell_window);

@@ -289,10 +289,6 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	e_shell_window_actions_init (shell_window);
 
-	/* Do this after intializing actions because it
-	 * triggers shell_window_update_close_action_cb(). */
-	e_shell_watch_window (shell, window);
-
 	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
 	gtk_window_add_accel_group (GTK_WINDOW (shell_window), accel_group);
 
@@ -481,6 +477,8 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	id = "org.gnome.evolution.shell";
 	e_plugin_ui_register_manager (ui_manager, id, shell_window);
 	e_plugin_ui_enable_manager (ui_manager, id);
+
+	e_shell_watch_window (shell, window);
 }
 
 void
@@ -514,6 +512,7 @@ e_shell_window_private_dispose (EShellWindow *shell_window)
 
 	g_hash_table_remove_all (priv->loaded_views);
 
+	DISPOSE (priv->alert_bar);
 	DISPOSE (priv->content_pane);
 	DISPOSE (priv->content_notebook);
 	DISPOSE (priv->sidebar_notebook);
