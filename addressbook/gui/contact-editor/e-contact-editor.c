@@ -2219,7 +2219,6 @@ static FieldMapping simple_field_map[] = {
 	{ "label-office",         E_CONTACT_OFFICE,       FALSE, TRUE  },
 
 	{ "text-comments",        E_CONTACT_NOTE,         TRUE,  TRUE  },
-	{ "label-comments",       E_CONTACT_NOTE,         FALSE, TRUE  },
 
 	{ "entry-fullname",       E_CONTACT_FULL_NAME,    TRUE,  TRUE  },
 	{ "button-fullname",      E_CONTACT_FULL_NAME,    FALSE, TRUE  },
