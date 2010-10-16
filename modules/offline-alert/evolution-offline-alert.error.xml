@@ -7,7 +7,7 @@
   </error>
   <error id="no-network" type="info">
     <_primary>Evolution is currently offline due to a network outage.</_primary>
-    <_secondary>Evolution will return to online mode once a network connection is established.</secondary>
+    <_secondary>Evolution will return to online mode once a network connection is established.</_secondary>
     <button _label="_Dismiss" response="GTK_RESPONSE_OK"/>
   </error>
 </error-list>

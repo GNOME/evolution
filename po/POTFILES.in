@@ -281,6 +281,7 @@ modules/mail/em-composer-prefs.c
 modules/mail/em-mailer-prefs.c
 modules/mailto-handler/apps-evolution-mail-prompts-checkdefault.schemas.in
 modules/mailto-handler/evolution-mailto-handler.c
+modules/offline-alert/evolution-offline-alert.error.xml
 modules/plugin-manager/evolution-plugin-manager.c
 modules/plugin-python/example/org-gnome-hello-python-ui.xml
 modules/plugin-python/example/org-gnome-hello-python.eplug.xml

@@ -3,6 +3,7 @@ module_LTLIBRARIES = libevolution-module-offline-alert.la
 libevolution_module_offline_alert_la_CPPFLAGS =			\
 	$(AM_CPPFLAGS)						\
 	-I$(top_srcdir)						\
+	-I$(top_srcdir)/widgets					\
 	-DG_LOG_DOMAIN=\"evolution-offline-alert\"		\
 	$(GNOME_PLATFORM_CFLAGS)
 

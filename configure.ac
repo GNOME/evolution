@@ -1802,10 +1802,11 @@ modules/Makefile
 modules/addressbook/Makefile
 modules/calendar/Makefile
 modules/mail/Makefile
-modules/mailto-handler/Makefile
-modules/network-manager/Makefile
 modules/composer-autosave/Makefile
 modules/connman/Makefile
+modules/mailto-handler/Makefile
+modules/network-manager/Makefile
+modules/offline-alert/Makefile
 modules/plugin-lib/Makefile
 modules/plugin-manager/Makefile
 modules/plugin-mono/Makefile
