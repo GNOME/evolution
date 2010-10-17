@@ -1752,8 +1752,8 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 	gint x1, x2;
 	gint f_x1, f_x2, f_y1, f_y2;
 	gboolean f_found;
-	gdouble i2c[6];
-	ArtPoint eti_base, eti_base_item, lower_right;
+	cairo_matrix_t i2c;
+	double eti_base_x, eti_base_y, lower_right_y, lower_right_x;
 	GtkWidget *canvas = GTK_WIDGET (item->canvas);
         GtkStyle *style = gtk_widget_get_style (canvas);
 	gint height_extra = eti->horizontal_draw_grid ? 1 : 0;
@@ -1764,21 +1764,21 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 	/*
 	 * Find out our real position after grouping
 	 */
-	gnome_canvas_item_i2c_affine (item, i2c);
-	eti_base_item.x = 0;
-	eti_base_item.y = 0;
-	art_affine_point (&eti_base, &eti_base_item, i2c);
+	gnome_canvas_item_i2c_matrix (item, &i2c);
+	eti_base_x = 0;
+	eti_base_y = 0;
+        cairo_matrix_transform_point (&i2c, &eti_base_x, &eti_base_y);
 
-	eti_base_item.x = eti->width;
-	eti_base_item.y = eti->height;
-	art_affine_point (&lower_right, &eti_base_item, i2c);
+	lower_right_x = eti->width;
+	lower_right_y = eti->height;
+        cairo_matrix_transform_point (&i2c, &lower_right_x, &lower_right_y);
 
 	/*
 	 * First column to draw, last column to draw
 	 */
 	first_col = -1;
 	x_offset = 0;
-	x1 = floor (eti_base.x);
+	x1 = floor (eti_base_x);
 	for (col = 0; col < cols; col++, x1 = x2) {
 		ETableCol *ecol = e_table_header_get_column (eti->header, col);
 
@@ -1805,11 +1805,11 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 	 * Compute row span.
 	 */
 	if (eti->uniform_row_height) {
-		first_row = (y          - floor (eti_base.y) - height_extra) / (ETI_ROW_HEIGHT (eti, -1) + height_extra);
-		last_row  = (y + height - floor (eti_base.y)               ) / (ETI_ROW_HEIGHT (eti, -1) + height_extra) + 1;
+		first_row = (y          - floor (eti_base_y) - height_extra) / (ETI_ROW_HEIGHT (eti, -1) + height_extra);
+		last_row  = (y + height - floor (eti_base_y)               ) / (ETI_ROW_HEIGHT (eti, -1) + height_extra) + 1;
 		if (first_row > last_row)
 			goto exit;
-		y_offset = floor (eti_base.y) - y + height_extra + first_row * (ETI_ROW_HEIGHT (eti, -1) + height_extra);
+		y_offset = floor (eti_base_y) - y + height_extra + first_row * (ETI_ROW_HEIGHT (eti, -1) + height_extra);
 		if (first_row < 0)
 			first_row = 0;
 		if (last_row > eti->rows)
@@ -1820,7 +1820,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 		y_offset = 0;
 		first_row = -1;
 
-		y1 = y2 = floor (eti_base.y) + height_extra;
+		y1 = y2 = floor (eti_base_y) + height_extra;
 		for (row = 0; row < rows; row++, y1 = y2) {
 
 			y2 += ETI_ROW_HEIGHT (eti, row) + height_extra;
@@ -1853,7 +1853,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 	f_found = FALSE;
 
 	if (eti->horizontal_draw_grid && first_row == 0)
-		eti_draw_grid_line (eti, cr, style, eti_base.x - x, yd, eti_base.x + eti->width - x, yd);
+		eti_draw_grid_line (eti, cr, style, eti_base_x - x, yd, eti_base_x + eti->width - x, yd);
 
 	yd += height_extra;
 
@@ -1972,8 +1972,8 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 				switch (eti->cursor_mode) {
 				case E_CURSOR_LINE:
 					if (view_to_model_row (eti, row) == cursor_row) {
-						f_x1 = floor (eti_base.x) - x;
-						f_x2 = floor (lower_right.x) - x;
+						f_x1 = floor (eti_base_x) - x;
+						f_x2 = floor (lower_right_x) - x;
 						f_y1 = yd+1;
 						f_y2 = yd + height;
 						f_found = TRUE;
@@ -1997,7 +1997,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 		yd += height;
 
 		if (eti->horizontal_draw_grid) {
-		        eti_draw_grid_line (eti, cr, style, eti_base.x - x, yd, eti_base.x + eti->width - x, yd);
+		        eti_draw_grid_line (eti, cr, style, eti_base_x - x, yd, eti_base_x + eti->width - x, yd);
 			yd++;
 		}
 	}
