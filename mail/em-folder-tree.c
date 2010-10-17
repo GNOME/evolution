@@ -1258,10 +1258,10 @@ folder_tree_new (EMFolderTree *folder_tree)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 	GtkWidget *tree;
-	GConfClient *gconf;
+	GConfClient *client;
 	const gchar *key;
 
-	gconf = mail_config_get_gconf_client ();
+	client = gconf_client_get_default ();
 
 	/* FIXME Gross hack */
 	tree = GTK_WIDGET (folder_tree);
@@ -1282,7 +1282,7 @@ folder_tree_new (EMFolderTree *folder_tree)
 
 	renderer = gtk_cell_renderer_text_new ();
 	key = "/apps/evolution/mail/display/no_folder_dots";
-	if (!gconf_client_get_bool (gconf, key, NULL))
+	if (!gconf_client_get_bool (client, key, NULL))
 		g_object_set (
 			renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
@@ -1302,6 +1302,8 @@ folder_tree_new (EMFolderTree *folder_tree)
 	gtk_tree_view_set_headers_visible ((GtkTreeView *) tree, FALSE);
 
 	gtk_tree_view_set_search_column ((GtkTreeView *)tree, COL_STRING_DISPLAY_NAME);
+
+	g_object_unref (client);
 
 	return (GtkTreeView *) tree;
 }

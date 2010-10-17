@@ -284,10 +284,10 @@ main_get_filter_driver (CamelSession *session,
 	EFilterRule *rule = NULL;
 	const gchar *config_dir;
 	gchar *user, *system;
-	GConfClient *gconf;
+	GConfClient *client;
 	ERuleContext *fc;
 
-	gconf = mail_config_get_gconf_client ();
+	client = gconf_client_get_default ();
 
 	config_dir = mail_session_get_config_dir ();
 	user = g_build_filename (config_dir, "filters.xml", NULL);
@@ -300,11 +300,11 @@ main_get_filter_driver (CamelSession *session,
 	driver = camel_filter_driver_new (session);
 	camel_filter_driver_set_folder_func (driver, get_folder, session);
 
-	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/filters/log", NULL)) {
+	if (gconf_client_get_bool (client, "/apps/evolution/mail/filters/log", NULL)) {
 		if (ms->priv->filter_logfile == NULL) {
 			gchar *filename;
 
-			filename = gconf_client_get_string (gconf, "/apps/evolution/mail/filters/logfile", NULL);
+			filename = gconf_client_get_string (client, "/apps/evolution/mail/filters/logfile", NULL);
 			if (filename) {
 				ms->priv->filter_logfile = g_fopen (filename, "a+");
 				g_free (filename);
@@ -354,6 +354,8 @@ main_get_filter_driver (CamelSession *session,
 
 	g_object_unref (fc);
 
+	g_object_unref (client);
+
 	return driver;
 }
 
@@ -381,12 +383,15 @@ ms_forward_to_cb (CamelFolder *folder,
                   gpointer data)
 {
 	EMailSession *session = E_MAIL_SESSION (data);
+	GConfClient *client;
+
+	client = gconf_client_get_default ();
 
 	camel_message_info_free (info);
 
 	/* do not call mail send immediately, just pile them all in the outbox */
 	if (preparing_flush ||
-	    gconf_client_get_bool (mail_config_get_gconf_client (), "/apps/evolution/mail/filters/flush-outbox", NULL)) {
+	    gconf_client_get_bool (client, "/apps/evolution/mail/filters/flush-outbox", NULL)) {
 		if (preparing_flush)
 			g_source_remove (preparing_flush);
 
@@ -394,6 +399,8 @@ ms_forward_to_cb (CamelFolder *folder,
 			60, (GSourceFunc)
 			forward_to_flush_outbox_cb, session);
 	}
+
+	g_object_unref (client);
 }
 
 /* Support for SOCKS proxy ***************************************************/
@@ -410,7 +417,7 @@ set_socks_proxy_from_gconf (CamelSession *session)
 	gchar *mode, *host;
 	gint port;
 
-	client = mail_config_get_gconf_client ();
+	client = gconf_client_get_default ();
 
 	mode = gconf_client_get_string (client, MODE_PROXY, NULL);
 	if (!g_strcmp0(mode, "manual")) {
@@ -420,6 +427,8 @@ set_socks_proxy_from_gconf (CamelSession *session)
 		g_free (host);
 	}
 	g_free (mode);
+
+	g_object_unref (client);
 }
 
 static void
@@ -443,7 +452,7 @@ set_socks_proxy_gconf_watch (CamelSession *session)
 {
 	GConfClient *client;
 
-	client = mail_config_get_gconf_client ();
+	client = gconf_client_get_default ();
 
 	gconf_client_add_dir (
 		client, DIR_PROXY,
@@ -451,6 +460,8 @@ set_socks_proxy_gconf_watch (CamelSession *session)
 	session_gconf_proxy_id = gconf_client_notify_add (
 		client, DIR_PROXY, proxy_gconf_notify_cb,
 		session, NULL, NULL); /* NULL-GError */
+
+	g_object_unref (client);
 }
 
 static void
@@ -552,7 +563,7 @@ mail_session_finalize (GObject *object)
 {
 	GConfClient *client;
 
-	client = mail_config_get_gconf_client ();
+	client = gconf_client_get_default ();
 
 	if (session_check_junk_notify_id != 0) {
 		gconf_client_notify_remove (client, session_check_junk_notify_id);
@@ -563,6 +574,8 @@ mail_session_finalize (GObject *object)
 		gconf_client_notify_remove (client, session_gconf_proxy_id);
 		session_gconf_proxy_id = 0;
 	}
+
+	g_object_unref (client);
 
 	g_free (mail_data_dir);
 	g_free (mail_config_dir);
@@ -1374,14 +1387,16 @@ mail_session_add_junk_plugin (EMailSession *session,
                               const gchar *plugin_name,
                               CamelJunkPlugin *junk_plugin)
 {
-	GConfClient *gconf;
+	GConfClient *client;
 	gchar *def_plugin;
+	const gchar *key;
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
-	gconf = mail_config_get_gconf_client ();
-	def_plugin = gconf_client_get_string (
-		gconf, "/apps/evolution/mail/junk/default_plugin", NULL);
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/mail/junk/default_plugin";
+	def_plugin = gconf_client_get_string (client, key, NULL);
+	g_object_unref (client);
 
 	session->priv->junk_plugins = g_list_append (
 		session->priv->junk_plugins, junk_plugin);

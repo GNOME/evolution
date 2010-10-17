@@ -795,16 +795,16 @@ headers_changed_cb (GConfClient *client,
 static void
 remove_header_notify_cb (gpointer data)
 {
-	GConfClient *client = mail_config_get_gconf_client ();
+	GConfClient *client;
 	guint notify_id;
-
-	g_return_if_fail (client != NULL);
 
 	notify_id = GPOINTER_TO_INT (data);
 	g_return_if_fail (notify_id != 0);
 
+	client = gconf_client_get_default ();
 	gconf_client_notify_remove (client, notify_id);
 	gconf_client_remove_dir (client, "/apps/evolution/mail/display", NULL);
+	g_object_unref (client);
 }
 
 /**
@@ -817,8 +817,10 @@ remove_header_notify_cb (gpointer data)
 void
 e_mail_reader_connect_headers (EMailReader *reader)
 {
-	GConfClient *client = mail_config_get_gconf_client ();
+	GConfClient *client;
 	guint notify_id;
+
+	client = gconf_client_get_default ();
 
 	gconf_client_add_dir (
 		client, "/apps/evolution/mail/display",
@@ -833,4 +835,6 @@ e_mail_reader_connect_headers (EMailReader *reader)
 		GINT_TO_POINTER (notify_id), remove_header_notify_cb);
 
 	headers_changed_cb (client, 0, NULL, reader);
+
+	g_object_unref (client);
 }

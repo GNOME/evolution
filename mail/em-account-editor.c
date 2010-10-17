@@ -611,119 +611,6 @@ emae_account_url (EMAccountEditor *emae, gint urlid)
 }
 
 /* ********************************************************************** */
-static void
-emae_license_state (GtkToggleButton *button, GtkDialog *dialog)
-{
-	gtk_dialog_set_response_sensitive (dialog, GTK_RESPONSE_ACCEPT,
-					  gtk_toggle_button_get_active (button));
-}
-
-static gboolean
-emae_load_text (GtkTextView *view, const gchar *filename)
-{
-	FILE *fd;
-	gchar filebuf[1024];
-	GtkTextIter iter;
-	GtkTextBuffer *buffer;
-	gint count;
-
-	g_return_val_if_fail (filename != NULL , FALSE);
-
-	fd = g_fopen (filename, "r");
-	if (fd) {
-		buffer =  gtk_text_buffer_new (NULL);
-		gtk_text_buffer_get_start_iter (buffer, &iter);
-		while (!feof (fd) && !ferror (fd)) {
-			count = fread (filebuf, 1, sizeof (filebuf), fd);
-			gtk_text_buffer_insert (buffer, &iter, filebuf, count);
-		}
-
-		gtk_text_view_set_buffer (GTK_TEXT_VIEW (view), GTK_TEXT_BUFFER (buffer));
-		fclose (fd);
-	}
-
-	return fd != NULL;
-}
-
-static gboolean
-emae_display_license (EMAccountEditor *emae, CamelProvider *prov)
-{
-	GtkBuilder *builder;
-	GtkWidget *w, *dialog;
-	gchar *tmp;
-	GtkResponseType response = GTK_RESPONSE_NONE;
-
-	builder = gtk_builder_new ();
-	e_load_ui_builder_definition (builder, "mail-dialogs.ui");
-
-	dialog = e_builder_get_widget (builder, "license_dialog");
-	gtk_dialog_set_response_sensitive ((GtkDialog *)dialog, GTK_RESPONSE_ACCEPT, FALSE);
-	tmp = g_strdup_printf (_("%s License Agreement"), prov->license);
-	gtk_window_set_title ((GtkWindow *)dialog, tmp);
-	g_free (tmp);
-
-	g_signal_connect (e_builder_get_widget (builder, "license_checkbutton"),
-			 "toggled", G_CALLBACK(emae_license_state), dialog);
-
-	tmp = g_strdup_printf (_("\nPlease read carefully the license agreement\n"
-				"for %s displayed below\n"
-				"and tick the check box for accepting it\n"), prov->license);
-	gtk_label_set_text ((GtkLabel *)e_builder_get_widget (builder, "license_top_label"), tmp);
-	g_free (tmp);
-
-	w = e_builder_get_widget (builder, "license_textview");
-	if (emae_load_text ((GtkTextView *)w, prov->license_file)) {
-		gtk_text_view_set_editable ((GtkTextView *)w, FALSE);
-		response = gtk_dialog_run ((GtkDialog *)dialog);
-	} else {
-		GtkWidget *editor;
-		GtkWindow *window;
-
-		editor = E_CONFIG (emae->config)->window;
-		if (editor != NULL)
-			window = (GtkWindow *) gtk_widget_get_toplevel (editor);
-		else
-			window = e_shell_get_active_window (NULL);
-		e_alert_run_dialog_for_args (
-			window, "mail:no-load-license",
-			prov->license_file, NULL);
-	}
-
-	gtk_widget_destroy (dialog);
-	g_object_unref (builder);
-
-	return (response == GTK_RESPONSE_ACCEPT);
-}
-
-static gboolean
-emae_check_license (EMAccountEditor *emae, CamelProvider *prov)
-{
-	gboolean accepted = TRUE;
-
-	if (prov->flags & CAMEL_PROVIDER_HAS_LICENSE) {
-		GConfClient *gconf = mail_config_get_gconf_client ();
-		GSList *providers_list, *l;
-
-		providers_list = gconf_client_get_list (gconf, "/apps/evolution/mail/licenses", GCONF_VALUE_STRING, NULL);
-
-		for (l = providers_list, accepted = FALSE; l && !accepted; l = g_slist_next (l))
-			accepted = (strcmp ((gchar *)l->data, prov->protocol) == 0);
-
-		if (!accepted
-		    && (accepted = emae_display_license (emae, prov)) == TRUE) {
-			providers_list = g_slist_append (providers_list, g_strdup (prov->protocol));
-			gconf_client_set_list (gconf,
-					      "/apps/evolution/mail/licenses",
-					      GCONF_VALUE_STRING,
-					      providers_list, NULL);
-		}
-
-		g_slist_foreach (providers_list, (GFunc)g_free, NULL);
-		g_slist_free (providers_list);
-	}
-
-	return accepted;
-}
 
 static void
 default_folders_clicked (GtkButton *button, gpointer user_data)
@@ -995,9 +882,6 @@ emae_setup_signatures (EMAccountEditor *emae, GtkBuilder *builder)
 
 	button = e_builder_get_widget (builder, "sigAddNew");
 	g_signal_connect (button, "clicked", G_CALLBACK(emae_signature_new), emae);
-	gtk_widget_set_sensitive (button,
-				 gconf_client_key_is_writable (mail_config_get_gconf_client (),
-							      "/apps/evolution/mail/signatures", NULL));
 
 	return (GtkWidget *)dropdown;
 }
@@ -1658,10 +1542,7 @@ emae_service_provider_changed (EMAccountEditorService *service)
 
 		camel_url_set_protocol (url, service->provider->protocol);
 		gtk_label_set_text (service->description, service->provider->description);
-		if (!emae_check_license (service->emae, service->provider))
-			gtk_widget_hide (service->frame);
-		else
-			gtk_widget_show (service->frame);
+		gtk_widget_show (service->frame);
 
 		enable = e_account_writable_option (account, service->provider->protocol, "auth");
 		gtk_widget_set_sensitive ((GtkWidget *)service->authtype, enable);

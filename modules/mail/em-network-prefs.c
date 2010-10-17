@@ -198,7 +198,9 @@ widget_entry_changed_cb (GtkWidget *widget, gpointer data)
 {
 	const gchar *value;
 	gint port = -1;
-	GConfClient *gconf = mail_config_get_gconf_client ();
+	GConfClient *client;
+
+	client = gconf_client_get_default ();
 
 	/*
 	   Do not change the order of comparison -
@@ -206,14 +208,15 @@ widget_entry_changed_cb (GtkWidget *widget, gpointer data)
 	*/
 	if (GTK_IS_SPIN_BUTTON (widget)) {
 		port = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (widget));
-		gconf_client_set_int (gconf, (const gchar *)data, port, NULL);
+		gconf_client_set_int (client, (const gchar *)data, port, NULL);
 		d(g_print ("%s:%s: %s is SpinButton: value = [%d]\n", G_STRLOC, G_STRFUNC, (const gchar *)data, port));
 	} else if (GTK_IS_ENTRY (widget)) {
 		value = gtk_entry_get_text (GTK_ENTRY (widget));
-		gconf_client_set_string (gconf, (const gchar *)data, value, NULL);
+		gconf_client_set_string (client, (const gchar *)data, value, NULL);
 		d(g_print ("%s:%s: %s is Entry: value = [%s]\n", G_STRLOC, G_STRFUNC, (const gchar *)data, value));
 	}
 
+	g_object_unref (client);
 }
 
 static void
@@ -221,7 +224,7 @@ ignore_hosts_entry_changed_cb (GtkWidget *widget, const gchar *key)
 {
 	const gchar *value;
 	GSList *lst = NULL;
-	GConfClient *gconf;
+	GConfClient *client;
 
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (key != NULL);
@@ -252,12 +255,13 @@ ignore_hosts_entry_changed_cb (GtkWidget *widget, const gchar *key)
 		g_strfreev (split);
 	}
 
-	gconf = mail_config_get_gconf_client ();
-	if (!gconf_client_set_list (gconf, key, GCONF_VALUE_STRING, lst, NULL)) {
+	client = gconf_client_get_default ();
+	if (!gconf_client_set_list (client, key, GCONF_VALUE_STRING, lst, NULL)) {
 		/* for cases where migration didn't happen, get rid of the old GConf key and "re-type" it */
-		gconf_client_unset (gconf, key, NULL);
-		gconf_client_set_list (gconf, key, GCONF_VALUE_STRING, lst, NULL);
+		gconf_client_unset (client, key, NULL);
+		gconf_client_set_list (client, key, GCONF_VALUE_STRING, lst, NULL);
 	}
+	g_object_unref (client);
 
 	g_slist_foreach (lst, (GFunc) g_free, NULL);
 	g_slist_free (lst);
@@ -304,7 +308,7 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	gboolean locked;
 	gint i, val, port;
 
-	prefs->gconf = mail_config_get_gconf_client ();
+	prefs->gconf = gconf_client_get_default ();
 
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */

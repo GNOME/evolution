@@ -1082,7 +1082,7 @@ vfolder_load_storage (EMailBackend *backend)
 	MailFolderCache *folder_cache;
 	EMailSession *session;
 	gchar *xmlfile;
-	GConfClient *gconf;
+	GConfClient *client;
 
 	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
 
@@ -1153,9 +1153,10 @@ vfolder_load_storage (EMailBackend *backend)
 	g_free (storeuri);
 
 	/* reenable the feature if required */
-	gconf = mail_config_get_gconf_client ();
-	if (!gconf_client_get_bool (gconf, "/apps/evolution/mail/display/enable_vfolders", NULL))
-		gconf_client_set_bool (gconf, "/apps/evolution/mail/display/enable_vfolders", TRUE, NULL);
+	client = gconf_client_get_default ();
+	if (!gconf_client_get_bool (client, "/apps/evolution/mail/display/enable_vfolders", NULL))
+		gconf_client_set_bool (client, "/apps/evolution/mail/display/enable_vfolders", TRUE, NULL);
+	g_object_unref (client);
 
 	folder_cache = e_mail_session_get_folder_cache (session);
 

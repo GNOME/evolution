@@ -442,7 +442,7 @@ action_mail_flag_for_followup_cb (GtkAction *action,
 static void
 check_close_browser_reader (EMailReader *reader)
 {
-	GConfClient *gconf;
+	GConfClient *client;
 	gchar *value;
 	gboolean close_it = FALSE;
 
@@ -452,8 +452,11 @@ check_close_browser_reader (EMailReader *reader)
 	if (!E_IS_MAIL_BROWSER (reader))
 		return;
 
-	gconf = mail_config_get_gconf_client ();
-	value = gconf_client_get_string (gconf, "/apps/evolution/mail/prompts/reply_close_browser", NULL);
+	client = gconf_client_get_default ();
+
+	value = gconf_client_get_string (
+		client, "/apps/evolution/mail/prompts/reply_close_browser", NULL);
+
 	if (value && g_str_equal (value, "always")) {
 		close_it = TRUE;
 	} else if (!value || !g_str_equal (value, "never")) {
@@ -481,7 +484,7 @@ check_close_browser_reader (EMailReader *reader)
 
 		if (response == GTK_RESPONSE_OK || response == GTK_RESPONSE_CANCEL)
 			gconf_client_set_string (
-				gconf, "/apps/evolution/mail/prompts/reply_close_browser",
+				client, "/apps/evolution/mail/prompts/reply_close_browser",
 				response == GTK_RESPONSE_OK ? "always" : "never", NULL);
 	}
 
@@ -489,6 +492,8 @@ check_close_browser_reader (EMailReader *reader)
 
 	if (close_it)
 		gtk_widget_destroy (GTK_WIDGET (reader));
+
+	g_object_unref (client);
 }
 
 static void
@@ -1047,7 +1052,6 @@ action_mail_reply_all_check (CamelFolder *folder,
 	recip_count += camel_address_length (CAMEL_ADDRESS (cc));
 
 	if (recip_count >= 15) {
-		GConfClient *gconf = mail_config_get_gconf_client ();
 		GtkWidget *dialog;
 		GtkWidget *content_area, *check;
 		gint response;
@@ -1065,8 +1069,15 @@ action_mail_reply_all_check (CamelFolder *folder,
 
 		response = gtk_dialog_run (GTK_DIALOG (dialog));
 
-		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)))
-			gconf_client_set_bool (gconf, "/apps/evolution/mail/prompts/reply_many_recips", FALSE, NULL);
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check))) {
+			GConfClient *client;
+			const gchar *key;
+
+			client = gconf_client_get_default ();
+			key = "/apps/evolution/mail/prompts/reply_many_recips";
+			gconf_client_set_bool (client, key, FALSE, NULL);
+			g_object_unref (client);
+		}
 
 		gtk_widget_destroy (dialog);
 
@@ -1084,11 +1095,19 @@ static void
 action_mail_reply_all_cb (GtkAction *action,
                           EMailReader *reader)
 {
-	guint32 state = e_mail_reader_check_state (reader);
-	GConfClient *gconf = mail_config_get_gconf_client ();
+	GConfClient *client;
+	const gchar *key;
+	guint32 state;
+	gboolean ask;
 
-	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/reply_many_recips", NULL) &&
-	    !(state & E_MAIL_READER_SELECTION_IS_MAILING_LIST)) {
+	state = e_mail_reader_check_state (reader);
+
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/mail/prompts/reply_many_recips";
+	ask = gconf_client_get_bool (client, key, NULL);
+	g_object_unref (client);
+
+	if (ask && !(state & E_MAIL_READER_SELECTION_IS_MAILING_LIST)) {
 		CamelMimeMessage *message = NULL;
 		EWebView *web_view;
 		EMFormatHTML *formatter;
@@ -1126,10 +1145,17 @@ static void
 action_mail_reply_group_cb (GtkAction *action,
 			    EMailReader *reader)
 {
-	GConfClient *gconf = mail_config_get_gconf_client ();
-	gboolean reply_list = gconf_client_get_bool (gconf,
-					"/apps/evolution/mail/composer/group_reply_to_list", NULL);
-	guint32 state = e_mail_reader_check_state (reader);
+	GConfClient *client;
+	gboolean reply_list;
+	const gchar *key;
+	guint32 state;
+
+	state = e_mail_reader_check_state (reader);
+
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/mail/composer/group_reply_to_list";
+	reply_list = gconf_client_get_bool (client, key, NULL);
+	g_object_unref (client);
 
 	if (reply_list && (state & E_MAIL_READER_SELECTION_IS_MAILING_LIST)) {
 		e_mail_reader_reply_to_message (reader, NULL, REPLY_MODE_LIST);
@@ -1152,12 +1178,26 @@ action_mail_reply_sender_check (CamelFolder *folder,
                                 CamelMimeMessage *message,
                                 gpointer user_data)
 {
-	GConfClient *gconf = mail_config_get_gconf_client ();
 	EMailReader *reader = user_data;
+	GConfClient *client;
 	gint mode = REPLY_MODE_SENDER;
+	const gchar *key;
+	gboolean ask_ignore_list_reply_to;
+	gboolean ask_list_reply_to;
+	gboolean munged_list_message;
 
 	if (!message)
 		return;
+
+	client = gconf_client_get_default ();
+
+	key = "/apps/evolution/mail/composer/ignore_list_reply_to";
+	ask_ignore_list_reply_to = gconf_client_get_bool (client, key, NULL);
+
+	key = "/apps/evolution/mail/prompts/list_reply_to";
+	ask_list_reply_to = gconf_client_get_bool (client, key, NULL);
+
+	munged_list_message = em_utils_is_munged_list_message (message);
 
 	/* get_message_free () will unref the message, so we need to take an
 	   extra ref for e_mail_reader_reply_to_message () to own. */
@@ -1165,8 +1205,7 @@ action_mail_reply_sender_check (CamelFolder *folder,
 
 	/* Don't do the "Are you sure you want to reply in private?" pop-up if
 	   it's a Reply-To: munged list message... unless we're ignoring munging */
-	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/ignore_list_reply_to", NULL)
-	    || !em_utils_is_munged_list_message (message)) {
+	if (ask_ignore_list_reply_to || !munged_list_message) {
 		GtkWidget *dialog;
 		GtkWidget *content_area, *check;
 		gint response;
@@ -1188,7 +1227,7 @@ action_mail_reply_sender_check (CamelFolder *folder,
 
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)))
 			gconf_client_set_bool (
-				gconf, "/apps/evolution/mail/prompts/private_list_reply", FALSE, NULL);
+				client, "/apps/evolution/mail/prompts/private_list_reply", FALSE, NULL);
 
 		gtk_widget_destroy (dialog);
 
@@ -1197,8 +1236,9 @@ action_mail_reply_sender_check (CamelFolder *folder,
 		else if (response == GTK_RESPONSE_OK)
 			mode = REPLY_MODE_LIST;
 		else if (response == GTK_RESPONSE_CANCEL)
-			return;
-	} else if (gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/list_reply_to", NULL)) {
+			goto exit;
+
+	} else if (ask_list_reply_to) {
 		GtkWidget *dialog;
 		GtkWidget *content_area;
 		GtkWidget *vbox;
@@ -1232,10 +1272,10 @@ action_mail_reply_sender_check (CamelFolder *folder,
 
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_again)))
 			gconf_client_set_bool (
-				gconf, "/apps/evolution/mail/prompts/list_reply_to", FALSE, NULL);
+				client, "/apps/evolution/mail/prompts/list_reply_to", FALSE, NULL);
 
 		gconf_client_set_bool (
-			gconf, "/apps/evolution/mail/composer/ignore_list_reply_to",
+			client, "/apps/evolution/mail/composer/ignore_list_reply_to",
 			gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check_always_ignore)),
 			NULL);
 
@@ -1246,23 +1286,37 @@ action_mail_reply_sender_check (CamelFolder *folder,
 		else if (response == GTK_RESPONSE_OK)
 			mode = REPLY_MODE_LIST;
 		else if (response == GTK_RESPONSE_CANCEL)
-			return;
+			goto exit;
 	}
 
 	e_mail_reader_reply_to_message (reader, message, mode);
 	check_close_browser_reader (reader);
+
+exit:
+	g_object_unref (client);
 }
 
 static void
 action_mail_reply_sender_cb (GtkAction *action,
                              EMailReader *reader)
 {
-	GConfClient *gconf;
+	GConfClient *client;
+	gboolean ask_list_reply_to;
+	gboolean ask_private_list_reply;
+	const gchar *key;
+	guint32 state;
 
-	gconf = mail_config_get_gconf_client ();
-	if ((gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/private_list_reply", NULL) ||
-	     gconf_client_get_bool (gconf, "/apps/evolution/mail/prompts/list_reply_to", NULL)) &&
-	    e_mail_reader_check_state (reader) & E_MAIL_READER_SELECTION_IS_MAILING_LIST) {
+	state = e_mail_reader_check_state (reader);
+
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/mail/prompts/list_reply_to";
+	ask_list_reply_to = gconf_client_get_bool (client, key, NULL);
+	key = "/apps/evolution/mail/prompts/private_list_reply";
+	ask_private_list_reply = gconf_client_get_bool (client, key, NULL);
+	g_object_unref (client);
+
+	if ((ask_private_list_reply || ask_list_reply_to) &&
+	    state & E_MAIL_READER_SELECTION_IS_MAILING_LIST) {
 		CamelMimeMessage *message = NULL;
 		EWebView *web_view;
 		EMFormatHTML *formatter;

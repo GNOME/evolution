@@ -1505,7 +1505,8 @@ em_utils_forward_message (EShell *shell,
 {
 	GPtrArray *messages;
 	CamelMimePart *part;
-	GConfClient *gconf;
+	GConfClient *client;
+	const gchar *key;
 	gchar *subject;
 	gint mode;
 	EMsgComposer *composer = NULL;
@@ -1515,8 +1516,10 @@ em_utils_forward_message (EShell *shell,
 	messages = g_ptr_array_new ();
 	g_ptr_array_add (messages, message);
 
-	gconf = mail_config_get_gconf_client ();
-	mode = gconf_client_get_int (gconf, "/apps/evolution/mail/format/forward_style", NULL);
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/mail/format/forward_style";
+	mode = gconf_client_get_int (client, key, NULL);
+	g_object_unref (client);
 
 	switch (mode) {
 		case MAIL_CONFIG_FORWARD_ATTACHED:
@@ -1565,13 +1568,16 @@ em_utils_forward_messages (EShell *shell,
                            GPtrArray *uids,
                            const gchar *from_uri)
 {
-	GConfClient *gconf;
+	GConfClient *client;
+	const gchar *key;
 	gint mode;
 
 	g_return_if_fail (E_IS_SHELL (shell));
 
-	gconf = mail_config_get_gconf_client ();
-	mode = gconf_client_get_int (gconf, "/apps/evolution/mail/format/forward_style", NULL);
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/mail/format/forward_style";
+	mode = gconf_client_get_int (client, key, NULL);
+	g_object_unref (client);
 
 	switch (mode) {
 		case MAIL_CONFIG_FORWARD_ATTACHED:
@@ -2103,12 +2109,14 @@ get_reply_to (CamelMimeMessage *message)
 
 	reply_to = camel_mime_message_get_reply_to (message);
 	if (reply_to) {
-		GConfClient *gconf;
+		GConfClient *client;
+		const gchar *key;
 		gboolean ignore_list_reply_to;
 
-		gconf = mail_config_get_gconf_client ();
-		ignore_list_reply_to = gconf_client_get_bool (gconf,
-					"/apps/evolution/mail/composer/ignore_list_reply_to", NULL);
+		client = gconf_client_get_default ();
+		key = "/apps/evolution/mail/composer/ignore_list_reply_to";
+		ignore_list_reply_to = gconf_client_get_bool (client, key, NULL);
+		g_object_unref (client);
 
 		if (ignore_list_reply_to && em_utils_is_munged_list_message (message))
 			reply_to = NULL;
@@ -2448,15 +2456,22 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message, EMFormat *
 {
 	gchar *text, *credits;
 	CamelMimePart *part;
-	GConfClient *gconf;
+	GConfClient *client;
 	gssize len = 0;
 	gboolean start_bottom;
 	guint32 validity_found = 0;
+	const gchar *key;
+	MailConfigReplyStyle style;
 
-	gconf = mail_config_get_gconf_client ();
-	start_bottom = gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/reply_start_bottom", NULL);
+	client = gconf_client_get_default ();
 
-	switch (gconf_client_get_int (gconf, "/apps/evolution/mail/format/reply_style", NULL)) {
+	key = "/apps/evolution/mail/composer/reply_start_bottom";
+	start_bottom = gconf_client_get_bool (client, key, NULL);
+
+	key = "/apps/evolution/mail/format/reply_style";
+	style = gconf_client_get_int (client, key, NULL);
+
+	switch (style) {
 	case MAIL_CONFIG_REPLY_DO_NOT_QUOTE:
 		/* do nothing */
 		break;
@@ -2493,13 +2508,15 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message, EMFormat *
 		   before the signature. We added there an empty line already. */
 		gtkhtml_editor_run_command (editor, "block-selection");
 		gtkhtml_editor_run_command (editor, "cursor-bod");
-		if (gconf_client_get_bool (gconf, "/apps/evolution/mail/composer/top_signature", NULL)
+		if (gconf_client_get_bool (client, "/apps/evolution/mail/composer/top_signature", NULL)
 		    || !gtkhtml_editor_search_by_data (editor, 1, "ClueFlow", "signature", "1"))
 			gtkhtml_editor_run_command (editor, "cursor-eod");
 		else
 			gtkhtml_editor_run_command (editor, "selection-move-left");
 		gtkhtml_editor_run_command (editor, "unblock-selection");
 	}
+
+	g_object_unref (client);
 }
 
 struct _reply_data {

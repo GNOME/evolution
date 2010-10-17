@@ -339,7 +339,6 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	GSList *l;
 	gint i;
 
-	client = mail_config_get_gconf_client ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	/* Make sure our custom widget classes are registered with
@@ -597,10 +596,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 					       NULL);
 
 	/* get our toplevel widget */
+	client = gconf_client_get_default ();
 	target = em_config_target_new_prefs (ec, client);
 	e_config_set_target ((EConfig *)ec, (EConfigTarget *)target);
 	toplevel = e_config_create_widget ((EConfig *)ec);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
+	g_object_unref (client);
 }
 
 GtkWidget *

@@ -112,6 +112,8 @@ em_mailer_prefs_finalize (GObject *object)
 		prefs->labels_change_notify_id = 0;
 	}
 
+	g_object_unref (prefs->gconf);
+
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (em_mailer_prefs_parent_class)->finalize (object);
 }
@@ -128,7 +130,7 @@ em_mailer_prefs_class_init (EMMailerPrefsClass *class)
 static void
 em_mailer_prefs_init (EMMailerPrefs *preferences)
 {
-	preferences->gconf = mail_config_get_gconf_client ();
+	preferences->gconf = gconf_client_get_default ();
 }
 
 enum {

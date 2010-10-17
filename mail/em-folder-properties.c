@@ -222,8 +222,9 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 	CamelStore *local_store;
 	CamelStore *parent_store;
 	gboolean hide_deleted;
-	GConfClient *gconf;
+	GConfClient *client;
 	const gchar *name;
+	const gchar *key;
 
 	if (folder == NULL)
 		return;
@@ -238,17 +239,18 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 	prop_data->object = g_object_ref (folder);
 	prop_data->quota = camel_folder_quota_info_clone (quota);
 
-	/*
-	  Get number of VISIBLE and DELETED messages, instead of TOTAL messages.  VISIBLE+DELETED
-	   gives the correct count that matches the label below the Send & Receive button
-	*/
+	/* Get number of VISIBLE and DELETED messages, instead of TOTAL
+	 * messages.  VISIBLE+DELETED gives the correct count that matches
+	 * the label below the Send & Receive button. */
 	name = camel_folder_get_name (folder);
 	prop_data->total = folder->summary->visible_count;
 	prop_data->unread = folder->summary->unread_count;
 	deleted = folder->summary->deleted_count;
 
-	gconf = mail_config_get_gconf_client ();
-	hide_deleted = !gconf_client_get_bool(gconf, "/apps/evolution/mail/display/show_deleted", NULL);
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/mail/display/show_deleted";
+	hide_deleted = !gconf_client_get_bool(client, key, NULL);
+	g_object_unref (client);
 
 	/*
 	   Do the calculation only for those accounts that support VTRASHes

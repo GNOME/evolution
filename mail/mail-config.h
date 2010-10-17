@@ -66,8 +66,6 @@ GType		evolution_mail_config_get_type	(void);
 void		mail_config_init		(EMailSession *session);
 void		mail_config_write		(void);
 
-GConfClient *	mail_config_get_gconf_client	(void);
-
 /* General Accessor functions */
 
 void		mail_config_service_set_save_passwd

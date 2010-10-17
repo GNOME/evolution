@@ -124,18 +124,24 @@ em_utils_ask_open_many (GtkWindow *parent,
  * Returns %TRUE if the user clicks Yes or %FALSE otherwise.
  **/
 gboolean
-em_utils_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *tag, ...)
+em_utils_prompt_user (GtkWindow *parent,
+                      const gchar *promptkey,
+                      const gchar *tag,
+                      ...)
 {
 	GtkWidget *mbox, *check = NULL;
 	GtkWidget *container;
 	va_list ap;
 	gint button;
-	GConfClient *gconf = mail_config_get_gconf_client ();
+	GConfClient *client;
 	EAlert *alert = NULL;
 
-	if (promptkey
-	    && !gconf_client_get_bool (gconf, promptkey, NULL))
+	client = gconf_client_get_default ();
+
+	if (promptkey && !gconf_client_get_bool (client, promptkey, NULL)) {
+		g_object_unref (client);
 		return TRUE;
+	}
 
 	va_start (ap, tag);
 	alert = e_alert_new_valist (tag, ap);
@@ -154,9 +160,14 @@ em_utils_prompt_user (GtkWindow *parent, const gchar *promptkey, const gchar *ta
 
 	button = gtk_dialog_run ((GtkDialog *) mbox);
 	if (promptkey)
-		gconf_client_set_bool (gconf, promptkey, !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)), NULL);
+		gconf_client_set_bool (
+			client, promptkey,
+			!gtk_toggle_button_get_active (
+			GTK_TOGGLE_BUTTON (check)), NULL);
 
 	gtk_widget_destroy (mbox);
+
+	g_object_unref (client);
 
 	return button == GTK_RESPONSE_YES;
 }

@@ -1851,17 +1851,18 @@ filter_date (time_t date)
 static ECell * create_composite_cell (gint col)
 {
 	ECell *cell_vbox, *cell_hbox, *cell_sub, *cell_date, *cell_from, *cell_tree, *cell_attach;
-	GConfClient *gconf;
+	GConfClient *client;
 	gchar *fixed_name = NULL;
 	gboolean show_email;
 	gint alt_col = (col == COL_FROM) ? COL_SENDER : COL_RECIPIENTS;
 	gboolean same_font = FALSE;
 
-	gconf = mail_config_get_gconf_client ();
-	show_email = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_email", NULL);
-	same_font = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/vertical_view_fonts", NULL);
+	client = gconf_client_get_default ();
+	show_email = gconf_client_get_bool (client, "/apps/evolution/mail/display/show_email", NULL);
+	same_font = gconf_client_get_bool (client, "/apps/evolution/mail/display/vertical_view_fonts", NULL);
 	if (!same_font)
-		fixed_name = gconf_client_get_string (gconf, "/desktop/gnome/interface/monospace_font_name", NULL);
+		fixed_name = gconf_client_get_string (client, "/desktop/gnome/interface/monospace_font_name", NULL);
+	g_object_unref (client);
 
 	cell_vbox = e_cell_vbox_new ();
 
@@ -2706,7 +2707,7 @@ message_list_construct (MessageList *message_list)
 	AtkObject *a11y;
 	gboolean constructed;
 	gchar *etspecfile;
-	GConfClient *gconf = mail_config_get_gconf_client ();
+	GConfClient *client;
 
 	message_list->model =
 		e_tree_memory_callbacks_new (ml_tree_icon_at,
@@ -2732,12 +2733,15 @@ message_list_construct (MessageList *message_list)
 
 					     message_list);
 
-	e_tree_memory_set_expanded_default (E_TREE_MEMORY (message_list->model),
-					   read_boolean_with_default (gconf,
-								      "/apps/evolution/mail/display/thread_expand",
-								      TRUE));
-
-	message_list->priv->thread_latest = read_boolean_with_default (gconf, "/apps/evolution/mail/display/thread_latest", TRUE);
+	client = gconf_client_get_default ();
+	e_tree_memory_set_expanded_default (
+		E_TREE_MEMORY (message_list->model),
+		read_boolean_with_default (
+			client, "/apps/evolution/mail/display/thread_expand", TRUE));
+	message_list->priv->thread_latest =
+		read_boolean_with_default (
+		client, "/apps/evolution/mail/display/thread_latest", TRUE);
+	g_object_unref (client);
 
 	/*
 	 * The etree
@@ -3704,7 +3708,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 {
 	ETreeModel *etm = message_list->model;
 	gboolean hide_deleted;
-	GConfClient *gconf;
+	GConfClient *client;
 	CamelStore *folder_store;
 
 	g_return_if_fail (IS_MESSAGE_LIST (message_list));
@@ -3796,10 +3800,18 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const g
 			folder, "changed",
 			G_CALLBACK (folder_changed), message_list);
 
-		gconf = mail_config_get_gconf_client ();
-		hide_deleted = !gconf_client_get_bool (gconf, "/apps/evolution/mail/display/show_deleted", NULL);
-		message_list->hidedeleted = hide_deleted && (!(folder->folder_flags & CAMEL_FOLDER_IS_TRASH) || !(folder_store->flags & CAMEL_STORE_VTRASH));
-		message_list->hidejunk = folder_store_supports_vjunk_folder (message_list->folder) && !(folder->folder_flags & CAMEL_FOLDER_IS_JUNK) && !(folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
+		client = gconf_client_get_default ();
+		hide_deleted = !gconf_client_get_bool (client, "/apps/evolution/mail/display/show_deleted", NULL);
+		g_object_unref (client);
+
+		message_list->hidedeleted =
+			hide_deleted &&
+			(!(folder->folder_flags & CAMEL_FOLDER_IS_TRASH) ||
+			 !(folder_store->flags & CAMEL_STORE_VTRASH));
+		message_list->hidejunk =
+			folder_store_supports_vjunk_folder (message_list->folder) &&
+			!(folder->folder_flags & CAMEL_FOLDER_IS_JUNK) &&
+			!(folder->folder_flags & CAMEL_FOLDER_IS_TRASH);
 
 		if (message_list->frozen == 0)
 			mail_regen_list (message_list, message_list->search, NULL, NULL);
@@ -4762,7 +4774,9 @@ static void
 mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, CamelFolderChangeInfo *changes)
 {
 	struct _regen_list_msg *m;
-	GConfClient *gconf;
+	GConfClient *client;
+	const gchar *key;
+	gboolean thread_subject;
 
 	/* report empty search as NULL, not as one/two-space string */
 	if (search && (strcmp (search, " ") == 0 || strcmp (search, "  ") == 0))
@@ -4778,7 +4792,10 @@ mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, Ca
 
 	mail_regen_cancel (ml);
 
-	gconf = mail_config_get_gconf_client ();
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/mail/display/thread_subject";
+	thread_subject = gconf_client_get_bool (client, key, NULL);
+	g_object_unref (client);
 
 #ifndef BROKEN_ETREE
 	/* this can sometimes crash,so ... */
@@ -4800,7 +4817,7 @@ mail_regen_list (MessageList *ml, const gchar *search, const gchar *hideexpr, Ca
 	m->dotree = ml->threaded;
 	m->hidedel = ml->hidedeleted;
 	m->hidejunk = ml->hidejunk;
-	m->thread_subject = gconf_client_get_bool (gconf, "/apps/evolution/mail/display/thread_subject", NULL);
+	m->thread_subject = thread_subject;
 	m->folder = g_object_ref (ml->folder);
 	m->last_row = -1;
 	m->expand_state = NULL;
