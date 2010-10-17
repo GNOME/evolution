@@ -93,10 +93,6 @@ enum {
 	PROP_TEXT_HEIGHT
 };
 
-struct _GnomeCanvasTextPrivate {
-	guint render_dirty : 1;
-};
-
 static void gnome_canvas_text_class_init (GnomeCanvasTextClass *class);
 static void gnome_canvas_text_init (GnomeCanvasText *text);
 static void gnome_canvas_text_destroy (GnomeCanvasItem *object);
@@ -520,9 +516,6 @@ gnome_canvas_text_init (GnomeCanvasText *text)
 	text->underline_set = FALSE;
 	text->strike_set    = FALSE;
 	text->rise_set      = FALSE;
-
-	text->priv = g_new (GnomeCanvasTextPrivate, 1);
-	text->priv->render_dirty = 1;
 }
 
 /* Destroy handler for the text item */
@@ -552,9 +545,6 @@ gnome_canvas_text_destroy (GnomeCanvasItem *object)
 	if (text->attr_list)
 		pango_attr_list_unref (text->attr_list);
 	text->attr_list = NULL;
-
-	g_free (text->priv);
-	text->priv = NULL;
 
 	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy)
 		GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy (object);
@@ -678,13 +668,11 @@ gnome_canvas_text_set_property (GObject            *object,
 		text->text = g_value_dup_string (value);
 		pango_layout_set_text (text->layout, text->text, -1);
 
-		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_MARKUP:
 		gnome_canvas_text_set_markup (text,
 					      g_value_get_string (value));
-		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_X:
@@ -758,7 +746,6 @@ gnome_canvas_text_set_property (GObject            *object,
 		}
 
 		gnome_canvas_text_apply_font_desc (text);
-		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_FAMILY_SET:
@@ -777,14 +764,12 @@ gnome_canvas_text_set_property (GObject            *object,
 		text->scale_set = TRUE;
 
 		gnome_canvas_text_apply_font_desc (text);
-		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_SCALE_SET:
 		text->scale_set = g_value_get_boolean (value);
 
 		gnome_canvas_text_apply_font_desc (text);
-		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_UNDERLINE:
@@ -792,14 +777,12 @@ gnome_canvas_text_set_property (GObject            *object,
 		text->underline_set = TRUE;
 
 		gnome_canvas_text_apply_attributes (text);
-		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_UNDERLINE_SET:
 		text->underline_set = g_value_get_boolean (value);
 
 		gnome_canvas_text_apply_attributes (text);
-		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_STRIKETHROUGH:
@@ -807,14 +790,12 @@ gnome_canvas_text_set_property (GObject            *object,
 		text->strike_set = TRUE;
 
 		gnome_canvas_text_apply_attributes (text);
-		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_STRIKETHROUGH_SET:
 		text->strike_set = g_value_get_boolean (value);
 
 		gnome_canvas_text_apply_attributes (text);
-		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_RISE:
@@ -822,14 +803,12 @@ gnome_canvas_text_set_property (GObject            *object,
 		text->rise_set = TRUE;
 
 		gnome_canvas_text_apply_attributes (text);
-		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_RISE_SET:
 		text->rise_set = TRUE;
 
 		gnome_canvas_text_apply_attributes (text);
-		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_ATTRIBUTES:
@@ -840,7 +819,6 @@ gnome_canvas_text_set_property (GObject            *object,
 		pango_attr_list_ref (text->attr_list);
 
 		gnome_canvas_text_apply_attributes (text);
-		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_JUSTIFICATION:
@@ -862,22 +840,18 @@ gnome_canvas_text_set_property (GObject            *object,
 			break;
 		}
 		pango_layout_set_alignment (text->layout, align);
-		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_CLIP_WIDTH:
 		text->clip_width = fabs (g_value_get_double (value));
-		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_CLIP_HEIGHT:
 		text->clip_height = fabs (g_value_get_double (value));
-		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_CLIP:
 		text->clip = g_value_get_boolean (value);
-		text->priv->render_dirty = 1;
 		break;
 
 	case PROP_X_OFFSET:
@@ -901,7 +875,6 @@ gnome_canvas_text_set_property (GObject            *object,
 				      0xff);
 			color_changed = TRUE;
 		}
-		text->priv->render_dirty = 1;
 		break;
 	}
 
@@ -926,7 +899,6 @@ gnome_canvas_text_set_property (GObject            *object,
         case PROP_FILL_COLOR_RGBA:
 		text->rgba = g_value_get_uint (value);
 		color_changed = TRUE;
-		text->priv->render_dirty = 1;
 		break;
 
 	default:
@@ -1217,7 +1189,6 @@ gnome_canvas_text_set_font_desc (GnomeCanvasText      *text,
 		text->font_desc = NULL;
 
 	gnome_canvas_text_apply_font_desc (text);
-	text->priv->render_dirty = 1;
 }
 
 /* Setting the text from a Pango markup string */
