@@ -604,16 +604,6 @@ split_into_lines (EText *text)
 	text->num_lines = pango_layout_get_line_count (text->layout);
 }
 
-/* Convenience function to set the text's GC's foreground color */
-static void
-set_text_gc_foreground (EText *text)
-{
-	if (!text->gc)
-		return;
-
-	gdk_gc_set_foreground (text->gc, &text->color);
-}
-
 /* Set_arg handler for the text item */
 static void
 e_text_set_property (GObject *object,
@@ -941,8 +931,6 @@ e_text_set_property (GObject *object,
 	       text->color = color;
                gdk_rgb_find_color (colormap, &text->color);
 
-               set_text_gc_foreground (text);
-
 	       text->needs_redraw = 1;
 	       needs_update = 1;
 	}
@@ -1144,7 +1132,6 @@ e_text_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags)
 
 	if ( text->needs_recalc_bounds
 	     || (flags & GNOME_CANVAS_UPDATE_AFFINE)) {
-                set_text_gc_foreground (text);
                 get_bounds (text, &x1, &y1, &x2, &y2);
                 if ( item->x1 != x1 ||
                      item->x2 != x2 ||
@@ -1173,7 +1160,6 @@ static void
 e_text_realize (GnomeCanvasItem *item)
 {
 	EText *text;
-	GdkWindow *bin_window;
 
 	text = E_TEXT (item);
 
@@ -1181,15 +1167,6 @@ e_text_realize (GnomeCanvasItem *item)
 		(* GNOME_CANVAS_ITEM_CLASS (e_text_parent_class)->realize) (item);
 
 	create_layout (text);
-
-	bin_window = gtk_layout_get_bin_window (GTK_LAYOUT (item->canvas));
-	text->gc = gdk_gc_new (bin_window);
-
-/* FIXME: Color brokenness ... */
-#if 0
-	gdk_color_context_query_color (item->canvas->cc, &text->color);
-	gdk_gc_set_foreground (text->gc, &text->color);
-#endif
 
 	text->i_cursor = gdk_cursor_new (GDK_XTERM);
 	text->default_cursor = gdk_cursor_new (GDK_LEFT_PTR);
@@ -1202,9 +1179,6 @@ e_text_unrealize (GnomeCanvasItem *item)
 	EText *text;
 
 	text = E_TEXT (item);
-
-	g_object_unref (text->gc);
-	text->gc = NULL;
 
 	gdk_cursor_unref (text->i_cursor);
 	text->i_cursor = NULL;
@@ -1230,7 +1204,7 @@ _get_tep (EText *text)
 
 static void
 draw_pango_rectangle (GdkDrawable *drawable,
-                      GdkGC *gc,
+                      cairo_t *cr,
                       gint x1,
                       gint y1,
                       PangoRectangle rect)
@@ -1241,8 +1215,8 @@ draw_pango_rectangle (GdkDrawable *drawable,
 		width = 1;
 	if (height <= 0)
 		height = 1;
-	gdk_draw_rectangle (drawable, gc, TRUE,
-			    x1 + rect.x / PANGO_SCALE, y1 + rect.y / PANGO_SCALE, width, height);
+	cairo_rectangle (cr, x1 + rect.x / PANGO_SCALE, y1 + rect.y / PANGO_SCALE, width, height);
+        cairo_fill (cr);
 }
 
 static gboolean
@@ -1315,9 +1289,8 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	     gint x, gint y, gint width, gint height)
 {
 	EText *text;
-	GdkRectangle rect, *clip_rect;
 	gint xpos, ypos;
-	GdkGC *main_gc;
+	cairo_t *cr;
 	GnomeCanvas *canvas;
 	GtkWidget *widget;
 	GdkWindow *window;
@@ -1330,11 +1303,12 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	state = gtk_widget_get_state (widget);
 	style = gtk_widget_get_style (widget);
 	window = gtk_widget_get_window (widget);
+        cr = gdk_cairo_create (drawable);
 
 	if (text->draw_background || text->draw_button) {
-		main_gc = style->fg_gc[state];
+		gdk_cairo_set_source_color (cr, &style->fg[state]);
 	} else {
-		main_gc = text->gc;
+		gdk_cairo_set_source_color (cr, &text->color);
 	}
 
 	if (text->draw_borders || text->draw_background) {
@@ -1489,15 +1463,12 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	xpos = xpos - x + text->xofs;
 	ypos = ypos - y + text->yofs;
 
-	clip_rect = NULL;
 	if (text->clip) {
-		rect.x = xpos;
-		rect.y = ypos;
-		rect.width = text->clip_cwidth - text->xofs;
-		rect.height = text->clip_cheight - text->yofs;
-
-		gdk_gc_set_clip_rectangle (main_gc, &rect);
-		clip_rect = &rect;
+                cairo_rectangle (cr,
+                                 xpos, ypos, 
+                                 text->clip_cwidth - text->xofs,
+                                 text->clip_cheight - text->yofs);
+                cairo_clip (cr);
 	}
 
 	if (text->editing) {
@@ -1505,16 +1476,16 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		ypos -= text->yofs_edit;
 	}
 
-	gdk_draw_layout (drawable, main_gc,
-			 xpos, ypos,
-			 text->layout);
+        cairo_move_to (cr, xpos, ypos);
+        pango_cairo_show_layout (cr, text->layout);
 
 	if (text->editing) {
 		if (text->selection_start != text->selection_end) {
 			GdkRegion *clip_region = gdk_region_new ();
-			GdkGC *selection_gc;
-			GdkGC *text_gc;
 			gint indices[2];
+                        GtkStateType state;
+
+                        state = text->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE;
 
 			indices[0] = MIN (text->selection_start, text->selection_end);
 			indices[1] = MAX (text->selection_start, text->selection_end);
@@ -1526,35 +1497,16 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
                         clip_region = gdk_pango_layout_get_clip_region (text->layout,
                                                                         xpos, ypos,
                                                                         indices, 1);
-
-			if (clip_rect) {
-				GdkRegion *rect_region = gdk_region_rectangle (clip_rect);
-				gdk_region_intersect (clip_region, rect_region);
-				gdk_region_destroy (rect_region);
-			}
-
-			if (text->has_selection) {
-				selection_gc = style->base_gc[GTK_STATE_SELECTED];
-				text_gc = style->text_gc[GTK_STATE_SELECTED];
-			} else {
-				selection_gc = style->base_gc[GTK_STATE_ACTIVE];
-				text_gc = style->text_gc[GTK_STATE_ACTIVE];
-			}
-
-			gdk_gc_set_clip_region (selection_gc, clip_region);
-			gdk_gc_set_clip_region (text_gc, clip_region);
-
-                        gdk_draw_rectangle (drawable, selection_gc, TRUE,
-                                            x, y, width, height);
-
-			gdk_draw_layout (drawable, text_gc,
-					 xpos, ypos,
-					 text->layout);
-
-			gdk_gc_set_clip_region (text_gc, NULL);
-			gdk_gc_set_clip_region (selection_gc, NULL);
-
+                        gdk_cairo_region (cr, clip_region);
+                        cairo_clip (cr);
 			gdk_region_destroy (clip_region);
+
+                        gdk_cairo_set_source_color (cr, &style->base[state]);
+                        cairo_paint (cr);
+
+                        gdk_cairo_set_source_color (cr, &style->text[state]);
+                        cairo_move_to (cr, xpos, ypos);
+                        pango_cairo_show_layout (cr, text->layout);
 		} else {
 			if (text->show_cursor) {
 				PangoRectangle strong_pos, weak_pos;
@@ -1564,18 +1516,14 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 					text->layout, offs - text->text +
 					text->preedit_len, &strong_pos,
 					&weak_pos);
-				draw_pango_rectangle (drawable, main_gc, xpos, ypos, strong_pos);
+				draw_pango_rectangle (drawable, cr, xpos, ypos, strong_pos);
 				if (strong_pos.x != weak_pos.x ||
 				    strong_pos.y != weak_pos.y ||
 				    strong_pos.width != weak_pos.width ||
 				    strong_pos.height != weak_pos.height)
-					draw_pango_rectangle (drawable, main_gc, xpos, ypos, weak_pos);
+					draw_pango_rectangle (drawable, cr, xpos, ypos, weak_pos);
 			}
 		}
-	}
-
-	if (text->clip) {
-		gdk_gc_set_clip_rectangle (main_gc, NULL);
 	}
 }
 
