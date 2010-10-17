@@ -60,7 +60,6 @@ SUBDIRS = 			\
 	m4			\
 	data			\
 	smclient		\
-	libart_lgpl		\
 	libgnomecanvas		\
 	e-util			\
 	a11y			\
