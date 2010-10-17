@@ -39,10 +39,6 @@
 
 #include <gtk/gtk.h>
 #include <stdarg.h>
-#include <libart_lgpl/art_misc.h>
-#include <libart_lgpl/art_rect.h>
-#include <libart_lgpl/art_svp.h>
-#include <libart_lgpl/art_uta.h>
 
 G_BEGIN_DECLS
 
@@ -358,9 +354,6 @@ struct _GnomeCanvas {
 	/* Root canvas group */
 	GnomeCanvasItem *root;
 
-	/* Area that needs redrawing, stored as a microtile array */
-	ArtUta *redraw_area;
-
 	/* The item containing the mouse pointer, or NULL if none */
 	GnomeCanvasItem *current_item;
 
@@ -414,9 +407,6 @@ struct _GnomeCanvas {
 
 	/* Whether items need update at next idle loop iteration */
 	guint need_update : 1;
-
-	/* Whether the canvas needs redrawing at the next idle loop iteration */
-	guint need_redraw : 1;
 
 	/* Whether current item will be repicked at next idle loop iteration */
 	guint need_repick : 1;
@@ -488,12 +478,6 @@ void gnome_canvas_get_scroll_offsets (GnomeCanvas *canvas, gint *cx, gint *cy);
  * NULL if no item is there.
  */
 GnomeCanvasItem *gnome_canvas_get_item_at (GnomeCanvas *canvas, gdouble x, gdouble y);
-
-/* For use only by item type implementations. Request that the canvas eventually
- * redraw the specified region. The region is specified as a microtile
- * array. This function takes over responsibility for freeing the uta argument.
- */
-void gnome_canvas_request_redraw_uta (GnomeCanvas *canvas, ArtUta *uta);
 
 /* For use only by item type implementations.  Request that the canvas
  * eventually redraw the specified region, specified in canvas pixel
