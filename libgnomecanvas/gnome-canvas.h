@@ -485,11 +485,6 @@ void gnome_canvas_scroll_to (GnomeCanvas *canvas, gint cx, gint cy);
  */
 void gnome_canvas_get_scroll_offsets (GnomeCanvas *canvas, gint *cx, gint *cy);
 
-/* Requests that the canvas be repainted immediately instead of in the idle
- * loop.
- */
-void gnome_canvas_update_now (GnomeCanvas *canvas);
-
 /* Returns the item that is at the specified position in world coordinates, or
  * NULL if no item is there.
  */
