@@ -26,14 +26,13 @@
 void
 e_canvas_item_move_absolute (GnomeCanvasItem *item, gdouble dx, gdouble dy)
 {
-	gdouble translate[6];
+	cairo_matrix_t translate;
 
-	g_return_if_fail (item != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 
-	art_affine_translate (translate, dx, dy);
+	cairo_matrix_init_translate (&translate, dx, dy);
 
-	gnome_canvas_item_affine_absolute (item, translate);
+	gnome_canvas_item_set_matrix (item, &translate);
 }
 
 static double

@@ -87,6 +87,7 @@
 #include "gailcanvas.h"
 #include "gnome-canvas.h"
 #include "gnome-canvas-i18n.h"
+#include "gnome-canvas-util.h"
 #include <libart_lgpl/art_rect.h>
 #include <libart_lgpl/art_rect_uta.h>
 #include <libart_lgpl/art_uta_rect.h>
@@ -177,6 +178,8 @@ static void
 gnome_canvas_item_init (GnomeCanvasItem *item)
 {
 	item->flags |= GNOME_CANVAS_ITEM_VISIBLE;
+
+        cairo_matrix_init_identity (&item->matrix);
 }
 
 /**
@@ -359,9 +362,6 @@ gnome_canvas_item_dispose (GObject *object)
 	if (item->parent)
 		group_remove (GNOME_CANVAS_GROUP (item->parent), item);
 
-	g_free (item->xform);
-	item->xform = NULL;
-
 	if (GNOME_CANVAS_ITEM_GET_CLASS (item)->destroy)
 		GNOME_CANVAS_ITEM_GET_CLASS (item)->destroy (item);
 
@@ -404,8 +404,7 @@ gnome_canvas_item_unmap (GnomeCanvasItem *item)
 /* Update handler for canvas items */
 static void
 gnome_canvas_item_update (GnomeCanvasItem *item,
-                          gdouble *affine,
-                          ArtSVP *clip_path,
+                          const cairo_matrix_t *matrix,
                           gint flags)
 {
 	item->flags &= ~GNOME_CANVAS_ITEM_NEED_UPDATE;
@@ -413,20 +412,6 @@ gnome_canvas_item_update (GnomeCanvasItem *item,
 	item->flags &= ~GNOME_CANVAS_ITEM_NEED_CLIP;
 	item->flags &= ~GNOME_CANVAS_ITEM_NEED_VIS;
 }
-
-static void
-gnome_canvas_matrix_from_affine (cairo_matrix_t *matrix,
-                                 double affine[6])
-{
-  matrix->xx = affine[0];
-  matrix->yx = affine[1];
-  matrix->xy = affine[2];
-  matrix->yy = affine[3];
-  matrix->x0 = affine[4];
-  matrix->y0 = affine[5];
-}
-
-#define noHACKISH_AFFINE
 
 /*
  * This routine invokes the update method of the item
@@ -443,16 +428,11 @@ gnome_canvas_matrix_from_affine (cairo_matrix_t *matrix,
 
 static void
 gnome_canvas_item_invoke_update (GnomeCanvasItem *item,
-                                 gdouble *p2cpx,
-                                 ArtSVP *clip_path,
+                                 const cairo_matrix_t *p2c,
                                  gint flags)
 {
 	gint child_flags;
-	gdouble i2cpx[6];
-
-#ifdef HACKISH_AFFINE
-	gdouble i2w[6], w2c[6], i2c[6];
-#endif
+	cairo_matrix_t i2c;
 
 	child_flags = flags;
 	if (!(item->flags & GNOME_CANVAS_ITEM_VISIBLE))
@@ -460,28 +440,7 @@ gnome_canvas_item_invoke_update (GnomeCanvasItem *item,
 
 	/* Calculate actual item transformation matrix */
 
-	if (item->xform) {
-		if (item->flags & GNOME_CANVAS_ITEM_AFFINE_FULL) {
-			/* Item has full affine */
-			art_affine_multiply (i2cpx, item->xform, p2cpx);
-		} else {
-			/* Item has only translation */
-			memcpy (i2cpx, p2cpx, 4 * sizeof (gdouble));
-			i2cpx[4] = item->xform[0] * p2cpx[0] + item->xform[1] * p2cpx[2] + p2cpx[4];
-			i2cpx[5] = item->xform[0] * p2cpx[1] + item->xform[1] * p2cpx[3] + p2cpx[5];
-		}
-	} else {
-		/* Item has no matrix (i.e. identity) */
-		memcpy (i2cpx, p2cpx, 6 * sizeof (gdouble));
-	}
-
-#ifdef HACKISH_AFFINE
-	gnome_canvas_item_i2w_affine (item, i2w);
-	gnome_canvas_w2c_affine (item->canvas, w2c);
-	art_affine_multiply (i2c, i2w, w2c);
-	/* invariant (doesn't hold now): child_affine == i2c */
-	child_affine = i2c;
-#endif
+        cairo_matrix_multiply (&i2c, &item->matrix, p2c);
 
 	/* apply object flags to child flags */
 
@@ -501,7 +460,7 @@ gnome_canvas_item_invoke_update (GnomeCanvasItem *item,
 
 	if (child_flags & GCI_UPDATE_MASK) {
 		if (GNOME_CANVAS_ITEM_GET_CLASS (item)->update)
-			GNOME_CANVAS_ITEM_GET_CLASS (item)->update (item, i2cpx, clip_path, child_flags);
+			GNOME_CANVAS_ITEM_GET_CLASS (item)->update (item, &i2c, child_flags);
 	}
 }
 
@@ -519,39 +478,14 @@ gnome_canvas_item_invoke_point (GnomeCanvasItem *item,
                                 gint cx,
                                 gint cy)
 {
+        cairo_matrix_t inverse;
+
 	/* Calculate x & y in item local coordinates */
+        inverse = item->matrix;
+        if (cairo_matrix_invert (&inverse) != CAIRO_STATUS_SUCCESS)
+                return NULL;
 
-	if (item->xform) {
-		if (item->flags & GNOME_CANVAS_ITEM_AFFINE_FULL) {
-			gdouble p2i[6], t;
-			/* Item has full affine */
-			art_affine_invert (p2i, item->xform);
-			t = x * p2i[0] + y * p2i[2] + p2i[4];
-			y = x * p2i[1] + y * p2i[3] + p2i[5];
-			x = t;
-		} else {
-			/* Item has only translation */
-			x -= item->xform[0];
-			y -= item->xform[1];
-		}
-	}
-
-#ifdef HACKISH_AFFINE
-	gdouble i2w[6], w2c[6], i2c[6], c2i[6];
-	ArtPoint c, i;
-#endif
-
-#ifdef HACKISH_AFFINE
-	gnome_canvas_item_i2w_affine (item, i2w);
-	gnome_canvas_w2c_affine (item->canvas, w2c);
-	art_affine_multiply (i2c, i2w, w2c);
-	art_affine_invert (c2i, i2c);
-	c.x = cx;
-	c.y = cy;
-	art_affine_point (&i, &c, c2i);
-	x = i.x;
-	y = i.y;
-#endif
+        cairo_matrix_transform_point (&inverse, &x, &y);
 
 	if (GNOME_CANVAS_ITEM_GET_CLASS (item)->point)
 		return GNOME_CANVAS_ITEM_GET_CLASS (item)->point (item, x, y, cx, cy);
@@ -601,82 +535,44 @@ gnome_canvas_item_set_valist (GnomeCanvasItem *item,
 }
 
 /**
- * gnome_canvas_item_affine_relative:
+ * gnome_canvas_item_transform:
  * @item: A canvas item.
- * @affine: An affine transformation matrix.
+ * @matrix: An affine transformation matrix.
  *
  * Combines the specified affine transformation matrix with the item's current
- * transformation. NULL affine is not allowed.
+ * transformation.
  **/
-#define GCIAR_EPSILON 1e-6
 void
-gnome_canvas_item_affine_relative (GnomeCanvasItem *item, const gdouble affine[6])
+gnome_canvas_item_transform (GnomeCanvasItem *item, const cairo_matrix_t *matrix)
 {
-	gdouble i2p[6];
+	cairo_matrix_t i2p;
 
-	g_return_if_fail (item != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
-	g_return_if_fail (affine != NULL);
+	g_return_if_fail (matrix != NULL);
 
 	/* Calculate actual item transformation matrix */
+	cairo_matrix_multiply (&i2p, matrix, &item->matrix);
 
-	if (item->xform) {
-		if (item->flags & GNOME_CANVAS_ITEM_AFFINE_FULL) {
-			/* Item has full affine */
-			art_affine_multiply (i2p, affine, item->xform);
-		} else {
-			/* Item has only translation */
-			memcpy (i2p, affine, 6 * sizeof (gdouble));
-			i2p[4] += item->xform[0];
-			i2p[5] += item->xform[1];
-		}
-	} else {
-		/* Item has no matrix (i.e. identity) */
-		memcpy (i2p, affine, 6 * sizeof (gdouble));
-	}
-
-	gnome_canvas_item_affine_absolute (item, i2p);
+	gnome_canvas_item_set_matrix (item, &i2p);
 }
 
 /**
- * gnome_canvas_item_affine_absolute:
+ * gnome_canvas_item_set_matrix:
  * @item: A canvas item.
- * @affine: An affine transformation matrix.
+ * @matrix: An affine transformation matrix or %NULL for the identity matrix.
  *
  * Makes the item's affine transformation matrix be equal to the specified
- * matrix. NULL affine is treated as identity.
+ * matrix. NULL is treated as identity.
  **/
 void
-gnome_canvas_item_affine_absolute (GnomeCanvasItem *item, const gdouble i2p[6])
+gnome_canvas_item_set_matrix (GnomeCanvasItem *item, const cairo_matrix_t *matrix)
 {
-	g_return_if_fail (item != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 
-	if (i2p &&
-	    (fabs (i2p[0] - 1.0) < GCI_EPSILON) &&
-	    (fabs (i2p[1] - 0.0) < GCI_EPSILON) &&
-	    (fabs (i2p[2] - 0.0) < GCI_EPSILON) &&
-	    (fabs (i2p[3] - 1.0) < GCI_EPSILON) &&
-	    (fabs (i2p[4] - 0.0) < GCI_EPSILON) &&
-	    (fabs (i2p[5] - 0.0) < GCI_EPSILON)) {
-		/* We are identity */
-		i2p = NULL;
-	}
-
-	if (i2p) {
-		if (item->xform && !(item->flags & GNOME_CANVAS_ITEM_AFFINE_FULL)) {
-			/* We do not want to deal with translation-only affines */
-			g_free (item->xform);
-			item->xform = NULL;
-		}
-		if (!item->xform) item->xform = g_new (gdouble, 6);
-		memcpy (item->xform, i2p, 6 * sizeof (gdouble));
-		item->flags |= GNOME_CANVAS_ITEM_AFFINE_FULL;
+	if (matrix) {
+                item->matrix = *matrix;
 	} else {
-		if (item->xform) {
-			g_free (item->xform);
-			item->xform = NULL;
-		}
+                cairo_matrix_init_identity (&item->matrix);
 	}
 
 	if (!(item->flags & GNOME_CANVAS_ITEM_NEED_AFFINE)) {
@@ -702,14 +598,13 @@ gnome_canvas_item_affine_absolute (GnomeCanvasItem *item, const gdouble i2p[6])
 void
 gnome_canvas_item_move (GnomeCanvasItem *item, gdouble dx, gdouble dy)
 {
-	gdouble translate[6];
+	cairo_matrix_t translate;
 
-	g_return_if_fail (item != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 
-	art_affine_translate (translate, dx, dy);
+	cairo_matrix_init_translate (&translate, dx, dy);
 
-	gnome_canvas_item_affine_relative (item, translate);
+	gnome_canvas_item_transform (item, &translate);
 }
 
 /* Convenience function to reorder items in a group's child list.  This puts the
@@ -1014,36 +909,6 @@ gnome_canvas_item_ungrab (GnomeCanvasItem *item, guint32 etime)
 	gdk_pointer_ungrab (etime);
 }
 
-/**
- * gnome_canvas_item_i2w_affine:
- * @item: A canvas item
- * @affine: An affine transformation matrix (return value).
- *
- * Gets the affine transform that converts from the item's coordinate system to
- * world coordinates.
- **/
-void
-gnome_canvas_item_i2w_affine (GnomeCanvasItem *item, gdouble affine[6])
-{
-	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
-	g_return_if_fail (affine != NULL);
-
-	art_affine_identity (affine);
-
-	while (item) {
-		if (item->xform != NULL) {
-			if (item->flags & GNOME_CANVAS_ITEM_AFFINE_FULL) {
-				art_affine_multiply (affine, affine, item->xform);
-			} else {
-				affine[4] += item->xform[0];
-				affine[5] += item->xform[1];
-			}
-		}
-
-		item = item->parent;
-	}
-}
-
 void
 gnome_canvas_item_i2w_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix)
 {
@@ -1053,11 +918,7 @@ gnome_canvas_item_i2w_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix)
 	cairo_matrix_init_identity (matrix);
 
 	while (item) {
-		if (item->xform != NULL) {
-                        cairo_matrix_t tmp;
-                        gnome_canvas_matrix_from_affine (&tmp, item->xform);
-                        cairo_matrix_multiply (matrix, matrix, &tmp);
-		}
+                cairo_matrix_multiply (matrix, matrix, &item->matrix);
 
 		item = item->parent;
 	}
@@ -1072,12 +933,7 @@ gnome_canvas_item_w2i_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix)
 	cairo_matrix_init_identity (matrix);
 
 	while (item) {
-		if (item->xform != NULL) {
-                        cairo_matrix_t tmp;
-                        gnome_canvas_matrix_from_affine (&tmp, item->xform);
-                        cairo_matrix_multiply (matrix, &tmp, matrix);
-		}
-
+                cairo_matrix_multiply (matrix, &item->matrix, matrix);
 		item = item->parent;
 	}
 }
@@ -1094,20 +950,14 @@ gnome_canvas_item_w2i_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix)
 void
 gnome_canvas_item_w2i (GnomeCanvasItem *item, gdouble *x, gdouble *y)
 {
-	gdouble affine[6], inv[6];
-	ArtPoint w, i;
+        cairo_matrix_t matrix;
 
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 	g_return_if_fail (x != NULL);
 	g_return_if_fail (y != NULL);
 
-	gnome_canvas_item_i2w_affine (item, affine);
-	art_affine_invert (inv, affine);
-	w.x = *x;
-	w.y = *y;
-	art_affine_point (&i, &w, inv);
-	*x = i.x;
-	*y = i.y;
+	gnome_canvas_item_w2i_matrix (item, &matrix);
+        cairo_matrix_transform_point (&matrix, x, y);
 }
 
 /**
@@ -1122,37 +972,14 @@ gnome_canvas_item_w2i (GnomeCanvasItem *item, gdouble *x, gdouble *y)
 void
 gnome_canvas_item_i2w (GnomeCanvasItem *item, gdouble *x, gdouble *y)
 {
-	gdouble affine[6];
-	ArtPoint w, i;
+        cairo_matrix_t matrix;
 
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 	g_return_if_fail (x != NULL);
 	g_return_if_fail (y != NULL);
 
-	gnome_canvas_item_i2w_affine (item, affine);
-	i.x = *x;
-	i.y = *y;
-	art_affine_point (&w, &i, affine);
-	*x = w.x;
-	*y = w.y;
-}
-
-/**
- * gnome_canvas_item_i2c_affine:
- * @item: A canvas item.
- * @affine: An affine transformation matrix (return value).
- *
- * Gets the affine transform that converts from item-relative coordinates to
- * canvas pixel coordinates.
- **/
-void
-gnome_canvas_item_i2c_affine (GnomeCanvasItem *item, gdouble affine[6])
-{
-	gdouble i2w[6], w2c[6];
-
-	gnome_canvas_item_i2w_affine (item, i2w);
-	gnome_canvas_w2c_affine (item->canvas, w2c);
-	art_affine_multiply (affine, i2w, w2c);
+	gnome_canvas_item_i2w_matrix (item, &matrix);
+        cairo_matrix_transform_point (&matrix, x, y);
 }
 
 /**
@@ -1297,10 +1124,6 @@ gnome_canvas_item_get_bounds (GnomeCanvasItem *item,
                               gdouble *y2)
 {
 	gdouble tx1, ty1, tx2, ty2;
-	ArtPoint p1, p2, p3, p4;
-	ArtPoint q1, q2, q3, q4;
-	gdouble min_x1, min_y1, min_x2, min_y2;
-	gdouble max_x1, max_y1, max_x2, max_y2;
 
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 
@@ -1312,60 +1135,7 @@ gnome_canvas_item_get_bounds (GnomeCanvasItem *item,
 		(* GNOME_CANVAS_ITEM_GET_CLASS (item)->bounds) (item, &tx1, &ty1, &tx2, &ty2);
 
 	/* Make the bounds relative to the item's parent coordinate system */
-
-	if (item->xform && (item->flags & GNOME_CANVAS_ITEM_AFFINE_FULL)) {
-		p1.x = p2.x = tx1;
-		p1.y = p4.y = ty1;
-		p3.x = p4.x = tx2;
-		p2.y = p3.y = ty2;
-
-		art_affine_point (&q1, &p1, item->xform);
-		art_affine_point (&q2, &p2, item->xform);
-		art_affine_point (&q3, &p3, item->xform);
-		art_affine_point (&q4, &p4, item->xform);
-
-		if (q1.x < q2.x) {
-			min_x1 = q1.x;
-			max_x1 = q2.x;
-		} else {
-			min_x1 = q2.x;
-			max_x1 = q1.x;
-		}
-
-		if (q1.y < q2.y) {
-			min_y1 = q1.y;
-			max_y1 = q2.y;
-		} else {
-			min_y1 = q2.y;
-			max_y1 = q1.y;
-		}
-
-		if (q3.x < q4.x) {
-			min_x2 = q3.x;
-			max_x2 = q4.x;
-		} else {
-			min_x2 = q4.x;
-			max_x2 = q3.x;
-		}
-
-		if (q3.y < q4.y) {
-			min_y2 = q3.y;
-			max_y2 = q4.y;
-		} else {
-			min_y2 = q4.y;
-			max_y2 = q3.y;
-		}
-
-		tx1 = MIN (min_x1, min_x2);
-		ty1 = MIN (min_y1, min_y2);
-		tx2 = MAX (max_x1, max_x2);
-		ty2 = MAX (max_y1, max_y2);
-	} else if (item->xform) {
-		tx1 += item->xform[0];
-		ty1 += item->xform[1];
-		tx2 += item->xform[0];
-		ty2 += item->xform[1];
-	}
+        gnome_canvas_matrix_transform_rect (&item->matrix, &tx1, &ty1, &tx2, &ty2);
 
 	/* Return the values */
 
@@ -1427,8 +1197,9 @@ static void gnome_canvas_group_get_property (GObject               *object,
 
 static void gnome_canvas_group_destroy     (GnomeCanvasItem *object);
 
-static void   gnome_canvas_group_update      (GnomeCanvasItem *item, gdouble *affine,
-					      ArtSVP *clip_path, gint flags);
+static void   gnome_canvas_group_update      (GnomeCanvasItem *item,
+                                              const cairo_matrix_t *matrix,
+					      gint flags);
 static void   gnome_canvas_group_realize     (GnomeCanvasItem *item);
 static void   gnome_canvas_group_unrealize   (GnomeCanvasItem *item);
 static void   gnome_canvas_group_map         (GnomeCanvasItem *item);
@@ -1526,27 +1297,6 @@ gnome_canvas_group_class_init (GnomeCanvasGroupClass *class)
 static void
 gnome_canvas_group_init (GnomeCanvasGroup *group)
 {
-#if 0
-	group->xpos = 0.0;
-	group->ypos = 0.0;
-#endif
-}
-
-/* Translate handler for canvas groups */
-static gdouble *
-gnome_canvas_ensure_translate (GnomeCanvasItem *item)
-{
-	if (item->xform == NULL) {
-		item->flags &= ~GNOME_CANVAS_ITEM_AFFINE_FULL;
-		item->xform = g_new (double, 2);
-		item->xform[0] = 0.0;
-		item->xform[1] = 0.0;
-		return item->xform;
-	} else if (item->flags & GNOME_CANVAS_ITEM_AFFINE_FULL) {
-		return item->xform + 4;
-	} else {
-		return item->xform;
-	}
 }
 
 /* Set_property handler for canvas groups */
@@ -1555,7 +1305,6 @@ gnome_canvas_group_set_property (GObject *gobject, guint param_id,
 				 const GValue *value, GParamSpec *pspec)
 {
 	GnomeCanvasItem *item;
-	gdouble *xlat;
 
 	g_return_if_fail (GNOME_IS_CANVAS_GROUP (gobject));
 
@@ -1563,13 +1312,11 @@ gnome_canvas_group_set_property (GObject *gobject, guint param_id,
 
 	switch (param_id) {
 	case GROUP_PROP_X:
-		xlat = gnome_canvas_ensure_translate (item);
-		xlat[0] = g_value_get_double (value);
+		item->matrix.x0 = g_value_get_double (value);
 		break;
 
 	case GROUP_PROP_Y:
-		xlat = gnome_canvas_ensure_translate (item);
-		xlat[1] = g_value_get_double (value);
+		item->matrix.y0 = g_value_get_double (value);
 		break;
 
 	default:
@@ -1591,21 +1338,11 @@ gnome_canvas_group_get_property (GObject *gobject, guint param_id,
 
 	switch (param_id) {
 	case GROUP_PROP_X:
-		if (item->xform == NULL)
-			g_value_set_double (value, 0);
-		else if (GNOME_CANVAS_ITEM (gobject)->flags & GNOME_CANVAS_ITEM_AFFINE_FULL)
-			g_value_set_double (value, item->xform[4]);
-		else
-			g_value_set_double (value, item->xform[0]);
+		g_value_set_double (value, item->matrix.x0);
 		break;
 
 	case GROUP_PROP_Y:
-		if (item->xform == NULL)
-			g_value_set_double (value, 0);
-		else if (GNOME_CANVAS_ITEM (gobject)->flags & GNOME_CANVAS_ITEM_AFFINE_FULL)
-			g_value_set_double (value, item->xform[5]);
-		else
-			g_value_set_double (value, item->xform[1]);
+		g_value_set_double (value, item->matrix.y0);
 		break;
 
 	default:
@@ -1636,39 +1373,41 @@ gnome_canvas_group_destroy (GnomeCanvasItem *object)
 /* Update handler for canvas groups */
 static void
 gnome_canvas_group_update (GnomeCanvasItem *item,
-                           gdouble *affine,
-                           ArtSVP *clip_path,
+                           const cairo_matrix_t *i2c,
                            gint flags)
 {
 	GnomeCanvasGroup *group;
 	GList *list;
 	GnomeCanvasItem *i;
-	ArtDRect bbox, child_bbox;
+        double x1, y1, x2, y2;
 
 	group = GNOME_CANVAS_GROUP (item);
 
-	(* group_parent_class->update) (item, affine, clip_path, flags);
+	(* group_parent_class->update) (item, i2c, flags);
 
-	bbox.x0 = 0;
-	bbox.y0 = 0;
-	bbox.x1 = 0;
-	bbox.y1 = 0;
+	x1 = G_MAXDOUBLE;
+	y1 = G_MAXDOUBLE;
+	x2 = -G_MAXDOUBLE;
+	y2 = -G_MAXDOUBLE;
 
 	for (list = group->item_list; list; list = list->next) {
 		i = list->data;
 
-		gnome_canvas_item_invoke_update (i, affine, clip_path, flags);
+		gnome_canvas_item_invoke_update (i, i2c, flags);
 
-		child_bbox.x0 = i->x1;
-		child_bbox.y0 = i->y1;
-		child_bbox.x1 = i->x2;
-		child_bbox.y1 = i->y2;
-		art_drect_union (&bbox, &bbox, &child_bbox);
+                x1 = MIN (x1, i->x1);
+                x2 = MAX (x2, i->x2);
+                y1 = MIN (y1, i->y1);
+                y2 = MAX (y2, i->y2);
 	}
-	item->x1 = bbox.x0;
-	item->y1 = bbox.y0;
-	item->x2 = bbox.x1;
-	item->y2 = bbox.y1;
+        if (x1 >= x2 || y1 >= y2) {
+                item->x1 = item->x2 = item->y1 = item->y2 = 0;
+        } else {
+                item->x1 = x1;
+                item->y1 = y1;
+                item->x2 = x2;
+                item->y2 = y2;
+        }
 }
 
 /* Realize handler for canvas groups */
@@ -3182,17 +2921,12 @@ do_update (GnomeCanvas *canvas)
 
 update_again:
 	if (canvas->need_update) {
-		gdouble w2cpx[6];
+                cairo_matrix_t w2c;
 
-		/* We start updating root with w2cpx affine */
-		w2cpx[0] = canvas->pixels_per_unit;
-		w2cpx[1] = 0.0;
-		w2cpx[2] = 0.0;
-		w2cpx[3] = canvas->pixels_per_unit;
-		w2cpx[4] = -canvas->scroll_x1 * canvas->pixels_per_unit;
-		w2cpx[5] = -canvas->scroll_y1 * canvas->pixels_per_unit;
+		/* We start updating root with w2c matrix */
+                gnome_canvas_w2c_matrix (canvas, &w2c);
 
-		gnome_canvas_item_invoke_update (canvas->root, w2cpx, NULL, 0);
+		gnome_canvas_item_invoke_update (canvas->root, &w2c, 0);
 
 		canvas->need_update = FALSE;
 	}

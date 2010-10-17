@@ -666,8 +666,7 @@ week_view_event_item_get_property (GObject *object,
 
 static void
 week_view_event_item_update (GnomeCanvasItem *item,
-                             gdouble *affine,
-                             ArtSVP *clip_path,
+                             const cairo_matrix_t *i2c,
                              gint flags)
 {
 	GnomeCanvasItemClass *canvas_item_class;
@@ -685,7 +684,7 @@ week_view_event_item_update (GnomeCanvasItem *item,
 
 	/* Chain up to parent's update() method. */
 	canvas_item_class = GNOME_CANVAS_ITEM_CLASS (parent_class);
-	canvas_item_class->update (item, affine, clip_path, flags);
+	canvas_item_class->update (item, i2c, flags);
 
 	item->x1 = 0;
 	item->y1 = 0;

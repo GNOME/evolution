@@ -62,8 +62,7 @@ static void e_calendar_item_realize	(GnomeCanvasItem *item);
 static void e_calendar_item_unrealize	(GnomeCanvasItem *item);
 static void e_calendar_item_unmap	(GnomeCanvasItem *item);
 static void e_calendar_item_update	(GnomeCanvasItem *item,
-					 gdouble		 *affine,
-					 ArtSVP		 *clip_path,
+					 const cairo_matrix_t *i2c,
 					 gint		  flags);
 static void e_calendar_item_draw	(GnomeCanvasItem *item,
 					 GdkDrawable	 *drawable,
@@ -891,8 +890,7 @@ e_calendar_item_unmap		(GnomeCanvasItem *item)
 
 static void
 e_calendar_item_update		(GnomeCanvasItem *item,
-				 gdouble		 *affine,
-				 ArtSVP		 *clip_path,
+				 const cairo_matrix_t *i2c,
 				 gint		  flags)
 {
 	GnomeCanvasItemClass *item_class;
@@ -906,7 +904,7 @@ e_calendar_item_update		(GnomeCanvasItem *item,
 
 	item_class = GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class);
 	if (item_class->update != NULL)
-		item_class->update (item, affine, clip_path, flags);
+		item_class->update (item, i2c, flags);
 
 	calitem = E_CALENDAR_ITEM (item);
 	style = gtk_widget_get_style (GTK_WIDGET (item->canvas));

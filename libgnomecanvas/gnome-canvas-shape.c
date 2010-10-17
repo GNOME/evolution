@@ -55,7 +55,7 @@ static void gnome_canvas_shape_get_property (GObject               *object,
 					     GValue                *value,
                                              GParamSpec            *pspec);
 
-static void   gnome_canvas_shape_update      (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags);
+static void   gnome_canvas_shape_update      (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags);
 static void   gnome_canvas_shape_draw        (GnomeCanvasItem *item, GdkDrawable *drawable,
                                               gint x, gint y, gint width, gint height);
 static GnomeCanvasItem *gnome_canvas_shape_point (GnomeCanvasItem *item, gdouble x, gdouble y,
@@ -512,7 +512,7 @@ gnome_canvas_shape_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdou
 }
 
 static void
-gnome_canvas_shape_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
+gnome_canvas_shape_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags)
 {
 	GnomeCanvasShape * shape;
 	GnomeCanvasShapePriv * priv;
@@ -525,7 +525,7 @@ gnome_canvas_shape_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_
 
 	/* Common part */
 	if (GNOME_CANVAS_ITEM_CLASS (gnome_canvas_shape_parent_class)->update)
-		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_shape_parent_class)->update (item, affine, clip_path, flags);
+		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_shape_parent_class)->update (item, i2c, flags);
 
         gnome_canvas_shape_bounds (item, &x1, &x2, &y1, &y2);
         gnome_canvas_item_i2w_matrix (item, &matrix);

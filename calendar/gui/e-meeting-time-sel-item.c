@@ -48,8 +48,8 @@ static void e_meeting_time_selector_item_set_property (GObject *object,
 static void e_meeting_time_selector_item_realize (GnomeCanvasItem *item);
 static void e_meeting_time_selector_item_unrealize (GnomeCanvasItem *item);
 static void e_meeting_time_selector_item_update (GnomeCanvasItem *item,
-						 double *affine,
-						 ArtSVP *clip_path, gint flags);
+						 const cairo_matrix_t *i2c,
+						 gint flags);
 static void e_meeting_time_selector_item_draw (GnomeCanvasItem *item,
 					       GdkDrawable *drawable,
 					       gint x, gint y,
@@ -221,10 +221,10 @@ e_meeting_time_selector_item_unrealize (GnomeCanvasItem *item)
 }
 
 static void
-e_meeting_time_selector_item_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, gint flags)
+e_meeting_time_selector_item_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags)
 {
 	if (GNOME_CANVAS_ITEM_CLASS (e_meeting_time_selector_item_parent_class)->update)
-		(* GNOME_CANVAS_ITEM_CLASS (e_meeting_time_selector_item_parent_class)->update) (item, affine, clip_path, flags);
+		(* GNOME_CANVAS_ITEM_CLASS (e_meeting_time_selector_item_parent_class)->update) (item, i2c, flags);
 
 	/* The grid covers the entire canvas area. */
 	item->x1 = 0;

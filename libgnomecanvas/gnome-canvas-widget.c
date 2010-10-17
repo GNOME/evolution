@@ -59,8 +59,7 @@ static void gnome_canvas_widget_set_property (GObject            *object,
 					      GParamSpec         *pspec);
 
 static void	gnome_canvas_widget_update	(GnomeCanvasItem *item,
-						 gdouble *affine,
-						 ArtSVP *clip_path,
+						 const cairo_matrix_t *matrix,
 						 gint flags);
 static GnomeCanvasItem *gnome_canvas_widget_point (GnomeCanvasItem *item,
 						 gdouble x,
@@ -326,7 +325,7 @@ gnome_canvas_widget_set_property (GObject            *object,
 	}
 
 	if (update)
-		(* GNOME_CANVAS_ITEM_GET_CLASS (item)->update) (item, NULL, NULL, 0);
+		(* GNOME_CANVAS_ITEM_GET_CLASS (item)->update) (item, NULL, 0);
 
 	if (calc_bounds)
 		recalc_bounds (witem);
@@ -378,8 +377,7 @@ gnome_canvas_widget_get_property (GObject            *object,
 
 static void
 gnome_canvas_widget_update (GnomeCanvasItem *item,
-                            gdouble *affine,
-                            ArtSVP *clip_path,
+                            const cairo_matrix_t *matrix,
                             gint flags)
 {
 	GnomeCanvasWidget *witem;
@@ -387,7 +385,7 @@ gnome_canvas_widget_update (GnomeCanvasItem *item,
 	witem = GNOME_CANVAS_WIDGET (item);
 
 	if (parent_class->update)
-		(* parent_class->update) (item, affine, clip_path, flags);
+		(* parent_class->update) (item, matrix, flags);
 
 	if (witem->widget) {
 		if (witem->size_pixels) {

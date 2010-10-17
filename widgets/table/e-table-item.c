@@ -435,25 +435,18 @@ eti_detach_cell_views (ETableItem *eti)
 static void
 eti_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2)
 {
-	gdouble   i2c[6];
-	ArtPoint c1, c2, i1, i2;
+	cairo_matrix_t i2c;
 	ETableItem *eti = E_TABLE_ITEM (item);
 
 	/* Wrong BBox's are the source of redraw nightmares */
 
-	gnome_canvas_item_i2c_affine (GNOME_CANVAS_ITEM (eti), i2c);
+	*x1 = 0;
+	*y1 = 0;
+	*x2 = eti->width;
+	*y2 = eti->height;
 
-	i1.x = 0;
-	i1.y = 0;
-	i2.x = eti->width;
-	i2.y = eti->height;
-	art_affine_point (&c1, &i1, i2c);
-	art_affine_point (&c2, &i2, i2c);
-
-	*x1 = c1.x;
-	*y1 = c1.y;
-	*x2 = c2.x + 1;
-	*y2 = c2.y + 1;
+	gnome_canvas_item_i2c_matrix (GNOME_CANVAS_ITEM (eti), &i2c);
+        gnome_canvas_matrix_transform_rect (&i2c, x1, y1, x2, y2);
 }
 
 static void
@@ -488,25 +481,25 @@ eti_reflow (GnomeCanvasItem *item, gint flags)
  * GnomeCanvasItem::update method
  */
 static void
-eti_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
+eti_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags)
 {
-	ArtPoint o1, o2;
 	ETableItem *eti = E_TABLE_ITEM (item);
+        double x1, x2, y1, y2;
 
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)
-		(*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)(item, affine, clip_path, flags);
+		(*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)(item, i2c, flags);
 
-	o1.x = item->x1;
-	o1.y = item->y1;
-	o2.x = item->x2;
-	o2.y = item->y2;
+	x1 = item->x1;
+	y1 = item->y1;
+	x2 = item->x2;
+	y2 = item->y2;
 
 	eti_bounds (item, &item->x1, &item->y1, &item->x2, &item->y2);
-	if (item->x1 != o1.x ||
-	    item->y1 != o1.y ||
-	    item->x2 != o2.x ||
-	    item->y2 != o2.y) {
-		gnome_canvas_request_redraw (item->canvas, o1.x, o1.y, o2.x, o2.y);
+	if (item->x1 != x1 ||
+	    item->y1 != y1 ||
+	    item->x2 != x1 ||
+	    item->y2 != y1) {
+		gnome_canvas_request_redraw (item->canvas, x1, y1, x2, y2);
 		eti->needs_redraw = 1;
 	}
 
@@ -799,18 +792,18 @@ static void
 eti_item_region_redraw (ETableItem *eti, gint x0, gint y0, gint x1, gint y1)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
-	ArtDRect rect;
-	gdouble i2c[6];
+	double dx1, dy1, dx2, dy2;
+	cairo_matrix_t i2c;
 
-	rect.x0 = x0;
-	rect.y0 = y0;
-	rect.x1 = x1;
-	rect.y1 = y1;
+	dx1 = x0;
+	dy1 = y0;
+	dx2 = x1;
+	dy2 = y1;
 
-	gnome_canvas_item_i2c_affine (item, i2c);
-	art_drect_affine_transform (&rect, &rect, i2c);
+	gnome_canvas_item_i2c_matrix (item, &i2c);
+	gnome_canvas_matrix_transform_rect (&i2c, &dx1, &dy1, &dx2, &dy2);
 
-	gnome_canvas_request_redraw (item->canvas, rect.x0, rect.y0, rect.x1, rect.y1);
+	gnome_canvas_request_redraw (item->canvas, floor (dx1), floor (dy1), ceil (dx2), ceil (dy2));
 }
 
 /*

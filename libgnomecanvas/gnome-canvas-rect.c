@@ -59,7 +59,7 @@ static void gnome_canvas_rect_get_property (GObject              *object,
                                             GValue               *value,
                                             GParamSpec           *pspec);
 
-static void gnome_canvas_rect_update       (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags);
+static void gnome_canvas_rect_update       (GnomeCanvasItem *item, const cairo_matrix_t *matrix, gint flags);
 
 G_DEFINE_TYPE(GnomeCanvasRect, gnome_canvas_rect, GNOME_TYPE_CANVAS_SHAPE)
 
@@ -197,7 +197,7 @@ gnome_canvas_rect_get_property (GObject              *object,
 }
 
 static void
-gnome_canvas_rect_update (GnomeCanvasItem *item, gdouble affine[6], ArtSVP *clip_path, gint flags)
+gnome_canvas_rect_update (GnomeCanvasItem *item, const cairo_matrix_t *matrix, gint flags)
 {
         GnomeCanvasRect *rect = GNOME_CANVAS_RECT (item);
 
@@ -220,5 +220,5 @@ gnome_canvas_rect_update (GnomeCanvasItem *item, gdouble affine[6], ArtSVP *clip
 	}
 
 	if (GNOME_CANVAS_ITEM_CLASS (gnome_canvas_rect_parent_class)->update)
-		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_rect_parent_class)->update (item, affine, clip_path, flags);
+		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_rect_parent_class)->update (item, matrix, flags);
 }

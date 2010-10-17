@@ -1131,7 +1131,7 @@ e_text_reflow (GnomeCanvasItem *item, gint flags)
 
 /* Update handler for the text item */
 static void
-e_text_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags)
+e_text_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags)
 {
 	EText *text;
 	gdouble x1, y1, x2, y2;
@@ -1140,7 +1140,7 @@ e_text_update (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint f
 
 	if (GNOME_CANVAS_ITEM_CLASS (e_text_parent_class)->update)
 		GNOME_CANVAS_ITEM_CLASS (e_text_parent_class)->update (
-			item, affine, clip_path, flags);
+			item, i2c, flags);
 
 	if ( text->needs_recalc_bounds
 	     || (flags & GNOME_CANVAS_UPDATE_AFFINE)) {
