@@ -3280,30 +3280,6 @@ gnome_canvas_get_scroll_offsets (GnomeCanvas *canvas, gint *cx, gint *cy)
 }
 
 /**
- * gnome_canvas_update_now:
- * @canvas: A canvas.
- *
- * Forces an immediate update and redraw of a canvas.  If the canvas does not
- * have any pending update or redraw requests, then no action is taken.  This is
- * typically only used by applications that need explicit control of when the
- * display is updated, like games.  It is not needed by normal applications.
- */
-void
-gnome_canvas_update_now (GnomeCanvas *canvas)
-{
-	g_return_if_fail (GNOME_IS_CANVAS (canvas));
-
-	if (!(canvas->need_update || canvas->need_redraw)) {
-		g_assert (canvas->idle_id == 0);
-		g_assert (canvas->redraw_area == NULL);
-		return;
-	}
-
-	remove_idle (canvas);
-	do_update (canvas);
-}
-
-/**
  * gnome_canvas_get_item_at:
  * @canvas: A canvas.
  * @x: X position in world coordinates.
