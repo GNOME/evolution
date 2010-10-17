@@ -39,7 +39,6 @@ m4_define([glib_minimum_version], [2.26.0])
 m4_define([eds_minimum_version], [evo_version])
 m4_define([gtkhtml_minimum_version], [3.31.90])
 m4_define([gnome_icon_theme_minimum_version], [2.30.2.1])
-m4_define([pangoft2_minimum_version], [1.0.1])		dnl For libgnomecanvas
 m4_define([gconf_minimum_version], [2.0.0])		dnl XXX Just a Guess
 m4_define([libsoup_minimum_version], [2.4.0])		dnl XXX Just a Guess
 m4_define([libxml_minimum_version], [2.7.3])
@@ -308,7 +307,6 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
 	 $GAIL >= $gail_minimum_version
 	 gconf-2.0 >= gconf_minimum_version
 	 libxml-2.0 >= libxml_minimum_version
-	 pangoft2 >= pangoft2_minimum_version
 	 shared-mime-info >= shared_mime_info_minimum_version
 	 $GNOME_DESKTOP >= $gnome_desktop_minimum_version
 	 $UNIQUE >= $unique_minimum_version])
