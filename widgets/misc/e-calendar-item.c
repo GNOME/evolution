@@ -1156,7 +1156,6 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	GtkWidget *widget;
 	GtkStyle *style;
 	PangoFontDescription *font_desc;
-	GdkGC *fg_gc;
 	struct tm tmp_tm;
 	GdkRectangle clip_rect;
 	gint char_height, xthickness, ythickness, start_weekday;
@@ -1194,7 +1193,6 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics));
 	xthickness = style->xthickness;
 	ythickness = style->ythickness;
-	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 
 	pango_font_metrics_unref (font_metrics);
 
@@ -1250,9 +1248,12 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	start_weekday = (tmp_tm.tm_wday + 6) % 7;
 
 	if (month_x + max_x - clip_rect.x > 0) {
+                cairo_save (cr);
+
 		clip_rect.width = month_x + max_x - clip_rect.x;
 		clip_rect.height = text_y + char_height - clip_rect.y;
-		gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
+                gdk_cairo_rectangle (cr, &clip_rect);
+                cairo_clip (cr);
 
 		/* This is a strftime() format. %B = Month name, %Y = Year. */
 		e_utf8_strftime (buffer, sizeof (buffer), _("%B %Y"), &tmp_tm);
@@ -1266,10 +1267,13 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 		text_x = (calitem->month_width - text_width) / 2;
 		text_x = MAX (min_x, text_x);
 
-		gdk_draw_layout (drawable, fg_gc,
-				 month_x + text_x,
-				 text_y,
-				 layout);
+                gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_NORMAL]);
+                cairo_move_to (cr,
+                               month_x + text_x,
+                               text_y);
+		pango_cairo_show_layout (cr, layout);
+
+                cairo_restore (cr);
 	}
 
 	/* Set the clip rectangle for the main month display. */
@@ -1287,7 +1291,8 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	clip_rect.width = clip_width;
 	clip_rect.height = clip_height;
 
-	gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
+        gdk_cairo_rectangle (cr, &clip_rect);
+        cairo_clip (cr);
 
 	/* Draw the day initials across the top of the month. */
 	min_cell_width = MAX (calitem->max_day_width, (calitem->max_digit_width * 2))
@@ -1322,13 +1327,13 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	pango_layout_set_font_description (layout, font_desc);
 	if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
 		text_x += (7-1) * calitem->cell_width;
-	gdk_gc_set_foreground (fg_gc, &style->text[GTK_STATE_ACTIVE]);
+        gdk_cairo_set_source_color (cr, &style->text[GTK_STATE_ACTIVE]);
 	for (day = 0; day < 7; day++) {
 		layout_set_day_text (calitem, layout, day_index);
-		gdk_draw_layout (drawable, fg_gc,
-				 text_x - calitem->day_widths[day_index],
-				 text_y,
-				 layout);
+                cairo_move_to (cr, 
+                               text_x - calitem->day_widths[day_index],
+                               text_y);
+                pango_cairo_show_layout (cr, layout);
 		text_x += (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
 				? -calitem->cell_width : calitem->cell_width;
 		day_index++;
@@ -1350,7 +1355,6 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
                                           row, col, year, month, start_weekday,
                                           cells_x, cells_y);
 
-	gdk_gc_set_clip_rectangle (fg_gc, NULL);
 	g_object_unref (layout);
 	cairo_destroy (cr);
 }
@@ -1400,7 +1404,6 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 	GtkWidget *widget;
 	GtkStyle *style;
 	PangoFontDescription *font_desc;
-	GdkGC *fg_gc;
 	GdkColor *bg_color, *fg_color, *box_color;
 	struct tm today_tm;
 	time_t t;
@@ -1430,7 +1433,6 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 	font_desc = calitem->font_desc;
 	if (!font_desc)
 		font_desc = style->font_desc;
-	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 
 	pango_context = gtk_widget_get_pango_context (widget);
 	font_metrics = pango_context_get_metrics (pango_context, font_desc,
@@ -1699,9 +1701,6 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 	/* Reset pango weight and style */
 	pango_font_description_set_weight (font_desc, PANGO_WEIGHT_NORMAL);
 	pango_font_description_set_style (font_desc, PANGO_STYLE_NORMAL);
-
-	/* Reset the foreground color. */
-	gdk_gc_set_foreground (fg_gc, &style->fg[GTK_STATE_NORMAL]);
 
 	g_object_unref (layout);
 
