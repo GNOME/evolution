@@ -88,10 +88,6 @@
 #include "gnome-canvas.h"
 #include "gnome-canvas-i18n.h"
 #include "gnome-canvas-util.h"
-#include <libart_lgpl/art_rect.h>
-#include <libart_lgpl/art_rect_uta.h>
-#include <libart_lgpl/art_uta_rect.h>
-
 #include "gnome-canvas-marshal.h"
 #include "gnome-canvas-marshal.c"
 
@@ -1864,8 +1860,6 @@ gnome_canvas_init (GnomeCanvas *canvas)
 	gtk_widget_set_can_focus (GTK_WIDGET (canvas), TRUE);
 
 	canvas->need_update = FALSE;
-	canvas->need_redraw = FALSE;
-	canvas->redraw_area = NULL;
 	canvas->idle_id = 0;
 
 	canvas->scroll_x1 = 0.0;
@@ -1918,21 +1912,6 @@ remove_idle (GnomeCanvas *canvas)
 static void
 shutdown_transients (GnomeCanvas *canvas)
 {
-	/* We turn off the need_redraw flag, since if the canvas is mapped again
-	 * it will request a redraw anyways.  We do not turn off the need_update
-	 * flag, though, because updates are not queued when the canvas remaps
-	 * itself.
-	 */
-	if (canvas->need_redraw) {
-		canvas->need_redraw = FALSE;
-		art_uta_free (canvas->redraw_area);
-		canvas->redraw_area = NULL;
-		canvas->redraw_x1 = 0;
-		canvas->redraw_y1 = 0;
-		canvas->redraw_x2 = 0;
-		canvas->redraw_y2 = 0;
-	}
-
 	if (canvas->grabbed_item) {
 		canvas->grabbed_item = NULL;
 		gdk_pointer_ungrab (GDK_CURRENT_TIME);
@@ -2796,22 +2775,24 @@ gnome_canvas_expose (GtkWidget *widget, GdkEventExpose *event)
 	gdk_region_get_rectangles (event->region, &rects, &n_rects);
 
 	for (i = 0; i < n_rects; i++) {
-		ArtIRect rect;
+		GdkRectangle rect;
 
-		rect.x0 = rects[i].x - canvas->zoom_xofs;
-		rect.y0 = rects[i].y - canvas->zoom_yofs;
-		rect.x1 = rects[i].x + rects[i].width - canvas->zoom_xofs;
-		rect.y1 = rects[i].y + rects[i].height - canvas->zoom_yofs;
+		rect.x = rects[i].x - canvas->zoom_xofs;
+		rect.y = rects[i].y - canvas->zoom_yofs;
+		rect.width = rects[i].width;
+		rect.height = rects[i].height;
 
-		if (canvas->need_update || canvas->need_redraw) {
-			ArtUta *uta;
-
-			/* Update or drawing is scheduled, so just mark exposed area as dirty */
-			uta = art_uta_from_irect (&rect);
-			gnome_canvas_request_redraw_uta (canvas, uta);
+		if (canvas->need_update) {
+			gnome_canvas_request_redraw (canvas, 
+                                                     rect.x, rect.y,
+                                                     rect.x + rect.width,
+                                                     rect.y + rect.height);
 		} else {
 			/* No pending updates, draw exposed area immediately */
-			gnome_canvas_paint_rect (canvas, rect.x0, rect.y0, rect.x1, rect.y1);
+			gnome_canvas_paint_rect (canvas,
+                                                 rect.x, rect.y,
+                                                 rect.x + rect.width,
+                                                 rect.y + rect.height);
 
 			/* And call expose on parent container class */
 			if (GTK_WIDGET_CLASS (canvas_parent_class)->expose_event)
@@ -2823,77 +2804,6 @@ gnome_canvas_expose (GtkWidget *widget, GdkEventExpose *event)
 	g_free (rects);
 
 	return FALSE;
-}
-
-/* Repaints the areas in the canvas that need it */
-static void
-paint (GnomeCanvas *canvas)
-{
-	GtkWidget *widget;
-	GtkLayout *layout;
-	GdkWindow *bin_window;
-	GtkAllocation allocation;
-	GtkAdjustment *hadjustment;
-	GtkAdjustment *vadjustment;
-	ArtIRect *rects;
-	gint n_rects, i;
-	ArtIRect visible_rect;
-	GdkRegion *region;
-	gdouble hadjustment_value;
-	gdouble vadjustment_value;
-
-	widget = GTK_WIDGET (canvas);
-	gtk_widget_get_allocation (widget, &allocation);
-
-	layout = GTK_LAYOUT (canvas);
-	bin_window = gtk_layout_get_bin_window (layout);
-	hadjustment = gtk_layout_get_hadjustment (layout);
-	vadjustment = gtk_layout_get_vadjustment (layout);
-
-	hadjustment_value = gtk_adjustment_get_value (hadjustment);
-	vadjustment_value = gtk_adjustment_get_value (vadjustment);
-
-	/* Extract big rectangles from the microtile array */
-
-	rects = art_rect_list_from_uta (canvas->redraw_area,
-					REDRAW_QUANTUM_SIZE, REDRAW_QUANTUM_SIZE,
-					&n_rects);
-
-	art_uta_free (canvas->redraw_area);
-	canvas->redraw_area = NULL;
-	canvas->need_redraw = FALSE;
-
-	/* Turn those rectangles into a GdkRegion for exposing */
-
-	visible_rect.x0 = hadjustment_value - canvas->zoom_xofs;
-	visible_rect.y0 = vadjustment_value - canvas->zoom_yofs;
-	visible_rect.x1 = visible_rect.x0 + allocation.width;
-	visible_rect.y1 = visible_rect.y0 + allocation.height;
-
-	for (i = 0; i < n_rects; i++) {
-		ArtIRect clipped;
-
-		art_irect_intersect (&clipped, &visible_rect, rects + i);
-		if (!art_irect_empty (&clipped)) {
-			GdkRectangle gdkrect;
-
-			gdkrect.x = clipped.x0 + canvas->zoom_xofs;
-			gdkrect.y = clipped.y0 + canvas->zoom_yofs;
-			gdkrect.width = clipped.x1 - clipped.x0;
-			gdkrect.height = clipped.y1 - clipped.y0;
-
-			region = gdk_region_rectangle (&gdkrect);
-			gdk_window_invalidate_region (bin_window, region, FALSE);
-			gdk_region_destroy (region);
-		}
-	}
-
-	art_free (rects);
-
-	canvas->redraw_x1 = 0;
-	canvas->redraw_y1 = 0;
-	canvas->redraw_x2 = 0;
-	canvas->redraw_y2 = 0;
 }
 
 static void
@@ -2946,11 +2856,6 @@ update_again:
 	if (canvas->need_update) {
 		goto update_again;
 	}
-
-	/* Paint if able to */
-
-	if (gtk_widget_is_drawable (GTK_WIDGET (canvas)) && canvas->need_redraw)
-		paint (canvas);
 }
 
 /* Idle handler for the canvas.  It deals with pending updates and redraws. */
@@ -2977,7 +2882,7 @@ idle_handler (gpointer data)
 static void
 add_idle (GnomeCanvas *canvas)
 {
-	g_assert (canvas->need_update || canvas->need_redraw);
+	g_assert (canvas->need_update);
 
 	if (!canvas->idle_id)
 		canvas->idle_id = g_idle_add_full (CANVAS_IDLE_PRIORITY,
@@ -3321,127 +3226,8 @@ gnome_canvas_request_update_real (GnomeCanvas *canvas)
 		add_idle (canvas);
 }
 
-/* Computes the union of two microtile arrays while clipping the result to the
- * specified rectangle.  Any of the specified utas can be NULL, in which case it
- * is taken to be an empty region.
- */
-static ArtUta *
-uta_union_clip (ArtUta *uta1, ArtUta *uta2, ArtIRect *clip)
-{
-	ArtUta *uta;
-	ArtUtaBbox *utiles;
-	gint clip_x1, clip_y1, clip_x2, clip_y2;
-	gint union_x1, union_y1, union_x2, union_y2;
-	gint new_x1, new_y1, new_x2, new_y2;
-	gint x, y;
-	gint ofs, ofs1, ofs2;
-
-	g_assert (clip != NULL);
-
-	/* Compute the tile indices for the clipping rectangle */
-
-	clip_x1 = clip->x0 >> ART_UTILE_SHIFT;
-	clip_y1 = clip->y0 >> ART_UTILE_SHIFT;
-	clip_x2 = (clip->x1 >> ART_UTILE_SHIFT) + 1;
-	clip_y2 = (clip->y1 >> ART_UTILE_SHIFT) + 1;
-
-	/* Get the union of the bounds of both utas */
-
-	if (!uta1) {
-		if (!uta2)
-			return art_uta_new (clip_x1, clip_y1, clip_x1 + 1, clip_y1 + 1);
-
-		union_x1 = uta2->x0;
-		union_y1 = uta2->y0;
-		union_x2 = uta2->x0 + uta2->width;
-		union_y2 = uta2->y0 + uta2->height;
-	} else {
-		if (!uta2) {
-			union_x1 = uta1->x0;
-			union_y1 = uta1->y0;
-			union_x2 = uta1->x0 + uta1->width;
-			union_y2 = uta1->y0 + uta1->height;
-		} else {
-			union_x1 = MIN (uta1->x0, uta2->x0);
-			union_y1 = MIN (uta1->y0, uta2->y0);
-			union_x2 = MAX (uta1->x0 + uta1->width, uta2->x0 + uta2->width);
-			union_y2 = MAX (uta1->y0 + uta1->height, uta2->y0 + uta2->height);
-		}
-	}
-
-	/* Clip the union of the bounds */
-
-	new_x1 = MAX (clip_x1, union_x1);
-	new_y1 = MAX (clip_y1, union_y1);
-	new_x2 = MIN (clip_x2, union_x2);
-	new_y2 = MIN (clip_y2, union_y2);
-
-	if (new_x1 >= new_x2 || new_y1 >= new_y2)
-		return art_uta_new (clip_x1, clip_y1, clip_x1 + 1, clip_y1 + 1);
-
-	/* Make the new clipped union */
-
-	uta = art_new (ArtUta, 1);
-	uta->x0 = new_x1;
-	uta->y0 = new_y1;
-	uta->width = new_x2 - new_x1;
-	uta->height = new_y2 - new_y1;
-	uta->utiles = utiles = art_new (ArtUtaBbox, uta->width * uta->height);
-
-	ofs = 0;
-	ofs1 = ofs2 = 0;
-
-	for (y = new_y1; y < new_y2; y++) {
-		if (uta1)
-			ofs1 = (y - uta1->y0) * uta1->width + new_x1 - uta1->x0;
-
-		if (uta2)
-			ofs2 = (y - uta2->y0) * uta2->width + new_x1 - uta2->x0;
-
-		for (x = new_x1; x < new_x2; x++) {
-			ArtUtaBbox bb1, bb2, bb;
-
-			if (!uta1
-			    || x < uta1->x0 || y < uta1->y0
-			    || x >= uta1->x0 + uta1->width || y >= uta1->y0 + uta1->height)
-				bb1 = 0;
-			else
-				bb1 = uta1->utiles[ofs1];
-
-			if (!uta2
-			    || x < uta2->x0 || y < uta2->y0
-			    || x >= uta2->x0 + uta2->width || y >= uta2->y0 + uta2->height)
-				bb2 = 0;
-			else
-				bb2 = uta2->utiles[ofs2];
-
-			if (bb1 == 0)
-				bb = bb2;
-			else if (bb2 == 0)
-				bb = bb1;
-			else
-				bb = ART_UTA_BBOX_CONS (MIN (ART_UTA_BBOX_X0 (bb1),
-							     ART_UTA_BBOX_X0 (bb2)),
-							MIN (ART_UTA_BBOX_Y0 (bb1),
-							     ART_UTA_BBOX_Y0 (bb2)),
-							MAX (ART_UTA_BBOX_X1 (bb1),
-							     ART_UTA_BBOX_X1 (bb2)),
-							MAX (ART_UTA_BBOX_Y1 (bb1),
-							     ART_UTA_BBOX_Y1 (bb2)));
-
-			utiles[ofs] = bb;
-
-			ofs++;
-			ofs1++;
-			ofs2++;
-		}
-	}
-
-	return uta;
-}
-
 static inline void
-get_visible_region (GnomeCanvas *canvas, ArtIRect *visible)
+get_visible_rect (GnomeCanvas *canvas, GdkRectangle *visible)
 {
 	GtkLayout *layout;
 	GtkAllocation allocation;
@@ -3459,66 +3245,10 @@ get_visible_region (GnomeCanvas *canvas, ArtIRect *visible)
 	hadjustment_value = gtk_adjustment_get_value (hadjustment);
 	vadjustment_value = gtk_adjustment_get_value (vadjustment);
 
-	visible->x0 = hadjustment_value - canvas->zoom_xofs;
-	visible->y0 = vadjustment_value - canvas->zoom_yofs;
-	visible->x1 = visible->x0 + allocation.width;
-	visible->y1 = visible->y0 + allocation.height;
-}
-
-/**
- * gnome_canvas_request_redraw_uta:
- * @canvas: A canvas.
- * @uta: Microtile array that specifies the area to be redrawn.  It will
- * be freed by this function, so the argument you pass will be invalid
- * after you call this function.
- *
- * Informs a canvas that the specified area, given as a microtile array, needs
- * to be repainted.  To be used only by item implementations.
- **/
-void
-gnome_canvas_request_redraw_uta (GnomeCanvas *canvas,
-                                 ArtUta      *uta)
-{
-	ArtIRect visible;
-
-	g_return_if_fail (GNOME_IS_CANVAS (canvas));
-	g_return_if_fail (uta != NULL);
-
-	if (!gtk_widget_is_drawable (GTK_WIDGET (canvas))) {
-		art_uta_free (uta);
-		return;
-	}
-
-	get_visible_region (canvas, &visible);
-
-	if (canvas->need_redraw) {
-		ArtUta *new_uta;
-
-		g_assert (canvas->redraw_area != NULL);
-		/* ALEX: This can fail if e.g. redraw_uta is called by an item
-		   update function and we're called from update_now -> do_update
-		   because update_now sets idle_id == 0. There is also some way
-		   to get it from the expose handler (see bug #102811).
-		   g_assert (canvas->idle_id != 0);  */
-
-		new_uta = uta_union_clip (canvas->redraw_area, uta, &visible);
-		art_uta_free (canvas->redraw_area);
-		art_uta_free (uta);
-		canvas->redraw_area = new_uta;
-		if (canvas->idle_id == 0)
-			add_idle (canvas);
-	} else {
-		ArtUta *new_uta;
-
-		g_assert (canvas->redraw_area == NULL);
-
-		new_uta = uta_union_clip (uta, NULL, &visible);
-		art_uta_free (uta);
-		canvas->redraw_area = new_uta;
-
-		canvas->need_redraw = TRUE;
-		add_idle (canvas);
-	}
+	visible->x = hadjustment_value - canvas->zoom_xofs;
+	visible->y = vadjustment_value - canvas->zoom_yofs;
+	visible->width = allocation.width;
+	visible->height = allocation.height;
 }
 
 /**
@@ -3530,36 +3260,30 @@ gnome_canvas_request_redraw_uta (GnomeCanvas *canvas,
  * @y2: Lower coordinate of the rectangle to be redrawn, plus 1.
  *
  * Convenience function that informs a canvas that the specified rectangle needs
- * to be repainted.  This function converts the rectangle to a microtile array
- * and feeds it to gnome_canvas_request_redraw_uta().  The rectangle includes
- * @x1 and @y1, but not @x2 and @y2.  To be used only by item implementations.
+ * to be repainted.  The rectangle includes @x1 and @y1, but not @x2 and @y2.  To
+ * be used only by item implementations.
  **/
 void
 gnome_canvas_request_redraw (GnomeCanvas *canvas, gint x1, gint y1, gint x2, gint y2)
 {
-	ArtUta *uta;
-	ArtIRect bbox;
-	ArtIRect visible;
-	ArtIRect clip;
+        GdkRectangle area, clip;
 
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
 	if (!gtk_widget_is_drawable (GTK_WIDGET (canvas)) || (x1 >= x2) || (y1 >= y2))
 		return;
 
-	bbox.x0 = x1;
-	bbox.y0 = y1;
-	bbox.x1 = x2;
-	bbox.y1 = y2;
+        area.x = x1;
+        area.y = y1;
+        area.width = x2 - x1;
+        area.height = y2 - y1;
 
-	get_visible_region (canvas, &visible);
+	get_visible_rect (canvas, &clip);
+        if (!gdk_rectangle_intersect (&area, &clip, &area))
+                return;
 
-	art_irect_intersect (&clip, &bbox, &visible);
-
-	if (!art_irect_empty (&clip)) {
-		uta = art_uta_from_irect (&clip);
-		gnome_canvas_request_redraw_uta (canvas, uta);
-	}
+	gdk_window_invalidate_rect (gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
+                                    &area, FALSE);
 }
 
 /**
