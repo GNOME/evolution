@@ -39,7 +39,6 @@
 #include <math.h>
 #include <string.h>
 #include "gnome-canvas-text.h"
-#include <pango/pangoft2.h>
 
 #include "gnome-canvas-util.h"
 #include "gnome-canvas-i18n.h"
@@ -97,7 +96,6 @@ enum {
 
 struct _GnomeCanvasTextPrivate {
 	guint render_dirty : 1;
-	FT_Bitmap bitmap;
 };
 
 static void gnome_canvas_text_class_init (GnomeCanvasTextClass *class);
@@ -533,7 +531,6 @@ gnome_canvas_text_init (GnomeCanvasText *text)
 	text->rise_set      = FALSE;
 
 	text->priv = g_new (GnomeCanvasTextPrivate, 1);
-	text->priv->bitmap.buffer = NULL;
 	text->priv->render_dirty = 1;
 }
 
@@ -565,9 +562,6 @@ gnome_canvas_text_destroy (GnomeCanvasItem *object)
 		pango_attr_list_unref (text->attr_list);
 	text->attr_list = NULL;
 
-	if (text->priv && text->priv->bitmap.buffer) {
-		g_free (text->priv->bitmap.buffer);
-	}
 	g_free (text->priv);
 	text->priv = NULL;
 
