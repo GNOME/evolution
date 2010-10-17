@@ -316,7 +316,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			cairo_pattern_add_color_stop_rgba (pat, 0.25, 0, 0, 0, 0.2);
 			cairo_pattern_add_color_stop_rgba (pat, 0, 0, 0, 0, 1);
 			cairo_set_source (cr, pat);
-			cairo_arc (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 5, item_y + 13.5, 8.0, 11 * M_PI / 8, M_PI / 8);
+			cairo_arc (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 5, item_y + 13.5, 8.0, 11 * G_PI / 8, G_PI / 8);
 			cairo_fill (cr);
 			cairo_pattern_destroy (pat);
 
@@ -344,7 +344,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			cairo_pattern_add_color_stop_rgba (pat, 0.7, 0, 0, 0, 0.2);
 			cairo_pattern_add_color_stop_rgba (pat, 0, 0, 0, 0, 1);
 			cairo_set_source (cr, pat);
-			cairo_arc (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 13, item_y + item_h - 5, 12.0, 3 * M_PI / 8, 9 * M_PI / 8);
+			cairo_arc (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 13, item_y + item_h - 5, 12.0, 3 * G_PI / 8, 9 * G_PI / 8);
 			cairo_fill (cr);
 			cairo_pattern_destroy (pat);
 
@@ -365,7 +365,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 			cairo_pattern_add_color_stop_rgba (pat, 0.8, 0, 0, 0, 0.2);
 			cairo_pattern_add_color_stop_rgba (pat, 0, 0, 0, 0, 1);
 			cairo_set_source (cr, pat);
-			cairo_arc (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 1, item_y + item_h - 4.5, 12.0, 15 * M_PI / 8,  5 * M_PI / 8);
+			cairo_arc (cr, item_x + item_w - E_DAY_VIEW_BAR_WIDTH + 1, item_y + item_h - 4.5, 12.0, 15 * G_PI / 8,  5 * G_PI / 8);
 			cairo_fill (cr);
 			cairo_pattern_destroy (pat);
 
