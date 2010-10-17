@@ -74,8 +74,8 @@ struct _EDayViewTimeItemPrivate {
 };
 
 static void e_day_view_time_item_update (GnomeCanvasItem *item,
-					 double *affine,
-					 ArtSVP *clip_path, gint flags);
+					 const cairo_matrix_t *i2c,
+					 gint flags);
 static void e_day_view_time_item_draw (GnomeCanvasItem *item,
 				       GdkDrawable *drawable,
 				       gint x, gint y,
@@ -257,12 +257,11 @@ e_day_view_time_item_get_type (void)
 
 static void
 e_day_view_time_item_update (GnomeCanvasItem *item,
-			    double *affine,
-			    ArtSVP *clip_path,
-			    gint flags)
+			     const cairo_matrix_t *i2c,
+			     gint flags)
 {
 	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->update)
-		(* GNOME_CANVAS_ITEM_CLASS (parent_class)->update) (item, affine, clip_path, flags);
+		(* GNOME_CANVAS_ITEM_CLASS (parent_class)->update) (item, i2c, flags);
 
 	/* The item covers the entire canvas area. */
 	item->x1 = 0;

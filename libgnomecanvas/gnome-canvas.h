@@ -94,8 +94,7 @@ typedef enum {
 	GNOME_CANVAS_ITEM_NEED_UPDATE	= 1 << 4,
 	GNOME_CANVAS_ITEM_NEED_AFFINE	= 1 << 5,
 	GNOME_CANVAS_ITEM_NEED_CLIP	= 1 << 6,
-	GNOME_CANVAS_ITEM_NEED_VIS	= 1 << 7,
-	GNOME_CANVAS_ITEM_AFFINE_FULL	= 1 << 8
+	GNOME_CANVAS_ITEM_NEED_VIS	= 1 << 7
 } GnomeCanvasItemFlags;
 
 /* Update flags for items */
@@ -123,12 +122,8 @@ struct _GnomeCanvasItem {
 	/* Parent canvas group for this item (a GnomeCanvasGroup) */
 	GnomeCanvasItem *parent;
 
-	/* If NULL, assumed to be the identity tranform.  If flags does not have
-	 * AFFINE_FULL, then a two-element array containing a translation.  If
-	 * flags contains AFFINE_FULL, a six-element array containing an affine
-	 * transformation.
-	 */
-	gdouble *xform;
+	/* The transformation for this item */
+	cairo_matrix_t matrix;
 
 	/* Bounding box for this item (in canvas coordinates) */
 	gdouble x1, y1, x2, y2;
@@ -147,7 +142,7 @@ struct _GnomeCanvasItemClass {
 	 * affine, if used, is a pointer to a 6-element array of doubles.  The
 	 * update method also recomputes the bounding box of the item.
 	 */
-	void (* update) (GnomeCanvasItem *item, gdouble *affine, ArtSVP *clip_path, gint flags);
+	void (* update) (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags);
 
 	/* Realize an item -- create GCs, etc. */
 	void (* realize) (GnomeCanvasItem *item);
@@ -219,10 +214,10 @@ void gnome_canvas_item_set_valist (GnomeCanvasItem *item,
 void gnome_canvas_item_move (GnomeCanvasItem *item, gdouble dx, gdouble dy);
 
 /* Apply a relative affine transformation to the item. */
-void gnome_canvas_item_affine_relative (GnomeCanvasItem *item, const gdouble affine[6]);
+void gnome_canvas_item_transform (GnomeCanvasItem *item, const cairo_matrix_t *matrix);
 
 /* Apply an absolute affine transformation to the item. */
-void gnome_canvas_item_affine_absolute (GnomeCanvasItem *item, const gdouble affine[6]);
+void gnome_canvas_item_set_matrix (GnomeCanvasItem *item, const cairo_matrix_t *matrix);
 
 /* Raise an item in the z-order of its parent group by the specified number of
  * positions.
@@ -272,14 +267,12 @@ void gnome_canvas_item_i2w (GnomeCanvasItem *item, gdouble *x, gdouble *y);
 /* Gets the affine transform that converts from item-relative coordinates to
  * world coordinates.
  */
-void gnome_canvas_item_i2w_affine (GnomeCanvasItem *item, gdouble affine[6]);
 void gnome_canvas_item_i2w_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix);
 void gnome_canvas_item_w2i_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix);
 
 /* Gets the affine transform that converts from item-relative coordinates to
  * canvas pixel coordinates.
  */
-void gnome_canvas_item_i2c_affine (GnomeCanvasItem *item, gdouble affine[6]);
 void gnome_canvas_item_i2c_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix);
 
 /* Remove the item from its parent group and make the new group its parent.  The

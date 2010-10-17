@@ -165,8 +165,6 @@ canvas_emit_event (GnomeCanvas *canvas,
  * should be in the parent's item-relative coordinate system.  This routine
  * applies the inverse of the item's transform, maintaining the affine
  * invariant. */
-#define HACKISH_AFFINE
-
 static GnomeCanvasItem *
 gnome_canvas_item_invoke_point (GnomeCanvasItem *item,
                                 gdouble x,
@@ -174,25 +172,19 @@ gnome_canvas_item_invoke_point (GnomeCanvasItem *item,
                                 gint cx,
                                 gint cy)
 {
-#ifdef HACKISH_AFFINE
-	gdouble i2w[6], w2c[6], i2c[6], c2i[6];
-	ArtPoint c, i;
-#endif
+        cairo_matrix_t inverse;
 
-#ifdef HACKISH_AFFINE
-	gnome_canvas_item_i2w_affine (item, i2w);
-	gnome_canvas_w2c_affine (item->canvas, w2c);
-	art_affine_multiply (i2c, i2w, w2c);
-	art_affine_invert (c2i, i2c);
-	c.x = cx;
-	c.y = cy;
-	art_affine_point (&i, &c, c2i);
-	x = i.x;
-	y = i.y;
-#endif
+	/* Calculate x & y in item local coordinates */
+        inverse = item->matrix;
+        if (cairo_matrix_invert (&inverse) != CAIRO_STATUS_SUCCESS)
+                return NULL;
 
-	return (* GNOME_CANVAS_ITEM_CLASS (G_OBJECT_GET_CLASS (item))->point) (
-		item, x, y, cx, cy);
+        cairo_matrix_transform_point (&inverse, &x, &y);
+
+	if (GNOME_CANVAS_ITEM_GET_CLASS (item)->point)
+		return GNOME_CANVAS_ITEM_GET_CLASS (item)->point (item, x, y, cx, cy);
+
+	return NULL;
 }
 
 /* Re-picks the current item in the canvas, based on the event's coordinates.

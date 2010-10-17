@@ -354,15 +354,14 @@ week_view_main_item_dispose (GObject *object)
 
 static void
 week_view_main_item_update (GnomeCanvasItem *item,
-                            gdouble *affine,
-                            ArtSVP *clip_path,
+                            const cairo_matrix_t *i2c,
                             gint flags)
 {
 	GnomeCanvasItemClass *canvas_item_class;
 
 	/* Chain up to parent's update() method. */
 	canvas_item_class = GNOME_CANVAS_ITEM_CLASS (parent_class);
-	canvas_item_class->update (item, affine, clip_path, flags);
+	canvas_item_class->update (item, i2c, flags);
 
 	/* The item covers the entire canvas area. */
 	item->x1 = 0;

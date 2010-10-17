@@ -42,7 +42,7 @@ static void e_reflow_realize (GnomeCanvasItem *item);
 static void e_reflow_unrealize (GnomeCanvasItem *item);
 static void e_reflow_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				    gint x, gint y, gint width, gint height);
-static void e_reflow_update (GnomeCanvasItem *item, gdouble affine[6], ArtSVP *clip_path, gint flags);
+static void e_reflow_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags);
 static GnomeCanvasItem *e_reflow_point (GnomeCanvasItem *item, gdouble x, gdouble y, gint cx, gint cy);
 static void e_reflow_reflow (GnomeCanvasItem *item, gint flags);
 static void set_empty (EReflow *reflow);
@@ -1252,7 +1252,7 @@ static void e_reflow_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 }
 
 static void
-e_reflow_update (GnomeCanvasItem *item, gdouble affine[6], ArtSVP *clip_path, gint flags)
+e_reflow_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags)
 {
 	EReflow *reflow;
 	gdouble x0, x1, y0, y1;
@@ -1260,7 +1260,7 @@ e_reflow_update (GnomeCanvasItem *item, gdouble affine[6], ArtSVP *clip_path, gi
 	reflow = E_REFLOW (item);
 
 	if (GNOME_CANVAS_ITEM_CLASS (e_reflow_parent_class)->update)
-		GNOME_CANVAS_ITEM_CLASS (e_reflow_parent_class)->update (item, affine, clip_path, flags);
+		GNOME_CANVAS_ITEM_CLASS (e_reflow_parent_class)->update (item, i2c, flags);
 
 	x0 = item->x1;
 	y0 = item->y1;

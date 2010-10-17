@@ -118,8 +118,8 @@ static void gnome_canvas_rich_text_set_property (GObject *object, guint property
 						const GValue *value, GParamSpec *pspec);
 static void gnome_canvas_rich_text_get_property (GObject *object, guint property_id,
 						GValue *value, GParamSpec *pspec);
-static void gnome_canvas_rich_text_update (GnomeCanvasItem *item, gdouble *affine,
-					  ArtSVP *clip_path, gint flags);
+static void gnome_canvas_rich_text_update (GnomeCanvasItem *item,
+					   const cairo_matrix_t *matrix, gint flags);
 static void gnome_canvas_rich_text_realize (GnomeCanvasItem *item);
 static void gnome_canvas_rich_text_unrealize (GnomeCanvasItem *item);
 static GnomeCanvasItem * gnome_canvas_rich_text_point (GnomeCanvasItem *item,
@@ -2062,15 +2062,15 @@ gnome_canvas_rich_text_get_bounds (GnomeCanvasItem *item,
 }
 
 static void
-gnome_canvas_rich_text_update (GnomeCanvasItem *item, gdouble *affine,
-			      ArtSVP *clip_path, gint flags)
+gnome_canvas_rich_text_update (GnomeCanvasItem *item, const cairo_matrix_t *matrix,
+			       gint flags)
 {
 	GnomeCanvasRichText *text = GNOME_CANVAS_RICH_TEXT (item);
 	gdouble x1, y1, x2, y2;
 	GtkTextIter start;
 
 	(* GNOME_CANVAS_ITEM_CLASS (parent_class)->update)(
-		item, affine, clip_path, flags);
+		item, matrix, flags);
 
 	get_bounds (text, &x1, &y1, &x2, &y2);
 

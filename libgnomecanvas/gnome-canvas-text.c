@@ -112,8 +112,7 @@ static void gnome_canvas_text_get_property (GObject            *object,
 					    GValue             *value,
 					    GParamSpec         *pspec);
 
-static void gnome_canvas_text_update (GnomeCanvasItem *item, gdouble *affine,
-				      ArtSVP *clip_path, gint flags);
+static void gnome_canvas_text_update (GnomeCanvasItem *item, const cairo_matrix_t *matrix, gint flags);
 static void gnome_canvas_text_realize (GnomeCanvasItem *item);
 static void gnome_canvas_text_unrealize (GnomeCanvasItem *item);
 static void gnome_canvas_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
@@ -1329,8 +1328,7 @@ gnome_canvas_text_set_markup (GnomeCanvasText *textitem,
 /* Update handler for the text item */
 static void
 gnome_canvas_text_update (GnomeCanvasItem *item,
-                          gdouble *affine,
-                          ArtSVP *clip_path,
+                          const cairo_matrix_t *matrix,
                           gint flags)
 {
 	GnomeCanvasText *text;
@@ -1339,7 +1337,7 @@ gnome_canvas_text_update (GnomeCanvasItem *item,
 	text = GNOME_CANVAS_TEXT (item);
 
 	if (parent_class->update)
-		(* parent_class->update) (item, affine, clip_path, flags);
+		(* parent_class->update) (item, matrix, flags);
 
 	set_text_gc_foreground (text);
 	get_bounds (text, &x1, &y1, &x2, &y2);

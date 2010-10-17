@@ -176,38 +176,34 @@ etfci_reflow (GnomeCanvasItem *item, gint flags)
 
 static void
 etfci_update (GnomeCanvasItem *item,
-              gdouble *affine,
-              ArtSVP *clip_path,
+              const cairo_matrix_t *i2c,
               gint flags)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
-	gdouble   i2c[6];
-	ArtPoint c1, c2, i1, i2;
+	double x1, y1, x2, y2;
 
 	if (GNOME_CANVAS_ITEM_CLASS (etfci_parent_class)->update)
 		GNOME_CANVAS_ITEM_CLASS (etfci_parent_class)->update (
-			item, affine, clip_path, flags);
+			item, i2c, flags);
 
-	i1.x = i1.y = 0;
-	i2.x = etfci->width;
-	i2.y = etfci->height;
+	x1 = y1 = 0;
+	x2 = etfci->width;
+	y2 = etfci->height;
 
-	gnome_canvas_item_i2c_affine (item, i2c);
-	art_affine_point (&c1, &i1, i2c);
-	art_affine_point (&c2, &i2, i2c);
+        gnome_canvas_matrix_transform_rect (i2c, &x1, &y1, &x2, &y2);
 
-	if (item->x1 != c1.x ||
-	     item->y1 != c1.y ||
-	     item->x2 != c2.x ||
-	     item->y2 != c2.y)
+	if (item->x1 != x1 ||
+	    item->y1 != y1 ||
+	    item->x2 != x2 ||
+	    item->y2 != y2)
 		{
 			gnome_canvas_request_redraw (
 				item->canvas, item->x1,
 				item->y1, item->x2, item->y2);
-			item->x1 = c1.x;
-			item->y1 = c1.y;
-			item->x2 = c2.x;
-			item->y2 = c2.y;
+			item->x1 = x1;
+			item->y1 = y1;
+			item->x2 = x2;
+			item->y2 = y2;
 /* FIXME: Group Child bounds !? */
 #if 0
 			gnome_canvas_group_child_bounds (
