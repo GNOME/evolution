@@ -122,7 +122,6 @@ struct _EText {
 	gdouble xofs, yofs;		/* Text offset distance from anchor position */
 
 	GdkColor color;		/* Fill color */
-	GdkGC *gc;			/* GC for drawing text */
 
 	gint cx, cy;			/* Top-left canvas coordinates for text */
 	gint text_cx, text_cy;		/* Top-left canvas coordinates for text */
