@@ -75,6 +75,9 @@ gboolean	e_mail_backend_delete_junk_policy_decision
 						(EMailBackend *backend);
 gboolean	e_mail_backend_empty_trash_policy_decision
 						(EMailBackend *backend);
+void		e_mail_backend_submit_alert	(EMailBackend *backend,
+						 const gchar *tag,
+						 ...) G_GNUC_NULL_TERMINATED;
 
 G_END_DECLS
 

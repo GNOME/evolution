@@ -906,7 +906,6 @@ mail_send_queue (EMailSession *session,
 	if (G_IS_CANCELLABLE (cancellable)) {
 		m->cancellable = g_object_ref (cancellable);
 		g_object_unref (m->base.cancellable);
-		mail_msg_set_cancelable (m, FALSE);
 		m->base.cancellable = NULL;
 	}
 	m->status = status;

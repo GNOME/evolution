@@ -24,7 +24,6 @@
 #include "e-alert-dialog.h"
 
 #include "e-util.h"
-#include "e-alert-action.h"
 
 #define E_ALERT_DIALOG_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -322,36 +321,6 @@ e_alert_run_dialog_for_args (GtkWindow *parent,
 	g_object_unref (alert);
 
 	return response;
-}
-
-/**
- * e_alert_dialog_count_buttons:
- * @dialog: a #EAlertDialog
- *
- * Counts the number of buttons in @dialog's action area.
- *
- * Returns: number of action area buttons
- **/
-guint
-e_alert_dialog_count_buttons (EAlertDialog *dialog)
-{
-	GtkWidget *container;
-	GList *children, *iter;
-	guint n_buttons = 0;
-
-	g_return_val_if_fail (E_IS_ALERT_DIALOG (dialog), 0);
-
-	container = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
-	children = gtk_container_get_children (GTK_CONTAINER (container));
-
-	/* Iterate over the children looking for buttons. */
-	for (iter = children; iter != NULL; iter = iter->next)
-		if (GTK_IS_BUTTON (iter->data))
-			n_buttons++;
-
-	g_list_free (children);
-
-	return n_buttons;
 }
 
 /**

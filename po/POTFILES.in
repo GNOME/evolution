@@ -153,10 +153,7 @@ e-util/e-charset.c
 e-util/e-datetime-format.c
 e-util/e-dialog-utils.c
 e-util/e-file-utils.c
-e-util/e-logger.c
 e-util/e-module.c
-e-util/e-non-intrusive-error-dialog.c
-e-util/e-non-intrusive-error-dialog.h
 e-util/e-plugin.c
 e-util/e-plugin-util.c
 e-util/e-print.c

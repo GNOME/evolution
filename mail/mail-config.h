@@ -24,12 +24,13 @@
 #define MAIL_CONFIG_H
 
 #include <gtk/gtk.h>
-#include <camel/camel.h>
 #include <libedataserver/e-account.h>
 #include <libedataserver/e-account-list.h>
 
 #include <e-util/e-signature.h>
 #include <e-util/e-signature-list.h>
+
+#include <mail/e-mail-session.h>
 
 G_BEGIN_DECLS
 
@@ -62,7 +63,7 @@ typedef enum {
 GType		evolution_mail_config_get_type	(void);
 
 /* Configuration */
-void		mail_config_init		(CamelSession *session);
+void		mail_config_init		(EMailSession *session);
 void		mail_config_write		(void);
 
 GConfClient *	mail_config_get_gconf_client	(void);
@@ -89,7 +90,7 @@ gchar *		mail_config_folder_to_cachename	(CamelFolder *folder,
 						 const gchar *prefix);
 gint		mail_config_get_sync_timeout	(void);
 
-void		mail_config_reload_junk_headers	(CamelSession *session);
+void		mail_config_reload_junk_headers	(EMailSession *session);
 gboolean	mail_config_get_lookup_book	(void);
 gboolean	mail_config_get_lookup_book_local_only (void);
 

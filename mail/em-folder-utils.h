@@ -26,7 +26,7 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel.h>
-#include <mail/e-mail-session.h>
+#include <mail/e-mail-backend.h>
 #include <mail/em-folder-tree.h>
 
 G_BEGIN_DECLS
@@ -41,10 +41,11 @@ gint		em_folder_utils_copy_folders	(CamelStore *fromstore,
  *       most rely on the wrong data. */
 
 void		em_folder_utils_copy_folder	(GtkWindow *parent,
-						 EMailSession *session,
+						 EMailBackend *backend,
 						 CamelFolderInfo *folderinfo,
 						 gboolean delete);
-void		em_folder_utils_delete_folder	(CamelFolder *folder);
+void		em_folder_utils_delete_folder	(EMailBackend *backend,
+						 CamelFolder *folder);
 void		em_folder_utils_create_folder	(CamelFolderInfo *folderinfo,
 						 EMFolderTree *emft,
 						 GtkWindow *parent);

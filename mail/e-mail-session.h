@@ -26,6 +26,7 @@
 #define E_MAIL_SESSION_H
 
 #include <camel/camel.h>
+#include <mail/mail-folder-cache.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SESSION \
@@ -63,6 +64,8 @@ struct _EMailSessionClass {
 
 GType		e_mail_session_get_type		(void);
 EMailSession *	e_mail_session_new		(void);
+MailFolderCache *
+		e_mail_session_get_folder_cache	(EMailSession *session);
 CamelFolder *	e_mail_session_get_inbox_sync	(EMailSession *session,
 						 const gchar *service_uri,
 						 GCancellable *cancellable,

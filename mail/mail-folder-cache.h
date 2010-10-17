@@ -59,7 +59,8 @@ typedef struct _MailFolderCachePrivate MailFolderCachePrivate;
  * The signature of a function to be registered as a callback for
  * mail_folder_cache_note_store()
  */
-typedef gboolean	(*NoteDoneFunc)		(CamelStore *store,
+typedef gboolean	(*NoteDoneFunc)		(MailFolderCache *cache,
+						 CamelStore *store,
 						 CamelFolderInfo *info,
 						 gpointer data);
 
@@ -80,7 +81,7 @@ struct _MailFolderCacheClass {
 
 GType		mail_folder_cache_get_type	(void) G_GNUC_CONST;
 MailFolderCache *
-		mail_folder_cache_get_default	(void);
+		mail_folder_cache_new		(void);
 void		mail_folder_cache_note_store	(MailFolderCache *self,
 						 CamelSession *session,
 						 CamelStore *store,

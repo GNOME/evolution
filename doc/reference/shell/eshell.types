@@ -1,7 +1,6 @@
 e_bit_array_get_type
 e_extensible_get_type
 e_extension_get_type
-e_logger_get_type
 e_module_get_type
 e_signature_get_type
 e_signature_list_get_type

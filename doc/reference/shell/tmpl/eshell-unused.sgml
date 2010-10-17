@@ -26,6 +26,34 @@
 GObject Property Bindings
 
 
+<!-- ##### SECTION ./tmpl/e-logger.sgml:Image ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-logger.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/e-logger.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/e-logger.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-logger.sgml:Stability_Level ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-logger.sgml:Title ##### -->
+Error Logging
+
+
 <!-- ##### SECTION ./tmpl/e-shell-window.sgml.sgml.sgml.sgml:Image ##### -->
 
 
@@ -126,6 +154,35 @@ e-shell-window.sgml
 @user_data: 
 @Returns: 
 
+<!-- ##### USER_FUNCTION ELogFunction ##### -->
+<para>
+
+</para>
+
+@line: 
+@data: 
+
+<!-- ##### ENUM ELogLevel ##### -->
+<para>
+
+</para>
+
+@E_LOG_ERROR: 
+@E_LOG_WARNING: 
+@E_LOG_DEBUG: 
+
+<!-- ##### STRUCT ELogger ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG ELogger:name ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### STRUCT EMutualBinding ##### -->
 <para>
 
@@ -212,6 +269,14 @@ e-shell-window.sgml
 @activity: 
 @allow_cancel: 
 
+<!-- ##### FUNCTION e_alert_dialog_count_buttons ##### -->
+<para>
+
+</para>
+
+@dialog: 
+@Returns: 
+
 <!-- ##### FUNCTION e_binding_new ##### -->
 <para>
 
@@ -261,6 +326,41 @@ e-shell-window.sgml
 </para>
 
 @void: 
+@Returns: 
+
+<!-- ##### FUNCTION e_logger_get_logs ##### -->
+<para>
+
+</para>
+
+@logger: 
+@func: 
+@user_data: 
+
+<!-- ##### FUNCTION e_logger_get_name ##### -->
+<para>
+
+</para>
+
+@logger: 
+@Returns: 
+
+<!-- ##### FUNCTION e_logger_log ##### -->
+<para>
+
+</para>
+
+@logger: 
+@level: 
+@primary: 
+@secondary: 
+
+<!-- ##### FUNCTION e_logger_new ##### -->
+<para>
+
+</para>
+
+@name: 
 @Returns: 
 
 <!-- ##### FUNCTION e_mutual_binding_new ##### -->

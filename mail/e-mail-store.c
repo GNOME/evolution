@@ -35,7 +35,8 @@
 
 typedef struct _StoreInfo StoreInfo;
 
-typedef void	(*AddStoreCallback)	(CamelStore *store,
+typedef void	(*AddStoreCallback)	(MailFolderCache *folder_cache,
+					 CamelStore *store,
 					 CamelFolderInfo *info,
 					 StoreInfo *store_info);
 
@@ -132,25 +133,25 @@ store_table_free (StoreInfo *store_info)
 }
 
 static gboolean
-mail_store_note_store_cb (CamelStore *store,
+mail_store_note_store_cb (MailFolderCache *folder_cache,
+                          CamelStore *store,
                           CamelFolderInfo *info,
                           gpointer user_data)
 {
 	StoreInfo *store_info = user_data;
 
 	if (store_info->callback != NULL)
-		store_info->callback (store, info, store_info);
+		store_info->callback (
+			folder_cache, store, info, store_info);
 
 	if (!store_info->removed) {
 		/* This keeps message counters up-to-date. */
 		if (store_info->vtrash != NULL)
 			mail_folder_cache_note_folder (
-				mail_folder_cache_get_default (),
-				store_info->vtrash);
+				folder_cache, store_info->vtrash);
 		if (store_info->vjunk != NULL)
 			mail_folder_cache_note_folder (
-				mail_folder_cache_get_default (),
-				store_info->vjunk);
+				folder_cache, store_info->vjunk);
 	}
 
 	store_info_unref (store_info);
@@ -165,11 +166,13 @@ mail_store_add (EMailSession *session,
                 AddStoreCallback callback)
 {
 	EMFolderTreeModel *default_model;
+	MailFolderCache *folder_cache;
 	StoreInfo *store_info;
 
 	g_return_if_fail (store_table != NULL);
 
 	default_model = em_folder_tree_model_get_default ();
+	folder_cache = e_mail_session_get_folder_cache (session);
 
 	store_info = store_info_new (store, display_name);
 	store_info->callback = callback;
@@ -180,14 +183,13 @@ mail_store_add (EMailSession *session,
 		default_model, store, store_info->display_name);
 
 	mail_folder_cache_note_store (
-		mail_folder_cache_get_default (),
-		CAMEL_SESSION (session), store, NULL,
-		mail_store_note_store_cb,
-		store_info_ref (store_info));
+		folder_cache, CAMEL_SESSION (session), store, NULL,
+		mail_store_note_store_cb, store_info_ref (store_info));
 }
 
 static void
-mail_store_add_local_done_cb (CamelStore *store,
+mail_store_add_local_done_cb (MailFolderCache *folder_cache,
+                              CamelStore *store,
                               CamelFolderInfo *info,
                               StoreInfo *store_info)
 {
@@ -196,9 +198,9 @@ mail_store_add_local_done_cb (CamelStore *store,
 
 	for (ii = 0; ii < E_MAIL_NUM_LOCAL_FOLDERS; ii++) {
 		folder = e_mail_local_get_folder (ii);
-		if (folder != NULL)
-			mail_folder_cache_note_folder (
-				mail_folder_cache_get_default (), folder);
+		if (folder == NULL)
+			continue;
+		mail_folder_cache_note_folder (folder_cache, folder);
 	}
 }
 
@@ -337,10 +339,13 @@ fail:
 }
 
 void
-e_mail_store_remove (CamelStore *store)
+e_mail_store_remove (EMailSession *session,
+                     CamelStore *store)
 {
+	MailFolderCache *folder_cache;
 	EMFolderTreeModel *default_model;
 
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (store_table != NULL);
 
@@ -355,8 +360,9 @@ e_mail_store_remove (CamelStore *store)
 	g_object_ref (store);
 
 	g_hash_table_remove (store_table, store);
-	mail_folder_cache_note_store_remove (
-		mail_folder_cache_get_default (), store);
+
+	folder_cache = e_mail_session_get_folder_cache (session);
+	mail_folder_cache_note_store_remove (folder_cache, store);
 
 	default_model = em_folder_tree_model_get_default ();
 	em_folder_tree_model_remove_store (default_model, store);
@@ -389,7 +395,7 @@ e_mail_store_remove_by_uri (EMailSession *session,
 	if (service == NULL)
 		return;
 
-	e_mail_store_remove (CAMEL_STORE (service));
+	e_mail_store_remove (session, CAMEL_STORE (service));
 
 	g_object_unref (service);
 }

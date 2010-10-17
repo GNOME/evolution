@@ -27,9 +27,7 @@
 
 #include <libedataserver/e-flag.h>
 
-#include "shell/e-shell.h"
-#include "e-util/e-alert-activity.h"
-#include "e-util/e-alert-dialog.h"
+#include <shell/e-shell-view.h>
 
 #include "mail-mt.h"
 
@@ -43,8 +41,6 @@ const gchar *shell_builtin_backend = "mail";
 /* background operation status stuff */
 struct _MailMsgPrivate {
 	EActivity *activity;
-	GtkWidget *error;
-	gboolean cancelable;
 };
 
 static guint mail_msg_seq; /* sequence number of each message */
@@ -91,7 +87,6 @@ mail_msg_new (MailMsgInfo *info)
 
 	msg->priv = g_slice_new0 (MailMsgPrivate);
 	msg->priv->activity = e_activity_new ();
-	msg->priv->cancelable = TRUE;
 
 	e_activity_set_percent (msg->priv->activity, 0.0);
 
@@ -161,16 +156,6 @@ mail_msg_free (MailMsg *mail_msg)
 	if (mail_msg->error != NULL)
 		g_error_free (mail_msg->error);
 
-	if (mail_msg->priv->error != NULL) {
-		EActivity *activity;
-		GtkWidget *widget;
-
-		widget = mail_msg->priv->error;
-		activity = e_alert_activity_new_warning (widget);
-		e_shell_backend_add_activity (shell_backend, activity);
-		g_object_unref (activity);
-	}
-
 	g_slice_free (MailMsgPrivate, mail_msg->priv);
 	g_slice_free1 (mail_msg->info->size, mail_msg);
 
@@ -224,28 +209,16 @@ mail_msg_unref (gpointer msg)
 	g_idle_add ((GSourceFunc) mail_msg_free, mail_msg);
 }
 
-/* hash table of ops->dialogue of active errors */
-static GHashTable *active_errors = NULL;
-
-static void
-error_finalized (gpointer data, GObject *gone_gd)
-{
-	g_hash_table_remove (active_errors, data);
-}
-
-static void
-error_response (GtkWidget *dialog, gint button, gpointer data)
-{
-	gtk_widget_destroy (dialog);
-}
-
 void
 mail_msg_check_error (gpointer msg)
 {
-	GtkWindow *parent;
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window = NULL;
+	EShellContent *shell_content;
 	MailMsg *m = msg;
 	gchar *what;
-	GtkDialog *gd;
+	GList *list, *iter;
 
 #ifdef MALLOC_CHECK
 	checkmem (m);
@@ -258,40 +231,37 @@ mail_msg_check_error (gpointer msg)
 	    || g_error_matches (m->error, CAMEL_FOLDER_ERROR, CAMEL_FOLDER_ERROR_INVALID_UID))
 		return;
 
-	if (active_errors == NULL)
-		active_errors = g_hash_table_new (NULL, NULL);
+	shell = e_shell_get_default ();
 
-	/* check to see if we have dialogue already running for this operation */
-	/* we key on the operation pointer, which is at least accurate enough
-	   for the operation type, although it could be on a different object. */
-	if (g_hash_table_lookup (active_errors, m->info)) {
-		g_message (
-			"Error occurred while existing dialogue active:\n%s",
-			m->error->message);
-		return;
+	/* Find the most recently used EShellWindow. */
+	list =  e_shell_get_watched_windows (shell);
+	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+		if (E_IS_SHELL_WINDOW (iter->data)) {
+			shell_window = E_SHELL_WINDOW (iter->data);
+			break;
+		}
 	}
 
-	parent = e_shell_get_active_window (NULL);
+	/* If we can't find an EShellWindow then... well, screw it. */
+	if (shell_window == NULL)
+		return;
+
+	shell_view = e_shell_window_get_shell_view (
+		shell_window, shell_builtin_backend);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	if (m->info->desc
 	    && (what = m->info->desc (m))) {
-		gd = (GtkDialog *) e_alert_dialog_new_for_args (
-			parent, "mail:async-error", what,
+		e_alert_submit (
+			GTK_WIDGET (shell_content),
+			"mail:async-error", what,
 			m->error->message, NULL);
 		g_free (what);
 	} else
-		gd = (GtkDialog *) e_alert_dialog_new_for_args (
-			parent, "mail:async-error-nodescribe",
+		e_alert_submit (
+			GTK_WIDGET (shell_content),
+			"mail:async-error-nodescribe",
 			m->error->message, NULL);
-
-	g_hash_table_insert (active_errors, m->info, gd);
-	g_signal_connect(gd, "response", G_CALLBACK(error_response), m->info);
-	g_object_weak_ref (G_OBJECT (gd), error_finalized, m->info);
-	if (m->priv->cancelable)
-		m->priv->error = (GtkWidget *) gd;
-	else
-		gtk_widget_show ((GtkWidget *)gd);
-
 }
 
 void
@@ -377,14 +347,6 @@ mail_cancel_all (void)
 		g_hook_list_invoke (&cancel_hook_list, FALSE);
 
 	g_mutex_unlock (mail_msg_lock);
-}
-
-void
-mail_msg_set_cancelable (gpointer msg, gboolean status)
-{
-	MailMsg *mail_msg = msg;
-
-	mail_msg->priv->cancelable = status;
 }
 
 static guint idle_source_id = 0;

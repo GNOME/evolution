@@ -72,7 +72,6 @@ gint		e_alert_run_dialog		(GtkWindow *parent,
 gint		e_alert_run_dialog_for_args	(GtkWindow *parent,
 						 const gchar *tag,
 						 ...) G_GNUC_NULL_TERMINATED;
-guint		e_alert_dialog_count_buttons	(EAlertDialog *dialog);
 EAlert *	e_alert_dialog_get_alert	(EAlertDialog *dialog);
 
 G_END_DECLS

@@ -281,10 +281,11 @@ struct _copy_folder_data {
 };
 
 static void
-emfu_copy_folder_selected (EMailSession *session,
+emfu_copy_folder_selected (EMailBackend *backend,
                            const gchar *uri,
                            gpointer data)
 {
+	EMailSession *session;
 	struct _copy_folder_data *cfd = data;
 	CamelStore *fromstore = NULL, *tostore = NULL;
 	CamelStore *local_store;
@@ -298,36 +299,34 @@ emfu_copy_folder_selected (EMailSession *session,
 	}
 
 	local_store = e_mail_local_get_store ();
+	session = e_mail_backend_get_session (backend);
 
 	fromstore = camel_session_get_store (
 		CAMEL_SESSION (session), cfd->fi->uri, &local_error);
 	if (fromstore == NULL) {
-		e_alert_run_dialog_for_args (
-			e_shell_get_active_window (NULL),
-			cfd->delete ? "mail:no-move-folder-notexist" :
-			"mail:no-copy-folder-notexist",
+		e_mail_backend_submit_alert (
+			backend, cfd->delete ?
+				"mail:no-move-folder-notexist" :
+				"mail:no-copy-folder-notexist",
 			cfd->fi->full_name, uri,
 			local_error->message, NULL);
 		goto fail;
 	}
 
 	if (cfd->delete && fromstore == local_store && emfu_is_special_local_folder (cfd->fi->full_name)) {
-		GtkWidget *w;
-
-		w = e_alert_dialog_new_for_args (
-			e_shell_get_active_window (NULL), "mail:no-rename-special-folder",
+		e_mail_backend_submit_alert (
+			backend, "mail:no-rename-special-folder",
 			cfd->fi->full_name, NULL);
-		em_utils_show_error_silent (w);
 		goto fail;
 	}
 
 	tostore = camel_session_get_store (
 		CAMEL_SESSION (session), uri, &local_error);
 	if (tostore == NULL) {
-		e_alert_run_dialog_for_args (
-			e_shell_get_active_window (NULL),
-			cfd->delete ? "mail:no-move-folder-to-notexist" :
-			"mail:no-copy-folder-to-notexist",
+		e_mail_backend_submit_alert (
+			backend, cfd->delete ?
+				"mail:no-move-folder-to-notexist" :
+				"mail:no-copy-folder-to-notexist",
 			cfd->fi->full_name, uri,
 			local_error->message, NULL);
 		goto fail;
@@ -341,7 +340,8 @@ emfu_copy_folder_selected (EMailSession *session,
 	if (tobase == NULL)
 		tobase = "";
 
-	em_folder_utils_copy_folders (fromstore, cfd->fi->full_name, tostore, tobase, cfd->delete);
+	em_folder_utils_copy_folders (
+		fromstore, cfd->fi->full_name, tostore, tobase, cfd->delete);
 
 	camel_url_free (url);
 fail:
@@ -389,17 +389,21 @@ emfu_copy_folder_exclude (EMFolderTree *tree, GtkTreeModel *model, GtkTreeIter *
 /* FIXME: these functions must be documented */
 void
 em_folder_utils_copy_folder (GtkWindow *parent,
-                             EMailSession *session,
+                             EMailBackend *backend,
                              CamelFolderInfo *folderinfo,
                              gint delete)
 {
 	GtkWidget *dialog;
 	EMFolderTree *emft;
+	EMailSession *session;
 	const gchar *label;
 	const gchar *title;
 	struct _copy_folder_data *cfd;
 
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
 	g_return_if_fail (folderinfo != NULL);
+
+	session = e_mail_backend_get_session (backend);
 
 	cfd = g_malloc (sizeof (*cfd));
 	cfd->fi = folderinfo;
@@ -425,94 +429,113 @@ em_folder_utils_copy_folder (GtkWindow *parent,
 
 		uri = em_folder_selector_get_selected_uri (
 			EM_FOLDER_SELECTOR (dialog));
-		emfu_copy_folder_selected (session, uri, cfd);
+		emfu_copy_folder_selected (backend, uri, cfd);
 	}
 
 	gtk_widget_destroy (dialog);
 }
 
+typedef struct {
+	EMailBackend *backend;
+	GtkWidget *dialog;
+} DeleteFolderData;
+
 static void
-emfu_delete_done (CamelFolder *folder, gboolean removed, GError **error, gpointer data)
+emfu_delete_done (CamelFolder *folder,
+                  gboolean removed,
+                  GError **error,
+                  gpointer user_data)
 {
-	GtkWidget *dialog = data;
+	DeleteFolderData *data = user_data;
 
 	if (error != NULL && *error != NULL) {
-		GtkWidget *w;
-
-		w = e_alert_dialog_new_for_args (
-			e_shell_get_active_window (NULL),
+		e_mail_backend_submit_alert (
+			data->backend,
 			"mail:no-delete-folder",
 			camel_folder_get_full_name (folder),
 			(*error)->message, NULL);
-		em_utils_show_error_silent (w);
 		g_clear_error (error);
 	}
 
-	if (dialog)
-		gtk_widget_destroy (dialog);
-}
-
-static void
-emfu_delete_response (GtkWidget *dialog, gint response, gpointer data)
-{
-	if (response == GTK_RESPONSE_OK) {
-		/* disable dialog until operation finishes */
-		gtk_widget_set_sensitive (dialog, FALSE);
-
-		mail_remove_folder (g_object_get_data ((GObject *) dialog, "folder"), emfu_delete_done, dialog);
-	} else {
-		gtk_widget_destroy (dialog);
-	}
+	g_object_unref (data->backend);
+	gtk_widget_destroy (data->dialog);
+	g_slice_free (DeleteFolderData, data);
 }
 
 /* FIXME: these functions must be documented */
 void
-em_folder_utils_delete_folder (CamelFolder *folder)
+em_folder_utils_delete_folder (EMailBackend *backend,
+                               CamelFolder *folder)
 {
 	CamelStore *local_store;
 	CamelStore *parent_store;
+	EMailSession *session;
+	MailFolderCache *folder_cache;
 	GtkWindow *parent = e_shell_get_active_window (NULL);
 	GtkWidget *dialog;
 	const gchar *full_name;
 	gint flags = 0;
 
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+
 	full_name = camel_folder_get_full_name (folder);
 	parent_store = camel_folder_get_parent_store (folder);
 
 	local_store = e_mail_local_get_store ();
+	session = e_mail_backend_get_session (backend);
+	folder_cache = e_mail_session_get_folder_cache (session);
 
 	if (parent_store == local_store && emfu_is_special_local_folder (full_name)) {
-		dialog = e_alert_dialog_new_for_args (
-			parent, "mail:no-delete-special-folder",
+		e_mail_backend_submit_alert (
+			backend, "mail:no-delete-special-folder",
 			full_name, NULL);
-		em_utils_show_error_silent (dialog);
 		return;
 	}
 
-	if (mail_folder_cache_get_folder_info_flags (mail_folder_cache_get_default (), folder, &flags) && (flags & CAMEL_FOLDER_SYSTEM))
-	{
-		e_alert_run_dialog_for_args (
-			parent,"mail:no-delete-special-folder",
+	if (mail_folder_cache_get_folder_info_flags (folder_cache, folder, &flags) && (flags & CAMEL_FOLDER_SYSTEM)) {
+		e_mail_backend_submit_alert (
+			backend, "mail:no-delete-special-folder",
 			camel_folder_get_name (folder), NULL);
 		return;
 	}
 
 	g_object_ref (folder);
 
-	if (mail_folder_cache_get_folder_info_flags (mail_folder_cache_get_default (), folder, &flags) && (flags & CAMEL_FOLDER_CHILDREN)) {
-		dialog = e_alert_dialog_new_for_args (parent,
-			     (parent_store && CAMEL_IS_VEE_STORE(parent_store))?"mail:ask-delete-vfolder":"mail:ask-delete-folder",
-			     full_name, NULL);
+	if (mail_folder_cache_get_folder_info_flags (folder_cache, folder, &flags) && (flags & CAMEL_FOLDER_CHILDREN)) {
+		if (parent_store && CAMEL_IS_VEE_STORE (parent_store))
+			dialog = e_alert_dialog_new_for_args (
+				parent, "mail:ask-delete-vfolder",
+				full_name, NULL);
+		else
+			dialog = e_alert_dialog_new_for_args (
+				parent, "mail:ask-delete-folder",
+				full_name, NULL);
 	}
 	else {
-		dialog = e_alert_dialog_new_for_args (parent,
-			     (parent_store && CAMEL_IS_VEE_STORE(parent_store))?"mail:ask-delete-vfolder-nochild":"mail:ask-delete-folder-nochild",
-			     full_name, NULL);
+		if (parent_store && CAMEL_IS_VEE_STORE (parent_store))
+			dialog = e_alert_dialog_new_for_args (
+				parent, "mail:ask-delete-vfolder-nochild",
+				full_name, NULL);
+		else
+			dialog = e_alert_dialog_new_for_args (
+				parent, "mail:ask-delete-folder-nochild",
+				full_name, NULL);
 	}
 
-	g_object_set_data_full ((GObject *) dialog, "folder", folder, g_object_unref);
-	g_signal_connect (dialog, "response", G_CALLBACK (emfu_delete_response), NULL);
-	gtk_widget_show (dialog);
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
+		DeleteFolderData *data;
+
+		/* disable dialog until operation finishes */
+		gtk_widget_set_sensitive (dialog, FALSE);
+
+		data = g_slice_new0 (DeleteFolderData);
+		data->backend = g_object_ref (backend);
+		data->dialog = dialog;
+
+		mail_remove_folder (folder, emfu_delete_done, data);
+	} else
+		gtk_widget_destroy (dialog);
 }
 
 struct _EMCreateFolder {
@@ -680,9 +703,6 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs,
 	/* HACK: we need to create vfolders using the vfolder editor */
 	if (CAMEL_IS_VEE_STORE (store)) {
 		EFilterRule *rule;
-
-		/* ensures vfolder is running */
-		vfolder_load_storage (session);
 
 		rule = em_vfolder_rule_new (session);
 		e_filter_rule_set_name (rule, path);

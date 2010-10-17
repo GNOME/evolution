@@ -12,7 +12,6 @@ eutilinclude_HEADERS = 				\
 	e-account-utils.h			\
 	e-activity.h				\
 	e-alert.h				\
-	e-alert-activity.h			\
 	e-alert-dialog.h			\
 	e-alert-sink.h				\
 	e-bit-array.h				\
@@ -30,11 +29,9 @@ eutilinclude_HEADERS = 				\
 	e-icon-factory.h			\
 	e-import.h				\
 	e-io-activity.h				\
-	e-logger.h				\
 	e-marshal.h				\
 	e-mktemp.h				\
 	e-module.h				\
-	e-non-intrusive-error-dialog.h		\
 	e-poolv.h				\
 	e-print.h				\
 	e-plugin.h				\
@@ -50,7 +47,6 @@ eutilinclude_HEADERS = 				\
 	e-text-event-processor-emacs-like.h	\
 	e-text-event-processor-types.h		\
 	e-text-event-processor.h		\
-	e-timeout-activity.h			\
 	e-ui-manager.h				\
 	e-util.h				\
 	e-unicode.h				\
@@ -91,7 +87,6 @@ libeutil_la_SOURCES =				\
 	e-account-utils.c			\
 	e-activity.c				\
 	e-alert.c				\
-	e-alert-activity.c			\
 	e-alert-dialog.c			\
 	e-alert-sink.c				\
 	e-bit-array.c				\
@@ -109,11 +104,9 @@ libeutil_la_SOURCES =				\
 	e-icon-factory.c			\
 	e-import.c				\
 	e-io-activity.c				\
-	e-logger.c				\
 	e-marshal.c				\
 	e-mktemp.c				\
 	e-module.c				\
-	e-non-intrusive-error-dialog.c		\
 	e-poolv.c				\
 	e-plugin.c				\
 	e-plugin-ui.c				\
@@ -128,7 +121,6 @@ libeutil_la_SOURCES =				\
 	e-sorter-array.c			\
 	e-text-event-processor-emacs-like.c	\
 	e-text-event-processor.c		\
-	e-timeout-activity.c			\
 	e-ui-manager.c				\
 	e-util.c				\
 	e-unicode.c				\

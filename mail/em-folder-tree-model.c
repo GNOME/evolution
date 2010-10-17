@@ -556,11 +556,6 @@ folder_tree_model_init (EMFolderTreeModel *model)
 	model->priv->account_added_id = g_signal_connect (
 		model->priv->accounts, "account-added",
 		G_CALLBACK (account_added_cb), model);
-
-	g_signal_connect_swapped (
-		mail_folder_cache_get_default (),
-		"folder-unread-updated",
-		G_CALLBACK (folder_tree_model_set_unread_count), model);
 }
 
 GType
@@ -665,6 +660,20 @@ em_folder_tree_model_set_session (EMFolderTreeModel *model,
 
 	model->priv->session = session;
 
+	/* FIXME Technically we should be disconnecting this signal
+	 *       when replacing an old session with a new session,
+	 *       but at present this function is only called once. */
+	if (session != NULL) {
+		MailFolderCache *folder_cache;
+
+		folder_cache = e_mail_session_get_folder_cache (session);
+
+		g_signal_connect_swapped (
+			folder_cache, "folder-unread-updated",
+			G_CALLBACK (folder_tree_model_set_unread_count),
+			model);
+	}
+
 	g_object_notify (G_OBJECT (model), "session");
 }
 
@@ -677,6 +686,8 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 {
 	GtkTreeRowReference *uri_row, *path_row;
 	GtkTreeStore *tree_store;
+	MailFolderCache *folder_cache;
+	EMailSession *session;
 	guint unread;
 	GtkTreePath *path;
 	GtkTreeIter sub;
@@ -695,6 +706,9 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		return;
 
 	tree_store = GTK_TREE_STORE (model);
+
+	session = em_folder_tree_model_get_session (model);
+	folder_cache = e_mail_session_get_folder_cache (session);
 
 	if (!fully_loaded)
 		load = (fi->child == NULL) && !(fi->flags &
@@ -717,7 +731,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	 *     be functionised. */
 	unread = fi->unread;
 	if (mail_folder_cache_get_folder_from_uri (
-		mail_folder_cache_get_default (), fi->uri, &folder) && folder) {
+		folder_cache, fi->uri, &folder) && folder) {
 		is_drafts = em_utils_folder_is_drafts (folder, fi->uri);
 
 		if (is_drafts || em_utils_folder_is_outbox (folder, fi->uri)) {

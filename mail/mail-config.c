@@ -38,7 +38,6 @@
 #include <gconf/gconf-client.h>
 
 #include "e-mail-local.h"
-#include "e-mail-session.h"
 #include "mail-config.h"
 #include "mail-folder-cache.h"
 #include "mail-tools.h"
@@ -150,7 +149,7 @@ static void
 gconf_jh_headers_changed (GConfClient *client,
                           guint cnxn_id,
                           GConfEntry *entry,
-                          CamelSession *session)
+                          EMailSession *session)
 {
 	GSList *node;
 	GPtrArray *name, *value;
@@ -171,7 +170,8 @@ gconf_jh_headers_changed (GConfClient *client,
 		g_strfreev (tok);
 	}
 	camel_session_set_junk_headers (
-		session, (const gchar **) name->pdata,
+		CAMEL_SESSION (session),
+		(const gchar **) name->pdata,
 		(const gchar **) value->pdata, name->len);
 
 	g_ptr_array_foreach (name, (GFunc) g_free, NULL);
@@ -184,12 +184,13 @@ static void
 gconf_jh_check_changed (GConfClient *client,
                         guint cnxn_id,
                         GConfEntry *entry,
-                        CamelSession *session)
+                        EMailSession *session)
 {
 	config->jh_check = gconf_client_get_bool (
 		config->gconf, "/apps/evolution/mail/junk/check_custom_header", NULL);
 	if (!config->jh_check) {
-		camel_session_set_junk_headers (session, NULL, NULL, 0);
+		camel_session_set_junk_headers (
+			CAMEL_SESSION (session), NULL, NULL, 0);
 	} else {
 		gconf_jh_headers_changed (NULL, 0, NULL, session);
 	}
@@ -539,9 +540,9 @@ mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix)
 }
 
 void
-mail_config_reload_junk_headers (CamelSession *session)
+mail_config_reload_junk_headers (EMailSession *session)
 {
-	g_return_if_fail (CAMEL_IS_SESSION (session));
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
 	/* It automatically sets in the session */
 	if (config == NULL)
@@ -582,12 +583,13 @@ folder_renamed_cb (MailFolderCache *cache, CamelStore *store, const gchar *oldur
 
 /* Config struct routines */
 void
-mail_config_init (CamelSession *session)
+mail_config_init (EMailSession *session)
 {
 	GConfClientNotifyFunc func;
+	MailFolderCache *folder_cache;
 	const gchar *key;
 
-	g_return_if_fail (CAMEL_IS_SESSION (session));
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
 	if (config)
 		return;
@@ -708,8 +710,12 @@ mail_config_init (CamelSession *session)
 
 	gconf_jh_check_changed (config->gconf, 0, NULL, session);
 
-	g_signal_connect (mail_folder_cache_get_default (), "folder-deleted",
-			  (GCallback) folder_deleted_cb, NULL);
-	g_signal_connect (mail_folder_cache_get_default (), "folder-renamed",
-			  (GCallback) folder_renamed_cb, NULL);
+	folder_cache = e_mail_session_get_folder_cache (session);
+
+	g_signal_connect (
+		folder_cache, "folder-deleted",
+		(GCallback) folder_deleted_cb, NULL);
+	g_signal_connect (
+		folder_cache, "folder-renamed",
+		(GCallback) folder_renamed_cb, NULL);
 }

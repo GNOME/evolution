@@ -322,10 +322,7 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
                                 const gchar *uri,
                                 EMailBackend *backend)
 {
-	EMailSession *session;
-
-	session = e_mail_backend_get_session (backend);
-	mail_filter_delete_uri (session, store, uri);
+	mail_filter_delete_uri (backend, store, uri);
 }
 
 static void
@@ -335,10 +332,7 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
                                 const gchar *new_uri,
                                 EMailBackend *backend)
 {
-	EMailSession *session;
-
-	session = e_mail_backend_get_session (backend);
-	mail_filter_rename_uri (session, store, old_uri, new_uri);
+	mail_filter_rename_uri (backend, store, old_uri, new_uri);
 }
 
 static void
@@ -406,6 +400,8 @@ mail_backend_idle_cb (EMailBackend *backend)
 
 	e_mail_store_init (session, data_dir);
 
+	vfolder_load_storage (backend);
+
 	return FALSE;
 }
 
@@ -449,8 +445,8 @@ mail_backend_constructed (GObject *object)
 	EMailBackendPrivate *priv;
 	EShell *shell;
 	EShellBackend *shell_backend;
-	MailFolderCache *folder_cache;
 	EMFolderTreeModel *folder_tree_model;
+	MailFolderCache *folder_cache;
 
 	priv = E_MAIL_BACKEND_GET_PRIVATE (object);
 
@@ -463,6 +459,7 @@ mail_backend_constructed (GObject *object)
 	camel_provider_init ();
 
 	priv->session = e_mail_session_new ();
+	folder_cache = e_mail_session_get_folder_cache (priv->session);
 
 	g_object_bind_property (
 		shell, "online",
@@ -476,8 +473,6 @@ mail_backend_constructed (GObject *object)
 	/* FIXME EMailBackend should own the default EMFolderTreeModel. */
 	folder_tree_model = em_folder_tree_model_get_default ();
 	em_folder_tree_model_set_session (folder_tree_model, priv->session);
-
-	folder_cache = mail_folder_cache_get_default ();
 
 	g_signal_connect (
 		shell, "prepare-for-offline",
@@ -513,7 +508,7 @@ mail_backend_constructed (GObject *object)
 		folder_cache, "folder-changed",
 		G_CALLBACK (mail_backend_folder_changed_cb), shell);
 
-	mail_config_init (CAMEL_SESSION (priv->session));
+	mail_config_init (priv->session);
 	mail_msg_init ();
 
 	/* Defer initializing CamelStores until after the main loop
@@ -590,4 +585,51 @@ e_mail_backend_empty_trash_policy_decision (EMailBackend *backend)
 		return FALSE;
 
 	return class->empty_trash_policy_decision (backend);
+}
+
+void
+e_mail_backend_submit_alert (EMailBackend *backend,
+                             const gchar *tag,
+                             ...)
+{
+	EShell *shell;
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	EShellContent *shell_content;
+	EShellWindow *shell_window = NULL;
+	EShellBackendClass *class;
+	GList *list, *iter;
+	va_list va;
+
+	/* XXX This is meant to be a convenient but temporary hack.
+	 *     Instead, pass alerts directly to an EShellContent.
+	 *     Perhaps even take an EAlert** instead of a GError**
+	 *     in some low-level functions. */
+
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
+	g_return_if_fail (tag != NULL);
+
+	shell_backend = E_SHELL_BACKEND (backend);
+	shell = e_shell_backend_get_shell (shell_backend);
+
+	/* Find the most recently used EShellWindow. */
+	list = e_shell_get_watched_windows (shell);
+	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+		if (E_IS_SHELL_WINDOW (iter->data)) {
+			shell_window = E_SHELL_WINDOW (iter->data);
+			break;
+		}
+	}
+
+	/* If we can't find an EShellWindow then... well, screw it. */
+	if (shell_window == NULL)
+		return;
+
+	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+	shell_view = e_shell_window_get_shell_view (shell_window, class->name);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	va_start (va, tag);
+	e_alert_submit_valist (GTK_WIDGET (shell_content), tag, va);
+	va_end (va);
 }

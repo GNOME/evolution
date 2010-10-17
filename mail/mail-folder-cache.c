@@ -730,7 +730,7 @@ struct _update_data {
 	gint id;			/* id for cancellation */
 	guint cancel:1;		/* also tells us we're cancelled */
 
-	gboolean (*done)(CamelStore *store, CamelFolderInfo *info, gpointer data);
+	NoteDoneFunc done;
 	gpointer data;
 	MailFolderCache *cache;
 };
@@ -770,7 +770,7 @@ update_folders (CamelStore *store, CamelFolderInfo *fi, gpointer data)
 	g_mutex_unlock (ud->cache->priv->stores_mutex);
 
 	if (ud->done)
-		res = ud->done (store, fi, ud->data);
+		res = ud->done (ud->cache, store, fi, ud->data);
 	g_free (ud);
 
 	return res;
@@ -1065,23 +1065,10 @@ mail_folder_cache_init (MailFolderCache *self)
 		timeout, (GSourceFunc) ping_cb, self);
 }
 
-static MailFolderCache *default_cache = NULL;
-G_LOCK_DEFINE_STATIC (default_cache);
-
-/**
- * mail_folder_cache_get_default:
- *
- * Get the default folder cache object
- */
 MailFolderCache *
-mail_folder_cache_get_default (void)
+mail_folder_cache_new (void)
 {
-	G_LOCK (default_cache);
-	if (!default_cache)
-		default_cache = g_object_new (MAIL_TYPE_FOLDER_CACHE, NULL);
-	G_UNLOCK (default_cache);
-
-	return default_cache;
+	return g_object_new (MAIL_TYPE_FOLDER_CACHE, NULL);
 }
 
 /**

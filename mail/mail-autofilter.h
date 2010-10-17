@@ -27,6 +27,7 @@
 #include <camel/camel.h>
 
 #include <filter/e-filter-rule.h>
+#include <mail/e-mail-backend.h>
 #include <mail/em-filter-context.h>
 #include <mail/em-vfolder-context.h>
 
@@ -57,11 +58,11 @@ void		filter_gui_add_from_message	(EMailSession *session,
 
 /* Also easiest place for these, we should really
  * share a global rule context for this stuff ... */
-void		mail_filter_rename_uri		(EMailSession *session,
+void		mail_filter_rename_uri		(EMailBackend *backend,
 						 CamelStore *store,
 						 const gchar *olduri,
 						 const gchar *newuri);
-void		mail_filter_delete_uri		(EMailSession *session,
+void		mail_filter_delete_uri		(EMailBackend *backend,
 						 CamelStore *store,
 						 const gchar *uri);
 

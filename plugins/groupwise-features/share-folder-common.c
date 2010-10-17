@@ -273,9 +273,6 @@ users_dialog_response (GtkWidget *dialog, gint response, struct ShareInfo *ssi)
 	if (CAMEL_IS_VEE_STORE (store)) {
 		EFilterRule *rule;
 
-		/* ensures vfolder is running */
-		vfolder_load_storage (session);
-
 		rule = em_vfolder_rule_new (session);
 		e_filter_rule_set_name (rule, path);
 		vfolder_gui_add_rule (EM_VFOLDER_RULE (rule));

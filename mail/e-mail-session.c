@@ -57,7 +57,6 @@
 #include "em-filter-rule.h"
 #include "em-utils.h"
 #include "mail-config.h"
-#include "mail-folder-cache.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
 #include "mail-send-recv.h"
@@ -73,6 +72,8 @@ static guint session_gconf_proxy_id;
 typedef struct _AsyncContext AsyncContext;
 
 struct _EMailSessionPrivate {
+	MailFolderCache *folder_cache;
+
 	FILE *filter_logfile;
 	GList *junk_plugins;
 };
@@ -84,6 +85,11 @@ struct _AsyncContext {
 
 	/* results */
 	CamelFolder *folder;
+};
+
+enum {
+	PROP_0,
+	PROP_FOLDER_CACHE
 };
 
 static gchar *mail_data_dir;
@@ -187,31 +193,19 @@ user_message_exec (struct _user_message_msg *m)
 		user_message_dialog, "allow_shrink", TRUE,
 		"allow_grow", TRUE, NULL);
 
-	/* Use the number of dialog buttons as a heuristic for whether to
-	 * emit a status bar message or present the dialog immediately, the
-	 * thought being if there's more than one button then something is
-	 * probably blocked until the user responds. */
-	if (e_alert_dialog_count_buttons (user_message_dialog) > 1) {
-		if (m->ismain) {
-			gint response;
+	/* XXX This is a case where we need to be able to construct
+	 *     custom EAlerts without a predefined XML definition. */
+	if (m->ismain) {
+		gint response;
 
-			response = gtk_dialog_run (user_message_dialog);
-			user_message_response (
-				user_message_dialog, response, m);
-		} else {
-			g_signal_connect (
-				user_message_dialog, "response",
-				G_CALLBACK (user_message_response), m);
-			gtk_widget_show (user_message_dialog);
-		}
+		response = gtk_dialog_run (user_message_dialog);
+		user_message_response (
+			user_message_dialog, response, m);
 	} else {
 		g_signal_connect (
 			user_message_dialog, "response",
-			G_CALLBACK (user_message_response_free), m);
-		g_object_set_data (
-			user_message_dialog, "response-handled",
-			GINT_TO_POINTER (TRUE));
-		em_utils_show_error_silent (user_message_dialog);
+			G_CALLBACK (user_message_response), m);
+		gtk_widget_show (user_message_dialog);
 	}
 }
 
@@ -517,6 +511,40 @@ mail_session_check_junk_notify (GConfClient *gconf,
 				session, gconf_value_get_bool (
 				gconf_entry_get_value (entry)));
 	}
+}
+
+static void
+mail_session_get_property (GObject *object,
+                           guint property_id,
+                           GValue *value,
+                           GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_FOLDER_CACHE:
+			g_value_set_object (
+				value,
+				e_mail_session_get_folder_cache (
+				E_MAIL_SESSION (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+mail_session_dispose (GObject *object)
+{
+	EMailSessionPrivate *priv;
+
+	priv = E_MAIL_SESSION_GET_PRIVATE (object);
+
+	if (priv->folder_cache != NULL) {
+		g_object_unref (priv->folder_cache);
+		priv->folder_cache = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_mail_session_parent_class)->dispose (object);
 }
 
 static void
@@ -885,6 +913,8 @@ e_mail_session_class_init (EMailSessionClass *class)
 	g_type_class_add_private (class, sizeof (EMailSessionPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->get_property = mail_session_get_property;
+	object_class->dispose = mail_session_dispose;
 	object_class->finalize = mail_session_finalize;
 
 	session_class = CAMEL_SESSION_CLASS (class);
@@ -897,6 +927,16 @@ e_mail_session_class_init (EMailSessionClass *class)
 	session_class->thread_msg_free = mail_session_thread_msg_free;
 	session_class->thread_status = mail_session_thread_status;
 	session_class->forward_to = mail_session_forward_to;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FOLDER_CACHE,
+		g_param_spec_object (
+			"folder-cache",
+			NULL,
+			NULL,
+			MAIL_TYPE_FOLDER_CACHE,
+			G_PARAM_READABLE));
 }
 
 static void
@@ -905,6 +945,7 @@ e_mail_session_init (EMailSession *session)
 	GConfClient *client;
 
 	session->priv = E_MAIL_SESSION_GET_PRIVATE (session);
+	session->priv->folder_cache = mail_folder_cache_new ();
 
 	/* Initialize the EAccount setup. */
 	e_account_writable (NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD);
@@ -927,7 +968,7 @@ e_mail_session_init (EMailSession *session)
 		session, NULL, NULL);
 	CAMEL_SESSION (session)->junk_plugin = NULL;
 
-	mail_config_reload_junk_headers (CAMEL_SESSION (session));
+	mail_config_reload_junk_headers (session);
 
 	init_socks_proxy (CAMEL_SESSION (session));
 
@@ -938,6 +979,14 @@ EMailSession *
 e_mail_session_new (void)
 {
 	return g_object_new (E_TYPE_MAIL_SESSION, NULL);
+}
+
+MailFolderCache *
+e_mail_session_get_folder_cache (EMailSession *session)
+{
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+
+	return session->priv->folder_cache;
 }
 
 static void
@@ -1236,10 +1285,10 @@ e_mail_session_uri_to_folder_sync (EMailSession *session,
 	}
 
 	if (folder != NULL) {
-		MailFolderCache *cache;
+		MailFolderCache *folder_cache;
 
-		cache = mail_folder_cache_get_default ();
-		mail_folder_cache_note_folder (cache, folder);
+		folder_cache = e_mail_session_get_folder_cache (session);
+		mail_folder_cache_note_folder (folder_cache, folder);
 	}
 
 	camel_url_free (url);

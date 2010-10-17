@@ -349,13 +349,16 @@ em_folder_properties_show (EShellView *shell_view,
                            const gchar *uri)
 {
 	EShellBackend *shell_backend;
+	EMailBackend *backend;
 	EMailSession *session;
 
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 	g_return_if_fail (uri != NULL);
 
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
 
 	/* HACK: its the old behaviour, not very 'neat' but it works */
 	if (!strncmp (uri, "vfolder:", 8)) {
@@ -367,7 +370,7 @@ em_folder_properties_show (EShellView *shell_view,
 		    || strcmp (url->fragment, CAMEL_UNMATCHED_NAME) != 0) {
 			if (url)
 				camel_url_free (url);
-			vfolder_edit_rule (uri);
+			vfolder_edit_rule (backend, uri);
 			return;
 		}
 		if (url != NULL)

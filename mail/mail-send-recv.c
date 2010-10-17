@@ -961,7 +961,10 @@ static MailMsgInfo refresh_folders_info = {
 };
 
 static gboolean
-receive_update_got_folderinfo (CamelStore *store, CamelFolderInfo *info, gpointer data)
+receive_update_got_folderinfo (MailFolderCache *folder_cache,
+                               CamelStore *store,
+                               CamelFolderInfo *info,
+                               gpointer data)
 {
 	if (info) {
 		GPtrArray *folders = g_ptr_array_new ();
@@ -989,11 +992,14 @@ receive_update_got_folderinfo (CamelStore *store, CamelFolderInfo *info, gpointe
 static void
 receive_update_got_store (gchar *uri, CamelStore *store, gpointer data)
 {
+	MailFolderCache *folder_cache;
 	struct _send_info *info = data;
+
+	folder_cache = e_mail_session_get_folder_cache (info->session);
 
 	if (store) {
 		mail_folder_cache_note_store (
-			mail_folder_cache_get_default (),
+			folder_cache,
 			CAMEL_SESSION (info->session),
 			store, info->cancellable,
 			receive_update_got_folderinfo, info);

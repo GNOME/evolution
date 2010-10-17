@@ -1556,9 +1556,6 @@ action_search_folder_recipient_cb (GtkAction *action,
 	if (curl->path != NULL && *curl->path != '\0') {
 		CamelInternetAddress *inet_addr;
 
-		/* Ensure vfolder is running. */
-		vfolder_load_storage (session);
-
 		inet_addr = camel_internet_address_new ();
 		camel_address_decode (CAMEL_ADDRESS (inet_addr), curl->path);
 		vfolder_gui_add_from_address (
@@ -1599,9 +1596,6 @@ action_search_folder_sender_cb (GtkAction *action,
 
 	if (curl->path != NULL && *curl->path != '\0') {
 		CamelInternetAddress *inet_addr;
-
-		/* Ensure vfolder is running. */
-		vfolder_load_storage (session);
 
 		inet_addr = camel_internet_address_new ();
 		camel_address_decode (CAMEL_ADDRESS (inet_addr), curl->path);

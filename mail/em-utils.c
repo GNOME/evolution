@@ -64,7 +64,6 @@
 #include "e-util/e-mktemp.h"
 #include "e-util/e-account-utils.h"
 #include "e-util/e-dialog-utils.h"
-#include "e-util/e-alert-activity.h"
 #include "e-util/e-alert-dialog.h"
 #include "shell/e-shell.h"
 #include "widgets/misc/e-attachment.h"
@@ -265,7 +264,7 @@ static EMFilterSource em_filter_source_element_names[] = {
 /**
  * em_utils_edit_filters:
  * @parent: parent window
- * @session: an #EMailSession
+ * @backend: an #EMailBAckend
  *
  * Opens or raises the filters editor dialog so that the user may edit
  * his/her filters. If @parent is non-NULL, then the dialog will be
@@ -273,13 +272,14 @@ static EMFilterSource em_filter_source_element_names[] = {
  **/
 void
 em_utils_edit_filters (GtkWidget *parent,
-                       EMailSession *session)
+                       EMailBackend *backend)
 {
 	const gchar *config_dir;
 	gchar *user, *system;
 	EMFilterContext *fc;
+	EMailSession *session;
 
-	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (E_IS_MAIL_BACKEND (backend));
 
 	if (filter_editor) {
 		gtk_window_present (GTK_WINDOW (filter_editor));
@@ -287,6 +287,7 @@ em_utils_edit_filters (GtkWidget *parent,
 	}
 
 	config_dir = mail_session_get_config_dir ();
+	session = e_mail_backend_get_session (backend);
 
 	fc = em_filter_context_new (session);
 	user = g_build_filename (config_dir, "filters.xml", NULL);
@@ -296,8 +297,9 @@ em_utils_edit_filters (GtkWidget *parent,
 	g_free (system);
 
 	if (((ERuleContext *) fc)->error) {
-		GtkWidget *w = e_alert_dialog_new_for_args ((GtkWindow *)parent, "mail:filter-load-error", ((ERuleContext *)fc)->error, NULL);
-		em_utils_show_error_silent (w);
+		e_mail_backend_submit_alert (
+			backend, "mail:filter-load-error",
+			((ERuleContext *)fc)->error, NULL);
 		return;
 	}
 
@@ -2023,48 +2025,6 @@ em_utils_clear_get_password_canceled_accounts_flag (void)
 
 		g_object_unref (iter);
 	}
-}
-
-void
-em_utils_show_error_silent (GtkWidget *widget)
-{
-	EShell *shell;
-	EShellBackend *shell_backend;
-	EActivity *activity;
-
-	shell = e_shell_get_default ();
-	shell_backend = e_shell_get_backend_by_name (
-		shell, shell_builtin_backend);
-
-	activity = e_alert_activity_new_warning (widget);
-	e_shell_backend_add_activity (shell_backend, activity);
-	g_object_unref (activity);
-
-	if (g_object_get_data (G_OBJECT (widget), "response-handled") == NULL)
-		g_signal_connect (
-			widget, "response",
-			G_CALLBACK (gtk_widget_destroy), NULL);
-}
-
-void
-em_utils_show_info_silent (GtkWidget *widget)
-{
-	EShell *shell;
-	EShellBackend *shell_backend;
-	EActivity *activity;
-
-	shell = e_shell_get_default ();
-	shell_backend = e_shell_get_backend_by_name (
-		shell, shell_builtin_backend);
-
-	activity = e_alert_activity_new_info (widget);
-	e_shell_backend_add_activity (shell_backend, activity);
-	g_object_unref (activity);
-
-	if (g_object_get_data (G_OBJECT (widget), "response-handled") == NULL)
-		g_signal_connect (
-			widget, "response",
-			G_CALLBACK (gtk_widget_destroy), NULL);
 }
 
 gchar *

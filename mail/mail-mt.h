@@ -76,7 +76,6 @@ void mail_msg_slow_ordered_push (gpointer msg);
 GHook * mail_cancel_hook_add (GHookFunc func, gpointer data);
 void mail_cancel_hook_remove (GHook *hook);
 void mail_cancel_all (void);
-void mail_msg_set_cancelable (gpointer msg, gboolean status);
 
 /* request a string/password */
 gchar *mail_get_password (CamelService *service, const gchar *prompt,

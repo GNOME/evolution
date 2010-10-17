@@ -26,13 +26,15 @@
 
 #include <filter/e-filter-part.h>
 #include <filter/e-filter-rule.h>
+#include <mail/e-mail-backend.h>
 #include <mail/em-vfolder-rule.h>
 #include <shell/e-shell-view.h>
 
-void		vfolder_load_storage		(EMailSession *session);
+void		vfolder_load_storage		(EMailBackend *backend);
 void		vfolder_revert			(void);
 void		vfolder_edit			(EShellView *shell_view);
-void		vfolder_edit_rule		(const gchar *name);
+void		vfolder_edit_rule		(EMailBackend *backend,
+						 const gchar *name);
 EFilterPart *	vfolder_create_part		(const gchar *name);
 EFilterRule *	vfolder_clone_rule		(EFilterRule *in);
 void		vfolder_gui_add_rule		(EMVFolderRule *rule);

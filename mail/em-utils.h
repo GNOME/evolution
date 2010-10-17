@@ -43,7 +43,7 @@ void em_utils_uids_free (GPtrArray *uids);
 
 gboolean em_utils_check_user_can_send_mail (void);
 
-void em_utils_edit_filters (GtkWidget *parent, EMailSession *session);
+void em_utils_edit_filters (GtkWidget *parent, EMailBackend *backend);
 void em_filename_make_safe (gchar *string);
 void em_utils_edit_vfolders (GtkWidget *parent);
 
@@ -81,10 +81,6 @@ gchar *em_utils_folder_name_from_uri (const gchar *uri);
 /* internal/camel uri translation */
 gchar *em_uri_from_camel (const gchar *curi);
 gchar *em_uri_to_camel (const gchar *euri);
-
-/* Run errors silently on the status bar */
-void em_utils_show_error_silent (GtkWidget *widget);
-void em_utils_show_info_silent (GtkWidget *widget);
 
 /* is this address in the addressbook?  caches results */
 gboolean em_utils_in_addressbook (CamelInternetAddress *addr, gboolean local_only);

@@ -385,12 +385,13 @@ filter_gui_add_from_message (EMailSession *session,
 }
 
 void
-mail_filter_rename_uri (EMailSession *session,
+mail_filter_rename_uri (EMailBackend *backend,
                         CamelStore *store,
                         const gchar *olduri,
                         const gchar *newuri)
 {
 	EMFilterContext *fc;
+	EMailSession *session;
 	const gchar *config_dir;
 	gchar *user, *system;
 	GList *changed;
@@ -398,6 +399,8 @@ mail_filter_rename_uri (EMailSession *session,
 
 	eolduri = em_uri_from_camel (olduri);
 	enewuri = em_uri_from_camel (newuri);
+
+	session = e_mail_backend_get_session (backend);
 
 	fc = em_filter_context_new (session);
 	config_dir = mail_session_get_config_dir ();
@@ -422,17 +425,20 @@ mail_filter_rename_uri (EMailSession *session,
 }
 
 void
-mail_filter_delete_uri (EMailSession *session,
+mail_filter_delete_uri (EMailBackend *backend,
                         CamelStore *store,
                         const gchar *uri)
 {
 	EMFilterContext *fc;
+	EMailSession *session;
 	const gchar *config_dir;
 	gchar *user, *system;
 	GList *deleted;
 	gchar *euri;
 
 	euri = em_uri_from_camel (uri);
+
+	session = e_mail_backend_get_session (backend);
 
 	fc = em_filter_context_new (session);
 	config_dir = mail_session_get_config_dir ();
@@ -443,7 +449,6 @@ mail_filter_delete_uri (EMailSession *session,
 
 	deleted = e_rule_context_delete_uri ((ERuleContext *) fc, euri, g_str_equal);
 	if (deleted) {
-		GtkWidget *dialog;
 		GString *s;
 		guint s_count;
 		gchar *info;
@@ -477,8 +482,8 @@ mail_filter_delete_uri (EMailSession *session,
 			"The following filter rules\n%s have been modified "
 			"to account for the deleted folder\n\"%s\".",
 			s_count), s->str, euri);
-		dialog = e_alert_dialog_new_for_args (e_shell_get_active_window (NULL), "mail:filter-updated", info, NULL);
-		em_utils_show_info_silent (dialog);
+		e_mail_backend_submit_alert (
+			backend, "mail:filter-updated", info, NULL);
 		g_string_free (s, TRUE);
 		g_free (info);
 

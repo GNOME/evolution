@@ -38,7 +38,6 @@
 #include "e-util.h"
 #include "e-util-private.h"
 #include "e-alert.h"
-#include "e-alert-action.h"
 #include "e-alert-sink.h"
 
 #define d(x)

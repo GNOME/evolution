@@ -28,6 +28,7 @@
 
 #include "mail/em-junk.h"
 #include "mail/em-utils.h"
+#include "mail/e-mail-backend.h"
 #include "mail/e-mail-session.h"
 
 #define E_MAIL_JUNK_HOOK_GET_PRIVATE(obj) \
@@ -49,11 +50,15 @@ static GType mail_junk_hook_type;
 static gboolean
 mail_junk_hook_idle_cb (struct ErrorData *data)
 {
-	GtkWidget *widget;
+	EShell *shell;
+	EShellBackend *shell_backend;
 
-	widget = e_alert_dialog_new_for_args (e_shell_get_active_window (NULL),
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+
+	e_mail_backend_submit_alert (
+		E_MAIL_BACKEND (shell_backend),
 		data->error_message, data->error->message, NULL);
-	em_utils_show_error_silent (widget);
 
 	g_error_free (data->error);
 	g_slice_free (struct ErrorData, data);

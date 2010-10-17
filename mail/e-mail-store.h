@@ -36,7 +36,8 @@ void		e_mail_store_add		(EMailSession *session,
 CamelStore *	e_mail_store_add_by_uri		(EMailSession *session,
 						 const gchar *uri,
 						 const gchar *display_name);
-void		e_mail_store_remove		(CamelStore *store);
+void		e_mail_store_remove		(EMailSession *session,
+						 CamelStore *store);
 void		e_mail_store_remove_by_uri	(EMailSession *session,
 						 const gchar *uri);
 void		e_mail_store_foreach		(GHFunc func,

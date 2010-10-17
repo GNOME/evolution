@@ -523,7 +523,6 @@ EAlert
 e_alert_new
 e_alert_run_dialog
 e_alert_run_dialog_for_args
-e_alert_dialog_count_buttons
 </SECTION>
 
 <SECTION>
@@ -913,29 +912,6 @@ e_icon_factory_get_icon_filename
 e_icon_factory_get_icon
 e_icon_factory_pixbuf_scale
 e_icon_factory_create_thumbnail
-</SECTION>
-
-<SECTION>
-<FILE>e-logger</FILE>
-<TITLE>Error Logging</TITLE>
-ELogger
-ELogFunction
-ELogLevel
-e_logger_new
-e_logger_get_name
-e_logger_log
-e_logger_get_logs
-<SUBSECTION Standard>
-E_LOGGER
-E_IS_LOGGER
-E_TYPE_LOGGER
-E_LOGGER_CLASS
-E_IS_LOGGER_CLASS
-E_LOGGER_GET_CLASS
-ELoggerClass
-e_logger_get_type
-<SUBSECTION Private>
-ELoggerPrivate
 </SECTION>
 
 <SECTION>

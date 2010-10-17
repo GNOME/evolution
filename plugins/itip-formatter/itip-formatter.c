@@ -2236,6 +2236,11 @@ check_is_instance (icalcomponent *icalcomp)
 static gboolean
 in_proper_folder (CamelFolder *folder)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailBackend *backend;
+	EMailSession *session;
+	MailFolderCache *folder_cache;
 	const gchar *folder_uri;
 	gboolean res = TRUE;
 	gint flags = 0;
@@ -2243,10 +2248,15 @@ in_proper_folder (CamelFolder *folder)
 	if (!folder)
 		return FALSE;
 
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+	folder_cache = e_mail_session_get_folder_cache (session);
+
 	folder_uri = camel_folder_get_uri (folder);
 
-	if (mail_folder_cache_get_folder_info_flags (mail_folder_cache_get_default (),
-						     folder, &flags)) {
+	if (mail_folder_cache_get_folder_info_flags (folder_cache, folder, &flags)) {
 		/* it should be neither trash nor junk folder, */
 		res = ((flags & CAMEL_FOLDER_TYPE_TRASH) !=  CAMEL_FOLDER_TYPE_TRASH &&
 		       (flags & CAMEL_FOLDER_TYPE_JUNK) != CAMEL_FOLDER_TYPE_JUNK &&

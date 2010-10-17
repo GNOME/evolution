@@ -250,7 +250,7 @@ mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean 
 	tmp = gtk_vbox_new (FALSE, 0);
 	gtk_box_pack_end ((GtkBox *)priv->box, (GtkWidget *)shell->view, TRUE, TRUE, 2);
 
-	mail_config_init (CAMEL_SESSION (shell->priv->session));
+	mail_config_init (shell->priv->session);
 	mail_msg_init ();
 	custom_dir = g_build_filename (e_get_user_data_dir (), "mail", NULL);
 	e_mail_store_init (shell->priv->session, custom_dir);
