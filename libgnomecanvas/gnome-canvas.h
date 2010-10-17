@@ -43,7 +43,6 @@
 #include <libart_lgpl/art_rect.h>
 #include <libart_lgpl/art_svp.h>
 #include <libart_lgpl/art_uta.h>
-#include <libart_lgpl/art_affine.h>
 
 G_BEGIN_DECLS
 
@@ -505,7 +504,6 @@ void gnome_canvas_request_redraw (GnomeCanvas *canvas, gint x1, gint y1, gint x2
 /* Gets the affine transform that converts world coordinates into canvas pixel
  * coordinates.
  */
-void gnome_canvas_w2c_affine (GnomeCanvas *canvas, gdouble affine[6]);
 void gnome_canvas_w2c_matrix (GnomeCanvas *canvas, cairo_matrix_t *matrix);
 void gnome_canvas_c2w_matrix (GnomeCanvas *canvas, cairo_matrix_t *matrix);
 

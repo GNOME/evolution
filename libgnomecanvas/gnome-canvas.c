@@ -3563,32 +3563,6 @@ gnome_canvas_request_redraw (GnomeCanvas *canvas, gint x1, gint y1, gint x2, gin
 }
 
 /**
- * gnome_canvas_w2c_affine:
- * @canvas: A canvas.
- * @affine: An affine transformation matrix (return value).
- *
- * Gets the affine transform that converts from world coordinates to canvas
- * pixel coordinates.
- **/
-void
-gnome_canvas_w2c_affine (GnomeCanvas *canvas, gdouble affine[6])
-{
-	gdouble zooom;
-
-	g_return_if_fail (GNOME_IS_CANVAS (canvas));
-	g_return_if_fail (affine != NULL);
-
-	zooom = canvas->pixels_per_unit;
-
-	affine[0] = zooom;
-	affine[1] = 0;
-	affine[2] = 0;
-	affine[3] = zooom;
-	affine[4] = -canvas->scroll_x1 * zooom;
-	affine[5] = -canvas->scroll_y1 * zooom;
-}
-
-/**
  * gnome_canvas_w2c_matrix:
  * @canvas: A canvas.
  * @matrix: (out): matrix to initialize
