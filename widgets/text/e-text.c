@@ -1565,18 +1565,27 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	if (text->editing) {
 		if (text->selection_start != text->selection_end) {
-			PangoLayoutIter *iter;
 			GdkRegion *clip_region = gdk_region_new ();
 			GdkGC *selection_gc;
 			GdkGC *text_gc;
-			gint start_index, end_index;
+			gint indices[2];
 
-			start_index = MIN (text->selection_start, text->selection_end);
-			end_index = MAX (text->selection_start, text->selection_end);
+			indices[0] = MIN (text->selection_start, text->selection_end);
+			indices[1] = MAX (text->selection_start, text->selection_end);
 
 			/* convert these into byte indices */
-			start_index = g_utf8_offset_to_pointer (text->text, start_index) - text->text;
-			end_index = g_utf8_offset_to_pointer (text->text, end_index) - text->text;
+			indices[0] = g_utf8_offset_to_pointer (text->text, indices[0]) - text->text;
+			indices[1] = g_utf8_offset_to_pointer (text->text, indices[1]) - text->text;
+
+                        clip_region = gdk_pango_layout_get_clip_region (text->layout,
+                                                                        xpos, ypos,
+                                                                        indices, 1);
+
+			if (clip_rect) {
+				GdkRegion *rect_region = gdk_region_rectangle (clip_rect);
+				gdk_region_intersect (clip_region, rect_region);
+				gdk_region_destroy (rect_region);
+			}
 
 			if (text->has_selection) {
 				selection_gc = style->base_gc[GTK_STATE_SELECTED];
@@ -1586,60 +1595,12 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				text_gc = style->text_gc[GTK_STATE_ACTIVE];
 			}
 
-			gdk_gc_set_clip_rectangle (selection_gc, clip_rect);
-
-			iter = pango_layout_get_iter (text->layout);
-
-			do {
-				PangoLayoutLine *line = pango_layout_iter_get_line (iter);
-				gint n_ranges, i;
-				gint *ranges;
-				gint y0, y1;
-				gint s, e;
-
-				if (start_index < line->start_index + line->length
-				    && end_index > line->start_index) {
-
-					if (start_index <= line->start_index)
-						s = line->start_index;
-					else
-						s = start_index;
-
-					if (end_index > line->start_index + line->length)
-						e = line->start_index + line->length;
-					else
-						e = end_index;
-
-					pango_layout_line_get_x_ranges (line, s, e, &ranges, &n_ranges);
-
-					pango_layout_iter_get_line_yrange (iter, &y0, &y1);
-
-					for (i=0; i < n_ranges; i++) {
-						GdkRectangle sel_rect;
-
-						sel_rect.x = xpos + PANGO_PIXELS (ranges[2*i]);
-						sel_rect.y = ypos + PANGO_PIXELS (y0);
-						sel_rect.width = (ranges[2*i + 1] - ranges[2*i]) / PANGO_SCALE;
-						sel_rect.height = (y1 - y0 + PANGO_SCALE / 2) / PANGO_SCALE;
-
-						gdk_draw_rectangle (drawable, selection_gc, TRUE,
-								    sel_rect.x, sel_rect.y, sel_rect.width, sel_rect.height);
-
-						gdk_region_union_with_rect (clip_region, &sel_rect);
-					}
-					g_free (ranges);
-				}
-			} while (pango_layout_iter_next_line (iter));
-
-			pango_layout_iter_free (iter);
-
-			if (clip_rect) {
-				GdkRegion *rect_region = gdk_region_rectangle (clip_rect);
-				gdk_region_intersect (clip_region, rect_region);
-				gdk_region_destroy (rect_region);
-			}
-
+			gdk_gc_set_clip_region (selection_gc, clip_region);
 			gdk_gc_set_clip_region (text_gc, clip_region);
+
+                        gdk_draw_rectangle (drawable, selection_gc, TRUE,
+                                            x, y, width, height);
+
 			gdk_draw_layout (drawable, text_gc,
 					 xpos, ypos,
 					 text->layout);
