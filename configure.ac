@@ -1758,7 +1758,6 @@ help/quickref/pl/Makefile
 help/quickref/pt/Makefile
 help/quickref/sv/Makefile
 help/quickref/sq/Makefile
-libart_lgpl/Makefile
 libgnomecanvas/Makefile
 shell/Makefile
 shell/evolution-nognome
