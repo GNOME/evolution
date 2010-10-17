@@ -3645,19 +3645,17 @@ gnome_canvas_c2w_matrix (GnomeCanvas *canvas, cairo_matrix_t *matrix)
 void
 gnome_canvas_w2c (GnomeCanvas *canvas, gdouble wx, gdouble wy, gint *cx, gint *cy)
 {
-	gdouble affine[6];
-	ArtPoint w, c;
+	cairo_matrix_t w2c;
 
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
-	gnome_canvas_w2c_affine (canvas, affine);
-	w.x = wx;
-	w.y = wy;
-	art_affine_point (&c, &w, affine);
+	gnome_canvas_w2c_matrix (canvas, &w2c);
+        cairo_matrix_transform_point (&w2c, &wx, &wy);
+
 	if (cx)
-		*cx = floor (c.x + 0.5);
+		*cx = floor (wx + 0.5);
 	if (cy)
-		*cy = floor (c.y + 0.5);
+		*cy = floor (wy + 0.5);
 }
 
 /**
@@ -3679,19 +3677,17 @@ gnome_canvas_w2c_d (GnomeCanvas *canvas,
                     gdouble *cx,
                     gdouble *cy)
 {
-	gdouble affine[6];
-	ArtPoint w, c;
+	cairo_matrix_t w2c;
 
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
-	gnome_canvas_w2c_affine (canvas, affine);
-	w.x = wx;
-	w.y = wy;
-	art_affine_point (&c, &w, affine);
+	gnome_canvas_w2c_matrix (canvas, &w2c);
+        cairo_matrix_transform_point (&w2c, &wx, &wy);
+
 	if (cx)
-		*cx = c.x;
+		*cx = wx;
 	if (cy)
-		*cy = c.y;
+		*cy = wy;
 }
 
 /**
@@ -3707,20 +3703,20 @@ gnome_canvas_w2c_d (GnomeCanvas *canvas,
 void
 gnome_canvas_c2w (GnomeCanvas *canvas, gint cx, gint cy, gdouble *wx, gdouble *wy)
 {
-	gdouble affine[6], inv[6];
-	ArtPoint w, c;
+	cairo_matrix_t c2w;
+        double x, y;
 
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
-	gnome_canvas_w2c_affine (canvas, affine);
-	art_affine_invert (inv, affine);
-	c.x = cx;
-	c.y = cy;
-	art_affine_point (&w, &c, inv);
+        x = cx;
+        y = cy;
+	gnome_canvas_c2w_matrix (canvas, &c2w);
+        cairo_matrix_transform_point (&c2w, &x, &y);
+
 	if (wx)
-		*wx = w.x;
+		*wx = x;
 	if (wy)
-		*wy = w.y;
+		*wy = y;
 }
 
 /**
