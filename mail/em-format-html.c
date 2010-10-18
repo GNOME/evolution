@@ -473,7 +473,7 @@ efh_set_property (GObject *object,
 		case PROP_IMAGE_LOADING_POLICY:
 			em_format_html_set_image_loading_policy (
 				EM_FORMAT_HTML (object),
-				g_value_get_int (value));
+				g_value_get_enum (value));
 			return;
 
 		case PROP_MARK_CITATIONS:
@@ -561,7 +561,7 @@ efh_get_property (GObject *object,
 			return;
 
 		case PROP_IMAGE_LOADING_POLICY:
-			g_value_set_int (
+			g_value_set_enum (
 				value,
 				em_format_html_get_image_loading_policy (
 				EM_FORMAT_HTML (object)));
