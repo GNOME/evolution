@@ -533,17 +533,8 @@ e_map_key_press (GtkWidget *widget, GdkEventKey *event)
 
 		scroll_to (view, x, y);
 
-		g_signal_handlers_block_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
-		g_signal_handlers_block_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
-
 		gtk_adjustment_set_value (priv->hadj, x);
 		gtk_adjustment_set_value (priv->vadj, y);
-
-		g_signal_emit_by_name (priv->hadj, "value_changed");
-		g_signal_emit_by_name (priv->vadj, "value_changed");
-
-		g_signal_handlers_unblock_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
-		g_signal_handlers_unblock_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
 	}
 
 	return TRUE;
@@ -1437,8 +1428,6 @@ zoom_do (EMap *map)
 	EMapPrivate *priv;
 
 	priv = map->priv;
-	g_signal_handlers_block_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, map);
-	g_signal_handlers_block_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, map);
 
 	if (priv->zoom_state == E_MAP_ZOOMING_IN)
 	{
@@ -1450,9 +1439,6 @@ zoom_do (EMap *map)
 /*    if (e_map_get_smooth_zoom(map)) zoom_out_smooth(map); */
 		zoom_out (map);
 	}
-
-	g_signal_handlers_unblock_matched (priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, map);
-	g_signal_handlers_unblock_matched (priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, map);
 
 	set_scroll_area (map);
 }
@@ -1526,15 +1512,6 @@ set_scroll_area (EMap *view)
 	page_size = gtk_adjustment_get_page_size (priv->vadj);
 	priv->yofs = CLAMP (priv->yofs, 0, upper - page_size);
 
-	g_signal_handlers_block_matched (
-		priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
 	gtk_adjustment_set_value (priv->hadj, priv->xofs);
-	g_signal_handlers_unblock_matched (
-		priv->hadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
-
-	g_signal_handlers_block_matched (
-		priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
 	gtk_adjustment_set_value (priv->vadj, priv->yofs);
-	g_signal_handlers_unblock_matched (
-		priv->vadj, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, view);
 }
