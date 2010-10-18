@@ -38,6 +38,7 @@
 #include "mail-decoration.h"
 #include <mail/em-utils.h>
 #include <mail/em-composer-utils.h>
+#include <mail/mail-config.h>
 #include <mail/mail-mt.h>
 #include <mail/e-mail-store.h>
 
