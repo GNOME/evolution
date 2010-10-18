@@ -200,6 +200,8 @@ format_relative_date (time_t tvalue, time_t ttoday, const struct tm *value, cons
 		if (diff < 0)
 			future = TRUE;
 
+		diff = ABS (diff);
+	
 		if (diff <= 1) {
 			if (future)
 				res = g_strdup (_("Tomorrow"));
