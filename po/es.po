@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-10-15 07:40+0000\n"
-"PO-Revision-Date: 2010-10-15 11:44+0200\n"
+"POT-Creation-Date: 2010-10-18 07:54+0000\n"
+"PO-Revision-Date: 2010-10-18 11:02+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -292,7 +292,7 @@ msgstr "Contacto"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:8
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:589
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:604
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2583
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2582
 msgid "Contact Editor"
 msgstr "Editor de contactos"
 
@@ -547,20 +547,20 @@ msgid "Error removing contact"
 msgstr "Error al eliminar el contacto"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:599
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:2578
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:2577
 #, c-format
 msgid "Contact Editor - %s"
 msgstr "Editor de contactos: %s"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3001
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3000
 msgid "Please select an image for this contact"
 msgstr "Seleccione una imagen para este contacto"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3002
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3001
 msgid "_No image"
 msgstr "_Sin imagen"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3275
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3274
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -568,23 +568,23 @@ msgstr ""
 "Los datos del contacto son inválidos:\n"
 "\n"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3279
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3278
 #, c-format
 msgid "'%s' has an invalid format"
 msgstr "«%s» tiene un formato inválido"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3286
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3285
 #, c-format
 msgid "%s'%s' has an invalid format"
 msgstr "%s«%s» tiene un formato inválido"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3301
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3312
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3300
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3311
 #, c-format
 msgid "%s'%s' is empty"
 msgstr "%s«%s» está vacío"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor.c:3326
+#: ../addressbook/gui/contact-editor/e-contact-editor.c:3325
 msgid "Invalid contact."
 msgstr "Contacto inválido."
 
@@ -2048,8 +2048,11 @@ msgstr "No hay información del lugar disponible."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1519
 #, c-format
-msgid "You have %d alarms"
-msgstr "Tiene %d alertas"
+#| msgid "You have %d alarms"
+msgid "You have %d alarm"
+msgid_plural "You have %d alarms"
+msgstr[0] "Tiene una alerta"
+msgstr[1] "Tiene %d alertas"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1694
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1727
@@ -8803,16 +8806,16 @@ msgid "Today"
 msgstr "Hoy"
 
 #. strftime format of a weekday and a date.
-#: ../e-util/e-datetime-format.c:205 ../plugins/itip-formatter/itip-view.c:219
+#: ../e-util/e-datetime-format.c:207 ../plugins/itip-formatter/itip-view.c:219
 msgid "Tomorrow"
 msgstr "Mañana"
 
-#: ../e-util/e-datetime-format.c:207
+#: ../e-util/e-datetime-format.c:209
 msgid "Yesterday"
 msgstr "Ayer"
 
 #. Translators: %d is replaced with a number of days. It's always greater than 1
-#: ../e-util/e-datetime-format.c:211
+#: ../e-util/e-datetime-format.c:213
 #, c-format
 msgid "%d day from now"
 msgid_plural "%d days from now"
@@ -8820,19 +8823,19 @@ msgstr[0] "Dentro de %d día"
 msgstr[1] "Dentro de %d días"
 
 #. Translators: %d is replaced with a number of days. It's always greater than 1
-#: ../e-util/e-datetime-format.c:214
+#: ../e-util/e-datetime-format.c:216
 #, c-format
 msgid "%d day ago"
 msgid_plural "%d days ago"
 msgstr[0] "Hace %d día"
 msgstr[1] "Hace %d días"
 
-#: ../e-util/e-datetime-format.c:289 ../e-util/e-datetime-format.c:299
-#: ../e-util/e-datetime-format.c:308
+#: ../e-util/e-datetime-format.c:291 ../e-util/e-datetime-format.c:301
+#: ../e-util/e-datetime-format.c:310
 msgid "Use locale default"
 msgstr "Usar los valores predeterminados del sistema"
 
-#: ../e-util/e-datetime-format.c:502
+#: ../e-util/e-datetime-format.c:504
 msgid "Format:"
 msgstr "Formato:"
 
@@ -13706,7 +13709,6 @@ msgstr "El archivo existe pero no es un archivo regular."
 
 #. Translators: {0} is replaced with a folder name
 #: ../mail/mail.error.xml.h:63
-#| msgid "The attachment does not contain a valid calendar message"
 msgid "Folder '{0}' doesn't contain any duplicate message."
 msgstr "La carpeta «{0}» no contiene ningún correo duplicado."
 
@@ -13788,7 +13790,6 @@ msgid "N_ever"
 msgstr "_Nunca"
 
 #: ../mail/mail.error.xml.h:80
-#| msgid "Unfinished messages found"
 msgid "No duplicate messages found."
 msgstr "No se encontró ningún correo duplicado."
 
@@ -13858,7 +13859,6 @@ msgid "Really delete folder \"{0}\"?"
 msgstr "¿Realmente quiere borrar la carpeta «{0}»?"
 
 #: ../mail/mail.error.xml.h:95
-#| msgid "Remove the delegate %s?"
 msgid "Remove duplicate messages?"
 msgstr "¿Quitar mensajes duplicados?"
 
@@ -15741,7 +15741,6 @@ msgstr ""
 
 #: ../modules/mail/e-mail-shell-view-actions.c:522
 #, c-format
-#| msgid "Are you sure you want to delete this memo?"
 msgid ""
 "Folder '%s' contains %d duplicate messages. Are you sure you want to delete "
 "them?"
@@ -15837,12 +15836,10 @@ msgid "Change the name of this folder"
 msgstr "Cambia el nombre de esta carpeta"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1206
-#| msgid "_Edit message"
 msgid "Remo_ve duplicate messages"
 msgstr "Quitar correos _duplicados"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1208
-#| msgid "Select all visible messages"
 msgid "Remove all duplicate messages"
 msgstr "Quitar todos los correos duplicados"
 
