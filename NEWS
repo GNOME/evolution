@@ -1,3 +1,61 @@
+Evolution 2.91.1 2010-10-18
+---------------------------
+
+Bug Fixes:
+	Bug 630506 - "You have %d alarms" needs ngettext (Milan Crha)
+	Bug 631968 - Date wrongly displayed as Tomorrow. (Punit Jain)
+	Bug 604981 - Always bcc ignored for Contacts. (Bharath Acharya)
+	Bug 587011 - Integrate remove-duplicates into evolution (Milan Crha)
+	Bug 632171 - "New Address Book" dialog accepts whitespace for name (Matthew Barnes)
+	Bug 632127 - Composer is editable while sending message (Matthew Barnes)
+	Bug 305425 - Toolbar cancel button is always sensitive (Matthew Barnes)
+	Bug 461769 - Add a --force-online command line option (Matthew Barnes)
+	Bug 630490 - Not visible calendar color change immediately (Milan Crha)
+	Bug 630375 - Character encoding of GPG encrypted message not honored (Milan Crha)
+	Bug 617611 - redo_queries calls gtk+ functions in non-main thread (Milan Crha)
+	Bug 619387 - EMailBrowser doesn't honour sorting of a mail window (Milan Crha)
+	Bug 240302 - Print the work week view (Carlos Martín Nieto)
+	Bug 223337 - Auto-close message-browser when replying to them (Milan Crha)
+	Bug 552121 - Drop UUENCODE inline filter (Milan Crha)
+	Bug 631341 - On This Computer/Inbox sub-folders lost (Milan Crha)
+	Bug 631588 - Sort by Subject doesn't work (Milan Crha)
+	Bug 631320 - GtkObject is gone in GTK3 (Milan Crha)
+	Bug 630390 - Operation stuck: Generating message list (cancelled) (Milan Crha)
+	Bug 617953 - Hide Junk messages in Search folders (Milan Crha)
+	Bug 618102 - Single event print doesn't show time (Milan Crha)
+	Bug 211593 - Show week numbers on calendar printout (Milan Crha)
+	Bug 500591 - Crash when viewing a large message (Milan Crha)
+	Bug 588851 - Don't show unsubscribe option for local folders (Matthew Barnes)
+	Bug 630295 - Inline GPG encrypted message is not always recognized (Milan Crha)
+	Bug 629825 - Hide Free/Busy tab if not needed in express mode (Milan Crha)
+	Bug 615835 - Alarm not working for authenticated calendars (Milan Crha)
+	Bug 616250 - Restore and Backup options aren't fully descriptive (Milan Crha)
+
+Miscellaneous Fixes:
+	Widget 'label-comments' gone in Contact editor (Milan Crha)
+	Replace EBinding with GBinding. (Matthew Barnes)
+	EAlertBar: Always show the most recent alert. (Matthew Barnes)
+	EShellBackend: Respond to EShell::prepare-for-quit signals. (Matthew Barnes)
+	Adjust EAlertBar text attributes. (Matthew Barnes)
+	Remove mail_tools_folder_to_url(). (Matthew Barnes)
+	Composer: Show cancellable operations and errors inline. (Matthew Barnes)
+	Day view print: Put day name in its box (Carlos Martín Nieto)
+	Add a missing week number offset (Carlos Martín Nieto)
+	autogen.sh: remove unneded call to autopoint (Javier Jardón)
+	MailFolderCache notifies in reverse order (Milan Crha)
+	Realli fix srcdir != builddir builds (Javier Jardón)
+	Calendar's "Open Web Page" actions doesn't work (Milan Crha)
+	Fix srcdir != builddir builds. (Javier Jardón)
+	Get rid of deprecated GtkObject in EMap widget (Milan Bouchet-Valat)
+
+Translations:
+	Gil Forcada (ca)
+	David Planella (ca)
+	Jorge González (es)
+	Mario Blättermann (de)
+	Matej Urbančič (sl)
+	Kjartan Maraas (nn)
+
 Evolution 2.91.0 2010-10-04
 ---------------------------
 
