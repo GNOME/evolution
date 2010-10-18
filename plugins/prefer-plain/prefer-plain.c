@@ -121,8 +121,8 @@ void
 org_gnome_prefer_plain_multipart_alternative (gpointer ep, EMFormatHookTarget *t)
 {
 	CamelMultipart *mp = (CamelMultipart *)camel_medium_get_content ((CamelMedium *)t->part);
-	CamelMimePart *part, *display_part = NULL;
-	gint i, nparts, partidlen, displayid = 0;
+	CamelMimePart *part, *display_part = NULL, *calendar_part = NULL;
+	gint i, nparts, partidlen, displayid = 0, calendarid = 0;
 
 	/* FIXME: this part-id stuff is poking private data, needs api */
 	partidlen = t->format->part_id->len;
@@ -181,11 +181,20 @@ org_gnome_prefer_plain_multipart_alternative (gpointer ep, EMFormatHookTarget *t
 
 	nparts = camel_multipart_get_number (mp);
 	for (i=0; i<nparts; i++) {
+		CamelContentType *ct;
+
 		part = camel_multipart_get_part (mp, i);
-		if (part && camel_content_type_is(camel_mime_part_get_content_type(part), "text", "plain")) {
+
+		if (!part)
+			continue;
+
+		ct = camel_mime_part_get_content_type (part);
+		if (!display_part && camel_content_type_is (ct, "text", "plain")) {
 			displayid = i;
 			display_part = part;
-			break;
+		} else if (!calendar_part && (camel_content_type_is (ct, "text", "calendar") || camel_content_type_is (ct, "text", "x-calendar"))) {
+			calendarid = i;
+			calendar_part = part;
 		}
 	}
 
@@ -202,6 +211,8 @@ org_gnome_prefer_plain_multipart_alternative (gpointer ep, EMFormatHookTarget *t
 	/* all other parts are attachments */
 	if (epp_show_suppressed)
 		export_as_attachments (mp, t->format, t->stream, display_part);
+	else if (calendar_part)
+		make_part_attachment (t->format, t->stream, calendar_part, calendarid);
 
 	g_string_truncate (t->format->part_id, partidlen);
 }
