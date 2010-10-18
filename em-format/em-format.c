@@ -1124,6 +1124,8 @@ em_format_is_attachment (EMFormat *emf,
 		 || camel_content_type_is(dw->mime_type, "application", "x-inlinepgp-signed")
 		 || camel_content_type_is(dw->mime_type, "application", "x-inlinepgp-encrypted")
 		 || camel_content_type_is(dw->mime_type, "x-evolution", "evolution-rss-feed")
+		 || camel_content_type_is(dw->mime_type, "text", "calendar")
+		 || camel_content_type_is(dw->mime_type, "text", "x-calendar")
 		 || (camel_content_type_is (dw->mime_type, "text", "*")
 		     && camel_mime_part_get_filename(part) == NULL));
 }
