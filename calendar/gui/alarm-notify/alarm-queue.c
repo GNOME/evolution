@@ -1516,7 +1516,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	if (g_list_length (tray_icons_list) > 1) {
 		gchar *tip;
 
-		tip =  g_strdup_printf (_("You have %d alarms"), g_list_length (tray_icons_list));
+		tip =  g_strdup_printf (ngettext ("You have %d alarm", "You have %d alarms", g_list_length (tray_icons_list)), g_list_length (tray_icons_list));
 		gtk_status_icon_set_tooltip_text (tray_icon, tip);
 	}
 	else {
