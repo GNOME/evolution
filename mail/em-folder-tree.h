@@ -90,6 +90,10 @@ struct _EMFolderTreeClass {
 
 GType		em_folder_tree_get_type		(void);
 GtkWidget *	em_folder_tree_new		(EMailSession *session);
+PangoEllipsizeMode
+		em_folder_tree_get_ellipsize	(EMFolderTree *folder_tree);
+void		em_folder_tree_set_ellipsize	(EMFolderTree *folder_tree,
+						 PangoEllipsizeMode ellipsize);
 EMailSession *	em_folder_tree_get_session	(EMFolderTree *folder_tree);
 void		em_folder_tree_enable_drag_and_drop
 						(EMFolderTree *folder_tree);

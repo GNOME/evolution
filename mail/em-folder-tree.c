@@ -114,6 +114,7 @@ struct _EMFolderTreePrivate {
 	gboolean skip_double_click;
 
 	GtkCellRenderer *text_renderer;
+	PangoEllipsizeMode ellipsize;
 
 	GtkWidget *selectable; /* an ESelectable, where to pass selectable calls */
 
@@ -123,6 +124,7 @@ struct _EMFolderTreePrivate {
 
 enum {
 	PROP_0,
+	PROP_ELLIPSIZE,
 	PROP_SESSION
 };
 
@@ -724,6 +726,12 @@ folder_tree_set_property (GObject *object,
                           GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ELLIPSIZE:
+			em_folder_tree_set_ellipsize (
+				EM_FOLDER_TREE (object),
+				g_value_get_enum (value));
+			return;
+
 		case PROP_SESSION:
 			folder_tree_set_session (
 				EM_FOLDER_TREE (object),
@@ -741,6 +749,13 @@ folder_tree_get_property (GObject *object,
                           GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ELLIPSIZE:
+			g_value_set_enum (
+				value,
+				em_folder_tree_get_ellipsize (
+				EM_FOLDER_TREE (object)));
+			return;
+
 		case PROP_SESSION:
 			g_value_set_object (
 				value,
@@ -1035,6 +1050,17 @@ folder_tree_class_init (EMFolderTreeClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_ELLIPSIZE,
+		g_param_spec_enum (
+			"ellipsize",
+			NULL,
+			NULL,
+			PANGO_TYPE_ELLIPSIZE_MODE,
+			PANGO_ELLIPSIZE_NONE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_SESSION,
 		g_param_spec_object (
 			"session",
@@ -1257,10 +1283,6 @@ folder_tree_new (EMFolderTree *folder_tree)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 	GtkWidget *tree;
-	GConfClient *client;
-	const gchar *key;
-
-	client = gconf_client_get_default ();
 
 	/* FIXME Gross hack */
 	tree = GTK_WIDGET (folder_tree);
@@ -1280,14 +1302,15 @@ folder_tree_new (EMFolderTree *folder_tree)
 		render_icon, NULL, NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
-	key = "/apps/evolution/mail/display/no_folder_dots";
-	if (!gconf_client_get_bool (client, key, NULL))
-		g_object_set (
-			renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
 	gtk_tree_view_column_set_cell_data_func (
 		column, renderer, render_display_name, NULL, NULL);
 	folder_tree->priv->text_renderer = g_object_ref (renderer);
+
+	g_object_bind_property (
+		folder_tree, "ellipsize",
+		renderer, "ellipsize",
+		G_BINDING_SYNC_CREATE);
 
 	g_signal_connect_swapped (
 		renderer, "edited",
@@ -1301,8 +1324,6 @@ folder_tree_new (EMFolderTree *folder_tree)
 	gtk_tree_view_set_headers_visible ((GtkTreeView *) tree, FALSE);
 
 	gtk_tree_view_set_search_column ((GtkTreeView *)tree, COL_STRING_DISPLAY_NAME);
-
-	g_object_unref (client);
 
 	return (GtkTreeView *) tree;
 }
@@ -1531,6 +1552,28 @@ em_folder_tree_new (EMailSession *session)
 
 	return g_object_new (
 		EM_TYPE_FOLDER_TREE, "session", session, NULL);
+}
+
+PangoEllipsizeMode
+em_folder_tree_get_ellipsize (EMFolderTree *folder_tree)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), 0);
+
+	return folder_tree->priv->ellipsize;
+}
+
+void
+em_folder_tree_set_ellipsize (EMFolderTree *folder_tree,
+                              PangoEllipsizeMode ellipsize)
+{
+	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
+
+	if (ellipsize == folder_tree->priv->ellipsize)
+		return;
+
+	folder_tree->priv->ellipsize = ellipsize;
+
+	g_object_notify (G_OBJECT (folder_tree), "ellipsize");
 }
 
 EMailSession *

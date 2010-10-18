@@ -169,7 +169,12 @@ mail_shell_sidebar_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
-		shell_settings, "mail-side-bar-search",
+		shell_settings, "mail-sidebar-ellipsize",
+		widget, "ellipsize",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		shell_settings, "mail-sidebar-search",
 		widget, "enable-search",
 		G_BINDING_SYNC_CREATE);
 

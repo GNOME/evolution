@@ -31,6 +31,24 @@
 
 #include <shell/e-shell.h>
 
+static gboolean
+transform_no_folder_dots_to_ellipsize (GBinding *binding,
+                                       const GValue *source_value,
+                                       GValue *target_value,
+                                       gpointer user_data)
+{
+	PangoEllipsizeMode ellipsize;
+
+	if (g_value_get_boolean (source_value))
+		ellipsize = PANGO_ELLIPSIZE_NONE;
+	else
+		ellipsize = PANGO_ELLIPSIZE_END;
+
+	g_value_set_enum (target_value, ellipsize);
+
+	return TRUE;
+}
+
 void
 e_mail_shell_settings_init (EShellBackend *shell_backend)
 {
@@ -160,6 +178,11 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 		"mail-message-text-part-limit",
 		"/apps/evolution/mail/display/message_text_part_limit");
 
+	/* Do not bind to this.  Use "mail-sidebar-ellipsize" instead. */
+	e_shell_settings_install_property_for_key (
+		"mail-no-folder-dots",
+		"/apps/evolution/mail/display/no_folder_dots");
+
 	e_shell_settings_install_property_for_key (
 		"mail-only-local-photos",
 		"/apps/evolution/mail/display/photo_local");
@@ -192,7 +215,7 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 		"/apps/evolution/mail/display/sender_photo");
 
 	e_shell_settings_install_property_for_key (
-		"mail-side-bar-search",
+		"mail-sidebar-search",
 		"/apps/evolution/mail/display/side_bar_search");
 
 	e_shell_settings_install_property_for_key (
@@ -276,4 +299,29 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 	e_shell_settings_install_property_for_key (
 		"composer-no-signature-delim",
 		"/apps/evolution/mail/composer/no_signature_delim");
+
+	/* These properties use transform functions to convert
+	 * GConf values to forms more useful to Evolution.  We
+	 * have to use separate properties because GConfBridge
+	 * does not support transform functions.  Much of this
+	 * is backward-compatibility cruft for poorly designed
+	 * GConf schemas. */
+
+	e_shell_settings_install_property (
+		g_param_spec_enum (
+			"mail-sidebar-ellipsize",
+			NULL,
+			NULL,
+			PANGO_TYPE_ELLIPSIZE_MODE,
+			PANGO_ELLIPSIZE_NONE,
+			G_PARAM_READWRITE));
+
+	g_object_bind_property_full (
+		shell_settings, "mail-no-folder-dots",
+		shell_settings, "mail-sidebar-ellipsize",
+		G_BINDING_SYNC_CREATE,
+		transform_no_folder_dots_to_ellipsize,
+		NULL,
+		g_object_ref (shell_settings),
+		(GDestroyNotify) g_object_unref);
 }
