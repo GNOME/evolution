@@ -487,7 +487,7 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 
 	/* Append the sent message to a Sent folder. */
 
-	local_sent_folder = e_mail_local_get_folder (E_MAIL_FOLDER_SENT);
+	local_sent_folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_SENT);
 
 	/* Try to extract a CamelFolder from the Sent folder URI. */
 	if (context->sent_folder_uri != NULL) {

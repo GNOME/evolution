@@ -352,9 +352,9 @@ uri_is_ignore (CamelStore *store, const gchar *uri)
 	const gchar *local_sent_uri;
 	gint found = FALSE;
 
-	local_drafts_uri = e_mail_local_get_folder_uri (E_MAIL_FOLDER_DRAFTS);
-	local_outbox_uri = e_mail_local_get_folder_uri (E_MAIL_FOLDER_OUTBOX);
-	local_sent_uri = e_mail_local_get_folder_uri (E_MAIL_FOLDER_SENT);
+	local_drafts_uri = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS);
+	local_outbox_uri = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_OUTBOX);
+	local_sent_uri = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT);
 
 	d(printf("checking '%s' against:\n  %s\n  %s\n  %s\n", uri,
 		local_outbox_uri,

@@ -909,7 +909,7 @@ mail_session_forward_to (CamelSession *session,
 
 	/* and send it */
 	info = camel_message_info_new (NULL);
-	out_folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
+	out_folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
 	camel_message_info_set_flags (
 		info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	mail_append_mail (

@@ -169,7 +169,7 @@ setup_send_data (void)
 			(GDestroyNotify) NULL,
 			(GDestroyNotify) free_folder_info);
 		data->inbox = e_mail_local_get_folder (
-			E_MAIL_FOLDER_LOCAL_INBOX);
+			E_MAIL_LOCAL_FOLDER_LOCAL_INBOX);
 		g_object_ref (data->inbox);
 		data->active = g_hash_table_new_full (
 			g_str_hash, g_str_equal,
@@ -763,7 +763,7 @@ receive_done (const gchar *uri, gpointer data)
 	if (info->type == SEND_SEND && info->state == SEND_ACTIVE && info->again) {
 		CamelFolder *local_outbox;
 
-		local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
+		local_outbox = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
 
 		info->again = 0;
 		mail_send_queue (
@@ -1033,7 +1033,7 @@ mail_send_receive (GtkWindow *parent,
 
 	accounts = e_get_account_list ();
 
-	local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
+	local_outbox = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
 	data = build_dialog (
 		parent, session, accounts,
 		local_outbox, account->transport->url);
@@ -1306,7 +1306,7 @@ mail_receive_uri (EMailSession *session,
 		break;
 	case SEND_SEND:
 		/* todo, store the folder in info? */
-		local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
+		local_outbox = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
 		mail_send_queue (
 			info->session,
 			local_outbox, info->uri,
@@ -1374,7 +1374,7 @@ mail_send (EMailSession *session)
 	g_hash_table_insert (data->active, (gpointer) SEND_URI_KEY, info);
 
 	/* todo, store the folder in info? */
-	local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
+	local_outbox = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
 	mail_send_queue (
 		session,
 		local_outbox, info->uri,

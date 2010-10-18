@@ -4,6 +4,13 @@ privsolib_LTLIBRARIES = libevolution-mail.la
 
 mailincludedir = $(privincludedir)/mail
 
+include $(top_srcdir)/glib-gen.mak
+glib_enum_headers=e-mail-enums.h
+glib_enum_define=E_MAIL
+glib_enum_prefix=e_mail
+
+ENUM_GENERATED = e-mail-enumtypes.h e-mail-enumtypes.c
+
 libevolution_mail_la_CPPFLAGS =				\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)/widgets				\
@@ -36,6 +43,7 @@ libevolution_mail_la_CPPFLAGS =				\
 	-DG_LOG_DOMAIN=\"evolution-mail\"
 
 mailinclude_HEADERS =					\
+	e-mail.h					\
 	e-mail-view.h					\
 	e-mail-folder-pane.h				\
 	e-mail-message-pane.h				\
@@ -45,6 +53,8 @@ mailinclude_HEADERS =					\
 	e-mail-backend.h				\
 	e-mail-browser.h				\
 	e-mail-display.h				\
+	e-mail-enums.h					\
+	e-mail-enumtypes.h				\
 	e-mail-folder-utils.h				\
 	e-mail-label-action.h				\
 	e-mail-label-dialog.h				\
@@ -116,6 +126,7 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-backend.c				\
 	e-mail-browser.c				\
 	e-mail-display.c				\
+	e-mail-enumtypes.c				\
 	e-mail-folder-utils.c				\
 	e-mail-label-action.c				\
 	e-mail-label-dialog.c				\
@@ -289,7 +300,7 @@ endif
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-BUILT_SOURCES = $(error_DATA)
+BUILT_SOURCES = $(error_DATA) $(ENUM_GENERATED)
 
 CLEANFILES = $(BUILT_SOURCES)
 

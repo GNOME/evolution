@@ -479,7 +479,7 @@ create_new_message (CamelFolder *folder, const gchar *uid, CamelMimeMessage *mes
 	/* FIXME Pass this in somehow. */
 	shell = e_shell_get_default ();
 
-	folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
+	folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_TEMPLATES);
 	template = g_object_get_data (G_OBJECT (action), "template");
 
 	/* The new message we are creating */
@@ -700,7 +700,7 @@ got_message_draft_cb (EMsgComposer *composer,
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
 	/* Get the templates folder and all UIDs of the messages there. */
-	folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
+	folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_TEMPLATES);
 
 	info = camel_message_info_new (NULL);
 
@@ -778,7 +778,8 @@ update_actions_cb (EShellView *shell_view)
 	/* Now recursively build template submenus in the pop-up menu. */
 
 	store = e_mail_local_get_store ();
-	templates_folder = e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
+	templates_folder = e_mail_local_get_folder (
+		E_MAIL_LOCAL_FOLDER_TEMPLATES);
 	full_name = camel_folder_get_full_name (templates_folder);
 
 	/* FIXME Not passing a GCancellable or GError here. */

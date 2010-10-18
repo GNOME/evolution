@@ -611,16 +611,16 @@ emmp_empty_junk_init (EMMailerPrefs *prefs,
 static void
 http_images_changed (GtkWidget *widget, EMMailerPrefs *prefs)
 {
-	gint when;
+	EMailImageLoadingPolicy policy;
 
 	if (gtk_toggle_button_get_active (prefs->images_always))
-		when = MAIL_CONFIG_HTTP_ALWAYS;
+		policy = E_MAIL_IMAGE_LOADING_POLICY_ALWAYS;
 	else if (gtk_toggle_button_get_active (prefs->images_sometimes))
-		when = MAIL_CONFIG_HTTP_SOMETIMES;
+		policy = E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES;
 	else
-		when = MAIL_CONFIG_HTTP_NEVER;
+		policy = E_MAIL_IMAGE_LOADING_POLICY_NEVER;
 
-	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/display/load_http_images", when, NULL);
+	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/display/load_http_images", policy, NULL);
 }
 
 static GtkWidget *
@@ -929,17 +929,17 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	val = gconf_client_get_int (prefs->gconf, "/apps/evolution/mail/display/load_http_images", NULL);
 	prefs->images_never = GTK_TOGGLE_BUTTON (e_builder_get_widget (prefs->builder, "radImagesNever"));
-	gtk_toggle_button_set_active (prefs->images_never, val == MAIL_CONFIG_HTTP_NEVER);
+	gtk_toggle_button_set_active (prefs->images_never, val == E_MAIL_IMAGE_LOADING_POLICY_NEVER);
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->images_never, FALSE);
 
 	prefs->images_sometimes = GTK_TOGGLE_BUTTON (e_builder_get_widget (prefs->builder, "radImagesSometimes"));
-	gtk_toggle_button_set_active (prefs->images_sometimes, val == MAIL_CONFIG_HTTP_SOMETIMES);
+	gtk_toggle_button_set_active (prefs->images_sometimes, val == E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES);
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->images_sometimes, FALSE);
 
 	prefs->images_always = GTK_TOGGLE_BUTTON (e_builder_get_widget (prefs->builder, "radImagesAlways"));
-	gtk_toggle_button_set_active (prefs->images_always, val == MAIL_CONFIG_HTTP_ALWAYS);
+	gtk_toggle_button_set_active (prefs->images_always, val == E_MAIL_IMAGE_LOADING_POLICY_ALWAYS);
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->images_always, FALSE);
 

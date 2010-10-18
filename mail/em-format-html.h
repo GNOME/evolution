@@ -29,7 +29,7 @@
 #define EM_FORMAT_HTML_H
 
 #include <em-format/em-format.h>
-#include <mail/mail-config.h>
+#include <mail/e-mail-enums.h>
 #include <misc/e-web-view.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 
@@ -223,12 +223,12 @@ void		em_format_html_get_color	(EMFormatHTML *efh,
 void		em_format_html_set_color	(EMFormatHTML *efh,
 						 EMFormatHTMLColorType type,
 						 const GdkColor *color);
-MailConfigHTTPMode
+EMailImageLoadingPolicy
 		em_format_html_get_image_loading_policy
 						(EMFormatHTML *efh);
 void		em_format_html_set_image_loading_policy
 						(EMFormatHTML *efh,
-						 MailConfigHTTPMode policy);
+						 EMailImageLoadingPolicy policy);
 gboolean	em_format_html_get_mark_citations
 						(EMFormatHTML *efh);
 void		em_format_html_set_mark_citations

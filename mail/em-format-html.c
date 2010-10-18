@@ -57,12 +57,12 @@
 
 #include <glib/gi18n.h>
 
-#include "mail-config.h"
-#include "mail-mt.h"
-
+#include "e-mail-enumtypes.h"
 #include "em-format-html.h"
 #include "em-html-stream.h"
 #include "em-utils.h"
+#include "mail-config.h"
+#include "mail-mt.h"
 
 #define d(x)
 
@@ -94,7 +94,7 @@ struct _EMFormatHTMLPrivate {
 	GMutex *lock;
 
 	GdkColor colors[EM_FORMAT_HTML_NUM_COLOR_TYPES];
-	MailConfigHTTPMode image_loading_policy;
+	EMailImageLoadingPolicy image_loading_policy;
 
 	guint load_images_now	: 1;
 	guint only_local_photos	: 1;
@@ -853,13 +853,12 @@ efh_class_init (EMFormatHTMLClass *class)
 	g_object_class_install_property (
 		object_class,
 		PROP_IMAGE_LOADING_POLICY,
-		g_param_spec_int (
+		g_param_spec_enum (
 			"image-loading-policy",
 			"Image Loading Policy",
 			NULL,
-			0,
-			G_MAXINT,
-			MAIL_CONFIG_HTTP_ALWAYS,
+			E_TYPE_MAIL_IMAGE_LOADING_POLICY,
+			E_MAIL_IMAGE_LOADING_POLICY_ALWAYS,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -1047,7 +1046,7 @@ em_format_html_load_images (EMFormatHTML *efh)
 {
 	g_return_if_fail (EM_IS_FORMAT_HTML (efh));
 
-	if (efh->priv->image_loading_policy == MAIL_CONFIG_HTTP_ALWAYS)
+	if (efh->priv->image_loading_policy == E_MAIL_IMAGE_LOADING_POLICY_ALWAYS)
 		return;
 
 	/* This will remain set while we're still
@@ -1121,7 +1120,7 @@ em_format_html_set_color (EMFormatHTML *efh,
 	g_object_notify (G_OBJECT (efh), property_name);
 }
 
-MailConfigHTTPMode
+EMailImageLoadingPolicy
 em_format_html_get_image_loading_policy (EMFormatHTML *efh)
 {
 	g_return_val_if_fail (EM_IS_FORMAT_HTML (efh), 0);
@@ -1131,7 +1130,7 @@ em_format_html_get_image_loading_policy (EMFormatHTML *efh)
 
 void
 em_format_html_set_image_loading_policy (EMFormatHTML *efh,
-                                         MailConfigHTTPMode policy)
+                                         EMailImageLoadingPolicy policy)
 {
 	g_return_if_fail (EM_IS_FORMAT_HTML (efh));
 
@@ -1420,14 +1419,14 @@ emfh_gethttp (struct _EMFormatHTMLJob *job,
 		instream = cistream = camel_data_cache_get (emfh_http_cache, EMFH_HTTP_CACHE_PATH, job->u.uri, NULL);
 
 	if (instream == NULL) {
-		MailConfigHTTPMode policy;
+		EMailImageLoadingPolicy policy;
 		gchar *proxy;
 
 		policy = em_format_html_get_image_loading_policy (job->format);
 
 		if (!(job->format->priv->load_images_now
-		      || policy == MAIL_CONFIG_HTTP_ALWAYS
-		      || (policy == MAIL_CONFIG_HTTP_SOMETIMES
+		      || policy == E_MAIL_IMAGE_LOADING_POLICY_ALWAYS
+		      || (policy == E_MAIL_IMAGE_LOADING_POLICY_SOMETIMES
 			  && em_utils_in_addressbook ((CamelInternetAddress *)camel_mime_message_get_from (job->format->parent.message), FALSE)))) {
 			/* TODO: Ideally we would put the http requests into another queue and only send them out
 			   if the user selects 'load images', when they do.  The problem is how to maintain this

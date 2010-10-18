@@ -559,7 +559,7 @@ em_utils_composer_send_cb (EMsgComposer *composer,
 	context->activity = g_object_ref (activity);
 
 	cancellable = e_activity_get_cancellable (activity);
-	outbox_folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
+	outbox_folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
 
 	info = camel_message_info_new (NULL);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, ~0);
@@ -671,7 +671,7 @@ composer_save_draft_append_mail (AsyncContext *context,
 	CamelMessageInfo *info;
 
 	local_drafts_folder =
-		e_mail_local_get_folder (E_MAIL_FOLDER_DRAFTS);
+		e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_DRAFTS);
 
 	if (drafts_folder == NULL)
 		drafts_folder = g_object_ref (local_drafts_folder);
@@ -756,7 +756,7 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer,
 	session = e_msg_composer_get_session (composer);
 
 	local_drafts_folder_uri =
-		e_mail_local_get_folder_uri (E_MAIL_FOLDER_DRAFTS);
+		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS);
 
 	table = e_msg_composer_get_header_table (composer);
 	account = e_composer_header_table_get_account (table);
@@ -1337,7 +1337,7 @@ forward_non_attached (EShell *shell,
                       CamelFolder *folder,
                       GPtrArray *uids,
                       GPtrArray *messages,
-                      gint style,
+                      EMailForwardStyle style,
                       const gchar *from_uri)
 {
 	CamelMimeMessage *message;
@@ -1353,7 +1353,7 @@ forward_non_attached (EShell *shell,
 	folder_uri = camel_folder_get_uri (folder);
 
 	flags = EM_FORMAT_QUOTE_HEADERS | EM_FORMAT_QUOTE_KEEP_SIG;
-	if (style == MAIL_CONFIG_FORWARD_QUOTED)
+	if (style == E_MAIL_FORWARD_STYLE_QUOTED)
 		flags |= EM_FORMAT_QUOTE_CITE;
 
 	for (i = 0; i < messages->len; i++) {
@@ -1408,7 +1408,7 @@ forward_inline_cb (CamelFolder *folder,
 
 	forward_non_attached (
 		data->shell, folder, uids, messages,
-		MAIL_CONFIG_FORWARD_INLINE, data->from_uri);
+		E_MAIL_FORWARD_STYLE_INLINE, data->from_uri);
 
 	g_free (data->from_uri);
 	g_object_unref (data->shell);
@@ -1453,7 +1453,7 @@ forward_quoted_cb (CamelFolder *folder,
 
 	forward_non_attached (
 		data->shell, folder, uids, messages,
-		MAIL_CONFIG_FORWARD_QUOTED, data->from_uri);
+		E_MAIL_FORWARD_STYLE_QUOTED, data->from_uri);
 
 	g_free (data->from_uri);
 	g_object_unref (data->shell);
@@ -1507,7 +1507,7 @@ em_utils_forward_message (EShell *shell,
 	GConfClient *client;
 	const gchar *key;
 	gchar *subject;
-	gint mode;
+	EMailForwardStyle style;
 	EMsgComposer *composer = NULL;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
@@ -1517,11 +1517,11 @@ em_utils_forward_message (EShell *shell,
 
 	client = gconf_client_get_default ();
 	key = "/apps/evolution/mail/format/forward_style";
-	mode = gconf_client_get_int (client, key, NULL);
+	style = gconf_client_get_int (client, key, NULL);
 	g_object_unref (client);
 
-	switch (mode) {
-		case MAIL_CONFIG_FORWARD_ATTACHED:
+	switch (style) {
+		case E_MAIL_FORWARD_STYLE_ATTACHED:
 		default:
 			part = mail_tool_make_message_attachment (message);
 			subject = mail_tool_generate_forward_subject (message);
@@ -1534,16 +1534,16 @@ em_utils_forward_message (EShell *shell,
 			g_free (subject);
 			break;
 
-		case MAIL_CONFIG_FORWARD_INLINE:
+		case E_MAIL_FORWARD_STYLE_INLINE:
 			composer = forward_non_attached (
 				shell, NULL, NULL, messages,
-				MAIL_CONFIG_FORWARD_INLINE, from_uri);
+				E_MAIL_FORWARD_STYLE_INLINE, from_uri);
 			break;
 
-		case MAIL_CONFIG_FORWARD_QUOTED:
+		case E_MAIL_FORWARD_STYLE_QUOTED:
 			composer = forward_non_attached (
 				shell, NULL, NULL, messages,
-				MAIL_CONFIG_FORWARD_QUOTED, from_uri);
+				E_MAIL_FORWARD_STYLE_QUOTED, from_uri);
 			break;
 	}
 
@@ -1569,24 +1569,24 @@ em_utils_forward_messages (EShell *shell,
 {
 	GConfClient *client;
 	const gchar *key;
-	gint mode;
+	EMailForwardStyle style;
 
 	g_return_if_fail (E_IS_SHELL (shell));
 
 	client = gconf_client_get_default ();
 	key = "/apps/evolution/mail/format/forward_style";
-	mode = gconf_client_get_int (client, key, NULL);
+	style = gconf_client_get_int (client, key, NULL);
 	g_object_unref (client);
 
-	switch (mode) {
-		case MAIL_CONFIG_FORWARD_ATTACHED:
+	switch (style) {
+		case E_MAIL_FORWARD_STYLE_ATTACHED:
 		default:
 			em_utils_forward_attached (shell, folder, uids, from_uri);
 			break;
-		case MAIL_CONFIG_FORWARD_INLINE:
+		case E_MAIL_FORWARD_STYLE_INLINE:
 			em_utils_forward_inline (shell, folder, uids, from_uri);
 			break;
-		case MAIL_CONFIG_FORWARD_QUOTED:
+		case E_MAIL_FORWARD_STYLE_QUOTED:
 			em_utils_forward_quoted (shell, folder, uids, from_uri);
 			break;
 	}
@@ -1891,7 +1891,7 @@ em_utils_send_receipt (EMailSession *session,
 
 	/* Send the receipt */
 	info = camel_message_info_new (NULL);
-	out_folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
+	out_folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
 	camel_message_info_set_flags (
 		info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	mail_append_mail (
@@ -2460,7 +2460,7 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message, EMFormat *
 	gboolean start_bottom;
 	guint32 validity_found = 0;
 	const gchar *key;
-	MailConfigReplyStyle style;
+	EMailReplyStyle style;
 
 	client = gconf_client_get_default ();
 
@@ -2471,23 +2471,23 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message, EMFormat *
 	style = gconf_client_get_int (client, key, NULL);
 
 	switch (style) {
-	case MAIL_CONFIG_REPLY_DO_NOT_QUOTE:
+	case E_MAIL_REPLY_STYLE_DO_NOT_QUOTE:
 		/* do nothing */
 		break;
-	case MAIL_CONFIG_REPLY_ATTACH:
+	case E_MAIL_REPLY_STYLE_ATTACH:
 		/* attach the original message as an attachment */
 		part = mail_tool_make_message_attachment (message);
 		e_msg_composer_attach (composer, part);
 		g_object_unref (part);
 		break;
-	case MAIL_CONFIG_REPLY_OUTLOOK:
+	case E_MAIL_REPLY_STYLE_OUTLOOK:
 		text = em_utils_message_to_html (message, _("-----Original Message-----"), EM_FORMAT_QUOTE_HEADERS, &len, source, start_bottom ? "<BR>" : NULL, &validity_found);
 		e_msg_composer_set_body_text (composer, text, len);
 		g_free (text);
 		emu_update_composers_security (composer, validity_found);
 		break;
 
-	case MAIL_CONFIG_REPLY_QUOTED:
+	case E_MAIL_REPLY_STYLE_QUOTED:
 	default:
 		/* do what any sane user would want when replying... */
 		credits = attribution_format (ATTRIBUTION, message);

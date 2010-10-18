@@ -42,6 +42,7 @@
 #include "mail/em-folder-tree-model.h"
 #include "mail/em-utils.h"
 #include "mail/mail-autofilter.h"
+#include "mail/mail-config.h"
 #include "mail/mail-folder-cache.h"
 #include "mail/mail-ops.h"
 #include "mail/mail-vfolder.h"
@@ -300,7 +301,7 @@ mail_backend_quit_requested_cb (EShell *shell,
 
 	/* Check Outbox for any unsent messages. */
 
-	folder = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
+	folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
 	if (folder == NULL)
 		return;
 

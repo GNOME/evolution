@@ -220,7 +220,7 @@ org_gnome_evolution_readdbx_getwidget (EImport *ei, EImportTarget *target, EImpo
 	}
 #endif
 	if (!select_uri)
-		select_uri = g_strdup (e_mail_local_get_folder_uri (E_MAIL_FOLDER_INBOX));
+		select_uri = g_strdup (e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_INBOX));
 
 	hbox = gtk_hbox_new (FALSE, 0);
 

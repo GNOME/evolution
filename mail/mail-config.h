@@ -23,44 +23,9 @@
 #ifndef MAIL_CONFIG_H
 #define MAIL_CONFIG_H
 
-#include <gtk/gtk.h>
-#include <libedataserver/e-account.h>
-#include <libedataserver/e-account-list.h>
-
-#include <e-util/e-signature.h>
-#include <e-util/e-signature-list.h>
-
 #include <mail/e-mail-session.h>
 
 G_BEGIN_DECLS
-
-typedef enum {
-	MAIL_CONFIG_HTTP_NEVER,
-	MAIL_CONFIG_HTTP_SOMETIMES,
-	MAIL_CONFIG_HTTP_ALWAYS
-} MailConfigHTTPMode;
-
-typedef enum {
-	MAIL_CONFIG_FORWARD_ATTACHED,
-	MAIL_CONFIG_FORWARD_INLINE,
-	MAIL_CONFIG_FORWARD_QUOTED
-} MailConfigForwardStyle;
-
-typedef enum {
-	MAIL_CONFIG_REPLY_QUOTED,
-	MAIL_CONFIG_REPLY_DO_NOT_QUOTE,
-	MAIL_CONFIG_REPLY_ATTACH,
-	MAIL_CONFIG_REPLY_OUTLOOK
-} MailConfigReplyStyle;
-
-typedef enum {
-	MAIL_CONFIG_DISPLAY_NORMAL,
-	MAIL_CONFIG_DISPLAY_FULL_HEADERS,
-	MAIL_CONFIG_DISPLAY_SOURCE,
-	MAIL_CONFIG_DISPLAY_MAX
-} MailConfigDisplayStyle;
-
-GType		evolution_mail_config_get_type	(void);
 
 /* Configuration */
 void		mail_config_init		(EMailSession *session);

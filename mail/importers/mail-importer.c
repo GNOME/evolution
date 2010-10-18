@@ -121,7 +121,7 @@ import_mbox_exec (struct _import_mbox_msg *m)
 	}
 
 	if (m->uri == NULL || m->uri[0] == 0)
-		folder = e_mail_local_get_folder (E_MAIL_FOLDER_INBOX);
+		folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_INBOX);
 	else
 		folder = e_mail_session_uri_to_folder_sync (
 			m->session, m->uri, CAMEL_STORE_FOLDER_CREATE,

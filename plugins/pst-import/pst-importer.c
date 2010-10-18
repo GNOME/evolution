@@ -234,7 +234,7 @@ get_suggested_foldername (EImportTargetURI *target)
 
 	/* Suggest a folder that is in the same mail storage as the users' inbox,
 	   with a name derived from the .PST file */
-	inbox = e_mail_local_get_folder_uri (E_MAIL_FOLDER_INBOX);
+	inbox = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_INBOX);
 
 	delim = g_strrstr (inbox, "#");
 	if (delim != NULL) {

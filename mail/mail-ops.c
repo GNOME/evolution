@@ -230,7 +230,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m)
 	struct _filter_mail_msg *fm = (struct _filter_mail_msg *)m;
 	gint i;
 
-	fm->destination = e_mail_local_get_folder (E_MAIL_FOLDER_LOCAL_INBOX);
+	fm->destination = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_LOCAL_INBOX);
 	if (fm->destination == NULL)
 		goto fail;
 	g_object_ref (fm->destination);
@@ -625,7 +625,7 @@ mail_send_message (struct _send_queue_msg *m,
 		}
 
 		if (!folder) {
-			folder = e_mail_local_get_folder (E_MAIL_FOLDER_SENT);
+			folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_SENT);
 			g_object_ref (folder);
 		}
 
@@ -638,7 +638,7 @@ mail_send_message (struct _send_queue_msg *m,
 			if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 				goto exit;
 
-			sent_folder = e_mail_local_get_folder (E_MAIL_FOLDER_SENT);
+			sent_folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_SENT);
 
 			if (folder != sent_folder) {
 				const gchar *description;
@@ -741,7 +741,7 @@ send_queue_exec (struct _send_queue_msg *m)
 
 	d(printf("sending queue\n"));
 
-	sent_folder = e_mail_local_get_folder (E_MAIL_FOLDER_SENT);
+	sent_folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_SENT);
 
 	if (!(uids = camel_folder_get_uids (m->queue)))
 		return;

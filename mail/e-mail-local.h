@@ -24,22 +24,10 @@
 
 #include <glib.h>
 #include <camel/camel.h>
+#include <mail/e-mail-enums.h>
 #include <mail/e-mail-session.h>
 
 G_BEGIN_DECLS
-
-/* XXX E_MAIL_FOLDER_TEMPLATES is a prime example of why templates
- *     should be a core feature: the mailer now has to know about
- *     this specific plugin, which defeats the purpose of plugins. */
-typedef enum {
-	E_MAIL_FOLDER_INBOX,
-	E_MAIL_FOLDER_DRAFTS,
-	E_MAIL_FOLDER_OUTBOX,
-	E_MAIL_FOLDER_SENT,
-	E_MAIL_FOLDER_TEMPLATES,
-	E_MAIL_FOLDER_LOCAL_INBOX,
-	E_MAIL_NUM_LOCAL_FOLDERS
-} EMailLocalFolder;
 
 void		e_mail_local_init		(EMailSession *session,
 						 const gchar *data_dir);

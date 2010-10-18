@@ -345,9 +345,9 @@ folder_changed_cb (CamelFolder *folder,
 	latest_received = GPOINTER_TO_INT (
 		g_hash_table_lookup (last_newmail_per_folder, folder));
 
-	local_drafts = e_mail_local_get_folder (E_MAIL_FOLDER_DRAFTS);
-	local_outbox = e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
-	local_sent = e_mail_local_get_folder (E_MAIL_FOLDER_SENT);
+	local_drafts = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_DRAFTS);
+	local_outbox = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
+	local_sent = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_SENT);
 
 	if (!CAMEL_IS_VEE_FOLDER (folder)
 	    && folder != local_drafts

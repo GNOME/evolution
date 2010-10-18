@@ -985,7 +985,7 @@ em_utils_folder_is_templates (CamelFolder *folder, const gchar *uri)
 	gchar *templates_uri;
 
 	local_templates_folder =
-		e_mail_local_get_folder (E_MAIL_FOLDER_TEMPLATES);
+		e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_TEMPLATES);
 
 	if (folder == local_templates_folder)
 		return TRUE;
@@ -1039,7 +1039,7 @@ em_utils_folder_is_drafts (CamelFolder *folder, const gchar *uri)
 	gchar *drafts_uri;
 
 	local_drafts_folder =
-		e_mail_local_get_folder (E_MAIL_FOLDER_DRAFTS);
+		e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_DRAFTS);
 
 	if (folder == local_drafts_folder)
 		return TRUE;
@@ -1092,7 +1092,7 @@ em_utils_folder_is_sent (CamelFolder *folder, const gchar *uri)
 	gint is = FALSE;
 	gchar *sent_uri;
 
-	local_sent_folder = e_mail_local_get_folder (E_MAIL_FOLDER_SENT);
+	local_sent_folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_SENT);
 
 	if (folder == local_sent_folder)
 		return TRUE;
@@ -1141,9 +1141,9 @@ em_utils_folder_is_outbox (CamelFolder *folder, const gchar *uri)
 	const gchar *local_outbox_folder_uri;
 
 	local_outbox_folder =
-		e_mail_local_get_folder (E_MAIL_FOLDER_OUTBOX);
+		e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
 	local_outbox_folder_uri =
-		e_mail_local_get_folder_uri (E_MAIL_FOLDER_OUTBOX);
+		e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_OUTBOX);
 
 	if (folder == local_outbox_folder)
 		return TRUE;

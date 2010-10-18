@@ -251,11 +251,11 @@ emae_set_original_account (EMAccountEditor *emae,
 
 		e_account_set_string (
 			modified_account, E_ACCOUNT_DRAFTS_FOLDER_URI,
-			e_mail_local_get_folder_uri (E_MAIL_FOLDER_DRAFTS));
+			e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS));
 
 		e_account_set_string (
 			modified_account, E_ACCOUNT_SENT_FOLDER_URI,
-			e_mail_local_get_folder_uri (E_MAIL_FOLDER_SENT));
+			e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT));
 
 		/* encrypt to self by default */
 		e_account_set_bool (modified_account, E_ACCOUNT_PGP_ENCRYPT_TO_SELF, TRUE);
@@ -617,11 +617,11 @@ default_folders_clicked (GtkButton *button, gpointer user_data)
 	EMAccountEditor *emae = user_data;
 	const gchar *uri;
 
-	uri = e_mail_local_get_folder_uri (E_MAIL_FOLDER_DRAFTS);
+	uri = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_DRAFTS);
 	em_folder_selection_button_set_selection ((EMFolderSelectionButton *)emae->priv->drafts_folder_button, uri);
 	emae_account_folder_changed ((EMFolderSelectionButton *)emae->priv->drafts_folder_button, emae);
 
-	uri = e_mail_local_get_folder_uri (E_MAIL_FOLDER_SENT);
+	uri = e_mail_local_get_folder_uri (E_MAIL_LOCAL_FOLDER_SENT);
 	em_folder_selection_button_set_selection ((EMFolderSelectionButton *)emae->priv->sent_folder_button, uri);
 	emae_account_folder_changed ((EMFolderSelectionButton *)emae->priv->sent_folder_button, emae);
 
@@ -2955,14 +2955,14 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	button = emae_account_folder (
 		emae, "drafts_button",
 		E_ACCOUNT_DRAFTS_FOLDER_URI,
-		E_MAIL_FOLDER_DRAFTS, builder);
+		E_MAIL_LOCAL_FOLDER_DRAFTS, builder);
 	em_folder_selection_button_set_session (button, session);
 	priv->drafts_folder_button = GTK_BUTTON (button);
 
 	button = emae_account_folder (
 		emae, "sent_button",
 		E_ACCOUNT_SENT_FOLDER_URI,
-		E_MAIL_FOLDER_SENT, builder);
+		E_MAIL_LOCAL_FOLDER_SENT, builder);
 	em_folder_selection_button_set_session (button, session);
 	priv->sent_folder_button = GTK_BUTTON (button);
 
