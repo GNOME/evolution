@@ -68,10 +68,6 @@ void		mail_config_write		(void);
 
 /* General Accessor functions */
 
-void		mail_config_service_set_save_passwd
-						(EAccountService *service,
-						 gboolean save_passwd);
-
 /* accounts */
 EAccount *	mail_config_get_account_by_source_url
 						(const gchar *url);

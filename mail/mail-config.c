@@ -512,12 +512,6 @@ mail_config_uri_deleted (GCompareFunc uri_cmp, const gchar *uri)
 		mail_config_write ();
 }
 
-void
-mail_config_service_set_save_passwd (EAccountService *service, gboolean save_passwd)
-{
-	service->save_passwd = save_passwd;
-}
-
 gchar *
 mail_config_folder_to_cachename (CamelFolder *folder, const gchar *prefix)
 {
