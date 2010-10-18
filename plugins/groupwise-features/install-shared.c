@@ -30,12 +30,12 @@
 #include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
 #include <e-util/e-config.h>
+#include <e-util/e-account-utils.h>
 #include <shell/e-shell.h>
 #include <mail/e-mail-backend.h>
 #include <mail/em-config.h>
 #include <mail/em-event.h>
 #include <mail/em-folder-tree.h>
-#include <mail/mail-config.h>
 #include <mail/em-folder-selector.h>
 #include <e-gw-connection.h>
 #include <share-folder.h>
@@ -118,7 +118,7 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 				camel_folder_summary_touch (folder->summary);
 				/* camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", changes); */
 				uri = camel_url_to_string (((CamelService *) store)->url, CAMEL_URL_HIDE_ALL);
-				account = mail_config_get_account_by_source_url (uri);
+				account = e_get_account_by_source_url (uri);
 				uri = account->source->url;
 				em_folder_tree_model_remove_store (model, store);
 				provider = camel_provider_get (uri, NULL);

@@ -35,7 +35,6 @@
 
 #include <glib/gi18n.h>
 
-#include "mail-config.h"
 #include "mail-tools.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
@@ -1073,7 +1072,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	uri = camel_url_to_string (
 		((CamelService *) store)->url, CAMEL_URL_HIDE_ALL);
 
-	account = mail_config_get_account_by_source_url (uri);
+	account = e_get_account_by_source_url (uri);
 
 	/* Add the store to the tree. */
 	gtk_tree_store_append (tree_store, &iter, NULL);

@@ -64,3 +64,39 @@ Mail Accounts
 @Returns: 
 
 
+<!-- ##### FUNCTION e_get_account_by_source_url ##### -->
+<para>
+
+</para>
+
+@source_url: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_get_account_by_transport_url ##### -->
+<para>
+
+</para>
+
+@transport_url: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_get_any_enabled_account ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_get_default_transport ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+
+

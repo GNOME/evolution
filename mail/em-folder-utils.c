@@ -48,7 +48,6 @@
 #include "mail-mt.h"
 #include "mail-ops.h"
 #include "mail-tools.h"
-#include "mail-config.h"
 #include "mail-vfolder.h"
 #include "mail-folder-cache.h"
 

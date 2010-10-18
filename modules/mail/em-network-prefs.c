@@ -40,7 +40,6 @@
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 
-#include "mail-config.h"
 #include "em-config.h"
 #include "em-folder-selection-button.h"
 

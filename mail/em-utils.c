@@ -53,7 +53,6 @@
 #include "mail-mt.h"
 #include "mail-ops.h"
 #include "mail-tools.h"
-#include "mail-config.h"
 #include "e-mail-tag-editor.h"
 
 #include <libedataserver/e-data-server-util.h>
@@ -1398,7 +1397,7 @@ gchar *em_uri_from_camel (const gchar *curi)
 
 	if (strcmp(curl->protocol, "vfolder") == 0)
 		uid = "vfolder@local";
-	else if ((account = mail_config_get_account_by_source_url (curi)) == NULL)
+	else if ((account = e_get_account_by_source_url (curi)) == NULL)
 		uid = "local@local";
 	else
 		uid = account->uid;
@@ -2081,7 +2080,7 @@ guess_account_from_folder (CamelFolder *folder)
 	service = CAMEL_SERVICE (parent_store);
 
 	source_url = camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL);
-	account = mail_config_get_account_by_source_url (source_url);
+	account = e_get_account_by_source_url (source_url);
 	g_free (source_url);
 
 	return account;
@@ -2096,7 +2095,7 @@ guess_account_from_message (CamelMimeMessage *message)
 	if (source_url == NULL)
 		return NULL;
 
-	return mail_config_get_account_by_source_url (source_url);
+	return e_get_account_by_source_url (source_url);
 }
 
 GHashTable *

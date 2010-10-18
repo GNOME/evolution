@@ -68,16 +68,7 @@ void		mail_config_write		(void);
 
 /* General Accessor functions */
 
-/* accounts */
-EAccount *	mail_config_get_account_by_source_url
-						(const gchar *url);
-EAccount *	mail_config_get_account_by_transport_url
-						(const gchar *url);
-
 gint		mail_config_get_address_count	(void);
-
-EAccountService *
-		mail_config_get_default_transport (void);
 
 /* static utility functions */
 gchar *		mail_config_folder_to_cachename	(CamelFolder *folder,

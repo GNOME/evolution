@@ -32,7 +32,6 @@
 #include <libedataserver/e-account-list.h>
 #include "mail-view.h"
 #include "e-util/e-config.h"
-#include "mail/mail-config.h"
 #include "mail/e-mail-session.h"
 #include "mail-guess-servers.h"
 

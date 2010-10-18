@@ -47,7 +47,6 @@
 #include "mail/em-folder-tree.h"
 #include "mail/em-utils.h"
 #include "mail/mail-autofilter.h"
-#include "mail/mail-config.h"
 #include "mail/mail-ops.h"
 #include "mail/mail-mt.h"
 #include "mail/mail-vfolder.h"

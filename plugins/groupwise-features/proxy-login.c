@@ -32,7 +32,6 @@
 #include <mail/em-folder-tree.h>
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-store.h>
-#include <mail/mail-config.h>
 #include <mail/em-folder-selector.h>
 #include <mail/em-account-editor.h>
 #include <mail/mail-ops.h>
@@ -524,7 +523,7 @@ gw_proxy_login_cb (GtkAction *action, EShellView *shell_view)
 	}
 
 	/* This pops-up the password dialog in case the User has forgot-passwords explicitly */
-	cnc = proxy_login_get_cnc (mail_config_get_account_by_source_url (uri), NULL);
+	cnc = proxy_login_get_cnc (e_get_account_by_source_url (uri), NULL);
 	if (cnc)
 		g_object_unref (cnc);
 
@@ -535,7 +534,7 @@ gw_proxy_login_cb (GtkAction *action, EShellView *shell_view)
 	e_load_ui_builder_definition (priv->builder, "proxy-login-dialog.ui");
 
 	priv->main = e_builder_get_widget (priv->builder, "proxy_login_dialog");
-	pld->account = mail_config_get_account_by_source_url (uri);
+	pld->account = e_get_account_by_source_url (uri);
 	priv->tree = GTK_TREE_VIEW (e_builder_get_widget (priv->builder, "proxy_login_treeview"));
 	priv->store =  gtk_tree_store_new (2,
 					   GDK_TYPE_PIXBUF,

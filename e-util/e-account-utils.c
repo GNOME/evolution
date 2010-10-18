@@ -22,9 +22,30 @@
 
 #include "e-account-utils.h"
 
+#include <camel/camel.h>
 #include <gconf/gconf-client.h>
 
 static EAccountList *global_account_list;
+
+static gboolean
+account_has_source_url (EAccount *account)
+{
+	return (account != NULL) &&
+		(account->enabled) &&
+		(account->source != NULL) &&
+		(account->source->url != NULL) &&
+		(account->source->url[0] != '\0');
+}
+
+static gboolean
+account_has_transport_url (EAccount *account)
+{
+	return (account != NULL) &&
+		(account->enabled) &&
+		(account->transport != NULL) &&
+		(account->transport->url != NULL) &&
+		(account->transport->url[0] != '\0');
+}
 
 /**
  * e_get_account_list:
@@ -139,6 +160,122 @@ e_get_account_by_uid (const gchar *uid)
 }
 
 /**
+ * e_get_account_by_source_url:
+ * @source_url: a source URL
+ *
+ * Returns the #EAccount with the given source URL, or %NULL if no such
+ * account exists.
+ *
+ * Returns: an #EAccount having the given source URL, or %NULL
+ **/
+EAccount *
+e_get_account_by_source_url (const gchar *source_url)
+{
+	EAccountList *account_list;
+	EAccount *account = NULL;
+	EIterator *iterator;
+	CamelProvider *provider;
+	CamelURL *source_curl;
+
+	g_return_val_if_fail (source_url != NULL, NULL);
+
+	source_curl = camel_url_new (source_url, NULL);
+	g_return_val_if_fail (source_curl != NULL, NULL);
+
+	provider = camel_provider_get (source_url, NULL);
+	g_return_val_if_fail (provider != NULL, NULL);
+	g_return_val_if_fail (provider->url_equal != NULL, NULL);
+
+	account_list = e_get_account_list ();
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (account == NULL && e_iterator_is_valid (iterator)) {
+		EAccount *candidate;
+		CamelURL *curl;
+
+		/* XXX EIterator misuses const. */
+		candidate = (EAccount *) e_iterator_get (iterator);
+
+		e_iterator_next (iterator);
+
+		if (!account_has_source_url (candidate))
+			continue;
+
+		curl = camel_url_new (candidate->source->url, NULL);
+		if (curl == NULL)
+			continue;
+
+		if (provider->url_equal (curl, source_curl))
+			account = candidate;
+
+		camel_url_free (curl);
+	}
+
+	g_object_unref (iterator);
+	camel_url_free (source_curl);
+
+	return account;
+}
+
+/**
+ * e_get_account_by_transport_url:
+ * @transport_url: a transport URL
+ *
+ * Returns the #EAccount with the given transport URL, or %NULL if no
+ * such account exists.
+ *
+ * Returns: an #EAccount having the given transport URL, or %NULL
+ **/
+EAccount *
+e_get_account_by_transport_url (const gchar *transport_url)
+{
+	EAccountList *account_list;
+	EAccount *account = NULL;
+	EIterator *iterator;
+	CamelProvider *provider;
+	CamelURL *transport_curl;
+
+	g_return_val_if_fail (transport_url != NULL, NULL);
+
+	transport_curl = camel_url_new (transport_url, NULL);
+	g_return_val_if_fail (transport_curl != NULL, NULL);
+
+	provider = camel_provider_get (transport_url, NULL);
+	g_return_val_if_fail (provider != NULL, NULL);
+	g_return_val_if_fail (provider->url_equal != NULL, NULL);
+
+	account_list = e_get_account_list ();
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (account == NULL && e_iterator_is_valid (iterator)) {
+		EAccount *candidate;
+		CamelURL *curl;
+
+		/* XXX EIterator misuses const. */
+		candidate = (EAccount *) e_iterator_get (iterator);
+
+		e_iterator_next (iterator);
+
+		if (!account_has_transport_url (candidate))
+			continue;
+
+		curl = camel_url_new (candidate->transport->url, NULL);
+		if (curl == NULL)
+			continue;
+
+		if (provider->url_equal (curl, transport_curl))
+			account = candidate;
+
+		camel_url_free (curl);
+	}
+
+	g_object_unref (iterator);
+	camel_url_free (transport_curl);
+
+	return account;
+}
+
+/**
  * e_get_any_enabled_account:
  *
  * Returns the default mail account if it's enabled, otherwise the first
@@ -178,4 +315,43 @@ e_get_any_enabled_account (void)
 	g_object_unref (iter);
 
 	return account;
+}
+
+/**
+ * e_get_default_transport:
+ *
+ * Returns transport information for the default account if it's enabled and
+ * has transport information, or else from the first enabled mail account in
+ * the global #EAccountList that has transport information, or finally %NULL
+ * if no transport information could be found.
+ *
+ * Returns: an #EAccountService with transport info, or %NULL
+ **/
+EAccountService *
+e_get_default_transport (void)
+{
+	EAccountList *account_list;
+	EAccount *account;
+	EIterator *iterator;
+
+	account = e_get_default_account ();
+	if (account_has_transport_url (account))
+		return account->transport;
+
+	account_list = e_get_account_list ();
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (e_iterator_is_valid (iterator)) {
+		/* XXX EIterator misuses const. */
+		account = (EAccount *) e_iterator_get (iterator);
+		if (account_has_transport_url (account)) {
+			g_object_unref (iterator);
+			return account->transport;
+		}
+		e_iterator_next (iterator);
+	}
+
+	g_object_unref (iterator);
+
+	return NULL;
 }

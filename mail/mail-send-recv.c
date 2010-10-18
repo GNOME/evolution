@@ -39,7 +39,6 @@
 #include "e-mail-session.h"
 #include "em-event.h"
 #include "em-filter-rule.h"
-#include "mail-config.h"
 #include "mail-folder-cache.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
@@ -1337,7 +1336,7 @@ mail_send (EMailSession *session)
 	struct _send_data *data;
 	send_info_t type;
 
-	transport = mail_config_get_default_transport ();
+	transport = e_get_default_transport ();
 	if (!transport || !transport->url)
 		return;
 

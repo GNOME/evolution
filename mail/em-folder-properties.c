@@ -39,7 +39,6 @@
 #include "mail-ops.h"
 #include "mail-mt.h"
 #include "mail-vfolder.h"
-#include "mail-config.h"
 
 struct _prop_data {
 	gpointer object;

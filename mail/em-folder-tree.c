@@ -52,7 +52,6 @@
 #include "mail-mt.h"
 #include "mail-ops.h"
 #include "mail-tools.h"
-#include "mail-config.h"
 #include "mail-send-recv.h"
 #include "mail-vfolder.h"
 
@@ -2548,7 +2547,7 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
 			/* This makes sure all our parents up to the root are
 			 * expanded.  FIXME: Why does the expanded state store
 			 * this made up path rather than the euri? */
-			if ((account = mail_config_get_account_by_source_url (u->uri)))
+			if ((account = e_get_account_by_source_url (u->uri)))
 				expand_key = g_strdup_printf ("%s/%s", account->uid, path);
 			else if (CAMEL_IS_VEE_STORE (u->store))
 				expand_key = g_strdup_printf ("vfolder/%s", path);

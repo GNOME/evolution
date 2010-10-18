@@ -27,8 +27,8 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <e-util/e-util.h>
+#include <e-util/e-account-utils.h>
 
-#include "mail-config.h"
 #include "em-folder-tree.h"
 #include "em-folder-selector.h"
 #include "em-utils.h"
@@ -100,7 +100,7 @@ folder_selection_button_set_contents (EMFolderSelectionButton *button)
 		return;
 	}
 
-	account = mail_config_get_account_by_source_url (uri);
+	account = e_get_account_by_source_url (uri);
 
 	if (account != NULL) {
 		gchar *tmp = folder_name;

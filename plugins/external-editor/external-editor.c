@@ -28,7 +28,6 @@
 
 #include <mail/em-config.h>
 #include <mail/em-composer-utils.h>
-#include <mail/mail-config.h>
 #include <e-util/e-alert-dialog.h>
 #include <e-msg-composer.h>
 

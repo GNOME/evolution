@@ -55,8 +55,6 @@
 #include "e-cert-db.h"
 #endif
 
-#include "mail-config.h"
-
 #include "e-mail-display.h"
 #include "e-mail-attachment-bar.h"
 #include "em-format-html-display.h"

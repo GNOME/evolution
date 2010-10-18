@@ -46,7 +46,6 @@
 #include "e-mail-backend.h"
 #include "e-mail-label-manager.h"
 #include "e-mail-reader-utils.h"
-#include "mail-config.h"
 #include "em-folder-selection-button.h"
 #include "em-junk.h"
 #include "em-config.h"

@@ -64,7 +64,6 @@
 #include "em-account-editor.h"
 #include "mail-send-recv.h"
 #include "em-utils.h"
-#include "mail-config.h"
 #include "mail-ops.h"
 #include "mail-mt.h"
 

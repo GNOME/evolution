@@ -61,7 +61,6 @@
 
 #include "e-mail-store.h"
 #include "e-mail-backend.h"
-#include "mail-config.h"
 #include "em-utils.h"
 
 #define d(x) x

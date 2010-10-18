@@ -53,7 +53,6 @@
 #include "em-subscription-editor.h"
 #include "em-utils.h"
 #include "mail-autofilter.h"
-#include "mail-config.h"
 #include "mail-ops.h"
 #include "mail-send-recv.h"
 #include "mail-tools.h"

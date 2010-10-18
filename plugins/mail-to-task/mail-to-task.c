@@ -41,7 +41,6 @@
 #include <mail/e-mail-browser.h>
 #include <mail/em-utils.h>
 #include <mail/em-format-html.h>
-#include <mail/mail-config.h>
 #include <mail/message-list.h>
 #include <e-util/e-account-utils.h>
 #include <e-util/e-dialog-utils.h>

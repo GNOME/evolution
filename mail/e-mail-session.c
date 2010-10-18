@@ -47,6 +47,7 @@
 #include <libedataserver/e-flag.h>
 
 #include "e-util/e-util.h"
+#include "e-util/e-account-utils.h"
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 
@@ -602,7 +603,7 @@ mail_session_get_password (CamelSession *session,
 	if (!strcmp(item, "popb4smtp_uri")) {
 		/* not 100% mt safe, but should be ok */
 		if (url
-		    && (account = mail_config_get_account_by_transport_url (url)))
+		    && (account = e_get_account_by_transport_url (url)))
 			ret = g_strdup (account->source->url);
 		else
 			ret = g_strdup (url);
@@ -618,9 +619,9 @@ mail_session_get_password (CamelSession *session,
 			gboolean remember;
 
 			if (url) {
-				if  ((account = mail_config_get_account_by_source_url (url)))
+				if  ((account = e_get_account_by_source_url (url)))
 					config_service = account->source;
-				else if ((account = mail_config_get_account_by_transport_url (url)))
+				else if ((account = e_get_account_by_transport_url (url)))
 					config_service = account->transport;
 			}
 

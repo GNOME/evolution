@@ -28,7 +28,6 @@
 #include "mail-settings-view.h"
 #include <libedataserver/e-account-list.h>
 #include "mail-view.h"
-#include "mail/mail-config.h"
 #include <e-util/e-account-utils.h>
 
 struct _MailSettingsViewPrivate {

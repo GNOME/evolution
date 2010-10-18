@@ -72,7 +72,7 @@ action_mail_account_disable_cb (GtkAction *action,
 	g_return_if_fail (folder_uri != NULL);
 
 	account_list = e_get_account_list ();
-	account = mail_config_get_account_by_source_url (folder_uri);
+	account = e_get_account_by_source_url (folder_uri);
 	g_return_if_fail (account != NULL);
 
 	if (e_account_list_account_has_proxies (account_list, account))
@@ -1066,7 +1066,7 @@ action_mail_tools_subscriptions_cb (GtkAction *action,
 
 	uri = em_folder_tree_get_selected_uri (folder_tree);
 	if (uri != NULL) {
-		account = mail_config_get_account_by_source_url (uri);
+		account = e_get_account_by_source_url (uri);
 		g_free (uri);
 	}
 

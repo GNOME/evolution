@@ -29,13 +29,13 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <e-util/e-config.h>
+#include <e-util/e-account-utils.h>
 #include <mail/e-mail-backend.h>
 #include <mail/em-config.h>
 #include <mail/em-folder-properties.h>
 #include <mail/em-folder-tree.h>
 #include <mail/em-folder-selector.h>
 #include <mail/mail-mt.h>
-#include <mail/mail-config.h>
 #include <mail/mail-vfolder.h>
 #include <mail/em-utils.h>
 #include <mail/em-vfolder-rule.h>
@@ -71,7 +71,7 @@ refresh_folder_tree (EMFolderTreeModel *model, CamelStore *store)
 	CamelProvider *provider;
 
 	uri = camel_url_to_string (((CamelService *) store)->url, CAMEL_URL_HIDE_ALL);
-	account = mail_config_get_account_by_source_url (uri);
+	account = e_get_account_by_source_url (uri);
 	if (!account) {
 		return;
 	}

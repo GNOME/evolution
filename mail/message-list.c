@@ -36,6 +36,7 @@
 
 #include <gconf/gconf-client.h>
 
+#include "e-util/e-account-utils.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-poolv.h"
 #include "e-util/e-profile-event.h"
@@ -1658,7 +1659,7 @@ ml_tree_value_at_ex (ETreeModel *etm,
 		uri = camel_folder_get_uri (folder);
 		euri = em_uri_from_camel (uri);
 
-		account = mail_config_get_account_by_source_url (uri);
+		account = e_get_account_by_source_url (uri);
 
 		if (account) {
 			curl = camel_url_new (uri, NULL);

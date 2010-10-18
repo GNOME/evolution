@@ -50,7 +50,6 @@
 #include "widgets/misc/e-signature-manager.h"
 #include "widgets/misc/e-signature-preview.h"
 
-#include "mail-config.h"
 #include "em-config.h"
 #include "em-folder-selection-button.h"
 

@@ -35,7 +35,6 @@
 #include "mail-mt.h"
 #include "mail-ops.h"
 #include "mail-tools.h"
-#include "mail-config.h"
 #include "mail-send-recv.h"
 
 #include "e-util/e-account-utils.h"
@@ -816,7 +815,7 @@ create_new_composer (EShell *shell,
 	if (from_uri != NULL) {
 		GList *list;
 
-		account = mail_config_get_account_by_source_url (from_uri);
+		account = e_get_account_by_source_url (from_uri);
 
 		list = g_list_prepend (NULL, (gpointer) from_uri);
 		e_composer_header_table_set_post_to_list (table, list);
@@ -881,7 +880,7 @@ em_utils_compose_new_message_with_mailto (EShell *shell,
 	table = e_msg_composer_get_header_table (composer);
 
 	if (from_uri
-	    && (account = mail_config_get_account_by_source_url (from_uri)))
+	    && (account = e_get_account_by_source_url (from_uri)))
 		e_composer_header_table_set_account_name (table, account->name);
 
 	composer_set_no_change (composer);

@@ -39,9 +39,9 @@
 #include "mail/em-utils.h"
 #include "mail/mail-ops.h"
 #include "mail/mail-mt.h"
-#include "mail/mail-config.h"
 #include "mail/message-list.h"
 #include "e-util/e-util.h"
+#include "e-util/e-account-utils.h"
 #include "e-util/e-alert-dialog.h"
 #include "shell/e-shell-view.h"
 #include "shell/e-shell-window.h"
@@ -181,7 +181,7 @@ emla_list_action_do (CamelFolder *folder,
 			if (send_message_response == GTK_RESPONSE_YES) {
 				/* directly send message */
 				composer = e_msg_composer_new_from_url (shell, url);
-				if ((account = mail_config_get_account_by_source_url (action_data->uri)))
+				if ((account = e_get_account_by_source_url (action_data->uri)))
 					e_composer_header_table_set_account (
 						e_msg_composer_get_header_table (composer),
 						account);

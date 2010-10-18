@@ -27,7 +27,6 @@
 #include <string.h>
 
 #include <mail/em-config.h>
-#include <mail/mail-config.h>
 
 #include <gtk/gtk.h>
 
@@ -95,7 +94,7 @@ imap_headers_commit (EPlugin *efp, EConfigHookItemFactoryData *data)
 
 		str = g_string_new("");
 
-		temp = mail_config_get_account_by_source_url (account->source->url);
+		temp = e_get_account_by_source_url (account->source->url);
 
 		url = camel_url_new (e_account_get_string (account, E_ACCOUNT_SOURCE_URL), NULL);
 

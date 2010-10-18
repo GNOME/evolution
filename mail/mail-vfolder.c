@@ -41,7 +41,6 @@
 #include "em-vfolder-editor.h"
 #include "em-vfolder-rule.h"
 #include "mail-autofilter.h"
-#include "mail-config.h"
 #include "mail-folder-cache.h"
 #include "mail-mt.h"
 #include "mail-ops.h"

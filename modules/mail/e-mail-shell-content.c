@@ -33,7 +33,6 @@
 #include "widgets/misc/e-search-bar.h"
 
 #include "em-utils.h"
-#include "mail-config.h"
 #include "mail-ops.h"
 #include "message-list.h"
 

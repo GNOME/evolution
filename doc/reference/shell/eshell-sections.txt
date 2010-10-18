@@ -435,6 +435,10 @@ e_get_default_account
 e_set_default_account
 e_get_account_by_name
 e_get_account_by_uid
+e_get_account_by_source_url
+e_get_account_by_transport_url
+e_get_any_enabled_account
+e_get_default_transport
 </SECTION>
 
 <SECTION>

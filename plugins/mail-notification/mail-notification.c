@@ -38,6 +38,7 @@
 #include <time.h>
 
 #include <e-util/e-config.h>
+#include <e-util/e-account-utils.h>
 #include <e-util/gconf-bridge.h>
 #include <mail/em-utils.h>
 #include <mail/em-event.h>
@@ -490,7 +491,7 @@ new_notify_status (EMEventTargetFolder *t)
 		EAccount *account;
 		gchar *name = t->name;
 
-		account = mail_config_get_account_by_source_url (t->uri);
+		account = e_get_account_by_source_url (t->uri);
 
 		if (account != NULL) {
 			name = g_strdup_printf (
