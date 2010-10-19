@@ -1532,6 +1532,12 @@ redirect_get_composer (EShell *shell,
 	while (camel_medium_get_header (CAMEL_MEDIUM (message), "Delivered-To"))
 		camel_medium_remove_header (CAMEL_MEDIUM (message), "Delivered-To");
 
+	while (camel_medium_get_header (CAMEL_MEDIUM (message), "Bcc"))
+		camel_medium_remove_header (CAMEL_MEDIUM (message), "Bcc");
+
+	while (camel_medium_get_header (CAMEL_MEDIUM (message), "Resent-Bcc"))
+		camel_medium_remove_header (CAMEL_MEDIUM (message), "Resent-Bcc");
+
 	account = em_utils_guess_account_with_recipients (message, NULL);
 
 	composer = e_msg_composer_new_redirect (

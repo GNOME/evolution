@@ -371,6 +371,10 @@ emfq_format_header (EMFormat *emf,
 	strcpy (name, namein);
 	canon_header_name (name);
 
+	/* Never quote Bcc headers */
+	if (g_str_equal (name, "Bcc") || g_str_equal (name, "Resent-Bcc"))
+		return;
+
 	for (i = 0; addrspec_hdrs[i]; i++) {
 		if (!strcmp (name, addrspec_hdrs[i])) {
 			addrspec = TRUE;
