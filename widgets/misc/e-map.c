@@ -95,7 +95,7 @@ static void e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj
 
 static void update_render_pixbuf (EMap *map, GdkInterpType interp, gboolean render_overlays);
 static void set_scroll_area (EMap *view);
-static void center_at (EMap *map, gint x, gint y, gboolean scroll);
+static void center_at (EMap *map, gint x, gint y);
 static void smooth_center_at (EMap *map, gint x, gint y);
 static void scroll_to (EMap *view, gint x, gint y);
 static void zoom_do (EMap *map);
@@ -1014,7 +1014,7 @@ repaint_point (EMap *map, EMapPoint *point)
 }
 
 static void
-center_at (EMap *map, gint x, gint y, gboolean scroll)
+center_at (EMap *map, gint x, gint y)
 {
 	EMapPrivate *priv;
 	GtkAllocation allocation;
@@ -1030,12 +1030,10 @@ center_at (EMap *map, gint x, gint y, gboolean scroll)
 	x = CLAMP (x - (allocation.width / 2), 0, pb_width - allocation.width);
 	y = CLAMP (y - (allocation.height / 2), 0, pb_height - allocation.height);
 
-	if (scroll)
-		scroll_to (map, x, y);
-	else {
-		priv->xofs = x;
-		priv->yofs = y;
-	}
+        priv->xofs = x;
+        priv->yofs = y;
+        gtk_adjustment_set_value (priv->hadj, priv->xofs);
+        gtk_adjustment_set_value (priv->vadj, priv->yofs);
 }
 
 static void
@@ -1357,6 +1355,8 @@ zoom_in_smooth (EMap *map)
 	e_map_world_to_window (map, priv->zoom_target_long, priv->zoom_target_lat, &x, &y);
 	priv->xofs = CLAMP (priv->xofs + x - allocation.width / 2.0, 0, E_MAP_GET_WIDTH (map) - allocation.width);
 	priv->yofs = CLAMP (priv->yofs + y - allocation.height / 2.0, 0, E_MAP_GET_HEIGHT (map) - allocation.height);
+        gtk_adjustment_set_value (priv->hadj, priv->xofs);
+        gtk_adjustment_set_value (priv->vadj, priv->yofs);
 
 	gtk_widget_draw (GTK_WIDGET (map), NULL);
 }
@@ -1417,7 +1417,7 @@ zoom_out (EMap *map)
 	update_render_pixbuf (map, GDK_INTERP_BILINEAR, TRUE);
 
 	e_map_world_to_window (map, longitude, latitude, &x, &y);
-	center_at (map, x + priv->xofs, y + priv->yofs, FALSE);
+	center_at (map, x + priv->xofs, y + priv->yofs);
 
 	gtk_widget_queue_draw (GTK_WIDGET (map));
 }
@@ -1439,8 +1439,6 @@ zoom_do (EMap *map)
 /*    if (e_map_get_smooth_zoom(map)) zoom_out_smooth(map); */
 		zoom_out (map);
 	}
-
-	set_scroll_area (map);
 }
 
 /* Callback used when an adjustment is changed */
