@@ -36,6 +36,7 @@
 #include "mail/em-utils.h"
 #include "mail/em-folder-tree.h"
 #include "mail/em-folder-selector.h"
+#include "shell/e-shell.h"
 
 #include "e-util/e-util.h"
 #include "e-util/e-alert.h"
@@ -78,6 +79,9 @@ static void
 vfolder_rule_set_session (EMVFolderRule *rule,
                           EMailSession *session)
 {
+	if (!session)
+		session = e_mail_backend_get_session (E_MAIL_BACKEND (e_shell_get_backend_by_name (e_shell_get_default(), "mail")));
+
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (rule->priv->session == NULL);
 

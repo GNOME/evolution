@@ -34,6 +34,7 @@
 #include "em-filter-folder-element.h"
 #include "mail/em-folder-selection-button.h"
 #include "mail/em-utils.h"
+#include "shell/e-shell.h"
 #include "filter/e-filter-part.h"
 #include "libedataserver/e-sexp.h"
 #include "e-util/e-alert.h"
@@ -70,6 +71,9 @@ static void
 filter_folder_element_set_session (EMFilterFolderElement *element,
                                    EMailSession *session)
 {
+	if (!session)
+		session = e_mail_backend_get_session (E_MAIL_BACKEND (e_shell_get_backend_by_name (e_shell_get_default(), "mail")));
+
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (element->priv->session == NULL);
 
