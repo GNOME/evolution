@@ -67,10 +67,6 @@ void		em_utils_redirect_message	(EShell *shell,
 void		em_utils_redirect_message_by_uid (EShell *shell,
 						 CamelFolder *folder,
 						 const gchar *uid);
-void		em_utils_forward_message_raw	(CamelFolder *folder,
-						 CamelMimeMessage *message,
-						 const gchar *address,
-						 GError **error);
 void		em_utils_handle_receipt		(EMailSession *session,
 						 CamelFolder *folder,
 						 const gchar *uid,
