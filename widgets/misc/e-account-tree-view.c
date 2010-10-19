@@ -61,11 +61,12 @@ G_DEFINE_TYPE (
 	e_account_tree_view,
 	GTK_TYPE_TREE_VIEW)
 
-static void
-account_tree_view_refresh_cb (EAccountList *account_list,
-                              EAccount *account,
-                              EAccountTreeView *tree_view)
+static gboolean
+account_tree_view_refresh_timeout_cb (gpointer ptree_view)
 {
+	EAccountTreeView *tree_view;
+	EAccountList *account_list;
+	EAccount *account;
 	GtkListStore *store;
 	GtkTreeModel *model;
 	GtkTreeIter tree_iter;
@@ -74,6 +75,9 @@ account_tree_view_refresh_cb (EAccountList *account_list,
 	GHashTable *index;
 	GList *list = NULL;
 	GList *iter;
+
+	tree_view = ptree_view;
+	account_list = e_account_tree_view_get_account_list (tree_view);
 
 	store = gtk_list_store_new (
 		5, E_TYPE_ACCOUNT, G_TYPE_BOOLEAN, G_TYPE_BOOLEAN,
@@ -93,7 +97,6 @@ account_tree_view_refresh_cb (EAccountList *account_list,
 	/* Build a list of EAccounts to display. */
 	account_iter = e_list_get_iterator (E_LIST (account_list));
 	while (e_iterator_is_valid (account_iter)) {
-
 		/* XXX EIterator misuses const. */
 		account = (EAccount *) e_iterator_get (account_iter);
 		list = g_list_prepend (list, account);
@@ -156,6 +159,16 @@ skip:
 		g_object_unref (account);
 
 	g_signal_emit (tree_view, signals[REFRESHED], 0);
+
+	return FALSE;
+}
+
+static void
+account_tree_view_refresh_cb (EAccountList *account_list,
+                              EAccount *account,
+                              EAccountTreeView *tree_view)
+{
+	g_timeout_add (10, account_tree_view_refresh_timeout_cb, tree_view);
 }
 
 static void
@@ -549,7 +562,7 @@ e_account_tree_view_set_account_list (EAccountTreeView *tree_view,
 			tree_view);
 	}
 
-	account_tree_view_refresh_cb (account_list, NULL, tree_view);
+	account_tree_view_refresh_timeout_cb (tree_view);
 
 	g_object_notify (G_OBJECT (tree_view), "account-list");
 }
