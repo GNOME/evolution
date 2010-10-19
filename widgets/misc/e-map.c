@@ -60,7 +60,8 @@ EMapZoomState;
 
 struct _EMapPrivate {
 	/* Pointer to map image */
-	GdkPixbuf *map_pixbuf, *map_render_pixbuf;
+	GdkPixbuf *map_pixbuf;
+        cairo_surface_t *map_render_surface;
 
 	/* Settings */
 	gboolean frozen, smooth_zoom;
@@ -84,6 +85,7 @@ struct _EMapPrivate {
 
 static void e_map_finalize (GObject *object);
 static void e_map_realize (GtkWidget *widget);
+static void e_map_unrealize (GtkWidget *widget);
 static void e_map_size_request (GtkWidget *widget, GtkRequisition *requisition);
 static void e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation);
 static gint e_map_button_press (GtkWidget *widget, GdkEventButton *event);
@@ -93,7 +95,7 @@ static gint e_map_expose (GtkWidget *widget, GdkEventExpose *event);
 static gint e_map_key_press (GtkWidget *widget, GdkEventKey *event);
 static void e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj, GtkAdjustment *vadj);
 
-static void update_render_pixbuf (EMap *map, GdkInterpType interp, gboolean render_overlays);
+static void update_render_surface (EMap *map, gboolean render_overlays);
 static void set_scroll_area (EMap *view, int width, int height);
 static void center_at (EMap *map, gint x, gint y);
 static void smooth_center_at (EMap *map, gint x, gint y);
@@ -139,6 +141,7 @@ e_map_class_init (EMapClass *class)
 								    GTK_TYPE_ADJUSTMENT);
 
 	widget_class->realize = e_map_realize;
+	widget_class->unrealize = e_map_unrealize;
 	widget_class->size_request = e_map_size_request;
 	widget_class->size_allocate = e_map_size_allocate;
 	widget_class->button_press_event = e_map_button_press;
@@ -202,11 +205,8 @@ e_map_finalize (GObject *object)
 		priv->map_pixbuf = NULL;
 	}
 
-	if (priv->map_render_pixbuf)
-	{
-		g_object_unref (priv->map_render_pixbuf);
-		priv->map_render_pixbuf = NULL;
-	}
+        /* gone in unrealize */
+        g_assert (priv->map_render_surface == NULL);
 
 	g_free (priv);
 	view->priv = NULL;
@@ -256,7 +256,20 @@ e_map_realize (GtkWidget *widget)
 	gtk_widget_set_style (widget, style);
 
 	gdk_window_set_back_pixmap (window, NULL, FALSE);
-	update_render_pixbuf (E_MAP (widget), GDK_INTERP_BILINEAR, TRUE);
+	update_render_surface (E_MAP (widget), TRUE);
+}
+
+static void
+e_map_unrealize (GtkWidget *widget)
+{
+        EMap *view = E_MAP (widget);
+        EMapPrivate *priv = view->priv;
+
+        cairo_surface_destroy (priv->map_render_surface);
+        priv->map_render_surface = NULL;
+ 
+        if (GTK_WIDGET_CLASS (e_map_parent_class)->unrealize)
+                (*GTK_WIDGET_CLASS (e_map_parent_class)->unrealize) (widget);
 }
 
 /* Size_request handler for the map view */
@@ -309,7 +322,7 @@ e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
                 gtk_widget_queue_draw (widget);
 	}
 
-	update_render_pixbuf (view, GDK_INTERP_BILINEAR, TRUE);
+	update_render_surface (view, TRUE);
 }
 
 /* Button press handler for the map view */
@@ -366,16 +379,15 @@ e_map_expose (GtkWidget *widget, GdkEventExpose *event)
 
 	view = E_MAP (widget);
 	priv = view->priv;
-	if (!priv->map_render_pixbuf) return FALSE;
 
         cr = gdk_cairo_create (event->window);
         gdk_cairo_region (cr, event->region);
         cairo_clip (cr);
 
-        gdk_cairo_set_source_pixbuf (cr, 
-                                     priv->map_render_pixbuf,
-                                     - priv->xofs,
-                                     - priv->yofs);
+        cairo_set_source_surface (cr, 
+                                  priv->map_render_surface,
+                                  - priv->xofs,
+                                  - priv->yofs);
         cairo_paint (cr);
         
         cairo_destroy (cr);
@@ -559,8 +571,8 @@ e_map_window_to_world (EMap *map, gdouble win_x, gdouble win_y, gdouble *world_l
 	priv = map->priv;
 	g_return_if_fail (gtk_widget_get_realized (GTK_WIDGET (map)));
 
-	width = gdk_pixbuf_get_width (priv->map_render_pixbuf);
-	height = gdk_pixbuf_get_height (priv->map_render_pixbuf);
+	width = E_MAP_GET_WIDTH (map);
+	height = E_MAP_GET_HEIGHT (map);
 
 	*world_longitude = (win_x + priv->xofs - (gdouble) width / 2.0) /
 		((gdouble) width / 2.0) * 180.0;
@@ -577,12 +589,12 @@ e_map_world_to_window (EMap *map, gdouble world_longitude, gdouble world_latitud
 	g_return_if_fail (map);
 
 	priv = map->priv;
-	g_return_if_fail (priv->map_render_pixbuf);
+	g_return_if_fail (priv->map_render_surface);
 	g_return_if_fail (world_longitude >= -180.0 && world_longitude <= 180.0);
 	g_return_if_fail (world_latitude >= -90.0 && world_latitude <= 90.0);
 
-	width = gdk_pixbuf_get_width (priv->map_render_pixbuf);
-	height = gdk_pixbuf_get_height (priv->map_render_pixbuf);
+	width = E_MAP_GET_WIDTH (map);
+	height = E_MAP_GET_HEIGHT (map);
 
 	*win_x = (width / 2.0 + (width / 2.0) * world_longitude / 180.0) - priv->xofs;
 	*win_y = (height / 2.0 - (height / 2.0) * world_latitude / 90.0) - priv->yofs;
@@ -706,7 +718,7 @@ e_map_remove_point (EMap *map, EMapPoint *point)
 		/* FIXME: Re-scaling the whole pixbuf is more than a little
 		 * overkill when just one point is removed */
 
-		update_render_pixbuf (map, GDK_INTERP_BILINEAR, TRUE);
+		update_render_surface (map, TRUE);
 		repaint_point (map, point);
 	}
 
@@ -766,7 +778,7 @@ e_map_point_is_in_view (EMap *map, EMapPoint *point)
 	gdouble x, y;
 
 	priv = map->priv;
-	if (!priv->map_render_pixbuf) return FALSE;
+	if (!priv->map_render_surface) return FALSE;
 
 	e_map_world_to_window (map, point->longitude, point->latitude, &x, &y);
 	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
@@ -815,7 +827,7 @@ e_map_get_closest_point (EMap *map, gdouble longitude, gdouble latitude, gboolea
 static void
 update_and_paint (EMap *map)
 {
-	update_render_pixbuf (map, GDK_INTERP_BILINEAR, TRUE);
+	update_render_surface (map, TRUE);
 	gtk_widget_queue_draw (GTK_WIDGET (map));
 }
 
@@ -833,15 +845,14 @@ load_map_background (EMap *view, gchar *name)
 
 	if (priv->map_pixbuf) g_object_unref (priv->map_pixbuf);
 	priv->map_pixbuf = pb0;
-	update_render_pixbuf (view, GDK_INTERP_BILINEAR, TRUE);
+	update_render_surface (view, TRUE);
 
 	return TRUE;
 }
 
 static void
-update_render_pixbuf (EMap *map,
-                      GdkInterpType interp,
-                      gboolean render_overlays)
+update_render_surface (EMap *map,
+                       gboolean render_overlays)
 {
 	EMapPrivate *priv;
 	EMapPoint *point;
@@ -877,19 +888,25 @@ update_render_pixbuf (EMap *map,
 
 	/* Reallocate the pixbuf */
 
-	if (priv->map_render_pixbuf) g_object_unref (priv->map_render_pixbuf);
-	priv->map_render_pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, FALSE,	/* No alpha */
-						  8, width, height);
+        if (priv->map_render_surface) cairo_surface_destroy (priv->map_render_surface);
+        priv->map_render_surface = gdk_window_create_similar_surface (gtk_widget_get_window (GTK_WIDGET (map)),
+                                                                      CAIRO_CONTENT_COLOR,
+                                                                      width, height);
 
 	/* Scale the original map into the rendering pixbuf */
 
 	if (width > 1 && height > 1)
 	{
-		gdk_pixbuf_scale (priv->map_pixbuf, priv->map_render_pixbuf, 0, 0,  /* Dest (x, y) */
-				  width, height, 0, 0,				    /* Offset (x, y) */
-				  zoom, zoom,					    /* Scale (x, y) */
-				  interp);
+                cairo_t *cr = cairo_create (priv->map_render_surface);
+                cairo_scale (cr, (double) width / orig_width, (double) height / orig_height);
+                gdk_cairo_set_source_pixbuf (cr, priv->map_pixbuf, 0, 0);
+                cairo_paint (cr);
+                cairo_destroy (cr);
 	}
+
+        /* Compute image offsets with respect to window */
+
+        set_scroll_area (map, width, height);
 
 	if (render_overlays)
 	{
@@ -901,73 +918,53 @@ update_render_pixbuf (EMap *map,
 			update_render_point (map, point);
 		}
 	}
-
-	/* Compute image offsets with respect to window */
-
-	set_scroll_area (map, width, height);
 }
 
-/* Queues a repaint of the specified area in window coordinates */
-
-static void
-put_pixel_with_clipping (GdkPixbuf *pixbuf, gint x, gint y, guint rgba)
-{
-	gint    width, height;
-	gint    rowstride, n_channels;
-	guchar *pixels, *pixel;
-
-	width      = gdk_pixbuf_get_width      (pixbuf);
-	height     = gdk_pixbuf_get_height     (pixbuf);
-	rowstride  = gdk_pixbuf_get_rowstride  (pixbuf);
-	n_channels = gdk_pixbuf_get_n_channels (pixbuf);
-	pixels     = gdk_pixbuf_get_pixels     (pixbuf);
-
-	if (x < 0 || x >= width || y < 0 || y >= height)
-		return;
-
-	pixel = pixels + (y * rowstride) + (x * n_channels);
-
-	*pixel       = (rgba >> 24);
-	*(pixel + 1) = (rgba >> 16) & 0x000000ff;
-	*(pixel + 2) = (rgba >>  8) & 0x000000ff;
-
-	if (n_channels > 3)
-	{
-		*(pixel + 3) = rgba & 0x000000ff;
-	}
-}
-
-/* Redraw point in client pixbuf */
+/* Redraw point in client surface */
 
 static void
 update_render_point (EMap *map, EMapPoint *point)
 {
 	EMapPrivate *priv;
-	GdkPixbuf *pb;
+        cairo_t *cr;
 	gdouble px, py;
+        static guchar mask1[] = { 0x00, 0x00, 0xff, 0x00, 0x00,  0x00, 0x00, 0x00,
+                                  0x00, 0xff, 0x00, 0xff, 0x00,  0x00, 0x00, 0x00,
+                                  0xff, 0x00, 0x00, 0x00, 0xff,  0x00, 0x00, 0x00,
+                                  0x00, 0xff, 0x00, 0xff, 0x00,  0x00, 0x00, 0x00,
+                                  0x00, 0x00, 0xff, 0x00, 0x00,  0x00, 0x00, 0x00 };
+        static guchar mask2[] = { 0x00, 0xff, 0x00,  0x00,
+                                  0xff, 0xff, 0xff,  0x00,
+                                  0x00, 0xff, 0x00,  0x00 };
+        cairo_surface_t *mask;
 
 	priv = map->priv;
-	pb = priv->map_render_pixbuf;
-	if (!pb) return;
+
+        if (priv->map_render_surface == NULL)
+                return;
+
+        cr = cairo_create (priv->map_render_surface);
+        cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 
 	e_map_world_to_window (map, point->longitude, point->latitude, &px, &py);
-	px += priv->xofs;
-	py += priv->yofs;
+	px = floor (px + priv->xofs);
+	py = floor (py + priv->yofs);
 
-	put_pixel_with_clipping (pb, px,     py,     point->rgba);
-	put_pixel_with_clipping (pb, px - 1, py,     point->rgba);
-	put_pixel_with_clipping (pb, px + 1, py,     point->rgba);
-	put_pixel_with_clipping (pb, px,     py - 1, point->rgba);
-	put_pixel_with_clipping (pb, px,     py + 1, point->rgba);
+        cairo_set_source_rgb (cr, 0, 0, 0);
+        mask = cairo_image_surface_create_for_data (mask1, CAIRO_FORMAT_A8, 5, 5, 8);
+        cairo_mask_surface (cr, mask, px - 2, py - 2);
+        cairo_surface_destroy (mask);
 
-	put_pixel_with_clipping (pb, px - 2, py,     0x000000ff);
-	put_pixel_with_clipping (pb, px + 2, py,     0x000000ff);
-	put_pixel_with_clipping (pb, px,     py - 2, 0x000000ff);
-	put_pixel_with_clipping (pb, px,     py + 2, 0x000000ff);
-	put_pixel_with_clipping (pb, px - 1, py - 1, 0x000000ff);
-	put_pixel_with_clipping (pb, px - 1, py + 1, 0x000000ff);
-	put_pixel_with_clipping (pb, px + 1, py - 1, 0x000000ff);
-	put_pixel_with_clipping (pb, px + 1, py + 1, 0x000000ff);
+        cairo_set_source_rgba (cr,
+                               ((point->rgba >> 24) & 0xff) / 255.0,
+                               ((point->rgba >> 16) & 0xff) / 255.0,
+                               ((point->rgba >>  8) & 0xff) / 255.0,
+                               ( point->rgba        & 0xff) / 255.0);
+        mask = cairo_image_surface_create_for_data (mask2, CAIRO_FORMAT_A8, 3, 3, 4);
+        cairo_mask_surface (cr, mask, px - 1, py - 1);
+        cairo_surface_destroy (mask);
+
+        cairo_destroy (cr);
 }
 
 /* Repaint point on X server */
@@ -1295,8 +1292,8 @@ zoom_in_smooth (EMap *map)
 
 	priv = map->priv;
 	window = gtk_widget_get_window (GTK_WIDGET (map));
-	width = gdk_pixbuf_get_width (priv->map_render_pixbuf);
-	height = gdk_pixbuf_get_height (priv->map_render_pixbuf);
+	width = E_MAP_GET_WIDTH (map);
+	height = E_MAP_GET_HEIGHT (map);
 
 	/* Center the target point as much as possible */
 
@@ -1306,7 +1303,7 @@ zoom_in_smooth (EMap *map)
 	/* Render and paint a temporary map without overlays, so they don't get in
 	 * the way (look ugly) while zooming */
 
-	update_render_pixbuf (map, GDK_INTERP_BILINEAR, FALSE);
+	update_render_surface (map, FALSE);
 	gtk_widget_draw (GTK_WIDGET (map), NULL);
 
 	/* Find out where in the area we're going to zoom to */
@@ -1317,7 +1314,7 @@ zoom_in_smooth (EMap *map)
 	 * blowup sequence ends */
 
 	priv->zoom_state = E_MAP_ZOOMED_IN;
-	update_render_pixbuf (map, GDK_INTERP_BILINEAR, TRUE);
+	update_render_surface (map, TRUE);
 
 	/* Do the blowup */
 
@@ -1347,7 +1344,7 @@ zoom_in (EMap *map)
 
 	priv->zoom_state = E_MAP_ZOOMED_IN;
 
-	update_render_pixbuf (map, GDK_INTERP_BILINEAR, TRUE);
+	update_render_surface (map, TRUE);
 
 	e_map_world_to_window (
 		map, priv->zoom_target_long,
@@ -1380,14 +1377,14 @@ zoom_out (EMap *map)
 	area.width = allocation.width;
 	area.height = allocation.height;
 
-	/* Must be done before update_render_pixbuf() */
+	/* Must be done before update_render_surface() */
 
 	e_map_window_to_world (
 		map, area.width / 2, area.height / 2,
 		&longitude, &latitude);
 
 	priv->zoom_state = E_MAP_ZOOMED_OUT;
-	update_render_pixbuf (map, GDK_INTERP_BILINEAR, TRUE);
+	update_render_surface (map, TRUE);
 
 	e_map_world_to_window (map, longitude, latitude, &x, &y);
 	center_at (map, x + priv->xofs, y + priv->yofs);
