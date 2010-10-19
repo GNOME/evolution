@@ -95,6 +95,7 @@
         </menu>
         <menuitem action='mail-filters-apply'/>
         <menuitem action='mail-check-for-junk'/>
+	<menuitem action='mail-remove-attachments'/>
         <separator/>
         <menu action='mail-create-rule-menu'>
           <menuitem action='mail-filter-on-subject'/>

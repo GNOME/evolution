@@ -381,6 +381,88 @@ action_mail_filters_apply_cb (GtkAction *action,
 }
 
 static void
+action_mail_remove_attachments_cb (GtkAction *action, EMailReader *reader)
+{
+	CamelFolder *folder;
+	GPtrArray *uids;
+	gint i, j;
+
+	folder = e_mail_reader_get_folder (reader);
+	uids = e_mail_reader_get_selected_uids (reader);
+
+	camel_folder_freeze (folder);
+	for (i = 0; i < (uids ? uids->len : 0); i++) {
+		CamelMimeMessage *message;
+		CamelDataWrapper *containee;
+		gchar *uid;
+
+		uid = g_ptr_array_index (uids, i);
+
+		/* retrieve the message from the CamelFolder */
+		message = camel_folder_get_message_sync (folder, uid, NULL, NULL);
+		if (!message) {
+			continue;
+		}
+
+		containee = camel_medium_get_content (CAMEL_MEDIUM (message));
+		if (containee == NULL) {
+			continue;
+		}
+
+		if (CAMEL_IS_MULTIPART (containee)) {
+			gboolean deleted = FALSE;
+			gint parts;
+
+			parts = camel_multipart_get_number (CAMEL_MULTIPART (containee));
+			for (j = 0; j < parts; j++) {
+				CamelMimePart *mpart = camel_multipart_get_part (CAMEL_MULTIPART (containee), j);
+				const gchar *disposition = camel_mime_part_get_disposition (mpart);
+				if (disposition && (!strcmp (disposition, "attachment") || !strcmp (disposition, "inline"))) {
+					gchar *desc;
+					const gchar *filename;
+
+					filename = camel_mime_part_get_filename (mpart);
+					desc = g_strdup_printf (_("File \"%s\" has been removed."), filename ? filename : "");
+					camel_mime_part_set_disposition (mpart, "inline");
+					camel_mime_part_set_content (mpart, desc, strlen (desc), "text/plain");
+					camel_mime_part_set_content_type (mpart, "text/plain");
+					deleted = TRUE;
+				}
+			}
+
+			if (deleted) {
+				/* copy the original message with the deleted attachment */
+				CamelMessageInfo *info, *newinfo;
+				guint32 flags;
+				GError *error = NULL;
+
+				info = camel_folder_get_message_info (folder, uid);
+				newinfo = camel_message_info_new_from_header (NULL, CAMEL_MIME_PART (message)->headers);
+				flags = camel_folder_get_message_flags (folder, uid);
+
+				/* make a copy of the message */
+				camel_message_info_set_flags (newinfo, flags, flags);
+				camel_folder_append_message_sync (folder, message, newinfo, NULL, NULL, &error);
+				
+				if (!error) {
+					/* marked the original message deleted */
+					camel_message_info_set_flags (info, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+				}
+
+				camel_folder_free_message_info (folder, info);
+				camel_message_info_free (newinfo);
+
+				if (error)
+					g_error_free (error);
+			}
+		}
+	}
+
+	camel_folder_synchronize_sync (folder, FALSE, NULL, NULL);
+	camel_folder_thaw (folder);
+}
+
+static void
 action_mail_find_cb (GtkAction *action,
                      EMailReader *reader)
 {
@@ -1970,6 +2052,13 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Redirect (bounce) the selected message to someone"),
 	  G_CALLBACK (action_mail_redirect_cb) },
 
+	{ "mail-remove-attachments",
+	  GTK_STOCK_DELETE,
+	  N_("Remo_ve attachments"),
+	  NULL,
+	  N_("Remove attachments"),
+	  G_CALLBACK (action_mail_remove_attachments_cb) },
+
 	{ "mail-reply-all",
 	  NULL,
 	  N_("Reply to _All"),
@@ -2711,6 +2800,7 @@ mail_reader_update_actions (EMailReader *reader,
 	gboolean enable_flag_for_followup;
 	gboolean have_enabled_account;
 	gboolean multiple_messages_selected;
+	gboolean selection_has_attachment_messages;
 	gboolean selection_has_deleted_messages;
 	gboolean selection_has_important_messages;
 	gboolean selection_has_junk_messages;
@@ -2750,6 +2840,8 @@ mail_reader_update_actions (EMailReader *reader,
 		(state & E_MAIL_READER_SELECTION_FLAG_COMPLETED);
 	enable_flag_for_followup =
 		(state & E_MAIL_READER_SELECTION_FLAG_FOLLOWUP);
+	selection_has_attachment_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_ATTACHMENTS);
 	selection_has_deleted_messages =
 		(state & E_MAIL_READER_SELECTION_HAS_DELETED);
 	selection_has_important_messages =
@@ -3000,6 +3092,11 @@ mail_reader_update_actions (EMailReader *reader,
 
 	action_name = "mail-redirect";
 	sensitive = have_enabled_account && single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-remove-attachments";
+	sensitive = any_messages_selected && selection_has_attachment_messages;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
@@ -3428,6 +3525,7 @@ e_mail_reader_check_state (EMailReader *reader)
 	gboolean can_clear_flags = FALSE;
 	gboolean can_flag_completed = FALSE;
 	gboolean can_flag_for_followup = FALSE;
+	gboolean has_attachments = FALSE;
 	gboolean has_deleted = FALSE;
 	gboolean has_important = FALSE;
 	gboolean has_junk = FALSE;
@@ -3479,6 +3577,9 @@ e_mail_reader_check_state (EMailReader *reader)
 			has_read = TRUE;
 		else
 			has_unread = TRUE;
+
+		if (flags & CAMEL_MESSAGE_ATTACHMENTS)
+			has_attachments = TRUE;
 
 		if (drafts_or_outbox) {
 			has_junk = FALSE;
@@ -3552,6 +3653,8 @@ e_mail_reader_check_state (EMailReader *reader)
 		state |= E_MAIL_READER_SELECTION_FLAG_COMPLETED;
 	if (can_flag_for_followup)
 		state |= E_MAIL_READER_SELECTION_FLAG_FOLLOWUP;
+	if (has_attachments)
+		state |= E_MAIL_READER_SELECTION_HAS_ATTACHMENTS;
 	if (has_deleted)
 		state |= E_MAIL_READER_SELECTION_HAS_DELETED;
 	if (has_important)
