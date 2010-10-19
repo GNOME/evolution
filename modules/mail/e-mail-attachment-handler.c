@@ -61,10 +61,13 @@ mail_attachment_handler_forward (GtkAction *action,
                                  EAttachmentHandler *handler)
 {
 	EMailAttachmentHandlerPrivate *priv;
+	EShellSettings *shell_settings;
 	EAttachment *attachment;
 	EAttachmentView *view;
 	CamelMimePart *mime_part;
 	CamelDataWrapper *wrapper;
+	EMailForwardStyle style;
+	const gchar *property_name;
 	GList *selected;
 
 	view = e_attachment_handler_get_view (handler);
@@ -77,8 +80,12 @@ mail_attachment_handler_forward (GtkAction *action,
 	mime_part = e_attachment_get_mime_part (attachment);
 	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
+	property_name = "mail-forward-style";
+	shell_settings = e_shell_get_shell_settings (priv->shell);
+	style = e_shell_settings_get_int (shell_settings, property_name);
+
 	em_utils_forward_message (
-		priv->shell, CAMEL_MIME_MESSAGE (wrapper), NULL);
+		priv->shell, CAMEL_MIME_MESSAGE (wrapper), NULL, style);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 	g_list_free (selected);
@@ -89,10 +96,13 @@ mail_attachment_handler_reply_all (GtkAction *action,
                                    EAttachmentHandler *handler)
 {
 	EMailAttachmentHandlerPrivate *priv;
+	EShellSettings *shell_settings;
 	EAttachment *attachment;
 	EAttachmentView *view;
 	CamelMimePart *mime_part;
 	CamelDataWrapper *wrapper;
+	EMailReplyStyle style;
+	const gchar *property_name;
 	GList *selected;
 
 	view = e_attachment_handler_get_view (handler);
@@ -105,9 +115,13 @@ mail_attachment_handler_reply_all (GtkAction *action,
 	mime_part = e_attachment_get_mime_part (attachment);
 	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
+	property_name = "mail-reply-style";
+	shell_settings = e_shell_get_shell_settings (priv->shell);
+	style = e_shell_settings_get_int (shell_settings, property_name);
+
 	em_utils_reply_to_message (
 		priv->shell, NULL, NULL, CAMEL_MIME_MESSAGE (wrapper),
-		REPLY_MODE_ALL, NULL);
+		E_MAIL_REPLY_TO_ALL, style, NULL);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 	g_list_free (selected);
@@ -118,10 +132,13 @@ mail_attachment_handler_reply_sender (GtkAction *action,
                                       EAttachmentHandler *handler)
 {
 	EMailAttachmentHandlerPrivate *priv;
+	EShellSettings *shell_settings;
 	EAttachment *attachment;
 	EAttachmentView *view;
 	CamelMimePart *mime_part;
 	CamelDataWrapper *wrapper;
+	EMailForwardStyle style;
+	const gchar *property_name;
 	GList *selected;
 
 	view = e_attachment_handler_get_view (handler);
@@ -134,9 +151,13 @@ mail_attachment_handler_reply_sender (GtkAction *action,
 	mime_part = e_attachment_get_mime_part (attachment);
 	wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
 
+	property_name = "mail-reply-style";
+	shell_settings = e_shell_get_shell_settings (priv->shell);
+	style = e_shell_settings_get_int (shell_settings, property_name);
+
 	em_utils_reply_to_message (
 		priv->shell, NULL, NULL, CAMEL_MIME_MESSAGE (wrapper),
-		REPLY_MODE_SENDER, NULL);
+		E_MAIL_REPLY_TO_SENDER, style, NULL);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 	g_list_free (selected);

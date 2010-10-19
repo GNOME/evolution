@@ -236,6 +236,7 @@ mail_shell_backend_handle_email_uri_cb (gchar *folder_uri,
                                         gpointer user_data)
 {
 	EShellBackend *shell_backend = user_data;
+	EShellSettings *shell_settings;
 	EMailBackend *backend;
 	CamelURL *url = user_data;
 	EShell *shell;
@@ -245,6 +246,7 @@ mail_shell_backend_handle_email_uri_cb (gchar *folder_uri,
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	shell = e_shell_backend_get_shell (shell_backend);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	if (folder == NULL) {
 		g_warning ("Could not open folder '%s'", folder_uri);
@@ -256,36 +258,42 @@ mail_shell_backend_handle_email_uri_cb (gchar *folder_uri,
 	uid = camel_url_get_param (url, "uid");
 
 	if (reply != NULL) {
-		gint mode;
+		EMailReplyType reply_type;
+		EMailReplyStyle reply_style;
 
 		if (g_strcmp0 (reply, "all") == 0)
-			mode = REPLY_MODE_ALL;
+			reply_type = E_MAIL_REPLY_TO_ALL;
 		else if (g_strcmp0 (reply, "list") == 0)
-			mode = REPLY_MODE_LIST;
+			reply_type = E_MAIL_REPLY_TO_LIST;
 		else
-			mode = REPLY_MODE_SENDER;
+			reply_type = E_MAIL_REPLY_TO_SENDER;
+
+		reply_style = e_shell_settings_get_int (
+			shell_settings, "mail-reply-style");
 
 		em_utils_reply_to_message (
-			shell, folder, uid, NULL, mode, NULL);
+			shell, folder, uid, NULL,
+			reply_type, reply_style, NULL);
 
 	} else if (forward != NULL) {
+		EMailForwardStyle forward_style;
 		GPtrArray *uids;
 
 		uids = g_ptr_array_new ();
 		g_ptr_array_add (uids, g_strdup (uid));
 
 		if (g_strcmp0 (forward, "attached") == 0)
-			em_utils_forward_attached (
-				shell, folder, uids, folder_uri);
+			forward_style = E_MAIL_FORWARD_STYLE_ATTACHED;
 		else if (g_strcmp0 (forward, "inline") == 0)
-			em_utils_forward_inline (
-				shell, folder, uids, folder_uri);
+			forward_style = E_MAIL_FORWARD_STYLE_INLINE;
 		else if (g_strcmp0 (forward, "quoted") == 0)
-			em_utils_forward_quoted (
-				shell, folder, uids, folder_uri);
+			forward_style = E_MAIL_FORWARD_STYLE_QUOTED;
 		else
-			em_utils_forward_messages (
-				shell, folder, uids, folder_uri);
+			forward_style = e_shell_settings_get_int (
+				shell_settings, "mail-forward-style");
+
+		em_utils_forward_messages (
+			shell, folder, uids, folder_uri, forward_style);
 
 	} else {
 		GtkWidget *browser;

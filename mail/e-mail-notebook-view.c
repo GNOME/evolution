@@ -64,7 +64,9 @@ struct _EMailNotebookViewPrivate {
 
 enum {
 	PROP_0,
+	PROP_FORWARD_STYLE,
 	PROP_GROUP_BY_THREADS,
+	PROP_REPLY_STYLE
 };
 
 #define E_SHELL_WINDOW_ACTION_GROUP_MAIL(window) \
@@ -573,11 +575,27 @@ mail_notebook_view_set_property (GObject *object,
                                  const GValue *value,
                                  GParamSpec *pspec)
 {
+	EMailNotebookViewPrivate *priv;
+
+	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (object);
+
 	switch (property_id) {
+		case PROP_FORWARD_STYLE:
+			e_mail_reader_set_forward_style (
+				E_MAIL_READER (priv->current_view),
+				g_value_get_enum (value));
+			return;
+
 		case PROP_GROUP_BY_THREADS:
 			e_mail_reader_set_group_by_threads (
-				E_MAIL_READER (E_MAIL_NOTEBOOK_VIEW (object)->priv->current_view),
+				E_MAIL_READER (priv->current_view),
 				g_value_get_boolean (value));
+			return;
+
+		case PROP_REPLY_STYLE:
+			e_mail_reader_set_reply_style (
+				E_MAIL_READER (priv->current_view),
+				g_value_get_enum (value));
 			return;
 	}
 
@@ -590,14 +608,31 @@ mail_notebook_view_get_property (GObject *object,
                                  GValue *value,
                                  GParamSpec *pspec)
 {
+	EMailNotebookViewPrivate *priv;
+
+	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (object);
+
 	switch (property_id) {
+		case PROP_FORWARD_STYLE:
+			g_value_set_enum (
+				value,
+				e_mail_reader_get_forward_style (
+				E_MAIL_READER (priv->current_view)));
+			return;
+
 		case PROP_GROUP_BY_THREADS:
 			g_value_set_boolean (
 				value,
 				e_mail_reader_get_group_by_threads (
-				E_MAIL_READER (E_MAIL_NOTEBOOK_VIEW (object)->priv->current_view)));
+				E_MAIL_READER (priv->current_view)));
 			return;
 
+		case PROP_REPLY_STYLE:
+			g_value_set_enum (
+				value,
+				e_mail_reader_get_reply_style (
+				E_MAIL_READER (priv->current_view)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1255,8 +1290,20 @@ e_mail_notebook_view_class_init (EMailNotebookViewClass *class)
 	/* Inherited from EMailReader */
 	g_object_class_override_property (
 		object_class,
+		PROP_FORWARD_STYLE,
+		"forward-style");
+
+	/* Inherited from EMailReader */
+	g_object_class_override_property (
+		object_class,
 		PROP_GROUP_BY_THREADS,
 		"group-by-threads");
+
+	/* Inherited from EMailReader */
+	g_object_class_override_property (
+		object_class,
+		PROP_REPLY_STYLE,
+		"reply-style");
 }
 
 static void

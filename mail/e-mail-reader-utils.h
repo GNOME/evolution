@@ -49,7 +49,7 @@ void		e_mail_reader_print		(EMailReader *reader,
 						 GtkPrintOperationAction action);
 void		e_mail_reader_reply_to_message	(EMailReader *reader,
 						 CamelMimeMessage *message,
-						 gint reply_mode);
+						 EMailReplyType reply_type);
 void		e_mail_reader_select_next_message
 						(EMailReader *reader,
 						 gboolean or_else_previous);

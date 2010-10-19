@@ -53,21 +53,25 @@ struct _EMailShellContentPrivate {
 
 enum {
 	PROP_0,
+	PROP_FORWARD_STYLE,
 	PROP_GROUP_BY_THREADS,
-	PROP_MAIL_VIEW
+	PROP_MAIL_VIEW,
+	PROP_REPLY_STYLE
 };
 
 static gpointer parent_class;
 static GType mail_shell_content_type;
 
 static void
-reconnect_changed_event (EMailReader *child, EMailReader *parent)
+reconnect_changed_event (EMailReader *child,
+                         EMailReader *parent)
 {
 	g_signal_emit_by_name (parent, "changed");
 }
 
 static void
-reconnect_folder_loaded_event (EMailReader *child, EMailReader *parent)
+reconnect_folder_loaded_event (EMailReader *child,
+                               EMailReader *parent)
 {
 	g_signal_emit_by_name (parent, "folder-loaded");
 }
@@ -88,10 +92,22 @@ mail_shell_content_set_property (GObject *object,
                                  GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_FORWARD_STYLE:
+			e_mail_reader_set_forward_style (
+				E_MAIL_READER (object),
+				g_value_get_enum (value));
+			return;
+
 		case PROP_GROUP_BY_THREADS:
 			e_mail_reader_set_group_by_threads (
 				E_MAIL_READER (object),
 				g_value_get_boolean (value));
+			return;
+
+		case PROP_REPLY_STYLE:
+			e_mail_reader_set_reply_style (
+				E_MAIL_READER (object),
+				g_value_get_enum (value));
 			return;
 	}
 
@@ -105,6 +121,12 @@ mail_shell_content_get_property (GObject *object,
                                  GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_FORWARD_STYLE:
+			g_value_set_enum (
+				value, e_mail_reader_get_forward_style (
+				E_MAIL_READER (object)));
+			return;
+
 		case PROP_GROUP_BY_THREADS:
 			g_value_set_boolean (
 				value, e_mail_reader_get_group_by_threads (
@@ -115,6 +137,12 @@ mail_shell_content_get_property (GObject *object,
 			g_value_set_object (
 				value, e_mail_shell_content_get_mail_view (
 				E_MAIL_SHELL_CONTENT (object)));
+			return;
+
+		case PROP_REPLY_STYLE:
+			g_value_set_enum (
+				value, e_mail_reader_get_reply_style (
+				E_MAIL_READER (object)));
 			return;
 	}
 
@@ -181,7 +209,6 @@ mail_shell_content_constructed (GObject *object)
 	g_signal_connect (
 		widget, "folder-loaded",
 		G_CALLBACK (reconnect_folder_loaded_event), object);
-
 }
 
 static guint32
@@ -375,6 +402,13 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 	shell_content_class->check_state = mail_shell_content_check_state;
 	shell_content_class->focus_search_results = mail_shell_content_focus_search_results;
 
+	/* Inherited from EMailReader */
+	g_object_class_override_property (
+		object_class,
+		PROP_FORWARD_STYLE,
+		"forward-style");
+
+	/* Inherited from EMailReader */
 	g_object_class_override_property (
 		object_class,
 		PROP_GROUP_BY_THREADS,
@@ -389,6 +423,12 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 			NULL,
 			E_TYPE_MAIL_VIEW,
 			G_PARAM_READABLE));
+
+	/* Inherited from EMailReader */
+	g_object_class_override_property (
+		object_class,
+		PROP_REPLY_STYLE,
+		"reply-style");
 }
 
 static void

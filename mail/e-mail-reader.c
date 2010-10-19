@@ -40,6 +40,7 @@
 #include "mail/e-mail-backend.h"
 #include "mail/e-mail-browser.h"
 #include "mail/e-mail-display.h"
+#include "mail/e-mail-enumtypes.h"
 #include "mail/e-mail-reader-utils.h"
 #include "mail/em-composer-utils.h"
 #include "mail/em-event.h"
@@ -106,6 +107,8 @@ enum {
 static gchar *default_xfer_messages_uri;
 
 static GQuark quark_private;
+static GQuark quark_forward_style;
+static GQuark quark_reply_style;
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_INTERFACE (EMailReader, e_mail_reader, G_TYPE_OBJECT)
@@ -601,7 +604,9 @@ action_mail_forward_cb (GtkAction *action,
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	if (em_utils_ask_open_many (window, uids->len))
-		em_utils_forward_messages (shell, folder, uids, folder_uri);
+		em_utils_forward_messages (
+			shell, folder, uids, folder_uri,
+			e_mail_reader_get_forward_style (reader));
 	else
 		em_utils_uids_free (uids);
 
@@ -632,7 +637,9 @@ action_mail_forward_attached_cb (GtkAction *action,
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	if (em_utils_ask_open_many (window, uids->len))
-		em_utils_forward_attached (shell, folder, uids, folder_uri);
+		em_utils_forward_messages (
+			shell, folder, uids, folder_uri,
+			E_MAIL_FORWARD_STYLE_ATTACHED);
 	else
 		em_utils_uids_free (uids);
 
@@ -663,7 +670,9 @@ action_mail_forward_inline_cb (GtkAction *action,
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	if (em_utils_ask_open_many (window, uids->len))
-		em_utils_forward_inline (shell, folder, uids, folder_uri);
+		em_utils_forward_messages (
+			shell, folder, uids, folder_uri,
+			E_MAIL_FORWARD_STYLE_INLINE);
 	else
 		em_utils_uids_free (uids);
 
@@ -694,7 +703,9 @@ action_mail_forward_quoted_cb (GtkAction *action,
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	if (em_utils_ask_open_many (window, uids->len))
-		em_utils_forward_quoted (shell, folder, uids, folder_uri);
+		em_utils_forward_messages (
+			shell, folder, uids, folder_uri,
+			E_MAIL_FORWARD_STYLE_QUOTED);
 	else
 		em_utils_uids_free (uids);
 
@@ -1118,7 +1129,7 @@ action_mail_reply_all_check (CamelFolder *folder,
 	EMailReader *reader = user_data;
 	CamelInternetAddress *to, *cc;
 	gint recip_count = 0;
-	gint mode = REPLY_MODE_ALL;
+	EMailReplyType type = E_MAIL_REPLY_TO_ALL;
 
 	if (!message)
 		return;
@@ -1163,12 +1174,12 @@ action_mail_reply_all_check (CamelFolder *folder,
 		gtk_widget_destroy (dialog);
 
 		if (response == GTK_RESPONSE_NO)
-			mode = REPLY_MODE_SENDER;
+			type = E_MAIL_REPLY_TO_SENDER;
 		else if (response == GTK_RESPONSE_CANCEL)
 			return;
 	}
 
-	e_mail_reader_reply_to_message (reader, message, mode);
+	e_mail_reader_reply_to_message (reader, message, type);
 	check_close_browser_reader (reader);
 }
 
@@ -1218,13 +1229,13 @@ action_mail_reply_all_cb (GtkAction *action,
 		return;
 	}
 
-	e_mail_reader_reply_to_message (reader, NULL, REPLY_MODE_ALL);
+	e_mail_reader_reply_to_message (reader, NULL, E_MAIL_REPLY_TO_ALL);
 	check_close_browser_reader (reader);
 }
 
 static void
 action_mail_reply_group_cb (GtkAction *action,
-			    EMailReader *reader)
+                            EMailReader *reader)
 {
 	GConfClient *client;
 	gboolean reply_list;
@@ -1239,7 +1250,8 @@ action_mail_reply_group_cb (GtkAction *action,
 	g_object_unref (client);
 
 	if (reply_list && (state & E_MAIL_READER_SELECTION_IS_MAILING_LIST)) {
-		e_mail_reader_reply_to_message (reader, NULL, REPLY_MODE_LIST);
+		e_mail_reader_reply_to_message (
+			reader, NULL, E_MAIL_REPLY_TO_LIST);
 		check_close_browser_reader (reader);
 	} else
 		action_mail_reply_all_cb (action, reader);
@@ -1249,7 +1261,7 @@ static void
 action_mail_reply_list_cb (GtkAction *action,
                            EMailReader *reader)
 {
-	e_mail_reader_reply_to_message (reader, NULL, REPLY_MODE_LIST);
+	e_mail_reader_reply_to_message (reader, NULL, E_MAIL_REPLY_TO_LIST);
 	check_close_browser_reader (reader);
 }
 
@@ -1261,7 +1273,7 @@ action_mail_reply_sender_check (CamelFolder *folder,
 {
 	EMailReader *reader = user_data;
 	GConfClient *client;
-	gint mode = REPLY_MODE_SENDER;
+	EMailReplyType type = E_MAIL_REPLY_TO_SENDER;
 	const gchar *key;
 	gboolean ask_ignore_list_reply_to;
 	gboolean ask_list_reply_to;
@@ -1313,9 +1325,9 @@ action_mail_reply_sender_check (CamelFolder *folder,
 		gtk_widget_destroy (dialog);
 
 		if (response == GTK_RESPONSE_YES)
-			mode = REPLY_MODE_ALL;
+			type = E_MAIL_REPLY_TO_ALL;
 		else if (response == GTK_RESPONSE_OK)
-			mode = REPLY_MODE_LIST;
+			type = E_MAIL_REPLY_TO_LIST;
 		else if (response == GTK_RESPONSE_CANCEL)
 			goto exit;
 
@@ -1363,14 +1375,14 @@ action_mail_reply_sender_check (CamelFolder *folder,
 		gtk_widget_destroy (dialog);
 
 		if (response == GTK_RESPONSE_NO)
-			mode = REPLY_MODE_FROM;
+			type = E_MAIL_REPLY_TO_FROM;
 		else if (response == GTK_RESPONSE_OK)
-			mode = REPLY_MODE_LIST;
+			type = E_MAIL_REPLY_TO_LIST;
 		else if (response == GTK_RESPONSE_CANCEL)
 			goto exit;
 	}
 
-	e_mail_reader_reply_to_message (reader, message, mode);
+	e_mail_reader_reply_to_message (reader, message, type);
 	check_close_browser_reader (reader);
 
 exit:
@@ -1426,7 +1438,7 @@ action_mail_reply_sender_cb (GtkAction *action,
 		action_mail_reply_sender_check (NULL, NULL, message, reader);
 		return;
 	}
-	e_mail_reader_reply_to_message (reader, NULL, REPLY_MODE_SENDER);
+	e_mail_reader_reply_to_message (reader, NULL, E_MAIL_REPLY_TO_SENDER);
 	check_close_browser_reader (reader);
 }
 
@@ -3189,7 +3201,17 @@ mail_reader_init_charset_actions (EMailReader *reader)
 static void
 e_mail_reader_default_init (EMailReaderInterface *interface)
 {
-	quark_private = g_quark_from_static_string ("EMailReader-private");
+	quark_private = g_quark_from_static_string ("e-mail-reader-private");
+
+	/* Forward and reply styles are stored outside of the private
+	 * structure as a workaround for EMailShellContent, which loads
+	 * extensions long before the private structure is initialized,
+	 * and one of those extensions binds our "forward-style" and
+	 * "reply-style" properties to EShellSettings properties. */
+	quark_forward_style =
+		g_quark_from_static_string ("e-mail-reader-forward-style");
+	quark_reply_style =
+		g_quark_from_static_string ("e-mail-reader-reply-style");
 
 	interface->get_selected_uids = mail_reader_get_selected_uids;
 	interface->get_folder = mail_reader_get_folder;
@@ -3202,11 +3224,31 @@ e_mail_reader_default_init (EMailReaderInterface *interface)
 
 	g_object_interface_install_property (
 		interface,
+		g_param_spec_enum (
+			"forward-style",
+			"Forward Style",
+			"How to forward messages",
+			E_TYPE_MAIL_FORWARD_STYLE,
+			E_MAIL_FORWARD_STYLE_ATTACHED,
+			G_PARAM_READWRITE));
+
+	g_object_interface_install_property (
+		interface,
 		g_param_spec_boolean (
 			"group-by-threads",
 			"Group by Threads",
 			"Whether to group messages by threads",
 			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_interface_install_property (
+		interface,
+		g_param_spec_enum (
+			"reply-style",
+			"Reply Style",
+			"How to reply to messages",
+			E_TYPE_MAIL_REPLY_STYLE,
+			E_MAIL_REPLY_STYLE_QUOTED,
 			G_PARAM_READWRITE));
 
 	signals[CHANGED] = g_signal_new (
@@ -3913,6 +3955,29 @@ e_mail_reader_open_selected_mail (EMailReader *reader)
 	return interface->open_selected_mail (reader);
 }
 
+EMailForwardStyle
+e_mail_reader_get_forward_style (EMailReader *reader)
+{
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), 0);
+
+	return (EMailForwardStyle)
+		GPOINTER_TO_INT (g_object_get_qdata (
+		G_OBJECT (reader), quark_forward_style));
+}
+
+void
+e_mail_reader_set_forward_style (EMailReader *reader,
+                                 EMailForwardStyle style)
+{
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	g_object_set_qdata (
+		G_OBJECT (reader), quark_forward_style,
+		GINT_TO_POINTER (style));
+
+	g_object_notify (G_OBJECT (reader), "forward-style");
+}
+
 gboolean
 e_mail_reader_get_group_by_threads (EMailReader *reader)
 {
@@ -3947,6 +4012,29 @@ e_mail_reader_set_group_by_threads (EMailReader *reader,
 		MESSAGE_LIST (message_list), group_by_threads);
 
 	g_object_notify (G_OBJECT (reader), "group-by-threads");
+}
+
+EMailReplyStyle
+e_mail_reader_get_reply_style (EMailReader *reader)
+{
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), 0);
+
+	return (EMailReplyStyle)
+		GPOINTER_TO_INT (g_object_get_qdata (
+		G_OBJECT (reader), quark_reply_style));
+}
+
+void
+e_mail_reader_set_reply_style (EMailReader *reader,
+                               EMailReplyStyle style)
+{
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	g_object_set_qdata (
+		G_OBJECT (reader), quark_reply_style,
+		GINT_TO_POINTER (style));
+
+	g_object_notify (G_OBJECT (reader), "reply-style");
 }
 
 void

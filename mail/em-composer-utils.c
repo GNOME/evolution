@@ -71,6 +71,7 @@
 #define GCONF_KEY_TEMPLATE_PLACEHOLDERS "/apps/evolution/mail/template_placeholders"
 
 typedef struct _AsyncContext AsyncContext;
+typedef struct _ForwardData ForwardData;
 
 struct _AsyncContext {
 	CamelMimeMessage *message;
@@ -78,6 +79,14 @@ struct _AsyncContext {
 	EActivity *activity;
 	gchar *folder_uri;
 	gchar *message_uid;
+};
+
+struct _ForwardData {
+	EShell *shell;
+	CamelFolder *folder;
+	GPtrArray *uids;
+	gchar *from_uri;
+	EMailForwardStyle style;
 };
 
 static void
@@ -96,6 +105,23 @@ async_context_free (AsyncContext *context)
 	g_free (context->message_uid);
 
 	g_slice_free (AsyncContext, context);
+}
+
+static void
+forward_data_free (ForwardData *data)
+{
+	if (data->shell != NULL)
+		g_object_unref (data->shell);
+
+	if (data->folder != NULL)
+		g_object_unref (data->folder);
+
+	if (data->uids != NULL)
+		em_utils_uids_free (data->uids);
+
+	g_free (data->from_uri);
+
+	g_slice_free (ForwardData, data);
 }
 
 static gboolean
@@ -1194,15 +1220,6 @@ emu_update_composers_security (EMsgComposer *composer, guint32 validity_found)
 	}
 }
 
-/* Forwarding messages... */
-struct forward_attached_data
-{
-	EShell *shell;
-	CamelFolder *folder;
-	GPtrArray *uids;
-	gchar *from_uri;
-};
-
 static void
 real_update_forwarded_flag (gpointer uid, gpointer folder)
 {
@@ -1213,44 +1230,40 @@ real_update_forwarded_flag (gpointer uid, gpointer folder)
 }
 
 static void
-update_forwarded_flags_cb (EMsgComposer *composer, gpointer user_data)
+update_forwarded_flags_cb (EMsgComposer *composer,
+                           ForwardData *data)
 {
-	struct forward_attached_data *fad = (struct forward_attached_data *) user_data;
-
-	if (fad && fad->uids && fad->folder)
-		g_ptr_array_foreach (fad->uids, real_update_forwarded_flag, fad->folder);
+	if (data && data->uids && data->folder)
+		g_ptr_array_foreach (
+			data->uids, real_update_forwarded_flag, data->folder);
 }
 
 static void
-composer_destroy_fad_cb (gpointer user_data, GObject *deadbeef)
+setup_forward_attached_callbacks (EMsgComposer *composer,
+                                  CamelFolder *folder,
+                                  GPtrArray *uids)
 {
-	struct forward_attached_data *fad = (struct forward_attached_data*) user_data;
-
-	if (fad) {
-		g_object_unref (fad->folder);
-		em_utils_uids_free (fad->uids);
-		g_free (fad);
-	}
-}
-
-static void
-setup_forward_attached_callbacks (EMsgComposer *composer, CamelFolder *folder, GPtrArray *uids)
-{
-	struct forward_attached_data *fad;
+	ForwardData *data;
 
 	if (!composer || !folder || !uids || !uids->len)
 		return;
 
 	g_object_ref (folder);
 
-	fad = g_new0 (struct forward_attached_data, 1);
-	fad->folder = folder;
-	fad->uids = em_utils_uids_copy (uids);
+	data = g_slice_new0 (ForwardData);
+	data->folder = g_object_ref (folder);
+	data->uids = em_utils_uids_copy (uids);
 
-	g_signal_connect (composer, "send", G_CALLBACK (update_forwarded_flags_cb), fad);
-	g_signal_connect (composer, "save-draft", G_CALLBACK (update_forwarded_flags_cb), fad);
+	g_signal_connect (
+		composer, "send",
+		G_CALLBACK (update_forwarded_flags_cb), data);
+	g_signal_connect (
+		composer, "save-draft",
+		G_CALLBACK (update_forwarded_flags_cb), data);
 
-	g_object_weak_ref ((GObject *) composer, (GWeakNotify) composer_destroy_fad_cb, fad);
+	g_object_set_data_full (
+		G_OBJECT (composer), "forward-data", data,
+		(GDestroyNotify) forward_data_free);
 }
 
 static EMsgComposer *
@@ -1287,49 +1300,14 @@ forward_attached_cb (CamelFolder *folder,
                      gchar *subject,
                      gpointer user_data)
 {
-	struct forward_attached_data *fad = user_data;
+	ForwardData *data = user_data;
 
 	if (part)
 		forward_attached (
-			fad->shell, folder, fad->uids,
-			messages, part, subject, fad->from_uri);
+			data->shell, folder, data->uids,
+			messages, part, subject, data->from_uri);
 
-	g_object_unref (fad->shell);
-	g_free (fad->from_uri);
-	g_free (fad);
-}
-
-/**
- * em_utils_forward_attached:
- * @shell: an #EShell
- * @folder: folder containing messages to forward
- * @uids: uids of messages to forward
- * @from_uri: from folder uri
- *
- * If there is more than a single message in @uids, a multipart/digest
- * will be constructed and attached to a new composer window preset
- * with the appropriate header defaults for forwarding the first
- * message in the list. If only one message is to be forwarded, it is
- * forwarded as a simple message/rfc822 attachment.
- **/
-void
-em_utils_forward_attached (EShell *shell,
-                           CamelFolder *folder,
-                           GPtrArray *uids,
-                           const gchar *from_uri)
-{
-	struct forward_attached_data *fad;
-
-	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-	g_return_if_fail (uids != NULL);
-
-	fad = g_new0 (struct forward_attached_data, 1);
-	fad->shell = g_object_ref (shell);
-	fad->uids = uids;
-	fad->from_uri = g_strdup (from_uri);
-
-	mail_build_attachment (folder, uids, forward_attached_cb, fad);
+	forward_data_free (data);
 }
 
 static EMsgComposer *
@@ -1393,132 +1371,32 @@ forward_non_attached (EShell *shell,
 	return composer;
 }
 
-typedef struct {
-	EShell *shell;
-	gchar *from_uri;
-} ForwardData;
-
-static void
-forward_inline_cb (CamelFolder *folder,
-                   GPtrArray *uids,
-                   GPtrArray *messages,
-                   gpointer user_data)
-{
-	ForwardData *data = user_data;
-
-	forward_non_attached (
-		data->shell, folder, uids, messages,
-		E_MAIL_FORWARD_STYLE_INLINE, data->from_uri);
-
-	g_free (data->from_uri);
-	g_object_unref (data->shell);
-	g_slice_free (ForwardData, data);
-}
-
-/**
- * em_utils_forward_inline:
- * @shell: an #EShell
- * @folder: folder containing messages to forward
- * @uids: uids of messages to forward
- * @from_uri: from folder/account uri
- *
- * Forwards each message in the 'inline' form, each in its own composer window.
- **/
-void
-em_utils_forward_inline (EShell *shell,
-                         CamelFolder *folder,
-                         GPtrArray *uids,
-                         const gchar *from_uri)
-{
-	ForwardData *data;
-
-	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-	g_return_if_fail (uids != NULL);
-
-	data = g_slice_new (ForwardData);
-	data->shell = g_object_ref (shell);
-	data->from_uri = g_strdup (from_uri);
-
-	mail_get_messages (folder, uids, forward_inline_cb, data);
-}
-
-static void
-forward_quoted_cb (CamelFolder *folder,
-                   GPtrArray *uids,
-                   GPtrArray *messages,
-                   gpointer user_data)
-{
-	ForwardData *data = user_data;
-
-	forward_non_attached (
-		data->shell, folder, uids, messages,
-		E_MAIL_FORWARD_STYLE_QUOTED, data->from_uri);
-
-	g_free (data->from_uri);
-	g_object_unref (data->shell);
-	g_slice_free (ForwardData, data);
-}
-
-/**
- * em_utils_forward_quoted:
- * @shell: an #EShell
- * @folder: folder containing messages to forward
- * @uids: uids of messages to forward
- * @from_uri: from folder uri
- *
- * Forwards each message in the 'quoted' form (each line starting with
- * a "> "), each in its own composer window.
- **/
-void
-em_utils_forward_quoted (EShell *shell,
-                         CamelFolder *folder,
-                         GPtrArray *uids,
-                         const gchar *from_uri)
-{
-	ForwardData *data;
-
-	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-	g_return_if_fail (uids != NULL);
-
-	data = g_slice_new (ForwardData);
-	data->shell = g_object_ref (shell);
-	data->from_uri = g_strdup (from_uri);
-
-	mail_get_messages (folder, uids, forward_quoted_cb, data);
-}
-
 /**
  * em_utils_forward_message:
  * @shell: an #EShell
  * @message: message to be forwarded
  * @from_uri: from folder uri
+ * @style: the forward style to use
  *
- * Forwards a message in the user's configured default style.
+ * Forwards a message in the given style.  See em_utils_forward_messages()
+ * for more details about forwarding styles.
  **/
 EMsgComposer *
 em_utils_forward_message (EShell *shell,
                           CamelMimeMessage *message,
-                          const gchar *from_uri)
+                          const gchar *from_uri,
+                          EMailForwardStyle style)
 {
 	GPtrArray *messages;
 	CamelMimePart *part;
-	GConfClient *client;
-	const gchar *key;
 	gchar *subject;
-	EMailForwardStyle style;
 	EMsgComposer *composer = NULL;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
 	messages = g_ptr_array_new ();
 	g_ptr_array_add (messages, message);
-
-	client = gconf_client_get_default ();
-	key = "/apps/evolution/mail/format/forward_style";
-	style = gconf_client_get_int (client, key, NULL);
-	g_object_unref (client);
 
 	switch (style) {
 		case E_MAIL_FORWARD_STYLE_ATTACHED:
@@ -1552,43 +1430,75 @@ em_utils_forward_message (EShell *shell,
 	return composer;
 }
 
+static void
+forward_got_messages_cb (CamelFolder *folder,
+                         GPtrArray *uids,
+                         GPtrArray *messages,
+                         gpointer user_data)
+{
+	ForwardData *data = user_data;
+
+	forward_non_attached (
+		data->shell, folder, uids, messages,
+		data->style, data->from_uri);
+
+	forward_data_free (data);
+}
+
 /**
  * em_utils_forward_messages:
  * @shell: an #EShell
  * @folder: folder containing messages to forward
  * @uids: uids of messages to forward
+ * @style: the forward style to use
  *
- * Forwards a group of messages in the user's configured default
- * style.
+ * Forwards a group of messages in the given style.
+ *
+ * If @style is #E_MAIL_FORWARD_STYLE_ATTACHED, the new message is
+ * created as follows.  If there is more than a single message in @uids,
+ * a multipart/digest will be constructed and attached to a new composer
+ * window preset with the appropriate header defaults for forwarding the
+ * first message in the list.  If only one message is to be forwarded,
+ * it is forwarded as a simple message/rfc822 attachment.
+ *
+ * If @style is #E_MAIL_FORWARD_STYLE_INLINE, each message is forwarded
+ * in its own composer window in 'inline' form.
+ *
+ * If @style is #E_MAIL_FORWARD_STYLE_QUOTED, each message is forwarded
+ * in its own composer window in 'quoted' form (each line starting with
+ * a "> ").
  **/
 void
 em_utils_forward_messages (EShell *shell,
                            CamelFolder *folder,
                            GPtrArray *uids,
-                           const gchar *from_uri)
+                           const gchar *from_uri,
+                           EMailForwardStyle style)
 {
-	GConfClient *client;
-	const gchar *key;
-	EMailForwardStyle style;
+	ForwardData *data;
 
 	g_return_if_fail (E_IS_SHELL (shell));
 
-	client = gconf_client_get_default ();
-	key = "/apps/evolution/mail/format/forward_style";
-	style = gconf_client_get_int (client, key, NULL);
-	g_object_unref (client);
+	data = g_slice_new0 (ForwardData);
+	data->shell = g_object_ref (shell);
+	data->uids = em_utils_uids_copy (uids);
+	data->from_uri = g_strdup (from_uri);
+	data->style = style;
 
 	switch (style) {
 		case E_MAIL_FORWARD_STYLE_ATTACHED:
-		default:
-			em_utils_forward_attached (shell, folder, uids, from_uri);
+			mail_build_attachment (
+				folder, uids, forward_attached_cb, data);
 			break;
+
 		case E_MAIL_FORWARD_STYLE_INLINE:
-			em_utils_forward_inline (shell, folder, uids, from_uri);
-			break;
 		case E_MAIL_FORWARD_STYLE_QUOTED:
-			em_utils_forward_quoted (shell, folder, uids, from_uri);
+			mail_get_messages (
+				folder, uids, forward_got_messages_cb, data);
 			break;
+
+		default:
+			g_return_if_reached ();
 	}
 }
 
@@ -2457,7 +2367,10 @@ attribution_format (const gchar *format, CamelMimeMessage *message)
 }
 
 static void
-composer_set_body (EMsgComposer *composer, CamelMimeMessage *message, EMFormat *source)
+composer_set_body (EMsgComposer *composer,
+                   CamelMimeMessage *message,
+                   EMailReplyStyle style,
+                   EMFormat *source)
 {
 	gchar *text, *credits;
 	CamelMimePart *part;
@@ -2466,15 +2379,11 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message, EMFormat *
 	gboolean start_bottom;
 	guint32 validity_found = 0;
 	const gchar *key;
-	EMailReplyStyle style;
 
 	client = gconf_client_get_default ();
 
 	key = "/apps/evolution/mail/composer/reply_start_bottom";
 	start_bottom = gconf_client_get_bool (client, key, NULL);
-
-	key = "/apps/evolution/mail/format/reply_style";
-	style = gconf_client_get_int (client, key, NULL);
 
 	switch (style) {
 	case E_MAIL_REPLY_STYLE_DO_NOT_QUOTE:
@@ -2527,7 +2436,8 @@ composer_set_body (EMsgComposer *composer, CamelMimeMessage *message, EMFormat *
 struct _reply_data {
 	EShell *shell;
 	EMFormat *source;
-	gint mode;
+	EMailReplyType reply_type;
+	EMailReplyStyle reply_style;
 };
 
 gchar *
@@ -2557,7 +2467,8 @@ reply_to_message (CamelFolder *folder,
 		   an extra ref for em_utils_reply_to_message () to drop. */
 		g_object_ref (message);
 		em_utils_reply_to_message (
-			rd->shell, folder, uid, message, rd->mode, rd->source);
+			rd->shell, folder, uid, message,
+			rd->reply_type, rd->reply_style, rd->source);
 	}
 
 	if (rd->shell != NULL)
@@ -2575,7 +2486,8 @@ reply_to_message (CamelFolder *folder,
  * @folder: optional folder
  * @uid: optional uid
  * @message: message to reply to, optional
- * @mode: reply mode
+ * @type: the type of reply to create
+ * @style: the reply style to use
  * @source: source to inherit view settings from
  *
  * Creates a new composer ready to reply to @message.
@@ -2592,7 +2504,8 @@ em_utils_reply_to_message (EShell *shell,
                            CamelFolder *folder,
                            const gchar *uid,
                            CamelMimeMessage *message,
-                           gint mode,
+                           EMailReplyType type,
+                           EMailReplyStyle style,
                            EMFormat *source)
 {
 	CamelInternetAddress *to, *cc;
@@ -2607,7 +2520,8 @@ em_utils_reply_to_message (EShell *shell,
 		struct _reply_data *rd = g_malloc0 (sizeof (*rd));
 
 		rd->shell = g_object_ref (shell);
-		rd->mode = mode;
+		rd->reply_type = type;
+		rd->reply_style = style;
 		rd->source = source;
 		if (rd->source)
 			g_object_ref (rd->source);
@@ -2626,25 +2540,25 @@ em_utils_reply_to_message (EShell *shell,
 	account = em_utils_guess_account_with_recipients (message, folder);
 	flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
 
-	switch (mode) {
-	case REPLY_MODE_FROM:
+	switch (type) {
+	case E_MAIL_REPLY_TO_FROM:
 		if (folder)
 			postto = camel_nntp_address_new ();
 
 		get_reply_from (message, to, postto);
 		break;
-	case REPLY_MODE_SENDER:
+	case E_MAIL_REPLY_TO_SENDER:
 		if (folder)
 			postto = camel_nntp_address_new ();
 
 		get_reply_sender (message, to, postto);
 		break;
-	case REPLY_MODE_LIST:
+	case E_MAIL_REPLY_TO_LIST:
 		flags |= CAMEL_MESSAGE_ANSWERED_ALL;
 		if (get_reply_list (message, to))
 			break;
 		/* falls through */
-	case REPLY_MODE_ALL:
+	case E_MAIL_REPLY_TO_ALL:
 		flags |= CAMEL_MESSAGE_ANSWERED_ALL;
 		if (folder)
 			postto = camel_nntp_address_new ();
@@ -2662,7 +2576,7 @@ em_utils_reply_to_message (EShell *shell,
 	g_object_unref (to);
 	g_object_unref (cc);
 
-	composer_set_body (composer, message, source);
+	composer_set_body (composer, message, style, source);
 
 	g_object_unref (message);
 

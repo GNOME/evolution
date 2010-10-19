@@ -61,6 +61,13 @@ typedef enum {
 	E_MAIL_REPLY_STYLE_OUTLOOK
 } EMailReplyStyle;
 
+typedef enum {
+	E_MAIL_REPLY_TO_SENDER,
+	E_MAIL_REPLY_TO_FROM,
+	E_MAIL_REPLY_TO_ALL,
+	E_MAIL_REPLY_TO_LIST
+} EMailReplyType;
+
 G_END_DECLS
 
 #endif /* E_MAIL_ENUMS_H */

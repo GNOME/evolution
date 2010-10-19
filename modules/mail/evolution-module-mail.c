@@ -31,6 +31,7 @@
 #include "e-mail-shell-view.h"
 
 #include "e-mail-config-format-html.h"
+#include "e-mail-config-reader.h"
 #include "e-mail-config-web-view.h"
 
 /* Module Entry Points */
@@ -55,6 +56,7 @@ e_module_load (GTypeModule *type_module)
 	e_mail_shell_view_register_type (type_module);
 
 	e_mail_config_format_html_register_type (type_module);
+	e_mail_config_reader_register_type (type_module);
 	e_mail_config_web_view_register_type (type_module);
 }
 

@@ -21,6 +21,8 @@ libevolution_module_mail_la_SOURCES =					\
 	e-mail-config-format-html.h					\
 	e-mail-config-hook.c						\
 	e-mail-config-hook.h						\
+	e-mail-config-reader.c						\
+	e-mail-config-reader.h						\
 	e-mail-config-web-view.c					\
 	e-mail-config-web-view.h					\
 	e-mail-event-hook.c						\

@@ -67,8 +67,10 @@ enum {
 	PROP_0,
 	PROP_BACKEND,
 	PROP_FOCUS_TRACKER,
+	PROP_FORWARD_STYLE,
 	PROP_GROUP_BY_THREADS,
 	PROP_SHOW_DELETED,
+	PROP_REPLY_STYLE,
 	PROP_UI_MANAGER
 };
 
@@ -361,10 +363,22 @@ mail_browser_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
+		case PROP_FORWARD_STYLE:
+			e_mail_reader_set_forward_style (
+				E_MAIL_READER (object),
+				g_value_get_enum (value));
+			return;
+
 		case PROP_GROUP_BY_THREADS:
 			e_mail_reader_set_group_by_threads (
 				E_MAIL_READER (object),
 				g_value_get_boolean (value));
+			return;
+
+		case PROP_REPLY_STYLE:
+			e_mail_reader_set_reply_style (
+				E_MAIL_READER (object),
+				g_value_get_enum (value));
 			return;
 
 		case PROP_SHOW_DELETED:
@@ -396,9 +410,21 @@ mail_browser_get_property (GObject *object,
 				E_MAIL_BROWSER (object)));
 			return;
 
+		case PROP_FORWARD_STYLE:
+			g_value_set_enum (
+				value, e_mail_reader_get_forward_style (
+				E_MAIL_READER (object)));
+			return;
+
 		case PROP_GROUP_BY_THREADS:
 			g_value_set_boolean (
 				value, e_mail_reader_get_group_by_threads (
+				E_MAIL_READER (object)));
+			return;
+
+		case PROP_REPLY_STYLE:
+			g_value_set_enum (
+				value, e_mail_reader_get_reply_style (
 				E_MAIL_READER (object)));
 			return;
 
@@ -805,8 +831,20 @@ mail_browser_class_init (EMailBrowserClass *class)
 	/* Inherited from EMailReader */
 	g_object_class_override_property (
 		object_class,
+		PROP_FORWARD_STYLE,
+		"forward-style");
+
+	/* Inherited from EMailReader */
+	g_object_class_override_property (
+		object_class,
 		PROP_GROUP_BY_THREADS,
 		"group-by-threads");
+
+	/* Inherited from EMailReader */
+	g_object_class_override_property (
+		object_class,
+		PROP_REPLY_STYLE,
+		"reply-style");
 
 	g_object_class_install_property (
 		object_class,

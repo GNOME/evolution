@@ -144,7 +144,7 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 		"mail-force-message-limit",
 		"/apps/evolution/mail/display/force_message_limit");
 
-	/* This value corresponds to MailConfigForwardStyle enum. */
+	/* This value corresponds to the EMailForwardStyle enum. */
 	e_shell_settings_install_property_for_key (
 		"mail-forward-style",
 		"/apps/evolution/mail/format/forward_style");
@@ -195,7 +195,7 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 		"mail-prompt-delete-in-vfolder",
 		"/apps/evolution/mail/prompts/delete_in_vfolder");
 
-	/* This value corresponds to MailConfigReplyStyle enum,
+	/* This value corresponds to the EMailReplyStyle enum,
 	 * but the ordering of the combo box items in preferences
 	 * has changed.  We use transformation functions there. */
 	e_shell_settings_install_property_for_key (

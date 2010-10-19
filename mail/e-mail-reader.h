@@ -139,11 +139,18 @@ void		e_mail_reader_set_folder_uri	(EMailReader *reader,
 						 const gchar *folder_uri);
 void		e_mail_reader_set_message	(EMailReader *reader,
 						 const gchar *uid);
+EMailForwardStyle
+		e_mail_reader_get_forward_style	(EMailReader *reader);
+void		e_mail_reader_set_forward_style	(EMailReader *reader,
+						 EMailForwardStyle style);
 gboolean	e_mail_reader_get_group_by_threads
 						(EMailReader *reader);
 void		e_mail_reader_set_group_by_threads
 						(EMailReader *reader,
 						 gboolean group_by_threads);
+EMailReplyStyle	e_mail_reader_get_reply_style	(EMailReader *reader);
+void		e_mail_reader_set_reply_style	(EMailReader *reader,
+						 EMailReplyStyle style);
 void		e_mail_reader_create_charset_menu
 						(EMailReader *reader,
 						 GtkUIManager *ui_manager,

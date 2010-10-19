@@ -392,7 +392,7 @@ html_contains_nonwhitespace (const gchar *html,
 void
 e_mail_reader_reply_to_message (EMailReader *reader,
                                 CamelMimeMessage *src_message,
-                                gint reply_mode)
+                                EMailReplyType reply_type)
 {
 	EShell *shell;
 	EMailBackend *backend;
@@ -401,6 +401,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	GtkWidget *message_list;
 	CamelMimeMessage *new_message;
 	CamelFolder *folder;
+	EMailReplyStyle reply_style;
 	EWebView *web_view;
 	struct _camel_header_raw *header;
 	const gchar *uid;
@@ -417,6 +418,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	folder = e_mail_reader_get_folder (reader);
 	formatter = e_mail_reader_get_formatter (reader);
 	message_list = e_mail_reader_get_message_list (reader);
+	reply_style = e_mail_reader_get_reply_style (reader);
 
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
@@ -469,7 +471,8 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 	g_object_unref (src_message);
 
 	em_utils_reply_to_message (
-		shell, folder, uid, new_message, reply_mode, NULL);
+		shell, folder, uid, new_message,
+		reply_type, reply_style, NULL);
 
 	g_free (selection);
 
@@ -478,7 +481,7 @@ e_mail_reader_reply_to_message (EMailReader *reader,
 whole_message:
 	em_utils_reply_to_message (
 		shell, folder, uid, src_message,
-		reply_mode, EM_FORMAT (formatter));
+		reply_type, reply_style, EM_FORMAT (formatter));
 }
 
 void

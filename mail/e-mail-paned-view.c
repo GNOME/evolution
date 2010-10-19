@@ -75,7 +75,9 @@ struct _EMailPanedViewPrivate {
 
 enum {
 	PROP_0,
-	PROP_GROUP_BY_THREADS
+	PROP_FORWARD_STYLE,
+	PROP_GROUP_BY_THREADS,
+	PROP_REPLY_STYLE
 };
 
 #define STATE_KEY_GROUP_BY_THREADS	"GroupByThreads"
@@ -260,10 +262,22 @@ mail_paned_view_set_property (GObject *object,
                               GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_FORWARD_STYLE:
+			e_mail_reader_set_forward_style (
+				E_MAIL_READER (object),
+				g_value_get_enum (value));
+			return;
+
 		case PROP_GROUP_BY_THREADS:
 			e_mail_reader_set_group_by_threads (
 				E_MAIL_READER (object),
 				g_value_get_boolean (value));
+			return;
+
+		case PROP_REPLY_STYLE:
+			e_mail_reader_set_reply_style (
+				E_MAIL_READER (object),
+				g_value_get_enum (value));
 			return;
 	}
 
@@ -277,10 +291,24 @@ mail_paned_view_get_property (GObject *object,
                               GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_FORWARD_STYLE:
+			g_value_set_enum (
+				value,
+				e_mail_reader_get_forward_style (
+				E_MAIL_READER (object)));
+			return;
+
 		case PROP_GROUP_BY_THREADS:
 			g_value_set_boolean (
 				value,
 				e_mail_reader_get_group_by_threads (
+				E_MAIL_READER (object)));
+			return;
+
+		case PROP_REPLY_STYLE:
+			g_value_set_enum (
+				value,
+				e_mail_reader_get_reply_style (
 				E_MAIL_READER (object)));
 			return;
 	}
@@ -895,8 +923,20 @@ e_mail_paned_view_class_init (EMailPanedViewClass *class)
 	/* Inherited from EMailReader */
 	g_object_class_override_property (
 		object_class,
+		PROP_FORWARD_STYLE,
+		"forward-style");
+
+	/* Inherited from EMailReader */
+	g_object_class_override_property (
+		object_class,
 		PROP_GROUP_BY_THREADS,
 		"group-by-threads");
+
+	/* Inherited from EMailReader */
+	g_object_class_override_property (
+		object_class,
+		PROP_REPLY_STYLE,
+		"reply-style");
 }
 
 static void
