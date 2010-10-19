@@ -36,6 +36,8 @@
 /* backward-compatibility cruft */
 #include "e-util/gtk-compat.h"
 
+#define E_MAP_TWEEN_TIMEOUT_MSECS 25
+
 /* Scroll step increment */
 
 #define SCROLL_STEP_SIZE 32
@@ -55,6 +57,18 @@ typedef enum
 	E_MAP_ZOOMING_OUT
 }
 EMapZoomState;
+
+/* The Tween struct used for zooming */
+
+typedef struct _EMapTween EMapTween;
+
+struct _EMapTween {
+        guint start_time;
+        guint end_time;
+        double longitude_offset;
+        double latitude_offset;
+        double zoom_factor;
+};
 
 /* Private part of the EMap structure */
 
@@ -79,6 +93,12 @@ struct _EMapPrivate {
 
 	/* Dots */
 	GPtrArray *points;
+
+        /* Tweens */
+        GSList *tweens;
+        GTimer *timer;
+        guint timer_current_ms;
+        guint tween_id;
 };
 
 /* Internal prototypes */
@@ -95,17 +115,123 @@ static gint e_map_expose (GtkWidget *widget, GdkEventExpose *event);
 static gint e_map_key_press (GtkWidget *widget, GdkEventKey *event);
 static void e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj, GtkAdjustment *vadj);
 
+static void e_map_get_current_location (EMap *map, double *longitude, double *latitude);
+static void e_map_world_to_render_surface (EMap *map, gdouble world_longitude, gdouble world_latitude,
+                                           gdouble *win_x, gdouble *win_y);
 static void update_render_surface (EMap *map, gboolean render_overlays);
 static void set_scroll_area (EMap *view, int width, int height);
 static void center_at (EMap *map, double longitude, double latitude);
-static void smooth_center_at (EMap *map, gint x, gint y);
 static void scroll_to (EMap *view, gint x, gint y);
-static void zoom_do (EMap *map);
 static gint load_map_background (EMap *view, gchar *name);
 static void adjustment_changed_cb (GtkAdjustment *adj, gpointer data);
 static void update_and_paint (EMap *map);
 static void update_render_point (EMap *map, EMapPoint *point);
 static void repaint_point (EMap *map, EMapPoint *point);
+
+/* ------ *
+ * Tweens *
+ * ------ */
+
+static gboolean
+e_map_is_tweening (EMap *view)
+{
+        return view->priv->timer != NULL;
+}
+
+static void
+e_map_stop_tweening (EMap *view)
+{
+        EMapPrivate *priv = view->priv;
+
+        g_assert (priv->tweens == NULL);
+
+        if (!e_map_is_tweening (view))
+                return;
+
+        g_timer_destroy (priv->timer);
+        priv->timer = NULL;
+        g_source_remove (priv->tween_id);
+        priv->tween_id = 0;
+}
+
+static void
+e_map_tween_destroy (EMap *view, EMapTween *tween)
+{
+        EMapPrivate *priv = view->priv;
+
+        priv->tweens = g_slist_remove (priv->tweens, tween);
+        g_slice_free (EMapTween, tween);
+
+        if (priv->tweens == NULL)
+                e_map_stop_tweening (view);
+}
+
+static gboolean
+e_map_do_tween_cb (gpointer data)
+{
+        EMap *view = data;
+        EMapPrivate *priv = view->priv;
+        GSList *walk;
+
+        priv->timer_current_ms = g_timer_elapsed (priv->timer, NULL) * 1000;
+        gtk_widget_queue_draw (GTK_WIDGET (view));
+        
+        /* Can't use for loop here, because we need to advance 
+         * the list before deleting.
+         */
+        walk = priv->tweens;
+        while (walk)
+        {
+                EMapTween *tween = walk->data;
+                
+                walk = walk->next;
+
+                if (tween->end_time <= priv->timer_current_ms)
+                        e_map_tween_destroy (view, tween);
+        }
+
+        return TRUE;
+}
+
+static void
+e_map_start_tweening (EMap *view)
+{
+        EMapPrivate *priv = view->priv;
+
+        if (e_map_is_tweening (view))
+                return;
+
+        priv->timer = g_timer_new ();
+        priv->timer_current_ms = 0;
+        priv->tween_id = gdk_threads_add_timeout (E_MAP_TWEEN_TIMEOUT_MSECS,
+                                                  e_map_do_tween_cb,
+                                                  view);
+        g_timer_start (priv->timer);
+}
+
+static void
+e_map_tween_new (EMap *view, guint msecs, double longitude_offset, double latitude_offset, double zoom_factor)
+{
+        EMapPrivate *priv = view->priv;
+        EMapTween *tween;
+        
+        if (!priv->smooth_zoom)
+                return;
+
+        e_map_start_tweening (view);
+
+        tween = g_slice_new (EMapTween);
+
+        tween->start_time = priv->timer_current_ms;
+        tween->end_time = tween->start_time + msecs;
+        tween->longitude_offset = longitude_offset;
+        tween->latitude_offset = latitude_offset;
+        tween->zoom_factor = zoom_factor;
+
+        priv->tweens = g_slist_prepend (priv->tweens, tween);
+
+        gtk_widget_queue_draw (GTK_WIDGET (view));
+}
 
 G_DEFINE_TYPE (
 	EMap,
@@ -189,6 +315,10 @@ e_map_finalize (GObject *object)
 
 	view = E_MAP (object);
 	priv = view->priv;
+
+        while (priv->tweens)
+                e_map_tween_destroy (view, priv->tweens->data);
+        e_map_stop_tweening (view);
 
 	g_signal_handlers_disconnect_by_func (priv->hadj, adjustment_changed_cb, view);
 	g_signal_handlers_disconnect_by_func (priv->vadj, adjustment_changed_cb, view);
@@ -365,6 +495,61 @@ e_map_motion (GtkWidget *widget, GdkEventMotion *event)
  */
 }
 
+static double
+e_map_get_tween_effect (EMap *view, EMapTween *tween)
+{
+  double elapsed;
+
+  elapsed = (double) (view->priv->timer_current_ms - tween->start_time) / tween->end_time;
+
+  return MAX (0.0, 1.0 - elapsed);
+}
+
+static void
+e_map_apply_tween (EMapTween *tween, double effect, double *longitude, double *latitude, double *zoom)
+{
+  *zoom *= pow (tween->zoom_factor, effect);
+  *longitude += tween->longitude_offset * effect;
+  *latitude += tween->latitude_offset * effect;
+}
+
+static void
+e_map_tweens_compute_matrix (EMap *view, cairo_matrix_t *matrix)
+{
+	EMapPrivate *priv = view->priv;
+        GSList *walk;
+        double zoom, x, y, latitude, longitude, effect;
+        GtkAllocation allocation;
+
+        if (!e_map_is_tweening (view))
+        {
+                cairo_matrix_init_translate (matrix, -priv->xofs, -priv->yofs);
+                return;
+        }
+
+        e_map_get_current_location (view, &longitude, &latitude);
+        zoom = 1.0;
+
+        for (walk = priv->tweens; walk; walk = walk->next)
+        {
+                EMapTween *tween = walk->data;
+
+                effect = e_map_get_tween_effect (view, tween);
+                e_map_apply_tween (tween, effect, &longitude, &latitude, &zoom);
+        }
+
+        gtk_widget_get_allocation (GTK_WIDGET (view), &allocation);
+        cairo_matrix_init_translate (matrix,
+                                allocation.width / 2.0,
+                                allocation.height / 2.0);
+        
+        e_map_world_to_render_surface (view,
+                                       longitude, latitude,
+                                       &x, &y);
+        cairo_matrix_scale (matrix, zoom, zoom);
+        cairo_matrix_translate (matrix, -x, -y);
+}
+
 /* Expose handler for the map view */
 
 static gboolean
@@ -373,6 +558,7 @@ e_map_expose (GtkWidget *widget, GdkEventExpose *event)
 	EMap *view;
 	EMapPrivate *priv;
         cairo_t *cr;
+        cairo_matrix_t matrix;
 
 	if (!gtk_widget_is_drawable (widget))
 	        return FALSE;
@@ -384,10 +570,12 @@ e_map_expose (GtkWidget *widget, GdkEventExpose *event)
         gdk_cairo_region (cr, event->region);
         cairo_clip (cr);
 
+        e_map_tweens_compute_matrix (view, &matrix);
+        cairo_transform (cr, &matrix);
+
         cairo_set_source_surface (cr, 
                                   priv->map_render_surface,
-                                  - priv->xofs,
-                                  - priv->yofs);
+                                  0, 0);
         cairo_paint (cr);
         
         cairo_destroy (cr);
@@ -625,41 +813,54 @@ e_map_get_magnification (EMap *map)
 	else return 1.0;
 }
 
+static void
+e_map_set_zoom (EMap *view, EMapZoomState zoom)
+{
+	EMapPrivate *priv = view->priv;
+
+        if (priv->zoom_state == zoom)
+                return;
+
+        priv->zoom_state = zoom;
+        update_render_surface (view, TRUE);
+        gtk_widget_queue_draw (GTK_WIDGET (view));
+}
+
 void
 e_map_zoom_to_location (EMap *map, gdouble longitude, gdouble latitude)
 {
 	EMapPrivate *priv;
+        double prevlong, prevlat;
+        double prevzoom;
 
 	g_return_if_fail (map);
 	g_return_if_fail (gtk_widget_get_realized (GTK_WIDGET (map)));
 
 	priv = map->priv;
+        e_map_get_current_location (map, &prevlong, &prevlat);
+        prevzoom = e_map_get_magnification (map);
 
-	if (priv->zoom_state == E_MAP_ZOOMED_IN) e_map_zoom_out (map);
-	else if (priv->zoom_state != E_MAP_ZOOMED_OUT) return;
+        e_map_set_zoom (map, E_MAP_ZOOMED_IN);
+        center_at (map, longitude, latitude);
 
-	priv->zoom_state = E_MAP_ZOOMING_IN;
-	priv->zoom_target_long = longitude;
-	priv->zoom_target_lat = latitude;
-
-	zoom_do (map);
+        e_map_tween_new (map,
+                         150,
+                         prevlong - longitude,
+                         prevlat - latitude,
+                         prevzoom / e_map_get_magnification (map));
 }
 
 void
 e_map_zoom_out (EMap *map)
 {
-	EMapPrivate *priv;
+        double longitude, latitude;
 
 	g_return_if_fail (map);
 	g_return_if_fail (gtk_widget_get_realized (GTK_WIDGET (map)));
 
-	priv = map->priv;
-
-	if (priv->zoom_state != E_MAP_ZOOMED_IN) return;
-
-	priv->zoom_state = E_MAP_ZOOMING_OUT;
-	zoom_do (map);
-	priv->zoom_state = E_MAP_ZOOMED_OUT;
+        e_map_get_current_location (map, &longitude, &latitude);
+        e_map_set_zoom (map, E_MAP_ZOOMED_OUT);
+        center_at (map, longitude, latitude);
 }
 
 void
@@ -1010,43 +1211,13 @@ center_at (EMap *map, double longitude, double latitude)
 
 	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
 
-	priv->xofs = CLAMP (x - (allocation.width / 2), 0, pb_width - allocation.width);
-	priv->yofs = CLAMP (y - (allocation.height / 2), 0, pb_height - allocation.height);
-
-        gtk_adjustment_set_value (priv->hadj, priv->xofs);
-        gtk_adjustment_set_value (priv->vadj, priv->yofs);
-
-        gtk_widget_queue_draw (GTK_WIDGET (map));
-}
-
-static void
-smooth_center_at (EMap *map, gint x, gint y)
-{
-	EMapPrivate *priv;
-	GtkAllocation allocation;
-	gint pb_width, pb_height;
-	gint dx, dy;
-
-	priv = map->priv;
-
-	pb_width = E_MAP_GET_WIDTH (map);
-	pb_height = E_MAP_GET_HEIGHT (map);
-
-	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
-
 	x = CLAMP (x - (allocation.width / 2), 0, pb_width - allocation.width);
 	y = CLAMP (y - (allocation.height / 2), 0, pb_height - allocation.height);
 
-	for (;;)
-	{
-		if (priv->xofs == x && priv->yofs == y)
-			break;
+        gtk_adjustment_set_value (priv->hadj, x);
+        gtk_adjustment_set_value (priv->vadj, y);
 
-		dx = (x < priv->xofs) ? -1 : (x > priv->xofs) ? 1 : 0;
-		dy = (y < priv->yofs) ? -1 : (y > priv->yofs) ? 1 : 0;
-
-		scroll_to (map, priv->xofs + dx, priv->yofs + dy);
-	}
+        gtk_widget_queue_draw (GTK_WIDGET (map));
 }
 
 /* Scrolls the view to the specified offsets.  Does not perform range checking!  */
@@ -1073,305 +1244,6 @@ scroll_to (EMap *view, gint x, gint y)
         gtk_widget_queue_draw (GTK_WIDGET (view));
 }
 
-static gint divide_seq[] =
-{
-	/* Dividends for divisor of 2 */
-
-	-2,
-
-	1,
-
-	/* Dividends for divisor of 4 */
-
-	-4,
-
-	1, 3,
-
-	/* Dividends for divisor of 8 */
-
-	-8,
-
-	1, 5, 3, 7,
-
-	/* Dividends for divisor of 16 */
-
-	-16,
-
-	1, 9, 5, 13, 3, 11, 7, 15,
-
-	/* Dividends for divisor of 32 */
-
-	-32,
-
-	1, 17, 9, 25, 5, 21, 13, 29, 3, 19,
-	11, 27, 7, 23, 15, 31,
-
-	/* Dividends for divisor of 64 */
-
-	-64,
-
-	1, 33, 17, 49, 9, 41, 25, 57, 5, 37,
-	21, 53, 13, 45, 29, 61, 3, 35, 19, 51,
-	11, 43, 27, 59, 7, 39, 23, 55, 15, 47,
-	31, 63,
-
-	/* Dividends for divisor of 128 */
-
-	-128,
-
-	1, 65, 33, 97, 17, 81, 49, 113, 9, 73,
-	41, 105, 25, 89, 57, 121, 5, 69, 37, 101,
-	21, 85, 53, 117, 13, 77, 45, 109, 29, 93,
-	61, 125, 3, 67, 35, 99, 19, 83, 51, 115,
-	11, 75, 43, 107, 27, 91, 59, 123, 7, 71,
-	39, 103, 23, 87, 55, 119, 15, 79, 47, 111,
-	31, 95, 63, 127,
-
-	/* Dividends for divisor of 256 */
-
-	-256,
-
-	1, 129, 65, 193, 33, 161, 97, 225, 17, 145,
-	81, 209, 49, 177, 113, 241, 9, 137, 73, 201,
-	41, 169, 105, 233, 25, 153, 89, 217, 57, 185,
-	121, 249, 5, 133, 69, 197, 37, 165, 101, 229,
-	21, 149, 85, 213, 53, 181, 117, 245, 13, 141,
-	77, 205, 45, 173, 109, 237, 29, 157, 93, 221,
-	61, 189, 125, 253, 3, 131, 67, 195, 35, 163,
-	99, 227, 19, 147, 83, 211, 51, 179, 115, 243,
-	11, 139, 75, 203, 43, 171, 107, 235, 27, 155,
-	91, 219, 59, 187, 123, 251, 7, 135, 71, 199,
-	39, 167, 103, 231, 23, 151, 87, 215, 55, 183,
-	119, 247, 15, 143, 79, 207, 47, 175, 111, 239,
-	31, 159, 95, 223, 63, 191, 127, 255,
-
-	0
-};
-
-typedef enum
-{
-	AXIS_X,
-	AXIS_Y
-}
-AxisType;
-
-static void
-blowup_window_area (GdkWindow *window, gint area_x, gint area_y, gint target_x, gint target_y, gint total_width, gint total_height, gfloat zoom_factor)
-{
-	GdkGC *gc;
-	AxisType strong_axis;
-	gfloat axis_factor, axis_counter;
-	gint zoom_chunk;
-	gint divisor_width = 0, divisor_height = 0;
-	gint divide_width_index, divide_height_index;
-	gint area_width, area_height;
-	gint i, j;
-	gint line;
-
-	/* Set up the GC we'll be using */
-
-	gc = gdk_gc_new (window);
-	gdk_gc_set_exposures (gc, FALSE);
-
-	/* Get area constraints */
-
-	gdk_drawable_get_size (GDK_DRAWABLE (window), &area_width, &area_height);
-
-	/* Initialize area division array indexes */
-
-	divide_width_index = divide_height_index = 0;
-
-	/* Initialize axis counter */
-
-	axis_counter = 0.0;
-
-	/* Find the strong axis (which is the basis for iteration) and the ratio
-	 * at which the other axis will be scaled.
-	 *
-	 * Also determine how many lines to expand in one fell swoop, and store
-	 * this figure in zoom_chunk. */
-
-	if (area_width > area_height)
-	{
-		strong_axis = AXIS_X;
-		axis_factor = (gdouble) area_height / (gdouble) area_width;
-		zoom_chunk = MAX (1, area_width / 250);
-		i = (area_width * (zoom_factor - 1.0)) / zoom_chunk;
-	}
-	else
-	{
-		strong_axis = AXIS_Y;
-		axis_factor = (gdouble) area_width / (gdouble) area_height;
-		zoom_chunk = MAX (1, area_height / 250);
-		i = (area_height * (zoom_factor - 1.0)) / zoom_chunk;
-	}
-
-	/* Go, go, devil bunnies! Gogo devil bunnies! */
-
-	for (; i > 0; i--)
-	{
-		/* Reset division sequence table indexes as necessary */
-
-		if (!divide_seq[divide_width_index]) divide_width_index = 0;
-		if (!divide_seq[divide_height_index]) divide_height_index = 0;
-
-		/* Set new divisor if found in table */
-
-		if (divide_seq[divide_width_index] < 0)
-			divisor_width = abs (divide_seq[divide_width_index++]);
-		if (divide_seq[divide_height_index] < 0)
-			divisor_height = abs (divide_seq[divide_height_index++]);
-
-		/* Widen */
-
-		if (strong_axis == AXIS_X || axis_counter >= 1.0)
-		{
-			line = ((divide_seq[divide_width_index] * area_width) / divisor_width) + 0.5;
-
-			if ((line < target_x && target_x > area_width / 2) || (line > target_x && target_x > (area_width / 2) + zoom_chunk))
-			{
-				/* Push left */
-
-				for (j = 0; j < zoom_chunk - 1; j++)
-					gdk_draw_drawable (GDK_DRAWABLE (window), gc, GDK_DRAWABLE (window), line, 0, line + j + 1, 0, 1, area_height);
-
-				gdk_draw_drawable (GDK_DRAWABLE (window), gc, GDK_DRAWABLE (window), zoom_chunk, 0, 0, 0, line, area_height);
-				if (line > target_x) target_x -= zoom_chunk;
-			}
-			else
-			{
-				/* Push right */
-
-				for (j = 0; j < zoom_chunk - 1; j++)
-					gdk_draw_drawable (GDK_DRAWABLE (window), gc, GDK_DRAWABLE (window), line - zoom_chunk, 0, line + j - (zoom_chunk - 1), 0, 1, area_height);
-
-				gdk_draw_drawable (GDK_DRAWABLE (window), gc, GDK_DRAWABLE (window), line - zoom_chunk, 0, line, 0, area_width - line, area_height);
-				if (line < target_x) target_x += zoom_chunk;
-			}
-		}
-
-		if (strong_axis == AXIS_Y || axis_counter >= 1.0)
-		{
-			/* Heighten */
-
-			line = ((divide_seq[divide_height_index] * area_height) / divisor_height) + 0.5;
-
-			if ((line < target_y && target_y > area_height / 2) || (line > target_y && target_y > (area_height / 2) + zoom_chunk))
-			{
-				/* Push up */
-
-				for (j = 0; j < zoom_chunk - 1; j++)
-					gdk_draw_drawable (GDK_DRAWABLE (window), gc, GDK_DRAWABLE (window), 0, line, 0, line + j + 1, area_width, 1);
-
-				gdk_draw_drawable (GDK_DRAWABLE (window), gc, GDK_DRAWABLE (window), 0, zoom_chunk, 0, 0, area_width, line);
-				if (line > target_y) target_y -= zoom_chunk;
-			}
-			else
-			{
-				/* Push down */
-
-				for (j = 0; j < zoom_chunk - 1; j++)
-					gdk_draw_drawable (GDK_DRAWABLE (window), gc, GDK_WINDOW (window), 0, line - zoom_chunk, 0, line + j - (zoom_chunk - 1), area_width, 1);
-
-				gdk_draw_drawable (GDK_DRAWABLE (window), gc, GDK_DRAWABLE (window), 0, line - zoom_chunk, 0, line, area_width, area_height - line);
-				if (line < target_y) target_y += zoom_chunk;
-			}
-		}
-
-		divide_width_index++;
-		divide_height_index++;
-		if (axis_counter >= 1.0) axis_counter -= 1.0;
-		axis_counter += axis_factor;
-	}
-
-	/* Free our GC */
-
-	g_object_unref (gc);
-}
-
-static void
-zoom_in_smooth (EMap *map)
-{
-	GtkAllocation allocation;
-	EMapPrivate *priv;
-	GdkWindow *window;
-	gint width, height;
-	gdouble x, y;
-
-	g_return_if_fail (map);
-	g_return_if_fail (gtk_widget_get_realized (GTK_WIDGET (map)));
-
-	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
-
-	priv = map->priv;
-	window = gtk_widget_get_window (GTK_WIDGET (map));
-	width = E_MAP_GET_WIDTH (map);
-	height = E_MAP_GET_HEIGHT (map);
-
-	/* Center the target point as much as possible */
-
-	e_map_world_to_window (map, priv->zoom_target_long, priv->zoom_target_lat, &x, &y);
-	smooth_center_at (map, x + priv->xofs, y + priv->yofs);
-
-	/* Render and paint a temporary map without overlays, so they don't get in
-	 * the way (look ugly) while zooming */
-
-	update_render_surface (map, FALSE);
-	gtk_widget_draw (GTK_WIDGET (map), NULL);
-
-	/* Find out where in the area we're going to zoom to */
-
-	e_map_world_to_window (map, priv->zoom_target_long, priv->zoom_target_lat, &x, &y);
-
-	/* Pre-render the zoomed-in map, so we can put it there quickly when the
-	 * blowup sequence ends */
-
-	priv->zoom_state = E_MAP_ZOOMED_IN;
-	update_render_surface (map, TRUE);
-
-	/* Do the blowup */
-
-	blowup_window_area (window, priv->xofs, priv->yofs, x, y, width, height, 1.68);
-
-	/* Set new scroll offsets and paint the zoomed map */
-
-	e_map_world_to_window (map, priv->zoom_target_long, priv->zoom_target_lat, &x, &y);
-	priv->xofs = CLAMP (priv->xofs + x - allocation.width / 2.0, 0, E_MAP_GET_WIDTH (map) - allocation.width);
-	priv->yofs = CLAMP (priv->yofs + y - allocation.height / 2.0, 0, E_MAP_GET_HEIGHT (map) - allocation.height);
-        gtk_adjustment_set_value (priv->hadj, priv->xofs);
-        gtk_adjustment_set_value (priv->vadj, priv->yofs);
-
-	gtk_widget_draw (GTK_WIDGET (map), NULL);
-}
-
-static void
-zoom_in (EMap *map)
-{
-	EMapPrivate *priv;
-	gdouble x, y;
-        GtkAllocation allocation;
-
-	priv = map->priv;
-
-        gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
-
-	priv->zoom_state = E_MAP_ZOOMED_IN;
-
-	update_render_surface (map, TRUE);
-
-	e_map_world_to_window (
-		map, priv->zoom_target_long,
-		priv->zoom_target_lat, &x, &y);
-	priv->xofs = CLAMP (
-		priv->xofs + x - allocation.width / 2.0,
-		0, E_MAP_GET_WIDTH (map) - allocation.width);
-	priv->yofs = CLAMP (
-		priv->yofs + y - allocation.height / 2.0,
-		0, E_MAP_GET_HEIGHT (map) - allocation.height);
-
-	gtk_widget_queue_draw (GTK_WIDGET (map));
-}
-
 static void
 e_map_get_current_location (EMap *map, double *longitude, double *latitude)
 {
@@ -1382,42 +1254,6 @@ e_map_get_current_location (EMap *map, double *longitude, double *latitude)
 	e_map_window_to_world (map,
                                allocation.width / 2.0, allocation.height / 2.0,
 		               longitude, latitude);
-}
-
-static void
-zoom_out (EMap *map)
-{
-	EMapPrivate *priv;
-	gdouble longitude, latitude;
-
-	priv = map->priv;
-
-	/* Must be done before update_render_surface() */
-        e_map_get_current_location (map, &longitude, &latitude);
-
-	priv->zoom_state = E_MAP_ZOOMED_OUT;
-	update_render_surface (map, TRUE);
-
-	center_at (map, longitude, latitude);
-}
-
-static void
-zoom_do (EMap *map)
-{
-	EMapPrivate *priv;
-
-	priv = map->priv;
-
-	if (priv->zoom_state == E_MAP_ZOOMING_IN)
-	{
-		if (e_map_get_smooth_zoom (map)) zoom_in_smooth (map);
-		else zoom_in (map);
-	}
-	else if (priv->zoom_state == E_MAP_ZOOMING_OUT)
-	{
-/*    if (e_map_get_smooth_zoom(map)) zoom_out_smooth(map); */
-		zoom_out (map);
-	}
 }
 
 /* Callback used when an adjustment is changed */
