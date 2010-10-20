@@ -157,7 +157,6 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	EDayView *day_view;
 	EDayViewEvent *event;
 	GtkStyle *style;
-	GdkGC *gc, *fg_gc;
 	gint start_day, end_day;
 	gint item_x, item_y, item_w, item_h;
 	gint text_x, icon_x, icon_y, icon_x_inc;
@@ -168,7 +167,6 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	gint min_end_time_x, suffix_width, max_icon_x;
 	const gchar *suffix;
 	gboolean draw_start_triangle, draw_end_triangle;
-	GdkRectangle clip_rect;
 	GSList *categories_list, *elem;
 	PangoLayout *layout;
 	GdkColor bg_color;
@@ -210,8 +208,6 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 		return;
 
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
-	gc = day_view->main_gc;
-	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (
 		comp, icalcomponent_new_clone (event->comp_data->icalcomp));
@@ -350,6 +346,8 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 
 	time_width = e_day_view_get_time_string_width (day_view);
 
+        gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_NORMAL]);
+
 	if (event->start > day_view->day_starts[start_day]) {
 		offset = day_view->first_hour_shown * 60
 			+ day_view->first_minute_shown + event->start_minute;
@@ -368,25 +366,26 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 				    display_hour, minute, suffix);
 		}
 
-		clip_rect.x = item_x - x;
-		clip_rect.y = item_y - y;
-		clip_rect.width = item_w - E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH;
-		clip_rect.height = item_h;
-		gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
+                cairo_save (cr);
+
+                cairo_rectangle (cr,
+                                 item_x - x, item_y - y,
+		                 item_w - E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH, item_h);
+                cairo_clip (cr);
 
 		time_x = item_x + E_DAY_VIEW_LONG_EVENT_X_PAD - x;
 		if (display_hour < 10)
 			time_x += day_view->digit_width;
 
 		layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
-		gdk_draw_layout (drawable, fg_gc,
-				 time_x,
-				 item_y + E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT +
-				 E_DAY_VIEW_LONG_EVENT_Y_PAD - y,
-				 layout);
+                cairo_move_to (cr, 
+                               time_x,
+                               item_y + E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT +
+                               E_DAY_VIEW_LONG_EVENT_Y_PAD - y);
+                pango_cairo_show_layout (cr, layout);
 		g_object_unref (layout);
 
-		gdk_gc_set_clip_rectangle (fg_gc, NULL);
+		cairo_restore (cr);
 
 		min_end_time_x += time_width
 			+ E_DAY_VIEW_LONG_EVENT_TIME_X_PAD;
@@ -424,10 +423,10 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 				time_x += day_view->digit_width;
 
 			layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
-			gdk_draw_layout (drawable, fg_gc,
-					 time_x,
-					 item_y + E_DAY_VIEW_LONG_EVENT_Y_PAD + 1 - y,
-					 layout);
+                        cairo_move_to (cr, 
+                                       time_x,
+                                       item_y + E_DAY_VIEW_LONG_EVENT_Y_PAD + 1 - y);
+			pango_cairo_show_layout (cr, layout);
 			g_object_unref (layout);
 
 			max_icon_x -= time_width + E_DAY_VIEW_LONG_EVENT_TIME_X_PAD;
@@ -495,13 +494,13 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 			continue;
 
 		if (icon_x <= max_icon_x) {
-			gdk_gc_set_clip_origin (gc, icon_x, icon_y);
-			gdk_draw_pixbuf (drawable, gc,
-					 pixbuf,
-					 0, 0, icon_x, icon_y,
+			gdk_cairo_set_source_pixbuf (cr, pixbuf,
+                                                     icon_x, icon_y);
+                        cairo_rectangle (cr, 
+                                         icon_x, icon_y,
 					 E_DAY_VIEW_ICON_WIDTH,
-					 E_DAY_VIEW_ICON_HEIGHT,
-					 GDK_RGB_DITHER_NORMAL, 0, 0);
+					 E_DAY_VIEW_ICON_HEIGHT);
+                        cairo_fill (cr);
 			icon_x -= icon_x_inc;
 		}
 	}
@@ -509,7 +508,6 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	e_cal_component_free_categories_list (categories_list);
 	g_object_unref (comp);
 	cairo_destroy (cr);
-	gdk_gc_set_clip_mask (gc, NULL);
 }
 
 static void
@@ -603,7 +601,6 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	EDayViewTopItem *top_item;
 	EDayView *day_view;
 	GtkStyle *style;
-	GdkGC *fg_gc;
 	gchar buffer[128];
 	GtkAllocation allocation;
 	GdkRectangle clip_rect;
@@ -622,7 +619,6 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	cr = gdk_cairo_create (drawable);
 
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
-	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 	gtk_widget_get_allocation (
 		GTK_WIDGET (canvas_item->canvas), &allocation);
 	canvas_width = allocation.width;
@@ -720,19 +716,21 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 				clip_rect.width = day_view->day_widths[day];
 			clip_rect.height = item_height - 2;
 
-			gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
+                        cairo_save (cr);
+
+                        gdk_cairo_rectangle (cr, &clip_rect);
+                        cairo_clip (cr);
 
 			layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
 			pango_layout_get_pixel_size (layout, &date_width, NULL);
 			date_x = day_view->day_offsets[day] + (clip_rect.width - date_width) / 2;
 
-			gdk_draw_layout (drawable, fg_gc,
-					 date_x - x,
-					 3 - y,
-					 layout);
-			g_object_unref (layout);
+                        gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_NORMAL]);
+                        cairo_move_to (cr, date_x - x, 3 - y);
+                        pango_cairo_show_layout (cr, layout);
 
-			gdk_gc_set_clip_rectangle (fg_gc, NULL);
+			g_object_unref (layout);
+                        cairo_restore (cr);
 
 			/* Draw the lines down the left and right of the date cols. */
 			if (day != 0) {
