@@ -335,7 +335,7 @@ mail_tag_editor_init (EMailTagEditor *editor)
 		renderer, "text", 1, NULL);
 
 	widget = e_builder_get_widget (builder, "combo");
-	gtk_combo_box_entry_set_text_column (GTK_COMBO_BOX_ENTRY (widget), 0);
+	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX_ENTRY (widget), 0);
 	editor->priv->combo_entry = GTK_COMBO_BOX (widget);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (widget), DEFAULT_FLAG);
 

@@ -534,7 +534,7 @@ file_as_set_style (EContactEditor *editor, gint style)
 	GtkEntry *company_w = GTK_ENTRY (e_builder_get_widget (editor->builder, "entry-company"));
 	const gchar *company;
 
-	if (!(combo_file_as && GTK_IS_COMBO_BOX_ENTRY (combo_file_as)))
+	if (!(combo_file_as && GTK_IS_COMBO_BOX (combo_file_as)))
 		return;
 
 	company = gtk_entry_get_text (GTK_ENTRY (company_w));
@@ -2259,7 +2259,7 @@ init_simple_field (EContactEditor *editor, GtkWidget *widget)
 		changed_object = G_OBJECT (widget);
 		g_signal_connect_swapped (widget, "activate", G_CALLBACK (entry_activated), editor);
 	}
-	else if (GTK_IS_COMBO_BOX_ENTRY (widget)) {
+	else if (GTK_IS_COMBO_BOX (widget)) {
 		changed_object = G_OBJECT (/*gtk_bin_get_child (GTK_BIN*/ (widget)/*)*/);
 		g_signal_connect_swapped (gtk_bin_get_child (GTK_BIN (widget)), "activate", G_CALLBACK (entry_activated), editor);
 	}
@@ -2301,7 +2301,7 @@ fill_in_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 		gtk_entry_set_text (GTK_ENTRY (widget), STRING_MAKE_NON_NULL (text));
 		g_free (text);
 	}
-	else if (GTK_IS_COMBO_BOX_ENTRY (widget)) {
+	else if (GTK_IS_COMBO_BOX (widget)) {
 		gchar *text = e_contact_get (contact, field_id);
 		gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (widget))), STRING_MAKE_NON_NULL (text));
 		g_free (text);
@@ -2371,7 +2371,7 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 		const gchar *text = gtk_entry_get_text (GTK_ENTRY (widget));
 		e_contact_set (contact, field_id, (gchar *) text);
 	}
-	else if (GTK_IS_COMBO_BOX_ENTRY (widget)) {
+	else if (GTK_IS_COMBO_BOX (widget)) {
 		gchar *text = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (widget));
 
 		e_contact_set (contact, field_id, text);
@@ -2531,7 +2531,7 @@ init_simple (EContactEditor *editor)
 	widget = e_builder_get_widget (editor->builder, "entry-fullname");
 	g_signal_connect (widget, "changed", G_CALLBACK (name_entry_changed), editor);
 	widget = e_builder_get_widget (editor->builder, "combo-file-as");
-	gtk_combo_box_entry_set_text_column (GTK_COMBO_BOX_ENTRY (widget), 0);
+	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX_ENTRY (widget), 0);
 	g_signal_connect (widget, "changed", G_CALLBACK (file_as_combo_changed), editor);
 	widget = e_builder_get_widget (editor->builder, "entry-company");
 	g_signal_connect (widget, "changed", G_CALLBACK (company_entry_changed), editor);

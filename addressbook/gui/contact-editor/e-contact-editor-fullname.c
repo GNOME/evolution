@@ -28,6 +28,9 @@
 
 #include "e-contact-editor-fullname.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 static void fill_in_info (EContactEditorFullname *editor);
 static void extract_info (EContactEditorFullname *editor);
 
@@ -89,7 +92,7 @@ e_contact_editor_fullname_set_property (GObject *object,
 				gtk_editable_set_editable (GTK_EDITABLE (w),
 							   e_contact_editor_fullname->editable);
 			}
-			else if (GTK_IS_COMBO_BOX_ENTRY (w)) {
+			else if (GTK_IS_COMBO_BOX (w)) {
 				gtk_editable_set_editable (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (w))),
 							   e_contact_editor_fullname->editable);
 				gtk_widget_set_sensitive (w, e_contact_editor_fullname->editable);
@@ -232,9 +235,9 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 		GTK_WINDOW (e_contact_editor_fullname), "contact-new");
 
 	widget = e_builder_get_widget (builder, "comboentry-title");
-	gtk_combo_box_entry_set_text_column (GTK_COMBO_BOX_ENTRY (widget), 0);
+	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX_ENTRY (widget), 0);
 	widget = e_builder_get_widget (builder, "comboentry-suffix");
-	gtk_combo_box_entry_set_text_column (GTK_COMBO_BOX_ENTRY (widget), 0);
+	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX_ENTRY (widget), 0);
 }
 
 GtkWidget*
@@ -258,7 +261,7 @@ fill_in_field (EContactEditorFullname *editor,
 
 	if (GTK_IS_ENTRY (widget))
 		entry = GTK_ENTRY (widget);
-	else if (GTK_IS_COMBO_BOX_ENTRY (widget))
+	else if (GTK_IS_COMBO_BOX (widget))
 		entry = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (widget)));
 
 	if (entry) {
@@ -291,7 +294,7 @@ extract_field (EContactEditorFullname *editor,
 
 	if (GTK_IS_ENTRY (widget))
 		entry = GTK_ENTRY (widget);
-	else if (GTK_IS_COMBO_BOX_ENTRY (widget))
+	else if (GTK_IS_COMBO_BOX (widget))
 		entry = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (widget)));
 
 	if (entry)

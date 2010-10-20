@@ -571,8 +571,17 @@ create_children			(EDateEdit	*dedit)
 		"widget \"*.e-dateedit-timecombo\" style \"e-dateedit-timecombo-style\"");
 
 	time_store = gtk_list_store_new (1, G_TYPE_STRING);
+#if GTK_CHECK_VERSION(2,23,0)
+	priv->time_combo = g_object_new (
+		GTK_TYPE_COMBO_BOX,
+		"model", time_store,
+		"has-entry", TRUE,
+		"entry-text-column", 0,
+		NULL);
+#else
 	priv->time_combo = gtk_combo_box_entry_new_with_model (
 		GTK_TREE_MODEL (time_store), 0);
+#endif
 	g_object_unref (time_store);
 
 	child = gtk_bin_get_child (GTK_BIN (priv->time_combo));

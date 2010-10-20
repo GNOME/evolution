@@ -50,6 +50,9 @@
 
 #include "addressbook/gui/widgets/eab-config.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define d(x)
 
 #ifdef HAVE_LDAP
@@ -748,7 +751,7 @@ eabc_general_host (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 	g_signal_connect (sdialog->host, "changed", G_CALLBACK (host_changed_cb), sdialog);
 
 	sdialog->port_comboentry = e_builder_get_widget (builder, "port-comboentry");
-	gtk_combo_box_entry_set_text_column (GTK_COMBO_BOX_ENTRY (sdialog->port_comboentry), 0);
+	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX_ENTRY (sdialog->port_comboentry), 0);
 	gtk_widget_set_has_tooltip (sdialog->port_comboentry, TRUE);
 	gtk_widget_set_tooltip_text (sdialog->port_comboentry, _("This is the port on the LDAP server that Evolution will try to connect to. A list of standard ports has been provided. Ask your system administrator what port you should specify."));
 	sprintf(port, "%u", lud && lud->lud_port? lud->lud_port : LDAP_PORT);
