@@ -1036,7 +1036,6 @@ e_day_view_init (EDayView *day_view)
 	day_view->last_hour_shown = 24;
 	day_view->last_minute_shown = 0;
 
-	day_view->main_gc = NULL;
 	e_day_view_recalc_num_rows (day_view);
 
 	day_view->working_days = E_DAY_VIEW_MONDAY | E_DAY_VIEW_TUESDAY
@@ -1430,7 +1429,6 @@ static void
 e_day_view_realize (GtkWidget *widget)
 {
 	EDayView *day_view;
-	GdkColormap *colormap;
 	GdkWindow *window;
 
 	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->realize)
@@ -1438,15 +1436,10 @@ e_day_view_realize (GtkWidget *widget)
 
 	day_view = E_DAY_VIEW (widget);
 	window = gtk_widget_get_window (widget);
-	day_view->main_gc = gdk_gc_new (window);
-
-	colormap = gtk_widget_get_colormap (widget);
 
 	/* Allocate the colors. */
 
 	e_day_view_set_colors (day_view, widget);
-
-	gdk_gc_set_colormap (day_view->main_gc, colormap);
 
 	/* Create the pixmaps. */
 	day_view->reminder_icon = e_icon_factory_get_icon ("stock_bell", GTK_ICON_SIZE_MENU);
@@ -1500,15 +1493,8 @@ static void
 e_day_view_unrealize (GtkWidget *widget)
 {
 	EDayView *day_view;
-	GdkColormap *colormap;
 
 	day_view = E_DAY_VIEW (widget);
-
-	g_object_unref (day_view->main_gc);
-	day_view->main_gc = NULL;
-
-	colormap = gtk_widget_get_colormap (widget);
-	gdk_colormap_free_colors (colormap, day_view->colors, E_DAY_VIEW_COLOR_LAST);
 
 	g_object_unref (day_view->reminder_icon);
 	day_view->reminder_icon = NULL;

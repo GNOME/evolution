@@ -192,7 +192,6 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	EDayViewEvent *event;
 	ECalModel *model;
 	gint item_x, item_y, item_w, item_h, bar_y1, bar_y2;
-	GdkGC *gc;
 	GdkColor bg_color;
 	ECalComponent *comp;
 	gint num_icons, icon_x, icon_y, icon_x_inc = 0, icon_y_inc = 0;
@@ -246,8 +245,6 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	cr = gdk_cairo_create (drawable);
 	gdk_cairo_set_source_color (cr,
 			&day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
-
-	gc = day_view->main_gc;
 
 	gradient = calendar_config_get_display_events_gradient ();
 	alpha = calendar_config_get_display_events_alpha ();
@@ -725,8 +722,6 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 			#undef draw_pixbuf
 			#undef fit_in_event
-
-			gdk_gc_set_clip_mask (gc, NULL);
 		}
 
 		/* free memory */

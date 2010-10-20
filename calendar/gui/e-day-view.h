@@ -353,9 +353,6 @@ struct _EDayView {
 	PangoFontDescription *large_font_desc;
 	PangoFontDescription *small_font_desc;
 
-	/* The GC used for painting in different colors. */
-	GdkGC *main_gc;
-
 	/* The icons. */
 	GdkPixbuf *reminder_icon;
 	GdkPixbuf *recurrence_icon;
