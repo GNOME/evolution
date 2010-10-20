@@ -3536,24 +3536,6 @@ gnome_canvas_get_color_pixel (GnomeCanvas *canvas, guint rgba)
 	return color.pixel;
 }
 
-/**
- * gnome_canvas_set_stipple_origin:
- * @canvas: A canvas.
- * @gc: GC on which to set the stipple origin.
- *
- * Sets the stipple origin of the specified GC as is appropriate for the canvas,
- * so that it will be aligned with other stipple patterns used by canvas items.
- * This is typically only needed by item implementations.
- **/
-void
-gnome_canvas_set_stipple_origin (GnomeCanvas *canvas, GdkGC *gc)
-{
-	g_return_if_fail (GNOME_IS_CANVAS (canvas));
-	g_return_if_fail (GDK_IS_GC (gc));
-
-	gdk_gc_set_ts_origin (gc, -canvas->draw_xofs, -canvas->draw_yofs);
-}
-
 static gboolean
 boolean_handled_accumulator (GSignalInvocationHint *ihint,
 			     GValue                *return_accu,
