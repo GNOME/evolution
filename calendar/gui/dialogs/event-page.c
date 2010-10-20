@@ -1109,7 +1109,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 				if (!priv->user_org) {
 					gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->organizer))));
-					gtk_combo_box_append_text (GTK_COMBO_BOX (priv->organizer), string);
+					gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (priv->organizer), string);
 					gtk_combo_box_set_active (GTK_COMBO_BOX (priv->organizer), 0);
 					gtk_editable_set_editable (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (priv->organizer))), FALSE);
 				} else {
@@ -3012,16 +3012,16 @@ init_widgets (EventPage *epage)
 	}
 
 	if (combo_label) {
-		gtk_combo_box_append_text (GTK_COMBO_BOX (priv->alarm_time_combo), combo_label);
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (priv->alarm_time_combo), combo_label);
 		g_free (combo_label);
 		priv->alarm_map = alarm_map_with_user_time;
 	} else {
 		priv->alarm_map = alarm_map_without_user_time;
 	}
 
-	gtk_combo_box_append_text (GTK_COMBO_BOX (priv->alarm_time_combo), _("Customize"));
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (priv->alarm_time_combo), _("Customize"));
 	/* Translators: "None" for "No alarm set" */
-	gtk_combo_box_prepend_text (GTK_COMBO_BOX (priv->alarm_time_combo), C_("cal-alarms", "None"));
+	gtk_combo_box_text_prepend_text (GTK_COMBO_BOX_TEXT (priv->alarm_time_combo), C_("cal-alarms", "None"));
 
 	g_signal_connect_swapped (
 		priv->alarm_time_combo, "changed",
@@ -3184,7 +3184,7 @@ event_page_construct (EventPage *epage, EMeetingStore *model)
 		GList *l;
 
 		for (l = priv->address_strings; l; l = l->next)
-			gtk_combo_box_append_text (GTK_COMBO_BOX (priv->organizer), l->data);
+			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (priv->organizer), l->data);
 
 		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->organizer), 0);
 

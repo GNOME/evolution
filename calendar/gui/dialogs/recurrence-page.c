@@ -1120,10 +1120,10 @@ make_recur_month_combobox (void)
 	GtkWidget *combo;
 	gint i;
 
-	combo = gtk_combo_box_new_text ();
+	combo = gtk_combo_box_text_new ();
 
 	for (i = 0; i < G_N_ELEMENTS (options); i++) {
-		gtk_combo_box_append_text (GTK_COMBO_BOX (combo), _(options[i]));
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), _(options[i]));
 	}
 
 	return combo;

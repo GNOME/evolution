@@ -53,6 +53,9 @@
 
 #include "e-contact-editor-fullname.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define EMAIL_SLOTS   4
 #define PHONE_SLOTS   8
 #define IM_SLOTS      4
@@ -537,7 +540,7 @@ file_as_set_style (EContactEditor *editor, gint style)
 	company = gtk_entry_get_text (GTK_ENTRY (company_w));
 
 	if (style == -1) {
-		string = gtk_combo_box_get_active_text (combo_file_as);
+		string = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (combo_file_as));
 		strings = g_list_append (strings, string);
 	}
 
@@ -558,7 +561,7 @@ file_as_set_style (EContactEditor *editor, gint style)
 		gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (combo_file_as)));
 
 		for (l = strings; l; l = l->next) {
-			gtk_combo_box_append_text (combo_file_as, l->data);
+			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo_file_as), l->data);
 		}
 	}
 
@@ -592,7 +595,7 @@ name_entry_changed (GtkWidget *widget, EContactEditor *editor)
 static void
 file_as_combo_changed (GtkWidget *widget, EContactEditor *editor)
 {
-	gchar *string = gtk_combo_box_get_active_text (GTK_COMBO_BOX (widget));
+	gchar *string = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (widget));
 
 	if (string && *string) {
 		gchar *title;
@@ -731,7 +734,7 @@ init_email_record_location (EContactEditor *editor, gint record)
 	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (location_combo_box)));
 
 	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
-		gtk_combo_box_append_text (location_combo_box, _(common_location[i].pretty_name));
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (location_combo_box), _(common_location[i].pretty_name));
 	}
 
 	g_signal_connect_swapped (location_combo_box, "changed", G_CALLBACK (gtk_widget_grab_focus), email_entry);
@@ -2369,7 +2372,7 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 		e_contact_set (contact, field_id, (gchar *) text);
 	}
 	else if (GTK_IS_COMBO_BOX_ENTRY (widget)) {
-		gchar *text = gtk_combo_box_get_active_text (GTK_COMBO_BOX (widget));
+		gchar *text = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (widget));
 
 		e_contact_set (contact, field_id, text);
 

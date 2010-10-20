@@ -734,7 +734,7 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 				if (!priv->user_org) {
 					gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->organizer))));
-					gtk_combo_box_append_text (GTK_COMBO_BOX (priv->organizer), string);
+					gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (priv->organizer), string);
 					gtk_combo_box_set_active (GTK_COMBO_BOX (priv->organizer), 0);
 					gtk_editable_set_editable (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (priv->organizer))), FALSE);
 				} else {
@@ -2086,7 +2086,7 @@ task_page_construct (TaskPage *tpage, EMeetingStore *model, ECal *client)
 		GList *l;
 
 		for (l = priv->address_strings; l; l = l->next)
-			gtk_combo_box_append_text (GTK_COMBO_BOX (priv->organizer), l->data);
+			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (priv->organizer), l->data);
 
 		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->organizer), 0);
 

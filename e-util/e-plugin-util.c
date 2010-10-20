@@ -25,6 +25,9 @@
 
 #include "e-plugin-util.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 /* name of a property on a widget with corresponding property name for an ESource */
 #define EPU_SP_NAME "e-source-property-name"
 
@@ -418,12 +421,12 @@ e_plugin_util_add_refresh (GtkWidget *parent, const gchar *label, ESource *sourc
 	gtk_widget_show (spin);
 	gtk_box_pack_start (GTK_BOX (hbox), spin, FALSE, TRUE, 0);
 
-	combo = gtk_combo_box_new_text ();
+	combo = gtk_combo_box_text_new ();
 	gtk_widget_show (combo);
-	gtk_combo_box_append_text (GTK_COMBO_BOX (combo), _("minutes"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (combo), _("hours"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (combo), _("days"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (combo), _("weeks"));
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), _("minutes"));
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), _("hours"));
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), _("days"));
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo), _("weeks"));
 	gtk_box_pack_start (GTK_BOX (hbox), combo, FALSE, TRUE, 0);
 
 	value_num = value ? atoi (value) : 30;

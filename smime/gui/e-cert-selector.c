@@ -37,6 +37,9 @@
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 struct _ECertSelectorPrivate {
 	CERTCertList *certlist;
 
@@ -184,7 +187,7 @@ e_cert_selector_new (gint type, const gchar *currentid)
 		node = CERT_LIST_HEAD (certlist);
 		while (!CERT_LIST_END (node, certlist)) {
 			if (node->cert->nickname || node->cert->emailAddr) {
-				gtk_combo_box_append_text (GTK_COMBO_BOX (p->combobox), node->cert->nickname?node->cert->nickname:node->cert->emailAddr);
+				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (p->combobox), node->cert->nickname?node->cert->nickname:node->cert->emailAddr);
 
 				if (currentid != NULL
 				    && ((node->cert->nickname != NULL && strcmp (node->cert->nickname, currentid) == 0)

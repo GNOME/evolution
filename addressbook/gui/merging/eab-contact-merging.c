@@ -34,6 +34,9 @@
 #include "e-util/e-util-private.h"
 #include <glib/gi18n.h>
 
+/* backend-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 typedef struct dropdown_data dropdown_data;
 typedef enum {
 	E_CONTACT_MERGING_ADD,
@@ -198,7 +201,7 @@ static void
 dropdown_changed (GtkWidget *dropdown, dropdown_data *data)
 {
 	gchar *str;
-	str = gtk_combo_box_get_active_text (GTK_COMBO_BOX (dropdown));
+	str = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (dropdown));
 
 	if (g_ascii_strcasecmp(str, ""))
 		e_contact_set (data->match, data->field, str);
@@ -297,12 +300,12 @@ mergeit (EContactMergingLookup *lookup)
 				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*)label, FALSE, FALSE, 0);
 				gtk_table_attach_defaults (table, (GtkWidget *)hbox, 0, 1, row, row + 1);
 
-				dropdown = gtk_combo_box_new_text ();
-				gtk_combo_box_append_text (GTK_COMBO_BOX (dropdown), string);
+				dropdown = gtk_combo_box_text_new ();
+				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (dropdown), string);
 
 				data = g_new0 (dropdown_data, 1);
 
-				gtk_combo_box_append_text (GTK_COMBO_BOX (dropdown), "");
+				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (dropdown), "");
 
 				gtk_combo_box_set_active (GTK_COMBO_BOX (dropdown), 0);
 				data->field = use_field;
@@ -338,14 +341,14 @@ mergeit (EContactMergingLookup *lookup)
 				gtk_box_pack_start (GTK_BOX (hbox), (GtkWidget*)label, FALSE, FALSE, 0);
 				gtk_table_attach_defaults (table, (GtkWidget *)hbox, 0, 1, row, row + 1);
 				data = g_new0 (dropdown_data, 1);
-				dropdown = gtk_combo_box_new_text ();
-				gtk_combo_box_append_text (GTK_COMBO_BOX (dropdown), string);
+				dropdown = gtk_combo_box_text_new ();
+				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (dropdown), string);
 				e_contact_set (lookup->match, field, string);
 
 				if (string1 && *string1)
-					gtk_combo_box_append_text (GTK_COMBO_BOX (dropdown), string1);
+					gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (dropdown), string1);
 				else
-					gtk_combo_box_append_text (GTK_COMBO_BOX (dropdown), "");
+					gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (dropdown), "");
 
 				gtk_combo_box_set_active (GTK_COMBO_BOX (dropdown), 0);
 				data->field = field;

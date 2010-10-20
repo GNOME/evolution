@@ -50,6 +50,9 @@
 #include "em-junk.h"
 #include "em-config.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 enum {
 	HEADER_LIST_NAME_COLUMN, /* displayable name of the header (may be a translation) */
 	HEADER_LIST_ENABLED_COLUMN, /* is the header enabled? */
@@ -553,8 +556,9 @@ emmp_empty_trash_init (EMMailerPrefs *prefs,
 	for (ii = 0; ii < G_N_ELEMENTS (empty_trash_frequency); ii++) {
 		if (days >= empty_trash_frequency[ii].days)
 			hist = ii;
-		gtk_combo_box_append_text (
-			combo_box, gettext (empty_trash_frequency[ii].label));
+		gtk_combo_box_text_append_text (
+			GTK_COMBO_BOX_TEXT (combo_box),
+			gettext (empty_trash_frequency[ii].label));
 	}
 
 	g_signal_connect (
@@ -597,8 +601,9 @@ emmp_empty_junk_init (EMMailerPrefs *prefs,
 	for (ii = 0; ii < G_N_ELEMENTS (empty_trash_frequency); ii++) {
 		if (days >= empty_trash_frequency[ii].days)
 			hist = ii;
-		gtk_combo_box_append_text (
-			combo_box, gettext (empty_trash_frequency[ii].label));
+		gtk_combo_box_text_append_text (
+			GTK_COMBO_BOX_TEXT (combo_box),
+			gettext (empty_trash_frequency[ii].label));
 	}
 
 	g_signal_connect (
@@ -660,8 +665,11 @@ emmp_free (EConfig *ec, GSList *items, gpointer data)
 static void
 junk_plugin_changed (GtkWidget *combo, EMMailerPrefs *prefs)
 {
-	gchar *def_plugin = gtk_combo_box_get_active_text (GTK_COMBO_BOX (combo));
+	gchar *def_plugin;
 	const GList *plugins = mail_session_get_junk_plugins (prefs->session);
+
+	def_plugin = gtk_combo_box_text_get_active_text (
+		GTK_COMBO_BOX_TEXT (combo));
 
 	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/junk/default_plugin", def_plugin, NULL);
 	while (plugins) {

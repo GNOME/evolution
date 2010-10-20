@@ -54,6 +54,9 @@
 #include "e-send-options-utils.h"
 #include "memo-page.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define MEMO_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), TYPE_MEMO_PAGE, MemoPagePrivate))
@@ -271,7 +274,7 @@ memo_page_fill_widgets (CompEditorPage *page,
 				gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->org_combo))), string);
 			} else {
 				gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->org_combo))));
-				gtk_combo_box_append_text (GTK_COMBO_BOX (priv->org_combo), string);
+				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (priv->org_combo), string);
 				gtk_combo_box_set_active (GTK_COMBO_BOX (priv->org_combo), 0);
 				gtk_editable_set_editable (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (priv->org_combo))), FALSE);
 			}
@@ -1191,7 +1194,7 @@ memo_page_construct (MemoPage *mpage)
 			GList *l;
 
 			for (l = priv->address_strings; l; l = l->next)
-				gtk_combo_box_append_text (GTK_COMBO_BOX (priv->org_combo), l->data);
+				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (priv->org_combo), l->data);
 
 			gtk_combo_box_set_active (GTK_COMBO_BOX (priv->org_combo), 0);
 		} else

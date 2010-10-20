@@ -25,6 +25,9 @@
 #include "e-datetime-format.h"
 #include "e-util.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define KEYS_FILENAME "datetime-formats.ini"
 #define KEYS_GROUPNAME "formats"
 
@@ -358,16 +361,19 @@ fill_combo_formats (GtkWidget *combo, const gchar *key, DTFormatKind kind)
 
 	for (i = 0; items[i]; i++) {
 		if (i == 0) {
-			gtk_combo_box_append_text ((GtkComboBox *) combo, _(items[i]));
+			gtk_combo_box_text_append_text (
+				GTK_COMBO_BOX_TEXT (combo), _(items[i]));
 		} else {
-			gtk_combo_box_append_text ((GtkComboBox *) combo, items[i]);
+			gtk_combo_box_text_append_text (
+				GTK_COMBO_BOX_TEXT (combo), items[i]);
 			if (!idx && fmt && g_str_equal (fmt, items[i]))
 				idx = i;
 		}
 	}
 
 	if (idx == 0 && fmt && !g_str_equal (fmt, get_default_format (kind, key))) {
-		gtk_combo_box_append_text ((GtkComboBox *) combo, fmt);
+		gtk_combo_box_text_append_text (
+			GTK_COMBO_BOX_TEXT (combo), fmt);
 		idx = i;
 	}
 
@@ -421,7 +427,8 @@ format_combo_changed_cb (GtkWidget *combo, gpointer user_data)
 	} else {
 		gchar *text;
 
-		text = gtk_combo_box_get_active_text (GTK_COMBO_BOX (combo));
+		text = gtk_combo_box_text_get_active_text (
+			GTK_COMBO_BOX_TEXT (combo));
 		set_format_internal (key, text, keyfile);
 		g_free (text);
 	}

@@ -383,9 +383,10 @@ get_rule_part_widget (EMFilterContext *f, EFilterPart *newpart, EFilterRule *fr)
 	data->partwidget = p;
 	data->container = hbox;
 
-	combobox = gtk_combo_box_new_text ();
+	combobox = gtk_combo_box_text_new ();
 	while ((part = em_filter_context_next_action (f, part))) {
-		gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _(part->title));
+		gtk_combo_box_text_append_text (
+			GTK_COMBO_BOX_TEXT (combobox), _(part->title));
 
 		if (!strcmp (newpart->title, part->title))
 			current = index;

@@ -29,6 +29,9 @@
 #include <e-util/e-util.h>
 #include <e-util/e-util-private.h>
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 static GtkDialogClass *parent_class = NULL;
 
 static void
@@ -572,7 +575,7 @@ url_editor_dialog_run (UrlEditorDialog *dialog)
 		for (p = l; p; p = g_slist_next (p))
 			dialog->uri->events = g_slist_append (dialog->uri->events, g_strdup (e_source_peek_uid (p->data)));
 	}
-	gtk_widget_hide_all (GTK_WIDGET (dialog));
+	gtk_widget_hide (GTK_WIDGET (dialog));
 
 	return response == GTK_RESPONSE_OK;
 }

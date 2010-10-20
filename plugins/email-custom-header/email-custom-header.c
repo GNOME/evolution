@@ -35,6 +35,9 @@
 #include "e-util/e-util.h"
 #include "email-custom-header.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define d(x)
 #define GCONF_KEY_CUSTOM_HEADER "/apps/evolution/eplugin/email_custom_header/customHeader"
 
@@ -347,7 +350,7 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 
 		gtk_misc_set_alignment (GTK_MISC (priv->header_type_name_label), 0, 0.5);
 		gtk_widget_show (priv->header_type_name_label);
-		sub_combo_box.header_value_combo_box = gtk_combo_box_new_text ();
+		sub_combo_box.header_value_combo_box = gtk_combo_box_text_new ();
 		g_array_append_val (priv->combo_box_header_value, sub_combo_box);
 	}
 
@@ -370,13 +373,17 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 					break;
 				}
 			}
-			gtk_combo_box_append_text (GTK_COMBO_BOX (sub_combo_box_ptr->header_value_combo_box),
-				str);
+			gtk_combo_box_text_append_text (
+				GTK_COMBO_BOX_TEXT (
+				sub_combo_box_ptr->header_value_combo_box), str);
 		}
 
 		/* Translators: "None" as an email custom header option in a dialog invoked by Insert->Custom Header from Composer,
 		   indicating the header will not be added to a mail message */
-		gtk_combo_box_append_text (GTK_COMBO_BOX (sub_combo_box_ptr->header_value_combo_box), C_("email-custom-header", "None"));
+		gtk_combo_box_text_append_text (
+			GTK_COMBO_BOX_TEXT (
+			sub_combo_box_ptr->header_value_combo_box),
+			C_("email-custom-header", "None"));
 		gtk_widget_show (sub_combo_box_ptr->header_value_combo_box);
 	}
 }
