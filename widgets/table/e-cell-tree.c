@@ -261,14 +261,12 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	GdkRectangle rect, *clip_rect = NULL;
 	GtkWidget *canvas = GTK_WIDGET (tree_view->canvas);
 	GtkStyle *style;
-	GdkGC *fg_gc;
 	GdkColor *foreground;
 	gboolean selected;
 
 	gint offset, subcell_offset;
 
 	style = gtk_widget_get_style (canvas);
-	fg_gc = style->fg_gc[GTK_STATE_ACTIVE];
 
 	selected = flags & E_CELL_SELECTED;
 
@@ -307,7 +305,6 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		rect.height = y2 - y1;
 
 		gdk_gc_set_clip_rectangle (tree_view->gc, &rect);
-		gdk_gc_set_clip_rectangle (fg_gc, &rect);
 		clip_rect = &rect;
 
 		if (selected) {
@@ -400,7 +397,6 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 	if (clip_rect) {
 		gdk_gc_set_clip_rectangle (tree_view->gc, NULL);
-		gdk_gc_set_clip_rectangle (fg_gc, NULL);
 	}
 }
 
