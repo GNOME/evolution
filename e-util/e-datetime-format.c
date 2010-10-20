@@ -336,7 +336,7 @@ fill_combo_formats (GtkWidget *combo, const gchar *key, DTFormatKind kind)
 	gint i, idx = 0;
 	const gchar *fmt;
 
-	g_return_if_fail (GTK_IS_COMBO_BOX_ENTRY (combo));
+	g_return_if_fail (GTK_IS_COMBO_BOX (combo));
 
 	switch (kind) {
 	case DTFormatKindDate:
@@ -386,8 +386,7 @@ update_preview_widget (GtkWidget *combo)
 	gchar *value;
 	time_t now;
 
-	g_return_if_fail (combo != NULL);
-	g_return_if_fail (GTK_IS_COMBO_BOX_ENTRY (combo));
+	g_return_if_fail (GTK_IS_COMBO_BOX (combo));
 
 	preview = g_object_get_data (G_OBJECT (combo), "preview-label");
 	g_return_if_fail (preview != NULL);
@@ -410,8 +409,7 @@ format_combo_changed_cb (GtkWidget *combo, gpointer user_data)
 	DTFormatKind kind;
 	GKeyFile *keyfile;
 
-	g_return_if_fail (combo != NULL);
-	g_return_if_fail (GTK_IS_COMBO_BOX_ENTRY (combo));
+	g_return_if_fail (GTK_IS_COMBO_BOX (combo));
 
 	key = g_object_get_data (G_OBJECT (combo), "format-key");
 	g_return_if_fail (key != NULL);
@@ -507,7 +505,23 @@ e_datetime_format_add_setup_widget (GtkWidget *table, gint row, const gchar *com
 	key = gen_key (component, part, kind);
 
 	label = gtk_label_new_with_mnemonic (caption ? caption : _("Format:"));
+#if GTK_CHECK_VERSION(2,23,0)
+	/* FIXME Rewrite this when removing the version check. */
+	{
+		GtkListStore *store;
+
+		store = gtk_list_store_new (1, G_TYPE_STRING);
+		combo = g_object_new (
+			GTK_TYPE_COMBO_BOX,
+			"model", store,
+			"has-entry", TRUE,
+			"entry-text-column", 0,
+			NULL);
+		g_object_unref (store);
+	}
+#else
 	combo = gtk_combo_box_entry_new_text ();
+#endif
 
 	fill_combo_formats (combo, key, kind);
 	gtk_label_set_mnemonic_widget ((GtkLabel *)label, combo);

@@ -1420,7 +1420,7 @@ get_widgets (TaskPage *tpage)
 
 	priv->organizer = e_builder_get_widget (priv->builder, "organizer");
 	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->organizer))));
-	gtk_combo_box_entry_set_text_column (GTK_COMBO_BOX_ENTRY (priv->organizer), 0);
+	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX_ENTRY (priv->organizer), 0);
 
 	priv->invite = e_builder_get_widget (priv->builder, "invite");
 	priv->add = e_builder_get_widget (priv->builder, "add-attendee");

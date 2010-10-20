@@ -829,7 +829,7 @@ get_widgets (MemoPage *mpage)
 	priv->org_label = GW ("org-label");
 	priv->org_combo = GW ("org-combo");
 	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->org_combo))));
-	gtk_combo_box_entry_set_text_column (GTK_COMBO_BOX_ENTRY (priv->org_combo), 0);
+	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX_ENTRY (priv->org_combo), 0);
 
 	priv->to_button = GW ("to-button");
 	priv->to_hbox = GW ("to-hbox");

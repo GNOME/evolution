@@ -14,6 +14,13 @@
 #define GtkComboBoxText				GtkComboBox
 #endif
 
+#if GTK_CHECK_VERSION (2,23,0)
+#define GTK_COMBO_BOX_ENTRY			GTK_COMBO_BOX
+#else
+#define gtk_combo_box_set_entry_text_column \
+	gtk_combo_box_entry_set_text_column
+#endif
+
 #if GTK_CHECK_VERSION (2,90,5)
 
 /* Recreate GdkRegion until we drop GTK2 compatibility. */
