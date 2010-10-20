@@ -49,10 +49,6 @@ struct _EMeetingTimeSelectorItem
 	/* The parent EMeetingTimeSelector widget. */
 	EMeetingTimeSelector *mts;
 
-	/* This GC is used for most of the drawing. The fg/bg colors are
-	   changed for each bit. */
-	GdkGC *main_gc;
-
 	/* The normal, resize & busy cursors . */
 	GdkCursor *normal_cursor;
 	GdkCursor *resize_cursor;
