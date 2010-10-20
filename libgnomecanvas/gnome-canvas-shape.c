@@ -249,7 +249,8 @@ gnome_canvas_shape_set_property (GObject      *object,
 
 	switch (param_id) {
 	case PROP_FILL_COLOR:
-		if (gnome_canvas_get_color (item->canvas, g_value_get_string (value), &color)) {
+		if (g_value_get_string (value) &&
+                    gdk_color_parse (g_value_get_string (value), &color)) {
 			priv->fill_set = TRUE;
 			priv->fill_rgba = get_rgba_from_color (&color);
 		} else if (priv->fill_set)
@@ -281,7 +282,8 @@ gnome_canvas_shape_set_property (GObject      *object,
 		break;
 
 	case PROP_OUTLINE_COLOR:
-		if (gnome_canvas_get_color (item->canvas, g_value_get_string (value), &color)) {
+		if (g_value_get_string (value) &&
+                    gdk_color_parse (g_value_get_string (value), &color)) {
 			priv->outline_set = TRUE;
 			priv->outline_rgba = get_rgba_from_color (&color);
 		} else if (priv->outline_set)
