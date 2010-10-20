@@ -51,7 +51,8 @@ typedef struct {
 	gint              (*count)          (EReflowModel *etm);
 	gint              (*height)         (EReflowModel *etm, gint n, GnomeCanvasGroup *parent);
 	GnomeCanvasItem *(*incarnate)      (EReflowModel *etm, gint n, GnomeCanvasGroup *parent);
-	gint              (*compare)        (EReflowModel *etm, gint n1, gint n2);
+	GHashTable *     (*create_cmp_cache) (EReflowModel *etm);
+	gint              (*compare)         (EReflowModel *etm, gint n1, gint n2, GHashTable *cmp_cache);
 	void             (*reincarnate)    (EReflowModel *etm, gint n, GnomeCanvasItem *item);
 
 	/*
@@ -83,9 +84,11 @@ gint              e_reflow_model_height          (EReflowModel     *e_reflow_mod
 GnomeCanvasItem *e_reflow_model_incarnate       (EReflowModel     *e_reflow_model,
 						 gint               n,
 						 GnomeCanvasGroup *parent);
+GHashTable *     e_reflow_model_create_cmp_cache (EReflowModel *e_reflow_model);
 gint              e_reflow_model_compare         (EReflowModel     *e_reflow_model,
 						 gint               n1,
-						 gint               n2);
+						 gint               n2,
+						 GHashTable        *cmp_cache);
 void             e_reflow_model_reincarnate     (EReflowModel     *e_reflow_model,
 						 gint               n,
 						 GnomeCanvasItem  *item);

@@ -74,11 +74,18 @@ enum {
 
 static guint signals[LAST_SIGNAL] = {0, };
 
-static gint
-er_compare (gint i1, gint i2, gpointer user_data)
+static GHashTable *
+er_create_cmp_cache (gpointer user_data)
 {
 	EReflow *reflow = user_data;
-	return e_reflow_model_compare (reflow->model, i1, i2);
+	return e_reflow_model_create_cmp_cache (reflow->model);
+}
+
+static gint
+er_compare (gint i1, gint i2, GHashTable *cmp_cache, gpointer user_data)
+{
+	EReflow *reflow = user_data;
+	return e_reflow_model_compare (reflow->model, i1, i2, cmp_cache);
 }
 
 static gint
@@ -1594,7 +1601,7 @@ e_reflow_init (EReflow *reflow)
 	reflow->set_scroll_adjustments_id = 0;
 
 	reflow->selection                 = E_SELECTION_MODEL (e_selection_model_simple_new ());
-	reflow->sorter                    = e_sorter_array_new (er_compare, reflow);
+	reflow->sorter                    = e_sorter_array_new (er_create_cmp_cache, er_compare, reflow);
 
 	g_object_set (reflow->selection,
 		      "sorter", reflow->sorter,

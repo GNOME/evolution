@@ -181,8 +181,35 @@ addressbook_height (EReflowModel *erm, gint i, GnomeCanvasGroup *parent)
 	return height;
 }
 
+static GHashTable *
+addressbook_create_cmp_cache (EReflowModel *erm)
+{
+	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER (erm);
+	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
+	GHashTable *cmp_cache;
+	gint ii, count;
+
+	count = e_reflow_model_count (erm);
+
+	if (priv->loading || count <= 0)
+		return NULL;
+
+	cmp_cache = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
+
+	for (ii = 0; ii < count; ii++) {
+		EContact *contact = (EContact*) e_addressbook_model_contact_at (priv->model, ii);
+		if (contact) {
+			const gchar *file_as = e_contact_get_const (contact, E_CONTACT_FILE_AS);
+			if (file_as)
+				g_hash_table_insert (cmp_cache, GINT_TO_POINTER (ii), g_utf8_collate_key (file_as, -1));
+		}
+	}
+
+	return cmp_cache;
+}
+
 static gint
-addressbook_compare (EReflowModel *erm, gint n1, gint n2)
+addressbook_compare (EReflowModel *erm, gint n1, gint n2, GHashTable *cmp_cache)
 {
 	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER (erm);
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
@@ -198,10 +225,18 @@ addressbook_compare (EReflowModel *erm, gint n1, gint n2)
 		if (contact1 && contact2) {
 			const gchar *file_as1, *file_as2;
 			const gchar *uid1, *uid2;
-			file_as1 = e_contact_get_const (contact1, E_CONTACT_FILE_AS);
-			file_as2 = e_contact_get_const (contact2, E_CONTACT_FILE_AS);
-			if (file_as1 && file_as2)
-				return g_utf8_collate (file_as1, file_as2);
+
+			if (cmp_cache) {
+				file_as1 = g_hash_table_lookup (cmp_cache, GINT_TO_POINTER (n1));
+				file_as2 = g_hash_table_lookup (cmp_cache, GINT_TO_POINTER (n2));
+				if (file_as1 && file_as2)
+					return strcmp (file_as1, file_as2);
+			} else {
+				file_as1 = e_contact_get_const (contact1, E_CONTACT_FILE_AS);
+				file_as2 = e_contact_get_const (contact2, E_CONTACT_FILE_AS);
+				if (file_as1 && file_as2)
+					return g_utf8_collate (file_as1, file_as2);
+			}
 			if (file_as1)
 				return -1;
 			if (file_as2)
@@ -473,6 +508,7 @@ e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 	model_class->set_width = addressbook_set_width;
 	model_class->count = addressbook_count;
 	model_class->height = addressbook_height;
+	model_class->create_cmp_cache = addressbook_create_cmp_cache;
 	model_class->compare = addressbook_compare;
 	model_class->incarnate = addressbook_incarnate;
 	model_class->reincarnate = addressbook_reincarnate;

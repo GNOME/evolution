@@ -58,7 +58,7 @@ esort_callback (gconstpointer data1, gconstpointer data2, gpointer user_data)
 	int1 = *(gint *)data1;
 	int2 = *(gint *)data2;
 
-	ret_val = esa->compare (int1, int2, esa->closure);
+	ret_val = esa->compare (int1, int2, esa->cmp_cache, esa->closure);
 	if (ret_val != 0)
 		return ret_val;
 
@@ -84,10 +84,19 @@ esa_sort (ESorterArray *esa)
 	for (i = 0; i < rows; i++)
 		esa->sorted[i] = i;
 
-	if (esa->compare)
+	if (esa->compare) {
+		if (esa->create_cmp_cache)
+			esa->cmp_cache = esa->create_cmp_cache (esa->closure);
+
 		g_qsort_with_data (
 			esa->sorted, rows, sizeof (gint),
 			esort_callback, esa);
+
+		if (esa->cmp_cache) {
+			g_hash_table_destroy (esa->cmp_cache);
+			esa->cmp_cache = NULL;
+		}
+	}
 }
 
 static void
@@ -225,20 +234,22 @@ e_sorter_array_append  (ESorterArray *esa, gint count)
 
 ESorterArray *
 e_sorter_array_construct  (ESorterArray *esa,
+			   ECreateCmpCacheFunc create_cmp_cache,
 			   ECompareRowsFunc  compare,
 			   gpointer      closure)
 {
+	esa->create_cmp_cache = create_cmp_cache;
 	esa->compare = compare;
 	esa->closure = closure;
 	return esa;
 }
 
 ESorterArray *
-e_sorter_array_new (ECompareRowsFunc compare, gpointer closure)
+e_sorter_array_new (ECreateCmpCacheFunc create_cmp_cache, ECompareRowsFunc compare, gpointer closure)
 {
 	ESorterArray *esa = g_object_new (E_SORTER_ARRAY_TYPE, NULL);
 
-	return e_sorter_array_construct (esa, compare, closure);
+	return e_sorter_array_construct (esa, create_cmp_cache, compare, closure);
 }
 
 static void
@@ -257,6 +268,8 @@ static void
 e_sorter_array_init (ESorterArray *esa)
 {
 	esa->rows       = 0;
+	esa->cmp_cache  = NULL;
+	esa->create_cmp_cache = NULL;
 	esa->compare    = NULL;
 	esa->closure    = NULL;
 	esa->sorted     = NULL;

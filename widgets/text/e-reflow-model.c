@@ -109,24 +109,50 @@ e_reflow_model_incarnate (EReflowModel *e_reflow_model, gint n, GnomeCanvasGroup
 }
 
 /**
+ * e_reflow_model_create_cmp_cache:
+ * @e_reflow_model: The e-reflow-model to operate on
+ *
+ * Creates a compare cache for quicker sorting. The sorting function
+ * may not depend on the cache, but it should benefit from it if available.
+ *
+ * Returns: Newly created GHashTable with cached compare values. This will be
+ * automatically freed with g_hash_table_destroy() when no longer needed.
+ **/
+GHashTable *
+e_reflow_model_create_cmp_cache (EReflowModel *e_reflow_model)
+{
+	g_return_val_if_fail (e_reflow_model != NULL, NULL);
+	g_return_val_if_fail (E_IS_REFLOW_MODEL (e_reflow_model), NULL);
+
+	if (!E_REFLOW_MODEL_GET_CLASS (e_reflow_model)->create_cmp_cache)
+		return NULL;
+
+	return E_REFLOW_MODEL_GET_CLASS (e_reflow_model)->create_cmp_cache (e_reflow_model);
+}
+
+/**
  * e_reflow_model_compare:
  * @e_reflow_model: The e-reflow-model to operate on
  * @n1: The first item to compare
  * @n2: The second item to compare
+ * @cmp_cache: #GHashTable of cached compare values, created by
+ *    e_reflow_model_create_cmp_cache(). This can be NULL, when
+ *    caching is not available, even when @e_reflow_model defines
+ *    the create_cmp_cache function.
  *
  * Compares item n1 and item n2 to see which should come first.
  *
  * Returns: strcmp like semantics for the comparison value.
  */
 gint
-e_reflow_model_compare (EReflowModel *e_reflow_model, gint n1, gint n2)
+e_reflow_model_compare (EReflowModel *e_reflow_model, gint n1, gint n2, GHashTable *cmp_cache)
 {
 #if 0
 	g_return_val_if_fail (e_reflow_model != NULL, 0);
 	g_return_val_if_fail (E_IS_REFLOW_MODEL (e_reflow_model), 0);
 #endif
 
-	return E_REFLOW_MODEL_GET_CLASS (e_reflow_model)->compare (e_reflow_model, n1, n2);
+	return E_REFLOW_MODEL_GET_CLASS (e_reflow_model)->compare (e_reflow_model, n1, n2, cmp_cache);
 }
 
 /**

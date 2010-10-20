@@ -39,12 +39,17 @@ G_BEGIN_DECLS
 #define _E_COMPARE_ROWS_FUNC_H_
 typedef gint (*ECompareRowsFunc) (gint row1,
 				 gint row2,
+				 GHashTable *cmp_cache,
 				 gpointer closure);
 #endif
+
+typedef GHashTable * (*ECreateCmpCacheFunc) (gpointer closure);
 
 typedef struct {
 	ESorter      base;
 
+	GHashTable *cmp_cache;
+	ECreateCmpCacheFunc create_cmp_cache;
 	ECompareRowsFunc compare;
 	gpointer     closure;
 
@@ -61,9 +66,11 @@ typedef struct {
 
 GType         e_sorter_array_get_type   (void);
 ESorterArray *e_sorter_array_construct  (ESorterArray     *sorter,
+					 ECreateCmpCacheFunc create_cmp_cache,
 					 ECompareRowsFunc  compare,
 					 gpointer          closure);
-ESorterArray *e_sorter_array_new        (ECompareRowsFunc  compare,
+ESorterArray *e_sorter_array_new        (ECreateCmpCacheFunc create_cmp_cache,
+					 ECompareRowsFunc  compare,
 					 gpointer          closure);
 void          e_sorter_array_clean      (ESorterArray     *esa);
 void          e_sorter_array_set_count  (ESorterArray     *esa,
