@@ -3580,13 +3580,6 @@ e_tree_class_init (ETreeClass *class)
 							       G_PARAM_READWRITE));
 
 	gtk_widget_class_install_style_property (widget_class,
-			   g_param_spec_boolean ("retro_look",
-						 "Retro Look",
-						 "Draw lines and +/- expanders.",
-						 FALSE,
-						 G_PARAM_READABLE));
-
-	gtk_widget_class_install_style_property (widget_class,
 			   g_param_spec_int ("expander_size",
 					     "Expander Size",
 					     "Size of the expander arrow",

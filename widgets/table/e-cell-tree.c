@@ -48,18 +48,13 @@
 #include "e-tree-model.h"
 #include "e-tree-table-adapter.h"
 
-#include "tree-expanded.xpm"
-#include "tree-unexpanded.xpm"
-
 G_DEFINE_TYPE (ECellTree, e_cell_tree, E_CELL_TYPE)
 
 typedef struct {
 	ECellView    cell_view;
 	ECellView   *subcell_view;
-	GdkGC       *gc;
 
 	GnomeCanvas *canvas;
-	gboolean retro_look;
 	gboolean prelit;
 	gint animate_timeout;
 
@@ -169,19 +164,9 @@ static void
 ect_realize (ECellView *ecell_view)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
-	GdkWindow *window;
 
 	/* realize our subcell view */
 	e_cell_realize (tree_view->subcell_view);
-
-	window = gtk_widget_get_window (GTK_WIDGET (tree_view->canvas));
-	tree_view->gc = gdk_gc_new (window);
-
-	gdk_gc_set_line_attributes (tree_view->gc, 1,
-				    GDK_LINE_ON_OFF_DASH,
-				    GDK_CAP_NOT_LAST,
-				    GDK_JOIN_MITER);
-	gdk_gc_set_dashes (tree_view->gc, 0, (gint8 *)"\1\1", 2);
 
 	if (E_CELL_CLASS (e_cell_tree_parent_class)->realize)
 		(* E_CELL_CLASS (e_cell_tree_parent_class)->realize) (ecell_view);
@@ -198,34 +183,8 @@ ect_unrealize (ECellView *ecv)
 	/* unrealize our subcell view. */
 	e_cell_unrealize (tree_view->subcell_view);
 
-	g_object_unref (tree_view->gc);
-	tree_view->gc = NULL;
-
 	if (E_CELL_CLASS (e_cell_tree_parent_class)->unrealize)
 		(* E_CELL_CLASS (e_cell_tree_parent_class)->unrealize) (ecv);
-}
-
-static void
-draw_retro_expander (ECellTreeView *ectv, GdkDrawable *drawable, gboolean expanded, GdkRectangle *rect)
-{
-	GdkPixbuf *image;
-	gint image_width, image_height;
-	ECellTree *ect = E_CELL_TREE (ectv->cell_view.ecell);
-
-	image = expanded ? ect->open_pixbuf : ect->closed_pixbuf;
-
-	image_width = gdk_pixbuf_get_width (image);
-	image_height = gdk_pixbuf_get_height (image);
-
-	gdk_draw_pixbuf (drawable,
-			 NULL,
-			 image,
-			 rect->x, rect->y,
-			 rect->width - image_width / 2,
-			 rect->height - image_height / 2,
-			 image_width, image_height,
-			 GDK_RGB_DITHER_NORMAL,
-			 image_width, 0);
 }
 
 static void
@@ -258,10 +217,9 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
 	ETreeTableAdapter *tree_table_adapter = e_cell_tree_get_tree_table_adapter (ecell_view->e_table_model, row);
 	ETreePath node;
-	GdkRectangle rect, *clip_rect = NULL;
+	GdkRectangle rect;
 	GtkWidget *canvas = GTK_WIDGET (tree_view->canvas);
 	GtkStyle *style;
-	GdkColor *foreground;
 	gboolean selected;
 
 	gint offset, subcell_offset;
@@ -274,14 +232,10 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	if (/* XXX */ TRUE) {
 		GdkPixbuf *node_image;
 		gint node_image_width = 0, node_image_height = 0;
-		ETreePath parent_node;
 		ETree *tree;
 
 		tree = E_TREE (gtk_widget_get_parent (canvas));
 
-		gtk_widget_style_get (GTK_WIDGET (tree),
-				      "retro_look", &tree_view->retro_look,
-				      NULL);
 		tree_view->prelit = FALSE;
 
 		node = e_cell_tree_get_node (ecell_view->e_table_model, row);
@@ -304,75 +258,14 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		rect.width = subcell_offset + node_image_width;
 		rect.height = y2 - y1;
 
-		gdk_gc_set_clip_rectangle (tree_view->gc, &rect);
-		clip_rect = &rect;
-
-		if (selected) {
-			foreground = &style->text[GTK_STATE_SELECTED];
-		} else {
-			foreground = &style->text[GTK_STATE_NORMAL];
-		}
-
-		gdk_gc_set_foreground (tree_view->gc, foreground);
-
-		/* draw our lines */
-		if (tree_view->retro_look && E_CELL_TREE (tree_view->cell_view.ecell)->draw_lines) {
-
-			gint depth;
-
-			if (visible_depth_of_node (ecell_view->e_table_model, row) > 0
-			    || e_tree_model_node_get_children (tree_model, node, NULL) > 0)
-				gdk_draw_line (drawable, tree_view->gc,
-					       rect.x + offset - INDENT_AMOUNT / 2 + 1,
-					       rect.y + rect.height / 2,
-					       rect.x + offset,
-					       rect.y + rect.height / 2);
-
-			if (visible_depth_of_node (ecell_view->e_table_model, row) != 0) {
-				gdk_draw_line (drawable, tree_view->gc,
-					       rect.x + offset - INDENT_AMOUNT / 2,
-					       rect.y,
-					       rect.x + offset - INDENT_AMOUNT / 2,
-					       (e_tree_table_adapter_node_get_next (tree_table_adapter, node)
-						? rect.y + rect.height
-						: rect.y + rect.height / 2));
-			}
-
-			/* now traverse back up to the root of the tree, checking at
-			   each level if the node has siblings, and drawing the
-			   correct vertical pipe for it's configuration. */
-			parent_node = e_tree_model_node_get_parent (tree_model, node);
-			offset -= INDENT_AMOUNT;
-			depth = visible_depth_of_node (ecell_view->e_table_model, row) - 1;
-			while (parent_node && depth != 0) {
-				if (e_tree_table_adapter_node_get_next (tree_table_adapter, parent_node)) {
-					gdk_draw_line (drawable, tree_view->gc,
-						       rect.x + offset - INDENT_AMOUNT / 2,
-						       rect.y,
-						       rect.x + offset - INDENT_AMOUNT / 2,
-						       rect.y + rect.height);
-				}
-				parent_node = e_tree_model_node_get_parent (tree_model, parent_node);
-				depth--;
-				offset -= INDENT_AMOUNT;
-			}
-		}
-
 		/* now draw our icon if we're expandable */
 		if (e_tree_model_node_is_expandable (tree_model, node)) {
 			gboolean expanded = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
 			GdkRectangle r;
-			if (tree_view->retro_look) {
-				r.x = 0;
-				r.y = 0;
-				r.width = x1 + subcell_offset - INDENT_AMOUNT / 2,
-				r.height = y1 + (y2 - y1) / 2,
-				draw_retro_expander (tree_view, drawable, expanded, &r);
-			} else {
-				r = rect;
-				r.width -= node_image_width + 2;
-				draw_expander (tree_view, drawable, expanded ? GTK_EXPANDER_EXPANDED : GTK_EXPANDER_COLLAPSED, GTK_STATE_NORMAL, &r);
-			}
+
+                        r = rect;
+                        r.width -= node_image_width + 2;
+                        draw_expander (tree_view, drawable, expanded ? GTK_EXPANDER_EXPANDED : GTK_EXPANDER_COLLAPSED, GTK_STATE_NORMAL, &r);
 		}
 
 		if (node_image) {
@@ -394,10 +287,6 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	e_cell_draw (tree_view->subcell_view, drawable,
 		     model_col, view_col, row, flags,
 		     x1 + subcell_offset, y1, x2, y2);
-
-	if (clip_rect) {
-		gdk_gc_set_clip_rectangle (tree_view->gc, NULL);
-	}
 }
 
 static void
@@ -505,34 +394,30 @@ ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 		if (event_in_expander (event, offset, 0)) {
 			if (e_tree_model_node_is_expandable (tree_model, node)) {
 				gboolean expanded = e_tree_table_adapter_node_is_expanded (etta, node);
-				if (tree_view->retro_look)
-					e_tree_table_adapter_node_set_expanded (etta, node, !expanded);
-				else {
-					gint tmp_row = row;
-					GdkRectangle area;
-					animate_closure_t *closure = g_new0 (animate_closure_t, 1);
-					gint hgt;
+                                gint tmp_row = row;
+                                GdkRectangle area;
+                                animate_closure_t *closure = g_new0 (animate_closure_t, 1);
+                                gint hgt;
 
-					e_table_item_get_cell_geometry (tree_view->cell_view.e_table_item_view,
-								&tmp_row, &view_col, &area.x, &area.y, NULL, &area.height);
-					area.width = offset - 2;
-					hgt = e_cell_height (ecell_view, model_col, view_col, row);
+                                e_table_item_get_cell_geometry (tree_view->cell_view.e_table_item_view,
+                                                        &tmp_row, &view_col, &area.x, &area.y, NULL, &area.height);
+                                area.width = offset - 2;
+                                hgt = e_cell_height (ecell_view, model_col, view_col, row);
 
-					if (hgt != area.height) /* Composite cells */
-						area.height += hgt;
+                                if (hgt != area.height) /* Composite cells */
+                                        area.height += hgt;
 
-					draw_expander (
-						tree_view, window, expanded ?
-						GTK_EXPANDER_SEMI_EXPANDED :
-						GTK_EXPANDER_SEMI_COLLAPSED,
-						GTK_STATE_NORMAL, &area);
-					closure->ectv = tree_view;
-					closure->etta = etta;
-					closure->node = node;
-					closure->expanded = expanded;
-					closure->area = area;
-					tree_view->animate_timeout = g_timeout_add (50, animate_expander, closure);
-				}
+                                draw_expander (
+                                        tree_view, window, expanded ?
+                                        GTK_EXPANDER_SEMI_EXPANDED :
+                                        GTK_EXPANDER_SEMI_COLLAPSED,
+                                        GTK_STATE_NORMAL, &area);
+                                closure->ectv = tree_view;
+                                closure->etta = etta;
+                                closure->node = node;
+                                closure->expanded = expanded;
+                                closure->area = area;
+                                tree_view->animate_timeout = g_timeout_add (50, animate_expander, closure);
 				return TRUE;
 			}
 		}
@@ -542,7 +427,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 
 	case GDK_MOTION_NOTIFY:
 
-		if (!tree_view->retro_look && e_tree_model_node_is_expandable (tree_model, node)) {
+		if (e_tree_model_node_is_expandable (tree_model, node)) {
 			gint height = ect_height (ecell_view, model_col, view_col, row);
 			GdkRectangle area;
 			gboolean in_expander = event_in_expander (event, offset, height);
@@ -718,7 +603,6 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 		gint offset = offset_of_node (ecell_view->e_table_model, row);
 		gint subcell_offset = offset;
 		gboolean expandable = e_tree_model_node_is_expandable (tree_model, node);
-		gboolean expanded = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
 
 		/* draw our lines */
 		if (E_CELL_TREE (tree_view->cell_view.ecell)->draw_lines) {
@@ -764,25 +648,10 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 
 		/* now draw our icon if we're expandable */
 		if (expandable) {
-			ECellTree *tree;
-			GdkPixbuf *pixbuf;
-			gint image_width;
-			gint image_height;
-
-			tree = E_CELL_TREE (tree_view->cell_view.ecell);
-
-			if (expanded)
-				pixbuf = tree->open_pixbuf;
-			else
-				pixbuf = tree->closed_pixbuf;
-
-			image_width = gdk_pixbuf_get_width (pixbuf);
-			image_height = gdk_pixbuf_get_height (pixbuf);
-
-			gdk_cairo_set_source_pixbuf (
-				cr, pixbuf, subcell_offset -
-				INDENT_AMOUNT / 2 - image_width - 2,
-				height / 2 - image_height / 2);
+#if GTK_CHECK_VERSION (3, 0, 0)
+		        gboolean expanded = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
+#error Paint an expander here
+#endif
 		}
 
 		cairo_stroke (cr);
@@ -816,14 +685,6 @@ ect_dispose (GObject *object)
 	if (ect->subcell)
 		g_object_unref (ect->subcell);
 	ect->subcell = NULL;
-
-	if (ect->open_pixbuf)
-		g_object_unref (ect->open_pixbuf);
-	ect->open_pixbuf = NULL;
-
-	if (ect->closed_pixbuf)
-		g_object_unref (ect->closed_pixbuf);
-	ect->closed_pixbuf = NULL;
 
 	G_OBJECT_CLASS (e_cell_tree_parent_class)->dispose (object);
 }
@@ -862,8 +723,6 @@ e_cell_tree_init (ECellTree *ect)
 /**
  * e_cell_tree_construct:
  * @ect: the ECellTree we're constructing.
- * @open_pixbuf: pixbuf to be used instead of the '-' icon.
- * @closed_pixbuf: pixbuf to be used instead of the '+' icon.
  * @draw_lines: whether or not to draw the lines between parents/children/siblings.
  * @subcell: the ECell to render to the right of the tree effects.
  *
@@ -873,30 +732,18 @@ e_cell_tree_init (ECellTree *ect)
  **/
 void
 e_cell_tree_construct (ECellTree *ect,
-		       GdkPixbuf *open_pixbuf,
-		       GdkPixbuf *closed_pixbuf,
 		       gboolean draw_lines,
 		       ECell *subcell)
 {
 	ect->subcell = subcell;
 	if (subcell)
 		g_object_ref_sink (subcell);
-	if (open_pixbuf)
-		ect->open_pixbuf = open_pixbuf;
-	else
-		ect->open_pixbuf = gdk_pixbuf_new_from_xpm_data ((const gchar **)tree_expanded_xpm);
-	if (closed_pixbuf)
-		ect->closed_pixbuf = closed_pixbuf;
-	else
-		ect->closed_pixbuf = gdk_pixbuf_new_from_xpm_data ((const gchar **)tree_unexpanded_xpm);
 
 	ect->draw_lines = draw_lines;
 }
 
 /**
  * e_cell_tree_new:
- * @open_pixbuf: pixbuf to be used instead of the '-' icon.
- * @closed_pixbuf: pixbuf to be used instead of the '+' icon.
  * @draw_lines: whether or not to draw the lines between parents/children/siblings.
  * @subcell: the ECell to render to the right of the tree effects.
  *
@@ -910,14 +757,12 @@ e_cell_tree_construct (ECellTree *ect,
  * Return value: an ECell object that can be used to render trees.
  **/
 ECell *
-e_cell_tree_new (GdkPixbuf *open_pixbuf,
-		 GdkPixbuf *closed_pixbuf,
-		 gboolean draw_lines,
+e_cell_tree_new (gboolean draw_lines,
 		 ECell *subcell)
 {
 	ECellTree *ect = g_object_new (E_CELL_TREE_TYPE, NULL);
 
-	e_cell_tree_construct (ect, open_pixbuf, closed_pixbuf, draw_lines, subcell);
+	e_cell_tree_construct (ect, draw_lines, subcell);
 
 	return (ECell *) ect;
 }
