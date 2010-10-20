@@ -219,91 +219,6 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
 }
 #endif
 
-/* Default width of the elision arrow in pixels */
-#define ARROW_WIDTH 4
-
-/**
- * e_table_draw_elided_string:
- * @drawable: Destination drawable.
- * @font: Font for the text.
- * @gc: GC to use for drawing.
- * @x: X insertion point for the string.
- * @y: Y insertion point for the string's baseline.
- * @layout: the PangoLayout to draw.
- * @str: the string we're drawing, passed in so we can change the layout if
- *       it needs eliding.
- * @max_width: Maximum width in which the string must fit.
- * @center: Whether to center the string in the available area if it does fit.
- *
- * Draws a string, possibly trimming it so that it fits inside the specified
- * maximum width.  If it does not fit, an elision indicator is drawn after the
- * last character that does fit.
- **/
-static void
-e_table_draw_elided_string (GdkDrawable *drawable, GdkGC *gc, GtkWidget *widget,
-			    gint x, gint y, PangoLayout *layout, gchar *str,
-			    gint max_width, gboolean center)
-{
-	gint width;
-	gint height;
-	gint index;
-	GSList *lines;
-	PangoLayoutLine *line;
-
-	g_return_if_fail (drawable != NULL);
-	g_return_if_fail (gc != NULL);
-	g_return_if_fail (layout != NULL);
-	g_return_if_fail (max_width >= 0);
-
-	pango_layout_get_pixel_size (layout, &width, &height);
-
-	gdk_gc_set_clip_rectangle (gc, NULL);
-
-	if (width <= max_width) {
-		gint xpos;
-
-		if (center)
-			xpos = x + (max_width - width) / 2;
-		else
-			xpos = x;
-
-		gdk_draw_layout (drawable, gc,
-				 xpos, y,
-				 layout);
-	} else {
-		gint arrow_width;
-		gint i;
-
-		if (max_width < ARROW_WIDTH + 1)
-			arrow_width = max_width - 1;
-		else
-			arrow_width = ARROW_WIDTH;
-
-		lines = pango_layout_get_lines (layout);
-		line = lines->data;
-
-		if (!pango_layout_line_x_to_index (line,
-						   (max_width - arrow_width) * PANGO_SCALE,
-						   &index,
-						   NULL)) {
-			g_warning ("pango_layout_line_x_to_index returned false");
-			return;
-		}
-
-		pango_layout_set_text (layout, str, index);
-
-		gdk_draw_layout (drawable, gc, x, y, layout);
-
-		for (i = 0; i < arrow_width; i++) {
-			gdk_draw_line (drawable, gc,
-				       x + max_width - i,
-				       y + height / 2 - i,
-				       x + max_width - i,
-				       y + height / 2 + i + 1);
-		}
-	}
-}
-
 /**
  * e_table_header_draw_button:
  * @drawable: Destination drawable.
@@ -403,6 +318,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 		return; /* nothing else fits */
 
 	layout = build_header_layout (widget, ecol->text);
+        pango_layout_set_ellipsize (layout, PANGO_ELLIPSIZE_END);
 
 	/* Pixbuf or label */
 	if (ecol->icon_name != NULL) {
@@ -432,9 +348,11 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 
 			ypos = inner_y;
 
-			e_table_draw_elided_string (drawable, gc, widget,
-						    xpos + pwidth + 1, ypos,
-						    layout, ecol->text, inner_width - (xpos - inner_x), FALSE);
+                        pango_layout_set_width (layout, (inner_width - (xpos - inner_x)) * PANGO_SCALE);
+
+                        gdk_draw_layout (drawable, gc,
+					 xpos + pwidth + 1, ypos,
+                                         layout);
 		}
 
 		/* FIXME: For some reason, under clutter gdk_draw_rgb_image_dithalign crashes
@@ -465,9 +383,11 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 				GDK_RGB_DITHER_NONE,
 				0, 0);
 	} else {
-		e_table_draw_elided_string (drawable, gc, widget,
-					    inner_x, inner_y,
-					    layout, ecol->text, inner_width, FALSE);
+                pango_layout_set_width (layout, inner_width * PANGO_SCALE);
+
+                gdk_draw_layout (drawable, gc,
+                                 inner_x, inner_y,
+                                 layout);
 	}
 
 	switch (arrow) {
