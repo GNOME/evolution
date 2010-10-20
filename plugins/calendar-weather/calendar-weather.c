@@ -37,6 +37,9 @@
 #include <libgweather/gweather-xml.h>
 #undef GWEATHER_I_KNOW_THIS_IS_UNSTABLE
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 GtkWidget *e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *e_calendar_weather_refresh (EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data);
@@ -450,10 +453,14 @@ e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
 
-	combobox = gtk_combo_box_new_text ();
+	combobox = gtk_combo_box_text_new ();
 	gtk_widget_show (combobox);
-	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("Metric (Celsius, cm, etc)"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("Imperial (Fahrenheit, inches, etc)"));
+	gtk_combo_box_text_append_text (
+		GTK_COMBO_BOX_TEXT (combobox),
+		_("Metric (Celsius, cm, etc)"));
+	gtk_combo_box_text_append_text (
+		GTK_COMBO_BOX_TEXT (combobox),
+		_("Imperial (Fahrenheit, inches, etc)"));
 	set_units (source, combobox);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), combobox);
 	g_signal_connect (G_OBJECT (combobox), "changed", G_CALLBACK (units_changed), t);

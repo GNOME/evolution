@@ -30,6 +30,9 @@
 #include "e-attachment-icon-view.h"
 #include "e-attachment-tree-view.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define E_MAIL_ATTACHMENT_BAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_ATTACHMENT_BAR, EMailAttachmentBarPrivate))
@@ -606,10 +609,12 @@ mail_attachment_bar_init (EMailAttachmentBar *bar)
 
 	container = widget;
 
-	widget = gtk_combo_box_new_text ();
+	widget = gtk_combo_box_text_new ();
 	gtk_size_group_add_widget (size_group, widget);
-	gtk_combo_box_append_text (GTK_COMBO_BOX (widget), _("Icon View"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (widget), _("List View"));
+	gtk_combo_box_text_append_text (
+		GTK_COMBO_BOX_TEXT (widget), _("Icon View"));
+	gtk_combo_box_text_append_text (
+		GTK_COMBO_BOX_TEXT (widget), _("List View"));
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	bar->priv->combo_box = g_object_ref (widget);
 	gtk_widget_show (widget);

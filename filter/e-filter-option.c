@@ -36,6 +36,9 @@
 #include "e-filter-option.h"
 #include "e-filter-part.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 G_DEFINE_TYPE (
 	EFilterOption,
 	e_filter_option,
@@ -355,11 +358,12 @@ filter_option_get_widget (EFilterElement *element)
 		g_list_free (old_ops);
 	}
 
-	combobox = gtk_combo_box_new_text ();
+	combobox = gtk_combo_box_text_new ();
 	l = option->options;
 	while (l) {
 		op = l->data;
-		gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _(op->title));
+		gtk_combo_box_text_append_text (
+			GTK_COMBO_BOX_TEXT (combobox), _(op->title));
 
 		if (op == option->current)
 			current = index;

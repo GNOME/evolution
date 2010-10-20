@@ -37,6 +37,9 @@
 
 #include "google-contacts-source.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 void
 ensure_google_contacts_source_group (void)
 {
@@ -330,11 +333,11 @@ plugin_google_contacts (EPlugin *epl,
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (interval_sb), time);
 	gtk_box_pack_start (GTK_BOX (hbox), interval_sb, FALSE, FALSE, 0);
 
-	interval_combo = gtk_combo_box_new_text ();
-	gtk_combo_box_append_text (GTK_COMBO_BOX (interval_combo), _("minutes"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (interval_combo), _("hours"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (interval_combo), _("days"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (interval_combo), _("weeks"));
+	interval_combo = gtk_combo_box_text_new ();
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (interval_combo), _("minutes"));
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (interval_combo), _("hours"));
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (interval_combo), _("days"));
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (interval_combo), _("weeks"));
 	gtk_combo_box_set_active (GTK_COMBO_BOX (interval_combo), type);
 	gtk_box_pack_start (GTK_BOX (hbox), interval_combo, FALSE, FALSE, 0);
 

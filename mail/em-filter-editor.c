@@ -35,6 +35,9 @@
 #include "em-filter-editor.h"
 #include "em-filter-rule.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 static gpointer parent_class;
 
 static EFilterRule *
@@ -175,7 +178,8 @@ em_filter_editor_construct (EMFilterEditor *fe,
 	gtk_list_store_clear (GTK_LIST_STORE (model));
 
 	for (i = 0; source_names[i].source; i++) {
-		gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), source_names[i].name);
+		gtk_combo_box_text_append_text (
+			GTK_COMBO_BOX_TEXT (combobox), source_names[i].name);
 		sources = g_slist_append (sources, g_strdup (source_names[i].source));
 	}
 

@@ -801,18 +801,18 @@ subscription_editor_add_account (EMSubscriptionEditor *editor,
 	StoreData *data;
 	CamelStore *store;
 	CamelSession *session;
-	GtkComboBox *combo_box;
 	GtkListStore *list_store;
 	GtkTreeStore *tree_store;
 	GtkTreeViewColumn *column;
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
+	GtkComboBoxText *combo_box;
 	GtkWidget *container;
 	GtkWidget *widget;
 	const gchar *url;
 
-	combo_box = GTK_COMBO_BOX (editor->priv->combo_box);
-	gtk_combo_box_append_text (combo_box, account->name);
+	combo_box = GTK_COMBO_BOX_TEXT (editor->priv->combo_box);
+	gtk_combo_box_text_append_text (combo_box, account->name);
 
 	session = em_subscription_editor_get_session (editor);
 	url = e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
@@ -1154,7 +1154,7 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 
 	container = widget;
 
-	widget = gtk_combo_box_new_text ();
+	widget = gtk_combo_box_text_new ();
 	gtk_table_attach (
 		GTK_TABLE (container), widget,
 		1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);

@@ -27,6 +27,9 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 gint
@@ -192,10 +195,10 @@ e_calendar_file_customs (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_misc_set_alignment (GTK_MISC (w1), 0.0, 0.5);
 	gtk_box_pack_start ((GtkBox *)box2, w1, FALSE, TRUE, 2);
 
-	w2 = gtk_combo_box_new_text ();
-	gtk_combo_box_append_text ((GtkComboBox *)w2, _("On open"));
-	gtk_combo_box_append_text ((GtkComboBox *)w2, _("On file change"));
-	gtk_combo_box_append_text ((GtkComboBox *)w2, _("Periodically"));
+	w2 = gtk_combo_box_text_new ();
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w2), _("On open"));
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w2), _("On file change"));
+	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (w2), _("Periodically"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w1), w2);
 	gtk_box_pack_start ((GtkBox *)box2, w2, FALSE, TRUE, 2);
 

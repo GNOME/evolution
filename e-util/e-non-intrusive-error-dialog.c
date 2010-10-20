@@ -33,6 +33,9 @@
 #include <gconf/gconf-client.h>
 #include "e-non-intrusive-error-dialog.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 /* eni - non intrusive error */
 
 static gboolean
@@ -233,10 +236,10 @@ eni_show_logger (ELogger *logger,
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	label = widget;
 
-	widget = gtk_combo_box_new_text ();
+	widget = gtk_combo_box_text_new ();
 	for (i = E_LOG_ERROR; i <= E_LOG_DEBUG; i++)
-		gtk_combo_box_append_text (
-			GTK_COMBO_BOX (widget), ldata[i].text);
+		gtk_combo_box_text_append_text (
+			GTK_COMBO_BOX_TEXT (widget), ldata[i].text);
 	gtk_combo_box_set_active (
 		GTK_COMBO_BOX (widget),
 		eni_config_get_error_level (error_level_path));

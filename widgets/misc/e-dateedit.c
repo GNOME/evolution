@@ -1572,14 +1572,14 @@ static void
 rebuild_time_popup			(EDateEdit	*dedit)
 {
 	EDateEditPrivate *priv;
-	GtkComboBox *combo;
+	GtkComboBoxText *combo;
 	gchar buffer[40];
 	struct tm tmp_tm;
 	gint hour, min;
 
 	priv = dedit->priv;
 
-	combo = GTK_COMBO_BOX (priv->time_combo);
+	combo = GTK_COMBO_BOX_TEXT (priv->time_combo);
 
 	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (combo)));
 
@@ -1624,7 +1624,7 @@ rebuild_time_popup			(EDateEdit	*dedit)
 			if (!priv->use_24_hour_format && buffer[0] == '0')
 				buffer[0] = ' ';
 
-			gtk_combo_box_append_text (combo, buffer);
+			gtk_combo_box_text_append_text (combo, buffer);
 		}
 	}
 }

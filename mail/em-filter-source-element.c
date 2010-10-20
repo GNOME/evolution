@@ -258,7 +258,7 @@ get_widget (EFilterElement *fe)
 	if (fs->priv->sources == NULL)
 		em_filter_source_element_get_sources (fs);
 
-	combobox = gtk_combo_box_new_text ();
+	combobox = gtk_combo_box_text_new ();
 
 	index = 0;
 	current_index = -1;
@@ -277,7 +277,8 @@ get_widget (EFilterElement *fe)
 			else
 				label = g_strdup_printf("%s <%s>", info->name, info->address);
 
-			gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), label);
+			gtk_combo_box_text_append_text (
+				GTK_COMBO_BOX_TEXT (combobox), label);
 			g_free (label);
 
 			if (fs->priv->current_url && !strcmp (info->url, fs->priv->current_url))
