@@ -124,7 +124,6 @@ typedef struct _CellEdit CellEdit;
 
 typedef struct {
 	ECellView    cell_view;
-	GdkGC       *gc;
 	GdkCursor *i_cursor;
 
 	GnomeCanvas *canvas;
@@ -371,7 +370,6 @@ ect_realize (ECellView *ecell_view)
 	GdkWindow *window;
 
 	window = gtk_widget_get_window (GTK_WIDGET (text_view->canvas));
-	text_view->gc = gdk_gc_new (window);
 
 	text_view->i_cursor = gdk_cursor_new (GDK_XTERM);
 
@@ -388,9 +386,6 @@ ect_unrealize (ECellView *ecv)
 	ECellTextView *text_view = (ECellTextView *) ecv;
 	ECellText *ect = (ECellText*) ecv->ecell;
 	GdkColormap *colormap;
-
-	g_object_unref (text_view->gc);
-	text_view->gc = NULL;
 
 	if (text_view->edit) {
 		ect_cancel_edit (text_view);
@@ -630,7 +625,7 @@ generate_layout (ECellTextView *text_view, gint model_col, gint view_col, gint r
 }
 
 static void
-draw_pango_rectangle (GdkDrawable *drawable, GdkGC *gc, gint x1, gint y1, PangoRectangle rect)
+draw_pango_rectangle (cairo_t *cr, gint x1, gint y1, PangoRectangle rect)
 {
        gint width = rect.width / PANGO_SCALE;
        gint height = rect.height / PANGO_SCALE;
@@ -638,8 +633,9 @@ draw_pango_rectangle (GdkDrawable *drawable, GdkGC *gc, gint x1, gint y1, PangoR
                width = 1;
        if (height <= 0)
                height = 1;
-       gdk_draw_rectangle (drawable, gc, TRUE,
-                           x1 + rect.x / PANGO_SCALE, y1 + rect.y / PANGO_SCALE, width, height);
+       cairo_rectangle (cr,
+                        x1 + rect.x / PANGO_SCALE, y1 + rect.y / PANGO_SCALE,
+                        width, height);
 }
 
 static gboolean
@@ -705,23 +701,24 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
 	CellEdit *edit = text_view->edit;
 	gboolean selected;
-	GdkColor *foreground;
 	GtkWidget *canvas = GTK_WIDGET (text_view->canvas);
-	GdkRectangle clip_rect;
 	GtkStyle *style;
 	gint x_origin, y_origin, vspacing;
+        cairo_t *cr;
 
 	style = gtk_widget_get_style (canvas);
 
 	selected = flags & E_CELL_SELECTED;
 
+        cr = gdk_cairo_create (drawable);
+
 	if (selected) {
 		if (gtk_widget_has_focus (canvas))
-			foreground = &style->fg[GTK_STATE_SELECTED];
+			gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_SELECTED]);
 		else
-			foreground = &style->fg[GTK_STATE_ACTIVE];
+			gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_ACTIVE]);
 	} else {
-		foreground = &style->text[GTK_STATE_NORMAL];
+		gdk_cairo_set_source_color (cr, &style->text[GTK_STATE_NORMAL]);
 
 		if (ect->color_column != -1) {
 			gchar *color_spec;
@@ -732,11 +729,9 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			cell_foreground = e_cell_text_get_color (text_view,
 								 color_spec);
 			if (cell_foreground)
-				foreground = cell_foreground;
+		                gdk_cairo_set_source_color (cr, cell_foreground);
 		}
 	}
-
-	gdk_gc_set_foreground (text_view->gc, foreground);
 
 	vspacing = get_vertical_spacing (canvas);
 
@@ -748,13 +743,8 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	x_origin = x1 + ect->x + text_view->xofs - (edit ? edit->xofs_edit : 0);
 	y_origin = y1 + ect->y + text_view->yofs - (edit ? edit->yofs_edit : 0);
 
-	clip_rect.x = x1;
-	clip_rect.y = y1;
-	clip_rect.width = x2 - x1;
-	clip_rect.height = y2 - y1;
-
-	gdk_gc_set_clip_rectangle (text_view->gc, &clip_rect);
-	/*	clip_rect = &rect;*/
+        cairo_rectangle (cr, x1, y1, x2 - x1, y2 - y1);
+        cairo_clip (cr);
 
 	layout = generate_layout (text_view, model_col, view_col, row, x2 - x1);
 
@@ -762,16 +752,16 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		layout = layout_with_preedit  (text_view, row, edit->text ? edit->text : "?",  x2 - x1);
 	}
 
-	gdk_draw_layout (drawable, text_view->gc,
-			 x_origin, y_origin,
-			 layout);
+        cairo_move_to (cr, x_origin, y_origin);
+	pango_cairo_show_layout (cr, layout);
 
 	if (edit && edit->view_col == view_col && edit->row == row) {
 		if (edit->selection_start != edit->selection_end) {
-			GdkRegion *clip_region, *rect_region;
-			GdkGC *selection_gc;
-			GdkGC *text_gc;
+			GdkRegion *clip_region;
                         gint indices[2];
+                        GtkStateType state;
+
+                        state = edit->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE;
 
 			indices[0] = MIN (edit->selection_start, edit->selection_end);
 			indices[1] = MAX (edit->selection_start, edit->selection_end);
@@ -779,47 +769,33 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
                         clip_region = gdk_pango_layout_get_clip_region (layout,
                                                                         x_origin, y_origin,
                                                                         indices, 1);
-
-			rect_region = gdk_region_rectangle (&clip_rect);
-			gdk_region_intersect (clip_region, rect_region);
-			gdk_region_destroy (rect_region);
-
-			if (edit->has_selection) {
-				selection_gc = style->base_gc[GTK_STATE_SELECTED];
-				text_gc = style->text_gc[GTK_STATE_SELECTED];
-			} else {
-				selection_gc = style->base_gc[GTK_STATE_ACTIVE];
-				text_gc = style->text_gc[GTK_STATE_ACTIVE];
-			}
-
-			gdk_gc_set_clip_region (selection_gc, clip_region);
-			gdk_gc_set_clip_region (text_gc, clip_region);
-
-                        gdk_draw_rectangle (drawable, selection_gc, TRUE,
-                                            x1, y1, x2 - x1, y2 - y1);
-			gdk_draw_layout (drawable, text_gc,
-					 x_origin, y_origin,
-					 layout);
-			gdk_gc_set_clip_region (text_gc, NULL);
-			gdk_gc_set_clip_region (selection_gc, NULL);
-
+                        gdk_cairo_region (cr, clip_region);
+                        cairo_clip (cr);
 			gdk_region_destroy (clip_region);
+
+                        gdk_cairo_set_source_color (cr, &style->base[state]);
+                        cairo_paint (cr);
+
+                        gdk_cairo_set_source_color (cr, &style->text[state]);
+                        cairo_move_to (cr, x_origin, y_origin);
+                        pango_cairo_show_layout (cr, layout);
 		} else {
 			if (edit->show_cursor) {
 				PangoRectangle strong_pos, weak_pos;
 				pango_layout_get_cursor_pos (layout, edit->selection_start + edit->preedit_length, &strong_pos, &weak_pos);
 
-				draw_pango_rectangle (drawable, text_view->gc, x_origin, y_origin, strong_pos);
+				draw_pango_rectangle (cr, x_origin, y_origin, strong_pos);
 				if (strong_pos.x != weak_pos.x ||
 				    strong_pos.y != weak_pos.y ||
 				    strong_pos.width != weak_pos.width ||
 				    strong_pos.height != weak_pos.height)
-					draw_pango_rectangle (drawable, text_view->gc, x_origin, y_origin, weak_pos);
+					draw_pango_rectangle (cr, x_origin, y_origin, weak_pos);
 			}
 		}
 	}
 
 	g_object_unref (layout);
+        cairo_destroy (cr);
 }
 
 /*
