@@ -58,7 +58,6 @@ G_DEFINE_TYPE (ECellToggle, e_cell_toggle, E_CELL_TYPE)
 
 typedef struct {
 	ECellView cell_view;
-	GdkGC *gc;
 	GnomeCanvas *canvas;
 } ECellToggleView;
 
@@ -170,25 +169,6 @@ cell_toggle_kill_view (ECellView *ecell_view)
 		g_list_free (toggle_view->cell_view.kill_view_cb_data);
 
 	g_free (ecell_view);
-}
-
-static void
-cell_toggle_realize (ECellView *ecell_view)
-{
-	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
-	GdkWindow *window;
-
-	window = gtk_widget_get_window (GTK_WIDGET (toggle_view->canvas));
-	toggle_view->gc = gdk_gc_new (window);
-}
-
-static void
-cell_toggle_unrealize (ECellView *ecell_view)
-{
-	ECellToggleView *toggle_view = (ECellToggleView *) ecell_view;
-
-	g_object_unref (toggle_view->gc);
-	toggle_view->gc = NULL;
 }
 
 static void
@@ -403,8 +383,6 @@ e_cell_toggle_class_init (ECellToggleClass *class)
 	cell_class = E_CELL_CLASS (class);
 	cell_class->new_view = cell_toggle_new_view;
 	cell_class->kill_view = cell_toggle_kill_view;
-	cell_class->realize = cell_toggle_realize;
-	cell_class->unrealize = cell_toggle_unrealize;
 	cell_class->draw = cell_toggle_draw;
 	cell_class->event = cell_toggle_event;
 	cell_class->height = cell_toggle_height;
