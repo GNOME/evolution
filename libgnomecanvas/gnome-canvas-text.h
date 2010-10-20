@@ -112,10 +112,7 @@ struct _GnomeCanvasText {
 	gdouble         scale;
 
 	gchar *text;			/* Text to display */
-	GdkGC *gc;			/* GC for drawing text */
         PangoLayout *layout;            /* The PangoLayout containing the text */
-
-	gulong pixel;			/* Fill color */
 
 	gdouble x, y;			/* Position at anchor */
 

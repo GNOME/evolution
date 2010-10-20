@@ -107,8 +107,6 @@ static void gnome_canvas_text_get_property (GObject            *object,
 					    GParamSpec         *pspec);
 
 static void gnome_canvas_text_update (GnomeCanvasItem *item, const cairo_matrix_t *matrix, gint flags);
-static void gnome_canvas_text_realize (GnomeCanvasItem *item);
-static void gnome_canvas_text_unrealize (GnomeCanvasItem *item);
 static void gnome_canvas_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				    gint x, gint y, gint width, gint height);
 static GnomeCanvasItem *gnome_canvas_text_point (GnomeCanvasItem *item,
@@ -412,7 +410,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 				      "Color",
 				      "Text color, as string",
                                       NULL,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      G_PARAM_WRITABLE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR_GDK,
@@ -420,7 +418,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 				     "Color",
 				     "Text color, as a GdkColor",
 				     GDK_TYPE_COLOR,
-				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				     G_PARAM_WRITABLE));
         g_object_class_install_property
                 (gobject_class,
                  PROP_FILL_COLOR_RGBA,
@@ -495,8 +493,6 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 
 	item_class->destroy = gnome_canvas_text_destroy;
 	item_class->update = gnome_canvas_text_update;
-	item_class->realize = gnome_canvas_text_realize;
-	item_class->unrealize = gnome_canvas_text_unrealize;
 	item_class->draw = gnome_canvas_text_draw;
 	item_class->point = gnome_canvas_text_point;
 	item_class->bounds = gnome_canvas_text_bounds;
@@ -651,19 +647,6 @@ get_bounds (GnomeCanvasText *text,
 	}
 }
 
-/* Convenience function to set the text's GC's foreground color */
-static void
-set_text_gc_foreground (GnomeCanvasText *text)
-{
-	GdkColor c;
-
-	if (!text->gc)
-		return;
-
-	c.pixel = text->pixel;
-	gdk_gc_set_foreground (text->gc, &c);
-}
-
 static PangoFontMask
 get_property_font_set_mask (guint prop_id)
 {
@@ -702,10 +685,7 @@ gnome_canvas_text_set_property (GObject            *object,
 {
 	GnomeCanvasItem *item;
 	GnomeCanvasText *text;
-	GdkColor color = { 0, 0, 0, 0, };
 	GdkColor *pcolor;
-	gboolean color_changed;
-	gint have_pixel;
 	PangoAlignment align;
 
 	g_return_if_fail (object != NULL);
@@ -713,9 +693,6 @@ gnome_canvas_text_set_property (GObject            *object,
 
 	item = GNOME_CANVAS_ITEM (object);
 	text = GNOME_CANVAS_TEXT (object);
-
-	color_changed = FALSE;
-	have_pixel = FALSE;
 
 	if (!text->layout)
                 text->layout = pango_layout_new (gtk_widget_get_pango_context (GTK_WIDGET (item->canvas)));
@@ -930,13 +907,13 @@ gnome_canvas_text_set_property (GObject            *object,
 
 		color_name = g_value_get_string (value);
 		if (color_name) {
+                        GdkColor color;
 			gdk_color_parse (color_name, &color);
 
 			text->rgba = ((color.red & 0xff00) << 16 |
 				      (color.green & 0xff00) << 8 |
 				      (color.blue & 0xff00) |
 				      0xff);
-			color_changed = TRUE;
 		}
 		break;
 	}
@@ -944,38 +921,22 @@ gnome_canvas_text_set_property (GObject            *object,
 	case PROP_FILL_COLOR_GDK:
 		pcolor = g_value_get_boxed (value);
 		if (pcolor) {
-		    GdkColormap *colormap;
-
-		    color = *pcolor;
-		    colormap = gtk_widget_get_colormap (GTK_WIDGET (item->canvas));
-		    gdk_rgb_find_color (colormap, &color);
-		    have_pixel = TRUE;
-		}
-
-		text->rgba = ((color.red & 0xff00) << 16 |
-			      (color.green & 0xff00) << 8|
-			      (color.blue & 0xff00) |
-			      0xff);
-		color_changed = TRUE;
+                        text->rgba = ((pcolor->red & 0xff00) << 16 |
+                                      (pcolor->green & 0xff00) << 8|
+                                      (pcolor->blue & 0xff00) |
+                                      0xff);
+                } else {
+                        text->rgba = 0;
+                }
 		break;
 
         case PROP_FILL_COLOR_RGBA:
 		text->rgba = g_value_get_uint (value);
-		color_changed = TRUE;
 		break;
 
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
 		break;
-	}
-
-	if (color_changed) {
-		if (have_pixel)
-			text->pixel = color.pixel;
-		else
-			text->pixel = gnome_canvas_get_color_pixel (item->canvas, text->rgba);
-
-		set_text_gc_foreground (text);
 	}
 
 	/* Calculate text dimensions */
@@ -1157,23 +1118,6 @@ gnome_canvas_text_get_property (GObject            *object,
 		g_value_set_double (value, text->yofs);
 		break;
 
-	case PROP_FILL_COLOR:
-		g_value_take_string (value,
-				     g_strdup_printf ("#%02x%02x%02x",
-				     text->rgba >> 24,
-				     (text->rgba >> 16) & 0xff,
-				     (text->rgba >> 8) & 0xff));
-		break;
-
-	case PROP_FILL_COLOR_GDK: {
-		GnomeCanvas *canvas = GNOME_CANVAS_ITEM (text)->canvas;
-		GdkColormap *colormap = gtk_widget_get_colormap (GTK_WIDGET (canvas));
-		GdkColor color;
-
-		gdk_colormap_query_color (colormap, text->pixel, &color);
-		g_value_set_boxed (value, &color);
-		break;
-	}
 	case PROP_FILL_COLOR_RGBA:
 		g_value_set_uint (value, text->rgba);
 		break;
@@ -1304,7 +1248,6 @@ gnome_canvas_text_update (GnomeCanvasItem *item,
 	if (parent_class->update)
 		(* parent_class->update) (item, matrix, flags);
 
-	set_text_gc_foreground (text);
 	get_bounds (text, &x1, &y1, &x2, &y2);
 
 	gnome_canvas_update_bbox (item,
@@ -1312,66 +1255,37 @@ gnome_canvas_text_update (GnomeCanvasItem *item,
 				  ceil (x2), ceil (y2));
 }
 
-/* Realize handler for the text item */
-static void
-gnome_canvas_text_realize (GnomeCanvasItem *item)
-{
-	GtkLayout *layout;
-	GdkWindow *bin_window;
-	GnomeCanvasText *text;
-
-	text = GNOME_CANVAS_TEXT (item);
-
-	if (parent_class->realize)
-		(* parent_class->realize) (item);
-
-	layout = GTK_LAYOUT (item->canvas);
-	bin_window = gtk_layout_get_bin_window (layout);
-
-	text->gc = gdk_gc_new (bin_window);
-}
-
-/* Unrealize handler for the text item */
-static void
-gnome_canvas_text_unrealize (GnomeCanvasItem *item)
-{
-	GnomeCanvasText *text;
-
-	text = GNOME_CANVAS_TEXT (item);
-
-	g_object_unref (text->gc);
-	text->gc = NULL;
-
-	if (parent_class->unrealize)
-		(* parent_class->unrealize) (item);
-}
-
 /* Draw handler for the text item */
 static void
 gnome_canvas_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			gint x, gint y, gint width, gint height)
 {
-	GnomeCanvasText *text;
-	GdkRectangle rect;
-
-	text = GNOME_CANVAS_TEXT (item);
+	GnomeCanvasText *text = GNOME_CANVAS_TEXT (item);
+        cairo_t *cr;
 
 	if (!text->text)
 		return;
 
-	if (text->clip) {
-		rect.x = text->clip_cx - x;
-		rect.y = text->clip_cy - y;
-		rect.width = text->clip_cwidth;
-		rect.height = text->clip_cheight;
-
-		gdk_gc_set_clip_rectangle (text->gc, &rect);
+        cr = gdk_cairo_create (drawable);
+        if (text->clip) {
+                cairo_rectangle (cr, 
+                                 text->clip_cx - x,
+                                 text->clip_cy - y,
+                                 text->clip_cwidth,
+                                 text->clip_cheight);
+                cairo_clip (cr);
 	}
 
-	gdk_draw_layout (drawable, text->gc, text->cx - x, text->cy - y, text->layout);
+        cairo_set_source_rgba (cr,
+                               ((text->rgba >> 24) & 0xff) / 255.0,
+                               ((text->rgba >> 16) & 0xff) / 255.0,
+                               ((text->rgba >>  8) & 0xff) / 255.0,
+                               ( text->rgba        & 0xff) / 255.0);
+        
+        cairo_move_to (cr, text->cx - x, text->cy - y);
+        pango_cairo_show_layout (cr, text->layout);
 
-	if (text->clip)
-		gdk_gc_set_clip_rectangle (text->gc, NULL);
+        cairo_destroy (cr);
 }
 
 /* Point handler for the text item */
