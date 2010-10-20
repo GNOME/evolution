@@ -30,7 +30,9 @@
 	((obj), E_TYPE_MAILTO_HANDLER, EMailtoHandler))
 
 #define MAILTO_COMMAND \
-	"evolution --component=mail %s"
+	"evolution --component=mail"
+
+#define MAILTO_HANDLER "x-scheme-handler/mailto"
 
 typedef struct _EMailtoHandler EMailtoHandler;
 typedef struct _EMailtoHandlerClass EMailtoHandlerClass;
@@ -63,13 +65,18 @@ mailto_handler_get_shell (EMailtoHandler *extension)
 }
 
 static gboolean
-mailto_handler_is_evolution (const gchar *mailto_command)
+mailto_handler_is_evolution (/*const*/ GAppInfo *app_info)
 {
 	gint argc;
 	gchar **argv;
 	gchar *basename;
 	gboolean is_evolution;
+	const gchar *mailto_command;
 
+	if (app_info == NULL)
+		return FALSE;
+
+	mailto_command = g_app_info_get_commandline (app_info);
 	if (mailto_command == NULL)
 		return FALSE;
 
@@ -174,14 +181,14 @@ mailto_handler_check (EMailtoHandler *extension)
 	EShell *shell;
 	EShellSettings *shell_settings;
 	gboolean check_mailto_handler = TRUE;
-	gchar *mailto_command = NULL;
+	GAppInfo *app_info = NULL;
+	GError *error = NULL;
 
 	shell = mailto_handler_get_shell (extension);
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	g_object_get (
 		shell_settings,
-		"mailto-handler-command", &mailto_command,
 		"mailto-handler-check", &check_mailto_handler,
 		NULL);
 
@@ -189,25 +196,37 @@ mailto_handler_check (EMailtoHandler *extension)
 	if (!check_mailto_handler)
 		goto exit;
 
+	app_info = g_app_info_get_default_for_type (MAILTO_HANDLER, FALSE);
+
 	/* Is Evolution already handling "mailto" URIs? */
-	if (mailto_handler_is_evolution (mailto_command))
+	if (mailto_handler_is_evolution (app_info))
 		goto exit;
 
 	/* Does the user want Evolution to handle them? */
 	if (!mailto_handler_prompt (extension))
 		goto exit;
 
-	/* Configure Evolution to be the "mailto" URI handler. */
+	if (app_info)
+		g_object_unref (app_info);
 
-	g_object_set (
-		shell_settings,
-		"mailto-handler-command", MAILTO_COMMAND,
-		"mailto-handler-enabled", TRUE,
-		"mailto-handler-needs-terminal", FALSE,
-		NULL);
+	/* Configure Evolution to be the "mailto" URI handler. */
+	app_info = g_app_info_create_from_commandline (
+		MAILTO_COMMAND,
+		_("Evolution"),
+		G_APP_INFO_CREATE_SUPPORTS_URIS,
+		&error);
+
+	if (app_info && !error)
+		g_app_info_set_as_default_for_type (app_info, MAILTO_HANDLER, &error);
 
 exit:
-	g_free (mailto_command);
+	if (app_info)
+		g_object_unref (app_info);
+
+	if (error) {
+		g_warning ("Failed to register as default handler: %s", error->message);
+		g_error_free (error);
+	}
 }
 
 static void
@@ -225,18 +244,6 @@ mailto_handler_constructed (GObject *object)
 	e_shell_settings_install_property_for_key (
 		"mailto-handler-check",
 		"/apps/evolution/mail/prompts/checkdefault");
-
-	e_shell_settings_install_property_for_key (
-		"mailto-handler-command",
-		"/desktop/gnome/url-handlers/mailto/command");
-
-	e_shell_settings_install_property_for_key (
-		"mailto-handler-enabled",
-		"/desktop/gnome/url-handlers/mailto/enabled");
-
-	e_shell_settings_install_property_for_key (
-		"mailto-handler-needs-terminal",
-		"/desktop/gnome/url-handlers/mailto/needs_terminal");
 
 	g_signal_connect_swapped (
 		shell, "event::ready-to-start",
