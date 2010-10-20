@@ -2038,8 +2038,6 @@ gnome_canvas_realize (GtkWidget *widget)
 
 	/* Create our own temporary pixmap gc and realize all the items */
 
-	canvas->pixmap_gc = gdk_gc_new (bin_window);
-
 	(* GNOME_CANVAS_ITEM_GET_CLASS (canvas->root)->realize) (canvas->root);
 }
 
@@ -2058,9 +2056,6 @@ gnome_canvas_unrealize (GtkWidget *widget)
 	/* Unrealize items and parent widget */
 
 	(* GNOME_CANVAS_ITEM_GET_CLASS (canvas->root)->unrealize) (canvas->root);
-
-	g_object_unref (canvas->pixmap_gc);
-	canvas->pixmap_gc = NULL;
 
 	if (GTK_WIDGET_CLASS (canvas_parent_class)->unrealize)
 		(* GTK_WIDGET_CLASS (canvas_parent_class)->unrealize) (widget);
@@ -2687,8 +2682,7 @@ gnome_canvas_paint_rect (GnomeCanvas *canvas, gint x0, gint y0, gint x1, gint y1
 	gdouble hadjustment_value;
 	gdouble vadjustment_value;
         GdkPixmap *pixmap;
-        GdkVisual *visual;
-        gint depth;
+        cairo_t *cr;
 
 	g_return_if_fail (!canvas->need_update);
 
@@ -2721,11 +2715,8 @@ gnome_canvas_paint_rect (GnomeCanvas *canvas, gint x0, gint y0, gint x1, gint y1
 	canvas->draw_xofs = draw_x1;
 	canvas->draw_yofs = draw_y1;
 
-        visual = gtk_widget_get_visual (widget);
-        depth = gdk_visual_get_depth (visual);
-
         pixmap = gdk_pixmap_new (bin_window,
-                                 draw_width, draw_height, depth);
+                                 draw_width, draw_height, -1);
 
         g_signal_emit (G_OBJECT (canvas), canvas_signals[DRAW_BACKGROUND], 0, pixmap,
                        draw_x1, draw_y1, draw_width, draw_height);
@@ -2737,15 +2728,14 @@ gnome_canvas_paint_rect (GnomeCanvas *canvas, gint x0, gint y0, gint x1, gint y1
                         draw_width, draw_height);
 
         /* Copy the pixmap to the window and clean up */
+        cr = gdk_cairo_create (bin_window);
 
-        gdk_draw_drawable (bin_window,
-                           canvas->pixmap_gc,
-                           pixmap,
-                           0, 0,
-                           draw_x1 + canvas->zoom_xofs,
-                           draw_y1 + canvas->zoom_yofs,
-                           draw_width, draw_height);
+        gdk_cairo_set_source_pixmap (cr, pixmap, 
+                                     draw_x1 + canvas->zoom_xofs,
+                                     draw_y1 + canvas->zoom_yofs);
+        cairo_paint (cr);
 
+        cairo_destroy (cr);
         g_object_unref (pixmap);
 }
 
@@ -2811,17 +2801,15 @@ gnome_canvas_draw_background (GnomeCanvas *canvas, GdkDrawable *drawable,
 			      gint x, gint y, gint width, gint height)
 {
 	GtkStyle *style;
+        cairo_t *cr;
 
 	style = gtk_widget_get_style (GTK_WIDGET (canvas));
+        cr = gdk_cairo_create (drawable);
 
-	/* By default, we use the style background. */
-	gdk_gc_set_foreground (canvas->pixmap_gc,
-			       &style->bg[GTK_STATE_NORMAL]);
-	gdk_draw_rectangle (drawable,
-			    canvas->pixmap_gc,
-			    TRUE,
-			    0, 0,
-			    width, height);
+        gdk_cairo_set_source_color (cr, &style->bg[GTK_STATE_NORMAL]);
+        cairo_paint (cr);
+
+        cairo_destroy (cr);
 }
 
 static void

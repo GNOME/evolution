@@ -366,9 +366,6 @@ struct _GnomeCanvas {
 	/* If non-NULL, the currently focused item */
 	GnomeCanvasItem *focused_item;
 
-	/* GC for temporary draw pixmap */
-	GdkGC *pixmap_gc;
-
 	/* Event on which selection of current item is based */
 	GdkEvent pick_event;
 
