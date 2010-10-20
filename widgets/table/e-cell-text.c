@@ -632,14 +632,14 @@ generate_layout (ECellTextView *text_view, gint model_col, gint view_col, gint r
 static void
 draw_pango_rectangle (GdkDrawable *drawable, GdkGC *gc, gint x1, gint y1, PangoRectangle rect)
 {
-	gint width = rect.width / PANGO_SCALE;
-	gint height = rect.height / PANGO_SCALE;
-	if (width <= 0)
-		width = 1;
-	if (height <= 0)
-		height = 1;
-	gdk_draw_rectangle (drawable, gc, TRUE,
-			    x1 + rect.x / PANGO_SCALE, y1 + rect.y / PANGO_SCALE, width, height);
+       gint width = rect.width / PANGO_SCALE;
+       gint height = rect.height / PANGO_SCALE;
+       if (width <= 0)
+               width = 1;
+       if (height <= 0)
+               height = 1;
+       gdk_draw_rectangle (drawable, gc, TRUE,
+                           x1 + rect.x / PANGO_SCALE, y1 + rect.y / PANGO_SCALE, width, height);
 }
 
 static gboolean
@@ -768,18 +768,21 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 	if (edit && edit->view_col == view_col && edit->row == row) {
 		if (edit->selection_start != edit->selection_end) {
-			gint start_index, end_index;
-			PangoLayoutLine *line;
-			gint *ranges;
-			gint n_ranges, i;
-			PangoRectangle logical_rect;
-			GdkRegion *clip_region = gdk_region_new ();
-			GdkRegion *rect_region;
+			GdkRegion *clip_region, *rect_region;
 			GdkGC *selection_gc;
 			GdkGC *text_gc;
+                        gint indices[2];
 
-			start_index = MIN (edit->selection_start, edit->selection_end);
-			end_index = edit->selection_start ^ edit->selection_end ^ start_index;
+			indices[0] = MIN (edit->selection_start, edit->selection_end);
+			indices[1] = MAX (edit->selection_start, edit->selection_end);
+
+                        clip_region = gdk_pango_layout_get_clip_region (layout,
+                                                                        x_origin, y_origin,
+                                                                        indices, 1);
+
+			rect_region = gdk_region_rectangle (&clip_rect);
+			gdk_region_intersect (clip_region, rect_region);
+			gdk_region_destroy (rect_region);
 
 			if (edit->has_selection) {
 				selection_gc = style->base_gc[GTK_STATE_SELECTED];
@@ -789,33 +792,11 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 				text_gc = style->text_gc[GTK_STATE_ACTIVE];
 			}
 
-			gdk_gc_set_clip_rectangle (selection_gc, &clip_rect);
-
-			line = pango_layout_get_lines (layout)->data;
-
-			pango_layout_line_get_x_ranges (line, start_index, end_index, &ranges, &n_ranges);
-
-			pango_layout_get_extents (layout, NULL, &logical_rect);
-
-			for (i=0; i < n_ranges; i++) {
-				GdkRectangle sel_rect;
-
-				sel_rect.x = x_origin + ranges[2*i] / PANGO_SCALE;
-				sel_rect.y = y_origin;
-				sel_rect.width = (ranges[2*i + 1] - ranges[2*i]) / PANGO_SCALE;
-				sel_rect.height = logical_rect.height / PANGO_SCALE;
-
-				gdk_draw_rectangle (drawable, selection_gc, TRUE,
-						    sel_rect.x, sel_rect.y, sel_rect.width, sel_rect.height);
-
-				gdk_region_union_with_rect (clip_region, &sel_rect);
-			}
-
-			rect_region = gdk_region_rectangle (&clip_rect);
-			gdk_region_intersect (clip_region, rect_region);
-			gdk_region_destroy (rect_region);
-
+			gdk_gc_set_clip_region (selection_gc, clip_region);
 			gdk_gc_set_clip_region (text_gc, clip_region);
+
+                        gdk_draw_rectangle (drawable, selection_gc, TRUE,
+                                            x1, y1, x2 - x1, y2 - y1);
 			gdk_draw_layout (drawable, text_gc,
 					 x_origin, y_origin,
 					 layout);
@@ -823,7 +804,6 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			gdk_gc_set_clip_region (selection_gc, NULL);
 
 			gdk_region_destroy (clip_region);
-			g_free (ranges);
 		} else {
 			if (edit->show_cursor) {
 				PangoRectangle strong_pos, weak_pos;
