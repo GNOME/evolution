@@ -507,16 +507,6 @@ void gnome_canvas_window_to_world (GnomeCanvas *canvas,
 void gnome_canvas_world_to_window (GnomeCanvas *canvas,
 				   gdouble worldx, gdouble worldy, gdouble *winx, gdouble *winy);
 
-/* Takes a string specification for a color and allocates it into the specified
- * GdkColor.  If the string is null, then it returns FALSE. Otherwise, it
- * returns TRUE.
- */
-gint gnome_canvas_get_color (GnomeCanvas *canvas, const gchar *spec, GdkColor *color);
-
-/* Allocates a color from the RGB value passed into this function. */
-gulong gnome_canvas_get_color_pixel (GnomeCanvas *canvas,
-				     guint        rgba);
-
 G_END_DECLS
 
 #endif
