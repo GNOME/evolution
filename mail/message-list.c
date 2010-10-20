@@ -782,6 +782,43 @@ message_list_select_next_thread (MessageList *ml)
 	}
 }
 
+void
+message_list_select_prev_thread (MessageList *ml)
+{
+	ETreePath node;
+	ETreeTableAdapter *etta;
+	gint i, row;
+	gboolean skip_first;
+
+	etta = e_tree_get_table_adapter (E_TREE (ml));
+
+	if (!ml->cursor_uid
+	    || (node = g_hash_table_lookup (ml->uid_nodemap, ml->cursor_uid)) == NULL)
+		return;
+
+	row = e_tree_table_adapter_row_of_node (etta, node);
+	if (row == -1)
+		return;
+
+	/* skip first found if in the middle of the thread */
+	skip_first = !e_tree_model_node_is_root (ml->model, e_tree_model_node_get_parent (ml->model, node));
+
+	/* find the previous node which has a root parent (i.e. toplevel node) */
+	for (i = row - 1; i >= 0; i--) {
+		node = e_tree_table_adapter_node_at_row (etta, i);
+		if (node
+		    && e_tree_model_node_is_root (ml->model, e_tree_model_node_get_parent (ml->model, node))) {
+			if (skip_first) {
+				skip_first = FALSE;
+				continue;
+			}
+
+			select_path (ml, node);
+			return;
+		}
+	}
+}
+
 static gboolean
 message_list_select_all_timeout_cb (MessageList *message_list)
 {

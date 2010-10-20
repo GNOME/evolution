@@ -206,6 +206,7 @@ void		message_list_select_uid		(MessageList *message_list,
 						 const gchar *uid,
 						 gboolean with_fallback);
 void		message_list_select_next_thread	(MessageList *message_list);
+void		message_list_select_prev_thread	(MessageList *message_list);
 void		message_list_select_all		(MessageList *message_list);
 void		message_list_select_thread	(MessageList *message_list);
 void		message_list_select_subthread	(MessageList *message_list);

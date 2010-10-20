@@ -58,6 +58,7 @@
           <menuitem action='mail-previous'/>
           <menuitem action='mail-previous-unread'/>
           <menuitem action='mail-previous-important'/>
+          <menuitem action='mail-previous-thread'/>
           <separator/>
           <menuitem action='mail-goto-folder'/>
           <menuitem action='mail-goto-nexttab'/>

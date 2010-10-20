@@ -1058,6 +1058,17 @@ action_mail_previous_important_cb (GtkAction *action,
 }
 
 static void
+action_mail_previous_thread_cb (GtkAction *action,
+                            EMailReader *reader)
+{
+	GtkWidget *message_list;
+
+	message_list = e_mail_reader_get_message_list (reader);
+
+	message_list_select_prev_thread (MESSAGE_LIST (message_list));
+}
+
+static void
 action_mail_previous_unread_cb (GtkAction *action,
                                 EMailReader *reader)
 {
@@ -2035,6 +2046,13 @@ static GtkActionEntry mail_reader_entries[] = {
 	  NULL,
 	  N_("Display the previous important message"),
 	  G_CALLBACK (action_mail_previous_important_cb) },
+
+	{ "mail-previous-thread",
+	  NULL,
+	  N_("Previous T_hread"),
+	  NULL,
+	  N_("Display the previous thread"),
+	  G_CALLBACK (action_mail_previous_thread_cb) },
 
 	{ "mail-previous-unread",
 	  NULL,
