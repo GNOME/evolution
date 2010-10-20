@@ -47,9 +47,6 @@ typedef struct {
 
 	gboolean draw_lines;
 
-	GdkPixbuf   *open_pixbuf;
-	GdkPixbuf   *closed_pixbuf;
-
 	ECell *subcell;
 } ECellTree;
 
@@ -58,13 +55,9 @@ typedef struct {
 } ECellTreeClass;
 
 GType      e_cell_tree_get_type (void);
-ECell     *e_cell_tree_new      (GdkPixbuf *open_pixbuf,
-				 GdkPixbuf *closed_pixbuf,
-				 gboolean draw_lines,
+ECell     *e_cell_tree_new      (gboolean draw_lines,
 				 ECell *subcell);
 void       e_cell_tree_construct (ECellTree *ect,
-				  GdkPixbuf *open_pixbuf,
-				  GdkPixbuf *closed_pixbuf,
 				  gboolean draw_lines,
 				  ECell *subcell);
 

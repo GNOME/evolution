@@ -293,7 +293,7 @@ ete_init (ETableExtras *extras)
 	e_table_extras_add_cell (extras, "string", cell);
 
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	cell = e_cell_tree_new (NULL, NULL, TRUE, cell);
+	cell = e_cell_tree_new (TRUE, cell);
 	e_table_extras_add_cell (extras, "tree-string", cell);
 }
 
