@@ -47,6 +47,9 @@
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-util-private.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define RECURRENCE_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), TYPE_RECURRENCE_PAGE, RecurrencePagePrivate))

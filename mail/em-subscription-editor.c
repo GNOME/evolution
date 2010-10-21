@@ -33,6 +33,9 @@
 
 #include "em-folder-utils.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define EM_SUBSCRIPTION_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), EM_TYPE_SUBSCRIPTION_EDITOR, EMSubscriptionEditorPrivate))
