@@ -221,8 +221,10 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	GtkWidget *canvas = GTK_WIDGET (tree_view->canvas);
 	GtkStyle *style;
 	gboolean selected;
-
+        cairo_t *cr;
 	gint offset, subcell_offset;
+
+        cr = gdk_cairo_create (drawable);
 
 	style = gtk_widget_get_style (canvas);
 
@@ -269,15 +271,11 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		}
 
 		if (node_image) {
-			gdk_draw_pixbuf (drawable,
-					 NULL,
-					 node_image,
-					 0, 0,
-					 x1 + subcell_offset,
-					 y1 + (y2 - y1) / 2 - node_image_height / 2,
-					 node_image_width, node_image_height,
-					 GDK_RGB_DITHER_NORMAL,
-					 node_image_width, 0);
+                        gdk_cairo_set_source_pixbuf (cr, node_image,
+                                                     x1 + subcell_offset,
+                                                     y1 + (y2 - y1) / 2 - node_image_height / 2);
+                        cairo_paint (cr);
+
 			subcell_offset += node_image_width;
 		}
 	}
@@ -287,6 +285,8 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	e_cell_draw (tree_view->subcell_view, drawable,
 		     model_col, view_col, row, flags,
 		     x1 + subcell_offset, y1, x2, y2);
+
+        cairo_destroy (cr);
 }
 
 static void
