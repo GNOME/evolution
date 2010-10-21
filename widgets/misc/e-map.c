@@ -383,8 +383,8 @@ e_map_realize (GtkWidget *widget)
 	attr.width = allocation.width;
 	attr.height = allocation.height;
 	attr.wclass = GDK_INPUT_OUTPUT;
-	attr.visual = gdk_rgb_get_visual ();
-	attr.colormap = gdk_rgb_get_colormap ();
+	attr.visual = gtk_widget_get_visual (widget);
+	attr.colormap = gtk_widget_get_colormap (widget);
 	attr.event_mask = gtk_widget_get_events (widget) |
 	  GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS_MASK |
 	  GDK_POINTER_MOTION_MASK;
