@@ -183,8 +183,6 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 	gtk_widget_set_size_request (widget, -1, 250);
 	gtk_box_pack_start (GTK_BOX (etfc), widget, TRUE, TRUE, 0);
 
-	gtk_widget_push_colormap (gdk_rgb_get_colormap ());
-
 	etfc->rect = gnome_canvas_item_new (gnome_canvas_root ( GNOME_CANVAS ( etfc->canvas ) ),
 					   gnome_canvas_rect_get_type (),
 					   "x1", (gdouble) 0,
@@ -215,7 +213,6 @@ e_table_field_chooser_init (ETableFieldChooser *etfc)
 			  G_CALLBACK (allocate_callback),
 			  etfc);
 
-	gtk_widget_pop_colormap ();
 	gtk_widget_show_all (widget);
 }
 
