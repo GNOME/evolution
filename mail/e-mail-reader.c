@@ -2308,6 +2308,10 @@ static EPopupActionEntry mail_reader_popup_entries[] = {
 	  NULL,
 	  "mail-print" },
 
+	{ "mail-popup-remove-attachments",
+	  NULL,
+	  "mail-remove-attachments" },
+
 	{ "mail-popup-reply-all",
 	  NULL,
 	  "mail-reply-all" },
