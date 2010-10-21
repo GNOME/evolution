@@ -248,8 +248,8 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	gint inner_x, inner_y;
 	gint inner_width, inner_height;
 	gint arrow_width = 0, arrow_height = 0;
-	GdkGC *gc;
 	PangoLayout *layout;
+        cairo_t *cr;
 	static gpointer g_label = NULL;
 
 	g_return_if_fail (drawable != NULL);
@@ -272,9 +272,9 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 		gtk_widget_realize (g_label);
 	}
 
-	gc = gtk_widget_get_style (GTK_WIDGET (g_label))->fg_gc[state];
+        cr = gdk_cairo_create (drawable);
 
-	gdk_gc_set_clip_rectangle (gc, NULL);
+        gdk_cairo_set_source_color (cr, &gtk_widget_get_style (GTK_WIDGET (g_label))->fg[state]);
 
 	xthick = style->xthickness;
 	ythick = style->ythickness;
@@ -350,9 +350,8 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 
                         pango_layout_set_width (layout, (inner_width - (xpos - inner_x)) * PANGO_SCALE);
 
-                        gdk_draw_layout (drawable, gc,
-					 xpos + pwidth + 1, ypos,
-                                         layout);
+                        cairo_move_to (cr, xpos + pwidth + 1, ypos);
+                        pango_cairo_show_layout (cr, layout);
 		}
 
 		/* FIXME: For some reason, under clutter gdk_draw_rgb_image_dithalign crashes
@@ -375,19 +374,14 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 			g_object_unref (pixmap);
 		}
 #endif
-		gdk_draw_pixbuf (drawable, gc,
-				ecol->pixbuf,
-				0, 0,
-				xpos, inner_y + (inner_height - clip_height) / 2,
-				-1, -1,
-				GDK_RGB_DITHER_NONE,
-				0, 0);
+                gdk_cairo_set_source_pixbuf (cr, ecol->pixbuf,
+				             xpos, inner_y + (inner_height - clip_height) / 2);
+                cairo_paint (cr);
 	} else {
                 pango_layout_set_width (layout, inner_width * PANGO_SCALE);
 
-                gdk_draw_layout (drawable, gc,
-                                 inner_x, inner_y,
-                                 layout);
+                cairo_move_to (cr, inner_x, inner_y);
+                pango_cairo_show_layout (cr, layout);
 	}
 
 	switch (arrow) {
@@ -414,4 +408,6 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	}
 
 	g_object_unref (layout);
+
+        cairo_destroy (cr);
 }
