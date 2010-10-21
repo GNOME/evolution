@@ -439,3 +439,13 @@ e-shell-window.sgml
 @searchbar: 
 @label_visible: 
 
+<!-- ##### FUNCTION e_signature_list_find ##### -->
+<para>
+
+</para>
+
+@signature_list: 
+@type: 
+@key: 
+@Returns: 
+

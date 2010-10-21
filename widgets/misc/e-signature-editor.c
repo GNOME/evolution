@@ -175,10 +175,9 @@ action_save_and_close_cb (GtkAction *action,
 		return;
 	}
 
-	/* Don't overwrite an existing signature of the same name.
-	 * XXX ESignatureList misuses const. */
-	same_name = (ESignature *) e_signature_list_find (
-		signature_list, E_SIGNATURE_FIND_NAME, signature_name);
+	/* Don't overwrite an existing signature of the same name. */
+	same_name =
+		e_signature_list_find_by_name (signature_list, signature_name);
 	if (same_name != NULL && !e_signature_is_equal (signature, same_name)) {
 		e_alert_submit (
 			GTK_WIDGET (editor),

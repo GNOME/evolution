@@ -21,55 +21,72 @@
  *
  */
 
-#ifndef __E_SIGNATURE_LIST__
-#define __E_SIGNATURE_LIST__
+#ifndef E_SIGNATURE_LIST_H
+#define E_SIGNATURE_LIST_H
 
 #include <libedataserver/e-list.h>
 #include <e-util/e-signature.h>
 
 #include <gconf/gconf-client.h>
 
-#define E_TYPE_SIGNATURE_LIST            (e_signature_list_get_type ())
-#define E_SIGNATURE_LIST(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_SIGNATURE_LIST, ESignatureList))
-#define E_SIGNATURE_LIST_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_SIGNATURE_LIST, ESignatureListClass))
-#define E_IS_SIGNATURE_LIST(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_SIGNATURE_LIST))
-#define E_IS_SIGNATURE_LIST_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_SIGNATURE_LIST))
+/* Standard GObject macros */
+#define E_TYPE_SIGNATURE_LIST \
+	(e_signature_list_get_type ())
+#define E_SIGNATURE_LIST(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_SIGNATURE_LIST, ESignatureList))
+#define E_SIGNATURE_LIST_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_SIGNATURE_LIST, ESignatureListClass))
+#define E_IS_SIGNATURE_LIST(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_SIGNATURE_LIST))
+#define E_IS_SIGNATURE_LIST_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_SIGNATURE_LIST))
+#define E_SIGNATURE_LIST_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_SIGNATURE_LIST, ESignatureListClass))
+
+G_BEGIN_DECLS
 
 typedef struct _ESignatureList ESignatureList;
 typedef struct _ESignatureListClass ESignatureListClass;
-
-/* search options for the find command */
-typedef enum {
-	E_SIGNATURE_FIND_NAME,
-	E_SIGNATURE_FIND_UID
-} e_signature_find_t;
+typedef struct _ESignatureListPrivate ESignatureListPrivate;
 
 struct _ESignatureList {
-	EList parent_object;
-
-	struct _ESignatureListPrivate *priv;
+	EList parent;
+	ESignatureListPrivate *priv;
 };
 
 struct _ESignatureListClass {
 	EListClass parent_class;
 
-	/* signals */
-	void (* signature_added)   (ESignatureList *, ESignature *);
-	void (* signature_changed) (ESignatureList *, ESignature *);
-	void (* signature_removed) (ESignatureList *, ESignature *);
+	/* Signals */
+	void		(*signature_added)	(ESignatureList *signature_list,
+						 ESignature *signature);
+	void		(*signature_changed)	(ESignatureList *signature_list,
+						 ESignature *signature);
+	void		(*signature_removed)	(ESignatureList *signature_list,
+						 ESignature *signature);
 };
 
-GType e_signature_list_get_type (void);
+GType		e_signature_list_get_type	(void);
+ESignatureList *e_signature_list_new		(GConfClient *client);
+void		e_signature_list_construct	(ESignatureList *signature_list,
+						 GConfClient *client);
+void		e_signature_list_save		(ESignatureList *signature_list);
+void		e_signature_list_add		(ESignatureList *signature_list,
+						 ESignature *signature);
+void		e_signature_list_change		(ESignatureList *signature_list,
+						 ESignature *signature);
+void		e_signature_list_remove		(ESignatureList *signature_list,
+						 ESignature *signature);
+ESignature *	e_signature_list_find_by_name	(ESignatureList *signature_list,
+						 const gchar *signature_name);
+ESignature *	e_signature_list_find_by_uid	(ESignatureList *signature_list,
+						 const gchar *signature_uid);
 
-ESignatureList *e_signature_list_new (GConfClient *gconf);
-void e_signature_list_construct (ESignatureList *signature_list, GConfClient *gconf);
+G_END_DECLS
 
-void e_signature_list_save (ESignatureList *signature_list);
-
-void e_signature_list_add (ESignatureList *signature_list, ESignature *signature);
-void e_signature_list_change (ESignatureList *signature_list, ESignature *signature);
-void e_signature_list_remove (ESignatureList *signature_list, ESignature *signature);
-
-const ESignature *e_signature_list_find (ESignatureList *signature_list, e_signature_find_t type, const gchar *key);
-
-#endif /* __E_SIGNATURE_LIST__ */
+#endif /* E_SIGNATURE_LIST_H */

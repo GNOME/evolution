@@ -1042,7 +1042,8 @@ e_signature_list_save
 e_signature_list_add
 e_signature_list_change
 e_signature_list_remove
-e_signature_list_find
+e_signature_list_find_by_name
+e_signature_list_find_by_uid
 <SUBSECTION Standard>
 E_SIGNATURE_LIST
 E_IS_SIGNATURE_LIST

@@ -21,15 +21,16 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "e-signature-list.h"
 
+#include <config.h>
 #include <string.h>
 
 #include <libedataserver/e-uid.h>
 
-#include "e-signature-list.h"
+#define E_SIGNATURE_LIST_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SIGNATURE_LIST, ESignatureListPrivate))
 
 struct _ESignatureListPrivate {
 	GConfClient *gconf;
@@ -46,56 +47,10 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-static void e_signature_list_finalize (GObject *object);
-static void e_signature_list_dispose (GObject *object);
-
 G_DEFINE_TYPE (
 	ESignatureList,
 	e_signature_list,
 	E_TYPE_LIST)
-
-static void
-e_signature_list_class_init (ESignatureListClass *klass)
-{
-	GObjectClass *object_class = (GObjectClass *) klass;
-
-	object_class->dispose = e_signature_list_dispose;
-	object_class->finalize = e_signature_list_finalize;
-
-	signals[SIGNATURE_ADDED] =
-		g_signal_new ("signature-added",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ESignatureListClass, signature_added),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__OBJECT,
-			      G_TYPE_NONE, 1,
-			      E_TYPE_SIGNATURE);
-	signals[SIGNATURE_CHANGED] =
-		g_signal_new ("signature-changed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ESignatureListClass, signature_changed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__OBJECT,
-			      G_TYPE_NONE, 1,
-			      E_TYPE_SIGNATURE);
-	signals[SIGNATURE_REMOVED] =
-		g_signal_new ("signature-removed",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ESignatureListClass, signature_removed),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__OBJECT,
-			      G_TYPE_NONE, 1,
-			      E_TYPE_SIGNATURE);
-}
-
-static void
-e_signature_list_init (ESignatureList *list)
-{
-	list->priv = g_new0 (struct _ESignatureListPrivate, 1);
-}
 
 static void
 e_signature_list_dispose (GObject *object)
@@ -104,22 +59,61 @@ e_signature_list_dispose (GObject *object)
 
 	if (list->priv->gconf) {
 		if (list->priv->notify_id != 0)
-			gconf_client_notify_remove (list->priv->gconf, list->priv->notify_id);
+			gconf_client_notify_remove (
+				list->priv->gconf, list->priv->notify_id);
 		g_object_unref (list->priv->gconf);
 		list->priv->gconf = NULL;
 	}
 
+	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_signature_list_parent_class)->dispose (object);
 }
 
 static void
-e_signature_list_finalize (GObject *object)
+e_signature_list_class_init (ESignatureListClass *class)
 {
-	ESignatureList *list = (ESignatureList *) object;
+	GObjectClass *object_class;
 
-	g_free (list->priv);
+	g_type_class_add_private (class, sizeof (ESignatureListPrivate));
 
-	G_OBJECT_CLASS (e_signature_list_parent_class)->finalize (object);
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = e_signature_list_dispose;
+
+	signals[SIGNATURE_ADDED] = g_signal_new (
+		"signature-added",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ESignatureListClass, signature_added),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_SIGNATURE);
+
+	signals[SIGNATURE_CHANGED] = g_signal_new (
+		"signature-changed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ESignatureListClass, signature_changed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_SIGNATURE);
+
+	signals[SIGNATURE_REMOVED] = g_signal_new (
+		"signature-removed",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (ESignatureListClass, signature_removed),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_SIGNATURE);
+}
+
+static void
+e_signature_list_init (ESignatureList *signature_list)
+{
+	signature_list->priv = E_SIGNATURE_LIST_GET_PRIVATE (signature_list);
 }
 
 static GSList *
@@ -398,51 +392,83 @@ e_signature_list_remove (ESignatureList *signature_list, ESignature *signature)
 }
 
 /**
- * e_signature_list_find:
- * @signature_list: signature list
- * @type: Type of search.
- * @key: Search key.
+ * e_signature_list_find_by_name:
+ * @signature_list: an #ESignatureList
+ * @name: the signature name to find
  *
- * Perform a search of the signature list on a single key.
+ * Searches @signature_list for the given signature name.
  *
- * @type must be set from one of the following search types:
- * E_SIGNATURE_FIND_NAME - Find a signature by signature name.
- * E_SIGNATURE_FIND_UID - Find a signature based on UID
- *
- * Return value: The signature or NULL if it doesn't exist.
+ * Returns: the matching signature or %NULL if it doesn't exist
  **/
-const ESignature *
-e_signature_list_find (ESignatureList *signature_list,
-                       e_signature_find_t type,
-                       const gchar *key)
+ESignature *
+e_signature_list_find_by_name (ESignatureList *signature_list,
+                               const gchar *signature_name)
 {
 	ESignature *signature = NULL;
 	EIterator *it;
 
+	g_return_val_if_fail (E_IS_SIGNATURE_LIST (signature_list), NULL);
+
 	/* this could use a callback for more flexibility ...
 	   ... but this makes the common cases easier */
 
-	if (!key)
+	if (signature_name == NULL)
 		return NULL;
 
-	for (it = e_list_get_iterator ((EList *) signature_list);
+	for (it = e_list_get_iterator (E_LIST (signature_list));
+	     e_iterator_is_valid (it);
+	     e_iterator_next (it)) {
+		const gchar *value;
+
+		/* XXX EIterator misuses const. */
+		signature = (ESignature *) e_iterator_get (it);
+		value = e_signature_get_name (signature);
+
+		if (g_strcmp0 (value, signature_name) == 0)
+			break;
+
+		signature = NULL;
+	}
+
+	g_object_unref (it);
+
+	return signature;
+}
+
+/**
+ * e_signature_list_find_by_uid:
+ * @signature_list: an #ESignatureList
+ * @name: the signature UID to find
+ *
+ * Searches @signature_list for the given signature UID.
+ *
+ * Returns: the matching signature or %NULL if it doesn't exist
+ **/
+ESignature *
+e_signature_list_find_by_uid (ESignatureList *signature_list,
+                              const gchar *signature_uid)
+{
+	ESignature *signature = NULL;
+	EIterator *it;
+
+	g_return_val_if_fail (E_IS_SIGNATURE_LIST (signature_list), NULL);
+
+	/* this could use a callback for more flexibility ...
+	   ... but this makes the common cases easier */
+
+	if (signature_uid == NULL)
+		return NULL;
+
+	for (it = e_list_get_iterator (E_LIST (signature_list));
 	     e_iterator_is_valid (it);
 	     e_iterator_next (it)) {
 		const gchar *value = NULL;
 
 		/* XXX EIterator misuses const. */
 		signature = (ESignature *) e_iterator_get (it);
+		value = e_signature_get_uid (signature);
 
-		switch (type) {
-			case E_SIGNATURE_FIND_NAME:
-				value = e_signature_get_name (signature);
-				break;
-			case E_SIGNATURE_FIND_UID:
-				value = e_signature_get_uid (signature);
-				break;
-		}
-
-		if (g_strcmp0 (value, key) == 0)
+		if (g_strcmp0 (value, signature_uid) == 0)
 			break;
 
 		signature = NULL;

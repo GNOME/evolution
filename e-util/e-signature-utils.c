@@ -52,34 +52,24 @@ ESignature *
 e_get_signature_by_name (const gchar *name)
 {
 	ESignatureList *signature_list;
-	const ESignature *signature;
-	e_signature_find_t find;
 
 	g_return_val_if_fail (name != NULL, NULL);
 
-	find = E_SIGNATURE_FIND_NAME;
 	signature_list = e_get_signature_list ();
-	signature = e_signature_list_find (signature_list, find, name);
 
-	/* XXX ESignatureList misuses const. */
-	return (ESignature *) signature;
+	return e_signature_list_find_by_name (signature_list, name);
 }
 
 ESignature *
 e_get_signature_by_uid (const gchar *uid)
 {
 	ESignatureList *signature_list;
-	const ESignature *signature;
-	e_signature_find_t find;
 
 	g_return_val_if_fail (uid != NULL, NULL);
 
-	find = E_SIGNATURE_FIND_UID;
 	signature_list = e_get_signature_list ();
-	signature = e_signature_list_find (signature_list, find, uid);
 
-	/* XXX ESignatureList misuses const. */
-	return (ESignature *) signature;
+	return e_signature_list_find_by_uid (signature_list, uid);
 }
 
 gchar *
