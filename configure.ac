@@ -1363,6 +1363,20 @@ EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, $GTKHTML libebook-1.2 libecal-1.2 $LIB
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
+dnl ****************************
+dnl Check for ical_set_unknown_token_handling_setting function
+dnl ****************************
+AC_MSG_CHECKING([ical_set_unknown_token_handling_setting function])
+save_cflags=$CFLAGS; CFLAGS=$EVOLUTION_CALENDAR_CFLAGS
+save_libs=$LIBS; LIBS="$EVOLUTION_CALENDAR_LIBS"
+AC_LINK_IFELSE([AC_LANG_PROGRAM(
+	[[#include <libical/ical.h>]],
+	[[ical_set_unknown_token_handling_setting (ICAL_DISCARD_TOKEN)]])],
+	[AC_DEFINE(HAVE_ICAL_UNKNOWN_TOKEN_HANDLING, 1, [libical provides ical_set_unknown_token_handling_setting function]) ac_cv_have_iuth=yes],[ac_cv_have_iuth=no])
+CFLAGS=$save_cflags
+LIBS=$save_libs
+AC_MSG_RESULT([$ac_cv_have_iuth])
+
 dnl **********
 dnl Mail Flags
 dnl **********

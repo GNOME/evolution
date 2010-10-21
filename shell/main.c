@@ -80,6 +80,10 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+#ifdef HAVE_ICAL_UNKNOWN_TOKEN_HANDLING
+#include <libical/ical.h>
+#endif
+
 #define SKIP_WARNING_DIALOG_KEY \
 	"/apps/evolution/shell/skip_warning_dialog"
 
@@ -530,6 +534,10 @@ main (gint argc, gchar **argv)
 	g_type_init ();
 	if (!g_thread_get_initialized ())
 		g_thread_init (NULL);
+
+	#ifdef HAVE_ICAL_UNKNOWN_TOKEN_HANDLING
+	ical_set_unknown_token_handling_setting (ICAL_DISCARD_TOKEN);
+	#endif
 
 #ifdef G_OS_WIN32
 	path = g_build_path (";", _e_get_bindir (), g_getenv ("PATH"), NULL);
