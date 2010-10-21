@@ -33,6 +33,9 @@
 #include "em-filter-rule.h"
 #include "em-filter-context.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define d(x)
 
 static gint validate (EFilterRule *fr, EAlert **alert);
