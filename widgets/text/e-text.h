@@ -119,8 +119,6 @@ struct _EText {
 
 	gdouble xofs, yofs;		/* Text offset distance from anchor position */
 
-	GdkColor color;		/* Fill color */
-
 	gint cx, cy;			/* Top-left canvas coordinates for text */
 	gint text_cx, text_cy;		/* Top-left canvas coordinates for text */
 	gint clip_cx, clip_cy;		/* Top-left canvas coordinates for clip rectangle */
@@ -130,7 +128,6 @@ struct _EText {
 	gint height;			/* Rendered text height in pixels */
 
 	guint32 rgba;			/* RGBA color for text */
-	gdouble affine[6];               /* The item -> canvas affine */
 
 	gchar *ellipsis;                 /* The ellipsis characters.  NULL = "...". */
 	gdouble ellipsis_width;          /* The width of the ellipsis. */

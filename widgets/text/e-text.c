@@ -615,15 +615,12 @@ e_text_set_property (GObject *object,
 	EText *text;
 	GdkColor color = { 0, 0, 0, 0, };
 	GdkColor *pcolor;
-	gboolean color_changed;
 
 	gboolean needs_update = 0;
 	gboolean needs_reflow = 0;
 
 	item = GNOME_CANVAS_ITEM (object);
 	text = E_TEXT (object);
-
-	color_changed = FALSE;
 
 	switch (prop_id) {
 	case PROP_MODEL:
@@ -771,7 +768,8 @@ e_text_set_property (GObject *object,
 			      (color.green & 0xff00) << 8 |
 			      (color.blue & 0xff00) |
 			      0xff);
-		color_changed = TRUE;
+	        text->needs_redraw = 1;
+	        needs_update = 1;
 		break;
 
 	case PROP_FILL_COLOR_GDK:
@@ -784,7 +782,8 @@ e_text_set_property (GObject *object,
 			      (color.green & 0xff00) << 8 |
 			      (color.blue & 0xff00) |
 			      0xff);
-		color_changed = TRUE;
+	        text->needs_redraw = 1;
+	        needs_update = 1;
 		break;
 
         case PROP_FILL_COLOR_RGBA:
@@ -792,7 +791,8 @@ e_text_set_property (GObject *object,
 		color.red = ((text->rgba >> 24) & 0xff) * 0x101;
 		color.green = ((text->rgba >> 16) & 0xff) * 0x101;
 		color.blue = ((text->rgba >> 8) & 0xff) * 0x101;
-		color_changed = TRUE;
+	        text->needs_redraw = 1;
+	        needs_update = 1;
 		break;
 
 	case PROP_EDITABLE:
@@ -924,17 +924,6 @@ e_text_set_property (GObject *object,
 		return;
 	}
 
-	if (color_changed) {
-               GdkColormap *colormap = gtk_widget_get_colormap (
-			GTK_WIDGET (item->canvas));
-
-	       text->color = color;
-               gdk_rgb_find_color (colormap, &text->color);
-
-	       text->needs_redraw = 1;
-	       needs_update = 1;
-	}
-
 	if (needs_reflow)
 		e_canvas_item_request_reflow (item);
 	if (needs_update)
@@ -1000,10 +989,6 @@ e_text_get_property (GObject *object,
 
 	case PROP_Y_OFFSET:
 		g_value_set_double (value, text->yofs);
-		break;
-
-	case PROP_FILL_COLOR_GDK:
-		g_value_set_boxed (value, &text->color);
 		break;
 
 	case PROP_FILL_COLOR_RGBA:
@@ -1308,7 +1293,11 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	if (text->draw_background || text->draw_button) {
 		gdk_cairo_set_source_color (cr, &style->fg[state]);
 	} else {
-		gdk_cairo_set_source_color (cr, &text->color);
+                cairo_set_source_rgba (cr,
+                                       ((text->rgba >> 24) & 0xff) / 255.0,
+                                       ((text->rgba >> 16) & 0xff) / 255.0,
+                                       ((text->rgba >>  8) & 0xff) / 255.0,
+                                       ( text->rgba        & 0xff) / 255.0);
 	}
 
 	if (text->draw_borders || text->draw_background) {
@@ -3242,14 +3231,14 @@ e_text_class_init (ETextClass *klass)
 							      "Fill color",
 							      "Fill color",
 							      NULL,
-							      G_PARAM_READWRITE));
+							      G_PARAM_READABLE));
 
 	g_object_class_install_property (gobject_class, PROP_FILL_COLOR_GDK,
 					 g_param_spec_boxed ("fill_color_gdk",
 							     "GDK fill color",
 							     "GDK fill color",
 							     GDK_TYPE_COLOR,
-							     G_PARAM_READWRITE));
+							     G_PARAM_READABLE));
 
 	g_object_class_install_property (gobject_class, PROP_FILL_COLOR_RGBA,
 					 g_param_spec_uint ("fill_color_rgba",
