@@ -1542,8 +1542,6 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 
 	et_connect_to_etta (e_tree);
 
-	gtk_widget_push_colormap (gdk_rgb_get_colormap ());
-
 	e_tree->priv->sorter = e_sorter_new ();
 
 	g_object_set (e_tree->priv->selection,
@@ -1591,8 +1589,6 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 			  GTK_FILL | GTK_EXPAND,
 			  GTK_FILL | GTK_EXPAND,
 			  0, 0);
-
-	gtk_widget_pop_colormap ();
 
 	g_object_unref (ete);
 

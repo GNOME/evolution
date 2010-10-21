@@ -1647,8 +1647,6 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	e_table->model = etm;
 	g_object_ref (etm);
 
-	gtk_widget_push_colormap (gdk_rgb_get_colormap ());
-
 	connect_header (e_table, state);
 	e_table->horizontal_scrolling = specification->horizontal_scrolling;
 	e_table->horizontal_resize = specification->horizontal_resize;
@@ -1712,8 +1710,6 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 			  GTK_FILL | GTK_EXPAND,
 			  GTK_FILL | GTK_EXPAND,
 			  0, 0);
-
-	gtk_widget_pop_colormap ();
 
 	g_object_unref (ete);
 
