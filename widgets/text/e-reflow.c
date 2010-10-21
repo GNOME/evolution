@@ -1183,6 +1183,9 @@ static void e_reflow_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	EReflow *reflow = E_REFLOW (item);
 	gint i;
 	gdouble column_width;
+        cairo_t *cr;
+
+        cr = gdk_cairo_create (drawable);
 
 	if (GNOME_CANVAS_ITEM_CLASS (e_reflow_parent_class)->draw)
 		GNOME_CANVAS_ITEM_CLASS (e_reflow_parent_class)->draw (item, drawable, x, y, width, height);
@@ -1241,20 +1244,23 @@ static void e_reflow_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		i /= column_width + E_REFLOW_FULL_GUTTER;
 		running_width += i * (column_width + E_REFLOW_FULL_GUTTER);
 
+		gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_NORMAL]);
+
 		for (; i < reflow->column_count; i++) {
 			if (running_width > x + width)
 				break;
 			x_rect = running_width;
-			gdk_draw_rectangle (drawable,
-					   style->fg_gc[GTK_STATE_NORMAL],
-					   TRUE,
-					   x_rect - x,
-					   y_rect - y,
-					   width_rect - 1,
-					   height_rect - 1);
+                        cairo_rectangle (cr,
+					 x_rect - x,
+					 y_rect - y,
+					 width_rect - 1,
+					 height_rect - 1);
+                        cairo_fill (cr);
 			running_width += E_REFLOW_DIVIDER_WIDTH + E_REFLOW_BORDER_WIDTH + column_width + E_REFLOW_BORDER_WIDTH;
 		}
 	}
+
+        cairo_destroy (cr);
 }
 
 static void
