@@ -1187,6 +1187,69 @@ em_utils_folder_is_outbox(CamelFolder *folder, const gchar *uri)
 static EProxy *emu_proxy = NULL;
 static GStaticMutex emu_proxy_lock = G_STATIC_MUTEX_INIT;
 
+/* encode to string this way, because soup_uri_to_string doesn't include passwords */
+static gchar *
+suri_to_string (SoupURI *suri)
+{
+	GString *uri;
+	gchar *tmp;
+
+	if (!suri)
+		return NULL;
+
+	uri = g_string_sized_new (20);
+
+	if (suri->scheme)
+		g_string_append_printf (uri, "%s:", suri->scheme);
+	if (suri->host) {
+		g_string_append (uri, "//");
+		if (suri->user) {
+			tmp = soup_uri_encode (suri->user, ":/;#@?\\");
+			g_string_append (uri, tmp);
+			g_free (tmp);
+		}
+
+		if (suri->password) {
+			g_string_append_c (uri, ':');
+			tmp = soup_uri_encode (suri->password, ":/;#@?\\");
+			g_string_append (uri, tmp);
+			g_free (tmp);
+		}
+
+		if (suri->user || suri->password)
+			g_string_append_c (uri, '@');
+
+		if (strchr (suri->host, ':')) {
+			g_string_append_c (uri, '[');
+			g_string_append (uri, suri->host);
+			g_string_append_c (uri, ']');
+		} else {
+			tmp = soup_uri_encode (suri->host, ":/");
+			g_string_append (uri, tmp);
+			g_free (tmp);
+		}
+
+		if (suri->port && !soup_uri_uses_default_port (suri))
+			g_string_append_printf (uri, ":%d", suri->port);
+		if (!suri->path && (suri->query || suri->fragment))
+			g_string_append_c (uri, '/');
+	}
+
+	if (suri->path && *suri->path)
+		g_string_append (uri, suri->path);
+
+	if (suri->query) {
+		g_string_append_c (uri, '?');
+		g_string_append (uri, suri->query);
+	}
+	if (suri->fragment) {
+		g_string_append_c (uri, '#');
+		g_string_append (uri, suri->fragment);
+	}
+
+	return g_string_free (uri, FALSE);
+}
+
 static gpointer
 emu_proxy_setup (gpointer data)
 {
@@ -1218,7 +1281,7 @@ em_utils_get_proxy_uri (const gchar *pUri)
 	}
 
 	if (e_proxy_require_proxy_for_uri (emu_proxy, pUri))
-		uri = soup_uri_to_string (e_proxy_peek_uri_for (emu_proxy, pUri), FALSE);
+		uri = suri_to_string (e_proxy_peek_uri_for (emu_proxy, pUri));
 
 	g_static_mutex_unlock (&emu_proxy_lock);
 
