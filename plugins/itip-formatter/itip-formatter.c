@@ -1943,7 +1943,9 @@ open_calendar__desc (struct _opencal_msg *m, gint complete)
 }
 
 static void
-open_calendar__exec (struct _opencal_msg *m)
+open_calendar__exec (struct _opencal_msg *m,
+                     GCancellable *cancellable,
+                     GError **error)
 {
 	if (!g_spawn_command_line_async (m->command, NULL)) {
 		g_warning ("Could not launch %s", m->command);

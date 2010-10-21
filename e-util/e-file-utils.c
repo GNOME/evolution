@@ -51,40 +51,56 @@
 #include <glib/gstdio.h>
 #include <glib/gi18n-lib.h>
 
+#include "e-activity.h"
 #include "e-file-utils.h"
-#include "e-io-activity.h"
+
+typedef struct _AsyncContext AsyncContext;
+
+struct _AsyncContext {
+	EActivity *activity;
+	gchar *new_etag;
+};
+
+static void
+async_context_free (AsyncContext *context)
+{
+	if (context->activity != NULL)
+		g_object_unref (context->activity);
+
+	g_free (context->new_etag);
+
+	g_slice_free (AsyncContext, context);
+}
 
 static void
 file_replace_contents_cb (GFile *file,
                           GAsyncResult *result,
-                          EActivity *activity)
+                          GSimpleAsyncResult *simple)
 {
-	gchar *new_etag;
-	gboolean success;
+	AsyncContext *context;
+	gchar *new_etag = NULL;
 	GError *error = NULL;
 
-	success = g_file_replace_contents_finish (
-		file, result, &new_etag, &error);
+	context = g_simple_async_result_get_op_res_gpointer (simple);
 
-	result = e_io_activity_get_async_result (E_IO_ACTIVITY (activity));
+	g_file_replace_contents_finish (file, result, &new_etag, &error);
 
-	if (error == NULL) {
-		g_object_set_data_full (
-			G_OBJECT (result),
-			"__new_etag__", new_etag,
-			(GDestroyNotify) g_free);
-	} else {
-		g_simple_async_result_set_from_error (
-			G_SIMPLE_ASYNC_RESULT (result), error);
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+		e_activity_set_state (context->activity, E_ACTIVITY_CANCELLED);
+	else
+		e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+
+	if (error == NULL)
+		context->new_etag = new_etag;
+	else {
+		g_warn_if_fail (new_etag == NULL);
+		g_simple_async_result_set_from_error (simple, error);
 		g_error_free (error);
 	}
 
-	g_simple_async_result_set_op_res_gboolean (
-		G_SIMPLE_ASYNC_RESULT (result), success);
+	g_simple_async_result_complete (simple);
 
-	e_activity_complete (activity);
-
-	g_object_unref (activity);
+	g_object_unref (simple);
 }
 
 /**
@@ -115,9 +131,9 @@ e_file_replace_contents_async (GFile *file,
                                GAsyncReadyCallback callback,
                                gpointer user_data)
 {
-	EActivity *activity;
 	GSimpleAsyncResult *simple;
 	GCancellable *cancellable;
+	AsyncContext *context;
 	const gchar *format;
 	gchar *description;
 	gchar *basename;
@@ -148,21 +164,26 @@ e_file_replace_contents_async (GFile *file,
 
 	cancellable = g_cancellable_new ();
 
+	context = g_slice_new0 (AsyncContext);
+	context->activity = e_activity_new ();
+
+	e_activity_set_text (context->activity, description);
+	e_activity_set_cancellable (context->activity, cancellable);
+
 	simple = g_simple_async_result_new (
 		G_OBJECT (file), callback, user_data,
 		e_file_replace_contents_async);
 
-	activity = e_io_activity_new (
-		description, G_ASYNC_RESULT (simple), cancellable);
+	g_simple_async_result_set_op_res_gpointer (
+		simple, context, (GDestroyNotify) async_context_free);
 
 	g_file_replace_contents_async (
 		file, contents, length, etag,
 		make_backup, flags, cancellable,
 		(GAsyncReadyCallback) file_replace_contents_cb,
-		activity);
+		simple);
 
 	g_object_unref (cancellable);
-	g_object_unref (simple);
 
 	g_free (description);
 	g_free (basename);
@@ -170,7 +191,7 @@ e_file_replace_contents_async (GFile *file,
 	g_free (hostname);
 	g_free (uri);
 
-	return activity;
+	return context->activity;
 }
 
 /**
@@ -194,18 +215,19 @@ e_file_replace_contents_finish (GFile *file,
                                 GError **error)
 {
 	GSimpleAsyncResult *simple;
+	AsyncContext *context;
 
 	g_return_val_if_fail (G_IS_FILE (file), FALSE);
 	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
+	context = g_simple_async_result_get_op_res_gpointer (simple);
 
 	if (g_simple_async_result_propagate_error (simple, error))
 		return FALSE;
 
 	if (new_etag != NULL)
-		*new_etag = g_object_steal_data (
-			G_OBJECT (result), "__new_etag__");
+		*new_etag = g_strdup (context->new_etag);
 
 	return TRUE;
 }

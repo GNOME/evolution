@@ -38,11 +38,6 @@
  *     to rework or get rid of the functions that use this. */
 const gchar *shell_builtin_backend = "mail";
 
-/* background operation status stuff */
-struct _MailMsgPrivate {
-	EActivity *activity;
-};
-
 static guint mail_msg_seq; /* sequence number of each message */
 
 /* Table of active messages.  Must hold mail_msg_lock to access. */
@@ -76,6 +71,7 @@ gpointer
 mail_msg_new (MailMsgInfo *info)
 {
 	MailMsg *msg;
+	GCancellable *cancellable;
 
 	g_mutex_lock (mail_msg_lock);
 
@@ -83,21 +79,19 @@ mail_msg_new (MailMsgInfo *info)
 	msg->info = info;
 	msg->ref_count = 1;
 	msg->seq = mail_msg_seq++;
-	msg->cancellable = camel_operation_new ();
+	msg->activity = e_activity_new ();
 
-	msg->priv = g_slice_new0 (MailMsgPrivate);
-	msg->priv->activity = e_activity_new ();
+	cancellable = camel_operation_new ();
 
-	e_activity_set_percent (msg->priv->activity, 0.0);
-
-	e_activity_set_cancellable (
-		msg->priv->activity,
-		G_CANCELLABLE (msg->cancellable));
+	e_activity_set_percent (msg->activity, 0.0);
+	e_activity_set_cancellable (msg->activity, cancellable);
 
 	g_signal_connect (
-		msg->cancellable, "cancelled",
+		cancellable, "cancelled",
 		G_CALLBACK (mail_msg_cancelled),
 		GINT_TO_POINTER (msg->seq));
+
+	g_object_unref (cancellable);
 
 	g_hash_table_insert (
 		mail_msg_active_table, GINT_TO_POINTER (msg->seq), msg);
@@ -145,18 +139,12 @@ mail_msg_free (MailMsg *mail_msg)
 	shell_backend = e_shell_get_backend_by_name (
 		shell, shell_builtin_backend);
 
-	if (mail_msg->priv->activity != NULL) {
-		e_activity_complete (mail_msg->priv->activity);
-		g_object_unref (mail_msg->priv->activity);
-	}
-
-	if (mail_msg->cancellable != NULL)
-		g_object_unref (mail_msg->cancellable);
+	if (mail_msg->activity != NULL)
+		g_object_unref (mail_msg->activity);
 
 	if (mail_msg->error != NULL)
 		g_error_free (mail_msg->error);
 
-	g_slice_free (MailMsgPrivate, mail_msg->priv);
 	g_slice_free1 (mail_msg->info->size, mail_msg);
 
 	return FALSE;
@@ -226,9 +214,21 @@ mail_msg_check_error (gpointer msg)
 	checkmem (m->priv);
 #endif
 
-	if (m->error == NULL
-	    || g_error_matches (m->error, G_IO_ERROR, G_IO_ERROR_CANCELLED)
-	    || g_error_matches (m->error, CAMEL_FOLDER_ERROR, CAMEL_FOLDER_ERROR_INVALID_UID))
+	if (g_error_matches (m->error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		e_activity_set_state (m->activity, E_ACTIVITY_CANCELLED);
+		return;
+	}
+
+	e_activity_set_state (m->activity, E_ACTIVITY_COMPLETED);
+
+	if (m->error == NULL)
+		return;
+
+	/* XXX Hmm, no explanation of why this is needed.  It looks like
+	 *     a lame hack and will be removed at some point, if only to
+	 *     reintroduce whatever issue made this necessary so we can
+	 *     document it the source code this time. */
+	if (g_error_matches (m->error, CAMEL_FOLDER_ERROR, CAMEL_FOLDER_ERROR_INVALID_UID))
 		return;
 
 	shell = e_shell_get_default ();
@@ -250,8 +250,7 @@ mail_msg_check_error (gpointer msg)
 		shell_window, shell_builtin_backend);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
-	if (m->info->desc
-	    && (what = m->info->desc (m))) {
+	if (m->info->desc && (what = m->info->desc (m))) {
 		e_alert_submit (
 			GTK_WIDGET (shell_content),
 			"mail:async-error", what,
@@ -277,8 +276,13 @@ mail_msg_cancel (guint msgid)
 
 	/* Hold a reference to the GCancellable so it doesn't finalize
 	 * itself on us between unlocking the mutex and cancelling. */
-	if (msg != NULL && !g_cancellable_is_cancelled (msg->cancellable))
-		cancellable = g_object_ref (msg->cancellable);
+	if (msg != NULL) {
+		cancellable = e_activity_get_cancellable (msg->activity);
+		if (g_cancellable_is_cancelled (cancellable))
+			cancellable = NULL;
+		else
+			g_object_ref (cancellable);
+	}
 
 	g_mutex_unlock (mail_msg_lock);
 
@@ -368,13 +372,17 @@ mail_msg_idle_cb (void)
 	G_UNLOCK (idle_source_id);
 	/* check the main loop queue */
 	while ((msg = g_async_queue_try_pop (main_loop_queue)) != NULL) {
+		GCancellable *cancellable;
+
+		cancellable = e_activity_get_cancellable (msg->activity);
+
 		g_idle_add_full (
 			G_PRIORITY_DEFAULT,
 			(GSourceFunc) mail_msg_submit,
-			g_object_ref (msg->priv->activity),
+			g_object_ref (msg->activity),
 			(GDestroyNotify) g_object_unref);
 		if (msg->info->exec != NULL)
-			msg->info->exec (msg);
+			msg->info->exec (msg, cancellable, &msg->error);
 		if (msg->info->done != NULL)
 			msg->info->done (msg);
 		mail_msg_unref (msg);
@@ -393,23 +401,27 @@ mail_msg_idle_cb (void)
 static void
 mail_msg_proxy (MailMsg *msg)
 {
+	GCancellable *cancellable;
+
+	cancellable = e_activity_get_cancellable (msg->activity);
+
 	if (msg->info->desc != NULL) {
 		gchar *text = msg->info->desc (msg);
-		camel_operation_push_message (msg->cancellable, "%s", text);
+		camel_operation_push_message (cancellable, "%s", text);
 		g_free (text);
 	}
 
 	g_idle_add_full (
 		G_PRIORITY_DEFAULT,
 		(GSourceFunc) mail_msg_submit,
-		g_object_ref (msg->priv->activity),
+		g_object_ref (msg->activity),
 		(GDestroyNotify) g_object_unref);
 
 	if (msg->info->exec != NULL)
-		msg->info->exec (msg);
+		msg->info->exec (msg, cancellable, &msg->error);
 
 	if (msg->info->desc != NULL)
-		camel_operation_pop_message (msg->cancellable);
+		camel_operation_pop_message (cancellable);
 
 	g_async_queue_push (msg_reply_queue, msg);
 
@@ -522,7 +534,9 @@ struct _call_msg {
 };
 
 static void
-do_call (struct _call_msg *m)
+do_call (struct _call_msg *m,
+         GCancellable *cancellable,
+         GError **error)
 {
 	gpointer p1, *p2, *p3, *p4, *p5;
 	gint i1;
@@ -572,6 +586,11 @@ do_call (struct _call_msg *m)
 		break;
 	}
 
+	e_activity_set_state (
+		m->base.activity,
+		g_cancellable_is_cancelled (cancellable) ?
+		E_ACTIVITY_CANCELLED : E_ACTIVITY_COMPLETED);
+
 	if (m->done != NULL)
 		e_flag_set (m->done);
 }
@@ -587,6 +606,7 @@ static MailMsgInfo mail_call_info = {
 gpointer
 mail_call_main (mail_call_t type, MailMainFunc func, ...)
 {
+	GCancellable *cancellable;
 	struct _call_msg *m;
 	gpointer ret;
 	va_list ap;
@@ -598,8 +618,10 @@ mail_call_main (mail_call_t type, MailMainFunc func, ...)
 	m->func = func;
 	G_VA_COPY (m->ap, ap);
 
+	cancellable = e_activity_get_cancellable (m->base.activity);
+
 	if (mail_in_main_thread ())
-		do_call (m);
+		do_call (m, cancellable, &m->base.error);
 	else {
 		mail_msg_ref (m);
 		m->done = e_flag_new ();

@@ -795,7 +795,9 @@ ping_store_desc (struct _ping_store_msg *m)
 }
 
 static void
-ping_store_exec (struct _ping_store_msg *m)
+ping_store_exec (struct _ping_store_msg *m,
+                 GCancellable *cancellable,
+                 GError **error)
 {
 	gboolean online = FALSE;
 
@@ -810,8 +812,7 @@ ping_store_exec (struct _ping_store_msg *m)
 			online = TRUE;
 	}
 	if (online)
-		camel_store_noop_sync (
-			m->store, m->base.cancellable, &m->base.error);
+		camel_store_noop_sync (m->store, cancellable, error);
 }
 
 static void

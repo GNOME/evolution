@@ -245,7 +245,45 @@ e-shell-window.sgml
 
 @activity: 
 
+<!-- ##### FUNCTION e_activity_clicked ##### -->
+<para>
+
+</para>
+
+@activity: 
+
+<!-- ##### FUNCTION e_activity_complete ##### -->
+<para>
+
+</para>
+
+@activity: 
+
 <!-- ##### FUNCTION e_activity_get_allow_cancel ##### -->
+<para>
+
+</para>
+
+@activity: 
+@Returns: 
+
+<!-- ##### FUNCTION e_activity_get_clickable ##### -->
+<para>
+
+</para>
+
+@activity: 
+@Returns: 
+
+<!-- ##### FUNCTION e_activity_get_primary_text ##### -->
+<para>
+
+</para>
+
+@activity: 
+@Returns: 
+
+<!-- ##### FUNCTION e_activity_get_secondary_text ##### -->
 <para>
 
 </para>
@@ -261,6 +299,14 @@ e-shell-window.sgml
 @activity: 
 @Returns: 
 
+<!-- ##### FUNCTION e_activity_is_completed ##### -->
+<para>
+
+</para>
+
+@activity: 
+@Returns: 
+
 <!-- ##### FUNCTION e_activity_set_allow_cancel ##### -->
 <para>
 
@@ -268,6 +314,30 @@ e-shell-window.sgml
 
 @activity: 
 @allow_cancel: 
+
+<!-- ##### FUNCTION e_activity_set_clickable ##### -->
+<para>
+
+</para>
+
+@activity: 
+@clickable: 
+
+<!-- ##### FUNCTION e_activity_set_primary_text ##### -->
+<para>
+
+</para>
+
+@activity: 
+@primary_text: 
+
+<!-- ##### FUNCTION e_activity_set_secondary_text ##### -->
+<para>
+
+</para>
+
+@activity: 
+@secondary_text: 
 
 <!-- ##### FUNCTION e_alert_dialog_count_buttons ##### -->
 <para>

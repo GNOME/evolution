@@ -3533,11 +3533,9 @@ void
 e_msg_composer_send (EMsgComposer *composer)
 {
 	AsyncContext *context;
-	GtkAction *action;
 	EActivityBar *activity_bar;
 	GCancellable *cancellable;
 	gboolean proceed_with_send = TRUE;
-	const gchar *icon_name;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -3553,10 +3551,6 @@ e_msg_composer_send (EMsgComposer *composer)
 	cancellable = camel_operation_new ();
 	e_activity_set_cancellable (context->activity, cancellable);
 	g_object_unref (cancellable);
-
-	action = ACTION (SEND);
-	icon_name = gtk_action_get_icon_name (action);
-	e_activity_set_icon_name (context->activity, icon_name);
 
 	activity_bar = E_ACTIVITY_BAR (composer->priv->activity_bar);
 	e_activity_bar_set_activity (activity_bar, context->activity);
@@ -3623,10 +3617,8 @@ void
 e_msg_composer_save_draft (EMsgComposer *composer)
 {
 	AsyncContext *context;
-	GtkAction *action;
 	EActivityBar *activity_bar;
 	GCancellable *cancellable;
-	const gchar *icon_name;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -3636,10 +3628,6 @@ e_msg_composer_save_draft (EMsgComposer *composer)
 	cancellable = camel_operation_new ();
 	e_activity_set_cancellable (context->activity, cancellable);
 	g_object_unref (cancellable);
-
-	action = ACTION (SAVE_DRAFT);
-	icon_name = gtk_action_get_icon_name (action);
-	e_activity_set_icon_name (context->activity, icon_name);
 
 	activity_bar = E_ACTIVITY_BAR (composer->priv->activity_bar);
 	e_activity_bar_set_activity (activity_bar, context->activity);
@@ -3703,10 +3691,8 @@ e_msg_composer_print (EMsgComposer *composer,
                       GtkPrintOperationAction print_action)
 {
 	AsyncContext *context;
-	GtkAction *action;
 	EActivityBar *activity_bar;
 	GCancellable *cancellable;
-	const gchar *icon_name;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -3717,10 +3703,6 @@ e_msg_composer_print (EMsgComposer *composer,
 	cancellable = camel_operation_new ();
 	e_activity_set_cancellable (context->activity, cancellable);
 	g_object_unref (cancellable);
-
-	action = ACTION (PRINT);
-	icon_name = gtk_action_get_icon_name (action);
-	e_activity_set_icon_name (context->activity, icon_name);
 
 	activity_bar = E_ACTIVITY_BAR (composer->priv->activity_bar);
 	e_activity_bar_set_activity (activity_bar, context->activity);

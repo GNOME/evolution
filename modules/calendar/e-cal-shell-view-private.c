@@ -705,21 +705,24 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 
 	if (priv->calendar_activity != NULL) {
 		/* XXX Activity is not cancellable. */
-		e_activity_complete (priv->calendar_activity);
+		e_activity_set_state (
+			priv->calendar_activity, E_ACTIVITY_COMPLETED);
 		g_object_unref (priv->calendar_activity);
 		priv->calendar_activity = NULL;
 	}
 
 	if (priv->memopad_activity != NULL) {
 		/* XXX Activity is not cancellable. */
-		e_activity_complete (priv->memopad_activity);
+		e_activity_set_state (
+			priv->memopad_activity, E_ACTIVITY_COMPLETED);
 		g_object_unref (priv->memopad_activity);
 		priv->memopad_activity = NULL;
 	}
 
 	if (priv->taskpad_activity != NULL) {
 		/* XXX Activity is not cancellable. */
-		e_activity_complete (priv->taskpad_activity);
+		e_activity_set_state (
+			priv->taskpad_activity, E_ACTIVITY_COMPLETED);
 		g_object_unref (priv->taskpad_activity);
 		priv->taskpad_activity = NULL;
 	}
@@ -808,18 +811,18 @@ e_cal_shell_view_set_status_message (ECalShellView *cal_shell_view,
 
 	if (status_message == NULL || *status_message == '\0') {
 		if (activity != NULL) {
-			e_activity_complete (activity);
+			e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 			g_object_unref (activity);
 			activity = NULL;
 		}
 	} else if (activity == NULL) {
 		activity = e_activity_new ();
 		e_activity_set_percent (activity, percent);
-		e_activity_set_primary_text (activity, status_message);
+		e_activity_set_text (activity, status_message);
 		e_shell_backend_add_activity (shell_backend, activity);
 	} else {
 		e_activity_set_percent (activity, percent);
-		e_activity_set_primary_text (activity, status_message);
+		e_activity_set_text (activity, status_message);
 	}
 
 	cal_shell_view->priv->calendar_activity = activity;

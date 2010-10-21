@@ -377,7 +377,9 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 
 	if (task_shell_view->priv->activity != NULL) {
 		/* XXX Activity is not cancellable. */
-		e_activity_complete (task_shell_view->priv->activity);
+		e_activity_set_state (
+			task_shell_view->priv->activity,
+			E_ACTIVITY_COMPLETED);
 		g_object_unref (task_shell_view->priv->activity);
 		task_shell_view->priv->activity = NULL;
 	}
@@ -521,7 +523,7 @@ e_task_shell_view_set_status_message (ETaskShellView *task_shell_view,
 
 	if (status_message == NULL || *status_message == '\0') {
 		if (activity != NULL) {
-			e_activity_complete (activity);
+			e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 			g_object_unref (activity);
 			activity = NULL;
 		}
@@ -529,12 +531,12 @@ e_task_shell_view_set_status_message (ETaskShellView *task_shell_view,
 	} else if (activity == NULL) {
 		activity = e_activity_new ();
 		e_activity_set_percent (activity, percent);
-		e_activity_set_primary_text (activity, status_message);
+		e_activity_set_text (activity, status_message);
 		e_shell_backend_add_activity (shell_backend, activity);
 
 	} else {
 		e_activity_set_percent (activity, percent);
-		e_activity_set_primary_text (activity, status_message);
+		e_activity_set_text (activity, status_message);
 	}
 
 	task_shell_view->priv->activity = activity;

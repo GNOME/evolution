@@ -230,7 +230,9 @@ static MailImporterSpecial pine_special_folders[] = {
 };
 
 static void
-pine_import_exec (struct _pine_import_msg *m)
+pine_import_exec (struct _pine_import_msg *m,
+                  GCancellable *cancellable,
+                  GError **error)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;

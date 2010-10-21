@@ -398,18 +398,29 @@ void
 e_shell_backend_add_activity (EShellBackend *shell_backend,
                               EActivity *activity)
 {
-	GCancellable *cancellable;
+	EActivityState state;
 
 	g_return_if_fail (E_IS_SHELL_BACKEND (shell_backend));
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
-	cancellable = e_activity_get_cancellable (activity);
+	state = e_activity_get_state (activity);
 
-	/* Skip cancelled activities. */
-	if (g_cancellable_is_cancelled (cancellable))
+	/* Disregard cancelled or completed activities. */
+
+	if (state == E_ACTIVITY_CANCELLED)
+		return;
+
+	if (state == E_ACTIVITY_COMPLETED)
 		return;
 
 	g_queue_push_tail (shell_backend->priv->activities, activity);
+
+	/* Emit the "activity-added" signal before adding a weak reference
+	 * to the EActivity because EShellTaskbar's signal handler also adds
+	 * a weak reference to the EActivity, and we want its GWeakNotify
+	 * to run before ours, since ours may destroy the EShellTaskbar
+	 * during application shutdown. */
+	g_signal_emit (shell_backend, signals[ACTIVITY_ADDED], 0, activity);
 
 	/* We reference the backend on every activity to
 	 * guarantee the backend outlives the activity. */
@@ -417,8 +428,6 @@ e_shell_backend_add_activity (EShellBackend *shell_backend,
 		G_OBJECT (activity), (GWeakNotify)
 		shell_backend_activity_finalized_cb,
 		g_object_ref (shell_backend));
-
-	g_signal_emit (shell_backend, signals[ACTIVITY_ADDED], 0, activity);
 
 	/* Only emit "notify::busy" when switching from idle to busy. */
 	if (g_queue_get_length (shell_backend->priv->activities) == 1)

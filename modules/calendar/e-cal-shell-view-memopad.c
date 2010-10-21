@@ -429,7 +429,7 @@ e_cal_shell_view_memopad_set_status_message (ECalShellView *cal_shell_view,
 
 	if (status_message == NULL || *status_message == '\0') {
 		if (activity != NULL) {
-			e_activity_complete (activity);
+			e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 			g_object_unref (activity);
 			activity = NULL;
 		}
@@ -437,12 +437,12 @@ e_cal_shell_view_memopad_set_status_message (ECalShellView *cal_shell_view,
 	} else if (activity == NULL) {
 		activity = e_activity_new ();
 		e_activity_set_percent (activity, percent);
-		e_activity_set_primary_text (activity, status_message);
+		e_activity_set_text (activity, status_message);
 		e_shell_backend_add_activity (shell_backend, activity);
 
 	} else {
 		e_activity_set_percent (activity, percent);
-		e_activity_set_primary_text (activity, status_message);
+		e_activity_set_text (activity, status_message);
 	}
 
 	cal_shell_view->priv->memopad_activity = activity;

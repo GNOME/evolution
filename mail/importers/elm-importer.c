@@ -184,7 +184,9 @@ static MailImporterSpecial elm_special_folders[] = {
 };
 
 static void
-elm_import_exec (struct _elm_import_msg *m)
+elm_import_exec (struct _elm_import_msg *m,
+                 GCancellable *cancellable,
+                 GError **error)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;

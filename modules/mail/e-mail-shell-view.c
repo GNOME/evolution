@@ -55,7 +55,9 @@ search_results_desc (SearchResultsMsg *msg)
 }
 
 static void
-search_results_exec (SearchResultsMsg *msg)
+search_results_exec (SearchResultsMsg *msg,
+                     GCancellable *cancellable,
+                     GError **error)
 {
 	GList *copied_list;
 

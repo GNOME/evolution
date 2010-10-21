@@ -24,25 +24,26 @@
 #define _MAIL_MT
 
 #include <camel/camel.h>
+#include <e-util/e-activity.h>
 
 typedef struct _MailMsg MailMsg;
 typedef struct _MailMsgInfo MailMsgInfo;
-typedef struct _MailMsgPrivate MailMsgPrivate;
 
-typedef gchar *	(*MailMsgDescFunc)	(MailMsg *msg);
-typedef void	(*MailMsgExecFunc)	(MailMsg *msg);
-typedef void	(*MailMsgDoneFunc)	(MailMsg *msg);
-typedef void	(*MailMsgFreeFunc)	(MailMsg *msg);
-typedef void	(*MailMsgDispatchFunc)	(gpointer msg);
+typedef gchar *	(*MailMsgDescFunc)		(MailMsg *msg);
+typedef void	(*MailMsgExecFunc)		(MailMsg *msg,
+						 GCancellable *cancellable,
+						 GError **error);
+typedef void	(*MailMsgDoneFunc)		(MailMsg *msg);
+typedef void	(*MailMsgFreeFunc)		(MailMsg *msg);
+typedef void	(*MailMsgDispatchFunc)		(gpointer msg);
 
 struct _MailMsg {
 	MailMsgInfo *info;
 	volatile gint ref_count;
 	guint seq;			/* seq number for synchronisation */
 	gint priority;			/* priority (default = 0) */
-	GCancellable *cancellable;	/* a cancellation/status handle */
+	EActivity *activity;
 	GError *error;			/* up to the caller to use this */
-	MailMsgPrivate *priv;
 };
 
 struct _MailMsgInfo {

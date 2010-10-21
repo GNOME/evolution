@@ -166,7 +166,9 @@ efh_format_desc (struct _format_msg *m)
 }
 
 static void
-efh_format_exec (struct _format_msg *m)
+efh_format_exec (struct _format_msg *m,
+                 GCancellable *cancellable,
+                 GError **error)
 {
 	EMFormat *format;
 	struct _EMFormatHTMLJob *job;
@@ -195,7 +197,7 @@ efh_format_exec (struct _format_msg *m)
 	if (format->mode == EM_FORMAT_MODE_SOURCE) {
 		em_format_format_source (
 			format, (CamelStream *) m->estream,
-			(CamelMimePart *) m->message, m->base.cancellable);
+			(CamelMimePart *) m->message, cancellable);
 	} else {
 		const EMFormatHandler *handle;
 		const gchar *mime_type;
@@ -207,7 +209,7 @@ efh_format_exec (struct _format_msg *m)
 			handle->handler (
 				format, CAMEL_STREAM (m->estream),
 				CAMEL_MIME_PART (m->message), handle,
-				m->base.cancellable, FALSE);
+				cancellable, FALSE);
 
 		mime_type = "x-evolution/message/rfc822";
 		handle = em_format_find_handler (format, mime_type);
@@ -216,10 +218,10 @@ efh_format_exec (struct _format_msg *m)
 			handle->handler (
 				format, CAMEL_STREAM (m->estream),
 				CAMEL_MIME_PART (m->message), handle,
-				m->base.cancellable, FALSE);
+				cancellable, FALSE);
 	}
 
-	camel_stream_flush ((CamelStream *)m->estream, m->base.cancellable, NULL);
+	camel_stream_flush ((CamelStream *)m->estream, cancellable, NULL);
 
 	puri_level = format->pending_uri_level;
 	base = format->base;
@@ -232,13 +234,13 @@ efh_format_exec (struct _format_msg *m)
 
 			/* This is an implicit check to see if the gtkhtml has been destroyed */
 			if (m->format->priv->web_view == NULL)
-				g_cancellable_cancel (m->base.cancellable);
+				g_cancellable_cancel (cancellable);
 
 			/* call jobs even if cancelled, so they can clean up resources */
 			format->pending_uri_level = job->puri_level;
 			if (job->base)
 				format->base = job->base;
-			job->callback (job, m->base.cancellable);
+			job->callback (job, cancellable);
 			format->base = base;
 
 			/* clean up the job */
@@ -257,8 +259,8 @@ efh_format_exec (struct _format_msg *m)
 			d(printf("out of jobs, closing root stream\n"));
 			camel_stream_write_string (
 				(CamelStream *) m->estream,
-				"</body>\n</html>\n", m->base.cancellable, NULL);
-			camel_stream_close ((CamelStream *)m->estream, m->base.cancellable, NULL);
+				"</body>\n</html>\n", cancellable, NULL);
+			camel_stream_close ((CamelStream *)m->estream, cancellable, NULL);
 			g_object_unref (m->estream);
 			m->estream = NULL;
 		}
@@ -287,7 +289,7 @@ efh_format_free (struct _format_msg *m)
 	d(printf("formatter freed\n"));
 	g_object_unref (m->format);
 	if (m->estream) {
-		camel_stream_close ((CamelStream *)m->estream, m->base.cancellable, NULL);
+		camel_stream_close ((CamelStream *)m->estream, NULL, NULL);
 		g_object_unref (m->estream);
 	}
 	if (m->folder)

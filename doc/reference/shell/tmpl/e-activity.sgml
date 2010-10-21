@@ -45,32 +45,7 @@ e-activity
 @Returns: 
 
 
-<!-- ##### FUNCTION e_activity_complete ##### -->
-<para>
-
-</para>
-
-@activity: 
-
-
-<!-- ##### FUNCTION e_activity_clicked ##### -->
-<para>
-
-</para>
-
-@activity: 
-
-
 <!-- ##### FUNCTION e_activity_describe ##### -->
-<para>
-
-</para>
-
-@activity: 
-@Returns: 
-
-
-<!-- ##### FUNCTION e_activity_is_completed ##### -->
 <para>
 
 </para>
@@ -95,24 +70,6 @@ e-activity
 
 @activity: 
 @cancellable: 
-
-
-<!-- ##### FUNCTION e_activity_get_clickable ##### -->
-<para>
-
-</para>
-
-@activity: 
-@Returns: 
-
-
-<!-- ##### FUNCTION e_activity_set_clickable ##### -->
-<para>
-
-</para>
-
-@activity: 
-@clickable: 
 
 
 <!-- ##### FUNCTION e_activity_get_icon_name ##### -->
@@ -151,7 +108,7 @@ e-activity
 @percent: 
 
 
-<!-- ##### FUNCTION e_activity_get_primary_text ##### -->
+<!-- ##### FUNCTION e_activity_get_text ##### -->
 <para>
 
 </para>
@@ -160,30 +117,12 @@ e-activity
 @Returns: 
 
 
-<!-- ##### FUNCTION e_activity_set_primary_text ##### -->
+<!-- ##### FUNCTION e_activity_set_text ##### -->
 <para>
 
 </para>
 
 @activity: 
-@primary_text: 
-
-
-<!-- ##### FUNCTION e_activity_get_secondary_text ##### -->
-<para>
-
-</para>
-
-@activity: 
-@Returns: 
-
-
-<!-- ##### FUNCTION e_activity_set_secondary_text ##### -->
-<para>
-
-</para>
-
-@activity: 
-@secondary_text: 
+@text: 
 
 

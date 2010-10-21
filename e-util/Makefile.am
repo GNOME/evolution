@@ -2,6 +2,14 @@ eutilincludedir = $(privincludedir)/e-util
 ecpsdir = $(privdatadir)/ecps
 ruledir = $(privdatadir)
 
+include $(top_srcdir)/glib-gen.mak
+glib_enum_headers=e-util-enums.h
+glib_enum_define=E
+glib_enum_prefix=e
+
+ENUM_GENERATED = e-util-enumtypes.h e-util-enumtypes.c
+MARSHAL_GENERATED = e-marshal.c e-marshal.h
+
 if OS_WIN32
 PLATFORM_SOURCES = e-win32-reloc.c e-win32-defaults.c e-win32-defaults.h
 endif
@@ -28,7 +36,6 @@ eutilinclude_HEADERS = 				\
 	e-html-utils.h				\
 	e-icon-factory.h			\
 	e-import.h				\
-	e-io-activity.h				\
 	e-marshal.h				\
 	e-mktemp.h				\
 	e-module.h				\
@@ -49,6 +56,8 @@ eutilinclude_HEADERS = 				\
 	e-text-event-processor.h		\
 	e-ui-manager.h				\
 	e-util.h				\
+	e-util-enums.h				\
+	e-util-enumtypes.h			\
 	e-unicode.h				\
 	e-xml-utils.h				\
 	gconf-bridge.h
@@ -103,7 +112,6 @@ libeutil_la_SOURCES =				\
 	e-html-utils.c				\
 	e-icon-factory.c			\
 	e-import.c				\
-	e-io-activity.c				\
 	e-marshal.c				\
 	e-mktemp.c				\
 	e-module.c				\
@@ -124,14 +132,12 @@ libeutil_la_SOURCES =				\
 	e-ui-manager.c				\
 	e-util.c				\
 	e-unicode.c				\
+	e-util-enumtypes.c			\
 	e-util-private.h			\
 	e-xml-utils.c				\
 	gconf-bridge.c				\
 	gtk-compat.h				\
 	$(PLATFORM_SOURCES)
-
-MARSHAL_GENERATED = e-marshal.c e-marshal.h
-@EVO_MARSHAL_RULE@
 
 libeutil_la_LDFLAGS = $(NO_UNDEFINED)
 
@@ -149,7 +155,7 @@ EXTRA_DIST =				\
 	e-system.error.xml		\
 	e-marshal.list
 
-BUILT_SOURCES = $(MARSHAL_GENERATED) $(error_DATA)
+BUILT_SOURCES = $(ENUM_GENERATED) $(MARSHAL_GENERATED) $(error_DATA)
 CLEANFILES    = $(BUILT_SOURCES)
 
 dist-hook:

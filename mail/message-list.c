@@ -2218,7 +2218,9 @@ ml_drop_async_desc (struct _drop_msg *m)
 }
 
 static void
-ml_drop_async_exec (struct _drop_msg *m)
+ml_drop_async_exec (struct _drop_msg *m,
+                    GCancellable *cancellable,
+                    GError **error)
 {
 	EMailBackend *backend;
 	EMailSession *session;
@@ -2231,8 +2233,7 @@ ml_drop_async_exec (struct _drop_msg *m)
 		em_utils_selection_get_uidlist (
 			m->selection, session, m->folder,
 			m->action == GDK_ACTION_MOVE,
-			m->base.cancellable,
-			&m->base.error);
+			cancellable, error);
 		break;
 	case DND_MESSAGE_RFC822:
 		em_utils_selection_get_message (m->selection, m->folder);
@@ -4461,7 +4462,9 @@ regen_list_desc (struct _regen_list_msg *m)
 }
 
 static void
-regen_list_exec (struct _regen_list_msg *m)
+regen_list_exec (struct _regen_list_msg *m,
+                 GCancellable *cancellable,
+                 GError **error)
 {
 	GPtrArray *uids, *searchuids = NULL;
 	CamelMessageInfo *info;
@@ -4469,6 +4472,7 @@ regen_list_exec (struct _regen_list_msg *m)
 	ETree *tree;
 	gint i;
 	gchar *expr = NULL;
+	GError *local_error = NULL;
 
 	if (m->folder != m->ml->folder)
 		return;
@@ -4516,7 +4520,7 @@ regen_list_exec (struct _regen_list_msg *m)
 		gboolean store_has_vjunk = folder_store_supports_vjunk_folder (m->folder);
 
 		searchuids = uids = camel_folder_search_by_expression (
-			m->folder, expr, &m->base.error);
+			m->folder, expr, &local_error);
 		/* If m->changes is not NULL, then it means we are called from folder_changed event,
 		   thus we will keep the selected message to be sure it doesn't disappear because
 		   it no longer belong to our search filter. */
@@ -4554,13 +4558,15 @@ regen_list_exec (struct _regen_list_msg *m)
 		}
 	}
 
-	if (m->base.error != NULL)
+	if (local_error != NULL) {
+		g_propagate_error (error, local_error);
 		return;
+	}
 
 	e_profile_event_emit("list.threaduids", m->folder->full_name, 0);
 
 	/* camel_folder_summary_prepare_fetch_all (m->folder->summary, NULL); */
-	if (!g_cancellable_is_cancelled (m->base.cancellable)) {
+	if (!g_cancellable_is_cancelled (cancellable)) {
 		/* update/build a new tree */
 		if (m->dotree) {
 			ml_sort_uids_by_tree (m->ml, uids);
@@ -4596,6 +4602,9 @@ static void
 regen_list_done (struct _regen_list_msg *m)
 {
 	ETree *tree;
+	GCancellable *cancellable;
+
+	cancellable = e_activity_get_cancellable (m->base.activity);
 
 	if (m->ml->priv->destroyed)
 		return;
@@ -4603,7 +4612,7 @@ regen_list_done (struct _regen_list_msg *m)
 	if (!m->complete)
 		return;
 
-	if (g_cancellable_is_cancelled (m->base.cancellable))
+	if (g_cancellable_is_cancelled (cancellable))
 		return;
 
 	if (m->ml->folder != m->folder)
@@ -4789,10 +4798,12 @@ mail_regen_cancel (MessageList *ml)
 		l = ml->regen;
 		while (l) {
 			MailMsg *mm = l->data;
+			GCancellable *cancellable;
 
-			if (mm->cancellable)
+			cancellable = e_activity_get_cancellable (mm->activity);
+			if (CAMEL_IS_OPERATION (cancellable))
 				camel_operation_cancel (
-					CAMEL_OPERATION (mm->cancellable));
+					CAMEL_OPERATION (cancellable));
 			l = l->next;
 		}
 

@@ -204,20 +204,24 @@ folder_tree_get_folder_info__desc (struct _EMFolderTreeGetFolderInfo *m)
 }
 
 static void
-folder_tree_get_folder_info__exec (struct _EMFolderTreeGetFolderInfo *m)
+folder_tree_get_folder_info__exec (struct _EMFolderTreeGetFolderInfo *m,
+                                   GCancellable *cancellable,
+                                   GError **error)
 {
 	guint32 flags = m->flags | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
+	GError *local_error = NULL;
 
 	m->fi = camel_store_get_folder_info_sync (
-		m->store, m->top, flags,
-		m->base.cancellable, &m->base.error);
+		m->store, m->top, flags, cancellable, &local_error);
 
 	/* XXX POP3 stores always return an error because they have
 	 *     no folder hierarchy to scan.  Clear that error so the
 	 *     user doesn't see it. */
-	if (g_error_matches (m->base.error,
+	if (g_error_matches (local_error,
 		CAMEL_STORE_ERROR, CAMEL_STORE_ERROR_NO_FOLDER))
-		g_clear_error (&m->base.error);
+		g_error_free (local_error);
+	else if (local_error != NULL)
+		g_propagate_error (error, local_error);
 }
 
 static void
@@ -1741,6 +1745,7 @@ folder_tree_drop_folder (struct _DragDataReceivedAsync *m)
 {
 	CamelFolder *folder;
 	CamelStore *parent_store;
+	GCancellable *cancellable;
 	const gchar *full_name;
 	const guchar *data;
 
@@ -1748,9 +1753,11 @@ folder_tree_drop_folder (struct _DragDataReceivedAsync *m)
 
 	d(printf(" * Drop folder '%s' onto '%s'\n", data, m->full_name));
 
+	cancellable = e_activity_get_cancellable (m->base.activity);
+
 	folder = e_mail_session_uri_to_folder_sync (
 		m->session, (gchar *) data, 0,
-		m->base.cancellable, &m->base.error);
+		cancellable, &m->base.error);
 	if (folder == NULL)
 		return;
 
@@ -1801,7 +1808,9 @@ folder_tree_drop_async__desc (struct _DragDataReceivedAsync *m)
 }
 
 static void
-folder_tree_drop_async__exec (struct _DragDataReceivedAsync *m)
+folder_tree_drop_async__exec (struct _DragDataReceivedAsync *m,
+                              GCancellable *cancellable,
+                              GError **error)
 {
 	CamelFolder *folder;
 
@@ -1811,19 +1820,18 @@ folder_tree_drop_async__exec (struct _DragDataReceivedAsync *m)
 		folder_tree_drop_folder (m);
 	} else if (m->full_name == NULL) {
 		g_set_error (
-			&m->base.error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
 			_("Cannot drop message(s) into toplevel store"));
 	} else if ((folder = camel_store_get_folder_sync (
-		m->store, m->full_name, 0,
-		m->base.cancellable, &m->base.error))) {
+		m->store, m->full_name, 0, cancellable, error))) {
 
 		switch (m->info) {
 		case DND_DROP_TYPE_UID_LIST:
 			/* import a list of uids from another evo folder */
 			em_utils_selection_get_uidlist (
 				m->selection, m->session, folder, m->move,
-				m->base.cancellable, &m->base.error);
-			m->moved = m->move && (m->base.error == NULL);
+				cancellable, error);
+			m->moved = m->move && (error == NULL);
 			break;
 		case DND_DROP_TYPE_MESSAGE_RFC822:
 			/* import a message/rfc822 stream */

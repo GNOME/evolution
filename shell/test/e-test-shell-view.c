@@ -98,7 +98,7 @@ test_shell_view_constructed (GObject *object)
 	activity = e_activity_new ();
 	cancellable = g_cancellable_new ();
 	e_activity_set_cancellable (activity, cancellable);
-	e_activity_set_primary_text (activity, "Test Activity");
+	e_activity_set_text (activity, "Test Activity");
 	e_shell_backend_add_activity (shell_backend, activity);
 	g_object_unref (cancellable);
 	priv->activity = activity;

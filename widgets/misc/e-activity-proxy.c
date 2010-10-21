@@ -27,13 +27,20 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ACTIVITY_PROXY, EActivityProxyPrivate))
 
+#define FEEDBACK_PERIOD		1 /* seconds */
+#define COMPLETED_ICON_NAME	"emblem-default"
+
 struct _EActivityProxyPrivate {
-	EActivity *activity;
-	GtkWidget *button;
-	GtkWidget *image;
-	GtkWidget *label;
-	GtkWidget *cancel;
-	GtkWidget *spinner;
+	EActivity *activity;	/* weak reference */
+	GtkWidget *image;	/* not referenced */
+	GtkWidget *label;	/* not referenced */
+	GtkWidget *cancel;	/* not referenced */
+	GtkWidget *spinner;	/* not referenced */
+
+	/* If the user clicks the Cancel button, keep the cancelled
+	 * EActivity object alive for a short duration so the user
+	 * gets some visual feedback that cancellation worked. */
+	guint timeout_id;
 };
 
 enum {
@@ -47,82 +54,123 @@ G_DEFINE_TYPE (
 	GTK_TYPE_EVENT_BOX)
 
 static void
-activity_proxy_cancel (EActivity *activity)
+activity_proxy_feedback (EActivityProxy *proxy)
 {
-	GCancellable *cancellable;
+	EActivity *activity;
+	EActivityState state;
 
-	/* We shouldn't get here unless the EActivity has a GCancellable,
-	 * since otherwise the cancel button is invisible and unclickable.
-	 * g_cancellable_cancel() will emit a warning if this breaks. */
+	activity = e_activity_proxy_get_activity (proxy);
+	g_return_if_fail (E_IS_ACTIVITY (activity));
 
-	cancellable = e_activity_get_cancellable (activity);
-	g_cancellable_cancel (cancellable);
+	state = e_activity_get_state (activity);
+	if (state != E_ACTIVITY_CANCELLED)
+		return;
+
+	if (proxy->priv->timeout_id > 0)
+		g_source_remove (proxy->priv->timeout_id);
+
+	/* Hold a reference on the EActivity for a short
+	 * period so the activity proxy stays visible. */
+	proxy->priv->timeout_id = g_timeout_add_seconds_full (
+		G_PRIORITY_LOW, FEEDBACK_PERIOD, (GSourceFunc) gtk_false,
+		g_object_ref (activity), (GDestroyNotify) g_object_unref);
 }
 
 static void
 activity_proxy_update (EActivityProxy *proxy)
 {
 	EActivity *activity;
+	EActivityState state;
 	GCancellable *cancellable;
 	const gchar *icon_name;
-	gboolean cancelled;
-	gboolean clickable;
-	gboolean completed;
 	gboolean sensitive;
 	gboolean visible;
 	gchar *description;
 
-	activity = proxy->priv->activity;
+	activity = e_activity_proxy_get_activity (proxy);
+
+	if (activity == NULL) {
+		gtk_widget_hide (GTK_WIDGET (proxy));
+		return;
+	}
+
 	cancellable = e_activity_get_cancellable (activity);
-	cancelled = g_cancellable_is_cancelled (cancellable);
-	clickable = e_activity_get_clickable (activity);
-	completed = e_activity_is_completed (activity);
 	icon_name = e_activity_get_icon_name (activity);
+	state = e_activity_get_state (activity);
 
 	description = e_activity_describe (activity);
 	gtk_widget_set_tooltip_text (GTK_WIDGET (proxy), description);
 	gtk_label_set_text (GTK_LABEL (proxy->priv->label), description);
-	gtk_widget_set_visible (GTK_WIDGET (proxy), (description != NULL));
-	g_free (description);
 
-	/* Note, an activity requires an icon name in order to
-	 * be clickable.  We don't support spinner buttons. */
-	if (icon_name != NULL) {
+	if (state == E_ACTIVITY_CANCELLED) {
+		PangoAttribute *attr;
+		PangoAttrList *attr_list;
+
+		attr_list = pango_attr_list_new ();
+
+		attr = pango_attr_strikethrough_new (TRUE);
+		pango_attr_list_insert (attr_list, attr);
+
+		gtk_label_set_attributes (
+			GTK_LABEL (proxy->priv->label), attr_list);
+
+		pango_attr_list_unref (attr_list);
+	} else
+		gtk_label_set_attributes (
+			GTK_LABEL (proxy->priv->label), NULL);
+
+	if (state == E_ACTIVITY_COMPLETED)
+		icon_name = COMPLETED_ICON_NAME;
+
+	if (state == E_ACTIVITY_CANCELLED) {
+		gtk_image_set_from_stock (
+			GTK_IMAGE (proxy->priv->image),
+			GTK_STOCK_CANCEL, GTK_ICON_SIZE_BUTTON);
+		gtk_widget_show (proxy->priv->image);
+	} else if (icon_name != NULL) {
 		gtk_image_set_from_icon_name (
 			GTK_IMAGE (proxy->priv->image),
 			icon_name, GTK_ICON_SIZE_MENU);
-		gtk_button_set_image (
-			GTK_BUTTON (proxy->priv->button),
-			gtk_image_new_from_icon_name (
-			icon_name, GTK_ICON_SIZE_MENU));
-		gtk_widget_hide (proxy->priv->spinner);
-		if (clickable) {
-			gtk_widget_show (proxy->priv->button);
-			gtk_widget_hide (proxy->priv->image);
-		} else {
-			gtk_widget_hide (proxy->priv->button);
-			gtk_widget_show (proxy->priv->image);
-		}
+		gtk_widget_show (proxy->priv->image);
 	} else {
-		gtk_widget_show (proxy->priv->spinner);
-		gtk_widget_hide (proxy->priv->button);
 		gtk_widget_hide (proxy->priv->image);
 	}
 
 	visible = (cancellable != NULL);
 	gtk_widget_set_visible (proxy->priv->cancel, visible);
 
-	sensitive = !(cancelled || completed);
+	sensitive = (state == E_ACTIVITY_RUNNING);
 	gtk_widget_set_sensitive (proxy->priv->cancel, sensitive);
+
+	visible = (description != NULL && *description != '\0');
+	gtk_widget_set_visible (GTK_WIDGET (proxy), visible);
+
+	g_free (description);
 }
 
 static void
-activity_proxy_set_activity (EActivityProxy *proxy,
-                             EActivity *activity)
+activity_proxy_cancel (EActivityProxy *proxy)
 {
-	g_return_if_fail (proxy->priv->activity == NULL);
+	EActivity *activity;
+	GCancellable *cancellable;
 
-	proxy->priv->activity = g_object_ref (activity);
+	activity = e_activity_proxy_get_activity (proxy);
+	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	cancellable = e_activity_get_cancellable (activity);
+	g_cancellable_cancel (cancellable);
+
+	activity_proxy_update (proxy);
+}
+
+static void
+activity_proxy_weak_notify_cb (EActivityProxy *proxy,
+                               GObject *where_the_object_was)
+{
+	g_return_if_fail (E_IS_ACTIVITY_PROXY (proxy));
+
+	proxy->priv->activity = NULL;
+	e_activity_proxy_set_activity (proxy, NULL);
 }
 
 static void
@@ -133,7 +181,7 @@ activity_proxy_set_property (GObject *object,
 {
 	switch (property_id) {
 		case PROP_ACTIVITY:
-			activity_proxy_set_activity (
+			e_activity_proxy_set_activity (
 				E_ACTIVITY_PROXY (object),
 				g_value_get_object (value));
 			return;
@@ -166,71 +214,23 @@ activity_proxy_dispose (GObject *object)
 
 	priv = E_ACTIVITY_PROXY_GET_PRIVATE (object);
 
+	if (priv->timeout_id > 0) {
+		g_source_remove (priv->timeout_id);
+		priv->timeout_id = 0;
+	}
+
 	if (priv->activity != NULL) {
 		g_signal_handlers_disconnect_matched (
-			priv->activity, G_SIGNAL_MATCH_FUNC, 0, 0,
-			NULL, activity_proxy_update, NULL);
-		g_object_unref (priv->activity);
+			priv->activity, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, object);
+		g_object_weak_unref (
+			G_OBJECT (priv->activity), (GWeakNotify)
+			activity_proxy_weak_notify_cb, object);
 		priv->activity = NULL;
-	}
-
-	if (priv->button != NULL) {
-		g_object_unref (priv->button);
-		priv->button = NULL;
-	}
-
-	if (priv->image != NULL) {
-		g_object_unref (priv->image);
-		priv->image = NULL;
-	}
-
-	if (priv->label != NULL) {
-		g_object_unref (priv->label);
-		priv->label = NULL;
-	}
-
-	if (priv->cancel != NULL) {
-		g_object_unref (priv->cancel);
-		priv->cancel = NULL;
-	}
-
-	if (priv->spinner != NULL) {
-		g_object_unref (priv->spinner);
-		priv->spinner = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_activity_proxy_parent_class)->dispose (object);
-}
-
-static void
-activity_proxy_constructed (GObject *object)
-{
-	EActivityProxy *proxy;
-
-	proxy = E_ACTIVITY_PROXY (object);
-
-	g_signal_connect_swapped (
-		proxy->priv->button, "clicked",
-		G_CALLBACK (e_activity_clicked), proxy->priv->activity);
-
-	g_signal_connect_swapped (
-		proxy->priv->cancel, "clicked",
-		G_CALLBACK (activity_proxy_cancel), proxy->priv->activity);
-
-	g_signal_connect_swapped (
-		proxy->priv->activity, "cancelled",
-		G_CALLBACK (activity_proxy_update), proxy);
-
-	g_signal_connect_swapped (
-		proxy->priv->activity, "completed",
-		G_CALLBACK (activity_proxy_update), proxy);
-
-	g_signal_connect_swapped (
-		proxy->priv->activity, "notify",
-		G_CALLBACK (activity_proxy_update), proxy);
-
-	activity_proxy_update (proxy);
 }
 
 static void
@@ -244,7 +244,6 @@ e_activity_proxy_class_init (EActivityProxyClass *class)
 	object_class->set_property = activity_proxy_set_property;
 	object_class->get_property = activity_proxy_get_property;
 	object_class->dispose = activity_proxy_dispose;
-	object_class->constructed = activity_proxy_constructed;
 
 	g_object_class_install_property (
 		object_class,
@@ -255,7 +254,7 @@ e_activity_proxy_class_init (EActivityProxyClass *class)
 			NULL,
 			E_TYPE_ACTIVITY,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_CONSTRUCT));
 }
 
 static void
@@ -283,37 +282,42 @@ e_activity_proxy_init (EActivityProxy *proxy)
 
 	widget = gtk_image_new ();
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	proxy->priv->image = g_object_ref (widget);
-	gtk_widget_hide (widget);
-
-	widget = gtk_button_new ();
-	gtk_button_set_relief (GTK_BUTTON (widget), GTK_RELIEF_NONE);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	proxy->priv->button = g_object_ref (widget);
-	gtk_widget_hide (widget);
+	proxy->priv->image = widget;
 
 	widget = gtk_spinner_new ();
 	gtk_spinner_start (GTK_SPINNER (widget));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 3);
-	proxy->priv->spinner = g_object_ref (widget);
-	gtk_widget_show (widget);
+	proxy->priv->spinner = widget;
+
+	/* The spinner is only visible when the image is not. */
+	g_object_bind_property (
+		proxy->priv->image, "visible",
+		proxy->priv->spinner, "visible",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_INVERT_BOOLEAN);
 
 	widget = gtk_label_new (NULL);
-	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	proxy->priv->label = g_object_ref (widget);
+	proxy->priv->label = widget;
 	gtk_widget_show (widget);
 
+	/* This is only shown if the EActivity has a GCancellable. */
 	widget = gtk_button_new ();
 	gtk_button_set_image (
 		GTK_BUTTON (widget), gtk_image_new_from_stock (
-		GTK_STOCK_STOP, GTK_ICON_SIZE_MENU));
+		GTK_STOCK_CANCEL, GTK_ICON_SIZE_MENU));
 	gtk_button_set_relief (GTK_BUTTON (widget), GTK_RELIEF_NONE);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_set_tooltip_text (widget, _("Cancel"));
-	proxy->priv->cancel = g_object_ref (widget);
+	proxy->priv->cancel = widget;
 	gtk_widget_show (widget);
+
+	g_signal_connect_swapped (
+		widget, "clicked",
+		G_CALLBACK (activity_proxy_cancel), proxy);
 }
 
 GtkWidget *
@@ -322,8 +326,7 @@ e_activity_proxy_new (EActivity *activity)
 	g_return_val_if_fail (E_IS_ACTIVITY (activity), NULL);
 
 	return g_object_new (
-		E_TYPE_ACTIVITY_PROXY,
-		"activity", activity, NULL);
+		E_TYPE_ACTIVITY_PROXY, "activity", activity, NULL);
 }
 
 EActivity *
@@ -332,4 +335,48 @@ e_activity_proxy_get_activity (EActivityProxy *proxy)
 	g_return_val_if_fail (E_IS_ACTIVITY_PROXY (proxy), NULL);
 
 	return proxy->priv->activity;
+}
+
+void
+e_activity_proxy_set_activity (EActivityProxy *proxy,
+                               EActivity *activity)
+{
+	g_return_if_fail (E_IS_ACTIVITY_PROXY (proxy));
+
+	if (activity != NULL)
+		g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	if (proxy->priv->timeout_id > 0) {
+		g_source_remove (proxy->priv->timeout_id);
+		proxy->priv->timeout_id = 0;
+	}
+
+	if (proxy->priv->activity != NULL) {
+		g_signal_handlers_disconnect_matched (
+			proxy->priv->activity, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, proxy);
+		g_object_weak_unref (
+			G_OBJECT (proxy->priv->activity),
+			(GWeakNotify) activity_proxy_weak_notify_cb, proxy);
+	}
+
+	proxy->priv->activity = activity;
+
+	if (activity != NULL) {
+		g_object_weak_ref (
+			G_OBJECT (activity), (GWeakNotify)
+			activity_proxy_weak_notify_cb, proxy);
+
+		g_signal_connect_swapped (
+			activity, "notify::state",
+			G_CALLBACK (activity_proxy_feedback), proxy);
+
+		g_signal_connect_swapped (
+			activity, "notify",
+			G_CALLBACK (activity_proxy_update), proxy);
+	}
+
+	activity_proxy_update (proxy);
+
+	g_object_notify (G_OBJECT (proxy), "activity");
 }

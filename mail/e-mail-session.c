@@ -96,7 +96,9 @@ enum {
 static gchar *mail_data_dir;
 static gchar *mail_config_dir;
 
+#if 0
 static MailMsgInfo ms_thread_info_dummy = { sizeof (MailMsg) };
+#endif
 
 G_DEFINE_TYPE (
 	EMailSession,
@@ -120,7 +122,9 @@ struct _user_message_msg {
 	guint ismain:1;
 };
 
-static void user_message_exec (struct _user_message_msg *m);
+static void user_message_exec (struct _user_message_msg *m,
+                               GCancellable *cancellable,
+                               GError **error);
 
 static void
 user_message_response_free (GtkDialog *dialog,
@@ -133,8 +137,11 @@ user_message_response_free (GtkDialog *dialog,
 
 	/* check for pendings */
 	if (!g_queue_is_empty (&user_message_queue)) {
+		GCancellable *cancellable;
+
 		m = g_queue_pop_head (&user_message_queue);
-		user_message_exec (m);
+		cancellable = e_activity_get_cancellable (m->base.activity);
+		user_message_exec (m, cancellable, &m->base.error);
 		mail_msg_unref (m);
 	}
 }
@@ -155,7 +162,9 @@ user_message_response (GtkDialog *dialog,
 }
 
 static void
-user_message_exec (struct _user_message_msg *m)
+user_message_exec (struct _user_message_msg *m,
+                   GCancellable *cancellable,
+                   GError **error)
 {
 	GtkWindow *parent;
 	const gchar *error_type;
@@ -716,6 +725,7 @@ mail_session_alert_user (CamelSession *session,
                          gboolean cancel)
 {
 	struct _user_message_msg *m;
+	GCancellable *cancellable;
 	gboolean result = TRUE;
 
 	m = mail_msg_new (&user_message_info);
@@ -728,8 +738,10 @@ mail_session_alert_user (CamelSession *session,
 	if (cancel)
 		mail_msg_ref (m);
 
+	cancellable = e_activity_get_cancellable (m->base.activity);
+
 	if (m->ismain)
-		user_message_exec (m);
+		user_message_exec (m, cancellable, &m->base.error);
 	else
 		mail_msg_main_loop_push (m);
 
@@ -788,6 +800,7 @@ mail_session_thread_msg_new (CamelSession *session,
 	session_class = CAMEL_SESSION_CLASS (e_mail_session_parent_class);
 	msg = session_class->thread_msg_new (session, ops, size);
 
+#if 0
 	/* We create a dummy mail_msg, and then copy its cancellation
 	 * port over to ours, so we get cancellation and progress in
 	 * common with hte existing mail code, for free. */
@@ -795,9 +808,10 @@ mail_session_thread_msg_new (CamelSession *session,
 		MailMsg *m = mail_msg_new (&ms_thread_info_dummy);
 
 		msg->data = m;
-		g_object_unref (msg->cancellable);
-		msg->cancellable = g_object_ref (m->cancellable);
+		e_activity_set_cancellable (
+			m->activity, msg->cancellable);
 	}
+#endif
 
 	return msg;
 }
@@ -808,7 +822,9 @@ mail_session_thread_msg_free (CamelSession *session,
 {
 	CamelSessionClass *session_class;
 
+#if 0
 	mail_msg_unref (msg->data);
+#endif
 
 	/* Chain up to parent's thread_msg_free() method. */
 	session_class = CAMEL_SESSION_CLASS (e_mail_session_parent_class);
@@ -821,8 +837,6 @@ mail_session_thread_status (CamelSession *session,
                             const gchar *text,
                             gint pc)
 {
-	/* This should never be called since we bypass it in alloc! */
-	g_warn_if_reached ();
 }
 
 static gboolean

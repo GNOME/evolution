@@ -23,6 +23,7 @@
 #define E_ACTIVITY_H
 
 #include <gtk/gtk.h>
+#include <e-util/e-util-enums.h>
 
 /* Standard GObject macros */
 #define E_TYPE_ACTIVITY \
@@ -57,10 +58,7 @@ struct _EActivity {
 struct _EActivityClass {
 	GObjectClass parent_class;
 
-	/* Signals */
-	void		(*cancelled)		(EActivity *activity);
-	void		(*completed)		(EActivity *activity);
-	void		(*clicked)		(EActivity *activity);
+	/* Methods */
 	gchar *		(*describe)		(EActivity *activity);
 };
 
@@ -68,28 +66,22 @@ GType		e_activity_get_type		(void);
 EActivity *	e_activity_new			(void);
 EActivity *	e_activity_newv			(const gchar *format,
 						 ...) G_GNUC_PRINTF (1, 2);
-void		e_activity_complete		(EActivity *activity);
-void		e_activity_clicked		(EActivity *activity);
 gchar *		e_activity_describe		(EActivity *activity);
-gboolean	e_activity_is_completed		(EActivity *activity);
 GCancellable *	e_activity_get_cancellable	(EActivity *activity);
 void		e_activity_set_cancellable	(EActivity *activity,
 						 GCancellable *cancellable);
-gboolean	e_activity_get_clickable	(EActivity *activity);
-void		e_activity_set_clickable	(EActivity *activity,
-						 gboolean clickable);
 const gchar *	e_activity_get_icon_name	(EActivity *activity);
 void		e_activity_set_icon_name	(EActivity *activity,
 						 const gchar *icon_name);
 gdouble		e_activity_get_percent		(EActivity *activity);
 void		e_activity_set_percent		(EActivity *activity,
 						 gdouble percent);
-const gchar *	e_activity_get_primary_text	(EActivity *activity);
-void		e_activity_set_primary_text	(EActivity *activity,
-						 const gchar *primary_text);
-const gchar *	e_activity_get_secondary_text	(EActivity *activity);
-void		e_activity_set_secondary_text	(EActivity *activity,
-						 const gchar *secondary_text);
+EActivityState	e_activity_get_state		(EActivity *activity);
+void		e_activity_set_state		(EActivity *activity,
+						 EActivityState state);
+const gchar *	e_activity_get_text		(EActivity *activity);
+void		e_activity_set_text		(EActivity *activity,
+						 const gchar *text);
 
 G_END_DECLS
 

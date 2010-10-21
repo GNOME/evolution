@@ -471,21 +471,16 @@ EActivity
 e_activity_new
 e_activity_newv
 e_activity_complete
-e_activity_clicked
 e_activity_describe
 e_activity_is_completed
 e_activity_get_cancellable
 e_activity_set_cancellable
-e_activity_get_clickable
-e_activity_set_clickable
 e_activity_get_icon_name
 e_activity_set_icon_name
 e_activity_get_percent
 e_activity_set_percent
-e_activity_get_primary_text
-e_activity_set_primary_text
-e_activity_get_secondary_text
-e_activity_set_secondary_text
+e_activity_get_text
+e_activity_set_text
 <SUBSECTION Standard>
 E_ACTIVITY
 E_IS_ACTIVITY

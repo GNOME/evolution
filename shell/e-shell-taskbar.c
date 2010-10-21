@@ -64,8 +64,8 @@ G_DEFINE_TYPE_WITH_CODE (
 		E_TYPE_EXTENSIBLE, NULL))
 
 static void
-shell_taskbar_activity_remove (EShellTaskbar *shell_taskbar,
-                               EActivity *activity)
+shell_taskbar_weak_notify_cb (EShellTaskbar *shell_taskbar,
+                              GObject *where_the_activity_was)
 {
 	GtkWidget *proxy;
 	GtkContainer *container;
@@ -73,10 +73,9 @@ shell_taskbar_activity_remove (EShellTaskbar *shell_taskbar,
 	GList *children;
 
 	proxy_table = shell_taskbar->priv->proxy_table;
-	proxy = g_hash_table_lookup (proxy_table, activity);
+	proxy = g_hash_table_lookup (proxy_table, where_the_activity_was);
+	g_hash_table_remove (proxy_table, where_the_activity_was);
 	g_return_if_fail (proxy != NULL);
-
-	g_hash_table_remove (proxy_table, activity);
 
 	container = GTK_CONTAINER (shell_taskbar->priv->hbox);
 	gtk_container_remove (container, proxy);
@@ -95,6 +94,17 @@ shell_taskbar_activity_add (EShellTaskbar *shell_taskbar,
 {
 	GtkBox *box;
 	GtkWidget *proxy;
+	EActivityState state;
+	GHashTable *proxy_table;
+
+	/* Sanity check the activity state. */
+	state = e_activity_get_state (activity);
+	g_return_if_fail (state == E_ACTIVITY_RUNNING);
+
+	/* Make sure it hasn't already been added. */
+	proxy_table = shell_taskbar->priv->proxy_table;
+	proxy = g_hash_table_lookup (proxy_table, activity);
+	g_return_if_fail (proxy == NULL);
 
 	/* Proxy widgets manage their own visibility.
 	 * Don't call gtk_widget_show() on it here. */
@@ -104,17 +114,28 @@ shell_taskbar_activity_add (EShellTaskbar *shell_taskbar,
 	gtk_box_reorder_child (box, proxy, 0);
 	gtk_widget_show (GTK_WIDGET (box));
 
-	g_hash_table_insert (
-		shell_taskbar->priv->proxy_table,
-		g_object_ref (activity), g_object_ref (proxy));
+	/* The proxy widget also holds a weak reference to the activity,
+	 * so the activity should get finalized in the normal course of
+	 * operation.  When that happens we remove the corresponding
+	 * proxy widget from the taskbar. */
 
-	g_signal_connect_swapped (
-		activity, "cancelled",
-		G_CALLBACK (shell_taskbar_activity_remove), shell_taskbar);
+	g_object_weak_ref (
+		G_OBJECT (activity), (GWeakNotify)
+		shell_taskbar_weak_notify_cb, shell_taskbar);
 
-	g_signal_connect_swapped (
-		activity, "completed",
-		G_CALLBACK (shell_taskbar_activity_remove), shell_taskbar);
+	g_hash_table_insert (proxy_table, activity, proxy);
+}
+
+static gboolean
+shell_taskbar_weak_unref (EActivity *activity,
+                          EActivityProxy *proxy,
+                          EShellTaskbar *shell_taskbar)
+{
+	g_object_weak_unref (
+		G_OBJECT (activity), (GWeakNotify)
+		shell_taskbar_weak_notify_cb, shell_taskbar);
+
+	return TRUE;
 }
 
 static void
@@ -176,24 +197,16 @@ shell_taskbar_get_property (GObject *object,
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
-static gboolean
-disconnect_remove (EActivity *activity,
-                   EActivityProxy *proxy,
-                   EShellTaskbar *shell_taskbar)
-{
-	g_signal_handlers_disconnect_matched (
-		activity, G_SIGNAL_MATCH_DATA,
-		0, 0, NULL, NULL, shell_taskbar);
-
-	return TRUE;
-}
-
 static void
 shell_taskbar_dispose (GObject *object)
 {
 	EShellTaskbarPrivate *priv;
 
 	priv = E_SHELL_TASKBAR_GET_PRIVATE (object);
+
+	g_hash_table_foreach_remove (
+		priv->proxy_table, (GHRFunc)
+		shell_taskbar_weak_unref, object);
 
 	if (priv->shell_view != NULL) {
 		g_object_remove_weak_pointer (
@@ -218,9 +231,6 @@ shell_taskbar_dispose (GObject *object)
 		g_object_unref (priv->hbox);
 		priv->hbox = NULL;
 	}
-
-	g_hash_table_foreach_remove (
-		priv->proxy_table, (GHRFunc) disconnect_remove, object);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_shell_taskbar_parent_class)->dispose (object);
@@ -315,16 +325,10 @@ static void
 e_shell_taskbar_init (EShellTaskbar *shell_taskbar)
 {
 	GtkWidget *widget;
-	GHashTable *proxy_table;
 	gint height;
 
-	proxy_table = g_hash_table_new_full (
-		g_direct_hash, g_direct_equal,
-		(GDestroyNotify) g_object_unref,
-		(GDestroyNotify) g_object_unref);
-
 	shell_taskbar->priv = E_SHELL_TASKBAR_GET_PRIVATE (shell_taskbar);
-	shell_taskbar->priv->proxy_table = proxy_table;
+	shell_taskbar->priv->proxy_table = g_hash_table_new (NULL, NULL);
 
 	gtk_box_set_spacing (GTK_BOX (shell_taskbar), 12);
 

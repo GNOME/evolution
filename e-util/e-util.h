@@ -29,6 +29,7 @@
 #include <gconf/gconf-client.h>
 
 #include <e-util/e-marshal.h>
+#include <e-util/e-util-enums.h>
 
 /* e_get_user_data_dir() used to live here, so #include its new home
  * for backward-compatibility (not that we really care about that). */

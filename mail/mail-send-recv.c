@@ -903,10 +903,12 @@ refresh_folders_desc (struct _refresh_folders_msg *m)
 }
 
 static void
-refresh_folders_exec (struct _refresh_folders_msg *m)
+refresh_folders_exec (struct _refresh_folders_msg *m,
+                      GCancellable *cancellable,
+                      GError **error)
 {
-	gint i;
 	CamelFolder *folder;
+	gint i;
 	GError *local_error = NULL;
 
 	get_folders (m->store, m->folders, m->finfo);
@@ -915,7 +917,7 @@ refresh_folders_exec (struct _refresh_folders_msg *m)
 		folder = e_mail_session_uri_to_folder_sync (
 			m->info->session,
 			m->folders->pdata[i], 0,
-			m->base.cancellable, &local_error);
+			cancellable, &local_error);
 		if (folder) {
 			/* FIXME Not passing a GCancellable or GError here. */
 			camel_folder_synchronize_sync (

@@ -107,7 +107,9 @@ decode_mozilla_status (const gchar *tmp)
 }
 
 static void
-import_mbox_exec (struct _import_mbox_msg *m)
+import_mbox_exec (struct _import_mbox_msg *m,
+                  GCancellable *cancellable,
+                  GError **error)
 {
 	CamelFolder *folder;
 	CamelMimeParser *mp = NULL;
@@ -125,7 +127,7 @@ import_mbox_exec (struct _import_mbox_msg *m)
 	else
 		folder = e_mail_session_uri_to_folder_sync (
 			m->session, m->uri, CAMEL_STORE_FOLDER_CREATE,
-			m->base.cancellable, &m->base.error);
+			cancellable, error);
 
 	if (folder == NULL)
 		return;
@@ -144,7 +146,7 @@ import_mbox_exec (struct _import_mbox_msg *m)
 		}
 
 		camel_operation_push_message (
-			m->base.cancellable, _("Importing '%s'"),
+			cancellable, _("Importing '%s'"),
 			camel_folder_get_full_name (folder));
 		camel_folder_freeze (folder);
 		while (camel_mime_parser_step (mp, NULL, NULL) == CAMEL_MIME_PARSER_STATE_FROM) {
@@ -155,7 +157,7 @@ import_mbox_exec (struct _import_mbox_msg *m)
 
 			if (st.st_size > 0)
 				pc = (gint)(100.0 * ((double)camel_mime_parser_tell (mp) / (double)st.st_size));
-			camel_operation_progress (m->base.cancellable, pc);
+			camel_operation_progress (cancellable, pc);
 
 			msg = camel_mime_message_new ();
 			if (!camel_mime_part_construct_from_parser_sync (
@@ -180,11 +182,11 @@ import_mbox_exec (struct _import_mbox_msg *m)
 			camel_message_info_set_flags (info, flags, ~0);
 			camel_folder_append_message_sync (
 				folder, msg, info, NULL,
-				m->base.cancellable, &m->base.error);
+				cancellable, error);
 			camel_message_info_free (info);
 			g_object_unref (msg);
 
-			if (m->base.error != NULL)
+			if (error != NULL)
 				break;
 
 			camel_mime_parser_step (mp, NULL, NULL);
@@ -192,7 +194,7 @@ import_mbox_exec (struct _import_mbox_msg *m)
 		/* FIXME Not passing a GCancellable or GError here. */
 		camel_folder_synchronize_sync (folder, FALSE, NULL, NULL);
 		camel_folder_thaw (folder);
-		camel_operation_pop_message (m->base.cancellable);
+		camel_operation_pop_message (cancellable);
 		/* TODO: these api's are a bit weird, registering the old is the same as deregistering */
 	fail2:
 		g_object_unref (mp);
@@ -267,9 +269,11 @@ mail_importer_import_mbox_sync (EMailSession *session,
 	m->path = g_strdup (path);
 	m->uri = g_strdup (folderuri);
 	if (cancellable)
-		m->cancellable = g_object_ref (cancellable);
+		e_activity_set_cancellable (m->base.activity, cancellable);
 
-	import_mbox_exec (m);
+	cancellable = e_activity_get_cancellable (m->base.activity);
+
+	import_mbox_exec (m, cancellable, &m->base.error);
 	import_mbox_done (m);
 	mail_msg_unref (m);
 }

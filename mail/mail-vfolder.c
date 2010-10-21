@@ -88,7 +88,9 @@ vfolder_setup_desc (struct _setup_msg *m)
 }
 
 static void
-vfolder_setup_exec (struct _setup_msg *m)
+vfolder_setup_exec (struct _setup_msg *m,
+                    GCancellable *cancellable,
+                    GError **error)
 {
 	GList *l, *list = NULL;
 	CamelFolder *folder;
@@ -243,7 +245,9 @@ vfolder_adduri_desc (struct _adduri_msg *m)
 }
 
 static void
-vfolder_adduri_exec (struct _adduri_msg *m)
+vfolder_adduri_exec (struct _adduri_msg *m,
+                     GCancellable *cancellable,
+                     GError **error)
 {
 	GList *l;
 	CamelFolder *folder = NULL;
@@ -251,8 +255,6 @@ vfolder_adduri_exec (struct _adduri_msg *m)
 
 	if (vfolder_shutdown)
 		return;
-
-	d(printf("%s uri to vfolder: %s\n", m->remove?"Removing":"Adding", m->uri));
 
 	folder_cache = e_mail_session_get_folder_cache (m->session);
 
@@ -266,8 +268,7 @@ vfolder_adduri_exec (struct _adduri_msg *m)
 
 	if (folder == NULL)
 		folder = e_mail_session_uri_to_folder_sync (
-			m->session, m->uri, 0,
-			m->base.cancellable, &m->base.error);
+			m->session, m->uri, 0, cancellable, error);
 
 	if (folder != NULL) {
 		l = m->folders;

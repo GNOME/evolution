@@ -221,7 +221,7 @@ shell_ready_for_offline (EShell *shell,
 	 * a signal without triggering the toggle reference. */
 	g_object_ref (activity);
 
-	e_activity_complete (activity);
+	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 
 	g_object_remove_toggle_ref (
 		G_OBJECT (activity), (GToggleNotify)
@@ -243,7 +243,7 @@ shell_prepare_for_offline (EShell *shell)
 
 	shell->priv->preparing_for_line_change = e_activity_new ();
 
-	e_activity_set_primary_text (
+	e_activity_set_text (
 		shell->priv->preparing_for_line_change,
 		_("Preparing to go offline..."));
 
@@ -274,7 +274,7 @@ shell_ready_for_online (EShell *shell,
 	 * a signal without triggering the toggle reference. */
 	g_object_ref (activity);
 
-	e_activity_complete (activity);
+	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 
 	g_object_remove_toggle_ref (
 		G_OBJECT (activity), (GToggleNotify)
@@ -296,7 +296,7 @@ shell_prepare_for_online (EShell *shell)
 
 	shell->priv->preparing_for_line_change = e_activity_new ();
 
-	e_activity_set_primary_text (
+	e_activity_set_text (
 		shell->priv->preparing_for_line_change,
 		_("Preparing to go online..."));
 
@@ -329,7 +329,7 @@ shell_ready_for_quit (EShell *shell,
 	 * a signal without triggering the toggle reference. */
 	g_object_ref (activity);
 
-	e_activity_complete (activity);
+	e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 
 	g_object_remove_toggle_ref (
 		G_OBJECT (activity), (GToggleNotify)
@@ -358,7 +358,7 @@ shell_prepare_for_quit (EShell *shell)
 
 	shell->priv->preparing_for_quit = e_activity_new ();
 
-	e_activity_set_primary_text (
+	e_activity_set_text (
 		shell->priv->preparing_for_quit,
 		_("Preparing to quit..."));
 

@@ -546,6 +546,7 @@ dbx_import_file (DbxImporter *m)
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EMailSession *session;
+	GCancellable *cancellable;
 	gchar *filename;
 	CamelFolder *folder;
 	gint tmpfile;
@@ -554,6 +555,8 @@ dbx_import_file (DbxImporter *m)
 	m->status_what = NULL;
 	filename = g_filename_from_uri (((EImportTargetURI *)m->target)->uri_src, NULL, NULL);
 	m->parent_uri = g_strdup (((EImportTargetURI *)m->target)->uri_dest); /* Destination folder, was set in our widget */
+
+	cancellable = e_activity_get_cancellable (m->base.activity);
 
 	/* XXX Dig up the EMailSession from the default EShell.
 	 *     Since the EImport framework doesn't allow for user
@@ -565,7 +568,7 @@ dbx_import_file (DbxImporter *m)
 	camel_operation_push_message (NULL, _("Importing '%s'"), filename);
 	folder = e_mail_session_uri_to_folder_sync (
 		session, m->parent_uri, CAMEL_STORE_FOLDER_CREATE,
-		m->base.cancellable, &m->base.error);
+		cancellable, &m->base.error);
 	if (!folder)
 		return;
 	d(printf("importing to %s\n", camel_folder_get_full_name(folder)));
@@ -603,7 +606,7 @@ dbx_import_file (DbxImporter *m)
 		gboolean success;
 
 		camel_operation_progress (NULL, 100 * i / m->index_count);
-		camel_operation_progress (m->cancellable, 100 * i / m->index_count);
+		camel_operation_progress (cancellable, 100 * i / m->index_count);
 
 		if (!dbx_read_email (m, m->indices[i], tmpfile, &dbx_flags)) {
 			d(printf("Cannot read email index %d at %x\n",
@@ -638,7 +641,7 @@ dbx_import_file (DbxImporter *m)
 		camel_message_info_set_flags (info, flags, ~0);
 		success = camel_folder_append_message_sync (
 			folder, msg, info, NULL,
-			m->base.cancellable, &m->base.error);
+			cancellable, &m->base.error);
 		camel_message_info_free (info);
 		g_object_unref (msg);
 
@@ -667,7 +670,9 @@ dbx_import_file (DbxImporter *m)
 }
 
 static void
-dbx_import_import (DbxImporter *m)
+dbx_import_import (DbxImporter *m,
+                   GCancellable *cancellable,
+                   GError **error)
 {
 	dbx_import_file (m);
 }

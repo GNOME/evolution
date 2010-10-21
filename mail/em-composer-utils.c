@@ -482,6 +482,7 @@ composer_send_completed (EMailSession *session,
 
 	/* Ignore cancellations. */
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		e_activity_set_state (context->activity, E_ACTIVITY_CANCELLED);
 		g_error_free (error);
 		goto exit;
 	}
@@ -495,7 +496,7 @@ composer_send_completed (EMailSession *session,
 		goto exit;
 	}
 
-	e_activity_complete (context->activity);
+	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
 
 	/* Wait for the EActivity's completion message to
 	 * time out and then destroy the composer window. */
@@ -625,13 +626,16 @@ composer_save_draft_complete (EMailSession *session,
 
 	e_mail_session_handle_draft_headers_finish (session, result, &error);
 
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		e_activity_set_state (context->activity, E_ACTIVITY_CANCELLED);
 		g_error_free (error);
 
-	else if (error != NULL) {
+	} else if (error != NULL) {
 		g_warning ("%s", error->message);
 		g_error_free (error);
-	}
+
+	} else
+		e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
 
 	/* Encode the draft message we just saved into the EMsgComposer
 	 * as X-Evolution-Draft headers.  The message will be marked for
@@ -640,8 +644,6 @@ composer_save_draft_complete (EMailSession *session,
 	e_msg_composer_set_draft_headers (
 		context->composer, context->folder_uri,
 		context->message_uid);
-
-	e_activity_complete (context->activity);
 
 	async_context_free (context);
 }

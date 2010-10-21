@@ -62,6 +62,8 @@ struct _EActivityProxyClass {
 GType		e_activity_proxy_get_type	(void);
 GtkWidget *	e_activity_proxy_new		(EActivity *activity);
 EActivity *	e_activity_proxy_get_activity	(EActivityProxy *proxy);
+void		e_activity_proxy_set_activity	(EActivityProxy *proxy,
+						 EActivity *activity);
 
 G_END_DECLS
 

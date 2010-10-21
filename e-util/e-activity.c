@@ -26,6 +26,7 @@
 #include <camel/camel.h>
 
 #include "e-util/e-util.h"
+#include "e-util/e-util-enumtypes.h"
 
 #define E_ACTIVITY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -33,35 +34,21 @@
 
 struct _EActivityPrivate {
 	GCancellable *cancellable;
+	EActivityState state;
 
 	gchar *icon_name;
-	gchar *primary_text;
-	gchar *secondary_text;
+	gchar *text;
 	gdouble percent;
-
-	guint clickable		: 1;
-	guint completed		: 1;
 };
 
 enum {
 	PROP_0,
 	PROP_CANCELLABLE,
-	PROP_CLICKABLE,
 	PROP_ICON_NAME,
 	PROP_PERCENT,
-	PROP_PRIMARY_TEXT,
-	PROP_SECONDARY_TEXT
+	PROP_STATE,
+	PROP_TEXT
 };
-
-enum {
-	CANCELLED,
-	CLICKED,
-	COMPLETED,
-	DESCRIBE,
-	LAST_SIGNAL
-};
-
-static gulong signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE (
 	EActivity,
@@ -78,29 +65,7 @@ activity_camel_status_cb (EActivity *activity,
 
 	g_object_set (
 		activity, "percent", (gdouble) percent,
-		"primary-text", description, NULL);
-}
-
-static gboolean
-activity_describe_accumulator (GSignalInvocationHint *ihint,
-                               GValue *return_accu,
-                               const GValue *handler_return,
-                               gpointer accu_data)
-{
-	const gchar *string;
-
-	string = g_value_get_string (handler_return);
-	g_value_set_string (return_accu, string);
-
-	return (string == NULL);
-}
-
-static void
-activity_emit_cancelled (EActivity *activity)
-{
-	/* This signal should only be emitted via our GCancellable,
-	 * which is why we don't expose this function publicly. */
-	g_signal_emit (activity, signals[CANCELLED], 0);
+		"text", description, NULL);
 }
 
 static void
@@ -116,12 +81,6 @@ activity_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
-		case PROP_CLICKABLE:
-			e_activity_set_clickable (
-				E_ACTIVITY (object),
-				g_value_get_boolean (value));
-			return;
-
 		case PROP_ICON_NAME:
 			e_activity_set_icon_name (
 				E_ACTIVITY (object),
@@ -134,14 +93,14 @@ activity_set_property (GObject *object,
 				g_value_get_double (value));
 			return;
 
-		case PROP_PRIMARY_TEXT:
-			e_activity_set_primary_text (
+		case PROP_STATE:
+			e_activity_set_state (
 				E_ACTIVITY (object),
-				g_value_get_string (value));
+				g_value_get_enum (value));
 			return;
 
-		case PROP_SECONDARY_TEXT:
-			e_activity_set_secondary_text (
+		case PROP_TEXT:
+			e_activity_set_text (
 				E_ACTIVITY (object),
 				g_value_get_string (value));
 			return;
@@ -163,12 +122,6 @@ activity_get_property (GObject *object,
 				E_ACTIVITY (object)));
 			return;
 
-		case PROP_CLICKABLE:
-			g_value_set_boolean (
-				value, e_activity_get_clickable (
-				E_ACTIVITY (object)));
-			return;
-
 		case PROP_ICON_NAME:
 			g_value_set_string (
 				value, e_activity_get_icon_name (
@@ -181,15 +134,15 @@ activity_get_property (GObject *object,
 				E_ACTIVITY (object)));
 			return;
 
-		case PROP_PRIMARY_TEXT:
-			g_value_set_string (
-				value, e_activity_get_primary_text (
+		case PROP_STATE:
+			g_value_set_enum (
+				value, e_activity_get_state (
 				E_ACTIVITY (object)));
 			return;
 
-		case PROP_SECONDARY_TEXT:
+		case PROP_TEXT:
 			g_value_set_string (
-				value, e_activity_get_secondary_text (
+				value, e_activity_get_text (
 				E_ACTIVITY (object)));
 			return;
 	}
@@ -225,23 +178,10 @@ activity_finalize (GObject *object)
 	priv = E_ACTIVITY_GET_PRIVATE (object);
 
 	g_free (priv->icon_name);
-	g_free (priv->primary_text);
-	g_free (priv->secondary_text);
+	g_free (priv->text);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_activity_parent_class)->finalize (object);
-}
-
-static void
-activity_completed (EActivity *activity)
-{
-	activity->priv->completed = TRUE;
-}
-
-static void
-activity_clicked (EActivity *activity)
-{
-	/* Allow subclasses to safely chain up. */
 }
 
 static gchar *
@@ -249,31 +189,40 @@ activity_describe (EActivity *activity)
 {
 	GString *string;
 	GCancellable *cancellable;
+	EActivityState state;
 	const gchar *text;
 	gdouble percent;
 
 	string = g_string_sized_new (256);
 	cancellable = e_activity_get_cancellable (activity);
-	text = e_activity_get_primary_text (activity);
 	percent = e_activity_get_percent (activity);
+	state = e_activity_get_state (activity);
+	text = e_activity_get_text (activity);
 
 	if (text == NULL)
 		return NULL;
 
-	if (g_cancellable_is_cancelled (cancellable)) {
+	if (state == E_ACTIVITY_CANCELLED) {
 		/* Translators: This is a cancelled activity. */
 		g_string_printf (string, _("%s (cancelled)"), text);
-	} else if (e_activity_is_completed (activity)) {
+	} else if (state == E_ACTIVITY_COMPLETED) {
 		/* Translators: This is a completed activity. */
 		g_string_printf (string, _("%s (completed)"), text);
+	} else if (state == E_ACTIVITY_WAITING) {
+		/* Translators: This is an activity waiting to run. */
+		g_string_printf (string, _("%s (waiting)"), text);
+	} else if (g_cancellable_is_cancelled (cancellable)) {
+		/* Translators: This is a running activity which
+		 *              the user has requested to cancel. */
+		g_string_printf (string, _("%s (cancelling)"), text);
 	} else if (percent <= 0.0) {
 		g_string_printf (string, _("%s"), text);
 	} else {
-		/* Translators: This is an activity whose percent
-		 * complete is known. */
+		/* Translators: This is a running activity whose
+		 *              percent complete is known. */
 		g_string_printf (
-			string, _("%s (%d%% complete)"), text,
-			(gint) (percent));
+			string, _("%s (%d%% complete)"),
+			text, (gint) (percent));
 	}
 
 	return g_string_free (string, FALSE);
@@ -292,8 +241,6 @@ e_activity_class_init (EActivityClass *class)
 	object_class->dispose = activity_dispose;
 	object_class->finalize = activity_finalize;
 
-	class->completed = activity_completed;
-	class->clicked = activity_clicked;
 	class->describe = activity_describe;
 
 	g_object_class_install_property (
@@ -304,17 +251,6 @@ e_activity_class_init (EActivityClass *class)
 			NULL,
 			NULL,
 			G_TYPE_CANCELLABLE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_CLICKABLE,
-		g_param_spec_boolean (
-			"clickable",
-			NULL,
-			NULL,
-			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
@@ -344,61 +280,26 @@ e_activity_class_init (EActivityClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_PRIMARY_TEXT,
-		g_param_spec_string (
-			"primary-text",
+		PROP_STATE,
+		g_param_spec_enum (
+			"state",
 			NULL,
 			NULL,
-			NULL,
+			E_TYPE_ACTIVITY_STATE,
+			E_ACTIVITY_RUNNING,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
 	g_object_class_install_property (
 		object_class,
-		PROP_SECONDARY_TEXT,
+		PROP_TEXT,
 		g_param_spec_string (
-			"secondary-text",
+			"text",
 			NULL,
 			NULL,
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
-
-	signals[CANCELLED] = g_signal_new (
-		"cancelled",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (EActivityClass, cancelled),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
-
-	signals[CLICKED] = g_signal_new (
-		"clicked",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (EActivityClass, clicked),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
-
-	signals[COMPLETED] = g_signal_new (
-		"completed",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (EActivityClass, completed),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
-
-	signals[DESCRIBE] = g_signal_new (
-		"describe",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (EActivityClass, describe),
-		activity_describe_accumulator, NULL,
-		e_marshal_STRING__VOID,
-		G_TYPE_STRING, 0);
 }
 
 static void
@@ -417,44 +318,18 @@ EActivity *
 e_activity_newv (const gchar *format, ...)
 {
 	EActivity *activity;
-	gchar *primary_text;
+	gchar *text;
 	va_list args;
 
 	activity = e_activity_new ();
 
 	va_start (args, format);
-	primary_text = g_strdup_vprintf (format, args);
-	e_activity_set_primary_text (activity, primary_text);
-	g_free (primary_text);
+	text = g_strdup_vprintf (format, args);
+	e_activity_set_text (activity, text);
+	g_free (text);
 	va_end (args);
 
 	return activity;
-}
-
-void
-e_activity_complete (EActivity *activity)
-{
-	GCancellable *cancellable;
-
-	g_return_if_fail (E_IS_ACTIVITY (activity));
-
-	cancellable = e_activity_get_cancellable (activity);
-
-	if (g_cancellable_is_cancelled (cancellable))
-		return;
-
-	if (activity->priv->completed)
-		return;
-
-	g_signal_emit (activity, signals[COMPLETED], 0);
-}
-
-void
-e_activity_clicked (EActivity *activity)
-{
-	g_return_if_fail (E_IS_ACTIVITY (activity));
-
-	g_signal_emit (activity, signals[CLICKED], 0);
 }
 
 gchar *
@@ -468,14 +343,6 @@ e_activity_describe (EActivity *activity)
 	g_return_val_if_fail (class->describe != NULL, NULL);
 
 	return class->describe (activity);
-}
-
-gboolean
-e_activity_is_completed (EActivity *activity)
-{
-	g_return_val_if_fail (E_IS_ACTIVITY (activity), FALSE);
-
-	return activity->priv->completed;
 }
 
 GCancellable *
@@ -506,11 +373,6 @@ e_activity_set_cancellable (EActivity *activity,
 
 	activity->priv->cancellable = cancellable;
 
-	if (G_IS_CANCELLABLE (cancellable))
-		g_signal_connect_swapped (
-			cancellable, "cancelled",
-			G_CALLBACK (activity_emit_cancelled), activity);
-
 	/* If this is a CamelOperation, listen for status updates
 	 * from it and propagate them to our own status properties. */
 	if (CAMEL_IS_OPERATION (cancellable))
@@ -519,25 +381,6 @@ e_activity_set_cancellable (EActivity *activity,
 			G_CALLBACK (activity_camel_status_cb), activity);
 
 	g_object_notify (G_OBJECT (activity), "cancellable");
-}
-
-gboolean
-e_activity_get_clickable (EActivity *activity)
-{
-	g_return_val_if_fail (E_IS_ACTIVITY (activity), FALSE);
-
-	return activity->priv->clickable;
-}
-
-void
-e_activity_set_clickable (EActivity *activity,
-                          gboolean clickable)
-{
-	g_return_if_fail (E_IS_ACTIVITY (activity));
-
-	activity->priv->clickable = clickable;
-
-	g_object_notify (G_OBJECT (activity), "clickable");
 }
 
 const gchar *
@@ -579,42 +422,42 @@ e_activity_set_percent (EActivity *activity,
 	g_object_notify (G_OBJECT (activity), "percent");
 }
 
-const gchar *
-e_activity_get_primary_text (EActivity *activity)
+EActivityState
+e_activity_get_state (EActivity *activity)
 {
-	g_return_val_if_fail (E_IS_ACTIVITY (activity), NULL);
+	g_return_val_if_fail (E_IS_ACTIVITY (activity), 0);
 
-	return activity->priv->primary_text;
+	return activity->priv->state;
 }
 
 void
-e_activity_set_primary_text (EActivity *activity,
-                             const gchar *primary_text)
+e_activity_set_state (EActivity *activity,
+                      EActivityState state)
 {
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
-	g_free (activity->priv->primary_text);
-	activity->priv->primary_text = g_strdup (primary_text);
+	activity->priv->state = state;
 
-	g_object_notify (G_OBJECT (activity), "primary-text");
+	g_object_notify (G_OBJECT (activity), "state");
 }
 
 const gchar *
-e_activity_get_secondary_text (EActivity *activity)
+e_activity_get_text (EActivity *activity)
 {
 	g_return_val_if_fail (E_IS_ACTIVITY (activity), NULL);
 
-	return activity->priv->secondary_text;
+	return activity->priv->text;
 }
 
 void
-e_activity_set_secondary_text (EActivity *activity,
-                               const gchar *secondary_text)
+e_activity_set_text (EActivity *activity,
+                     const gchar *text)
 {
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
-	g_free (activity->priv->secondary_text);
-	activity->priv->secondary_text = g_strdup (secondary_text);
+	g_free (activity->priv->text);
+	activity->priv->text = g_strdup (text);
 
-	g_object_notify (G_OBJECT (activity), "secondary-text");
+	g_object_notify (G_OBJECT (activity), "text");
 }
+

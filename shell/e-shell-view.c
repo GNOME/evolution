@@ -293,7 +293,7 @@ shell_view_save_state (EShellView *shell_view)
 		FALSE, G_FILE_CREATE_PRIVATE, (GAsyncReadyCallback)
 		shell_view_save_state_done_cb, data);
 
-	e_activity_set_primary_text (
+	e_activity_set_text (
 		activity, (_("Saving user interface state")));
 
 	e_shell_backend_add_activity (shell_backend, activity);

@@ -121,7 +121,6 @@ struct _PstImporter {
 
 	pst_file pst;
 
-	GCancellable *cancellable;
 	CamelFolder *folder;
 	gchar *parent_uri;
 	gchar *folder_name;
@@ -394,7 +393,9 @@ open_ecal (ECalSourceType type, const gchar *name)
 }
 
 static void
-pst_import_import (PstImporter *m)
+pst_import_import (PstImporter *m,
+                   GCancellable *cancellable,
+                   GError **error)
 {
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-addr"))) {
 		/* Hack - grab the first address book we can find
@@ -456,10 +457,13 @@ pst_import_file (PstImporter *m)
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EMailSession *session;
+	GCancellable *cancellable;
 	gint ret;
 	gchar *filename;
 	pst_item *item = NULL;
 	pst_desc_tree *d_ptr;
+
+	cancellable = e_activity_get_cancellable (m->base.activity);
 
 	/* XXX Dig up the EMailSession from the default EShell.
 	 *     Since the EImport framework doesn't allow for user
@@ -476,7 +480,7 @@ pst_import_file (PstImporter *m)
 	if (GPOINTER_TO_INT (g_datalist_get_data (&m->target->data, "pst-do-mail"))) {
 		e_mail_session_uri_to_folder_sync (
 			session, m->parent_uri, CAMEL_STORE_FOLDER_CREATE,
-			m->base.cancellable, &m->base.error);
+			cancellable, &m->base.error);
 	}
 
 	ret = pst_init (&m->pst, filename);
@@ -710,9 +714,12 @@ pst_create_folder (PstImporter *m)
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EMailSession *session;
+	GCancellable *cancellable;
 	const gchar *parent;
 	gchar *dest, *dest_end, *pos;
 	gint dest_len;
+
+	cancellable = e_activity_get_cancellable (m->base.activity);
 
 	/* XXX Dig up the EMailSession from the default EShell.
 	 *     Since the EImport framework doesn't allow for user
@@ -740,7 +747,7 @@ pst_create_folder (PstImporter *m)
 
 			folder = e_mail_session_uri_to_folder_sync (
 				session, dest, CAMEL_STORE_FOLDER_CREATE,
-				m->base.cancellable, &m->base.error);
+				cancellable, &m->base.error);
 			g_object_unref (folder);
 			*pos = '/';
 		}
@@ -754,7 +761,7 @@ pst_create_folder (PstImporter *m)
 
 	m->folder = e_mail_session_uri_to_folder_sync (
 		session, m->folder_uri, CAMEL_STORE_FOLDER_CREATE,
-		m->base.cancellable, &m->base.error);
+		cancellable, &m->base.error);
 }
 
 /**
@@ -1659,7 +1666,6 @@ pst_import (EImport *ei, EImportTarget *target)
 	m->status_timeout_id = g_timeout_add (100, pst_status_timeout, m);
 	/*m->status_timeout_id = NULL;*/
 	m->status_lock = g_mutex_new ();
-	m->cancellable = camel_operation_new ();
 
 	g_signal_connect (
 		m->status, "status",

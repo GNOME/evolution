@@ -93,18 +93,23 @@ emft_copy_folders__desc (struct _EMCopyFolders *m, gint complete)
 }
 
 static void
-emft_copy_folders__exec (struct _EMCopyFolders *m)
+emft_copy_folders__exec (struct _EMCopyFolders *m,
+                         GCancellable *cancellable,
+                         GError **error)
 {
-	guint32 flags = CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
+	guint32 flags;
 	GList *pending = NULL, *deleting = NULL, *l;
 	GString *fromname, *toname;
 	CamelFolderInfo *fi;
 	const gchar *tmp;
 	gint fromlen;
 
+	flags = CAMEL_STORE_FOLDER_INFO_FAST |
+		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
+		CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
+
 	fi = camel_store_get_folder_info_sync (
-		m->fromstore, m->frombase, flags,
-		m->base.cancellable, &m->base.error);
+		m->fromstore, m->frombase, flags, cancellable, error);
 	if (fi == NULL)
 		return;
 
@@ -147,8 +152,8 @@ emft_copy_folders__exec (struct _EMCopyFolders *m)
 				if (m->tostore == m->fromstore && m->delete) {
 					camel_store_rename_folder_sync (
 						m->fromstore, info->full_name, toname->str,
-						m->base.cancellable, &m->base.error);
-					if (m->base.error != NULL)
+						cancellable, error);
+					if (error != NULL)
 						goto exception;
 
 					/* this folder no longer exists, unsubscribe it */
@@ -160,15 +165,14 @@ emft_copy_folders__exec (struct _EMCopyFolders *m)
 				} else {
 					fromfolder = camel_store_get_folder_sync (
 						m->fromstore, info->full_name, 0,
-						m->base.cancellable, &m->base.error);
+						cancellable, error);
 					if (fromfolder == NULL)
 						goto exception;
 
 					tofolder = camel_store_get_folder_sync (
 						m->tostore, toname->str,
 						CAMEL_STORE_FOLDER_CREATE,
-						m->base.cancellable,
-						&m->base.error);
+						cancellable, error);
 					if (tofolder == NULL) {
 						g_object_unref (fromfolder);
 						goto exception;
@@ -178,11 +182,10 @@ emft_copy_folders__exec (struct _EMCopyFolders *m)
 					camel_folder_transfer_messages_to_sync (
 						fromfolder, uids, tofolder,
 						m->delete, NULL,
-						m->base.cancellable,
-						&m->base.error);
+						cancellable, error);
 					camel_folder_free_uids (fromfolder, uids);
 
-					if (m->delete && m->base.error == NULL)
+					if (m->delete && error == NULL)
 						camel_folder_synchronize_sync (
 							fromfolder, TRUE,
 							NULL, NULL);
@@ -192,7 +195,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m)
 				}
 			}
 
-			if (m->base.error != NULL)
+			if (error != NULL)
 				goto exception;
 			else if (m->delete && !deleted)
 				deleting = g_list_prepend (deleting, info);
@@ -569,18 +572,17 @@ emfu_create_folder__desc (struct _EMCreateFolder *m)
 }
 
 static void
-emfu_create_folder__exec (struct _EMCreateFolder *m)
+emfu_create_folder__exec (struct _EMCreateFolder *m,
+                          GCancellable *cancellable,
+                          GError **error)
 {
-	d(printf ("creating folder parent='%s' name='%s' full_name='%s'\n", m->parent, m->name, m->full_name));
-
 	if ((m->fi = camel_store_create_folder_sync (
-		m->store, m->parent, m->name,
-		m->base.cancellable, &m->base.error))) {
+		m->store, m->parent, m->name, cancellable, error))) {
 
 		if (camel_store_supports_subscriptions (m->store))
 			camel_store_subscribe_folder_sync (
 				m->store, m->full_name,
-				m->base.cancellable, &m->base.error);
+				cancellable, error);
 	}
 }
 
@@ -766,7 +768,9 @@ emfu_unsubscribe_folder__desc (struct _folder_unsub_t *msg)
 }
 
 static void
-emfu_unsubscribe_folder__exec (struct _folder_unsub_t *msg)
+emfu_unsubscribe_folder__exec (struct _folder_unsub_t *msg,
+                               GCancellable *cancellable,
+                               GError **error)
 {
 	CamelStore *store;
 	CamelURL *url;
@@ -775,7 +779,7 @@ emfu_unsubscribe_folder__exec (struct _folder_unsub_t *msg)
 
 	store = camel_session_get_store (
 		CAMEL_SESSION (msg->session),
-		msg->folder_uri, &msg->base.error);
+		msg->folder_uri, error);
 	if (store == NULL)
 		return;
 
@@ -789,8 +793,7 @@ emfu_unsubscribe_folder__exec (struct _folder_unsub_t *msg)
 
 	if (path != NULL)
 		camel_store_unsubscribe_folder_sync (
-			store, path, msg->base.cancellable,
-			&msg->base.error);
+			store, path, cancellable, error);
 
 	camel_url_free (url);
 }
