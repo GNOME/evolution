@@ -47,8 +47,6 @@
 
 #include "e-table-header-item.h"
 
-#include "add-col.xpm"
-#include "remove-col.xpm"
 #include "arrow-up.xpm"
 #include "arrow-down.xpm"
 
@@ -82,13 +80,6 @@ static void ethi_drop_table_header (ETableHeaderItem *ethi);
  */
 
 static GtkWidget *arrow_up, *arrow_down;
-
-/*
- * DnD icons
- */
-static GdkColormap *dnd_colormap;
-static GdkPixmap *remove_col_pixmap, *remove_col_mask;
-static GdkPixmap *add_col_pixmap, *add_col_mask;
 
 enum {
 	PROP_0,
@@ -2035,18 +2026,6 @@ ethi_class_init (ETableHeaderItemClass *klass)
 							      NULL,
 							      E_TREE_TYPE,
 							      G_PARAM_WRITABLE));
-
-	/*
-	 * Create our pixmaps for DnD
-	 */
-	dnd_colormap = gtk_widget_get_default_colormap ();
-	remove_col_pixmap = gdk_pixmap_colormap_create_from_xpm_d (
-		NULL, dnd_colormap,
-		&remove_col_mask, NULL, (gchar **) remove_col_xpm);
-
-	add_col_pixmap = gdk_pixmap_colormap_create_from_xpm_d (
-		NULL, dnd_colormap,
-		&add_col_mask, NULL, (gchar **) add_col_xpm);
 
 	ethi_signals[BUTTON_PRESSED] =
 		g_signal_new ("button_pressed",
