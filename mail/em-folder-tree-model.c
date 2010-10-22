@@ -749,8 +749,6 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		g_object_unref (folder);
 	}
 
-	/* TODO Maybe this should be handled by mail_get_folderinfo
-	 *      (except em-folder-tree doesn't use it, duh) */
 	flags = fi->flags;
 	name = fi->name;
 	if (si->store == e_mail_local_get_store ()) {

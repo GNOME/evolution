@@ -52,6 +52,7 @@
 #include "em-utils.h"
 #include "e-mail-local.h"
 #include "e-mail-session.h"
+#include "e-mail-store-utils.h"
 
 #define w(x)
 #define d(x)
@@ -856,9 +857,11 @@ ping_cb (MailFolderCache *self)
 }
 
 static void
-store_online_cb (CamelStore *store, gpointer data)
+store_go_online_cb (CamelStore *store,
+                    GAsyncResult *result,
+                    struct _update_data *ud)
 {
-	struct _update_data *ud = data;
+	/* FIXME Not checking result for error. */
 
 	g_mutex_lock (ud->cache->priv->stores_mutex);
 
@@ -1101,10 +1104,8 @@ mail_folder_cache_note_store (MailFolderCache *self,
 		si = g_malloc0 (sizeof (*si));
 		si->folders = g_hash_table_new (g_str_hash, g_str_equal);
 		si->folders_uri = g_hash_table_new (
-			CAMEL_STORE_CLASS (
-			CAMEL_OBJECT_GET_CLASS (store))->hash_folder_name,
-			CAMEL_STORE_CLASS (
-			CAMEL_OBJECT_GET_CLASS (store))->compare_folder_name);
+			CAMEL_STORE_GET_CLASS (store)->hash_folder_name,
+			CAMEL_STORE_GET_CLASS (store)->compare_folder_name);
 		si->store = g_object_ref (store);
 		g_hash_table_insert (self->priv->stores, store, si);
 		g_queue_init (&si->folderinfo_updates);
@@ -1124,8 +1125,9 @@ mail_folder_cache_note_store (MailFolderCache *self,
 		if (camel_session_get_online (session) &&
 			 camel_disco_store_status (CAMEL_DISCO_STORE (store)) ==
 			CAMEL_DISCO_STORE_OFFLINE) {
-			/* Note: we use the 'id' here, even though its not the right id, its still ok */
-			ud->id = mail_store_set_offline (store, FALSE, store_online_cb, ud);
+			e_mail_store_go_online (
+				store, G_PRIORITY_DEFAULT, cancellable,
+				(GAsyncReadyCallback) store_go_online_cb, ud);
 		} else {
 			goto normal_setup;
 		}
@@ -1133,8 +1135,9 @@ mail_folder_cache_note_store (MailFolderCache *self,
 		if (camel_session_get_online (session) &&
 			!camel_offline_store_get_online (
 			CAMEL_OFFLINE_STORE (store))) {
-			/* Note: we use the 'id' here, even though its not the right id, its still ok */
-			ud->id = mail_store_set_offline (store, FALSE, store_online_cb, ud);
+			e_mail_store_go_online (
+				store, G_PRIORITY_DEFAULT, cancellable,
+				(GAsyncReadyCallback) store_go_online_cb, ud);
 		} else {
 			goto normal_setup;
 		}

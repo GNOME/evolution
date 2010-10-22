@@ -162,14 +162,6 @@ void		mail_filter_folder		(EMailSession *session,
 						 gboolean notify);
 
 /* Work Offline */
-void		mail_prep_offline		(EMailSession *session,
-						 const gchar *uri,
-						 CamelOperation *cancel,
-						 void (*done)(const gchar *, gpointer data),
-						 gpointer data);
-gint mail_store_set_offline (CamelStore *store, gboolean offline,
-			   void (*done)(CamelStore *, gpointer data),
-			   gpointer data);
 gint mail_store_prepare_offline (CamelStore *store);
 
 /* filter driver execute shell command async callback */

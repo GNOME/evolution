@@ -44,6 +44,7 @@
 #include <mail/e-mail-session-utils.h>
 #include <mail/e-mail-sidebar.h>
 #include <mail/e-mail-store.h>
+#include <mail/e-mail-store-utils.h>
 #include <mail/e-mail-tag-editor.h>
 #include <mail/e-mail-view.h>
 

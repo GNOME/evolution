@@ -38,6 +38,7 @@
 #include "mail/e-mail-migrate.h"
 #include "mail/e-mail-session.h"
 #include "mail/e-mail-store.h"
+#include "mail/e-mail-store-utils.h"
 #include "mail/em-event.h"
 #include "mail/em-folder-tree-model.h"
 #include "mail/em-utils.h"
@@ -86,9 +87,14 @@ mail_shell_backend_get_config_dir (EShellBackend *backend)
  * the EActivity's reference count is used as a counting semaphore. */
 static void
 mail_backend_store_operation_done_cb (CamelStore *store,
-                                      gpointer user_data)
+                                      GAsyncResult *result,
+                                      EActivity *activity)
 {
-	g_object_unref (E_ACTIVITY (user_data));
+	/* FIXME Not checking result for error.  To fix this, we need
+	 *       separate callbacks to call different finish functions
+	 *       and then submit an EAlert on error. */
+
+	g_object_unref (activity);
 }
 
 /* Helper for mail_backend_prepare_for_offline_cb() */
@@ -97,11 +103,11 @@ mail_store_prepare_for_offline_cb (CamelService *service,
                                    gpointer unused,
                                    EActivity *activity)
 {
-	if (CAMEL_IS_DISCO_STORE (service) || CAMEL_IS_OFFLINE_STORE (service))
-		mail_store_set_offline (
-			CAMEL_STORE (service), TRUE,
-			mail_backend_store_operation_done_cb,
-			g_object_ref (activity));
+	/* FIXME Not passing a GCancellable. */
+	e_mail_store_go_offline (
+		CAMEL_STORE (service), G_PRIORITY_DEFAULT, NULL,
+		(GAsyncReadyCallback) mail_backend_store_operation_done_cb,
+		g_object_ref (activity));
 }
 
 static void
@@ -136,11 +142,11 @@ mail_store_prepare_for_online_cb (CamelService *service,
                                   gpointer unused,
                                   EActivity *activity)
 {
-	if (CAMEL_IS_DISCO_STORE (service) || CAMEL_IS_OFFLINE_STORE (service))
-		mail_store_set_offline (
-			CAMEL_STORE (service), FALSE,
-			mail_backend_store_operation_done_cb,
-			g_object_ref (activity));
+	/* FIXME Not passing a GCancellable. */
+	e_mail_store_go_online (
+		CAMEL_STORE (service), G_PRIORITY_DEFAULT, NULL,
+		(GAsyncReadyCallback) mail_backend_store_operation_done_cb,
+		g_object_ref (activity));
 }
 
 static void
@@ -200,11 +206,11 @@ mail_backend_final_sync (CamelStore *store,
 		gboolean empty_trash;
 	} *sync_data = user_data;
 
-	/* Reffing the activity delays quitting; the reference count
-	 * acts like a counting semaphore. */
-	mail_sync_store (
-		store, sync_data->empty_trash,
-		mail_backend_store_operation_done_cb,
+	/* FIXME Not passing a GCancellable. */
+	/* FIXME This operation should be queued. */
+	camel_store_synchronize (
+		store, sync_data->empty_trash, G_PRIORITY_DEFAULT, NULL,
+		(GAsyncReadyCallback) mail_backend_store_operation_done_cb,
 		g_object_ref (sync_data->activity));
 }
 
