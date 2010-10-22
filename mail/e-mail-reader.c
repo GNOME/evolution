@@ -2084,7 +2084,7 @@ static GtkActionEntry mail_reader_entries[] = {
 
 	{ "mail-remove-attachments",
 	  GTK_STOCK_DELETE,
-	  N_("Remo_ve attachments"),
+	  N_("Remo_ve Attachments"),
 	  NULL,
 	  N_("Remove attachments"),
 	  G_CALLBACK (action_mail_remove_attachments_cb) },

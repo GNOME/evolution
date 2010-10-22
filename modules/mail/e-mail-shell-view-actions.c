@@ -1205,7 +1205,7 @@ static GtkActionEntry mail_entries[] = {
 
 	{ "mail-folder-remove-duplicates",
 	   NULL,
-	   N_("Remo_ve duplicate messages"),
+	   N_("Remo_ve Duplicate Messages"),
 	   "",
 	   N_("Remove all duplicate messages"),
 	   G_CALLBACK (action_mail_folder_remove_duplicates) },
