@@ -77,7 +77,6 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 {
 	EWeekView *week_view;
 	GtkStyle *style;
-	GdkGC *gc;
 	gint right_edge, bottom_edge, date_width, date_x, line_y;
 	gboolean show_day_name, show_month_name, selected;
 	gchar buffer[128], *format_string;
@@ -93,7 +92,6 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 
 	week_view = e_week_view_main_item_get_week_view (main_item);
 	style = gtk_widget_get_style (GTK_WIDGET (week_view));
-	gc = week_view->main_gc;
 	cr = gdk_cairo_create (drawable);
 
 	/* Set up Pango prerequisites */
@@ -101,8 +99,6 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	pango_context = gtk_widget_get_pango_context (GTK_WIDGET (week_view));
 	font_metrics = pango_context_get_metrics (pango_context, font_desc,
 						  pango_context_get_language (pango_context));
-
-	g_return_if_fail (gc != NULL);
 
 	day_of_week = gdate_to_cal_weekdays (g_date_get_weekday (date));
 	month = g_date_get_month (date);
