@@ -1606,7 +1606,11 @@ popup_notification (time_t trigger, CompQueuedAlarms *cqa,
 			body = g_strdup_printf ("%s %s", start_str, time_str);
 	}
 
+#ifdef HAVE_LIBNOTIFY_07
+	n = notify_notification_new (summary, body, "stock_appointment-reminder");
+#else
 	n = notify_notification_new (summary, body, "stock_appointment-reminder", NULL);
+#endif /* HAVE_LIBNOTIFY_07 */
 	if (!notify_notification_show (n, NULL))
 	    g_warning ("Could not send notification to daemon\n");
 

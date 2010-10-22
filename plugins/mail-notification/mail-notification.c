@@ -562,11 +562,15 @@ new_notify_status (EMEventTargetFolder *t)
 			if (!notify_init ("evolution-mail-notification"))
 				fprintf (stderr,"notify init error");
 
+#ifdef HAVE_LIBNOTIFY_07
 			notify  = notify_notification_new (
-				_("New email"), safetext,
-				"mail-unread", NULL);
+				_("New email"), safetext, "mail-unread");
+#else
+			notify  = notify_notification_new (
+				_("New email"), safetext, "mail-unread", NULL);
 			notify_notification_attach_to_status_icon (
 				notify, status_icon);
+#endif /* HAVE_LIBNOTIFY_07 */
 
 			/* Check if actions are supported */
 			if (can_support_actions ()) {
