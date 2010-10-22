@@ -1340,13 +1340,17 @@ LIBNOTIFY_CFLAGS=
 LIBNOTIFY_LIBS=
 PKG_CHECK_MODULES([LIBNOTIFY], [libnotify >= $libnotify_minimum_version], [HAVE_LIBNOTIFY="yes"], [HAVE_LIBNOTIFY="no"])
 if test "x$HAVE_LIBNOTIFY" = "xyes"; then
-	AC_DEFINE(HAVE_LIBNOTIFY, 1, [libnotify available])
+	AC_DEFINE(HAVE_LIBNOTIFY, 1, [Define if you have libnotify])
 	libnotify="libnotify"
 else
 	libnotify=""
 fi
 AC_SUBST(LIBNOTIFY_CFLAGS)
 AC_SUBST(LIBNOTIFY_LIBS)
+
+if $PKG_CONFIG --atleast-version=0.7 libnotify; then
+	AC_DEFINE(HAVE_LIBNOTIFY_07, 1, [Define if you have libnotify >= 0.7])
+fi
 
 dnl **************
 dnl Calendar Flags

@@ -140,7 +140,7 @@ update_publish_notification (GtkMessageType msg_type, const gchar *msg_text)
 	gtk_status_icon_set_from_stock (status_icon, stock_name);
 	gtk_status_icon_set_tooltip_text (status_icon, actual_msg->str);
 
-	#ifdef HAVE_LIBNOTIFY
+#ifdef HAVE_LIBNOTIFY
 	if (can_notify) {
 		if (notify) {
 			notify_notification_update (notify, _("Calendar Publishing"), actual_msg->str, stock_name);
@@ -150,8 +150,12 @@ update_publish_notification (GtkMessageType msg_type, const gchar *msg_text)
 				return;
 			}
 
+#ifdef HAVE_LIBNOTIFY_07
+			notify  = notify_notification_new (_("Calendar Publishing"), actual_msg->str, stock_name);
+#else
 			notify  = notify_notification_new (_("Calendar Publishing"), actual_msg->str, stock_name, NULL);
 			notify_notification_attach_to_status_icon (notify, status_icon);
+#endif /* HAVE_LIBNOTIFY_07 */
 			notify_notification_set_urgency (notify, NOTIFY_URGENCY_NORMAL);
 			notify_notification_set_timeout (notify, NOTIFY_EXPIRES_DEFAULT);
 			g_timeout_add (500, show_notify_cb, NULL);
@@ -159,7 +163,7 @@ update_publish_notification (GtkMessageType msg_type, const gchar *msg_text)
 			g_signal_connect (notify, "closed", G_CALLBACK (remove_notification), NULL);
 		}
 	}
-	#endif
+#endif
 
 	status_icon_timeout_id = g_timeout_add_seconds (15, remove_notification, NULL);
 
