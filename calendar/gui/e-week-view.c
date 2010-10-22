@@ -753,8 +753,6 @@ e_week_view_init (EWeekView *week_view)
 
 	week_view->last_edited_comp_string = NULL;
 
-	week_view->main_gc = NULL;
-
 	/* Create the small font. */
 	week_view->use_small_font = TRUE;
 
@@ -923,7 +921,6 @@ static void
 e_week_view_realize (GtkWidget *widget)
 {
 	EWeekView *week_view;
-	GdkColormap *colormap;
 	GdkWindow *window;
 
 	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->realize)
@@ -931,14 +928,9 @@ e_week_view_realize (GtkWidget *widget)
 
 	week_view = E_WEEK_VIEW (widget);
 	window = gtk_widget_get_window (widget);
-	week_view->main_gc = gdk_gc_new (window);
-
-	colormap = gtk_widget_get_colormap (widget);
 
 	/* Allocate the colors. */
 	e_week_view_set_colors (week_view, widget);
-
-	gdk_gc_set_colormap (week_view->main_gc, colormap);
 
 	/* Create the pixmaps. */
 	week_view->reminder_icon = e_icon_factory_get_icon ("stock_bell", GTK_ICON_SIZE_MENU);
@@ -995,15 +987,8 @@ static void
 e_week_view_unrealize (GtkWidget *widget)
 {
 	EWeekView *week_view;
-	GdkColormap *colormap;
 
 	week_view = E_WEEK_VIEW (widget);
-
-	g_object_unref (week_view->main_gc);
-	week_view->main_gc = NULL;
-
-	colormap = gtk_widget_get_colormap (widget);
-	gdk_colormap_free_colors (colormap, week_view->colors, E_WEEK_VIEW_COLOR_LAST);
 
 	g_object_unref (week_view->reminder_icon);
 	week_view->reminder_icon = NULL;
