@@ -1056,7 +1056,7 @@ e_text_get_property (GObject *object,
 		break;
 
 	case PROP_TEXT:
-		g_value_set_string (value, g_strdup (text->text));
+		g_value_set_string (value, text->text);
 		break;
 
 	case PROP_BOLD:
@@ -1128,7 +1128,7 @@ e_text_get_property (GObject *object,
 		break;
 
 	case PROP_ELLIPSIS:
-		g_value_set_string (value, g_strdup (text->ellipsis));
+		g_value_set_string (value, text->ellipsis);
 		break;
 
 	case PROP_LINE_WRAP:
@@ -1136,7 +1136,7 @@ e_text_get_property (GObject *object,
 		break;
 
 	case PROP_BREAK_CHARACTERS:
-		g_value_set_string (value, g_strdup (text->break_characters));
+		g_value_set_string (value, text->break_characters);
 		break;
 
 	case PROP_MAX_LINES:

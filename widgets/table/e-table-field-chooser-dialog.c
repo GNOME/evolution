@@ -196,7 +196,7 @@ e_table_field_chooser_dialog_get_property (GObject *object, guint prop_id, GValu
 	ETableFieldChooserDialog *etfcd = E_TABLE_FIELD_CHOOSER_DIALOG (object);
 	switch (prop_id) {
 	case PROP_DND_CODE:
-		g_value_set_string (value, g_strdup (etfcd->dnd_code));
+		g_value_set_string (value, etfcd->dnd_code);
 		break;
 	case PROP_FULL_HEADER:
 		g_value_set_object (value, etfcd->full_header);
