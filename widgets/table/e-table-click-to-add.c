@@ -288,7 +288,7 @@ etcta_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *p
 		g_value_set_object (value, etcta->model);
 		break;
 	case PROP_MESSAGE:
-		g_value_set_string (value, g_strdup (etcta->message));
+		g_value_set_string (value, etcta->message);
 		break;
 	case PROP_WIDTH:
 		g_value_set_double (value, etcta->width);
