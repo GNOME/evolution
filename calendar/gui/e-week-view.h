@@ -291,9 +291,6 @@ struct _EWeekView {
 	   on how much room is available. */
 	EWeekViewTimeFormat time_format;
 
-	/* The GC used for painting in different colors. */
-	GdkGC *main_gc;
-
 	/* The icons. */
 	GdkPixbuf *reminder_icon;
 	GdkPixbuf *recurrence_icon;
