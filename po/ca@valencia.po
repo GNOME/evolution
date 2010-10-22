@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-10-23 01:09+0200\n"
-"PO-Revision-Date: 2010-04-01 22:46+0200\n"
+"POT-Creation-Date: 2010-10-23 01:11+0200\n"
+"PO-Revision-Date: 2010-04-01 22:43+0200\n"
 "Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "Language: ca\n"
@@ -124,7 +124,7 @@ msgstr "El servidor LDAP no ha respost amb informació d'esquema vàlida."
 #: ../addressbook/addressbook.error.xml.h:19
 msgid "Some features may not work properly with your current server"
 msgstr ""
-"Pot ser que algunes característiques no funcionen correctament amb el "
+"Pot ser que algunes característiques no funcionin correctament amb el "
 "servidor actual"
 
 #: ../addressbook/addressbook.error.xml.h:20
@@ -1480,7 +1480,7 @@ msgstr "no es pot obrir la llibreta"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:59
 msgid "Specify the output file instead of standard output"
-msgstr "Especifiqueu el fitxer d'eixida, en comptes de l'eixida estàndard"
+msgstr "Especifiqueu el fitxer d'eixida, en comptes de la eixida estàndard"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:60
 msgid "OUTPUTFILE"
@@ -1825,7 +1825,7 @@ msgstr "S'estan baixant algunes adjuncions. Es perdran si alceu la tasca ara."
 #: ../calendar/calendar.error.xml.h:51
 msgid "Some features may not work properly with your current server."
 msgstr ""
-"Pot ser que algunes característiques no funcionen correctament amb el vostre "
+"Pot ser que algunes característiques no funcionin correctament amb el vostre "
 "servidor actual."
 
 #: ../calendar/calendar.error.xml.h:52
@@ -1960,7 +1960,7 @@ msgstr "Al_ça"
 
 #: ../calendar/calendar.error.xml.h:82
 msgid "_Save Changes"
-msgstr "Al_ça els canvis"
+msgstr "De_sa els canvis"
 
 #: ../calendar/calendar.error.xml.h:83
 #: ../composer/mail-composer.error.xml.h:28 ../mail/mail.error.xml.h:141
@@ -5661,9 +5661,9 @@ msgstr "Feu clic per afegir una anotació"
 #. Result values will be 0%, 10%, 20%, ... 100%
 #.
 #: ../calendar/gui/e-task-table.c:539
-#, c-format
+#, fuzzy, c-format
 msgid "%d%%"
-msgstr ""
+msgstr "%d %b"
 
 #: ../calendar/gui/e-task-table.c:631 ../calendar/gui/print.c:2113
 #: ../calendar/importers/icalendar-importer.c:81
@@ -8134,7 +8134,7 @@ msgstr "Sol·licita la confirmació de l_ectura"
 
 #: ../composer/e-composer-actions.c:351
 msgid "Get delivery notification when your message is read"
-msgstr "Obteniu una notificació d'entrega quan es llija el missatge"
+msgstr "Obteniu una notificació d'entrega quan es llegisca el missatge"
 
 #: ../composer/e-composer-actions.c:357
 msgid "S/MIME En_crypt"
@@ -10151,11 +10151,10 @@ msgstr "Codificació dels c_aràcters"
 msgid "F_orward As"
 msgstr "Reenvia c_om a"
 
-# gal/e-table/e-table-config.glade.h:19
 #: ../mail/e-mail-reader.c:1921
 #, fuzzy
 msgid "_Group Reply"
-msgstr "A_grupa segons..."
+msgstr "_Respon"
 
 #: ../mail/e-mail-reader.c:1928
 msgid "_Go To"
@@ -10653,7 +10652,7 @@ msgstr "Ubicació del missatge"
 
 #: ../mail/em-filter-i18n.h:52
 msgid "Pipe to Program"
-msgstr "Envia l'eixida al programa"
+msgstr "Envia la eixida al programa"
 
 #: ../mail/em-filter-i18n.h:53
 msgid "Play Sound"
@@ -11137,7 +11136,7 @@ msgstr[1] "Segur que voleu obrir {0} missatges a la vegada?"
 #: ../mail/em-utils.c:152
 #: ../modules/mailto-handler/evolution-mailto-handler.c:148
 msgid "_Do not show this message again"
-msgstr "_No tornis a mostrar aquest missatge."
+msgstr "_No tornes a mostrar este missatge."
 
 #: ../mail/em-utils.c:314
 msgid "Message Filters"
@@ -11388,7 +11387,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:49
 msgid "Do not add signature delimiter"
-msgstr "No afiges el delimitador de signatura"
+msgstr "No afegisques el delimitador de signatura"
 
 #: ../mail/evolution-mail.schemas.in.h:50
 msgid "Draw spelling error indicators on words as you type."
@@ -12194,7 +12193,7 @@ msgid ""
 "header enabled&gt; - set enabled if the header is to be displayed in the "
 "mail view."
 msgstr ""
-"Esta clau ha de contindre una llista d'estructures XML que especifique "
+"Esta clau ha de contindre una llista d'estructures XML que especifiqui "
 "capçaleres personalitzades i si s'han de visualitzar. El format de "
 "l'estructura XML és &lt;capçalera enabled&gt;. Indiqueu «enabled» si s'ha de "
 "visualitzar la capçalera en la visualització del correu."
@@ -14819,7 +14818,7 @@ msgstr "_Propietats"
 #: ../modules/addressbook/e-book-shell-view-actions.c:830
 #: ../modules/addressbook/e-book-shell-view-actions.c:976
 msgid "_Save as vCard..."
-msgstr "Al_ça com a vCard..."
+msgstr "De_sa com a vCard..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:858
 msgid "Contact _Preview"
@@ -15352,7 +15351,7 @@ msgstr "Converteix una reunió en una cita"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1487
 msgid "Quit"
-msgstr "Surt"
+msgstr "Ix"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1611
 msgid "Day"
@@ -20227,7 +20226,7 @@ msgstr "Executa els paràmetres actuals de cerca"
 
 #: ../shell/e-shell-window-actions.c:1564
 msgid "_Save Search..."
-msgstr "Al_ça la cerca..."
+msgstr "De_sa la cerca..."
 
 #: ../shell/e-shell-window-actions.c:1566
 msgid "Save the current search parameters"
@@ -20412,7 +20411,7 @@ msgstr "S'està preparant per treballar en línia..."
 
 #: ../shell/e-shell.c:353
 msgid "Preparing to quit..."
-msgstr "S'està preparant l'eixida..."
+msgstr "S'està preparant la eixida..."
 
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:190
@@ -20485,7 +20484,7 @@ msgstr "Força l'aturada de l'Evolution"
 
 #: ../shell/main.c:351
 msgid "Send the debugging output of all components to a file."
-msgstr "Envia l'eixida de depuració de tots els components a un fitxer."
+msgstr "Envia la eixida de depuració de tots els components a un fitxer."
 
 #: ../shell/main.c:353
 msgid "Disable loading of any plugins."
@@ -20551,7 +20550,7 @@ msgstr ""
 #: ../shell/shell.error.xml.h:7
 #, fuzzy
 msgid "Quit Now"
-msgstr "Surt"
+msgstr "Ix"
 
 #: ../shell/shell.error.xml.h:8
 msgid "Upgrade from previous version failed:"
@@ -20674,7 +20673,7 @@ msgid ""
 "indicated here"
 msgstr ""
 "Atès que confieu en l'autoritat de certificació que ha emés este certificat, "
-"confieu en l'autenticitat d'este certificat tret que ací s'especifique el "
+"confieu en l'autenticitat d'este certificat tret que ací s'especifiqui el "
 "contrari"
 
 #: ../smime/gui/cert-trust-dialog.c:148
@@ -20685,7 +20684,7 @@ msgid ""
 msgstr ""
 "Atès que no confieu en l'autoritat de certificació que ha emés este "
 "certificat, no confieu en l'autenticitat d'este certificat tret que ací "
-"s'especifique el contrari"
+"s'especifiqui el contrari"
 
 #: ../smime/gui/certificate-manager.c:148
 #: ../smime/gui/certificate-manager.c:460
@@ -21415,7 +21414,7 @@ msgstr "adjuncio.dat"
 
 #: ../widgets/misc/e-attachment-view.c:351
 msgid "S_ave All"
-msgstr "Al_ça'ls tots"
+msgstr "De_sa'ls tots"
 
 #: ../widgets/misc/e-attachment-view.c:377
 msgid "A_dd Attachment..."
@@ -21428,7 +21427,7 @@ msgstr "A_maga"
 #: ../widgets/misc/e-attachment-view.c:408
 #, fuzzy
 msgid "Hid_e All"
-msgstr "Al_ça'ls tots"
+msgstr "De_sa'ls tots"
 
 #: ../widgets/misc/e-attachment-view.c:415
 msgid "_View Inline"
@@ -21900,7 +21899,7 @@ msgstr "Sense nom"
 
 #: ../widgets/misc/e-signature-editor.c:213
 msgid "_Save and Close"
-msgstr "Al_ça i tanca"
+msgstr "De_sa i tanca"
 
 #: ../widgets/misc/e-signature-editor.c:391
 msgid "Edit Signature"
@@ -22302,12 +22301,6 @@ msgstr "Selecciona-ho tot"
 msgid "Input Methods"
 msgstr "Mètodes d'entrada"
 
-#~ msgid "{0}"
-#~ msgstr "{0}"
-
-#~ msgid "{1}"
-#~ msgstr "{1}"
-
 #~ msgid "Default Sync Address:"
 #~ msgstr "Adreça de sincronització predeterminada:"
 
@@ -22322,6 +22315,399 @@ msgstr "Mètodes d'entrada"
 
 #~ msgid "_Web Log:"
 #~ msgstr "Bloc _web:"
+
+#~ msgid "Success"
+#~ msgstr "Correcte"
+
+#~ msgid "Backend busy"
+#~ msgstr "Recurs ocupat"
+
+#~ msgid "Repository offline"
+#~ msgstr "El dipòsit està fora de línia"
+
+#~ msgid "Address Book does not exist"
+#~ msgstr "No existeix la llibreta d'adreces"
+
+#~ msgid "No Self Contact defined"
+#~ msgstr "No s'ha definit cap contacte propi"
+
+#~ msgid "Permission denied"
+#~ msgstr "S'ha denegat el permís"
+
+#~ msgid "Contact not found"
+#~ msgstr "No s'ha trobat el contacte"
+
+#~ msgid "Contact ID already exists"
+#~ msgstr "L'ID del contacte ja existeix"
+
+#~ msgid "Protocol not supported"
+#~ msgstr "El protocol no és compatible"
+
+#~ msgid "Could not cancel"
+#~ msgstr "No s'ha pogut cancel·lar"
+
+#~ msgid "Authentication Failed"
+#~ msgstr "Ha fallat l'autenticació"
+
+#~ msgid "Authentication Required"
+#~ msgstr "Cal autenticació"
+
+#~ msgid "TLS not Available"
+#~ msgstr "El TLS no està disponible"
+
+#~ msgid "No such source"
+#~ msgstr "No existeix tal font"
+
+#~ msgid "Not available in offline mode"
+#~ msgstr "No està disponible en mode fora de línia"
+
+#~ msgid "Other error"
+#~ msgstr "Un altre error"
+
+#~ msgid "Invalid server version"
+#~ msgstr "La versió del servidor no és vàlida"
+
+#~ msgid "Unsupported authentication method"
+#~ msgstr "El mètode d'autenticació no està implementat"
+
+#~ msgid "Calendar repository is offline."
+#~ msgstr "El dipòsit del calendari està fora de línia."
+
+#~ msgid "Error on '{0}'"
+#~ msgstr "S'ha produït un error en {0}"
+
+#~ msgid "No response from the server."
+#~ msgstr "No s'ha rebut cap resposta del servidor."
+
+#~ msgid "Unable to load the calendar"
+#~ msgstr "No s'ha pogut carregar el calendari"
+
+#~ msgid "Split Multi-Day Events:"
+#~ msgstr "Divideix els esdeveniments de múltiples dies:"
+
+#~ msgid "Could not start evolution-data-server"
+#~ msgstr "No s'ha pogut iniciar l'evolution-data-server"
+
+#~ msgid "Could not read pilot's Calendar application block"
+#~ msgstr "No s'ha pogut llegir el bloc d'aplicació de calendari del Pilot"
+
+#~ msgid "Could not read pilot's Memo application block"
+#~ msgstr "No s'ha pogut llegir el bloc d'aplicació d'anotacions del Pilot"
+
+#~ msgid "Could not write pilot's Memo application block"
+#~ msgstr "No s'ha pogut escriure el bloc d'aplicació d'anotacions del Pilot"
+
+#~ msgid "Default Priority:"
+#~ msgstr "Prioritat predeterminada:"
+
+#~ msgid "Could not read pilot's ToDo application block"
+#~ msgstr "No s'ha pogut llegir el bloc d'aplicació de tasques del Pilot"
+
+#~ msgid "Could not write pilot's ToDo application block"
+#~ msgstr "No s'ha pogut llegir el bloc d'aplicació de tasques del Pilot"
+
+#~ msgid "Check this to use system timezone in Evolution."
+#~ msgstr "Marqueu-ho per utilitzar el fus horari del sistema a l'Evolution."
+
+#~ msgid "Show week numbers in date navigator"
+#~ msgstr "Mostra el número de setmana en el navegador de dates"
+
+#~ msgid "Whether to show week number in the Day and Work Week View."
+#~ msgstr ""
+#~ "Si s'ha de mostrar el número de setmana a les visualitzacions de dies i "
+#~ "setmanes laborables."
+
+#~ msgid "Show week n_umber in Day and Work Week View"
+#~ msgstr ""
+#~ "Mostra el nú_mero de setmana a les visualitzacions de dies i setmanes "
+#~ "laborables"
+
+#~ msgid "Save"
+#~ msgstr "Desa"
+
+#~ msgid "The event could not be deleted due to a corba error"
+#~ msgstr ""
+#~ "No s'ha pogut suprimir l'esdeveniment perquè s'ha produït un error del "
+#~ "CORBA"
+
+#~ msgid "The task could not be deleted due to a corba error"
+#~ msgstr ""
+#~ "No s'ha pogut suprimir la tasca perquè s'ha produït un error del CORBA"
+
+#~ msgid "The memo could not be deleted due to a corba error"
+#~ msgstr ""
+#~ "No s'ha pogut suprimir l'anotació perquè s'ha produït un error del CORBA"
+
+#~ msgid "The item could not be deleted due to a corba error"
+#~ msgstr ""
+#~ "No s'ha pogut suprimir l'element perquè s'ha produït un error del CORBA"
+
+#~ msgid "Appoint_ment"
+#~ msgstr "Ci_ta"
+
+#~ msgid "Attendee_s..."
+#~ msgstr "A_ssistents..."
+
+#~ msgid "_Task"
+#~ msgstr "_Tasca"
+
+#~ msgid "A_ttendees..."
+#~ msgstr "Ass_istents..."
+
+#~ msgid "0%"
+#~ msgstr "0%"
+
+#~ msgid "10%"
+#~ msgstr "10%"
+
+#~ msgid "20%"
+#~ msgstr "20%"
+
+#~ msgid "30%"
+#~ msgstr "30%"
+
+#~ msgid "40%"
+#~ msgstr "40%"
+
+#~ msgid "50%"
+#~ msgstr "50%"
+
+#~ msgid "60%"
+#~ msgstr "60%"
+
+#~ msgid "70%"
+#~ msgstr "70%"
+
+#~ msgid "80%"
+#~ msgstr "80%"
+
+#~ msgid "90%"
+#~ msgstr "90%"
+
+#~ msgid "100%"
+#~ msgstr "100%"
+
+#~ msgid "_Select Today"
+#~ msgstr "_Selecciona avui"
+
+#~ msgid "_From Field"
+#~ msgstr "Camp _De"
+
+#~ msgid "Toggles whether the From chooser is displayed"
+#~ msgstr "Commuta la visualització del camp «De»"
+
+#~ msgid "Show"
+#~ msgstr "Mostra"
+
+#~ msgid "Hide"
+#~ msgstr "Oculta"
+
+#~ msgid "Unable to reconstruct message from autosave file"
+#~ msgstr ""
+#~ "No s'ha pogut recuperar el missatge a partir del fitxer de desament "
+#~ "automàtic"
+
+#~ msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Dades personals:</span>"
+
+#~ msgid "<span size=\"large\" weight=\"bold\">Receiving details:</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Dades de recepció:</span>"
+
+#~ msgid "<span size=\"large\" weight=\"bold\">Sending details:</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Dades d'enviament:</span>"
+
+#~ msgid "<span size=\"large\" weight=\"bold\">Account management</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Gestió de comptes</span>"
+
+#~ msgid "address card"
+#~ msgstr "targeta d'adreça"
+
+#~ msgid "calendar information"
+#~ msgstr "informació del calendari"
+
+#~ msgid "Could not parse PGP message: Unknown error"
+#~ msgstr "No s'ha pogut analitzar el missatge PGP: error desconegut"
+
+#~ msgid "Allows Evolution to display text part of limited size"
+#~ msgstr "Permet que l'Evolution mostri la part de text d'una mida limitada"
+
+#~ msgid "Enable to render message text part of limited size."
+#~ msgstr ""
+#~ "Habiliteu-ho per representar la part de text del missatge de mida "
+#~ "limitada."
+
+#~ msgid "Show \"From\" field when sending a mail message"
+#~ msgstr "Mostra el camp «De» en enviar un missatge de correu"
+
+#~ msgid ""
+#~ "Show the \"From\" field when sending a mail message. This is controlled "
+#~ "from the View menu when a mail account is chosen."
+#~ msgstr ""
+#~ "Mostra el camp «De» en enviar un missatge de correu. Aquest paràmetre es "
+#~ "controla des del menú Visualitza en seleccionar un compte de correu."
+
+#~ msgid "Text message part limit"
+#~ msgstr "Límit de la part del missatge de text"
+
+# FIXME: (dpm). Es refereix a l'opció de mantenir la signatura
+# a sobre del missatge original en respondre
+#~ msgid "<b>Top Posting Option</b> (Not Recommended)"
+#~ msgstr "<b>Opció de publicar a sobre</b> (no recomanada)"
+
+#~ msgid "    "
+#~ msgstr "    "
+
+#~ msgid "Because \"{0}\"."
+#~ msgstr "Degut a «{0}»."
+
+#~ msgid "Because \"{2}\"."
+#~ msgstr "Degut a «{2}»."
+
+#~ msgid "Do not d_elete"
+#~ msgstr "No ho su_primeixis"
+
+#~ msgid "Save as vCard..."
+#~ msgstr "Desa com a vCard..."
+
+#~ msgid "3268"
+#~ msgstr "3268"
+
+#~ msgid "389"
+#~ msgstr "389"
+
+#~ msgid "636"
+#~ msgstr "636"
+
+#~ msgid ""
+#~ "List of clues for the attachment reminder plugin to look for in a message "
+#~ "body."
+#~ msgstr ""
+#~ "Llista de pistes que el connector de recordatori d'adjuncions cercarà en "
+#~ "el cos del missatge."
+
+#~ msgid ""
+#~ "Evolution backup can start only when Evolution is not running. Please "
+#~ "make sure that you save and close all your unsaved windows before "
+#~ "proceeding.  If you want Evolution to restart automatically after backup, "
+#~ "please enable the toggle button."
+#~ msgstr ""
+#~ "La còpia de seguretat de l'Evolution només es podrà iniciar quan "
+#~ "l'Evolution no s'estigui executant. Assegureu-vos de desar totes les "
+#~ "dades de les finestres obertes abans de continuar. Si voleu que "
+#~ "l'Evolution s'iniciï automàticament un cop finalitzada la còpia de "
+#~ "seguretat, habiliteu el botó commutador."
+
+#~ msgid ""
+#~ "This will delete all your current Evolution data and settings and restore "
+#~ "them from your backup. Evolution restore can start only when Evolution is "
+#~ "not running. Please make sure that you close all your unsaved windows "
+#~ "before you proceed. If you want Evolution to restart automatically "
+#~ "restart after restore, please enable the toggle button."
+#~ msgstr ""
+#~ "Això farà que se suprimeixin totes les vostres dades i paràmetres de "
+#~ "l'Evolution, els quals es restauraran seguidament a partir de la còpia de "
+#~ "seguretat. La restauració només podrà iniciar-se si l'Evolution no s'està "
+#~ "executant. Assegureu-vos de desar totes les dades de les finestres "
+#~ "obertes abans de continuar. Si voleu que l'Evolution s'iniciï "
+#~ "automàticament un cop finalitzada la restauració, habiliteu el botó "
+#~ "commutador."
+
+#~ msgid "Check whether Evolution is the default mail client on startup."
+#~ msgstr ""
+#~ "Comprova si l'Evolution és el gestor de correu predeterminat en iniciar."
+
+#~ msgid "Default Mail Client"
+#~ msgstr "Client de correu predeterminat"
+
+#~ msgid "<b>Server</b>"
+#~ msgstr "<b>Servidor</b>"
+
+#~ msgid "<b>Users:</b>"
+#~ msgstr "<b>Usuaris:</b>"
+
+#~ msgid "<b>Account Name</b>"
+#~ msgstr "<b>Nom del compte</b>"
+
+#~ msgid "Add Hula support to Evolution."
+#~ msgstr "Afegeix compatibilitat amb Hula a l'Evolution."
+
+#~ msgid "Hula Support"
+#~ msgstr "Compatibilitat amb Hula"
+
+#~ msgid "_Accept"
+#~ msgstr "_Accepta"
+
+#~ msgid "Blink icon in notification area."
+#~ msgstr "Parpelleja la icona a l'àrea de notificació."
+
+#~ msgid "Whether the icon should blink or not."
+#~ msgstr "Si la icona ha de parpellejar o no."
+
+#~ msgid "B_link icon in notification area"
+#~ msgstr "Parpe_lleja la icona a l'àrea de notificació"
+
+#~ msgid "Guides you through your initial account setup."
+#~ msgstr "Us guiarà a través de la configuració del vostre compte inicial."
+
+#~ msgid "Setup Assistant"
+#~ msgstr "Auxiliar de configuració"
+
+#~ msgid "Importing data."
+#~ msgstr "Importació de dades."
+
+#~ msgid "Please wait"
+#~ msgstr "Espereu"
+
+#~ msgid "GNOME Pilot is not installed."
+#~ msgstr "El GNOME Pilot no està instal·lat."
+
+#~ msgid "GNOME Pilot could not be run."
+#~ msgstr "No es pot executar el GNOME Pilot."
+
+#~ msgid "GNOME Pilot _Synchronization..."
+#~ msgstr "_Sincronització del GNOME Pilot..."
+
+#~ msgid "Set up GNOME Pilot configuration"
+#~ msgstr "Configura el GNOME Pilot"
+
+#~ msgid "Edit"
+#~ msgstr "Edita"
+
+#~ msgid "Import"
+#~ msgstr "Importa"
+
+#~ msgid "View"
+#~ msgstr "Visualitza"
+
+#~ msgid "Show _Attachment Bar"
+#~ msgstr "Mostra la barra _de fitxers adjunts"
+
+#~ msgid "Sync with:"
+#~ msgstr "Sincronitza amb:"
+
+#~ msgid "Sync Private Records:"
+#~ msgstr "Sincronitza els registres privats:"
+
+#~ msgid "Sync Categories:"
+#~ msgstr "Categories de sincronització:"
+
+#~ msgid "popup"
+#~ msgstr "emergent"
+
+#~ msgid "edit"
+#~ msgstr "edita"
+
+#~ msgid "toggle"
+#~ msgstr "commuta"
+
+#~ msgid "expand"
+#~ msgstr "expandeix"
+
+#~ msgid "{0}"
+#~ msgstr "{0}"
+
+#~ msgid "{1}"
+#~ msgstr "{1}"
 
 #~ msgid "Editable"
 #~ msgstr "Editable"
@@ -22401,223 +22787,14 @@ msgstr "Mètodes d'entrada"
 #~ msgid "Has Cursor"
 #~ msgstr "Té el cursor"
 
-#~ msgid "Success"
-#~ msgstr "Correcte"
-
-#~ msgid "Backend busy"
-#~ msgstr "Recurs ocupat"
-
-#~ msgid "Repository offline"
-#~ msgstr "El dipòsit està fora de línia"
-
-#~ msgid "Address Book does not exist"
-#~ msgstr "No existeix la llibreta d'adreces"
-
-#~ msgid "No Self Contact defined"
-#~ msgstr "No s'ha definit cap contacte propi"
-
-#~ msgid "Permission denied"
-#~ msgstr "S'ha denegat el permís"
-
-#~ msgid "Contact not found"
-#~ msgstr "No s'ha trobat el contacte"
-
-#~ msgid "Contact ID already exists"
-#~ msgstr "L'ID del contacte ja existeix"
-
-#~ msgid "Protocol not supported"
-#~ msgstr "El protocol no és compatible"
-
-#~ msgid "Could not cancel"
-#~ msgstr "No s'ha pogut cancel·lar"
-
-#~ msgid "Authentication Failed"
-#~ msgstr "Ha fallat l'autenticació"
-
-#~ msgid "Authentication Required"
-#~ msgstr "Cal autenticació"
-
-#~ msgid "TLS not Available"
-#~ msgstr "El TLS no està disponible"
-
-#~ msgid "No such source"
-#~ msgstr "No existeix tal font"
-
-#~ msgid "Not available in offline mode"
-#~ msgstr "No està disponible en mode fora de línia"
-
-#~ msgid "Other error"
-#~ msgstr "Un altre error"
-
-#~ msgid "Invalid server version"
-#~ msgstr "La versió del servidor no és vàlida"
-
-#~ msgid "Unsupported authentication method"
-#~ msgstr "El mètode d'autenticació no està implementat"
-
-#~ msgid "Calendar repository is offline."
-#~ msgstr "El dipòsit del calendari està fora de línia."
-
-#~ msgid "Error on '{0}'"
-#~ msgstr "S'ha produït un error en {0}"
-
-#~ msgid "No response from the server."
-#~ msgstr "No s'ha rebut cap resposta del servidor."
-
-#~ msgid "Unable to load the calendar"
-#~ msgstr "No s'ha pogut carregar el calendari"
-
 #~ msgid "{0}."
 #~ msgstr "{0}."
-
-#~ msgid "Split Multi-Day Events:"
-#~ msgstr "Divideix els esdeveniments de múltiples dies:"
-
-#~ msgid "Could not start evolution-data-server"
-#~ msgstr "No s'ha pogut iniciar l'evolution-data-server"
-
-#~ msgid "Could not read pilot's Calendar application block"
-#~ msgstr "No s'ha pogut llegir el bloc d'aplicació de calendari del Pilot"
-
-#~ msgid "Could not read pilot's Memo application block"
-#~ msgstr "No s'ha pogut llegir el bloc d'aplicació d'anotacions del Pilot"
-
-#~ msgid "Could not write pilot's Memo application block"
-#~ msgstr "No s'ha pogut escriure el bloc d'aplicació d'anotacions del Pilot"
-
-#~ msgid "Default Priority:"
-#~ msgstr "Prioritat predeterminada:"
-
-#~ msgid "Could not read pilot's ToDo application block"
-#~ msgstr "No s'ha pogut llegir el bloc d'aplicació de tasques del Pilot"
-
-#~ msgid "Could not write pilot's ToDo application block"
-#~ msgstr "No s'ha pogut llegir el bloc d'aplicació de tasques del Pilot"
-
-#~ msgid "Show week numbers in date navigator"
-#~ msgstr "Mostra el número de setmana en el navegador de dates"
-
-#~ msgid "Whether to show week number in the Day and Work Week View."
-#~ msgstr ""
-#~ "Si s'ha de mostrar el número de setmana a les visualitzacions de dies i "
-#~ "setmanes laborables."
-
-#~ msgid "Show week n_umber in Day and Work Week View"
-#~ msgstr ""
-#~ "Mostra el nú_mero de setmana a les visualitzacions de dies i setmanes "
-#~ "laborables"
-
-#~ msgid "Save"
-#~ msgstr "Alça"
-
-#~ msgid "The event could not be deleted due to a corba error"
-#~ msgstr ""
-#~ "No s'ha pogut suprimir l'esdeveniment perquè s'ha produït un error del "
-#~ "CORBA"
-
-#~ msgid "The task could not be deleted due to a corba error"
-#~ msgstr ""
-#~ "No s'ha pogut suprimir la tasca perquè s'ha produït un error del CORBA"
-
-#~ msgid "The memo could not be deleted due to a corba error"
-#~ msgstr ""
-#~ "No s'ha pogut suprimir l'anotació perquè s'ha produït un error del CORBA"
-
-#~ msgid "The item could not be deleted due to a corba error"
-#~ msgstr ""
-#~ "No s'ha pogut suprimir l'element perquè s'ha produït un error del CORBA"
-
-#~ msgid "Appoint_ment"
-#~ msgstr "Ci_ta"
-
-#~ msgid "Attendee_s..."
-#~ msgstr "A_ssistents..."
-
-#~ msgid "_Task"
-#~ msgstr "_Tasca"
 
 #~ msgid "Default Client"
 #~ msgstr "Client predeterminat"
 
-#~ msgid "Shell Settings"
-#~ msgstr "Paràmetres del Shell"
-
-#~ msgid "Application-wide settings"
-#~ msgstr "Paràmetres de l'aplicació"
-
-#~ msgid "A_ttendees..."
-#~ msgstr "Ass_istents..."
-
-#~ msgid "0%"
-#~ msgstr "0%"
-
-#~ msgid "10%"
-#~ msgstr "10%"
-
-#~ msgid "20%"
-#~ msgstr "20%"
-
-#~ msgid "30%"
-#~ msgstr "30%"
-
-#~ msgid "40%"
-#~ msgstr "40%"
-
-#~ msgid "50%"
-#~ msgstr "50%"
-
-#~ msgid "60%"
-#~ msgstr "60%"
-
-#~ msgid "70%"
-#~ msgstr "70%"
-
-#~ msgid "80%"
-#~ msgstr "80%"
-
-#~ msgid "90%"
-#~ msgstr "90%"
-
-#~ msgid "100%"
-#~ msgstr "100%"
-
-#~ msgid "_Select Today"
-#~ msgstr "_Selecciona hui"
-
-#~ msgid "_From Field"
-#~ msgstr "Camp _De"
-
-#~ msgid "Toggles whether the From chooser is displayed"
-#~ msgstr "Commuta la visualització del camp «De»"
-
-#~ msgid "Show"
-#~ msgstr "Mostra"
-
-#~ msgid "Hide"
-#~ msgstr "Oculta"
-
-#~ msgid "Unable to reconstruct message from autosave file"
-#~ msgstr ""
-#~ "No s'ha pogut recuperar el missatge a partir del fitxer de desament "
-#~ "automàtic"
-
-#~ msgid "<span size=\"large\" weight=\"bold\">Personal details:</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Dades personals:</span>"
-
-#~ msgid "<span size=\"large\" weight=\"bold\">Receiving details:</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Dades de recepció:</span>"
-
-#~ msgid "<span size=\"large\" weight=\"bold\">Sending details:</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Dades d'enviament:</span>"
-
-#~ msgid "<span size=\"large\" weight=\"bold\">Account management</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Gestió de comptes</span>"
-
-#~ msgid "address card"
-#~ msgstr "targeta d'adreça"
-
-#~ msgid "calendar information"
-#~ msgstr "informació del calendari"
+#~ msgid "New Tab"
+#~ msgstr "Pestanya nova"
 
 #~ msgid "Name of the logger"
 #~ msgstr "Nom de l'enregistrador"
@@ -22630,9 +22807,6 @@ msgstr "Mètodes d'entrada"
 
 #~ msgid "Whether the plugin is enabled"
 #~ msgstr "Si el connector està habilitat"
-
-#~ msgid "Could not parse PGP message: Unknown error"
-#~ msgstr "No s'ha pogut analitzar el missatge PGP: error desconegut"
 
 #~ msgid "Focus Tracker"
 #~ msgstr "Seguidor de focus"
@@ -22690,45 +22864,7 @@ msgstr "Mètodes d'entrada"
 #~ "config.xmldb' does not exist or is corrupt."
 #~ msgstr ""
 #~ "No s'ha pogut llegir la configuració de la instal·lació anterior de "
-#~ "l'Evolution. El fitxer «evolution/config.xmldb» no existeix o està malmés."
-
-#~ msgid "Allows Evolution to display text part of limited size"
-#~ msgstr "Permet que l'Evolution mostre la part de text d'una mida limitada"
-
-#~ msgid "Enable to render message text part of limited size."
-#~ msgstr ""
-#~ "Habiliteu-ho per representar la part de text del missatge de mida "
-#~ "limitada."
-
-#~ msgid "Show \"From\" field when sending a mail message"
-#~ msgstr "Mostra el camp «De» en enviar un missatge de correu"
-
-#~ msgid ""
-#~ "Show the \"From\" field when sending a mail message. This is controlled "
-#~ "from the View menu when a mail account is chosen."
-#~ msgstr ""
-#~ "Mostra el camp «De» en enviar un missatge de correu. Este paràmetre es "
-#~ "controla des del menú Visualitza en seleccionar un compte de correu."
-
-#~ msgid "Text message part limit"
-#~ msgstr "Límit de la part del missatge de text"
-
-# FIXME: (dpm). Es refereix a l'opció de mantenir la signatura
-# a sobre del missatge original en respondre
-#~ msgid "<b>Top Posting Option</b> (Not Recommended)"
-#~ msgstr "<b>Opció de publicar a sobre</b> (no recomanada)"
-
-#~ msgid "    "
-#~ msgstr "    "
-
-#~ msgid "Because \"{0}\"."
-#~ msgstr "Degut a «{0}»."
-
-#~ msgid "Because \"{2}\"."
-#~ msgstr "Degut a «{2}»."
-
-#~ msgid "Do not d_elete"
-#~ msgstr "No ho su_primisques"
+#~ "l'Evolution. El fitxer «evolution/config.xmldb» no existeix o està malmès."
 
 #~ msgid ""
 #~ "The following Search Folder(s):\n"
@@ -22763,7 +22899,7 @@ msgstr "Mètodes d'entrada"
 #~ "There are only hidden messages in this folder. Use View->Show Hidden "
 #~ "Messages to show them."
 #~ msgstr ""
-#~ "Esta carpeta només conté missatges ocults. Utilitzeu l'entrada de menú "
+#~ "Aquesta carpeta només conté missatges ocults. Utilitzeu l'entrada de menú "
 #~ "«Visualitza->Mostra els missatges amagats» per mostrar-los."
 
 #~ msgid "Table column:"
@@ -22842,19 +22978,7 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "Giny de selecció de font"
 
 #~ msgid "This widget displays groups of address books"
-#~ msgstr "Este giny mostra grups de llibretes d'adreces"
-
-#~ msgid "Save as vCard..."
-#~ msgstr "Alça com a vCard..."
-
-#~ msgid "3268"
-#~ msgstr "3268"
-
-#~ msgid "389"
-#~ msgstr "389"
-
-#~ msgid "636"
-#~ msgstr "636"
+#~ msgstr "Aquest giny mostra grups de llibretes d'adreces"
 
 #~ msgid "The registry of calendars"
 #~ msgstr "El registre de calendaris"
@@ -22882,7 +23006,7 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "Giny de navegació de dates"
 
 #~ msgid "This widget displays a miniature calendar"
-#~ msgstr "Este giny mostra un calendari en miniatura"
+#~ msgstr "Aquest giny mostra un calendari en miniatura"
 
 #~ msgid "Default Calendar Client"
 #~ msgstr "Client de calendari predeterminat"
@@ -22891,7 +23015,7 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "Client predeterminat per a les operacions de calendari"
 
 #~ msgid "This widget displays groups of calendars"
-#~ msgstr "Este giny mostra grups de calendaris"
+#~ msgstr "Aquest giny mostra grups de calendaris"
 
 #~ msgid "The registry of memo lists"
 #~ msgstr "El registre de llistes d'anotacions"
@@ -22906,7 +23030,7 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "El client predeterminat per a les operacions d'anotacions"
 
 #~ msgid "This widget displays groups of memo lists"
-#~ msgstr "Este giny mostra un grup de llistes d'anotacions"
+#~ msgstr "Aquest giny mostra un grup de llistes d'anotacions"
 
 #~ msgid "The registry of task lists"
 #~ msgstr "El registre de llistes de tasques"
@@ -22935,7 +23059,7 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "Client predeterminat per les tasques d'operacions"
 
 #~ msgid "This widget displays groups of task lists"
-#~ msgstr "Este giny mostra grups de llistes de tasques"
+#~ msgstr "Aquest giny mostra grups de llistes de tasques"
 
 #~ msgid "Group by Threads"
 #~ msgstr "Agrupa per fils"
@@ -22947,7 +23071,7 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "Amaga els missatges _llegits"
 
 #~ msgid "Temporarily hide all messages that have already been read"
-#~ msgstr "Amaga temporalment tots els missatges que ja s'hagen llegit"
+#~ msgstr "Amaga temporalment tots els missatges que ja s'hagin llegit"
 
 #~ msgid "Hide S_elected Messages"
 #~ msgstr "Amaga _els missatges seleccionats"
@@ -22970,85 +23094,6 @@ msgstr "Mètodes d'entrada"
 #~ "Oculta els missatges suprimits en comptes de mostrar-los amb una línia a "
 #~ "sobre"
 
-#~ msgid ""
-#~ "List of clues for the attachment reminder plugin to look for in a message "
-#~ "body."
-#~ msgstr ""
-#~ "Llista de pistes que el connector de recordatori d'adjuncions cercarà en "
-#~ "el cos del missatge."
-
-#~ msgid ""
-#~ "Evolution backup can start only when Evolution is not running. Please "
-#~ "make sure that you save and close all your unsaved windows before "
-#~ "proceeding.  If you want Evolution to restart automatically after backup, "
-#~ "please enable the toggle button."
-#~ msgstr ""
-#~ "La còpia de seguretat de l'Evolution només es podrà iniciar quan "
-#~ "l'Evolution no s'estiga executant. Assegureu-vos d'alçar totes les dades "
-#~ "de les finestres obertes abans de continuar. Si voleu que l'Evolution "
-#~ "s'inicie automàticament un cop finalitzada la còpia de seguretat, "
-#~ "habiliteu el botó commutador."
-
-#~ msgid ""
-#~ "This will delete all your current Evolution data and settings and restore "
-#~ "them from your backup. Evolution restore can start only when Evolution is "
-#~ "not running. Please make sure that you close all your unsaved windows "
-#~ "before you proceed. If you want Evolution to restart automatically "
-#~ "restart after restore, please enable the toggle button."
-#~ msgstr ""
-#~ "Això farà que se suprimisquen totes les vostres dades i paràmetres de "
-#~ "l'Evolution, els quals es restauraran seguidament a partir de la còpia de "
-#~ "seguretat. La restauració només podrà iniciar-se si l'Evolution no s'està "
-#~ "executant. Assegureu-vos d'alçar totes les dades de les finestres obertes "
-#~ "abans de continuar. Si voleu que l'Evolution s'inicie automàticament un "
-#~ "cop finalitzada la restauració, habiliteu el botó commutador."
-
-#~ msgid "Check whether Evolution is the default mail client on startup."
-#~ msgstr ""
-#~ "Comprova si l'Evolution és el gestor de correu predeterminat en iniciar."
-
-#~ msgid "Default Mail Client"
-#~ msgstr "Client de correu predeterminat"
-
-#~ msgid "<b>Server</b>"
-#~ msgstr "<b>Servidor</b>"
-
-#~ msgid "<b>Users:</b>"
-#~ msgstr "<b>Usuaris:</b>"
-
-#~ msgid "<b>Account Name</b>"
-#~ msgstr "<b>Nom del compte</b>"
-
-#~ msgid "Add Hula support to Evolution."
-#~ msgstr "Afig compatibilitat amb Hula a l'Evolution."
-
-#~ msgid "Hula Support"
-#~ msgstr "Compatibilitat amb Hula"
-
-#~ msgid "_Accept"
-#~ msgstr "_Accepta"
-
-#~ msgid "Blink icon in notification area."
-#~ msgstr "Parpelleja la icona a l'àrea de notificació."
-
-#~ msgid "Whether the icon should blink or not."
-#~ msgstr "Si la icona ha de parpellejar o no."
-
-#~ msgid "B_link icon in notification area"
-#~ msgstr "Parpe_lleja la icona a l'àrea de notificació"
-
-#~ msgid "Guides you through your initial account setup."
-#~ msgstr "Vos guiarà a través de la configuració del vostre compte inicial."
-
-#~ msgid "Setup Assistant"
-#~ msgstr "Auxiliar de configuració"
-
-#~ msgid "Importing data."
-#~ msgstr "Importació de dades."
-
-#~ msgid "Please wait"
-#~ msgstr "Espereu"
-
 #~ msgid "%ld KB"
 #~ msgstr "%ld KB"
 
@@ -23068,7 +23113,7 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "Acció del commutador"
 
 #~ msgid "The switcher action for this shell view"
-#~ msgstr "L'acció del commutador per a esta visualització del Shell"
+#~ msgstr "L'acció del commutador per a aquesta visualització del Shell"
 
 #~ msgid "Page Number"
 #~ msgstr "Número de pàgina"
@@ -23083,7 +23128,7 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "Criteris dels resultats de la cerca actual"
 
 #~ msgid "The EShellBackend for this shell view"
-#~ msgstr "L'EShellBackend per a esta visualització del Shell"
+#~ msgstr "L'EShellBackend per a aquesta visualització del Shell"
 
 #~ msgid "Shell Content Widget"
 #~ msgstr "Giny de contingut del Shell"
@@ -23127,18 +23172,6 @@ msgstr "Mètodes d'entrada"
 #~ msgid "The current GAL view ID"
 #~ msgstr ""
 #~ "L'identificador de visualització de la llibreta d'adreces global actual"
-
-#~ msgid "GNOME Pilot is not installed."
-#~ msgstr "El GNOME Pilot no està instal·lat."
-
-#~ msgid "GNOME Pilot could not be run."
-#~ msgstr "No es pot executar el GNOME Pilot."
-
-#~ msgid "GNOME Pilot _Synchronization..."
-#~ msgstr "_Sincronització del GNOME Pilot..."
-
-#~ msgid "Set up GNOME Pilot configuration"
-#~ msgstr "Configura el GNOME Pilot"
 
 #~ msgid "Active Shell View"
 #~ msgstr "Visualització activa del Shell"
@@ -23206,11 +23239,14 @@ msgstr "Mètodes d'entrada"
 #~ msgid "Whether the shell is online"
 #~ msgstr "Si el Shell està en línia"
 
+#~ msgid "Shell Settings"
+#~ msgstr "Paràmetres del Shell"
+
+#~ msgid "Application-wide settings"
+#~ msgstr "Paràmetres de l'aplicació"
+
 #~ msgid "Forcibly re-migrate from Evolution 1.4"
 #~ msgstr "Força tornar a migrar des de l'Evolution 1.4"
-
-#~ msgid "Continue"
-#~ msgstr "Conté el valor"
 
 #~ msgid "Insufficient disk space for upgrade."
 #~ msgstr "Espai insuficient de disc per a l'actualització."
@@ -23233,11 +23269,11 @@ msgstr "Mètodes d'entrada"
 #~ "evolution&quot;.\n"
 #~ "\n"
 #~ "És recomanable que verifiqueu manualment que es conserven totes les "
-#~ "vostres adreces de correu, contactes i calendaris, i que esta versió de "
-#~ "l'Evolution funciona correctament abans de suprimir estes dades "
+#~ "vostres adreces de correu, contactes i calendaris, i que aquesta versió "
+#~ "de l'Evolution funciona correctament abans de suprimir aquestes dades "
 #~ "antigues.\n"
 #~ "\n"
-#~ "Una vegada que s'hagen suprimit, haureu d'efectuar modificacions "
+#~ "Una vegada que s'hagin suprimit, haureu d'efectuar modificacions "
 #~ "manualment si és que voleu tornar a instal·lar una versió antiga.\n"
 
 #~ msgid ""
@@ -23249,13 +23285,13 @@ msgstr "Mètodes d'entrada"
 #~ "keep this data, then you may manually remove the contents of &quot;"
 #~ "evolution&quot; at your convenience.\n"
 #~ msgstr ""
-#~ "La versió anterior de l'Evolution emmagatzemava les seues dades en una "
+#~ "La versió anterior de l'Evolution emmagatzemava les seves dades en una "
 #~ "ubicació diferent.\n"
 #~ "\n"
-#~ "Si escolliu suprimir estes dades, tots els continguts del directori &quot;"
-#~ "evolution&quot; se suprimiran permanentment. Si voleu conservar estes "
-#~ "dades, podeu suprimir el contingut de la carpeta «evolution» quan "
-#~ "vulgueu.\n"
+#~ "Si escolliu suprimir aquestes dades, tots els continguts del directori "
+#~ "&quot;evolution&quot; se suprimiran permanentment. Si voleu conservar "
+#~ "aquestes dades, podeu suprimir el contingut de la carpeta «evolution» "
+#~ "quan vulgueu.\n"
 
 #~ msgid ""
 #~ "Upgrading your data and settings will require up to {0} of disk space, "
@@ -23276,15 +23312,6 @@ msgstr "Mètodes d'entrada"
 #~ msgid "_Remind Me Later"
 #~ msgstr "_Recorda-m'ho després"
 
-#~ msgid "Edit"
-#~ msgstr "Edita"
-
-#~ msgid "Import"
-#~ msgstr "Importa"
-
-#~ msgid "View"
-#~ msgstr "Visualitza"
-
 #~ msgid "Collection"
 #~ msgstr "Col·lecció"
 
@@ -23300,9 +23327,6 @@ msgstr "Mètodes d'entrada"
 
 #~ msgid "A GtkRadioAction"
 #~ msgstr "Una GtkRadioAction"
-
-#~ msgid "Show _Attachment Bar"
-#~ msgstr "Mostra la barra _de fitxers adjunts"
 
 # gal/e-table/e-table-field-chooser.glade.h:1
 #~ msgid "Fill color"
@@ -23362,15 +23386,6 @@ msgstr "Mètodes d'entrada"
 
 #~ msgid "Keep the 2nd pane fixed during resize"
 #~ msgstr "Manté la segona subfinestra fixa en canviar la mida"
-
-#~ msgid "Sync with:"
-#~ msgstr "Sincronitza amb:"
-
-#~ msgid "Sync Private Records:"
-#~ msgstr "Sincronitza els registres privats:"
-
-#~ msgid "Sync Categories:"
-#~ msgstr "Categories de sincronització:"
 
 #~ msgid "Cursor Row"
 #~ msgstr "Fila del cursor"
@@ -23460,14 +23475,14 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "Cerca sempre"
 
 #~ msgid "Use click to add"
-#~ msgstr "Afig amb un clic"
+#~ msgstr "Afegeix amb un clic"
 
 #~ msgid "Vertical Row Spacing"
 #~ msgstr "Espaiat vertical de les files"
 
 #~ msgid ""
 #~ "Vertical space between rows. It is added to top and to bottom of a row"
-#~ msgstr "Espai vertical entre files. S'afig a sobre i a sota d'una fila"
+#~ msgstr "Espai vertical entre files. S'afegeix a sobre i a sota d'una fila"
 
 #~ msgid "ETree table adapter"
 #~ msgstr "Adaptador de taula ETree"
@@ -23483,18 +23498,6 @@ msgstr "Mètodes d'entrada"
 
 #~ msgid "Size of the expander arrow"
 #~ msgstr "Mida de la fletxa de l'expansor"
-
-#~ msgid "popup"
-#~ msgstr "emergent"
-
-#~ msgid "edit"
-#~ msgstr "edita"
-
-#~ msgid "toggle"
-#~ msgstr "commuta"
-
-#~ msgid "expand"
-#~ msgstr "expandeix"
 
 #~ msgid "Event Processor"
 #~ msgstr "Processador d'esdeveniments"
@@ -23574,12 +23577,6 @@ msgstr "Mètodes d'entrada"
 
 #~ msgid "Handle Popup"
 #~ msgstr "Menú emergent de l'ansa"
-
-#~ msgid "Check this to use system timezone in Evolution."
-#~ msgstr "Marqueu-ho per utilitzar el fus horari del sistema a l'Evolution."
-
-#~ msgid "New Tab"
-#~ msgstr "Pestanya nova"
 
 #~ msgid "Loading appointments at %s"
 #~ msgstr "S'estan carregant les cites a %s"
