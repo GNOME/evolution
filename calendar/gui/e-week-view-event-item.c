@@ -290,7 +290,7 @@ week_view_event_item_button_release (EWeekViewEventItem *event_item,
 
 static void
 week_view_draw_time (EWeekView *week_view,
-                     GdkDrawable *drawable,
+                     cairo_t *cr,
                      gint time_x,
                      gint time_y,
                      gint hour,
@@ -298,7 +298,6 @@ week_view_draw_time (EWeekView *week_view,
 {
 	ECalModel *model;
 	GtkStyle *style;
-	GdkGC *gc;
 	gint hour_to_display, suffix_width;
 	gint time_y_normal_font, time_y_small_font;
 	const gchar *suffix;
@@ -306,13 +305,14 @@ week_view_draw_time (EWeekView *week_view,
 	PangoLayout *layout;
 	PangoFontDescription *small_font_desc;
 
+        cairo_save (cr);
+
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 
 	style = gtk_widget_get_style (GTK_WIDGET (week_view));
 	small_font_desc = week_view->small_font_desc;
-	gc = week_view->main_gc;
 
-	gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT]);
+	gdk_cairo_set_source_color (cr, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT]);
 
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), NULL);
 
@@ -330,16 +330,16 @@ week_view_draw_time (EWeekView *week_view,
 		/* Draw the hour. */
 		if (hour_to_display < 10) {
 			pango_layout_set_text (layout, buffer + 1, 1);
-			gdk_draw_layout (drawable, gc,
-					 time_x + week_view->digit_width,
-					 time_y_normal_font,
-					 layout);
+                        cairo_move_to (cr, 
+                                       time_x + week_view->digit_width,
+                                       time_y_normal_font);
+                        pango_cairo_show_layout (cr, layout);
 		} else {
 			pango_layout_set_text (layout, buffer, 2);
-			gdk_draw_layout (drawable, gc,
-					 time_x,
-					 time_y_normal_font,
-					 layout);
+                        cairo_move_to (cr, 
+                                       time_x,
+                                       time_y_normal_font);
+                        pango_cairo_show_layout (cr, layout);
 		}
 
 		time_x += week_view->digit_width * 2;
@@ -347,10 +347,10 @@ week_view_draw_time (EWeekView *week_view,
 		/* Draw the start minute, in the small font. */
 		pango_layout_set_font_description (layout, week_view->small_font_desc);
 		pango_layout_set_text (layout, buffer + 3, 2);
-		gdk_draw_layout (drawable, gc,
-				 time_x,
-				 time_y_small_font,
-				 layout);
+                cairo_move_to (cr, 
+                               time_x,
+                               time_y_small_font);
+                pango_cairo_show_layout (cr, layout);
 
 		pango_layout_set_font_description (layout, style->font_desc);
 
@@ -360,10 +360,10 @@ week_view_draw_time (EWeekView *week_view,
 		if (!e_cal_model_get_use_24_hour_format (model)) {
 			pango_layout_set_text (layout, suffix, -1);
 
-			gdk_draw_layout (drawable, gc,
-					 time_x,
-					 time_y_normal_font,
-					 layout);
+                        cairo_move_to (cr, 
+                                       time_x,
+                                       time_y_normal_font);
+                        pango_cairo_show_layout (cr, layout);
 		}
 	} else {
 		/* Draw the start time in one go. */
@@ -371,20 +371,22 @@ week_view_draw_time (EWeekView *week_view,
 			    hour_to_display, minute, suffix);
 		if (hour_to_display < 10) {
 			pango_layout_set_text (layout, buffer + 1, -1);
-			gdk_draw_layout (drawable, gc,
-					 time_x + week_view->digit_width,
-					 time_y_normal_font,
-					 layout);
+                        cairo_move_to (cr,
+                                       time_x + week_view->digit_width,
+                                       time_y_normal_font);
+                        pango_cairo_show_layout (cr, layout);
 		} else {
 			pango_layout_set_text (layout, buffer, -1);
-			gdk_draw_layout (drawable, gc,
-					 time_x,
-					 time_y_normal_font,
-					 layout);
+                        cairo_move_to (cr,
+                                       time_x,
+                                       time_y_normal_font);
+                        pango_cairo_show_layout (cr, layout);
 		}
 
 	}
 	g_object_unref (layout);
+
+        cairo_restore (cr);
 }
 
 static void
@@ -401,7 +403,6 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 	ECalComponent *comp;
 	GnomeCanvas *canvas;
 	GtkWidget *parent;
-	GdkGC *gc;
 	gint num_icons = 0, icon_x_inc;
 	gboolean draw_reminder_icon = FALSE, draw_recurrence_icon = FALSE;
 	gboolean draw_timezone_icon = FALSE, draw_attach_icon = FALSE;
@@ -426,7 +427,6 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 	e_cal_component_set_icalcomponent (
 		comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
-	gc = week_view->main_gc;
 	cr = gdk_cairo_create (drawable);
 
 	if (e_cal_component_has_alarms (comp)) {
@@ -508,7 +508,6 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 
 	cairo_destroy (cr);
 	g_object_unref (comp);
-	gdk_gc_set_clip_mask (gc, NULL);
 }
 
 /* This draws a little triangle to indicate that an event extends past
@@ -719,7 +718,6 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
 	ECalModel *model;
-	GdkGC *gc;
 	GtkWidget *parent;
 	gint x1, y1, x2, y2, time_x, time_y;
 	gint icon_x, icon_y, time_width, min_end_time_x, max_icon_x;
@@ -728,7 +726,6 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 	gint start_hour, start_minute, end_hour, end_minute;
 	gboolean draw_start, draw_end;
 	gboolean draw_start_triangle = FALSE, draw_end_triangle = FALSE;
-	GdkRectangle clip_rect;
 	GdkColor bg_color;
 	cairo_t *cr;
 	cairo_pattern_t *pat;
@@ -772,8 +769,6 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 	span = &g_array_index (
 		week_view->spans, EWeekViewEventSpan,
 		event->spans_index + event_item->priv->span_num);
-
-	gc = week_view->main_gc;
 
 	x1 = canvas_item->x1 - x;
 	y1 = canvas_item->y1 - y;
@@ -912,7 +907,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 		if (draw_start) {
 			week_view_draw_time (
-				week_view, drawable, time_x,
+				week_view, cr, time_x,
 				time_y, start_hour, start_minute);
 			time_x += time_width;
 		}
@@ -920,7 +915,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 		if (draw_end) {
 			time_x += E_WEEK_VIEW_EVENT_TIME_SPACING;
 			week_view_draw_time (
-				week_view, drawable, time_x,
+				week_view, cr, time_x,
 				time_y, end_hour, end_minute);
 			time_x += time_width;
 		}
@@ -1065,20 +1060,20 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 				+ E_WEEK_VIEW_EVENT_BORDER_WIDTH
 				+ E_WEEK_VIEW_EVENT_EDGE_X_PAD;
 
-			clip_rect.x = x1;
-			clip_rect.y = y1;
-			clip_rect.width = x2 - x1 - E_WEEK_VIEW_EVENT_R_PAD
-				- E_WEEK_VIEW_EVENT_BORDER_WIDTH + 1;
-			clip_rect.height = y2 - y1 + 1;
-			gdk_gc_set_clip_rectangle (gc, &clip_rect);
+                        cairo_save (cr);
 
-			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT]);
+                        cairo_rectangle (cr,
+                                         x1, y1,
+			                 x2 - x1 - E_WEEK_VIEW_EVENT_R_PAD
+				          - E_WEEK_VIEW_EVENT_BORDER_WIDTH + 1,
+			                 y2 - y1 + 1);
+                        cairo_clip (cr);
 
 			week_view_draw_time (
-				week_view, drawable, time_x,
+				week_view, cr, time_x,
 				time_y, start_hour, start_minute);
 
-			gdk_gc_set_clip_rectangle (gc, NULL);
+                        cairo_restore (cr);
 
 			/* We don't want the end time to be drawn over the
 			   start time, so we increase the minimum position. */
@@ -1103,7 +1098,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			   the minimum calculated above. */
 			if (time_x >= min_end_time_x) {
 				week_view_draw_time (
-					week_view, drawable, time_x,
+					week_view, cr, time_x,
 					time_y, end_hour, end_minute);
 				max_icon_x -= time_width
 					+ E_WEEK_VIEW_EVENT_TIME_X_PAD;
