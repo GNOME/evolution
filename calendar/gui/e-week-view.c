@@ -99,8 +99,6 @@ static gint e_week_view_focus_in (GtkWidget *widget,
 				  GdkEventFocus *event);
 static gint e_week_view_focus_out (GtkWidget *widget,
 				   GdkEventFocus *event);
-static gint e_week_view_expose_event (GtkWidget *widget,
-				      GdkEventExpose *event);
 static gboolean e_week_view_get_next_tab_event (EWeekView *week_view,
 						GtkDirectionType direction,
 						gint current_event_num,
@@ -115,7 +113,6 @@ static void e_week_view_set_selected_time_range (ECalendarView *cal_view, time_t
 static gboolean e_week_view_get_visible_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
 static void e_week_view_paste_text (ECalendarView *week_view);
 static void e_week_view_update_query (EWeekView *week_view);
-static void e_week_view_draw_shadow (EWeekView *week_view);
 
 static gboolean e_week_view_on_button_press (GtkWidget *widget,
 					     GdkEventButton *event,
@@ -664,7 +661,6 @@ e_week_view_class_init (EWeekViewClass *class)
 	widget_class->focus_out_event = e_week_view_focus_out;
 	widget_class->key_press_event = e_week_view_key_press;
 	widget_class->popup_menu = e_week_view_popup_menu;
-	widget_class->expose_event = e_week_view_expose_event;
 	widget_class->focus = e_week_view_focus;
 
 	view_class = E_CALENDAR_VIEW_CLASS (class);
@@ -1416,23 +1412,6 @@ e_week_view_focus_out (GtkWidget *widget, GdkEventFocus *event)
 	return FALSE;
 }
 
-/* This draws a shadow around the top display and main display. */
-static gint
-e_week_view_expose_event (GtkWidget *widget,
-			  GdkEventExpose *event)
-{
-	EWeekView *week_view;
-
-	week_view = E_WEEK_VIEW (widget);
-
-	e_week_view_draw_shadow (week_view);
-
-	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->expose_event)
-		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->expose_event)(widget, event);
-
-	return FALSE;
-}
-
 /**
  * e_week_view_get_next_tab_event
  * @week_view: the week_view widget operate on
@@ -1635,34 +1614,6 @@ e_week_view_update_query (EWeekView *week_view)
 		}
 		week_view_process_component (week_view, comp_data);
 	}
-}
-
-static void
-e_week_view_draw_shadow (EWeekView *week_view)
-{
-	GtkAllocation allocation;
-	gint x1, y1, x2, y2;
-	GtkStyle *style;
-	GdkGC *light_gc, *dark_gc;
-	GdkWindow *window;
-
-	gtk_widget_get_allocation (week_view->main_canvas, &allocation);
-
-	/* Draw the shadow around the graphical displays. */
-	x1 = allocation.x - 1;
-	y1 = allocation.y - 1;
-	x2 = x1 + allocation.width + 2;
-	y2 = y1 + allocation.height + 2;
-
-	style = gtk_widget_get_style (GTK_WIDGET (week_view));
-	dark_gc = style->dark_gc[GTK_STATE_NORMAL];
-	light_gc = style->light_gc[GTK_STATE_NORMAL];
-
-	window = gtk_widget_get_window (GTK_WIDGET (week_view));
-	gdk_draw_line (window, dark_gc, x1, y1, x1, y2);
-	gdk_draw_line (window, dark_gc, x1, y1, x2, y1);
-	gdk_draw_line (window, light_gc, x2, y1, x2, y2);
-	gdk_draw_line (window, light_gc, x1, y2, x2, y2);
 }
 
 /* This sets the selected time range. The EWeekView will show the corresponding
