@@ -65,11 +65,12 @@ libgnomecanvas_la_SOURCES =			\
 	gnome-canvas.c				\
 	libgnomecanvastypes.c
 
+include $(top_srcdir)/glib-gen.mak
+glib_enum_prefix=gnome_canvas
+
 MARSHAL_GENERATED =				\
 	gnome-canvas-marshal.c			\
 	gnome-canvas-marshal.h
-
-@EVO_MARSHAL_RULE@
 
 libgnomecanvas_la_LIBADD = \
 	$(top_builddir)/libart_lgpl/libart_lgpl.la	\

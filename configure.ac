@@ -1112,10 +1112,6 @@ dnl GObject marshalling
 dnl *******************
 AM_PATH_GLIB_2_0
 
-dnl We use AC_SUBST_FILE because AC_SUBST won't deal with newlines
-EVO_MARSHAL_RULE=$srcdir/marshal.mk
-AC_SUBST_FILE(EVO_MARSHAL_RULE)
-
 dnl *****************************************************************
 dnl Utility macro to set compiler flags for a specific lib.
 dnl EVO_SET_COMPILE_FLAGS(VAR-PREFIX, DEPS, EXTRA-CFLAGS, EXTRA-LIBS)
