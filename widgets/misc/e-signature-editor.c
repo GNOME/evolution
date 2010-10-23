@@ -323,9 +323,34 @@ signature_editor_finalize (GObject *object)
 }
 
 static void
+signature_editor_cut_clipboard (GtkhtmlEditor *editor)
+{
+	/* Do nothing.  EFocusTracker handles this. */
+}
+
+static void
+signature_editor_copy_clipboard (GtkhtmlEditor *editor)
+{
+	/* Do nothing.  EFocusTracker handles this. */
+}
+
+static void
+signature_editor_paste_clipboard (GtkhtmlEditor *editor)
+{
+	/* Do nothing.  EFocusTracker handles this. */
+}
+
+static void
+signature_editor_select_all (GtkhtmlEditor *editor)
+{
+	/* Do nothing.  EFocusTracker handles this. */
+}
+
+static void
 e_signature_editor_class_init (ESignatureEditorClass *class)
 {
 	GObjectClass *object_class;
+	GtkhtmlEditorClass *editor_class;
 
 	g_type_class_add_private (class, sizeof (ESignatureEditorPrivate));
 
@@ -334,6 +359,12 @@ e_signature_editor_class_init (ESignatureEditorClass *class)
 	object_class->get_property = signature_editor_get_property;
 	object_class->dispose = signature_editor_dispose;
 	object_class->finalize = signature_editor_finalize;
+
+	editor_class = GTKHTML_EDITOR_CLASS (class);
+	editor_class->cut_clipboard = signature_editor_cut_clipboard;
+	editor_class->copy_clipboard = signature_editor_copy_clipboard;
+	editor_class->paste_clipboard = signature_editor_paste_clipboard;
+	editor_class->select_all = signature_editor_select_all;
 
 	g_object_class_install_property (
 		object_class,
