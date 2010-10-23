@@ -61,7 +61,6 @@ MARSHAL_GENERATED =				\
 @EVO_MARSHAL_RULE@
 
 libgnomecanvas_la_LIBADD = \
-	$(top_builddir)/libart_lgpl/libart_lgpl.la	\
 	$(GNOME_PLATFORM_LIBS)
 
 libgnomecanvas_la_LDFLAGS = $(NO_UNDEFINED)

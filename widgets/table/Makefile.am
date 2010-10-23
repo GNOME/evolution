@@ -173,7 +173,6 @@ libetable_la_LIBADD =						\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/widgets/text/libetext.la		\
 	$(top_builddir)/libgnomecanvas/libgnomecanvas.la	\
-	$(top_builddir)/libart_lgpl/libart_lgpl.la		\
 	$(E_UTIL_LIBS)						\
 	$(E_WIDGETS_LIBS)					\
 	$(MATH_LIB)						\

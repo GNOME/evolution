@@ -12,6 +12,26 @@
 #define gtk_combo_box_text_get_active_text	gtk_combo_box_get_active_text
 #define GTK_COMBO_BOX_TEXT			GTK_COMBO_BOX
 #define GtkComboBoxText				GtkComboBox
+
+static inline gint
+gdk_window_get_width (GdkWindow *window)
+{
+	gint width, height;
+
+	gdk_drawable_get_size (GDK_DRAWABLE (window), &width, &height);
+
+	return width;
+}
+
+static inline gint
+gdk_window_get_height (GdkWindow *window)
+{
+	gint width, height;
+
+	gdk_drawable_get_size (GDK_DRAWABLE (window), &width, &height);
+
+	return height;
+}
 #endif
 
 #if GTK_CHECK_VERSION (2,23,0)

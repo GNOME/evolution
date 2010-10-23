@@ -24,6 +24,9 @@
 #include "gailcanvasitem.h"
 #include <libgail-util/gailmisc.h>
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 static void       gail_canvas_item_initialize               (AtkObject         *obj,
 							     gpointer          data);
 static AtkObject* gail_canvas_item_get_parent               (AtkObject         *obj);
@@ -398,7 +401,8 @@ is_item_in_window (GnomeCanvasItem    *item,
       
       window_rect.x = 0;
       window_rect.y = 0;
-      gdk_drawable_get_size (window, &window_rect.width, &window_rect.height);
+      window_rect.width = gdk_window_get_width (window);
+      window_rect.height = gdk_window_get_height (window);
 
       retval = gdk_rectangle_intersect (extents, &window_rect, NULL);
     }
