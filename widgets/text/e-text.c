@@ -3231,14 +3231,14 @@ e_text_class_init (ETextClass *klass)
 							      "Fill color",
 							      "Fill color",
 							      NULL,
-							      G_PARAM_READABLE));
+							      G_PARAM_WRITABLE));
 
 	g_object_class_install_property (gobject_class, PROP_FILL_COLOR_GDK,
 					 g_param_spec_boxed ("fill_color_gdk",
 							     "GDK fill color",
 							     "GDK fill color",
 							     GDK_TYPE_COLOR,
-							     G_PARAM_READABLE));
+							     G_PARAM_WRITABLE));
 
 	g_object_class_install_property (gobject_class, PROP_FILL_COLOR_RGBA,
 					 g_param_spec_uint ("fill_color_rgba",
