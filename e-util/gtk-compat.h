@@ -33,6 +33,25 @@
 	static void gtk_combo_box_text_init (GtkComboBoxText *cbt) {}		\
 	static void gtk_combo_box_text_class_init (GtkComboBoxTextClass *kl) {}
 
+static inline gint
+gdk_window_get_width (GdkWindow *window)
+{
+	gint width, height;
+
+	gdk_drawable_get_size (GDK_DRAWABLE (window), &width, &height);
+
+	return width;
+}
+
+static inline gint
+gdk_window_get_height (GdkWindow *window)
+{
+	gint width, height;
+
+	gdk_drawable_get_size (GDK_DRAWABLE (window), &width, &height);
+
+	return height;
+}
 #endif
 
 #if GTK_CHECK_VERSION (2,23,0)
