@@ -76,6 +76,26 @@ ecb_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdoubl
 }
 
 static void
+ecb_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags)
+{
+	gdouble x1, y1, x2, y2;
+
+	x1 = item->x1;
+	y1 = item->y1;
+	x2 = item->x2;
+	y2 = item->y2;
+
+	/* The bounds are all constants so we should only have to
+	 * redraw once. */
+	ecb_bounds (item, &item->x1, &item->y1, &item->x2, &item->y2);
+
+	if (item->x1 != x1 || item->y1 != y1 ||
+	    item->x2 != x2 || item->y2 != y2)
+		gnome_canvas_request_redraw (
+			item->canvas, item->x1, item->y1, item->x2, item->y2);
+}
+
+static void
 ecb_dispose (GObject *object)
 {
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (object);
@@ -217,6 +237,7 @@ ecb_class_init (ECanvasBackgroundClass *ecb_class)
 	object_class->set_property  = ecb_set_property;
 	object_class->get_property  = ecb_get_property;
 
+	item_class->update          = ecb_update;
 	item_class->draw            = ecb_draw;
 	item_class->point           = ecb_point;
 	item_class->bounds          = ecb_bounds;
