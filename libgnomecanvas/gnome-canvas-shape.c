@@ -223,6 +223,8 @@ gnome_canvas_shape_set_path (GnomeCanvasShape *shape, cairo_path_t *path)
 		cairo_path_destroy (priv->path);
 		priv->path = NULL;
 	}
+
+	priv->path = path;
 }
 
 static guint32
