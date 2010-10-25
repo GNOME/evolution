@@ -62,26 +62,37 @@ typedef struct {
 	gfloat max;
 } timespan;
 
-#ifdef ngettext
-#undef ngettext
+#if 0
+
+/* Don't delete this code, since it is needed so that xgettext can extract the translations.
+ * Please, keep these strings in sync with the strings in the timespans array */
+
+	ngettext("1 second ago", "%d seconds ago", 1);
+	ngettext("1 second in the future", "%d seconds in the future", 1);
+	ngettext("1 minute ago", "%d minutes ago", 1);
+	ngettext("1 minute in the future", "%d minutes in the future", 1);
+	ngettext("1 hour ago", "%d hours ago", 1);
+	ngettext("1 hour in the future", "%d hours in the future", 1);
+	ngettext("1 day ago", "%d days ago", 1);
+	ngettext("1 day in the future", "%d days in the future", 1);
+	ngettext("1 week ago", "%d weeks ago", 1);
+	ngettext("1 week in the future", "%d weeks in the future", 1)
+	ngettext("1 month ago", "%d months ago", 1);
+	ngettext("1 month in the future", "%d months in the future", 1);
+	ngettext("1 year ago", "%d years ago", 1);
+	ngettext("1 year in the future", "%d years in the future", 1);
+
 #endif
 
-/* This is a nasty hack trying to keep both ngettext function and xgettext tool happy */
-/* It *will* cause problems if ngettext is a macro */
-#define ngettext(a, b)  a, b
-
 static const timespan timespans[] = {
-	{ 1, ngettext("1 second ago", "%d seconds ago"), ngettext("1 second in the future", "%d seconds in the future"), 59.0 },
-	{ 60, ngettext("1 minute ago", "%d minutes ago"), ngettext("1 minute in the future", "%d minutes in the future"), 59.0 },
-	{ 3600, ngettext("1 hour ago", "%d hours ago"), ngettext("1 hour in the future", "%d hours in the future"), 23.0 },
-	{ 86400, ngettext("1 day ago", "%d days ago"), ngettext("1 day in the future", "%d days in the future"), 31.0 },
-	{ 604800, ngettext("1 week ago", "%d weeks ago"), ngettext("1 week in the future", "%d weeks in the future"), 52.0 },
-	{ 2419200, ngettext("1 month ago", "%d months ago"), ngettext("1 month in the future", "%d months in the future"), 12.0 },
-	{ 31557600, ngettext("1 year ago", "%d years ago"), ngettext("1 year in the future", "%d years in the future"), 1000.0 },
+	{ 1, "1 second ago", "%d seconds ago", "1 second in the future", "%d seconds in the future", 59.0 },
+	{ 60, "1 minute ago", "%d minutes ago", "1 minute in the future", "%d minutes in the future", 59.0 },
+	{ 3600, "1 hour ago", "%d hours ago", "1 hour in the future", "%d hours in the future", 23.0 },
+	{ 86400, "1 day ago", "%d days ago", "1 day in the future", "%d days in the future", 31.0 },
+	{ 604800, "1 week ago", "%d weeks ago", "1 week in the future", "%d weeks in the future", 52.0 },
+	{ 2419200, "1 month ago", "%d months ago", "1 month in the future", "%d months in the future", 12.0 },
+	{ 31557600, "1 year ago", "%d years ago", "1 year in the future", "%d years in the future", 1000.0 },
 };
-
-/* now we let the compiler see the real function call */
-#undef ngettext
 
 #define DAY_INDEX 3
 
