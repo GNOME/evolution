@@ -534,50 +534,6 @@ get_bounds (EText *text, gdouble *px1, gdouble *py1, gdouble *px2, gdouble *py2)
 	text->clip_cwidth = clip_width * item->canvas->pixels_per_unit;
 	text->clip_cheight = clip_height * item->canvas->pixels_per_unit;
 
-	/* Anchor text */
-
-	switch (text->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_SW:
-		break;
-
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_S:
-		text->cx -= text->width / 2;
-		text->clip_cx -= text->clip_cwidth / 2;
-		break;
-
-	case GTK_ANCHOR_NE:
-	case GTK_ANCHOR_E:
-	case GTK_ANCHOR_SE:
-		text->cx -= text->width;
-		text->clip_cx -= text->clip_cwidth;
-		break;
-	}
-
-	switch (text->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_NE:
-		break;
-
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_E:
-		text->cy -= text->height / 2;
-		text->clip_cy -= text->clip_cheight / 2;
-		break;
-
-	case GTK_ANCHOR_SW:
-	case GTK_ANCHOR_S:
-	case GTK_ANCHOR_SE:
-		text->cy -= text->height;
-		text->clip_cy -= text->clip_cheight;
-		break;
-	}
-
 	text->text_cx = text->cx;
 	text->text_cy = text->cy;
 
@@ -741,12 +697,6 @@ e_text_set_property (GObject *object,
 	case PROP_STRIKEOUT:
 		text->strikeout = g_value_get_boolean (value);
 		text->needs_redraw = 1;
-		needs_update = 1;
-		break;
-
-	case PROP_ANCHOR:
-		text->anchor = g_value_get_enum (value);
-		text->needs_recalc_bounds = 1;
 		needs_update = 1;
 		break;
 
@@ -1011,10 +961,6 @@ e_text_get_property (GObject *object,
 
 	case PROP_STRIKEOUT:
 		g_value_set_boolean (value, text->strikeout);
-		break;
-
-	case PROP_ANCHOR:
-		g_value_set_enum (value, text->anchor);
 		break;
 
 	case PROP_JUSTIFICATION:
@@ -1646,44 +1592,6 @@ e_text_bounds (GnomeCanvasItem *item,
 
 	width = width / item->canvas->pixels_per_unit;
 	height = height / item->canvas->pixels_per_unit;
-
-	switch (text->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_SW:
-		break;
-
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_S:
-		*x1 -= width / 2.0;
-		break;
-
-	case GTK_ANCHOR_NE:
-	case GTK_ANCHOR_E:
-	case GTK_ANCHOR_SE:
-		*x1 -= width;
-		break;
-	}
-
-	switch (text->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_NE:
-		break;
-
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_E:
-		*y1 -= height / 2.0;
-		break;
-
-	case GTK_ANCHOR_SW:
-	case GTK_ANCHOR_S:
-	case GTK_ANCHOR_SE:
-		*y1 -= height;
-		break;
-	}
 
 	*x2 = *x1 + width;
 	*y2 = *y1 + height;
@@ -3269,13 +3177,6 @@ e_text_class_init (ETextClass *klass)
 							       FALSE,
 							       G_PARAM_READWRITE));
 
-	g_object_class_install_property (gobject_class, PROP_ANCHOR,
-					 g_param_spec_enum ("anchor",
-							    "Anchor",
-							    "Anchor",
-							    GTK_TYPE_ANCHOR_TYPE, GTK_ANCHOR_CENTER,
-							    G_PARAM_READWRITE));
-
 	g_object_class_install_property (gobject_class, PROP_JUSTIFICATION,
 					 g_param_spec_enum ("justification",
 							    "Justification",
@@ -3494,7 +3395,6 @@ e_text_init (EText *text)
 				  G_CALLBACK (e_text_text_model_reposition),
 				  text);
 
-	text->anchor                  = GTK_ANCHOR_CENTER;
 	text->justification           = GTK_JUSTIFY_LEFT;
 	text->clip_width              = -1.0;
 	text->clip_height             = -1.0;

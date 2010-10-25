@@ -43,7 +43,6 @@ enum {
 	PROP_Y,
 	PROP_WIDTH,
 	PROP_HEIGHT,
-	PROP_ANCHOR,
 	PROP_SIZE_PIXELS
 };
 
@@ -154,13 +153,6 @@ gnome_canvas_widget_class_init (GnomeCanvasWidgetClass *class)
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
         g_object_class_install_property
                 (gobject_class,
-                 PROP_ANCHOR,
-                 g_param_spec_enum ("anchor", NULL, NULL,
-                                    GTK_TYPE_ANCHOR_TYPE,
-                                    GTK_ANCHOR_NW,
-                                    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property
-                (gobject_class,
                  PROP_SIZE_PIXELS,
                  g_param_spec_boolean ("size_pixels", NULL, NULL,
 				       FALSE,
@@ -193,7 +185,6 @@ gnome_canvas_widget_init (GnomeCanvasWidget *witem)
 	witem->y = 0.0;
 	witem->width = 0.0;
 	witem->height = 0.0;
-	witem->anchor = GTK_ANCHOR_NW;
 	witem->size_pixels = FALSE;
 }
 
@@ -234,52 +225,6 @@ recalc_bounds (GnomeCanvasWidget *witem)
 	/* Get canvas pixel coordinates */
 
 	gnome_canvas_w2c (item->canvas, wx, wy, &witem->cx, &witem->cy);
-
-	/* Anchor widget item */
-
-	switch (witem->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_SW:
-		break;
-
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_S:
-		witem->cx -= witem->cwidth / 2;
-		break;
-
-	case GTK_ANCHOR_NE:
-	case GTK_ANCHOR_E:
-	case GTK_ANCHOR_SE:
-		witem->cx -= witem->cwidth;
-		break;
-
-        default:
-                break;
-	}
-
-	switch (witem->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_NE:
-		break;
-
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_E:
-		witem->cy -= witem->cheight / 2;
-		break;
-
-	case GTK_ANCHOR_SW:
-	case GTK_ANCHOR_S:
-	case GTK_ANCHOR_SE:
-		witem->cy -= witem->cheight;
-		break;
-
-        default:
-                break;
-	}
 
 	/* Bounds */
 
@@ -366,14 +311,6 @@ gnome_canvas_widget_set_property (GObject            *object,
 		}
 		break;
 
-	case PROP_ANCHOR:
-		if (witem->anchor != g_value_get_enum (value))
-		{
-			witem->anchor = g_value_get_enum (value);
-			update = TRUE;
-		}
-		break;
-
 	case PROP_SIZE_PIXELS:
 		if (witem->size_pixels != g_value_get_boolean (value))
 		{
@@ -426,10 +363,6 @@ gnome_canvas_widget_get_property (GObject            *object,
 
 	case PROP_HEIGHT:
 		g_value_set_double (value, witem->height);
-		break;
-
-	case PROP_ANCHOR:
-		g_value_set_enum (value, witem->anchor);
 		break;
 
 	case PROP_SIZE_PIXELS:
@@ -524,50 +457,6 @@ gnome_canvas_widget_bounds (GnomeCanvasItem *item,
 
 	*x1 = witem->x;
 	*y1 = witem->y;
-
-	switch (witem->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_SW:
-		break;
-
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_S:
-		*x1 -= witem->width / 2.0;
-		break;
-
-	case GTK_ANCHOR_NE:
-	case GTK_ANCHOR_E:
-	case GTK_ANCHOR_SE:
-		*x1 -= witem->width;
-		break;
-
-        default:
-                break;
-	}
-
-	switch (witem->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_NE:
-		break;
-
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_E:
-		*y1 -= witem->height / 2.0;
-		break;
-
-	case GTK_ANCHOR_SW:
-	case GTK_ANCHOR_S:
-	case GTK_ANCHOR_SE:
-		*y1 -= witem->height;
-		break;
-
-        default:
-                break;
-	}
 
 	*x2 = *x1 + witem->width;
 	*y2 = *y1 + witem->height;

@@ -75,7 +75,6 @@ G_BEGIN_DECLS
  * size_points		gdouble			RW		Size (in points) of font
  * scale                gdouble                  RW              Ratio to scale font		[*]
  *
- * anchor		GtkAnchorType		RW		Anchor side for the text
  * justification	GtkJustification	RW		Justification for multiline text
  * clip_width		gdouble			RW		Width of clip rectangle
  * clip_height		gdouble			RW		Height of clip rectangle
@@ -123,7 +122,6 @@ struct _GnomeCanvasText {
 
 	gdouble affine[6];               /* The item -> canvas affine */ /*AA*/
 
-	GtkAnchorType anchor;		/* Anchor side for text */
 	GtkJustification justification;	/* Justification for text */
 
 	gint cx, cy;			/* Top-left canvas coordinates for text */

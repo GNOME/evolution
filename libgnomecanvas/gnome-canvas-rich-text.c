@@ -58,7 +58,6 @@ struct _GnomeCanvasRichTextPrivate {
 	GtkWrapMode wrap_mode;
 	GtkJustification justification;
 	GtkTextDirection direction;
-	GtkAnchorType anchor;
 	gint pixels_above_lines;
 	gint pixels_below_lines;
 	gint pixels_inside_wrap;
@@ -313,15 +312,6 @@ gnome_canvas_rich_text_class_init (GnomeCanvasRichTextClass *klass)
 				   G_PARAM_READWRITE));
 	g_object_class_install_property (
 		gobject_class,
-		PROP_ANCHOR,
-		g_param_spec_enum ("anchor",
-				   "Anchor",
-				   "Anchor point for text",
-				   GTK_TYPE_ANCHOR_TYPE,
-				   GTK_ANCHOR_NW,
-				   G_PARAM_READWRITE));
-	g_object_class_install_property (
-		gobject_class,
 		PROP_PIXELS_ABOVE_LINES,
 		g_param_spec_int ("pixels_above_lines",
 				  "Pixels Above Lines",
@@ -414,7 +404,6 @@ gnome_canvas_rich_text_init (GnomeCanvasRichText *text)
 	text->_priv->wrap_mode = GTK_WRAP_WORD;
 	text->_priv->justification = GTK_JUSTIFY_LEFT;
 	text->_priv->direction = gtk_widget_get_default_direction ();
-	text->_priv->anchor = GTK_ANCHOR_NW;
 
 	text->_priv->blink_timeout = 0;
 	text->_priv->preblink_timeout = 0;
@@ -527,9 +516,6 @@ gnome_canvas_rich_text_set_property (GObject *object, guint property_id,
 			gtk_text_layout_default_style_changed (text->_priv->layout);
 		}
 		break;
-	case PROP_ANCHOR:
-		text->_priv->anchor = g_value_get_enum (value);
-		break;
 	case PROP_PIXELS_ABOVE_LINES:
 		text->_priv->pixels_above_lines = g_value_get_int (value);
 
@@ -634,9 +620,6 @@ gnome_canvas_rich_text_get_property (GObject *object, guint property_id,
 		break;
 	case PROP_DIRECTION:
 		g_value_set_enum (value, text->_priv->direction);
-		break;
-	case PROP_ANCHOR:
-		g_value_set_enum (value, text->_priv->anchor);
 		break;
 	case PROP_PIXELS_ABOVE_LINES:
 		g_value_set_enum (value, text->_priv->pixels_above_lines);
@@ -1965,65 +1948,6 @@ gnome_canvas_rich_text_destroy_layout (GnomeCanvasRichText *text)
 } /* gnome_canvas_rich_text_destroy_layout */
 
 static void
-adjust_for_anchors (GnomeCanvasRichText *text, gdouble *ax, gdouble *ay)
-{
-	gdouble x, y;
-
-	x = text->_priv->x;
-	y = text->_priv->y;
-
-	/* Anchor text */
-	/* X coordinates */
-	switch (text->_priv->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_SW:
-		break;
-
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_S:
-		x -= text->_priv->width / 2;
-		break;
-
-	case GTK_ANCHOR_NE:
-	case GTK_ANCHOR_E:
-	case GTK_ANCHOR_SE:
-		x -= text->_priv->width;
-		break;
-	default:
-		break;
-	}
-
-	/* Y coordinates */
-	switch (text->_priv->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_NE:
-		break;
-
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_E:
-		y -= text->_priv->height / 2;
-		break;
-
-	case GTK_ANCHOR_SW:
-	case GTK_ANCHOR_S:
-	case GTK_ANCHOR_SE:
-		y -= text->_priv->height;
-		break;
-	default:
-		break;
-	}
-
-	if (ax)
-		*ax = x;
-	if (ay)
-		*ay = y;
-} /* adjust_for_anchors */
-
-static void
 get_bounds (GnomeCanvasRichText *text, gdouble *px1, gdouble *py1,
 	   gdouble *px2, gdouble *py2)
 {
@@ -2032,7 +1956,8 @@ get_bounds (GnomeCanvasRichText *text, gdouble *px1, gdouble *py1,
 	gdouble x1, x2, y1, y2;
 	gint cx1, cx2, cy1, cy2;
 
-	adjust_for_anchors (text, &x, &y);
+	x = text->_priv->x;
+	y = text->_priv->y;
 
 	x1 = x;
 	y1 = y;
@@ -2092,7 +2017,8 @@ gnome_canvas_rich_text_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 
 	/* This is a lame cop-out. Anywhere inside of the bounding box. */
 
-	adjust_for_anchors (text, &ax, &ay);
+	ax = text->_priv->x;
+	ay = text->_priv->y;
 
 	x1 = ax;
 	y1 = ay;
@@ -2118,7 +2044,8 @@ gnome_canvas_rich_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
         gnome_canvas_item_i2c_matrix (item, &i2c);
 
-	adjust_for_anchors (text, &ax, &ay);
+	ax = text->_priv->x;
+	ay = text->_priv->y;
 	ax2 = ax + text->_priv->width;
 	ay2 = ay + text->_priv->height;
 
