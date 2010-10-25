@@ -33,7 +33,7 @@
 G_DEFINE_TYPE (
 	EPrintable,
 	e_printable,
-	G_TYPE_OBJECT)
+	G_TYPE_INITIALLY_UNOWNED)
 
 enum {
 	PRINT_PAGE,

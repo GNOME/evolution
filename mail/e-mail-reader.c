@@ -111,7 +111,7 @@ static GQuark quark_forward_style;
 static GQuark quark_reply_style;
 static guint signals[LAST_SIGNAL];
 
-G_DEFINE_INTERFACE (EMailReader, e_mail_reader, G_TYPE_OBJECT)
+G_DEFINE_INTERFACE (EMailReader, e_mail_reader, G_TYPE_INITIALLY_UNOWNED)
 
 static void
 mail_reader_private_free (EMailReaderPrivate *priv)

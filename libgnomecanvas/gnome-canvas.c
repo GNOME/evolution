@@ -165,7 +165,7 @@ gnome_canvas_item_get_type (void)
 			NULL			/* value_table */
 		};
 
-		canvas_item_type = g_type_register_static (G_TYPE_OBJECT, "GnomeCanvasItem",
+		canvas_item_type = g_type_register_static (G_TYPE_INITIALLY_UNOWNED, "GnomeCanvasItem",
 							   &object_info, 0);
 	}
 
