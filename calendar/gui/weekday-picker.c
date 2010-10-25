@@ -182,7 +182,6 @@ configure_items (WeekdayPicker *wp)
 				       "text", c,
 				       "x", (double) (i * box_width) + box_width / 2.0,
 				       "y", (double) (1 + PADDING),
-				       "anchor", GTK_ANCHOR_N,
 				       NULL);
 		g_free (c);
 	}

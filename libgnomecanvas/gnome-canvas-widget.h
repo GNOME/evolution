@@ -48,7 +48,6 @@ G_BEGIN_DECLS
  * y			gdouble			RW		Y coordinate of anchor point
  * width		gdouble			RW		Width of widget (see below)
  * height		gdouble			RW		Height of widget (see below)
- * anchor		GtkAnchorType		RW		Anchor side for widget
  * size_pixels		boolean			RW		Specifies whether the widget size
  *								is specified in pixels or canvas units.
  *								If it is in pixels, then the widget will not
@@ -73,7 +72,6 @@ struct _GnomeCanvasWidget {
 
 	gdouble x, y;			/* Position at anchor */
 	gdouble width, height;		/* Dimensions of widget */
-	GtkAnchorType anchor;		/* Anchor side for widget */
 
 	gint cx, cy;			/* Top-left canvas coordinates for widget */
 	gint cwidth, cheight;		/* Size of widget in pixels */

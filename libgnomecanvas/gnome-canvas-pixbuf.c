@@ -59,9 +59,6 @@ typedef struct {
 
 	/* Whether the transformation or size have changed */
 	guint need_xform_update : 1;
-
-	/* Anchor */
-	GtkAnchorType anchor;
 } PixbufPrivate;
 
 /* Object argument IDs */
@@ -77,8 +74,7 @@ enum {
 	PROP_X,
 	PROP_X_IN_PIXELS,
 	PROP_Y,
-	PROP_Y_IN_PIXELS,
-	PROP_ANCHOR
+	PROP_Y_IN_PIXELS
 };
 
 static void gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class);
@@ -227,13 +223,6 @@ gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class)
                  g_param_spec_boolean ("y_in_pixels", NULL, NULL,
 				       FALSE,
 				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_ANCHOR,
-                 g_param_spec_enum ("anchor", NULL, NULL,
-                                    GTK_TYPE_ANCHOR_TYPE,
-                                    GTK_ANCHOR_NW,
-                                    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
 	item_class->destroy = gnome_canvas_pixbuf_destroy;
 	item_class->update = gnome_canvas_pixbuf_update;
@@ -256,7 +245,6 @@ gnome_canvas_pixbuf_init (GnomeCanvasPixbuf *gcp)
 	priv->height = 0.0;
 	priv->x = 0.0;
 	priv->y = 0.0;
-	priv->anchor = GTK_ANCHOR_NW;
 }
 
 /* Destroy handler for the pixbuf canvas item */
@@ -406,12 +394,6 @@ gnome_canvas_pixbuf_set_property (GObject            *object,
 		gnome_canvas_item_request_update (item);
 		break;
 
-	case PROP_ANCHOR:
-		priv->anchor = g_value_get_enum (value);
-		priv->need_xform_update = TRUE;
-		gnome_canvas_item_request_update (item);
-		break;
-
 	default:
 		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, param_id, pspec);
 		break;
@@ -477,10 +459,6 @@ gnome_canvas_pixbuf_get_property (GObject            *object,
 
 	case PROP_Y_IN_PIXELS:
 		g_value_set_boolean (value, priv->y_in_pixels);
-		break;
-
-	case PROP_ANCHOR:
-		g_value_set_enum (value, priv->anchor);
 		break;
 
 	default:
@@ -595,29 +573,6 @@ compute_viewport_affine (GnomeCanvasPixbuf *gcp,
 	} else
 		ti_len = 1.0;
 
-	switch (priv->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_SW:
-		ti_len *= x;
-		break;
-
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_S:
-		ti_len *= x - w * si_len / 2;
-		break;
-
-	case GTK_ANCHOR_NE:
-	case GTK_ANCHOR_E:
-	case GTK_ANCHOR_SE:
-		ti_len *= x - w * si_len;
-		break;
-
-        default:
-                break;
-	}
-
 	if (priv->y_in_pixels) {
 		if (j_len > GNOME_CANVAS_EPSILON)
 			tj_len = 1.0 / j_len;
@@ -625,29 +580,6 @@ compute_viewport_affine (GnomeCanvasPixbuf *gcp,
 			tj_len = 0.0;
 	} else
 		tj_len = 1.0;
-
-	switch (priv->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_NE:
-		tj_len *= y;
-		break;
-
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_E:
-		tj_len *= y - h * sj_len / 2;
-		break;
-
-	case GTK_ANCHOR_SW:
-	case GTK_ANCHOR_S:
-	case GTK_ANCHOR_SE:
-		tj_len *= y - h * sj_len;
-		break;
-
-        default:
-                break;
-	}
 
 	/* Compute the final affine */
 

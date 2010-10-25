@@ -1162,7 +1162,6 @@ e_day_view_init (EDayView *day_view)
 	day_view->drag_long_event_item =
 		gnome_canvas_item_new (canvas_group,
 				       e_text_get_type (),
-				       "anchor", GTK_ANCHOR_NW,
 				       "line_wrap", TRUE,
 				       "clip", TRUE,
 				       "max_lines", 1,
@@ -1242,7 +1241,6 @@ e_day_view_init (EDayView *day_view)
 	day_view->drag_item =
 		gnome_canvas_item_new (canvas_group,
 				       e_text_get_type (),
-				       "anchor", GTK_ANCHOR_NW,
 				       "line_wrap", TRUE,
 				       "clip", TRUE,
 				       "editable", TRUE,
@@ -4942,7 +4940,6 @@ e_day_view_reshape_long_event (EDayView *day_view,
 		event->canvas_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->top_canvas)->root),
 					       e_text_get_type (),
-					       "anchor", GTK_ANCHOR_NW,
 					       "clip", TRUE,
 					       "max_lines", 1,
 					       "editable", TRUE,
@@ -5129,7 +5126,6 @@ e_day_view_reshape_day_event (EDayView *day_view,
 			event->canvas_item =
 				gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->main_canvas)->root),
 						       e_text_get_type (),
-						       "anchor", GTK_ANCHOR_NW,
 						       "line_wrap", TRUE,
 						       "editable", TRUE,
 						       "clip", TRUE,

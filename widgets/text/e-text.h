@@ -62,7 +62,6 @@ G_BEGIN_DECLS
  * ------------------------------------------------------------------------------------------
  * text			string			RW		The string of the text label
  * bold                 boolean                 RW              Bold?
- * anchor		GtkAnchorType		RW		Anchor side for the text
  * justification	GtkJustification	RW		Justification for multiline text
  * fill_color		string			W		X color specification for text
  * fill_color_gdk	GdkColor*		RW		Pointer to an allocated GdkColor
@@ -114,7 +113,6 @@ struct _EText {
 
 	gchar *revert;                  /* Text to revert to */
 
-	GtkAnchorType anchor;		/* Anchor side for text */
 	GtkJustification justification;	/* Justification for text */
 
 	gdouble clip_width;		/* Width of optional clip rectangle */

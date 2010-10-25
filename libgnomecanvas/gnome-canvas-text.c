@@ -79,7 +79,6 @@ enum {
 	PROP_SCALE,         PROP_SCALE_SET,
 
 	/* Clipping */
-	PROP_ANCHOR,
 	PROP_JUSTIFICATION,
 	PROP_CLIP_WIDTH,
 	PROP_CLIP_HEIGHT,
@@ -374,13 +373,6 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 				      G_PARAM_READABLE | G_PARAM_WRITABLE));
 
         g_object_class_install_property
-		(gobject_class,
-                 PROP_ANCHOR,
-                 g_param_spec_enum ("anchor", NULL, NULL,
-                                    GTK_TYPE_ANCHOR_TYPE,
-                                    GTK_ANCHOR_CENTER,
-                                    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property
                 (gobject_class,
                  PROP_JUSTIFICATION,
                  g_param_spec_enum ("justification", NULL, NULL,
@@ -527,7 +519,6 @@ gnome_canvas_text_init (GnomeCanvasText *text)
 {
 	text->x = 0.0;
 	text->y = 0.0;
-	text->anchor = GTK_ANCHOR_CENTER;
 	text->justification = GTK_JUSTIFY_LEFT;
 	text->clip_width = 0.0;
 	text->clip_height = 0.0;
@@ -618,56 +609,6 @@ get_bounds (GnomeCanvasText *text,
 	gnome_canvas_w2c (item->canvas, wx, wy, &text->clip_cx, &text->clip_cy);
 	text->clip_cwidth = text->clip_width * item->canvas->pixels_per_unit;
 	text->clip_cheight = text->clip_height * item->canvas->pixels_per_unit;
-
-	/* Anchor text */
-
-	switch (text->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_SW:
-		break;
-
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_S:
-		text->cx -= text->max_width / 2;
-		text->clip_cx -= text->clip_cwidth / 2;
-		break;
-
-	case GTK_ANCHOR_NE:
-	case GTK_ANCHOR_E:
-	case GTK_ANCHOR_SE:
-		text->cx -= text->max_width;
-		text->clip_cx -= text->clip_cwidth;
-		break;
-
-	default:
-		break;
-	}
-
-	switch (text->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_NE:
-		break;
-
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_E:
-		text->cy -= text->height / 2;
-		text->clip_cy -= text->clip_cheight / 2;
-		break;
-
-	case GTK_ANCHOR_SW:
-	case GTK_ANCHOR_S:
-	case GTK_ANCHOR_SE:
-		text->cy -= text->height;
-		text->clip_cy -= text->clip_cheight;
-		break;
-
-	default:
-		break;
-	}
 
 	/* Bounds */
 
@@ -984,10 +925,6 @@ gnome_canvas_text_set_property (GObject            *object,
 		text->priv->render_dirty = 1;
 		break;
 
-	case PROP_ANCHOR:
-		text->anchor = g_value_get_enum (value);
-		break;
-
 	case PROP_JUSTIFICATION:
 		text->justification = g_value_get_enum (value);
 
@@ -1242,10 +1179,6 @@ gnome_canvas_text_get_property (GObject            *object,
 
 	case PROP_ATTRIBUTES:
 		g_value_set_boxed (value, text->attr_list);
-		break;
-
-	case PROP_ANCHOR:
-		g_value_set_enum (value, text->anchor);
 		break;
 
 	case PROP_JUSTIFICATION:
@@ -1718,50 +1651,6 @@ gnome_canvas_text_bounds (GnomeCanvasItem *item,
 	} else {
 		width = text->max_width / item->canvas->pixels_per_unit;
 		height = text->height / item->canvas->pixels_per_unit;
-	}
-
-	switch (text->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_SW:
-		break;
-
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_S:
-		*x1 -= width / 2.0;
-		break;
-
-	case GTK_ANCHOR_NE:
-	case GTK_ANCHOR_E:
-	case GTK_ANCHOR_SE:
-		*x1 -= width;
-		break;
-
-	default:
-		break;
-	}
-
-	switch (text->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_NE:
-		break;
-
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_E:
-		*y1 -= height / 2.0;
-		break;
-
-	case GTK_ANCHOR_SW:
-	case GTK_ANCHOR_S:
-	case GTK_ANCHOR_SE:
-		*y1 -= height;
-		break;
-
-	default:
-		break;
 	}
 
 	*x2 = *x1 + width;

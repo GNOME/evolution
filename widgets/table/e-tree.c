@@ -3651,7 +3651,6 @@ e_tree_set_info_message (ETree *tree, const gchar *info_message)
 		tree->priv->info_text = gnome_canvas_item_new (
 			GNOME_CANVAS_GROUP (gnome_canvas_root (tree->priv->table_canvas)),
 			e_text_get_type (),
-			"anchor", GTK_ANCHOR_NW,
 			"line_wrap", TRUE,
 			"clip", TRUE,
 			"justification", GTK_JUSTIFY_LEFT,

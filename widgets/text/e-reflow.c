@@ -545,7 +545,6 @@ set_empty (EReflow *reflow)
 				reflow->empty_text =
 					gnome_canvas_item_new (GNOME_CANVAS_GROUP (reflow),
 							      e_text_get_type (),
-							      "anchor", GTK_ANCHOR_N,
 							      "width", reflow->minimum_width,
 							      "clip", TRUE,
 							      "use_ellipsis", TRUE,

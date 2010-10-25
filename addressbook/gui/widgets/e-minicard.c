@@ -516,7 +516,6 @@ e_minicard_realize (GnomeCanvasItem *item)
 	e_minicard->header_text =
 	  gnome_canvas_item_new ( group,
 				 e_text_get_type (),
-				 "anchor", GTK_ANCHOR_NW,
 				 "width", (double) MAX( e_minicard->width - 12, 0 ),
 				 "clip", TRUE,
 				 "use_ellipsis", TRUE,

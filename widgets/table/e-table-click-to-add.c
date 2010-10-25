@@ -266,7 +266,6 @@ create_rect_and_text (ETableClickToAdd *etcta)
 			GNOME_CANVAS_GROUP (etcta),
 			e_text_get_type (),
 			"text", etcta->message ? etcta->message : "",
-			"anchor", GTK_ANCHOR_NW,
 			"width", etcta->width - 4,
 			"draw_background", FALSE,
 			"fill_color_gdk", &style->text[GTK_STATE_NORMAL],

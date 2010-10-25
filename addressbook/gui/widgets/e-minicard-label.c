@@ -307,7 +307,6 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 	e_minicard_label->fieldname =
 	  gnome_canvas_item_new ( group,
 				 e_text_get_type (),
-				 "anchor", GTK_ANCHOR_NW,
 				 "clip_width", (double) ( e_minicard_label->width / 2 - 4 ),
 				 "clip", TRUE,
 				 "use_ellipsis", TRUE,
@@ -320,7 +319,6 @@ e_minicard_label_realize (GnomeCanvasItem *item)
 	e_minicard_label->field =
 	  gnome_canvas_item_new ( group,
 				 e_text_get_type (),
-				 "anchor", GTK_ANCHOR_NW,
 				 "clip_width", (double) ( ( e_minicard_label->width + 1 ) / 2 - 4 ),
 				 "clip", TRUE,
 				 "use_ellipsis", TRUE,

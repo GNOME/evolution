@@ -439,7 +439,6 @@ create_child_node (ETableGroupContainer *etgc, gpointer val)
 						  NULL);
 	child_node->text = gnome_canvas_item_new (GNOME_CANVAS_GROUP (etgc),
 						  e_text_get_type (),
-						  "anchor", GTK_ANCHOR_SW,
 						  "fill_color", "black",
 						  "draw_background", FALSE,
 						  NULL);
