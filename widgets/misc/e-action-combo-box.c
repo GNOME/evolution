@@ -130,6 +130,7 @@ action_combo_box_render_pixbuf (GtkCellLayout *layout,
 		g_object_set (
 			G_OBJECT (renderer),
 			"sensitive", sensitive,
+			"icon-name", NULL,
 			"stock-id", stock_id,
 			"stock-size", GTK_ICON_SIZE_MENU,
 			"visible", visible,
@@ -138,8 +139,9 @@ action_combo_box_render_pixbuf (GtkCellLayout *layout,
 	else
 		g_object_set (
 			G_OBJECT (renderer),
-			"icon-name", icon_name,
 			"sensitive", sensitive,
+			"icon-name", icon_name,
+			"stock-id", NULL,
 			"stock-size", GTK_ICON_SIZE_MENU,
 			"visible", visible,
 			"width", width,
