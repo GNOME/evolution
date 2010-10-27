@@ -497,8 +497,8 @@ eti_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags)
 	eti_bounds (item, &item->x1, &item->y1, &item->x2, &item->y2);
 	if (item->x1 != x1 ||
 	    item->y1 != y1 ||
-	    item->x2 != x1 ||
-	    item->y2 != y1) {
+	    item->x2 != x2 ||
+	    item->y2 != y2) {
 		gnome_canvas_request_redraw (item->canvas, x1, y1, x2, y2);
 		eti->needs_redraw = 1;
 	}
