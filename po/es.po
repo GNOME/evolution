@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-10-23 04:33+0000\n"
-"PO-Revision-Date: 2010-10-23 14:19+0200\n"
+"POT-Creation-Date: 2010-10-27 19:09+0000\n"
+"PO-Revision-Date: 2010-10-28 01:42+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1114,7 +1114,7 @@ msgid "Home Email"
 msgstr "Correo-e de casa"
 
 #: ../addressbook/gui/widgets/e-minicard.c:104
-#: ../addressbook/gui/widgets/e-minicard.c:810
+#: ../addressbook/gui/widgets/e-minicard.c:809
 msgid "Other Email"
 msgstr "Otro correo-e"
 
@@ -4898,7 +4898,7 @@ msgstr "Muestra la segunda zona horaria"
 #. month, %B = full month name. You can change the
 #. order but don't change the specifiers or add
 #. anything.
-#: ../calendar/gui/e-day-view-top-item.c:897 ../calendar/gui/e-day-view.c:1892
+#: ../calendar/gui/e-day-view-top-item.c:897 ../calendar/gui/e-day-view.c:1890
 #: ../calendar/gui/e-week-view-main-item.c:218 ../calendar/gui/print.c:1785
 msgid "%A %d %B"
 msgstr "%A %e de %B"
@@ -4909,7 +4909,7 @@ msgstr "%A %e de %B"
 #. %d = day of month, %b = abbreviated month name.
 #. You can change the order but don't change the
 #. specifiers or add anything.
-#: ../calendar/gui/e-day-view-top-item.c:901 ../calendar/gui/e-day-view.c:1909
+#: ../calendar/gui/e-day-view-top-item.c:901 ../calendar/gui/e-day-view.c:1907
 #: ../calendar/gui/e-week-view-main-item.c:227
 #: ../calendar/gui/ea-gnome-calendar.c:203
 #: ../modules/calendar/e-cal-shell-view-private.c:1021
@@ -4921,7 +4921,7 @@ msgstr "%a, %e de %b"
 #. strftime format %d = day of month, %b = abbreviated
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: ../calendar/gui/e-day-view-top-item.c:905 ../calendar/gui/e-day-view.c:1925
+#: ../calendar/gui/e-day-view-top-item.c:905 ../calendar/gui/e-day-view.c:1923
 #: ../calendar/gui/e-week-view-main-item.c:241
 #: ../calendar/gui/ea-gnome-calendar.c:233
 #: ../modules/calendar/e-cal-shell-view-private.c:1057
@@ -4941,7 +4941,7 @@ msgid "pm"
 msgstr "pm"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../calendar/gui/e-day-view.c:2676
+#: ../calendar/gui/e-day-view.c:2674
 #, c-format
 msgid "Week %d"
 msgstr "Semana %d"
@@ -8711,7 +8711,6 @@ msgstr "%s (completado)"
 #. Translators: This is an activity waiting to run.
 #: ../e-util/e-activity.c:213
 #, c-format
-#| msgid "Waiting"
 msgid "%s (waiting)"
 msgstr "%s (esperando)"
 
@@ -8719,7 +8718,6 @@ msgstr "%s (esperando)"
 #. *              the user has requested to cancel.
 #: ../e-util/e-activity.c:217
 #, c-format
-#| msgid "%s (cancelled)"
 msgid "%s (cancelling)"
 msgstr "%s (cancelado)"
 
@@ -8827,28 +8825,19 @@ msgstr "Mañana"
 msgid "Yesterday"
 msgstr "Ayer"
 
-#. Translators: %d is replaced with a number of days. It's always greater than 1
+#. Translators: %a is a strftime modifier, the abbreviated week day name, for example "Next Tue"
 #: ../e-util/e-datetime-format.c:216
 #, c-format
-msgid "%d day from now"
-msgid_plural "%d days from now"
-msgstr[0] "Dentro de %d día"
-msgstr[1] "Dentro de %d días"
+#| msgid "Next"
+msgid "Next %a"
+msgstr "Siguiente %a"
 
-#. Translators: %d is replaced with a number of days. It's always greater than 1
-#: ../e-util/e-datetime-format.c:219
-#, c-format
-msgid "%d day ago"
-msgid_plural "%d days ago"
-msgstr[0] "Hace %d día"
-msgstr[1] "Hace %d días"
-
-#: ../e-util/e-datetime-format.c:294 ../e-util/e-datetime-format.c:304
-#: ../e-util/e-datetime-format.c:313
+#: ../e-util/e-datetime-format.c:293 ../e-util/e-datetime-format.c:303
+#: ../e-util/e-datetime-format.c:312
 msgid "Use locale default"
 msgstr "Usar los valores predeterminados del sistema"
 
-#: ../e-util/e-datetime-format.c:509
+#: ../e-util/e-datetime-format.c:508
 msgid "Format:"
 msgstr "Formato:"
 
@@ -9041,49 +9030,51 @@ msgstr "No se pudo analizar el mensaje PGP: "
 msgid "Unknown error"
 msgstr "Error desconocido"
 
-#: ../filter/e-filter-datespec.c:74
+#. Don't delete this code, since it is needed so that xgettext can extract the translations.
+#. * Please, keep these strings in sync with the strings in the timespans array
+#: ../filter/e-filter-datespec.c:70
 #, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
 msgstr[0] "hace un segundo"
 msgstr[1] "hace %d segundos"
 
-#: ../filter/e-filter-datespec.c:74
+#: ../filter/e-filter-datespec.c:71
 #, c-format
 msgid "1 second in the future"
 msgid_plural "%d seconds in the future"
 msgstr[0] "dentro de un segundo"
 msgstr[1] "dentro de %d segundos"
 
-#: ../filter/e-filter-datespec.c:75
+#: ../filter/e-filter-datespec.c:72
 #, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
 msgstr[0] "hace un minuto"
 msgstr[1] "hace %d minutos"
 
-#: ../filter/e-filter-datespec.c:75
+#: ../filter/e-filter-datespec.c:73
 #, c-format
 msgid "1 minute in the future"
 msgid_plural "%d minutes in the future"
 msgstr[0] "dentro de un minuto"
 msgstr[1] "dentro de %d minutos"
 
-#: ../filter/e-filter-datespec.c:76
+#: ../filter/e-filter-datespec.c:74
 #, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
 msgstr[0] "hace una hora"
 msgstr[1] "hace %d horas"
 
-#: ../filter/e-filter-datespec.c:76
+#: ../filter/e-filter-datespec.c:75
 #, c-format
 msgid "1 hour in the future"
 msgid_plural "%d hours in the future"
 msgstr[0] "dentro de una hora"
 msgstr[1] "dentro de %d horas"
 
-#: ../filter/e-filter-datespec.c:77
+#: ../filter/e-filter-datespec.c:76
 #, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
@@ -9104,57 +9095,57 @@ msgid_plural "%d weeks ago"
 msgstr[0] "hace una semana"
 msgstr[1] "hace %d semanas"
 
-#: ../filter/e-filter-datespec.c:78
+#: ../filter/e-filter-datespec.c:79
 #, c-format
 msgid "1 week in the future"
 msgid_plural "%d weeks in the future"
 msgstr[0] "dentro de una semana"
 msgstr[1] "dentro de %d semanas"
 
-#: ../filter/e-filter-datespec.c:79
+#: ../filter/e-filter-datespec.c:80
 #, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
 msgstr[0] "hace un mes"
 msgstr[1] "hace %d meses"
 
-#: ../filter/e-filter-datespec.c:79
+#: ../filter/e-filter-datespec.c:81
 #, c-format
 msgid "1 month in the future"
 msgid_plural "%d months in the future"
 msgstr[0] "dentro de un mes"
 msgstr[1] "dentro de %d meses"
 
-#: ../filter/e-filter-datespec.c:80
+#: ../filter/e-filter-datespec.c:82
 #, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
 msgstr[0] "hace un año"
 msgstr[1] "hace %d años"
 
-#: ../filter/e-filter-datespec.c:80
+#: ../filter/e-filter-datespec.c:83
 #, c-format
 msgid "1 year in the future"
 msgid_plural "%d years in the future"
 msgstr[0] "dentro de un años"
 msgstr[1] "dentro de %d años"
 
-#: ../filter/e-filter-datespec.c:122
+#: ../filter/e-filter-datespec.c:133
 msgid "<click here to select a date>"
 msgstr "<pulse aquí para seleccionar una fecha>"
 
-#: ../filter/e-filter-datespec.c:125 ../filter/e-filter-datespec.c:136
-#: ../filter/e-filter-datespec.c:147
+#: ../filter/e-filter-datespec.c:136 ../filter/e-filter-datespec.c:147
+#: ../filter/e-filter-datespec.c:158
 msgid "now"
 msgstr "ahora"
 
 #. strftime for date filter display, only needs to show a day date (i.e. no time)
-#: ../filter/e-filter-datespec.c:132
+#: ../filter/e-filter-datespec.c:143
 msgid "%d-%b-%Y"
 msgstr "%e/%b/%Y"
 
 # Aquí time se refiere a fecha
-#: ../filter/e-filter-datespec.c:275
+#: ../filter/e-filter-datespec.c:286
 msgid "Select a time to compare against"
 msgstr "Seleccione una fecha con la que comparar"
 
@@ -9913,7 +9904,6 @@ msgid "Redirect (bounce) the selected message to someone"
 msgstr "Redirige (rebotar) el mensaje seleccionado a alguien"
 
 #: ../mail/e-mail-reader.c:2087
-#| msgid "Remo_ve attachments"
 msgid "Remo_ve Attachments"
 msgstr "Q_uitar adjuntos"
 
@@ -10108,7 +10098,7 @@ msgstr "Mostrar los mensajes con todas las cabeceras de correo-e"
 msgid "Unable to retrieve message"
 msgstr "No se pudo obtener el mensaje"
 
-#: ../mail/e-mail-reader.c:2631 ../mail/mail-ops.c:1973
+#: ../mail/e-mail-reader.c:2631 ../mail/mail-ops.c:2130
 #, c-format
 msgid "Retrieving message '%s'"
 msgstr "Obteniendo mensaje «%s»"
@@ -13249,65 +13239,65 @@ msgstr "Abriendo almacén «%s»"
 msgid "Removing folder '%s'"
 msgstr "Eliminando carpeta «%s»"
 
-#: ../mail/mail-ops.c:1670
+#: ../mail/mail-ops.c:1671
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Guardando carpeta «%s»"
 
-#: ../mail/mail-ops.c:1736
+#: ../mail/mail-ops.c:1740
 #, c-format
 msgid "Expunging and storing account '%s'"
 msgstr "Compactando y almacenando cuenta «%s»"
 
-#: ../mail/mail-ops.c:1737
+#: ../mail/mail-ops.c:1741
 #, c-format
 msgid "Storing account '%s'"
 msgstr "Almacenando cuenta «%s»"
 
-#: ../mail/mail-ops.c:1795
+#: ../mail/mail-ops.c:1799
 #, c-format
 msgid "Refreshing folder '%s'"
 msgstr "Actualizando carpeta «%s»"
 
-#: ../mail/mail-ops.c:1835
+#: ../mail/mail-ops.c:1963
 #, c-format
 msgid "Expunging folder '%s'"
 msgstr "Compactando carpeta «%s»"
 
-#: ../mail/mail-ops.c:1883
+#: ../mail/mail-ops.c:2035
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Vaciando papelera en «%s»"
 
-#: ../mail/mail-ops.c:1884
+#: ../mail/mail-ops.c:2036
 msgid "Local Folders"
 msgstr "Carpetas locales"
 
-#: ../mail/mail-ops.c:2107
+#: ../mail/mail-ops.c:2264
 #, c-format
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "Descargando %d mensaje"
 msgstr[1] "Descargando %d mensajes"
 
-#: ../mail/mail-ops.c:2200
+#: ../mail/mail-ops.c:2357
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "Guardando %d mensaje"
 msgstr[1] "Guardando %d mensajes"
 
-#: ../mail/mail-ops.c:2296
+#: ../mail/mail-ops.c:2453
 #, c-format
 msgid "Error saving messages to: %s:\n"
 msgstr "Error al guardar los mensajes en: %s:\n"
 
-#: ../mail/mail-ops.c:2371
+#: ../mail/mail-ops.c:2528
 #, c-format
 msgid "Preparing account '%s' for offline"
 msgstr "Preparando la cuenta «%s» para desconexión"
 
-#: ../mail/mail-ops.c:2462
+#: ../mail/mail-ops.c:2619
 msgid "Checking Service"
 msgstr "Comprobando el servicio"
 
@@ -15799,7 +15789,6 @@ msgid "Change the name of this folder"
 msgstr "Cambia el nombre de esta carpeta"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1208
-#| msgid "Remo_ve duplicate messages"
 msgid "Remo_ve Duplicate Messages"
 msgstr "Quitar correos _duplicados"
 
@@ -18508,15 +18497,7 @@ msgstr ""
 "Indica si se deben notificar sólo los mensajes en la carpeta bandeja de "
 "entrada."
 
-#: ../plugins/mail-notification/mail-notification.c:352
-msgid "Evolution's Mail Notification"
-msgstr "Notificación de correo de Evolution"
-
-#: ../plugins/mail-notification/mail-notification.c:374
-msgid "Mail Notification Properties"
-msgstr "Propiedades de la notificación de correo"
-
-#: ../plugins/mail-notification/mail-notification.c:507
+#: ../plugins/mail-notification/mail-notification.c:390
 #, c-format
 msgid ""
 "You have received %d new message\n"
@@ -18533,64 +18514,64 @@ msgstr[1] ""
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../plugins/mail-notification/mail-notification.c:519
+#: ../plugins/mail-notification/mail-notification.c:402
 #, c-format
 msgid "From: %s"
 msgstr "De: %s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../plugins/mail-notification/mail-notification.c:532
+#: ../plugins/mail-notification/mail-notification.c:415
 #, c-format
 msgid "Subject: %s"
 msgstr "Asunto: %s"
 
-#: ../plugins/mail-notification/mail-notification.c:542
+#: ../plugins/mail-notification/mail-notification.c:425
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
 msgstr[0] "Ha recibido %d mensaje nuevo."
 msgstr[1] "Ha recibido %d mensajes nuevos."
 
-#: ../plugins/mail-notification/mail-notification.c:559
-#: ../plugins/mail-notification/mail-notification.c:567
-#: ../plugins/mail-notification/mail-notification.c:570
+#: ../plugins/mail-notification/mail-notification.c:438
+#: ../plugins/mail-notification/mail-notification.c:446
+#: ../plugins/mail-notification/mail-notification.c:449
 msgid "New email"
 msgstr "Nuevo correo-e"
 
-#: ../plugins/mail-notification/mail-notification.c:631
+#: ../plugins/mail-notification/mail-notification.c:498
 msgid "Show icon in _notification area"
 msgstr "Mostrar icono en el área de _notificación"
 
-#: ../plugins/mail-notification/mail-notification.c:661
+#: ../plugins/mail-notification/mail-notification.c:528
 msgid "Popup _message together with the icon"
 msgstr "_Mensaje emergente junto con el icono"
 
-#: ../plugins/mail-notification/mail-notification.c:848
+#: ../plugins/mail-notification/mail-notification.c:715
 msgid "_Play sound when new messages arrive"
 msgstr "Re_producir un sonido cuando llegue correo nuevo"
 
-#: ../plugins/mail-notification/mail-notification.c:878
+#: ../plugins/mail-notification/mail-notification.c:745
 msgid "_Beep"
 msgstr "_Pitar"
 
-#: ../plugins/mail-notification/mail-notification.c:891
+#: ../plugins/mail-notification/mail-notification.c:758
 msgid "Use sound _theme"
 msgstr "Usar un _tema de sonido"
 
-#: ../plugins/mail-notification/mail-notification.c:910
+#: ../plugins/mail-notification/mail-notification.c:777
 msgid "Play _file:"
 msgstr "_Reproducir un archivo:"
 
-#: ../plugins/mail-notification/mail-notification.c:921
+#: ../plugins/mail-notification/mail-notification.c:788
 msgid "Select sound file"
 msgstr "Seleccione un arhivo de sonido"
 
-#: ../plugins/mail-notification/mail-notification.c:979
+#: ../plugins/mail-notification/mail-notification.c:846
 msgid "Notify new messages for _Inbox only"
 msgstr "Notificar nuevos mensajes sólo para la _bandeja de entrada"
 
-#: ../plugins/mail-notification/mail-notification.c:988
+#: ../plugins/mail-notification/mail-notification.c:855
 msgid "Generate a _D-Bus message"
 msgstr "Generar un mensaje _D-Bus"
 
@@ -21785,7 +21766,7 @@ msgstr "La fecha debe estar en el formato: %s"
 msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "El valor del porcentaje debe estar entre 0 y 100, inclusive"
 
-#: ../widgets/table/e-table-click-to-add.c:598
+#: ../widgets/table/e-table-click-to-add.c:597
 #: ../widgets/table/gal-a11y-e-table-click-to-add.c:58
 #: ../widgets/table/gal-a11y-e-table-click-to-add.c:135
 msgid "click to add"
@@ -22027,13 +22008,29 @@ msgstr "pulsar"
 msgid "sort"
 msgstr "ordenar"
 
-#: ../widgets/text/e-text.c:2538
+#: ../widgets/text/e-text.c:2446
 msgid "Select All"
 msgstr "Seleccionar todo"
 
-#: ../widgets/text/e-text.c:2550
+#: ../widgets/text/e-text.c:2458
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid "%d day from now"
+#~ msgid_plural "%d days from now"
+#~ msgstr[0] "Dentro de %d día"
+#~ msgstr[1] "Dentro de %d días"
+
+#~ msgid "%d day ago"
+#~ msgid_plural "%d days ago"
+#~ msgstr[0] "Hace %d día"
+#~ msgstr[1] "Hace %d días"
+
+#~ msgid "Evolution's Mail Notification"
+#~ msgstr "Notificación de correo de Evolution"
+
+#~ msgid "Mail Notification Properties"
+#~ msgstr "Propiedades de la notificación de correo"
 
 #~ msgid "Disconnecting from '%s'"
 #~ msgstr "Desconectando de «%s»"
