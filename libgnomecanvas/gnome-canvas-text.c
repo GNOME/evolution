@@ -95,7 +95,7 @@ enum {
 
 static void gnome_canvas_text_class_init (GnomeCanvasTextClass *class);
 static void gnome_canvas_text_init (GnomeCanvasText *text);
-static void gnome_canvas_text_destroy (GnomeCanvasItem *object);
+static void gnome_canvas_text_dispose (GnomeCanvasItem *object);
 static void gnome_canvas_text_set_property (GObject            *object,
 					    guint               param_id,
 					    const GValue       *value,
@@ -483,7 +483,7 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 		      "Whether this tag affects font scaling");
 #undef ADD_SET_PROP
 
-	item_class->destroy = gnome_canvas_text_destroy;
+	item_class->dispose = gnome_canvas_text_dispose;
 	item_class->update = gnome_canvas_text_update;
 	item_class->draw = gnome_canvas_text_draw;
 	item_class->point = gnome_canvas_text_point;
@@ -514,9 +514,9 @@ gnome_canvas_text_init (GnomeCanvasText *text)
 	text->rise_set      = FALSE;
 }
 
-/* Destroy handler for the text item */
+/* Dispose handler for the text item */
 static void
-gnome_canvas_text_destroy (GnomeCanvasItem *object)
+gnome_canvas_text_dispose (GnomeCanvasItem *object)
 {
 	GnomeCanvasText *text;
 
@@ -524,26 +524,26 @@ gnome_canvas_text_destroy (GnomeCanvasItem *object)
 
 	text = GNOME_CANVAS_TEXT (object);
 
-	/* remember, destroy can be run multiple times! */
-
 	g_free (text->text);
 	text->text = NULL;
 
-	if (text->layout)
-	    g_object_unref (G_OBJECT (text->layout));
-	text->layout = NULL;
+	if (text->layout != NULL) {
+		g_object_unref (text->layout);
+		text->layout = NULL;
+	}
 
-	if (text->font_desc) {
+	if (text->font_desc != NULL) {
 		pango_font_description_free (text->font_desc);
 		text->font_desc = NULL;
 	}
 
-	if (text->attr_list)
+	if (text->attr_list != NULL) {
 		pango_attr_list_unref (text->attr_list);
-	text->attr_list = NULL;
+		text->attr_list = NULL;
+	}
 
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy)
-		GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy (object);
+	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->dispose)
+		GNOME_CANVAS_ITEM_CLASS (parent_class)->dispose (object);
 }
 
 static void

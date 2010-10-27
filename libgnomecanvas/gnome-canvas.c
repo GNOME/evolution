@@ -347,7 +347,7 @@ gnome_canvas_item_dispose (GObject *object)
 	if (item->canvas && item == item->canvas->focused_item)
 		item->canvas->focused_item = NULL;
 
-	/* Normal destroy stuff */
+	/* Normal dispose stuff */
 
 	if (item->flags & GNOME_CANVAS_ITEM_MAPPED)
 		(* GNOME_CANVAS_ITEM_GET_CLASS (item)->unmap) (item);
@@ -358,12 +358,12 @@ gnome_canvas_item_dispose (GObject *object)
 	if (item->parent)
 		group_remove (GNOME_CANVAS_GROUP (item->parent), item);
 
-	if (GNOME_CANVAS_ITEM_GET_CLASS (item)->destroy)
-		GNOME_CANVAS_ITEM_GET_CLASS (item)->destroy (item);
+	if (GNOME_CANVAS_ITEM_GET_CLASS (item)->dispose)
+		GNOME_CANVAS_ITEM_GET_CLASS (item)->dispose (item);
 
 	G_OBJECT_CLASS (item_parent_class)->dispose (object);
 	/* items should remove any reference to item->canvas after the
-	   first ::destroy */
+	   first ::dispose */
 	item->canvas = NULL;
 }
 
@@ -1190,7 +1190,7 @@ static void gnome_canvas_group_get_property (GObject               *object,
 					    GValue                *value,
 					    GParamSpec            *pspec);
 
-static void gnome_canvas_group_destroy     (GnomeCanvasItem *object);
+static void gnome_canvas_group_dispose     (GnomeCanvasItem *object);
 
 static void   gnome_canvas_group_update      (GnomeCanvasItem *item,
                                               const cairo_matrix_t *matrix,
@@ -1277,7 +1277,7 @@ gnome_canvas_group_class_init (GnomeCanvasGroupClass *class)
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
-	item_class->destroy = gnome_canvas_group_destroy;
+	item_class->dispose = gnome_canvas_group_dispose;
 	item_class->update = gnome_canvas_group_update;
 	item_class->realize = gnome_canvas_group_realize;
 	item_class->unrealize = gnome_canvas_group_unrealize;
@@ -1346,9 +1346,9 @@ gnome_canvas_group_get_property (GObject *gobject, guint param_id,
 	}
 }
 
-/* Destroy handler for canvas groups */
+/* Dispose handler for canvas groups */
 static void
-gnome_canvas_group_destroy (GnomeCanvasItem *object)
+gnome_canvas_group_dispose (GnomeCanvasItem *object)
 {
 	GnomeCanvasGroup *group;
 
@@ -1361,8 +1361,8 @@ gnome_canvas_group_destroy (GnomeCanvasItem *object)
 		g_object_run_dispose (G_OBJECT (group->item_list->data));
 	}
 
-	if (GNOME_CANVAS_ITEM_CLASS (group_parent_class)->destroy)
-		GNOME_CANVAS_ITEM_CLASS (group_parent_class)->destroy (object);
+	if (GNOME_CANVAS_ITEM_CLASS (group_parent_class)->dispose)
+		GNOME_CANVAS_ITEM_CLASS (group_parent_class)->dispose (object);
 }
 
 /* Update handler for canvas groups */

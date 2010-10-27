@@ -48,7 +48,7 @@ enum {
 
 static void gnome_canvas_widget_class_init (GnomeCanvasWidgetClass *class);
 static void gnome_canvas_widget_init       (GnomeCanvasWidget      *witem);
-static void gnome_canvas_widget_destroy    (GnomeCanvasItem      *object);
+static void gnome_canvas_widget_dispose    (GnomeCanvasItem      *object);
 static void gnome_canvas_widget_get_property (GObject            *object,
 					      guint               param_id,
 					      GValue             *value,
@@ -158,7 +158,7 @@ gnome_canvas_widget_class_init (GnomeCanvasWidgetClass *class)
 				       FALSE,
 				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
-	item_class->destroy = gnome_canvas_widget_destroy;
+	item_class->dispose = gnome_canvas_widget_dispose;
 	item_class->update = gnome_canvas_widget_update;
 	item_class->point = gnome_canvas_widget_point;
 	item_class->bounds = gnome_canvas_widget_bounds;
@@ -189,7 +189,7 @@ gnome_canvas_widget_init (GnomeCanvasWidget *witem)
 }
 
 static void
-gnome_canvas_widget_destroy (GnomeCanvasItem *object)
+gnome_canvas_widget_dispose (GnomeCanvasItem *object)
 {
 	GnomeCanvasWidget *witem;
 
@@ -204,8 +204,8 @@ gnome_canvas_widget_destroy (GnomeCanvasItem *object)
 		witem->widget = NULL;
 	}
 
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy)
-		GNOME_CANVAS_ITEM_CLASS (parent_class)->destroy (object);
+	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->dispose)
+		GNOME_CANVAS_ITEM_CLASS (parent_class)->dispose (object);
 }
 
 static void

@@ -151,8 +151,8 @@ struct _GnomeCanvasItemClass {
 	/* Unmap an item */
 	void (* unmap) (GnomeCanvasItem *item);
 
-	/* Destroy item; called inside GObject's dispose of the base class */
-	void (* destroy) (GnomeCanvasItem *item);
+	/* Dispose item; called inside GObject's dispose of the base class */
+	void (* dispose) (GnomeCanvasItem *item);
 
 	/* Draw an item of this type.  (x, y) are the upper-left canvas pixel
 	 * coordinates of the drawable, a temporary pixmap, where things get

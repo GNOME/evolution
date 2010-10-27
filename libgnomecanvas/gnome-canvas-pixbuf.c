@@ -39,7 +39,7 @@ enum {
 	PROP_PIXBUF
 };
 
-static void gnome_canvas_pixbuf_destroy (GnomeCanvasItem *object);
+static void gnome_canvas_pixbuf_dispose (GnomeCanvasItem *object);
 static void gnome_canvas_pixbuf_set_property (GObject *object,
 					      guint param_id,
 					      const GValue *value,
@@ -84,7 +84,7 @@ gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class)
                                       GDK_TYPE_PIXBUF,
                                       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
-	item_class->destroy = gnome_canvas_pixbuf_destroy;
+	item_class->dispose = gnome_canvas_pixbuf_dispose;
 	item_class->update = gnome_canvas_pixbuf_update;
 	item_class->draw = gnome_canvas_pixbuf_draw;
 	item_class->point = gnome_canvas_pixbuf_point;
@@ -104,9 +104,9 @@ gnome_canvas_pixbuf_init (GnomeCanvasPixbuf *gcp)
                                                          GnomeCanvasPixbufPrivate);
 }
 
-/* Destroy handler for the pixbuf canvas item */
+/* Dispose handler for the pixbuf canvas item */
 static void
-gnome_canvas_pixbuf_destroy (GnomeCanvasItem *object)
+gnome_canvas_pixbuf_dispose (GnomeCanvasItem *object)
 {
 	GnomeCanvasItem *item;
 	GnomeCanvasPixbuf *gcp;
@@ -119,14 +119,13 @@ gnome_canvas_pixbuf_destroy (GnomeCanvasItem *object)
 	gcp = GNOME_CANVAS_PIXBUF (object);
 	priv = gcp->priv;
 
-	/* remember, destroy can be run multiple times! */
-        if (priv->pixbuf) {
-            g_object_unref (priv->pixbuf);
-            priv->pixbuf = NULL;
+	if (priv->pixbuf != NULL) {
+		g_object_unref (priv->pixbuf);
+		priv->pixbuf = NULL;
 	}
 
-	if (GNOME_CANVAS_ITEM_CLASS (gnome_canvas_pixbuf_parent_class)->destroy)
-		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_pixbuf_parent_class)->destroy (object);
+	if (GNOME_CANVAS_ITEM_CLASS (gnome_canvas_pixbuf_parent_class)->dispose)
+		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_pixbuf_parent_class)->dispose (object);
 }
 
 

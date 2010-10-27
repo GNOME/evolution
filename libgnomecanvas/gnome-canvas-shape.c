@@ -45,7 +45,7 @@ enum {
 	PROP_DASH
 };
 
-static void gnome_canvas_shape_destroy      (GnomeCanvasItem       *object);
+static void gnome_canvas_shape_dispose      (GnomeCanvasItem       *object);
 static void gnome_canvas_shape_set_property (GObject               *object,
 					     guint                  param_id,
 					     const GValue          *value,
@@ -143,7 +143,7 @@ gnome_canvas_shape_class_init (GnomeCanvasShapeClass *class)
                                                                (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 #endif
 
-	item_class->destroy = gnome_canvas_shape_destroy;
+	item_class->dispose = gnome_canvas_shape_dispose;
 	item_class->update = gnome_canvas_shape_update;
 	item_class->draw = gnome_canvas_shape_draw;
 	item_class->point = gnome_canvas_shape_point;
@@ -181,23 +181,24 @@ gnome_canvas_shape_init (GnomeCanvasShape *shape)
 }
 
 static void
-gnome_canvas_shape_destroy (GnomeCanvasItem *object)
+gnome_canvas_shape_dispose (GnomeCanvasItem *object)
 {
 	GnomeCanvasShape *shape;
-	GnomeCanvasShapePriv *priv;
 
-	g_return_if_fail (object != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_SHAPE (object));
 
-        shape = GNOME_CANVAS_SHAPE (object);
+	shape = GNOME_CANVAS_SHAPE (object);
 
-        priv = shape->priv;
-        if (priv->path) cairo_path_destroy (priv->path);
+	if (shape->priv->path != NULL) {
+		cairo_path_destroy (shape->priv->path);
+		shape->priv->path = NULL;
+	}
 
-        g_free (priv->dash);
+	g_free (shape->priv->dash);
+	shape->priv->dash = NULL;
 
-	if (GNOME_CANVAS_ITEM_CLASS (gnome_canvas_shape_parent_class)->destroy)
-		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_shape_parent_class)->destroy (object);
+	if (GNOME_CANVAS_ITEM_CLASS (gnome_canvas_shape_parent_class)->dispose)
+		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_shape_parent_class)->dispose (object);
 }
 
 /**
