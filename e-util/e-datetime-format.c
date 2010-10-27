@@ -204,7 +204,7 @@ format_relative_date (time_t tvalue, time_t ttoday, const struct tm *value, cons
 			future = TRUE;
 
 		diff = ABS (diff);
-	
+
 		if (diff <= 1) {
 			if (future)
 				res = g_strdup (_("Tomorrow"));
@@ -212,11 +212,10 @@ format_relative_date (time_t tvalue, time_t ttoday, const struct tm *value, cons
 				res = g_strdup (_("Yesterday"));
 		} else {
 			if (future) {
-				/* Translators: %d is replaced with a number of days. It's always greater than 1 */
-				res = g_strdup_printf (ngettext ("%d day from now", "%d days from now", diff), diff);
+				/* Translators: %a is a strftime modifier, the abbreviated week day name, for example "Next Tue" */
+				res = g_strdup (_("Next %a"));
 			} else {
-				/* Translators: %d is replaced with a number of days. It's always greater than 1 */
-				res = g_strdup_printf (ngettext ("%d day ago", "%d days ago", diff), diff);
+				res = g_strdup ("%a");
 			}
 		}
 	}
