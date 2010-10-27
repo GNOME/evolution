@@ -573,11 +573,22 @@ create_children			(EDateEdit	*dedit)
 	time_store = gtk_list_store_new (1, G_TYPE_STRING);
 #if GTK_CHECK_VERSION(2,23,0)
 	priv->time_combo = g_object_new (
-		GTK_TYPE_COMBO_BOX,
+		GTK_TYPE_COMBO_BOX_TEXT,
 		"model", time_store,
 		"has-entry", TRUE,
 		"entry-text-column", 0,
 		NULL);
+
+	{
+	GtkCellRenderer *cell;
+
+	gtk_cell_layout_clear (GTK_CELL_LAYOUT (priv->time_combo));
+
+	cell = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (priv->time_combo), cell, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (priv->time_combo), cell, "text", 0, NULL);
+	}
+	
 #else
 	priv->time_combo = gtk_combo_box_entry_new_with_model (
 		GTK_TREE_MODEL (time_store), 0);
@@ -1581,16 +1592,16 @@ static void
 rebuild_time_popup			(EDateEdit	*dedit)
 {
 	EDateEditPrivate *priv;
-	GtkComboBoxText *combo;
+	GtkListStore *list_store;
+	GtkTreeIter iter;
 	gchar buffer[40];
 	struct tm tmp_tm;
 	gint hour, min;
 
 	priv = dedit->priv;
 
-	combo = GTK_COMBO_BOX_TEXT (priv->time_combo);
-
-	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (combo)));
+	list_store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->time_combo)));
+	gtk_list_store_clear (list_store);
 
 	/* Fill the struct tm with some sane values. */
 	tmp_tm.tm_year = 2000;
@@ -1633,7 +1644,8 @@ rebuild_time_popup			(EDateEdit	*dedit)
 			if (!priv->use_24_hour_format && buffer[0] == '0')
 				buffer[0] = ' ';
 
-			gtk_combo_box_text_append_text (combo, buffer);
+			gtk_list_store_append (list_store, &iter);
+			gtk_list_store_set (list_store, &iter, 0, buffer, -1);
 		}
 	}
 }

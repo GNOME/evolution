@@ -513,7 +513,7 @@ e_datetime_format_add_setup_widget (GtkWidget *table, gint row, const gchar *com
 
 		store = gtk_list_store_new (1, G_TYPE_STRING);
 		combo = g_object_new (
-			GTK_TYPE_COMBO_BOX,
+			GTK_TYPE_COMBO_BOX_TEXT,
 			"model", store,
 			"has-entry", TRUE,
 			"entry-text-column", 0,
