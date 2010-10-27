@@ -186,7 +186,7 @@ import_mbox_exec (struct _import_mbox_msg *m,
 			camel_message_info_free (info);
 			g_object_unref (msg);
 
-			if (error != NULL)
+			if (error && *error != NULL)
 				break;
 
 			camel_mime_parser_step (mp, NULL, NULL);
