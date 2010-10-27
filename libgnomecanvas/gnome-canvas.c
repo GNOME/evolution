@@ -923,15 +923,14 @@ gnome_canvas_item_i2w_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix)
 void
 gnome_canvas_item_w2i_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix)
 {
+	cairo_status_t status;
+
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 	g_return_if_fail (matrix != NULL);
 
-	cairo_matrix_init_identity (matrix);
-
-	while (item) {
-                cairo_matrix_multiply (matrix, &item->matrix, matrix);
-		item = item->parent;
-	}
+	gnome_canvas_item_i2w_matrix (item, matrix);
+	status = cairo_matrix_invert (matrix);
+	g_return_if_fail (status == CAIRO_STATUS_SUCCESS);
 }
 
 /**
