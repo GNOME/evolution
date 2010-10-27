@@ -45,6 +45,7 @@ m4_define([libsoup_minimum_version], [2.4.0])		dnl XXX Just a Guess
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
 m4_define([libpst_minimum_version], [0.6.41])
+m4_define([libnotify_minimum_version], [0.5.1])
 
 dnl Optional Packages
 m4_define([nm_minimum_version],[0.7])
@@ -85,7 +86,6 @@ if test "x${enable_gtk3}" = "xyes"; then
 	GWEATHER="gweather-3.0"
 	gweather_minimum_version="2.90.0"
 
-	libnotify_minimum_version="0.5.1"
 
 	dnl XXX These versions don't yet exist.  The latest releases
 	dnl     link to gtk+-2.0 so we've bumped the versions to some
@@ -123,7 +123,6 @@ else
 
 	champlain_minimum_version="0.4"
 	gtkimageview_minimum_version="1.6"
-	libnotify_minimum_version="0.3.0"
 
 	EVOLUTION_SHELL="evolution-shell"
 fi
@@ -1334,7 +1333,7 @@ dnl Libnotify Flags
 dnl ***************
 LIBNOTIFY_CFLAGS=
 LIBNOTIFY_LIBS=
-PKG_CHECK_MODULES([LIBNOTIFY], [libnotify >= $libnotify_minimum_version], [HAVE_LIBNOTIFY="yes"], [HAVE_LIBNOTIFY="no"])
+PKG_CHECK_MODULES([LIBNOTIFY], [libnotify >= libnotify_minimum_version], [HAVE_LIBNOTIFY="yes"], [HAVE_LIBNOTIFY="no"])
 if test "x$HAVE_LIBNOTIFY" = "xyes"; then
 	AC_DEFINE(HAVE_LIBNOTIFY, 1, [Define if you have libnotify])
 	libnotify="libnotify"

@@ -263,7 +263,6 @@ enable_dbus (gint enable)
 
 #define GCONF_KEY_STATUS_NOTIFICATION	GCONF_KEY_ROOT "status-notification"
 
-static GtkStatusIcon *status_icon = NULL;
 static guint status_count = 0;
 
 #ifdef HAVE_LIBNOTIFY
@@ -280,15 +279,24 @@ remove_notification (void)
 	notify = NULL;
 #endif
 
-	gtk_status_icon_set_visible (status_icon, FALSE);
-	g_object_unref (status_icon);
-
-	status_icon = NULL;
 	status_count = 0;
 }
 
+#ifdef HAVE_LIBNOTIFY
+static gboolean
+notification_callback (gpointer notify)
+{
+	return (!notify_notification_show (notify, NULL));
+}
+#endif
+
+/* -------------------------------------------------------------------  */
+
+#ifdef HAVE_LIBNOTIFY
 static void
-status_icon_activate_cb (void)
+notify_default_action_cb (NotifyNotification *notification,
+                          const gchar *label,
+                          const gchar *folder_uri)
 {
 	EShell *shell;
 	EShellView *shell_view;
@@ -297,7 +305,6 @@ status_icon_activate_cb (void)
 	EMFolderTree *folder_tree;
 	GtkAction *action;
 	GList *list;
-	const gchar *uri;
 
 	shell = e_shell_get_default ();
 	list = e_shell_get_watched_windows (shell);
@@ -318,130 +325,16 @@ status_icon_activate_cb (void)
 	gtk_action_activate (action);
 
 	/* Select the latest folder with new mail. */
-	uri = g_object_get_data (G_OBJECT (status_icon), "uri");
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	g_object_get (shell_sidebar, "folder-tree", &folder_tree, NULL);
-	em_folder_tree_set_selected (folder_tree, uri, FALSE);
+	em_folder_tree_set_selected (folder_tree, folder_uri, FALSE);
 
 	remove_notification ();
 }
 
-#ifdef HAVE_LIBNOTIFY
-static gboolean
-notification_callback (gpointer notify)
-{
-	return (!notify_notification_show (notify, NULL));
-}
-#endif
-
-/* -------------------------------------------------------------------  */
-
-static void
-do_properties (GtkMenuItem *item, gpointer user_data)
-{
-	GtkWidget *cfg, *dialog, *vbox, *label, *hbox;
-	GtkWidget *content_area;
-	gchar *text;
-
-	cfg = get_cfg_widget ();
-	if (!cfg)
-		return;
-
-	text = g_markup_printf_escaped (
-		"<span size=\"x-large\">%s</span>",
-		_("Evolution's Mail Notification"));
-
-	vbox = gtk_vbox_new (FALSE, 10);
-	label = gtk_label_new (NULL);
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-	gtk_label_set_markup (GTK_LABEL (label), text);
-	g_free (text);
-
-	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
-	gtk_widget_show (label);
-	gtk_widget_show (vbox);
-
-	hbox = gtk_hbox_new (FALSE, 10);
-	label = gtk_label_new ("   ");
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	gtk_widget_show_all (hbox);
-
-	gtk_box_pack_start (GTK_BOX (hbox), cfg, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
-
-	dialog = gtk_dialog_new_with_buttons (
-		_("Mail Notification Properties"),
-		NULL,
-		GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
-		NULL);
-
-	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-
-#if !GTK_CHECK_VERSION(2,90,7)
-	g_object_set (dialog, "has-separator", FALSE, NULL);
-#endif
-	gtk_container_add (GTK_CONTAINER (content_area), vbox);
-	gtk_container_set_border_width (GTK_CONTAINER (vbox), 10);
-	gtk_widget_set_size_request (dialog, 400, -1);
-	g_signal_connect_swapped (
-		dialog, "response",
-		G_CALLBACK (gtk_widget_destroy), dialog);
-	gtk_widget_show (dialog);
-}
-
-static void
-popup_menu_status (GtkStatusIcon *status_icon,
-                   guint button,
-                   guint activate_time,
-                   gpointer user_data)
-{
-	GtkMenu *menu;
-	GtkWidget *item;
-
-	menu = GTK_MENU (gtk_menu_new ());
-
-	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_CLOSE, NULL);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-	gtk_widget_show (item);
-
-	g_signal_connect (
-		item, "activate",
-		G_CALLBACK (remove_notification), NULL);
-
-	item = gtk_separator_menu_item_new ();
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-	gtk_widget_show (item);
-
-	item = gtk_image_menu_item_new_from_stock (GTK_STOCK_PROPERTIES, NULL);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-	gtk_widget_show (item);
-
-	g_signal_connect (
-		item, "activate",
-		G_CALLBACK (do_properties), NULL);
-
-	g_object_ref_sink (menu);
-	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, button, activate_time);
-	g_object_unref (menu);
-}
-
-#ifdef HAVE_LIBNOTIFY
-static void
-notifyActionCallback (NotifyNotification *n, gchar *label, gpointer a)
-{
-	g_static_mutex_lock (&mlock);
-
-	gtk_status_icon_set_visible (status_icon, FALSE);
-	g_object_unref (status_icon);
-
-	status_icon = NULL;
-	status_count = 0;
-	g_static_mutex_unlock (&mlock);
-}
-
-/* Function to check if actions are supported by the notification daemon */
+/* Check if actions are supported by the notification daemon.
+ * This is really only for Ubuntu's Notify OSD, which does not
+ * support actions.  Pretty much all other implementations do. */
 static gboolean
 can_support_actions (void)
 {
@@ -476,16 +369,6 @@ static void
 new_notify_status (EMEventTargetFolder *t)
 {
 	gchar *msg;
-	gboolean new_icon = !status_icon;
-
-	if (new_icon) {
-		status_icon = gtk_status_icon_new ();
-		gtk_status_icon_set_from_icon_name (status_icon, "mail-unread");
-	}
-
-	g_object_set_data_full (
-		G_OBJECT (status_icon), "uri",
-		g_strdup (t->uri), (GDestroyNotify) g_free);
 
 	if (!status_count) {
 		EAccount *account;
@@ -544,10 +427,6 @@ new_notify_status (EMEventTargetFolder *t)
 			status_count), status_count);
 	}
 
-	gtk_status_icon_set_tooltip_text (status_icon, msg);
-
-	gtk_status_icon_set_visible (status_icon, TRUE);
-
 #ifdef HAVE_LIBNOTIFY
 	/* Now check whether we're supposed to send notifications */
 	if (is_part_enabled (GCONF_KEY_STATUS_NOTIFICATION)) {
@@ -568,8 +447,6 @@ new_notify_status (EMEventTargetFolder *t)
 #else
 			notify  = notify_notification_new (
 				_("New email"), safetext, "mail-unread", NULL);
-			notify_notification_attach_to_status_icon (
-				notify, status_icon);
 #endif /* HAVE_LIBNOTIFY_07 */
 
 			/* Check if actions are supported */
@@ -580,7 +457,10 @@ new_notify_status (EMEventTargetFolder *t)
 					notify, NOTIFY_EXPIRES_DEFAULT);
 				notify_notification_add_action (
 					notify, "default", "Default",
-					notifyActionCallback, NULL, NULL);
+					(NotifyActionCallback)
+					notify_default_action_cb,
+					g_strdup (t->uri),
+					(GFreeFunc) g_free);
 				g_timeout_add (
 					500, notification_callback, notify);
 			}
@@ -590,24 +470,11 @@ new_notify_status (EMEventTargetFolder *t)
 #endif
 
 	g_free (msg);
-
-	if (new_icon) {
-		g_signal_connect (
-			status_icon, "activate",
-			G_CALLBACK (status_icon_activate_cb), NULL);
-
-		g_signal_connect (
-			status_icon, "popup-menu",
-			G_CALLBACK (popup_menu_status), NULL);
-	}
 }
 
 static void
 read_notify_status (EMEventTargetMessage *t)
 {
-	if (!status_icon)
-		return;
-
 	remove_notification ();
 }
 
