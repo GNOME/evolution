@@ -99,7 +99,7 @@ void mail_refresh_folder (CamelFolder *folder,
 			  void (*done) (CamelFolder *folder, gpointer data),
 			  gpointer data);
 
-void mail_expunge_folder (CamelFolder *folder,
+void mail_expunge_folder (EMailSession *session, CamelFolder *folder,
 			  void (*done) (CamelFolder *folder, gpointer data),
 			  gpointer data);
 

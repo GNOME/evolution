@@ -247,7 +247,7 @@ action_mail_folder_expunge_cb (GtkAction *action,
 	folder = em_folder_tree_get_selected_folder (folder_tree);
 	g_return_if_fail (folder != NULL);
 
-	em_utils_expunge_folder (GTK_WIDGET (shell_window), folder);
+	em_utils_expunge_folder (GTK_WIDGET (shell_window), e_mail_backend_get_session (E_MAIL_BACKEND (e_shell_view_get_shell_backend (shell_view))), folder);
 }
 
 static void

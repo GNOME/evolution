@@ -1337,12 +1337,13 @@ em_utils_message_to_html (CamelMimeMessage *message,
 /**
  * em_utils_expunge_folder:
  * @parent: parent window
+ * @session: #EMailSession
  * @folder: folder to expunge
  *
  * Expunges @folder.
  **/
 void
-em_utils_expunge_folder (GtkWidget *parent, CamelFolder *folder)
+em_utils_expunge_folder (GtkWidget *parent, EMailSession *session, CamelFolder *folder)
 {
 	const gchar *description;
 
@@ -1354,7 +1355,7 @@ em_utils_expunge_folder (GtkWidget *parent, CamelFolder *folder)
 		"mail:ask-expunge", description, NULL))
 		return;
 
-	mail_expunge_folder (folder, NULL, NULL);
+	mail_expunge_folder (session, folder, NULL, NULL);
 }
 
 /**
