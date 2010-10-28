@@ -506,9 +506,9 @@ gnome_canvas_shape_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdou
         cairo_append_path (cr, shape->priv->path);
 
         if (gnome_canvas_shape_setup_for_stroke (shape, cr))
-                cairo_stroke_extents (cr, x1, x2, y1, y2);
+                cairo_stroke_extents (cr, x1, y1, x2, y2);
         else if (gnome_canvas_shape_setup_for_fill (shape, cr))
-                cairo_fill_extents (cr, x1, x2, y1, y2);
+                cairo_fill_extents (cr, x1, y1, x2, y2);
         else {
           *x1 = *x2 = *y1 = *y2 = 0;
         }
