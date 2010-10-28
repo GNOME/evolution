@@ -245,6 +245,7 @@ gnome_canvas_shape_set_property (GObject      *object,
 	GnomeCanvasShapePriv    *priv;
 	GdkColor                 color;
 	GdkColor                *colorptr;
+	const gchar             *color_string;
 
 	item = GNOME_CANVAS_ITEM (object);
 	shape = GNOME_CANVAS_SHAPE (object);
@@ -252,8 +253,14 @@ gnome_canvas_shape_set_property (GObject      *object,
 
 	switch (param_id) {
 	case PROP_FILL_COLOR:
-		if (g_value_get_string (value) &&
-                    gdk_color_parse (g_value_get_string (value), &color)) {
+		color_string = g_value_get_string (value);
+		if (color_string != NULL) {
+			if (gdk_color_parse (color_string, &color)) {
+				g_warning (
+					"Failed to parse color '%s'",
+					color_string);
+				break;
+			}
 			priv->fill_set = TRUE;
 			priv->fill_rgba = get_rgba_from_color (&color);
 		} else if (priv->fill_set)
@@ -285,8 +292,14 @@ gnome_canvas_shape_set_property (GObject      *object,
 		break;
 
 	case PROP_OUTLINE_COLOR:
-		if (g_value_get_string (value) &&
-                    gdk_color_parse (g_value_get_string (value), &color)) {
+		color_string = g_value_get_string (value);
+		if (color_string != NULL) {
+			if (!gdk_color_parse (color_string, &color)) {
+				g_warning (
+					"Failed to parse color '%s'",
+					color_string);
+				break;
+			}
 			priv->outline_set = TRUE;
 			priv->outline_rgba = get_rgba_from_color (&color);
 		} else if (priv->outline_set)
