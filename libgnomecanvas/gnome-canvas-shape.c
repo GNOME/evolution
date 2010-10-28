@@ -478,8 +478,6 @@ gnome_canvas_shape_draw (GnomeCanvasItem *item,
 	shape = GNOME_CANVAS_SHAPE (item);
         cr = gdk_cairo_create (drawable);
         gnome_canvas_item_i2c_matrix (item, &matrix);
-        if (cairo_matrix_invert (&matrix))
-                return;
         cairo_transform (cr, &matrix);
         cairo_append_path (cr, shape->priv->path);
 
