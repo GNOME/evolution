@@ -625,17 +625,22 @@ generate_layout (ECellTextView *text_view, gint model_col, gint view_col, gint r
 }
 
 static void
-draw_pango_rectangle (cairo_t *cr, gint x1, gint y1, PangoRectangle rect)
+draw_cursor (cairo_t *cr, gint x1, gint y1, PangoRectangle rect)
 {
-       gint width = rect.width / PANGO_SCALE;
-       gint height = rect.height / PANGO_SCALE;
-       if (width <= 0)
-               width = 1;
-       if (height <= 0)
-               height = 1;
-       cairo_rectangle (cr,
-                        x1 + rect.x / PANGO_SCALE, y1 + rect.y / PANGO_SCALE,
-                        width, height);
+	gdouble scaled_x;
+	gdouble scaled_y;
+	gdouble scaled_height;
+
+	/* Pango stores each cursor position as a zero-width rectangle. */
+	scaled_x = x1 + ((gdouble) rect.x) / PANGO_SCALE;
+	scaled_y = y1 + ((gdouble) rect.y) / PANGO_SCALE;
+	scaled_height = ((gdouble) rect.height) / PANGO_SCALE;
+
+	/* Adding 0.5 to scaled_x gives a sharp, one-pixel line. */
+	cairo_move_to (cr, scaled_x + 0.5, scaled_y);
+	cairo_line_to (cr, scaled_x + 0.5, scaled_y + scaled_height);
+	cairo_set_line_width (cr, 1);
+	cairo_stroke (cr);
 }
 
 static gboolean
@@ -784,12 +789,12 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 				PangoRectangle strong_pos, weak_pos;
 				pango_layout_get_cursor_pos (layout, edit->selection_start + edit->preedit_length, &strong_pos, &weak_pos);
 
-				draw_pango_rectangle (cr, x_origin, y_origin, strong_pos);
+				draw_cursor (cr, x_origin, y_origin, strong_pos);
 				if (strong_pos.x != weak_pos.x ||
 				    strong_pos.y != weak_pos.y ||
 				    strong_pos.width != weak_pos.width ||
 				    strong_pos.height != weak_pos.height)
-					draw_pango_rectangle (cr, x_origin, y_origin, weak_pos);
+					draw_cursor (cr, x_origin, y_origin, weak_pos);
 			}
 		}
 	}
