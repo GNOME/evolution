@@ -22,7 +22,6 @@
 
 #include "e-account-utils.h"
 
-#include <camel/camel.h>
 #include <gconf/gconf-client.h>
 
 static EAccountList *global_account_list;
@@ -354,4 +353,58 @@ e_get_default_transport (void)
 	g_object_unref (iterator);
 
 	return NULL;
+}
+
+/**
+ * e_get_subscribable_accounts:
+ * @session: a #CamelSession
+ *
+ * Returns a list of enabled accounts that support folder subscriptions.
+ * The #EAccount objects are not referenced, but the list itself should
+ * be should be freed with g_list_free().
+ *
+ * Returns: a list of #EAccount objects
+ **/
+GList *
+e_get_subscribable_accounts (CamelSession *session)
+{
+	EAccountList *account_list;
+	EAccount *account;
+	EIterator *iterator;
+	GList *subscribable = NULL;
+
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
+
+	account_list = e_get_account_list ();
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (e_iterator_is_valid (iterator)) {
+		CamelStore *store = NULL;
+
+		/* XXX EIterator misuses const. */
+		account = (EAccount *) e_iterator_get (iterator);
+
+		if (account->enabled) {
+			const gchar *url;
+
+			url = e_account_get_string (
+				account, E_ACCOUNT_SOURCE_URL);
+			store = (CamelStore *) camel_session_get_service (
+				session, url, CAMEL_PROVIDER_STORE, NULL);
+		}
+
+		e_iterator_next (iterator);
+
+		if (store == NULL)
+			continue;
+
+		if (!camel_store_supports_subscriptions (store))
+			continue;
+
+		subscribable = g_list_prepend (subscribable, account);
+	}
+
+	g_object_unref (iterator);
+
+	return g_list_reverse (subscribable);
 }

@@ -18,6 +18,7 @@
 #ifndef E_ACCOUNT_UTILS_H
 #define E_ACCOUNT_UTILS_H
 
+#include <camel/camel.h>
 #include <libedataserver/e-account.h>
 #include <libedataserver/e-account-list.h>
 
@@ -33,6 +34,7 @@ EAccount *	e_get_account_by_transport_url	(const gchar *transport_url);
 EAccount *	e_get_any_enabled_account	(void);
 EAccountService *
 		e_get_default_transport		(void);
+GList *		e_get_subscribable_accounts	(CamelSession *session);
 
 G_END_DECLS
 

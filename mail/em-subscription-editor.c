@@ -1044,32 +1044,30 @@ static void
 subscription_editor_realize (GtkWidget *widget)
 {
 	EMSubscriptionEditor *editor;
-	EAccountList *account_list;
-	EIterator *account_iter;
 	GtkComboBox *combo_box;
+	CamelSession *session;
+	GList *list, *iter;
 	gint initial_index = 0;
 
 	editor = EM_SUBSCRIPTION_EDITOR (widget);
+	session = em_subscription_editor_get_session (editor);
 
 	/* Chain up to parent's realize() method. */
 	GTK_WIDGET_CLASS (em_subscription_editor_parent_class)->realize (widget);
 
 	/* Find accounts to display, and watch for the default account. */
-	account_list = e_get_account_list ();
-	account_iter = e_list_get_iterator (E_LIST (account_list));
-	while (e_iterator_is_valid (account_iter)) {
-		EAccount *account;
-
-		/* XXX EIterator misuses const. */
-		account = (EAccount *) e_iterator_get (account_iter);
-		if (subscription_editor_test_account (editor, account)) {
-			if (account == editor->priv->initial_account)
-				initial_index = editor->priv->stores->len;
-			subscription_editor_add_account (editor, account);
-		}
-		e_iterator_next (account_iter);
+	list = e_get_subscribable_accounts (session);
+	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+		EAccount *account = E_ACCOUNT (iter->data);
+		if (account == editor->priv->initial_account)
+			initial_index = editor->priv->stores->len;
+		subscription_editor_add_account (editor, account);
 	}
-	g_object_unref (account_iter);
+	g_list_free (list);
+
+	/* The subscription editor should only be accessible if
+	 * at least one enabled account supports subscriptions. */
+	g_return_if_fail (editor->priv->stores->len > 0);
 
 	combo_box = GTK_COMBO_BOX (editor->priv->combo_box);
 	gtk_combo_box_set_active (combo_box, initial_index);
