@@ -4401,10 +4401,18 @@ ml_sort_uids_by_tree (MessageList *ml, GPtrArray *uids)
 
 	for (i = 0; i < uids->len; i++) {
 		gchar *uid;
-		struct sort_message_info_data *md = g_new0 (struct sort_message_info_data, 1);
+		CamelMessageInfo *mi;
+		struct sort_message_info_data *md;
 
 		uid = g_ptr_array_index (uids, i);
-		md->mi = camel_folder_get_message_info (ml->folder, uid);
+		mi = camel_folder_get_message_info (ml->folder, uid);
+		if (!mi) {
+			g_warning ("%s: Cannot find uid '%s' in folder '%s'", G_STRFUNC, uid, camel_folder_get_full_name (ml->folder));
+			continue;
+		}
+
+		md = g_new0 (struct sort_message_info_data, 1);
+		md->mi = mi;
 		md->values = g_ptr_array_sized_new (len);
 
 		g_hash_table_insert (sort_data.message_infos, uid, md);
