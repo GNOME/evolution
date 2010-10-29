@@ -543,7 +543,7 @@ gnome_canvas_shape_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gin
 	if (GNOME_CANVAS_ITEM_CLASS (gnome_canvas_shape_parent_class)->update)
 		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_shape_parent_class)->update (item, i2c, flags);
 
-        gnome_canvas_shape_bounds (item, &x1, &x2, &y1, &y2);
+        gnome_canvas_shape_bounds (item, &x1, &y1, &x2, &y2);
         gnome_canvas_item_i2w_matrix (item, &matrix);
 
         gnome_canvas_matrix_transform_rect (&matrix, &x1, &y1, &x2, &y2);
