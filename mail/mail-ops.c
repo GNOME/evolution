@@ -244,7 +244,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 	if (!strncmp (m->source_uri, "mbox:", 5)) {
 		gchar *path = mail_tool_do_movemail (m->source_uri, error);
 
-		if (path && error == NULL) {
+		if (path && (!error || !*error)) {
 			camel_folder_freeze (fm->destination);
 			camel_filter_driver_set_default_folder (
 				fm->driver, fm->destination);
@@ -253,7 +253,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 				cancellable, error);
 			camel_folder_thaw (fm->destination);
 
-			if (error == NULL)
+			if (!error || !*error)
 				g_unlink (path);
 		}
 		g_free (path);
@@ -301,7 +301,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 					camel_uid_cache_save (cache);
 				}
 
-				if (fm->delete && error == NULL) {
+				if (fm->delete && (!error || !*error)) {
 					/* not keep on server - just delete all the actual messages on the server */
 					for (i=0;i<folder_uids->len;i++) {
 						d(printf("force delete uid '%s'\n", (gchar *)folder_uids->pdata[i]));
@@ -309,7 +309,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 					}
 				}
 
-				if ((fm->delete || cache_uids) && error == NULL) {
+				if ((fm->delete || cache_uids) && (!error || !*error)) {
 					/* expunge messages (downloaded so far) */
 					/* FIXME Not passing a GCancellable or GError here. */
 					camel_folder_synchronize_sync (

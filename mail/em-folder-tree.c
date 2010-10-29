@@ -1831,7 +1831,7 @@ folder_tree_drop_async__exec (struct _DragDataReceivedAsync *m,
 			em_utils_selection_get_uidlist (
 				m->selection, m->session, folder, m->move,
 				cancellable, error);
-			m->moved = m->move && (error == NULL);
+			m->moved = m->move && (!error || !*error);
 			break;
 		case DND_DROP_TYPE_MESSAGE_RFC822:
 			/* import a message/rfc822 stream */

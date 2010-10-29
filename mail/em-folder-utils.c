@@ -153,7 +153,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 					camel_store_rename_folder_sync (
 						m->fromstore, info->full_name, toname->str,
 						cancellable, error);
-					if (error != NULL)
+					if (error && *error)
 						goto exception;
 
 					/* this folder no longer exists, unsubscribe it */
@@ -185,7 +185,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 						cancellable, error);
 					camel_folder_free_uids (fromfolder, uids);
 
-					if (m->delete && error == NULL)
+					if (m->delete && (!error || !*error))
 						camel_folder_synchronize_sync (
 							fromfolder, TRUE,
 							NULL, NULL);
@@ -195,7 +195,7 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 				}
 			}
 
-			if (error != NULL)
+			if (error && *error)
 				goto exception;
 			else if (m->delete && !deleted)
 				deleting = g_list_prepend (deleting, info);
