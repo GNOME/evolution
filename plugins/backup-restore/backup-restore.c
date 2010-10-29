@@ -145,6 +145,18 @@ set_local_only (GtkFileChooser *file_chooser)
 	gtk_file_chooser_set_local_only (file_chooser, TRUE);
 }
 
+static gchar *
+suggest_file_name (void)
+{
+	time_t t;
+	struct tm tm;
+
+	t = time (NULL);
+	localtime_r (&t, &tm);
+
+	return g_strdup_printf ("evolution-backup-%04d%02d%02d.tar.gz", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
+}
+
 static void
 action_settings_backup_cb (GtkAction *action,
                            EShellWindow *shell_window)
@@ -154,12 +166,17 @@ action_settings_backup_cb (GtkAction *action,
 	GFileInfo *file_info;
 	const gchar *attribute;
 	GError *error = NULL;
+	gchar *suggest;
+
+	suggest = suggest_file_name ();
 
 	file = e_shell_run_save_dialog (
 		e_shell_window_get_shell (shell_window),
 		_("Select name of the Evolution back up file"),
-		"evolution-backup.tar.gz", "*.tar.gz", (GtkCallback)
+		suggest, "*.tar.gz", (GtkCallback)
 		set_local_only, NULL);
+
+	g_free (suggest);
 
 	if (file == NULL)
 		return;

@@ -58,7 +58,6 @@
 #define EVOLUTION_DIR_FILE EVOLUTION ".dir"
 #define GCONF_DUMP_FILE "backup-restore-gconf.xml"
 #define GCONF_DIR "/apps/evolution"
-#define ARCHIVE_NAME "evolution-backup.tar.gz"
 
 static gboolean backup_op = FALSE;
 static gchar *bk_file = NULL;
