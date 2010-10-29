@@ -451,6 +451,18 @@ cal_shell_backend_init_importers (void)
 	e_import_class_add_importer (import_class, importer, NULL, NULL);
 }
 
+static time_t
+utc_to_user_zone (time_t utc_time)
+{
+	icaltimezone *zone = calendar_config_get_icaltimezone ();
+
+	if (!zone || (int) utc_time == -1)
+		return utc_time;
+
+	return icaltime_as_timet (
+		icaltime_from_timet_with_zone (utc_time, FALSE, zone));
+}
+
 static gboolean
 cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
                                  const gchar *uri)
@@ -510,10 +522,10 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 		content = g_strndup (cp, content_len);
 		if (g_ascii_strcasecmp (header, "startdate") == 0)
 			g_date_set_time_t (
-				&start_date, time_from_isodate (content));
+				&start_date, utc_to_user_zone (time_from_isodate (content)));
 		else if (g_ascii_strcasecmp (header, "enddate") == 0)
 			g_date_set_time_t (
-				&end_date, time_from_isodate (content));
+				&end_date, utc_to_user_zone (time_from_isodate (content)));
 		else if (g_ascii_strcasecmp (header, "source-uid") == 0)
 			source_uid = g_strdup (content);
 		else if (g_ascii_strcasecmp (header, "comp-uid") == 0)
