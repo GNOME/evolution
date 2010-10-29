@@ -1168,7 +1168,7 @@ vfolder_load_storage (EMailBackend *backend)
 		G_CALLBACK (folder_unavailable_cb), session);
 	g_signal_connect (
 		folder_cache, "folder-deleted",
-		G_CALLBACK (folder_deleted_cb), NULL);
+		G_CALLBACK (folder_deleted_cb), backend);
 	g_signal_connect (
 		folder_cache, "folder-renamed",
 		G_CALLBACK (folder_renamed_cb), NULL);
