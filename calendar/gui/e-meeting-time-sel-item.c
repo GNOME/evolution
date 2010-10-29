@@ -1056,5 +1056,6 @@ e_meeting_time_selector_item_set_normal_cursor (EMeetingTimeSelectorItem *mts_it
 
 	canvas = GNOME_CANVAS_ITEM (mts_item)->canvas;
 	window = gtk_widget_get_window (GTK_WIDGET (canvas));
-	gdk_window_set_cursor (window, mts_item->normal_cursor);
+	if (window)
+		gdk_window_set_cursor (window, mts_item->normal_cursor);
 }
