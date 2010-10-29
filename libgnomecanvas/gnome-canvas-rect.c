@@ -413,8 +413,8 @@ gnome_canvas_rect_draw (GnomeCanvasItem *item,
 
 	cairo_rectangle (
 		cr,
-		rect->priv->x1,
-		rect->priv->y1,
+		rect->priv->x1 - x,
+		rect->priv->y1 - y,
 		rect->priv->x2 - rect->priv->x1,
 		rect->priv->y2 - rect->priv->y1);
 
