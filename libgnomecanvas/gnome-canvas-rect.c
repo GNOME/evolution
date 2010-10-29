@@ -377,7 +377,6 @@ gnome_canvas_rect_update (GnomeCanvasItem *item,
 {
 	GnomeCanvasRect *rect;
 	double x1, x2, y1, y2;
-	cairo_matrix_t matrix;
 
 	rect = GNOME_CANVAS_RECT (item);
 
@@ -385,9 +384,7 @@ gnome_canvas_rect_update (GnomeCanvasItem *item,
 		update (item, i2c, flags);
 
 	gnome_canvas_rect_bounds (item, &x1, &y1, &x2, &y2);
-	gnome_canvas_item_i2w_matrix (item, &matrix);
-
-	gnome_canvas_matrix_transform_rect (&matrix, &x1, &y1, &x2, &y2);
+	gnome_canvas_matrix_transform_rect (i2c, &x1, &y1, &x2, &y2);
 
 	gnome_canvas_update_bbox (
 		item, floor (x1), floor (y1), ceil (x2), ceil (y2));
