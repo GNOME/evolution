@@ -418,6 +418,13 @@ e_signature_editor_init (ESignatureEditor *editor)
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 	editor->priv->action_group = g_object_ref (action_group);
 
+	/* hide page properties, because it is not inherited in the mail */
+	action = gtkhtml_editor_get_action (gtkhtml_editor, "properties-page");
+	gtk_action_set_visible (action, FALSE);
+
+	action = gtkhtml_editor_get_action (gtkhtml_editor, "context-properties-page");
+	gtk_action_set_visible (action, FALSE);
+
 	gtk_ui_manager_ensure_update (ui_manager);
 
 	gtk_window_set_title (GTK_WINDOW (editor), _("Edit Signature"));
