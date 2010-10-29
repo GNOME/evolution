@@ -285,7 +285,7 @@ eab_select_source (ESource *except_source, const gchar *title, const gchar *mess
 gchar *
 eab_suggest_filename (GList *contact_list)
 {
-	gchar *current_name = NULL, *res;
+	gchar *res = NULL;
 
 	g_return_val_if_fail (contact_list != NULL, NULL);
 
@@ -297,15 +297,12 @@ eab_suggest_filename (GList *contact_list)
 		if (string == NULL)
 			string = e_contact_get (contact, E_CONTACT_FULL_NAME);
 		if (string != NULL)
-			current_name = make_safe_filename (string);
+			res = make_safe_filename (string);
 		g_free (string);
 	}
 
-	if (current_name == NULL)
-		current_name = make_safe_filename (_("list"));
-
-	res = g_strconcat (current_name, ".vcf", NULL);
-	g_free (current_name);
+	if (res == NULL)
+		res = make_safe_filename (_("list"));
 
 	return res;
 }
