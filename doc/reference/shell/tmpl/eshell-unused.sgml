@@ -347,6 +347,22 @@ e-shell-window.sgml
 @dialog: 
 @Returns: 
 
+<!-- ##### FUNCTION e_attachment_store_get_current_folder ##### -->
+<para>
+
+</para>
+
+@store: 
+@Returns: 
+
+<!-- ##### FUNCTION e_attachment_store_set_current_folder ##### -->
+<para>
+
+</para>
+
+@store: 
+@current_folder: 
+
 <!-- ##### FUNCTION e_binding_new ##### -->
 <para>
 
