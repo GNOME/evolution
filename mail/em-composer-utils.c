@@ -1665,15 +1665,13 @@ em_utils_handle_receipt (EMailSession *session,
 
 static void
 em_utils_receipt_done (CamelFolder *folder,
-                       CamelMimeMessage *msg,
-                       CamelMessageInfo *info,
-                       gint queued,
-                       const gchar *appended_uid,
-                       gpointer data)
+                       GAsyncResult *result,
+                       EMailSession *session)
 {
-	EMailSession *session = E_MAIL_SESSION (data);
+	/* FIXME Poor error handling. */
+	if (!e_mail_folder_append_message_finish (folder, result, NULL, NULL))
+		return;
 
-	camel_message_info_free (info);
 	mail_send (session);
 }
 
@@ -1812,8 +1810,13 @@ em_utils_send_receipt (EMailSession *session,
 	out_folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
 	camel_message_info_set_flags (
 		info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-	mail_append_mail (
-		out_folder, receipt, info, em_utils_receipt_done, session);
+
+	/* FIXME Pass a GCancellable. */
+	e_mail_folder_append_message (
+		out_folder, receipt, info, G_PRIORITY_DEFAULT, NULL,
+		(GAsyncReadyCallback) em_utils_receipt_done, session);
+
+	camel_message_info_free (info);
 }
 
 /* Replying to messages... */

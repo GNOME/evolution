@@ -27,15 +27,19 @@
 typedef struct _AsyncContext AsyncContext;
 
 struct _AsyncContext {
-	GCancellable *cancellable;
+	CamelMimeMessage *message;
+	CamelMessageInfo *info;
 	gchar *message_uid;
 };
 
 static void
 async_context_free (AsyncContext *context)
 {
-	if (context->cancellable != NULL)
-		g_object_unref (context->cancellable);
+	if (context->message != NULL)
+		g_object_unref (context->message);
+
+	if (context->info != NULL)
+		camel_message_info_free (context->info);
 
 	g_free (context->message_uid);
 
@@ -43,28 +47,58 @@ async_context_free (AsyncContext *context)
 }
 
 static void
-mail_folder_append_message_ready (CamelFolder *folder,
-                                  GAsyncResult *result,
-                                  GSimpleAsyncResult *simple)
+mail_folder_append_message_thread (GSimpleAsyncResult *simple,
+                                   GObject *object,
+                                   GCancellable *cancellable)
 {
 	AsyncContext *context;
 	GError *error = NULL;
 
 	context = g_simple_async_result_get_op_res_gpointer (simple);
 
-	camel_folder_append_message_finish (
-		folder, result, &context->message_uid, &error);
+	e_mail_folder_append_message_sync (
+		CAMEL_FOLDER (object), context->message,
+		context->info, &context->message_uid,
+		cancellable, &error);
 
 	if (error != NULL) {
 		g_simple_async_result_set_from_error (simple, error);
 		g_error_free (error);
 	}
+}
 
-	camel_operation_pop_message (context->cancellable);
+gboolean
+e_mail_folder_append_message_sync (CamelFolder *folder,
+                                   CamelMimeMessage *message,
+                                   CamelMessageInfo *info,
+                                   gchar **appended_uid,
+                                   GCancellable *cancellable,
+                                   GError **error)
+{
+	CamelMedium *medium;
+	gboolean success;
 
-	g_simple_async_result_complete (simple);
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), FALSE);
 
-	g_object_unref (simple);
+	medium = CAMEL_MEDIUM (message);
+
+	camel_operation_push_message (
+		cancellable,
+		_("Saving message to folder '%s'"),
+		camel_folder_get_full_name (folder));
+
+	if (camel_medium_get_header (medium, "X-Mailer") == NULL)
+		camel_medium_set_header (medium, "X-Mailer", X_MAILER);
+
+	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
+
+	success = camel_folder_append_message_sync (
+		folder, message, info, appended_uid, cancellable, error);
+
+	camel_operation_pop_message (cancellable);
+
+	return success;
 }
 
 void
@@ -78,17 +112,15 @@ e_mail_folder_append_message (CamelFolder *folder,
 {
 	GSimpleAsyncResult *simple;
 	AsyncContext *context;
-	CamelMedium *medium;
 
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
-	medium = CAMEL_MEDIUM (message);
-
 	context = g_slice_new0 (AsyncContext);
+	context->message = g_object_ref (message);
 
-	if (G_IS_CANCELLABLE (cancellable))
-		context->cancellable = g_object_ref (cancellable);
+	if (info != NULL)
+		context->info = camel_message_info_ref (info);
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (folder), callback, user_data,
@@ -97,20 +129,11 @@ e_mail_folder_append_message (CamelFolder *folder,
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) async_context_free);
 
-	camel_operation_push_message (
-		context->cancellable,
-		_("Saving message to folder '%s'"),
-		camel_folder_get_full_name (folder));
+	g_simple_async_result_run_in_thread (
+		simple, mail_folder_append_message_thread,
+		io_priority, cancellable);
 
-	if (camel_medium_get_header (medium, "X-Mailer") == NULL)
-		camel_medium_set_header (medium, "X-Mailer", X_MAILER);
-
-	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
-
-	camel_folder_append_message (
-		folder, message, info, io_priority,
-		context->cancellable, (GAsyncReadyCallback)
-		mail_folder_append_message_ready, simple);
+	g_object_unref (simple);
 }
 
 gboolean
@@ -130,13 +153,11 @@ e_mail_folder_append_message_finish (CamelFolder *folder,
 	simple = G_SIMPLE_ASYNC_RESULT (result);
 	context = g_simple_async_result_get_op_res_gpointer (simple);
 
-	if (g_simple_async_result_propagate_error (simple, error))
-		return FALSE;
-
 	if (appended_uid != NULL) {
 		*appended_uid = context->message_uid;
 		context->message_uid = NULL;
 	}
 
-	return TRUE;
+	/* Assume success unless a GError is set. */
+	return !g_simple_async_result_propagate_error (simple, error);
 }
