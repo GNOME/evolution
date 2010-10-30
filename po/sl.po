@@ -3,21 +3,21 @@
 # This file is distributed under the same license as the evolution package.
 #
 # Andraž Tori <andraz.tori1@guest.arnes.si>, 2002.
-# Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2009 - 2010.
 # Matej Urbančič <mateju@svn.gnome.org>, 2006 - 2010.
+# Andrej Žnidaršič <andrej.znidarsic@gmail.com>, 2009 - 2010, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2010-09-11 07:44+0000\n"
-"PO-Revision-Date: 2010-09-11 09:57+0100\n"
-"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
-"Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
+"PO-Revision-Date: 2010-10-30 07:40+0100\n"
+"Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
+"Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0)\n"
 "X-Poedit-Language: Slovenian\n"
 "X-Poedit-Country: SLOVENIA\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -8386,7 +8386,7 @@ msgstr "Nastavite koledar Yahoo z Evolution"
 
 #: ../capplet/settings/mail-account-view.c:771
 msgid "Yahoo calendars are named as firstname_lastname. We have tried to form the calendar name. So please confirm and re-enter the calendar name if it is not correct."
-msgstr "Koledarji Yahoo so poimenovani kot priimek_ime. Potrdite in ponovno vnesite ime koledarja, če ni pravilno."
+msgstr "Koledarji Yahoo so poimenovani kot ime_priimek. Potrdite in znova vnesite ime koledarja, če ni pravilno."
 
 #: ../capplet/settings/mail-account-view.c:778
 msgid "Yahoo account settings:"
@@ -8469,7 +8469,7 @@ msgstr "Evolution"
 
 #: ../data/evolution.desktop.in.in.h:2
 msgid "Evolution Mail and Calendar"
-msgstr "Koledar in pošta Evolution"
+msgstr "Evolution koledar in pošta"
 
 #: ../data/evolution.desktop.in.in.h:3
 #: ../shell/e-shell-window-actions.c:654
@@ -11145,7 +11145,7 @@ msgstr "Ob izhodu iz programa izprazni mapo neželene pošte"
 
 #: ../mail/evolution-mail.schemas.in.h:52
 msgid "Empty Trash folders on exit"
-msgstr "Ob izhodu iz programa sprazni mape smeti"
+msgstr "Ob izhodu iz programa izprazni mape smeti"
 
 #: ../mail/evolution-mail.schemas.in.h:53
 msgid "Empty all Junk folders when exiting Evolution."
@@ -21120,7 +21120,7 @@ msgstr "Načini vnosa"
 #~ msgid "Backend busy"
 #~ msgstr "Zaledje je zasedeno"
 #~ msgid "Repository offline"
-#~ msgstr "Skladišče brez povezave"
+#~ msgstr "Odložišče brez povezave"
 #~ msgid "Address Book does not exist"
 #~ msgstr "Imenik ne obstaja"
 #~ msgid "No Self Contact defined"
@@ -21255,7 +21255,7 @@ msgstr "Načini vnosa"
 #~ msgid "Has Cursor"
 #~ msgstr "Ima kazalec"
 #~ msgid "Calendar repository is offline."
-#~ msgstr "Skladišče koledarja ni povezano."
+#~ msgstr "Odložišče koledarja ni povezano."
 #~ msgid "Error on '{0}'"
 #~ msgstr "Napaka na '{0}'"
 #~ msgid "No response from the server."
