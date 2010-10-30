@@ -904,28 +904,6 @@ subscription_editor_add_account (EMSubscriptionEditor *editor,
 	g_ptr_array_add (editor->priv->stores, data);
 }
 
-static gboolean
-subscription_editor_test_account (EMSubscriptionEditor *editor,
-                                  EAccount *account)
-{
-	CamelSession *session;
-	CamelStore *store;
-	const gchar *url;
-
-	/* Account must be enabled. */
-	if (!account->enabled)
-		return FALSE;
-
-	session = em_subscription_editor_get_session (editor);
-	url = e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
-
-	store = (CamelStore *) camel_session_get_service (
-		session, url, CAMEL_PROVIDER_STORE, NULL);
-
-	/* Corresponding CamelStore must support subscriptions. */
-	return (store != NULL) && camel_store_supports_subscriptions (store);
-}
-
 static void
 subscription_editor_set_account (EMSubscriptionEditor *editor,
                                  EAccount *account)
