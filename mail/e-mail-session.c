@@ -51,6 +51,7 @@
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 
+#include "e-mail-folder-utils.h"
 #include "e-mail-local.h"
 #include "e-mail-session.h"
 #include "em-composer-utils.h"
@@ -386,18 +387,16 @@ forward_to_flush_outbox_cb (EMailSession *session)
 
 static void
 ms_forward_to_cb (CamelFolder *folder,
-                  CamelMimeMessage *msg,
-                  CamelMessageInfo *info,
-                  gint queued,
-                  const gchar *appended_uid,
-                  gpointer data)
+                  GAsyncResult *result,
+                  EMailSession *session)
 {
-	EMailSession *session = E_MAIL_SESSION (data);
 	GConfClient *client;
 
-	client = gconf_client_get_default ();
+	/* FIXME Poor error handling. */
+	if (!e_mail_folder_append_message_finish (folder, result, NULL, NULL))
+		return;
 
-	camel_message_info_free (info);
+	client = gconf_client_get_default ();
 
 	/* do not call mail send immediately, just pile them all in the outbox */
 	if (preparing_flush ||
@@ -926,8 +925,13 @@ mail_session_forward_to (CamelSession *session,
 	out_folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
 	camel_message_info_set_flags (
 		info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-	mail_append_mail (
-		out_folder, forward, info, ms_forward_to_cb, session);
+
+	/* FIXME Pass a GCancellable. */
+	e_mail_folder_append_message (
+		out_folder, forward, info, G_PRIORITY_DEFAULT, NULL,
+		(GAsyncReadyCallback) ms_forward_to_cb, session);
+
+	camel_message_info_free (info);
 
 	return TRUE;
 }

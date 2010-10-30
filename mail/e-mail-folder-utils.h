@@ -25,6 +25,13 @@
 
 G_BEGIN_DECLS
 
+gboolean	e_mail_folder_append_message_sync
+						(CamelFolder *folder,
+						 CamelMimeMessage *message,
+						 CamelMessageInfo *info,
+						 gchar **appended_uid,
+						 GCancellable *cancellable,
+						 GError **error);
 void		e_mail_folder_append_message	(CamelFolder *folder,
 						 CamelMimeMessage *message,
 						 CamelMessageInfo *info,

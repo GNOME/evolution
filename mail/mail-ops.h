@@ -32,11 +32,6 @@ G_BEGIN_DECLS
 #include <mail/mail-mt.h>
 #include <mail/e-mail-session.h>
 
-void mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMessageInfo *info,
-		       void (*done)(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, gint ok,
-				    const gchar *appended_uid, gpointer data),
-		       gpointer data);
-
 void		mail_transfer_messages		(EMailSession *session,
 						 CamelFolder *source,
 						 GPtrArray *uids,

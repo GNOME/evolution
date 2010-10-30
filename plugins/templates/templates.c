@@ -31,6 +31,7 @@
 
 #include <e-util/e-config.h>
 
+#include <mail/e-mail-folder-utils.h>
 #include <mail/e-mail-local.h>
 #include <mail/e-mail-reader.h>
 #include <mail/e-mail-session.h>
@@ -710,7 +711,10 @@ got_message_draft_cb (EMsgComposer *composer,
 	camel_message_info_set_flags (
 		info, CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DRAFT, ~0);
 
-	mail_append_mail (folder, message, info, NULL, composer);
+	/* FIXME No async callback, so... hope for the best? */
+	e_mail_folder_append_message (
+		folder, message, info, G_PRIORITY_DEFAULT,
+		NULL, (GAsyncReadyCallback) NULL, NULL);
 
 	g_object_unref (message);
 }
