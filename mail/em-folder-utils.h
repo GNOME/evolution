@@ -49,9 +49,6 @@ void		em_folder_utils_delete_folder	(EMailBackend *backend,
 void		em_folder_utils_create_folder	(CamelFolderInfo *folderinfo,
 						 EMFolderTree *emft,
 						 GtkWindow *parent);
-void		em_folder_utils_unsubscribe_folder
-						(EMailSession *session,
-						 const gchar *folder_uri);
 
 const gchar *	em_folder_utils_get_icon_name	(guint32 flags);
 

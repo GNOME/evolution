@@ -486,5 +486,10 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
     <_secondary>Folder '{0}' doesn't contain any duplicate message.</_secondary>
     <button stock="gtk-ok" response="GTK_RESPONSE_OK"/>
   </error>
+
+  <error id="folder-unsubscribe" type="warning">
+    <_primary>Failed to unsubscribe from folder.</_primary>
+    <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+  </error>
 </error-list>
 

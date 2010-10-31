@@ -19,8 +19,37 @@
  *
  */
 
-#include "mail/mail-folder-cache.h"
 #include "e-mail-shell-view-private.h"
+
+static void
+mail_folder_unsubscribe_done_cb (EMailSession *session,
+                                 GAsyncResult *result,
+                                 EActivity *activity)
+{
+	EAlertSink *alert_sink;
+	GError *error = NULL;
+
+	alert_sink = e_activity_get_alert_sink (activity);
+
+	e_mail_session_unsubscribe_folder_finish (session, result, &error);
+
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		e_activity_set_state (activity, E_ACTIVITY_CANCELLED);
+		g_error_free (error);
+
+	} else if (error != NULL) {
+		e_alert_submit (
+			alert_sink,
+			"mail:folder-unsubscribe",
+			error->message, NULL);
+		g_error_free (error);
+
+	} else {
+		e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
+	}
+
+	g_object_unref (activity);
+}
 
 static void
 action_gal_save_custom_view_cb (GtkAction *action,
@@ -587,10 +616,14 @@ action_mail_folder_unsubscribe_cb (GtkAction *action,
 {
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellBackend *shell_backend;
+	EShellContent *shell_content;
 	EShellView *shell_view;
 	EMailBackend *backend;
 	EMailSession *session;
 	EMFolderTree *folder_tree;
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	GCancellable *cancellable;
 	gchar *folder_uri;
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
@@ -598,12 +631,25 @@ action_mail_folder_unsubscribe_cb (GtkAction *action,
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 
+	activity = e_activity_new ();
+	cancellable = camel_operation_new ();
+	alert_sink = E_ALERT_SINK (shell_content);
+	e_activity_set_alert_sink (activity, alert_sink);
+	e_activity_set_cancellable (activity, cancellable);
+	e_shell_backend_add_activity (shell_backend, activity);
+
 	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
-	em_folder_utils_unsubscribe_folder (session, folder_uri);
+
+	e_mail_session_unsubscribe_folder (
+		session, folder_uri, G_PRIORITY_DEFAULT, cancellable,
+		(GAsyncReadyCallback) mail_folder_unsubscribe_done_cb,
+		activity);
+
 	g_free (folder_uri);
 }
 
