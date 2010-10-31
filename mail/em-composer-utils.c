@@ -598,8 +598,13 @@ composer_save_to_drafts_cleanup (CamelFolder *drafts_folder,
                                  AsyncContext *context)
 {
 	CamelSession *session;
+	EAlertSink *alert_sink;
 	GCancellable *cancellable;
 	GError *error = NULL;
+
+	session = e_msg_composer_get_session (context->composer);
+	alert_sink = e_activity_get_alert_sink (context->activity);
+	cancellable = e_activity_get_cancellable (context->activity);
 
 	e_mail_folder_append_message_finish (
 		drafts_folder, result, &context->message_uid, &error);
@@ -615,16 +620,13 @@ composer_save_to_drafts_cleanup (CamelFolder *drafts_folder,
 	if (error != NULL) {
 		g_warn_if_fail (context->message_uid == NULL);
 		e_alert_submit (
-			E_ALERT_SINK (context->composer),
+			alert_sink,
 			"mail-composer:save-to-drafts-error",
 			error->message, NULL);
 		async_context_free (context);
 		g_error_free (error);
 		return;
 	}
-
-	session = e_msg_composer_get_session (context->composer);
-	cancellable = e_activity_get_cancellable (context->activity);
 
 	/* Mark the previously saved draft message for deletion.
 	 * Note: This is just a nice-to-have; ignore failures. */
@@ -761,7 +763,10 @@ composer_save_to_outbox_completed (CamelFolder *outbox_folder,
                                    GAsyncResult *result,
                                    AsyncContext *context)
 {
+	EAlertSink *alert_sink;
 	GError *error = NULL;
+
+	alert_sink = e_activity_get_alert_sink (context->activity);
 
 	e_mail_folder_append_message_finish (
 		outbox_folder, result, NULL, &error);
@@ -775,7 +780,7 @@ composer_save_to_outbox_completed (CamelFolder *outbox_folder,
 
 	if (error != NULL) {
 		e_alert_submit (
-			E_ALERT_SINK (context->composer),
+			alert_sink,
 			"mail-composer:append-to-outbox-error",
 			error->message, NULL);
 		g_error_free (error);

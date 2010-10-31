@@ -34,6 +34,7 @@
 
 struct _EActivityPrivate {
 	GCancellable *cancellable;
+	EAlertSink *alert_sink;
 	EActivityState state;
 
 	gchar *icon_name;
@@ -43,6 +44,7 @@ struct _EActivityPrivate {
 
 enum {
 	PROP_0,
+	PROP_ALERT_SINK,
 	PROP_CANCELLABLE,
 	PROP_ICON_NAME,
 	PROP_PERCENT,
@@ -75,6 +77,12 @@ activity_set_property (GObject *object,
                        GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ALERT_SINK:
+			e_activity_set_alert_sink (
+				E_ACTIVITY (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_CANCELLABLE:
 			e_activity_set_cancellable (
 				E_ACTIVITY (object),
@@ -116,6 +124,12 @@ activity_get_property (GObject *object,
                        GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ALERT_SINK:
+			g_value_set_object (
+				value, e_activity_get_alert_sink (
+				E_ACTIVITY (object)));
+			return;
+
 		case PROP_CANCELLABLE:
 			g_value_set_object (
 				value, e_activity_get_cancellable (
@@ -156,6 +170,11 @@ activity_dispose (GObject *object)
 	EActivityPrivate *priv;
 
 	priv = E_ACTIVITY_GET_PRIVATE (object);
+
+	if (priv->alert_sink != NULL) {
+		g_object_unref (priv->alert_sink);
+		priv->alert_sink = NULL;
+	}
 
 	if (priv->cancellable != NULL) {
 		g_signal_handlers_disconnect_matched (
@@ -245,6 +264,17 @@ e_activity_class_init (EActivityClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_ALERT_SINK,
+		g_param_spec_object (
+			"alert-sink",
+			NULL,
+			NULL,
+			E_TYPE_ALERT_SINK,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_CANCELLABLE,
 		g_param_spec_object (
 			"cancellable",
@@ -314,24 +344,6 @@ e_activity_new (void)
 	return g_object_new (E_TYPE_ACTIVITY, NULL);
 }
 
-EActivity *
-e_activity_newv (const gchar *format, ...)
-{
-	EActivity *activity;
-	gchar *text;
-	va_list args;
-
-	activity = e_activity_new ();
-
-	va_start (args, format);
-	text = g_strdup_vprintf (format, args);
-	e_activity_set_text (activity, text);
-	g_free (text);
-	va_end (args);
-
-	return activity;
-}
-
 gchar *
 e_activity_describe (EActivity *activity)
 {
@@ -343,6 +355,33 @@ e_activity_describe (EActivity *activity)
 	g_return_val_if_fail (class->describe != NULL, NULL);
 
 	return class->describe (activity);
+}
+
+EAlertSink *
+e_activity_get_alert_sink (EActivity *activity)
+{
+	g_return_val_if_fail (E_IS_ACTIVITY (activity), NULL);
+
+	return activity->priv->alert_sink;
+}
+
+void
+e_activity_set_alert_sink (EActivity *activity,
+                           EAlertSink *alert_sink)
+{
+	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	if (alert_sink != NULL) {
+		g_return_if_fail (E_IS_ALERT_SINK (alert_sink));
+		g_object_ref (alert_sink);
+	}
+
+	if (activity->priv->alert_sink != NULL)
+		g_object_unref (activity->priv->alert_sink);
+
+	activity->priv->alert_sink = alert_sink;
+
+	g_object_notify (G_OBJECT (activity), "alert-sink");
 }
 
 GCancellable *

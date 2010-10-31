@@ -307,6 +307,15 @@ e-shell-window.sgml
 @activity: 
 @Returns: 
 
+<!-- ##### FUNCTION e_activity_newv ##### -->
+<para>
+
+</para>
+
+@format: 
+@Varargs: 
+@Returns: 
+
 <!-- ##### FUNCTION e_activity_set_allow_cancel ##### -->
 <para>
 
