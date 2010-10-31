@@ -27,6 +27,7 @@
 
 #include <libedataserver/e-flag.h>
 
+#include <e-util/e-alert-sink.h>
 #include <shell/e-shell-view.h>
 
 #include "mail-mt.h"
@@ -252,13 +253,13 @@ mail_msg_check_error (gpointer msg)
 
 	if (m->info->desc && (what = m->info->desc (m))) {
 		e_alert_submit (
-			GTK_WIDGET (shell_content),
+			E_ALERT_SINK (shell_content),
 			"mail:async-error", what,
 			m->error->message, NULL);
 		g_free (what);
 	} else
 		e_alert_submit (
-			GTK_WIDGET (shell_content),
+			E_ALERT_SINK (shell_content),
 			"mail:async-error-nodescribe",
 			m->error->message, NULL);
 }

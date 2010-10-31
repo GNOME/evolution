@@ -54,7 +54,7 @@ struct _EAlertSinkInterface {
 };
 
 GType		e_alert_sink_get_type		(void);
-void		e_alert_sink_submit_alert	(GtkWidget *widget,
+void		e_alert_sink_submit_alert	(EAlertSink *alert_sink,
 						 EAlert *alert);
 
 G_END_DECLS

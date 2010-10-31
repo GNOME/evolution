@@ -29,6 +29,7 @@
 
 #include "e-util/e-account-utils.h"
 #include "e-util/e-alert-dialog.h"
+#include "e-util/e-alert-sink.h"
 
 #include "misc/e-account-combo-box.h"
 
@@ -637,6 +638,6 @@ e_mail_backend_submit_alert (EMailBackend *backend,
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	va_start (va, tag);
-	e_alert_submit_valist (GTK_WIDGET (shell_content), tag, va);
+	e_alert_submit_valist (E_ALERT_SINK (shell_content), tag, va);
 	va_end (va);
 }

@@ -834,7 +834,7 @@ action_save_cb (GtkAction *action,
 
 	if (!e_cal_is_read_only (priv->client, &read_only, NULL) || read_only) {
 		e_alert_submit (
-			GTK_WIDGET (editor),
+			E_ALERT_SINK (editor),
 			"calendar:prompt-read-only-cal-editor",
 			e_source_peek_name (
 				e_cal_get_source (priv->client)),
@@ -1881,7 +1881,7 @@ prompt_and_save_changes (CompEditor *editor, gboolean send)
 	case GTK_RESPONSE_YES: /* Save */
 		if (!e_cal_is_read_only (priv->client, &read_only, NULL) || read_only) {
 			e_alert_submit (
-				GTK_WIDGET (editor),
+				E_ALERT_SINK (editor),
 				"calendar:prompt-read-only-cal-editor",
 				e_source_peek_name (
 					e_cal_get_source (priv->client)),

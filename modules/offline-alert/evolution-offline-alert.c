@@ -96,7 +96,8 @@ offline_alert_network_available_cb (EShell *shell,
 		if (!E_IS_SHELL_WINDOW (window))
 			continue;
 
-		e_alert_sink_submit_alert (window, extension->alert);
+		e_alert_sink_submit_alert (
+			E_ALERT_SINK (window), extension->alert);
 	}
 
 	g_object_unref (extension->alert);
@@ -148,7 +149,7 @@ offline_alert_window_created_cb (EShell *shell,
 	g_object_add_weak_pointer (
 		G_OBJECT (extension->alert), &extension->alert);
 
-	e_alert_sink_submit_alert (GTK_WIDGET (window), extension->alert);
+	e_alert_sink_submit_alert (E_ALERT_SINK (window), extension->alert);
 
 	g_object_unref (extension->alert);
 }

@@ -57,6 +57,8 @@
 
 G_BEGIN_DECLS
 
+struct _EAlertSink;
+
 typedef struct _EAlert EAlert;
 typedef struct _EAlertClass EAlertClass;
 typedef struct _EAlertPrivate EAlertPrivate;
@@ -103,10 +105,10 @@ GtkWidget *	e_alert_create_image		(EAlert *alert,
 void		e_alert_response		(EAlert *alert,
 						 gint response_id);
 
-void		e_alert_submit			(GtkWidget *widget,
+void		e_alert_submit			(struct _EAlertSink *alert_sink,
 						 const gchar *tag,
 						 ...) G_GNUC_NULL_TERMINATED;
-void		e_alert_submit_valist		(GtkWidget *widget,
+void		e_alert_submit_valist		(struct _EAlertSink *alert_sink,
 						 const gchar *tag,
 						 va_list va);
 

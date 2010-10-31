@@ -66,35 +66,24 @@ e_alert_sink_default_init (EAlertSinkInterface *interface)
 
 /**
  * e_alert_sink_submit_alert:
- * @widget: a #GtkWidget, either itself an #EAlertSink or a child of one
+ * @alert_sink: an #EAlertSink
  * @alert: an #EAlert
  *
  * This function is a place to pass #EAlert objects.  Beyond that it has no
  * well-defined behavior.  It's up to the widget implementing the #EAlertSink
  * interface to decide what to do with them.
- *
- * Either @widget or one of its ancestors must implement #EAlertSink.
- *
- * The default behavior is to display the @alert in a dialog.
  **/
 void
-e_alert_sink_submit_alert (GtkWidget *widget,
+e_alert_sink_submit_alert (EAlertSink *alert_sink,
                            EAlert *alert)
 {
-	GtkWidget *ancestor;
+	EAlertSinkInterface *interface;
 
-	g_return_if_fail (GTK_IS_WIDGET (widget));
+	g_return_if_fail (E_IS_ALERT_SINK (alert_sink));
 	g_return_if_fail (E_IS_ALERT (alert));
 
-	ancestor = gtk_widget_get_ancestor (widget, E_TYPE_ALERT_SINK);
+	interface = E_ALERT_SINK_GET_INTERFACE (alert_sink);
+	g_return_if_fail (interface->submit_alert != NULL);
 
-	if (E_IS_ALERT_SINK (ancestor)) {
-		EAlertSinkInterface *interface;
-
-		interface = E_ALERT_SINK_GET_INTERFACE (ancestor);
-		g_return_if_fail (interface->submit_alert != NULL);
-
-		interface->submit_alert (E_ALERT_SINK (ancestor), alert);
-	} else
-		alert_sink_fallback (widget, alert);
+	interface->submit_alert (alert_sink, alert);
 }
