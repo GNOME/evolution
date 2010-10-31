@@ -2104,61 +2104,6 @@ mail_get_message (CamelFolder *folder, const gchar *uid, void (*done) (CamelFold
 	return id;
 }
 
-typedef void (*get_done)(CamelFolder *folder, const gchar *uid, CamelMimeMessage *msg, gpointer data, GError **error);
-
-static void
-get_messagex_done (struct _get_message_msg *m)
-{
-	get_done done;
-
-	if (!m->done)
-		return;
-
-	if (camel_operation_cancel_check (CAMEL_OPERATION (m->cancellable)))
-		return;
-
-	done = (get_done)m->done;
-	done (m->folder, m->uid, m->message, m->data, &m->base.error);
-}
-
-static MailMsgInfo get_messagex_info = {
-	sizeof (struct _get_message_msg),
-	(MailMsgDescFunc) get_message_desc,
-	(MailMsgExecFunc) get_message_exec,
-	(MailMsgDoneFunc) get_messagex_done,
-	(MailMsgFreeFunc) get_message_free
-};
-
-/* This is temporary, to avoid having to rewrite everything that uses
-   mail_get_message; it adds an exception argument to the callback */
-gint
-mail_get_messagex (CamelFolder *folder,
-                   const gchar *uid,
-                   void (*done) (CamelFolder *folder,
-                                 const gchar *uid,
-                                 CamelMimeMessage *msg,
-                                 gpointer data,
-                                 GError **error),
-                   gpointer data,
-                   MailMsgDispatchFunc dispatch)
-{
-	struct _get_message_msg *m;
-	gint id;
-
-	m = mail_msg_new (&get_messagex_info);
-	m->folder = folder;
-	g_object_ref (folder);
-	m->uid = g_strdup (uid);
-	m->data = data;
-	m->done = (void (*) (CamelFolder *, const gchar *, CamelMimeMessage *, gpointer )) done;
-	m->cancellable = camel_operation_new ();
-	id = m->base.seq;
-
-	dispatch (m);
-
-	return id;
-}
-
 /* ********************************************************************** */
 
 struct _get_messages_msg {
