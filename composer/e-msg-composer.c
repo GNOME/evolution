@@ -561,7 +561,7 @@ build_message_headers (EMsgComposer *composer,
 	}
 
 	/* Date: */
-	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
+	camel_mime_message_set_date (msg, CAMEL_MESSAGE_DATE_CURRENT, 0);
 
 	/* X-Evolution-PostTo: */
 	header = e_composer_header_table_get_header (
