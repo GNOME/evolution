@@ -50,6 +50,7 @@ struct _AsyncContext {
 
 	GPtrArray *post_to_uris;
 
+	gchar *folder_uri;
 	gchar *destination;
 	gchar *message_uid;
 	gchar *transport_uri;
@@ -91,6 +92,7 @@ async_context_free (AsyncContext *context)
 		g_ptr_array_free (context->post_to_uris, TRUE);
 	}
 
+	g_free (context->folder_uri);
 	g_free (context->destination);
 	g_free (context->message_uid);
 	g_free (context->transport_uri);
@@ -785,6 +787,123 @@ e_mail_session_send_to_finish (EMailSession *session,
 		g_simple_async_result_is_valid (
 		result, G_OBJECT (session),
 		e_mail_session_send_to), FALSE);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+
+	/* Assume success unless a GError is set. */
+	return !g_simple_async_result_propagate_error (simple, error);
+}
+
+static void
+mail_session_unsubscribe_folder_thread (GSimpleAsyncResult *simple,
+                                        EMailSession *session,
+                                        GCancellable *cancellable)
+{
+	AsyncContext *context;
+	GError *error = NULL;
+
+	context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	e_mail_session_unsubscribe_folder_sync (
+		session, context->folder_uri, cancellable, &error);
+
+	if (error != NULL) {
+		g_simple_async_result_set_from_error (simple, error);
+		g_error_free (error);
+	}
+}
+
+gboolean
+e_mail_session_unsubscribe_folder_sync (EMailSession *session,
+                                        const gchar *folder_uri,
+                                        GCancellable *cancellable,
+                                        GError **error)
+{
+	CamelURL *url;
+	CamelStore *store;
+	CamelProviderURLFlags flags;
+	const gchar *message;
+	const gchar *path = NULL;
+	gboolean success = FALSE;
+
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), FALSE);
+	g_return_val_if_fail (folder_uri != NULL, FALSE);
+
+	message = _("Unsubscribing from folder '%s'");
+	camel_operation_push_message (cancellable, message, folder_uri);
+
+	store = camel_session_get_store (
+		CAMEL_SESSION (session), folder_uri, error);
+	if (store == NULL)
+		goto exit;
+
+	url = camel_url_new (folder_uri, error);
+	if (url == NULL)
+		goto exit;
+
+	flags = CAMEL_SERVICE (store)->provider->url_flags;
+
+	if (flags & CAMEL_URL_FRAGMENT_IS_PATH)
+		path = url->fragment;
+	else if (url->path != NULL && *url->path != '\0')
+		path = url->path + 1;
+
+	g_return_val_if_fail (path != NULL, FALSE);
+
+	success = camel_store_unsubscribe_folder_sync (
+		store, path, cancellable, error);
+
+	camel_url_free (url);
+
+exit:
+	camel_operation_pop_message (cancellable);
+
+	return success;
+}
+
+void
+e_mail_session_unsubscribe_folder (EMailSession *session,
+                                   const gchar *folder_uri,
+                                   gint io_priority,
+                                   GCancellable *cancellable,
+                                   GAsyncReadyCallback callback,
+                                   gpointer user_data)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *context;
+
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (folder_uri != NULL);
+
+	context = g_slice_new0 (AsyncContext);
+	context->folder_uri = g_strdup (folder_uri);
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (session), callback, user_data,
+		e_mail_session_unsubscribe_folder);
+
+	g_simple_async_result_set_op_res_gpointer (
+		simple, context, (GDestroyNotify) async_context_free);
+
+	g_simple_async_result_run_in_thread (
+		simple, (GSimpleAsyncThreadFunc)
+		mail_session_unsubscribe_folder_thread,
+		io_priority, cancellable);
+
+	g_object_unref (simple);
+}
+
+gboolean
+e_mail_session_unsubscribe_folder_finish (EMailSession *session,
+                                          GAsyncResult *result,
+                                          GError **error)
+{
+	GSimpleAsyncResult *simple;
+
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (session),
+		e_mail_session_unsubscribe_folder), FALSE);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
 
