@@ -74,7 +74,10 @@ struct _EMsgComposerClass {
 						 GtkPrintOperationAction print_action,
 						 CamelMimeMessage *message,
 						 EActivity *activity);
-	void		(*save_draft)		(EMsgComposer *composer,
+	void		(*save_to_drafts)	(EMsgComposer *composer,
+						 CamelMimeMessage *message,
+						 EActivity *activity);
+	void		(*save_to_outbox)	(EMsgComposer *composer,
 						 CamelMimeMessage *message,
 						 EActivity *activity);
 	void		(*send)			(EMsgComposer *composer,
@@ -100,7 +103,8 @@ EShell *	e_msg_composer_get_shell	(EMsgComposer *composer);
 EWebView *	e_msg_composer_get_web_view	(EMsgComposer *composer);
 
 void		e_msg_composer_send		(EMsgComposer *composer);
-void		e_msg_composer_save_draft	(EMsgComposer *composer);
+void		e_msg_composer_save_to_drafts	(EMsgComposer *composer);
+void		e_msg_composer_save_to_outbox	(EMsgComposer *composer);
 void		e_msg_composer_print		(EMsgComposer *composer,
 						 GtkPrintOperationAction print_action);
 

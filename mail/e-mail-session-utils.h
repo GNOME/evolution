@@ -58,8 +58,7 @@ gboolean	e_mail_session_handle_source_headers_finish
 						 GAsyncResult *result,
 						 GError **error);
 void		e_mail_session_send_to		(EMailSession *session,
-						 CamelFolder *outbox_folder,
-						 const gchar *message_uid,
+						 CamelMimeMessage *message,
 						 const gchar *destination,
 						 gint io_priority,
 						 GCancellable *cancellable,

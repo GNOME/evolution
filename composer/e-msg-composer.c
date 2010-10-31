@@ -94,7 +94,8 @@ enum {
 enum {
 	PRESEND,
 	SEND,
-	SAVE_DRAFT,
+	SAVE_TO_DRAFTS,
+	SAVE_TO_OUTBOX,
 	PRINT,
 	LAST_SIGNAL
 };
@@ -2530,11 +2531,22 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 		CAMEL_TYPE_MIME_MESSAGE,
 		E_TYPE_ACTIVITY);
 
-	signals[SAVE_DRAFT] = g_signal_new (
-		"save-draft",
+	signals[SAVE_TO_DRAFTS] = g_signal_new (
+		"save-to-drafts",
 		G_OBJECT_CLASS_TYPE (class),
 		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (EMsgComposerClass, save_draft),
+		G_STRUCT_OFFSET (EMsgComposerClass, save_to_drafts),
+		NULL, NULL,
+		e_marshal_VOID__OBJECT_OBJECT,
+		G_TYPE_NONE, 2,
+		CAMEL_TYPE_MIME_MESSAGE,
+		E_TYPE_ACTIVITY);
+
+	signals[SAVE_TO_OUTBOX] = g_signal_new (
+		"save-to-outbox",
+		G_OBJECT_CLASS_TYPE (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMsgComposerClass, save_to_outbox),
 		NULL, NULL,
 		e_marshal_VOID__OBJECT_OBJECT,
 		G_TYPE_NONE, 2,
@@ -3562,9 +3574,9 @@ e_msg_composer_send (EMsgComposer *composer)
 }
 
 static void
-msg_composer_save_draft_cb (EMsgComposer *composer,
-                            GAsyncResult *result,
-                            AsyncContext *context)
+msg_composer_save_to_drafts_cb (EMsgComposer *composer,
+                                GAsyncResult *result,
+                                AsyncContext *context)
 {
 	CamelMimeMessage *message;
 	GtkhtmlEditor *editor;
@@ -3595,8 +3607,8 @@ msg_composer_save_draft_cb (EMsgComposer *composer,
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
 	g_signal_emit (
-		composer, signals[SAVE_DRAFT], 0,
-		message, context->activity);
+		composer, signals[SAVE_TO_DRAFTS],
+		0, message, context->activity);
 
 	g_object_unref (message);
 
@@ -3608,13 +3620,13 @@ msg_composer_save_draft_cb (EMsgComposer *composer,
 }
 
 /**
- * e_msg_composer_save_draft:
+ * e_msg_composer_save_to_drafts:
  * @composer: an #EMsgComposer
  *
  * Save the message in @composer to the selected account's Drafts folder.
  **/
 void
-e_msg_composer_save_draft (EMsgComposer *composer)
+e_msg_composer_save_to_drafts (EMsgComposer *composer)
 {
 	AsyncContext *context;
 	EActivityBar *activity_bar;
@@ -3634,7 +3646,90 @@ e_msg_composer_save_draft (EMsgComposer *composer)
 
 	e_msg_composer_get_message_draft (
 		composer, G_PRIORITY_DEFAULT, cancellable,
-		(GAsyncReadyCallback) msg_composer_save_draft_cb,
+		(GAsyncReadyCallback) msg_composer_save_to_drafts_cb,
+		context);
+}
+
+static void
+msg_composer_save_to_outbox_cb (EMsgComposer *composer,
+                                GAsyncResult *result,
+                                AsyncContext *context)
+{
+	CamelMimeMessage *message;
+	GtkhtmlEditor *editor;
+	GError *error = NULL;
+
+	message = e_msg_composer_get_message_finish (composer, result, &error);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_warn_if_fail (message == NULL);
+		async_context_free (context);
+		g_error_free (error);
+		return;
+	}
+
+	if (error != NULL) {
+		g_warn_if_fail (message == NULL);
+		async_context_free (context);
+		e_alert_submit (
+			GTK_WIDGET (composer),
+			"mail-composer:no-build-message",
+			error->message, NULL);
+		g_error_free (error);
+		return;
+	}
+
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	g_signal_emit (
+		composer, signals[SAVE_TO_OUTBOX],
+		0, message, context->activity);
+
+	g_object_unref (message);
+
+	async_context_free (context);
+
+	/* XXX This should be elsewhere. */
+	editor = GTKHTML_EDITOR (composer);
+	gtkhtml_editor_set_changed (editor, FALSE);
+}
+
+/**
+ * e_msg_composer_save_to_outbox:
+ * @composer: an #EMsgComposer
+ *
+ * Save the message in @composer to the local Outbox folder.
+ **/
+void
+e_msg_composer_save_to_outbox (EMsgComposer *composer)
+{
+	AsyncContext *context;
+	EActivityBar *activity_bar;
+	GCancellable *cancellable;
+	gboolean proceed_with_save = TRUE;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	/* This gives the user a chance to abort the save. */
+	g_signal_emit (composer, signals[PRESEND], 0, &proceed_with_save);
+
+	if (!proceed_with_save)
+		return;
+
+	context = g_slice_new0 (AsyncContext);
+	context->activity = e_composer_activity_new (composer);
+
+	cancellable = camel_operation_new ();
+	e_activity_set_cancellable (context->activity, cancellable);
+	g_object_unref (cancellable);
+
+	activity_bar = E_ACTIVITY_BAR (composer->priv->activity_bar);
+	e_activity_bar_set_activity (activity_bar, context->activity);
+
+	e_msg_composer_get_message (
+		composer, G_PRIORITY_DEFAULT, cancellable,
+		(GAsyncReadyCallback) msg_composer_save_to_outbox_cb,
 		context);
 }
 

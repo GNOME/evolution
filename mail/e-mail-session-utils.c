@@ -33,7 +33,6 @@ typedef struct _AsyncContext AsyncContext;
 
 struct _AsyncContext {
 	CamelFolder *sent_folder;
-	CamelFolder *outbox_folder;
 
 	CamelMimeMessage *message;
 	CamelMessageInfo *info;
@@ -62,9 +61,6 @@ async_context_free (AsyncContext *context)
 {
 	if (context->sent_folder != NULL)
 		g_object_unref (context->sent_folder);
-
-	if (context->outbox_folder != NULL)
-		g_object_unref (context->outbox_folder);
 
 	if (context->message != NULL)
 		g_object_unref (context->message);
@@ -564,19 +560,6 @@ cleanup:
 
 	/* The send operation was successful; ignore cleanup errors. */
 
-	/* Mark the Outbox message for deletion. */
-	camel_folder_set_message_flags (
-		context->outbox_folder, context->message_uid,
-		CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_SEEN, ~0);
-
-	/* Synchronize the Outbox folder. */
-	camel_folder_synchronize_sync (
-		context->outbox_folder, FALSE, cancellable, &error);
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_clear_error (&error);
-	}
-
 	/* Mark the draft message for deletion, if present. */
 	e_mail_session_handle_draft_headers_sync (
 		session, context->message, cancellable, &error);
@@ -617,17 +600,23 @@ exit:
 	g_string_free (error_messages, TRUE);
 }
 
-static void
-mail_session_send_to_prepare (CamelFolder *outbox_folder,
-                              GAsyncResult *result,
-                              GSimpleAsyncResult *simple)
+void
+e_mail_session_send_to (EMailSession *session,
+                        CamelMimeMessage *message,
+                        const gchar *destination,
+                        gint io_priority,
+                        GCancellable *cancellable,
+                        CamelFilterGetFolderFunc get_folder_func,
+                        gpointer get_folder_data,
+                        GAsyncReadyCallback callback,
+                        gpointer user_data)
 {
+	GSimpleAsyncResult *simple;
 	AsyncContext *context;
 	CamelAddress *from;
 	CamelAddress *recipients;
 	CamelMedium *medium;
 	CamelMessageInfo *info;
-	CamelMimeMessage *message;
 	EAccount *account = NULL;
 	GPtrArray *post_to_uris;
 	struct _camel_header_raw *xev;
@@ -638,20 +627,7 @@ mail_session_send_to_prepare (CamelFolder *outbox_folder,
 	gchar *sent_folder_uri = NULL;
 	GError *error = NULL;
 
-	context = g_simple_async_result_get_op_res_gpointer (simple);
-
-	message = camel_folder_get_message_finish (
-		outbox_folder, result, &error);
-
-	if (error != NULL) {
-		g_warn_if_fail (message == NULL);
-		g_simple_async_result_set_from_error (simple, error);
-		g_simple_async_result_complete (simple);
-		g_object_unref (simple);
-		g_error_free (error);
-		return;
-	}
-
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
 	medium = CAMEL_MEDIUM (message);
@@ -686,7 +662,7 @@ mail_session_send_to_prepare (CamelFolder *outbox_folder,
 		sent_folder_uri = g_strstrip (g_strdup (string));
 
 	if (transport_uri == NULL)
-		transport_uri = g_strdup (context->destination);
+		transport_uri = g_strdup (destination);
 
 	post_to_uris = g_ptr_array_new ();
 	for (header = xev; header != NULL; header = header->next) {
@@ -750,6 +726,10 @@ mail_session_send_to_prepare (CamelFolder *outbox_folder,
 
 	/* The rest of the processing happens in a thread. */
 
+	context = g_slice_new0 (AsyncContext);
+	context->message = g_object_ref (message);
+	context->destination = g_strdup (destination);
+	context->io_priority = io_priority;
 	context->from = from;
 	context->recipients = recipients;
 	context->message = g_object_ref (message);
@@ -759,46 +739,10 @@ mail_session_send_to_prepare (CamelFolder *outbox_folder,
 	context->transport_uri = transport_uri;
 	context->sent_folder_uri = sent_folder_uri;
 
-	g_simple_async_result_run_in_thread (
-		simple, (GSimpleAsyncThreadFunc)
-		mail_session_send_to_thread,
-		context->io_priority,
-		context->cancellable);
-
-	g_object_unref (simple);
-}
-
-void
-e_mail_session_send_to (EMailSession *session,
-                        CamelFolder *outbox_folder,
-                        const gchar *message_uid,
-                        const gchar *destination,
-                        gint io_priority,
-                        GCancellable *cancellable,
-                        CamelFilterGetFolderFunc get_folder_func,
-                        gpointer get_folder_data,
-                        GAsyncReadyCallback callback,
-                        gpointer user_data)
-{
-	GSimpleAsyncResult *simple;
-	AsyncContext *context;
-	GError *error = NULL;
-
-	g_return_if_fail (E_IS_MAIL_SESSION (session));
-	g_return_if_fail (CAMEL_IS_FOLDER (outbox_folder));
-	g_return_if_fail (message_uid != NULL);
-
-	context = g_slice_new0 (AsyncContext);
-	context->outbox_folder = g_object_ref (outbox_folder);
-	context->message_uid = g_strdup (message_uid);
-	context->destination = g_strdup (destination);
-	context->io_priority = io_priority;
-
 	if (G_IS_CANCELLABLE (cancellable))
 		context->cancellable = g_object_ref (cancellable);
 
-	/* More convenient to do this here than in the prepare function.
-	 * Failure here emits a runtime warning but is non-fatal. */
+	/* Failure here emits a runtime warning but is non-fatal. */
 	context->driver = camel_session_get_filter_driver (
 		CAMEL_SESSION (session), E_FILTER_SOURCE_OUTGOING, &error);
 	if (context->driver != NULL)
@@ -810,6 +754,10 @@ e_mail_session_send_to (EMailSession *session,
 		g_error_free (error);
 	}
 
+	/* This gets popped in async_context_free(). */
+	camel_operation_push_message (
+		context->cancellable, _("Sending message"));
+
 	simple = g_simple_async_result_new (
 		G_OBJECT (session), callback,
 		user_data, e_mail_session_send_to);
@@ -817,14 +765,13 @@ e_mail_session_send_to (EMailSession *session,
 	g_simple_async_result_set_op_res_gpointer (
 		simple, context, (GDestroyNotify) async_context_free);
 
-	/* This gets popped in async_context_free(). */
-	camel_operation_push_message (
-		context->cancellable, _("Sending message"));
+	g_simple_async_result_run_in_thread (
+		simple, (GSimpleAsyncThreadFunc)
+		mail_session_send_to_thread,
+		context->io_priority,
+		context->cancellable);
 
-	camel_folder_get_message (
-		outbox_folder, message_uid, io_priority,
-		context->cancellable, (GAsyncReadyCallback)
-		mail_session_send_to_prepare, simple);
+	g_object_unref (simple);
 }
 
 gboolean

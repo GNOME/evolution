@@ -193,14 +193,28 @@ static void
 action_save_draft_cb (GtkAction *action,
                       EMsgComposer *composer)
 {
-	e_msg_composer_save_draft (composer);
+	e_msg_composer_save_to_drafts (composer);
 }
 
 static void
 action_send_cb (GtkAction *action,
                 EMsgComposer *composer)
 {
-	e_msg_composer_send (composer);
+	CamelSession *session;
+
+	session = e_msg_composer_get_session (composer);
+
+	/* If we're online, send the message now.
+	 * Otherwise write the message to Outbox. */
+	if (camel_session_get_online (session))
+		e_msg_composer_send (composer);
+	else {
+		/* Inform the user. */
+		e_alert_run_dialog_for_args (
+			GTK_WINDOW (composer),
+			"mail-composer:saving-to-outbox", NULL);
+		e_msg_composer_save_to_outbox (composer);
+	}
 }
 
 static void
