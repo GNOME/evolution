@@ -488,10 +488,21 @@ composer_send_completed (EMailSession *session,
 	}
 
 	if (error != NULL) {
-		e_alert_submit (
-			GTK_WIDGET (context->composer),
+		gint response;
+
+		/* Clear the activity bar before
+		 * presenting the error dialog. */
+		g_object_unref (context->activity);
+		context->activity = NULL;
+
+		response = e_alert_run_dialog_for_args (
+			GTK_WINDOW (context->composer),
 			"mail-composer:send-error",
 			error->message, NULL);
+		if (response == GTK_RESPONSE_OK)  /* Try Again */
+			e_msg_composer_send (context->composer);
+		if (response == GTK_RESPONSE_ACCEPT)  /* Save to Outbox */
+			e_msg_composer_save_to_outbox (context->composer);
 		g_error_free (error);
 		goto exit;
 	}
@@ -509,75 +520,12 @@ exit:
 }
 
 static void
-composer_send_appended (CamelFolder *outbox_folder,
-                        GAsyncResult *result,
-                        AsyncContext *context)
-{
-	CamelSession *session;
-	GCancellable *cancellable;
-	gchar *message_uid = NULL;
-	GError *error = NULL;
-
-	e_mail_folder_append_message_finish (
-		outbox_folder, result, &message_uid, &error);
-
-	/* Ignore cancellations. */
-	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_warn_if_fail (message_uid == NULL);
-		async_context_free (context);
-		g_error_free (error);
-		return;
-	}
-
-	if (error != NULL) {
-		g_warn_if_fail (message_uid == NULL);
-		e_alert_submit (
-			GTK_WIDGET (context->composer),
-			"mail-composer:append-to-outbox-error",
-			error->message, NULL);
-		g_warning ("%s", error->message);
-		async_context_free (context);
-		g_error_free (error);
-		return;
-	}
-
-	session = e_msg_composer_get_session (context->composer);
-	cancellable = e_activity_get_cancellable (context->activity);
-
-	/* If we're online, go ahead and send the message now. */
-	if (camel_session_get_online (session))
-		e_mail_session_send_to (
-			E_MAIL_SESSION (session),
-			outbox_folder, message_uid, NULL,
-			G_PRIORITY_DEFAULT, cancellable, NULL, NULL,
-			(GAsyncReadyCallback) composer_send_completed,
-			context);
-
-	/* If we're offline, writing the message to the Outbox
-	 * folder is as much as we can do.  Tell the user. */
-	else {
-		g_object_unref (context->activity);
-		context->activity = NULL;
-
-		e_alert_run_dialog_for_args (
-			GTK_WINDOW (context->composer),
-			"mail-composer:saved-to-outbox", NULL);
-
-		gtk_widget_destroy (GTK_WIDGET (context->composer));
-		async_context_free (context);
-	}
-
-	g_free (message_uid);
-}
-
-static void
 em_utils_composer_send_cb (EMsgComposer *composer,
                            CamelMimeMessage *message,
                            EActivity *activity)
 {
 	AsyncContext *context;
-	CamelFolder *outbox_folder;
-	CamelMessageInfo *info;
+	CamelSession *session;
 	GCancellable *cancellable;
 
 	context = g_slice_new0 (AsyncContext);
@@ -586,18 +534,13 @@ em_utils_composer_send_cb (EMsgComposer *composer,
 	context->activity = g_object_ref (activity);
 
 	cancellable = e_activity_get_cancellable (activity);
-	outbox_folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
+	session = e_msg_composer_get_session (context->composer);
 
-	info = camel_message_info_new (NULL);
-	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, ~0);
-
-	e_mail_folder_append_message (
-		outbox_folder, message, info,
-		G_PRIORITY_DEFAULT, cancellable,
-		(GAsyncReadyCallback) composer_send_appended,
+	e_mail_session_send_to (
+		E_MAIL_SESSION (session), message, NULL,
+		G_PRIORITY_DEFAULT, cancellable, NULL, NULL,
+		(GAsyncReadyCallback) composer_send_completed,
 		context);
-
-	camel_message_info_free (info);
 }
 
 static void
@@ -614,9 +557,9 @@ composer_set_no_change (EMsgComposer *composer)
 }
 
 static void
-composer_save_draft_complete (EMailSession *session,
-                              GAsyncResult *result,
-                              AsyncContext *context)
+composer_save_to_drafts_complete (EMailSession *session,
+                                  GAsyncResult *result,
+                                  AsyncContext *context)
 {
 	GError *error = NULL;
 
@@ -649,9 +592,9 @@ composer_save_draft_complete (EMailSession *session,
 }
 
 static void
-composer_save_draft_cleanup (CamelFolder *drafts_folder,
-                             GAsyncResult *result,
-                             AsyncContext *context)
+composer_save_to_drafts_cleanup (CamelFolder *drafts_folder,
+                                 GAsyncResult *result,
+                                 AsyncContext *context)
 {
 	CamelSession *session;
 	GCancellable *cancellable;
@@ -672,7 +615,7 @@ composer_save_draft_cleanup (CamelFolder *drafts_folder,
 		g_warn_if_fail (context->message_uid == NULL);
 		e_alert_submit (
 			GTK_WIDGET (context->composer),
-			"mail-composer:save-draft-error",
+			"mail-composer:save-to-drafts-error",
 			error->message, NULL);
 		async_context_free (context);
 		g_error_free (error);
@@ -687,12 +630,12 @@ composer_save_draft_cleanup (CamelFolder *drafts_folder,
 	e_mail_session_handle_draft_headers (
 		E_MAIL_SESSION (session), context->message,
 		G_PRIORITY_DEFAULT, cancellable, (GAsyncReadyCallback)
-		composer_save_draft_complete, context);
+		composer_save_to_drafts_complete, context);
 }
 
 static void
-composer_save_draft_append_mail (AsyncContext *context,
-                                 CamelFolder *drafts_folder)
+composer_save_to_drafts_append_mail (AsyncContext *context,
+                                     CamelFolder *drafts_folder)
 {
 	CamelFolder *local_drafts_folder;
 	GCancellable *cancellable;
@@ -714,7 +657,7 @@ composer_save_draft_append_mail (AsyncContext *context,
 	e_mail_folder_append_message (
 		drafts_folder, context->message,
 		info, G_PRIORITY_DEFAULT, cancellable,
-		(GAsyncReadyCallback) composer_save_draft_cleanup,
+		(GAsyncReadyCallback) composer_save_to_drafts_cleanup,
 		context);
 
 	camel_message_info_free (info);
@@ -723,9 +666,9 @@ composer_save_draft_append_mail (AsyncContext *context,
 }
 
 static void
-composer_save_draft_got_folder (EMailSession *session,
-                                GAsyncResult *result,
-                                AsyncContext *context)
+composer_save_to_drafts_got_folder (EMailSession *session,
+                                    GAsyncResult *result,
+                                    AsyncContext *context)
 {
 	CamelFolder *drafts_folder;
 	GError *error = NULL;
@@ -761,13 +704,13 @@ composer_save_draft_got_folder (EMailSession *session,
 		}
 	}
 
-	composer_save_draft_append_mail (context, drafts_folder);
+	composer_save_to_drafts_append_mail (context, drafts_folder);
 }
 
 static void
-em_utils_composer_save_draft_cb (EMsgComposer *composer,
-                                 CamelMimeMessage *message,
-                                 EActivity *activity)
+em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
+                                     CamelMimeMessage *message,
+                                     EActivity *activity)
 {
 	AsyncContext *context;
 	EComposerHeaderTable *table;
@@ -796,7 +739,7 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer,
 		drafts_folder_uri = NULL;
 
 	if (drafts_folder_uri == NULL) {
-		composer_save_draft_append_mail (context, NULL);
+		composer_save_to_drafts_append_mail (context, NULL);
 		context->folder_uri = g_strdup (local_drafts_folder_uri);
 	} else {
 		GCancellable *cancellable;
@@ -808,8 +751,76 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer,
 			E_MAIL_SESSION (session),
 			drafts_folder_uri, 0, G_PRIORITY_DEFAULT,
 			cancellable, (GAsyncReadyCallback)
-			composer_save_draft_got_folder, context);
+			composer_save_to_drafts_got_folder, context);
 	}
+}
+
+static void
+composer_save_to_outbox_completed (CamelFolder *outbox_folder,
+                                   GAsyncResult *result,
+                                   AsyncContext *context)
+{
+	GError *error = NULL;
+
+	e_mail_folder_append_message_finish (
+		outbox_folder, result, NULL, &error);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		e_activity_set_state (context->activity, E_ACTIVITY_CANCELLED);
+		g_error_free (error);
+		goto exit;
+	}
+
+	if (error != NULL) {
+		e_alert_submit (
+			GTK_WIDGET (context->composer),
+			"mail-composer:append-to-outbox-error",
+			error->message, NULL);
+		g_error_free (error);
+		goto exit;
+	}
+
+	e_activity_set_state (context->activity, E_ACTIVITY_COMPLETED);
+
+	/* Wait for the EActivity's completion message to
+	 * time out and then destroy the composer window. */
+	g_object_weak_ref (
+		G_OBJECT (context->activity), (GWeakNotify)
+		gtk_widget_destroy, context->composer);
+
+exit:
+	async_context_free (context);
+}
+
+static void
+em_utils_composer_save_to_outbox_cb (EMsgComposer *composer,
+                                     CamelMimeMessage *message,
+                                     EActivity *activity)
+{
+	AsyncContext *context;
+	CamelFolder *outbox_folder;
+	CamelMessageInfo *info;
+	GCancellable *cancellable;
+
+	context = g_slice_new0 (AsyncContext);
+	context->message = g_object_ref (message);
+	context->composer = g_object_ref (composer);
+	context->activity = g_object_ref (activity);
+
+	cancellable = e_activity_get_cancellable (activity);
+	outbox_folder = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
+
+	info = camel_message_info_new (NULL);
+	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, ~0);
+
+	e_mail_folder_append_message (
+		outbox_folder, message, info,
+		G_PRIORITY_DEFAULT, cancellable,
+		(GAsyncReadyCallback) composer_save_to_outbox_completed,
+		context);
+
+	camel_message_info_free (info);
 }
 
 static void
@@ -1260,7 +1271,7 @@ setup_forward_attached_callbacks (EMsgComposer *composer,
 		composer, "send",
 		G_CALLBACK (update_forwarded_flags_cb), data);
 	g_signal_connect (
-		composer, "save-draft",
+		composer, "save-to-drafts",
 		G_CALLBACK (update_forwarded_flags_cb), data);
 
 	g_object_set_data_full (
@@ -2707,8 +2718,12 @@ em_configure_new_composer (EMsgComposer *composer)
 		G_CALLBACK (em_utils_composer_send_cb), NULL);
 
 	g_signal_connect (
-		composer, "save-draft",
-		G_CALLBACK (em_utils_composer_save_draft_cb), NULL);
+		composer, "save-to-drafts",
+		G_CALLBACK (em_utils_composer_save_to_drafts_cb), NULL);
+
+	g_signal_connect (
+		composer, "save-to-outbox",
+		G_CALLBACK (em_utils_composer_save_to_outbox_cb), NULL);
 
 	g_signal_connect (
 		composer, "print",

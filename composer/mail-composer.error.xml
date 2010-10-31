@@ -63,19 +63,23 @@
   <_secondary>The reported error was &quot;{0}&quot;. The message has not been sent.</_secondary>
  </error>
 
- <error id="save-draft-error" type="error">
+ <error id="save-to-drafts-error" type="error">
   <_primary>An error occurred while saving to your Drafts folder.</_primary>
   <_secondary>The reported error was &quot;{0}&quot;. The message has most likely not been saved.</_secondary>
  </error>
 
  <error id="send-error" type="error">
-  <_primary>An error occurred while sending.</_primary>
+  <_primary>An error occurred while sending. How do you want to proceed?</_primary>
   <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+  <!-- Response codes were chosen somewhat arbitrarily. -->
+  <button _label="_Continue Editing" response="GTK_RESPONSE_CLOSE"/>
+  <button _label="_Save to Outbox" response="GTK_RESPONSE_ACCEPT"/>
+  <button _label="_Try Again" response="GTK_RESPONSE_OK"/>
  </error>
 
- <error id="saved-to-outbox" type="info">
-  <_primary>Message saved to Outbox.</_primary>
-  <_secondary>Because you are working offline, the message has been saved to your local Outbox folder. When you are back online you can send the message by clicking the Send/Receive button in Evolution's toolbar.</_secondary>
+ <error id="saving-to-outbox" type="info">
+  <_primary>Saving message to Outbox.</_primary>
+  <_secondary>Because you are working offline, the message will be saved to your local Outbox folder. When you are back online you can send the message by clicking the Send/Receive button in Evolution's toolbar.</_secondary>
  </error>
 
 </error-list>
