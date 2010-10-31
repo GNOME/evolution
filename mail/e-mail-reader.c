@@ -66,20 +66,23 @@
 	((EMailReaderPrivate *) g_object_get_qdata \
 	(G_OBJECT (obj), quark_private))
 
+typedef struct _EMailReaderClosure EMailReaderClosure;
 typedef struct _EMailReaderPrivate EMailReaderPrivate;
+
+struct _EMailReaderClosure {
+	EMailReader *reader;
+	EActivity *activity;
+	gchar *message_uid;
+};
 
 struct _EMailReaderPrivate {
 
 	/* This timer runs when the user selects a single message. */
 	guint message_selected_timeout_id;
 
-	/* This is the message UID to automatically mark as read
-	 * after a short period (specified by a user preference). */
-	gchar *mark_read_message_uid;
-
-	/* This is the ID of an asynchronous operation
-	 * to retrieve a message from a mail folder. */
-	gint retrieving_message_operation_id;
+	/* This allows message retrieval to be cancelled if another
+	 * message is selected before the retrieval has completed. */
+	GCancellable *retrieving_message;
 
 	/* These flags work together to prevent message selection
 	 * restoration after a folder switch from automatically
@@ -114,15 +117,30 @@ static guint signals[LAST_SIGNAL];
 G_DEFINE_INTERFACE (EMailReader, e_mail_reader, G_TYPE_INITIALLY_UNOWNED)
 
 static void
+mail_reader_closure_free (EMailReaderClosure *closure)
+{
+	if (closure->reader != NULL)
+		g_object_unref (closure->reader);
+
+	if (closure->activity != NULL)
+		g_object_unref (closure->activity);
+
+	g_free (closure->message_uid);
+
+	g_slice_free (EMailReaderClosure, closure);
+}
+
+static void
 mail_reader_private_free (EMailReaderPrivate *priv)
 {
 	if (priv->message_selected_timeout_id > 0)
 		g_source_remove (priv->message_selected_timeout_id);
 
-	if (priv->retrieving_message_operation_id > 0)
-		mail_msg_cancel (priv->retrieving_message_operation_id);
-
-	g_free (priv->mark_read_message_uid);
+	if (priv->retrieving_message != NULL) {
+		g_cancellable_cancel (priv->retrieving_message);
+		g_object_unref (priv->retrieving_message);
+		priv->retrieving_message = 0;
+	}
 
 	g_slice_free (EMailReaderPrivate, priv);
 }
@@ -2447,17 +2465,15 @@ mail_reader_key_press_cb (EMailReader *reader,
 }
 
 static gboolean
-mail_reader_message_read_cb (EMailReader *reader)
+mail_reader_message_read_cb (EMailReaderClosure *closure)
 {
-	EMailReaderPrivate *priv;
+	EMailReader *reader;
 	GtkWidget *message_list;
 	const gchar *cursor_uid;
 	const gchar *message_uid;
 
-	priv = E_MAIL_READER_GET_PRIVATE (reader);
-
-	message_uid = priv->mark_read_message_uid;
-	g_return_val_if_fail (message_uid != NULL, FALSE);
+	reader = closure->reader;
+	message_uid = closure->message_uid;
 
 	message_list = e_mail_reader_get_message_list (reader);
 	cursor_uid = MESSAGE_LIST (message_list)->cursor_uid;
@@ -2470,13 +2486,12 @@ mail_reader_message_read_cb (EMailReader *reader)
 
 static void
 mail_reader_message_loaded_cb (CamelFolder *folder,
-                               const gchar *message_uid,
-                               CamelMimeMessage *message,
-                               gpointer user_data,
-                               GError **error)
+                               GAsyncResult *result,
+                               EMailReaderClosure *closure)
 {
-	EMailReader *reader = user_data;
+	EMailReader *reader;
 	EMailReaderPrivate *priv;
+	CamelMimeMessage *message;
 	EMFormatHTML *formatter;
 	GtkWidget *message_list;
 	EMailBackend *backend;
@@ -2486,9 +2501,13 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	EWebView *web_view;
 	EMEvent *event;
 	EMEventTargetMessage *target;
-	const gchar *cursor_uid;
+	const gchar *message_uid;
 	gboolean schedule_timeout;
 	gint timeout_interval;
+	GError *error = NULL;
+
+	reader = closure->reader;
+	message_uid = closure->message_uid;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
@@ -2496,8 +2515,17 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	 * while we were loading the message and we're likely holding the
 	 * last reference.  Nothing to do but drop the reference. */
 	if (priv == NULL) {
-		g_object_unref (reader);
+		mail_reader_closure_free (closure);
 		return;
+	}
+
+	message = camel_folder_get_message_finish (folder, result, &error);
+
+	/* If the user picked a different message in the time it took
+	 * to fetch this message, then don't bother rendering it. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		g_error_free (error);
+		goto exit;
 	}
 
 	backend = e_mail_reader_get_backend (reader);
@@ -2508,14 +2536,7 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	cursor_uid = MESSAGE_LIST (message_list)->cursor_uid;
-
 	web_view = em_format_html_get_web_view (formatter);
-
-	/* If the user picked a different message in the time it took
-	 * to fetch this message, then don't bother rendering it. */
-	if (g_strcmp0 (cursor_uid, message_uid) != 0)
-		goto exit;
 
 	/** @Event: message.reading
 	 * @Title: Viewing a message
@@ -2548,40 +2569,43 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 		e_shell_settings_get_int (
 		shell_settings, "mail-mark-seen-timeout");
 
-	g_free (priv->mark_read_message_uid);
-	priv->mark_read_message_uid = NULL;
-
 	if (MESSAGE_LIST (message_list)->seen_id > 0) {
 		g_source_remove (MESSAGE_LIST (message_list)->seen_id);
 		MESSAGE_LIST (message_list)->seen_id = 0;
 	}
 
 	if (schedule_timeout) {
-		priv->mark_read_message_uid = g_strdup (message_uid);
-		MESSAGE_LIST (message_list)->seen_id = g_timeout_add (
-			timeout_interval, (GSourceFunc)
-			mail_reader_message_read_cb, reader);
+		EMailReaderClosure *timeout_closure;
 
-	} else if (error != NULL && *error != NULL) {
+		timeout_closure = g_slice_new0 (EMailReaderClosure);
+		timeout_closure->reader = g_object_ref (reader);
+		timeout_closure->message_uid = g_strdup (message_uid);
+
+		MESSAGE_LIST (message_list)->seen_id = g_timeout_add_full (
+			G_PRIORITY_DEFAULT, timeout_interval,
+			(GSourceFunc) mail_reader_message_read_cb,
+			timeout_closure, (GDestroyNotify)
+			mail_reader_closure_free);
+
+	} else if (error != NULL) {
 		gchar *string;
 
 		/* Display the error inline and clear the exception. */
 		string = g_strdup_printf (
 			"<h2>%s</h2><p>%s</p>",
 			_("Unable to retrieve message"),
-			(*error)->message);
+			error->message);
 
 		e_web_view_load_string (web_view, string);
 		g_free (string);
 
-		g_clear_error (error);
+		g_error_free (error);
 	}
-
-	/* We referenced this in the call to mail_get_messagex (). */
-	g_object_unref (reader);
 
 exit:
 	priv->restoring_message_selection = FALSE;
+
+	mail_reader_closure_free (closure);
 }
 
 static gboolean
@@ -2593,6 +2617,7 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 	EWebView *web_view;
 	CamelFolder *folder;
 	CamelStore *parent_store;
+	EMailBackend *backend;
 	const gchar *cursor_uid;
 	const gchar *format_uid;
 
@@ -2601,6 +2626,7 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 	folder = e_mail_reader_get_folder (reader);
 	parent_store = camel_folder_get_parent_store (folder);
 
+	backend = e_mail_reader_get_backend (reader);
 	formatter = e_mail_reader_get_formatter (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
@@ -2622,10 +2648,10 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 		selected_uid_changed = g_strcmp0 (cursor_uid, format_uid);
 
 		if (web_view_visible && selected_uid_changed) {
-			gint op_id;
+			EMailReaderClosure *closure;
+			GCancellable *cancellable;
+			EActivity *activity;
 			gchar *string;
-			gboolean store_async;
-			MailMsgDispatchFunc disp_func;
 
 			string = g_strdup_printf (
 				_("Retrieving message '%s'"), cursor_uid);
@@ -2637,21 +2663,29 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 #endif
 			g_free (string);
 
-			store_async = parent_store->flags & CAMEL_STORE_ASYNC;
+			activity = e_activity_new ();
 
-			if (store_async)
-				disp_func = mail_msg_unordered_push;
-			else
-				disp_func = mail_msg_fast_ordered_push;
+			cancellable = camel_operation_new ();
+			e_activity_set_cancellable (activity, cancellable);
 
-			op_id = mail_get_messagex (
-				folder, cursor_uid,
-				mail_reader_message_loaded_cb,
-				g_object_ref (reader),
-				disp_func);
+			closure = g_slice_new0 (EMailReaderClosure);
+			closure->reader = g_object_ref (reader);
+			closure->activity = g_object_ref (activity);
+			closure->message_uid = g_strdup (cursor_uid);
 
-			if (!store_async)
-				priv->retrieving_message_operation_id = op_id;
+			camel_folder_get_message (
+				folder, cursor_uid, G_PRIORITY_DEFAULT,
+				cancellable, (GAsyncReadyCallback)
+				mail_reader_message_loaded_cb, closure);
+
+			e_shell_backend_add_activity (
+				E_SHELL_BACKEND (backend), activity);
+
+			if (priv->retrieving_message != NULL)
+				g_object_unref (priv->retrieving_message);
+			priv->retrieving_message = cancellable;
+
+			g_object_unref (activity);
 		}
 	} else {
 		/* FIXME Need to pass a GCancellable. */
@@ -2671,7 +2705,6 @@ mail_reader_message_selected_cb (EMailReader *reader,
 {
 	EMailReaderPrivate *priv;
 	MessageList *message_list;
-	gboolean store_async;
 	CamelFolder *folder;
 	CamelStore *parent_store;
 
@@ -2679,11 +2712,9 @@ mail_reader_message_selected_cb (EMailReader *reader,
 
 	folder = e_mail_reader_get_folder (reader);
 	parent_store = camel_folder_get_parent_store (folder);
-	store_async = parent_store->flags & CAMEL_STORE_ASYNC;
 
-	/* Cancel previous message retrieval if the store is not async. */
-	if (!store_async && priv->retrieving_message_operation_id > 0)
-		mail_msg_cancel (priv->retrieving_message_operation_id);
+	/* Cancel the previous message retrieval activity. */
+	g_cancellable_cancel (priv->retrieving_message);
 
 	/* Cancel the seen timer. */
 	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
