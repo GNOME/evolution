@@ -907,28 +907,28 @@ e_alert_response (EAlert *alert,
 }
 
 void
-e_alert_submit (GtkWidget *widget,
+e_alert_submit (EAlertSink *alert_sink,
                 const gchar *tag,
                 ...)
 {
 	va_list va;
 
 	va_start (va, tag);
-	e_alert_submit_valist (widget, tag, va);
+	e_alert_submit_valist (alert_sink, tag, va);
 	va_end (va);
 }
 
 void
-e_alert_submit_valist (GtkWidget *widget,
+e_alert_submit_valist (EAlertSink *alert_sink,
                        const gchar *tag,
                        va_list va)
 {
 	EAlert *alert;
 
-	g_return_if_fail (GTK_IS_WIDGET (widget));
+	g_return_if_fail (E_IS_ALERT_SINK (alert_sink));
 	g_return_if_fail (tag != NULL);
 
 	alert = e_alert_new_valist (tag, va);
-	e_alert_sink_submit_alert (widget, alert);
+	e_alert_sink_submit_alert (alert_sink, alert);
 	g_object_unref (alert);
 }

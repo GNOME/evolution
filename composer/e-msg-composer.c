@@ -3516,7 +3516,7 @@ msg_composer_send_cb (EMsgComposer *composer,
 		g_warn_if_fail (message == NULL);
 		async_context_free (context);
 		e_alert_submit (
-			GTK_WIDGET (composer),
+			E_ALERT_SINK (composer),
 			"mail-composer:no-build-message",
 			error->message, NULL);
 		g_error_free (error);
@@ -3600,7 +3600,7 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
 		g_warn_if_fail (message == NULL);
 		async_context_free (context);
 		e_alert_submit (
-			GTK_WIDGET (composer),
+			E_ALERT_SINK (composer),
 			"mail-composer:no-build-message",
 			error->message, NULL);
 		g_error_free (error);
@@ -3676,7 +3676,7 @@ msg_composer_save_to_outbox_cb (EMsgComposer *composer,
 		g_warn_if_fail (message == NULL);
 		async_context_free (context);
 		e_alert_submit (
-			GTK_WIDGET (composer),
+			E_ALERT_SINK (composer),
 			"mail-composer:no-build-message",
 			error->message, NULL);
 		g_error_free (error);
@@ -3759,7 +3759,7 @@ msg_composer_print_cb (EMsgComposer *composer,
 		g_warn_if_fail (message == NULL);
 		async_context_free (context);
 		e_alert_submit (
-			GTK_WIDGET (composer),
+			E_ALERT_SINK (composer),
 			"mail-composer:no-build-message",
 			error->message, NULL);
 		g_error_free (error);

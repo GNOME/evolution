@@ -131,7 +131,7 @@ action_save_cb (GtkAction *action,
 				return;
 		} else {
 			e_alert_submit (
-				GTK_WIDGET (composer),
+				E_ALERT_SINK (composer),
 				E_ALERT_NO_SAVE_FILE, filename,
 				g_strerror (errno_saved), NULL);
 			return;
@@ -141,7 +141,7 @@ action_save_cb (GtkAction *action,
 
 	if (!gtkhtml_editor_save (editor, filename, TRUE, &error)) {
 		e_alert_submit (
-			GTK_WIDGET (composer),
+			E_ALERT_SINK (composer),
 			E_ALERT_NO_SAVE_FILE,
 			filename, error->message, NULL);
 		g_error_free (error);

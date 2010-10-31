@@ -39,6 +39,7 @@
 
 #include "e-util/e-account-utils.h"
 #include "e-util/e-alert-dialog.h"
+#include "e-util/e-alert-sink.h"
 #include "e-util/e-util.h"
 
 #include "shell/e-shell.h"
@@ -302,7 +303,7 @@ composer_presend_check_recipients (EMsgComposer *composer)
 	/* I'm sensing a lack of love, er, I mean recipients. */
 	if (num == 0 && num_post == 0) {
 		e_alert_submit (
-			GTK_WIDGET (composer),
+			E_ALERT_SINK (composer),
 			"mail:send-no-recipients", NULL);
 		goto finished;
 	}
@@ -349,7 +350,7 @@ composer_presend_check_account (EMsgComposer *composer)
 
 	if (!check_passed)
 		e_alert_submit (
-			GTK_WIDGET (composer),
+			E_ALERT_SINK (composer),
 			"mail:send-no-account-enabled", NULL);
 
 	return check_passed;
@@ -614,7 +615,7 @@ composer_save_to_drafts_cleanup (CamelFolder *drafts_folder,
 	if (error != NULL) {
 		g_warn_if_fail (context->message_uid == NULL);
 		e_alert_submit (
-			GTK_WIDGET (context->composer),
+			E_ALERT_SINK (context->composer),
 			"mail-composer:save-to-drafts-error",
 			error->message, NULL);
 		async_context_free (context);
@@ -774,7 +775,7 @@ composer_save_to_outbox_completed (CamelFolder *outbox_folder,
 
 	if (error != NULL) {
 		e_alert_submit (
-			GTK_WIDGET (context->composer),
+			E_ALERT_SINK (context->composer),
 			"mail-composer:append-to-outbox-error",
 			error->message, NULL);
 		g_error_free (error);

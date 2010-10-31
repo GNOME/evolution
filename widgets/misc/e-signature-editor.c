@@ -153,7 +153,7 @@ action_save_and_close_cb (GtkAction *action,
 
 	if (error != NULL) {
 		e_alert_submit (
-			GTK_WIDGET (editor),
+			E_ALERT_SINK (editor),
 			"mail:no-save-signature",
 			error->message, NULL);
 		g_clear_error (&error);
@@ -168,7 +168,7 @@ action_save_and_close_cb (GtkAction *action,
 	/* Make sure the signature name is not blank. */
 	if (*signature_name == '\0') {
 		e_alert_submit (
-			GTK_WIDGET (editor),
+			E_ALERT_SINK (editor),
 			"mail:blank-signature", NULL);
 		gtk_widget_grab_focus (entry);
 		g_free (signature_name);
@@ -180,7 +180,7 @@ action_save_and_close_cb (GtkAction *action,
 		e_signature_list_find_by_name (signature_list, signature_name);
 	if (same_name != NULL && !e_signature_is_equal (signature, same_name)) {
 		e_alert_submit (
-			GTK_WIDGET (editor),
+			E_ALERT_SINK (editor),
 			"mail:signature-already-exists",
 			signature_name, NULL);
 		gtk_widget_grab_focus (entry);
