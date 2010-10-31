@@ -1607,61 +1607,44 @@ em_utils_redirect_message_by_uid (EShell *shell,
 		g_object_ref (shell), mail_msg_unordered_push);
 }
 
-static void
-emu_handle_receipt_message (CamelFolder *folder,
-                            const gchar *uid,
-                            CamelMimeMessage *msg,
-                            gpointer data,
-                            GError **error)
-{
-	EMailSession *session = E_MAIL_SESSION (data);
-
-	if (msg)
-		em_utils_handle_receipt (session, folder, uid, msg);
-
-	/* we dont care really if we can't get the message */
-	g_clear_error (error);
-}
-
 /* Message disposition notifications, rfc 2298 */
 void
 em_utils_handle_receipt (EMailSession *session,
                          CamelFolder *folder,
-                         const gchar *uid,
-                         CamelMimeMessage *msg)
+                         const gchar *message_uid,
+                         CamelMimeMessage *message)
 {
 	EAccount *account;
 	const gchar *addr;
 	CamelMessageInfo *info;
 
-	info = camel_folder_get_message_info (folder, uid);
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
+
+	info = camel_folder_get_message_info (folder, message_uid);
 	if (info == NULL)
 		return;
 
-	if (camel_message_info_user_flag(info, "receipt-handled")) {
+	if (camel_message_info_user_flag (info, "receipt-handled")) {
 		camel_folder_free_message_info (folder, info);
 		return;
 	}
 
-	if (msg == NULL) {
-		mail_get_messagex (
-			folder, uid, emu_handle_receipt_message,
-			session, mail_msg_unordered_push);
+	addr = camel_medium_get_header (
+		CAMEL_MEDIUM (message), "Disposition-Notification-To");
+	if (addr == NULL) {
 		camel_folder_free_message_info (folder, info);
 		return;
 	}
 
-	if ((addr = camel_medium_get_header((CamelMedium *)msg, "Disposition-Notification-To")) == NULL) {
-		camel_folder_free_message_info (folder, info);
-		return;
-	}
-
-	camel_message_info_set_user_flag(info, "receipt-handled", TRUE);
+	camel_message_info_set_user_flag (info, "receipt-handled", TRUE);
 	camel_folder_free_message_info (folder, info);
 
-	account = em_utils_guess_account_with_recipients (msg, folder);
+	account = em_utils_guess_account_with_recipients (message, folder);
 
-	/* TODO: should probably decode/format the address, it could be in rfc2047 format */
+	/* TODO Should probably decode/format the address,
+	 *      since it could be in rfc2047 format. */
 	if (addr == NULL) {
 		addr = "";
 	} else {
@@ -1669,9 +1652,29 @@ em_utils_handle_receipt (EMailSession *session,
 			addr++;
 	}
 
-	if (account && (account->receipt_policy == E_ACCOUNT_RECEIPT_ALWAYS || account->receipt_policy == E_ACCOUNT_RECEIPT_ASK)
-	    && e_alert_run_dialog_for_args (e_shell_get_active_window (NULL), "mail:ask-receipt", addr, camel_mime_message_get_subject(msg), NULL) == GTK_RESPONSE_YES)
-		em_utils_send_receipt (session, folder, msg);
+	if (account == NULL)
+		return;
+
+	if (account->receipt_policy == E_ACCOUNT_RECEIPT_NEVER)
+		return;
+
+	if (account->receipt_policy == E_ACCOUNT_RECEIPT_ASK) {
+		GtkWindow *window;
+		const gchar *subject;
+		gint response;
+
+		/* FIXME Parent window should be passed in. */
+		window = e_shell_get_active_window (NULL);
+		subject = camel_mime_message_get_subject (message);
+
+		response = e_alert_run_dialog_for_args (
+			window, "mail:ask-receipt", addr, subject, NULL);
+
+		if (response != GTK_RESPONSE_YES)
+			return;
+	}
+
+	em_utils_send_receipt (session, folder, message);
 }
 
 static void

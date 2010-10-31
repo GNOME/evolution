@@ -60,8 +60,8 @@ void		em_utils_redirect_message_by_uid (EShell *shell,
 						 const gchar *uid);
 void		em_utils_handle_receipt		(EMailSession *session,
 						 CamelFolder *folder,
-						 const gchar *uid,
-						 CamelMimeMessage *msg);
+						 const gchar *message_uid,
+						 CamelMimeMessage *message);
 void		em_utils_send_receipt		(EMailSession *session,
 						 CamelFolder *folder,
 						 CamelMimeMessage *message);
