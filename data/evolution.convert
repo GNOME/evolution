@@ -1,0 +1,12 @@
+[org.gnome.evolution]
+version = /apps/evolution/version
+last-upgraded-version = /apps/evolution/last_version
+
+[org.gnome.evolution.shell]
+skip-warning-dialog = /apps/evolution/shell/skip_warning_dialog
+attachment-view = /apps/evolution/shell/attachment_view
+file-chooser-folder = /apps/evolution/shell/file_chooser_folder
+start-offline = /apps/evolution/shell/start_offline
+folder-paths = /apps/evolution/shell/offline/folder_paths
+express-mode = /apps/evolution/shell/express_mode
+window-y = /apps/evolution/shell/view_defaults/window_y

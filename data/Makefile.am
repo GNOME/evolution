@@ -10,6 +10,16 @@ autostart_DATA = $(autostart_in_files:.desktop.in=.desktop)
 
 @INTLTOOL_DESKTOP_RULE@
 
+gsettings_SCHEMAS =				\
+	org.gnome.evolution.gschema.xml
+
+@INTLTOOL_XML_NOMERGE_RULE@
+
+@GSETTINGS_RULES@
+
+convertdir = $(datadir)/GConf/gsettings
+convert_DATA = evolution.convert
+
 mimedir = $(datadir)/mime-info
 dist_mime_DATA = evolution.mime
 
@@ -54,6 +64,11 @@ CLEANFILES =					\
 
 EXTRA_DIST =					\
 	$(autostart_in_files)			\
-	$(desktop_in_files)
+	$(desktop_in_files)			\
+	$(convert_DATA)				\
+	$(gsettings_SCHEMAS:.xml=.xml.in.in)
+
+DISTCLEANFILES =		\
+	$(gsettings_SCHEMAS)
 
 -include $(top_srcdir)/git.mk
