@@ -3499,8 +3499,11 @@ msg_composer_send_cb (EMsgComposer *composer,
                       AsyncContext *context)
 {
 	CamelMimeMessage *message;
+	EAlertSink *alert_sink;
 	GtkhtmlEditor *editor;
 	GError *error = NULL;
+
+	alert_sink = e_activity_get_alert_sink (context->activity);
 
 	message = e_msg_composer_get_message_finish (composer, result, &error);
 
@@ -3514,11 +3517,11 @@ msg_composer_send_cb (EMsgComposer *composer,
 
 	if (error != NULL) {
 		g_warn_if_fail (message == NULL);
-		async_context_free (context);
 		e_alert_submit (
-			E_ALERT_SINK (composer),
+			alert_sink,
 			"mail-composer:no-build-message",
 			error->message, NULL);
+		async_context_free (context);
 		g_error_free (error);
 		return;
 	}
@@ -3548,6 +3551,7 @@ void
 e_msg_composer_send (EMsgComposer *composer)
 {
 	AsyncContext *context;
+	EAlertSink *alert_sink;
 	EActivityBar *activity_bar;
 	GCancellable *cancellable;
 	gboolean proceed_with_send = TRUE;
@@ -3562,6 +3566,9 @@ e_msg_composer_send (EMsgComposer *composer)
 
 	context = g_slice_new0 (AsyncContext);
 	context->activity = e_composer_activity_new (composer);
+
+	alert_sink = E_ALERT_SINK (composer);
+	e_activity_set_alert_sink (context->activity, alert_sink);
 
 	cancellable = camel_operation_new ();
 	e_activity_set_cancellable (context->activity, cancellable);
@@ -3582,8 +3589,11 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
                                 AsyncContext *context)
 {
 	CamelMimeMessage *message;
+	EAlertSink *alert_sink;
 	GtkhtmlEditor *editor;
 	GError *error = NULL;
+
+	alert_sink = e_activity_get_alert_sink (context->activity);
 
 	message = e_msg_composer_get_message_draft_finish (
 		composer, result, &error);
@@ -3598,11 +3608,11 @@ msg_composer_save_to_drafts_cb (EMsgComposer *composer,
 
 	if (error != NULL) {
 		g_warn_if_fail (message == NULL);
-		async_context_free (context);
 		e_alert_submit (
-			E_ALERT_SINK (composer),
+			alert_sink,
 			"mail-composer:no-build-message",
 			error->message, NULL);
+		async_context_free (context);
 		g_error_free (error);
 		return;
 	}
@@ -3632,6 +3642,7 @@ void
 e_msg_composer_save_to_drafts (EMsgComposer *composer)
 {
 	AsyncContext *context;
+	EAlertSink *alert_sink;
 	EActivityBar *activity_bar;
 	GCancellable *cancellable;
 
@@ -3639,6 +3650,9 @@ e_msg_composer_save_to_drafts (EMsgComposer *composer)
 
 	context = g_slice_new0 (AsyncContext);
 	context->activity = e_composer_activity_new (composer);
+
+	alert_sink = E_ALERT_SINK (composer);
+	e_activity_set_alert_sink (context->activity, alert_sink);
 
 	cancellable = camel_operation_new ();
 	e_activity_set_cancellable (context->activity, cancellable);
@@ -3659,8 +3673,11 @@ msg_composer_save_to_outbox_cb (EMsgComposer *composer,
                                 AsyncContext *context)
 {
 	CamelMimeMessage *message;
+	EAlertSink *alert_sink;
 	GtkhtmlEditor *editor;
 	GError *error = NULL;
+
+	alert_sink = e_activity_get_alert_sink (context->activity);
 
 	message = e_msg_composer_get_message_finish (composer, result, &error);
 
@@ -3674,11 +3691,11 @@ msg_composer_save_to_outbox_cb (EMsgComposer *composer,
 
 	if (error != NULL) {
 		g_warn_if_fail (message == NULL);
-		async_context_free (context);
 		e_alert_submit (
-			E_ALERT_SINK (composer),
+			alert_sink,
 			"mail-composer:no-build-message",
 			error->message, NULL);
+		async_context_free (context);
 		g_error_free (error);
 		return;
 	}
@@ -3708,6 +3725,7 @@ void
 e_msg_composer_save_to_outbox (EMsgComposer *composer)
 {
 	AsyncContext *context;
+	EAlertSink *alert_sink;
 	EActivityBar *activity_bar;
 	GCancellable *cancellable;
 	gboolean proceed_with_save = TRUE;
@@ -3722,6 +3740,9 @@ e_msg_composer_save_to_outbox (EMsgComposer *composer)
 
 	context = g_slice_new0 (AsyncContext);
 	context->activity = e_composer_activity_new (composer);
+
+	alert_sink = E_ALERT_SINK (composer);
+	e_activity_set_alert_sink (context->activity, alert_sink);
 
 	cancellable = camel_operation_new ();
 	e_activity_set_cancellable (context->activity, cancellable);
@@ -3742,7 +3763,10 @@ msg_composer_print_cb (EMsgComposer *composer,
                        AsyncContext *context)
 {
 	CamelMimeMessage *message;
+	EAlertSink *alert_sink;
 	GError *error = NULL;
+
+	alert_sink = e_activity_get_alert_sink (context->activity);
 
 	message = e_msg_composer_get_message_print_finish (
 		composer, result, &error);
@@ -3759,7 +3783,7 @@ msg_composer_print_cb (EMsgComposer *composer,
 		g_warn_if_fail (message == NULL);
 		async_context_free (context);
 		e_alert_submit (
-			E_ALERT_SINK (composer),
+			alert_sink,
 			"mail-composer:no-build-message",
 			error->message, NULL);
 		g_error_free (error);
@@ -3789,6 +3813,7 @@ e_msg_composer_print (EMsgComposer *composer,
                       GtkPrintOperationAction print_action)
 {
 	AsyncContext *context;
+	EAlertSink *alert_sink;
 	EActivityBar *activity_bar;
 	GCancellable *cancellable;
 
@@ -3797,6 +3822,9 @@ e_msg_composer_print (EMsgComposer *composer,
 	context = g_slice_new0 (AsyncContext);
 	context->activity = e_composer_activity_new (composer);
 	context->print_action = print_action;
+
+	alert_sink = E_ALERT_SINK (composer);
+	e_activity_set_alert_sink (context->activity, alert_sink);
 
 	cancellable = camel_operation_new ();
 	e_activity_set_cancellable (context->activity, cancellable);

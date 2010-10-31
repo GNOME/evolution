@@ -23,6 +23,7 @@
 #define E_ACTIVITY_H
 
 #include <gtk/gtk.h>
+#include <e-util/e-alert-sink.h>
 #include <e-util/e-util-enums.h>
 
 /* Standard GObject macros */
@@ -64,9 +65,10 @@ struct _EActivityClass {
 
 GType		e_activity_get_type		(void);
 EActivity *	e_activity_new			(void);
-EActivity *	e_activity_newv			(const gchar *format,
-						 ...) G_GNUC_PRINTF (1, 2);
 gchar *		e_activity_describe		(EActivity *activity);
+EAlertSink *	e_activity_get_alert_sink	(EActivity *activity);
+void		e_activity_set_alert_sink	(EActivity *activity,
+						 EAlertSink *alert_sink);
 GCancellable *	e_activity_get_cancellable	(EActivity *activity);
 void		e_activity_set_cancellable	(EActivity *activity,
 						 GCancellable *cancellable);

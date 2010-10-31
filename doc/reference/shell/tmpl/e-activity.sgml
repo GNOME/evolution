@@ -35,16 +35,6 @@ e-activity
 @Returns: 
 
 
-<!-- ##### FUNCTION e_activity_newv ##### -->
-<para>
-
-</para>
-
-@format: 
-@Varargs: 
-@Returns: 
-
-
 <!-- ##### FUNCTION e_activity_describe ##### -->
 <para>
 
@@ -52,6 +42,24 @@ e-activity
 
 @activity: 
 @Returns: 
+
+
+<!-- ##### FUNCTION e_activity_get_alert_sink ##### -->
+<para>
+
+</para>
+
+@activity: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_activity_set_alert_sink ##### -->
+<para>
+
+</para>
+
+@activity: 
+@alert_sink: 
 
 
 <!-- ##### FUNCTION e_activity_get_cancellable ##### -->
