@@ -1889,7 +1889,7 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *
 	if (calendar_config_get_use_default_reminder ()) {
 		ECalComponentAlarm *acomp;
 		gint interval;
-		CalUnits units;
+		EDurationType units;
 		ECalComponentAlarmTrigger trigger;
 
 		interval = calendar_config_get_default_reminder_interval ();
@@ -1905,13 +1905,13 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *
 		trigger.u.rel_duration.is_neg = TRUE;
 
 		switch (units) {
-			case CAL_MINUTES:
+			case E_DURATION_MINUTES:
 				trigger.u.rel_duration.minutes = interval;
 				break;
-			case CAL_HOURS:
+			case E_DURATION_HOURS:
 				trigger.u.rel_duration.hours = interval;
 				break;
-			case CAL_DAYS:
+			case E_DURATION_DAYS:
 				trigger.u.rel_duration.days = interval;
 				break;
 			default:

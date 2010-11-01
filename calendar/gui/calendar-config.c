@@ -90,16 +90,16 @@ calendar_config_locale_supports_12_hour_format (void)
 
 /* Returns the string representation of a units value */
 static const gchar *
-units_to_string (CalUnits units)
+units_to_string (EDurationType units)
 {
 	switch (units) {
-	case CAL_DAYS:
+	case E_DURATION_DAYS:
 		return "days";
 
-	case CAL_HOURS:
+	case E_DURATION_HOURS:
 		return "hours";
 
-	case CAL_MINUTES:
+	case E_DURATION_MINUTES:
 		return "minutes";
 
 	default:
@@ -108,17 +108,17 @@ units_to_string (CalUnits units)
 }
 
 /* opposite function to 'units_to_string' */
-static CalUnits
+static EDurationType
 string_to_units (const gchar *units)
 {
-	CalUnits res;
+	EDurationType res;
 
 	if (units && !strcmp (units, "days"))
-		res = CAL_DAYS;
+		res = E_DURATION_DAYS;
 	else if (units && !strcmp (units, "hours"))
-		res = CAL_HOURS;
+		res = E_DURATION_HOURS;
 	else
-		res = CAL_MINUTES;
+		res = E_DURATION_MINUTES;
 
 	return res;
 }
@@ -397,22 +397,22 @@ calendar_config_set_hide_completed_tasks	(gboolean	hide)
 	gconf_client_set_bool (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED, hide, NULL);
 }
 
-CalUnits
+EDurationType
 calendar_config_get_hide_completed_tasks_units	(void)
 {
 	gchar *units;
-	CalUnits cu;
+	EDurationType cu;
 
 	calendar_config_init ();
 
 	units = gconf_client_get_string (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_UNITS, NULL);
 
 	if (units && !strcmp (units, "minutes"))
-		cu = CAL_MINUTES;
+		cu = E_DURATION_MINUTES;
 	else if (units && !strcmp (units, "hours"))
-		cu = CAL_HOURS;
+		cu = E_DURATION_HOURS;
 	else
-		cu = CAL_DAYS;
+		cu = E_DURATION_DAYS;
 
 	g_free (units);
 
@@ -420,17 +420,17 @@ calendar_config_get_hide_completed_tasks_units	(void)
 }
 
 void
-calendar_config_set_hide_completed_tasks_units	(CalUnits	cu)
+calendar_config_set_hide_completed_tasks_units	(EDurationType	cu)
 {
 	gchar *units;
 
 	calendar_config_init ();
 
 	switch (cu) {
-	case CAL_MINUTES :
+	case E_DURATION_MINUTES :
 		units = g_strdup ("minutes");
 		break;
-	case CAL_HOURS :
+	case E_DURATION_HOURS :
 		units = g_strdup ("hours");
 		break;
 	default :
@@ -542,15 +542,15 @@ calendar_config_set_default_reminder_interval (gint interval)
  * calendar_config_get_default_reminder_units:
  *
  * Queries the units of time in which default reminders should be created for
- * new appointments, e.g. CAL_MINUTES for "5 minutes".
+ * new appointments, e.g. E_DURATION_MINUTES for "5 minutes".
  *
  * Return value: Time units for default reminders.
  **/
-CalUnits
+EDurationType
 calendar_config_get_default_reminder_units (void)
 {
 	gchar *units;
-	CalUnits cu;
+	EDurationType cu;
 
 	calendar_config_init ();
 
@@ -563,12 +563,12 @@ calendar_config_get_default_reminder_units (void)
 
 /**
  * calendar_config_set_default_reminder_units:
- * @units: Time units, e.g. CAL_MINUTES for "5 minutes".
+ * @units: Time units, e.g. E_DURATION_MINUTES for "5 minutes".
  *
  * Sets the units to be used for default reminders in new appointments.
  **/
 void
-calendar_config_set_default_reminder_units (CalUnits units)
+calendar_config_set_default_reminder_units (EDurationType units)
 {
 	calendar_config_init ();
 
@@ -586,7 +586,7 @@ calendar_config_set_default_reminder_units (CalUnits units)
  * are retrieved even when returns FALSE.
  **/
 gboolean
-calendar_config_get_ba_reminder (gint *interval, CalUnits *units)
+calendar_config_get_ba_reminder (gint *interval, EDurationType *units)
 {
 	calendar_config_init ();
 
@@ -614,7 +614,7 @@ calendar_config_get_ba_reminder (gint *interval, CalUnits *units)
  * @units: The units of the reminder; can be NULL.
  **/
 void
-calendar_config_set_ba_reminder (gboolean *enabled, gint *interval, CalUnits *units)
+calendar_config_set_ba_reminder (gboolean *enabled, gint *interval, EDurationType *units)
 {
 	calendar_config_init ();
 
@@ -642,7 +642,7 @@ calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 	gchar *sexp = NULL;
 
 	if (calendar_config_get_hide_completed_tasks ()) {
-		CalUnits units;
+		EDurationType units;
 		gint value;
 
 		units = calendar_config_get_hide_completed_tasks_units ();
@@ -667,13 +667,13 @@ calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 			tt = icaltime_current_time_with_zone (zone);
 
 			switch (units) {
-			case CAL_DAYS:
+			case E_DURATION_DAYS:
 				icaltime_adjust (&tt, -value, 0, 0, 0);
 				break;
-			case CAL_HOURS:
+			case E_DURATION_HOURS:
 				icaltime_adjust (&tt, 0, -value, 0, 0);
 				break;
-			case CAL_MINUTES:
+			case E_DURATION_MINUTES:
 				icaltime_adjust (&tt, 0, 0, -value, 0);
 				break;
 			default:

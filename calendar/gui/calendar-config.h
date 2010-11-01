@@ -32,6 +32,7 @@
 #include <gdk/gdk.h>
 #include <libecal/e-cal.h>
 #include <gconf/gconf-client.h>
+#include <e-util/e-util-enums.h>
 
 /* These are used to get/set the working days in the week. The bit-flags are
    combined together. The bits must be from 0 (Sun) to 6 (Sat) to match the
@@ -46,14 +47,6 @@ typedef enum
 	CAL_FRIDAY	= 1 << 5,
 	CAL_SATURDAY	= 1 << 6
 } CalWeekdays;
-
-/* Units for settings. */
-typedef enum
-{
-	CAL_DAYS,
-	CAL_HOURS,
-	CAL_MINUTES
-} CalUnits;
 
 void calendar_config_remove_notification (guint id);
 
@@ -109,8 +102,9 @@ void	  calendar_config_set_memos_selected (GSList *selected);
 gboolean  calendar_config_get_hide_completed_tasks	(void);
 void	  calendar_config_set_hide_completed_tasks	(gboolean	hide);
 
-CalUnits  calendar_config_get_hide_completed_tasks_units (void);
-void	  calendar_config_set_hide_completed_tasks_units (CalUnits	units);
+EDurationType
+	  calendar_config_get_hide_completed_tasks_units (void);
+void	  calendar_config_set_hide_completed_tasks_units (EDurationType units);
 
 gint	  calendar_config_get_hide_completed_tasks_value (void);
 void	  calendar_config_set_hide_completed_tasks_value (gint		value);
@@ -127,8 +121,9 @@ void     calendar_config_set_use_default_reminder (gboolean value);
 gint      calendar_config_get_default_reminder_interval (void);
 void     calendar_config_set_default_reminder_interval (gint interval);
 
-CalUnits calendar_config_get_default_reminder_units (void);
-void     calendar_config_set_default_reminder_units (CalUnits units);
+EDurationType
+	 calendar_config_get_default_reminder_units (void);
+void     calendar_config_set_default_reminder_units (EDurationType units);
 
 /* Returns TRUE if the locale has 'am' and 'pm' strings defined, i.e. it
    supports 12-hour time format. */
@@ -145,8 +140,8 @@ void    calendar_config_select_day_second_zone (void);
 guint   calendar_config_add_notification_day_second_zone (GConfClientNotifyFunc func, gpointer data);
 
 /* Birthdays & Anniversaries reminder settings */
-gboolean calendar_config_get_ba_reminder (gint *interval, CalUnits *units);
-void calendar_config_set_ba_reminder (gboolean *enabled, gint *interval, CalUnits *units);
+gboolean calendar_config_get_ba_reminder (gint *interval, EDurationType *units);
+void calendar_config_set_ba_reminder (gboolean *enabled, gint *interval, EDurationType *units);
 
 /* Scroll in a month view by a week, not by a month */
 gboolean calendar_config_get_month_scroll_by_week (void);
