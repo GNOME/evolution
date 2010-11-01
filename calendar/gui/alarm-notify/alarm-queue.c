@@ -1390,9 +1390,9 @@ tray_icon_blink_cb (gpointer data)
 	tray_blink_state = !tray_blink_state;
 
 	if (tray_blink_state || tray_blink_countdown <= 0)
-		icon_name = "stock_appointment-reminder-excl";
+		icon_name = "appointment-missed";
 	else
-		icon_name = "stock_appointment-reminder";
+		icon_name = "appointment-soon";
 
 	if (tray_icon)
 		gtk_status_icon_set_from_icon_name (tray_icon, icon_name);
@@ -1479,7 +1479,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	if (tray_icon == NULL) {
 		tray_icon = gtk_status_icon_new ();
 		gtk_status_icon_set_from_icon_name (
-			tray_icon, "stock_appointment-reminder");
+			tray_icon, "appointment-soon");
 		g_signal_connect (G_OBJECT (tray_icon), "activate",
 				  G_CALLBACK (icon_activated), NULL);
 		g_signal_connect (G_OBJECT (tray_icon), "popup-menu",
