@@ -49,6 +49,7 @@
 #include "e-day-view-layout.h"
 #include "e-week-view.h"
 #include "e-week-view-layout.h"
+#include "e-task-table.h"
 #include "gnome-cal.h"
 #include "print.h"
 
@@ -87,6 +88,26 @@ evo_calendar_print_renderer_get_width (GtkPrintContext *context,
 	return pango_units_to_double (layout_width);
 }
 
+static gdouble
+evo_calendar_print_renderer_get_height (GtkPrintContext *context,
+				        PangoFontDescription *font,
+				        const gchar *text)
+{
+	PangoLayout *layout;
+	gint layout_width, layout_height;
+
+	layout = gtk_print_context_create_pango_layout (context);
+
+	pango_layout_set_font_description (layout, font);
+	pango_layout_set_text (layout, text, -1);
+	pango_layout_set_indent (layout, 0);
+	pango_layout_get_size (layout, &layout_width, &layout_height);
+
+	g_object_unref (layout);
+
+	return pango_units_to_double (layout_height);
+}
+
 static double
 get_font_size (PangoFontDescription *font)
 {
@@ -123,7 +144,7 @@ get_font_size (PangoFontDescription *font)
 
 /* The width of the small calendar months, the space from the right edge of
    the header rectangle, and the space between the months. */
-#define SMALL_MONTH_WIDTH	100
+#define MIN_SMALL_MONTH_WIDTH	100
 #define SMALL_MONTH_PAD		5
 #define SMALL_MONTH_SPACING	20
 
@@ -479,7 +500,6 @@ print_text_size_bold (GtkPrintContext *context, const gchar *text,
 	return w;
 }
 
-#if 0  /* KILL-BONOBO */
 static void
 titled_box (GtkPrintContext *context, const gchar *text,
             PangoFontDescription *font, PangoAlignment alignment,
@@ -488,16 +508,15 @@ titled_box (GtkPrintContext *context, const gchar *text,
 {
 	gdouble size;
 
-	size = get_font_size (font);
-	print_border (context, *x1, *x2, *y1, *y1 + size * 1.4, linewidth, 0.9);
-	print_border (context, *x1, *x2, *y1 + size * 1.4, *y2, linewidth, -1.0);
+	size = evo_calendar_print_renderer_get_height (context, font, text);
+	print_border (context, *x1, *x2, *y1, *y1 + size  + 2, linewidth, 0.9);
+	print_border (context, *x1, *x2, *y1 + size + 2, *y2, linewidth, -1.0);
 	*x1 += 2;
 	*x2 -= 2;
 	*y2 += 2;
-	print_text (context, font, text, alignment, *x1, *x2, *y1 + 1.0, *y1 + size * 1.4);
-	*y1 += size * 1.4;
+	print_text (context, font, text, alignment, *x1, *x2, *y1 + 1.0, *y1 + size);
+	*y1 += size + 2;
 }
-#endif /* KILL-BONOBO */
 
 static gboolean
 get_show_week_numbers (void)
@@ -575,6 +594,36 @@ instance_cb (ECalComponent *comp,
 	return FALSE;
 }
 
+/* Translators: These are workday abbreviations, e.g. Su=Sunday and Th=thursday */
+const gchar *daynames[] =
+	{ N_("Su"), N_("Mo"), N_("Tu"), N_("We"),
+	  N_("Th"), N_("Fr"), N_("Sa") };
+
+static gdouble
+calc_small_month_width (GtkPrintContext *context, gdouble for_height)
+{
+
+	PangoFontDescription *font_bold;
+	gdouble res = 0.0;
+	gint ii;
+
+	font_bold = get_font_for_size (for_height / 7.4, PANGO_WEIGHT_BOLD);
+	res = MAX (evo_calendar_print_renderer_get_width (context, font_bold, "23"), res);
+	for (ii = 0; ii < 7; ii++) {
+		res = MAX (evo_calendar_print_renderer_get_width (context, font_bold, _(daynames[ii])), res);
+	}
+
+	pango_font_description_free (font_bold);
+
+	/* res is max cell width, thus multiply it with column count plus some space between columns */
+	res = (res + 1.0) * (7 + (get_show_week_numbers () ? 1 : 0)) - 1.0;
+
+	if (res < MIN_SMALL_MONTH_WIDTH)
+		res = MIN_SMALL_MONTH_WIDTH;
+
+	return res;
+}
+
 /*
   print out the month small, embolden any days with events.
 */
@@ -596,11 +645,6 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 	gdouble header_size, col_width, row_height, text_xpad, w;
 	gdouble cell_top, cell_bottom, cell_left, cell_right, text_right;
 	gboolean week_numbers;
-
-	/* Translators: These are workday abbreviations, e.g. Su=Sunday and Th=thursday */
-	const gchar *daynames[] =
-		{ N_("Su"), N_("Mo"), N_("Tu"), N_("We"),
-		  N_("Th"), N_("Fr"), N_("Sa") };
 	cairo_t *cr;
 
 	week_numbers = get_show_week_numbers ();
@@ -807,8 +851,10 @@ print_day_background (GtkPrintContext *context, GnomeCalendar *gcal,
 	const gchar *minute;
 	gboolean use_24_hour;
 	gint i, hour, row;
-	gdouble hour_minute_x;
+	gdouble hour_minute_x, hour_minute_width;
 	cairo_t *cr;
+
+	use_24_hour = calendar_config_get_24_hour_format ();
 
 	/* Fill the time column in light-gray. */
 	print_border (context, left, left + width, top, bottom, -1.0, 0.9);
@@ -834,19 +880,20 @@ print_day_background (GtkPrintContext *context, GnomeCalendar *gcal,
 
         /* Get the 2 fonts we need. */
 	font_size = yinc * 0.6;
-	max_font_size = width * 0.5;
+	max_font_size = width * 0.45;
 	hour_font_size = MIN (font_size, max_font_size);
 	font_hour = get_font_for_size (hour_font_size, PANGO_WEIGHT_BOLD);
 
 	font_size = yinc * 0.33;
-	max_font_size = width * 0.25;
+	max_font_size = width * 0.2;
 	minute_font_size = MIN (font_size, max_font_size);
 	font_minute = get_font_for_size (minute_font_size, PANGO_WEIGHT_BOLD);
-
-	use_24_hour = calendar_config_get_24_hour_format ();
+	hour_minute_width = evo_calendar_print_renderer_get_width (context, font_minute, use_24_hour ? "00" : _("am"));
+	if (!use_24_hour)
+		hour_minute_width = MAX (hour_minute_width, evo_calendar_print_renderer_get_width (context, font_minute, _("pm")));
 
 	row = 0;
-	hour_minute_x = left + width * 0.58;
+	hour_minute_x = left + width - hour_minute_width - 3;
 	for (i = pdi->start_hour; i < pdi->end_hour; i++) {
 		y = top + yinc * (row + 1);
 		cr = gtk_print_context_get_cairo_context (context);
@@ -2086,11 +2133,10 @@ print_todo_details (GtkPrintContext *context, GnomeCalendar *gcal,
 		    time_t start, time_t end,
 		    double left, double right, double top, double bottom)
 {
-#if 0  /* KILL-BONOBO */
 	PangoFontDescription *font_summary;
 	gdouble y, yend, x, xend;
 	struct icaltimetype *tt;
-	ECalendarTable *task_pad;
+	GtkWidget *task_table;
 	ETable *table;
 	ECalModel *model;
 	gint rows, row;
@@ -2098,9 +2144,10 @@ print_todo_details (GtkPrintContext *context, GnomeCalendar *gcal,
 
 	/* We get the tasks directly from the TaskPad ETable. This means we
 	   get them filtered & sorted for free. */
-	task_pad = gnome_calendar_get_task_pad (gcal);
-	table = e_calendar_table_get_table (task_pad);
-	model = e_calendar_table_get_model (task_pad);
+	task_table = gnome_calendar_get_task_table (gcal);
+	table = E_TABLE (task_table);
+	g_return_if_fail (table != NULL);
+	model = e_task_table_get_model (E_TASK_TABLE (task_table));
 
 	font_summary = get_font_for_size (12, PANGO_WEIGHT_NORMAL);
 
@@ -2176,7 +2223,6 @@ print_todo_details (GtkPrintContext *context, GnomeCalendar *gcal,
 	}
 
 	pango_font_description_free (font_summary);
-#endif
 }
 
 static void
@@ -2185,7 +2231,7 @@ print_day_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 	GtkPageSetup *setup;
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	gint i, days = 1;
-	gdouble todo, l, week_numbers_inc;
+	gdouble todo, l, week_numbers_inc, small_month_width;
 	gchar buf[100];
 	gdouble width, height;
 
@@ -2193,36 +2239,37 @@ print_day_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 
 	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
 	height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
-	week_numbers_inc = get_show_week_numbers () ? SMALL_MONTH_WIDTH / 7.0 : 0;
+	small_month_width = calc_small_month_width (context, HEADER_HEIGHT);
+	week_numbers_inc = get_show_week_numbers () ? small_month_width / 7.0 : 0;
 
 	for (i = 0; i < days; i++) {
 		todo = width * 0.75;
 
 		/* Print the main view with all the events in. */
 		print_day_details (context, gcal, date,
-				   0.0, todo - 2.0, HEADER_HEIGHT,
+				   0.0, todo - 2.0, HEADER_HEIGHT + 4,
 				   height);
 
 		 /* Print the TaskPad down the right. */
 		print_todo_details (context, gcal, 0, INT_MAX,
-				    todo, width, HEADER_HEIGHT,
+				    todo, width, HEADER_HEIGHT + 4,
 				    height);
 
 		/* Print the filled border around the header. */
 		print_border (context, 0.0, width,
-			      0.0, HEADER_HEIGHT + 3.5, 1.0, 0.9);
+			      0.0, HEADER_HEIGHT + 4, 1.0, 0.9);
 
 		/* Print the 2 mini calendar-months. */
-		l = width - SMALL_MONTH_PAD - (SMALL_MONTH_WIDTH + week_numbers_inc) * 2  - SMALL_MONTH_SPACING;
+		l = width - SMALL_MONTH_PAD - (small_month_width + week_numbers_inc) * 2  - SMALL_MONTH_SPACING;
 
-		 print_month_small (context, gcal, date,
-				   l, 4, l + SMALL_MONTH_WIDTH + week_numbers_inc, HEADER_HEIGHT + 4,
+		print_month_small (context, gcal, date,
+				   l, 2, l + small_month_width + week_numbers_inc, HEADER_HEIGHT + 2,
 				   DATE_MONTH | DATE_YEAR, date, date, FALSE);
 
-		l += SMALL_MONTH_SPACING + SMALL_MONTH_WIDTH + week_numbers_inc;
+		l += SMALL_MONTH_SPACING + small_month_width + week_numbers_inc;
 		print_month_small (context, gcal,
 				   time_add_month_with_zone (date, 1, zone),
-				   l, 4, l + SMALL_MONTH_WIDTH + week_numbers_inc, HEADER_HEIGHT + 4,
+				   l, 2, l + small_month_width + week_numbers_inc, HEADER_HEIGHT + 2,
 				   DATE_MONTH | DATE_YEAR, 0, 0, FALSE);
 
 		/* Print the date, e.g. '8th May, 2001'. */
@@ -2238,8 +2285,8 @@ print_day_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 
 		print_text_size_bold (context, buf, PANGO_ALIGN_LEFT,
 				      4, todo,
-				      HEADER_HEIGHT + 6,
-				      HEADER_HEIGHT + 6 + 18);
+				      HEADER_HEIGHT + 9,
+				      HEADER_HEIGHT + 9 + 18);
 
 		date = time_add_day_with_zone (date, 1, zone);
 	 }
@@ -2262,6 +2309,8 @@ print_work_week_background (GtkPrintContext *context, GnomeCalendar *gcal,
 	gint i, hour, row;
 	gdouble hour_minute_xl, hour_minute_xr;
 	cairo_t *cr;
+
+	use_24_hour = calendar_config_get_24_hour_format ();
 
 	/* Fill the left time column in light-gray. */
 	print_border (context, left, left + width, top, bottom, -1.0, 0.9);
@@ -2294,20 +2343,21 @@ print_work_week_background (GtkPrintContext *context, GnomeCalendar *gcal,
 
         /* Get the 2 fonts we need. */
 	font_size = yinc * 0.6;
-	max_font_size = width * 0.5;
+	max_font_size = width * 0.45;
 	hour_font_size = MIN (font_size, max_font_size);
 	font_hour = get_font_for_size (hour_font_size, PANGO_WEIGHT_BOLD);
 
 	font_size = yinc * 0.33;
-	max_font_size = width * 0.25;
+	max_font_size = width * 0.2;
 	minute_font_size = MIN (font_size, max_font_size);
 	font_minute = get_font_for_size (minute_font_size, PANGO_WEIGHT_BOLD);
-
-	use_24_hour = calendar_config_get_24_hour_format ();
+	hour_minute_xr = evo_calendar_print_renderer_get_width (context, font_minute, use_24_hour ? "00" : _("am"));
+	if (!use_24_hour)
+		hour_minute_xr = MAX (hour_minute_xr, evo_calendar_print_renderer_get_width (context, font_minute, _("pm")));
 
 	row = 0;
-	hour_minute_xl = left + width * 0.58;
-	hour_minute_xr = right - width * 0.45;
+	hour_minute_xl = left + width - hour_minute_xr - 3;
+	hour_minute_xr = right - hour_minute_xr - 3;
 	for (i = pdi->start_hour; i < pdi->end_hour; i++) {
 		y = top + yinc * (row + 1);
 		cr = gtk_print_context_get_cairo_context (context);
@@ -2338,10 +2388,10 @@ print_work_week_background (GtkPrintContext *context, GnomeCalendar *gcal,
 
 		/* To the right */
 		print_text (context, font_hour, buf, PANGO_ALIGN_RIGHT,
-			    left, hour_minute_xr,
+			    right - width, hour_minute_xr,
 			    y - yinc, y - yinc + hour_font_size);
 		print_text (context, font_minute, minute, PANGO_ALIGN_LEFT,
-			    hour_minute_xr, right - 1,
+			    hour_minute_xr, right - 3,
 			    y - yinc, y - yinc + minute_font_size);
 
 
@@ -2584,14 +2634,14 @@ print_work_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date
 	GtkPageSetup *setup;
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	time_t when, start, end;
-	gdouble width, height, l;
+	gdouble width, height, l, small_month_width = calc_small_month_width (context, HEADER_HEIGHT);
 	gint i, days = 5;
 	char buf[100];
 	const int LONG_EVENT_OFFSET = 6;
 	struct pdinfo pdi;
 	gdouble day_width, day_x;
 	ECalModel *model = gnome_calendar_get_model (gcal);
-	gdouble weeknum_inc = get_show_week_numbers () ? SMALL_MONTH_WIDTH / 7.0 : 0;
+	gdouble weeknum_inc = get_show_week_numbers () ? small_month_width / 7.0 : 0;
 
 	setup = gtk_print_context_get_page_setup (context);
 
@@ -2616,16 +2666,16 @@ print_work_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date
 	print_border (context, 0.0, width, 0.0, HEADER_HEIGHT, 1.0, 0.9);
 
 	/* Print the 2 mini calendar-months. */
-	l = width - SMALL_MONTH_PAD - (SMALL_MONTH_WIDTH + weeknum_inc) * 2  - SMALL_MONTH_SPACING;
+	l = width - SMALL_MONTH_PAD - (small_month_width + weeknum_inc) * 2  - SMALL_MONTH_SPACING;
 
 	print_month_small (context, gcal, start,
-			   l, 4, l + SMALL_MONTH_WIDTH + weeknum_inc, HEADER_HEIGHT + 4,
+			   l, 4, l + small_month_width + weeknum_inc, HEADER_HEIGHT + 4,
 			   DATE_MONTH | DATE_YEAR, start, end, FALSE);
 
-	l += SMALL_MONTH_SPACING + SMALL_MONTH_WIDTH + weeknum_inc;
+	l += SMALL_MONTH_SPACING + small_month_width + weeknum_inc;
 	print_month_small (context, gcal,
 			   time_add_month_with_zone (start, 1, zone),
-			   l, 4, l + SMALL_MONTH_WIDTH + weeknum_inc, HEADER_HEIGHT + 4,
+			   l, 4, l + small_month_width + weeknum_inc, HEADER_HEIGHT + 4,
 			   DATE_MONTH | DATE_YEAR, 0, 0, FALSE);
 
 	/* Print the start day of the week, e.g. '7th May 2001'. */
@@ -2667,7 +2717,7 @@ print_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 {
 	GtkPageSetup *setup;
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
-	gdouble l, week_numbers_inc;
+	gdouble l, week_numbers_inc, small_month_width;
 	gchar buf[100];
 	time_t when;
 	gint week_start_day;
@@ -2678,7 +2728,8 @@ print_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 
 	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
 	height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
-	week_numbers_inc = get_show_week_numbers () ? SMALL_MONTH_WIDTH / 7.0 : 0;
+	small_month_width = calc_small_month_width (context, HEADER_HEIGHT);
+	week_numbers_inc = get_show_week_numbers () ? small_month_width / 7.0 : 0;
 
 	tm = *convert_timet_to_struct_tm (date, zone);
 	week_start_day = calendar_config_get_week_start_day ();
@@ -2708,17 +2759,17 @@ print_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
                       0.0, HEADER_HEIGHT + 2.0 + 20, 1.0, 0.9);
 
 	/* Print the 2 mini calendar-months. */
-	l = width - SMALL_MONTH_PAD - (SMALL_MONTH_WIDTH + week_numbers_inc) * 2
+	l = width - SMALL_MONTH_PAD - (small_month_width + week_numbers_inc) * 2
 		- SMALL_MONTH_SPACING;
 	print_month_small (context, gcal, when,
-			   l, 4, l + SMALL_MONTH_WIDTH + week_numbers_inc, HEADER_HEIGHT + 10,
+			   l, 4, l + small_month_width + week_numbers_inc, HEADER_HEIGHT + 10,
 			   DATE_MONTH | DATE_YEAR, when,
 			   time_add_week_with_zone (when, 1, zone), FALSE);
 
-	l += SMALL_MONTH_SPACING + SMALL_MONTH_WIDTH + week_numbers_inc;
+	l += SMALL_MONTH_SPACING + small_month_width + week_numbers_inc;
 	print_month_small (context, gcal,
 			   time_add_month_with_zone (when, 1, zone),
-			   l, 4, l + SMALL_MONTH_WIDTH + week_numbers_inc, HEADER_HEIGHT + 10,
+			   l, 4, l + small_month_width + week_numbers_inc, HEADER_HEIGHT + 10,
 			   DATE_MONTH | DATE_YEAR, when,
 			   time_add_week_with_zone (when, 1, zone), FALSE);
 
@@ -2743,13 +2794,14 @@ print_month_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	gchar buf[100];
 	gdouble width, height;
-	gdouble l, week_numbers_inc;
+	gdouble l, week_numbers_inc, small_month_width;
 
 	setup = gtk_print_context_get_page_setup (context);
 
 	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
 	height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
-	week_numbers_inc = get_show_week_numbers () ? SMALL_MONTH_WIDTH / 7.0 : 0;
+	small_month_width = calc_small_month_width (context, HEADER_HEIGHT);
+	week_numbers_inc = get_show_week_numbers () ? small_month_width / 7.0 : 0;
 
 	/* Print the main month view. */
 	print_month_summary (context, gcal, date, 0.0, width, HEADER_HEIGHT, height);
@@ -2757,17 +2809,17 @@ print_month_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 	/* Print the border around the header. */
 	print_border (context, 0.0, width, 0.0, HEADER_HEIGHT + 10, 1.0, 0.9);
 
-	l = width - SMALL_MONTH_PAD - SMALL_MONTH_WIDTH - week_numbers_inc;
+	l = width - SMALL_MONTH_PAD - small_month_width - week_numbers_inc;
 
 	/* Print the 2 mini calendar-months. */
 	print_month_small (context, gcal,
 			   time_add_month_with_zone (date, 1, zone),
-			   l, 4, l + SMALL_MONTH_WIDTH + week_numbers_inc, HEADER_HEIGHT + 4,
+			   l, 4, l + small_month_width + week_numbers_inc, HEADER_HEIGHT + 4,
 			   DATE_MONTH | DATE_YEAR, 0, 0, FALSE);
 
 	print_month_small (context, gcal,
 			   time_add_month_with_zone (date, -1, zone),
-			   8, 4, 8 + SMALL_MONTH_WIDTH + week_numbers_inc, HEADER_HEIGHT + 4,
+			   8, 4, 8 + small_month_width + week_numbers_inc, HEADER_HEIGHT + 4,
 			   DATE_MONTH | DATE_YEAR, 0, 0, FALSE);
 
 	/* Print the month, e.g. 'May 2001'. */
