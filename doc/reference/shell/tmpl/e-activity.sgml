@@ -116,6 +116,24 @@ e-activity
 @percent: 
 
 
+<!-- ##### FUNCTION e_activity_get_state ##### -->
+<para>
+
+</para>
+
+@activity: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_activity_set_state ##### -->
+<para>
+
+</para>
+
+@activity: 
+@state: 
+
+
 <!-- ##### FUNCTION e_activity_get_text ##### -->
 <para>
 

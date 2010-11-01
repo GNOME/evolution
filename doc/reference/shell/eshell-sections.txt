@@ -470,9 +470,7 @@ EActionComboBoxPrivate
 <FILE>e-activity</FILE>
 EActivity
 e_activity_new
-e_activity_complete
 e_activity_describe
-e_activity_is_completed
 e_activity_get_alert_sink
 e_activity_set_alert_sink
 e_activity_get_cancellable
@@ -481,6 +479,8 @@ e_activity_get_icon_name
 e_activity_set_icon_name
 e_activity_get_percent
 e_activity_set_percent
+e_activity_get_state
+e_activity_set_state
 e_activity_get_text
 e_activity_set_text
 <SUBSECTION Standard>
@@ -699,8 +699,8 @@ e_attachment_store_add_attachment
 e_attachment_store_remove_attachment
 e_attachment_store_add_to_multipart
 e_attachment_store_get_attachments
-e_attachment_store_get_current_folder
-e_attachment_store_set_current_folder
+e_attachment_store_get_current_folder_uri
+e_attachment_store_set_current_folder_uri
 e_attachment_store_get_num_attachments
 e_attachment_store_get_num_loading
 e_attachment_store_get_total_size
@@ -1165,6 +1165,8 @@ e_util_guess_mime_type
 e_util_get_category_filter_options
 e_binding_transform_color_to_string
 e_binding_transform_string_to_color
+e_binding_transform_source_to_uid
+e_binding_transform_uid_to_source
 e_charset_add_radio_actions
 e_file_replace_contents_async
 e_file_replace_contents_finish
