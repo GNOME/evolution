@@ -359,6 +359,30 @@ Miscellaneous Utilities
 @Returns: 
 
 
+<!-- ##### FUNCTION e_binding_transform_enum_nick_to_value ##### -->
+<para>
+
+</para>
+
+@binding: 
+@source_value: 
+@target_value: 
+@not_used: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_binding_transform_enum_value_to_nick ##### -->
+<para>
+
+</para>
+
+@binding: 
+@source_value: 
+@target_value: 
+@not_used: 
+@Returns: 
+
+
 <!-- ##### FUNCTION e_binding_transform_source_to_uid ##### -->
 <para>
 
