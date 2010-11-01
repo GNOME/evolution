@@ -3819,6 +3819,19 @@ e_mail_reader_get_action_group (EMailReader *reader)
 	return interface->get_action_group (reader);
 }
 
+EAlertSink *
+e_mail_reader_get_alert_sink (EMailReader *reader)
+{
+	EMailReaderInterface *interface;
+
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
+
+	interface = E_MAIL_READER_GET_INTERFACE (reader);
+	g_return_val_if_fail (interface->get_alert_sink != NULL, NULL);
+
+	return interface->get_alert_sink (reader);
+}
+
 EMailBackend *
 e_mail_reader_get_backend (EMailReader *reader)
 {

@@ -770,6 +770,20 @@ mail_notebook_view_get_action_group (EMailReader *reader)
 	return E_SHELL_WINDOW_ACTION_GROUP_MAIL (shell_window);
 }
 
+static EAlertSink *
+mail_notebook_view_get_alert_sink (EMailReader *reader)
+{
+	EMailView *view;
+	EShellView *shell_view;
+	EShellContent *shell_content;
+
+	view = E_MAIL_VIEW (reader);
+	shell_view = e_mail_view_get_shell_view (view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	return E_ALERT_SINK (shell_content);
+}
+
 static EMailBackend *
 mail_notebook_view_get_backend (EMailReader *reader)
 {
@@ -1310,6 +1324,7 @@ static void
 e_mail_notebook_view_reader_init (EMailReaderInterface *interface)
 {
 	interface->get_action_group = mail_notebook_view_get_action_group;
+	interface->get_alert_sink = mail_notebook_view_get_alert_sink;
 	interface->get_backend = mail_notebook_view_get_backend;
 	interface->get_formatter = mail_notebook_view_get_formatter;
 	interface->get_hide_deleted = mail_notebook_view_get_hide_deleted;

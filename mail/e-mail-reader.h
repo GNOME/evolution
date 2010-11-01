@@ -29,6 +29,7 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel.h>
+#include <e-util/e-alert-sink.h>
 #include <mail/e-mail-backend.h>
 #include <mail/em-format-html.h>
 
@@ -85,6 +86,7 @@ struct _EMailReaderInterface {
 
 	GtkActionGroup *
 			(*get_action_group)	(EMailReader *reader);
+	EAlertSink *	(*get_alert_sink)	(EMailReader *reader);
 	EMailBackend *	(*get_backend)		(EMailReader *reader);
 	EMFormatHTML *	(*get_formatter)	(EMailReader *reader);
 	gboolean	(*get_hide_deleted)	(EMailReader *reader);
@@ -121,6 +123,7 @@ GtkAction *	e_mail_reader_get_action	(EMailReader *reader,
 						 const gchar *action_name);
 GtkActionGroup *
 		e_mail_reader_get_action_group	(EMailReader *reader);
+EAlertSink *	e_mail_reader_get_alert_sink	(EMailReader *reader);
 EMailBackend *	e_mail_reader_get_backend	(EMailReader *reader);
 EMFormatHTML *	e_mail_reader_get_formatter	(EMailReader *reader);
 gboolean	e_mail_reader_get_hide_deleted	(EMailReader *reader);
