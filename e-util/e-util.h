@@ -156,6 +156,16 @@ gboolean	e_binding_transform_string_to_color
 						 const GValue *source_value,
 						 GValue *target_value,
 						 gpointer not_used);
+gboolean	e_binding_transform_enum_value_to_nick
+						(GBinding *binding,
+						 const GValue *source_value,
+						 GValue *target_value,
+						 gpointer not_used);
+gboolean	e_binding_transform_enum_nick_to_value
+						(GBinding *binding,
+						 const GValue *source_value,
+						 GValue *target_value,
+						 gpointer not_used);
 gboolean	e_binding_transform_source_to_uid
 						(GBinding *binding,
 						 const GValue *source_value,
