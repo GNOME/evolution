@@ -45,12 +45,12 @@ static const gint time_division_map[] = {
 
 /* The following two are kept separate in case we need to re-order each menu individually */
 static const gint hide_completed_units_map[] = {
-	CAL_MINUTES, CAL_HOURS, CAL_DAYS, -1
+	E_DURATION_MINUTES, E_DURATION_HOURS, E_DURATION_DAYS, -1
 };
 
 /* same is used for Birthdays & Anniversaries calendar */
 static const gint default_reminder_units_map[] = {
-	CAL_MINUTES, CAL_HOURS, CAL_DAYS, -1
+	E_DURATION_MINUTES, E_DURATION_HOURS, E_DURATION_DAYS, -1
 };
 
 static GtkVBoxClass *parent_class = NULL;
@@ -331,7 +331,7 @@ ba_reminder_interval_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 static void
 ba_reminder_units_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 {
-	CalUnits units = e_dialog_combo_box_get (prefs->ba_reminder_units, default_reminder_units_map);
+	EDurationType units = e_dialog_combo_box_get (prefs->ba_reminder_units, default_reminder_units_map);
 
 	calendar_config_set_ba_reminder (NULL, NULL, &units);
 }
@@ -451,7 +451,7 @@ setup_changes (CalendarPrefsDialog *prefs)
 static void
 show_task_list_config (CalendarPrefsDialog *prefs)
 {
-	CalUnits units;
+	EDurationType units;
 	gboolean hide_completed_tasks;
 
 	/* Hide Completed Tasks. */
@@ -517,7 +517,7 @@ show_config (CalendarPrefsDialog *prefs)
 {
 	gint time_divisions;
 	gboolean set = FALSE;
-	CalUnits units;
+	EDurationType units;
 	gint interval;
 
 	/* Day's second zone */

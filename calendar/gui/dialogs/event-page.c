@@ -180,7 +180,7 @@ struct _EventPagePrivate {
 
 	ESendOptionsDialog *sod;
 	gchar *old_summary;
-	CalUnits alarm_units;
+	EDurationType alarm_units;
 	gint alarm_interval;
 
 	/* This is TRUE if both the start & end timezone are the same. If the
@@ -517,7 +517,7 @@ clear_widgets (EventPage *epage)
 }
 
 static gboolean
-is_custom_alarm (ECalComponentAlarm *ca, gchar *old_summary, CalUnits user_units, gint user_interval, gint *alarm_type)
+is_custom_alarm (ECalComponentAlarm *ca, gchar *old_summary, EDurationType user_units, gint user_interval, gint *alarm_type)
 {
 	ECalComponentAlarmTrigger trigger;
 	ECalComponentAlarmRepeat repeat;
@@ -600,7 +600,7 @@ is_custom_alarm (ECalComponentAlarm *ca, gchar *old_summary, CalUnits user_units
 
 	if (user_interval != -1) {
 		switch (user_units) {
-		case CAL_DAYS:
+		case E_DURATION_DAYS:
 			if (trigger.u.rel_duration.days == user_interval
 			    && trigger.u.rel_duration.hours == 0
 			    && trigger.u.rel_duration.minutes == 0) {
@@ -610,7 +610,7 @@ is_custom_alarm (ECalComponentAlarm *ca, gchar *old_summary, CalUnits user_units
 			}
 			break;
 
-		case CAL_HOURS:
+		case E_DURATION_HOURS:
 			if (trigger.u.rel_duration.days == 0
 			    && trigger.u.rel_duration.hours == user_interval
 			    && trigger.u.rel_duration.minutes == 0) {
@@ -620,7 +620,7 @@ is_custom_alarm (ECalComponentAlarm *ca, gchar *old_summary, CalUnits user_units
 			}
 			break;
 
-		case CAL_MINUTES:
+		case E_DURATION_MINUTES:
 			if (trigger.u.rel_duration.days == 0
 			    && trigger.u.rel_duration.hours == 0
 			    && trigger.u.rel_duration.minutes == user_interval) {
@@ -636,7 +636,7 @@ is_custom_alarm (ECalComponentAlarm *ca, gchar *old_summary, CalUnits user_units
 }
 
 static gboolean
-is_custom_alarm_uid_list (ECalComponent *comp, GList *alarms, gchar *old_summary, CalUnits user_units, gint user_interval, gint *alarm_type)
+is_custom_alarm_uid_list (ECalComponent *comp, GList *alarms, gchar *old_summary, EDurationType user_units, gint user_interval, gint *alarm_type)
 {
 	ECalComponentAlarm *ca;
 	gboolean result;
@@ -652,7 +652,7 @@ is_custom_alarm_uid_list (ECalComponent *comp, GList *alarms, gchar *old_summary
 }
 
 static gboolean
-is_custom_alarm_store (EAlarmList *alarm_list_store, gchar *old_summary,  CalUnits user_units, gint user_interval, gint *alarm_type)
+is_custom_alarm_store (EAlarmList *alarm_list_store, gchar *old_summary,  EDurationType user_units, gint user_interval, gint *alarm_type)
 {
 	const ECalComponentAlarm *alarm;
 	GtkTreeModel *model;
@@ -1492,15 +1492,15 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 
 			case ALARM_USER_TIME:
 				switch (calendar_config_get_default_reminder_units ()) {
-				case CAL_DAYS:
+				case E_DURATION_DAYS:
 					trigger.u.rel_duration.days = priv->alarm_interval;
 					break;
 
-				case CAL_HOURS:
+				case E_DURATION_HOURS:
 					trigger.u.rel_duration.hours = priv->alarm_interval;
 					break;
 
-				case CAL_MINUTES:
+				case E_DURATION_MINUTES:
 					trigger.u.rel_duration.minutes = priv->alarm_interval;
 					break;
 				}
@@ -2744,15 +2744,15 @@ alarm_changed_cb (GtkWidget *widget,
 		case ALARM_USER_TIME:
 			e_alarm_list_clear (priv->alarm_list_store);
 			switch (calendar_config_get_default_reminder_units ()) {
-			case CAL_DAYS:
+			case E_DURATION_DAYS:
 				trigger.u.rel_duration.days = priv->alarm_interval;
 				break;
 
-			case CAL_HOURS:
+			case E_DURATION_HOURS:
 				trigger.u.rel_duration.hours = priv->alarm_interval;
 				break;
 
-			case CAL_MINUTES:
+			case E_DURATION_MINUTES:
 				trigger.u.rel_duration.minutes = priv->alarm_interval;
 				break;
 			}
@@ -2992,19 +2992,19 @@ init_widgets (EventPage *epage)
 
 	combo_label = NULL;
 	switch (priv->alarm_units) {
-	case CAL_DAYS:
+	case E_DURATION_DAYS:
 		if (priv->alarm_interval != 1) {
 			combo_label = g_strdup_printf (ngettext("%d day before appointment", "%d days before appointment", priv->alarm_interval), priv->alarm_interval);
 		}
 		break;
 
-	case CAL_HOURS:
+	case E_DURATION_HOURS:
 		if (priv->alarm_interval != 1) {
 			combo_label = g_strdup_printf (ngettext("%d hour before appointment", "%d hours before appointment", priv->alarm_interval), priv->alarm_interval);
 		}
 		break;
 
-	case CAL_MINUTES:
+	case E_DURATION_MINUTES:
 		if (priv->alarm_interval != 15) {
 			combo_label = g_strdup_printf (ngettext("%d minute before appointment", "%d minutes before appointment", priv->alarm_interval), priv->alarm_interval);
 		}

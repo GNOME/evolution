@@ -290,7 +290,7 @@ cal_comp_event_new_with_defaults (ECal *client, gboolean all_day)
 	icalcomponent *icalcomp;
 	ECalComponent *comp;
 	gint interval;
-	CalUnits units;
+	EDurationType units;
 	ECalComponentAlarm *alarm;
 	icalproperty *icalprop;
 	ECalComponentAlarmTrigger trigger;
@@ -331,15 +331,15 @@ cal_comp_event_new_with_defaults (ECal *client, gboolean all_day)
 	trigger.u.rel_duration.is_neg = TRUE;
 
 	switch (units) {
-	case CAL_MINUTES:
+	case E_DURATION_MINUTES:
 		trigger.u.rel_duration.minutes = interval;
 		break;
 
-	case CAL_HOURS:
+	case E_DURATION_HOURS:
 		trigger.u.rel_duration.hours = interval;
 		break;
 
-	case CAL_DAYS:
+	case E_DURATION_DAYS:
 		trigger.u.rel_duration.days = interval;
 		break;
 

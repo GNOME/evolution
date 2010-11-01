@@ -30,6 +30,12 @@ typedef enum {
 	E_ACTIVITY_COMPLETED
 } EActivityState;
 
+typedef enum {
+	E_DURATION_DAYS,
+	E_DURATION_HOURS,
+	E_DURATION_MINUTES
+} EDurationType;
+
 G_END_DECLS
 
 #endif /* E_UTIL_ENUMS_H */
