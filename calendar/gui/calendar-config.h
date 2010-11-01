@@ -97,11 +97,6 @@ void	  calendar_config_set_time_divisions	(gint	      divisions);
 /* Whether we compress the weekend in the week/month views. */
 gboolean  calendar_config_get_compress_weekend	(void);
 
-/* The positions of the panes in the normal and month views. */
-void	  calendar_config_set_hpane_pos		(gint	      hpane_pos);
-
-void	  calendar_config_set_month_hpane_pos	(gint	      hpane_pos);
-
 /* The current list of task lists selected */
 GSList   *calendar_config_get_tasks_selected (void);
 void	  calendar_config_set_tasks_selected (GSList *selected);
@@ -134,10 +129,6 @@ void     calendar_config_set_default_reminder_interval (gint interval);
 
 CalUnits calendar_config_get_default_reminder_units (void);
 void     calendar_config_set_default_reminder_units (CalUnits units);
-
-/* Free/Busy Settings */
-GSList * calendar_config_get_free_busy (void);
-void calendar_config_set_free_busy (GSList * url_list);
 
 /* Returns TRUE if the locale has 'am' and 'pm' strings defined, i.e. it
    supports 12-hour time format. */
