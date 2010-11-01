@@ -1161,7 +1161,7 @@
       <type>string</type>
       <default>ask</default>
       <locale name="C">
-         <short>Prompt when replying or forwarding from a mail browser whether close it</short>
+         <short>Asks whether to close the message window when the user forwards or replies to the message shown in the window</short>
          <long>
 	 Possible values are:
 	 never - to never close browser window
