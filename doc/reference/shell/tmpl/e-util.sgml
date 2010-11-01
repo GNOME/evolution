@@ -359,6 +359,30 @@ Miscellaneous Utilities
 @Returns: 
 
 
+<!-- ##### FUNCTION e_binding_transform_source_to_uid ##### -->
+<para>
+
+</para>
+
+@binding: 
+@source_value: 
+@target_value: 
+@source_list: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_binding_transform_uid_to_source ##### -->
+<para>
+
+</para>
+
+@binding: 
+@source_value: 
+@target_value: 
+@source_list: 
+@Returns: 
+
+
 <!-- ##### FUNCTION e_charset_add_radio_actions ##### -->
 <para>
 
