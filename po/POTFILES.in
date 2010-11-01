@@ -189,6 +189,7 @@ mail/e-mail-reader.c
 mail/e-mail-session.c
 mail/e-mail-session-utils.c
 mail/e-mail-store.c
+mail/e-mail-store-utils.c
 mail/e-mail-tag-editor.c
 mail/em-account-editor.c
 mail/em-composer-utils.c
