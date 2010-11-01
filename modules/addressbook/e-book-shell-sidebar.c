@@ -24,6 +24,8 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
+#include <e-util/e-util.h>
+
 #include "e-book-shell-view.h"
 #include "e-book-shell-backend.h"
 #include "e-addressbook-selector.h"
@@ -81,9 +83,11 @@ static void
 book_shell_sidebar_constructed (GObject *object)
 {
 	EBookShellSidebarPrivate *priv;
+	EShell *shell;
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
+	EShellSettings *shell_settings;
 	ESourceList *source_list;
 	GtkContainer *container;
 	GtkWidget *widget;
@@ -96,6 +100,9 @@ book_shell_sidebar_constructed (GObject *object)
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	shell = e_shell_backend_get_shell (shell_backend);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	source_list = e_book_shell_backend_get_source_list (
 		E_BOOK_SHELL_BACKEND (shell_backend));
@@ -118,6 +125,16 @@ book_shell_sidebar_constructed (GObject *object)
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->selector = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	g_object_bind_property_full (
+		shell_settings, "book-primary-selection",
+		widget, "primary-selection",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
+		(GBindingTransformFunc) e_binding_transform_uid_to_source,
+		(GBindingTransformFunc) e_binding_transform_source_to_uid,
+		g_object_ref (source_list),
+		(GDestroyNotify) g_object_unref);
 }
 
 static guint32
@@ -132,7 +149,7 @@ book_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 
 	book_shell_sidebar = E_BOOK_SHELL_SIDEBAR (shell_sidebar);
 	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
-	source = e_source_selector_peek_primary_selection (selector);
+	source = e_source_selector_get_primary_selection (selector);
 
 	if (source != NULL) {
 		const gchar *uri;

@@ -1507,7 +1507,7 @@ e_util_set_source_combo_box_list (GtkWidget *source_combo_box,
  * @binding: a #GBinding
  * @source_value: a #GValue of type #GDK_TYPE_COLOR
  * @target_value: a #GValue of type #G_TYPE_STRING
- * @user_data: not used
+ * @not_used: not used
  *
  * Transforms a #GdkColor value to a color string specification.
  *
@@ -1517,7 +1517,7 @@ gboolean
 e_binding_transform_color_to_string (GBinding *binding,
                                      const GValue *source_value,
                                      GValue *target_value,
-                                     gpointer user_data)
+                                     gpointer not_used)
 {
 	const GdkColor *color;
 	gchar *string;
@@ -1537,7 +1537,7 @@ e_binding_transform_color_to_string (GBinding *binding,
  * @binding: a #GBinding
  * @source_value: a #GValue of type #G_TYPE_STRING
  * @target_value: a #GValue of type #GDK_TYPE_COLOR
- * @user_data: not used
+ * @not_used: not used
  *
  * Transforms a color string specification to a #GdkColor.
  *
@@ -1547,7 +1547,7 @@ gboolean
 e_binding_transform_string_to_color (GBinding *binding,
                                      const GValue *source_value,
                                      GValue *target_value,
-                                     gpointer user_data)
+                                     gpointer not_used)
 {
 	GdkColor color;
 	const gchar *string;
@@ -1558,6 +1558,79 @@ e_binding_transform_string_to_color (GBinding *binding,
 	string = g_value_get_string (source_value);
 	if (gdk_color_parse (string, &color)) {
 		g_value_set_boxed (target_value, &color);
+		success = TRUE;
+	}
+
+	return success;
+}
+
+/**
+ * e_binding_transform_source_to_uid:
+ * @binding: a #GBinding
+ * @source_value: a #GValue of type #E_TYPE_SOURCE
+ * @target_value: a #GValue of type #G_TYPE_STRING
+ * @source_list: an #ESourceList
+ *
+ * Transforms an #ESource object to its UID string.
+ *
+ * Returns: %TRUE if @source_value was an #ESource object
+ **/
+gboolean
+e_binding_transform_source_to_uid (GBinding *binding,
+                                   const GValue *source_value,
+                                   GValue *target_value,
+                                   ESourceList *source_list)
+{
+	ESource *source;
+	const gchar *string;
+	gboolean success = FALSE;
+
+	g_return_val_if_fail (G_IS_BINDING (binding), FALSE);
+	g_return_val_if_fail (E_IS_SOURCE_LIST (source_list), FALSE);
+
+	source = g_value_get_object (source_value);
+	if (E_IS_SOURCE (source)) {
+		string = e_source_peek_uid (source);
+		g_value_set_string (target_value, string);
+		success = TRUE;
+	}
+
+	return success;
+}
+
+/**
+ * e_binding_transform_uid_to_source:
+ * @binding: a #GBinding
+ * @source_value: a #GValue of type #G_TYPE_STRING
+ * @target_value: a #GValue of type #E_TYPE_SOURCe
+ * @source_list: an #ESourceList
+ *
+ * Transforms an #ESource UID string to the corresponding #ESource object
+ * in @source_list.
+ *
+ * Returns: %TRUE if @source_list had an #ESource object with a matching
+ *          UID string
+ **/
+gboolean
+e_binding_transform_uid_to_source (GBinding *binding,
+                                   const GValue *source_value,
+                                   GValue *target_value,
+                                   ESourceList *source_list)
+{
+	ESource *source;
+	const gchar *string;
+	gboolean success = FALSE;
+
+	g_return_val_if_fail (G_IS_BINDING (binding), FALSE);
+	g_return_val_if_fail (E_IS_SOURCE_LIST (source_list), FALSE);
+
+	string = g_value_get_string (source_value);
+	if (string == NULL || *string == '\0')
+		return FALSE;
+
+	source = e_source_list_peek_source_by_uid (source_list, string);
+	if (source != NULL) {
+		g_value_set_object (target_value, source);
 		success = TRUE;
 	}
 

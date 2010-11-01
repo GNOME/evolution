@@ -327,7 +327,7 @@ do_save_calendar_csv (FormatHandler *handler,
 	if (!dest_uri)
 		return;
 
-	primary_source = e_source_selector_peek_primary_selection (selector);
+	primary_source = e_source_selector_get_primary_selection (selector);
 
 	/* open source client */
 	source_client = e_auth_new_cal_from_source (primary_source, type);

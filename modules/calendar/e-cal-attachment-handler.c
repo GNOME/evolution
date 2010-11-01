@@ -296,7 +296,7 @@ attachment_handler_run_dialog (GtkWindow *parent,
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
 		goto exit;
 
-	source = e_source_selector_peek_primary_selection (selector);
+	source = e_source_selector_get_primary_selection (selector);
 	if (source == NULL)
 		goto exit;
 

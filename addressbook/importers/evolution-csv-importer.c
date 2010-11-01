@@ -727,7 +727,7 @@ static void
 primary_selection_changed_cb (ESourceSelector *selector, EImportTarget *target)
 {
 	g_datalist_set_data_full(&target->data, "csv-source",
-				 g_object_ref (e_source_selector_peek_primary_selection (selector)),
+				 g_object_ref (e_source_selector_get_primary_selection (selector)),
 				 g_object_unref);
 }
 

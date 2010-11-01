@@ -112,7 +112,7 @@ action_memo_list_copy_cb (GtkAction *action,
 
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
-	source = e_source_selector_peek_primary_selection (selector);
+	source = e_source_selector_get_primary_selection (selector);
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	copy_source_dialog (
@@ -152,7 +152,7 @@ action_memo_list_delete_cb (GtkAction *action,
 
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
-	source = e_source_selector_peek_primary_selection (selector);
+	source = e_source_selector_get_primary_selection (selector);
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	/* Ask for confirmation. */
@@ -249,7 +249,7 @@ action_memo_list_properties_cb (GtkAction *action,
 
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
-	source = e_source_selector_peek_primary_selection (selector);
+	source = e_source_selector_get_primary_selection (selector);
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	calendar_setup_edit_memo_list (GTK_WINDOW (shell_window), source);
@@ -274,7 +274,7 @@ action_memo_list_refresh_cb (GtkAction *action,
 	model = e_memo_shell_content_get_memo_model (memo_shell_content);
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
 
-	source = e_source_selector_peek_primary_selection (selector);
+	source = e_source_selector_get_primary_selection (selector);
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	uri = e_source_get_uri (source);
@@ -319,7 +319,7 @@ action_memo_list_select_one_cb (GtkAction *action,
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
 
-	primary = e_source_selector_peek_primary_selection (selector);
+	primary = e_source_selector_get_primary_selection (selector);
 	g_return_if_fail (primary != NULL);
 
 	e_source_selector_select_exclusive (selector, primary);

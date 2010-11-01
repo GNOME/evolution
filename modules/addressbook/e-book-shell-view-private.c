@@ -226,7 +226,7 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
-	source = e_source_selector_peek_primary_selection (selector);
+	source = e_source_selector_get_primary_selection (selector);
 
 	if (source == NULL)
 		return;

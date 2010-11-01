@@ -29,9 +29,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ADDRESSBOOK_SELECTOR, EAddressbookSelectorPrivate))
 
-#define PRIMARY_ADDRESSBOOK_KEY \
-	"/apps/evolution/addressbook/display/primary_addressbook"
-
 typedef struct _MergeContext MergeContext;
 
 struct _EAddressbookSelectorPrivate {
@@ -149,45 +146,26 @@ addressbook_selector_merge_next_cb (EBook *book,
 static void
 addressbook_selector_load_primary_source (ESourceSelector *selector)
 {
-	GConfClient *client;
 	ESourceList *source_list;
 	ESource *source = NULL;
-	const gchar *key;
-	gchar *uid;
-
-	/* XXX If ESourceSelector had a "primary-uid" property,
-	 *     we could just bind the GConf key to it. */
+	GSList *groups;
 
 	source_list = e_source_selector_get_source_list (selector);
 
-	client = gconf_client_get_default ();
-	key = PRIMARY_ADDRESSBOOK_KEY;
-	uid = gconf_client_get_string (client, key, NULL);
-	g_object_unref (client);
+	/* Dig up the first source in the source list.
+	 * XXX libedataserver should provide API for this. */
+	groups = e_source_list_peek_groups (source_list);
+	while (groups != NULL) {
+		ESourceGroup *source_group = groups->data;
+		GSList *sources;
 
-	if (uid != NULL) {
-		source = e_source_list_peek_source_by_uid (source_list, uid);
-		g_free (uid);
-	}
-
-	if (source == NULL) {
-		GSList *groups;
-
-		/* Dig up the first source in the source list.
-		 * XXX libedataserver should provide API for this. */
-		groups = e_source_list_peek_groups (source_list);
-		while (groups != NULL) {
-			ESourceGroup *source_group = groups->data;
-			GSList *sources;
-
-			sources = e_source_group_peek_sources (source_group);
-			if (sources != NULL) {
-				source = sources->data;
-				break;
-			}
-
-			groups = g_slist_next (groups);
+		sources = e_source_group_peek_sources (source_group);
+		if (sources != NULL) {
+			source = sources->data;
+			break;
 		}
+
+		groups = g_slist_next (groups);
 	}
 
 	if (source != NULL)
@@ -252,28 +230,6 @@ addressbook_selector_constructed (GObject *object)
 
 	selector = E_SOURCE_SELECTOR (object);
 	addressbook_selector_load_primary_source (selector);
-}
-
-static void
-addressbook_selector_primary_selection_changed (ESourceSelector *selector)
-{
-	ESource *source;
-	GConfClient *client;
-	const gchar *key;
-	const gchar *string;
-
-	/* XXX If ESourceSelector had a "primary-uid" property,
-	 *     we could just bind the GConf key to it. */
-
-	source = e_source_selector_peek_primary_selection (selector);
-	if (source == NULL)
-		return;
-
-	client = gconf_client_get_default ();
-	key = PRIMARY_ADDRESSBOOK_KEY;
-	string = e_source_peek_uid (source);
-	gconf_client_set_string (client, key, string, NULL);
-	g_object_unref (client);
 }
 
 static gboolean
@@ -341,8 +297,6 @@ addressbook_selector_class_init (EAddressbookSelectorClass *class)
 	object_class->constructed = addressbook_selector_constructed;
 
 	selector_class = E_SOURCE_SELECTOR_CLASS (class);
-	selector_class->primary_selection_changed =
-		addressbook_selector_primary_selection_changed;
 	selector_class->data_dropped = addressbook_selector_data_dropped;
 
 	g_object_class_install_property (

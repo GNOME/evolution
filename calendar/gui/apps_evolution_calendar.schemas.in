@@ -10,7 +10,10 @@
       <type>string</type>
       <locale name="C">
         <short>Primary calendar</short>
-        <long>URI of the highlighted ("primary") calendar</long>
+        <long>
+          The UID of the selected (or "primary") calendar in the
+          sidebar of the "Calendar" view.
+        </long>
       </locale>
     </schema>
 
@@ -512,7 +515,10 @@
       <type>string</type>
       <locale name="C">
         <short>Primary memo list</short>
-        <long>URI of the highlighted ("primary") memo list</long>
+        <long>
+          The UID of the selected (or "primary") memo list in the
+          sidebar of the "Memos" view.
+        </long>
       </locale>
     </schema>
 
@@ -525,7 +531,10 @@
       <type>string</type>
       <locale name="C">
         <short>Primary task list</short>
-        <long>URI of the highlighted ("primary") task list</long>
+        <long>
+          The UID of the selected (or "primary") task list in the
+          sidebar of the "Tasks" view.
+        </long>
       </locale>
     </schema>
 
