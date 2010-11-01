@@ -190,6 +190,16 @@ stock_private_icons = \
 	hicolor_status_48x48_stock_signature-bad.png \
 	hicolor_status_48x48_stock_signature-ok.png \
 	hicolor_status_48x48_stock_signature.png \
+	hicolor_status_16x16_stock_appointment-reminder.png \
+	hicolor_status_16x16_stock_appointment-reminder-excl.png \
+	hicolor_status_22x22_stock_appointment-reminder.png \
+	hicolor_status_22x22_stock_appointment-reminder-excl.png \
+	hicolor_status_24x24_stock_appointment-reminder.png \
+	hicolor_status_24x24_stock_appointment-reminder-excl.png \
+	hicolor_status_32x32_stock_appointment-reminder.png \
+	hicolor_status_32x32_stock_appointment-reminder-excl.png \
+	hicolor_status_48x48_stock_appointment-reminder.png \
+	hicolor_status_48x48_stock_appointment-reminder-excl.png \
 	$(NULL)
 
 # hicolor_status_16x16_wrapped.png was copied from Firefox
