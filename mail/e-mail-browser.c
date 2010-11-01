@@ -746,6 +746,12 @@ mail_browser_get_action_group (EMailReader *reader)
 	return priv->action_group;
 }
 
+static EAlertSink *
+mail_browser_get_alert_sink (EMailReader *reader)
+{
+	return E_ALERT_SINK (reader);
+}
+
 static EMailBackend *
 mail_browser_get_backend (EMailReader *reader)
 {
@@ -922,6 +928,7 @@ static void
 e_mail_browser_reader_init (EMailReaderInterface *interface)
 {
 	interface->get_action_group = mail_browser_get_action_group;
+	interface->get_alert_sink = mail_browser_get_alert_sink;
 	interface->get_backend = mail_browser_get_backend;
 	interface->get_formatter = mail_browser_get_formatter;
 	interface->get_hide_deleted = mail_browser_get_hide_deleted;
