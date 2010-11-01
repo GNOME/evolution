@@ -400,30 +400,11 @@ static void
 task_shell_sidebar_primary_selection_changed_cb (ETaskShellSidebar *task_shell_sidebar,
                                                  ESourceSelector *selector)
 {
-	EShell *shell;
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	EShellSidebar *shell_sidebar;
-	EShellSettings *shell_settings;
 	ESource *source;
 
-	/* XXX ESourceSelector needs a "primary-selection-uid" property
-	 *     so we can just bind the property with GConfBridge. */
-
-	source = e_source_selector_peek_primary_selection (selector);
+	source = e_source_selector_get_primary_selection (selector);
 	if (source == NULL)
 		return;
-
-	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	shell = e_shell_window_get_shell (shell_window);
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	e_shell_settings_set_string (
-		shell_settings, "cal-primary-task-list",
-		e_source_peek_uid (source));
 
 	task_shell_sidebar_set_default (task_shell_sidebar, source);
 }
@@ -442,7 +423,6 @@ task_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 	ESource *source;
 	GtkTreeModel *model;
 	GSList *list, *iter;
-	gchar *uid;
 
 	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
 
@@ -468,19 +448,20 @@ task_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 		G_CALLBACK (task_shell_sidebar_primary_selection_changed_cb),
 		shell_sidebar);
 
-	source = NULL;
-	uid = e_shell_settings_get_string (
-		shell_settings, "cal-primary-task-list");
-	if (uid != NULL)
-		source = e_source_list_peek_source_by_uid (source_list, uid);
-	if (source == NULL)
-		source = e_source_list_peek_source_any (source_list);
-	if (source != NULL)
-		e_source_selector_set_primary_selection (selector, source);
-	g_free (uid);
+	g_object_bind_property_full (
+		shell_settings, "cal-primary-task-list",
+		selector, "primary-selection",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
+		(GBindingTransformFunc) e_binding_transform_uid_to_source,
+		(GBindingTransformFunc) e_binding_transform_source_to_uid,
+		g_object_ref (source_list),
+		(GDestroyNotify) g_object_unref);
 
 	list = calendar_config_get_tasks_selected ();
 	for (iter = list; iter != NULL; iter = iter->next) {
+		gchar *uid;
+
 		uid = iter->data;
 		source = e_source_list_peek_source_by_uid (source_list, uid);
 		g_free (uid);
@@ -635,7 +616,7 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 
 	task_shell_sidebar = E_TASK_SHELL_SIDEBAR (shell_sidebar);
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
-	source = e_source_selector_peek_primary_selection (selector);
+	source = e_source_selector_get_primary_selection (selector);
 
 	if (source != NULL) {
 		ECal *client;

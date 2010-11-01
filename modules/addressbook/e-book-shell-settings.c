@@ -27,4 +27,8 @@ e_book_shell_backend_init_settings (EShell *shell)
 	e_shell_settings_install_property_for_key (
 		"book-completion-show-address",
 		"/apps/evolution/addressbook/completion/show_address");
+
+	e_shell_settings_install_property_for_key (
+		"book-primary-selection",
+		"/apps/evolution/addressbook/display/primary_addressbook");
 }

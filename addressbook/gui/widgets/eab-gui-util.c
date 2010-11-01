@@ -218,7 +218,7 @@ source_selection_changed_cb (ESourceSelector *selector, GtkWidget *ok_button)
 	ESource *except_source = NULL, *selected;
 
 	except_source = g_object_get_data (G_OBJECT (ok_button), "except-source");
-	selected = e_source_selector_peek_primary_selection (selector);
+	selected = e_source_selector_get_primary_selection (selector);
 
 	gtk_widget_set_sensitive (ok_button, selected && selected != except_source);
 }
@@ -274,7 +274,7 @@ eab_select_source (ESource *except_source, const gchar *title, const gchar *mess
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 
 	if (response == GTK_RESPONSE_ACCEPT)
-		source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (selector));
+		source = e_source_selector_get_primary_selection (E_SOURCE_SELECTOR (selector));
 	else
 		source = NULL;
 

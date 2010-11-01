@@ -42,7 +42,7 @@ action_calendar_copy_cb (GtkAction *action,
 
 	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
-	source = e_source_selector_peek_primary_selection (selector);
+	source = e_source_selector_get_primary_selection (selector);
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	copy_source_dialog (
@@ -84,7 +84,7 @@ action_calendar_delete_cb (GtkAction *action,
 
 	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
-	source = e_source_selector_peek_primary_selection (selector);
+	source = e_source_selector_get_primary_selection (selector);
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	/* Ask for confirmation. */
@@ -268,7 +268,7 @@ action_calendar_properties_cb (GtkAction *action,
 
 	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
-	source = e_source_selector_peek_primary_selection (selector);
+	source = e_source_selector_get_primary_selection (selector);
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	/* XXX Does this -really- need a source group parameter? */
@@ -370,7 +370,7 @@ action_calendar_refresh_cb (GtkAction *action,
 	model = e_cal_shell_content_get_model (cal_shell_content);
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
 
-	source = e_source_selector_peek_primary_selection (selector);
+	source = e_source_selector_get_primary_selection (selector);
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	uri = e_source_get_uri (source);
@@ -415,7 +415,7 @@ action_calendar_select_one_cb (GtkAction *action,
 	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
 
-	primary = e_source_selector_peek_primary_selection (selector);
+	primary = e_source_selector_get_primary_selection (selector);
 	g_return_if_fail (primary != NULL);
 
 	e_source_selector_select_exclusive (selector, primary);

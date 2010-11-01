@@ -31,6 +31,8 @@
 #include <e-util/e-marshal.h>
 #include <e-util/e-util-enums.h>
 
+#include <libedataserver/e-source-list.h>
+
 /* e_get_user_data_dir() used to live here, so #include its new home
  * for backward-compatibility (not that we really care about that). */
 #include <libedataserver/e-data-server-util.h>
@@ -148,12 +150,22 @@ gboolean	e_binding_transform_color_to_string
 						(GBinding *binding,
 						 const GValue *source_value,
 						 GValue *target_value,
-						 gpointer user_data);
+						 gpointer not_used);
 gboolean	e_binding_transform_string_to_color
 						(GBinding *binding,
 						 const GValue *source_value,
 						 GValue *target_value,
-						 gpointer user_data);
+						 gpointer not_used);
+gboolean	e_binding_transform_source_to_uid
+						(GBinding *binding,
+						 const GValue *source_value,
+						 GValue *target_value,
+						 ESourceList *source_list);
+gboolean	e_binding_transform_uid_to_source
+						(GBinding *binding,
+						 const GValue *source_value,
+						 GValue *target_value,
+						 ESourceList *source_list);
 
 G_END_DECLS
 

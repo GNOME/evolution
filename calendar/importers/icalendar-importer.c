@@ -206,7 +206,7 @@ static void
 button_toggled_cb (GtkWidget *widget, struct _selector_data *sd)
 {
 	g_datalist_set_data_full(&sd->target->data, "primary-source",
-				 g_object_ref (e_source_selector_peek_primary_selection ((ESourceSelector *)sd->selector)),
+				 g_object_ref (e_source_selector_get_primary_selection ((ESourceSelector *)sd->selector)),
 				 g_object_unref);
 	g_datalist_set_data(&sd->target->data, "primary-type", GINT_TO_POINTER(import_type_map[sd->page]));
 	gtk_notebook_set_current_page ((GtkNotebook *)sd->notebook, sd->page);
@@ -216,7 +216,7 @@ static void
 primary_selection_changed_cb (ESourceSelector *selector, EImportTarget *target)
 {
 	g_datalist_set_data_full(&target->data, "primary-source",
-				 g_object_ref (e_source_selector_peek_primary_selection (selector)),
+				 g_object_ref (e_source_selector_get_primary_selection (selector)),
 				 g_object_unref);
 }
 

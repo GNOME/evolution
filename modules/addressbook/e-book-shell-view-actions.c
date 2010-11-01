@@ -65,7 +65,7 @@ action_address_book_delete_cb (GtkAction *action,
 
 	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
 	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
-	source = e_source_selector_peek_primary_selection (selector);
+	source = e_source_selector_get_primary_selection (selector);
 	g_return_if_fail (source != NULL);
 
 	response = e_alert_run_dialog_for_args (
@@ -179,7 +179,7 @@ action_address_book_properties_cb (GtkAction *action,
 
 	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
 	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
-	source = e_source_selector_peek_primary_selection (selector);
+	source = e_source_selector_get_primary_selection (selector);
 	g_return_if_fail (source != NULL);
 
 	uid = e_source_peek_uid (source);

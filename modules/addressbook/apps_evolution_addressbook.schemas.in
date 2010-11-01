@@ -73,6 +73,20 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/addressbook/display/primary_addressbook</key>
+      <applyto>/apps/evolution/addressbook/display/primary_addressbook</applyto>
+      <owner>evolution-addressbook</owner>
+      <type>string</type>
+      <locale name="C">
+        <short>Primary address book</short>
+        <long>
+          The UID of the selected (or "primary") address book in the
+          sidebar of the "Contacts" view.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/addressbook/display/hpane_position</key>
       <applyto>/apps/evolution/addressbook/display/hpane_position</applyto>
       <owner>evolution-addressbook</owner>
