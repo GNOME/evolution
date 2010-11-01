@@ -2410,8 +2410,10 @@ emae_option_checkspin (EMAccountEditorService *service, CamelURL *url, const gch
 	check = g_object_new (gtk_check_button_get_type (), "label", pre, "use_underline", TRUE, "active", enable, NULL);
 
 	spin = gtk_spin_button_new ((GtkAdjustment *)gtk_adjustment_new (def, min, max, 1, 1, 0), 1, 0);
-	if (post)
+	if (post) {
 		label = gtk_label_new_with_mnemonic (post);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (label), check);
+	}
 	gtk_box_pack_start ((GtkBox *)hbox, check, FALSE, TRUE, 0);
 	gtk_box_pack_start ((GtkBox *)hbox, spin, FALSE, TRUE, 0);
 	if (label)
