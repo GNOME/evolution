@@ -324,23 +324,6 @@ calendar_config_add_notification_month_scroll_by_week (GConfClientNotifyFunc fun
 	return id;
 }
 
-/* The positions of the panes in the normal and month views. */
-void
-calendar_config_set_hpane_pos		(gint	      hpane_pos)
-{
-	calendar_config_init ();
-
-	gconf_client_set_int (config, CALENDAR_CONFIG_HPANE_POS, hpane_pos, NULL);
-}
-
-void
-calendar_config_set_month_hpane_pos	(gint	      hpane_pos)
-{
-	calendar_config_init ();
-
-	gconf_client_set_int (config, CALENDAR_CONFIG_MONTH_HPANE_POS, hpane_pos, NULL);
-}
-
 /* The current list of task lists selected */
 GSList   *
 calendar_config_get_tasks_selected (void)
