@@ -26,9 +26,11 @@
 
 #include "e-util/e-util.h"
 #include "e-util/e-plugin-ui.h"
+#include "e-util/e-alert-dialog.h"
 #include "e-util/gconf-bridge.h"
 #include "shell/e-shell.h"
 #include "shell/e-shell-utils.h"
+#include "widgets/misc/e-alert-bar.h"
 #include "widgets/misc/e-popup-action.h"
 #include "widgets/misc/e-preview-pane.h"
 
@@ -57,6 +59,7 @@ struct _EMailBrowserPrivate {
 	GtkWidget *main_menu;
 	GtkWidget *main_toolbar;
 	GtkWidget *message_list;
+	GtkWidget *alert_bar;
 	GtkWidget *search_bar;
 	GtkWidget *statusbar;
 
@@ -98,6 +101,20 @@ static const gchar *ui =
 "    </menu>"
 "  </menubar>"
 "</ui>";
+
+static void	e_mail_browser_alert_sink_init
+					(EAlertSinkInterface *interface);
+static void	e_mail_browser_reader_init
+					(EMailReaderInterface *interface);
+
+G_DEFINE_TYPE_WITH_CODE (
+	EMailBrowser,
+	e_mail_browser,
+	GTK_TYPE_WINDOW,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_ALERT_SINK, e_mail_browser_alert_sink_init)
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_MAIL_READER, e_mail_browser_reader_init))
 
 static void
 action_close_cb (GtkAction *action,
@@ -492,6 +509,11 @@ mail_browser_dispose (GObject *object)
 		priv->message_list = NULL;
 	}
 
+	if (priv->alert_bar != NULL) {
+		g_object_unref (priv->alert_bar);
+		priv->alert_bar = NULL;
+	}
+
 	if (priv->search_bar != NULL) {
 		g_object_unref (priv->search_bar);
 		priv->search_bar = NULL;
@@ -639,6 +661,11 @@ mail_browser_constructed (GObject *object)
 	priv->main_toolbar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
+	widget = e_alert_bar_new ();
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	priv->alert_bar = g_object_ref (widget);
+	/* EAlertBar controls its own visibility. */
+
 	gtk_widget_show (GTK_WIDGET (web_view));
 
 	widget = e_preview_pane_new (web_view);
@@ -679,6 +706,34 @@ mail_browser_key_press_event (GtkWidget *widget,
 	/* Chain up to parent's key_press_event() method. */
 	return GTK_WIDGET_CLASS (parent_class)->
 		key_press_event (widget, event);
+}
+
+static void
+mail_browser_submit_alert (EAlertSink *alert_sink,
+                           EAlert *alert)
+{
+	EMailBrowserPrivate *priv;
+	EAlertBar *alert_bar;
+	GtkWidget *dialog;
+	GtkWindow *parent;
+
+	priv = E_MAIL_BROWSER_GET_PRIVATE (alert_sink);
+
+	switch (e_alert_get_message_type (alert)) {
+		case GTK_MESSAGE_INFO:
+		case GTK_MESSAGE_WARNING:
+		case GTK_MESSAGE_ERROR:
+			alert_bar = E_ALERT_BAR (priv->alert_bar);
+			e_alert_bar_add_alert (alert_bar, alert);
+			break;
+
+		default:
+			parent = GTK_WINDOW (alert_sink);
+			dialog = e_alert_dialog_new (parent, alert);
+			gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
+			break;
+	}
 }
 
 static GtkActionGroup *
@@ -790,7 +845,7 @@ mail_browser_show_search_bar (EMailReader *reader)
 }
 
 static void
-mail_browser_class_init (EMailBrowserClass *class)
+e_mail_browser_class_init (EMailBrowserClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
@@ -858,7 +913,13 @@ mail_browser_class_init (EMailBrowserClass *class)
 }
 
 static void
-mail_browser_interface_init (EMailReaderInterface *interface)
+e_mail_browser_alert_sink_init (EAlertSinkInterface *interface)
+{
+	interface->submit_alert = mail_browser_submit_alert;
+}
+
+static void
+e_mail_browser_reader_init (EMailReaderInterface *interface)
 {
 	interface->get_action_group = mail_browser_get_action_group;
 	interface->get_backend = mail_browser_get_backend;
@@ -872,7 +933,7 @@ mail_browser_interface_init (EMailReaderInterface *interface)
 }
 
 static void
-mail_browser_init (EMailBrowser *browser)
+e_mail_browser_init (EMailBrowser *browser)
 {
 	GConfBridge *bridge;
 	const gchar *prefix;
@@ -887,41 +948,6 @@ mail_browser_init (EMailBrowser *browser)
 	gconf_bridge_bind_window_size (bridge, prefix, GTK_WINDOW (browser));
 
 	gtk_window_set_title (GTK_WINDOW (browser), _("Evolution"));
-}
-
-GType
-e_mail_browser_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMailBrowserClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) mail_browser_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMailBrowser),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) mail_browser_init,
-			NULL   /* value_table */
-		};
-
-		static const GInterfaceInfo interface_info = {
-			(GInterfaceInitFunc) mail_browser_interface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL   /* interface_data */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_WINDOW, "EMailBrowser", &type_info, 0);
-
-		g_type_add_interface_static (
-			type, E_TYPE_MAIL_READER, &interface_info);
-	}
-
-	return type;
 }
 
 GtkWidget *
