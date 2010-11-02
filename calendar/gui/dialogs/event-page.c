@@ -40,7 +40,6 @@
 #include "misc/e-send-options.h"
 #include "misc/e-buffer-tagger.h"
 #include <libecal/e-cal-time-util.h>
-#include "../calendar-config.h"
 #include "../e-timezone-entry.h"
 
 #include "e-util/e-util.h"
@@ -166,7 +165,7 @@ struct _EventPagePrivate {
 	GtkWidget *attendees_label;
 
 	/* ListView stuff */
-	EMeetingStore *model;
+	EMeetingStore *meeting_store;
 	EMeetingListView *list_view;
 	gint row;
 
@@ -380,7 +379,9 @@ set_all_day (EventPage *epage, gboolean all_day)
 }
 
 static void
-update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentDateTime *end_date)
+update_time (EventPage *epage,
+             ECalComponentDateTime *start_date,
+             ECalComponentDateTime *end_date)
 {
 	EventPagePrivate *priv = epage->priv;
 	CompEditor *editor;
@@ -431,7 +432,8 @@ update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentD
 	   timezone, so that if the user toggles the 'All Day Event' checkbox
 	   the event uses the current timezone rather than none at all. */
 	if (all_day_event)
-		start_zone = calendar_config_get_icaltimezone ();
+		start_zone = e_meeting_store_get_timezone (
+			epage->priv->meeting_store);
 
 	g_signal_handlers_block_matched (priv->start_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 	g_signal_handlers_block_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
@@ -457,7 +459,7 @@ update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentD
 	if (start_zone)
 		e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->start_timezone),
 					       start_zone);
-	def_zone = calendar_config_get_icaltimezone ();
+	def_zone = e_meeting_store_get_timezone (epage->priv->meeting_store);
 	if (!def_zone || !start_zone || strcmp (icaltimezone_get_tzid (def_zone), icaltimezone_get_tzid (start_zone)))
 		 homezone = FALSE;
 
@@ -1126,7 +1128,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 			a = get_current_account (epage);
 			if (a != NULL) {
-				priv->ia = e_meeting_store_add_attendee_with_defaults (priv->model);
+				priv->ia = e_meeting_store_add_attendee_with_defaults (priv->meeting_store);
 				g_object_ref (priv->ia);
 
 				if (!(backend_addr && *backend_addr) || !g_ascii_strcasecmp (backend_addr, a->id->address)) {
@@ -1403,8 +1405,10 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	e_cal_component_set_transparency (comp, busy ? E_CAL_COMPONENT_TRANSP_OPAQUE : E_CAL_COMPONENT_TRANSP_TRANSPARENT);
 
 	/* send options */
-	if (priv->sendoptions_shown && priv->sod)
-		e_send_options_utils_fill_component (priv->sod, comp);
+	if (priv->sendoptions_shown && priv->sod) {
+		icaltimezone *zone = comp_editor_get_timezone (editor);
+		e_send_options_utils_fill_component (priv->sod, comp, zone);
+	}
 
 	/* Alarm */
 	e_cal_component_remove_all_alarms (comp);
@@ -1491,7 +1495,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 				break;
 
 			case ALARM_USER_TIME:
-				switch (calendar_config_get_default_reminder_units ()) {
+				switch (e_meeting_store_get_default_reminder_units (priv->meeting_store)) {
 				case E_DURATION_DAYS:
 					trigger.u.rel_duration.days = priv->alarm_interval;
 					break;
@@ -1559,7 +1563,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 			g_free (sentby);
 		}
 
-		if (e_meeting_store_count_actual_attendees (priv->model) < 1) {
+		if (e_meeting_store_count_actual_attendees (priv->meeting_store) < 1) {
 			e_notice (priv->main, GTK_MESSAGE_ERROR,
 					_("At least one attendee is required."));
 			return FALSE;
@@ -1568,7 +1572,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 		if (flags & COMP_EDITOR_DELEGATE) {
 			GSList *attendee_list, *l;
 			gint i;
-			const GPtrArray *attendees = e_meeting_store_get_attendees (priv->model);
+			const GPtrArray *attendees = e_meeting_store_get_attendees (priv->meeting_store);
 
 			e_cal_component_get_attendee_list (priv->comp, &attendee_list);
 
@@ -1595,7 +1599,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 			e_cal_component_set_attendee_list (comp, attendee_list);
 			e_cal_component_free_attendee_list (attendee_list);
 		} else
-			set_attendees (comp, e_meeting_store_get_attendees (priv->model));
+			set_attendees (comp, e_meeting_store_get_attendees (priv->meeting_store));
 	}
 
 	return TRUE;
@@ -1767,7 +1771,7 @@ add_clicked_cb (GtkButton *btn, EventPage *epage)
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
 	flags = comp_editor_get_flags (editor);
 
-	attendee = e_meeting_store_add_attendee_with_defaults (epage->priv->model);
+	attendee = e_meeting_store_add_attendee_with_defaults (epage->priv->meeting_store);
 
 	if (flags & COMP_EDITOR_DELEGATE) {
 		e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("MAILTO:%s", epage->priv->user_add));
@@ -1837,7 +1841,7 @@ remove_attendee (EventPage *epage, EMeetingAttendee *ia)
 	if (e_meeting_attendee_is_set_delfrom (ia)) {
 		EMeetingAttendee *ib;
 
-		ib = e_meeting_store_find_attendee (priv->model, e_meeting_attendee_get_delfrom (ia), &pos);
+		ib = e_meeting_store_find_attendee (priv->meeting_store, e_meeting_attendee_get_delfrom (ia), &pos);
 		if (ib != NULL) {
 			e_meeting_attendee_set_delto (ib, NULL);
 
@@ -1857,11 +1861,11 @@ remove_attendee (EventPage *epage, EMeetingAttendee *ia)
 		}
 
 		if (e_meeting_attendee_get_delto (ia) != NULL)
-			ib = e_meeting_store_find_attendee (priv->model, e_meeting_attendee_get_delto (ia), NULL);
+			ib = e_meeting_store_find_attendee (priv->meeting_store, e_meeting_attendee_get_delto (ia), NULL);
 
 		comp_editor_manage_new_attendees (priv->comp, ia, FALSE);
 		e_meeting_list_view_remove_attendee_from_name_selector (priv->list_view, ia);
-		e_meeting_store_remove_attendee (priv->model, ia);
+		e_meeting_store_remove_attendee (priv->meeting_store, ia);
 
 		ia = ib;
 	}
@@ -1885,7 +1889,7 @@ remove_clicked_cb (GtkButton *btn, EventPage *epage)
 	priv = epage->priv;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list_view));
-	model = GTK_TREE_MODEL (priv->model);
+	model = GTK_TREE_MODEL (priv->meeting_store);
 	if (!(paths = gtk_tree_selection_get_selected_rows (selection, &model ))) {
 		g_warning ("Could not get a selection to delete.");
 		return;
@@ -1895,10 +1899,10 @@ remove_clicked_cb (GtkButton *btn, EventPage *epage)
 	for (tmp = paths; tmp; tmp=tmp->next) {
 		path = tmp->data;
 
-		gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
+		gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->meeting_store), &iter, path);
 
-		gtk_tree_model_get (GTK_TREE_MODEL (priv->model), &iter, E_MEETING_STORE_ADDRESS_COL, &address, -1);
-		ia = e_meeting_store_find_attendee (priv->model, address, NULL);
+		gtk_tree_model_get (GTK_TREE_MODEL (priv->meeting_store), &iter, E_MEETING_STORE_ADDRESS_COL, &address, -1);
+		ia = e_meeting_store_find_attendee (priv->meeting_store, address, NULL);
 		g_free (address);
 		if (!ia) {
 			g_warning ("Cannot delete attendee\n");
@@ -1912,10 +1916,10 @@ remove_clicked_cb (GtkButton *btn, EventPage *epage)
 	}
 
 	/* Select closest item after removal */
-	valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
+	valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->meeting_store), &iter, path);
 	if (!valid_iter) {
 		gtk_tree_path_prev (path);
-		valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
+		valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->meeting_store), &iter, path);
 	}
 
 	if (valid_iter) {
@@ -1963,7 +1967,7 @@ attendee_added_cb (EMeetingListView *emlv,
 		gtk_widget_set_sensitive (priv->add, FALSE);
 		gtk_widget_set_sensitive (priv->edit, FALSE);
 
-		delegator = e_meeting_store_find_attendee (priv->model, priv->user_add, NULL);
+		delegator = e_meeting_store_find_attendee (priv->meeting_store, priv->user_add, NULL);
 		g_return_if_fail (delegator != NULL);
 
 		e_meeting_attendee_set_delto (delegator, g_strdup (e_meeting_attendee_get_address (ia)));
@@ -1983,7 +1987,7 @@ list_view_event (EMeetingListView *list_view, GdkEvent *event, EventPage *epage)
 	if (event->type == GDK_2BUTTON_PRESS && flags & COMP_EDITOR_USER_ORG) {
 		EMeetingAttendee *attendee;
 
-		attendee = e_meeting_store_add_attendee_with_defaults (priv->model);
+		attendee = e_meeting_store_add_attendee_with_defaults (priv->meeting_store);
 
 		if (flags & COMP_EDITOR_DELEGATE) {
 			e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("MAILTO:%s", epage->priv->user_add));
@@ -2081,8 +2085,10 @@ event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 			/* The event is within one day, so we set the event
 			   start to the start of the working day, and the end
 			   to one hour later. */
-			start_tt.hour = calendar_config_get_day_start_hour ();
-			start_tt.minute  = calendar_config_get_day_start_minute ();
+			start_tt.hour =
+				comp_editor_get_work_day_start_hour (editor);
+			start_tt.minute =
+				comp_editor_get_work_day_start_minute (editor);
 			start_tt.second  = 0;
 
 			end_tt = start_tt;
@@ -2271,7 +2277,7 @@ get_widgets (EventPage *epage)
 	priv->attendee_box = GW ("attendee-box");
 	priv->org_cal_label = GW ("org-cal-label");
 
-	priv->list_view = e_meeting_list_view_new (priv->model);
+	priv->list_view = e_meeting_list_view_new (priv->meeting_store);
 
 	sw = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
@@ -2630,7 +2636,7 @@ source_changed_cb (ESourceComboBox *source_combo_box, EventPage *epage)
 	if (client) {
 		icaltimezone *zone;
 
-		zone = calendar_config_get_icaltimezone ();
+		zone = e_meeting_store_get_timezone (epage->priv->meeting_store);
 		e_cal_set_default_timezone (client, zone, NULL);
 	}
 
@@ -2743,7 +2749,7 @@ alarm_changed_cb (GtkWidget *widget,
 
 		case ALARM_USER_TIME:
 			e_alarm_list_clear (priv->alarm_list_store);
-			switch (calendar_config_get_default_reminder_units ()) {
+			switch (e_meeting_store_get_default_reminder_units (priv->meeting_store)) {
 			case E_DURATION_DAYS:
 				trigger.u.rel_duration.days = priv->alarm_interval;
 				break;
@@ -2859,12 +2865,16 @@ init_widgets (EventPage *epage)
 
 	/* Make sure the EDateEdit widgets use our timezones to get the
 	   current time. */
-	e_date_edit_set_get_time_callback (E_DATE_EDIT (priv->start_time),
-					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
-					   epage, NULL);
-	e_date_edit_set_get_time_callback (E_DATE_EDIT (priv->end_time),
-					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
-					   epage, NULL);
+	e_date_edit_set_get_time_callback (
+		E_DATE_EDIT (priv->start_time),
+		(EDateEditGetTimeCallback) comp_editor_get_current_time,
+		g_object_ref (editor),
+		(GDestroyNotify) g_object_unref);
+	e_date_edit_set_get_time_callback (
+		E_DATE_EDIT (priv->end_time),
+		(EDateEditGetTimeCallback) comp_editor_get_current_time,
+		g_object_ref (editor),
+		(GDestroyNotify) g_object_unref);
 
 	/* Generic informative messages */
 	gtk_widget_hide (priv->info_hbox);
@@ -2987,8 +2997,12 @@ init_widgets (EventPage *epage)
 	g_signal_connect (priv->minute_selector, "value-changed", G_CALLBACK (minute_sel_changed), epage);
 
 	/* Add the user defined time if necessary */
-	priv->alarm_units = calendar_config_get_default_reminder_units ();
-	priv->alarm_interval = calendar_config_get_default_reminder_interval ();
+	priv->alarm_units =
+		e_meeting_store_get_default_reminder_units (
+		priv->meeting_store);
+	priv->alarm_interval =
+		e_meeting_store_get_default_reminder_interval (
+		priv->meeting_store);
 
 	combo_label = NULL;
 	switch (priv->alarm_units) {
@@ -3057,7 +3071,7 @@ init_widgets (EventPage *epage)
 		G_CALLBACK (comp_editor_page_changed), epage);
 
 	/* Set the default timezone, so the timezone entry may be hidden. */
-	zone = calendar_config_get_icaltimezone ();
+	zone = e_meeting_store_get_timezone (priv->meeting_store);
 	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->start_timezone), zone);
 	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->end_timezone), zone);
 
@@ -3137,15 +3151,15 @@ event_page_select_organizer (EventPage *epage, const gchar *backend_address)
  * created.
  **/
 EventPage *
-event_page_construct (EventPage *epage, EMeetingStore *model)
+event_page_construct (EventPage *epage,
+                      EMeetingStore *meeting_store)
 {
 	EventPagePrivate *priv;
 	EIterator *it;
 	EAccount *a;
 
 	priv = epage->priv;
-	g_object_ref (model);
-	priv->model = model;
+	priv->meeting_store = g_object_ref (meeting_store);
 
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */
@@ -3210,12 +3224,13 @@ event_page_construct (EventPage *epage, EMeetingStore *model)
  * not be created.
  **/
 EventPage *
-event_page_new (EMeetingStore *model, CompEditor *editor)
+event_page_new (EMeetingStore *meeting_store,
+                CompEditor *editor)
 {
 	EventPage *epage;
 
 	epage = g_object_new (TYPE_EVENT_PAGE, "editor", editor, NULL);
-	if (!event_page_construct (epage, model)) {
+	if (!event_page_construct (epage, meeting_store)) {
 		g_object_unref (epage);
 		g_return_val_if_reached (NULL);
 	}
@@ -3298,7 +3313,7 @@ event_page_add_attendee (EventPage *epage, EMeetingAttendee *attendee)
 		e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("MAILTO:%s", epage->priv->user_add));
 	}
 
-	e_meeting_store_add_attendee (priv->model, attendee);
+	e_meeting_store_add_attendee (priv->meeting_store, attendee);
 	e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (priv->list_view), attendee);
 }
 
@@ -3317,7 +3332,7 @@ event_page_remove_all_attendees (EventPage *epage)
 
 	priv = epage->priv;
 
-	e_meeting_store_remove_all_attendees (priv->model);
+	e_meeting_store_remove_all_attendees (priv->meeting_store);
 	e_meeting_list_view_remove_all_attendees_from_name_selector (E_MEETING_LIST_VIEW (priv->list_view));
 }
 

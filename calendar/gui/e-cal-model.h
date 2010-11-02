@@ -26,6 +26,7 @@
 #ifndef E_CAL_MODEL_H
 #define E_CAL_MODEL_H
 
+#include <e-util/e-util-enums.h>
 #include <table/e-table-model.h>
 #include <libecal/e-cal.h>
 #include "e-cell-date-edit-text.h"
@@ -185,22 +186,66 @@ icalcomponent_kind
 		e_cal_model_get_component_kind	(ECalModel *model);
 void		e_cal_model_set_component_kind	(ECalModel *model,
 						 icalcomponent_kind kind);
+gboolean	e_cal_model_get_confirm_delete	(ECalModel *model);
+void		e_cal_model_set_confirm_delete	(ECalModel *model,
+						 gboolean confirm_delete);
 ECalModelFlags	e_cal_model_get_flags		(ECalModel *model);
 void		e_cal_model_set_flags		(ECalModel *model,
 						 ECalModelFlags flags);
 icaltimezone *	e_cal_model_get_timezone	(ECalModel *model);
 void		e_cal_model_set_timezone	(ECalModel *model,
 						 icaltimezone *zone);
-void		e_cal_model_set_default_category (ECalModel *model,
+gboolean	e_cal_model_get_compress_weekend
+						(ECalModel *model);
+void		e_cal_model_set_compress_weekend
+						(ECalModel *model,
+						 gboolean compress_weekend);
+void		e_cal_model_set_default_category
+						(ECalModel *model,
 						 const gchar *default_cat);
+gint		e_cal_model_get_default_reminder_interval
+						(ECalModel *model);
+void		e_cal_model_set_default_reminder_interval
+						(ECalModel *model,
+						 gint def_reminder_interval);
+EDurationType	e_cal_model_get_default_reminder_units
+						(ECalModel *model);
+void		e_cal_model_set_default_reminder_units
+						(ECalModel *model,
+						 EDurationType def_reminder_units);
 gboolean	e_cal_model_get_use_24_hour_format
 						(ECalModel *model);
 void		e_cal_model_set_use_24_hour_format
 						(ECalModel *model,
 						 gboolean use24);
+gboolean	e_cal_model_get_use_default_reminder
+						(ECalModel *model);
+void		e_cal_model_set_use_default_reminder
+						(ECalModel *model,
+						 gboolean use_def_reminder);
 gint		e_cal_model_get_week_start_day	(ECalModel *model);
 void		e_cal_model_set_week_start_day	(ECalModel *model,
 						 gint week_start_day);
+gint		e_cal_model_get_work_day_end_hour
+						(ECalModel *model);
+void		e_cal_model_set_work_day_end_hour
+						(ECalModel *model,
+						 gint work_day_end_hour);
+gint		e_cal_model_get_work_day_end_minute
+						(ECalModel *model);
+void		e_cal_model_set_work_day_end_minute
+						(ECalModel *model,
+						 gint work_day_end_minute);
+gint		e_cal_model_get_work_day_start_hour
+						(ECalModel *model);
+void		e_cal_model_set_work_day_start_hour
+						(ECalModel *model,
+						 gint work_day_start_hour);
+gint		e_cal_model_get_work_day_start_minute
+						(ECalModel *model);
+void		e_cal_model_set_work_day_start_minute
+						(ECalModel *model,
+						 gint work_day_start_minute);
 ECal *		e_cal_model_get_default_client	(ECalModel *model);
 void		e_cal_model_set_default_client	(ECalModel *model,
 						 ECal *client);

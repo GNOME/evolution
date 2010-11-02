@@ -38,6 +38,7 @@
 #include <e-util/e-util.h>
 #include <e-util/e-alert-sink.h>
 #include <e-util/e-dialog-utils.h>
+#include <e-util/e-extensible.h>
 #include <e-util/e-util-private.h>
 #include <e-util/gconf-bridge.h>
 #include <shell/e-shell.h>
@@ -112,6 +113,14 @@ struct _CompEditorPrivate {
 	   below */
 	CompEditorFlags flags;
 
+	icaltimezone *zone;
+	gboolean use_24_hour_format;
+
+	gint work_day_end_hour;
+	gint work_day_end_minute;
+	gint work_day_start_hour;
+	gint work_day_start_minute;
+
 	gboolean changed;
 	gboolean needs_send;
 
@@ -131,7 +140,13 @@ enum {
 	PROP_FLAGS,
 	PROP_FOCUS_TRACKER,
 	PROP_SHELL,
-	PROP_SUMMARY
+	PROP_SUMMARY,
+	PROP_TIMEZONE,
+	PROP_USE_24_HOUR_FORMAT,
+	PROP_WORK_DAY_END_HOUR,
+	PROP_WORK_DAY_END_MINUTE,
+	PROP_WORK_DAY_START_HOUR,
+	PROP_WORK_DAY_START_MINUTE
 };
 
 static const gchar *ui =
@@ -731,11 +746,12 @@ action_print_cb (GtkAction *action,
                  CompEditor *editor)
 {
 	CompEditorPrivate *priv = editor->priv;
-	GtkPrintOperationAction print_action;
 	ECalComponent *comp;
 	GList *l;
 	icalcomponent *component;
 	icalcomponent *clone;
+	icaltimezone *zone;
+	gboolean use_24_hour_format;
 
 	comp = e_cal_component_new ();
 	component = e_cal_component_get_icalcomponent (priv->comp);
@@ -745,8 +761,12 @@ action_print_cb (GtkAction *action,
 	for (l = priv->pages; l != NULL; l = l->next)
 		 comp_editor_page_fill_component (l->data, comp);
 
-	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
-	print_comp (comp, priv->client, print_action);
+	zone = comp_editor_get_timezone (editor);
+	use_24_hour_format = comp_editor_get_use_24_hour_format (editor);
+
+	print_comp (
+		comp, priv->client, zone, use_24_hour_format,
+		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 
 	g_object_unref (comp);
 }
@@ -756,11 +776,12 @@ action_print_preview_cb (GtkAction *action,
                          CompEditor *editor)
 {
 	CompEditorPrivate *priv = editor->priv;
-	GtkPrintOperationAction print_action;
 	ECalComponent *comp;
 	GList *l;
 	icalcomponent *component;
 	icalcomponent *clone;
+	icaltimezone *zone;
+	gboolean use_24_hour_format;
 
 	comp = e_cal_component_new ();
 	component = e_cal_component_get_icalcomponent (priv->comp);
@@ -770,8 +791,12 @@ action_print_preview_cb (GtkAction *action,
 	for (l = priv->pages; l != NULL; l = l->next)
 		 comp_editor_page_fill_component (l->data, comp);
 
-	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
-	print_comp (comp, priv->client, print_action);
+	zone = comp_editor_get_timezone (editor);
+	use_24_hour_format = comp_editor_get_use_24_hour_format (editor);
+
+	print_comp (
+		comp, priv->client, zone, use_24_hour_format,
+		GTK_PRINT_OPERATION_ACTION_PREVIEW);
 
 	g_object_unref (comp);
 }
@@ -1271,6 +1296,42 @@ comp_editor_set_property (GObject *object,
 				COMP_EDITOR (object),
 				g_value_get_string (value));
 			return;
+
+		case PROP_TIMEZONE:
+			comp_editor_set_timezone (
+				COMP_EDITOR (object),
+				g_value_get_pointer (value));
+			return;
+
+		case PROP_USE_24_HOUR_FORMAT:
+			comp_editor_set_use_24_hour_format (
+				COMP_EDITOR (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_WORK_DAY_END_HOUR:
+			comp_editor_set_work_day_end_hour (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_MINUTE:
+			comp_editor_set_work_day_end_minute (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_START_HOUR:
+			comp_editor_set_work_day_start_hour (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_START_MINUTE:
+			comp_editor_set_work_day_start_minute (
+				COMP_EDITOR (object),
+				g_value_get_int (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -1316,6 +1377,42 @@ comp_editor_get_property (GObject *object,
 		case PROP_SUMMARY:
 			g_value_set_string (
 				value, comp_editor_get_summary (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_TIMEZONE:
+			g_value_set_pointer (
+				value, comp_editor_get_timezone (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_USE_24_HOUR_FORMAT:
+			g_value_set_boolean (
+				value, comp_editor_get_use_24_hour_format (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WORK_DAY_END_HOUR:
+			g_value_set_int (
+				value, comp_editor_get_work_day_end_hour (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WORK_DAY_END_MINUTE:
+			g_value_set_int (
+				value, comp_editor_get_work_day_end_minute (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WORK_DAY_START_HOUR:
+			g_value_set_int (
+				value, comp_editor_get_work_day_start_hour (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_WORK_DAY_START_MINUTE:
+			g_value_set_int (
+				value, comp_editor_get_work_day_start_minute (
 				COMP_EDITOR (object)));
 			return;
 	}
@@ -1605,14 +1702,81 @@ comp_editor_class_init (CompEditorClass *class)
 			NULL,
 			G_PARAM_READWRITE));
 
-	signals[OBJECT_CREATED] =
-		g_signal_new ("object_created",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (CompEditorClass, object_created),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+	g_object_class_install_property (
+		object_class,
+		PROP_TIMEZONE,
+		g_param_spec_pointer (
+			"timezone",
+			"Time Zone",
+			NULL,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_USE_24_HOUR_FORMAT,
+		g_param_spec_boolean (
+			"use-24-hour-format",
+			"Use 24-hour Format",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_HOUR,
+		g_param_spec_int (
+			"work-day-end-hour",
+			"Work Day End Hour",
+			NULL,
+			0,
+			23,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_MINUTE,
+		g_param_spec_int (
+			"work-day-end-minute",
+			"Work Day End Minute",
+			NULL,
+			0,
+			59,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_HOUR,
+		g_param_spec_int (
+			"work-day-start-hour",
+			"Work Day Start Hour",
+			NULL,
+			0,
+			23,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_MINUTE,
+		g_param_spec_int (
+			"work-day-start-minute",
+			"Work Day Start Minute",
+			NULL,
+			0,
+			59,
+			0,
+			G_PARAM_READWRITE));
+
+	signals[OBJECT_CREATED] = g_signal_new (
+		"object_created",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (CompEditorClass, object_created),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void
@@ -2089,6 +2253,120 @@ comp_editor_get_summary (CompEditor *editor)
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
 
 	return editor->priv->summary;
+}
+
+icaltimezone *
+comp_editor_get_timezone (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
+
+	return editor->priv->zone;
+}
+
+void
+comp_editor_set_timezone (CompEditor *editor,
+                          icaltimezone *zone)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	editor->priv->zone = zone;
+
+	g_object_notify (G_OBJECT (editor), "timezone");
+}
+
+gboolean
+comp_editor_get_use_24_hour_format (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
+
+	return editor->priv->use_24_hour_format;
+}
+
+void
+comp_editor_set_use_24_hour_format (CompEditor *editor,
+                                    gboolean use_24_hour_format)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	editor->priv->use_24_hour_format = use_24_hour_format;
+
+	g_object_notify (G_OBJECT (editor), "use-24-hour-format");
+}
+
+gint
+comp_editor_get_work_day_end_hour (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), 0);
+
+	return editor->priv->work_day_end_hour;
+}
+
+void
+comp_editor_set_work_day_end_hour (CompEditor *editor,
+                                   gint work_day_end_hour)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	editor->priv->work_day_end_hour = work_day_end_hour;
+
+	g_object_notify (G_OBJECT (editor), "work-day-end-hour");
+}
+
+gint
+comp_editor_get_work_day_end_minute (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), 0);
+
+	return editor->priv->work_day_end_minute;
+}
+
+void
+comp_editor_set_work_day_end_minute (CompEditor *editor,
+                                     gint work_day_end_minute)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	editor->priv->work_day_end_minute = work_day_end_minute;
+
+	g_object_notify (G_OBJECT (editor), "work-day-end-minute");
+}
+
+gint
+comp_editor_get_work_day_start_hour (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), 0);
+
+	return editor->priv->work_day_start_hour;
+}
+
+void
+comp_editor_set_work_day_start_hour (CompEditor *editor,
+                                     gint work_day_start_hour)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	editor->priv->work_day_start_hour = work_day_start_hour;
+
+	g_object_notify (G_OBJECT (editor), "work-day-start-hour");
+}
+
+gint
+comp_editor_get_work_day_start_minute (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), 0);
+
+	return editor->priv->work_day_start_minute;
+}
+
+void
+comp_editor_set_work_day_start_minute (CompEditor *editor,
+                                       gint work_day_start_minute)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	editor->priv->work_day_start_minute = work_day_start_minute;
+
+	g_object_notify (G_OBJECT (editor), "work-day-start-minute");
 }
 
 /**

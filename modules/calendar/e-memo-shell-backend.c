@@ -34,7 +34,6 @@
 #include "shell/e-shell-window.h"
 
 #include "calendar/common/authentication.h"
-#include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/dialogs/calendar-setup.h"
 #include "calendar/gui/dialogs/memo-editor.h"
@@ -67,8 +66,9 @@ memo_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	/* XXX This is basically the same algorithm across all modules.
 	 *     Maybe we could somehow integrate this into EShellBackend? */
 
-	EMemoShellBackendPrivate *priv;
+	EMemoShellBackend *memo_shell_backend;
 	ESourceGroup *on_this_computer;
+	ESourceList *source_list;
 	ESource *personal;
 	EShell *shell;
 	EShellSettings *shell_settings;
@@ -78,20 +78,24 @@ memo_shell_backend_ensure_sources (EShellBackend *shell_backend)
 
 	personal = NULL;
 
-	priv = E_MEMO_SHELL_BACKEND_GET_PRIVATE (shell_backend);
+	memo_shell_backend = E_MEMO_SHELL_BACKEND (shell_backend);
 
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	if (!e_cal_get_sources (&priv->source_list, E_CAL_SOURCE_TYPE_JOURNAL, NULL)) {
+	if (!e_cal_get_sources (
+		&memo_shell_backend->priv->source_list,
+		E_CAL_SOURCE_TYPE_JOURNAL, NULL)) {
 		g_warning ("Could not get memo sources from GConf!");
 		return;
 	}
 
+	source_list = memo_shell_backend->priv->source_list;
+
 	on_this_computer = e_source_list_ensure_group (
-		priv->source_list, _("On This Computer"), "local:", TRUE);
+		source_list, _("On This Computer"), "local:", TRUE);
 	e_source_list_ensure_group (
-		priv->source_list, _("On The Web"), "webcal://", FALSE);
+		source_list, _("On The Web"), "webcal://", FALSE);
 
 	g_return_if_fail (on_this_computer);
 
@@ -125,7 +129,8 @@ memo_shell_backend_ensure_sources (EShellBackend *shell_backend)
 		primary = e_shell_settings_get_string (
 			shell_settings, "cal-primary-memo-list");
 
-		selected = calendar_config_get_memos_selected ();
+		selected = e_memo_shell_backend_get_selected_memo_lists (
+			memo_shell_backend);
 
 		if (primary == NULL && selected == NULL) {
 			const gchar *uid;
@@ -135,7 +140,8 @@ memo_shell_backend_ensure_sources (EShellBackend *shell_backend)
 
 			e_shell_settings_set_string (
 				shell_settings, "cal-primary-memo-list", uid);
-			calendar_config_set_memos_selected (selected);
+			e_memo_shell_backend_set_selected_memo_lists (
+				memo_shell_backend, selected);
 		}
 
 		g_slist_foreach (selected, (GFunc) g_free, NULL);
@@ -149,7 +155,7 @@ memo_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	g_object_unref (on_this_computer);
 
 	if (save_list)
-		e_source_list_sync (priv->source_list, NULL);
+		e_source_list_sync (source_list, NULL);
 }
 
 static void
@@ -592,4 +598,39 @@ e_memo_shell_backend_get_source_list (EMemoShellBackend *memo_shell_backend)
 		E_IS_MEMO_SHELL_BACKEND (memo_shell_backend), NULL);
 
 	return memo_shell_backend->priv->source_list;
+}
+
+GSList *
+e_memo_shell_backend_get_selected_memo_lists (EMemoShellBackend *memo_shell_backend)
+{
+	GConfClient *client;
+	GSList *selected_memo_lists;
+	const gchar *key;
+
+	g_return_val_if_fail (
+		E_IS_MEMO_SHELL_BACKEND (memo_shell_backend), NULL);
+
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/calendar/memos/selected_memos";
+	selected_memo_lists = gconf_client_get_list (
+		client, key, GCONF_VALUE_STRING, NULL);
+	g_object_unref (client);
+
+	return selected_memo_lists;
+}
+
+void
+e_memo_shell_backend_set_selected_memo_lists (EMemoShellBackend *memo_shell_backend,
+                                              GSList *selected_memo_lists)
+{
+	GConfClient *client;
+	const gchar *key;
+
+	g_return_if_fail (E_IS_MEMO_SHELL_BACKEND (memo_shell_backend));
+
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/calendar/memos/selected_memos";
+	gconf_client_set_list (
+		client, key, GCONF_VALUE_STRING, selected_memo_lists, NULL);
+	g_object_unref (client);
 }

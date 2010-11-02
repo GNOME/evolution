@@ -36,7 +36,6 @@
 #include <misc/e-dateedit.h>
 #include <libecal/e-cal-recur.h>
 #include <libecal/e-cal-time-util.h>
-#include "../calendar-config.h"
 #include "../tag-calendar.h"
 #include "../weekday-picker.h"
 #include "comp-editor-util.h"
@@ -190,6 +189,9 @@ struct _RecurrencePagePrivate {
 
 	/* For the recurrence preview, the actual widget */
 	GtkWidget *preview_calendar;
+
+	/* This just holds some settings we need */
+	EMeetingStore *meeting_store;
 };
 
 
@@ -324,6 +326,11 @@ recurrence_page_dispose (GObject *object)
 		priv->exception_list_store = NULL;
 	}
 
+	if (priv->meeting_store != NULL) {
+		g_object_unref (priv->meeting_store);
+		priv->meeting_store = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (recurrence_page_parent_class)->dispose (object);
 }
@@ -436,7 +443,7 @@ clear_widgets (RecurrencePage *rpage)
 	g_signal_handlers_unblock_matched (priv->interval_unit_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 
 	priv->ending_date_tt = icaltime_today ();
-	priv->ending_count = calendar_config_get_default_count ();
+	priv->ending_count = 2;
 
 	g_signal_handlers_block_matched (priv->ending_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, rpage);
 	e_dialog_combo_box_set (priv->ending_combo,
@@ -672,7 +679,7 @@ simple_recur_to_comp (RecurrencePage *rpage, ECalComponent *comp)
 	r.interval = gtk_spin_button_get_value_as_int (
 		GTK_SPIN_BUTTON (priv->interval_value));
 	r.week_start = ICAL_SUNDAY_WEEKDAY
-		+ calendar_config_get_week_start_day ();
+		+ e_meeting_store_get_week_start_day (priv->meeting_store);
 
 	/* Frequency-specific data */
 
@@ -947,6 +954,7 @@ make_weekly_special (RecurrencePage *rpage)
 	GtkWidget *hbox;
 	GtkWidget *label;
 	WeekdayPicker *wp;
+	gint week_start_day;
 
 	priv = rpage->priv;
 
@@ -972,7 +980,8 @@ make_weekly_special (RecurrencePage *rpage)
 
 	/* Set the weekdays */
 
-	weekday_picker_set_week_start_day (wp, calendar_config_get_week_start_day ());
+	week_start_day = e_meeting_store_get_week_start_day (priv->meeting_store);
+	weekday_picker_set_week_start_day (wp, week_start_day);
 	weekday_picker_set_days (wp, priv->weekday_day_mask);
 
 	g_signal_connect_swapped (
@@ -1381,9 +1390,11 @@ make_ending_until_special (RecurrencePage *rpage)
 
 	/* Make sure the EDateEdit widget uses our timezones to get the
 	   current time. */
-	e_date_edit_set_get_time_callback (de,
-					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
-					   rpage, NULL);
+	e_date_edit_set_get_time_callback (
+		de,
+		(EDateEditGetTimeCallback) comp_editor_get_current_time,
+		g_object_ref (editor),
+		(GDestroyNotify) g_object_unref);
 }
 
 /* Creates the special contents for the occurrence count case */
@@ -1504,7 +1515,7 @@ fill_ending_date (RecurrencePage *rpage, struct icalrecurrencetype *r)
 				e_cal_component_get_dtstart (priv->comp, &dt);
 
 				if (dt.value->is_date)
-					to_zone = calendar_config_get_icaltimezone ();
+					to_zone = e_meeting_store_get_timezone (priv->meeting_store);
 				else if (dt.tzid == NULL)
 					to_zone = icaltimezone_get_utc_timezone ();
 				else
@@ -2282,9 +2293,11 @@ init_widgets (RecurrencePage *rpage)
 			   priv->preview_calendar);
 	gtk_widget_show (priv->preview_calendar);
 
-	e_calendar_item_set_get_time_callback (ecal->calitem,
-					       (ECalendarItemGetTimeCallback) comp_editor_get_current_time,
-					       rpage, NULL);
+	e_calendar_item_set_get_time_callback (
+		ecal->calitem,
+		(ECalendarItemGetTimeCallback) comp_editor_get_current_time,
+		g_object_ref (editor),
+		(GDestroyNotify) g_object_unref);
 
 	/* Recurrence types */
 
@@ -2334,6 +2347,11 @@ init_widgets (RecurrencePage *rpage)
 	gtk_tree_view_set_model (GTK_TREE_VIEW (priv->exception_list),
 				 GTK_TREE_MODEL (priv->exception_list_store));
 
+	g_object_bind_property (
+		editor, "use-24-hour-format",
+		priv->exception_list_store, "use-24-hour-format",
+		G_BINDING_SYNC_CREATE);
+
 	/* View */
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_column_set_title (column, _("Date/Time"));
@@ -2356,10 +2374,14 @@ init_widgets (RecurrencePage *rpage)
  * created.
  **/
 RecurrencePage *
-recurrence_page_construct (RecurrencePage *rpage)
+recurrence_page_construct (RecurrencePage *rpage,
+                           EMeetingStore *meeting_store)
 {
-	RecurrencePagePrivate *priv = rpage->priv;
+	RecurrencePagePrivate *priv;
 	CompEditor *editor;
+
+	priv = rpage->priv;
+	priv->meeting_store = g_object_ref (meeting_store);
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
 
@@ -2390,14 +2412,16 @@ recurrence_page_construct (RecurrencePage *rpage)
  * be created.
  **/
 RecurrencePage *
-recurrence_page_new (CompEditor *editor)
+recurrence_page_new (EMeetingStore *meeting_store,
+                     CompEditor *editor)
 {
 	RecurrencePage *rpage;
 
+	g_return_val_if_fail (E_IS_MEETING_STORE (meeting_store), NULL);
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
 
 	rpage = g_object_new (TYPE_RECURRENCE_PAGE, "editor", editor, NULL);
-	if (!recurrence_page_construct (rpage)) {
+	if (!recurrence_page_construct (rpage, meeting_store)) {
 		g_object_unref (rpage);
 		g_return_val_if_reached (NULL);
 	}

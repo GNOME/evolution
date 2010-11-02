@@ -44,7 +44,6 @@
 #include <shell/e-shell.h>
 
 #include "common/authentication.h"
-#include "calendar-config.h"
 #include "comp-util.h"
 #include "ea-calendar.h"
 #include "e-cal-model-calendar.h"
@@ -76,8 +75,8 @@ struct _ECalendarViewPrivate {
 	/* The calendar model we are monitoring */
 	ECalModel *model;
 
-	/* The default category */
 	gchar *default_category;
+	gint time_divisions;
 
 	GtkTargetList *copy_target_list;
 	GtkTargetList *paste_target_list;
@@ -87,7 +86,8 @@ enum {
 	PROP_0,
 	PROP_COPY_TARGET_LIST,
 	PROP_MODEL,
-	PROP_PASTE_TARGET_LIST
+	PROP_PASTE_TARGET_LIST,
+	PROP_TIME_DIVISIONS
 };
 
 /* FIXME Why are we emitting these event signals here? Can't the model just be listened to? */
@@ -168,13 +168,16 @@ static void
 calendar_view_delete_event (ECalendarView *cal_view,
                             ECalendarViewEvent *event)
 {
+	ECalModel *model;
 	ECalComponent *comp;
 	ECalComponentVType vtype;
-	gboolean  delete = FALSE;
+	gboolean delete = TRUE;
 	GError *error = NULL;
 
 	if (!is_comp_data_valid (event))
 		return;
+
+	model = e_calendar_view_get_model (cal_view);
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
@@ -214,8 +217,9 @@ calendar_view_delete_event (ECalendarView *cal_view,
 				}
 			}
 		}
-	} else
-		delete = delete_component_dialog (comp, FALSE, 1, vtype, GTK_WIDGET (cal_view));
+	} else if (e_cal_model_get_confirm_delete (model))
+		delete = delete_component_dialog (
+			comp, FALSE, 1, vtype, GTK_WIDGET (cal_view));
 
 	if (delete) {
 		const gchar *uid;
@@ -270,6 +274,12 @@ calendar_view_set_property (GObject *object,
 				E_CALENDAR_VIEW (object),
 				g_value_get_object (value));
 			return;
+
+		case PROP_TIME_DIVISIONS:
+			e_calendar_view_set_time_divisions (
+				E_CALENDAR_VIEW (object),
+				g_value_get_int (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -297,6 +307,12 @@ calendar_view_get_property (GObject *object,
 		case PROP_PASTE_TARGET_LIST:
 			g_value_set_boxed (
 				value, e_calendar_view_get_paste_target_list (
+				E_CALENDAR_VIEW (object)));
+			return;
+
+		case PROP_TIME_DIVISIONS:
+			g_value_set_int (
+				value, e_calendar_view_get_time_divisions (
 				E_CALENDAR_VIEW (object)));
 			return;
 	}
@@ -632,7 +648,7 @@ clipboard_get_calendar_data (ECalendarView *cal_view,
 	if (!icalcomp)
 		return;
 
-	default_zone = calendar_config_get_icaltimezone ();
+	default_zone = e_cal_model_get_timezone (cal_view->priv->model);
 	client = e_cal_model_get_default_client (cal_view->priv->model);
 
 	/* check the type of the component */
@@ -800,6 +816,18 @@ e_calendar_view_class_init (ECalendarViewClass *class)
 		PROP_PASTE_TARGET_LIST,
 		"paste-target-list");
 
+	g_object_class_install_property (
+		object_class,
+		PROP_TIME_DIVISIONS,
+		g_param_spec_int (
+			"time-divisions",
+			"Time Divisions",
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			30,
+			G_PARAM_READWRITE));
+
 	signals[POPUP_EVENT] = g_signal_new (
 		"popup-event",
 		G_TYPE_FROM_CLASS (class),
@@ -895,6 +923,9 @@ e_calendar_view_init (ECalendarView *calendar_view)
 
 	calendar_view->priv = E_CALENDAR_VIEW_GET_PRIVATE (calendar_view);
 
+	/* Set this early to avoid a divide-by-zero during init. */
+	calendar_view->priv->time_divisions = 30;
+
 	target_list = gtk_target_list_new (NULL, 0);
 	e_target_list_add_calendar_targets (target_list, 0);
 	calendar_view->priv->copy_target_list = target_list;
@@ -971,7 +1002,7 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 			/* copy & paste from top canvas to main canvas */
 			gint time_divisions;
 
-			time_divisions = calendar_config_get_time_divisions ();
+			time_divisions = e_calendar_view_get_time_divisions (cal_view);
 			ic_dur = icaldurationtype_from_int (time_divisions * 60);
 		}
 
@@ -1136,6 +1167,25 @@ e_calendar_view_get_paste_target_list (ECalendarView *cal_view)
 	return cal_view->priv->paste_target_list;
 }
 
+gint
+e_calendar_view_get_time_divisions (ECalendarView *cal_view)
+{
+	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), 0);
+
+	return cal_view->priv->time_divisions;
+}
+
+void
+e_calendar_view_set_time_divisions (ECalendarView *cal_view,
+                                    gint time_divisions)
+{
+	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
+	cal_view->priv->time_divisions = time_divisions;
+
+	g_object_notify (G_OBJECT (cal_view), "time-divisions");
+}
+
 GList *
 e_calendar_view_get_selected_events (ECalendarView *cal_view)
 {
@@ -1213,11 +1263,14 @@ void
 e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 {
 	GList *selected;
+	ECalModel *model;
 	ECalComponent *comp;
 	ECalendarViewEvent *event;
 	ECalComponentVType vtype;
-	gboolean  delete = FALSE;
+	gboolean delete = TRUE;
 	GError *error = NULL;
+
+	model = e_calendar_view_get_model (cal_view);
 
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (!selected)
@@ -1258,8 +1311,9 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 				}
 			}
 		}
-	} else
-		delete = delete_component_dialog (comp, FALSE, 1, vtype, GTK_WIDGET (cal_view));
+	} else if (e_cal_model_get_confirm_delete (model))
+		delete = delete_component_dialog (
+			comp, FALSE, 1, vtype, GTK_WIDGET (cal_view));
 
 	if (delete) {
 		const gchar *uid;
@@ -1466,12 +1520,18 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
  * to the 'day begins' from preferences in other selected day.
  */
 void
-e_calendar_view_new_appointment_full (ECalendarView *cal_view, gboolean all_day, gboolean meeting, gboolean no_past_date)
+e_calendar_view_new_appointment_full (ECalendarView *cal_view,
+                                      gboolean all_day,
+                                      gboolean meeting,
+                                      gboolean no_past_date)
 {
+	ECalModel *model;
 	time_t dtstart, dtend, now;
 	gboolean do_rounding = FALSE;
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
+	model = e_calendar_view_get_model (cal_view);
 
 	now = time (NULL);
 
@@ -1490,7 +1550,7 @@ e_calendar_view_new_appointment_full (ECalendarView *cal_view, gboolean all_day,
 	/* time in this cases; dtstart should be a midnight in this case */
 	if (do_rounding || (!all_day && (dtend - dtstart) == (60 * 60 * 24))) {
 		struct tm local = *localtime (&now);
-		gint time_div = calendar_config_get_time_divisions ();
+		gint time_div = e_calendar_view_get_time_divisions (cal_view);
 		gint hours, mins;
 
 		if (!time_div) /* Possible if your gconf values aren't so nice */
@@ -1507,8 +1567,8 @@ e_calendar_view_new_appointment_full (ECalendarView *cal_view, gboolean all_day,
 			mins = (mins - (mins % time_div));
 		} else {
 			/* other day than today */
-			hours = calendar_config_get_day_start_hour ();
-			mins = calendar_config_get_day_start_minute ();
+			hours = e_cal_model_get_work_day_start_hour (model);
+			mins = e_cal_model_get_work_day_start_minute (model);
 		}
 
 		dtstart = dtstart + (60 * 60 * hours) + (mins * 60);

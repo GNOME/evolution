@@ -64,6 +64,11 @@ void		e_cal_shell_backend_register_type
 					(GTypeModule *type_module);
 ESourceList *	e_cal_shell_backend_get_source_list
 					(ECalShellBackend *cal_shell_backend);
+GSList *	e_cal_shell_backend_get_selected_calendars
+					(ECalShellBackend *cal_shell_backend);
+void		e_cal_shell_backend_set_selected_calendars
+					(ECalShellBackend *cal_shell_backend,
+					 GSList *selected_calendars);
 void		e_cal_shell_backend_open_date_range
 					(ECalShellBackend *cal_shell_backend,
 					 const GDate *start_date,

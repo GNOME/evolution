@@ -64,6 +64,11 @@ void		e_memo_shell_backend_register_type
 					(GTypeModule *type_module);
 ESourceList *	e_memo_shell_backend_get_source_list
 					(EMemoShellBackend *memo_shell_backend);
+GSList *	e_memo_shell_backend_get_selected_memo_lists
+					(EMemoShellBackend *memo_shell_backend);
+void		e_memo_shell_backend_set_selected_memo_lists
+					(EMemoShellBackend *memo_shell_backend,
+					 GSList *selected_memo_lists);
 
 G_END_DECLS
 

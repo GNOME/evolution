@@ -29,29 +29,37 @@
 #include <gtk/gtk.h>
 #include <libecal/e-cal-component.h>
 
+/* Standard GObject macros */
+#define E_TYPE_DATE_TIME_LIST \
+	(e_date_time_list_get_type ())
+#define E_DATE_TIME_LIST(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_DATE_TIME_LIST, EDateTimeList))
+#define E_DATE_TIME_LIST_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_DATE_TIME_LIST, EDateTimeListClass))
+#define E_IS_DATE_TIME_LIST(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_DATE_TIME_LIST))
+#define E_IS_DATE_TIME_LIST_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_DATE_TIME_LIST))
+#define E_DATE_TIME_LIST_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_DATE_TIME_LIST, EDateTimeListClass))
+
 G_BEGIN_DECLS
 
-#define E_TYPE_DATE_TIME_LIST            (e_date_time_list_get_type ())
-#define E_DATE_TIME_LIST(obj)		 (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_DATE_TIME_LIST, EDateTimeList))
-#define E_DATE_TIME_LIST_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_DATE_TIME_LIST, EDateTimeListClass))
-#define E_IS_DATE_TIME_LIST(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_DATE_TIME_LIST))
-#define E_IS_DATE_TIME_LIST_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_DATE_TIME_LIST))
-#define E_DATE_TIME_LIST_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), E_TYPE_DATE_TIME_LIST, EDateTimeListClass))
+typedef struct _EDateTimeList EDateTimeList;
+typedef struct _EDateTimeListClass EDateTimeListClass;
 
-typedef struct _EDateTimeList       EDateTimeList;
-typedef struct _EDateTimeListClass  EDateTimeListClass;
-
-typedef enum
-{
+typedef enum {
 	E_DATE_TIME_LIST_COLUMN_DESCRIPTION,
-
 	E_DATE_TIME_LIST_NUM_COLUMNS
-}
-EDateTimeListColumnType;
+} EDateTimeListColumnType;
 
-struct _EDateTimeList
-{
-	GObject  parent;
+struct _EDateTimeList {
+	GObject parent;
 
 	/* Private */
 
@@ -59,27 +67,33 @@ struct _EDateTimeList
 	GList   *list;
 
 	guint    columns_dirty : 1;
+
+	gboolean use_24_hour_format;
 };
 
-struct _EDateTimeListClass
-{
+struct _EDateTimeListClass {
 	GObjectClass parent_class;
 };
 
-GType                       e_date_time_list_get_type         (void);
-EDateTimeList              *e_date_time_list_new              (void);
-
-const ECalComponentDateTime *e_date_time_list_get_date_time    (EDateTimeList *date_time_list,
-							       GtkTreeIter *iter);
-void                        e_date_time_list_set_date_time    (EDateTimeList *date_time_list,
-							       GtkTreeIter *iter,
-							       const ECalComponentDateTime *datetime);
-void                        e_date_time_list_append           (EDateTimeList *date_time_list,
-							       GtkTreeIter *iter,
-							       const ECalComponentDateTime *datetime);
-void                        e_date_time_list_remove           (EDateTimeList *date_time_list,
-							       GtkTreeIter *iter);
-void                        e_date_time_list_clear            (EDateTimeList *date_time_list);
+GType		e_date_time_list_get_type	(void);
+EDateTimeList *	e_date_time_list_new		(void);
+const ECalComponentDateTime *
+		e_date_time_list_get_date_time	(EDateTimeList *date_time_list,
+						 GtkTreeIter *iter);
+void		e_date_time_list_set_date_time	(EDateTimeList *date_time_list,
+						 GtkTreeIter *iter,
+						 const ECalComponentDateTime *datetime);
+gboolean	e_date_time_list_get_use_24_hour_format
+						(EDateTimeList *date_time_list);
+void		e_date_time_list_set_use_24_hour_format
+						(EDateTimeList *date_time_list,
+						 gboolean use_24_hour_format);
+void		e_date_time_list_append		(EDateTimeList *date_time_list,
+						 GtkTreeIter *iter,
+						 const ECalComponentDateTime *datetime);
+void		e_date_time_list_remove		(EDateTimeList *date_time_list,
+						 GtkTreeIter *iter);
+void		e_date_time_list_clear		(EDateTimeList *date_time_list);
 
 G_END_DECLS
 

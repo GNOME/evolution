@@ -28,7 +28,6 @@
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-util.h"
 #include "calendar/common/authentication.h"
-#include "calendar/gui/calendar-config.h"
 #include "calendar/gui/e-memo-list-selector.h"
 #include "calendar/gui/misc.h"
 
@@ -376,11 +375,18 @@ static void
 memo_shell_sidebar_selection_changed_cb (EMemoShellSidebar *memo_shell_sidebar,
                                          ESourceSelector *selector)
 {
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	EShellSidebar *shell_sidebar;
 	GSList *list, *iter;
 
 	/* This signal is emitted less frequently than "row-changed",
 	 * especially when the model is being rebuilt.  So we'll take
 	 * it easy on poor GConf. */
+
+	shell_sidebar = E_SHELL_SIDEBAR (memo_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
 	list = e_source_selector_get_selection (selector);
 
@@ -391,7 +397,8 @@ memo_shell_sidebar_selection_changed_cb (EMemoShellSidebar *memo_shell_sidebar,
 		g_object_unref (source);
 	}
 
-	calendar_config_set_memos_selected (list);
+	e_memo_shell_backend_set_selected_memo_lists (
+		E_MEMO_SHELL_BACKEND (shell_backend), list);
 
 	g_slist_free (list);
 }
@@ -458,19 +465,19 @@ memo_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 		g_object_ref (source_list),
 		(GDestroyNotify) g_object_unref);
 
-	list = calendar_config_get_memos_selected ();
+	list = e_memo_shell_backend_get_selected_memo_lists (
+		E_MEMO_SHELL_BACKEND (shell_backend));
+
 	for (iter = list; iter != NULL; iter = iter->next) {
-		gchar *uid;
+		const gchar *uid = iter->data;
 
-		uid = iter->data;
 		source = e_source_list_peek_source_by_uid (source_list, uid);
-		g_free (uid);
 
-		if (source == NULL)
-			continue;
-
-		e_source_selector_select_source (selector, source);
+		if (source != NULL)
+			e_source_selector_select_source (selector, source);
 	}
+
+	g_slist_foreach (list, (GFunc) g_free, NULL);
 	g_slist_free (list);
 
 	/* Listen for subsequent changes to the selector. */

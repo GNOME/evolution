@@ -30,9 +30,10 @@
 #include <libedataserver/e-source-group.h>
 #include <libedataserver/e-source-list.h>
 
-#include "calendar/gui/calendar-config.h"
 #include "calendar/gui/calendar-config-keys.h"
 #include "shell/e-shell.h"
+
+#include "e-memo-shell-backend.h"
 
 #define WEBCAL_BASE_URI "webcal://"
 #define PERSONAL_RELATIVE_URI "system"
@@ -40,10 +41,10 @@
 
 static void
 create_memo_sources (EShellBackend *shell_backend,
-		     ESourceList *source_list,
-		     ESourceGroup **on_this_computer,
-		     ESourceGroup **on_the_web,
-		     ESource **personal_source)
+                     ESourceList *source_list,
+                     ESourceGroup **on_this_computer,
+                     ESourceGroup **on_the_web,
+                     ESource **personal_source)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
@@ -106,6 +107,7 @@ create_memo_sources (EShellBackend *shell_backend,
 	}
 
 	if (!*personal_source) {
+		GSList *selected;
 		gchar *primary_memo_list;
 
 		/* Create the default Person memo list */
@@ -115,17 +117,25 @@ create_memo_sources (EShellBackend *shell_backend,
 		primary_memo_list = e_shell_settings_get_string (
 			shell_settings, "cal-primary-memo-list");
 
-		if (!primary_memo_list && !calendar_config_get_memos_selected ()) {
-			GSList selected;
+		selected = e_memo_shell_backend_get_selected_memo_lists (
+			E_MEMO_SHELL_BACKEND (shell_backend));
+
+		if (primary_memo_list == NULL && selected == NULL) {
+			GSList link;
 
 			e_shell_settings_set_string (
 				shell_settings, "cal-primary-memo-list",
 				e_source_peek_uid (source));
 
-			selected.data = (gpointer)e_source_peek_uid (source);
-			selected.next = NULL;
-			calendar_config_set_memos_selected (&selected);
+			link.data = (gpointer)e_source_peek_uid (source);
+			link.next = NULL;
+
+			e_memo_shell_backend_set_selected_memo_lists (
+				E_MEMO_SHELL_BACKEND (shell_backend), &link);
 		}
+
+		g_slist_foreach (selected, (GFunc) g_free, NULL);
+		g_slist_free (selected);
 
 		e_source_set_color_spec (source, "#BECEDD");
 		*personal_source = source;
@@ -212,10 +222,10 @@ add_gw_esource (ESourceList *source_list, const gchar *group_name,  const gchar 
 
 gboolean
 e_memo_shell_backend_migrate (EShellBackend *shell_backend,
-                             gint major,
-                             gint minor,
-                             gint revision,
-                             GError **error)
+                              gint major,
+                              gint minor,
+                              gint revision,
+                              GError **error)
 {
 	ESourceGroup *on_this_computer = NULL;
 	ESourceGroup *on_the_web = NULL;

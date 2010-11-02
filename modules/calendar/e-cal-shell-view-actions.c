@@ -960,6 +960,7 @@ action_event_print_cb (GtkAction *action,
 	ECalendarView *calendar_view;
 	ECalendarViewEvent *event;
 	ECalComponent *component;
+	ECalModel *model;
 	ECal *client;
 	icalcomponent *icalcomp;
 	GList *selected;
@@ -968,6 +969,7 @@ action_event_print_cb (GtkAction *action,
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 	view_type = gnome_calendar_get_view (calendar);
 	calendar_view = gnome_calendar_get_calendar_view (calendar, view_type);
+	model = e_calendar_view_get_model (calendar_view);
 
 	selected = e_calendar_view_get_selected_events (calendar_view);
 	g_return_if_fail (g_list_length (selected) == 1);
@@ -985,7 +987,10 @@ action_event_print_cb (GtkAction *action,
 	e_cal_component_set_icalcomponent (
 		component, icalcomponent_new_clone (icalcomp));
 	print_comp (
-		component, client, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+		component, client,
+		e_cal_model_get_timezone (model),
+		e_cal_model_get_use_24_hour_format (model),
+		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 
 	g_object_unref (component);
 

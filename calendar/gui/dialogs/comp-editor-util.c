@@ -33,7 +33,6 @@
 #include <libedataserver/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include "widgets/misc/e-dateedit.h"
-#include "../calendar-config.h"
 #include "../itip-utils.h"
 #include <shell/e-shell.h>
 #include "comp-editor-util.h"
@@ -147,14 +146,15 @@ comp_editor_new_date_edit (gboolean show_date,
    FIXME: Should probably use the timezone from somewhere in the component
    rather than the current timezone. */
 struct tm
-comp_editor_get_current_time (GObject *object, gpointer data)
+comp_editor_get_current_time (EDateEdit *date_edit,
+                              CompEditor *editor)
 {
 	icaltimezone *zone;
 	struct icaltimetype tt;
 	struct tm tmp_tm = { 0 };
 
 	/* Get the current timezone. */
-	zone = calendar_config_get_icaltimezone ();
+	zone = comp_editor_get_timezone (editor);
 
 	tt = icaltime_from_timet_with_zone (time (NULL), FALSE, zone);
 

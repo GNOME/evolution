@@ -285,12 +285,14 @@ is_icalcomp_on_the_server (icalcomponent *icalcomp, ECal *client)
  * Return value: A newly-created calendar component.
  **/
 ECalComponent *
-cal_comp_event_new_with_defaults (ECal *client, gboolean all_day)
+cal_comp_event_new_with_defaults (ECal *client,
+                                  gboolean all_day,
+                                  gboolean use_default_reminder,
+                                  gint default_reminder_interval,
+                                  EDurationType default_reminder_units)
 {
 	icalcomponent *icalcomp;
 	ECalComponent *comp;
-	gint interval;
-	EDurationType units;
 	ECalComponentAlarm *alarm;
 	icalproperty *icalprop;
 	ECalComponentAlarmTrigger trigger;
@@ -305,11 +307,8 @@ cal_comp_event_new_with_defaults (ECal *client, gboolean all_day)
 		e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_EVENT);
 	}
 
-	if (all_day || !calendar_config_get_use_default_reminder ())
+	if (all_day || !use_default_reminder)
 		return comp;
-
-	interval = calendar_config_get_default_reminder_interval ();
-	units = calendar_config_get_default_reminder_units ();
 
 	alarm = e_cal_component_alarm_new ();
 
@@ -330,21 +329,21 @@ cal_comp_event_new_with_defaults (ECal *client, gboolean all_day)
 
 	trigger.u.rel_duration.is_neg = TRUE;
 
-	switch (units) {
+	switch (default_reminder_units) {
 	case E_DURATION_MINUTES:
-		trigger.u.rel_duration.minutes = interval;
+		trigger.u.rel_duration.minutes = default_reminder_interval;
 		break;
 
 	case E_DURATION_HOURS:
-		trigger.u.rel_duration.hours = interval;
+		trigger.u.rel_duration.hours = default_reminder_interval;
 		break;
 
 	case E_DURATION_DAYS:
-		trigger.u.rel_duration.days = interval;
+		trigger.u.rel_duration.days = default_reminder_interval;
 		break;
 
 	default:
-		g_warning ("wrong units %d\n", units);
+		g_warning ("wrong units %d\n", default_reminder_units);
 	}
 
 	e_cal_component_alarm_set_trigger (alarm, trigger);
@@ -356,18 +355,22 @@ cal_comp_event_new_with_defaults (ECal *client, gboolean all_day)
 }
 
 ECalComponent *
-cal_comp_event_new_with_current_time (ECal *client, gboolean all_day)
+cal_comp_event_new_with_current_time (ECal *client,
+                                      gboolean all_day,
+                                      icaltimezone *zone,
+                                      gboolean use_default_reminder,
+                                      gint default_reminder_interval,
+                                      EDurationType default_reminder_units)
 {
 	ECalComponent *comp;
 	struct icaltimetype itt;
 	ECalComponentDateTime dt;
-	icaltimezone *zone;
 
-	comp = cal_comp_event_new_with_defaults (client, all_day);
+	comp = cal_comp_event_new_with_defaults (
+		client, all_day, use_default_reminder,
+		default_reminder_interval, default_reminder_units);
+	g_return_val_if_fail (comp != NULL, NULL);
 
-	g_return_val_if_fail (comp, NULL);
-
-	zone = calendar_config_get_icaltimezone ();
 	if (all_day) {
 		itt = icaltime_from_timet_with_zone (time (NULL), 1, zone);
 

@@ -37,10 +37,11 @@
 #include <libedataserver/e-xml-hash-utils.h>
 
 #include "e-util/e-util-private.h"
-#include "calendar/gui/calendar-config.h"
 #include "calendar/gui/calendar-config-keys.h"
 #include "calendar/gui/e-cal-event.h"
 #include "shell/e-shell.h"
+
+#include "e-cal-shell-backend.h"
 
 #define WEBCAL_BASE_URI "webcal://"
 #define CONTACTS_BASE_URI "contacts://"
@@ -150,6 +151,7 @@ create_calendar_sources (EShellBackend *shell_backend,
 	}
 
 	if (!*personal_source) {
+		GSList *selected;
 		gchar *primary_calendar;
 
 		/* Create the default Person calendar */
@@ -159,17 +161,25 @@ create_calendar_sources (EShellBackend *shell_backend,
 		primary_calendar = e_shell_settings_get_string (
 			shell_settings, "cal-primary-calendar");
 
-		if (!primary_calendar && !calendar_config_get_calendars_selected ()) {
-			GSList selected;
+		selected = e_cal_shell_backend_get_selected_calendars (
+			E_CAL_SHELL_BACKEND (shell_backend));
+
+		if (primary_calendar == NULL && selected == NULL) {
+			GSList link;
 
 			e_shell_settings_set_string (
 				shell_settings, "cal-primary-calendar",
 				e_source_peek_uid (source));
 
-			selected.data = (gpointer)e_source_peek_uid (source);
-			selected.next = NULL;
-			calendar_config_set_calendars_selected (&selected);
+			link.data = (gpointer)e_source_peek_uid (source);
+			link.next = NULL;
+
+			e_cal_shell_backend_set_selected_calendars (
+				E_CAL_SHELL_BACKEND (shell_backend), &link);
 		}
+
+		g_slist_foreach (selected, (GFunc) g_free, NULL);
+		g_slist_free (selected);
 
 		g_free (primary_calendar);
 		e_source_set_color_spec (source, "#BECEDD");
@@ -196,10 +206,10 @@ create_calendar_sources (EShellBackend *shell_backend,
 
 gboolean
 e_cal_shell_backend_migrate (EShellBackend *shell_backend,
-                            gint major,
-                            gint minor,
-                            gint micro,
-                            GError **error)
+                             gint major,
+                             gint minor,
+                             gint micro,
+                             GError **error)
 {
 	ESourceGroup *on_this_computer = NULL, *on_the_web = NULL, *contacts = NULL;
 	ESource *personal_source = NULL;

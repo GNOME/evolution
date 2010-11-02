@@ -1245,14 +1245,16 @@ check_for_retract (ECalComponent *comp, ECal *client)
 static void
 task_table_delete_selection (ESelectable *selectable)
 {
+	ECalModel *model;
 	ETaskTable *task_table;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp = NULL;
-	gboolean delete = FALSE;
+	gboolean delete = TRUE;
 	gint n_selected;
 	GError *error = NULL;
 
 	task_table = E_TASK_TABLE (selectable);
+	model = e_task_table_get_model (task_table);
 
 	n_selected = e_table_selected_count (E_TABLE (task_table));
 	if (n_selected <= 0)
@@ -1302,11 +1304,11 @@ task_table_delete_selection (ESelectable *selectable)
 			}
 
 		}
-	} else {
+	} else if (e_cal_model_get_confirm_delete (model))
 		delete = delete_component_dialog (
 			comp, FALSE, n_selected,
-			E_CAL_COMPONENT_TODO, GTK_WIDGET (task_table));
-	}
+			E_CAL_COMPONENT_TODO,
+			GTK_WIDGET (task_table));
 
 	if (delete)
 		delete_selected_components (task_table);

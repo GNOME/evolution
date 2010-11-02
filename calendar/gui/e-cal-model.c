@@ -36,8 +36,9 @@
 #include "e-cal-model.h"
 #include "itip-utils.h"
 #include "misc.h"
-#include "e-util/e-extensible.h"
 #include "e-util/e-util.h"
+#include "e-util/e-extensible.h"
+#include "e-util/e-util-enumtypes.h"
 
 #define E_CAL_MODEL_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -87,12 +88,29 @@ struct _ECalModelPrivate {
 	/* Whether we display dates in 24-hour format. */
         gboolean use_24_hour_format;
 
+	/* Whether to compress weekends into one cell. */
+	gboolean compress_weekend;
+
 	/* First day of the week: 0 (Monday) to 6 (Sunday) */
 	gint week_start_day;
+
+	/* Work day timespan */
+	gint work_day_start_hour;
+	gint work_day_start_minute;
+	gint work_day_end_hour;
+	gint work_day_end_minute;
 
 	/* callback, to retrieve start time for newly added rows by click-to-add */
 	ECalModelDefaultTimeFunc get_default_time;
 	gpointer get_default_time_user_data;
+
+	/* Default reminder for events */
+	gboolean use_default_reminder;
+	gint default_reminder_interval;
+	EDurationType default_reminder_units;
+
+	/* Ask user to confirm before deleting components. */
+	gboolean confirm_delete;
 
 	gboolean in_added;
 	gboolean in_modified;
@@ -126,10 +144,19 @@ static void remove_client (ECalModel *model, ECalModelClient *client_data);
 
 enum {
 	PROP_0,
+	PROP_COMPRESS_WEEKEND,
+	PROP_CONFIRM_DELETE,
 	PROP_DEFAULT_CLIENT,
+	PROP_DEFAULT_REMINDER_INTERVAL,
+	PROP_DEFAULT_REMINDER_UNITS,
 	PROP_TIMEZONE,
 	PROP_USE_24_HOUR_FORMAT,
-	PROP_WEEK_START_DAY
+	PROP_USE_DEFAULT_REMINDER,
+	PROP_WEEK_START_DAY,
+	PROP_WORK_DAY_END_HOUR,
+	PROP_WORK_DAY_END_MINUTE,
+	PROP_WORK_DAY_START_HOUR,
+	PROP_WORK_DAY_START_MINUTE
 };
 
 enum {
@@ -160,10 +187,34 @@ cal_model_set_property (GObject *object,
                         GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_COMPRESS_WEEKEND:
+			e_cal_model_set_compress_weekend (
+				E_CAL_MODEL (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_CONFIRM_DELETE:
+			e_cal_model_set_confirm_delete (
+				E_CAL_MODEL (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_DEFAULT_CLIENT:
 			e_cal_model_set_default_client (
 				E_CAL_MODEL (object),
 				g_value_get_object (value));
+			return;
+
+		case PROP_DEFAULT_REMINDER_INTERVAL:
+			e_cal_model_set_default_reminder_interval (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_DEFAULT_REMINDER_UNITS:
+			e_cal_model_set_default_reminder_units (
+				E_CAL_MODEL (object),
+				g_value_get_enum (value));
 			return;
 
 		case PROP_TIMEZONE:
@@ -178,8 +229,38 @@ cal_model_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_USE_DEFAULT_REMINDER:
+			e_cal_model_set_use_default_reminder (
+				E_CAL_MODEL (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_WEEK_START_DAY:
 			e_cal_model_set_week_start_day (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_HOUR:
+			e_cal_model_set_work_day_end_hour (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_END_MINUTE:
+			e_cal_model_set_work_day_end_minute (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_START_HOUR:
+			e_cal_model_set_work_day_start_hour (
+				E_CAL_MODEL (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_WORK_DAY_START_MINUTE:
+			e_cal_model_set_work_day_start_minute (
 				E_CAL_MODEL (object),
 				g_value_get_int (value));
 			return;
@@ -195,10 +276,38 @@ cal_model_get_property (GObject *object,
                         GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_COMPRESS_WEEKEND:
+			g_value_set_boolean (
+				value,
+				e_cal_model_get_compress_weekend (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_CONFIRM_DELETE:
+			g_value_set_boolean (
+				value,
+				e_cal_model_get_confirm_delete (
+				E_CAL_MODEL (object)));
+			return;
+
 		case PROP_DEFAULT_CLIENT:
 			g_value_set_object (
 				value,
 				e_cal_model_get_default_client (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_DEFAULT_REMINDER_INTERVAL:
+			g_value_set_int (
+				value,
+				e_cal_model_get_default_reminder_interval (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_DEFAULT_REMINDER_UNITS:
+			g_value_set_enum (
+				value,
+				e_cal_model_get_default_reminder_units (
 				E_CAL_MODEL (object)));
 			return;
 
@@ -216,10 +325,45 @@ cal_model_get_property (GObject *object,
 				E_CAL_MODEL (object)));
 			return;
 
+		case PROP_USE_DEFAULT_REMINDER:
+			g_value_set_boolean (
+				value,
+				e_cal_model_get_use_default_reminder (
+				E_CAL_MODEL (object)));
+			return;
+
 		case PROP_WEEK_START_DAY:
 			g_value_set_int (
 				value,
 				e_cal_model_get_week_start_day (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_END_HOUR:
+			g_value_set_int (
+				value,
+				e_cal_model_get_work_day_end_hour (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_END_MINUTE:
+			g_value_set_int (
+				value,
+				e_cal_model_get_work_day_end_minute (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_START_HOUR:
+			g_value_set_int (
+				value,
+				e_cal_model_get_work_day_start_hour (
+				E_CAL_MODEL (object)));
+			return;
+
+		case PROP_WORK_DAY_START_MINUTE:
+			g_value_set_int (
+				value,
+				e_cal_model_get_work_day_start_minute (
 				E_CAL_MODEL (object)));
 			return;
 	}
@@ -335,12 +479,55 @@ e_cal_model_class_init (ECalModelClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_COMPRESS_WEEKEND,
+		g_param_spec_boolean (
+			"compress-weekend",
+			"Compress Weekend",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CONFIRM_DELETE,
+		g_param_spec_boolean (
+			"confirm-delete",
+			"Confirm Delete",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_DEFAULT_CLIENT,
 		g_param_spec_object (
 			"default-client",
 			"Default Client",
 			NULL,
 			E_TYPE_CAL,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DEFAULT_REMINDER_INTERVAL,
+		g_param_spec_int (
+			"default-reminder-interval",
+			"Default Reminder Interval",
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DEFAULT_REMINDER_UNITS,
+		g_param_spec_enum (
+			"default-reminder-units",
+			"Default Reminder Units",
+			NULL,
+			E_TYPE_DURATION_TYPE,
+			E_DURATION_MINUTES,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -364,6 +551,16 @@ e_cal_model_class_init (ECalModelClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_USE_DEFAULT_REMINDER,
+		g_param_spec_boolean (
+			"use-default-reminder",
+			"Use Default Reminder",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_WEEK_START_DAY,
 		g_param_spec_int (
 			"week-start-day",
@@ -371,6 +568,54 @@ e_cal_model_class_init (ECalModelClass *class)
 			NULL,
 			0,  /* Monday */
 			6,  /* Sunday */
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_HOUR,
+		g_param_spec_int (
+			"work-day-end-hour",
+			"Work Day End Hour",
+			NULL,
+			0,
+			23,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_END_MINUTE,
+		g_param_spec_int (
+			"work-day-end-minute",
+			"Work Day End Minute",
+			NULL,
+			0,
+			59,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_HOUR,
+		g_param_spec_int (
+			"work-day-start-hour",
+			"Work Day Start Hour",
+			NULL,
+			0,
+			23,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WORK_DAY_START_MINUTE,
+		g_param_spec_int (
+			"work-day-start-minute",
+			"Work Day Start Minute",
+			NULL,
+			0,
+			59,
 			0,
 			G_PARAM_READWRITE));
 
@@ -1351,26 +1596,39 @@ ecm_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 	return assigned_colors[first_empty].color;
 }
 
+gboolean
+e_cal_model_get_confirm_delete (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), FALSE);
+
+	return model->priv->confirm_delete;
+}
+
+void
+e_cal_model_set_confirm_delete (ECalModel *model,
+                                gboolean confirm_delete)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	model->priv->confirm_delete = confirm_delete;
+
+	g_object_notify (G_OBJECT (model), "confirm-delete");
+}
+
 icalcomponent_kind
 e_cal_model_get_component_kind (ECalModel *model)
 {
-	ECalModelPrivate *priv;
-
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), ICAL_NO_COMPONENT);
 
-	priv = model->priv;
-	return priv->kind;
+	return model->priv->kind;
 }
 
 void
 e_cal_model_set_component_kind (ECalModel *model, icalcomponent_kind kind)
 {
-	ECalModelPrivate *priv;
-
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
-	priv = model->priv;
-	priv->kind = kind;
+	model->priv->kind = kind;
 }
 
 ECalModelFlags
@@ -1420,6 +1678,25 @@ e_cal_model_set_timezone (ECalModel *model,
 		       old_zone, zone);
 }
 
+gboolean
+e_cal_model_get_compress_weekend (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), FALSE);
+
+	return model->priv->compress_weekend;
+}
+
+void
+e_cal_model_set_compress_weekend (ECalModel *model,
+                                  gboolean compress_weekend)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	model->priv->compress_weekend = compress_weekend;
+
+	g_object_notify (G_OBJECT (model), "compress-weekend");
+}
+
 void
 e_cal_model_set_default_category (ECalModel *model,
                                   const gchar *default_category)
@@ -1428,6 +1705,44 @@ e_cal_model_set_default_category (ECalModel *model,
 
 	g_free (model->priv->default_category);
 	model->priv->default_category = g_strdup (default_category);
+}
+
+gint
+e_cal_model_get_default_reminder_interval (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), 0);
+
+	return model->priv->default_reminder_interval;
+}
+
+void
+e_cal_model_set_default_reminder_interval (ECalModel *model,
+                                           gint default_reminder_interval)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	model->priv->default_reminder_interval = default_reminder_interval;
+
+	g_object_notify (G_OBJECT (model), "default-reminder-interval");
+}
+
+EDurationType
+e_cal_model_get_default_reminder_units (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), 0);
+
+	return model->priv->default_reminder_units;
+}
+
+void
+e_cal_model_set_default_reminder_units (ECalModel *model,
+                                        EDurationType default_reminder_units)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	model->priv->default_reminder_units = default_reminder_units;
+
+	g_object_notify (G_OBJECT (model), "default-reminder-units");
 }
 
 gboolean
@@ -1456,6 +1771,25 @@ e_cal_model_set_use_24_hour_format (ECalModel *model,
 	g_object_notify (G_OBJECT (model), "use-24-hour-format");
 }
 
+gboolean
+e_cal_model_get_use_default_reminder (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), FALSE);
+
+	return model->priv->use_default_reminder;
+}
+
+void
+e_cal_model_set_use_default_reminder (ECalModel *model,
+                                      gboolean use_default_reminder)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	model->priv->use_default_reminder = use_default_reminder;
+
+	g_object_notify (G_OBJECT (model), "use-default-reminder");
+}
+
 gint
 e_cal_model_get_week_start_day (ECalModel *model)
 {
@@ -1478,6 +1812,82 @@ e_cal_model_set_week_start_day (ECalModel *model,
 	model->priv->week_start_day = week_start_day;
 
 	g_object_notify (G_OBJECT (model), "week-start-day");
+}
+
+gint
+e_cal_model_get_work_day_end_hour (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), 0);
+
+	return model->priv->work_day_end_hour;
+}
+
+void
+e_cal_model_set_work_day_end_hour (ECalModel *model,
+                                   gint work_day_end_hour)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	model->priv->work_day_end_hour = work_day_end_hour;
+
+	g_object_notify (G_OBJECT (model), "work-day-end-hour");
+}
+
+gint
+e_cal_model_get_work_day_end_minute (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), 0);
+
+	return model->priv->work_day_end_minute;
+}
+
+void
+e_cal_model_set_work_day_end_minute (ECalModel *model,
+                                   gint work_day_end_minute)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	model->priv->work_day_end_minute = work_day_end_minute;
+
+	g_object_notify (G_OBJECT (model), "work-day-end-minute");
+}
+
+gint
+e_cal_model_get_work_day_start_hour (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), 0);
+
+	return model->priv->work_day_start_hour;
+}
+
+void
+e_cal_model_set_work_day_start_hour (ECalModel *model,
+                                   gint work_day_start_hour)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	model->priv->work_day_start_hour = work_day_start_hour;
+
+	g_object_notify (G_OBJECT (model), "work-day-start-hour");
+}
+
+gint
+e_cal_model_get_work_day_start_minute (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), 0);
+
+	return model->priv->work_day_start_minute;
+}
+
+void
+e_cal_model_set_work_day_start_minute (ECalModel *model,
+                                   gint work_day_start_minute)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	model->priv->work_day_start_minute = work_day_start_minute;
+
+	g_object_notify (G_OBJECT (model), "work-day-start-minute");
 }
 
 ECal *
@@ -2558,7 +2968,11 @@ e_cal_model_create_component_with_defaults (ECalModel *model, gboolean all_day)
 
 	switch (priv->kind) {
 	case ICAL_VEVENT_COMPONENT :
-		comp = cal_comp_event_new_with_defaults (client, all_day);
+		comp = cal_comp_event_new_with_defaults (
+			client, all_day,
+			e_cal_model_get_use_default_reminder (model),
+			e_cal_model_get_default_reminder_interval (model),
+			e_cal_model_get_default_reminder_units (model));
 		break;
 	case ICAL_VTODO_COMPONENT :
 		comp = cal_comp_task_new_with_defaults (client);

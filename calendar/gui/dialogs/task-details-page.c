@@ -33,7 +33,6 @@
 #include <glib/gi18n.h>
 #include <misc/e-dateedit.h>
 #include <misc/e-url-entry.h>
-#include "../calendar-config.h"
 #include "../e-timezone-entry.h"
 #include "comp-editor-util.h"
 #include "task-details-page.h"
@@ -227,11 +226,14 @@ task_details_page_fill_widgets (CompEditorPage *page,
 	gint *priority_value, *percent = NULL;
 	TaskEditorPriority priority;
 	icalproperty_status status;
+	CompEditor *editor;
 	const gchar *url;
 	struct icaltimetype *completed = NULL;
 
 	tdpage = TASK_DETAILS_PAGE (page);
 	priv = tdpage->priv;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tdpage));
 
 	/* Clean the screen */
 	clear_widgets (tdpage);
@@ -274,7 +276,7 @@ task_details_page_fill_widgets (CompEditorPage *page,
 		/* Completed is in UTC, but that would confuse the user, so
 		   we convert it to local time. */
 		utc_zone = icaltimezone_get_utc_timezone ();
-		zone = calendar_config_get_icaltimezone ();
+		zone = comp_editor_get_timezone (editor);
 
 		icaltimezone_convert_time (completed, utc_zone, zone);
 
@@ -316,13 +318,17 @@ task_details_page_fill_component (CompEditorPage *page,
 	struct icaltimetype icalcomplete, icaltoday;
 	icalproperty_status status;
 	TaskEditorPriority priority;
+	CompEditor *editor;
 	gint priority_value, percent;
 	gchar *url;
 	gboolean date_set;
-	icaltimezone *zone = calendar_config_get_icaltimezone ();
+	icaltimezone *zone;
 
 	tdpage = TASK_DETAILS_PAGE (page);
 	priv = tdpage->priv;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tdpage));
+	zone = comp_editor_get_timezone (editor);
 
 	/* Percent Complete. */
 	percent = gtk_spin_button_get_value_as_int (
@@ -661,14 +667,19 @@ init_widgets (TaskDetailsPage *tdpage)
 {
 	TaskDetailsPagePrivate *priv;
 	GtkAdjustment *adjustment;
+	CompEditor *editor;
 
 	priv = tdpage->priv;
 
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tdpage));
+
 	/* Make sure the EDateEdit widgets use our timezones to get the
 	   current time. */
-	e_date_edit_set_get_time_callback (E_DATE_EDIT (priv->completed_date),
-					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
-					   tdpage, NULL);
+	e_date_edit_set_get_time_callback (
+		E_DATE_EDIT (priv->completed_date),
+		(EDateEditGetTimeCallback) comp_editor_get_current_time,
+		g_object_ref (editor),
+		(GDestroyNotify) g_object_unref);
 
 	/* These are created by hand, so hook the mnemonics manually */
 	gtk_label_set_mnemonic_widget (

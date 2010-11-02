@@ -612,7 +612,5 @@ e_task_shell_view_update_timezone (ETaskShellView *task_shell_view)
 			e_cal_set_default_timezone (client, timezone, NULL);
 	}
 
-	e_cal_component_preview_set_default_timezone (task_preview, timezone);
-
 	g_list_free (clients);
 }

@@ -35,7 +35,6 @@
 
 #include <gtk/gtk.h>
 #include "e-calendar-view.h"
-#include "calendar-config.h"
 #include "comp-util.h"
 
 #include <text/e-text.h>
@@ -731,7 +730,6 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 	cairo_pattern_t *pat;
 	guint16 red, green, blue;
 	gdouble radius, cx0, cy0, rect_height, rect_width;
-	gboolean gradient;
 	gdouble cc = 65535.0;
 	GdkRegion *draw_region;
 	GdkRectangle rect;
@@ -790,7 +788,6 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 	}
 
 	cr = gdk_cairo_create (drawable);
-	gradient = calendar_config_get_display_events_gradient ();
 
 	icon_y = y1 + E_WEEK_VIEW_EVENT_BORDER_HEIGHT + E_WEEK_VIEW_ICON_Y_PAD;
 
@@ -863,17 +860,12 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			cairo_save (cr);
 			draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
 
-			if (gradient) {
-				pat = cairo_pattern_create_linear (rect_x + 2, y1 + 1, rect_x + 2, y2 - 7.25);
-				cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
-				cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.4);
-				cairo_set_source (cr, pat);
-				cairo_fill_preserve (cr);
-				cairo_pattern_destroy (pat);
-			} else {
-				cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0.8);
-				cairo_fill_preserve (cr);
-			}
+			pat = cairo_pattern_create_linear (rect_x + 2, y1 + 1, rect_x + 2, y2 - 7.25);
+			cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
+			cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.4);
+			cairo_set_source (cr, pat);
+			cairo_fill_preserve (cr);
+			cairo_pattern_destroy (pat);
 			cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0.2);
 			cairo_set_line_width (cr, 0.5);
 			cairo_stroke (cr);
@@ -981,17 +973,12 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			cairo_save (cr);
 			draw_curved_rectangle (cr, cx0, cy0, rect_width, rect_height, radius);
 
-			if (gradient) {
-				pat = cairo_pattern_create_linear (rect_x + 2, y1 + 1, rect_x + 2, y2 - 7.25);
-				cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
-				cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.4);
-				cairo_set_source (cr, pat);
-				cairo_fill_preserve (cr);
-				cairo_pattern_destroy (pat);
-			} else {
-				cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0.8);
-				cairo_fill_preserve (cr);
-			}
+			pat = cairo_pattern_create_linear (rect_x + 2, y1 + 1, rect_x + 2, y2 - 7.25);
+			cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
+			cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.4);
+			cairo_set_source (cr, pat);
+			cairo_fill_preserve (cr);
+			cairo_pattern_destroy (pat);
 			cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0.2);
 			cairo_set_line_width (cr, 0.5);
 			cairo_stroke (cr);

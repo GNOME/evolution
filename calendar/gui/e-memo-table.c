@@ -981,12 +981,15 @@ get_selected_comp (EMemoTable *memo_table)
 static void
 memo_table_delete_selection (ESelectable *selectable)
 {
+	ECalModel *model;
 	EMemoTable *memo_table;
 	ECalComponent *comp = NULL;
 	ECalModelComponent *comp_data;
+	gboolean delete = TRUE;
 	gint n_selected;
 
 	memo_table = E_MEMO_TABLE (selectable);
+	model = e_memo_table_get_model (memo_table);
 
 	n_selected = e_table_selected_count (E_TABLE (memo_table));
 	if (n_selected <= 0)
@@ -1005,9 +1008,13 @@ memo_table_delete_selection (ESelectable *selectable)
 			comp, icalcomponent_new_clone (comp_data->icalcomp));
 	}
 
-	if (delete_component_dialog (
-		comp, FALSE, n_selected, E_CAL_COMPONENT_JOURNAL,
-		GTK_WIDGET (memo_table)))
+	if (e_cal_model_get_confirm_delete (model))
+		delete = delete_component_dialog (
+			comp, FALSE, n_selected,
+			E_CAL_COMPONENT_JOURNAL,
+			GTK_WIDGET (memo_table));
+
+	if (delete)
 		delete_selected_components (memo_table);
 
 	/* free memory */

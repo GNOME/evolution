@@ -36,9 +36,7 @@
 #include "widgets/misc/e-preferences-window.h"
 
 #include "calendar/common/authentication.h"
-#include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
-#include "calendar/gui/dialogs/cal-prefs-dialog.h"
 #include "calendar/gui/dialogs/calendar-setup.h"
 #include "calendar/gui/dialogs/event-editor.h"
 #include "calendar/gui/e-calendar-view.h"
@@ -50,6 +48,8 @@
 #include "e-cal-shell-settings.h"
 #include "e-cal-shell-sidebar.h"
 #include "e-cal-shell-view.h"
+
+#include "e-calendar-preferences.h"
 
 #define E_CAL_SHELL_BACKEND_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -73,9 +73,10 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	/* XXX This is basically the same algorithm across all backends.
 	 *     Maybe we could somehow integrate this into EShellBackend? */
 
-	ECalShellBackendPrivate *priv;
+	ECalShellBackend *cal_shell_backend;
 	ESourceGroup *on_this_computer;
 	ESourceGroup *contacts;
+	ESourceList *source_list;
 	ESource *birthdays;
 	ESource *personal;
 	EShell *shell;
@@ -88,24 +89,28 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	birthdays = NULL;
 	personal = NULL;
 
-	priv = E_CAL_SHELL_BACKEND_GET_PRIVATE (shell_backend);
+	cal_shell_backend = E_CAL_SHELL_BACKEND (shell_backend);
 
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	if (!e_cal_get_sources (&priv->source_list, E_CAL_SOURCE_TYPE_EVENT, NULL)) {
+	if (!e_cal_get_sources (
+		&cal_shell_backend->priv->source_list,
+		E_CAL_SOURCE_TYPE_EVENT, NULL)) {
 		g_warning ("Could not get calendar sources from GConf!");
 		return;
 	}
 
+	source_list = cal_shell_backend->priv->source_list;
+
 	on_this_computer = e_source_list_ensure_group (
-		priv->source_list, _("On This Computer"), "local:", TRUE);
+		source_list, _("On This Computer"), "local:", TRUE);
 	contacts = e_source_list_ensure_group (
-		priv->source_list, _("Contacts"), "contacts://", TRUE);
+		source_list, _("Contacts"), "contacts://", TRUE);
 	e_source_list_ensure_group (
-		priv->source_list, _("On The Web"), "webcal://", FALSE);
+		source_list, _("On The Web"), "webcal://", FALSE);
 	e_source_list_ensure_group (
-		priv->source_list, _("Weather"), "weather://", FALSE);
+		source_list, _("Weather"), "weather://", FALSE);
 
 	g_return_if_fail (on_this_computer != NULL);
 	g_return_if_fail (contacts != NULL);
@@ -140,7 +145,8 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 		primary = e_shell_settings_get_string (
 			shell_settings, "cal-primary-calendar");
 
-		selected = calendar_config_get_calendars_selected ();
+		selected = e_cal_shell_backend_get_selected_calendars (
+			cal_shell_backend);
 
 		if (primary == NULL && selected == NULL) {
 			const gchar *uid;
@@ -150,7 +156,8 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 
 			e_shell_settings_set_string (
 				shell_settings, "cal-primary-calendar", uid);
-			calendar_config_set_calendars_selected (selected);
+			e_cal_shell_backend_set_selected_calendars (
+				cal_shell_backend, selected);
 		}
 
 		g_slist_foreach (selected, (GFunc) g_free, NULL);
@@ -217,7 +224,7 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	g_object_unref (contacts);
 
 	if (save_list)
-		e_source_list_sync (priv->source_list, NULL);
+		e_source_list_sync (source_list, NULL);
 }
 
 static void
@@ -229,14 +236,26 @@ cal_shell_backend_new_event (ESource *source,
 {
 	ECal *cal;
 	ECalComponent *comp;
+	EShellSettings *shell_settings;
 	CompEditor *editor;
 
 	/* XXX Handle errors better. */
 	cal = e_load_cal_source_finish (source, result, NULL);
 	g_return_if_fail (E_IS_CAL (cal));
 
+	shell_settings = e_shell_get_shell_settings (shell);
+
 	editor = event_editor_new (cal, shell, flags);
-	comp = cal_comp_event_new_with_current_time (cal, all_day);
+	comp = cal_comp_event_new_with_current_time (
+		cal, all_day,
+		e_shell_settings_get_pointer (
+			shell_settings, "cal-timezone"),
+		e_shell_settings_get_boolean (
+			shell_settings, "cal-use-default-reminder"),
+		e_shell_settings_get_int (
+			shell_settings, "cal-default-reminder-interval"),
+		e_shell_settings_get_int (  /* enum, actually */
+			shell_settings, "cal-default-reminder-units"));
 	e_cal_component_commit_sequence (comp);
 	comp_editor_edit_comp (editor, comp);
 
@@ -452,10 +471,9 @@ cal_shell_backend_init_importers (void)
 }
 
 static time_t
-utc_to_user_zone (time_t utc_time)
+utc_to_user_zone (time_t utc_time,
+                  icaltimezone *zone)
 {
-	icaltimezone *zone = calendar_config_get_icaltimezone ();
-
 	if (!zone || (int) utc_time == -1)
 		return utc_time;
 
@@ -468,6 +486,7 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
                                  const gchar *uri)
 {
 	EShell *shell;
+	EShellSettings *shell_settings;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
 	ECal *client;
@@ -484,11 +503,15 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	gchar *comp_rid = NULL;
 	GDate start_date;
 	GDate end_date;
+	icaltimezone *zone;
 	gboolean handled = FALSE;
 	GError *error = NULL;
 
 	source_type = E_CAL_SOURCE_TYPE_EVENT;
 	shell = e_shell_backend_get_shell (shell_backend);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	zone = e_shell_settings_get_pointer (shell_settings, "cal-timezone");
 
 	if (strncmp (uri, "calendar:", 9) != 0)
 		return FALSE;
@@ -522,10 +545,12 @@ cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 		content = g_strndup (cp, content_len);
 		if (g_ascii_strcasecmp (header, "startdate") == 0)
 			g_date_set_time_t (
-				&start_date, utc_to_user_zone (time_from_isodate (content)));
+				&start_date, utc_to_user_zone (
+				time_from_isodate (content), zone));
 		else if (g_ascii_strcasecmp (header, "enddate") == 0)
 			g_date_set_time_t (
-				&end_date, utc_to_user_zone (time_from_isodate (content)));
+				&end_date, utc_to_user_zone (
+				time_from_isodate (content), zone));
 		else if (g_ascii_strcasecmp (header, "source-uid") == 0)
 			source_uid = g_strdup (content);
 		else if (g_ascii_strcasecmp (header, "comp-uid") == 0)
@@ -727,7 +752,7 @@ cal_shell_backend_constructed (GObject *object)
 		"calendar-and-tasks",
 		"preferences-calendar-and-tasks",
 		_("Calendar and Tasks"),
-		calendar_prefs_dialog_new,
+		e_calendar_preferences_new,
 		600);
 }
 
@@ -833,6 +858,41 @@ e_cal_shell_backend_get_source_list (ECalShellBackend *cal_shell_backend)
 		E_IS_CAL_SHELL_BACKEND (cal_shell_backend), NULL);
 
 	return cal_shell_backend->priv->source_list;
+}
+
+GSList *
+e_cal_shell_backend_get_selected_calendars (ECalShellBackend *cal_shell_backend)
+{
+	GConfClient *client;
+	GSList *selected_calendars;
+	const gchar *key;
+
+	g_return_val_if_fail (
+		E_IS_CAL_SHELL_BACKEND (cal_shell_backend), NULL);
+
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/calendar/display/selected_calendars";
+	selected_calendars = gconf_client_get_list (
+		client, key, GCONF_VALUE_STRING, NULL);
+	g_object_unref (client);
+
+	return selected_calendars;
+}
+
+void
+e_cal_shell_backend_set_selected_calendars (ECalShellBackend *cal_shell_backend,
+                                            GSList *selected_calendars)
+{
+	GConfClient *client;
+	const gchar *key;
+
+	g_return_if_fail (E_IS_CAL_SHELL_BACKEND (cal_shell_backend));
+
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/calendar/display/selected_calendars";
+	gconf_client_set_list (
+		client, key, GCONF_VALUE_STRING, selected_calendars, NULL);
+	g_object_unref (client);
 }
 
 void

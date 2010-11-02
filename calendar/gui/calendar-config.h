@@ -54,76 +54,19 @@ void calendar_config_remove_notification (guint id);
  * Calendar Settings.
  */
 
-/* The current list of calendars selected */
-GSList   *calendar_config_get_calendars_selected (void);
-void	  calendar_config_set_calendars_selected (GSList *selected);
-
 /* The current timezone, e.g. "Europe/London". */
 icaltimezone *calendar_config_get_icaltimezone (void);
 
 /* The working days of the week, a bit-wise combination of flags. */
 CalWeekdays calendar_config_get_working_days	(void);
 
-/* The start day of the week (0 = Sun to 6 = Sat). */
-gint	  calendar_config_get_week_start_day	(void);
-
-/* The start and end times of the work-day. */
-gint	  calendar_config_get_day_start_hour	(void);
-void	  calendar_config_set_day_start_hour	(gint	      day_start_hour);
-
-gint	  calendar_config_get_day_start_minute	(void);
-void	  calendar_config_set_day_start_minute	(gint	      day_start_min);
-
-gint	  calendar_config_get_day_end_hour	(void);
-void	  calendar_config_set_day_end_hour	(gint	      day_end_hour);
-
-gint	  calendar_config_get_day_end_minute	(void);
-void	  calendar_config_set_day_end_minute	(gint	      day_end_min);
-
 /* Whether we use 24-hour format or 12-hour format (AM/PM). */
 gboolean  calendar_config_get_24_hour_format	(void);
 
-/* The time divisions in the Day/Work-Week view in minutes (5/10/15/30/60). */
-gint	  calendar_config_get_time_divisions	(void);
-void	  calendar_config_set_time_divisions	(gint	      divisions);
-
-/* Whether we compress the weekend in the week/month views. */
-gboolean  calendar_config_get_compress_weekend	(void);
-
-/* The current list of task lists selected */
-GSList   *calendar_config_get_tasks_selected (void);
-void	  calendar_config_set_tasks_selected (GSList *selected);
-
-/* The current list of memo lists selected */
-GSList   *calendar_config_get_memos_selected (void);
-void	  calendar_config_set_memos_selected (GSList *selected);
-
 /* Settings to hide completed tasks. */
 gboolean  calendar_config_get_hide_completed_tasks	(void);
-void	  calendar_config_set_hide_completed_tasks	(gboolean	hide);
-
-EDurationType
-	  calendar_config_get_hide_completed_tasks_units (void);
-void	  calendar_config_set_hide_completed_tasks_units (EDurationType units);
-
-gint	  calendar_config_get_hide_completed_tasks_value (void);
-void	  calendar_config_set_hide_completed_tasks_value (gint		value);
 
 gchar *	  calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed);
-
-/* Confirmation options */
-gboolean  calendar_config_get_confirm_delete (void);
-
-/* Default reminder options */
-gboolean calendar_config_get_use_default_reminder (void);
-void     calendar_config_set_use_default_reminder (gboolean value);
-
-gint      calendar_config_get_default_reminder_interval (void);
-void     calendar_config_set_default_reminder_interval (gint interval);
-
-EDurationType
-	 calendar_config_get_default_reminder_units (void);
-void     calendar_config_set_default_reminder_units (EDurationType units);
 
 /* Returns TRUE if the locale has 'am' and 'pm' strings defined, i.e. it
    supports 12-hour time format. */
@@ -139,20 +82,8 @@ gchar *  calendar_config_get_day_second_zone (void);
 void    calendar_config_select_day_second_zone (void);
 guint   calendar_config_add_notification_day_second_zone (GConfClientNotifyFunc func, gpointer data);
 
-/* Birthdays & Anniversaries reminder settings */
-gboolean calendar_config_get_ba_reminder (gint *interval, EDurationType *units);
-void calendar_config_set_ba_reminder (gboolean *enabled, gint *interval, EDurationType *units);
-
 /* Scroll in a month view by a week, not by a month */
 gboolean calendar_config_get_month_scroll_by_week (void);
-void calendar_config_set_month_scroll_by_week (gboolean value);
 guint calendar_config_add_notification_month_scroll_by_week (GConfClientNotifyFunc func, gpointer data);
-
-/* default count for recurring events */
-gint calendar_config_get_default_count (void);
-
-/* event drawing customization, one-time read on start only */
-gboolean calendar_config_get_display_events_gradient (void);
-gfloat   calendar_config_get_display_events_alpha (void);
 
 #endif /* _CALENDAR_CONFIG_H_ */

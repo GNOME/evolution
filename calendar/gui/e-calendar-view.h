@@ -163,6 +163,11 @@ const gchar *	e_calendar_view_get_default_category
 void		e_calendar_view_set_default_category
 						(ECalendarView *cal_view,
 						 const gchar *category);
+gint		e_calendar_view_get_time_divisions
+						(ECalendarView *cal_view);
+void		e_calendar_view_set_time_divisions
+						(ECalendarView *cal_view,
+						 gint time_divisions);
 void		e_calendar_view_set_status_message
 						(ECalendarView *cal_view,
 						 const gchar *message,

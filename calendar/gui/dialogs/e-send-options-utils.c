@@ -23,7 +23,6 @@
  */
 
 #include "e-send-options-utils.h"
-#include "../calendar-config.h"
 #include <glib.h>
 #include <string.h>
 
@@ -151,7 +150,9 @@ e_send_options_utils_set_default_data (ESendOptionsDialog *sod, ESource *source,
 }
 
 void
-e_send_options_utils_fill_component (ESendOptionsDialog *sod, ECalComponent *comp)
+e_send_options_utils_fill_component (ESendOptionsDialog *sod,
+                                     ECalComponent *comp,
+                                     icaltimezone *zone)
 {
 	gint i = 1;
 	icalproperty *prop;
@@ -189,7 +190,6 @@ e_send_options_utils_fill_component (ESendOptionsDialog *sod, ECalComponent *com
 			struct icaltimetype temp;
 			gchar *str;
 
-			icaltimezone *zone = calendar_config_get_icaltimezone ();
 			temp = icaltime_from_timet_with_zone (gopts->delay_until, FALSE, zone);
 
 			str = icaltime_as_ical_string_r (temp);

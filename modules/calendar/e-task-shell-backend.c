@@ -34,7 +34,6 @@
 #include "shell/e-shell-window.h"
 
 #include "calendar/common/authentication.h"
-#include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/dialogs/calendar-setup.h"
 #include "calendar/gui/dialogs/task-editor.h"
@@ -66,8 +65,9 @@ task_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	/* XXX This is basically the same algorithm across all modules.
 	 *     Maybe we could somehow integrate this into EShellBackend? */
 
-	ETaskShellBackendPrivate *priv;
+	ETaskShellBackend *task_shell_backend;
 	ESourceGroup *on_this_computer;
+	ESourceList *source_list;
 	ESource *personal;
 	EShell *shell;
 	EShellSettings *shell_settings;
@@ -78,20 +78,24 @@ task_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	on_this_computer = NULL;
 	personal = NULL;
 
-	priv = E_TASK_SHELL_BACKEND_GET_PRIVATE (shell_backend);
+	task_shell_backend = E_TASK_SHELL_BACKEND (shell_backend);
 
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	if (!e_cal_get_sources (&priv->source_list, E_CAL_SOURCE_TYPE_TODO, NULL)) {
+	if (!e_cal_get_sources (
+		&task_shell_backend->priv->source_list,
+		E_CAL_SOURCE_TYPE_TODO, NULL)) {
 		g_warning ("Could not get task sources from GConf!");
 		return;
 	}
 
+	source_list = task_shell_backend->priv->source_list;
+
 	on_this_computer = e_source_list_ensure_group (
-		priv->source_list, _("On This Computer"), "local:", TRUE);
+		source_list, _("On This Computer"), "local:", TRUE);
 	e_source_list_ensure_group (
-		priv->source_list, _("On The Web"), "webcal://", FALSE);
+		source_list, _("On The Web"), "webcal://", FALSE);
 
 	g_return_if_fail (on_this_computer);
 
@@ -125,7 +129,8 @@ task_shell_backend_ensure_sources (EShellBackend *shell_backend)
 		primary = e_shell_settings_get_string (
 			shell_settings, "cal-primary-task-list");
 
-		selected = calendar_config_get_tasks_selected ();
+		selected = e_task_shell_backend_get_selected_task_lists (
+			task_shell_backend);
 
 		if (primary == NULL && selected == NULL) {
 			const gchar *uid;
@@ -135,7 +140,8 @@ task_shell_backend_ensure_sources (EShellBackend *shell_backend)
 
 			e_shell_settings_set_string (
 				shell_settings, "cal-primary-task-list", uid);
-			calendar_config_set_tasks_selected (selected);
+			e_task_shell_backend_set_selected_task_lists (
+				task_shell_backend, selected);
 		}
 
 		g_slist_foreach (selected, (GFunc) g_free, NULL);
@@ -149,7 +155,7 @@ task_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	g_object_unref (on_this_computer);
 
 	if (save_list)
-		e_source_list_sync (priv->source_list, NULL);
+		e_source_list_sync (source_list, NULL);
 }
 
 static void
@@ -597,4 +603,39 @@ e_task_shell_backend_get_source_list (ETaskShellBackend *task_shell_backend)
 		E_IS_TASK_SHELL_BACKEND (task_shell_backend), NULL);
 
 	return task_shell_backend->priv->source_list;
+}
+
+GSList *
+e_task_shell_backend_get_selected_task_lists (ETaskShellBackend *task_shell_backend)
+{
+	GConfClient *client;
+	GSList *selected_task_lists;
+	const gchar *key;
+
+	g_return_val_if_fail (
+		E_IS_TASK_SHELL_BACKEND (task_shell_backend), NULL);
+
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/calendar/tasks/selected_tasks";
+	selected_task_lists = gconf_client_get_list (
+		client, key, GCONF_VALUE_STRING, NULL);
+	g_object_unref (client);
+
+	return selected_task_lists;
+}
+
+void
+e_task_shell_backend_set_selected_task_lists (ETaskShellBackend *task_shell_backend,
+                                              GSList *selected_task_lists)
+{
+	GConfClient *client;
+	const gchar *key;
+
+	g_return_if_fail (E_IS_TASK_SHELL_BACKEND (task_shell_backend));
+
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/calendar/tasks/selected_tasks";
+	gconf_client_set_list (
+		client, key, GCONF_VALUE_STRING, selected_task_lists, NULL);
+	g_object_unref (client);
 }

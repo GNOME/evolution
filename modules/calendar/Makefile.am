@@ -17,6 +17,8 @@ libevolution_module_calendar_la_SOURCES =		\
 	e-cal-attachment-handler.h			\
 	e-cal-config-calendar-item.c			\
 	e-cal-config-calendar-item.h			\
+	e-cal-config-comp-editor.c			\
+	e-cal-config-comp-editor.h			\
 	e-cal-config-date-edit.c			\
 	e-cal-config-date-edit.h			\
 	e-cal-config-hook.c				\
@@ -49,6 +51,8 @@ libevolution_module_calendar_la_SOURCES =		\
 	e-cal-shell-view-private.c			\
 	e-cal-shell-view-private.h			\
 	e-cal-shell-view-taskpad.c			\
+	e-calendar-preferences.c			\
+	e-calendar-preferences.h			\
 	e-memo-shell-backend.c				\
 	e-memo-shell-backend.h				\
 	e-memo-shell-content.c				\
@@ -96,5 +100,40 @@ libevolution_module_calendar_la_LIBADD =		\
 
 libevolution_module_calendar_la_LDFLAGS =		\
 	-module -avoid-version $(NO_UNDEFINED)
+
+schemadir = $(GCONF_SCHEMA_FILE_DIR)
+schema_in_files = apps_evolution_calendar.schemas.in
+schema_DATA = $(schema_in_files:.schemas.in=.schemas)
+@INTLTOOL_SCHEMAS_RULE@
+
+ui_DATA = e-calendar-preferences.ui
+
+EXTRA_DIST =			\
+	$(schema_in_files)	\
+	$(ui_DATA)
+
+DISTCLEANFILES = $(schema_DATA)
+
+if GCONF_SCHEMAS_INSTALL
+if OS_WIN32
+install-data-local:
+	if test -z "$(DESTDIR)" ; then							\
+		for p in $(schema_DATA) ; do						\
+			(echo set GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE);	\
+			 echo $(GCONFTOOL) --makefile-install-rule $$p) >_temp.bat;	\
+			cmd /c _temp.bat; 						\
+			rm _temp.bat;							\
+		done									\
+	fi
+else
+install-data-local:
+	if test -z "$(DESTDIR)" ; then							\
+		for p in $(schema_DATA) ; do						\
+			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) 		\
+				$(GCONFTOOL) --makefile-install-rule $$p;		\
+		done									\
+	fi
+endif
+endif
 
 -include $(top_srcdir)/git.mk

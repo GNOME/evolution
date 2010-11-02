@@ -39,7 +39,6 @@
 #include "ea-calendar.h"
 #include "e-calendar-view.h"
 #include "comp-util.h"
-#include "calendar-config.h"
 
 /* backward-compatibility cruft */
 #include "e-util/gtk-compat.h"
@@ -100,11 +99,16 @@ day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *main_item,
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
+	ECalendarView *cal_view;
+	gint time_divisions;
 	gint event_num, start_day, end_day, day, bar_y1, bar_y2, grid_x;
 	cairo_t *cr = NULL;
 	GdkColor bg_color;
 
 	day_view = e_day_view_main_item_get_day_view (main_item);
+
+	cal_view = E_CALENDAR_VIEW (day_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	for (event_num = 0; event_num < day_view->long_events->len; event_num++) {
 		gboolean first = TRUE;
@@ -136,13 +140,13 @@ day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *main_item,
 			if (event->start <= day_view->day_starts[day]) {
 				bar_y1 = 0;
 			} else {
-				bar_y1 = event->start_minute * day_view->row_height / day_view->mins_per_row - y;
+				bar_y1 = event->start_minute * day_view->row_height / time_divisions - y;
 			}
 
 			if (event->end >= day_view->day_starts[day + 1]) {
 				bar_y2 = height;
 			} else {
-				bar_y2 = event->end_minute * day_view->row_height / day_view->mins_per_row - y;
+				bar_y2 = event->end_minute * day_view->row_height / time_divisions - y;
 			}
 
 			if (bar_y1 < height && bar_y2 > 0 && bar_y2 > bar_y1 && can_draw_in_region (draw_region, grid_x, bar_y1, E_DAY_VIEW_BAR_WIDTH - 2, bar_y2 - bar_y1)) {
@@ -191,6 +195,8 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	EDayView *day_view;
 	EDayViewEvent *event;
 	ECalModel *model;
+	ECalendarView *cal_view;
+	gint time_divisions;
 	gint item_x, item_y, item_w, item_h, bar_y1, bar_y2;
 	GdkColor bg_color;
 	ECalComponent *comp;
@@ -205,8 +211,6 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	guint16 red, green, blue;
 	gint i;
 	gdouble radius, x0, y0, rect_height, rect_width, text_x_offset = 0.0;
-	gfloat alpha;
-	gboolean gradient;
 	gdouble cc = 65535.0;
 	gdouble date_fraction;
 	gboolean short_event = FALSE, resize_flag = FALSE, is_editing;
@@ -223,7 +227,10 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	gint row_y;
 
 	day_view = e_day_view_main_item_get_day_view (main_item);
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+
+	cal_view = E_CALENDAR_VIEW (day_view);
+	model = e_calendar_view_get_model (cal_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	/* If the event is currently being dragged, don't draw it. It will
 	   be drawn in the special drag items. */
@@ -245,9 +252,6 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	cr = gdk_cairo_create (drawable);
 	gdk_cairo_set_source_color (cr,
 			&day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR]);
-
-	gradient = calendar_config_get_display_events_gradient ();
-	alpha = calendar_config_get_display_events_alpha ();
 
 	font_options = get_font_options ();
 
@@ -441,7 +445,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 	draw_curved_rectangle (cr, x0, y0, rect_width, rect_height, radius);
 
-	cairo_set_source_rgba (cr, 1, 1, 1, alpha);
+	cairo_set_source_rgba (cr, 1, 1, 1, 1.0);
 	cairo_fill (cr);
 
 	cairo_restore (cr);
@@ -478,10 +482,11 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	date_fraction = rect_height / day_view->row_height;
 	interval = event->end_minute - event->start_minute;
 
-	if ((interval/day_view->mins_per_row) >= 2)
+	if ((interval / time_divisions) >= 2)
 		short_event = FALSE;
-	else if ((interval%day_view->mins_per_row)==0) {
-		if (((event->end_minute%day_view->mins_per_row) == 0) || ((event->start_minute%day_view->mins_per_row) == 0))
+	else if ((interval % time_divisions) == 0) {
+		if (((event->end_minute % time_divisions) == 0) ||
+		    ((event->start_minute % time_divisions) == 0))
 			short_event = TRUE;
 		}
 	else
@@ -490,25 +495,20 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	if (is_editing)
 		short_event = TRUE;
 
-	if (gradient) {
-		pat = cairo_pattern_create_linear (item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + 7.75,
-							item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + item_h - 7.75);
-		if (!short_event) {
-			cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
-			cairo_pattern_add_color_stop_rgba (pat, 1/(date_fraction + (rect_height/18)), red/cc, green/cc, blue/cc, 0.8);
-			cairo_pattern_add_color_stop_rgba (pat, 1/(date_fraction + (rect_height/18)), red/cc, green/cc, blue/cc, 0.4);
-			cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
-		} else {
-			cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
-			cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.4);
-		}
-		cairo_set_source (cr, pat);
-		cairo_fill_preserve (cr);
-		cairo_pattern_destroy (pat);
+	pat = cairo_pattern_create_linear (item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + 7.75,
+						item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + item_h - 7.75);
+	if (!short_event) {
+		cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
+		cairo_pattern_add_color_stop_rgba (pat, 1/(date_fraction + (rect_height/18)), red/cc, green/cc, blue/cc, 0.8);
+		cairo_pattern_add_color_stop_rgba (pat, 1/(date_fraction + (rect_height/18)), red/cc, green/cc, blue/cc, 0.4);
+		cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
 	} else {
-		cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0.8);
-		cairo_fill_preserve (cr);
+		cairo_pattern_add_color_stop_rgba (pat, 1, red/cc, green/cc, blue/cc, 0.8);
+		cairo_pattern_add_color_stop_rgba (pat, 0, red/cc, green/cc, blue/cc, 0.4);
 	}
+	cairo_set_source (cr, pat);
+	cairo_fill_preserve (cr);
+	cairo_pattern_destroy (pat);
 
 	cairo_set_source_rgba (cr, red/cc, green/cc, blue/cc, 0.2);
 	cairo_set_line_width (cr, 0.5);
@@ -530,8 +530,8 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 	/* Draw the vertical colored bar showing when the appointment
 	   begins & ends. */
-	bar_y1 = event->start_minute * day_view->row_height / day_view->mins_per_row - y;
-	bar_y2 = event->end_minute * day_view->row_height / day_view->mins_per_row - y;
+	bar_y1 = event->start_minute * day_view->row_height / time_divisions - y;
+	bar_y2 = event->end_minute * day_view->row_height / time_divisions - y;
 
 	scroll_flag = bar_y2;
 
@@ -588,9 +588,9 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	}
 
 	if (bar_y2 > scroll_flag)
-		event->end_minute += day_view->mins_per_row;
+		event->end_minute += time_divisions;
 	else if (bar_y2 < scroll_flag)
-		event->end_minute -= day_view->mins_per_row;
+		event->end_minute -= time_divisions;
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
@@ -735,9 +735,9 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 	if (!short_event)
 	{
-		if (event->start_minute % day_view->mins_per_row != 0
+		if (event->start_minute % time_divisions != 0
 			|| (day_view->show_event_end_times
-			&& event->end_minute % day_view->mins_per_row != 0)) {
+			&& event->end_minute % time_divisions != 0)) {
 				offset = day_view->first_hour_shown * 60
 				+ day_view->first_minute_shown;
 				show_span = TRUE;
@@ -747,7 +747,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 		start_minute = offset + event->start_minute;
 		end_minute = offset + event->end_minute;
 
-		format_time = (((end_minute - start_minute)/day_view->mins_per_row) >= 2) ? TRUE : FALSE;
+		format_time = (((end_minute - start_minute) / time_divisions) >= 2) ? TRUE : FALSE;
 
 		start_hour = start_minute / 60;
 		start_minute = start_minute % 60;
@@ -865,11 +865,16 @@ day_view_main_item_draw_events_in_vbars (EDayViewMainItem *main_item,
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
+	ECalendarView *cal_view;
+	gint time_divisions;
 	gint grid_x, event_num, bar_y, bar_h;
 	cairo_t *cr = NULL;
 	GdkColor bg_color;
 
 	day_view = e_day_view_main_item_get_day_view (main_item);
+
+	cal_view = E_CALENDAR_VIEW (day_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	grid_x = day_view->day_offsets[day] + 1 - x;
 
@@ -886,8 +891,8 @@ day_view_main_item_draw_events_in_vbars (EDayViewMainItem *main_item,
 			continue;
 		}
 
-		bar_y = event->start_minute * day_view->row_height / day_view->mins_per_row;
-		bar_h = event->end_minute * day_view->row_height / day_view->mins_per_row - bar_y;
+		bar_y = event->start_minute * day_view->row_height / time_divisions;
+		bar_h = event->end_minute * day_view->row_height / time_divisions - bar_y;
 		bar_y -= y;
 
 		/* Skip it if it isn't visible. */
@@ -1005,6 +1010,13 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 {
 	EDayViewMainItem *main_item;
 	EDayView *day_view;
+	ECalendarView *cal_view;
+	ECalModel *model;
+	gint time_divisions;
+	gint work_day_start_hour;
+	gint work_day_start_minute;
+	gint work_day_end_hour;
+	gint work_day_end_minute;
 	gint row, row_y, grid_x1, grid_x2;
 	gint day, grid_y1, grid_y2;
 	gint work_day_start_y, work_day_end_y;
@@ -1023,6 +1035,15 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	day_view = e_day_view_main_item_get_day_view (main_item);
 	g_return_if_fail (day_view != NULL);
 
+	cal_view = E_CALENDAR_VIEW (day_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
+
+	model = e_calendar_view_get_model (cal_view);
+	work_day_start_hour = e_cal_model_get_work_day_start_hour (model);
+	work_day_start_minute = e_cal_model_get_work_day_start_minute (model);
+	work_day_end_hour = e_cal_model_get_work_day_end_hour (model);
+	work_day_end_minute = e_cal_model_get_work_day_end_minute (model);
+
 	rect.x = 0;
 	rect.y = 0;
 	rect.width = width;
@@ -1030,8 +1051,10 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	draw_region = gdk_region_rectangle (&rect);
 
 	/* Paint the background colors. */
-	work_day_start_y = e_day_view_convert_time_to_position (day_view, day_view->work_day_start_hour, day_view->work_day_start_minute) - y;
-	work_day_end_y = e_day_view_convert_time_to_position (day_view, day_view->work_day_end_hour, day_view->work_day_end_minute) - y;
+	work_day_start_y = e_day_view_convert_time_to_position (
+		day_view, work_day_start_hour, work_day_start_minute) - y;
+	work_day_end_y = e_day_view_convert_time_to_position (
+		day_view, work_day_end_hour, work_day_end_minute) - y;
 
 	today_tt = icaltime_from_timet_with_zone (time (NULL), FALSE,
 						  e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
@@ -1220,7 +1243,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 
 				grid_x1 = day_view->day_offsets[day] - x + E_DAY_VIEW_BAR_WIDTH;
 				grid_x2 = day_view->day_offsets[day + 1] - x - 1;
-				marcus_bains_y = (time_now.hour * 60 + time_now.minute) * day_view->row_height / day_view->mins_per_row - y;
+				marcus_bains_y = (time_now.hour * 60 + time_now.minute) * day_view->row_height / time_divisions - y;
 				cairo_set_line_width (cr, 1.5);
 				cairo_move_to (cr, grid_x1, marcus_bains_y);
 				cairo_line_to (cr, grid_x2, marcus_bains_y);

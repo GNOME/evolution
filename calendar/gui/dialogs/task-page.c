@@ -40,7 +40,6 @@
 #include <e-util/e-dialog-utils.h>
 #include "common/authentication.h"
 #include "../e-timezone-entry.h"
-#include "../calendar-config.h"
 #include "comp-editor.h"
 #include "comp-editor-util.h"
 #include "e-send-options-utils.h"
@@ -588,7 +587,7 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_cal_component_free_text_list (l);
 	e_buffer_tagger_update_tags (GTK_TEXT_VIEW (priv->description));
 
-	default_zone = calendar_config_get_icaltimezone ();
+	default_zone = comp_editor_get_timezone (editor);
 
 	/* Due Date. */
 	e_cal_component_get_due (comp, &d);
@@ -938,8 +937,10 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	e_cal_component_set_classification (comp, classification);
 
 	/* send options */
-	if (priv->sendoptions_shown && priv->sod)
-		e_send_options_utils_fill_component (priv->sod, comp);
+	if (priv->sendoptions_shown && priv->sod) {
+		icaltimezone *zone = comp_editor_get_timezone (editor);
+		e_send_options_utils_fill_component (priv->sod, comp, zone);
+	}
 
 	/* Categories */
 	cat = e_dialog_editable_get (priv->categories);
@@ -1726,7 +1727,7 @@ source_changed_cb (ESourceComboBox *source_combo_box, TaskPage *tpage)
 	if (client) {
 		icaltimezone *zone;
 
-		zone = calendar_config_get_icaltimezone ();
+		zone = comp_editor_get_timezone (editor);
 		e_cal_set_default_timezone (client, zone, NULL);
 	}
 
@@ -1842,12 +1843,16 @@ init_widgets (TaskPage *tpage)
 
 	/* Make sure the EDateEdit widgets use our timezones to get the
 	   current time. */
-	e_date_edit_set_get_time_callback (E_DATE_EDIT (priv->start_date),
-					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
-					   tpage, NULL);
-	e_date_edit_set_get_time_callback (E_DATE_EDIT (priv->due_date),
-					   (EDateEditGetTimeCallback) comp_editor_get_current_time,
-					   tpage, NULL);
+	e_date_edit_set_get_time_callback (
+		E_DATE_EDIT (priv->start_date),
+		(EDateEditGetTimeCallback) comp_editor_get_current_time,
+		g_object_ref (editor),
+		(GDestroyNotify) g_object_unref);
+	e_date_edit_set_get_time_callback (
+		E_DATE_EDIT (priv->due_date),
+		(EDateEditGetTimeCallback) comp_editor_get_current_time,
+		g_object_ref (editor),
+		(GDestroyNotify) g_object_unref);
 
 	/* Generic informative messages */
 	gtk_widget_hide (priv->info_hbox);
@@ -1931,7 +1936,7 @@ init_widgets (TaskPage *tpage)
 	g_signal_connect (priv->list_view, "attendee_added", G_CALLBACK (attendee_added_cb), tpage);
 
 	/* Set the default timezone, so the timezone entry may be hidden. */
-	zone = calendar_config_get_icaltimezone ();
+	zone = comp_editor_get_timezone (editor);
 	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->timezone), zone);
 
 	action = comp_editor_get_action (editor, "view-time-zone");
