@@ -280,8 +280,10 @@ gnome_canvas_pixbuf_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
         cr = gdk_cairo_create (drawable);
         gnome_canvas_item_i2c_matrix (item, &matrix);
-        if (cairo_matrix_invert (&matrix))
+        if (cairo_matrix_invert (&matrix)) {
+		cairo_destroy (cr);
                 return;
+	}
         cairo_transform (cr, &matrix);
         
         gdk_cairo_set_source_pixbuf (cr, priv->pixbuf, 0, 0);

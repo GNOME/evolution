@@ -76,8 +76,6 @@ day_view_top_item_draw_triangle (EDayViewTopItem *top_item,
 	gint c1, c2;
 	cairo_t *cr;
 
-	cr = gdk_cairo_create (drawable);
-
 	day_view = e_day_view_top_item_get_day_view (top_item);
 
 	points[0].x = x;
@@ -101,6 +99,8 @@ day_view_top_item_draw_triangle (EDayViewTopItem *top_item,
 
 	if (!is_comp_data_valid (event))
 		return;
+
+	cr = gdk_cairo_create (drawable);
 
 	cairo_save (cr);
 	/* Fill it in. */
@@ -181,8 +181,6 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	day_view = e_day_view_top_item_get_day_view (top_item);
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 
-	cr = gdk_cairo_create (drawable);
-
 	gradient = calendar_config_get_display_events_gradient ();
 	alpha = calendar_config_get_display_events_alpha ();
 
@@ -206,6 +204,8 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 
 	if (!is_comp_data_valid (event))
 		return;
+
+	cr = gdk_cairo_create (drawable);
 
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
 	comp = e_cal_component_new ();

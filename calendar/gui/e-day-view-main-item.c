@@ -251,14 +251,18 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 
 	font_options = get_font_options ();
 
-	if (!is_array_index_in_bounds (day_view->events[day], event_num))
+	if (!is_array_index_in_bounds (day_view->events[day], event_num)) {
+		cairo_destroy (cr);
 		return;
+	}
 
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
 
-	if (!is_comp_data_valid (event))
+	if (!is_comp_data_valid (event)) {
+		cairo_destroy (cr);
 		return;
+	}
 
 	/* Fill in the event background. Note that for events in the first
 	   column of the day, we might not want to paint over the vertical bar,
