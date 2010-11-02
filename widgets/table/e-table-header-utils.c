@@ -290,8 +290,10 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	inner_width = button_width - 2 * (xthick + HEADER_PADDING);
 	inner_height = button_height - 2 * (ythick + HEADER_PADDING);
 
-	if (inner_width < 1 || inner_height < 1)
+	if (inner_width < 1 || inner_height < 1) {
+		cairo_destroy (cr);
 		return; /* nothing fits */
+	}
 
 	inner_x = x + xthick + HEADER_PADDING;
 	inner_y = y + ythick + HEADER_PADDING;
@@ -314,8 +316,10 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 		g_return_if_reached ();
 	}
 
-	if (inner_width < 1)
+	if (inner_width < 1) {
+		cairo_destroy (cr);
 		return; /* nothing else fits */
+	}
 
 	layout = build_header_layout (widget, ecol->text);
         pango_layout_set_ellipsize (layout, PANGO_ELLIPSIZE_END);

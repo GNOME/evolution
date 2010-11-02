@@ -1443,8 +1443,10 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	if (!text->preedit_len)
 		reset_layout (text);
 
-	if (!pango_layout_get_text (text->layout))
+	if (!pango_layout_get_text (text->layout)) {
+		cairo_destroy (cr);
 		return;
+	}
 
 	xpos = text->text_cx;
 	ypos = text->text_cy;
@@ -1514,6 +1516,8 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			}
 		}
 	}
+
+	cairo_destroy (cr);
 }
 
 /* Point handler for the text item */
