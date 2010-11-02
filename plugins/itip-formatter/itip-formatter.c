@@ -43,7 +43,6 @@
 #include <libedataserver/e-account-list.h>
 #include <e-util/e-alert-dialog.h>
 #include <e-util/e-mktemp.h>
-#include <calendar/gui/calendar-config.h>
 #include <calendar/gui/itip-utils.h>
 #include <calendar/common/authentication.h>
 #include <shell/e-shell.h>
@@ -542,9 +541,14 @@ static ECal *
 start_calendar_server (struct _itip_puri *pitip, ESource *source, ECalSourceType type, FormatItipOpenFunc func, gpointer data)
 {
 	ECal *ecal;
+	EShell *shell;
+	EShellSettings *shell_settings;
 	icaltimezone *zone = NULL;
 
 	g_return_val_if_fail (source != NULL, NULL);
+
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	ecal = g_hash_table_lookup (pitip->ecals[type], e_source_peek_uid (source));
 	if (ecal) {
@@ -567,7 +571,7 @@ start_calendar_server (struct _itip_puri *pitip, ESource *source, ECalSourceType
 
 	g_hash_table_insert (pitip->ecals[type], g_strdup (e_source_peek_uid (source)), ecal);
 
-	zone = calendar_config_get_icaltimezone ();
+	zone = e_shell_settings_get_pointer (shell_settings, "cal-timezone");
 	e_cal_set_default_timezone (ecal, zone, NULL);
 
 	e_cal_open_async (ecal, TRUE);
@@ -1680,6 +1684,8 @@ set_itip_error (struct _itip_puri *pitip, GtkContainer *container, const gchar *
 static gboolean
 extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *have_alarms)
 {
+	EShell *shell;
+	EShellSettings *shell_settings;
 	icalproperty *prop;
 	icalcomponent_kind kind = ICAL_NO_COMPONENT;
 	icalcomponent *tz_comp;
@@ -1687,6 +1693,10 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *
 	icalcomponent *alarm_comp;
 	icalcompiter alarm_iter;
 	ECalComponent *comp;
+	gboolean use_default_reminder;
+
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	if (!pitip->vcalendar) {
 		set_itip_error (pitip, container,
@@ -1886,14 +1896,20 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *
 	};
 
 	/* Add default reminder if the config says so */
-	if (calendar_config_get_use_default_reminder ()) {
+
+	use_default_reminder = e_shell_settings_get_boolean (
+		shell_settings, "cal-use-default-reminder");
+
+	if (use_default_reminder) {
 		ECalComponentAlarm *acomp;
 		gint interval;
 		EDurationType units;
 		ECalComponentAlarmTrigger trigger;
 
-		interval = calendar_config_get_default_reminder_interval ();
-		units = calendar_config_get_default_reminder_units ();
+		interval = e_shell_settings_get_int (
+			shell_settings, "cal-default-reminder-interval");
+		units = e_shell_settings_get_int (
+			shell_settings, "cal-default-reminder-units");
 
 		acomp = e_cal_component_alarm_new ();
 
@@ -2286,6 +2302,8 @@ in_proper_folder (CamelFolder *folder)
 static gboolean
 format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
+	EShell *shell;
+	EShellSettings *shell_settings;
 	struct _itip_puri *info;
 	ECalComponentText text;
 	ECalComponentOrganizer organizer;
@@ -2298,6 +2316,9 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	gint i;
 	gboolean response_enabled;
 	gboolean have_alarms = FALSE;
+
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	info = (struct _itip_puri *) em_format_find_puri ((EMFormat *)efh, pobject->classid);
 
@@ -2498,7 +2519,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 		g_string_free (gstring, TRUE);
 	}
 
-	to_zone = calendar_config_get_icaltimezone ();
+	to_zone = e_shell_settings_get_pointer (shell_settings, "cal-timezone");
 
 	e_cal_component_get_dtstart (info->comp, &datetime);
 	info->start_time = 0;

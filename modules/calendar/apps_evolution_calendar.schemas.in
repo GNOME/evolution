@@ -482,31 +482,6 @@
       </locale>
     </schema>
 
-    <schema>
-      <key>/schemas/apps/evolution/calendar/display/events_transparency</key>
-      <applyto>/apps/evolution/calendar/display/events_transparency</applyto>
-      <owner>evolution-calendar</owner>
-      <type>float</type>
-      <default>1.0</default>
-      <locale name="C">
-        <short>Event Transparency</short>
-        <long>Transparency of the events in calendar views, a value between 0 (transparent) and 1 (opaque).</long>
-      </locale>
-    </schema>
-
-     <schema>
-      <key>/schemas/apps/evolution/calendar/display/events_gradient</key>
-      <applyto>/apps/evolution/calendar/display/events_gradient</applyto>
-      <owner>evolution-calendar</owner>
-      <type>bool</type>
-      <default>true</default>
-      <locale name="C">
-        <short>Event Gradient</short>
-        <long>Gradient of the events in calendar views.</long>
-      </locale>
-    </schema>
-
-
      <schema>
       <key>/schemas/apps/evolution/calendar/display/recur_events_italic</key>
       <applyto>/apps/evolution/calendar/display/recur_events_italic</applyto>
@@ -668,7 +643,7 @@
       <applyto>/apps/evolution/calendar/other/default_reminder_units</applyto>
       <owner>evolution-calendar</owner>
       <type>string</type>
-      <default></default>
+      <default>minutes</default>
       <locale name="C">
         <short>Default reminder units</short>
         <long>Units for a default reminder, "minutes", "hours" or "days".</long>
@@ -676,14 +651,45 @@
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/calendar/other/def_recur_count</key>
-      <applyto>/apps/evolution/calendar/other/def_recur_count</applyto>
+      <key>/schemas/apps/evolution/calendar/other/use_ba_reminder</key>
+      <applyto>/apps/evolution/calendar/other/use_ba_reminder</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Birthday and anniversary reminder</short>
+        <long>
+          Whether to set a reminder for birthdays and anniversaries.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/calendar/other/ba_reminder_interval</key>
+      <applyto>/apps/evolution/calendar/other/ba_reminder_interval</applyto>
       <owner>evolution-calendar</owner>
       <type>int</type>
-      <default>2</default>
+      <default>15</default>
       <locale name="C">
-        <short>Default recurrence count</short>
-        <long>Count of default recurrence for a new event. -1 means forever.</long>
+        <short>Birthday and anniversary reminder value</short>
+        <long>
+          Number of units for determining a birthday or anniversary reminder.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/calendar/other/ba_reminder_units</key>
+      <applyto>/apps/evolution/calendar/other/ba_reminder_units</applyto>
+      <owner>evolution-calendar</owner>
+      <type>string</type>
+      <default>minutes</default>
+      <locale name="C">
+        <short>Birthday and anniversary reminder units</short>
+        <long>
+          Units for a birthday or anniversary reminder, "minutes", "hours"
+          or "days".
+        </long>
       </locale>
     </schema>
 

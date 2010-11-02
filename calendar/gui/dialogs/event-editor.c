@@ -330,7 +330,7 @@ event_editor_constructor (GType type,
 	content_area =
 		gtk_dialog_get_content_area (GTK_DIALOG (priv->recur_window));
 
-	priv->recur_page = recurrence_page_new (editor);
+	priv->recur_page = recurrence_page_new (priv->model, editor);
 	page = COMP_EDITOR_PAGE (priv->recur_page);
 	if (!e_shell_get_express_mode (shell)) {
 		gtk_container_add (

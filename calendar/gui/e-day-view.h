@@ -275,9 +275,6 @@ struct _EDayView {
 	/* The ID of the timeout function for doing a new layout. */
 	gint layout_timeout_id;
 
-	/* The number of minutes per row. 5, 10, 15, 30 or 60. */
-	gint mins_per_row;
-
 	/* The number of rows needed, depending on the times shown and the
 	   minutes per row. */
 	gint rows;
@@ -300,12 +297,6 @@ struct _EDayView {
 
 	/* Bitwise combination of working days. Defaults to Mon-Fri. */
 	EDayViewDays working_days;
-
-	/* The start and end of the work day, rounded to the nearest row. */
-	gint work_day_start_hour;
-	gint work_day_start_minute;
-	gint work_day_end_hour;
-	gint work_day_end_minute;
 
 	/* Whether we show the Marcus Bains Line in the main canvas and time canvas. */
 	gboolean marcus_bains_show_line;
@@ -506,32 +497,11 @@ gint	   e_day_view_get_days_shown		(EDayView	*day_view);
 void	   e_day_view_set_days_shown		(EDayView	*day_view,
 						 gint		 days_shown);
 
-/* This specifies how many minutes are represented by one row in the display.
-   It can be 60, 30, 15, 10 or 5. The default is 30. */
-gint	   e_day_view_get_mins_per_row		(EDayView	*day_view);
-void	   e_day_view_set_mins_per_row		(EDayView	*day_view,
-						 gint		 mins_per_row);
-
 /* This specifies the working days in the week. The value is a bitwise
    combination of day flags. Defaults to Mon-Fri. */
 EDayViewDays e_day_view_get_working_days	(EDayView	*day_view);
 void	   e_day_view_set_working_days		(EDayView	*day_view,
 						 EDayViewDays	 days);
-
-/* The start and end time of the working day. This only affects the background
-   colors. */
-gint	   e_day_view_get_work_day_start_hour	(EDayView *day_view);
-void	   e_day_view_set_work_day_start_hour	(EDayView *day_view,
-						 gint work_day_start_hour);
-gint	   e_day_view_get_work_day_start_minute	(EDayView *day_view);
-void	   e_day_view_set_work_day_start_minute	(EDayView *day_view,
-						 gint work_day_start_minute);
-gint	   e_day_view_get_work_day_end_hour	(EDayView *day_view);
-void	   e_day_view_set_work_day_end_hour	(EDayView *day_view,
-						 gint work_day_end_hour);
-gint	   e_day_view_get_work_day_end_minute	(EDayView *day_view);
-void	   e_day_view_set_work_day_end_minute	(EDayView *day_view,
-						 gint work_day_end_minute);
 
 /* Whether we display the Marcus Bains Line in the main canvas and time
    canvas. */

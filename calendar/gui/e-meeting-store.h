@@ -25,6 +25,7 @@
 
 #include <gtk/gtk.h>
 #include <libecal/e-cal.h>
+#include <e-util/e-util-enums.h>
 #include "e-meeting-attendee.h"
 
 /* Standard GObject macros */
@@ -88,6 +89,16 @@ void		e_meeting_store_set_value	(EMeetingStore *meeting_store,
 ECal *		e_meeting_store_get_client	(EMeetingStore *meeting_store);
 void		e_meeting_store_set_client	(EMeetingStore *meeting_store,
 						 ECal *client);
+gint		e_meeting_store_get_default_reminder_interval
+						(EMeetingStore *meeting_store);
+void		e_meeting_store_set_default_reminder_interval
+						(EMeetingStore *meeting_store,
+						 gint default_reminder_interval);
+EDurationType	e_meeting_store_get_default_reminder_units
+						(EMeetingStore *meeting_store);
+void		e_meeting_store_set_default_reminder_units
+						(EMeetingStore *meeting_store,
+						 EDurationType default_reminder_units);
 const gchar *	e_meeting_store_get_free_busy_template
 						(EMeetingStore *meeting_store);
 void		e_meeting_store_set_free_busy_template
@@ -96,6 +107,11 @@ void		e_meeting_store_set_free_busy_template
 icaltimezone *	e_meeting_store_get_timezone	(EMeetingStore *meeting_store);
 void		e_meeting_store_set_timezone	(EMeetingStore *meeting_store,
 						 icaltimezone *timezone);
+gint		e_meeting_store_get_week_start_day
+						(EMeetingStore *meeting_store);
+void		e_meeting_store_set_week_start_day
+						(EMeetingStore *meeting_store,
+						 gint week_start_day);
 void		e_meeting_store_add_attendee	(EMeetingStore *meeting_store,
 						 EMeetingAttendee *attendee);
 EMeetingAttendee *

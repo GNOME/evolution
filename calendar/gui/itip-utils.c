@@ -32,7 +32,6 @@
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-util.h>
 #include <libsoup/soup.h>
-#include "calendar-config.h"
 #include "itip-utils.h"
 #include <time.h>
 #include "dialogs/comp-editor-util.h"
@@ -279,18 +278,18 @@ itip_strip_mailto (const gchar *address)
 }
 
 static gchar *
-get_label (struct icaltimetype *tt)
+get_label (struct icaltimetype *tt,
+           gboolean use_24_hour_format)
 {
-        gchar buffer[1000];
-        struct tm tmp_tm;
+	gchar buffer[1000];
+	struct tm tmp_tm;
 
 	tmp_tm = icaltimetype_to_tm (tt);
-        e_time_format_date_and_time (&tmp_tm,
-                                     calendar_config_get_24_hour_format (),
-                                     FALSE, FALSE,
-                                     buffer, 1000);
 
-        return g_strdup (buffer);
+	e_time_format_date_and_time (
+		&tmp_tm, use_24_hour_format, FALSE, FALSE, buffer, 1000);
+
+	return g_strdup (buffer);
 }
 
 typedef struct {
@@ -771,7 +770,8 @@ comp_filename (ECalComponent *comp)
 }
 
 static gchar *
-comp_description (ECalComponent *comp)
+comp_description (ECalComponent *comp,
+                  gboolean use_24_hour_format)
 {
 	gchar *description;
         ECalComponentDateTime dt;
@@ -790,12 +790,12 @@ comp_description (ECalComponent *comp)
         case E_CAL_COMPONENT_FREEBUSY:
                 e_cal_component_get_dtstart (comp, &dt);
                 if (dt.value)
-                        start = get_label (dt.value);
+                        start = get_label (dt.value, use_24_hour_format);
 		e_cal_component_free_datetime (&dt);
 
 		e_cal_component_get_dtend (comp, &dt);
 		if (dt.value)
-			end = get_label (dt.value);
+			end = get_label (dt.value, use_24_hour_format);
 		e_cal_component_free_datetime (&dt);
 
                 if (start != NULL && end != NULL)
@@ -1068,7 +1068,12 @@ strip_x_microsoft_props (ECalComponent *comp)
 }
 
 static ECalComponent *
-comp_compliant (ECalComponentItipMethod method, ECalComponent *comp, ECal *client, icalcomponent *zones, gboolean strip_alarms)
+comp_compliant (ECalComponentItipMethod method,
+                ECalComponent *comp,
+                ECal *client,
+                icalcomponent *zones,
+                icaltimezone *default_zone,
+                gboolean strip_alarms)
 {
 	ECalComponent *clone, *temp_clone;
 	struct icaltimetype itt;
@@ -1094,7 +1099,7 @@ comp_compliant (ECalComponentItipMethod method, ECalComponent *comp, ECal *clien
 			e_cal_component_get_dtstart (clone, &dt);
 
 			if (dt.value->is_date) {
-				from_zone = calendar_config_get_icaltimezone ();
+				from_zone = default_zone;
 			} else if (dt.tzid == NULL) {
 				from_zone = icaltimezone_get_utc_timezone ();
 			} else {
@@ -1301,20 +1306,38 @@ setup_from (ECalComponentItipMethod method, ECalComponent *comp, ECal *client, E
 }
 
 gboolean
-itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
-		ECal *client, icalcomponent *zones, GSList *attachments_list, GList *users,
-		gboolean strip_alarms, gboolean only_new_attendees)
+itip_send_comp (ECalComponentItipMethod method,
+                ECalComponent *send_comp,
+                ECal *client,
+                icalcomponent *zones,
+                GSList *attachments_list,
+                GList *users,
+                gboolean strip_alarms,
+                gboolean only_new_attendees)
 {
 	EShell *shell;
+	EShellSettings *shell_settings;
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	EDestination **destinations;
 	ECalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
+	icaltimezone *default_zone;
 	gchar *ical_string = NULL;
 	gchar *content_type = NULL;
 	gchar *subject = NULL;
+	gboolean use_24_hour_format;
 	gboolean retval = FALSE;
+
+	/* FIXME Pass this in. */
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	default_zone = e_shell_settings_get_pointer (
+		shell_settings, "cal-timezone");
+
+	use_24_hour_format = e_shell_settings_get_boolean (
+		shell_settings, "cal-use-24-hour-format");
 
 	/* check whether backend could handle auto-saving requests/updates */
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH && e_cal_get_save_schedules (client))
@@ -1336,7 +1359,8 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	}
 
 	/* Tidy up the comp */
-	comp = comp_compliant (method, send_comp, client, zones, strip_alarms);
+	comp = comp_compliant (
+		method, send_comp, client, zones, default_zone, strip_alarms);
 
 	if (comp == NULL)
 		goto cleanup;
@@ -1353,9 +1377,6 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 
 	/* Subject information */
 	subject = comp_subject (method, comp);
-
-	/* FIXME Pass this in. */
-	shell = e_shell_get_default ();
 
 	composer = e_msg_composer_new (shell);
 	table = e_msg_composer_get_header_table (composer);
@@ -1381,7 +1402,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 		gchar *body;
 
 		filename = comp_filename (comp);
-		description = comp_description (comp);
+		description = comp_description (comp, use_24_hour_format);
 
 		body = camel_text_to_html (
 			description, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
@@ -1439,18 +1460,28 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
                         GSList *attachments_list)
 {
 	EShell *shell;
+	EShellSettings *shell_settings;
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	EDestination **destinations;
 	ECalComponent *comp = NULL;
 	icalcomponent *top_level = NULL;
+	icaltimezone *default_zone;
 	GList *users = NULL;
 	gchar *subject = NULL;
 	gchar *ical_string = NULL;
 	gboolean retval = FALSE;
 
+	/* FIXME Pass this in. */
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	default_zone = e_shell_settings_get_pointer (
+		shell_settings, "cal-timezone");
+
 	/* Tidy up the comp */
-	comp = comp_compliant (method, send_comp, client, zones, TRUE);
+	comp = comp_compliant (
+		method, send_comp, client, zones, default_zone, TRUE);
 	if (comp == NULL)
 		goto cleanup;
 
@@ -1459,9 +1490,6 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 
 	/* Subject information */
 	subject = comp_subject (method, comp);
-
-	/* FIXME Pass this in. */
-	shell = e_shell_get_default ();
 
 	composer = e_msg_composer_new (shell);
 	table = e_msg_composer_get_header_table (composer);
@@ -1526,7 +1554,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 			}
 
 			if (!start_zone || dtstart.value->is_date)
-				start_zone = calendar_config_get_icaltimezone ();
+				start_zone = default_zone;
 
 			start = icaltime_as_timet_with_zone (*dtstart.value, start_zone);
 			time = g_strdup (ctime (&start));

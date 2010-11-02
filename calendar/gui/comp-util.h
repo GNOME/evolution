@@ -28,6 +28,7 @@
 #include <gtk/gtk.h>
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal.h>
+#include <e-util/e-util-enums.h>
 
 struct _EShell;
 
@@ -47,8 +48,19 @@ gboolean cal_comp_is_on_server (ECalComponent *comp,
 				ECal *client);
 gboolean is_icalcomp_on_the_server (icalcomponent *icalcomp, ECal *client);
 
-ECalComponent *cal_comp_event_new_with_defaults (ECal *client, gboolean all_day);
-ECalComponent *cal_comp_event_new_with_current_time (ECal *client, gboolean all_day);
+ECalComponent *	cal_comp_event_new_with_defaults
+						(ECal *client,
+						 gboolean all_day,
+						 gboolean use_default_reminder,
+						 gint default_reminder_interval,
+						 EDurationType default_reminder_units);
+ECalComponent *	cal_comp_event_new_with_current_time
+						(ECal *client,
+						 gboolean all_day,
+						 icaltimezone *zone,
+						 gboolean use_default_reminder,
+						 gint default_reminder_interval,
+						 EDurationType default_reminder_units);
 ECalComponent *cal_comp_task_new_with_defaults (ECal *client);
 ECalComponent *cal_comp_memo_new_with_defaults (ECal *client);
 

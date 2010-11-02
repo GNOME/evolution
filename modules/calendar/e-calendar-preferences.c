@@ -22,80 +22,148 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "e-calendar-preferences.h"
 
-#include "../e-cal-config.h"
-#include "../e-timezone-entry.h"
-#include "../calendar-config.h"
-#include "cal-prefs-dialog.h"
-#include <widgets/misc/e-dateedit.h>
+#include <config.h>
+#include <string.h>
+#include <glib/gi18n.h>
+
+#include "calendar/gui/e-cal-config.h"
+#include "calendar/gui/e-timezone-entry.h"
+#include "calendar/gui/calendar-config.h"
+#include "widgets/misc/e-dateedit.h"
 #include "e-util/e-util.h"
 #include "e-util/e-datetime-format.h"
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-util-private.h"
 #include "shell/e-shell-utils.h"
-#include <glib/gi18n.h>
-#include <string.h>
-
-static const gint time_division_map[] = {
-	60, 30, 15, 10, 5, -1
-};
-
-/* The following two are kept separate in case we need to re-order each menu individually */
-static const gint hide_completed_units_map[] = {
-	E_DURATION_MINUTES, E_DURATION_HOURS, E_DURATION_DAYS, -1
-};
 
 /* same is used for Birthdays & Anniversaries calendar */
 static const gint default_reminder_units_map[] = {
 	E_DURATION_MINUTES, E_DURATION_HOURS, E_DURATION_DAYS, -1
 };
 
-static GtkVBoxClass *parent_class = NULL;
+G_DEFINE_DYNAMIC_TYPE (
+	ECalendarPreferences,
+	e_calendar_preferences,
+	GTK_TYPE_VBOX)
 
-static void
-calendar_prefs_dialog_finalize (GObject *obj)
+static gboolean
+transform_time_divisions_to_index (GBinding *binding,
+                                   const GValue *source_value,
+                                   GValue *target_value,
+                                   gpointer not_used)
 {
-	CalendarPrefsDialog *prefs = (CalendarPrefsDialog *) obj;
+	gboolean success = TRUE;
 
-	g_object_unref (prefs->builder);
+	g_return_val_if_fail (G_IS_BINDING (binding), FALSE);
 
-	if (prefs->gconf) {
-		g_object_unref (prefs->gconf);
-		prefs->gconf = NULL;
+	switch (g_value_get_int (source_value)) {
+		case 60:
+			g_value_set_int (target_value, 0);
+			break;
+		case 30:
+			g_value_set_int (target_value, 1);
+			break;
+		case 15:
+			g_value_set_int (target_value, 2);
+			break;
+		case 10:
+			g_value_set_int (target_value, 3);
+			break;
+		case 5:
+			g_value_set_int (target_value, 4);
+			break;
+		default:
+			success = FALSE;
 	}
 
-	((GObjectClass *)(parent_class))->finalize (obj);
+	return success;
+}
+
+static gboolean
+transform_index_to_time_divisions (GBinding *binding,
+                                   const GValue *source_value,
+                                   GValue *target_value,
+                                   gpointer not_used)
+{
+	gboolean success = TRUE;
+
+	switch (g_value_get_int (source_value)) {
+		case 0:
+			g_value_set_int (target_value, 60);
+			break;
+		case 1:
+			g_value_set_int (target_value, 30);
+			break;
+		case 2:
+			g_value_set_int (target_value, 15);
+			break;
+		case 3:
+			g_value_set_int (target_value, 10);
+			break;
+		case 4:
+			g_value_set_int (target_value, 5);
+			break;
+		default:
+			success = FALSE;
+	}
+
+	return success;
 }
 
 static void
-calendar_prefs_dialog_class_init (CalendarPrefsDialogClass *klass)
+calendar_preferences_dispose (GObject *object)
+{
+	ECalendarPreferences *prefs = (ECalendarPreferences *) object;
+
+	if (prefs->builder != NULL) {
+		g_object_unref (prefs->builder);
+		prefs->builder = NULL;
+	}
+
+	if (prefs->shell_settings != NULL) {
+		g_object_unref (prefs->shell_settings);
+		prefs->shell_settings = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_calendar_preferences_parent_class)->dispose (object);
+}
+
+static void
+e_calendar_preferences_class_init (ECalendarPreferencesClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class = (GObjectClass *) klass;
-	parent_class = g_type_class_ref (GTK_TYPE_VBOX);
-
-	object_class->finalize = calendar_prefs_dialog_finalize;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = calendar_preferences_dispose;
 }
 
 static void
-calendar_prefs_dialog_init (CalendarPrefsDialog *dialog)
+e_calendar_preferences_class_finalize (ECalendarPreferencesClass *class)
+{
+}
+
+static void
+e_calendar_preferences_init (ECalendarPreferences *preferences)
 {
 }
 
 static GtkWidget *
-eccp_widget_glade (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
+calendar_preferences_get_config_widget (EConfig *ec,
+                                        EConfigItem *item,
+                                        GtkWidget *parent,
+                                        GtkWidget *old,
+                                        gpointer data)
 {
-	CalendarPrefsDialog *prefs = data;
+	ECalendarPreferences *preferences = data;
 
-	return e_builder_get_widget (prefs->builder, item->label);
+	return e_builder_get_widget (preferences->builder, item->label);
 }
 
 static void
-update_day_second_zone_caption (CalendarPrefsDialog *prefs)
+update_day_second_zone_caption (ECalendarPreferences *prefs)
 {
 	gchar *location;
 	const gchar *caption;
@@ -119,7 +187,7 @@ update_day_second_zone_caption (CalendarPrefsDialog *prefs)
 }
 
 static void
-on_set_day_second_zone (GtkWidget *item, CalendarPrefsDialog *prefs)
+on_set_day_second_zone (GtkWidget *item, ECalendarPreferences *prefs)
 {
 	if (!gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item)))
 		return;
@@ -129,7 +197,7 @@ on_set_day_second_zone (GtkWidget *item, CalendarPrefsDialog *prefs)
 }
 
 static void
-on_select_day_second_zone (GtkWidget *item, CalendarPrefsDialog *prefs)
+on_select_day_second_zone (GtkWidget *item, ECalendarPreferences *prefs)
 {
 	g_return_if_fail (prefs != NULL);
 
@@ -138,7 +206,7 @@ on_select_day_second_zone (GtkWidget *item, CalendarPrefsDialog *prefs)
 }
 
 static void
-day_second_zone_clicked (GtkWidget *widget, CalendarPrefsDialog *prefs)
+day_second_zone_clicked (GtkWidget *widget, ECalendarPreferences *prefs)
 {
 	GtkWidget *menu, *item;
 	GSList *group = NULL, *recent_zones, *s;
@@ -191,7 +259,7 @@ day_second_zone_clicked (GtkWidget *widget, CalendarPrefsDialog *prefs)
 }
 
 static void
-start_of_day_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
+start_of_day_changed (GtkWidget *widget, ECalendarPreferences *prefs)
 {
 	gint start_hour, start_minute, end_hour, end_minute;
 	EDateEdit *start, *end;
@@ -211,12 +279,16 @@ start_of_day_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 		return;
 	}
 
-	calendar_config_set_day_start_hour (start_hour);
-	calendar_config_set_day_start_minute (start_minute);
+	e_shell_settings_set_int (
+		prefs->shell_settings,
+		"cal-work-day-start-hour", start_hour);
+	e_shell_settings_set_int (
+		prefs->shell_settings,
+		"cal-work-day-start-minute", start_minute);
 }
 
 static void
-end_of_day_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
+end_of_day_changed (GtkWidget *widget, ECalendarPreferences *prefs)
 {
 	gint start_hour, start_minute, end_hour, end_minute;
 	EDateEdit *start, *end;
@@ -236,108 +308,16 @@ end_of_day_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 		return;
 	}
 
-	calendar_config_set_day_end_hour (end_hour);
-	calendar_config_set_day_end_minute (end_minute);
+	e_shell_settings_set_int (
+		prefs->shell_settings,
+		"cal-work-day-end-hour", end_hour);
+	e_shell_settings_set_int (
+		prefs->shell_settings,
+		"cal-work-day-end-minute", end_minute);
 }
 
 static void
-time_divisions_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
-{
-	gint time_divisions;
-
-	time_divisions = e_dialog_combo_box_get (prefs->time_divisions, time_division_map);
-	calendar_config_set_time_divisions (time_divisions);
-}
-
-static void
-month_scroll_by_week_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
-{
-	calendar_config_set_month_scroll_by_week (gtk_toggle_button_get_active (toggle));
-}
-
-static void
-hide_completed_tasks_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
-{
-	gboolean hide;
-
-	hide = gtk_toggle_button_get_active (toggle);
-
-	gtk_widget_set_sensitive (prefs->tasks_hide_completed_interval, hide);
-	gtk_widget_set_sensitive (prefs->tasks_hide_completed_units, hide);
-
-	calendar_config_set_hide_completed_tasks (hide);
-}
-
-static void
-hide_completed_tasks_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
-{
-	calendar_config_set_hide_completed_tasks_value (
-		gtk_spin_button_get_value_as_int (
-		GTK_SPIN_BUTTON (prefs->tasks_hide_completed_interval)));
-}
-
-static void
-hide_completed_tasks_units_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
-{
-	calendar_config_set_hide_completed_tasks_units (
-		e_dialog_combo_box_get (prefs->tasks_hide_completed_units, hide_completed_units_map));
-}
-
-static void
-default_reminder_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
-{
-	calendar_config_set_use_default_reminder (gtk_toggle_button_get_active (toggle));
-}
-
-static void
-default_reminder_interval_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
-{
-	const gchar *str;
-	gdouble value;
-
-	str = gtk_entry_get_text (GTK_ENTRY (widget));
-	value = g_ascii_strtod (str, NULL);
-
-	calendar_config_set_default_reminder_interval (value);
-}
-
-static void
-default_reminder_units_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
-{
-	calendar_config_set_default_reminder_units (
-		e_dialog_combo_box_get (prefs->default_reminder_units, default_reminder_units_map));
-}
-
-static void
-ba_reminder_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
-{
-	gboolean enabled = gtk_toggle_button_get_active (toggle);
-
-	calendar_config_set_ba_reminder (&enabled, NULL, NULL);
-}
-
-static void
-ba_reminder_interval_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
-{
-	const gchar *str;
-	gint value;
-
-	str = gtk_entry_get_text (GTK_ENTRY (widget));
-	value = (gint) g_ascii_strtod (str, NULL);
-
-	calendar_config_set_ba_reminder (NULL, &value, NULL);
-}
-
-static void
-ba_reminder_units_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
-{
-	EDurationType units = e_dialog_combo_box_get (prefs->ba_reminder_units, default_reminder_units_map);
-
-	calendar_config_set_ba_reminder (NULL, NULL, &units);
-}
-
-static void
-notify_with_tray_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
+notify_with_tray_toggled (GtkToggleButton *toggle, ECalendarPreferences *prefs)
 {
 	GConfClient *gconf;
 
@@ -349,7 +329,7 @@ notify_with_tray_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
 }
 
 static void
-alarms_selection_changed (ESourceSelector *selector, CalendarPrefsDialog *prefs)
+alarms_selection_changed (ESourceSelector *selector, ECalendarPreferences *prefs)
 {
 	ESourceList *source_list = prefs->alarms_list;
 	GSList *selection;
@@ -394,7 +374,7 @@ alarms_selection_changed (ESourceSelector *selector, CalendarPrefsDialog *prefs)
 static void
 update_system_tz_widgets (EShellSettings *shell_settings,
                           GParamSpec *pspec,
-                          CalendarPrefsDialog *prefs)
+                          ECalendarPreferences *prefs)
 {
 	GtkWidget *widget;
 	icaltimezone *zone;
@@ -416,61 +396,15 @@ update_system_tz_widgets (EShellSettings *shell_settings,
 }
 
 static void
-setup_changes (CalendarPrefsDialog *prefs)
+setup_changes (ECalendarPreferences *prefs)
 {
 	g_signal_connect (G_OBJECT (prefs->day_second_zone), "clicked", G_CALLBACK (day_second_zone_clicked), prefs);
 
 	g_signal_connect (G_OBJECT (prefs->start_of_day), "changed", G_CALLBACK (start_of_day_changed), prefs);
 	g_signal_connect (G_OBJECT (prefs->end_of_day), "changed", G_CALLBACK (end_of_day_changed), prefs);
 
-	g_signal_connect (G_OBJECT (prefs->time_divisions), "changed", G_CALLBACK (time_divisions_changed), prefs);
-
-	g_signal_connect (G_OBJECT (prefs->month_scroll_by_week), "toggled", G_CALLBACK (month_scroll_by_week_toggled), prefs);
-
-	g_signal_connect (G_OBJECT (prefs->tasks_hide_completed), "toggled",
-			  G_CALLBACK (hide_completed_tasks_toggled), prefs);
-	g_signal_connect (G_OBJECT (prefs->tasks_hide_completed_interval), "value-changed",
-			  G_CALLBACK (hide_completed_tasks_changed), prefs);
-	g_signal_connect (G_OBJECT (prefs->tasks_hide_completed_units), "changed", G_CALLBACK (hide_completed_tasks_units_changed), prefs);
-
-	g_signal_connect (G_OBJECT (prefs->default_reminder), "toggled", G_CALLBACK (default_reminder_toggled), prefs);
-	g_signal_connect (G_OBJECT (prefs->default_reminder_interval), "changed",
-			  G_CALLBACK (default_reminder_interval_changed), prefs);
-	g_signal_connect (G_OBJECT (prefs->default_reminder_units), "changed", G_CALLBACK (default_reminder_units_changed), prefs);
-
-	g_signal_connect (G_OBJECT (prefs->ba_reminder), "toggled", G_CALLBACK (ba_reminder_toggled), prefs);
-	g_signal_connect (G_OBJECT (prefs->ba_reminder_interval), "changed",
-			  G_CALLBACK (ba_reminder_interval_changed), prefs);
-	g_signal_connect (G_OBJECT (prefs->ba_reminder_units), "changed", G_CALLBACK (ba_reminder_units_changed), prefs);
-
 	g_signal_connect (G_OBJECT (prefs->notify_with_tray), "toggled", G_CALLBACK (notify_with_tray_toggled), prefs);
 	g_signal_connect (G_OBJECT (prefs->alarm_list_widget), "selection_changed", G_CALLBACK (alarms_selection_changed), prefs);
-}
-
-/* Shows the current task list settings in the dialog */
-static void
-show_task_list_config (CalendarPrefsDialog *prefs)
-{
-	EDurationType units;
-	gboolean hide_completed_tasks;
-
-	/* Hide Completed Tasks. */
-	hide_completed_tasks = calendar_config_get_hide_completed_tasks ();
-	gtk_toggle_button_set_active (
-		GTK_TOGGLE_BUTTON (prefs->tasks_hide_completed),
-		hide_completed_tasks);
-
-	/* Hide Completed Tasks Units. */
-	units = calendar_config_get_hide_completed_tasks_units ();
-	e_dialog_combo_box_set (prefs->tasks_hide_completed_units, units, hide_completed_units_map);
-
-	/* Hide Completed Tasks Value. */
-	gtk_spin_button_set_value (
-		GTK_SPIN_BUTTON (prefs->tasks_hide_completed_interval),
-		calendar_config_get_hide_completed_tasks_value ());
-
-	gtk_widget_set_sensitive (prefs->tasks_hide_completed_interval, hide_completed_tasks);
-	gtk_widget_set_sensitive (prefs->tasks_hide_completed_units, hide_completed_tasks);
 }
 
 static void
@@ -494,7 +428,7 @@ initialize_selection (ESourceSelector *selector, ESourceList *source_list)
 }
 
 static void
-show_alarms_config (CalendarPrefsDialog *prefs)
+show_alarms_config (ECalendarPreferences *prefs)
 {
 	GConfClient *gconf;
 
@@ -513,72 +447,48 @@ show_alarms_config (CalendarPrefsDialog *prefs)
 
 /* Shows the current config settings in the dialog. */
 static void
-show_config (CalendarPrefsDialog *prefs)
+show_config (ECalendarPreferences *prefs)
 {
-	gint time_divisions;
-	gboolean set = FALSE;
-	EDurationType units;
-	gint interval;
+	EShellSettings *shell_settings;
 
-	/* Day's second zone */
-	update_day_second_zone_caption (prefs);
+	shell_settings = prefs->shell_settings;
 
 	/* Day's second zone */
 	update_day_second_zone_caption (prefs);
 
 	/* Start of Day. */
-	e_date_edit_set_time_of_day (E_DATE_EDIT (prefs->start_of_day), calendar_config_get_day_start_hour (), calendar_config_get_day_start_minute ());
+	e_date_edit_set_time_of_day (
+		E_DATE_EDIT (prefs->start_of_day),
+		e_shell_settings_get_int (
+			shell_settings, "cal-work-day-start-hour"),
+		e_shell_settings_get_int (
+			shell_settings, "cal-work-day-start-minute"));
 
 	/* End of Day. */
-	e_date_edit_set_time_of_day (E_DATE_EDIT (prefs->end_of_day), calendar_config_get_day_end_hour (), calendar_config_get_day_end_minute ());
+	e_date_edit_set_time_of_day (
+		E_DATE_EDIT (prefs->end_of_day),
+		e_shell_settings_get_int (
+			shell_settings, "cal-work-day-end-hour"),
+		e_shell_settings_get_int (
+			shell_settings, "cal-work-day-end-minute"));
 
-	/* Time Divisions. */
-	time_divisions = calendar_config_get_time_divisions ();
-	e_dialog_combo_box_set (prefs->time_divisions, time_divisions, time_division_map);
-
-	/* Month View - Scroll by a week */
-	gtk_toggle_button_set_active (
-		GTK_TOGGLE_BUTTON (prefs->month_scroll_by_week),
-		calendar_config_get_month_scroll_by_week ());
-
-	/* Task list */
-	show_task_list_config (prefs);
-
-	/* Alarms list*/
+	/* Alarms list */
 	show_alarms_config (prefs);
-
-	/* Other page */
-	gtk_toggle_button_set_active (
-		GTK_TOGGLE_BUTTON (prefs->default_reminder),
-		calendar_config_get_use_default_reminder ());
-	gtk_spin_button_set_value (
-		GTK_SPIN_BUTTON (prefs->default_reminder_interval),
-		calendar_config_get_default_reminder_interval ());
-	e_dialog_combo_box_set (prefs->default_reminder_units, calendar_config_get_default_reminder_units (), default_reminder_units_map);
-
-	/* Birthdays & Anniversaries reminder */
-	set = calendar_config_get_ba_reminder (&interval, &units);
-
-	gtk_toggle_button_set_active (
-		GTK_TOGGLE_BUTTON (prefs->ba_reminder), set);
-	gtk_spin_button_set_value (
-		GTK_SPIN_BUTTON (prefs->ba_reminder_interval), interval);
-	e_dialog_combo_box_set (prefs->ba_reminder_units, units, default_reminder_units_map);
 }
 
 /* plugin meta-data */
 static ECalConfigItem eccp_items[] = {
-	{ E_CONFIG_BOOK,          (gchar *) "",                             (gchar *) "toplevel-notebook", eccp_widget_glade },
-	{ E_CONFIG_PAGE,          (gchar *) "00.general",                   (gchar *) "general",           eccp_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.general/00.time",           (gchar *) "time",              eccp_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.general/10.workWeek",       (gchar *) "workWeek",          eccp_widget_glade },
-	{ E_CONFIG_SECTION,       (gchar *) "00.general/20.alerts",         (gchar *) "alerts",            eccp_widget_glade },
-	{ E_CONFIG_PAGE,          (gchar *) "10.display",                   (gchar *) "display",           eccp_widget_glade },
-	{ E_CONFIG_SECTION,       (gchar *) "10.display/00.general",        (gchar *) "displayGeneral",    eccp_widget_glade },
-	{ E_CONFIG_SECTION,       (gchar *) "10.display/10.taskList",       (gchar *) "taskList",          eccp_widget_glade },
-	{ E_CONFIG_PAGE,          (gchar *) "15.alarms",                    (gchar *) "alarms",            eccp_widget_glade },
-	{ E_CONFIG_PAGE,          (gchar *) "20.freeBusy",                  (gchar *) "freebusy",          eccp_widget_glade },
-	{ E_CONFIG_SECTION,       (gchar *) "20.freeBusy/00.defaultServer", (gchar *) "default-freebusy-vbox",   eccp_widget_glade },
+	{ E_CONFIG_BOOK,          (gchar *) "",                             (gchar *) "toplevel-notebook", calendar_preferences_get_config_widget },
+	{ E_CONFIG_PAGE,          (gchar *) "00.general",                   (gchar *) "general",           calendar_preferences_get_config_widget },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.general/00.time",           (gchar *) "time",              calendar_preferences_get_config_widget },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.general/10.workWeek",       (gchar *) "workWeek",          calendar_preferences_get_config_widget },
+	{ E_CONFIG_SECTION,       (gchar *) "00.general/20.alerts",         (gchar *) "alerts",            calendar_preferences_get_config_widget },
+	{ E_CONFIG_PAGE,          (gchar *) "10.display",                   (gchar *) "display",           calendar_preferences_get_config_widget },
+	{ E_CONFIG_SECTION,       (gchar *) "10.display/00.general",        (gchar *) "displayGeneral",    calendar_preferences_get_config_widget },
+	{ E_CONFIG_SECTION,       (gchar *) "10.display/10.taskList",       (gchar *) "taskList",          calendar_preferences_get_config_widget },
+	{ E_CONFIG_PAGE,          (gchar *) "15.alarms",                    (gchar *) "alarms",            calendar_preferences_get_config_widget },
+	{ E_CONFIG_PAGE,          (gchar *) "20.freeBusy",                  (gchar *) "freebusy",          calendar_preferences_get_config_widget },
+	{ E_CONFIG_SECTION,       (gchar *) "20.freeBusy/00.defaultServer", (gchar *) "default-freebusy-vbox",   calendar_preferences_get_config_widget },
 };
 
 static void
@@ -588,8 +498,8 @@ eccp_free (EConfig *ec, GSList *items, gpointer data)
 }
 
 static void
-calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
-                                 EShell *shell)
+calendar_preferences_construct (ECalendarPreferences *prefs,
+                                EShell *shell)
 {
 	ECalConfig *ec;
 	ECalConfigTargetPrefs *target;
@@ -601,7 +511,7 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 	GtkWidget *table;
 	GSList *l;
 
-	shell_settings = e_shell_get_shell_settings (shell);
+	shell_settings = prefs->shell_settings;
 
 	locale_supports_12_hour_format =
 		calendar_config_locale_supports_12_hour_format ();
@@ -617,9 +527,7 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 	E_TYPE_TIMEZONE_ENTRY;
 
 	prefs->builder = gtk_builder_new ();
-	e_load_ui_builder_definition (prefs->builder, "cal-prefs-dialog.ui");
-
-	prefs->gconf = gconf_client_get_default ();
+	e_load_ui_builder_definition (prefs->builder, "e-calendar-preferences.ui");
 
 	/** @HookPoint-ECalConfig: Calendar Preferences Page
 	 * @Id: org.gnome.evolution.calendar.prefs
@@ -758,15 +666,74 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	prefs->default_reminder = e_builder_get_widget (prefs->builder, "default_reminder");
-	prefs->default_reminder_interval = e_builder_get_widget (prefs->builder, "default_reminder_interval");
-	prefs->default_reminder_units = e_builder_get_widget (prefs->builder, "default_reminder_units");
-	prefs->ba_reminder = e_builder_get_widget (prefs->builder, "ba_reminder");
-	prefs->ba_reminder_interval = e_builder_get_widget (prefs->builder, "ba_reminder_interval");
-	prefs->ba_reminder_units = e_builder_get_widget (prefs->builder, "ba_reminder_units");
+	widget = e_builder_get_widget (prefs->builder, "default_reminder");
+	g_object_bind_property (
+		shell_settings, "cal-use-default-reminder",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	widget = e_builder_get_widget (prefs->builder, "default_reminder_interval");
+	g_object_bind_property (
+		shell_settings, "cal-default-reminder-interval",
+		widget, "value",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		shell_settings, "cal-use-default-reminder",
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	widget = e_builder_get_widget (prefs->builder, "default_reminder_units");
+	g_object_bind_property (
+		shell_settings, "cal-default-reminder-units",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		shell_settings, "cal-use-default-reminder",
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	widget = e_builder_get_widget (prefs->builder, "ba_reminder");
+	g_object_bind_property (
+		shell_settings, "cal-use-ba-reminder",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	widget = e_builder_get_widget (prefs->builder, "ba_reminder_interval");
+	g_object_bind_property (
+		shell_settings, "cal-ba-reminder-interval",
+		widget, "value",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		shell_settings, "cal-use-ba-reminder",
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	widget = e_builder_get_widget (prefs->builder, "ba_reminder_units");
+	g_object_bind_property (
+		shell_settings, "cal-ba-reminder-units",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		shell_settings, "cal-use-ba-reminder",
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	/* Display tab */
-	prefs->time_divisions = e_builder_get_widget (prefs->builder, "time_divisions");
+	widget = e_builder_get_widget (prefs->builder, "time_divisions");
+	g_object_bind_property_full (
+		shell_settings, "cal-time-divisions",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
+		transform_time_divisions_to_index,
+		transform_index_to_time_divisions,
+		NULL, (GDestroyNotify) NULL);
 
 	widget = e_builder_get_widget (prefs->builder, "show_end_times");
 	g_object_bind_property (
@@ -796,7 +763,12 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
-	prefs->month_scroll_by_week = e_builder_get_widget (prefs->builder, "month_scroll_by_week");
+	widget = e_builder_get_widget (prefs->builder, "month_scroll_by_week");
+	g_object_bind_property (
+		shell_settings, "cal-month-scroll-by-week",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
 
 	widget = e_builder_get_widget (prefs->builder, "tasks_due_today_color");
 	g_object_bind_property_full (
@@ -818,9 +790,34 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 		e_binding_transform_color_to_string,
 		(GDestroyNotify) NULL, NULL);
 
-	prefs->tasks_hide_completed = e_builder_get_widget (prefs->builder, "tasks_hide_completed");
-	prefs->tasks_hide_completed_interval = e_builder_get_widget (prefs->builder, "tasks_hide_completed_interval");
-	prefs->tasks_hide_completed_units = e_builder_get_widget (prefs->builder, "tasks_hide_completed_units");
+	widget = e_builder_get_widget (prefs->builder, "tasks_hide_completed");
+	g_object_bind_property (
+		shell_settings, "cal-hide-completed-tasks",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
+	widget = e_builder_get_widget (prefs->builder, "tasks_hide_completed_interval");
+	g_object_bind_property (
+		shell_settings, "cal-hide-completed-tasks-value",
+		widget, "value",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		shell_settings, "cal-hide-completed-tasks",
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	widget = e_builder_get_widget (prefs->builder, "tasks_hide_completed_units");
+	g_object_bind_property (
+		shell_settings, "cal-hide-completed-tasks-units",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		shell_settings, "cal-hide-completed-tasks",
+		widget, "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	/* Alarms tab */
 	prefs->notify_with_tray = e_builder_get_widget (prefs->builder, "notify_with_tray");
@@ -851,12 +848,14 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 					       "month_scroll_by_week",
 					       NULL);
 
-	/* HACK:  GTK+ 2.18 and 2.20 has a GtkTable which includes row/column spacing even for empty rows/columns.
-	 * When Evo runs in Express mode, we hide all the rows in the Time section of the calendar's General
-	 * preferences page.  However, due to that behavior in GTK+, we get a lot of extra spacing in that
-	 * section.  Since we know that in Express mode we only leave a single row visible, we'll make the
-	 * table's row spacing equal to 0 in that case.
-	 */
+	/* HACK: GTK+ 2.18 and 2.20 has a GtkTable which includes
+	 *       row/column spacing even for empty rows/columns.
+	 *       When Evo runs in Express mode, we hide all the rows in
+	 *       the Time section of the calendar's General preferences
+	 *       page.  However, due to that behavior in GTK+, we get a
+	 *       lot of extra spacing in that section.  Since we know that
+	 *       in Express mode we only leave a single row visible, we'll
+	 *       make the table's row spacing equal to 0 in that case. */
 	if (e_shell_get_express_mode (shell)) {
 		widget = e_builder_get_widget (prefs->builder, "time");
 		gtk_table_set_row_spacings (GTK_TABLE (widget), 0);
@@ -864,7 +863,7 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 
 	/* Hook up and add the toplevel widget */
 
-	target = e_cal_config_target_new_prefs (ec, prefs->gconf);
+	target = e_cal_config_target_new_prefs (ec);
 	e_config_set_target ((EConfig *)ec, (EConfigTarget *) target);
 	toplevel = e_config_create_widget ((EConfig *)ec);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
@@ -874,42 +873,33 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 	setup_changes (prefs);
 }
 
-GType
-calendar_prefs_dialog_get_type (void)
+void
+e_calendar_preferences_type_register (GTypeModule *type_module)
 {
-	static GType type = 0;
-
-	if (!type) {
-		static GTypeInfo type_info = {
-			sizeof (CalendarPrefsDialogClass),
-			NULL, NULL,
-			(GClassInitFunc) calendar_prefs_dialog_class_init,
-			NULL, NULL,
-			sizeof (CalendarPrefsDialog),
-			0,
-			(GInstanceInitFunc) calendar_prefs_dialog_init,
-		};
-
-		type = g_type_register_static (GTK_TYPE_VBOX, "CalendarPrefsDialog", &type_info, 0);
-	}
-
-	return type;
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_calendar_preferences_register_type (type_module);
 }
 
 GtkWidget *
-calendar_prefs_dialog_new (EPreferencesWindow *window)
+e_calendar_preferences_new (EPreferencesWindow *window)
 {
 	EShell *shell;
-	CalendarPrefsDialog *dialog;
+	EShellSettings *shell_settings;
+	ECalendarPreferences *preferences;
 
 	shell = e_preferences_window_get_shell (window);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	dialog = g_object_new (CALENDAR_TYPE_PREFS_DIALOG, NULL);
+	preferences = g_object_new (E_TYPE_CALENDAR_PREFERENCES, NULL);
+
+	preferences->shell_settings = g_object_ref (shell_settings);
 
 	/* FIXME Kill this function. */
-	calendar_prefs_dialog_construct (dialog, shell);
+	calendar_preferences_construct (preferences, shell);
 
-	return GTK_WIDGET (dialog);
+	return GTK_WIDGET (preferences);
 }

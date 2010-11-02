@@ -220,12 +220,13 @@ action_calendar_taskpad_print_cb (GtkAction *action,
 	ECalModelComponent *comp_data;
 	ETaskTable *task_table;
 	ECalComponent *comp;
+	ECalModel *model;
 	icalcomponent *clone;
-	GtkPrintOperationAction print_action;
 	GSList *list;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
+	model = e_task_table_get_model (task_table);
 
 	list = e_task_table_get_selected (task_table);
 	g_return_if_fail (list != NULL);
@@ -235,9 +236,14 @@ action_calendar_taskpad_print_cb (GtkAction *action,
 	/* XXX We only print the first selected task. */
 	comp = e_cal_component_new ();
 	clone = icalcomponent_new_clone (comp_data->icalcomp);
-	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
 	e_cal_component_set_icalcomponent (comp, clone);
-	print_comp (comp, comp_data->client, print_action);
+
+	print_comp (
+		comp, comp_data->client,
+		e_cal_model_get_timezone (model),
+		e_cal_model_get_use_24_hour_format (model),
+		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+
 	g_object_unref (comp);
 }
 

@@ -64,6 +64,11 @@ void		e_task_shell_backend_register_type
 					(GTypeModule *type_module);
 ESourceList *	e_task_shell_backend_get_source_list
 					(ETaskShellBackend *task_shell_backend);
+GSList *	e_task_shell_backend_get_selected_task_lists
+					(ETaskShellBackend *task_shell_backend);
+void		e_task_shell_backend_set_selected_task_lists
+					(ETaskShellBackend *task_shell_backend,
+					 GSList *selected_task_lists);
 
 G_END_DECLS
 

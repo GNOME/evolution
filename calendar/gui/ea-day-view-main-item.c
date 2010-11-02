@@ -553,7 +553,9 @@ ea_day_view_main_item_get_row_label (EaDayViewMainItem *ea_main_item,
 	GObject *g_obj;
 	EDayViewMainItem *main_item;
 	EDayView *day_view;
+	ECalendarView *cal_view;
 	const gchar *suffix;
+	gint time_divisions;
 	gint hour, minute, suffix_width;
 
 	g_return_val_if_fail (ea_main_item, 0);
@@ -566,9 +568,12 @@ ea_day_view_main_item_get_row_label (EaDayViewMainItem *ea_main_item,
 	main_item = E_DAY_VIEW_MAIN_ITEM (g_obj);
 	day_view = e_day_view_main_item_get_day_view (main_item);
 
+	cal_view = E_CALENDAR_VIEW (day_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
+
 	hour = day_view->first_hour_shown;
 	minute = day_view->first_minute_shown;
-	minute += row * day_view->mins_per_row;
+	minute += row * time_divisions;
 	hour = (hour + minute / 60) % 24;
 	minute %= 60;
 

@@ -447,12 +447,13 @@ action_memo_print_cb (GtkAction *action,
 	EMemoTable *memo_table;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
+	ECalModel *model;
 	icalcomponent *clone;
-	GtkPrintOperationAction print_action;
 	GSList *list;
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+	model = e_memo_table_get_model (memo_table);
 
 	list = e_memo_table_get_selected (memo_table);
 	g_return_if_fail (list != NULL);
@@ -462,9 +463,14 @@ action_memo_print_cb (GtkAction *action,
 	/* XXX We only print the first selected memo. */
 	comp = e_cal_component_new ();
 	clone = icalcomponent_new_clone (comp_data->icalcomp);
-	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
 	e_cal_component_set_icalcomponent (comp, clone);
-	print_comp (comp, comp_data->client, print_action);
+
+	print_comp (
+		comp, comp_data->client,
+		e_cal_model_get_timezone (model),
+		e_cal_model_get_use_24_hour_format (model),
+		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+
 	g_object_unref (comp);
 }
 

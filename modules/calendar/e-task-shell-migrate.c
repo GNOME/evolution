@@ -38,19 +38,20 @@
 #include <libedataserver/e-xml-utils.h>
 
 #include "e-util/e-util-private.h"
-#include "calendar/gui/calendar-config.h"
 #include "calendar/gui/calendar-config-keys.h"
 #include "shell/e-shell.h"
+
+#include "e-task-shell-backend.h"
 
 #define WEBCAL_BASE_URI "webcal://"
 #define PERSONAL_RELATIVE_URI "system"
 
 static void
 create_task_sources (EShellBackend *shell_backend,
-		     ESourceList *source_list,
-		     ESourceGroup **on_this_computer,
-		     ESourceGroup **on_the_web,
-		     ESource **personal_source)
+                     ESourceList *source_list,
+                     ESourceGroup **on_this_computer,
+                     ESourceGroup **on_the_web,
+                     ESource **personal_source)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
@@ -115,6 +116,7 @@ create_task_sources (EShellBackend *shell_backend,
 	}
 
 	if (!*personal_source) {
+		GSList *selected;
 		gchar *primary_task_list;
 
 		/* Create the default Person task list */
@@ -124,17 +126,25 @@ create_task_sources (EShellBackend *shell_backend,
 		primary_task_list = e_shell_settings_get_string (
 			shell_settings, "cal-primary-task-list");
 
-		if (!primary_task_list && !calendar_config_get_tasks_selected ()) {
-			GSList selected;
+		selected = e_task_shell_backend_get_selected_task_lists (
+			E_TASK_SHELL_BACKEND (shell_backend));
+
+		if (primary_task_list == NULL && selected == NULL) {
+			GSList link;
 
 			e_shell_settings_set_string (
 				shell_settings, "cal-primary-task-list",
 				e_source_peek_uid (source));
 
-			selected.data = (gpointer)e_source_peek_uid (source);
-			selected.next = NULL;
-			calendar_config_set_tasks_selected (&selected);
+			link.data = (gpointer)e_source_peek_uid (source);
+			link.next = NULL;
+
+			e_task_shell_backend_set_selected_task_lists (
+				E_TASK_SHELL_BACKEND (shell_backend), &link);
 		}
+
+		g_slist_foreach (selected, (GFunc) g_free, NULL);
+		g_slist_free (selected);
 
 		e_source_set_color_spec (source, "#BECEDD");
 		*personal_source = source;
@@ -154,10 +164,10 @@ create_task_sources (EShellBackend *shell_backend,
 
 gboolean
 e_task_shell_backend_migrate (EShellBackend *shell_backend,
-                             gint major,
-                             gint minor,
-                             gint micro,
-                             GError **error)
+                              gint major,
+                              gint minor,
+                              gint micro,
+                              GError **error)
 {
 	ESourceGroup *on_this_computer = NULL;
 	ESourceGroup *on_the_web = NULL;

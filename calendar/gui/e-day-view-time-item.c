@@ -87,7 +87,7 @@ static gint e_day_view_time_item_event (GnomeCanvasItem *item,
 					GdkEvent *event);
 static void e_day_view_time_item_increment_time	(gint	*hour,
 						 gint	*minute,
-						 gint	 mins_per_row);
+						 gint	 time_divisions);
 static void e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 						  GdkEvent *event);
 static void e_day_view_time_item_on_set_divisions (GtkWidget *item,
@@ -285,10 +285,12 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 {
 	EDayView *day_view;
 	EDayViewTimeItem *time_item;
+	ECalendarView *cal_view;
 	ECalModel *model;
 	GtkStyle *style;
 	const gchar *suffix;
 	gchar buffer[64], *midnight_day = NULL, *midnight_month = NULL;
+	gint time_divisions;
 	gint hour, display_hour, minute, row;
 	gint row_y, start_y, large_hour_y_offset, small_font_y_offset;
 	gint long_line_x1, long_line_x2, short_line_x1;
@@ -309,7 +311,9 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 	day_view = e_day_view_time_item_get_day_view (time_item);
 	g_return_if_fail (day_view != NULL);
 
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	cal_view = E_CALENDAR_VIEW (day_view);
+	model = e_calendar_view_get_model (cal_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
 	small_font_desc = style->font_desc;
@@ -327,7 +331,7 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 	long_line_x1 = (use_zone ? 0 : E_DVTMI_TIME_GRID_X_PAD) - x + x_offset;
 	long_line_x2 = time_item->priv->column_width - E_DVTMI_TIME_GRID_X_PAD - x - (use_zone ? E_DVTMI_TIME_GRID_X_PAD : 0) + x_offset;
 
-	if (day_view->mins_per_row == 60) {
+	if (time_divisions == 60) {
 		/* The right edge of the complete time string in 60-min
 		   divisions, e.g. "14:00" or "2 pm". */
 		minute_x2 = long_line_x2 - E_DVTMI_60_MIN_X_PAD;
@@ -437,7 +441,7 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 			mb_color = day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE];
 
 		time_now = icaltime_current_time_with_zone (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-		marcus_bains_y = (time_now.hour * 60 + time_now.minute) * day_view->row_height / day_view->mins_per_row - y;
+		marcus_bains_y = (time_now.hour * 60 + time_now.minute) * day_view->row_height / time_divisions - y;
 		cairo_set_line_width (cr, 1.5);
 		cairo_move_to (cr, long_line_x1 - (use_zone ? E_DVTMI_TIME_GRID_X_PAD : 0), marcus_bains_y);
 		cairo_line_to (cr, long_line_x2, marcus_bains_y);
@@ -461,13 +465,13 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 	for (row = 0, row_y = 0 - y;
 	     row < day_view->rows && row_y < height;
 	     row++, row_y += day_view->row_height) {
-		gboolean show_midnight_date = use_zone && hour == 0 && (minute == 0 || day_view->mins_per_row == 60) && midnight_day && midnight_month;
+		gboolean show_midnight_date = use_zone && hour == 0 && (minute == 0 || time_divisions == 60) && midnight_day && midnight_month;
 
 		/* If the row is above the first row we want to draw just
 		   increment the time and skip to the next row. */
 		if (row_y < start_y) {
 			e_day_view_time_item_increment_time (&hour, &minute,
-							     day_view->mins_per_row);
+							     time_divisions);
 			continue;
 		}
 
@@ -477,7 +481,7 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 						    &display_hour,
 						    &suffix, &suffix_width);
 
-		if (day_view->mins_per_row == 60) {
+		if (time_divisions == 60) {
 			/* 60 minute intervals - draw a long horizontal line
 			   between hours and display as one long string,
 			   e.g. "14:00" or "2 pm". */
@@ -568,7 +572,7 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 			/* Normally we display the minute in each
 			   interval, but when using 30-minute intervals
 			   we don't display the '30'. */
-			if (day_view->mins_per_row != 30 || minute != 30) {
+			if (time_divisions != 30 || minute != 30) {
 				/* In 12-hour format we display 'am' or 'pm'
 				   instead of '00'. */
 				if (show_midnight_date)
@@ -600,7 +604,7 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 		}
 
 		e_day_view_time_item_increment_time (&hour, &minute,
-						     day_view->mins_per_row);
+						     time_divisions);
 	}
 
 	pango_font_metrics_unref (large_font_metrics);
@@ -631,14 +635,14 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 }
 
 /* Increment the time by the 5/10/15/30/60 minute interval.
-   Note that mins_per_row is never > 60, so we never have to
+   Note that time_divisions is never > 60, so we never have to
    worry about adding more than 60 minutes. */
 static void
 e_day_view_time_item_increment_time	(gint	*hour,
 					 gint	*minute,
-					 gint	 mins_per_row)
+					 gint	 time_divisions)
 {
-	*minute += mins_per_row;
+	*minute += time_divisions;
 	if (*minute >= 60) {
 		*minute -= 60;
 		/* Currently we never wrap around to the next day, but
@@ -728,6 +732,7 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 {
 	static gint divisions[] = { 60, 30, 15, 10, 5 };
 	EDayView *day_view;
+	ECalendarView *cal_view;
 	GtkWidget *menu, *item, *submenu;
 	gchar buffer[256];
 	GSList *group = NULL, *recent_zones, *s;
@@ -737,7 +742,8 @@ e_day_view_time_item_show_popup_menu (EDayViewTimeItem *time_item,
 	day_view = e_day_view_time_item_get_day_view (time_item);
 	g_return_if_fail (day_view != NULL);
 
-	current_divisions = e_day_view_get_mins_per_row (day_view);
+	cal_view = E_CALENDAR_VIEW (day_view);
+	current_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	menu = gtk_menu_new ();
 
@@ -832,6 +838,7 @@ e_day_view_time_item_on_set_divisions (GtkWidget *item,
 				       EDayViewTimeItem *time_item)
 {
 	EDayView *day_view;
+	ECalendarView *cal_view;
 	gint divisions;
 
 	day_view = e_day_view_time_item_get_day_view (time_item);
@@ -841,8 +848,9 @@ e_day_view_time_item_on_set_divisions (GtkWidget *item,
 		return;
 
 	divisions = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "divisions"));
-	e_day_view_set_mins_per_row (day_view, divisions);
-	calendar_config_set_time_divisions (divisions);
+
+	cal_view = E_CALENDAR_VIEW (day_view);
+	e_calendar_view_set_time_divisions (cal_view, divisions);
 }
 
 static void

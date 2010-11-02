@@ -62,19 +62,17 @@ struct _ECalComponentPreviewClass {
 	EWebViewClass parent_class;
 
 	/* Notification signals */
-	void (* selection_changed) (ECalComponentPreview *preview, gint n_selected);
+	void	(*selection_changed)		(ECalComponentPreview *preview,
+						 gint n_selected);
 };
 
 GType		e_cal_component_preview_get_type (void);
 GtkWidget *	e_cal_component_preview_new	(void);
-icaltimezone *	e_cal_component_preview_get_default_timezone
-						(ECalComponentPreview *preview);
-void		e_cal_component_preview_set_default_timezone
-						(ECalComponentPreview *preview,
-						 icaltimezone *zone);
 void		e_cal_component_preview_display	(ECalComponentPreview *preview,
 						 ECal *ecal,
-						 ECalComponent *comp);
+						 ECalComponent *comp,
+						 icaltimezone *zone,
+						 gboolean use_24_hour_format);
 void		e_cal_component_preview_clear	(ECalComponentPreview *preview);
 
 G_END_DECLS

@@ -36,15 +36,17 @@ typedef enum {
 	PRINT_VIEW_LIST
 } PrintView;
 
-void		print_calendar                (GnomeCalendar *gcal,
-                                               GtkPrintOperationAction action,
-                                               time_t start);
-void		print_comp                    (ECalComponent *comp,
-                                               ECal *client,
-                                               GtkPrintOperationAction action);
-void		print_table                   (ETable *table,
-                                               const gchar *dialog_title,
-                                               const gchar *print_header,
-                                               GtkPrintOperationAction action);
+void		print_calendar			(GnomeCalendar *gcal,
+						 GtkPrintOperationAction action,
+						 time_t start);
+void		print_comp			(ECalComponent *comp,
+						 ECal *client,
+						 icaltimezone *zone,
+						 gboolean use_24_hour_format,
+						 GtkPrintOperationAction action);
+void		print_table			(ETable *table,
+						 const gchar *dialog_title,
+						 const gchar *print_header,
+						 GtkPrintOperationAction action);
 
 #endif

@@ -41,8 +41,6 @@
 #include "calendar-config.h"
 
 static GConfClient *config = NULL;
-static gboolean display_events_gradient = TRUE;
-static gfloat display_events_alpha = 1.0;
 
 static void
 do_cleanup (void)
@@ -61,9 +59,6 @@ calendar_config_init (void)
 	g_atexit ((GVoidFunc) do_cleanup);
 
 	gconf_client_add_dir (config, CALENDAR_CONFIG_PREFIX, GCONF_CLIENT_PRELOAD_RECURSIVE, NULL);
-
-	display_events_gradient = gconf_client_get_bool (config, CALENDAR_CONFIG_DISPLAY_EVENTS_GRADIENT, NULL);
-	display_events_alpha = gconf_client_get_float (config, CALENDAR_CONFIG_DISPLAY_EVENTS_ALPHA, NULL);
 }
 
 void
@@ -88,61 +83,9 @@ calendar_config_locale_supports_12_hour_format (void)
 	return s[0] != '\0';
 }
 
-/* Returns the string representation of a units value */
-static const gchar *
-units_to_string (EDurationType units)
-{
-	switch (units) {
-	case E_DURATION_DAYS:
-		return "days";
-
-	case E_DURATION_HOURS:
-		return "hours";
-
-	case E_DURATION_MINUTES:
-		return "minutes";
-
-	default:
-		g_return_val_if_reached (NULL);
-	}
-}
-
-/* opposite function to 'units_to_string' */
-static EDurationType
-string_to_units (const gchar *units)
-{
-	EDurationType res;
-
-	if (units && !strcmp (units, "days"))
-		res = E_DURATION_DAYS;
-	else if (units && !strcmp (units, "hours"))
-		res = E_DURATION_HOURS;
-	else
-		res = E_DURATION_MINUTES;
-
-	return res;
-}
-
 /*
  * Calendar Settings.
  */
-
-/* The current list of calendars selected */
-GSList *
-calendar_config_get_calendars_selected (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_list (config, CALENDAR_CONFIG_SELECTED_CALENDARS, GCONF_VALUE_STRING, NULL);
-}
-
-void
-calendar_config_set_calendars_selected (GSList *selected)
-{
-	calendar_config_init ();
-
-	gconf_client_set_list (config, CALENDAR_CONFIG_SELECTED_CALENDARS, GCONF_VALUE_STRING, selected, NULL);
-}
 
 static gchar *
 calendar_config_get_timezone_stored (void)
@@ -204,97 +147,6 @@ calendar_config_get_24_hour_format	(void)
 	return TRUE;
 }
 
-/* The start day of the week (0 = Sun to 6 = Mon). */
-gint
-calendar_config_get_week_start_day	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_int (config, CALENDAR_CONFIG_WEEK_START, NULL);
-}
-
-/* The start and end times of the work-day. */
-gint
-calendar_config_get_day_start_hour	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_int (config, CALENDAR_CONFIG_DAY_START_HOUR, NULL);
-}
-
-void
-calendar_config_set_day_start_hour	(gint	      day_start_hour)
-{
-	calendar_config_init ();
-
-	gconf_client_set_int (config, CALENDAR_CONFIG_DAY_START_HOUR, day_start_hour, NULL);
-}
-
-gint
-calendar_config_get_day_start_minute	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_int (config, CALENDAR_CONFIG_DAY_START_MINUTE, NULL);
-}
-
-void
-calendar_config_set_day_start_minute	(gint	      day_start_min)
-{
-	calendar_config_init ();
-
-	gconf_client_set_int (config, CALENDAR_CONFIG_DAY_START_MINUTE, day_start_min, NULL);
-}
-
-gint
-calendar_config_get_day_end_hour	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_int (config, CALENDAR_CONFIG_DAY_END_HOUR, NULL);
-}
-
-void
-calendar_config_set_day_end_hour	(gint	      day_end_hour)
-{
-	calendar_config_init ();
-
-	gconf_client_set_int (config, CALENDAR_CONFIG_DAY_END_HOUR, day_end_hour, NULL);
-}
-
-gint
-calendar_config_get_day_end_minute	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_int (config, CALENDAR_CONFIG_DAY_END_MINUTE, NULL);
-}
-
-void
-calendar_config_set_day_end_minute	(gint	      day_end_min)
-{
-	calendar_config_init ();
-
-	gconf_client_set_int (config, CALENDAR_CONFIG_DAY_END_MINUTE, day_end_min, NULL);
-}
-
-/* The time divisions in the Day/Work-Week view in minutes (5/10/15/30/60). */
-gint
-calendar_config_get_time_divisions	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_int (config, CALENDAR_CONFIG_TIME_DIVISIONS, NULL);
-}
-
-void
-calendar_config_set_time_divisions	(gint	      divisions)
-{
-	calendar_config_init ();
-
-	gconf_client_set_int (config, CALENDAR_CONFIG_TIME_DIVISIONS, divisions, NULL);
-}
-
 /* Scroll in a month view by a week, not by a month */
 gboolean
 calendar_config_get_month_scroll_by_week (void)
@@ -302,14 +154,6 @@ calendar_config_get_month_scroll_by_week (void)
 	calendar_config_init ();
 
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_MONTH_SCROLL_BY_WEEK, NULL);
-}
-
-void
-calendar_config_set_month_scroll_by_week (gboolean value)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_MONTH_SCROLL_BY_WEEK, value, NULL);
 }
 
 guint
@@ -324,52 +168,7 @@ calendar_config_add_notification_month_scroll_by_week (GConfClientNotifyFunc fun
 	return id;
 }
 
-/* The current list of task lists selected */
-GSList   *
-calendar_config_get_tasks_selected (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_list (config, CALENDAR_CONFIG_TASKS_SELECTED_TASKS, GCONF_VALUE_STRING, NULL);
-}
-
-void
-calendar_config_set_tasks_selected (GSList *selected)
-{
-	calendar_config_init ();
-
-	gconf_client_set_list (config, CALENDAR_CONFIG_TASKS_SELECTED_TASKS, GCONF_VALUE_STRING, selected, NULL);
-}
-
 /***************************************/
-
-/* The current list of memo lists selected */
-GSList   *
-calendar_config_get_memos_selected (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_list (config, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, NULL);
-}
-
-void
-calendar_config_set_memos_selected (GSList *selected)
-{
-	calendar_config_init ();
-
-	gconf_client_set_list (config, CALENDAR_CONFIG_MEMOS_SELECTED_MEMOS, GCONF_VALUE_STRING, selected, NULL);
-}
-
-/***************************************/
-
-/* Whether we compress the weekend in the week/month views. */
-gboolean
-calendar_config_get_compress_weekend	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_COMPRESS_WEEKEND, NULL);
-}
 
 /* The working days of the week, a bit-wise combination of flags. */
 CalWeekdays
@@ -389,15 +188,7 @@ calendar_config_get_hide_completed_tasks	(void)
 	return gconf_client_get_bool (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED, NULL);
 }
 
-void
-calendar_config_set_hide_completed_tasks	(gboolean	hide)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED, hide, NULL);
-}
-
-EDurationType
+static EDurationType
 calendar_config_get_hide_completed_tasks_units	(void)
 {
 	gchar *units;
@@ -419,215 +210,6 @@ calendar_config_get_hide_completed_tasks_units	(void)
 	return cu;
 }
 
-void
-calendar_config_set_hide_completed_tasks_units	(EDurationType	cu)
-{
-	gchar *units;
-
-	calendar_config_init ();
-
-	switch (cu) {
-	case E_DURATION_MINUTES :
-		units = g_strdup ("minutes");
-		break;
-	case E_DURATION_HOURS :
-		units = g_strdup ("hours");
-		break;
-	default :
-		units = g_strdup ("days");
-	}
-
-	gconf_client_set_string (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_UNITS, units, NULL);
-
-	g_free (units);
-}
-
-gint
-calendar_config_get_hide_completed_tasks_value	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_int (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_VALUE, NULL);
-}
-
-void
-calendar_config_set_hide_completed_tasks_value	(gint		value)
-{
-	calendar_config_init ();
-
-	gconf_client_set_int (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_VALUE, value, NULL);
-}
-
-/**
- * calendar_config_get_confirm_delete:
- *
- * Queries the configuration value for whether a confirmation dialog is
- * presented when deleting calendar/tasks items.
- *
- * Return value: Whether confirmation is required when deleting items.
- **/
-gboolean
-calendar_config_get_confirm_delete (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_PROMPT_DELETE, NULL);
-}
-
-/**
- * calendar_config_get_use_default_reminder:
- *
- * Queries whether new appointments should be created with a default reminder.
- *
- * Return value: Boolean value indicating whether new appointments should be
- * created with a default reminder from the values of
- * calendar_config_get_default_reminder_interval() and
- * calendar_config_get_default_reminder_units().
- **/
-gboolean
-calendar_config_get_use_default_reminder (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_DEFAULT_REMINDER, NULL);
-}
-
-/**
- * calendar_config_set_use_default_reminder:
- * @value: Whether to create new appointments with a default reminder.
- *
- * Sets whether newly-created appointments should get a default reminder set
- * them.
- **/
-void
-calendar_config_set_use_default_reminder (gboolean value)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_DEFAULT_REMINDER, value, NULL);
-}
-
-/**
- * calendar_config_get_default_reminder_interval:
- *
- * Queries the interval for the default reminder of newly-created
- * appointments, i.e. 5 in "5 minutes".
- *
- * Return value: Interval for default reminders.
- **/
-gint
-calendar_config_get_default_reminder_interval (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_int (config, CALENDAR_CONFIG_DEFAULT_REMINDER_INTERVAL, NULL);
-}
-
-/**
- * calendar_config_set_default_reminder_interval:
- * @interval: Interval value, e.g. 5 for "5 minutes".
- *
- * Sets the interval that should be used for the default reminder in new
- * appointments.
- **/
-void
-calendar_config_set_default_reminder_interval (gint interval)
-{
-	calendar_config_init ();
-
-	gconf_client_set_int (config, CALENDAR_CONFIG_DEFAULT_REMINDER_INTERVAL, interval, NULL);
-}
-
-/**
- * calendar_config_get_default_reminder_units:
- *
- * Queries the units of time in which default reminders should be created for
- * new appointments, e.g. E_DURATION_MINUTES for "5 minutes".
- *
- * Return value: Time units for default reminders.
- **/
-EDurationType
-calendar_config_get_default_reminder_units (void)
-{
-	gchar *units;
-	EDurationType cu;
-
-	calendar_config_init ();
-
-	units = gconf_client_get_string (config, CALENDAR_CONFIG_DEFAULT_REMINDER_UNITS, NULL);
-	cu = string_to_units (units);
-	g_free (units);
-
-	return cu;
-}
-
-/**
- * calendar_config_set_default_reminder_units:
- * @units: Time units, e.g. E_DURATION_MINUTES for "5 minutes".
- *
- * Sets the units to be used for default reminders in new appointments.
- **/
-void
-calendar_config_set_default_reminder_units (EDurationType units)
-{
-	calendar_config_init ();
-
-	gconf_client_set_string (config, CALENDAR_CONFIG_DEFAULT_REMINDER_UNITS, units_to_string (units), NULL);
-}
-
-/**
- * calendar_config_get_ba_reminder:
- * Retrieves setup of the Birthdays & Anniversaries reminder.
- *
- * @interval: Retrieves the interval setup for the reminder; can be NULL.
- * @units: Retrieves units for the interval; can be NULL.
- *
- * Returns whether the reminder is on or off. The values for interval and/or units
- * are retrieved even when returns FALSE.
- **/
-gboolean
-calendar_config_get_ba_reminder (gint *interval, EDurationType *units)
-{
-	calendar_config_init ();
-
-	if (interval) {
-		*interval = gconf_client_get_int (config, CALENDAR_CONFIG_BA_REMINDER_INTERVAL, NULL);
-	}
-
-	if (units) {
-		gchar *str;
-
-		str = gconf_client_get_string (config, CALENDAR_CONFIG_BA_REMINDER_UNITS, NULL);
-		*units = string_to_units (str);
-		g_free (str);
-	}
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_BA_REMINDER, NULL);
-}
-
-/**
- * calendar_config_set_ba_reminder:
- * Stores new values for Birthdays & Anniversaries reminder to GConf. Only those, which are not NULL.
- *
- * @enabled: The enabled state; can be NULL.
- * @interval: The reminder interval; can be NULL.
- * @units: The units of the reminder; can be NULL.
- **/
-void
-calendar_config_set_ba_reminder (gboolean *enabled, gint *interval, EDurationType *units)
-{
-	calendar_config_init ();
-
-	if (enabled)
-		gconf_client_set_bool (config, CALENDAR_CONFIG_BA_REMINDER, *enabled, NULL);
-
-	if (interval)
-		gconf_client_set_int (config, CALENDAR_CONFIG_BA_REMINDER_INTERVAL, *interval, NULL);
-
-	if (units)
-		gconf_client_set_string (config, CALENDAR_CONFIG_BA_REMINDER_UNITS, units_to_string (*units), NULL);
-}
-
 /**
  * calendar_config_get_hide_completed_tasks_sexp:
  *
@@ -646,7 +228,7 @@ calendar_config_get_hide_completed_tasks_sexp (gboolean get_completed)
 		gint value;
 
 		units = calendar_config_get_hide_completed_tasks_units ();
-		value = calendar_config_get_hide_completed_tasks_value ();
+		value = gconf_client_get_int (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_VALUE, NULL);
 
 		if (value == 0) {
 			/* If the value is 0, we want to hide completed tasks
@@ -851,35 +433,4 @@ calendar_config_add_notification_day_second_zone (GConfClientNotifyFunc func, gp
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DAY_SECOND_ZONE, func, data, NULL, NULL);
 
 	return id;
-}
-
-/* default count for recurring events */
-gint
-calendar_config_get_default_count (void)
-{
-	gint res;
-
-	calendar_config_init ();
-
-	res = gconf_client_get_int (config, CALENDAR_CONFIG_DEF_RECUR_COUNT, NULL);
-	if (res <= 0 && res != -1)
-		res = 2;
-
-	return res;
-}
-
-gboolean
-calendar_config_get_display_events_gradient (void)
-{
-	calendar_config_init ();
-
-	return display_events_gradient;
-}
-
-gfloat
-calendar_config_get_display_events_alpha (void)
-{
-	calendar_config_init ();
-
-	return display_events_alpha;
 }

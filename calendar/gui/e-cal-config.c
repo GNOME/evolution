@@ -56,7 +56,6 @@ ecp_target_free (EConfig *ec, EConfigTarget *t)
 			}
 			break; }
 		case EC_CONFIG_TARGET_PREFS: {
-			/* ECalConfigTargetPrefs *s = (ECalConfigTargetPrefs *)t; */
 			break; }
 		}
 	}
@@ -155,13 +154,11 @@ e_cal_config_target_new_source (ECalConfig *ecp, struct _ESource *source)
 }
 
 ECalConfigTargetPrefs *
-e_cal_config_target_new_prefs (ECalConfig *ecp, struct _GConfClient *gconf)
+e_cal_config_target_new_prefs (ECalConfig *ecp)
 {
 	ECalConfigTargetPrefs *t = e_config_target_new (&ecp->config, EC_CONFIG_TARGET_PREFS, sizeof (*t));
 
-	t->gconf = gconf;
-	if (gconf)
-		g_object_ref (gconf);
+	t->gconf = gconf_client_get_default ();
 
 	return t;
 }

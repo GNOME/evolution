@@ -37,6 +37,12 @@ cal_config_view_constructed (GObject *object)
 	shell = e_shell_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
+	g_object_bind_property (
+		shell_settings, "cal-time-divisions",
+		extensible, "time-divisions",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
 	/*** EDayView ***/
 
 	if (E_IS_DAY_VIEW (extensible)) {
@@ -59,31 +65,6 @@ cal_config_view_constructed (GObject *object)
 		g_object_bind_property (
 			shell_settings, "cal-marcus-bains-time-bar-color",
 			extensible, "marcus-bains-time-bar-color",
-			G_BINDING_SYNC_CREATE);
-
-		g_object_bind_property (
-			shell_settings, "cal-time-divisions",
-			extensible, "mins-per-row",
-			G_BINDING_SYNC_CREATE);
-
-		g_object_bind_property (
-			shell_settings, "cal-work-day-end-hour",
-			extensible, "work-day-end-hour",
-			G_BINDING_SYNC_CREATE);
-
-		g_object_bind_property (
-			shell_settings, "cal-work-day-end-minute",
-			extensible, "work-day-end-minute",
-			G_BINDING_SYNC_CREATE);
-
-		g_object_bind_property (
-			shell_settings, "cal-work-day-start-hour",
-			extensible, "work-day-start-hour",
-			G_BINDING_SYNC_CREATE);
-
-		g_object_bind_property (
-			shell_settings, "cal-work-day-start-minute",
-			extensible, "work-day-start-minute",
 			G_BINDING_SYNC_CREATE);
 
 		g_object_bind_property (

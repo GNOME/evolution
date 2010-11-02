@@ -37,6 +37,16 @@ cal_config_meeting_store_constructed (GObject *object)
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	g_object_bind_property (
+		shell_settings, "cal-default-reminder-interval",
+		extensible, "default-reminder-interval",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		shell_settings, "cal-default-reminder-units",
+		extensible, "default-reminder-units",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
 		shell_settings, "cal-free-busy-template",
 		extensible, "free-busy-template",
 		G_BINDING_SYNC_CREATE);
@@ -44,6 +54,11 @@ cal_config_meeting_store_constructed (GObject *object)
 	g_object_bind_property (
 		shell_settings, "cal-timezone",
 		extensible, "timezone",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		shell_settings, "cal-week-start-day",
+		extensible, "week-start-day",
 		G_BINDING_SYNC_CREATE);
 }
 

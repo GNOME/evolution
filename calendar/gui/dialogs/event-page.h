@@ -70,8 +70,8 @@ struct _EventPageClass {
 
 GType		event_page_get_type		(void);
 EventPage *	event_page_construct		(EventPage *epage,
-						 EMeetingStore *model);
-EventPage *	event_page_new			(EMeetingStore *model,
+						 EMeetingStore *meeting_store);
+EventPage *	event_page_new			(EMeetingStore *meeting_store,
 						 CompEditor *editor);
 ECalComponent *	event_page_get_cancel_comp	(EventPage *page);
 void		event_page_show_options		(EventPage *page);

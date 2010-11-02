@@ -33,15 +33,12 @@
 #include <libedataserver/e-time-utils.h>
 #include <e-util/e-util.h>
 #include <e-util/e-categories-config.h>
-#include "calendar-config.h"
 
 #define E_CAL_COMPONENT_PREVIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CAL_COMPONENT_PREVIEW, ECalComponentPreviewPrivate))
 
 struct _ECalComponentPreviewPrivate {
-	icaltimezone *zone;
-
 	/* information about currently showing component in a preview;
 	   if it didn't change then the preview is not updated */
 	gchar *cal_uid;
@@ -132,7 +129,8 @@ update_comp_info (ECalComponentPreview *preview,
 static gchar *
 timet_to_str_with_zone (ECalComponentDateTime *dt,
                         ECal *ecal,
-                        icaltimezone *default_zone)
+                        icaltimezone *default_zone,
+                        gboolean use_24_hour_format)
 {
 	struct icaltimetype itt;
 	icaltimezone *zone;
@@ -154,8 +152,9 @@ timet_to_str_with_zone (ECalComponentDateTime *dt,
 		icaltimezone_convert_time (&itt, zone, default_zone);
         tm = icaltimetype_to_tm (&itt);
 
-        e_time_format_date_and_time (&tm, calendar_config_get_24_hour_format (),
-                                     FALSE, FALSE, buf, sizeof (buf));
+        e_time_format_date_and_time (
+		&tm, use_24_hour_format,
+		FALSE, FALSE, buf, sizeof (buf));
 
 	return g_locale_to_utf8 (buf, -1, NULL, NULL, NULL);
 }
@@ -164,7 +163,8 @@ static void
 cal_component_preview_write_html (GString *buffer,
                                   ECal *ecal,
                                   ECalComponent *comp,
-                                  icaltimezone *default_zone)
+                                  icaltimezone *default_zone,
+                                  gboolean use_24_hour_format)
 {
 	ECalComponentText text;
 	ECalComponentDateTime dt;
@@ -239,7 +239,8 @@ cal_component_preview_write_html (GString *buffer,
 	/* write start date */
 	e_cal_component_get_dtstart (comp, &dt);
 	if (dt.value != NULL) {
-		str = timet_to_str_with_zone (&dt, ecal, default_zone);
+		str = timet_to_str_with_zone (
+			&dt, ecal, default_zone, use_24_hour_format);
 		g_string_append_printf (
 			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
 			"<B>%s</B></TD><TD>%s</TD></TR>",
@@ -252,7 +253,8 @@ cal_component_preview_write_html (GString *buffer,
 	/* write end date */
 	e_cal_component_get_dtend (comp, &dt);
 	if (dt.value != NULL) {
-		str = timet_to_str_with_zone (&dt, ecal, default_zone);
+		str = timet_to_str_with_zone (
+			&dt, ecal, default_zone, use_24_hour_format);
 		g_string_append_printf (
 			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
 			"<B>%s</B></TD><TD>%s</TD></TR>",
@@ -265,7 +267,8 @@ cal_component_preview_write_html (GString *buffer,
 	/* write Due Date */
 	e_cal_component_get_due (comp, &dt);
 	if (dt.value != NULL) {
-		str = timet_to_str_with_zone (&dt, ecal, default_zone);
+		str = timet_to_str_with_zone (
+			&dt, ecal, default_zone, use_24_hour_format);
 		g_string_append_printf (
 			buffer, "<TR><TD VALIGN=\"TOP\" ALIGN=\"RIGHT\">"
 			"<B>%s</B></TD><TD>%s</TD></TR>",
@@ -402,8 +405,6 @@ static void
 cal_component_preview_init (ECalComponentPreview *preview)
 {
 	preview->priv = E_CAL_COMPONENT_PREVIEW_GET_PRIVATE (preview);
-
-	preview->priv->zone = icaltimezone_get_utc_timezone ();
 }
 
 GType
@@ -439,28 +440,12 @@ e_cal_component_preview_new (void)
 	return g_object_new (E_TYPE_CAL_COMPONENT_PREVIEW, NULL);
 }
 
-icaltimezone *
-e_cal_component_preview_get_default_timezone (ECalComponentPreview *preview)
-{
-	g_return_val_if_fail (E_IS_CAL_COMPONENT_PREVIEW (preview), NULL);
-
-	return preview->priv->zone;
-}
-
-void
-e_cal_component_preview_set_default_timezone (ECalComponentPreview *preview,
-                                              icaltimezone *zone)
-{
-	g_return_if_fail (E_IS_CAL_COMPONENT_PREVIEW (preview));
-	g_return_if_fail (zone != NULL);
-
-	preview->priv->zone = zone;
-}
-
 void
 e_cal_component_preview_display (ECalComponentPreview *preview,
                                  ECal *ecal,
-                                 ECalComponent *comp)
+                                 ECalComponent *comp,
+                                 icaltimezone *zone,
+                                 gboolean use_24_hour_format)
 {
 	GString *buffer;
 
@@ -476,7 +461,7 @@ e_cal_component_preview_display (ECalComponentPreview *preview,
 
 	buffer = g_string_sized_new (4096);
 	cal_component_preview_write_html (
-		buffer, ecal, comp, preview->priv->zone);
+		buffer, ecal, comp, zone, use_24_hour_format);
 	e_web_view_load_string (E_WEB_VIEW (preview), buffer->str);
 	g_string_free (buffer, TRUE);
 }

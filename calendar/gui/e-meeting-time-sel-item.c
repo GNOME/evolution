@@ -203,19 +203,19 @@ static void
 draw_strikeout_box (EMeetingTimeSelectorItem *mts_item, cairo_t *cr,
                     int x, int y, int width, int height)
 {
-        GnomeCanvas *canvas = GNOME_CANVAS_ITEM (mts_item)->canvas;
-        EMeetingTimeSelector *mts = mts_item->mts;
+	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (mts_item)->canvas;
+	EMeetingTimeSelector *mts = mts_item->mts;
 
-        cairo_save (cr);
+	cairo_save (cr);
 
-        cairo_rectangle (cr, x, y, width, height);
-        cairo_clip (cr);
+	cairo_rectangle (cr, x, y, width, height);
+	cairo_clip (cr);
 
-        cairo_translate (cr, -canvas->draw_xofs, -canvas->draw_yofs);
-        cairo_set_source (cr, mts->no_info_pattern);
-        cairo_paint (cr);
+	cairo_translate (cr, -canvas->draw_xofs, -canvas->draw_yofs);
+	cairo_set_source (cr, mts->no_info_pattern);
+	cairo_paint (cr);
 
-        cairo_restore (cr);
+	cairo_restore (cr);
 }
 
 static void
@@ -382,9 +382,9 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 	gint hour, hour_x, hour_y;
 	PangoLayout *layout;
 
-        cairo_save (cr);
+	cairo_save (cr);
 
-        cairo_set_line_width (cr, 1.0);
+	cairo_set_line_width (cr, 1.0);
 
 	mts = mts_item->mts;
 
@@ -395,36 +395,36 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 
 	gdk_cairo_set_source_color (cr, &mts->grid_color);
 	cairo_move_to (cr, x + 0.5, y + 0.5);
-        cairo_rel_line_to (cr, mts->day_width - 1, 0);
-        cairo_stroke (cr);
+	cairo_rel_line_to (cr, mts->day_width - 1, 0);
+	cairo_stroke (cr);
 
 	gdk_cairo_set_source_color (cr, &mts->grid_shadow_color);
 	cairo_move_to (cr, x + 0.5, y + 1.5);
-        cairo_rel_line_to (cr, mts->day_width - 1, 0);
-        cairo_stroke (cr);
+	cairo_rel_line_to (cr, mts->day_width - 1, 0);
+	cairo_stroke (cr);
 
 	gdk_cairo_set_source_color (cr, &mts->grid_color);
 	y += mts->row_height;
-        cairo_move_to (cr, x + 0.5, y + 0.5);
-        cairo_rel_line_to (cr, mts->day_width - 1, 0);
+	cairo_move_to (cr, x + 0.5, y + 0.5);
+	cairo_rel_line_to (cr, mts->day_width - 1, 0);
 	y += mts->row_height;
-        cairo_move_to (cr, x + 0.5, y + 0.5);
-        cairo_rel_line_to (cr, mts->day_width - 1, 0);
+	cairo_move_to (cr, x + 0.5, y + 0.5);
+	cairo_rel_line_to (cr, mts->day_width - 1, 0);
 
 	/* Draw the vertical grid lines. */
 	for (grid_x = mts->col_width - 1;
 	     grid_x < mts->day_width - mts->col_width;
 	     grid_x += mts->col_width) {
-                cairo_move_to (cr, x + grid_x + 0.5, mts->row_height * 2 - 1 - scroll_y + 0.5);
-                cairo_line_to (cr, x + grid_x + 0.5, height + 0.5);
+		cairo_move_to (cr, x + grid_x + 0.5, mts->row_height * 2 - 1 - scroll_y + 0.5);
+		cairo_line_to (cr, x + grid_x + 0.5, height + 0.5);
 	}
 	grid_x = mts->day_width - 2;
-        cairo_move_to (cr, x + grid_x + 0.5, 0.5);
-        cairo_rel_line_to (cr, 0, height);
+	cairo_move_to (cr, x + grid_x + 0.5, 0.5);
+	cairo_rel_line_to (cr, 0, height);
 	grid_x++;
-        cairo_move_to (cr, x + grid_x + 0.5, 0.5);
-        cairo_rel_line_to (cr, 0, height);
-        cairo_stroke (cr);
+	cairo_move_to (cr, x + grid_x + 0.5, 0.5);
+	cairo_rel_line_to (cr, 0, height);
+	cairo_stroke (cr);
 
 	/* Draw the date. Set a clipping rectangle so we don't draw over the
 	   next day. */
@@ -443,36 +443,36 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 
 	g_date_strftime (buffer, sizeof (buffer), format, date);
 
-        cairo_save (cr);
+	cairo_save (cr);
 
-        cairo_rectangle (cr, x, -scroll_y, mts->day_width - 2, mts->row_height - 2);
-        cairo_clip (cr);
+	cairo_rectangle (cr, x, -scroll_y, mts->day_width - 2, mts->row_height - 2);
+	cairo_clip (cr);
 
 	pango_layout_set_text (layout, buffer, -1);
-        cairo_move_to (cr, x + 2, 4 - scroll_y);
-        pango_cairo_show_layout (cr, layout);
+	cairo_move_to (cr, x + 2, 4 - scroll_y);
+	pango_cairo_show_layout (cr, layout);
 
-        cairo_restore (cr);
+	cairo_restore (cr);
 
 	/* Draw the hours. */
 	hour = mts->first_hour_shown;
 	hour_x = x + 2;
 	hour_y = mts->row_height + 4 - scroll_y;
 	while (hour < mts->last_hour_shown) {
-		if (calendar_config_get_24_hour_format ())
+		if (e_meeting_time_selector_get_use_24_hour_format (mts))
 			pango_layout_set_text (layout, EMeetingTimeSelectorHours[hour], -1);
 		else
 			pango_layout_set_text (layout, EMeetingTimeSelectorHours12[hour], -1);
 
-                cairo_move_to (cr, hour_x, hour_y);
-                pango_cairo_show_layout (cr, layout);
+		cairo_move_to (cr, hour_x, hour_y);
+		pango_cairo_show_layout (cr, layout);
 
 		hour += mts->zoomed_out ? 3 : 1;
 		hour_x += mts->col_width;
 	}
 
 	g_object_unref (layout);
-        cairo_restore (cr);
+	cairo_restore (cr);
 }
 
 /* This paints the colored bars representing busy periods for the combined
@@ -522,8 +522,8 @@ e_meeting_time_selector_item_paint_day (EMeetingTimeSelectorItem *mts_item,
 	EMeetingTimeSelector *mts;
 	gint grid_x, grid_y, attendee_index, unused_y;
 
-        cairo_save (cr);
-        cairo_set_line_width (cr, 1.0);
+	cairo_save (cr);
+	cairo_set_line_width (cr, 1.0);
 
 	mts = mts_item->mts;
 
@@ -545,9 +545,9 @@ e_meeting_time_selector_item_paint_day (EMeetingTimeSelectorItem *mts_item,
 		  } else {
 			  gdk_cairo_set_source_color (cr, &mts->grid_unused_color);
 		  }
-                  cairo_move_to (cr, 0, grid_y);
-                  cairo_rel_line_to (cr, width, 0);
-                  cairo_stroke (cr);
+		  cairo_move_to (cr, 0, grid_y);
+		  cairo_rel_line_to (cr, width, 0);
+		  cairo_stroke (cr);
 		  attendee_index++;
 	  }
 
@@ -560,14 +560,14 @@ e_meeting_time_selector_item_paint_day (EMeetingTimeSelectorItem *mts_item,
 		     grid_x += mts->col_width)
 			{
 				cairo_move_to (cr, x + grid_x, 0);
-                                cairo_line_to (cr, x + grid_x, unused_y - 1);
+				cairo_line_to (cr, x + grid_x, unused_y - 1);
 			}
-                cairo_stroke (cr);
+		cairo_stroke (cr);
 
-                cairo_rectangle (cr,
-                                 x + mts->day_width - 2, 0,
-                                 2, unused_y);
-                cairo_fill (cr);
+		cairo_rectangle (cr,
+				 x + mts->day_width - 2, 0,
+				 2, unused_y);
+		cairo_fill (cr);
 	}
 
 	if (unused_y < height) {
@@ -577,17 +577,17 @@ e_meeting_time_selector_item_paint_day (EMeetingTimeSelectorItem *mts_item,
 		     grid_x += mts->col_width)
 			{
 				cairo_move_to (cr, x + grid_x, unused_y);
-                                cairo_line_to (cr, x + grid_x, height);
+				cairo_line_to (cr, x + grid_x, height);
 			}
-                cairo_stroke (cr);
+		cairo_stroke (cr);
 
-                cairo_rectangle (cr,
-                                 x + mts->day_width - 2, unused_y,
-                                 2, height - unused_y);
-                cairo_fill (cr);
+		cairo_rectangle (cr,
+				 x + mts->day_width - 2, unused_y,
+				 2, height - unused_y);
+		cairo_fill (cr);
 	}
 
-        cairo_restore (cr);
+	cairo_restore (cr);
 }
 
 /* This paints the colored bars representing busy periods for the individual

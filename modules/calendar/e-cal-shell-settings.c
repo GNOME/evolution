@@ -24,6 +24,9 @@
 #include <gconf/gconf-client.h>
 #include <libecal/e-cal-util.h>
 
+#include <e-util/e-util.h>
+#include <e-util/e-util-enumtypes.h>
+
 static gboolean
 transform_string_to_icaltimezone (GBinding *binding,
                                   const GValue *source_value,
@@ -495,6 +498,14 @@ e_cal_shell_backend_init_settings (EShell *shell)
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	e_shell_settings_install_property_for_key (
+		"cal-ba-reminder-interval",
+		"/apps/evolution/calendar/other/ba_reminder_interval");
+
+	e_shell_settings_install_property_for_key (
+		"cal-ba-reminder-units-string",
+		"/apps/evolution/calendar/other/ba_reminder_units");
+
+	e_shell_settings_install_property_for_key (
 		"cal-compress-weekend",
 		"/apps/evolution/calendar/display/compress_weekend");
 
@@ -507,8 +518,14 @@ e_cal_shell_backend_init_settings (EShell *shell)
 		"/apps/evolution/calendar/prompts/confirm_purge");
 
 	e_shell_settings_install_property_for_key (
-		"cal-show-week-numbers",
-		"/apps/evolution/calendar/display/show_week_numbers");
+		"cal-default-reminder-interval",
+		"/apps/evolution/calendar/other/default_reminder_interval");
+
+	/* Do not bind to this.
+	 * Use "cal-default-reminder-units" instead. */
+	e_shell_settings_install_property_for_key (
+		"cal-default-reminder-units-string",
+		"/apps/evolution/calendar/other/default_reminder_units");
 
 	e_shell_settings_install_property_for_key (
 		"cal-free-busy-template",
@@ -518,8 +535,10 @@ e_cal_shell_backend_init_settings (EShell *shell)
 		"cal-hide-completed-tasks",
 		"/apps/evolution/calendar/tasks/hide_completed");
 
+	/* Do not bind to this.
+	 * Use "cal-hide-completed-tasks-units" instead. */
 	e_shell_settings_install_property_for_key (
-		"cal-hide-completed-tasks-units",
+		"cal-hide-completed-tasks-units-string",
 		"/apps/evolution/calendar/tasks/hide_completed_units");
 
 	e_shell_settings_install_property_for_key (
@@ -537,6 +556,10 @@ e_cal_shell_backend_init_settings (EShell *shell)
 	e_shell_settings_install_property_for_key (
 		"cal-marcus-bains-show-line",
 		"/apps/evolution/calendar/display/marcus_bains_line");
+
+	e_shell_settings_install_property_for_key (
+		"cal-month-scroll-by-week",
+		"/apps/evolution/calendar/display/month_scroll_by_week");
 
 	e_shell_settings_install_property_for_key (
 		"cal-primary-calendar",
@@ -559,6 +582,10 @@ e_cal_shell_backend_init_settings (EShell *shell)
 		"/apps/evolution/calendar/display/show_event_end");
 
 	e_shell_settings_install_property_for_key (
+		"cal-show-week-numbers",
+		"/apps/evolution/calendar/display/show_week_numbers");
+
+	e_shell_settings_install_property_for_key (
 		"cal-tasks-color-due-today",
 		"/apps/evolution/calendar/tasks/colors/due_today");
 
@@ -578,6 +605,14 @@ e_cal_shell_backend_init_settings (EShell *shell)
 	e_shell_settings_install_property_for_key (
 		"cal-use-24-hour-format",
 		"/apps/evolution/calendar/display/use_24hour_format");
+
+	e_shell_settings_install_property_for_key (
+		"cal-use-ba-reminder",
+		"/apps/evolution/calendar/other/use_ba_reminder");
+
+	e_shell_settings_install_property_for_key (
+		"cal-use-default-reminder",
+		"/apps/evolution/calendar/other/use_default_reminder");
 
 	e_shell_settings_install_property_for_key (
 		"cal-use-system-timezone",
@@ -614,6 +649,60 @@ e_cal_shell_backend_init_settings (EShell *shell)
 	 * does not support transform functions.  Much of this
 	 * is backward-compatibility cruft for poorly designed
 	 * GConf schemas. */
+
+	e_shell_settings_install_property (
+		g_param_spec_enum (
+			"cal-ba-reminder-units",
+			NULL,
+			NULL,
+			E_TYPE_DURATION_TYPE,
+			E_DURATION_MINUTES,
+			G_PARAM_READWRITE));
+
+	g_object_bind_property_full (
+		shell_settings, "cal-ba-reminder-units-string",
+		shell_settings, "cal-ba-reminder-units",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
+		e_binding_transform_enum_nick_to_value,
+		e_binding_transform_enum_value_to_nick,
+		NULL, (GDestroyNotify) NULL);
+
+	e_shell_settings_install_property (
+		g_param_spec_enum (
+			"cal-default-reminder-units",
+			NULL,
+			NULL,
+			E_TYPE_DURATION_TYPE,
+			E_DURATION_MINUTES,
+			G_PARAM_READWRITE));
+
+	g_object_bind_property_full (
+		shell_settings, "cal-default-reminder-units-string",
+		shell_settings, "cal-default-reminder-units",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
+		e_binding_transform_enum_nick_to_value,
+		e_binding_transform_enum_value_to_nick,
+		NULL, (GDestroyNotify) NULL);
+
+	e_shell_settings_install_property (
+		g_param_spec_enum (
+			"cal-hide-completed-tasks-units",
+			NULL,
+			NULL,
+			E_TYPE_DURATION_TYPE,
+			E_DURATION_MINUTES,
+			G_PARAM_READWRITE));
+
+	g_object_bind_property_full (
+		shell_settings, "cal-hide-completed-tasks-units-string",
+		shell_settings, "cal-hide-completed-tasks-units",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
+		e_binding_transform_enum_nick_to_value,
+		e_binding_transform_enum_value_to_nick,
+		NULL, (GDestroyNotify) NULL);
 
 	e_shell_settings_install_property (
 		g_param_spec_pointer (

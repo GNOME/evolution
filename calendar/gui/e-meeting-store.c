@@ -32,6 +32,7 @@
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-extensible.h>
+#include <e-util/e-util-enumtypes.h>
 #include "itip-utils.h"
 #include "e-meeting-utils.h"
 #include "e-meeting-attendee.h"
@@ -50,6 +51,11 @@ struct _EMeetingStorePrivate {
 
 	ECal *client;
 	icaltimezone *zone;
+
+	gint default_reminder_interval;
+	EDurationType default_reminder_units;
+
+	gint week_start_day;
 
 	gchar *fb_uri;
 
@@ -84,8 +90,11 @@ struct _EMeetingStoreQueueData {
 enum {
 	PROP_0,
 	PROP_CLIENT,
+	PROP_DEFAULT_REMINDER_INTERVAL,
+	PROP_DEFAULT_REMINDER_UNITS,
 	PROP_FREE_BUSY_TEMPLATE,
-	PROP_TIMEZONE
+	PROP_TIMEZONE,
+	PROP_WEEK_START_DAY
 };
 
 /* Forward Declarations */
@@ -580,6 +589,18 @@ meeting_store_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
+		case PROP_DEFAULT_REMINDER_INTERVAL:
+			e_meeting_store_set_default_reminder_interval (
+				E_MEETING_STORE (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_DEFAULT_REMINDER_UNITS:
+			e_meeting_store_set_default_reminder_units (
+				E_MEETING_STORE (object),
+				g_value_get_enum (value));
+			return;
+
 		case PROP_FREE_BUSY_TEMPLATE:
 			e_meeting_store_set_free_busy_template (
 				E_MEETING_STORE (object),
@@ -590,6 +611,12 @@ meeting_store_set_property (GObject *object,
 			e_meeting_store_set_timezone (
 				E_MEETING_STORE (object),
 				g_value_get_pointer (value));
+			return;
+
+		case PROP_WEEK_START_DAY:
+			e_meeting_store_set_week_start_day (
+				E_MEETING_STORE (object),
+				g_value_get_int (value));
 			return;
 	}
 
@@ -610,6 +637,20 @@ meeting_store_get_property (GObject *object,
 				E_MEETING_STORE (object)));
 			return;
 
+		case PROP_DEFAULT_REMINDER_INTERVAL:
+			g_value_set_int (
+				value,
+				e_meeting_store_get_default_reminder_interval (
+				E_MEETING_STORE (object)));
+			return;
+
+		case PROP_DEFAULT_REMINDER_UNITS:
+			g_value_set_enum (
+				value,
+				e_meeting_store_get_default_reminder_units (
+				E_MEETING_STORE (object)));
+			return;
+
 		case PROP_FREE_BUSY_TEMPLATE:
 			g_value_set_string (
 				value,
@@ -621,6 +662,13 @@ meeting_store_get_property (GObject *object,
 			g_value_set_pointer (
 				value,
 				e_meeting_store_get_timezone (
+				E_MEETING_STORE (object)));
+			return;
+
+		case PROP_WEEK_START_DAY:
+			g_value_set_int (
+				value,
+				e_meeting_store_get_week_start_day (
 				E_MEETING_STORE (object)));
 			return;
 	}
@@ -685,6 +733,29 @@ e_meeting_store_class_init (EMeetingStoreClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_DEFAULT_REMINDER_INTERVAL,
+		g_param_spec_int (
+			"default-reminder-interval",
+			"Default Reminder Interval",
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_DEFAULT_REMINDER_UNITS,
+		g_param_spec_enum (
+			"default-reminder-units",
+			"Default Reminder Units",
+			NULL,
+			E_TYPE_DURATION_TYPE,
+			E_DURATION_MINUTES,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_FREE_BUSY_TEMPLATE,
 		g_param_spec_string (
 			"free-busy-template",
@@ -700,6 +771,18 @@ e_meeting_store_class_init (EMeetingStoreClass *class)
 			"timezone",
 			"Timezone",
 			NULL,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_WEEK_START_DAY,
+		g_param_spec_int (
+			"week-start-day",
+			"Week Start Day",
+			NULL,
+			0,  /* Monday */
+			6,  /* Sunday */
+			0,
 			G_PARAM_READWRITE));
 }
 
@@ -752,6 +835,44 @@ e_meeting_store_set_client (EMeetingStore *store,
 	g_object_notify (G_OBJECT (store), "client");
 }
 
+gint
+e_meeting_store_get_default_reminder_interval (EMeetingStore *store)
+{
+	g_return_val_if_fail (E_IS_MEETING_STORE (store), 0);
+
+	return store->priv->default_reminder_interval;
+}
+
+void
+e_meeting_store_set_default_reminder_interval (EMeetingStore *store,
+                                               gint default_reminder_interval)
+{
+	g_return_if_fail (E_IS_MEETING_STORE (store));
+
+	store->priv->default_reminder_interval = default_reminder_interval;
+
+	g_object_notify (G_OBJECT (store), "default-reminder-interval");
+}
+
+EDurationType
+e_meeting_store_get_default_reminder_units (EMeetingStore *store)
+{
+	g_return_val_if_fail (E_IS_MEETING_STORE (store), 0);
+
+	return store->priv->default_reminder_units;
+}
+
+void
+e_meeting_store_set_default_reminder_units (EMeetingStore *store,
+                                            EDurationType default_reminder_units)
+{
+	g_return_if_fail (E_IS_MEETING_STORE (store));
+
+	store->priv->default_reminder_units = default_reminder_units;
+
+	g_object_notify (G_OBJECT (store), "default-reminder-units");
+}
+
 const gchar *
 e_meeting_store_get_free_busy_template (EMeetingStore *store)
 {
@@ -789,6 +910,25 @@ e_meeting_store_set_timezone (EMeetingStore *store,
 	store->priv->zone = timezone;
 
 	g_object_notify (G_OBJECT (store), "timezone");
+}
+
+gint
+e_meeting_store_get_week_start_day (EMeetingStore *store)
+{
+	g_return_val_if_fail (E_IS_MEETING_STORE (store), 0);
+
+	return store->priv->week_start_day;
+}
+
+void
+e_meeting_store_set_week_start_day (EMeetingStore *store,
+                                    gint week_start_day)
+{
+	g_return_if_fail (E_IS_MEETING_STORE (store));
+
+	store->priv->week_start_day = week_start_day;
+
+	g_object_notify (G_OBJECT (store), "week-start-day");
 }
 
 static void

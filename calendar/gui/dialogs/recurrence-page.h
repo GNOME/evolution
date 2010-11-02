@@ -32,6 +32,7 @@
 
 #include "comp-editor.h"
 #include "comp-editor-page.h"
+#include "../e-meeting-store.h"
 
 /* Standard GObject macros */
 #define TYPE_RECURRENCE_PAGE \
@@ -68,8 +69,10 @@ struct _RecurrencePageClass {
 };
 
 GType		recurrence_page_get_type	(void);
-RecurrencePage *recurrence_page_construct	(RecurrencePage *rpage);
-RecurrencePage *recurrence_page_new		(CompEditor *editor);
+RecurrencePage *recurrence_page_construct	(RecurrencePage *rpage,
+						 EMeetingStore *meeting_store);
+RecurrencePage *recurrence_page_new		(EMeetingStore *meeting_store,
+						 CompEditor *editor);
 
 G_END_DECLS
 

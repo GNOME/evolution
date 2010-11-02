@@ -29,6 +29,13 @@
 #include <libecal/e-cal-component.h>
 #include <libedataserver/e-source-list.h>
 
-void e_send_options_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, const gchar *type);
-void e_send_options_utils_fill_component (ESendOptionsDialog *sod, ECalComponent *comp);
+void		e_send_options_utils_set_default_data
+						(ESendOptionsDialog *sod,
+						 ESource *source,
+						 const gchar *type);
+void		e_send_options_utils_fill_component
+						(ESendOptionsDialog *sod,
+						 ECalComponent *comp,
+						 icaltimezone *zone);
+
 #endif

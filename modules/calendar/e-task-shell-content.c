@@ -209,7 +209,9 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
 	e_cal_component_set_icalcomponent (
 		comp, icalcomponent_new_clone (comp_data->icalcomp));
 	e_cal_component_preview_display (
-		task_preview, comp_data->client, comp);
+		task_preview, comp_data->client, comp,
+		e_cal_model_get_timezone (task_model),
+		e_cal_model_get_use_24_hour_format (task_model));
 
 	e_cal_component_get_uid (comp, &uid);
 	g_free (task_shell_content->priv->current_uid);
@@ -412,13 +414,11 @@ task_shell_content_constructed (GObject *object)
 {
 	ETaskShellContentPrivate *priv;
 	EShell *shell;
-	EShellSettings *shell_settings;
 	EShellContent *shell_content;
 	EShellTaskbar *shell_taskbar;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	GalViewInstance *view_instance;
-	icaltimezone *timezone;
 	GtkTargetList *target_list;
 	GtkTargetEntry *targets;
 	GtkWidget *container;
@@ -435,12 +435,8 @@ task_shell_content_constructed (GObject *object)
 	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	priv->task_model = e_cal_model_tasks_new ();
-
-	timezone = e_shell_settings_get_pointer (
-		shell_settings, "cal-timezone");
 
 	/* Build content widgets. */
 
@@ -477,8 +473,6 @@ task_shell_content_constructed (GObject *object)
 	container = priv->paned;
 
 	widget = e_cal_component_preview_new ();
-	e_cal_component_preview_set_default_timezone (
-		E_CAL_COMPONENT_PREVIEW (widget), timezone);
 	e_shell_configure_web_view (shell, E_WEB_VIEW (widget));
 	gtk_widget_show (widget);
 

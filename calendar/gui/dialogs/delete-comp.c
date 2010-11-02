@@ -28,7 +28,6 @@
 
 #include <glib/gi18n.h>
 #include "e-util/e-alert-dialog.h"
-#include "../calendar-config.h"
 #include "delete-comp.h"
 
 
@@ -57,9 +56,10 @@
  **/
 gboolean
 delete_component_dialog (ECalComponent *comp,
-			 gboolean consider_as_untitled,
-			 gint n_comps, ECalComponentVType vtype,
-			 GtkWidget *widget)
+                         gboolean consider_as_untitled,
+                         gint n_comps,
+                         ECalComponentVType vtype,
+                         GtkWidget *widget)
 {
 	const gchar *id;
 	gchar *arg0 = NULL;
@@ -74,11 +74,7 @@ delete_component_dialog (ECalComponent *comp,
 		g_return_val_if_fail (vtype != E_CAL_COMPONENT_NO_TYPE, FALSE);
 	}
 
-	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (GTK_IS_WIDGET (widget), FALSE);
-
-	if (!calendar_config_get_confirm_delete ())
-		return TRUE;
 
 	if (comp) {
 		ECalComponentText summary;

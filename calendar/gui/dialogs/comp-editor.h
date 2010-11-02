@@ -123,6 +123,34 @@ EShell *	comp_editor_get_shell		(CompEditor *editor);
 void		comp_editor_set_summary		(CompEditor *editor,
 						 const gchar *summary);
 const gchar *	comp_editor_get_summary		(CompEditor *editor);
+icaltimezone *	comp_editor_get_timezone	(CompEditor *editor);
+void		comp_editor_set_timezone	(CompEditor *editor,
+						 icaltimezone *zone);
+gboolean	comp_editor_get_use_24_hour_format
+						(CompEditor *editor);
+void		comp_editor_set_use_24_hour_format
+						(CompEditor *editor,
+						 gboolean use_24_hour_format);
+gint		comp_editor_get_work_day_end_hour
+						(CompEditor *editor);
+void		comp_editor_set_work_day_end_hour
+						(CompEditor *editor,
+						 gint work_day_end_hour);
+gint		comp_editor_get_work_day_end_minute
+						(CompEditor *editor);
+void		comp_editor_set_work_day_end_minute
+						(CompEditor *editor,
+						 gint work_day_end_minute);
+gint		comp_editor_get_work_day_start_hour
+						(CompEditor *editor);
+void		comp_editor_set_work_day_start_hour
+						(CompEditor *editor,
+						 gint work_day_start_hour);
+gint		comp_editor_get_work_day_start_minute
+						(CompEditor *editor);
+void		comp_editor_set_work_day_start_minute
+						(CompEditor *editor,
+						 gint work_day_start_minute);
 void		comp_editor_append_page		(CompEditor *editor,
 						 CompEditorPage *page,
 						 const gchar *label,

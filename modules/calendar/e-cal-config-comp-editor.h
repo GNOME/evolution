@@ -1,5 +1,5 @@
 /*
- * e-util-enums.h
+ * e-cal-config-comp-editor.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,26 +16,15 @@
  *
  */
 
-#ifndef E_UTIL_ENUMS_H
-#define E_UTIL_ENUMS_H
+#ifndef E_CAL_CONFIG_COMP_EDITOR_H
+#define E_CAL_CONFIG_COMP_EDITOR_H
 
-#include <glib.h>
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 
-typedef enum {
-	E_ACTIVITY_RUNNING,
-	E_ACTIVITY_WAITING,
-	E_ACTIVITY_CANCELLED,
-	E_ACTIVITY_COMPLETED
-} EActivityState;
-
-typedef enum {
-	E_DURATION_MINUTES,
-	E_DURATION_HOURS,
-	E_DURATION_DAYS
-} EDurationType;
+void e_cal_config_comp_editor_register_type (GTypeModule *type_module);
 
 G_END_DECLS
 
-#endif /* E_UTIL_ENUMS_H */
+#endif /* E_CAL_CONFIG_COMP_EDITOR_H */

@@ -51,7 +51,6 @@
 #include "print.h"
 #include "comp-util.h"
 #include "itip-utils.h"
-#include "calendar-config.h"
 #include "goto.h"
 #include "e-cal-model-calendar.h"
 #include "e-day-view-time-item.h"
@@ -430,15 +429,41 @@ enum {
 	PROP_MARCUS_BAINS_SHOW_LINE,
 	PROP_MARCUS_BAINS_DAY_VIEW_COLOR,
 	PROP_MARCUS_BAINS_TIME_BAR_COLOR,
-	PROP_MINS_PER_ROW,
-	PROP_WORK_DAY_END_HOUR,
-	PROP_WORK_DAY_END_MINUTE,
-	PROP_WORK_DAY_START_HOUR,
-	PROP_WORK_DAY_START_MINUTE,
 	PROP_WORKING_DAYS
 };
 
 G_DEFINE_TYPE (EDayView, e_day_view, E_TYPE_CALENDAR_VIEW)
+
+static void
+day_view_notify_time_divisions_cb (EDayView *day_view)
+{
+	gint day;
+
+	e_day_view_recalc_num_rows (day_view);
+
+	/* If we aren't visible, we'll sort it out later. */
+	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
+		e_day_view_free_events (day_view);
+		day_view->requires_update = TRUE;
+		return;
+	}
+
+	for (day = 0; day < E_DAY_VIEW_MAX_DAYS; day++)
+		day_view->need_layout[day] = TRUE;
+
+	/* We need to update all the day event labels since the start & end
+	   times may or may not be on row boundaries any more. */
+	e_day_view_foreach_event (day_view,
+				  e_day_view_set_show_times_cb, NULL);
+
+	/* We must layout the events before updating the scroll region, since
+	   that will result in a redraw which would crash otherwise. */
+	e_day_view_check_layout (day_view);
+	gtk_widget_queue_draw (day_view->time_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
+
+	e_day_view_update_scroll_regions (day_view);
+}
 
 static void
 day_view_notify_week_start_day_cb (EDayView *day_view)
@@ -472,36 +497,6 @@ day_view_set_property (GObject *object,
 			e_day_view_marcus_bains_set_time_bar_color (
 				E_DAY_VIEW (object),
 				g_value_get_string (value));
-			return;
-
-		case PROP_MINS_PER_ROW:
-			e_day_view_set_mins_per_row (
-				E_DAY_VIEW (object),
-				g_value_get_int (value));
-			return;
-
-		case PROP_WORK_DAY_END_HOUR:
-			e_day_view_set_work_day_end_hour (
-				E_DAY_VIEW (object),
-				g_value_get_int (value));
-			return;
-
-		case PROP_WORK_DAY_END_MINUTE:
-			e_day_view_set_work_day_end_minute (
-				E_DAY_VIEW (object),
-				g_value_get_int (value));
-			return;
-
-		case PROP_WORK_DAY_START_HOUR:
-			e_day_view_set_work_day_start_hour (
-				E_DAY_VIEW (object),
-				g_value_get_int (value));
-			return;
-
-		case PROP_WORK_DAY_START_MINUTE:
-			e_day_view_set_work_day_start_minute (
-				E_DAY_VIEW (object),
-				g_value_get_int (value));
 			return;
 
 		case PROP_WORKING_DAYS:
@@ -542,41 +537,6 @@ day_view_get_property (GObject *object,
 				E_DAY_VIEW (object)));
 			return;
 
-		case PROP_MINS_PER_ROW:
-			g_value_set_int (
-				value,
-				e_day_view_get_mins_per_row (
-				E_DAY_VIEW (object)));
-			return;
-
-		case PROP_WORK_DAY_END_HOUR:
-			g_value_set_int (
-				value,
-				e_day_view_get_work_day_end_hour (
-				E_DAY_VIEW (object)));
-			return;
-
-		case PROP_WORK_DAY_END_MINUTE:
-			g_value_set_int (
-				value,
-				e_day_view_get_work_day_end_minute (
-				E_DAY_VIEW (object)));
-			return;
-
-		case PROP_WORK_DAY_START_HOUR:
-			g_value_set_int (
-				value,
-				e_day_view_get_work_day_start_hour (
-				E_DAY_VIEW (object)));
-			return;
-
-		case PROP_WORK_DAY_START_MINUTE:
-			g_value_set_int (
-				value,
-				e_day_view_get_work_day_start_minute (
-				E_DAY_VIEW (object)));
-			return;
-
 		case PROP_WORKING_DAYS:
 			g_value_set_int (
 				value,
@@ -591,16 +551,39 @@ day_view_get_property (GObject *object,
 static void
 day_view_constructed (GObject *object)
 {
+	EDayView *day_view;
 	ECalModel *model;
+
+	day_view = E_DAY_VIEW (object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_day_view_parent_class)->constructed (object);
 
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (object));
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+
+	g_signal_connect_swapped (
+		model, "notify::time-divisions",
+		G_CALLBACK (day_view_notify_time_divisions_cb), day_view);
 
 	g_signal_connect_swapped (
 		model, "notify::week-start-day",
-		G_CALLBACK (day_view_notify_week_start_day_cb), object);
+		G_CALLBACK (day_view_notify_week_start_day_cb), day_view);
+
+	g_signal_connect_swapped (
+		model, "notify::work-day-start-hour",
+		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+
+	g_signal_connect_swapped (
+		model, "notify::work-day-start-minute",
+		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+
+	g_signal_connect_swapped (
+		model, "notify::work-day-end-hour",
+		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
+
+	g_signal_connect_swapped (
+		model, "notify::work-day-end-minute",
+		G_CALLBACK (gtk_widget_queue_draw), day_view->main_canvas);
 }
 
 static void
@@ -664,66 +647,6 @@ e_day_view_class_init (EDayViewClass *class)
 			"Marcus Bains Time Bar Color",
 			NULL,
 			NULL,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_MINS_PER_ROW,
-		g_param_spec_int (
-			"mins-per-row",
-			"Minutes Per Row",
-			NULL,
-			5,   /* not a continuous range */
-			60,  /* valid values: 5, 10, 15, 30, 60 */
-			30,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_WORK_DAY_END_HOUR,
-		g_param_spec_int (
-			"work-day-end-hour",
-			"Work Day End Hour",
-			NULL,
-			G_MININT,
-			G_MAXINT,
-			0,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_WORK_DAY_END_MINUTE,
-		g_param_spec_int (
-			"work-day-end-minute",
-			"Work Day End Minute",
-			NULL,
-			G_MININT,
-			G_MAXINT,
-			0,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_WORK_DAY_START_HOUR,
-		g_param_spec_int (
-			"work-day-start-hour",
-			"Work Day Start Hour",
-			NULL,
-			G_MININT,
-			G_MAXINT,
-			0,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_WORK_DAY_START_MINUTE,
-		g_param_spec_int (
-			"work-day-start-minute",
-			"Work Day Start Minute",
-			NULL,
-			G_MININT,
-			G_MAXINT,
-			0,
 			G_PARAM_READWRITE));
 
 	/* FIXME Make this a real GFlags type. */
@@ -1024,7 +947,6 @@ e_day_view_init (EDayView *day_view)
 	day_view->work_week_view = FALSE;
 	day_view->days_shown = 1;
 
-	day_view->mins_per_row = 30;
 	day_view->date_format = E_DAY_VIEW_DATE_FULL;
 	day_view->rows_in_top_display = 0;
 
@@ -1042,10 +964,6 @@ e_day_view_init (EDayView *day_view)
 		| E_DAY_VIEW_WEDNESDAY | E_DAY_VIEW_THURSDAY
 		| E_DAY_VIEW_FRIDAY;
 
-	day_view->work_day_start_hour = 9;
-	day_view->work_day_start_minute = 0;
-	day_view->work_day_end_hour = 17;
-	day_view->work_day_end_minute = 0;
 	day_view->show_event_end_times = TRUE;
 	day_view->scroll_to_work_day = TRUE;
 
@@ -1772,8 +1690,15 @@ e_day_view_style_set (GtkWidget *widget,
 static void
 e_day_view_recalc_main_canvas_size (EDayView *day_view)
 {
+	ECalModel *model;
+	gint work_day_start_hour;
+	gint work_day_start_minute;
 	gint day, scroll_y;
 	gboolean need_reshape;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	work_day_start_hour = e_cal_model_get_work_day_start_hour (model);
+	work_day_start_minute = e_cal_model_get_work_day_start_minute (model);
 
 	/* Set the scroll region of the top canvas */
 	e_day_view_update_top_scroll (day_view, TRUE);
@@ -1785,7 +1710,8 @@ e_day_view_recalc_main_canvas_size (EDayView *day_view)
 	/* Scroll to the start of the working day, if this is the initial
 	   allocation. */
 	if (day_view->scroll_to_work_day) {
-		scroll_y = e_day_view_convert_time_to_position (day_view, day_view->work_day_start_hour, day_view->work_day_start_minute);
+		scroll_y = e_day_view_convert_time_to_position (
+			day_view, work_day_start_hour, work_day_start_minute);
 		gnome_canvas_scroll_to (GNOME_CANVAS (day_view->main_canvas),
 					0, scroll_y);
 		day_view->scroll_to_work_day = FALSE;
@@ -2165,9 +2091,11 @@ e_day_view_update_event_label (EDayView *day_view,
 			       gint event_num)
 {
 	EDayViewEvent *event;
+	ECalendarView *cal_view;
 	gboolean free_text = FALSE, editing_event = FALSE, short_event = FALSE;
 	const gchar *summary;
 	gchar *text;
+	gint time_divisions;
 	gint interval;
 
 	if (!is_array_index_in_bounds (day_view->events[day], event_num))
@@ -2188,10 +2116,14 @@ e_day_view_update_event_label (EDayView *day_view,
 
 	interval = event->end_minute - event->start_minute;
 
-	if ((interval/day_view->mins_per_row) >= 2)
+	cal_view = E_CALENDAR_VIEW (day_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
+
+	if ((interval / time_divisions) >= 2)
 		short_event = FALSE;
-	else if ((interval%day_view->mins_per_row)==0) {
-		if (((event->end_minute%day_view->mins_per_row)==0) || ((event->start_minute%day_view->mins_per_row)==0)) {
+	else if ((interval % time_divisions) == 0) {
+		if (((event->end_minute % time_divisions) == 0) ||
+		    ((event->start_minute % time_divisions) == 0)) {
 			short_event = TRUE;
 		}
 	} else
@@ -2417,10 +2349,17 @@ e_day_view_set_selected_time_range_visible	(EDayView	*day_view,
 						 time_t		 start_time,
 						 time_t		 end_time)
 {
+	ECalModel *model;
+	gint work_day_start_hour;
+	gint work_day_start_minute;
 	gint start_row, start_col, end_row, end_col;
 	gboolean need_redraw = FALSE, start_in_grid, end_in_grid;
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	work_day_start_hour = e_cal_model_get_work_day_start_hour (model);
+	work_day_start_minute = e_cal_model_get_work_day_start_minute (model);
 
 	/* Set the selection. */
 	start_in_grid = e_day_view_convert_time_to_grid_position (day_view,
@@ -2439,7 +2378,8 @@ e_day_view_set_selected_time_range_visible	(EDayView	*day_view,
 	    || (start_row == 0 && end_row == day_view->rows - 1)) {
 		end_col = start_col;
 
-		start_row = e_day_view_convert_time_to_row (day_view, day_view->work_day_start_hour, day_view->work_day_start_minute);
+		start_row = e_day_view_convert_time_to_row (
+			day_view, work_day_start_hour, work_day_start_minute);
 		start_row = CLAMP (start_row, 0, day_view->rows - 1);
 		end_row = start_row;
 	}
@@ -2524,9 +2464,17 @@ e_day_view_set_selected_time_range	(ECalendarView	*cal_view,
 					 time_t		 start_time,
 					 time_t		 end_time)
 {
+	ECalModel *model;
+	EDayView *day_view;
+	gint work_day_start_hour;
+	gint work_day_start_minute;
 	gint start_row, start_col, end_row, end_col;
 	gboolean need_redraw = FALSE, start_in_grid, end_in_grid;
-	EDayView *day_view = E_DAY_VIEW (cal_view);
+
+	day_view = E_DAY_VIEW (cal_view);
+	model = e_calendar_view_get_model (cal_view);
+	work_day_start_hour = e_cal_model_get_work_day_start_hour (model);
+	work_day_start_minute = e_cal_model_get_work_day_start_minute (model);
 
 	/* Set the selection. */
 	start_in_grid = e_day_view_convert_time_to_grid_position (day_view,
@@ -2545,7 +2493,8 @@ e_day_view_set_selected_time_range	(ECalendarView	*cal_view,
 	    || (start_row == 0 && end_row == day_view->rows - 1)) {
 		end_col = start_col;
 
-		start_row = e_day_view_convert_time_to_row (day_view, day_view->work_day_start_hour, day_view->work_day_start_minute);
+		start_row = e_day_view_convert_time_to_row (
+			day_view, work_day_start_hour, work_day_start_minute);
 		start_row = CLAMP (start_row, 0, day_view->rows - 1);
 		end_row = start_row;
 	}
@@ -2721,60 +2670,6 @@ e_day_view_set_days_shown	(EDayView	*day_view,
 	e_day_view_update_query (day_view);
 }
 
-gint
-e_day_view_get_mins_per_row (EDayView *day_view)
-{
-	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), -1);
-
-	return day_view->mins_per_row;
-}
-
-void
-e_day_view_set_mins_per_row (EDayView *day_view,
-                             gint mins_per_row)
-{
-	gint day;
-
-	g_return_if_fail (E_IS_DAY_VIEW (day_view));
-
-	if (mins_per_row != 5 && mins_per_row != 10 && mins_per_row != 15
-	    && mins_per_row != 30 && mins_per_row != 60) {
-		g_warning ("Invalid minutes per row setting");
-		return;
-	}
-
-	if (day_view->mins_per_row == mins_per_row)
-		return;
-
-	day_view->mins_per_row = mins_per_row;
-	e_day_view_recalc_num_rows (day_view);
-
-	g_object_notify (G_OBJECT (day_view), "mins-per-row");
-
-	/* If we aren't visible, we'll sort it out later. */
-	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
-		e_day_view_free_events (day_view);
-		day_view->requires_update = TRUE;
-		return;
-	}
-
-	for (day = 0; day < E_DAY_VIEW_MAX_DAYS; day++)
-		day_view->need_layout[day] = TRUE;
-
-	/* We need to update all the day event labels since the start & end
-	   times may or may not be on row boundaries any more. */
-	e_day_view_foreach_event (day_view,
-				  e_day_view_set_show_times_cb, NULL);
-
-	/* We must layout the events before updating the scroll region, since
-	   that will result in a redraw which would crash otherwise. */
-	e_day_view_check_layout (day_view);
-	gtk_widget_queue_draw (day_view->time_canvas);
-	gtk_widget_queue_draw (day_view->main_canvas);
-
-	e_day_view_update_scroll_regions (day_view);
-}
-
 /* This specifies the working days in the week. The value is a bitwise
    combination of day flags. Defaults to Mon-Fri. */
 EDayViewDays
@@ -2844,92 +2739,6 @@ e_day_view_recalc_work_week_days_shown	(EDayView	*day_view)
 	}
 
 	e_day_view_set_days_shown (day_view, days_shown);
-}
-
-/* The start and end time of the working day. This only affects the background
-   colors. */
-gint
-e_day_view_get_work_day_start_hour (EDayView *day_view)
-{
-	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), -1);
-
-	return day_view->work_day_start_hour;
-}
-
-void
-e_day_view_set_work_day_start_hour (EDayView *day_view,
-                                    gint work_day_start_hour)
-{
-	g_return_if_fail (E_IS_DAY_VIEW (day_view));
-
-	day_view->work_day_start_hour = work_day_start_hour;
-
-	gtk_widget_queue_draw (day_view->main_canvas);
-
-	g_object_notify (G_OBJECT (day_view), "work-day-start-hour");
-}
-
-gint
-e_day_view_get_work_day_start_minute (EDayView *day_view)
-{
-	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), -1);
-
-	return day_view->work_day_start_minute;
-}
-
-void
-e_day_view_set_work_day_start_minute (EDayView *day_view,
-                                      gint work_day_start_minute)
-{
-	g_return_if_fail (E_IS_DAY_VIEW (day_view));
-
-	day_view->work_day_start_minute = work_day_start_minute;
-
-	gtk_widget_queue_draw (day_view->main_canvas);
-
-	g_object_notify (G_OBJECT (day_view), "work-day-start-minute");
-}
-
-gint
-e_day_view_get_work_day_end_hour (EDayView *day_view)
-{
-	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), -1);
-
-	return day_view->work_day_end_hour;
-}
-
-void
-e_day_view_set_work_day_end_hour (EDayView *day_view,
-                                  gint work_day_end_hour)
-{
-	g_return_if_fail (E_IS_DAY_VIEW (day_view));
-
-	day_view->work_day_end_hour = work_day_end_hour;
-
-	gtk_widget_queue_draw (day_view->main_canvas);
-
-	g_object_notify (G_OBJECT (day_view), "work-day-end-hour");
-}
-
-gint
-e_day_view_get_work_day_end_minute (EDayView *day_view)
-{
-	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), -1);
-
-	return day_view->work_day_end_minute;
-}
-
-void
-e_day_view_set_work_day_end_minute (EDayView *day_view,
-                                  gint work_day_end_minute)
-{
-	g_return_if_fail (E_IS_DAY_VIEW (day_view));
-
-	day_view->work_day_end_minute = work_day_end_minute;
-
-	gtk_widget_queue_draw (day_view->main_canvas);
-
-	g_object_notify (G_OBJECT (day_view), "work-day-end-minute");
 }
 
 /* Force a redraw of the Marcus Bains Lines */
@@ -3124,13 +2933,18 @@ e_day_view_update_scroll_regions (EDayView *day_view)
 static void
 e_day_view_recalc_num_rows	(EDayView	*day_view)
 {
+	ECalendarView *cal_view;
+	gint time_divisions;
 	gint hours, minutes, total_minutes;
+
+	cal_view = E_CALENDAR_VIEW (day_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	hours = day_view->last_hour_shown - day_view->first_hour_shown;
 	/* This could be negative but it works out OK. */
 	minutes = day_view->last_minute_shown - day_view->first_minute_shown;
 	total_minutes = hours * 60 + minutes;
-	day_view->rows = total_minutes / day_view->mins_per_row;
+	day_view->rows = total_minutes / time_divisions;
 }
 
 /* Converts an hour and minute to a row in the canvas. Note that if we aren't
@@ -3141,7 +2955,12 @@ e_day_view_convert_time_to_row	(EDayView	*day_view,
 				 gint		 hour,
 				 gint		 minute)
 {
+	ECalendarView *cal_view;
+	gint time_divisions;
 	gint total_minutes, start_minute, offset;
+
+	cal_view = E_CALENDAR_VIEW (day_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	total_minutes = hour * 60 + minute;
 	start_minute = day_view->first_hour_shown * 60
@@ -3150,7 +2969,7 @@ e_day_view_convert_time_to_row	(EDayView	*day_view,
 	if (offset < 0)
 		return -1;
 	else
-		return offset / day_view->mins_per_row;
+		return offset / time_divisions;
 }
 
 /* Converts an hour and minute to a y coordinate in the canvas. */
@@ -3159,14 +2978,19 @@ e_day_view_convert_time_to_position (EDayView	*day_view,
 				     gint	 hour,
 				     gint	 minute)
 {
+	ECalendarView *cal_view;
+	gint time_divisions;
 	gint total_minutes, start_minute, offset;
+
+	cal_view = E_CALENDAR_VIEW (day_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	total_minutes = hour * 60 + minute;
 	start_minute = day_view->first_hour_shown * 60
 		+ day_view->first_minute_shown;
 	offset = total_minutes - start_minute;
 
-	return offset * day_view->row_height / day_view->mins_per_row;
+	return offset * day_view->row_height / time_divisions;
 }
 
 static gboolean
@@ -3625,9 +3449,14 @@ e_day_view_on_event_click (EDayView *day_view,
 			   gint		  event_y)
 {
 	EDayViewEvent *event;
+	ECalendarView *cal_view;
 	GtkLayout *layout;
 	GdkWindow *window;
+	gint time_divisions;
 	gint tmp_day, row, start_row;
+
+	cal_view = E_CALENDAR_VIEW (day_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	if (!is_array_index_in_bounds (day_view->events[day], event_num))
 		return;
@@ -3671,8 +3500,8 @@ e_day_view_on_event_click (EDayView *day_view,
 			day_view->resize_event_day = day;
 			day_view->resize_event_num = event_num;
 			day_view->resize_drag_pos = pos;
-			day_view->resize_start_row = event->start_minute / day_view->mins_per_row;
-			day_view->resize_end_row = (event->end_minute - 1) / day_view->mins_per_row;
+			day_view->resize_start_row = event->start_minute / time_divisions;
+			day_view->resize_end_row = (event->end_minute - 1) / time_divisions;
 			if (day_view->resize_end_row < day_view->resize_start_row)
 				day_view->resize_end_row = day_view->resize_start_row;
 
@@ -3698,7 +3527,7 @@ e_day_view_on_event_click (EDayView *day_view,
 							    event_x, event_y,
 							    &tmp_day, &row,
 							    NULL);
-		start_row = event->start_minute / day_view->mins_per_row;
+		start_row = event->start_minute / time_divisions;
 		day_view->drag_event_offset = row - start_row;
 	}
 }
@@ -4754,8 +4583,13 @@ e_day_view_add_event (ECalComponent *comp,
 void
 e_day_view_check_layout (EDayView *day_view)
 {
+	ECalendarView *cal_view;
+	gint time_divisions;
 	gint day, rows_in_top_display;
 	gint max_cols = -1;
+
+	cal_view = E_CALENDAR_VIEW (day_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	/* Don't bother if we aren't visible. */
 	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
@@ -4771,11 +4605,13 @@ e_day_view_check_layout (EDayView *day_view)
 		if (day_view->need_layout[day]) {
 			gint cols;
 
-			cols = e_day_view_layout_day_events (day_view->events[day],
-						      day_view->rows,
-						      day_view->mins_per_row,
-						      day_view->cols_per_row[day],
-						      day_view->days_shown == 1 ? -1 : E_DAY_VIEW_MULTI_DAY_MAX_COLUMNS);
+			cols = e_day_view_layout_day_events (
+				day_view->events[day],
+				day_view->rows,
+				time_divisions,
+				day_view->cols_per_row[day],
+				day_view->days_shown == 1 ? -1 :
+				E_DAY_VIEW_MULTI_DAY_MAX_COLUMNS);
 
 			max_cols = MAX (cols, max_cols);
 		}
@@ -5462,15 +5298,20 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 static void
 e_day_view_goto_start_of_work_day (EDayView *day_view)
 {
-	g_return_if_fail (day_view!=NULL);
+	ECalModel *model;
+	gint work_day_start_hour;
+	gint work_day_start_minute;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	work_day_start_hour = e_cal_model_get_work_day_start_hour (model);
+	work_day_start_minute = e_cal_model_get_work_day_start_minute (model);
 
 	if (day_view->selection_in_top_canvas)
 		return;
 	else
 		day_view->selection_start_row =
-			e_day_view_convert_time_to_row (day_view,
-							day_view->work_day_start_hour,
-							day_view->work_day_start_minute);
+			e_day_view_convert_time_to_row (
+			day_view, work_day_start_hour, work_day_start_minute);
 	day_view->selection_end_row = day_view->selection_start_row;
 
 	e_day_view_ensure_rows_visible (day_view,
@@ -5488,13 +5329,20 @@ e_day_view_goto_start_of_work_day (EDayView *day_view)
 static void
 e_day_view_goto_end_of_work_day (EDayView *day_view)
 {
+	ECalModel *model;
+	gint work_day_end_hour;
+	gint work_day_end_minute;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	work_day_end_hour = e_cal_model_get_work_day_end_hour (model);
+	work_day_end_minute = e_cal_model_get_work_day_end_minute (model);
+
 	if (day_view->selection_in_top_canvas)
 		return;
 	else
 		day_view->selection_start_row =
-			e_day_view_convert_time_to_row (day_view,
-							day_view->work_day_end_hour-1,
-							day_view->work_day_end_minute+30);
+			e_day_view_convert_time_to_row (
+			day_view, work_day_end_hour-1, work_day_end_minute+30);
 	day_view->selection_end_row = day_view->selection_start_row;
 
 	e_day_view_ensure_rows_visible (day_view,
@@ -5512,7 +5360,15 @@ e_day_view_goto_end_of_work_day (EDayView *day_view)
 static void
 e_day_view_change_duration_to_start_of_work_day (EDayView *day_view)
 {
+	ECalModel *model;
+	gint work_day_start_hour;
+	gint work_day_start_minute;
+
 	g_return_if_fail (day_view != NULL);
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	work_day_start_hour = e_cal_model_get_work_day_start_hour (model);
+	work_day_start_minute = e_cal_model_get_work_day_start_minute (model);
 
 	if (day_view->selection_in_top_canvas)
 		return;
@@ -5521,9 +5377,7 @@ e_day_view_change_duration_to_start_of_work_day (EDayView *day_view)
 		gint work_start_row,selection_start_row;
 
 		work_start_row = e_day_view_convert_time_to_row (
-			day_view,
-			day_view->work_day_start_hour,
-			day_view->work_day_start_minute);
+			day_view, work_day_start_hour, work_day_start_minute);
 		selection_start_row = day_view->selection_start_row;
 		if (selection_start_row < work_start_row)
 			day_view->selection_end_row = work_start_row - 1;
@@ -5545,7 +5399,15 @@ e_day_view_change_duration_to_start_of_work_day (EDayView *day_view)
 static void
 e_day_view_change_duration_to_end_of_work_day (EDayView *day_view)
 {
+	ECalModel *model;
+	gint work_day_end_hour;
+	gint work_day_end_minute;
+
 	g_return_if_fail (day_view != NULL);
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	work_day_end_hour = e_cal_model_get_work_day_end_hour (model);
+	work_day_end_minute = e_cal_model_get_work_day_end_minute (model);
 
 	if (day_view->selection_in_top_canvas)
 		return;
@@ -5553,9 +5415,7 @@ e_day_view_change_duration_to_end_of_work_day (EDayView *day_view)
 		gint work_end_row,selection_start_row;
 
 		work_end_row = e_day_view_convert_time_to_row (
-			day_view,
-			day_view->work_day_end_hour-1,
-			day_view->work_day_end_minute+30);
+			day_view, work_day_end_hour-1, work_day_end_minute+30);
 		selection_start_row = day_view->selection_start_row;
 		if (selection_start_row <= work_end_row)
 			day_view->selection_end_row = work_end_row;
@@ -6471,10 +6331,12 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 }
 
 static gboolean
-e_day_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction)
+e_day_view_event_move (ECalendarView *cal_view,
+                       ECalViewMoveDirection direction)
 {
 	EDayViewEvent *event;
 	EDayView *day_view;
+	gint time_divisions;
 	gint day, event_num, resize_start_row, resize_end_row;
 	time_t start_dt, end_dt;
 	struct icaltimetype start_time, end_time;
@@ -6482,6 +6344,8 @@ e_day_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction)
 	day_view = E_DAY_VIEW (cal_view);
 	day = day_view->editing_event_day;
 	event_num = day_view->editing_event_num;
+
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	if ((day == -1) || (day == E_DAY_VIEW_LONG_EVENT))
 		return FALSE;
@@ -6495,8 +6359,8 @@ e_day_view_event_move (ECalendarView *cal_view, ECalViewMoveDirection direction)
 	day_view->resize_event_num = event_num;
 	day_view->resize_bars_event_day = day;
 	day_view->resize_bars_event_num = event_num;
-	resize_start_row = event->start_minute / day_view->mins_per_row;
-	resize_end_row = (event->end_minute - 1) / day_view->mins_per_row;
+	resize_start_row = event->start_minute / time_divisions;
+	resize_end_row = (event->end_minute - 1) / time_divisions;
 	if (resize_end_row < resize_start_row)
 		resize_end_row = resize_start_row;
 
@@ -6642,6 +6506,8 @@ static void
 e_day_view_change_event_end_time_up (EDayView *day_view)
 {
 	EDayViewEvent *event;
+	ECalendarView *cal_view;
+	gint time_divisions;
 	gint day, event_num, resize_start_row, resize_end_row;
 
 	day = day_view->editing_event_day;
@@ -6652,14 +6518,17 @@ e_day_view_change_event_end_time_up (EDayView *day_view)
 	if (!is_array_index_in_bounds (day_view->events[day], event_num))
 		return;
 
+	cal_view = E_CALENDAR_VIEW (day_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
+
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
 	day_view->resize_event_day = day;
 	day_view->resize_event_num = event_num;
 	day_view->resize_bars_event_day = day;
 	day_view->resize_bars_event_num = event_num;
-	resize_start_row = event->start_minute / day_view->mins_per_row;
-	resize_end_row = (event->end_minute - 1) / day_view->mins_per_row;
+	resize_start_row = event->start_minute / time_divisions;
+	resize_end_row = (event->end_minute - 1) / time_divisions;
 	if (resize_end_row < resize_start_row)
 		resize_end_row = resize_start_row;
 	if (resize_end_row == resize_start_row)
@@ -6676,7 +6545,12 @@ static void
 e_day_view_change_event_end_time_down (EDayView *day_view)
 {
 	EDayViewEvent *event;
+	ECalendarView *cal_view;
+	gint time_divisions;
 	gint day, event_num, resize_start_row, resize_end_row;
+
+	cal_view = E_CALENDAR_VIEW (day_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	day = day_view->editing_event_day;
 	event_num = day_view->editing_event_num;
@@ -6692,8 +6566,8 @@ e_day_view_change_event_end_time_down (EDayView *day_view)
 	day_view->resize_event_num = event_num;
 	day_view->resize_bars_event_day = day;
 	day_view->resize_bars_event_num = event_num;
-	resize_start_row = event->start_minute / day_view->mins_per_row;
-	resize_end_row = (event->end_minute - 1) / day_view->mins_per_row;
+	resize_start_row = event->start_minute / time_divisions;
+	resize_end_row = (event->end_minute - 1) / time_divisions;
 	if (resize_end_row < resize_start_row)
 		resize_end_row = resize_start_row;
 	if (resize_end_row == day_view->rows -1)
@@ -6954,14 +6828,19 @@ e_day_view_convert_grid_position_to_time (EDayView *day_view,
 					  gint col,
 					  gint row)
 {
+	ECalendarView *cal_view;
+	gint time_divisions;
 	struct icaltimetype tt;
 	time_t val;
 	gint minutes;
 
+	cal_view = E_CALENDAR_VIEW (day_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
+
 	/* Calulate the number of minutes since the start of the day. */
 	minutes = day_view->first_hour_shown * 60
 		+ day_view->first_minute_shown
-		+ row * day_view->mins_per_row;
+		+ row * time_divisions;
 
 	/* A special case for midnight, where we can use the start of the
 	   next day. */
@@ -6985,10 +6864,15 @@ e_day_view_convert_time_to_grid_position (EDayView *day_view,
 					  gint *col,
 					  gint *row)
 {
+	ECalendarView *cal_view;
 	struct icaltimetype tt;
+	gint time_divisions;
 	gint day, minutes;
 
 	*col = *row = 0;
+
+	cal_view = E_CALENDAR_VIEW (day_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	if (time < day_view->lower || time >= day_view->upper)
 		return FALSE;
@@ -7009,7 +6893,7 @@ e_day_view_convert_time_to_grid_position (EDayView *day_view,
 	minutes = tt.hour * 60 + tt.minute;
 	minutes -= day_view->first_hour_shown * 60 + day_view->first_minute_shown;
 
-	*row = minutes / day_view->mins_per_row;
+	*row = minutes / time_divisions;
 
 	if (*row < 0 || *row >= day_view->rows)
 		return FALSE;
@@ -7151,8 +7035,10 @@ e_day_view_get_event_rows (EDayView *day_view,
 			   gint *start_row_out,
 			   gint *end_row_out)
 {
-	gint start_row, end_row;
+	ECalendarView *cal_view;
 	EDayViewEvent *event;
+	gint time_divisions;
+	gint start_row, end_row;
 
 	g_return_val_if_fail (day >= 0, FALSE);
 	g_return_val_if_fail (day < E_DAY_VIEW_LONG_EVENT, FALSE);
@@ -7161,10 +7047,13 @@ e_day_view_get_event_rows (EDayView *day_view,
 	if (!is_array_index_in_bounds (day_view->events[day], event_num))
 		return FALSE;
 
+	cal_view = E_CALENDAR_VIEW (day_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
+
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
-	start_row = event->start_minute / day_view->mins_per_row;
-	end_row = (event->end_minute - 1) / day_view->mins_per_row;
+	start_row = event->start_minute / time_divisions;
+	end_row = (event->end_minute - 1) / time_divisions;
 	if (end_row < start_row)
 		end_row = start_row;
 
@@ -7653,9 +7542,14 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 				    gint day)
 {
 	EDayViewEvent *event = NULL;
+	ECalendarView *cal_view;
+	gint time_divisions;
 	gint cols_in_row, start_col, num_columns, num_rows, start_row, end_row;
 	gdouble item_x, item_y, item_w, item_h;
 	gchar *text;
+
+	cal_view = E_CALENDAR_VIEW (day_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	/* If the position hasn't changed, just return. */
 	if (day_view->drag_last_day == day
@@ -7687,8 +7581,8 @@ e_day_view_update_main_canvas_drag (EDayView *day_view,
 		event = &g_array_index (day_view->events[day_view->drag_event_day],
 					EDayViewEvent,
 					day_view->drag_event_num);
-		start_row = event->start_minute / day_view->mins_per_row;
-		end_row = (event->end_minute - 1) / day_view->mins_per_row;
+		start_row = event->start_minute / time_divisions;
+		end_row = (event->end_minute - 1) / time_divisions;
 		if (end_row < start_row)
 			end_row = start_row;
 
@@ -7955,6 +7849,8 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 	time_t dt;
 	gboolean all_day_event;
 	ECal *client;
+	ECalModel *model;
+	ECalendarView *cal_view;
 	gboolean drag_from_same_window;
 	const guchar *data;
 	gint format, length;
@@ -7968,7 +7864,9 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 	else
 		drag_from_same_window = FALSE;
 
-	client = e_cal_model_get_default_client (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)));
+	cal_view = E_CALENDAR_VIEW (day_view);
+	model = e_calendar_view_get_model (cal_view);
+	client = e_cal_model_get_default_client (model);
 
 	/* Note that we only support DnD within the EDayView at present. */
 	if (length >= 0 && format == 8 && day_view->drag_event_day != -1) {
@@ -8128,7 +8026,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 		if (!icalcomp)
 			goto error;
 
-		default_zone = calendar_config_get_icaltimezone ();
+		default_zone = e_cal_model_get_timezone (model);
 
 		/* check the type of the component */
 		kind = icalcomponent_isa (icalcomp);
@@ -8185,10 +8083,13 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 					       guint               time,
 					       EDayView		  *day_view)
 {
+	ECalendarView *cal_view;
 	EDayViewEvent *event = NULL;
 	ECalendarViewPosition pos;
+	gint time_divisions;
 	gint day, row, start_row, end_row, num_rows, scroll_x, scroll_y;
 	gint start_offset, end_offset;
+	ECalModel *model;
 	ECalComponent *comp;
 	ECalComponentDateTime date;
 	struct icaltimetype itt;
@@ -8197,6 +8098,10 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 	gboolean drag_from_same_window;
 	const guchar *data;
 	gint format, length;
+
+	cal_view = E_CALENDAR_VIEW (day_view);
+	model = e_calendar_view_get_model (cal_view);
+	time_divisions = e_calendar_view_get_time_divisions (cal_view);
 
 	data = gtk_selection_data_get_data (selection_data);
 	format = gtk_selection_data_get_format (selection_data);
@@ -8252,17 +8157,17 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 				row -= day_view->drag_event_offset;
 
 				/* Calculate time offset from start row. */
-				start_row = event->start_minute / day_view->mins_per_row;
-				end_row = (event->end_minute - 1) / day_view->mins_per_row;
+				start_row = event->start_minute / time_divisions;
+				end_row = (event->end_minute - 1) / time_divisions;
 				if (end_row < start_row)
 					end_row = start_row;
 
 				num_rows = end_row - start_row + 1;
 
-				start_offset = event->start_minute % day_view->mins_per_row;
-				end_offset = event->end_minute % day_view->mins_per_row;
+				start_offset = event->start_minute % time_divisions;
+				end_offset = event->end_minute % time_divisions;
 				if (end_offset != 0)
-					end_offset = day_view->mins_per_row - end_offset;
+					end_offset = time_divisions - end_offset;
 			}
 
 			client = event->comp_data->client;
@@ -8348,7 +8253,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 		if (!icalcomp)
 			goto error;
 
-		default_zone = calendar_config_get_icaltimezone ();
+		default_zone = e_cal_model_get_timezone (model);
 
 		/* check the type of the component */
 		kind = icalcomponent_isa (icalcomp);

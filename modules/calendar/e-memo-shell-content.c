@@ -209,7 +209,9 @@ memo_shell_content_cursor_change_cb (EMemoShellContent *memo_shell_content,
 	e_cal_component_set_icalcomponent (
 		comp, icalcomponent_new_clone (comp_data->icalcomp));
 	e_cal_component_preview_display (
-		memo_preview, comp_data->client, comp);
+		memo_preview, comp_data->client, comp,
+		e_cal_model_get_timezone (memo_model),
+		e_cal_model_get_use_24_hour_format (memo_model));
 
 	e_cal_component_get_uid (comp, &uid);
 	g_free (memo_shell_content->priv->current_uid);
@@ -415,13 +417,11 @@ memo_shell_content_constructed (GObject *object)
 	EMemoShellContentPrivate *priv;
 	EShell *shell;
 	EShellView *shell_view;
-	EShellSettings *shell_settings;
 	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellTaskbar *shell_taskbar;
 	EShellWindow *shell_window;
 	GalViewInstance *view_instance;
-	icaltimezone *timezone;
 	GtkTargetList *target_list;
 	GtkTargetEntry *targets;
 	GtkWidget *container;
@@ -438,14 +438,9 @@ memo_shell_content_constructed (GObject *object)
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-
 	shell = e_shell_backend_get_shell (shell_backend);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	priv->memo_model = e_cal_model_memos_new ();
-
-	timezone = e_shell_settings_get_pointer (
-		shell_settings, "cal-timezone");
 
 	/* Build content widgets. */
 
@@ -482,8 +477,6 @@ memo_shell_content_constructed (GObject *object)
 	container = priv->paned;
 
 	widget = e_cal_component_preview_new ();
-	e_cal_component_preview_set_default_timezone (
-		E_CAL_COMPONENT_PREVIEW (widget), timezone);
 	e_shell_configure_web_view (shell, E_WEB_VIEW (widget));
 	gtk_widget_show (widget);
 
