@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-11-01 09:30+0000\n"
-"PO-Revision-Date: 2010-11-01 12:03+0100\n"
+"POT-Creation-Date: 2010-11-01 18:46+0000\n"
+"PO-Revision-Date: 2010-11-02 10:35+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2515,7 +2515,31 @@ msgstr "Vista previa del panel de posición de las tareas (vertical)"
 msgid "Tasks due today color"
 msgstr "Color para las tareas que vencen hoy"
 
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:82
+msgid ""
+"The UID of the selected (or \"primary\") calendar in the sidebar of the "
+"\"Calendar\" view."
+msgstr ""
+"El UID del calendario seleccionado (o «primario») en la barra lateral de la "
+"vista de «Calendario»."
+
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:83
+msgid ""
+"The UID of the selected (or \"primary\") memo list in the sidebar of the "
+"\"Memos\" view."
+msgstr ""
+"El UID de la nota seleccionada (o «primaria») en la barra lateral de la "
+"vista de «Notas»."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:84
+msgid ""
+"The UID of the selected (or \"primary\") task list in the sidebar of the "
+"\"Tasks\" view."
+msgstr ""
+"El UID de la tarea seleccionada (o «primaria») en la barra lateral de la "
+"vista de «Tareas»."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
 #, no-c-format
 msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
@@ -2525,7 +2549,7 @@ msgstr ""
 "reemplaza por la parte del usuario de la dirección de correo y %d se "
 "reemplaza por el dominio."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:84
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:87
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olsen timezone database location like \"America/New York\"."
@@ -2534,7 +2558,7 @@ msgstr ""
 "calendario, como una localización sin correspondencia en una base de datos "
 "de franjas horarias Olsen, como en \"América/Nueva York\"."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:85
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:88
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
@@ -2545,7 +2569,7 @@ msgstr ""
 "vista previa debajo de la lista de notas. «1» (vista vertical) ubica el "
 "panel de vista previa junto a la lista de notas."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:89
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. \"0\" (Classic View) places the preview pane below the task "
@@ -2556,11 +2580,11 @@ msgstr ""
 "vista previa debajo de la lista de tareas. «1» (vista vertical) ubica el "
 "panel de vista previa junto a la lista de tareas."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:87
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:90
 msgid "The second timezone for a Day View"
 msgstr "La segunda zona horaria para una Vista diaria"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:88
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:91
 msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
@@ -2568,19 +2592,19 @@ msgstr ""
 "Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. "
 "«2» para mensajes de depuración."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:89
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:92
 msgid "Time divisions"
 msgstr "Divisiones de hora"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:90
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:93
 msgid "Time the last alarm ran, in time_t."
 msgstr "La hora en que la última alerta sonó, en time_t."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:91
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:94
 msgid "Timezone"
 msgstr "Zona horaria"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:92
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:95
 msgid ""
 "Transparency of the events in calendar views, a value between 0 "
 "(transparent) and 1 (opaque)."
@@ -2588,21 +2612,9 @@ msgstr ""
 "Transparencia de los acontecimientos en las vistas del calendario, un valor "
 "entre 0 (transparente) y 1 (opaco)."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:93
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:96
 msgid "Twenty four hour time format"
 msgstr "Formato de hora de veinticuatro horas"
-
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:94
-msgid "URI of the highlighted (\"primary\") calendar"
-msgstr "URI del calendario resaltado («primario»)"
-
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:95
-msgid "URI of the highlighted (\"primary\") memo list"
-msgstr "URI de la lista de notas resaltada («primaria»)"
-
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:96
-msgid "URI of the highlighted (\"primary\") task list"
-msgstr "URI de la lista de tareas resaltada («primaria»)"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:97
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
@@ -3840,7 +3852,7 @@ msgstr "_Disponibilidad"
 msgid "Query free / busy information for the attendees"
 msgstr "Consultar información de disponibilidad para los participantes"
 
-#: ../calendar/gui/dialogs/event-editor.c:318 ../calendar/gui/print.c:3094
+#: ../calendar/gui/dialogs/event-editor.c:318 ../calendar/gui/print.c:3146
 msgid "Appointment"
 msgstr "Cita"
 
@@ -4047,7 +4059,7 @@ msgctxt "eventpage"
 msgid "until"
 msgstr "hasta"
 
-#: ../calendar/gui/dialogs/memo-editor.c:109 ../calendar/gui/print.c:3098
+#: ../calendar/gui/dialogs/memo-editor.c:109 ../calendar/gui/print.c:3150
 msgid "Memo"
 msgstr "Nota"
 
@@ -4354,7 +4366,7 @@ msgstr "Página web"
 #: ../calendar/gui/e-cal-model-tasks.c:442
 #: ../calendar/gui/e-cal-model-tasks.c:716 ../calendar/gui/e-task-table.c:214
 #: ../calendar/gui/e-task-table.c:229 ../calendar/gui/e-task-table.c:593
-#: ../calendar/gui/print.c:3181 ../mail/em-sync-stream.c:152
+#: ../calendar/gui/print.c:3233 ../mail/em-sync-stream.c:152
 #: ../mail/em-sync-stream.c:180 ../mail/em-sync-stream.c:202
 #, c-format
 msgid "Canceled"
@@ -4368,7 +4380,7 @@ msgstr "Cancelado"
 #: ../calendar/gui/e-itip-control.c:932 ../calendar/gui/e-meeting-store.c:197
 #: ../calendar/gui/e-meeting-store.c:220 ../calendar/gui/e-task-table.c:212
 #: ../calendar/gui/e-task-table.c:227 ../calendar/gui/e-task-table.c:592
-#: ../calendar/gui/print.c:3178 ../calendar/gui/tasktypes.xml.h:9
+#: ../calendar/gui/print.c:3230 ../calendar/gui/tasktypes.xml.h:9
 #: ../plugins/save-calendar/csv-format.c:367
 msgid "Completed"
 msgstr "Terminado"
@@ -4388,7 +4400,7 @@ msgstr "Alta"
 #: ../calendar/gui/e-cal-model-tasks.c:712
 #: ../calendar/gui/e-cal-model-tasks.c:789 ../calendar/gui/e-task-table.c:210
 #: ../calendar/gui/e-task-table.c:225 ../calendar/gui/e-task-table.c:591
-#: ../calendar/gui/print.c:3175
+#: ../calendar/gui/print.c:3227
 msgid "In Progress"
 msgstr "En proceso"
 
@@ -4415,7 +4427,7 @@ msgstr "Normal"
 #: ../calendar/gui/e-cal-model-tasks.c:436
 #: ../calendar/gui/e-cal-model-tasks.c:710 ../calendar/gui/e-task-table.c:208
 #: ../calendar/gui/e-task-table.c:223 ../calendar/gui/e-task-table.c:590
-#: ../calendar/gui/print.c:3172 ../calendar/gui/tasktypes.xml.h:18
+#: ../calendar/gui/print.c:3224 ../calendar/gui/tasktypes.xml.h:18
 msgid "Not Started"
 msgstr "Sin comenzar"
 
@@ -4472,7 +4484,7 @@ msgstr "Pulse para cambiar o ver los detalles del estado de la tarea"
 msgid "_Send Options"
 msgstr "Opciones de _envío"
 
-#: ../calendar/gui/dialogs/task-editor.c:328 ../calendar/gui/print.c:3096
+#: ../calendar/gui/dialogs/task-editor.c:328 ../calendar/gui/print.c:3148
 #: ../widgets/misc/e-send-options.c:503
 msgid "Task"
 msgstr "Tarea"
@@ -4712,8 +4724,8 @@ msgstr "No"
 #: ../calendar/gui/e-meeting-list-view.c:163
 #: ../calendar/gui/e-meeting-list-view.c:177
 #: ../calendar/gui/e-meeting-store.c:127 ../calendar/gui/e-meeting-store.c:162
-#: ../calendar/gui/e-meeting-store.c:225 ../calendar/gui/print.c:1013
-#: ../calendar/gui/print.c:1030 ../e-util/e-charset.c:52
+#: ../calendar/gui/e-meeting-store.c:225 ../calendar/gui/print.c:1060
+#: ../calendar/gui/print.c:1077 ../e-util/e-charset.c:52
 #: ../modules/plugin-manager/evolution-plugin-manager.c:98
 #: ../plugins/itip-formatter/itip-formatter.c:458
 #: ../plugins/itip-formatter/itip-formatter.c:2464
@@ -4849,7 +4861,7 @@ msgid "Organizer: %s"
 msgstr "Organizador: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:1895 ../calendar/gui/print.c:3130
+#: ../calendar/gui/e-calendar-view.c:1895 ../calendar/gui/print.c:3182
 #, c-format
 msgid "Location: %s"
 msgstr "Lugar: %s"
@@ -4899,7 +4911,7 @@ msgstr "Muestra la segunda zona horaria"
 #. order but don't change the specifiers or add
 #. anything.
 #: ../calendar/gui/e-day-view-top-item.c:887 ../calendar/gui/e-day-view.c:1876
-#: ../calendar/gui/e-week-view-main-item.c:214 ../calendar/gui/print.c:1785
+#: ../calendar/gui/e-week-view-main-item.c:214 ../calendar/gui/print.c:1832
 msgid "%A %d %B"
 msgstr "%A %e de %B"
 
@@ -4930,13 +4942,15 @@ msgstr "%e de %b"
 
 #. String to use in 12-hour time format for times in the morning.
 #: ../calendar/gui/e-day-view.c:1087 ../calendar/gui/e-week-view.c:760
-#: ../calendar/gui/print.c:860 ../calendar/gui/print.c:2321
+#: ../calendar/gui/print.c:891 ../calendar/gui/print.c:907
+#: ../calendar/gui/print.c:2354 ../calendar/gui/print.c:2371
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
 #: ../calendar/gui/e-day-view.c:1090 ../calendar/gui/e-week-view.c:763
-#: ../calendar/gui/print.c:862 ../calendar/gui/print.c:2323
+#: ../calendar/gui/print.c:893 ../calendar/gui/print.c:909
+#: ../calendar/gui/print.c:2356 ../calendar/gui/print.c:2373
 msgid "pm"
 msgstr "pm"
 
@@ -5395,49 +5409,49 @@ msgstr "Recursos"
 
 #: ../calendar/gui/e-meeting-list-view.c:159
 #: ../calendar/gui/e-meeting-store.c:102 ../calendar/gui/e-meeting-store.c:119
-#: ../calendar/gui/e-meeting-store.c:850 ../calendar/gui/print.c:1009
+#: ../calendar/gui/e-meeting-store.c:850 ../calendar/gui/print.c:1056
 msgid "Individual"
 msgstr "Individual"
 
 #: ../calendar/gui/e-meeting-list-view.c:160
 #: ../calendar/gui/e-meeting-store.c:104 ../calendar/gui/e-meeting-store.c:121
-#: ../calendar/gui/print.c:1010 ../widgets/table/e-table-config.ui.h:7
+#: ../calendar/gui/print.c:1057 ../widgets/table/e-table-config.ui.h:7
 msgid "Group"
 msgstr "Grupo"
 
 #: ../calendar/gui/e-meeting-list-view.c:161
 #: ../calendar/gui/e-meeting-store.c:106 ../calendar/gui/e-meeting-store.c:123
-#: ../calendar/gui/print.c:1011
+#: ../calendar/gui/print.c:1058
 msgid "Resource"
 msgstr "Recurso"
 
 #: ../calendar/gui/e-meeting-list-view.c:162
 #: ../calendar/gui/e-meeting-store.c:108 ../calendar/gui/e-meeting-store.c:125
-#: ../calendar/gui/print.c:1012
+#: ../calendar/gui/print.c:1059
 msgid "Room"
 msgstr "Sala"
 
 #: ../calendar/gui/e-meeting-list-view.c:173
 #: ../calendar/gui/e-meeting-store.c:137 ../calendar/gui/e-meeting-store.c:154
-#: ../calendar/gui/print.c:1026
+#: ../calendar/gui/print.c:1073
 msgid "Chair"
 msgstr "Presidente"
 
 #: ../calendar/gui/e-meeting-list-view.c:174
 #: ../calendar/gui/e-meeting-store.c:139 ../calendar/gui/e-meeting-store.c:156
-#: ../calendar/gui/e-meeting-store.c:853 ../calendar/gui/print.c:1027
+#: ../calendar/gui/e-meeting-store.c:853 ../calendar/gui/print.c:1074
 msgid "Required Participant"
 msgstr "Participante requerido"
 
 #: ../calendar/gui/e-meeting-list-view.c:175
 #: ../calendar/gui/e-meeting-store.c:141 ../calendar/gui/e-meeting-store.c:158
-#: ../calendar/gui/print.c:1028
+#: ../calendar/gui/print.c:1075
 msgid "Optional Participant"
 msgstr "Participante opcional"
 
 #: ../calendar/gui/e-meeting-list-view.c:176
 #: ../calendar/gui/e-meeting-store.c:143 ../calendar/gui/e-meeting-store.c:160
-#: ../calendar/gui/print.c:1029
+#: ../calendar/gui/print.c:1076
 msgid "Non-Participant"
 msgstr "No participan"
 
@@ -5619,7 +5633,7 @@ msgstr "Pulse aquí para añadir una nota"
 msgid "%d%%"
 msgstr "%d%%"
 
-#: ../calendar/gui/e-task-table.c:636 ../calendar/gui/print.c:2113
+#: ../calendar/gui/e-task-table.c:636 ../calendar/gui/print.c:2160
 #: ../calendar/importers/icalendar-importer.c:81
 #: ../calendar/importers/icalendar-importer.c:828
 #: ../modules/calendar/e-cal-shell-content.c:434
@@ -5661,7 +5675,7 @@ msgstr "Seleccione la zona horaria"
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: ../calendar/gui/e-week-view-main-item.c:231 ../calendar/gui/print.c:1766
+#: ../calendar/gui/e-week-view-main-item.c:231 ../calendar/gui/print.c:1813
 msgid "%d %B"
 msgstr "%e de %B"
 
@@ -5997,225 +6011,225 @@ msgstr "No se pudo reservar un recurso, error: "
 msgid "You must be an attendee of the event."
 msgstr "Debe ser un participante en el acontecimiento."
 
-#: ../calendar/gui/print.c:516
+#: ../calendar/gui/print.c:535
 msgid "1st"
 msgstr "1"
 
-#: ../calendar/gui/print.c:516
+#: ../calendar/gui/print.c:535
 msgid "2nd"
 msgstr "2"
 
-#: ../calendar/gui/print.c:516
+#: ../calendar/gui/print.c:535
 msgid "3rd"
 msgstr "3"
 
-#: ../calendar/gui/print.c:516
+#: ../calendar/gui/print.c:535
 msgid "4th"
 msgstr "4"
 
-#: ../calendar/gui/print.c:516
+#: ../calendar/gui/print.c:535
 msgid "5th"
 msgstr "5"
 
-#: ../calendar/gui/print.c:517
+#: ../calendar/gui/print.c:536
 msgid "6th"
 msgstr "6"
 
-#: ../calendar/gui/print.c:517
+#: ../calendar/gui/print.c:536
 msgid "7th"
 msgstr "7"
 
-#: ../calendar/gui/print.c:517
+#: ../calendar/gui/print.c:536
 msgid "8th"
 msgstr "8"
 
-#: ../calendar/gui/print.c:517
+#: ../calendar/gui/print.c:536
 msgid "9th"
 msgstr "9"
 
-#: ../calendar/gui/print.c:517
+#: ../calendar/gui/print.c:536
 msgid "10th"
 msgstr "10"
 
-#: ../calendar/gui/print.c:518
+#: ../calendar/gui/print.c:537
 msgid "11th"
 msgstr "11"
 
-#: ../calendar/gui/print.c:518
+#: ../calendar/gui/print.c:537
 msgid "12th"
 msgstr "12"
 
-#: ../calendar/gui/print.c:518
+#: ../calendar/gui/print.c:537
 msgid "13th"
 msgstr "13"
 
-#: ../calendar/gui/print.c:518
+#: ../calendar/gui/print.c:537
 msgid "14th"
 msgstr "14"
 
-#: ../calendar/gui/print.c:518
+#: ../calendar/gui/print.c:537
 msgid "15th"
 msgstr "15"
 
-#: ../calendar/gui/print.c:519
+#: ../calendar/gui/print.c:538
 msgid "16th"
 msgstr "16"
 
-#: ../calendar/gui/print.c:519
+#: ../calendar/gui/print.c:538
 msgid "17th"
 msgstr "17"
 
-#: ../calendar/gui/print.c:519
+#: ../calendar/gui/print.c:538
 msgid "18th"
 msgstr "18"
 
-#: ../calendar/gui/print.c:519
+#: ../calendar/gui/print.c:538
 msgid "19th"
 msgstr "19"
 
-#: ../calendar/gui/print.c:519
+#: ../calendar/gui/print.c:538
 msgid "20th"
 msgstr "20"
 
-#: ../calendar/gui/print.c:520
+#: ../calendar/gui/print.c:539
 msgid "21st"
 msgstr "21"
 
-#: ../calendar/gui/print.c:520
+#: ../calendar/gui/print.c:539
 msgid "22nd"
 msgstr "22"
 
-#: ../calendar/gui/print.c:520
+#: ../calendar/gui/print.c:539
 msgid "23rd"
 msgstr "23"
 
-#: ../calendar/gui/print.c:520
+#: ../calendar/gui/print.c:539
 msgid "24th"
 msgstr "24"
 
-#: ../calendar/gui/print.c:520
+#: ../calendar/gui/print.c:539
 msgid "25th"
 msgstr "25"
 
-#: ../calendar/gui/print.c:521
+#: ../calendar/gui/print.c:540
 msgid "26th"
 msgstr "26"
 
-#: ../calendar/gui/print.c:521
+#: ../calendar/gui/print.c:540
 msgid "27th"
 msgstr "27"
 
-#: ../calendar/gui/print.c:521
+#: ../calendar/gui/print.c:540
 msgid "28th"
 msgstr "28"
 
-#: ../calendar/gui/print.c:521
+#: ../calendar/gui/print.c:540
 msgid "29th"
 msgstr "29"
 
-#: ../calendar/gui/print.c:521
+#: ../calendar/gui/print.c:540
 msgid "30th"
 msgstr "30"
 
-#: ../calendar/gui/print.c:522
+#: ../calendar/gui/print.c:541
 msgid "31st"
 msgstr "31"
 
-#: ../calendar/gui/print.c:602
+#: ../calendar/gui/print.c:599
 msgid "Su"
 msgstr "Do"
 
-#: ../calendar/gui/print.c:602
+#: ../calendar/gui/print.c:599
 msgid "Mo"
 msgstr "Lu"
 
-#: ../calendar/gui/print.c:602
+#: ../calendar/gui/print.c:599
 msgid "Tu"
 msgstr "Ma"
 
-#: ../calendar/gui/print.c:602
+#: ../calendar/gui/print.c:599
 msgid "We"
 msgstr "Mi"
 
-#: ../calendar/gui/print.c:603
+#: ../calendar/gui/print.c:600
 msgid "Th"
 msgstr "Ju"
 
-#: ../calendar/gui/print.c:603
+#: ../calendar/gui/print.c:600
 msgid "Fr"
 msgstr "Vi"
 
-#: ../calendar/gui/print.c:603
+#: ../calendar/gui/print.c:600
 msgid "Sa"
 msgstr "Sa"
 
 #. Translators: This is part of "START to END" text,
 #. * where START and END are date/times.
-#: ../calendar/gui/print.c:2931
+#: ../calendar/gui/print.c:2983
 msgid " to "
 msgstr " a "
 
 #. Translators: This is part of "START to END
 #. * (Completed COMPLETED)", where COMPLETED is a
 #. * completed date/time.
-#: ../calendar/gui/print.c:2939
+#: ../calendar/gui/print.c:2991
 msgid " (Completed "
 msgstr " (Completado "
 
 #. Translators: This is part of "Completed COMPLETED",
 #. * where COMPLETED is a completed date/time.
-#: ../calendar/gui/print.c:2943
+#: ../calendar/gui/print.c:2995
 msgid "Completed "
 msgstr "Completado "
 
 #. Translators: This is part of "START (Due DUE)",
 #. * where START and DUE are dates/times.
-#: ../calendar/gui/print.c:2951
+#: ../calendar/gui/print.c:3003
 msgid " (Due "
 msgstr " (Vence "
 
 #. Translators: This is part of "Due DUE",
 #. * where DUE is a date/time due the event
 #. * should be finished.
-#: ../calendar/gui/print.c:2956
+#: ../calendar/gui/print.c:3008
 msgid "Due "
 msgstr "Vence "
 
-#: ../calendar/gui/print.c:3121
+#: ../calendar/gui/print.c:3173
 #, c-format
 msgid "Summary: %s"
 msgstr "Resumen: %s"
 
-#: ../calendar/gui/print.c:3145
+#: ../calendar/gui/print.c:3197
 msgid "Attendees: "
 msgstr "Participantes: "
 
-#: ../calendar/gui/print.c:3188
+#: ../calendar/gui/print.c:3240
 #, c-format
 msgid "Status: %s"
 msgstr "Estado: %s"
 
-#: ../calendar/gui/print.c:3203
+#: ../calendar/gui/print.c:3255
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioridad: %s"
 
-#: ../calendar/gui/print.c:3221
+#: ../calendar/gui/print.c:3273
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Porcentaje completado: %i"
 
-#: ../calendar/gui/print.c:3232
+#: ../calendar/gui/print.c:3284
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../calendar/gui/print.c:3245
+#: ../calendar/gui/print.c:3297
 #, c-format
 msgid "Categories: %s"
 msgstr "Categorías: %s"
 
-#: ../calendar/gui/print.c:3256
+#: ../calendar/gui/print.c:3308
 msgid "Contacts: "
 msgstr "Contactos: "
 
@@ -8560,7 +8574,7 @@ msgid "Back - Receiving options"
 msgstr "Atrás - Opciones de recepción"
 
 #: ../capplet/settings/mail-account-view.c:618
-#: ../mail/em-account-editor.c:3026
+#: ../mail/em-account-editor.c:3028
 msgid "Defaults"
 msgstr "Predeterminados"
 
@@ -10333,7 +10347,7 @@ msgstr "Recepción de correo"
 msgid "Please configure the following account settings."
 msgstr "Configure las siguientes opciones de la cuenta."
 
-#: ../mail/em-account-editor.c:2094 ../mail/em-account-editor.c:2741
+#: ../mail/em-account-editor.c:2094 ../mail/em-account-editor.c:2743
 msgid "Sending Email"
 msgstr "Envío de correo"
 
@@ -10376,29 +10390,29 @@ msgstr ""
 "\n"
 "Pulse «Aplicar» para guardar su configuración."
 
-#: ../mail/em-account-editor.c:2555
+#: ../mail/em-account-editor.c:2557
 msgid "Check for _new messages every"
 msgstr "Comprobar si hay mensajes _nuevos cada"
 
-#: ../mail/em-account-editor.c:2563
+#: ../mail/em-account-editor.c:2565
 msgid "minu_tes"
 msgstr "minuto_s"
 
-#: ../mail/em-account-editor.c:2845
+#: ../mail/em-account-editor.c:2847
 msgid "Please select a folder from the current account."
 msgstr "Seleccionar una carpeta de la cuenta actual."
 
-#: ../mail/em-account-editor.c:3154 ../mail/mail-config.ui.h:96
+#: ../mail/em-account-editor.c:3156 ../mail/mail-config.ui.h:96
 msgid "Security"
 msgstr "Seguridad"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:3199 ../mail/em-account-editor.c:3267
+#: ../mail/em-account-editor.c:3201 ../mail/em-account-editor.c:3269
 msgid "Receiving Options"
 msgstr "Opciones de recepción"
 
-#: ../mail/em-account-editor.c:3200 ../mail/em-account-editor.c:3268
+#: ../mail/em-account-editor.c:3202 ../mail/em-account-editor.c:3270
 msgid "Checking for New Messages"
 msgstr "Comprobando si hay mensajes nuevos"
 
@@ -14386,14 +14400,27 @@ msgstr ""
 "verticalmente."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:9
+#| msgid "The registry of address books"
+msgid "Primary address book"
+msgstr "Libreta de direcciones primaria"
+
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:10
 msgid "Show autocompleted name with an address"
 msgstr "Mostrar el nombre autocompletado con la dirección"
 
-#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:10
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:11
 msgid "Show preview pane"
 msgstr "Mostrar el panel de vista previa"
 
-#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:11
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:12
+msgid ""
+"The UID of the selected (or \"primary\") address book in the sidebar of the "
+"\"Contacts\" view."
+msgstr ""
+"El UID de la libreta de direcciones seleccionada (o «primaria») en la barra "
+"lateral de la vista de «Contactos»."
+
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:13
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the contact list. \"0\" (Classic View) places the preview pane below the "
@@ -14405,7 +14432,7 @@ msgstr ""
 "vista previa debajo de la lista de contactos. «1» (vista vertical) ubica el "
 "panel de vista previa junto a la lista de contactos."
 
-#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:12
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:14
 msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
 "autocomplete."
@@ -14413,19 +14440,19 @@ msgstr ""
 "El número de caracteres que deben teclearse antes de que Evolution intente "
 "autocompletar."
 
-#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:13
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:15
 msgid "URI for the folder last used in the select names dialog"
 msgstr ""
 "URI para la carpeta usada por última vez en el diálogo de selección de "
 "nombres"
 
-#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:14
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:16
 msgid "URI for the folder last used in the select names dialog."
 msgstr ""
 "URI para la carpeta usada por última vez en el diálogo de selección de "
 "nombres."
 
-#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:15
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:17
 msgid ""
 "Whether force showing the mail address with the name of the autocompleted "
 "contact in the entry."
@@ -14433,7 +14460,7 @@ msgstr ""
 "Indica si se debe forzar el mostrado de la dirección de corre-e con el "
 "nombre autocompletado del contacto en la entrada."
 
-#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:16
+#: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:18
 msgid "Whether to show the preview pane."
 msgstr "Indica si se muestra el panel de vista previa."
 
@@ -14960,16 +14987,16 @@ msgstr ""
 msgid "Loading calendars"
 msgstr "Cargando calendarios"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:674
+#: ../modules/calendar/e-cal-shell-sidebar.c:655
 msgid "_New Calendar..."
 msgstr "Calendario _nuevo…"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:691
+#: ../modules/calendar/e-cal-shell-sidebar.c:672
 msgid "Calendar Selector"
 msgstr "Selector de calendarios"
 
 #. Translators: The string field is a URI.
-#: ../modules/calendar/e-cal-shell-sidebar.c:1034
+#: ../modules/calendar/e-cal-shell-sidebar.c:1015
 #, c-format
 msgid "Opening calendar at %s"
 msgstr "Abriendo el calendario en «%s»"
@@ -15397,12 +15424,12 @@ msgstr ""
 msgid "Loading memos"
 msgstr "Cargando notas"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:613
+#: ../modules/calendar/e-memo-shell-sidebar.c:594
 msgid "Memo List Selector"
 msgstr "Selector de lista de notas"
 
 #. Translators: The string field is a URI.
-#: ../modules/calendar/e-memo-shell-sidebar.c:918
+#: ../modules/calendar/e-memo-shell-sidebar.c:899
 #, c-format
 msgid "Opening memos at %s"
 msgstr "Abriendo notas en %s"
@@ -15521,12 +15548,12 @@ msgstr "Crea una lista de tareas nueva"
 msgid "Loading tasks"
 msgstr "Cargando tareas"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:613
+#: ../modules/calendar/e-task-shell-sidebar.c:594
 msgid "Task List Selector"
 msgstr "Selector de listas de tareas"
 
 #. Translators: The string field is a URI.
-#: ../modules/calendar/e-task-shell-sidebar.c:918
+#: ../modules/calendar/e-task-shell-sidebar.c:899
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Abriendo tareas en %s"
@@ -22041,6 +22068,15 @@ msgstr "Seleccionar todo"
 msgid "Input Methods"
 msgstr "Métodos de entrada"
 
+#~ msgid "URI of the highlighted (\"primary\") calendar"
+#~ msgstr "URI del calendario resaltado («primario»)"
+
+#~ msgid "URI of the highlighted (\"primary\") memo list"
+#~ msgstr "URI de la lista de notas resaltada («primaria»)"
+
+#~ msgid "URI of the highlighted (\"primary\") task list"
+#~ msgstr "URI de la lista de tareas resaltada («primaria»)"
+
 #~ msgid "An error occurred while sending."
 #~ msgstr "Ocurrió un error al enviar."
 
@@ -22858,9 +22894,6 @@ msgstr "Métodos de entrada"
 
 #~ msgid "Source List"
 #~ msgstr "Lista de origen"
-
-#~ msgid "The registry of address books"
-#~ msgstr "El registro de las libretas de direcciones"
 
 #~ msgid "Current View"
 #~ msgstr "Vista actual"
