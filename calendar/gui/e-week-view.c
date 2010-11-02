@@ -2144,13 +2144,16 @@ e_week_view_set_show_event_end_times (EWeekView *week_view,
 {
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-	if (week_view->show_event_end_times != show_event_end_times)
+	if (week_view->show_event_end_times == show_event_end_times)
 		return;
 
 	week_view->show_event_end_times = show_event_end_times;
 	e_week_view_recalc_cell_sizes (week_view);
 	week_view->events_need_reshape = TRUE;
 	e_week_view_check_layout (week_view);
+
+	gtk_widget_queue_draw (week_view->titles_canvas);
+	gtk_widget_queue_draw (week_view->main_canvas);
 
 	g_object_notify (G_OBJECT (week_view), "show-event-end-times");
 }
