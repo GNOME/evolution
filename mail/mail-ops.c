@@ -2540,3 +2540,62 @@ mail_check_service (EMailSession *session,
 
 	return id;
 }
+
+/* ---------------------------------------------------------------------------------- */
+
+struct _disconnect_msg {
+	MailMsg base;
+
+	CamelStore *store;
+};
+
+static gchar *
+disconnect_service_desc (struct _disconnect_msg *m)
+{
+	gchar *name, *res;
+
+	name = camel_service_get_name (CAMEL_SERVICE (m->store), TRUE);
+	res = g_strdup_printf (_("Disconnecting %s"), name ? name : "");
+	g_free (name);
+
+	return res;
+}
+
+static void
+disconnect_service_exec (struct _disconnect_msg *m,
+                    GCancellable *cancellable,
+                    GError **error)
+{
+	camel_service_disconnect_sync (CAMEL_SERVICE (m->store), TRUE, error);
+}
+
+static void
+disconnect_service_free (struct _disconnect_msg *m)
+{
+	g_object_unref (m->store);
+}
+
+static MailMsgInfo disconnect_service_info = {
+	sizeof (struct _disconnect_msg),
+	(MailMsgDescFunc) disconnect_service_desc,
+	(MailMsgExecFunc) disconnect_service_exec,
+	(MailMsgDoneFunc) NULL,
+	(MailMsgFreeFunc) disconnect_service_free
+};
+
+gint
+mail_disconnect_store (CamelStore *store)
+{
+	struct _disconnect_msg *m;
+	gint id;
+
+	g_return_val_if_fail (store != NULL, -1);
+
+	m = mail_msg_new (&disconnect_service_info);
+	m->store = g_object_ref (store);
+
+	id = m->base.seq;
+	mail_msg_unordered_push (m);
+
+	return id;
+}

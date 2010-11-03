@@ -163,6 +163,8 @@ gint		mail_check_service		(EMailSession *session,
 						 void (*done)(const gchar *url, CamelProviderType type, GList *authtypes, gpointer data),
 						 gpointer data);
 
+gint mail_disconnect_store (CamelStore *store);
+
 G_END_DECLS
 
 #endif /* MAIL_OPS_H */
