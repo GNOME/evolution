@@ -821,29 +821,22 @@ e_mail_migrate (EShellBackend *shell_backend,
 	if (major == 0)
 		return emm_setup_initial (data_dir);
 
-	if (major < 2 || (major == 2 && minor < 12)) {
 #ifndef G_OS_WIN32
+	if (major < 2 || (major == 2 && minor < 12)) {
 		em_update_accounts_2_11 ();
-#else
-		g_error ("Upgrading from ancient versions not supported on Windows");
-#endif
 	}
 
 	if (major < 2 || (major == 2 && minor < 22))
-#ifndef G_OS_WIN32
 		em_update_message_notify_settings_2_21 ();
-#else
-		g_error ("Upgrading from ancient versions not supported on Windows");
-#endif
 
 	if (major < 2 || (major == 2 && minor < 24)) {
-#ifndef G_OS_WIN32
 		em_update_sa_junk_setting_2_23 ();
 		migrate_to_db (shell_backend);
-#else
-		g_error ("Upgrading from ancient versions not supported on Windows");
-#endif
 	}
+#else
+	if (major < 2 || (major == 2 && minor < 24))
+		g_debug ("Upgrading from ancient versions %d.%d not supported on Windows", major, minor);
+#endif
 
 	if (major < 2 || (major == 2 && minor < 32)) {
 		em_ensure_proxy_ignore_hosts_being_list ();
