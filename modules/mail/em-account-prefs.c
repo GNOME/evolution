@@ -90,8 +90,10 @@ account_prefs_disable_account_cb (EAccountTreeView *tree_view,
 	account_list = e_account_tree_view_get_account_list (tree_view);
 	g_return_if_fail (account_list != NULL);
 
-	if (!e_account_list_account_has_proxies (account_list, account))
+	if (!e_account_list_account_has_proxies (account_list, account)) {
+		e_mail_store_remove_by_uri (prefs->priv->session, account->source->url);
 		return;
+	}
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (tree_view));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
