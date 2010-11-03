@@ -30,5 +30,45 @@
       <_summary>Insert Face picture by default</_summary>
       <_description>Whether insert Face picture to outgoing messages by default. The picture should be set before checking this, otherwise nothing happens.</_description>
     </key>
+    <key name="notify-only-inbox" type="b">
+      <default>true</default>
+      <short>Notify new messages for Inbox only.</short>
+      <long>Whether to notify new messages in Inbox folder only.</long>
+    </key>
+    <key name="notify-dbus-enabled" type="b">
+      <default>true</default>
+      <short>Enable D-Bus messages.</short>
+      <long>Generates a D-Bus message when new mail messages arrive.</long>
+    </key>
+    <key name="notify-status-enabled" type="b">
+      <default>true</default>
+      <short>Enable icon in notification area.</short>
+      <long>Show new mail icon in notification area when new messages arrive.</long>
+    </key>
+    <key name="notify-status-notification" type="b">
+      <default>true</default>
+      <short>Popup message together with the icon.</short>
+      <long>Whether show message over the icon when new messages arrive.</long>
+    </key>
+    <key name="notify-sound-enabled" type="b">
+      <default>true</default>
+      <short>Play sound when new messages arrive.</short>
+      <long>Whether play sound or beep when new messages arrive.</long>
+    </key>
+    <key name="notify-sound-beep" type="b">
+      <default>true</default>
+      <short>Beep or play sound file.</short>
+      <long>If "true", then beep, otherwise will play sound file when new messages arrive.</long>
+    </key>
+    <key name="notify-sound-file" type="s">
+      <default>''</default>
+      <short>Sound file name to be played.</short>
+      <long>Sound file to be played when new messages arrive, if not in beep mode.</long>
+    </key>
+    <key name="notify-sound-use-theme" type="b">
+      <default>false</default>
+      <short>Use sound theme</short>
+      <long>Play themed sound when new messages arrive, if not in beep mode.</long>
+    </key>
   </schema>
 </schemalist>
