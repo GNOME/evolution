@@ -29,6 +29,8 @@
 #endif
 
 #include <libecal/e-cal-time-util.h>
+#include "shell/e-shell.h"
+#include "shell/e-shell-settings.h"
 #include "calendar-config.h"
 #include "tag-calendar.h"
 
@@ -39,6 +41,7 @@ struct calendar_tag_closure {
 	time_t end_time;
 
 	gboolean skip_transparent_events;
+	gboolean recur_events_italic;
 };
 
 /* Clears all the tags in a calendar and fills a closure structure with the
@@ -108,6 +111,8 @@ tag_calendar_cb (ECalComponent *comp,
 			return TRUE;
 
 		style = E_CALENDAR_ITEM_MARK_ITALIC;
+	} else if (c->recur_events_italic && e_cal_component_is_instance (comp)) {
+		style = E_CALENDAR_ITEM_MARK_ITALIC;
 	} else {
 		style = E_CALENDAR_ITEM_MARK_BOLD;
 	}
@@ -122,6 +127,18 @@ tag_calendar_cb (ECalComponent *comp,
 		style, TRUE);
 
 	return TRUE;
+}
+
+static gboolean
+get_recur_events_italic (void)
+{
+	EShell *shell;
+	EShellSettings *shell_settings;
+
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	return e_shell_settings_get_boolean (shell_settings, "cal-recur-events-italic");
 }
 
 /**
@@ -152,6 +169,7 @@ tag_calendar_by_client (ECalendar *ecal,
 		return;
 
 	c.skip_transparent_events = TRUE;
+	c.recur_events_italic = get_recur_events_italic ();
 
 	e_cal_generate_instances (
 		client, c.start_time, c.end_time, tag_calendar_cb, &c);
@@ -202,7 +220,8 @@ tag_calendar_by_comp (ECalendar *ecal,
                       ECal *client,
                       icaltimezone *display_zone,
                       gboolean clear_first,
-                      gboolean comp_is_on_server)
+                      gboolean comp_is_on_server,
+		      gboolean can_recur_events_italic)
 {
 	struct calendar_tag_closure c;
 
@@ -217,6 +236,7 @@ tag_calendar_by_comp (ECalendar *ecal,
 		return;
 
 	c.skip_transparent_events = FALSE;
+	c.recur_events_italic = can_recur_events_italic && get_recur_events_italic ();
 
 	if (comp_is_on_server)
 		e_cal_generate_instances_for_object (

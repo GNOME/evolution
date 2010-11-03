@@ -789,6 +789,13 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
+	widget = e_builder_get_widget (prefs->builder, "recur_events_italic");
+	g_object_bind_property (
+		shell_settings, "cal-recur-events-italic",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
 	prefs->month_scroll_by_week = e_builder_get_widget (prefs->builder, "month_scroll_by_week");
 
 	widget = e_builder_get_widget (prefs->builder, "tasks_due_today_color");

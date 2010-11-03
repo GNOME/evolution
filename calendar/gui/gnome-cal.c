@@ -775,7 +775,7 @@ dn_e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer data)
 		tag_calendar_by_comp (
 			priv->date_navigator, comp,
 			e_cal_view_get_client (query),
-			NULL, FALSE, TRUE);
+			NULL, FALSE, TRUE, TRUE);
 		g_object_unref (comp);
 	}
 }
