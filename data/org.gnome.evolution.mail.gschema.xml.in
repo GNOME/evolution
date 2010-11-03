@@ -10,5 +10,15 @@
       <_summary>List of keyword/value pairs for the Templates plugin to substitute in a message body.</_summary>
       <_description>List of keyword/value pairs for the Templates plugin to substitute in a message body.</_description>
     </key>
+    <key name="attachment-reminder-clues" type="as">
+      <default>['attachment','attaching','attached','enclosed']</default>
+      <_summary>List of clues for the attachment reminder plugin to look for in a message body</_summary>
+      <_description>List of clues for the attachment reminder plugin to look for in a message body.</_description>
+    </key>
+    <key name="custom-headers" type="as">
+      <default>['Security=Personal;Unclassified;Protected;InConfidence;Secret;Topsecret']</default>
+      <_summary>List of Custom Headers</_summary>
+      <_description>The key specifies the list of custom headers that you can add  to an outgoing message. The format for specifying a Header and Header value is: Name of the custom header followed by "=" and the values separated by ";"</_description>
+    </key>
   </schema>
 </schemalist>
