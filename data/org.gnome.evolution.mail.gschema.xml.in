@@ -5,5 +5,10 @@
       <_summary>Check whether Evolution is the default mailer</_summary>
       <_description>Every time Evolution starts, check whether or not it is the default mailer.</_description>
     </key>
+    <key name="template-placeholders" type="as">
+      <default>['myphone=012345','myplace=Abcd','myname=Alice']</default>
+      <_summary>List of keyword/value pairs for the Templates plugin to substitute in a message body.</_summary>
+      <_description>List of keyword/value pairs for the Templates plugin to substitute in a message body.</_description>
+    </key>
   </schema>
 </schemalist>

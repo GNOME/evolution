@@ -33,3 +33,4 @@ show-preview = /apps/evolution/addressbook/display/show_preview
 
 [org.gnome.evolution.mail]
 check-if-default-mailer = /apps/evolution/mail/prompts/checkdefault
+template-placeholders = /apps/evolution/mail/template_placeholders
