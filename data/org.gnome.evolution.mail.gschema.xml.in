@@ -1,0 +1,9 @@
+<schemalist>
+  <schema gettext-domain="evolution" id="org.gnome.evolution.mail" path="/apps/evolution/mail/">
+    <key name="check-if-default-mailer" type="b">
+      <default>true</default>
+      <_summary>Check whether Evolution is the default mailer</_summary>
+      <_description>Every time Evolution starts, check whether or not it is the default mailer.</_description>
+    </key>
+  </schema>
+</schemalist>

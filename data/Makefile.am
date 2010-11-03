@@ -12,7 +12,8 @@ autostart_DATA = $(autostart_in_files:.desktop.in=.desktop)
 
 gsettings_SCHEMAS =					\
 	org.gnome.evolution.gschema.xml			\
-	org.gnome.evolution.addressbook.gschema.xml
+	org.gnome.evolution.addressbook.gschema.xml	\
+	org.gnome.evolution.mail.gschema.xml
 
 @INTLTOOL_XML_NOMERGE_RULE@
 

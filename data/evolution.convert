@@ -30,3 +30,6 @@ layout = /apps/evolution/addressbook/display/layout
 hpane-position = /apps/evolution/addressbook/display/hpane_position
 vpane-position = /apps/evolution/addressbook/display/vpane_position
 show-preview = /apps/evolution/addressbook/display/show_preview
+
+[org.gnome.evolution.mail]
+check-if-default-mailer = /apps/evolution/mail/prompts/checkdefault
