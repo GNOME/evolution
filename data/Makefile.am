@@ -10,8 +10,9 @@ autostart_DATA = $(autostart_in_files:.desktop.in=.desktop)
 
 @INTLTOOL_DESKTOP_RULE@
 
-gsettings_SCHEMAS =				\
-	org.gnome.evolution.gschema.xml
+gsettings_SCHEMAS =					\
+	org.gnome.evolution.gschema.xml			\
+	org.gnome.evolution.addressbook.gschema.xml
 
 @INTLTOOL_XML_NOMERGE_RULE@
 

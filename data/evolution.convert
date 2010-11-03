@@ -21,3 +21,12 @@ sidebar-visible = /apps/evolution/shell/view_defaults/sidebar_visible
 statusbar-visible = /apps/evolution/shell/view_defaults/statusbar_visible
 default-component-id = /apps/evolution/shell/view_defaults/component_id
 folder-bar-width = /apps/evolution/shell/view_defaults/folder_bar/width
+
+[org.gnome.evolution.addressbook]
+completion-minimum-query-length = /apps/evolution/addressbook/completion/minimum_query_length
+completion-show-address = /apps/evolution/addressbook/completion/show_address
+select-names-last-used-uri = /apps/evolution/addressbook/select_names/last_used_uri
+layout = /apps/evolution/addressbook/display/layout
+hpane-position = /apps/evolution/addressbook/display/hpane_position
+vpane-position = /apps/evolution/addressbook/display/vpane_position
+show-preview = /apps/evolution/addressbook/display/show_preview
