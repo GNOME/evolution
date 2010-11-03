@@ -32,6 +32,7 @@
 #include "mail/em-folder-tree-model.h"
 #include "mail/mail-folder-cache.h"
 #include "mail/mail-mt.h"
+#include "mail/mail-ops.h"
 
 typedef struct _StoreInfo StoreInfo;
 
@@ -367,7 +368,7 @@ e_mail_store_remove (EMailSession *session,
 	default_model = em_folder_tree_model_get_default ();
 	em_folder_tree_model_remove_store (default_model, store);
 
-	camel_service_disconnect_sync (CAMEL_SERVICE (store), TRUE, NULL);
+	mail_disconnect_store (store);
 
 	g_object_unref (store);
 }
