@@ -506,6 +506,19 @@
       </locale>
     </schema>
 
+
+     <schema>
+      <key>/schemas/apps/evolution/calendar/display/recur_events_italic</key>
+      <applyto>/apps/evolution/calendar/display/recur_events_italic</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Recurrent Events in Italic</short>
+        <long>Show days with recurrent events in italic font in bottom left calendar.</long>
+      </locale>
+    </schema>
+
     <!-- Memos -->
 
     <schema>

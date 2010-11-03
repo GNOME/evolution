@@ -271,7 +271,7 @@ preview_recur (RecurrencePage *rpage)
 	fill_component (rpage, comp);
 
 	tag_calendar_by_comp (E_CALENDAR (priv->preview_calendar), comp,
-			      client, zone, TRUE, FALSE);
+			      client, zone, TRUE, FALSE, FALSE);
 	g_object_unref (comp);
 }
 

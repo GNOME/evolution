@@ -551,6 +551,10 @@ e_cal_shell_backend_init_settings (EShell *shell)
 		"/apps/evolution/calendar/tasks/primary_tasks");
 
 	e_shell_settings_install_property_for_key (
+		"cal-recur-events-italic",
+		"/apps/evolution/calendar/display/recur_events_italic");
+
+	e_shell_settings_install_property_for_key (
 		"cal-show-event-end-times",
 		"/apps/evolution/calendar/display/show_event_end");
 

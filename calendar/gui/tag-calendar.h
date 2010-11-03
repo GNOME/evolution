@@ -33,6 +33,7 @@
 void tag_calendar_by_client (ECalendar *ecal, ECal *client);
 void tag_calendar_by_comp (ECalendar *ecal, ECalComponent *comp,
 			   ECal *client, icaltimezone *display_zone,
-			   gboolean clear_first, gboolean comp_is_on_server);
+			   gboolean clear_first, gboolean comp_is_on_server,
+			   gboolean can_recur_events_italic);
 
 #endif
