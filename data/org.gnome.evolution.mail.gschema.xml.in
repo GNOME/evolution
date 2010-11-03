@@ -32,43 +32,43 @@
     </key>
     <key name="notify-only-inbox" type="b">
       <default>true</default>
-      <short>Notify new messages for Inbox only.</short>
-      <long>Whether to notify new messages in Inbox folder only.</long>
+      <_summary>Notify new messages for Inbox only.</_summary>
+      <_description>Whether to notify new messages in Inbox folder only.</_description>
     </key>
     <key name="notify-dbus-enabled" type="b">
       <default>true</default>
-      <short>Enable D-Bus messages.</short>
-      <long>Generates a D-Bus message when new mail messages arrive.</long>
+      <_summary>Enable D-Bus messages.</_summary>
+      <_description>Generates a D-Bus message when new mail messages arrive.</_description>
     </key>
     <key name="notify-status-enabled" type="b">
       <default>true</default>
-      <short>Enable icon in notification area.</short>
-      <long>Show new mail icon in notification area when new messages arrive.</long>
+      <_summary>Enable icon in notification area.</_summary>
+      <_description>Show new mail icon in notification area when new messages arrive.</_description>
     </key>
     <key name="notify-status-notification" type="b">
       <default>true</default>
-      <short>Popup message together with the icon.</short>
-      <long>Whether show message over the icon when new messages arrive.</long>
+      <_summary>Popup message together with the icon.</_summary>
+      <_description>Whether show message over the icon when new messages arrive.</_description>
     </key>
     <key name="notify-sound-enabled" type="b">
       <default>true</default>
-      <short>Play sound when new messages arrive.</short>
-      <long>Whether play sound or beep when new messages arrive.</long>
+      <_summary>Play sound when new messages arrive.</_summary>
+      <_description>Whether play sound or beep when new messages arrive.</_description>
     </key>
     <key name="notify-sound-beep" type="b">
       <default>true</default>
-      <short>Beep or play sound file.</short>
-      <long>If "true", then beep, otherwise will play sound file when new messages arrive.</long>
+      <_summary>Beep or play sound file.</_summary>
+      <_description>If "true", then beep, otherwise will play sound file when new messages arrive.</_description>
     </key>
     <key name="notify-sound-file" type="s">
       <default>''</default>
-      <short>Sound file name to be played.</short>
-      <long>Sound file to be played when new messages arrive, if not in beep mode.</long>
+      <_summary>Sound file name to be played.</_summary>
+      <_description>Sound file to be played when new messages arrive, if not in beep mode.</_description>
     </key>
     <key name="notify-sound-use-theme" type="b">
       <default>false</default>
-      <short>Use sound theme</short>
-      <long>Play themed sound when new messages arrive, if not in beep mode.</long>
+      <_summary>Use sound theme</_summary>
+      <_description>Play themed sound when new messages arrive, if not in beep mode.</_description>
     </key>
   </schema>
 </schemalist>
