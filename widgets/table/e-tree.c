@@ -3637,23 +3637,25 @@ e_tree_set_info_message (ETree *tree, const gchar *info_message)
 	gtk_widget_get_allocation (widget, &allocation);
 
 	if (!tree->priv->info_text) {
-		tree->priv->info_text = gnome_canvas_item_new (
-			GNOME_CANVAS_GROUP (gnome_canvas_root (tree->priv->table_canvas)),
-			e_text_get_type (),
-			"line_wrap", TRUE,
-			"clip", TRUE,
-			"justification", GTK_JUSTIFY_LEFT,
-			"text", info_message,
-			"draw_background", FALSE,
-			"width", (gdouble) allocation.width - 60.0,
-			"clip_width", (gdouble) allocation.width - 60.0,
-			NULL);
+		if (allocation.width > 60) {
+			tree->priv->info_text = gnome_canvas_item_new (
+				GNOME_CANVAS_GROUP (gnome_canvas_root (tree->priv->table_canvas)),
+				e_text_get_type (),
+				"line_wrap", TRUE,
+				"clip", TRUE,
+				"justification", GTK_JUSTIFY_LEFT,
+				"text", info_message,
+				"draw_background", FALSE,
+				"width", (gdouble) allocation.width - 60.0,
+				"clip_width", (gdouble) allocation.width - 60.0,
+				NULL);
 
-		e_canvas_item_move_absolute (tree->priv->info_text, 30, 30);
+			e_canvas_item_move_absolute (tree->priv->info_text, 30, 30);
 
-		tree->priv->info_text_resize_id = g_signal_connect (
-			tree, "size_allocate",
-			G_CALLBACK (tree_size_allocate), tree);
+			tree->priv->info_text_resize_id = g_signal_connect (
+				tree, "size_allocate",
+				G_CALLBACK (tree_size_allocate), tree);
+		}
 	} else
 		gnome_canvas_item_set (tree->priv->info_text, "text", info_message, NULL);
 }
