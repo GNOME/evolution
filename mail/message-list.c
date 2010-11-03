@@ -1907,7 +1907,7 @@ static ECell * create_composite_cell (gint col)
 	cell_hbox = e_cell_hbox_new ();
 
 	/* Exclude the meeting icon. */
-	cell_attach = e_cell_toggle_new (attachment_icons, 2);
+	cell_attach = e_cell_toggle_new (attachment_icons, G_N_ELEMENTS (attachment_icons));
 
 	cell_date = e_cell_date_new (NULL, GTK_JUSTIFY_RIGHT);
 	e_cell_date_set_format_component (E_CELL_DATE (cell_date), "mail");
