@@ -20,5 +20,15 @@
       <_summary>List of Custom Headers</_summary>
       <_description>The key specifies the list of custom headers that you can add  to an outgoing message. The format for specifying a Header and Header value is: Name of the custom header followed by "=" and the values separated by ";"</_description>
     </key>
+    <key name="utf8-for-spam-filter" type="b">
+      <default>true</default>
+      <_summary>Convert mail messages to Unicode</_summary>
+      <_description>Convert message text to Unicode UTF-8 to unify spam/ham tokens coming from different character sets.</_description>
+    </key>
+    <key name="insert-face-picture" type="b">
+      <default>false</default>
+      <_summary>Insert Face picture by default</_summary>
+      <_description>Whether insert Face picture to outgoing messages by default. The picture should be set before checking this, otherwise nothing happens.</_description>
+    </key>
   </schema>
 </schemalist>

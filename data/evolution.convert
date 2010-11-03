@@ -36,3 +36,5 @@ check-if-default-mailer = /apps/evolution/mail/prompts/checkdefault
 template-placeholders = /apps/evolution/mail/template_placeholders
 attachment-reminder-clues = /apps/evolution/mail/attachment_reminder_clues
 custom-headers = /apps/evolution/eplugin/email_custom_header/customHeader
+utf8-for-spam-filter = /apps/evolution/mail/junk/bogofilter/unicode
+insert-face-picture = /apps/evolution/eplugin/face/insert_by_default
