@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-11-01 18:46+0000\n"
-"PO-Revision-Date: 2010-11-02 10:35+0100\n"
+"POT-Creation-Date: 2010-11-03 15:36+0000\n"
+"PO-Revision-Date: 2010-11-03 18:12+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2429,69 +2429,80 @@ msgid "Recently used second time zones in a Day View"
 msgstr "Zonas horarias secundarias recientemente usadas en una Vista diaria"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:64
+#| msgid "Recurrence date is invalid"
+msgid "Recurrent Events in Italic"
+msgstr "Los acontecimientos que se repiten en cursiva"
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:65
 msgid "Save directory for alarm audio"
 msgstr "Directorio donde guardar los sonidos de las alertas"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:65
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:66
 msgid "Scroll Month View by a week"
 msgstr "Desplazar la vista mensual una semana"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:66
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:67
 msgid "Show RSVP field in the event/task/meeting editor"
 msgstr ""
 "Mostrar el campo «Confirmar» en el editor de acontecimientos/tareas/reuniones"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:67
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:68
 msgid "Show Role field in the event/task/meeting editor"
 msgstr ""
 "Mostrar el campo «Rol» en el editor de acontecimientos/tareas/reuniones"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:68
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:69
 msgid "Show appointment end times in week and month views"
 msgstr ""
 "Mostrar las horas de finalización de las citas en las vistas semanales y "
 "mensuales"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:69
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:70
 msgid "Show categories field in the event/meeting/task editor"
 msgstr ""
 "Mostrar el campo de categorías en el editor de acontecimientos/reuniones/"
 "tareas"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:70
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:71
+msgid "Show days with recurrent events in italic font in bottom left calendar."
+msgstr ""
+"Mostrar los días con acontecimientos que se repiten con una tipografía "
+"cursiva en la parte inferior izquierda del calendario."
+
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:72
 msgid "Show display alarms in notification tray"
 msgstr "Mostrar el visor de la alerta en una bandeja de notificación"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:71
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:73
 msgid "Show status field in the event/task/meeting editor"
 msgstr ""
 "Mostrar el campo de estado en el editor de acontecimientos/tareas/reuniones"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:72
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:74
 msgid "Show the memo preview pane"
 msgstr "Mostrar el panel de vista previa de las notas"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:73
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:75
 msgid "Show the task preview pane"
 msgstr "Mostrar el panel de vista previa de las tareas"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:74
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:76
 msgid "Show timezone field in the event/meeting editor"
 msgstr ""
 "Mostrar el campo de zona horaria en el editor de acontecimientos/reuniones"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:75
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:77
 msgid "Show type field in the event/task/meeting editor"
 msgstr ""
 "Mostrar el campo de tipo en el editor de acontecimientos/tareas/reuniones"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:76
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:78
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
 msgstr ""
 "Mostrar los números de las semanas en la Vistas diaria, Vista de la semana "
 "laboral y el Navegador del calendario"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:77
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:79
 msgid ""
 "Shows the second time zone in a Day View, if set. Value is similar to one "
 "used in a 'timezone' key."
@@ -2499,23 +2510,23 @@ msgstr ""
 "Muestra la segunda zona horaria en la Vista diaria, si está establecido. El "
 "valor es similar al usado en la clave «timezone»."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:78
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:80
 msgid "Task layout style"
 msgstr "Estilo de distribución de las tareas"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:79
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:81
 msgid "Task preview pane position (horizontal)"
 msgstr "Vista previa del panel de posición de las tareas (horizontal)"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:80
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:82
 msgid "Task preview pane position (vertical)"
 msgstr "Vista previa del panel de posición de las tareas (vertical)"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:81
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:83
 msgid "Tasks due today color"
 msgstr "Color para las tareas que vencen hoy"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:82
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:84
 msgid ""
 "The UID of the selected (or \"primary\") calendar in the sidebar of the "
 "\"Calendar\" view."
@@ -2523,7 +2534,7 @@ msgstr ""
 "El UID del calendario seleccionado (o «primario») en la barra lateral de la "
 "vista de «Calendario»."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:83
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:85
 msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view."
@@ -2531,7 +2542,7 @@ msgstr ""
 "El UID de la nota seleccionada (o «primaria») en la barra lateral de la "
 "vista de «Notas»."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:84
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
 msgid ""
 "The UID of the selected (or \"primary\") task list in the sidebar of the "
 "\"Tasks\" view."
@@ -2539,7 +2550,7 @@ msgstr ""
 "El UID de la tarea seleccionada (o «primaria») en la barra lateral de la "
 "vista de «Tareas»."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:88
 #, no-c-format
 msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
@@ -2549,7 +2560,7 @@ msgstr ""
 "reemplaza por la parte del usuario de la dirección de correo y %d se "
 "reemplaza por el dominio."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:87
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:89
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olsen timezone database location like \"America/New York\"."
@@ -2558,7 +2569,7 @@ msgstr ""
 "calendario, como una localización sin correspondencia en una base de datos "
 "de franjas horarias Olsen, como en \"América/Nueva York\"."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:88
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:90
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the memo list. \"0\" (Classic View) places the preview pane below the memo "
@@ -2569,7 +2580,7 @@ msgstr ""
 "vista previa debajo de la lista de notas. «1» (vista vertical) ubica el "
 "panel de vista previa junto a la lista de notas."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:89
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:91
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
 "the task list. \"0\" (Classic View) places the preview pane below the task "
@@ -2580,11 +2591,11 @@ msgstr ""
 "vista previa debajo de la lista de tareas. «1» (vista vertical) ubica el "
 "panel de vista previa junto a la lista de tareas."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:90
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:92
 msgid "The second timezone for a Day View"
 msgstr "La segunda zona horaria para una Vista diaria"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:91
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:93
 msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
@@ -2592,19 +2603,19 @@ msgstr ""
 "Esto puede tener tres valores posibles. «0» para errores. «1» para avisos. "
 "«2» para mensajes de depuración."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:92
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:94
 msgid "Time divisions"
 msgstr "Divisiones de hora"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:93
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:95
 msgid "Time the last alarm ran, in time_t."
 msgstr "La hora en que la última alerta sonó, en time_t."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:94
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:96
 msgid "Timezone"
 msgstr "Zona horaria"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:95
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:97
 msgid ""
 "Transparency of the events in calendar views, a value between 0 "
 "(transparent) and 1 (opaque)."
@@ -2612,60 +2623,60 @@ msgstr ""
 "Transparencia de los acontecimientos en las vistas del calendario, un valor "
 "entre 0 (transparente) y 1 (opaco)."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:96
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:98
 msgid "Twenty four hour time format"
 msgstr "Formato de hora de veinticuatro horas"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:97
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:99
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
 "Unidades para el recordatorio predeterminado, \"minutes\", \"hours\" o \"days"
 "\"."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:98
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:100
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
 "Unidades para determinar cuándo ocultar tareas, \"minutes\", \"hours\" o "
 "\"days\"."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:99
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:101
 msgid "Use system timezone"
 msgstr "Usar la hora del sistema"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:100
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:102
 msgid "Use the system timezone instead of the timezone selected in Evolution."
 msgstr ""
 "Usar la zona horaria del sistema en lugar de la zona horaria seleccionada en "
 "Evolution."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:101
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:103
 msgid "Vertical pane position"
 msgstr "Posición del panel vertical"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:102
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:104
 msgid "Week start"
 msgstr "Comienzo de la semana"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:103
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:105
 msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
 msgstr ""
 "El día en que empieza la semana, desde el domingo (0) hasta el sábado (6)."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:104
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:106
 msgid "Whether or not to use the notification tray for display alarms."
 msgstr ""
 "Indica si se debe usar o no la bandeja de notificación para mostrar alertas."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:105
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:107
 msgid "Whether to ask for confirmation when deleting an appointment or task."
 msgstr "Indica si debe pedir confirmación al eliminar una cita o tarea."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:106
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:108
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
 msgstr "Indica si debe pedir confirmación al purgar citas y tareas."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:107
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:109
 msgid ""
 "Whether to compress weekends in the month view, which puts Saturday and "
 "Sunday in the space of one weekday."
@@ -2673,98 +2684,98 @@ msgstr ""
 "Indica si se deben comprimir los fines de semana, lo cual pone al sábado y "
 "al domingo en el mismo espacio que un día laborable."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:108
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:110
 msgid "Whether to display the end time of events in the week and month views."
 msgstr ""
 "Indica si debe mostrar la hora de finalización de los acontecimientos en las "
 "vistas semanales y mensuales."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:109
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:111
 msgid ""
 "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
 msgstr ""
 "Indica si debe dibujar la línea Marcus Bains (línea a la hora actual) en el "
 "calendario."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:110
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:112
 msgid "Whether to hide completed tasks in the tasks view."
 msgstr "Indica si debe ocultar las tareas terminadas en la vista de tareas."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:111
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:113
 msgid "Whether to scroll a Month View by a week, not by a month."
 msgstr "Indica si se debe desplazar la vista mensual una semana, no un mes."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:112
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:114
 msgid "Whether to set a default reminder for appointments."
 msgstr ""
 "Indica si debe establecer un recordatorio predeterminado para las citas."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:113
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:115
 msgid "Whether to show RSVP field in the event/task/meeting editor"
 msgstr ""
 "Indica si debe mostrar el campo «Confirmar» en el editor de acontecimiento/"
 "tareas/reuniones"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:114
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:116
 msgid "Whether to show categories field in the event/meeting editor"
 msgstr ""
 "Indica si debe mostrar el campo «Categorías» en el editor de acontecimientos/"
 "reuniones"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:115
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:117
 msgid "Whether to show role field in the event/task/meeting editor"
 msgstr ""
 "Indica si debe mostrar el campo «Rol» en el editor de acontecimientos/tareas/"
 "reuniones"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:116
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:118
 msgid "Whether to show status field in the event/task/meeting editor"
 msgstr ""
 "Indica si debe mostrar el campo «Estado» en el editor de acontecimientos/"
 "tareas/reuniones"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:117
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:119
 msgid ""
 "Whether to show times in twenty four hour format instead of using am/pm."
 msgstr ""
 "Indica si debe mostrar las horas en formato de veinticuatro horas en vez de "
 "usar am/pm."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:118
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:120
 msgid "Whether to show timezone field in the event/meeting editor"
 msgstr ""
 "Indica si debe mostrar el campo «Zona horaria» en el editor de "
 "acontecimientos/reuniones"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:119
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:121
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr ""
 "Indica si debe mostrar el campo «Tipo» en el editor de acontecimientos/"
 "tareas/reuniones"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:120
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:122
 msgid "Whether to show week numbers in various places in the Calendar."
 msgstr ""
 "Indica si debe mostrar los números de la semana en varias partes del "
 "calendario."
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:121
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:123
 msgid "Work days"
 msgstr "Días laborables"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:122
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:124
 msgid "Workday end hour"
 msgstr "Hora de finalización de la jornada laboral"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:123
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:125
 msgid "Workday end minute"
 msgstr "Minuto de finalización de la jornada laboral"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:124
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:126
 msgid "Workday start hour"
 msgstr "Hora de comienzo de la jornada laboral"
 
-#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:125
+#: ../calendar/gui/apps_evolution_calendar.schemas.in.h:127
 msgid "Workday start minute"
 msgstr "Minuto de comienzo de la jornada laboral"
 
@@ -3046,7 +3057,7 @@ msgstr "Alertas"
 #. Translators: "None" indicates no second time zone set for a day view
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:107
 #: ../calendar/gui/dialogs/cal-prefs-dialog.c:156
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:75
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:76
 #: ../calendar/gui/e-day-view-time-item.c:793
 msgctxt "cal-second-zone"
 msgid "None"
@@ -3062,11 +3073,11 @@ msgstr "Seleccionar…"
 msgid "Selected Calendars for Alarms"
 msgstr "Calendarios seleccionados para alertas"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:832
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:839
 msgid "Ti_me and date:"
 msgstr "Fecha y _hora:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.c:833
+#: ../calendar/gui/dialogs/cal-prefs-dialog.c:840
 msgid "_Date only:"
 msgstr "Sólo _fecha:"
 
@@ -3202,152 +3213,156 @@ msgid "Show a _reminder"
 msgstr "Mostrar un _recordatorio"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:34
+msgid "Show r_ecurring events in italic in bottom left calendar"
+msgstr ""
+
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:35
 msgid "Show week _numbers"
 msgstr "Mostrar _números de semanas"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:35
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:36
 #: ../calendar/gui/dialogs/recurrence-page.c:1120
 #: ../calendar/gui/e-itip-control.c:734
 msgid "Sunday"
 msgstr "domingo"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:36
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:37
 msgid "T_asks due today:"
 msgstr "_Tareas que vencen hoy:"
 
 #. Thursday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:38
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:39
 msgid "T_hu"
 msgstr "_Jue"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:39
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:40
 #: ../calendar/gui/dialogs/calendar-setup.c:387
 msgid "Task List"
 msgstr "Lista de tareas"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:40
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:41
 msgid "Template:"
 msgstr "Plantilla:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:41
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:42
 #: ../calendar/gui/dialogs/recurrence-page.c:1117
 #: ../calendar/gui/e-itip-control.c:738
 msgid "Thursday"
 msgstr "jueves"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:42
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:43
 #: ../widgets/misc/e-dateedit.c:617
 msgid "Time"
 msgstr "Hora"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:43
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:44
 #: ../calendar/gui/dialogs/event-page.ui.h:9
 msgid "Time _zone:"
 msgstr "_Zona horaria:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:44
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:45
 msgid "Time format:"
 msgstr "Formato de la hora:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:45
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:46
 #: ../calendar/gui/dialogs/recurrence-page.c:1115
 #: ../calendar/gui/e-itip-control.c:736
 msgid "Tuesday"
 msgstr "martes"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:46
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:47
 msgid "Use s_ystem time zone"
 msgstr "Usar la zona horaria del s_istema"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:47
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:48
 #: ../calendar/gui/dialogs/recurrence-page.c:1116
 #: ../calendar/gui/e-itip-control.c:737
 msgid "Wednesday"
 msgstr "miércoles"
 
 #. A weekday like "Monday" follows
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:49
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:50
 msgid "Wee_k starts on:"
 msgstr "La sema_na empieza en:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:50
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:51
 #: ../modules/calendar/e-cal-shell-view-actions.c:1639
 msgid "Work Week"
 msgstr "Semana laboral"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:51
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:52
 msgid "Work days:"
 msgstr "Días laborables:"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:52
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:53
 msgid "_12 hour (AM/PM)"
 msgstr "_12 horas (AM/PM)"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:53
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:54
 msgid "_24 hour"
 msgstr "_24 horas"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:54
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:55
 msgid "_Ask for confirmation when deleting items"
 msgstr "Pedir con_firmación al eliminar elementos"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:55
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:56
 msgid "_Compress weekends in month view"
 msgstr "_Comprimir fines de semana en la vista mensual"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:56
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:57
 msgid "_Day begins:"
 msgstr "La jornada laboral c_omienza a las:"
 
 #. Friday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:58
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:59
 msgid "_Fri"
 msgstr "Vi_e"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:59
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:60
 msgid "_Hide completed tasks after"
 msgstr "_Ocultar tareas terminadas tras"
 
 #. Monday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:61
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:62
 msgid "_Mon"
 msgstr "_Lun"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:62
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:63
 msgid "_Overdue tasks:"
 msgstr "Tareas fuera de pla_zo:"
 
 #. Saturday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:64
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:65
 msgid "_Sat"
 msgstr "_Sáb"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:65
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:66
 msgid "_Show appointment end times in week and month view"
 msgstr ""
 "_Mostrar la hora del final de las citas en las vistas semanales y mensuales"
 
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:66
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:67
 msgid "_Time divisions:"
 msgstr "Divisiones de _hora:"
 
 #. Tuesday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:68
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:69
 msgid "_Tue"
 msgstr "_Mar"
 
 #. Wednesday
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:70
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:71
 msgid "_Wed"
 msgstr "M_ié"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:72
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:73
 msgid "before every anniversary/birthday"
 msgstr "antes de cada aniversario/cumpleaños"
 
 #. This is the last half of a user preference. "Show a reminder [time-period] before every appointment"
-#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:74
+#: ../calendar/gui/dialogs/cal-prefs-dialog.ui.h:75
 msgid "before every appointment"
 msgstr "antes de cada cita"
 
@@ -8651,7 +8666,7 @@ msgstr "Asistente de cuentas de Evolution"
 
 #. create the local source group
 #: ../capplet/settings/mail-capplet-shell.c:352 ../mail/e-mail-migrate.c:677
-#: ../mail/e-mail-store.c:221 ../mail/em-folder-tree-model.c:148
+#: ../mail/e-mail-store.c:222 ../mail/em-folder-tree-model.c:148
 #: ../mail/em-folder-tree-model.c:151 ../mail/em-folder-tree-model.c:154
 #: ../mail/em-folder-tree-model.c:156 ../mail/em-folder-tree-model.c:163
 #: ../mail/em-folder-tree-model.c:165 ../mail/mail-vfolder.c:218
@@ -8885,16 +8900,16 @@ msgstr "Escribiendo «%s» a «%s»"
 msgid "weeks"
 msgstr "semanas"
 
-#: ../e-util/e-print.c:161
+#: ../e-util/e-print.c:157
 msgid "An error occurred while printing"
 msgstr "Ocurrió un error al imprimir"
 
-#: ../e-util/e-print.c:168
+#: ../e-util/e-print.c:164
 msgid "The printing system reported the following details about the error:"
 msgstr ""
 "El sistema de impresión informó de los siguientes detalles sobre el error:"
 
-#: ../e-util/e-print.c:174
+#: ../e-util/e-print.c:170
 msgid ""
 "The printing system did not report any additional details about the error."
 msgstr ""
@@ -13336,6 +13351,12 @@ msgstr "Preparando la cuenta «%s» para desconexión"
 msgid "Checking Service"
 msgstr "Comprobando el servicio"
 
+#: ../mail/mail-ops.c:2558
+#, fuzzy, c-format
+#| msgid "Disconnecting from '%s'"
+msgid "Disconnecting %s"
+msgstr "Desconectando de «%s»"
+
 #: ../mail/mail-send-recv.c:190
 msgid "Canceling..."
 msgstr "Cancelando…"
@@ -14400,7 +14421,6 @@ msgstr ""
 "verticalmente."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:9
-#| msgid "The registry of address books"
 msgid "Primary address book"
 msgstr "Libreta de direcciones primaria"
 
@@ -16097,11 +16117,11 @@ msgstr "Búsqueda en la cuenta"
 msgid "Proxy _Logout"
 msgstr "_Cerrar sesión proxy"
 
-#: ../modules/mail/em-account-prefs.c:217
+#: ../modules/mail/em-account-prefs.c:219
 msgid "Evolution Account Assistant"
 msgstr "Asistente de cuentas de Evolution"
 
-#: ../modules/mail/em-account-prefs.c:266
+#: ../modules/mail/em-account-prefs.c:268
 msgid "Account Editor"
 msgstr "Editor de cuentas"
 
@@ -22060,11 +22080,11 @@ msgstr "pulsar"
 msgid "sort"
 msgstr "ordenar"
 
-#: ../widgets/text/e-text.c:2299
+#: ../widgets/text/e-text.c:2303
 msgid "Select All"
 msgstr "Seleccionar todo"
 
-#: ../widgets/text/e-text.c:2311
+#: ../widgets/text/e-text.c:2315
 msgid "Input Methods"
 msgstr "Métodos de entrada"
 
