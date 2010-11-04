@@ -29,6 +29,7 @@ libevolution_mail_importers_la_LIBADD =				\
 	$(top_builddir)/shell/libeshell.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(GNOME_PLATFORM_LIBS)					\
+	$(EVOLUTION_MAIL_LIBS)					\
 	$(IMPORTERS_LIBS)
 
 -include $(top_srcdir)/git.mk
