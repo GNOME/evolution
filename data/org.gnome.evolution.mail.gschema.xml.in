@@ -5,5 +5,124 @@
       <_summary>Check whether Evolution is the default mailer</_summary>
       <_description>Every time Evolution starts, check whether or not it is the default mailer.</_description>
     </key>
+    <key name="composer-charser" type="s">
+      <default>''</default>
+      <short>Default charset in which to compose messages</short>
+      <long>Default charset in which to compose messages.</long>
+    </key>
+    <key name="composer-inline-spelling" type="b">
+      <default>true</default>
+      <short>Spell check inline</short>
+      <long>Draw spelling error indicators on words as you type.</long>
+    </key>
+    <key name="composer-magic-links" type="b">
+      <default>true</default>
+      <short>Automatic link recognition</short>
+      <long>Recognize links in text and replace them.</long>
+    </key>
+    <key name="composer-magic-smileys" type="b">
+      <default>false</default>
+      <short>Automatic emoticon recognition</short>
+      <long>Recognize emoticons in text and replace them with images.</long>
+    </key>
+    <key name="composer-group-reply-to-list" type="b">
+      <default>false</default>
+      <short>Group Reply replies to list</short>
+      <long>Instead of the normal "Reply to All" behaviour, this option will make the 'Group Reply' toolbar button try to reply only to the mailing list through which you happened to receive the copy of the message to which you're replying.</long>
+    </key>
+    <key name="composer-reply-start-bottom" type="b">
+      <default>false</default>
+      <short>Put the cursor at the bottom of replies</short>
+      <long>Users get all up in arms over where the cursor should go when replying to a message. This determines whether the cursor is placed at the top of the message or the bottom.</long>
+    </key>
+    <key name="composer-request-receipt" type="b">
+      <default>false</default>
+      <short>Always request read receipt</short>
+      <long>Whether a read receipt request gets added to every message by default.</long>
+    </key>
+    <key name="composer-send-html" type="b">
+      <default>false</default>
+      <short>Send HTML mail by default</short>
+      <long>Send HTML mail by default.</long>
+    </key>
+    <key name="composer-spell-color" type="s">
+      <default>'#FFFF00000000'</default>
+      <short>Spell checking color</short>
+      <long>Underline color for misspelled words when using inline spelling.</long>
+    </key>
+    <key name="composer-spell-languages" type="as">
+      <default>[]</default>
+      <short>Spell checking languages</short>
+      <long>List of dictionary language codes used for spell checking.</long>
+    </key>
+    <key name="composer-show-bcc" type="b">
+      <default>false</default>
+      <short>Show "Bcc" field when sending a mail message</short>
+      <long>Show the "Bcc" field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</long>
+    </key>
+    <key name="composer-show-cc" type="b">
+      <default>true</default>
+      <short>Show "Cc" field when sending a mail message</short>
+      <long>Show the "Cc" field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</long>
+    </key>
+    <key name="composer-show-reply-to" type="b">
+      <default>false</default>
+      <short>Show "Reply To" field when sending a mail message</short>
+      <long>Show the "Reply To" field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</long>
+    </key>
+    <key name="composer-show-post-from" type="b">
+      <default>true</default>
+      <short>Show "From" field when posting to a newsgroup</short>
+      <long>Show the "From" field when posting to a newsgroup. This is controlled from the View menu when a news account is chosen.</long>
+    </key>
+    <key name="composer-show-post-reply-to" type="b">
+      <default>false</default>
+      <short>Show "Reply To" field when posting to a newsgroup</short>
+      <long>Show the "Reply To" field when posting to a newsgroup. This is controlled from the View menu when a news account is chosen.</long>
+    </key>
+    <key name="composer-outlook-filenames" type="b">
+      <default>false</default>
+      <short>Encode file names in an Outlook/GMail way</short>
+      <long>Encode file names in the mail headers same as Outlook or GMail do, to let them display correctly file names with UTF-8 letters sent by Evolution, because they do not follow the RFC 2231, but use the incorrect RFC 2047 standard.</long>
+    </key>
+    <key name="composer-top-signature" type="b">
+      <default>false</default>
+      <short>Put personalized signatures at the top of replies</short>
+      <long>Users get all up in arms over where their signature should go when replying to a message. This determines whether the signature is placed at the top of the message or the bottom.</long>
+    </key>
+    <key name="composer-no-signature-delim" type="b">
+      <default>false</default>
+      <short>Do not add signature delimiter</short>
+      <long>Set to TRUE in case you do not want to add signature delimiter before your signature when composing a mail.</long>
+    </key>
+    <key name="composer-width" type="i">
+      <default>600</default>
+      <short>Composer Window default width</short>
+      <long>Default width of the Composer Window.</long>
+    </key>
+    <key name="composer-height" type="i">
+      <default>500</default>
+      <short>Composer Window default height</short>
+      <long>Default height of the Composer Window.</long>
+    </key>
+    <key name="composer-ignore-list-reply-to" type="b">
+      <default>false</default>
+      <short>Ignore list Reply-To:</short>
+      <long>Some mailing lists set a Reply-To: header to trick users into sending replies to the list, even when they ask Evolution to make a private reply. Setting this option to TRUE will attempt to ignore such Reply-To: headers, so that Evolution will do as you ask it. If you use the private reply action, it will reply privately, while if you use the 'Reply to List' action it will do that. It works by comparing the Reply-To: header with a List-Post: header, if there is one.</long>
+    </key>
+    <key name="show-animated-images" type="b">
+      <default>false</default>
+      <short>Show image animations</short>
+      <long>Enable animated images in HTML mail. Many users find animated images annoying and prefer to see a static image instead.</long>
+    </key>
+    <key name="side-bar-search" type="b">
+      <default>true</default>
+      <short>Enable or disable type ahead search feature</short>
+      <long>Enable the side bar search feature to allow interactive searching of folder names.</long>
+    </key>
+    <key name="no-folder-dots" type="b">
+      <default>false</default>
+      <short>Disable or enable ellipsizing of folder names in side bar</short>
+      <long>Whether disable ellipsizing feature of folder names in side bar.</long>
   </schema>
 </schemalist>

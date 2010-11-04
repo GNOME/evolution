@@ -35,6 +35,31 @@ show-preview = /apps/evolution/addressbook/display/show_preview
 
 [org.gnome.evolution.mail]
 check-if-default-mailer = /apps/evolution/mail/prompts/checkdefault
+composer-charset = /apps/evolution/mail/composer/charset
+composer-inline-spelling = /apps/evolution/mail/composer/inline_spelling
+composer-magic-links = /apps/evolution/mail/composer/magic_links
+composer-magic-smileys = /apps/evolution/mail/composer/magic_smileys
+composer-group-reply-to-list = /apps/evolution/mail/composer/group_reply_to_list
+composer-reply-start-bottom = /apps/evolution/mail/composer/reply_start_bottom
+composer-request-receipt = /apps/evolution/mail/composer/request_receipt
+composer-send-html = /apps/evolution/mail/composer/send_html
+composer-spell-color = /apps/evolution/mail/composer/spell_color
+composer-spell-languages = /apps/evolution/mail/composer/spell_languages
+composer-show-bcc = /apps/evolution/mail/composer/show_mail_bcc
+composer-show-cc = /apps/evolution/mail/composer/show_mail_cc
+composer-show-reply-to = /apps/evolution/mail/composer/show_mail_reply_to
+composer-show-post-from = /apps/evolution/mail/composer/show_post_from
+composer-show-post-reply-to = /apps/evolution/mail/composer/show_post_reply_to
+composer-outlook-filenames = /apps/evolution/mail/composer/outlook_filenames
+composer-top-signature = /apps/evolution/mail/composer/top_signature
+composer-no-signature-delim = /apps/evolution/mail/composer/no_signature_delim
+composer-width = /apps/evolution/mail/composer/width
+composer-height = /apps/evolution/mail/composer/height
+composer-ignore-list-reply-to = /apps/evolution/mail/composer/ignore_list_reply_to
+show-animated-images = /apps/evolution/mail/display/animated_images
+side-bar-search = /apps/evolution/mail/display/side_bar_search
+no-folder-dots = /apps/evolution/mail/display/no_folder_dots
+***********************************************HERE****************************************************
 
 [org.gnome.evolution.eplugin.attachment-reminder]
 attachment-reminder-clues = /apps/evolution/mail/attachment_reminder_clues
