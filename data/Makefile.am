@@ -10,10 +10,18 @@ autostart_DATA = $(autostart_in_files:.desktop.in=.desktop)
 
 @INTLTOOL_DESKTOP_RULE@
 
-gsettings_SCHEMAS =					\
-	org.gnome.evolution.gschema.xml			\
-	org.gnome.evolution.addressbook.gschema.xml	\
-	org.gnome.evolution.mail.gschema.xml
+gsettings_SCHEMAS =							\
+	org.gnome.evolution.gschema.xml					\
+	org.gnome.evolution.addressbook.gschema.xml			\
+	org.gnome.evolution.calendar.gschema.xml			\
+	org.gnome.evolution.mail.gschema.xml				\
+	org.gnome.evolution.eplugin.attachment-reminder.gschema.xml	\
+	org.gnome.evolution.eplugin.bogo-junk.gschema.xml		\
+	org.gnome.evolution.eplugin.email-custom-header.gschema.xml	\
+	org.gnome.evolution.eplugin.external-editor.gschema.xml		\
+	org.gnome.evolution.eplugin.face-picture.gschema.xml		\
+	org.gnome.evolution.eplugin.mail-notification.gschema.xml	\
+	org.gnome.evolution.eplugin.templates.gschema.xml
 
 @INTLTOOL_XML_NOMERGE_RULE@
 

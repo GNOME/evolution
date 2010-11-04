@@ -1,0 +1,4 @@
+<schemalist>
+  <schema gettext-domain="evolution" id="org.gnome.evolution.calendar" path="/apps/evolution/calendar/">
+  </schema>
+</schemalist>
