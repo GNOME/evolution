@@ -46,3 +46,5 @@ notify-sound-enabled = /apps/evolution/eplugin/mail-notification/sound-enabled
 notify-sound-beep = /apps/evolution/eplugin/mail-notification/sound-beep
 notify-sound-file = /apps/evolution/eplugin/mail-notification/sound-file
 notify-sound-use-theme = /apps/evolution/eplugin/mail-notification/sound-use-theme
+external-editor-command = /apps/evolution/eplugin/external-editor/editor-command
+external-editor-launch-on-key-press = /apps/evolution/eplugin/external-editor/launch-on-key-press
