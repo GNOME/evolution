@@ -30,9 +30,9 @@ liborg_gnome_pst_import_la_SOURCES = pst-importer.c
 liborg_gnome_pst_import_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
 liborg_gnome_pst_import_la_LIBADD =			\
+	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/mail/libevolution-mail.la	\
 	$(top_builddir)/e-util/libeutil.la		\
-	$(CAMEL_LIBS)					\
 	$(EVOLUTION_CALENDAR_LIBS)			\
 	$(EVOLUTION_MAIL_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)				\
