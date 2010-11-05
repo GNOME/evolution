@@ -221,7 +221,7 @@ action_contact_new_cb (GtkAction *action,
 	EShellBackend *shell_backend;
 	GConfClient *client;
 	ESourceList *source_list;
-	ESource *source;
+	ESource *source = NULL;
 	const gchar *action_name;
 	const gchar *key;
 	gchar *uid;
