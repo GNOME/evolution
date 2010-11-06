@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution help master\n"
 "POT-Creation-Date: 2010-11-06 10:01+0000\n"
-"PO-Revision-Date: 2010-11-06 15:35+0100\n"
+"PO-Revision-Date: 2010-11-06 18:00+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "Language: \n"
@@ -407,9 +407,8 @@ msgstr "@@image: 'figures/quick_reference.png'; md5=86fe7457150de2e7efe735c10cd3
 #: C/evolution.xml:57(para)
 #: C/evolution.xml:65(para)
 #: C/evolution.xml:73(para)
-#, fuzzy
 msgid "Novell, Inc"
-msgstr "Korak:"
+msgstr "Novell, Inc"
 
 #: C/evolution.xml:24(date)
 msgid "2002-2009"
@@ -422,9 +421,8 @@ msgstr "2.30"
 
 #: C/evolution.xml:30(date)
 #: C/evolution.xml:38(date)
-#, fuzzy
 msgid "September 2009"
-msgstr "September (09)"
+msgstr "september 2009"
 
 #: C/evolution.xml:32(para)
 msgid "Akhil Laddha"
@@ -438,50 +436,44 @@ msgstr "2.28"
 #: C/evolution.xml:48(para)
 #: C/evolution.xml:56(para)
 #: C/evolution.xml:72(para)
-#, fuzzy
 msgid "Radhika PC"
-msgstr "Strojna kartica računalnika"
+msgstr "Radhika PC"
 
 #: C/evolution.xml:45(revnumber)
 msgid "2.26"
 msgstr "2.26"
 
 #: C/evolution.xml:46(date)
-#, fuzzy
 msgid "March 2009"
-msgstr "Marec (03)"
+msgstr "marec 2009"
 
 #: C/evolution.xml:53(revnumber)
 msgid "2.12"
 msgstr "2.12"
 
 #: C/evolution.xml:54(date)
-#, fuzzy
 msgid "September 2007"
-msgstr "September (09)"
+msgstr "september 2009"
 
 #: C/evolution.xml:61(revnumber)
 msgid "2.10"
 msgstr "2.10"
 
 #: C/evolution.xml:62(date)
-#, fuzzy
 msgid "November 20, 2006"
-msgstr "_20 znakov na vrstico"
+msgstr "20. november 2006"
 
 #: C/evolution.xml:64(para)
-#, fuzzy
 msgid "Francisco Serrador"
-msgstr "San Francisco"
+msgstr "Francisco Serrador"
 
 #: C/evolution.xml:69(revnumber)
 msgid "2.8"
 msgstr "2.8"
 
 #: C/evolution.xml:70(date)
-#, fuzzy
 msgid "October 5, 2006"
-msgstr "Oktober (10)"
+msgstr "5. oktober 2006"
 
 #: C/evolution.xml:78(releaseinfo)
 msgid "This manual describes version 2.30 of Evolution"
@@ -494,25 +486,21 @@ msgstr ""
 #: C/evolution.xml:87(productname)
 #: C/evolution.xml:5869(para)
 #: C/evolution.xml:7692(glossterm)
-#, fuzzy
 msgid "Evolution"
 msgstr "Evolution"
 
 #: C/evolution.xml:89(invpartnumber)
-#, fuzzy
 msgid "February 2008"
-msgstr "Februar (02)"
+msgstr "februar 2008"
 
 #: C/evolution.xml:90(title)
 #: C/evolution.xml:7883(para)
-#, fuzzy
 msgid "Evolution 2.30 User Guide"
-msgstr "Odpri uporabniško pomoč programa"
+msgstr "Uporabniški priročnik za Evolution 2.30"
 
 #: C/evolution.xml:95(title)
-#, fuzzy
 msgid "About This Guide"
-msgstr "O tem programu."
+msgstr "O priročniku"
 
 #: C/evolution.xml:96(para)
 msgid "This guide describes how to use and manage <trademark>Evolution</trademark> 2.30 client software. This guide is intended for users and is divided into the following sections:"
@@ -526,9 +514,8 @@ msgstr "Prejemanje je začeto"
 
 #: C/evolution.xml:102(link)
 #: C/evolution.xml:1223(title)
-#, fuzzy
 msgid "Sending and Receiving Email"
-msgstr "- Poštni odjemalec in PIM Evolution"
+msgstr "Pošiljanje in sprejemanje elektronske pošte"
 
 #: C/evolution.xml:105(link)
 #: C/evolution.xml:2506(title)
@@ -538,39 +525,33 @@ msgstr "<b>Vaš _elektronski naslov:</b>"
 
 #: C/evolution.xml:108(link)
 #: C/evolution.xml:3398(title)
-#, fuzzy
 msgid "Evolution Contacts: the Address Book"
-msgstr "Izberi stike iz imenika"
+msgstr "Stiki programa Evolution: imenik"
 
 #: C/evolution.xml:111(link)
 #: C/evolution.xml:3856(title)
-#, fuzzy
 msgid "Evolution Calendar"
 msgstr "Evolution koledar"
 
 #: C/evolution.xml:114(link)
 #: C/evolution.xml:5176(title)
-#, fuzzy
 msgid "Connecting to Exchange Servers"
-msgstr "Povezovanje z Last.fm"
+msgstr "Povezovanje s strežniki Exchange"
 
 #: C/evolution.xml:117(link)
 #: C/evolution.xml:5744(title)
-#, fuzzy
 msgid "Connecting to GroupWise"
-msgstr "Povezovanje s telefonom"
+msgstr "Povezovanje z GroupWise"
 
 #: C/evolution.xml:120(link)
 #: C/evolution.xml:6577(title)
-#, fuzzy
 msgid "Advanced Configuration"
-msgstr "Določitev nastavitev"
+msgstr "Napredne nastavitve"
 
 #: C/evolution.xml:123(link)
 #: C/evolution.xml:7367(title)
-#, fuzzy
 msgid "Synchronizing Your Handheld Device"
-msgstr "Pokaži slike iz naprave vaše kamere"
+msgstr "Usklajevanje ročnih naprav"
 
 #: C/evolution.xml:126(link)
 #: C/evolution.xml:7424(title)
@@ -579,32 +560,27 @@ msgstr ""
 
 #: C/evolution.xml:129(link)
 #: C/evolution.xml:7486(title)
-#, fuzzy
 msgid "Quick Reference"
 msgstr "Hitri priročnik"
 
 #: C/evolution.xml:132(link)
 #: C/evolution.xml:7600(title)
-#, fuzzy
 msgid "Known Bugs and Limitations"
-msgstr "Pokaži obstoječe i18n in l10n hrošče"
+msgstr "Obstoječi hrošči in omejitve programa"
 
 #: C/evolution.xml:135(link)
 #: C/evolution.xml:7606(title)
-#, fuzzy
 msgid "Authors"
 msgstr "Avtorji"
 
 #: C/evolution.xml:138(link)
 #: C/evolution.xml:7653(title)
-#, fuzzy
 msgid "Glossary"
 msgstr "Slovar"
 
 #: C/evolution.xml:142(title)
-#, fuzzy
 msgid "Additional Documentation:"
-msgstr "Man dokumentacija"
+msgstr "Dodatna dokumentacija:"
 
 #: C/evolution.xml:143(para)
 msgid "You can find additional help in three places:"
@@ -638,42 +614,36 @@ msgstr ""
 
 #: C/evolution.xml:167(link)
 #: C/evolution.xml:868(title)
-#, fuzzy
 msgid "Using Evolution: An Overview"
-msgstr "Pregled %(start_d)s. %(start_B)s %(start_Y)s"
+msgstr "Uporaba programa Evolution: splošni pregled"
 
 #: C/evolution.xml:175(para)
-#, fuzzy
 msgid "Start the Evolution client."
-msgstr "- Poštni odjemalec in PIM Evolution"
+msgstr "Zagon odjemalca Evolution."
 
 #: C/evolution.xml:183(para)
-#, fuzzy
 msgid "GNOME:"
-msgstr "GNOME"
+msgstr "GNOME:"
 
 #: C/evolution.xml:186(para)
 msgid "Click Applications &gt; Office &gt; Evolution."
 msgstr ""
 
 #: C/evolution.xml:191(para)
-#, fuzzy
 msgid "KDE:"
-msgstr "KDE"
+msgstr "KDE:"
 
 #: C/evolution.xml:194(para)
 msgid "Click the K menu &gt; Office &gt; More Programs &gt; Evolution."
 msgstr ""
 
 #: C/evolution.xml:199(para)
-#, fuzzy
 msgid "Command Line:"
-msgstr "Ukazna vrstica"
+msgstr "Ukazna vrstica:"
 
 #: C/evolution.xml:202(para)
-#, fuzzy
 msgid "Enter <command>evolution</command>."
-msgstr "Vnos ukaza:"
+msgstr "Vnos ukaza <command>evolution</command>."
 
 #: C/evolution.xml:212(title)
 #, fuzzy
@@ -698,39 +668,33 @@ msgstr ""
 
 #: C/evolution.xml:219(link)
 #: C/evolution.xml:239(title)
-#, fuzzy
 msgid "Defining Your Identity"
-msgstr "Istovetnost in geslo"
+msgstr "Določevanje istovetnosti"
 
 #: C/evolution.xml:222(link)
 #: C/evolution.xml:268(title)
-#, fuzzy
 msgid "Receiving Mail"
 msgstr "Prejemanje pošte"
 
 #: C/evolution.xml:225(link)
 #: C/evolution.xml:380(title)
-#, fuzzy
 msgid "Receiving Mail Options"
-msgstr "Naprej - Nastavitev prejemanja"
+msgstr "Možnosti nastavitev prejemanja"
 
 #: C/evolution.xml:228(link)
 #: C/evolution.xml:777(title)
-#, fuzzy
 msgid "Sending Mail"
 msgstr "Pošiljanje pošte"
 
 #: C/evolution.xml:231(link)
 #: C/evolution.xml:831(title)
-#, fuzzy
 msgid "Account Management"
 msgstr "Upravljanje z računom"
 
 #: C/evolution.xml:234(link)
 #: C/evolution.xml:837(title)
-#, fuzzy
 msgid "Time Zone"
-msgstr "Časovni _pas:"
+msgstr "Časovni pas"
 
 #: C/evolution.xml:240(para)
 msgid "The Identity window is the first step in the assistant."
@@ -811,9 +775,8 @@ msgid "The following is a list of server types that are available:"
 msgstr ""
 
 #: C/evolution.xml:276(title)
-#, fuzzy
 msgid "Novell GroupWise:"
-msgstr "Novell GroupWise"
+msgstr "Novell GroupWise:"
 
 #: C/evolution.xml:277(para)
 msgid "Select this option if you connect to a Novell <trademark class=\"registered\">GroupWise</trademark> server."
@@ -828,9 +791,8 @@ msgid "For configuration instructions, see <link linkend=\"bstfw13\">Remote Conf
 msgstr ""
 
 #: C/evolution.xml:281(title)
-#, fuzzy
 msgid "Microsoft Exchange:"
-msgstr "Microsoft Exchange"
+msgstr "Microsoft Exchange:"
 
 #: C/evolution.xml:282(para)
 msgid "Available only if the evolution-exchange package is installed. Select this option if you connect to a Microsoft Exchange 2000 or 2003 server."
@@ -842,45 +804,40 @@ msgid "Email, calendar, and contact information are stored on the server."
 msgstr ""
 
 #: C/evolution.xml:287(title)
-#, fuzzy
 msgid "MAPI Exchange:"
-msgstr "Exchange MAPI strežnik %s"
+msgstr "Exchange MAPI:"
 
 #: C/evolution.xml:288(para)
 msgid "Available only if you have installed the evolution-mapi package and if the Exchange MAPI plugin from the Edit &gt; Plugins menu is enabled. It allows you to connect to a Microsoft Exchange 2007 server."
 msgstr ""
 
 #: C/evolution.xml:292(title)
-#, fuzzy
 msgid "IMAP:"
-msgstr "IMAP"
+msgstr "IMAP:"
 
 #: C/evolution.xml:293(para)
 msgid "Keeps the email on your server so you can access your email from multiple systems."
 msgstr ""
 
 #: C/evolution.xml:297(title)
-#, fuzzy
 msgid "POP:"
-msgstr "POP"
+msgstr "POP:"
 
 #: C/evolution.xml:298(para)
 msgid "Downloads your email to your hard disk for permanent storage, freeing up space on the email server."
 msgstr ""
 
 #: C/evolution.xml:302(title)
-#, fuzzy
 msgid "USENET News:"
-msgstr "USENET novičke"
+msgstr "USENET novičke:"
 
 #: C/evolution.xml:303(para)
 msgid "Connects to a news server and downloads a list of available news digests."
 msgstr ""
 
 #: C/evolution.xml:307(title)
-#, fuzzy
 msgid "Local Delivery:"
-msgstr "Krajevna dostava"
+msgstr "Krajevna dostava:"
 
 #: C/evolution.xml:308(para)
 msgid "Choose this option if you want to move email from the spool (the location where mail waits for delivery) and store it in your home directory. You need to provide the path to the mail spool you want to use. If you want to leave email in your system's spool files, choose the Standard Unix Mbox Spool option instead."
@@ -937,9 +894,8 @@ msgstr ""
 
 #: C/evolution.xml:334(title)
 #: C/evolution.xml:5562(title)
-#, fuzzy
 msgid "None:"
-msgstr "Brez"
+msgstr "Brez:"
 
 #: C/evolution.xml:335(para)
 msgid "Select this if you do not plan to check email with this account. If you select this, there are no configuration options."
@@ -1274,7 +1230,6 @@ msgid "Select the desired options as given in the following table, then click Fo
 msgstr ""
 
 #: C/evolution.xml:506(para)
-#, fuzzy
 msgid "Options"
 msgstr "Možnosti"
 
@@ -1282,7 +1237,6 @@ msgstr "Možnosti"
 #: C/evolution.xml:1146(para)
 #: C/evolution.xml:1857(para)
 #: C/evolution.xml:7109(para)
-#, fuzzy
 msgid "Description"
 msgstr "Opis"
 
@@ -1408,27 +1362,24 @@ msgid "The following server types are available:"
 msgstr ""
 
 #: C/evolution.xml:784(title)
-#, fuzzy
 msgid "Sendmail:"
-msgstr "Program sendmail"
+msgstr "Program sendmail:"
 
 #: C/evolution.xml:785(para)
 msgid "Uses the Sendmail program to send mail from your system. Sendmail is more flexible, but is not as easy to configure, so you should select this option only if you know how to set up a Sendmail service."
 msgstr ""
 
 #: C/evolution.xml:788(title)
-#, fuzzy
 msgid "SMTP:"
-msgstr "SMTP"
+msgstr "SMTP:"
 
 #: C/evolution.xml:789(para)
 msgid "Sends mail using an outbound mail server. This is the most common choice for sending mail. If you choose SMTP, there are additional configuration options. See <link linkend=\"bsthwzo\">SMTP Configuration</link> for more information."
 msgstr ""
 
 #: C/evolution.xml:795(title)
-#, fuzzy
 msgid "SMTP Configuration"
-msgstr "Določitev nastavitev"
+msgstr "Nastavitev SMTP"
 
 #: C/evolution.xml:803(para)
 msgid "Select if your server requires authentication."
@@ -1508,36 +1459,32 @@ msgid "Now that the first-run configuration has finished, you're ready to begin 
 msgstr ""
 
 #: C/evolution.xml:872(title)
-#, fuzzy
 msgid "Menu Bar:"
-msgstr "menijska vrstica"
+msgstr "Menijska vrstica:"
 
 #: C/evolution.xml:873(para)
 msgid "The menu bar gives you access to most Evolution features. For additional information, see <link linkend=\"usage-mainwindow-menubar\">The Menu Bar</link>."
 msgstr ""
 
 #: C/evolution.xml:876(title)
-#, fuzzy
 msgid "Folder List:"
-msgstr "Pridobivanje seznama map ..."
+msgstr "Seznam map:"
 
 #: C/evolution.xml:877(para)
 msgid "The folder list gives you a list of the available folders for each account. To see the contents of a folder, click the folder name and the contents are displayed in the message list."
 msgstr ""
 
 #: C/evolution.xml:880(title)
-#, fuzzy
 msgid "Toolbar:"
-msgstr "_Orodna vrstica"
+msgstr "Orodna vrstica:"
 
 #: C/evolution.xml:881(para)
 msgid "The toolbar gives you fast and easy access to the frequently used features in each component."
 msgstr ""
 
 #: C/evolution.xml:884(title)
-#, fuzzy
 msgid "Search Tool:"
-msgstr "Priročnik orodja za iskanje"
+msgstr "Orodje za iskanje:"
 
 #: C/evolution.xml:885(para)
 msgid "The search tool lets you search your email, contacts, calendar, and tasks to easily find what you're looking for."
@@ -1545,9 +1492,8 @@ msgstr ""
 
 #: C/evolution.xml:888(title)
 #: C/evolution.xml:1047(title)
-#, fuzzy
 msgid "Message List:"
-msgstr "Ustvarjam seznam sporočil"
+msgstr "Seznam sporočil:"
 
 #: C/evolution.xml:889(para)
 msgid "The message list displays a list of email that you have received. To view an email in the preview pane, click the email in the message list."
@@ -1563,18 +1509,16 @@ msgid "The side bar lets you switch between folders and between Evolution tools.
 msgstr ""
 
 #: C/evolution.xml:896(title)
-#, fuzzy
 msgid "Switcher:"
-msgstr "Preklopnik"
+msgstr "Preklopnik:"
 
 #: C/evolution.xml:897(para)
 msgid "The switcher at the bottom of the side bar lets you switch between the Evolution tools - Mail, Contacts, Calendars, Memos and Tasks."
 msgstr ""
 
 #: C/evolution.xml:900(title)
-#, fuzzy
 msgid "Status Bar:"
-msgstr "Vrstica stanja"
+msgstr "Vrstica stanja:"
 
 #: C/evolution.xml:901(para)
 msgid "The status bar periodically displays a message, or tells you the progress of a task. This most often happens when you're checking or sending email. These progress queues are shown in the previous figure. The Online/Offline indicator is here, too, in the lower left of the window."
@@ -1582,25 +1526,22 @@ msgstr ""
 
 #: C/evolution.xml:904(title)
 #: C/evolution.xml:1051(title)
-#, fuzzy
 msgid "Preview Pane:"
-msgstr "Pokaži pladenj predogleda"
+msgstr "Pladenj predogleda:"
 
 #: C/evolution.xml:905(para)
 msgid "The preview pane displays the contents of the email that is selected in the message list."
 msgstr ""
 
 #: C/evolution.xml:909(title)
-#, fuzzy
 msgid "The Menu Bar"
-msgstr "menijska vrstica"
+msgstr "Menijska vrstica"
 
 #: C/evolution.xml:910(para)
 msgid "The menu bar's contents always provide all the possible actions for any given view of your data. If you're looking at your Inbox, most of the menu items relate to email. Some content relates to other components of Evolution and some, especially in the File menu, relates to the application as a whole."
 msgstr ""
 
 #: C/evolution.xml:912(title)
-#, fuzzy
 msgid "File:"
 msgstr "Datoteka:"
 
@@ -1609,25 +1550,22 @@ msgid "Anything related to a file or to the operations of the application is lis
 msgstr ""
 
 #: C/evolution.xml:916(title)
-#, fuzzy
 msgid "Edit:"
-msgstr "_Uredi"
+msgstr "Uredi:"
 
 #: C/evolution.xml:917(para)
 msgid "Holds useful tools that help you edit text and move it around. Also lets you access the settings and configuration options."
 msgstr ""
 
 #: C/evolution.xml:920(title)
-#, fuzzy
 msgid "View:"
-msgstr "Poglej: "
+msgstr "Pogled: "
 
 #: C/evolution.xml:921(para)
 msgid "Lets you decide how Evolution should look. Some of the features control the appearance of Evolution as a whole, and others the way a particular kind of information appears."
 msgstr ""
 
 #: C/evolution.xml:924(title)
-#, fuzzy
 msgid "Folder:"
 msgstr "Mapa:"
 
@@ -1636,7 +1574,6 @@ msgid "Holds actions that can be performed on folders. You can find things like 
 msgstr ""
 
 #: C/evolution.xml:928(title)
-#, fuzzy
 msgid "Message:"
 msgstr "Sporočilo:"
 
@@ -1645,7 +1582,6 @@ msgid "Holds actions that can be applied to a message. If there is only one targ
 msgstr ""
 
 #: C/evolution.xml:932(title)
-#, fuzzy
 msgid "Search:"
 msgstr "Iskanje:"
 
@@ -1654,19 +1590,16 @@ msgid "Lets you search for messages, or for phrases within a message. You can al
 msgstr ""
 
 #: C/evolution.xml:936(title)
-#, fuzzy
 msgid "Help:"
 msgstr "Pomoč:"
 
 #: C/evolution.xml:937(para)
-#, fuzzy
 msgid "Opens the Evolution help files."
-msgstr "Ni mogoče prikazati pomoči za program Evolution."
+msgstr "Odpre datoteke pomoči programa Evolution."
 
 #: C/evolution.xml:942(title)
-#, fuzzy
 msgid "The Sidebar"
-msgstr "_Bočno okno"
+msgstr "Bočno okno"
 
 #: C/evolution.xml:943(para)
 msgid "The Sidebar is the vertical panel on the left side of the Evolution main window. At the bottom of the Sidebar is the Switcher. This lets you switch between different Evolution tools like Mail, Memo, Tasks, and Contacts. Above the Switcher is a list of folders related to the current Evolution tool."
@@ -1764,37 +1697,32 @@ msgid "To change the appearance of your switcher click <emphasis>View &gt; Switc
 msgstr ""
 
 #: C/evolution.xml:966(title)
-#, fuzzy
 msgid "Icons and Text:"
-msgstr "I_kone in besedilo"
+msgstr "Ikone in besedilo:"
 
 #: C/evolution.xml:967(para)
 msgid "Displays buttons with the label and the icon corresponding to it."
 msgstr ""
 
 #: C/evolution.xml:970(title)
-#, fuzzy
 msgid "Icons Only:"
-msgstr "Le ikone"
+msgstr "Le ikone:"
 
 #: C/evolution.xml:971(para)
-#, fuzzy
 msgid "Shows only the icons."
-msgstr "Pokaži le ikone"
+msgstr "Pokaže le ikone"
 
 #: C/evolution.xml:974(title)
-#, fuzzy
 msgid "Texts Only:"
-msgstr "[samo za branje]"
+msgstr "Le besedilo:"
 
 #: C/evolution.xml:975(para)
 msgid "Displays buttons with the label, not the icons."
 msgstr ""
 
 #: C/evolution.xml:978(title)
-#, fuzzy
 msgid "Toolbar Style:"
-msgstr "Slog orodne vrstice"
+msgstr "Slog orodne vrstice:"
 
 #: C/evolution.xml:979(para)
 #, fuzzy
@@ -1802,36 +1730,32 @@ msgid "Shows buttons using the desktop toolbar settings."
 msgstr "Pokaži gumbe okna z uporabo nastavitev orodnih vrstic namizja"
 
 #: C/evolution.xml:982(title)
-#, fuzzy
 msgid "Hide Buttons:"
-msgstr "Pokaži _gumbe za skrivanje"
+msgstr "Gumbi za skrivanje:"
 
 #: C/evolution.xml:983(para)
 msgid "This option hides all the shortcut buttons of switcher."
 msgstr ""
 
 #: C/evolution.xml:988(title)
-#, fuzzy
 msgid "Folder Management"
-msgstr "Upravljanje omrežij"
+msgstr "Upravljanje map"
 
 #: C/evolution.xml:989(para)
 msgid "Right-click a folder or subfolder to display a menu with the following options:"
 msgstr ""
 
 #: C/evolution.xml:991(title)
-#, fuzzy
 msgid "Copy:"
-msgstr "_Kopiraj"
+msgstr "Kopiraj:"
 
 #: C/evolution.xml:992(para)
 msgid "Copies the folder to a different location. When you select this item, Evolution offers a choice of locations to copy the folder to."
 msgstr ""
 
 #: C/evolution.xml:995(title)
-#, fuzzy
 msgid "Move:"
-msgstr "Premik"
+msgstr "Premakni:"
 
 #: C/evolution.xml:996(para)
 msgid "Moves the folder to another location. When you select this item, Evolution offers a choice of locations to move the folder to."
@@ -1848,9 +1772,8 @@ msgid "Marks all the messages in the folder as read."
 msgstr "Označi vsa sporočila v mapi kot prebrana"
 
 #: C/evolution.xml:1003(title)
-#, fuzzy
 msgid "New Folder:"
-msgstr "Nova mapa"
+msgstr "Nova mapa:"
 
 #: C/evolution.xml:1004(para)
 msgid "Creates another folder in the same location."
@@ -1858,9 +1781,8 @@ msgstr ""
 
 #: C/evolution.xml:1007(title)
 #: C/evolution.xml:3135(title)
-#, fuzzy
 msgid "Delete:"
-msgstr "_Izbriši"
+msgstr "Izbriši:"
 
 #: C/evolution.xml:1008(para)
 #, fuzzy
@@ -1868,9 +1790,8 @@ msgid "Deletes the folder and all its contents."
 msgstr "Ali želite izbrisati mapo \"{0}\" in vse njene podmape?"
 
 #: C/evolution.xml:1011(title)
-#, fuzzy
 msgid "Rename:"
-msgstr "Preimenuj"
+msgstr "Preimenuj:"
 
 #: C/evolution.xml:1012(para)
 #, fuzzy
@@ -1878,19 +1799,16 @@ msgid "Lets you change the name of the folder."
 msgstr "To iskalno mapo morate poimenovati."
 
 #: C/evolution.xml:1015(title)
-#, fuzzy
 msgid "Disable:"
-msgstr "Onemogoči"
+msgstr "Onemogoči:"
 
 #: C/evolution.xml:1016(para)
-#, fuzzy
 msgid "Disables the account."
-msgstr "Pregled računa"
+msgstr "Onemogoči račun"
 
 #: C/evolution.xml:1019(title)
-#, fuzzy
 msgid "Properties:"
-msgstr "Lastnosti"
+msgstr "Lastnosti:"
 
 #: C/evolution.xml:1020(para)
 msgid "Checks the number of total and unread messages in a folder, and, for remote folders, lets you select whether to copy the folder to your local system for offline operation."
@@ -1905,7 +1823,6 @@ msgid "Any time new email arrives in a email folder, that folder label is displa
 msgstr ""
 
 #: C/evolution.xml:1028(title)
-#, fuzzy
 msgid "Email"
 msgstr "Elektronska pošta"
 
@@ -1958,7 +1875,6 @@ msgid "For an in-depth guide to the email capabilities of Evolution, read <link 
 msgstr ""
 
 #: C/evolution.xml:1061(title)
-#, fuzzy
 msgid "The Calendar"
 msgstr "Koledar"
 
@@ -1976,18 +1892,16 @@ msgid "The appointment list displays all your scheduled appointments."
 msgstr ""
 
 #: C/evolution.xml:1069(title)
-#, fuzzy
 msgid "Month Pane:"
-msgstr "pladenj z mapami"
+msgstr "Pladenj mesecev:"
 
 #: C/evolution.xml:1070(para)
 msgid "The month pane is a small view of a calendar month. To display additional months, drag the column border to the right. You can also select a range of days in the month pane to display a custom range of days in the appointment list."
 msgstr ""
 
 #: C/evolution.xml:1073(title)
-#, fuzzy
 msgid "Task List:"
-msgstr "Seznam nalog"
+msgstr "Seznam nalog:"
 
 #: C/evolution.xml:1074(para)
 msgid "Tasks are distinct from appointments because they generally don't have times associated with them. You can use the list in a larger window by clicking the Tasks button in the side bar."
@@ -1998,7 +1912,6 @@ msgid "For more information about the calendar, see <link linkend=\"usage-calend
 msgstr ""
 
 #: C/evolution.xml:1080(title)
-#, fuzzy
 msgid "The Contacts"
 msgstr "Stiki"
 
@@ -2015,7 +1928,6 @@ msgid "Another advantage of the Evolution contacts is its integration with the r
 msgstr ""
 
 #: C/evolution.xml:1085(emphasis)
-#, fuzzy
 msgid "Contact List"
 msgstr "Seznam stikov"
 
@@ -2087,9 +1999,8 @@ msgid "If you are creating your first account via the Startup Wizard, you can us
 msgstr ""
 
 #: C/evolution.xml:1133(title)
-#, fuzzy
 msgid "Command Line Options"
-msgstr "V ukazni vrstici so bile uporabljene nezdružljive možnosti."
+msgstr "Možnosti ukazne vrstice"
 
 #: C/evolution.xml:1134(para)
 msgid "Evolution has a number of command line options that you can use. For more information about command line options, open a terminal window and type <command>evolution --help</command>."
@@ -2100,14 +2011,12 @@ msgid "The most important command line options are:"
 msgstr ""
 
 #: C/evolution.xml:1143(para)
-#, fuzzy
 msgid "Command"
 msgstr "Ukaz"
 
 #: C/evolution.xml:1153(para)
-#, fuzzy
 msgid "evolution --offline"
-msgstr "Nepovezana shramba"
+msgstr "evolution --offline"
 
 #: C/evolution.xml:1156(para)
 #, fuzzy
@@ -2115,9 +2024,8 @@ msgid "Starts Evolution in offline mode."
 msgstr "Ni na voljo v načinu brez povezave"
 
 #: C/evolution.xml:1161(para)
-#, fuzzy
 msgid "evolution --disable-preview"
-msgstr "Omogoči predogled datotek"
+msgstr "evolution --disable-preview"
 
 #: C/evolution.xml:1164(para)
 msgid "Disables all the preview panes when you launch Evolution."
@@ -2136,45 +2044,40 @@ msgid "Starts Evolution and begins composing a message to the email address list
 msgstr ""
 
 #: C/evolution.xml:1178(para)
-#, fuzzy
 msgid "evolution -c mail"
-msgstr "Obvestila o prispeli pošti"
+msgstr "evolution -c mail"
 
 #: C/evolution.xml:1181(para)
 msgid "Starts Evolution in mail mode."
 msgstr ""
 
 #: C/evolution.xml:1186(para)
-#, fuzzy
 msgid "evolution -c calendar"
-msgstr "Evolution koledar"
+msgstr "evolution -c calendar"
 
 #: C/evolution.xml:1189(para)
 msgid "Starts Evolution in calendar mode."
 msgstr ""
 
 #: C/evolution.xml:1194(para)
-#, fuzzy
 msgid "evolution -c contacts"
-msgstr "Evolution stiki"
+msgstr "evolution -c contacts"
 
 #: C/evolution.xml:1197(para)
 msgid "Starts Evolution in contacts mode."
 msgstr ""
 
 #: C/evolution.xml:1202(para)
-#, fuzzy
 msgid "evolution --force-shutdown"
-msgstr "Prejet je bil zahtevek za ustavitev"
+msgstr "evolution --force-shutdown"
 
 #: C/evolution.xml:1205(para)
 msgid "Forces every part of Evolution to shut down immediately."
 msgstr ""
 
 #: C/evolution.xml:1210(para)
-#, fuzzy
 msgid "evolution <quote>%s</quote>"
-msgstr "Evolution stik."
+msgstr "evolution <quote>%s</quote>"
 
 #: C/evolution.xml:1213(para)
 msgid "Makes Evolution your default email handler for your Web browser and in the GNOME* Control Center."
@@ -2186,9 +2089,8 @@ msgstr ""
 
 #: C/evolution.xml:1227(link)
 #: C/evolution.xml:1247(title)
-#, fuzzy
 msgid "Reading Mail"
-msgstr "Napaka ob branju poštne datoteke: %s"
+msgstr "Branje elektronske poštne"
 
 #: C/evolution.xml:1230(link)
 #: C/evolution.xml:1520(title)
@@ -2198,9 +2100,8 @@ msgstr "Preverjanje novih sporočil"
 
 #: C/evolution.xml:1233(link)
 #: C/evolution.xml:2127(title)
-#, fuzzy
 msgid "Templates"
-msgstr "Predloga"
+msgstr "Predloge"
 
 #: C/evolution.xml:1236(link)
 #: C/evolution.xml:2228(title)
@@ -2210,13 +2111,11 @@ msgstr "Povzeto iz sporočila %s"
 
 #: C/evolution.xml:1239(link)
 #: C/evolution.xml:2251(title)
-#, fuzzy
 msgid "IMAP Subscriptions Manager"
-msgstr "Pogled upravljalnika nalog"
+msgstr "Upravljalnik naročanja IMAP"
 
 #: C/evolution.xml:1242(link)
 #: C/evolution.xml:2275(title)
-#, fuzzy
 msgid "Encryption"
 msgstr "Šifriranje"
 
@@ -2726,7 +2625,6 @@ msgstr "Delo brez povezave"
 
 #: C/evolution.xml:1537(link)
 #: C/evolution.xml:1660(title)
-#, fuzzy
 msgid "Attachments"
 msgstr "Priloge"
 
@@ -2861,15 +2759,15 @@ msgstr ""
 
 #: C/evolution.xml:1620(para)
 msgid "To mark a folder for offline use,"
-msgstr ""
+msgstr "Mapo, za delo brez povezave, označimo z"
 
 #: C/evolution.xml:1623(para)
 msgid "Right-click the folder, then click Properties."
-msgstr ""
+msgstr "desnim klikom na mapo in nato izberemo možnost lastnosti."
 
 #: C/evolution.xml:1626(para)
 msgid "Click Copy Folder Content Locally for Offline Operation."
-msgstr ""
+msgstr "Kliknite možnost kopiranja vsebine mape v krajevno mapo za opravila brez povezave."
 
 #: C/evolution.xml:1629(para)
 msgid "Your connection status is shown by the small icon in the lower left corner of the Evolution main window. When you are online, it displays two connected cables. When you go offline, the cables separate."
@@ -3076,7 +2974,6 @@ msgid "Keyboard shortcuts"
 msgstr "Tipkovne bližnice"
 
 #: C/evolution.xml:1759(para)
-#, fuzzy
 msgid "Tools"
 msgstr "Orodja"
 
@@ -3091,9 +2988,8 @@ msgid "Reply to Sender"
 msgstr "_Odgovori pošiljatelju"
 
 #: C/evolution.xml:1772(para)
-#, fuzzy
 msgid "Ctrl+R"
-msgstr "Ctrl"
+msgstr "Ctrl+R"
 
 #: C/evolution.xml:1777(para)
 #, fuzzy
@@ -3115,21 +3011,18 @@ msgid "Shift+Ctrl+R"
 msgstr "Preobrni [Ctrl+I]"
 
 #: C/evolution.xml:1793(para)
-#, fuzzy
 msgid "Forward"
 msgstr "Posreduj"
 
 #: C/evolution.xml:1796(para)
-#, fuzzy
 msgid "Ctrl+F"
-msgstr "Ctrl"
+msgstr "Ctrl+F"
 
 #: C/evolution.xml:1807(para)
 msgid "The message composer makes several text searching features available to you."
 msgstr ""
 
 #: C/evolution.xml:1809(title)
-#, fuzzy
 msgid "Find:"
 msgstr "Najdi:"
 
@@ -3156,9 +3049,8 @@ msgid "Select this item to repeat the last search you performed."
 msgstr ""
 
 #: C/evolution.xml:1821(title)
-#, fuzzy
 msgid "Replace:"
-msgstr "_Zamenjaj"
+msgstr "Zamenjaj:"
 
 #: C/evolution.xml:1822(para)
 msgid "Find a word or phrase, and replace it with something else."
@@ -3220,7 +3112,6 @@ msgid "Use these buttons to determine the way your email looks. If you have text
 msgstr ""
 
 #: C/evolution.xml:1854(para)
-#, fuzzy
 msgid "Button"
 msgstr "Gumb"
 
@@ -3234,7 +3125,6 @@ msgid "Typewriter text, which is approximately the same as the Courier monospace
 msgstr ""
 
 #: C/evolution.xml:1872(para)
-#, fuzzy
 msgid "Bold A"
 msgstr "Krepko"
 
@@ -3244,7 +3134,6 @@ msgid "Bolds the text."
 msgstr "Besedilne datoteke"
 
 #: C/evolution.xml:1880(para)
-#, fuzzy
 msgid "Italic A"
 msgstr "Ležeče"
 
@@ -3361,11 +3250,11 @@ msgstr ""
 
 #: C/evolution.xml:1965(para)
 msgid "Select the width, size, and alignment."
-msgstr ""
+msgstr "Izberite širino, velikost in poravnavo."
 
 #: C/evolution.xml:1968(para)
 msgid "Select Shade if necessary."
-msgstr ""
+msgstr "Po želji izberite tudi senčenje."
 
 #: C/evolution.xml:1977(title)
 #, fuzzy
@@ -3684,36 +3573,32 @@ msgid "When you receive an invitation, you have several options:"
 msgstr ""
 
 #: C/evolution.xml:2233(title)
-#, fuzzy
 msgid "Accept:"
-msgstr "Sprejmi"
+msgstr "Sprejmi:"
 
 #: C/evolution.xml:2234(para)
 msgid "Indicates you will attend the meeting. When you click the OK button, the meeting is entered into your calendar."
 msgstr ""
 
 #: C/evolution.xml:2237(title)
-#, fuzzy
 msgid "Tentatively Accept:"
-msgstr "Poskusno sprejmi"
+msgstr "Poskusno sprejmi:"
 
 #: C/evolution.xml:2238(para)
 msgid "Indicates you will probably attend the meeting. When you click the OK button, the meeting is entered into your calendar, but is marked as tentative."
 msgstr ""
 
 #: C/evolution.xml:2241(title)
-#, fuzzy
 msgid "Decline:"
-msgstr "Odkloni"
+msgstr "Odkloni:"
 
 #: C/evolution.xml:2242(para)
 msgid "Indicates you are unable to attend the meeting. The meeting is not entered into your calendar when you click OK, although your response is sent to the meeting host if you have selected the Send reply to sender option."
 msgstr ""
 
 #: C/evolution.xml:2245(title)
-#, fuzzy
 msgid "Send reply to sender:"
-msgstr "_Odgovori pošiljatelju"
+msgstr "Odgovori pošiljatelju:"
 
 #: C/evolution.xml:2246(para)
 msgid "Select this option if you want your response sent to the meeting organizers."
@@ -3757,9 +3642,8 @@ msgid "To protect and encode your email transmissions, Evolution offers two encr
 msgstr ""
 
 #: C/evolution.xml:2279(para)
-#, fuzzy
 msgid "GPG Encryption"
-msgstr "Šifrirni ključ: "
+msgstr "Šifriranje GPG"
 
 #: C/evolution.xml:2282(para)
 #: C/evolution.xml:2443(title)
@@ -4116,18 +4000,16 @@ msgid "Evolution can import the following types of files:"
 msgstr ""
 
 #: C/evolution.xml:2540(title)
-#, fuzzy
 msgid "vCard (.vcf, .gcrd):"
-msgstr "vCard (.vcf, .gcrd)"
+msgstr "vCard (.vcf, .gcrd):"
 
 #: C/evolution.xml:2541(para)
 msgid "The address book format used by the GNOME, KDE, and many other contact management applications. You should be able to export to vCard format from any address book application."
 msgstr ""
 
 #: C/evolution.xml:2544(title)
-#, fuzzy
 msgid "vCalendar:"
-msgstr "Datoteke vCalendar (.vcf)"
+msgstr "vCalendar:"
 
 #: C/evolution.xml:2545(para)
 msgid "A format for storing calendar files, which is generally used by Evolution, Microsoft Outlook, Sunbird, and Korganizer."
@@ -4142,9 +4024,8 @@ msgid "A format for storing calendar files. iCalendar is used by Palm OS handhel
 msgstr ""
 
 #: C/evolution.xml:2552(title)
-#, fuzzy
 msgid "Evolution/Mozilla/Outlook CSV/Tab (.csv, .tab):"
-msgstr "Uvoznik Outlook CSV in Tab"
+msgstr "Evolution/Mozilla/Outlook CSV/Tab (.csv, .tab):"
 
 #: C/evolution.xml:2553(para)
 msgid "CSV or Tab files saved by using Evolution, Microsoft Outlook and Mozilla."
@@ -4302,7 +4183,6 @@ msgid "Click Sort by to get a list of options."
 msgstr ""
 
 #: C/evolution.xml:2658(title)
-#, fuzzy
 msgid "Sort by:"
 msgstr "Razvrsti po:"
 
@@ -4311,78 +4191,63 @@ msgid "Sorts the message by different criteria as listed below:"
 msgstr ""
 
 #: C/evolution.xml:2663(para)
-#, fuzzy
 msgid "Recipients"
-msgstr "Prejemnik"
+msgstr "Prejemniki"
 
 #: C/evolution.xml:2666(para)
 #: C/evolution.xml:2672(para)
-#, fuzzy
 msgid "Sender"
 msgstr "Pošiljatelj"
 
 #: C/evolution.xml:2669(para)
-#, fuzzy
 msgid "Location"
 msgstr "Mesto"
 
 #: C/evolution.xml:2675(para)
-#, fuzzy
 msgid "Due By"
 msgstr "Rok do"
 
 #: C/evolution.xml:2678(para)
-#, fuzzy
 msgid "Follow Up Flag"
 msgstr "Zastavica navezave"
 
 #: C/evolution.xml:2681(para)
-#, fuzzy
 msgid "Flag Status"
 msgstr "Stanje zastavice"
 
 #: C/evolution.xml:2684(para)
-#, fuzzy
 msgid "Size"
 msgstr "Velikost"
 
 #: C/evolution.xml:2687(para)
-#, fuzzy
 msgid "To"
 msgstr "Za"
 
 #: C/evolution.xml:2690(para)
-#, fuzzy
 msgid "Received"
-msgstr "Sprejeto"
+msgstr "Prejeto"
 
 #: C/evolution.xml:2693(para)
-#, fuzzy
 msgid "Date"
 msgstr "Datum"
 
 #: C/evolution.xml:2696(para)
-#, fuzzy
 msgid "Subject"
 msgstr "Zadeva"
 
 #: C/evolution.xml:2699(para)
-#, fuzzy
 msgid "From"
 msgstr "Od"
 
 #: C/evolution.xml:2702(para)
-#, fuzzy
 msgid "Attachment"
 msgstr "Priloga"
 
 #: C/evolution.xml:2705(para)
-#, fuzzy
 msgid "Score"
 msgstr "Rezultat"
 
 #: C/evolution.xml:2708(para)
-#, fuzzy
 msgid "Flagged"
 msgstr "Označeno"
 
@@ -4391,12 +4256,10 @@ msgstr "Označeno"
 #: C/evolution.xml:4555(para)
 #: C/evolution.xml:4933(para)
 #: C/evolution.xml:5126(para)
-#, fuzzy
 msgid "Status"
 msgstr "Stanje"
 
 #: C/evolution.xml:2714(para)
-#, fuzzy
 msgid "Custom"
 msgstr "Po meri"
 
@@ -4405,27 +4268,24 @@ msgid "Clicking each sort criteria cycles take you through three possibilities. 
 msgstr ""
 
 #: C/evolution.xml:2721(title)
-#, fuzzy
 msgid "Sort Ascending:"
-msgstr "Razvrsti _naraščajoče"
+msgstr "Razvrsti naraščajoče:"
 
 #: C/evolution.xml:2722(para)
 msgid "Sorts the messages top to bottom and returns you the sorted message list in the order of oldest to the latest."
 msgstr ""
 
 #: C/evolution.xml:2725(title)
-#, fuzzy
 msgid "Sort Descending:"
-msgstr "Razvrsti _padajoče"
+msgstr "Razvrsti padajoče:"
 
 #: C/evolution.xml:2726(para)
 msgid "Sort descending reverts the order and returns you the sorted message list in the order of newest to oldest."
 msgstr ""
 
 #: C/evolution.xml:2729(title)
-#, fuzzy
 msgid "Unsort:"
-msgstr "_Nerazvrščeno"
+msgstr "Nerazvrščeno:"
 
 #: C/evolution.xml:2730(para)
 msgid "Unsort removes sorting from this column, reverting to the order of messages as they were added to the folder."
@@ -4622,29 +4482,24 @@ msgid "Select the search criteria from the list:"
 msgstr "Izberite možnost iskanja iz spustnega seznama."
 
 #: C/evolution.xml:2827(para)
-#, fuzzy
 msgid "All Messages"
 msgstr "Vsa sporočila"
 
 #: C/evolution.xml:2830(para)
-#, fuzzy
 msgid "Unread Messages"
 msgstr "Neprebrana sporočila"
 
 #: C/evolution.xml:2833(para)
-#, fuzzy
 msgid "No Label"
 msgstr "Brez oznake"
 
 #: C/evolution.xml:2836(para)
 #: C/evolution.xml:2878(para)
-#, fuzzy
 msgid "Important"
 msgstr "Pomembno"
 
 #: C/evolution.xml:2839(para)
 #: C/evolution.xml:2881(para)
-#, fuzzy
 msgid "Work"
 msgstr "Služba"
 
@@ -4655,21 +4510,18 @@ msgstr "Služba"
 #: C/evolution.xml:4927(para)
 #: C/evolution.xml:5120(para)
 #: C/evolution.xml:5682(para)
-#, fuzzy
 msgid "Personal"
 msgstr "Osebno"
 
 #: C/evolution.xml:2845(para)
 #: C/evolution.xml:2887(para)
-#, fuzzy
 msgid "To do"
-msgstr "_Seznam opravil"
+msgstr "Opravila"
 
 #: C/evolution.xml:2848(para)
 #: C/evolution.xml:2890(para)
-#, fuzzy
 msgid "Later"
-msgstr "Pozneje"
+msgstr "Kasneje"
 
 #: C/evolution.xml:2851(para)
 #, fuzzy
@@ -4768,9 +4620,8 @@ msgid "Finds messages whose From: header contains a match for your search text."
 msgstr ""
 
 #: C/evolution.xml:2922(title)
-#, fuzzy
 msgid "Body Contains:"
-msgstr "Telo vsebuje"
+msgstr "Telo vsebuje:"
 
 #: C/evolution.xml:2923(para)
 msgid "Searches only in message text, not any other header."
@@ -4781,24 +4632,20 @@ msgid "Click the drop-down list to select the scope"
 msgstr ""
 
 #: C/evolution.xml:2930(para)
-#, fuzzy
 msgid "Current Folder"
 msgstr "Trenutna mapa"
 
 #: C/evolution.xml:2933(para)
-#, fuzzy
 msgid "Current Account"
 msgstr "Trenutni račun"
 
 #: C/evolution.xml:2936(para)
-#, fuzzy
 msgid "All Accounts"
-msgstr "Vsi račun"
+msgstr "Vsi računi"
 
 #: C/evolution.xml:2939(para)
-#, fuzzy
 msgid "Current Message"
-msgstr "Neimenovano sporočilo"
+msgstr "Trenutno sporočilo"
 
 #: C/evolution.xml:2944(para)
 msgid "Type the search string in the search entry and press Enter."
@@ -4825,9 +4672,8 @@ msgstr ""
 #: C/evolution.xml:4461(title)
 #: C/evolution.xml:4805(title)
 #: C/evolution.xml:5039(title)
-#, fuzzy
 msgid "Advanced Search:"
-msgstr "Napredno iskanje"
+msgstr "Napredno iskanje:"
 
 #: C/evolution.xml:2959(para)
 #: C/evolution.xml:4462(para)
@@ -4863,9 +4709,8 @@ msgid "Click Save to save your search results."
 msgstr ""
 
 #: C/evolution.xml:2984(title)
-#, fuzzy
 msgid "Save Search:"
-msgstr "Shrani iskanje"
+msgstr "Shrani iskanje:"
 
 #: C/evolution.xml:2985(para)
 msgid "To save your search results other than from advanced search, select Search &gt; Save Search. You can view the label of your search results listed under Search menu."
@@ -4938,7 +4783,6 @@ msgstr ""
 
 #: C/evolution.xml:3036(title)
 #: C/evolution.xml:3286(title)
-#, fuzzy
 msgid "Sender:"
 msgstr "Pošiljatelj:"
 
@@ -4960,7 +4804,6 @@ msgstr "Vnesite prejemnike sporočila"
 
 #: C/evolution.xml:3044(title)
 #: C/evolution.xml:3294(title)
-#, fuzzy
 msgid "Subject:"
 msgstr "Zadeva:"
 
@@ -4971,9 +4814,8 @@ msgid "The subject line of the message."
 msgstr "Sporočilo zaloge (izbirno)"
 
 #: C/evolution.xml:3048(title)
-#, fuzzy
 msgid "Specific Header:"
-msgstr "Določena glava"
+msgstr "Določena glava:"
 
 #: C/evolution.xml:3049(para)
 msgid "Any header including custom ones."
@@ -4985,9 +4827,8 @@ msgstr ""
 
 #: C/evolution.xml:3053(title)
 #: C/evolution.xml:3298(title)
-#, fuzzy
 msgid "Message Body:"
-msgstr "Jedro sporočila"
+msgstr "Telo sporočila:"
 
 #: C/evolution.xml:3054(para)
 #: C/evolution.xml:3299(para)
@@ -4996,7 +4837,6 @@ msgid "Searches in the actual text of the message."
 msgstr "Išči besedilo v telesu prikazanega sporočila"
 
 #: C/evolution.xml:3057(title)
-#, fuzzy
 msgid "Expression:"
 msgstr "Izraz:"
 
@@ -8166,7 +8006,6 @@ msgid "Required Participants"
 msgstr "Obvezno udeleženi"
 
 #: C/evolution.xml:5703(para)
-#, fuzzy
 msgid "Optional Participants"
 msgstr "Neobvezno udeleženi"
 
@@ -8324,7 +8163,6 @@ msgid "GroupWise Reminder Note is integrated into Memo component. You can view t
 msgstr ""
 
 #: C/evolution.xml:5834(para)
-#, fuzzy
 msgid "Proxy"
 msgstr "Posredovalni strežnik"
 
@@ -8345,7 +8183,6 @@ msgid "Accepting appointments or meetings in offline mode"
 msgstr ""
 
 #: C/evolution.xml:5851(para)
-#, fuzzy
 msgid "Archive"
 msgstr "Arhiv"
 
@@ -8354,7 +8191,6 @@ msgid "GroupWise and Evolution sometimes uses different terminology for differen
 msgstr ""
 
 #: C/evolution.xml:5866(para)
-#, fuzzy
 msgid "GroupWise"
 msgstr "GroupWise"
 
@@ -8814,9 +8650,8 @@ msgid "Use the Proxy List in the Preferences Account Editor to give other users 
 msgstr ""
 
 #: C/evolution.xml:6355(para)
-#, fuzzy
 msgid "Permission:"
-msgstr "ni dovoljenja"
+msgstr "Dovoljenje:"
 
 #: C/evolution.xml:6358(para)
 #, fuzzy
@@ -8824,18 +8659,16 @@ msgid "Allows your proxy to do:"
 msgstr "Ali želite shraniti spremembe?"
 
 #: C/evolution.xml:6365(para)
-#, fuzzy
 msgid "Read"
-msgstr "Prebrano"
+msgstr "Branje"
 
 #: C/evolution.xml:6368(para)
 msgid "Read items you receive. Proxies cannot see your Contacts folder with this or any other proxy right."
 msgstr ""
 
 #: C/evolution.xml:6373(para)
-#, fuzzy
 msgid "Write"
-msgstr "Zapiši"
+msgstr "Pisanje"
 
 #: C/evolution.xml:6376(para)
 msgid "Create and send items in your name, including applying your signature if you have one defined. Assign categories to items, and change the subject of items."
@@ -9066,13 +8899,11 @@ msgstr "Upravljanje s stiki"
 
 #: C/evolution.xml:6599(link)
 #: C/evolution.xml:7200(title)
-#, fuzzy
 msgid "Certificates"
 msgstr "Potrdila"
 
 #: C/evolution.xml:6602(link)
 #: C/evolution.xml:7350(title)
-#, fuzzy
 msgid "Debug Logs"
 msgstr "Dnevniki razhroščevanja"
 
@@ -9103,36 +8934,32 @@ msgid "Set the address books to be used when completing email addresses in the m
 msgstr ""
 
 #: C/evolution.xml:6617(title)
-#, fuzzy
 msgid "Mail Preferences:"
-msgstr "Možnosti pošte"
+msgstr "Možnosti pošte:"
 
 #: C/evolution.xml:6618(para)
 msgid "These are overall mail reading preferences, such as display settings, notification options, and security. Settings that vary per account are in the Mail Accounts tool, described in <link linkend=\"config-prefs-mail-identity\">Working with Mail Accounts</link>, but most of the mail settings are in <link linkend=\"config-prefs-mail\">Mail Preferences</link>."
 msgstr ""
 
 #: C/evolution.xml:6621(title)
-#, fuzzy
 msgid "Composer Preferences:"
-msgstr "Možnosti sestavljalnika"
+msgstr "Možnosti sestavljalnika:"
 
 #: C/evolution.xml:6622(para)
 msgid "These are settings for the way that you use the mail composer, such as signatures, and spelling. This includes the ability to substitute graphical emoticons for <quote>emoticons</quote> such as : ) that many people use in email. This tool is covered in <link linkend=\"config-prefs-mail-composer\">Composer Preferences</link>."
 msgstr ""
 
 #: C/evolution.xml:6625(title)
-#, fuzzy
 msgid "Calendar and Tasks:"
-msgstr "Koledar in naloge"
+msgstr "Koledar in naloge:"
 
 #: C/evolution.xml:6626(para)
 msgid "Use these settings to control how the calendar behaves, including your time zone and the length of your work week. For more information, see <link linkend=\"config-prefs-cal\">Calendar and Tasks Settings</link>."
 msgstr ""
 
 #: C/evolution.xml:6629(title)
-#, fuzzy
 msgid "Certificates:"
-msgstr "Potrdila"
+msgstr "Potrdila:"
 
 #: C/evolution.xml:6630(para)
 msgid "Use these settings for certificate handling for S/MIME security systems. For more information, see <link linkend=\"bshoty0\">Certificates</link>."
@@ -9163,7 +8990,6 @@ msgid "The account editor dialog box has seven sections:"
 msgstr ""
 
 #: C/evolution.xml:6643(title)
-#, fuzzy
 msgid "Identity:"
 msgstr "Istovetnost:"
 
@@ -9172,9 +8998,8 @@ msgid "Specify the name and email address for this account. You can also choose 
 msgstr ""
 
 #: C/evolution.xml:6647(title)
-#, fuzzy
 msgid "Receiving Email:"
-msgstr "Sprejemam e-pošto"
+msgstr "Sprejemanje pošte:"
 
 #: C/evolution.xml:6648(para)
 msgid "Select the way you receive email. You can download email from a <link linkend=\"pop\">POP server</link>, read and keep it on the server (Microsoft Exchange, <trademark class=\"registered\">Novell</trademark><trademark class=\"registered\">GroupWise</trademark>, or <link linkend=\"imap\">IMAP</link>), or read it from files that already exist on your desktop computer. If your server requires you to use a secure connection, you can select from the given three options: No encryption, TLS encryption or SSL encryption."
@@ -9189,9 +9014,8 @@ msgid "For additional information, see <link linkend=\"second-step\">Receiving M
 msgstr ""
 
 #: C/evolution.xml:6653(title)
-#, fuzzy
 msgid "Receiving Options:"
-msgstr "Nastavitve prejemanja"
+msgstr "Nastavitve prejemanja:"
 
 #: C/evolution.xml:6654(para)
 msgid "Decide if you want to check for mail automatically and how often, as well as setting other message retrieval options."
@@ -9202,9 +9026,8 @@ msgid "For additional information, see <link linkend=\"more-mail-options\">Recei
 msgstr ""
 
 #: C/evolution.xml:6658(title)
-#, fuzzy
 msgid "Sending Mail:"
-msgstr "Pošiljanje pošte"
+msgstr "Pošiljanje pošte:"
 
 #: C/evolution.xml:6659(para)
 msgid "Use this section to choose and configure a method for sending mail. You can choose <link linkend=\"smtp\">SMTP</link>, Microsoft Exchange (if you have installed the Evolution Connector for Microsoft Exchange), <link linkend=\"sendmail\">Sendmail</link> or many other options."
@@ -9215,9 +9038,8 @@ msgid "For additional information, see <link linkend=\"third-step\">Sending Mail
 msgstr ""
 
 #: C/evolution.xml:6663(title)
-#, fuzzy
 msgid "Defaults:"
-msgstr "Privzeto"
+msgstr "Privzeto:"
 
 #: C/evolution.xml:6664(para)
 msgid "Use this section to set where this account stores the messages that it has sent, and the messages that you save as drafts. If you want to revert to the default settings, click Restore."
@@ -9236,7 +9058,6 @@ msgid "You can change the default settings of your sent items. Click Advanced Se
 msgstr ""
 
 #: C/evolution.xml:6670(title)
-#, fuzzy
 msgid "Security:"
 msgstr "Varnost:"
 
@@ -9271,9 +9092,8 @@ msgid "Evolution allows you to choose the headers that you want to download so t
 msgstr ""
 
 #: C/evolution.xml:6690(title)
-#, fuzzy
 msgid "All Headers:"
-msgstr "Vse _glave sporočil"
+msgstr "Vse glave sporočil:"
 
 #: C/evolution.xml:6691(para)
 msgid "All available IMAP mail headers for all the messages will be downloaded."
@@ -9371,9 +9191,8 @@ msgstr "<b>Splošne možnosti Valgrind</b>"
 
 #: C/evolution.xml:6754(link)
 #: C/evolution.xml:6857(title)
-#, fuzzy
 msgid "Junk Mail Preferences"
-msgstr "Nastavitve neželene pošte ..."
+msgstr "Nastavitve neželene pošte"
 
 #: C/evolution.xml:6757(link)
 #: C/evolution.xml:6900(title)
@@ -9401,18 +9220,16 @@ msgid "The following options are available:"
 msgstr "Navedena ni nobena možnost"
 
 #: C/evolution.xml:6769(title)
-#, fuzzy
 msgid "Message Fonts:"
-msgstr "Pisava sporočila"
+msgstr "Pisava sporočila:"
 
 #: C/evolution.xml:6770(para)
 msgid "Normally, Evolution uses the same fonts as other GNOME applications. To choose different fonts, deselect Use the same fonts as other applications and select one font for standard typefaces and a second for monospace."
 msgstr ""
 
 #: C/evolution.xml:6773(title)
-#, fuzzy
 msgid "Message Display:"
-msgstr "Prikaz sporočil"
+msgstr "Prikaz sporočil:"
 
 #: C/evolution.xml:6774(para)
 msgid "Choose how long you want to wait before marking a message read, how to highlight quotations, and the default encoding. Enable <guilabel>Fall back to threading message by subject</guilabel> to group the messages as message threads. You can also set the limit to the number of addresses displayed in the message header by enabling <guilabel>Shrink To/CC/BCC header to</guilabel> option. You can also set the limit for rendering text content in the message you receive. By default, when you receive a message with text content more than 4096 Kilo Bytes, Evolution will not render the message in the preview pane. You can view unformatted text either inline or using an external application. You can also enable the <link linkend=\"b17rgdac\">Magic spacebar</link> and <link linkend=\"usage-mail-organize-vfolders\">search folders</link>."
@@ -9561,9 +9378,8 @@ msgid "Select the junk plugins you want. You can select either Bogofilter or Spa
 msgstr ""
 
 #: C/evolution.xml:6869(title)
-#, fuzzy
 msgid "General:"
-msgstr "Splošno"
+msgstr "Splošno:"
 
 #: C/evolution.xml:6870(para)
 msgid "You can check incoming email for junk contents and also decide how often you want to delete junk mail. You also have the option to choose either SpamAssassin or Bogofilter, or you can select both."
@@ -9640,7 +9456,6 @@ msgstr ""
 
 #: C/evolution.xml:6919(link)
 #: C/evolution.xml:6959(title)
-#, fuzzy
 msgid "Signature"
 msgstr "Podpis"
 
@@ -9674,9 +9489,8 @@ msgstr ""
 
 #: C/evolution.xml:6939(title)
 #: C/evolution.xml:7018(title)
-#, fuzzy
 msgid "Alerts:"
-msgstr "Opozorila"
+msgstr "Opozorila:"
 
 #: C/evolution.xml:6940(para)
 msgid "There are two optional alerts you can select:"
@@ -9716,22 +9530,19 @@ msgstr ""
 #: C/evolution.xml:7024(title)
 #, fuzzy
 msgid "Display"
-msgstr "Pokaži"
+msgstr "Zaslon"
 
 #: C/evolution.xml:6981(link)
 #: C/evolution.xml:7057(title)
-#, fuzzy
 msgid "Alarms"
 msgstr "Alarmi"
 
 #: C/evolution.xml:6984(link)
 #: C/evolution.xml:7071(title)
-#, fuzzy
 msgid "Calendar Publishing"
 msgstr "Objavljanje koledarjev"
 
 #: C/evolution.xml:6993(title)
-#, fuzzy
 msgid "Time Zone:"
 msgstr "Časovni pas:"
 
@@ -9740,7 +9551,6 @@ msgid "The city you're located in, to specify your time zone."
 msgstr ""
 
 #: C/evolution.xml:6997(title)
-#, fuzzy
 msgid "Time Format:"
 msgstr "Oblika izpisa časa:"
 
@@ -9749,9 +9559,8 @@ msgid "Choose between twelve-hour (AM/PM) and twenty-four-hour time formats."
 msgstr ""
 
 #: C/evolution.xml:7001(title)
-#, fuzzy
 msgid "Second Zone:"
-msgstr "Pokaži drugi časovni pas"
+msgstr "Drugi časovni pas:"
 
 #: C/evolution.xml:7002(para)
 msgid "Specify a location for the second time zone."
@@ -9762,16 +9571,14 @@ msgid "You can view both the time zones in the calendar view."
 msgstr ""
 
 #: C/evolution.xml:7006(title)
-#, fuzzy
 msgid "Week Starts:"
-msgstr "se začne z"
+msgstr "Teden se začne v:"
 
 #: C/evolution.xml:7007(para)
 msgid "Select the day to display as the first in each week."
 msgstr ""
 
 #: C/evolution.xml:7010(title)
-#, fuzzy
 msgid "Day Begins:"
 msgstr "Začetek _dneva:"
 
@@ -9780,7 +9587,6 @@ msgid "For Evolution, a normal work day begins at 9 a.m. and ends at 5 p.m. You 
 msgstr ""
 
 #: C/evolution.xml:7014(title)
-#, fuzzy
 msgid "Day Ends:"
 msgstr "Konec dn_eva:"
 
@@ -9873,21 +9679,18 @@ msgid "Click Dismiss to close the alarm. Click Dismiss All to close all the alar
 msgstr ""
 
 #: C/evolution.xml:7066(title)
-#, fuzzy
 msgid "Free/Busy"
 msgstr "Zasedenost"
 
 #: C/evolution.xml:7073(title)
-#, fuzzy
 msgid "Publishing:"
-msgstr "Založništvo"
+msgstr "Založništvo:"
 
 #: C/evolution.xml:7074(para)
 msgid "Allows you to select a URL to post your calendar information to. When you add a URL, you can specify the publishing location, the frequency of publishing, which calendar to publish, and who to authenticate as."
 msgstr ""
 
 #: C/evolution.xml:7080(title)
-#, fuzzy
 msgid "Network Preferences"
 msgstr "Možnosti omrežja"
 
@@ -9932,7 +9735,6 @@ msgid "Proxy Configuration Settings"
 msgstr "_Ročna nastavitev posredovalnega strežnika"
 
 #: C/evolution.xml:7116(para)
-#, fuzzy
 msgid "HTTP Proxy"
 msgstr "HTTP posrednik"
 
@@ -9944,7 +9746,6 @@ msgstr "Ime računalnika posredovalnega strežnika HTTP."
 #: C/evolution.xml:7124(para)
 #: C/evolution.xml:7140(para)
 #: C/evolution.xml:7156(para)
-#, fuzzy
 msgid "Port"
 msgstr "Vrata"
 
@@ -9954,9 +9755,8 @@ msgid "The port for the machine defined by the HTTP Proxy field that you proxy t
 msgstr "Vrata računalnika, ki jih določa \"/system/http_proxy/host\" posredovalnega strežnika."
 
 #: C/evolution.xml:7132(para)
-#, fuzzy
 msgid "Secure HTTP Proxy"
-msgstr "_Varni posredovalni strežnik HTTP:"
+msgstr "Varni posredovalni strežnik HTTP"
 
 #: C/evolution.xml:7135(para)
 #, fuzzy
