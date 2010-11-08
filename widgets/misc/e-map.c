@@ -120,7 +120,7 @@ static void e_map_get_current_location (EMap *map, double *longitude, double *la
 static void e_map_world_to_render_surface (EMap *map, gdouble world_longitude, gdouble world_latitude,
                                            gdouble *win_x, gdouble *win_y);
 static void update_render_surface (EMap *map, gboolean render_overlays);
-static void set_scroll_area (EMap *view, int width, int height);
+static void set_scroll_area (EMap *view, gint width, gint height);
 static void center_at (EMap *map, double longitude, double latitude);
 static void scroll_to (EMap *view, gint x, gint y);
 static gint load_map_background (EMap *view, gchar *name);
@@ -176,7 +176,7 @@ e_map_do_tween_cb (gpointer data)
 
         priv->timer_current_ms = g_timer_elapsed (priv->timer, NULL) * 1000;
         gtk_widget_queue_draw (GTK_WIDGET (view));
-        
+
         /* Can't use for loop here, because we need to advance 
          * the list before deleting.
          */
@@ -184,7 +184,7 @@ e_map_do_tween_cb (gpointer data)
         while (walk)
         {
                 EMapTween *tween = walk->data;
-                
+
                 walk = walk->next;
 
                 if (tween->end_time <= priv->timer_current_ms)
@@ -215,7 +215,7 @@ e_map_tween_new (EMap *view, guint msecs, double longitude_offset, double latitu
 {
         EMapPrivate *priv = view->priv;
         EMapTween *tween;
-        
+
         if (!priv->smooth_zoom)
                 return;
 
@@ -412,7 +412,7 @@ e_map_unrealize (GtkWidget *widget)
 
         cairo_surface_destroy (priv->map_render_surface);
         priv->map_render_surface = NULL;
- 
+
         if (GTK_WIDGET_CLASS (e_map_parent_class)->unrealize)
                 (*GTK_WIDGET_CLASS (e_map_parent_class)->unrealize) (widget);
 }
@@ -557,7 +557,7 @@ e_map_tweens_compute_matrix (EMap *view, cairo_matrix_t *matrix)
         cairo_matrix_init_translate (matrix,
                                 allocation.width / 2.0,
                                 allocation.height / 2.0);
-        
+
         e_map_world_to_render_surface (view,
                                        longitude, latitude,
                                        &x, &y);
@@ -576,7 +576,7 @@ e_map_expose (GtkWidget *widget, GdkEventExpose *event)
         cairo_matrix_t matrix;
 
 	if (!gtk_widget_is_drawable (widget))
-	        return FALSE;
+		return FALSE;
 
 	view = E_MAP (widget);
 	priv = view->priv;
@@ -588,11 +588,11 @@ e_map_expose (GtkWidget *widget, GdkEventExpose *event)
         e_map_tweens_compute_matrix (view, &matrix);
         cairo_transform (cr, &matrix);
 
-        cairo_set_source_surface (cr, 
+        cairo_set_source_surface (cr,
                                   priv->map_render_surface,
                                   0, 0);
         cairo_paint (cr);
-        
+
         cairo_destroy (cr);
 
 	return FALSE;
@@ -1268,7 +1268,7 @@ e_map_get_current_location (EMap *map, double *longitude, double *latitude)
 
 	e_map_window_to_world (map,
                                allocation.width / 2.0, allocation.height / 2.0,
-		               longitude, latitude);
+			       longitude, latitude);
 }
 
 /* Callback used when an adjustment is changed */
@@ -1289,7 +1289,7 @@ adjustment_changed_cb (GtkAdjustment *adj, gpointer data)
 }
 
 static void
-set_scroll_area (EMap *view, int width, int height)
+set_scroll_area (EMap *view, gint width, gint height)
 {
 	EMapPrivate *priv;
 	GtkAllocation allocation;

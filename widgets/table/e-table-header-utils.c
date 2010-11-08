@@ -379,7 +379,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 		}
 #endif
                 gdk_cairo_set_source_pixbuf (cr, ecol->pixbuf,
-				             xpos, inner_y + (inner_height - clip_height) / 2);
+					     xpos, inner_y + (inner_height - clip_height) / 2);
                 cairo_paint (cr);
 	} else {
                 pango_layout_set_width (layout, inner_width * PANGO_SCALE);

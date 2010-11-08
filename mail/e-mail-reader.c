@@ -464,7 +464,7 @@ action_mail_remove_attachments_cb (GtkAction *action, EMailReader *reader)
 				/* make a copy of the message */
 				camel_message_info_set_flags (newinfo, flags, flags);
 				camel_folder_append_message_sync (folder, message, newinfo, NULL, NULL, &error);
-				
+
 				if (!error) {
 					/* marked the original message deleted */
 					camel_message_info_set_flags (info, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);

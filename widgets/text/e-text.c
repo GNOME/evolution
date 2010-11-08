@@ -768,8 +768,8 @@ e_text_set_property (GObject *object,
 			      (color.green & 0xff00) << 8 |
 			      (color.blue & 0xff00) |
 			      0xff);
-	        text->needs_redraw = 1;
-	        needs_update = 1;
+		text->needs_redraw = 1;
+		needs_update = 1;
 		break;
 
 	case PROP_FILL_COLOR_GDK:
@@ -782,8 +782,8 @@ e_text_set_property (GObject *object,
 			      (color.green & 0xff00) << 8 |
 			      (color.blue & 0xff00) |
 			      0xff);
-	        text->needs_redraw = 1;
-	        needs_update = 1;
+		text->needs_redraw = 1;
+		needs_update = 1;
 		break;
 
         case PROP_FILL_COLOR_RGBA:
@@ -791,8 +791,8 @@ e_text_set_property (GObject *object,
 		color.red = ((text->rgba >> 24) & 0xff) * 0x101;
 		color.green = ((text->rgba >> 16) & 0xff) * 0x101;
 		color.blue = ((text->rgba >> 8) & 0xff) * 0x101;
-	        text->needs_redraw = 1;
-	        needs_update = 1;
+		text->needs_redraw = 1;
+		needs_update = 1;
 		break;
 
 	case PROP_EDITABLE:
@@ -1456,7 +1456,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	if (text->clip) {
                 cairo_rectangle (cr,
-                                 xpos, ypos, 
+                                 xpos, ypos,
                                  text->clip_cwidth - text->xofs,
                                  text->clip_cheight - text->yofs);
                 cairo_clip (cr);

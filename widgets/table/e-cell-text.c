@@ -734,7 +734,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			cell_foreground = e_cell_text_get_color (text_view,
 								 color_spec);
 			if (cell_foreground)
-		                gdk_cairo_set_source_color (cr, cell_foreground);
+				gdk_cairo_set_source_color (cr, cell_foreground);
 		}
 	}
 

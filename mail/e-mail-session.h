@@ -110,7 +110,6 @@ CamelFolder *	e_mail_session_uri_to_folder_finish
 						 GAsyncResult *result,
 						 GError **error);
 
-
 /*** Legacy API ***/
 
 void		mail_session_flush_filter_log	(EMailSession *session);

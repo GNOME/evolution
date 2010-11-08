@@ -969,7 +969,6 @@ ethi_unrealize (GnomeCanvasItem *item)
 
 	gtk_drag_dest_unset (GTK_WIDGET (item->canvas));
 
-
 	if (GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->unrealize)
 		(*GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->unrealize)(item);
 }

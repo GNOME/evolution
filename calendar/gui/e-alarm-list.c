@@ -556,7 +556,7 @@ e_alarm_list_get_value (GtkTreeModel *tree_model,
 	EAlarmList        *alarm_list = E_ALARM_LIST (tree_model);
 	ECalComponentAlarm *alarm;
 	GList             *l;
-	gchar       	  *str;
+	gchar	  *str;
 
 	g_return_if_fail (E_IS_ALARM_LIST (tree_model));
 	g_return_if_fail (column < E_ALARM_LIST_NUM_COLUMNS);

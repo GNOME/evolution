@@ -248,7 +248,7 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 
 	client = gconf_client_get_default ();
 	key = "/apps/evolution/mail/display/show_deleted";
-	hide_deleted = !gconf_client_get_bool(client, key, NULL);
+	hide_deleted = !gconf_client_get_bool (client, key, NULL);
 	g_object_unref (client);
 
 	/*
