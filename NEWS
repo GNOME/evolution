@@ -1,3 +1,112 @@
+Evolution 2.91.2 2010-11-08
+---------------------------
+
+Bug Fixes:
+	Bug 445439 - Delete mail from pop-server when deleted from Inbox/Trash
+	             (Milan Crha)
+	Bug 484554 - Day names can overlap in calendar printouts (Milan Crha)
+	Bug 534453 - Incorporate 'Remove attachments' plugin (Rex Tsai)
+	Bug 567265 - BCC kept on message forward from Sent folder (Milan Crha)
+	Bug 592045 - Use week-day names in abbreviated date (Milan Crha)
+	Bug 597567 - Crash in comp_subject() (Milan Crha)
+	Bug 612181 - Show recurring events in italic in date navigator
+	             (Milan Crha)
+	Bug 628139 - Thread-safety issues in libical time zone loading
+	             (Matthew Barnes)
+	Bug 629479 - Runtime critical warnings from e-print.c (Milan Crha)
+	Bug 630504 - Precache collate keys before sorting in EReflowModel
+	             (Milan Crha)
+	Bug 630695 - Invalid read when enable/disable the account in
+	             preferences (Milan Crha)
+	Bug 630969 - Implement also Message->Go to->Previous Thread
+	             (Milan Crha)
+	Bug 631451 - Add handlers for x-scheme-handler/mailto (Milan Crha)
+	Bug 631526 - Loading images doesn't use proxy credentials (Milan Crha)
+	Bug 631731 - Remove status icon from mail notifier (William Jon McCann)
+	Bug 631870 - Memory leak in e_week_view after GtkObject removal
+	             (Milan Crha)
+	Bug 631956 - Reset renderer properties in
+	             action_combo_box_render_pixbuf (Milan Crha)
+	Bug 631981 - Change reply_close_browser short description text
+	             (Milan Crha)
+	Bug 631982 - Hide Page properties in signature editor (Milan Crha)
+	Bug 632199 - Opening calendar from panel clock goes to previous day
+	             (Milan Crha)
+	Bug 632278 - Double .vcf extension on addressbook save (Milan Crha)
+	Bug 632280 - Backup file name should include date (YYYYMMDD)
+	             (Milan Crha)
+	Bug 632483 - [WinXP] Does not start when updated from 2.8 (Milan Crha)
+	Bug 632562 - Disabled account in preferences not remove in folder tree
+	             (Milan Crha)
+	Bug 632580 - Freezes UI on account disable (Milan Crha)
+	Bug 632641 - Handle combo box text API going away (Matthias Clasen)
+	Bug 632679 - Add 'Remove attachments' in pop up menu (Milan Crha)
+	Bug 632767 - Some widgets removed from mail-config.ui (Milan Crha)
+	Bug 632768 - Message list not realized when opening new folder
+	             (Milan Crha)
+	Bug 632769 - EMeetingTimeSelector can be unrealized in express mode
+	             (Milan Crha)
+	Bug 632870 - Cut and paste broken in ESignatureEditor (Matthew Barnes)
+	Bug 632903 - Support libnotify-0.7 (Flo Gravo)
+	Bug 632941 - Calendar ignores preference "show/hide end times"
+	             (Milan Crha)
+	Bug 633155 - Incorrect signal connection with
+	             mail-vfolder.c:folder_deleted_cb (Milan Crha)
+	Bug 633158 - Importer stops after single mail import (Milan Crha)
+	Bug 633172 - Folder->Subscriptions is always enabled (Matthew Barnes)
+	Bug 633371 - Remote pop folder no longer emptied (Milan Crha)
+	Bug 633471 - EAttachmentStore store folder name where uri is expected
+	             (Matthew Barnes)
+	Bug 634088 - Uses uninitialized variable in action_contact_new_cb
+	             (Milan Crha)
+
+Other Changes:
+	* Add an EOfflineAlert module. (Matthew Barnes)
+	* Send errors to an EAlertSink instead of the task bar.
+	  (Matthew Barnes)
+	* Kill mail_config_get_gconf_client(). (Matthew Barnes)
+	* Kill mail_config_service_set_save_passwd(). (Matthew Barnes)
+	* Move more account utilities to e-account-utils.c. (Matthew Barnes)
+	* Collect mail enum types in e-mail-enums.h. (Matthew Barnes)
+	* Add an "ellipsize" property to EMFolderTree. (Matthew Barnes)
+	* Crash on start with vfolders configured (Milan Crha)
+	* Reduce GConf usage in em-composer-utils.c. (Matthew Barnes)
+	* Deal with GtkComboBoxEntry removal in gtk+-3.0. (Matthew Barnes)
+	* Add missing gtk-compat.h include to various files (Milan Crha)
+	* Memory leaks around g_value_set_string (Milan Crha)
+	* Kill mail_store_set_offline(). (Matthew Barnes)
+	* Fix build on platforms when ngettext is a macro (Fridrich Štrba)
+	* Drop usage of GtkAnchorType. (Matthew Barnes)
+	* Workaround GtkComboBoxText/GtkComboBoxEntry in .ui files (Milan Crha)
+	* More detailed runtime warning on message list pre-sorting
+	  (Milan Crha)
+	* Port gnome-canvas drawing from GDK to cairo. (Benjamin Otte)
+	* Kill mail_append_mail(). (Matthew Barnes)
+	* Skip writing to Outbox when sending. (Matthew Barnes)
+	* EMailReader: Rewrite message retrieval tracking. (Matthew Barnes)
+	* Kill mail_get_messagex(). (Matthew Barnes)
+	* Kill em_folder_utils_unsubscribe_folder(). (Matthew Barnes)
+	* EMailBrowser: Implement EAlertSink. (Matthew Barnes)
+	* EMailReader: Add a get_alert_sink() method. (Matthew Barnes)
+	* Add missing stock appointment-reminder icons (Milan Crha)
+	* Set checkspin label mnemonic widget in account editor (Milan Crha)
+	* Utilize the new ESourceSelector:primary-selection property.
+	  (Matthew Barnes)
+	* Use @valuenick@ in glib-gen.mak. (Matthew Barnes)
+	* Rename CalUnits to EDurationType. (Matthew Barnes)
+	* Add GBinding transform funcs for enum types. (Matthew Barnes)
+	* Move calendar preferences to the calendar module. (Matthew Barnes)
+
+Translations:
+	Carles Ferrando (ca@valencia)
+	Mario Blättermann (de)
+	Jorge González (es)
+	Mattias Põldaru (et)
+	Claude Paroz (fr)
+	Takayuki KUSANO (ja)
+	Matej Urbančič (sl)
+	Yinghua Wang (zh_CN)
+
 Evolution 2.91.1 2010-10-18
 ---------------------------
 
