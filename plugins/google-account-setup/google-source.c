@@ -51,7 +51,6 @@
 
 #include "google-contacts-source.h"
 
-#define GOOGLE_BASE_URI "google://"
 #define CALENDAR_LOCATION "://www.google.com/calendar/feeds/"
 #define CALENDAR_DEFAULT_PATH "/private/full"
 #define URL_GET_SUBSCRIBED_CALENDARS "://www.google.com/calendar/feeds/default/allcalendars/full"
@@ -63,6 +62,7 @@
 /* prototypes */
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 GtkWidget *plugin_google (EPlugin *epl, EConfigHookItemFactoryData *data);
+gpointer plugin_google_check (EPlugin *epl, EConfigHookPageCheckData *data);
 void e_calendar_google_migrate (EPlugin *epl, ECalEventTargetBackend *data);
 
 /*****************************************************************************/
@@ -223,7 +223,8 @@ update_source_uris (ESource *source, const gchar *uri)
 	e_source_set_relative_uri (source, uri);
 
 	user = e_source_get_property (source, "username");
-	g_return_if_fail (user != NULL);
+	if (!user)
+		return;
 
 	feeds = strstr (uri, "/feeds/");
 	g_return_if_fail (feeds != NULL);
@@ -569,6 +570,20 @@ retrieve_list_sensitize (GtkEntry *username_entry,
 	text = gtk_entry_get_text (username_entry);
 	sensitive = (text != NULL && *text != '\0');
 	gtk_widget_set_sensitive (button, sensitive);
+}
+
+gpointer
+plugin_google_check (EPlugin *epl, EConfigHookPageCheckData *data)
+{
+	ECalConfigTargetSource *t;
+
+	g_return_val_if_fail (data != NULL, NULL);
+	g_return_val_if_fail (data->target != NULL, NULL);
+
+	t = (ECalConfigTargetSource *) data->target;
+	g_return_val_if_fail (t->source != NULL, NULL);
+
+	return check_username_filled (t->source);
 }
 
 GtkWidget *

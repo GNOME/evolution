@@ -94,7 +94,9 @@ on_username_entry_changed (GtkEntry *entry, gpointer user_data)
 
 	text = gtk_entry_get_text (entry);
 
-	if (strstr (text, "@")) {
+	if (!text || !*text) {
+		username = NULL;
+	} else if (strstr (text, "@")) {
 		username = g_strdup (text);
 	} else {
 		username = g_strdup_printf ("%s@gmail.com", text);
@@ -207,6 +209,41 @@ on_interval_combo_changed (GtkComboBox *combo, gpointer user_data)
 	g_free (value_string);
 }
 
+gpointer
+check_username_filled (ESource *source)
+{
+	gboolean res = TRUE;
+
+	g_return_val_if_fail (source != NULL, NULL);
+
+	if (g_ascii_strncasecmp (GOOGLE_BASE_URI, e_source_group_peek_base_uri (e_source_peek_group (source)), strlen (GOOGLE_BASE_URI)) == 0) {
+		gchar *username = g_strdup (e_source_get_property (source, "username"));
+
+		if (username)
+			username = g_strstrip (username);
+
+		res = username && *username;
+
+		g_free (username);
+	}
+
+	return GINT_TO_POINTER (res ? 1 : 0);
+}
+
+gpointer
+plugin_google_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
+{
+	EABConfigTargetSource *t;
+
+	g_return_val_if_fail (data != NULL, NULL);
+	g_return_val_if_fail (data->target != NULL, NULL);
+
+	t = (EABConfigTargetSource *) data->target;
+	g_return_val_if_fail (t->source != NULL, NULL);
+
+	return 	check_username_filled (t->source);
+}
+
 struct ui_data {
 	GtkWidget *widget;
 };
@@ -262,7 +299,7 @@ plugin_google_contacts (EPlugin *epl,
 
 	g_object_set_data (G_OBJECT (epl), "gwidget", NULL);
 
-	if (g_ascii_strncasecmp ("google://", base_uri, 9) != 0)
+	if (g_ascii_strncasecmp (GOOGLE_BASE_URI, base_uri, 9) != 0)
 		return NULL;
 
 	/* Build up the UI */
