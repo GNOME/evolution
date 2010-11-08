@@ -56,7 +56,7 @@ test_shell_view_dispose (GObject *object)
 	priv = E_TEST_SHELL_VIEW_GET_PRIVATE (object);
 
 	if (priv->activity != NULL) {
-		e_activity_complete (priv->activity);
+		e_activity_set_state (priv->activity, E_ACTIVITY_COMPLETED);
 		g_object_unref (priv->activity);
 		priv->activity = NULL;
 	}

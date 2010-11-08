@@ -22,6 +22,10 @@ error_DATA = evolution-offline-alert.error
 errordir = $(privdatadir)/errors
 @EVO_PLUGIN_RULE@
 
+BUILT_SOURCES = $(error_DATA)
+
+CLEANFILES = $(BUILT_SOURCES)
+
 EXTRA_DIST = evolution-offline-alert.error.xml
 
 -include $(top_srcdir)/git.mk

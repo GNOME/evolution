@@ -43,7 +43,6 @@ calendar/gui/alarm-notify/alarm-notify-dialog.c
 [type: gettext/glade]calendar/gui/alarm-notify/alarm-notify.ui
 calendar/gui/alarm-notify/alarm-queue.c
 calendar/gui/alarm-notify/util.c
-calendar/gui/apps_evolution_calendar.schemas.in
 calendar/gui/cal-editor-utils.c
 calendar/gui/calendar-view-factory.c
 calendar/gui/caltypes.xml
@@ -51,8 +50,6 @@ calendar/gui/dialogs/alarm-dialog.c
 [type: gettext/glade]calendar/gui/dialogs/alarm-dialog.ui
 calendar/gui/dialogs/alarm-list-dialog.c
 [type: gettext/glade]calendar/gui/dialogs/alarm-list-dialog.ui
-calendar/gui/dialogs/cal-prefs-dialog.c
-[type: gettext/glade]calendar/gui/dialogs/cal-prefs-dialog.ui
 calendar/gui/dialogs/calendar-setup.c
 calendar/gui/dialogs/cancel-comp.c
 calendar/gui/dialogs/changed-comp.c
@@ -95,8 +92,6 @@ calendar/gui/e-cell-date-edit-text.c
 calendar/gui/e-day-view-time-item.c
 calendar/gui/e-day-view-top-item.c
 calendar/gui/e-day-view.c
-calendar/gui/e-itip-control.c
-[type: gettext/glade]calendar/gui/e-itip-control.ui
 calendar/gui/e-meeting-list-view.c
 calendar/gui/e-meeting-store.c
 calendar/gui/e-meeting-time-sel-item.c
@@ -243,6 +238,8 @@ modules/addressbook/e-book-shell-view-actions.c
 modules/addressbook/e-book-shell-view.c
 modules/addressbook/eab-composer-util.c
 [type: gettext/glade]modules/addressbook/ldap-config.ui
+[type: gettext/glade]modules/calendar/e-calendar-preferences.ui
+modules/calendar/apps_evolution_calendar.schemas.in
 modules/calendar/e-cal-attachment-handler.c
 modules/calendar/e-cal-shell-backend.c
 modules/calendar/e-cal-shell-content.c
@@ -253,6 +250,7 @@ modules/calendar/e-cal-shell-view-memopad.c
 modules/calendar/e-cal-shell-view-private.c
 modules/calendar/e-cal-shell-view-taskpad.c
 modules/calendar/e-cal-shell-view.c
+modules/calendar/e-calendar-preferences.c
 modules/calendar/e-memo-shell-backend.c
 modules/calendar/e-memo-shell-content.c
 modules/calendar/e-memo-shell-migrate.c

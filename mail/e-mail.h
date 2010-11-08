@@ -37,7 +37,6 @@
 #include <mail/e-mail-migrate.h>
 #include <mail/e-mail-notebook-view.h>
 #include <mail/e-mail-paned-view.h>
-#include <mail/e-mail-pane.h>
 #include <mail/e-mail-reader.h>
 #include <mail/e-mail-reader-utils.h>
 #include <mail/e-mail-session.h>
