@@ -201,7 +201,7 @@ e_meeting_time_selector_item_update (GnomeCanvasItem *item, const cairo_matrix_t
 
 static void
 draw_strikeout_box (EMeetingTimeSelectorItem *mts_item, cairo_t *cr,
-                    int x, int y, int width, int height)
+                    gint x, gint y, gint width, gint height)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (mts_item)->canvas;
 	EMeetingTimeSelector *mts = mts_item->mts;
@@ -291,7 +291,7 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			if (e_meeting_attendee_get_has_calendar_info (ia)) {
 				if (e_meeting_time_selector_item_calculate_busy_range (mts, row, x, width, &start_x, &end_x)) {
 					if (start_x >= width || end_x <= 0) {
-				                draw_strikeout_box (mts_item, cr, 0, row_y, width, mts->row_height);
+						draw_strikeout_box (mts_item, cr, 0, row_y, width, mts->row_height);
 					} else {
 						if (start_x >= 0) {
 							draw_strikeout_box (mts_item, cr, 0, row_y, start_x, mts->row_height);

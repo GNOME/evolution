@@ -1797,7 +1797,7 @@ expunge_pop3_stores (CamelFolder *expunging, EMailSession *session, GCancellable
 
 		if (!info)
 			continue;
- 
+
 		if ((camel_message_info_flags (info) & CAMEL_MESSAGE_DELETED) != 0) {
 			CamelMimeMessage *msg;
 			GError *local_error = NULL;

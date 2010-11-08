@@ -360,7 +360,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 
                 cairo_rectangle (cr,
                                  item_x - x, item_y - y,
-		                 item_w - E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH, item_h);
+				 item_w - E_DAY_VIEW_LONG_EVENT_BORDER_WIDTH, item_h);
                 cairo_clip (cr);
 
 		time_x = item_x + E_DAY_VIEW_LONG_EVENT_X_PAD - x;
@@ -368,7 +368,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 			time_x += day_view->digit_width;
 
 		layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
-                cairo_move_to (cr, 
+                cairo_move_to (cr,
                                time_x,
                                item_y + E_DAY_VIEW_LONG_EVENT_BORDER_HEIGHT +
                                E_DAY_VIEW_LONG_EVENT_Y_PAD - y);
@@ -413,7 +413,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 				time_x += day_view->digit_width;
 
 			layout = gtk_widget_create_pango_layout (GTK_WIDGET (day_view), buffer);
-                        cairo_move_to (cr, 
+                        cairo_move_to (cr,
                                        time_x,
                                        item_y + E_DAY_VIEW_LONG_EVENT_Y_PAD + 1 - y);
 			pango_cairo_show_layout (cr, layout);
@@ -486,7 +486,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 		if (icon_x <= max_icon_x) {
 			gdk_cairo_set_source_pixbuf (cr, pixbuf,
                                                      icon_x, icon_y);
-                        cairo_rectangle (cr, 
+                        cairo_rectangle (cr,
                                          icon_x, icon_y,
 					 E_DAY_VIEW_ICON_WIDTH,
 					 E_DAY_VIEW_ICON_HEIGHT);

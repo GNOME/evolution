@@ -649,7 +649,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 		/* now draw our icon if we're expandable */
 		if (expandable) {
 #if GTK_CHECK_VERSION (3, 0, 0)
-		        gboolean expanded = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
+			gboolean expanded = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
 #error Paint an expander here
 #endif
 		}

@@ -398,7 +398,7 @@ is_item_in_window (GnomeCanvasItem    *item,
   if (window)
     {
       GdkRectangle window_rect;
-      
+
       window_rect.x = 0;
       window_rect.y = 0;
       window_rect.width = gdk_window_get_width (window);

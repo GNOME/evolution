@@ -182,7 +182,6 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 	gobject_class->set_property = gnome_canvas_text_set_property;
 	gobject_class->get_property = gnome_canvas_text_get_property;
 
-
 	/* Text */
         g_object_class_install_property
                 (gobject_class,
@@ -1201,7 +1200,7 @@ gnome_canvas_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
         cr = gdk_cairo_create (drawable);
         if (text->clip) {
-                cairo_rectangle (cr, 
+                cairo_rectangle (cr,
                                  text->clip_cx - x,
                                  text->clip_cy - y,
                                  text->clip_cwidth,
@@ -1214,7 +1213,7 @@ gnome_canvas_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
                                ((text->rgba >> 16) & 0xff) / 255.0,
                                ((text->rgba >>  8) & 0xff) / 255.0,
                                ( text->rgba        & 0xff) / 255.0);
-        
+
         cairo_move_to (cr, text->cx - x, text->cy - y);
         pango_cairo_show_layout (cr, text->layout);
 

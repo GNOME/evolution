@@ -180,7 +180,7 @@ etfci_update (GnomeCanvasItem *item,
               gint flags)
 {
 	ETableFieldChooserItem *etfci = E_TABLE_FIELD_CHOOSER_ITEM (item);
-	double x1, y1, x2, y2;
+	gdouble x1, y1, x2, y2;
 
 	if (GNOME_CANVAS_ITEM_CLASS (etfci_parent_class)->update)
 		GNOME_CANVAS_ITEM_CLASS (etfci_parent_class)->update (

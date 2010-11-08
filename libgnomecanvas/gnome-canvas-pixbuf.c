@@ -285,7 +285,7 @@ gnome_canvas_pixbuf_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
                 return;
 	}
         cairo_transform (cr, &matrix);
-        
+
         gdk_cairo_set_source_pixbuf (cr, priv->pixbuf, 0, 0);
         cairo_paint (cr);
 
@@ -305,7 +305,7 @@ gnome_canvas_pixbuf_point (GnomeCanvasItem *item,
 	GnomeCanvasPixbuf *gcp;
 	GnomeCanvasPixbufPrivate *priv;
         GdkPixbuf *pixbuf;
-        int px, py;
+        gint px, py;
         guchar *src;
 
 	gcp = GNOME_CANVAS_PIXBUF (item);

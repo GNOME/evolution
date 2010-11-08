@@ -792,7 +792,7 @@ static void
 eti_item_region_redraw (ETableItem *eti, gint x0, gint y0, gint x1, gint y1)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (eti);
-	double dx1, dy1, dx2, dy2;
+	gdouble dx1, dy1, dx2, dy2;
 	cairo_matrix_t i2c;
 
 	dx1 = x0;
@@ -1719,7 +1719,7 @@ eti_unrealize (GnomeCanvasItem *item)
 
 static void
 eti_draw_grid_line (ETableItem *eti, cairo_t *cr, GtkStyle *style,
-                    int x1, int y1, int x2, int y2)
+                    gint x1, gint y1, gint x2, gint y2)
 {
         cairo_save (cr);
 
@@ -1746,7 +1746,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 	gint f_x1, f_x2, f_y1, f_y2;
 	gboolean f_found;
 	cairo_matrix_t i2c;
-	double eti_base_x, eti_base_y, lower_right_y, lower_right_x;
+	gdouble eti_base_x, eti_base_y, lower_right_y, lower_right_x;
 	GtkWidget *canvas = GTK_WIDGET (item->canvas);
         GtkStyle *style = gtk_widget_get_style (canvas);
 	gint height_extra = eti->horizontal_draw_grid ? 1 : 0;
@@ -1990,7 +1990,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 		yd += height;
 
 		if (eti->horizontal_draw_grid) {
-		        eti_draw_grid_line (eti, cr, style, eti_base_x - x, yd, eti_base_x + eti->width - x, yd);
+			eti_draw_grid_line (eti, cr, style, eti_base_x - x, yd, eti_base_x + eti->width - x, yd);
 			yd++;
 		}
 	}
@@ -2001,7 +2001,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 		for (col = first_col; col <= last_col; col++) {
 			ETableCol *ecol = e_table_header_get_column (eti->header, col);
 
-		        eti_draw_grid_line (eti, cr, style, xd, y_offset, xd, yd - 1);
+			eti_draw_grid_line (eti, cr, style, xd, y_offset, xd, yd - 1);
 
 			/*
 			 * This looks wierd, but it is to draw the last line

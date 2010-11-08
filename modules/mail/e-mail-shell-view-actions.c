@@ -447,7 +447,7 @@ action_mail_folder_rename_cb (GtkAction *action,
 	em_folder_tree_edit_selected (folder_tree);
 }
 
-static gchar*
+static gchar *
 get_message_checksum (CamelFolder *folder, const gchar *uid)
 {
 	static const GChecksumType duplicate_csum = G_CHECKSUM_SHA256;
@@ -494,7 +494,7 @@ message_is_duplicated (GHashTable *messages, guint64 id, gchar *digest)
 	if (!hash_digest)
 		return FALSE;
 
-	return g_str_equal (digest, hash_digest); 
+	return g_str_equal (digest, hash_digest);
 }
 
 static void
@@ -520,7 +520,7 @@ action_mail_folder_remove_duplicates (GtkAction *action, EMailShellView *mail_sh
 	folder = message_list->folder;
 
 	messages = g_hash_table_new_full (g_int_hash, g_int_equal, g_free, g_free);
-	dups = g_ptr_array_new();
+	dups = g_ptr_array_new ();
 
 	for (i = 0; i < uids->len; i++) {
 		CamelMessageInfo *msg_info = camel_folder_get_message_info (folder, uids->pdata[i]);

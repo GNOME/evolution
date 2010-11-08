@@ -1330,7 +1330,7 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
         gdk_cairo_set_source_color (cr, &style->text[GTK_STATE_ACTIVE]);
 	for (day = 0; day < 7; day++) {
 		layout_set_day_text (calitem, layout, day_index);
-                cairo_move_to (cr, 
+                cairo_move_to (cr,
                                text_x - calitem->day_widths[day_index],
                                text_y);
                 pango_cairo_show_layout (cr, layout);

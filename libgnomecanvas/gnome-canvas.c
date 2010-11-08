@@ -2729,7 +2729,7 @@ gnome_canvas_paint_rect (GnomeCanvas *canvas, gint x0, gint y0, gint x1, gint y1
         /* Copy the pixmap to the window and clean up */
         cr = gdk_cairo_create (bin_window);
 
-        gdk_cairo_set_source_pixmap (cr, pixmap, 
+        gdk_cairo_set_source_pixmap (cr, pixmap,
                                      draw_x1 + canvas->zoom_xofs,
                                      draw_y1 + canvas->zoom_yofs);
         cairo_paint (cr);
@@ -2772,7 +2772,7 @@ gnome_canvas_expose (GtkWidget *widget, GdkEventExpose *event)
 		rect.height = rects[i].height;
 
 		if (canvas->need_update) {
-			gnome_canvas_request_redraw (canvas, 
+			gnome_canvas_request_redraw (canvas,
                                                      rect.x, rect.y,
                                                      rect.x + rect.width,
                                                      rect.y + rect.height);

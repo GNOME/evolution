@@ -53,7 +53,7 @@ struct _GnomeCanvasRectPrivate {
 	gdouble miterlimit;		/* Miter limit */
 
         guint n_dash;                   /* Number of elements in dashing pattern */
-	gdouble *dash;     		/* Dashing pattern */
+	gdouble *dash;		/* Dashing pattern */
         gdouble dash_offset;            /* Dashing offset */
 };
 
@@ -376,7 +376,7 @@ gnome_canvas_rect_update (GnomeCanvasItem *item,
                           gint flags)
 {
 	GnomeCanvasRect *rect;
-	double x1, x2, y1, y2;
+	gdouble x1, x2, y1, y2;
 
 	rect = GNOME_CANVAS_RECT (item);
 

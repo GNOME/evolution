@@ -329,13 +329,13 @@ week_view_draw_time (EWeekView *week_view,
 		/* Draw the hour. */
 		if (hour_to_display < 10) {
 			pango_layout_set_text (layout, buffer + 1, 1);
-                        cairo_move_to (cr, 
+                        cairo_move_to (cr,
                                        time_x + week_view->digit_width,
                                        time_y_normal_font);
                         pango_cairo_show_layout (cr, layout);
 		} else {
 			pango_layout_set_text (layout, buffer, 2);
-                        cairo_move_to (cr, 
+                        cairo_move_to (cr,
                                        time_x,
                                        time_y_normal_font);
                         pango_cairo_show_layout (cr, layout);
@@ -346,7 +346,7 @@ week_view_draw_time (EWeekView *week_view,
 		/* Draw the start minute, in the small font. */
 		pango_layout_set_font_description (layout, week_view->small_font_desc);
 		pango_layout_set_text (layout, buffer + 3, 2);
-                cairo_move_to (cr, 
+                cairo_move_to (cr,
                                time_x,
                                time_y_small_font);
                 pango_cairo_show_layout (cr, layout);
@@ -359,7 +359,7 @@ week_view_draw_time (EWeekView *week_view,
 		if (!e_cal_model_get_use_24_hour_format (model)) {
 			pango_layout_set_text (layout, suffix, -1);
 
-                        cairo_move_to (cr, 
+                        cairo_move_to (cr,
                                        time_x,
                                        time_y_normal_font);
                         pango_cairo_show_layout (cr, layout);
@@ -1051,9 +1051,9 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
                         cairo_rectangle (cr,
                                          x1, y1,
-			                 x2 - x1 - E_WEEK_VIEW_EVENT_R_PAD
-				          - E_WEEK_VIEW_EVENT_BORDER_WIDTH + 1,
-			                 y2 - y1 + 1);
+					 x2 - x1 - E_WEEK_VIEW_EVENT_R_PAD
+					  - E_WEEK_VIEW_EVENT_BORDER_WIDTH + 1,
+					 y2 - y1 + 1);
                         cairo_clip (cr);
 
 			week_view_draw_time (

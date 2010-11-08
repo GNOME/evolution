@@ -474,7 +474,7 @@ static time_t
 utc_to_user_zone (time_t utc_time,
                   icaltimezone *zone)
 {
-	if (!zone || (int) utc_time == -1)
+	if (!zone || (gint) utc_time == -1)
 		return utc_time;
 
 	return icaltime_as_timet (
