@@ -179,13 +179,10 @@ libetable_la_LIBADD =						\
 	$(GNOME_PLATFORM_LIBS)
 
 icons = 			\
-	add-col.xpm		\
 	arrow-down.xpm		\
 	arrow-up.xpm		\
-	add-col.xpm		\
 	check-empty.xpm		\
 	check-filled.xpm	\
-	remove-col.xpm		\
 	tree-expanded.xpm	\
 	tree-unexpanded.xpm
 
