@@ -21,8 +21,14 @@
 #ifndef __GOOGLE_CONTACTS_SOURCE_H__
 #define __GOOGLE_CONTACTS_SOURCE_H__
 
+#define GOOGLE_BASE_URI "google://"
+
 GtkWidget *plugin_google_contacts (EPlugin                    *epl,
                                    EConfigHookItemFactoryData *data);
+
+gpointer plugin_google_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data);
+
+gpointer check_username_filled (ESource *source);
 
 void       ensure_google_contacts_source_group (void);
 
