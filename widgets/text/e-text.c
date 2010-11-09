@@ -1194,8 +1194,7 @@ _get_tep (EText *text)
 }
 
 static void
-draw_pango_rectangle (GdkDrawable *drawable,
-                      cairo_t *cr,
+draw_pango_rectangle (cairo_t *cr,
                       gint x1,
                       gint y1,
                       PangoRectangle rect)
@@ -1276,12 +1275,11 @@ show_pango_rectangle (EText *text, PangoRectangle rect)
 
 /* Draw handler for the text item */
 static void
-e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
+e_text_draw (GnomeCanvasItem *item, cairo_t *cr,
 	     gint x, gint y, gint width, gint height)
 {
 	EText *text;
 	gint xpos, ypos;
-	cairo_t *cr;
 	GnomeCanvas *canvas;
 	GtkWidget *widget;
 	GdkWindow *window;
@@ -1294,7 +1292,8 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	state = gtk_widget_get_state (widget);
 	style = gtk_widget_get_style (widget);
 	window = gtk_widget_get_window (widget);
-        cr = gdk_cairo_create (drawable);
+
+	cairo_save (cr);
 
 	if (text->draw_background || text->draw_button) {
 		gdk_cairo_set_source_color (cr, &style->fg[state]);
@@ -1319,17 +1318,17 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 		if (text->draw_borders) {
 
-			gtk_paint_shadow (style, drawable,
+			gtk_paint_shadow (style, cr,
 					  GTK_STATE_NORMAL, GTK_SHADOW_IN,
-					  NULL, widget, "entry",
+					  widget, "entry",
 					  thisx, thisy, thiswidth, thisheight);
 
 		}
 
 		if (text->draw_background) {
-			gtk_paint_flat_box (style, drawable,
+			gtk_paint_flat_box (style, cr,
 					    state, GTK_SHADOW_NONE,
-					    NULL, widget, "entry_bg",
+					    widget, "entry_bg",
 					    thisx + style->xthickness,
 					    thisy + style->ythickness,
 					    thiswidth - style->xthickness * 2,
@@ -1363,12 +1362,6 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			guint border_width;
 			gint thisx, thisy, thisheight, thiswidth;
 			gint default_spacing;
-			GdkRectangle area;
-
-			area.x = 0;
-			area.y = 0;
-			area.width = width;
-			area.height = height;
 
 			gtk_widget_get_allocation (widget, &allocation);
 			relief = gtk_button_get_relief (GTK_BUTTON (widget));
@@ -1390,9 +1383,9 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			if (gtk_widget_has_default (widget) &&
 			    relief == GTK_RELIEF_NORMAL)
 				{
-					gtk_paint_box (style, drawable,
+					gtk_paint_box (style, cr,
 						       GTK_STATE_NORMAL, GTK_SHADOW_IN,
-						       &area, widget, "buttondefault",
+						       widget, "buttondefault",
 						       thisx + xoff, thisy + yoff, thiswidth, thisheight);
 				}
 
@@ -1420,8 +1413,8 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			if ((relief != GTK_RELIEF_NONE) ||
 			    ((state != GTK_STATE_NORMAL) &&
 			     (state != GTK_STATE_INSENSITIVE)))
-			gtk_paint_box (style, drawable, state,
-				       shadow_type, &area, widget, "button",
+			gtk_paint_box (style, cr, state,
+				       shadow_type, widget, "button",
 				       thisx + xoff, thisy + yoff,
 				       thiswidth, thisheight);
 
@@ -1431,8 +1424,8 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				thiswidth += 2;
 				thisheight += 2;
 
-				gtk_paint_focus (style, window, state,
-						 &area, widget, "button",
+				gtk_paint_focus (style, cr, state,
+						 widget, "button",
 						 thisx + xoff, thisy + yoff,
 						 thiswidth - 1, thisheight - 1);
 			}
@@ -1450,7 +1443,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		reset_layout (text);
 
 	if (!pango_layout_get_text (text->layout)) {
-		cairo_destroy (cr);
+		cairo_restore (cr);
 		return;
 	}
 
@@ -1459,6 +1452,8 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	xpos = xpos - x + text->xofs;
 	ypos = ypos - y + text->yofs;
+
+	cairo_save (cr);
 
 	if (text->clip) {
                 cairo_rectangle (cr,
@@ -1513,17 +1508,18 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 					text->layout, offs - text->text +
 					text->preedit_len, &strong_pos,
 					&weak_pos);
-				draw_pango_rectangle (drawable, cr, xpos, ypos, strong_pos);
+				draw_pango_rectangle (cr, xpos, ypos, strong_pos);
 				if (strong_pos.x != weak_pos.x ||
 				    strong_pos.y != weak_pos.y ||
 				    strong_pos.width != weak_pos.width ||
 				    strong_pos.height != weak_pos.height)
-					draw_pango_rectangle (drawable, cr, xpos, ypos, weak_pos);
+					draw_pango_rectangle (cr, xpos, ypos, weak_pos);
 			}
 		}
 	}
 
-	cairo_destroy (cr);
+	cairo_restore (cr);
+	cairo_restore (cr);
 }
 
 /* Point handler for the text item */
