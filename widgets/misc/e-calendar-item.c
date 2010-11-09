@@ -56,19 +56,18 @@ static void e_calendar_item_set_property (GObject	 *object,
 					 const GValue	 *value,
 					 GParamSpec	 *pspec);
 static void e_calendar_item_realize	(GnomeCanvasItem *item);
-static void e_calendar_item_unrealize	(GnomeCanvasItem *item);
 static void e_calendar_item_unmap	(GnomeCanvasItem *item);
 static void e_calendar_item_update	(GnomeCanvasItem *item,
 					 const cairo_matrix_t *i2c,
 					 gint		  flags);
 static void e_calendar_item_draw	(GnomeCanvasItem *item,
-					 GdkDrawable	 *drawable,
+					 cairo_t	 *cr,
 					 gint		  x,
 					 gint		  y,
 					 gint		  width,
 					 gint		  height);
 static void e_calendar_item_draw_month	(ECalendarItem   *calitem,
-					 GdkDrawable	 *drawable,
+					 cairo_t	 *cr,
 					 gint		  x,
 					 gint		  y,
 					 gint		  width,
@@ -76,7 +75,7 @@ static void e_calendar_item_draw_month	(ECalendarItem   *calitem,
 					 gint		  row,
 					 gint		  col);
 static void e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
-					      GdkDrawable	*drawable,
+					      cairo_t		*cr,
 					      gint		 width,
 					      gint		 height,
 					      gint		 row,
@@ -248,7 +247,6 @@ e_calendar_item_class_init (ECalendarItemClass *class)
 
 	item_class = GNOME_CANVAS_ITEM_CLASS (class);
 	item_class->realize = e_calendar_item_realize;
-	item_class->unrealize = e_calendar_item_unrealize;
 	item_class->unmap = e_calendar_item_unmap;
 	item_class->update = e_calendar_item_update;
 	item_class->draw = e_calendar_item_draw;
@@ -854,22 +852,6 @@ e_calendar_item_realize		(GnomeCanvasItem *item)
 }
 
 static void
-e_calendar_item_unrealize	(GnomeCanvasItem *item)
-{
-	ECalendarItem *calitem;
-	GdkColormap *colormap;
-
-	calitem = E_CALENDAR_ITEM (item);
-
-	colormap = gtk_widget_get_colormap (GTK_WIDGET (item->canvas));
-
-	gdk_colormap_free_colors (colormap, calitem->colors, E_CALENDAR_ITEM_COLOR_LAST);
-
-	if (GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class)->unrealize)
-		(* GNOME_CANVAS_ITEM_CLASS (e_calendar_item_parent_class)->unrealize) (item);
-}
-
-static void
 e_calendar_item_unmap		(GnomeCanvasItem *item)
 {
 	ECalendarItem *calitem;
@@ -1021,7 +1003,7 @@ e_calendar_item_update		(GnomeCanvasItem *item,
  */
 static void
 e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
-				 GdkDrawable	 *drawable,
+				 cairo_t	 *cr,
 				 gint		  x,
 				 gint		  y,
 				 gint		  width,
@@ -1034,7 +1016,6 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
-	cairo_t *cr;
 	GdkColor base, bg;
 
 #if 0
@@ -1060,7 +1041,6 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 
 	base = style->base[GTK_STATE_NORMAL];
 	bg = style->bg[GTK_STATE_NORMAL];
-	cr = gdk_cairo_create (drawable);
 
 	/* Clear the entire background. */
 	cairo_save (cr);
@@ -1072,8 +1052,8 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 	cairo_restore (cr);
 
 	/* Draw the shadow around the entire item. */
-	gtk_paint_shadow (style, drawable, GTK_STATE_NORMAL, GTK_SHADOW_IN,
-			  NULL, NULL, "entry",
+	gtk_paint_shadow (style, cr, GTK_STATE_NORMAL, GTK_SHADOW_IN,
+			  NULL, "entry",
 			  calitem->x1 - x, calitem->y1 - y,
 			  calitem->x2 - calitem->x1 + 1,
 			  calitem->y2 - calitem->y1 + 1);
@@ -1096,9 +1076,9 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 		cairo_fill (cr);
 		cairo_restore (cr);
 
-		gtk_paint_shadow (style, drawable,
+		gtk_paint_shadow (style, cr,
 				  GTK_STATE_NORMAL, GTK_SHADOW_OUT,
-				  NULL, NULL, "calendar-header",
+				  NULL, "calendar-header",
 				  calitem->x1 + xthickness - x, row_y - y,
 				  calitem->x2 - calitem->x1 + 1
 				  - xthickness * 2,
@@ -1108,9 +1088,8 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 			if (col != 0) {
 				col_x = calitem->x1 + calitem->x_offset
 					+ calitem->month_width * col;
-				gtk_paint_vline (style, drawable,
-						 GTK_STATE_NORMAL,
-						 NULL, NULL,
+				gtk_paint_vline (style, cr,
+						 GTK_STATE_NORMAL, NULL,
 						 "calendar-separator",
 						 row_y + ythickness + 1 - y,
 						 row_y + bar_height
@@ -1118,7 +1097,7 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 						 col_x - 1 - x);
 			}
 
-			e_calendar_item_draw_month (calitem, drawable, x, y,
+			e_calendar_item_draw_month (calitem, cr, x, y,
 						    width, height, row, col);
 		}
 
@@ -1126,7 +1105,6 @@ e_calendar_item_draw		(GnomeCanvasItem *canvas_item,
 	}
 
 	pango_font_metrics_unref (font_metrics);
-	cairo_destroy (cr);
 }
 
 static void
@@ -1141,7 +1119,7 @@ layout_set_day_text (ECalendarItem *calitem, PangoLayout *layout, gint day_index
 
 static void
 e_calendar_item_draw_month	(ECalendarItem   *calitem,
-				 GdkDrawable	 *drawable,
+				 cairo_t	 *cr,
 				 gint		  x,
 				 gint		  y,
 				 gint		  width,
@@ -1165,7 +1143,6 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
-	cairo_t *cr;
 
 #if 0
 	g_print ("In e_calendar_item_draw_month: %i,%i %ix%i row:%i col:%i\n",
@@ -1174,8 +1151,6 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	item = GNOME_CANVAS_ITEM (calitem);
 	widget = GTK_WIDGET (item->canvas);
 	style = gtk_widget_get_style (widget);
-
-	cr = gdk_cairo_create (drawable);
 
 	/* Set up Pango prerequisites */
 	font_desc = calitem->font_desc;
@@ -1205,10 +1180,8 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 
 	/* Just return if the month is outside the given area. */
 	if (month_x >= width || month_x + calitem->month_width <= 0
-	    || month_y >= height || month_y + calitem->month_height <= 0) {
-		cairo_destroy (cr);
+	    || month_y >= height || month_y + calitem->month_height <= 0)
 		return;
-	}
 
 	month = calitem->month + row * calitem->cols + col;
 	year = calitem->year + month / 12;
@@ -1281,12 +1254,13 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 
 	if (clip_width <= 0 || clip_height <= 0) {
 		g_object_unref (layout);
-		cairo_destroy (cr);
 		return;
 	}
 
 	clip_rect.width = clip_width;
 	clip_rect.height = clip_height;
+
+	cairo_save (cr);
 
         gdk_cairo_rectangle (cr, &clip_rect);
         cairo_clip (cr);
@@ -1326,6 +1300,7 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 		text_x += (7-1) * calitem->cell_width;
         gdk_cairo_set_source_color (cr, &style->text[GTK_STATE_ACTIVE]);
 	for (day = 0; day < 7; day++) {
+		cairo_save (cr);
 		layout_set_day_text (calitem, layout, day_index);
                 cairo_move_to (cr,
                                text_x - calitem->day_widths[day_index],
@@ -1336,6 +1311,7 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 		day_index++;
 		if (day_index == 7)
 			day_index = 0;
+		cairo_restore (cr);
 	}
 
 	/* Draw the rectangle around the week number. */
@@ -1349,11 +1325,11 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	}
 
 	e_calendar_item_draw_day_numbers (
-		calitem, drawable, width, height, row, col,
+		calitem, cr, width, height, row, col,
 		year, month, start_weekday, cells_x, cells_y);
 
 	g_object_unref (layout);
-	cairo_destroy (cr);
+	cairo_restore (cr);
 }
 
 static const gchar *
@@ -1386,7 +1362,7 @@ get_digit_fomat ()
 
 static void
 e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
-				  GdkDrawable	*drawable,
+				  cairo_t	*cr,
 				  gint		 width,
 				  gint		 height,
 				  gint		 row,
@@ -1418,13 +1394,10 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
-	cairo_t *cr;
 
 	item = GNOME_CANVAS_ITEM (calitem);
 	widget = GTK_WIDGET (item->canvas);
 	style = gtk_widget_get_style (widget);
-
-	cr = gdk_cairo_create (drawable);
 
 	/* Set up Pango prerequisites */
 	font_desc = calitem->font_desc;
@@ -1530,7 +1503,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 			gdk_cairo_set_source_color (cr, &style->text[GTK_STATE_ACTIVE]);
 			pango_layout_set_font_description (layout, font_desc);
 			pango_layout_set_text (layout, buffer, num_chars);
-			cairo_translate (cr, text_x, text_y);
+			cairo_move_to (cr, text_x, text_y);
 			pango_cairo_update_layout (cr, layout);
 			pango_cairo_show_layout (cr, layout);
 			cairo_restore (cr);
@@ -1665,7 +1638,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 
 				pango_layout_set_font_description (layout, font_desc);
 				pango_layout_set_text (layout, buffer, num_chars);
-				cairo_translate (cr, day_x, day_y);
+				cairo_move_to (cr, day_x, day_y);
 				pango_cairo_update_layout (cr, layout);
 				pango_cairo_show_layout (cr, layout);
 				cairo_restore (cr);
@@ -1702,7 +1675,6 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 	g_object_unref (layout);
 
 	pango_font_metrics_unref (font_metrics);
-	cairo_destroy (cr);
 }
 
 gint
