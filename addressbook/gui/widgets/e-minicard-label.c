@@ -33,9 +33,6 @@
 #include <misc/e-canvas-utils.h>
 #include <gdk/gdkkeysyms.h>
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 static void e_minicard_label_init		(EMinicardLabel		 *card);
 static void e_minicard_label_class_init	(EMinicardLabelClass	 *klass);
 static void e_minicard_label_set_property  (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);

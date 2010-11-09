@@ -47,9 +47,6 @@
 #include "e-contact-list-model.h"
 #include "eab-contact-merging.h"
 
-/* backward-compatibility cruft */
-#include <e-util/gtk-compat.h>
-
 #define E_CONTACT_LIST_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CONTACT_LIST_EDITOR, EContactListEditorPrivate))

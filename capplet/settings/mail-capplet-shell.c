@@ -42,9 +42,6 @@
 #include <mail/mail-mt.h>
 #include <mail/e-mail-store.h>
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 enum {
 	CTRL_W_PRESSED,
 	CTRL_Q_PRESSED,

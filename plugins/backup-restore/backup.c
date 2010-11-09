@@ -709,9 +709,6 @@ main (gint argc, gchar **argv)
 							  GTK_RESPONSE_REJECT,
 							  NULL);
 
-#if !GTK_CHECK_VERSION(2,90,7)
-		g_object_set (progress_dialog, "has-separator", FALSE, NULL);
-#endif
 		gtk_container_set_border_width (GTK_CONTAINER (progress_dialog), 12);
 
 		action_area = gtk_dialog_get_action_area (

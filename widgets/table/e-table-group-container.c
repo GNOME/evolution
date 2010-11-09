@@ -39,9 +39,6 @@
 #include "e-table-item.h"
 #include "e-table-sorting-utils.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define TITLE_HEIGHT         16
 
 /* workaround for avoiding API breakage */

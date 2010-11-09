@@ -38,9 +38,6 @@
 #include "e-cell-toggle.h"
 #include "e-table-item.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_CELL_TOGGLE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CELL_TOGGLE, ECellTogglePrivate))

@@ -25,9 +25,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <e-util/e-util.h>
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define SWITCH_PAGE_INTERVAL 250
 
 #define E_PREFERENCES_WINDOW_GET_PRIVATE(obj) \

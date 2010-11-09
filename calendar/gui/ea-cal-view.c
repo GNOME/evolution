@@ -28,9 +28,6 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 
-/* backward-compatibility cruft */
-#include <e-util/gtk-compat.h>
-
 static void ea_cal_view_class_init (EaCalViewClass *klass);
 
 static AtkObject* ea_cal_view_get_parent (AtkObject *accessible);

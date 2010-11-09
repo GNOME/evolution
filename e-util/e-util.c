@@ -57,14 +57,6 @@
 
 #include "e-util.h"
 #include "e-util-private.h"
-#include "gtk-compat.h"
-
-#if !GTK_CHECK_VERSION (2,23,0)
-	#undef GtkComboBoxText
-	ENSURE_GTK_COMBO_BOX_TEXT_TYPE
-#else
-	ENSURE_GTK_COMBO_BOX_ENTRY_TYPE
-#endif
 
 /**
  * e_get_gnome2_user_dir:

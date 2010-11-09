@@ -33,9 +33,6 @@
 #include <e-util/e-extensible.h>
 #include <e-util/e-util-private.h>
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_IMPORT_ASSISTANT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_IMPORT_ASSISTANT, EImportAssistantPrivate))

@@ -27,9 +27,6 @@
 #include "e-combo-cell-editable.h"
 #include "e-cell-renderer-combo.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 enum {
 	PROP_0,
 	PROP_LIST

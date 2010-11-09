@@ -29,9 +29,6 @@
 #include "e-util/e-util.h"
 #include "e-buffer-tagger.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 enum EBufferTaggerState
 {
 	E_BUFFER_TAGGER_STATE_NONE                = 0,

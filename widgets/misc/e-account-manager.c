@@ -25,9 +25,6 @@
 #include <gdk/gdkkeysyms.h>
 #include "e-account-tree-view.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_ACCOUNT_MANAGER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ACCOUNT_MANAGER, EAccountManagerPrivate))

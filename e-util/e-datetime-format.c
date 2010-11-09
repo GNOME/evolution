@@ -25,9 +25,6 @@
 #include "e-datetime-format.h"
 #include "e-util.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define KEYS_FILENAME "datetime-formats.ini"
 #define KEYS_GROUPNAME "formats"
 
@@ -497,6 +494,7 @@ unref_setup_keyfile (gpointer ptr)
 void
 e_datetime_format_add_setup_widget (GtkWidget *table, gint row, const gchar *component, const gchar *part, DTFormatKind kind, const gchar *caption)
 {
+	GtkListStore *store;
 	GtkWidget *label, *combo, *preview, *align;
 	gchar *key;
 
@@ -508,23 +506,15 @@ e_datetime_format_add_setup_widget (GtkWidget *table, gint row, const gchar *com
 	key = gen_key (component, part, kind);
 
 	label = gtk_label_new_with_mnemonic (caption ? caption : _("Format:"));
-#if GTK_CHECK_VERSION(2,23,0)
-	/* FIXME Rewrite this when removing the version check. */
-	{
-		GtkListStore *store;
 
-		store = gtk_list_store_new (1, G_TYPE_STRING);
-		combo = g_object_new (
-			GTK_TYPE_COMBO_BOX_TEXT,
-			"model", store,
-			"has-entry", TRUE,
-			"entry-text-column", 0,
-			NULL);
-		g_object_unref (store);
-	}
-#else
-	combo = gtk_combo_box_entry_new_text ();
-#endif
+	store = gtk_list_store_new (1, G_TYPE_STRING);
+	combo = g_object_new (
+		GTK_TYPE_COMBO_BOX_TEXT,
+		"model", store,
+		"has-entry", TRUE,
+		"entry-text-column", 0,
+		NULL);
+	g_object_unref (store);
 
 	fill_combo_formats (combo, key, kind);
 	gtk_label_set_mnemonic_widget ((GtkLabel *)label, combo);

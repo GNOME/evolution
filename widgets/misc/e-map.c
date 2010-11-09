@@ -33,9 +33,6 @@
 
 #include "e-map.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_MAP_TWEEN_TIMEOUT_MSECS 25
 #define E_MAP_TWEEN_DURATION_MSECS 150
 

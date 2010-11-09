@@ -264,9 +264,6 @@ attachment_handler_run_dialog (GtkWindow *parent,
 		GTK_DIALOG (dialog), widget, GTK_RESPONSE_OK);
 	gtk_widget_show (widget);
 
-#if !GTK_CHECK_VERSION(2,90,7)
-	g_object_set (dialog, "has-separator", FALSE, NULL);
-#endif
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 300, 400);
 
 	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));

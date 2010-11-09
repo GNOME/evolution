@@ -35,9 +35,6 @@
 #include "e-filter-rule.h"
 #include "e-rule-context.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_FILTER_RULE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_FILTER_RULE, EFilterRulePrivate))

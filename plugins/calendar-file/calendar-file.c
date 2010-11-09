@@ -27,9 +27,6 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 gint e_plugin_lib_enable (EPlugin *ep, gint enable);
 
 gint

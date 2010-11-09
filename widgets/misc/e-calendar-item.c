@@ -38,9 +38,6 @@
 #include <e-util/e-util.h>
 #include <e-util/e-extensible.h>
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 static const gint e_calendar_item_days_in_month[12] = {
 	31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
 };

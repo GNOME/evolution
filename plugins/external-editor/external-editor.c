@@ -47,9 +47,6 @@
 
 #include <gconf/gconf-client.h>
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define d(x)
 
 #define EDITOR_GCONF_KEY_COMMAND "/apps/evolution/eplugin/external-editor/editor-command"

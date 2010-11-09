@@ -61,9 +61,6 @@
 #include "goto.h"
 #include "misc.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_CALENDAR_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_CALENDAR_VIEW, ECalendarViewPrivate))

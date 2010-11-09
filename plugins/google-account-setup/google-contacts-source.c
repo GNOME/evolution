@@ -37,9 +37,6 @@
 
 #include "google-contacts-source.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 void
 ensure_google_contacts_source_group (void)
 {

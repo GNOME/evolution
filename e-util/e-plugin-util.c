@@ -25,9 +25,6 @@
 
 #include "e-plugin-util.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 /* name of a property on a widget with corresponding property name for an ESource */
 #define EPU_SP_NAME "e-source-property-name"
 

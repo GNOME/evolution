@@ -43,9 +43,6 @@
 #include <e-util/e-extensible.h>
 #include "e-calendar.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_DATE_EDIT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_DATE_EDIT, EDateEditPrivate))
@@ -571,17 +568,8 @@ create_children			(EDateEdit	*dedit)
 		"widget \"*.e-dateedit-timecombo\" style \"e-dateedit-timecombo-style\"");
 
 	time_store = gtk_list_store_new (1, G_TYPE_STRING);
-#if GTK_CHECK_VERSION(2,23,0)
-	priv->time_combo = g_object_new (
-		GTK_TYPE_COMBO_BOX_TEXT,
-		"model", time_store,
-		"has-entry", TRUE,
-		"entry-text-column", 0,
-		NULL);
-#else
-	priv->time_combo = gtk_combo_box_entry_new_with_model (
-		GTK_TREE_MODEL (time_store), 0);
-#endif
+	priv->time_combo = gtk_combo_box_new_with_model_and_entry (
+		GTK_TREE_MODEL (time_store));
 	g_object_unref (time_store);
 
 	child = gtk_bin_get_child (GTK_BIN (priv->time_combo));

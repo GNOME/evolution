@@ -34,9 +34,6 @@
 #include "gnome-canvas-rich-text.h"
 #include "gnome-canvas-i18n.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 struct _GnomeCanvasRichTextPrivate {
 	GtkTextLayout *layout;
 	GtkTextBuffer *buffer;

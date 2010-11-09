@@ -34,9 +34,6 @@
 #include "e-util/e-util-private.h"
 #include <glib/gi18n.h>
 
-/* backend-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 typedef struct dropdown_data dropdown_data;
 typedef enum {
 	E_CONTACT_MERGING_ADD,

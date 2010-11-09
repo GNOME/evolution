@@ -53,9 +53,6 @@
 
 #include "e-contact-editor-fullname.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define EMAIL_SLOTS   4
 #define PHONE_SLOTS   8
 #define IM_SLOTS      4

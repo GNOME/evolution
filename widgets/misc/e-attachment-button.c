@@ -23,9 +23,6 @@
 
 #include "e-attachment-button.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_ATTACHMENT_BUTTON_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ATTACHMENT_BUTTON, EAttachmentButtonPrivate))

@@ -54,9 +54,6 @@
 #include "e-send-options-utils.h"
 #include "memo-page.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define MEMO_PAGE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), TYPE_MEMO_PAGE, MemoPagePrivate))

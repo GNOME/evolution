@@ -56,9 +56,6 @@
 #include "e-cell-text.h"
 #include "e-table-item.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define d(x)
 #define DO_SELECTION 1
 #define VIEW_TO_CELL(view) E_CELL_TEXT (((ECellView *)view)->ecell)
@@ -770,7 +767,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 	if (edit && edit->view_col == view_col && edit->row == row) {
 		if (edit->selection_start != edit->selection_end) {
-			GdkRegion *clip_region;
+			cairo_region_t *clip_region;
                         gint indices[2];
                         GtkStateType state;
 
@@ -784,7 +781,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
                                                                         indices, 1);
                         gdk_cairo_region (cr, clip_region);
                         cairo_clip (cr);
-			gdk_region_destroy (clip_region);
+			cairo_region_destroy (clip_region);
 
                         gdk_cairo_set_source_color (cr, &style->base[state]);
                         cairo_paint (cr);

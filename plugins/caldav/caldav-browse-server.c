@@ -40,7 +40,6 @@
 
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-account-utils.h>
-#include <e-util/gtk-compat.h>
 
 #include "caldav-browse-server.h"
 

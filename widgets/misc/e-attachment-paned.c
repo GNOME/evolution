@@ -30,9 +30,6 @@
 #include "e-attachment-icon-view.h"
 #include "e-attachment-tree-view.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_ATTACHMENT_PANED_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ATTACHMENT_PANED, EAttachmentPanedPrivate))

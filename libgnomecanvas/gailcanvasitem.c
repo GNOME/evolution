@@ -24,9 +24,6 @@
 #include "gailcanvasitem.h"
 #include <libgail-util/gailmisc.h>
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 static void       gail_canvas_item_initialize               (AtkObject         *obj,
 							     gpointer          data);
 static AtkObject* gail_canvas_item_get_parent               (AtkObject         *obj);

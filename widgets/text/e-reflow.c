@@ -37,9 +37,6 @@
 #include "e-reflow.h"
 #include "misc/e-selection-model-simple.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 static gboolean e_reflow_event (GnomeCanvasItem *item, GdkEvent *event);
 static void e_reflow_realize (GnomeCanvasItem *item);
 static void e_reflow_unrealize (GnomeCanvasItem *item);

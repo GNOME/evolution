@@ -40,9 +40,6 @@
 #include "mail/em-format-html-display.h"
 #include "mail/message-list.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_MAIL_BROWSER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_BROWSER, EMailBrowserPrivate))

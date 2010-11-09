@@ -32,9 +32,6 @@
 #include "gal-a11y-e-cell-popup.h"
 #include "gal-a11y-e-cell-registry.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 static AtkObjectClass *parent_class = NULL;
 #define PARENT_TYPE (gal_a11y_e_cell_get_type ())
 

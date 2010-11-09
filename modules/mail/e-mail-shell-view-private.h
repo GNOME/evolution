@@ -66,9 +66,6 @@
 #include "e-mail-shell-sidebar.h"
 #include "e-mail-shell-view-actions.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_MAIL_SHELL_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_SHELL_VIEW, EMailShellViewPrivate))

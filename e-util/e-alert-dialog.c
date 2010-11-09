@@ -129,10 +129,6 @@ alert_dialog_constructed (GObject *object)
 	action_area = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
-#if !GTK_CHECK_VERSION(2,90,7)
-	g_object_set (dialog, "has-separator", FALSE, NULL);
-#endif
-
 	gtk_widget_ensure_style (GTK_WIDGET (dialog));
 	gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
 	gtk_container_set_border_width (GTK_CONTAINER (content_area), 0);
