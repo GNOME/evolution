@@ -306,9 +306,6 @@ e_attachment_dialog_init (EAttachmentDialog *dialog)
 	gtk_window_set_title (
 		GTK_WINDOW (dialog), _("Attachment Properties"));
 
-#if !GTK_CHECK_VERSION(2,90,7)
-	g_object_set (dialog, "has-separator", FALSE, NULL);
-#endif
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
 	container = gtk_dialog_get_content_area (GTK_DIALOG (dialog));

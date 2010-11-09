@@ -29,9 +29,6 @@
 
 #include "e-selection-model.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 G_DEFINE_TYPE (
 	ESelectionModel,
 	e_selection_model,

@@ -50,9 +50,6 @@
 #include "arrow-up.xpm"
 #include "arrow-down.xpm"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 enum {
 	BUTTON_PRESSED,
 	LAST_SIGNAL

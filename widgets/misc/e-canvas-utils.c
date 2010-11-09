@@ -23,9 +23,6 @@
 
 #include "e-canvas-utils.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 void
 e_canvas_item_move_absolute (GnomeCanvasItem *item, gdouble dx, gdouble dy)
 {

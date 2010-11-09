@@ -60,9 +60,6 @@
 #include "e-util/e-alert-dialog.h"
 #include "e-util/e-ui-manager.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define COMP_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), TYPE_COMP_EDITOR, CompEditorPrivate))

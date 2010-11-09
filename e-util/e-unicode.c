@@ -39,9 +39,6 @@
 #include <glib/gi18n.h>
 #include "e-unicode.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define d(x)
 
 #define FONT_TESTING

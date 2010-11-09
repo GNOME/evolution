@@ -68,9 +68,6 @@
 #include "mail-tools.h"
 #include "message-list.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #if HAVE_CLUTTER
 #include <clutter/clutter.h>
 #include <mx/mx.h>

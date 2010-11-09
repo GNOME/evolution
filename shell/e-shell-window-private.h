@@ -49,9 +49,6 @@
 #include <e-shell-window-actions.h>
 #include <e-shell-utils.h>
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_SHELL_WINDOW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_WINDOW, EShellWindowPrivate))

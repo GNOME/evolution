@@ -46,9 +46,6 @@
 #include "e-meeting-list-view.h"
 #include "e-meeting-time-sel-item.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_MEETING_TIME_SELECTOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MEETING_TIME_SELECTOR, EMeetingTimeSelectorPrivate))

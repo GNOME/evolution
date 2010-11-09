@@ -117,9 +117,6 @@ mailto_handler_prompt (EMailtoHandler *extension)
 		GTK_STOCK_YES, GTK_RESPONSE_YES,
 		NULL);
 
-#if !GTK_CHECK_VERSION(2,90,7)
-	g_object_set (dialog, "has-separator", FALSE, NULL);
-#endif
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
 

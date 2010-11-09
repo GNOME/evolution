@@ -60,9 +60,6 @@
 #include "misc.h"
 #include <e-util/e-icon-factory.h>
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 /* The minimum amount of space wanted on each side of the date string. */
 #define E_DAY_VIEW_DATE_X_PAD	4
 

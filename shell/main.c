@@ -171,9 +171,6 @@ show_development_warning (void)
 	gtk_dialog_add_button (
 		GTK_DIALOG (warning_dialog),
 		GTK_STOCK_OK, GTK_RESPONSE_OK);
-#if !GTK_CHECK_VERSION(2,90,7)
-	g_object_set (warning_dialog, "has-separator", FALSE, NULL);
-#endif
 
 	action_area = gtk_dialog_get_action_area (GTK_DIALOG (warning_dialog));
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (warning_dialog));

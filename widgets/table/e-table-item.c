@@ -48,9 +48,6 @@
 #include "e-table-item.h"
 #include "e-table-subset.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 /* workaround for avoiding API breakage */
 #define eti_get_type e_table_item_get_type
 G_DEFINE_TYPE (ETableItem, eti, GNOME_TYPE_CANVAS_ITEM)

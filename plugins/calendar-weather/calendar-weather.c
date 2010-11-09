@@ -37,9 +37,6 @@
 #include <libgweather/gweather-xml.h>
 #undef GWEATHER_I_KNOW_THIS_IS_UNSTABLE
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 GtkWidget *e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *e_calendar_weather_refresh (EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data);

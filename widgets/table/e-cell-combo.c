@@ -68,9 +68,6 @@
 #include "e-cell-combo.h"
 #include "e-cell-text.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define d(x)
 
 /* The height to make the popup list if there aren't any items in it. */

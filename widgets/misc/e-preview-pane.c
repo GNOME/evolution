@@ -23,9 +23,6 @@
 
 #include <gdk/gdkkeysyms.h>
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_PREVIEW_PANE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_PREVIEW_PANE, EPreviewPanePrivate))

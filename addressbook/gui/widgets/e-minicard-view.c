@@ -36,9 +36,6 @@
 #include "e-util/e-util.h"
 #include "ea-addressbook.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 static void e_minicard_view_drag_data_get (GtkWidget *widget,
 					  GdkDragContext *context,
 					  GtkSelectionData *selection_data,

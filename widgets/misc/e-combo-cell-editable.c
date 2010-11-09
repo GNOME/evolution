@@ -25,9 +25,6 @@
 
 #include "e-combo-cell-editable.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 struct _EComboCellEditablePriv {
 	GtkEntry *entry;
 	GtkWidget *popup;

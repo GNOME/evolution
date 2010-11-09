@@ -40,9 +40,6 @@
 #include "e-calendar-view.h"
 #include "comp-util.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_DAY_VIEW_MAIN_ITEM_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_DAY_VIEW_MAIN_ITEM, EDayViewMainItemPrivate))
@@ -59,7 +56,7 @@ enum {
 static gpointer parent_class;
 
 static gboolean
-can_draw_in_region (GdkRegion *draw_region, gint x, gint y, gint width, gint height)
+can_draw_in_region (cairo_region_t *draw_region, gint x, gint y, gint width, gint height)
 {
 	GdkRectangle rect;
 
@@ -70,7 +67,8 @@ can_draw_in_region (GdkRegion *draw_region, gint x, gint y, gint width, gint hei
 	rect.width = width;
 	rect.height = height;
 
-	return gdk_region_rect_in (draw_region, &rect) != GDK_OVERLAP_RECTANGLE_OUT;
+	return cairo_region_contains_rectangle (draw_region, &rect) !=
+		CAIRO_REGION_OVERLAP_OUT;
 }
 
 static gboolean
@@ -95,7 +93,7 @@ day_view_main_item_draw_long_events_in_vbars (EDayViewMainItem *main_item,
                                               gint y,
                                               gint width,
                                               gint height,
-                                              GdkRegion *draw_region)
+                                              cairo_region_t *draw_region)
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
@@ -190,7 +188,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
                                    gint height,
                                    gint day,
                                    gint event_num,
-                                   GdkRegion *draw_region)
+                                   cairo_region_t *draw_region)
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
@@ -838,7 +836,7 @@ day_view_main_item_draw_day_events (EDayViewMainItem *main_item,
                                     gint width,
                                     gint height,
                                     gint day,
-                                    GdkRegion *draw_region)
+                                    cairo_region_t *draw_region)
 {
 	EDayView *day_view;
 	gint event_num;
@@ -861,7 +859,7 @@ day_view_main_item_draw_events_in_vbars (EDayViewMainItem *main_item,
                                          gint width,
                                          gint height,
                                          gint day,
-                                         GdkRegion *draw_region)
+                                         cairo_region_t *draw_region)
 {
 	EDayView *day_view;
 	EDayViewEvent *event;
@@ -1026,7 +1024,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	gint weekday;
 	cairo_t *cr;
 	gboolean today = FALSE;
-	GdkRegion *draw_region;
+	cairo_region_t *draw_region;
 	GdkRectangle rect;
 
 	cr = gdk_cairo_create (drawable);
@@ -1048,7 +1046,10 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 	rect.y = 0;
 	rect.width = width;
 	rect.height = height;
-	draw_region = gdk_region_rectangle (&rect);
+	if (rect.width > 0 && rect.height > 0)
+		draw_region = cairo_region_create_rectangle (&rect);
+	else
+		draw_region = cairo_region_create ();
 
 	/* Paint the background colors. */
 	work_day_start_y = e_day_view_convert_time_to_position (
@@ -1252,8 +1253,7 @@ day_view_main_item_draw (GnomeCanvasItem *canvas_item,
 		}
 		cairo_restore (cr);
 	}
-	cairo_destroy (cr);
-	gdk_region_destroy (draw_region);
+	cairo_region_destroy (draw_region);
 }
 
 static GnomeCanvasItem *

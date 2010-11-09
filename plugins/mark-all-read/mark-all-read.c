@@ -38,9 +38,6 @@
 #include <shell/e-shell-view.h>
 #include <shell/e-shell-window.h>
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define PRIMARY_TEXT \
 	N_("Also mark messages in subfolders?")
 #define SECONDARY_TEXT \
@@ -114,9 +111,6 @@ prompt_user (gboolean has_subfolders)
 	dialog = gtk_dialog_new ();
 	widget = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
 	gtk_widget_hide (widget);
-#if !GTK_CHECK_VERSION(2,90,7)
-	g_object_set (dialog, "has-separator", FALSE, NULL);
-#endif
 	gtk_window_set_title (GTK_WINDOW (dialog), "");
 	g_signal_connect (
 		dialog, "map",

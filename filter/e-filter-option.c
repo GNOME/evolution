@@ -36,9 +36,6 @@
 #include "e-filter-option.h"
 #include "e-filter-part.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 G_DEFINE_TYPE (
 	EFilterOption,
 	e_filter_option,

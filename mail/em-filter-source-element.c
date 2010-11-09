@@ -36,9 +36,6 @@
 
 #include "filter/e-filter-part.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 static void em_filter_source_element_class_init (EMFilterSourceElementClass *klass);
 static void em_filter_source_element_init (EMFilterSourceElement *fs);
 static void em_filter_source_element_finalize (GObject *obj);

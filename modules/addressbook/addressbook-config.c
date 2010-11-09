@@ -49,9 +49,6 @@
 
 #include "addressbook/gui/widgets/eab-config.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define d(x)
 
 #ifdef HAVE_LDAP

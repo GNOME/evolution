@@ -27,9 +27,6 @@
 #include <text/e-text.h>
 #include <glib/gi18n.h>
 
-/* backward-compatibility cruft */
-#include <e-util/gtk-compat.h>
-
 static void ea_week_view_class_init (EaWeekViewClass *klass);
 
 static G_CONST_RETURN gchar * ea_week_view_get_name (AtkObject *accessible);

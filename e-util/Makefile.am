@@ -136,7 +136,6 @@ libeutil_la_SOURCES =				\
 	e-util-private.h			\
 	e-xml-utils.c				\
 	gconf-bridge.c				\
-	gtk-compat.h				\
 	$(PLATFORM_SOURCES)
 
 libeutil_la_LDFLAGS = $(NO_UNDEFINED)

@@ -30,9 +30,6 @@
 #include "gal-a11y-e-tree.h"
 #include "gal-a11y-e-tree-factory.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define CS_CLASS(a11y) (G_TYPE_INSTANCE_GET_CLASS ((a11y), C_TYPE_STREAM, GalA11yETreeClass))
 static AtkObjectClass *parent_class;
 static GType parent_type;

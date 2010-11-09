@@ -197,9 +197,6 @@ mail_label_dialog_init (EMailLabelDialog *dialog)
 		GTK_DIALOG (dialog),
 		GTK_STOCK_OK, GTK_RESPONSE_OK);
 
-#if !GTK_CHECK_VERSION(2,90,7)
-	g_object_set (dialog, "has-separator", FALSE, NULL);
-#endif
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 
 	container = content_area;

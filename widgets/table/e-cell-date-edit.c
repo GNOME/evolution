@@ -48,9 +48,6 @@
 /* This depends on ECalendar which is why I didn't put it in gal. */
 #include <misc/e-calendar.h>
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 static void e_cell_date_edit_get_property	(GObject	*object,
 						 guint		 property_id,
 						 GValue		*value,

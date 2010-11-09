@@ -59,9 +59,6 @@
 #include <clutter-gtk/clutter-gtk.h>
 #endif
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_MAIL_READER_GET_PRIVATE(obj) \
 	((EMailReaderPrivate *) g_object_get_qdata \
 	(G_OBJECT (obj), quark_private))

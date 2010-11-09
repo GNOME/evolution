@@ -41,9 +41,6 @@
 #include "e-table-item.h"
 #include <gtk/gtk.h>
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_CELL_POPUP_ARROW_WIDTH	16
 #define E_CELL_POPUP_ARROW_XPAD		3
 #define E_CELL_POPUP_ARROW_YPAD		3

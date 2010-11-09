@@ -34,9 +34,6 @@
 #include <e-util/e-util.h>
 #include "weekday-picker.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define PADDING 2
 
 /* Private part of the WeekdayPicker structure */

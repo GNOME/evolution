@@ -35,9 +35,6 @@
 #include "e-util/e-util.h"
 #include "email-custom-header.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define d(x)
 #define GCONF_KEY_CUSTOM_HEADER "/apps/evolution/eplugin/email_custom_header/customHeader"
 

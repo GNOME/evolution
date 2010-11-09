@@ -28,9 +28,6 @@
 
 #include "e-contact-editor-fullname.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 static void fill_in_info (EContactEditorFullname *editor);
 static void extract_info (EContactEditorFullname *editor);
 
@@ -200,9 +197,6 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 	content_area = gtk_dialog_get_content_area (dialog);
 
 	gtk_widget_realize (GTK_WIDGET (e_contact_editor_fullname));
-#if !GTK_CHECK_VERSION(2,90,7)
-	g_object_set (dialog, "has-separator", FALSE, NULL);
-#endif
 	gtk_container_set_border_width (GTK_CONTAINER (action_area), 12);
 	gtk_container_set_border_width (GTK_CONTAINER (content_area), 0);
 

@@ -52,9 +52,6 @@
 #include "e-tree.h"
 #include "e-tree-table-adapter.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define COLUMN_HEADER_HEIGHT 16
 
 #define d(x)

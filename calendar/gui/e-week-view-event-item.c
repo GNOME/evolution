@@ -39,9 +39,6 @@
 
 #include <text/e-text.h>
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_WEEK_VIEW_EVENT_ITEM_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_WEEK_VIEW_EVENT_ITEM, EWeekViewEventItemPrivate))
@@ -63,7 +60,7 @@ enum {
 static gpointer parent_class;
 
 static gboolean
-can_draw_in_region (GdkRegion *draw_region,
+can_draw_in_region (cairo_region_t *draw_region,
                     gint x,
                     gint y,
                     gint width,
@@ -78,8 +75,8 @@ can_draw_in_region (GdkRegion *draw_region,
 	rect.width = width;
 	rect.height = height;
 
-	return gdk_region_rect_in (draw_region, &rect) !=
-		GDK_OVERLAP_RECTANGLE_OUT;
+	return cairo_region_contains_rectangle (draw_region, &rect) !=
+		CAIRO_REGION_OVERLAP_OUT;
 }
 
 static ECalendarViewPosition
@@ -395,7 +392,7 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
                                  gint icon_y,
                                  gint x2,
                                  gboolean right_align,
-                                 GdkRegion *draw_region)
+                                 cairo_region_t *draw_region)
 {
 	EWeekView *week_view;
 	EWeekViewEvent *event;
@@ -519,7 +516,7 @@ week_view_event_item_draw_triangle (EWeekViewEventItem *event_item,
                                     gint y,
                                     gint w,
                                     gint h,
-                                    GdkRegion *draw_region)
+                                    cairo_region_t *draw_region)
 {
 	ECalModel *model;
 	EWeekView *week_view;
@@ -731,7 +728,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 	guint16 red, green, blue;
 	gdouble radius, cx0, cy0, rect_height, rect_width;
 	gdouble cc = 65535.0;
-	GdkRegion *draw_region;
+	cairo_region_t *draw_region;
 	GdkRectangle rect;
 	const gchar *color_spec;
 
@@ -780,10 +777,13 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 	rect.y = 0;
 	rect.width = width;
 	rect.height = height;
-	draw_region = gdk_region_rectangle (&rect);
+	if (rect.width > 0 && rect.height > 0)
+		draw_region = cairo_region_create_rectangle (&rect);
+	else
+		draw_region = cairo_region_create ();
 
 	if (!can_draw_in_region (draw_region, x1, y1, x2 - x1, y2 - y1)) {
-		gdk_region_destroy (draw_region);
+		cairo_region_destroy (draw_region);
 		return;
 	}
 
@@ -1104,7 +1104,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 	}
 	cairo_destroy (cr);
 
-	gdk_region_destroy (draw_region);
+	cairo_region_destroy (draw_region);
 }
 
 static GnomeCanvasItem *

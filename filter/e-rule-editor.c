@@ -263,9 +263,6 @@ rule_add (GtkWidget *widget, ERuleEditor *editor)
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
-#if !GTK_CHECK_VERSION(2,90,7)
-	g_object_set (editor->dialog, "has-separator", FALSE, NULL);
-#endif
 
 	gtk_window_set_title ((GtkWindow *) editor->dialog, _("Add Rule"));
 	gtk_window_set_default_size (GTK_WINDOW (editor->dialog), 650, 400);
@@ -352,9 +349,6 @@ rule_edit (GtkWidget *widget, ERuleEditor *editor)
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
-#if !GTK_CHECK_VERSION(2,90,7)
-	g_object_set (editor->dialog, "has-separator", FALSE, NULL);
-#endif
 
 	gtk_window_set_title ((GtkWindow *) editor->dialog, _("Edit Rule"));
 	gtk_window_set_default_size (GTK_WINDOW (editor->dialog), 650, 400);
@@ -850,9 +844,6 @@ e_rule_editor_construct (ERuleEditor *editor,
 		G_CALLBACK (editor_response), editor);
 	rule_editor_set_source (editor, source);
 
-#if !GTK_CHECK_VERSION(2,90,7)
-	g_object_set (editor, "has-separator", FALSE, NULL);
-#endif
 	gtk_dialog_add_buttons ((GtkDialog *) editor,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,

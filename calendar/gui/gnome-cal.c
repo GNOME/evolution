@@ -68,9 +68,6 @@
 #include "e-memo-table.h"
 #include "e-task-table.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define d(x)
 
 /* Private part of the GnomeCalendar structure */

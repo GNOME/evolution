@@ -34,9 +34,6 @@
 #include "e-table-field-chooser.h"
 #include "e-table-field-chooser-item.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 static void e_table_field_chooser_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
 static void e_table_field_chooser_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static void e_table_field_chooser_dispose (GObject *object);

@@ -33,9 +33,6 @@
 #include "e-attachment-handler-image.h"
 #include "e-attachment-handler-sendto.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 enum {
 	UPDATE_ACTIONS,
 	LAST_SIGNAL

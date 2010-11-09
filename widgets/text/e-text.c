@@ -55,9 +55,6 @@
 
 #include "e-text.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 G_DEFINE_TYPE (EText, e_text, GNOME_TYPE_CANVAS_ITEM)
 
 #define BORDER_INDENT 3
@@ -1481,7 +1478,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	if (text->editing) {
 		if (text->selection_start != text->selection_end) {
-			GdkRegion *clip_region = gdk_region_new ();
+			cairo_region_t *clip_region = cairo_region_create ();
 			gint indices[2];
                         GtkStateType state;
 
@@ -1499,7 +1496,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
                                                                         indices, 1);
                         gdk_cairo_region (cr, clip_region);
                         cairo_clip (cr);
-			gdk_region_destroy (clip_region);
+			cairo_region_destroy (clip_region);
 
                         gdk_cairo_set_source_color (cr, &style->base[state]);
                         cairo_paint (cr);

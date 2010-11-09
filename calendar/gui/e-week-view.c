@@ -64,9 +64,6 @@
 /* Images */
 #include "art/jump.xpm"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_WEEK_VIEW_SMALL_FONT_PTSIZE 7
 
 #define E_WEEK_VIEW_JUMP_BUTTON_WIDTH	16

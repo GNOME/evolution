@@ -65,9 +65,6 @@
 #include "e-mail-local.h"
 #include "e-mail-session.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define d(x)
 
 #define EM_FOLDER_TREE_GET_PRIVATE(obj) \

@@ -39,9 +39,6 @@
 #include "e-table-header.h"
 #include "e-table-one.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 enum {
 	CURSOR_CHANGE,
 	STYLE_SET,

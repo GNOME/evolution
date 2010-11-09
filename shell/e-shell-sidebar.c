@@ -31,9 +31,6 @@
 #include <e-util/e-unicode.h>
 #include <shell/e-shell-view.h>
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_SIDEBAR, EShellSidebarPrivate))

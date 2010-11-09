@@ -33,9 +33,6 @@
 #include "e-util/e-util.h"
 #include "widgets/misc/e-dateedit.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 #define E_MAIL_TAG_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_TAG_EDITOR, EMailTagEditorPrivate))

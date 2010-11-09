@@ -50,9 +50,6 @@
 #include "em-junk.h"
 #include "em-config.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 enum {
 	HEADER_LIST_NAME_COLUMN, /* displayable name of the header (may be a translation) */
 	HEADER_LIST_ENABLED_COLUMN, /* is the header enabled? */
