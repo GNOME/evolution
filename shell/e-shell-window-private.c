@@ -314,7 +314,11 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	if (widget != NULL)
 		gtk_box_pack_start (box, widget, FALSE, FALSE, 0);
 
+#if GTK_CHECK_VERSION(2,90,7)
 	widget = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
+#else
+	widget = gtk_hpaned_new ();
+#endif
 	gtk_box_pack_start (box, widget, TRUE, TRUE, 0);
 	priv->content_pane = g_object_ref (widget);
 	gtk_widget_show (widget);
