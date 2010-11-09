@@ -42,8 +42,8 @@
 
 /* */
 
-#define E_MAP_GET_WIDTH(map) gtk_adjustment_get_upper((map)->priv->hadj)
-#define E_MAP_GET_HEIGHT(map) gtk_adjustment_get_upper((map)->priv->vadj)
+#define E_MAP_GET_WIDTH(map) gtk_adjustment_get_upper((map)->priv->hadjustment)
+#define E_MAP_GET_HEIGHT(map) gtk_adjustment_get_upper((map)->priv->vadjustment)
 
 /* Zoom state - keeps track of animation hacks */
 
@@ -79,8 +79,13 @@ struct _EMapPrivate {
 	gboolean frozen, smooth_zoom;
 
 	/* Adjustments for scrolling */
-	GtkAdjustment *hadj;
-	GtkAdjustment *vadj;
+	GtkAdjustment *hadjustment;
+	GtkAdjustment *vadjustment;
+
+	/* GtkScrollablePolicy needs to be checked when
+	 * driving the scrollable adjustment values */
+	guint hscroll_policy : 1;
+	guint vscroll_policy : 1;
 
 	/* Current scrolling offsets */
 	gint xofs, yofs;
@@ -99,6 +104,18 @@ struct _EMapPrivate {
 	guint tween_id;
 };
 
+/* Properties */
+
+enum {
+	PROP_0,
+
+	/* For scrollable interface */
+	PROP_HADJUSTMENT,
+	PROP_VADJUSTMENT,
+	PROP_HSCROLL_POLICY,
+	PROP_VSCROLL_POLICY
+};
+
 /* Internal prototypes */
 
 static void e_map_get_current_location (EMap *map, gdouble *longitude, gdouble *latitude);
@@ -109,7 +126,6 @@ static void set_scroll_area (EMap *map, gint width, gint height);
 static void center_at (EMap *map, gdouble longitude, gdouble latitude);
 static void scroll_to (EMap *map, gint x, gint y);
 static gint load_map_background (EMap *map, gchar *name);
-static void adjustment_changed_cb (EMap *map);
 static void update_and_paint (EMap *map);
 static void update_render_point (EMap *map, EMapPoint *point);
 static void repaint_point (EMap *map, EMapPoint *point);
@@ -211,10 +227,11 @@ e_map_tween_new (EMap *map, guint msecs, gdouble longitude_offset, gdouble latit
 	gtk_widget_queue_draw (GTK_WIDGET (map));
 }
 
-G_DEFINE_TYPE (
+G_DEFINE_TYPE_WITH_CODE (
 	EMap,
 	e_map,
-	GTK_TYPE_WIDGET)
+	GTK_TYPE_WIDGET,
+	G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
 
 static void
 e_map_tween_new_from (EMap *map,
@@ -293,9 +310,185 @@ e_map_tweens_compute_matrix (EMap *map, cairo_matrix_t *matrix)
 	cairo_matrix_translate (matrix, -x, -y);
 }
 
+/* GtkScrollable implementation */
+
+static void
+e_map_adjustment_changed (GtkAdjustment *adjustment, EMap *map)
+{
+	EMapPrivate *priv = map->priv;
+
+	if (gtk_widget_get_realized (GTK_WIDGET (map))) {
+		gint hadj_value;
+		gint vadj_value;
+
+		hadj_value = gtk_adjustment_get_value (priv->hadjustment);
+		vadj_value = gtk_adjustment_get_value (priv->vadjustment);
+
+		scroll_to (map, hadj_value, vadj_value);
+	}
+}
+
+static void
+e_map_set_hadjustment_values (EMap *map)
+{
+	GtkAllocation  allocation;
+	EMapPrivate *priv = map->priv;
+	GtkAdjustment *adj = priv->hadjustment;
+	gdouble old_value;
+	gdouble new_value;
+	gdouble new_upper;
+
+	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
+
+	old_value = gtk_adjustment_get_value (adj);
+	new_upper = MAX (allocation.width, gdk_pixbuf_get_width (priv->map_pixbuf));
+
+	g_object_set (adj,
+		"lower", 0.0,
+		"upper", new_upper,
+		"page-size", (gdouble)allocation.height,
+		"step-increment", allocation.height * 0.1,
+		"page-increment", allocation.height * 0.9,
+		NULL);
+
+	new_value = CLAMP (old_value, 0, new_upper - allocation.width);
+	if (new_value != old_value)
+		gtk_adjustment_set_value (adj, new_value);
+}
+
+static void
+e_map_set_vadjustment_values (EMap *map)
+{
+	GtkAllocation  allocation;
+	EMapPrivate *priv = map->priv;
+	GtkAdjustment *adj = priv->vadjustment;
+	gdouble old_value;
+	gdouble new_value;
+	gdouble new_upper;
+
+	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
+
+	old_value = gtk_adjustment_get_value (adj);
+	new_upper = MAX (allocation.height, gdk_pixbuf_get_height (priv->map_pixbuf));
+
+	g_object_set (adj,
+		"lower", 0.0,
+		"upper", new_upper,
+		"page-size", (gdouble)allocation.height,
+		"step-increment", allocation.height * 0.1,
+		"page-increment", allocation.height * 0.9,
+		NULL);
+
+	new_value = CLAMP (old_value, 0, new_upper - allocation.height);
+	if (new_value != old_value)
+		gtk_adjustment_set_value (adj, new_value);
+}
+
+static void
+e_map_set_hadjustment (EMap *map, GtkAdjustment *adjustment)
+{
+	EMapPrivate *priv = map->priv;
+
+	if (adjustment && priv->hadjustment == adjustment)
+		return;
+
+	if (priv->hadjustment != NULL) {
+		g_signal_handlers_disconnect_matched (priv->hadjustment, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, map);
+		g_object_unref (priv->hadjustment);
+	}
+
+	if (!adjustment)
+		adjustment = gtk_adjustment_new (0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+
+	g_signal_connect (adjustment, "value-changed", G_CALLBACK (e_map_adjustment_changed), map);
+	priv->hadjustment = g_object_ref_sink (adjustment);
+	e_map_set_hadjustment_values (map);
+
+	g_object_notify (G_OBJECT (map), "hadjustment");
+}
+
+static void
+e_map_set_vadjustment (EMap *map, GtkAdjustment *adjustment)
+{
+	EMapPrivate *priv = map->priv;
+
+	if (adjustment && priv->vadjustment == adjustment)
+		return;
+
+	if (priv->vadjustment != NULL) {
+		g_signal_handlers_disconnect_matched (priv->vadjustment, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, map);
+		g_object_unref (priv->vadjustment);
+	}
+
+	if (!adjustment)
+		adjustment = gtk_adjustment_new (0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+
+	g_signal_connect (adjustment, "value-changed", G_CALLBACK (e_map_adjustment_changed), map);
+	priv->vadjustment = g_object_ref_sink (adjustment);
+	e_map_set_vadjustment_values (map);
+
+	g_object_notify (G_OBJECT (map), "vadjustment");
+}
+
 /* ----------------- *
  * Widget management *
  * ----------------- */
+
+static void
+e_map_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+{
+	EMap *map;
+
+	map = E_MAP (object);
+
+	switch (prop_id) {
+	case PROP_HADJUSTMENT:
+		e_map_set_hadjustment (map, g_value_get_object (value));
+		break;
+	case PROP_VADJUSTMENT:
+		e_map_set_vadjustment (map, g_value_get_object (value));
+		break;
+	case PROP_HSCROLL_POLICY:
+		map->priv->hscroll_policy = g_value_get_enum (value);
+		gtk_widget_queue_resize (GTK_WIDGET (map));
+		break;
+	case PROP_VSCROLL_POLICY:
+		map->priv->vscroll_policy = g_value_get_enum (value);
+		gtk_widget_queue_resize (GTK_WIDGET (map));
+		break;
+
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		break;
+	}
+}
+
+static void
+e_map_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+{
+	EMap *map;
+
+	map = E_MAP (object);
+
+	switch (prop_id) {
+	case PROP_HADJUSTMENT:
+		g_value_set_object (value, map->priv->hadjustment);
+		break;
+	case PROP_VADJUSTMENT:
+		g_value_set_object (value, map->priv->vadjustment);
+		break;
+	case PROP_HSCROLL_POLICY:
+		g_value_set_enum (value, map->priv->hscroll_policy);
+		break;
+	case PROP_VSCROLL_POLICY:
+		g_value_set_enum (value, map->priv->vscroll_policy);
+		break;
+
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		break;
+	}
+}
 
 static void
 e_map_finalize (GObject *object)
@@ -308,17 +501,7 @@ e_map_finalize (GObject *object)
 		e_map_tween_destroy (map, map->priv->tweens->data);
 	e_map_stop_tweening (map);
 
-	g_signal_handlers_disconnect_by_func (map->priv->hadj, adjustment_changed_cb, map);
-	g_signal_handlers_disconnect_by_func (map->priv->vadj, adjustment_changed_cb, map);
-
-	g_object_unref ((map->priv->hadj));
-	map->priv->hadj = NULL;
-
-	g_object_unref ((map->priv->vadj));
-	map->priv->vadj = NULL;
-
-	if (map->priv->map_pixbuf)
-	{
+	if (map->priv->map_pixbuf) {
 		g_object_unref (map->priv->map_pixbuf);
 		map->priv->map_pixbuf = NULL;
 	}
@@ -355,12 +538,11 @@ e_map_realize (GtkWidget *widget)
 	attr.height = allocation.height;
 	attr.wclass = GDK_INPUT_OUTPUT;
 	attr.visual = gtk_widget_get_visual (widget);
-	attr.colormap = gtk_widget_get_colormap (widget);
 	attr.event_mask = gtk_widget_get_events (widget) |
 	  GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS_MASK |
 	  GDK_POINTER_MOTION_MASK;
 
-	attr_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL | GDK_WA_COLORMAP;
+	attr_mask = GDK_WA_X | GDK_WA_Y | GDK_WA_VISUAL;
 
 	window = gdk_window_new (
 		gtk_widget_get_parent_window (widget), &attr, attr_mask);
@@ -371,7 +553,6 @@ e_map_realize (GtkWidget *widget)
 	style = gtk_style_attach (style, window);
 	gtk_widget_set_style (widget, style);
 
-	gdk_window_set_back_pixmap (window, NULL, FALSE);
 	update_render_surface (E_MAP (widget), TRUE);
 }
 
@@ -450,10 +631,9 @@ e_map_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 }
 
 static gboolean
-e_map_expose (GtkWidget *widget, GdkEventExpose *event)
+e_map_draw (GtkWidget *widget, cairo_t *cr)
 {
 	EMap *map;
-	cairo_t *cr;
 	cairo_matrix_t matrix;
 
 	if (!gtk_widget_is_drawable (widget))
@@ -461,9 +641,7 @@ e_map_expose (GtkWidget *widget, GdkEventExpose *event)
 
 	map = E_MAP (widget);
 
-	cr = gdk_cairo_create (event->window);
-	gdk_cairo_region (cr, event->region);
-	cairo_clip (cr);
+	cairo_save (cr);
 
 	e_map_tweens_compute_matrix (map, &matrix);
 	cairo_transform (cr, &matrix);
@@ -471,7 +649,7 @@ e_map_expose (GtkWidget *widget, GdkEventExpose *event)
 	cairo_set_source_surface (cr, map->priv->map_render_surface, 0, 0);
 	cairo_paint (cr);
 
-	cairo_destroy (cr);
+	cairo_restore (cr);
 
 	return FALSE;
 }
@@ -543,85 +721,21 @@ e_map_key_press (GtkWidget *widget,
 		gint upper;
 		gint x, y;
 
-		page_size = gtk_adjustment_get_page_size (map->priv->hadj);
-		upper = gtk_adjustment_get_upper (map->priv->hadj);
+		page_size = gtk_adjustment_get_page_size (map->priv->hadjustment);
+		upper = gtk_adjustment_get_upper (map->priv->hadjustment);
 		x = CLAMP (map->priv->xofs + xofs, 0, upper - page_size);
 
-		page_size = gtk_adjustment_get_page_size (map->priv->vadj);
-		upper = gtk_adjustment_get_upper (map->priv->vadj);
+		page_size = gtk_adjustment_get_page_size (map->priv->vadjustment);
+		upper = gtk_adjustment_get_upper (map->priv->vadjustment);
 		y = CLAMP (map->priv->yofs + yofs, 0, upper - page_size);
 
 		scroll_to (map, x, y);
 
-		gtk_adjustment_set_value (map->priv->hadj, x);
-		gtk_adjustment_set_value (map->priv->vadj, y);
+		gtk_adjustment_set_value (map->priv->hadjustment, x);
+		gtk_adjustment_set_value (map->priv->vadjustment, y);
 	}
 
 	return TRUE;
-}
-
-static void
-e_map_set_scroll_adjustments (GtkWidget *widget, GtkAdjustment *hadj, GtkAdjustment *vadj)
-{
-	EMap *map;
-	EMapPrivate *priv;
-	gboolean need_adjust;
-
-	g_return_if_fail (widget != NULL);
-	g_return_if_fail (E_IS_MAP (widget));
-
-	map = E_MAP (widget);
-	priv = map->priv;
-
-	if (hadj) g_return_if_fail (GTK_IS_ADJUSTMENT (hadj));
-	else hadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
-
-	if (vadj) g_return_if_fail (GTK_IS_ADJUSTMENT (vadj));
-	else vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
-
-	if (map->priv->hadj && priv->hadj != hadj)
-	{
-		g_signal_handlers_disconnect_by_func (map->priv->hadj,
-						      adjustment_changed_cb,
-						      map);
-		g_object_unref (map->priv->hadj);
-	}
-
-	if (map->priv->vadj && priv->vadj != vadj)
-	{
-		g_signal_handlers_disconnect_by_func (map->priv->vadj,
-						      adjustment_changed_cb,
-						      map);
-		g_object_unref (map->priv->vadj);
-	}
-
-	need_adjust = FALSE;
-
-	if (map->priv->hadj != hadj)
-	{
-		map->priv->hadj = hadj;
-		g_object_ref_sink (map->priv->hadj);
-
-		g_signal_connect_swapped (
-			map->priv->hadj, "value_changed",
-			G_CALLBACK (adjustment_changed_cb), map);
-
-		need_adjust = TRUE;
-	}
-
-	if (map->priv->vadj != vadj)
-	{
-		map->priv->vadj = vadj;
-		g_object_ref_sink (map->priv->vadj);
-
-		g_signal_connect_swapped (
-			map->priv->vadj, "value_changed",
-			G_CALLBACK (adjustment_changed_cb), map);
-
-		need_adjust = TRUE;
-	}
-
-	if (need_adjust) adjustment_changed_cb (map);
 }
 
 static void
@@ -632,6 +746,14 @@ e_map_class_init (EMapClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = e_map_finalize;
+	object_class->set_property = e_map_set_property;
+	object_class->get_property = e_map_get_property;
+
+	/* Scrollable interface properties */
+	g_object_class_override_property (object_class, PROP_HADJUSTMENT,    "hadjustment");
+	g_object_class_override_property (object_class, PROP_VADJUSTMENT,    "vadjustment");
+	g_object_class_override_property (object_class, PROP_HSCROLL_POLICY, "hscroll-policy");
+	g_object_class_override_property (object_class, PROP_VSCROLL_POLICY, "vscroll-policy");
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = e_map_realize;
@@ -639,23 +761,11 @@ e_map_class_init (EMapClass *class)
 	widget_class->get_preferred_height = e_map_get_preferred_height;
 	widget_class->get_preferred_width = e_map_get_preferred_width;
 	widget_class->size_allocate = e_map_size_allocate;
+	widget_class->draw = e_map_draw;
 	widget_class->button_press_event = e_map_button_press;
 	widget_class->button_release_event = e_map_button_release;
 	widget_class->motion_notify_event = e_map_motion;
-	widget_class->expose_event = e_map_expose;
 	widget_class->key_press_event = e_map_key_press;
-
-	widget_class->set_scroll_adjustments_signal = g_signal_new ("set_scroll_adjustments",
-								    G_OBJECT_CLASS_TYPE (object_class),
-								    G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-								    G_STRUCT_OFFSET (EMapClass, set_scroll_adjustments),
-								    NULL, NULL,
-								    e_marshal_NONE__OBJECT_OBJECT,
-								    G_TYPE_NONE, 2,
-								    GTK_TYPE_ADJUSTMENT,
-								    GTK_TYPE_ADJUSTMENT);
-
-	class->set_scroll_adjustments = e_map_set_scroll_adjustments;
 }
 
 static void
@@ -857,7 +967,8 @@ e_map_add_point (EMap *map, gchar *name, gdouble longitude, gdouble latitude, gu
 
 	g_ptr_array_add (map->priv->points, (gpointer) point);
 
-	if (!map->priv->frozen)	{
+	if (!map->priv->frozen)
+	{
 		update_render_point (map, point);
 		repaint_point (map, point);
 	}
@@ -1145,8 +1256,8 @@ center_at (EMap *map, gdouble longitude, gdouble latitude)
 	x = CLAMP (x - (allocation.width / 2), 0, pb_width - allocation.width);
 	y = CLAMP (y - (allocation.height / 2), 0, pb_height - allocation.height);
 
-	gtk_adjustment_set_value (map->priv->hadj, x);
-	gtk_adjustment_set_value (map->priv->vadj, y);
+	gtk_adjustment_set_value (map->priv->hadjustment, x);
+	gtk_adjustment_set_value (map->priv->vadjustment, y);
 
 	gtk_widget_queue_draw (GTK_WIDGET (map));
 }
@@ -1184,49 +1295,41 @@ e_map_get_current_location (EMap *map, gdouble *longitude, gdouble *latitude)
 			       longitude, latitude);
 }
 
-/* Callback used when an adjustment is changed */
-
 static void
-adjustment_changed_cb (EMap *map)
+set_scroll_area (EMap *view, int width, int height)
 {
-	gint hadj_value;
-	gint vadj_value;
-
-	hadj_value = gtk_adjustment_get_value (map->priv->hadj);
-	vadj_value = gtk_adjustment_get_value (map->priv->vadj);
-
-	scroll_to (map, hadj_value, vadj_value);
-}
-
-static void
-set_scroll_area (EMap *map, gint width, gint height)
-{
+	EMapPrivate *priv;
 	GtkAllocation allocation;
 
-	if (!gtk_widget_get_realized (GTK_WIDGET (map))) return;
-	if (!map->priv->hadj || !map->priv->vadj) return;
+	priv = view->priv;
 
-	g_object_freeze_notify (G_OBJECT (map->priv->hadj));
-	g_object_freeze_notify (G_OBJECT (map->priv->vadj));
+	if (!gtk_widget_get_realized (GTK_WIDGET (view)))
+		return;
 
-	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
+	if (!priv->hadjustment || !priv->vadjustment)
+		return;
 
-	map->priv->xofs = CLAMP (map->priv->xofs, 0, width - allocation.width);
-	map->priv->yofs = CLAMP (map->priv->yofs, 0, height - allocation.height);
+	g_object_freeze_notify (G_OBJECT (priv->hadjustment));
+	g_object_freeze_notify (G_OBJECT (priv->vadjustment));
 
-	gtk_adjustment_configure (map->priv->hadj,
-				  map->priv->xofs,
+	gtk_widget_get_allocation (GTK_WIDGET (view), &allocation);
+
+	priv->xofs = CLAMP (priv->xofs, 0, width - allocation.width);
+	priv->yofs = CLAMP (priv->yofs, 0, height - allocation.height);
+
+	gtk_adjustment_configure (priv->hadjustment,
+				  priv->xofs,
 				  0, width,
 				  SCROLL_STEP_SIZE,
 				  allocation.width / 2,
 				  allocation.width);
-	gtk_adjustment_configure (map->priv->vadj,
-				  map->priv->yofs,
+	gtk_adjustment_configure (priv->vadjustment,
+				  priv->yofs,
 				  0, height,
 				  SCROLL_STEP_SIZE,
 				  allocation.height / 2,
 				  allocation.height);
 
-	g_object_thaw_notify (G_OBJECT (map->priv->hadj));
-	g_object_thaw_notify (G_OBJECT (map->priv->vadj));
+	g_object_thaw_notify (G_OBJECT (priv->hadjustment));
+	g_object_thaw_notify (G_OBJECT (priv->vadjustment));
 }
