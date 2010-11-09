@@ -50,7 +50,7 @@ static void gnome_canvas_pixbuf_get_property (GObject *object,
 					      GParamSpec *pspec);
 
 static void gnome_canvas_pixbuf_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags);
-static void gnome_canvas_pixbuf_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
+static void gnome_canvas_pixbuf_draw (GnomeCanvasItem *item, cairo_t *cr,
 				      gint x, gint y, gint width, gint height);
 static GnomeCanvasItem *gnome_canvas_pixbuf_point (GnomeCanvasItem *item,
                                                    gdouble x,
@@ -264,13 +264,12 @@ gnome_canvas_pixbuf_update (GnomeCanvasItem *item,
 
 /* Draw handler for the pixbuf canvas item */
 static void
-gnome_canvas_pixbuf_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
+gnome_canvas_pixbuf_draw (GnomeCanvasItem *item, cairo_t *cr,
 			  gint x, gint y, gint width, gint height)
 {
 	GnomeCanvasPixbuf *gcp;
 	GnomeCanvasPixbufPrivate *priv;
         cairo_matrix_t matrix;
-        cairo_t *cr;
 
 	gcp = GNOME_CANVAS_PIXBUF (item);
 	priv = gcp->priv;
@@ -278,18 +277,14 @@ gnome_canvas_pixbuf_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	if (!priv->pixbuf)
 		return;
 
-        cr = gdk_cairo_create (drawable);
         gnome_canvas_item_i2c_matrix (item, &matrix);
-        if (cairo_matrix_invert (&matrix)) {
-		cairo_destroy (cr);
-                return;
-	}
+
+	cairo_save (cr);
         cairo_transform (cr, &matrix);
 
         gdk_cairo_set_source_pixbuf (cr, priv->pixbuf, 0, 0);
         cairo_paint (cr);
-
-        cairo_destroy (cr);
+	cairo_restore (cr);
 }
 
 

@@ -84,6 +84,7 @@
 #include <stdio.h>
 #include <gdk/gdkprivate.h>
 #include <gtk/gtk.h>
+#include <cairo/cairo-gobject.h>
 #include "gailcanvas.h"
 #include "gnome-canvas.h"
 #include "gnome-canvas-i18n.h"
@@ -1197,7 +1198,7 @@ static void   gnome_canvas_group_unrealize   (GnomeCanvasItem *item);
 static void   gnome_canvas_group_map         (GnomeCanvasItem *item);
 static void   gnome_canvas_group_unmap       (GnomeCanvasItem *item);
 static void   gnome_canvas_group_draw        (GnomeCanvasItem *item,
-					      GdkDrawable *drawable,
+					      cairo_t *cr,
 					      gint x, gint y,
 					      gint width, gint height);
 static GnomeCanvasItem *gnome_canvas_group_point (GnomeCanvasItem *item,
@@ -1484,8 +1485,12 @@ gnome_canvas_group_unmap (GnomeCanvasItem *item)
 
 /* Draw handler for canvas groups */
 static void
-gnome_canvas_group_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
-			 gint x, gint y, gint width, gint height)
+gnome_canvas_group_draw (GnomeCanvasItem *item,
+                         cairo_t *cr,
+                         gint x,
+                         gint y,
+                         gint width,
+                         gint height)
 {
 	GnomeCanvasGroup *group;
 	GList *list;
@@ -1496,19 +1501,18 @@ gnome_canvas_group_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	for (list = group->item_list; list; list = list->next) {
 		child = list->data;
 
-		if (((child->flags & GNOME_CANVAS_ITEM_VISIBLE)
-		     && ((child->x1 < (x + width))
-			 && (child->y1 < (y + height))
-			 && (child->x2 > x)
-			 && (child->y2 > y)))
-		    || ((child->flags & GNOME_CANVAS_ITEM_ALWAYS_REDRAW)
-			&& (child->x1 < child->canvas->redraw_x2)
-			&& (child->y1 < child->canvas->redraw_y2)
-			&& (child->x2 > child->canvas->redraw_x1)
-			&& (child->y2 > child->canvas->redraw_y2)))
-			if (GNOME_CANVAS_ITEM_GET_CLASS (child)->draw)
-				(* GNOME_CANVAS_ITEM_GET_CLASS (child)->draw) (
-					child, drawable, x, y, width, height);
+		if ((child->flags & GNOME_CANVAS_ITEM_VISIBLE)
+		    && ((child->x1 < (x + width))
+		    && (child->y1 < (y + height))
+	            && (child->x2 > x)
+		    && (child->y2 > y))) {
+			cairo_save (cr);
+
+			GNOME_CANVAS_ITEM_GET_CLASS (child)->draw (
+				child, cr, x, y, width, height);
+
+			cairo_restore (cr);
+		}
 	}
 }
 
@@ -1684,12 +1688,12 @@ static void gnome_canvas_realize             (GtkWidget        *widget);
 static void gnome_canvas_unrealize           (GtkWidget        *widget);
 static void gnome_canvas_size_allocate       (GtkWidget        *widget,
 					      GtkAllocation    *allocation);
+static gint gnome_canvas_draw                (GtkWidget        *widget,
+					      cairo_t          *cr);
 static gint gnome_canvas_button              (GtkWidget        *widget,
 					      GdkEventButton   *event);
 static gint gnome_canvas_motion              (GtkWidget        *widget,
 					      GdkEventMotion   *event);
-static gint gnome_canvas_expose              (GtkWidget        *widget,
-					      GdkEventExpose   *event);
 static gboolean gnome_canvas_key             (GtkWidget        *widget,
 					      GdkEventKey      *event);
 static gint gnome_canvas_crossing            (GtkWidget        *widget,
@@ -1700,11 +1704,11 @@ static gint gnome_canvas_focus_out           (GtkWidget        *widget,
 					      GdkEventFocus    *event);
 static void gnome_canvas_request_update_real (GnomeCanvas      *canvas);
 static void gnome_canvas_draw_background     (GnomeCanvas      *canvas,
-					      GdkDrawable      *drawable,
-					      gint               x,
-					      gint               y,
-					      gint               width,
-					      gint               height);
+					      cairo_t          *cr,
+					      gint              x,
+					      gint              y,
+					      gint              width,
+					      gint              height);
 
 static GtkLayoutClass *canvas_parent_class;
 
@@ -1714,6 +1718,73 @@ enum {
         PROP_0,
 	PROP_FOCUSED_ITEM,
 };
+
+static void
+gnome_canvas_paint_rect (GnomeCanvas *canvas,
+                         cairo_t *cr,
+                         gint x0,
+                         gint y0,
+                         gint x1,
+                         gint y1)
+{
+	GtkWidget *widget;
+	GdkWindow *bin_window;
+	GtkAllocation allocation;
+	GtkScrollable *scrollable;
+	GtkAdjustment *hadjustment;
+	GtkAdjustment *vadjustment;
+	gint draw_x1, draw_y1;
+	gint draw_x2, draw_y2;
+	gint draw_width, draw_height;
+	gdouble hadjustment_value;
+	gdouble vadjustment_value;
+
+	g_return_if_fail (!canvas->need_update);
+
+	widget = GTK_WIDGET (canvas);
+	gtk_widget_get_allocation (widget, &allocation);
+	bin_window = gtk_layout_get_bin_window (GTK_LAYOUT (canvas));
+
+	scrollable = GTK_SCROLLABLE (canvas);
+	hadjustment = gtk_scrollable_get_hadjustment (scrollable);
+	vadjustment = gtk_scrollable_get_vadjustment (scrollable);
+
+	hadjustment_value = gtk_adjustment_get_value (hadjustment);
+	vadjustment_value = gtk_adjustment_get_value (vadjustment);
+
+	draw_x1 = MAX (x0, hadjustment_value - canvas->zoom_xofs);
+	draw_y1 = MAX (y0, vadjustment_value - canvas->zoom_yofs);
+	draw_x2 = MIN (draw_x1 + allocation.width, x1);
+	draw_y2 = MIN (draw_y1 + allocation.height, y1);
+
+	draw_width = draw_x2 - draw_x1;
+	draw_height = draw_y2 - draw_y1;
+
+	if (draw_width < 1 || draw_height < 1)
+		return;
+
+	canvas->draw_xofs = draw_x1;
+	canvas->draw_yofs = draw_y1;
+
+	cairo_save (cr);
+
+	g_signal_emit (
+		canvas, canvas_signals[DRAW_BACKGROUND], 0, cr,
+		draw_x1, draw_y1, draw_width, draw_height);
+
+	cairo_restore (cr);
+
+	if (canvas->root->flags & GNOME_CANVAS_ITEM_VISIBLE) {
+		cairo_save (cr);
+
+		(* GNOME_CANVAS_ITEM_GET_CLASS (canvas->root)->draw) (
+			canvas->root, cr,
+			draw_x1, draw_y1,
+			draw_width, draw_height);
+
+		cairo_restore (cr);
+	}
+}
 
 /**
  * gnome_canvas_get_type:
@@ -1802,10 +1873,10 @@ gnome_canvas_class_init (GnomeCanvasClass *klass)
 	widget_class->realize = gnome_canvas_realize;
 	widget_class->unrealize = gnome_canvas_unrealize;
 	widget_class->size_allocate = gnome_canvas_size_allocate;
+	widget_class->draw = gnome_canvas_draw;
 	widget_class->button_press_event = gnome_canvas_button;
 	widget_class->button_release_event = gnome_canvas_button;
 	widget_class->motion_notify_event = gnome_canvas_motion;
-	widget_class->expose_event = gnome_canvas_expose;
 	widget_class->key_press_event = gnome_canvas_key;
 	widget_class->key_release_event = gnome_canvas_key;
 	widget_class->enter_notify_event = gnome_canvas_crossing;
@@ -1827,8 +1898,8 @@ gnome_canvas_class_init (GnomeCanvasClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (GnomeCanvasClass, draw_background),
 			      NULL, NULL,
-			      gnome_canvas_marshal_VOID__OBJECT_INT_INT_INT_INT,
-			      G_TYPE_NONE, 5, GDK_TYPE_DRAWABLE,
+			      gnome_canvas_marshal_VOID__BOXED_INT_INT_INT_INT,
+			      G_TYPE_NONE, 5, CAIRO_GOBJECT_TYPE_CONTEXT,
 			      G_TYPE_INT, G_TYPE_INT, G_TYPE_INT, G_TYPE_INT);
 
 	gail_canvas_init ();
@@ -1869,9 +1940,6 @@ gnome_canvas_init (GnomeCanvas *canvas)
 
 	gtk_scrollable_set_hadjustment (GTK_SCROLLABLE (canvas), NULL);
 	gtk_scrollable_set_vadjustment (GTK_SCROLLABLE (canvas), NULL);
-
-	/* Disable the gtk+ gdouble buffering since the canvas uses it's own. */
-	gtk_widget_set_double_buffered (GTK_WIDGET (canvas), FALSE);
 
 	/* Create the root item as a special case */
 
@@ -2175,6 +2243,57 @@ gnome_canvas_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 
 	g_object_thaw_notify (G_OBJECT (hadjustment));
 	g_object_thaw_notify (G_OBJECT (vadjustment));
+}
+
+static gboolean
+gnome_canvas_draw (GtkWidget *widget,
+                   cairo_t *cr)
+{
+	GnomeCanvas *canvas = GNOME_CANVAS (widget);
+	cairo_rectangle_int_t rect;
+
+        gdk_cairo_get_clip_rectangle (cr, &rect);
+
+        if (canvas->need_update) {
+                gnome_canvas_request_redraw (canvas,
+                                             rect.x, rect.y,
+                                             rect.x + rect.width,
+                                             rect.y + rect.height);
+        } else {
+		GtkLayout *layout;
+		GtkAdjustment *hadjustment;
+		GtkAdjustment *vadjustment;
+		gdouble hadjustment_value;
+		gdouble vadjustment_value;
+
+		layout = GTK_LAYOUT (canvas);
+		hadjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (layout));
+		vadjustment = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (layout));
+
+		hadjustment_value = gtk_adjustment_get_value (hadjustment);
+		vadjustment_value = gtk_adjustment_get_value (vadjustment);
+
+                cairo_save (cr);
+                cairo_translate (cr,
+                                 -canvas->zoom_xofs + rect.x,
+                                 -canvas->zoom_yofs + rect.y);
+
+		rect.x += hadjustment_value;
+		rect.y += vadjustment_value;
+
+                /* No pending updates, draw exposed area immediately */
+                gnome_canvas_paint_rect (canvas, cr,
+                                         rect.x, rect.y,
+                                         rect.x + rect.width,
+                                         rect.y + rect.height);
+                cairo_restore (cr);
+
+                /* And call expose on parent container class */
+                GTK_WIDGET_CLASS (canvas_parent_class)->
+                        draw (widget, cr);
+        }
+
+	return FALSE;
 }
 
 /* Emits an event for an item in the canvas, be it the current item, grabbed
@@ -2645,151 +2764,22 @@ gnome_canvas_focus_out (GtkWidget *widget, GdkEventFocus *event)
 		return FALSE;
 }
 
-#define REDRAW_QUANTUM_SIZE 512
-
 static void
-gnome_canvas_paint_rect (GnomeCanvas *canvas, gint x0, gint y0, gint x1, gint y1)
-{
-	GtkWidget *widget;
-	GdkWindow *bin_window;
-	GtkAllocation allocation;
-	GtkScrollable *scrollable;
-	GtkAdjustment *hadjustment;
-	GtkAdjustment *vadjustment;
-	gint draw_x1, draw_y1;
-	gint draw_x2, draw_y2;
-	gint draw_width, draw_height;
-	gdouble hadjustment_value;
-	gdouble vadjustment_value;
-        GdkPixmap *pixmap;
-        cairo_t *cr;
-
-	g_return_if_fail (!canvas->need_update);
-
-	widget = GTK_WIDGET (canvas);
-	gtk_widget_get_allocation (widget, &allocation);
-	bin_window = gtk_layout_get_bin_window (GTK_LAYOUT (canvas));
-
-	scrollable = GTK_SCROLLABLE (canvas);
-	hadjustment = gtk_scrollable_get_hadjustment (scrollable);
-	vadjustment = gtk_scrollable_get_vadjustment (scrollable);
-
-	hadjustment_value = gtk_adjustment_get_value (hadjustment);
-	vadjustment_value = gtk_adjustment_get_value (vadjustment);
-
-	draw_x1 = MAX (x0, hadjustment_value - canvas->zoom_xofs);
-	draw_y1 = MAX (y0, vadjustment_value - canvas->zoom_yofs);
-	draw_x2 = MIN (draw_x1 + allocation.width, x1);
-	draw_y2 = MIN (draw_y1 + allocation.height, y1);
-
-	draw_width = draw_x2 - draw_x1;
-	draw_height = draw_y2 - draw_y1;
-
-	if (draw_width < 1 || draw_height < 1)
-		return;
-
-	canvas->redraw_x1 = draw_x1;
-	canvas->redraw_y1 = draw_y1;
-	canvas->redraw_x2 = draw_x2;
-	canvas->redraw_y2 = draw_y2;
-	canvas->draw_xofs = draw_x1;
-	canvas->draw_yofs = draw_y1;
-
-        pixmap = gdk_pixmap_new (bin_window,
-                                 draw_width, draw_height, -1);
-
-        g_signal_emit (G_OBJECT (canvas), canvas_signals[DRAW_BACKGROUND], 0, pixmap,
-                       draw_x1, draw_y1, draw_width, draw_height);
-
-        if (canvas->root->flags & GNOME_CANVAS_ITEM_VISIBLE)
-                (* GNOME_CANVAS_ITEM_GET_CLASS (canvas->root)->draw) (
-                        canvas->root, pixmap,
-                        draw_x1, draw_y1,
-                        draw_width, draw_height);
-
-        /* Copy the pixmap to the window and clean up */
-        cr = gdk_cairo_create (bin_window);
-
-        gdk_cairo_set_source_pixmap (cr, pixmap,
-                                     draw_x1 + canvas->zoom_xofs,
-                                     draw_y1 + canvas->zoom_yofs);
-        cairo_paint (cr);
-
-        cairo_destroy (cr);
-        g_object_unref (pixmap);
-}
-
-/* Expose handler for the canvas */
-static gint
-gnome_canvas_expose (GtkWidget *widget, GdkEventExpose *event)
-{
-	GnomeCanvas *canvas;
-	GtkLayout *layout;
-	GdkWindow *bin_window;
-	GdkRectangle *rects;
-	gint n_rects;
-	gint i;
-
-	canvas = GNOME_CANVAS (widget);
-
-	layout = GTK_LAYOUT (canvas);
-	bin_window = gtk_layout_get_bin_window (layout);
-
-	if (!gtk_widget_is_drawable (widget) || (event->window != bin_window))
-		return FALSE;
-
-#ifdef VERBOSE
-	g_print ("Expose\n");
-#endif
-
-	gdk_region_get_rectangles (event->region, &rects, &n_rects);
-
-	for (i = 0; i < n_rects; i++) {
-		GdkRectangle rect;
-
-		rect.x = rects[i].x - canvas->zoom_xofs;
-		rect.y = rects[i].y - canvas->zoom_yofs;
-		rect.width = rects[i].width;
-		rect.height = rects[i].height;
-
-		if (canvas->need_update) {
-			gnome_canvas_request_redraw (canvas,
-                                                     rect.x, rect.y,
-                                                     rect.x + rect.width,
-                                                     rect.y + rect.height);
-		} else {
-			/* No pending updates, draw exposed area immediately */
-			gnome_canvas_paint_rect (canvas,
-                                                 rect.x, rect.y,
-                                                 rect.x + rect.width,
-                                                 rect.y + rect.height);
-
-			/* And call expose on parent container class */
-			if (GTK_WIDGET_CLASS (canvas_parent_class)->expose_event)
-				(* GTK_WIDGET_CLASS (canvas_parent_class)->expose_event) (
-					widget, event);
-		}
-	}
-
-	g_free (rects);
-
-	return FALSE;
-}
-
-static void
-gnome_canvas_draw_background (GnomeCanvas *canvas, GdkDrawable *drawable,
-			      gint x, gint y, gint width, gint height)
+gnome_canvas_draw_background (GnomeCanvas *canvas,
+                              cairo_t *cr,
+                              gint x,
+                              gint y,
+                              gint width,
+                              gint height)
 {
 	GtkStyle *style;
-        cairo_t *cr;
 
 	style = gtk_widget_get_style (GTK_WIDGET (canvas));
-        cr = gdk_cairo_create (drawable);
 
-        gdk_cairo_set_source_color (cr, &style->bg[GTK_STATE_NORMAL]);
-        cairo_paint (cr);
-
-        cairo_destroy (cr);
+	cairo_save (cr);
+	gdk_cairo_set_source_color (cr, &style->bg[GTK_STATE_NORMAL]);
+	cairo_paint (cr);
+	cairo_restore (cr);
 }
 
 static void

@@ -122,7 +122,7 @@ static GnomeCanvasItem * gnome_canvas_rich_text_point (GnomeCanvasItem *item,
                                                        gdouble x, gdouble y,
                                                        gint cx, gint cy);
 static void gnome_canvas_rich_text_draw (GnomeCanvasItem *item,
-					GdkDrawable *drawable,
+					cairo_t *cr,
 					gint x, gint y, gint width, gint height);
 static gint gnome_canvas_rich_text_event (GnomeCanvasItem *item,
 					 GdkEvent *event);
@@ -385,11 +385,6 @@ gnome_canvas_rich_text_class_init (GnomeCanvasRichTextClass *klass)
 static void
 gnome_canvas_rich_text_init (GnomeCanvasRichText *text)
 {
-#if 0
-	GObject *object = G_OBJECT (text);
-
-	object->flags |= GNOME_CANVAS_ITEM_ALWAYS_REDRAW;
-#endif
 	text->_priv = g_new0 (GnomeCanvasRichTextPrivate, 1);
 
 	/* Try to set some sane defaults */
@@ -2025,25 +2020,29 @@ gnome_canvas_rich_text_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 } /* gnome_canvas_rich_text_point */
 
 static void
-gnome_canvas_rich_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
-			    gint x, gint y, gint width, gint height)
+gnome_canvas_rich_text_draw (GnomeCanvasItem *item,
+                             cairo_t *cr,
+                             gint x,
+                             gint y,
+                             gint width,
+                             gint height)
 {
 	GnomeCanvasRichText *text = GNOME_CANVAS_RICH_TEXT (item);
 	GtkStyle *style;
 	GtkWidget *widget;
-        cairo_matrix_t i2c;
+	cairo_matrix_t i2c;
 	gdouble ax, ay, ax2, ay2;
 	gint x1, y1, x2, y2;
 
-        gnome_canvas_item_i2c_matrix (item, &i2c);
+	gnome_canvas_item_i2c_matrix (item, &i2c);
 
 	ax = text->_priv->x;
 	ay = text->_priv->y;
 	ax2 = ax + text->_priv->width;
 	ay2 = ay + text->_priv->height;
 
-        cairo_matrix_transform_point (&i2c, &ax, &ay);
-        cairo_matrix_transform_point (&i2c, &ax2, &ay2);
+	cairo_matrix_transform_point (&i2c, &ax, &ay);
+	cairo_matrix_transform_point (&i2c, &ax2, &ay2);
 
 	x1 = ax;
 	y1 = ay;
@@ -2055,15 +2054,8 @@ gnome_canvas_rich_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	widget = GTK_WIDGET (item->canvas);
 	style = gtk_widget_get_style (widget);
 
-        /* FIXME: should last arg be NULL? */
-	gtk_text_layout_draw (
-		text->_priv->layout,
-		widget,
-		drawable,
-		style->text_gc[GTK_STATE_NORMAL],
-		x - x1, y - y1,
-		0, 0, (x2 - x1) - (x - x1), (y2 - y1) - (y - y1),
-		NULL);
+	/* FIXME: should last arg be NULL? */
+	gtk_text_layout_draw (text->_priv->layout, widget, cr, NULL);
 } /* gnome_canvas_rich_text_draw */
 
 #if 0

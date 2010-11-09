@@ -73,7 +73,7 @@ static void	gnome_canvas_widget_bounds	(GnomeCanvasItem *item,
 						 gdouble *y2);
 
 static void	gnome_canvas_widget_draw	(GnomeCanvasItem *item,
-						 GdkDrawable *drawable,
+						 cairo_t *cr,
 						 gint x,
 						 gint y,
 						 gint width,
@@ -402,7 +402,7 @@ gnome_canvas_widget_update (GnomeCanvasItem *item,
 
 static void
 gnome_canvas_widget_draw (GnomeCanvasItem *item,
-			  GdkDrawable *drawable,
+			  cairo_t *cr,
 			  gint x, gint y,
 			  gint width, gint height)
 {

@@ -392,7 +392,7 @@ gnome_canvas_rect_update (GnomeCanvasItem *item,
 
 static void
 gnome_canvas_rect_draw (GnomeCanvasItem *item,
-                        GdkDrawable *drawable,
+                        cairo_t *cr,
                         gint x,
                         gint y,
                         gint width,
@@ -400,28 +400,35 @@ gnome_canvas_rect_draw (GnomeCanvasItem *item,
 {
 	GnomeCanvasRect *rect;
 	cairo_matrix_t matrix;
-	cairo_t *cr;
 
 	rect = GNOME_CANVAS_RECT (item);
-	cr = gdk_cairo_create (drawable);
+
+	cairo_save (cr);
 
 	gnome_canvas_item_i2c_matrix (item, &matrix);
 	cairo_transform (cr, &matrix);
 
-	cairo_rectangle (
-		cr,
-		rect->priv->x1 - x,
-		rect->priv->y1 - y,
-		rect->priv->x2 - rect->priv->x1,
-		rect->priv->y2 - rect->priv->y1);
+	if (gnome_canvas_rect_setup_for_fill (rect, cr)) {
+		cairo_rectangle (
+			cr,
+			rect->priv->x1 - x,
+			rect->priv->y1 - y,
+			rect->priv->x2 - rect->priv->x1,
+			rect->priv->y2 - rect->priv->y1);
+		cairo_fill (cr);
+	}
 
-	if (gnome_canvas_rect_setup_for_fill (rect, cr))
-		cairo_fill_preserve (cr);
+	if (gnome_canvas_rect_setup_for_stroke (rect, cr)) {
+		cairo_rectangle (
+			cr,
+			rect->priv->x1 - x,
+			rect->priv->y1 - y,
+			rect->priv->x2 - rect->priv->x1,
+			rect->priv->y2 - rect->priv->y1);
+		cairo_stroke (cr);
+	}
 
-	if (gnome_canvas_rect_setup_for_stroke (rect, cr))
-		cairo_stroke_preserve (cr);
-
-	cairo_destroy (cr);
+	cairo_restore (cr);
 }
 
 static GnomeCanvasItem *
