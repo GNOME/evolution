@@ -84,12 +84,11 @@ typedef struct _GnomeCanvasGroupClass GnomeCanvasGroupClass;
 typedef enum {
 	GNOME_CANVAS_ITEM_REALIZED      = 1 << 0,
 	GNOME_CANVAS_ITEM_MAPPED        = 1 << 1,
-	GNOME_CANVAS_ITEM_ALWAYS_REDRAW = 1 << 2,
-	GNOME_CANVAS_ITEM_VISIBLE       = 1 << 3,
-	GNOME_CANVAS_ITEM_NEED_UPDATE	= 1 << 4,
-	GNOME_CANVAS_ITEM_NEED_AFFINE	= 1 << 5,
-	GNOME_CANVAS_ITEM_NEED_CLIP	= 1 << 6,
-	GNOME_CANVAS_ITEM_NEED_VIS	= 1 << 7
+	GNOME_CANVAS_ITEM_VISIBLE       = 1 << 2,
+	GNOME_CANVAS_ITEM_NEED_UPDATE	= 1 << 3,
+	GNOME_CANVAS_ITEM_NEED_AFFINE	= 1 << 4,
+	GNOME_CANVAS_ITEM_NEED_CLIP	= 1 << 5,
+	GNOME_CANVAS_ITEM_NEED_VIS	= 1 << 6
 } GnomeCanvasItemFlags;
 
 /* Update flags for items */
@@ -158,7 +157,7 @@ struct _GnomeCanvasItemClass {
 	 * coordinates of the drawable, a temporary pixmap, where things get
 	 * drawn.  (width, height) are the dimensions of the drawable.
 	 */
-	void (* draw) (GnomeCanvasItem *item, GdkDrawable *drawable,
+	void (* draw) (GnomeCanvasItem *item, cairo_t *cr,
 		       gint x, gint y, gint width, gint height);
 
         /* Returns the canvas item which is at the given location. This is the
@@ -376,12 +375,6 @@ struct _GnomeCanvas {
 	/* Idle handler ID */
 	guint idle_id;
 
-	/* Area that is being redrawn.  Contains (x1, y1) but not (x2, y2).
-	 * Specified in canvas pixel coordinates.
-	 */
-	gint redraw_x1, redraw_y1;
-	gint redraw_x2, redraw_y2;
-
 	/* Offsets of the temprary drawing pixmap */
 	gint draw_xofs, draw_yofs;
 
@@ -413,7 +406,7 @@ struct _GnomeCanvasClass {
 	/* Draw the background for the area given. This method is only used
 	 * for non-antialiased canvases.
 	 */
-	void (* draw_background) (GnomeCanvas *canvas, GdkDrawable *drawable,
+	void (* draw_background) (GnomeCanvas *canvas, cairo_t *cr,
 				  gint x, gint y, gint width, gint height);
 
 	/* Private Virtual methods for groping the canvas inside bonobo */

@@ -106,7 +106,7 @@ static void gnome_canvas_text_get_property (GObject            *object,
 					    GParamSpec         *pspec);
 
 static void gnome_canvas_text_update (GnomeCanvasItem *item, const cairo_matrix_t *matrix, gint flags);
-static void gnome_canvas_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
+static void gnome_canvas_text_draw (GnomeCanvasItem *item, cairo_t *cr,
 				    gint x, gint y, gint width, gint height);
 static GnomeCanvasItem *gnome_canvas_text_point (GnomeCanvasItem *item,
                                                  gdouble x,
@@ -1189,16 +1189,16 @@ gnome_canvas_text_update (GnomeCanvasItem *item,
 
 /* Draw handler for the text item */
 static void
-gnome_canvas_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
+gnome_canvas_text_draw (GnomeCanvasItem *item, cairo_t *cr,
 			gint x, gint y, gint width, gint height)
 {
 	GnomeCanvasText *text = GNOME_CANVAS_TEXT (item);
-        cairo_t *cr;
 
 	if (!text->text)
 		return;
 
-        cr = gdk_cairo_create (drawable);
+	cairo_save (cr);
+
         if (text->clip) {
                 cairo_rectangle (cr,
                                  text->clip_cx - x,
@@ -1217,7 +1217,7 @@ gnome_canvas_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
         cairo_move_to (cr, text->cx - x, text->cy - y);
         pango_cairo_show_layout (cr, text->layout);
 
-        cairo_destroy (cr);
+	cairo_restore (cr);
 }
 
 /* Point handler for the text item */
