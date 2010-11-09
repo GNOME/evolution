@@ -54,7 +54,7 @@ static void	ecp_kill_view		(ECellView	*ecv);
 static void	ecp_realize		(ECellView	*ecv);
 static void	ecp_unrealize		(ECellView	*ecv);
 static void	ecp_draw		(ECellView	*ecv,
-					 GdkDrawable	*drawable,
+					 cairo_t	*cr,
 					 gint		 model_col,
 					 gint		 view_col,
 					 gint		 row,
@@ -245,7 +245,7 @@ ecp_unrealize (ECellView *ecv)
  * ECell::draw method
  */
 static void
-ecp_draw (ECellView *ecv, GdkDrawable *drawable,
+ecp_draw (ECellView *ecv, cairo_t *cr,
 	  gint model_col, gint view_col, gint row, ECellFlags flags,
 	  gint x1, gint y1, gint x2, gint y2)
 {
@@ -255,6 +255,8 @@ ecp_draw (ECellView *ecv, GdkDrawable *drawable,
 	GtkShadowType shadow;
 	GdkRectangle rect;
 	gboolean show_popup_arrow;
+
+	cairo_save (cr);
 
 	canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (ecv->e_table_item_view)->canvas);
 
@@ -274,7 +276,7 @@ ecp_draw (ECellView *ecv, GdkDrawable *drawable,
 	if (show_popup_arrow) {
 		GtkStyle *style;
 
-		e_cell_draw (ecp_view->child_view, drawable, model_col,
+		e_cell_draw (ecp_view->child_view, cr, model_col,
 			     view_col, row, flags,
 			     x1, y1, x2 - E_CELL_POPUP_ARROW_WIDTH, y2);
 
@@ -290,22 +292,24 @@ ecp_draw (ECellView *ecv, GdkDrawable *drawable,
 
 		style = gtk_widget_get_style (canvas);
 
-		gtk_paint_box (style, drawable,
+		gtk_paint_box (style, cr,
 			       GTK_STATE_NORMAL, shadow,
-			       &rect, canvas, "ecellpopup",
+			       canvas, "ecellpopup",
 			       rect.x, rect.y, rect.width, rect.height);
-		gtk_paint_arrow (style, drawable,
+		gtk_paint_arrow (style, cr,
 				 GTK_STATE_NORMAL, GTK_SHADOW_NONE,
-				 &rect, canvas, NULL,
+				 canvas, NULL,
 				 GTK_ARROW_DOWN, TRUE,
 				 rect.x + E_CELL_POPUP_ARROW_XPAD,
 				 rect.y + E_CELL_POPUP_ARROW_YPAD,
 				 rect.width - E_CELL_POPUP_ARROW_XPAD * 2,
 				 rect.height - E_CELL_POPUP_ARROW_YPAD * 2);
 	} else {
-		e_cell_draw (ecp_view->child_view, drawable, model_col,
+		e_cell_draw (ecp_view->child_view, cr, model_col,
 			     view_col, row, flags, x1, y1, x2, y2);
 	}
+
+	cairo_restore (cr);
 }
 
 /*

@@ -170,7 +170,7 @@ cell_toggle_kill_view (ECellView *ecell_view)
 
 static void
 cell_toggle_draw (ECellView *ecell_view,
-                  GdkDrawable *drawable,
+                  cairo_t *cr,
                   gint model_col,
                   gint view_col,
                   gint row,
@@ -183,7 +183,6 @@ cell_toggle_draw (ECellView *ecell_view,
 	ECellTogglePrivate *priv;
 	GdkPixbuf *image;
 	gint x, y;
-	cairo_t *cr;
 
 	const gint value = GPOINTER_TO_INT (
 		 e_table_model_value_at (ecell_view->e_table_model, model_col, row));
@@ -208,13 +207,10 @@ cell_toggle_draw (ECellView *ecell_view,
 	else
 		y = y1 + ((y2 - y1) - gdk_pixbuf_get_height (image)) / 2;
 
-	cr = gdk_cairo_create (drawable);
 	cairo_save (cr);
 	gdk_cairo_set_source_pixbuf (cr, image, x, y);
 	cairo_paint_with_alpha (cr, 1);
 	cairo_restore (cr);
-	cairo_destroy (cr);
-
 }
 
 static void

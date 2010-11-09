@@ -91,9 +91,6 @@ struct _ECellText {
 	   See the XParseColor man page for the formats available. */
 	gint color_column;
 	gint bg_color_column;
-
-	/* This stores the colors we have allocated. */
-	GHashTable *colors;
 };
 
 struct _ECellTextClass {

@@ -54,7 +54,7 @@ ec_unrealize (ECellView *e_cell)
 }
 
 static void
-ec_draw (ECellView *ecell_view, GdkDrawable *drawable,
+ec_draw (ECellView *ecell_view, cairo_t *cr,
 	 gint model_col, gint view_col, gint row, ECellFlags flags,
 	 gint x1, gint y1, gint x2, gint y2)
 {
@@ -240,7 +240,7 @@ e_cell_unrealize (ECellView *ecell_view)
 /**
  * e_cell_draw:
  * @ecell_view: the ECellView to redraw
- * @drawable: draw desination
+ * @cr: a Cairo context
  * @model_col: the column in the model being drawn.
  * @view_col: the column in the view being drawn (what the model maps to).
  * @row: the row being drawn
@@ -250,14 +250,14 @@ e_cell_unrealize (ECellView *ecell_view)
  * @x2: boudary for the rendering
  * @y2: boudary for the rendering
  *
- * This instructs the ECellView to render itself into the drawable.  The
- * region to be drawn in given by (x1,y1)-(x2,y2).
+ * This instructs the ECellView to render itself into the Cairo context.
+ * The region to be drawn in given by (x1,y1)-(x2,y2).
  *
  * The most important flags are %E_CELL_SELECTED and %E_CELL_FOCUSED, other
  * flags include alignments and justifications.
  */
 void
-e_cell_draw (ECellView *ecell_view, GdkDrawable *drawable,
+e_cell_draw (ECellView *ecell_view, cairo_t *cr,
 	     gint model_col, gint view_col, gint row, ECellFlags flags,
 	     gint x1, gint y1, gint x2, gint y2)
 {
@@ -265,7 +265,11 @@ e_cell_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	g_return_if_fail (row >= 0);
 	g_return_if_fail (row < e_table_model_row_count (ecell_view->e_table_model));
 
-	ECVIEW_EC_CLASS (ecell_view)->draw (ecell_view, drawable, model_col, view_col, row, flags, x1, y1, x2, y2);
+	cairo_save (cr);
+
+	ECVIEW_EC_CLASS (ecell_view)->draw (ecell_view, cr, model_col, view_col, row, flags, x1, y1, x2, y2);
+
+	cairo_restore (cr);
 }
 
 /**
