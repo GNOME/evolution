@@ -395,7 +395,7 @@ canvas_realize (GtkWidget *widget)
 	GTK_WIDGET_CLASS (e_canvas_parent_class)->realize (widget);
 
 	window = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
-	gdk_window_set_back_pixmap (window, NULL, FALSE);
+	gdk_window_set_background_pattern (window, NULL);
 
 	window = gtk_widget_get_window (widget);
 	gtk_im_context_set_client_window (ecanvas->im_context, window);
