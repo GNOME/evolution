@@ -49,6 +49,7 @@ struct _EAddressbookModelPrivate {
 	gulong writable_status_id;
 	gulong view_complete_id;
 	gulong backend_died_id;
+	guint remove_status_id;
 
 	guint search_in_progress	: 1;
 	guint editable			: 1;
@@ -114,12 +115,15 @@ remove_book_view (EAddressbookModel *model)
 		g_signal_handler_disconnect (
 			model->priv->book_view,
 			model->priv->view_complete_id);
+	if (model->priv->remove_status_id)
+		g_source_remove (model->priv->remove_status_id);
 
 	model->priv->create_contact_id = 0;
 	model->priv->remove_contact_id = 0;
 	model->priv->modify_contact_id = 0;
 	model->priv->status_message_id = 0;
 	model->priv->view_complete_id = 0;
+	model->priv->remove_status_id = 0;
 
 	model->priv->search_in_progress = FALSE;
 
@@ -127,6 +131,8 @@ remove_book_view (EAddressbookModel *model)
 		e_book_view_stop (model->priv->book_view);
 		g_object_unref (model->priv->book_view);
 		model->priv->book_view = NULL;
+
+		g_signal_emit (model, signals[STATUS_MESSAGE], 0, NULL);
 	}
 }
 
@@ -271,6 +277,10 @@ status_message (EBookView *book_view,
 		gchar * status,
 		EAddressbookModel *model)
 {
+	if (model->priv->remove_status_id)
+		g_source_remove (model->priv->remove_status_id);
+	model->priv->remove_status_id = 0;
+
 	g_signal_emit (model, signals[STATUS_MESSAGE], 0, status);
 }
 
@@ -390,6 +400,20 @@ addressbook_model_idle_cb (EAddressbookModel *model)
 	}
 
 	g_object_unref (model);
+
+	return FALSE;
+}
+
+static gboolean
+remove_status_cb (gpointer data)
+{
+	EAddressbookModel *model = data;
+
+	g_return_val_if_fail (model != NULL, FALSE);
+	g_return_val_if_fail (E_IS_ADDRESSBOOK_MODEL (model), FALSE);
+
+	g_signal_emit (model, signals[STATUS_MESSAGE], 0, NULL);
+	model->priv->remove_status_id = 0;
 
 	return FALSE;
 }
@@ -716,6 +740,9 @@ e_addressbook_model_stop (EAddressbookModel *model)
 	message = _("Search Interrupted");
 	g_signal_emit (model, signals[STOP_STATE_CHANGED], 0);
 	g_signal_emit (model, signals[STATUS_MESSAGE], 0, message);
+
+	if (!model->priv->remove_status_id)
+		model->priv->remove_status_id = g_timeout_add_seconds (3, remove_status_cb, model);
 }
 
 gboolean

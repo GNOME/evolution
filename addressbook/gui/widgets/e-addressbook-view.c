@@ -1075,9 +1075,9 @@ status_message (EAddressbookView *view,
 
 	if (status == NULL || *status == '\0') {
 		if (activity != NULL) {
+			view->priv->activity = NULL;
 			e_activity_set_state (activity, E_ACTIVITY_COMPLETED);
 			g_object_unref (activity);
-			view->priv->activity = NULL;
 		}
 
 	} else if (activity == NULL) {
