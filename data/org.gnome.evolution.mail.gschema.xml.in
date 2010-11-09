@@ -7,122 +7,313 @@
     </key>
     <key name="composer-charser" type="s">
       <default>''</default>
-      <short>Default charset in which to compose messages</short>
-      <long>Default charset in which to compose messages.</long>
+      <_summary>Default charset in which to compose messages</_summary>
+      <_description>Default charset in which to compose messages.</_description>
     </key>
     <key name="composer-inline-spelling" type="b">
       <default>true</default>
-      <short>Spell check inline</short>
-      <long>Draw spelling error indicators on words as you type.</long>
+      <_summary>Spell check inline</_summary>
+      <_description>Draw spelling error indicators on words as you type.</_description>
     </key>
     <key name="composer-magic-links" type="b">
       <default>true</default>
-      <short>Automatic link recognition</short>
-      <long>Recognize links in text and replace them.</long>
+      <_summary>Automatic link recognition</_summary>
+      <_description>Recognize links in text and replace them.</_description>
     </key>
     <key name="composer-magic-smileys" type="b">
       <default>false</default>
-      <short>Automatic emoticon recognition</short>
-      <long>Recognize emoticons in text and replace them with images.</long>
+      <_summary>Automatic emoticon recognition</_summary>
+      <_description>Recognize emoticons in text and replace them with images.</_description>
     </key>
     <key name="composer-group-reply-to-list" type="b">
       <default>false</default>
-      <short>Group Reply replies to list</short>
-      <long>Instead of the normal "Reply to All" behaviour, this option will make the 'Group Reply' toolbar button try to reply only to the mailing list through which you happened to receive the copy of the message to which you're replying.</long>
+      <_summary>Group Reply replies to list</_summary>
+      <_description>Instead of the normal "Reply to All" behaviour, this option will make the 'Group Reply' toolbar button try to reply only to the mailing list through which you happened to receive the copy of the message to which you're replying.</_description>
     </key>
     <key name="composer-reply-start-bottom" type="b">
       <default>false</default>
-      <short>Put the cursor at the bottom of replies</short>
-      <long>Users get all up in arms over where the cursor should go when replying to a message. This determines whether the cursor is placed at the top of the message or the bottom.</long>
+      <_summary>Put the cursor at the bottom of replies</_summary>
+      <_description>Users get all up in arms over where the cursor should go when replying to a message. This determines whether the cursor is placed at the top of the message or the bottom.</_description>
     </key>
     <key name="composer-request-receipt" type="b">
       <default>false</default>
-      <short>Always request read receipt</short>
-      <long>Whether a read receipt request gets added to every message by default.</long>
+      <_summary>Always request read receipt</_summary>
+      <_description>Whether a read receipt request gets added to every message by default.</_description>
     </key>
     <key name="composer-send-html" type="b">
       <default>false</default>
-      <short>Send HTML mail by default</short>
-      <long>Send HTML mail by default.</long>
+      <_summary>Send HTML mail by default</_summary>
+      <_description>Send HTML mail by default.</_description>
     </key>
     <key name="composer-spell-color" type="s">
       <default>'#FFFF00000000'</default>
-      <short>Spell checking color</short>
-      <long>Underline color for misspelled words when using inline spelling.</long>
+      <_summary>Spell checking color</_summary>
+      <_description>Underline color for misspelled words when using inline spelling.</_description>
     </key>
     <key name="composer-spell-languages" type="as">
       <default>[]</default>
-      <short>Spell checking languages</short>
-      <long>List of dictionary language codes used for spell checking.</long>
+      <_summary>Spell checking languages</_summary>
+      <_description>List of dictionary language codes used for spell checking.</_description>
     </key>
     <key name="composer-show-bcc" type="b">
       <default>false</default>
-      <short>Show "Bcc" field when sending a mail message</short>
-      <long>Show the "Bcc" field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</long>
+      <_summary>Show "Bcc" field when sending a mail message</_summary>
+      <_description>Show the "Bcc" field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
     </key>
     <key name="composer-show-cc" type="b">
       <default>true</default>
-      <short>Show "Cc" field when sending a mail message</short>
-      <long>Show the "Cc" field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</long>
+      <_summary>Show "Cc" field when sending a mail message</_summary>
+      <_description>Show the "Cc" field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
     </key>
     <key name="composer-show-reply-to" type="b">
       <default>false</default>
-      <short>Show "Reply To" field when sending a mail message</short>
-      <long>Show the "Reply To" field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</long>
+      <_summary>Show "Reply To" field when sending a mail message</_summary>
+      <_description>Show the "Reply To" field when sending a mail message. This is controlled from the View menu when a mail account is chosen.</_description>
     </key>
     <key name="composer-show-post-from" type="b">
       <default>true</default>
-      <short>Show "From" field when posting to a newsgroup</short>
-      <long>Show the "From" field when posting to a newsgroup. This is controlled from the View menu when a news account is chosen.</long>
+      <_summary>Show "From" field when posting to a newsgroup</_summary>
+      <_description>Show the "From" field when posting to a newsgroup. This is controlled from the View menu when a news account is chosen.</_description>
     </key>
     <key name="composer-show-post-reply-to" type="b">
       <default>false</default>
-      <short>Show "Reply To" field when posting to a newsgroup</short>
-      <long>Show the "Reply To" field when posting to a newsgroup. This is controlled from the View menu when a news account is chosen.</long>
+      <_summary>Show "Reply To" field when posting to a newsgroup</_summary>
+      <_description>Show the "Reply To" field when posting to a newsgroup. This is controlled from the View menu when a news account is chosen.</_description>
     </key>
     <key name="composer-outlook-filenames" type="b">
       <default>false</default>
-      <short>Encode file names in an Outlook/GMail way</short>
-      <long>Encode file names in the mail headers same as Outlook or GMail do, to let them display correctly file names with UTF-8 letters sent by Evolution, because they do not follow the RFC 2231, but use the incorrect RFC 2047 standard.</long>
+      <_summary>Encode file names in an Outlook/GMail way</_summary>
+      <_description>Encode file names in the mail headers same as Outlook or GMail do, to let them display correctly file names with UTF-8 letters sent by Evolution, because they do not follow the RFC 2231, but use the incorrect RFC 2047 standard.</_description>
     </key>
     <key name="composer-top-signature" type="b">
       <default>false</default>
-      <short>Put personalized signatures at the top of replies</short>
-      <long>Users get all up in arms over where their signature should go when replying to a message. This determines whether the signature is placed at the top of the message or the bottom.</long>
+      <_summary>Put personalized signatures at the top of replies</_summary>
+      <_description>Users get all up in arms over where their signature should go when replying to a message. This determines whether the signature is placed at the top of the message or the bottom.</_description>
     </key>
     <key name="composer-no-signature-delim" type="b">
       <default>false</default>
-      <short>Do not add signature delimiter</short>
-      <long>Set to TRUE in case you do not want to add signature delimiter before your signature when composing a mail.</long>
+      <_summary>Do not add signature delimiter</_summary>
+      <_description>Set to TRUE in case you do not want to add signature delimiter before your signature when composing a mail.</_description>
     </key>
     <key name="composer-width" type="i">
       <default>600</default>
-      <short>Composer Window default width</short>
-      <long>Default width of the Composer Window.</long>
+      <_summary>Composer Window default width</_summary>
+      <_description>Default width of the Composer Window.</_description>
     </key>
     <key name="composer-height" type="i">
       <default>500</default>
-      <short>Composer Window default height</short>
-      <long>Default height of the Composer Window.</long>
+      <_summary>Composer Window default height</_summary>
+      <_description>Default height of the Composer Window.</_description>
     </key>
     <key name="composer-ignore-list-reply-to" type="b">
       <default>false</default>
-      <short>Ignore list Reply-To:</short>
-      <long>Some mailing lists set a Reply-To: header to trick users into sending replies to the list, even when they ask Evolution to make a private reply. Setting this option to TRUE will attempt to ignore such Reply-To: headers, so that Evolution will do as you ask it. If you use the private reply action, it will reply privately, while if you use the 'Reply to List' action it will do that. It works by comparing the Reply-To: header with a List-Post: header, if there is one.</long>
+      <_summary>Ignore list Reply-To:</_summary>
+      <_description>Some mailing lists set a Reply-To: header to trick users into sending replies to the list, even when they ask Evolution to make a private reply. Setting this option to TRUE will attempt to ignore such Reply-To: headers, so that Evolution will do as you ask it. If you use the private reply action, it will reply privately, while if you use the 'Reply to List' action it will do that. It works by comparing the Reply-To: header with a List-Post: header, if there is one.</_description>
     </key>
     <key name="show-animated-images" type="b">
       <default>false</default>
-      <short>Show image animations</short>
-      <long>Enable animated images in HTML mail. Many users find animated images annoying and prefer to see a static image instead.</long>
+      <_summary>Show image animations</_summary>
+      <_description>Enable animated images in HTML mail. Many users find animated images annoying and prefer to see a static image instead.</_description>
     </key>
     <key name="side-bar-search" type="b">
       <default>true</default>
-      <short>Enable or disable type ahead search feature</short>
-      <long>Enable the side bar search feature to allow interactive searching of folder names.</long>
+      <_summary>Enable or disable type ahead search feature</_summary>
+      <_description>Enable the side bar search feature to allow interactive searching of folder names.</_description>
     </key>
     <key name="no-folder-dots" type="b">
       <default>false</default>
-      <short>Disable or enable ellipsizing of folder names in side bar</short>
-      <long>Whether disable ellipsizing feature of folder names in side bar.</long>
+      <_summary>Disable or enable ellipsizing of folder names in side bar</_summary>
+      <_description>Whether disable ellipsizing feature of folder names in side bar.</_description>
+    </key>
+    <key name="magic-spacebar" type="b">
+      <default>true</default>
+      <_summary>Enable or disable magic space bar</_summary>
+      <_description>Enable this to use Space bar key to scroll in message preview, message list and folders.</_description>
+    </key>
+    <key name="global-view-setting" type="b">
+      <default>false</default>
+      <_summary>Enable to use a similar message list view settings for all folders</_summary>
+      <_description>Enable to use a similar message list view settings for all folders.</_description>
+    </key>
+    <key name="mark-citations" type="b">
+      <default>true</default>
+      <_summary>Mark citations in the message "Preview"</_summary>
+      <_description>Mark citations in the message "Preview".</_description>
+    </key>
+    <key name="citation-colour" type="s">
+      <default>'#737373'</default>
+      <_summary>Citation highlight color</_summary>
+      <_description>Citation highlight color.</_description>
+    </key>
+    <key name="caret-mode" type="b">
+      <default>false</default>
+      <_summary>Enable/disable caret mode</_summary>
+      <_description>Enable caret mode, so that you can see a cursor when reading mail.</_description>
+    </key>
+    <key name="charset" type="s">
+      <default>''</default>
+      <_summary>Default charset in which to display messages</_summary>
+      <_description>Default charset in which to display messages.</_description>
+    </key>
+    <key name="load-http-images" type="i">
+      <default>0</default>
+      <_summary>Load images for HTML messages over HTTP</_summary>
+      <_description>
+	Load images for HTML messages over HTTP(S). Possible values are:
+        "0" - Never load images off the net.
+        "1" - Load images in messages from contacts.
+        "2" - Always load images off the net.
+      </_description>
+    </key>
+    <key name="animate-images" type="b">
+      <default>true</default>
+      <_summary>Show Animations</_summary>
+      <_description>Show animated images as animations.</_description>
+    </key>
+    <key name="show-all-headers" type="b">
+      <default>false</default>
+      <short>Show all message headers</short>
+      <long>Show all the headers when viewing a messages.</long>
+    </key>
+    <key name="headers" type="as">
+      <default>[]</default>
+      <short>List of custom headers and whether they are enabled.</short>
+      <long>This key should contain a list of XML structures specifying custom headers, and whether they are to be displayed. The format of the XML structure is &lt;header enabled&gt; - set enabled if the header is to be displayed in the mail view.</long>
+    </key>
+    <key name="show-sender-photo" type="b">
+      <default>false</default>
+      <short>Show photo of the sender</short>
+      <long>Show the photo of the sender in the message reading pane.</long>
+    </key>
+    <key name="photo-local" type="b">
+      <default>true</default>
+      <short>Search for the sender photo in local address books </short>
+      <long>This option would help in improving the speed of fetching.</long>
+    </key>
+    <key name="mime-types=" type="as">
+      <default>[]</default>
+      <short>List of MIME types to check for Bonobo component viewers</short>
+      <long>If there isn't a builtin viewer for a particular MIME type inside Evolution, any MIME types appearing in this list which map to a Bonobo component viewer in GNOME's MIME type database may be used for displaying content.</long>
+    </key>
+    <key name="mark-seen" type="b">
+      <default>true</default>
+      <short>Mark as Seen after specified timeout</short>
+      <long>Mark as Seen after specified timeout.</long>
+    </key>
+    <key name="mark-seen-timeout" type="i">
+      <default>1500</default>
+      <short>Timeout for marking message as seen</short>
+      <long>Timeout for marking message as seen.</long>
+    </key>
+    <key name="show-email" type="b">
+      <default>false</default>
+      <short>Sender email-address column in the message list</short>
+      <long>Show the email-address of the sender in a separate column in the message list.</long>
+    </key>
+    <key name="vertical-view-fonts" type="b">
+      <default>false</default>
+      <short>Determines whether to use the same fonts for both "From" and "Subject" lines in the "Messages" column in vertical view</short>
+      <long>Determines whether to use the same fonts for both "From" and "Subject" lines in the "Messages" column in vertical view.</long>
+    </key>
+    <key name="show-deleted" type="b">
+      <default>false</default>
+      <short>Show deleted messages in the message-list</short>
+      <long>Show deleted messages (with a strike-through) in the message-list.</long>
+    </key>
+    <key name="enable-vfolders" type="b">
+      <default>true</default>
+      <short>Enable search folders</short>
+      <long>Enable search folders on startup.</long>
+    </key>
+    <key name="safe-list" type="b">
+      <default>false</default>
+      <short>Hides the per-folder preview and removes the selection</short>
+      <long>This key is read only once and reset to "false" after read. This unselects the mail in the list and removes the preview for that folder.</long>
+    </key>
+    <key name="paned-size" type="i">
+      <default>144</default>
+      <short>Height of the message-list pane</short>
+      <long>Height of the message-list pane.</long>
+    </key>
+    <key name="hpaned-size" type="i">
+      <default>450</default>
+      <short>Width of the message-list pane</short>
+      <long>Width of the message-list pane.</long>
+    </key>
+    <key name="layout" type="i">
+      <default>0</default>
+      <short>Layout style</short>
+      <long>The layout style determines where to place the preview pane in relation to the message list.  "0" (Classic View) places the preview pane below the message list.  "1" (Vertical View) places the preview pane next to the message list.</long>
+    </key>
+    <key name="variable-width-font" type="s">
+      <default>'Sans 12'</default>
+      <short>Variable width font</short>
+      <long>The variable width font for mail display.</long>
+    </key>
+    <key name="monospace-font" type="s">
+      <default>'Monospace 12'</default>
+      <short>Terminal font</short>
+      <long>The terminal font for mail display.</long>
+    </key>
+    <key name="use-custom-font" type="b">
+      <default>false</default>
+      <short>Use custom fonts</short>
+      <long>Use custom fonts for displaying mail.</long>
+    </key>
+    <key name="address-compress" type="b">
+      <default>true</default>
+      <short>Compress display of addresses in TO/CC/BCC</short>
+      <long>Compress display of addresses in TO/CC/BCC to the number specified in address_count.</long>
+    </key>
+    <key name="force-message-limit" type="b">
+      <default>true</default>
+      <short>Display only message texts not exceeding certain size</short>
+      <long>Enable to display only message texts not exceeding size defined in 'message_text_part_limit' key.</long>
+    </key>
+    <key name="message-text-part-limit" type="i">
+      <default>4096</default>
+      <short>Message text limit for display</short>
+      <long>This decides the max size of the message text that will be displayed under Evolution, specified in terms of KB. The default is 4096 (4MB). This value is used only when 'force_message_limit' key is activated.</long>
+    </key>
+    <key name="address-count" type="i">
+      <default>5</default>
+      <short>Number of addresses to display in TO/CC/BCC</short>
+      <long>This sets the number of addresses to show in default message list view, beyond which a '...' is shown.</long>
+    </key>
+    <key name="thread-subject" type="b">
+      <default>false</default>
+      <short>Thread the message-list based on Subject</short>
+      <long>Whether or not to fall back on threading by subjects when the messages do not contain In-Reply-To or References headers.</long>
+    </key>
+    <key name="thread-expand" type="b">
+      <default>true</default>
+      <short>Default value for thread expand state</short>
+      <long>This setting specifies whether the threads should be in expanded or collapsed state by default. Evolution requires a restart.</long>
+    </key>
+    <key name="thread-latest" type="b">
+      <default>true</default>
+      <short>Whether sort threads based on latest message in that thread</short>
+      <long>This setting specifies whether the threads should be sorted based on latest message in each thread, rather than by message's date. Evolution requires a restart.</long>
+    </key>
+    <key name="mail-browser-width" type="i">
+      <default>600</default>
+      <short>Mail browser width</short>
+      <long>Default width of the mail browser window.</long>
+    </key>
+    <key name="mail-browser-height" type="i">
+      <default>400</default>
+      <short>Mail browser height</short>
+      <long>Default height of the mail browser window.</long>
+    </key>
+    <key name="mail-browser-maximized" type="b">
+      <default>false</default>
+      <short>Mail browser maximized</short>
+      <long>Default maximized state of the mail browser window.</long>
+    </key>
+    <key name="subscription-editor-height" type="i">
+      <default>400</default>
+      <short>"Folder Subscriptions" window height</short>
+      <long>Initial height of the "Folder Subscriptions" window. The value updates as the user resizes the window vertically.</long>
+    </key>
   </schema>
 </schemalist>

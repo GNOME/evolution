@@ -59,7 +59,44 @@ composer-ignore-list-reply-to = /apps/evolution/mail/composer/ignore_list_reply_
 show-animated-images = /apps/evolution/mail/display/animated_images
 side-bar-search = /apps/evolution/mail/display/side_bar_search
 no-folder-dots = /apps/evolution/mail/display/no_folder_dots
-***********************************************HERE****************************************************
+magic-spacebar = /apps/evolution/mail/display/magic_spacebar
+global-view-setting = /apps/evolution/mail/display/global_view_setting
+mark-citations = /apps/evolution/mail/display/mark_citations
+citation-colour = /apps/evolution/mail/display/citation_colour
+caret-mode = /apps/evolution/mail/display/caret_mode
+charset = /apps/evolution/mail/display/charset
+load-http-images = /apps/evolution/mail/display/load_http_images
+animate-images = /apps/evolution/mail/display/animate_images
+shoe-all-headers = /apps/evolution/mail/display/show_all_headers
+headers = /apps/evolution/mail/display/headers
+show-sender-photo = /apps/evolution/mail/display/sender_photo
+photo-local = /apps/evolution/mail/display/photo_local
+mime-types = /apps/evolution/mail/display/mime_types
+mark-seen = /apps/evolution/mail/display/mark_seen
+mark-seen-timeout = /apps/evolution/mail/display/mark_seen_timeout
+show-email = /apps/evolution/mail/display/show_email
+vertical-view-fonts = /apps/evolution/mail/display/vertical_view_fonts
+show-deleted = /apps/evolution/mail/display/show_deleted
+enable-vfolders = /apps/evolution/mail/display/enable_vfolders
+safe-list = /apps/evolution/mail/display/safe_list
+paned-size = /apps/evolution/mail/display/paned_size
+hpaned-size = /apps/evolution/mail/display/hpaned_size
+layout = /apps/evolution/mail/display/layout
+variable-width-font = /apps/evolution/mail/display/fonts/variable
+monospace-font = /apps/evolution/mail/display/fonts/monospace
+use-custom-font = /apps/evolution/mail/display/fonts/use_custom
+address-compress = /apps/evolution/mail/display/address_compress
+force-message-limit = /apps/evolution/mail/display/force_message_limit
+message-text-part-limit = /apps/evolution/mail/display/message_text_part_limit
+address-count = /apps/evolution/mail/display/address_count
+thread-subject = /apps/evolution/mail/display/thread_subject
+thread-expand = /apps/evolution/mail/display/thread_expand
+thread-latest = /apps/evolution/mail/display/thread_latest
+mail-browser-width = /apps/evolution/mail/mail_browser_width
+mail-browser-height = /apps/evolution/mail/mail_browser_height
+mail-browser-maximized = /apps/evolution/mail/mail_browser_maximized
+subscription-editor-height = /apps/evolution/mail/subscription_editor_height
+===================================================================================================================
 
 [org.gnome.evolution.eplugin.attachment-reminder]
 attachment-reminder-clues = /apps/evolution/mail/attachment_reminder_clues
