@@ -172,148 +172,153 @@
     </key>
     <key name="show-all-headers" type="b">
       <default>false</default>
-      <short>Show all message headers</short>
-      <long>Show all the headers when viewing a messages.</long>
+      <_summary>Show all message headers</_summary>
+      <_description>Show all the headers when viewing a messages.</_description>
     </key>
     <key name="headers" type="as">
       <default>[]</default>
-      <short>List of custom headers and whether they are enabled.</short>
-      <long>This key should contain a list of XML structures specifying custom headers, and whether they are to be displayed. The format of the XML structure is &lt;header enabled&gt; - set enabled if the header is to be displayed in the mail view.</long>
+      <_summary>List of custom headers and whether they are enabled.</_summary>
+      <_description>This key should contain a list of XML structures specifying custom headers, and whether they are to be displayed. The format of the XML structure is &lt;header enabled&gt; - set enabled if the header is to be displayed in the mail view.</_description>
     </key>
     <key name="show-sender-photo" type="b">
       <default>false</default>
-      <short>Show photo of the sender</short>
-      <long>Show the photo of the sender in the message reading pane.</long>
+      <_summary>Show photo of the sender</_summary>
+      <_description>Show the photo of the sender in the message reading pane.</_description>
     </key>
     <key name="photo-local" type="b">
       <default>true</default>
-      <short>Search for the sender photo in local address books </short>
-      <long>This option would help in improving the speed of fetching.</long>
+      <_summary>Search for the sender photo in local address books </_summary>
+      <_description>This option would help in improving the speed of fetching.</_description>
     </key>
     <key name="mime-types=" type="as">
       <default>[]</default>
-      <short>List of MIME types to check for Bonobo component viewers</short>
-      <long>If there isn't a builtin viewer for a particular MIME type inside Evolution, any MIME types appearing in this list which map to a Bonobo component viewer in GNOME's MIME type database may be used for displaying content.</long>
+      <_summary>List of MIME types to check for Bonobo component viewers</_summary>
+      <_description>If there isn't a builtin viewer for a particular MIME type inside Evolution, any MIME types appearing in this list which map to a Bonobo component viewer in GNOME's MIME type database may be used for displaying content.</_description>
     </key>
     <key name="mark-seen" type="b">
       <default>true</default>
-      <short>Mark as Seen after specified timeout</short>
-      <long>Mark as Seen after specified timeout.</long>
+      <_summary>Mark as Seen after specified timeout</_summary>
+      <_description>Mark as Seen after specified timeout.</_description>
     </key>
     <key name="mark-seen-timeout" type="i">
       <default>1500</default>
-      <short>Timeout for marking message as seen</short>
-      <long>Timeout for marking message as seen.</long>
+      <_summary>Timeout for marking message as seen</_summary>
+      <_description>Timeout for marking message as seen.</_description>
     </key>
     <key name="show-email" type="b">
       <default>false</default>
-      <short>Sender email-address column in the message list</short>
-      <long>Show the email-address of the sender in a separate column in the message list.</long>
+      <_summary>Sender email-address column in the message list</_summary>
+      <_description>Show the email-address of the sender in a separate column in the message list.</_description>
     </key>
     <key name="vertical-view-fonts" type="b">
       <default>false</default>
-      <short>Determines whether to use the same fonts for both "From" and "Subject" lines in the "Messages" column in vertical view</short>
-      <long>Determines whether to use the same fonts for both "From" and "Subject" lines in the "Messages" column in vertical view.</long>
+      <_summary>Determines whether to use the same fonts for both "From" and "Subject" lines in the "Messages" column in vertical view</_summary>
+      <_description>Determines whether to use the same fonts for both "From" and "Subject" lines in the "Messages" column in vertical view.</_description>
     </key>
     <key name="show-deleted" type="b">
       <default>false</default>
-      <short>Show deleted messages in the message-list</short>
-      <long>Show deleted messages (with a strike-through) in the message-list.</long>
+      <_summary>Show deleted messages in the message-list</_summary>
+      <_description>Show deleted messages (with a strike-through) in the message-list.</_description>
     </key>
     <key name="enable-vfolders" type="b">
       <default>true</default>
-      <short>Enable search folders</short>
-      <long>Enable search folders on startup.</long>
+      <_summary>Enable search folders</_summary>
+      <_description>Enable search folders on startup.</_description>
     </key>
     <key name="safe-list" type="b">
       <default>false</default>
-      <short>Hides the per-folder preview and removes the selection</short>
-      <long>This key is read only once and reset to "false" after read. This unselects the mail in the list and removes the preview for that folder.</long>
+      <_summary>Hides the per-folder preview and removes the selection</_summary>
+      <_description>This key is read only once and reset to "false" after read. This unselects the mail in the list and removes the preview for that folder.</_description>
     </key>
     <key name="paned-size" type="i">
       <default>144</default>
-      <short>Height of the message-list pane</short>
-      <long>Height of the message-list pane.</long>
+      <_summary>Height of the message-list pane</_summary>
+      <_description>Height of the message-list pane.</_description>
     </key>
     <key name="hpaned-size" type="i">
       <default>450</default>
-      <short>Width of the message-list pane</short>
-      <long>Width of the message-list pane.</long>
+      <_summary>Width of the message-list pane</_summary>
+      <_description>Width of the message-list pane.</_description>
     </key>
     <key name="layout" type="i">
       <default>0</default>
-      <short>Layout style</short>
-      <long>The layout style determines where to place the preview pane in relation to the message list.  "0" (Classic View) places the preview pane below the message list.  "1" (Vertical View) places the preview pane next to the message list.</long>
+      <_summary>Layout style</_summary>
+      <_description>The layout style determines where to place the preview pane in relation to the message list.  "0" (Classic View) places the preview pane below the message list.  "1" (Vertical View) places the preview pane next to the message list.</_description>
     </key>
     <key name="variable-width-font" type="s">
       <default>'Sans 12'</default>
-      <short>Variable width font</short>
-      <long>The variable width font for mail display.</long>
+      <_summary>Variable width font</_summary>
+      <_description>The variable width font for mail display.</_description>
     </key>
     <key name="monospace-font" type="s">
       <default>'Monospace 12'</default>
-      <short>Terminal font</short>
-      <long>The terminal font for mail display.</long>
+      <_summary>Terminal font</_summary>
+      <_description>The terminal font for mail display.</_description>
     </key>
     <key name="use-custom-font" type="b">
       <default>false</default>
-      <short>Use custom fonts</short>
-      <long>Use custom fonts for displaying mail.</long>
+      <_summary>Use custom fonts</_summary>
+      <_description>Use custom fonts for displaying mail.</_description>
     </key>
     <key name="address-compress" type="b">
       <default>true</default>
-      <short>Compress display of addresses in TO/CC/BCC</short>
-      <long>Compress display of addresses in TO/CC/BCC to the number specified in address_count.</long>
+      <_summary>Compress display of addresses in TO/CC/BCC</_summary>
+      <_description>Compress display of addresses in TO/CC/BCC to the number specified in address_count.</_description>
     </key>
     <key name="force-message-limit" type="b">
       <default>true</default>
-      <short>Display only message texts not exceeding certain size</short>
-      <long>Enable to display only message texts not exceeding size defined in 'message_text_part_limit' key.</long>
+      <_summary>Display only message texts not exceeding certain size</_summary>
+      <_description>Enable to display only message texts not exceeding size defined in 'message_text_part_limit' key.</_description>
     </key>
     <key name="message-text-part-limit" type="i">
       <default>4096</default>
-      <short>Message text limit for display</short>
-      <long>This decides the max size of the message text that will be displayed under Evolution, specified in terms of KB. The default is 4096 (4MB). This value is used only when 'force_message_limit' key is activated.</long>
+      <_summary>Message text limit for display</_summary>
+      <_description>This decides the max size of the message text that will be displayed under Evolution, specified in terms of KB. The default is 4096 (4MB). This value is used only when 'force_message_limit' key is activated.</_description>
     </key>
     <key name="address-count" type="i">
       <default>5</default>
-      <short>Number of addresses to display in TO/CC/BCC</short>
-      <long>This sets the number of addresses to show in default message list view, beyond which a '...' is shown.</long>
+      <_summary>Number of addresses to display in TO/CC/BCC</_summary>
+      <_description>This sets the number of addresses to show in default message list view, beyond which a '...' is shown.</_description>
     </key>
     <key name="thread-subject" type="b">
       <default>false</default>
-      <short>Thread the message-list based on Subject</short>
-      <long>Whether or not to fall back on threading by subjects when the messages do not contain In-Reply-To or References headers.</long>
+      <_summary>Thread the message-list based on Subject</_summary>
+      <_description>Whether or not to fall back on threading by subjects when the messages do not contain In-Reply-To or References headers.</_description>
     </key>
     <key name="thread-expand" type="b">
       <default>true</default>
-      <short>Default value for thread expand state</short>
-      <long>This setting specifies whether the threads should be in expanded or collapsed state by default. Evolution requires a restart.</long>
+      <_summary>Default value for thread expand state</_summary>
+      <_description>This setting specifies whether the threads should be in expanded or collapsed state by default. Evolution requires a restart.</_description>
     </key>
     <key name="thread-latest" type="b">
       <default>true</default>
-      <short>Whether sort threads based on latest message in that thread</short>
-      <long>This setting specifies whether the threads should be sorted based on latest message in each thread, rather than by message's date. Evolution requires a restart.</long>
+      <_summary>Whether sort threads based on latest message in that thread</_summary>
+      <_description>This setting specifies whether the threads should be sorted based on latest message in each thread, rather than by message's date. Evolution requires a restart.</_description>
     </key>
     <key name="mail-browser-width" type="i">
       <default>600</default>
-      <short>Mail browser width</short>
-      <long>Default width of the mail browser window.</long>
+      <_summary>Mail browser width</_summary>
+      <_description>Default width of the mail browser window.</_description>
     </key>
     <key name="mail-browser-height" type="i">
       <default>400</default>
-      <short>Mail browser height</short>
-      <long>Default height of the mail browser window.</long>
+      <_summary>Mail browser height</_summary>
+      <_description>Default height of the mail browser window.</_description>
     </key>
     <key name="mail-browser-maximized" type="b">
       <default>false</default>
-      <short>Mail browser maximized</short>
-      <long>Default maximized state of the mail browser window.</long>
+      <_summary>Mail browser maximized</_summary>
+      <_description>Default maximized state of the mail browser window.</_description>
     </key>
     <key name="subscription-editor-height" type="i">
       <default>400</default>
-      <short>"Folder Subscriptions" window height</short>
-      <long>Initial height of the "Folder Subscriptions" window. The value updates as the user resizes the window vertically.</long>
+      <_summary>"Folder Subscriptions" window height</_summary>
+      <_description>Initial height of the "Folder Subscriptions" window. The value updates as the user resizes the window vertically.</_description>
+    </key>
+    <key name="subscription-editor-maximized" type="b">
+      <default>false</default>
+      <_summary>"Folder Subscriptions" window maximize state</_summary>
+      <_description>Initial maximize state of the "Folder Subscriptions" window. The value updates when the user maximizes or unmaximizes the window. Note, this particular value is not used by Evolution since the "Folder Subscriptions" window cannot be maximized. This key exists only as an implementation detail.</_description>
     </key>
   </schema>
 </schemalist>
