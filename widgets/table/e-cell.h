@@ -114,7 +114,7 @@ struct _ECellClass {
 	void		(*unrealize)		(ECellView *ecell_view);
 
 	void		(*draw)			(ECellView *ecell_view,
-						 GdkDrawable *drawable,
+						 cairo_t *cr,
 						 gint model_col,
 						 gint view_col, gint row,
 						 ECellFlags flags,
@@ -214,7 +214,7 @@ gint		e_cell_event			(ECellView *ecell_view,
 void		e_cell_realize			(ECellView *ecell_view);
 void		e_cell_unrealize		(ECellView *ecell_view);
 void		e_cell_draw			(ECellView *ecell_view,
-						 GdkDrawable *drawable,
+						 cairo_t *cr,
 						 gint model_col,
 						 gint view_col,
 						 gint row,

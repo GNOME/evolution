@@ -197,8 +197,6 @@ static void _get_tep (CellEdit *edit);
 static gint get_position_from_xy (CellEdit *edit, gint x, gint y);
 static gboolean _blink_scroll_timeout (gpointer data);
 
-static void ect_free_color (gchar *color_spec, GdkColor *color, GdkColormap *colormap);
-static GdkColor* e_cell_text_get_color (ECellTextView *cell_view, gchar *color_spec);
 static void e_cell_text_preedit_changed_cb (GtkIMContext *context, ECellTextView *text_view);
 static void e_cell_text_commit_cb (GtkIMContext *context, const gchar  *str, ECellTextView *text_view);
 static gboolean e_cell_text_retrieve_surrounding_cb (GtkIMContext *context, ECellTextView *text_view);
@@ -379,8 +377,6 @@ static void
 ect_unrealize (ECellView *ecv)
 {
 	ECellTextView *text_view = (ECellTextView *) ecv;
-	ECellText *ect = (ECellText*) ecv->ecell;
-	GdkColormap *colormap;
 
 	if (text_view->edit) {
 		ect_cancel_edit (text_view);
@@ -388,32 +384,9 @@ ect_unrealize (ECellView *ecv)
 
 	g_object_unref (text_view->i_cursor);
 
-	if (ect->colors) {
-		colormap = gtk_widget_get_colormap (GTK_WIDGET (text_view->canvas));
-		g_hash_table_foreach (ect->colors, (GHFunc) ect_free_color,
-				      colormap);
-		g_hash_table_destroy (ect->colors);
-		ect->colors = NULL;
-	}
-
 	if (E_CELL_CLASS (e_cell_text_parent_class)->unrealize)
 		(* E_CELL_CLASS (e_cell_text_parent_class)->unrealize) (ecv);
 
-}
-
-static void
-ect_free_color (gchar *color_spec, GdkColor *color, GdkColormap *colormap)
-{
-	g_free (color_spec);
-
-	/* This frees the color. Note we don't free it if it is the special
-	   value. */
-	if (color != (GdkColor*) 1) {
-		gdk_colormap_free_colors (colormap, color, 1);
-
-		/* This frees the memory for the GdkColor. */
-		gdk_color_free (color);
-	}
 }
 
 static PangoAttrList*
@@ -701,7 +674,7 @@ get_vertical_spacing (GtkWidget *canvas)
  * ECell::draw method
  */
 static void
-ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
+ect_draw (ECellView *ecell_view, cairo_t *cr,
 	  gint model_col, gint view_col, gint row, ECellFlags flags,
 	  gint x1, gint y1, gint x2, gint y2)
 {
@@ -713,13 +686,11 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	GtkWidget *canvas = GTK_WIDGET (text_view->canvas);
 	GtkStyle *style;
 	gint x_origin, y_origin, vspacing;
-        cairo_t *cr;
 
+	cairo_save (cr);
 	style = gtk_widget_get_style (canvas);
 
 	selected = flags & E_CELL_SELECTED;
-
-        cr = gdk_cairo_create (drawable);
 
 	if (selected) {
 		if (gtk_widget_has_focus (canvas))
@@ -731,15 +702,13 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 
 		if (ect->color_column != -1) {
 			gchar *color_spec;
-			GdkColor *cell_foreground;
+			GdkColor color;
 
 			color_spec = e_table_model_value_at (
 				ecell_view->e_table_model,
 				ect->color_column, row);
-			cell_foreground = e_cell_text_get_color (text_view,
-								 color_spec);
-			if (cell_foreground)
-				gdk_cairo_set_source_color (cr, cell_foreground);
+			if (color_spec && gdk_color_parse (color_spec, &color))
+				gdk_cairo_set_source_color (cr, &color);
 		}
 	}
 
@@ -805,7 +774,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	}
 
 	g_object_unref (layout);
-        cairo_destroy (cr);
+	cairo_restore (cr);
 }
 
 /*
@@ -2472,45 +2441,6 @@ _get_tep (CellEdit *edit)
 				  G_CALLBACK (e_cell_text_view_command),
 				  (gpointer) edit);
 	}
-}
-
-static GdkColor*
-e_cell_text_get_color (ECellTextView *cell_view, gchar *color_spec)
-{
-	ECellText *ect = E_CELL_TEXT (((ECellView*) cell_view)->ecell);
-	GdkColormap *colormap;
-	GdkColor *color, tmp_color;
-
-	/* If the color spec is NULL we use the default color. */
-	if (color_spec == NULL)
-		return NULL;
-
-	/* Create the hash table if we haven't already. */
-	if (!ect->colors)
-		ect->colors = g_hash_table_new (g_str_hash, g_str_equal);
-
-	/* See if we've already allocated the color. Note that we use a
-	   special value of (GdkColor*) 1 in the hash to indicate that we've
-	   already tried and failed to allocate the color, so we don't keep
-	   trying to allocate it. */
-	color = g_hash_table_lookup (ect->colors, color_spec);
-	if (color == (GdkColor*) 1)
-		return NULL;
-	if (color)
-		return color;
-
-	/* Try to parse the color. */
-	if (gdk_color_parse (color_spec, &tmp_color)) {
-		colormap = gtk_widget_get_colormap (GTK_WIDGET (cell_view->canvas));
-
-		/* Try to allocate the color. */
-		if (gdk_colormap_alloc_color (colormap, &tmp_color, FALSE, TRUE))
-			color = gdk_color_copy (&tmp_color);
-	}
-
-	g_hash_table_insert (ect->colors, g_strdup (color_spec),
-			     color ? color : (GdkColor*) 1);
-	return color;
 }
 
 /**

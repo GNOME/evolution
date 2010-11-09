@@ -97,14 +97,13 @@ pixbuf_kill_view (ECellView *ecell_view)
 }
 
 static void
-pixbuf_draw (ECellView *ecell_view, GdkDrawable *drawable,
+pixbuf_draw (ECellView *ecell_view, cairo_t *cr,
              gint model_col, gint view_col, gint row, ECellFlags flags,
              gint x1, gint y1, gint x2, gint y2)
 {
     GdkPixbuf *cell_pixbuf;
     gint real_x, real_y;
     gint pix_w, pix_h;
-    cairo_t *cr;
 
     cell_pixbuf = e_table_model_value_at (ecell_view->e_table_model,
 							  1, row);
@@ -135,12 +134,10 @@ pixbuf_draw (ECellView *ecell_view, GdkDrawable *drawable,
         real_y = y1;
     }
 
-    cr = gdk_cairo_create (drawable);
     cairo_save (cr);
     gdk_cairo_set_source_pixbuf (cr, cell_pixbuf, real_x, real_y);
     cairo_paint_with_alpha (cr, 1);
     cairo_restore (cr);
-    cairo_destroy (cr);
 }
 
 static gint

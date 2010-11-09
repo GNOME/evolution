@@ -139,7 +139,7 @@ ecv_unrealize (ECellView *ecv)
  */
 static void
 ecv_draw (ECellView *ecell_view,
-          GdkDrawable *drawable,
+          cairo_t *cr,
           gint model_col,
           gint view_col,
           gint row,
@@ -165,7 +165,7 @@ ecv_draw (ECellView *ecell_view,
 		printf("width of %d %d of %d\n", width,hbox_view->def_size_cols[i], allotted_width ); */
 
 		e_cell_draw (
-			hbox_view->subcell_views[i], drawable,
+			hbox_view->subcell_views[i], cr,
 			hbox_view->model_cols[i], view_col, row, flags,
 			x1 + subcell_offset , y1,
 			x1 + subcell_offset + width, y2);
