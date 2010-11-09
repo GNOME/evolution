@@ -304,6 +304,8 @@ e_selection_data_get_html (GtkSelectionData *selection_data)
 	length = gtk_selection_data_get_length (selection_data);
 	data_type = gtk_selection_data_get_data_type (selection_data);
 
+	g_return_val_if_fail (data != NULL, NULL);
+
 	/* First validate the data.  Assume it's UTF-8 or UTF-16. */
 	if (g_utf8_validate ((const gchar *) data, length - 1, NULL))
 		utf8_text = g_strdup ((const gchar *) data);
