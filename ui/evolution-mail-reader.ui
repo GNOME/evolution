@@ -97,6 +97,7 @@
         <menuitem action='mail-filters-apply'/>
         <menuitem action='mail-check-for-junk'/>
 	<menuitem action='mail-remove-attachments'/>
+        <menuitem action='mail-remove-duplicates'/>
         <separator/>
         <menu action='mail-create-rule-menu'>
           <menuitem action='mail-filter-on-subject'/>
@@ -159,6 +160,7 @@
       <menuitem action='mail-popup-save-as'/>
       <menuitem action='mail-popup-print'/>
       <menuitem action='mail-popup-remove-attachments'/>
+      <menuitem action='mail-popup-remove-duplicates'/>
     </placeholder>
   </popup>
   <popup name='mail-preview-popup'>
