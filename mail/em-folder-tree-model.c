@@ -259,7 +259,8 @@ add_new_store (gchar *uri,
 	if (store == NULL)
 		return;
 
-	e_mail_store_add (store, account->name);
+	if ((CAMEL_SERVICE (store)->provider->flags & CAMEL_PROVIDER_IS_STORAGE) != 0)
+		e_mail_store_add (store, account->name);
 }
 
 static void
