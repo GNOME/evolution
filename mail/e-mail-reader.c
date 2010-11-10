@@ -406,81 +406,144 @@ action_mail_remove_attachments_cb (GtkAction *action, EMailReader *reader)
 {
 	CamelFolder *folder;
 	GPtrArray *uids;
-	gint i, j;
 
 	folder = e_mail_reader_get_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
-	camel_folder_freeze (folder);
-	for (i = 0; i < (uids ? uids->len : 0); i++) {
-		CamelMimeMessage *message;
-		CamelDataWrapper *containee;
-		gchar *uid;
+	mail_remove_attachments (folder, uids);
+}
 
-		uid = g_ptr_array_index (uids, i);
+static gchar *
+get_message_checksum (CamelFolder *folder, CamelMimeMessage *msg)
+{
+	static const GChecksumType duplicate_csum = G_CHECKSUM_SHA256;
 
-		/* retrieve the message from the CamelFolder */
-		message = camel_folder_get_message_sync (folder, uid, NULL, NULL);
-		if (!message) {
-			continue;
-		}
+	CamelDataWrapper *content;
+	CamelStream *mem;
+	GByteArray *buffer;
+	gchar *digest = NULL;
 
-		containee = camel_medium_get_content (CAMEL_MEDIUM (message));
-		if (containee == NULL) {
-			continue;
-		}
+	if (!msg)
+		return NULL;
 
-		if (CAMEL_IS_MULTIPART (containee)) {
-			gboolean deleted = FALSE;
-			gint parts;
+	/* get message contents */
+	content = camel_medium_get_content ((CamelMedium *) msg);
+	if (!content)
+		return NULL;
 
-			parts = camel_multipart_get_number (CAMEL_MULTIPART (containee));
-			for (j = 0; j < parts; j++) {
-				CamelMimePart *mpart = camel_multipart_get_part (CAMEL_MULTIPART (containee), j);
-				const gchar *disposition = camel_mime_part_get_disposition (mpart);
-				if (disposition && (!strcmp (disposition, "attachment") || !strcmp (disposition, "inline"))) {
-					gchar *desc;
-					const gchar *filename;
+	/* calculate checksum */
+	mem = camel_stream_mem_new ();
+	camel_data_wrapper_decode_to_stream_sync (content, mem, NULL, NULL);
 
-					filename = camel_mime_part_get_filename (mpart);
-					desc = g_strdup_printf (_("File \"%s\" has been removed."), filename ? filename : "");
-					camel_mime_part_set_disposition (mpart, "inline");
-					camel_mime_part_set_content (mpart, desc, strlen (desc), "text/plain");
-					camel_mime_part_set_content_type (mpart, "text/plain");
-					deleted = TRUE;
+	buffer = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (mem));
+	if (buffer)
+		digest = g_compute_checksum_for_data (duplicate_csum, buffer->data, buffer->len);
+
+	g_object_unref (mem);
+
+	return digest;
+}
+
+static gboolean
+message_is_duplicated (GHashTable *messages, guint64 id, gchar *digest)
+{
+	gchar *hash_digest = g_hash_table_lookup (messages, &id);
+
+	if (!hash_digest)
+		return FALSE;
+
+	return g_str_equal (digest, hash_digest);
+}
+
+static void
+remove_duplicates_got_messages_cb (CamelFolder *folder, GPtrArray *uids, GPtrArray *msgs, gpointer data)
+{
+	EMailReader *reader = data;
+	GtkWindow *parent;
+	GHashTable *messages;
+	GPtrArray *dups;
+	gint ii;
+
+	g_return_if_fail (folder != NULL);
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (uids != NULL);
+	g_return_if_fail (msgs != NULL);
+	g_return_if_fail (msgs->len <= uids->len);
+	g_return_if_fail (reader != NULL);
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	parent = e_mail_reader_get_window (reader);
+
+	messages = g_hash_table_new_full (g_int_hash, g_int_equal, g_free, g_free);
+	dups = g_ptr_array_new ();
+
+	for (ii = 0; ii < msgs->len; ii++) {
+		CamelMessageInfo *msg_info = camel_folder_get_message_info (folder, uids->pdata[ii]);
+		const CamelSummaryMessageID *mid = camel_message_info_message_id (msg_info);
+		guint32 flags = camel_message_info_flags (msg_info);
+
+		if (!(flags & CAMEL_MESSAGE_DELETED)) {
+			gchar *digest = get_message_checksum (folder, msgs->pdata[ii]);
+
+			if (digest) {
+				if (message_is_duplicated (messages, mid->id.id, digest)) {
+					g_ptr_array_add (dups, uids->pdata[ii]);
+					g_free (digest);
+				} else {
+					guint64 *id;
+					id = g_new0 (guint64, 1);
+					*id = mid->id.id;
+					g_hash_table_insert (messages, id, digest);
 				}
 			}
-
-			if (deleted) {
-				/* copy the original message with the deleted attachment */
-				CamelMessageInfo *info, *newinfo;
-				guint32 flags;
-				GError *error = NULL;
-
-				info = camel_folder_get_message_info (folder, uid);
-				newinfo = camel_message_info_new_from_header (NULL, CAMEL_MIME_PART (message)->headers);
-				flags = camel_folder_get_message_flags (folder, uid);
-
-				/* make a copy of the message */
-				camel_message_info_set_flags (newinfo, flags, flags);
-				camel_folder_append_message_sync (folder, message, newinfo, NULL, NULL, &error);
-
-				if (!error) {
-					/* marked the original message deleted */
-					camel_message_info_set_flags (info, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
-				}
-
-				camel_folder_free_message_info (folder, info);
-				camel_message_info_free (newinfo);
-
-				if (error)
-					g_error_free (error);
-			}
 		}
+
+		camel_message_info_free (msg_info);
 	}
 
-	camel_folder_synchronize_sync (folder, FALSE, NULL, NULL);
-	camel_folder_thaw (folder);
+	if (dups->len == 0) {
+		em_utils_prompt_user (parent, NULL, "mail:info-no-remove-duplicates", camel_folder_get_name (folder), NULL);
+	} else {
+		gchar *msg = g_strdup_printf (ngettext (
+			/* Translators: %s is replaced with a folder name
+			   %d with count of duplicate messages. */
+			_("Folder '%s' contains %d duplicate message. Are you sure you want to delete it?"),
+			_("Folder '%s' contains %d duplicate messages. Are you sure you want to delete them?"),
+			dups->len),
+			camel_folder_get_name (folder), dups->len);
+
+		if (em_utils_prompt_user (parent, NULL, "mail:ask-remove-duplicates", msg, NULL)) {
+			camel_folder_freeze (folder);
+			for (ii = 0; ii < dups->len; ii++)
+				camel_folder_delete_message (folder, g_ptr_array_index (dups, ii));
+			camel_folder_thaw (folder);
+		}
+
+		g_free (msg);
+	}
+
+	g_hash_table_destroy (messages);
+	g_ptr_array_free (dups, TRUE);
+}
+
+static void
+action_mail_remove_duplicates (GtkAction *action, EMailReader *reader)
+{
+	MessageList *message_list;
+	CamelFolder *folder;
+	GPtrArray *uids;
+
+	message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+	uids = message_list_get_selected (message_list);
+	folder = message_list->folder;
+
+	if (!uids || uids->len <= 1) {
+		if (uids)
+			em_utils_uids_free (uids);
+	} else {
+		/* the function itself is freeing uids */
+		mail_get_messages (folder, uids, remove_duplicates_got_messages_cb, reader);
+	}
 }
 
 static void
@@ -2107,6 +2170,13 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Remove attachments"),
 	  G_CALLBACK (action_mail_remove_attachments_cb) },
 
+	{ "mail-remove-duplicates",
+	   NULL,
+	   N_("Remove Du_plicate Messages"),
+	   NULL,
+	   N_("Checks selected messages for duplicates"),
+	   G_CALLBACK (action_mail_remove_duplicates) },
+
 	{ "mail-reply-all",
 	  NULL,
 	  N_("Reply to _All"),
@@ -2329,6 +2399,10 @@ static EPopupActionEntry mail_reader_popup_entries[] = {
 	{ "mail-popup-remove-attachments",
 	  NULL,
 	  "mail-remove-attachments" },
+
+	{ "mail-popup-remove-duplicates",
+	  NULL,
+	  "mail-remove-duplicates" },
 
 	{ "mail-popup-reply-all",
 	  NULL,
@@ -3162,6 +3236,11 @@ mail_reader_update_actions (EMailReader *reader,
 
 	action_name = "mail-remove-attachments";
 	sensitive = any_messages_selected && selection_has_attachment_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-remove-duplicates";
+	sensitive = multiple_messages_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 

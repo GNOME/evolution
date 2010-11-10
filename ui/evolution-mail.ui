@@ -45,7 +45,6 @@
         <menuitem action='mail-folder-select-thread'/>
         <menuitem action='mail-folder-select-subthread'/>
         <menuitem action='mail-folder-mark-all-as-read'/>
-        <menuitem action='mail-folder-remove-duplicates'/>
         <menuitem action='mail-folder-expunge'/>
         <separator/>
         <menuitem action='mail-folder-rename'/>

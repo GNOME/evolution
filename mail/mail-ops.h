@@ -164,6 +164,7 @@ gint		mail_check_service		(EMailSession *session,
 						 gpointer data);
 
 gint mail_disconnect_store (CamelStore *store);
+gint mail_remove_attachments (CamelFolder *folder, GPtrArray *uids);
 
 G_END_DECLS
 
