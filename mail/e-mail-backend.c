@@ -408,8 +408,6 @@ mail_backend_idle_cb (EMailBackend *backend)
 
 	e_mail_store_init (session, data_dir);
 
-	vfolder_load_storage (backend);
-
 	return FALSE;
 }
 
