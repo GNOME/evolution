@@ -269,7 +269,9 @@ account_added_cb (EAccountList *accounts,
 		CAMEL_SESSION (session), uri, CAMEL_PROVIDER_STORE, NULL);
 
 	if (store != NULL) {
-		e_mail_store_add (session, store, account->name);
+		if ((CAMEL_SERVICE (store)->provider->flags & CAMEL_PROVIDER_IS_STORAGE) != 0)
+			e_mail_store_add (session, store, account->name);
+
 		g_object_unref (store);
 	}
 }
