@@ -73,7 +73,6 @@ libetable_la_SOURCES = 				\
 	gal-a11y-e-cell.c			\
 	gal-a11y-e-cell-popup.c			\
 	gal-a11y-e-cell-registry.c		\
-	gal-a11y-e-cell-text.c			\
 	gal-a11y-e-cell-toggle.c		\
 	gal-a11y-e-cell-tree.c			\
 	gal-a11y-e-cell-vbox.c			\
@@ -151,7 +150,6 @@ libetableinclude_HEADERS = 			\
 	gal-a11y-e-cell.h			\
 	gal-a11y-e-cell-popup.h			\
 	gal-a11y-e-cell-registry.h		\
-	gal-a11y-e-cell-text.h			\
 	gal-a11y-e-cell-toggle.h		\
 	gal-a11y-e-cell-tree.h			\
 	gal-a11y-e-cell-vbox.h			\

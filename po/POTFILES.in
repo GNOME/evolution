@@ -508,7 +508,6 @@ widgets/table/e-table.c
 widgets/table/e-tree-selection-model.c
 widgets/table/e-tree.c
 widgets/table/gal-a11y-e-cell-popup.c
-widgets/table/gal-a11y-e-cell-text.c
 widgets/table/gal-a11y-e-cell-toggle.c
 widgets/table/gal-a11y-e-cell-tree.c
 widgets/table/gal-a11y-e-cell.c
