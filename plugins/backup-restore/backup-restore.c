@@ -39,6 +39,14 @@
 #include "shell/e-shell-utils.h"
 #include "shell/e-shell-window.h"
 
+#ifdef G_OS_WIN32
+#ifdef localtime_r
+#undef localtime_r
+#endif
+/* The localtime() in Microsoft's C library *is* thread-safe */
+#define localtime_r(timep, result)  (localtime (timep) ? memcpy ((result), localtime (timep), sizeof (*(result))) : 0)
+#endif
+
 gboolean	e_plugin_ui_init		(GtkUIManager *ui_manager,
 						 EShellWindow *shell_window);
 
