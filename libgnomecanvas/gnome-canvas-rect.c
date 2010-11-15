@@ -171,7 +171,7 @@ gnome_canvas_rect_set_property (GObject *object,
 	case PROP_FILL_COLOR:
 		color_string = g_value_get_string (value);
 		if (color_string != NULL) {
-			if (gdk_color_parse (color_string, &color)) {
+			if (!gdk_color_parse (color_string, &color)) {
 				g_warning (
 					"Failed to parse color '%s'",
 					color_string);

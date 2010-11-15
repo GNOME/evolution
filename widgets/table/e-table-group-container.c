@@ -1094,7 +1094,7 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 
 				e_canvas_item_move_absolute (GNOME_CANVAS_ITEM (child_node->text),
 							    GROUP_INDENT,
-							    running_height - BUTTON_PADDING);
+							    running_height - GROUP_INDENT - BUTTON_PADDING);
 
 				e_canvas_item_move_absolute (GNOME_CANVAS_ITEM (child),
 							    GROUP_INDENT,
