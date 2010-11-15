@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2010-09-13 11:13+0000\n"
-"PO-Revision-Date: 2010-09-19 00:35+0300\n"
+"PO-Revision-Date: 2010-10-06 15:45+0300\n"
 "Last-Translator: Mattias Põldaru <mahfiaz gmail com>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -439,7 +439,7 @@ msgstr "Dr"
 
 # see on mõnus pähkel, kuidas tõlkida esquire, mis nüüdsel ajal kõige rohkem peaks tähendama briti päritolu härrasmeest http://en.wikipedia.org/wiki/Esquire
 msgid "Esq."
-msgstr ""
+msgstr "Esq"
 
 msgid "Full Name"
 msgstr "Täisnimi"
@@ -16229,7 +16229,7 @@ msgstr "Olgu"
 
 #, c-format
 msgid "The time must be in the format: %s"
-msgstr "Kellaaeg peab olema sisestatud %s formaadis"
+msgstr "Kellaaeg peab olema sisestatud %s vormingus"
 
 msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "Protsendi väärtus peab olema 0 - 100"
