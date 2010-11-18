@@ -37,9 +37,6 @@
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 struct _ECertSelectorPrivate {
 	CERTCertList *certlist;
 
@@ -153,6 +150,8 @@ e_cert_selector_new (gint type, const gchar *currentid)
 	GtkBuilder *builder;
 	GtkWidget *content_area;
 	GtkWidget *w;
+	GtkListStore *store;
+	GtkTreeIter iter;
 	gint n=0, active=0;
 
 	ecs = g_object_new (e_cert_selector_get_type (), NULL);
@@ -179,7 +178,8 @@ e_cert_selector_new (gint type, const gchar *currentid)
 		break;
 	}
 
-	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (p->combobox))));
+	store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (p->combobox)));
+	gtk_list_store_clear (store);
 
 	certlist = CERT_FindUserCertsByUsage (CERT_GetDefaultCertDB (), usage, FALSE, TRUE, NULL);
 	ecs->priv->certlist = certlist;
@@ -187,7 +187,10 @@ e_cert_selector_new (gint type, const gchar *currentid)
 		node = CERT_LIST_HEAD (certlist);
 		while (!CERT_LIST_END (node, certlist)) {
 			if (node->cert->nickname || node->cert->emailAddr) {
-				gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (p->combobox), node->cert->nickname?node->cert->nickname:node->cert->emailAddr);
+				gtk_list_store_append (store, &iter);
+				gtk_list_store_set (store, &iter,
+					0, node->cert->nickname?node->cert->nickname:node->cert->emailAddr,
+					-1);
 
 				if (currentid != NULL
 				    && ((node->cert->nickname != NULL && strcmp (node->cert->nickname, currentid) == 0)

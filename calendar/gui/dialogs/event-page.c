@@ -2859,6 +2859,8 @@ init_widgets (EventPage *epage)
 	GtkTreeSelection *selection;
 	gboolean active;
 	ECal *client;
+	GtkTreeIter iter;
+	GtkListStore *store;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
 	client = comp_editor_get_client (editor);
@@ -3025,17 +3027,28 @@ init_widgets (EventPage *epage)
 		break;
 	}
 
+	store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->alarm_time_combo)));
 	if (combo_label) {
-		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (priv->alarm_time_combo), combo_label);
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter,
+			0, combo_label,
+			-1);
 		g_free (combo_label);
 		priv->alarm_map = alarm_map_with_user_time;
 	} else {
 		priv->alarm_map = alarm_map_without_user_time;
 	}
 
-	gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (priv->alarm_time_combo), _("Customize"));
-	/* Translators: "None" for "No alarm set" */
-	gtk_combo_box_text_prepend_text (GTK_COMBO_BOX_TEXT (priv->alarm_time_combo), C_("cal-alarms", "None"));
+	gtk_list_store_append (store, &iter);
+	gtk_list_store_set (store, &iter,
+		0, _("Customize"),
+		-1);
+
+	gtk_list_store_insert (store, &iter, 0);
+	gtk_list_store_set (store, &iter,
+		/* Translators: "None" for "No alarm set" */
+		0, C_("cal-alarms", "None"),
+		-1);
 
 	g_signal_connect_swapped (
 		priv->alarm_time_combo, "changed",

@@ -11,6 +11,7 @@
 #define gtk_combo_box_text_prepend_text		gtk_combo_box_prepend_text
 #define gtk_combo_box_text_get_active_text	gtk_combo_box_get_active_text
 #define GTK_COMBO_BOX_TEXT			GTK_COMBO_BOX
+#define GTK_IS_COMBO_BOX_TEXT			GTK_IS_COMBO_BOX
 #define GtkComboBoxText				GtkComboBox
 
 /* The below can be used only once in sources */

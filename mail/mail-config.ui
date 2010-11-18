@@ -2704,7 +2704,7 @@ For example: "Work" or "Personal"</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkComboBoxText" id="comboboxEmptyTrashDays">
+                          <object class="GtkComboBox" id="comboboxEmptyTrashDays">
                             <property name="visible">True</property>
                             <property name="model">model1</property>
                             <child>
@@ -3342,7 +3342,7 @@ For example: "Work" or "Personal"</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkComboBoxText" id="default_junk_plugin">
+                          <object class="GtkComboBox" id="default_junk_plugin">
                             <property name="visible">True</property>
                           </object>
                           <packing>
@@ -3427,7 +3427,7 @@ For example: "Work" or "Personal"</property>
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkComboBoxText" id="junk_empty_combobox">
+                          <object class="GtkComboBox" id="junk_empty_combobox">
                             <property name="visible">True</property>
                             <property name="model">model2</property>
                             <child>
