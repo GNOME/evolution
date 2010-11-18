@@ -35,9 +35,6 @@
 #include "em-filter-editor.h"
 #include "em-filter-rule.h"
 
-/* backward-compatibility cruft */
-#include "e-util/gtk-compat.h"
-
 static gpointer parent_class;
 
 static EFilterRule *
@@ -170,16 +167,19 @@ em_filter_editor_construct (EMFilterEditor *fe,
 	GtkWidget *combobox;
 	gint i;
 	GtkTreeViewColumn *column;
-	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GtkListStore *store;
 	GSList *sources = NULL;
 
 	combobox = e_builder_get_widget (builder, "filter_source_combobox");
-	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combobox));
-	gtk_list_store_clear (GTK_LIST_STORE (model));
+	store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (combobox)));
+	gtk_list_store_clear (store);
 
 	for (i = 0; source_names[i].source; i++) {
-		gtk_combo_box_text_append_text (
-			GTK_COMBO_BOX_TEXT (combobox), source_names[i].name);
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter,
+			0, source_names[i].name,
+			-1);
 		sources = g_slist_append (sources, g_strdup (source_names[i].source));
 	}
 

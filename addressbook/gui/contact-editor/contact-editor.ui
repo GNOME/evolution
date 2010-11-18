@@ -376,7 +376,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkComboBoxText" id="combobox-email-1">
+                                      <object class="GtkComboBox" id="combobox-email-1">
                                         <property name="visible">True</property>
                                         <property name="model">model2</property>
                                         <child>
@@ -392,7 +392,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkComboBoxText" id="combobox-email-3">
+                                      <object class="GtkComboBox" id="combobox-email-3">
                                         <property name="visible">True</property>
                                         <property name="model">model3</property>
                                         <child>
@@ -410,7 +410,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkComboBoxText" id="combobox-email-2">
+                                      <object class="GtkComboBox" id="combobox-email-2">
                                         <property name="visible">True</property>
                                         <property name="model">model4</property>
                                         <child>
@@ -428,7 +428,7 @@
                                       </packing>
                                     </child>
                                     <child>
-                                      <object class="GtkComboBoxText" id="combobox-email-4">
+                                      <object class="GtkComboBox" id="combobox-email-4">
                                         <property name="visible">True</property>
                                         <property name="model">model5</property>
                                         <child>

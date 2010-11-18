@@ -544,21 +544,24 @@ emmp_empty_trash_init (EMMailerPrefs *prefs,
                        GtkComboBox *combo_box)
 {
 	gint days, hist = 0, ii;
-	GtkTreeModel *model;
+	GtkListStore *store;
+	GtkTreeIter iter;
 
 	days = gconf_client_get_int (
 		prefs->gconf,
 		"/apps/evolution/mail/trash/empty_on_exit_days", NULL);
 
-	model = gtk_combo_box_get_model (combo_box);
-	gtk_list_store_clear (GTK_LIST_STORE (model));
+	store = GTK_LIST_STORE (gtk_combo_box_get_model (combo_box));
+	gtk_list_store_clear (store);
 
 	for (ii = 0; ii < G_N_ELEMENTS (empty_trash_frequency); ii++) {
 		if (days >= empty_trash_frequency[ii].days)
 			hist = ii;
-		gtk_combo_box_text_append_text (
-			GTK_COMBO_BOX_TEXT (combo_box),
-			gettext (empty_trash_frequency[ii].label));
+
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter,
+			0,  gettext (empty_trash_frequency[ii].label),
+			-1);
 	}
 
 	g_signal_connect (
@@ -589,21 +592,24 @@ emmp_empty_junk_init (EMMailerPrefs *prefs,
                       GtkComboBox *combo_box)
 {
 	gint days, hist = 0, ii;
-	GtkTreeModel *model;
+	GtkListStore *store;
+	GtkTreeIter iter;
 
 	days = gconf_client_get_int (
 		prefs->gconf,
 		"/apps/evolution/mail/junk/empty_on_exit_days", NULL);
 
-	model = gtk_combo_box_get_model (combo_box);
-	gtk_list_store_clear (GTK_LIST_STORE (model));
+	store = GTK_LIST_STORE (gtk_combo_box_get_model (combo_box));
+	gtk_list_store_clear (store);
 
 	for (ii = 0; ii < G_N_ELEMENTS (empty_trash_frequency); ii++) {
 		if (days >= empty_trash_frequency[ii].days)
 			hist = ii;
-		gtk_combo_box_text_append_text (
-			GTK_COMBO_BOX_TEXT (combo_box),
-			gettext (empty_trash_frequency[ii].label));
+
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter,
+			0, gettext (empty_trash_frequency[ii].label),
+			-1);
 	}
 
 	g_signal_connect (

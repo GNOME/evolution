@@ -107,7 +107,7 @@
       </packing>
     </child>
     <child>
-      <object class="GtkComboBoxText" id="filter_source_combobox">
+      <object class="GtkComboBox" id="filter_source_combobox">
         <property name="visible">True</property>
         <property name="model">model1</property>
         <child>

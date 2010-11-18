@@ -1332,7 +1332,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkComboBoxText" id="cert_combobox">
+          <object class="GtkComboBox" id="cert_combobox">
             <property name="visible">True</property>
             <property name="model">model1</property>
             <child>

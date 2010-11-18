@@ -722,6 +722,8 @@ init_email_record_location (EContactEditor *editor, gint record)
 	GtkWidget *email_entry;
 	gchar     *widget_name;
 	gint       i;
+	GtkTreeIter iter;
+	GtkListStore *store;
 
 	widget_name = g_strdup_printf ("entry-email-%d", record);
 	email_entry = e_builder_get_widget (editor->builder, widget_name);
@@ -731,10 +733,14 @@ init_email_record_location (EContactEditor *editor, gint record)
 	location_combo_box = GTK_COMBO_BOX (e_builder_get_widget (editor->builder, widget_name));
 	g_free (widget_name);
 
-	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (location_combo_box)));
+	store = GTK_LIST_STORE (gtk_combo_box_get_model (location_combo_box));
+	gtk_list_store_clear (store);
 
 	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
-		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (location_combo_box), _(common_location[i].pretty_name));
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter,
+			0, _(common_location[i].pretty_name),
+			-1);
 	}
 
 	g_signal_connect_swapped (location_combo_box, "changed", G_CALLBACK (gtk_widget_grab_focus), email_entry);
@@ -2371,8 +2377,24 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 		const gchar *text = gtk_entry_get_text (GTK_ENTRY (widget));
 		e_contact_set (contact, field_id, (gchar *) text);
 	}
-	else if (GTK_IS_COMBO_BOX (widget)) {
+	else if (GTK_IS_COMBO_BOX_TEXT (widget)) {
 		gchar *text = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (widget));
+
+		e_contact_set (contact, field_id, text);
+
+		g_free (text);
+	}
+	else if (GTK_IS_COMBO_BOX (widget)) {
+		GtkTreeIter iter;
+		gchar *text = NULL;
+
+		if (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (widget), &iter)) {
+			GtkListStore *store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (widget)));
+
+			gtk_tree_model_get (GTK_TREE_MODEL (store), &iter,
+				0, &text,
+				-1);
+		}
 
 		e_contact_set (contact, field_id, text);
 

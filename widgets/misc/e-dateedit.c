@@ -578,17 +578,6 @@ create_children			(EDateEdit	*dedit)
 		"has-entry", TRUE,
 		"entry-text-column", 0,
 		NULL);
-
-	{
-	GtkCellRenderer *cell;
-
-	gtk_cell_layout_clear (GTK_CELL_LAYOUT (priv->time_combo));
-
-	cell = gtk_cell_renderer_text_new ();
-	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (priv->time_combo), cell, TRUE);
-	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (priv->time_combo), cell, "text", 0, NULL);
-	}
-
 #else
 	priv->time_combo = gtk_combo_box_entry_new_with_model (
 		GTK_TREE_MODEL (time_store), 0);
