@@ -17,9 +17,9 @@ msgstr ""
 "Project-Id-Version: Evolution MASTER\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-09-24 21:05+0000\n"
-"PO-Revision-Date: 2010-10-06 15:45+0300\n"
-"Last-Translator: Mattias Põldaru <mahfiaz gmail com>\n"
+"POT-Creation-Date: 2010-11-18 12:37+0000\n"
+"PO-Revision-Date: 2010-11-21 10:42+0200\n"
+"Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -846,7 +846,7 @@ msgid "_Send New Message To..."
 msgstr "_Saada uus sõnum aadressil..."
 
 msgid "Send a mail message to this address"
-msgstr "Sellele aadressile uue kirja saatmine"
+msgstr "Sellele aadressile uue sõnumi saatmine"
 
 msgid "(map)"
 msgstr "(kaart)"
@@ -1493,9 +1493,12 @@ msgstr "Kirjeldus puudub."
 msgid "No location information available."
 msgstr "Asukoha kohta andmed puuduvad."
 
-#, c-format
-msgid "You have %d alarms"
-msgstr "Sul on %d alarmi"
+#, fuzzy, c-format
+#| msgid "You have %d alarms"
+msgid "You have %d alarm"
+msgid_plural "You have %d alarms"
+msgstr[0] "Sul on %d alarmi"
+msgstr[1] "Sul on %d alarmi"
 
 msgid "Warning"
 msgstr "Hoiatus"
@@ -1554,444 +1557,6 @@ msgid "%d second"
 msgid_plural "%d seconds"
 msgstr[0] "%d sekund"
 msgstr[1] "%d sekundit"
-
-msgid "Alarm programs"
-msgstr "Alarmprogrammid"
-
-msgid "Amount of time in seconds the error should be shown on the status bar."
-msgstr "Mitme sekundi vältel tuleb olekuribal veateadet kuvada."
-
-msgid "Ask for confirmation when deleting items"
-msgstr "Nõusoleku küsimine kirjete kustutamisel"
-
-msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
-msgstr "Täna tähtaja ületavate ülesannete värvus \"#rrggbb\" vormingus."
-
-msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
-msgstr "Tähtaja ületanud ülesannete värvus \"#rrggbb\" vormingus."
-
-msgid "Calendars to run alarms for"
-msgstr "Kalendrid, mille jaoks alarme käivitada"
-
-msgid ""
-"Color to draw the Marcus Bains Line in the Time bar (empty for default)."
-msgstr "Marcus Bainsi joone värvus ajaribal (vaikimisi tühi)."
-
-msgid "Color to draw the Marcus Bains line in the Day View."
-msgstr "Marcus Bainsi joone värvus päeva vaatel."
-
-msgid "Compress weekends in month view"
-msgstr "Kuuvaatel kuvatakse nädalalõpud kokkusurutud vormis"
-
-msgid "Confirm expunge"
-msgstr "Kinnituse küsimine enne puhastamist"
-
-msgid "Count of default recurrence for a new event. -1 means forever."
-msgstr "Uue sündmuse kordumiste vaikimisi arv. -1 tähendab lõputut kordumist."
-
-msgid "Days on which the start and end of work hours should be indicated."
-msgstr "Päevad, millel töötundide algust ja lõppu tuleb näidata."
-
-msgid "Default appointment reminder"
-msgstr "Sündmusest vaikimisi meeldetuletaja"
-
-msgid "Default recurrence count"
-msgstr "Korduste vaikimisi arv"
-
-msgid "Default reminder units"
-msgstr "Meeldetuletaja vaikimisi ühikud"
-
-msgid "Default reminder value"
-msgstr "Meeldetuletaja vaikimisi väärtus"
-
-msgid "Directory for saving alarm audio files"
-msgstr "Alarmi audiofailide salvestamise kataloog"
-
-msgid "Event Gradient"
-msgstr "Sündmuse kalle"
-
-msgid "Event Transparency"
-msgstr "Sündmuse läbipaistvus"
-
-msgid "Free/busy server URLs"
-msgstr "Vaba/hõivatud serveri URL"
-
-msgid "Free/busy template URL"
-msgstr "Vaba/hõivatud malli URL"
-
-msgid "Gradient of the events in calendar views."
-msgstr "Sündmuste kalle kalendrivaates."
-
-msgid "Hide completed tasks"
-msgstr "Peida täidetud ülesanded"
-
-msgid "Hide task units"
-msgstr "Ülesandeühikute peitmine"
-
-msgid "Hide task value"
-msgstr "Ülesandeväärtuste peitmine"
-
-msgid "Horizontal pane position"
-msgstr "Rõhtpaani asukoht"
-
-msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
-msgstr "Tööpäeva lõpuaeg, 24-tunnises vormingus, vahemikus 0-23."
-
-msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
-msgstr "Tööpäeva algusaeg, 24-tunnises vormingus, vahemikus 0-23."
-
-msgid "If \"true\", show the memo preview pane in the main window."
-msgstr "Kui märgitud, kuvatakse peaaknas märkmete eelvaatluspaani."
-
-msgid "If \"true\", show the task preview pane in the main window."
-msgstr "Kui märgitud, kuvatakse peaaknas ülesannete eelvaatluspaani."
-
-msgid "Intervals shown in Day and Work Week views, in minutes."
-msgstr "Päeva- ja töönädala vaates näidatavad vahemikud minutites."
-
-msgid "Last alarm time"
-msgstr "Viimase alarmi aeg"
-
-msgid "Level beyond which the message should be logged."
-msgstr "Tase, millest alates tuleb sõnumeid logida."
-
-msgid "List of recently used second time zones in a Day View."
-msgstr "Päevavaates on loend hiljutikasutatud teisestest ajavöönditest."
-
-msgid "List of server URLs for free/busy publishing."
-msgstr "Serveri URL-ide loend vaba/hõivatud andmete avaldamiseks."
-
-msgid "Marcus Bains Line"
-msgstr "Marcus Bainsi joon"
-
-msgid "Marcus Bains Line Color - Day View"
-msgstr "Marcus Bainsi joone värv - päeva vaade"
-
-msgid "Marcus Bains Line Color - Time bar"
-msgstr "Marcus Bainsi joone värv - ajariba"
-
-msgid ""
-"Maximum number of recently used timezones to remember in a "
-"'day_second_zones' list."
-msgstr "Suurim arv ajavööndeid, mida säilitatakse 'day_second_zones' loendis."
-
-msgid "Maximum number of recently used timezones to remember."
-msgstr "Meelespeetavate ajavööndite arvu piirang."
-
-msgid "Memo layout style"
-msgstr "Märkmete paigutuse laad"
-
-msgid "Memo preview pane position (horizontal)"
-msgstr "Märkmete eelvaatluspaani asukoht (horisontaalne)"
-
-msgid "Memo preview pane position (vertical)"
-msgstr "Märkmete eelvaatluspaani asukoht (vertikaalne)"
-
-msgid "Minute the workday ends on, 0 to 59."
-msgstr "Minut, millal tööpäev lõpeb, 0 kuni 59."
-
-msgid "Minute the workday starts on, 0 to 59."
-msgstr "Minut, millal tööpäev algab, 0 kuni 59."
-
-msgid "Month view horizontal pane position"
-msgstr "Kuuvaate rõhtpaani asukoht"
-
-msgid "Month view vertical pane position"
-msgstr "Kuuvaate püstpaani asukoht"
-
-msgid "Number of units for determining a default reminder."
-msgstr "Meeldetuletaja vaikimisi ühikute arv."
-
-msgid "Number of units for determining when to hide tasks."
-msgstr "Ülesannete peitmiseks vaikimisi ühikute arv."
-
-msgid "Overdue tasks color"
-msgstr "Tähtaja ületanud ülesannete värvus"
-
-msgid ""
-"Position of the horizontal pane, between the date navigator calendar and the "
-"task list when not in the month view, in pixels."
-msgstr ""
-"Rõhtpaani asukoht pikslites - kuupäevanavigeerimise kalendri ja ülesannete "
-"loendi vahel, kui ei olda kuuvaates."
-
-msgid ""
-"Position of the horizontal pane, between the view and the date navigator "
-"calendar and task list in the month view, in pixels."
-msgstr ""
-"Rõhtpaani asukoht pikslites - vaate ning kuupäevanavigeerimise kalendri ja "
-"ülesannete loendi vahel, kui ollakse kuuvaates."
-
-msgid "Position of the memo preview pane when oriented vertically."
-msgstr "Märkmete eelvaatluspaani asukoht vertikaalteljel."
-
-msgid "Position of the task preview pane when oriented horizontally."
-msgstr "Ülesannete eelvaatluspaani asukoht horisontaalteljel."
-
-msgid "Position of the task preview pane when oriented vertically."
-msgstr "Ülesannete eelvaatluspaani asukoht vertikaalteljel."
-
-msgid ""
-"Position of the vertical pane, between the calendar lists and the date "
-"navigator calendar."
-msgstr "Püstpaani asukoht kalendriloendite ja kuupäevanavigaatori vahel."
-
-msgid ""
-"Position of the vertical pane, between the view and the date navigator "
-"calendar and task list in the month view, in pixels."
-msgstr ""
-"Püstpaani asukoht pikslites - vaate ning kuupäevanavigeerimise kalendri ja "
-"ülesannete loendi vahel, kui ollakse kuuvaates."
-
-msgid ""
-"Position of the vertical pane, between the view and the date navigator "
-"calendar and task list when not in the month view, in pixels."
-msgstr ""
-"Püstpaani asukoht pikslites - vaate ning kuupäevanavigeerimise kalendri ja "
-"ülesannete loendi vahel, kui ei olda kuuvaates."
-
-msgid "Primary calendar"
-msgstr "Peamine kalender"
-
-msgid "Primary memo list"
-msgstr "Peamine märkmeloend"
-
-msgid "Primary task list"
-msgstr "Peamine ülesandeloend"
-
-msgid "Programs that are allowed to be run by alarms."
-msgstr "Programmid, mida on lubatud alarmide poolt käivitada."
-
-msgid "Recently used second time zones in a Day View"
-msgstr "Hiljuti kasutatud teisene ajavöönd päevavaates"
-
-msgid "Save directory for alarm audio"
-msgstr "Alarmide audio salvestamise kataloog"
-
-msgid "Scroll Month View by a week"
-msgstr "Kuuvaate kerimine nädala kaupa"
-
-msgid "Show RSVP field in the event/task/meeting editor"
-msgstr "RSVP välja kuvamine sündmuste/ülesannete/koosolekute redaktoris"
-
-msgid "Show Role field in the event/task/meeting editor"
-msgstr "Rollivälja näitamine sündmuste/ülesannete/koosolekute redaktoris"
-
-msgid "Show appointment end times in week and month views"
-msgstr "Sündmuste lõpuaegade näitamine nädala ja kuu vaadetel"
-
-msgid "Show categories field in the event/meeting/task editor"
-msgstr "Kategooriavälja näitamine sündmuste/ülesannete/koosolekute redaktoris"
-
-msgid "Show display alarms in notification tray"
-msgstr "Alarmide kuvamine teatealal"
-
-msgid "Show status field in the event/task/meeting editor"
-msgstr "Olekuvälja näitamine sündmuste/ülesannete/koosolekute redaktoris"
-
-msgid "Show the memo preview pane"
-msgstr "Märkmete eelvaatluspaani kuvamine"
-
-msgid "Show the task preview pane"
-msgstr "Ülesannete eelvaatluspaani kuvamine"
-
-msgid "Show timezone field in the event/meeting editor"
-msgstr "Ajavööndi välja näitamine sündmuste/koosolekute redaktoris"
-
-msgid "Show type field in the event/task/meeting editor"
-msgstr "Liigivälja näitamine sündmuste/koosolekute redaktoris"
-
-msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
-msgstr ""
-"Nädalanumbrite näitamine päeva- ja töönädala vaadetes ning kuupäevavalijas"
-
-msgid ""
-"Shows the second time zone in a Day View, if set. Value is similar to one "
-"used in a 'timezone' key."
-msgstr ""
-"Kui määratud, siis näidatakse päeva vaates teist ajavööndit. Väärtus on "
-"sarnane 'timezone' võtmes kasutatava väärtusega."
-
-msgid "Task layout style"
-msgstr "Ülesannete paigutuse laad"
-
-msgid "Task preview pane position (horizontal)"
-msgstr "Ülesannete eelvaatluspaani asukoht (horisontaalne)"
-
-msgid "Task preview pane position (vertical)"
-msgstr "Ülesannete eelvaatluspaani asukoht (vertikaalne)"
-
-msgid "Tasks due today color"
-msgstr "Tänase tähtajaga ülesannete värvus"
-
-#, no-c-format
-msgid ""
-"The URL template to use as a free/busy data fallback, %u is replaced by the "
-"user part of the mail address and %d is replaced by the domain."
-msgstr ""
-"Vaba/hõivatud andmete URL-i malli tagavaravariant. %u asendatakse e-posti "
-"aadressist võetud kasutajanimega ja %d asendatakse domeeniga."
-
-msgid ""
-"The default timezone to use for dates and times in the calendar, as an "
-"untranslated Olsen timezone database location like \"America/New York\"."
-msgstr ""
-"Vaikimisi ajavöönd kalendris märgitud päevadele ja aegadele - tõlkimata "
-"asukohastring Olseni ajavööndite andmebaasist, näiteks \"Europe/Tallinn\"."
-
-msgid ""
-"The layout style determines where to place the preview pane in relation to "
-"the memo list. \"0\" (Classic View) places the preview pane below the memo "
-"list. \"1\" (Vertical View) places the preview pane next to the memo list."
-msgstr ""
-"Paigutusstiil määrab, kus asetseb eelvaatluspaan märkmeloendi suhtes. "
-"\"0\" (klassikaline vaade) asetab eelvaatluspaani märkmeloendi alla. "
-"\"1\" (vertikaalne vaade) asetab eelvaatluspaani märkmeloendi kõrvale."
-
-msgid ""
-"The layout style determines where to place the preview pane in relation to "
-"the task list. \"0\" (Classic View) places the preview pane below the task "
-"list. \"1\" (Vertical View) places the preview pane next to the task list."
-msgstr ""
-"Paigutusstiil määrab, kus asetseb eelvaatluspaan ülesandeloendi suhtes. "
-"\"0\" (klassikaline vaade) asetab eelvaatluspaani ülesandeloendi alla. "
-"\"1\" (vertikaalne vaade) asetab eelvaatluspaani ülesandeloendi kõrvale."
-
-msgid "The second timezone for a Day View"
-msgstr "Päeva vaate teine ajavöönd"
-
-msgid ""
-"This can have three possible values. 0 for errors. 1 for warnings. 2 for "
-"debug messages."
-msgstr ""
-"Sellele on võimalikud kolm väärtust. 0 vigade jaoks, 1 hoiatuste ning 2 "
-"silumisteadete jaoks."
-
-msgid "Time divisions"
-msgstr "Ajajaotised:"
-
-msgid "Time the last alarm ran, in time_t."
-msgstr "Viimase alarmi töötamise aeg, time_t ühikuga."
-
-msgid "Timezone"
-msgstr "Ajavöönd"
-
-msgid ""
-"Transparency of the events in calendar views, a value between 0 "
-"(transparent) and 1 (opaque)."
-msgstr ""
-"Sündmuste läbipaistvus kalendrivaadetes, väärtus 0 (läbipaistev) ja 1 "
-"(läbipaistmatu) vahel."
-
-msgid "Twenty four hour time format"
-msgstr "24-tunnine ajavorming"
-
-msgid "URI of the highlighted (\"primary\") calendar"
-msgstr "Märgitud (\"peamise\") kalendri URI"
-
-msgid "URI of the highlighted (\"primary\") memo list"
-msgstr "Märgitud (\"peamise\") märkmeloendi URI"
-
-msgid "URI of the highlighted (\"primary\") task list"
-msgstr "Märgitud (\"peamise\") ülesandeloendi URI"
-
-msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
-msgstr ""
-"Vaikimisi meeldetuletaja ühikud, \"minutes\" (minutid), \"hours\" (tunnid) "
-"või \"days\" (päevad)."
-
-msgid ""
-"Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
-msgstr ""
-"Ühikud määramaks, millal ülesandeid peita, \"minutes\" (minutid), \"hours"
-"\" (tunnid) või \"days\" (päevad)."
-
-msgid "Use system timezone"
-msgstr "Kasutatakse süsteemi ajavööndit"
-
-msgid "Use the system timezone instead of the timezone selected in Evolution."
-msgstr "Evolutionis valitud ajavööndi asemel süsteemse ajavööndi kasutamine."
-
-msgid "Vertical pane position"
-msgstr "Püstpaani asukoht"
-
-msgid "Week start"
-msgstr "Nädala algus"
-
-msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
-msgstr "Nädalapäev, millal nädal algab, pühapäevast (0) laupäevani (6)."
-
-msgid "Whether or not to use the notification tray for display alarms."
-msgstr "Kas teateala kasutatakse alarmide kuvamiseks või mitte."
-
-msgid "Whether to ask for confirmation when deleting an appointment or task."
-msgstr "Kas sündmuste ja ülesannete kustutamisel küsitakse nõusolekut."
-
-msgid "Whether to ask for confirmation when expunging appointments and tasks."
-msgstr "Kas sündmuste ja ülesannete puhastamisel küsitakse nõusolekut."
-
-msgid ""
-"Whether to compress weekends in the month view, which puts Saturday and "
-"Sunday in the space of one weekday."
-msgstr ""
-"Kas nädalalõpud tuleb kuuvaates kokku suruda, selle tulemusena kuvatakse "
-"nädalalõppu ühe päeva suurusena."
-
-msgid "Whether to display the end time of events in the week and month views."
-msgstr "Kas sündmuste lõpuaegu kuvatakse nädala ja kuu vaadetel."
-
-msgid ""
-"Whether to draw the Marcus Bains Line (line at current time) in the calendar."
-msgstr "Kas kalendris kuvatakse Marcus Bainsi joont (joon praeguse aja kohal)."
-
-msgid "Whether to hide completed tasks in the tasks view."
-msgstr "Kas täidetud ülesanded peidetakse ülesandevaates."
-
-msgid "Whether to scroll a Month View by a week, not by a month."
-msgstr "Kas kuu vaadet keritakse nädala kaupa, mitte kuu kaupa."
-
-msgid "Whether to set a default reminder for appointments."
-msgstr "Kas sündmustele määratakse vaikimisi meeldetuletaja."
-
-msgid "Whether to show RSVP field in the event/task/meeting editor"
-msgstr "Kas RSVP välja näidatakse sündmuste/ülesannete/koosolekute redaktoris"
-
-msgid "Whether to show categories field in the event/meeting editor"
-msgstr "Kas kategooriate välja näidatakse sündmuste/koosolekute redaktoris"
-
-msgid "Whether to show role field in the event/task/meeting editor"
-msgstr "Kas rollivälja näidatakse sündmuste/ülesannete/koosolekute redaktoris"
-
-msgid "Whether to show status field in the event/task/meeting editor"
-msgstr "Kas olekuvälja näidatakse sündmuste/ülesannete/koosolekute redaktoris"
-
-msgid ""
-"Whether to show times in twenty four hour format instead of using am/pm."
-msgstr "Kas kellaaegu kuvatakse 24-tunnises või EL/PL vormingus."
-
-msgid "Whether to show timezone field in the event/meeting editor"
-msgstr "Kas ajavööndi välja näidatakse sündmuste/koosolekute redaktoris"
-
-msgid "Whether to show type field in the event/task/meeting editor"
-msgstr "Liigivälja näitamine sündmuste/ülesannete/koosolekute redaktoris"
-
-msgid "Whether to show week numbers in various places in the Calendar."
-msgstr "Kas kalendris näidatakse nädalate numbreid."
-
-msgid "Work days"
-msgstr "Tööpäevad"
-
-msgid "Workday end hour"
-msgstr "Tund, millal tööpäev lõpeb"
-
-msgid "Workday end minute"
-msgstr "Minut, millal tööpäev lõpeb"
-
-msgid "Workday start hour"
-msgstr "Tund, millal tööpäev algab"
-
-msgid "Workday start minute"
-msgstr "Minut, millal tööpäev algab"
 
 msgid "Invalid object"
 msgstr "Vigane objekt"
@@ -2084,7 +1649,7 @@ msgid "Run a program"
 msgstr "Programmi käivitamine"
 
 msgid "Send an email"
-msgstr "E-kirja saatmine"
+msgstr "E-sõnumi saatmine"
 
 msgid "Add Alarm"
 msgstr "Alarmi lisamine"
@@ -2164,215 +1729,6 @@ msgstr "L_isa"
 msgid "Alarms"
 msgstr "Alarmid"
 
-#. Translators: "None" indicates no second time zone set for a day view
-msgctxt "cal-second-zone"
-msgid "None"
-msgstr "Puudub"
-
-msgid "Select..."
-msgstr "Vali..."
-
-msgid "Selected Calendars for Alarms"
-msgstr "Alarmidele valitud kalendrid"
-
-msgid "Ti_me and date:"
-msgstr "Kuu_päev ja kellaaeg:"
-
-msgid "_Date only:"
-msgstr "Ainult _kuupäev:"
-
-#, no-c-format
-msgid "%u and %d will be replaced by user and domain from the email address."
-msgstr ""
-"%u ja %d asendatakse kasutajanime ja domeeniga, mis võetakse e-posti "
-"aadressist."
-
-msgid "(Shown in a Day View)"
-msgstr "(näidatakse päevavaates)"
-
-msgid "05 minutes"
-msgstr "05 minutit"
-
-msgid "10 minutes"
-msgstr "10 minutit"
-
-msgid "15 minutes"
-msgstr "15 minutit"
-
-msgid "30 minutes"
-msgstr "30 minutit"
-
-msgid "60 minutes"
-msgstr "60 minutit"
-
-msgid "Alerts"
-msgstr "Alarmid"
-
-msgid "Date/Time Format"
-msgstr "Kuupäeva/kellaaja vorming"
-
-msgid "Day _ends:"
-msgstr "Päev lõpe_b:"
-
-msgid "Days"
-msgstr "päeva"
-
-msgid "Default Free/Busy Server"
-msgstr "Vaikimisi vaba/hõivatud server"
-
-msgid "Display"
-msgstr "Kuvamine"
-
-msgid "Display alarms in _notification area only"
-msgstr "Alarmide kuvamine ainult _teatealal"
-
-msgid "Friday"
-msgstr "Reede"
-
-msgid "General"
-msgstr "Üldine"
-
-msgid "Hours"
-msgstr "tundi"
-
-msgid "Minutes"
-msgstr "minutit"
-
-msgid "Monday"
-msgstr "Esmaspäev"
-
-msgid "Pick a color"
-msgstr "Värvuse valimine"
-
-#. Sunday
-msgid "S_un"
-msgstr "_P"
-
-msgid "Saturday"
-msgstr "Laupäev"
-
-msgid "Sc_roll Month View by a week"
-msgstr "Kuu vaadet ke_ritakse nädala kaupa"
-
-msgid "Se_cond zone:"
-msgstr "_Teine ajavöönd:"
-
-msgid "Select the calendars for alarm notification"
-msgstr "Alarmmärguannetega kalendrite valimine"
-
-#. This is the first half of a user preference. "Show a reminder [time-period] before every appointment"
-msgid "Sh_ow a reminder"
-msgstr "_Meeldetuletusi näidatakse"
-
-#. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-msgid "Show a _reminder"
-msgstr "_Meeldetuletusi näidatakse"
-
-msgid "Show week _numbers"
-msgstr "_Nädalanumbrite näitamine"
-
-msgid "Sunday"
-msgstr "Pühapäev"
-
-msgid "T_asks due today:"
-msgstr "_Tänase tähtajaga ülesanded:"
-
-#. Thursday
-msgid "T_hu"
-msgstr "_N"
-
-msgid "Task List"
-msgstr "Ülesandeloend"
-
-msgid "Template:"
-msgstr "Mall:"
-
-msgid "Thursday"
-msgstr "Neljapäev"
-
-msgid "Time"
-msgstr "Aeg"
-
-msgid "Time _zone:"
-msgstr "Aja_vöönd:"
-
-msgid "Time format:"
-msgstr "Ajavorming:"
-
-msgid "Tuesday"
-msgstr "Teisipäev"
-
-msgid "Use s_ystem time zone"
-msgstr "Näidatakse _süsteemi ajavööndit"
-
-msgid "Wednesday"
-msgstr "Kolmapäev"
-
-#. A weekday like "Monday" follows
-msgid "Wee_k starts on:"
-msgstr "Nä_dala algus:"
-
-msgid "Work Week"
-msgstr "Töönädal"
-
-msgid "Work days:"
-msgstr "Tööpäevad:"
-
-msgid "_12 hour (AM/PM)"
-msgstr "_12-tunnine (EL/PL)"
-
-msgid "_24 hour"
-msgstr "_24-tunnine"
-
-msgid "_Ask for confirmation when deleting items"
-msgstr "K_irjete kustutamisel küsitakse nõusolekut"
-
-msgid "_Compress weekends in month view"
-msgstr "Nädalalõppe kuvatakse kokkusurutud _vormis"
-
-msgid "_Day begins:"
-msgstr "Päev al_gab:"
-
-#. Friday
-msgid "_Fri"
-msgstr "_R"
-
-msgid "_Hide completed tasks after"
-msgstr "Täidetud ülesanded _peidetakse pärast"
-
-#. Monday
-msgid "_Mon"
-msgstr "_E"
-
-msgid "_Overdue tasks:"
-msgstr "Tä_htaja ületanud ülesanded:"
-
-#. Saturday
-msgid "_Sat"
-msgstr "_L"
-
-msgid "_Show appointment end times in week and month view"
-msgstr "Nädala ja kuu vaadetel näidatakse sündmuste _lõpuaegu"
-
-msgid "_Time divisions:"
-msgstr "Aeg _jaotatakse:"
-
-#. Tuesday
-msgid "_Tue"
-msgstr "_T"
-
-#. Wednesday
-msgid "_Wed"
-msgstr "_K"
-
-#. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
-msgid "before every anniversary/birthday"
-msgstr "enne aasta-/sünnipäeva"
-
-#. This is the last half of a user preference. "Show a reminder [time-period] before every appointment"
-msgid "before every appointment"
-msgstr "enne iga sündmuse algust"
-
 msgid "Type:"
 msgstr "Liik:"
 
@@ -2397,6 +1753,12 @@ msgstr ""
 
 msgid "Colo_r:"
 msgstr "Vä_rvus:"
+
+msgid "General"
+msgstr "Üldine"
+
+msgid "Task List"
+msgstr "Ülesandeloend"
 
 msgid "Memo List"
 msgstr "Märkmeloend"
@@ -2626,7 +1988,7 @@ msgid "Destination is read only"
 msgstr "Sihtkoht on kirjutuskaitsega"
 
 msgid "_Delete this item from all other recipient's mailboxes?"
-msgstr "_Kas kustutada see kirje kõigi teiste adressaatide kirjakastidest?"
+msgstr "_Kas kustutada see kirje kõigi teiste adressaatide postkastidest?"
 
 msgid "_Retract comment"
 msgstr "_Võta kommentaar tagasi"
@@ -2836,6 +2198,9 @@ msgstr "Kohandatud alarm:"
 msgid "Event Description"
 msgstr "Sündmuse kirjeldus"
 
+msgid "Time _zone:"
+msgstr "Aja_vöönd:"
+
 msgid "_Alarm"
 msgstr "_Alarm"
 
@@ -3027,6 +2392,27 @@ msgstr "21.-31."
 #. the name of a week day (like 'Monday' or 'Friday') always follow.
 msgid "day"
 msgstr "päeval"
+
+msgid "Monday"
+msgstr "Esmaspäev"
+
+msgid "Tuesday"
+msgstr "Teisipäev"
+
+msgid "Wednesday"
+msgstr "Kolmapäev"
+
+msgid "Thursday"
+msgstr "Neljapäev"
+
+msgid "Friday"
+msgstr "Reede"
+
+msgid "Saturday"
+msgstr "Laupäev"
+
+msgid "Sunday"
+msgstr "Pühapäev"
 
 #. TRANSLATORS: Entire string is for example: 'This appointment recurs/Every [x] month(s) on the [second] [Tuesday] [forever]'
 #. * (dropdown menu options are in [square brackets])."
@@ -3346,7 +2732,6 @@ msgstr "Jah"
 msgid "No"
 msgstr "Ei"
 
-#. This is the default filename used for temporary file creation
 msgid "Unknown"
 msgstr "Tundmatu"
 
@@ -3467,6 +2852,14 @@ msgstr "%02i-minutiline jaotus"
 msgid "Show the second time zone"
 msgstr "Teise ajavööndi näitamine"
 
+#. Translators: "None" indicates no second time zone set for a day view
+msgctxt "cal-second-zone"
+msgid "None"
+msgstr "Puudub"
+
+msgid "Select..."
+msgstr "Vali..."
+
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
 #. strftime format %A = full weekday name, %d = day of
@@ -3505,327 +2898,6 @@ msgstr "pl"
 #, c-format
 msgid "Week %d"
 msgstr "%d. nädal"
-
-msgid "Recurring:"
-msgstr "Korduv:"
-
-msgid "Yes. (Complex Recurrence)"
-msgstr "Jah. (keeruline kordumine)"
-
-#, c-format
-msgid "Every day"
-msgid_plural "Every %d days"
-msgstr[0] "Iga päev"
-msgstr[1] "Igal %d. päeval"
-
-#, c-format
-msgid "Every week"
-msgid_plural "Every %d weeks"
-msgstr[0] "Iga nädal"
-msgstr[1] "Igal %d. nädalal"
-
-#, c-format
-msgid "Every week on "
-msgid_plural "Every %d weeks on "
-msgstr[0] "Iga nädala "
-msgstr[1] "Iga %d. nädala "
-
-#. For Translators : 'and' is part of the sentence 'event recurring every week on (dayname) and (dayname)'
-msgid " and "
-msgstr " ja "
-
-#, c-format
-msgid "The %s day of "
-msgstr "%s päev"
-
-#, c-format
-msgid "The %s %s of "
-msgstr "%s. %s "
-
-#, c-format
-msgid "every month"
-msgid_plural "every %d months"
-msgstr[0] "iga kuu"
-msgstr[1] "igal %d. kuul"
-
-#, c-format
-msgid "Every year"
-msgid_plural "Every %d years"
-msgstr[0] "Iga aasta"
-msgstr[1] "Iga %d aasta"
-
-#, c-format
-msgid "a total of %d time"
-msgid_plural "a total of %d times"
-msgstr[0] "kokku %d kord"
-msgstr[1] "kokku %d korda"
-
-#. For Translators : ', ending on' is part of the sentence of the form 'event recurring every day, ending on (date).'
-msgid ", ending on "
-msgstr ", lõpeb"
-
-#. For Translators : 'Starts' is part of "Starts: date", showing when the event starts
-msgid "Starts"
-msgstr "Algab"
-
-#. For Translators : 'Ends' is part of "Ends: date", showing when the event ends
-msgid "Ends"
-msgstr "Lõpeb"
-
-msgid "Due"
-msgstr "Tähtaeg"
-
-msgid "iCalendar Information"
-msgstr "iKalendri andmed"
-
-#. Title
-msgid "iCalendar Error"
-msgstr "iKalendri viga"
-
-msgid "An unknown person"
-msgstr "Tundmatu isik"
-
-msgid ""
-"Please review the following information, and then select an action from the "
-"menu below."
-msgstr ""
-"Palun vaata järgnev info üle ja vali alumisest menüüst sobilik tegevus."
-
-#. Translators: "None" used as a default value for events without Summary received by mail
-msgctxt "cal-itip"
-msgid "None"
-msgstr "Puudub"
-
-msgid "Tentatively Accepted"
-msgstr "Võimalusel nõus"
-
-msgid ""
-"The meeting has been canceled, however it could not be found in your "
-"calendars"
-msgstr ""
-"Koosolek on tühistatud, kuid seda pole sinu kalendritest võimalik leida"
-
-msgid ""
-"The task has been canceled, however it could not be found in your task lists"
-msgstr ""
-"Ülesanne on tühistatud, kuid seda pole sinu ülesannete hulgast võimalik leida"
-
-#, c-format
-msgid "%s has published meeting information."
-msgstr "%s avaldas koosoleku andmed."
-
-msgid "Meeting Information"
-msgstr "Koosoleku andmed"
-
-#, c-format
-msgid "%s requests the presence of %s at a meeting."
-msgstr "%s soovib, et koosolekul osaleks ka %s."
-
-#, c-format
-msgid "%s requests your presence at a meeting."
-msgstr "%s soovib, et sa osaleksid koosolekul."
-
-msgid "Meeting Proposal"
-msgstr "Koosoleku ettepanek"
-
-#. FIXME Whats going on here?
-#, c-format
-msgid "%s wishes to be added to an existing meeting."
-msgstr "%s soovib liituda olemasoleva koosolekuga."
-
-msgid "Meeting Update"
-msgstr "Koosoleku info uuendus"
-
-#, c-format
-msgid "%s wishes to receive the latest meeting information."
-msgstr "%s soovib saada värskemaid andmeid koosoleku kohta."
-
-msgid "Meeting Update Request"
-msgstr "Soov muuta koosolekut"
-
-#, c-format
-msgid "%s has replied to a meeting request."
-msgstr "%s vastas koosoleku soovile."
-
-msgid "Meeting Reply"
-msgstr "Koosoleku vastus"
-
-#, c-format
-msgid "%s has canceled a meeting."
-msgstr "%s tühistas koosoleku."
-
-msgid "Meeting Cancelation"
-msgstr "Koosoleku tühistamine"
-
-#, c-format
-msgid "%s has sent an unintelligible message."
-msgstr "%s saatis arusaamatu sõnumi."
-
-msgid "Bad Meeting Message"
-msgstr "Vigane koosoleku sõnum"
-
-#, c-format
-msgid "%s has published task information."
-msgstr "%s avaldas ülesande andmed."
-
-msgid "Task Information"
-msgstr "Ülesande andmed"
-
-#, c-format
-msgid "%s requests %s to perform a task."
-msgstr "%s soovib, et %s täidaks ülesande."
-
-#, c-format
-msgid "%s requests you perform a task."
-msgstr "%s soovib, et sa täidaksid ülesande."
-
-msgid "Task Proposal"
-msgstr "Ettepanek ülesandeks"
-
-#. FIXME Whats going on here?
-#, c-format
-msgid "%s wishes to be added to an existing task."
-msgstr "%s soovib liituda olemasoleva ülesandega."
-
-msgid "Task Update"
-msgstr "Ülesande uuendus"
-
-#, c-format
-msgid "%s wishes to receive the latest task information."
-msgstr "%s soovib saada värskemaid andmeid ülesande kohta."
-
-msgid "Task Update Request"
-msgstr "Soov muuta ülesannet"
-
-#, c-format
-msgid "%s has replied to a task assignment."
-msgstr "%s vastas ülesande täitjaks määramisele."
-
-msgid "Task Reply"
-msgstr "Ülesande vastus"
-
-#, c-format
-msgid "%s has canceled a task."
-msgstr "%s tühistas ülesande."
-
-msgid "Task Cancelation"
-msgstr "Ülesande tühistamine"
-
-msgid "Bad Task Message"
-msgstr "Vigane ülesande sõnum"
-
-#, c-format
-msgid "%s has published free/busy information."
-msgstr "%s avaldas vaba/hõivatud andmed."
-
-msgid "Free/Busy Information"
-msgstr "Vaba/hõivatud andmed"
-
-#, c-format
-msgid "%s requests your free/busy information."
-msgstr "%s soovib saada sinu vaba/hõivatud andmeid."
-
-msgid "Free/Busy Request"
-msgstr "Soov saada vaba/hõivatud teavet"
-
-#, c-format
-msgid "%s has replied to a free/busy request."
-msgstr "%s vastas vaba/hõivatud päringule."
-
-msgid "Free/Busy Reply"
-msgstr "Vaba/hõivatud vastus"
-
-msgid "Bad Free/Busy Message"
-msgstr "Vigane vaba/hõivatud sõnum"
-
-msgid "The message does not appear to be properly formed"
-msgstr "Sõnum ei tundu olevalt õigesti vormistatud"
-
-msgid "The message contains only unsupported requests."
-msgstr "Sõnum sisaldab ainult toetamata päringuid."
-
-msgid "The attachment does not contain a valid calendar message"
-msgstr "Manus ei sisalda arusaadavat kalendriteadet"
-
-msgid "The attachment has no viewable calendar items"
-msgstr "Manus ei sisalda vaadeldavaid kalendrikirjeid"
-
-msgid "Update complete\n"
-msgstr "Uuendamine lõpetatud\n"
-
-msgid "Object is invalid and cannot be updated\n"
-msgstr "Objekt on vigane ja seda pole võimalik uuendada\n"
-
-msgid "This response is not from a current attendee.  Add as an attendee?"
-msgstr "See vastus pole praeguselt osalejalt. Kas lisame ta osalejaks?"
-
-msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr "Osaleja olekut pole võimalik uuendada, kuna selle olek on vigane!\n"
-
-msgid "Attendee status updated\n"
-msgstr "Osaleja olek värskendatud\n"
-
-msgid "Attendee status can not be updated because the item no longer exists"
-msgstr ""
-"Osaleja olekut ei olnud võimailk uuendada, kuna objekti pole enam olemas"
-
-msgid "Item sent!\n"
-msgstr "Kirje saadetud!\n"
-
-msgid "The item could not be sent!\n"
-msgstr "Seda kirjet pole võimalik saata!\n"
-
-msgid "Choose an action:"
-msgstr "Vali tegevus:"
-
-#. To translators: RSVP means "please reply"
-msgid "RSVP"
-msgstr "RSVP"
-
-msgid "Update"
-msgstr "Uuenda"
-
-msgid "Accept"
-msgstr "Nõustun"
-
-msgid "Tentatively accept"
-msgstr "Nõustun, kuid pole hetkel kindel"
-
-msgid "Decline"
-msgstr "Lükkan tagasi"
-
-msgid "Send Free/Busy Information"
-msgstr "Vaba/hõivatud teabe saatmine"
-
-msgid "Update respondent status"
-msgstr "Värskenda vastaja olekut"
-
-msgid "Send Latest Information"
-msgstr "Värskemate andmete saatmine"
-
-msgid "Cancel"
-msgstr "Tühista"
-
-msgid "--to--"
-msgstr "--kellele--"
-
-msgid "Calendar Message"
-msgstr "Kalendri sõnum"
-
-msgid "Date:"
-msgstr "Kuupäev:"
-
-msgid "Loading Calendar"
-msgstr "Kalendri laadimine"
-
-msgid "Loading calendar..."
-msgstr "Kalendri laadimine..."
-
-msgid "Organizer:"
-msgstr "Korraldaja:"
-
-msgid "Server Message:"
-msgstr "Serveri teade:"
 
 msgid "Chair Persons"
 msgstr "Juhid"
@@ -3869,6 +2941,10 @@ msgstr "Vajab tegevust"
 #. The extra space is just a hack to occupy more space for Attendee
 msgid "Attendee                          "
 msgstr "Osaleja                           "
+
+#. To translators: RSVP means "please reply"
+msgid "RSVP"
+msgstr "RSVP"
 
 msgid "In Process"
 msgstr "Töös"
@@ -4383,30 +3459,18 @@ msgstr "R"
 msgid "Sa"
 msgstr "L"
 
-#. Translators: This is part of "START to END" text,
-#. * where START and END are date/times.
 msgid " to "
 msgstr " kuni "
 
-#. Translators: This is part of "START to END
-#. * (Completed COMPLETED)", where COMPLETED is a
-#. * completed date/time.
 msgid " (Completed "
 msgstr " (Täidetud "
 
-#. Translators: This is part of "Completed COMPLETED",
-#. * where COMPLETED is a completed date/time.
 msgid "Completed "
 msgstr "Täidetud"
 
-#. Translators: This is part of "START (Due DUE)",
-#. * where START and DUE are dates/times.
 msgid " (Due "
 msgstr " (Tähtaeg "
 
-#. Translators: This is part of "Due DUE",
-#. * where DUE is a date/time due the event
-#. * should be finished.
 msgid "Due "
 msgstr "Tähtaeg "
 
@@ -5776,12 +4840,6 @@ msgstr "Sul_ge"
 msgid "Close the current file"
 msgstr "Sulge fail"
 
-msgid "_Print..."
-msgstr "_Prindi..."
-
-msgid "Print Pre_view"
-msgstr "Printimise eel_vaade"
-
 msgid "Save the current file"
 msgstr "Käesoleva faili salvestamine"
 
@@ -5790,6 +4848,21 @@ msgstr "Salvesta _kui..."
 
 msgid "Save the current file with a different name"
 msgstr "Käesoleva faili salvestamine teise nime alla"
+
+msgid "New _Message"
+msgstr "Uus _sõnum"
+
+msgid "Open New Message window"
+msgstr "Uue sõnumi akna avamine"
+
+msgid "Character _Encoding"
+msgstr "_Kooditabel"
+
+msgid "_Print..."
+msgstr "_Prindi..."
+
+msgid "Print Pre_view"
+msgstr "Printimise eel_vaade"
 
 msgid "Save as _Draft"
 msgstr "Salvesta _mustandina"
@@ -5802,15 +4875,6 @@ msgstr "_Saada"
 
 msgid "Send this message"
 msgstr "Selle sõnumi saatmine"
-
-msgid "New _Message"
-msgstr "Uus _sõnum"
-
-msgid "Open New Message window"
-msgstr "Uue sõnumi akna avamine"
-
-msgid "Character _Encoding"
-msgstr "_Kooditabel"
 
 msgid "PGP _Encrypt"
 msgstr "PGP k_rüptimine"
@@ -5927,10 +4991,6 @@ msgstr "Teksti otsimine ja asendamine"
 msgid "Save draft"
 msgstr "Mustandi salvestamine"
 
-#. Check buttons
-msgid "_Do not show this message again."
-msgstr "Seda teadet enam _uuesti mitte näidata."
-
 #, c-format
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -5965,6 +5025,19 @@ msgstr ""
 msgid "All accounts have been removed."
 msgstr "Kõik kontod on eemaldatud."
 
+#, fuzzy
+#| msgid "Error occurred while spawning %s: %s."
+msgid "An error occurred while saving to your Drafts folder."
+msgstr "Tõrge %s käivitamisel: %s."
+
+msgid "An error occurred while saving to your Outbox folder."
+msgstr "Väljuvate sõnumite kausta salvestamisel tekkis viga."
+
+#, fuzzy
+#| msgid "An error occurred while printing"
+msgid "An error occurred while sending. How do you want to proceed?"
+msgstr "Printimise ajal tekkis viga"
+
 msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
@@ -5977,15 +5050,18 @@ msgid "Because &quot;{1}&quot;."
 msgstr "Põhjus: &quot;{1}&quot;."
 
 msgid ""
+"Because you are working offline, the message will be saved to your local "
+"Outbox folder. When you are back online you can send the message by clicking "
+"the Send/Receive button in Evolution's toolbar."
+msgstr ""
+
+msgid ""
 "Closing this composer window will discard the message permanently, unless "
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
 msgstr ""
 "Selle redaktoriakna sulgemine hülgab sõnumi lõplikult. Kui tahad sõnumi "
 "koostamist hiljem jätkata, siis salvesta see sõnum mustandite kausta."
-
-msgid "Could not create composer window."
-msgstr "Redaktoriakent pole võimalik luua."
 
 msgid "Could not create message."
 msgstr "Sõnumit pole võimalik luua."
@@ -6015,22 +5091,24 @@ msgstr ""
 "Evolution lõpetas ootamatult uue sõnumi koostamise ajal. Sõnumi taastamine "
 "võimaldab jätkata sealt, kuhu pooleli jäid."
 
+msgid "Saving message to Outbox."
+msgstr "Sõnumi salvestamine väljuvate sõnumite kausta."
+
 msgid "The file '{0}' is not a regular file and cannot be sent in a message."
 msgstr "Fail '{0}' ei ole tavaline fail ja seda pole võimalik sõnumiga saata."
 
-msgid ""
-"Unable to activate the HTML editor control.\n"
-"\n"
-"Please make sure that you have the correct version of gtkhtml and libgtkhtml "
-"installed."
-msgstr ""
-"HTML-redaktori juhtimist pole võimalik aktiveerida.\n"
-"\n"
-"Palun veendu, et sul on paigaldatud sobivad gtkhtmli ja libgtkhtmli "
-"versioonid."
+#, fuzzy
+#| msgid "Bad regular expression &quot;{0}&quot;."
+msgid "The reported error was &quot;{0}&quot;."
+msgstr "Vigane regulaaravaldis &quot;{0}&quot;."
 
-msgid "Unable to activate the address selector control."
-msgstr "Aadressi valimise juhtimist pole võimalik aktiveerida."
+msgid ""
+"The reported error was &quot;{0}&quot;. The message has most likely not been "
+"saved."
+msgstr ""
+
+msgid "The reported error was &quot;{0}&quot;. The message has not been sent."
+msgstr ""
 
 msgid "You cannot attach the file &quot;{0}&quot; to this message."
 msgstr "Sul pole võimalik sellele sõnumile faili &quot;{0}&quot; manustada."
@@ -6038,6 +5116,7 @@ msgstr "Sul pole võimalik sellele sõnumile faili &quot;{0}&quot; manustada."
 msgid "You need to configure an account before you can compose mail."
 msgstr "Enne sõnumite koostamist tuleb sul seadistada postikonto."
 
+#. Response codes were chosen somewhat arbitrarily.
 msgid "_Continue Editing"
 msgstr "_Jätka muutmist"
 
@@ -6049,6 +5128,12 @@ msgstr "_Taasta"
 
 msgid "_Save Draft"
 msgstr "_Salvesta mustand"
+
+msgid "_Save to Outbox"
+msgstr "_Salvesta väljuvate sõnumite kausta"
+
+msgid "_Try Again"
+msgstr "Proovi _uuesti"
 
 msgid "Run Anjal in a window"
 msgstr "Anjali jooksutamine aknas"
@@ -6152,8 +5237,8 @@ msgid ""
 "Time to check things over before we try and connect to the server and fetch "
 "your mail."
 msgstr ""
-"Sobilik aeg kontrollida sätted üle enne, kui ühendume serveriga ja tõmbame "
-"kirjad alla."
+"Sobilik aeg kontrollida sätted enne serveriga ühendumist ja sõnumite "
+"vastuvõtmist."
 
 msgid "Identity"
 msgstr "Identiteet"
@@ -6165,7 +5250,7 @@ msgid "Receiving mail"
 msgstr "E-posti vastuvõtmine"
 
 msgid "Next - Sending mail"
-msgstr "Edasi - kirjade saatmine"
+msgstr "Edasi - sõnumite saatmine"
 
 msgid "Back - Identity"
 msgstr "Tagasi - identiteet"
@@ -6195,7 +5280,7 @@ msgid "Defaults"
 msgstr "Vaikimisi"
 
 msgid "Back - Sending mail"
-msgstr "Tagasi - kirjade saatmine"
+msgstr "Tagasi - sõnumite saatmine"
 
 msgid "Review account"
 msgstr "Konto ülevaatus"
@@ -6299,25 +5384,24 @@ msgstr "%s (katkestatud)"
 msgid "%s (completed)"
 msgstr "%s (valmis)"
 
-#. Translators: This is an activity whose percent
-#. * complete is unknown.
+#. Translators: This is an activity waiting to run.
 #, c-format
-msgid "%s..."
-msgstr "%s..."
+msgid "%s (waiting)"
+msgstr "%s (ootel)"
+
+#. Translators: This is a running activity which
+#. *              the user has requested to cancel.
+#, c-format
+msgid "%s (cancelling)"
+msgstr "%s (katkestamisel)"
+
+#, c-format
+msgid "%s"
+msgstr ""
 
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% valmis)"
-
-msgid "Evolution Error"
-msgstr "Evolutioni viga"
-
-msgid "Evolution Warning"
-msgstr "Evolutioni hoiatus"
-
-#, c-format
-msgid "Internal error, unknown error '%s' requested"
-msgstr "Sisemine viga, küsiti tundmatut viga '%s'"
 
 msgid "Arabic"
 msgstr "Araabia"
@@ -6388,19 +5472,10 @@ msgstr "Homme"
 msgid "Yesterday"
 msgstr "Eile"
 
-#. Translators: %d is replaced with a number of days. It's always greater than 1
+#. Translators: %a is a strftime modifier, the abbreviated week day name, for example "Next Tue"
 #, c-format
-msgid "%d day from now"
-msgid_plural "%d days from now"
-msgstr[0] "%d päev alates praegusest"
-msgstr[1] "%d päeva alates praegusest"
-
-#. Translators: %d is replaced with a number of days. It's always greater than 1
-#, c-format
-msgid "%d day ago"
-msgid_plural "%d days ago"
-msgstr[0] "%d päev tagasi"
-msgstr[1] "%d päeva tagasi"
+msgid "Next %a"
+msgstr "Järgmine %a"
 
 msgid "Use locale default"
 msgstr "Kasutatakse lokaadi vaikeväärtuseid"
@@ -6421,44 +5496,6 @@ msgstr "\"%s\" kirjutamine"
 #, c-format
 msgid "Writing \"%s\" to %s"
 msgstr "\"%s\" kirjutamine kohta %s"
-
-msgid "Debug Logs"
-msgstr "Silumislogid"
-
-msgid "Show _errors in the status bar for"
-msgstr "Ol_ekuribal näidatakse vigu"
-
-#. Translators: This is the second part of the sentence
-#. * "Show _errors in the status bar for" - XXX - "second(s)."
-msgid "second(s)."
-msgstr "sekund(it)."
-
-msgid "Log Messages:"
-msgstr "Logiteated:"
-
-msgid "Log Level"
-msgstr "Logimise tase"
-
-msgid "Messages"
-msgstr "Sõnumid"
-
-msgid "Close this window"
-msgstr "Akna sulgemine"
-
-msgid "Error"
-msgstr "Viga"
-
-msgid "Errors"
-msgstr "Vead"
-
-msgid "Warnings and Errors"
-msgstr "Hoiatused ja vead"
-
-msgid "Debug"
-msgstr "Silumine"
-
-msgid "Error, Warnings and Debug messages"
-msgstr "Vea-, hoiatus- ja silumisteated"
 
 msgid "weeks"
 msgstr "nädalat"
@@ -6572,6 +5609,8 @@ msgstr "PGP-sõnumit pole võimalik analüüsida: "
 msgid "Unknown error"
 msgstr "Tundmatu viga"
 
+#. Don't delete this code, since it is needed so that xgettext can extract the translations.
+#. * Please, keep these strings in sync with the strings in the timespans array
 #, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
@@ -6820,6 +5859,9 @@ msgstr "Ikoonivaade"
 msgid "List View"
 msgstr "Loeteluvaade"
 
+msgid "Close this window"
+msgstr "Akna sulgemine"
+
 msgid "(No Subject)"
 msgstr "(Teema puudub)"
 
@@ -6834,6 +5876,10 @@ msgstr "_Sellelt aadressilt"
 
 msgid "Create Search _Folder"
 msgstr "Loo _otsingukaust"
+
+#, c-format
+msgid "Saving message to folder '%s'"
+msgstr "Sõnumi salvestamine kausta '%s'"
 
 msgid "_Label name:"
 msgstr "Sildi _nimi:"
@@ -6883,7 +5929,7 @@ msgid "Drafts"
 msgstr "Mustandid"
 
 msgid "Outbox"
-msgstr "Saatmata"
+msgstr "Väljuvad"
 
 msgid "Sent"
 msgstr "Saadetud"
@@ -6933,6 +5979,20 @@ msgstr "Kopeerimine kausta"
 
 msgid "C_opy"
 msgstr "K_opeeri"
+
+#. Translators: %s is replaced with a folder name
+#. %d with count of duplicate messages.
+#, c-format
+msgid ""
+"Folder '%s' contains %d duplicate message. Are you sure you want to delete "
+"it?"
+msgstr "Kaustas '%s' on %d sõnumiduplikaat. Kas soovid seda kustutada?"
+
+#, c-format
+msgid ""
+"Folder '%s' contains %d duplicate messages. Are you sure you want to delete "
+"them?"
+msgstr "Kaustas '%s' on %d sõnumiduplikaati. Kas soovid neid kustutada?"
 
 msgid "Move to Folder"
 msgstr "Tõstmine kausta"
@@ -7059,7 +6119,7 @@ msgid "Forward the selected message in the body of a new message"
 msgstr "Valitud sõnumi kellelegi edastamine saadetava sõnumi sees"
 
 msgid "Forward As _Inline"
-msgstr "Edasta _kirja sees"
+msgstr "Edasta _sõnumi sees"
 
 msgid "_Quoted"
 msgstr "_Tsitaadina"
@@ -7113,7 +6173,7 @@ msgid "Mark the selected messages as not having been read"
 msgstr "Valitud sõnumite märkimine lugemata sõnumiteks"
 
 msgid "_Edit as New Message..."
-msgstr "Re_digeeri kui uut kirja..."
+msgstr "Re_digeeri kui uut sõnumit..."
 
 msgid "Open the selected messages in the composer for editing"
 msgstr "Valitud sõnumi avamine sõnumiredaktoris"
@@ -7196,6 +6256,16 @@ msgstr "_Eelmine tähtis sõnum"
 msgid "Display the previous important message"
 msgstr "Eelmise tähtsa sõnumi kuvamine"
 
+#, fuzzy
+#| msgid "_Previous Message"
+msgid "Previous T_hread"
+msgstr "_Eelmine sõnum"
+
+#, fuzzy
+#| msgid "Display the previous message"
+msgid "Display the previous thread"
+msgstr "Eelmise sõnumi kuvamine"
+
 msgid "P_revious Unread Message"
 msgstr "_Eelmine lugemata sõnum"
 
@@ -7213,6 +6283,26 @@ msgstr "Ümber_suunamine"
 
 msgid "Redirect (bounce) the selected message to someone"
 msgstr "Valitud sõnumite edastamine kellelegi"
+
+#, fuzzy
+#| msgid "Save Attachment"
+#| msgid_plural "Save Attachments"
+msgid "Remo_ve Attachments"
+msgstr "Manuse salvestamine"
+
+#, fuzzy
+#| msgid "Save Attachment"
+#| msgid_plural "Save Attachments"
+msgid "Remove attachments"
+msgstr "Manuse salvestamine"
+
+#, fuzzy
+#| msgid "Recent Messages"
+msgid "Remove Du_plicate Messages"
+msgstr "Värsked"
+
+msgid "Checks selected messages for duplicates"
+msgstr "Valitud sõnumitest duplikaatide otsimine"
 
 msgid "Reply to _All"
 msgstr "V_asta kõigile"
@@ -7390,6 +6480,74 @@ msgstr "Vasta"
 msgid "Folder '%s'"
 msgstr "Kaust '%s'"
 
+#, c-format
+msgid "Enter Passphrase for %s"
+msgstr "Parooli sisestamine %s jaoks"
+
+msgid "Enter Passphrase"
+msgstr "Parooli sisestamine"
+
+#, c-format
+msgid "Enter Password for %s"
+msgstr "Parooli sisestamine %s jaoks"
+
+msgid "Enter Password"
+msgstr "Parooli sisestamine"
+
+#, c-format
+msgid "User canceled operation."
+msgstr "Kasutaja katkestas toimingu."
+
+#, c-format
+msgid ""
+"No destination address provided, forward of the message has been cancelled."
+msgstr "Sihtaadressi ei määratud, sõnumi edastamine katkestati."
+
+#, c-format
+msgid "No account found to use, forward of the message has been cancelled."
+msgstr "Ei leitud kontot, mida kasutada, sõnumi edastamine katkestati."
+
+#, c-format
+msgid "Opening folder '%s'"
+msgstr "Kausta '%s' avamine"
+
+#, fuzzy, c-format
+#| msgid "Invalid folder: '%s'"
+msgid "Invalid folder: %s"
+msgstr "Vigane kaust: '%s'"
+
+#, c-format
+msgid "Failed to apply outgoing filters: %s"
+msgstr "Tõrge väljundfiltrite rakendamisel: %s"
+
+#, c-format
+msgid ""
+"Failed to append to %s: %s\n"
+"Appending to local 'Sent' folder instead."
+msgstr ""
+"Tõrge lisamisel kausta %s: %s\n"
+"Selle asemel lisatakse kohalikku kausta 'Saadetud'."
+
+#, c-format
+msgid "Failed to append to local 'Sent' folder: %s"
+msgstr "Tõrge lisamisel kohalikku 'Saadetud' kausta: %s"
+
+msgid "Sending message"
+msgstr "Sõnumi saatmine"
+
+#, fuzzy, c-format
+#| msgid "Unsubscribing from folder \"%s\""
+msgid "Unsubscribing from folder '%s'"
+msgstr "Kausta \"%s\" tellimusest loobumine"
+
+#, c-format
+msgid "Disconnecting from '%s'"
+msgstr "Ühendun lahti: %s"
+
+#, c-format
+msgid "Reconnecting to '%s'"
+msgstr "Taasühendamine '%s'"
+
 msgid "Flag to Follow Up"
 msgstr "Märgistamine järeltoiminguks"
 
@@ -7409,22 +6567,6 @@ msgstr "TLS-krüptimine"
 #. abbreviation.
 msgid "SSL encryption"
 msgstr "SSL-krüptimine"
-
-#, c-format
-msgid "%s License Agreement"
-msgstr "Litsents %s"
-
-#, c-format
-msgid ""
-"\n"
-"Please read carefully the license agreement\n"
-"for %s displayed below\n"
-"and tick the check box for accepting it\n"
-msgstr ""
-"\n"
-"Palun loe hoolikalt %s litsentsitingimusi, mida\n"
-"kuvatakse allpool ja nendega nõustumise korral\n"
-"märgi märkeruut\n"
 
 #. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
 msgctxt "mail-signature"
@@ -7851,10 +6993,6 @@ msgstr "Kausta loomine"
 msgid "Specify where to create the folder:"
 msgstr "Kirjelda, kuhu tuleb kaust luua:"
 
-#, c-format
-msgid "Unsubscribing from folder \"%s\""
-msgstr "Kausta \"%s\" tellimusest loobumine"
-
 msgid "Unsigned"
 msgstr "Allkirjastamata"
 
@@ -8030,21 +7168,67 @@ msgstr "Selle sõnumi on %2$s nimel saatnud %1$s"
 msgid "No HTML stream available"
 msgstr "HTML-voog pole saadaval"
 
-msgid "This store does not support subscriptions, or they are not enabled."
-msgstr "See hoidla ei toeta tellimusi või pole tellimused lubatud."
+msgid "Folder Subscriptions"
+msgstr "Kaustade tellimused"
 
-msgid "Subscribed"
+msgid "_Account:"
+msgstr "_Konto:"
+
+#, fuzzy
+#| msgid "Clear the search"
+msgid "Clear Search"
+msgstr "Otsingu puhastamine"
+
+#, fuzzy
+#| msgid "S_how only items containing:"
+msgid "Sho_w items that contain:"
+msgstr "_Näidatakse ainult kirjeid, mis sisaldavad:"
+
+#, fuzzy
+#| msgid "Unsubscribe from the selected folder"
+msgid "Subscribe to the selected folder"
+msgstr "Valitud kausta tellimusest loobumine"
+
+#, fuzzy
+#| msgid "Subscribed"
+msgid "Su_bscribe"
 msgstr "Tellitud"
 
-msgid "Folder"
-msgstr "Kaust"
+msgid "Unsubscribe from the selected folder"
+msgstr "Valitud kausta tellimusest loobumine"
 
-#. FIXME: This is just to get the shadow, is there a better way?
-msgid "Please select a server."
-msgstr "Palun vali server."
+msgid "_Unsubscribe"
+msgstr "_Lõpeta tellimus"
 
-msgid "No server has been selected"
-msgstr "Serverit ei ole valitud"
+#, fuzzy
+#| msgid "Collapse _all"
+msgid "Collapse all folders"
+msgstr "Ahenda _kõik"
+
+#, fuzzy
+#| msgid "Collapse _all"
+msgid "C_ollapse All"
+msgstr "Ahenda _kõik"
+
+#, fuzzy
+#| msgid "E_xpand all"
+msgid "Expand all folders"
+msgstr "A_va kõik"
+
+#, fuzzy
+#| msgid "E_xpand all"
+msgid "E_xpand All"
+msgstr "A_va kõik"
+
+#, fuzzy
+#| msgid "Refresh the folder"
+msgid "Refresh the folder list"
+msgstr "Kausta värskendamine"
+
+#, fuzzy
+#| msgid "Cancel the current mail operation"
+msgid "Stop the current operation"
+msgstr "Käimasoleva sõnumioperatsiooni katkestamine"
 
 #. Translators: This message is shown only for ten or more
 #. * messages to be opened.  The %d is replaced with the actual
@@ -8081,6 +7265,21 @@ msgstr "\"Filtriredaktori\" maksimeerimise olek"
 msgid "\"Filter Editor\" window width"
 msgstr "\"Filtriredaktori\" akna laius"
 
+#, fuzzy
+#| msgid "\"Filter Editor\" window height"
+msgid "\"Folder Subscriptions\" window height"
+msgstr "\"Filtriredaktori\" akna kõrgus"
+
+#, fuzzy
+#| msgid "\"Filter Editor\" window maximize state"
+msgid "\"Folder Subscriptions\" window maximize state"
+msgstr "\"Filtriredaktori\" maksimeerimise olek"
+
+#, fuzzy
+#| msgid "\"Filter Editor\" window width"
+msgid "\"Folder Subscriptions\" window width"
+msgstr "\"Filtriredaktori\" akna laius"
+
 msgid "\"Search Folder Editor\" window height"
 msgstr "\"Otsingukausta redaktori\" akna kõrgus"
 
@@ -8101,6 +7300,14 @@ msgstr "\"Posti saatmise ja vastuvõtmise\" akna laius"
 
 msgid "Always request read receipt"
 msgstr "Lugemiskinnitust küsitakse alati"
+
+msgid "Amount of time in seconds the error should be shown on the status bar."
+msgstr "Mitme sekundi vältel tuleb olekuribal veateadet kuvada."
+
+msgid ""
+"Asks whether to close the message window when the user forwards or replies "
+"to the message shown in the window"
+msgstr ""
 
 msgid "Automatic emoticon recognition"
 msgstr "Automaatne tujunäotuvastus"
@@ -8174,9 +7381,6 @@ msgstr "Redaktoriakna vaikimisi kõrgus."
 msgid "Default height of the mail browser window."
 msgstr "Meililehitseja akna vaikimisi kõrgus."
 
-msgid "Default height of the subscribe dialog."
-msgstr "Tellimisdialoogi vaikimisi kõrgus."
-
 msgid "Default maximized state of the mail browser window."
 msgstr "Meililehitseja akna vaikimisi maksimeeritud olek."
 
@@ -8191,9 +7395,6 @@ msgstr "Redaktoriakna vaikimisi laius."
 
 msgid "Default width of the mail browser window."
 msgstr "Meililehitseja akna vaikimisi laius."
-
-msgid "Default width of the subscribe dialog."
-msgstr "Tellimisdialoogi vaikimisi laius."
 
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
@@ -8376,6 +7577,17 @@ msgstr ""
 "\"Filtriredaktori\" akna lähtekõrgus. Väärtust uuendatakse, kui kasutaja "
 "akna kõrgust muudab."
 
+#, fuzzy
+#| msgid ""
+#| "Initial height of the \"Filter Editor\" window. The value updates as the "
+#| "user resizes the window vertically."
+msgid ""
+"Initial height of the \"Folder Subscriptions\" window. The value updates as "
+"the user resizes the window vertically."
+msgstr ""
+"\"Filtriredaktori\" akna lähtekõrgus. Väärtust uuendatakse, kui kasutaja "
+"akna kõrgust muudab."
+
 msgid ""
 "Initial height of the \"Search Folder Editor\" window. The value updates as "
 "the user resizes the window vertically."
@@ -8395,6 +7607,23 @@ msgid ""
 "when the user maximizes or unmaximizes the window. Note, this particular "
 "value is not used by Evolution since the \"Filter Editor\" window cannot be "
 "maximized. This key exists only as an implementation detail."
+msgstr ""
+"\"Filtriredaktori\" akna esialgne maksimeeritud olek. Väärtust uuendatakse, "
+"kui kasutaja akna maksimeerib või maksimeeritud olekust taastab. Märkus: "
+"Evolution ei kasuta seda väärtust senikaua, kuni \"Filtriredaktori\" akent "
+"pole võimalik maksimeerida. Praegu on see väärtus siin arendajate huvides."
+
+#, fuzzy
+#| msgid ""
+#| "Initial maximize state of the \"Filter Editor\" window. The value updates "
+#| "when the user maximizes or unmaximizes the window. Note, this particular "
+#| "value is not used by Evolution since the \"Filter Editor\" window cannot "
+#| "be maximized. This key exists only as an implementation detail."
+msgid ""
+"Initial maximize state of the \"Folder Subscriptions\" window. The value "
+"updates when the user maximizes or unmaximizes the window. Note, this "
+"particular value is not used by Evolution since the \"Folder Subscriptions\" "
+"window cannot be maximized. This key exists only as an implementation detail."
 msgstr ""
 "\"Filtriredaktori\" akna esialgne maksimeeritud olek. Väärtust uuendatakse, "
 "kui kasutaja akna maksimeerib või maksimeeritud olekust taastab. Märkus: "
@@ -8429,6 +7658,17 @@ msgstr ""
 msgid ""
 "Initial width of the \"Filter Editor\" window. The value updates as the user "
 "resizes the window horizontally."
+msgstr ""
+"\"Filtriredaktori\" akna lähtelaius. Väärtust uuendatakse, kui kasutaja akna "
+"laiust muudab."
+
+#, fuzzy
+#| msgid ""
+#| "Initial width of the \"Filter Editor\" window. The value updates as the "
+#| "user resizes the window horizontally."
+msgid ""
+"Initial width of the \"Folder Subscriptions\" window. The value updates as "
+"the user resizes the window horizontally."
 msgstr ""
 "\"Filtriredaktori\" akna lähtelaius. Väärtust uuendatakse, kui kasutaja akna "
 "laiust muudab."
@@ -8497,6 +7737,9 @@ msgstr "Viimane kord, kui prügikasti tühjendati"
 
 msgid "Layout style"
 msgstr "Paigutuse laad"
+
+msgid "Level beyond which the message should be logged."
+msgstr "Tase, millest alates tuleb sõnumeid logida."
 
 msgid "List of Labels and their associated colors"
 msgstr "Siltide ja nende värvuste loend"
@@ -8605,6 +7848,11 @@ msgstr ""
 
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Aadressite arv, mis kuvatakse saaja/koopia/pimekoopia väljadel"
+
+msgid ""
+"Possible values are: never - to never close browser window always - to "
+"always close browser window ask - (or any other value) will ask user"
+msgstr ""
 
 msgid "Prompt on empty subject"
 msgstr "Kinnituse küsimine tühja teema korral"
@@ -8817,12 +8065,6 @@ msgstr "Õigekirjakontrolli värvus"
 msgid "Spell checking languages"
 msgstr "Õigekirjakontrolli keeled"
 
-msgid "Subscribe dialog default height"
-msgstr "Tellimisdialoogi vaikimisi kõrgus"
-
-msgid "Subscribe dialog default width"
-msgstr "Tellimisdialoogi vaikimisi laius"
-
 msgid "Terminal font"
 msgstr "Terminali kirjatüüp"
 
@@ -9013,8 +8255,8 @@ msgid ""
 "only when there was used any 'Forward to' filter action and approximately "
 "one minute after the last action invocation."
 msgstr ""
-"Kas tühjendada väljuvate kirjade kaust pärast filtreerimise lõpetamist. "
-"Väljuvate kirjade kausta tühjendamine toimub ainult siis, kui filtris "
+"Kas tühjendada väljuvate sõnumite kaust pärast filtreerimise lõpetamist. "
+"Väljuvate sõnumite kausta tühjendamine toimub ainult siis, kui filtris "
 "kasutati tegevust 'Edasta aadressile', see juhtub umbes üks minut pärast "
 "viimast muudatust."
 
@@ -9201,6 +8443,9 @@ msgstr "_Enne kausta puhastamist küsitakse kinnitust"
 msgid "Confirmations"
 msgstr "Nõusoleku küsimised"
 
+msgid "Date/Time Format"
+msgstr "Kuupäeva/kellaaja vorming"
+
 msgid "Default Behavior"
 msgstr "Vaikimisi käitumine"
 
@@ -9314,6 +8559,9 @@ msgstr "PGP/GPG _võtme ID:"
 
 msgid "Pass_word:"
 msgstr "Pa_rool:"
+
+msgid "Pick a color"
+msgstr "Värvuse valimine"
 
 msgid "Port:"
 msgstr "Port:"
@@ -9593,23 +8841,14 @@ msgstr "Helista"
 msgid "Co_mpleted"
 msgstr "_Valmis"
 
-msgid "Collapse _all"
-msgstr "Ahenda _kõik"
-
 msgid "Digital Signature"
 msgstr "Digiallkiri"
 
 msgid "Do Not Forward"
 msgstr "Ära edasta"
 
-msgid "E_xpand all"
-msgstr "A_va kõik"
-
 msgid "Encryption"
 msgstr "Krüpteering"
-
-msgid "Folder Subscriptions"
-msgstr "Kaustade tellimused"
 
 msgid "Follow-Up"
 msgstr "Järeltoiming"
@@ -9631,12 +8870,6 @@ msgstr "Vasta kõigile"
 
 msgid "Review"
 msgstr "Vaata üle"
-
-msgid "S_erver:"
-msgstr "_Server:"
-
-msgid "S_how only items containing:"
-msgstr "_Näidatakse ainult kirjeid, mis sisaldavad:"
 
 msgid "Search Folder Sources"
 msgstr "Otsingukausta allikad"
@@ -9677,25 +8910,6 @@ msgid "Fetching Mail"
 msgstr "E-posti võtmine"
 
 #, c-format
-msgid "Failed to apply outgoing filters: %s"
-msgstr "Tõrge väljundfiltrite rakendamisel: %s"
-
-#, c-format
-msgid ""
-"Failed to append to %s: %s\n"
-"Appending to local 'Sent' folder instead."
-msgstr ""
-"Tõrge lisamisel kausta %s: %s\n"
-"Selle asemel lisatakse kohalikku kausta 'Saadetud'."
-
-#, c-format
-msgid "Failed to append to local 'Sent' folder: %s"
-msgstr "Tõrge lisamisel kohalikku 'Saadetud' kausta: %s"
-
-msgid "Sending message"
-msgstr "Sõnumi saatmine"
-
-#, c-format
 msgid "Sending message %d of %d"
 msgstr "Sõnumi %d/%d saatmine"
 
@@ -9708,10 +8922,6 @@ msgstr "Tühistatud."
 
 msgid "Complete."
 msgstr "Valmis."
-
-#, c-format
-msgid "Saving message to folder '%s'"
-msgstr "Sõnumi salvestamine kausta '%s'"
 
 #, c-format
 msgid "Moving messages to '%s'"
@@ -9727,10 +8937,6 @@ msgstr "'%s' kaustade läbivaatamine"
 
 msgid "Forwarded messages"
 msgstr "Edastatud sõnumid"
-
-#, c-format
-msgid "Opening folder '%s'"
-msgstr "Kausta '%s' avamine"
 
 #, c-format
 msgid "Retrieving quota information for folder '%s'"
@@ -9787,34 +8993,27 @@ msgstr[1] "%d sõnumi salvestamine"
 msgid "Error saving messages to: %s:\n"
 msgstr "Viga sõnumite salvestamisel kausta %s:\n"
 
-msgid "Saving attachment"
-msgstr "Manuse salvestamine"
-
-#, c-format
-msgid ""
-"Cannot create output file: %s:\n"
-" %s"
-msgstr ""
-"Väljundfaili pole võimalik luua: %s\n"
-" %s"
-
-msgid "Could not write data: "
-msgstr "Andmeid pole võimalik kirjutada: "
-
-#, c-format
-msgid "Disconnecting from '%s'"
-msgstr "Ühendun lahti: %s"
-
-#, c-format
-msgid "Reconnecting to '%s'"
-msgstr "Taasühendamine '%s'"
-
 #, c-format
 msgid "Preparing account '%s' for offline"
 msgstr "Konto '%s' ettevalmistamine võrguvabaks režiimiks"
 
 msgid "Checking Service"
 msgstr "Teenuse kontrollimine"
+
+#, fuzzy, c-format
+#| msgid "Disconnecting from '%s'"
+msgid "Disconnecting %s"
+msgstr "Ühendun lahti: %s"
+
+#, fuzzy, c-format
+#| msgid "Saving attachment"
+msgid "Removing attachments"
+msgstr "Manuse salvestamine"
+
+#, fuzzy, c-format
+#| msgid "All accounts have been removed."
+msgid "File \"%s\" has been removed."
+msgstr "Kõik kontod on eemaldatud."
 
 msgid "Canceling..."
 msgstr "Tühistamine..."
@@ -9836,33 +9035,6 @@ msgid "Checking for new mail"
 msgstr "Uute sõnumite kontroll"
 
 #, c-format
-msgid "Enter Passphrase for %s"
-msgstr "Parooli sisestamine %s jaoks"
-
-msgid "Enter Passphrase"
-msgstr "Parooli sisestamine"
-
-#, c-format
-msgid "Enter Password for %s"
-msgstr "Parooli sisestamine %s jaoks"
-
-msgid "Enter Password"
-msgstr "Parooli sisestamine"
-
-#, c-format
-msgid "User canceled operation."
-msgstr "Kasutaja katkestas toimingu."
-
-#, c-format
-msgid ""
-"No destination address provided, forward of the message has been cancelled."
-msgstr "Sihtaadressi ei määratud, sõnumi edastamine katkestati."
-
-#, c-format
-msgid "No account found to use, forward of the message has been cancelled."
-msgstr "Ei leitud kontot, mida kasutada, sõnumi edastamine katkestati."
-
-#, c-format
 msgid "Could not create spool directory '%s': %s"
 msgstr "Puhverkataloogi '%s' pole võimalik luua: %s"
 
@@ -9877,10 +9049,6 @@ msgstr "Edastatud sõnum - %s"
 
 msgid "Forwarded message"
 msgstr "Edastatud sõnum"
-
-#, c-format
-msgid "Invalid folder: '%s'"
-msgstr "Vigane kaust: '%s'"
 
 #, c-format
 msgid "Setting up Search Folder: %s"
@@ -10081,6 +9249,11 @@ msgstr ""
 "tõstutundlikud, siis veendu, et klaviatuuri \"Caps Lock\" klahv ei oleks "
 "sisse lülitatud."
 
+#, fuzzy
+#| msgid "Close this window"
+msgid "Close message window."
+msgstr "Akna sulgemine"
+
 msgid "Could not save signature file."
 msgstr "Signatuurifaili pole võimalik salvestada."
 
@@ -10124,11 +9297,20 @@ msgstr "Viga käsu täitmisel."
 msgid "Error while {0}."
 msgstr "Viga toimingul: {0}."
 
+#, fuzzy
+#| msgid "Unsubscribing from folder \"%s\""
+msgid "Failed to unsubscribe from folder."
+msgstr "Kausta \"%s\" tellimusest loobumine"
+
 msgid "File exists but cannot overwrite it."
 msgstr "Fail on juba olemas, kuid seda pole võimalik üle kirjutada."
 
 msgid "File exists but is not a regular file."
 msgstr "Fail on juba olemas, aga see ei ole tavaline fail."
+
+#. Translators: {0} is replaced with a folder name
+msgid "Folder '{0}' doesn't contain any duplicate message."
+msgstr "Kaust '{0}' ei sisalda ühtegi sõnumiduplikaati."
 
 msgid "If you continue, you will not be able to recover these messages."
 msgstr "Kui jätkad, siis neid sõnumeid ei ole võimalik enam taastada."
@@ -10190,6 +9372,12 @@ msgstr ""
 msgid "Missing folder."
 msgstr "Puuduv kaust."
 
+msgid "N_ever"
+msgstr "_Mitte kunagi"
+
+msgid "No duplicate messages found."
+msgstr "Sõnumiduplikaate ei leitud."
+
 msgid "No sources selected."
 msgstr "Ühtegi allikat pole valitud."
 
@@ -10238,6 +9426,9 @@ msgstr "Kas tõesti kustutada kaust \"{0}\" ja selle kõik alamkaustad?"
 
 msgid "Really delete folder \"{0}\"?"
 msgstr "Kas tõesti kustutada kaust \"{0}\"?"
+
+msgid "Remove duplicate messages?"
+msgstr "Kas eemaldada sõnumiduplikaadid?"
 
 msgid "Reply _Privately"
 msgstr "Vasta _isiklikult"
@@ -10362,6 +9553,11 @@ msgstr ""
 "võrgukaustadest.\n"
 "Kas soovid seda teha?"
 
+#, fuzzy
+#| msgid "Would you like to accept it?"
+msgid "Would you like to close the message window?"
+msgstr "Kas nõustud sellega?"
+
 msgid ""
 "You are replying privately to a message which arrived via a mailing list, "
 "but the list is trying to redirect your reply to go back to the list. Are "
@@ -10415,6 +9611,9 @@ msgstr ""
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
 msgstr "Tõrge serverisse \"{0}\" sisselogimisel kasutajana \"{0}\"."
 
+msgid "_Always"
+msgstr "_Alati"
+
 msgid "_Append"
 msgstr "_Lisa"
 
@@ -10430,6 +9629,9 @@ msgstr "_Tühjenda prügikast"
 msgid "_Expunge"
 msgstr "_Puhasta"
 
+msgid "_No"
+msgstr "_Ei"
+
 msgid "_Open Messages"
 msgstr "_Ava sõnumid"
 
@@ -10438,6 +9640,9 @@ msgstr "_Saada kinnitus"
 
 msgid "_Synchronize"
 msgstr "_Sünkroniseeri"
+
+msgid "_Yes"
+msgstr "_Jah"
 
 msgid "Unseen"
 msgstr "Nägemata"
@@ -10491,6 +9696,9 @@ msgstr "%d. %b %Y"
 
 msgid "Select all visible messages"
 msgstr "Kõigi peitmata sõnumite valimine"
+
+msgid "Messages"
+msgstr "Sõnumid"
 
 #. there is some info why the message list is empty, let it be something useful
 msgid "Generating message list"
@@ -10647,11 +9855,19 @@ msgstr "Kontakti eelvaatluspaani asukoht horisontaalse paigutuse korral."
 msgid "Position of the contact preview pane when oriented vertically."
 msgstr "Kontakti eelvaatluspaani asukoht vertikaalse paigutuse korral."
 
+msgid "Primary address book"
+msgstr "Peamine aadressiraamat"
+
 msgid "Show autocompleted name with an address"
 msgstr "Koos aadressiga näidatakse automaatlõpetatud nime"
 
 msgid "Show preview pane"
 msgstr "Eelvaatluspaani kuvamine"
+
+msgid ""
+"The UID of the selected (or \"primary\") address book in the sidebar of the "
+"\"Contacts\" view."
+msgstr ""
 
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
@@ -10979,6 +10195,623 @@ msgstr "_Kasutatakse turvalist ühendust:"
 
 msgid "cards"
 msgstr "kaarti"
+
+#, no-c-format
+msgid "%u and %d will be replaced by user and domain from the email address."
+msgstr ""
+"%u ja %d asendatakse kasutajanime ja domeeniga, mis võetakse e-posti "
+"aadressist."
+
+msgid "(Shown in a Day View)"
+msgstr "(näidatakse päevavaates)"
+
+msgid "05 minutes"
+msgstr "05 minutit"
+
+msgid "10 minutes"
+msgstr "10 minutit"
+
+msgid "15 minutes"
+msgstr "15 minutit"
+
+msgid "30 minutes"
+msgstr "30 minutit"
+
+msgid "60 minutes"
+msgstr "60 minutit"
+
+msgid "Alerts"
+msgstr "Alarmid"
+
+msgid "Day _ends:"
+msgstr "Päev lõpe_b:"
+
+msgid "Days"
+msgstr "päeva"
+
+msgid "Default Free/Busy Server"
+msgstr "Vaikimisi vaba/hõivatud server"
+
+msgid "Display"
+msgstr "Kuvamine"
+
+msgid "Display alarms in _notification area only"
+msgstr "Alarmide kuvamine ainult _teatealal"
+
+msgid "Hours"
+msgstr "tundi"
+
+msgid "Minutes"
+msgstr "minutit"
+
+#. Sunday
+msgid "S_un"
+msgstr "_P"
+
+msgid "Sc_roll Month View by a week"
+msgstr "Kuu vaadet ke_ritakse nädala kaupa"
+
+msgid "Se_cond zone:"
+msgstr "_Teine ajavöönd:"
+
+msgid "Select the calendars for alarm notification"
+msgstr "Alarmmärguannetega kalendrite valimine"
+
+#. This is the first half of a user preference. "Show a reminder [time-period] before every appointment"
+msgid "Sh_ow a reminder"
+msgstr "_Meeldetuletusi näidatakse"
+
+#. This is the first half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
+msgid "Show a _reminder"
+msgstr "_Meeldetuletusi näidatakse"
+
+msgid "Show r_ecurring events in italic in bottom left calendar"
+msgstr ""
+
+msgid "Show week _numbers"
+msgstr "_Nädalanumbrite näitamine"
+
+msgid "T_asks due today:"
+msgstr "_Tänase tähtajaga ülesanded:"
+
+#. Thursday
+msgid "T_hu"
+msgstr "_N"
+
+msgid "Template:"
+msgstr "Mall:"
+
+msgid "Time"
+msgstr "Aeg"
+
+msgid "Time format:"
+msgstr "Ajavorming:"
+
+msgid "Use s_ystem time zone"
+msgstr "Näidatakse _süsteemi ajavööndit"
+
+#. A weekday like "Monday" follows
+msgid "Wee_k starts on:"
+msgstr "Nä_dala algus:"
+
+msgid "Work Week"
+msgstr "Töönädal"
+
+msgid "Work days:"
+msgstr "Tööpäevad:"
+
+msgid "_12 hour (AM/PM)"
+msgstr "_12-tunnine (EL/PL)"
+
+msgid "_24 hour"
+msgstr "_24-tunnine"
+
+msgid "_Ask for confirmation when deleting items"
+msgstr "K_irjete kustutamisel küsitakse nõusolekut"
+
+msgid "_Compress weekends in month view"
+msgstr "Nädalalõppe kuvatakse kokkusurutud _vormis"
+
+msgid "_Day begins:"
+msgstr "Päev al_gab:"
+
+#. Friday
+msgid "_Fri"
+msgstr "_R"
+
+msgid "_Hide completed tasks after"
+msgstr "Täidetud ülesanded _peidetakse pärast"
+
+#. Monday
+msgid "_Mon"
+msgstr "_E"
+
+msgid "_Overdue tasks:"
+msgstr "Tä_htaja ületanud ülesanded:"
+
+#. Saturday
+msgid "_Sat"
+msgstr "_L"
+
+msgid "_Show appointment end times in week and month view"
+msgstr "Nädala ja kuu vaadetel näidatakse sündmuste _lõpuaegu"
+
+msgid "_Time divisions:"
+msgstr "Aeg _jaotatakse:"
+
+#. Tuesday
+msgid "_Tue"
+msgstr "_T"
+
+#. Wednesday
+msgid "_Wed"
+msgstr "_K"
+
+#. This is the last half of a user preference. "Show a reminder [time-period] before every anniversary/birthday"
+msgid "before every anniversary/birthday"
+msgstr "enne aasta-/sünnipäeva"
+
+#. This is the last half of a user preference. "Show a reminder [time-period] before every appointment"
+msgid "before every appointment"
+msgstr "enne iga sündmuse algust"
+
+msgid "Alarm programs"
+msgstr "Alarmprogrammid"
+
+msgid "Ask for confirmation when deleting items"
+msgstr "Nõusoleku küsimine kirjete kustutamisel"
+
+msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
+msgstr "Täna tähtaja ületavate ülesannete värvus \"#rrggbb\" vormingus."
+
+msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
+msgstr "Tähtaja ületanud ülesannete värvus \"#rrggbb\" vormingus."
+
+#, fuzzy
+#| msgid "Birthdays & Anniversaries"
+msgid "Birthday and anniversary reminder"
+msgstr "Sünnipäevad ja aastapäevad"
+
+#, fuzzy
+#| msgid "Birthdays & Anniversaries"
+msgid "Birthday and anniversary reminder units"
+msgstr "Sünnipäevad ja aastapäevad"
+
+#, fuzzy
+#| msgid "Birthdays & Anniversaries"
+msgid "Birthday and anniversary reminder value"
+msgstr "Sünnipäevad ja aastapäevad"
+
+msgid "Calendars to run alarms for"
+msgstr "Kalendrid, mille jaoks alarme käivitada"
+
+msgid ""
+"Color to draw the Marcus Bains Line in the Time bar (empty for default)."
+msgstr "Marcus Bainsi joone värvus ajaribal (vaikimisi tühi)."
+
+msgid "Color to draw the Marcus Bains line in the Day View."
+msgstr "Marcus Bainsi joone värvus päeva vaatel."
+
+msgid "Compress weekends in month view"
+msgstr "Kuuvaatel kuvatakse nädalalõpud kokkusurutud vormis"
+
+msgid "Confirm expunge"
+msgstr "Kinnituse küsimine enne puhastamist"
+
+msgid "Days on which the start and end of work hours should be indicated."
+msgstr "Päevad, millel töötundide algust ja lõppu tuleb näidata."
+
+msgid "Default appointment reminder"
+msgstr "Sündmusest vaikimisi meeldetuletaja"
+
+msgid "Default reminder units"
+msgstr "Meeldetuletaja vaikimisi ühikud"
+
+msgid "Default reminder value"
+msgstr "Meeldetuletaja vaikimisi väärtus"
+
+msgid "Directory for saving alarm audio files"
+msgstr "Alarmi audiofailide salvestamise kataloog"
+
+msgid "Free/busy server URLs"
+msgstr "Vaba/hõivatud serveri URL"
+
+msgid "Free/busy template URL"
+msgstr "Vaba/hõivatud malli URL"
+
+msgid "Hide completed tasks"
+msgstr "Peida täidetud ülesanded"
+
+msgid "Hide task units"
+msgstr "Ülesandeühikute peitmine"
+
+msgid "Hide task value"
+msgstr "Ülesandeväärtuste peitmine"
+
+msgid "Horizontal pane position"
+msgstr "Rõhtpaani asukoht"
+
+msgid "Hour the workday ends on, in twenty four hour format, 0 to 23."
+msgstr "Tööpäeva lõpuaeg, 24-tunnises vormingus, vahemikus 0-23."
+
+msgid "Hour the workday starts on, in twenty four hour format, 0 to 23."
+msgstr "Tööpäeva algusaeg, 24-tunnises vormingus, vahemikus 0-23."
+
+msgid "If \"true\", show the memo preview pane in the main window."
+msgstr "Kui märgitud, kuvatakse peaaknas märkmete eelvaatluspaani."
+
+msgid "If \"true\", show the task preview pane in the main window."
+msgstr "Kui märgitud, kuvatakse peaaknas ülesannete eelvaatluspaani."
+
+msgid "Intervals shown in Day and Work Week views, in minutes."
+msgstr "Päeva- ja töönädala vaates näidatavad vahemikud minutites."
+
+msgid "Last alarm time"
+msgstr "Viimase alarmi aeg"
+
+msgid "List of recently used second time zones in a Day View."
+msgstr "Päevavaates on loend hiljutikasutatud teisestest ajavöönditest."
+
+msgid "List of server URLs for free/busy publishing."
+msgstr "Serveri URL-ide loend vaba/hõivatud andmete avaldamiseks."
+
+msgid "Marcus Bains Line"
+msgstr "Marcus Bainsi joon"
+
+msgid "Marcus Bains Line Color - Day View"
+msgstr "Marcus Bainsi joone värv - päeva vaade"
+
+msgid "Marcus Bains Line Color - Time bar"
+msgstr "Marcus Bainsi joone värv - ajariba"
+
+msgid ""
+"Maximum number of recently used timezones to remember in a "
+"'day_second_zones' list."
+msgstr "Suurim arv ajavööndeid, mida säilitatakse 'day_second_zones' loendis."
+
+msgid "Maximum number of recently used timezones to remember."
+msgstr "Meelespeetavate ajavööndite arvu piirang."
+
+msgid "Memo layout style"
+msgstr "Märkmete paigutuse laad"
+
+msgid "Memo preview pane position (horizontal)"
+msgstr "Märkmete eelvaatluspaani asukoht (horisontaalne)"
+
+msgid "Memo preview pane position (vertical)"
+msgstr "Märkmete eelvaatluspaani asukoht (vertikaalne)"
+
+msgid "Minute the workday ends on, 0 to 59."
+msgstr "Minut, millal tööpäev lõpeb, 0 kuni 59."
+
+msgid "Minute the workday starts on, 0 to 59."
+msgstr "Minut, millal tööpäev algab, 0 kuni 59."
+
+msgid "Month view horizontal pane position"
+msgstr "Kuuvaate rõhtpaani asukoht"
+
+msgid "Month view vertical pane position"
+msgstr "Kuuvaate püstpaani asukoht"
+
+#, fuzzy
+#| msgid "Number of units for determining a default reminder."
+msgid "Number of units for determining a birthday or anniversary reminder."
+msgstr "Meeldetuletaja vaikimisi ühikute arv."
+
+msgid "Number of units for determining a default reminder."
+msgstr "Meeldetuletaja vaikimisi ühikute arv."
+
+msgid "Number of units for determining when to hide tasks."
+msgstr "Ülesannete peitmiseks vaikimisi ühikute arv."
+
+msgid "Overdue tasks color"
+msgstr "Tähtaja ületanud ülesannete värvus"
+
+msgid ""
+"Position of the horizontal pane, between the date navigator calendar and the "
+"task list when not in the month view, in pixels."
+msgstr ""
+"Rõhtpaani asukoht pikslites - kuupäevanavigeerimise kalendri ja ülesannete "
+"loendi vahel, kui ei olda kuuvaates."
+
+msgid ""
+"Position of the horizontal pane, between the view and the date navigator "
+"calendar and task list in the month view, in pixels."
+msgstr ""
+"Rõhtpaani asukoht pikslites - vaate ning kuupäevanavigeerimise kalendri ja "
+"ülesannete loendi vahel, kui ollakse kuuvaates."
+
+msgid "Position of the memo preview pane when oriented vertically."
+msgstr "Märkmete eelvaatluspaani asukoht vertikaalteljel."
+
+msgid "Position of the task preview pane when oriented horizontally."
+msgstr "Ülesannete eelvaatluspaani asukoht horisontaalteljel."
+
+msgid "Position of the task preview pane when oriented vertically."
+msgstr "Ülesannete eelvaatluspaani asukoht vertikaalteljel."
+
+msgid ""
+"Position of the vertical pane, between the calendar lists and the date "
+"navigator calendar."
+msgstr "Püstpaani asukoht kalendriloendite ja kuupäevanavigaatori vahel."
+
+msgid ""
+"Position of the vertical pane, between the view and the date navigator "
+"calendar and task list in the month view, in pixels."
+msgstr ""
+"Püstpaani asukoht pikslites - vaate ning kuupäevanavigeerimise kalendri ja "
+"ülesannete loendi vahel, kui ollakse kuuvaates."
+
+msgid ""
+"Position of the vertical pane, between the view and the date navigator "
+"calendar and task list when not in the month view, in pixels."
+msgstr ""
+"Püstpaani asukoht pikslites - vaate ning kuupäevanavigeerimise kalendri ja "
+"ülesannete loendi vahel, kui ei olda kuuvaates."
+
+msgid "Primary calendar"
+msgstr "Peamine kalender"
+
+msgid "Primary memo list"
+msgstr "Peamine märkmeloend"
+
+msgid "Primary task list"
+msgstr "Peamine ülesandeloend"
+
+msgid "Programs that are allowed to be run by alarms."
+msgstr "Programmid, mida on lubatud alarmide poolt käivitada."
+
+msgid "Recently used second time zones in a Day View"
+msgstr "Hiljuti kasutatud teisene ajavöönd päevavaates"
+
+#, fuzzy
+#| msgid "Recurrence date is invalid"
+msgid "Recurrent Events in Italic"
+msgstr "Kordumiskuupäev on vigane"
+
+msgid "Save directory for alarm audio"
+msgstr "Alarmide audio salvestamise kataloog"
+
+msgid "Scroll Month View by a week"
+msgstr "Kuuvaate kerimine nädala kaupa"
+
+msgid "Show RSVP field in the event/task/meeting editor"
+msgstr "RSVP välja kuvamine sündmuste/ülesannete/koosolekute redaktoris"
+
+msgid "Show Role field in the event/task/meeting editor"
+msgstr "Rollivälja näitamine sündmuste/ülesannete/koosolekute redaktoris"
+
+msgid "Show appointment end times in week and month views"
+msgstr "Sündmuste lõpuaegade näitamine nädala ja kuu vaadetel"
+
+msgid "Show categories field in the event/meeting/task editor"
+msgstr "Kategooriavälja näitamine sündmuste/ülesannete/koosolekute redaktoris"
+
+msgid "Show days with recurrent events in italic font in bottom left calendar."
+msgstr ""
+
+msgid "Show display alarms in notification tray"
+msgstr "Alarmide kuvamine teatealal"
+
+msgid "Show status field in the event/task/meeting editor"
+msgstr "Olekuvälja näitamine sündmuste/ülesannete/koosolekute redaktoris"
+
+msgid "Show the memo preview pane"
+msgstr "Märkmete eelvaatluspaani kuvamine"
+
+msgid "Show the task preview pane"
+msgstr "Ülesannete eelvaatluspaani kuvamine"
+
+msgid "Show timezone field in the event/meeting editor"
+msgstr "Ajavööndi välja näitamine sündmuste/koosolekute redaktoris"
+
+msgid "Show type field in the event/task/meeting editor"
+msgstr "Liigivälja näitamine sündmuste/koosolekute redaktoris"
+
+msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
+msgstr ""
+"Nädalanumbrite näitamine päeva- ja töönädala vaadetes ning kuupäevavalijas"
+
+msgid ""
+"Shows the second time zone in a Day View, if set. Value is similar to one "
+"used in a 'timezone' key."
+msgstr ""
+"Kui määratud, siis näidatakse päeva vaates teist ajavööndit. Väärtus on "
+"sarnane 'timezone' võtmes kasutatava väärtusega."
+
+msgid "Task layout style"
+msgstr "Ülesannete paigutuse laad"
+
+msgid "Task preview pane position (horizontal)"
+msgstr "Ülesannete eelvaatluspaani asukoht (horisontaalne)"
+
+msgid "Task preview pane position (vertical)"
+msgstr "Ülesannete eelvaatluspaani asukoht (vertikaalne)"
+
+msgid "Tasks due today color"
+msgstr "Tänase tähtajaga ülesannete värvus"
+
+msgid ""
+"The UID of the selected (or \"primary\") calendar in the sidebar of the "
+"\"Calendar\" view."
+msgstr ""
+
+msgid ""
+"The UID of the selected (or \"primary\") memo list in the sidebar of the "
+"\"Memos\" view."
+msgstr ""
+
+msgid ""
+"The UID of the selected (or \"primary\") task list in the sidebar of the "
+"\"Tasks\" view."
+msgstr ""
+
+#, no-c-format
+msgid ""
+"The URL template to use as a free/busy data fallback, %u is replaced by the "
+"user part of the mail address and %d is replaced by the domain."
+msgstr ""
+"Vaba/hõivatud andmete URL-i malli tagavaravariant. %u asendatakse e-posti "
+"aadressist võetud kasutajanimega ja %d asendatakse domeeniga."
+
+msgid ""
+"The default timezone to use for dates and times in the calendar, as an "
+"untranslated Olsen timezone database location like \"America/New York\"."
+msgstr ""
+"Vaikimisi ajavöönd kalendris märgitud päevadele ja aegadele - tõlkimata "
+"asukohastring Olseni ajavööndite andmebaasist, näiteks \"Europe/Tallinn\"."
+
+msgid ""
+"The layout style determines where to place the preview pane in relation to "
+"the memo list. \"0\" (Classic View) places the preview pane below the memo "
+"list. \"1\" (Vertical View) places the preview pane next to the memo list."
+msgstr ""
+"Paigutusstiil määrab, kus asetseb eelvaatluspaan märkmeloendi suhtes. "
+"\"0\" (klassikaline vaade) asetab eelvaatluspaani märkmeloendi alla. "
+"\"1\" (vertikaalne vaade) asetab eelvaatluspaani märkmeloendi kõrvale."
+
+msgid ""
+"The layout style determines where to place the preview pane in relation to "
+"the task list. \"0\" (Classic View) places the preview pane below the task "
+"list. \"1\" (Vertical View) places the preview pane next to the task list."
+msgstr ""
+"Paigutusstiil määrab, kus asetseb eelvaatluspaan ülesandeloendi suhtes. "
+"\"0\" (klassikaline vaade) asetab eelvaatluspaani ülesandeloendi alla. "
+"\"1\" (vertikaalne vaade) asetab eelvaatluspaani ülesandeloendi kõrvale."
+
+msgid "The second timezone for a Day View"
+msgstr "Päeva vaate teine ajavöönd"
+
+msgid ""
+"This can have three possible values. 0 for errors. 1 for warnings. 2 for "
+"debug messages."
+msgstr ""
+"Sellele on võimalikud kolm väärtust. 0 vigade jaoks, 1 hoiatuste ning 2 "
+"silumisteadete jaoks."
+
+msgid "Time divisions"
+msgstr "Ajajaotised:"
+
+msgid "Time the last alarm ran, in time_t."
+msgstr "Viimase alarmi töötamise aeg, time_t ühikuga."
+
+msgid "Timezone"
+msgstr "Ajavöönd"
+
+msgid "Twenty four hour time format"
+msgstr "24-tunnine ajavorming"
+
+#, fuzzy
+#| msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
+msgid ""
+"Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
+"\"days\"."
+msgstr ""
+"Vaikimisi meeldetuletaja ühikud, \"minutes\" (minutid), \"hours\" (tunnid) "
+"või \"days\" (päevad)."
+
+msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
+msgstr ""
+"Vaikimisi meeldetuletaja ühikud, \"minutes\" (minutid), \"hours\" (tunnid) "
+"või \"days\" (päevad)."
+
+msgid ""
+"Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
+msgstr ""
+"Ühikud määramaks, millal ülesandeid peita, \"minutes\" (minutid), \"hours"
+"\" (tunnid) või \"days\" (päevad)."
+
+msgid "Use system timezone"
+msgstr "Kasutatakse süsteemi ajavööndit"
+
+msgid "Use the system timezone instead of the timezone selected in Evolution."
+msgstr "Evolutionis valitud ajavööndi asemel süsteemse ajavööndi kasutamine."
+
+msgid "Vertical pane position"
+msgstr "Püstpaani asukoht"
+
+msgid "Week start"
+msgstr "Nädala algus"
+
+msgid "Weekday the week starts on, from Sunday (0) to Saturday (6)."
+msgstr "Nädalapäev, millal nädal algab, pühapäevast (0) laupäevani (6)."
+
+msgid "Whether or not to use the notification tray for display alarms."
+msgstr "Kas teateala kasutatakse alarmide kuvamiseks või mitte."
+
+msgid "Whether to ask for confirmation when deleting an appointment or task."
+msgstr "Kas sündmuste ja ülesannete kustutamisel küsitakse nõusolekut."
+
+msgid "Whether to ask for confirmation when expunging appointments and tasks."
+msgstr "Kas sündmuste ja ülesannete puhastamisel küsitakse nõusolekut."
+
+msgid ""
+"Whether to compress weekends in the month view, which puts Saturday and "
+"Sunday in the space of one weekday."
+msgstr ""
+"Kas nädalalõpud tuleb kuuvaates kokku suruda, selle tulemusena kuvatakse "
+"nädalalõppu ühe päeva suurusena."
+
+msgid "Whether to display the end time of events in the week and month views."
+msgstr "Kas sündmuste lõpuaegu kuvatakse nädala ja kuu vaadetel."
+
+msgid ""
+"Whether to draw the Marcus Bains Line (line at current time) in the calendar."
+msgstr "Kas kalendris kuvatakse Marcus Bainsi joont (joon praeguse aja kohal)."
+
+msgid "Whether to hide completed tasks in the tasks view."
+msgstr "Kas täidetud ülesanded peidetakse ülesandevaates."
+
+msgid "Whether to scroll a Month View by a week, not by a month."
+msgstr "Kas kuu vaadet keritakse nädala kaupa, mitte kuu kaupa."
+
+msgid "Whether to set a default reminder for appointments."
+msgstr "Kas sündmustele määratakse vaikimisi meeldetuletaja."
+
+#, fuzzy
+#| msgid "Whether to set a default reminder for appointments."
+msgid "Whether to set a reminder for birthdays and anniversaries."
+msgstr "Kas sündmustele määratakse vaikimisi meeldetuletaja."
+
+msgid "Whether to show RSVP field in the event/task/meeting editor"
+msgstr "Kas RSVP välja näidatakse sündmuste/ülesannete/koosolekute redaktoris"
+
+msgid "Whether to show categories field in the event/meeting editor"
+msgstr "Kas kategooriate välja näidatakse sündmuste/koosolekute redaktoris"
+
+msgid "Whether to show role field in the event/task/meeting editor"
+msgstr "Kas rollivälja näidatakse sündmuste/ülesannete/koosolekute redaktoris"
+
+msgid "Whether to show status field in the event/task/meeting editor"
+msgstr "Kas olekuvälja näidatakse sündmuste/ülesannete/koosolekute redaktoris"
+
+msgid ""
+"Whether to show times in twenty four hour format instead of using am/pm."
+msgstr "Kas kellaaegu kuvatakse 24-tunnises või EL/PL vormingus."
+
+msgid "Whether to show timezone field in the event/meeting editor"
+msgstr "Kas ajavööndi välja näidatakse sündmuste/koosolekute redaktoris"
+
+msgid "Whether to show type field in the event/task/meeting editor"
+msgstr "Liigivälja näitamine sündmuste/ülesannete/koosolekute redaktoris"
+
+msgid "Whether to show week numbers in various places in the Calendar."
+msgstr "Kas kalendris näidatakse nädalate numbreid."
+
+msgid "Work days"
+msgstr "Tööpäevad"
+
+msgid "Workday end hour"
+msgstr "Tund, millal tööpäev lõpeb"
+
+msgid "Workday end minute"
+msgstr "Minut, millal tööpäev lõpeb"
+
+msgid "Workday start hour"
+msgstr "Tund, millal tööpäev algab"
+
+msgid "Workday start minute"
+msgstr "Minut, millal tööpäev algab"
 
 msgid "I_mport"
 msgstr "_Impordi"
@@ -11318,6 +11151,15 @@ msgstr "_Salvesta iKalendrina..."
 
 msgid "Print the selected task"
 msgstr "Valitud ülesande printimine"
+
+msgid "Selected Calendars for Alarms"
+msgstr "Alarmidele valitud kalendrid"
+
+msgid "Ti_me and date:"
+msgstr "Kuu_päev ja kellaaeg:"
+
+msgid "_Date only:"
+msgstr "Ainult _kuupäev:"
 
 msgctxt "New"
 msgid "Mem_o"
@@ -11660,12 +11502,6 @@ msgstr "Vali sõnumi ala_mlõim"
 msgid "Select all replies to the currently selected message"
 msgstr "Valitud sõnumi vastuste valimine"
 
-msgid "_Unsubscribe"
-msgstr "_Lõpeta tellimus"
-
-msgid "Unsubscribe from the selected folder"
-msgstr "Valitud kausta tellimusest loobumine"
-
 msgid "Empty _Trash"
 msgstr "Tühjenda _prügist"
 
@@ -11677,6 +11513,17 @@ msgstr "_Uus silt"
 
 msgid "N_one"
 msgstr "_Puudub"
+
+#, fuzzy
+#| msgid "_Subscriptions..."
+msgid "_Manage Subscriptions"
+msgstr "_Tellimused..."
+
+msgid "Subscribe or unsubscribe to folders on remote servers"
+msgstr "Võrgus olevate kaustade tellimine või tellimusest loobumine"
+
+msgid "Cancel"
+msgstr "Tühista"
 
 msgid "Cancel the current mail operation"
 msgstr "Käimasoleva sõnumioperatsiooni katkestamine"
@@ -11707,9 +11554,6 @@ msgstr "Otsikausta kirjelduste loomine või muutmine"
 
 msgid "_Subscriptions..."
 msgstr "_Tellimused..."
-
-msgid "Subscribe or unsubscribe to folders on remote servers"
-msgstr "Võrgus olevate kaustade tellimine või tellimusest loobumine"
 
 msgid "F_older"
 msgstr "Ka_ust"
@@ -11745,13 +11589,13 @@ msgid "Show message preview alongside the message list"
 msgstr "Sõnumi eelvaate näitamine sõnumiloendi kõrval"
 
 msgid "All Messages"
-msgstr "Kõik kirjad"
+msgstr "Kõik sõnumid"
 
 msgid "Important Messages"
 msgstr "Tähtsad"
 
 msgid "Last 5 Days' Messages"
-msgstr "5 päeva kirjad"
+msgstr "5 päeva sõnumid"
 
 msgid "Messages Not Junk"
 msgstr "Pole rämps"
@@ -11913,6 +11757,26 @@ msgstr ""
 msgid "Do you want to make Evolution your default email client?"
 msgstr "Kas soovid Evolutioni määrata vaikimisi e-posti kliendiks?"
 
+msgid "Click 'Work Online' to return to online mode."
+msgstr ""
+
+#, fuzzy
+#| msgid "Evolution is currently offline because the network is unavailable."
+msgid "Evolution is currently offline due to a network outage."
+msgstr "Evolution on hetkel võrguvabas olekus, kuna võrk pole saadaval."
+
+#, fuzzy
+#| msgid "Put Evolution into offline mode"
+msgid "Evolution is currently offline."
+msgstr "Evolutioni lülitamine võrguvabasse olekusse"
+
+#, fuzzy
+#| msgid "Evolution is currently offline because the network is unavailable."
+msgid ""
+"Evolution will return to online mode once a network connection is "
+"established."
+msgstr "Evolution on hetkel võrguvabas olekus, kuna võrk pole saadaval."
+
 msgid "Author(s)"
 msgstr "Autor(id)"
 
@@ -11992,6 +11856,10 @@ msgstr ""
 "Fraaside kirjeldamine, mille esinemisel näidatakse manuse puudumise kohta "
 "meeldetuletust"
 
+#. Check buttons
+msgid "_Do not show this message again."
+msgstr "Seda teadet enam _uuesti mitte näidata."
+
 msgid "Keywords"
 msgstr "Võtmesõnad"
 
@@ -12000,7 +11868,7 @@ msgid ""
 "contain an attachment, but cannot find one."
 msgstr ""
 "Evolution leidis mõned märksõnad, mille põhjal võiks arvata, et see sõnum "
-"peaks sisaldama manust, kuid selle kirjaga ei ole kaasa pandud ühtegi faili."
+"peaks sisaldama manust, kuid selle sõnumiga ei ole kaasa pandud ühtegi faili."
 
 msgid "Message has no attachments"
 msgstr "Sõnumil puuduvad manused"
@@ -12015,28 +11883,39 @@ msgid "Attachment Reminder"
 msgstr "Manuste meeldetuletaja"
 
 msgid "Reminds you when you forgot to add an attachment to a mail message."
-msgstr "Tuletab meelde, kui unustasid kirjale manuse lisada."
+msgstr "Tuletab meelde, kui unustasid sõnumile manuse lisada."
 
 msgid "Inline Audio"
 msgstr "Sõnumisisene heli"
 
 msgid "Play audio attachments directly in mail messages."
-msgstr "Audiomanuste esitamine otse e-kirjades."
+msgstr "Audiomanuste esitamine otse e-sõnumites."
 
-msgid "Select name of the Evolution backup file"
+#, fuzzy
+#| msgid "Select name of the Evolution backup file"
+msgid "Select name of the Evolution back up file"
 msgstr "Evolutioni varukoopiale faili nime valimine"
 
-msgid "_Restart Evolution after backup"
+#, fuzzy
+#| msgid "_Restart Evolution after backup"
+msgid "_Restart Evolution after back up"
 msgstr "_Pärast varundamist taaskäivitatakse Evolution"
 
-msgid "Select name of the Evolution backup file to restore"
+#, fuzzy
+#| msgid "Select name of the Evolution backup file to restore"
+msgid "Select name of the Evolution back up file to restore"
 msgstr "Evolutioni varukoopiafaili nime valimine, mida taastada"
 
 msgid "_Restart Evolution after restore"
 msgstr "_Pärast taastamist taaskäivitatakse Evolution"
 
+#, fuzzy
+#| msgid ""
+#| "You can restore Evolution from your backup. It can restore all the Mails, "
+#| "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
+#| "settings, mail filters etc."
 msgid ""
-"You can restore Evolution from your backup. It can restore all the Mails, "
+"You can restore Evolution from your back up. It can restore all the Mails, "
 "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
 "settings, mail filters etc."
 msgstr ""
@@ -12044,7 +11923,9 @@ msgstr ""
 "taastada e-posti, kalenderid, ülesanded, märkmed ja aadressiraamatu. Samuti "
 "saab taastada ka isiklikud sätted, postifiltrid jne."
 
-msgid "_Restore Evolution from the backup file"
+#, fuzzy
+#| msgid "_Restore Evolution from the backup file"
+msgid "_Restore Evolution from the back up file"
 msgstr "_Taasta Evolution varukoopiafailist"
 
 msgid "Please select an Evolution Archive to restore:"
@@ -12053,28 +11934,40 @@ msgstr "Vali taastamiseks Evolutioni arhiiv:"
 msgid "Choose a file to restore"
 msgstr "Taastatava faili valimine"
 
-msgid "Restore from backup"
+#, fuzzy
+#| msgid "Restore from backup"
+msgid "Restore from back up"
 msgstr "Taastamine varukoopiast"
 
-msgid "_Backup Evolution Settings..."
-msgstr "_Varunda Evolutioni sätted..."
+#, fuzzy
+#| msgid "Backing up Evolution Data"
+msgid "_Back up Evolution Data..."
+msgstr "Evolutioni andmete varundamine"
 
-msgid "Backup Evolution data and settings to an archive file"
+#, fuzzy
+#| msgid "Backup Evolution data and settings to an archive file"
+msgid "Back up Evolution data and settings to an archive file"
 msgstr "Evolutioni andmete ja seadistuste varundamine arhiivifaili"
 
-msgid "R_estore Evolution Settings..."
-msgstr "_Taasta Evolutioni sätted..."
+#, fuzzy
+#| msgid "Restoring Evolution Data"
+msgid "R_estore Evolution Data..."
+msgstr "Evolutioni andmete taastamine"
 
 msgid "Restore Evolution data and settings from an archive file"
 msgstr "Evolutioni andmete ja seadistuste taastamine arhiivifailist"
 
-msgid "Backup Evolution directory"
+#, fuzzy
+#| msgid "Backup Evolution directory"
+msgid "Back up Evolution directory"
 msgstr "Evolutioni kataloogi varundamine"
 
 msgid "Restore Evolution directory"
 msgstr "Evolutioni kataloogi taastamine"
 
-msgid "Check Evolution Backup"
+#, fuzzy
+#| msgid "Check Evolution Backup"
+msgid "Check Evolution Back up"
 msgstr "Evolutioni varukoopia kontrollimine"
 
 msgid "Restart Evolution"
@@ -12094,7 +11987,9 @@ msgstr ""
 "Evolutioni andmete varundamine (e-post, kontaktid, kalender, ülesanded, "
 "märkmed)"
 
-msgid "Backup complete"
+#, fuzzy
+#| msgid "Backup complete"
+msgid "Back up complete"
 msgstr "Varundamine on valmis"
 
 msgid "Restarting Evolution"
@@ -12103,13 +11998,17 @@ msgstr "Evolutioni taaskäivitamine"
 msgid "Back up current Evolution data"
 msgstr "Praeguste Evolutioni andmete varundamine"
 
-msgid "Extracting files from backup"
+#, fuzzy
+#| msgid "Extracting files from backup"
+msgid "Extracting files from back up"
 msgstr "Failide lahtipakkimine varukoopiast"
 
 msgid "Loading Evolution settings"
 msgstr "Evolutioni sätete laadimine"
 
-msgid "Removing temporary backup files"
+#, fuzzy
+#| msgid "Removing temporary backup files"
+msgid "Removing temporary back up files"
 msgstr "Ajutiste varufailide eemaldamine"
 
 msgid "Ensuring local sources"
@@ -12124,7 +12023,9 @@ msgid "Restoring from the folder %s"
 msgstr "Taastamine kataloogist %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
-msgid "Evolution Backup"
+#, fuzzy
+#| msgid "Evolution Backup"
+msgid "Evolution Back up"
 msgstr "Evolutioni varundamine"
 
 msgid "Evolution Restore"
@@ -12146,20 +12047,29 @@ msgid "This may take a while depending on the amount of data in your account."
 msgstr "Sõltuvalt andmete hulgast, võib see veidi aega võtta."
 
 #. the path to the shared library
-msgid "Backup and Restore"
+#, fuzzy
+#| msgid "Backup and Restore"
+msgid "Back up and Restore"
 msgstr "Varundamine ja taastamine"
 
-msgid "Backup and restore your Evolution data and settings."
+#, fuzzy
+#| msgid "Backup and restore your Evolution data and settings."
+msgid "Back up and restore your Evolution data and settings."
 msgstr "Evolutioni andmete ja seadistuste varundamine."
 
 msgid "Are you sure you want to close Evolution?"
 msgstr "Kas soovid Evolutioni sulgeda?"
 
+#, fuzzy
+#| msgid ""
+#| "Are you sure you want to restore Evolution from the selected backup file?"
 msgid ""
-"Are you sure you want to restore Evolution from the selected backup file?"
+"Are you sure you want to restore Evolution from the selected back up file?"
 msgstr "Kas soovid Evolutioni valitud varukoopiafailist taastada?"
 
-msgid "Close and Backup Evolution"
+#, fuzzy
+#| msgid "Close and Backup Evolution"
+msgid "Close and Back up Evolution"
 msgstr "Sulge ja varunda Evolution"
 
 msgid "Close and Restore Evolution"
@@ -12168,27 +12078,41 @@ msgstr "Sulge ja taasta Evolution"
 msgid "Insufficient Permissions"
 msgstr "Puuduvad õigused"
 
-msgid "Invalid Evolution backup file"
+#, fuzzy
+#| msgid "Invalid Evolution backup file"
+msgid "Invalid Evolution back up file"
 msgstr "Vigane Evolutioni varukoopia fail"
 
-msgid "Please select a valid backup file to restore."
+#, fuzzy
+#| msgid "Please select a valid backup file to restore."
+msgid "Please select a valid back up file to restore."
 msgstr "Taastamiseks vali palun töökorras varukoopiafail."
 
 msgid "The selected folder is not writable."
 msgstr "Valitud kaust pole kirjutatav."
 
+#, fuzzy
+#| msgid ""
+#| "To backup your data and settings, you must first close Evolution. Please "
+#| "make sure that you save any unsaved data before proceeding."
 msgid ""
-"To backup your data and settings, you must first close Evolution. Please "
+"To back up your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding."
 msgstr ""
 "Andmete ja seadistuste varundamiseks pead kõigepealt Evolutioni sulgema. "
 "Palun veendu, et sa salvestad enne jätkamist kõik salvestamata andmed."
 
+#, fuzzy
+#| msgid ""
+#| "To restore your data and settings, you must first close Evolution. Please "
+#| "make sure that you save any unsaved data before proceeding. This will "
+#| "delete all your current Evolution data and settings and restore them from "
+#| "your backup."
 msgid ""
 "To restore your data and settings, you must first close Evolution. Please "
 "make sure that you save any unsaved data before proceeding. This will delete "
-"all your current Evolution data and settings and restore them from your "
-"backup."
+"all your current Evolution data and settings and restore them from your back "
+"up."
 msgstr ""
 "Oma andmete ja sätete taastamiseks pead kõigepealt Evolutioni sulgema. Palun "
 "veendu, et sa enne jätkamist salvestad kõik salvestamata andmed. See "
@@ -12534,8 +12458,6 @@ msgstr "Salajane"
 msgid "Top secret"
 msgstr "Ülimalt salajane"
 
-#. Translators: "None" as an email custom header option in a dialog invoked by Insert->Custom Header from Composer,
-#. indicating the header will not be added to a mail message
 msgctxt "email-custom-header"
 msgid "None"
 msgstr "Puudub"
@@ -12725,8 +12647,14 @@ msgstr "Jälgi sõnumi olekut..."
 msgid "Retract Mail"
 msgstr "E-posti tagasivõtmine"
 
+msgid "Accept"
+msgstr "Nõustun"
+
 msgid "Accept Tentatively"
 msgstr "Võimalusel nõus"
+
+msgid "Decline"
+msgstr "Lükkan tagasi"
 
 msgid "Rese_nd Meeting..."
 msgstr "Saada koosolek _uuesti..."
@@ -13149,6 +13077,10 @@ msgstr "Osalejat pole võimalik uuendada. %s"
 msgid "Attendee status updated"
 msgstr "Osaleja olek uuendatud"
 
+msgid "Attendee status can not be updated because the item no longer exists"
+msgstr ""
+"Osaleja olekut ei olnud võimailk uuendada, kuna objekti pole enam olemas"
+
 msgid "Meeting information sent"
 msgstr "Koosoleku andmed on saadetud"
 
@@ -13204,6 +13136,13 @@ msgid ""
 msgstr ""
 "Kõikide nende kirjete töötlemiseks tuleb fail salvestada ja kalender "
 "importida"
+
+msgctxt "cal-itip"
+msgid "None"
+msgstr "Puudub"
+
+msgid "Tentatively Accepted"
+msgstr "Võimalusel nõus"
 
 msgid "This meeting recurs"
 msgstr "See koosolek kordub"
@@ -13335,6 +13274,9 @@ msgstr "%A, %e. %B %Y, %l:%M %p"
 #. time, in 12-hour format.
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%A, %e. %B %Y, %l:%M%S %p"
+
+msgid "An unknown person"
+msgstr "Tundmatu isik"
 
 #, c-format
 msgid "Please respond on behalf of %s"
@@ -13662,12 +13604,6 @@ msgstr ""
 msgid "Whether to notify new messages in Inbox folder only."
 msgstr ""
 "Kas teavitusi tuleb näidata ainult \"Saabuvad\" või ka teiste kaustade kohta."
-
-msgid "Evolution's Mail Notification"
-msgstr "Evolutioni sõnumiteavitus"
-
-msgid "Mail Notification Properties"
-msgstr "Sõnumiteavituse omadused"
 
 #, c-format
 msgid ""
@@ -14319,6 +14255,9 @@ msgstr "Algus"
 msgid "End"
 msgstr "Lõpp"
 
+msgid "Due"
+msgstr "Tähtaeg"
+
 msgid "percent Done"
 msgstr "Täitmisprotsent"
 
@@ -14730,6 +14669,9 @@ msgstr "iKalendri failid (.ics)"
 msgid "All Files (*)"
 msgstr "Kõik failid (*)"
 
+msgid "Saving user interface state"
+msgstr ""
+
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
@@ -15021,6 +14963,9 @@ msgstr "Antud geomeetria rakendamine peaaknale"
 msgid "Start in online mode"
 msgstr "Alustamine võrgurežiimis"
 
+msgid "Ignore network availability"
+msgstr ""
+
 msgid "Start in \"express\" mode"
 msgstr "Alustamine ekspressrežiimis"
 
@@ -15045,10 +14990,24 @@ msgstr "Töötava Evolutioni protsessi lõpetamise nõudmine"
 msgid "- The Evolution PIM and Email Client"
 msgstr "- Evolutioni e-posti ja isikliku teabehalduse klient"
 
-#, c-format
+#, fuzzy, c-format
+#| msgid ""
+#| "%s: --online and --offline cannot be used together.\n"
+#| "  Use %s --help for more information.\n"
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
-"  Use %s --help for more information.\n"
+"  Run '%s --help' for more information.\n"
+msgstr ""
+"%s: --online ja --offline võtmeid pole võimalik koos kasutada.\n"
+"  Täiendava teabe saamiseks käivita %s --help.\n"
+
+#, fuzzy, c-format
+#| msgid ""
+#| "%s: --online and --offline cannot be used together.\n"
+#| "  Use %s --help for more information.\n"
+msgid ""
+"%s: --force-online and --offline cannot be used together.\n"
+"  Run '%s --help' for more information.\n"
 msgstr ""
 "%s: --online ja --offline võtmeid pole võimalik koos kasutada.\n"
 "  Täiendava teabe saamiseks käivita %s --help.\n"
@@ -16335,10 +16294,6 @@ msgstr "_Kohandatud"
 msgid "popup a child"
 msgstr "avatakse hüpikaken"
 
-#. Translators: description of an "edit" action
-msgid "begin editing this cell"
-msgstr "selle välja muutmise alustamine"
-
 #. Translators: description of a "toggle" action
 msgid "toggle the cell"
 msgstr "lahtri ümberlülitamine"
@@ -16365,6 +16320,429 @@ msgstr "Vali kõik"
 
 msgid "Input Methods"
 msgstr "Sisestusmeetodid"
+
+#~ msgid "Count of default recurrence for a new event. -1 means forever."
+#~ msgstr ""
+#~ "Uue sündmuse kordumiste vaikimisi arv. -1 tähendab lõputut kordumist."
+
+#~ msgid "Default recurrence count"
+#~ msgstr "Korduste vaikimisi arv"
+
+#~ msgid "Event Gradient"
+#~ msgstr "Sündmuse kalle"
+
+#~ msgid "Event Transparency"
+#~ msgstr "Sündmuse läbipaistvus"
+
+#~ msgid "Gradient of the events in calendar views."
+#~ msgstr "Sündmuste kalle kalendrivaates."
+
+#~ msgid ""
+#~ "Transparency of the events in calendar views, a value between 0 "
+#~ "(transparent) and 1 (opaque)."
+#~ msgstr ""
+#~ "Sündmuste läbipaistvus kalendrivaadetes, väärtus 0 (läbipaistev) ja 1 "
+#~ "(läbipaistmatu) vahel."
+
+#~ msgid "URI of the highlighted (\"primary\") calendar"
+#~ msgstr "Märgitud (\"peamise\") kalendri URI"
+
+#~ msgid "URI of the highlighted (\"primary\") memo list"
+#~ msgstr "Märgitud (\"peamise\") märkmeloendi URI"
+
+#~ msgid "URI of the highlighted (\"primary\") task list"
+#~ msgstr "Märgitud (\"peamise\") ülesandeloendi URI"
+
+#~ msgid "Recurring:"
+#~ msgstr "Korduv:"
+
+#~ msgid "Yes. (Complex Recurrence)"
+#~ msgstr "Jah. (keeruline kordumine)"
+
+#~ msgid "Every day"
+#~ msgid_plural "Every %d days"
+#~ msgstr[0] "Iga päev"
+#~ msgstr[1] "Igal %d. päeval"
+
+#~ msgid "Every week"
+#~ msgid_plural "Every %d weeks"
+#~ msgstr[0] "Iga nädal"
+#~ msgstr[1] "Igal %d. nädalal"
+
+#~ msgid "Every week on "
+#~ msgid_plural "Every %d weeks on "
+#~ msgstr[0] "Iga nädala "
+#~ msgstr[1] "Iga %d. nädala "
+
+#~ msgid " and "
+#~ msgstr " ja "
+
+#~ msgid "The %s day of "
+#~ msgstr "%s päev"
+
+#~ msgid "The %s %s of "
+#~ msgstr "%s. %s "
+
+#~ msgid "every month"
+#~ msgid_plural "every %d months"
+#~ msgstr[0] "iga kuu"
+#~ msgstr[1] "igal %d. kuul"
+
+#~ msgid "Every year"
+#~ msgid_plural "Every %d years"
+#~ msgstr[0] "Iga aasta"
+#~ msgstr[1] "Iga %d aasta"
+
+#~ msgid "a total of %d time"
+#~ msgid_plural "a total of %d times"
+#~ msgstr[0] "kokku %d kord"
+#~ msgstr[1] "kokku %d korda"
+
+#~ msgid ", ending on "
+#~ msgstr ", lõpeb"
+
+#~ msgid "Starts"
+#~ msgstr "Algab"
+
+#~ msgid "Ends"
+#~ msgstr "Lõpeb"
+
+#~ msgid "iCalendar Information"
+#~ msgstr "iKalendri andmed"
+
+#~ msgid "iCalendar Error"
+#~ msgstr "iKalendri viga"
+
+#~ msgid ""
+#~ "Please review the following information, and then select an action from "
+#~ "the menu below."
+#~ msgstr ""
+#~ "Palun vaata järgnev info üle ja vali alumisest menüüst sobilik tegevus."
+
+#~ msgid ""
+#~ "The meeting has been canceled, however it could not be found in your "
+#~ "calendars"
+#~ msgstr ""
+#~ "Koosolek on tühistatud, kuid seda pole sinu kalendritest võimalik leida"
+
+#~ msgid ""
+#~ "The task has been canceled, however it could not be found in your task "
+#~ "lists"
+#~ msgstr ""
+#~ "Ülesanne on tühistatud, kuid seda pole sinu ülesannete hulgast võimalik "
+#~ "leida"
+
+#~ msgid "%s has published meeting information."
+#~ msgstr "%s avaldas koosoleku andmed."
+
+#~ msgid "Meeting Information"
+#~ msgstr "Koosoleku andmed"
+
+#~ msgid "%s requests the presence of %s at a meeting."
+#~ msgstr "%s soovib, et koosolekul osaleks ka %s."
+
+#~ msgid "%s requests your presence at a meeting."
+#~ msgstr "%s soovib, et sa osaleksid koosolekul."
+
+#~ msgid "Meeting Proposal"
+#~ msgstr "Koosoleku ettepanek"
+
+#~ msgid "%s wishes to be added to an existing meeting."
+#~ msgstr "%s soovib liituda olemasoleva koosolekuga."
+
+#~ msgid "Meeting Update"
+#~ msgstr "Koosoleku info uuendus"
+
+#~ msgid "%s wishes to receive the latest meeting information."
+#~ msgstr "%s soovib saada värskemaid andmeid koosoleku kohta."
+
+#~ msgid "Meeting Update Request"
+#~ msgstr "Soov muuta koosolekut"
+
+#~ msgid "%s has replied to a meeting request."
+#~ msgstr "%s vastas koosoleku soovile."
+
+#~ msgid "Meeting Reply"
+#~ msgstr "Koosoleku vastus"
+
+#~ msgid "%s has canceled a meeting."
+#~ msgstr "%s tühistas koosoleku."
+
+#~ msgid "Meeting Cancelation"
+#~ msgstr "Koosoleku tühistamine"
+
+#~ msgid "%s has sent an unintelligible message."
+#~ msgstr "%s saatis arusaamatu sõnumi."
+
+#~ msgid "Bad Meeting Message"
+#~ msgstr "Vigane koosoleku sõnum"
+
+#~ msgid "%s has published task information."
+#~ msgstr "%s avaldas ülesande andmed."
+
+#~ msgid "Task Information"
+#~ msgstr "Ülesande andmed"
+
+#~ msgid "%s requests %s to perform a task."
+#~ msgstr "%s soovib, et %s täidaks ülesande."
+
+#~ msgid "%s requests you perform a task."
+#~ msgstr "%s soovib, et sa täidaksid ülesande."
+
+#~ msgid "Task Proposal"
+#~ msgstr "Ettepanek ülesandeks"
+
+#~ msgid "%s wishes to be added to an existing task."
+#~ msgstr "%s soovib liituda olemasoleva ülesandega."
+
+#~ msgid "Task Update"
+#~ msgstr "Ülesande uuendus"
+
+#~ msgid "%s wishes to receive the latest task information."
+#~ msgstr "%s soovib saada värskemaid andmeid ülesande kohta."
+
+#~ msgid "Task Update Request"
+#~ msgstr "Soov muuta ülesannet"
+
+#~ msgid "%s has replied to a task assignment."
+#~ msgstr "%s vastas ülesande täitjaks määramisele."
+
+#~ msgid "Task Reply"
+#~ msgstr "Ülesande vastus"
+
+#~ msgid "%s has canceled a task."
+#~ msgstr "%s tühistas ülesande."
+
+#~ msgid "Task Cancelation"
+#~ msgstr "Ülesande tühistamine"
+
+#~ msgid "Bad Task Message"
+#~ msgstr "Vigane ülesande sõnum"
+
+#~ msgid "%s has published free/busy information."
+#~ msgstr "%s avaldas vaba/hõivatud andmed."
+
+#~ msgid "Free/Busy Information"
+#~ msgstr "Vaba/hõivatud andmed"
+
+#~ msgid "%s requests your free/busy information."
+#~ msgstr "%s soovib saada sinu vaba/hõivatud andmeid."
+
+#~ msgid "Free/Busy Request"
+#~ msgstr "Soov saada vaba/hõivatud teavet"
+
+#~ msgid "%s has replied to a free/busy request."
+#~ msgstr "%s vastas vaba/hõivatud päringule."
+
+#~ msgid "Free/Busy Reply"
+#~ msgstr "Vaba/hõivatud vastus"
+
+#~ msgid "Bad Free/Busy Message"
+#~ msgstr "Vigane vaba/hõivatud sõnum"
+
+#~ msgid "The message does not appear to be properly formed"
+#~ msgstr "Sõnum ei tundu olevalt õigesti vormistatud"
+
+#~ msgid "The message contains only unsupported requests."
+#~ msgstr "Sõnum sisaldab ainult toetamata päringuid."
+
+#~ msgid "The attachment has no viewable calendar items"
+#~ msgstr "Manus ei sisalda vaadeldavaid kalendrikirjeid"
+
+#~ msgid "Update complete\n"
+#~ msgstr "Uuendamine lõpetatud\n"
+
+#~ msgid "Object is invalid and cannot be updated\n"
+#~ msgstr "Objekt on vigane ja seda pole võimalik uuendada\n"
+
+#~ msgid "This response is not from a current attendee.  Add as an attendee?"
+#~ msgstr "See vastus pole praeguselt osalejalt. Kas lisame ta osalejaks?"
+
+#~ msgid "Attendee status could not be updated because of an invalid status!\n"
+#~ msgstr "Osaleja olekut pole võimalik uuendada, kuna selle olek on vigane!\n"
+
+#~ msgid "Attendee status updated\n"
+#~ msgstr "Osaleja olek värskendatud\n"
+
+#~ msgid "Item sent!\n"
+#~ msgstr "Kirje saadetud!\n"
+
+#~ msgid "The item could not be sent!\n"
+#~ msgstr "Seda kirjet pole võimalik saata!\n"
+
+#~ msgid "Choose an action:"
+#~ msgstr "Vali tegevus:"
+
+#~ msgid "Update"
+#~ msgstr "Uuenda"
+
+#~ msgid "Tentatively accept"
+#~ msgstr "Nõustun, kuid pole hetkel kindel"
+
+#~ msgid "Send Free/Busy Information"
+#~ msgstr "Vaba/hõivatud teabe saatmine"
+
+#~ msgid "Update respondent status"
+#~ msgstr "Värskenda vastaja olekut"
+
+#~ msgid "Send Latest Information"
+#~ msgstr "Värskemate andmete saatmine"
+
+#~ msgid "--to--"
+#~ msgstr "--kellele--"
+
+#~ msgid "Calendar Message"
+#~ msgstr "Kalendri sõnum"
+
+#~ msgid "Date:"
+#~ msgstr "Kuupäev:"
+
+#~ msgid "Loading Calendar"
+#~ msgstr "Kalendri laadimine"
+
+#~ msgid "Loading calendar..."
+#~ msgstr "Kalendri laadimine..."
+
+#~ msgid "Organizer:"
+#~ msgstr "Korraldaja:"
+
+#~ msgid "Server Message:"
+#~ msgstr "Serveri teade:"
+
+#~ msgid "Could not create composer window."
+#~ msgstr "Redaktoriakent pole võimalik luua."
+
+#~ msgid ""
+#~ "Unable to activate the HTML editor control.\n"
+#~ "\n"
+#~ "Please make sure that you have the correct version of gtkhtml and "
+#~ "libgtkhtml installed."
+#~ msgstr ""
+#~ "HTML-redaktori juhtimist pole võimalik aktiveerida.\n"
+#~ "\n"
+#~ "Palun veendu, et sul on paigaldatud sobivad gtkhtmli ja libgtkhtmli "
+#~ "versioonid."
+
+#~ msgid "Unable to activate the address selector control."
+#~ msgstr "Aadressi valimise juhtimist pole võimalik aktiveerida."
+
+#~ msgid "%s..."
+#~ msgstr "%s..."
+
+#~ msgid "Evolution Error"
+#~ msgstr "Evolutioni viga"
+
+#~ msgid "Evolution Warning"
+#~ msgstr "Evolutioni hoiatus"
+
+#~ msgid "Internal error, unknown error '%s' requested"
+#~ msgstr "Sisemine viga, küsiti tundmatut viga '%s'"
+
+#~ msgid "%d day from now"
+#~ msgid_plural "%d days from now"
+#~ msgstr[0] "%d päev alates praegusest"
+#~ msgstr[1] "%d päeva alates praegusest"
+
+#~ msgid "%d day ago"
+#~ msgid_plural "%d days ago"
+#~ msgstr[0] "%d päev tagasi"
+#~ msgstr[1] "%d päeva tagasi"
+
+#~ msgid "Debug Logs"
+#~ msgstr "Silumislogid"
+
+#~ msgid "Show _errors in the status bar for"
+#~ msgstr "Ol_ekuribal näidatakse vigu"
+
+#~ msgid "second(s)."
+#~ msgstr "sekund(it)."
+
+#~ msgid "Log Messages:"
+#~ msgstr "Logiteated:"
+
+#~ msgid "Log Level"
+#~ msgstr "Logimise tase"
+
+#~ msgid "Error"
+#~ msgstr "Viga"
+
+#~ msgid "Errors"
+#~ msgstr "Vead"
+
+#~ msgid "Warnings and Errors"
+#~ msgstr "Hoiatused ja vead"
+
+#~ msgid "Debug"
+#~ msgstr "Silumine"
+
+#~ msgid "Error, Warnings and Debug messages"
+#~ msgstr "Vea-, hoiatus- ja silumisteated"
+
+#~ msgid "%s License Agreement"
+#~ msgstr "Litsents %s"
+
+#~ msgid ""
+#~ "\n"
+#~ "Please read carefully the license agreement\n"
+#~ "for %s displayed below\n"
+#~ "and tick the check box for accepting it\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Palun loe hoolikalt %s litsentsitingimusi, mida\n"
+#~ "kuvatakse allpool ja nendega nõustumise korral\n"
+#~ "märgi märkeruut\n"
+
+#~ msgid "This store does not support subscriptions, or they are not enabled."
+#~ msgstr "See hoidla ei toeta tellimusi või pole tellimused lubatud."
+
+#~ msgid "Folder"
+#~ msgstr "Kaust"
+
+#~ msgid "Please select a server."
+#~ msgstr "Palun vali server."
+
+#~ msgid "No server has been selected"
+#~ msgstr "Serverit ei ole valitud"
+
+#~ msgid "Default height of the subscribe dialog."
+#~ msgstr "Tellimisdialoogi vaikimisi kõrgus."
+
+#~ msgid "Default width of the subscribe dialog."
+#~ msgstr "Tellimisdialoogi vaikimisi laius."
+
+#~ msgid "Subscribe dialog default height"
+#~ msgstr "Tellimisdialoogi vaikimisi kõrgus"
+
+#~ msgid "Subscribe dialog default width"
+#~ msgstr "Tellimisdialoogi vaikimisi laius"
+
+#~ msgid "S_erver:"
+#~ msgstr "_Server:"
+
+#~ msgid ""
+#~ "Cannot create output file: %s:\n"
+#~ " %s"
+#~ msgstr ""
+#~ "Väljundfaili pole võimalik luua: %s\n"
+#~ " %s"
+
+#~ msgid "Could not write data: "
+#~ msgstr "Andmeid pole võimalik kirjutada: "
+
+#~ msgid "_Backup Evolution Settings..."
+#~ msgstr "_Varunda Evolutioni sätted..."
+
+#~ msgid "R_estore Evolution Settings..."
+#~ msgstr "_Taasta Evolutioni sätted..."
+
+#~ msgid "Evolution's Mail Notification"
+#~ msgstr "Evolutioni sõnumiteavitus"
+
+#~ msgid "Mail Notification Properties"
+#~ msgstr "Sõnumiteavituse omadused"
+
+#~ msgid "begin editing this cell"
+#~ msgstr "selle välja muutmise alustamine"
 
 #~ msgid "(Not Recommended)"
 #~ msgstr "(pole soovitatav)"
