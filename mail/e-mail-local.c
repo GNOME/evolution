@@ -57,7 +57,7 @@ e_mail_local_init (EMailSession *session,
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (data_dir != NULL);
 
-	url = camel_url_new ("mbox:", NULL);
+	url = camel_url_new ("maildir:", NULL);
 	temp = g_build_filename (data_dir, "local", NULL);
 	camel_url_set_path (url, temp);
 	g_free (temp);
@@ -84,9 +84,13 @@ e_mail_local_init (EMailSession *session,
 
 		/* FIXME camel_store_get_folder() may block. */
 		default_local_folders[ii].folder_uri = folder_uri;
-		default_local_folders[ii].folder = camel_store_get_folder_sync (
-			CAMEL_STORE (service), display_name,
-			CAMEL_STORE_FOLDER_CREATE, NULL, NULL);
+		if (!strcmp (display_name, "Inbox"))
+			default_local_folders [ii].folder = camel_store_get_inbox_folder_sync (
+				CAMEL_STORE (service), NULL, NULL);
+		else
+			default_local_folders[ii].folder = camel_store_get_folder_sync (
+				CAMEL_STORE (service), display_name,
+				CAMEL_STORE_FOLDER_CREATE, NULL, NULL);
 	}
 
 	camel_url_free (url);
