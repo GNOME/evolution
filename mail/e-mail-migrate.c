@@ -738,6 +738,338 @@ migrate_to_db (EShellBackend *shell_backend)
 
 #endif
 
+
+static gboolean
+check_local_store_migrate (void)
+{
+	gchar *local_mbox_inbox, *migrating_file_flag;
+	const gchar *data_dir;
+	gboolean ret = FALSE;
+
+	data_dir = e_get_user_data_dir ();
+	local_mbox_inbox = g_build_filename (data_dir, "mail", "local", "Inbox", NULL);
+	migrating_file_flag = g_build_filename (data_dir, "mail", "local", ".#migrate", NULL);
+
+	if (g_file_test (local_mbox_inbox, G_FILE_TEST_EXISTS) ||
+		g_file_test (migrating_file_flag, G_FILE_TEST_EXISTS))
+		ret = TRUE;
+	
+	g_free (local_mbox_inbox);
+	g_free (migrating_file_flag);
+
+	return ret;
+}
+
+/* SubFolders of Inbox are renamed to Inbox_folder_name
+   Inbox does not contain any subfolders in Maildir++ format
+   Folder names with '.' are converted to '_'
+*/
+static gchar *
+sanitize_maildir_folder_name (gchar *folder_name)
+{
+	gchar *maildir_folder_name;
+
+	if (!g_ascii_strcasecmp (folder_name, "Inbox"))
+		maildir_folder_name = g_strdup (".");
+	else if (!g_ascii_strncasecmp (folder_name, "Inbox/", 6)) {
+		maildir_folder_name = g_strconcat ("Inbox_", folder_name + 6, NULL);
+	 	g_strdelimit (maildir_folder_name, ".", '_');
+	} else {
+		maildir_folder_name = g_strdup (folder_name);
+		g_strdelimit (maildir_folder_name, ".", '_');
+	}
+
+	 return maildir_folder_name;
+}
+
+static void
+copy_folder (CamelStore *mbox_store, CamelStore *maildir_store, const gchar *mbox_fname, const gchar *maildir_fname)
+{
+	CamelFolder *fromfolder, *tofolder;
+	GPtrArray *uids;
+
+	fromfolder = camel_store_get_folder_sync (
+			mbox_store, mbox_fname, 0,
+			NULL, NULL);
+	if (fromfolder == NULL) {
+		g_warning ("Cannot find mbox folder %s \n", mbox_fname);
+		return;
+	}
+
+	tofolder = camel_store_get_folder_sync (
+			maildir_store, maildir_fname,
+			CAMEL_STORE_FOLDER_CREATE,
+			NULL, NULL);
+	if (tofolder == NULL) {
+		g_warning ("Cannot create maildir folder %s \n", maildir_fname);
+		g_object_unref (fromfolder);
+		return;
+	}
+
+	uids = camel_folder_get_uids (fromfolder);
+	camel_folder_transfer_messages_to_sync (
+			fromfolder, uids, tofolder,
+			FALSE, NULL,
+			NULL, NULL);
+	camel_folder_free_uids (fromfolder, uids);
+
+	g_object_unref (fromfolder);
+	g_object_unref (tofolder);
+}
+
+static void
+copy_folders (CamelStore *mbox_store, CamelStore *maildir_store, CamelFolderInfo *fi, EMMigrateSession *session)
+{
+	if (fi) {
+		if (!g_str_has_prefix (fi->full_name, ".#evolution")) {
+			gchar *maildir_folder_name;
+			
+			/* sanitize folder names and copy folders */
+			maildir_folder_name = sanitize_maildir_folder_name (fi->full_name);
+			copy_folder (mbox_store, maildir_store, fi->full_name, maildir_folder_name);
+			g_free (maildir_folder_name);
+		}
+		
+		if (fi->child)
+			copy_folders (mbox_store, maildir_store, fi->child, session);
+
+		copy_folders (mbox_store, maildir_store, fi->next, session);
+	}
+}
+
+struct MigrateStore {
+	EMMigrateSession *session;
+	CamelStore *mbox_store;
+	CamelStore *maildir_store;
+	gboolean complete;
+};
+
+static void
+migrate_stores (struct MigrateStore *ms)
+{
+	CamelFolderInfo *mbox_fi;
+	CamelStore *mbox_store = ms->mbox_store;
+	CamelStore *maildir_store = ms->maildir_store;
+
+	mbox_fi = camel_store_get_folder_info_sync (
+		mbox_store, NULL,
+		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
+		CAMEL_STORE_FOLDER_INFO_FAST |
+		CAMEL_STORE_FOLDER_INFO_SUBSCRIBED,
+		NULL, NULL);
+
+	/* FIXME progres dialog */
+	copy_folders (mbox_store, maildir_store, mbox_fi, ms->session);
+	ms->complete = TRUE;
+
+	return;
+}
+
+static gboolean
+migrate_mbox_to_maildir (EShellBackend *shell_backend, EMMigrateSession *session)
+{
+	CamelService *mbox_service, *maildir_service;
+	CamelStore *mbox_store, *maildir_store;
+	CamelURL *url;
+	const gchar *data_dir;
+	gchar *temp;
+	struct MigrateStore ms;
+
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
+	url = camel_url_new ("mbox:", NULL);
+	temp = g_build_filename (data_dir, "local_mbox", NULL);
+	camel_url_set_path (url, temp);
+	g_free (temp);
+
+	temp = camel_url_to_string (url, 0);
+	mbox_service = camel_session_get_service (
+		CAMEL_SESSION (session), temp,
+		CAMEL_PROVIDER_STORE, NULL);
+	g_free (temp);
+	camel_url_free (url);
+	
+	url = camel_url_new ("maildir:", NULL);
+	temp = g_build_filename (data_dir, "local", NULL);
+	g_mkdir (temp, 0700);
+	camel_url_set_path (url, temp);
+	g_free (temp);
+
+	temp = camel_url_to_string (url, 0);
+	maildir_service = camel_session_get_service (
+		CAMEL_SESSION (session), temp,
+		CAMEL_PROVIDER_STORE, NULL);
+	g_free (temp);
+	camel_url_free (url);
+
+	mbox_store = CAMEL_STORE (mbox_service);
+	maildir_store = CAMEL_STORE (maildir_service);
+
+	ms.mbox_store = mbox_store;
+	ms.maildir_store = maildir_store;
+	ms.session = session;
+	ms.complete = FALSE;
+	
+	g_thread_create ((GThreadFunc) migrate_stores, &ms, TRUE, NULL);
+	while (!ms.complete)
+		g_main_context_iteration (NULL, TRUE);
+	
+	g_object_unref (mbox_store);
+	g_object_unref (maildir_store);
+
+	return TRUE;
+}
+
+static void
+rename_mbox_dir (EShellBackend *shell_backend)
+{
+	gchar *local_mbox_path, *new_mbox_path;
+	const gchar *data_dir;
+
+	data_dir = e_get_user_data_dir ();
+	local_mbox_path = g_build_filename (data_dir, "mail", "local", NULL);
+	new_mbox_path = g_build_filename (data_dir, "mail", "local_mbox", NULL);
+
+	if (!g_file_test (local_mbox_path, G_FILE_TEST_EXISTS))
+		goto exit;
+	
+	if (g_file_test (new_mbox_path, G_FILE_TEST_EXISTS))
+		goto exit;
+
+	g_rename (local_mbox_path, new_mbox_path); 
+exit:
+	g_free (local_mbox_path);
+	g_free (new_mbox_path);
+
+	return;
+}
+
+static gint
+prompt_for_store_migration (void)
+{
+	GtkWindow *parent;
+	GtkWidget *dialog;
+	gint result; 
+
+	parent = e_shell_get_active_window (NULL);
+	dialog = e_alert_dialog_new_for_args (
+			parent, "mail:ask-migrate-store",
+			NULL);
+
+	result = gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
+
+	return result;
+}
+	
+static gboolean
+create_mbox_account (EShellBackend *shell_backend, EMMigrateSession *session) 
+{
+	CamelService *mbox_service;
+	EMailBackend *mail_backend;
+	EMailSession *mail_session;
+	CamelURL *url;
+	EAccountList *accounts;
+	EAccount *account;
+	const gchar *data_dir;
+	gchar *name, *id, *temp, *uri, *folder_uri;
+	
+	mail_backend = E_MAIL_BACKEND (shell_backend);
+	mail_session = e_mail_backend_get_session (mail_backend);
+	account = e_account_new ();
+	account->enabled = TRUE;
+
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
+	url = camel_url_new ("mbox:", NULL);
+	temp = g_build_filename (data_dir, "local_mbox", NULL);
+	camel_url_set_path (url, temp);
+	g_free (temp);
+
+	uri = camel_url_to_string (url, 0);
+	mbox_service = camel_session_get_service (
+		CAMEL_SESSION (session), uri,
+		CAMEL_PROVIDER_STORE, NULL);
+	e_account_set_string (account, E_ACCOUNT_SOURCE_URL, uri);
+
+#ifndef G_OS_WIN32
+	name = g_locale_to_utf8 (g_get_user_name (), -1, NULL, NULL, NULL);
+#else
+	name = g_strdup (g_get_user_name ());
+#endif
+
+	id = g_strconcat (name, "@", "localhost", NULL);
+	e_account_set_string (account, E_ACCOUNT_ID_NAME, name);
+	e_account_set_string (account, E_ACCOUNT_ID_ADDRESS, id);
+	e_account_set_string (account, E_ACCOUNT_NAME, id);
+
+	camel_url_set_fragment (url, _("Sent"));
+	folder_uri = camel_url_to_string (url, 0);
+	e_account_set_string (
+			account, E_ACCOUNT_SENT_FOLDER_URI,
+			folder_uri);
+	g_free (folder_uri);
+
+	camel_url_set_fragment (url, _("Drafts"));
+	folder_uri = camel_url_to_string (url, 0);
+	e_account_set_string (
+			account, E_ACCOUNT_DRAFTS_FOLDER_URI,
+			folder_uri);
+	g_free (folder_uri);
+
+	accounts = e_get_account_list ();
+	e_account_list_add (accounts, account);
+	e_mail_store_add_by_uri (
+		mail_session, uri, name);
+	e_account_list_save (accounts);
+
+	camel_url_free (url);
+	g_free (uri);
+	g_free (name);
+	g_free (id);
+
+	return TRUE;
+}
+
+
+static gboolean
+migrate_local_store (EShellBackend *shell_backend)
+{
+	EMMigrateSession *session;
+	gboolean ret = TRUE;
+	gint migrate;
+	const gchar *data_dir;
+	gchar *migrating_file_flag;
+	
+	if (!check_local_store_migrate ())
+		return TRUE;
+	
+	/* rename the store before dialog prompt to avoid shell getting loaded in idle thread */
+	rename_mbox_dir (shell_backend);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
+
+	migrating_file_flag = g_build_filename (data_dir, "local", ".#migrate", NULL);
+	g_file_set_contents (migrating_file_flag, "1", -1, NULL);
+	
+	migrate = prompt_for_store_migration ();
+	if (migrate == GTK_RESPONSE_CANCEL)
+		return FALSE;
+	
+	session = (EMMigrateSession *) em_migrate_session_new (data_dir);
+	camel_session_set_online ((CamelSession *) session, FALSE);
+
+	if (migrate == GTK_RESPONSE_YES) 
+		ret = migrate_mbox_to_maildir (shell_backend, session);
+
+	if (ret)
+		create_mbox_account (shell_backend, session);
+
+	g_unlink (migrating_file_flag);
+
+	g_free (migrating_file_flag);
+	g_object_unref (session);
+
+	return ret;
+}
+
 static void
 em_ensure_proxy_ignore_hosts_being_list (void)
 {
@@ -841,6 +1173,9 @@ e_mail_migrate (EShellBackend *shell_backend,
 	if (major < 2 || (major == 2 && minor < 32)) {
 		em_ensure_proxy_ignore_hosts_being_list ();
 	}
+
+	if (!migrate_local_store (shell_backend))
+		return FALSE;	
 
 	return TRUE;
 }

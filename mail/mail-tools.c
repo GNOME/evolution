@@ -94,7 +94,7 @@ mail_tool_do_movemail (const gchar *source_url, GError **error)
 	if (uri == NULL)
 		return NULL;
 
-	if (strcmp(uri->protocol, "mbox") != 0) {
+	if (strcmp(uri->protocol, "maildir") != 0) {
 		/* This is really only an internal error anyway */
 		g_set_error (
 			error, CAMEL_SERVICE_ERROR,

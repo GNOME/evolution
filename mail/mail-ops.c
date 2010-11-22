@@ -241,7 +241,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 
 	/* FIXME: this should support keep_on_server too, which would then perform a spool
 	   access thingy, right?  problem is matching raw messages to uid's etc. */
-	if (!strncmp (m->source_uri, "mbox:", 5)) {
+	if (!strncmp (m->source_uri, "maildir:", 5)) {
 		gchar *path = mail_tool_do_movemail (m->source_uri, error);
 
 		if (path && (!error || !*error)) {
@@ -1890,7 +1890,7 @@ expunge_folder_exec (struct _sync_folder_msg *m,
 		gchar *uri;
 
 		data_dir = mail_session_get_data_dir ();
-		uri = g_strdup_printf ("mbox:%s/local", data_dir);
+		uri = g_strdup_printf ("maildir:%s/local", data_dir);
 		trash = e_mail_session_get_trash_sync (
 			m->session, uri, cancellable, error);
 		g_free (uri);
@@ -1965,7 +1965,7 @@ empty_trash_exec (struct _empty_trash_msg *m,
 			cancellable, error);
 	} else {
 		data_dir = mail_session_get_data_dir ();
-		uri = g_strdup_printf ("mbox:%s/local", data_dir);
+		uri = g_strdup_printf ("maildir:%s/local", data_dir);
 		trash = e_mail_session_get_trash_sync (
 			m->session, uri, cancellable, error);
 		g_free (uri);

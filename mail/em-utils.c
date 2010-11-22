@@ -1513,7 +1513,7 @@ gchar *em_uri_to_camel (const gchar *euri)
 			if (strcmp(eurl->user, "vfolder") == 0)
 				curl = camel_url_new("vfolder:", NULL);
 			else
-				curl = camel_url_new("mbox:", NULL);
+				curl = camel_url_new("maildir:", NULL);
 
 			base = g_strdup_printf("%s/mail/%s", e_get_user_data_dir(), eurl->user);
 #ifdef G_OS_WIN32

@@ -822,11 +822,8 @@ e_shell_migrate_attempt (EShell *shell)
 	if (curr_major <= 2 && curr_minor <= 30)
 		fix_folder_permissions (e_get_user_data_dir ());
 
-	if (!(curr_major > major ||
-		(curr_major == major && curr_minor > minor) ||
-		(curr_major == major && curr_minor == minor && curr_micro > micro)))
-		goto check_old;
-
+	/* Attempt to run migration all the time and let the backend
+	   make the choice */
 	if (!shell_migrate_attempt (shell, major, minor, micro))
 		_exit (EXIT_SUCCESS);
 
@@ -837,9 +834,6 @@ e_shell_migrate_attempt (EShell *shell)
 	g_free (string);
 
 	migrated = TRUE;
-
-check_old:
-
 	key = GCONF_LAST_VERSION_KEY;
 
 	/* Try to retrieve the last migrated version from GConf. */
