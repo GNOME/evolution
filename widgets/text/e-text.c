@@ -134,6 +134,7 @@ static void e_text_do_popup (EText *text, GdkEventButton *button, gint position)
 static void e_text_update_primary_selection (EText *text);
 static void e_text_paste (EText *text, GdkAtom selection);
 static void e_text_insert (EText *text, const gchar *string);
+static void e_text_reset_im_context (EText *text);
 
 static void reset_layout_attrs (EText *text);
 
@@ -176,6 +177,16 @@ static gboolean e_text_delete_surrounding_cb   (GtkIMContext *context,
 static GdkAtom clipboard_atom = GDK_NONE;
 
 
+
+static void
+disconnect_im_context (EText *text)
+{
+	if (!text || !text->im_context)
+		return;
+
+	g_signal_handlers_disconnect_matched (text->im_context, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, text);
+	text->im_context_signals_registered = FALSE;
+}
 
 /* Dispose handler for the text item */
 
@@ -259,10 +270,7 @@ e_text_dispose (GObject *object)
 	}
 
 	if (text->im_context) {
-		g_signal_handlers_disconnect_matched (text->im_context,
-						      G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL,
-						      NULL, text);
+		disconnect_im_context (text);
 		g_object_unref (text->im_context);
 		text->im_context = NULL;
 	}
@@ -996,14 +1004,16 @@ e_text_set_property (GObject *object,
 	}
 
 	case PROP_IM_CONTEXT:
-		if (text->im_context)
+		if (text->im_context) {
+			disconnect_im_context (text);
 			g_object_unref (text->im_context);
+		}
 
 		text->im_context = g_value_get_object (value);
 		if (text->im_context)
 			g_object_ref (text->im_context);
 
-		text->need_im_reset = FALSE;
+		text->need_im_reset = TRUE;
 		break;
 
 	case PROP_HANDLE_POPUP:
@@ -1953,6 +1963,8 @@ start_editing (EText *text)
 	if (text->editing)
 		return;
 
+	e_text_reset_im_context (text);
+
 	g_free (text->revert);
 	text->revert = g_strdup (text->text);
 
@@ -2001,6 +2013,10 @@ e_text_stop_editing (EText *text)
 		g_timer_destroy (text->timer);
 		text->timer = NULL;
 	}
+
+	text->need_im_reset = TRUE;
+	text->preedit_len = 0;
+	text->preedit_pos = 0;
 }
 
 void
@@ -2024,9 +2040,6 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 	EText *text = E_TEXT (item);
 	ETextEventProcessorEvent e_tep_event;
 	GdkWindow *window;
-
-	static EText *save_text = NULL;
-
 	gint return_val = 0;
 
 	if (!text->model)
@@ -2041,27 +2054,6 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			GdkEventFocus *focus_event;
 			focus_event = (GdkEventFocus *) event;
 			if (focus_event->in) {
-
-				/* Evil hack to disconnect the signal handlers for the previous Etext
-				 * which was not disconnected because of being in preedit mode.
-				 * In preedit mode the widget can go out of focus due to popups associated
-				 * with preedit.,but still the callbacks need to be connected.
-				 * Here when a new text widget comes into focus we can disconnect the
-				 * old one.Shouldn't hurt much, as in worst case, save_text which should
-				 * be disconnected will be overwritten and we will have signal
-				 * handlers connect to  multiple e-texts but with subsequent commit these
-				 * should go away.
-				 */
-
-				if (save_text && save_text->im_context) {
-					g_signal_handlers_disconnect_matched (
-						save_text->im_context,
-						G_SIGNAL_MATCH_DATA,
-                                                0, 0, NULL, NULL, save_text);
-					save_text->im_context_signals_registered =
-						FALSE;
-                                }
-
 				if (text->im_context) {
 					if (!text->im_context_signals_registered) {
 						g_signal_connect (text->im_context, "commit",
@@ -2074,22 +2066,16 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 								  G_CALLBACK (e_text_delete_surrounding_cb), text);
 						text->im_context_signals_registered = TRUE;
 					}
+					gtk_im_context_focus_in (text->im_context);
 				}
+
 				start_editing (text);
 				text->show_cursor = FALSE; /* so we'll redraw and the cursor will be shown */
 			} else {
-				/* Incase we are not disconnecting the signals
-				 * for text, we are saving text for
-				 * disconnecting in the next focus_in.
-				 */
-				if (!text->preedit_len && text->im_context) {
-					g_signal_handlers_disconnect_matched (text->im_context,
-									      G_SIGNAL_MATCH_DATA,
-									      0, 0, NULL,
-									      NULL, text);
-					text->im_context_signals_registered = FALSE;
-				} else {
-					save_text = text;
+				if (text->im_context) {
+					gtk_im_context_focus_out (text->im_context);
+					disconnect_im_context (text);
+					text->need_im_reset = TRUE;
 				}
 
 				e_text_stop_editing (text);
@@ -2135,8 +2121,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			gint ret;
 
 			if (text->im_context &&
-				gtk_im_context_filter_keypress (
-				text->im_context, (GdkEventKey*)event)) {
+				gtk_im_context_filter_keypress (text->im_context, (GdkEventKey*) event)) {
 				text->need_im_reset = TRUE;
 				return 1;
 			}
@@ -2330,6 +2315,7 @@ e_text_delete_selection (EText *text)
 
 	if (sel_start != sel_end)
 		e_text_model_delete (text->model, sel_start, sel_end - sel_start);
+	text->need_im_reset = TRUE;
 }
 
 void
@@ -2596,16 +2582,14 @@ e_text_do_popup (EText *text, GdkEventButton *button, gint position)
 					closure);
 }
 
-#if 0
 static void
 e_text_reset_im_context (EText *text)
 {
-	if (text->need_im_reset) {
-		text->need_im_reset = 0;
+	if (text->need_im_reset && text->im_context) {
+		text->need_im_reset = FALSE;
 		gtk_im_context_reset (text->im_context);
 	}
 }
-#endif
 
 /* fixme: */
 
@@ -3109,6 +3093,7 @@ e_text_command (ETextEventProcessor *tep,
 			g_timer_reset (text->timer);
 		}
 
+		text->need_im_reset = TRUE;
 		use_start = TRUE;
 		break;
 	case E_TEP_SELECT:
@@ -3119,6 +3104,7 @@ e_text_command (ETextEventProcessor *tep,
 
 		e_text_update_primary_selection (text);
 
+		text->need_im_reset = TRUE;
 		use_start = FALSE;
 
 		break;
@@ -3131,6 +3117,7 @@ e_text_command (ETextEventProcessor *tep,
 			g_timer_reset (text->timer);
 		}
 
+		text->need_im_reset = TRUE;
 		use_start = FALSE;
 
 		break;
@@ -3144,6 +3131,7 @@ e_text_command (ETextEventProcessor *tep,
 			if (text->timer) {
 				g_timer_reset (text->timer);
 			}
+			text->need_im_reset = TRUE;
 		}
 		break;
 	case E_TEP_COPY:
@@ -3159,6 +3147,7 @@ e_text_command (ETextEventProcessor *tep,
 		if (text->timer) {
 			g_timer_reset (text->timer);
 		}
+		text->need_im_reset = TRUE;
 		break;
 	case E_TEP_GET_SELECTION:
 		e_text_paste (text, GDK_SELECTION_PRIMARY);
@@ -3208,6 +3197,8 @@ e_text_command (ETextEventProcessor *tep,
 		scroll = FALSE;
 		break;
 	}
+
+	e_text_reset_im_context (text);
 
 	/* it's possible to get here without ever having been realized
 	   by our canvas (if the e-text started completely obscured.)
