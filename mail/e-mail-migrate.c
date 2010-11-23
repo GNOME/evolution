@@ -760,24 +760,14 @@ check_local_store_migrate (void)
 	return ret;
 }
 
-/* SubFolders of Inbox are renamed to Inbox_folder_name
-   Inbox does not contain any subfolders in Maildir++ format
-   Folder names with '.' are converted to '_'
-*/
+/* Folder names with '.' are converted to '_' */
 static gchar *
 sanitize_maildir_folder_name (gchar *folder_name)
 {
 	gchar *maildir_folder_name;
 
-	if (!g_ascii_strcasecmp (folder_name, "Inbox"))
-		maildir_folder_name = g_strdup (".");
-	else if (!g_ascii_strncasecmp (folder_name, "Inbox/", 6)) {
-		maildir_folder_name = g_strconcat ("Inbox_", folder_name + 6, NULL);
-	 	g_strdelimit (maildir_folder_name, ".", '_');
-	} else {
-		maildir_folder_name = g_strdup (folder_name);
-		g_strdelimit (maildir_folder_name, ".", '_');
-	}
+	maildir_folder_name = g_strdup (folder_name);
+	g_strdelimit (maildir_folder_name, ".", '_');
 
 	 return maildir_folder_name;
 }
