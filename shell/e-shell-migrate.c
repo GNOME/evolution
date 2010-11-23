@@ -433,14 +433,15 @@ shell_xdg_migrate_config_dir_mail (EShell *shell,
 }
 
 static void
-shell_xdg_migrate_config_dir_cleanup (EShell *shell,
+shell_xdg_migrate_dir_cleanup (EShell *shell,
                                       const gchar *old_base_dir,
-                                      const gchar *backend_name)
+                                      const gchar *backend_name,
+                                      const gchar *dir_name)
 {
 	gchar *dirname;
 
 	dirname = g_build_filename (
-		old_base_dir, backend_name, "config", NULL);
+		old_base_dir, backend_name, dir_name, NULL);
 
 	shell_xdg_migrate_rmdir (dirname);
 
@@ -467,10 +468,13 @@ shell_xdg_migrate_config_dir (EShell *shell,
 	/* Handle backend-specific files. */
 	shell_xdg_migrate_config_dir_mail (shell, old_base_dir);
 
-	/* Remove leftover "config" directories. */
-	for (ii = 0; shell_backend_names[ii] != NULL; ii++)
-		shell_xdg_migrate_config_dir_cleanup (
-			shell, old_base_dir, shell_backend_names[ii]);
+	/* Remove leftover config directories. */
+	for (ii = 0; shell_backend_names[ii] != NULL; ii++) {
+		shell_xdg_migrate_dir_cleanup (
+			shell, old_base_dir, shell_backend_names[ii], "config");
+		shell_xdg_migrate_dir_cleanup (
+			shell, old_base_dir, shell_backend_names[ii], "views");
+	}
 
 	/*** Miscellaneous configuration files. ***/
 
