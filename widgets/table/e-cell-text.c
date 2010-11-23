@@ -872,47 +872,8 @@ ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 		break;
 	case GDK_KEY_PRESS: /* Fall Through */
 		if (edit_display) {
-			if (edit->im_context &&
-				!edit->im_context_signals_registered) {
-
-				g_signal_connect (edit->im_context,
-						"preedit_changed",
-						G_CALLBACK (\
-						e_cell_text_preedit_changed_cb),
-						text_view);
-
-				g_signal_connect (edit->im_context,
-						"commit",
-						G_CALLBACK (\
-						e_cell_text_commit_cb),
-						text_view);
-
-				g_signal_connect (edit->im_context,
-						"retrieve_surrounding",
-						G_CALLBACK (\
-						e_cell_text_retrieve_surrounding_cb),
-						text_view);
-
-				g_signal_connect (edit->im_context,
-						"delete_surrounding",
-						G_CALLBACK (\
-						e_cell_text_delete_surrounding_cb),
-						text_view);
-
-				edit->im_context_signals_registered = TRUE;
-			}
-
 			edit->show_cursor = FALSE;
-
 		} else {
-			if (edit && edit->im_context) {
-				g_signal_handlers_disconnect_matched (
-						edit->im_context,
-						G_SIGNAL_MATCH_DATA, 0, 0,
-						NULL, NULL, edit);
-				edit->im_context_signals_registered = FALSE;
-			}
-
 			ect_stop_editing (text_view, TRUE);
 		}
 		return_val = TRUE;
@@ -1170,6 +1131,19 @@ ect_enter_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 	e_cell_text_free_text (ect, temp);
 	edit->text = g_strdup (edit->old_text);
 
+	if (edit->im_context) {
+		gtk_im_context_reset (edit->im_context);
+		if (!edit->im_context_signals_registered) {
+			g_signal_connect (edit->im_context, "preedit_changed", G_CALLBACK (e_cell_text_preedit_changed_cb), text_view);
+			g_signal_connect (edit->im_context, "commit", G_CALLBACK (e_cell_text_commit_cb), text_view);
+			g_signal_connect (edit->im_context, "retrieve_surrounding", G_CALLBACK (e_cell_text_retrieve_surrounding_cb), text_view);
+			g_signal_connect (edit->im_context, "delete_surrounding", G_CALLBACK (e_cell_text_delete_surrounding_cb), text_view);
+
+			edit->im_context_signals_registered = TRUE;
+		}
+		gtk_im_context_focus_in (edit->im_context);
+	}
+	
 #if 0
 	if (edit->pointer_in) {
 		if (edit->default_cursor_shown) {
@@ -1193,6 +1167,14 @@ ect_leave_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row, 
 	CellEdit *edit = text_view->edit;
 
 	if (edit) {
+		if (edit->im_context) {
+			gtk_im_context_focus_out (edit->im_context);
+
+			if (edit->im_context_signals_registered) {
+				g_signal_handlers_disconnect_matched (edit->im_context, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, edit);
+				edit->im_context_signals_registered = FALSE;
+			}
+		}
 		ect_stop_editing (text_view, TRUE);
 	} else {
 		/*
