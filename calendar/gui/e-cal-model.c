@@ -2524,6 +2524,19 @@ backend_died_cb (ECal *client, gpointer user_data)
 	e_cal_model_remove_client (model, client);
 }
 
+static gboolean
+wait_open_cb (gpointer data)
+{
+	ECal *client = data;
+
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (E_IS_CAL (client), FALSE);
+
+	e_cal_open_async (client, FALSE);
+
+	return FALSE;
+}
+
 static void
 cal_opened_cb (ECal *client, const GError *error, gpointer user_data)
 {
@@ -2531,9 +2544,12 @@ cal_opened_cb (ECal *client, const GError *error, gpointer user_data)
 	ECalModelClient *client_data;
 
 	if (g_error_matches (error, E_CALENDAR_ERROR, E_CALENDAR_STATUS_BUSY)) {
-		e_cal_open_async (client, FALSE);
+		g_timeout_add (250, wait_open_cb, client);
 		return;
 	}
+
+	/* Stop listening for this calendar to be opened */
+	g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA, 0, 0, NULL, cal_opened_cb, model);
 
 	if (error) {
 		e_cal_model_remove_client (model, client);
@@ -2542,9 +2558,6 @@ cal_opened_cb (ECal *client, const GError *error, gpointer user_data)
 	}
 
 	e_cal_model_update_status_message (model, NULL, -1.0);
-
-	/* Stop listening for this calendar to be opened */
-	g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA, 0, 0, NULL, cal_opened_cb, model);
 
 	client_data = find_client_data (model, client);
 	g_return_if_fail (client_data);
