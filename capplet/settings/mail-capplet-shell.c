@@ -293,20 +293,17 @@ mail_capplet_shell_new (gint socket_id, gboolean just_druid, gboolean main_loop)
 	return GTK_WIDGET (shell);
 }
 
+#define LOCAL_BASE_URI "local:"
 #define PERSONAL_RELATIVE_URI "system"
 
 static void
-setup_abooks ()
+setup_abooks (void)
 {
-	gchar *base_dir, *uri;
 	GSList *groups;
 	ESourceGroup *group;
 	ESourceList *list = NULL;
 	ESourceGroup *on_this_computer = NULL;
 	ESource *personal_source = NULL;
-
-	base_dir = g_build_filename (e_get_user_data_dir (), "addressbook", "local", NULL);
-	uri = g_filename_to_uri (base_dir, NULL, NULL);
 
 	if (!e_book_get_addressbooks (&list, NULL)) {
 		g_warning ("Unable to get books\n");
@@ -317,16 +314,25 @@ setup_abooks ()
 	if (groups) {
 		/* groups are already there, we need to search for things... */
 		GSList *g;
+		gchar *base_dir, *base_uri;
+
+		base_dir = g_build_filename (e_get_user_data_dir (), "addressbook", "local", NULL);
+		base_uri = g_filename_to_uri (base_dir, NULL, NULL);
 
 		for (g = groups; g; g = g->next) {
-
 			group = E_SOURCE_GROUP (g->data);
 
-			if (!on_this_computer && !strcmp (uri, e_source_group_peek_base_uri (group))) {
+			if (strcmp (base_uri, e_source_group_peek_base_uri (group)) == 0)
+				e_source_group_set_base_uri (group, LOCAL_BASE_URI);
+
+			if (!on_this_computer && !strcmp (LOCAL_BASE_URI, e_source_group_peek_base_uri (group))) {
 				on_this_computer = g_object_ref (group);
 				break;
 			}
 		}
+
+		g_free (base_dir);
+		g_free (base_uri);
 	}
 
 	if (on_this_computer) {
@@ -349,7 +355,7 @@ setup_abooks ()
 	}
 	else {
 		/* create the local source group */
-		group = e_source_group_new (_("On This Computer"), uri);
+		group = e_source_group_new (_("On This Computer"), LOCAL_BASE_URI);
 		e_source_list_add_group (list, group, -1);
 
 		on_this_computer = group;
@@ -372,7 +378,5 @@ setup_abooks ()
 
 	e_source_list_sync (list, NULL);
 	g_object_unref (list);
-	g_free (uri);
-	g_free (base_dir);
 }
 
