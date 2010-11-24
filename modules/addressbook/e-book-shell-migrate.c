@@ -66,6 +66,7 @@ typedef struct {
 	GtkWidget *progress;
 } MigrationContext;
 
+#define LOCAL_BASE_URI "local:"
 #define LDAP_BASE_URI "ldap://"
 #define PERSONAL_RELATIVE_URI "system"
 
@@ -77,27 +78,28 @@ create_groups (MigrationContext *context,
 {
 	GSList *groups;
 	ESourceGroup *group;
-	gchar *base_uri, *base_uri_proto;
 
 	*on_this_computer = NULL;
 	*on_ldap_servers = NULL;
 	*personal_source = NULL;
 
-	base_uri = g_build_filename (context->data_dir, "local", NULL);
-
-	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
-
 	groups = e_source_list_peek_groups (context->source_list);
 	if (groups) {
 		/* groups are already there, we need to search for things... */
 		GSList *g;
+		gchar *base_dir, *base_uri;
+
+		base_dir = g_build_filename (context->data_dir, "local", NULL);
+		base_uri = g_filename_to_uri (base_dir, NULL, NULL);
 
 		for (g = groups; g; g = g->next) {
-
 			group = E_SOURCE_GROUP (g->data);
 
+			if (strcmp (base_uri, e_source_group_peek_base_uri (group)) == 0)
+				e_source_group_set_base_uri (group, LOCAL_BASE_URI);
+
 			if (!*on_this_computer &&
-					!strcmp (base_uri_proto,
+					!strcmp (LOCAL_BASE_URI,
 					e_source_group_peek_base_uri (group)))
 				*on_this_computer = g_object_ref (group);
 			else if (!*on_ldap_servers &&
@@ -105,6 +107,9 @@ create_groups (MigrationContext *context,
 					e_source_group_peek_base_uri (group)))
 				*on_ldap_servers = g_object_ref (group);
 		}
+
+		g_free (base_dir);
+		g_free (base_uri);
 	}
 
 	if (*on_this_computer) {
@@ -127,7 +132,7 @@ create_groups (MigrationContext *context,
 	}
 	else {
 		/* create the local source group */
-		group = e_source_group_new (_("On This Computer"), base_uri_proto);
+		group = e_source_group_new (_("On This Computer"), LOCAL_BASE_URI);
 		e_source_list_add_group (context->source_list, group, -1);
 
 		*on_this_computer = group;
@@ -150,9 +155,6 @@ create_groups (MigrationContext *context,
 
 		*on_ldap_servers = group;
 	}
-
-	g_free (base_uri_proto);
-	g_free (base_uri);
 }
 
 static MigrationContext *

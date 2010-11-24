@@ -42,6 +42,7 @@
 #include "calendar/gui/e-cal-event.h"
 #include "shell/e-shell.h"
 
+#define LOCAL_BASE_URI "local:"
 #define WEBCAL_BASE_URI "webcal://"
 #define CONTACTS_BASE_URI "contacts://"
 #define BAD_CONTACTS_BASE_URI "contact://"
@@ -79,8 +80,6 @@ create_calendar_sources (EShellBackend *shell_backend,
 	EShellSettings *shell_settings;
 	GSList *groups;
 	ESourceGroup *group;
-	gchar *base_uri, *base_uri_proto;
-	const gchar *base_dir;
 
 	*on_this_computer = NULL;
 	*on_the_web = NULL;
@@ -90,15 +89,14 @@ create_calendar_sources (EShellBackend *shell_backend,
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	base_dir = e_shell_backend_get_data_dir (shell_backend);
-	base_uri = g_build_filename (base_dir, "local", NULL);
-
-	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
-
 	groups = e_source_list_peek_groups (source_list);
 	if (groups) {
 		/* groups are already there, we need to search for things... */
 		GSList *g;
+		gchar *base_dir, *base_uri;
+
+		base_dir = g_build_filename (e_shell_backend_get_data_dir (shell_backend), "local", NULL);
+		base_uri = g_filename_to_uri (base_dir, NULL, NULL);
 
 		for (g = groups; g; g = g->next) {
 
@@ -108,9 +106,9 @@ create_calendar_sources (EShellBackend *shell_backend,
 				e_source_group_set_base_uri (group, CONTACTS_BASE_URI);
 
 			if (!strcmp (base_uri, e_source_group_peek_base_uri (group)))
-				e_source_group_set_base_uri (group, base_uri_proto);
+				e_source_group_set_base_uri (group, LOCAL_BASE_URI);
 
-			if (!*on_this_computer && !strcmp (base_uri_proto,
+			if (!*on_this_computer && !strcmp (LOCAL_BASE_URI,
 				e_source_group_peek_base_uri (group)))
 				*on_this_computer = g_object_ref (group);
 
@@ -122,6 +120,9 @@ create_calendar_sources (EShellBackend *shell_backend,
 				e_source_group_peek_base_uri (group)))
 				*contacts = g_object_ref (group);
 		}
+
+		g_free (base_dir);
+		g_free (base_uri);
 	}
 
 	if (*on_this_computer) {
@@ -143,7 +144,7 @@ create_calendar_sources (EShellBackend *shell_backend,
 		}
 	} else {
 		/* create the local source group */
-		group = e_source_group_new (_("On This Computer"), base_uri_proto);
+		group = e_source_group_new (_("On This Computer"), LOCAL_BASE_URI);
 		e_source_list_add_group (source_list, group, -1);
 
 		*on_this_computer = group;
@@ -189,9 +190,6 @@ create_calendar_sources (EShellBackend *shell_backend,
 
 		*contacts = group;
 	}
-
-	g_free (base_uri_proto);
-	g_free (base_uri);
 }
 
 gboolean
