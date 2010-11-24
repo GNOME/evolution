@@ -274,6 +274,7 @@ fail:
 	} else if (g_error_matches (
 		error, E_CALENDAR_ERROR, E_CALENDAR_STATUS_BUSY)) {
 		g_clear_error (&error);
+		g_usleep (250000);
 		goto try_again;
 
 	} else {
