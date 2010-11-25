@@ -208,7 +208,7 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 	for (l = std->blist; l != NULL; l = l->next) {
 		GaimBuddy *b = l->data;
 		EBookQuery *query;
-		GList *contacts;
+		GList *contacts = NULL;
 		GError *error = NULL;
 		EContact *c;
 
@@ -219,7 +219,10 @@ bbdb_sync_buddy_list_in_thread (gpointer data)
 
 		/* Look for an exact match full name == buddy alias */
 		query = e_book_query_field_test (E_CONTACT_FULL_NAME, E_BOOK_QUERY_IS, b->alias);
-		e_book_get_contacts (std->book, query, &contacts, NULL);
+		if (!e_book_get_contacts (std->book, query, &contacts, NULL)) {
+			e_book_query_unref (query);
+			continue;
+		}
 		e_book_query_unref (query);
 		if (contacts != NULL) {
 
