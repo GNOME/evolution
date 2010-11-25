@@ -167,6 +167,14 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-search-folder-from-subject")
 #define E_SHELL_WINDOW_ACTION_MAIL_SELECT_ALL(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-select-all")
+#define E_SHELL_WINDOW_ACTION_MAIL_SEND_RECEIVE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-send-receive")
+#define E_SHELL_WINDOW_ACTION_MAIL_SEND_RECEIVE_RECEIVE_ALL(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-send-receive-receive-all")
+#define E_SHELL_WINDOW_ACTION_MAIL_SEND_RECEIVE_SEND_ALL(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-send-receive-send-all")
+#define E_SHELL_WINDOW_ACTION_MAIL_SEND_RECEIVE_SUBMENU(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-send-receive-submenu")
 #define E_SHELL_WINDOW_ACTION_MAIL_SHOW_ALL_HEADERS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-show-all-headers")
 #define E_SHELL_WINDOW_ACTION_MAIL_SHOW_DELETED(window) \

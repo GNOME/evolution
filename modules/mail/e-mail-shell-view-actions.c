@@ -716,6 +716,24 @@ action_mail_label_none_cb (GtkAction *action,
 }
 
 static void
+action_mail_send_receive_cb (GtkAction *action, EMailShellView *mail_shell_view)
+{
+	e_mail_shell_view_send_receive (mail_shell_view, E_MAIL_SEND_RECEIVE_BOTH, NULL);
+}
+
+static void
+action_mail_send_receive_receive_all_cb (GtkAction *action, EMailShellView *mail_shell_view)
+{
+	e_mail_shell_view_send_receive (mail_shell_view, E_MAIL_SEND_RECEIVE_RECEIVE, NULL);
+}
+
+static void
+action_mail_send_receive_send_all_cb (GtkAction *action, EMailShellView *mail_shell_view)
+{
+	e_mail_shell_view_send_receive (mail_shell_view, E_MAIL_SEND_RECEIVE_SEND, NULL);
+}
+
+static void
 action_mail_show_deleted_cb (GtkToggleAction *action,
                              EMailShellView *mail_shell_view)
 {
@@ -1180,6 +1198,34 @@ static GtkActionEntry mail_entries[] = {
 	  N_("Subscribe or unsubscribe to folders on remote servers"),
 	  G_CALLBACK (action_mail_tools_subscriptions_cb) },
 
+	{ "mail-send-receive",
+	  "mail-send-receive",
+	  N_("Send / _Receive"),
+	  "F9",
+	  N_("Send queued items and retrieve new items"),
+	  G_CALLBACK (action_mail_send_receive_cb) },
+
+        { "mail-send-receive-receive-all",
+	  NULL,
+	  N_("R_eceive all"),
+	  NULL,
+	  N_("Receive new items from all accounts"),
+	  G_CALLBACK (action_mail_send_receive_receive_all_cb) },
+
+        { "mail-send-receive-send-all",
+	  "mail-send",
+	  N_("_Send all"),
+	  NULL,
+	  N_("Send queued items in all accounts"),
+	  G_CALLBACK (action_mail_send_receive_send_all_cb) },
+
+        { "mail-send-receive-submenu",
+	  "mail-send-receive",
+	  N_("Send / _Receive"),
+	  NULL,
+	  NULL,
+	  NULL },
+
 	{ "mail-smart-backward",
 	  NULL,
 	  NULL,  /* No menu item; key press only */
@@ -1570,6 +1616,8 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	e_shell_searchbar_set_search_option (
 		searchbar, GTK_RADIO_ACTION (action));
 
+	g_object_set (ACTION (MAIL_SEND_RECEIVE), "is-important", TRUE, NULL);
+
 	/* Bind GObject properties for GConf keys. */
 
 	bridge = gconf_bridge_get ();
@@ -1635,6 +1683,26 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	g_object_bind_property (
 		shell_backend, "busy",
 		ACTION (MAIL_STOP), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		shell, "online",
+		ACTION (MAIL_SEND_RECEIVE), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		shell, "online",
+		ACTION (MAIL_SEND_RECEIVE_RECEIVE_ALL), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		shell, "online",
+		ACTION (MAIL_SEND_RECEIVE_SEND_ALL), "sensitive",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		shell, "online",
+		ACTION (MAIL_SEND_RECEIVE_SUBMENU), "sensitive",
 		G_BINDING_SYNC_CREATE);
 
 	/* Keep the sensitivity of "Create Search Folder from Search"

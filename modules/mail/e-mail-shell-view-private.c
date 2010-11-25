@@ -22,6 +22,7 @@
 #include "e-mail-shell-view-private.h"
 
 #include "widgets/menus/gal-view-factory-etable.h"
+#include "widgets/misc/e-menu-tool-button.h"
 
 #include "e-util/e-util-private.h"
 
@@ -658,6 +659,11 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		G_CALLBACK (e_shell_taskbar_set_message),
 		shell_taskbar, G_CONNECT_SWAPPED);
 
+	g_signal_connect_object (
+		mail_shell_view, "toggled",
+		G_CALLBACK (e_mail_shell_view_update_send_receive_menus),
+		mail_shell_view, G_CONNECT_AFTER | G_CONNECT_SWAPPED);
+
 	/* Need to keep the handler ID so we can disconnect it in
 	 * dispose().  The shell outlives us and we don't want it
 	 * invoking callbacks on finalized shell views. */
@@ -1103,4 +1109,355 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	g_free (title);
 
 	g_string_free (buffer, TRUE);
+}
+
+void
+e_mail_shell_view_send_receive (EMailShellView *mail_shell_view, EMailSendReceiveMode mode, const gchar *account_uid)
+{
+	EMailBackend *backend;
+	EMailSession *session;
+	EShellWindow *shell_window;
+
+	g_return_if_fail (mail_shell_view != NULL);
+
+	shell_window = e_shell_view_get_shell_window (E_SHELL_VIEW (mail_shell_view));
+	backend = E_MAIL_BACKEND (e_shell_view_get_shell_backend (E_SHELL_VIEW (mail_shell_view)));
+	session = e_mail_backend_get_session (backend);
+
+	em_utils_clear_get_password_canceled_accounts_flag ();
+
+	if (!account_uid) {
+		switch (mode) {
+		case E_MAIL_SEND_RECEIVE_BOTH:
+			mail_send_receive (GTK_WINDOW (shell_window), session);
+			break;
+		case E_MAIL_SEND_RECEIVE_RECEIVE:
+			mail_receive (GTK_WINDOW (shell_window), session);
+			break;
+		case E_MAIL_SEND_RECEIVE_SEND:
+			mail_send (session);
+			break;
+		}
+	} else {
+		/* allow only receive on individual accounts */
+		EAccount *account;
+
+		account = e_get_account_by_uid (account_uid);
+		g_return_if_fail (account != NULL);
+
+		if (account->enabled && account->source && account->source->url && *account->source->url)
+			mail_receive_uri (session, account->source->url, account->source->keep_on_server);
+	}
+}
+
+static GtkMenuItem *
+send_receive_find_account_menu_item (GtkMenuShell *menu, EAccount *account)
+{
+	GList *children, *child;
+
+	g_return_val_if_fail (menu != NULL, NULL);
+	g_return_val_if_fail (account != NULL, NULL);
+	g_return_val_if_fail (account->uid != NULL, NULL);
+
+	children = gtk_container_get_children (GTK_CONTAINER (menu));
+
+	for (child = children; child != NULL; child = child->next) {
+		GObject *obj = child->data;
+		const gchar *uid;
+
+		if (!obj)
+			continue;
+
+		uid = g_object_get_data (obj, "e-account-uid");
+		if (!uid)
+			continue;
+
+		if (g_strcmp0 (uid, account->uid) == 0) {
+			g_list_free (children);
+
+			return GTK_MENU_ITEM (obj);
+		}
+	}
+
+	g_list_free (children);
+
+	return NULL;
+}
+
+static gint
+send_receive_get_account_index (EAccount *account)
+{
+	gint res;
+	EAccountList *accounts;
+	EIterator *iterator;
+
+	g_return_val_if_fail (account != NULL, -1);
+
+	accounts = e_get_account_list ();
+	g_return_val_if_fail (accounts != NULL, -1);
+
+	res = 0;
+	for (iterator = e_list_get_iterator (E_LIST (accounts));
+	     e_iterator_is_valid (iterator);
+	     e_iterator_next (iterator)) {
+		EAccount *acc = (EAccount *) e_iterator_get (iterator);
+		const gchar *name;
+
+		if (!acc || !acc->enabled || !acc->source || !acc->source->url || !*acc->source->url)
+			continue;
+
+		name = e_account_get_string (acc, E_ACCOUNT_NAME);
+		if (!name || !*name || !acc->uid || !*acc->uid)
+			continue;
+
+		if (g_strcmp0 (acc->uid, account->uid) == 0) {
+			g_object_unref (iterator);
+			return res;
+		}
+
+		res++;
+	}
+
+	return -1;
+}
+
+static void
+send_receive_account_item_activate_cb (GtkMenuItem *item, GtkMenuShell *menu)
+{
+	EMailShellView *mail_shell_view;
+	const gchar *account_uid;
+
+	g_return_if_fail (item != NULL);
+	g_return_if_fail (menu != NULL);
+
+	mail_shell_view = g_object_get_data (G_OBJECT (menu), "mail-shell-view");
+	g_return_if_fail (mail_shell_view != NULL);
+
+	account_uid = g_object_get_data (G_OBJECT (item), "e-account-uid");
+	g_return_if_fail (account_uid != NULL);
+
+	e_mail_shell_view_send_receive (mail_shell_view, E_MAIL_SEND_RECEIVE_RECEIVE, account_uid);
+}
+
+static void
+send_receive_add_to_menu (GtkMenuShell *menu, EAccount *account, gint insert_index)
+{
+	const gchar *name;
+	GtkWidget *item;
+
+	g_return_if_fail (menu != NULL);
+	g_return_if_fail (account != NULL);
+
+	if (send_receive_find_account_menu_item (menu, account) != NULL)
+		return;
+
+	if (!account->source || !account->source->url || !*account->source->url)
+		return;
+
+	name = e_account_get_string (account, E_ACCOUNT_NAME);
+	if (!name || !*name || !account->uid || !*account->uid)
+		return;
+
+	item = gtk_menu_item_new_with_label (name);
+	gtk_widget_show (item);
+	g_object_set_data_full (G_OBJECT (item), "e-account-uid", g_strdup (account->uid), g_free);
+	g_signal_connect (item, "activate", G_CALLBACK (send_receive_account_item_activate_cb), menu);
+
+	/* it's index between accounts, not in the menu */
+	if (insert_index < 0)
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	else
+		gtk_menu_shell_insert (GTK_MENU_SHELL (menu), item, insert_index + 4);
+}
+
+static void
+send_receive_remove_from_menu (GtkMenuShell *menu, EAccount *account)
+{
+	GtkMenuItem *item;
+
+	g_return_if_fail (menu != NULL);
+	g_return_if_fail (account != NULL);
+
+	item = send_receive_find_account_menu_item (menu, account);
+	if (!item)
+		return;
+
+	gtk_container_remove (GTK_CONTAINER (menu), GTK_WIDGET (item));
+}
+
+static void
+send_receive_menu_account_added_cb (EAccountList *list, EAccount *account, GtkMenuShell *menu)
+{
+	g_return_if_fail (account != NULL);
+	g_return_if_fail (menu != NULL);
+
+	if (account->enabled)
+		send_receive_add_to_menu (menu, account, send_receive_get_account_index (account));
+}
+
+static void
+send_receive_menu_account_changed_cb (EAccountList *list, EAccount *account, GtkMenuShell *menu)
+{
+	g_return_if_fail (account != NULL);
+	g_return_if_fail (menu != NULL);
+
+	if (account->enabled) {
+		GtkMenuItem *item = send_receive_find_account_menu_item (menu, account);
+
+		if (item) {
+			if (!account->source || !account->source->url || !*account->source->url) {
+				send_receive_remove_from_menu (menu, account);
+			} else {
+				const gchar *name = e_account_get_string (account, E_ACCOUNT_NAME);
+				if (name && *name)
+					gtk_menu_item_set_label (item, name);
+			}
+		} else {
+			send_receive_add_to_menu (menu, account, send_receive_get_account_index (account));
+		}
+	} else {
+		send_receive_remove_from_menu (menu, account);
+	}
+}
+
+static void
+send_receive_menu_account_removed_cb (EAccountList *list, EAccount *account, GtkMenuShell *menu)
+{
+	g_return_if_fail (account != NULL);
+	g_return_if_fail (menu != NULL);
+
+	send_receive_remove_from_menu (menu, account);
+}
+
+static void
+menu_weak_ref_cb (gpointer accounts, GObject *freed_menu)
+{
+	g_return_if_fail (accounts != NULL);
+
+	g_signal_handlers_disconnect_matched (accounts, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, freed_menu);
+}
+
+static GtkWidget *
+create_send_receive_submenu (EMailShellView *mail_shell_view)
+{
+	EShellWindow *shell_window;
+	EAccountList *accounts;
+	GtkWidget *menu;
+	GtkAccelGroup *accel_group;
+	GtkUIManager *ui_manager;
+	GtkAction *action;
+
+	g_return_val_if_fail (mail_shell_view != NULL, NULL);
+
+	shell_window = e_shell_view_get_shell_window (E_SHELL_VIEW (mail_shell_view));
+
+	accounts = e_get_account_list ();
+	menu = gtk_menu_new ();
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
+
+	action = e_shell_window_get_action (shell_window, "mail-send-receive");
+	gtk_action_set_accel_group (action, accel_group);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_action_create_menu_item (action));
+
+	action = e_shell_window_get_action (shell_window, "mail-send-receive-receive-all");
+	gtk_action_set_accel_group (action, accel_group);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_action_create_menu_item (action));
+
+	action = e_shell_window_get_action (shell_window, "mail-send-receive-send-all");
+	gtk_action_set_accel_group (action, accel_group);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_action_create_menu_item (action));
+
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_separator_menu_item_new ());
+
+	if (accounts) {
+		EIterator *iterator;
+
+		for (iterator = e_list_get_iterator (E_LIST (accounts));
+		     e_iterator_is_valid (iterator);
+		     e_iterator_next (iterator)) {
+			EAccount *account = (EAccount *) e_iterator_get (iterator);
+
+			if (!account || !account->enabled)
+				continue;
+
+			send_receive_add_to_menu (GTK_MENU_SHELL (menu), account, -1);
+		}
+
+		g_signal_connect (accounts, "account-added", G_CALLBACK (send_receive_menu_account_added_cb), menu);
+		g_signal_connect (accounts, "account-changed", G_CALLBACK (send_receive_menu_account_changed_cb), menu);
+		g_signal_connect (accounts, "account-removed", G_CALLBACK (send_receive_menu_account_removed_cb), menu);
+
+		g_object_weak_ref (G_OBJECT (menu), menu_weak_ref_cb, accounts);
+	}
+
+	gtk_widget_show_all (menu);
+
+	g_object_set_data (G_OBJECT (menu), "mail-shell-view", mail_shell_view);
+
+	return menu;
+}
+
+void
+e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
+{
+	EMailShellViewPrivate *priv;
+	EShellWindow *shell_window;
+	GtkWidget *widget, *toolbar;
+	GtkToolItem *tool_item;
+	gint index;
+
+	g_return_if_fail (mail_shell_view != NULL);
+
+	priv = E_MAIL_SHELL_VIEW_GET_PRIVATE (mail_shell_view);
+	g_return_if_fail (priv != NULL);
+
+	if (!e_shell_view_is_active (E_SHELL_VIEW (mail_shell_view))) {
+		if (priv->send_receive_tool_item) {
+			shell_window = e_shell_view_get_shell_window (E_SHELL_VIEW (mail_shell_view));
+
+			toolbar = e_shell_window_get_managed_widget (shell_window, "/main-toolbar");
+			g_return_if_fail (toolbar != NULL);
+
+			gtk_container_remove (GTK_CONTAINER (toolbar), GTK_WIDGET (priv->send_receive_tool_item));
+			gtk_container_remove (GTK_CONTAINER (toolbar), GTK_WIDGET (priv->send_receive_tool_separator));
+
+			priv->send_receive_tool_item = NULL;
+			priv->send_receive_tool_separator = NULL;
+		}
+
+		return;
+	}
+
+	shell_window = e_shell_view_get_shell_window (E_SHELL_VIEW (mail_shell_view));
+
+	widget = e_shell_window_get_managed_widget (shell_window, "/main-menu/file-menu/mail-send-receiver/mail-send-receive-submenu");
+	if (widget)
+		gtk_menu_item_set_submenu (GTK_MENU_ITEM (widget), create_send_receive_submenu (mail_shell_view));
+
+	toolbar = e_shell_window_get_managed_widget (shell_window, "/main-toolbar");
+	g_return_if_fail (toolbar != NULL);
+
+	widget = e_shell_window_get_managed_widget (shell_window, "/main-toolbar/toolbar-actions/mail-send-receiver");
+	g_return_if_fail (widget != NULL);
+
+	index = gtk_toolbar_get_item_index (GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (widget));
+
+	tool_item = gtk_separator_tool_item_new ();
+	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), tool_item, index);
+	gtk_widget_show (GTK_WIDGET (tool_item));
+	priv->send_receive_tool_separator = tool_item;
+
+	tool_item = GTK_TOOL_ITEM (e_menu_tool_button_new (_("Send / Receive")));
+	gtk_tool_item_set_is_important (tool_item, TRUE);
+	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), tool_item, index);
+	gtk_widget_show (GTK_WIDGET (tool_item));
+	priv->send_receive_tool_item = tool_item;
+
+	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (tool_item), create_send_receive_submenu (mail_shell_view));
+
+	g_object_bind_property (
+		ACTION (MAIL_SEND_RECEIVE), "sensitive",
+		tool_item, "sensitive",
+		G_BINDING_SYNC_CREATE);
 }

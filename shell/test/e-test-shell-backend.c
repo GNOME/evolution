@@ -101,13 +101,6 @@ test_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 }
 
 static void
-test_shell_backend_send_receive_cb (EShellBackend *shell_backend,
-                                    GtkWindow *parent_window)
-{
-	g_debug ("%s (window=%p)", G_STRFUNC, parent_window);
-}
-
-static void
 test_shell_backend_window_created_cb (EShellBackend *shell_backend,
                                       GtkWindow *window)
 {
@@ -147,11 +140,6 @@ test_shell_backend_constructed (GObject *object)
 	g_signal_connect_swapped (
 		shell, "handle-uri",
 		G_CALLBACK (test_shell_backend_handle_uri_cb),
-		shell_backend);
-
-	g_signal_connect_swapped (
-		shell, "send-receive",
-		G_CALLBACK (test_shell_backend_send_receive_cb),
 		shell_backend);
 
 	g_signal_connect_swapped (

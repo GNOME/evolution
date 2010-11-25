@@ -96,7 +96,6 @@ enum {
 	PREPARE_FOR_ONLINE,
 	PREPARE_FOR_QUIT,
 	QUIT_REQUESTED,
-	SEND_RECEIVE,
 	WINDOW_CREATED,
 	WINDOW_DESTROYED,
 	LAST_SIGNAL
@@ -1109,24 +1108,6 @@ e_shell_class_init (EShellClass *class)
 		E_TYPE_SHELL_QUIT_REASON);
 
 	/**
-	 * EShell::send-receive
-	 * @shell: the #EShell which emitted the signal
-	 * @parent: a parent #GtkWindow
-	 *
-	 * Emitted when the user chooses the "Send / Receive" action.
-	 * The parent window can be used for showing transient windows.
-	 **/
-	signals[SEND_RECEIVE] = g_signal_new (
-		"send-receive",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (EShellClass, send_receive),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__OBJECT,
-		G_TYPE_NONE, 1,
-		GTK_TYPE_WINDOW);
-
-	/**
 	 * EShell::window-created
 	 * @shell: the #EShell which emitted the signal
 	 * @window: the newly created #GtkWindow
@@ -1686,23 +1667,6 @@ e_shell_get_active_window (EShell *shell)
 	g_return_val_if_fail (GTK_IS_WINDOW (watched_windows->data), NULL);
 
 	return GTK_WINDOW (watched_windows->data);
-}
-
-/**
- * e_shell_send_receive:
- * @shell: an #EShell
- * @parent: the parent #GtkWindow
- *
- * Emits the #EShell::send-receive signal.
- **/
-void
-e_shell_send_receive (EShell *shell,
-                      GtkWindow *parent)
-{
-	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (GTK_IS_WINDOW (parent));
-
-	g_signal_emit (shell, signals[SEND_RECEIVE], 0, parent);
 }
 
 /**

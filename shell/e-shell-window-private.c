@@ -390,13 +390,6 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 
 	/* Bind GObject properties to GObject properties. */
 
-	action = ACTION (SEND_RECEIVE);
-
-	g_object_bind_property (
-		shell, "online",
-		action, "sensitive",
-		G_BINDING_SYNC_CREATE);
-
 	action = ACTION (WORK_OFFLINE);
 
 	g_object_bind_property (

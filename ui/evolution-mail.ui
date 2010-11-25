@@ -2,7 +2,7 @@
   <menubar name='main-menu'>
     <menu action='file-menu'>
       <placeholder name='mail-send-receiver'>
-        <menuitem action='send-receive'/>
+        <menuitem action='mail-send-receive-submenu'/>
       </placeholder>
       <placeholder name='long-running-actions'>
         <menuitem action='mail-global-expunge'/>
@@ -62,7 +62,7 @@
   </menubar>
   <toolbar name='main-toolbar'>
     <placeholder name='toolbar-actions'>
-      <toolitem action='send-receive'/>
+      <placeholder name='mail-send-receiver'/>
       <separator/>
 #if EXPRESS
       <toolitem action='new-addressbook-window'/>

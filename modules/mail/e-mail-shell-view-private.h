@@ -131,6 +131,12 @@ enum {
 	MAIL_SCOPE_ALL_ACCOUNTS
 };
 
+typedef enum  {
+	E_MAIL_SEND_RECEIVE_BOTH,
+	E_MAIL_SEND_RECEIVE_RECEIVE,
+	E_MAIL_SEND_RECEIVE_SEND
+} EMailSendReceiveMode;
+
 struct _EMailShellViewPrivate {
 
 	/*** Other Stuff ***/
@@ -156,6 +162,9 @@ struct _EMailShellViewPrivate {
 	GCancellable *search_account_cancel;
 
 	guint show_deleted : 1;
+
+	GtkToolItem *send_receive_tool_item;
+	GtkToolItem *send_receive_tool_separator;
 };
 
 void		e_mail_shell_view_private_init
@@ -185,6 +194,12 @@ void		e_mail_shell_view_update_popup_labels
 void		e_mail_shell_view_update_search_filter
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_update_sidebar
+					(EMailShellView *mail_shell_view);
+void		e_mail_shell_view_send_receive
+					(EMailShellView *mail_shell_view,
+					 EMailSendReceiveMode mode,
+					 const gchar *account_uid);
+void		e_mail_shell_view_update_send_receive_menus
 					(EMailShellView *mail_shell_view);
 
 G_END_DECLS

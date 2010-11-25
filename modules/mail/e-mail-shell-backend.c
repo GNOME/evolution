@@ -367,21 +367,6 @@ mail_shell_backend_prepare_for_quit_cb (EShell *shell,
 }
 
 static void
-mail_shell_backend_send_receive_cb (EShell *shell,
-                                    GtkWindow *parent,
-                                    EShellBackend *shell_backend)
-{
-	EMailBackend *backend;
-	EMailSession *session;
-
-	backend = E_MAIL_BACKEND (shell_backend);
-	session = e_mail_backend_get_session (backend);
-
-	em_utils_clear_get_password_canceled_accounts_flag ();
-	mail_send_receive (parent, session);
-}
-
-static void
 mail_shell_backend_window_weak_notify_cb (EShell *shell,
                                           GObject *where_the_object_was)
 {
@@ -477,11 +462,6 @@ mail_shell_backend_constructed (GObject *object)
 	g_signal_connect (
 		shell, "prepare-for-quit",
 		G_CALLBACK (mail_shell_backend_prepare_for_quit_cb),
-		shell_backend);
-
-	g_signal_connect (
-		shell, "send-receive",
-		G_CALLBACK (mail_shell_backend_send_receive_cb),
 		shell_backend);
 
 	g_signal_connect (

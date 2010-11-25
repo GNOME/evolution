@@ -409,7 +409,8 @@ build_dialog (GtkWindow *parent,
               EMailSession *session,
               EAccountList *accounts,
               CamelFolder *outbox,
-              const gchar *destination)
+              const gchar *destination,
+	      gboolean allow_send)
 {
 	GtkDialog *gd;
 	GtkWidget *table;
@@ -534,7 +535,7 @@ build_dialog (GtkWindow *parent,
 			info->uri = g_strdup (source->url);
 			info->keep_on_server = source->keep_on_server;
 			info->cancellable = camel_operation_new ();
-			info->state = SEND_ACTIVE;
+			info->state = allow_send ? SEND_ACTIVE : SEND_COMPLETE;
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 
 			g_signal_connect (
@@ -612,7 +613,7 @@ build_dialog (GtkWindow *parent,
 		(EEventTarget *) target);
 
 	/* Skip displaying the SMTP row if we've got no outbox, destination or unsent mails */
-	if (outbox && destination
+	if (allow_send && outbox && destination
 	 && (camel_folder_get_message_count (outbox) -
 		camel_folder_get_deleted_message_count (outbox)) != 0) {
 		info = g_hash_table_lookup (data->active, SEND_URI_KEY);
@@ -1009,9 +1010,8 @@ receive_update_got_store (gchar *uri, CamelStore *store, gpointer data)
 	}
 }
 
-GtkWidget *
-mail_send_receive (GtkWindow *parent,
-                   EMailSession *session)
+static GtkWidget *
+send_receive (GtkWindow *parent, EMailSession *session, gboolean allow_send)
 {
 	CamelFolder *local_outbox;
 	struct _send_data *data;
@@ -1038,7 +1038,7 @@ mail_send_receive (GtkWindow *parent,
 	local_outbox = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
 	data = build_dialog (
 		parent, session, accounts,
-		local_outbox, account->transport->url);
+		local_outbox, account->transport->url, allow_send);
 	scan = data->infos;
 	while (scan) {
 		struct _send_info *info = scan->data;
@@ -1076,6 +1076,18 @@ mail_send_receive (GtkWindow *parent,
 	}
 
 	return send_recv_dialog;
+}
+
+GtkWidget *
+mail_send_receive (GtkWindow *parent, EMailSession *session)
+{
+	return send_receive (parent, session, TRUE);
+}
+
+GtkWidget *
+mail_receive (GtkWindow *parent, EMailSession *session)
+{
+	return send_receive (parent, session, FALSE);
 }
 
 struct _auto_data {
