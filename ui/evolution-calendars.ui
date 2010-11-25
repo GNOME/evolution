@@ -1,11 +1,6 @@
 <ui>
   <menubar name='main-menu'>
     <menu action='file-menu'>
-      <placeholder name='mail-send-receiver'>
-#if !EXPRESS
-        <menuitem action='send-receive'/>
-#endif
-      </placeholder>
       <placeholder name='file-actions'>
         <menuitem action='event-open'/>
       </placeholder>
@@ -36,8 +31,6 @@
   </menubar>
   <toolbar name='main-toolbar'>
 #if !EXPRESS
-    <toolitem action='send-receive'/>
-    <separator/>
     <toolitem action='calendar-print'/>
     <toolitem action='delete-selection'/>
     <separator/>

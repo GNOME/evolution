@@ -106,8 +106,6 @@ struct _EShellClass {
 						 EActivity *activity);
 	void		(*quit_requested)	(EShell *shell,
 						 EShellQuitReason reason);
-	void		(*send_receive)		(EShell *shell,
-						 GtkWindow *parent);
 	void		(*window_created)	(EShell *shell,
 						 GtkWindow *window);
 	void		(*window_destroyed)	(EShell *shell);
@@ -134,8 +132,6 @@ void		e_shell_watch_window		(EShell *shell,
 						 GtkWindow *window);
 GList *		e_shell_get_watched_windows	(EShell *shell);
 GtkWindow *     e_shell_get_active_window	(EShell *shell);
-void		e_shell_send_receive		(EShell *shell,
-						 GtkWindow *parent);
 gboolean	e_shell_get_meego_mode		(EShell *shell);
 gboolean	e_shell_get_express_mode	(EShell *shell);
 gboolean	e_shell_get_small_screen_mode	(EShell *shell);

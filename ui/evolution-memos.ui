@@ -1,11 +1,6 @@
 <ui>
   <menubar name='main-menu'>
     <menu action='file-menu'>
-      <placeholder name='mail-send-receiver'>
-#if !EXPRESS
-        <menuitem action='send-receive'/>
-#endif
-      </placeholder>
       <placeholder name='file-actions'>
         <menuitem action='memo-open'/>
       </placeholder>
@@ -34,10 +29,6 @@
     </menu>
   </menubar>
   <toolbar name='main-toolbar'>
-#if !EXPRESS
-    <toolitem action='send-receive'/>
-    <separator/>
-#endif
     <toolitem action='cut-clipboard'/>
     <toolitem action='copy-clipboard'/>
     <toolitem action='paste-clipboard'/>

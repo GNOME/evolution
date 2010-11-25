@@ -33,6 +33,9 @@ G_BEGIN_DECLS
 GtkWidget *	mail_send_receive		(GtkWindow *parent,
 						 EMailSession *session);
 
+GtkWidget *	mail_receive			(GtkWindow *parent,
+						 EMailSession *session);
+
 /* receive a single uri */
 void		mail_receive_uri		(EMailSession *session,
 						 const gchar *uri,

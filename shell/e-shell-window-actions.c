@@ -1153,24 +1153,6 @@ action_search_save_cb (GtkAction *action,
 }
 
 /**
- * E_SHELL_WINDOW_ACTION_SEND_RECEIVE:
- * @window: an #EShellWindow
- *
- * Activation of this action opens the Send &amp; Receive Mail dialog.
- *
- * Main menu item: File -> Send / Receive
- **/
-static void
-action_send_receive_cb (GtkAction *action,
-                        EShellWindow *shell_window)
-{
-	EShell *shell;
-
-	shell = e_shell_window_get_shell (shell_window);
-	e_shell_send_receive (shell, GTK_WINDOW (shell_window));
-}
-
-/**
  * E_SHELL_WINDOW_ACTION_SHOW_SIDEBAR:
  * @window: an #EShellWindow
  *
@@ -1571,13 +1553,6 @@ static GtkActionEntry shell_entries[] = {
 	  N_("Select all text"),
 	  NULL },  /* Handled by EFocusTracker */
 
-	{ "send-receive",
-	  "mail-send-receive",
-	  N_("Send / _Receive"),
-	  "F9",
-	  N_("Send queued items and retrieve new items"),
-	  G_CALLBACK (action_send_receive_cb) },
-
 	{ "submit-bug",
 	  NULL,
 	  N_("Submit _Bug Report..."),
@@ -1932,8 +1907,6 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	/* Fine tuning. */
 
 	gtk_action_set_sensitive (ACTION (SEARCH_QUICK), FALSE);
-
-	g_object_set (ACTION (SEND_RECEIVE), "is-important", TRUE, NULL);
 
 	g_object_bind_property (
 		shell_window, "sidebar-visible",
