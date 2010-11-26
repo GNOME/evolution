@@ -22,6 +22,10 @@
           mime_type="text/x-vcard"
           format="org_gnome_vcard_inline_format"
           flags="inline_disposition"/>
+        <item
+          mime_type="text/directory"
+          format="org_gnome_vcard_inline_format"
+          flags="inline_disposition"/>
       </group>
     </hook>
 
