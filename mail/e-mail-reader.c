@@ -2950,6 +2950,8 @@ mail_reader_update_actions (EMailReader *reader,
 	gboolean selection_has_unread_messages;
 	gboolean selection_is_mailing_list;
 	gboolean single_message_selected;
+	gboolean first_message_selected = FALSE;
+	gboolean last_message_selected = FALSE;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
@@ -3002,6 +3004,24 @@ mail_reader_update_actions (EMailReader *reader,
 
 	any_messages_selected =
 		(single_message_selected || multiple_messages_selected);
+
+	if (any_messages_selected) {
+		MessageList *message_list;
+		gint row = -1, count = -1;
+		ETreeTableAdapter *etta;
+		ETreePath node;
+
+		message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+		etta = e_tree_get_table_adapter (E_TREE (message_list));
+
+		if (message_list->cursor_uid != NULL && (node = g_hash_table_lookup (message_list->uid_nodemap, message_list->cursor_uid)) != NULL) {
+			row = e_tree_table_adapter_row_of_node (etta, node);
+			count = e_table_model_row_count (E_TABLE_MODEL (etta));
+		}
+
+		first_message_selected = row <= 0;
+		last_message_selected = row < 0 || row + 1 >= count;
+	}
 
 	action_name = "mail-add-sender";
 	sensitive = single_message_selected;
@@ -3185,37 +3205,42 @@ mail_reader_update_actions (EMailReader *reader,
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-next";
-	sensitive = any_messages_selected;
+	sensitive = any_messages_selected && !last_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-next-important";
-	sensitive = single_message_selected;
+	sensitive = single_message_selected && !last_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-next-thread";
-	sensitive = single_message_selected;
+	sensitive = single_message_selected && !last_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-next-unread";
-	sensitive = any_messages_selected;
+	sensitive = any_messages_selected && !last_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-previous";
-	sensitive = any_messages_selected;
+	sensitive = any_messages_selected && !first_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-previous-important";
-	sensitive = single_message_selected;
+	sensitive = single_message_selected && !first_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-previous-unread";
-	sensitive = any_messages_selected;
+	sensitive = any_messages_selected && !first_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-previous-thread";
+	sensitive = any_messages_selected && !first_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
