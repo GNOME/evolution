@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2010-11-18 12:37+0000\n"
-"PO-Revision-Date: 2010-11-21 10:42+0200\n"
+"PO-Revision-Date: 2010-11-27 12:08+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -1493,11 +1493,10 @@ msgstr "Kirjeldus puudub."
 msgid "No location information available."
 msgstr "Asukoha kohta andmed puuduvad."
 
-#, fuzzy, c-format
-#| msgid "You have %d alarms"
+#, c-format
 msgid "You have %d alarm"
 msgid_plural "You have %d alarms"
-msgstr[0] "Sul on %d alarmi"
+msgstr[0] "Sul on %d alarm"
 msgstr[1] "Sul on %d alarmi"
 
 msgid "Warning"
