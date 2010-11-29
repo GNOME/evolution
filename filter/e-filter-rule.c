@@ -230,12 +230,14 @@ do_grab_focus_cb (GtkWidget *widget,
 {
 	gboolean *done = (gboolean *) data;
 
-	if (*done)
+	if (*done || !widget)
 		return;
 
-	if (widget && gtk_widget_get_can_focus (widget)) {
+	if (gtk_widget_get_can_focus (widget) || GTK_IS_COMBO_BOX (widget)) {
 		*done = TRUE;
 		gtk_widget_grab_focus (widget);
+	} else if (GTK_IS_CONTAINER (widget)) {
+		gtk_container_foreach (GTK_CONTAINER (widget), do_grab_focus_cb, done);
 	}
 }
 
