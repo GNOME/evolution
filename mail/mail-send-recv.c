@@ -1252,7 +1252,13 @@ mail_autoreceive_init (EMailBackend *backend)
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
-	auto_online (shell);
+	if (e_shell_settings_get_boolean (e_shell_get_shell_settings (shell), "mail-check-on-start")) {
+		auto_online (shell);
+
+		/* also flush outbox on start */
+		if (e_shell_get_online (shell))
+			mail_send (session);
+	}
 
 	g_signal_connect (
 		shell, "notify::online",

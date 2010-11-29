@@ -109,6 +109,10 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 		"/apps/evolution/mail/junk/check_incoming");
 
 	e_shell_settings_install_property_for_key (
+		"mail-check-on-start",
+		"/apps/evolution/mail/send_recv_on_start");
+
+	e_shell_settings_install_property_for_key (
 		"mail-citation-color",
 		"/apps/evolution/mail/display/citation_colour");
 
