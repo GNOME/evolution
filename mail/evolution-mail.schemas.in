@@ -1556,6 +1556,21 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/send_recv_on_start</key>
+      <applyto>/apps/evolution/mail/send_recv_on_start</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Check for new messages on start</short>
+        <long>
+          Whether check for new messages when Evolution is started.
+          This includes also sending messages from Outbox.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/send_recv_height</key>
       <applyto>/apps/evolution/mail/send_recv_height</applyto>
       <owner>evolution-mail</owner>
