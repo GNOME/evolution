@@ -1,3 +1,44 @@
+Evolution 2.91.3 2010-11-29
+---------------------------
+Bug Fixes:
+	Revert certain parts from commit for bug #635738 (Milan Crha)
+	Bug #635828 - Do not send meeting mails with no recipient (Milan Crha)
+	Bug #635738 - Sanitize Previous/Next buttons when not usable (Milan Crha)
+	Bug #634387 - Crash in bbdb_sync_buddy_list_in_thread (Milan Crha)
+	Bug #207580 - Allow new mail check on individual accounts (Milan Crha)
+	Bug #635673 - Stack overflow when opening slow calendar (Milan Crha)
+	Bug #632962 - Duplicate "On this computer" sources after update (Milan Crha)
+	Bug #371705 - Calendar's day view does not reset its IM context (Milan Crha)
+	Bug #635087 - Leftover files after migration of config/data/cache to XDG directories (Mathieu Trudel-Lapierre)
+	Bug #633783 - Folder->Expunge enabled when no folder selected (Milan Crha)
+	Bug #633779 - GtkComboBoxText issues (Milan Crha)
+	Bug #633774 - Headers are gone in grouped view (Vibha Yadav)
+	Bug #632781 - Cannot disable search folders (Milan Crha)
+	Bug #632683 - Remove-duplicates should work on selection (Milan Crha)
+	Bug #632293 - Do not add POP accounts into folder tree (Milan Crha)
+	Bug #632676 - Only "Checking for new mail" in status bar and nothing else (Milan Crha)
+	Bug #632671 - "Search interrupted" status message forever (Milan Crha)
+	Bug #632176 - Force user name on Google calendar/address book (Milan Crha)
+
+Miscellaneous Fixes:
+	[vCard-inline] Check also text/directory parts (Milan Crha)
+	Reset IM context when entering ECellText editing (Milan Crha)
+	Maildir migration: allow subfolders for Inbox (Chenthill Palanisamy)
+	Migrate the local store from mbox to maildir format (Chenthill Palanisamy)
+	Fix windows build of backup-restore plugin (Fridrich Štrba)
+	Drop accessibility support for ECellText. (Matthew Barnes)
+	Workaround crash when pasting nothing into html message composer (Milan Crha)
+	Use gtk_paned_new() instead gtk_[v|h]paned_new() (Javier Jardón)
+
+Translations:
+	Ville-Pekka Vainio (fi)
+	Gheyret T.Kenji (ug)
+	Ivar Smolin (et)
+	Jorge González (es)
+	Fran Diéguez (gl)
+	Marcos Lans (gl)
+	Kjartan Maraas (nn)
+
 Evolution 2.91.2 2010-11-08
 ---------------------------
 
