@@ -315,17 +315,17 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 	gint sub_index,row_combo,column_combo;
 	gint header_section_id,sub_type_index,row,column;
 	gint i;
-	gchar *str;
-	static const gchar *security_field = N_("Security:");
+	const gchar *str;
+	static const gchar *security_field = NC_("email-custom-header-Security", "Security:");
 	static struct _security_values {
 		const gchar *value, *str;
 	} security_values[] = {
-		{ "Personal", N_("Personal") } ,
-		{ "Unclassified", N_("Unclassified") },
-		{ "Protected", N_("Protected") },
-		{ "InConfidence", N_("Confidential") },
-		{ "Secret", N_("Secret") },
-		{ "Topsecret", N_("Top secret") },
+		{ "Personal",     NC_("email-custom-header-Security", "Personal") } ,
+		{ "Unclassified", NC_("email-custom-header-Security", "Unclassified") },
+		{ "Protected",    NC_("email-custom-header-Security", "Protected") },
+		{ "InConfidence", NC_("email-custom-header-Security", "Confidential") },
+		{ "Secret",       NC_("email-custom-header-Security", "Secret") },
+		{ "Topsecret",    NC_("email-custom-header-Security", "Top secret") },
 		{ NULL, NULL }
 	};
 
@@ -340,7 +340,11 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 		temp_header_ptr = &g_array_index (priv->email_custom_header_details, EmailCustomHeaderDetails,header_section_id);
                 str = (temp_header_ptr->header_type_value)->str;
                 if (strcmp (str, security_field) == 0) {
-			str = _(security_field);
+			gchar *tmp = g_strconcat ("email-custom-header-Security" "\004", security_field, NULL);
+
+			str = g_dpgettext (NULL, tmp, strlen ("email-custom-header-Security") + 1);
+
+			g_free (tmp);
                 }
 		gtk_label_set_markup (GTK_LABEL (priv->header_type_name_label), str);
 
@@ -369,7 +373,11 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 			str = (temp_header_value_ptr->sub_header_string_value)->str;
 			for (i = 0; security_values[i].value != NULL; i++) {
 				if (strcmp (str, security_values[i].value) == 0) {
-					str = _(security_values[i].str);
+					gchar *tmp = g_strconcat ("email-custom-header-Security" "\004", security_values[i].str, NULL);
+
+					str = g_dpgettext (NULL, tmp, strlen ("email-custom-header-Security") + 1);
+
+					g_free (tmp);
 					break;
 				}
 			}

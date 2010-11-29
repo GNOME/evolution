@@ -87,6 +87,7 @@
 
  <error id="backend-died" type="error">
   <_primary>The Evolution address book has quit unexpectedly.</_primary>
+  <!-- Translators: {0} is replaced with an address book name which will not be available -->
   <_secondary>Your contacts for {0} will not be available until Evolution is restarted.</_secondary>
  </error>
 
