@@ -1209,6 +1209,8 @@ vfolder_edit (EShellView *shell_view)
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
 
+	vfolder_load_storage (backend);
+
 	dialog = em_vfolder_editor_new (context);
 	gtk_window_set_title (
 		GTK_WINDOW (dialog), _("Search Folders"));
