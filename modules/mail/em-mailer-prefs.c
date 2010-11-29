@@ -850,6 +850,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 
 	widget = e_charset_combo_box_new ();
 	container = e_builder_get_widget (prefs->builder, "hboxDefaultCharset");
+	gtk_label_set_mnemonic_widget (GTK_LABEL (e_builder_get_widget (prefs->builder, "lblDefaultCharset")), widget);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 	g_object_bind_property (
