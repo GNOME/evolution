@@ -1863,7 +1863,7 @@ alarm_queue_init (gpointer data)
 	queue_midnight_refresh ();
 
 	if (config_data_get_last_notification_time (NULL) == -1) {
-		time_t tmval = time (NULL);
+		time_t tmval = time_day_begin (time (NULL));
 		d(printf("%s:%d (alarm_queue_init) - Setting last notification time to %s\n",__FILE__, __LINE__, e_ctime(&tmval)));
 		config_data_set_last_notification_time (NULL, tmval);
 	}
