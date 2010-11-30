@@ -336,7 +336,7 @@ config_data_get_last_notification_time (ECal *cal)
 		return val;
 	}
 
-	return time (NULL);
+	return -1;
 }
 
 /**
