@@ -1571,6 +1571,23 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/send_recv_all_on_start</key>
+      <applyto>/apps/evolution/mail/send_recv_all_on_start</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Check for new messages in all active accounts</short>
+        <long>
+          Whether check for new messages in all active accounts regardless
+	  of the account "Check for new messages every X minutes" option
+	  when Evolution is started. This option is used only together
+	  with 'send_recv_on_start' option.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/send_recv_height</key>
       <applyto>/apps/evolution/mail/send_recv_height</applyto>
       <owner>evolution-mail</owner>

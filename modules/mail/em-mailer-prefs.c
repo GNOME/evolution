@@ -839,6 +839,18 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
 
+	widget = e_builder_get_widget (prefs->builder, "chkCheckMailInAllOnStart");
+	g_object_bind_property (
+		shell_settings, "mail-check-all-on-start",
+		widget, "active",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+	g_object_bind_property (
+		shell_settings, "mail-check-on-start",
+		widget, "sensitive",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE);
+
 	/* Message Display */
 
 	widget = e_builder_get_widget (prefs->builder, "view-check");
