@@ -247,10 +247,12 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 	EWebView *web_view;
 	const gchar *title;
 
+	reader = E_MAIL_READER (browser);
+	e_mail_reader_update_actions (reader, e_mail_reader_check_state (reader));
+
 	if (uid == NULL)
 		return;
 
-	reader = E_MAIL_READER (browser);
 	folder = e_mail_reader_get_folder (reader);
 	formatter = e_mail_reader_get_formatter (reader);
 	web_view = em_format_html_get_web_view (formatter);
