@@ -29,7 +29,7 @@
 #include <sys/stat.h>
 
 #define GNOME_DESKTOP_USE_UNSTABLE_API
-#include <libgnomeui/gnome-desktop-thumbnail.h>
+#include <libgnome-desktop/gnome-desktop-thumbnail.h>
 #undef GNOME_DESKTOP_USE_UNSTABLE_API
 
 #include <glib/gstdio.h>
