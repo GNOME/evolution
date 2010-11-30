@@ -1195,20 +1195,32 @@ auto_online (EShell *shell)
 	EIterator *iter;
 	EAccountList *accounts;
 	struct _auto_data *info;
+	gboolean can_update_all;
 
 	if (!e_shell_get_online (shell))
 		return;
+
+	can_update_all = e_shell_settings_get_boolean (e_shell_get_shell_settings (shell), "mail-check-on-start")
+			&& e_shell_settings_get_boolean (e_shell_get_shell_settings (shell), "mail-check-all-on-start");
 
 	accounts = e_get_account_list ();
 	for (iter = e_list_get_iterator ((EList *)accounts);
 	     e_iterator_is_valid (iter);
 	     e_iterator_next (iter)) {
+		EAccount *account = (EAccount *) e_iterator_get (iter);
+
+		if (!account || !account->enabled)
+			continue;
+
 		info = g_object_get_data (
-			G_OBJECT (e_iterator_get (iter)),
+			G_OBJECT (account),
 			"mail-autoreceive");
-		if (info && info->timeout_id)
+		if (info && (info->timeout_id || can_update_all))
 			auto_timeout (info);
 	}
+
+	if (iter)
+		g_object_unref (iter);
 }
 
 /* call to setup initial, and after changes are made to the config */
