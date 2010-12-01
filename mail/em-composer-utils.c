@@ -1122,6 +1122,49 @@ edit_message (EShell *shell,
 	return (GtkWidget *)composer;
 }
 
+typedef enum { QUOTING_ATTRIBUTION, QUOTING_FORWARD, QUOTING_ORIGINAL } QuotingTextEnum;
+
+static struct {
+	const gchar* gconf_key;
+	const gchar* message;
+} conf_messages[] = {
+	[QUOTING_ATTRIBUTION] =
+		{ "/apps/evolution/mail/composer/message_attribution",
+		/* Note to translators: this is the attribution string used when quoting messages.
+		 * each ${Variable} gets replaced with a value. To see a full list of available
+		 * variables, see mail/em-composer-utils.c:attribvars array */
+		  N_("On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:") 
+		},
+
+	[QUOTING_FORWARD] =
+		{ "/apps/evolution/mail/composer/message_forward",
+		  N_("-------- Forwarded Message --------")
+		},
+
+	[QUOTING_ORIGINAL] =
+		{ "/apps/evolution/mail/composer/message_original",
+		  N_("-----Original Message-----")
+		}
+};
+
+static gchar *
+quoting_text (QuotingTextEnum type)
+{
+	GConfClient *client;
+	gchar *text;
+
+	client = gconf_client_get_default ();
+	text = gconf_client_get_string (client, conf_messages[type].gconf_key, NULL);
+	g_object_unref (client);
+
+	if (text && *text)
+		return text;
+
+	g_free (text);
+
+	return g_strdup (_(conf_messages[type].message));
+}
+
 /**
  * em_utils_edit_message:
  * @shell: an #EShell
@@ -1340,7 +1383,7 @@ forward_non_attached (EShell *shell,
 	CamelMimeMessage *message;
 	EMsgComposer *composer = NULL;
 	const gchar *folder_uri;
-	gchar *subject, *text;
+	gchar *subject, *text, *forward;
 	gint i;
 	guint32 flags;
 
@@ -1360,7 +1403,8 @@ forward_non_attached (EShell *shell,
 		message = messages->pdata[i];
 		subject = mail_tool_generate_forward_subject (message);
 
-		text = em_utils_message_to_html (message, _("-------- Forwarded Message --------"), flags, &len, NULL, NULL, &validity_found);
+		forward = quoting_text (QUOTING_FORWARD);
+		text = em_utils_message_to_html (message, forward, flags, &len, NULL, NULL, &validity_found);
 
 		if (text) {
 			composer = create_new_composer (shell, subject, from_uri);
@@ -1384,6 +1428,7 @@ forward_non_attached (EShell *shell,
 			g_free (text);
 		}
 
+		g_free (forward);
 		g_free (subject);
 	}
 
@@ -2268,13 +2313,8 @@ static struct {
 	{ "{TimeZone}",          ATTRIB_TIMEZONE,  { "%+05d", NULL           } }
 };
 
-/* Note to translators: this is the attribution string used when quoting messages.
- * each ${Variable} gets replaced with a value. To see a full list of available
- * variables, see em-composer-utils.c:1514 */
-#define ATTRIBUTION _("On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:")
-
 static gchar *
-attribution_format (const gchar *format, CamelMimeMessage *message)
+attribution_format (CamelMimeMessage *message)
 {
 	register const gchar *inptr;
 	const gchar *start;
@@ -2284,6 +2324,7 @@ attribution_format (const gchar *format, CamelMimeMessage *message)
 	struct tm tm;
 	time_t date;
 	gint type;
+	gchar *format = quoting_text (QUOTING_ATTRIBUTION);
 
 	str = g_string_new ("");
 
@@ -2387,6 +2428,7 @@ attribution_format (const gchar *format, CamelMimeMessage *message)
 
 	s = str->str;
 	g_string_free (str, FALSE);
+	g_free (format);
 
 	return s;
 }
@@ -2397,7 +2439,7 @@ composer_set_body (EMsgComposer *composer,
                    EMailReplyStyle style,
                    EMFormat *source)
 {
-	gchar *text, *credits;
+	gchar *text, *credits, *original;
 	CamelMimePart *part;
 	GConfClient *client;
 	gssize len = 0;
@@ -2421,16 +2463,18 @@ composer_set_body (EMsgComposer *composer,
 		g_object_unref (part);
 		break;
 	case E_MAIL_REPLY_STYLE_OUTLOOK:
-		text = em_utils_message_to_html (message, _("-----Original Message-----"), EM_FORMAT_QUOTE_HEADERS, &len, source, start_bottom ? "<BR>" : NULL, &validity_found);
+		original = quoting_text (QUOTING_ORIGINAL);
+		text = em_utils_message_to_html (message, original, EM_FORMAT_QUOTE_HEADERS, &len, source, start_bottom ? "<BR>" : NULL, &validity_found);
 		e_msg_composer_set_body_text (composer, text, len);
 		g_free (text);
+		g_free (original);
 		emu_update_composers_security (composer, validity_found);
 		break;
 
 	case E_MAIL_REPLY_STYLE_QUOTED:
 	default:
 		/* do what any sane user would want when replying... */
-		credits = attribution_format (ATTRIBUTION, message);
+		credits = attribution_format (message);
 		text = em_utils_message_to_html (message, credits, EM_FORMAT_QUOTE_CITE, &len, source, start_bottom ? "<BR>" : NULL, &validity_found);
 		g_free (credits);
 		e_msg_composer_set_body_text (composer, text, len);
@@ -2472,7 +2516,7 @@ em_utils_construct_composer_text (CamelMimeMessage *message, EMFormat *source)
 	gssize len = 0;
 	gboolean start_bottom = 0;
 
-	credits = attribution_format (ATTRIBUTION, message);
+	credits = attribution_format (message);
 	text = em_utils_message_to_html (message, credits, EM_FORMAT_QUOTE_CITE, &len, source, start_bottom ? "<BR>" : NULL, NULL);
 
 	g_free (credits);
