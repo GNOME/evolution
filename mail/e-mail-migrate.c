@@ -1046,11 +1046,12 @@ migrate_local_store (EShellBackend *shell_backend)
 	session = (EMMigrateSession *) em_migrate_session_new (data_dir);
 	camel_session_set_online ((CamelSession *) session, FALSE);
 
-	if (migrate == GTK_RESPONSE_YES) 
+	if (migrate == GTK_RESPONSE_YES) {
 		ret = migrate_mbox_to_maildir (shell_backend, session);
 
-	if (ret)
-		create_mbox_account (shell_backend, session);
+		if (ret)
+			create_mbox_account (shell_backend, session);
+	}
 
 	g_unlink (migrating_file_flag);
 
