@@ -3621,6 +3621,95 @@ em_account_editor_commit (EMAccountEditor *emae)
 }
 
 static void
+set_checkbox_default (CamelProviderConfEntry *entry, CamelURL *url)
+{
+	const gchar *value;
+
+	g_assert (entry->type == CAMEL_PROVIDER_CONF_CHECKBOX);
+
+	if (atoi (entry->value) != 0)
+		value = "";
+	else
+		value = NULL;
+
+	camel_url_set_param (url, entry->name, value);
+
+	/* FIXME: do we need to call emae_uri_changed()? */
+}
+
+static void
+set_entry_default (CamelProviderConfEntry *entry, CamelURL *url)
+{
+	g_assert (entry->type == CAMEL_PROVIDER_CONF_ENTRY);
+
+	camel_url_set_param (url, entry->name, entry->value);
+	/* FIXME: This comes from emae_option_entry().  That function calls
+	 * emae_uri_changed(), but the corresponding emae_option_toggle() does
+	 * not call emae_uri_changed() when it creates the checkbuttons - do
+	 * we need to call that function at all?
+	 */
+}
+
+static void
+set_checkspin_default (CamelProviderConfEntry *entry, CamelURL *url)
+{
+	gdouble min, def, max;
+	gchar on;
+
+	g_assert (entry->type == CAMEL_PROVIDER_CONF_CHECKSPIN);
+
+	/* FIXME: this is a fugly api.  See emae_option_checkspin() */
+	if (sscanf (entry->value, "%c:%lf:%lf:%lf", &on, &min, &def, &max) != 4) {
+		min = 0.0;
+		def = 0.0;
+		max = 1.0;
+	}
+
+	if (on == 'y') {
+		gchar value[16];
+
+		sprintf (value, "%d", (gint) def);
+		camel_url_set_param (url, entry->name, value);
+	} else
+		camel_url_set_param (url, entry->name, NULL);
+
+	/* FIXME: do we need to call emae_uri_changed()? */
+}
+
+static void
+set_provider_defaults_on_url (CamelProvider *provider, CamelURL *url)
+{
+	CamelProviderConfEntry *entries;
+	int i;
+
+	entries = provider->extra_conf;
+
+	for (i = 0; entries && entries[i].type != CAMEL_PROVIDER_CONF_END; i++) {
+		switch (entries[i].type) {
+		case CAMEL_PROVIDER_CONF_CHECKBOX:
+			set_checkbox_default (entries + i, url);
+			break;
+
+		case CAMEL_PROVIDER_CONF_ENTRY:
+			set_entry_default (entries + i, url);
+			break;
+
+		case CAMEL_PROVIDER_CONF_CHECKSPIN:
+			set_checkspin_default (entries + i, url);
+			break;
+
+		default:
+			/* Other entry types don't have defaults, or so can be
+			 * inferred from emae_option_*().  But see
+			 * emae_option_options() - that *may* need something,
+			 * but that function doesn't actually modify the
+			 * CamelURL. */
+			break;
+		}
+	}
+}
+
+static void
 em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, const gchar *id)
 {
 	EMAccountEditorPrivate *priv = emae->priv;
