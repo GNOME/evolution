@@ -307,6 +307,45 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/composer/message_attribution</key>
+      <applyto>/apps/evolution/mail/composer/message_attribution</applyto>
+      <owner>evolution-mail</owner>
+      <type>string</type>
+      <default></default>
+      <locale name="C">
+         <short>Attribute message.</short>
+         <long>The text that is inserted when replying to a message,
+	 attributing the message to the original author.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/composer/message_forward</key>
+      <applyto>/apps/evolution/mail/composer/message_forward</applyto>
+      <owner>evolution-mail</owner>
+      <type>string</type>
+      <default></default>
+      <locale name="C">
+         <short>Forward message.</short>
+         <long>The text that is inserted when forwarding a message,
+	 saying that the forwarded message follows.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/composer/message_original</key>
+      <applyto>/apps/evolution/mail/composer/message_original</applyto>
+      <owner>evolution-mail</owner>
+      <type>string</type>
+      <default></default>
+      <locale name="C">
+         <short>Original message.</short>
+         <long>The text that is inserted when replying to a message (top
+	 posting), saying that the original message follows.</long>
+      </locale>
+    </schema>
+
     <!-- Display Settings -->
 
     <schema>
