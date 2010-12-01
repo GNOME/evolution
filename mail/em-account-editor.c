@@ -220,6 +220,7 @@ static void emae_refresh_authtype (EMAccountEditor *emae, EMAccountEditorService
 static void em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, const gchar *id);
 static void emae_account_folder_changed (EMFolderSelectionButton *folder, EMAccountEditor *emae);
 static ServerData * emae_check_servers (const gchar *email);
+static void set_provider_defaults_on_url (CamelProvider *provider, CamelURL *url)
 
 static gpointer parent_class;
 
@@ -1539,6 +1540,8 @@ emae_service_provider_changed (EMAccountEditorService *service)
 		gint enable;
 		GtkWidget *dwidget = NULL;
 
+		set_provider_defaults_on_url (service->provider, url);
+
 		camel_url_set_protocol (url, service->provider->protocol);
 		gtk_label_set_text (service->description, service->provider->description);
 		gtk_widget_show (service->frame);
@@ -1730,6 +1733,7 @@ emae_refresh_providers (EMAccountEditor *emae, EMAccountEditorService *service)
 				CamelURL *url = emae_account_url (emae, info->account_uri_key);
 
 				camel_url_set_protocol (url, provider->protocol);
+				set_provider_defaults_on_url (provider, url);
 				emae_uri_changed (service, url);
 				camel_url_free (url);
 			}
@@ -3466,6 +3470,10 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 						camel_url_set_user (url, user);
 					if (sdata != NULL) {
 						camel_url_set_protocol (url, sdata->proto);
+
+						if (emae->priv->source.provider)
+							set_provider_defaults_on_url (emae->priv->source.provider, url);
+
 						if (sdata->recv_sock && *sdata->recv_sock)
 							camel_url_set_param (url, "use_ssl", sdata->recv_sock);
 						else
@@ -3508,6 +3516,10 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 				if (sdata != NULL && uri && (url = camel_url_new (uri, NULL)) != NULL) {
 					refresh = TRUE;
 					camel_url_set_protocol (url, "smtp");
+
+					if (emae->priv->source.provider)
+						set_provider_defaults_on_url (emae->priv->source.provider, url);
+
 					if (sdata->send_sock && *sdata->send_sock)
 						camel_url_set_param (url, "use_ssl", sdata->send_sock);
 					else
