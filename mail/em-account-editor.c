@@ -2283,12 +2283,9 @@ emae_option_toggle_changed (GtkToggleButton *toggle, EMAccountEditorService *ser
 }
 
 static GtkWidget *
-emae_option_toggle (EMAccountEditorService *service, CamelURL *url, const gchar *text, const gchar *name, gint def)
+emae_option_toggle (EMAccountEditorService *service, CamelURL *url, const gchar *text, const gchar *name)
 {
 	GtkWidget *w;
-
-	if (service->emae->priv->new_account && def)
-		camel_url_set_param (url, name, "");
 
 	w = gtk_check_button_new_with_mnemonic (text);
 	g_object_set_data ((GObject *)w, "option-name", (gpointer)name);
@@ -2312,24 +2309,18 @@ emae_option_entry_changed (GtkEntry *entry, EMAccountEditorService *service)
 }
 
 static GtkWidget *
-emae_option_entry (EMAccountEditorService *service, CamelURL *url, const gchar *name, const gchar *def, GtkWidget *l)
+emae_option_entry (EMAccountEditorService *service, CamelURL *url, const gchar *name, GtkWidget *label_for_mnemonic)
 {
 	GtkWidget *w;
 	const gchar *val = camel_url_get_param (url, name);
 
-	if (val == NULL) {
-		if (def) {
-			val = def;
-			camel_url_set_param (url, name, val);
-			emae_uri_changed (service, url);
-		} else
-			val = "";
-	}
+	if (val == NULL)
+		val = "";
 
 	w = g_object_new (gtk_entry_get_type (),
 			 "text", val,
 			 NULL);
-	gtk_label_set_mnemonic_widget ((GtkLabel*)l, w);
+	gtk_label_set_mnemonic_widget ((GtkLabel*) label_for_mnemonic, w);
 	g_object_set_data ((GObject *)w, "option-name", (gpointer)name);
 	g_signal_connect (w, "changed", G_CALLBACK(emae_option_entry_changed), service);
 	gtk_widget_show (w);
@@ -2369,7 +2360,28 @@ emae_option_checkspin_check_changed (GtkToggleButton *toggle, EMAccountEditorSer
 	}
 }
 
-/* this is a fugly api */
+static void
+parse_checkspin_format (const char *str,
+			gboolean *on_ret,
+			gdouble *min_ret,
+			gdouble *def_ret,
+			gdouble *max_ret)
+{
+	gchar on;
+
+	/* FIXME: this is a fugly api. */
+	if (str == NULL
+	    || sscanf (str, "%c:%lf:%lf:%lf", &on, min_ret, def_ret, max_ret) != 4) {
+		*on_ret = FALSE; /* FIXME: we could do better error handling here... */
+		*min_ret = 0.0;
+		*def_ret = 0.0;
+		*max_ret = 1.0;
+		return;
+	}
+
+	*on_ret = (on == 'y');
+}
+
 static GtkWidget *
 emae_option_checkspin (EMAccountEditorService *service, CamelURL *url, const gchar *name, const gchar *fmt, const gchar *info)
 {
@@ -2377,8 +2389,7 @@ emae_option_checkspin (EMAccountEditorService *service, CamelURL *url, const gch
 	gdouble min, def, max;
 	gchar *pre, *post;
 	const gchar *val;
-	gchar on;
-	gint enable;
+	gboolean on;
 
 	pre = g_alloca (strlen (fmt)+1);
 	strcpy (pre, fmt);
@@ -2388,26 +2399,24 @@ emae_option_checkspin (EMAccountEditorService *service, CamelURL *url, const gch
 		post+=2;
 	}
 
-	if (sscanf (info, "%c:%lf:%lf:%lf", &on, &min, &def, &max) != 4) {
-		min = 0.0;
-		def = 0.0;
-		max = 1.0;
-	}
+	/* FIXME: the following sucks.  The CamelURL may contain a default value
+	 * already (or if it doesn't, it means that the option is turned off).
+	 * However, the URL doesn't have information about the range for the
+	 * value (min, max).  So we need to parse that out of the original
+	 * description for the option from the CamelProvider.
+	 */
 
-	if (service->emae->priv->new_account && on == 'y') {
-		gchar value[16];
+	parse_checkspin_format (info, &on, &min, &def, &max);
 
-		sprintf (value, "%d", (gint) def);
-		camel_url_set_param (url, name, value);
-	}
-
-	if ((enable = (val = camel_url_get_param (url, name)) != NULL) )
+	val = camel_url_get_param (url, name);
+	if (val != NULL) {
+		on = TRUE;
 		def = strtod (val, NULL);
-	else
-		enable = (on == 'y');
+	} else
+		on = FALSE;
 
 	hbox = gtk_hbox_new (FALSE, 0);
-	check = g_object_new (gtk_check_button_get_type (), "label", pre, "use_underline", TRUE, "active", enable, NULL);
+	check = g_object_new (gtk_check_button_get_type (), "label", pre, "use_underline", TRUE, "active", on, NULL);
 
 	spin = gtk_spin_button_new ((GtkAdjustment *)gtk_adjustment_new (def, min, max, 1, 1, 0), 1, 0);
 	if (post) {
@@ -2643,7 +2652,7 @@ section:
 			}
 			break;
 		case CAMEL_PROVIDER_CONF_CHECKBOX:
-			w = emae_option_toggle (service, url, entries[i].text, entries[i].name, atoi (entries[i].value));
+			w = emae_option_toggle (service, url, entries[i].text, entries[i].name);
 			gtk_table_attach ((GtkTable *)parent, w, 0, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
 			g_hash_table_insert (extra, (gpointer)entries[i].name, w);
 			if (depw)
@@ -2657,7 +2666,7 @@ section:
 		case CAMEL_PROVIDER_CONF_ENTRY:
 			l = g_object_new (gtk_label_get_type (), "label", entries[i].text, "xalign", 0.0, "use_underline", TRUE, NULL);
 			gtk_widget_show (l);
-			w = emae_option_entry (service, url, entries[i].name, entries[i].value, l);
+			w = emae_option_entry (service, url, entries[i].name, l);
 			gtk_table_attach ((GtkTable *)parent, l, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
 			gtk_table_attach ((GtkTable *)parent, w, 1, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
 			if (depw) {
@@ -3702,19 +3711,14 @@ set_entry_default (CamelProviderConfEntry *entry, CamelURL *url)
 static void
 set_checkspin_default (CamelProviderConfEntry *entry, CamelURL *url)
 {
+	gboolean on;
 	gdouble min, def, max;
-	gchar on;
 
 	g_assert (entry->type == CAMEL_PROVIDER_CONF_CHECKSPIN);
 
-	/* FIXME: this is a fugly api.  See emae_option_checkspin() */
-	if (sscanf (entry->value, "%c:%lf:%lf:%lf", &on, &min, &def, &max) != 4) {
-		min = 0.0;
-		def = 0.0;
-		max = 1.0;
-	}
+	parse_checkspin_format (entry->value, &on, &min, &def, &max);
 
-	if (on == 'y') {
+	if (on) {
 		gchar value[16];
 
 		sprintf (value, "%d", (gint) def);
