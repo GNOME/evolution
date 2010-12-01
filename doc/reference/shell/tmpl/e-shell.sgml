@@ -75,14 +75,6 @@ EShell
 @eshell: the object which received the signal.
 @Param2: 
 
-<!-- ##### SIGNAL EShell::send-receive ##### -->
-<para>
-
-</para>
-
-@eshell: the object which received the signal.
-@arg1: 
-
 <!-- ##### SIGNAL EShell::window-created ##### -->
 <para>
 
@@ -258,15 +250,6 @@ EShell
 
 @shell: 
 @Returns: 
-
-
-<!-- ##### FUNCTION e_shell_send_receive ##### -->
-<para>
-
-</para>
-
-@shell: 
-@parent: 
 
 
 <!-- ##### FUNCTION e_shell_get_meego_mode ##### -->
