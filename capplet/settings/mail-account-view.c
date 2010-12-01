@@ -1055,9 +1055,9 @@ mail_account_view_construct (MailAccountView *view,
 
 	shell = e_shell_get_default ();
 	if (!shell || e_shell_get_express_mode (shell)) {
-		GtkWidget *table = em_account_editor_get_widget (view->edit, "identity_required_table");
+		GtkWidget *table = em_account_editor_get_widget (view->edit, "identity-required-table");
 		GtkWidget *label, *pwd;
-		gtk_widget_hide (em_account_editor_get_widget (view->edit, "identity_optional_frame"));
+		gtk_widget_hide (em_account_editor_get_widget (view->edit, "identity-optional-section"));
 
 		if (!view->original) {
 			label = gtk_label_new (_("Password:"));
