@@ -28,6 +28,7 @@
 #include "e-util/e-plugin-ui.h"
 #include "mail/em-composer-utils.h"
 #include "mail/em-utils.h"
+#include "mail/mail-tools.h"
 
 #define E_MAIL_DISPLAY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -266,6 +267,16 @@ mail_display_link_clicked (GtkHTML *html,
 		priv->formatter->header_wrap_flags = flags;
 		em_format_queue_redraw (EM_FORMAT (priv->formatter));
 
+	} else if (g_ascii_strncasecmp (uri, "mailto:", 7) == 0) {
+		EMFormat *format = EM_FORMAT (priv->formatter);
+		gchar *folder_uri = NULL;
+
+		if (format && format->folder)
+			folder_uri = mail_tools_folder_to_url (format->folder);
+
+		em_utils_compose_new_message_with_mailto (e_shell_get_default (), uri, folder_uri);
+
+		g_free (folder_uri);
 	} else if (*uri == '#')
 		gtk_html_jump_to_anchor (html, uri + 1);
 
