@@ -212,8 +212,10 @@ format_relative_date (time_t tvalue, time_t ttoday, const struct tm *value, cons
 				res = g_strdup (_("Yesterday"));
 		} else {
 			if (future) {
-				/* Translators: %a is a strftime modifier, the abbreviated week day name, for example "Next Tue" */
-				res = g_strdup (_("Next %a"));
+				/* Translators: %a is a strftime modifier, the abbreviated week day name, for example "Next Tue".
+				   ngettext is used to be able to define different translations for different days of week, where
+				   necessary. Index is between 1 and 7 inclusive, meaning 1 .. Monday, 2 .. Tuesday, ..., 7 .. Sunday */
+				res = g_strdup (ngettext ("Next %a", "Next %a", g_date_get_weekday (&val)));
 			} else {
 				res = g_strdup ("%a");
 			}

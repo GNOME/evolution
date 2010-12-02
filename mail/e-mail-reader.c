@@ -507,8 +507,8 @@ remove_duplicates_got_messages_cb (CamelFolder *folder, GPtrArray *uids, GPtrArr
 		gchar *msg = g_strdup_printf (ngettext (
 			/* Translators: %s is replaced with a folder name
 			   %d with count of duplicate messages. */
-			_("Folder '%s' contains %d duplicate message. Are you sure you want to delete it?"),
-			_("Folder '%s' contains %d duplicate messages. Are you sure you want to delete them?"),
+			"Folder '%s' contains %d duplicate message. Are you sure you want to delete it?",
+			"Folder '%s' contains %d duplicate messages. Are you sure you want to delete them?",
 			dups->len),
 			camel_folder_get_name (folder), dups->len);
 

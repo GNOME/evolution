@@ -1469,9 +1469,13 @@ e_addressbook_view_view (EAddressbookView *view)
 		/* XXX Provide a parent window. */
 		dialog = gtk_message_dialog_new (
 			NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
-			_("Opening %d contacts will open %d new windows as "
-			  "well.\nDo you really want to display all of these "
-			  "contacts?"), length, length);
+			ngettext (
+				/* Translators: This is shown for more than 5 contacts. */
+				"Opening %d contacts will open %d new windows as well.\nDo you really want to display all of these contacts?",
+				"Opening %d contacts will open %d new windows as well.\nDo you really want to display all of these contacts?",
+				length
+				),
+			length, length);
 		gtk_dialog_add_buttons (
 			GTK_DIALOG (dialog),
 			_("_Don't Display"), GTK_RESPONSE_NO,
