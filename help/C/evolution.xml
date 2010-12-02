@@ -6602,7 +6602,7 @@
     <para><link linkend="b1a4ol61">Debug Logs</link></para>
    </listitem>
   </itemizedlist>
-  <para>You reach the Evolution settings window by clicking Edit &gt; Preferences. In the left part of the settings window is a column, similar to the Evolution switcher, that lets you choose which portion of Evolution to customize. The right part of the window is where you make your actual changes.</para>
+  <para>You reach the Evolution settings window by clicking Edit &gt; Preferences. In the left part of the settings window is a column that lets you choose which portion of Evolution to customize. The right part of the window is where you make your actual changes.</para>
   <mediaobject id="config-prefs-mail-fig"><imageobject><imagedata format="PNG" fileref="figures/mailer_preferences.png"/></imageobject></mediaobject>
   <para>There are six items you can customize.</para>
   <formalpara id="b17sa7c0">
