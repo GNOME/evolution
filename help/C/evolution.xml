@@ -7218,7 +7218,7 @@
    <para>There are two main tasks for configuring contact information:</para>
    <itemizedlist>
     <listitem>
-     <para><link linkend="bxmw6mw">Creating a Contact</link></para>
+     <para><link linkend="bxmw6mw">Creating a Contact List</link></para>
     </listitem>
     <listitem>
      <para><link linkend="bxmw6w5">Creating an Address Book</link></para>
@@ -7226,7 +7226,7 @@
    </itemizedlist>
 
    <section id="bxmw6mw">
-    <title>Creating a Contact</title>
+    <title>Creating a Contact List</title>
     <para>To add a new contact list, either local or remote:</para>
     <orderedlist>
      <listitem id="bsbhwyr">
@@ -7239,7 +7239,7 @@
       <para>Select Contact List.</para>
      </listitem>
      <listitem id="bsbhxk3">
-      <para>Type a name and location for the Address Book.</para>
+      <para>Type a name for the contact list and choose an address book under "Where".</para>
      </listitem>
      <listitem id="bsbi2rh">
       <para>Click OK.</para>
