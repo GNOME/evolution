@@ -6962,8 +6962,8 @@
 
    <section id="bshpjuj">
     <title>Spell Checking</title>
-    <para>To choose a spell-checking language, select it here. You must install gnome-spell, aspell, and an aspell language package
-(like for example aspell-en for english language) for spell-checking to be available in Evolution. Additional dictionaries are available through your package manager and are detected automatically if you have installed them. To have the composer automatically check your spelling while you type, select Check Spelling While I Type. You can set the color for misspelled words.</para>
+    <para>To choose a spell-checking language, select it here. You must install enchant and a hunspell language package
+(like for example hunspell-en for english language) for spell-checking to be available in Evolution. Additional dictionaries are available through your package manager and are detected automatically if you have installed them. To have the composer automatically check your spelling while you type, select Check Spelling While I Type. You can set the color for misspelled words.</para>
    </section>
   </section>
 
