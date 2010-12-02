@@ -1725,18 +1725,20 @@ emae_refresh_providers (EMAccountEditor *emae, EMAccountEditorService *service)
 
 		/* find the displayed and set default */
 		if (i == 0 || (current && strcmp (provider->protocol, current) == 0)) {
+			CamelURL *url;
+
 			service->provider = provider;
 			active = i;
 
-			/* we need to set this value on the uri too */
+			url = emae_account_url (emae, info->account_uri_key);
 			if (current == NULL) {
-				CamelURL *url = emae_account_url (emae, info->account_uri_key);
-
+				/* we need to set this value on the uri too */
 				camel_url_set_protocol (url, provider->protocol);
-				set_provider_defaults_on_url (emae, provider, url);
-				emae_uri_changed (service, url);
-				camel_url_free (url);
 			}
+
+			set_provider_defaults_on_url (emae, provider, url);
+			emae_uri_changed (service, url);
+			camel_url_free (url);
 		}
 		i++;
 	}
@@ -3470,10 +3472,6 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 						camel_url_set_user (url, user);
 					if (sdata != NULL) {
 						camel_url_set_protocol (url, sdata->proto);
-
-						if (emae->priv->source.provider)
-							set_provider_defaults_on_url (emae, emae->priv->source.provider, url);
-
 						if (sdata->recv_sock && *sdata->recv_sock)
 							camel_url_set_param (url, "use_ssl", sdata->recv_sock);
 						else
@@ -3516,10 +3514,6 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 				if (sdata != NULL && uri && (url = camel_url_new (uri, NULL)) != NULL) {
 					refresh = TRUE;
 					camel_url_set_protocol (url, "smtp");
-
-					if (emae->priv->source.provider)
-						set_provider_defaults_on_url (emae, emae->priv->source.provider, url);
-
 					if (sdata->send_sock && *sdata->send_sock)
 						camel_url_set_param (url, "use_ssl", sdata->send_sock);
 					else
