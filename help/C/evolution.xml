@@ -452,7 +452,6 @@
      <section id="bstgjve">
       <title>Microsoft Exchange Receiving Options</title>
       <para>You need to specify the following options for this server type:</para>
-      <mediaobject id="bsu2c0q"><imageobject><imagedata format="PNG" fileref="figures/evo_mereceive_a.png"/></imageobject></mediaobject>
       <orderedlist>
        <listitem id="bstgk36">
         <para>Select if you want Evolution to automatically check for new mail.</para>
@@ -1122,7 +1121,6 @@
       <tip>
        <para> If you are creating your first account via the Startup Wizard, you can use the option to restore from the archive if it is available locally.</para>
       </tip>
-      <mediaobject id="b17rbvcy"><imageobject><imagedata format="PNG" fileref="figures/evo_restore.png"/></imageobject></mediaobject>
       <para>Evolution will auto-restart after the process.</para>
      </listitem>
     </orderedlist>
@@ -1296,7 +1294,6 @@
     <para>You can also view a blinking icon (<inlinegraphic format="PNG" fileref="figures/evo_blink.png"/>) in the notification area that disappears when you open the new message. Mouse over the icon to view the notification message.</para>
     <mediaobject id="b1a5asi6"><imageobject><imagedata format="PNG" fileref="figures/evo_newmail.png"/></imageobject></mediaobject>
     <para>To enable this feature, select Edit &gt; Plugins, then select the Mail Notification check box. You can configure the plugin by specifing the following in the Plugin Manager.</para>
-    <mediaobject id="b1dl90p1"><imageobject><imagedata format="PNG" fileref="figures/evo_mailnotification.png"/></imageobject></mediaobject>
     <formalpara id="b1dl8zqx">
      <title>Notify new messages for Inbox only:</title>
      <para>Select this option to restrict the mail notification to Inbox. With this option enabled, you are notified of each new message arrival in the Inbox.</para>
@@ -1579,7 +1576,6 @@
     <para>To enable the Custom Header plugin:</para>
     <para>Select Edit &gt; Plugins.</para>
      <para>Then select  Custom Header. You can configure custom headers to set sensitivity and caveats to the outgoing messages.</para>
-    <mediaobject id="b1dl7ytg"><imageobject><imagedata format="PNG" fileref="figures/evo_customheader.png"/></imageobject></mediaobject>
     <para>In the Plugin Manager, select the Configuration tab to customize your header fields. You can add, edit, or remove the header fields. For every header field you add, you can specify the keys and values. The key is used as the title of the Custom Header. You can enter multiple values for the keys. You must use a semicolon to separate every value you enter.</para>
     <orderedlist>
      <listitem id="b1a5c4iy">
@@ -6710,8 +6706,6 @@
     </listitem>
     <listitem id="b15fy4cs">
      <para>On the Account Editor, click IMAP Headers tab to open IMAP Headers to the Account Editor.</para>
-     <mediaobject id="b15fy5rr"><imageobject><imagedata format="PNG" fileref="figures/evo_imapheader_a.png"/></imageobject></mediaobject>
-     
     </listitem>
     <listitem id="b15fy565">
      <para>Click Fetch All Headers to download all the available header information.</para>
@@ -7079,7 +7073,6 @@
   <section id="b15m55rz">
    <title>Network Preferences</title>
    <para>This interface lets you configure your network proxy settings.</para>
-   <mediaobject id="b15m5vi1"><imageobject><imagedata format="PNG" fileref="figures/network_pref.png"/></imageobject></mediaobject>
    <para>The following options are available:</para>
    <formalpara id="b15m5zr2">
     <title>Use system defaults:</title>
