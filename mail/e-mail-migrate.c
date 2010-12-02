@@ -1165,8 +1165,10 @@ e_mail_migrate (EShellBackend *shell_backend,
 		em_ensure_proxy_ignore_hosts_being_list ();
 	}
 
-	if (!migrate_local_store (shell_backend))
-		return FALSE;	
+	if (major < 2 || (major == 2 && minor < 92)) {
+		if (!migrate_local_store (shell_backend))
+			return FALSE;
+	}
 
 	return TRUE;
 }
