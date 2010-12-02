@@ -266,6 +266,14 @@ mail_display_link_clicked (GtkHTML *html,
 		priv->formatter->header_wrap_flags = flags;
 		em_format_queue_redraw (EM_FORMAT (priv->formatter));
 
+	} else if (g_ascii_strncasecmp (uri, "mailto:", 7) == 0) {
+		EMFormat *format = EM_FORMAT (priv->formatter);
+		CamelFolder *folder = NULL;
+
+		if (format && format->folder)
+			folder = format->folder;
+
+		em_utils_compose_new_message_with_mailto (e_shell_get_default (), uri, folder ? camel_folder_get_uri (folder) : NULL);
 	} else if (*uri == '#')
 		gtk_html_jump_to_anchor (html, uri + 1);
 
