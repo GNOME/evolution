@@ -5238,7 +5238,7 @@
       <listitem>
        <formalpara id="b10fqiuh">
         <title>Sending Email via Exchange Protocols:</title>
-        <para>If you use the Microsoft Exchange mail transport protocol to send email, make sure that the address you have entered as your email address is exactly the one that the Exchange server has on file. This might be <quote>yourname@exchange-server.example.com</quote> rather than <quote>yourname@example.com.</quote></para>
+        <para>If you use the Microsoft Exchange mail transport protocol to send email, make sure that the address you have entered as your email address is exactly the one that is registered on the Exchange server. This might be <quote>yourname@exchange-server.example.com</quote> rather than <quote>yourname@example.com</quote>.</para>
        </formalpara>
       </listitem>
       <listitem>
