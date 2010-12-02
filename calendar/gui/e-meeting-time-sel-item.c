@@ -49,7 +49,7 @@ static void e_meeting_time_selector_item_update (GnomeCanvasItem *item,
 						 const cairo_matrix_t *i2c,
 						 gint flags);
 static void e_meeting_time_selector_item_draw (GnomeCanvasItem *item,
-					       GdkDrawable *drawable,
+					       cairo_t *cr,
 					       gint x, gint y,
 					       gint width, gint height);
 static GnomeCanvasItem *e_meeting_time_selector_item_point (GnomeCanvasItem *item,
@@ -69,15 +69,15 @@ static void e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem
 							GDate *date,
 							gint x, gint scroll_y,
 							gint width, gint height);
-static void e_meeting_time_selector_item_paint_all_attendees_busy_periods (EMeetingTimeSelectorItem *mts_item, GdkDrawable *drawable, GDate *date, gint x, gint y, gint width, gint height);
+static void e_meeting_time_selector_item_paint_all_attendees_busy_periods (EMeetingTimeSelectorItem *mts_item, cairo_t *cr, GDate *date, gint x, gint y, gint width, gint height);
 static void e_meeting_time_selector_item_paint_day (EMeetingTimeSelectorItem *mts_item,
 						    cairo_t *cr,
 						    GDate *date,
 						    gint x, gint scroll_y,
 						    gint width, gint height);
-static void e_meeting_time_selector_item_paint_busy_periods (EMeetingTimeSelectorItem *mts_item, GdkDrawable *drawable, GDate *date, gint x, gint scroll_y, gint width, gint height);
+static void e_meeting_time_selector_item_paint_busy_periods (EMeetingTimeSelectorItem *mts_item, cairo_t *cr, GDate *date, gint x, gint scroll_y, gint width, gint height);
 static gint e_meeting_time_selector_item_find_first_busy_period (EMeetingTimeSelectorItem *mts_item, GDate *date, gint row);
-static void e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorItem *mts_item, GdkDrawable *drawable, gint row, gint x, gint y, gint width, gint first_period, EMeetingFreeBusyType busy_type, cairo_t *cr);
+static void e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorItem *mts_item, cairo_t *cr, gint row, gint x, gint y, gint width, gint first_period, EMeetingFreeBusyType busy_type);
 
 static EMeetingTimeSelectorPosition e_meeting_time_selector_item_get_drag_position (EMeetingTimeSelectorItem *mts_item, gint x, gint y);
 static gboolean e_meeting_time_selector_item_calculate_busy_range (EMeetingTimeSelector *mts,
@@ -219,7 +219,7 @@ draw_strikeout_box (EMeetingTimeSelectorItem *mts_item, cairo_t *cr,
 }
 
 static void
-e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint width, gint height)
+e_meeting_time_selector_item_draw (GnomeCanvasItem *item, cairo_t *cr, gint x, gint y, gint width, gint height)
 {
 	EMeetingTimeSelector *mts;
 	EMeetingTimeSelectorItem *mts_item;
@@ -228,12 +228,10 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	gint row, row_y, start_x, end_x;
 	GDate date, last_date, current_date;
 	gboolean is_display_top, show_meeting_time;
-	cairo_t *cr;
 
 	mts_item = E_MEETING_TIME_SELECTOR_ITEM (item);
 	mts = mts_item->mts;
 	g_return_if_fail (mts != NULL);
-	cr = gdk_cairo_create (drawable);
 
 	is_display_top = (GTK_WIDGET (item->canvas) == mts->display_top)
 		? TRUE : FALSE;
@@ -334,9 +332,9 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	/* Draw the busy periods. */
 	if (is_display_top)
-		e_meeting_time_selector_item_paint_all_attendees_busy_periods (mts_item, drawable, &date, x, y, width, height);
+		e_meeting_time_selector_item_paint_all_attendees_busy_periods (mts_item, cr, &date, x, y, width, height);
 	else
-		e_meeting_time_selector_item_paint_busy_periods (mts_item, drawable, &date, x, y, width, height);
+		e_meeting_time_selector_item_paint_busy_periods (mts_item, cr, &date, x, y, width, height);
 
 	/* Draw the currently-selected meeting time vertical bars. */
 	if (show_meeting_time) {
@@ -367,7 +365,6 @@ e_meeting_time_selector_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		}
 		cairo_restore (cr);
 	}
-	cairo_destroy (cr);
 }
 
 static void
@@ -479,16 +476,14 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
    list of attendees. For now we just paint the bars for each attendee of
    each other. If we want to speed it up we could optimise it later. */
 static void
-e_meeting_time_selector_item_paint_all_attendees_busy_periods (EMeetingTimeSelectorItem *mts_item, GdkDrawable *drawable, GDate *date, gint x, gint scroll_y, gint width, gint height)
+e_meeting_time_selector_item_paint_all_attendees_busy_periods (EMeetingTimeSelectorItem *mts_item, cairo_t *cr, GDate *date, gint x, gint scroll_y, gint width, gint height)
 {
 	EMeetingTimeSelector *mts;
 	EMeetingFreeBusyType busy_type;
 	gint row, y;
 	gint *first_periods;
-	cairo_t *cr;
 
 	mts = mts_item->mts;
-	cr = gdk_cairo_create (drawable);
 
 	/* Calculate the y coordinate to paint the row at in the drawable. */
 	y = 2 * mts->row_height - scroll_y - 1;
@@ -505,12 +500,11 @@ e_meeting_time_selector_item_paint_all_attendees_busy_periods (EMeetingTimeSelec
 		for (row = 0; row < e_meeting_store_count_actual_attendees (mts->model); row++) {
 			if (first_periods[row] == -1)
 				continue;
-			e_meeting_time_selector_item_paint_attendee_busy_periods (mts_item, drawable, x, y, width, row, first_periods[row], busy_type, cr);
+			e_meeting_time_selector_item_paint_attendee_busy_periods (mts_item, cr, x, y, width, row, first_periods[row], busy_type);
 		}
 	}
 
 	g_free (first_periods);
-	cairo_destroy (cr);
 }
 
 static void
@@ -593,15 +587,13 @@ e_meeting_time_selector_item_paint_day (EMeetingTimeSelectorItem *mts_item,
 /* This paints the colored bars representing busy periods for the individual
    attendees. */
 static void
-e_meeting_time_selector_item_paint_busy_periods (EMeetingTimeSelectorItem *mts_item, GdkDrawable *drawable, GDate *date, gint x, gint scroll_y, gint width, gint height)
+e_meeting_time_selector_item_paint_busy_periods (EMeetingTimeSelectorItem *mts_item, cairo_t *cr, GDate *date, gint x, gint scroll_y, gint width, gint height)
 {
 	EMeetingTimeSelector *mts;
 	EMeetingFreeBusyType busy_type;
 	gint row, y, first_period;
-	cairo_t *cr;
 
 	mts = mts_item->mts;
-	cr = gdk_cairo_create (drawable);
 
 	/* Calculate the first visible attendee row. */
 	row = scroll_y / mts->row_height;
@@ -622,13 +614,12 @@ e_meeting_time_selector_item_paint_busy_periods (EMeetingTimeSelectorItem *mts_i
 			     busy_type < E_MEETING_FREE_BUSY_LAST;
 			     busy_type++) {
 				gdk_cairo_set_source_color (cr, &mts->busy_colors[busy_type]);
-				e_meeting_time_selector_item_paint_attendee_busy_periods (mts_item, drawable, x, y, width, row, first_period, busy_type, cr);
+				e_meeting_time_selector_item_paint_attendee_busy_periods (mts_item, cr, x, y, width, row, first_period, busy_type);
 			}
 		}
 		y += mts->row_height;
 		row++;
 	}
-	cairo_destroy (cr);
 }
 
 /* This subtracts the attendees longest_period_in_days from the given date,
@@ -666,7 +657,7 @@ e_meeting_time_selector_item_find_first_busy_period (EMeetingTimeSelectorItem *m
    busy type, e.g out of office. It is passed the index of the first visible
    busy period of the attendee and continues until it runs off the screen. */
 static void
-e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorItem *mts_item, GdkDrawable *drawable, gint x, gint y, gint width, gint row, gint first_period, EMeetingFreeBusyType busy_type, cairo_t *cr)
+e_meeting_time_selector_item_paint_attendee_busy_periods (EMeetingTimeSelectorItem *mts_item, cairo_t *cr, gint x, gint y, gint width, gint row, gint first_period, EMeetingFreeBusyType busy_type)
 {
 	EMeetingTimeSelector *mts;
 	EMeetingAttendee *ia;

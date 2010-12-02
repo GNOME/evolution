@@ -104,8 +104,8 @@ static void e_meeting_time_selector_add_key_color (EMeetingTimeSelector * mts,
 						   GtkWidget *hbox,
 						   gchar *label_text,
 						   GdkColor *color);
-static gint e_meeting_time_selector_expose_key_color (GtkWidget *darea,
-						      GdkEventExpose *event,
+static gint e_meeting_time_selector_draw_key_color (GtkWidget *darea,
+						      cairo_t *cr,
 						      GdkColor *color);
 static void e_meeting_time_selector_options_menu_detacher (GtkWidget *widget,
 							   GtkMenu   *menu);
@@ -115,9 +115,8 @@ static void e_meeting_time_selector_realize (GtkWidget *widget);
 static void e_meeting_time_selector_unrealize (GtkWidget *widget);
 static void e_meeting_time_selector_style_set (GtkWidget *widget,
 					       GtkStyle  *previous_style);
-static gint e_meeting_time_selector_expose_event (GtkWidget *widget,
-						  GdkEventExpose *event);
-static void e_meeting_time_selector_draw_shadow (EMeetingTimeSelector *mts);
+static gint e_meeting_time_selector_draw (GtkWidget *widget, cairo_t *cr);
+static void e_meeting_time_selector_draw_shadow (EMeetingTimeSelector *mts, cairo_t *cr);
 static void e_meeting_time_selector_hadjustment_changed (GtkAdjustment *adjustment,
 							 EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_vadjustment_changed (GtkAdjustment *adjustment,
@@ -319,7 +318,7 @@ e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * class)
 	widget_class->realize = e_meeting_time_selector_realize;
 	widget_class->unrealize = e_meeting_time_selector_unrealize;
 	widget_class->style_set = e_meeting_time_selector_style_set;
-	widget_class->expose_event = e_meeting_time_selector_expose_event;
+	widget_class->draw = e_meeting_time_selector_draw;
 
 	g_object_class_install_property (
 		object_class,
@@ -885,34 +884,27 @@ e_meeting_time_selector_add_key_color (EMeetingTimeSelector * mts,
 	gtk_box_pack_start (GTK_BOX (child_hbox), label, TRUE, TRUE, 6);
 	gtk_widget_show (label);
 
-	g_signal_connect (darea, "expose_event",
-			  G_CALLBACK (e_meeting_time_selector_expose_key_color),
+	g_signal_connect (darea, "draw",
+			  G_CALLBACK (e_meeting_time_selector_draw_key_color),
 			  color);
 }
 
 static gint
-e_meeting_time_selector_expose_key_color (GtkWidget *darea,
-					  GdkEventExpose *event,
-					  GdkColor *color)
+e_meeting_time_selector_draw_key_color (GtkWidget *darea, cairo_t *cr, GdkColor *color)
 {
 	EMeetingTimeSelector * mts;
 	GtkAllocation allocation;
-	GdkWindow *window;
 	GtkStyle *style;
-        cairo_t *cr;
 
 	style = gtk_widget_get_style (darea);
-	window = gtk_widget_get_window (darea);
 	gtk_widget_get_allocation (darea, &allocation);
 
 	mts = g_object_get_data (G_OBJECT (darea), "data");
 
 	gtk_paint_shadow (
-		style, window, GTK_STATE_NORMAL,
-		GTK_SHADOW_IN, NULL, NULL, NULL, 0, 0,
+		style, cr, GTK_STATE_NORMAL,
+		GTK_SHADOW_IN, NULL, NULL, 0, 0,
 		allocation.width, allocation.height);
-
-        cr = gdk_cairo_create (event->window);
 
 	if (color) {
 		gdk_cairo_set_source_color (cr, color);
@@ -924,8 +916,6 @@ e_meeting_time_selector_expose_key_color (GtkWidget *darea,
                          allocation.width - 2, allocation.height - 2);
         cairo_fill (cr);
 
-        cairo_destroy (cr);
-
 	return TRUE;
 }
 
@@ -933,15 +923,11 @@ static void
 e_meeting_time_selector_alloc_named_color (EMeetingTimeSelector * mts,
 					   const gchar *name, GdkColor *c)
 {
-	GdkColormap *colormap;
-
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (c != NULL);
 
-	gdk_color_parse (name, c);
-	colormap = gtk_widget_get_colormap (GTK_WIDGET (mts));
-	if (!gdk_colormap_alloc_color (colormap, c, TRUE, TRUE))
-		g_warning ("Failed to allocate color: %s\n", name);
+	if ( !gdk_color_parse (name, c))
+		g_warning ("Failed to parse color: %s\n", name);
 }
 
 static void
@@ -1209,28 +1195,28 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 
 /* This draws a shadow around the top display and main display. */
 static gint
-e_meeting_time_selector_expose_event (GtkWidget *widget,
-				      GdkEventExpose *event)
+e_meeting_time_selector_draw (GtkWidget *widget, cairo_t *cr)
 {
 	EMeetingTimeSelector *mts;
 
 	mts = E_MEETING_TIME_SELECTOR (widget);
 
-	e_meeting_time_selector_draw_shadow (mts);
+	e_meeting_time_selector_draw_shadow (mts, cr);
 
-	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->expose_event)
-		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->expose_event)(widget, event);
+	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->draw)
+		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->draw)(widget, cr);
 
 	return FALSE;
 }
 
 static void
-e_meeting_time_selector_draw_shadow (EMeetingTimeSelector *mts)
+e_meeting_time_selector_draw_shadow (EMeetingTimeSelector *mts, cairo_t *cr)
 {
 	GtkAllocation allocation;
-	GdkWindow *window;
 	GtkStyle *style;
 	gint x, y, w, h;
+
+	cairo_save (cr);
 
 	/* Draw the shadow around the graphical displays. */
 	gtk_widget_get_allocation (mts->display_top, &allocation);
@@ -1240,11 +1226,12 @@ e_meeting_time_selector_draw_shadow (EMeetingTimeSelector *mts)
 	h = allocation.height + allocation.height + 4;
 
 	style = gtk_widget_get_style (GTK_WIDGET (mts));
-	window = gtk_widget_get_window (GTK_WIDGET (mts));
 
 	gtk_paint_shadow (
-		style, window, GTK_STATE_NORMAL,
-		GTK_SHADOW_IN, NULL, NULL, NULL, x, y, w, h);
+		style, cr, GTK_STATE_NORMAL,
+		GTK_SHADOW_IN, NULL, NULL, x, y, w, h);
+
+	cairo_restore (cr);
 }
 
 /* When the main canvas scrolls, we scroll the other canvases. */
@@ -2451,7 +2438,7 @@ e_meeting_time_selector_on_canvas_realized (GtkWidget *widget,
 	GdkWindow *window;
 
 	window = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
-	gdk_window_set_back_pixmap (window, NULL, FALSE);
+	gdk_window_set_background_pattern (window, NULL);
 }
 
 /* This is called when the meeting start time GnomeDateEdit is changed,
