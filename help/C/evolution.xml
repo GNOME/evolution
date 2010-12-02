@@ -1554,9 +1554,6 @@
     <listitem>
      <para><link linkend="usage-mail-getnsend-fwd">Forwarding Mail</link></para>
     </listitem>
-    <listitem>
-     <para><link linkend="usage-mail-getnsend-ettiquette">Tips for Email Courtesy</link></para>
-    </listitem>
    </itemizedlist>
 
    <section id="usage-mail-getnsend-send-charsets">
@@ -2089,33 +2086,6 @@
      </listitem>
     </orderedlist>
     <para>Attachments to a message you are forwarding are forwarded only when you send the original message as an attachment. Inline messages do not forward any attachments.</para>
-   </section>
-
-   <section id="usage-mail-getnsend-ettiquette">
-    <title>Tips for Email Courtesy</title>
-    <itemizedlist>
-     <listitem>
-      <para>Don't forward chain letters. If you must, watch out for hoaxes and urban legends, and make sure the message doesn't have multiple layers of greater-than signs (&gt;), indicating multiple layers of careless in-line forwarding.</para>
-     </listitem>
-     <listitem>
-      <para>Always begin and close with a salutation. Say <quote>please</quote> and <quote>thank you,</quote> just like you do in real life. You can keep your pleasantries short, but be polite.</para>
-     </listitem>
-     <listitem>
-      <para>WRITING IN CAPITAL LETTERS MEANS YOU'RE SHOUTING! Don't write a whole message in capital letters. It hurts people's ears.</para>
-     </listitem>
-     <listitem>
-      <para>Check your spelling and use complete sentences. By default, Evolution puts a red line beneath words it doesn't recognize, as you type them.</para>
-     </listitem>
-     <listitem>
-      <para>Don't send nasty emails (flames). If you get one, don't write back.</para>
-     </listitem>
-     <listitem>
-      <para>When you reply or forward, include enough of the previous message to provide context.</para>
-     </listitem>
-     <listitem>
-      <para>Don't send spam.</para>
-     </listitem>
-    </itemizedlist>
    </section>
   </section>
 
