@@ -637,7 +637,7 @@
         <para>Select if you want to leave messages on the server.</para>
        </listitem>
        <listitem id="bsthpn9">
-        <para>Select if you want to disable support for all POP3 extensions.</para>
+        <para>Select if you want to disable support for all <ulink url="http://www.ietf.org/rfc/rfc2449.txt">POP3 extensions</ulink>.</para>
        </listitem>
        <listitem id="bsthpur">
         <para>Click Forward.</para>
