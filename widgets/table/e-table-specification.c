@@ -209,7 +209,7 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 	} else if (temp && !g_ascii_strcasecmp (temp, "browse")) {
 		specification->selection_mode = GTK_SELECTION_BROWSE;
 	} else if (temp && !g_ascii_strcasecmp (temp, "extended")) {
-		specification->selection_mode = GTK_SELECTION_EXTENDED;
+		specification->selection_mode = GTK_SELECTION_MULTIPLE;
 	}
 	g_free (temp);
 
@@ -377,7 +377,7 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 		s = "browse";
 		break;
 	default:
-	case GTK_SELECTION_EXTENDED:
+	case GTK_SELECTION_MULTIPLE:
 		s = "extended";
 	}
 	xmlSetProp (node, (const guchar *)"selection-mode", (guchar *)s);
