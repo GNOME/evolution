@@ -2223,7 +2223,7 @@
   <section id="rsvp-stuff">
    <title>Sending Invitations by Mail</title>
    <para>If you create an event in the calendar component, you can then send invitations to the attendee list through the Evolution email tool. The invitation card is sent as an attachment in iCal format.</para>
-   <para>To send an invitation, right click on the calendar item and click Forward as iCalendar.</para>
+   <para>To send an invitation, right-click on the calendar item and click Forward as iCalendar.</para>
    <para>When you receive an invitation, you have several options:</para>
    <formalpara id="bsaizt9">
     <title>Accept:</title>
@@ -2794,7 +2794,7 @@
   <section id="usage-mail-organize-folders">
    <title>Getting Organized with Folders</title>
    <para>Evolution, like most other mail systems, stores mail in folders. You start out with a few mail folders, such as Inbox, Outbox, and Drafts, but you can create as many as you like. Create new folders by clicking Folder &gt; New, or by right-clicking in the folder list and selecting New Folder.</para>
-   <para>When you click OK, your new folder appears in the folder view. You can then move the messages to it by dragging and dropping them, or right click on the message and choose Move to folder, or press Shift+Ctrl+V.</para>
+   <para>When you click OK, your new folder appears in the folder view. You can then move the messages to it by dragging and dropping them, or right-click on the message and choose Move to folder, or press Shift+Ctrl+V.</para>
    <para>You can also drop the messages to a particular folder by selecting Message &gt; Move to folder. This will open the Select folder window, where you can drop your message to any of the folders listed.</para>
    <para>If you want to create a new folder click New at the bottom left of the window. Specify the location and enter the label of the folder in the entry box appeared at the top. You can also move the messages from one folder to another by selecting the message and then press the Move button at the bottom right.</para>
    <para>If you create a filter with the filter assistant, you can have mail filed automatically. Select Edit &gt; Message Filters to bring up the Message Filters window.</para>
@@ -3472,7 +3472,7 @@
        <para>Go to the Contacts window by selecting View &gt; Window &gt; Contacts from the menubar.</para>
       </listitem>
       <listitem id="b13ps28d">
-       <para>Double click on the card you want to edit.</para>
+       <para>Double-click on the card you want to edit.</para>
       </listitem>
       <listitem id="b13ps3r7">
        <para>Edit the information in the Contact Editor window.</para>
@@ -3484,7 +3484,7 @@
      <para>You can also edit the contact information from the preview pane.</para>
      <orderedlist>
       <listitem id="b13psb92">
-       <para>Right click on the address from Message Header.</para>
+       <para>Right-click on the address from Message Header.</para>
       </listitem>
       <listitem id="b13psizd">
        <para>Select Add to Address Book to bring up the Contact Quick-Add window.</para>
@@ -3788,7 +3788,7 @@
     <para>To mark a card as belonging to a category,</para>
     <orderedlist>
      <listitem id="b13ptaog">
-      <para>Double click the card to bring up the Contact Editor window</para>
+      <para>Double-click the card to bring up the Contact Editor window.</para>
      </listitem>
      <listitem id="b13ptb98">
       <para>Click the Categories button at the left.</para>
@@ -3979,7 +3979,7 @@
     <para>Or</para>
     <para>Right-click on the calendar at the left and select Mark Calendar for offline use. For more information on working offline refer <link linkend="usage-mail-getnsend-offline">Working Offline</link>.</para>
     <tip>
-     <para>To export or share or to store a calendar locally in iCal format, right click on the calendar in the calendar view at the left and select Save to Disk.</para>
+     <para>To export or share or to store a calendar locally in iCal format, right-click on the calendar in the calendar view at the left and select Save to Disk.</para>
     </tip>
     <para>Click Mark as default folder if you want to mark this folder as your default calendar folder.</para>
     <section id="b1g4s6ns">
@@ -4094,7 +4094,7 @@
        <para>or</para>
        <para>Click Calendars on the Switcher, then click File, then New &gt; Appointment.</para>
        <para>or</para>
-       <para>Double-click in a blank space on the calendar view to open an Appointment dialog box. The particular time on the calendar view against which you have double clicked on will be suggested for the new appointment.</para>
+       <para>Double-click in a blank space on the calendar view to open an Appointment dialog box. The particular time on the calendar view against which you have double-clicked on will be suggested for the new appointment.</para>
        <para>or</para>
        <para>Select the required duration on the calendar view and enter the summary.</para>
       </listitem>
@@ -4734,7 +4734,7 @@
       <para>Select a group for the task.</para>
      </listitem>
      <listitem id="b1012vd1">
-      <para>Click Add, or press Insert key, or right click and then press Add to add the email addresses of people you want to assign the task. To remove an attendee from the list, select an attendee, then press Remove. To edit a field, select the field, then click Edit. Click View on the menu bar to show or hide the Type, Role, Status, and RSVP fields.</para>
+      <para>Click Add, or press Insert key, or right-click and then press Add to add the email addresses of people you want to assign the task. To remove an attendee from the list, select an attendee, then press Remove. To edit a field, select the field, then click Edit. Click View on the menu bar to show or hide the Type, Role, Status, and RSVP fields.</para>
      </listitem>
      <listitem id="b1012vd2">
       <para>Enter a brief summary in the Summary field.</para>
