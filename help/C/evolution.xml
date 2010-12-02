@@ -2207,7 +2207,7 @@
     <title>Configuring Message Templates</title>
     <para>In the Plugin Manager, select the Configuration tab to customize your message templates. You can add, edit or remove the key-value pairs. You can specify any number of key-value pairs.</para>
     <para>In any template, the occurrence of every $key is replaced by the value it has in the configuration. For example, if you set the key to Manager and the value to Harry, any occurrence of $Manager is replaced by Harry in the message.</para>
-    <para>Assume that you have 1000 message templates with your current manager&apos;s name has a reference in them. When the current manager is replaced by a new one, it&apos;s not easy for you to manually replace the manager&apos;s name in all the 1000 messages. If the messages have a $Manager key value, you can reset the value in the Configuration tab of this plugin.</para>
+    <para>Assume that you have 1000 message templates with your current manager&apos;s name in them. When the current manager is replaced by a new one, it&apos;s not easy for you to manually replace the manager&apos;s name in all the 1000 messages. If the messages have a $Manager key value, you can reset the value in the Configuration tab of this plugin.</para>
     <para>By default, the entire environment variables are used as a key-value pair. An occurrence of $env_variable is replaced by the value it carries. For example, an occurrence of $PATH in your template is replaced by its value when the template is used.</para>
     <para>The replacement process uses the following order of precedence:</para>
     <itemizedlist>
