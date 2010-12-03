@@ -618,6 +618,11 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 			/* FIXME Not passing a GCancellable or GError here. */
 			template = camel_folder_get_message_sync (
 				folder, uid, NULL, NULL);
+
+			/* FIXME Do something more intelligent with errors. */
+			if (template == NULL)
+				continue;
+
 			g_object_ref (template);
 
 			action_label =
