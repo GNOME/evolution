@@ -786,6 +786,9 @@ soup_authenticate (SoupSession *session, SoupMessage *msg, SoupAuth *auth, gbool
 	if (!username || !*username || (retrying && (!password || !*password)))
 		return;
 
+	if (!retrying && !password)
+		password = e_passwords_get_password ("Calendar", g_object_get_data (dialog, "caldav-auth-key"));
+
 	if (!password || !*password || retrying) {
 		gchar *pass, *prompt, *add = NULL;
 		gchar *bold_user, *bold_host;
@@ -811,7 +814,7 @@ soup_authenticate (SoupSession *session, SoupMessage *msg, SoupAuth *auth, gbool
 		}
 
 		pass = e_passwords_ask_password (_("Enter password"),
-			"Calendar", "caldav-search-server", prompt,
+			"Calendar", g_object_get_data (dialog, "caldav-auth-key"), prompt,
 			E_PASSWORDS_REMEMBER_NEVER | E_PASSWORDS_DISABLE_REMEMBER | E_PASSWORDS_SECRET,
 			NULL, GTK_WINDOW (dialog));
 
@@ -1108,7 +1111,7 @@ init_dialog (GtkDialog *dialog, GtkWidget **new_url_entry, const gchar *url, con
 	GtkTreeSelection *selection;
 	SoupSession *session;
 	EProxy *proxy;
-	SoupURI *proxy_uri = NULL;
+	SoupURI *soup_uri = NULL;
 	GThread *thread;
 	GError *error = NULL;
 	GMutex *thread_mutex;
@@ -1214,10 +1217,10 @@ init_dialog (GtkDialog *dialog, GtkWidget **new_url_entry, const gchar *url, con
 
 	/* use proxy if necessary */
 	if (e_proxy_require_proxy_for_uri (proxy, url)) {
-		proxy_uri = e_proxy_peek_uri_for (proxy, url);
+		soup_uri = e_proxy_peek_uri_for (proxy, url);
 	}
 
-	g_object_set (session, SOUP_SESSION_PROXY_URI, proxy_uri, NULL);
+	g_object_set (session, SOUP_SESSION_PROXY_URI, soup_uri, NULL);
 	g_object_unref (proxy);
 
 	g_signal_connect (session, "authenticate", G_CALLBACK (soup_authenticate), dialog);
@@ -1235,10 +1238,17 @@ init_dialog (GtkDialog *dialog, GtkWidget **new_url_entry, const gchar *url, con
 		break;
 	}
 
+	soup_uri = soup_uri_new (url);
+	soup_uri_set_scheme (soup_uri, "caldav");
+	soup_uri_set_user (soup_uri, username);
+
+	g_object_set_data_full (G_OBJECT (dialog), "caldav-auth-key", soup_uri_to_string (soup_uri, FALSE), g_free);
 	g_object_set_data_full (G_OBJECT (dialog), "caldav-source-type", g_strdup (source_type_str), g_free);
 	g_object_set_data_full (G_OBJECT (dialog), "caldav-base-url", g_strdup (url), g_free);
 	g_object_set_data_full (G_OBJECT (dialog), "caldav-username", g_strdup (username), g_free);
 	g_object_set_data_full (G_OBJECT (dialog), "caldav-session", session, NULL); /* it is freed at the end of thread life */
+
+	soup_uri_free (soup_uri);
 
 	thread_mutex = g_mutex_new ();
 	thread_cond = g_cond_new ();
