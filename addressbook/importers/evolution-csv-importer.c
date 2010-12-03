@@ -37,6 +37,7 @@
 #include <libebook/e-destination.h>
 
 #include "e-util/e-import.h"
+#include "util/addressbook.h"
 
 #include "evolution-addressbook-importers.h"
 
@@ -827,6 +828,20 @@ csv_import_done (CSVImporter *gci)
 }
 
 static void
+book_loaded_cb (EBook *book, const GError *error, gpointer closure)
+{
+	CSVImporter *gci = closure;
+
+	g_return_if_fail (gci != NULL);
+	g_return_if_fail (gci->book == book);
+
+	if (error)
+		csv_import_done (gci);
+	else
+		gci->idle_id = g_idle_add (csv_import_contacts, gci);
+}
+
+static void
 csv_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	CSVImporter *gci;
@@ -870,9 +885,7 @@ csv_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 	gci->size = ftell (file);
 	fseek (file, 0, SEEK_SET);
 
-	e_book_open (gci->book, FALSE, NULL);
-
-	gci->idle_id = g_idle_add (csv_import_contacts, gci);
+	addressbook_load (gci->book, book_loaded_cb, gci);
 }
 
 static void
