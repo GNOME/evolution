@@ -47,6 +47,7 @@
 #include <libebook/e-destination.h>
 
 #include "e-util/e-import.h"
+#include "util/addressbook.h"
 
 #include "evolution-addressbook-importers.h"
 
@@ -621,6 +622,20 @@ ldif_import_done (LDIFImporter *gci)
 }
 
 static void
+book_loaded_cb (EBook *book, const GError *error, gpointer closure)
+{
+	LDIFImporter *gci = closure;
+
+	g_return_if_fail (gci != NULL);
+	g_return_if_fail (gci->book == book);
+
+	if (error)
+		ldif_import_done (gci);
+	else
+		gci->idle_id = g_idle_add (ldif_import_contacts, gci);
+}
+
+static void
 ldif_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	LDIFImporter *gci;
@@ -662,9 +677,7 @@ ldif_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) NULL);
 
-	e_book_open (gci->book, FALSE, NULL);
-
-	gci->idle_id = g_idle_add (ldif_import_contacts, gci);
+	addressbook_load (gci->book, book_loaded_cb, gci);
 }
 
 static void

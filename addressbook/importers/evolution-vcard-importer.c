@@ -44,8 +44,18 @@
 #include "e-util/e-import.h"
 #include "e-util/e-datetime-format.h"
 #include "misc/e-web-view-preview.h"
+#include "util/addressbook.h"
 
 #include "evolution-addressbook-importers.h"
+
+enum _VCardEncoding {
+	VCARD_ENCODING_NONE,
+	VCARD_ENCODING_UTF8,
+	VCARD_ENCODING_UTF16,
+	VCARD_ENCODING_LOCALE
+};
+
+typedef enum _VCardEncoding VCardEncoding;
 
 typedef struct {
 	EImport *import;
@@ -62,6 +72,10 @@ typedef struct {
 	GList *contactlist;
 	GList *iterator;
 	EBook *book;
+
+	/* when opening book */
+	gchar *contents;
+	VCardEncoding encoding;
 } VCardImporter;
 
 static void vcard_import_done (VCardImporter *gci);
@@ -320,15 +334,6 @@ utf16_to_utf8 (gunichar2 *utf16)
 	return g_utf16_to_utf8 (utf16, -1, NULL, NULL, NULL);
 }
 
-enum _VCardEncoding {
-	VCARD_ENCODING_NONE,
-	VCARD_ENCODING_UTF8,
-	VCARD_ENCODING_UTF16,
-	VCARD_ENCODING_LOCALE
-};
-
-typedef enum _VCardEncoding VCardEncoding;
-
 /* Actually check the contents of this file */
 static VCardEncoding
 guess_vcard_encoding (const gchar *filename)
@@ -459,6 +464,7 @@ vcard_import_done (VCardImporter *gci)
 	if (gci->idle_id)
 		g_source_remove (gci->idle_id);
 
+	g_free (gci->contents);
 	g_object_unref (gci->book);
 	g_list_foreach (gci->contactlist, (GFunc) g_object_unref, NULL);
 	g_list_free (gci->contactlist);
@@ -469,14 +475,53 @@ vcard_import_done (VCardImporter *gci)
 }
 
 static void
+book_loaded_cb (EBook *book, const GError *error, gpointer closure)
+{
+	VCardImporter *gci = closure;
+
+	g_return_if_fail (gci != NULL);
+	g_return_if_fail (gci->book == book);
+
+	if (error) {
+		vcard_import_done (gci);
+		return;
+	}
+
+	if (gci->encoding == VCARD_ENCODING_UTF16) {
+		gchar *tmp;
+
+		gunichar2 *contents_utf16 = (gunichar2*) gci->contents;
+		tmp = utf16_to_utf8 (contents_utf16);
+		g_free (gci->contents);
+		gci->contents = tmp;
+	} else if (gci->encoding == VCARD_ENCODING_LOCALE) {
+		gchar *tmp;
+		tmp = g_locale_to_utf8 (gci->contents, -1, NULL, NULL, NULL);
+		g_free (gci->contents);
+		gci->contents = tmp;
+	}
+
+	gci->contactlist = eab_contact_list_from_string (gci->contents);
+	g_free (gci->contents);
+	gci->contents = NULL;
+	gci->iterator = gci->contactlist;
+	gci->total = g_list_length (gci->contactlist);
+
+	if (gci->iterator)
+		gci->idle_id = g_idle_add (vcard_import_contacts, gci);
+	else
+		vcard_import_done (gci);
+}
+
+static void
 vcard_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	VCardImporter *gci;
-	gchar *contents;
-	VCardEncoding encoding;
 	EBook *book;
 	EImportTargetURI *s = (EImportTargetURI *)target;
 	gchar *filename;
+	gchar *contents;
+	VCardEncoding encoding;
 
 	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
 	if (filename == NULL) {
@@ -515,32 +560,10 @@ vcard_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 	gci->import = g_object_ref (ei);
 	gci->target = target;
 	gci->book = book;
+	gci->encoding = encoding;
+	gci->contents = contents;
 
-	e_book_open (gci->book, FALSE, NULL);
-
-	if (encoding == VCARD_ENCODING_UTF16) {
-		gchar *tmp;
-
-		gunichar2 *contents_utf16 = (gunichar2*)contents;
-		tmp = utf16_to_utf8 (contents_utf16);
-		g_free (contents);
-		contents = tmp;
-	} else if (encoding == VCARD_ENCODING_LOCALE) {
-		gchar *tmp;
-		tmp = g_locale_to_utf8 (contents, -1, NULL, NULL, NULL);
-		g_free (contents);
-		contents = tmp;
-	}
-
-	gci->contactlist = eab_contact_list_from_string (contents);
-	g_free (contents);
-	gci->iterator = gci->contactlist;
-	gci->total = g_list_length (gci->contactlist);
-
-	if (gci->iterator)
-		gci->idle_id = g_idle_add (vcard_import_contacts, gci);
-	else
-		vcard_import_done (gci);
+	addressbook_load (book, book_loaded_cb, gci);
 }
 
 static void
