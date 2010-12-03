@@ -111,7 +111,6 @@ cal_shell_sidebar_backend_died_cb (ECalShellSidebar *cal_shell_sidebar,
                                    ECal *client)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
 	GHashTable *client_table;
 	ESource *source;
@@ -121,7 +120,6 @@ cal_shell_sidebar_backend_died_cb (ECalShellSidebar *cal_shell_sidebar,
 
 	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	source = e_cal_get_source (client);
 	uid = e_source_peek_uid (source);
@@ -131,8 +129,7 @@ cal_shell_sidebar_backend_died_cb (ECalShellSidebar *cal_shell_sidebar,
 	g_hash_table_remove (client_table, uid);
 	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, NULL);
 
-	e_alert_run_dialog_for_args (
-		GTK_WINDOW (shell_window),
+	e_alert_submit (E_ALERT_SINK (e_shell_view_get_shell_content (shell_view)),
 		"calendar:calendar-crashed", NULL);
 
 	g_object_unref (source);
@@ -144,36 +141,18 @@ cal_shell_sidebar_backend_error_cb (ECalShellSidebar *cal_shell_sidebar,
                                     ECal *client)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
 	ESourceGroup *source_group;
 	ESource *source;
-	GtkWidget *dialog;
 
 	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	source = e_cal_get_source (client);
 	source_group = e_source_peek_group (source);
 
-	/* Translators: This string is displayed in a message dialog when
-	 *              our connection to the calendar service detects an
-	 *              out-of-band error.  The first string is a name of 
-	 *              group in which calendar for the source of error is
-	 *              defined and the second string is name of calendar 
-	 *              and the third string is the error message. */
-	dialog = gtk_message_dialog_new (
-		GTK_WINDOW (shell_window),
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
-		_("Error on %s: %s\n%s"),
-		e_source_group_peek_name (source_group),
-		e_source_peek_name (source), message);
-
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-
+	e_alert_submit (E_ALERT_SINK (e_shell_view_get_shell_content (shell_view)),
+		"calendar:backend-error", e_source_group_peek_name (source_group), e_source_peek_name (source), message, NULL);
 }
 
 static void

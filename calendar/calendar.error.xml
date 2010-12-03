@@ -289,6 +289,14 @@
   <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
  </error>
 
+ <error id="backend-error" type="error" default="GTK_RESPONSE_YES">
+  <!-- Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
+     {1} is replaced with a calendar/task/memo list name, where the error happened -->
+  <_primary>Error on {0}: {1}</_primary>
+  <secondary>{2}</secondary>
+  <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
+ </error>
+
  <error id="server-version" type="warning">
  <_primary>Some features may not work properly with your current server.</_primary>
  <_secondary>You are connecting to an unsupported GroupWise server and may encounter problems using Evolution. For best results, the server should be upgraded to a supported version.</_secondary>

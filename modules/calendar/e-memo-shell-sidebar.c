@@ -101,12 +101,24 @@ memo_shell_sidebar_emit_status_message (EMemoShellSidebar *memo_shell_sidebar,
 	g_signal_emit (memo_shell_sidebar, signal_id, 0, status_message, -1.0);
 }
 
+static EAlertSink *
+get_alert_sink (EShellView *shell_view)
+{
+	EShellWindow *shell_window;
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	if (g_strcmp0 (e_shell_window_get_active_view (shell_window), "calendar") == 0)
+		shell_view = e_shell_window_peek_shell_view (shell_window, "calendar");
+
+	return E_ALERT_SINK (e_shell_view_get_shell_content (shell_view));
+}
+
 static void
 memo_shell_sidebar_backend_died_cb (EMemoShellSidebar *memo_shell_sidebar,
                                     ECal *client)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
 	GHashTable *client_table;
 	ESource *source;
@@ -116,7 +128,6 @@ memo_shell_sidebar_backend_died_cb (EMemoShellSidebar *memo_shell_sidebar,
 
 	shell_sidebar = E_SHELL_SIDEBAR (memo_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	source = e_cal_get_source (client);
 	uid = e_source_peek_uid (source);
@@ -126,8 +137,7 @@ memo_shell_sidebar_backend_died_cb (EMemoShellSidebar *memo_shell_sidebar,
 	g_hash_table_remove (client_table, uid);
 	memo_shell_sidebar_emit_status_message (memo_shell_sidebar, NULL);
 
-	e_alert_run_dialog_for_args (
-		GTK_WINDOW (shell_window),
+	e_alert_submit (get_alert_sink (shell_view),
 		"calendar:memos-crashed", NULL);
 
 	g_object_unref (source);
@@ -139,35 +149,18 @@ memo_shell_sidebar_backend_error_cb (EMemoShellSidebar *memo_shell_sidebar,
                                      ECal *client)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
-	GtkWidget *dialog;
-	const gchar *uri;
-	gchar *uri_no_passwd;
+	ESourceGroup *source_group;
+	ESource *source;
 
 	shell_sidebar = E_SHELL_SIDEBAR (memo_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	uri = e_cal_get_uri (client);
-	uri_no_passwd = get_uri_without_password (uri);
+	source = e_cal_get_source (client);
+	source_group = e_source_peek_group (source);
 
-	/* Translators: This string is displayed in a message dialog when
-	 *              our connection to the calendar service detects an
-	 *              out-of-band error.  The first string is a URI for
-	 *              the source of the error, the second string is the
-	 *              error message. */
-	dialog = gtk_message_dialog_new (
-		GTK_WINDOW (shell_window),
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
-		_("Error on %s\n%s"),
-		uri_no_passwd, message);
-
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-
-	g_free (uri_no_passwd);
+	e_alert_submit (get_alert_sink (shell_view),
+		"calendar:backend-error", e_source_group_peek_name (source_group), e_source_peek_name (source), message, NULL);
 }
 
 static void
