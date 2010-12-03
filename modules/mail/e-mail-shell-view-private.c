@@ -1091,17 +1091,23 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	em_utils_uids_free (uids);
 
 	/* Choose a suitable folder name for displaying. */
-	if (parent_store == local_store && (
-		strcmp (folder_name, "Drafts") == 0 ||
-		strcmp (folder_name, "Inbox") == 0 ||
-		strcmp (folder_name, "Outbox") == 0 ||
-		strcmp (folder_name, "Sent") == 0 ||
-		strcmp (folder_name, "Templates") == 0))
-		display_name = _(folder_name);
-	else if (strcmp (folder_name, "INBOX") == 0)
+	display_name = folder_name;
+	if (parent_store == local_store) {
+		if (strcmp (folder_name, "Drafts") == 0)
+			display_name = _("Drafts");
+		else if (strcmp (folder_name, "Inbox") == 0)
+			display_name = _("Inbox");
+		else if (strcmp (folder_name, "Outbox") == 0)
+			display_name = _("Outbox");
+		else if (strcmp (folder_name, "Sent") == 0)
+			display_name = _("Sent");
+		else if (strcmp (folder_name, "Templates") == 0)
+			display_name = _("Templates");
+		else if (strcmp (folder_name, "Trash") == 0)
+			display_name = _("Trash");
+	}
+	if (strcmp (folder_name, "INBOX") == 0)
 		display_name = _("Inbox");
-	else
-		display_name = folder_name;
 
 	title = g_strdup_printf ("%s (%s)", display_name, buffer->str);
 	e_shell_sidebar_set_secondary_text (shell_sidebar, buffer->str);
