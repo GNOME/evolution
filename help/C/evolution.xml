@@ -873,7 +873,7 @@
    </formalpara>
    <formalpara id="b17s9o9p">
     <title>Message List:</title>
-    <para>The message list displays a list of email that you have received. To view an email in the preview pane, click the email in the message list.</para>
+    <para>The message list displays all the read and unread messages that you have. To view an email in the preview pane, click the message in the message list.</para>
    </formalpara>
    <formalpara id="b17s9of0">
     <title>Side Bar:</title>
@@ -889,7 +889,7 @@
    </formalpara>
    <formalpara id="b17s9or8">
     <title>Preview Pane:</title>
-    <para>The preview pane displays the contents of the email that is selected in the message list.</para>
+    <para>The preview pane displays the message that is currently chosen in the message list.</para>
    </formalpara>
 
    <section id="usage-mainwindow-menubar">
@@ -1032,7 +1032,7 @@
     <mediaobject id="b159qi3q"><imageobject><imagedata format="PNG" fileref="figures/evo_mail_a.png"/></imageobject></mediaobject>
     <formalpara id="b17sa4um">
      <title>Message List:</title>
-     <para>The message list displays all the messages that you have. This includes all your read and unread messages, and email that is flagged to be deleted.</para>
+     <para>The message list displays all the read and unread messages that you have. To view an email in the preview pane, click the message in the message list.</para>
     </formalpara>
     <formalpara id="b17sa500">
      <title>Preview Pane:</title>
