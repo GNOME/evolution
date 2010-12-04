@@ -1069,7 +1069,6 @@
     <para>To use the contacts tool, click Contacts in the Switcher. By default, the display shows all your contacts in alphabetical order, in a minicard view. You can select other views from the View menu, and adjust the width of the columns by clicking and dragging the gray column dividers.</para>
     <mediaobject id="usage-contact-fig"><imageobject><imagedata format="PNG" fileref="figures/contacts_mainwindow_a.png"/></imageobject></mediaobject>
     <para>Another advantage of the Evolution contacts is its integration with the rest of the application. For example, you can right-click an email address in Evolution mail to instantly create a contact entry.</para>
-    <para><emphasis>Contact List</emphasis></para>
     <para>The largest section of the contacts display shows a list of individual contacts. You can also search the contacts in the same way that you search email folders, using the search tool on the right side of the toolbar.</para>
     <para>For detailed instructions on how to use the address book, read <link linkend="usage-contact">Evolution Contacts: the Address Book</link>.</para>
    </section>
