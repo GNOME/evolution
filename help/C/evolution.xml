@@ -138,18 +138,6 @@
     <para><link linkend="apx-gloss">Glossary</link></para>
    </listitem>
   </itemizedlist>
-  <formalpara id="b17q8udq">
-   <title>Additional Documentation:</title>
-   <para>You can find additional help in three places:</para>
-  </formalpara>
-  <itemizedlist>
-   <listitem>
-    <para>Evolution has a number of command line options that you can use. For information about command line options, open a terminal window and type <command>evolution --help</command>.</para>
-   </listitem>
-   <listitem>
-    <para>In the Evolution interface, click Help &gt; Contents.</para>
-   </listitem>
-  </itemizedlist>
   <formalpara id="b17q8uz1">
    <title>Documentation Conventions:</title>
    <para>In Novell documentation, a greater-than symbol (&gt;) is used to separate actions within a step and items in a cross-reference path. A trademark symbol (<trademark class="registered"/>, <trademark/>, etc.) denotes a Novell trademark. An asterisk (*) denotes a third-party trademark.</para>
@@ -1130,90 +1118,6 @@
   <section id="bsekq8r">
    <title>Command Line Options</title>
    <para>Evolution has a number of command line options that you can use. For more information about command line options, open a terminal window and type <command>evolution --help</command>.</para>
-   <para>The most important command line options are:</para>
-   <informaltable>
-    <tgroup cols="2">
-     <colspec colwidth="2.844*" colname="1" colnum="1"/>
-     <colspec colwidth="2.844*" colname="2" colnum="2"/>
-     <thead valign="top">
-      <row id="bsl8i01">
-       <entry colname="1">
-        <para>Command</para>
-       </entry>
-       <entry colname="2">
-        <para>Description</para>
-       </entry>
-      </row>
-     </thead>
-     <tbody valign="top">
-      <row id="bsl8i02">
-       <entry colname="1">
-        <para>evolution --offline</para>
-       </entry>
-       <entry colname="2">
-        <para>Starts Evolution in offline mode.</para>
-       </entry>
-      </row>
-      <row id="b17xmf5w">
-       <entry colname="1">
-        <para>evolution --disable-preview</para>
-       </entry>
-       <entry colname="2">
-        <para>Disables all the preview panes when you launch Evolution.</para>
-        <para>This prevents Evolution from opening the most recently selected message, task or contact, thus providing a way to avoid an application crash caused by previewing the message, task or contact.</para>
-       </entry>
-      </row>
-      <row id="bsl8i03">
-       <entry colname="1">
-        <para>evolution mailto:<varname>joe@somewhere.net</varname></para>
-       </entry>
-       <entry colname="2">
-        <para>Starts Evolution and begins composing a message to the email address listed.</para>
-       </entry>
-      </row>
-      <row id="bsl8i04">
-       <entry colname="1">
-        <para>evolution -c mail</para>
-       </entry>
-       <entry colname="2">
-        <para>Starts Evolution in mail mode.</para>
-       </entry>
-      </row>
-      <row id="bsl8i05">
-       <entry colname="1">
-        <para>evolution -c calendar</para>
-       </entry>
-       <entry colname="2">
-        <para>Starts Evolution in calendar mode.</para>
-       </entry>
-      </row>
-      <row id="bsl8i06">
-       <entry colname="1">
-        <para>evolution -c contacts</para>
-       </entry>
-       <entry colname="2">
-        <para>Starts Evolution in contacts mode.</para>
-       </entry>
-      </row>
-      <row id="bsl8i07">
-       <entry colname="1">
-        <para>evolution --force-shutdown</para>
-       </entry>
-       <entry colname="2">
-        <para>Forces every part of Evolution to shut down immediately.</para>
-       </entry>
-      </row>
-      <row id="bsl8i08">
-       <entry colname="1">
-        <para>evolution <quote>%s</quote></para>
-       </entry>
-       <entry colname="2">
-        <para>Makes Evolution your default email handler for your Web browser and in the GNOME&z-3rdParty; Control Center.</para>
-       </entry>
-      </row>
-     </tbody>
-    </tgroup>
-   </informaltable>
   </section>
  </chapter>
 
