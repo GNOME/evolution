@@ -1080,18 +1080,14 @@
    <orderedlist>
     <listitem id="b17qydgx">
      <para>Select File &gt; Backup Settings to select the folder where you want to save the backup.</para>
-     <para>Evolution is always backed up as evolution-backup.tar.gz.</para>
-     <para>Before the backup process starts, it asks you to close Evolution and displays a warning as shown below:</para>
-     <mediaobject id="b17qyjon"><imageobject><imagedata format="PNG" fileref="figures/evo_backup_warning.png"/></imageobject></mediaobject>
-     
+     <para>The backup file to be created will be called evolution-backup.tar.gz.</para>
+     <para>Before the backup process starts a warning will be shown asking you to close Evolution.</para>
     </listitem>
     <listitem id="b17qygt2">
-     <para>Select Restart Evolution after backup to restart Evolution immediately after the backup process.</para>
+     <para>Select Restart Evolution to restart Evolution immediately after finishing the backup.</para>
     </listitem>
     <listitem id="b17qykwp">
      <para>Click Yes to close Evolution and start the backup.</para>
-     <mediaobject id="b17qym3m"><imageobject><imagedata format="PNG" fileref="figures/evo_backup_prgsbar.png"/></imageobject></mediaobject>
-     <para>Evolution will auto-restart after the process.</para>
     </listitem>
    </orderedlist>
 
@@ -1103,7 +1099,7 @@
       <para>Select File &gt; Restore Settings to open the available evolution-backup.tar.gz files.</para>
      </listitem>
      <listitem id="b17rbry6">
-      <para>Select the evolution-backup.tar.gz and click Save.</para>
+      <para>Select the file and click Save.</para>
       <para>Before the process starts, a pop-up window appears and asks you to close Evolution. Close all the windows and then click Restore in the pop-up window.</para>
       <tip>
        <para> If you are creating your first account via the Startup Wizard, you can use the option to restore from the archive if it is available locally.</para>
