@@ -606,6 +606,9 @@ shell_view_constructed (GObject *object)
 	shell_view->priv->size_group = NULL;
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
+
+	if (G_OBJECT_CLASS (parent_class)->constructed)
+		G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static GtkWidget *

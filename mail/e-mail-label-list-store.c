@@ -180,6 +180,9 @@ mail_label_list_store_constructed (GObject *object)
 		bridge, key, GTK_LIST_STORE (store));
 
 	mail_label_list_store_ensure_defaults (store);
+
+	if (G_OBJECT_CLASS (parent_class)->constructed)
+		G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void

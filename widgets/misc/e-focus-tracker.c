@@ -444,6 +444,9 @@ focus_tracker_constructed (GObject *object)
 	g_signal_connect_swapped (
 		clipboard, "owner-change",
 		G_CALLBACK (e_focus_tracker_update_actions), object);
+
+	if (G_OBJECT_CLASS (e_focus_tracker_parent_class)->constructed)
+		G_OBJECT_CLASS (e_focus_tracker_parent_class)->constructed (object);
 }
 
 static void

@@ -214,6 +214,9 @@ shell_sidebar_constructed (GObject *object)
 	g_free (label);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
+
+	if (G_OBJECT_CLASS (e_shell_sidebar_parent_class)->constructed)
+		G_OBJECT_CLASS (e_shell_sidebar_parent_class)->constructed (object);
 }
 
 static void

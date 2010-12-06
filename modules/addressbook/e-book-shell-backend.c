@@ -510,6 +510,9 @@ book_shell_backend_constructed (GObject *object)
 	/* Initialize preferences after the main loop starts so
 	 * that all EPlugins and EPluginHooks are loaded first. */
 	g_idle_add ((GSourceFunc) book_shell_backend_init_preferences, shell);
+
+	if (G_OBJECT_CLASS (parent_class)->constructed)
+		G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void

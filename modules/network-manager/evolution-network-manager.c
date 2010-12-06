@@ -202,6 +202,9 @@ static void
 network_manager_constructed (GObject *object)
 {
 	network_manager_connect (E_NETWORK_MANAGER (object));
+
+	if (G_OBJECT_CLASS (e_network_manager_parent_class)->constructed)
+		G_OBJECT_CLASS (e_network_manager_parent_class)->constructed (object);
 }
 
 static void

@@ -210,8 +210,8 @@ attachment_handler_image_constructed (GObject *object)
 	handler = E_ATTACHMENT_HANDLER (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_attachment_handler_image_parent_class)->
-		constructed (object);
+	if (G_OBJECT_CLASS (e_attachment_handler_image_parent_class)->constructed)
+		G_OBJECT_CLASS (e_attachment_handler_image_parent_class)->constructed (object);
 
 	view = e_attachment_handler_get_view (handler);
 

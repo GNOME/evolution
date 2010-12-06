@@ -2126,6 +2126,9 @@ msg_composer_constructed (GObject *object)
 	e_plugin_ui_enable_manager (ui_manager, id);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (composer));
+
+	if (G_OBJECT_CLASS (e_msg_composer_parent_class)->constructed)
+		G_OBJECT_CLASS (e_msg_composer_parent_class)->constructed (object);
 }
 
 static void

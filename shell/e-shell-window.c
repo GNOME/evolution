@@ -343,6 +343,9 @@ shell_window_constructed (GObject *object)
 	if (e_shell_get_meego_mode (shell_window->priv->shell) &&
 	    e_shell_get_small_screen_mode (shell_window->priv->shell))
 		gtk_window_set_decorated (GTK_WINDOW (object), FALSE);
+
+	if (G_OBJECT_CLASS (e_shell_window_parent_class)->constructed)
+		G_OBJECT_CLASS (e_shell_window_parent_class)->constructed (object);
 }
 
 static GtkWidget *

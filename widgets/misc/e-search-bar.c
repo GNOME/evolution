@@ -383,6 +383,9 @@ search_bar_constructed (GObject *object)
 		priv->case_sensitive_button, "active",
 		G_BINDING_BIDIRECTIONAL |
 		G_BINDING_SYNC_CREATE);
+
+	if (G_OBJECT_CLASS (e_search_bar_parent_class)->constructed)
+		G_OBJECT_CLASS (e_search_bar_parent_class)->constructed (object);
 }
 
 static void

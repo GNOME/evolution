@@ -489,6 +489,9 @@ gnome_calendar_constructed (GObject *object)
 		G_CALLBACK (gnome_calendar_notify_week_start_day_cb), gcal);
 
 	gnome_calendar_goto_today (gcal);
+
+	if (G_OBJECT_CLASS (gnome_calendar_parent_class)->constructed)
+		G_OBJECT_CLASS (gnome_calendar_parent_class)->constructed (object);
 }
 
 /* Class initialization function for the gnome calendar */

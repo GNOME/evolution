@@ -184,6 +184,9 @@ offline_alert_constructed (GObject *object)
 	g_signal_connect (
 		shell, "window-created",
 		G_CALLBACK (offline_alert_window_created_cb), extension);
+
+	if (G_OBJECT_CLASS (e_offline_alert_parent_class)->constructed)
+		G_OBJECT_CLASS (e_offline_alert_parent_class)->constructed (object);
 }
 
 static void

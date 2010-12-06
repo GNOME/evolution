@@ -56,8 +56,8 @@ attachment_handler_constructed (GObject *object)
 	e_attachment_view_add_drag_actions (view, drag_actions);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_attachment_handler_parent_class)->
-		constructed (object);
+	if (G_OBJECT_CLASS (e_attachment_handler_parent_class))
+		G_OBJECT_CLASS (e_attachment_handler_parent_class)->constructed (object);
 }
 
 static void

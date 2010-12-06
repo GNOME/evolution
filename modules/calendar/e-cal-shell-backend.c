@@ -754,6 +754,9 @@ cal_shell_backend_constructed (GObject *object)
 		_("Calendar and Tasks"),
 		e_calendar_preferences_new,
 		600);
+
+	if (G_OBJECT_CLASS (parent_class)->constructed)
+		G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void

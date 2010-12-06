@@ -520,6 +520,9 @@ memo_shell_backend_constructed (GObject *object)
 		shell, "window-created",
 		G_CALLBACK (memo_shell_backend_window_created_cb),
 		shell_backend);
+
+	if (G_OBJECT_CLASS (parent_class)->constructed)
+		G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void

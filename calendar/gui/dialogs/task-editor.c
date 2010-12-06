@@ -213,6 +213,9 @@ task_editor_constructed (GObject *object)
 		object, "client",
 		priv->model, "client",
 		G_BINDING_SYNC_CREATE);
+
+	if (G_OBJECT_CLASS (task_editor_parent_class)->constructed)
+		G_OBJECT_CLASS (task_editor_parent_class)->constructed (object);
 }
 
 static void

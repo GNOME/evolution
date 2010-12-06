@@ -22,6 +22,8 @@
 #include <e-util/e-extension.h>
 #include <misc/e-web-view.h>
 
+static gpointer parent_class;
+
 static void
 mail_config_web_view_realize (GtkWidget *widget)
 {
@@ -68,12 +70,17 @@ mail_config_web_view_constructed (GObject *object)
 	g_signal_connect (
 		extensible, "realize",
 		G_CALLBACK (mail_config_web_view_realize), NULL);
+
+	if (G_OBJECT_CLASS (parent_class)->constructed)
+		G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void
 mail_config_web_view_class_init (EExtensionClass *class)
 {
 	GObjectClass *object_class;
+
+	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = mail_config_web_view_constructed;

@@ -417,6 +417,9 @@ memo_table_constructed (GObject *object)
 	a11y = gtk_widget_get_accessible (GTK_WIDGET (memo_table));
 	if (a11y)
 		atk_object_set_name (a11y, _("Memos"));
+
+	if (G_OBJECT_CLASS (parent_class)->constructed)
+		G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static gboolean

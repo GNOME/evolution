@@ -272,6 +272,9 @@ shell_taskbar_constructed (GObject *object)
 	gtk_widget_set_size_request (GTK_WIDGET (shell_taskbar), 0, -1);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
+
+	if (G_OBJECT_CLASS (e_shell_taskbar_parent_class)->constructed)
+		G_OBJECT_CLASS (e_shell_taskbar_parent_class)->constructed (object);
 }
 
 static void

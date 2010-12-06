@@ -567,6 +567,9 @@ mail_notebook_view_constructed (GObject *object)
 	g_signal_connect (
 		priv->book, "switch-page",
 		G_CALLBACK (mnv_page_changed), object);
+
+	if (G_OBJECT_CLASS (e_mail_notebook_view_parent_class)->constructed)
+		G_OBJECT_CLASS (e_mail_notebook_view_parent_class)->constructed (object);
 }
 
 static void
