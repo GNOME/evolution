@@ -17,8 +17,6 @@ DOC_FIGURES =  \
 	figures/delgt-add.png 			\
 	figures/evo_adv_search_a.png 		\
 	figures/evo_attachreminder_plugin.png	\
-	figures/evo_backup_prgsbar.png		\
-	figures/evo_backup_warning.png		\
 	figures/evo_blink.png			\
 	figures/evo_cal_callout_a.png 		\
 	figures/evo_calender_appointmnt.png 	\
