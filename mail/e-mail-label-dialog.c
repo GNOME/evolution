@@ -138,6 +138,9 @@ mail_label_dialog_constructed (GObject *object)
 	gtk_container_set_border_width (GTK_CONTAINER (object), 12);
 	gtk_container_set_border_width (GTK_CONTAINER (action_area), 0);
 	gtk_container_set_border_width (GTK_CONTAINER (content_area), 0);
+
+	if (G_OBJECT_CLASS (parent_class)->constructed)
+		G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void

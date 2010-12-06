@@ -207,6 +207,9 @@ shell_content_constructed (GObject *object)
 		g_build_filename (config_dir, "searches.xml", NULL);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
+
+	if (G_OBJECT_CLASS (e_shell_content_parent_class)->constructed)
+		G_OBJECT_CLASS (e_shell_content_parent_class)->constructed (object);
 }
 
 static void

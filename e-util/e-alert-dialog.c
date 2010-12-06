@@ -218,6 +218,9 @@ alert_dialog_constructed (GObject *object)
 	gtk_widget_show (widget);
 
 	pango_attr_list_unref (list);
+
+	if (G_OBJECT_CLASS (e_alert_dialog_parent_class)->constructed)
+		G_OBJECT_CLASS (e_alert_dialog_parent_class)->constructed (object);
 }
 
 static void

@@ -210,7 +210,8 @@ static void obj_removed_cb (ECal *client, GList *uids, CompEditor *editor);
 
 G_DEFINE_TYPE_WITH_CODE (
 	CompEditor, comp_editor, GTK_TYPE_WINDOW,
-	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, NULL))
+	G_IMPLEMENT_INTERFACE (E_TYPE_ALERT_SINK, NULL);
+	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 enum {
 	OBJECT_CREATED,
@@ -1498,6 +1499,16 @@ comp_editor_finalize (GObject *object)
 }
 
 static void
+comp_editor_constructed (GObject *object)
+{
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
+
+	/* Chain up to parent's constructed() method. */
+	if (G_OBJECT_CLASS (comp_editor_parent_class)->constructed)
+		G_OBJECT_CLASS (comp_editor_parent_class)->constructed (object);
+}
+
+static void
 comp_editor_bind_gconf (CompEditor *editor)
 {
 	GConfBridge *bridge;
@@ -1624,6 +1635,7 @@ comp_editor_class_init (CompEditorClass *class)
 	object_class->get_property = comp_editor_get_property;
 	object_class->dispose = comp_editor_dispose;
 	object_class->finalize = comp_editor_finalize;
+	object_class->constructed = comp_editor_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->delete_event = comp_editor_delete_event;
@@ -3420,4 +3432,3 @@ obj_removed_cb (ECal *client,
 	if (changed_component_dialog ((GtkWindow *) editor, priv->comp, TRUE, priv->changed))
 		close_dialog (editor);
 }
-

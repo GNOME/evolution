@@ -248,6 +248,9 @@ mailto_handler_constructed (GObject *object)
 	g_signal_connect_swapped (
 		shell, "event::ready-to-start",
 		G_CALLBACK (mailto_handler_check), extension);
+
+	if (G_OBJECT_CLASS (e_mailto_handler_parent_class)->constructed)
+		G_OBJECT_CLASS (e_mailto_handler_parent_class)->constructed (object);
 }
 
 static void

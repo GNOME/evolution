@@ -320,6 +320,9 @@ mail_attachment_bar_constructed (GObject *object)
 
 	key = "/apps/evolution/shell/attachment_view";
 	gconf_bridge_bind_property (bridge, key, object, "active-view");
+
+	if (G_OBJECT_CLASS (parent_class)->constructed)
+		G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void

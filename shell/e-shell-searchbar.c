@@ -737,6 +737,9 @@ shell_searchbar_constructed (GObject *object)
 	gtk_size_group_add_widget (size_group, widget);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
+
+	if (G_OBJECT_CLASS (e_shell_searchbar_parent_class)->constructed)
+		G_OBJECT_CLASS (e_shell_searchbar_parent_class)->constructed (object);
 }
 
 static void

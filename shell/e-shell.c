@@ -690,6 +690,9 @@ shell_constructed (GObject *object)
 
 	if (!unique_app_is_running (UNIQUE_APP (object)))
 		e_file_lock_create ();
+
+	if (G_OBJECT_CLASS (e_shell_parent_class)->constructed)
+		G_OBJECT_CLASS (e_shell_parent_class)->constructed (object);
 }
 
 static UniqueResponse

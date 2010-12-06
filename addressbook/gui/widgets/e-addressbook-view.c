@@ -584,6 +584,9 @@ addressbook_view_constructed (GObject *object)
 	 * view in GalViewInstance::loaded signal handlers. */
 
 	g_free (uri);
+
+	if (G_OBJECT_CLASS (parent_class)->constructed)
+		G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void

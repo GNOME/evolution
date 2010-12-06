@@ -520,6 +520,9 @@ mail_backend_constructed (GObject *object)
 	/* Defer initializing CamelStores until after the main loop
 	 * has started, so migration has a chance to run first. */
 	g_idle_add ((GSourceFunc) mail_backend_idle_cb, shell_backend);
+
+	if (G_OBJECT_CLASS (e_mail_backend_parent_class)->constructed)
+		G_OBJECT_CLASS (e_mail_backend_parent_class)->constructed (object);
 }
 
 static void

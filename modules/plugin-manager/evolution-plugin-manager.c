@@ -501,6 +501,9 @@ plugin_manager_constructed (GObject *object)
 		action_name, GTK_UI_MANAGER_AUTO, FALSE);
 
 	g_object_unref (action);
+
+	if (G_OBJECT_CLASS (e_plugin_manager_parent_class)->constructed)
+		G_OBJECT_CLASS (e_plugin_manager_parent_class)->constructed (object);
 }
 
 static void

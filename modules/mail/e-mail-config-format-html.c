@@ -23,6 +23,8 @@
 #include <e-util/e-extension.h>
 #include <mail/em-format-html.h>
 
+static gpointer parent_class;
+
 static void
 mail_config_format_html_constructed (GObject *object)
 {
@@ -63,12 +65,17 @@ mail_config_format_html_constructed (GObject *object)
 		shell_settings, "mail-show-real-date",
 		extensible, "show-real-date",
 		G_BINDING_SYNC_CREATE);
+
+	if (G_OBJECT_CLASS (parent_class)->constructed)
+		G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void
 mail_config_format_html_class_init (EExtensionClass *class)
 {
 	GObjectClass *object_class;
+
+	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = mail_config_format_html_constructed;

@@ -151,6 +151,9 @@ test_shell_backend_constructed (GObject *object)
 		shell, "window-destroyed",
 		G_CALLBACK (test_shell_backend_window_destroyed_cb),
 		shell_backend);
+
+	if (G_OBJECT_CLASS (parent_class)->constructed)
+		G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void

@@ -185,8 +185,8 @@ attachment_handler_sendto_constructed (GObject *object)
 	handler = E_ATTACHMENT_HANDLER (object);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_attachment_handler_sendto_parent_class)->
-		constructed (object);
+	if (G_OBJECT_CLASS (e_attachment_handler_sendto_parent_class)->constructed)
+		G_OBJECT_CLASS (e_attachment_handler_sendto_parent_class)->constructed (object);
 
 	view = e_attachment_handler_get_view (handler);
 	ui_manager = e_attachment_view_get_ui_manager (view);

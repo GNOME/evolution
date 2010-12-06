@@ -23,6 +23,8 @@
 #include <calendar/gui/e-cal-model.h>
 #include <calendar/gui/e-cal-model-tasks.h>
 
+static gpointer parent_class;
+
 static void
 cal_config_model_constructed (GObject *object)
 {
@@ -113,12 +115,17 @@ cal_config_model_constructed (GObject *object)
 			extensible, "color-overdue",
 			G_BINDING_SYNC_CREATE);
 	}
+
+	if (G_OBJECT_CLASS (parent_class)->constructed)
+		G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void
 cal_config_model_class_init (EExtensionClass *class)
 {
 	GObjectClass *object_class;
+
+	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = cal_config_model_constructed;

@@ -591,6 +591,9 @@ startup_wizard_constructed (GObject *object)
 	g_signal_connect_swapped (
 		shell, "event::ready-to-start",
 		G_CALLBACK (startup_wizard_run), extension);
+
+	if (G_OBJECT_CLASS (e_startup_wizard_parent_class)->constructed)
+		G_OBJECT_CLASS (e_startup_wizard_parent_class)->constructed (object);
 }
 
 static void

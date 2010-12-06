@@ -585,6 +585,9 @@ windows_sens_constructed (GObject *object)
 cleanup:
 		g_free (buf);
 	}
+
+	if (G_OBJECT_CLASS (e_windows_sens_parent_class)->constructed)
+		G_OBJECT_CLASS (e_windows_sens_parent_class)->constructed (object);
 }
 
 static void

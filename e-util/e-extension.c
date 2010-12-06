@@ -127,6 +127,9 @@ extension_constructed (GObject *object)
 	/* This allows subclasses to chain up safely since GObject
 	 * does not implement this method, and we might want to do
 	 * something here in the future. */
+
+	if (G_OBJECT_CLASS (e_extension_parent_class)->constructed)
+		G_OBJECT_CLASS (e_extension_parent_class)->constructed (object);
 }
 
 static void
