@@ -1391,8 +1391,7 @@ e_calendar_view_open_event (ECalendarView *cal_view)
 	if (selected) {
 		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
 		if (event && is_comp_data_valid (event))
-			e_calendar_view_edit_appointment (cal_view, event->comp_data->client,
-					event->comp_data->icalcomp, icalcomponent_get_first_property (event->comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY) != NULL);
+			e_calendar_view_edit_appointment (cal_view, event->comp_data->client, event->comp_data->icalcomp, EDIT_EVENT_AUTODETECT);
 
 		g_list_free (selected);
 	}
@@ -1631,16 +1630,13 @@ e_calendar_view_open_event_with_flags (ECalendarView *cal_view, ECal *client, ic
  * @cal_view: A calendar view.
  * @client: Calendar client.
  * @icalcomp: The object to be edited.
- * @meeting: Whether the appointment is a meeting or not.
+ * @mode: one of #EEditEventMode
  *
  * Opens an editor window to allow the user to edit the selected
  * object.
  */
 void
-e_calendar_view_edit_appointment (ECalendarView *cal_view,
-			     ECal *client,
-			     icalcomponent *icalcomp,
-			     gboolean meeting)
+e_calendar_view_edit_appointment (ECalendarView *cal_view, ECal *client, icalcomponent *icalcomp, EEditEventMode mode)
 {
 	guint32 flags = 0;
 
@@ -1648,7 +1644,8 @@ e_calendar_view_edit_appointment (ECalendarView *cal_view,
 	g_return_if_fail (E_IS_CAL (client));
 	g_return_if_fail (icalcomp != NULL);
 
-	if (meeting) {
+	if ((mode == EDIT_EVENT_AUTODETECT && icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY) != NULL)
+	    || mode == EDIT_EVENT_FORCE_MEETING) {
 		ECalComponent *comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
 		flags |= COMP_EDITOR_MEETING;

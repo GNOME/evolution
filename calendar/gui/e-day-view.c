@@ -3538,7 +3538,6 @@ e_day_view_on_event_double_click (EDayView *day_view,
 				  gint event_num)
 {
 	EDayViewEvent *event;
-	icalproperty *attendee_prop = NULL;
 
 	if (day == -1) {
 		if (!is_array_index_in_bounds (day_view->long_events, event_num))
@@ -3557,11 +3556,7 @@ e_day_view_on_event_double_click (EDayView *day_view,
 	if (!is_comp_data_valid (event))
 		return;
 
-	attendee_prop = icalcomponent_get_first_property (event->comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
-
-	e_calendar_view_edit_appointment ((ECalendarView *)day_view,
-			event->comp_data->client,
-			event->comp_data->icalcomp, attendee_prop ? TRUE:FALSE);
+	e_calendar_view_edit_appointment ((ECalendarView *)day_view, event->comp_data->client, event->comp_data->icalcomp, EDIT_EVENT_AUTODETECT);
 }
 
 static void

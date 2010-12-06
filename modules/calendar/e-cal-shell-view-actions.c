@@ -1216,8 +1216,7 @@ edit_event_as (ECalShellView *cal_shell_view, gboolean as_meeting)
 		}
 	}
 
-	e_calendar_view_edit_appointment (
-		calendar_view, client, icalcomp, as_meeting);
+	e_calendar_view_edit_appointment (calendar_view, client, icalcomp, as_meeting ? EDIT_EVENT_FORCE_MEETING : EDIT_EVENT_FORCE_APPOINTMENT);
 
 	if (!as_meeting && icalcomp) {
 		icalcomponent_free (icalcomp);
