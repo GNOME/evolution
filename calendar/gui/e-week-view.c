@@ -3515,7 +3515,7 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 		e_calendar_view_edit_appointment (E_CALENDAR_VIEW (week_view),
 					     event->comp_data->client,
-					     event->comp_data->icalcomp, FALSE);
+					     event->comp_data->icalcomp, EDIT_EVENT_AUTODETECT);
 
 		g_signal_stop_emission_by_name (G_OBJECT (item), "event");
 		return TRUE;

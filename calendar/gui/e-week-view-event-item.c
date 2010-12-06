@@ -171,7 +171,7 @@ week_view_event_item_double_click (EWeekViewEventItem *event_item,
 	e_calendar_view_edit_appointment (
 		E_CALENDAR_VIEW (week_view),
 		event->comp_data->client,
-		event->comp_data->icalcomp, FALSE);
+		event->comp_data->icalcomp, EDIT_EVENT_AUTODETECT);
 
 	return TRUE;
 }

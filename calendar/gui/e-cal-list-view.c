@@ -372,16 +372,6 @@ e_cal_list_view_popup_menu (GtkWidget *widget)
 }
 
 static gboolean
-find_meeting (icalcomponent *icalcomp)
-{
-	icalproperty *prop = NULL;
-
-	prop = icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY);
-
-	return prop ? TRUE: FALSE;
-}
-
-static gboolean
 e_cal_list_view_on_table_double_click (GtkWidget *table, gint row, gint col, GdkEvent *event,
 				      gpointer data)
 {
@@ -389,8 +379,7 @@ e_cal_list_view_on_table_double_click (GtkWidget *table, gint row, gint col, Gdk
 	ECalModelComponent *comp_data;
 
 	comp_data = e_cal_model_get_component_at (e_calendar_view_get_model (E_CALENDAR_VIEW (cal_list_view)), row);
-	e_calendar_view_edit_appointment (E_CALENDAR_VIEW (cal_list_view), comp_data->client,
-					  comp_data->icalcomp, find_meeting (comp_data->icalcomp));
+	e_calendar_view_edit_appointment (E_CALENDAR_VIEW (cal_list_view), comp_data->client, comp_data->icalcomp, EDIT_EVENT_AUTODETECT);
 
 	return TRUE;
 }

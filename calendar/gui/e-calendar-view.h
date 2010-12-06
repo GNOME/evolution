@@ -114,6 +114,12 @@ typedef struct {
 	gint event_num;
 } ECalendarViewEventData;
 
+typedef enum {
+	EDIT_EVENT_AUTODETECT,
+	EDIT_EVENT_FORCE_MEETING,
+	EDIT_EVENT_FORCE_APPOINTMENT
+} EEditEventMode;
+
 struct _ECalendarViewClass {
 	GtkTableClass parent_class;
 
@@ -225,7 +231,7 @@ void		e_calendar_view_new_appointment	(ECalendarView *cal_view);
 void		e_calendar_view_edit_appointment (ECalendarView *cal_view,
 						 ECal *client,
 						 icalcomponent *icalcomp,
-						 gboolean meeting);
+						 EEditEventMode mode);
 void		e_calendar_view_open_event	(ECalendarView *cal_view);
 void		e_calendar_view_modify_and_send	(ECalComponent *comp,
 						 ECal *client,
