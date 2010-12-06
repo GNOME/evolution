@@ -548,6 +548,25 @@ e_meeting_store_set_value (EMeetingStore *store, gint row, gint col, const gchar
 	}
 }
 
+struct FindAttendeeData
+{
+	EMeetingAttendee *find;
+	EMeetingStoreQueueData *qdata;
+};
+
+static void
+find_attendee_cb (gpointer key, gpointer value, gpointer user_data)
+{
+	EMeetingStoreQueueData *qdata = value;
+	struct FindAttendeeData *fad = user_data;
+
+	g_return_if_fail (qdata != NULL);
+	g_return_if_fail (fad != NULL);
+
+	if (qdata->attendee == fad->find)
+		fad->qdata = qdata;
+}
+
 static void
 refresh_queue_remove (EMeetingStore *store, EMeetingAttendee *attendee)
 {
@@ -560,6 +579,17 @@ refresh_queue_remove (EMeetingStore *store, EMeetingAttendee *attendee)
 	qdata = g_hash_table_lookup (
 		priv->refresh_data, itip_strip_mailto (
 		e_meeting_attendee_get_address (attendee)));
+	if (!qdata) {
+		struct FindAttendeeData fad = { 0 };
+
+		fad.find = attendee;
+		fad.qdata = NULL;
+
+		g_hash_table_foreach (priv->refresh_data, find_attendee_cb, &fad);
+
+		qdata = fad.qdata;
+	}
+
 	if (qdata) {
 		g_mutex_lock (priv->mutex);
 		g_hash_table_remove (
@@ -793,7 +823,7 @@ e_meeting_store_init (EMeetingStore *store)
 
 	store->priv->attendees = g_ptr_array_new ();
 	store->priv->refresh_queue = g_ptr_array_new ();
-	store->priv->refresh_data = g_hash_table_new (g_str_hash, g_str_equal);
+	store->priv->refresh_data = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
 	store->priv->mutex = g_mutex_new ();
 
@@ -1615,8 +1645,8 @@ refresh_queue_add (EMeetingStore *store, gint row,
 		g_ptr_array_add (qdata->data, data);
 
 		g_hash_table_insert (
-			priv->refresh_data, (gpointer) itip_strip_mailto (
-			e_meeting_attendee_get_address (attendee)), qdata);
+			priv->refresh_data, g_strdup (itip_strip_mailto (
+			e_meeting_attendee_get_address (attendee))), qdata);
 	} else {
 		if (e_meeting_time_compare_times (start, &qdata->start) == -1)
 			qdata->start = *start;
