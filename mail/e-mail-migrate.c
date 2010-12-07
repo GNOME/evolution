@@ -742,19 +742,19 @@ migrate_to_db (EShellBackend *shell_backend)
 static gboolean
 check_local_store_migrate (void)
 {
-	gchar *local_mbox_inbox, *migrating_file_flag;
+	gchar *local_md_outbox, *migrating_file_flag;
 	const gchar *data_dir;
 	gboolean ret = FALSE;
 
 	data_dir = e_get_user_data_dir ();
-	local_mbox_inbox = g_build_filename (data_dir, "mail", "local", "Inbox", NULL);
+	local_md_outbox = g_build_filename (data_dir, "mail", "local", ".Outbox", NULL);
 	migrating_file_flag = g_build_filename (data_dir, "mail", "local", ".#migrate", NULL);
 
-	if (g_file_test (local_mbox_inbox, G_FILE_TEST_EXISTS) ||
+	if (!g_file_test (local_md_outbox, G_FILE_TEST_EXISTS) ||
 		g_file_test (migrating_file_flag, G_FILE_TEST_EXISTS))
 		ret = TRUE;
 	
-	g_free (local_mbox_inbox);
+	g_free (local_md_outbox);
 	g_free (migrating_file_flag);
 
 	return ret;
@@ -991,6 +991,12 @@ create_mbox_account (EShellBackend *shell_backend, EMMigrateSession *session)
 	e_account_set_string (account, E_ACCOUNT_ID_ADDRESS, id);
 	e_account_set_string (account, E_ACCOUNT_NAME, id);
 
+	accounts = e_get_account_list ();
+	if (e_account_list_find (accounts, E_ACCOUNT_ID_ADDRESS, id)) {
+		g_object_unref (account);
+		goto exit;
+	}
+
 	camel_url_set_fragment (url, _("Sent"));
 	folder_uri = camel_url_to_string (url, 0);
 	e_account_set_string (
@@ -1005,12 +1011,12 @@ create_mbox_account (EShellBackend *shell_backend, EMMigrateSession *session)
 			folder_uri);
 	g_free (folder_uri);
 
-	accounts = e_get_account_list ();
 	e_account_list_add (accounts, account);
 	e_mail_store_add_by_uri (
 		mail_session, uri, name);
 	e_account_list_save (accounts);
 
+exit:	
 	camel_url_free (url);
 	g_free (uri);
 	g_free (name);
@@ -1028,6 +1034,7 @@ migrate_local_store (EShellBackend *shell_backend)
 	gint migrate;
 	const gchar *data_dir;
 	gchar *migrating_file_flag;
+	gchar *local_dir;
 	
 	if (!check_local_store_migrate ())
 		return TRUE;
@@ -1036,6 +1043,11 @@ migrate_local_store (EShellBackend *shell_backend)
 	rename_mbox_dir (shell_backend);
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
 
+	local_dir = g_build_filename (data_dir, "local", NULL);
+	if (!g_file_test (local_dir, G_FILE_TEST_EXISTS))
+		g_mkdir_with_parents (local_dir, 0700);
+	g_free (local_dir);
+	
 	migrating_file_flag = g_build_filename (data_dir, "local", ".#migrate", NULL);
 	g_file_set_contents (migrating_file_flag, "1", -1, NULL);
 	
@@ -1046,13 +1058,10 @@ migrate_local_store (EShellBackend *shell_backend)
 	session = (EMMigrateSession *) em_migrate_session_new (data_dir);
 	camel_session_set_online ((CamelSession *) session, FALSE);
 
-	if (migrate == GTK_RESPONSE_YES) {
+	if (migrate == GTK_RESPONSE_YES)
 		ret = migrate_mbox_to_maildir (shell_backend, session);
 
-		if (ret)
-			create_mbox_account (shell_backend, session);
-	}
-
+	create_mbox_account (shell_backend, session);
 	g_unlink (migrating_file_flag);
 
 	g_free (migrating_file_flag);
@@ -1165,10 +1174,8 @@ e_mail_migrate (EShellBackend *shell_backend,
 		em_ensure_proxy_ignore_hosts_being_list ();
 	}
 
-	if (major < 2 || (major == 2 && minor < 92)) {
-		if (!migrate_local_store (shell_backend))
-			return FALSE;
-	}
+	if (!migrate_local_store (shell_backend))
+		return FALSE;
 
 	return TRUE;
 }
