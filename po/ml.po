@@ -13737,8 +13737,8 @@ msgid "Copy the contacts of the selected address book to another"
 msgstr "തിരഞ്ഞെടുത്ത ഫോള്‍ഡറിന്‍റെ വിലാസങ്ങള്‍ മറ്റൊരു ഫോള്‍ഡറിലേക്ക് പകര്‍ത്തുക"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:687
-#| msgid "Del_ete Address Book"
 #, fuzzy
+#| msgid "Del_ete Address Book"
 msgid "D_elete Address Book"
 msgstr "വിലാസപുസ്തകം വെട്ടി നീക്കുക (_e)"
 
@@ -19798,8 +19798,8 @@ msgid "Weekly"
 msgstr "ആഴ്ച"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:22
-#| msgid "_Window"
 #, fuzzy
+#| msgid "_Window"
 msgid "Windows share"
 msgstr "ജാലകം"
 
