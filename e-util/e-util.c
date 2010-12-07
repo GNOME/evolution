@@ -53,7 +53,6 @@
 #include <camel/camel.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-categories.h>
-#include <libedataserver/e-source-list.h>
 
 #include "filter/e-filter-option.h"
 
@@ -1334,31 +1333,6 @@ e_util_get_searchable_categories (void)
 }
 
 /**
- * e_util_set_source_combo_box_list:
- * @source_combo_box: an #ESourceComboBox
- * @source_gconf_path: GConf path with sources to use in an #ESourceList
- *
- * Sets an #ESourceList of a given GConf path to an #ESourceComboBox.
- **/
-void
-e_util_set_source_combo_box_list (GtkWidget *source_combo_box,
-                                  const gchar *source_gconf_path)
-{
-	ESourceList *source_list;
-	GConfClient *gconf_client;
-
-	g_return_if_fail (source_combo_box != NULL);
-	g_return_if_fail (source_gconf_path != NULL);
-
-	gconf_client = gconf_client_get_default ();
-	source_list = e_source_list_new_for_gconf (
-		gconf_client, source_gconf_path);
-	g_object_set (source_combo_box, "source-list", source_list, NULL);
-	g_object_unref (source_list);
-	g_object_unref (gconf_client);
-}
-
-/**
  * e_binding_transform_color_to_string:
  * @binding: a #GBinding
  * @source_value: a #GValue of type #GDK_TYPE_COLOR
@@ -1435,7 +1409,7 @@ e_binding_transform_string_to_color (GBinding *binding,
  * @binding: a #GBinding
  * @source_value: a #GValue of type #E_TYPE_SOURCE
  * @target_value: a #GValue of type #G_TYPE_STRING
- * @source_list: an #ESourceList
+ * @registry: an #ESourceRegistry
  *
  * Transforms an #ESource object to its UID string.
  *
@@ -1445,14 +1419,14 @@ gboolean
 e_binding_transform_source_to_uid (GBinding *binding,
                                    const GValue *source_value,
                                    GValue *target_value,
-                                   ESourceList *source_list)
+                                   ESourceRegistry *registry)
 {
 	ESource *source;
 	const gchar *string;
 	gboolean success = FALSE;
 
 	g_return_val_if_fail (G_IS_BINDING (binding), FALSE);
-	g_return_val_if_fail (E_IS_SOURCE_LIST (source_list), FALSE);
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
 
 	source = g_value_get_object (source_value);
 	if (E_IS_SOURCE (source)) {
@@ -1469,34 +1443,34 @@ e_binding_transform_source_to_uid (GBinding *binding,
  * @binding: a #GBinding
  * @source_value: a #GValue of type #G_TYPE_STRING
  * @target_value: a #GValue of type #E_TYPE_SOURCe
- * @source_list: an #ESourceList
+ * @registry: an #ESourceRegistry
  *
  * Transforms an #ESource UID string to the corresponding #ESource object
- * in @source_list.
+ * in @registry.
  *
- * Returns: %TRUE if @source_list had an #ESource object with a matching
+ * Returns: %TRUE if @registry had an #ESource object with a matching
  *          UID string
  **/
 gboolean
 e_binding_transform_uid_to_source (GBinding *binding,
                                    const GValue *source_value,
                                    GValue *target_value,
-                                   ESourceList *source_list)
+                                   ESourceRegistry *registry)
 {
 	ESource *source;
 	const gchar *string;
 	gboolean success = FALSE;
 
 	g_return_val_if_fail (G_IS_BINDING (binding), FALSE);
-	g_return_val_if_fail (E_IS_SOURCE_LIST (source_list), FALSE);
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
 
 	string = g_value_get_string (source_value);
 	if (string == NULL || *string == '\0')
 		return FALSE;
 
-	source = e_source_list_peek_source_by_uid (source_list, string);
+	source = e_source_registry_ref_source (registry, string);
 	if (source != NULL) {
-		g_value_set_object (target_value, source);
+		g_value_take_object (target_value, source);
 		success = TRUE;
 	}
 

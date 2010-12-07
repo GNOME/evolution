@@ -5,7 +5,6 @@ widgetsincludedir = $(privincludedir)/misc
 ui_DATA = e-send-options.ui
 
 widgetsinclude_HEADERS =			\
-	e-account-combo-box.h			\
 	e-action-combo-box.h			\
 	e-activity-bar.h			\
 	e-activity-proxy.h			\
@@ -38,6 +37,9 @@ widgetsinclude_HEADERS =			\
 	e-image-chooser.h			\
 	e-import-assistant.h			\
 	e-interval-chooser.h			\
+	e-mail-account-manager.h		\
+	e-mail-account-tree-view.h		\
+	e-mail-identity-combo-box.h		\
 	e-map.h					\
 	e-menu-tool-action.h			\
 	e-menu-tool-button.h			\
@@ -93,7 +95,6 @@ libemiscwidgets_la_CPPFLAGS =						\
 
 libemiscwidgets_la_SOURCES =			\
 	$(widgetsinclude_HEADERS)		\
-	e-account-combo-box.c			\
 	e-action-combo-box.c			\
 	e-activity-bar.c			\
 	e-activity-proxy.c			\
@@ -126,6 +127,9 @@ libemiscwidgets_la_SOURCES =			\
 	e-image-chooser.c			\
 	e-import-assistant.c			\
 	e-interval-chooser.c			\
+	e-mail-account-manager.c		\
+	e-mail-account-tree-view.c		\
+	e-mail-identity-combo-box.c		\
 	e-map.c					\
 	e-menu-tool-action.c			\
 	e-menu-tool-button.c			\

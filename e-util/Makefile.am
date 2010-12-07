@@ -38,10 +38,10 @@ eutilinclude_HEADERS = 				\
 	e-print.h				\
 	e-plugin.h				\
 	e-plugin-ui.h				\
-	e-plugin-util.h				\
 	e-selection.h				\
 	e-sorter.h				\
 	e-sorter-array.h			\
+	e-source-util.h				\
 	e-stock-request.h			\
 	e-text-event-processor-emacs-like.h	\
 	e-text-event-processor-types.h		\
@@ -102,11 +102,11 @@ libeutil_la_SOURCES =				\
 	e-poolv.c				\
 	e-plugin.c				\
 	e-plugin-ui.c				\
-	e-plugin-util.c				\
 	e-print.c				\
 	e-selection.c				\
 	e-sorter.c				\
 	e-sorter-array.c			\
+	e-source-util.c				\
 	e-stock-request.c			\
 	e-text-event-processor-emacs-like.c	\
 	e-text-event-processor.c		\
