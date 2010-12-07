@@ -27,10 +27,13 @@
 
 #include <gio/gio.h>
 #include <glib/gi18n.h>
+#include <libsoup/soup.h>
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal-util.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-data-server-util.h>
+#include <libedataserver/e-proxy.h>
+#include <libedataserverui/e-passwords.h>
 #include <e-util/e-extensible.h>
 #include <e-util/e-util-enumtypes.h>
 #include "itip-utils.h"
@@ -1705,6 +1708,171 @@ async_read (GObject *source_object, GAsyncResult *res, gpointer data)
 }
 
 static void
+soup_authenticate (SoupSession *session, SoupMessage *msg, SoupAuth *auth, gboolean retrying, gpointer data)
+{
+	SoupURI *suri;
+	const gchar *orig_uri;
+	gboolean tried = FALSE;
+
+	g_return_if_fail (msg != NULL);
+	g_return_if_fail (auth != NULL);
+
+	orig_uri = g_object_get_data (G_OBJECT (msg), "orig-uri");
+	g_return_if_fail (orig_uri != NULL);
+
+	suri = soup_uri_new (orig_uri);
+	if (!suri)
+		return;
+
+	if (!suri->user || !*suri->user) {
+		soup_uri_free (suri);
+		return;
+	}
+
+	if (!retrying) {
+		if (suri->password) {
+			soup_auth_authenticate (auth, suri->user, suri->password);
+			tried = TRUE;
+		} else {
+			gchar *password;
+
+			password = e_passwords_get_password ("Calendar", orig_uri);
+			if (password) {
+				soup_auth_authenticate (auth, suri->user, password);
+				tried = TRUE;
+
+				memset (password, 0, strlen (password));
+				g_free (password);
+			}
+		}
+	}
+
+	if (!tried) {
+		gboolean remember = FALSE;
+		gchar *password, *bold_host, *bold_user;
+		GString *description;
+
+		bold_host = g_strconcat ("<b>", suri->host, "</b>", NULL);
+		bold_user = g_strconcat ("<b>", suri->user, "</b>", NULL);
+
+		description = g_string_new ("");
+
+		g_string_append_printf (description, _("Enter password to access free/busy information on server %s as user %s"), bold_host, bold_user);
+
+		g_free (bold_host);
+		g_free (bold_user);
+
+		if (retrying && msg->reason_phrase && *msg->reason_phrase) {
+			g_string_append (description, "\n");
+			g_string_append_printf (description, _("Failure reason: %s"), msg->reason_phrase);
+		}
+
+		password = e_passwords_ask_password (_("Enter password"), "Calendar", orig_uri, description->str,
+					     E_PASSWORDS_REMEMBER_FOREVER | E_PASSWORDS_SECRET | E_PASSWORDS_ONLINE | (retrying ? E_PASSWORDS_REPROMPT : 0),
+					     &remember, NULL);
+
+		g_string_free (description, TRUE);
+
+		if (password) {
+			soup_auth_authenticate (auth, suri->user, password);
+			tried = TRUE;
+
+			memset (password, 0, strlen (password));
+			g_free (password);
+		}
+	}
+
+	soup_uri_free (suri);
+}
+
+static void
+redirect_handler (SoupMessage *msg, gpointer user_data)
+{
+	if (SOUP_STATUS_IS_REDIRECTION (msg->status_code)) {
+		SoupSession *soup_session = user_data;
+		SoupURI *new_uri;
+		const gchar *new_loc;
+
+		new_loc = soup_message_headers_get (msg->response_headers, "Location");
+		if (!new_loc)
+			return;
+
+		new_uri = soup_uri_new_with_base (soup_message_get_uri (msg), new_loc);
+		if (!new_uri) {
+			soup_message_set_status_full (msg,
+						      SOUP_STATUS_MALFORMED,
+						      "Invalid Redirect URL");
+			return;
+		}
+
+		soup_message_set_uri (msg, new_uri);
+		soup_session_requeue_message (soup_session, msg);
+
+		soup_uri_free (new_uri);
+	}
+}
+
+static void
+soup_msg_ready_cb (SoupSession *session, SoupMessage *msg, gpointer user_data)
+{
+	EMeetingStoreQueueData *qdata = user_data;
+
+	g_return_if_fail (session != NULL);
+	g_return_if_fail (msg != NULL);
+	g_return_if_fail (qdata != NULL);
+
+	if (SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
+		qdata->string = g_string_new_len (msg->response_body->data, msg->response_body->length);
+		process_free_busy (qdata, qdata->string->str);
+	} else {
+		g_warning ("Unable to access free/busy url: %s",
+				msg->reason_phrase && *msg->reason_phrase ? msg->reason_phrase :
+				(soup_status_get_phrase (msg->status_code) ? soup_status_get_phrase (msg->status_code) : "Unknown error"));
+		process_callbacks (qdata);
+	}
+}
+
+static void
+download_with_libsoup (const gchar *uri, EMeetingStoreQueueData *qdata)
+{
+	SoupSession *session;
+	SoupMessage *msg;
+	EProxy *proxy;
+
+	g_return_if_fail (uri != NULL);
+	g_return_if_fail (qdata != NULL);
+
+	msg = soup_message_new (SOUP_METHOD_GET, uri);
+	if (!msg) {
+		g_warning ("Unable to access free/busy url '%s'; malformed?", uri);
+		process_callbacks (qdata);
+		return;
+	}
+
+	g_object_set_data_full (G_OBJECT (msg), "orig-uri", g_strdup (uri), g_free);
+
+	session = soup_session_async_new ();
+	g_signal_connect (session, "authenticate", G_CALLBACK (soup_authenticate), NULL);
+
+	proxy = e_proxy_new ();
+	e_proxy_setup_proxy (proxy);
+
+	if (e_proxy_require_proxy_for_uri (proxy, uri)) {
+		SoupURI *proxy_uri;
+
+		proxy_uri = e_proxy_peek_uri_for (proxy, uri);
+		g_object_set (session, SOUP_SESSION_PROXY_URI, proxy_uri, NULL);
+	}
+
+	g_object_unref (proxy);
+
+	soup_message_set_flags (msg, SOUP_MESSAGE_NO_REDIRECT);
+	soup_message_add_header_handler (msg, "got_body", "Location", G_CALLBACK (redirect_handler), session);
+	soup_message_headers_append (msg->request_headers, "Connection", "close");
+	soup_session_queue_message (session, msg, soup_msg_ready_cb, qdata);
+}
+
+static void
 start_async_read (const gchar *uri, gpointer data)
 {
 	EMeetingStoreQueueData *qdata = data;
@@ -1722,16 +1890,25 @@ start_async_read (const gchar *uri, gpointer data)
 
 	istream = G_INPUT_STREAM (g_file_read (file, NULL, &error));
 
+	if (error && g_error_matches (error, SOUP_HTTP_ERROR, SOUP_STATUS_UNAUTHORIZED)) {
+		download_with_libsoup (uri, qdata);
+		g_object_unref (file);
+		g_error_free (error);
+		return;
+	}
+
 	if (error) {
 		g_warning ("Unable to access free/busy url: %s", error->message);
 		g_error_free (error);
 		process_callbacks (qdata);
+		g_object_unref (file);
 		return;
 	}
 
-	if (!istream)
+	if (!istream) {
 		process_callbacks (qdata);
-	else
+		g_object_unref (file);
+	} else
 		g_input_stream_read_async (
 			istream, qdata->buffer, BUF_SIZE - 1,
 			G_PRIORITY_DEFAULT, NULL, async_read, qdata);
