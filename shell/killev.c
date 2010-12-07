@@ -94,6 +94,18 @@ exit:
 	return success;
 }
 
+static void
+kill_factories (void)
+{
+	#ifdef KILL_PROCESS_CMD
+
+	system (KILL_PROCESS_CMD " -QUIT evolution 2> /dev/null");
+	system (KILL_PROCESS_CMD " -QUIT e-calendar-factory 2> /dev/null");
+	system (KILL_PROCESS_CMD " -QUIT e-addressbook-factory 2> /dev/null");
+
+	#endif
+}
+
 gint
 main (gint argc, gchar **argv)
 {
@@ -116,17 +128,27 @@ main (gint argc, gchar **argv)
 
 	if (!get_evolution_pid (pid_file)) {
 		g_printerr ("Could not find Evolution's process ID\n");
+		kill_factories ();
 		exit (EXIT_FAILURE);
 	}
 
-	/* Play it safe here and bail if something goes wrong.  We don't
-	 * want to just skip to the killing if we can't ask Evolution to
-	 * terminate gracefully.  Despite our name we actually want to
-	 * -avoid- killing Evolution if at all possible. */
-	if (!g_spawn_command_line_async ("evolution --quit", &error)) {
-		g_printerr ("%s", error->message);
-		g_error_free (error);
-		exit (EXIT_FAILURE);
+	if (g_getenv ("DISPLAY") == NULL) {
+		#ifdef KILL_PROCESS_CMD
+
+		system (KILL_PROCESS_CMD " -QUIT evolution 2> /dev/null");
+
+		#endif
+	} else {
+		/* Play it safe here and bail if something goes wrong.  We don't
+		 * want to just skip to the killing if we can't ask Evolution to
+		 * terminate gracefully.  Despite our name we actually want to
+		 * -avoid- killing Evolution if at all possible. */
+		if (!g_spawn_command_line_async ("evolution --quit", &error)) {
+			g_printerr ("%s", error->message);
+			g_error_free (error);
+			kill_factories ();
+			exit (EXIT_FAILURE);
+		}
 	}
 
 	/* Now we set up a monitor on Evolution's .running file.
@@ -136,6 +158,7 @@ main (gint argc, gchar **argv)
 	if (error != NULL) {
 		g_printerr ("%s", error->message);
 		g_error_free (error);
+		kill_factories ();
 		exit (EXIT_FAILURE);
 	}
 
@@ -154,6 +177,8 @@ main (gint argc, gchar **argv)
 	g_main_loop_unref (main_loop);
 
 	g_object_unref (monitor);
+
+	kill_factories ();
 
 	return EXIT_SUCCESS;
 }

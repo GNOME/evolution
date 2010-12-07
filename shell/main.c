@@ -317,8 +317,36 @@ setup_segv_redirect (void)
 	g_static_mutex_lock (&segv_mutex);
 }
 
+static void
+quit_signal (gint sig)
+{
+	EShell *shell;
+
+	g_return_if_fail (sig == SIGQUIT);
+
+	g_print ("Received quit signal...\n");
+
+	shell = e_shell_get_default ();
+	if (shell)
+		e_shell_quit (shell, E_SHELL_QUIT_OPTION);
+}
+
+static void
+setup_quit_signal (void)
+{
+	struct sigaction sa, osa;
+
+	sigaction (SIGQUIT, NULL, &osa);
+
+	sa.sa_flags = 0;
+	sigemptyset (&sa.sa_mask);
+	sa.sa_handler = quit_signal;
+	sigaction (SIGQUIT, &sa, NULL);
+}
+
 #else
 #define setup_segv_redirect() (void)0
+#define setup_quit_signal() (void)0
 #endif
 
 static GOptionEntry entries[] = {
@@ -512,6 +540,17 @@ main (gint argc, gchar **argv)
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
+	g_type_init ();
+	if (!g_thread_get_initialized ())
+		g_thread_init (NULL);
+
+	/* do not require Gtk+ for --force-shutdown */
+	if (argc == 2 && argv[1] && g_str_equal (argv[1], "--force-shutdown")) {
+		shell_force_shutdown ();
+
+		return 0;
+	}
+
 #if HAVE_CLUTTER
 	gtk_clutter_init_with_args (
 		&argc, &argv,
@@ -531,10 +570,6 @@ main (gint argc, gchar **argv)
 		g_error_free (error);
 		exit (1);
 	}
-
-	g_type_init ();
-	if (!g_thread_get_initialized ())
-		g_thread_init (NULL);
 
 	#ifdef HAVE_ICAL_UNKNOWN_TOKEN_HANDLING
 	ical_set_unknown_token_handling_setting (ICAL_DISCARD_TOKEN);
@@ -623,6 +658,7 @@ main (gint argc, gchar **argv)
 	}
 
 	setup_segv_redirect ();
+	setup_quit_signal ();
 
 	if (evolution_debug_log) {
 		gint fd;
