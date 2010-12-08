@@ -101,6 +101,7 @@ new_rule_response (GtkWidget *dialog,
 		if (!e_filter_rule_validate (rule, &alert)) {
 			e_alert_run_dialog (GTK_WINDOW (dialog), alert);
 			g_object_unref (alert);
+			return;
 		}
 
 		if (e_rule_context_find_rule (context, rule->name, rule->source)) {
