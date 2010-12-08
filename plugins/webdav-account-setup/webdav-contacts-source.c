@@ -123,8 +123,16 @@ set_ui_from_source (ui_data *data)
 	gtk_toggle_button_set_active (data->avoid_ifmatch_toggle, avoid_ifmatch);
 
 	/* it's really a http or https protocol */
-	if (suri)
+	if (suri) {
+		gint port;
+
+		port = soup_uri_get_port (suri);
+
 		soup_uri_set_scheme (suri, use_ssl ? "https" : "http");
+
+		if (port > 0 && port != soup_uri_get_port (suri))
+			soup_uri_set_port (suri, port);
+	}
 
 	/* remove user/username and set user field */
 	if (suri && suri->user != NULL) {
