@@ -39,6 +39,8 @@
 #include <libedataserverui/e-passwords.h>
 
 #include <e-util/e-dialog-utils.h>
+#include <e-util/e-account-utils.h>
+#include <e-util/gtk-compat.h>
 
 #include "caldav-browse-server.h"
 
@@ -61,7 +63,7 @@ enum {
 	COL_BOOL_SENSITIVE
 };
 
-typedef void (*process_message_cb) (GObject *dialog, const gchar *msg_path, guint status_code, const gchar *msg_body, gpointer user_data);
+typedef void (*process_message_cb) (GObject *dialog, const gchar *msg_path, guint status_code, const gchar *reason_phrase, const gchar *msg_body, gpointer user_data);
 
 static void send_xml_message (xmlDocPtr doc, gboolean depth_1, const gchar *url, GObject *dialog, process_message_cb cb, gpointer cb_user_data, const gchar *info);
 
@@ -170,6 +172,12 @@ report_error (GObject *dialog, gboolean is_fatal, const gchar *msg)
 		w = g_object_get_data (dialog, "caldav-tree-sw");
 		gtk_widget_hide (w);
 
+		w = g_object_get_data (dialog, "caldav-usermail-hbox");
+		gtk_widget_hide (w);
+
+		w = g_object_get_data (dialog, "caldav-new-autoschedule-check");
+		gtk_widget_hide (w);
+
 		w = gtk_label_new (msg);
 		gtk_widget_show (w);
 		gtk_box_pack_start (GTK_BOX (content_area), w, TRUE, TRUE, 10);
@@ -186,7 +194,7 @@ report_error (GObject *dialog, gboolean is_fatal, const gchar *msg)
 }
 
 static gboolean
-check_soup_status (GObject *dialog, guint status_code, const gchar *msg_body, gboolean is_fatal)
+check_soup_status (GObject *dialog, guint status_code, const gchar *reason_phrase, const gchar *msg_body, gboolean is_fatal)
 {
 	gchar *msg;
 
@@ -200,7 +208,7 @@ check_soup_status (GObject *dialog, guint status_code, const gchar *msg_body, gb
 	} else {
 		const gchar *phrase = soup_status_get_phrase (status_code);
 
-		msg = g_strdup_printf (_("Server returned unexpected data.\n%d - %s"), status_code, phrase ? phrase : _("Unknown error"));
+		msg = g_strdup_printf (_("Server returned unexpected data.\n%d - %s"), status_code, reason_phrase ? reason_phrase : (phrase ? phrase : _("Unknown error")));
 	}
 
 	report_error (dialog, is_fatal, msg);
@@ -313,7 +321,7 @@ add_collection_node_to_tree (GtkTreeStore *store, GtkTreeIter *parent_iter, cons
 
 /* called with "caldav-thread-mutex" unlocked; 'user_data' is parent tree iter, NULL for "User's calendars" */
 static void
-traverse_users_calendars_cb (GObject *dialog, const gchar *msg_path, guint status_code, const gchar *msg_body, gpointer user_data)
+traverse_users_calendars_cb (GObject *dialog, const gchar *msg_path, guint status_code, const gchar *reason_phrase, const gchar *msg_body, gpointer user_data)
 {
 	xmlDocPtr doc;
 	xmlXPathContextPtr xpctx;
@@ -323,7 +331,7 @@ traverse_users_calendars_cb (GObject *dialog, const gchar *msg_path, guint statu
 	g_return_if_fail (dialog != NULL);
 	g_return_if_fail (GTK_IS_DIALOG (dialog));
 
-	if (!check_soup_status (dialog, status_code, msg_body, TRUE))
+	if (!check_soup_status (dialog, status_code, reason_phrase, msg_body, TRUE))
 		return;
 
 	g_return_if_fail (msg_body != NULL);
@@ -533,6 +541,7 @@ fetch_folder_content (GObject *dialog, const gchar *relative_path, const GtkTree
 	xmlNewTextChild (node, nsdav, XC "resourcetype", NULL);
 	xmlNewTextChild (node, nsc, XC "calendar-description", NULL);
 	xmlNewTextChild (node, nsc, XC "supported-calendar-component-set", NULL);
+	xmlNewTextChild (node, nsc, XC "calendar-user-address-set", NULL);
 	xmlNewTextChild (node, nscs, XC "getctag", NULL);
 	xmlNewTextChild (node, nsical, XC "calendar-color", NULL);
 
@@ -562,19 +571,91 @@ fetch_folder_content (GObject *dialog, const gchar *relative_path, const GtkTree
 	g_free (url);
 }
 
+static gboolean
+mail_account_configured (const gchar *email)
+{
+	gboolean found = FALSE;
+	EAccountList *accounts;
+	EIterator *iterator;
+
+	g_return_val_if_fail (email != NULL, FALSE);
+	g_return_val_if_fail (*email, FALSE);
+
+	accounts = e_get_account_list ();
+	g_return_val_if_fail (accounts != NULL, FALSE);
+
+	for (iterator = e_list_get_iterator (E_LIST (accounts));
+	     !found && e_iterator_is_valid (iterator);
+	     e_iterator_next (iterator)) {
+		EAccount *acc = (EAccount *) e_iterator_get (iterator);
+		const gchar *address;
+
+		if (!acc)
+			continue;
+
+		address = e_account_get_string (acc, E_ACCOUNT_ID_ADDRESS);
+		if (!address || !*address)
+			continue;
+
+		found = g_strcmp0 (address, email) == 0;
+	}
+
+	g_object_unref (iterator);
+
+	return found;
+}
+
+static void
+add_usermail (GtkComboBoxText *usermail_combo, const gchar *email, gboolean is_first)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gboolean found = FALSE;
+
+	g_return_if_fail (usermail_combo != NULL);
+	g_return_if_fail (email != NULL);
+
+	if (!*email)
+		return;
+
+	model = gtk_combo_box_get_model (GTK_COMBO_BOX (usermail_combo));
+	g_return_if_fail (model != NULL);
+
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		do {
+			gchar *value = NULL;
+
+			gtk_tree_model_get (model, &iter, 0, &value, -1);
+
+			found = value && g_ascii_strcasecmp (value, email) == 0;
+			if (found && (is_first || mail_account_configured (email)))
+				gtk_combo_box_set_active_iter (GTK_COMBO_BOX (usermail_combo), &iter);
+
+			g_free (value);
+		} while (!found && gtk_tree_model_iter_next (model, &iter));
+	}
+
+	if (!found) {
+		gtk_combo_box_text_append_text (usermail_combo, email);
+		if (gtk_tree_model_iter_n_children (model, NULL) == 1 || is_first || mail_account_configured (email))
+			gtk_combo_box_set_active (GTK_COMBO_BOX (usermail_combo), gtk_tree_model_iter_n_children (model, NULL) - 1);
+	}
+}
+
 /* called with "caldav-thread-mutex" unlocked; user_data is not NULL when called second time on principal */
 static void
-find_users_calendar_cb (GObject *dialog, const gchar *msg_path, guint status_code, const gchar *msg_body, gpointer user_data)
+find_users_calendar_cb (GObject *dialog, const gchar *msg_path, guint status_code, const gchar *reason_phrase, const gchar *msg_body, gpointer user_data)
 {
 	xmlDocPtr doc;
 	xmlXPathContextPtr xpctx;
+	xmlXPathObjectPtr suppObj;
 	gchar *calendar_home_set, *url;
 	gboolean base_url_is_calendar = FALSE;
 
 	g_return_if_fail (dialog != NULL);
 	g_return_if_fail (GTK_IS_DIALOG (dialog));
 
-	if (!check_soup_status (dialog, status_code, msg_body, TRUE))
+	if (!check_soup_status (dialog, status_code, reason_phrase, msg_body, TRUE))
 		return;
 
 	g_return_if_fail (msg_body != NULL);
@@ -591,6 +672,30 @@ find_users_calendar_cb (GObject *dialog, const gchar *msg_path, guint status_cod
 
 	if (user_data == NULL)
 		base_url_is_calendar = xpath_exists (xpctx, NULL, "/D:multistatus/D:response/D:propstat/D:prop/D:resourcetype/C:calendar");
+
+	if (xpath_exists (xpctx, &suppObj, "/D:multistatus/D:response/D:propstat/D:prop/C:calendar-user-address-set")) {
+		if (suppObj->type == XPATH_NODESET) {
+			GtkComboBoxText *usermail_combo = GTK_COMBO_BOX_TEXT (g_object_get_data (dialog, "caldav-new-usermail-combo"));
+			gboolean is_first = TRUE;
+			gint jj, szjj = xmlXPathNodeSetGetLength (suppObj->nodesetval);
+
+			for (jj = 0; jj < szjj; jj++) {
+				gchar *href = xpath_get_string (xpctx, "/D:multistatus/D:response/D:propstat/D:prop/C:calendar-user-address-set/D:href[%d]", jj + 1);
+
+				if (!href || !g_str_has_prefix (href, "mailto:")) {
+					g_free (href);
+					continue;
+				}
+
+				add_usermail (usermail_combo, href + 7, is_first);
+				is_first = FALSE;
+
+				g_free (href);
+			}
+		}
+
+		xmlXPathFreeObject (suppObj);
+	}
 
 	calendar_home_set = xpath_get_string (xpctx, "/D:multistatus/D:response/D:propstat/D:prop/C:calendar-home-set/D:href");
 	if (user_data == NULL && (!calendar_home_set || !*calendar_home_set)) {
@@ -620,6 +725,7 @@ find_users_calendar_cb (GObject *dialog, const gchar *msg_path, guint status_cod
 			node = xmlNewTextChild (root, nsdav, XC "prop", NULL);
 			xmlNewTextChild (node, nsdav, XC "current-user-principal", NULL);
 			xmlNewTextChild (node, nsc, XC "calendar-home-set", NULL);
+			xmlNewTextChild (node, nsc, XC "calendar-user-address-set", NULL);
 
 			url = change_url_path (g_object_get_data (dialog, "caldav-base-url"), calendar_home_set);
 			if (url) {
@@ -896,6 +1002,7 @@ poll_for_message_sent_cb (gpointer data)
 	guint status_code = -1;
 	gchar *msg_path = NULL;
 	gchar *msg_body = NULL;
+	gchar *reason_phrase = NULL;
 
 	g_return_val_if_fail (data != NULL, FALSE);
 
@@ -920,12 +1027,21 @@ poll_for_message_sent_cb (gpointer data)
 
 		if (pd->cb) {
 			const SoupURI *suri = soup_message_get_uri (pd->message);
+			const gchar *header;
 
 			status_code = pd->message->status_code;
+			reason_phrase = g_strdup (pd->message->reason_phrase);
 			msg_body = g_strndup (pd->message->response_body->data, pd->message->response_body->length);
 
 			if (suri && suri->path)
 				msg_path = g_strdup (suri->path);
+
+			header = soup_message_headers_get (pd->message->response_headers, "DAV");
+			if (header) {
+				gboolean autoschedule = soup_header_contains (header, "calendar-auto-schedule");
+
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (g_object_get_data (pd->dialog, "caldav-new-autoschedule-check")), autoschedule);
+			}
 		}
 
 		g_object_unref (pd->message);
@@ -939,11 +1055,12 @@ poll_for_message_sent_cb (gpointer data)
 	g_mutex_unlock (mutex);
 
 	if (!again && pd->cb) {
-		(*pd->cb) (pd->dialog, msg_path, status_code, msg_body, pd->cb_user_data);
+		(*pd->cb) (pd->dialog, msg_path, status_code, reason_phrase, msg_body, pd->cb_user_data);
 	}
 
 	g_free (msg_body);
 	g_free (msg_path);
+	g_free (reason_phrase);
 
 	return again;
 }
@@ -1102,10 +1219,10 @@ tree_row_expanded_cb (GtkTreeView *tree, GtkTreeIter *iter, GtkTreePath *path, G
 }
 
 static void
-init_dialog (GtkDialog *dialog, GtkWidget **new_url_entry, const gchar *url, const gchar *username, gint source_type)
+init_dialog (GtkDialog *dialog, GtkWidget **new_url_entry, GtkWidget **new_usermail_combo, GtkWidget **new_autoschedule_check, const gchar *url, const gchar *username, const gchar *usermail, gboolean autoschedule, gint source_type)
 {
 	GtkBox *content_area;
-	GtkWidget *label, *info_box, *spinner, *info_label;
+	GtkWidget *label, *info_box, *spinner, *info_label, *hbox;
 	GtkWidget *tree, *scrolled_window;
 	GtkTreeStore *store;
 	GtkTreeSelection *selection;
@@ -1123,6 +1240,8 @@ init_dialog (GtkDialog *dialog, GtkWidget **new_url_entry, const gchar *url, con
 	g_return_if_fail (dialog != NULL);
 	g_return_if_fail (GTK_IS_DIALOG (dialog));
 	g_return_if_fail (new_url_entry != NULL);
+	g_return_if_fail (new_usermail_combo != NULL);
+	g_return_if_fail (new_autoschedule_check != NULL);
 	g_return_if_fail (url != NULL);
 
 	content_area = GTK_BOX (gtk_dialog_get_content_area (dialog));
@@ -1136,7 +1255,18 @@ init_dialog (GtkDialog *dialog, GtkWidget **new_url_entry, const gchar *url, con
 
 	g_signal_connect (G_OBJECT (*new_url_entry), "changed", G_CALLBACK (url_entry_changed), dialog);
 
+	*new_usermail_combo = gtk_combo_box_text_new ();
+	if (usermail && *usermail) {
+		gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (*new_usermail_combo), usermail);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (*new_usermail_combo), 0);
+	}
+
+	*new_autoschedule_check = gtk_check_button_new_with_mnemonic (_("Server _handles meeting invitations"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (*new_autoschedule_check), autoschedule);
+
 	g_object_set_data (G_OBJECT (dialog), "caldav-new-url-entry", *new_url_entry);
+	g_object_set_data (G_OBJECT (dialog), "caldav-new-usermail-combo", *new_usermail_combo);
+	g_object_set_data (G_OBJECT (dialog), "caldav-new-autoschedule-check", *new_autoschedule_check);
 
 	label = gtk_label_new (_("List of available calendars:"));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
@@ -1157,6 +1287,7 @@ init_dialog (GtkDialog *dialog, GtkWidget **new_url_entry, const gchar *url, con
 
 	tree = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), tree);
+	gtk_widget_set_size_request (scrolled_window, 320, 240);
 	gtk_box_pack_start (content_area, scrolled_window, TRUE, TRUE, 0);
 
 	g_object_set_data (G_OBJECT (dialog), "caldav-tree", tree);
@@ -1198,6 +1329,19 @@ init_dialog (GtkDialog *dialog, GtkWidget **new_url_entry, const gchar *url, con
 	g_object_set_data (G_OBJECT (dialog), "caldav-info-label", info_label);
 
 	gtk_box_pack_start (content_area, info_box, FALSE, FALSE, 0);
+
+	hbox = gtk_hbox_new (FALSE, 2);
+	gtk_box_pack_start (content_area, hbox, FALSE, FALSE, 0);
+
+	label = gtk_label_new_with_mnemonic (_("User e-_mail:"));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), *new_usermail_combo);
+
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 2);
+	gtk_box_pack_start (GTK_BOX (hbox), *new_usermail_combo, FALSE, FALSE, 2);
+
+	g_object_set_data (G_OBJECT (dialog), "caldav-usermail-hbox", hbox);
+
+	gtk_box_pack_start (content_area, *new_autoschedule_check, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (GTK_WIDGET (content_area));
 	gtk_widget_hide (*new_url_entry);
@@ -1283,6 +1427,7 @@ init_dialog (GtkDialog *dialog, GtkWidget **new_url_entry, const gchar *url, con
 		xmlNewTextChild (node, nsdav, XC "principal-URL", NULL);
 		xmlNewTextChild (node, nsdav, XC "resourcetype", NULL);
 		xmlNewTextChild (node, nsc, XC "calendar-home-set", NULL);
+		xmlNewTextChild (node, nsc, XC "calendar-user-address-set", NULL);
 
 		send_xml_message (doc, FALSE, url, G_OBJECT (dialog), find_users_calendar_cb, NULL, _("Searching for user's calendars..."));
 
@@ -1359,9 +1504,9 @@ prepare_url (const gchar *server_url, gboolean use_ssl)
 }
 
 gchar *
-caldav_browse_server (GtkWindow *parent, const gchar *server_url, const gchar *username, gboolean use_ssl, gint source_type)
+caldav_browse_server (GtkWindow *parent, const gchar *server_url, const gchar *username, gboolean use_ssl, gchar **new_usermail, gboolean *new_autoschedule, gint source_type)
 {
-	GtkWidget *dialog, *new_url_entry;
+	GtkWidget *dialog, *new_url_entry, *new_usermail_combo, *new_autoschedule_check;
 	gchar *url, *new_url = NULL;
 
 	g_return_val_if_fail (server_url != NULL, NULL);
@@ -1383,13 +1528,25 @@ caldav_browse_server (GtkWindow *parent, const gchar *server_url, const gchar *u
 			NULL);
 
 	new_url_entry = NULL;
-	init_dialog (GTK_DIALOG (dialog), &new_url_entry, url, username, source_type);
+	new_usermail_combo = NULL;
+	new_autoschedule_check = NULL;
+	init_dialog (GTK_DIALOG (dialog), &new_url_entry, &new_usermail_combo, &new_autoschedule_check, url, username, new_usermail ? *new_usermail : NULL, new_autoschedule ? *new_autoschedule : FALSE, source_type);
 
 	if (new_url_entry && gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
-		const gchar *nu = gtk_entry_get_text (GTK_ENTRY (new_url_entry));
+		const gchar *txt;
 
-		if (nu && *nu)
-			new_url = change_url_path (server_url, nu);
+		txt = gtk_entry_get_text (GTK_ENTRY (new_url_entry));
+		if (txt && *txt)
+			new_url = change_url_path (server_url, txt);
+
+		txt = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (new_usermail_combo));
+		if (txt && *txt && new_usermail) {
+			g_free (*new_usermail);
+			*new_usermail = g_strdup (txt);
+		}
+
+		if (new_autoschedule)
+			*new_autoschedule = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (new_autoschedule_check));
 	}
 
 	gtk_widget_destroy (dialog);

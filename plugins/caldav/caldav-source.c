@@ -146,34 +146,53 @@ user_changed_cb (GtkEntry *editable, ESource *source)
 static void
 browse_cal_clicked_cb (GtkButton *button, gpointer user_data)
 {
-	GtkEntry *url, *username;
-	GtkToggleButton *ssl;
-	gchar *new_url;
+	GtkEntry *url, *username, *usermail;
+	GtkToggleButton *ssl, *autoschedule;
+	gchar *new_url, *new_usermail;
+	gboolean new_autoschedule;
 
 	g_return_if_fail (button != NULL);
 
 	url = g_object_get_data (G_OBJECT (button), "caldav-url");
-	username = g_object_get_data (G_OBJECT (button), "caldav-username");
 	ssl = g_object_get_data (G_OBJECT (button), "caldav-ssl");
+	username = g_object_get_data (G_OBJECT (button), "caldav-username");
+	usermail = g_object_get_data (G_OBJECT (button), "caldav-usermail");
+	autoschedule = g_object_get_data (G_OBJECT (button), "caldav-autoschedule");
 
 	g_return_if_fail (url != NULL);
 	g_return_if_fail (GTK_IS_ENTRY (url));
-	g_return_if_fail (username != NULL);
-	g_return_if_fail (GTK_IS_ENTRY (username));
 	g_return_if_fail (ssl != NULL);
 	g_return_if_fail (GTK_IS_TOGGLE_BUTTON (ssl));
+	g_return_if_fail (username != NULL);
+	g_return_if_fail (GTK_IS_ENTRY (username));
+	g_return_if_fail (usermail != NULL);
+	g_return_if_fail (GTK_IS_ENTRY (usermail));
+	g_return_if_fail (autoschedule != NULL);
+	g_return_if_fail (GTK_IS_TOGGLE_BUTTON (autoschedule));
+
+	new_usermail = g_strdup (gtk_entry_get_text (usermail)),
+	new_autoschedule = gtk_toggle_button_get_active (autoschedule);
 
 	new_url = caldav_browse_server (
 		GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (button))),
 		gtk_entry_get_text (url),
 		gtk_entry_get_text (username),
 		gtk_toggle_button_get_active (ssl),
+		&new_usermail,
+		&new_autoschedule,
 		GPOINTER_TO_INT (user_data));
 
 	if (new_url) {
 		gtk_entry_set_text (url, new_url);
 		g_free (new_url);
+
+		if (new_usermail)
+			gtk_entry_set_text (usermail, new_usermail);
+
+		gtk_toggle_button_set_active (autoschedule, new_autoschedule);
 	}
+
+	g_free (new_usermail);
 }
 
 GtkWidget *
@@ -183,7 +202,7 @@ oge_caldav  (EPlugin                    *epl,
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource      *source;
 	SoupURI      *suri;
-	GtkWidget    *parent, *location, *ssl, *user, *browse_cal;
+	GtkWidget    *parent, *location, *ssl, *user, *mail, *autoschedule, *browse_cal;
 	gchar        *uri, *username;
 	guint         n_rows;
 
@@ -232,6 +251,9 @@ oge_caldav  (EPlugin                    *epl,
         g_free (uri);
 	g_free (username);
 
+	mail = e_plugin_util_add_entry (parent, _("User e-_mail:"), source, "usermail");
+	autoschedule = e_plugin_util_add_check (parent, _("Server _handles meeting invitations"), source, "autoschedule", "1", "0");
+
 	browse_cal = gtk_button_new_with_mnemonic (_("Brows_e server for a calendar"));
 	gtk_widget_show (browse_cal);
 	g_object_get (parent, "n-rows", &n_rows, NULL);
@@ -240,8 +262,10 @@ oge_caldav  (EPlugin                    *epl,
 		n_rows, n_rows + 1, GTK_FILL, 0, 0, 0);
 
 	g_object_set_data (G_OBJECT (browse_cal), "caldav-url", location);
-	g_object_set_data (G_OBJECT (browse_cal), "caldav-username", user);
 	g_object_set_data (G_OBJECT (browse_cal), "caldav-ssl", ssl);
+	g_object_set_data (G_OBJECT (browse_cal), "caldav-username", user);
+	g_object_set_data (G_OBJECT (browse_cal), "caldav-usermail", mail);
+	g_object_set_data (G_OBJECT (browse_cal), "caldav-autoschedule", autoschedule);
 
 	g_signal_connect  (
 		browse_cal, "clicked",
