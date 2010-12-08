@@ -953,10 +953,7 @@ contact_list_editor_source_menu_changed_cb (GtkWidget *widget)
 	if (!e_source_equal (client_source, active_source))
 		e_client_utils_open_new (
 			client_source, E_CLIENT_SOURCE_TYPE_CONTACTS,
-			FALSE, NULL,
-			e_client_utils_authenticate_handler,
-			eab_editor_get_window (EAB_EDITOR (editor)),
-			contact_list_editor_book_loaded_cb,
+			FALSE, NULL, contact_list_editor_book_loaded_cb,
 			g_object_ref (editor));
 
 	g_object_unref (active_source);
@@ -1180,31 +1177,25 @@ contact_list_editor_fudge_new (EBookClient *book_client,
 static void
 setup_custom_widgets (EContactListEditor *editor)
 {
+	EShell *shell;
+	ESourceRegistry *registry;
 	GtkWidget *combo_box;
-	ESourceList *source_list;
 	ENameSelectorEntry *name_selector_entry;
 	GtkWidget *old, *parent;
 	EContactListEditorPrivate *priv;
-	GError *error = NULL;
 	guint ba = 0, la = 0, ra = 0, ta = 0, xo = 0, xp = 0, yo = 0, yp = 0;
 
 	g_return_if_fail (editor != NULL);
 
 	priv = E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor);
 
-	combo_box = WIDGET (SOURCE_MENU);
-	if (!e_book_client_get_sources (&source_list, &error))
-		source_list = NULL;
-	g_object_set (combo_box, "source-list", source_list, NULL);
-	if (source_list)
-		g_object_unref (source_list);
+	shell = eab_editor_get_shell (EAB_EDITOR (editor));
+	registry = e_shell_get_registry (shell);
 
-	if (error) {
-		g_warning (
-			"%s: Failed to get sources: %s",
-			G_STRFUNC, error->message);
-		g_error_free (error);
-	}
+	combo_box = WIDGET (SOURCE_MENU);
+
+	e_source_combo_box_set_registry (
+		E_SOURCE_COMBO_BOX (combo_box), registry);
 
 	g_signal_connect (
 		combo_box, "changed", G_CALLBACK (
@@ -1369,11 +1360,16 @@ contact_list_editor_constructed (GObject *object)
 	GtkCellRenderer *renderer;
 	GtkTreeView *view;
 	GtkTreeSelection *selection;
+	ESourceRegistry *registry;
+	EShell *shell;
 
 	editor = E_CONTACT_LIST_EDITOR (object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
+
+	shell = eab_editor_get_shell (EAB_EDITOR (editor));
+	registry = e_shell_get_registry (shell);
 
 	editor->priv->editable = TRUE;
 	editor->priv->allows_contact_lists = TRUE;
@@ -1412,7 +1408,7 @@ contact_list_editor_constructed (GObject *object)
 		column, renderer, (GtkTreeCellDataFunc)
 		contact_list_editor_render_destination, NULL, NULL);
 
-	editor->priv->name_selector = e_name_selector_new ();
+	editor->priv->name_selector = e_name_selector_new (registry);
 
 	e_name_selector_model_add_section (
 		e_name_selector_peek_model (editor->priv->name_selector),
@@ -1464,8 +1460,13 @@ contact_list_editor_save_contact (EABEditor *eab_editor,
 {
 	EContactListEditor *editor = E_CONTACT_LIST_EDITOR (eab_editor);
 	EContactListEditorPrivate *priv = editor->priv;
+	ESourceRegistry *registry;
 	EditorCloseStruct *ecs;
 	EContact *contact;
+	EShell *shell;
+
+	shell = eab_editor_get_shell (eab_editor);
+	registry = e_shell_get_registry (shell);
 
 	contact = e_contact_list_editor_get_contact (editor);
 
@@ -1481,11 +1482,11 @@ contact_list_editor_save_contact (EABEditor *eab_editor,
 
 	if (priv->is_new_list)
 		eab_merging_book_add_contact (
-			priv->book_client, contact,
+			registry, priv->book_client, contact,
 			contact_list_editor_list_added_cb, ecs);
 	else
 		eab_merging_book_modify_contact (
-			priv->book_client, contact,
+			registry, priv->book_client, contact,
 			contact_list_editor_list_modified_cb, ecs);
 
 	priv->changed = FALSE;
