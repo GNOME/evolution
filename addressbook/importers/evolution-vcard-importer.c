@@ -38,10 +38,12 @@
 #include <libebook/e-book-client.h>
 #include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-selector.h>
+#include <libedataserver/e-source-address-book.h>
 
 #include <util/eab-book-util.h>
 #include <libebook/e-destination.h>
 
+#include <shell/e-shell.h>
 #include <e-util/e-import.h>
 #include <e-util/e-datetime-format.h>
 #include <misc/e-web-view-preview.h>
@@ -406,31 +408,38 @@ vcard_getwidget (EImport *ei,
                  EImportTarget *target,
                  EImportImporter *im)
 {
+	EShell *shell;
 	GtkWidget *vbox, *selector;
+	ESourceRegistry *registry;
 	ESource *primary;
-	ESourceList *source_list;
-
-	/* FIXME Better error handling */
-	if (!e_book_client_get_sources (&source_list, NULL))
-		return NULL;
+	const gchar *extension_name;
 
 	vbox = gtk_vbox_new (FALSE, FALSE);
 
-	selector = e_source_selector_new (source_list);
-	e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
+	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
+	selector = e_source_selector_new (registry, extension_name);
+	e_source_selector_set_show_toggles (
+		E_SOURCE_SELECTOR (selector), FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), selector, FALSE, TRUE, 6);
 
 	primary = g_datalist_get_data(&target->data, "vcard-source");
 	if (primary == NULL) {
-		primary = e_source_list_peek_source_any (source_list);
-		g_object_ref (primary);
-		g_datalist_set_data_full (
-			&target->data, "vcard-source", primary,
-			(GDestroyNotify) g_object_unref);
+		GList *list;
+
+		list = e_source_registry_list_sources (registry, extension_name);
+		if (list != NULL) {
+			primary = g_object_ref (list->data);
+			g_datalist_set_data_full (
+				&target->data, "vcard-source", primary,
+				(GDestroyNotify) g_object_unref);
+		}
+
+		g_list_free_full (list, (GDestroyNotify) g_object_unref);
 	}
 	e_source_selector_set_primary_selection (
 		E_SOURCE_SELECTOR (selector), primary);
-	g_object_unref (source_list);
 
 	g_signal_connect (
 		selector, "primary_selection_changed",
@@ -575,7 +584,6 @@ vcard_import (EImport *ei,
 
 	e_client_utils_open_new (
 		source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
-		e_client_utils_authenticate_handler, NULL,
 		book_loaded_cb, gci);
 }
 
