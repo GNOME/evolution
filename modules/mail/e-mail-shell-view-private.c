@@ -1224,6 +1224,8 @@ send_receive_get_account_index (EAccount *account)
 		res++;
 	}
 
+	g_object_unref (iterator);
+
 	return -1;
 }
 
@@ -1389,6 +1391,8 @@ create_send_receive_submenu (EMailShellView *mail_shell_view)
 
 			send_receive_add_to_menu (GTK_MENU_SHELL (menu), account, -1);
 		}
+
+		g_object_unref (iterator);
 
 		g_signal_connect (accounts, "account-added", G_CALLBACK (send_receive_menu_account_added_cb), menu);
 		g_signal_connect (accounts, "account-changed", G_CALLBACK (send_receive_menu_account_changed_cb), menu);
