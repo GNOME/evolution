@@ -26,6 +26,7 @@
 #endif
 
 #include <string.h>
+#include <libedataserver/e-source-registry.h>
 
 #include "eab-book-util.h"
 
@@ -149,13 +150,16 @@ eab_contact_list_to_string (const GSList *contacts)
 }
 
 gboolean
-eab_book_and_contact_list_from_string (const gchar *str,
+eab_book_and_contact_list_from_string (ESourceRegistry *registry,
+                                       const gchar *str,
                                        EBookClient **book_client,
                                        GSList **contacts)
 {
+	ESource *source;
 	const gchar *s0, *s1;
-	gchar *uri;
+	gchar *uid;
 
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
 	g_return_val_if_fail (str != NULL, FALSE);
 	g_return_val_if_fail (book_client != NULL, FALSE);
 	g_return_val_if_fail (contacts != NULL, FALSE);
@@ -178,9 +182,15 @@ eab_book_and_contact_list_from_string (const gchar *str,
 		return FALSE;
 	}
 
-	uri = g_strndup (s0, s1 - s0);
-	*book_client = e_book_client_new_from_uri (uri, NULL);
-	g_free (uri);
+	uid = g_strndup (s0, s1 - s0);
+	source = e_source_registry_ref_source (registry, uid);
+	if (source != NULL) {
+		*book_client = e_book_client_new (source, NULL);
+		g_object_unref (source);
+	} else {
+		*book_client = NULL;
+	}
+	g_free (uid);
 
 	return (*book_client != NULL);
 }
@@ -196,9 +206,14 @@ eab_book_and_contact_list_to_string (EBookClient *book_client,
 		s0 = g_strdup ("");
 
 	if (book_client != NULL) {
-		s1 = g_strconcat (
-			"Book: ", e_client_get_uri (
-			E_CLIENT (book_client)), "\r\n", s0, NULL);
+		EClient *client;
+		ESource *source;
+		const gchar *uid;
+
+		client = E_CLIENT (book_client);
+		source = e_client_get_source (client);
+		uid = e_source_get_uid (source);
+		s1 = g_strconcat ("Book: ", uid, "\r\n", s0, NULL);
 	} else
 		s1 = g_strdup (s0);
 

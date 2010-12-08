@@ -25,6 +25,7 @@
 #define EAB_BOOK_UTIL_H
 
 #include <libebook/e-book-client.h>
+#include <libedataserver/e-source-registry.h>
 
 G_BEGIN_DECLS
 
@@ -32,7 +33,8 @@ GSList *	eab_contact_list_from_string	(const gchar *str);
 gchar *		eab_contact_list_to_string	(const GSList *contacts);
 
 gboolean	eab_book_and_contact_list_from_string
-						(const gchar *str,
+						(ESourceRegistry *registry,
+						 const gchar *str,
 						 EBookClient **book_client,
 						 GSList **contacts);
 gchar *		eab_book_and_contact_list_to_string
