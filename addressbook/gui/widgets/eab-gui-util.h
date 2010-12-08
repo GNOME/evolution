@@ -26,6 +26,7 @@
 
 #include <gtk/gtk.h>
 #include <libebook/e-book-client.h>
+#include <libedataserver/e-source-registry.h>
 #include "libevolution-utils/e-alert-sink.h"
 
 G_BEGIN_DECLS
@@ -40,12 +41,14 @@ void		eab_load_error_dialog		(GtkWidget *parent,
 void		eab_search_result_dialog	(EAlertSink *alert_sink,
 						 const GError *error);
 gint		eab_prompt_save_dialog		(GtkWindow *parent);
-void		eab_transfer_contacts		(EBookClient *source_client,
+void		eab_transfer_contacts		(ESourceRegistry *registry,
+						 EBookClient *source_client,
 						 GSList *contacts, /* adopted */
 						 gboolean delete_from_source,
 						 EAlertSink *alert_sink);
 gchar *		eab_suggest_filename		(const GSList *contact_list);
-ESource *	eab_select_source		(ESource *except_source,
+ESource *	eab_select_source		(ESourceRegistry *registry,
+						 ESource *except_source,
 						 const gchar *title,
 						 const gchar *message,
 						 const gchar *select_uid,

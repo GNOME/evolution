@@ -24,8 +24,10 @@
 
 #include "e-addressbook-selector.h"
 
-#include <e-util/e-selection.h>
 #include <libedataserverui/e-client-utils.h>
+#include <libedataserver/e-source-address-book.h>
+
+#include <e-util/e-selection.h>
 
 #include <eab-book-util.h>
 #include <eab-contact-merging.h>
@@ -41,6 +43,7 @@ struct _EAddressbookSelectorPrivate {
 };
 
 struct _MergeContext {
+	ESourceRegistry *registry;
 	EBookClient *source_client;
 	EBookClient *target_client;
 
@@ -61,8 +64,6 @@ enum {
 static GtkTargetEntry drag_types[] = {
 	{ (gchar *) "text/x-source-vcard", 0, 0 }
 };
-
-static gpointer parent_class;
 
 G_DEFINE_TYPE (
 	EAddressbookSelector,
@@ -85,13 +86,15 @@ merge_context_next (MergeContext *merge_context)
 }
 
 static MergeContext *
-merge_context_new (EBookClient *source_client,
+merge_context_new (ESourceRegistry *registry,
+                   EBookClient *source_client,
                    EBookClient *target_client,
                    GSList *contact_list)
 {
 	MergeContext *merge_context;
 
 	merge_context = g_slice_new0 (MergeContext);
+	merge_context->registry = g_object_ref (registry);
 	merge_context->source_client = source_client;
 	merge_context->target_client = target_client;
 	merge_context->remaining_contacts = contact_list;
@@ -103,6 +106,9 @@ merge_context_new (EBookClient *source_client,
 static void
 merge_context_free (MergeContext *merge_context)
 {
+	if (merge_context->registry != NULL)
+		g_object_unref (merge_context->registry);
+
 	if (merge_context->source_client != NULL)
 		g_object_unref (merge_context->source_client);
 
@@ -163,6 +169,7 @@ addressbook_selector_merge_next_cb (EBookClient *book_client,
 	if (merge_context->remaining_contacts != NULL) {
 		merge_context_next (merge_context);
 		eab_merging_book_add_contact (
+			merge_context->registry,
 			merge_context->target_client,
 			merge_context->current_contact,
 			addressbook_selector_merge_next_cb, merge_context);
@@ -171,35 +178,6 @@ addressbook_selector_merge_next_cb (EBookClient *book_client,
 		merge_context_free (merge_context);
 	} else
 		merge_context->pending_adds = FALSE;
-}
-
-static void
-addressbook_selector_load_primary_source (ESourceSelector *selector)
-{
-	ESourceList *source_list;
-	ESource *source = NULL;
-	GSList *groups;
-
-	source_list = e_source_selector_get_source_list (selector);
-
-	/* Dig up the first source in the source list.
-	 * XXX libedataserver should provide API for this. */
-	groups = e_source_list_peek_groups (source_list);
-	while (groups != NULL) {
-		ESourceGroup *source_group = groups->data;
-		GSList *sources;
-
-		sources = e_source_group_peek_sources (source_group);
-		if (sources != NULL) {
-			source = sources->data;
-			break;
-		}
-
-		groups = g_slist_next (groups);
-	}
-
-	if (source != NULL)
-		e_source_selector_set_primary_selection (selector, source);
 }
 
 static void
@@ -250,19 +228,25 @@ addressbook_selector_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_addressbook_selector_parent_class)->dispose (object);
 }
 
 static void
 addressbook_selector_constructed (GObject *object)
 {
 	ESourceSelector *selector;
+	ESourceRegistry *registry;
+	ESource *source;
 
 	selector = E_SOURCE_SELECTOR (object);
-	addressbook_selector_load_primary_source (selector);
+	registry = e_source_selector_get_registry (selector);
+	source = e_source_registry_ref_default_address_book (registry);
+	e_source_selector_set_primary_selection (selector, source);
+	g_object_unref (source);
 
 	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (e_addressbook_selector_parent_class)->
+		constructed (object);
 }
 
 static void
@@ -302,6 +286,7 @@ target_client_open_ready_cb (GObject *source_object,
 	}
 
 	eab_merging_book_add_contact (
+		merge_context->registry,
 		merge_context->target_client,
 		merge_context->current_contact,
 		addressbook_selector_merge_next_cb, merge_context);
@@ -318,6 +303,7 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 	MergeContext *merge_context;
 	EAddressbookModel *model;
 	EBookClient *source_client = NULL;
+	ESourceRegistry *registry;
 	GSList *list;
 	const gchar *string;
 	gboolean remove_from_source;
@@ -328,26 +314,29 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 	string = (const gchar *) gtk_selection_data_get_data (selection_data);
 	remove_from_source = (action == GDK_ACTION_MOVE);
 
+	model = e_addressbook_view_get_model (priv->current_view);
+	registry = e_addressbook_model_get_registry (model);
+
 	/* XXX Function assumes both out arguments are provided.  All we
 	 *     care about is the contact list; source_client will be NULL. */
-	eab_book_and_contact_list_from_string (string, &source_client, &list);
+	eab_book_and_contact_list_from_string (
+		registry, string, &source_client, &list);
 	if (source_client)
 		g_object_unref (source_client);
 
 	if (list == NULL)
 		return FALSE;
 
-	model = e_addressbook_view_get_model (priv->current_view);
 	source_client = e_addressbook_model_get_client (model);
 	g_return_val_if_fail (E_IS_BOOK_CLIENT (source_client), FALSE);
 
-	merge_context = merge_context_new (g_object_ref (source_client), NULL, list);
+	merge_context = merge_context_new (
+		registry, g_object_ref (source_client), NULL, list);
 	merge_context->remove_from_source = remove_from_source;
 	merge_context->pending_adds = TRUE;
 
 	e_client_utils_open_new (
 		destination, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
-		e_client_utils_authenticate_handler, NULL,
 		target_client_open_ready_cb, merge_context);
 
 	return TRUE;
@@ -359,7 +348,6 @@ e_addressbook_selector_class_init (EAddressbookSelectorClass *class)
 	GObjectClass *object_class;
 	ESourceSelectorClass *selector_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EAddressbookSelectorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
@@ -387,6 +375,12 @@ e_addressbook_selector_init (EAddressbookSelector *selector)
 {
 	selector->priv = E_ADDRESSBOOK_SELECTOR_GET_PRIVATE (selector);
 
+	e_source_selector_set_show_colors (
+		E_SOURCE_SELECTOR (selector), FALSE);
+
+	e_source_selector_set_show_toggles (
+		E_SOURCE_SELECTOR (selector), FALSE);
+
 	gtk_drag_dest_set (
 		GTK_WIDGET (selector), GTK_DEST_DEFAULT_ALL,
 		drag_types, G_N_ELEMENTS (drag_types),
@@ -396,13 +390,14 @@ e_addressbook_selector_init (EAddressbookSelector *selector)
 }
 
 GtkWidget *
-e_addressbook_selector_new (ESourceList *source_list)
+e_addressbook_selector_new (ESourceRegistry *registry)
 {
-	g_return_val_if_fail (E_IS_SOURCE_LIST (source_list), NULL);
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
 
 	return g_object_new (
 		E_TYPE_ADDRESSBOOK_SELECTOR,
-		"source-list", source_list, NULL);
+		"extension-name", E_SOURCE_EXTENSION_ADDRESS_BOOK,
+		"registry", registry, NULL);
 }
 
 EAddressbookView *

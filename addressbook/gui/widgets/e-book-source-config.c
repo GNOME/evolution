@@ -40,13 +40,13 @@ G_DEFINE_TYPE (
 	E_TYPE_SOURCE_CONFIG)
 
 static ESource *
-book_source_config_get_default (ESourceConfig *config)
+book_source_config_ref_default (ESourceConfig *config)
 {
 	ESourceRegistry *registry;
 
 	registry = e_source_config_get_registry (config);
 
-	return e_source_registry_get_default_address_book (registry);
+	return e_source_registry_ref_default_address_book (registry);
 }
 
 static void
@@ -109,7 +109,7 @@ book_source_config_constructed (GObject *object)
 	priv->autocomplete_button = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
-	default_source = book_source_config_get_default (config);
+	default_source = book_source_config_ref_default (config);
 	original_source = e_source_config_get_original_source (config);
 
 	if (original_source != NULL) {
@@ -118,6 +118,8 @@ book_source_config_constructed (GObject *object)
 		active = e_source_equal (original_source, default_source);
 		g_object_set (priv->default_button, "active", active, NULL);
 	}
+
+	g_object_unref (default_source);
 
 	e_source_config_insert_widget (
 		config, NULL, NULL, priv->default_button);
@@ -173,7 +175,7 @@ book_source_config_commit_changes (ESourceConfig *config,
 	class = E_SOURCE_CONFIG_CLASS (e_book_source_config_parent_class);
 	class->commit_changes (config, scratch_source);
 
-	default_source = book_source_config_get_default (config);
+	default_source = book_source_config_ref_default (config);
 
 	/* The default setting is a little tricky to get right.  If
 	 * the toggle button is active, this ESource is now the default.
@@ -185,6 +187,8 @@ book_source_config_commit_changes (ESourceConfig *config,
 		book_source_config_set_default (config, scratch_source);
 	else if (e_source_equal (scratch_source, default_source))
 		book_source_config_set_default (config, NULL);
+
+	g_object_unref (default_source);
 }
 
 static void

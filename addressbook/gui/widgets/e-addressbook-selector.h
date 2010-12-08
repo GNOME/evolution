@@ -21,7 +21,6 @@
 #ifndef E_ADDRESSBOOK_SELECTOR_H
 #define E_ADDRESSBOOK_SELECTOR_H
 
-#include <libedataserver/e-source-list.h>
 #include <libedataserverui/e-source-selector.h>
 #include "e-addressbook-view.h"
 
@@ -60,7 +59,7 @@ struct _EAddressbookSelectorClass {
 };
 
 GType		e_addressbook_selector_get_type	(void);
-GtkWidget *	e_addressbook_selector_new	(ESourceList *source_list);
+GtkWidget *	e_addressbook_selector_new	(ESourceRegistry *registry);
 EAddressbookView *
 		e_addressbook_selector_get_current_view
 						(EAddressbookSelector *selector);

@@ -36,6 +36,7 @@
 	((obj), E_TYPE_ADDRESSBOOK_MODEL, EAddressbookModelPrivate))
 
 struct _EAddressbookModelPrivate {
+	ESourceRegistry *registry;
 	EBookClient *book_client;
 	gchar *query_str;
 	EBookClientView *client_view;
@@ -63,7 +64,8 @@ enum {
 	PROP_0,
 	PROP_CLIENT,
 	PROP_EDITABLE,
-	PROP_QUERY
+	PROP_QUERY,
+	PROP_REGISTRY
 };
 
 enum {
@@ -462,6 +464,16 @@ remove_status_cb (gpointer data)
 }
 
 static void
+addressbook_model_set_registry (EAddressbookModel *model,
+                                ESourceRegistry *registry)
+{
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
+	g_return_if_fail (model->priv->registry == NULL);
+
+	model->priv->registry = g_object_ref (registry);
+}
+
+static void
 addressbook_model_set_property (GObject *object,
                                 guint property_id,
                                 const GValue *value,
@@ -484,6 +496,12 @@ addressbook_model_set_property (GObject *object,
 			e_addressbook_model_set_query (
 				E_ADDRESSBOOK_MODEL (object),
 				g_value_get_string (value));
+			return;
+
+		case PROP_REGISTRY:
+			addressbook_model_set_registry (
+				E_ADDRESSBOOK_MODEL (object),
+				g_value_get_object (value));
 			return;
 	}
 
@@ -513,6 +531,12 @@ addressbook_model_get_property (GObject *object,
 		case PROP_QUERY:
 			g_value_set_string (
 				value, e_addressbook_model_get_query (
+				E_ADDRESSBOOK_MODEL (object)));
+			return;
+
+		case PROP_REGISTRY:
+			g_value_set_object (
+				value, e_addressbook_model_get_registry (
 				E_ADDRESSBOOK_MODEL (object)));
 			return;
 	}
@@ -613,6 +637,18 @@ e_addressbook_model_class_init (EAddressbookModelClass *class)
 			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_REGISTRY,
+		g_param_spec_object (
+			"registry",
+			"Registry",
+			"Data source registry",
+			E_TYPE_SOURCE_REGISTRY,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
 
 	signals[WRITABLE_STATUS] =
@@ -726,9 +762,21 @@ e_addressbook_model_init (EAddressbookModel *model)
 }
 
 EAddressbookModel *
-e_addressbook_model_new (void)
+e_addressbook_model_new (ESourceRegistry *registry)
 {
-	return g_object_new (E_TYPE_ADDRESSBOOK_MODEL, NULL);
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+
+	return g_object_new (
+		E_TYPE_ADDRESSBOOK_MODEL,
+		"registry", registry, NULL);
+}
+
+ESourceRegistry *
+e_addressbook_model_get_registry (EAddressbookModel *model)
+{
+	g_return_val_if_fail (E_IS_ADDRESSBOOK_MODEL (model), NULL);
+
+	return model->priv->registry;
 }
 
 EContact *

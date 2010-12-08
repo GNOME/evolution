@@ -576,15 +576,24 @@ addressbook_view_constructed (GObject *object)
 {
 	EAddressbookView *view = E_ADDRESSBOOK_VIEW (object);
 	GalViewInstance *view_instance;
+	EShell *shell;
 	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	ESourceRegistry *registry;
 	ESource *source;
-	gchar *uri;
+	const gchar *uid;
 
 	shell_view = e_addressbook_view_get_shell_view (view);
-	source = e_addressbook_view_get_source (view);
-	uri = e_source_get_uri (source);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell = e_shell_backend_get_shell (shell_backend);
+	registry = e_shell_get_registry (shell);
 
-	view_instance = e_shell_view_new_view_instance (shell_view, uri);
+	source = e_addressbook_view_get_source (view);
+	uid = e_source_get_uid (source);
+
+	view->priv->model = e_addressbook_model_new (registry);
+
+	view_instance = e_shell_view_new_view_instance (shell_view, uid);
 	g_signal_connect_swapped (
 		view_instance, "display-view",
 		G_CALLBACK (addressbook_view_display_view_cb), view);
@@ -594,8 +603,6 @@ addressbook_view_constructed (GObject *object)
 	 * must first obtain a reference to this EAddressbookView so that
 	 * e_book_shell_content_get_current_view() returns the correct
 	 * view in GalViewInstance::loaded signal handlers. */
-
-	g_free (uri);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
@@ -703,6 +710,7 @@ addressbook_view_paste_clipboard (ESelectable *selectable)
 	EBookClient *book_client;
 	EAddressbookView *view;
 	EAddressbookModel *model;
+	ESourceRegistry *registry;
 	GtkClipboard *clipboard;
 	GSList *contact_list, *iter;
 	gchar *string;
@@ -714,6 +722,7 @@ addressbook_view_paste_clipboard (ESelectable *selectable)
 		return;
 
 	model = e_addressbook_view_get_model (view);
+	registry = e_addressbook_model_get_registry (model);
 	book_client = e_addressbook_model_get_client (model);
 
 	string = e_clipboard_wait_for_directory (clipboard);
@@ -723,7 +732,8 @@ addressbook_view_paste_clipboard (ESelectable *selectable)
 	for (iter = contact_list; iter != NULL; iter = iter->next) {
 		EContact *contact = iter->data;
 
-		eab_merging_book_add_contact (book_client, contact, NULL, NULL);
+		eab_merging_book_add_contact (
+			registry, book_client, contact, NULL, NULL);
 	}
 
 	e_client_util_free_object_slist (contact_list);
@@ -859,8 +869,6 @@ e_addressbook_view_init (EAddressbookView *view)
 	GtkTargetList *target_list;
 
 	view->priv = E_ADDRESSBOOK_VIEW_GET_PRIVATE (view);
-
-	view->priv->model = e_addressbook_model_new ();
 
 	target_list = gtk_target_list_new (NULL, 0);
 	e_target_list_add_directory_targets (target_list, 0);
@@ -1124,16 +1132,18 @@ backend_died (EAddressbookView *view)
 	EAlertSink *alert_sink;
 	EAddressbookModel *model;
 	EBookClient *book_client;
+	ESource *source;
 
 	shell_view = e_addressbook_view_get_shell_view (view);
 	alert_sink = E_ALERT_SINK (e_shell_view_get_shell_content (shell_view));
 
 	model = e_addressbook_view_get_model (view);
 	book_client = e_addressbook_model_get_client (model);
+	source = e_client_get_source (E_CLIENT (book_client));
 
 	e_alert_submit (alert_sink,
 		"addressbook:backend-died",
-		e_client_get_uri (E_CLIENT (book_client)), NULL);
+		e_source_get_display_name (source), NULL);
 }
 
 static void
@@ -1533,6 +1543,8 @@ all_contacts_ready_cb (GObject *source_object,
 {
 	EBookClient *book_client = E_BOOK_CLIENT (source_object);
 	struct TransferContactsData *tcd = user_data;
+	EAddressbookModel *model;
+	ESourceRegistry *registry;
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	EAlertSink *alert_sink;
@@ -1549,6 +1561,9 @@ all_contacts_ready_cb (GObject *source_object,
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	alert_sink = E_ALERT_SINK (shell_content);
 
+	model = e_addressbook_view_get_model (tcd->view);
+	registry = e_addressbook_model_get_registry (model);
+
 	if (error) {
 		e_alert_submit (
 			alert_sink, "addressbook:search-error",
@@ -1556,7 +1571,7 @@ all_contacts_ready_cb (GObject *source_object,
 		g_error_free (error);
 	} else if (contacts) {
 		eab_transfer_contacts (
-			book_client, contacts,
+			registry, book_client, contacts,
 			tcd->delete_from_source, alert_sink);
 	}
 
@@ -1570,7 +1585,9 @@ view_transfer_contacts (EAddressbookView *view,
                         gboolean all)
 {
 	EBookClient *book_client;
+	ESourceRegistry *registry;
 
+	registry = e_addressbook_model_get_registry (view->priv->model);
 	book_client = e_addressbook_model_get_client (view->priv->model);
 
 	if (all) {
@@ -1602,7 +1619,7 @@ view_transfer_contacts (EAddressbookView *view,
 		contacts = e_addressbook_view_get_selected (view);
 
 		eab_transfer_contacts (
-			book_client, contacts,
+			registry, book_client, contacts,
 			delete_from_source, alert_sink);
 	}
 }

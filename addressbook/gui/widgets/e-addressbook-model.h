@@ -24,6 +24,7 @@
 #include <libebook/e-book-client.h>
 #include <libebook/e-book-client-view.h>
 #include <libebook/e-book-query.h>
+#include <libedataserver/e-source-registry.h>
 
 /* Standard GObject macros */
 #define E_TYPE_ADDRESSBOOK_MODEL \
@@ -83,7 +84,10 @@ struct _EAddressbookModelClass {
 
 GType		e_addressbook_model_get_type	(void);
 EAddressbookModel *
-		e_addressbook_model_new		(void);
+		e_addressbook_model_new		(ESourceRegistry *registry);
+ESourceRegistry *
+		e_addressbook_model_get_registry
+						(EAddressbookModel *model);
 
 /* Returns object with ref count of 1. */
 EContact *	e_addressbook_model_get_contact	(EAddressbookModel *model,

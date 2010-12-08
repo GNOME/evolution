@@ -36,6 +36,7 @@
 #include <glib/gi18n.h>
 #include <libebook/e-destination.h>
 #include <libedataserver/e-data-server-util.h>
+#include <libedataserver/e-source-address-book.h>
 #include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-selector.h>
 #include <e-util/e-util.h>
@@ -107,12 +108,17 @@ eab_load_error_dialog (GtkWidget *parent,
                        ESource *source,
                        const GError *error)
 {
-	gchar *label_string, *label = NULL, *uri;
+	ESourceBackend *extension;
+	gchar *label_string, *label = NULL;
 	gboolean can_detail_error = TRUE;
+	const gchar *backend_name;
+	const gchar *extension_name;
 
 	g_return_if_fail (source != NULL);
 
-	uri = e_source_get_uri (source);
+	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
+	extension = e_source_get_extension (source, extension_name);
+	backend_name = e_source_backend_get_backend_name (extension);
 
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_OFFLINE_UNAVAILABLE)) {
 		can_detail_error = FALSE;
@@ -124,25 +130,16 @@ eab_load_error_dialog (GtkWidget *parent,
 			  "download its contents.");
 	}
 
-	else if (uri && g_str_has_prefix (uri, "local:")) {
+	else if (g_strcmp0 (backend_name, "local") == 0) {
 		const gchar *user_data_dir;
-		const gchar *source_dir;
-		gchar *mangled_source_dir;
+		const gchar *uid;
 		gchar *path;
 
+		uid = e_source_get_uid (source);
 		user_data_dir = e_get_user_data_dir ();
-		source_dir = e_source_peek_relative_uri (source);
-
-		if (!source_dir || !g_str_equal (source_dir, "system"))
-			source_dir = e_source_get_uid (source);
-
-		/* Mangle the URI to not contain invalid characters. */
-		mangled_source_dir = g_strdelimit (g_strdup (source_dir), ":/", '_');
 
 		path = g_build_filename (
-			user_data_dir, "addressbook", mangled_source_dir, NULL);
-
-		g_free (mangled_source_dir);
+			user_data_dir, "addressbook", uid, NULL);
 
 		label = g_strdup_printf (
 			_("This address book cannot be opened.  Please check that the "
@@ -153,7 +150,7 @@ eab_load_error_dialog (GtkWidget *parent,
 	}
 
 #ifndef HAVE_LDAP
-	else if (uri && !strncmp (uri, "ldap:", 5)) {
+	else if (g_strcmp0 (backend_name, "ldap") == 0) {
 		/* special case for ldap: contact folders so we can tell the user about openldap */
 
 		can_detail_error = FALSE;
@@ -198,7 +195,6 @@ eab_load_error_dialog (GtkWidget *parent,
 	}
 
 	g_free (label);
-	g_free (uri);
 }
 
 void
@@ -298,24 +294,24 @@ source_selection_changed_cb (ESourceSelector *selector,
 }
 
 ESource *
-eab_select_source (ESource *except_source,
+eab_select_source (ESourceRegistry *registry,
+                   ESource *except_source,
                    const gchar *title,
                    const gchar *message,
                    const gchar *select_uid,
                    GtkWindow *parent)
 {
 	ESource *source;
-	ESourceList *source_list;
 	GtkWidget *content_area;
 	GtkWidget *dialog;
 	GtkWidget *ok_button;
 	/* GtkWidget *label; */
 	GtkWidget *selector;
 	GtkWidget *scrolled_window;
+	const gchar *extension_name;
 	gint response;
 
-	if (!e_book_client_get_sources (&source_list, NULL))
-		return NULL;
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
 
 	dialog = gtk_dialog_new_with_buttons (
 		_("Select Address Book"), parent,
@@ -330,27 +326,29 @@ eab_select_source (ESource *except_source,
 
 	/* label = gtk_label_new (message); */
 
-	selector = e_source_selector_new (source_list);
-	e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
+	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
+	selector = e_source_selector_new (registry, extension_name);
+	e_source_selector_set_show_toggles (
+		E_SOURCE_SELECTOR (selector), FALSE);
 
 	ok_button = gtk_dialog_get_widget_for_response (
 		GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
 
 	if (except_source)
 		g_object_set_data (
-			G_OBJECT (ok_button), "except-source",
-			e_source_list_peek_source_by_uid (
-			source_list, e_source_get_uid (except_source)));
+			G_OBJECT (ok_button), "except-source", except_source);
 
 	g_signal_connect (
 		selector, "primary_selection_changed",
 		G_CALLBACK (source_selection_changed_cb), ok_button);
 
 	if (select_uid) {
-		source = e_source_list_peek_source_by_uid (source_list, select_uid);
-		if (source != NULL)
+		source = e_source_registry_ref_source (registry, select_uid);
+		if (source != NULL) {
 			e_source_selector_set_primary_selection (
 				E_SOURCE_SELECTOR (selector), source);
+			g_object_unref (source);
+		}
 	}
 
 	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
@@ -411,6 +409,7 @@ struct ContactCopyProcess_ {
 	GSList *contacts;
 	EBookClient *source;
 	EBookClient *destination;
+	ESourceRegistry *registry;
 	gboolean delete_from_source;
 	EAlertSink *alert_sink;
 };
@@ -481,6 +480,7 @@ process_unref (ContactCopyProcess *process)
 		e_client_util_free_object_slist (process->contacts);
 		g_object_unref (process->source);
 		g_object_unref (process->destination);
+		g_object_unref (process->registry);
 		g_free (process);
 	}
 }
@@ -525,7 +525,7 @@ do_copy (gpointer data,
 
 	process->count++;
 	eab_merging_book_add_contact (
-		book_client,
+		process->registry, book_client,
 		contact, contact_added_cb, process);
 }
 
@@ -561,7 +561,8 @@ exit:
 }
 
 void
-eab_transfer_contacts (EBookClient *source_client,
+eab_transfer_contacts (ESourceRegistry *registry,
+                       EBookClient *source_client,
                        GSList *contacts /* adopted */,
                        gboolean delete_from_source,
                        EAlertSink *alert_sink)
@@ -573,6 +574,7 @@ eab_transfer_contacts (EBookClient *source_client,
 	gchar *desc;
 	GtkWindow *window = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (alert_sink)));
 
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
 	g_return_if_fail (E_IS_BOOK_CLIENT (source_client));
 
 	if (contacts == NULL)
@@ -596,7 +598,7 @@ eab_transfer_contacts (EBookClient *source_client,
 	source = e_client_get_source (E_CLIENT (source_client));
 
 	destination = eab_select_source (
-		source, desc, NULL, last_uid, window);
+		registry, source, desc, NULL, last_uid, window);
 
 	if (!destination)
 		return;
@@ -612,12 +614,12 @@ eab_transfer_contacts (EBookClient *source_client,
 	process->source = g_object_ref (source_client);
 	process->contacts = contacts;
 	process->destination = NULL;
+	process->registry = g_object_ref (registry);
 	process->alert_sink = alert_sink;
 	process->delete_from_source = delete_from_source;
 
 	e_client_utils_open_new (
 		destination, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
-		e_client_utils_authenticate_handler, window,
 		book_loaded_cb, process);
 }
 
