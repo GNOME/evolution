@@ -40,6 +40,8 @@
 
 #include <libebook/e-book-client.h>
 #include <libebook/e-destination.h>
+#include <libedataserver/e-source-registry.h>
+#include <libedataserver/e-source-address-book.h>
 
 #include "mail-importer.h"
 
@@ -176,52 +178,44 @@ import_contact (EBookClient *book_client,
 static void
 import_contacts (void)
 {
-	ESource *source;
-	ESourceList *source_list = NULL;
-	EBookClient *book_client;
+	EShell *shell;
+	ESourceRegistry *registry;
+	EBookClient *book_client = NULL;
+	GList *list;
 	gchar *name;
 	GString *line;
 	FILE *fp;
 	gsize offset;
+	const gchar *extension_name;
 	GError *error = NULL;
 
 	printf("importing pine addressbook\n");
 
-	e_book_client_get_sources (&source_list, &error);
-
-	if (error != NULL) {
-		g_warning (
-			"%s: Failed to get book sources: %s",
-			G_STRFUNC, error->message);
-		g_error_free (error);
-		return;
-	}
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
+	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
 
 	name = g_build_filename(g_get_home_dir(), ".addressbook", NULL);
 	fp = fopen(name, "r");
 	g_free (name);
-	if (fp == NULL) {
-		g_object_unref (source_list);
+	if (fp == NULL)
 		return;
+
+	list = e_source_registry_list_sources (registry, extension_name);
+
+	if (list != NULL) {
+		ESource *source;
+
+		source = E_SOURCE (list->data);
+		book_client = e_book_client_new (source, &error);
 	}
 
-	source = e_source_list_peek_source_any (source_list);
-	if (!source) {
-		g_object_unref (source_list);
-		fclose (fp);
-
-		g_warning ("%s: No book source found, skipping.", G_STRFUNC);
-		return;
-	}
-
-	book_client = e_book_client_new (source, &error);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 	if (book_client != NULL)
 		e_client_open_sync (E_CLIENT (book_client), TRUE, NULL, &error);
 
-	g_object_unref (source_list);
-
-	if (error != NULL || !book_client) {
+	if (error != NULL) {
 		g_warning (
 			"%s: Failed to open book client: %s",
 			G_STRFUNC, error ? error->message : "Unknown error");
