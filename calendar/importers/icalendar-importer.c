@@ -37,6 +37,7 @@
 
 #include <libecal/e-cal-client.h>
 #include <libecal/e-cal-time-util.h>
+#include <libedataserver/e-source-calendar.h>
 #include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libical/icalvcal.h>
@@ -293,10 +294,15 @@ ivcal_getwidget (EImport *ei,
                  EImportTarget *target,
                  EImportImporter *im)
 {
+	EShell *shell;
+	ESourceRegistry *registry;
 	GtkWidget *vbox, *hbox, *first = NULL;
 	GSList *group = NULL;
 	gint i;
 	GtkWidget *nb;
+
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
 
 	vbox = gtk_vbox_new (FALSE, FALSE);
 
@@ -310,29 +316,40 @@ ivcal_getwidget (EImport *ei,
 	/* Type of icalendar items */
 	for (i = 0; import_type_map[i] != -1; i++) {
 		GtkWidget *selector, *rb;
-		ESourceList *source_list;
-		ESource *primary;
+		ESource *source = NULL;
 		GtkWidget *scrolled;
 		struct _selector_data *sd;
-		GError *error = NULL;
+		const gchar *extension_name;
+		GList *list;
 
-		/* FIXME Better error handling */
-		if (!e_client_utils_get_sources (&source_list, import_type_map[i], &error)) {
-			g_debug ("%s: Failed to get source of '%s' (%d): %s", G_STRFUNC, import_type_strings[i], i, error ? error->message : "Unknown error");
-			g_clear_error (&error);
-			continue;
+		switch (import_type_map[i]) {
+			case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+				extension_name = E_SOURCE_EXTENSION_CALENDAR;
+				break;
+			case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+				extension_name = E_SOURCE_EXTENSION_TASK_LIST;
+				break;
+			default:
+				g_warn_if_reached ();
+				continue;
 		}
 
-		selector = e_source_selector_new (source_list);
-		e_source_selector_show_selection (E_SOURCE_SELECTOR (selector), FALSE);
+		selector = e_source_selector_new (registry, extension_name);
+		e_source_selector_set_show_toggles (
+			E_SOURCE_SELECTOR (selector), FALSE);
 		scrolled = gtk_scrolled_window_new (NULL, NULL);
 		gtk_scrolled_window_set_policy ((GtkScrolledWindow *) scrolled, GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
 		gtk_container_add ((GtkContainer *) scrolled, selector);
 		gtk_notebook_append_page (GTK_NOTEBOOK (nb), scrolled, NULL);
 
-		/* FIXME What if no sources? */
-		primary = e_source_list_peek_source_any (source_list);
-		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (selector), primary);
+		list = e_source_registry_list_sources (registry, extension_name);
+		if (list != NULL) {
+			source = E_SOURCE (list->data);
+			e_source_selector_set_primary_selection (
+				E_SOURCE_SELECTOR (selector), source);
+		}
+
+		g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 		g_signal_connect (
 			selector, "primary_selection_changed",
@@ -354,11 +371,10 @@ ivcal_getwidget (EImport *ei,
 		if (!group)
 			group = gtk_radio_button_get_group (GTK_RADIO_BUTTON (rb));
 		if (first == NULL) {
-			g_datalist_set_data_full(&target->data, "primary-source", g_object_ref (primary), g_object_unref);
+			g_datalist_set_data_full(&target->data, "primary-source", g_object_ref (source), g_object_unref);
 			g_datalist_set_data(&target->data, "primary-type", GINT_TO_POINTER(import_type_map[i]));
 			first = rb;
 		}
-		g_object_unref (source_list);
 	}
 	if (first)
 		gtk_toggle_button_set_active ((GtkToggleButton *) first, TRUE);
@@ -455,9 +471,7 @@ ivcal_import (EImport *ei,
 
 	e_client_utils_open_new (
 		g_datalist_get_data (&target->data, "primary-source"),
-		type, FALSE, ici->cancellable,
-		e_client_utils_authenticate_handler, NULL,
-		ivcal_opened, ici);
+		type, FALSE, ici->cancellable, ivcal_opened, ici);
 }
 
 static void
@@ -857,41 +871,30 @@ open_default_source (ICalIntelligentImporter *ici,
                                          const GError *error,
                                          ICalIntelligentImporter *ici))
 {
+	EShell *shell;
 	ESource *source;
-	ECalClient *cal_client;
-	GError *error = NULL;
+	ESourceRegistry *registry;
 	EClientSourceType client_source_type;
 	struct OpenDefaultSourceData *odsd;
 
 	g_return_if_fail (ici != NULL);
 	g_return_if_fail (opened_cb != NULL);
 
-	cal_client = e_cal_client_new_default (source_type, NULL);
-	if (!cal_client)
-		cal_client = e_cal_client_new_system (source_type, &error);
-
-	if (!cal_client) {
-		opened_cb (NULL, error, ici);
-		if (error)
-			g_error_free (error);
-		return;
-	}
-
-	source = e_client_get_source (E_CLIENT (cal_client));
-	g_return_if_fail (source != NULL);
-
-	source = g_object_ref (source);
-	g_object_unref (cal_client);
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
 
 	switch (source_type) {
 		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 			client_source_type = E_CLIENT_SOURCE_TYPE_EVENTS;
+			source = e_source_registry_ref_default_calendar (registry);
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 			client_source_type = E_CLIENT_SOURCE_TYPE_TASKS;
+			source = e_source_registry_ref_default_task_list (registry);
 			break;
 		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
 			client_source_type = E_CLIENT_SOURCE_TYPE_MEMOS;
+			source = e_source_registry_ref_default_memo_list (registry);
 			break;
 		default:
 			g_return_if_reached ();
@@ -905,7 +908,6 @@ open_default_source (ICalIntelligentImporter *ici,
 
 	e_client_utils_open_new (
 		source, client_source_type, FALSE, ici->cancellable,
-		e_client_utils_authenticate_handler, NULL,
 		default_source_opened_cb, odsd);
 
 	g_object_unref (source);
