@@ -47,7 +47,9 @@ evolution_alarm_notify_LDADD =						\
 	$(top_builddir)/composer/libcomposer.la				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/calendar/gui/libevolution-calendar.la		\
+	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la \
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
+	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
 	$(top_builddir)/addressbook/util/libeabutil.la			\
 	$(top_builddir)/libevolution-utils/libevolution-utils.la	\
 	$(EVOLUTION_DATA_SERVER_LIBS)					\

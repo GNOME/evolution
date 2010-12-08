@@ -27,15 +27,13 @@
 #endif
 
 #include <string.h>
-#include <libedataserver/e-source-list.h>
+#include <libedataserver/e-source-alarms.h>
 #include "config-data.h"
 
 /* Whether we have initied ourselves by reading
  * the data from the configuration engine. */
 static gboolean inited = FALSE;
-static GConfClient *conf_client = NULL;
 static GSettings *calendar_settings = NULL;
-static ESourceList *calendar_source_list = NULL, *tasks_source_list = NULL;
 
 /* Copied from ../calendar-config.c; returns whether the locale has 'am' and
  * 'pm' strings defined.
@@ -53,19 +51,6 @@ locale_supports_12_hour_format (void)
 static void
 do_cleanup (void)
 {
-	if (calendar_source_list) {
-		g_object_unref (calendar_source_list);
-		calendar_source_list = NULL;
-	}
-
-	if (tasks_source_list) {
-		g_object_unref (tasks_source_list);
-		tasks_source_list = NULL;
-	}
-
-	g_object_unref (conf_client);
-	conf_client = NULL;
-
 	g_object_unref (calendar_settings);
 	calendar_settings = FALSE;
 
@@ -81,112 +66,9 @@ ensure_inited (void)
 
 	inited = TRUE;
 
-	conf_client = gconf_client_get_default ();
-	if (!GCONF_IS_CLIENT (conf_client)) {
-		inited = FALSE;
-		return;
-	}
-
 	calendar_settings = g_settings_new ("org.gnome.evolution.calendar");
 
 	g_atexit ((GVoidFunc) do_cleanup);
-
-	/* load the sources for calendars and tasks */
-	calendar_source_list = e_source_list_new_for_gconf (conf_client,
-							    "/apps/evolution/calendar/sources");
-	tasks_source_list = e_source_list_new_for_gconf (conf_client,
-							 "/apps/evolution/tasks/sources");
-
-}
-
-ESourceList *
-config_data_get_calendars (const gchar *key)
-{
-	ESourceList *cal_sources;
-	gboolean state;
-	GSList *gconf_list;
-
-	if (!inited) {
-		conf_client = gconf_client_get_default ();
-		calendar_settings = g_settings_new ("org.gnome.evolution.calendar");
-	}
-
-	gconf_list = gconf_client_get_list (conf_client,
-					    key,
-					    GCONF_VALUE_STRING,
-					    NULL);
-	cal_sources = e_source_list_new_for_gconf (conf_client, key);
-
-	if (cal_sources && g_slist_length (gconf_list)) {
-		g_slist_foreach (gconf_list, (GFunc) g_free, NULL);
-		g_slist_free (gconf_list);
-		return cal_sources;
-	}
-
-	state = g_settings_get_boolean (calendar_settings, "notify-with-tray");
-	if (!state) /* Should be old client */ {
-		GSList *source;
-
-		g_settings_set_boolean (calendar_settings, "notify-with-tray", TRUE);
-		source = gconf_client_get_list (conf_client,
-						"/apps/evolution/calendar/sources",
-						GCONF_VALUE_STRING,
-						NULL);
-		gconf_client_set_list (conf_client,
-				       key,
-				       GCONF_VALUE_STRING,
-				       source,
-				       NULL);
-		cal_sources = e_source_list_new_for_gconf (conf_client, key);
-
-		if (source) {
-			g_slist_foreach (source, (GFunc) g_free, NULL);
-			g_slist_free (source);
-		}
-	}
-
-	if (gconf_list) {
-		g_slist_foreach (gconf_list, (GFunc) g_free, NULL);
-		g_slist_free (gconf_list);
-	}
-
-	return cal_sources;
-
-}
-
-void
-config_data_replace_string_list (const gchar *key,
-                                 const gchar *old,
-                                 const gchar *new)
-{
-	GSList *source, *tmp;
-
-	if (!inited)
-		conf_client = gconf_client_get_default ();
-
-	source = gconf_client_get_list (conf_client,
-					key,
-					GCONF_VALUE_STRING,
-					NULL);
-
-	for (tmp = source; tmp; tmp = tmp->next) {
-
-		if (strcmp (tmp->data, old) == 0) {
-			g_free (tmp->data);
-			tmp->data = g_strdup ((gchar *) new);
-			gconf_client_set_list (conf_client,
-					       key,
-					       GCONF_VALUE_STRING,
-					       source,
-					       NULL);
-			break;
-		}
-	}
-
-	if (source) {
-		g_slist_foreach (source, (GFunc) g_free, NULL);
-		g_slist_free (source);
-	}
 }
 
 icaltimezone *
@@ -249,31 +131,26 @@ config_data_set_last_notification_time (ECalClient *cal,
 
 	g_return_if_fail (t != -1);
 
-	if (cal) {
-		ESource *source = e_client_get_source (E_CLIENT (cal));
-		if (source) {
-			const gchar *prop_str;
-			GTimeVal curr_tv = {0};
+	if (cal != NULL) {
+		ESource *source;
+		ESourceAlarms *extension;
+		GTimeVal tv = {0};
+		const gchar *extension_name;
+		gchar *iso8601;
 
-			prop_str = e_source_get_property (source, "last-notified");
-			if (!prop_str || !g_time_val_from_iso8601 (prop_str, &curr_tv))
-				curr_tv.tv_sec = 0;
+		source = e_client_get_source (E_CLIENT (cal));
+		extension_name = E_SOURCE_EXTENSION_ALARMS;
+		extension = e_source_get_extension (source, extension_name);
 
-			if (t > (time_t) curr_tv.tv_sec || (time_t) curr_tv.tv_sec > now) {
-				GTimeVal tmval = {0};
-				gchar *as_text;
+		iso8601 = (gchar *) e_source_alarms_get_last_notified (extension);
+		if (iso8601 != NULL)
+			g_time_val_from_iso8601 (iso8601, &tv);
 
-				tmval.tv_sec = (glong) t;
-				as_text = g_time_val_to_iso8601 (&tmval);
-
-				if (as_text) {
-					e_source_set_property (
-						source, "last-notified", as_text);
-					g_free (as_text);
-					/* pass through, thus the global last
-					 * notification time is also changed */
-				}
-			}
+		if (t > (time_t) tv.tv_sec || (time_t) tv.tv_sec > now) {
+			tv.tv_sec = (glong) t;
+			iso8601 = g_time_val_to_iso8601 (&tv);
+			e_source_alarms_set_last_notified (extension, iso8601);
+			g_free (iso8601);
 		}
 	}
 
@@ -296,27 +173,39 @@ config_data_get_last_notification_time (ECalClient *cal)
 {
 	time_t value, now;
 
-	if (cal) {
-		ESource *source = e_client_get_source (E_CLIENT (cal));
-		if (source) {
-			const gchar *last_notified;
+	if (cal != NULL) {
+		ESource *source;
+		ESourceAlarms *extension;
+		GTimeVal tmval = {0};
+		const gchar *extension_name;
+		const gchar *last_notified;
+		time_t now, val;
 
-			GTimeVal tmval = {0};
+		source = e_client_get_source (E_CLIENT (cal));
+		extension_name = E_SOURCE_EXTENSION_ALARMS;
 
-			last_notified = e_source_get_property (
-				source, "last-notified");
+		if (!e_source_has_extension (source, extension_name))
+			goto skip;
 
-			if (last_notified && *last_notified &&
-				g_time_val_from_iso8601 (last_notified, &tmval)) {
-				time_t now = time (NULL), value = (time_t) tmval.tv_sec;
+		extension = e_source_get_extension (source, extension_name);
+		last_notified = e_source_alarms_get_last_notified (extension);
 
-				if (value > now)
-					value = now;
-				return value;
-			}
-		}
+		if (last_notified == NULL || *last_notified == '\0')
+			goto skip;
+
+		if (!g_time_val_from_iso8601 (last_notified, &tmval))
+			goto skip;
+
+		now = time (NULL);
+		val = (time_t) tmval.tv_sec;
+
+		if (val > now)
+			val = now;
+
+		return val;
 	}
 
+skip:
 	value = g_settings_get_int (calendar_settings, "last-notification-time");
 	now = time (NULL);
 	if (value > now)

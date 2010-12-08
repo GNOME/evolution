@@ -68,13 +68,9 @@ GType		alarm_notify_get_type		(void);
 AlarmNotify *	alarm_notify_new		(GCancellable *cancellable,
 						 GError **error);
 void		alarm_notify_add_calendar	(AlarmNotify *an,
-						 ECalClientSourceType source_type,
 						 ESource *source);
 void		alarm_notify_remove_calendar	(AlarmNotify *an,
-						 ECalClientSourceType source_type,
-						 const gchar *str_uri);
-ESourceList *	alarm_notify_get_selected_calendars
-						(AlarmNotify *an);
+						 ESource *source);
 
 G_END_DECLS
 

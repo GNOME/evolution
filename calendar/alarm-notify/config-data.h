@@ -42,10 +42,6 @@ time_t		config_data_get_last_notification_time
 void		config_data_save_blessed_program
 						(const gchar *program);
 gboolean	config_data_is_blessed_program	(const gchar *program);
-ESourceList *	config_data_get_calendars	(const gchar *);
-void		config_data_replace_string_list	(const gchar *,
-						 const gchar *,
-						 const gchar *);
 
 void		config_data_init_debugging	(void);
 gboolean	config_data_start_debugging	(void);
