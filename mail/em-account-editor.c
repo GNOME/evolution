@@ -45,6 +45,7 @@
 #include <stdarg.h>
 
 #include <gconf/gconf-client.h>
+#include <libedataserverui/e-passwords.h>
 
 #include "shell/e-shell.h"
 #include "e-util/e-util.h"
@@ -3625,6 +3626,47 @@ em_account_editor_check (EMAccountEditor *emae, const gchar *page)
 }
 
 static void
+forget_password_if_needed (EAccount *original_account, EAccount *modified_account, e_account_item_t save_pass_itm, e_account_item_t url_itm)
+{
+	const gchar *orig_url, *modif_url;
+
+	g_return_if_fail (original_account != NULL);
+	g_return_if_fail (modified_account != NULL);
+
+	orig_url = e_account_get_string (original_account, url_itm);
+	modif_url = e_account_get_string (modified_account, url_itm);
+
+	if (orig_url && !*orig_url)
+		orig_url = NULL;
+
+	if (modif_url && !*modif_url)
+		modif_url = NULL;
+
+	if ((e_account_get_bool (original_account, save_pass_itm) != e_account_get_bool (modified_account, save_pass_itm)
+	    && !e_account_get_bool (modified_account, save_pass_itm) && orig_url) ||
+	    (orig_url && !modif_url)) {
+		CamelURL *url;
+		gchar *url_str;
+		const gchar *auth_domain;
+
+		url = camel_url_new (orig_url, NULL);
+		if (!url)
+			return;
+
+		auth_domain = camel_url_get_param (url, "auth-domain");
+		if (!auth_domain)
+			auth_domain = "Mail";
+
+		url_str = camel_url_to_string (url, CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
+		if (url_str)
+			e_passwords_forget_password (auth_domain, url_str);
+
+		g_free (url_str);
+		camel_url_free (url);
+	}
+}
+
+static void
 emae_commit (EConfig *ec, GSList *items, gpointer data)
 {
 	EMAccountEditor *emae = data;
@@ -3640,6 +3682,9 @@ emae_commit (EConfig *ec, GSList *items, gpointer data)
 
 	if (original_account != NULL) {
 		d (printf ("Committing account '%s'\n", e_account_get_string (modified_account, E_ACCOUNT_NAME)));
+		forget_password_if_needed (original_account, modified_account, E_ACCOUNT_SOURCE_SAVE_PASSWD, E_ACCOUNT_SOURCE_URL);
+		forget_password_if_needed (original_account, modified_account, E_ACCOUNT_TRANSPORT_SAVE_PASSWD, E_ACCOUNT_TRANSPORT_URL);
+
 		e_account_import (original_account, modified_account);
 		account = original_account;
 		e_account_list_change (accounts, account);
