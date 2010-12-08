@@ -22,31 +22,27 @@
  */
 
 #include <config.h>
+#include <stdlib.h>
 
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
 #include <libebook/e-book-client.h>
 #include <libebook/e-book-query.h>
+#include <libedataserver/e-source-registry.h>
+#include <libedataserver/e-source-address-book.h>
 
 #include "evolution-addressbook-export.h"
 
 guint
-action_list_folders_init (ActionContext *p_actctx)
+action_list_folders_init (ESourceRegistry *registry,
+                          ActionContext *p_actctx)
 {
-	ESourceList *addressbooks = NULL;
-	GSList *groups, *group;
+	GList *list, *iter;
 	FILE *outputfile = NULL;
-	GError *error = NULL;
-	EBookQuery *query;
-	gchar *query_str;
+	const gchar *extension_name;
 
-	if (!e_book_client_get_sources (&addressbooks, &error)) {
-		g_warning (_("Couldn't get list of address books: %s"), error ? error->message : _("Unknown error"));
-		if (error)
-			g_error_free (error);
-		exit (-1);
-	}
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FAILED);
 
 	if (p_actctx->action_list_folders.output_file != NULL) {
 		if (!(outputfile = g_fopen (p_actctx->action_list_folders.output_file, "w"))) {
@@ -55,55 +51,64 @@ action_list_folders_init (ActionContext *p_actctx)
 		}
 	}
 
-	query = e_book_query_any_field_contains ("");
-	query_str = e_book_query_to_string (query);
-	e_book_query_unref (query);
+	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
+	list = e_source_registry_list_sources (registry, extension_name);
 
-	groups = e_source_list_peek_groups (addressbooks);
-	for (group = groups; group; group = group->next) {
-		ESourceGroup *g = group->data;
-		GSList *sources, *source;
+	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+		EBookClient *book_client;
+		EBookQuery *query;
+		ESource *source;
+		GSList *contacts;
+		const gchar *display_name;
+		const gchar *uid;
+		gchar *query_str;
+		GError *error = NULL;
 
-		sources = e_source_group_peek_sources (g);
-		for (source = sources; source; source = source->next) {
-			ESource *s = source->data;
-			EBookClient *book_client;
-			GSList *contacts;
-			gchar *uri;
-			const gchar *name;
+		source = E_SOURCE (iter->data);
 
-			error = NULL;
-			book_client = e_book_client_new (s, &error);
-			if (!book_client
-			    || !e_client_open_sync (E_CLIENT (book_client), TRUE, NULL, &error)) {
-				g_warning (_("Failed to open client '%s': %s"), e_source_get_display_name (s), error ? error->message : _("Unknown error"));
-				if (error)
-					g_error_free (error);
-				continue;
-			}
+		book_client = e_book_client_new (source, &error);
 
-			if (!e_book_client_get_contacts_sync (book_client, query_str, &contacts, NULL, &error))
-				contacts = NULL;
+		if (book_client != NULL)
+			e_client_open_sync (
+				E_CLIENT (book_client), TRUE, NULL, &error);
 
-			uri = e_source_get_uri (s);
-			name = e_source_get_display_name (s);
-
-			if (outputfile)
-				fprintf (
-					outputfile, "\"%s\",\"%s\",%d\n",
-					uri, name, g_slist_length (contacts));
-			else
-				printf ("\"%s\",\"%s\",%d\n", uri, name, g_slist_length (contacts));
-
-			g_free (uri);
-			g_slist_foreach (contacts, (GFunc) g_object_unref, NULL);
-			g_slist_free (contacts);
-
-			g_object_unref (book_client);
+		if (error != NULL) {
+			g_warning (
+				_("Failed to open client '%s': %s"),
+				e_source_get_display_name (source),
+				error->message);
+			if (book_client != NULL)
+				g_object_unref (book_client);
+			g_error_free (error);
+			continue;
 		}
+
+		query = e_book_query_any_field_contains ("");
+		query_str = e_book_query_to_string (query);
+		e_book_query_unref (query);
+
+		e_book_client_get_contacts_sync (
+			book_client, query_str, &contacts, NULL, NULL);
+
+		display_name = e_source_get_display_name (source);
+		uid = e_source_get_uid (source);
+
+		if (outputfile)
+			fprintf (
+				outputfile, "\"%s\",\"%s\",%d\n",
+				uid, display_name, g_slist_length (contacts));
+		else
+			printf (
+				"\"%s\",\"%s\",%d\n",
+				uid, display_name, g_slist_length (contacts));
+
+		g_slist_foreach (contacts, (GFunc) g_object_unref, NULL);
+		g_slist_free (contacts);
+
+		g_object_unref (book_client);
 	}
 
-	g_free (query_str);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 	if (outputfile)
 		fclose (outputfile);

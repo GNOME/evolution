@@ -24,6 +24,7 @@
 #include <config.h>
 #endif
 
+#include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -34,6 +35,8 @@
 #include <libebook/e-book-client.h>
 #include <libebook/e-book-query.h>
 #include <libebook/e-contact.h>
+#include <libedataserver/e-source-registry.h>
+#include <libedataserver/e-source-address-book.h>
 
 #include "evolution-addressbook-export.h"
 
@@ -639,8 +642,8 @@ action_list_cards (GSList *contacts,
 	length = g_slist_length (contacts);
 
 	if (length <= 0) {
-		g_warning ("Couldn't load addressbook correctly!!!! %s####", p_actctx->action_list_cards.addressbook_folder_uri ?
-				p_actctx->action_list_cards.addressbook_folder_uri : "NULL");
+		g_warning ("Couldn't load addressbook correctly!!!! %s####", p_actctx->action_list_cards.addressbook_source_uid ?
+				p_actctx->action_list_cards.addressbook_source_uid : "NULL");
 		exit (-1);
 	}
 
@@ -769,31 +772,46 @@ set_pre_defined_field (GSList **pre_defined_fields)
 }
 
 guint
-action_list_cards_init (ActionContext *p_actctx)
+action_list_cards_init (ESourceRegistry *registry,
+                        ActionContext *p_actctx)
 {
 	EBookClient *book_client;
 	EBookQuery *query;
-	gchar *query_str;
+	ESource *source;
 	GSList *contacts;
+	const gchar *uid;
+	gchar *query_str;
 	GError *error = NULL;
 
-	if (p_actctx->action_list_cards.addressbook_folder_uri != NULL) {
-		book_client = e_book_client_new_from_uri (p_actctx->action_list_cards.addressbook_folder_uri, &error);
-	} else {
-		book_client = e_book_client_new_default (&error);
-	}
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FAILED);
 
-	if (!book_client
-	    || !e_client_open_sync (E_CLIENT (book_client), TRUE, NULL, &error)) {
-		g_warning ("Couldn't load addressbook %s: %s", p_actctx->action_list_cards.addressbook_folder_uri ?
-				p_actctx->action_list_cards.addressbook_folder_uri : "'default'",
-				error ? error->message : "Unknown error");
-		if (error)
-			g_error_free (error);
-		if (book_client)
+	uid = p_actctx->action_list_cards.addressbook_source_uid;
+
+	if (uid != NULL)
+		source = e_source_registry_ref_source (registry, uid);
+	else
+		source = e_source_registry_ref_default_address_book (registry);
+
+	book_client = e_book_client_new (source, &error);
+
+	g_object_unref (source);
+
+	if (book_client != NULL)
+		e_client_open_sync (E_CLIENT (book_client), TRUE, NULL, &error);
+
+	if (error != NULL) {
+		g_warning (
+			"Couldn't load addressbook %s: %s",
+			p_actctx->action_list_cards.addressbook_source_uid ?
+			p_actctx->action_list_cards.addressbook_source_uid :
+			"'default'", error->message);
+		if (book_client != NULL)
 			g_object_unref (book_client);
+		g_error_free (error);
 		exit (-1);
 	}
+
+	g_return_val_if_fail (E_IS_BOOK_CLIENT (book_client), FAILED);
 
 	query = e_book_query_any_field_contains ("");
 	query_str = e_book_query_to_string (query);

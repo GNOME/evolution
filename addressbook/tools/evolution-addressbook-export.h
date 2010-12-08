@@ -24,7 +24,7 @@
 #ifndef _EVOLUTION_ADDRESSBOOK_EXPORT_H_
 #define _EVOLUTION_ADDRESSBOOK_EXPORT_H__
 
-#include <glib.h>
+#include <libedataserver/e-source-registry.h>
 
 G_BEGIN_DECLS
 
@@ -55,7 +55,7 @@ union _ActionContext
 		gchar *output_file;
 		gint IsCSV;
 		gint IsVCard;
-		gchar *addressbook_folder_uri;
+		gchar *addressbook_source_uid;
 		gint async_mode;
 		gint file_size;
 	}
@@ -65,10 +65,12 @@ union _ActionContext
 typedef union _ActionContext ActionContext;
 
 /* action_list_folders */
-guint action_list_folders_init (ActionContext * p_actctx);
+guint		action_list_folders_init	(ESourceRegistry *registry,
+						 ActionContext *p_actctx);
 
 /*action list cards*/
-guint action_list_cards_init (ActionContext * p_actctx);
+guint		action_list_cards_init		(ESourceRegistry *registry,
+						 ActionContext *p_actctx);
 
 G_END_DECLS
 

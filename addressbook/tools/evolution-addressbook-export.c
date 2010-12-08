@@ -24,6 +24,7 @@
 #include <config.h>
 #endif
 
+#include <stdlib.h>
 #include <string.h>
 #include <glib/gi18n.h>
 
@@ -49,7 +50,7 @@
 static gchar *opt_output_file = NULL;
 static gboolean opt_list_folders_mode = FALSE;
 static gchar *opt_output_format = NULL;
-static gchar *opt_addressbook_folder_uri = NULL;
+static gchar *opt_addressbook_source_uid = NULL;
 static gboolean opt_async_mode = FALSE;
 static gint opt_file_size = 0;
 static gchar **opt_remaining = NULL;
@@ -83,6 +84,7 @@ gint
 main (gint argc,
       gchar **argv)
 {
+	ESourceRegistry *registry;
 	ActionContext actctx;
 	GOptionContext *context;
 	GError *error = NULL;
@@ -128,14 +130,22 @@ main (gint argc,
 		exit (-1);
 	}
 
+	registry = e_source_registry_new_sync (NULL, &error);
+	if (error != NULL) {
+		g_printerr ("%s\n", error->message);
+		g_error_free (error);
+		exit (-1);
+	}
+
 	/* Parsing Parameter */
 	if (opt_remaining && g_strv_length (opt_remaining) > 0)
-		opt_addressbook_folder_uri = g_strdup (opt_remaining[0]);
+		opt_addressbook_source_uid = g_strdup (opt_remaining[0]);
 
 	if (opt_list_folders_mode != FALSE) {
 		current_action = ACTION_LIST_FOLDERS;
-		/* check there should not be addressbook-folder-uri , and async and size , output_format */
-		if (opt_addressbook_folder_uri != NULL || opt_async_mode != FALSE || opt_output_format != NULL || opt_file_size != 0) {
+		/* check there should not be addressbook-source-uid,
+		 * and async and size, output_format */
+		if (opt_addressbook_source_uid != NULL || opt_async_mode != FALSE || opt_output_format != NULL || opt_file_size != 0) {
 			g_warning (_("Command line arguments error, please use --help option to see the usage."));
 			exit (-1);
 		}
@@ -181,7 +191,8 @@ main (gint argc,
 		} else {
 			actctx.action_list_folders.output_file = g_strdup (opt_output_file);
 		}
-		action_list_folders_init (&actctx);
+		action_list_folders_init (registry, &actctx);
+
 	} else if (current_action == ACTION_LIST_CARDS) {
 		actctx.action_type = current_action;
 		if (opt_output_file == NULL) {
@@ -191,11 +202,12 @@ main (gint argc,
 		}
 		actctx.action_list_cards.IsCSV = IsCSV;
 		actctx.action_list_cards.IsVCard = IsVCard;
-		actctx.action_list_cards.addressbook_folder_uri = g_strdup (opt_addressbook_folder_uri);
+		actctx.action_list_cards.addressbook_source_uid =
+			g_strdup (opt_addressbook_source_uid);
 		actctx.action_list_cards.async_mode = opt_async_mode;
 		actctx.action_list_cards.file_size = opt_file_size;
 
-		action_list_cards_init (&actctx);
+		action_list_cards_init (registry, &actctx);
 
 	} else {
 		g_warning (_("Unhandled error"));
@@ -204,5 +216,5 @@ main (gint argc,
 
 	/*FIXME:should free actctx's some gchar * field, such as output_file! but since the program will end, so that will not cause mem leak.  */
 
-	exit (0);
+	return 0;
 }
