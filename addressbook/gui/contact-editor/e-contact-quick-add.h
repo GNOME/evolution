@@ -24,21 +24,26 @@
 #define __E_CONTACT_QUICK_ADD_H__
 
 #include <libebook/e-contact.h>
+#include <libedataserver/e-source-registry.h>
 
 typedef void	(*EContactQuickAddCallback)	(EContact *new_contact,
 						 gpointer closure);
 
-void		e_contact_quick_add		(const gchar *name,
+void		e_contact_quick_add		(ESourceRegistry *registry,
+						 const gchar *name,
 						 const gchar *email,
 						 EContactQuickAddCallback cb,
 						 gpointer closure);
-void		e_contact_quick_add_free_form	(const gchar *text,
+void		e_contact_quick_add_free_form	(ESourceRegistry *registry,
+						 const gchar *text,
 						 EContactQuickAddCallback cb,
 						 gpointer closure);
-void		e_contact_quick_add_email	(const gchar *email,
+void		e_contact_quick_add_email	(ESourceRegistry *registry,
+						 const gchar *email,
 						 EContactQuickAddCallback cb,
 						 gpointer closure);
-void		e_contact_quick_add_vcard	(const gchar *vcard,
+void		e_contact_quick_add_vcard	(ESourceRegistry *registry,
+						 const gchar *vcard,
 						 EContactQuickAddCallback cb,
 						 gpointer closure);
 

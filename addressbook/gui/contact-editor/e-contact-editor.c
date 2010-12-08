@@ -3094,12 +3094,9 @@ source_changed (ESourceComboBox *source_combo_box,
 	ESource *target_source;
 	ESource *source_source;
 	ESource *source;
-	GtkWindow *parent;
 
 	source = e_source_combo_box_ref_active (source_combo_box);
 	g_return_if_fail (source != NULL);
-
-	parent = eab_editor_get_window (EAB_EDITOR (editor));
 
 	if (editor->cancellable != NULL) {
 		g_cancellable_cancel (editor->cancellable);
@@ -3125,7 +3122,6 @@ source_changed (ESourceComboBox *source_combo_box,
 	e_client_utils_open_new (
 		source, E_CLIENT_SOURCE_TYPE_CONTACTS,
 		FALSE, editor->cancellable,
-		e_client_utils_authenticate_handler, parent,
 		contact_editor_book_loaded_cb, g_object_ref (editor));
 
 exit:
@@ -3581,7 +3577,12 @@ static void
 real_save_contact (EContactEditor *ce,
                    gboolean should_close)
 {
+	EShell *shell;
 	EditorCloseStruct *ecs;
+	ESourceRegistry *registry;
+
+	shell = eab_editor_get_shell (EAB_EDITOR (ce));
+	registry = e_shell_get_registry (shell);
 
 	ecs = g_new0 (EditorCloseStruct, 1);
 	ecs->ce = ce;
@@ -3595,17 +3596,17 @@ real_save_contact (EContactEditor *ce,
 	if (ce->source_client != ce->target_client) {
 		/* Two-step move; add to target, then remove from source */
 		eab_merging_book_add_contact (
-			ce->target_client, ce->contact,
-			contact_added_cb, ecs);
+			registry, ce->target_client,
+			ce->contact, contact_added_cb, ecs);
 	} else {
 		if (ce->is_new_contact)
 			eab_merging_book_add_contact (
-				ce->target_client, ce->contact,
-				contact_added_cb, ecs);
+				registry, ce->target_client,
+				ce->contact, contact_added_cb, ecs);
 		else if (ce->check_merge)
 			eab_merging_book_modify_contact (
-				ce->target_client, ce->contact,
-				contact_modified_cb, ecs);
+				registry, ce->target_client,
+				ce->contact, contact_modified_cb, ecs);
 		else
 			e_book_client_modify_contact (
 				ce->target_client, ce->contact, NULL,
@@ -3990,6 +3991,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 {
 	GtkBuilder *builder;
 	EShell *shell;
+	ESourceRegistry *registry;
 	GtkWidget *container;
 	GtkWidget *widget, *label;
 	GtkEntryCompletion *completion;
@@ -3997,6 +3999,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	/* FIXME The shell should be obtained
 	 *       through a constructor property. */
 	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
 
 	e_contact_editor->name = e_contact_name_new ();
 
@@ -4049,8 +4052,8 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 		G_CALLBACK (categories_clicked), e_contact_editor);
 	widget = e_builder_get_widget (
 		e_contact_editor->builder, "source-combo-box-source");
-	e_util_set_source_combo_box_list (
-		widget, "/apps/evolution/addressbook/sources");
+	e_source_combo_box_set_registry (
+		E_SOURCE_COMBO_BOX (widget), registry);
 	g_signal_connect (
 		widget, "changed",
 		G_CALLBACK (source_changed), e_contact_editor);

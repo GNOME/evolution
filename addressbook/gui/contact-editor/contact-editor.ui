@@ -232,6 +232,8 @@
                                 </child>
                                 <child>
                                   <object class="ESourceComboBox" type-func="e_source_combo_box_get_type" id="source-combo-box-source">
+                                    <property name="extension-name">Address Book</property>
+                                    <property name="show-colors">False</property>
                                     <property name="visible">True</property>
                                   </object>
                                   <packing>

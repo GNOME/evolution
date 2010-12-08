@@ -32,6 +32,7 @@
 #include <libebook/e-contact.h>
 #include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-combo-box.h>
+#include <libedataserver/e-source-address-book.h>
 #include <addressbook/util/eab-book-util.h>
 #include "e-contact-editor.h"
 #include "e-contact-quick-add.h"
@@ -45,7 +46,7 @@ struct _QuickAdd {
 	gchar *vcard;
 	EContact *contact;
 	GCancellable *cancellable;
-	ESourceList *source_list;
+	ESourceRegistry *registry;
 	ESource *source;
 
 	EContactQuickAddCallback cb;
@@ -61,10 +62,11 @@ struct _QuickAdd {
 };
 
 static QuickAdd *
-quick_add_new (void)
+quick_add_new (ESourceRegistry *registry)
 {
 	QuickAdd *qa = g_new0 (QuickAdd, 1);
 	qa->contact = e_contact_new ();
+	qa->registry = g_object_ref (registry);
 	qa->refs = 1;
 	return qa;
 }
@@ -79,12 +81,11 @@ quick_add_unref (QuickAdd *qa)
 				g_cancellable_cancel (qa->cancellable);
 				g_object_unref (qa->cancellable);
 			}
-			if (qa->source_list != NULL)
-				g_object_unref (qa->source_list);
 			g_free (qa->name);
 			g_free (qa->email);
 			g_free (qa->vcard);
 			g_object_unref (qa->contact);
+			g_object_unref (qa->registry);
 			g_free (qa);
 		}
 	}
@@ -156,7 +157,7 @@ merge_cb (GObject *source_object,
 
 	if (!e_client_is_readonly (client))
 		eab_merging_book_add_contact (
-			E_BOOK_CLIENT (client),
+			qa->registry, E_BOOK_CLIENT (client),
 			qa->contact, NULL, NULL);
 	else
 		e_alert_run_dialog_for_args (
@@ -185,9 +186,7 @@ quick_add_merge_contact (QuickAdd *qa)
 
 	e_client_utils_open_new (
 		qa->source, E_CLIENT_SOURCE_TYPE_CONTACTS,
-		FALSE, qa->cancellable,
-		e_client_utils_authenticate_handler, NULL,
-		merge_cb, qa);
+		FALSE, qa->cancellable, merge_cb, qa);
 }
 
 /* Raise a contact editor with all fields editable,
@@ -313,7 +312,7 @@ ce_have_book (GObject *source_object,
 	g_return_if_fail (E_IS_CLIENT (client));
 
 	eab_merging_book_find_contact (
-		E_BOOK_CLIENT (client),
+		qa->registry, E_BOOK_CLIENT (client),
 		qa->contact, ce_have_contact, qa);
 }
 
@@ -329,9 +328,7 @@ edit_contact (QuickAdd *qa)
 
 	e_client_utils_open_new (
 		qa->source, E_CLIENT_SOURCE_TYPE_CONTACTS,
-		FALSE, qa->cancellable,
-		e_client_utils_authenticate_handler, NULL,
-		ce_have_book, qa);
+		FALSE, qa->cancellable, ce_have_book, qa);
 }
 
 #define QUICK_ADD_RESPONSE_EDIT_FULL 2
@@ -429,12 +426,12 @@ source_changed (ESourceComboBox *source_combo_box,
 static GtkWidget *
 build_quick_add_dialog (QuickAdd *qa)
 {
-	GConfClient *gconf_client;
 	GtkWidget *container;
 	GtkWidget *dialog;
 	GtkWidget *label;
 	GtkTable *table;
 	ESource *source;
+	const gchar *extension_name;
 	const gint xpad = 0, ypad = 0;
 
 	g_return_val_if_fail (qa != NULL, NULL);
@@ -475,15 +472,14 @@ build_quick_add_dialog (QuickAdd *qa)
 		gtk_widget_set_sensitive (qa->email_entry, FALSE);
 	}
 
-	gconf_client = gconf_client_get_default ();
-	qa->source_list = e_source_list_new_for_gconf (
-		gconf_client, "/apps/evolution/addressbook/sources");
-	source = e_source_list_peek_default_source (qa->source_list);
-	g_object_unref (gconf_client);
+	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
+	source = e_source_registry_ref_default_address_book (qa->registry);
 
-	qa->combo_box = e_source_combo_box_new (qa->source_list);
+	qa->combo_box = e_source_combo_box_new (qa->registry, extension_name);
 	e_source_combo_box_set_active (
 		E_SOURCE_COMBO_BOX (qa->combo_box), source);
+
+	g_object_unref (source);
 
 	source_changed (E_SOURCE_COMBO_BOX (qa->combo_box), qa);
 	g_signal_connect (
@@ -537,7 +533,8 @@ build_quick_add_dialog (QuickAdd *qa)
 }
 
 void
-e_contact_quick_add (const gchar *in_name,
+e_contact_quick_add (ESourceRegistry *registry,
+                     const gchar *in_name,
                      const gchar *email,
                      EContactQuickAddCallback cb,
                      gpointer closure)
@@ -546,6 +543,8 @@ e_contact_quick_add (const gchar *in_name,
 	GtkWidget *dialog;
 	gchar *name = NULL;
 	gint len;
+
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
 
 	/* We need to have *something* to work with. */
 	if (in_name == NULL && email == NULL) {
@@ -568,7 +567,7 @@ e_contact_quick_add (const gchar *in_name,
 		g_strstrip (name);
 	}
 
-	qa = quick_add_new ();
+	qa = quick_add_new (registry);
 	qa->cb = cb;
 	qa->closure = closure;
 	if (name)
@@ -583,7 +582,8 @@ e_contact_quick_add (const gchar *in_name,
 }
 
 void
-e_contact_quick_add_free_form (const gchar *text,
+e_contact_quick_add_free_form (ESourceRegistry *registry,
+                               const gchar *text,
                                EContactQuickAddCallback cb,
                                gpointer closure)
 {
@@ -591,8 +591,10 @@ e_contact_quick_add_free_form (const gchar *text,
 	const gchar *last_at, *s;
 	gboolean in_quote;
 
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
+
 	if (text == NULL) {
-		e_contact_quick_add (NULL, NULL, cb, closure);
+		e_contact_quick_add (registry, NULL, NULL, cb, closure);
 		return;
 	}
 
@@ -656,13 +658,15 @@ e_contact_quick_add_free_form (const gchar *text,
 			g_strstrip (email);
 	}
 
-	e_contact_quick_add (name, email, cb, closure);
+	e_contact_quick_add (registry, name, email, cb, closure);
+
 	g_free (name);
 	g_free (email);
 }
 
 void
-e_contact_quick_add_email (const gchar *email,
+e_contact_quick_add_email (ESourceRegistry *registry,
+                           const gchar *email,
                            EContactQuickAddCallback cb,
                            gpointer closure)
 {
@@ -684,20 +688,23 @@ e_contact_quick_add_email (const gchar *email,
 		addr = g_strdup (email);
 	}
 
-	e_contact_quick_add (name, addr, cb, closure);
+	e_contact_quick_add (registry, name, addr, cb, closure);
 
 	g_free (name);
 	g_free (addr);
 }
 
 void
-e_contact_quick_add_vcard (const gchar *vcard,
+e_contact_quick_add_vcard (ESourceRegistry *registry,
+                           const gchar *vcard,
                            EContactQuickAddCallback cb,
                            gpointer closure)
 {
 	QuickAdd *qa;
 	GtkWidget *dialog;
 	EContact *contact;
+
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
 
 	/* We need to have *something* to work with. */
 	if (vcard == NULL) {
@@ -706,7 +713,7 @@ e_contact_quick_add_vcard (const gchar *vcard,
 		return;
 	}
 
-	qa = quick_add_new ();
+	qa = quick_add_new (registry);
 	qa->cb = cb;
 	qa->closure = closure;
 	quick_add_set_vcard (qa, vcard);
