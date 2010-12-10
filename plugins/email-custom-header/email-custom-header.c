@@ -339,13 +339,8 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 		priv->header_type_name_label = gtk_label_new ("");
 		temp_header_ptr = &g_array_index (priv->email_custom_header_details, EmailCustomHeaderDetails,header_section_id);
                 str = (temp_header_ptr->header_type_value)->str;
-                if (strcmp (str, security_field) == 0) {
-			gchar *tmp = g_strconcat ("email-custom-header-Security" "\004", security_field, NULL);
-
-			str = g_dpgettext (NULL, tmp, strlen ("email-custom-header-Security") + 1);
-
-			g_free (tmp);
-                }
+                if (strcmp (str, security_field) == 0)
+			str = g_dpgettext2 (GETTEXT_PACKAGE, "email-custom-header-Security", security_field);
 		gtk_label_set_markup (GTK_LABEL (priv->header_type_name_label), str);
 
 		gtk_table_attach (GTK_TABLE (priv->header_table), priv->header_type_name_label, 0, 1, row, column,
@@ -373,11 +368,7 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 			str = (temp_header_value_ptr->sub_header_string_value)->str;
 			for (i = 0; security_values[i].value != NULL; i++) {
 				if (strcmp (str, security_values[i].value) == 0) {
-					gchar *tmp = g_strconcat ("email-custom-header-Security" "\004", security_values[i].str, NULL);
-
-					str = g_dpgettext (NULL, tmp, strlen ("email-custom-header-Security") + 1);
-
-					g_free (tmp);
+					str = g_dpgettext2 (GETTEXT_PACKAGE, "email-custom-header-Security", security_values[i].str);
 					break;
 				}
 			}
