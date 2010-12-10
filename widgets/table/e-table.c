@@ -226,13 +226,20 @@ current_search_col (ETable *et)
 }
 
 static void
-et_size_request (GtkWidget *widget, GtkRequisition *request)
+et_get_preferred_width (GtkWidget *widget, gint *minimum, gint *natural)
 {
 	ETable *et = E_TABLE (widget);
-	if (GTK_WIDGET_CLASS (e_table_parent_class)->size_request)
-		GTK_WIDGET_CLASS (e_table_parent_class)->size_request (widget, request);
-	if (et->horizontal_resize)
-		request->width = MAX (request->width, et->header_width);
+	GTK_WIDGET_CLASS (e_table_parent_class)->get_preferred_width (widget, minimum, natural);
+	if (et->horizontal_resize) {
+                *minimum = MAX (*minimum, et->header_width);
+                *natural = MAX (*natural, et->header_width);
+        }
+}
+
+static void
+et_get_preferred_height (GtkWidget *widget, gint *minimum, gint *natural)
+{
+        GTK_WIDGET_CLASS (e_table_parent_class)->get_preferred_height (widget, minimum, natural);
 }
 
 static void
@@ -3239,7 +3246,8 @@ e_table_class_init (ETableClass *class)
 
 	widget_class->grab_focus        = et_grab_focus;
 	widget_class->unrealize         = et_unrealize;
-	widget_class->size_request      = et_size_request;
+        widget_class->get_preferred_width = et_get_preferred_width;
+        widget_class->get_preferred_height = et_get_preferred_height;
 
 	widget_class->focus             = et_focus;
 

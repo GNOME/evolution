@@ -106,7 +106,7 @@ e_shell_detect_meego (gboolean *is_meego,
 						&dummy_t, &dummy_i, &dummy_l, &dummy_l,
 						&moblin_string);
 
-		gdk_error_trap_pop ();
+		gdk_error_trap_pop_ignored ();
 	}
 
 	if (moblin_string) {

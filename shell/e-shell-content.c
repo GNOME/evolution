@@ -213,31 +213,54 @@ shell_content_constructed (GObject *object)
 }
 
 static void
-shell_content_size_request (GtkWidget *widget,
-                            GtkRequisition *requisition)
+shell_content_get_preferred_width (GtkWidget *widget,
+                                   gint      *minimum,
+                                   gint      *natural)
 {
 	EShellContentPrivate *priv;
-	GtkRequisition child_requisition;
+        gint min, nat;
+        gint child_min, child_nat;
 	GtkWidget *child;
 
 	priv = E_SHELL_CONTENT_GET_PRIVATE (widget);
 
-	requisition->width = 0;
-	requisition->height = 0;
+        *minimum = *natural = 0;
 
 	child = gtk_bin_get_child (GTK_BIN (widget));
-	gtk_widget_get_preferred_size (child, requisition, NULL);
+        gtk_widget_get_preferred_width (child, &child_min, &child_nat);
+        gtk_widget_get_preferred_width (priv->alert_bar, &min, &nat);
 
-	gtk_widget_get_preferred_size (priv->alert_bar, &child_requisition, NULL);
-	requisition->width = MAX (requisition->width, child_requisition.width);
-	requisition->height += child_requisition.height;
+        *minimum = MAX (min, child_min);
+        *natural = MAX (nat, child_nat);
 
 	if (priv->searchbar == NULL)
 		return;
 
-	gtk_widget_get_preferred_size (priv->searchbar, &child_requisition, NULL);
-	requisition->width = MAX (requisition->width, child_requisition.width);
-	requisition->height += child_requisition.height;
+        gtk_widget_get_preferred_width (priv->searchbar, &min, &nat);
+        *minimum = MAX (*minimum, min);
+        *natural = MAX (*natural, nat);
+}
+
+static void
+shell_content_get_preferred_height (GtkWidget *widget,
+                                    gint      *minimum,
+                                    gint      *natural)
+{
+	EShellContentPrivate *priv;
+        gint min, nat;
+	GtkWidget *child;
+
+	priv = E_SHELL_CONTENT_GET_PRIVATE (widget);
+
+	child = gtk_bin_get_child (GTK_BIN (widget));
+	gtk_widget_get_preferred_height (child, minimum, natural);
+
+	if (priv->searchbar == NULL)
+		return;
+
+	gtk_widget_get_preferred_height (priv->searchbar, &min, &nat);
+        *minimum += min;
+        *natural += nat;
 }
 
 static void
@@ -398,7 +421,8 @@ e_shell_content_class_init (EShellContentClass *class)
 	object_class->constructed = shell_content_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->size_request = shell_content_size_request;
+        widget_class->get_preferred_width = shell_content_get_preferred_width;
+        widget_class->get_preferred_height = shell_content_get_preferred_height;
 	widget_class->size_allocate = shell_content_size_allocate;
 
 	container_class = GTK_CONTAINER_CLASS (class);

@@ -231,8 +231,17 @@ guess_screen_width (EMailShellSidebar *sidebar)
 }
 
 static void
-mail_shell_sidebar_size_request (GtkWidget *widget,
-                                 GtkRequisition *requisition)
+mail_shell_sidebar_get_preferred_height (GtkWidget *widget,
+					 gint *minimum_height,
+					 gint *natural_height)
+{
+	GTK_WIDGET_CLASS (parent_class)->get_preferred_height (widget, minimum_height, natural_height);
+}
+
+static void
+mail_shell_sidebar_get_preferred_width (GtkWidget *widget,
+					gint *minimum_width,
+					gint *natural_width)
 {
 	/* We override the normal size-request handler so that we can
 	 * spit out a treeview with a suitable width.  We measure the
@@ -258,7 +267,7 @@ mail_shell_sidebar_size_request (GtkWidget *widget,
 
 	sidebar = E_MAIL_SHELL_SIDEBAR (widget);
 
-	GTK_WIDGET_CLASS (parent_class)->size_request (widget, requisition);
+	GTK_WIDGET_CLASS (parent_class)->get_preferred_width (widget, minimum_width, natural_width);
 
 	/* This string is a mockup only; it doesn't need to be translated */
 	layout = gtk_widget_create_pango_layout (
@@ -274,7 +283,7 @@ mail_shell_sidebar_size_request (GtkWidget *widget,
 	border = 2 * style->xthickness + 4;
 	sidebar_width = ink_rect.width + border;
 	sidebar_width = MIN (sidebar_width, screen_width / 4);
-	requisition->width = MAX (requisition->width, sidebar_width);
+	*minimum_width = *natural_width = MAX (*natural_width, sidebar_width);
 }
 
 static guint32
@@ -305,7 +314,8 @@ mail_shell_sidebar_class_init (EMailShellSidebarClass *class)
 	object_class->constructed = mail_shell_sidebar_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->size_request = mail_shell_sidebar_size_request;
+	widget_class->get_preferred_width = mail_shell_sidebar_get_preferred_width;
+	widget_class->get_preferred_height = mail_shell_sidebar_get_preferred_height;
 
 	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
 	shell_sidebar_class->check_state = mail_shell_sidebar_check_state;

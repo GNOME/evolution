@@ -100,14 +100,23 @@ menu_tool_button_update_button (GtkToolButton *tool_button)
 }
 
 static void
-menu_tool_button_size_request (GtkWidget *widget,
-                               GtkRequisition *requisition)
+menu_tool_button_get_preferred_height (GtkWidget *widget,
+				       gint      *minimal_height,
+				       gint      *natural_height)
 {
-	gint minimum_width;
-
-	/* Chain up to parent's size_request() method. */
 	GTK_WIDGET_CLASS (e_menu_tool_button_parent_class)->
-		size_request (widget, requisition);
+		get_preferred_height (widget, minimal_height, natural_height);
+}
+
+static void
+menu_tool_button_get_preferred_width (GtkWidget *widget,
+				      gint      *minimal_width,
+				      gint      *natural_width)
+{
+	gint minimum_width, min_height, nat_height;
+
+	GTK_WIDGET_CLASS (e_menu_tool_button_parent_class)->
+		get_preferred_width (widget, minimal_width, natural_width);
 
 	/* XXX This is a hack.  This widget is only used for the New
 	 *     button in the main window toolbar.  The New button is
@@ -117,8 +126,9 @@ menu_tool_button_size_request (GtkWidget *widget,
 	 *
 	 *     We can't go hard-coding a width, but we -can- use a
 	 *     heuristic based on the toolbar button height. */
-	minimum_width = requisition->height * 2;
-	requisition->width = MAX (minimum_width, requisition->width);
+	menu_tool_button_get_preferred_height (widget, &min_height, &nat_height);
+	minimum_width = min_height * 2;
+	*minimal_width = *natural_width = MAX (minimum_width, *minimal_width);
 }
 
 static void
@@ -141,7 +151,8 @@ e_menu_tool_button_class_init (EMenuToolButtonClass *class)
 	GtkToolButtonClass *tool_button_class;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->size_request = menu_tool_button_size_request;
+	widget_class->get_preferred_height = menu_tool_button_get_preferred_height;
+	widget_class->get_preferred_width = menu_tool_button_get_preferred_width;
 
 	tool_button_class = GTK_TOOL_BUTTON_CLASS (class);
 	tool_button_class->clicked = menu_tool_button_clicked;

@@ -247,8 +247,9 @@ shell_switcher_dispose (GObject *object)
 }
 
 static void
-shell_switcher_size_request (GtkWidget *widget,
-                             GtkRequisition *requisition)
+shell_switcher_get_preferred_width (GtkWidget *widget,
+                                    gint      *minimum,
+                                    gint      *natural)
 {
 	EShellSwitcherPrivate *priv;
 	GtkWidget *child;
@@ -256,28 +257,62 @@ shell_switcher_size_request (GtkWidget *widget,
 
 	priv = E_SHELL_SWITCHER_GET_PRIVATE (widget);
 
-	requisition->width = 0;
-	requisition->height = 0;
+	*minimum = *natural = 0;
 
 	child = gtk_bin_get_child (GTK_BIN (widget));
 	if (child != NULL)
-		gtk_widget_get_preferred_size (child, requisition, NULL);
+		gtk_widget_get_preferred_width (child, minimum, natural);
+
+	if (!priv->toolbar_visible)
+		return;
+
+	for (iter = priv->proxies; iter != NULL; iter = iter->next) {
+		GtkWidget *widget_proxy = iter->data;
+		gint child_min, child_nat;
+
+		gtk_widget_get_preferred_width (
+			widget_proxy, &child_min, &child_nat);
+
+		child_min += H_PADDING;
+		child_nat += H_PADDING;
+
+		*minimum = MAX (*minimum, child_min);
+		*natural = MAX (*natural, child_nat);
+	}
+}
+
+static void
+shell_switcher_get_preferred_height (GtkWidget *widget,
+                                     gint      *minimum,
+                                     gint      *natural)
+{
+	EShellSwitcherPrivate *priv;
+	GtkWidget *child;
+	GList *iter;
+
+	priv = E_SHELL_SWITCHER_GET_PRIVATE (widget);
+
+	*minimum = *natural = 0;
+
+	child = gtk_bin_get_child (GTK_BIN (widget));
+	if (child != NULL)
+		gtk_widget_get_preferred_height (child, minimum, natural);
 
 	if (!priv->toolbar_visible)
 		return;
 
 	for (iter = priv->proxies; iter != NULL; iter = iter->next) {
 		GtkWidget *widget = iter->data;
-		GtkRequisition child_requisition;
+		gint child_min, child_nat;
 
-		gtk_widget_get_preferred_size (widget, &child_requisition, NULL);
+		gtk_widget_get_preferred_height (
+			widget, &child_min, &child_nat);
 
-		child_requisition.width += H_PADDING;
-		child_requisition.height += V_PADDING;
+		child_min += V_PADDING;
+		child_nat += V_PADDING;
 
-		requisition->width = MAX (
-			requisition->width, child_requisition.width);
-		requisition->height += child_requisition.height;
+		*minimum += child_min;
+		*natural += child_nat;
 	}
 }
 
@@ -451,7 +486,8 @@ e_shell_switcher_class_init (EShellSwitcherClass *class)
 	object_class->dispose = shell_switcher_dispose;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->size_request = shell_switcher_size_request;
+	widget_class->get_preferred_width = shell_switcher_get_preferred_width;
+	widget_class->get_preferred_height = shell_switcher_get_preferred_height;
 	widget_class->size_allocate = shell_switcher_size_allocate;
 	widget_class->screen_changed = shell_switcher_screen_changed;
 

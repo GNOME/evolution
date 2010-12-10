@@ -322,26 +322,6 @@ mail_attachment_bar_constructed (GObject *object)
 		G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
-static void
-mail_attachment_bar_size_request (GtkWidget *widget,
-                                  GtkRequisition *requisition)
-{
-	/* XXX This works around GtkHTMLEmbedded not taking visibility
-	 *     into account when calculating its size (at least I think
-	 *     that's where it's broken).  Without the workaround, we
-	 *     get a sizable gap between the headers and body when this
-	 *     widget is invisible.  Once we finally move to WebKit,
-	 *     remove this. */
-	if (!gtk_widget_get_visible (widget)) {
-		requisition->width = 0;
-		requisition->height = 0;
-		return;
-	}
-
-	/* Chain up to parent's size_request() method. */
-	GTK_WIDGET_CLASS (parent_class)->size_request (widget, requisition);
-}
-
 static EAttachmentViewPrivate *
 mail_attachment_bar_get_private (EAttachmentView *view)
 {
@@ -461,7 +441,6 @@ static void
 mail_attachment_bar_class_init (EMailAttachmentBarClass *class)
 {
 	GObjectClass *object_class;
-	GtkWidgetClass *widget_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailAttachmentBarPrivate));
@@ -471,9 +450,6 @@ mail_attachment_bar_class_init (EMailAttachmentBarClass *class)
 	object_class->get_property = mail_attachment_bar_get_property;
 	object_class->dispose = mail_attachment_bar_dispose;
 	object_class->constructed = mail_attachment_bar_constructed;
-
-	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->size_request = mail_attachment_bar_size_request;
 
 	g_object_class_install_property (
 		object_class,

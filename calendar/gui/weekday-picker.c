@@ -219,8 +219,9 @@ weekday_picker_realize (GtkWidget *widget)
 }
 
 static void
-weekday_picker_size_request (GtkWidget *widget,
-                             GtkRequisition *requisition)
+weekday_picker_get_preferred_width (GtkWidget *widget,
+                             	    gint *minimum_width,
+				    gint *natural_width)
 {
 	WeekdayPicker *wp;
 	WeekdayPickerPrivate *priv;
@@ -228,8 +229,20 @@ weekday_picker_size_request (GtkWidget *widget,
 	wp = WEEKDAY_PICKER (widget);
 	priv = wp->priv;
 
-	requisition->width = (priv->max_letter_width + 2 * PADDING + 1) * 7 + 1;
-	requisition->height = (priv->font_ascent + priv->font_descent + 2 * PADDING + 2);
+	*minimum_width = *natural_width = (priv->max_letter_width + 2 * PADDING + 1) * 7 + 1;
+}
+static void
+weekday_picker_get_preferred_height (GtkWidget *widget,
+                             	    gint *minimum_height,
+				    gint *natural_height)
+{
+	WeekdayPicker *wp;
+	WeekdayPickerPrivate *priv;
+
+	wp = WEEKDAY_PICKER (widget);
+	priv = wp->priv;
+
+	*minimum_height = *natural_height = (priv->font_ascent + priv->font_descent + 2 * PADDING + 2);
 }
 
 static void
@@ -346,7 +359,8 @@ weekday_picker_class_init (WeekdayPickerClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = weekday_picker_realize;
-	widget_class->size_request = weekday_picker_size_request;
+	widget_class->get_preferred_width = weekday_picker_get_preferred_width;
+	widget_class->get_preferred_height = weekday_picker_get_preferred_height;
 	widget_class->size_allocate = weekday_picker_size_allocate;
 	widget_class->style_set = weekday_picker_style_set;
 	widget_class->focus = weekday_picker_focus;
