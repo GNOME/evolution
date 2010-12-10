@@ -220,25 +220,44 @@ shell_sidebar_constructed (GObject *object)
 }
 
 static void
-shell_sidebar_size_request (GtkWidget *widget,
-                            GtkRequisition *requisition)
+shell_sidebar_get_preferred_width (GtkWidget *widget,
+                                   gint      *minimum,
+                                   gint      *natural)
 {
 	EShellSidebarPrivate *priv;
-	GtkRequisition child_requisition;
+        gint child_min, child_nat;
 	GtkWidget *child;
 
 	priv = E_SHELL_SIDEBAR_GET_PRIVATE (widget);
 
-	requisition->width = 0;
-	requisition->height = 0;
-
 	child = gtk_bin_get_child (GTK_BIN (widget));
-	gtk_widget_get_preferred_size (child, requisition, NULL);
+        gtk_widget_get_preferred_width (child, minimum, natural);
 
 	child = priv->event_box;
-	gtk_widget_get_preferred_size (child, &child_requisition, NULL);
-	requisition->width = MAX (requisition->width, child_requisition.width);
-	requisition->height += child_requisition.height;
+        gtk_widget_get_preferred_width (child, &child_min, &child_nat);
+        *minimum = MAX (*minimum, child_min);
+        *natural = MAX (*natural, child_nat);
+}
+
+static void
+shell_sidebar_get_preferred_height (GtkWidget *widget,
+                                    gint      *minimum,
+                                    gint      *natural)
+{
+	EShellSidebarPrivate *priv;
+        gint child_min, child_nat;
+	GtkWidget *child;
+
+	priv = E_SHELL_SIDEBAR_GET_PRIVATE (widget);
+
+	child = gtk_bin_get_child (GTK_BIN (widget));
+	gtk_widget_get_preferred_height (child, minimum, natural);
+
+	child = priv->event_box;
+	gtk_widget_get_preferred_height (child, &child_min, &child_nat);
+
+        *minimum += child_min;
+        *natural += child_nat;
 }
 
 static void
@@ -283,7 +302,7 @@ shell_sidebar_forall (GtkContainer *container,
 
 	priv = E_SHELL_SIDEBAR_GET_PRIVATE (container);
 
-	if (include_internals)
+	if (include_internals && callback_data)
 		callback (priv->event_box, callback_data);
 
 	/* Chain up to parent's forall() method. */
@@ -308,7 +327,8 @@ e_shell_sidebar_class_init (EShellSidebarClass *class)
 	object_class->constructed = shell_sidebar_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->size_request = shell_sidebar_size_request;
+        widget_class->get_preferred_width = shell_sidebar_get_preferred_width;
+        widget_class->get_preferred_height = shell_sidebar_get_preferred_height;
 	widget_class->size_allocate = shell_sidebar_size_allocate;
 
 	container_class = GTK_CONTAINER_CLASS (class);

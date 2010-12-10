@@ -69,8 +69,12 @@ static void e_calendar_dispose		(GObject	*object);
 static void e_calendar_realize		(GtkWidget	*widget);
 static void e_calendar_style_set	(GtkWidget	*widget,
 					 GtkStyle	*previous_style);
-static void e_calendar_size_request	(GtkWidget      *widget,
-					 GtkRequisition *requisition);
+static void e_calendar_get_preferred_width (GtkWidget *widget,
+					    gint      *minimal_width,
+					    gint      *natural_width);
+static void e_calendar_get_preferred_height (GtkWidget *widget,
+					     gint      *minimal_height,
+					     gint      *natural_height);
 static void e_calendar_size_allocate	(GtkWidget	*widget,
 					 GtkAllocation	*allocation);
 static gint e_calendar_drag_motion	(GtkWidget      *widget,
@@ -115,7 +119,8 @@ e_calendar_class_init (ECalendarClass *class)
 
 	widget_class->realize		   = e_calendar_realize;
 	widget_class->style_set		   = e_calendar_style_set;
-	widget_class->size_request	   = e_calendar_size_request;
+	widget_class->get_preferred_width  = e_calendar_get_preferred_width;
+	widget_class->get_preferred_height = e_calendar_get_preferred_height;
 	widget_class->size_allocate	   = e_calendar_size_allocate;
 	widget_class->drag_motion	   = e_calendar_drag_motion;
 	widget_class->drag_leave	   = e_calendar_drag_leave;
@@ -281,26 +286,37 @@ e_calendar_style_set		(GtkWidget	*widget,
 }
 
 static void
-e_calendar_size_request		(GtkWidget      *widget,
-				 GtkRequisition *requisition)
+e_calendar_get_preferred_width (GtkWidget *widget,
+                                gint      *minimum,
+                                gint      *natural)
 {
 	ECalendar *cal;
 	GtkStyle *style;
-	gint col_width, row_height, width, height;
+	gint col_width;
 
 	cal = E_CALENDAR (widget);
 	style = gtk_widget_get_style (GTK_WIDGET (cal));
 
-	g_object_get ((cal->calitem),
-			"row_height", &row_height,
-			"column_width", &col_width,
-			NULL);
+	g_object_get ((cal->calitem), "column_width", &col_width, NULL);
 
-	height = row_height * cal->min_rows;
-	width = col_width * cal->min_cols;
+	*minimum = *natural = col_width * cal->min_cols + style->xthickness * 2;
+}
 
-	requisition->width = width + style->xthickness * 2;
-	requisition->height = height + style->ythickness * 2;
+static void
+e_calendar_get_preferred_height (GtkWidget *widget,
+                                 gint      *minimum,
+                                 gint      *natural)
+{
+	ECalendar *cal;
+	GtkStyle *style;
+	gint row_height;
+
+	cal = E_CALENDAR (widget);
+	style = gtk_widget_get_style (GTK_WIDGET (cal));
+
+	g_object_get ((cal->calitem), "row_height", &row_height, NULL);
+
+	*minimum = *natural = row_height * cal->min_rows + style->ythickness * 2;
 }
 
 static void
