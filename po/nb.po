@@ -4,13 +4,13 @@
 # Terance Edward Sola <terance@lyse.net>, 2005.
 #
 #
-#: ../shell/main.c:580
+#: ../shell/main.c:615
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.91.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-06 18:31+0100\n"
-"PO-Revision-Date: 2010-12-06 18:40+0100\n"
+"POT-Creation-Date: 2010-12-12 21:37+0100\n"
+"PO-Revision-Date: 2010-12-12 21:42+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmal <i18n-nb@lister.ping.uio.no>\n"
 "Language: Norsk bokmål\n"
@@ -1530,7 +1530,8 @@ msgstr "Oppgi passord for %s (bruker %s)"
 
 #: ../addressbook/util/addressbook.c:230
 #: ../calendar/common/authentication.c:53
-#: ../plugins/caldav/caldav-browse-server.c:816
+#: ../calendar/gui/e-meeting-store.c:1770
+#: ../plugins/caldav/caldav-browse-server.c:922
 #: ../plugins/google-account-setup/google-source.c:439
 #: ../plugins/publish-calendar/publish-calendar.c:332
 #: ../smime/gui/component.c:49
@@ -3454,7 +3455,7 @@ msgstr "Avbrutt"
 #: ../calendar/gui/e-cal-component-preview.c:295
 #: ../calendar/gui/e-cal-model-tasks.c:440
 #: ../calendar/gui/e-cal-model-tasks.c:714
-#: ../calendar/gui/e-meeting-store.c:206 ../calendar/gui/e-meeting-store.c:229
+#: ../calendar/gui/e-meeting-store.c:209 ../calendar/gui/e-meeting-store.c:232
 #: ../calendar/gui/e-task-table.c:212 ../calendar/gui/e-task-table.c:227
 #: ../calendar/gui/e-task-table.c:592 ../calendar/gui/print.c:3227
 #: ../calendar/gui/tasktypes.xml.h:9 ../plugins/save-calendar/csv-format.c:367
@@ -3781,21 +3782,21 @@ msgstr "Ingen"
 
 #: ../calendar/gui/e-cal-model-tasks.c:1064 ../calendar/gui/e-cal-model.c:1530
 #: ../calendar/gui/e-meeting-list-view.c:187
-#: ../calendar/gui/e-meeting-store.c:178 ../calendar/gui/e-meeting-store.c:188
-#: ../calendar/gui/e-meeting-store.c:1026
+#: ../calendar/gui/e-meeting-store.c:181 ../calendar/gui/e-meeting-store.c:191
+#: ../calendar/gui/e-meeting-store.c:1029
 msgid "Yes"
 msgstr "Ja"
 
 #: ../calendar/gui/e-cal-model-tasks.c:1064 ../calendar/gui/e-cal-model.c:1530
 #: ../calendar/gui/e-meeting-list-view.c:188
-#: ../calendar/gui/e-meeting-store.c:190
+#: ../calendar/gui/e-meeting-store.c:193
 msgid "No"
 msgstr "Nei"
 
 #: ../calendar/gui/e-cal-model.c:782 ../calendar/gui/e-meeting-list-view.c:163
 #: ../calendar/gui/e-meeting-list-view.c:177
-#: ../calendar/gui/e-meeting-store.c:136 ../calendar/gui/e-meeting-store.c:171
-#: ../calendar/gui/e-meeting-store.c:234 ../calendar/gui/print.c:1073
+#: ../calendar/gui/e-meeting-store.c:139 ../calendar/gui/e-meeting-store.c:174
+#: ../calendar/gui/e-meeting-store.c:237 ../calendar/gui/print.c:1073
 #: ../calendar/gui/print.c:1090 ../e-util/e-charset.c:52
 #: ../modules/plugin-manager/evolution-plugin-manager.c:98
 #: ../plugins/itip-formatter/itip-formatter.c:457
@@ -3883,28 +3884,28 @@ msgstr "Oppdaterer objekter"
 
 #: ../calendar/gui/e-calendar-view.c:1784
 #: ../calendar/gui/e-meeting-list-view.c:199
-#: ../calendar/gui/e-meeting-store.c:198 ../calendar/gui/e-meeting-store.c:221
+#: ../calendar/gui/e-meeting-store.c:201 ../calendar/gui/e-meeting-store.c:224
 #: ../plugins/itip-formatter/itip-formatter.c:2473
 msgid "Accepted"
 msgstr "Godtatt"
 
 #: ../calendar/gui/e-calendar-view.c:1785
 #: ../calendar/gui/e-meeting-list-view.c:200
-#: ../calendar/gui/e-meeting-store.c:200 ../calendar/gui/e-meeting-store.c:223
+#: ../calendar/gui/e-meeting-store.c:203 ../calendar/gui/e-meeting-store.c:226
 #: ../plugins/itip-formatter/itip-formatter.c:2479
 msgid "Declined"
 msgstr "Avslått"
 
 #: ../calendar/gui/e-calendar-view.c:1786
 #: ../calendar/gui/e-meeting-list-view.c:201
-#: ../calendar/gui/e-meeting-store.c:202 ../calendar/gui/e-meeting-store.c:225
+#: ../calendar/gui/e-meeting-store.c:205 ../calendar/gui/e-meeting-store.c:228
 #: ../calendar/gui/e-meeting-time-sel.c:548
 msgid "Tentative"
 msgstr "Tentativ"
 
 #: ../calendar/gui/e-calendar-view.c:1787
 #: ../calendar/gui/e-meeting-list-view.c:202
-#: ../calendar/gui/e-meeting-store.c:204 ../calendar/gui/e-meeting-store.c:227
+#: ../calendar/gui/e-meeting-store.c:207 ../calendar/gui/e-meeting-store.c:230
 #: ../plugins/itip-formatter/itip-formatter.c:2482
 msgid "Delegated"
 msgstr "Delegert"
@@ -4061,56 +4062,56 @@ msgid "Resources"
 msgstr "Ressurser"
 
 #: ../calendar/gui/e-meeting-list-view.c:159
-#: ../calendar/gui/e-meeting-store.c:111 ../calendar/gui/e-meeting-store.c:128
-#: ../calendar/gui/e-meeting-store.c:1020 ../calendar/gui/print.c:1069
+#: ../calendar/gui/e-meeting-store.c:114 ../calendar/gui/e-meeting-store.c:131
+#: ../calendar/gui/e-meeting-store.c:1023 ../calendar/gui/print.c:1069
 msgid "Individual"
 msgstr "Individuell"
 
 #: ../calendar/gui/e-meeting-list-view.c:160
-#: ../calendar/gui/e-meeting-store.c:113 ../calendar/gui/e-meeting-store.c:130
+#: ../calendar/gui/e-meeting-store.c:116 ../calendar/gui/e-meeting-store.c:133
 #: ../calendar/gui/print.c:1070 ../widgets/table/e-table-config.ui.h:7
 msgid "Group"
 msgstr "Gruppe"
 
 #: ../calendar/gui/e-meeting-list-view.c:161
-#: ../calendar/gui/e-meeting-store.c:115 ../calendar/gui/e-meeting-store.c:132
+#: ../calendar/gui/e-meeting-store.c:118 ../calendar/gui/e-meeting-store.c:135
 #: ../calendar/gui/print.c:1071
 msgid "Resource"
 msgstr "Ressurs"
 
 #: ../calendar/gui/e-meeting-list-view.c:162
-#: ../calendar/gui/e-meeting-store.c:117 ../calendar/gui/e-meeting-store.c:134
+#: ../calendar/gui/e-meeting-store.c:120 ../calendar/gui/e-meeting-store.c:137
 #: ../calendar/gui/print.c:1072
 msgid "Room"
 msgstr "Rom"
 
 #: ../calendar/gui/e-meeting-list-view.c:173
-#: ../calendar/gui/e-meeting-store.c:146 ../calendar/gui/e-meeting-store.c:163
+#: ../calendar/gui/e-meeting-store.c:149 ../calendar/gui/e-meeting-store.c:166
 #: ../calendar/gui/print.c:1086
 msgid "Chair"
 msgstr "Styremedlem"
 
 #: ../calendar/gui/e-meeting-list-view.c:174
-#: ../calendar/gui/e-meeting-store.c:148 ../calendar/gui/e-meeting-store.c:165
-#: ../calendar/gui/e-meeting-store.c:1023 ../calendar/gui/print.c:1087
+#: ../calendar/gui/e-meeting-store.c:151 ../calendar/gui/e-meeting-store.c:168
+#: ../calendar/gui/e-meeting-store.c:1026 ../calendar/gui/print.c:1087
 msgid "Required Participant"
 msgstr "Obligatorisk deltaker"
 
 #: ../calendar/gui/e-meeting-list-view.c:175
-#: ../calendar/gui/e-meeting-store.c:150 ../calendar/gui/e-meeting-store.c:167
+#: ../calendar/gui/e-meeting-store.c:153 ../calendar/gui/e-meeting-store.c:170
 #: ../calendar/gui/print.c:1088
 msgid "Optional Participant"
 msgstr "Valgfri deltaker"
 
 #: ../calendar/gui/e-meeting-list-view.c:176
-#: ../calendar/gui/e-meeting-store.c:152 ../calendar/gui/e-meeting-store.c:169
+#: ../calendar/gui/e-meeting-store.c:155 ../calendar/gui/e-meeting-store.c:172
 #: ../calendar/gui/print.c:1089
 msgid "Non-Participant"
 msgstr "Ikke-deltaker"
 
 #: ../calendar/gui/e-meeting-list-view.c:198
-#: ../calendar/gui/e-meeting-store.c:196 ../calendar/gui/e-meeting-store.c:219
-#: ../calendar/gui/e-meeting-store.c:1033
+#: ../calendar/gui/e-meeting-store.c:199 ../calendar/gui/e-meeting-store.c:222
+#: ../calendar/gui/e-meeting-store.c:1036
 msgid "Needs Action"
 msgstr "Trenger handling"
 
@@ -4125,9 +4126,19 @@ msgstr "Deltaker                          "
 msgid "RSVP"
 msgstr "RSVP"
 
-#: ../calendar/gui/e-meeting-store.c:208 ../calendar/gui/e-meeting-store.c:231
+#: ../calendar/gui/e-meeting-store.c:211 ../calendar/gui/e-meeting-store.c:234
 msgid "In Process"
 msgstr "Under arbeid"
+
+#: ../calendar/gui/e-meeting-store.c:1760
+#, c-format
+msgid "Enter password to access free/busy information on server %s as user %s"
+msgstr "Oppgi passord for å se på ledig-/opptatt-informasjon på tjener %s som bruker %s"
+
+#: ../calendar/gui/e-meeting-store.c:1767
+#, c-format
+msgid "Failure reason: %s"
+msgstr "Feilårsak: %s"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
@@ -4240,7 +4251,7 @@ msgstr "Medlem"
 #: ../modules/calendar/e-memo-shell-view-actions.c:218
 #: ../modules/calendar/e-memo-shell-view-actions.c:233
 #: ../modules/calendar/e-memo-shell-view.c:289
-#: ../plugins/caldav/caldav-browse-server.c:431
+#: ../plugins/caldav/caldav-browse-server.c:439
 msgid "Memos"
 msgstr "Notater"
 
@@ -4299,7 +4310,7 @@ msgstr "%d%%"
 #: ../modules/calendar/e-task-shell-view-actions.c:241
 #: ../modules/calendar/e-task-shell-view-actions.c:256
 #: ../modules/calendar/e-task-shell-view.c:444
-#: ../plugins/caldav/caldav-browse-server.c:429
+#: ../plugins/caldav/caldav-browse-server.c:437
 #: ../plugins/groupwise-features/camel-gw-listener.c:422
 #: ../plugins/groupwise-features/camel-gw-listener.c:562
 #: ../plugins/groupwise-features/proxy-add-dialog.ui.h:12
@@ -6922,7 +6933,7 @@ msgid ""
 "Because you are working offline, the message will be saved to your local "
 "Outbox folder. When you are back online you can send the message by clicking "
 "the Send/Receive button in Evolution's toolbar."
-msgstr ""
+msgstr "Meldingen vil bli lagret til din lokale utboks fordi du arbeider frakoblet. Du kan sende meldingen ved å klikke på Send/Motta-knappen på verktøylinjen i Evolution når du kobler til igjen."
 
 #: ../composer/mail-composer.error.xml.h:10
 msgid ""
@@ -6986,7 +6997,7 @@ msgstr "Feilen som ble rapportert var &quot;{0}&quot;."
 msgid ""
 "The reported error was &quot;{0}&quot;. The message has most likely not been "
 "saved."
-msgstr ""
+msgstr "Rapportert feil var &quot;{0}&quot;. Meldingen har sannsynligvis ikke blitt lagret."
 
 #: ../composer/mail-composer.error.xml.h:23
 msgid "The reported error was &quot;{0}&quot;. The message has not been sent."
@@ -7163,7 +7174,7 @@ msgstr ""
 "posten din."
 
 #: ../capplet/settings/mail-account-view.c:613
-#: ../mail/em-account-editor.c:2094 ../mail/em-account-editor.c:2215
+#: ../mail/em-account-editor.c:2095 ../mail/em-account-editor.c:2216
 msgid "Identity"
 msgstr "Identitet"
 
@@ -7215,7 +7226,7 @@ msgid "Back - Receiving options"
 msgstr "Tilbake - Alternativer for mottak"
 
 #: ../capplet/settings/mail-account-view.c:618
-#: ../mail/em-account-editor.c:3043
+#: ../mail/em-account-editor.c:3044
 msgid "Defaults"
 msgstr "Forvalg"
 
@@ -7687,8 +7698,8 @@ msgid "Could not parse PGP message: "
 msgstr "Kunne ikke lese PGP-melding:"
 
 #: ../em-format/em-format.c:2235 ../mail/mail-ops.c:624
-#: ../plugins/caldav/caldav-browse-server.c:203
-#: ../plugins/caldav/caldav-browse-server.c:1264 ../plugins/face/face.c:169
+#: ../plugins/caldav/caldav-browse-server.c:211
+#: ../plugins/caldav/caldav-browse-server.c:1408 ../plugins/face/face.c:169
 #: ../smime/gui/certificate-manager.c:100
 msgid "Unknown error"
 msgstr "Ukjent feil"
@@ -8096,7 +8107,7 @@ msgstr "Farge"
 
 #: ../mail/e-mail-label-tree-view.c:96
 #: ../modules/plugin-manager/evolution-plugin-manager.c:66
-#: ../plugins/caldav/caldav-browse-server.c:1166
+#: ../plugins/caldav/caldav-browse-server.c:1297
 #: ../plugins/groupwise-features/proxy-add-dialog.ui.h:7
 #: ../widgets/menus/gal-define-views-dialog.c:334
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:90
@@ -8110,7 +8121,7 @@ msgstr "Navn"
 msgid "Inbox"
 msgstr "Innboks"
 
-#: ../mail/e-mail-local.c:36 ../mail/e-mail-migrate.c:1001
+#: ../mail/e-mail-local.c:36 ../mail/e-mail-migrate.c:1007
 #: ../mail/em-folder-tree-model.c:758
 #: ../modules/mail/e-mail-shell-view-private.c:1097
 msgid "Drafts"
@@ -8121,7 +8132,7 @@ msgstr "Skisser"
 msgid "Outbox"
 msgstr "Utboks"
 
-#: ../mail/e-mail-local.c:38 ../mail/e-mail-migrate.c:994
+#: ../mail/e-mail-local.c:38 ../mail/e-mail-migrate.c:1000
 #: ../mail/em-folder-tree-model.c:772
 #: ../modules/mail/e-mail-shell-view-private.c:1103
 msgid "Sent"
@@ -8163,7 +8174,7 @@ msgstr ""
 "\n"
 "Vennligst vent mens Evolution migrere dine mapper..."
 
-#: ../mail/e-mail-migrate.c:1138
+#: ../mail/e-mail-migrate.c:1147
 #, c-format
 msgid "Unable to create local mail folders at '%s': %s"
 msgstr "Kunne ikke opprette lokale e-postmapper i «%s»: %s"
@@ -8198,8 +8209,12 @@ msgid ""
 msgid_plural ""
 "Folder '%s' contains %d duplicate messages. Are you sure you want to delete "
 "them?"
-msgstr[0] "Mappen «%s» inneholder %d duplikatmeldinger. Er du sikker på at du vil slette den?"
-msgstr[1] "Mappen «%s» inneholder %d duplikatmeldinger. Er du sikker på at du vil slette dem?"
+msgstr[0] ""
+"Mappen «%s» inneholder %d duplikatmeldinger. Er du sikker på at du vil "
+"slette den?"
+msgstr[1] ""
+"Mappen «%s» inneholder %d duplikatmeldinger. Er du sikker på at du vil "
+"slette dem?"
 
 #: ../mail/e-mail-reader.c:969 ../mail/em-filter-i18n.h:51
 msgid "Move to Folder"
@@ -8930,7 +8945,7 @@ msgstr "Merk for oppfølging"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
-#: ../mail/em-account-editor.c:566 ../mail/mail-config.ui.h:69
+#: ../mail/em-account-editor.c:567 ../mail/mail-config.ui.h:69
 #: ../modules/addressbook/ldap-config.ui.h:9
 msgid "No encryption"
 msgstr "Ingen kryptering"
@@ -8938,7 +8953,7 @@ msgstr "Ingen kryptering"
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
 #. this abbreviation.
-#: ../mail/em-account-editor.c:570 ../mail/mail-config.ui.h:124
+#: ../mail/em-account-editor.c:571 ../mail/mail-config.ui.h:124
 #: ../modules/addressbook/ldap-config.ui.h:20
 msgid "TLS encryption"
 msgstr "TLS-kryptering"
@@ -8946,40 +8961,40 @@ msgstr "TLS-kryptering"
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
 #. abbreviation.
-#: ../mail/em-account-editor.c:574 ../mail/mail-config.ui.h:91
+#: ../mail/em-account-editor.c:575 ../mail/mail-config.ui.h:91
 #: ../modules/addressbook/ldap-config.ui.h:12
 msgid "SSL encryption"
 msgstr "SSL-kryptering"
 
 #. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
-#: ../mail/em-account-editor.c:842 ../widgets/misc/e-signature-combo-box.c:79
+#: ../mail/em-account-editor.c:843 ../widgets/misc/e-signature-combo-box.c:79
 msgctxt "mail-signature"
 msgid "None"
 msgstr "Ingen"
 
-#: ../mail/em-account-editor.c:923
+#: ../mail/em-account-editor.c:924
 msgid "Never"
 msgstr "Aldri"
 
-#: ../mail/em-account-editor.c:924
+#: ../mail/em-account-editor.c:925
 msgid "Always"
 msgstr "Alltid"
 
-#: ../mail/em-account-editor.c:925
+#: ../mail/em-account-editor.c:926
 msgid "Ask for each message"
 msgstr "Spør for hver melding"
 
 #. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
-#: ../mail/em-account-editor.c:1707 ../widgets/misc/e-account-tree-view.c:131
+#: ../mail/em-account-editor.c:1708 ../widgets/misc/e-account-tree-view.c:131
 msgctxt "mail-receiving"
 msgid "None"
 msgstr "Ingen"
 
-#: ../mail/em-account-editor.c:2091
+#: ../mail/em-account-editor.c:2092
 msgid "Mail Configuration"
 msgstr "E-post-konfigurasjon"
 
-#: ../mail/em-account-editor.c:2092
+#: ../mail/em-account-editor.c:2093
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -8989,7 +9004,7 @@ msgstr ""
 "\n"
 "Klikk «Framover» for å begynne."
 
-#: ../mail/em-account-editor.c:2095
+#: ../mail/em-account-editor.c:2096
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -8999,19 +9014,19 @@ msgstr ""
 "under må ikke nødvendigvis fylles ut, hvis du ikke ønsker å inkludere denne "
 "informasjonen i meldingene du sender."
 
-#: ../mail/em-account-editor.c:2097 ../mail/em-account-editor.c:2259
+#: ../mail/em-account-editor.c:2098 ../mail/em-account-editor.c:2260
 msgid "Receiving Email"
 msgstr "Innkommende e-post"
 
-#: ../mail/em-account-editor.c:2098
+#: ../mail/em-account-editor.c:2099
 msgid "Please configure the following account settings."
 msgstr "Vennligst konfigurer følgende kontoinnstillinger."
 
-#: ../mail/em-account-editor.c:2100 ../mail/em-account-editor.c:2758
+#: ../mail/em-account-editor.c:2101 ../mail/em-account-editor.c:2759
 msgid "Sending Email"
 msgstr "Utgående e-post"
 
-#: ../mail/em-account-editor.c:2101
+#: ../mail/em-account-editor.c:2102
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -9019,11 +9034,11 @@ msgstr ""
 "Vennligst skriv inn informasjon om måten du sender e-post. Hvis du ikke er "
 "sikker, kontakt din systemadministrator eller din Internett tjenestetilbyder."
 
-#: ../mail/em-account-editor.c:2103
+#: ../mail/em-account-editor.c:2104
 msgid "Account Management"
 msgstr "Håndtering av konti"
 
-#: ../mail/em-account-editor.c:2104
+#: ../mail/em-account-editor.c:2105
 msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
@@ -9031,11 +9046,11 @@ msgstr ""
 "Vennligst oppgi et beskrivende navn for denne kontoen i feltet under.\n"
 "Dette navnet vil kun bli brukt som et visningsnavn."
 
-#: ../mail/em-account-editor.c:2108
+#: ../mail/em-account-editor.c:2109
 msgid "Done"
 msgstr "Ferdig"
 
-#: ../mail/em-account-editor.c:2109
+#: ../mail/em-account-editor.c:2110
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -9049,29 +9064,29 @@ msgstr ""
 "\n"
 "Klikk «Bruk» for å lagre dine innstillinger."
 
-#: ../mail/em-account-editor.c:2572
+#: ../mail/em-account-editor.c:2573
 msgid "Check for _new messages every"
 msgstr "Se etter _nye meldinger hver(t)"
 
-#: ../mail/em-account-editor.c:2580
+#: ../mail/em-account-editor.c:2581
 msgid "minu_tes"
 msgstr "minu_tter"
 
-#: ../mail/em-account-editor.c:2862
+#: ../mail/em-account-editor.c:2863
 msgid "Please select a folder from the current account."
 msgstr "Vennligst velg en mappe fra valgt konto."
 
-#: ../mail/em-account-editor.c:3171 ../mail/mail-config.ui.h:98
+#: ../mail/em-account-editor.c:3172 ../mail/mail-config.ui.h:98
 msgid "Security"
 msgstr "Sikkerhet"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:3216 ../mail/em-account-editor.c:3284
+#: ../mail/em-account-editor.c:3217 ../mail/em-account-editor.c:3285
 msgid "Receiving Options"
 msgstr "Alternativer for mottak"
 
-#: ../mail/em-account-editor.c:3217 ../mail/em-account-editor.c:3285
+#: ../mail/em-account-editor.c:3218 ../mail/em-account-editor.c:3286
 msgid "Checking for New Messages"
 msgstr "Ser etter nye meldinger"
 
@@ -9866,9 +9881,8 @@ msgid ""
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:16
-#, fuzzy
 msgid "Attribute message."
-msgstr "Vedlagt melding"
+msgstr "Attributtmelding."
 
 #: ../mail/evolution-mail.schemas.in.h:17
 msgid "Automatic emoticon recognition"
@@ -10501,9 +10515,8 @@ msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Antall adresser som skal vises i Til/Cc/Bcc"
 
 #: ../mail/evolution-mail.schemas.in.h:134
-#, fuzzy
 msgid "Original message."
-msgstr "-----Opprinnelig melding-----"
+msgstr "Opprinnelig melding."
 
 #: ../mail/evolution-mail.schemas.in.h:135
 msgid ""
@@ -12308,9 +12321,12 @@ msgid ""
 "delete it after ensuring the data is safely migrated. Please make sure there "
 "is enough space if you choose to migrate."
 msgstr ""
-"Forvalgt lokalt lager er endret fra mbox- til maildir-format. Vil du migrere nå?\n"
+"Forvalgt lokalt lager er endret fra mbox- til maildir-format. Vil du migrere "
+"nå?\n"
 "\n"
-"En mbox-konto vil bli opprettet for å bevare de gamle mbox-mappene. Du kan slette denne etter å ha sjekket at data ble migrert uten problemer. Vennligst sjekk at det er nok plass hvis du velger å migrere."
+"En mbox-konto vil bli opprettet for å bevare de gamle mbox-mappene. Du kan "
+"slette denne etter å ha sjekket at data ble migrert uten problemer. "
+"Vennligst sjekk at det er nok plass hvis du velger å migrere."
 
 #: ../mail/mail.error.xml.h:48
 msgid "Delete messages in Search Folder \"{0}\"?"
@@ -13928,7 +13944,8 @@ msgstr "Plassering av vertikalt felt for månedsvisning"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:46
 msgid "Number of units for determining a birthday or anniversary reminder."
-msgstr "Antall enheter for å bestemme en påminnelse om fødselsdag eller jubileum."
+msgstr ""
+"Antall enheter for å bestemme en påminnelse om fødselsdag eller jubileum."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:47
 msgid "Number of units for determining a default reminder."
@@ -15505,7 +15522,7 @@ msgstr[1] "%d totalt"
 msgid "Trash"
 msgstr "Papirkurv"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1457
+#: ../modules/mail/e-mail-shell-view-private.c:1461
 msgid "Send / Receive"
 msgstr "Send / motta"
 
@@ -16118,15 +16135,15 @@ msgstr "Alternativer for Bogofilter"
 msgid "Filter junk messages using Bogofilter."
 msgstr "Filtrer uønsket e-post med Bogofilter."
 
-#: ../plugins/caldav/caldav-browse-server.c:197
+#: ../plugins/caldav/caldav-browse-server.c:205
 msgid "Authentication failed. Server requires correct login."
 msgstr "Autentisering feilet. Tjener krever gyldig pålogging."
 
-#: ../plugins/caldav/caldav-browse-server.c:199
+#: ../plugins/caldav/caldav-browse-server.c:207
 msgid "Given URL cannot be found."
 msgstr "Oppgitt URL ble ikke funnet."
 
-#: ../plugins/caldav/caldav-browse-server.c:203
+#: ../plugins/caldav/caldav-browse-server.c:211
 #, c-format
 msgid ""
 "Server returned unexpected data.\n"
@@ -16135,103 +16152,113 @@ msgstr ""
 "Tjener returnerte uventede data.\n"
 "%d - %s"
 
-#: ../plugins/caldav/caldav-browse-server.c:333
-#: ../plugins/caldav/caldav-browse-server.c:584
+#: ../plugins/caldav/caldav-browse-server.c:341
+#: ../plugins/caldav/caldav-browse-server.c:665
 msgid "Failed to parse server response."
 msgstr "Klarte ikke å tolke svar fra tjener."
 
-#: ../plugins/caldav/caldav-browse-server.c:427
+#: ../plugins/caldav/caldav-browse-server.c:435
 msgid "Events"
 msgstr "Hendelser"
 
-#: ../plugins/caldav/caldav-browse-server.c:449
+#: ../plugins/caldav/caldav-browse-server.c:457
 msgid "User's calendars"
 msgstr "Brukers kalendere"
 
-#: ../plugins/caldav/caldav-browse-server.c:557
-#: ../plugins/caldav/caldav-browse-server.c:628
+#: ../plugins/caldav/caldav-browse-server.c:566
+#: ../plugins/caldav/caldav-browse-server.c:734
 msgid "Failed to get server URL."
 msgstr "Kunne ikke hente URL til tjener."
 
-#: ../plugins/caldav/caldav-browse-server.c:626
-#: ../plugins/caldav/caldav-browse-server.c:667
-#: ../plugins/caldav/caldav-browse-server.c:1287
+#: ../plugins/caldav/caldav-browse-server.c:732
+#: ../plugins/caldav/caldav-browse-server.c:773
+#: ../plugins/caldav/caldav-browse-server.c:1432
 msgid "Searching for user's calendars..."
 msgstr "Søker etter brukers kalendere..."
 
-#: ../plugins/caldav/caldav-browse-server.c:665
+#: ../plugins/caldav/caldav-browse-server.c:771
 msgid "Could not find any user calendar."
 msgstr "Fant ingen kalender for bruker."
 
-#: ../plugins/caldav/caldav-browse-server.c:797
+#: ../plugins/caldav/caldav-browse-server.c:903
 #, c-format
 msgid "Previous attempt failed: %s"
 msgstr "Forrige forsøk feilet: %s"
 
-#: ../plugins/caldav/caldav-browse-server.c:799
+#: ../plugins/caldav/caldav-browse-server.c:905
 #, c-format
 msgid "Previous attempt failed with code %d"
 msgstr "Forrige forsøk feilet med kode %d"
 
-#: ../plugins/caldav/caldav-browse-server.c:804
+#: ../plugins/caldav/caldav-browse-server.c:910
 #, c-format
 msgid "Enter password for user %s on server %s"
 msgstr "Oppgi passord for bruker %s på tjener %s"
 
-#: ../plugins/caldav/caldav-browse-server.c:863
+#: ../plugins/caldav/caldav-browse-server.c:969
 #, c-format
 msgid "Cannot create soup message for URL '%s'"
 msgstr "Kunne ikke opprette soup-melding for URL «%s»"
 
 #. fetch content
-#: ../plugins/caldav/caldav-browse-server.c:1098
+#: ../plugins/caldav/caldav-browse-server.c:1215
 msgid "Searching folder content..."
 msgstr "Søker i mappeinnhold..."
 
-#: ../plugins/caldav/caldav-browse-server.c:1141
+#: ../plugins/caldav/caldav-browse-server.c:1264
+#: ../plugins/caldav/caldav-source.c:255
+msgid "Server _handles meeting invitations"
+msgstr "Tjener _håndterer møteinvitasjoner"
+
+#: ../plugins/caldav/caldav-browse-server.c:1271
 msgid "List of available calendars:"
 msgstr "Liste med tilgjengelige kalendere:"
 
-#: ../plugins/caldav/caldav-browse-server.c:1178
+#: ../plugins/caldav/caldav-browse-server.c:1309
 msgid "Supports"
 msgstr "Støtter"
 
-#: ../plugins/caldav/caldav-browse-server.c:1264
+#: ../plugins/caldav/caldav-browse-server.c:1336
+#: ../plugins/caldav/caldav-source.c:254
+msgid "User e-_mail:"
+msgstr "E-_post for bruker:"
+
+#: ../plugins/caldav/caldav-browse-server.c:1408
 #, c-format
 msgid "Failed to create thread: %s"
 msgstr "Klarte ikke å opprette tråd: %s"
 
-#: ../plugins/caldav/caldav-browse-server.c:1372
+#: ../plugins/caldav/caldav-browse-server.c:1517
 #, c-format
 msgid "Server URL '%s' is not a valid URL"
 msgstr "Tjener-URL «%s» er ikke en gyldig URL"
 
-#: ../plugins/caldav/caldav-browse-server.c:1378
+#: ../plugins/caldav/caldav-browse-server.c:1523
 msgid "Browse for a CalDAV calendar"
 msgstr "Se etter en CalDAV-kalender"
 
-#: ../plugins/caldav/caldav-source.c:216
+#: ../plugins/caldav/caldav-source.c:235
 #: ../plugins/calendar-http/calendar-http.c:100
 msgid "_URL:"
 msgstr "_URL:"
 
-#: ../plugins/caldav/caldav-source.c:223
+#: ../plugins/caldav/caldav-source.c:242
 #: ../plugins/google-account-setup/google-contacts-source.c:348
 msgid "Use _SSL"
 msgstr "Bruk _SSL"
 
-#: ../plugins/caldav/caldav-source.c:225
+#: ../plugins/caldav/caldav-source.c:244
 #: ../plugins/google-account-setup/google-contacts-source.c:326
 #: ../plugins/google-account-setup/google-source.c:638
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:260
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:268
 msgid "User_name:"
 msgstr "Bruker_navn:"
 
-#: ../plugins/caldav/caldav-source.c:235
+#: ../plugins/caldav/caldav-source.c:257
 msgid "Brows_e server for a calendar"
 msgstr "Bla gj_ennom tjener etter en kalender"
 
-#: ../plugins/caldav/caldav-source.c:251
+#: ../plugins/caldav/caldav-source.c:275
 #: ../plugins/calendar-file/calendar-file.c:194
 #: ../plugins/calendar-http/calendar-http.c:119
 #: ../plugins/calendar-weather/calendar-weather.c:398
@@ -16482,17 +16509,17 @@ msgctxt "email-custom-header-Security"
 msgid "Top secret"
 msgstr "Topphemmelig"
 
-#: ../plugins/email-custom-header/email-custom-header.c:394
+#: ../plugins/email-custom-header/email-custom-header.c:385
 msgctxt "email-custom-header"
 msgid "None"
 msgstr "Ingen"
 
-#: ../plugins/email-custom-header/email-custom-header.c:586
+#: ../plugins/email-custom-header/email-custom-header.c:577
 msgid "_Custom Header"
 msgstr "E_gendefinert meldingshode"
 
 #. To translators: This string is used while adding a new message header to configuration, to specifying the format of the key values
-#: ../plugins/email-custom-header/email-custom-header.c:845
+#: ../plugins/email-custom-header/email-custom-header.c:836
 msgid ""
 "The format for specifying a Custom Header key value is:\n"
 "Name of the Custom Header key values separated by \";\"."
@@ -16500,11 +16527,11 @@ msgstr ""
 "Format for spesifisering av nøkkelvedi for egendefinert meldingshode er:\n"
 "Navn på nøkkelverdi for egendefinert meldingshode delt med «;»."
 
-#: ../plugins/email-custom-header/email-custom-header.c:899
+#: ../plugins/email-custom-header/email-custom-header.c:890
 msgid "Key"
 msgstr "Nøkkel"
 
-#: ../plugins/email-custom-header/email-custom-header.c:915
+#: ../plugins/email-custom-header/email-custom-header.c:906
 #: ../plugins/templates/templates.c:417
 msgid "Values"
 msgstr "Verdier"
@@ -16662,7 +16689,7 @@ msgid "The file you selected does not look like a valid .png image. Error: {0}"
 msgstr "Filen du valgte ser ikke ut som et gyldig .png-bilde. Feil: {0}"
 
 #: ../plugins/google-account-setup/google-contacts-source.c:314
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:236
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:244
 msgid "Server"
 msgstr "Tjener"
 
@@ -18965,11 +18992,11 @@ msgstr "WebDAV-kontakter"
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:248
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:256
 msgid "URL:"
 msgstr "URL:"
 
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:274
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:282
 msgid "_Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "_Unngå IfMatch (kreves med Apache < 2.2.8)"
 
@@ -19127,7 +19154,7 @@ msgstr "Sidelinjen er synlig"
 msgid "Skip development warning dialog"
 msgstr "Hopp over varseldialogen om utviklingsversjonen"
 
-#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:343
+#: ../shell/apps_evolution_shell.schemas.in.h:35 ../shell/main.c:371
 msgid "Start in offline mode"
 msgstr "Start i frakoblet modus"
 
@@ -19669,57 +19696,59 @@ msgid "Do not tell me again"
 msgstr "Ikke gi beskjed igjen"
 
 #. Translators: Do NOT translate the five component names, they MUST remain in English!
-#: ../shell/main.c:339
+#: ../shell/main.c:367
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
-msgstr "Start Evolution med oppgitt komponent. Tilgjengelige valg er «mail», «calendar», «contacts», «tasks» og «memos»"
+msgstr ""
+"Start Evolution med oppgitt komponent. Tilgjengelige valg er «mail», "
+"«calendar», «contacts», «tasks» og «memos»"
 
-#: ../shell/main.c:341
+#: ../shell/main.c:369
 msgid "Apply the given geometry to the main window"
 msgstr "Bruk oppgitt geometri på hovedvinduet"
 
-#: ../shell/main.c:345
+#: ../shell/main.c:373
 msgid "Start in online mode"
 msgstr "Start i tilkoblet modus"
 
-#: ../shell/main.c:347
+#: ../shell/main.c:375
 msgid "Ignore network availability"
 msgstr "Ignorer nettverkstilgjengelighet"
 
-#: ../shell/main.c:349
+#: ../shell/main.c:377
 msgid "Start in \"express\" mode"
 msgstr "Start i «ekspress»-modus"
 
-#: ../shell/main.c:352
+#: ../shell/main.c:380
 msgid "Forcibly shut down Evolution"
 msgstr "Tvungen nedstenging av Evolution"
 
-#: ../shell/main.c:355
+#: ../shell/main.c:383
 msgid "Send the debugging output of all components to a file."
 msgstr "Send feilsøkingsutskrift for alle komponentene til en fil."
 
-#: ../shell/main.c:357
+#: ../shell/main.c:385
 msgid "Disable loading of any plugins."
 msgstr "Slå av lasting av tillegg."
 
-#: ../shell/main.c:359
+#: ../shell/main.c:387
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Deaktiver forhåndsvisningsområdet for e-post, kontakter og oppgaver."
 
-#: ../shell/main.c:363
+#: ../shell/main.c:391
 msgid "Import URIs or file names given as rest of arguments."
 msgstr "Importer URIer eller filnavn gitt som argumenter."
 
-#: ../shell/main.c:365
+#: ../shell/main.c:393
 msgid "Request a running Evolution process to quit"
 msgstr "Be en kjørende Evolution-prosess om å stenge ned"
 
-#: ../shell/main.c:518 ../shell/main.c:526
+#: ../shell/main.c:557 ../shell/main.c:565
 msgid "- The Evolution PIM and Email Client"
 msgstr "- Evolution personlig informasjonshåndterer og e-postklient"
 
-#: ../shell/main.c:592
+#: ../shell/main.c:627
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -19728,7 +19757,7 @@ msgstr ""
 "%s: --online og --offline kan ikke brukes samtidig.\n"
 "  Bruk «%s --help» for mer informasjon.\n"
 
-#: ../shell/main.c:598
+#: ../shell/main.c:633
 #, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
