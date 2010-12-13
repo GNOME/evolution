@@ -5,6 +5,7 @@ privsolib_LTLIBRARIES = libemformat.la
 emformatinclude_HEADERS =				\
 	em-format.h					\
 	em-format-quote.h				\
+	em-inline-filter.h				\
 	em-stripsig-filter.h
 
 libemformat_la_CPPFLAGS =				\
@@ -18,6 +19,7 @@ libemformat_la_SOURCES =				\
 	$(emformatinclude_HEADERS)			\
 	em-format.c					\
 	em-format-quote.c				\
+	em-inline-filter.c				\
 	em-stripsig-filter.c
 
 libemformat_la_LDFLAGS = $(NO_UNDEFINED)

@@ -28,7 +28,6 @@
 
 #include "em-inline-filter.h"
 
-#include "em-utils.h"
 #include "em-format/em-format.h"
 
 #define d(x)
@@ -56,6 +55,35 @@ static const struct {
 	{ "application", "x-inlinepgp-encrypted", CAMEL_TRANSFER_ENCODING_DEFAULT,  0, },
 };
 
+static CamelMimePart *
+construct_part_from_stream (CamelStream *mem, const GByteArray *data)
+{
+	CamelMimePart *part = NULL;
+	CamelMimeParser *parser;
+
+	g_return_val_if_fail (mem != NULL, NULL);
+	g_return_val_if_fail (data != NULL, NULL);
+
+	if (data->len <= 13 || g_ascii_strncasecmp ((const gchar *) data->data, "Content-Type:", 13) != 0)
+		return NULL;
+
+	parser = camel_mime_parser_new ();
+	camel_mime_parser_scan_from (parser, FALSE);
+	camel_mime_parser_scan_pre_from (parser, FALSE);
+
+	if (camel_mime_parser_init_with_stream (parser, mem, NULL) != -1) {
+		part = camel_mime_part_new ();
+		if (!camel_mime_part_construct_from_parser_sync (part, parser, NULL, NULL)) {
+			g_object_unref (part);
+			part = NULL;
+		}
+	}
+
+	g_object_unref (parser);
+
+	return part;
+}
+
 static void
 inline_filter_add_part (EMInlineFilter *emif, const gchar *data, gint len)
 {
@@ -79,7 +107,21 @@ inline_filter_add_part (EMInlineFilter *emif, const gchar *data, gint len)
 	}
 
 	mem = camel_stream_mem_new_with_byte_array (emif->data);
+	part = construct_part_from_stream (mem, emif->data);
+	if (part) {
+		g_object_unref (mem);
+		emif->data = g_byte_array_new ();
+		g_free (emif->filename);
+		emif->filename = NULL;
+
+		emif->parts = g_slist_append (emif->parts, part);
+		emif->found_any = TRUE;
+
+		return;
+	}
+
 	emif->data = g_byte_array_new ();
+	camel_stream_reset (mem, NULL);
 
 	dw = camel_data_wrapper_new ();
 	if (encoding == emif->base_encoding && (encoding == CAMEL_TRANSFER_ENCODING_BASE64 || encoding == CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE)) {
@@ -207,6 +249,7 @@ inline_filter_scan (CamelMimeFilter *f, gchar *in, gsize len, gint final)
 				inline_filter_add_part (emif, data_start, inptr-data_start);
 				data_start = inptr;
 				emif->state = EMIF_PLAIN;
+				emif->found_any = TRUE;
 			}
 			break;
 		case EMIF_POSTSCRIPT:
@@ -215,6 +258,7 @@ inline_filter_scan (CamelMimeFilter *f, gchar *in, gsize len, gint final)
 				inline_filter_add_part (emif, data_start, inptr-data_start);
 				data_start = inptr;
 				emif->state = EMIF_PLAIN;
+				emif->found_any = TRUE;
 			}
 			break;
 		case EMIF_PGPSIGNED:
@@ -223,6 +267,7 @@ inline_filter_scan (CamelMimeFilter *f, gchar *in, gsize len, gint final)
 				inline_filter_add_part (emif, data_start, inptr-data_start);
 				data_start = inptr;
 				emif->state = EMIF_PLAIN;
+				emif->found_any = TRUE;
 			}
 			break;
 		case EMIF_PGPENCRYPTED:
@@ -231,6 +276,7 @@ inline_filter_scan (CamelMimeFilter *f, gchar *in, gsize len, gint final)
 				inline_filter_add_part (emif, data_start, inptr-data_start);
 				data_start = inptr;
 				emif->state = EMIF_PLAIN;
+				emif->found_any = TRUE;
 			}
 			break;
 		}
@@ -321,6 +367,7 @@ inline_filter_reset (CamelMimeFilter *filter)
 	}
 	emif->parts = NULL;
 	g_byte_array_set_size (emif->data, 0);
+	emif->found_any = FALSE;
 }
 
 static void
@@ -342,6 +389,7 @@ static void
 em_inline_filter_init (EMInlineFilter *emif)
 {
 	emif->data = g_byte_array_new ();
+	emif->found_any = FALSE;
 }
 
 /**
@@ -385,4 +433,12 @@ em_inline_filter_get_multipart (EMInlineFilter *emif)
 	}
 
 	return mp;
+}
+
+gboolean
+em_inline_filter_found_any (EMInlineFilter *emif)
+{
+	g_return_val_if_fail (emif != NULL, FALSE);
+
+	return emif->found_any;
 }

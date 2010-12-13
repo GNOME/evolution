@@ -61,6 +61,8 @@ struct _EMInlineFilter {
 	GByteArray *data;
 	gchar *filename;
 	GSList *parts;
+
+	gboolean found_any;
 };
 
 struct _EMInlineFilterClass {
@@ -71,6 +73,7 @@ GType		em_inline_filter_get_type	(void);
 EMInlineFilter *em_inline_filter_new		(CamelTransferEncoding base_encoding,
 						 CamelContentType *type);
 CamelMultipart *em_inline_filter_get_multipart	(EMInlineFilter *emif);
+gboolean	em_inline_filter_found_any	(EMInlineFilter *emif);
 
 G_END_DECLS
 
