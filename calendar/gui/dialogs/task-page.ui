@@ -438,7 +438,9 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="ESourceComboBox" id="source">
+                          <object class="ESourceComboBox" type-func="e_source_combo_box_get_type" id="source">
+                            <property name="extension-name">Task List</property>
+                            <property name="show-colors">True</property>
                             <property name="visible">True</property>
                           </object>
                           <packing>

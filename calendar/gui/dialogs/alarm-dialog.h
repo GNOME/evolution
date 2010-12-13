@@ -32,10 +32,12 @@
 
 #include <libecal/e-cal-client.h>
 #include <libecal/e-cal-component.h>
+#include <libedataserver/e-source-registry.h>
 
 G_BEGIN_DECLS
 
 gboolean	alarm_dialog_run		(GtkWidget *parent,
+						 ESourceRegistry *registry,
 						 ECalClient *cal_client,
 						 ECalComponentAlarm *alarm);
 

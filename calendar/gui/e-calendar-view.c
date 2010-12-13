@@ -169,6 +169,7 @@ calendar_view_delete_event (ECalendarView *cal_view,
 	ECalModel *model;
 	ECalComponent *comp;
 	ECalComponentVType vtype;
+	ESourceRegistry *registry;
 	gboolean delete = TRUE;
 	GError *error = NULL;
 
@@ -176,6 +177,7 @@ calendar_view_delete_event (ECalendarView *cal_view,
 		return;
 
 	model = e_calendar_view_get_model (cal_view);
+	registry = e_cal_model_get_registry (model);
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
@@ -223,13 +225,13 @@ calendar_view_delete_event (ECalendarView *cal_view,
 		const gchar *uid;
 		gchar *rid = NULL;
 
-		if ((itip_organizer_is_user (comp, event->comp_data->client) ||
-		     itip_sentby_is_user (comp, event->comp_data->client))
+		if ((itip_organizer_is_user (registry, comp, event->comp_data->client) ||
+		     itip_sentby_is_user (registry, comp, event->comp_data->client))
 		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 						event->comp_data->client,
 						comp, TRUE))
 			itip_send_comp (
-				E_CAL_COMPONENT_METHOD_CANCEL,
+				registry, E_CAL_COMPONENT_METHOD_CANCEL,
 				comp, event->comp_data->client, NULL, NULL,
 				NULL, TRUE, FALSE);
 
@@ -694,12 +696,17 @@ clipboard_get_calendar_data (ECalendarView *cal_view,
 static void
 calendar_view_paste_clipboard (ESelectable *selectable)
 {
+	ECalModel *model;
 	ECalendarView *cal_view;
 	ECalendarViewPrivate *priv;
+	ESourceRegistry *registry;
 	GtkClipboard *clipboard;
 
 	cal_view = E_CALENDAR_VIEW (selectable);
 	priv = cal_view->priv;
+
+	model = e_calendar_view_get_model (cal_view);
+	registry = e_cal_model_get_registry (model);
 
 	clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
 
@@ -743,11 +750,12 @@ calendar_view_paste_clipboard (ESelectable *selectable)
 				comp = e_cal_component_new ();
 				e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
 
-				if ((itip_organizer_is_user (comp, comp_data->client) ||
-							itip_sentby_is_user (comp, comp_data->client))
+				if ((itip_organizer_is_user (registry, comp, comp_data->client) ||
+							itip_sentby_is_user (registry, comp, comp_data->client))
 						&& cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 							comp_data->client, comp, TRUE))
 					itip_send_comp (
+						registry,
 						E_CAL_COMPONENT_METHOD_CANCEL,
 						comp, comp_data->client,
 						NULL, NULL, NULL, TRUE, FALSE);
@@ -1007,7 +1015,9 @@ e_calendar_view_add_event (ECalendarView *cal_view,
                            icalcomponent *icalcomp,
                            gboolean in_top_canvas)
 {
+	ECalModel *model;
 	ECalComponent *comp;
+	ESourceRegistry *registry;
 	struct icaltimetype itime, old_dtstart, old_dtend;
 	time_t tt_start, tt_end, new_dtstart = 0;
 	struct icaldurationtype ic_dur, ic_oneday;
@@ -1017,6 +1027,9 @@ e_calendar_view_add_event (ECalendarView *cal_view,
 	GnomeCalendarViewType view_type;
 	gboolean ret = TRUE;
 	GError *error = NULL;
+
+	model = e_calendar_view_get_model (cal_view);
+	registry = e_cal_model_get_registry (model);
 
 	start_offset = 0;
 	end_offset = 0;
@@ -1113,14 +1126,14 @@ e_calendar_view_add_event (ECalendarView *cal_view,
 			g_free (uid);
 		}
 
-		if ((itip_organizer_is_user (comp, client) ||
-		     itip_sentby_is_user (comp, client)) &&
+		if ((itip_organizer_is_user (registry, comp, client) ||
+		     itip_sentby_is_user (registry, comp, client)) &&
 			send_component_dialog (
 				(GtkWindow *) gtk_widget_get_toplevel (
 					GTK_WIDGET (cal_view)),
 				client, comp, TRUE, &strip_alarms, NULL)) {
 			itip_send_comp (
-				E_CAL_COMPONENT_METHOD_REQUEST,
+				registry, E_CAL_COMPONENT_METHOD_REQUEST,
 				comp, client, NULL, NULL, NULL, strip_alarms,
 				FALSE);
 		}
@@ -1326,10 +1339,12 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 	ECalComponent *comp;
 	ECalendarViewEvent *event;
 	ECalComponentVType vtype;
+	ESourceRegistry *registry;
 	gboolean delete = TRUE;
 	GError *error = NULL;
 
 	model = e_calendar_view_get_model (cal_view);
+	registry = e_cal_model_get_registry (model);
 
 	selected = e_calendar_view_get_selected_events (cal_view);
 	if (!selected)
@@ -1401,8 +1416,8 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 
 		e_cal_component_free_datetime (&dt);
 
-		if ((itip_organizer_is_user (comp, event->comp_data->client) ||
-		     itip_sentby_is_user (comp, event->comp_data->client))
+		if ((itip_organizer_is_user (registry, comp, event->comp_data->client) ||
+		     itip_sentby_is_user (registry, comp, event->comp_data->client))
 				&& cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 					event->comp_data->client,
 					comp, TRUE) && !e_cal_client_check_save_schedules (event->comp_data->client)) {
@@ -1419,7 +1434,7 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 			}
 
 			itip_send_comp (
-				E_CAL_COMPONENT_METHOD_CANCEL,
+				registry, E_CAL_COMPONENT_METHOD_CANCEL,
 				comp, event->comp_data->client, NULL, NULL,
 				NULL, TRUE, FALSE);
 		}
@@ -1718,19 +1733,24 @@ e_calendar_view_edit_appointment (ECalendarView *cal_view,
                                   icalcomponent *icalcomp,
                                   EEditEventMode mode)
 {
+	ECalModel *model;
+	ESourceRegistry *registry;
 	guint32 flags = 0;
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 	g_return_if_fail (E_IS_CAL_CLIENT (client));
 	g_return_if_fail (icalcomp != NULL);
 
+	model = e_calendar_view_get_model (cal_view);
+	registry = e_cal_model_get_registry (model);
+
 	if ((mode == EDIT_EVENT_AUTODETECT && icalcomponent_get_first_property (icalcomp, ICAL_ATTENDEE_PROPERTY) != NULL)
 	    || mode == EDIT_EVENT_FORCE_MEETING) {
 		ECalComponent *comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
 		flags |= COMP_EDITOR_MEETING;
-		if (itip_organizer_is_user (comp, client) ||
-		    itip_sentby_is_user (comp, client) ||
+		if (itip_organizer_is_user (registry, comp, client) ||
+		    itip_sentby_is_user (registry, comp, client) ||
 		    !e_cal_component_has_attendees (comp))
 			flags |= COMP_EDITOR_USER_ORG;
 		g_object_unref (comp);
@@ -1747,18 +1767,23 @@ e_calendar_view_modify_and_send (ECalendarView *cal_view,
                                  GtkWindow *toplevel,
                                  gboolean new)
 {
+	ECalModel *model;
+	ESourceRegistry *registry;
 	gboolean only_new_attendees = FALSE;
 	GError *error = NULL;
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
+	model = e_calendar_view_get_model (cal_view);
+	registry = e_cal_model_get_registry (model);
 
 	e_cal_component_commit_sequence (comp);
 
 	if (e_cal_client_modify_object_sync (client, e_cal_component_get_icalcomponent (comp), mod, NULL, &error)) {
 		gboolean strip_alarms = TRUE;
 
-		if ((itip_organizer_is_user (comp, client) ||
-		     itip_sentby_is_user (comp, client)) &&
+		if ((itip_organizer_is_user (registry, comp, client) ||
+		     itip_sentby_is_user (registry, comp, client)) &&
 		    send_component_dialog (toplevel, client, comp, new, &strip_alarms, &only_new_attendees)) {
 			ECalComponent *send_comp = NULL;
 
@@ -1782,7 +1807,7 @@ e_calendar_view_modify_and_send (ECalendarView *cal_view,
 			}
 
 			itip_send_comp (
-				E_CAL_COMPONENT_METHOD_REQUEST,
+				registry, E_CAL_COMPONENT_METHOD_REQUEST,
 				send_comp ? send_comp : comp, client, NULL,
 				NULL, NULL, strip_alarms, only_new_attendees);
 

@@ -21,7 +21,6 @@
 #ifndef E_CALENDAR_SELECTOR_H
 #define E_CALENDAR_SELECTOR_H
 
-#include <libedataserver/e-source-list.h>
 #include <libedataserverui/e-source-selector.h>
 
 /* Standard GObject macros */
@@ -59,7 +58,7 @@ struct _ECalendarSelectorClass {
 };
 
 GType		e_calendar_selector_get_type	(void);
-GtkWidget *	e_calendar_selector_new		(ESourceList *source_list);
+GtkWidget *	e_calendar_selector_new		(ESourceRegistry *registry);
 
 G_END_DECLS
 

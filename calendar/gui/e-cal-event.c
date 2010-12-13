@@ -37,8 +37,6 @@ ece_target_free (EEvent *ev,
 		ECalEventTargetBackend *s = (ECalEventTargetBackend *) t;
 		if (s->shell_backend)
 			g_object_unref (s->shell_backend);
-		if (s->source_list)
-			g_object_unref (s->source_list);
 		break; }
 	}
 
@@ -75,7 +73,6 @@ e_cal_event_peek (void)
 ECalEventTargetBackend *
 e_cal_event_target_new_module (ECalEvent *ece,
                                EShellBackend *shell_backend,
-                               ESourceList *source_list,
                                guint32 flags)
 {
 	ECalEventTargetBackend *t;
@@ -84,7 +81,6 @@ e_cal_event_target_new_module (ECalEvent *ece,
 		&ece->event, E_CAL_EVENT_TARGET_BACKEND, sizeof (*t));
 
 	t->shell_backend = g_object_ref (shell_backend);
-	t->source_list = g_object_ref (source_list);
 	t->target.mask = ~flags;
 
 	return t;

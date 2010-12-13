@@ -138,74 +138,6 @@ task_editor_model_changed_cb (TaskEditor *te)
 	}
 }
 
-static GObject *
-task_editor_constructor (GType type,
-                         guint n_construct_properties,
-                         GObjectConstructParam *construct_properties)
-{
-	GObject *object;
-	CompEditor *editor;
-	CompEditorFlags flags;
-	TaskEditorPrivate *priv;
-	GtkWidget *content_area;
-	GtkActionGroup *action_group;
-	ECalClient *client;
-	gboolean is_assigned;
-
-	/* Chain up to parent's constructor() method. */
-	object = G_OBJECT_CLASS (task_editor_parent_class)->constructor (
-		type, n_construct_properties, construct_properties);
-
-	editor = COMP_EDITOR (object);
-	priv = TASK_EDITOR_GET_PRIVATE (object);
-
-	client = comp_editor_get_client (editor);
-	flags = comp_editor_get_flags (editor);
-
-	priv->task_page = task_page_new (priv->model, editor);
-	comp_editor_append_page (
-		editor, COMP_EDITOR_PAGE (priv->task_page),
-		_("Task"), TRUE);
-
-	priv->task_details_window = gtk_dialog_new_with_buttons (
-		_("Task Details"), GTK_WINDOW (object), GTK_DIALOG_MODAL,
-		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
-	g_signal_connect (
-		priv->task_details_window, "response",
-		G_CALLBACK (gtk_widget_hide), NULL);
-	g_signal_connect (
-		priv->task_details_window, "delete-event",
-		G_CALLBACK (gtk_widget_hide), NULL);
-
-	priv->task_details_page = task_details_page_new (editor);
-	content_area = gtk_dialog_get_content_area (
-		GTK_DIALOG (priv->task_details_window));
-	gtk_container_add (
-		GTK_CONTAINER (content_area),
-		comp_editor_page_get_widget (
-		(CompEditorPage *) priv->task_details_page));
-	gtk_widget_show_all (
-		gtk_bin_get_child (GTK_BIN (priv->task_details_window)));
-	comp_editor_append_page (
-		editor, COMP_EDITOR_PAGE (priv->task_details_page), NULL, FALSE);
-
-	is_assigned = flags & COMP_EDITOR_IS_ASSIGNED;
-
-	action_group = comp_editor_get_action_group (editor, "coordinated");
-	task_page_set_assignment (priv->task_page, is_assigned);
-	gtk_action_group_set_visible (action_group, is_assigned);
-
-	if (is_assigned) {
-		if (e_client_check_capability (
-				E_CLIENT (client),
-				CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
-			task_page_show_options (priv->task_page);
-		comp_editor_set_group_item (editor, TRUE);
-	}
-
-	return object;
-}
-
 static void
 task_editor_dispose (GObject *object)
 {
@@ -236,8 +168,37 @@ static void
 task_editor_constructed (GObject *object)
 {
 	TaskEditorPrivate *priv;
+	CompEditor *editor;
+	CompEditorFlags flags;
+	GtkActionGroup *action_group;
+	gboolean is_assigned;
 
 	priv = TASK_EDITOR_GET_PRIVATE (object);
+	editor = COMP_EDITOR (object);
+
+	flags = comp_editor_get_flags (editor);
+	is_assigned = flags & COMP_EDITOR_IS_ASSIGNED;
+
+	priv->task_page = task_page_new (priv->model, editor);
+	task_page_set_assignment (priv->task_page, is_assigned);
+	comp_editor_append_page (
+		editor, COMP_EDITOR_PAGE (priv->task_page),
+		_("Task"), TRUE);
+
+	action_group = comp_editor_get_action_group (editor, "coordinated");
+	gtk_action_group_set_visible (action_group, is_assigned);
+
+	if (is_assigned) {
+		ECalClient *client;
+
+		client = comp_editor_get_client (editor);
+
+		if (e_client_check_capability (
+				E_CLIENT (client),
+				CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
+			task_page_show_options (priv->task_page);
+		comp_editor_set_group_item (editor, TRUE);
+	}
 
 	g_object_bind_property (
 		object, "client",
@@ -311,7 +272,6 @@ task_editor_class_init (TaskEditorClass *class)
 	g_type_class_add_private (class, sizeof (TaskEditorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->constructor = task_editor_constructor;
 	object_class->dispose = task_editor_dispose;
 	object_class->constructed = task_editor_constructed;
 
@@ -333,6 +293,7 @@ task_editor_init (TaskEditor *te)
 	CompEditor *editor = COMP_EDITOR (te);
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
+	GtkWidget *content_area;
 	GtkAction *action;
 	const gchar *id;
 	GError *error = NULL;
@@ -341,6 +302,28 @@ task_editor_init (TaskEditor *te)
 	te->priv->model = E_MEETING_STORE (e_meeting_store_new ());
 	te->priv->assignment_shown = TRUE;
 	te->priv->updating = FALSE;
+
+	te->priv->task_details_window = gtk_dialog_new_with_buttons (
+		_("Task Details"), GTK_WINDOW (te), GTK_DIALOG_MODAL,
+		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
+	g_signal_connect (
+		te->priv->task_details_window, "response",
+		G_CALLBACK (gtk_widget_hide), NULL);
+	g_signal_connect (
+		te->priv->task_details_window, "delete-event",
+		G_CALLBACK (gtk_widget_hide), NULL);
+
+	te->priv->task_details_page = task_details_page_new (editor);
+	content_area = gtk_dialog_get_content_area (
+		GTK_DIALOG (te->priv->task_details_window));
+	gtk_container_add (
+		GTK_CONTAINER (content_area),
+		comp_editor_page_get_widget (
+		(CompEditorPage *) te->priv->task_details_page));
+	gtk_widget_show_all (
+		gtk_bin_get_child (GTK_BIN (te->priv->task_details_window)));
+	comp_editor_append_page (
+		editor, COMP_EDITOR_PAGE (te->priv->task_details_page), NULL, FALSE);
 
 	action_group = comp_editor_get_action_group (editor, "individual");
 	gtk_action_group_add_actions (
@@ -386,6 +369,8 @@ task_editor_edit_comp (CompEditor *editor,
 	ECalComponentOrganizer organizer;
 	ECalClient *client;
 	GSList *attendees = NULL;
+	ESourceRegistry *registry;
+	EShell *shell;
 
 	priv = TASK_EDITOR_GET_PRIVATE (editor);
 
@@ -394,7 +379,10 @@ task_editor_edit_comp (CompEditor *editor,
 	if (COMP_EDITOR_CLASS (task_editor_parent_class)->edit_comp)
 		COMP_EDITOR_CLASS (task_editor_parent_class)->edit_comp (editor, comp);
 
+	shell = comp_editor_get_shell (editor);
 	client = comp_editor_get_client (editor);
+
+	registry = e_shell_get_registry (shell);
 
 	/* Get meeting related stuff */
 	e_cal_component_get_organizer (comp, &organizer);
@@ -450,7 +438,7 @@ task_editor_edit_comp (CompEditor *editor,
 
 	comp_editor_set_needs_send (
 		editor, priv->assignment_shown &&
-		itip_organizer_is_user (comp, client));
+		itip_organizer_is_user (registry, comp, client));
 
 	priv->updating = FALSE;
 }
@@ -461,6 +449,8 @@ task_editor_send_comp (CompEditor *editor,
                        gboolean strip_alarms)
 {
 	TaskEditorPrivate *priv;
+	EShell *shell;
+	ESourceRegistry *registry;
 	ECalComponent *comp = NULL;
 
 	priv = TASK_EDITOR_GET_PRIVATE (editor);
@@ -470,6 +460,9 @@ task_editor_send_comp (CompEditor *editor,
 	    method == E_CAL_COMPONENT_METHOD_CANCEL)
 		goto parent;
 
+	shell = comp_editor_get_shell (editor);
+	registry = e_shell_get_registry (shell);
+
 	comp = task_page_get_cancel_comp (priv->task_page);
 	if (comp != NULL) {
 		ECalClient *client;
@@ -477,7 +470,7 @@ task_editor_send_comp (CompEditor *editor,
 
 		client = e_meeting_store_get_client (priv->model);
 		result = itip_send_comp (
-			E_CAL_COMPONENT_METHOD_CANCEL, comp,
+			registry, E_CAL_COMPONENT_METHOD_CANCEL, comp,
 			client, NULL, NULL, NULL, strip_alarms, FALSE);
 		g_object_unref (comp);
 

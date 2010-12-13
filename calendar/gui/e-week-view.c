@@ -2124,7 +2124,8 @@ e_week_view_recalc_display_start_day (EWeekView *week_view)
 /* Checks if the users participation status is NEEDS-ACTION and shows the summary as bold text */
 static void
 set_text_as_bold (EWeekViewEvent *event,
-                  EWeekViewEventSpan *span)
+                  EWeekViewEventSpan *span,
+                  ESourceRegistry *registry)
 {
 	ECalComponent *comp;
 	GSList *attendees = NULL, *l;
@@ -2136,7 +2137,8 @@ set_text_as_bold (EWeekViewEvent *event,
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-	address = itip_get_comp_attendee (comp, event->comp_data->client);
+	address = itip_get_comp_attendee (
+		registry, comp, event->comp_data->client);
 	e_cal_component_get_attendee_list (comp, &attendees);
 	for (l = attendees; l; l = l->next) {
 		ECalComponentAttendee *attendee = l->data;
@@ -3072,6 +3074,9 @@ e_week_view_reshape_event_span (EWeekView *week_view,
                                 gint event_num,
                                 gint span_num)
 {
+	ECalendarView *cal_view;
+	ECalModel *model;
+	ESourceRegistry *registry;
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
 	gint span_x, span_y, span_w, num_icons, icons_width, time_width;
@@ -3086,6 +3091,11 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
+
+	cal_view = E_CALENDAR_VIEW (week_view);
+	model = e_calendar_view_get_model (cal_view);
+
+	registry = e_cal_model_get_registry (model);
 
 	if (!is_array_index_in_bounds (week_view->events, event_num))
 		return;
@@ -3198,7 +3208,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 
 		if (e_client_check_capability (E_CLIENT (event->comp_data->client), CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp)) {
-			set_text_as_bold (event, span);
+			set_text_as_bold (event, span, registry);
 		}
 		g_object_set_data (G_OBJECT (span->text_item), "event-num", GINT_TO_POINTER (event_num));
 		g_signal_connect (

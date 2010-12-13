@@ -481,6 +481,8 @@ save_comp (CompEditor *editor)
 	CompEditorPrivate *priv;
 	CompEditorFlags flags;
 	ECalComponent *clone;
+	ESourceRegistry *registry;
+	EShell *shell;
 	GList *l;
 	gboolean result;
 	GError *error = NULL;
@@ -495,6 +497,9 @@ save_comp (CompEditor *editor)
 		return TRUE;
 
 	flags = comp_editor_get_flags (editor);
+	shell = comp_editor_get_shell (editor);
+
+	registry = e_shell_get_registry (shell);
 
 	/* Stop listening because we are about to change things */
 	if (priv->view) {
@@ -528,8 +533,8 @@ save_comp (CompEditor *editor)
 
 	/* If we are not the organizer, we don't update the sequence number */
 	if (!e_cal_component_has_organizer (clone) ||
-		itip_organizer_is_user (clone, priv->cal_client) ||
-		itip_sentby_is_user (clone, priv->cal_client))
+		itip_organizer_is_user (registry, clone, priv->cal_client) ||
+		itip_sentby_is_user (registry, clone, priv->cal_client))
 		e_cal_component_commit_sequence (clone);
 	else
 		e_cal_component_abort_sequence (clone);
@@ -583,8 +588,8 @@ save_comp (CompEditor *editor)
 		if (priv->mod == CALOBJ_MOD_THIS) {
 			if (result && ((flags & COMP_EDITOR_DELEGATE) ||
 				!e_cal_component_has_organizer (clone) ||
-				itip_organizer_is_user (clone, priv->cal_client) ||
-				itip_sentby_is_user (clone, priv->cal_client)))
+				itip_organizer_is_user (registry, clone, priv->cal_client) ||
+				itip_sentby_is_user (registry, clone, priv->cal_client)))
 				e_cal_component_commit_sequence (clone);
 			else
 				e_cal_component_abort_sequence (clone);
@@ -681,6 +686,8 @@ save_comp_with_send (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
 	CompEditorFlags flags;
+	ESourceRegistry *registry;
+	EShell *shell;
 	gboolean send, delegated, only_new_attendees = FALSE;
 	gboolean delegate;
 	gboolean strip_alarms = TRUE;
@@ -688,6 +695,10 @@ save_comp_with_send (CompEditor *editor)
 	priv = editor->priv;
 
 	flags = comp_editor_get_flags (editor);
+	shell = comp_editor_get_shell (editor);
+
+	registry = e_shell_get_registry (shell);
+
 	send = priv->changed && priv->needs_send;
 	delegate = flags & COMP_EDITOR_DELEGATE;
 
@@ -717,8 +728,8 @@ save_comp_with_send (CompEditor *editor)
 			(only_new_attendees ?
 			COMP_EDITOR_SEND_TO_NEW_ATTENDEES_ONLY : 0));
 
-		if ((itip_organizer_is_user (priv->comp, priv->cal_client) ||
-			itip_sentby_is_user (priv->comp, priv->cal_client))) {
+		if ((itip_organizer_is_user (registry, priv->comp, priv->cal_client) ||
+			itip_sentby_is_user (registry, priv->comp, priv->cal_client))) {
 			if (e_cal_component_get_vtype (priv->comp) == E_CAL_COMPONENT_JOURNAL)
 				return comp_editor_send_comp (
 					editor, E_CAL_COMPONENT_METHOD_PUBLISH,
@@ -1359,6 +1370,7 @@ static void
 comp_editor_set_shell (CompEditor *editor,
                        EShell *shell)
 {
+	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (editor->priv->shell == NULL);
 
 	editor->priv->shell = shell;
@@ -3257,6 +3269,8 @@ real_send_comp (CompEditor *editor,
 {
 	CompEditorPrivate *priv;
 	CompEditorFlags flags;
+	EShell *shell;
+	ESourceRegistry *registry;
 	ECalComponent *send_comp = NULL;
 	gchar *address = NULL;
 	GSList *users = NULL;
@@ -3266,6 +3280,9 @@ real_send_comp (CompEditor *editor,
 	priv = editor->priv;
 
 	flags = comp_editor_get_flags (editor);
+	shell = comp_editor_get_shell (editor);
+
+	registry = e_shell_get_registry (shell);
 
 	if (priv->mod == CALOBJ_MOD_ALL && e_cal_component_is_instance (priv->comp)) {
 		/* Ensure we send the master object, not the instance only */
@@ -3294,7 +3311,8 @@ real_send_comp (CompEditor *editor,
 	/* The user updates the delegated status to the Organizer,
 	 * so remove all other attendees. */
 	if (flags & COMP_EDITOR_DELEGATE) {
-		address = itip_get_comp_attendee (send_comp, priv->cal_client);
+		address = itip_get_comp_attendee (
+			registry, send_comp, priv->cal_client);
 
 		if (address)
 			set_attendees_for_delegation (send_comp, address, method);
@@ -3304,7 +3322,7 @@ real_send_comp (CompEditor *editor,
 		e_client_check_capability (E_CLIENT (priv->cal_client),
 		CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
 		if (itip_send_comp (
-			method, send_comp, priv->cal_client,
+			registry, method, send_comp, priv->cal_client,
 			NULL, NULL, users, strip_alarms,
 			priv->flags & COMP_EDITOR_SEND_TO_NEW_ATTENDEES_ONLY)) {
 			g_object_unref (send_comp);
@@ -3334,7 +3352,7 @@ real_send_comp (CompEditor *editor,
 		}
 
 		if (itip_send_comp (
-			method, send_comp, priv->cal_client,
+			registry, method, send_comp, priv->cal_client,
 			NULL, mime_attach_list, users, strip_alarms,
 			priv->flags & COMP_EDITOR_SEND_TO_NEW_ATTENDEES_ONLY)) {
 			gboolean saved = save_comp (editor);

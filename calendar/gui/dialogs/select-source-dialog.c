@@ -26,6 +26,7 @@
 #endif
 
 #include <glib/gi18n.h>
+#include <libedataserver/e-source-calendar.h>
 #include <libedataserverui/e-source-selector-dialog.h>
 #include "select-source-dialog.h"
 
@@ -36,37 +37,31 @@
  */
 ESource *
 select_source_dialog (GtkWindow *parent,
+                      ESourceRegistry *registry,
                       ECalClientSourceType obj_type,
                       ESource *except_source)
 {
 	GtkWidget *dialog;
-	ESourceList *source_list;
 	ESource *selected_source = NULL;
-	const gchar *gconf_key;
-	GConfClient *conf_client;
-	const gchar *icon_name = NULL;
+	const gchar *extension_name;
+	const gchar *icon_name;
 
-	if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS)
-		gconf_key = "/apps/evolution/calendar/sources";
-	else if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS)
-		gconf_key = "/apps/evolution/tasks/sources";
-	else if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
-		gconf_key = "/apps/evolution/memos/sources";
-	else
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+
+	if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS) {
+		extension_name = E_SOURCE_EXTENSION_CALENDAR;
+		icon_name = "x-office-calendar";
+	} else if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS) {
+		extension_name = E_SOURCE_EXTENSION_TASK_LIST;
+		icon_name = "stock_todo";
+	} else if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS) {
+		extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
+		icon_name = "stock_journal";
+	} else
 		return NULL;
 
-	conf_client = gconf_client_get_default ();
-	source_list = e_source_list_new_for_gconf (conf_client, gconf_key);
-
 	/* create the dialog */
-	dialog = e_source_selector_dialog_new (parent, source_list);
-
-	if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS)
-		icon_name = "x-office-calendar";
-	else if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS)
-		icon_name = "stock_todo";
-	else if (obj_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
-		icon_name = "stock_journal";
+	dialog = e_source_selector_dialog_new (parent, registry, extension_name);
 
 	if (icon_name)
 		gtk_window_set_icon_name (GTK_WINDOW (dialog), icon_name);
@@ -74,16 +69,15 @@ select_source_dialog (GtkWindow *parent,
 	if (except_source)
 		g_object_set_data (G_OBJECT (dialog), "except-source", except_source);
 
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
-		selected_source = e_source_selector_dialog_peek_primary_selection (E_SOURCE_SELECTOR_DIALOG (dialog));
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
+		goto exit;
 
-		if (selected_source)
-			g_object_ref (selected_source);
-	} else
-		selected_source = NULL;
+	selected_source = e_source_selector_dialog_peek_primary_selection (
+		E_SOURCE_SELECTOR_DIALOG (dialog));
+	if (selected_source != NULL)
+		g_object_ref (selected_source);
 
-	g_object_unref (conf_client);
-	g_object_unref (source_list);
+exit:
 	gtk_widget_destroy (dialog);
 
 	return selected_source;

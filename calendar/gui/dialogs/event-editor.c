@@ -609,6 +609,8 @@ event_editor_edit_comp (CompEditor *editor,
 	ECalComponentDateTime dtstart, dtend;
 	ECalClient *client;
 	GSList *attendees = NULL;
+	ESourceRegistry *registry;
+	EShell *shell;
 
 	priv = EVENT_EDITOR_GET_PRIVATE (editor);
 
@@ -628,7 +630,10 @@ event_editor_edit_comp (CompEditor *editor,
 	if (COMP_EDITOR_CLASS (event_editor_parent_class)->edit_comp)
 		COMP_EDITOR_CLASS (event_editor_parent_class)->edit_comp (editor, comp);
 
+	shell = comp_editor_get_shell (editor);
 	client = comp_editor_get_client (editor);
+
+	registry = e_shell_get_registry (shell);
 
 	/* Get meeting related stuff */
 	e_cal_component_get_organizer (comp, &organizer);
@@ -639,7 +644,9 @@ event_editor_edit_comp (CompEditor *editor,
 		GSList *l;
 		gint row;
 		gchar *user_email;
-		user_email = itip_get_comp_attendee (comp, client);
+
+		user_email = itip_get_comp_attendee (
+			registry, comp, client);
 
 		if (!priv->meeting_shown) {
 			GtkAction *action;
@@ -707,7 +714,8 @@ event_editor_edit_comp (CompEditor *editor,
 
 	comp_editor_set_needs_send (
 		editor, priv->meeting_shown && (itip_organizer_is_user (
-		comp, client) || itip_sentby_is_user (comp, client)));
+		registry, comp, client) || itip_sentby_is_user (registry,
+		comp, client)));
 
 	priv->updating = FALSE;
 }
@@ -718,6 +726,8 @@ event_editor_send_comp (CompEditor *editor,
                         gboolean strip_alarms)
 {
 	EventEditorPrivate *priv;
+	EShell *shell;
+	ESourceRegistry *registry;
 	ECalComponent *comp = NULL;
 
 	priv = EVENT_EDITOR_GET_PRIVATE (editor);
@@ -727,6 +737,9 @@ event_editor_send_comp (CompEditor *editor,
 	    method == E_CAL_COMPONENT_METHOD_CANCEL)
 		goto parent;
 
+	shell = comp_editor_get_shell (editor);
+	registry = e_shell_get_registry (shell);
+
 	comp = event_page_get_cancel_comp (priv->event_page);
 	if (comp != NULL) {
 		ECalClient *client;
@@ -734,7 +747,7 @@ event_editor_send_comp (CompEditor *editor,
 
 		client = e_meeting_store_get_client (priv->model);
 		result = itip_send_comp (
-			E_CAL_COMPONENT_METHOD_CANCEL, comp,
+			registry, E_CAL_COMPONENT_METHOD_CANCEL, comp,
 			client, NULL, NULL, NULL, strip_alarms, FALSE);
 		g_object_unref (comp);
 

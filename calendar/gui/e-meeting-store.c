@@ -35,11 +35,12 @@
 #include <libebackend/e-extensible.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-proxy.h>
+#include <libedataserver/e-source-mail-identity.h>
+#include <libedataserver/e-source-registry.h>
 #include <libedataserverui/e-passwords.h>
 
+#include <shell/e-shell.h>
 #include <e-util/e-util-enumtypes.h>
-
-#include <libemail-utils/e-account-utils.h>
 
 #include "itip-utils.h"
 #include "e-meeting-utils.h"
@@ -1145,31 +1146,37 @@ e_meeting_store_find_self (EMeetingStore *store,
                            gint *row)
 {
 	EMeetingAttendee *attendee = NULL;
-	EAccountList *account_list;
-	EIterator *iterator;
+	ESourceRegistry *registry;
+	EShell *shell;
+	GList *list, *iter;
+	const gchar *extension_name;
 
 	g_return_val_if_fail (E_IS_MEETING_STORE (store), NULL);
 
-	account_list = e_get_account_list ();
+	/* FIXME Refactor this so we don't need e_shell_get_default(). */
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 
-	iterator = e_list_get_iterator (E_LIST (account_list));
+	list = e_source_registry_list_sources (registry, extension_name);
 
-	while (e_iterator_is_valid (iterator)) {
-		EAccount *account;
+	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+		ESource *source = E_SOURCE (iter->data);
+		ESourceMailIdentity *extension;
+		const gchar *address;
 
-		/* XXX EIterator misuses const. */
-		account = (EAccount *) e_iterator_get (iterator);
+		extension = e_source_get_extension (source, extension_name);
+		address = e_source_mail_identity_get_address (extension);
 
-		attendee = e_meeting_store_find_attendee (
-			store, account->id->address, row);
+		if (address != NULL)
+			attendee = e_meeting_store_find_attendee (
+				store, address, row);
 
 		if (attendee != NULL)
 			break;
-
-		e_iterator_next (iterator);
 	}
 
-	g_object_unref (iterator);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 	return attendee;
 }

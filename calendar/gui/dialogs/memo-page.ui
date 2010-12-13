@@ -184,6 +184,8 @@
                     <property name="spacing">0</property>
                     <child>
                       <object class="ESourceComboBox" type-func="e_source_combo_box_get_type" id="source">
+                        <property name="extension-name">Memo List</property>
+                        <property name="show-colors">True</property>
                         <property name="visible">True</property>
                       </object>
                       <packing>

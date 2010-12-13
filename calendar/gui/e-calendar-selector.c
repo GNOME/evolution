@@ -23,6 +23,7 @@
 #include "e-calendar-selector.h"
 
 #include <libecal/e-cal-client.h>
+#include <libedataserver/e-source-calendar.h>
 #include <libedataserverui/e-client-utils.h>
 
 #include "e-util/e-selection.h"
@@ -149,6 +150,24 @@ client_opened_cb (GObject *source_object,
 	icalcomponent_free (icalcomp);
 }
 
+static void
+calendar_selector_constructed (GObject *object)
+{
+	ESourceSelector *selector;
+	ESourceRegistry *registry;
+	ESource *source;
+
+	selector = E_SOURCE_SELECTOR (object);
+	registry = e_source_selector_get_registry (selector);
+	source = e_source_registry_ref_default_calendar (registry);
+	e_source_selector_set_primary_selection (selector, source);
+	g_object_unref (source);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_calendar_selector_parent_class)->
+		constructed (object);
+}
+
 static gboolean
 calendar_selector_data_dropped (ESourceSelector *selector,
                                 GtkSelectionData *selection_data,
@@ -178,7 +197,6 @@ calendar_selector_data_dropped (ESourceSelector *selector,
 
 	e_client_utils_open_new (
 		destination, E_CLIENT_SOURCE_TYPE_EVENTS, FALSE, NULL,
-		e_client_utils_authenticate_handler, NULL,
 		client_opened_cb, icalcomp);
 
 	success = TRUE;
@@ -196,9 +214,13 @@ exit:
 static void
 e_calendar_selector_class_init (ECalendarSelectorClass *class)
 {
+	GObjectClass *object_class;
 	ESourceSelectorClass *source_selector_class;
 
 	g_type_class_add_private (class, sizeof (ECalendarSelectorPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->constructed = calendar_selector_constructed;
 
 	source_selector_class = E_SOURCE_SELECTOR_CLASS (class);
 	source_selector_class->data_dropped = calendar_selector_data_dropped;
@@ -217,11 +239,12 @@ e_calendar_selector_init (ECalendarSelector *selector)
 }
 
 GtkWidget *
-e_calendar_selector_new (ESourceList *source_list)
+e_calendar_selector_new (ESourceRegistry *registry)
 {
-	g_return_val_if_fail (E_IS_SOURCE_LIST (source_list), NULL);
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
 
 	return g_object_new (
 		E_TYPE_CALENDAR_SELECTOR,
-		"source-list", source_list, NULL);
+		"extension-name", E_SOURCE_EXTENSION_CALENDAR,
+		"registry", registry, NULL);
 }

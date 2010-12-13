@@ -32,13 +32,12 @@
 #include <libebackend/e-extensible.h>
 #include <libedataserver/e-flag.h>
 #include <libedataserver/e-time-utils.h>
+#include <libedataserver/e-source-calendar.h>
 #include <libecal/e-cal-client-view.h>
 #include <libecal/e-cal-time-util.h>
 
 #include <e-util/e-util.h>
 #include <e-util/e-util-enumtypes.h>
-
-#include <libemail-utils/e-account-utils.h>
 
 #include "comp-util.h"
 #include "e-cal-model.h"
@@ -66,6 +65,8 @@ typedef struct {
 } ECalModelClient;
 
 struct _ECalModelPrivate {
+	ESourceRegistry *registry;
+
 	/* The list of clients we are managing. Each element is of type ECalModelClient */
 	GList *clients;
 
@@ -91,9 +92,6 @@ struct _ECalModelPrivate {
 
 	/* The default category */
 	gchar *default_category;
-
-	/* Addresses for determining icons */
-	EAccountList *accounts;
 
 	/* Whether we display dates in 24-hour format. */
         gboolean use_24_hour_format;
@@ -162,6 +160,7 @@ enum {
 	PROP_DEFAULT_CLIENT,
 	PROP_DEFAULT_REMINDER_INTERVAL,
 	PROP_DEFAULT_REMINDER_UNITS,
+	PROP_REGISTRY,
 	PROP_TIMEZONE,
 	PROP_USE_24_HOUR_FORMAT,
 	PROP_USE_DEFAULT_REMINDER,
@@ -194,6 +193,16 @@ G_DEFINE_TYPE (
 	ECalModelComponent,
 	e_cal_model_component,
 	G_TYPE_OBJECT)
+
+static void
+cal_model_set_registry (ECalModel *model,
+                        ESourceRegistry *registry)
+{
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
+	g_return_if_fail (model->priv->registry == NULL);
+
+	model->priv->registry = g_object_ref (registry);
+}
 
 static void
 cal_model_set_property (GObject *object,
@@ -230,6 +239,12 @@ cal_model_set_property (GObject *object,
 			e_cal_model_set_default_reminder_units (
 				E_CAL_MODEL (object),
 				g_value_get_enum (value));
+			return;
+
+		case PROP_REGISTRY:
+			cal_model_set_registry (
+				E_CAL_MODEL (object),
+				g_value_get_object (value));
 			return;
 
 		case PROP_TIMEZONE:
@@ -326,6 +341,13 @@ cal_model_get_property (GObject *object,
 				E_CAL_MODEL (object)));
 			return;
 
+		case PROP_REGISTRY:
+			g_value_set_object (
+				value,
+				e_cal_model_get_registry (
+				E_CAL_MODEL (object)));
+			return;
+
 		case PROP_TIMEZONE:
 			g_value_set_pointer (
 				value,
@@ -401,6 +423,11 @@ cal_model_dispose (GObject *object)
 	ECalModelPrivate *priv;
 
 	priv = E_CAL_MODEL_GET_PRIVATE (object);
+
+	if (priv->registry != NULL) {
+		g_object_unref (priv->registry);
+		priv->registry = NULL;
+	}
 
 	if (priv->loading_clients) {
 		g_cancellable_cancel (priv->loading_clients);
@@ -557,6 +584,17 @@ e_cal_model_class_init (ECalModelClass *class)
 			E_TYPE_DURATION_TYPE,
 			E_DURATION_MINUTES,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_REGISTRY,
+		g_param_spec_object (
+			"registry",
+			"Registry",
+			"Data source registry",
+			E_TYPE_SOURCE_REGISTRY,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 
 	g_object_class_install_property (
 		object_class,
@@ -727,8 +765,6 @@ e_cal_model_init (ECalModel *model)
 	model->priv->objects = g_ptr_array_new ();
 	model->priv->kind = ICAL_NO_COMPONENT;
 	model->priv->flags = 0;
-
-	model->priv->accounts = e_get_account_list ();
 
 	model->priv->use_24_hour_format = TRUE;
 
@@ -963,10 +999,13 @@ ecm_value_at (ETableModel *etm,
 	ECalModelPrivate *priv;
 	ECalModelComponent *comp_data;
 	ECalModel *model = (ECalModel *) etm;
+	ESourceRegistry *registry;
 
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
 	priv = model->priv;
+
+	registry = e_cal_model_get_registry (model);
 
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_FIELD_LAST, NULL);
 	g_return_val_if_fail (row >= 0 && row < priv->objects->len, NULL);
@@ -1011,7 +1050,7 @@ ecm_value_at (ETableModel *etm,
 
 			if (e_cal_component_has_recurrences (comp))
 				retval = 1;
-			else if (itip_organizer_is_user (comp, comp_data->client))
+			else if (itip_organizer_is_user (registry, comp, comp_data->client))
 				retval = 3;
 			else {
 				GSList *attendees = NULL, *sl;
@@ -1022,7 +1061,7 @@ ecm_value_at (ETableModel *etm,
 					const gchar *text;
 
 					text = itip_strip_mailto (ca->value);
-					if (itip_address_is_user (text)) {
+					if (itip_address_is_user (registry, text)) {
 						if (ca->delto != NULL)
 							retval = 3;
 						else
@@ -1639,7 +1678,7 @@ ecm_value_to_string (ETableModel *etm,
 
 typedef struct {
 	const gchar *color;
-	GList *uris;
+	GList *uids;
 } AssignedColorData;
 
 static const gchar *
@@ -1647,7 +1686,10 @@ ecm_get_color_for_component (ECalModel *model,
                              ECalModelComponent *comp_data)
 {
 	ESource *source;
+	ESourceSelectable *extension;
 	const gchar *color_spec;
+	const gchar *extension_name;
+	const gchar *uid;
 	gint i, first_empty = 0;
 
 	static AssignedColorData assigned_colors[] = {
@@ -1665,35 +1707,48 @@ ecm_get_color_for_component (ECalModel *model,
 
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
+	switch (e_cal_client_get_source_type (comp_data->client)) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+			extension_name = E_SOURCE_EXTENSION_CALENDAR;
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			extension_name = E_SOURCE_EXTENSION_TASK_LIST;
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
+			break;
+		default:
+			g_return_val_if_reached (NULL);
+	}
+
 	source = e_client_get_source (E_CLIENT (comp_data->client));
-	color_spec = e_source_peek_color_spec (source);
+	extension = e_source_get_extension (source, extension_name);
+	color_spec = e_source_selectable_get_color (extension);
+
 	if (color_spec != NULL) {
 		g_free (comp_data->color);
 		comp_data->color = g_strdup (color_spec);
 		return comp_data->color;
 	}
 
+	uid = e_source_get_uid (source);
+
 	for (i = 0; i < G_N_ELEMENTS (assigned_colors); i++) {
 		GList *l;
 
-		if (assigned_colors[i].uris == NULL) {
+		if (assigned_colors[i].uids == NULL) {
 			first_empty = i;
 			continue;
 		}
 
-		for (l = assigned_colors[i].uris; l != NULL; l = l->next) {
-			if (!strcmp ((const gchar *) l->data,
-				     e_client_get_uri (E_CLIENT (comp_data->client))))
-			{
+		for (l = assigned_colors[i].uids; l != NULL; l = l->next)
+			if (g_strcmp0 (l->data, uid) == 0)
 				return assigned_colors[i].color;
-			}
-		}
 	}
 
 	/* return the first unused color */
-	assigned_colors[first_empty].uris = g_list_append (
-		assigned_colors[first_empty].uris,
-		g_strdup (e_client_get_uri (E_CLIENT (comp_data->client))));
+	assigned_colors[first_empty].uids = g_list_append (
+		assigned_colors[first_empty].uids, g_strdup (uid));
 
 	return assigned_colors[first_empty].color;
 }
@@ -1749,6 +1804,14 @@ e_cal_model_set_flags (ECalModel *model,
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 
 	model->priv->flags = flags;
+}
+
+ESourceRegistry *
+e_cal_model_get_registry (ECalModel *model)
+{
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+
+	return model->priv->registry;
 }
 
 icaltimezone *
@@ -2080,23 +2143,29 @@ e_cal_model_get_client_list (ECalModel *model)
 }
 
 /**
- * e_cal_model_get_client_for_uri:
+ * e_cal_model_get_client_for_source:
  * @model: an #ECalModel
- * @uri: Uri for the client to get.
+ * @source: an #ESource
  */
 ECalClient *
-e_cal_model_get_client_for_uri (ECalModel *model,
-                                const gchar *uri)
+e_cal_model_get_client_for_source (ECalModel *model,
+                                   ESource *source)
 {
-	GList *l;
+	GList *link;
 
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
-	g_return_val_if_fail (uri != NULL, NULL);
+	g_return_val_if_fail (E_IS_SOURCE (source), NULL);
 
-	for (l = model->priv->clients; l != NULL; l = l->next) {
-		ECalModelClient *client_data = (ECalModelClient *) l->data;
+	for (link = model->priv->clients; link != NULL; link = link->next) {
+		ECalModelClient *client_data;
+		ESource *client_source;
+		EClient *client;
 
-		if (!strcmp (uri, e_client_get_uri (E_CLIENT (client_data->client))))
+		client_data = (ECalModelClient *) link->data;
+		client = E_CLIENT (client_data->client);
+		client_source = e_client_get_source (client);
+
+		if (e_source_equal (source, client_source))
 			return client_data->client;
 	}
 
@@ -3473,6 +3542,7 @@ e_cal_model_get_attendees_status_info (ECalModel *model,
 		{ ICAL_PARTSTAT_X,           NULL,              -1 }
 	};
 
+	ESourceRegistry *registry;
 	GSList *attendees = NULL, *a;
 	gboolean have = FALSE;
 	gchar *res = NULL;
@@ -3480,8 +3550,10 @@ e_cal_model_get_attendees_status_info (ECalModel *model,
 
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
+	registry = e_cal_model_get_registry (model);
+
 	if (!comp || !e_cal_component_has_attendees (comp) ||
-	    !itip_organizer_is_user_ex (comp, cal_client, TRUE))
+	    !itip_organizer_is_user_ex (registry, comp, cal_client, TRUE))
 		return NULL;
 
 	e_cal_component_get_attendee_list (comp, &attendees);

@@ -34,6 +34,8 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
+#include <libedataserver/e-source-mail-identity.h>
+#include <libedataserver/e-source-registry.h>
 #include <libedataserverui/e-category-completion.h>
 #include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-combo-box.h>
@@ -49,8 +51,6 @@
 #include <misc/e-dateedit.h>
 #include <misc/e-spell-entry.h>
 #include <misc/e-buffer-tagger.h>
-
-#include <libemail-utils/e-account-utils.h>
 
 #include "../calendar-config.h"
 #include "comp-editor.h"
@@ -75,7 +75,6 @@ struct _MemoPagePrivate {
 	GtkWidget *info_hbox;
 	GtkWidget *info_icon;
 	GtkWidget *info_string;
-	gchar *subscriber_info_text;
 
 	/* Organizer */
 	GtkWidget *org_label;
@@ -97,7 +96,7 @@ struct _MemoPagePrivate {
 	GtkWidget *categories_btn;
 	GtkWidget *categories;
 
-	GtkWidget *source_selector;
+	GtkWidget *source_combo_box;
 
 	gchar **address_strings;
 	gchar *fallback_address;
@@ -120,11 +119,17 @@ get_current_identity (MemoPage *page,
                       gchar **name,
                       gchar **mailto)
 {
-	EAccountList *account_list;
-	EIterator *iterator;
+	EShell *shell;
+	CompEditor *editor;
+	ESourceRegistry *registry;
+	GList *list, *iter;
 	GtkWidget *entry;
+	const gchar *extension_name;
 	const gchar *text;
 	gboolean match = FALSE;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (page));
+	shell = comp_editor_get_shell (editor);
 
 	entry = gtk_bin_get_child (GTK_BIN (page->priv->org_combo));
 	text = gtk_entry_get_text (GTK_ENTRY (entry));
@@ -132,20 +137,25 @@ get_current_identity (MemoPage *page,
 	if (text == NULL || *text == '\0')
 		return FALSE;
 
-	account_list = e_get_account_list ();
-	iterator = e_list_get_iterator (E_LIST (account_list));
+	registry = e_shell_get_registry (shell);
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 
-	while (!match && e_iterator_is_valid (iterator)) {
-		EAccount *account;
+	list = e_source_registry_list_sources (registry, extension_name);
+
+	for (iter = list; !match && iter != NULL; iter = g_list_next (iter)) {
+		ESource *source = E_SOURCE (iter->data);
+		ESourceMailIdentity *extension;
 		const gchar *id_name;
 		const gchar *id_address;
 		gchar *identity;
 
-		/* XXX EIterator misuses const. */
-		account = (EAccount *) e_iterator_get (iterator);
+		extension = e_source_get_extension (source, extension_name);
 
-		id_name = account->id->name;
-		id_address = account->id->address;
+		id_name = e_source_mail_identity_get_name (extension);
+		id_address = e_source_mail_identity_get_address (extension);
+
+		if (id_name == NULL || id_address == NULL)
+			continue;
 
 		identity = g_strdup_printf ("%s <%s>", id_name, id_address);
 		match = (g_ascii_strcasecmp (text, identity) == 0);
@@ -156,11 +166,9 @@ get_current_identity (MemoPage *page,
 
 		if (match && mailto != NULL)
 			*mailto = g_strdup_printf ("MAILTO:%s", id_address);
-
-		e_iterator_next (iterator);
 	}
 
-	g_object_unref (iterator);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 	return match;
 }
@@ -236,8 +244,6 @@ memo_page_finalize (GObject *object)
 		priv->builder = NULL;
 	}
 
-	g_free (priv->subscriber_info_text);
-
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (memo_page_parent_class)->finalize (object);
 }
@@ -270,6 +276,8 @@ memo_page_fill_widgets (CompEditorPage *page,
 	ECalComponentClassification cl;
 	ECalComponentText text;
 	ECalComponentDateTime d;
+	ESourceRegistry *registry;
+	EShell *shell;
 	GSList *l;
 	const gchar *categories;
 	gchar *backend_addr = NULL;
@@ -280,6 +288,9 @@ memo_page_fill_widgets (CompEditorPage *page,
 	editor = comp_editor_page_get_editor (page);
 	client = comp_editor_get_client (editor);
 	flags = comp_editor_get_flags (editor);
+	shell = comp_editor_get_shell (editor);
+
+	registry = e_shell_get_registry (shell);
 
 	/* Clean the screen */
 	clear_widgets (mpage);
@@ -343,7 +354,8 @@ memo_page_fill_widgets (CompEditorPage *page,
 			else
 				string = g_strdup (strip);
 
-			if (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)) {
+			if (itip_organizer_is_user (registry, comp, client) ||
+			    itip_sentby_is_user (registry, comp, client)) {
 				gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->org_combo))), string);
 			} else {
 				GtkComboBox *combo_box;
@@ -370,7 +382,7 @@ memo_page_fill_widgets (CompEditorPage *page,
 
 	/* Source */
 	e_source_combo_box_set_active (
-		E_SOURCE_COMBO_BOX (priv->source_selector),
+		E_SOURCE_COMBO_BOX (priv->source_combo_box),
 		e_client_get_source (E_CLIENT (client)));
 
 	if (priv->to_entry && (flags & COMP_EDITOR_IS_SHARED) && !(flags & COMP_EDITOR_NEW_ITEM))
@@ -421,12 +433,11 @@ check_starts_in_the_past (MemoPage *mpage)
 	start_tt.is_date = TRUE;
 	if (e_date_edit_get_date (E_DATE_EDIT (priv->start_date), &start_tt.year, &start_tt.month, &start_tt.day) &&
 	    comp_editor_test_time_in_the_past (start_tt)) {
-		gchar *tmp = g_strconcat ("<b>", _("Memo's start date is in the past"), "</b>",
-			priv->subscriber_info_text ? "\n" : "", priv->subscriber_info_text, NULL);
+		gchar *tmp = g_strconcat ("<b>", _("Memo's start date is in the past"), "</b>", NULL);
 		memo_page_set_info_string (mpage, GTK_STOCK_DIALOG_WARNING, tmp);
 		g_free (tmp);
 	} else {
-		memo_page_set_info_string (mpage, priv->subscriber_info_text ? GTK_STOCK_DIALOG_INFO : NULL, priv->subscriber_info_text);
+		memo_page_set_info_string (mpage, NULL, NULL);
 	}
 
 	return TRUE;
@@ -466,7 +477,7 @@ sensitize_widgets (MemoPage *mpage)
 		memo_page_set_info_string (mpage, GTK_STOCK_DIALOG_INFO, tmp);
 		g_free (tmp);
 	} else if (!check_starts_in_the_past (mpage)) {
-		memo_page_set_info_string (mpage, priv->subscriber_info_text ? GTK_STOCK_DIALOG_INFO : NULL, priv->subscriber_info_text);
+		memo_page_set_info_string (mpage, NULL, NULL);
 	}
 
 	/* The list of organizers is set to be non-editable. Otherwise any
@@ -553,7 +564,7 @@ fill_comp_with_recipients (ENameSelector *name_selector,
 				ENameSelectorModel *model;
 				EContactStore *c_store;
 				GSList *clients, *l;
-				gchar *uri = e_contact_get (contact, E_CONTACT_BOOK_URI);
+				gchar *uid = e_contact_get (contact, E_CONTACT_BOOK_URI);
 
 				dialog = e_name_selector_peek_dialog (name_selector);
 				model = e_name_selector_dialog_peek_model (dialog);
@@ -562,7 +573,11 @@ fill_comp_with_recipients (ENameSelector *name_selector,
 
 				for (l = clients; l; l = l->next) {
 					EBookClient *b = l->data;
-					if (g_str_equal (uri, e_client_get_uri (E_CLIENT (b)))) {
+					ESource *source;
+
+					source = e_client_get_source (E_CLIENT (b));
+
+					if (g_strcmp0 (uid, e_source_get_uid (source)) == 0) {
 						book_client = b;
 						break;
 					}
@@ -834,6 +849,9 @@ memo_page_set_info_string (MemoPage *mpage,
 static gboolean
 get_widgets (MemoPage *mpage)
 {
+	EShell *shell;
+	ESourceRegistry *registry;
+	CompEditor *editor;
 	CompEditorPage *page = COMP_EDITOR_PAGE (mpage);
 	GtkEntryCompletion *completion;
 	MemoPagePrivate *priv;
@@ -844,6 +862,10 @@ get_widgets (MemoPage *mpage)
 	priv = mpage->priv;
 
 #define GW(name) e_builder_get_widget (priv->builder, name)
+
+	editor = comp_editor_page_get_editor (page);
+	shell = comp_editor_get_shell (editor);
+	registry = e_shell_get_registry (shell);
 
 	priv->main = GW ("memo-page");
 	if (!priv->main) {
@@ -885,10 +907,10 @@ get_widgets (MemoPage *mpage)
 	priv->categories_btn = GW ("categories-button");
 	priv->categories = GW ("categories");
 
-	priv->source_selector = GW ("source");
+	priv->source_combo_box = GW ("source");
+	e_source_combo_box_set_registry (
+		E_SOURCE_COMBO_BOX (priv->source_combo_box), registry);
 #undef GW
-
-	e_util_set_source_combo_box_list (priv->source_selector, "/apps/evolution/memos/sources");
 
 	completion = e_category_completion_new ();
 	gtk_entry_set_completion (GTK_ENTRY (priv->categories), completion);
@@ -958,7 +980,7 @@ mpage_client_opened_cb (GObject *source_object,
 		old_client = comp_editor_get_client (editor);
 
 		e_source_combo_box_set_active (
-			E_SOURCE_COMBO_BOX (priv->source_selector),
+			E_SOURCE_COMBO_BOX (priv->source_combo_box),
 			e_client_get_source (E_CLIENT (old_client)));
 
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
@@ -1021,7 +1043,6 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 	e_client_utils_open_new (
 		source, E_CLIENT_SOURCE_TYPE_MEMOS,
 		FALSE, priv->open_cancellable,
-		e_client_utils_authenticate_handler, NULL,
 		mpage_client_opened_cb, mpage);
 
 	g_object_unref (source);
@@ -1031,26 +1052,8 @@ static void
 set_subscriber_info_string (MemoPage *mpage,
                             const gchar *backend_address)
 {
-	CompEditor *editor;
-	ECalClient *client;
-	ESource *source;
-
-	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage));
-	client = comp_editor_get_client (editor);
-	source = e_client_get_source (E_CLIENT (client));
-
-	if (e_source_get_property (source, "subscriber")) {
-		g_free (mpage->priv->subscriber_info_text);
-		/* Translators: This string is used when we are creating a Memo
-		 * on behalf of some other user */
-		mpage->priv->subscriber_info_text = g_markup_printf_escaped (_("You are acting on behalf of %s"), backend_address);
-	} else {
-		g_free (mpage->priv->subscriber_info_text);
-		mpage->priv->subscriber_info_text = NULL;
-	}
-
 	if (!check_starts_in_the_past (mpage))
-		memo_page_set_info_string (mpage, mpage->priv->subscriber_info_text ? GTK_STOCK_DIALOG_INFO : NULL, mpage->priv->subscriber_info_text);
+		memo_page_set_info_string (mpage, NULL, NULL);
 }
 
 static void
@@ -1117,7 +1120,7 @@ init_widgets (MemoPage *mpage)
 
 	/* Source selector */
 	g_signal_connect (
-		priv->source_selector, "changed",
+		priv->source_combo_box, "changed",
 		G_CALLBACK (source_changed_cb), mpage);
 
 	/* Connect the default signal handler to use to make sure the "changed"
@@ -1137,7 +1140,7 @@ init_widgets (MemoPage *mpage)
 		G_CALLBACK (comp_editor_page_changed), mpage);
 
 	g_signal_connect_swapped (
-		priv->source_selector, "changed",
+		priv->source_combo_box, "changed",
 		G_CALLBACK (comp_editor_page_changed), mpage);
 
 	g_signal_connect_swapped (
@@ -1184,36 +1187,24 @@ static void
 memo_page_select_organizer (MemoPage *mpage,
                             const gchar *backend_address)
 {
-	MemoPagePrivate *priv;
+	MemoPagePrivate *priv = mpage->priv;
 	CompEditor *editor;
 	CompEditorFlags flags;
-	ECalClient *client;
 	const gchar *default_address;
-	gboolean subscribed_cal = FALSE;
-	ESource *source = NULL;
-	const gchar *user_addr = NULL;
 	gint ii;
 
-	priv = mpage->priv;
+	/* Treat an empty backend address as NULL. */
+	if (backend_address != NULL && *backend_address == '\0')
+		backend_address = NULL;
+
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage));
-	client = comp_editor_get_client (editor);
 	flags = comp_editor_get_flags (editor);
-
-	if (client)
-		source = e_client_get_source (E_CLIENT (client));
-	if (source)
-		user_addr = e_source_get_property (source, "subscriber");
-
-	if (user_addr)
-		subscribed_cal = TRUE;
-	else
-		user_addr = (backend_address && *backend_address) ? backend_address : NULL;
 
 	default_address = priv->fallback_address;
 
-	if (user_addr) {
+	if (backend_address != NULL) {
 		for (ii = 0; priv->address_strings[ii] != NULL; ii++) {
-			if (g_strrstr (priv->address_strings[ii], user_addr) != NULL) {
+			if (g_strrstr (priv->address_strings[ii], backend_address) != NULL) {
 				default_address = priv->address_strings[ii];
 				break;
 			}
@@ -1223,7 +1214,6 @@ memo_page_select_organizer (MemoPage *mpage,
 	if (default_address != NULL) {
 		if (flags & COMP_EDITOR_NEW_ITEM) {
 			gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->org_combo))), default_address);
-			gtk_widget_set_sensitive (priv->org_combo, !subscribed_cal);
 		}
 	} else
 		g_warning ("No potential organizers!");
@@ -1242,13 +1232,19 @@ MemoPage *
 memo_page_construct (MemoPage *mpage)
 {
 	MemoPagePrivate *priv;
+	EShell *shell;
 	CompEditor *editor;
 	CompEditorFlags flags;
+	ESourceRegistry *registry;
 
 	priv = mpage->priv;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage));
+
 	flags = comp_editor_get_flags (editor);
+	shell = comp_editor_get_shell (editor);
+
+	registry = e_shell_get_registry (shell);
 
 	/* Make sure our custom widget classes are registered with
 	 * GType before we load the GtkBuilder definition file. */
@@ -1275,8 +1271,8 @@ memo_page_construct (MemoPage *mpage)
 		model = gtk_combo_box_get_model (combo_box);
 		list_store = GTK_LIST_STORE (model);
 
-		priv->address_strings = itip_get_user_identities ();
-		priv->fallback_address = itip_get_fallback_identity ();
+		priv->address_strings = itip_get_user_identities (registry);
+		priv->fallback_address = itip_get_fallback_identity (registry);
 
 		/* FIXME Could we just use a GtkComboBoxText? */
 		for (ii = 0; priv->address_strings[ii] != NULL; ii++) {
@@ -1291,7 +1287,7 @@ memo_page_construct (MemoPage *mpage)
 		gtk_widget_show (priv->org_label);
 		gtk_widget_show (priv->org_combo);
 
-		priv->name_selector = e_name_selector_new ();
+		priv->name_selector = e_name_selector_new (registry);
 		priv->to_entry = get_to_entry (priv->name_selector);
 		gtk_container_add ((GtkContainer *) priv->to_hbox, priv->to_entry);
 		gtk_widget_show (priv->to_hbox);

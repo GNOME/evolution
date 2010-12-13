@@ -29,9 +29,10 @@
 #include <gtk/gtk.h>
 #include <libecal/e-cal-util.h>
 #include <libecal/e-cal-client.h>
-#include <libedataserver/e-source.h>
+#include <libedataserver/e-source-registry.h>
 
 void		copy_source_dialog		(GtkWindow *parent,
+						 ESourceRegistry *registry,
 						 ESource *source,
 						 ECalClientSourceType type);
 

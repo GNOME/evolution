@@ -29,6 +29,7 @@
 #include <e-util/e-util-enums.h>
 #include <table/e-table-model.h>
 #include <libecal/e-cal-client.h>
+#include <libedataserver/e-source-registry.h>
 #include "e-cell-date-edit-text.h"
 
 /* Standard GObject macros */
@@ -186,6 +187,8 @@ void		e_cal_model_set_confirm_delete	(ECalModel *model,
 ECalModelFlags	e_cal_model_get_flags		(ECalModel *model);
 void		e_cal_model_set_flags		(ECalModel *model,
 						 ECalModelFlags flags);
+ESourceRegistry *
+		e_cal_model_get_registry	(ECalModel *model);
 icaltimezone *	e_cal_model_get_timezone	(ECalModel *model);
 void		e_cal_model_set_timezone	(ECalModel *model,
 						 icaltimezone *zone);
@@ -244,8 +247,9 @@ ECalClient *	e_cal_model_get_default_client	(ECalModel *model);
 void		e_cal_model_set_default_client	(ECalModel *model,
 						 ECalClient *client);
 GList *		e_cal_model_get_client_list	(ECalModel *model);
-ECalClient *	e_cal_model_get_client_for_uri	(ECalModel *model,
-						 const gchar *uri);
+ECalClient *	e_cal_model_get_client_for_source
+						(ECalModel *model,
+						 ESource *source);
 void		e_cal_model_add_client		(ECalModel *model,
 						 ECalClient *cal_client);
 void		e_cal_model_remove_client	(ECalModel *model,

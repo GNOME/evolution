@@ -198,7 +198,6 @@ orig_source_opened_cb (GObject *source_object,
 
 	e_client_utils_open_new (
 		csdd->selected_source, csdd->obj_type, FALSE, NULL,
-		e_client_utils_authenticate_handler, csdd->parent,
 		dest_source_opened_cb, csdd);
 }
 
@@ -220,7 +219,6 @@ copy_source (const CopySourceDialogData *const_csdd)
 
 	e_client_utils_open_new (
 		csdd->orig_source, csdd->obj_type, FALSE, NULL,
-		e_client_utils_authenticate_handler, csdd->parent,
 		orig_source_opened_cb, csdd);
 }
 
@@ -232,11 +230,13 @@ copy_source (const CopySourceDialogData *const_csdd)
  */
 void
 copy_source_dialog (GtkWindow *parent,
+                    ESourceRegistry *registry,
                     ESource *source,
                     ECalClientSourceType obj_type)
 {
 	CopySourceDialogData csdd;
 
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
 	g_return_if_fail (E_IS_SOURCE (source));
 	g_return_if_fail (obj_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS ||
 			  obj_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS ||
@@ -250,7 +250,8 @@ copy_source_dialog (GtkWindow *parent,
 			obj_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS ? E_CLIENT_SOURCE_TYPE_MEMOS :
 			E_CLIENT_SOURCE_TYPE_LAST;
 
-	csdd.selected_source = select_source_dialog (parent, obj_type, source);
+	csdd.selected_source = select_source_dialog (
+		parent, registry, obj_type, source);
 	if (csdd.selected_source) {
 		copy_source (&csdd);
 

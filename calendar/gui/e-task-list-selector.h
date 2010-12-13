@@ -26,7 +26,6 @@
 #ifndef E_TASK_LIST_SELECTOR_H
 #define E_TASK_LIST_SELECTOR_H
 
-#include <libedataserver/e-source-list.h>
 #include <libedataserverui/e-source-selector.h>
 
 /* Standard GObject macros */
@@ -64,7 +63,7 @@ struct _ETaskListSelectorClass {
 };
 
 GType		e_task_list_selector_get_type	(void);
-GtkWidget *	e_task_list_selector_new	(ESourceList *source_list);
+GtkWidget *	e_task_list_selector_new	(ESourceRegistry *registry);
 
 G_END_DECLS
 

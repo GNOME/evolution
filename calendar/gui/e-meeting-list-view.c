@@ -38,6 +38,7 @@
 #include "e-meeting-list-view.h"
 #include "itip-utils.h"
 #include <libebook/e-destination.h>
+#include <shell/e-shell.h>
 #include "e-select-names-renderer.h"
 
 #define E_MEETING_LIST_VIEW_GET_PRIVATE(obj) \
@@ -146,13 +147,19 @@ static void
 e_meeting_list_view_init (EMeetingListView *view)
 {
 	ENameSelectorDialog *name_selector_dialog;
+	ESourceRegistry *registry;
+	EShell *shell;
 	gint i;
 
 	view->priv = E_MEETING_LIST_VIEW_GET_PRIVATE (view);
 
 	view->priv->renderers = g_hash_table_new (g_direct_hash, g_int_equal);
 
-	view->priv->name_selector = e_name_selector_new ();
+	/* FIXME Refactor this so we don't need e_shell_get_default(). */
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
+
+	view->priv->name_selector = e_name_selector_new (registry);
 
 	for (i = 0; sections[i]; i++)
 		add_section (view->priv->name_selector, sections[i]);
@@ -875,7 +882,7 @@ process_section (EMeetingListView *view,
 				ENameSelectorModel *model;
 				EContactStore *c_store;
 				GSList *clients, *l;
-				gchar *uri = e_contact_get (contact, E_CONTACT_BOOK_URI);
+				gchar *uid = e_contact_get (contact, E_CONTACT_BOOK_URI);
 
 				dialog = e_name_selector_peek_dialog (view->priv->name_selector);
 				model = e_name_selector_dialog_peek_model (dialog);
@@ -884,7 +891,11 @@ process_section (EMeetingListView *view,
 
 				for (l = clients; l; l = l->next) {
 					EBookClient *b = l->data;
-					if (g_str_equal (uri, e_client_get_uri (E_CLIENT (b)))) {
+					ESource *source;
+
+					source = e_client_get_source (E_CLIENT (b));
+
+					if (g_strcmp0 (uid, e_source_get_uid (source)) == 0) {
 						book_client = b;
 						break;
 					}

@@ -25,6 +25,7 @@
 #define E_DELEGATE_DIALOG_H
 
 #include <gtk/gtk.h>
+#include <libedataserver/e-source-registry.h>
 
 /* Standard GObject macros */
 #define E_TYPE_DELEGATE_DIALOG \
@@ -63,10 +64,12 @@ struct _EDelegateDialogClass {
 GType		e_delegate_dialog_get_type	(void);
 EDelegateDialog *
 		e_delegate_dialog_construct	(EDelegateDialog *etd,
+						 ESourceRegistry *registry,
 						 const gchar *name,
 						 const gchar *address);
 EDelegateDialog *
-		e_delegate_dialog_new		(const gchar *name,
+		e_delegate_dialog_new		(ESourceRegistry *registry,
+						 const gchar *name,
 						 const gchar *address);
 gchar *		e_delegate_dialog_get_delegate	(EDelegateDialog *etd);
 gchar *		e_delegate_dialog_get_delegate_name

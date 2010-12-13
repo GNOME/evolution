@@ -47,7 +47,7 @@ G_DEFINE_TYPE (
 	E_TYPE_SOURCE_CONFIG)
 
 static ESource *
-cal_source_config_get_default (ESourceConfig *config)
+cal_source_config_ref_default (ESourceConfig *config)
 {
 	ECalSourceConfigPrivate *priv;
 	ESourceRegistry *registry;
@@ -56,11 +56,11 @@ cal_source_config_get_default (ESourceConfig *config)
 	registry = e_source_config_get_registry (config);
 
 	if (priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_EVENTS)
-		return e_source_registry_get_default_calendar (registry);
+		return e_source_registry_ref_default_calendar (registry);
 	else if (priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_MEMOS)
-		return e_source_registry_get_default_memo_list (registry);
+		return e_source_registry_ref_default_memo_list (registry);
 	else if (priv->source_type == E_CAL_CLIENT_SOURCE_TYPE_TASKS)
-		return e_source_registry_get_default_task_list (registry);
+		return e_source_registry_ref_default_task_list (registry);
 
 	g_return_val_if_reached (NULL);
 }
@@ -188,7 +188,7 @@ cal_source_config_constructed (GObject *object)
 	priv->default_button = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
-	default_source = cal_source_config_get_default (config);
+	default_source = cal_source_config_ref_default (config);
 	original_source = e_source_config_get_original_source (config);
 
 	if (original_source != NULL) {
@@ -197,6 +197,8 @@ cal_source_config_constructed (GObject *object)
 		active = e_source_equal (original_source, default_source);
 		g_object_set (priv->default_button, "active", active, NULL);
 	}
+
+	g_object_unref (default_source);
 
 	e_source_config_insert_widget (
 		config, NULL, _("Color:"), priv->color_button);
@@ -274,7 +276,7 @@ cal_source_config_commit_changes (ESourceConfig *config,
 	class = E_SOURCE_CONFIG_CLASS (e_cal_source_config_parent_class);
 	class->commit_changes (config, scratch_source);
 
-	default_source = cal_source_config_get_default (config);
+	default_source = cal_source_config_ref_default (config);
 
 	/* The default setting is a little tricky to get right.  If
 	 * the toggle button is active, this ESource is now the default.
@@ -286,6 +288,8 @@ cal_source_config_commit_changes (ESourceConfig *config,
 		cal_source_config_set_default (config, scratch_source);
 	else if (e_source_equal (scratch_source, default_source))
 		cal_source_config_set_default (config, NULL);
+
+	g_object_unref (default_source);
 }
 
 static void

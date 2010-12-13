@@ -296,7 +296,8 @@ static void e_day_view_foreach_event_with_uid (EDayView *day_view,
 static void e_day_view_free_events (EDayView *day_view);
 static void e_day_view_free_event_array (EDayView *day_view,
 					 GArray *array);
-static gint e_day_view_add_event (ECalComponent *comp,
+static gint e_day_view_add_event (ESourceRegistry *registry,
+				 ECalComponent *comp,
 				 time_t	  start,
 				 time_t	  end,
 				 gpointer data);
@@ -715,8 +716,13 @@ process_component (EDayView *day_view,
 {
 	const gchar *uid;
 	gchar *rid = NULL;
+	ECalModel *model;
 	ECalComponent *comp;
+	ESourceRegistry *registry;
 	AddEventData add_event_data;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	registry = e_cal_model_get_registry (model);
 
 	/* If our time hasn't been set yet, just return. */
 	if (day_view->lower == 0 && day_view->upper == 0)
@@ -741,7 +747,7 @@ process_component (EDayView *day_view,
 	add_event_data.day_view = day_view;
 	add_event_data.comp_data = comp_data;
 	e_day_view_add_event (
-		comp, comp_data->instance_start,
+		registry, comp, comp_data->instance_start,
 		comp_data->instance_end, &add_event_data);
 
 	g_object_unref (comp);
@@ -2081,7 +2087,8 @@ e_day_view_remove_event_cb (EDayView *day_view,
 
 /* Checks if the users participation status is NEEDS-ACTION and shows the summary as bold text */
 static void
-set_text_as_bold (EDayViewEvent *event)
+set_text_as_bold (EDayViewEvent *event,
+                  ESourceRegistry *registry)
 {
 	ECalComponent *comp;
 	GSList *attendees = NULL, *l;
@@ -2093,7 +2100,8 @@ set_text_as_bold (EDayViewEvent *event)
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-	address = itip_get_comp_attendee (comp, event->comp_data->client);
+	address = itip_get_comp_attendee (
+		registry, comp, event->comp_data->client);
 	e_cal_component_get_attendee_list (comp, &attendees);
 	for (l = attendees; l; l = l->next) {
 		ECalComponentAttendee *attendee = l->data;
@@ -2125,6 +2133,8 @@ e_day_view_update_event_label (EDayView *day_view,
 {
 	EDayViewEvent *event;
 	ECalendarView *cal_view;
+	ESourceRegistry *registry;
+	ECalModel *model;
 	gboolean free_text = FALSE, editing_event = FALSE, short_event = FALSE;
 	const gchar *summary;
 	gchar *text;
@@ -2150,7 +2160,10 @@ e_day_view_update_event_label (EDayView *day_view,
 	interval = event->end_minute - event->start_minute;
 
 	cal_view = E_CALENDAR_VIEW (day_view);
+	model = e_calendar_view_get_model (cal_view);
 	time_divisions = e_calendar_view_get_time_divisions (cal_view);
+
+	registry = e_cal_model_get_registry (model);
 
 	if ((interval / time_divisions) >= 2)
 		short_event = FALSE;
@@ -2181,7 +2194,7 @@ e_day_view_update_event_label (EDayView *day_view,
 
 	if (e_client_check_capability (E_CLIENT (event->comp_data->client), CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp))
-		set_text_as_bold (event);
+		set_text_as_bold (event, registry);
 
 	if (free_text)
 		g_free (text);
@@ -2192,8 +2205,16 @@ e_day_view_update_long_event_label (EDayView *day_view,
                                     gint event_num)
 {
 	EDayViewEvent *event;
+	ECalendarView *cal_view;
+	ECalModel *model;
+	ESourceRegistry *registry;
 	const gchar *summary;
 	gboolean free_text = FALSE;
+
+	cal_view = E_CALENDAR_VIEW (day_view);
+	model = e_calendar_view_get_model (cal_view);
+
+	registry = e_cal_model_get_registry (model);
 
 	if (!is_array_index_in_bounds (day_view->long_events, event_num))
 		return;
@@ -2216,7 +2237,7 @@ e_day_view_update_long_event_label (EDayView *day_view,
 
 	if (e_client_check_capability (E_CLIENT (event->comp_data->client), CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp))
-		set_text_as_bold (event);
+		set_text_as_bold (event, registry);
 }
 
 /* Finds the day and index of the event with the given canvas item.
@@ -4247,10 +4268,15 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	ECalComponentDateTime date;
 	struct icaltimetype itt;
 	time_t dt;
+	ECalModel *model;
 	ECalClient *client;
+	ESourceRegistry *registry;
 	CalObjModType mod = CALOBJ_MOD_ALL;
 	GtkWindow *toplevel;
 	gint is_date;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	registry = e_cal_model_get_registry (model);
 
 	event_num = day_view->resize_event_num;
 
@@ -4272,7 +4298,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
 	if (e_cal_component_has_attendees (comp) &&
-	    !itip_organizer_is_user (comp, client)) {
+	    !itip_organizer_is_user (registry, comp, client)) {
 		g_object_unref (comp);
 		e_day_view_abort_resize (day_view);
 		return;
@@ -4366,9 +4392,14 @@ e_day_view_finish_resize (EDayView *day_view)
 	ECalComponentDateTime date;
 	struct icaltimetype itt;
 	time_t dt;
+	ECalModel *model;
 	ECalClient *client;
+	ESourceRegistry *registry;
 	CalObjModType mod = CALOBJ_MOD_ALL;
 	GtkWindow *toplevel;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	registry = e_cal_model_get_registry (model);
 
 	if (day_view->resize_event_num == -1)
 		return;
@@ -4394,7 +4425,7 @@ e_day_view_finish_resize (EDayView *day_view)
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
 	if (e_cal_component_has_attendees (comp) &&
-	    !itip_organizer_is_user (comp, client)) {
+	    !itip_organizer_is_user (registry, comp, client)) {
 		g_object_unref (comp);
 		e_day_view_abort_resize (day_view);
 		return;
@@ -4547,7 +4578,8 @@ e_day_view_free_event_array (EDayView *day_view,
 
 /* This adds one event to the view, adding it to the appropriate array. */
 static gboolean
-e_day_view_add_event (ECalComponent *comp,
+e_day_view_add_event (ESourceRegistry *registry,
+                      ECalComponent *comp,
                       time_t start,
                       time_t end,
                       gpointer data)
@@ -4614,8 +4646,8 @@ e_day_view_add_event (ECalComponent *comp,
 		event.different_timezone = TRUE;
 
 	if (!e_cal_component_has_attendees (comp) ||
-	    itip_organizer_is_user (comp, event.comp_data->client) ||
-	    itip_sentby_is_user (comp, event.comp_data->client))
+	    itip_organizer_is_user (registry, comp, event.comp_data->client) ||
+	    itip_sentby_is_user (registry, comp, event.comp_data->client))
 		event.is_editable = TRUE;
 	else
 		event.is_editable = FALSE;
@@ -5157,9 +5189,11 @@ e_day_view_add_new_event_in_selected_range (EDayView *day_view,
 	struct icaltimetype start_tt, end_tt;
 	const gchar *uid;
 	AddEventData add_event_data;
+	ESourceRegistry *registry;
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 
+	registry = e_cal_model_get_registry (model);
 	client = e_cal_model_get_default_client (model);
 
 	/* Check if the client is read only */
@@ -5210,7 +5244,7 @@ e_day_view_add_new_event_in_selected_range (EDayView *day_view,
 	 * to the server until the user finishes editing it. */
 	add_event_data.day_view = day_view;
 	add_event_data.comp_data = NULL;
-	e_day_view_add_event (comp, dtstart, dtend, &add_event_data);
+	e_day_view_add_event (registry, comp, dtstart, dtend, &add_event_data);
 	e_day_view_check_layout (day_view);
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
@@ -6525,12 +6559,17 @@ e_day_view_change_event_time (EDayView *day_view,
 	ECalComponent *comp;
 	ECalComponentDateTime date;
 	struct icaltimetype itt;
+	ECalModel *model;
 	ECalClient *client;
+	ESourceRegistry *registry;
 	CalObjModType mod = CALOBJ_MOD_ALL;
 	GtkWindow *toplevel;
 
 	day = day_view->editing_event_day;
 	event_num = day_view->editing_event_num;
+
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	registry = e_cal_model_get_registry (model);
 
 	if (!is_array_index_in_bounds (day_view->events[day], event_num))
 		return;
@@ -6550,7 +6589,7 @@ e_day_view_change_event_time (EDayView *day_view,
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
 	if (e_cal_component_has_attendees (comp) &&
-	    !itip_organizer_is_user (comp, client)) {
+	    !itip_organizer_is_user (registry, comp, client)) {
 		g_object_unref (comp);
 		return;
 	}
@@ -7968,6 +8007,7 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 	gint start_offset, end_offset;
 	ECalComponent *comp;
 	ECalComponentDateTime date;
+	ESourceRegistry *registry;
 	struct icaltimetype itt;
 	time_t dt;
 	gboolean all_day_event;
@@ -7989,6 +8029,8 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 
 	cal_view = E_CALENDAR_VIEW (day_view);
 	model = e_calendar_view_get_model (cal_view);
+
+	registry = e_cal_model_get_registry (model);
 	client = e_cal_model_get_default_client (model);
 
 	/* Note that we only support DnD within the EDayView at present. */
@@ -8053,7 +8095,7 @@ e_day_view_on_top_canvas_drag_data_received (GtkWidget *widget,
 			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
 			if (e_cal_component_has_attendees (comp) &&
-			    !itip_organizer_is_user (comp, client)) {
+			    !itip_organizer_is_user (registry, comp, client)) {
 				g_object_unref (comp);
 				return;
 			}
@@ -8219,6 +8261,7 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 	ECalModel *model;
 	ECalComponent *comp;
 	ECalComponentDateTime date;
+	ESourceRegistry *registry;
 	struct icaltimetype itt;
 	time_t dt;
 	ECalClient *client;
@@ -8229,6 +8272,8 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 	cal_view = E_CALENDAR_VIEW (day_view);
 	model = e_calendar_view_get_model (cal_view);
 	time_divisions = e_calendar_view_get_time_divisions (cal_view);
+
+	registry = e_cal_model_get_registry (model);
 
 	data = gtk_selection_data_get_data (selection_data);
 	format = gtk_selection_data_get_format (selection_data);
@@ -8307,7 +8352,7 @@ e_day_view_on_main_canvas_drag_data_received (GtkWidget *widget,
 			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
 			if (e_cal_component_has_attendees (comp) &&
-			    !itip_organizer_is_user (comp, client)) {
+			    !itip_organizer_is_user (registry, comp, client)) {
 				g_object_unref (comp);
 				return;
 			}

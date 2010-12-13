@@ -18,14 +18,14 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
+#include <gconf/gconf-client.h>
 
 #include "e-memo-list-selector.h"
 
 #include <string.h>
 #include <libecal/e-cal-client.h>
+#include <libedataserver/e-source-calendar.h>
 #include <libedataserverui/e-client-utils.h>
 #include "e-util/e-selection.h"
 #include "calendar/gui/comp-util.h"
@@ -163,8 +163,8 @@ memo_list_selector_process_data (ESourceSelector *selector,
                                  icalcomponent *icalcomp,
                                  GdkDragAction action)
 {
-	ESourceList *source_list;
 	ESource *source;
+	ESourceRegistry *registry;
 	icalcomponent *tmp_icalcomp = NULL;
 	const gchar *uid;
 	gchar *old_uid = NULL;
@@ -204,18 +204,17 @@ memo_list_selector_process_data (ESourceSelector *selector,
 	if (!success || action != GDK_ACTION_MOVE)
 		goto exit;
 
-	source_list = e_source_selector_get_source_list (selector);
-	source = e_source_list_peek_source_by_uid (source_list, source_uid);
+	registry = e_source_selector_get_registry (selector);
+	source = e_source_registry_ref_source (registry, source_uid);
 
-	if (!E_IS_SOURCE (source) || e_source_get_readonly (source))
-		goto exit;
+	if (source != NULL) {
+		e_client_utils_open_new (
+			source, E_CLIENT_SOURCE_TYPE_MEMOS, TRUE, NULL,
+			client_opened_cb, g_strdup (old_uid));
+		g_object_unref (source);
+	}
 
-	e_client_utils_open_new (
-		source, E_CLIENT_SOURCE_TYPE_MEMOS, TRUE, NULL,
-		e_client_utils_authenticate_handler, NULL,
-		client_opened_cb, g_strdup (old_uid));
-
- exit:
+exit:
 	g_free (old_uid);
 
 	return success;
@@ -288,6 +287,24 @@ exit:
 	g_free (dd);
 }
 
+static void
+memo_list_selector_constructed (GObject *object)
+{
+	ESourceSelector *selector;
+	ESourceRegistry *registry;
+	ESource *source;
+
+	selector = E_SOURCE_SELECTOR (object);
+	registry = e_source_selector_get_registry (selector);
+	source = e_source_registry_ref_default_memo_list (registry);
+	e_source_selector_set_primary_selection (selector, source);
+	g_object_unref (source);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_memo_list_selector_parent_class)->
+		constructed (object);
+}
+
 static gboolean
 memo_list_selector_data_dropped (ESourceSelector *selector,
                                  GtkSelectionData *selection_data,
@@ -304,7 +321,6 @@ memo_list_selector_data_dropped (ESourceSelector *selector,
 
 	e_client_utils_open_new (
 		destination, E_CLIENT_SOURCE_TYPE_MEMOS, TRUE, NULL,
-		e_client_utils_authenticate_handler, NULL,
 		client_opened_for_drop_cb, dd);
 
 	return TRUE;
@@ -313,9 +329,13 @@ memo_list_selector_data_dropped (ESourceSelector *selector,
 static void
 e_memo_list_selector_class_init (EMemoListSelectorClass *class)
 {
+	GObjectClass *object_class;
 	ESourceSelectorClass *source_selector_class;
 
 	g_type_class_add_private (class, sizeof (EMemoListSelectorPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->constructed = memo_list_selector_constructed;
 
 	source_selector_class = E_SOURCE_SELECTOR_CLASS (class);
 	source_selector_class->data_dropped = memo_list_selector_data_dropped;
@@ -334,11 +354,12 @@ e_memo_list_selector_init (EMemoListSelector *selector)
 }
 
 GtkWidget *
-e_memo_list_selector_new (ESourceList *source_list)
+e_memo_list_selector_new (ESourceRegistry *registry)
 {
-	g_return_val_if_fail (E_IS_SOURCE_LIST (source_list), NULL);
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
 
 	return g_object_new (
 		E_TYPE_MEMO_LIST_SELECTOR,
-		"source-list", source_list, NULL);
+		"extension-name", E_SOURCE_EXTENSION_MEMO_LIST,
+		"registry", registry, NULL);
 }

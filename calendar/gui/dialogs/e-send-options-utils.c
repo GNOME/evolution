@@ -31,6 +31,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <libedataserver/e-source-extension.h>
+
 void
 e_send_options_utils_set_default_data (ESendOptionsDialog *sod,
                                        ESource *source,
@@ -38,24 +40,25 @@ e_send_options_utils_set_default_data (ESendOptionsDialog *sod,
 {
 	ESendOptionsGeneral *gopts = NULL;
 	ESendOptionsStatusTracking *sopts;
-	GConfClient *gconf = gconf_client_get_default ();
-	ESourceList *source_list;
-	const gchar *uid;
-	const gchar *value;
+	ESourceExtension *extension;
+	const gchar *extension_name;
+	gchar *value;
+
+	/* FIXME These is all GroupWise-specific settings.
+	 *       They absolutely do not belong here. */
+
+	extension_name = "GroupWise Backend";
+
+	if (!e_source_has_extension (source, extension_name))
+		return;
+
+	extension = e_source_get_extension (source, extension_name);
 
 	gopts = sod->data->gopts;
 	sopts = sod->data->sopts;
 
-	if (!strcmp (type, "calendar"))
-		source_list = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
-	else
-		source_list = e_source_list_new_for_gconf (gconf, "/apps/evolution/tasks/sources");
-
-	uid = e_source_get_uid (source);
-	source = e_source_list_peek_source_by_uid (source_list, uid);
-
 		/* priority */
-	value = e_source_get_property (source, "priority");
+	g_object_get (extension, "priority", &value, NULL);
 	if (value) {
 		if (!strcmp (value, "high"))
 			gopts->priority = E_PRIORITY_HIGH;
@@ -66,8 +69,10 @@ e_send_options_utils_set_default_data (ESendOptionsDialog *sod,
 		else
 			gopts->priority = E_PRIORITY_UNDEFINED;
 	}
+	g_free (value);
+
 		/* Reply requested */
-	value = e_source_get_property (source, "reply-requested");
+	g_object_get (extension, "reply-requested", &value, NULL);
 	if (value) {
 		if (!strcmp (value, "none"))
 			gopts->reply_enabled = FALSE;
@@ -79,8 +84,10 @@ e_send_options_utils_set_default_data (ESendOptionsDialog *sod,
 			gopts->reply_within = i;
 		}
 	}
+	g_free (value);
+
 		/* Delay delivery */
-	value = e_source_get_property (source, "delay-delivery");
+	g_object_get (extension, "delivery-delay", &value, NULL);
 	if (value) {
 		if (!strcmp (value, "none"))
 			gopts->delay_enabled = FALSE;
@@ -89,8 +96,10 @@ e_send_options_utils_set_default_data (ESendOptionsDialog *sod,
 			gopts->delay_until = icaltime_as_timet (icaltime_from_string (value));
 		}
 	}
+	g_free (value);
+
 		/* Expiration Date */
-	value = e_source_get_property (source, "expiration");
+	g_object_get (extension, "expiration", &value, NULL);
 	if (value) {
 		if (!strcmp (value, "none"))
 			gopts->expiration_enabled = FALSE;
@@ -103,8 +112,10 @@ e_send_options_utils_set_default_data (ESendOptionsDialog *sod,
 			gopts->expire_after = i;
 		}
 	}
+	g_free (value);
+
 		/* status tracking */
-	value = e_source_get_property (source, "status-tracking");
+	g_object_get (extension, "status-tracking", &value, NULL);
 	if (value) {
 		if (!strcmp (value, "none"))
 			sopts->tracking_enabled = FALSE;
@@ -118,42 +129,45 @@ e_send_options_utils_set_default_data (ESendOptionsDialog *sod,
 				sopts->track_when = E_ALL;
 		}
 	}
+	g_free (value);
 
 		/* Return Notifications */
 
-	value = e_source_get_property (source, "return-open");
+	g_object_get (extension, "return-open", &value, NULL);
 	if (value) {
 		if (!strcmp (value, "none"))
 			sopts->opened = E_RETURN_NOTIFY_NONE;
 		else
 			sopts->opened = E_RETURN_NOTIFY_MAIL;
 	}
+	g_free (value);
 
-	value = e_source_get_property (source, "return-accept");
+	g_object_get (extension, "return-accept", &value, NULL);
 	if (value) {
 		if (!strcmp (value, "none"))
 			sopts->accepted = E_RETURN_NOTIFY_NONE;
 		else
 			sopts->accepted = E_RETURN_NOTIFY_MAIL;
 	}
+	g_free (value);
 
-	value = e_source_get_property (source, "return-decline");
+	g_object_get (extension, "return-decline", &value, NULL);
 	if (value) {
 		if (!strcmp (value, "none"))
 			sopts->declined = E_RETURN_NOTIFY_NONE;
 		else
 			sopts->declined = E_RETURN_NOTIFY_MAIL;
 	}
+	g_free (value);
 
-	value = e_source_get_property (source, "return-complete");
+	g_object_get (extension, "return-complete", &value, NULL);
 	if (value) {
 		if (!strcmp (value, "none"))
 			sopts->completed = E_RETURN_NOTIFY_NONE;
 		else
 			sopts->completed = E_RETURN_NOTIFY_MAIL;
 	}
-
-	g_object_unref (gconf);
+	g_free (value);
 }
 
 void

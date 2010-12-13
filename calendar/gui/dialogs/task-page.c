@@ -34,6 +34,8 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 
+#include <libedataserver/e-source-mail-identity.h>
+#include <libedataserver/e-source-registry.h>
 #include <libedataserverui/e-category-completion.h>
 #include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-combo-box.h>
@@ -46,8 +48,6 @@
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
 #include <e-util/e-util.h>
-
-#include <libemail-utils/e-account-utils.h>
 
 #include "../e-meeting-attendee.h"
 #include "../e-meeting-list-view.h"
@@ -87,7 +87,6 @@ struct _TaskPagePrivate {
 	GtkWidget *info_hbox;
 	GtkWidget *info_icon;
 	GtkWidget *info_string;
-	gchar *subscriber_info_text;
 
 	GtkWidget *summary;
 	GtkWidget *summary_label;
@@ -102,7 +101,7 @@ struct _TaskPagePrivate {
 	GtkWidget *categories_btn;
 	GtkWidget *categories;
 
-	GtkWidget *source_selector;
+	GtkWidget *source_combo_box;
 
 	/* Meeting related items */
 	GtkWidget *list_box;
@@ -150,11 +149,17 @@ get_current_identity (TaskPage *page,
                       gchar **name,
                       gchar **mailto)
 {
-	EAccountList *account_list;
-	EIterator *iterator;
+	EShell *shell;
+	CompEditor *editor;
+	ESourceRegistry *registry;
+	GList *list, *iter;
 	GtkWidget *entry;
+	const gchar *extension_name;
 	const gchar *text;
 	gboolean match = FALSE;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (page));
+	shell = comp_editor_get_shell (editor);
 
 	entry = gtk_bin_get_child (GTK_BIN (page->priv->organizer));
 	text = gtk_entry_get_text (GTK_ENTRY (entry));
@@ -162,20 +167,25 @@ get_current_identity (TaskPage *page,
 	if (text == NULL || *text == '\0')
 		return FALSE;
 
-	account_list = e_get_account_list ();
-	iterator = e_list_get_iterator (E_LIST (account_list));
+	registry = e_shell_get_registry (shell);
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
 
-	while (!match && e_iterator_is_valid (iterator)) {
-		EAccount *account;
+	list = e_source_registry_list_sources (registry, extension_name);
+
+	for (iter = list; !match && iter != NULL; iter = g_list_next (iter)) {
+		ESource *source = E_SOURCE (iter->data);
+		ESourceMailIdentity *extension;
 		const gchar *id_name;
 		const gchar *id_address;
 		gchar *identity;
 
-		/* XXX EIterator misuses const. */
-		account = (EAccount *) e_iterator_get (iterator);
+		extension = e_source_get_extension (source, extension_name);
 
-		id_name = account->id->name;
-		id_address = account->id->address;
+		id_name = e_source_mail_identity_get_name (extension);
+		id_address = e_source_mail_identity_get_address (extension);
+
+		if (id_name == NULL || id_address == NULL)
+			continue;
 
 		identity = g_strdup_printf ("%s <%s>", id_name, id_address);
 		match = (g_ascii_strcasecmp (text, identity) == 0);
@@ -186,11 +196,9 @@ get_current_identity (TaskPage *page,
 
 		if (match && mailto != NULL)
 			*mailto = g_strdup_printf ("MAILTO:%s", id_address);
-
-		e_iterator_next (iterator);
 	}
 
-	g_object_unref (iterator);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 	return match;
 }
@@ -253,12 +261,11 @@ check_starts_in_the_past (TaskPage *tpage)
 
 	if (start_in_past || due_in_past) {
 		gchar *tmp = g_strconcat ("<b>", start_in_past ? _("Task's start date is in the past") : "",
-			start_in_past && due_in_past ? "\n" : "", due_in_past ? _("Task's due date is in the past") : "", "</b>",
-			priv->subscriber_info_text ? "\n" : "", priv->subscriber_info_text, NULL);
+			start_in_past && due_in_past ? "\n" : "", due_in_past ? _("Task's due date is in the past") : "", "</b>", NULL);
 		task_page_set_info_string (tpage, GTK_STOCK_DIALOG_WARNING, tmp);
 		g_free (tmp);
 	} else {
-		task_page_set_info_string (tpage, priv->subscriber_info_text ? GTK_STOCK_DIALOG_INFO : NULL, priv->subscriber_info_text);
+		task_page_set_info_string (tpage, NULL, NULL);
 	}
 
 	return TRUE;
@@ -301,7 +308,7 @@ sensitize_widgets (TaskPage *tpage)
 		sens = FALSE;
 		read_only = TRUE;
 	} else if (!check_starts_in_the_past (tpage)) {
-		task_page_set_info_string (tpage, priv->subscriber_info_text ? GTK_STOCK_DIALOG_INFO : NULL, priv->subscriber_info_text);
+		task_page_set_info_string (tpage, NULL, NULL);
 	}
 
 	/* The list of organizers is set to be non-editable. Otherwise any
@@ -341,7 +348,7 @@ sensitize_widgets (TaskPage *tpage)
 		gtk_widget_hide (priv->organizer);
 		gtk_widget_hide (priv->invite);
 		gtk_label_set_text_with_mnemonic (GTK_LABEL (priv->org_cal_label), _("_List:"));
-		gtk_label_set_mnemonic_widget (GTK_LABEL (priv->org_cal_label), priv->source_selector);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (priv->org_cal_label), priv->source_combo_box);
 	} else {
 		gtk_widget_show (priv->invite);
 		gtk_widget_show (priv->calendar_label);
@@ -487,10 +494,12 @@ task_page_fill_widgets (CompEditorPage *page,
 	ECalComponentText text;
 	ECalComponentDateTime d;
 	ECalComponentClassification cl;
+	ESourceRegistry *registry;
 	CompEditor *editor;
 	CompEditorFlags flags;
 	GtkAction *action;
 	ECalClient *client;
+	EShell *shell;
 	GSList *l;
 	icalcomponent *icalcomp;
 	const gchar *categories, *uid;
@@ -504,6 +513,9 @@ task_page_fill_widgets (CompEditorPage *page,
 	editor = comp_editor_page_get_editor (page);
 	client = comp_editor_get_client (editor);
 	flags = comp_editor_get_flags (editor);
+	shell = comp_editor_get_shell (editor);
+
+	registry = e_shell_get_registry (shell);
 
 	/* Clean out old data */
 	if (priv->comp != NULL)
@@ -521,7 +533,8 @@ task_page_fill_widgets (CompEditorPage *page,
 	/* Clean the screen */
 	clear_widgets (tpage);
 
-	priv->user_add = itip_get_comp_attendee (comp, client);
+	priv->user_add = itip_get_comp_attendee (
+		registry, comp, client);
 
         /* Summary, description(s) */
 	e_cal_component_get_summary (comp, &text);
@@ -628,7 +641,7 @@ task_page_fill_widgets (CompEditorPage *page,
 
 	/* Source */
 	e_source_combo_box_set_active (
-		E_SOURCE_COMBO_BOX (priv->source_selector),
+		E_SOURCE_COMBO_BOX (priv->source_combo_box),
 		e_client_get_source (E_CLIENT (client)));
 
 	e_client_get_backend_property_sync (E_CLIENT (client), CAL_BACKEND_PROPERTY_CAL_EMAIL_ADDRESS, &backend_addr, NULL, NULL);
@@ -639,7 +652,8 @@ task_page_fill_widgets (CompEditorPage *page,
 		gchar *name = NULL;
 		gchar *mailto = NULL;
 
-		priv->user_add = itip_get_comp_attendee (comp, client);
+		priv->user_add = itip_get_comp_attendee (
+			registry, comp, client);
 
 		/* Organizer strings */
 		task_page_select_organizer (tpage, backend_addr);
@@ -651,7 +665,8 @@ task_page_fill_widgets (CompEditorPage *page,
 				const gchar *strip = itip_strip_mailto (organizer.value);
 				gchar *string;
 
-				if (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)) {
+				if (itip_organizer_is_user (registry, comp, client) ||
+				    itip_sentby_is_user (registry, comp, client)) {
 					if (e_client_check_capability (E_CLIENT (client), CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
 						priv->user_org = TRUE;
 				} else {
@@ -1436,6 +1451,9 @@ task_page_set_info_string (TaskPage *tpage,
 static gboolean
 get_widgets (TaskPage *tpage)
 {
+	EShell *shell;
+	ESourceRegistry *registry;
+	CompEditor *editor;
 	CompEditorPage *page = COMP_EDITOR_PAGE (tpage);
 	GtkEntryCompletion *completion;
 	TaskPagePrivate *priv;
@@ -1446,6 +1464,10 @@ get_widgets (TaskPage *tpage)
 	GtkTreeSelection *selection;
 
 	priv = tpage->priv;
+
+	editor = comp_editor_page_get_editor (page);
+	shell = comp_editor_get_shell (editor);
+	registry = e_shell_get_registry (shell);
 
 	priv->main = e_builder_get_widget (priv->builder, "task-page");
 	if (!priv->main)
@@ -1508,10 +1530,11 @@ get_widgets (TaskPage *tpage)
 	gtk_container_add (GTK_CONTAINER (sw), GTK_WIDGET (priv->list_view));
 	gtk_box_pack_start (GTK_BOX (priv->list_box), sw, TRUE, TRUE, 0);
 
-	priv->source_selector = e_builder_get_widget (priv->builder, "source");
-	e_util_set_source_combo_box_list (priv->source_selector, "/apps/evolution/tasks/sources");
+	priv->source_combo_box = e_builder_get_widget (priv->builder, "source");
+	e_source_combo_box_set_registry (
+		E_SOURCE_COMBO_BOX (priv->source_combo_box), registry);
 
-	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->calendar_label), priv->source_selector);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->calendar_label), priv->source_combo_box);
 
 	completion = e_category_completion_new ();
 	gtk_entry_set_completion (GTK_ENTRY (priv->categories), completion);
@@ -1785,7 +1808,7 @@ tpage_client_opened_cb (GObject *source_object,
 		old_client = comp_editor_get_client (editor);
 
 		e_source_combo_box_set_active (
-			E_SOURCE_COMBO_BOX (priv->source_selector),
+			E_SOURCE_COMBO_BOX (priv->source_combo_box),
 			e_client_get_source (E_CLIENT (old_client)));
 
 		dialog = gtk_message_dialog_new (
@@ -1852,7 +1875,6 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 	e_client_utils_open_new (
 		source, E_CLIENT_SOURCE_TYPE_TASKS,
 		FALSE, priv->open_cancellable,
-		e_client_utils_authenticate_handler, NULL,
 		tpage_client_opened_cb, tpage);
 
 	g_object_unref (source);
@@ -1862,26 +1884,8 @@ static void
 set_subscriber_info_string (TaskPage *tpage,
                             const gchar *backend_address)
 {
-	CompEditor *editor;
-	ECalClient *client;
-	ESource *source;
-
-	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
-	client = comp_editor_get_client (editor);
-	source = e_client_get_source (E_CLIENT (client));
-
-	if (e_source_get_property (source, "subscriber")) {
-		g_free (tpage->priv->subscriber_info_text);
-		/* Translators: This string is used when we are creating a Task
-		 * on behalf of some other user */
-		tpage->priv->subscriber_info_text = g_markup_printf_escaped (_("You are acting on behalf of %s"), backend_address);
-	} else {
-		g_free (tpage->priv->subscriber_info_text);
-		tpage->priv->subscriber_info_text = NULL;
-	}
-
 	if (!check_starts_in_the_past (tpage))
-		task_page_set_info_string (tpage, tpage->priv->subscriber_info_text ? GTK_STOCK_DIALOG_INFO : NULL, tpage->priv->subscriber_info_text);
+		task_page_set_info_string (tpage, NULL, NULL);
 }
 
 void
@@ -1900,7 +1904,7 @@ task_page_send_options_clicked_cb (TaskPage *tpage)
 		priv->sod = e_send_options_dialog_new ();
 		priv->sod->data->initialized = TRUE;
 		source = e_source_combo_box_ref_active (
-			E_SOURCE_COMBO_BOX (priv->source_selector));
+			E_SOURCE_COMBO_BOX (priv->source_combo_box));
 		e_send_options_utils_set_default_data (
 			priv->sod, source, "task");
 		g_object_unref (source);
@@ -1977,7 +1981,7 @@ init_widgets (TaskPage *tpage)
 
 	/* Source selector */
 	g_signal_connect (
-		priv->source_selector, "changed",
+		priv->source_combo_box, "changed",
 		G_CALLBACK (source_changed_cb), tpage);
 
 	/* Connect the default signal handler to use to make sure the "changed"
@@ -2084,45 +2088,30 @@ task_page_select_organizer (TaskPage *tpage,
                             const gchar *backend_address)
 {
 	TaskPagePrivate *priv = tpage->priv;
-	CompEditor *editor;
 	const gchar *default_address;
-	gboolean subscribed_cal = FALSE;
-	ESource *source = NULL;
-	ECalClient *client;
-	const gchar *user_addr = NULL;
 	gint ii;
 
-	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
-	client = comp_editor_get_client (editor);
-
-	if (client)
-		source = e_client_get_source (E_CLIENT (client));
-	if (source)
-		user_addr = e_source_get_property (source, "subscriber");
-
-	if (user_addr)
-		subscribed_cal = TRUE;
-	else
-		user_addr = (backend_address && *backend_address) ? backend_address : NULL;
+	/* Treat an empty backend address as NULL. */
+	if (backend_address == NULL && *backend_address == '\0')
+		backend_address = NULL;
 
 	default_address = priv->fallback_address;
 
-	if (user_addr) {
+	if (backend_address != NULL) {
 		for (ii = 0; priv->address_strings[ii] != NULL; ii++) {
-			if (g_strrstr (priv->address_strings[ii], user_addr) != NULL) {
+			if (g_strrstr (priv->address_strings[ii], backend_address) != NULL) {
 				default_address = priv->address_strings[ii];
 				break;
 			}
 		}
 	}
 
-	if (default_address) {
+	if (default_address != NULL) {
 		if (!priv->comp || !e_cal_component_has_organizer (priv->comp)) {
 			GtkEntry *entry = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->organizer)));
 
 			g_signal_handlers_block_by_func (entry, organizer_changed_cb, tpage);
 			gtk_entry_set_text (entry, default_address);
-			gtk_widget_set_sensitive (priv->organizer, !subscribed_cal);
 			g_signal_handlers_unblock_by_func (entry, organizer_changed_cb, tpage);
 		}
 	} else
@@ -2143,12 +2132,18 @@ task_page_construct (TaskPage *tpage,
                      EMeetingStore *meeting_store,
                      ECalClient *client)
 {
+	EShell *shell;
+	CompEditor *editor;
+	ESourceRegistry *registry;
 	TaskPagePrivate *priv;
 	GtkComboBox *combo_box;
 	GtkListStore *list_store;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	gint ii;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
+	shell = comp_editor_get_shell (editor);
 
 	priv = tpage->priv;
 	priv->meeting_store = g_object_ref (meeting_store);
@@ -2174,8 +2169,9 @@ task_page_construct (TaskPage *tpage,
 	model = gtk_combo_box_get_model (combo_box);
 	list_store = GTK_LIST_STORE (model);
 
-	priv->address_strings = itip_get_user_identities ();
-	priv->fallback_address = itip_get_fallback_identity ();
+	registry = e_shell_get_registry (shell);
+	priv->address_strings = itip_get_user_identities (registry);
+	priv->fallback_address = itip_get_fallback_identity (registry);
 
 	/* FIXME Could we just use a GtkComboBoxText? */
 	for (ii = 0; priv->address_strings[ii] != NULL; ii++) {

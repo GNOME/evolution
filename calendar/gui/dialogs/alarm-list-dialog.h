@@ -32,14 +32,17 @@
 
 #include <libecal/e-cal-client.h>
 #include <libecal/e-cal-component.h>
+#include <libedataserver/e-source-registry.h>
 #include "../e-alarm-list.h"
 
 G_BEGIN_DECLS
 
 gboolean	alarm_list_dialog_run		(GtkWidget *parent,
+						 ESourceRegistry *registry,
 						 ECalClient *cal_client,
 						 EAlarmList *list_store);
-GtkWidget *	alarm_list_dialog_peek		(ECalClient *cal_client,
+GtkWidget *	alarm_list_dialog_peek		(ESourceRegistry *registry,
+						 ECalClient *cal_client,
 						 EAlarmList *list_store);
 void		alarm_list_dialog_set_client	(GtkWidget *dlg_box,
 						 ECalClient *cal_client);

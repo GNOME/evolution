@@ -27,10 +27,11 @@
 #define SELECT_SOURCE_DIALOG_H
 
 #include <gtk/gtk.h>
-#include <libedataserver/e-source.h>
 #include <libecal/e-cal-client.h>
+#include <libedataserver/e-source-registry.h>
 
 ESource *	select_source_dialog		(GtkWindow *parent,
+						 ESourceRegistry *registry,
 						 ECalClientSourceType type,
 						 ESource *except_source);
 

@@ -274,11 +274,14 @@ ecmc_set_value_at (ETableModel *etm,
 	CalObjModType mod = CALOBJ_MOD_ALL;
 	ECalComponent *comp;
 	ECalModelCalendar *model = (ECalModelCalendar *) etm;
+	ESourceRegistry *registry;
 	GError *error = NULL;
 
 	g_return_if_fail (E_IS_CAL_MODEL_CALENDAR (model));
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST);
 	g_return_if_fail (row >= 0 && row < e_table_model_row_count (etm));
+
+	registry = e_cal_model_get_registry (E_CAL_MODEL (model));
 
 	if (col < E_CAL_MODEL_FIELD_LAST) {
 		E_TABLE_MODEL_CLASS (e_cal_model_calendar_parent_class)->set_value_at (etm, col, row, value);
@@ -318,7 +321,7 @@ ecmc_set_value_at (ETableModel *etm,
 	if (e_cal_client_modify_object_sync (comp_data->client, comp_data->icalcomp, mod, NULL, &error)) {
 		gboolean strip_alarms = TRUE;
 
-		if (itip_organizer_is_user (comp, comp_data->client) &&
+		if (itip_organizer_is_user (registry, comp, comp_data->client) &&
 		    send_component_dialog (NULL, comp_data->client, comp, FALSE, &strip_alarms, NULL)) {
 			ECalComponent *send_comp = NULL;
 
@@ -339,7 +342,7 @@ ecmc_set_value_at (ETableModel *etm,
 			}
 
 			itip_send_comp (
-				E_CAL_COMPONENT_METHOD_REQUEST,
+				registry, E_CAL_COMPONENT_METHOD_REQUEST,
 				send_comp ? send_comp : comp, comp_data->client,
 				NULL, NULL, NULL, strip_alarms, FALSE);
 
@@ -522,7 +525,12 @@ ecmc_fill_component_from_model (ECalModel *model,
  * e_cal_model_calendar_new
  */
 ECalModel *
-e_cal_model_calendar_new (void)
+e_cal_model_calendar_new (ESourceRegistry *registry)
 {
-	return g_object_new (E_TYPE_CAL_MODEL_CALENDAR, NULL);
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+
+	return g_object_new (
+		E_TYPE_CAL_MODEL_CALENDAR,
+		"registry", registry, NULL);
 }
+

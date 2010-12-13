@@ -250,7 +250,12 @@ ecmm_fill_component_from_model (ECalModel *model,
  * e_cal_model_memos_new
  */
 ECalModel *
-e_cal_model_memos_new (void)
+e_cal_model_memos_new (ESourceRegistry *registry)
 {
-	return g_object_new (E_TYPE_CAL_MODEL_MEMOS, NULL);
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+
+	return g_object_new (
+		E_TYPE_CAL_MODEL_MEMOS,
+		"registry", registry, NULL);
 }
+

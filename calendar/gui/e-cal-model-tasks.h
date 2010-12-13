@@ -79,7 +79,7 @@ struct _ECalModelTasksClass {
 };
 
 GType		e_cal_model_tasks_get_type	(void);
-ECalModel *	e_cal_model_tasks_new		(void);
+ECalModel *	e_cal_model_tasks_new		(ESourceRegistry *registry);
 gboolean	e_cal_model_tasks_get_highlight_due_today
 						(ECalModelTasks *model);
 void		e_cal_model_tasks_set_highlight_due_today

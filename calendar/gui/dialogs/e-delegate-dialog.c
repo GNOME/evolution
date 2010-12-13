@@ -101,6 +101,7 @@ e_delegate_dialog_init (EDelegateDialog *edd)
 
 EDelegateDialog *
 e_delegate_dialog_construct (EDelegateDialog *edd,
+                             ESourceRegistry *registry,
                              const gchar *name,
                              const gchar *address)
 {
@@ -111,6 +112,7 @@ e_delegate_dialog_construct (EDelegateDialog *edd,
 	ENameSelectorDialog *name_selector_dialog;
 
 	g_return_val_if_fail (E_IS_DELEGATE_DIALOG (edd), NULL);
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
 
 	priv = edd->priv;
 
@@ -124,7 +126,7 @@ e_delegate_dialog_construct (EDelegateDialog *edd,
 		goto error;
 	}
 
-	priv->name_selector = e_name_selector_new ();
+	priv->name_selector = e_name_selector_new (registry);
 	e_name_selector_load_books (priv->name_selector);
 	name_selector_model = e_name_selector_peek_model (priv->name_selector);
 	e_name_selector_model_add_section (name_selector_model, section_name, section_name, NULL);
@@ -211,15 +213,18 @@ addressbook_response_cb (GtkWidget *widget,
  * editor could not be created.
  **/
 EDelegateDialog *
-e_delegate_dialog_new (const gchar *name,
+e_delegate_dialog_new (ESourceRegistry *registry,
+                       const gchar *name,
                        const gchar *address)
 {
 	EDelegateDialog *edd;
 
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+
 	edd = g_object_new (E_TYPE_DELEGATE_DIALOG, NULL);
 
 	return e_delegate_dialog_construct (
-		E_DELEGATE_DIALOG (edd), name, address);
+		E_DELEGATE_DIALOG (edd), registry, name, address);
 }
 
 gchar *

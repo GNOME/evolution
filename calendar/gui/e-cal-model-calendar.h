@@ -72,7 +72,7 @@ struct _ECalModelCalendarClass {
 };
 
 GType		e_cal_model_calendar_get_type	(void);
-ECalModel *	e_cal_model_calendar_new	(void);
+ECalModel *	e_cal_model_calendar_new	(ESourceRegistry *registry);
 
 G_END_DECLS
 

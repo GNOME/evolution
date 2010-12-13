@@ -75,6 +75,7 @@
 
 /* Private part of the GnomeCalendar structure */
 struct _GnomeCalendarPrivate {
+	ESourceRegistry *registry;
 	ECalModel *model;
 
 	/*
@@ -141,6 +142,7 @@ enum {
 	PROP_0,
 	PROP_DATE_NAVIGATOR,
 	PROP_MEMO_TABLE,
+	PROP_REGISTRY,
 	PROP_TASK_TABLE,
 	PROP_VIEW
 };
@@ -331,6 +333,16 @@ gnome_calendar_update_time_range (GnomeCalendar *gcal)
 }
 
 static void
+gnome_calendar_set_registry (GnomeCalendar *gcal,
+                             ESourceRegistry *registry)
+{
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
+	g_return_if_fail (gcal->priv->registry == NULL);
+
+	gcal->priv->registry = g_object_ref (registry);
+}
+
+static void
 gnome_calendar_set_property (GObject *object,
                              guint property_id,
                              const GValue *value,
@@ -345,6 +357,12 @@ gnome_calendar_set_property (GObject *object,
 
 		case PROP_MEMO_TABLE:
 			gnome_calendar_set_memo_table (
+				GNOME_CALENDAR (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_REGISTRY:
+			gnome_calendar_set_registry (
 				GNOME_CALENDAR (object),
 				g_value_get_object (value));
 			return;
@@ -384,6 +402,12 @@ gnome_calendar_get_property (GObject *object,
 				GNOME_CALENDAR (object)));
 			return;
 
+		case PROP_REGISTRY:
+			g_value_set_object (
+				value, gnome_calendar_get_registry (
+				GNOME_CALENDAR (object)));
+			return;
+
 		case PROP_TASK_TABLE:
 			g_value_set_object (
 				value, gnome_calendar_get_task_table (
@@ -405,11 +429,14 @@ gnome_calendar_constructed (GObject *object)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (object);
 	ECalendarView *calendar_view;
+	ESourceRegistry *registry;
 	ECalModel *model;
 	GtkAdjustment *adjustment;
 
+	registry = gnome_calendar_get_registry (gcal);
+
 	/* Create the model for the views. */
-	model = e_cal_model_calendar_new ();
+	model = e_cal_model_calendar_new (registry);
 	e_cal_model_set_flags (model, E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES);
 	gcal->priv->model = model;
 
@@ -539,6 +566,18 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			NULL,
 			E_TYPE_MEMO_TABLE,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_REGISTRY,
+		g_param_spec_object (
+			"registry",
+			"Registry",
+			"Data source registry",
+			E_TYPE_SOURCE_REGISTRY,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
@@ -1487,6 +1526,11 @@ gnome_calendar_do_dispose (GObject *object)
 
 	priv = GNOME_CALENDAR_GET_PRIVATE (object);
 
+	if (priv->registry != NULL) {
+		g_object_unref (priv->registry);
+		priv->registry = NULL;
+	}
+
 	if (priv->model != NULL) {
 		g_signal_handlers_disconnect_by_func (
 			priv->model, view_progress_cb, object);
@@ -1900,9 +1944,21 @@ gnome_calendar_display_view (GnomeCalendar *gcal,
 }
 
 GtkWidget *
-gnome_calendar_new (void)
+gnome_calendar_new (ESourceRegistry *registry)
 {
-	return g_object_new (GNOME_TYPE_CALENDAR, NULL);
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+
+	return g_object_new (
+		GNOME_TYPE_CALENDAR,
+		"registry", registry, NULL);
+}
+
+ESourceRegistry *
+gnome_calendar_get_registry (GnomeCalendar *gcal)
+{
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), NULL);
+
+	return gcal->priv->registry;
 }
 
 ECalendar *

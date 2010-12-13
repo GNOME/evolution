@@ -24,7 +24,7 @@
 #include <string.h>
 #include <libecal/e-cal-client.h>
 #include <libecal/e-cal-component.h>
-#include <libedataserver/e-account-list.h>
+#include <libedataserver/e-source-registry.h>
 
 G_BEGIN_DECLS
 
@@ -49,20 +49,30 @@ struct CalMimeAttach {
 	guint length;
 };
 
-gchar **	itip_get_user_identities	(void);
-gchar *		itip_get_fallback_identity	(void);
-gboolean	itip_address_is_user		(const gchar *address);
-gboolean	itip_organizer_is_user		(ECalComponent *comp,
+gboolean	itip_get_default_name_and_address
+						(ESourceRegistry *registry,
+						 gchar **name,
+						 gchar **address);
+gchar **	itip_get_user_identities	(ESourceRegistry *registry);
+gchar *		itip_get_fallback_identity	(ESourceRegistry *registry);
+gboolean	itip_address_is_user		(ESourceRegistry *registry,
+						 const gchar *address);
+gboolean	itip_organizer_is_user		(ESourceRegistry *registry,
+						 ECalComponent *comp,
 						 ECalClient *cal_client);
-gboolean	itip_organizer_is_user_ex	(ECalComponent *comp,
+gboolean	itip_organizer_is_user_ex	(ESourceRegistry *registry,
+						 ECalComponent *comp,
 						 ECalClient *cal_client,
 						 gboolean skip_cap_test);
-gboolean	itip_sentby_is_user		(ECalComponent *comp,
+gboolean	itip_sentby_is_user		(ESourceRegistry *registry,
+						 ECalComponent *comp,
 						 ECalClient *cal_client);
 const gchar *	itip_strip_mailto		(const gchar *address);
-gchar *		itip_get_comp_attendee		(ECalComponent *comp,
+gchar *		itip_get_comp_attendee		(ESourceRegistry *registry,
+						 ECalComponent *comp,
 						 ECalClient *cal_client);
-gboolean	itip_send_comp			(ECalComponentItipMethod method,
+gboolean	itip_send_comp			(ESourceRegistry *registry,
+						 ECalComponentItipMethod method,
 						 ECalComponent *comp,
 						 ECalClient *cal_client,
 						 icalcomponent *zones,
@@ -79,7 +89,8 @@ gboolean	itip_publish_begin		(ECalComponent *pub_comp,
 						 ECalClient *cal_client,
 						 gboolean cloned,
 						 ECalComponent **clone);
-gboolean	reply_to_calendar_comp		(ECalComponentItipMethod method,
+gboolean	reply_to_calendar_comp		(ESourceRegistry *registry,
+						 ECalComponentItipMethod method,
 						 ECalComponent *send_comp,
 						 ECalClient *cal_client,
 						 gboolean reply_all,

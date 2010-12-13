@@ -24,7 +24,6 @@ ecalendarinclude_HEADERS =		\
 	comp-editor.h			\
 	alarm-dialog.h			\
 	alarm-list-dialog.h		\
-	calendar-setup.h		\
 	cancel-comp.h			\
 	changed-comp.h			\
 	comp-editor-util.h		\
@@ -59,8 +58,6 @@ libcal_dialogs_la_SOURCES =		\
 	alarm-dialog.h			\
 	alarm-list-dialog.c		\
 	alarm-list-dialog.h		\
-	calendar-setup.c		\
-	calendar-setup.h		\
 	cancel-comp.c			\
 	cancel-comp.h			\
 	changed-comp.c			\
