@@ -87,8 +87,8 @@ md_translate_position (GdkWindow *w, double ex, double ey, gint *x, gint *y, Gtk
 	*y = (gint)ey;
 
 	while (w && w != gtk_widget_get_window (window)) {
-		gint cx, cy, cw, ch, cd;
-		gdk_window_get_geometry (w, &cx, &cy, &cw, &ch, &cd);
+		gint cx, cy, cw, ch;
+		gdk_window_get_geometry (w, &cx, &cy, &cw, &ch);
                 *x += cx;
                 *y += cy;
                 w = gdk_window_get_parent (w);
