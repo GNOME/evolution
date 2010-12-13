@@ -1595,7 +1595,7 @@ efh_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, EMFormatHTML *efh)
 }
 
 /* ********************************************************************** */
-#include "em-inline-filter.h"
+#include "em-format/em-inline-filter.h"
 
 /* FIXME: This is duplicated in em-format-html-display, should be exported or in security module */
 static const struct {

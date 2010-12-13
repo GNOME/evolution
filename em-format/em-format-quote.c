@@ -30,6 +30,7 @@
 #include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
 
+#include "em-inline-filter.h"
 #include "em-stripsig-filter.h"
 #include "em-format-quote.h"
 
@@ -529,6 +530,52 @@ emfq_format_message (EMFormat *emf,
 			cancellable, NULL);
 }
 
+/* Decodes inline encoded parts of 'part'. The returned pointer, if not NULL, should
+   be unreffed with g_object_unref().
+*/
+static CamelMimePart *
+decode_inline_parts (CamelMimePart *part, GCancellable *cancellable)
+{
+	CamelMultipart *mp;
+	CamelStream *null;
+	CamelStream *filtered_stream;
+	EMInlineFilter *inline_filter;
+
+	g_return_val_if_fail (part != NULL, NULL);
+
+	null = camel_stream_null_new ();
+	filtered_stream = camel_stream_filter_new (null);
+	g_object_unref (null);
+
+	inline_filter = em_inline_filter_new (camel_mime_part_get_encoding (part), camel_mime_part_get_content_type (part));
+	camel_stream_filter_add (
+		CAMEL_STREAM_FILTER (filtered_stream),
+		CAMEL_MIME_FILTER (inline_filter));
+	camel_data_wrapper_decode_to_stream_sync (
+		camel_medium_get_content (CAMEL_MEDIUM (part)), (CamelStream *)filtered_stream, cancellable, NULL);
+	camel_stream_close ((CamelStream *)filtered_stream, cancellable, NULL);
+	g_object_unref (filtered_stream);
+
+	if (!em_inline_filter_found_any (inline_filter)) {
+		g_object_unref (inline_filter);
+		return NULL;
+	}
+
+	mp = em_inline_filter_get_multipart (inline_filter);
+
+	g_object_unref (inline_filter);
+
+	if (mp) {
+		part = camel_mime_part_new ();
+		camel_medium_set_content (CAMEL_MEDIUM (part), CAMEL_DATA_WRAPPER (mp));
+		g_object_unref (mp);
+	} else {
+		g_object_ref (part);
+	}
+
+	return part;
+}
+
 static void
 emfq_text_plain (EMFormat *emf,
                  CamelStream *stream,
@@ -541,12 +588,25 @@ emfq_text_plain (EMFormat *emf,
 	CamelStream *filtered_stream;
 	CamelMimeFilter *html_filter;
 	CamelMimeFilter *sig_strip;
+	CamelMimePart *mp;
 	CamelContentType *type;
 	const gchar *format;
 	guint32 rgb = 0x737373, flags;
 
 	if (!part)
 		return;
+
+	mp = decode_inline_parts (part, cancellable);
+	if (mp) {
+		if (CAMEL_IS_MULTIPART (camel_medium_get_content (CAMEL_MEDIUM (mp)))) {
+			em_format_part (emf, stream, mp, cancellable);
+			g_object_unref (mp);
+
+			return;
+		}
+
+		g_object_unref (mp);
+	}
 
 	flags = emfq->text_html_flags;
 
