@@ -175,7 +175,14 @@ dnl	-DE_CAL_DISABLE_DEPRECATED
 AM_CPPFLAGS="$WARNING_FLAGS -fno-strict-aliasing"
 AC_SUBST(AM_CPPFLAGS)
 
-LDFLAGS="$LDFLAGS -Wl,--no-undefined"
+case "$host" in
+*openbsd*|*freebsd*)
+	dnl Do not set '-Wl,--no-undefined' on freebsd/openbsd
+	;;
+*)
+	LDFLAGS="$LDFLAGS -Wl,--no-undefined"
+	;;
+esac
 
 AC_CANONICAL_HOST
 AC_DEFINE_UNQUOTED(VERSION_COMMENT, "", [Define if you want a comment appended to the version number])
