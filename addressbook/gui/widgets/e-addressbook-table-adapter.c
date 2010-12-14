@@ -147,7 +147,7 @@ contact_modified_cb (EBook* book, const GError *error,
 		     gpointer user_data)
 {
 	if (error)
-		eab_error_dialog (_("Error modifying card"), error);
+		eab_error_dialog (NULL, _("Error modifying card"), error);
 }
 
 static void

@@ -169,13 +169,11 @@ task_shell_sidebar_client_opened_cb (ETaskShellSidebar *task_shell_sidebar,
                                      ECal *client)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
 	const gchar *message;
 
 	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	if (g_error_matches (error, E_CALENDAR_ERROR,
 		E_CALENDAR_STATUS_AUTHENTICATION_FAILED) ||
@@ -196,16 +194,14 @@ task_shell_sidebar_client_opened_cb (ETaskShellSidebar *task_shell_sidebar,
 			return;
 
 		case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
-			e_alert_run_dialog_for_args (
-				GTK_WINDOW (shell_window),
+			e_alert_submit (get_alert_sink (shell_view),
 				"calendar:prompt-no-contents-offline-tasks",
 				NULL);
 			/* fall through */
 
 		default:
 			if (error->code != E_CALENDAR_STATUS_REPOSITORY_OFFLINE) {
-				e_alert_run_dialog_for_args (
-					GTK_WINDOW (shell_window),
+				e_alert_submit (get_alert_sink (shell_view),
 					"calendar:failed-open-tasks",
 					error->message, NULL);
 			}
@@ -234,7 +230,6 @@ task_shell_sidebar_default_loaded_cb (ESource *source,
                                       EShellSidebar *shell_sidebar)
 {
 	ETaskShellSidebarPrivate *priv;
-	EShellWindow *shell_window;
 	EShellView *shell_view;
 	ECal *client;
 	GError *error = NULL;
@@ -242,7 +237,6 @@ task_shell_sidebar_default_loaded_cb (ESource *source,
 	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
 
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	client = e_load_cal_source_finish (source, result, &error);
 
@@ -251,8 +245,7 @@ task_shell_sidebar_default_loaded_cb (ESource *source,
 		goto exit;
 
 	} else if (error != NULL) {
-		e_alert_run_dialog_for_args (
-			GTK_WINDOW (shell_window),
+		e_alert_submit (get_alert_sink (shell_view),
 			"calendar:failed-open-tasks",
 			error->message, NULL);
 		g_error_free (error);

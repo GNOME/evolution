@@ -47,19 +47,25 @@
 #include <camel/camel.h>
 
 void
-eab_error_dialog (const gchar *msg, const GError *error)
+eab_error_dialog (EAlertSink *alert_sink, const gchar *msg, const GError *error)
 {
-	if (error && error->message)
-		e_alert_run_dialog_for_args (e_shell_get_active_window (NULL),
-					     "addressbook:generic-error",
-					     msg, error->message, NULL);
+	if (error && error->message) {
+		if (alert_sink)
+			e_alert_submit (alert_sink,
+					"addressbook:generic-error",
+					msg, error->message, NULL);
+		else
+			e_alert_run_dialog_for_args (
+					e_shell_get_active_window (NULL),
+					"addressbook:generic-error",
+					msg, error->message, NULL);
+	}
 }
 
 void
-eab_load_error_dialog (GtkWidget *parent, ESource *source, const GError *error)
+eab_load_error_dialog (GtkWidget *parent, EAlertSink *alert_sink, ESource *source, const GError *error)
 {
 	gchar *label_string, *label = NULL, *uri;
-	GtkWidget *dialog;
 	gboolean can_detail_error = TRUE;
 
 	g_return_if_fail (source != NULL);
@@ -130,16 +136,22 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, const GError *error)
 		}
 	}
 
-	dialog  = e_alert_dialog_new_for_args ((GtkWindow *) parent, "addressbook:load-error", label_string, NULL);
-	g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), NULL);
+	if (alert_sink) {
+		e_alert_submit (alert_sink, "addressbook:load-error", label_string, NULL);
+	} else {
+		GtkWidget *dialog;
 
-	gtk_widget_show (dialog);
+		dialog  = e_alert_dialog_new_for_args ((GtkWindow *) parent, "addressbook:load-error", label_string, NULL);
+		g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), NULL);
+		gtk_widget_show (dialog);
+	}
+
 	g_free (label);
 	g_free (uri);
 }
 
 void
-eab_search_result_dialog      (GtkWidget *parent,
+eab_search_result_dialog      (EAlertSink *alert_sink,
 			       EBookViewStatus status,
 			       const gchar *error_msg)
 {
@@ -181,7 +193,7 @@ eab_search_result_dialog      (GtkWidget *parent,
 		g_return_if_reached ();
 	}
 
-	e_alert_run_dialog_for_args ((GtkWindow *) parent, "addressbook:search-error", str, NULL);
+	e_alert_submit (alert_sink, "addressbook:search-error", str, NULL);
 
 	g_free (str);
 }
@@ -318,6 +330,7 @@ struct ContactCopyProcess_ {
 	EBook *source;
 	EBook *destination;
 	ContactCopyDone done_cb;
+	EAlertSink *alert_sink;
 };
 
 static void
@@ -365,7 +378,7 @@ contact_added_cb (EBook* book, const GError *error, const gchar *id, gpointer us
 
 	if (error && !g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED)) {
 		process->book_status = FALSE;
-		eab_error_dialog (_("Error adding contact"), error);
+		eab_error_dialog (process->alert_sink, _("Error adding contact"), error);
 	}
 	else if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED)) {
 		process->book_status = FALSE;
@@ -421,12 +434,13 @@ void
 eab_transfer_contacts (EBook *source_book,
                        GList *contacts /* adopted */,
                        gboolean delete_from_source,
-                       GtkWindow *parent_window)
+                       EAlertSink *alert_sink)
 {
 	ESource *destination;
 	static gchar *last_uid = NULL;
 	ContactCopyProcess *process;
 	gchar *desc;
+	GtkWindow *window = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (alert_sink)));
 
 	g_return_if_fail (E_IS_BOOK (source_book));
 
@@ -450,7 +464,7 @@ eab_transfer_contacts (EBook *source_book,
 
 	destination = eab_select_source (
 		e_book_get_source (source_book),
-		desc, NULL, last_uid, parent_window);
+		desc, NULL, last_uid, window);
 
 	if (!destination)
 		return;
@@ -466,6 +480,7 @@ eab_transfer_contacts (EBook *source_book,
 	process->source = g_object_ref (source_book);
 	process->contacts = contacts;
 	process->destination = NULL;
+	process->alert_sink = alert_sink;
 
 	if (delete_from_source)
 		process->done_cb = delete_contacts;
@@ -473,7 +488,7 @@ eab_transfer_contacts (EBook *source_book,
 		process->done_cb = NULL;
 
 	e_load_book_source_async (
-		destination, parent_window, NULL,
+		destination, window, NULL,
 		(GAsyncReadyCallback) book_loaded_cb, process);
 }
 

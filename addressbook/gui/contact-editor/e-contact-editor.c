@@ -208,7 +208,7 @@ e_contact_editor_contact_added (EABEditor *editor,
 	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (_("Error adding contact"), error);
+	eab_error_dialog (NULL, _("Error adding contact"), error);
 }
 
 static void
@@ -222,7 +222,7 @@ e_contact_editor_contact_modified (EABEditor *editor,
 	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (_("Error modifying contact"), error);
+	eab_error_dialog (NULL, _("Error modifying contact"), error);
 }
 
 static void
@@ -236,7 +236,7 @@ e_contact_editor_contact_deleted (EABEditor *editor,
 	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (_("Error removing contact"), error);
+	eab_error_dialog (NULL, _("Error removing contact"), error);
 }
 
 static void
@@ -2735,7 +2735,7 @@ contact_editor_book_loaded_cb (ESource *source,
 		g_warn_if_fail (book == NULL);
 
 		parent = eab_editor_get_window (EAB_EDITOR (editor));
-		eab_load_error_dialog (GTK_WIDGET (parent), source, error);
+		eab_load_error_dialog (GTK_WIDGET (parent), NULL, source, error);
 
 		source_combo_box = e_builder_get_widget (
 			editor->builder, "source-combo-box-source");

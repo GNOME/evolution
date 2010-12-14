@@ -197,8 +197,15 @@ book_shell_view_loaded_cb (ESource *source,
 		e_addressbook_model_set_book (model, book);
 		e_addressbook_model_force_folder_bar_message (model);
 
-	} else if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-		eab_load_error_dialog (NULL /* XXX */, source, error);
+	} else if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+		EShellView *shell_view;
+		EAlertSink *alert_sink;
+
+		shell_view = e_addressbook_view_get_shell_view (view);
+		alert_sink = E_ALERT_SINK (e_shell_view_get_shell_content (shell_view));
+
+		eab_load_error_dialog (NULL, alert_sink, source, error);
+	}
 
 	if (error != NULL)
 		g_error_free (error);

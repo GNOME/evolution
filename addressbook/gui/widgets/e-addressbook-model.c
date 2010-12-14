@@ -324,7 +324,7 @@ book_view_loaded (EBook *book,
 	EAddressbookModel *model = closure;
 
 	if (error) {
-		eab_error_dialog (_("Error getting book view"), error);
+		eab_error_dialog (NULL, _("Error getting book view"), error);
 		return;
 	}
 
