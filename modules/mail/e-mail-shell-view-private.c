@@ -1413,9 +1413,7 @@ e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
 {
 	EMailShellViewPrivate *priv;
 	EShellWindow *shell_window;
-	GtkWidget *widget, *toolbar;
-	GtkToolItem *tool_item;
-	gint index;
+	GtkWidget *widget;
 
 	g_return_if_fail (mail_shell_view != NULL);
 
@@ -1424,6 +1422,8 @@ e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
 
 	if (!e_shell_view_is_active (E_SHELL_VIEW (mail_shell_view))) {
 		if (priv->send_receive_tool_item) {
+			GtkWidget *toolbar;
+
 			shell_window = e_shell_view_get_shell_window (E_SHELL_VIEW (mail_shell_view));
 
 			toolbar = e_shell_window_get_managed_widget (shell_window, "/main-toolbar");
@@ -1445,29 +1445,36 @@ e_mail_shell_view_update_send_receive_menus (EMailShellView *mail_shell_view)
 	if (widget)
 		gtk_menu_item_set_submenu (GTK_MENU_ITEM (widget), create_send_receive_submenu (mail_shell_view));
 
-	toolbar = e_shell_window_get_managed_widget (shell_window, "/main-toolbar");
-	g_return_if_fail (toolbar != NULL);
+	if (!priv->send_receive_tool_item) {
+		GtkWidget *toolbar;
+		GtkToolItem *tool_item;
+		gint index;
 
-	widget = e_shell_window_get_managed_widget (shell_window, "/main-toolbar/toolbar-actions/mail-send-receiver");
-	g_return_if_fail (widget != NULL);
+		toolbar = e_shell_window_get_managed_widget (shell_window, "/main-toolbar");
+		g_return_if_fail (toolbar != NULL);
 
-	index = gtk_toolbar_get_item_index (GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (widget));
+		widget = e_shell_window_get_managed_widget (shell_window, "/main-toolbar/toolbar-actions/mail-send-receiver");
+		g_return_if_fail (widget != NULL);
 
-	tool_item = gtk_separator_tool_item_new ();
-	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), tool_item, index);
-	gtk_widget_show (GTK_WIDGET (tool_item));
-	priv->send_receive_tool_separator = tool_item;
+		index = gtk_toolbar_get_item_index (GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (widget));
 
-	tool_item = GTK_TOOL_ITEM (e_menu_tool_button_new (_("Send / Receive")));
-	gtk_tool_item_set_is_important (tool_item, TRUE);
-	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), tool_item, index);
-	gtk_widget_show (GTK_WIDGET (tool_item));
-	priv->send_receive_tool_item = tool_item;
+		tool_item = gtk_separator_tool_item_new ();
+		gtk_toolbar_insert (GTK_TOOLBAR (toolbar), tool_item, index);
+		gtk_widget_show (GTK_WIDGET (tool_item));
+		priv->send_receive_tool_separator = tool_item;
 
-	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (tool_item), create_send_receive_submenu (mail_shell_view));
+		tool_item = GTK_TOOL_ITEM (e_menu_tool_button_new (_("Send / Receive")));
+		gtk_tool_item_set_is_important (tool_item, TRUE);
+		gtk_toolbar_insert (GTK_TOOLBAR (toolbar), tool_item, index);
+		gtk_widget_show (GTK_WIDGET (tool_item));
+		priv->send_receive_tool_item = tool_item;
 
-	g_object_bind_property (
-		ACTION (MAIL_SEND_RECEIVE), "sensitive",
-		tool_item, "sensitive",
-		G_BINDING_SYNC_CREATE);
+		g_object_bind_property (
+			ACTION (MAIL_SEND_RECEIVE), "sensitive",
+			tool_item, "sensitive",
+			G_BINDING_SYNC_CREATE);
+	}
+
+	if (priv->send_receive_tool_item)
+		gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (priv->send_receive_tool_item), create_send_receive_submenu (mail_shell_view));
 }
