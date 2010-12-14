@@ -221,7 +221,7 @@ contact_list_editor_book_loaded_cb (ESource *source,
 		GtkWindow *parent;
 
 		parent = eab_editor_get_window (EAB_EDITOR (editor));
-		eab_load_error_dialog (GTK_WIDGET (parent), source, error);
+		eab_load_error_dialog (GTK_WIDGET (parent), NULL, source, error);
 
 		e_source_combo_box_set_active (
 			E_SOURCE_COMBO_BOX (WIDGET (SOURCE_MENU)),
@@ -1157,7 +1157,7 @@ contact_list_editor_contact_added (EABEditor *editor,
 	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (_("Error adding list"), error);
+	eab_error_dialog (NULL, _("Error adding list"), error);
 }
 
 static void
@@ -1171,7 +1171,7 @@ contact_list_editor_contact_modified (EABEditor *editor,
 	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (_("Error modifying list"), error);
+	eab_error_dialog (NULL, _("Error modifying list"), error);
 }
 
 static void
@@ -1185,7 +1185,7 @@ contact_list_editor_contact_deleted (EABEditor *editor,
 	if (g_error_matches (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
 		return;
 
-	eab_error_dialog (_("Error removing list"), error);
+	eab_error_dialog (NULL, _("Error removing list"), error);
 }
 
 static void

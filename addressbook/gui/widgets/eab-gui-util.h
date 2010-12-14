@@ -26,22 +26,25 @@
 
 #include <gtk/gtk.h>
 #include <libebook/e-book.h>
+#include "e-util/e-alert-sink.h"
 
 G_BEGIN_DECLS
 
-void		eab_error_dialog		(const gchar *msg,
+void		eab_error_dialog		(EAlertSink *alert_sink,
+						 const gchar *msg,
 						 const GError *error);
 void		eab_load_error_dialog		(GtkWidget *parent,
+						 EAlertSink *alert_sink,
 						 ESource *source,
 						 const GError *error);
-void		eab_search_result_dialog	(GtkWidget *parent,
+void		eab_search_result_dialog	(EAlertSink *alert_sink,
 						 EBookViewStatus status,
 						 const gchar *error_msg);
 gint		eab_prompt_save_dialog		(GtkWindow *parent);
 void		eab_transfer_contacts		(EBook *source_book,
 						 GList *contacts, /* adopted */
 						 gboolean delete_from_source,
-						 GtkWindow *parent_window);
+						 EAlertSink *alert_sink);
 gchar *		eab_suggest_filename		(GList *contact_list);
 ESource *	eab_select_source		(ESource *except_source,
 						 const gchar *title,

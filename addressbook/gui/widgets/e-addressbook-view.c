@@ -1099,11 +1099,12 @@ search_result (EAddressbookView *view,
 	       const gchar *error_msg)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
+	EAlertSink *alert_sink;
 
 	shell_view = e_addressbook_view_get_shell_view (view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	eab_search_result_dialog (GTK_WIDGET (shell_window), status, error_msg);
+	alert_sink = E_ALERT_SINK (e_shell_view_get_shell_content (shell_view));
+
+	eab_search_result_dialog (alert_sink, status, error_msg);
 }
 
 static void
@@ -1141,18 +1142,17 @@ static void
 backend_died (EAddressbookView *view)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
+	EAlertSink *alert_sink;
 	EAddressbookModel *model;
 	EBook *book;
 
 	shell_view = e_addressbook_view_get_shell_view (view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
+	alert_sink = E_ALERT_SINK (e_shell_view_get_shell_content (shell_view));
 
 	model = e_addressbook_view_get_model (view);
 	book = e_addressbook_model_get_book (model);
 
-	e_alert_run_dialog_for_args (
-		GTK_WINDOW (shell_window),
+	e_alert_submit (alert_sink,
 		"addressbook:backend-died",
 		e_book_get_uri (book), NULL);
 }
@@ -1277,7 +1277,7 @@ delete_contacts_cb (EBook *book, const GError *error, gpointer closure)
 			break;
 		default :
 			/* Unknown error */
-			eab_error_dialog (_("Failed to delete contact"), error);
+			eab_error_dialog (NULL, _("Failed to delete contact"), error);
 			break;
 	}
 }
@@ -1520,10 +1520,12 @@ view_transfer_contacts (EAddressbookView *view,
 {
 	EBook *book;
 	GList *contacts = NULL;
-	GtkWindow *parent;
+	EShellView *shell_view;
+	EAlertSink *alert_sink;
 
 	book = e_addressbook_model_get_book (view->priv->model);
-	parent = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (view)));
+	shell_view = e_addressbook_view_get_shell_view (view);
+	alert_sink = E_ALERT_SINK (e_shell_view_get_shell_content (shell_view));
 
 	if (all) {
 		EBookQuery *query;
@@ -1534,8 +1536,8 @@ view_transfer_contacts (EAddressbookView *view,
 		e_book_query_unref (query);
 
 		if (error) {
-			e_alert_run_dialog_for_args (
-				parent, "addressbook:search-error",
+			e_alert_submit (
+				alert_sink, "addressbook:search-error",
 				error->message, NULL);
 			g_error_free (error);
 			return;
@@ -1544,7 +1546,7 @@ view_transfer_contacts (EAddressbookView *view,
 		contacts = e_addressbook_view_get_selected (view);
 	}
 
-	eab_transfer_contacts (book, contacts, delete_from_source, parent);
+	eab_transfer_contacts (book, contacts, delete_from_source, alert_sink);
 
 	g_object_unref (book);
 }
