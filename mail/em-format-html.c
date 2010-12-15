@@ -2415,7 +2415,13 @@ efh_format_address (EMFormatHTML *efh, GString *out, struct _camel_header_addres
 			if (name && *name) {
 				gchar *real, *mailaddr;
 
-				g_string_append_printf (out, "%s &lt;", name);
+				if (strchr (a->name, ',') || strchr (a->name, ';'))
+					g_string_append_printf (out, "&quot;%s&quot;", name);
+				else
+					g_string_append (out, name);
+
+				g_string_append (out, " &lt;");
+
 				/* rfc2368 for mailto syntax and url encoding extras */
 				if ((real = camel_header_encode_phrase ((guchar *)a->name))) {
 					mailaddr = g_strdup_printf("%s <%s>", real, a->v.addr);
