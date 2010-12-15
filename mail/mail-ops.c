@@ -495,8 +495,12 @@ mail_send_message (struct _send_queue_msg *m,
 		if ((account = e_get_account_by_uid (name))
 		    /* 'old' x-evolution-account stored the name, how silly */
 		    || (account = e_get_account_by_name (name))) {
-			if (account->transport && account->transport->url)
+			if (account->transport && account->transport->url) {
 				transport_url = g_strdup (account->transport->url);
+
+				/* to reprompt password on sending if needed */
+				account->transport->get_password_canceled = FALSE;
+			}
 
 			sent_folder_uri = g_strdup (account->sent_folder_uri);
 		}

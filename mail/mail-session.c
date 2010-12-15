@@ -207,6 +207,9 @@ get_password (CamelSession *session,
 		if (ret == NULL || (flags & CAMEL_SESSION_PASSWORD_REPROMPT)) {
 			gboolean remember;
 
+			g_free (ret);
+			ret = NULL;
+
 			if (url) {
 				if  ((account = mail_config_get_account_by_source_url(url)))
 					config_service = account->source;
@@ -254,6 +257,9 @@ get_password (CamelSession *session,
 					eflags |= E_PASSWORDS_DISABLE_REMEMBER;
 
 				ret = e_passwords_ask_password(title, domain, key, prompt, eflags, &remember, NULL);
+
+				if (!ret)
+					e_passwords_forget_password (domain, key);
 
 				g_free(title);
 
