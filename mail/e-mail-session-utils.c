@@ -650,8 +650,12 @@ e_mail_session_send_to (EMailSession *session,
 	}
 
 	if (account != NULL) {
-		if (account->transport != NULL)
+		if (account->transport != NULL) {
 			transport_uri = g_strdup (account->transport->url);
+
+			/* to reprompt password on sending if needed */
+			account->transport->get_password_canceled = FALSE;
+		}
 		sent_folder_uri = g_strdup (account->sent_folder_uri);
 	}
 
