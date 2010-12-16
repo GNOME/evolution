@@ -3,7 +3,6 @@ ACLOCAL_AMFLAGS=-I m4
 pkgconfigdir = $(libdir)/pkgconfig
 INTERFACE_VERSION=3.0
 
-if ENABLE_GTK3
 %-$(INTERFACE_VERSION).pc: %.pc
 	 cp $< $@
 
@@ -13,13 +12,6 @@ pkgconfig_in_files =					\
 	evolution-plugin-$(INTERFACE_VERSION).pc	\
 	evolution-shell-$(INTERFACE_VERSION).pc
 pkgconfig_DATA = $(pkgconfig_in_files:.pc.in=-$(INTERFACE_VERSION).pc)
-else
-pkgconfig_DATA = 				\
-	evolution-calendar.pc			\
-	evolution-mail.pc			\
-	evolution-plugin.pc			\
-	evolution-shell.pc
-endif
 
 EXTRA_DIST = 			\
 	$(pkgconfig_DATA)	\
@@ -84,14 +76,9 @@ SUBDIRS = 			\
 	sounds			\
 	$(HELP_SUBDIR)
 
-if ENABLE_GTK3
 DISTCLEANFILES = 			\
 	$(builddir)/iconv-detect.h	\
 	$(pkgconfig_in_files)
-else
-DISTCLEANFILES = 			\
-	$(builddir)/iconv-detect.h
-endif
 
 MAINTAINERCLEANFILES =			\
 	$(srcdir)/ABOUT-NLS		\

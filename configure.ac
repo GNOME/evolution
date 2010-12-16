@@ -36,8 +36,10 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 dnl Required Packages
 m4_define([glib_minimum_version], [2.26.0])
+m4_define([gtk_minimum_version], [2.90.4])
 m4_define([eds_minimum_version], [evo_version])
-m4_define([gtkhtml_minimum_version], [3.31.90])
+m4_define([gtkhtml_minimum_version], [3.91.3])
+m4_define([gnome_desktop_minimum_version], [2.91.3])
 m4_define([gnome_icon_theme_minimum_version], [2.30.2.1])
 m4_define([gconf_minimum_version], [2.0.0])		dnl XXX Just a Guess
 m4_define([libsoup_minimum_version], [2.4.0])		dnl XXX Just a Guess
@@ -45,95 +47,21 @@ m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
 m4_define([libpst_minimum_version], [0.6.41])
 m4_define([libnotify_minimum_version], [0.5.1])
+m4_define([unique_minimum_version], [2.90.4])
 
 dnl Optional Packages
-m4_define([nm_minimum_version],[0.7])
+m4_define([clutter_gtk_minimum_version], [0.90])
 m4_define([geoclue_minimum_version], [0.11.1])
 m4_define([gladeui_minimum_version], [3.0.0])
+m4_define([gweather_minimum_version], [2.90.0])
+m4_define([libcanberra_gtk_minimum_version], [0.25])
+m4_define([nm_minimum_version], [0.7])
 
-dnl **********************************
-dnl Gtk-3 compatibility
-dnl **********************************
-AC_ARG_ENABLE([gtk3],
-	AS_HELP_STRING([--enable-gtk3],
-	[Attempt to use gtk+-3]),
-	[enable_gtk3=$enableval],[enable_gtk3=no])
-
-if test "x${enable_gtk3}" = "xyes"; then
-	LIBEDATASERVERUI="libedataserverui-3.0"
-	GTK="gtk+-3.0"
-	gtk_minimum_version="2.90.4"
-
-	GAIL="gail-3.0"
-	gail_minimum_version="2.90.4"
-
-	UNIQUE="unique-3.0"
-	unique_minimum_version="2.90"
-
-	GNOME_DESKTOP="gnome-desktop-3.0"
-	gnome_desktop_minimum_version="2.90"
-
-	CANBERRA_GTK="libcanberra-gtk3"
-	libcanberra_gtk_minimum_version="0.25"
-
-	CLUTTER_GTK="clutter-gtk-1.0"
-	clutter_gtk_minimum_version="0.90"
-
-	GTKHTML="libgtkhtml-4.0"
-	GTKHTML_EDITOR="gtkhtml-editor-4.0"
-
-	GWEATHER="gweather-3.0"
-	gweather_minimum_version="2.90.0"
-
-
-	dnl XXX These versions don't yet exist.  The latest releases
-	dnl     link to gtk+-2.0 so we've bumped the versions to some
-	dnl     bogus value to force some plugins to be disabled.
-	champlain_minimum_version="0.8"
-	gtkimageview_minimum_version="2.0"
-
-	EVOLUTION_SHELL="evolution-shell-3.0"
-else
-	LIBEDATASERVERUI="libedataserverui-1.2"
-
-	GTK="gtk+-2.0"
-	gtk_minimum_version="2.22.0"
-
-	GAIL="gail"
-	gail_minimum_version="1.9.0"
-
-	UNIQUE="unique-1.0"
-	unique_minimum_version="1.1.2"
-
-	GNOME_DESKTOP="gnome-desktop-2.0"
-	gnome_desktop_minimum_version="2.26.0"
-
-	CANBERRA_GTK="libcanberra-gtk"
-	libcanberra_gtk_minimum_version="0"
-
-	CLUTTER_GTK="clutter-gtk-0.10"
-	clutter_gtk_minimum_version="0.10"
-
-	GTKHTML="libgtkhtml-3.15"
-	GTKHTML_EDITOR="gtkhtml-editor-3.14"
-
-	GWEATHER="gweather"
-	gweather_minimum_version="2.25.3"
-
-	champlain_minimum_version="0.4"
-	gtkimageview_minimum_version="1.6"
-
-	EVOLUTION_SHELL="evolution-shell"
-fi
-
-AC_SUBST(GTKHTML_EDITOR)
-AC_SUBST(GTK)
-AC_SUBST(GTKHTML)
-AC_SUBST(UNIQUE)
-AC_SUBST(GNOME_DESKTOP)
-AC_SUBST(LIBEDATASERVERUI)
-AC_SUBST(EVOLUTION_SHELL)
-AM_CONDITIONAL([ENABLE_GTK3], [test "$enable_gtk3" = yes])
+dnl XXX These versions don't yet exist.  The latest releases
+dnl     link to gtk+-2.0 so we've bumped the versions to some
+dnl     bogus value to force some plugins to be disabled.
+m4_define([champlain_minimum_version], [0.8])
+m4_define([gtkimageview_minimum_version], [2.0])
 
 dnl ******************************
 dnl Compiler Warning Flags
@@ -307,14 +235,14 @@ dnl Check for base dependencies early.
 dnl **********************************
 PKG_CHECK_MODULES([GNOME_PLATFORM],
 	[gio-2.0 >= glib_minimum_version
-         cairo-gobject
-	 $GTK >= $gtk_minimum_version
-	 $GAIL >= $gail_minimum_version
+	 cairo-gobject
+	 gtk+-3.0 >= gtk_minimum_version
+	 gail-3.0 >= gtk_minimum_version
+	 unique-3.0 >= unique_minimum_version
 	 gconf-2.0 >= gconf_minimum_version
 	 libxml-2.0 >= libxml_minimum_version
 	 shared-mime-info >= shared_mime_info_minimum_version
-	 $GNOME_DESKTOP >= $gnome_desktop_minimum_version
-	 $UNIQUE >= $unique_minimum_version])
+	 gnome-desktop-3.0 >= gnome_desktop_minimum_version])
 AC_SUBST(GNOME_PLATFORM_CFLAGS)
 AC_SUBST(GNOME_PLATFORM_LIBS)
 
@@ -322,7 +250,7 @@ PKG_CHECK_MODULES([EVOLUTION_DATA_SERVER],
 	[libebook-1.2 >= eds_minimum_version
 	 libecal-1.2 >= eds_minimum_version
 	 libedataserver-1.2 >= eds_minimum_version
-	 $LIBEDATASERVERUI >= eds_minimum_version
+	 libedataserverui-3.0 >= eds_minimum_version
 	 libegroupwise-1.2 >= eds_minimum_version
 	 libebackend-1.2 >= eds_minimum_version])
 
@@ -336,7 +264,7 @@ AC_ARG_ENABLE([canberra],
 	[enable_canberra="$enableval"], [enable_canberra=yes])
 
 if test $enable_canberra = yes; then
-	PKG_CHECK_MODULES([CANBERRA],[$CANBERRA_GTK >= $libcanberra_gtk_minimum_version])
+	PKG_CHECK_MODULES([CANBERRA],[libcanberra-gtk3 >= libcanberra_gtk_minimum_version])
 	AC_DEFINE(HAVE_CANBERRA, 1, [Define if using Canberra and Canberra-GTK for sound])
 fi
 AC_SUBST(CANBERRA_CFLAGS)
@@ -662,7 +590,7 @@ AC_ARG_WITH([clutter],
 AC_MSG_RESULT($with_clutter)
 
 if test "x$with_clutter" = "xyes"; then
-   PKG_CHECK_MODULES(CLUTTER, [mx-1.0 $CLUTTER_GTK >= $clutter_gtk_minimum_version clutter-1.0 >= 1.0.0])
+   PKG_CHECK_MODULES(CLUTTER, [mx-1.0 clutter-gtk-1.0 >= clutter_gtk_minimum_version clutter-1.0 >= 1.0.0])
 
    AC_DEFINE(HAVE_CLUTTER, 1, [Clutter available])
    AM_CONDITIONAL(ENABLE_CLUTTER, true)
@@ -750,7 +678,7 @@ dnl *************************
 dnl GTKHTML check
 dnl XXX Drop the version from the package name?
 dnl *************************
-PKG_CHECK_MODULES([GTKHTML], [$GTKHTML >= gtkhtml_minimum_version])
+PKG_CHECK_MODULES([GTKHTML], [libgtkhtml-4.0 >= gtkhtml_minimum_version])
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
 
@@ -1274,7 +1202,7 @@ dnl (which are dragged in through libedataserverui), as both
 dnl gnutls and mozilla-nss have a header called "pkcs12.h" which is
 dnl included in smime/lib/e-pkcs12.c. It wants the Mozilla NSS one.
 dnl
-EVO_SET_COMPILE_FLAGS(CERT_UI, $LIBEDATASERVERUI)
+EVO_SET_COMPILE_FLAGS(CERT_UI, libedataserverui-3.0)
 CERT_UI_CFLAGS="$MANUAL_NSS_CFLAGS $MOZILLA_NSS_CFLAGS $CERT_UI_CFLAGS"
 CERT_UI_LIBS="$MOZILLA_L_DIR $MANUAL_NSS_LIBS $MOZILLA_NSS_LIBS $CERT_UI_LIBS"
 AC_SUBST(CERT_UI_CFLAGS)
@@ -1283,7 +1211,7 @@ AC_SUBST(CERT_UI_LIBS)
 dnl ************
 dnl E_UTIL Flags
 dnl ************
-EVO_SET_COMPILE_FLAGS(E_UTIL, $LIBEDATASERVERUI camel-provider-1.2 $mozilla_nspr, $MANUAL_NSPR_CFLAGS $MANUAL_NSPR_LIBS)
+EVO_SET_COMPILE_FLAGS(E_UTIL, libedataserverui-3.0 camel-provider-1.2 $mozilla_nspr, $MANUAL_NSPR_CFLAGS $MANUAL_NSPR_LIBS)
 AC_SUBST(E_UTIL_CFLAGS)
 AC_SUBST(E_UTIL_LIBS)
 
@@ -1299,14 +1227,14 @@ AC_SUBST(TZDIALOG_LIBS)
 dnl ***************
 dnl E_WIDGETS Flags
 dnl ***************
-EVO_SET_COMPILE_FLAGS(E_WIDGETS, $LIBEDATASERVERUI $GTKHTML_EDITOR)
+EVO_SET_COMPILE_FLAGS(E_WIDGETS, libedataserverui-3.0 gtkhtml-editor-4.0)
 AC_SUBST(E_WIDGETS_CFLAGS)
 AC_SUBST(E_WIDGETS_LIBS)
 
 dnl ***************
 dnl IMPORTERS Flags
 dnl ***************
-EVO_SET_COMPILE_FLAGS(IMPORTERS, $LIBEDATASERVERUI camel-provider-1.2 libebook-1.2)
+EVO_SET_COMPILE_FLAGS(IMPORTERS, libedataserverui-3.0 camel-provider-1.2 libebook-1.2)
 AC_SUBST(IMPORTERS_CFLAGS)
 AC_SUBST(IMPORTERS_LIBS)
 
@@ -1320,14 +1248,14 @@ AC_SUBST(LIBFILTER_LIBS)
 dnl ***********
 dnl Shell Flags
 dnl ***********
-EVO_SET_COMPILE_FLAGS(SHELL, $GTKHTML $LIBEDATASERVERUI)
+EVO_SET_COMPILE_FLAGS(SHELL, libgtkhtml-4.0 libedataserverui-3.0)
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
 
 dnl *****************
 dnl Addressbook Flags
 dnl *****************
-EVOLUTION_ADDRESSBOOK_DEPS="$GTKHTML libebook-1.2 $LIBEDATASERVERUI camel-1.2 $GTKHTML_EDITOR"
+EVOLUTION_ADDRESSBOOK_DEPS="libgtkhtml-4.0 libebook-1.2 libedataserverui-3.0 camel-1.2 gtkhtml-editor-4.0"
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_LIBS)
@@ -1362,7 +1290,7 @@ EVO_SET_COMPILE_FLAGS(GDATA, libgdata >= 0.4.0)
 AC_SUBST(GDATA_CFLAGS)
 AC_SUBST(GDATA_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, $GTKHTML libebook-1.2 libecal-1.2 $LIBEDATASERVERUI libebackend-1.2 $libnotify $GTKHTML_EDITOR)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgtkhtml-4.0 libebook-1.2 libecal-1.2 libedataserverui-3.0 libebackend-1.2 $libnotify gtkhtml-editor-4.0)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1383,7 +1311,7 @@ AC_MSG_RESULT([$ac_cv_have_iuth])
 dnl **********
 dnl Mail Flags
 dnl **********
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-1.2 $GTKHTML $GTKHTML_EDITOR $mozilla_nss libebook-1.2 $LIBEDATASERVERUI)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-1.2 libgtkhtml-4.0 gtkhtml-editor-4.0 $mozilla_nss libebook-1.2 libedataserverui-3.0)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
@@ -1397,9 +1325,9 @@ dnl *****************
 dnl EggSMClient Flags
 dnl *****************
 if test "x$os_win32" = "xyes"; then
-	EVO_SET_COMPILE_FLAGS(EGG_SMCLIENT, $GTK)
+	EVO_SET_COMPILE_FLAGS(EGG_SMCLIENT, gtk+-3.0)
 else
-	EVO_SET_COMPILE_FLAGS(EGG_SMCLIENT, $GTK,, -lSM -lICE)
+	EVO_SET_COMPILE_FLAGS(EGG_SMCLIENT, gtk+-3.0,, -lSM -lICE)
 fi
 AC_SUBST(EGG_SMCLIENT_CFLAGS)
 AC_SUBST(EGG_SMCLIENT_LIBS)
@@ -1542,7 +1470,7 @@ AC_ARG_ENABLE([weather],
 	[enable_weather="$enableval"],[enable_weather=yes])
 
 if test "x$enable_weather" = "xyes"; then
-	PKG_CHECK_MODULES([LIBGWEATHER], $GWEATHER >= $gweather_minimum_version,
+	PKG_CHECK_MODULES([GWEATHER], gweather-3.0 >= gweather_minimum_version,
 	have_weather="yes", have_weather="no")
 	AC_SUBST(GWEATHER_CFLAGS)
 	AC_SUBST(GWEATHER_LIBS)
@@ -1550,7 +1478,7 @@ if test "x$enable_weather" = "xyes"; then
 	if test "x$have_weather" = "xyes"; then
 		plugins_base="$plugins_base calendar-weather"
 	else
-		AC_MSG_ERROR([$GWEATHER >= $gweather_minimum_version is required for the calendar-weather plugin.  Use --disable-weather to exclude the plugin.])
+		AC_MSG_ERROR([gweather-3.0 >= gweather_minimum_version is required for the calendar-weather plugin.  Use --disable-weather to exclude the plugin.])
 	fi
 fi
 
@@ -1566,15 +1494,15 @@ if test "x$enable_plugins" = "xexperimental"; then
 		[enable_contacts_map="$enableval"], [enable_contacts_map=yes])
 
 	if test "x$enable_contacts_map" = "xyes"; then
-		PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.5 >= $champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
+		PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.5 >= champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
 		if test "x$have_champlain" = "xno"; then
-			PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.4 >= $champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
+			PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.4 >= champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
 		fi
 		AC_SUBST(CHAMPLAIN_CFLAGS)
 		AC_SUBST(CHAMPLAIN_LIBS)
 
 		if test "x$have_champlain" = "xno"; then
-			AC_MSG_ERROR([champlain-gtk >= $champlain_minimum_version is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
+			AC_MSG_ERROR([champlain-gtk >= champlain_minimum_version is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
 		fi
 
 		PKG_CHECK_MODULES([GEOCLUE], [geoclue >= geoclue_minimum_version], [have_geoclue=yes], [have_geoclue=no])
@@ -1585,10 +1513,10 @@ if test "x$enable_plugins" = "xexperimental"; then
 			AC_MSG_ERROR([geoclue is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
 		fi
 
-		PKG_CHECK_MODULES( [CLUTTER_GTK], [$CLUTTER_GTK >= $clutter_gtk_minimum_version], [have_clutter_gtk="yes"], [have_clutter_gtk="no"] )
+		PKG_CHECK_MODULES([CLUTTER_GTK], [clutter-gtk-1.0 >= clutter_gtk_minimum_version], [have_clutter_gtk="yes"], [have_clutter_gtk="no"] )
 
 		if test "x$have_clutter_gtk" = "xno"; then
-			AC_MSG_ERROR([$CLUTTER_GTK is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
+			AC_MSG_ERROR([clutter-gtk-1.0 is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
 		fi
 
 		plugins_standard="$plugins_standard contacts-map"
@@ -1604,14 +1532,14 @@ AC_ARG_ENABLE([image-inline],
 	[enable_image_inline="$enableval"], [enable_image_inline=yes])
 
 if test "x$enable_image_inline" = "xyes"; then
-	PKG_CHECK_MODULES(GTKIMAGEVIEW, gtkimageview >= $gtkimageview_minimum_version, have_imageview=yes, have_imageview=no)
+	PKG_CHECK_MODULES(GTKIMAGEVIEW, gtkimageview >= gtkimageview_minimum_version, have_imageview=yes, have_imageview=no)
 	AC_SUBST(GTKIMAGEVIEW_CFLAGS)
 	AC_SUBST(GTKIMAGEVIEW_LIBS)
 
 	if test "x$have_imageview" = "xyes"; then
 		plugins_standard="$plugins_standard image-inline"
 	else
-		AC_MSG_ERROR([gtkimageview >= $gtkimageview_minimum_version is required for the image-inline plugin.  Use --disable-image-inline to exclude the plugin.])
+		AC_MSG_ERROR([gtkimageview >= gtkimageview_minimum_version is required for the image-inline plugin.  Use --disable-image-inline to exclude the plugin.])
 	fi
 fi
 
@@ -1891,7 +1819,6 @@ echo "
 fi
 
 echo "
-	GTK+ package:		$GTK
 	LDAP support:		$msg_ldap
 	Clutter support:	$with_clutter
 	NetworkManager:		$enable_nm
