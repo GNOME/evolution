@@ -34,8 +34,6 @@
 #include "config-data.h"
 #include "common/authentication.h"
 
-#define d(x)
-
 #define ALARM_NOTIFY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), TYPE_ALARM_NOTIFY, AlarmNotifyPrivate))
@@ -125,15 +123,14 @@ alarm_notify_list_changed_cb (ESourceList *source_list,
 		for (q = sources; q != NULL; q = q->next) {
 			ESource *source = E_SOURCE (q->data);
 			gchar *uri;
-			const gchar *completion = e_source_get_property (source, "alarm");
+			const gchar *alarm = e_source_get_property (source, "alarm");
 
-			if (completion  && (!g_ascii_strcasecmp (completion, "false") ||
-						!g_ascii_strcasecmp (completion, "never")))
+			if (alarm && (!g_ascii_strcasecmp (alarm, "false") || !g_ascii_strcasecmp (alarm, "never")))
 				continue;
 
 			uri = e_source_get_uri (source);
 			if (!g_hash_table_lookup (an->priv->uri_client_hash[source_type], uri)) {
-				d (printf("%s:%d (list_changed_cb) - Adding Calendar %s\n", __FILE__, __LINE__, uri));
+				debug (("Adding Calendar %s", uri));
 				alarm_notify_add_calendar (an, source_type, source, FALSE);
 			}
 			g_free (uri);
@@ -147,7 +144,7 @@ alarm_notify_list_changed_cb (ESourceList *source_list,
 	g_hash_table_foreach (an->priv->uri_client_hash[source_type], (GHFunc) process_removal_in_hash, &prd);
 
 	for (l = prd.removals; l; l = l->next) {
-		d (printf("%s:%d (list_changed_cb) - Removing Calendar %s\n", __FILE__, __LINE__, (gchar *)l->data));
+		debug (("Removing Calendar %s", (gchar *)l->data));
 		alarm_notify_remove_calendar (an, source_type, l->data);
 	}
 	g_list_free (prd.removals);
@@ -164,7 +161,7 @@ alarm_notify_load_calendars (AlarmNotify *an,
 	GSList *groups, *sources, *p, *q;
 
 	if (!e_cal_get_sources (&source_list, source_type, NULL)) {
-		d (printf("%s:%d (load_calendars) - Cannont get sources\n ", __FILE__, __LINE__));
+		debug (("Cannont get sources"));
 		an->priv->source_lists[source_type] = NULL;
 
 		return;
@@ -178,20 +175,20 @@ alarm_notify_load_calendars (AlarmNotify *an,
 		for (q = sources; q != NULL; q = q->next) {
 			ESource *source = E_SOURCE (q->data);
 			gchar *uri;
-			const gchar *completion = e_source_get_property (source, "alarm");
+			const gchar *alarm = e_source_get_property (source, "alarm");
 
-			if (completion  && (!g_ascii_strcasecmp (completion, "false") ||
-						!g_ascii_strcasecmp (completion, "never")))
+			if (alarm && (!g_ascii_strcasecmp (alarm, "false") || !g_ascii_strcasecmp (alarm, "never")))
 				continue;
 
 			uri = e_source_get_uri (source);
-			d (printf("%s:%d (load_calendars) - Loading Calendar %s \n", __FILE__, __LINE__, uri));
+			debug (("Loading Calendar %s", uri));
 			alarm_notify_add_calendar (an, source_type, source, FALSE);
 			g_free (uri);
 
 		}
 	}
 
+	e_source_list_sync (source_list, NULL);
 	g_signal_connect_object (
 		source_list, "changed",
 		G_CALLBACK (alarm_notify_list_changed_cb), an, 0);
@@ -315,7 +312,7 @@ cal_opened_cb (ECal *client, const GError *error, gpointer user_data)
 
 	priv = an->priv;
 
-	d (printf("%s:%d (cal_opened_cb) %s - Calendar Status %d%s%s%s\n", __FILE__, __LINE__, e_cal_get_uri (client), error ? error->code : 0, error ? " (" : "", error ? error->message : "", error ? ")" : ""));
+	debug (("%s - Calendar Status %d%s%s%s", e_cal_get_uri (client), error ? error->code : 0, error ? " (" : "", error ? error->message : "", error ? ")" : ""));
 
 	if (!error)
 		alarm_queue_add_client (client);
@@ -388,7 +385,7 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 	client = e_auth_new_cal_from_source (source, source_type);
 
 	if (client) {
-		d (printf("%s:%d (alarm_notify_add_calendar) %s - Calendar Open Async... %p\n", __FILE__, __LINE__, str_uri, client));
+		debug (("%s - Calendar Open Async... %p", str_uri, client));
 		g_hash_table_insert (priv->uri_client_hash[source_type], g_strdup (str_uri), client);
 		g_signal_connect (G_OBJECT (client), "cal_opened_ex", G_CALLBACK (cal_opened_cb), an);
 		/* to resolve floating DATE-TIME properly */
@@ -411,7 +408,7 @@ alarm_notify_remove_calendar (AlarmNotify *an, ECalSourceType source_type, const
 
 	client = g_hash_table_lookup (priv->uri_client_hash[source_type], str_uri);
 	if (client) {
-		d (printf("%s:%d (alarm_notify_remove_calendar) - Removing Client %p\n", __FILE__, __LINE__, client));
+		debug (("Removing Client %p", client));
 		alarm_queue_remove_client (client, FALSE);
 		g_hash_table_remove (priv->uri_client_hash[source_type], str_uri);
 	}

@@ -31,8 +31,7 @@
 #include <sys/time.h>
 #include <gdk/gdk.h>
 #include "alarm.h"
-
-#define d(x)
+#include "config-data.h"
 
 
 
@@ -89,7 +88,7 @@ alarm_ready_cb (gpointer data)
 
 	now = time (NULL);
 
-	d(g_message ("Alarm callback!"));
+	debug (("Alarm callback!"));
 	while (alarms) {
 		AlarmRecord *notify_id, *ar;
 		AlarmRecord ar_copy;
@@ -99,7 +98,7 @@ alarm_ready_cb (gpointer data)
 		if (ar->trigger > now)
 			break;
 
-		d(g_message ("Process alarm with trigger %lu", ar->trigger));
+		debug (("Process alarm with trigger %lu", ar->trigger));
 		notify_id = ar;
 
 		ar_copy = *ar;
@@ -152,10 +151,10 @@ setup_timeout (void)
 	now = time (NULL);
 
 	/* Add the time out */
-	d(g_message ("Setting timeout for %d.%2d (from now) %lu %lu",
+	debug (("Setting timeout for %d.%2d (from now) %lu %lu",
 		     diff / 60, diff % 60, ar->trigger, now));
-	d(g_message (" %s", ctime (&ar->trigger)));
-	d(g_message (" %s", ctime (&now)));
+	debug ((" %s", ctime (&ar->trigger)));
+	debug ((" %s", ctime (&now)));
 	timeout_id = g_timeout_add_seconds (diff, alarm_ready_cb, NULL);
 
 }

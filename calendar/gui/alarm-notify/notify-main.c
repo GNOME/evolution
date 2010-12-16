@@ -103,6 +103,8 @@ main (gint argc, gchar **argv)
 	if (unique_app_is_running (app))
 		goto exit;
 
+	config_data_init_debugging ();
+
 	alarm_notify_service = alarm_notify_new ();
 
 	/* FIXME Ideally we should not use camel libraries in calendar,
