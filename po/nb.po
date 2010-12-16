@@ -1973,7 +1973,7 @@ msgstr "Avtaler"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:2
 msgid "Dismiss _All"
-msgstr "Avvis _alle"
+msgstr "Lukk _alle"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:3
@@ -1990,7 +1990,7 @@ msgstr "_Tid for utsettelse av alarm:"
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:5 ../e-util/e-alert.c:882
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:5
 msgid "_Dismiss"
-msgstr "A_vvis"
+msgstr "_Lukk"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:6
 msgid "_Snooze"
