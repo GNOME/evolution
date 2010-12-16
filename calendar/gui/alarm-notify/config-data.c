@@ -391,3 +391,34 @@ config_data_is_blessed_program (const gchar *program)
 
 	return found;
 }
+
+static gboolean can_debug = FALSE;
+static GStaticRecMutex rec_mutex = G_STATIC_REC_MUTEX_INIT;
+
+void
+config_data_init_debugging (void)
+{
+	can_debug = g_getenv ("ALARMS_DEBUG") != NULL;
+}
+
+/* returns whether started debugging;
+   call config_data_stop_debugging() when started and you are done with it
+*/
+gboolean
+config_data_start_debugging (void)
+{
+	g_static_rec_mutex_lock (&rec_mutex);
+
+	if (can_debug)
+		return TRUE;
+
+	g_static_rec_mutex_unlock (&rec_mutex);
+
+	return FALSE;
+}
+
+void
+config_data_stop_debugging (void)
+{
+	g_static_rec_mutex_unlock (&rec_mutex);
+}

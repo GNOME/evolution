@@ -44,4 +44,18 @@ gboolean      config_data_is_blessed_program (const gchar *program);
 ESourceList  *config_data_get_calendars (const gchar *);
 void	      config_data_replace_string_list (const gchar *, const gchar *, const gchar *);
 
+void config_data_init_debugging (void);
+gboolean config_data_start_debugging (void);
+void config_data_stop_debugging (void);
+
+#define debug(x) G_STMT_START {					\
+	if (config_data_start_debugging ()) {			\
+		g_print ("%s (%s): ", G_STRFUNC, G_STRLOC);	\
+		g_print  x ;					\
+		g_print ("\n");					\
+								\
+		config_data_stop_debugging ();			\
+	}							\
+	} G_STMT_END
+
 #endif
