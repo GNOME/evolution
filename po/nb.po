@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 2.91.x\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-12 21:37+0100\n"
+"POT-Creation-Date: 2010-12-17 13:30+0100\n"
 "PO-Revision-Date: 2010-12-12 21:42+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian bokmal <i18n-nb@lister.ping.uio.no>\n"
@@ -517,7 +517,7 @@ msgid "Skype"
 msgstr "Skype"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:211
-#: ../addressbook/gui/widgets/eab-gui-util.c:368
+#: ../addressbook/gui/widgets/eab-gui-util.c:381
 msgid "Error adding contact"
 msgstr "Feil under innlegging av kontakt"
 
@@ -1272,7 +1272,7 @@ msgstr "Weblogg"
 msgid "Click to mail %s"
 msgstr "Klikk for å sende melding til %s"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:71
+#: ../addressbook/gui/widgets/eab-gui-util.c:77
 msgid ""
 "This address book cannot be opened. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
@@ -1282,7 +1282,7 @@ msgstr ""
 "for frakoblet bruk eller at den ikke er lastet ned enda. Last adresseboken i "
 "tilkoblet tilstand for å laste ned innholdet"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:98
+#: ../addressbook/gui/widgets/eab-gui-util.c:104
 #, c-format
 msgid ""
 "This address book cannot be opened.  Please check that the path %s exists "
@@ -1291,7 +1291,7 @@ msgstr ""
 "Kunne ikke åpne denne adresseboken. Vennligst sjekk at stien %s eksisterer "
 "og at du har rettigheter til å aksessere den."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:111
+#: ../addressbook/gui/widgets/eab-gui-util.c:117
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  To "
 "use LDAP in Evolution an LDAP-enabled Evolution package must be installed."
@@ -1300,7 +1300,7 @@ msgstr ""
 "ønsker å bruke LDAP i Evolution må du installere en pakke som har denne "
 "støtten."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:120
+#: ../addressbook/gui/widgets/eab-gui-util.c:126
 msgid ""
 "This address book cannot be opened.  This either means that an incorrect URI "
 "was entered, or the server is unreachable."
@@ -1308,11 +1308,11 @@ msgstr ""
 "Kunne ikke åpne denne adresseboken. Dette betyr enten at du har skrevet inn "
 "en ugyldig URI, eller at tjeneren ikke kan nås."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:128
+#: ../addressbook/gui/widgets/eab-gui-util.c:134
 msgid "Detailed error message:"
 msgstr "Detaljert feilmelding:"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:152
+#: ../addressbook/gui/widgets/eab-gui-util.c:164
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
@@ -1324,7 +1324,7 @@ msgstr ""
 "Gjør søket ditt mer nøyaktig eller hev grensen på resultater i\n"
 "brukervalgene til mappetjeneren for denne adresseboken."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:159
+#: ../addressbook/gui/widgets/eab-gui-util.c:171
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "configured for this address book.  Please make your search\n"
@@ -1337,49 +1337,49 @@ msgstr ""
 "for denne adresseboken."
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../addressbook/gui/widgets/eab-gui-util.c:167
+#: ../addressbook/gui/widgets/eab-gui-util.c:179
 #, c-format
 msgid "The backend for this address book was unable to parse this query. %s"
 msgstr "Motoren for denne adresseboken forsto ikke denne spørringen. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../addressbook/gui/widgets/eab-gui-util.c:172
+#: ../addressbook/gui/widgets/eab-gui-util.c:184
 #, c-format
 msgid "The backend for this address book refused to perform this query. %s"
 msgstr "Motoren for denne adresseboken nektet å utføre denne spørringen. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
-#: ../addressbook/gui/widgets/eab-gui-util.c:177
+#: ../addressbook/gui/widgets/eab-gui-util.c:189
 #, c-format
 msgid "This query did not complete successfully. %s"
 msgstr "Denne spørringen ble ikke fullført. %s"
 
 #. This is a filename. Translators take note.
-#: ../addressbook/gui/widgets/eab-gui-util.c:202
+#: ../addressbook/gui/widgets/eab-gui-util.c:214
 msgid "card.vcf"
 msgstr "kort.vcf"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:242
+#: ../addressbook/gui/widgets/eab-gui-util.c:254
 msgid "Select Address Book"
 msgstr "Velg adressebok"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:305
+#: ../addressbook/gui/widgets/eab-gui-util.c:317
 msgid "list"
 msgstr "liste"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:441
+#: ../addressbook/gui/widgets/eab-gui-util.c:455
 msgid "Move contact to"
 msgstr "Flytt kontakt til"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:443
+#: ../addressbook/gui/widgets/eab-gui-util.c:457
 msgid "Copy contact to"
 msgstr "Kopier kontakt til"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:446
+#: ../addressbook/gui/widgets/eab-gui-util.c:460
 msgid "Move contacts to"
 msgstr "Flytt kontakter til"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:448
+#: ../addressbook/gui/widgets/eab-gui-util.c:462
 msgid "Copy contacts to"
 msgstr "Kopier kontakter til"
 
@@ -1977,8 +1977,8 @@ msgstr "Lukk _alle"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:3
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1598
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1604
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1602
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1608
 #: ../plugins/itip-formatter/itip-view.c:1044
 msgid "Location:"
 msgstr "Sted:"
@@ -2017,33 +2017,33 @@ msgstr "sted for avtalen"
 msgid "minutes"
 msgstr "minutter"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1457
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1581
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1461
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1585
 msgid "No summary available."
 msgstr "Sammendrag er ikke tilgjengelig."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1466
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1468
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1470
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1472
 msgid "No description available."
 msgstr "Ingen beskrivelse tilgjengelig."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1476
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1480
 msgid "No location information available."
 msgstr "Stedsinformasjon er ikke tilgjengelig."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1519
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1523
 #, c-format
 msgid "You have %d alarm"
 msgid_plural "You have %d alarms"
 msgstr[0] "Du har %d alarm"
 msgstr[1] "Du har %d alarmer"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1698
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1731
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1702
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1735
 msgid "Warning"
 msgstr "Advarsel"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1702
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1706
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -2055,7 +2055,7 @@ msgstr ""
 "er konfigurert til å sende e-post. Evolution vil vise\n"
 "en vanlig dialog med påminnelsen i stedet."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1737
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1741
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -2071,7 +2071,7 @@ msgstr ""
 "\n"
 "Er du sikker på at du vil kjøre dette programmet?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1752
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1756
 msgid "Do not ask me about this program again."
 msgstr "Ikke spør meg om dette programmet igjen."
 
@@ -3129,9 +3129,9 @@ msgstr "Notatet kan ikke redigeres i sin helhet fordi du ikke er organisator"
 msgid "Unable to open memos in '%s'."
 msgstr "Kan ikke åpne notater i «%s»."
 
-#: ../calendar/gui/dialogs/memo-page.c:1081 ../em-format/em-format-quote.c:282
+#: ../calendar/gui/dialogs/memo-page.c:1081 ../em-format/em-format-quote.c:283
 #: ../em-format/em-format.c:1052 ../mail/em-format-html.c:2401
-#: ../mail/em-format-html.c:2460 ../mail/em-format-html.c:2484
+#: ../mail/em-format-html.c:2466 ../mail/em-format-html.c:2490
 #: ../mail/message-list.etspec.h:20 ../modules/mail/em-mailer-prefs.c:75
 msgid "To"
 msgstr "Til"
@@ -4133,7 +4133,9 @@ msgstr "Under arbeid"
 #: ../calendar/gui/e-meeting-store.c:1760
 #, c-format
 msgid "Enter password to access free/busy information on server %s as user %s"
-msgstr "Oppgi passord for å se på ledig-/opptatt-informasjon på tjener %s som bruker %s"
+msgstr ""
+"Oppgi passord for å se på ledig-/opptatt-informasjon på tjener %s som bruker "
+"%s"
 
 #: ../calendar/gui/e-meeting-store.c:1767
 #, c-format
@@ -6933,7 +6935,10 @@ msgid ""
 "Because you are working offline, the message will be saved to your local "
 "Outbox folder. When you are back online you can send the message by clicking "
 "the Send/Receive button in Evolution's toolbar."
-msgstr "Meldingen vil bli lagret til din lokale utboks fordi du arbeider frakoblet. Du kan sende meldingen ved å klikke på Send/Motta-knappen på verktøylinjen i Evolution når du kobler til igjen."
+msgstr ""
+"Meldingen vil bli lagret til din lokale utboks fordi du arbeider frakoblet. "
+"Du kan sende meldingen ved å klikke på Send/Motta-knappen på verktøylinjen i "
+"Evolution når du kobler til igjen."
 
 #: ../composer/mail-composer.error.xml.h:10
 msgid ""
@@ -6997,7 +7002,9 @@ msgstr "Feilen som ble rapportert var &quot;{0}&quot;."
 msgid ""
 "The reported error was &quot;{0}&quot;. The message has most likely not been "
 "saved."
-msgstr "Rapportert feil var &quot;{0}&quot;. Meldingen har sannsynligvis ikke blitt lagret."
+msgstr ""
+"Rapportert feil var &quot;{0}&quot;. Meldingen har sannsynligvis ikke blitt "
+"lagret."
 
 #: ../composer/mail-composer.error.xml.h:23
 msgid "The reported error was &quot;{0}&quot;. The message has not been sent."
@@ -7599,30 +7606,30 @@ msgstr "GConf-feil: %s"
 msgid "All further errors shown only on terminal."
 msgstr "Alle videre feil blir kun vist på konsollet."
 
-#: ../em-format/em-format-quote.c:282 ../em-format/em-format.c:1050
+#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1050
 #: ../mail/e-mail-tag-editor.c:329 ../mail/message-list.etspec.h:7
 #: ../modules/mail/em-mailer-prefs.c:73
 msgid "From"
 msgstr "Fra"
 
-#: ../em-format/em-format-quote.c:282 ../em-format/em-format.c:1051
+#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1051
 #: ../modules/mail/em-mailer-prefs.c:74
 msgid "Reply-To"
 msgstr "Svar-til"
 
-#: ../em-format/em-format-quote.c:282 ../em-format/em-format.c:1053
-#: ../mail/em-format-html.c:2402 ../mail/em-format-html.c:2464
-#: ../mail/em-format-html.c:2487 ../modules/mail/em-mailer-prefs.c:76
+#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1053
+#: ../mail/em-format-html.c:2402 ../mail/em-format-html.c:2470
+#: ../mail/em-format-html.c:2493 ../modules/mail/em-mailer-prefs.c:76
 msgid "Cc"
 msgstr "Cc"
 
-#: ../em-format/em-format-quote.c:282 ../em-format/em-format.c:1054
-#: ../mail/em-format-html.c:2403 ../mail/em-format-html.c:2468
-#: ../mail/em-format-html.c:2490 ../modules/mail/em-mailer-prefs.c:77
+#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1054
+#: ../mail/em-format-html.c:2403 ../mail/em-format-html.c:2474
+#: ../mail/em-format-html.c:2496 ../modules/mail/em-mailer-prefs.c:77
 msgid "Bcc"
 msgstr "Bcc"
 
-#: ../em-format/em-format-quote.c:426 ../em-format/em-format.c:1055
+#: ../em-format/em-format-quote.c:427 ../em-format/em-format.c:1055
 #: ../mail/e-mail-tag-editor.c:334 ../mail/em-filter-i18n.h:74
 #: ../mail/message-list.etspec.h:18 ../modules/mail/em-mailer-prefs.c:78
 #: ../plugins/groupwise-features/notification.ui.h:2
@@ -7631,12 +7638,12 @@ msgid "Subject"
 msgstr "Emne"
 
 #. pseudo-header
-#: ../em-format/em-format-quote.c:437 ../mail/em-format-html.c:2584
+#: ../em-format/em-format-quote.c:438 ../mail/em-format-html.c:2590
 #: ../modules/mail/em-mailer-prefs.c:1117
 msgid "Mailer"
 msgstr "E-postprogram"
 
-#: ../em-format/em-format-quote.c:518 ../mail/em-composer-utils.c:1141
+#: ../em-format/em-format-quote.c:519 ../mail/em-composer-utils.c:1141
 msgid "-------- Forwarded Message --------"
 msgstr "---------Videresendt melding-------"
 
@@ -8855,46 +8862,46 @@ msgstr "Svar"
 msgid "Folder '%s'"
 msgstr "Mappe «%s»"
 
-#: ../mail/e-mail-session.c:644
+#: ../mail/e-mail-session.c:647
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Skriv inn passord for %s"
 
-#: ../mail/e-mail-session.c:646
+#: ../mail/e-mail-session.c:649
 msgid "Enter Passphrase"
 msgstr "Skriv inn passord"
 
-#: ../mail/e-mail-session.c:649
+#: ../mail/e-mail-session.c:652
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Skriv inn passord for %s"
 
-#: ../mail/e-mail-session.c:651
+#: ../mail/e-mail-session.c:654
 msgid "Enter Password"
 msgstr "Skriv inn passord"
 
-#: ../mail/e-mail-session.c:696
+#: ../mail/e-mail-session.c:702
 #, c-format
 msgid "User canceled operation."
 msgstr "Operasjon avbrutt av bruker."
 
-#: ../mail/e-mail-session.c:864
+#: ../mail/e-mail-session.c:870
 #, c-format
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
 msgstr "Ingen måladresse oppgitt. Videresending av meldingen ble avbrutt."
 
-#: ../mail/e-mail-session.c:873
+#: ../mail/e-mail-session.c:879
 #, c-format
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr "Fant ingen konto å bruke. Videresending av meldingen ble avbrutt."
 
-#: ../mail/e-mail-session.c:1262 ../mail/mail-ops.c:1220
+#: ../mail/e-mail-session.c:1268 ../mail/mail-ops.c:1220
 #, c-format
 msgid "Opening folder '%s'"
 msgstr "Åpner mappe «%s»"
 
-#: ../mail/e-mail-session.c:1278
+#: ../mail/e-mail-session.c:1284
 #, c-format
 msgid "Invalid folder: %s"
 msgstr "Ugyldig mappe: %s"
@@ -8919,12 +8926,12 @@ msgstr ""
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Kunne ikke legge til i lokal Sendt-mappe: %s"
 
-#: ../mail/e-mail-session-utils.c:761 ../mail/mail-ops.c:774
+#: ../mail/e-mail-session-utils.c:765 ../mail/mail-ops.c:774
 #: ../mail/mail-ops.c:866
 msgid "Sending message"
 msgstr "Sender melding"
 
-#: ../mail/e-mail-session-utils.c:832
+#: ../mail/e-mail-session-utils.c:836
 #, c-format
 msgid "Unsubscribing from folder '%s'"
 msgstr "Fjerner abonnement på mappe «%s»"
@@ -9715,7 +9722,7 @@ msgstr "Peker til ukjente eksterne data («%s»-type)"
 
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
-#: ../mail/em-format-html.c:2762
+#: ../mail/em-format-html.c:2768
 #, c-format
 msgid "This message was sent by %s on behalf of %s"
 msgstr "Denne meldingen ble sendt av %s på vegne av %s"
@@ -14417,20 +14424,20 @@ msgstr "Opprett en ny kalender"
 msgid "Calendar and Tasks"
 msgstr "Kalender og oppgaver"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:217
+#: ../modules/calendar/e-cal-shell-sidebar.c:213
 msgid "Loading calendars"
 msgstr "Laster kalendere"
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:641
+#: ../modules/calendar/e-cal-shell-sidebar.c:634
 msgid "_New Calendar..."
 msgstr "_Ny kalender..."
 
-#: ../modules/calendar/e-cal-shell-sidebar.c:658
+#: ../modules/calendar/e-cal-shell-sidebar.c:651
 msgid "Calendar Selector"
 msgstr "Kalendervelger"
 
 #. Translators: The string field is a URI.
-#: ../modules/calendar/e-cal-shell-sidebar.c:1001
+#: ../modules/calendar/e-cal-shell-sidebar.c:994
 #, c-format
 msgid "Opening calendar at %s"
 msgstr "Åpner kalender på %s"
@@ -14855,16 +14862,16 @@ msgstr "Notatli_ste"
 msgid "Create a new memo list"
 msgstr "Lag en ny notatliste"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:225
+#: ../modules/calendar/e-memo-shell-sidebar.c:221
 msgid "Loading memos"
 msgstr "Laster notater"
 
-#: ../modules/calendar/e-memo-shell-sidebar.c:594
+#: ../modules/calendar/e-memo-shell-sidebar.c:587
 msgid "Memo List Selector"
 msgstr "Valgt av notatliste"
 
 #. Translators: The string field is a URI.
-#: ../modules/calendar/e-memo-shell-sidebar.c:899
+#: ../modules/calendar/e-memo-shell-sidebar.c:892
 #, c-format
 msgid "Opening memos at %s"
 msgstr "Åpner notat på %s"
@@ -14979,16 +14986,16 @@ msgstr "_Oppgaveliste"
 msgid "Create a new task list"
 msgstr "Opprett en ny oppgaveliste"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:225
+#: ../modules/calendar/e-task-shell-sidebar.c:221
 msgid "Loading tasks"
 msgstr "Laster oppgaver"
 
-#: ../modules/calendar/e-task-shell-sidebar.c:594
+#: ../modules/calendar/e-task-shell-sidebar.c:587
 msgid "Task List Selector"
 msgstr "Valg av oppgaveliste"
 
 #. Translators: The string field is a URI.
-#: ../modules/calendar/e-task-shell-sidebar.c:899
+#: ../modules/calendar/e-task-shell-sidebar.c:892
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Åpner oppgaver på %s"
@@ -15522,7 +15529,7 @@ msgstr[1] "%d totalt"
 msgid "Trash"
 msgstr "Papirkurv"
 
-#: ../modules/mail/e-mail-shell-view-private.c:1461
+#: ../modules/mail/e-mail-shell-view-private.c:1466
 msgid "Send / Receive"
 msgstr "Send / motta"
 
