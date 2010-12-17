@@ -37,6 +37,7 @@ widgetsinclude_HEADERS =			\
 	e-focus-tracker.h			\
 	e-image-chooser.h			\
 	e-import-assistant.h			\
+	e-interval-chooser.h			\
 	e-map.h					\
 	e-menu-tool-action.h			\
 	e-menu-tool-button.h			\
@@ -60,6 +61,10 @@ widgetsinclude_HEADERS =			\
 	e-signature-preview.h			\
 	e-signature-script-dialog.h		\
 	e-signature-tree-view.h			\
+	e-source-config.h			\
+	e-source-config-backend.h		\
+	e-source-config-dialog.h		\
+	e-source-notebook.h			\
 	e-spell-entry.h				\
 	e-url-entry.h				\
 	e-web-view.h				\
@@ -120,6 +125,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-focus-tracker.c			\
 	e-image-chooser.c			\
 	e-import-assistant.c			\
+	e-interval-chooser.c			\
 	e-map.c					\
 	e-menu-tool-action.c			\
 	e-menu-tool-button.c			\
@@ -143,6 +149,10 @@ libemiscwidgets_la_SOURCES =			\
 	e-signature-preview.c			\
 	e-signature-script-dialog.c		\
 	e-signature-tree-view.c			\
+	e-source-config.c			\
+	e-source-config-backend.c		\
+	e-source-config-dialog.c		\
+	e-source-notebook.c			\
 	e-spell-entry.c				\
 	e-url-entry.c				\
 	e-web-view.c				\
@@ -174,7 +184,8 @@ libemiscwidgets_la_LIBADD =					\
 noinst_PROGRAMS = 			\
 	test-calendar			\
 	test-dateedit			\
-	test-preferences-window	
+	test-preferences-window		\
+	test-source-config
 
 test_widgets_misc_CPPFLAGS=						\
 	$(AM_CPPFLAGS)							\
@@ -222,6 +233,20 @@ test_preferences_window_SOURCES =		\
 	test-preferences-window.c
 
 test_preferences_window_LDADD = 		\
+	libemiscwidgets.la			\
+	$(top_builddir)/e-util/libeutil.la	\
+	$(top_builddir)/filter/libfilter.la	\
+	$(EVOLUTION_DATA_SERVER_LIBS)		\
+	$(GNOME_PLATFORM_LIBS)
+
+# test-source-config
+
+test_source_config_CPPFLAGS = $(test_widgets_misc_CPPFLAGS)
+
+test_source_config_SOURCES =			\
+	test-source-config.c
+
+test_source_config_LDADD = 			\
 	libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(top_builddir)/filter/libfilter.la	\
