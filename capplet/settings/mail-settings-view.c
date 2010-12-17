@@ -225,22 +225,6 @@ mail_settings_view_new ()
 	return view;
 }
 
-static gboolean
-msv_btn_expose (GtkWidget *w, GdkEventExpose *event, MailSettingsView *mfv)
-{
-	GdkPixbuf *img = g_object_get_data ((GObject *)w, "pbuf");
-	cairo_t *cr;
-
-	cr = gdk_cairo_create (gtk_widget_get_window (w));
-	cairo_save (cr);
-	gdk_cairo_set_source_pixbuf (cr, img, event->area.x-5, event->area.y-4);
-	cairo_paint (cr);
-	cairo_restore (cr);
-	cairo_destroy (cr);
-
-	return TRUE;
-}
-
 static void
 msv_close (GtkButton *w, MailSettingsView *mfv)
 {
@@ -257,8 +241,6 @@ mail_settings_view_get_tab_widget (MailSettingsView *mcv)
 	GtkWidget *tab_label;
 
 	img = gtk_image_new_from_pixbuf (pbuf);
-	g_object_set_data ((GObject *)img, "pbuf", pbuf);
-	g_signal_connect (img, "expose-event", G_CALLBACK(msv_btn_expose), mcv);
 
 	tool = gtk_button_new ();
 	gtk_button_set_relief ((GtkButton *)tool, GTK_RELIEF_NONE);
@@ -275,7 +257,7 @@ mail_settings_view_get_tab_widget (MailSettingsView *mcv)
 
 	box = gtk_label_new (_("Settings"));
 	tab_label = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)tab_label, box, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)tab_label, box, FALSE, FALSE, 2);
 #ifndef ANJAL_SETTINGS
 	gtk_box_pack_start ((GtkBox *)tab_label, tool, FALSE, FALSE, 0);
 #endif

@@ -1091,22 +1091,6 @@ mail_account_view_new (EAccount *account,
 	return view;
 }
 
-static gboolean
-mav_btn_expose (GtkWidget *w, GdkEventExpose *event, MailAccountView *mfv)
-{
-	GdkPixbuf *img = g_object_get_data ((GObject *)w, "pbuf");
-	cairo_t *cr;
-
-	cr = gdk_cairo_create (gtk_widget_get_window (w));
-	cairo_save (cr);
-	gdk_cairo_set_source_pixbuf (cr, img, event->area.x-5, event->area.y-4);
-	cairo_paint (cr);
-	cairo_restore (cr);
-	cairo_destroy (cr);
-
-	return TRUE;
-}
-
 static void
 mav_close (GtkButton *w, MailAccountView *mfv)
 {
@@ -1123,8 +1107,6 @@ mail_account_view_get_tab_widget (MailAccountView *mcv)
 	GtkWidget *tab_label;
 
 	img = (GtkWidget *)gtk_image_new_from_pixbuf (pbuf);
-	g_object_set_data ((GObject *)img, "pbuf", pbuf);
-	g_signal_connect (img, "expose-event", G_CALLBACK(mav_btn_expose), mcv);
 
 	tool = gtk_button_new ();
 	gtk_button_set_relief ((GtkButton *)tool, GTK_RELIEF_NONE);
@@ -1141,7 +1123,7 @@ mail_account_view_get_tab_widget (MailAccountView *mcv)
 
 	box = gtk_label_new (_("Account Wizard"));
 	tab_label = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)tab_label, box, FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)tab_label, box, FALSE, FALSE, 2);
 	gtk_box_pack_start ((GtkBox *)tab_label, tool, FALSE, FALSE, 0);
 	gtk_widget_show_all (tab_label);
 
