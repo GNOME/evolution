@@ -4733,9 +4733,6 @@
    <listitem>
     <para><link linkend="full-advantage">Scheduling Meetings with Free/Busy</link></para>
    </listitem>
-   <listitem>
-    <para><link linkend="mapi-features">Evolution MAPI Features</link></para>
-   </listitem>
   </itemizedlist>
   <important>
    <para>Evolution Exchange works only with Exchange 2000 and later, and requires that Outlook Web Access be enabled. Each user needs a valid Microsoft Exchange server account, including a license.</para>
@@ -5257,27 +5254,6 @@
     </listitem>
    </orderedlist>
    <para>If meeting attendees are not available during the times you have scheduled a meeting, you can <quote>nudge</quote> the meeting forward or backward to the nearest available time. To do so, just click the arrows to the left or right of the Autopick button. The Autopick tool lets you move the meeting to the nearest time during which all attendees are available. If you are not satisfied with those results, you can also drag the edges of the area marked as meeting time to the hours that you want to select.</para>
-  </section>
-  
-  <section id="mapi-features">
-   <title>Evolution MAPI Features</title>
-   <para>With Evolution MAPI providers, you can view the size of a selected folder.</para>
-   <para>You can view the folder size by using the following methods:</para>
-   <orderedlist>
-    <listitem>
-     <para>Select Edit &gt; Preferences &gt; MAPI Account &gt; Edit.</para>
-    </listitem>
-    <listitem>
-     <para>Select the Exchange settings tab.</para>
-    </listitem>
-    <listitem>
-     <para>Select Folder size.</para>
-     <mediaobject><imageobject><imagedata format="PNG" fileref="figures/folder_size_preference.png"/></imageobject></mediaobject>
-    </listitem>
-   </orderedlist>
-   <para>Alternatively, right-click the MAPI Account in the folder tree, then select folder size.</para>
-   <mediaobject><imageobject><imagedata format="PNG" fileref="figures/folder_size_mapi.png"/></imageobject></mediaobject>
-   <para>A Folder dialog is displayed with details, such as folder name and their respective size. It also provides you the total mailbox size.</para>
   </section>
   
  </chapter>
