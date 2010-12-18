@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-12-15 17:40+0000\n"
-"PO-Revision-Date: 2010-12-18 15:40+0100\n"
+"POT-Creation-Date: 2010-12-18 14:42+0000\n"
+"PO-Revision-Date: 2010-12-18 18:23+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -866,7 +866,7 @@ msgstr "¿Seguro que quiere eliminar este contacto (%s)?"
 
 #. Translators: This is shown for more than 5 contacts.
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1477
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Opening %d contacts will open %d new windows as well.\n"
 #| "Do you really want to display all of these contacts?"
@@ -1772,7 +1772,6 @@ msgstr "Error al cargar la lista de tareas"
 #. Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
 #. {1} is replaced with a calendar/task/memo list name, where the error happened
 #: ../calendar/calendar.error.xml.h:46
-#| msgid "Error on '{0}'"
 msgid "Error on {0}: {1}"
 msgstr "Error en {0}: {1}"
 
@@ -2009,8 +2008,8 @@ msgstr "Descartar _todo"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:3
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1598
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1604
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1602
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1608
 #: ../plugins/itip-formatter/itip-view.c:1044
 msgid "Location:"
 msgstr "Lugar:"
@@ -2049,33 +2048,33 @@ msgstr "lugar de la cita"
 msgid "minutes"
 msgstr "minutos"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1457
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1581
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1461
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1585
 msgid "No summary available."
 msgstr "No hay resumen disponible."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1466
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1468
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1470
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1472
 msgid "No description available."
 msgstr "No hay descripción disponible."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1476
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1480
 msgid "No location information available."
 msgstr "No hay información del lugar disponible."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1519
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1523
 #, c-format
 msgid "You have %d alarm"
 msgid_plural "You have %d alarms"
 msgstr[0] "Tiene una alerta"
 msgstr[1] "Tiene %d alertas"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1698
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1731
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1702
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1735
 msgid "Warning"
 msgstr "Advertencia"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1702
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1706
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -2087,7 +2086,7 @@ msgstr ""
 "configurado para enviar un mensaje de correo-e.  En su lugar\n"
 "Evolution mostrará un diálogo de recordatorio normal."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1737
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1741
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -2104,7 +2103,7 @@ msgstr ""
 "\n"
 "¿Está seguro que quiere ejecutar este programa?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1752
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1756
 msgid "Do not ask me about this program again."
 msgstr "No preguntar otra vez sobre este programa."
 
@@ -4173,7 +4172,6 @@ msgstr "En proceso"
 
 #: ../calendar/gui/e-meeting-store.c:1760
 #, c-format
-#| msgid "Enter password for user %s on server %s"
 msgid "Enter password to access free/busy information on server %s as user %s"
 msgstr ""
 "Introduzca la contraseña para la información de disponibilidad en el "
@@ -4181,7 +4179,6 @@ msgstr ""
 
 #: ../calendar/gui/e-meeting-store.c:1767
 #, c-format
-#| msgid "Failed to create thread: %s"
 msgid "Failure reason: %s"
 msgstr "Razón del fallo: %s"
 
@@ -7555,7 +7552,6 @@ msgstr "Ayer"
 #. necessary. Index is between 1 and 7 inclusive, meaning 1 .. Monday, 2 .. Tuesday, ..., 7 .. Sunday
 #: ../e-util/e-datetime-format.c:218
 #, c-format
-#| msgid "Next %a"
 msgid "Next %a"
 msgid_plural "Next %a"
 msgstr[0] "Siguiente %a"
@@ -8259,9 +8255,6 @@ msgstr "C_opiar"
 #. %d with count of duplicate messages.
 #: ../mail/e-mail-reader.c:510
 #, c-format
-#| msgid ""
-#| "Folder '%s' contains %d duplicate message. Are you sure you want to "
-#| "delete it?"
 msgid ""
 "Folder '%s' contains %d duplicate message. Are you sure you want to delete "
 "it?"
@@ -9949,7 +9942,6 @@ msgstr ""
 "responde al mensaje mostrado en la ventana"
 
 #: ../mail/evolution-mail.schemas.in.h:16
-#| msgid "Attached message"
 msgid "Attribute message."
 msgstr "Atribuir mensaje."
 
@@ -10261,7 +10253,6 @@ msgid "Flush Outbox after filtering"
 msgstr "Limpiar la bandeja de salida después de filtrar"
 
 #: ../mail/evolution-mail.schemas.in.h:76
-#| msgid "Forwarded message"
 msgid "Forward message."
 msgstr "Reenviar mensaje."
 
@@ -10624,7 +10615,6 @@ msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Número de direcciones a mostrar en PARA/CC/CCO"
 
 #: ../mail/evolution-mail.schemas.in.h:134
-#| msgid "-----Original Message-----"
 msgid "Original message."
 msgstr "Mensaje original."
 
@@ -10943,18 +10933,24 @@ msgid ""
 "The text that is inserted when forwarding a message, saying that the "
 "forwarded message follows."
 msgstr ""
+"El texto insertado al reenviar un mensaje, diciendo que el a continuación "
+"está el mensaje reenviado."
 
 #: ../mail/evolution-mail.schemas.in.h:195
 msgid ""
 "The text that is inserted when replying to a message (top posting), saying "
 "that the original message follows."
 msgstr ""
+"El texto insertado al responder a un mensaje (publicando por encima), "
+"atribuyendo el mensaje a su autor original."
 
 #: ../mail/evolution-mail.schemas.in.h:196
 msgid ""
 "The text that is inserted when replying to a message, attributing the "
 "message to the original author."
 msgstr ""
+"El texto insertado al responder a un mensaje, atribuyendo el mensaje a su "
+"autor original."
 
 #: ../mail/evolution-mail.schemas.in.h:197
 msgid "The variable width font for mail display."
@@ -11390,12 +11386,10 @@ msgid "Check cu_stom headers for junk"
 msgstr "Compro_bar las cabeceras personalizadas contra SPAM"
 
 #: ../mail/mail-config.ui.h:19
-#| msgid "Check for _new messages every"
 msgid "Check for new _messages on start"
 msgstr "Comprobar si hay mensajes _nuevos al inicio"
 
 #: ../mail/mail-config.ui.h:20
-#| msgid "Check for _new messages every"
 msgid "Check for new messa_ges in all active accounts"
 msgstr "Comprobar si hay _mensajes nuevos en todas las cuentas activas"
 
@@ -11766,7 +11760,6 @@ msgid "Start _typing at the bottom on replying"
 msgstr "Comenzar a _escribir en la parte final al responder"
 
 #: ../mail/mail-config.ui.h:123
-#| msgid "Start: "
 msgid "Start up"
 msgstr "Inicio"
 
@@ -12492,6 +12485,12 @@ msgid ""
 "delete it after ensuring the data is safely migrated. Please make sure there "
 "is enough space if you choose to migrate."
 msgstr ""
+"El almacenamiento local predeterminado se ha cambiado del formato mbox a "
+"maildir. ¿Quiere migrar ahora?\n"
+"\n"
+"Se creará una cuenta mbox para preservar las antiguas carpetas mbox. Puede "
+"eliminarlo después de asegurarse que sus datos se han migrado correctamente. "
+"Asegúrese de que existe espacio suficiente si elige migrar."
 
 #: ../mail/mail.error.xml.h:48
 msgid "Delete messages in Search Folder \"{0}\"?"
@@ -12630,7 +12629,6 @@ msgstr ""
 "esto debería añadir al menos un destinatario «Para:» o «CC:»."
 
 #: ../mail/mail.error.xml.h:81
-#| msgid "Create a new folder for storing mail"
 msgid "Migrate local mbox folders to maildir"
 msgstr "Migrar las carpetas mbox locales a maildir"
 
@@ -15585,22 +15583,18 @@ msgid "Send queued items and retrieve new items"
 msgstr "Envía el correo en la cola y obtiene el nuevo"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1210
-#| msgid "_Decline all"
 msgid "R_eceive all"
 msgstr "R_ecibir todo"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1212
-#| msgid "Permanently remove all the deleted messages from all accounts"
 msgid "Receive new items from all accounts"
 msgstr "Recibir correo nuevo para todas las cuentas"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1217
-#| msgid "_Send"
 msgid "_Send all"
 msgstr "_Enviar todo"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1219
-#| msgid "Send queued items and retrieve new items"
 msgid "Send queued items in all accounts"
 msgstr "Enviar todos los elementos en la cola de todas las cuentas"
 
@@ -15803,10 +15797,9 @@ msgstr[0] "%d en total"
 msgstr[1] "%d en total"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1107
-#, fuzzy
 #| msgid "Task"
 msgid "Trash"
-msgstr "Tarea"
+msgstr "Papelera"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1466
 msgid "Send / Receive"
@@ -16518,10 +16511,9 @@ msgstr "Soporta"
 
 #: ../plugins/caldav/caldav-browse-server.c:1336
 #: ../plugins/caldav/caldav-source.c:254
-#, fuzzy
 #| msgid "User _Name:"
 msgid "User e-_mail:"
-msgstr "_Nombre de usuario:"
+msgstr "Correo-_e del usuario:"
 
 #: ../plugins/caldav/caldav-browse-server.c:1408
 #, c-format
@@ -16778,49 +16770,42 @@ msgstr ""
 "los valores separados por «;»."
 
 #: ../plugins/email-custom-header/email-custom-header.c:319
-#, fuzzy
 #| msgid "Security:"
 msgctxt "email-custom-header-Security"
 msgid "Security:"
 msgstr "Seguridad:"
 
 #: ../plugins/email-custom-header/email-custom-header.c:323
-#, fuzzy
 #| msgid "Personal"
 msgctxt "email-custom-header-Security"
 msgid "Personal"
 msgstr "Privado"
 
 #: ../plugins/email-custom-header/email-custom-header.c:324
-#, fuzzy
 #| msgid "Unclassified"
 msgctxt "email-custom-header-Security"
 msgid "Unclassified"
 msgstr "Sin clasificar"
 
 #: ../plugins/email-custom-header/email-custom-header.c:325
-#, fuzzy
 #| msgid "Protected"
 msgctxt "email-custom-header-Security"
 msgid "Protected"
 msgstr "Protegido"
 
 #: ../plugins/email-custom-header/email-custom-header.c:326
-#, fuzzy
 #| msgid "Confidential"
 msgctxt "email-custom-header-Security"
 msgid "Confidential"
 msgstr "Confidencial"
 
 #: ../plugins/email-custom-header/email-custom-header.c:327
-#, fuzzy
 #| msgid "Secret"
 msgctxt "email-custom-header-Security"
 msgid "Secret"
 msgstr "Secreto"
 
 #: ../plugins/email-custom-header/email-custom-header.c:328
-#, fuzzy
 #| msgid "Top secret"
 msgctxt "email-custom-header-Security"
 msgid "Top secret"
@@ -20074,6 +20059,8 @@ msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
 msgstr ""
+"Iniciar Evolution mostrando el componente especificado. Las opciones "
+"disponibles son «mail», «calendar», «contacts», «tasks» y «memos»."
 
 #: ../shell/main.c:369
 msgid "Apply the given geometry to the main window"
