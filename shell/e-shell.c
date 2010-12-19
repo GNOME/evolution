@@ -47,6 +47,7 @@
 	((obj), E_TYPE_SHELL, EShellPrivate))
 
 struct _EShellPrivate {
+	GQueue alerts;
 	GList *watched_windows;
 	EShellSettings *settings;
 	GConfClient *gconf_client;
@@ -130,6 +131,19 @@ shell_parse_debug_string (EShell *shell)
 
 	if (flags & DEBUG_KEY_SETTINGS)
 		e_shell_settings_enable_debug (shell->priv->settings);
+}
+
+static void
+shell_alert_response_cb (EShell *shell,
+                         gint response_id,
+                         EAlert *alert)
+{
+	g_signal_handlers_disconnect_by_func (
+		alert, shell_alert_response_cb, shell);
+
+	g_queue_remove (&shell->priv->alerts, alert);
+
+	g_object_unref (alert);
 }
 
 static void
@@ -623,8 +637,15 @@ static void
 shell_dispose (GObject *object)
 {
 	EShellPrivate *priv;
+	EAlert *alert;
 
 	priv = E_SHELL_GET_PRIVATE (object);
+
+	while ((alert = g_queue_pop_head (&priv->alerts)) != NULL) {
+		g_signal_handlers_disconnect_by_func (
+			alert, shell_alert_response_cb, object);
+		g_object_unref (alert);
+	}
 
 	if (priv->startup_view != NULL) {
 		g_free (priv->startup_view);
@@ -1156,6 +1177,8 @@ e_shell_init (EShell *shell)
 	backends_by_name = g_hash_table_new (g_str_hash, g_str_equal);
 	backends_by_scheme = g_hash_table_new (g_str_hash, g_str_equal);
 
+	g_queue_init (&shell->priv->alerts);
+
 	shell->priv->settings = g_object_new (E_TYPE_SHELL_SETTINGS, NULL);
 	shell->priv->gconf_client = gconf_client_get_default ();
 	shell->priv->preferences_window = e_preferences_window_new (shell);
@@ -1432,6 +1455,7 @@ e_shell_create_shell_window (EShell *shell,
 	GtkWidget *shell_window;
 	UniqueMessageData *data;
 	UniqueApp *app;
+	GList *link;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
@@ -1463,6 +1487,15 @@ e_shell_create_shell_window (EShell *shell,
 		shell,
 		shell->priv->safe_mode,
 		shell->priv->geometry);
+
+	/* Submit any outstanding alerts. */
+	link = g_queue_peek_head_link (&shell->priv->alerts);
+	while (link != NULL) {
+		e_alert_sink_submit_alert (
+			E_ALERT_SINK (shell_window),
+			E_ALERT (link->data));
+		link = g_list_next (link);
+	}
 
 	/* Clear the first-time-only options. */
 	shell->priv->safe_mode = FALSE;
@@ -1562,6 +1595,39 @@ unique:  /* Send a message to the other Evolution process. */
 	/* As far as we're concerned, all URIs have been handled. */
 
 	return g_strv_length (uris);
+}
+
+/**
+ * e_shell_submit_alert:
+ * @shell: an #EShell
+ * @alert: an #EAlert
+ *
+ * Broadcasts @alert to all #EShellWindow<!-- -->s.  This should only
+ * be used for application-wide alerts such as a network outage.  Submit
+ * view-specific alerts to the appropriate #EShellContent instance.
+ **/
+void
+e_shell_submit_alert (EShell *shell,
+                      EAlert *alert)
+{
+	GList *list, *iter;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (E_IS_ALERT (alert));
+
+	g_queue_push_tail (&shell->priv->alerts, g_object_ref (alert));
+
+	g_signal_connect_swapped (
+		alert, "response",
+		G_CALLBACK (shell_alert_response_cb), shell);
+
+	list = e_shell_get_watched_windows (shell);
+
+	/* Submit the alert to all available EShellWindows. */
+	for (iter = list; iter != NULL; iter = g_list_next (iter))
+		if (E_IS_SHELL_WINDOW (iter->data))
+			e_alert_sink_submit_alert (
+				E_ALERT_SINK (iter->data), alert);
 }
 
 /**
