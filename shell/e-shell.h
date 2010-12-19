@@ -26,6 +26,7 @@
 #include <gconf/gconf-client.h>
 
 #include <e-util/e-activity.h>
+#include <e-util/e-alert.h>
 
 #include <shell/e-shell-common.h>
 #include <shell/e-shell-backend.h>
@@ -128,6 +129,8 @@ GtkWidget *	e_shell_create_shell_window	(EShell *shell,
 guint		e_shell_handle_uris		(EShell *shell,
 						 gchar **uris,
 						 gboolean do_import);
+void		e_shell_submit_alert		(EShell *shell,
+						 EAlert *alert);
 void		e_shell_watch_window		(EShell *shell,
 						 GtkWindow *window);
 GList *		e_shell_get_watched_windows	(EShell *shell);

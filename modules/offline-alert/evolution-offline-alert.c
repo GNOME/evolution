@@ -76,8 +76,6 @@ offline_alert_network_available_cb (EShell *shell,
                                     GParamSpec *pspec,
                                     EOfflineAlert *extension)
 {
-	GList *list, *iter;
-
 	if (e_shell_get_network_available (shell))
 		return;
 
@@ -88,17 +86,7 @@ offline_alert_network_available_cb (EShell *shell,
 	g_object_add_weak_pointer (
 		G_OBJECT (extension->alert), &extension->alert);
 
-	/* Broadcast the alert to all EShellWindows. */
-	list = e_shell_get_watched_windows (shell);
-	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
-		GtkWidget *window = iter->data;
-
-		if (!E_IS_SHELL_WINDOW (window))
-			continue;
-
-		e_alert_sink_submit_alert (
-			E_ALERT_SINK (window), extension->alert);
-	}
+	e_shell_submit_alert (shell, extension->alert);
 
 	g_object_unref (extension->alert);
 }
@@ -149,7 +137,7 @@ offline_alert_window_created_cb (EShell *shell,
 	g_object_add_weak_pointer (
 		G_OBJECT (extension->alert), &extension->alert);
 
-	e_alert_sink_submit_alert (E_ALERT_SINK (window), extension->alert);
+	e_shell_submit_alert (shell, extension->alert);
 
 	g_object_unref (extension->alert);
 }

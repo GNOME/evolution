@@ -225,6 +225,15 @@ EShell
 @Returns: 
 
 
+<!-- ##### FUNCTION e_shell_submit_alert ##### -->
+<para>
+
+</para>
+
+@shell: 
+@alert: 
+
+
 <!-- ##### FUNCTION e_shell_watch_window ##### -->
 <para>
 
