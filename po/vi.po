@@ -1,6 +1,6 @@
 # Vietnamese Translation for Evolution.
 # Copyright © 2009 Gnome i18n Project for Vietnamese.
-# Nguyễn Thái Ngọc Duy <pclouds@gmail.com>, 2002-2004,2007.
+# Nguyễn Thái Ngọc Duy <pclouds@gmail.com>, 2002-2004,2007,2010.
 # Clytie Siddall <clytie@riverland.net.au>, 2005-2009.
 #
 msgid ""
@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2010-12-08 13:33+0000\n"
-"PO-Revision-Date: 2009-02-06 19:02+1030\n"
+"PO-Revision-Date: 2010-12-19 20:26+0700\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <vi-VN@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -70,7 +70,6 @@ msgid "Could not remove address book."
 msgstr "Không thể gỡ bỏ sổ địa chỉ."
 
 #: ../addressbook/addressbook.error.xml.h:11
-#, fuzzy
 #| msgid ""
 #| "Currently you can access only GroupWise System Address Book from "
 #| "Evolution. Please use some other GroupWise mail client once, to get your "
@@ -82,8 +81,8 @@ msgid ""
 msgstr ""
 "Hiện thời bạn có thể truy cập chỉ Sổ Địa Chỉ Hệ Thống GroupWise từ "
 "Evolution. Hãy chạy một lần một ứng dụng khách thư GroupWise khác, để lấy "
-"các thư mục GroupWise Frequent Contacts (liên lạc thường gặp) và GroupWise "
-"Personal Contacts (liên lạc cá nhân)."
+"các thư mục GroupWise Frequent Contacts (liên lạc thường gặp) và các thư mục "
+"GroupWise Personal Contacts (liên lạc cá nhân)."
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Delete address book '{0}'?"
@@ -91,10 +90,9 @@ msgstr "Xoá sổ địa chỉ « {0} » không?"
 
 #: ../addressbook/addressbook.error.xml.h:13
 #: ../calendar/calendar.error.xml.h:34 ../mail/mail.error.xml.h:49
-#, fuzzy
 #| msgid "Do not delete"
 msgid "Do _Not Delete"
-msgstr "Đừng xoá"
+msgstr "Đừng _xoá"
 
 #: ../addressbook/addressbook.error.xml.h:14
 msgid "Error saving {0} to {1}: {2}"
@@ -262,10 +260,9 @@ msgstr "Ngày sinh"
 
 #. Translators: an accessibility name
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:4
-#, fuzzy
 #| msgid "Blog"
 msgid "Blog:"
-msgstr "Nhật ký Web"
+msgstr "Blog:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:5
 #: ../calendar/gui/dialogs/event-page.ui.h:4
@@ -274,10 +271,9 @@ msgid "Ca_tegories..."
 msgstr "_Loại.."
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:6
-#, fuzzy
 #| msgid "_Calendar:"
 msgid "Calendar:"
-msgstr "_Lịch:"
+msgstr "Lịch:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:7
 #: ../addressbook/importers/evolution-vcard-importer.c:957
@@ -302,10 +298,9 @@ msgid "Email"
 msgstr "Thư điện tử"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:10
-#, fuzzy
 #| msgid "_Free/Busy:"
 msgid "Free/Busy:"
-msgstr "_Rảnh/Bận:"
+msgstr "Rảnh/Bận:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:11
 msgid "Full _Name..."
@@ -318,24 +313,22 @@ msgid "Home"
 msgstr "Nhà"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:13
-#, fuzzy
 #| msgid "_Home Page:"
 msgid "Home Page:"
-msgstr "Trang _chủ:"
+msgstr "Trang chủ:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:14
 msgid "Image"
 msgstr "Ảnh"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:15
-#, fuzzy
 #| msgid "<b>Instant Messaging</b>"
 msgid "Instant Messaging"
-msgstr "<b>Tin nhắn</b>"
+msgstr "Tin nhắn"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:16
 msgid "Job"
-msgstr ""
+msgstr "Công việc"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:17
 msgid "Mailing Address"
@@ -343,7 +336,6 @@ msgstr "Địa chỉ thư tín"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:18
 #: ../calendar/gui/dialogs/task-details-page.ui.h:11
-#, fuzzy
 #| msgid "Miscelleneous"
 msgid "Miscellaneous"
 msgstr "Linh tinh"
@@ -377,22 +369,19 @@ msgid "Telephone"
 msgstr "Điện thoại"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:24
-#, fuzzy
 #| msgid "_Video Chat:"
 msgid "Video Chat:"
-msgstr "Trò chu_yện ảnh động:"
+msgstr "Trò chuyện ảnh động:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:25
-#, fuzzy
 #| msgid "<b>Web Addresses</b>"
 msgid "Web Addresses"
-msgstr "<b>Địa chỉ Web</b>"
+msgstr "Địa chỉ Web"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:26
-#, fuzzy
 #| msgid "addresses"
 msgid "Web addresses"
-msgstr "địa chỉ"
+msgstr "Địa chỉ Web"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:27
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:189
@@ -418,10 +407,9 @@ msgid "_Birthday:"
 msgstr "Ngày _sinh:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:32
-#, fuzzy
 #| msgid "Blog"
 msgid "_Blog:"
-msgstr "Nhật ký Web"
+msgstr "_Blog:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:33
 #: ../calendar/gui/dialogs/event-page.c:887
@@ -691,10 +679,9 @@ msgid "Contact List Editor"
 msgstr "Bộ sửa danh sách liên lạc"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
-#, fuzzy
 #| msgid "_Members"
 msgid "Members"
-msgstr "Thành _viên"
+msgstr "Thành viên"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 msgid "_Hide addresses when sending mail to this list"
@@ -821,32 +808,28 @@ msgid "Error getting book view"
 msgstr "Gập lỗi khi gọi ô xem sổ"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:740
-#, fuzzy
 #| msgid "Search Filter"
 msgid "Search Interrupted"
-msgstr "Bộ lọc tìm kiếm"
+msgstr "Tìm kiếm bị ngắt"
 
 #: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:150
 msgid "Error modifying card"
 msgstr "Gặp lỗi khi sửa đổi thẻ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:628
-#, fuzzy
 #| msgid "Cut selected text to the clipboard"
 msgid "Cut selected contacts to the clipboard"
-msgstr "Cắt đoạn đã chọn vào bảng nháp"
+msgstr "Cắt liên lạc đã chọn vào bảng nháp"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:634
-#, fuzzy
 #| msgid "Copy selected text to the clipboard"
 msgid "Copy selected contacts to the clipboard"
-msgstr "Sao chép đoạn đã chọn sang bảng nháp"
+msgstr "Chép liên lạc đã chọn sang bảng nháp"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:640
-#, fuzzy
 #| msgid "Paste tasks from the clipboard"
 msgid "Paste contacts from the clipboard"
-msgstr "Dán các tác vụ từ bảng nháp"
+msgstr "Dán liên lạc từ bảng nháp"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:646
 #: ../modules/addressbook/e-book-shell-view-actions.c:745
@@ -854,70 +837,53 @@ msgid "Delete selected contacts"
 msgstr "Xoá các liên lạc đã chọn"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:652
-#, fuzzy
 #| msgid "Select all contacts"
 msgid "Select all visible contacts"
-msgstr "Chọn mọi liên lạc"
+msgstr "Chọn mọi liên lạc hiện diện"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1298
-#, fuzzy
 #| msgid ""
 #| "Are you sure you want\n"
 #| "to delete these contact lists?"
 msgid "Are you sure you want to delete these contact lists?"
-msgstr ""
-"Bạn có chắc muốn xoá\n"
-"những danh sách liên lạc này không?"
+msgstr "Bạn có chắc muốn xoá những danh sách liên lạc này không?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1302
-#, fuzzy
 #| msgid ""
 #| "Are you sure you want\n"
 #| "to delete these contact lists?"
 msgid "Are you sure you want to delete this contact list?"
-msgstr ""
-"Bạn có chắc muốn xoá\n"
-"những danh sách liên lạc này không?"
+msgstr "Bạn có chắc muốn xoá danh sách liên lạc này không?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1306
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Are you sure you want\n"
 #| "to delete contact list (%s)?"
 msgid "Are you sure you want to delete this contact list (%s)?"
-msgstr ""
-"Bạn có chắc muốn xoá\n"
-"danh sách liên lạc (%s) không?"
+msgstr "Bạn có chắc muốn xoá danh sách liên lạc này (%s) không?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1312
-#, fuzzy
 #| msgid ""
 #| "Are you sure you want\n"
 #| "to delete these contacts?"
 msgid "Are you sure you want to delete these contacts?"
-msgstr ""
-"Bạn có chắc muốn xoá\n"
-"những liên lạc này không?"
+msgstr "Bạn có chắc muốn xoá những liên lạc này không?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1316
-#, fuzzy
 #| msgid ""
 #| "Are you sure you want\n"
 #| "to delete these contacts?"
 msgid "Are you sure you want to delete this contact?"
-msgstr ""
-"Bạn có chắc muốn xoá\n"
-"những liên lạc này không?"
+msgstr "Bạn có chắc muốn xoá liên lạc này không?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1320
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Are you sure you want\n"
 #| "to delete contact (%s)?"
 msgid "Are you sure you want to delete this contact (%s)?"
-msgstr ""
-"Bạn có chắc muốn xoá\n"
-"liên lạc (%s) không?"
+msgstr "Bạn có chắc muốn xoá liên lạc này (%s) không?"
 
 #. Translators: This is shown for more than 5 contacts.
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1477
@@ -935,8 +901,8 @@ msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 msgstr[0] ""
-"Việc mở %d liên lạc sẽ mở %d cửa sổ mới cùng lúc.\n"
-"Bạn có thật sự muốn hiển thị các liên lạc này không?"
+"Mở %d liên lạc sẽ mở %d cửa sổ mới cùng lúc.\n"
+"Bạn có thật sự muốn hiển thị tất cả liên lạc này không?"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1484
 msgid "_Don't Display"
@@ -1226,10 +1192,9 @@ msgstr "Chép địa chỉ _thư"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:176
 #: ../widgets/misc/e-web-view.c:395
-#, fuzzy
 #| msgid "Copy selected messages to the clipboard"
 msgid "Copy the email address to the clipboard"
-msgstr "Chép các thư đã chọn vào bảng nháp"
+msgstr "Chép địa chỉ thư vào bảng nháp"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:181
 #: ../widgets/misc/e-web-view.c:400
@@ -1238,10 +1203,9 @@ msgstr "_Gửi thư mới cho..."
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:183
 #: ../widgets/misc/e-web-view.c:402
-#, fuzzy
 #| msgid "Send e-mail message to mailing list?"
 msgid "Send a mail message to this address"
-msgstr "Gửi thư cho hộp thư chung không?"
+msgstr "Gửi thư đến địa chỉ này"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:258
 #: ../addressbook/gui/widgets/eab-contact-display.c:260
@@ -1420,25 +1384,26 @@ msgstr ""
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../addressbook/gui/widgets/eab-gui-util.c:167
-#, fuzzy, c-format
+#, c-format
 #| msgid "The backend for this address book was unable to parse this query."
 msgid "The backend for this address book was unable to parse this query. %s"
 msgstr ""
-"Hậu phương cho sổ địa chỉ này không thể phân tích cú pháp của truy vấn này."
+"Hậu phương cho sổ địa chỉ này không thể phân tích cú pháp của truy vấn này. %"
+"s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../addressbook/gui/widgets/eab-gui-util.c:172
-#, fuzzy, c-format
+#, c-format
 #| msgid "The backend for this address book refused to perform this query."
 msgid "The backend for this address book refused to perform this query. %s"
-msgstr "Hậu phương cho sổ địa chỉ này đã từ chối thực hiện truy vấn này."
+msgstr "Hậu phương cho sổ địa chỉ này đã từ chối thực hiện truy vấn này. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../addressbook/gui/widgets/eab-gui-util.c:177
-#, fuzzy, c-format
+#, c-format
 #| msgid "This query did not complete successfully."
 msgid "This query did not complete successfully. %s"
-msgstr "Truy vấn không hoàn tất."
+msgstr "Truy vấn không hoàn tất. %s"
 
 # Filename: do not translate/ tên tập tin: đừng dịch
 #. This is a filename. Translators take note.
@@ -1526,10 +1491,10 @@ msgstr "Bộ nhập vCard Evolution"
 #. Uncomment next if it is successful to get total number if pages in list view
 #. * g_object_get (operation, "n-pages", &n_pages, NULL)
 #: ../addressbook/printing/e-contact-print.c:746
-#, fuzzy, c-format
+#, c-format
 #| msgid "Page"
 msgid "Page %d"
-msgstr "Trang"
+msgstr "Trang %d"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:643
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:678
@@ -1651,7 +1616,6 @@ msgstr ""
 "có khả năng chấp nhận cuộc hẹn."
 
 #: ../calendar/calendar.error.xml.h:5
-#, fuzzy
 #| msgid ""
 #| "Adding a meaningful summary to your appointment will give your recipients "
 #| "an idea of what your appointment is about."
@@ -1659,11 +1623,10 @@ msgid ""
 "Adding a meaningful summary to your appointment will give you an idea of "
 "what your appointment is about."
 msgstr ""
-"Việc thêm một Tóm tắt có nghĩa vào cuộc hẹn bạn sẽ cho người nhận biết ý "
-"kiến về lý do của cuộc hẹn này."
+"Bằng cách thêm một tóm tắt hữu ích vào cuộc hẹn, bạn sẽ cho người nhận biết "
+"sơ lược về cuộc hẹn này."
 
 #: ../calendar/calendar.error.xml.h:6
-#, fuzzy
 #| msgid ""
 #| "Adding a meaningful summary to your task will give your recipients an "
 #| "idea of what your task is about."
@@ -1671,8 +1634,8 @@ msgid ""
 "Adding a meaningful summary to your task will give you an idea of what your "
 "task is about."
 msgstr ""
-"Việc thêm một Tóm tắt có nghĩa vào tác vụ bạn sẽ cho người nhận biết ý kiến "
-"về lý do của tác vụ này."
+"Bằng cách thêm một tóm tắt hữu ích vào cuộc hẹn, bạn sẽ cho người nhận biết "
+"sơ lược về tác vụ này."
 
 #: ../calendar/calendar.error.xml.h:7
 msgid "All information in these memos will be deleted and can not be restored."
@@ -1719,10 +1682,9 @@ msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgstr "Bạn có chắc muốn xoá cuộc hẹn tên « {0} » không?"
 
 #: ../calendar/calendar.error.xml.h:17
-#, fuzzy
 #| msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgid "Are you sure you want to delete the meeting titled '{0}'?"
-msgstr "Bạn có chắc muốn xoá cuộc hẹn tên « {0} » không?"
+msgstr "Bạn có chắc muốn xoá cuộc họp tên '{0}' chứ?"
 
 #: ../calendar/calendar.error.xml.h:18
 msgid "Are you sure you want to delete the memo '{0}'?"
@@ -1763,20 +1725,18 @@ msgid "Are you sure you want to delete this task?"
 msgstr "Bạn có chắc muốn xoá tác vụ này không?"
 
 #: ../calendar/calendar.error.xml.h:26
-#, fuzzy
 #| msgid "Are you sure you want to send the appointment without a summary?"
 msgid "Are you sure you want to save the appointment without a summary?"
-msgstr "Bạn có chắc muốn gửi thư không có tóm tắt không? (Không đề nghị.)"
+msgstr "Bạn có chắc muốn lưu cuộc hẹn mà không có tóm tắt gì không?"
 
 #: ../calendar/calendar.error.xml.h:27
 msgid "Are you sure you want to save the memo without a summary?"
 msgstr "Bạn có chắc muốn lưu bản ghi nhớ không có tóm tắt không?"
 
 #: ../calendar/calendar.error.xml.h:28
-#, fuzzy
 #| msgid "Are you sure you want to send the task without a summary?"
 msgid "Are you sure you want to save the task without a summary?"
-msgstr "Bạn có chắc muốn gửi thư không có tóm tắt không? (Không đề nghị.)"
+msgstr "Bạn có chắc muốn lưu một tác vụ mà không có tóm tắt gì không?"
 
 #: ../calendar/calendar.error.xml.h:29
 msgid "Cannot create a new event"
@@ -1843,10 +1803,9 @@ msgstr "Gặp lỗi khi nạp danh sách tác vụ"
 #. Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
 #. {1} is replaced with a calendar/task/memo list name, where the error happened
 #: ../calendar/calendar.error.xml.h:46
-#, fuzzy
 #| msgid "Error on '{0}'"
 msgid "Error on {0}: {1}"
-msgstr "Gặp lỗi khi « {0} »"
+msgstr "Gặp lỗi với {0}: {1}"
 
 #: ../calendar/calendar.error.xml.h:47
 msgid ""
@@ -1953,10 +1912,9 @@ msgid "Would you like to save your changes to this appointment?"
 msgstr "Bạn có muốn lưu các thay đổi của cuộc hẹn này không?"
 
 #: ../calendar/calendar.error.xml.h:66
-#, fuzzy
 #| msgid "Would you like to save your changes to this memo?"
 msgid "Would you like to save your changes to this meeting?"
-msgstr "Bạn có muốn lưu các thay đổi của ghi nhớ này không?"
+msgstr "Bạn có muốn lưu các thay đổi trong ghi nhớ này không?"
 
 #: ../calendar/calendar.error.xml.h:67
 msgid "Would you like to save your changes to this memo?"
@@ -2006,10 +1964,9 @@ msgid "You have changed this appointment, but not yet saved it."
 msgstr "Bạn đã sửa đổi cuộc hẹn này, nhưng chưa lưu lại."
 
 #: ../calendar/calendar.error.xml.h:77
-#, fuzzy
 #| msgid "You have changed this task, but not yet saved it."
 msgid "You have changed this meeting, but not yet saved it."
-msgstr "Bạn đã sửa đổi tác vụ này, nhưng chưa lưu lại."
+msgstr "Bạn đã sửa đổi cuộc họp này, nhưng chưa lưu lại."
 
 #: ../calendar/calendar.error.xml.h:78
 msgid "You have changed this task, but not yet saved it."
@@ -2064,7 +2021,6 @@ msgid_plural "minutes"
 msgstr[0] "phút"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:116
-#, fuzzy
 #| msgid "hours"
 #| msgid_plural "hours"
 msgid "hour"
@@ -2110,7 +2066,6 @@ msgstr "_Ngủ"
 #: ../calendar/gui/dialogs/event-page.ui.h:26 ../e-util/e-plugin-util.c:427
 #: ../filter/filter.ui.h:15
 #: ../plugins/google-account-setup/google-contacts-source.c:375
-#, fuzzy
 #| msgid "hours"
 #| msgid_plural "hours"
 msgid "hours"
@@ -2144,11 +2099,11 @@ msgid "No location information available."
 msgstr "Không có thông tin về địa điểm."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1519
-#, fuzzy, c-format
+#, c-format
 #| msgid "You have %d alarms"
 msgid "You have %d alarm"
 msgid_plural "You have %d alarms"
-msgstr[0] "Bạn có %d bảo động"
+msgstr[0] "Bạn có %d báo động"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1698
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1731
@@ -2269,7 +2224,7 @@ msgstr "Phân loại"
 #: ../calendar/gui/e-cal-model.c:780 ../calendar/gui/e-task-table.c:495
 #: ../calendar/gui/memotypes.xml.h:6 ../widgets/misc/e-send-options.ui.h:2
 msgid "Confidential"
-msgstr "Tin tưởng"
+msgstr "Mật"
 
 #: ../calendar/gui/caltypes.xml.h:8 ../calendar/gui/e-cal-list-view.etspec.h:3
 #: ../calendar/gui/memotypes.xml.h:7 ../calendar/gui/tasktypes.xml.h:10
@@ -2803,11 +2758,11 @@ msgstr "Phân loại là Riêng"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1178
 msgid "_Confidential"
-msgstr "_Tin tưởng"
+msgstr "_Mật"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1180
 msgid "Classify as confidential"
-msgstr "Phân loại là Tin tưởng"
+msgstr "Phân loại Mật"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1188
 msgid "R_ole Field"
@@ -3055,7 +3010,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/event-page.c:828
 #: ../calendar/gui/dialogs/event-page.c:2784
 msgid "This event has alarms"
-msgstr "Nó có bảo động."
+msgstr "Nó có báo động."
 
 #: ../calendar/gui/dialogs/event-page.c:895
 #: ../calendar/gui/dialogs/event-page.ui.h:8
@@ -3593,7 +3548,7 @@ msgstr "Gửi các báo động mình cùng với sự kiện này"
 #, fuzzy
 #| msgid "Notify new messages for _Inbox only"
 msgid "Notify new attendees _only"
-msgstr "Thông báo về thư mớ_i chỉ trong hộp Thư Đến"
+msgstr "Thông báo về thư mớ_i chỉ trong hộp thư nhận"
 
 #: ../calendar/gui/dialogs/task-details-page.c:356
 #: ../calendar/gui/dialogs/task-details-page.c:378
@@ -4551,7 +4506,7 @@ msgstr "%d %B"
 
 #: ../calendar/gui/ea-cal-view-event.c:286
 msgid "It has alarms."
-msgstr "Nó có bảo động."
+msgstr "Nó có báo động."
 
 #: ../calendar/gui/ea-cal-view-event.c:289
 msgid "It has recurrences."
@@ -5147,24 +5102,21 @@ msgstr "Bộ nhập lịch thông minh Evolution"
 
 #: ../calendar/importers/icalendar-importer.c:926
 #: ../calendar/importers/icalendar-importer.c:1243
-#, fuzzy
 #| msgctxt "New"
 #| msgid "M_eeting"
 msgctxt "iCalImp"
 msgid "Meeting"
-msgstr "Cuộc họ_p"
+msgstr "Cuộc họp"
 
 #: ../calendar/importers/icalendar-importer.c:926
 #: ../calendar/importers/icalendar-importer.c:1243
-#, fuzzy
 #| msgid "Sent"
 msgctxt "iCalImp"
 msgid "Event"
-msgstr "Đã gửi"
+msgstr "Sự kiện"
 
 #: ../calendar/importers/icalendar-importer.c:929
 #: ../calendar/importers/icalendar-importer.c:1244
-#, fuzzy
 #| msgid "Task"
 msgctxt "iCalImp"
 msgid "Task"
@@ -5172,43 +5124,37 @@ msgstr "Tác vụ"
 
 #: ../calendar/importers/icalendar-importer.c:932
 #: ../calendar/importers/icalendar-importer.c:1245
-#, fuzzy
 #| msgid "Memo"
 msgctxt "iCalImp"
 msgid "Memo"
 msgstr "Ghi nhớ"
 
 #: ../calendar/importers/icalendar-importer.c:941
-#, fuzzy
 #| msgid "It has recurrences."
 msgctxt "iCalImp"
 msgid "has recurrences"
-msgstr "Nó có nhiều lần."
+msgstr "có lặp lại"
 
 #: ../calendar/importers/icalendar-importer.c:946
-#, fuzzy
 #| msgid "This and Prior Instances"
 msgctxt "iCalImp"
 msgid "is an instance"
-msgstr "Lần này và những lần trước"
+msgstr "là một thể hiện"
 
 #: ../calendar/importers/icalendar-importer.c:951
-#, fuzzy
 #| msgid "It has alarms."
 msgctxt "iCalImp"
 msgid "has alarms"
-msgstr "Nó có bảo động."
+msgstr "có báo động"
 
 #: ../calendar/importers/icalendar-importer.c:956
-#, fuzzy
 #| msgid "%s attachment"
 msgctxt "iCalImp"
 msgid "has attachments"
-msgstr "%s đính kèm"
+msgstr "có đính kèm"
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:969
-#, fuzzy
 #| msgid "Public"
 msgctxt "iCalImp"
 msgid "Public"
@@ -5216,7 +5162,6 @@ msgstr "Công cộng"
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:972
-#, fuzzy
 #| msgid "Private"
 msgctxt "iCalImp"
 msgid "Private"
@@ -5224,15 +5169,13 @@ msgstr "Riêng tư"
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:975
-#, fuzzy
 #| msgid "Confidential"
 msgctxt "iCalImp"
 msgid "Confidential"
-msgstr "Tin tưởng"
+msgstr "Mật"
 
 #. Translators: Appointment's classification section name
 #: ../calendar/importers/icalendar-importer.c:979
-#, fuzzy
 #| msgid "Classification"
 msgctxt "iCalImp"
 msgid "Classification"
@@ -5242,7 +5185,6 @@ msgstr "Phân loại"
 #. Translators: Column header for a component summary
 #: ../calendar/importers/icalendar-importer.c:984
 #: ../calendar/importers/icalendar-importer.c:1284
-#, fuzzy
 #| msgid "Summary"
 msgctxt "iCalImp"
 msgid "Summary"
@@ -5250,7 +5192,6 @@ msgstr "Tóm tắt"
 
 #. Translators: Appointment's location
 #: ../calendar/importers/icalendar-importer.c:990
-#, fuzzy
 #| msgid "Location"
 msgctxt "iCalImp"
 msgid "Location"
@@ -5260,7 +5201,6 @@ msgstr "Địa chỉ"
 #. Translators: Column header for a component start date/time
 #: ../calendar/importers/icalendar-importer.c:998
 #: ../calendar/importers/icalendar-importer.c:1280
-#, fuzzy
 #| msgid "Start"
 msgctxt "iCalImp"
 msgid "Start"
@@ -5268,7 +5208,6 @@ msgstr "Bắt đầu"
 
 #. Translators: 'Due' like the time due a task should be finished
 #: ../calendar/importers/icalendar-importer.c:1009
-#, fuzzy
 #| msgid "Due"
 msgctxt "iCalImp"
 msgid "Due"
@@ -5276,7 +5215,6 @@ msgstr "Đến hạn"
 
 #. Translators: Appointment's end time
 #: ../calendar/importers/icalendar-importer.c:1021
-#, fuzzy
 #| msgid "End"
 msgctxt "iCalImp"
 msgid "End"
@@ -5284,15 +5222,13 @@ msgstr "Kết thúc"
 
 #. Translators: Appointment's categories
 #: ../calendar/importers/icalendar-importer.c:1031
-#, fuzzy
 #| msgid "Categories"
 msgctxt "iCalImp"
 msgid "Categories"
-msgstr "Loại"
+msgstr "Phân loại"
 
 #. Translators: Appointment's complete value (either percentage, or a date/time of a completion)
 #: ../calendar/importers/icalendar-importer.c:1055
-#, fuzzy
 #| msgid "Completed"
 msgctxt "iCalImp"
 msgid "Completed"
@@ -5300,7 +5236,6 @@ msgstr "Hoàn tất"
 
 #. Translators: Appointment's URL
 #: ../calendar/importers/icalendar-importer.c:1063
-#, fuzzy
 #| msgid "URL"
 msgctxt "iCalImp"
 msgid "URL"
@@ -5309,23 +5244,20 @@ msgstr "URL"
 #. Translators: Appointment's organizer
 #: ../calendar/importers/icalendar-importer.c:1074
 #: ../calendar/importers/icalendar-importer.c:1077
-#, fuzzy
 #| msgid "Organizer"
 msgctxt "iCalImp"
 msgid "Organizer"
-msgstr "Bộ tổ chức:"
+msgstr "Tổ chức"
 
 #. Translators: Appointment's attendees
 #: ../calendar/importers/icalendar-importer.c:1097
 #: ../calendar/importers/icalendar-importer.c:1100
-#, fuzzy
 #| msgid "Attendees"
 msgctxt "iCalImp"
 msgid "Attendees"
 msgstr "Người dự"
 
 #: ../calendar/importers/icalendar-importer.c:1114
-#, fuzzy
 #| msgid "Description"
 msgctxt "iCalImp"
 msgid "Description"
@@ -5333,7 +5265,6 @@ msgstr "Mô tả"
 
 #. Translators: Column header for a component type; it can be Event, Task or Memo
 #: ../calendar/importers/icalendar-importer.c:1276
-#, fuzzy
 #| msgid "Type"
 msgctxt "iCalImp"
 msgid "Type"
@@ -7087,31 +7018,26 @@ msgid "Click here to select folders to post to"
 msgstr "Nhấn vào đây để chọn thư mục nơi cần gửi"
 
 #: ../composer/e-composer-private.c:217
-#, fuzzy
 #| msgid "Copy the selection"
 msgid "Undo the last action"
-msgstr "Chép vùng chọn"
+msgstr "Hồi lại hành động cuối cùng"
 
 #: ../composer/e-composer-private.c:221
-#, fuzzy
 #| msgid "Send Latest Information"
 msgid "Redo the last undone action"
-msgstr "Gửi tin tức"
+msgstr "Thực hiện lại hành động vừa được hồi lại"
 
 #: ../composer/e-composer-private.c:225
-#, fuzzy
 #| msgid "Search filter"
 msgid "Search for text"
-msgstr "Bộ lọc tìm"
+msgstr "Tìm chuỗi"
 
 #: ../composer/e-composer-private.c:229
-#, fuzzy
 #| msgid "Search for an iPod failed"
 msgid "Search for and replace text"
-msgstr "Lỗi tìm iPod"
+msgstr "Tìm và thay thế văn bản"
 
 #: ../composer/e-composer-private.c:338
-#, fuzzy
 #| msgid "Save Draft"
 msgid "Save draft"
 msgstr "Lưu bản nháp"
@@ -7136,14 +7062,12 @@ msgid "Compose Message"
 msgstr "Viết thư"
 
 #: ../composer/e-msg-composer.c:4085
-#, fuzzy
 #| msgid ""
 #| "<b>(The composer contains a non-text message body, which cannot be "
 #| "edited.)</b>"
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
-"<b>(Bộ soạn thảo chứa phần thân thư khác chữ nên không thể hiệu chỉnh nó.)</"
-"b>"
+"Bộ soạn thảo chứa phần thân thư phi văn bản nên không thể sửa đổi được."
 
 #: ../composer/e-msg-composer.c:4790
 msgid "Untitled Message"
@@ -7246,10 +7170,9 @@ msgstr ""
 "thư ấy thì sẽ cho phép bạn tiếp tục từ chỗ ấy."
 
 #: ../composer/mail-composer.error.xml.h:19
-#, fuzzy
 #| msgid "Saving message to folder"
 msgid "Saving message to Outbox."
-msgstr "Đang lưu thư vào thư mục..."
+msgstr "Đang lưu thư vào hộp thư gửi."
 
 #: ../composer/mail-composer.error.xml.h:20
 #, fuzzy
@@ -8500,7 +8423,7 @@ msgstr "Tên"
 #: ../modules/mail/e-mail-shell-view-private.c:1099
 #: ../modules/mail/e-mail-shell-view-private.c:1110
 msgid "Inbox"
-msgstr "Hộp Đến"
+msgstr "Hộp thư nhận"
 
 #: ../mail/e-mail-local.c:36 ../mail/e-mail-migrate.c:1007
 #: ../mail/em-folder-tree-model.c:758
@@ -8511,7 +8434,7 @@ msgstr "Nháp"
 #: ../mail/e-mail-local.c:37 ../mail/em-folder-tree-model.c:770
 #: ../modules/mail/e-mail-shell-view-private.c:1101
 msgid "Outbox"
-msgstr "Hộp Đi"
+msgstr "Hộp thư gửi"
 
 #: ../mail/e-mail-local.c:38 ../mail/e-mail-migrate.c:1000
 #: ../mail/em-folder-tree-model.c:772
@@ -8556,26 +8479,24 @@ msgstr ""
 "Hãy kiên nhẫn trong khi Evolution nâng cấp các thư mục của bạn..."
 
 #: ../mail/e-mail-migrate.c:1147
-#, fuzzy, c-format
+#, c-format
 #| msgid "Unable to create local mail folders at `%s': %s"
 msgid "Unable to create local mail folders at '%s': %s"
-msgstr "Không thể tạo những thư mục thư địa cục bộ « %s »: %s"
+msgstr "Không thể tạo những thư mục thư cục bộ tại '%s': %s"
 
 #: ../mail/e-mail-notebook-view.c:565
-#, fuzzy
 #| msgid "Please select a user."
 msgid "Please select a folder"
-msgstr "Hãy chọn một người dùng."
+msgstr "Hãy chọn một thư mục."
 
 #. XXX e-error should provide a widget layout and API suitable
 #. *     for packing additional widgets to the right of the alert
 #. *     icon.  But for now, screw it.
 #: ../mail/e-mail-reader-utils.c:111
 #: ../modules/calendar/e-task-shell-view-actions.c:576
-#, fuzzy
 #| msgid "Do not ask me again."
 msgid "Do not ask me again"
-msgstr "Đừng hỏi tôi lần nữa."
+msgstr "Đừng hỏi nữa."
 
 #: ../mail/e-mail-reader.c:309 ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
@@ -8608,21 +8529,19 @@ msgstr "Chu_yển"
 #. Check buttons
 #: ../mail/e-mail-reader.c:1248 ../mail/e-mail-reader.c:1404
 #: ../mail/e-mail-reader.c:1446
-#, fuzzy
 #| msgid "Do not ask me again."
 msgid "_Do not ask me again."
-msgstr "Đừng hỏi tôi lần nữa."
+msgstr "Đừng _hỏi nữa."
 
 #: ../mail/e-mail-reader.c:1451
 msgid "_Always ignore Reply-To: for mailing lists."
 msgstr ""
 
 #: ../mail/e-mail-reader.c:1558
-#, fuzzy
 #| msgid "_Save Message"
 msgid "Save Message"
 msgid_plural "Save Messages"
-msgstr[0] "_Lưu thư"
+msgstr[0] "Lưu thư"
 
 #. Translators: This is a part of a suggested file name
 #. * used when saving a message or multiple messages to an
@@ -8633,7 +8552,6 @@ msgstr[0] "_Lưu thư"
 #: ../mail/e-mail-reader.c:1579
 #: ../plugins/groupwise-features/notification.ui.h:1
 #: ../plugins/groupwise-features/properties.ui.h:3
-#, fuzzy
 #| msgid "Message"
 msgid "Message"
 msgid_plural "Messages"
@@ -8644,10 +8562,9 @@ msgid "A_dd Sender to Address Book"
 msgstr "_Thêm người gửi vào Sổ địa chỉ"
 
 #: ../mail/e-mail-reader.c:1855
-#, fuzzy
 #| msgid "Add Sender to Address Book"
 msgid "Add sender to address book"
-msgstr "Thêm người gửi vào Sổ địa chỉ"
+msgstr "Thêm người gửi vào sổ địa chỉ"
 
 #: ../mail/e-mail-reader.c:1860
 msgid "Check for _Junk"
@@ -8726,10 +8643,9 @@ msgid "_Clear Flag"
 msgstr "Xó_a cờ"
 
 #: ../mail/e-mail-reader.c:1925
-#, fuzzy
 #| msgid "Undelete the selected messages"
 msgid "Remove the follow-up flag from the selected messages"
-msgstr "Hủy xoá những thư đã chọn"
+msgstr ""
 
 #: ../mail/e-mail-reader.c:1930
 msgid "_Flag Completed"
@@ -8760,10 +8676,9 @@ msgid "Forward the selected message to someone as an attachment"
 msgstr "Chuyển tiếp thư đã chọn tới người khác như là đính kèm"
 
 #: ../mail/e-mail-reader.c:1951
-#, fuzzy
 #| msgid "_Forward as iCalendar"
 msgid "Forward As _Attached"
-msgstr "Chu_yển dạng iCalendar"
+msgstr "Chuyển dạng đính _kèm"
 
 #: ../mail/e-mail-reader.c:1958
 msgid "_Inline"
@@ -8774,10 +8689,9 @@ msgid "Forward the selected message in the body of a new message"
 msgstr "Chuyển tiếp thư đã chọn trong thân thư mới"
 
 #: ../mail/e-mail-reader.c:1965
-#, fuzzy
 #| msgid "_Forward style:"
 msgid "Forward As _Inline"
-msgstr "Kiểu dáng chuyển t_iếp:"
+msgstr "Chuyển dạng _inline"
 
 #: ../mail/e-mail-reader.c:1972
 msgid "_Quoted"
@@ -8788,10 +8702,9 @@ msgid "Forward the selected message quoted like a reply"
 msgstr "Chuyển tiếp thư đã chọn được trích dẫn dạng trả lời"
 
 #: ../mail/e-mail-reader.c:1979
-#, fuzzy
 #| msgid "_Forward style:"
 msgid "Forward As _Quoted"
-msgstr "Kiểu dáng chuyển t_iếp:"
+msgstr "Chuyển dạng _trích dẫn"
 
 #: ../mail/e-mail-reader.c:1986
 msgid "_Load Images"
@@ -8882,48 +8795,42 @@ msgid "Move selected messages to another folder"
 msgstr "Di chuyển các thư đã chọn sang thư mục khác"
 
 #: ../mail/e-mail-reader.c:2063
-#, fuzzy
 #| msgid "Switch to %s"
 msgid "_Switch to Folder"
-msgstr "Chuyển sang %s"
+msgstr "_Chuyển sang thư mục"
 
 #: ../mail/e-mail-reader.c:2065
-#, fuzzy
 #| msgid "Install the shared folder"
 msgid "Display the parent folder"
-msgstr "Cài đặt thư mục chia sẻ"
+msgstr "Hiện thư mục cha"
 
 #: ../mail/e-mail-reader.c:2070
-#, fuzzy
 #| msgid "Switch to %s"
 msgid "Switch to _next tab"
-msgstr "Chuyển sang %s"
+msgstr "Chuyển sang thẻ _kế"
 
 #: ../mail/e-mail-reader.c:2072
 msgid "Switch to the next tab"
-msgstr ""
+msgstr "Chuyển sang thẻ kế tiếp"
 
 #: ../mail/e-mail-reader.c:2077
-#, fuzzy
 #| msgid "Switch to %s"
 msgid "Switch to _previous tab"
-msgstr "Chuyển sang %s"
+msgstr "Chuyển sang thẻ _trước"
 
 #: ../mail/e-mail-reader.c:2079
 msgid "Switch to the previous tab"
-msgstr ""
+msgstr "Chuyển sang thẻ trước đó"
 
 #: ../mail/e-mail-reader.c:2084
-#, fuzzy
 #| msgid "Close the current file"
 msgid "Cl_ose current tab"
 msgstr "Đóng tập tin hiện thời"
 
 #: ../mail/e-mail-reader.c:2086
-#, fuzzy
 #| msgid "Close the current file"
 msgid "Close current tab"
-msgstr "Đóng tập tin hiện thời"
+msgstr "Đóng thẻ hiện thời"
 
 #: ../mail/e-mail-reader.c:2091
 msgid "_Next Message"
@@ -8974,16 +8881,15 @@ msgid "Display the previous important message"
 msgstr "Hiển thị thư quan trọng trước đó"
 
 #: ../mail/e-mail-reader.c:2133
-#, fuzzy
 #| msgid "Previous"
 msgid "Previous T_hread"
-msgstr "Lùi"
+msgstr "Mạch thư _trước"
 
 #: ../mail/e-mail-reader.c:2135
 #, fuzzy
 #| msgid "Display the previous message"
 msgid "Display the previous thread"
-msgstr "Hiển thị thư trước đó"
+msgstr "Hiển thị mạch thư trước đó"
 
 #: ../mail/e-mail-reader.c:2140
 msgid "P_revious Unread Message"
@@ -9010,28 +8916,24 @@ msgid "Redirect (bounce) the selected message to someone"
 msgstr "Chuyển hướng (bounce: nảy lên) thư đã chọn tới người khác"
 
 #: ../mail/e-mail-reader.c:2168
-#, fuzzy
 #| msgid "No Attachment"
 msgid "Remo_ve Attachments"
-msgstr "Không có đồ đính kèm"
+msgstr "_Bỏ đính kèm"
 
 #: ../mail/e-mail-reader.c:2170
-#, fuzzy
 #| msgid "Save attachments"
 msgid "Remove attachments"
 msgstr "Lưu đính kèm"
 
 #: ../mail/e-mail-reader.c:2175
-#, fuzzy
 #| msgid "Hide S_elected Messages"
 msgid "Remove Du_plicate Messages"
-msgstr "Ẩn các thư đã _chọn"
+msgstr "Xoá các thư trùng lắp"
 
 #: ../mail/e-mail-reader.c:2177
-#, fuzzy
 #| msgid "Mark the selected messages for deletion"
 msgid "Checks selected messages for duplicates"
-msgstr "Đánh dấu các thư đã chọn cần xoá"
+msgstr "Đánh dấu các thư đã chọn là trùng lắp"
 
 #: ../mail/e-mail-reader.c:2182 ../mail/mail.error.xml.h:102
 #: ../modules/calendar/e-cal-shell-view-actions.c:1463
@@ -9063,10 +8965,9 @@ msgid "Compose a reply to the sender of the selected message"
 msgstr "Viết thư trả lời cho người gửi thư đã chọn"
 
 #: ../mail/e-mail-reader.c:2203
-#, fuzzy
 #| msgid "Save as..."
 msgid "_Save as mbox..."
-msgstr "Lưu dạng..."
+msgstr "Lưu dạng _mbox..."
 
 #: ../mail/e-mail-reader.c:2205
 #, fuzzy
@@ -9163,26 +9064,23 @@ msgid "Ch_aracter Encoding"
 msgstr "Bộ _ký tự"
 
 #: ../mail/e-mail-reader.c:2296
-#, fuzzy
 #| msgid "F_orward As..."
 msgid "F_orward As"
-msgstr "Chuyển t_iếp dạng..."
+msgstr "Chuyển tiếp _dạng"
 
 #: ../mail/e-mail-reader.c:2303
-#, fuzzy
 #| msgid "_Reply"
 msgid "_Group Reply"
-msgstr "T_rả lời"
+msgstr "T_rả lời nhóm"
 
 #: ../mail/e-mail-reader.c:2310
 msgid "_Go To"
 msgstr "Đ_i tới"
 
 #: ../mail/e-mail-reader.c:2317
-#, fuzzy
 #| msgid "Mar_k as"
 msgid "Mar_k As"
-msgstr "_Nhãn là"
+msgstr "Đánh _dấu là"
 
 #: ../mail/e-mail-reader.c:2324
 msgid "_Message"
@@ -9213,7 +9111,6 @@ msgid "Mar_k as Read"
 msgstr "Đánh dấu Đã đọ_c"
 
 #: ../mail/e-mail-reader.c:2380
-#, fuzzy
 #| msgid "Mark as Un_important"
 msgid "Mark as Uni_mportant"
 msgstr "Đánh dấu _Không quan trọng"
@@ -9243,10 +9140,10 @@ msgid "Unable to retrieve message"
 msgstr "Không thể nhận thư."
 
 #: ../mail/e-mail-reader.c:2731 ../mail/mail-ops.c:2044
-#, fuzzy, c-format
+#, c-format
 #| msgid "Retrieving message %s"
 msgid "Retrieving message '%s'"
-msgstr "Đang lấy thư %s..."
+msgstr "Đang lấy thư '%s'"
 
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
@@ -9268,10 +9165,9 @@ msgid "Forward the selected message to someone"
 msgstr "Chuyển tiếp thư đã chọn tới người khác"
 
 #: ../mail/e-mail-reader.c:3544
-#, fuzzy
 #| msgid "Group Items By"
 msgid "Group Reply"
-msgstr "Nhóm lại mục theo"
+msgstr "Trả lời nhóm"
 
 #: ../mail/e-mail-reader.c:3545
 #, fuzzy
@@ -9301,10 +9197,10 @@ msgid "Reply"
 msgstr "Trả lời"
 
 #: ../mail/e-mail-reader.c:4274
-#, fuzzy, c-format
+#, c-format
 #| msgid "Folder"
 msgid "Folder '%s'"
-msgstr "Thư mục"
+msgstr "Thư mục '%s'"
 
 #: ../mail/e-mail-session.c:644
 #, c-format
@@ -9344,16 +9240,16 @@ msgstr ""
 "đã bị thôi."
 
 #: ../mail/e-mail-session.c:1262 ../mail/mail-ops.c:1220
-#, fuzzy, c-format
+#, c-format
 #| msgid "Opening folder %s"
 msgid "Opening folder '%s'"
-msgstr "Đang mở thư mục %s..."
+msgstr "Đang mở thư mục '%s'"
 
 #: ../mail/e-mail-session.c:1278
-#, fuzzy, c-format
+#, c-format
 #| msgid "Invalid folder: `%s'"
 msgid "Invalid folder: %s"
-msgstr "Thư mục không hợp lệ: « %s »"
+msgstr "Thư mục không hợp lệ: %s"
 
 #: ../mail/e-mail-session-utils.c:477 ../mail/mail-ops.c:605
 #, c-format
@@ -9362,7 +9258,7 @@ msgstr "Việc áp dụng bộ lọc gửi đi bị lỗi: %s"
 
 #: ../mail/e-mail-session-utils.c:501 ../mail/e-mail-session-utils.c:535
 #: ../mail/mail-ops.c:622 ../mail/mail-ops.c:653
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Failed to append to %s: %s\n"
 #| "Appending to local `Sent' folder instead."
@@ -9370,14 +9266,14 @@ msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local 'Sent' folder instead."
 msgstr ""
-"Lỗi phụ thêm vào %s: %s\n"
-"Thì phụ thêm vào thư mục « Đã gửi » thay thế."
+"Lỗi nối thêm vào %s: %s\n"
+"Cho nên nối thêm vào thư mục 'Đã gửi'."
 
 #: ../mail/e-mail-session-utils.c:555 ../mail/mail-ops.c:673
-#, fuzzy, c-format
+#, c-format
 #| msgid "Failed to append to local `Sent' folder: %s"
 msgid "Failed to append to local 'Sent' folder: %s"
-msgstr "Lỗi thêm vào thư mục « Đã gửi » cục bộ: %s"
+msgstr "Lỗi nối thêm vào thư mục cục bộ 'Đã gửi' cục bộ: %s"
 
 #: ../mail/e-mail-session-utils.c:761 ../mail/mail-ops.c:774
 #: ../mail/mail-ops.c:866
@@ -9385,22 +9281,22 @@ msgid "Sending message"
 msgstr "Đang gửi thư"
 
 #: ../mail/e-mail-session-utils.c:832
-#, fuzzy, c-format
+#, c-format
 #| msgid "Unsubscribing from folder \"%s\""
 msgid "Unsubscribing from folder '%s'"
-msgstr "Đang bỏ đăng ký trên thư mục « %s »"
+msgstr "Đang bỏ đăng ký thư mục '%s'"
 
 #: ../mail/e-mail-store-utils.c:39
-#, fuzzy, c-format
+#, c-format
 #| msgid "Disconnecting from %s"
 msgid "Disconnecting from '%s'"
-msgstr "Đang ngắt kết nối từ %s..."
+msgstr "Đang ngắt kết nối từ '%s'"
 
 #: ../mail/e-mail-store-utils.c:130
-#, fuzzy, c-format
+#, c-format
 #| msgid "Reconnecting to %s"
 msgid "Reconnecting to '%s'"
-msgstr "Đang tái kết nối tới %s..."
+msgstr "Đang tái kết nối tới '%s'"
 
 #: ../mail/e-mail-tag-editor.c:295
 msgid "Flag to Follow Up"
@@ -9431,7 +9327,6 @@ msgstr "Mật mã SSL"
 
 #. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
 #: ../mail/em-account-editor.c:842 ../widgets/misc/e-signature-combo-box.c:79
-#, fuzzy
 #| msgid "None"
 msgctxt "mail-signature"
 msgid "None"
@@ -9451,7 +9346,6 @@ msgstr "Hỏi cho mỗi thư"
 
 #. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
 #: ../mail/em-account-editor.c:1707 ../widgets/misc/e-account-tree-view.c:131
-#, fuzzy
 #| msgid "None"
 msgctxt "mail-receiving"
 msgid "None"
@@ -9770,10 +9664,9 @@ msgid "Message is not Junk"
 msgstr "Thư không phải rác"
 
 #: ../mail/em-filter-i18n.h:50
-#, fuzzy
 #| msgid "Message contains"
 msgid "Message Location"
-msgstr "Thư chứa"
+msgstr "Vị trí thư"
 
 #: ../mail/em-filter-i18n.h:52
 msgid "Pipe to Program"
@@ -9940,12 +9833,12 @@ msgstr "Tên thư mục không thể chứa ký tự sổ chéo."
 
 # Variable: do not translate/ biến: đừng dịch
 #: ../mail/em-folder-tree.c:1191
-#, fuzzy, c-format
+#, c-format
 #| msgctxt "folder-display"
 #| msgid "%s (%u)"
 msgctxt "folder-display"
 msgid "%s (%u%s)"
-msgstr "%s (%u)"
+msgstr "%s (%u%s)"
 
 #: ../mail/em-folder-tree.c:1427
 msgid "Mail Folder Tree"
@@ -9977,26 +9870,23 @@ msgid "Cannot drop message(s) into toplevel store"
 msgstr "Không thể thả thư vào kho mức độ đỉnh"
 
 #: ../mail/em-folder-utils.c:422
-#, fuzzy
 #| msgid "_Move Folder To..."
 msgid "Move Folder To"
-msgstr "Chu_yển thư mục sang..."
+msgstr "Chuyển thư mục đến"
 
 #: ../mail/em-folder-utils.c:422
-#, fuzzy
 #| msgid "_Copy Folder To..."
 msgid "Copy Folder To"
-msgstr "_Chép thư mục vào..."
+msgstr "Chép thư mục vào"
 
 #: ../mail/em-folder-utils.c:571
 #: ../plugins/groupwise-features/share-folder-common.c:138
-#, fuzzy, c-format
+#, c-format
 #| msgid "Creating folder `%s'"
 msgid "Creating folder '%s'"
-msgstr "Đang tạo thư mục « %s »..."
+msgstr "Đang tạo thư mục '%s'"
 
 #: ../mail/em-folder-utils.c:745
-#, fuzzy
 #| msgid "Create folder"
 msgid "Create Folder"
 msgstr "Tạo thư mục"
@@ -10126,7 +10016,6 @@ msgstr ""
 "bên ngoài."
 
 #: ../mail/em-format-html-display.c:749
-#, fuzzy
 #| msgid "Completed On"
 msgid "Completed on"
 msgstr "Hoàn tất vào"
@@ -10138,7 +10027,7 @@ msgstr "Quá hạn:"
 #. To Translators: the "by" is part of the string, like "Follow-up by Tuesday, January 13, 2009"
 #: ../mail/em-format-html-display.c:761
 msgid "by"
-msgstr ""
+msgstr "vào"
 
 #: ../mail/em-format-html-display.c:978 ../mail/em-format-html-display.c:1025
 msgid "View _Unformatted"
@@ -10166,10 +10055,10 @@ msgid "Formatting Message..."
 msgstr "Đang định dạng thư..."
 
 #: ../mail/em-format-html.c:1448 ../mail/em-format-html.c:1458
-#, fuzzy, c-format
+#, c-format
 #| msgid "Retrieving `%s'"
 msgid "Retrieving '%s'"
-msgstr "Đang nhận « %s »..."
+msgstr "Đang nhận '%s'"
 
 #: ../mail/em-format-html.c:1979
 msgid "Unknown external-body part."
@@ -10207,17 +10096,17 @@ msgstr "Trỏ tới dữ liệu lạ bên ngoài (kiểu « %s »)"
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
 #: ../mail/em-format-html.c:2762
-#, fuzzy, c-format
+#, c-format
 #| msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
 msgid "This message was sent by %s on behalf of %s"
-msgstr "Thư này đã được gửi bởi <b>%s</b> thay mặt cho <b>%s</b>"
+msgstr "Thư này đã được gửi bởi %s thay mặt cho %s"
 
 #: ../mail/em-html-stream.c:82 ../mail/em-html-stream.c:104
 #: ../mail/em-html-stream.c:122
-#, fuzzy, c-format
+#, c-format
 #| msgid "No summary available."
 msgid "No HTML stream available"
-msgstr "Không có tóm tắt"
+msgstr "Không có luồng HTML"
 
 #: ../mail/em-subscription-editor.c:1107
 msgid "Folder Subscriptions"
@@ -10228,35 +10117,30 @@ msgid "_Account:"
 msgstr "Tài _khoản:"
 
 #: ../mail/em-subscription-editor.c:1161
-#, fuzzy
 #| msgid "Save Search"
 msgid "Clear Search"
-msgstr "Lưu việc tìm kiếm"
+msgstr "Xoá tìm kiếm"
 
 #: ../mail/em-subscription-editor.c:1179
-#, fuzzy
 #| msgid "does not contain"
 msgid "Sho_w items that contain:"
-msgstr "không chứa"
+msgstr ""
 
 #: ../mail/em-subscription-editor.c:1218
-#, fuzzy
 #| msgid "Subscribe to Other User's Folder"
 msgid "Subscribe to the selected folder"
-msgstr "Đăng ký với thư mục của người dùng khác"
+msgstr "Đăng ký thư mục được chọn"
 
 #: ../mail/em-subscription-editor.c:1219
-#, fuzzy
 #| msgid "Subscribed"
 msgid "Su_bscribe"
-msgstr "Đã đăng ký"
+msgstr "Đăng _ký"
 
 #: ../mail/em-subscription-editor.c:1230
 #: ../modules/mail/e-mail-shell-view-actions.c:1161
-#, fuzzy
 #| msgid "Rename the selected folder"
 msgid "Unsubscribe from the selected folder"
-msgstr "Đổi tên thư mục đã chọn"
+msgstr "Bỏ đăng ký thư mục được chọn"
 
 #: ../mail/em-subscription-editor.c:1231
 #: ../modules/mail/e-mail-shell-view-actions.c:1159
@@ -10264,34 +10148,29 @@ msgid "_Unsubscribe"
 msgstr "Hủ_y đăng ký"
 
 #: ../mail/em-subscription-editor.c:1242
-#, fuzzy
 #| msgid "All local folders"
 msgid "Collapse all folders"
-msgstr "Mọi thư mục cục bộ"
+msgstr "Thu gọn mọi thư mục"
 
 #: ../mail/em-subscription-editor.c:1243
-#, fuzzy
 #| msgid "Collapse All _Threads"
 msgid "C_ollapse All"
-msgstr "_Thu gọn mọi nhánh"
+msgstr "_Thu gọn hết"
 
 #: ../mail/em-subscription-editor.c:1253
-#, fuzzy
 #| msgid "E_xpand All Threads"
 msgid "Expand all folders"
-msgstr "_Dãn ra mọi nhánh"
+msgstr "_Mở mọi thư mục"
 
 #: ../mail/em-subscription-editor.c:1254
-#, fuzzy
 #| msgid "E_xpand All Threads"
 msgid "E_xpand All"
-msgstr "_Dãn ra mọi nhánh"
+msgstr "_Mở bung hết"
 
 #: ../mail/em-subscription-editor.c:1264
-#, fuzzy
 #| msgid "Refresh the folder"
 msgid "Refresh the folder list"
-msgstr "Cập nhật thư mục"
+msgstr "Cập nhật danh sách thư mục"
 
 #: ../mail/em-subscription-editor.c:1276
 #, fuzzy
@@ -10329,10 +10208,9 @@ msgid "Search _Folders"
 msgstr "_Thư mục tìm kiếm"
 
 #: ../mail/em-vfolder-rule.c:603
-#, fuzzy
 #| msgid "Folder"
 msgid "Add Folder"
-msgstr "Thư mục"
+msgstr "Thêm thư mục"
 
 #: ../mail/evolution-mail.schemas.in.h:1
 #, fuzzy
@@ -10743,10 +10621,9 @@ msgid "Flush Outbox after filtering"
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:76
-#, fuzzy
 #| msgid "Forwarded message"
 msgid "Forward message."
-msgstr "Thư đã chuyển tiếp"
+msgstr "Chuyển thư."
 
 #: ../mail/evolution-mail.schemas.in.h:77
 msgid "Group Reply replies to list"
@@ -11008,10 +10885,9 @@ msgid "Last time Empty Trash was run"
 msgstr "Lần cuối cùng đã đổ rác"
 
 #: ../mail/evolution-mail.schemas.in.h:103
-#, fuzzy
 #| msgid "Mayotte"
 msgid "Layout style"
-msgstr "May-oth"
+msgstr "Kiểu bố cục"
 
 #: ../mail/evolution-mail.schemas.in.h:104
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:31
@@ -11095,20 +10971,18 @@ msgid "Logfile to log filter actions."
 msgstr "Tập tin bản ghi nơi cần ghi lưu các hành động lọc."
 
 #: ../mail/evolution-mail.schemas.in.h:120
-#, fuzzy
 #| msgid "Uniform row height"
 msgid "Mail browser height"
-msgstr "Độ cao hàng không đổi"
+msgstr "Chiều cao trình duyệt thư"
 
 #: ../mail/evolution-mail.schemas.in.h:121
 msgid "Mail browser maximized"
-msgstr ""
+msgstr "Trình duyệt thư to tối đa"
 
 #: ../mail/evolution-mail.schemas.in.h:122
-#, fuzzy
 #| msgid "Email begins with"
 msgid "Mail browser width"
-msgstr "Địa chỉ thư bắt đầu bằng"
+msgstr "Độ rộng trình duyệt thư"
 
 #: ../mail/evolution-mail.schemas.in.h:123
 msgid "Mark as Seen after specified timeout"
@@ -11157,10 +11031,9 @@ msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Số địa chỉ cần hiển thị trong Cho/CC/BCC"
 
 #: ../mail/evolution-mail.schemas.in.h:134
-#, fuzzy
 #| msgid "-----Original Message-----"
 msgid "Original message."
-msgstr "━━━Thư gốc━━━"
+msgstr "Thư gốc."
 
 #: ../mail/evolution-mail.schemas.in.h:135
 msgid ""
@@ -11314,16 +11187,14 @@ msgid "Show Animations"
 msgstr "Hiện hoạt cảnh"
 
 #: ../mail/evolution-mail.schemas.in.h:168
-#, fuzzy
 #| msgid "Collapse all message threads"
 msgid "Show all message headers"
-msgstr "Thu gọn mọi nhánh thư"
+msgstr "Hiện hết dòng đầu thư"
 
 #: ../mail/evolution-mail.schemas.in.h:169
-#, fuzzy
 #| msgid "Select all the text in a message"
 msgid "Show all the headers when viewing a messages."
-msgstr "Chọn toàn bộ thân trong thư"
+msgstr "Hiện hết tất cả dòng đầu khi xem thư."
 
 #: ../mail/evolution-mail.schemas.in.h:170
 msgid "Show animated images as animations."
@@ -11338,10 +11209,9 @@ msgid "Show deleted messages in the message-list"
 msgstr "Hiển thị thư bị xoá trong danh sách các thư."
 
 #: ../mail/evolution-mail.schemas.in.h:173
-#, fuzzy
 #| msgid "_Show image animations"
 msgid "Show image animations"
-msgstr "_Hiện hoạt cảnh ảnh"
+msgstr "Hiện hoạt cảnh ảnh"
 
 #: ../mail/evolution-mail.schemas.in.h:174
 msgid "Show original \"Date\" header value."
@@ -11707,10 +11577,9 @@ msgstr "Đang nhập thư từ Elm"
 
 #: ../mail/importers/evolution-mbox-importer.c:127
 #: ../plugins/dbx-import/dbx-importer.c:227
-#, fuzzy
 #| msgid "Destination folder:"
 msgid "_Destination folder:"
-msgstr "Thư mục đích:"
+msgstr "_Thư mục đích:"
 
 #: ../mail/importers/evolution-mbox-importer.c:133
 #: ../plugins/dbx-import/dbx-importer.c:233
@@ -11724,14 +11593,12 @@ msgid "Select folder to import into"
 msgstr "Chọn thư mục để nhập vào"
 
 #: ../mail/importers/evolution-mbox-importer.c:403
-#, fuzzy
 #| msgid "Subject"
 msgctxt "mboxImp"
 msgid "Subject"
 msgstr "Chủ đề"
 
 #: ../mail/importers/evolution-mbox-importer.c:408
-#, fuzzy
 #| msgid "From"
 msgctxt "mboxImp"
 msgid "From"
@@ -11755,10 +11622,10 @@ msgstr "Đang nhập hộp thư..."
 #: ../plugins/dbx-import/dbx-importer.c:568
 #: ../plugins/pst-import/pst-importer.c:478
 #: ../plugins/pst-import/pst-importer.c:587
-#, fuzzy, c-format
+#, c-format
 #| msgid "Importing `%s'"
 msgid "Importing '%s'"
-msgstr "Đang nhập « %s »..."
+msgstr "Đang nhập '%s'"
 
 #: ../mail/importers/mail-importer.c:308
 #, c-format
@@ -11823,10 +11690,9 @@ msgid_plural ""
 msgstr[0] ""
 
 #: ../mail/mail-config.ui.h:1
-#, fuzzy
 #| msgid "No Information"
 msgid "Account Information"
-msgstr "Không có thông tin"
+msgstr "Thông tin tài khoản"
 
 #: ../mail/mail-config.ui.h:2
 msgid "Add Ne_w Signature..."
@@ -11891,10 +11757,9 @@ msgid "Check cu_stom headers for junk"
 msgstr "Kiểm tra dòng đầ_u tự chọn tìm thư rác"
 
 #: ../mail/mail-config.ui.h:19
-#, fuzzy
 #| msgid "Check for _new messages every"
 msgid "Check for new _messages on start"
-msgstr "_Kiểm tra có thư mới mỗi"
+msgstr "_Kiểm tra có thư mới lúc khởi động"
 
 #: ../mail/mail-config.ui.h:20
 #, fuzzy
@@ -11923,7 +11788,6 @@ msgid "Color for _misspelled words:"
 msgstr "_Màu từ gõ sai:"
 
 #: ../mail/mail-config.ui.h:26
-#, fuzzy
 #| msgid "Compose Message"
 msgid "Composing Messages"
 msgstr "Viết thư"
@@ -11938,34 +11802,30 @@ msgid "Confirm _when expunging a folder"
 msgstr "_Xác nhận khi xoá hẳn thư mục"
 
 #: ../mail/mail-config.ui.h:29
-#, fuzzy
 #| msgid "Configuration"
 msgid "Confirmations"
-msgstr "Cấu hình"
+msgstr "Xác nhận"
 
 #: ../mail/mail-config.ui.h:30
 #: ../modules/addressbook/autocompletion-config.c:155
 #: ../modules/calendar/e-calendar-preferences.ui.h:11
-#, fuzzy
 #| msgid "Date/Time"
 msgid "Date/Time Format"
-msgstr "Ngày/Giờ"
+msgstr "Định dạng thời gian"
 
 #: ../mail/mail-config.ui.h:32
-#, fuzzy
 #| msgid "Default Priority:"
 msgid "Default Behavior"
-msgstr "Độ ưu tiên mặc định:"
+msgstr "Hành vi mặc định"
 
 #: ../mail/mail-config.ui.h:33
 msgid "Default character e_ncoding:"
 msgstr "Bộ ký tự mặc đị_nh:"
 
 #: ../mail/mail-config.ui.h:34
-#, fuzzy
 #| msgid "Delete"
 msgid "Delete Mail"
-msgstr "Xoá"
+msgstr "Xoá thư"
 
 #: ../mail/mail-config.ui.h:35
 msgid "Delete junk messages on e_xit"
@@ -11976,10 +11836,9 @@ msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "Ký _số lên các thư gửi đi (theo mặc định)"
 
 #: ../mail/mail-config.ui.h:38
-#, fuzzy
 #| msgid "All Message _Headers"
 msgid "Displayed Message Headers"
-msgstr "Các dòng đầu t_hư"
+msgstr "Dòng đầu thư được hiện"
 
 #: ../mail/mail-config.ui.h:39
 msgid "Do not mar_k messages as junk if sender is in my address book"
@@ -12015,10 +11874,9 @@ msgid "F_all back to threading messages by subject"
 msgstr "Trở _về tạo nhánh thư theo chủ đề"
 
 #: ../mail/mail-config.ui.h:48
-#, fuzzy
 #| msgid "Fix_ed width Font:"
 msgid "Fix_ed Width Font:"
-msgstr "Phông rộng _cố định:"
+msgstr "Phông độ rộng cố định:"
 
 #: ../mail/mail-config.ui.h:49
 msgid "Format messages in _HTML"
@@ -12069,10 +11927,9 @@ msgid "Languages Table"
 msgstr "Bảng Ngôn ngữ"
 
 #: ../mail/mail-config.ui.h:63
-#, fuzzy
 #| msgid "_Load Images"
 msgid "Loading Images"
-msgstr "Tải ả_nh"
+msgstr "Đang nạp ảnh"
 
 #: ../mail/mail-config.ui.h:64
 msgid "Mail Headers Table"
@@ -12083,16 +11940,14 @@ msgid "Mailbox location"
 msgstr "Địa điểm hộp thư"
 
 #: ../mail/mail-config.ui.h:66
-#, fuzzy
 #| msgid "Messages"
 msgid "Message Display"
-msgstr "Thư"
+msgstr "Hiển thị thư"
 
 #: ../mail/mail-config.ui.h:67
-#, fuzzy
 #| msgid "Message Retract"
 msgid "Message Receipts"
-msgstr "Rút lui thư"
+msgstr ""
 
 #: ../mail/mail-config.ui.h:68
 msgid "No _Proxy for:"
@@ -12104,10 +11959,9 @@ msgstr "Tùy chọn này bị bỏ qua nếu tìm thấy dòng đầu thư rác 
 
 #: ../mail/mail-config.ui.h:71
 #: ../plugins/publish-calendar/publish-calendar.ui.h:10
-#, fuzzy
 #| msgid "Personal Information"
 msgid "Optional Information"
-msgstr "Thông tin cá nhân"
+msgstr "Thông tin tuỳ chọn"
 
 #: ../mail/mail-config.ui.h:73
 msgid "Or_ganization:"
@@ -12131,16 +11985,14 @@ msgid "Port:"
 msgstr "Cổng:"
 
 #: ../mail/mail-config.ui.h:78
-#, fuzzy
 #| msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 msgid "Pretty Good Privacy (PGP/GPG)"
-msgstr "<span weight=\"bold\">Riêng tư hơi tốt (PGP/GPG)</span>"
+msgstr "Pretty Good Privacy (PGP/GPG)"
 
 #: ../mail/mail-config.ui.h:80
-#, fuzzy
 #| msgid "Junk Settings"
 msgid "Proxy Settings"
-msgstr "Thiết lập Thư rác"
+msgstr ""
 
 #: ../mail/mail-config.ui.h:81
 msgid "Quoted"
@@ -12168,23 +12020,23 @@ msgstr "Trả lời và mẹ"
 #, fuzzy
 #| msgid "Server Information"
 msgid "Required Information"
-msgstr "Thông tin máy phục vụ"
+msgstr "Thông tin bắt buộc"
 
 #: ../mail/mail-config.ui.h:87
 msgid "SHA1"
-msgstr ""
+msgstr "SHA1"
 
 #: ../mail/mail-config.ui.h:88
 msgid "SHA256"
-msgstr ""
+msgstr "SHA256"
 
 #: ../mail/mail-config.ui.h:89
 msgid "SHA384"
-msgstr ""
+msgstr "SHA384"
 
 #: ../mail/mail-config.ui.h:90
 msgid "SHA512"
-msgstr ""
+msgstr "SHA512"
 
 #: ../mail/mail-config.ui.h:92
 #, fuzzy
@@ -12210,7 +12062,7 @@ msgstr "Phông chữ _chuẩn:"
 
 #: ../mail/mail-config.ui.h:97
 msgid "Secure MIME (S/MIME)"
-msgstr ""
+msgstr "Secure MIME (S/MIME)"
 
 #: ../mail/mail-config.ui.h:99
 msgid "Select HTML fixed width font"
@@ -12317,16 +12169,14 @@ msgid "Start _typing at the bottom on replying"
 msgstr "Khi đáp ứng, bắt đầu gõ bên _dưới (khuyến khích)"
 
 #: ../mail/mail-config.ui.h:123
-#, fuzzy
 #| msgid "Start: "
 msgid "Start up"
-msgstr "Bắt đầu : "
+msgstr "Khởi động"
 
 #: ../mail/mail-config.ui.h:125
-#, fuzzy
 #| msgid "T_ype: "
 msgid "T_ype:"
-msgstr "Kiể_u : "
+msgstr "Kiể_u:"
 
 #: ../mail/mail-config.ui.h:126
 msgid ""
@@ -12370,7 +12220,6 @@ msgid "Use Authe_ntication"
 msgstr "_Xác thực"
 
 #: ../mail/mail-config.ui.h:135
-#, fuzzy
 #| msgid "User_name:"
 msgid "User _Name:"
 msgstr "Tê_n người dùng:"
@@ -12404,10 +12253,9 @@ msgid "_Forward style:"
 msgstr "Kiểu dáng chuyển t_iếp:"
 
 #: ../mail/mail-config.ui.h:143
-#, fuzzy
 #| msgid "Current Folder"
 msgid "_Junk Folder:"
-msgstr "Thư mục hiện thời"
+msgstr "Thư mục thư _rác:"
 
 #: ../mail/mail-config.ui.h:144
 #, fuzzy
@@ -12416,10 +12264,9 @@ msgid "_Keep signature above the original message on replying"
 msgstr "Hiển thị chữ _ký bên trên thân gốc khi trả lời"
 
 #: ../mail/mail-config.ui.h:145
-#, fuzzy
 #| msgid "Language"
 msgid "_Languages"
-msgstr "Ngôn ngữ"
+msgstr "_Ngôn ngữ"
 
 #: ../mail/mail-config.ui.h:146
 #, fuzzy
@@ -12480,10 +12327,9 @@ msgid "_Show the photograph of sender in the message preview"
 msgstr "_Hiện ảnh chụp người gửi trong ô xem thử thư"
 
 #: ../mail/mail-config.ui.h:162
-#, fuzzy
 #| msgid "Drafts _Folder:"
 msgid "_Trash Folder:"
-msgstr "Hộp _Nháp:"
+msgstr "Thư mục _rác:"
 
 #: ../mail/mail-config.ui.h:163
 msgid "_Use Secure Connection:"
@@ -12498,10 +12344,9 @@ msgid "_Use the same fonts as other applications"
 msgstr "_Dùng cùng những phông chữ với các ứng dụng khác"
 
 #: ../mail/mail-config.ui.h:166 ../smime/gui/smime-ui.ui.h:48
-#, fuzzy
 #| msgid "am"
 msgid "a"
-msgstr "sáng"
+msgstr ""
 
 #: ../mail/mail-config.ui.h:167 ../smime/gui/smime-ui.ui.h:49
 msgid "b"
@@ -12536,17 +12381,15 @@ msgid "Co_mpleted"
 msgstr "_Hoàn tất"
 
 #: ../mail/mail-dialogs.ui.h:6
-#, fuzzy
 #| msgid "Edit Signature"
 msgid "Digital Signature"
-msgstr "Sửa chữ ký"
+msgstr "Chữ ký điện tử"
 
 #: ../mail/mail-dialogs.ui.h:7
 msgid "Do Not Forward"
 msgstr "Đừng chuyển tiếp"
 
 #: ../mail/mail-dialogs.ui.h:8
-#, fuzzy
 #| msgid "Encrypt"
 msgid "Encryption"
 msgstr "Mật mã hoá"
@@ -13069,10 +12912,9 @@ msgstr ""
 "chữ thường; phím CapsLock (chữ hoa luôn) phải tắt."
 
 #: ../mail/mail.error.xml.h:43
-#, fuzzy
 #| msgid "Close this window"
 msgid "Close message window."
-msgstr "Đóng cửa sổ này"
+msgstr "Đóng cửa sổ."
 
 #: ../mail/mail.error.xml.h:44
 msgid "Could not save signature file."
@@ -13093,10 +12935,9 @@ msgid "Delete messages in Search Folder \"{0}\"?"
 msgstr "Xoá các thư khỏi thư mục tìm kiếm « {0} » không?"
 
 #: ../mail/mail.error.xml.h:50
-#, fuzzy
 #| msgid "Do not disable"
 msgid "Do _Not Disable"
-msgstr "Đừng tắt"
+msgstr "Đừng _tắt"
 
 #: ../mail/mail.error.xml.h:51
 #, fuzzy
@@ -13247,26 +13088,23 @@ msgstr ""
 "Cho (To) hay Chép Cho (Cc), v.d. địa chỉ mình."
 
 #: ../mail/mail.error.xml.h:81
-#, fuzzy
 #| msgid "Create a new folder for storing mail"
 msgid "Migrate local mbox folders to maildir"
-msgstr "Tạo thư mục mới để lưu thư"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:82
 msgid "Missing folder."
 msgstr "Thiếu thư mục."
 
 #: ../mail/mail.error.xml.h:84
-#, fuzzy
 #| msgid "Never"
 msgid "N_ever"
-msgstr "Không bao giờ"
+msgstr "_Không bao giờ"
 
 #: ../mail/mail.error.xml.h:85
-#, fuzzy
 #| msgid "Unfinished messages found"
 msgid "No duplicate messages found."
-msgstr "Tìm thấy thư chưa viết xong"
+msgstr "Không thấy thư trùng lắp."
 
 #: ../mail/mail.error.xml.h:86
 msgid "No sources selected."
@@ -13328,22 +13166,19 @@ msgid "Really delete folder \"{0}\" and all of its subfolders?"
 msgstr "Thực sự xoá thư mục « {0} » và mọi thư mục con của nó không?"
 
 #: ../mail/mail.error.xml.h:99
-#, fuzzy
 #| msgid "Cannot delete folder \"{0}\"."
 msgid "Really delete folder \"{0}\"?"
-msgstr "Không thể xoá thư mục « {0} »."
+msgstr "Thật sự xoá thư mục \"{0}\" chứ?"
 
 #: ../mail/mail.error.xml.h:100
-#, fuzzy
 #| msgid "Remove the delegate %s?"
 msgid "Remove duplicate messages?"
-msgstr "Gỡ bỏ người ủy nhiệm %s không?"
+msgstr "Xoá thư trùng lắp chứ?"
 
 #: ../mail/mail.error.xml.h:101
-#, fuzzy
 #| msgid "_Private"
 msgid "Reply _Privately"
-msgstr "_Riêng"
+msgstr "Trả lời _riêng"
 
 #: ../mail/mail.error.xml.h:104
 msgid "Search Folders automatically updated."
@@ -13354,10 +13189,9 @@ msgid "Send private reply?"
 msgstr ""
 
 #: ../mail/mail.error.xml.h:106
-#, fuzzy
 #| msgid "Sender or Recipients"
 msgid "Send reply to all recipients?"
-msgstr "Người gửi hay Người nhận"
+msgstr "Gửi trả lời tất cả người nhận chứ?"
 
 #: ../mail/mail.error.xml.h:107
 msgid "Signature Already Exists"
@@ -13494,10 +13328,9 @@ msgstr ""
 "Bạn thực sự muốn làm như thế không?"
 
 #: ../mail/mail.error.xml.h:134
-#, fuzzy
 #| msgid "Would you like to accept it?"
 msgid "Would you like to close the message window?"
-msgstr "Muốn chấp nhận ?"
+msgstr "Bạn có muốn đóng cửa sổ thư không?"
 
 #: ../mail/mail.error.xml.h:135
 msgid ""
@@ -13565,14 +13398,13 @@ msgid "Your login to your server \"{0}\" as \"{0}\" failed."
 msgstr "Bạn đã không đăng nhập được vào máy phục vụ « {0} » với tư cách « {0} »."
 
 #: ../mail/mail.error.xml.h:147
-#, fuzzy
 #| msgid "Always"
 msgid "_Always"
-msgstr "Luôn luôn"
+msgstr "_Luôn luôn"
 
 #: ../mail/mail.error.xml.h:148
 msgid "_Append"
-msgstr "_Phụ thêm"
+msgstr "_Nối thêm"
 
 #: ../mail/mail.error.xml.h:149
 #: ../plugins/groupwise-features/junk-settings.ui.h:5
@@ -13594,32 +13426,28 @@ msgid "_Expunge"
 msgstr "_Xoá hẳn"
 
 #: ../mail/mail.error.xml.h:153
-#, fuzzy
 #| msgid "No"
 msgid "_No"
-msgstr "Không"
+msgstr "_Không"
 
 #: ../mail/mail.error.xml.h:154
 msgid "_Open Messages"
 msgstr "_Mở các thư"
 
 #: ../mail/mail.error.xml.h:157
-#, fuzzy
 #| msgid "Send Receipt"
 msgid "_Send Receipt"
-msgstr "Gửi thông báo đã đọc"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:158
-#, fuzzy
 #| msgid "Synchronize"
 msgid "_Synchronize"
-msgstr "Đồng bộ hoá"
+msgstr "Đồng _bộ"
 
 #: ../mail/mail.error.xml.h:159
-#, fuzzy
 #| msgid "Yes"
 msgid "_Yes"
-msgstr "Có"
+msgstr "_Có"
 
 #: ../mail/message-list.c:1213
 msgid "Unseen"
@@ -13771,10 +13599,9 @@ msgid "Subject contains"
 msgstr "Chủ đề chứa"
 
 #: ../mail/searchtypes.xml.h:6
-#, fuzzy
 #| msgid "Subject or Sender contains"
 msgid "Subject or Addresses contains"
-msgstr "Chủ đề hay người gửi chứa"
+msgstr "Chủ đề hay địa chỉ chứa"
 
 #: ../modules/addressbook/addressbook-config.c:209
 msgid ""
@@ -13874,10 +13701,9 @@ msgid "Autocomplete length"
 msgstr "Độ dài tự động gõ xong"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:2
-#, fuzzy
 #| msgid "Contact Print Test"
 msgid "Contact layout style"
-msgstr "Kiểm thử In liên lạc"
+msgstr "Kiểu bố cục liên lạc"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:3
 msgid "Contact preview pane position (horizontal)"
@@ -13910,10 +13736,9 @@ msgid "Position of the contact preview pane when oriented vertically."
 msgstr ""
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:9
-#, fuzzy
 #| msgid "Save in address book"
 msgid "Primary address book"
-msgstr "Lưu vào sổ địa chỉ"
+msgstr "Sổ địa chỉ chính"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:10
 msgid "Show autocompleted name with an address"
@@ -13966,10 +13791,9 @@ msgstr "Có nên hiển thị ô cửa sổ xem thử hay không."
 #. To Translators: 'Table column' is a label for configurable date/time format for table columns showing a date in message list
 #: ../modules/addressbook/autocompletion-config.c:161
 #: ../modules/mail/em-mailer-prefs.c:1138
-#, fuzzy
 #| msgid "Table model"
 msgid "_Table column:"
-msgstr "Mô hình bảng"
+msgstr ""
 
 #: ../modules/addressbook/autocompletion-config.c:164
 msgid "Autocompletion"
@@ -14030,10 +13854,9 @@ msgstr "Chứng nhận"
 #. Translators: This is a save dialog title
 #: ../modules/addressbook/e-book-shell-view-actions.c:263
 #: ../modules/addressbook/e-book-shell-view-actions.c:549
-#, fuzzy
 #| msgid "Save as vCard..."
 msgid "Save as vCard"
-msgstr "Lưu dạng vCard..."
+msgstr "Lưu dạng vCard"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:680
 msgid "Co_py All Contacts To..."
@@ -14043,7 +13866,7 @@ msgstr "Ché_p các liên lạc sang..."
 #, fuzzy
 #| msgid "Copy the contacts of the selected folder into another folder"
 msgid "Copy the contacts of the selected address book to another"
-msgstr "Sao chép nội dung của thư mục đã chọn sang thư mục khác"
+msgstr "Mô hình bảng"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:687
 #, fuzzy
@@ -14960,7 +14783,7 @@ msgstr "Danh sách tác vụ mới"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:61
 msgid "Programs that are allowed to be run by alarms."
-msgstr "Chương trình mà bảo động có thể chạy."
+msgstr "Chương trình mà báo động có thể chạy."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:62
 msgid "Recently used second time zones in a Day View"
@@ -15133,7 +14956,7 @@ msgstr "Chia thời gian"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:94
 msgid "Time the last alarm ran, in time_t."
-msgstr "Giờ đã bảo động cuối cùng, theo time_t"
+msgstr "Giờ đã báo động cuối cùng, theo time_t"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:95
 msgid "Timezone"
@@ -16337,7 +16160,7 @@ msgstr "Tải về các thư của tài khoản/thư mục có nhãn đọc ngo�
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1075
 msgid "Fl_ush Outbox"
-msgstr "Xoá _sạch Hộp Đi"
+msgstr "Xoá _sạch hộp thư gửi"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1082
 msgid "_Copy Folder To..."
@@ -17814,11 +17637,10 @@ msgid "Protected"
 msgstr "Đã bảo vệ"
 
 #: ../plugins/email-custom-header/email-custom-header.c:326
-#, fuzzy
 #| msgid "Confidential"
 msgctxt "email-custom-header-Security"
 msgid "Confidential"
-msgstr "Tin tưởng"
+msgstr "Mật"
 
 #: ../plugins/email-custom-header/email-custom-header.c:327
 #, fuzzy
@@ -19438,7 +19260,7 @@ msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
 msgid "Notify new messages for Inbox only."
-msgstr "Thông báo về thư mới chỉ trong hộp Thư Đến."
+msgstr "Thông báo về thư mới chỉ trong hộp thư nhận."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Play sound when new messages arrive."
@@ -19486,7 +19308,7 @@ msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
 msgid "Whether to notify new messages in Inbox folder only."
-msgstr "Có nên thông báo chỉ về thư mới trong hộp Thư Đến, hay không."
+msgstr "Có nên thông báo chỉ về thư mới trong hộp thư nhận, hay không."
 
 #: ../plugins/mail-notification/mail-notification.c:390
 #, c-format
@@ -19562,7 +19384,7 @@ msgstr "Chọn tập tin âm thanh"
 
 #: ../plugins/mail-notification/mail-notification.c:846
 msgid "Notify new messages for _Inbox only"
-msgstr "Thông báo về thư mớ_i chỉ trong hộp Thư Đến"
+msgstr "Thông báo về thư mớ_i chỉ trong hộp thư nhận"
 
 #: ../plugins/mail-notification/mail-notification.c:855
 msgid "Generate a _D-Bus message"
