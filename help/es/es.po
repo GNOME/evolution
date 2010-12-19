@@ -1,4 +1,4 @@
-# translation of evolution-help.gnome-2-28.po to Español
+# translation of evolution-help.master.po to Español
 # translation of evolution manual to spanish
 # Traducción realizada para LAMBDAUX SOFTWARE SERVICES (http://Lambdaux.com)
 #
@@ -10,10 +10,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution-help.gnome-2-28\n"
+"Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-12-13 16:08+0000\n"
-"PO-Revision-Date: 2010-12-18 18:57+0100\n"
+"PO-Revision-Date: 2010-12-19 13:02+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1881,7 +1881,6 @@ msgid "Message List:"
 msgstr "Lista de mensajes:"
 
 #: C/evolution.xml:876(para) C/evolution.xml:1035(para)
-#, fuzzy
 #| msgid ""
 #| "The message list displays a list of email that you have received. To view "
 #| "an email in the preview pane, click the email in the message list."
@@ -1889,9 +1888,9 @@ msgid ""
 "The message list displays all the read and unread messages that you have. To "
 "view an email in the preview pane, click the message in the message list."
 msgstr ""
-"La lista de mensajes muestra una lista del correo que ha recibido. Para ver "
-"un correo-e en el panel de vista previa, pulse en correo-e en la lista de "
-"mensajes."
+"La lista de mensajes muestra todos los mensajes leídos y sin leer que tiene. "
+"Para ver un correo-e en el panel de vista previa, pulse en correo-e en la "
+"lista de mensajes."
 
 #: C/evolution.xml:879(title)
 msgid "Side Bar:"
@@ -4904,7 +4903,6 @@ msgstr ""
 "Esta opción lista todas las plantillas de mensajes en la carpeta Plantilla."
 
 #: C/evolution.xml:2062(para)
-#, fuzzy
 #| msgid ""
 #| "Select Open the message template of your choice and make changes if "
 #| "required."
@@ -4912,8 +4910,8 @@ msgid ""
 "Select the message template of your choice. Make changes if required in the "
 "email composer window that will open."
 msgstr ""
-"Seleccione Abrir el mensaje de plantilla a su elección y realice los cambios "
-"si es necesario."
+"Seleccione un mensaje de plantilla a su elección. Realice los cambios que "
+"quiera en la ventana del editor de mensajes que se abrirá."
 
 #: C/evolution.xml:2066(para)
 msgid ""
@@ -4947,7 +4945,6 @@ msgstr ""
 "con Tomás en el mensaje."
 
 #: C/evolution.xml:2075(para)
-#, fuzzy
 #| msgid ""
 #| "Assume that you have 1000 message templates with your current manager's "
 #| "name has a reference in them. When the current manager is replaced by a "
@@ -5019,7 +5016,6 @@ msgstr ""
 "iCal."
 
 #: C/evolution.xml:2095(para)
-#, fuzzy
 #| msgid ""
 #| "To send an invitation, right click on the calendar item and click Forward "
 #| "as iCalendar."
@@ -6392,7 +6388,6 @@ msgstr ""
 "botón derecho sobre la lista y seleccionando Carpeta nueva."
 
 #: C/evolution.xml:2666(para)
-#, fuzzy
 #| msgid ""
 #| "When you click OK, your new folder appears in the folder view. You can "
 #| "then move the messages to it by dragging and dropping them, or right "
@@ -6402,10 +6397,10 @@ msgid ""
 "move the messages to it by dragging and dropping them, or right-click on the "
 "message and choose Move to folder, or press Shift+Ctrl+V."
 msgstr ""
-"Cuando pulse Aceptar aparecerá su nueva carpeta en la vista de carpetas. "
-"Entonces podrá mover los mensajes a la carpeta arrastrándolos y soltándolos, "
-"o pulsando con el botón derecho del ratón y eligiendo Mover a la carpeta o "
-"pulsando Mayús+Ctrl+V."
+"Cuando pulse Aceptar aparecerá su nueva carpeta en la vista de carpetas. "
+"Entonces podrá mover los mensajes a la carpeta arrastrándolos y soltándolos, "
+"o pulsando con el botón derecho del ratón y eligiendo Mover a la carpeta o "
+"pulsando Mayús+Ctrl+V."
 
 #: C/evolution.xml:2667(para)
 msgid ""
@@ -7913,7 +7908,6 @@ msgstr ""
 "desde la barra de menú."
 
 #: C/evolution.xml:3344(para)
-#, fuzzy
 #| msgid "Double click on the card you want to edit."
 msgid "Double-click on the card you want to edit."
 msgstr "Pulse dos veces en la tarjeta que quiera editar."
@@ -7929,7 +7923,6 @@ msgstr ""
 "previa."
 
 #: C/evolution.xml:3356(para)
-#, fuzzy
 #| msgid "Right click on the address from Message Header."
 msgid "Right-click on the address from Message Header."
 msgstr ""
@@ -8325,12 +8318,11 @@ msgid "To mark a card as belonging to a category,"
 msgstr "Para marcar una tarjeta como perteneciente a una categoría,"
 
 #: C/evolution.xml:3571(para)
-#, fuzzy
 #| msgid "Double click the card to bring up the Contact Editor window"
 msgid "Double-click the card to bring up the Contact Editor window."
 msgstr ""
 "Pulse dos veces sobre la tarjeta para que aparezca la ventana del Editor de "
-"contactos"
+"contactos."
 
 #: C/evolution.xml:3574(para)
 msgid "Click the Categories button at the left."
@@ -8889,7 +8881,6 @@ msgstr ""
 "Cita."
 
 #: C/evolution.xml:3877(para)
-#, fuzzy
 #| msgid ""
 #| "Double-click in a blank space on the calendar view to open an Appointment "
 #| "dialog box. The particular time on the calendar view against which you "
@@ -9983,7 +9974,6 @@ msgid "Click File &gt; New &gt; Assigned Task."
 msgstr "Pulse Archivo &gt; Nuevo &gt; Tarea asignada."
 
 #: C/evolution.xml:4440(para)
-#, fuzzy
 #| msgid ""
 #| "Click Add, or press Insert key, or right click and then press Add to add "
 #| "the email addresses of people you want to assign the task. To remove an "
@@ -9997,11 +9987,11 @@ msgid ""
 "select the field, then click Edit. Click View on the menu bar to show or "
 "hide the Type, Role, Status, and RSVP fields."
 msgstr ""
-"Pulse Añadir, la tecla Insertar, o pule con el botón derecho y después pulse "
-"Añadir para añadir las direcciones de correo electrónico de las personas a "
+"Pulse Añadir, la tecla Insertar, o pule con el botón derecho y después pulse "
+"Añadir para añadir las direcciones de correo electrónico de las personas a "
 "las que quiere asignar la tarea. Para eliminar un participante de la lista, "
 "seleccione al participante y pulse Quitar. Para editar un campo, seleccione "
-"el campo y después pulse Editar. Pulse Ver en la barra de menú para mostrar "
+"el campo y después pulse Editar. Pulse Ver en la barra de menú para mostrar "
 "u ocultar los campos Tipo, Rol, Estado y RSVP."
 
 #: C/evolution.xml:4446(para)
@@ -10396,7 +10386,6 @@ msgid "Sending Email via Exchange Protocols:"
 msgstr "Envío de correo mediante protocolos Exchange:"
 
 #: C/evolution.xml:4783(para)
-#, fuzzy
 #| msgid ""
 #| "If you use the Microsoft Exchange mail transport protocol to send email, "
 #| "make sure that the address you have entered as your email address is "
@@ -10413,7 +10402,7 @@ msgstr ""
 "Si utiliza el protocolo de transporte de correo de Microsoft Exchange para "
 "enviar correo-e, asegúrese de que la dirección de correo electrónico que ha "
 "introducido como su dirección de correo-e es exactamente la misma que la que "
-"el servidor Exchange tiene en su archivo. Ésta puede ser "
+"está registrada en el servidor Exchange. Ésta puede ser "
 "<quote>sunombre@exchange-server.ejemplo.com</quote> en lugar de "
 "<quote>sunombre@ejemplo.com.</quote>."
 
@@ -10495,7 +10484,6 @@ msgid "Adding vCards to the Address Book:"
 msgstr "Añadir vCards a la libreta de direcciones:"
 
 #: C/evolution.xml:4829(para)
-#, fuzzy
 #| msgid ""
 #| "Allows you to save the vCards you receive in attachment to your Exchange "
 #| "address book. New Address Book entries can also be created on Exchange "
@@ -10507,7 +10495,7 @@ msgid ""
 msgstr ""
 "Le permite guardar las vCards que reciba como adjuntos a su libreta de "
 "direcciones Exchange. Las nuevas entradas para la libreta de direcciones "
-"también se pueden crear desde mensajes de correo-e recibidos con una sola "
+"también se pueden crear desde mensajes de correo-e recibidos, con una sóla "
 "pulsación."
 
 #: C/evolution.xml:4835(para)
@@ -12575,7 +12563,6 @@ msgid "Debug Logs"
 msgstr "Depuración de sucesos"
 
 #: C/evolution.xml:6147(para)
-#, fuzzy
 #| msgid ""
 #| "You reach the Evolution settings window by clicking Edit &gt; "
 #| "Preferences. In the left part of the settings window is a column, similar "
@@ -12590,9 +12577,8 @@ msgid ""
 msgstr ""
 "Puede llegar a la ventana de ajustes de Evolution pulsando Editar &gt; "
 "Preferencias. En la parte izquierda de la ventana de preferencias hay una "
-"columna, similar al Selector de Evolution, que le permite elegir qué porción "
-"de Evolution personalizar. La parte derecha de la ventana es donde realmente "
-"realizará cambios."
+"columna que le permite elegir qué parte de Evolution personalizar. La parte "
+"derecha de la ventana es donde realmente realizará cambios."
 
 #: C/evolution.xml:6149(para)
 msgid "There are six items you can customize."
@@ -13690,7 +13676,6 @@ msgstr ""
 "correo."
 
 #: C/evolution.xml:6505(para)
-#, fuzzy
 #| msgid ""
 #| "To choose a spell-checking language, select it here. You must install "
 #| "gnome-spell, aspell, and an aspell language package (like for example "
@@ -14759,7 +14744,6 @@ msgstr ""
 "Repita los pasos de importación hasta que haya importado todo su correo."
 
 #: C/evolution.xml:7026(para)
-#, fuzzy
 #| msgid ""
 #| "You can print this section to use it as a quick reference for most of the "
 #| "things you want to do with <trademark>Evolution</trademark>. You can also "
