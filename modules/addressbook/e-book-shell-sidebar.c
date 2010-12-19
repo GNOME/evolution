@@ -28,6 +28,8 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
+#include <libedataserver/e-source-address-book.h>
+
 #include <e-util/e-util.h>
 
 #include "e-book-shell-view.h"
@@ -94,7 +96,7 @@ book_shell_sidebar_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
 	EShellSettings *shell_settings;
-	ESourceList *source_list;
+	ESourceRegistry *registry;
 	GtkContainer *container;
 	GtkWidget *widget;
 
@@ -110,9 +112,6 @@ book_shell_sidebar_constructed (GObject *object)
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	source_list = e_book_shell_backend_get_source_list (
-		E_BOOK_SHELL_BACKEND (shell_backend));
-
 	container = GTK_CONTAINER (shell_sidebar);
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
@@ -126,8 +125,8 @@ book_shell_sidebar_constructed (GObject *object)
 
 	container = GTK_CONTAINER (widget);
 
-	widget = e_addressbook_selector_new (source_list);
-	e_source_selector_show_selection (E_SOURCE_SELECTOR (widget), FALSE);
+	registry = e_shell_get_registry (shell);
+	widget = e_addressbook_selector_new (registry);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->selector = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -139,7 +138,7 @@ book_shell_sidebar_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE,
 		(GBindingTransformFunc) e_binding_transform_uid_to_source,
 		(GBindingTransformFunc) e_binding_transform_source_to_uid,
-		g_object_ref (source_list),
+		g_object_ref (registry),
 		(GDestroyNotify) g_object_unref);
 }
 
@@ -149,8 +148,8 @@ book_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	EBookShellSidebar *book_shell_sidebar;
 	ESourceSelector *selector;
 	ESource *source;
-	gboolean can_delete = FALSE;
-	gboolean is_system = FALSE;
+	gboolean removable = FALSE;
+	gboolean writable = FALSE;
 	gboolean has_primary_source = FALSE;
 	guint32 state = 0;
 
@@ -159,27 +158,18 @@ book_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	source = e_source_selector_ref_primary_selection (selector);
 
 	if (source != NULL) {
-		const gchar *uri;
-		const gchar *delete;
-
 		has_primary_source = TRUE;
-
-		uri = e_source_peek_relative_uri (source);
-		is_system = (uri == NULL || strcmp (uri, "system") == 0);
-
-		can_delete = !is_system;
-		delete = e_source_get_property (source, "delete");
-		can_delete &= (delete == NULL || strcmp (delete, "no") != 0);
-
+		removable = e_source_get_removable (source);
+		writable = e_source_get_writable (source);
 		g_object_unref (source);
 	}
 
 	if (has_primary_source)
 		state |= E_BOOK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE;
-	if (can_delete)
-		state |= E_BOOK_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE;
-	if (is_system)
-		state |= E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM;
+	if (removable)
+		state |= E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE;
+	if (writable)
+		state |= E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_WRITABLE;
 
 	return state;
 }

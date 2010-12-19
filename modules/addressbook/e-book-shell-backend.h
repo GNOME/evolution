@@ -23,7 +23,6 @@
 #define E_BOOK_SHELL_BACKEND_H
 
 #include <shell/e-shell-backend.h>
-#include <libedataserver/e-source-list.h>
 
 /* Standard GObject macros */
 #define E_TYPE_BOOK_SHELL_BACKEND \
@@ -62,8 +61,6 @@ struct _EBookShellBackendClass {
 GType		e_book_shell_backend_get_type	(void);
 void		e_book_shell_backend_type_register
 					(GTypeModule *type_module);
-ESourceList *	e_book_shell_backend_get_source_list
-					(EBookShellBackend *book_shell_backend);
 
 G_END_DECLS
 

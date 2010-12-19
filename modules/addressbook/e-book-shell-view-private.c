@@ -256,7 +256,6 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
                                           ESourceSelector *selector)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 	EAddressbookModel *model;
@@ -268,7 +267,6 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 	gchar *view_id;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
 	source = e_source_selector_ref_primary_selection (selector);
@@ -293,8 +291,6 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 			e_client_utils_open_new (
 				source, E_CLIENT_SOURCE_TYPE_CONTACTS,
 				FALSE, NULL,
-				e_client_utils_authenticate_handler,
-				GTK_WINDOW (shell_window),
 				book_shell_view_loaded_cb,
 				g_object_ref (view));
 
@@ -341,7 +337,6 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 		/* XXX No way to cancel this? */
 		e_client_utils_open_new (
 			source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
-			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
 			book_shell_view_loaded_cb, g_object_ref (view));
 
 		g_signal_connect_object (
@@ -435,6 +430,30 @@ book_shell_view_selector_key_press_event_cb (EShellView *shell_view,
 }
 
 static void
+book_shell_view_source_removed_cb (ESourceRegistry *registry,
+                                   ESource *source,
+                                   EBookShellView *book_shell_view)
+{
+	EBookShellViewPrivate *priv = book_shell_view->priv;
+	EBookShellContent *book_shell_content;
+	EAddressbookView *view;
+	const gchar *uid;
+
+	uid = e_source_get_uid (source);
+
+	book_shell_content = book_shell_view->priv->book_shell_content;
+
+	/* Remove the EAddressbookView for the deleted source. */
+	view = g_hash_table_lookup (priv->uid_to_view, uid);
+	if (view != NULL) {
+		e_book_shell_content_remove_view (book_shell_content, view);
+		g_hash_table_remove (priv->uid_to_view, uid);
+	}
+
+	e_shell_view_update_actions (E_SHELL_VIEW (book_shell_view));
+}
+
+static void
 book_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 {
 	GalViewCollection *collection;
@@ -495,20 +514,13 @@ e_book_shell_view_private_init (EBookShellView *book_shell_view,
 {
 	EBookShellViewPrivate *priv = book_shell_view->priv;
 	GHashTable *uid_to_view;
-	GHashTable *uid_to_editor;
 
 	uid_to_view = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_object_unref);
 
-	uid_to_editor = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) g_free);
-
 	priv->uid_to_view = uid_to_view;
-	priv->uid_to_editor = uid_to_editor;
 	priv->preview_index = -1;
 
 	if (!gal_view_collection_loaded (shell_view_class->view_collection))
@@ -523,11 +535,12 @@ void
 e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 {
 	EBookShellViewPrivate *priv = book_shell_view->priv;
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellBackend *shell_backend;
-	EShellView *shell_view;
-	EShellWindow *shell_window;
 	ESourceSelector *selector;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
@@ -535,6 +548,7 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	e_shell_window_add_action_group (shell_window, "contacts");
 	e_shell_window_add_action_group (shell_window, "contacts-filter");
@@ -544,8 +558,17 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 	priv->book_shell_content = g_object_ref (shell_content);
 	priv->book_shell_sidebar = g_object_ref (shell_sidebar);
 
+	/* Keep our own reference to this so we can
+	 * disconnect our signal handler in dispose(). */
+	priv->registry = g_object_ref (e_shell_get_registry (shell));
+
 	selector = e_book_shell_sidebar_get_selector (
 		E_BOOK_SHELL_SIDEBAR (shell_sidebar));
+
+	g_signal_connect (
+		priv->registry, "source-removed",
+		G_CALLBACK (book_shell_view_source_removed_cb),
+		book_shell_view);
 
 	g_signal_connect_object (
 		selector, "button-press-event",
@@ -585,8 +608,15 @@ e_book_shell_view_private_dispose (EBookShellView *book_shell_view)
 	DISPOSE (priv->book_shell_content);
 	DISPOSE (priv->book_shell_sidebar);
 
+	if (priv->registry != NULL) {
+		g_signal_handlers_disconnect_matched (
+			priv->registry, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, book_shell_view);
+		g_object_unref (priv->registry);
+		priv->registry = NULL;
+	}
+
 	g_hash_table_remove_all (priv->uid_to_view);
-	g_hash_table_remove_all (priv->uid_to_editor);
 }
 
 void
@@ -595,15 +625,4 @@ e_book_shell_view_private_finalize (EBookShellView *book_shell_view)
 	EBookShellViewPrivate *priv = book_shell_view->priv;
 
 	g_hash_table_destroy (priv->uid_to_view);
-	g_hash_table_destroy (priv->uid_to_editor);
-}
-
-void
-e_book_shell_view_editor_weak_notify (EditorUidClosure *closure,
-                                      GObject *where_the_object_was)
-{
-	GHashTable *hash_table;
-
-	hash_table = closure->view->priv->uid_to_editor;
-	g_hash_table_remove (hash_table, closure->uid);
 }

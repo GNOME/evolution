@@ -41,6 +41,7 @@
 #include "shell/e-shell-utils.h"
 #include "misc/e-popup-action.h"
 #include "misc/e-selectable.h"
+#include "misc/e-source-config-dialog.h"
 
 #include "addressbook/util/eab-book-util.h"
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
@@ -48,6 +49,7 @@
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "addressbook/gui/widgets/e-addressbook-view.h"
 #include "addressbook/gui/widgets/e-addressbook-selector.h"
+#include "addressbook/gui/widgets/e-book-source-config.h"
 
 #include "e-book-shell-backend.h"
 #include "e-book-shell-content.h"
@@ -75,14 +77,6 @@
 
 G_BEGIN_DECLS
 
-typedef struct _EditorUidClosure EditorUidClosure;
-
-struct _EditorUidClosure {
-	GtkWidget *editor;
-	gchar *uid;
-	EBookShellView *view;
-};
-
 /* List these in the order to be displayed.
  * Positive values are reserved for categories. */
 enum {
@@ -105,8 +99,8 @@ struct _EBookShellViewPrivate {
 	EBookShellContent *book_shell_content;
 	EBookShellSidebar *book_shell_sidebar;
 
+	ESourceRegistry *registry;
 	GHashTable *uid_to_view;
-	GHashTable *uid_to_editor;
 
 	gint preview_index;
 
@@ -129,9 +123,6 @@ void		e_book_shell_view_private_finalize
 
 void		e_book_shell_view_actions_init
 					(EBookShellView *book_shell_view);
-void		e_book_shell_view_editor_weak_notify
-					(EditorUidClosure *closure,
-					 GObject *where_the_object_was);
 void		e_book_shell_view_update_search_filter
 					(EBookShellView *book_shell_view);
 

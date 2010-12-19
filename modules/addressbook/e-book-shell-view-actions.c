@@ -33,8 +33,6 @@
 #include <widgets/misc/e-contact-map-window.h>
 #endif
 
-#include <addressbook-config.h>
-
 static void
 action_address_book_copy_cb (GtkAction *action,
                              EBookShellView *book_shell_view)
@@ -55,21 +53,13 @@ action_address_book_delete_cb (GtkAction *action,
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EBookShellBackend *book_shell_backend;
 	EBookShellSidebar *book_shell_sidebar;
 	ESource *source;
 	ESourceSelector *selector;
-	ESourceGroup *source_group;
-	ESourceList *source_list;
-	EBookClient *book;
 	gint response;
-	GError *error = NULL;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	book_shell_backend = book_shell_view->priv->book_shell_backend;
-	source_list = e_book_shell_backend_get_source_list (book_shell_backend);
 
 	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
 	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
@@ -81,38 +71,10 @@ action_address_book_delete_cb (GtkAction *action,
 		"addressbook:ask-delete-addressbook",
 		e_source_get_display_name (source), NULL);
 
-	if (response != GTK_RESPONSE_YES) {
-		g_object_unref (source);
-		return;
-	}
-
-	book = e_book_client_new (source, &error);
-	if (error != NULL) {
-		g_warning ("Error removing addressbook: %s", error->message);
-		g_object_unref (source);
-		g_error_free (error);
-		return;
-	}
-
-	if (!e_client_remove_sync (E_CLIENT (book), NULL, NULL)) {
-		e_alert_run_dialog_for_args (
-			GTK_WINDOW (shell_window),
-			"addressbook:remove-addressbook", NULL);
-		g_object_unref (source);
-		g_object_unref (book);
-		return;
-	}
-
-	if (e_source_selector_source_is_selected (selector, source))
-		e_source_selector_unselect_source (selector, source);
-
-	source_group = e_source_peek_group (source);
-	e_source_group_remove_source (source_group, source);
-
-	e_source_list_sync (source_list, NULL);
+	if (response == GTK_RESPONSE_YES)
+		e_shell_view_remove_source (shell_view, source);
 
 	g_object_unref (source);
-	g_object_unref (book);
 }
 
 static void
@@ -135,11 +97,28 @@ action_address_book_new_cb (GtkAction *action,
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	ESourceRegistry *registry;
+	GtkWidget *config;
+	GtkWidget *dialog;
+	const gchar *icon_name;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	addressbook_config_create_new_source (GTK_WIDGET (shell_window));
+	registry = book_shell_view->priv->registry;
+	config = e_book_source_config_new (registry, NULL);
+
+	dialog = e_source_config_dialog_new (E_SOURCE_CONFIG (config));
+
+	gtk_window_set_transient_for (
+		GTK_WINDOW (config), GTK_WINDOW (shell_window));
+
+	icon_name = gtk_action_get_icon_name (action);
+	gtk_window_set_icon_name (GTK_WINDOW (dialog), icon_name);
+
+	gtk_window_set_title (GTK_WINDOW (dialog), _("New Address Book"));
+
+	gtk_widget_show (dialog);
 }
 
 static void
@@ -183,9 +162,10 @@ action_address_book_properties_cb (GtkAction *action,
 	EBookShellSidebar *book_shell_sidebar;
 	ESource *source;
 	ESourceSelector *selector;
-	EditorUidClosure *closure;
-	GHashTable *uid_to_editor;
-	const gchar *uid;
+	ESourceRegistry *registry;
+	GtkWidget *config;
+	GtkWidget *dialog;
+	const gchar *icon_name;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -195,31 +175,23 @@ action_address_book_properties_cb (GtkAction *action,
 	source = e_source_selector_ref_primary_selection (selector);
 	g_return_if_fail (source != NULL);
 
-	uid = e_source_get_uid (source);
-	uid_to_editor = book_shell_view->priv->uid_to_editor;
-
-	closure = g_hash_table_lookup (uid_to_editor, uid);
-	if (closure == NULL) {
-		GtkWidget *editor;
-
-		editor = addressbook_config_edit_source (
-			GTK_WIDGET (shell_window), source);
-
-		closure = g_new (EditorUidClosure, 1);
-		closure->editor = editor;
-		closure->uid = g_strdup (uid);
-		closure->view = book_shell_view;
-
-		g_hash_table_insert (uid_to_editor, closure->uid, closure);
-
-		g_object_weak_ref (
-			G_OBJECT (closure->editor), (GWeakNotify)
-			e_book_shell_view_editor_weak_notify, closure);
-	}
-
-	gtk_window_present (GTK_WINDOW (closure->editor));
+	registry = e_source_selector_get_registry (selector);
+	config = e_book_source_config_new (registry, source);
 
 	g_object_unref (source);
+
+	dialog = e_source_config_dialog_new (E_SOURCE_CONFIG (config));
+
+	gtk_window_set_transient_for (
+		GTK_WINDOW (dialog), GTK_WINDOW (shell_window));
+
+	icon_name = gtk_action_get_icon_name (action);
+	gtk_window_set_icon_name (GTK_WINDOW (dialog), icon_name);
+
+	gtk_window_set_title (
+		GTK_WINDOW (dialog), _("Address Book Properties"));
+
+	gtk_widget_show (dialog);
 }
 
 #ifdef WITH_CONTACT_MAPS

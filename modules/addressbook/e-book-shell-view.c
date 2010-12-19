@@ -29,59 +29,6 @@ static gpointer parent_class;
 static GType book_shell_view_type;
 
 static void
-book_shell_view_source_list_changed_cb (EBookShellView *book_shell_view,
-                                        ESourceList *source_list)
-{
-	EBookShellViewPrivate *priv = book_shell_view->priv;
-	EBookShellContent *book_shell_content;
-	EShellView *shell_view;
-	GList *keys, *iter;
-
-	g_return_if_fail (E_IS_SHELL_VIEW (book_shell_view));
-	g_return_if_fail (book_shell_view->priv != NULL);
-
-	shell_view = E_SHELL_VIEW (book_shell_view);
-	book_shell_content = book_shell_view->priv->book_shell_content;
-
-	keys = g_hash_table_get_keys (priv->uid_to_view);
-	for (iter = keys; iter != NULL; iter = iter->next) {
-		gchar *uid = iter->data;
-		EAddressbookView *view;
-
-		/* If the source still exists, move on. */
-		if (e_source_list_peek_source_by_uid (source_list, uid))
-			continue;
-
-		/* Remove the view for the deleted source. */
-		view = g_hash_table_lookup (priv->uid_to_view, uid);
-		e_book_shell_content_remove_view (book_shell_content, view);
-		g_hash_table_remove (priv->uid_to_view, uid);
-	}
-	g_list_free (keys);
-
-	keys = g_hash_table_get_keys (priv->uid_to_editor);
-	for (iter = keys; iter != NULL; iter = iter->next) {
-		gchar *uid = iter->data;
-		EditorUidClosure *closure;
-
-		/* If the source still exists, move on. */
-		if (e_source_list_peek_source_by_uid (source_list, uid))
-			continue;
-
-		/* Remove the editor for the deleted source. */
-		closure = g_hash_table_lookup (priv->uid_to_editor, uid);
-		g_object_weak_unref (
-			G_OBJECT (closure->editor), (GWeakNotify)
-			e_book_shell_view_editor_weak_notify, closure);
-		gtk_widget_destroy (closure->editor);
-		g_hash_table_remove (priv->uid_to_editor, uid);
-	}
-	g_list_free (keys);
-
-	e_shell_view_update_actions (shell_view);
-}
-
-static void
 book_shell_view_dispose (GObject *object)
 {
 	EBookShellView *book_shell_view;
@@ -109,22 +56,12 @@ static void
 book_shell_view_constructed (GObject *object)
 {
 	EBookShellView *book_shell_view;
-	EBookShellBackend *book_shell_backend;
-	ESourceList *source_list;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
 
 	book_shell_view = E_BOOK_SHELL_VIEW (object);
 	e_book_shell_view_private_constructed (book_shell_view);
-
-	book_shell_backend = book_shell_view->priv->book_shell_backend;
-	source_list = e_book_shell_backend_get_source_list (book_shell_backend);
-
-	g_signal_connect_object (
-		source_list, "changed",
-		G_CALLBACK (book_shell_view_source_list_changed_cb),
-		book_shell_view, G_CONNECT_SWAPPED);
 }
 
 static void
@@ -262,9 +199,10 @@ book_shell_view_update_actions (EShellView *shell_view)
 
 	/* Be descriptive. */
 	gboolean any_contacts_selected;
-	gboolean can_delete_primary_source;
 	gboolean has_primary_source;
 	gboolean multiple_contacts_selected;
+	gboolean primary_source_is_removable;
+	gboolean primary_source_is_writable;
 	gboolean single_contact_selected;
 	gboolean selection_is_contact_list;
 	gboolean selection_has_email;
@@ -297,8 +235,10 @@ book_shell_view_update_actions (EShellView *shell_view)
 
 	has_primary_source =
 		(state & E_BOOK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
-	can_delete_primary_source =
-		(state & E_BOOK_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE);
+	primary_source_is_removable =
+		(state & E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE);
+	primary_source_is_writable =
+		(state & E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_WRITABLE);
 
 	any_contacts_selected =
 		(single_contact_selected || multiple_contacts_selected);
@@ -308,7 +248,7 @@ book_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_DELETE);
-	sensitive = can_delete_primary_source;
+	sensitive = primary_source_is_removable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_PRINT);
@@ -319,8 +259,12 @@ book_shell_view_update_actions (EShellView *shell_view)
 	sensitive = has_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
+	action = ACTION (ADDRESS_BOOK_PROPERTIES);
+	sensitive = primary_source_is_writable;
+	gtk_action_set_sensitive (action, sensitive);
+
 	action = ACTION (ADDRESS_BOOK_RENAME);
-	sensitive = can_delete_primary_source;
+	sensitive = primary_source_is_writable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_STOP);

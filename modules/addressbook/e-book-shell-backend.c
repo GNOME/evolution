@@ -30,21 +30,23 @@
 #include <libebook/e-book-client.h>
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-source.h>
-#include <libedataserver/e-source-group.h>
+#include <libedataserver/e-source-address-book.h>
 #include <libedataserverui/e-client-utils.h>
+#include <libedataserverui/e-book-auth-util.h>
 
 #include "e-util/e-import.h"
 #include "shell/e-shell.h"
 #include "shell/e-shell-window.h"
 #include "widgets/misc/e-preferences-window.h"
+#include "widgets/misc/e-source-config-dialog.h"
 
 #include "addressbook/gui/widgets/eab-gui-util.h"
+#include "addressbook/gui/widgets/e-book-source-config.h"
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
 #include "addressbook/gui/contact-editor/e-contact-quick-add.h"
 #include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"
 #include "addressbook/importers/evolution-addressbook-importers.h"
 
-#include "addressbook-config.h"
 #include "autocompletion-config.h"
 
 #include "e-book-shell-migrate.h"
@@ -61,87 +63,13 @@
 	((obj), E_TYPE_BOOK_SHELL_BACKEND, EBookShellBackendPrivate))
 
 struct _EBookShellBackendPrivate {
-	ESourceList *source_list;
-};
-
-enum {
-	PROP_0,
-	PROP_SOURCE_LIST
+	gint placeholder;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
 	EBookShellBackend,
 	e_book_shell_backend,
 	E_TYPE_SHELL_BACKEND)
-
-static void
-book_shell_backend_ensure_sources (EShellBackend *shell_backend)
-{
-	/* XXX This is basically the same algorithm across all backends.
-	 *     Maybe we could somehow integrate this into EShellBackend? */
-
-	EBookShellBackendPrivate *priv;
-	ESourceGroup *on_this_computer;
-	ESource *personal;
-	GSList *sources, *iter;
-	const gchar *name;
-	GError *error = NULL;
-
-	on_this_computer = NULL;
-	personal = NULL;
-
-	priv = E_BOOK_SHELL_BACKEND_GET_PRIVATE (shell_backend);
-
-	e_book_client_get_sources (&priv->source_list, &error);
-
-	if (error != NULL) {
-		g_warning (
-			"Could not get addressbook sources: %s",
-			error->message);
-		g_error_free (error);
-		return;
-	}
-
-	on_this_computer = e_source_list_ensure_group (
-		priv->source_list, _("On This Computer"), "local:", TRUE);
-	e_source_list_ensure_group (
-		priv->source_list, _("On LDAP Servers"), "ldap://", FALSE);
-
-	g_return_if_fail (on_this_computer != NULL);
-
-	sources = e_source_group_peek_sources (on_this_computer);
-
-	/* Make sure this group includes a "Personal" source. */
-	for (iter = sources; iter != NULL; iter = iter->next) {
-		ESource *source = iter->data;
-		const gchar *relative_uri;
-
-		relative_uri = e_source_peek_relative_uri (source);
-		if (g_strcmp0 (relative_uri, "system") == 0) {
-			personal = source;
-			break;
-		}
-	}
-
-	name = _("Personal");
-
-	if (personal == NULL) {
-		ESource *source;
-
-		/* Create the default Personal address book. */
-		source = e_source_new (name, "system");
-		e_source_group_add_source (on_this_computer, source, -1);
-		e_source_set_property (source, "completion", "true");
-		g_object_unref (source);
-		e_source_list_sync (priv->source_list, NULL);
-	} else if (!e_source_get_property (personal, "name-changed")) {
-		/* Force the source name to the current locale. */
-		e_source_set_name (personal, name);
-		e_source_list_sync (priv->source_list, NULL);
-	}
-
-	g_object_unref (on_this_computer);
-}
 
 static void
 book_shell_backend_init_importers (void)
@@ -252,58 +180,59 @@ action_contact_new_cb (GtkAction *action,
                        EShellWindow *shell_window)
 {
 	EShell *shell;
-	EShellBackend *shell_backend;
-	GSettings *settings;
-	ESourceList *source_list;
-	ESource *source = NULL;
+	ESource *source;
+	ESourceRegistry *registry;
 	const gchar *action_name;
-	gchar *uid;
 
 	/* This callback is used for both contacts and contact lists. */
 
 	shell = e_shell_window_get_shell (shell_window);
-	shell_backend = e_shell_get_backend_by_name (shell, "addressbook");
 
-	g_object_get (shell_backend, "source-list", &source_list, NULL);
-	g_return_if_fail (E_IS_SOURCE_LIST (source_list));
-
-	settings = g_settings_new ("org.gnome.evolution.addressbook");
-	uid = g_settings_get_string (settings, "primary-addressbook");
-	g_object_unref (settings);
-
-	if (uid != NULL) {
-		source = e_source_list_peek_source_by_uid (source_list, uid);
-		g_free (uid);
-	}
-
-	if (source == NULL)
-		source = e_source_list_peek_default_source (source_list);
-
-	g_return_if_fail (E_IS_SOURCE (source));
+	registry = e_shell_get_registry (shell);
+	source = e_source_registry_ref_default_address_book (registry);
 
 	/* Use a callback function appropriate for the action. */
 	action_name = gtk_action_get_name (action);
 	if (strcmp (action_name, "contact-new") == 0)
 		e_client_utils_open_new (
 			source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
-			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
 			book_shell_backend_new_contact_cb,
 			g_object_ref (shell));
 	if (strcmp (action_name, "contact-new-list") == 0)
 		e_client_utils_open_new (
 			source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
-			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
 			book_shell_backend_new_contact_list_cb,
 			g_object_ref (shell));
 
-	g_object_unref (source_list);
+	g_object_unref (source);
 }
 
 static void
 action_address_book_new_cb (GtkAction *action,
                             EShellWindow *shell_window)
 {
-	addressbook_config_create_new_source (NULL);
+	EShell *shell;
+	ESourceRegistry *registry;
+	GtkWidget *config;
+	GtkWidget *dialog;
+	const gchar *icon_name;
+
+	shell = e_shell_window_get_shell (shell_window);
+
+	registry = e_shell_get_registry (shell);
+	config = e_book_source_config_new (registry, NULL);
+
+	dialog = e_source_config_dialog_new (E_SOURCE_CONFIG (config));
+
+	gtk_window_set_transient_for (
+		GTK_WINDOW (dialog), GTK_WINDOW (shell_window));
+
+	icon_name = gtk_action_get_icon_name (action);
+	gtk_window_set_icon_name (GTK_WINDOW (dialog), icon_name);
+
+	gtk_window_set_title (GTK_WINDOW (dialog), _("New Address Book"));
+
+	gtk_widget_show (dialog);
 }
 
 static GtkActionEntry item_entries[] = {
@@ -370,20 +299,26 @@ static void
 book_shell_backend_quick_add_email_cb (EShell *shell,
                                        const gchar *email)
 {
+	ESourceRegistry *registry;
+
 	/* XXX This is an ugly hack but it's the only way I could think
 	 *     of to integrate this feature with other shell modules. */
 
-	e_contact_quick_add_email (email, NULL, NULL);
+	registry = e_shell_get_registry (shell);
+	e_contact_quick_add_email (registry, email, NULL, NULL);
 }
 
 static void
 book_shell_backend_quick_add_vcard_cb (EShell *shell,
                                        const gchar *vcard)
 {
+	ESourceRegistry *registry;
+
 	/* XXX This is an ugly hack but it's the only way I could think
 	 *     of to integrate this feature with other shell modules. */
 
-	e_contact_quick_add_vcard (vcard, NULL, NULL);
+	registry = e_shell_get_registry (shell);
+	e_contact_quick_add_vcard (registry, vcard, NULL, NULL);
 }
 
 static gboolean
@@ -473,40 +408,6 @@ book_shell_backend_window_added_cb (EShellBackend *shell_backend,
 }
 
 static void
-book_shell_backend_get_property (GObject *object,
-                                 guint property_id,
-                                 GValue *value,
-                                 GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_SOURCE_LIST:
-			g_value_set_object (
-				value,
-				e_book_shell_backend_get_source_list (
-				E_BOOK_SHELL_BACKEND (object)));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-book_shell_backend_dispose (GObject *object)
-{
-	EBookShellBackendPrivate *priv;
-
-	priv = E_BOOK_SHELL_BACKEND_GET_PRIVATE (object);
-
-	if (priv->source_list != NULL) {
-		g_object_unref (priv->source_list);
-		priv->source_list = NULL;
-	}
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_book_shell_backend_parent_class)->dispose (object);
-}
-
-static void
 book_shell_backend_constructed (GObject *object)
 {
 	EShell *shell;
@@ -522,7 +423,6 @@ book_shell_backend_constructed (GObject *object)
 #endif
 
 	book_shell_backend_init_importers ();
-	book_shell_backend_ensure_sources (shell_backend);
 
 	g_signal_connect (
 		shell, "event::contact-quick-add-email",
@@ -561,8 +461,6 @@ e_book_shell_backend_class_init (EBookShellBackendClass *class)
 	g_type_class_add_private (class, sizeof (EBookShellBackendPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->get_property = book_shell_backend_get_property;
-	object_class->dispose = book_shell_backend_dispose;
 	object_class->constructed = book_shell_backend_constructed;
 
 	shell_backend_class = E_SHELL_BACKEND_CLASS (class);
@@ -574,16 +472,6 @@ e_book_shell_backend_class_init (EBookShellBackendClass *class)
 	shell_backend_class->preferences_page = "contacts";
 	shell_backend_class->start = NULL;
 	shell_backend_class->migrate = e_book_shell_backend_migrate;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SOURCE_LIST,
-		g_param_spec_object (
-			"source-list",
-			"Source List",
-			"The registry of address books",
-			E_TYPE_SOURCE_LIST,
-			G_PARAM_READABLE));
 }
 
 static void
@@ -605,13 +493,4 @@ e_book_shell_backend_type_register (GTypeModule *type_module)
 	 *     function, so we have to wrap it with a public function in
 	 *     order to register types from a separate compilation unit. */
 	e_book_shell_backend_register_type (type_module);
-}
-
-ESourceList *
-e_book_shell_backend_get_source_list (EBookShellBackend *book_shell_backend)
-{
-	g_return_val_if_fail (
-		E_IS_BOOK_SHELL_BACKEND (book_shell_backend), NULL);
-
-	return book_shell_backend->priv->source_list;
 }

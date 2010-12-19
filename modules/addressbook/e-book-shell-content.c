@@ -348,6 +348,7 @@ book_shell_content_check_state (EShellContent *shell_content)
 	ESelectionModel *selection_model;
 	EAddressbookModel *model;
 	EAddressbookView *view;
+	GtkNotebook *notebook;
 	gboolean has_email = TRUE;
 	gboolean is_contact_list = TRUE;
 	guint32 state = 0;
@@ -359,6 +360,13 @@ book_shell_content_check_state (EShellContent *shell_content)
 	} foreach_data;
 
 	book_shell_content = E_BOOK_SHELL_CONTENT (shell_content);
+
+	/* This function may be triggered at startup before any address
+	 * book views are added.  Check for that and return silently. */
+	notebook = GTK_NOTEBOOK (book_shell_content->priv->notebook);
+	if (gtk_notebook_get_n_pages (notebook) == 0)
+		return 0;
+
 	view = e_book_shell_content_get_current_view (book_shell_content);
 	model = e_addressbook_view_get_model (view);
 

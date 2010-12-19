@@ -27,8 +27,6 @@ module_addressbook_la_CPPFLAGS = \
 
 module_addressbook_la_SOURCES = \
 	evolution-module-addressbook.c				\
-	addressbook-config.c					\
-	addressbook-config.h					\
 	autocompletion-config.c					\
 	autocompletion-config.h					\
 	eab-composer-util.c					\
