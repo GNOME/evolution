@@ -114,7 +114,7 @@ else
 	CLUTTER_GTK="clutter-gtk-0.10"
 	clutter_gtk_minimum_version="0.10"
 
-	GTKHTML="libgtkhtml-3.14"
+	GTKHTML="libgtkhtml-3.15"
 	GTKHTML_EDITOR="gtkhtml-editor-3.14"
 
 	GWEATHER="gweather"
