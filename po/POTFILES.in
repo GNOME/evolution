@@ -305,7 +305,6 @@ modules/spamassassin/evolution-spamassassin.c
 modules/spamassassin/evolution-spamassassin.schemas.in
 modules/startup-wizard/evolution-startup-wizard.c
 modules/web-inspector/evolution-web-inspector.c
-plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml
 plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in
 plugins/attachment-reminder/attachment-reminder.c
 plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml

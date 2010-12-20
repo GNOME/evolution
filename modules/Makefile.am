@@ -16,6 +16,7 @@ SUBDIRS = \
 	calendar \
 	mail \
 	backup-restore \
+	book-config-local \
 	composer-autosave \
 	mailto-handler \
 	mdn \

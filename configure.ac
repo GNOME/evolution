@@ -1298,7 +1298,7 @@ AC_ARG_ENABLE([plugins],
 	[enable_plugins="$enableval"],[enable_plugins=all])
 
 dnl Add any new plugins here
-plugins_base_always="calendar-file calendar-http itip-formatter default-source addressbook-file mark-all-read publish-calendar caldav imap-features google-account-setup webdav-account-setup"
+plugins_base_always="calendar-file calendar-http itip-formatter default-source mark-all-read publish-calendar caldav imap-features google-account-setup webdav-account-setup"
 
 plugins_base="$plugins_base_always"
 dist_plugins_base="$plugins_base_always calendar-weather"
@@ -1633,6 +1633,7 @@ modules/bogofilter/Makefile
 modules/calendar/Makefile
 modules/mail/Makefile
 modules/backup-restore/Makefile
+modules/book-config-local/Makefile
 modules/composer-autosave/Makefile
 modules/mailto-handler/Makefile
 modules/mdn/Makefile
@@ -1646,7 +1647,6 @@ modules/spamassassin/Makefile
 modules/startup-wizard/Makefile
 modules/web-inspector/Makefile
 plugins/Makefile
-plugins/addressbook-file/Makefile
 plugins/attachment-reminder/Makefile
 plugins/audio-inline/Makefile
 plugins/bbdb/Makefile
