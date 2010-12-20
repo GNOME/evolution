@@ -1,3 +1,61 @@
+Evolution 2.91.4 2010-12-20
+---------------------------
+
+Bug Fixes:
+	Bug 250046 - Quote names in addresses when necessary in mail preview (Milan Crha)
+	Bug 634385 - Crash in smtp_connect (Milan Crha)
+	Bug 637162 - May not add toolbar Send/Receive button multiple times (Milan Crha)
+	Bug 436914 - Reply to inline GPG quotes raw GPG message (Milan Crha)
+	Bug 616452 - Do not set '-Wl,--no-undefined' on freebsd/openbsd (Milan Crha)
+	Bug 633702 - Forget password when saving account without "Remember password" (Milan Crha)
+	Bug 633611 - Do not close Add Filter Rule dialog on error (Milan Crha)
+	Bug 633332 - Preserve port number in WebDAV address book (Milan Crha)
+	Bug 631568 - Scheduling Meetings with CalDAV calendars (Milan Crha)
+	Bug 593587 - Fails to retrieve free/busy info if auth required (Milan Crha)
+	Bug 590245 - 'evolution --force-shutdown' should kill factories (Milan Crha)
+	Bug 627536 - Open meeting as meeting, not as appointment, in week view (Milan Crha)
+	Bug 620234 - Invalid writes during free/busy (Milan Crha)
+	Bug 636265 - Trash is untranslated in the window title (Matthew Barnes)
+	Bug 635755 - Authenticate books in addressbook importers on open (Milan Crha)
+	Bug 567415 - Remove "Nettiquette" section. (Andre Klapper)
+	Bug 544328 - Fix right-click, right click, double-click, double click spellings. (Andre Klapper)
+	Bug 608527 - Remove non-existing images/figures linked from User Guide. (Andre Klapper)
+	Bug 566240 - Remove useless part of sentence. (Andre Klapper)
+	Bug 588572 - Fix invalid sentence. (Andre Klapper)
+	Bug 587153 - Fix broken sentence. (Andre Klapper)
+	Bug 587152 - Fix broken sentence. (Andre Klapper)
+	Bug 588570 - Fix weird sentence. (Andre Klapper)
+	Bug 634734 - Fix steps for contact list creation. (Andre Klapper)	
+	Bug 555324 - Ask for destination before "Save in Addressbook" inline vCard (Milan Crha)
+	Bug 627176 - Do not spawn other process when clicking mailto: uri (Milan Crha)
+	Bug 621150 - Add the possibility to modify locale of the quoting messages (Jan Holesovsky)
+	Bug 602183 - Crash in Mini Calendar View (bnc) (Vibha Yadav)
+	Bug 636058 - Account setup issues express mode. (Punit Jain)
+
+Miscellaneous Fixes:
+	Show common addressbook and calendar errors in an alert sink (Milan Crha)
+	Remove duplicated info listed already in Quick Reference PDF anyway. (Andre Klapper)
+	Remove useless listing of all categories available. No additional value to have that in the docs. (Andre Klapper)
+	Check for the existence of .Outbox folder while migrating. Make sure the dummy account is created only once. 
+	 Revert couple of fixes (Chenthill Palanisamy)
+	Free/busy meeting view doesn't work due to non-working extension (Milan Crha)
+	Remove confusing and isolated "Contact list" line. (Andre Klapper)
+	Set the provider's defaults on when CamelURLs get refreshed with a new protocol (Federico Mena Quintero)
+	Avoid a crash when building templates menu. (Matthew Barnes)
+	CalDAV plugin - use saved password, if available, for server browsing (Milan Crha)
+	Revert the doc changes committed. (Bharath Acharya)
+	Default to beginning of the day for the last alarm notification (Milan Crha)
+
+Translations:
+	Nguyễn Thái Ngọc Duy (vi)
+	Chao-Hsiung Liao (zh_HK)
+	Jorge González (es)
+	Philip Withnall (en_GB)
+	Ani Peter (ml)
+	Marcos Lans (gl)
+	Kjartan Maraas (nn)
+	A S Alam (pa)
+
 Evolution 2.91.3 2010-11-29
 ---------------------------
 Bug Fixes:
