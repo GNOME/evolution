@@ -51,6 +51,7 @@
 #include "widgets/misc/e-attachment-icon-view.h"
 #include "widgets/misc/e-attachment-paned.h"
 #include "widgets/misc/e-attachment-store.h"
+#include "widgets/misc/e-picture-gallery.h"
 #include "widgets/misc/e-signature-combo-box.h"
 #include "widgets/misc/e-web-view.h"
 #include "shell/e-shell.h"
@@ -113,7 +114,6 @@ struct _EMsgComposerPrivate {
 
 	/*** UI Management ***/
 
-	GtkWidget *html_editor;
 	GtkWidget *header_table;
 	GtkWidget *activity_bar;
 	GtkWidget *alert_bar;
@@ -131,6 +131,9 @@ struct _EMsgComposerPrivate {
 	GArray *gconf_bridge_binding_ids;
 
 	GtkWidget *focused_entry;
+
+	GtkWidget *gallery_icon_view;
+	GtkWidget *gallery_scrolled_window;
 
 	GtkWidget *address_dialog;
 

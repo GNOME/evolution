@@ -308,6 +308,10 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 		"composer-no-signature-delim",
 		"/apps/evolution/mail/composer/no_signature_delim");
 
+	e_shell_settings_install_property_for_key (
+		"composer-gallery-path",
+		"/apps/evolution/mail/composer/gallery_path");
+
 	/* These properties use transform functions to convert
 	 * GConf values to forms more useful to Evolution.  We
 	 * have to use separate properties because GConfBridge

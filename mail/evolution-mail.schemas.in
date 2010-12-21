@@ -346,6 +346,20 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/composer/gallery_path</key>
+      <applyto>/apps/evolution/mail/composer/gallery_path</applyto>
+      <owner>evolution-mail</owner>
+      <type>string</type>
+      <default></default>
+      <locale name="C">
+         <short>Path where image gallery should search for its content</short>
+         <long>This value can be an empty string, which means it'll use
+	 the system Picture folder, usually set to ~/Pictures. This folder will
+	 be also used when the set path is not pointing to the existent folder.</long>
+      </locale>
+    </schema>
+
     <!-- Display Settings -->
 
     <schema>
