@@ -353,6 +353,14 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  G_CALLBACK (action_pgp_sign_cb),
 	  FALSE },
 
+	{ "picture-gallery",
+	  "emblem-photos",
+	  N_("_Picture Gallery"),
+	  NULL,
+	  N_("Show a collection of pictures that you can drag to your message"),
+	  NULL,  /* no callback */
+	  FALSE },
+
 	{ "prioritize-message",
 	  NULL,
 	  N_("_Prioritize Message"),
@@ -461,7 +469,15 @@ e_composer_actions_init (EMsgComposer *composer)
 		ACTION (ATTACH), "short-label", _("Attach"), NULL);
 
 	g_object_set (
+		ACTION (PICTURE_GALLERY), "is-important", TRUE, NULL);
+
+	g_object_set (
 		ACTION (SAVE_DRAFT), "short-label", _("Save Draft"), NULL);
+
+	g_object_bind_property (
+		composer, "html-mode",
+		ACTION (PICTURE_GALLERY), "sensitive",
+		G_BINDING_SYNC_CREATE);
 
 	g_object_bind_property (
 		web_view, "editable",

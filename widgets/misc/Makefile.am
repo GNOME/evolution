@@ -44,6 +44,7 @@ widgetsinclude_HEADERS =			\
 	e-menu-tool-button.h			\
 	e-online-button.h			\
 	e-paned.h				\
+	e-picture-gallery.h			\
 	e-popup-action.h			\
 	e-popup-menu.h				\
 	e-preferences-window.h			\
@@ -122,6 +123,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-menu-tool-button.c			\
 	e-online-button.c			\
 	e-paned.c				\
+	e-picture-gallery.c			\
 	e-popup-action.c			\
 	e-popup-menu.c				\
 	e-preferences-window.c			\

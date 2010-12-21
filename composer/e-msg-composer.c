@@ -1976,6 +1976,34 @@ msg_composer_finalize (GObject *object)
 }
 
 static void
+msg_composer_gallery_drag_data_get (GtkIconView *icon_view,
+                                    GdkDragContext *context,
+                                    GtkSelectionData *selection_data,
+                                    guint target_type,
+                                    guint time)
+{
+	GtkTreePath *path;
+	GtkCellRenderer *cell;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gchar *str_data;
+
+	if (!gtk_icon_view_get_cursor (icon_view, &path, &cell))
+		return;
+
+	model = gtk_icon_view_get_model (icon_view);
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_model_get (model, &iter, 1, &str_data, -1);
+	gtk_tree_path_free (path);
+
+	/* only supports "text/uri-list" */
+	gtk_selection_data_set (
+		selection_data, selection_data->target, 8,
+		(guchar *) str_data, strlen (str_data));
+	g_free (str_data);
+}
+
+static void
 msg_composer_constructed (GObject *object)
 {
 	EShell *shell;
@@ -2071,6 +2099,10 @@ msg_composer_constructed (GObject *object)
 	g_signal_connect (
 		web_view, "drag-data-received",
 		G_CALLBACK (msg_composer_drag_data_received_cb), composer);
+
+	g_signal_connect (
+		composer->priv->gallery_icon_view, "drag-data-get",
+		G_CALLBACK (msg_composer_gallery_drag_data_get), NULL);
 
 	/* Configure Headers */
 

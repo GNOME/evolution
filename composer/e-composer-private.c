@@ -20,6 +20,9 @@
 #include "e-composer-private.h"
 #include "e-util/e-util-private.h"
 
+/* Initial height of the picture gallery. */
+#define GALLERY_INITIAL_HEIGHT 150
+
 static void
 composer_setup_charset_menu (EMsgComposer *composer)
 {
@@ -124,12 +127,36 @@ msg_composer_url_requested_cb (GtkHTML *html,
 	g_signal_stop_emission_by_name (html, "url-requested");
 }
 
+static void
+composer_update_gallery_visibility (EMsgComposer *composer)
+{
+	GtkhtmlEditor *editor;
+	GtkToggleAction *toggle_action;
+	gboolean gallery_active;
+	gboolean html_mode;
+
+	editor = GTKHTML_EDITOR (composer);
+	html_mode = gtkhtml_editor_get_html_mode (editor);
+
+	toggle_action = GTK_TOGGLE_ACTION (ACTION (PICTURE_GALLERY));
+	gallery_active = gtk_toggle_action_get_active (toggle_action);
+
+	if (html_mode && gallery_active) {
+		gtk_widget_show (composer->priv->gallery_scrolled_window);
+		gtk_widget_show (composer->priv->gallery_icon_view);
+	} else {
+		gtk_widget_hide (composer->priv->gallery_scrolled_window);
+		gtk_widget_hide (composer->priv->gallery_icon_view);
+	}
+}
+
 void
 e_composer_private_constructed (EMsgComposer *composer)
 {
 	EMsgComposerPrivate *priv = composer->priv;
 	EFocusTracker *focus_tracker;
 	EShell *shell;
+	EShellSettings *shell_settings;
 	EWebView *web_view;
 	GtkhtmlEditor *editor;
 	GtkUIManager *ui_manager;
@@ -140,7 +167,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	GtkWindow *window;
 	const gchar *path;
 	gboolean small_screen_mode;
-	gchar *filename;
+	gchar *filename, *gallery_path;
 	gint ii;
 	GError *error = NULL;
 
@@ -148,6 +175,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	ui_manager = gtkhtml_editor_get_ui_manager (editor);
 
 	shell = e_msg_composer_get_shell (composer);
+	shell_settings = e_shell_get_shell_settings (shell);
 	web_view = e_msg_composer_get_web_view (composer);
 	small_screen_mode = e_shell_get_small_screen_mode (shell);
 
@@ -289,6 +317,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 		e_attachment_paned_set_default_height (75); /* short attachment bar for Anjal */
 		e_attachment_icon_view_set_default_icon_size (GTK_ICON_SIZE_BUTTON);
 	}
+
 	widget = e_attachment_paned_new ();
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	priv->attachment_paned = g_object_ref (widget);
@@ -354,18 +383,53 @@ e_composer_private_constructed (EMsgComposer *composer)
 		gtk_box_pack_end (GTK_BOX (container), tmp_box, FALSE, FALSE, 3);
 	}
 
-	g_object_set_data ((GObject *)composer, "vbox", editor->vbox);
+	container = e_attachment_paned_get_content_area (
+		E_ATTACHMENT_PANED (priv->attachment_paned));
+
+	widget = gtk_vpaned_new ();
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (widget),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
+	gtk_widget_set_size_request (widget, -1, GALLERY_INITIAL_HEIGHT);
+	gtk_paned_pack1 (GTK_PANED (container), widget, FALSE, FALSE);
+	priv->gallery_scrolled_window = g_object_ref (widget);
+	gtk_widget_show (widget);
 
 	/* Reparent the scrolled window containing the GtkHTML widget
 	 * into the content area of the top attachment pane. */
 
 	widget = GTK_WIDGET (web_view);
 	widget = gtk_widget_get_parent (widget);
-	container = e_attachment_paned_get_content_area (
-		E_ATTACHMENT_PANED (priv->attachment_paned));
 	gtk_widget_reparent (widget, container);
-	gtk_box_set_child_packing (
-		GTK_BOX (container), widget, TRUE, TRUE, 0, GTK_PACK_START);
+
+	/* Construct the picture gallery. */
+
+	container = priv->gallery_scrolled_window;
+
+	gallery_path = e_shell_settings_get_string (shell_settings, "composer-gallery-path");
+	widget = e_picture_gallery_new (gallery_path);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	priv->gallery_icon_view = g_object_ref (widget);
+	g_free (gallery_path);
+
+	g_signal_connect (
+		composer, "notify::html-mode",
+		G_CALLBACK (composer_update_gallery_visibility), NULL);
+
+	g_signal_connect_swapped (
+		ACTION (PICTURE_GALLERY), "toggled",
+		G_CALLBACK (composer_update_gallery_visibility), composer);
+
+	/* XXX What is this for? */
+	g_object_set_data (G_OBJECT (composer), "vbox", editor->vbox);
 
 	composer_setup_recent_menu (composer);
 
@@ -496,6 +560,11 @@ e_composer_private_dispose (EMsgComposer *composer)
 	if (composer->priv->composer_actions != NULL) {
 		g_object_unref (composer->priv->composer_actions);
 		composer->priv->composer_actions = NULL;
+	}
+
+	if (composer->priv->gallery_scrolled_window != NULL) {
+		g_object_unref (composer->priv->gallery_scrolled_window);
+		composer->priv->gallery_scrolled_window = NULL;
 	}
 
 	g_hash_table_remove_all (composer->priv->inline_images);

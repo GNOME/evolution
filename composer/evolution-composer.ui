@@ -25,6 +25,8 @@
         <menuitem action='view-reply-to'/>
         <menuitem action='view-cc'/>
         <menuitem action='view-bcc'/>
+        <separator/>
+        <menuitem action='picture-gallery'/>
       </menu>
     </placeholder>
     <menu action='insert-menu'>
@@ -55,5 +57,9 @@
       <toolitem action='save-draft'/>
       <separator/>
     </placeholder>
+  </toolbar>
+  <toolbar name='html-toolbar'>
+    <separator/>
+    <toolitem action='picture-gallery'/>
   </toolbar>
 </ui>

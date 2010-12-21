@@ -29,6 +29,8 @@
 	E_COMPOSER_ACTION ((composer), "pgp-encrypt")
 #define E_COMPOSER_ACTION_PGP_SIGN(composer) \
 	E_COMPOSER_ACTION ((composer), "pgp-sign")
+#define E_COMPOSER_ACTION_PICTURE_GALLERY(composer) \
+	E_COMPOSER_ACTION ((composer), "picture-gallery")
 #define E_COMPOSER_ACTION_PRINT(composer) \
 	E_COMPOSER_ACTION ((composer), "print")
 #define E_COMPOSER_ACTION_PRINT_PREVIEW(composer) \
