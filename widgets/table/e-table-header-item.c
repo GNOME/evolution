@@ -929,7 +929,7 @@ ethi_realize (GnomeCanvasItem *item)
 	gtk_drag_dest_set (
 		GTK_WIDGET (item->canvas), 0, ethi_drop_types,
 		G_N_ELEMENTS (ethi_drop_types), GDK_ACTION_MOVE);
-	g_free (ethi_drop_types[0].target);
+	g_free ((gpointer) ethi_drop_types[0].target);
 
 	/* Drop signals */
 	ethi->drag_motion_id = g_signal_connect (item->canvas, "drag_motion",
@@ -1235,7 +1235,7 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	list = gtk_target_list_new (
 		ethi_drag_types, G_N_ELEMENTS (ethi_drag_types));
 	context = gtk_drag_begin (widget, list, GDK_ACTION_MOVE, 1, event);
-	g_free (ethi_drag_types[0].target);
+	g_free ((gpointer) ethi_drag_types[0].target);
 
 	ecol = e_table_header_get_column (ethi->eth, ethi->drag_col);
 	col_width = ecol->width;
