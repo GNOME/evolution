@@ -493,8 +493,13 @@ alert_dispose (GObject *object)
 
 	priv = E_ALERT_GET_PRIVATE (object);
 
-	while (!g_queue_is_empty (&priv->actions))
-		g_object_unref (g_queue_pop_head (&priv->actions));
+	while (!g_queue_is_empty (&priv->actions)) {
+		GtkAction *action = g_queue_pop_head (&priv->actions);
+
+		g_signal_handlers_disconnect_by_func (action, G_CALLBACK (alert_action_activate), object);
+
+		g_object_unref (action);
+	}
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_alert_parent_class)->dispose (object);
