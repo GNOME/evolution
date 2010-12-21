@@ -572,7 +572,7 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, gdouble x, gdo
 	d(g_print ("etfci - %s\n", etfci_drag_types[0].target));
 	list = gtk_target_list_new (etfci_drag_types, G_N_ELEMENTS (etfci_drag_types));
 	context = gtk_drag_begin (widget, list, GDK_ACTION_MOVE, 1, event);
-	g_free (etfci_drag_types[0].target);
+	g_free ((gpointer) etfci_drag_types[0].target);
 
 	button_height = e_table_header_compute_height (ecol, widget);
 	window = gtk_widget_get_window (widget);
