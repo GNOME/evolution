@@ -138,13 +138,10 @@ AM_CONDITIONAL([ENABLE_GTK3], [test "$enable_gtk3" = yes])
 dnl ******************************
 dnl Compiler Warning Flags
 dnl ******************************
-dnl GDK_DISABLE_DEPRECATED is excluded until
-dnl we can port the GDK drawing code to cairo.
 AS_COMPILER_FLAGS(WARNING_FLAGS,
 	"-DG_DISABLE_DEPRECATED
 	-DPANGO_DISABLE_DEPRECATED
 	-DGDK_PIXBUF_DISABLE_DEPRECATED
-	-DGDK_DISABLE_DEPRECATED
 	-DGTK_DISABLE_DEPRECATED
 	-DEDS_DISABLE_DEPRECATED
 	-DG_DISABLE_SINGLE_INCLUDES
