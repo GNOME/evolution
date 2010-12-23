@@ -24,6 +24,7 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <locale.h>
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h>
@@ -240,7 +241,7 @@ main (gint argc, gchar *argv[])
 	textdomain (GETTEXT_PACKAGE);
 #endif
 
-	gtk_set_locale ();
+	setlocale (LC_ALL, NULL);
 
 	if (!gtk_init_with_args (&argc, &argv, _("Anjal email client"), entries, NULL, &error)) {
 		g_error ("Unable to start Anjal: %s\n", error->message);
