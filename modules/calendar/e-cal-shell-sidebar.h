@@ -55,10 +55,10 @@ typedef struct _ECalShellSidebarClass ECalShellSidebarClass;
 typedef struct _ECalShellSidebarPrivate ECalShellSidebarPrivate;
 
 enum {
-	E_CAL_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE		= 1 << 0,
-	E_CAL_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE	= 1 << 1,
-	E_CAL_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM	= 1 << 2,
-	E_CAL_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH	= 1 << 3
+	E_CAL_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE			= 1 << 0,
+	E_CAL_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE		= 1 << 1,
+	E_CAL_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_WRITABLE		= 1 << 2,
+	E_CAL_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH		= 1 << 3
 };
 
 struct _ECalShellSidebar {
@@ -89,6 +89,8 @@ GList *		e_cal_shell_sidebar_get_clients
 ECalendar *	e_cal_shell_sidebar_get_date_navigator
 					(ECalShellSidebar *cal_shell_sidebar);
 ECalClient *	e_cal_shell_sidebar_get_default_client
+					(ECalShellSidebar *cal_shell_sidebar);
+GtkWidget *	e_cal_shell_sidebar_get_new_calendar_button
 					(ECalShellSidebar *cal_shell_sidebar);
 ESourceSelector *
 		e_cal_shell_sidebar_get_selector

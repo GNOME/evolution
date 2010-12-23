@@ -34,6 +34,7 @@
 #include "calendar/gui/e-cal-config.h"
 #include "calendar/gui/e-timezone-entry.h"
 #include "calendar/gui/calendar-config.h"
+#include "widgets/misc/e-alarm-selector.h"
 #include "widgets/misc/e-dateedit.h"
 #include "e-util/e-util.h"
 #include "e-util/e-datetime-format.h"
@@ -123,6 +124,11 @@ calendar_preferences_dispose (GObject *object)
 	if (prefs->builder != NULL) {
 		g_object_unref (prefs->builder);
 		prefs->builder = NULL;
+	}
+
+	if (prefs->registry != NULL) {
+		g_object_unref (prefs->registry);
+		prefs->registry = NULL;
 	}
 
 	if (prefs->shell_settings != NULL) {
@@ -345,50 +351,6 @@ notify_with_tray_toggled (GtkToggleButton *toggle,
 }
 
 static void
-alarms_selection_changed (ESourceSelector *selector,
-                          ECalendarPreferences *prefs)
-{
-	ESourceList *source_list = prefs->alarms_list;
-	GSList *selection;
-	GSList *l;
-	GSList *groups;
-	ESource *source;
-	const gchar *alarm;
-
-	/* first we clear all the alarm flags from all sources */
-	for (groups = e_source_list_peek_groups (source_list); groups; groups = groups->next) {
-		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
-		GSList *sources;
-		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
-			source = E_SOURCE (sources->data);
-
-			alarm = e_source_get_property (source, "alarm");
-			if (alarm && !g_ascii_strcasecmp (alarm, "never"))
-				continue;
-
-			e_source_set_property (source, "alarm", "false");
-		}
-	}
-
-	/* then we loop over the selector's selection, setting the
-	 * property on those sources */
-	selection = e_source_selector_get_selection (selector);
-	for (l = selection; l; l = l->next) {
-		source = E_SOURCE (l->data);
-
-		alarm = (gchar *)e_source_get_property (source, "alarm");
-		if (alarm && !g_ascii_strcasecmp (alarm, "never"))
-			continue;
-
-		e_source_set_property (E_SOURCE (l->data), "alarm", "true");
-	}
-	e_source_selector_free_selection (selection);
-
-	/* FIXME show an error if this fails? */
-	e_source_list_sync (source_list, NULL);
-}
-
-static void
 update_system_tz_widgets (EShellSettings *shell_settings,
                           GParamSpec *pspec,
                           ECalendarPreferences *prefs)
@@ -430,45 +392,20 @@ setup_changes (ECalendarPreferences *prefs)
 	g_signal_connect (
 		prefs->notify_with_tray, "toggled",
 		G_CALLBACK (notify_with_tray_toggled), prefs);
-
-	g_signal_connect (
-		prefs->alarm_list_widget, "selection_changed",
-		G_CALLBACK (alarms_selection_changed), prefs);
-}
-
-static void
-initialize_selection (ESourceSelector *selector,
-                      ESourceList *source_list)
-{
-	GSList *groups;
-
-	for (groups = e_source_list_peek_groups (source_list); groups; groups = groups->next) {
-		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
-		GSList *sources;
-		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
-			ESource *source = E_SOURCE (sources->data);
-			const gchar *completion = e_source_get_property (source, "alarm");
-			if (!completion  || !g_ascii_strcasecmp (completion, "true")) {
-				if (!completion)
-					e_source_set_property (E_SOURCE (source), "alarm", "true");
-				e_source_selector_select_source (selector, source);
-			}
-		}
-	}
 }
 
 static void
 show_alarms_config (ECalendarPreferences *prefs)
 {
 	GSettings *settings;
+	GtkWidget *widget;
 
-	if (e_cal_client_get_sources (&prefs->alarms_list, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, NULL)) {
-		prefs->alarm_list_widget = e_source_selector_new (prefs->alarms_list);
-		atk_object_set_name (gtk_widget_get_accessible (prefs->alarm_list_widget), _("Selected Calendars for Reminders"));
-		gtk_container_add (GTK_CONTAINER (prefs->scrolled_window), prefs->alarm_list_widget);
-		gtk_widget_show (prefs->alarm_list_widget);
-		initialize_selection (E_SOURCE_SELECTOR (prefs->alarm_list_widget), prefs->alarms_list);
-	}
+	widget = e_alarm_selector_new (prefs->registry);
+	atk_object_set_name (
+		gtk_widget_get_accessible (widget),
+		_("Selected Calendars for Alarms"));
+	gtk_container_add (GTK_CONTAINER (prefs->scrolled_window), widget);
+	gtk_widget_show (widget);
 
 	settings = g_settings_new ("org.gnome.evolution.calendar");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->notify_with_tray), g_settings_get_boolean (settings, "notify-with-tray"));
@@ -941,16 +878,20 @@ GtkWidget *
 e_calendar_preferences_new (EPreferencesWindow *window)
 {
 	EShell *shell;
+	ESourceRegistry *registry;
 	EShellSettings *shell_settings;
 	ECalendarPreferences *preferences;
 
 	shell = e_preferences_window_get_shell (window);
+
+	registry = e_shell_get_registry (shell);
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	preferences = g_object_new (E_TYPE_CALENDAR_PREFERENCES, NULL);
 
+	preferences->registry = g_object_ref (registry);
 	preferences->shell_settings = g_object_ref (shell_settings);
 
 	/* FIXME Kill this function. */

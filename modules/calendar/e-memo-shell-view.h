@@ -23,7 +23,6 @@
 #define E_MEMO_SHELL_VIEW_H
 
 #include <shell/e-shell-view.h>
-#include <libedataserver/e-source-list.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MEMO_SHELL_VIEW \

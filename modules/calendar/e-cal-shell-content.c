@@ -333,6 +333,7 @@ cal_shell_content_constructed (GObject *object)
 	EShellContent *foreign_content;
 	EShellView *foreign_view;
 	GnomeCalendar *calendar;
+	ESourceRegistry *registry;
 	GalViewInstance *view_instance;
 	GSettings *settings;
 	GtkWidget *container;
@@ -401,7 +402,8 @@ cal_shell_content_constructed (GObject *object)
 	/* Add views in the order defined by GnomeCalendarViewType, such
 	 * that the notebook page number corresponds to the view type. */
 
-	priv->calendar = gnome_calendar_new ();
+	registry = e_shell_get_registry (shell);
+	priv->calendar = gnome_calendar_new (registry);
 	calendar = GNOME_CALENDAR (priv->calendar);
 
 	for (ii = 0; ii < GNOME_CAL_LAST_VIEW; ii++) {

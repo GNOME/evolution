@@ -35,12 +35,13 @@
 #include "shell/e-shell-utils.h"
 #include "misc/e-popup-action.h"
 #include "misc/e-selectable.h"
+#include "misc/e-source-config-dialog.h"
 
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-component-preview.h"
+#include "calendar/gui/e-cal-source-config.h"
 #include "calendar/gui/e-calendar-selector.h"
 #include "calendar/gui/print.h"
-#include "calendar/gui/dialogs/calendar-setup.h"
 #include "calendar/gui/dialogs/copy-source-dialog.h"
 #include "calendar/gui/dialogs/memo-editor.h"
 

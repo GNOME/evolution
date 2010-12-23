@@ -55,11 +55,21 @@ action_calendar_taskpad_forward_cb (GtkAction *action,
                                     ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	ESourceRegistry *registry;
 	ECalModelComponent *comp_data;
 	ETaskTable *task_table;
 	ECalComponent *comp;
 	icalcomponent *clone;
 	GSList *list;
+
+	shell_view = E_SHELL_VIEW (cal_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
+
+	registry = e_shell_get_registry (shell);
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
@@ -75,7 +85,7 @@ action_calendar_taskpad_forward_cb (GtkAction *action,
 	e_cal_component_set_icalcomponent (comp, clone);
 
 	itip_send_comp (
-		E_CAL_COMPONENT_METHOD_PUBLISH, comp,
+		registry, E_CAL_COMPONENT_METHOD_PUBLISH, comp,
 		comp_data->client, NULL, NULL, NULL, TRUE, FALSE);
 
 	g_object_unref (comp);
@@ -511,6 +521,7 @@ e_cal_shell_view_taskpad_open_task (ECalShellView *cal_shell_view,
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	ESourceRegistry *registry;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
 	ECalComponent *comp;
@@ -524,6 +535,8 @@ e_cal_shell_view_taskpad_open_task (ECalShellView *cal_shell_view,
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
+
+	registry = e_shell_get_registry (shell);
 
 	uid = icalcomponent_get_uid (comp_data->icalcomp);
 	editor = comp_editor_find_instance (uid);
@@ -540,7 +553,7 @@ e_cal_shell_view_taskpad_open_task (ECalShellView *cal_shell_view,
 	if (prop != NULL)
 		flags |= COMP_EDITOR_IS_ASSIGNED;
 
-	if (itip_organizer_is_user (comp, comp_data->client))
+	if (itip_organizer_is_user (registry, comp, comp_data->client))
 		flags |= COMP_EDITOR_USER_ORG;
 
 	if (!e_cal_component_has_attendees (comp))

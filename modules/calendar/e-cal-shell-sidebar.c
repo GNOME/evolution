@@ -27,6 +27,7 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
+#include <libedataserver/e-source-calendar.h>
 #include <libedataserverui/e-client-utils.h>
 
 #include "libevolution-utils/e-alert-dialog.h"
@@ -34,7 +35,6 @@
 
 #include "calendar/gui/e-calendar-selector.h"
 #include "calendar/gui/misc.h"
-#include "calendar/gui/dialogs/calendar-setup.h"
 
 #include "e-cal-shell-view.h"
 #include "e-cal-shell-backend.h"
@@ -48,6 +48,7 @@ struct _ECalShellSidebarPrivate {
 	GtkWidget *paned;
 	GtkWidget *selector;
 	GtkWidget *date_navigator;
+	GtkWidget *new_calendar_button;
 
 	/* UID -> Client */
 	GHashTable *client_table;
@@ -150,24 +151,43 @@ cal_shell_sidebar_backend_error_cb (ECalShellSidebar *cal_shell_sidebar,
                                     const gchar *message,
                                     ECalClient *client)
 {
+	EShell *shell;
 	EShellView *shell_view;
+	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
-	ESourceGroup *source_group;
+	ESourceRegistry *registry;
+	ESource *parent;
 	ESource *source;
+	const gchar *parent_uid;
+	const gchar *parent_display_name;
+	const gchar *source_display_name;
 
 	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
+	shell = e_shell_backend_get_shell (shell_backend);
+	registry = e_shell_get_registry (shell);
+
 	source = e_client_get_source (E_CLIENT (client));
-	source_group = e_source_peek_group (source);
+
+	parent_uid = e_source_get_parent (source);
+	parent = e_source_registry_ref_source (registry, parent_uid);
+	g_return_if_fail (parent != NULL);
+
+	parent_display_name = e_source_get_display_name (parent);
+	source_display_name = e_source_get_display_name (source);
 
 	e_alert_submit (
 		E_ALERT_SINK (shell_content),
 		"calendar:backend-error",
-		e_source_group_peek_name (source_group),
-		e_source_get_display_name (source), message, NULL);
+		parent_display_name,
+		source_display_name,
+		message, NULL);
+
+	g_object_unref (parent);
 }
 
 static void
@@ -233,20 +253,6 @@ cal_shell_sidebar_client_opened_cb (GObject *source_object,
 
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
 	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_clear_error (&error);
-		return;
-	}
-
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_AUTHENTICATION_FAILED) ||
-	    g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_AUTHENTICATION_REQUIRED))
-		e_client_utils_forget_password (E_CLIENT (client));
-
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_AUTHENTICATION_FAILED)) {
-		e_client_open (
-			E_CLIENT (client), FALSE,
-			cal_shell_sidebar->priv->loading_clients,
-			cal_shell_sidebar_client_opened_cb, user_data);
-
 		g_clear_error (&error);
 		return;
 	}
@@ -401,8 +407,6 @@ cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
                                ESource *source)
 {
 	ECalShellSidebarPrivate *priv;
-	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
 	ECalClient *client;
 	const gchar *uid;
@@ -412,8 +416,6 @@ cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
 	/* FIXME Sidebar should not be accessing the EShellContent.
 	 *       This probably needs to be moved to ECalShellView. */
 	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	/* Cancel any unfinished previous request. */
 	if (priv->loading_default_client != NULL) {
@@ -440,8 +442,6 @@ cal_shell_sidebar_set_default (ECalShellSidebar *cal_shell_sidebar,
 	e_client_utils_open_new (
 		source, E_CLIENT_SOURCE_TYPE_EVENTS,
 		FALSE, priv->loading_default_client,
-		e_client_utils_authenticate_handler,
-		GTK_WINDOW (shell_window),
 		cal_shell_sidebar_default_loaded_cb,
 		g_object_ref (shell_sidebar));
 }
@@ -475,38 +475,6 @@ cal_shell_sidebar_row_changed_cb (ECalShellSidebar *cal_shell_sidebar,
 }
 
 static void
-cal_shell_sidebar_selection_changed_cb (ECalShellSidebar *cal_shell_sidebar,
-                                        ESourceSelector *selector)
-{
-	EShellView *shell_view;
-	EShellBackend *shell_backend;
-	EShellSidebar *shell_sidebar;
-	GSList *list, *iter;
-
-	/* This signal is emitted less frequently than "row-changed",
-	 * especially when the model is being rebuilt.  So we'll take
-	 * it easy on poor GConf. */
-
-	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-
-	list = e_source_selector_get_selection (selector);
-
-	for (iter = list; iter != NULL; iter = iter->next) {
-		ESource *source = iter->data;
-
-		iter->data = (gpointer) e_source_get_uid (source);
-		g_object_unref (source);
-	}
-
-	e_cal_shell_backend_set_selected_calendars (
-		E_CAL_SHELL_BACKEND (shell_backend), list);
-
-	g_slist_free (list);
-}
-
-static void
 cal_shell_sidebar_primary_selection_changed_cb (ECalShellSidebar *cal_shell_sidebar,
                                                 ESourceSelector *selector)
 {
@@ -530,12 +498,10 @@ cal_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
+	ESourceRegistry *registry;
 	ESourceSelector *selector;
-	ESourceList *source_list;
-	ESource *source;
 	GSettings *settings;
 	GtkTreeModel *model;
-	GSList *list, *iter;
 	GObject *object;
 
 	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
@@ -549,8 +515,7 @@ cal_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 	selector = E_SOURCE_SELECTOR (priv->selector);
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (selector));
 
-	source_list = e_cal_shell_backend_get_source_list (
-		E_CAL_SHELL_BACKEND (shell_backend));
+	registry = e_shell_get_registry (shell);
 
 	g_signal_connect_swapped (
 		model, "row-changed",
@@ -569,30 +534,8 @@ cal_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 		G_BINDING_SYNC_CREATE,
 		(GBindingTransformFunc) e_binding_transform_uid_to_source,
 		(GBindingTransformFunc) e_binding_transform_source_to_uid,
-		g_object_ref (source_list),
+		g_object_ref (registry),
 		(GDestroyNotify) g_object_unref);
-
-	list = e_cal_shell_backend_get_selected_calendars (
-		E_CAL_SHELL_BACKEND (shell_backend));
-
-	for (iter = list; iter != NULL; iter = iter->next) {
-		const gchar *uid = iter->data;
-
-		source = e_source_list_peek_source_by_uid (source_list, uid);
-
-		if (source != NULL)
-			e_source_selector_select_source (selector, source);
-	}
-
-	g_slist_foreach (list, (GFunc) g_free, NULL);
-	g_slist_free (list);
-
-	/* Listen for subsequent changes to the selector. */
-
-	g_signal_connect_swapped (
-		selector, "selection-changed",
-		G_CALLBACK (cal_shell_sidebar_selection_changed_cb),
-		shell_sidebar);
 
 	/* Bind GObject properties to settings keys. */
 
@@ -658,6 +601,11 @@ cal_shell_sidebar_dispose (GObject *object)
 		priv->date_navigator = NULL;
 	}
 
+	if (priv->new_calendar_button != NULL) {
+		g_object_unref (priv->new_calendar_button);
+		priv->new_calendar_button = NULL;
+	}
+
 	if (priv->default_client != NULL) {
 		g_object_unref (priv->default_client);
 		priv->default_client = NULL;
@@ -695,19 +643,6 @@ cal_shell_sidebar_finalize (GObject *object)
 }
 
 static void
-new_calendar_clicked (GtkButton *button,
-                      EShellSidebar *shell_sidebar)
-{
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	calendar_setup_new_calendar (GTK_WINDOW (shell_window));
-}
-
-static void
 cal_shell_sidebar_constructed (GObject *object)
 {
 	ECalShellSidebarPrivate *priv;
@@ -717,7 +652,7 @@ cal_shell_sidebar_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
 	EShellSettings *shell_settings;
-	ESourceList *source_list;
+	ESourceRegistry *registry;
 	ECalendarItem *calitem;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -736,9 +671,6 @@ cal_shell_sidebar_constructed (GObject *object)
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	source_list = e_cal_shell_backend_get_source_list (
-		E_CAL_SHELL_BACKEND (shell_backend));
-
 	container = GTK_WIDGET (shell_sidebar);
 
 	widget = e_paned_new (GTK_ORIENTATION_VERTICAL);
@@ -748,34 +680,36 @@ cal_shell_sidebar_constructed (GObject *object)
 
 	container = widget;
 
+	widget = gtk_vbox_new (FALSE, 6);
+	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, TRUE);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	/* "New Calendar" button is only shown in express mode.
+	 * ECalShellView will bind the button to an appropriate
+	 * GtkAction so we don't have to reimplement it here. */
+	if (e_shell_get_express_mode (shell)) {
+		widget = gtk_button_new ();
+		gtk_box_pack_end (
+			GTK_BOX (container), widget, FALSE, FALSE, 0);
+		priv->new_calendar_button = g_object_ref (widget);
+		gtk_widget_show (widget);
+	}
+
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (widget),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	if (!e_shell_get_express_mode (shell)) {
-		gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, TRUE);
-	} else {
-		GtkWidget *button;
-
-		container = gtk_vbox_new (FALSE, 6);
-		gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-
-		button = gtk_button_new_with_mnemonic (_("_New Calendar..."));
-		gtk_box_pack_start (GTK_BOX (container), button, FALSE, FALSE, 0);
-		g_signal_connect (
-			button, "clicked",
-			G_CALLBACK (new_calendar_clicked), shell_sidebar);
-
-		gtk_paned_pack1 (GTK_PANED (priv->paned), container, TRUE, TRUE);
-		gtk_widget_show_all (container);
-	}
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;
 
-	widget = e_calendar_selector_new (source_list);
+	registry = e_shell_get_registry (shell);
+	widget = e_calendar_selector_new (registry);
 	e_source_selector_set_select_new (E_SOURCE_SELECTOR (widget), TRUE);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	a11y = gtk_widget_get_accessible (widget);
@@ -817,8 +751,8 @@ cal_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	ECalShellSidebar *cal_shell_sidebar;
 	ESourceSelector *selector;
 	ESource *source;
-	gboolean can_delete = FALSE;
-	gboolean is_system = FALSE;
+	gboolean removable = FALSE;
+	gboolean writable = FALSE;
 	gboolean refresh_supported = FALSE;
 	gboolean has_primary_source = FALSE;
 	guint32 state = 0;
@@ -828,34 +762,30 @@ cal_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	source = e_source_selector_ref_primary_selection (selector);
 
 	if (source != NULL) {
-		ECalClient *client;
-		const gchar *uri;
-		const gchar *delete;
+		EClient *client;
+		const gchar *uid;
 
 		has_primary_source = TRUE;
 
-		uri = e_source_peek_relative_uri (source);
-		is_system = (uri == NULL || strcmp (uri, "system") == 0);
-
-		can_delete = !is_system;
-		delete = e_source_get_property (source, "delete");
-		can_delete &= (delete == NULL || strcmp (delete, "no") != 0);
+		uid = e_source_get_uid (source);
+		removable = e_source_get_removable (source);
+		writable = e_source_get_writable (source);
 
 		client = g_hash_table_lookup (
-			cal_shell_sidebar->priv->client_table,
-			e_source_get_uid (source));
+			cal_shell_sidebar->priv->client_table, uid);
 		refresh_supported =
-			client && e_client_check_refresh_supported (E_CLIENT (client));
+			client != NULL &&
+			e_client_check_refresh_supported (client);
 
 		g_object_unref (source);
 	}
 
 	if (has_primary_source)
 		state |= E_CAL_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE;
-	if (can_delete)
-		state |= E_CAL_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE;
-	if (is_system)
-		state |= E_CAL_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM;
+	if (removable)
+		state |= E_CAL_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE;
+	if (writable)
+		state |= E_CAL_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_WRITABLE;
 	if (refresh_supported)
 		state |= E_CAL_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH;
 
@@ -1041,6 +971,15 @@ e_cal_shell_sidebar_get_default_client (ECalShellSidebar *cal_shell_sidebar)
 	return cal_shell_sidebar->priv->default_client;
 }
 
+GtkWidget *
+e_cal_shell_sidebar_get_new_calendar_button (ECalShellSidebar *cal_shell_sidebar)
+{
+	g_return_val_if_fail (
+		E_IS_CAL_SHELL_SIDEBAR (cal_shell_sidebar), NULL);
+
+	return cal_shell_sidebar->priv->new_calendar_button;
+}
+
 ESourceSelector *
 e_cal_shell_sidebar_get_selector (ECalShellSidebar *cal_shell_sidebar)
 {
@@ -1065,8 +1004,8 @@ e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
 	ECalClient *default_client;
 	ECalClient *client;
 	icaltimezone *timezone;
+	const gchar *display_name;
 	const gchar *uid;
-	const gchar *uri;
 	gchar *message;
 
 	g_return_if_fail (E_IS_CAL_SHELL_SIDEBAR (cal_shell_sidebar));
@@ -1094,13 +1033,8 @@ e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
 			client = g_object_ref (default_client);
 	}
 
-	if (client == NULL) {
+	if (client == NULL)
 		client = e_cal_client_new (source, source_type, NULL);
-		if (client)
-			g_signal_connect (
-				client, "authenticate",
-				G_CALLBACK (e_client_utils_authenticate_handler), NULL);
-	}
 
 	g_return_if_fail (client != NULL);
 
@@ -1117,9 +1051,8 @@ e_cal_shell_sidebar_add_source (ECalShellSidebar *cal_shell_sidebar,
 	g_hash_table_insert (client_table, g_strdup (uid), client);
 	e_source_selector_select_source (selector, source);
 
-	uri = e_client_get_uri (E_CLIENT (client));
-	/* Translators: The string field is a URI. */
-	message = g_strdup_printf (_("Opening calendar at %s"), uri);
+	display_name = e_source_get_display_name (source);
+	message = g_strdup_printf (_("Opening calendar '%s'"), display_name);
 	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, message);
 	g_free (message);
 

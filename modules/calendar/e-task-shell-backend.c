@@ -30,17 +30,17 @@
 #include <libecal/e-cal-client.h>
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-source.h>
-#include <libedataserver/e-source-list.h>
-#include <libedataserver/e-source-group.h>
+#include <libedataserver/e-source-calendar.h>
 #include <libedataserverui/e-client-utils.h>
 
 #include "shell/e-shell.h"
 #include "shell/e-shell-backend.h"
 #include "shell/e-shell-window.h"
+#include "widgets/misc/e-source-config-dialog.h"
 
 #include "calendar/gui/comp-util.h"
-#include "calendar/gui/dialogs/calendar-setup.h"
 #include "calendar/gui/dialogs/task-editor.h"
+#include "calendar/gui/e-cal-source-config.h"
 
 #include "e-task-shell-content.h"
 #include "e-task-shell-migrate.h"
@@ -52,123 +52,13 @@
 	((obj), E_TYPE_TASK_SHELL_BACKEND, ETaskShellBackendPrivate))
 
 struct _ETaskShellBackendPrivate {
-	ESourceList *source_list;
-};
-
-enum {
-	PROP_0,
-	PROP_SOURCE_LIST
+	gint placeholder;
 };
 
 G_DEFINE_DYNAMIC_TYPE (
 	ETaskShellBackend,
 	e_task_shell_backend,
 	E_TYPE_SHELL_BACKEND)
-
-static void
-task_shell_backend_ensure_sources (EShellBackend *shell_backend)
-{
-	/* XXX This is basically the same algorithm across all modules.
-	 *     Maybe we could somehow integrate this into EShellBackend? */
-
-	ETaskShellBackend *task_shell_backend;
-	ESourceGroup *on_this_computer;
-	ESourceList *source_list;
-	ESource *personal;
-	EShell *shell;
-	EShellSettings *shell_settings;
-	GSList *sources, *iter;
-	const gchar *name;
-	gboolean save_list = FALSE;
-	GError *error = NULL;
-
-	on_this_computer = NULL;
-	personal = NULL;
-
-	task_shell_backend = E_TASK_SHELL_BACKEND (shell_backend);
-
-	shell = e_shell_backend_get_shell (shell_backend);
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	e_cal_client_get_sources (
-		&task_shell_backend->priv->source_list,
-		E_CAL_CLIENT_SOURCE_TYPE_TASKS, &error);
-
-	if (error != NULL) {
-		g_warning (
-			"%s: Could not get task sources: %s",
-			G_STRFUNC, error->message);
-		g_error_free (error);
-		return;
-	}
-
-	source_list = task_shell_backend->priv->source_list;
-
-	on_this_computer = e_source_list_ensure_group (
-		source_list, _("On This Computer"), "local:", TRUE);
-	e_source_list_ensure_group (
-		source_list, _("On The Web"), "webcal://", FALSE);
-
-	g_return_if_fail (on_this_computer);
-
-	sources = e_source_group_peek_sources (on_this_computer);
-
-	/* Make sure this group includes a "Personal" source. */
-	for (iter = sources; iter != NULL; iter = iter->next) {
-		ESource *source = iter->data;
-		const gchar *relative_uri;
-
-		relative_uri = e_source_peek_relative_uri (source);
-		if (g_strcmp0 (relative_uri, "system") == 0) {
-			personal = source;
-			break;
-		}
-	}
-
-	name = _("Personal");
-
-	if (personal == NULL) {
-		ESource *source;
-		GSList *selected;
-		gchar *primary;
-
-		source = e_source_new (name, "system");
-		e_source_set_color_spec (source, "#BECEDD");
-		e_source_group_add_source (on_this_computer, source, -1);
-		g_object_unref (source);
-		save_list = TRUE;
-
-		primary = e_shell_settings_get_string (
-			shell_settings, "cal-primary-task-list");
-
-		selected = e_task_shell_backend_get_selected_task_lists (
-			task_shell_backend);
-
-		if (primary == NULL && selected == NULL) {
-			const gchar *uid;
-
-			uid = e_source_get_uid (source);
-			selected = g_slist_prepend (NULL, g_strdup (uid));
-
-			e_shell_settings_set_string (
-				shell_settings, "cal-primary-task-list", uid);
-			e_task_shell_backend_set_selected_task_lists (
-				task_shell_backend, selected);
-		}
-
-		g_slist_foreach (selected, (GFunc) g_free, NULL);
-		g_slist_free (selected);
-		g_free (primary);
-	} else if (!e_source_get_property (personal, "name-changed")) {
-		/* Force the source name to the current locale. */
-		e_source_set_name (personal, name);
-	}
-
-	g_object_unref (on_this_computer);
-
-	if (save_list)
-		e_source_list_sync (source_list, NULL);
-}
 
 static void
 task_shell_backend_new_task (ESource *source,
@@ -245,59 +135,64 @@ action_task_new_cb (GtkAction *action,
                     EShellWindow *shell_window)
 {
 	EShell *shell;
-	EShellBackend *shell_backend;
-	EShellSettings *shell_settings;
-	ESource *source = NULL;
-	ESourceList *source_list;
+	ESource *source;
+	ESourceRegistry *registry;
+	EClientSourceType source_type;
 	const gchar *action_name;
-	gchar *uid;
 
 	/* This callback is used for both tasks and assigned tasks. */
 
 	shell = e_shell_window_get_shell (shell_window);
-	shell_settings = e_shell_get_shell_settings (shell);
-	shell_backend = e_shell_get_backend_by_name (shell, "tasks");
 
-	g_object_get (shell_backend, "source-list", &source_list, NULL);
-	g_return_if_fail (E_IS_SOURCE_LIST (source_list));
-
-	uid = e_shell_settings_get_string (
-		shell_settings, "cal-primary-task-list");
-
-	if (uid != NULL) {
-		source = e_source_list_peek_source_by_uid (source_list, uid);
-		g_free (uid);
-	}
-
-	if (source == NULL)
-		source = e_source_list_peek_default_source (source_list);
-
-	g_return_if_fail (E_IS_SOURCE (source));
+	registry = e_shell_get_registry (shell);
+	source_type = E_CLIENT_SOURCE_TYPE_TASKS;
+	source = e_source_registry_ref_default_task_list (registry);
 
 	/* Use a callback function appropriate for the action.
 	 * FIXME Need to obtain a better default time zone. */
 	action_name = gtk_action_get_name (action);
 	if (strcmp (action_name, "task-assigned-new") == 0)
 		e_client_utils_open_new (
-			source, E_CLIENT_SOURCE_TYPE_TASKS, FALSE, NULL,
-			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
+			source, source_type, FALSE, NULL,
 			task_shell_backend_task_assigned_new_cb,
 			g_object_ref (shell));
 	else
 		e_client_utils_open_new (
-			source, E_CLIENT_SOURCE_TYPE_TASKS, FALSE, NULL,
-			e_client_utils_authenticate_handler, GTK_WINDOW (shell_window),
+			source, source_type, FALSE, NULL,
 			task_shell_backend_task_new_cb,
 			g_object_ref (shell));
 
-	g_object_unref (source_list);
+	g_object_unref (source);
 }
 
 static void
 action_task_list_new_cb (GtkAction *action,
                          EShellWindow *shell_window)
 {
-	calendar_setup_new_task_list (GTK_WINDOW (shell_window));
+	EShell *shell;
+	ESourceRegistry *registry;
+	ECalClientSourceType source_type;
+	GtkWidget *config;
+	GtkWidget *dialog;
+	const gchar *icon_name;
+
+	shell = e_shell_window_get_shell (shell_window);
+
+	registry = e_shell_get_registry (shell);
+	source_type = E_CAL_CLIENT_SOURCE_TYPE_TASKS;
+	config = e_cal_source_config_new (registry, NULL, source_type);
+
+	dialog = e_source_config_dialog_new (E_SOURCE_CONFIG (config));
+
+	gtk_window_set_transient_for (
+		GTK_WINDOW (dialog), GTK_WINDOW (shell_window));
+
+	icon_name = gtk_action_get_icon_name (action);
+	gtk_window_set_icon_name (GTK_WINDOW (dialog), icon_name);
+
+	gtk_window_set_title (GTK_WINDOW (dialog), _("New Task List"));
+
+	gtk_widget_show (dialog);
 }
 
 static GtkActionEntry item_entries[] = {
@@ -337,7 +232,7 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	ECalClient *client;
 	ECalComponent *comp;
 	ESource *source;
-	ESourceList *source_list;
+	ESourceRegistry *registry;
 	ECalClientSourceType source_type;
 	EUri *euri;
 	icalcomponent *icalcomp;
@@ -402,42 +297,31 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	 * we successfully open it is another matter... */
 	handled = TRUE;
 
-	e_cal_client_get_sources (&source_list, source_type, &error);
-
-	if (error != NULL) {
-		g_warning (
-			"%s: Could not get task sources: %s",
-			G_STRFUNC, error->message);
-		g_error_free (error);
-		goto exit;
-	}
-
-	source = e_source_list_peek_source_by_uid (source_list, source_uid);
+	registry = e_shell_get_registry (shell);
+	source = e_source_registry_ref_source (registry, source_uid);
 	if (source == NULL) {
 		g_printerr ("No source for UID '%s'\n", source_uid);
-		g_object_unref (source_list);
 		goto exit;
 	}
 
 	client = e_cal_client_new (source, source_type, &error);
 
-	if (client != NULL) {
-		g_signal_connect (
-			client, "authenticate",
-			G_CALLBACK (e_client_utils_authenticate_handler), NULL);
+	if (client != NULL)
 		e_client_open_sync (E_CLIENT (client), TRUE, NULL, &error);
-	}
 
 	if (error != NULL) {
 		g_warning (
 			"%s: Failed to create/open client: %s",
 			G_STRFUNC, error->message);
-		if (client)
+		if (client != NULL)
 			g_object_unref (client);
-		g_object_unref (source_list);
+		g_object_unref (source);
 		g_error_free (error);
 		goto exit;
 	}
+
+	g_object_unref (source);
+	source = NULL;
 
 	/* XXX Copied from e_task_shell_view_open_task().
 	 *     Clearly a new utility function is needed. */
@@ -454,7 +338,6 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 		g_warning (
 			"%s: Failed to get object: %s",
 			G_STRFUNC, error->message);
-		g_object_unref (source_list);
 		g_object_unref (client);
 		g_error_free (error);
 		goto exit;
@@ -472,7 +355,7 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 	if (icalprop != NULL)
 		flags |= COMP_EDITOR_IS_ASSIGNED;
 
-	if (itip_organizer_is_user (comp, client))
+	if (itip_organizer_is_user (registry, comp, client))
 		flags |= COMP_EDITOR_USER_ORG;
 
 	if (!e_cal_component_has_attendees (comp))
@@ -486,7 +369,6 @@ task_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
 present:
 	gtk_window_present (GTK_WINDOW (editor));
 
-	g_object_unref (source_list);
 	g_object_unref (client);
 
 exit:
@@ -520,40 +402,6 @@ task_shell_backend_window_added_cb (EShellBackend *shell_backend,
 }
 
 static void
-task_shell_backend_get_property (GObject *object,
-                                 guint property_id,
-                                 GValue *value,
-                                 GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_SOURCE_LIST:
-			g_value_set_object (
-				value,
-				e_task_shell_backend_get_source_list (
-				E_TASK_SHELL_BACKEND (object)));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-task_shell_backend_dispose (GObject *object)
-{
-	ETaskShellBackendPrivate *priv;
-
-	priv = E_TASK_SHELL_BACKEND_GET_PRIVATE (object);
-
-	if (priv->source_list != NULL) {
-		g_object_unref (priv->source_list);
-		priv->source_list = NULL;
-	}
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (e_task_shell_backend_parent_class)->dispose (object);
-}
-
-static void
 task_shell_backend_constructed (GObject *object)
 {
 	EShell *shell;
@@ -561,8 +409,6 @@ task_shell_backend_constructed (GObject *object)
 
 	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);
-
-	task_shell_backend_ensure_sources (shell_backend);
 
 	g_signal_connect_swapped (
 		shell, "handle-uri",
@@ -587,8 +433,6 @@ e_task_shell_backend_class_init (ETaskShellBackendClass *class)
 	g_type_class_add_private (class, sizeof (ETaskShellBackendPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->get_property = task_shell_backend_get_property;
-	object_class->dispose = task_shell_backend_dispose;
 	object_class->constructed = task_shell_backend_constructed;
 
 	shell_backend_class = E_SHELL_BACKEND_CLASS (class);
@@ -600,16 +444,6 @@ e_task_shell_backend_class_init (ETaskShellBackendClass *class)
 	shell_backend_class->preferences_page = "calendar-and-tasks";
 	shell_backend_class->start = NULL;
 	shell_backend_class->migrate = e_task_shell_backend_migrate;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SOURCE_LIST,
-		g_param_spec_object (
-			"source-list",
-			"Source List",
-			"The registry of task lists",
-			E_TYPE_SOURCE_LIST,
-			G_PARAM_READABLE));
 }
 
 static void
@@ -631,62 +465,4 @@ e_task_shell_backend_type_register (GTypeModule *type_module)
 	 *     function, so we have to wrap it with a public function in
 	 *     order to register types from a separate compilation unit. */
 	e_task_shell_backend_register_type (type_module);
-}
-
-ESourceList *
-e_task_shell_backend_get_source_list (ETaskShellBackend *task_shell_backend)
-{
-	g_return_val_if_fail (
-		E_IS_TASK_SHELL_BACKEND (task_shell_backend), NULL);
-
-	return task_shell_backend->priv->source_list;
-}
-
-GSList *
-e_task_shell_backend_get_selected_task_lists (ETaskShellBackend *task_shell_backend)
-{
-	GSettings *settings;
-	GSList *selected_task_lists = NULL;
-	gchar **strv;
-	gint ii;
-
-	g_return_val_if_fail (
-		E_IS_TASK_SHELL_BACKEND (task_shell_backend), NULL);
-
-	settings = g_settings_new ("org.gnome.evolution.calendar");
-	strv = g_settings_get_strv (settings, "selected-tasks");
-	g_object_unref (G_OBJECT (settings));
-
-	if (strv != NULL) {
-		for (ii = 0; strv[ii] != NULL; ii++)
-			selected_task_lists = g_slist_append (
-				selected_task_lists, g_strdup (strv[ii]));
-
-		g_strfreev (strv);
-	}
-
-	return selected_task_lists;
-}
-
-void
-e_task_shell_backend_set_selected_task_lists (ETaskShellBackend *task_shell_backend,
-                                              GSList *selected_task_lists)
-{
-	GSettings *settings;
-	GSList *link;
-	GPtrArray *array = g_ptr_array_new ();
-
-	g_return_if_fail (E_IS_TASK_SHELL_BACKEND (task_shell_backend));
-
-	for (link = selected_task_lists; link != NULL; link = link->next)
-		g_ptr_array_add (array, link->data);
-	g_ptr_array_add (array, NULL);
-
-	settings = g_settings_new ("org.gnome.evolution.calendar");
-	g_settings_set_strv (
-		settings, "selected-tasks",
-		(const gchar *const *) array->pdata);
-	g_object_unref (settings);
-
-	g_ptr_array_free (array, FALSE);
 }

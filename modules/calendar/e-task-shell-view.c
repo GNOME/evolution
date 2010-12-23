@@ -302,9 +302,10 @@ task_shell_view_update_actions (EShellView *shell_view)
 
 	/* Be descriptive. */
 	gboolean any_tasks_selected;
-	gboolean can_delete_primary_source;
 	gboolean has_primary_source;
 	gboolean multiple_tasks_selected;
+	gboolean primary_source_is_removable;
+	gboolean primary_source_is_writable;
 	gboolean selection_has_url;
 	gboolean selection_is_assignable;
 	gboolean single_task_selected;
@@ -341,8 +342,10 @@ task_shell_view_update_actions (EShellView *shell_view)
 
 	has_primary_source =
 		(state & E_TASK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
-	can_delete_primary_source =
-		(state & E_TASK_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE);
+	primary_source_is_removable =
+		(state & E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE);
+	primary_source_is_writable =
+		(state & E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_WRITABLE);
 	refresh_supported =
 		(state & E_TASK_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH);
 
@@ -377,11 +380,11 @@ task_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_DELETE);
-	sensitive = can_delete_primary_source;
+	sensitive = primary_source_is_removable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_PROPERTIES);
-	sensitive = has_primary_source;
+	sensitive = primary_source_is_writable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_REFRESH);
@@ -389,7 +392,7 @@ task_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_RENAME);
-	sensitive = can_delete_primary_source;
+	sensitive = primary_source_is_writable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_MARK_COMPLETE);

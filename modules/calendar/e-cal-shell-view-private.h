@@ -32,6 +32,7 @@
 #include <libedataserver/e-categories.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-sexp.h>
+#include <libedataserver/e-source-registry.h>
 #include <libedataserverui/e-client-utils.h>
 
 #include <e-util/e-selection.h>
@@ -39,23 +40,22 @@
 #include <e-util/e-file-utils.h>
 #include <e-util/e-util.h>
 
-#include <libemail-utils/e-account-utils.h>
-
 #include <shell/e-shell-utils.h>
 
 #include <misc/e-popup-action.h>
 #include <misc/e-selectable.h>
+#include <misc/e-source-config-dialog.h>
 
 #include <calendar/gui/calendar-config.h>
 #include <calendar/gui/comp-util.h>
 #include <calendar/gui/e-cal-list-view.h>
 #include <calendar/gui/e-cal-model-tasks.h>
+#include <calendar/gui/e-cal-source-config.h>
 #include <calendar/gui/e-calendar-view.h>
 #include <calendar/gui/e-day-view.h>
 #include <calendar/gui/e-week-view.h>
 #include <calendar/gui/gnome-cal.h>
 #include <calendar/gui/print.h>
-#include <calendar/gui/dialogs/calendar-setup.h>
 #include <calendar/gui/dialogs/copy-source-dialog.h>
 #include <calendar/gui/dialogs/event-editor.h>
 #include <calendar/gui/dialogs/goto-dialog.h>

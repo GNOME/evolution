@@ -433,6 +433,7 @@ e_task_shell_view_open_task (ETaskShellView *task_shell_view,
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	ESourceRegistry *registry;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
 	ECalComponent *comp;
@@ -446,6 +447,8 @@ e_task_shell_view_open_task (ETaskShellView *task_shell_view,
 	shell_view = E_SHELL_VIEW (task_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
+
+	registry = e_shell_get_registry (shell);
 
 	uid = icalcomponent_get_uid (comp_data->icalcomp);
 	editor = comp_editor_find_instance (uid);
@@ -462,7 +465,7 @@ e_task_shell_view_open_task (ETaskShellView *task_shell_view,
 	if (prop != NULL)
 		flags |= COMP_EDITOR_IS_ASSIGNED;
 
-	if (itip_organizer_is_user (comp, comp_data->client))
+	if (itip_organizer_is_user (registry, comp, comp_data->client))
 		flags |= COMP_EDITOR_USER_ORG;
 
 	if (!e_cal_component_has_attendees (comp))

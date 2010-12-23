@@ -29,8 +29,11 @@
 #include <libical/ical.h>
 #include <libecal/e-cal-client.h>
 #include <camel/camel.h>
+#include <libedataserver/e-source-calendar.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libedataserverui/e-client-utils.h>
+
+#include <shell/e-shell.h>
 
 #define E_CAL_ATTACHMENT_HANDLER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -288,30 +291,32 @@ attachment_handler_run_dialog (GtkWindow *parent,
                                ECalClientSourceType source_type,
                                const gchar *title)
 {
+	EShell *shell;
 	GtkWidget *dialog;
 	GtkWidget *container;
 	GtkWidget *widget;
+	ESourceRegistry *registry;
 	ESourceSelector *selector;
-	ESourceList *source_list;
 	ESource *source;
+	const gchar *extension_name;
 	icalcomponent *component;
-	GError *error = NULL;
+
+	switch (source_type) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+			extension_name = E_SOURCE_EXTENSION_CALENDAR;
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			extension_name = E_SOURCE_EXTENSION_TASK_LIST;
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
+			break;
+		default:
+			g_return_if_reached ();
+	}
 
 	component = attachment_handler_get_component (attachment);
 	g_return_if_fail (component != NULL);
-
-	e_cal_client_get_sources (&source_list, source_type, &error);
-
-	if (error != NULL) {
-		g_warning (
-			"%s: Failed to get cal sources: %s",
-			G_STRFUNC, error->message);
-		g_clear_error (&error);
-		return;
-	}
-
-	source = e_source_list_peek_source_any (source_list);
-	g_return_if_fail (source != NULL);
 
 	dialog = gtk_dialog_new_with_buttons (
 		title, parent, GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -340,10 +345,11 @@ attachment_handler_run_dialog (GtkWindow *parent,
 
 	container = widget;
 
-	widget = e_source_selector_new (source_list);
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
+	widget = e_source_selector_new (registry, extension_name);
 	selector = E_SOURCE_SELECTOR (widget);
-	e_source_selector_set_primary_selection (selector, source);
-	e_source_selector_show_selection (selector, FALSE);
+	e_source_selector_set_show_toggles (selector, FALSE);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
@@ -362,14 +368,12 @@ attachment_handler_run_dialog (GtkWindow *parent,
 	case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
 		e_client_utils_open_new (
 			source, E_CLIENT_SOURCE_TYPE_EVENTS, FALSE, NULL,
-			e_client_utils_authenticate_handler, NULL,
 			attachment_handler_import_event,
 			g_object_ref (attachment));
 		break;
 	case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
 		e_client_utils_open_new (
 			source, E_CLIENT_SOURCE_TYPE_TASKS, FALSE, NULL,
-			e_client_utils_authenticate_handler, NULL,
 			attachment_handler_import_todo,
 			g_object_ref (attachment));
 		break;

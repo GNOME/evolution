@@ -536,6 +536,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	EMemoTable *memo_table;
 	ETaskTable *task_table;
 	ESourceSelector *selector;
+	GtkWidget *widget;
 	ECalModel *model;
 	gint ii;
 
@@ -687,6 +688,13 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	e_cal_shell_view_update_search_filter (cal_shell_view);
 	e_cal_shell_view_update_timezone (cal_shell_view);
 
+	/* Express mode only: Bind the "New Calendar"
+	 * sidebar button to the appropriate action. */
+	widget = e_cal_shell_sidebar_get_new_calendar_button (cal_shell_sidebar);
+	if (widget != NULL)
+		gtk_activatable_set_related_action (
+			GTK_ACTIVATABLE (widget), ACTION (CALENDAR_NEW));
+
 	/* Keep the ECalModel in sync with the sidebar. */
 	g_object_bind_property (
 		shell_sidebar, "default-client",
@@ -764,6 +772,7 @@ e_cal_shell_view_open_event (ECalShellView *cal_shell_view,
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	ESourceRegistry *registry;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
 	ECalComponent *comp;
@@ -777,6 +786,8 @@ e_cal_shell_view_open_event (ECalShellView *cal_shell_view,
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
+
+	registry = e_shell_get_registry (shell);
 
 	uid = icalcomponent_get_uid (comp_data->icalcomp);
 	editor = comp_editor_find_instance (uid);
@@ -793,10 +804,10 @@ e_cal_shell_view_open_event (ECalShellView *cal_shell_view,
 	if (prop != NULL)
 		flags |= COMP_EDITOR_MEETING;
 
-	if (itip_organizer_is_user (comp, comp_data->client))
+	if (itip_organizer_is_user (registry, comp, comp_data->client))
 		flags |= COMP_EDITOR_USER_ORG;
 
-	if (itip_sentby_is_user (comp, comp_data->client))
+	if (itip_sentby_is_user (registry, comp, comp_data->client))
 		flags |= COMP_EDITOR_USER_ORG;
 
 	if (!e_cal_component_has_attendees (comp))
@@ -883,9 +894,6 @@ e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
 	icalcomponent *icalcomp_event;
 	gboolean success;
 	const gchar *uid;
-	EShell *shell;
-	EShellContent *shell_content;
-	gboolean is_src_local_cal, is_dest_local_cal;
 
 	/* XXX This function should be split up into
 	 *     smaller, more understandable pieces. */
@@ -896,23 +904,6 @@ e_cal_shell_view_transfer_item_to (ECalShellView *cal_shell_view,
 
 	if (!is_comp_data_valid (event))
 		return;
-
-	/*If not online and
-	 * source isn't a local calendar and operation is move or destination isn't a local calendar,
-	 *  then Return*/
-	is_src_local_cal = g_str_has_prefix (e_client_get_uri(E_CLIENT (event->comp_data->client)), "local:");
-	is_dest_local_cal = g_str_has_prefix (e_client_get_uri(E_CLIENT (destination_client)), "local:");
-
-	shell = e_shell_get_default ();
-	shell_content = e_shell_view_get_shell_content (E_SHELL_VIEW (cal_shell_view));
-	if (!e_shell_get_online (shell) && ((!is_src_local_cal && remove) || !is_dest_local_cal))
-	{
-		e_alert_submit (
-			E_ALERT_SINK (shell_content),
-		       	"calendar:online-operation",
-			NULL);
-		return;
-	}
 
 	icalcomp_event = event->comp_data->icalcomp;
 	uid = icalcomponent_get_uid (icalcomp_event);

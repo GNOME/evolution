@@ -427,10 +427,12 @@ static void
 memo_shell_content_constructed (GObject *object)
 {
 	EMemoShellContentPrivate *priv;
+	EShell *shell;
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	EShellTaskbar *shell_taskbar;
 	EShellWindow *shell_window;
+	ESourceRegistry *registry;
 	GalViewInstance *view_instance;
 	GtkTargetList *target_list;
 	GtkTargetEntry *targets;
@@ -447,8 +449,10 @@ memo_shell_content_constructed (GObject *object)
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
-	priv->memo_model = e_cal_model_memos_new ();
+	registry = e_shell_get_registry (shell);
+	priv->memo_model = e_cal_model_memos_new (registry);
 
 	/* Build content widgets. */
 

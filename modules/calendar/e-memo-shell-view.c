@@ -182,9 +182,10 @@ memo_shell_view_update_actions (EShellView *shell_view)
 
 	/* Be descriptive. */
 	gboolean any_memos_selected;
-	gboolean can_delete_primary_source;
 	gboolean has_primary_source;
 	gboolean multiple_memos_selected;
+	gboolean primary_source_is_removable;
+	gboolean primary_source_is_writable;
 	gboolean selection_has_url;
 	gboolean single_memo_selected;
 	gboolean sources_are_editable;
@@ -212,8 +213,10 @@ memo_shell_view_update_actions (EShellView *shell_view)
 
 	has_primary_source =
 		(state & E_MEMO_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
-	can_delete_primary_source =
-		(state & E_MEMO_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE);
+	primary_source_is_removable =
+		(state & E_MEMO_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE);
+	primary_source_is_writable =
+		(state & E_MEMO_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_WRITABLE);
 	refresh_supported =
 		(state & E_MEMO_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH);
 
@@ -242,11 +245,11 @@ memo_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_LIST_DELETE);
-	sensitive = can_delete_primary_source;
+	sensitive = primary_source_is_removable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_LIST_PROPERTIES);
-	sensitive = has_primary_source;
+	sensitive = primary_source_is_writable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_LIST_REFRESH);
@@ -254,7 +257,7 @@ memo_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_LIST_RENAME);
-	sensitive = can_delete_primary_source;
+	sensitive = primary_source_is_writable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_OPEN);

@@ -377,6 +377,8 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
 	EShell *shell;
+	ESource *source;
+	ESourceRegistry *registry;
 	GnomeCalendarViewType view_type;
 	GnomeCalendar *calendar;
 	ECalModel *model;
@@ -386,14 +388,15 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	const gchar *model_sexp;
 	gboolean is_searching;
 	gboolean sensitive;
-	gboolean visible;
 	guint32 state;
 	gint n_selected;
 
 	/* Be descriptive. */
-	gboolean can_delete_primary_source;
 	gboolean editable = TRUE;
+	gboolean has_mail_identity;
 	gboolean has_primary_source;
+	gboolean primary_source_is_removable;
+	gboolean primary_source_is_writable;
 	gboolean recurring = FALSE;
 	gboolean is_instance = FALSE;
 	gboolean is_meeting = FALSE;
@@ -422,6 +425,15 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		widget = e_shell_window_get_managed_widget (
 			shell_window, "/main-menu");
 		gtk_widget_hide (widget);
+	}
+
+	registry = e_shell_get_registry (shell);
+	source = e_source_registry_ref_default_mail_identity (registry);
+	if (source != NULL) {
+		has_mail_identity = TRUE;
+		g_object_unref (source);
+	} else {
+		has_mail_identity = FALSE;
 	}
 
 	cal_shell_content = priv->cal_shell_content;
@@ -468,13 +480,14 @@ cal_shell_view_update_actions (EShellView *shell_view)
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (
 			comp, icalcomponent_new_clone (icalcomp));
-		user_email = itip_get_comp_attendee (comp, client);
+		user_email = itip_get_comp_attendee (
+			registry, comp, client);
 
 		is_meeting = e_cal_util_component_has_attendee (icalcomp);
 
 		user_org =
 			e_cal_util_component_has_organizer (icalcomp) &&
-			itip_organizer_is_user (comp, client);
+			itip_organizer_is_user (registry, comp, client);
 
 		is_delegatable =
 			e_client_check_capability (
@@ -496,8 +509,10 @@ cal_shell_view_update_actions (EShellView *shell_view)
 
 	has_primary_source =
 		(state & E_CAL_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
-	can_delete_primary_source =
-		(state & E_CAL_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE);
+	primary_source_is_removable =
+		(state & E_CAL_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE);
+	primary_source_is_writable =
+		(state & E_CAL_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_WRITABLE);
 	refresh_supported =
 		(state & E_CAL_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH);
 
@@ -506,11 +521,11 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_DELETE);
-	sensitive = can_delete_primary_source;
+	sensitive = primary_source_is_removable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_PROPERTIES);
-	sensitive = has_primary_source;
+	sensitive = primary_source_is_writable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_REFRESH);
@@ -518,7 +533,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_RENAME);
-	sensitive = can_delete_primary_source;
+	sensitive = primary_source_is_writable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CALENDAR_SEARCH_PREV);
@@ -528,7 +543,8 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, is_searching);
 
 	action = ACTION (CALENDAR_SEARCH_STOP);
-	gtk_action_set_sensitive (action, is_searching && priv->searching_activity != NULL);
+	sensitive = is_searching && priv->searching_activity != NULL;
+	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_DELEGATE);
 	sensitive =
@@ -583,8 +599,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_MEETING_NEW);
-	visible = e_get_default_account () != NULL;
-	gtk_action_set_visible (action, visible);
+	gtk_action_set_visible (action, has_mail_identity);
 }
 
 static void

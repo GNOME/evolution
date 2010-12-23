@@ -28,6 +28,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <libecal/e-cal-client.h>
+#include <libedataserver/e-source-calendar.h>
 #include <libedataserverui/e-client-utils.h>
 
 #include "libevolution-utils/e-alert-dialog.h"
@@ -146,24 +147,43 @@ task_shell_sidebar_backend_error_cb (ETaskShellSidebar *task_shell_sidebar,
                                      const gchar *message,
                                      ECalClient *client)
 {
+	EShell *shell;
 	EShellView *shell_view;
+	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
-	ESourceGroup *source_group;
+	ESourceRegistry *registry;
+	ESource *parent;
 	ESource *source;
+	const gchar *parent_uid;
+	const gchar *parent_display_name;
+	const gchar *source_display_name;
 
 	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
+	shell = e_shell_backend_get_shell (shell_backend);
+	registry = e_shell_get_registry (shell);
+
 	source = e_client_get_source (E_CLIENT (client));
-	source_group = e_source_peek_group (source);
+
+	parent_uid = e_source_get_parent (source);
+	parent = e_source_registry_ref_source (registry, parent_uid);
+	g_return_if_fail (parent != NULL);
+
+	parent_display_name = e_source_get_display_name (parent);
+	source_display_name = e_source_get_display_name (source);
 
 	e_alert_submit (
 		E_ALERT_SINK (shell_content),
 		"calendar:backend-error",
-		e_source_group_peek_name (source_group),
-		e_source_get_display_name (source), message, NULL);
+		parent_display_name,
+		source_display_name,
+		message, NULL);
+
+	g_object_unref (parent);
 }
 
 static void
@@ -229,19 +249,6 @@ task_shell_sidebar_client_opened_cb (GObject *source_object,
 
 	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_CANCELLED) ||
 	    g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
-		g_clear_error (&error);
-		return;
-	}
-
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_AUTHENTICATION_FAILED) ||
-	    g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_AUTHENTICATION_REQUIRED))
-		e_client_utils_forget_password (E_CLIENT (client));
-
-	if (g_error_matches (error, E_CLIENT_ERROR, E_CLIENT_ERROR_AUTHENTICATION_FAILED)) {
-		e_client_open (
-			E_CLIENT (client), FALSE,
-			task_shell_sidebar->priv->loading_clients,
-			task_shell_sidebar_client_opened_cb, user_data);
 		g_clear_error (&error);
 		return;
 	}
@@ -396,8 +403,6 @@ task_shell_sidebar_set_default (ETaskShellSidebar *task_shell_sidebar,
                                 ESource *source)
 {
 	ETaskShellSidebarPrivate *priv;
-	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
 	ECalClient *client;
 	const gchar *uid;
@@ -407,8 +412,6 @@ task_shell_sidebar_set_default (ETaskShellSidebar *task_shell_sidebar,
 	/* FIXME Sidebar should not be accessing the EShellContent.
 	 *       This probably needs to be moved to ETaskShellView. */
 	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	/* Cancel any unfinished previous request. */
 	if (priv->loading_default_client != NULL) {
@@ -435,8 +438,6 @@ task_shell_sidebar_set_default (ETaskShellSidebar *task_shell_sidebar,
 	e_client_utils_open_new (
 		source, E_CLIENT_SOURCE_TYPE_TASKS,
 		FALSE, priv->loading_default_client,
-		e_client_utils_authenticate_handler,
-		GTK_WINDOW (shell_window),
 		task_shell_sidebar_default_loaded_cb,
 		g_object_ref (shell_sidebar));
 }
@@ -470,38 +471,6 @@ task_shell_sidebar_row_changed_cb (ETaskShellSidebar *task_shell_sidebar,
 }
 
 static void
-task_shell_sidebar_selection_changed_cb (ETaskShellSidebar *task_shell_sidebar,
-                                         ESourceSelector *selector)
-{
-	EShellView *shell_view;
-	EShellBackend *shell_backend;
-	EShellSidebar *shell_sidebar;
-	GSList *list, *iter;
-
-	/* This signal is emitted less frequently than "row-changed",
-	 * especially when the model is being rebuilt.  So we'll take
-	 * it easy on poor GConf. */
-
-	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-
-	list = e_source_selector_get_selection (selector);
-
-	for (iter = list; iter != NULL; iter = iter->next) {
-		ESource *source = iter->data;
-
-		iter->data = (gpointer) e_source_get_uid (source);
-		g_object_unref (source);
-	}
-
-	e_task_shell_backend_set_selected_task_lists (
-		E_TASK_SHELL_BACKEND (shell_backend), list);
-
-	g_slist_free (list);
-}
-
-static void
 task_shell_sidebar_primary_selection_changed_cb (ETaskShellSidebar *task_shell_sidebar,
                                                  ESourceSelector *selector)
 {
@@ -525,11 +494,9 @@ task_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
+	ESourceRegistry *registry;
 	ESourceSelector *selector;
-	ESourceList *source_list;
-	ESource *source;
 	GtkTreeModel *model;
-	GSList *list, *iter;
 
 	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
 
@@ -542,8 +509,7 @@ task_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 	selector = E_SOURCE_SELECTOR (priv->selector);
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (selector));
 
-	source_list = e_task_shell_backend_get_source_list (
-		E_TASK_SHELL_BACKEND (shell_backend));
+	registry = e_shell_get_registry (shell);
 
 	g_signal_connect_swapped (
 		model, "row-changed",
@@ -562,30 +528,8 @@ task_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 		G_BINDING_SYNC_CREATE,
 		(GBindingTransformFunc) e_binding_transform_uid_to_source,
 		(GBindingTransformFunc) e_binding_transform_source_to_uid,
-		g_object_ref (source_list),
+		g_object_ref (registry),
 		(GDestroyNotify) g_object_unref);
-
-	list = e_task_shell_backend_get_selected_task_lists (
-		E_TASK_SHELL_BACKEND (shell_backend));
-
-	for (iter = list; iter != NULL; iter = iter->next) {
-		const gchar *uid = iter->data;
-
-		source = e_source_list_peek_source_by_uid (source_list, uid);
-
-		if (source != NULL)
-			e_source_selector_select_source (selector, source);
-	}
-
-	g_slist_foreach (list, (GFunc) g_free, NULL);
-	g_slist_free (list);
-
-	/* Listen for subsequent changes to the selector. */
-
-	g_signal_connect_swapped (
-		selector, "selection-changed",
-		G_CALLBACK (task_shell_sidebar_selection_changed_cb),
-		shell_sidebar);
 }
 
 static void
@@ -665,11 +609,11 @@ static void
 task_shell_sidebar_constructed (GObject *object)
 {
 	ETaskShellSidebarPrivate *priv;
+	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
-	ESourceList *source_list;
+	ESourceRegistry *registry;
 	GtkContainer *container;
 	GtkWidget *widget;
 	AtkObject *a11y;
@@ -681,11 +625,8 @@ task_shell_sidebar_constructed (GObject *object)
 
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	source_list = e_task_shell_backend_get_source_list (
-		E_TASK_SHELL_BACKEND (shell_backend));
+	shell = e_shell_window_get_shell (shell_window);
 
 	container = GTK_CONTAINER (shell_sidebar);
 
@@ -700,7 +641,8 @@ task_shell_sidebar_constructed (GObject *object)
 
 	container = GTK_CONTAINER (widget);
 
-	widget = e_task_list_selector_new (source_list);
+	registry = e_shell_get_registry (shell);
+	widget = e_task_list_selector_new (registry);
 	e_source_selector_set_select_new (E_SOURCE_SELECTOR (widget), TRUE);
 	gtk_container_add (container, widget);
 	a11y = gtk_widget_get_accessible (widget);
@@ -722,8 +664,8 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	ETaskShellSidebar *task_shell_sidebar;
 	ESourceSelector *selector;
 	ESource *source;
-	gboolean can_delete = FALSE;
-	gboolean is_system = FALSE;
+	gboolean removable = FALSE;
+	gboolean writable = FALSE;
 	gboolean refresh_supported = FALSE;
 	gboolean has_primary_source = FALSE;
 	guint32 state = 0;
@@ -733,36 +675,30 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	source = e_source_selector_ref_primary_selection (selector);
 
 	if (source != NULL) {
-		ECalClient *client;
-		const gchar *uri;
-		const gchar *delete_prop;
+		EClient *client;
+		const gchar *uid;
 
 		has_primary_source = TRUE;
 
-		uri = e_source_peek_relative_uri (source);
-		is_system = (uri == NULL || strcmp (uri, "system") == 0);
-
-		can_delete = !is_system;
-		delete_prop = e_source_get_property (source, "delete");
-		can_delete = can_delete &&
-			(delete_prop == NULL || strcmp (delete_prop, "no") != 0);
+		uid = e_source_get_uid (source);
+		removable = e_source_get_removable (source);
+		writable = e_source_get_writable (source);
 
 		client = g_hash_table_lookup (
-			task_shell_sidebar->priv->client_table,
-			e_source_get_uid (source));
+			task_shell_sidebar->priv->client_table, uid);
 		refresh_supported =
 			client != NULL &&
-			e_client_check_refresh_supported (E_CLIENT (client));
+			e_client_check_refresh_supported (client);
 
 		g_object_unref (source);
 	}
 
 	if (has_primary_source)
 		state |= E_TASK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE;
-	if (can_delete)
-		state |= E_TASK_SHELL_SIDEBAR_CAN_DELETE_PRIMARY_SOURCE;
-	if (is_system)
-		state |= E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM;
+	if (removable)
+		state |= E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_REMOVABLE;
+	if (writable)
+		state |= E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_WRITABLE;
 	if (refresh_supported)
 		state |= E_TASK_SHELL_SIDEBAR_SOURCE_SUPPORTS_REFRESH;
 
@@ -954,8 +890,8 @@ e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
 	ECalClient *default_client;
 	ECalClient *client;
 	icaltimezone *timezone;
+	const gchar *display_name;
 	const gchar *uid;
-	const gchar *uri;
 	gchar *message;
 
 	g_return_if_fail (E_IS_TASK_SHELL_SIDEBAR (task_shell_sidebar));
@@ -983,13 +919,8 @@ e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
 			client = g_object_ref (default_client);
 	}
 
-	if (client == NULL) {
+	if (client == NULL)
 		client = e_cal_client_new (source, source_type, NULL);
-		if (client)
-			g_signal_connect (
-				client, "authenticate",
-				G_CALLBACK (e_client_utils_authenticate_handler), NULL);
-	}
 
 	g_return_if_fail (client != NULL);
 
@@ -1006,9 +937,8 @@ e_task_shell_sidebar_add_source (ETaskShellSidebar *task_shell_sidebar,
 	g_hash_table_insert (client_table, g_strdup (uid), client);
 	e_source_selector_select_source (selector, source);
 
-	uri = e_client_get_uri (E_CLIENT (client));
-	/* Translators: The string field is a URI. */
-	message = g_strdup_printf (_("Opening tasks at %s"), uri);
+	display_name = e_source_get_display_name (source);
+	message = g_strdup_printf (_("Opening task list '%s'"), display_name);
 	task_shell_sidebar_emit_status_message (task_shell_sidebar, message);
 	g_free (message);
 

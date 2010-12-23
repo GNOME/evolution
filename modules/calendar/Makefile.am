@@ -12,6 +12,8 @@ module_calendar_la_CPPFLAGS = \
 
 module_calendar_la_SOURCES = \
 	evolution-module-calendar.c			\
+	e-calendar-preferences.c			\
+	e-calendar-preferences.h			\
 	e-cal-attachment-handler.c			\
 	e-cal-attachment-handler.h			\
 	e-cal-config-calendar-item.c			\
@@ -50,8 +52,6 @@ module_calendar_la_SOURCES = \
 	e-cal-shell-view-private.c			\
 	e-cal-shell-view-private.h			\
 	e-cal-shell-view-taskpad.c			\
-	e-calendar-preferences.c			\
-	e-calendar-preferences.h			\
 	e-memo-shell-backend.c				\
 	e-memo-shell-backend.h				\
 	e-memo-shell-content.c				\

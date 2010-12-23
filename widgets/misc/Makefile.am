@@ -8,6 +8,7 @@ widgetsinclude_HEADERS =			\
 	e-action-combo-box.h			\
 	e-activity-bar.h			\
 	e-activity-proxy.h			\
+	e-alarm-selector.h			\
 	e-alert-bar.h				\
 	e-attachment.h				\
 	e-attachment-button.h			\
@@ -96,6 +97,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-action-combo-box.c			\
 	e-activity-bar.c			\
 	e-activity-proxy.c			\
+	e-alarm-selector.c			\
 	e-alert-bar.c				\
 	e-attachment.c				\
 	e-attachment-button.c			\

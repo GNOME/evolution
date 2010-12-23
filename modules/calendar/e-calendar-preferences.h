@@ -26,6 +26,7 @@
 
 #include <gtk/gtk.h>
 #include <shell/e-shell.h>
+#include <libedataserver/e-source-registry.h>
 #include <libedataserverui/e-source-selector.h>
 #include <widgets/misc/e-preferences-window.h>
 
@@ -58,6 +59,7 @@ struct _ECalendarPreferences {
 
 	GtkBuilder *builder;
 
+	ESourceRegistry *registry;
 	EShellSettings *shell_settings;
 
 	/* General tab */
@@ -71,8 +73,6 @@ struct _ECalendarPreferences {
 	/* Alarms tab */
 	GtkWidget *notify_with_tray;
 	GtkWidget *scrolled_window;
-	ESourceList *alarms_list;
-	GtkWidget *alarm_list_widget;
 };
 
 struct _ECalendarPreferencesClass {

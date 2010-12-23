@@ -427,10 +427,12 @@ static void
 task_shell_content_constructed (GObject *object)
 {
 	ETaskShellContentPrivate *priv;
+	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	EShellTaskbar *shell_taskbar;
+	ESourceRegistry *registry;
 	GalViewInstance *view_instance;
 	GtkTargetList *target_list;
 	GtkTargetEntry *targets;
@@ -447,8 +449,10 @@ task_shell_content_constructed (GObject *object)
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
-	priv->task_model = e_cal_model_tasks_new ();
+	registry = e_shell_get_registry (shell);
+	priv->task_model = e_cal_model_tasks_new (registry);
 
 	/* Build content widgets. */
 

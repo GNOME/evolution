@@ -23,7 +23,6 @@
 #define E_TASK_SHELL_VIEW_H
 
 #include <shell/e-shell-view.h>
-#include <libedataserver/e-source-list.h>
 
 /* Standard GObject macros */
 #define E_TYPE_TASK_SHELL_VIEW \
