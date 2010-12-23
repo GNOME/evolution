@@ -23,6 +23,7 @@ SUBDIRS = \
 	book-config-google \
 	$(CONFIG_LDAP_DIR) \
 	book-config-local \
+	book-config-webdav \
 	composer-autosave \
 	mailto-handler \
 	mdn \
