@@ -180,14 +180,6 @@ Shell Actions
 @window: 
 
 
-<!-- ##### MACRO E_SHELL_WINDOW_ACTION_SEND_RECEIVE ##### -->
-<para>
-
-</para>
-
-@window: 
-
-
 <!-- ##### MACRO E_SHELL_WINDOW_ACTION_SHOW_SIDEBAR ##### -->
 <para>
 

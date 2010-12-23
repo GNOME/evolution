@@ -15,7 +15,6 @@ e_shell_handle_uris
 e_shell_watch_window
 e_shell_get_watched_windows
 e_shell_get_active_window
-e_shell_send_receive
 e_shell_get_meego_mode
 e_shell_get_express_mode
 e_shell_get_small_screen_mode
@@ -1244,7 +1243,6 @@ E_SHELL_WINDOW_ACTION_SEARCH_EDIT
 E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS
 E_SHELL_WINDOW_ACTION_SEARCH_QUICK
 E_SHELL_WINDOW_ACTION_SEARCH_SAVE
-E_SHELL_WINDOW_ACTION_SEND_RECEIVE
 E_SHELL_WINDOW_ACTION_SHOW_SIDEBAR
 E_SHELL_WINDOW_ACTION_SHOW_SWITCHER
 E_SHELL_WINDOW_ACTION_SHOW_TASKBAR

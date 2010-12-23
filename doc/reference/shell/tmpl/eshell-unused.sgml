@@ -189,6 +189,14 @@ e-shell-window.sgml
 </para>
 
 
+<!-- ##### SIGNAL EShell::send-receive ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+@arg1: 
+
 <!-- ##### ARG EShellSearchbar:label-visible ##### -->
 <para>
 
@@ -230,6 +238,13 @@ e-shell-window.sgml
 
 </para>
 
+
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_SEND_RECEIVE ##### -->
+<para>
+
+</para>
+
+@window: 
 
 <!-- ##### MACRO E_SHELL_WINDOW_ACTION_SYNC_OPTIONS ##### -->
 <para>
@@ -533,6 +548,14 @@ e-shell-window.sgml
 
 @searchbar: 
 @label_visible: 
+
+<!-- ##### FUNCTION e_shell_send_receive ##### -->
+<para>
+
+</para>
+
+@shell: 
+@parent: 
 
 <!-- ##### FUNCTION e_signature_list_find ##### -->
 <para>
