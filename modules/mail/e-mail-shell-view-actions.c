@@ -1207,14 +1207,14 @@ static GtkActionEntry mail_entries[] = {
 
         { "mail-send-receive-receive-all",
 	  NULL,
-	  N_("R_eceive all"),
+	  N_("R_eceive All"),
 	  NULL,
 	  N_("Receive new items from all accounts"),
 	  G_CALLBACK (action_mail_send_receive_receive_all_cb) },
 
         { "mail-send-receive-send-all",
 	  "mail-send",
-	  N_("_Send all"),
+	  N_("_Send All"),
 	  NULL,
 	  N_("Send queued items in all accounts"),
 	  G_CALLBACK (action_mail_send_receive_send_all_cb) },
