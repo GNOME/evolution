@@ -792,7 +792,7 @@ send_queue_exec (struct _send_queue_msg *m)
 			m, m->queue, send_uids->pdata[i],
 			m->destination, m->driver, &local_error);
 		if (local_error != NULL) {
-			if (g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
+			if (!g_error_matches (local_error, G_IO_ERROR, G_IO_ERROR_CANCELLED)) {
 				/* merge exceptions into one */
 				if (m->base.error != NULL) {
 					gchar *old_message;
