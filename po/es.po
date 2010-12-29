@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2010-12-21 20:12+0000\n"
-"PO-Revision-Date: 2010-12-22 20:27+0100\n"
+"POT-Creation-Date: 2010-12-27 04:32+0000\n"
+"PO-Revision-Date: 2010-12-29 13:04+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -266,7 +266,7 @@ msgstr "Aniversario"
 #. * the directory components.
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:2
 #: ../addressbook/gui/widgets/eab-contact-display.c:582
-#: ../calendar/gui/e-calendar-view.c:2083 ../capplet/anjal-settings-main.c:123
+#: ../calendar/gui/e-calendar-view.c:2083 ../capplet/anjal-settings-main.c:124
 #: ../shell/main.c:133
 msgid "Birthday"
 msgstr "Cumpleaños"
@@ -7089,24 +7089,24 @@ msgstr "_Guardar en la bandeja de salida"
 msgid "_Try Again"
 msgstr "I_ntentarlo de nuevo"
 
-#: ../capplet/anjal-settings-main.c:223
+#: ../capplet/anjal-settings-main.c:224
 msgid "Run Anjal in a window"
 msgstr "Ejecutar Anjal en una ventana"
 
-#: ../capplet/anjal-settings-main.c:224
+#: ../capplet/anjal-settings-main.c:225
 msgid "Make Anjal the default email client"
 msgstr "Hacer que Anjal sea el cliente de correo predeterminado"
 
 #. TRANSLATORS: don't translate the terms in brackets
-#: ../capplet/anjal-settings-main.c:231
+#: ../capplet/anjal-settings-main.c:232
 msgid "ID of the socket to embed in"
 msgstr "El ID del socket en el que empotrarse"
 
-#: ../capplet/anjal-settings-main.c:232
+#: ../capplet/anjal-settings-main.c:233
 msgid "socket"
 msgstr "socket"
 
-#: ../capplet/anjal-settings-main.c:245
+#: ../capplet/anjal-settings-main.c:246
 msgid "Anjal email client"
 msgstr "Cliente de correo Anjal"
 
@@ -15603,7 +15603,8 @@ msgid "Send queued items and retrieve new items"
 msgstr "Envía el correo en la cola y obtiene el nuevo"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1210
-msgid "R_eceive all"
+#| msgid "R_eceive all"
+msgid "R_eceive All"
 msgstr "R_ecibir todo"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1212
@@ -15611,7 +15612,8 @@ msgid "Receive new items from all accounts"
 msgstr "Recibir correo nuevo para todas las cuentas"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1217
-msgid "_Send all"
+#| msgid "_Send all"
+msgid "_Send All"
 msgstr "_Enviar todo"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1219
