@@ -1633,6 +1633,7 @@ modules/bogofilter/Makefile
 modules/calendar/Makefile
 modules/mail/Makefile
 modules/backup-restore/Makefile
+modules/book-config-google/Makefile
 modules/book-config-local/Makefile
 modules/composer-autosave/Makefile
 modules/mailto-handler/Makefile
