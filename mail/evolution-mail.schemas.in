@@ -862,7 +862,7 @@
          <short>Default value for thread expand state</short>
          <long>
           This setting specifies whether the threads should be in expanded
-          or collapsed state by default. Evolution requires a restart.
+          or collapsed state by default. Requires a restart to apply.
          </long>
       </locale>
     </schema>
