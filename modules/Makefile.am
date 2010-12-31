@@ -1,3 +1,7 @@
+if ENABLE_LDAP
+CONFIG_LDAP_DIR = book-config-ldap
+endif
+
 if ENABLE_MONO
 MONO_DIR = plugin-mono
 endif
@@ -17,6 +21,7 @@ SUBDIRS = \
 	mail \
 	backup-restore \
 	book-config-google \
+	$(CONFIG_LDAP_DIR) \
 	book-config-local \
 	composer-autosave \
 	mailto-handler \
