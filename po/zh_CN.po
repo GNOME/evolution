@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2011-01-01 12:06+0000\n"
-"PO-Revision-Date: 2011-01-01 20:04+0800\n"
+"PO-Revision-Date: 2011-01-02 00:23+0800\n"
 "Last-Translator: Yinghua Wang <wantinghard@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -10652,7 +10652,6 @@ msgid ""
 msgstr "在转发信息时插入的文本，写着下面是转发的信息。"
 
 #: ../mail/evolution-mail.schemas.in.h:196
-#, fuzzy
 msgid ""
 "The text that is inserted when replying to a message (top posting), saying "
 "that the original message follows."
@@ -10663,6 +10662,7 @@ msgid ""
 "The text that is inserted when replying to a message, attributing the "
 "message to the original author."
 msgstr ""
+"在回复时插入的文本，并标注有其原作者。"
 
 #: ../mail/evolution-mail.schemas.in.h:198
 msgid "The variable width font for mail display."
@@ -10798,23 +10798,21 @@ msgid "Use only the local spam tests (no DNS)."
 msgstr "之使用本地垃圾信息测试(无 DNS)。"
 
 #: ../mail/evolution-mail.schemas.in.h:221
-#, fuzzy
 msgid ""
 "Users get all up in arms over where the cursor should go when replying to a "
 "message. This determines whether the cursor is placed at the top of the "
 "message or the bottom."
 msgstr ""
-"用户常为回复信息时光标位置不定而恼火。这个选项决定了回复时光标位于邮箱顶部还"
+"用户常为回复信息时光标位置不定而恼火。这个选项决定了回复时光标位于消息顶部还"
 "是底部。"
 
 #: ../mail/evolution-mail.schemas.in.h:222
-#, fuzzy
 msgid ""
 "Users get all up in arms over where their signature should go when replying "
 "to a message. This determines whether the signature is placed at the top of "
 "the message or the bottom."
 msgstr ""
-"用户常为回复信息时签名位置不定而恼火。这个选项决定了回复时签名位于邮箱顶部还"
+"用户常为回复信息时签名位置不定而恼火。这个选项决定了回复时签名位于消息顶部还"
 "是底部。"
 
 #: ../mail/evolution-mail.schemas.in.h:223
@@ -10990,7 +10988,7 @@ msgstr "添加过滤规则"
 #. * them on a separate line, with four spaces in front
 #. * of its name, without quotes.
 #: ../mail/mail-autofilter.c:480
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "The filter rule \"%s\" has been updated, because it used just removed "
 #| "folder\n"
@@ -11922,7 +11920,7 @@ msgstr "更新“%s”的搜索文件夹"
 #. * each of them on a separate line, with four spaces
 #. * in front of its name, without quotes.
 #: ../mail/mail-vfolder.c:709
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "The Search Folder \"%s\" has been updated, because it used just removed "
 #| "folder\n"
