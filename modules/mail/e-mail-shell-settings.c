@@ -289,6 +289,10 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 		"/apps/evolution/mail/prompts/empty_subject");
 
 	e_shell_settings_install_property_for_key (
+		"composer-prompt-send-invalid-recip",
+		"/apps/evolution/mail/prompts/send_invalid_recip");
+
+	e_shell_settings_install_property_for_key (
 		"composer-reply-start-bottom",
 		"/apps/evolution/mail/composer/reply_start_bottom");
 

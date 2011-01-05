@@ -309,12 +309,13 @@ composer_presend_check_recipients (EMsgComposer *composer)
 	}
 
 	if (invalid_addrs) {
-		if (e_alert_run_dialog_for_args (
+		if (!em_utils_prompt_user (
 			GTK_WINDOW (composer),
+			"/apps/evolution/mail/prompts/send_invalid_recip",
 			strstr (invalid_addrs->str, ", ") ?
 				"mail:ask-send-invalid-recip-multi" :
 				"mail:ask-send-invalid-recip-one",
-			invalid_addrs->str, NULL) == GTK_RESPONSE_CANCEL) {
+			invalid_addrs->str, NULL)) {
 			g_string_free (invalid_addrs, TRUE);
 			goto finished;
 		}
