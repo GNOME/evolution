@@ -1224,6 +1224,18 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/mail/prompts/send_invalid_recip</key>
+      <applyto>/apps/evolution/mail/prompts/send_invalid_recip</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+         <short>Prompt before sending to recipients not entered as mail addresses</short>
+         <long>It disables/enables the repeated prompts to warn that you are trying to send a message to recipients not entered as mail addresses</long>
+      </locale>
+    </schema>
+
        <!-- Trash settings -->
 
     <schema>
