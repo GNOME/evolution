@@ -1356,7 +1356,7 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 	EDayViewEvent *event;
 	PangoFontDescription *font;
 	time_t start, end;
-	struct pdinfo pdi;
+	struct pdinfo pdi = { 0 };
 	gint rows_in_top_display, i;
 	gdouble font_size, max_font_size;
 	cairo_t *cr;
@@ -1908,7 +1908,7 @@ print_week_summary (GtkPrintContext *context, GnomeCalendar *gcal,
 {
 	icaltimezone *zone;
 	EWeekViewEvent *event;
-	struct psinfo psi;
+	struct psinfo psi = { 0 };
 	time_t day_start;
 	gint rows_per_day[E_WEEK_VIEW_MAX_WEEKS * 7], day, event_num;
 	GArray *spans;
@@ -2431,7 +2431,7 @@ print_work_week_day_details (GtkPrintContext *context, GnomeCalendar *gcal,
 	EDayViewEvent *event;
 	PangoFontDescription *font;
 	time_t start, end;
-	struct pdinfo pdi;
+	struct pdinfo pdi = { 0 };
 	gint rows_in_top_display, i;
 	gdouble font_size, max_font_size;
 	cairo_t *cr;
@@ -2459,6 +2459,7 @@ print_work_week_day_details (GtkPrintContext *context, GnomeCalendar *gcal,
 	pdi.start_minute_offset = pdi.start_hour * 60;
 	pdi.end_minute_offset = pdi.end_hour * 60;
 	pdi.use_24_hour_format = e_cal_model_get_use_24_hour_format (model);
+	pdi.zone = e_cal_model_get_timezone (model);
 
 	/* Get the events from the server. */
 	e_cal_model_generate_instances (model, start, end, print_day_details_cb, &pdi);
@@ -2627,7 +2628,7 @@ print_work_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date
 	gint i, days = 5;
 	gchar buf[100];
 	const gint LONG_EVENT_OFFSET = 6;
-	struct pdinfo pdi;
+	struct pdinfo pdi = { 0 };
 	struct tm tm;
 	gdouble day_width, day_x;
 	ECalModel *model;
@@ -2648,6 +2649,7 @@ print_work_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date
 	pdi.days_shown = days;
 	pdi.start_hour = e_cal_model_get_work_day_start_hour (model);
 	pdi.end_hour = e_cal_model_get_work_day_end_hour (model);
+	pdi.zone = zone;
 
 	e_cal_model_generate_instances (model, start, end,
 					print_work_week_view_cb, &pdi);
