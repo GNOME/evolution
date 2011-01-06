@@ -1099,7 +1099,7 @@
       <para>Select File &gt; Restore Settings to open the available evolution-backup.tar.gz files.</para>
      </listitem>
      <listitem id="b17rbry6">
-      <para>Select the file and click Save.</para>
+      <para>Select the file and click Open.</para>
       <para>Before the process starts, a pop-up window appears and asks you to close Evolution. Close all the windows and then click Restore in the pop-up window.</para>
       <tip>
        <para> If you are creating your first account via the Startup Wizard, you can use the option to restore from the archive if it is available locally.</para>
