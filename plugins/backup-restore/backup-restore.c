@@ -180,7 +180,7 @@ action_settings_backup_cb (GtkAction *action,
 
 	file = e_shell_run_save_dialog (
 		e_shell_window_get_shell (shell_window),
-		_("Select name of the Evolution back up file"),
+		_("Select name of the Evolution backup file"),
 		suggest, "*.tar.gz", (GtkCallback)
 		set_local_only, NULL);
 
@@ -213,7 +213,7 @@ action_settings_backup_cb (GtkAction *action,
 
 		mask = dialog_prompt_user (
 			GTK_WINDOW (shell_window),
-			_("_Restart Evolution after back up"),
+			_("_Restart Evolution after backup"),
 			"org.gnome.backup-restore:backup-confirm", NULL);
 		if (mask & BR_OK) {
 			path = g_file_get_path (file);
@@ -239,7 +239,7 @@ action_settings_restore_cb (GtkAction *action,
 
 	file = e_shell_run_open_dialog (
 		e_shell_window_get_shell (shell_window),
-		_("Select name of the Evolution back up file to restore"),
+		_("Select name of the Evolution backup file to restore"),
 		(GtkCallback) set_local_only, NULL);
 
 	if (file == NULL)
@@ -320,14 +320,14 @@ backup_restore_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	gtk_container_set_border_width (GTK_CONTAINER (page), 12);
 
 	hbox = gtk_hbox_new (FALSE, 6);
-	label = gtk_label_new (_("You can restore Evolution from your back up. It can restore all the Mails, Calendars, Tasks, Memos, Contacts. It also restores all your personal settings, mail filters etc."));
+	label = gtk_label_new (_("You can restore Evolution from your backup. It can restore all the Mails, Calendars, Tasks, Memos, Contacts. It also restores all your personal settings, mail filters etc."));
 	gtk_label_set_line_wrap ((GtkLabel *)label, TRUE);
 	gtk_label_set_single_line_mode ((GtkLabel *)label, FALSE);
 	gtk_box_pack_start ((GtkBox *)hbox, label, FALSE, FALSE, 6);
 	gtk_box_pack_start ((GtkBox *)page, hbox, FALSE, FALSE, 0);
 
 	hbox = gtk_hbox_new (FALSE, 6);
-	cbox = gtk_check_button_new_with_mnemonic (_("_Restore Evolution from the back up file"));
+	cbox = gtk_check_button_new_with_mnemonic (_("_Restore Evolution from the backup file"));
 	g_signal_connect (cbox, "toggled", G_CALLBACK (check_toggled), assistant);
 	gtk_box_pack_start ((GtkBox *)hbox, cbox, FALSE, FALSE, 6);
 	gtk_box_pack_start ((GtkBox *)page, hbox, FALSE, FALSE, 0);
@@ -345,7 +345,7 @@ backup_restore_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	gtk_widget_set_sensitive (hbox, FALSE);
 
 	gtk_assistant_append_page (assistant, page);
-	gtk_assistant_set_page_title (assistant, page, _("Restore from back up"));
+	gtk_assistant_set_page_title (assistant, page, _("Restore from backup"));
 	gtk_widget_show_all (page);
 
 	g_object_set_data ((GObject *)assistant, "restore", GINT_TO_POINTER (FALSE));
