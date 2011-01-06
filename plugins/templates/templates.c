@@ -567,10 +567,10 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 		gchar *path;
 		guint ii;
 
+		folder_name = folder_info->name;
 		/* FIXME Not passing a GCancellable or GError here. */
 		folder = camel_store_get_folder_sync (
 			store, folder_info->full_name, 0, NULL, NULL);
-		folder_name = camel_folder_get_name (folder);
 
 		action_name = g_strdup_printf (
 			"templates-menu-%d", *action_count);
@@ -603,9 +603,15 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 				path, action_count, merge_id,
 				folder_info->child, message_folder, message_uid);
 
+		if (!folder) {
+			g_free (path);
+			folder_info = folder_info->next;
+			continue;
+		}
+
 		/* Get the UIDs for this folder and add them to the menu. */
 		uids = camel_folder_get_uids (folder);
-		for (ii = 0; ii < uids->len; ii++) {
+		for (ii = 0; uids && ii < uids->len; ii++) {
 			CamelMimeMessage *template;
 			const gchar *uid = uids->pdata[ii], *muid;
 			guint32 flags;
@@ -666,8 +672,9 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 			g_object_unref (action);
 			g_free (action_name);
 		}
-		camel_folder_free_uids (folder, uids);
 
+		camel_folder_free_uids (folder, uids);
+		g_object_unref (folder);
 		g_free (path);
 
 		folder_info = folder_info->next;
