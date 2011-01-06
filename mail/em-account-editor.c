@@ -2101,8 +2101,8 @@ emae_create_basic_assistant_page (EMAccountEditor *emae,
 		title = _("Sending Email");
 		label = _("Please enter information about the way you will send mail. If you are not sure, ask your system administrator or Internet Service Provider.");
 	} else if (g_ascii_strcasecmp (page_id, "management_page") == 0) {
-		title = _("Account Management");
-		label = _("Please enter a descriptive name for this account in the space below.\nThis name will be used for display purposes only.");
+		title = _("Account Information");
+		label = _("Please enter a descriptive name for this account below.\nThis name will be used for display purposes only.");
 	} else if (g_ascii_strcasecmp (page_id, "finish_page") == 0) {
 		page_type = GTK_ASSISTANT_PAGE_CONFIRM;
 		fill_space = TRUE;
