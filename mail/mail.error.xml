@@ -386,13 +386,12 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
   </error>
   
   <error id="ask-migrate-store" type="question" default="GTK_RESPONSE_YES">
-    <_primary>Migrate local mbox folders to maildir</_primary>
-    <_secondary xml:space="preserve">Default local store has been changed from mbox to maildir format. Do you want to migrate now ?
+    <_primary>Evolution's local mail format has changed.</_primary>
+    <_secondary xml:space="preserve">Evolution's local mail format has changed from mbox to Maildir. Your local mail must be migrated to the new format before Evolution can proceed. Do you want to migrate now?
 
-A mbox account will be created to preserve the old mbox folders. You can delete it after ensuring the data is safely migrated. Please make sure there is enough space if you choose to migrate.</_secondary>
-    <button stock="gtk-quit" response="GTK_RESPONSE_CANCEL"/>
-    <button stock="gtk-no" response="GTK_RESPONSE_NO"/>
-    <button stock="gtk-yes" response="GTK_RESPONSE_YES"/>
+An mbox account will be created to preserve the old mbox folders. You can delete the account after ensuring the data is safely migrated. Please make sure there is enough disk space if you choose to migrate now.</_secondary>
+    <button _label="_Exit Evolution" response="GTK_RESPONSE_CANCEL"/>
+    <button _label="_Migrate Now" response="GTK_RESPONSE_OK"/>
   </error>
 
   <error id="no-load-license" type="error">
