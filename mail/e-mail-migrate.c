@@ -646,11 +646,14 @@ migrate_to_db (EShellBackend *shell_backend)
 
 	mail_backend = E_MAIL_BACKEND (shell_backend);
 	mail_session = e_mail_backend_get_session (mail_backend);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
+
+	/* Initialize the mail stores early so we can add a new one. */
+	e_mail_store_init (mail_session, data_dir);
 
 	iter = e_list_get_iterator ((EList *) accounts);
 	len = e_list_length ((EList *) accounts);
 
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	session = (EMMigrateSession *) em_migrate_session_new (data_dir);
 	camel_session_set_online ((CamelSession *) session, FALSE);
 	em_migrate_setup_progress_dialog (
@@ -965,10 +968,14 @@ create_mbox_account (EShellBackend *shell_backend, EMMigrateSession *session)
 	
 	mail_backend = E_MAIL_BACKEND (shell_backend);
 	mail_session = e_mail_backend_get_session (mail_backend);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
+
+	/* Initialize the mail stores early so we can add a new one. */
+	e_mail_store_init (mail_session, data_dir);
+
 	account = e_account_new ();
 	account->enabled = TRUE;
 
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	url = camel_url_new ("mbox:", NULL);
 	temp = g_build_filename (data_dir, "local_mbox", NULL);
 	camel_url_set_path (url, temp);

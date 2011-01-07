@@ -514,7 +514,9 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 	EShell *shell;
 	EShellSettings *shell_settings;
 	EMailBackend *backend;
+	EMailSession *session;
 	gboolean enable_search_folders;
+	const gchar *data_dir;
 
 	priv = E_MAIL_SHELL_BACKEND_GET_PRIVATE (shell_backend);
 
@@ -522,6 +524,10 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
+
+	e_mail_store_init (session, data_dir);
 
 	enable_search_folders = e_shell_settings_get_boolean (
 		shell_settings, "mail-enable-search-folders");
