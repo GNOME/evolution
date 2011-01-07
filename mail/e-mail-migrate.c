@@ -743,24 +743,31 @@ migrate_to_db (EShellBackend *shell_backend)
 
 
 static gboolean
-check_local_store_migrate (void)
+mbox_to_maildir_migration_needed (EShellBackend *shell_backend)
 {
-	gchar *local_md_outbox, *migrating_file_flag;
+	gchar *local_store;
+	gchar *local_outbox;
 	const gchar *data_dir;
-	gboolean ret = FALSE;
+	gboolean migration_needed = FALSE;
 
-	data_dir = e_get_user_data_dir ();
-	local_md_outbox = g_build_filename (data_dir, "mail", "local", ".Outbox", NULL);
-	migrating_file_flag = g_build_filename (data_dir, "mail", "local", ".#migrate", NULL);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
 
-	if (!g_file_test (local_md_outbox, G_FILE_TEST_EXISTS) ||
-		g_file_test (migrating_file_flag, G_FILE_TEST_EXISTS))
-		ret = TRUE;
-	
-	g_free (local_md_outbox);
-	g_free (migrating_file_flag);
+	local_store = g_build_filename (data_dir, "local", NULL);
+	local_outbox = g_build_filename (local_store, ".Outbox", NULL);
 
-	return ret;
+	/* If this is a fresh install (no local store exists yet)
+	 * then obviously there's nothing to migrate to Maildir. */
+	if (!g_file_test (local_store, G_FILE_TEST_IS_DIR))
+		migration_needed = FALSE;
+
+	/* Look for a Maildir Outbox folder. */
+	else if (!g_file_test (local_outbox, G_FILE_TEST_IS_DIR))
+		migration_needed = TRUE;
+
+	g_free (local_store);
+	g_free (local_outbox);
+
+	return migration_needed;
 }
 
 /* Folder names with '.' are converted to '_' */
@@ -782,17 +789,16 @@ copy_folder (CamelStore *mbox_store, CamelStore *maildir_store, const gchar *mbo
 	GPtrArray *uids;
 
 	fromfolder = camel_store_get_folder_sync (
-			mbox_store, mbox_fname, 0,
-			NULL, NULL);
+		mbox_store, mbox_fname, 0, NULL, NULL);
 	if (fromfolder == NULL) {
 		g_warning ("Cannot find mbox folder %s \n", mbox_fname);
 		return;
 	}
 
 	tofolder = camel_store_get_folder_sync (
-			maildir_store, maildir_fname,
-			CAMEL_STORE_FOLDER_CREATE,
-			NULL, NULL);
+		maildir_store, maildir_fname,
+		CAMEL_STORE_FOLDER_CREATE,
+		NULL, NULL);
 	if (tofolder == NULL) {
 		g_warning ("Cannot create maildir folder %s \n", maildir_fname);
 		g_object_unref (fromfolder);
@@ -816,13 +822,13 @@ copy_folders (CamelStore *mbox_store, CamelStore *maildir_store, CamelFolderInfo
 	if (fi) {
 		if (!g_str_has_prefix (fi->full_name, ".#evolution")) {
 			gchar *maildir_folder_name;
-			
+
 			/* sanitize folder names and copy folders */
 			maildir_folder_name = sanitize_maildir_folder_name (fi->full_name);
 			copy_folder (mbox_store, maildir_store, fi->full_name, maildir_folder_name);
 			g_free (maildir_folder_name);
 		}
-		
+
 		if (fi->child)
 			copy_folders (mbox_store, maildir_store, fi->child, session);
 
@@ -880,7 +886,7 @@ migrate_mbox_to_maildir (EShellBackend *shell_backend, EMMigrateSession *session
 		CAMEL_PROVIDER_STORE, NULL);
 	g_free (temp);
 	camel_url_free (url);
-	
+
 	url = camel_url_new ("maildir:", NULL);
 	temp = g_build_filename (data_dir, "local", NULL);
 	g_mkdir (temp, 0700);
@@ -901,11 +907,11 @@ migrate_mbox_to_maildir (EShellBackend *shell_backend, EMMigrateSession *session
 	ms.maildir_store = maildir_store;
 	ms.session = session;
 	ms.complete = FALSE;
-	
+
 	g_thread_create ((GThreadFunc) migrate_stores, &ms, TRUE, NULL);
 	while (!ms.complete)
 		g_main_context_iteration (NULL, TRUE);
-	
+
 	g_object_unref (mbox_store);
 	g_object_unref (maildir_store);
 
@@ -918,44 +924,25 @@ rename_mbox_dir (EShellBackend *shell_backend)
 	gchar *local_mbox_path, *new_mbox_path;
 	const gchar *data_dir;
 
-	data_dir = e_get_user_data_dir ();
-	local_mbox_path = g_build_filename (data_dir, "mail", "local", NULL);
-	new_mbox_path = g_build_filename (data_dir, "mail", "local_mbox", NULL);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
+	local_mbox_path = g_build_filename (data_dir, "local", NULL);
+	new_mbox_path = g_build_filename (data_dir, "local_mbox", NULL);
 
 	if (!g_file_test (local_mbox_path, G_FILE_TEST_EXISTS))
 		goto exit;
-	
+
 	if (g_file_test (new_mbox_path, G_FILE_TEST_EXISTS))
 		goto exit;
 
-	g_rename (local_mbox_path, new_mbox_path); 
+	g_rename (local_mbox_path, new_mbox_path);
+
 exit:
 	g_free (local_mbox_path);
 	g_free (new_mbox_path);
-
-	return;
 }
 
-static gint
-prompt_for_store_migration (void)
-{
-	GtkWindow *parent;
-	GtkWidget *dialog;
-	gint result; 
-
-	parent = e_shell_get_active_window (NULL);
-	dialog = e_alert_dialog_new_for_args (
-			parent, "mail:ask-migrate-store",
-			NULL);
-
-	result = gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-
-	return result;
-}
-	
 static gboolean
-create_mbox_account (EShellBackend *shell_backend, EMMigrateSession *session) 
+create_mbox_account (EShellBackend *shell_backend, EMMigrateSession *session)
 {
 	CamelService *mbox_service;
 	EMailBackend *mail_backend;
@@ -965,7 +952,7 @@ create_mbox_account (EShellBackend *shell_backend, EMMigrateSession *session)
 	EAccount *account;
 	const gchar *data_dir;
 	gchar *name, *id, *temp, *uri, *folder_uri;
-	
+
 	mail_backend = E_MAIL_BACKEND (shell_backend);
 	mail_session = e_mail_backend_get_session (mail_backend);
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
@@ -1007,23 +994,20 @@ create_mbox_account (EShellBackend *shell_backend, EMMigrateSession *session)
 	camel_url_set_fragment (url, _("Sent"));
 	folder_uri = camel_url_to_string (url, 0);
 	e_account_set_string (
-			account, E_ACCOUNT_SENT_FOLDER_URI,
-			folder_uri);
+		account, E_ACCOUNT_SENT_FOLDER_URI, folder_uri);
 	g_free (folder_uri);
 
 	camel_url_set_fragment (url, _("Drafts"));
 	folder_uri = camel_url_to_string (url, 0);
 	e_account_set_string (
-			account, E_ACCOUNT_DRAFTS_FOLDER_URI,
-			folder_uri);
+		account, E_ACCOUNT_DRAFTS_FOLDER_URI, folder_uri);
 	g_free (folder_uri);
 
 	e_account_list_add (accounts, account);
-	e_mail_store_add_by_uri (
-		mail_session, uri, name);
+	e_mail_store_add_by_uri (mail_session, uri, name);
 	e_account_list_save (accounts);
 
-exit:	
+exit:
 	camel_url_free (url);
 	g_free (uri);
 	g_free (name);
@@ -1032,49 +1016,42 @@ exit:
 	return TRUE;
 }
 
-
 static gboolean
 migrate_local_store (EShellBackend *shell_backend)
 {
 	EMMigrateSession *session;
-	gboolean ret = TRUE;
-	gint migrate;
 	const gchar *data_dir;
-	gchar *migrating_file_flag;
-	gchar *local_dir;
-	
-	if (!check_local_store_migrate ())
+	gchar *local_store;
+	gint response;
+
+	if (!mbox_to_maildir_migration_needed (shell_backend))
 		return TRUE;
-	
-	/* rename the store before dialog prompt to avoid shell getting loaded in idle thread */
+
+	response = e_alert_run_dialog_for_args (
+		e_shell_get_active_window (NULL),
+		"mail:ask-migrate-store", NULL);
+
+	if (response == GTK_RESPONSE_CANCEL)
+		exit (EXIT_SUCCESS);
+
 	rename_mbox_dir (shell_backend);
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
+	local_store = g_build_filename (data_dir, "local", NULL);
 
-	local_dir = g_build_filename (data_dir, "local", NULL);
-	if (!g_file_test (local_dir, G_FILE_TEST_EXISTS))
-		g_mkdir_with_parents (local_dir, 0700);
-	g_free (local_dir);
-	
-	migrating_file_flag = g_build_filename (data_dir, "local", ".#migrate", NULL);
-	g_file_set_contents (migrating_file_flag, "1", -1, NULL);
-	
-	migrate = prompt_for_store_migration ();
-	if (migrate == GTK_RESPONSE_CANCEL)
-		return FALSE;
-	
+	if (!g_file_test (local_store, G_FILE_TEST_EXISTS))
+		g_mkdir_with_parents (local_store, 0700);
+
 	session = (EMMigrateSession *) em_migrate_session_new (data_dir);
-	camel_session_set_online ((CamelSession *) session, FALSE);
+	camel_session_set_online (CAMEL_SESSION (session), FALSE);
 
-	if (migrate == GTK_RESPONSE_YES)
-		ret = migrate_mbox_to_maildir (shell_backend, session);
-
+	migrate_mbox_to_maildir (shell_backend, session);
 	create_mbox_account (shell_backend, session);
-	g_unlink (migrating_file_flag);
 
-	g_free (migrating_file_flag);
 	g_object_unref (session);
 
-	return ret;
+	g_free (local_store);
+
+	return TRUE;
 }
 
 static void
