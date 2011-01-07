@@ -394,23 +394,6 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 		(EEventTarget *) target);
 }
 
-static gboolean
-mail_backend_idle_cb (EMailBackend *backend)
-{
-	EMailSession *session;
-	EShellBackend *shell_backend;
-	const gchar *data_dir;
-
-	session = e_mail_backend_get_session (backend);
-
-	shell_backend = E_SHELL_BACKEND (backend);
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
-
-	e_mail_store_init (session, data_dir);
-
-	return FALSE;
-}
-
 static void
 mail_backend_get_property (GObject *object,
                            guint property_id,
@@ -516,10 +499,6 @@ mail_backend_constructed (GObject *object)
 
 	mail_config_init (priv->session);
 	mail_msg_init ();
-
-	/* Defer initializing CamelStores until after the main loop
-	 * has started, so migration has a chance to run first. */
-	g_idle_add ((GSourceFunc) mail_backend_idle_cb, shell_backend);
 
 	if (G_OBJECT_CLASS (e_mail_backend_parent_class)->constructed)
 		G_OBJECT_CLASS (e_mail_backend_parent_class)->constructed (object);

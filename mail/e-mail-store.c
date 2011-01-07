@@ -268,8 +268,8 @@ e_mail_store_init (EMailSession *session,
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
-	/* This function is idempotent, but there should
-	 * be no need to call it more than once. */
+	/* This function is idempotent because mail
+	 * migration code may need to call it early. */
 	if (initialized)
 		return;
 
