@@ -128,6 +128,63 @@ attachment_icon_view_finalize (GObject *object)
 	G_OBJECT_CLASS (e_attachment_icon_view_parent_class)->finalize (object);
 }
 
+static void
+attachment_icon_view_constructed (GObject *object)
+{
+	GtkCellLayout *cell_layout;
+	GtkCellRenderer *renderer;
+
+	cell_layout = GTK_CELL_LAYOUT (object);
+
+	/* This needs to happen after constructor properties are set
+	 * so that GtkCellLayout.get_area() returns something valid. */
+
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	g_object_set (renderer, "stock-size", icon_size, NULL);
+	gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
+
+	gtk_cell_layout_add_attribute (
+		cell_layout, renderer, "gicon",
+		E_ATTACHMENT_STORE_COLUMN_ICON);
+
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (
+		renderer, "alignment", PANGO_ALIGN_CENTER,
+		"wrap-mode", PANGO_WRAP_WORD, "wrap-width", 150,
+		"yalign", 0.0, NULL);
+	gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
+
+	gtk_cell_layout_add_attribute (
+		cell_layout, renderer, "text",
+		E_ATTACHMENT_STORE_COLUMN_CAPTION);
+
+	renderer = gtk_cell_renderer_progress_new ();
+	g_object_set (renderer, "text", _("Loading"), NULL);
+	gtk_cell_layout_pack_start (cell_layout, renderer, TRUE);
+
+	gtk_cell_layout_add_attribute (
+		cell_layout, renderer, "value",
+		E_ATTACHMENT_STORE_COLUMN_PERCENT);
+
+	gtk_cell_layout_add_attribute (
+		cell_layout, renderer, "visible",
+		E_ATTACHMENT_STORE_COLUMN_LOADING);
+
+	renderer = gtk_cell_renderer_progress_new ();
+	g_object_set (renderer, "text", _("Saving"), NULL);
+	gtk_cell_layout_pack_start (cell_layout, renderer, TRUE);
+
+	gtk_cell_layout_add_attribute (
+		cell_layout, renderer, "value",
+		E_ATTACHMENT_STORE_COLUMN_PERCENT);
+
+	gtk_cell_layout_add_attribute (
+		cell_layout, renderer, "visible",
+		E_ATTACHMENT_STORE_COLUMN_SAVING);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (object));
+}
+
 static gboolean
 attachment_icon_view_button_press_event (GtkWidget *widget,
                                          GdkEventButton *event)
@@ -446,6 +503,7 @@ e_attachment_icon_view_class_init (EAttachmentIconViewClass *class)
 	object_class->get_property = attachment_icon_view_get_property;
 	object_class->dispose = attachment_icon_view_dispose;
 	object_class->finalize = attachment_icon_view_finalize;
+	object_class->constructed = attachment_icon_view_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->button_press_event = attachment_icon_view_button_press_event;
@@ -473,60 +531,12 @@ e_attachment_icon_view_class_init (EAttachmentIconViewClass *class)
 static void
 e_attachment_icon_view_init (EAttachmentIconView *icon_view)
 {
-	GtkCellLayout *cell_layout;
-	GtkCellRenderer *renderer;
-	cell_layout = GTK_CELL_LAYOUT (icon_view);
 	icon_view->priv = E_ATTACHMENT_ICON_VIEW_GET_PRIVATE (icon_view);
 
 	e_attachment_view_init (E_ATTACHMENT_VIEW (icon_view));
 
 	gtk_icon_view_set_selection_mode (
 		GTK_ICON_VIEW (icon_view), GTK_SELECTION_MULTIPLE);
-
-	renderer = gtk_cell_renderer_pixbuf_new ();
-	g_object_set (renderer, "stock-size", icon_size, NULL);
-	gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
-
-	gtk_cell_layout_add_attribute (
-		cell_layout, renderer, "gicon",
-		E_ATTACHMENT_STORE_COLUMN_ICON);
-
-	renderer = gtk_cell_renderer_text_new ();
-	g_object_set (
-		renderer, "alignment", PANGO_ALIGN_CENTER,
-		"wrap-mode", PANGO_WRAP_WORD, "wrap-width", 150,
-		"yalign", 0.0, NULL);
-	gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
-
-	gtk_cell_layout_add_attribute (
-		cell_layout, renderer, "text",
-		E_ATTACHMENT_STORE_COLUMN_CAPTION);
-
-	renderer = gtk_cell_renderer_progress_new ();
-	g_object_set (renderer, "text", _("Loading"), NULL);
-	gtk_cell_layout_pack_start (cell_layout, renderer, TRUE);
-
-	gtk_cell_layout_add_attribute (
-		cell_layout, renderer, "value",
-		E_ATTACHMENT_STORE_COLUMN_PERCENT);
-
-	gtk_cell_layout_add_attribute (
-		cell_layout, renderer, "visible",
-		E_ATTACHMENT_STORE_COLUMN_LOADING);
-
-	renderer = gtk_cell_renderer_progress_new ();
-	g_object_set (renderer, "text", _("Saving"), NULL);
-	gtk_cell_layout_pack_start (cell_layout, renderer, TRUE);
-
-	gtk_cell_layout_add_attribute (
-		cell_layout, renderer, "value",
-		E_ATTACHMENT_STORE_COLUMN_PERCENT);
-
-	gtk_cell_layout_add_attribute (
-		cell_layout, renderer, "visible",
-		E_ATTACHMENT_STORE_COLUMN_SAVING);
-
-	e_extensible_load_extensions (E_EXTENSIBLE (icon_view));
 }
 
 static void
