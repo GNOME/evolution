@@ -124,7 +124,9 @@ struct _EMFolderTreePrivate {
 
 enum {
 	PROP_0,
+	PROP_COPY_TARGET_LIST,
 	PROP_ELLIPSIZE,
+	PROP_PASTE_TARGET_LIST,
 	PROP_SESSION
 };
 
@@ -723,6 +725,36 @@ folder_tree_set_session (EMFolderTree *folder_tree,
 	folder_tree->priv->session = g_object_ref (session);
 }
 
+static GtkTargetList *
+folder_tree_get_copy_target_list (EMFolderTree *folder_tree)
+{
+	GtkTargetList *target_list = NULL;
+
+	if (E_IS_SELECTABLE (folder_tree->priv->selectable)) {
+		ESelectable *selectable;
+
+		selectable = E_SELECTABLE (folder_tree->priv->selectable);
+		target_list = e_selectable_get_copy_target_list (selectable);
+	}
+
+	return target_list;
+}
+
+static GtkTargetList *
+folder_tree_get_paste_target_list (EMFolderTree *folder_tree)
+{
+	GtkTargetList *target_list = NULL;
+
+	if (E_IS_SELECTABLE (folder_tree->priv->selectable)) {
+		ESelectable *selectable;
+
+		selectable = E_SELECTABLE (folder_tree->priv->selectable);
+		target_list = e_selectable_get_paste_target_list (selectable);
+	}
+
+	return target_list;
+}
+
 static void
 folder_tree_set_property (GObject *object,
                           guint property_id,
@@ -753,10 +785,24 @@ folder_tree_get_property (GObject *object,
                           GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_COPY_TARGET_LIST:
+			g_value_set_boxed (
+				value,
+				folder_tree_get_copy_target_list (
+				EM_FOLDER_TREE (object)));
+			return;
+
 		case PROP_ELLIPSIZE:
 			g_value_set_enum (
 				value,
 				em_folder_tree_get_ellipsize (
+				EM_FOLDER_TREE (object)));
+			return;
+
+		case PROP_PASTE_TARGET_LIST:
+			g_value_set_boxed (
+				value,
+				folder_tree_get_paste_target_list (
 				EM_FOLDER_TREE (object)));
 			return;
 
@@ -1052,6 +1098,12 @@ folder_tree_class_init (EMFolderTreeClass *class)
 	tree_view_class->test_collapse_row = folder_tree_test_collapse_row;
 	tree_view_class->row_expanded = folder_tree_row_expanded;
 
+	/* Inherited from ESelectableInterface */
+	g_object_class_override_property (
+		object_class,
+		PROP_COPY_TARGET_LIST,
+		"copy-target-list");
+
 	g_object_class_install_property (
 		object_class,
 		PROP_ELLIPSIZE,
@@ -1062,6 +1114,12 @@ folder_tree_class_init (EMFolderTreeClass *class)
 			PANGO_TYPE_ELLIPSIZE_MODE,
 			PANGO_ELLIPSIZE_NONE,
 			G_PARAM_READWRITE));
+
+	/* Inherited from ESelectableInterface */
+	g_object_class_override_property (
+		object_class,
+		PROP_PASTE_TARGET_LIST,
+		"paste-target-list");
 
 	g_object_class_install_property (
 		object_class,
@@ -1437,7 +1495,9 @@ void
 em_folder_tree_set_selectable_widget (EMFolderTree *folder_tree,
                                       GtkWidget *selectable)
 {
-	if (selectable)
+	g_return_if_fail (EM_IS_FOLDER_TREE (folder_tree));
+
+	if (selectable != NULL)
 		g_return_if_fail (E_IS_SELECTABLE (selectable));
 
 	folder_tree->priv->selectable = selectable;
@@ -1468,40 +1528,125 @@ folder_tree_selectable_update_actions (ESelectable *selectable,
 	}
 }
 
-#define folder_tree_selectable_func(_func)				\
-static void								\
-folder_tree_selectable_ ## _func (ESelectable *selectable)		\
-{									\
-	ESelectableInterface *interface;				\
-	EMFolderTree *folder_tree;					\
-									\
-									\
-	folder_tree = EM_FOLDER_TREE (selectable);			\
-	g_return_if_fail (folder_tree != NULL);				\
-									\
-	if (folder_tree->priv->selectable == NULL)			\
-		return;							\
-									\
-	selectable = E_SELECTABLE (folder_tree->priv->selectable);	\
-	interface = E_SELECTABLE_GET_INTERFACE (selectable);		\
-									\
-	if (interface-> _func == NULL)					\
-		return;							\
-									\
-	if (gtk_widget_get_can_focus (GTK_WIDGET (selectable)) &&	\
-	    !gtk_widget_has_focus (GTK_WIDGET (selectable)))		\
-		gtk_widget_grab_focus (GTK_WIDGET (selectable));	\
-									\
-	interface-> _func (selectable);					\
+static void
+folder_tree_selectable_cut_clipboard (ESelectable *selectable)
+{
+	ESelectableInterface *interface;
+	EMFolderTree *folder_tree;
+	GtkWidget *proxy;
+
+	folder_tree = EM_FOLDER_TREE (selectable);
+	proxy = folder_tree->priv->selectable;
+
+	if (!E_IS_SELECTABLE (proxy))
+		return;
+
+	interface = E_SELECTABLE_GET_INTERFACE (proxy);
+
+	if (interface->cut_clipboard == NULL)
+		return;
+
+	if (gtk_widget_get_can_focus (proxy))
+		gtk_widget_grab_focus (proxy);
+
+	interface->cut_clipboard (E_SELECTABLE (proxy));
 }
 
-folder_tree_selectable_func (cut_clipboard);
-folder_tree_selectable_func (copy_clipboard);
-folder_tree_selectable_func (paste_clipboard);
-folder_tree_selectable_func (delete_selection);
-folder_tree_selectable_func (select_all);
+static void
+folder_tree_selectable_copy_clipboard (ESelectable *selectable)
+{
+	ESelectableInterface *interface;
+	EMFolderTree *folder_tree;
+	GtkWidget *proxy;
 
-#undef folder_tree_selectable_func
+	folder_tree = EM_FOLDER_TREE (selectable);
+	proxy = folder_tree->priv->selectable;
+
+	if (!E_IS_SELECTABLE (proxy))
+		return;
+
+	interface = E_SELECTABLE_GET_INTERFACE (proxy);
+
+	if (interface->copy_clipboard == NULL)
+		return;
+
+	if (gtk_widget_get_can_focus (proxy))
+		gtk_widget_grab_focus (proxy);
+
+	interface->copy_clipboard (E_SELECTABLE (proxy));
+}
+
+static void
+folder_tree_selectable_paste_clipboard (ESelectable *selectable)
+{
+	ESelectableInterface *interface;
+	EMFolderTree *folder_tree;
+	GtkWidget *proxy;
+
+	folder_tree = EM_FOLDER_TREE (selectable);
+	proxy = folder_tree->priv->selectable;
+
+	if (!E_IS_SELECTABLE (proxy))
+		return;
+
+	interface = E_SELECTABLE_GET_INTERFACE (proxy);
+
+	if (interface->paste_clipboard == NULL)
+		return;
+
+	if (gtk_widget_get_can_focus (proxy))
+		gtk_widget_grab_focus (proxy);
+
+	interface->paste_clipboard (E_SELECTABLE (proxy));
+}
+
+static void
+folder_tree_selectable_delete_selection (ESelectable *selectable)
+{
+	ESelectableInterface *interface;
+	EMFolderTree *folder_tree;
+	GtkWidget *proxy;
+
+	folder_tree = EM_FOLDER_TREE (selectable);
+	proxy = folder_tree->priv->selectable;
+
+	if (!E_IS_SELECTABLE (proxy))
+		return;
+
+	interface = E_SELECTABLE_GET_INTERFACE (proxy);
+
+	if (interface->delete_selection == NULL)
+		return;
+
+	if (gtk_widget_get_can_focus (proxy))
+		gtk_widget_grab_focus (proxy);
+
+	interface->delete_selection (E_SELECTABLE (proxy));
+}
+
+static void
+folder_tree_selectable_select_all (ESelectable *selectable)
+{
+	ESelectableInterface *interface;
+	EMFolderTree *folder_tree;
+	GtkWidget *proxy;
+
+	folder_tree = EM_FOLDER_TREE (selectable);
+	proxy = folder_tree->priv->selectable;
+
+	if (!E_IS_SELECTABLE (proxy))
+		return;
+
+	interface = E_SELECTABLE_GET_INTERFACE (proxy);
+
+	if (interface->select_all == NULL)
+		return;
+
+	if (gtk_widget_get_can_focus (proxy))
+		gtk_widget_grab_focus (proxy);
+
+	interface->select_all (E_SELECTABLE (proxy));
+}
 
 static void
 folder_tree_selectable_init (ESelectableInterface *interface)
