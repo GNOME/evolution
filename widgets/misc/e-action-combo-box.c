@@ -349,6 +349,38 @@ action_combo_box_finalize (GObject *object)
 }
 
 static void
+action_combo_box_constructed (GObject *object)
+{
+	GtkComboBox *combo_box;
+	GtkCellRenderer *renderer;
+
+	combo_box = GTK_COMBO_BOX (object);
+
+	/* This needs to happen after constructor properties are set
+	 * so that GtkCellLayout.get_area() returns something valid. */
+
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	gtk_cell_layout_pack_start (
+		GTK_CELL_LAYOUT (combo_box), renderer, FALSE);
+	gtk_cell_layout_set_cell_data_func (
+		GTK_CELL_LAYOUT (combo_box), renderer,
+		(GtkCellLayoutDataFunc) action_combo_box_render_pixbuf,
+		combo_box, NULL);
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (
+		GTK_CELL_LAYOUT (combo_box), renderer, TRUE);
+	gtk_cell_layout_set_cell_data_func (
+		GTK_CELL_LAYOUT (combo_box), renderer,
+		(GtkCellLayoutDataFunc) action_combo_box_render_text,
+		combo_box, NULL);
+
+	gtk_combo_box_set_row_separator_func (
+		combo_box, (GtkTreeViewRowSeparatorFunc)
+		action_combo_box_is_row_separator, NULL, NULL);
+}
+
+static void
 action_combo_box_changed (GtkComboBox *combo_box)
 {
 	GtkRadioAction *action;
@@ -380,6 +412,7 @@ e_action_combo_box_class_init (EActionComboBoxClass *class)
 	object_class->get_property = action_combo_box_get_property;
 	object_class->dispose = action_combo_box_dispose;
 	object_class->finalize = action_combo_box_finalize;
+	object_class->constructed = action_combo_box_constructed;
 
 	combo_box_class = GTK_COMBO_BOX_CLASS (class);
 	combo_box_class->changed = action_combo_box_changed;
@@ -398,29 +431,7 @@ e_action_combo_box_class_init (EActionComboBoxClass *class)
 static void
 e_action_combo_box_init (EActionComboBox *combo_box)
 {
-	GtkCellRenderer *renderer;
-
 	combo_box->priv = E_ACTION_COMBO_BOX_GET_PRIVATE (combo_box);
-
-	renderer = gtk_cell_renderer_pixbuf_new ();
-	gtk_cell_layout_pack_start (
-		GTK_CELL_LAYOUT (combo_box), renderer, FALSE);
-	gtk_cell_layout_set_cell_data_func (
-		GTK_CELL_LAYOUT (combo_box), renderer,
-		(GtkCellLayoutDataFunc) action_combo_box_render_pixbuf,
-		combo_box, NULL);
-
-	renderer = gtk_cell_renderer_text_new ();
-	gtk_cell_layout_pack_start (
-		GTK_CELL_LAYOUT (combo_box), renderer, TRUE);
-	gtk_cell_layout_set_cell_data_func (
-		GTK_CELL_LAYOUT (combo_box), renderer,
-		(GtkCellLayoutDataFunc) action_combo_box_render_text,
-		combo_box, NULL);
-
-	gtk_combo_box_set_row_separator_func (
-		GTK_COMBO_BOX (combo_box), (GtkTreeViewRowSeparatorFunc)
-		action_combo_box_is_row_separator, NULL, NULL);
 
 	combo_box->priv->index = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal,
