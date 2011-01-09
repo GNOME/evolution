@@ -1986,10 +1986,13 @@ msg_composer_gallery_drag_data_get (GtkIconView *icon_view,
 	GtkCellRenderer *cell;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
+	GdkAtom target;
 	gchar *str_data;
 
 	if (!gtk_icon_view_get_cursor (icon_view, &path, &cell))
 		return;
+
+	target = gtk_selection_data_get_target (selection_data);
 
 	model = gtk_icon_view_get_model (icon_view);
 	gtk_tree_model_get_iter (model, &iter, path);
@@ -1998,7 +2001,7 @@ msg_composer_gallery_drag_data_get (GtkIconView *icon_view,
 
 	/* only supports "text/uri-list" */
 	gtk_selection_data_set (
-		selection_data, selection_data->target, 8,
+		selection_data, target, 8,
 		(guchar *) str_data, strlen (str_data));
 	g_free (str_data);
 }
