@@ -1,11 +1,11 @@
 # Swedish messages for Evolution.
-# Copyright (C) 2000-2010 Free Software Foundation, Inc.
+# Copyright (C) 2000-2011 Free Software Foundation, Inc.
 # Andreas Hyden <a.hyden@cyberpoint.se>, 2000.
 # Richard Hult <rhult@codefactory.se>, 2000, 2001.
 # Christian Rose <menthos@menthos.com>, 2000, 2001, 2002, 2003, 2004, 2005.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <johan@gnome.org>, 2001, 2006.
-# Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009, 2010.
+# Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009, 2010, 2011.
 #
 # Terminology
 # appointment = möte
@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-31 04:14+0100\n"
-"PO-Revision-Date: 2010-12-31 04:24+0100\n"
+"POT-Creation-Date: 2011-01-09 20:33+0100\n"
+"PO-Revision-Date: 2011-01-09 20:48+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -74,7 +74,7 @@ msgstr "Ta bort adressboken \"{0}\"?"
 
 #: ../addressbook/addressbook.error.xml.h:13
 #: ../calendar/calendar.error.xml.h:34
-#: ../mail/mail.error.xml.h:49
+#: ../mail/mail.error.xml.h:46
 msgid "Do _Not Delete"
 msgstr "Ta inte _bort"
 
@@ -640,7 +640,7 @@ msgid "_List name:"
 msgstr "_Listnamn:"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:5
-#: ../mail/mail-config.ui.h:157
+#: ../mail/mail-config.ui.h:159
 msgid "_Select..."
 msgstr "_Välj..."
 
@@ -1586,18 +1586,16 @@ msgid "Are you sure you want to delete this task?"
 msgstr "Är du säker på att du vill ta bort denna uppgift?"
 
 #: ../calendar/calendar.error.xml.h:26
-#, fuzzy
 msgid "Are you sure you want to save the appointment without a summary?"
-msgstr "Är du säker på att du vill skicka mötet utan en sammanfattning?"
+msgstr "Är du säker på att du vill spara mötet utan en sammanfattning?"
 
 #: ../calendar/calendar.error.xml.h:27
 msgid "Are you sure you want to save the memo without a summary?"
 msgstr "Är du säker på att du vill spara memot utan en sammanfattning?"
 
 #: ../calendar/calendar.error.xml.h:28
-#, fuzzy
 msgid "Are you sure you want to save the task without a summary?"
-msgstr "Är du säker på att du vill skicka uppgiften utan en sammanfattning?"
+msgstr "Är du säker på att du vill spara uppgiften utan en sammanfattning?"
 
 # Detta kräver nog en förklaring.
 # http://bugzilla.ximian.com/show_bug.cgi?id=61088
@@ -1827,7 +1825,7 @@ msgstr "_Spara ändringar"
 
 #: ../calendar/calendar.error.xml.h:86
 #: ../composer/mail-composer.error.xml.h:33
-#: ../mail/mail.error.xml.h:156
+#: ../mail/mail.error.xml.h:158
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "_Skicka"
@@ -2320,7 +2318,7 @@ msgid "_Type:"
 msgstr "_Typ:"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:232
-#: ../mail/mail-config.ui.h:150
+#: ../mail/mail-config.ui.h:152
 #: ../modules/addressbook/ldap-config.ui.h:26
 #: ../plugins/groupwise-features/properties.ui.h:10
 #: ../widgets/menus/gal-view-instance-save-as-dialog.ui.h:2
@@ -2838,7 +2836,7 @@ msgid "Query free / busy information for the attendees"
 msgstr "Fråga efter ledig-/upptageninformation för deltagarna"
 
 #: ../calendar/gui/dialogs/event-editor.c:318
-#: ../calendar/gui/print.c:3140
+#: ../calendar/gui/print.c:3142
 msgid "Appointment"
 msgstr "Möte"
 
@@ -3049,7 +3047,7 @@ msgid "until"
 msgstr "tills"
 
 #: ../calendar/gui/dialogs/memo-editor.c:109
-#: ../calendar/gui/print.c:3144
+#: ../calendar/gui/print.c:3146
 msgid "Memo"
 msgstr "Memo"
 
@@ -3396,7 +3394,7 @@ msgstr "Webbsida"
 #: ../calendar/gui/e-task-table.c:214
 #: ../calendar/gui/e-task-table.c:229
 #: ../calendar/gui/e-task-table.c:593
-#: ../calendar/gui/print.c:3230
+#: ../calendar/gui/print.c:3232
 #: ../mail/em-sync-stream.c:152
 #: ../mail/em-sync-stream.c:180
 #: ../mail/em-sync-stream.c:202
@@ -3414,7 +3412,7 @@ msgstr "Avbruten"
 #: ../calendar/gui/e-task-table.c:212
 #: ../calendar/gui/e-task-table.c:227
 #: ../calendar/gui/e-task-table.c:592
-#: ../calendar/gui/print.c:3227
+#: ../calendar/gui/print.c:3229
 #: ../calendar/gui/tasktypes.xml.h:9
 #: ../plugins/save-calendar/csv-format.c:367
 msgid "Completed"
@@ -3439,7 +3437,7 @@ msgstr "Hög"
 #: ../calendar/gui/e-task-table.c:210
 #: ../calendar/gui/e-task-table.c:225
 #: ../calendar/gui/e-task-table.c:591
-#: ../calendar/gui/print.c:3224
+#: ../calendar/gui/print.c:3226
 msgid "In Progress"
 msgstr "Pågår"
 
@@ -3472,7 +3470,7 @@ msgstr "Normal"
 #: ../calendar/gui/e-task-table.c:208
 #: ../calendar/gui/e-task-table.c:223
 #: ../calendar/gui/e-task-table.c:590
-#: ../calendar/gui/print.c:3221
+#: ../calendar/gui/print.c:3223
 #: ../calendar/gui/tasktypes.xml.h:18
 msgid "Not Started"
 msgstr "Inte påbörjad"
@@ -3534,7 +3532,7 @@ msgid "_Send Options"
 msgstr "Alternativ för _sändning"
 
 #: ../calendar/gui/dialogs/task-editor.c:331
-#: ../calendar/gui/print.c:3142
+#: ../calendar/gui/print.c:3144
 #: ../widgets/misc/e-send-options.c:503
 msgid "Task"
 msgstr "Uppgift"
@@ -3922,7 +3920,7 @@ msgstr "Organisatör: %s"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
 #: ../calendar/gui/e-calendar-view.c:1952
-#: ../calendar/gui/print.c:3176
+#: ../calendar/gui/print.c:3178
 #, c-format
 msgid "Location: %s"
 msgstr "Plats: %s"
@@ -4860,61 +4858,61 @@ msgstr "Fr"
 msgid "Sa"
 msgstr "Lö"
 
-#: ../calendar/gui/print.c:2969
+#: ../calendar/gui/print.c:2971
 msgid " to "
 msgstr " till "
 
-#: ../calendar/gui/print.c:2979
+#: ../calendar/gui/print.c:2981
 msgid " (Completed "
 msgstr " (Färdigt "
 
-#: ../calendar/gui/print.c:2985
+#: ../calendar/gui/print.c:2987
 msgid "Completed "
 msgstr "Färdigt "
 
-#: ../calendar/gui/print.c:2995
+#: ../calendar/gui/print.c:2997
 msgid " (Due "
 msgstr " (Ska genomföras "
 
-#: ../calendar/gui/print.c:3002
+#: ../calendar/gui/print.c:3004
 msgid "Due "
 msgstr "Ska genomföras "
 
-#: ../calendar/gui/print.c:3167
+#: ../calendar/gui/print.c:3169
 #, c-format
 msgid "Summary: %s"
 msgstr "Sammanfattning: %s"
 
-#: ../calendar/gui/print.c:3194
+#: ../calendar/gui/print.c:3196
 msgid "Attendees: "
 msgstr "Deltagare:"
 
-#: ../calendar/gui/print.c:3237
+#: ../calendar/gui/print.c:3239
 #, c-format
 msgid "Status: %s"
 msgstr "Status: %s"
 
-#: ../calendar/gui/print.c:3252
+#: ../calendar/gui/print.c:3254
 #, c-format
 msgid "Priority: %s"
 msgstr "Prioritet: %s"
 
-#: ../calendar/gui/print.c:3270
+#: ../calendar/gui/print.c:3272
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "Procent klar: %i"
 
-#: ../calendar/gui/print.c:3281
+#: ../calendar/gui/print.c:3283
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../calendar/gui/print.c:3294
+#: ../calendar/gui/print.c:3296
 #, c-format
 msgid "Categories: %s"
 msgstr "Kategorier: %s"
 
-#: ../calendar/gui/print.c:3305
+#: ../calendar/gui/print.c:3307
 msgid "Contacts: "
 msgstr "Kontakter: "
 
@@ -6903,15 +6901,15 @@ msgid "Cannot encrypt outgoing message: No encryption certificate set for this a
 msgstr "Kan inte kryptera utgående meddelande: Inget krypteringscertifikat angivet för detta konto"
 
 #: ../composer/e-msg-composer.c:1675
-#: ../composer/e-msg-composer.c:2042
+#: ../composer/e-msg-composer.c:2045
 msgid "Compose Message"
 msgstr "Skriv ett meddelande"
 
-#: ../composer/e-msg-composer.c:4117
+#: ../composer/e-msg-composer.c:4120
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Redigeraren innehåller en meddelandetext som inte är text och som inte kan redigeras."
 
-#: ../composer/e-msg-composer.c:4822
+#: ../composer/e-msg-composer.c:4825
 msgid "Untitled Message"
 msgstr "Namnlöst meddelande"
 
@@ -6993,9 +6991,8 @@ msgid "Evolution quit unexpectedly while you were composing a new message. Recov
 msgstr "Evolution avslutades oväntat under tiden du höll på att skapa ett nytt meddelande. Att återställa meddelandet kommer att låta dig fortsätta där du slutade."
 
 #: ../composer/mail-composer.error.xml.h:19
-#, fuzzy
 msgid "Saving message to Outbox."
-msgstr "Sparar meddelande till mappen \"%s\""
+msgstr "Sparar meddelande till utkorgen."
 
 #: ../composer/mail-composer.error.xml.h:20
 msgid "The file '{0}' is not a regular file and cannot be sent in a message."
@@ -7003,22 +7000,22 @@ msgstr "Filen \"{0}\" är ingen vanlig fil och kan inte skickas i ett meddelande
 
 #: ../composer/mail-composer.error.xml.h:21
 #: ../mail/mail.error.xml.h:117
-#, fuzzy
 msgid "The reported error was &quot;{0}&quot;."
-msgstr "Ta bort &quot;{0}&quot;?"
+msgstr "Det rapporterade felet var &quot;{0}&quot;."
 
 #: ../composer/mail-composer.error.xml.h:22
+#, fuzzy
 msgid "The reported error was &quot;{0}&quot;. The message has most likely not been saved."
-msgstr ""
+msgstr "Ta bort &quot;{0}&quot;?"
 
 #: ../composer/mail-composer.error.xml.h:23
+#, fuzzy
 msgid "The reported error was &quot;{0}&quot;. The message has not been sent."
-msgstr ""
+msgstr "Ta bort &quot;{0}&quot;?"
 
 #: ../composer/mail-composer.error.xml.h:24
-#, fuzzy
 msgid "You cannot attach the file &quot;{0}&quot; to this message."
-msgstr "Du kan inte bifoga filen \"{0}\" till detta meddelande."
+msgstr "Du kan inte bifoga filen &quot;{0}&quot; till detta meddelande."
 
 #: ../composer/mail-composer.error.xml.h:25
 msgid "You need to configure an account before you can compose mail."
@@ -7042,9 +7039,8 @@ msgid "_Save Draft"
 msgstr "_Spara utkast"
 
 #: ../composer/mail-composer.error.xml.h:32
-#, fuzzy
 msgid "_Save to Outbox"
-msgstr "_Spara som mbox..."
+msgstr "_Spara till utkorgen"
 
 #: ../composer/mail-composer.error.xml.h:34
 msgid "_Try Again"
@@ -7115,9 +7111,8 @@ msgid "Details:"
 msgstr "Detaljer:"
 
 #: ../capplet/settings/mail-account-view.c:497
-#, fuzzy
 msgid "Receiving"
-msgstr "Mottagande av e-post"
+msgstr "Mottagning"
 
 #: ../capplet/settings/mail-account-view.c:504
 msgid "Server type:"
@@ -7141,17 +7136,16 @@ msgid "never"
 msgstr "aldrig"
 
 #: ../capplet/settings/mail-account-view.c:548
-#, fuzzy
 msgid "Sending"
-msgstr "Stigande"
+msgstr "Sändning"
 
 #: ../capplet/settings/mail-account-view.c:590
 msgid "To use the email application you'll need to setup an account. Put your email address and password in below and we'll try and work out all the settings. If we can't do it automatically you'll need your server details as well."
-msgstr ""
+msgstr "För att använda e-postprogrammet så behöver du konfigurera ett konto. Ange din e-postadress och lösenord nedan och så försöker vi att lista ut alla inställningar. Om vi inte kan göra detta automatiskt så kommer vi även att behöva dina serveruppgifter."
 
 #: ../capplet/settings/mail-account-view.c:592
 msgid "Sorry, we can't work out the settings to get your mail automatically. Please enter them below. We've tried to make a start with the details you just entered but you may need to change them."
-msgstr ""
+msgstr "Tyvärr, vi kunde inte lista ut inställningarna för att automatiskt hämta din e-post. Ange dessa inställningar nedan. Vi har försökt att börja med detta enligt de uppgifter som du angav men du kanske behöver ändra dem."
 
 #: ../capplet/settings/mail-account-view.c:594
 msgid "You can specify more options to configure the account."
@@ -7159,7 +7153,7 @@ msgstr "Du kan ange fler alternativ för att konfigurera kontot."
 
 #: ../capplet/settings/mail-account-view.c:596
 msgid "Now we need your settings for sending mail. We've tried to make some guesses but you should check them over to make sure."
-msgstr ""
+msgstr "Nu så behöver vi dina inställningar för att skicka e-post. Vi har försökt att gissa oss fram till detta men du bör kontrollera dem för att det ska bli rätt."
 
 #: ../capplet/settings/mail-account-view.c:597
 msgid "You can specify your default settings for your account."
@@ -7167,7 +7161,7 @@ msgstr "Du kan ange dina standardinställningar för ditt konto."
 
 #: ../capplet/settings/mail-account-view.c:598
 msgid "Time to check things over before we try and connect to the server and fetch your mail."
-msgstr ""
+msgstr "Nu är det dags att kontrollera så att allt ser bra ut innan vi försöker att ansluta till servern och hämta din e-post."
 
 #: ../capplet/settings/mail-account-view.c:613
 #: ../mail/em-account-editor.c:2095
@@ -7244,42 +7238,36 @@ msgid "Back - Sending"
 msgstr "Bakåt - Sändning"
 
 #: ../capplet/settings/mail-account-view.c:725
-#, fuzzy
 msgid "Setup Google contacts with Evolution"
-msgstr "Lägg till WebDAV-kontakter till Evolution."
+msgstr "Konfigurera Google-kontakter med Evolution"
 
 #: ../capplet/settings/mail-account-view.c:726
-#, fuzzy
 msgid "Setup Google calendar with Evolution"
-msgstr "Lägg till Google-kalendrar till Evolution."
+msgstr "Konfigurera Google-kalender med Evolution"
 
 #: ../capplet/settings/mail-account-view.c:731
 msgid "You may need to enable IMAP access."
 msgstr "Du kan behöva att aktivera IMAP-åtkomst."
 
 #: ../capplet/settings/mail-account-view.c:739
-#, fuzzy
 msgid "Google account settings:"
-msgstr "Säkerhetskopierar konton och inställningar i Evolution"
+msgstr "Inställningar för Google-konto:"
 
 #: ../capplet/settings/mail-account-view.c:766
-#, fuzzy
 msgid "Setup Yahoo calendar with Evolution"
-msgstr "Lägg till väderkalendrar till Evolution."
+msgstr "Konfigurera Yahoo-kalender med Evolution"
 
 #: ../capplet/settings/mail-account-view.c:770
 msgid "Yahoo calendars are named as firstname_lastname. We have tried to form the calendar name. So please confirm and re-enter the calendar name if it is not correct."
-msgstr ""
+msgstr "Yahoo-kalendrar namnges som förnamn_efternamn. Vi har försökt att lista ut namnet på kalendern. Bekräfta eller ändra kalendernamnet om det inte är korrekt."
 
 #: ../capplet/settings/mail-account-view.c:777
-#, fuzzy
 msgid "Yahoo account settings:"
-msgstr "Säkerhetskopierar konton och inställningar i Evolution"
+msgstr "Inställningar för Yahoo-konto:"
 
 #: ../capplet/settings/mail-account-view.c:791
-#, fuzzy
 msgid "Yahoo Calendar name:"
-msgstr "Välj kalenderfil"
+msgstr "Namn på Yahoo-kalender:"
 
 #: ../capplet/settings/mail-account-view.c:1063
 msgid "Password:"
@@ -7300,7 +7288,7 @@ msgstr "Evolutions kontoguide"
 
 #. create the local source group
 #: ../capplet/settings/mail-capplet-shell.c:358
-#: ../mail/e-mail-migrate.c:677
+#: ../mail/e-mail-migrate.c:680
 #: ../mail/e-mail-store.c:225
 #: ../mail/em-folder-tree-model.c:148
 #: ../mail/em-folder-tree-model.c:151
@@ -7591,7 +7579,7 @@ msgid "File exists \"{0}\"."
 msgstr "Filen finns \"{0}\"."
 
 #: ../e-util/e-system.error.xml.h:6
-#: ../mail/mail.error.xml.h:155
+#: ../mail/mail.error.xml.h:157
 msgid "_Overwrite"
 msgstr "Skriv _över"
 
@@ -7664,7 +7652,7 @@ msgid "Mailer"
 msgstr "E-postprogram"
 
 #: ../em-format/em-format-quote.c:519
-#: ../mail/em-composer-utils.c:1141
+#: ../mail/em-composer-utils.c:1142
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Vidarebefordrat meddelande --------"
 
@@ -8164,14 +8152,14 @@ msgstr "Namn"
 #: ../mail/e-mail-local.c:35
 #: ../mail/em-folder-properties.c:285
 #: ../mail/em-folder-tree-model.c:766
-#: ../mail/em-folder-tree.c:2986
+#: ../mail/em-folder-tree.c:3131
 #: ../modules/mail/e-mail-shell-view-private.c:1099
 #: ../modules/mail/e-mail-shell-view-private.c:1110
 msgid "Inbox"
 msgstr "Inkorg"
 
 #: ../mail/e-mail-local.c:36
-#: ../mail/e-mail-migrate.c:1007
+#: ../mail/e-mail-migrate.c:1000
 #: ../mail/em-folder-tree-model.c:758
 #: ../modules/mail/e-mail-shell-view-private.c:1097
 msgid "Drafts"
@@ -8184,7 +8172,7 @@ msgid "Outbox"
 msgstr "Utkorg"
 
 #: ../mail/e-mail-local.c:38
-#: ../mail/e-mail-migrate.c:1000
+#: ../mail/e-mail-migrate.c:994
 #: ../mail/em-folder-tree-model.c:772
 #: ../modules/mail/e-mail-shell-view-private.c:1103
 msgid "Sent"
@@ -8211,11 +8199,11 @@ msgstr "Migrering"
 msgid "Migrating '%s':"
 msgstr "Migrerar \"%s\":"
 
-#: ../mail/e-mail-migrate.c:657
+#: ../mail/e-mail-migrate.c:660
 msgid "Migrating Folders"
 msgstr "Migrering av mappar"
 
-#: ../mail/e-mail-migrate.c:658
+#: ../mail/e-mail-migrate.c:661
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to SQLite since Evolution 2.24.\n"
 "\n"
@@ -8225,7 +8213,7 @@ msgstr ""
 "\n"
 "Vänta under tiden Evolution migrerar dina mappar..."
 
-#: ../mail/e-mail-migrate.c:1147
+#: ../mail/e-mail-migrate.c:1131
 #, c-format
 msgid "Unable to create local mail folders at '%s': %s"
 msgstr "Kan inte skapa lokala brevlådemappar på \"%s\": %s"
@@ -8258,8 +8246,8 @@ msgstr "_Kopiera"
 #, c-format
 msgid "Folder '%s' contains %d duplicate message. Are you sure you want to delete it?"
 msgid_plural "Folder '%s' contains %d duplicate messages. Are you sure you want to delete them?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Mappen \"%s\" innehåller %d dubblett meddelande. Är du säker på att du vill ta bort det?"
+msgstr[1] "Mappen \"%s\" innehåller %d dubbletta meddelanden. Är du säker på att du vill ta bort dessa?"
 
 #: ../mail/e-mail-reader.c:969
 #: ../mail/em-filter-i18n.h:51
@@ -8655,14 +8643,12 @@ msgid "Remove attachments"
 msgstr "Ta bort bilagor"
 
 #: ../mail/e-mail-reader.c:2175
-#, fuzzy
 msgid "Remove Du_plicate Messages"
-msgstr "Döl_j markerade meddelanden"
+msgstr "Ta bort dub_bletta meddelanden"
 
 #: ../mail/e-mail-reader.c:2177
-#, fuzzy
 msgid "Checks selected messages for duplicates"
-msgstr "Markera de markerade meddelandena för borttagning"
+msgstr "Letar efter dubbletter i markerade meddelanden"
 
 #: ../mail/e-mail-reader.c:2182
 #: ../mail/mail.error.xml.h:102
@@ -9020,7 +9006,7 @@ msgstr "Ingen kryptering"
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
 #. this abbreviation.
 #: ../mail/em-account-editor.c:571
-#: ../mail/mail-config.ui.h:124
+#: ../mail/mail-config.ui.h:126
 #: ../modules/addressbook/ldap-config.ui.h:20
 msgid "TLS encryption"
 msgstr "TLS-kryptering"
@@ -9097,12 +9083,14 @@ msgid "Please enter information about the way you will send mail. If you are not
 msgstr "Ange information om hur du vill skicka e-post. Om du inte är säker bör du fråga din systemadministratör eller internetleverantör."
 
 #: ../mail/em-account-editor.c:2104
-msgid "Account Management"
-msgstr "Kontohantering"
+#: ../mail/mail-config.ui.h:1
+msgid "Account Information"
+msgstr "Kontoinformation"
 
 #: ../mail/em-account-editor.c:2105
+#, fuzzy
 msgid ""
-"Please enter a descriptive name for this account in the space below.\n"
+"Please enter a descriptive name for this account below.\n"
 "This name will be used for display purposes only."
 msgstr ""
 "Ange ett beskrivande namn för detta konto i fältet nedan.\n"
@@ -9158,35 +9146,35 @@ msgstr "Letar efter nya meddelanden"
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see mail/em-composer-utils.c:attribvars array
-#: ../mail/em-composer-utils.c:1136
+#: ../mail/em-composer-utils.c:1137
 msgid "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:"
 msgstr "${AbbrevWeekdayName} ${Year}-${Month}-${Day} klockan ${24Hour}:${Minute} ${TimeZone} skrev ${Sender}:"
 
-#: ../mail/em-composer-utils.c:1146
+#: ../mail/em-composer-utils.c:1147
 msgid "-----Original Message-----"
 msgstr "-----Ursprungligt meddelande-----"
 
 #. Translators: First %s is an email address, second %s is the subject of the email, third %s is the date
-#: ../mail/em-composer-utils.c:1804
+#: ../mail/em-composer-utils.c:1805
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
 msgstr "Ditt meddelande till %s om \"%s\" den %s har lästs."
 
 #. Translators: %s is the subject of the email message
-#: ../mail/em-composer-utils.c:1854
+#: ../mail/em-composer-utils.c:1855
 #, c-format
 msgid "Delivery Notification for: \"%s\""
 msgstr "Leveransnotifiering för: \"%s\""
 
-#: ../mail/em-composer-utils.c:2272
+#: ../mail/em-composer-utils.c:2273
 msgid "an unknown sender"
 msgstr "en okänd avsändare"
 
-#: ../mail/em-composer-utils.c:2696
+#: ../mail/em-composer-utils.c:2697
 msgid "Posting destination"
 msgstr "Postdestination"
 
-#: ../mail/em-composer-utils.c:2697
+#: ../mail/em-composer-utils.c:2698
 msgid "Choose folders to post the message to."
 msgstr "Välj mappar att posta meddelandet till."
 
@@ -9516,50 +9504,50 @@ msgstr "OMATCHADE"
 msgid "Loading..."
 msgstr "Läser in..."
 
-#: ../mail/em-folder-tree.c:201
+#: ../mail/em-folder-tree.c:203
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Söker igenom mappar på \"%s\""
 
-#: ../mail/em-folder-tree.c:629
+#: ../mail/em-folder-tree.c:631
 msgid "Folder names cannot contain '/'"
 msgstr "Mappnamn kan inte innehålla \"/\""
 
-#: ../mail/em-folder-tree.c:1191
+#: ../mail/em-folder-tree.c:1249
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../mail/em-folder-tree.c:1427
+#: ../mail/em-folder-tree.c:1485
 msgid "Mail Folder Tree"
 msgstr "E-postmappträd"
 
-#: ../mail/em-folder-tree.c:1788
+#: ../mail/em-folder-tree.c:1933
 #: ../mail/em-folder-utils.c:90
 #, c-format
 msgid "Moving folder %s"
 msgstr "Flyttar mappen %s"
 
-#: ../mail/em-folder-tree.c:1792
+#: ../mail/em-folder-tree.c:1937
 #: ../mail/em-folder-utils.c:92
 #, c-format
 msgid "Copying folder %s"
 msgstr "Kopierar mappen %s"
 
-#: ../mail/em-folder-tree.c:1801
+#: ../mail/em-folder-tree.c:1946
 #: ../mail/message-list.c:2214
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Flyttar meddelanden till mappen %s"
 
-#: ../mail/em-folder-tree.c:1805
+#: ../mail/em-folder-tree.c:1950
 #: ../mail/message-list.c:2216
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Kopierar meddelanden till mappen %s"
 
-#: ../mail/em-folder-tree.c:1824
+#: ../mail/em-folder-tree.c:1969
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Kan inte släppa meddelanden i ett lager på översta nivån"
@@ -9789,7 +9777,7 @@ msgstr "Töm sökfältet"
 #: ../mail/em-subscription-editor.c:1179
 #, fuzzy
 msgid "Sho_w items that contain:"
-msgstr "innehåller inte"
+msgstr "Visa endast objekt som i_nnehåller:"
 
 #: ../mail/em-subscription-editor.c:1218
 #, fuzzy
@@ -9846,7 +9834,7 @@ msgstr "Avbryt aktuell e-poståtgärd"
 #. * count of messages. If you need a '%' in your text, then
 #. * write it doubled, like '%%'.
 #: ../mail/em-utils.c:101
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to open %d message at once?"
 msgid_plural "Are you sure you want to open %d messages at once?"
 msgstr[0] "Är du säker på att du vill öppna %d meddelande på en gång?"
@@ -9875,9 +9863,8 @@ msgid "Add Folder"
 msgstr "Lägg till mapp"
 
 #: ../mail/evolution-mail.schemas.in.h:1
-#, fuzzy
 msgid "\"Filter Editor\" window height"
-msgstr "Standardfönsterhöjd"
+msgstr "Fönsterhöjd för \"Filterredigerare\""
 
 #: ../mail/evolution-mail.schemas.in.h:2
 #, fuzzy
@@ -9885,9 +9872,8 @@ msgid "\"Filter Editor\" window maximize state"
 msgstr "Maximeringstillstånd för \"Skicka och ta emot e-post\"-fönstret"
 
 #: ../mail/evolution-mail.schemas.in.h:3
-#, fuzzy
 msgid "\"Filter Editor\" window width"
-msgstr "Standardfönsterbredd"
+msgstr "Fönsterbredd för \"Filterredigerare\""
 
 #: ../mail/evolution-mail.schemas.in.h:4
 #, fuzzy
@@ -9958,14 +9944,12 @@ msgid "Automatic link recognition"
 msgstr "Automatisk detektering av länkar"
 
 #: ../mail/evolution-mail.schemas.in.h:19
-#, fuzzy
 msgid "Check for new messages in all active accounts"
-msgstr "Leta efter _nya meddelanden var"
+msgstr "Leta efter nya meddelanden i alla aktiva konton"
 
 #: ../mail/evolution-mail.schemas.in.h:20
-#, fuzzy
 msgid "Check for new messages on start"
-msgstr "Leta efter _nya meddelanden var"
+msgstr "Leta efter nya meddelanden vid uppstart"
 
 #: ../mail/evolution-mail.schemas.in.h:21
 msgid "Check incoming mail being junk"
@@ -10057,9 +10041,8 @@ msgid "Default width of the Composer Window."
 msgstr "Standardbredd för fönstret för redigerarfönstret."
 
 #: ../mail/evolution-mail.schemas.in.h:43
-#, fuzzy
 msgid "Default width of the mail browser window."
-msgstr "Standardbredd för fönstret för redigerarfönstret."
+msgstr "Standardbredd för e-postläsarfönstret."
 
 #: ../mail/evolution-mail.schemas.in.h:44
 msgid "Determines whether to look up addresses for junk filtering in local address book only"
@@ -10163,11 +10146,11 @@ msgstr "Aktivera denna för att använda Magiskt blanksteg för att rulla i för
 
 #: ../mail/evolution-mail.schemas.in.h:69
 msgid "Enable to display only message texts not exceeding size defined in 'message_text_part_limit' key."
-msgstr ""
+msgstr "Aktivera för att endast visa meddelandetext som inte överstiger storleken definierad i nyckeln \"message_text_part_limit\"."
 
 #: ../mail/evolution-mail.schemas.in.h:70
 msgid "Enable to use a similar message list view settings for all folders"
-msgstr ""
+msgstr "Aktivera för att använda liknande visningsinställningar för meddelandelistor för alla mappar"
 
 #: ../mail/evolution-mail.schemas.in.h:71
 #, fuzzy
@@ -10198,7 +10181,7 @@ msgstr "Vidarebefordrat meddelande"
 
 #: ../mail/evolution-mail.schemas.in.h:77
 msgid "Group Reply replies to list"
-msgstr ""
+msgstr "Gruppsvar svarar till listan"
 
 #: ../mail/evolution-mail.schemas.in.h:78
 msgid "Height of the message-list pane"
@@ -10222,7 +10205,7 @@ msgstr "Om det inte finns en inbyggd visare för en viss mime-typ i Evolution s�
 
 #: ../mail/evolution-mail.schemas.in.h:83
 msgid "Ignore list Reply-To:"
-msgstr ""
+msgstr "Ignorera listans Svara-till:"
 
 #: ../mail/evolution-mail.schemas.in.h:84
 #, fuzzy
@@ -10305,543 +10288,544 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:101
 #, fuzzy
-msgid "Last time Empty Junk was run"
-msgstr "Senaste gången när tömning av skräpkorgen kördes"
+msgid "It disables/enables the repeated prompts to warn that you are trying to send a message to recipients not entered as mail addresses"
+msgstr "Den inaktiverar/aktiverar funktionen för upprepade varningar om att borttagning av meddelanden från en sökmapp permanent tar bort meddelandet, inte att den helt enkelt tar bort det från sökresultaten."
 
 #: ../mail/evolution-mail.schemas.in.h:102
-#, fuzzy
-msgid "Last time Empty Trash was run"
-msgstr "Senaste tid när tömning av papperskorgen kördes"
+msgid "Last time Empty Junk was run"
+msgstr "Senaste gången som Tömning av skräpkorgen kördes"
 
 #: ../mail/evolution-mail.schemas.in.h:103
+msgid "Last time Empty Trash was run"
+msgstr "Senaste gången som Tömning av papperskorgen kördes"
+
+#: ../mail/evolution-mail.schemas.in.h:104
 msgid "Layout style"
 msgstr "Layoutstil"
 
-#: ../mail/evolution-mail.schemas.in.h:104
+#: ../mail/evolution-mail.schemas.in.h:105
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:31
 msgid "Level beyond which the message should be logged."
 msgstr "Nivå bortom vilken meddelandet ska loggas."
 
-#: ../mail/evolution-mail.schemas.in.h:105
+#: ../mail/evolution-mail.schemas.in.h:106
 msgid "List of Labels and their associated colors"
 msgstr "Lista med etiketter och deras associerade färger"
 
-#: ../mail/evolution-mail.schemas.in.h:106
+#: ../mail/evolution-mail.schemas.in.h:107
 msgid "List of MIME types to check for Bonobo component viewers"
 msgstr "Lista med mime-typer att kontrollera för Bonobo-komponentvisare"
 
-#: ../mail/evolution-mail.schemas.in.h:107
+#: ../mail/evolution-mail.schemas.in.h:108
 msgid "List of accepted licenses"
 msgstr "Lista med accepterade licenser"
 
-#: ../mail/evolution-mail.schemas.in.h:108
+#: ../mail/evolution-mail.schemas.in.h:109
 msgid "List of accounts"
 msgstr "Lista med konton"
 
-#: ../mail/evolution-mail.schemas.in.h:109
+#: ../mail/evolution-mail.schemas.in.h:110
 msgid "List of accounts known to the mail component of Evolution. The list contains strings naming subdirectories relative to /apps/evolution/mail/accounts."
 msgstr "Lista med konton som är kända för Evolutions e-postkomponent. Listan innehåller strängar som namnger underkataloger relativa till /apps/evolution/mail/accounts."
 
-#: ../mail/evolution-mail.schemas.in.h:110
+#: ../mail/evolution-mail.schemas.in.h:111
 msgid "List of custom headers and whether they are enabled."
 msgstr "Lista med anpassade rubriker och huruvida de är aktiverade."
 
-#: ../mail/evolution-mail.schemas.in.h:111
+#: ../mail/evolution-mail.schemas.in.h:112
 msgid "List of dictionary language codes used for spell checking."
 msgstr "Lista över ordboksspråkkoder som används för stavningskontroll."
 
-#: ../mail/evolution-mail.schemas.in.h:112
+#: ../mail/evolution-mail.schemas.in.h:113
 msgid "List of labels known to the mail component of Evolution. The list contains strings containing name:color where color uses the HTML hex encoding."
 msgstr "Lista med etiketter som är kända för Evolutions e-postkomponent. Listan innehåller strängar som innehåller namn:färg där färg använder den hexadecimala kodningen i HTML."
 
-#: ../mail/evolution-mail.schemas.in.h:113
+#: ../mail/evolution-mail.schemas.in.h:114
 msgid "List of protocol names whose license has been accepted."
 msgstr "Lista med protokollnamn vars licens har accepterats."
 
-#: ../mail/evolution-mail.schemas.in.h:114
+#: ../mail/evolution-mail.schemas.in.h:115
 msgid "Load images for HTML messages over HTTP"
 msgstr "Läs in bilder för HTML-meddelanden över HTTP"
 
-#: ../mail/evolution-mail.schemas.in.h:115
+#: ../mail/evolution-mail.schemas.in.h:116
 msgid "Load images for HTML messages over HTTP(S). Possible values are: \"0\" - Never load images off the net. \"1\" - Load images in messages from contacts. \"2\" - Always load images off the net."
 msgstr "Läs in bilder för HTML-meddelanden över HTTP(S). Möjliga värden är: \"0\" - Läs aldrig in bilder från nätet, \"1\" - Läs in bilder i meddelanden från kontakter, \"2\" - Läs alltid in bilder från nätet."
 
-#: ../mail/evolution-mail.schemas.in.h:116
+#: ../mail/evolution-mail.schemas.in.h:117
 msgid "Log filter actions"
 msgstr "Logga filteråtgärder"
 
-#: ../mail/evolution-mail.schemas.in.h:117
+#: ../mail/evolution-mail.schemas.in.h:118
 msgid "Log filter actions to the specified log file."
 msgstr "Logga filteråtgärder i den angivna loggfilen."
 
-#: ../mail/evolution-mail.schemas.in.h:118
+#: ../mail/evolution-mail.schemas.in.h:119
 msgid "Logfile to log filter actions"
 msgstr "Loggfil att logga filteråtgärder i"
 
-#: ../mail/evolution-mail.schemas.in.h:119
+#: ../mail/evolution-mail.schemas.in.h:120
 msgid "Logfile to log filter actions."
 msgstr "Loggfil att logga filteråtgärder i"
 
-#: ../mail/evolution-mail.schemas.in.h:120
-#, fuzzy
-msgid "Mail browser height"
-msgstr "Identisk radhöjd"
-
 #: ../mail/evolution-mail.schemas.in.h:121
+msgid "Mail browser height"
+msgstr "Höjd för e-postläsaren"
+
+#: ../mail/evolution-mail.schemas.in.h:122
 msgid "Mail browser maximized"
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:122
-#, fuzzy
-msgid "Mail browser width"
-msgstr "E-postadress börjar med"
-
 #: ../mail/evolution-mail.schemas.in.h:123
+msgid "Mail browser width"
+msgstr "Bredd för e-postläsaren"
+
+#: ../mail/evolution-mail.schemas.in.h:124
 msgid "Mark as Seen after specified timeout"
 msgstr "Markera som läst efter angiven tidsgräns"
 
-#: ../mail/evolution-mail.schemas.in.h:124
+#: ../mail/evolution-mail.schemas.in.h:125
 msgid "Mark as Seen after specified timeout."
 msgstr "Markera som läst efter angiven tidsgräns."
 
-#: ../mail/evolution-mail.schemas.in.h:125
+#: ../mail/evolution-mail.schemas.in.h:126
 msgid "Mark citations in the message \"Preview\""
 msgstr "Markera citat i meddelandeförhandsgranskningen"
 
-#: ../mail/evolution-mail.schemas.in.h:126
+#: ../mail/evolution-mail.schemas.in.h:127
 msgid "Mark citations in the message \"Preview\"."
 msgstr "Markera citat i meddelandeförhandsgranskningen."
 
-#: ../mail/evolution-mail.schemas.in.h:127
-#, fuzzy
-msgid "Message text limit for display"
-msgstr "Meddelandevisning"
-
 #: ../mail/evolution-mail.schemas.in.h:128
+msgid "Message text limit for display"
+msgstr "Visningsgräns för meddelandetext"
+
+#: ../mail/evolution-mail.schemas.in.h:129
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
 msgstr "Stil på meddelandevisning (normal, \"full headers\" (fullständiga rubriker), \"source\" (källkod))"
 
-#: ../mail/evolution-mail.schemas.in.h:129
+#: ../mail/evolution-mail.schemas.in.h:130
 msgid "Minimum days between emptying the junk on exit"
 msgstr "Minsta antalet dagar mellan tömning av skräpkorgen vid avslut"
 
-#: ../mail/evolution-mail.schemas.in.h:130
+#: ../mail/evolution-mail.schemas.in.h:131
 msgid "Minimum days between emptying the trash on exit"
 msgstr "Minsta antalet dagar mellan tömning av papperskorgen vid avslut"
 
-#: ../mail/evolution-mail.schemas.in.h:131
+#: ../mail/evolution-mail.schemas.in.h:132
 msgid "Minimum time between emptying the junk on exit, in days."
 msgstr "Minsta tiden mellan tömning av skräpkorgen vid avslut, i dagar."
 
-#: ../mail/evolution-mail.schemas.in.h:132
+#: ../mail/evolution-mail.schemas.in.h:133
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr "Minsta tiden mellan tömning av papperskorgen vid avslut, i dagar."
 
-#: ../mail/evolution-mail.schemas.in.h:133
+#: ../mail/evolution-mail.schemas.in.h:134
 msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Antal adresser att visa i Till/Kopia/Blindkopia"
 
-#: ../mail/evolution-mail.schemas.in.h:134
+#: ../mail/evolution-mail.schemas.in.h:135
 msgid "Original message."
 msgstr "Originalmeddelande."
 
-#: ../mail/evolution-mail.schemas.in.h:135
+#: ../mail/evolution-mail.schemas.in.h:136
 msgid "Path where image gallery should search for its content"
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:136
+#: ../mail/evolution-mail.schemas.in.h:137
 msgid "Possible values are: never - to never close browser window always - to always close browser window ask - (or any other value) will ask user"
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:137
+#: ../mail/evolution-mail.schemas.in.h:138
+msgid "Prompt before sending to recipients not entered as mail addresses"
+msgstr "Fråga före sändning till mottagare som inte matats in som e-postadresser"
+
+#: ../mail/evolution-mail.schemas.in.h:139
 msgid "Prompt on empty subject"
 msgstr "Fråga vid tom ämnesrad"
 
-#: ../mail/evolution-mail.schemas.in.h:138
+#: ../mail/evolution-mail.schemas.in.h:140
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "Fråga användaren när han eller hon försöker att tömma en mapp."
 
-#: ../mail/evolution-mail.schemas.in.h:139
+#: ../mail/evolution-mail.schemas.in.h:141
 msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "Fråga användaren när han eller hon försöker att skicka ett meddelande utan en ämnesrad."
 
-#: ../mail/evolution-mail.schemas.in.h:140
+#: ../mail/evolution-mail.schemas.in.h:142
 msgid "Prompt when deleting messages in search folder"
 msgstr "Fråga när meddelanden tas bort från sökmappar"
 
-#: ../mail/evolution-mail.schemas.in.h:141
-#, fuzzy
-msgid "Prompt when mailing list hijacks private replies"
-msgstr "Fråga vid markering av flera meddelanden"
-
-#: ../mail/evolution-mail.schemas.in.h:142
-#, fuzzy
-msgid "Prompt when replying privately to list messages"
-msgstr "Fråga vid markering av flera meddelanden"
-
 #: ../mail/evolution-mail.schemas.in.h:143
-#, fuzzy
-msgid "Prompt when replying to many recipients"
-msgstr "Fr_åga när meddelanden skickas med endast blindkopiemottagare angivna"
+msgid "Prompt when mailing list hijacks private replies"
+msgstr "Fråga när sändlista kapar privata svar"
 
 #: ../mail/evolution-mail.schemas.in.h:144
+msgid "Prompt when replying privately to list messages"
+msgstr "Fråga vid privat svar till sändlistmeddelanden"
+
+#: ../mail/evolution-mail.schemas.in.h:145
+msgid "Prompt when replying to many recipients"
+msgstr "Fråga vid svar till många mottagare"
+
+#: ../mail/evolution-mail.schemas.in.h:146
 msgid "Prompt when user expunges"
 msgstr "Fråga när användaren tömmer"
 
-#: ../mail/evolution-mail.schemas.in.h:145
+#: ../mail/evolution-mail.schemas.in.h:147
 msgid "Prompt when user only fills Bcc"
 msgstr "Fråga när användaren endast fyller i blindkopia"
 
-#: ../mail/evolution-mail.schemas.in.h:146
+#: ../mail/evolution-mail.schemas.in.h:148
 msgid "Prompt when user tries to open 10 or more messages at once"
 msgstr "Fråga när användaren försöker att öppna tio eller fler meddelanden på samma gång"
 
-#: ../mail/evolution-mail.schemas.in.h:147
+#: ../mail/evolution-mail.schemas.in.h:149
 msgid "Prompt when user tries to send HTML mail to recipients that may not want to receive HTML mail."
 msgstr "Fråga när användaren försöker skicka HTML-brev till mottagare som kanske inte vill ha HTML-brev."
 
-#: ../mail/evolution-mail.schemas.in.h:148
+#: ../mail/evolution-mail.schemas.in.h:150
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr "Fråga när användaren försöker skicka ett meddelande utan till- eller kopiemottagare."
 
-#: ../mail/evolution-mail.schemas.in.h:149
+#: ../mail/evolution-mail.schemas.in.h:151
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr "Fråga när användaren försöker skicka oönskad HTML"
 
-#: ../mail/evolution-mail.schemas.in.h:150
+#: ../mail/evolution-mail.schemas.in.h:152
 msgid "Prompt while marking multiple messages"
 msgstr "Fråga vid markering av flera meddelanden"
 
-#: ../mail/evolution-mail.schemas.in.h:151
+#: ../mail/evolution-mail.schemas.in.h:153
 msgid "Put personalized signatures at the top of replies"
 msgstr "Lägg personliga signaturer längst upp i svar"
 
-#: ../mail/evolution-mail.schemas.in.h:152
+#: ../mail/evolution-mail.schemas.in.h:154
 msgid "Put the cursor at the bottom of replies"
 msgstr "Placera markören längst ner vid svar"
 
-#: ../mail/evolution-mail.schemas.in.h:153
+#: ../mail/evolution-mail.schemas.in.h:155
 msgid "Recognize emoticons in text and replace them with images."
 msgstr "Känn igen känsloikoner i text och ersätt dem med bilder."
 
-#: ../mail/evolution-mail.schemas.in.h:154
+#: ../mail/evolution-mail.schemas.in.h:156
 msgid "Recognize links in text and replace them."
 msgstr "Känn igen länkar i text och ersätt dem."
 
-#: ../mail/evolution-mail.schemas.in.h:155
+#: ../mail/evolution-mail.schemas.in.h:157
 msgid "Run junk test on incoming mail."
 msgstr "Kör skräptest på inkommande e-post."
 
-#: ../mail/evolution-mail.schemas.in.h:156
+#: ../mail/evolution-mail.schemas.in.h:158
 msgid "Save directory"
 msgstr "Spara katalog"
 
-#: ../mail/evolution-mail.schemas.in.h:157
+#: ../mail/evolution-mail.schemas.in.h:159
 msgid "Search for the sender photo in local address books"
 msgstr "Sök efter avsändarens fotografi i lokala adressböcker"
 
-#: ../mail/evolution-mail.schemas.in.h:158
+#: ../mail/evolution-mail.schemas.in.h:160
 msgid "Send HTML mail by default"
 msgstr "Skicka HTML-brev som standard"
 
-#: ../mail/evolution-mail.schemas.in.h:159
+#: ../mail/evolution-mail.schemas.in.h:161
 msgid "Send HTML mail by default."
 msgstr "Skicka HTML-brev som standard."
 
-#: ../mail/evolution-mail.schemas.in.h:160
+#: ../mail/evolution-mail.schemas.in.h:162
 msgid "Sender email-address column in the message list"
 msgstr "Kolumn för avsändarens e-postadress i meddelandelistan"
 
-#: ../mail/evolution-mail.schemas.in.h:161
+#: ../mail/evolution-mail.schemas.in.h:163
 msgid "Server synchronization interval"
 msgstr "Intervall för serversynkronisering"
 
-#: ../mail/evolution-mail.schemas.in.h:162
+#: ../mail/evolution-mail.schemas.in.h:164
 msgid "Set to TRUE in case you do not want to add signature delimiter before your signature when composing a mail."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:163
+#: ../mail/evolution-mail.schemas.in.h:165
 msgid "Show \"Bcc\" field when sending a mail message"
 msgstr "Visa \"Blindkopia\"-fältet när ett e-postmeddelande ska skickas"
 
-#: ../mail/evolution-mail.schemas.in.h:164
+#: ../mail/evolution-mail.schemas.in.h:166
 msgid "Show \"Cc\" field when sending a mail message"
 msgstr "Visa \"Kopia\"-fältet när ett e-postmeddelande ska skickas"
 
-#: ../mail/evolution-mail.schemas.in.h:165
+#: ../mail/evolution-mail.schemas.in.h:167
 msgid "Show \"From\" field when posting to a newsgroup"
 msgstr "Visa \"Från\"-fältet vid postning till en diskussionsgrupp"
 
-#: ../mail/evolution-mail.schemas.in.h:166
+#: ../mail/evolution-mail.schemas.in.h:168
 msgid "Show \"Reply To\" field when posting to a newsgroup"
 msgstr "Visa \"Svara till\"-fältet vid postning till en diskussionsgrupp"
 
-#: ../mail/evolution-mail.schemas.in.h:167
+#: ../mail/evolution-mail.schemas.in.h:169
 msgid "Show \"Reply To\" field when sending a mail message"
 msgstr "Visa \"Svara till\"-fältet när ett e-postmeddelande ska skickas"
 
-#: ../mail/evolution-mail.schemas.in.h:168
+#: ../mail/evolution-mail.schemas.in.h:170
 msgid "Show Animations"
 msgstr "Visa animationer"
 
-#: ../mail/evolution-mail.schemas.in.h:169
+#: ../mail/evolution-mail.schemas.in.h:171
 msgid "Show all message headers"
 msgstr "Visa alla meddelanderubriker"
 
-#: ../mail/evolution-mail.schemas.in.h:170
+#: ../mail/evolution-mail.schemas.in.h:172
 msgid "Show all the headers when viewing a messages."
 msgstr "Visa alla rubriker när meddelanden visas."
 
-#: ../mail/evolution-mail.schemas.in.h:171
+#: ../mail/evolution-mail.schemas.in.h:173
 msgid "Show animated images as animations."
 msgstr "Visa animerade bilder som animationer."
 
-#: ../mail/evolution-mail.schemas.in.h:172
+#: ../mail/evolution-mail.schemas.in.h:174
 msgid "Show deleted messages (with a strike-through) in the message-list."
 msgstr "Visa borttagna meddelanden (med en genomstrykning) i meddelandelistan."
 
-#: ../mail/evolution-mail.schemas.in.h:173
+#: ../mail/evolution-mail.schemas.in.h:175
 msgid "Show deleted messages in the message-list"
 msgstr "Visa borttagna meddelanden i meddelandelistan"
 
-#: ../mail/evolution-mail.schemas.in.h:174
+#: ../mail/evolution-mail.schemas.in.h:176
 msgid "Show image animations"
 msgstr "Visa bildanimeringar"
 
-#: ../mail/evolution-mail.schemas.in.h:175
+#: ../mail/evolution-mail.schemas.in.h:177
 msgid "Show original \"Date\" header value."
-msgstr ""
+msgstr "Visa ursprungligt \"Date\"-rubrikvärde."
 
-#: ../mail/evolution-mail.schemas.in.h:176
+#: ../mail/evolution-mail.schemas.in.h:178
 msgid "Show photo of the sender"
 msgstr "Visa fotot på avsändaren"
 
-#: ../mail/evolution-mail.schemas.in.h:177
+#: ../mail/evolution-mail.schemas.in.h:179
 msgid "Show the \"Bcc\" field when sending a mail message. This is controlled from the View menu when a mail account is chosen."
 msgstr "Visa \"Blindkopia\"-fältet när ett e-postmeddelande ska skickas. Detta styrs från Visa-menyn när ett e-postkonto väljs."
 
-#: ../mail/evolution-mail.schemas.in.h:178
+#: ../mail/evolution-mail.schemas.in.h:180
 msgid "Show the \"Cc\" field when sending a mail message. This is controlled from the View menu when a mail account is chosen."
 msgstr "Visa \"Kopia\"-fältet när ett e-postmeddelande ska skickas. Detta styrs från Visa-menyn när ett e-postkonto väljs."
 
-#: ../mail/evolution-mail.schemas.in.h:179
+#: ../mail/evolution-mail.schemas.in.h:181
 msgid "Show the \"From\" field when posting to a newsgroup. This is controlled from the View menu when a news account is chosen."
 msgstr "Visa \"Från\"-fältet vid postning till en diskussionsgrupp. Detta styrs från Visa-menyn när ett konto för diskussionsgrupper väljs."
 
-#: ../mail/evolution-mail.schemas.in.h:180
+#: ../mail/evolution-mail.schemas.in.h:182
 msgid "Show the \"Reply To\" field when posting to a newsgroup. This is controlled from the View menu when a news account is chosen."
 msgstr "Visa \"Svara till\"-fältet vid postning till en diskussionsgrupp. Detta styrs från Visa-menyn när ett konto för diskussionsgrupper väljs."
 
-#: ../mail/evolution-mail.schemas.in.h:181
+#: ../mail/evolution-mail.schemas.in.h:183
 msgid "Show the \"Reply To\" field when sending a mail message. This is controlled from the View menu when a mail account is chosen."
 msgstr "Visa \"Svara till\"-fältet när ett e-postmeddelande ska skickas. Detta styrs från Visa-menyn när ett e-postkonto väljs."
 
-#: ../mail/evolution-mail.schemas.in.h:182
+#: ../mail/evolution-mail.schemas.in.h:184
 msgid "Show the email-address of the sender in a separate column in the message list."
 msgstr "Visa avsändarens e-postadress i en separat kolumn i meddelandelistan."
 
-#: ../mail/evolution-mail.schemas.in.h:183
+#: ../mail/evolution-mail.schemas.in.h:185
 msgid "Show the original \"Date\" header (with a local time only if the time zone differs). Otherwise always show \"Date\" header value in a user preferred format and local time zone."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:184
+#: ../mail/evolution-mail.schemas.in.h:186
 msgid "Show the photo of the sender in the message reading pane."
 msgstr "Visa avsändarens foto i meddelandets läsningspanel."
 
-#: ../mail/evolution-mail.schemas.in.h:185
+#: ../mail/evolution-mail.schemas.in.h:187
 msgid "Some mailing lists set a Reply-To: header to trick users into sending replies to the list, even when they ask Evolution to make a private reply. Setting this option to TRUE will attempt to ignore such Reply-To: headers, so that Evolution will do as you ask it. If you use the private reply action, it will reply privately, while if you use the 'Reply to List' action it will do that. It works by comparing the Reply-To: header with a List-Post: header, if there is one."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:186
+#: ../mail/evolution-mail.schemas.in.h:188
 msgid "Spell check inline"
 msgstr "Stavningskontrollera inuti"
 
-#: ../mail/evolution-mail.schemas.in.h:187
+#: ../mail/evolution-mail.schemas.in.h:189
 msgid "Spell checking color"
 msgstr "Färg för stavningskontroll"
 
-#: ../mail/evolution-mail.schemas.in.h:188
+#: ../mail/evolution-mail.schemas.in.h:190
 msgid "Spell checking languages"
 msgstr "Språk för stavningskontroll"
 
-#: ../mail/evolution-mail.schemas.in.h:189
+#: ../mail/evolution-mail.schemas.in.h:191
 msgid "Terminal font"
 msgstr "Terminaltypsnitt"
 
 # Hook?
-#: ../mail/evolution-mail.schemas.in.h:190
+#: ../mail/evolution-mail.schemas.in.h:192
 msgid "The default plugin for Junk hook"
 msgstr "Standardinsticksmodul för skräpkrok"
 
-#: ../mail/evolution-mail.schemas.in.h:191
+#: ../mail/evolution-mail.schemas.in.h:193
 #, fuzzy
 msgid "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr "Den senaste gången som tömning av skräpkorgen gjordes, i dagar sedan epoken."
 
-#: ../mail/evolution-mail.schemas.in.h:192
+#: ../mail/evolution-mail.schemas.in.h:194
 #, fuzzy
 msgid "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr "Den senaste dagen som tömning av papperskorgen gjordes, i dagar sedan epoken."
 
-#: ../mail/evolution-mail.schemas.in.h:193
+#: ../mail/evolution-mail.schemas.in.h:195
 msgid "The layout style determines where to place the preview pane in relation to the message list. \"0\" (Classic View) places the preview pane below the message list. \"1\" (Vertical View) places the preview pane next to the message list."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:194
+#: ../mail/evolution-mail.schemas.in.h:196
 msgid "The terminal font for mail display."
 msgstr "Terminaltypsnittet för e-postvisning."
 
-#: ../mail/evolution-mail.schemas.in.h:195
+#: ../mail/evolution-mail.schemas.in.h:197
 msgid "The text that is inserted when forwarding a message, saying that the forwarded message follows."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:196
+#: ../mail/evolution-mail.schemas.in.h:198
 msgid "The text that is inserted when replying to a message (top posting), saying that the original message follows."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:197
+#: ../mail/evolution-mail.schemas.in.h:199
 msgid "The text that is inserted when replying to a message, attributing the message to the original author."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:198
+#: ../mail/evolution-mail.schemas.in.h:200
 msgid "The variable width font for mail display."
 msgstr "Det typsnitt med variabelt breddsteg som ska användas för e-postvisning."
 
-#: ../mail/evolution-mail.schemas.in.h:199
+#: ../mail/evolution-mail.schemas.in.h:201
 msgid "This can have three possible values. \"0\" for errors. \"1\" for warnings. \"2\" for debug messages."
 msgstr "Denna kan ha tre möjliga värden. \"0\" för fel. \"1\" för varningar. \"2\" för felsökningsmeddelanden."
 
-#: ../mail/evolution-mail.schemas.in.h:200
+#: ../mail/evolution-mail.schemas.in.h:202
 #, fuzzy
 msgid "This decides the max size of the message text that will be displayed under Evolution, specified in terms of KB. The default is 4096 (4MB). This value is used only when 'force_message_limit' key is activated."
 msgstr "Det här bestämmer maximal storlek på textdelen som kan formateras under Evolution. Standard är 4 MB / 4096 KB och anges i KB."
 
-#: ../mail/evolution-mail.schemas.in.h:201
+#: ../mail/evolution-mail.schemas.in.h:203
 msgid "This is the default junk plugin, even though there are multiple plugins enabled. If the default listed plugin is disabled, then it won't fall back to the other available plugins."
 msgstr "Det här är standardinsticksmodulen för skräppost, även om det finns flera aktiverade insticksmoduler. Om listad standardinsticksmodul är inaktiverad kommer den inte att falla tillbaka på andra tillgängliga insticksmoduler."
 
-#: ../mail/evolution-mail.schemas.in.h:202
+#: ../mail/evolution-mail.schemas.in.h:204
 msgid "This key is read only once and reset to \"false\" after read. This unselects the mail in the list and removes the preview for that folder."
 msgstr "Den här nyckeln läses bara en gång och återställs till \"false\" efter läsning. Det här avmarkerar meddelandet i listan och tar bort förhandsvisningen för den mappen."
 
-#: ../mail/evolution-mail.schemas.in.h:203
+#: ../mail/evolution-mail.schemas.in.h:205
 msgid "This key should contain a list of XML structures specifying custom headers, and whether they are to be displayed. The format of the XML structure is &lt;header enabled&gt; - set enabled if the header is to be displayed in the mail view."
 msgstr "Denna nyckel bör innehålla en lista med XML-strukturer som anger anpassade rubriker, och huruvida de ska visas. Formatet på XML-strukturen är &lt;header enabled&gt; - ställ detta till \"enabled\" om rubriken ska visas i e-postvyn."
 
-#: ../mail/evolution-mail.schemas.in.h:204
+#: ../mail/evolution-mail.schemas.in.h:206
 msgid "This option is related to the key lookup_addressbook and is used to determine whether to look up addresses in local address book only to exclude mail sent by known contacts from junk filtering."
 msgstr "Detta alternativ är relaterat till nyckeln lookup_addressbook och används för att bestämma huruvida adresser endast ska slås upp i lokala adressböcker för att exkludera e-post skickad av kända kontakter från skräppostfiltrering."
 
-#: ../mail/evolution-mail.schemas.in.h:205
+#: ../mail/evolution-mail.schemas.in.h:207
 msgid "This option would help in improving the speed of fetching."
 msgstr "Det här alternativet hjälper till att förbättra hämtningshastigheten."
 
-#: ../mail/evolution-mail.schemas.in.h:206
+#: ../mail/evolution-mail.schemas.in.h:208
 msgid "This sets the number of addresses to show in default message list view, beyond which a '...' is shown."
 msgstr "Detta anger antalet adresser som skall visas i standardmeddelandelistan, utanför gränsen visas en \"...\"."
 
-#: ../mail/evolution-mail.schemas.in.h:207
+#: ../mail/evolution-mail.schemas.in.h:209
 #, fuzzy
 msgid "This setting specifies whether the threads should be in expanded or collapsed state by default. Requires a restart to apply."
 msgstr "Den här inställningen anger huruvida trådarna ska vara utfällda eller infällda som standard. Evolution kräver en omstart vid ändring."
 
-#: ../mail/evolution-mail.schemas.in.h:208
+#: ../mail/evolution-mail.schemas.in.h:210
 msgid "This setting specifies whether the threads should be sorted based on latest message in each thread, rather than by message's date. Evolution requires a restart."
 msgstr "Den här inställningen anger huruvida trådarna ska sorteras baserat på senaste meddelandet i varje tråd, istället för meddelandets datum. En omstart av Evolution krävs."
 
-#: ../mail/evolution-mail.schemas.in.h:209
+#: ../mail/evolution-mail.schemas.in.h:211
 msgid "This value can be an empty string, which means it'll use the system Picture folder, usually set to ~/Pictures. This folder will be also used when the set path is not pointing to the existent folder."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:210
+#: ../mail/evolution-mail.schemas.in.h:212
 msgid "Thread the message-list based on Subject"
 msgstr "Tråda meddelandelistan baserat på ämnet"
 
-#: ../mail/evolution-mail.schemas.in.h:211
+#: ../mail/evolution-mail.schemas.in.h:213
 msgid "Timeout for marking message as seen"
 msgstr "Tidsgräns för markering av meddelande som läst"
 
-#: ../mail/evolution-mail.schemas.in.h:212
+#: ../mail/evolution-mail.schemas.in.h:214
 msgid "Timeout for marking message as seen."
 msgstr "Tidsgräns för markering av meddelande som läst."
 
-#: ../mail/evolution-mail.schemas.in.h:213
+#: ../mail/evolution-mail.schemas.in.h:215
 msgid "UID string of the default account."
 msgstr "UID-sträng för standardkontot."
 
-#: ../mail/evolution-mail.schemas.in.h:214
+#: ../mail/evolution-mail.schemas.in.h:216
 msgid "Underline color for misspelled words when using inline spelling."
 msgstr "Understrykningsfärg för felstavade ord när stavningskontroll inuti används."
 
-#: ../mail/evolution-mail.schemas.in.h:215
+#: ../mail/evolution-mail.schemas.in.h:217
 msgid "Use SpamAssassin daemon and client"
 msgstr "Använd SpamAssassin-demonen och klient"
 
-#: ../mail/evolution-mail.schemas.in.h:216
+#: ../mail/evolution-mail.schemas.in.h:218
 msgid "Use SpamAssassin daemon and client (spamc/spamd)."
 msgstr "Använd SpamAssassin-demonen och klient (spamc/spamd)."
 
-#: ../mail/evolution-mail.schemas.in.h:217
+#: ../mail/evolution-mail.schemas.in.h:219
 msgid "Use custom fonts"
 msgstr "Använd anpassade typsnitt"
 
-#: ../mail/evolution-mail.schemas.in.h:218
+#: ../mail/evolution-mail.schemas.in.h:220
 msgid "Use custom fonts for displaying mail."
 msgstr "Använd anpassade typsnitt för visning av e-post."
 
-#: ../mail/evolution-mail.schemas.in.h:219
+#: ../mail/evolution-mail.schemas.in.h:221
 msgid "Use only local spam tests."
 msgstr "Använd endast lokala skräpposttest."
 
-#: ../mail/evolution-mail.schemas.in.h:220
+#: ../mail/evolution-mail.schemas.in.h:222
 msgid "Use only the local spam tests (no DNS)."
 msgstr "Använd endast de lokala skräpposttesten (ingen DNS)."
 
-#: ../mail/evolution-mail.schemas.in.h:221
+#: ../mail/evolution-mail.schemas.in.h:223
 msgid "Users get all up in arms over where the cursor should go when replying to a message. This determines whether the cursor is placed at the top of the message or the bottom."
 msgstr "Användare blir väldigt irriterade över placeringen av markören när de ska svara på ett meddelande. Detta bestämmer huruvida markören placeras längst upp eller längst ner i meddelandet."
 
-#: ../mail/evolution-mail.schemas.in.h:222
+#: ../mail/evolution-mail.schemas.in.h:224
 msgid "Users get all up in arms over where their signature should go when replying to a message. This determines whether the signature is placed at the top of the message or the bottom."
 msgstr "Användare blir väldigt irriterade över placeringen av sin signatur när de ska svara på ett meddelande. Detta bestämmer huruvida signaturen placeras längst upp eller längst ner i meddelandet."
 
-#: ../mail/evolution-mail.schemas.in.h:223
+#: ../mail/evolution-mail.schemas.in.h:225
 msgid "Variable width font"
 msgstr "Typsnitt med variabelt breddsteg"
 
-#: ../mail/evolution-mail.schemas.in.h:224
+#: ../mail/evolution-mail.schemas.in.h:226
 msgid "Whether a read receipt request gets added to every message by default."
 msgstr "Huruvida en begäran om läskvitto ska läggas till i varje meddelande som standard."
 
-#: ../mail/evolution-mail.schemas.in.h:225
+#: ../mail/evolution-mail.schemas.in.h:227
 msgid "Whether check for new messages in all active accounts regardless of the account \"Check for new messages every X minutes\" option when Evolution is started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:226
+#: ../mail/evolution-mail.schemas.in.h:228
 msgid "Whether check for new messages when Evolution is started. This includes also sending messages from Outbox."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:227
+#: ../mail/evolution-mail.schemas.in.h:229
 msgid "Whether disable ellipsizing feature of folder names in side bar."
 msgstr "Huruvida ellipseringsfunktionen för mappnamn i sidopanelen ska inaktiveras. "
 
-#: ../mail/evolution-mail.schemas.in.h:228
+#: ../mail/evolution-mail.schemas.in.h:230
 msgid "Whether or not to fall back on threading by subjects when the messages do not contain In-Reply-To or References headers."
 msgstr "Huruvida Evolution ska falla tillbaka på att tråda efter ämne när meddelandena inte innehåller \"In-Reply-To\"- eller \"References\"-rubriker."
 
-#: ../mail/evolution-mail.schemas.in.h:229
+#: ../mail/evolution-mail.schemas.in.h:231
 msgid "Whether sort threads based on latest message in that thread"
 msgstr "Huruvida trådar sorteras baserat på senaste meddelandet i tråden"
 
-#: ../mail/evolution-mail.schemas.in.h:230
+#: ../mail/evolution-mail.schemas.in.h:232
 msgid "Whether to flush Outbox after filtering is done. Outbox flush will happen only when there was used any 'Forward to' filter action and approximately one minute after the last action invocation."
 msgstr ""
 
-#: ../mail/evolution-mail.schemas.in.h:231
+#: ../mail/evolution-mail.schemas.in.h:233
 msgid "Width of the message-list pane"
 msgstr "Bredd på meddelandelistpanelen"
 
-#: ../mail/evolution-mail.schemas.in.h:232
+#: ../mail/evolution-mail.schemas.in.h:234
 msgid "Width of the message-list pane."
 msgstr "Bredd på meddelandelistpanelen."
 
@@ -10977,10 +10961,6 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../mail/mail-config.ui.h:1
-msgid "Account Information"
-msgstr "Kontoinformation"
-
 #: ../mail/mail-config.ui.h:2
 msgid "Add Ne_w Signature..."
 msgstr "Lägg till n_y signatur..."
@@ -11021,7 +11001,7 @@ msgstr "Begär allti_d läskvitto"
 
 #: ../mail/mail-config.ui.h:12
 msgid "Apply the same _view settings to all folders"
-msgstr ""
+msgstr "Verkställ samma _visningsinställningar till alla mappar"
 
 #: ../mail/mail-config.ui.h:14
 #: ../modules/addressbook/addressbook-config.c:1023
@@ -11045,14 +11025,12 @@ msgid "Check cu_stom headers for junk"
 msgstr "L_eta i anpassade rubriker efter skräppost"
 
 #: ../mail/mail-config.ui.h:19
-#, fuzzy
 msgid "Check for new _messages on start"
-msgstr "Leta efter _nya meddelanden var"
+msgstr "Leta efter nya _meddelanden vid uppstart"
 
 #: ../mail/mail-config.ui.h:20
-#, fuzzy
 msgid "Check for new messa_ges in all active accounts"
-msgstr "Leta efter _nya meddelanden var"
+msgstr "Leta efter n_ya meddelanden i alla aktiva konton"
 
 #: ../mail/mail-config.ui.h:21
 msgid "Check incoming _messages for junk"
@@ -11118,9 +11096,8 @@ msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "Signera _utgående meddelanden digitalt (som standard)"
 
 #: ../mail/mail-config.ui.h:38
-#, fuzzy
 msgid "Displayed Message Headers"
-msgstr "Visade meddelande_rubriker"
+msgstr "Visade meddelanderubriker"
 
 #: ../mail/mail-config.ui.h:39
 msgid "Do not mar_k messages as junk if sender is in my address book"
@@ -11155,7 +11132,6 @@ msgid "F_all back to threading messages by subject"
 msgstr "Fall tillbaka på trådning av meddelanden efter _ämne"
 
 #: ../mail/mail-config.ui.h:48
-#, fuzzy
 msgid "Fix_ed Width Font:"
 msgstr "Typsnitt med fast b_reddsteg:"
 
@@ -11169,7 +11145,7 @@ msgstr "_Fullständigt namn:"
 
 #: ../mail/mail-config.ui.h:52
 msgid "Group Reply goes only to mailing list, if possible"
-msgstr ""
+msgstr "Gruppsvar går endast till sändlistan, om möjligt"
 
 #: ../mail/mail-config.ui.h:53
 msgid "HTML Messages"
@@ -11189,7 +11165,7 @@ msgstr "Markera _citat med"
 
 #: ../mail/mail-config.ui.h:57
 msgid "Ignore Reply-To: for mailing lists"
-msgstr ""
+msgstr "Ignorera Svara-till: för sändlistor"
 
 #: ../mail/mail-config.ui.h:58
 msgid "Inline"
@@ -11287,9 +11263,8 @@ msgid "Remember _password"
 msgstr "Kom ihåg _lösenord"
 
 #: ../mail/mail-config.ui.h:85
-#, fuzzy
 msgid "Replies and Forwards"
-msgstr "Svar och föräldrar"
+msgstr "Svar och vidarebefordringar"
 
 #: ../mail/mail-config.ui.h:86
 msgid "Required Information"
@@ -11349,95 +11324,95 @@ msgstr "Avsändarens fotografi"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:103
-#, fuzzy
 msgid "Sending a _private reply to a mailing list message"
-msgstr "Fråga vid markering av flera meddelanden"
+msgstr "Skickar ett _privat svar på ett meddelande från en sändlista"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:105
-#, fuzzy
-msgid "Sending a message with an _empty subject line"
-msgstr "_Fråga när meddelanden skickas med en tom ämnesrad"
+msgid "Sending a message with _recipients not entered as mail addresses"
+msgstr "Skickar ett meddelande med _mottagare som inte matats in som e-postadresser"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:107
-#, fuzzy
-msgid "Sending a message with only _Bcc recipients defined"
-msgstr "Fr_åga när meddelanden skickas med endast blindkopiemottagare angivna"
+msgid "Sending a message with an _empty subject line"
+msgstr "Skickar ett meddelande med en _tom ämnesrad"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:109
-#, fuzzy
-msgid "Sending a reply to a large _number of recipients"
-msgstr "Skicka svar till alla mottagare?"
+msgid "Sending a message with only _Bcc recipients defined"
+msgstr "Skickar ett meddelande med endast _blindkopiemottagare definierade"
 
-#: ../mail/mail-config.ui.h:110
+#. This is in the context of: Ask for confirmation before...
+#: ../mail/mail-config.ui.h:111
+msgid "Sending a reply to a large _number of recipients"
+msgstr "Skickar ett svar till ett stort a_ntal mottagare"
+
+#: ../mail/mail-config.ui.h:112
 msgid "Sent _Messages Folder:"
 msgstr "Mapp för skickade _meddelanden:"
 
-#: ../mail/mail-config.ui.h:111
+#: ../mail/mail-config.ui.h:113
 msgid "Ser_ver requires authentication"
 msgstr "Ser_vern kräver autentisering"
 
-#: ../mail/mail-config.ui.h:112
+#: ../mail/mail-config.ui.h:114
 msgid "Server Configuration"
 msgstr "Serverkonfiguration"
 
-#: ../mail/mail-config.ui.h:113
+#: ../mail/mail-config.ui.h:115
 msgid "Server _Type:"
 msgstr "Server_typ:"
 
-#: ../mail/mail-config.ui.h:114
+#: ../mail/mail-config.ui.h:116
 msgid "Si_gning algorithm:"
 msgstr "Algoritm för sign_ering:"
 
-#: ../mail/mail-config.ui.h:115
+#: ../mail/mail-config.ui.h:117
 msgid "Sig_natures"
 msgstr "Sig_naturer"
 
-#: ../mail/mail-config.ui.h:116
+#: ../mail/mail-config.ui.h:118
 msgid "Sig_ning certificate:"
 msgstr "Certifikat för sig_nering:"
 
-#: ../mail/mail-config.ui.h:117
+#: ../mail/mail-config.ui.h:119
 msgid "Signat_ure:"
 msgstr "Signat_ur:"
 
-#: ../mail/mail-config.ui.h:118
+#: ../mail/mail-config.ui.h:120
 msgid "Signatures"
 msgstr "Signaturer"
 
-#: ../mail/mail-config.ui.h:119
+#: ../mail/mail-config.ui.h:121
 msgid "Signing _algorithm:"
 msgstr "Algoritm för sign_ering:"
 
-#: ../mail/mail-config.ui.h:120
-#, fuzzy
+#: ../mail/mail-config.ui.h:122
 msgid "Special Folders"
-msgstr "Lokala mappar"
+msgstr "Speciella mappar"
 
-#: ../mail/mail-config.ui.h:121
+#: ../mail/mail-config.ui.h:123
 msgid "Spell Checking"
 msgstr "Stavningskontroll"
 
-#: ../mail/mail-config.ui.h:122
+#: ../mail/mail-config.ui.h:124
 msgid "Start _typing at the bottom on replying"
 msgstr "Börja s_kriva längst ner vid svar"
 
-#: ../mail/mail-config.ui.h:123
+#: ../mail/mail-config.ui.h:125
 #, fuzzy
 msgid "Start up"
 msgstr "Start: "
 
-#: ../mail/mail-config.ui.h:125
+#: ../mail/mail-config.ui.h:127
 msgid "T_ype:"
 msgstr "T_yp:"
 
-#: ../mail/mail-config.ui.h:126
+#: ../mail/mail-config.ui.h:128
 msgid "The list of languages here reflects only the languages for which you have a dictionary installed."
 msgstr "Listan med språk här återspeglar endast de språk för vilka en ordbok är installerad."
 
-#: ../mail/mail-config.ui.h:127
+#: ../mail/mail-config.ui.h:129
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -11447,11 +11422,11 @@ msgstr ""
 "som din signatur. Namnet du anger kommer\n"
 "endast att användas för visning."
 
-#: ../mail/mail-config.ui.h:130
+#: ../mail/mail-config.ui.h:132
 msgid "To help avoid email accidents and embarrassments, ask for confirmation before taking the following checkmarked actions:"
 msgstr ""
 
-#: ../mail/mail-config.ui.h:131
+#: ../mail/mail-config.ui.h:133
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
@@ -11459,146 +11434,144 @@ msgstr ""
 "Skriv in namnet som du vill använda för att referera till detta konto.\n"
 "Till exempel: \"Jobb\" eller \"Personligt\"."
 
-#: ../mail/mail-config.ui.h:133
+#: ../mail/mail-config.ui.h:135
 msgid "Us_ername:"
 msgstr "Använ_darnamn:"
 
-#: ../mail/mail-config.ui.h:134
+#: ../mail/mail-config.ui.h:136
 msgid "Use Authe_ntication"
 msgstr "Använd aute_ntisering"
 
-#: ../mail/mail-config.ui.h:135
+#: ../mail/mail-config.ui.h:137
 msgid "User _Name:"
 msgstr "Användar_namn:"
 
-#: ../mail/mail-config.ui.h:136
+#: ../mail/mail-config.ui.h:138
 msgid "_Add Signature"
 msgstr "_Lägg till signatur"
 
-#: ../mail/mail-config.ui.h:137
+#: ../mail/mail-config.ui.h:139
 msgid "_Always load images from the Internet"
 msgstr "Läs _alltid in bilder från nätet"
 
-#: ../mail/mail-config.ui.h:138
+#: ../mail/mail-config.ui.h:140
 msgid "_Authentication Type"
 msgstr "_Autentiseringstyp"
 
-#: ../mail/mail-config.ui.h:139
+#: ../mail/mail-config.ui.h:141
 msgid "_Default junk plugin:"
 msgstr "S_tandardinsticksmodul för skräppost:"
 
-#: ../mail/mail-config.ui.h:140
+#: ../mail/mail-config.ui.h:142
 msgid "_Direct connection to the Internet"
 msgstr "_Direktanslutning till Internet"
 
-#: ../mail/mail-config.ui.h:141
+#: ../mail/mail-config.ui.h:143
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "_Signera inte sammanträdesbegäran (för kompatibilitet med Outlook)"
 
-#: ../mail/mail-config.ui.h:142
+#: ../mail/mail-config.ui.h:144
 msgid "_Forward style:"
 msgstr "Stil för _vidarebefordran:"
 
-#: ../mail/mail-config.ui.h:143
+#: ../mail/mail-config.ui.h:145
 msgid "_Junk Folder:"
 msgstr "Sk_räppostmapp:"
 
-#: ../mail/mail-config.ui.h:144
-#, fuzzy
+#: ../mail/mail-config.ui.h:146
 msgid "_Keep signature above the original message on replying"
 msgstr "_Behåll signaturen ovanför det ursprungliga meddelandet vid svar"
 
-#: ../mail/mail-config.ui.h:145
+#: ../mail/mail-config.ui.h:147
 msgid "_Languages"
 msgstr "S_pråk"
 
-#: ../mail/mail-config.ui.h:146
-#, fuzzy
+#: ../mail/mail-config.ui.h:148
 msgid "_Load images only in messages from contacts"
-msgstr "_Läs in bilder i meddelanden från kontakter"
+msgstr "_Läs endast in bilder i meddelanden från kontakter"
 
-#: ../mail/mail-config.ui.h:147
+#: ../mail/mail-config.ui.h:149
 msgid "_Lookup in local address book only"
 msgstr "Sl_å endast upp i lokal adressbok"
 
-#: ../mail/mail-config.ui.h:148
+#: ../mail/mail-config.ui.h:150
 msgid "_Make this my default account"
 msgstr "_Gör detta till mitt standardkonto"
 
-#: ../mail/mail-config.ui.h:149
+#: ../mail/mail-config.ui.h:151
 msgid "_Manual proxy configuration:"
 msgstr "_Manuell proxykonfiguration:"
 
-#: ../mail/mail-config.ui.h:151
+#: ../mail/mail-config.ui.h:153
 msgid "_Never load images from the Internet"
 msgstr "Läs al_drig in bilder från nätet"
 
-#: ../mail/mail-config.ui.h:152
+#: ../mail/mail-config.ui.h:154
 msgid "_Path:"
 msgstr "_Sökväg:"
 
-#: ../mail/mail-config.ui.h:153
+#: ../mail/mail-config.ui.h:155
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr "I_nformera när HTML-meddelanden skickas till kontakter som inte vill ha dem"
 
-#: ../mail/mail-config.ui.h:154
+#: ../mail/mail-config.ui.h:156
 msgid "_Reply style:"
 msgstr "_Svarsstil:"
 
-#: ../mail/mail-config.ui.h:155
+#: ../mail/mail-config.ui.h:157
 msgid "_Script:"
 msgstr "_Skript:"
 
-#: ../mail/mail-config.ui.h:156
+#: ../mail/mail-config.ui.h:158
 msgid "_Secure HTTP Proxy:"
 msgstr "HTTP_S-proxy:"
 
-#: ../mail/mail-config.ui.h:158
+#: ../mail/mail-config.ui.h:160
 #: ../modules/addressbook/ldap-config.ui.h:29
 #: ../plugins/publish-calendar/publish-calendar.ui.h:28
 msgid "_Server:"
 msgstr "_Server:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
-#: ../mail/mail-config.ui.h:160
+#: ../mail/mail-config.ui.h:162
 msgid "_Show animated images"
 msgstr "_Visa animerade bilder"
 
-#: ../mail/mail-config.ui.h:161
+#: ../mail/mail-config.ui.h:163
 msgid "_Show the photograph of sender in the message preview"
 msgstr "_Visa fotografiet på avsändaren i förhandsvisningen av meddelandet"
 
-#: ../mail/mail-config.ui.h:162
+#: ../mail/mail-config.ui.h:164
 msgid "_Trash Folder:"
 msgstr "_Papperskorgsmapp:"
 
-#: ../mail/mail-config.ui.h:163
+#: ../mail/mail-config.ui.h:165
 msgid "_Use Secure Connection:"
 msgstr "_Använd säker anslutning:"
 
-#: ../mail/mail-config.ui.h:164
+#: ../mail/mail-config.ui.h:166
 msgid "_Use system defaults"
 msgstr "An_vänd systemets standard"
 
-#: ../mail/mail-config.ui.h:165
+#: ../mail/mail-config.ui.h:167
 msgid "_Use the same fonts as other applications"
 msgstr "_Använd samma typsnitt som andra program"
 
-#: ../mail/mail-config.ui.h:166
+#: ../mail/mail-config.ui.h:168
 #: ../smime/gui/smime-ui.ui.h:48
 msgid "a"
 msgstr "a"
 
-#: ../mail/mail-config.ui.h:167
+#: ../mail/mail-config.ui.h:169
 #: ../smime/gui/smime-ui.ui.h:49
 msgid "b"
 msgstr "b"
 
-#: ../mail/mail-config.ui.h:168
+#: ../mail/mail-config.ui.h:170
 msgid "color"
 msgstr "färg"
 
-#: ../mail/mail-config.ui.h:169
+#: ../mail/mail-config.ui.h:171
 msgid "description"
 msgstr "beskrivning"
 
@@ -11928,19 +11901,16 @@ msgid "New Search Folder"
 msgstr "Ny sökmapp"
 
 #: ../mail/mail.error.xml.h:1
-#, fuzzy
 msgid "\"Check Junk\" Failed"
-msgstr "Kontroll av skräppost misslyckades"
+msgstr "\"Kontroll av skräppost\" misslyckades"
 
 #: ../mail/mail.error.xml.h:2
-#, fuzzy
 msgid "\"Report Junk\" Failed"
-msgstr "Rapportering av skräppost misslyckades"
+msgstr "\"Rapportering av skräppost\" misslyckades"
 
 #: ../mail/mail.error.xml.h:3
-#, fuzzy
 msgid "\"Report Not Junk\" Failed"
-msgstr "Rapportera som inte skräppost misslyckades"
+msgstr "\"Rapportera som inte skräppost\" misslyckades"
 
 #: ../mail/mail.error.xml.h:4
 msgid "A folder named \"{0}\" already exists. Please use a different name."
@@ -12099,105 +12069,105 @@ msgid "Check to make sure your password is spelled correctly. Remember that many
 msgstr "Kontrollera att ditt lösenord är rättstavat. Kom ihåg att många lösenord är känsliga för skillnader i gemener och versaler; din CapsLock kan vara aktiverad."
 
 #: ../mail/mail.error.xml.h:43
-#, fuzzy
 msgid "Close message window."
-msgstr "Stäng detta fönster"
+msgstr "Stäng meddelandefönstret."
 
 #: ../mail/mail.error.xml.h:44
 msgid "Could not save signature file."
 msgstr "Kunde inte spara signaturfilen."
 
 #: ../mail/mail.error.xml.h:45
-msgid ""
-"Default local store has been changed from mbox to maildir format. Do you want to migrate now ?\n"
-"\n"
-"A mbox account will be created to preserve the old mbox folders. You can delete it after ensuring the data is safely migrated. Please make sure there is enough space if you choose to migrate."
-msgstr ""
-
-#: ../mail/mail.error.xml.h:48
 msgid "Delete messages in Search Folder \"{0}\"?"
 msgstr "Ta bort meddelanden i sökmappen \"{0}\"?"
 
-#: ../mail/mail.error.xml.h:50
+#: ../mail/mail.error.xml.h:47
 msgid "Do _Not Disable"
 msgstr "Inaktivera _inte"
 
-#: ../mail/mail.error.xml.h:51
+#: ../mail/mail.error.xml.h:48
 msgid "Do _Not Send"
 msgstr "Skicka i_nte"
 
-#: ../mail/mail.error.xml.h:52
+#: ../mail/mail.error.xml.h:49
 msgid "Do _Not Synchronize"
 msgstr "Synkronisera i_nte"
 
-#: ../mail/mail.error.xml.h:53
+#: ../mail/mail.error.xml.h:50
 msgid "Do you want to locally synchronize the folders that are marked for offline usage?"
 msgstr "Vill du synkronisera mapparna lokalt som är markerade för frånkopplad användning?"
 
-#: ../mail/mail.error.xml.h:54
+#: ../mail/mail.error.xml.h:51
 msgid "Do you want to mark all messages as read?"
 msgstr "Vill du markera alla meddelanden som lästa?"
 
-#: ../mail/mail.error.xml.h:55
+#: ../mail/mail.error.xml.h:52
 msgid "Do you wish to save your changes?"
 msgstr "Vill du spara dina ändringar?"
 
-#: ../mail/mail.error.xml.h:56
+#: ../mail/mail.error.xml.h:53
 msgid "Enter password."
 msgstr "Ange lösenord."
 
-#: ../mail/mail.error.xml.h:57
+#: ../mail/mail.error.xml.h:54
 msgid "Error loading filter definitions."
 msgstr "Fel vid inläsning av filterdefinitioner."
 
-#: ../mail/mail.error.xml.h:58
+#: ../mail/mail.error.xml.h:55
 msgid "Error while performing operation."
 msgstr "Fel vid genomförande av åtgärd."
 
 #. Translators: the {0} is replaced with an operation name, which failed.
 #. It can be basically anything run asynchronously, like "Fetching Mail",
 #. "Sending message" and others, mostly from mail-ops.c file.
-#: ../mail/mail.error.xml.h:62
+#: ../mail/mail.error.xml.h:59
 msgid "Error while {0}."
 msgstr "Fel vid {0}."
 
+#: ../mail/mail.error.xml.h:60
+msgid ""
+"Evolution's local mail format has changed from mbox to Maildir. Your local mail must be migrated to the new format before Evolution can proceed. Do you want to migrate now?\n"
+"\n"
+"An mbox account will be created to preserve the old mbox folders. You can delete the account after ensuring the data is safely migrated. Please make sure there is enough disk space if you choose to migrate now."
+msgstr ""
+
 #: ../mail/mail.error.xml.h:63
-#, fuzzy
-msgid "Failed to unsubscribe from folder."
-msgstr "Verkligen säga upp prenumerationen på mappen \"%s\"?"
+msgid "Evolution's local mail format has changed."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:64
+msgid "Failed to unsubscribe from folder."
+msgstr "Misslyckades med att säga upp prenumerationen på mappen."
+
+#: ../mail/mail.error.xml.h:65
 msgid "File exists but cannot overwrite it."
 msgstr "Filen finns men kan inte skriva över den."
 
-#: ../mail/mail.error.xml.h:65
+#: ../mail/mail.error.xml.h:66
 msgid "File exists but is not a regular file."
 msgstr "Filen finns men är ingen vanlig fil."
 
 #. Translators: {0} is replaced with a folder name
-#: ../mail/mail.error.xml.h:67
-#, fuzzy
-msgid "Folder '{0}' doesn't contain any duplicate message."
-msgstr "Bilagan innehåller inte ett giltigt kalendermeddelande"
-
 #: ../mail/mail.error.xml.h:68
+msgid "Folder '{0}' doesn't contain any duplicate message."
+msgstr "Mappen \"{0}\" innehåller inget dubblett meddelande."
+
+#: ../mail/mail.error.xml.h:69
 msgid "If you continue, you will not be able to recover these messages."
 msgstr "Om du fortsätter kommer du inte att kunna återställa dessa meddelanden."
 
-#: ../mail/mail.error.xml.h:69
-#, fuzzy
-msgid "If you delete the folder, all of its contents and its subfolders' contents will be deleted permanently."
-msgstr "Om du tar bort denna mapp kommer hela dess innehåll och innehållet i alla dess undermappar att tas bort permanent."
-
 #: ../mail/mail.error.xml.h:70
+msgid "If you delete the folder, all of its contents and its subfolders' contents will be deleted permanently."
+msgstr "Om du tar bort denna mapp så kommer allt dess innehåll och innehållet i alla dess undermappar att tas bort permanent."
+
+#: ../mail/mail.error.xml.h:71
 msgid "If you delete the folder, all of its contents will be deleted permanently."
 msgstr "Om du tar bort mappen så kommer allt dess innehåll att tas bort permanent."
 
-#: ../mail/mail.error.xml.h:71
+#: ../mail/mail.error.xml.h:72
 msgid "If you proceed, all proxy accounts will be deleted permanently."
 msgstr "Om du fortsätter kommer alla proxykonton att tas bort permanent."
 
-#: ../mail/mail.error.xml.h:72
+#: ../mail/mail.error.xml.h:73
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
@@ -12205,38 +12175,33 @@ msgstr ""
 "Om du fortsätter kommer kontoinformationen\n"
 "och all proxyinformation att tas bort permanent."
 
-#: ../mail/mail.error.xml.h:74
+#: ../mail/mail.error.xml.h:75
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr "Om du fortsätter kommer kontoinformationen att tas bort permanent."
 
-#: ../mail/mail.error.xml.h:75
+#: ../mail/mail.error.xml.h:76
 msgid "If you quit, these messages will not be sent until Evolution is started again."
 msgstr "Om du avslutar kommer dessa meddelanden inte att skickas förrän Evolution startas på nytt."
 
-#: ../mail/mail.error.xml.h:76
+#: ../mail/mail.error.xml.h:77
 msgid "Ignore"
 msgstr "Ignorera"
 
-#: ../mail/mail.error.xml.h:77
+#: ../mail/mail.error.xml.h:78
 msgid "Invalid authentication"
 msgstr "Ogiltig autentisering"
 
-#: ../mail/mail.error.xml.h:78
+#: ../mail/mail.error.xml.h:79
 msgid "Mail Deletion Failed"
 msgstr "Misslyckades att ta bort post"
 
-#: ../mail/mail.error.xml.h:79
+#: ../mail/mail.error.xml.h:80
 msgid "Mail filters automatically updated."
 msgstr "E-postfilter har automatiskt blivit uppdaterade."
 
-#: ../mail/mail.error.xml.h:80
+#: ../mail/mail.error.xml.h:81
 msgid "Many email systems add an Apparently-To header to messages that only have BCC recipients. This header, if added, will list all of your recipients to your message anyway. To avoid this, you should add at least one To: or CC: recipient."
 msgstr "Många e-postsystem lägger till en \"Apparently-To\"-rubrik till meddelanden som endast har blindkopiemottagare. Denna rubrik kommer, om det läggs till, att ändå lista alla dina mottagare i ditt brev. För att undvika detta bör du lägga till åtminstone en Till:- eller Kopia:-mottagare."
-
-#: ../mail/mail.error.xml.h:81
-#, fuzzy
-msgid "Migrate local mbox folders to maildir"
-msgstr "Skapa en ny mapp för lagring av post"
 
 #: ../mail/mail.error.xml.h:82
 msgid "Missing folder."
@@ -12247,9 +12212,8 @@ msgid "N_ever"
 msgstr "Al_drig"
 
 #: ../mail/mail.error.xml.h:85
-#, fuzzy
 msgid "No duplicate messages found."
-msgstr "Ofärdiga meddelanden hittades"
+msgstr "Inga dubbletta meddelanden hittades."
 
 #: ../mail/mail.error.xml.h:86
 msgid "No sources selected."
@@ -12308,9 +12272,8 @@ msgid "Really delete folder \"{0}\"?"
 msgstr "Verkligen ta bort mappen \"{0}\"?"
 
 #: ../mail/mail.error.xml.h:100
-#, fuzzy
 msgid "Remove duplicate messages?"
-msgstr "Ta bort delegaten %s?"
+msgstr "Ta bort dubbletta meddelanden?"
 
 #: ../mail/mail.error.xml.h:101
 msgid "Reply _Privately"
@@ -12399,9 +12362,8 @@ msgid "This will mark all messages as read in the selected folder and its subfol
 msgstr "Detta kommer att markera alla meddelanden som lästa i den markerade mappen och dess undermappar."
 
 #: ../mail/mail.error.xml.h:126
-#, fuzzy
 msgid "This will mark all messages as read in the selected folder."
-msgstr "Detta kommer att markera alla meddelanden som lästa i den markerade mappen och dess undermappar."
+msgstr "Detta kommer att markera alla meddelanden som lästa i den markerade mappen."
 
 #: ../mail/mail.error.xml.h:127
 msgid "Unable to connect to the GroupWise server."
@@ -12437,11 +12399,11 @@ msgstr "Vill du stänga meddelandefönstret?"
 
 #: ../mail/mail.error.xml.h:135
 msgid "You are replying privately to a message which arrived via a mailing list, but the list is trying to redirect your reply to go back to the list. Are you sure you want to proceed?"
-msgstr ""
+msgstr "Du svarar privat på ett meddelande som kom via en sändlista, men listan försöker att dirigera om ditt svar till att gå tillbaka till listan. Är du säker på att du vill fortsätta?"
 
 #: ../mail/mail.error.xml.h:136
 msgid "You are replying to a message which arrived via a mailing list, but you are replying privately to the sender; not to the list. Are you sure you want to proceed?"
-msgstr ""
+msgstr "Du svarar på ett meddelande som kom via en sändlista, men du svarar privat till avsändaren och inte till listan. Är du säker på att du vill fortsätta?"
 
 #: ../mail/mail.error.xml.h:137
 msgid "You are replying to a message which was sent to many recipients. Are you sure you want to reply to ALL of them?"
@@ -12507,26 +12469,34 @@ msgid "_Empty Trash"
 msgstr "Töm papperskor_gen"
 
 #: ../mail/mail.error.xml.h:152
+msgid "_Exit Evolution"
+msgstr "A_vsluta Evolution"
+
+#: ../mail/mail.error.xml.h:153
 msgid "_Expunge"
 msgstr "_Töm"
 
-#: ../mail/mail.error.xml.h:153
+#: ../mail/mail.error.xml.h:154
+msgid "_Migrate Now"
+msgstr "_Migrera nu"
+
+#: ../mail/mail.error.xml.h:155
 msgid "_No"
 msgstr "_Nej"
 
-#: ../mail/mail.error.xml.h:154
+#: ../mail/mail.error.xml.h:156
 msgid "_Open Messages"
 msgstr "_Öppna meddelanden"
 
-#: ../mail/mail.error.xml.h:157
+#: ../mail/mail.error.xml.h:159
 msgid "_Send Receipt"
 msgstr "_Skicka kvitto"
 
-#: ../mail/mail.error.xml.h:158
+#: ../mail/mail.error.xml.h:160
 msgid "_Synchronize"
 msgstr "_Synkronisera"
 
-#: ../mail/mail.error.xml.h:159
+#: ../mail/mail.error.xml.h:161
 msgid "_Yes"
 msgstr "_Ja"
 
@@ -12777,9 +12747,8 @@ msgid "Position of the contact preview pane when oriented vertically."
 msgstr ""
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:9
-#, fuzzy
 msgid "Primary address book"
-msgstr "Registret med adressböcker"
+msgstr "Primär adressbok"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:10
 msgid "Show autocompleted name with an address"
@@ -13280,9 +13249,8 @@ msgid "Days"
 msgstr "dagar"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:14
-#, fuzzy
 msgid "Default Free/Busy Server"
-msgstr "<span weight=\"bold\">Standard ledig-/upptagenserver</span>"
+msgstr "Standardserver för ledig/upptagen"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:15
 msgid "Display"
@@ -13551,11 +13519,11 @@ msgstr "Timme som arbetsdagen börjar, i tjugofyratimmarsformat, 0 till 23."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:27
 msgid "If \"true\", show the memo preview pane in the main window."
-msgstr ""
+msgstr "Om \"true\" så kommer förhandsvisningspanelen för memon att visas i huvudfönstret."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:28
 msgid "If \"true\", show the task preview pane in the main window."
-msgstr ""
+msgstr "Om \"true\" så kommer förhandsvisningspanelen för uppgifter att visas i huvudfönstret."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:29
 msgid "Intervals shown in Day and Work Week views, in minutes."
@@ -13600,12 +13568,11 @@ msgstr "_Svarsstil:"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:40
 msgid "Memo preview pane position (horizontal)"
-msgstr ""
+msgstr "Position för memoförhandsvisningspanelen (horisontellt)"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:41
-#, fuzzy
 msgid "Memo preview pane position (vertical)"
-msgstr "Vertikal panelposition för månadsvyn"
+msgstr "Position för memoförhandsvisningspanelen (vertikalt)"
 
 # Detta borde bero på lokalen?!
 # http://bugzilla.ximian.com/show_bug.cgi?id=61073
@@ -13654,15 +13621,15 @@ msgstr "Position för den horisontella panelen, mellan vyn och datumbläddrarkal
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:52
 msgid "Position of the memo preview pane when oriented vertically."
-msgstr ""
+msgstr "Position för memoförhandsvisningspanelen när vertikalt orienterad."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:53
 msgid "Position of the task preview pane when oriented horizontally."
-msgstr ""
+msgstr "Position för förhandsvisningspanelen för uppgifter när horisontellt orienterad."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:54
 msgid "Position of the task preview pane when oriented vertically."
-msgstr ""
+msgstr "Position för förhandsvisningspanelen för uppgifter när vertikalt orienterad."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:55
 msgid "Position of the vertical pane, between the calendar lists and the date navigator calendar."
@@ -13738,14 +13705,12 @@ msgid "Show status field in the event/task/meeting editor"
 msgstr "Visa statusfältet i evenemang/uppgift/sammanträdesredigeraren"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:73
-#, fuzzy
 msgid "Show the memo preview pane"
-msgstr "Visa panelen \"Förhandsvisning\""
+msgstr "Visa förhandsvisningspanelen för memon"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:74
-#, fuzzy
 msgid "Show the task preview pane"
-msgstr "Visa panelen \"Förhandsvisning\""
+msgstr "Visa förhandsvisningspanelen för uppgifter"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:75
 msgid "Show timezone field in the event/meeting editor"
@@ -14477,9 +14442,8 @@ msgid "Ti_me and date:"
 msgstr "T_id och datum:"
 
 #: ../modules/calendar/e-calendar-preferences.c:837
-#, fuzzy
 msgid "_Date only:"
-msgstr "Endast datum:"
+msgstr "Endast dat_um:"
 
 #: ../modules/calendar/e-memo-shell-backend.c:285
 msgctxt "New"
@@ -14561,9 +14525,8 @@ msgid "Show _Only This Memo List"
 msgstr "Visa _endast denna memolista"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:712
-#, fuzzy
 msgid "Memo _Preview"
-msgstr "F_örhandsgranskning"
+msgstr "F_örhandsvisa memo"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:714
 msgid "Show memo preview pane"
@@ -14635,9 +14598,8 @@ msgid "Loading tasks"
 msgstr "Läser in uppgifter"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:587
-#, fuzzy
 msgid "Task List Selector"
-msgstr "Väljare för uppgiftskälla"
+msgstr "Väljare för uppgiftslistor"
 
 #. Translators: The string field is a URI.
 #: ../modules/calendar/e-task-shell-sidebar.c:892
@@ -14828,7 +14790,6 @@ msgid "Disable this account"
 msgstr "Inaktivera detta konto"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1056
-#, fuzzy
 msgid "Permanently remove all the deleted messages from all folders"
 msgstr "Ta bort alla borttagna meddelanden från alla mappar permanent"
 
@@ -14925,9 +14886,8 @@ msgid "Empty _Trash"
 msgstr "Töm _papperskorgen"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1168
-#, fuzzy
 msgid "Permanently remove all the deleted messages from all accounts"
-msgstr "Ta bort alla borttagna meddelanden från alla mappar permanent"
+msgstr "Ta bort alla borttagna meddelanden från alla konton permanent"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1173
 msgid "_New Label"
@@ -15197,14 +15157,14 @@ msgstr "Evolutions kontoguide"
 msgid "Account Editor"
 msgstr "Kontoredigerare"
 
-#: ../modules/mail/em-composer-prefs.c:495
+#: ../modules/mail/em-composer-prefs.c:502
 #: ../modules/plugin-manager/evolution-plugin-manager.c:357
 #: ../plugins/publish-calendar/publish-calendar.c:831
 #: ../widgets/misc/e-account-tree-view.c:224
 msgid "Enabled"
 msgstr "Aktiverad"
 
-#: ../modules/mail/em-composer-prefs.c:499
+#: ../modules/mail/em-composer-prefs.c:506
 msgid "Language(s)"
 msgstr "Språk"
 
@@ -15288,18 +15248,16 @@ msgid "Click 'Work Online' to return to online mode."
 msgstr ""
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:2
-#, fuzzy
 msgid "Evolution is currently offline due to a network outage."
-msgstr "Evolution är just nu i frånkopplat läge därför att nätverket inte är tillgängligt."
+msgstr "Evolution är just nu i frånkopplat läge på grund av ett nätverksproblem."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:3
 msgid "Evolution is currently offline."
 msgstr "Evolution är för närvarande i frånkopplat läge."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:4
-#, fuzzy
 msgid "Evolution will return to online mode once a network connection is established."
-msgstr "Evolution är just nu i frånkopplat läge därför att nätverket inte är tillgängligt."
+msgstr "Evolution kommer att återgå till anslutet läge när nätverksanslutningen har etablerats."
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:67
 msgid "Author(s)"
@@ -15443,18 +15401,15 @@ msgid "Play audio attachments directly in mail messages."
 msgstr "Spela upp ljudbilagor direkt i e-postmeddelanden."
 
 #: ../plugins/backup-restore/backup-restore.c:183
-#, fuzzy
-msgid "Select name of the Evolution back up file"
+msgid "Select name of the Evolution backup file"
 msgstr "Välj namnet på Evolution-säkerhetskopian"
 
 #: ../plugins/backup-restore/backup-restore.c:216
-#, fuzzy
-msgid "_Restart Evolution after back up"
+msgid "_Restart Evolution after backup"
 msgstr "Starta _om Evolution efter säkerhetskopiering"
 
 #: ../plugins/backup-restore/backup-restore.c:242
-#, fuzzy
-msgid "Select name of the Evolution back up file to restore"
+msgid "Select name of the Evolution backup file to restore"
 msgstr "Välj namnet på Evolution-säkerhetskopian att återställa"
 
 #: ../plugins/backup-restore/backup-restore.c:255
@@ -15462,13 +15417,11 @@ msgid "_Restart Evolution after restore"
 msgstr "Starta _om Evolution efter återställning"
 
 #: ../plugins/backup-restore/backup-restore.c:323
-#, fuzzy
-msgid "You can restore Evolution from your back up. It can restore all the Mails, Calendars, Tasks, Memos, Contacts. It also restores all your personal settings, mail filters etc."
-msgstr "Du kan återställa Evolution från din säkerhetskopia. Den kan återställa all e-post, kalendrar, uppgifter, memon och kontakter. Den kan även återställa alla dina personliga inställningar, e-postfilter etc."
+msgid "You can restore Evolution from your backup. It can restore all the Mails, Calendars, Tasks, Memos, Contacts. It also restores all your personal settings, mail filters etc."
+msgstr "Du kan återställa Evolution från din säkerhetskopia. Den kan återställa all e-post, kalendrar, uppgifter, memon och kontakter. Den kan även återställa alla dina personliga inställningar, e-postfilter med mera."
 
 #: ../plugins/backup-restore/backup-restore.c:330
-#, fuzzy
-msgid "_Restore Evolution from the back up file"
+msgid "_Restore Evolution from the backup file"
 msgstr "Å_terställ Evolution från säkerhetskopian"
 
 #: ../plugins/backup-restore/backup-restore.c:337
@@ -15480,31 +15433,26 @@ msgid "Choose a file to restore"
 msgstr "Välj en fil att återställa"
 
 #: ../plugins/backup-restore/backup-restore.c:348
-#, fuzzy
-msgid "Restore from back up"
+msgid "Restore from backup"
 msgstr "Återställ från säkerhetskopia"
 
 #: ../plugins/backup-restore/backup-restore.c:386
-#, fuzzy
 msgid "_Back up Evolution Data..."
-msgstr "Säkerhetskopierar Evolution-data"
+msgstr "Sä_kerhetskopiera Evolution-data..."
 
 #: ../plugins/backup-restore/backup-restore.c:388
-#, fuzzy
 msgid "Back up Evolution data and settings to an archive file"
 msgstr "Säkerhetskopiera data och inställningar i Evolution till en arkivfil"
 
 #: ../plugins/backup-restore/backup-restore.c:393
-#, fuzzy
 msgid "R_estore Evolution Data..."
-msgstr "Återställer Evolution-data"
+msgstr "Återskapa Ev_olution-data..."
 
 #: ../plugins/backup-restore/backup-restore.c:395
 msgid "Restore Evolution data and settings from an archive file"
 msgstr "Återställ data och inställningar i Evolution från en arkivfil"
 
 #: ../plugins/backup-restore/backup.c:79
-#, fuzzy
 msgid "Back up Evolution directory"
 msgstr "Säkerhetskopiera Evolution-katalog"
 
@@ -15513,7 +15461,6 @@ msgid "Restore Evolution directory"
 msgstr "Återställ Evolution-katalogen"
 
 #: ../plugins/backup-restore/backup.c:83
-#, fuzzy
 msgid "Check Evolution Back up"
 msgstr "Kontrollera Evolution-säkerhetskopia"
 
@@ -15539,9 +15486,8 @@ msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr "Säkerhetskopierar Evolution-data (e-post, kontakter, kalender, uppgifter, memon)"
 
 #: ../plugins/backup-restore/backup.c:317
-#, fuzzy
 msgid "Back up complete"
-msgstr "Säkerhetskopiering färdig"
+msgstr "Säkerhetskopieringen är färdig"
 
 #: ../plugins/backup-restore/backup.c:322
 #: ../plugins/backup-restore/backup.c:496
@@ -15553,7 +15499,6 @@ msgid "Back up current Evolution data"
 msgstr "Säkerhetskopiera aktuellt Evolution-data"
 
 #: ../plugins/backup-restore/backup.c:409
-#, fuzzy
 msgid "Extracting files from back up"
 msgstr "Extraherar filer från säkerhetskopia"
 
@@ -15562,7 +15507,6 @@ msgid "Loading Evolution settings"
 msgstr "Läser in Evolutions inställningar"
 
 #: ../plugins/backup-restore/backup.c:481
-#, fuzzy
 msgid "Removing temporary back up files"
 msgstr "Tar bort temporära säkerhetskopior"
 
@@ -15582,7 +15526,6 @@ msgstr "Återställer från mappen %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
 #: ../plugins/backup-restore/backup.c:705
-#, fuzzy
 msgid "Evolution Back up"
 msgstr "Säkerhetskopiering av Evolution"
 
@@ -15612,26 +15555,22 @@ msgstr "Det kan ta lite tid beroende på mängden data som finns i ditt konto."
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
-#, fuzzy
 msgid "Back up and Restore"
-msgstr "Säkerhetskopiera och återställa"
+msgstr "Säkerhetskopiera och återskapa"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
-#, fuzzy
 msgid "Back up and restore your Evolution data and settings."
-msgstr "Säkerhetskopiera och återställ data samt inställningar för Evolution."
+msgstr "Säkerhetskopiera och återskapa data samt inställningar för Evolution."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:1
 msgid "Are you sure you want to close Evolution?"
 msgstr "Är du säker på att du vill stänga Evolution?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
-#, fuzzy
 msgid "Are you sure you want to restore Evolution from the selected back up file?"
-msgstr "Är du säker på att du vill återställa Evolution från den valda säkerhetskopian?"
+msgstr "Är du säker på att du vill återskapa Evolution från den valda säkerhetskopian?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
-#, fuzzy
 msgid "Close and Back up Evolution"
 msgstr "Stäng och säkerhetskopiera Evolution"
 
@@ -15644,14 +15583,12 @@ msgid "Insufficient Permissions"
 msgstr "Otillräckliga rättigheter"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
-#, fuzzy
 msgid "Invalid Evolution back up file"
 msgstr "Ogiltig Evolution-säkerhetskopia"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
-#, fuzzy
 msgid "Please select a valid back up file to restore."
-msgstr "Välj en giltig säkerhetskopia att återställa."
+msgstr "Välj en giltig säkerhetskopia att återskapa från."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:8
 msgid "The selected folder is not writable."
@@ -15659,11 +15596,11 @@ msgstr "Den valda mappen är inte skrivbar."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:9
 msgid "To back up your data and settings, you must first close Evolution. Please make sure that you save any unsaved data before proceeding."
-msgstr ""
+msgstr "Du måste först stänga Evolution för att säkerhetskopiera ditt data och inställningar. Försäkra dig om att du har sparat allt data innan du fortsätter."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:10
 msgid "To restore your data and settings, you must first close Evolution. Please make sure that you save any unsaved data before proceeding. This will delete all your current Evolution data and settings and restore them from your back up."
-msgstr ""
+msgstr "Du måste först stänga Evolution för att återskapa ditt data och inställningar. Försäkra dig om att du har sparat allt data innan du fortsätter. Detta kommer att ta bort allt ditt nuvarande data och inställningar i Evolution samt återskapa dem från din säkerhetskopia."
 
 #: ../plugins/bbdb/bbdb.c:685
 #: ../plugins/bbdb/bbdb.c:694
@@ -15686,9 +15623,8 @@ msgstr "Kontakter för snabbmeddelanden"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:745
-#, fuzzy
 msgid "_Synchronize contact info and images from Pidgin buddy list"
-msgstr "Synkronisera kontaktinformation och bilder från Pidgins kompislista"
+msgstr "S_ynkronisera kontaktinformation och bilder från Pidgins kompislista"
 
 #: ../plugins/bbdb/bbdb.c:751
 msgid "Select Address book for Pidgin buddy list"
@@ -16037,26 +15973,23 @@ msgstr "Visa en karta över alla kontakter"
 
 #: ../plugins/contacts-map/org-gnome-contacts-map.eplug.xml.h:1
 msgid "Add a map showing the location of contacts when possible."
-msgstr ""
+msgstr "Lägg till en karta som visar platsen för kontakter om möjligt."
 
 #: ../plugins/contacts-map/org-gnome-contacts-map.eplug.xml.h:2
 msgid "Map for contacts"
 msgstr "Karta för kontakter"
 
 #: ../plugins/dbx-import/dbx-importer.c:233
-#, fuzzy
 msgid "Select folder to import OE folder into"
-msgstr "Välj mapp att importera till"
+msgstr "Välj mapp att importera OE-mappen till"
 
 #: ../plugins/dbx-import/dbx-importer.c:252
-#, fuzzy
 msgid "Importing Outlook Express data"
-msgstr "Importerar Outlook-data"
+msgstr "Importerar Outlook Express-data"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:1
-#, fuzzy
 msgid "Import Outlook Express messages from DBX file"
-msgstr "Importera Outlook-meddelanden från PST-fil."
+msgstr "Importera Outlook Express-meddelanden från DBX-fil"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:2
 msgid "Outlook DBX import"
@@ -16103,13 +16036,11 @@ msgid "The key specifies the list of custom headers that you can add to an outgo
 msgstr "Denna nyckel anger listan över anpassade rubriker som du kan lägga till i ett utgående meddelande. Formatet är att ange en rubrik och rubrikvärde är: Namn på anpassad rubrik följt av \"=\" och dess värden separerade med \";\""
 
 #: ../plugins/email-custom-header/email-custom-header.c:319
-#, fuzzy
 msgctxt "email-custom-header-Security"
 msgid "Security:"
 msgstr "Säkerhet:"
 
 #: ../plugins/email-custom-header/email-custom-header.c:323
-#, fuzzy
 msgctxt "email-custom-header-Security"
 msgid "Personal"
 msgstr "Personligt"
@@ -16336,7 +16267,6 @@ msgid "Cal_endar:"
 msgstr "Kal_ender:"
 
 #: ../plugins/google-account-setup/google-source.c:684
-#, fuzzy
 msgid "Retrieve _List"
 msgstr "Hämta _lista"
 
@@ -16519,7 +16449,7 @@ msgstr "Proxyinloggning som &quot;{0}&quot; misslyckades. Kontrollera din e-post
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:3
 msgid "Proxy access cannot be given to user &quot;{0}&quot;"
-msgstr "Åtkomst till proxy kan inte ges till användaren &quot;{0}&quot;"
+msgstr "Delegatåtkomst kan inte ges till användaren &quot;{0}&quot;"
 
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:4
 #: ../plugins/groupwise-features/org-gnome-shared-folder.error.xml.h:2
@@ -16529,12 +16459,12 @@ msgstr "Ange användare"
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:6
 msgid "You have already given proxy permissions to this user."
-msgstr "Du har redan tilldelat proxyrättigheter till denna användare."
+msgstr "Du har redan tilldelat delegaträttigheter till denna användare."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:8
 msgid "You have to specify a valid user name to give proxy rights."
-msgstr "Du måste ange ett giltigt användarnamn att ge proxyrättigheter."
+msgstr "Du måste ange ett giltigt användarnamn att ge delegaträttigheter."
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.error.xml.h:3
 msgid "You cannot share this folder with the specified user &quot;{0}&quot;"
@@ -17980,7 +17910,7 @@ msgstr "Visa HTML om sådan finns"
 
 #: ../plugins/prefer-plain/prefer-plain.c:225
 msgid "Let Evolution choose the best part to show."
-msgstr ""
+msgstr "Låt Evolution välja den bästa delen att visa."
 
 #: ../plugins/prefer-plain/prefer-plain.c:226
 msgid "Show plain text if present"
@@ -17996,7 +17926,7 @@ msgstr "Visa alltid bara vanlig text"
 
 #: ../plugins/prefer-plain/prefer-plain.c:227
 msgid "Always show plain text part and make attachments from other parts, if requested."
-msgstr ""
+msgstr "Visa alltid vanliga textdelar och gör bilagor från andra delar, om begärt."
 
 #: ../plugins/prefer-plain/prefer-plain.c:274
 msgid "Show s_uppressed HTML parts as attachments"
@@ -18411,15 +18341,15 @@ msgstr "Lista över nyckelord/värdepar för insticksmodulen Mallar att ersätta
 msgid "Drafts based template plugin"
 msgstr "Utdragsbaserad mallinsticksmodul"
 
-#: ../plugins/templates/templates.c:631
+#: ../plugins/templates/templates.c:637
 msgid "No Title"
 msgstr "Ingen titel"
 
-#: ../plugins/templates/templates.c:741
+#: ../plugins/templates/templates.c:748
 msgid "Save as _Template"
 msgstr "Spara som _mall"
 
-#: ../plugins/templates/templates.c:743
+#: ../plugins/templates/templates.c:750
 msgid "Save as Template"
 msgstr "Spara som mall"
 
@@ -19180,7 +19110,7 @@ msgstr "Inaktivera förhandsvisningspanelen för e-post, kontakter och uppgifter
 
 #: ../shell/main.c:391
 msgid "Import URIs or file names given as rest of arguments."
-msgstr ""
+msgstr "Importera URI:er eller filnamn som anges som resten av argumenten."
 
 #: ../shell/main.c:393
 msgid "Request a running Evolution process to quit"
@@ -19192,22 +19122,22 @@ msgid "- The Evolution PIM and Email Client"
 msgstr "- Den personliga informationshanteraren och e-postklienten Evolution"
 
 #: ../shell/main.c:627
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Run '%s --help' for more information.\n"
 msgstr ""
 "%s: --online och --offline kan inte användas tillsammans.\n"
-"  Använd %s --help för mer information.\n"
+"  Kör \"%s --help\" för mer information.\n"
 
 #: ../shell/main.c:633
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
 "  Run '%s --help' for more information.\n"
 msgstr ""
-"%s: --online och --offline kan inte användas tillsammans.\n"
-"  Använd %s --help för mer information.\n"
+"%s: --force-online och --offline kan inte användas tillsammans.\n"
+"  Kör \"%s --help\" för mer information.\n"
 
 #: ../shell/shell.error.xml.h:1
 msgid "Are you sure you want to forget all remembered passwords?"
@@ -19223,7 +19153,7 @@ msgstr "Fortsätt ändå"
 
 #: ../shell/shell.error.xml.h:4
 msgid "Evolution no longer supports upgrading directly from version {0}. However as a workaround you might try first upgrading to Evolution 2, and then upgrading to Evolution 3."
-msgstr ""
+msgstr "Evolution har inte längre stöd för att uppgradera direkt från version {0}. Dock kan du som en temporär lösning prova att första uppgradera till Evolution 2 och sedan uppgradera till Evolution 3."
 
 #: ../shell/shell.error.xml.h:5
 msgid "Forgetting your passwords will clear all remembered passwords. You will be reprompted next time they are needed."
@@ -20022,12 +19952,12 @@ msgstr "_Skicka till..."
 msgid "Send the selected attachments somewhere"
 msgstr "Skicka de valda bilagorna någonstans"
 
-#: ../widgets/misc/e-attachment-icon-view.c:506
+#: ../widgets/misc/e-attachment-icon-view.c:162
 #: ../widgets/misc/e-attachment-tree-view.c:545
 msgid "Loading"
 msgstr "Läser in"
 
-#: ../widgets/misc/e-attachment-icon-view.c:518
+#: ../widgets/misc/e-attachment-icon-view.c:174
 #: ../widgets/misc/e-attachment-tree-view.c:557
 msgid "Saving"
 msgstr "Sparar"
@@ -20418,7 +20348,6 @@ msgid "days"
 msgstr "dagar"
 
 #: ../widgets/misc/e-send-options.ui.h:9
-#, fuzzy
 msgctxt "ESendOptionsWithin"
 msgid "Wi_thin"
 msgstr "_Inom"
@@ -20841,7 +20770,7 @@ msgstr "J_ustering"
 
 #: ../widgets/table/e-table-header-item.c:1559
 msgid "B_est Fit"
-msgstr "Bästa _passning"
+msgstr "Bästa an_passning"
 
 #: ../widgets/table/e-table-header-item.c:1562
 msgid "Format Column_s..."
@@ -20900,27 +20829,6 @@ msgstr "Markera allt"
 msgid "Input Methods"
 msgstr "Inmatningsmetoder"
 
-#, fuzzy
-#~ msgid ""
-#~ "Folder '%s' contains %d duplicate messages. Are you sure you want to "
-#~ "delete them?"
-#~ msgstr "Är du säker på att du vill ta bort detta memo?"
-
-#, fuzzy
-#~ msgid ""
-#~ "Error on %s: %s\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Fel vid %s:\n"
-#~ "%s"
-#~ msgid ""
-#~ "Error on %s\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Fel vid %s:\n"
-#~ "%s"
-#~ msgid "Start Evolution activating the specified component"
-#~ msgstr "Starta Evolution och aktivera den angivna komponenten"
 #~ msgid "Count of default recurrence for a new event. -1 means forever."
 #~ msgstr ""
 #~ "Standardantal förekomster för ett nytt evenemang. -1 betyder för alltid."
@@ -21097,8 +21005,10 @@ msgstr "Inmatningsmetoder"
 #~ msgstr "Meddelandet verkar inte vara korrekt utformat"
 #~ msgid "The message contains only unsupported requests."
 #~ msgstr "Meddelandet innehåller typer av begäran som inte stöds."
+#~ msgid "The attachment does not contain a valid calendar message"
+#~ msgstr "Bilagan innehåller inte ett giltigt kalendermeddelande"
 #~ msgid "The attachment has no viewable calendar items"
-#~ msgstr "Bilagan har inga visningsbara kalenderobjekt"
+#~ msgstr "Bilagan innehåller inga visningsbara kalenderobjekt"
 #~ msgid "Update complete\n"
 #~ msgstr "Uppdateringen färdig\n"
 #~ msgid "Object is invalid and cannot be updated\n"
@@ -21166,10 +21076,6 @@ msgstr "Inmatningsmetoder"
 #~ msgid_plural "%d days from now"
 #~ msgstr[0] "%d dag från nu"
 #~ msgstr[1] "%d dagar från nu"
-#~ msgid "%d day ago"
-#~ msgid_plural "%d days ago"
-#~ msgstr[0] "%d dag sedan"
-#~ msgstr[1] "%d dagar sedan"
 #~ msgid "Debug Logs"
 #~ msgstr "Felsökningsloggar"
 #~ msgid "Show _errors in the status bar for"
@@ -21201,6 +21107,8 @@ msgstr "Inmatningsmetoder"
 #~ "\n"
 #~ "Läs licensavtalet för %s nedan noggrant\n"
 #~ "och kryssa för kryssrutan för att godkänna det\n"
+#~ msgid "Account Management"
+#~ msgstr "Kontohantering"
 #~ msgid "This store does not support subscriptions, or they are not enabled."
 #~ msgstr ""
 #~ "Detta lager stöder inte prenumerationer, eller så är de inte aktiverade."
@@ -21220,49 +21128,14 @@ msgstr "Inmatningsmetoder"
 #~ msgstr "Standardhöjd på prenumerationsdialogen"
 #~ msgid "Subscribe dialog default width"
 #~ msgstr "Standardbredd på prenumerationsdialogen"
-#~ msgid "S_erver:"
-#~ msgstr "S_erver:"
-#~ msgid ""
-#~ "Cannot create output file: %s:\n"
-#~ " %s"
-#~ msgstr ""
-#~ "Kan inte skapa utdatafil: %s:\n"
-#~ " %s"
-#~ msgid "Could not write data: "
-#~ msgstr "Kunde inte skriva data: "
-#~ msgid "_Backup Evolution Settings..."
-#~ msgstr "Sä_kerhetskopiera Evolution-inställningar..."
-#~ msgid "R_estore Evolution Settings..."
-#~ msgstr "Återställ Ev_olution-inställningar..."
-#~ msgid "Evolution's Mail Notification"
-#~ msgstr "Evolutions e-postnotifiering"
-#~ msgid "Mail Notification Properties"
-#~ msgstr "Egenskaper för e-postnotifiering"
-#~ msgid "begin editing this cell"
-#~ msgstr "påbörja redigering av denna cell"
-#~ msgid "<span size=\"large\" weight=\"bold\">Details:</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Detaljer:</span>"
-#~ msgid "<span size=\"large\" weight=\"bold\">Receiving</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Mottagning</span>"
-#~ msgid "<span size=\"large\" weight=\"bold\">Sending</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Sändning</span>"
-#, fuzzy
-#~ msgid "<span size=\"large\" weight=\"bold\">Google account settings:</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Personliga uppgifter:</span>"
-
-#, fuzzy
-#~ msgid "<span size=\"large\" weight=\"bold\">Yahoo account settings:</span>"
-#~ msgstr "<span size=\"large\" weight=\"bold\">Kontohantering</span>"
 #~ msgid "(Not Recommended)"
 #~ msgstr "(Rekommenderas inte)"
 #~ msgid "(Note: Requires restart of the application)"
 #~ msgstr "(Observera: Kräver omstart av programmet)"
 #~ msgid "Checks incoming mail messages to be Junk"
 #~ msgstr "Kontrollerar om inkommande e-postmeddelanden är skräppost"
-
-#, fuzzy
 #~ msgid "Do not display messages when text si_ze exceeds"
-#~ msgstr "Formatera inte meddelanden när textstorle_ken överstiger"
+#~ msgstr "Visa inte meddelanden när textstorleken ö_verstigs"
 #~ msgid "Enable Magic S_pacebar"
 #~ msgstr "Aktivera magiskt _blanksteg"
 #~ msgid "Enable Sea_rch Folders"
@@ -21283,6 +21156,13 @@ msgstr "Inmatningsmetoder"
 #~ "för första gången"
 #~ msgid "Printed Fonts"
 #~ msgstr "Utskrivna typsnitt"
+#, fuzzy
+#~ msgid "Prompt when mailing list redirects private reply back to list"
+#~ msgstr "Fråga vid markering av flera meddelanden"
+
+#, fuzzy
+#~ msgid "Prompt when sending private replies to mailing _list messages"
+#~ msgstr "Fråga vid markering av flera meddelanden"
 
 #, fuzzy
 #~ msgid "Prompt when sending replies to _many recipients"
@@ -21320,14 +21200,36 @@ msgstr "Inmatningsmetoder"
 #~ msgstr "_Minska rubriker för Till / Kopia / Blindkopia till "
 #~ msgid "addresses"
 #~ msgstr "adresser"
+#~ msgid "S_erver:"
+#~ msgstr "S_erver:"
+
+#, fuzzy
+#~ msgid "Saving attachment"
+#~ msgstr "Spara bilaga"
+#~ msgid ""
+#~ "Cannot create output file: %s:\n"
+#~ " %s"
+#~ msgstr ""
+#~ "Kan inte skapa utdatafil: %s:\n"
+#~ " %s"
+#~ msgid "Could not write data: "
+#~ msgstr "Kunde inte skriva data: "
+#~ msgid ""
+#~ "Error on %s\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Fel vid %s:\n"
+#~ "%s"
+#~ msgid "_Backup Evolution Settings..."
+#~ msgstr "Sä_kerhetskopiera Evolution-inställningar..."
+#~ msgid "R_estore Evolution Settings..."
+#~ msgstr "Återställ Ev_olution-inställningar..."
 #~ msgid "_Sharing"
 #~ msgstr "_Delar"
-#~ msgid "Blink icon in notification area."
-#~ msgstr "Blinka med ikonen i notifieringsytan."
-#~ msgid "Whether the icon should blink or not."
-#~ msgstr "Huruvida ikonen ska vara blinka eller inte."
-#~ msgid "B_link icon in notification area"
-#~ msgstr "B_linka med ikon i notifieringsytan"
+#~ msgid "Evolution's Mail Notification"
+#~ msgstr "Evolutions e-postnotifiering"
+#~ msgid "Mail Notification Properties"
+#~ msgstr "Egenskaper för e-postnotifiering"
 #~ msgid "Manage your Evolution plugins."
 #~ msgstr "Hantera dina Evolution-insticksmoduler."
 #~ msgid "Sort mail message threads by subject."
@@ -21336,6 +21238,52 @@ msgstr "Inmatningsmetoder"
 #~ msgstr "Ämnestrådning"
 #~ msgid "Thread messages by subject"
 #~ msgstr "Tråda meddelanden efter ämne"
+#~ msgid "Start Evolution activating the specified component"
+#~ msgstr "Starta Evolution och aktivera den angivna komponenten"
+#~ msgid ""
+#~ "%s: --online and --offline cannot be used together.\n"
+#~ "  Use %s --help for more information.\n"
+#~ msgstr ""
+#~ "%s: --online och --offline kan inte användas tillsammans.\n"
+#~ "  Använd %s --help för mer information.\n"
+
+#, fuzzy
+#~ msgid "Migrate local mbox folders to maildir"
+#~ msgstr "Skapa en ny mapp för lagring av post"
+
+#, fuzzy
+#~ msgid ""
+#~ "Error on %s: %s\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Fel vid %s:\n"
+#~ "%s"
+#~ msgid "%d day ago"
+#~ msgid_plural "%d days ago"
+#~ msgstr[0] "%d dag sedan"
+#~ msgstr[1] "%d dagar sedan"
+#~ msgid "begin editing this cell"
+#~ msgstr "påbörja redigering av denna cell"
+#~ msgid "<span size=\"large\" weight=\"bold\">Details:</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Detaljer:</span>"
+#~ msgid "<span size=\"large\" weight=\"bold\">Receiving</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Mottagning</span>"
+#~ msgid "<span size=\"large\" weight=\"bold\">Sending</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Sändning</span>"
+
+#, fuzzy
+#~ msgid "<span size=\"large\" weight=\"bold\">Google account settings:</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Personliga uppgifter:</span>"
+
+#, fuzzy
+#~ msgid "<span size=\"large\" weight=\"bold\">Yahoo account settings:</span>"
+#~ msgstr "<span size=\"large\" weight=\"bold\">Kontohantering</span>"
+#~ msgid "Blink icon in notification area."
+#~ msgstr "Blinka med ikonen i notifieringsytan."
+#~ msgid "Whether the icon should blink or not."
+#~ msgstr "Huruvida ikonen ska vara blinka eller inte."
+#~ msgid "B_link icon in notification area"
+#~ msgstr "B_linka med ikon i notifieringsytan"
 
 # Vad är detta?
 # http://bugzilla.ximian.com/show_bug.cgi?id=61062
