@@ -1,3 +1,44 @@
+Evolution 2.91.5 2010-01-10
+---------------------------
+
+Bug Fixes:
+	Bug 567879 - Add View >> Gallery Option In Email Composer (Milan Crha)
+	Bug 633854 - Crash in build_template_menus_recurse (Milan Crha)
+	Bug 637482 - Flushing outbox gives up on first error (Matthew Barnes)
+	Bug 637906 - Don't ask again when sending to non-mail recipients
+	             (Milan Crha)
+	Bug 638245 - Crash when printing Work Week view (Milan Crha)
+
+Other Changes:
+	* Disconnect signal handlers from actions in alert_dispose()
+	  (Milan Crha)
+	* Temporarily remove GDK_DISABLE_DEPRECATED (again). (Matthew Barnes)
+	* Call setlocale() instead of gtk_set_locale(). (Matthew Barnes)
+	* Fix menu item capitalizaion. (Matthew Barnes)
+	* Add e_shell_submit_alert(). (Matthew Barnes)
+	* Fix wrong button name in Restore instructions (Andre Klapper)
+	* Fix all back up that should be backup (Andre Klapper)
+	* Improve wording of Maildir migration dialog. (Matthew Barnes)
+	* Avoid idle callbacks in EMailBackend initialization. (Matthew Barnes)
+	* Improve Maildir migration. (Matthew Barnes)
+	* EMFolderTree: Fully implement ESelectableInterface. (Matthew Barnes)
+	* EActionComboBox: Fix runtime warnings with GTK3. (Matthew Barnes)
+	* EAttachmentIconView: Fix runtime warnings with GTK3. (Matthew Barnes)
+
+Translations:
+	Ask H. Larsen (da)
+	Jorge Gonzalez (es)
+	Daniel Mustieles (es)
+	Ivar Smolin (et)
+	Fran Diéguez (gl)
+	Torstein Adolf Winterseth (nv)
+	A S Alam (pa)
+	Daniel Nylander (sv)
+	Gheyret T.Kenji (ug)
+	Yinghua Wang (zh_CN)
+	Aron Xu (zh_CN)
+
+
 Evolution 2.91.4 2010-12-20
 ---------------------------
 
