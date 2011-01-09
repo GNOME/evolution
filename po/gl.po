@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-09 16:50+0100\n"
-"PO-Revision-Date: 2011-01-09 16:53+0100\n"
+"POT-Creation-Date: 2011-01-09 23:59+0100\n"
+"PO-Revision-Date: 2011-01-10 00:00+0100\n"
 "Last-Translator: Fran Diéguez <frandieguez@ubuntu.com>\n"
 "Language-Team: Galician <gnome-gl-list@gnome.org>\n"
 "Language: gl\n"
@@ -13032,18 +13032,16 @@ msgid "_Empty Trash"
 msgstr "_Baleirar o lixo"
 
 #: ../mail/mail.error.xml.h:152
-#, fuzzy
 msgid "_Exit Evolution"
-msgstr "Evolution"
+msgstr "_Saír do Evolution"
 
 #: ../mail/mail.error.xml.h:153
 msgid "_Expunge"
 msgstr "_Expurgar"
 
 #: ../mail/mail.error.xml.h:154
-#, fuzzy
 msgid "_Migrate Now"
-msgstr "Migración"
+msgstr "_Migrar agora"
 
 #: ../mail/mail.error.xml.h:155
 msgid "_No"
