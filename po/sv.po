@@ -1,11 +1,11 @@
 # Swedish messages for Evolution.
-# Copyright (C) 2000-2010 Free Software Foundation, Inc.
+# Copyright (C) 2000-2011 Free Software Foundation, Inc.
 # Andreas Hyden <a.hyden@cyberpoint.se>, 2000.
 # Richard Hult <rhult@codefactory.se>, 2000, 2001.
 # Christian Rose <menthos@menthos.com>, 2000, 2001, 2002, 2003, 2004, 2005.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <johan@gnome.org>, 2001, 2006.
-# Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009, 2010.
+# Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009, 2010, 2011.
 #
 # Terminology
 # appointment = möte
@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-12-31 13:36+0100\n"
-"PO-Revision-Date: 2010-12-31 14:07+0100\n"
+"POT-Creation-Date: 2011-01-09 20:28+0100\n"
+"PO-Revision-Date: 2011-01-09 20:31+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -13500,11 +13500,11 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:122
 msgid "You are replying privately to a message which arrived via a mailing list, but the list is trying to redirect your reply to go back to the list. Are you sure you want to proceed?"
-msgstr ""
+msgstr "Du svarar privat på ett meddelande som kom via en sändlista, men listan försöker att dirigera om ditt svar till att gå tillbaka till listan. Är du säker på att du vill fortsätta?"
 
 #: ../mail/mail.error.xml.h:123
 msgid "You are replying to a message which arrived via a mailing list, but you are replying privately to the sender; not to the list. Are you sure you want to proceed?"
-msgstr ""
+msgstr "Du svarar på ett meddelande som kom via en sändlista, men du svarar privat till avsändaren och inte till listan. Är du säker på att du vill fortsätta?"
 
 #: ../mail/mail.error.xml.h:124
 msgid "You are replying to a message which was sent to many recipients. Are you sure you want to reply to ALL of them?"
@@ -16638,7 +16638,7 @@ msgstr "Proxyinloggning som &quot;{0}&quot; misslyckades. Kontrollera din e-post
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:3
 msgid "Proxy access cannot be given to user &quot;{0}&quot;"
-msgstr "Åtkomst till proxy kan inte ges till användaren &quot;{0}&quot;"
+msgstr "Delegatåtkomst kan inte ges till användaren &quot;{0}&quot;"
 
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:4
 #: ../plugins/groupwise-features/org-gnome-shared-folder.error.xml.h:2
@@ -16648,12 +16648,12 @@ msgstr "Ange användare"
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:6
 msgid "You have already given proxy permissions to this user."
-msgstr "Du har redan tilldelat proxyrättigheter till denna användare."
+msgstr "Du har redan tilldelat delegaträttigheter till denna användare."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:8
 msgid "You have to specify a valid user name to give proxy rights."
-msgstr "Du måste ange ett giltigt användarnamn att ge proxyrättigheter."
+msgstr "Du måste ange ett giltigt användarnamn att ge delegaträttigheter."
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.error.xml.h:3
 msgid "You cannot share this folder with the specified user &quot;{0}&quot;"
@@ -18570,15 +18570,15 @@ msgstr "Lista över nyckelord/värdepar för insticksmodulen Mallar att ersätta
 msgid "Drafts based template plugin"
 msgstr "Utdragsbaserad mallinsticksmodul"
 
-#: ../plugins/templates/templates.c:621
+#: ../plugins/templates/templates.c:627
 msgid "No Title"
 msgstr "Ingen titel"
 
-#: ../plugins/templates/templates.c:715
+#: ../plugins/templates/templates.c:722
 msgid "Save as _Template"
 msgstr "Spara som _mall"
 
-#: ../plugins/templates/templates.c:717
+#: ../plugins/templates/templates.c:724
 msgid "Save as Template"
 msgstr "Spara som mall"
 
