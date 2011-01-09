@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: evolution master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2010-11-04 11:43+0000\n"
-"PO-Revision-Date: 2010-11-05 12:57+0100\n"
-"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
+"PO-Revision-Date: 2011-01-08 14:53+0100\n"
+"Last-Translator: Andrej Žnidaršič <andrej.znidarsic@gmail.com>\n"
 "Language-Team: Slovenščina <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1494,7 +1494,7 @@ msgstr "Vsi podatki v teh opomnikih bodo izbrisani in jih ne bo mogoče obnoviti
 
 #: ../calendar/calendar.error.xml.h:8
 msgid "All information in this memo will be deleted and can not be restored."
-msgstr "Vse podatki v tem opomniku bodo izbrisani in jih ne bo mogoče obnoviti."
+msgstr "Vsi podatki v tem opomniku bodo izbrisani in jih ne bo mogoče obnoviti."
 
 #: ../calendar/calendar.error.xml.h:9
 msgid "All information on these appointments will be deleted and can not be restored."
@@ -5582,7 +5582,7 @@ msgstr "Pojdi na datum"
 #: ../calendar/gui/ea-day-view-main-item.c:308
 #: ../calendar/gui/ea-week-view-main-item.c:340
 msgid "a table to view and select the current time range"
-msgstr "preglednica za ogled in izbiro trenutnega časovnega obsega"
+msgstr "razpredelnica za ogled in izbiro trenutnega časovnega obsega"
 
 #: ../calendar/gui/ea-day-view.c:151
 #: ../calendar/gui/ea-week-view.c:150
@@ -12269,7 +12269,7 @@ msgstr "Oznake"
 
 #: ../mail/mail-config.ui.h:60
 msgid "Languages Table"
-msgstr "Preglednica jezikov"
+msgstr "Razpredelnica jezikov"
 
 #: ../mail/mail-config.ui.h:61
 msgid "Loading Images"
@@ -12277,7 +12277,7 @@ msgstr "Nalaganje slik"
 
 #: ../mail/mail-config.ui.h:62
 msgid "Mail Headers Table"
-msgstr "Preglednica glav pošte"
+msgstr "Razpredelnica glav pošte"
 
 #: ../mail/mail-config.ui.h:63
 msgid "Mailbox location"
@@ -13859,7 +13859,7 @@ msgstr "Ali naj bo prikazan pladenj predogleda."
 #: ../modules/addressbook/autocompletion-config.c:161
 #: ../modules/mail/em-mailer-prefs.c:1112
 msgid "_Table column:"
-msgstr "_Stolpec preglednice:"
+msgstr "_Stolpec razpredelnice:"
 
 #: ../modules/addressbook/autocompletion-config.c:164
 msgid "Autocompletion"
@@ -15636,7 +15636,7 @@ msgstr "Testi nalaganja Python vstavkov"
 
 #: ../modules/plugin-python/example/org-gnome-hello-python.eplug.xml.h:1
 msgid "Python Test Plugin"
-msgstr "Testni vstavek Python"
+msgstr "Preizkusni vstavek Python"
 
 #: ../modules/plugin-python/example/org-gnome-hello-python.eplug.xml.h:2
 msgid "Test Plugin for Python EPlugin loader."
@@ -19720,7 +19720,7 @@ msgstr "Podrobnosti potrdila"
 
 #: ../smime/gui/smime-ui.ui.h:10
 msgid "Certificates Table"
-msgstr "Preglednica potrdil"
+msgstr "Razpredelnica potrdil"
 
 #: ../smime/gui/smime-ui.ui.h:11
 msgid "Common Name (CN)"
@@ -20171,7 +20171,7 @@ msgstr "Določi poglede za \"%s\""
 
 #: ../widgets/menus/gal-view-factory-etable.c:113
 msgid "Table"
-msgstr "Preglednica"
+msgstr "Razpredelnica"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:276
 msgid "Save Current View"
@@ -20998,7 +20998,7 @@ msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
 msgstr ""
-"Za dodajanje stolpca k svoji preglednici ga\n"
+"Za dodajanje stolpca k svoji razpredelnici ga\n"
 "povlecite do mesta kjer naj se pojavi."
 
 #. Translators: This text is used as a special row when an ETable
@@ -21116,7 +21116,7 @@ msgstr "zloži vrstico v ETree, ki vsebuje to celico"
 
 #: ../widgets/table/gal-a11y-e-cell.c:119
 msgid "Table Cell"
-msgstr "Celica preglednice"
+msgstr "Celica razpredelnice"
 
 #: ../widgets/table/gal-a11y-e-table-click-to-add.c:67
 msgid "click"
@@ -21136,16 +21136,12 @@ msgstr "Načini vnosa"
 
 #~ msgid "URI of the highlighted (\"primary\") calendar"
 #~ msgstr "Naslov URI poudarjenega (\"osnovnega\") koledarja"
-
 #~ msgid "URI of the highlighted (\"primary\") memo list"
 #~ msgstr "Naslov URI poudarjenega (\"osnovnega\") seznama opomnikov"
-
 #~ msgid "URI of the highlighted (\"primary\") task list"
 #~ msgstr "Naslov URI poudarjenega (\"osnovnega\") seznama nalog"
-
 #~ msgid "Could not create composer window."
 #~ msgstr "Ni mogoče ustvariti okna sestavljalnika."
-
 #~ msgid ""
 #~ "Unable to activate the HTML editor control.\n"
 #~ "\n"
@@ -21156,71 +21152,50 @@ msgstr "Načini vnosa"
 #~ "\n"
 #~ "Prepričajte se, da imate nameščeno ustrezno različico gtkhtml in "
 #~ "libgtkhtml."
-
 #~ msgid "Unable to activate the address selector control."
 #~ msgstr "Ni mogoče začeti izbirnika naslova."
-
 #~ msgid "%s..."
 #~ msgstr "%s ..."
-
 #~ msgid "Evolution Error"
 #~ msgstr "Napaka Evolutiona"
-
 #~ msgid "Evolution Warning"
 #~ msgstr "Opozorilo Evolution"
-
 #~ msgid "Internal error, unknown error '%s' requested"
 #~ msgstr "Notranja napaka, zahtevana je bila neznana napaka '%s'"
-
 #~ msgid "%d day from now"
-
 #~ msgid_plural "%d days from now"
 #~ msgstr[0] "%d dni od danes"
 #~ msgstr[1] "%d dan od danes"
 #~ msgstr[2] "%d dneva od danes"
 #~ msgstr[3] "%d dneve od danes"
-
 #~ msgid "%d day ago"
-
 #~ msgid_plural "%d days ago"
 #~ msgstr[0] "Pred %d dnevi"
 #~ msgstr[1] "Pred %d dnevom"
 #~ msgstr[2] "Pred %d dnevoma"
 #~ msgstr[3] "Pred %d dnevi"
-
 #~ msgid "Debug Logs"
 #~ msgstr "Dnevniki razhroščevanja"
-
 #~ msgid "Show _errors in the status bar for"
 #~ msgstr "Pokaži _napake v vrstici stanja za"
-
 #~ msgid "second(s)."
 #~ msgstr "sekund(o)."
-
 #~ msgid "Log Messages:"
 #~ msgstr "Sporočila beleženja:"
-
 #~ msgid "Log Level"
 #~ msgstr "Raven beleženja"
-
 #~ msgid "Error"
 #~ msgstr "Napaka"
-
 #~ msgid "Errors"
 #~ msgstr "Napake"
-
 #~ msgid "Warnings and Errors"
 #~ msgstr "Opozorila in napake"
-
 #~ msgid "Debug"
 #~ msgstr "Razhroščevanje"
-
 #~ msgid "Error, Warnings and Debug messages"
 #~ msgstr "Napake, opozorila in obvestila razhroščevanja"
-
 #~ msgid "%s License Agreement"
 #~ msgstr "%s licenčni dogovor"
-
 #~ msgid ""
 #~ "\n"
 #~ "Please read carefully the license agreement\n"
@@ -21231,257 +21206,175 @@ msgstr "Načini vnosa"
 #~ "Pozorno preberite licenčni dogovor\n"
 #~ "za %s, prikazan spodaj,\n"
 #~ "in izberite izbirno polje za njegov sprejem\n"
-
 #~ msgid "This store does not support subscriptions, or they are not enabled."
 #~ msgstr "Shramba ne podpira naročanja ali pa je le-to ni omogočeno."
-
 #~ msgid "Subscribed"
 #~ msgstr "Naročen"
-
 #~ msgid "Folder"
 #~ msgstr "Mapa"
-
 #~ msgid "Please select a server."
 #~ msgstr "Izberite strežnik."
-
 #~ msgid "No server has been selected"
 #~ msgstr "Strežnik ni bil izbran"
-
 #~ msgid "Default height of the subscribe dialog."
 #~ msgstr "Privzeta višina pogovornega okna naročanja."
-
 #~ msgid "Default width of the subscribe dialog."
 #~ msgstr "Privzeta širina pogovornega okna naročanja."
-
 #~ msgid "Subscribe dialog default height"
 #~ msgstr "Privzeta višina pogovornega okna za naročanje"
-
 #~ msgid "Subscribe dialog default width"
 #~ msgstr "Privzeta širina pogovornega okna za naročanje"
-
 #~ msgid "(Not Recommended)"
 #~ msgstr "(NI priporočeno)"
-
 #~ msgid "(Note: Requires restart of the application)"
 #~ msgstr "(Opomba: Zahteva ponovni zagon programa)"
-
 #~ msgid "Checks incoming mail messages to be Junk"
 #~ msgstr "Preverja, ali je dohodna pošta neželena"
-
 #~ msgid "Do not display messages when text si_ze exceeds"
 #~ msgstr "Ne prikaži sporočil, če _velikost besedila presega"
-
 #~ msgid "Enable Magic S_pacebar"
 #~ msgstr "Omogoči magično _preslednico"
-
 #~ msgid "Enable Sea_rch Folders"
 #~ msgstr "Omogoči _iskalne mape"
-
 #~ msgid "Fi_xed-width:"
 #~ msgstr "S_talna-širina:"
-
 #~ msgid "Font Properties"
 #~ msgstr "Lastnosti pisave"
-
 #~ msgid "KB"
 #~ msgstr "KB"
-
 #~ msgid "Message Fonts"
 #~ msgstr "Pisave sporočila"
-
 #~ msgid ""
 #~ "Note: you will not be prompted for a password until you connect for the "
 #~ "first time"
 #~ msgstr "Opomba: geslo bo zahtevano, ko se prvič povežete"
-
 #~ msgid "Printed Fonts"
 #~ msgstr "Natisnjene pisave"
-
 #~ msgid "Prompt when sending replies to _many recipients"
 #~ msgstr "Op_ozori med pošiljanjem sporočil več prejemnikom"
-
 #~ msgid "Select Drafts Folder"
 #~ msgstr "Izbor mape osnutkov"
-
 #~ msgid "Select HTML fixed width font for printing"
 #~ msgstr "Izberite pisavo HTML stalne širine za tiskanje"
-
 #~ msgid "Select HTML variable width font for printing"
 #~ msgstr "Izberite pisavo HTML spremenljive širine za tiskanje"
-
 #~ msgid "Select Junk Folder"
 #~ msgstr "Izbor mape neželene pošte"
-
 #~ msgid "Select Sent Folder"
 #~ msgstr "Izbor mape poslanih sporočil"
-
 #~ msgid "Select Trash Folder"
 #~ msgstr "Izbor mape smeti"
-
 #~ msgid "Sending Mail"
 #~ msgstr "Pošiljanje pošte"
-
 #~ msgid "Sent and Draft Messages"
 #~ msgstr "Poslana sporočila in osnutki"
-
 #~ msgid "Top Posting Option"
 #~ msgstr "Možnost največjega pošiljanja"
-
 #~ msgid "V_ariable-width:"
 #~ msgstr "Spremenljiv_a-širina:"
-
 #~ msgid "_Mark messages as read after"
 #~ msgstr "_Označi sporočila kot prebrana po"
-
 #~ msgid "_Show image animations"
 #~ msgstr "Pokaži animacije _slik"
-
 #~ msgid "_Shrink To / Cc / Bcc headers to "
 #~ msgstr "Glave Za / Kp / Skp _skrči na"
-
 #~ msgid "addresses"
 #~ msgstr "naslovi"
-
 #~ msgid "S_erver:"
 #~ msgstr "Str_ežnik:"
-
 #~ msgid "Saving attachment"
 #~ msgstr "Shranjevanje priloge"
-
 #~ msgid ""
 #~ "Cannot create output file: %s:\n"
 #~ " %s"
 #~ msgstr ""
 #~ "Ni mogoče ustvariti izhodne datoteke: %s:\n"
 #~ " %s"
-
 #~ msgid "Could not write data: "
 #~ msgstr "Ni mogoče pisati podatkov:"
-
 #~ msgid "_Backup Evolution Settings..."
 #~ msgstr "_Varnostna kopija nastavitev Evolution ..."
-
 #~ msgid "R_estore Evolution Settings..."
 #~ msgstr "O_bnovi nastavitve programa Evolution ..."
-
 #~ msgid "_Sharing"
 #~ msgstr "_Souporaba"
-
 #~ msgid "Evolution's Mail Notification"
 #~ msgstr "Obvestila o prispeli pošti"
-
 #~ msgid "Mail Notification Properties"
 #~ msgstr "Lastnosti obveščanja o novi pošti"
-
 #~ msgid "Manage your Evolution plugins."
 #~ msgstr "Upravljanje z vstavki programa Evolution."
-
 #~ msgid "Sort mail message threads by subject."
 #~ msgstr "Razvrsti niti sporočil po zadevi."
-
 #~ msgid "Subject Threading"
 #~ msgstr "Nitenje po zadevi"
-
 #~ msgid "Thread messages by subject"
 #~ msgstr "Nitenje sporočil po zadevi"
-
 #~ msgid "<span size=\"large\" weight=\"bold\">Details:</span>"
 #~ msgstr "<span size=\"large\" weight=\"bold\">Podrobnosti:</span>"
-
 #~ msgid "<span size=\"large\" weight=\"bold\">Receiving</span>"
 #~ msgstr "<span size=\"large\" weight=\"bold\">Prejemanje</span>"
-
 #~ msgid "<span size=\"large\" weight=\"bold\">Sending</span>"
 #~ msgstr "<span size=\"large\" weight=\"bold\">Pošiljanje</span>"
-
 #~ msgid "<span size=\"large\" weight=\"bold\">Google account settings:</span>"
 #~ msgstr "<span weight='bold' size='larger'>Nastavitve računa Google:</span>"
-
 #~ msgid "<span size=\"large\" weight=\"bold\">Yahoo account settings:</span>"
 #~ msgstr ""
 #~ "<span size=\"large\" weight=\"bold\">Nastavitve računa Yahoo:</span>"
-
 #~ msgid "Blink icon in notification area."
 #~ msgstr "Utripaj ikono v obvestilnem področju."
-
 #~ msgid "Whether the icon should blink or not."
 #~ msgstr "Ali naj ikona utripa ali ne."
-
 #~ msgid "B_link icon in notification area"
 #~ msgstr "_Utripaj ikono v obvestilnem področju"
-
 #~ msgid "Unable to reconstruct message from autosave file"
 #~ msgstr "Sporočila ni mogoče obnoviti iz datoteke samodejnega shranjevanja"
-
 #~ msgid "Success"
 #~ msgstr "Uspešno zaključeno"
-
 #~ msgid "Backend busy"
 #~ msgstr "Zaledje je zasedeno"
-
 #~ msgid "Repository offline"
 #~ msgstr "Odložišče brez povezave"
-
 #~ msgid "Address Book does not exist"
 #~ msgstr "Imenik ne obstaja"
-
 #~ msgid "No Self Contact defined"
 #~ msgstr "Lastni stik ni določen"
-
 #~ msgid "Permission denied"
 #~ msgstr "Nimate ustreznih dovoljenj"
-
 #~ msgid "Contact not found"
 #~ msgstr "Stika ni bilo mogoče najti"
-
 #~ msgid "Contact ID already exists"
 #~ msgstr "ID stika že obstaja"
-
 #~ msgid "Protocol not supported"
 #~ msgstr "Protokol ni podprt"
-
 #~ msgid "Could not cancel"
 #~ msgstr "Ni mogoče preklicati"
-
 #~ msgid "Authentication Failed"
 #~ msgstr "Overitev ni uspela"
-
 #~ msgid "Authentication Required"
 #~ msgstr "Zahtevana je overitev"
-
 #~ msgid "TLS not Available"
 #~ msgstr "TLS ni na voljo"
-
 #~ msgid "No such source"
 #~ msgstr "Ni takšnega vira"
-
 #~ msgid "Not available in offline mode"
 #~ msgstr "Ni na voljo v načinu brez povezave"
-
 #~ msgid "Other error"
 #~ msgstr "Druga napaka"
-
 #~ msgid "Invalid server version"
 #~ msgstr "Neveljavna različica strežnika"
-
 #~ msgid "Unsupported authentication method"
 #~ msgstr "Nepodprt način overitve"
-
 #~ msgid "The event could not be deleted due to a corba error"
 #~ msgstr "Dogodka ni bilo mogoče izbrisati zaradi napake corba"
-
 #~ msgid "The task could not be deleted due to a corba error"
 #~ msgstr "Naloge ni bilo mogoče izbrisati zaradi napake corba"
-
 #~ msgid "The memo could not be deleted due to a corba error"
 #~ msgstr "Opomnika ni bilo mogoče izbrisati zaradi napake corba"
-
 #~ msgid "The item could not be deleted due to a corba error"
 #~ msgstr "Predmeta ni bilo mogoče izbrisati zaradi napake corba"
-
 #~ msgid "Could not parse PGP message: Unknown error"
 #~ msgstr "Ni mogoče razčleniti sporočila PGP: neznana napaka"
-
 #~ msgid ""
 #~ "Evolution backup can start only when Evolution is not running. Please "
 #~ "make sure that you save and close all your unsaved windows before "
@@ -21492,7 +21385,6 @@ msgstr "Načini vnosa"
 #~ "teče. Preden nadaljujete se prepričajte, da ste shranili in zaprli vsa "
 #~ "vaša neshranjena okna. V kolikor želite, da se program po končanem delu "
 #~ "znova samodejno zažene, izberite to možnost."
-
 #~ msgid ""
 #~ "This will delete all your current Evolution data and settings and restore "
 #~ "them from your backup. Evolution restore can start only when Evolution is "
@@ -21506,53 +21398,38 @@ msgstr "Načini vnosa"
 #~ "prepričajte, da ste shranili in zaprli vsa vaša neshranjena okna. V "
 #~ "kolikor želite, da se program po končanem delu samodejno ponovno zažene, "
 #~ "izberite to možnost."
-
 #~ msgid "{0}"
 #~ msgstr "{0}"
-
 #~ msgid "{1}"
 #~ msgstr "{1}"
-
 #~ msgid "Default Sync Address:"
 #~ msgstr "Privzet usklajevalni naslov:"
-
 #~ msgid "Could not load address book"
 #~ msgstr "Ni mogoče naložiti imenika"
-
 #~ msgid "Could not read pilot's Address application block"
 #~ msgstr "Ni mogoče prebrati pilotovega imenika"
-
 #~ msgid "Web Log:"
 #~ msgstr "Spletni dnevnik:"
-
 #~ msgid "_Web Log:"
 #~ msgstr "_Spletni dnevnik:"
 
 #, fuzzy
 #~ msgid "Editable"
 #~ msgstr "Uredljivo"
-
 #~ msgid "Source Book"
 #~ msgstr "Izvirni imenik"
-
 #~ msgid "Target Book"
 #~ msgstr "Ciljni imenik"
-
 #~ msgid "Is New Contact"
 #~ msgstr "Je nov stik"
-
 #~ msgid "Writable Fields"
 #~ msgstr "Zapisljiva polja"
-
 #~ msgid "Required Fields"
 #~ msgstr "Zahtevana polja"
-
 #~ msgid "Changed"
 #~ msgstr "Spremenjeno"
-
 #~ msgid "Shell"
 #~ msgstr "Lupina"
-
 #~ msgid "The EShell singleton"
 #~ msgstr "EShell singleton"
 
@@ -21685,43 +21562,30 @@ msgstr "Načini vnosa"
 #, fuzzy
 #~ msgid "Name of the logger"
 #~ msgstr "Ime dnevniškega beleženja"
-
 #~ msgid "Filename"
 #~ msgstr "Ime datoteke"
-
 #~ msgid "The filename of the module"
 #~ msgstr "Ime datoteke modula"
-
 #~ msgid "Whether the plugin is enabled"
 #~ msgstr "Ali je vstavek omogočen"
-
 #~ msgid "Focus Tracker"
 #~ msgstr "Sledilnik zarišča"
-
 #~ msgid "Shell Module"
 #~ msgstr "Modul lupine"
-
 #~ msgid "The mail shell backend"
 #~ msgstr "Zaledje lupine pošte"
-
 #~ msgid "Show Deleted"
 #~ msgstr "Pokaži izbrisano"
-
 #~ msgid "To Do"
 #~ msgstr "Seznam opravil"
-
 #~ msgid "Later"
 #~ msgstr "Pozneje"
-
 #~ msgid "Unable to create new folder `%s': %s"
 #~ msgstr "Ni mogoče ustvariti nove mape `%s': %s"
-
 #~ msgid "Unable to copy folder `%s' to `%s': %s"
 #~ msgstr "Ni mogoče kopirati mape `%s' v `%s': %s"
-
 #~ msgid "Unable to scan for existing mailboxes at `%s': %s"
 #~ msgstr "Ni mogoče preiskati obstoječih poštnih predalov v `%s': %s"
-
 #~ msgid ""
 #~ "The location and hierarchy of the Evolution mailbox folders has changed "
 #~ "since Evolution 1.x.\n"
@@ -21732,60 +21596,44 @@ msgstr "Načini vnosa"
 #~ "Evolutiona 1.x.\n"
 #~ "\n"
 #~ "Bodite potrpežljivi, medtem ko Evolution preseli vaše mape ..."
-
 #~ msgid "Unable to open old POP keep-on-server data `%s': %s"
 #~ msgstr "Ni mogoče odpreti starih podatkov POP obdrži-na-strežniku `%s': %s"
-
 #~ msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
 #~ msgstr "Ni mogoče ustvariti mape podatkov POP3 obdrži-na-strežniku `%s': %s"
-
 #~ msgid "Unable to copy POP3 keep-on-server data `%s': %s"
 #~ msgstr "Ni mogoče kopirati podatkov POP3 obdrži-na-strežniku `%s': %s"
-
 #~ msgid "Failed to create local mail storage `%s': %s"
 #~ msgstr "Ni mogoče ustvariti krajevne shrambe pošte `%s': %s"
-
 #~ msgid ""
 #~ "Unable to read settings from previous Evolution install, `evolution/"
 #~ "config.xmldb' does not exist or is corrupt."
 #~ msgstr ""
 #~ "Ni mogoče prebrati nastavitev prejšnje namestitve Evolutiona. Datoteka "
 #~ "`evolution/config.xmldb' ne obstaja ali je pokvarjena."
-
 #~ msgid "Allows Evolution to display text part of limited size"
 #~ msgstr "Omogoča programu prikaz dela besedila omejene velikosti"
-
 #~ msgid "Enable to render message text part of limited size."
 #~ msgstr "Omogoči izrisovanje besedilnega dela sporočila omejene velikosti."
-
 #~ msgid "Show \"From\" field when sending a mail message"
 #~ msgstr "Pokaži polje \"Od\" pri pošiljanju poštnega sporočila"
-
 #~ msgid ""
 #~ "Show the \"From\" field when sending a mail message. This is controlled "
 #~ "from the View menu when a mail account is chosen."
 #~ msgstr ""
 #~ "Pokaži polje \"Od\" pri pošiljanju poštnega sporočila. Možnost je mogoče "
 #~ "nastaviti v meniju Pogled, ko je izbran poštni račun."
-
 #~ msgid "Text message part limit"
 #~ msgstr "Omejitev besedilnega dela sporočila"
-
 #~ msgid "<b>Top Posting Option</b> (Not Recommended)"
 #~ msgstr "<b>Možnost največjega pošiljanja</b> (Ni priporočljivo)"
-
 #~ msgid "    "
 #~ msgstr "    "
-
 #~ msgid "Because \"{0}\"."
 #~ msgstr "Zaradi \"{0}\"."
-
 #~ msgid "Because \"{2}\"."
 #~ msgstr "Zaradi \"{2}\"."
-
 #~ msgid "Do not d_elete"
 #~ msgstr "_Ne izbriši"
-
 #~ msgid ""
 #~ "The following Search Folder(s):\n"
 #~ "{0}\n"
@@ -21798,7 +21646,6 @@ msgstr "Načini vnosa"
 #~ "so uporabljale mapo, ki je sedaj odstranjena:\n"
 #~ "    \"{1}\"\n"
 #~ "in so bile posodobljene."
-
 #~ msgid ""
 #~ "The following filter rule(s):\n"
 #~ "{0}\n"
@@ -21811,47 +21658,34 @@ msgstr "Načini vnosa"
 #~ "so uporabljala mapo, ki je zdaj odstranjena:\n"
 #~ "    \"{1}\"\n"
 #~ "in so bila posodobljena."
-
 #~ msgid "Shell Backend"
 #~ msgstr "Zaledje lupine"
-
 #~ msgid ""
 #~ "There are only hidden messages in this folder. Use View->Show Hidden "
 #~ "Messages to show them."
 #~ msgstr ""
 #~ "V tej mapi so le skrita sporočila. Uporabite Pogled->Pokaži skrita "
 #~ "sporočila za njihov prikaz."
-
 #~ msgid "Table column:"
-#~ msgstr "Stolpec preglednice:"
-
+#~ msgstr "Stolpec razpredelnice:"
 #~ msgid "Source List"
 #~ msgstr "Seznam virov"
-
 #~ msgid "Current View"
 #~ msgstr "Trenutni pogled"
-
 #~ msgid "The currently selected address book view"
 #~ msgstr "Trenutno izbrani pogled imenika"
-
 #~ msgid "Previewed Contact"
 #~ msgstr "Predogled stika"
-
 #~ msgid "The contact being shown in the preview pane"
 #~ msgstr "Stik je prikazan v pladnju predogleda"
-
 #~ msgid "Preview is Visible"
 #~ msgstr "Predogled je viden"
-
 #~ msgid "Whether the preview pane is visible"
 #~ msgstr "Ali je pladenj predogleda viden"
-
 #~ msgid "LDAP Servers"
 #~ msgstr "Strežniki LDAP"
-
 #~ msgid "Autocompletion Settings"
 #~ msgstr "Nastavitve samodejnega dopolnjevanja"
-
 #~ msgid ""
 #~ "The location and hierarchy of the Evolution contact folders has changed "
 #~ "since Evolution 1.x.\n"
@@ -21862,7 +21696,6 @@ msgstr "Načini vnosa"
 #~ "Evolutiona 1.x.\n"
 #~ "\n"
 #~ "Bodite potrpežljivi medtem ko Evolution premika vaše mape ..."
-
 #~ msgid ""
 #~ "The format of mailing list contacts has changed.\n"
 #~ "\n"
@@ -21871,7 +21704,6 @@ msgstr "Načini vnosa"
 #~ "Oblika stikov dopisnih seznamov se je spremenila.\n"
 #~ "\n"
 #~ "Bodite potrpežljivi medtem ko Evolution preseljuje vaše mape ..."
-
 #~ msgid ""
 #~ "The way Evolution stores some phone numbers has changed.\n"
 #~ "\n"
@@ -21881,7 +21713,6 @@ msgstr "Načini vnosa"
 #~ "spremenil.\n"
 #~ "\n"
 #~ "Bodite potrpežljivi medtem ko Evolution preseljuje vaše mape ..."
-
 #~ msgid ""
 #~ "Evolution's Palm Sync changelog and map files have changed.\n"
 #~ "\n"
@@ -21892,28 +21723,20 @@ msgstr "Načini vnosa"
 #~ "\n"
 #~ "Bodite potrpežljivi medtem ko Evolution preseljuje vaše podatke Pilot "
 #~ "Snyc ..."
-
 #~ msgid "Source Selector Widget"
 #~ msgstr "Gradnik izbirnika virov"
-
 #~ msgid "This widget displays groups of address books"
 #~ msgstr "Gradnik prikazuje skupine imenikov"
-
 #~ msgid "Save as vCard..."
 #~ msgstr "Shrani kot vCard ..."
-
 #~ msgid "3268"
 #~ msgstr "3268"
-
 #~ msgid "389"
 #~ msgstr "389"
-
 #~ msgid "636"
 #~ msgstr "636"
-
 #~ msgid "The registry of calendars"
 #~ msgstr "Vpisnik koledarjev"
-
 #~ msgid ""
 #~ "The location and hierarchy of the Evolution calendar folders has changed "
 #~ "since Evolution 1.x.\n"
@@ -21924,49 +21747,34 @@ msgstr "Načini vnosa"
 #~ "Evolutiona 1.x.\n"
 #~ "\n"
 #~ "Bodite pozorni medtem ko Evolution preseljuje vaše mape ..."
-
 #~ msgid "Unable to migrate old settings from evolution/config.xmldb"
 #~ msgstr "Ni mogoče preseliti starih nastavitev iz evolution/config.xmldb"
-
 #~ msgid "Unable to migrate calendar `%s'"
 #~ msgstr "Ni mogoče preseliti koledarja `%s'"
-
 #~ msgid "Date Navigator Widget"
 #~ msgstr "Gradnik krmarja datumov"
-
 #~ msgid "This widget displays a miniature calendar"
 #~ msgstr "Gradnik omogoča prikaz malega koledarja"
-
 #~ msgid "Default Calendar Client"
 #~ msgstr "Privzet odjemalec koledarja"
-
 #~ msgid "Default client for calendar operations"
 #~ msgstr "Privzeti odjemalec za opravila koledarja"
-
 #~ msgid "This widget displays groups of calendars"
 #~ msgstr "Gradnik omogoča prikaz skupine koledarjev"
-
 #~ msgid "The registry of memo lists"
 #~ msgstr "Vpisnik seznama opomnikov"
-
 #~ msgid "The memo table model"
-#~ msgstr "Model preglednice opomnikov"
-
+#~ msgstr "Model razpredelnice opomnikov"
 #~ msgid "Default Memo Client"
 #~ msgstr "Privzet odjemalec opomnikov"
-
 #~ msgid "Default client for memo operations"
 #~ msgstr "Privzeti odjemalec za opravila opomnikov"
-
 #~ msgid "This widget displays groups of memo lists"
 #~ msgstr "Gradnik omogoča prikaz skupin seznamov opomnikov"
-
 #~ msgid "The registry of task lists"
 #~ msgstr "Vpisnik seznama nalog"
-
 #~ msgid "The task table model"
-#~ msgstr "Model preglednice nalog"
-
+#~ msgstr "Model razpredelnice nalog"
 #~ msgid ""
 #~ "The location and hierarchy of the Evolution task folders has changed "
 #~ "since Evolution 1.x.\n"
@@ -21976,245 +21784,166 @@ msgstr "Načini vnosa"
 #~ "Mesto in razpored ravni map nalog sta se spremenili od Evolutiona 1.x.\n"
 #~ "\n"
 #~ "Počakajte, da program premakne vaše mape ..."
-
 #~ msgid "Unable to migrate tasks `%s'"
 #~ msgstr "Ni mogoče premakniti nalog `%s'"
-
 #~ msgid "Default Task Client"
 #~ msgstr "Privzet odjemalec nalog"
-
 #~ msgid "Default client for task operations"
 #~ msgstr "Privzeti odjemalec za opravila nalog"
-
 #~ msgid "This widget displays groups of task lists"
 #~ msgstr "Gradnik omogoča prikaz skupin seznamov nalog"
-
 #~ msgid "Group by Threads"
 #~ msgstr "Združi v niti"
-
 #~ msgid "Whether to group messages by threads"
 #~ msgstr "Ali naj se sporočila združijo v niti"
-
 #~ msgid "Hide _Read Messages"
 #~ msgstr "Skrij _prebrana sporočila"
-
 #~ msgid "Temporarily hide all messages that have already been read"
 #~ msgstr "Začasno skrije vsa prebrana sporočila"
-
 #~ msgid "Temporarily hide the selected messages"
 #~ msgstr "Začasno skrije vsa izbrana sporočila"
-
 #~ msgid "Show Hidde_n Messages"
 #~ msgstr "Pokaži _skrita sporočila"
-
 #~ msgid "Show messages that have been temporarily hidden"
 #~ msgstr "Pokaži sporočila, ki so bila začasno skrita"
-
 #~ msgid "Hide _Deleted Messages"
 #~ msgstr "Skrij _izbrisana sporočila"
-
 #~ msgid ""
 #~ "Hide deleted messages rather than displaying them with a line through them"
 #~ msgstr "Skrije izbrisana sporočila namesto prikaza kot prečrtana"
-
 #~ msgid ""
 #~ "List of clues for the attachment reminder plugin to look for in a message "
 #~ "body."
 #~ msgstr ""
 #~ "Seznam namigov, ki naj jih vstavek opomnik prilog išče v telesu sporočila."
-
 #~ msgid "Check whether Evolution is the default mail client on startup."
 #~ msgstr "Ob zagonu preveri ali je Evolution privzeti poštni odjemalec."
-
 #~ msgid "Default Mail Client"
 #~ msgstr "Privzet poštni odjemalec"
-
 #~ msgid "<b>Server</b>"
 #~ msgstr "<b>Strežnik</b>"
-
 #~ msgid "<b>Users:</b>"
 #~ msgstr "<b>Uporabniki:</b>"
-
 #~ msgid "<b>Account Name</b>"
 #~ msgstr "<b>Ime računa</b>"
-
 #~ msgid "Add Hula support to Evolution."
 #~ msgstr "Dodajanje podpore Hula Evolutionu."
-
 #~ msgid "Hula Support"
 #~ msgstr "Podpora Hula"
-
 #~ msgid "_Accept"
 #~ msgstr "_Sprejmi"
-
 #~ msgid "Guides you through your initial account setup."
 #~ msgstr "Vodi vas skozi začetno nastavljanje računov."
-
 #~ msgid "Setup Assistant"
 #~ msgstr "Pomočnik namestitve"
-
 #~ msgid "Importing data."
 #~ msgstr "Uvažanje podatkov."
-
 #~ msgid "Please wait"
 #~ msgstr "Počakajte"
-
 #~ msgid "%ld KB"
 #~ msgstr "%ld KB"
-
 #~ msgid "Toolbar Style"
 #~ msgstr "Slog orodne vrstice"
-
 #~ msgid "The switcher's toolbar style"
 #~ msgstr "Slog orodne vrstice preklopnika"
-
 #~ msgid "Toolbar Visible"
 #~ msgstr "Orodna vrstica je vidna"
-
 #~ msgid "Whether the switcher is visible"
 #~ msgstr "Ali je preklopnik viden"
-
 #~ msgid "Switcher Action"
 #~ msgstr "Dejanje preklopnika"
-
 #~ msgid "The switcher action for this shell view"
 #~ msgstr "Dejanje preklopnika za ta lupinski pogled"
-
 #~ msgid "Page Number"
 #~ msgstr "Številka strani"
-
 #~ msgid "The notebook page number of the shell view"
 #~ msgstr "Številka strani beležke lupinskega pogleda"
-
 #~ msgid "Search Rule"
 #~ msgstr "Pravilo iskanja"
-
 #~ msgid "Criteria for the current search results"
 #~ msgstr "Kriterij za trenutne zadetke iskanja"
-
 #~ msgid "The EShellBackend for this shell view"
 #~ msgstr "EShellBackend za ta lupinski pogled"
-
 #~ msgid "Shell Content Widget"
 #~ msgstr "Gradnik vsebine lupine"
-
 #~ msgid "The content widget appears in a shell window's right pane"
 #~ msgstr "Gradnik vsebine se pojavi v desnem pladnju okna lupine"
-
 #~ msgid "Shell Sidebar Widget"
 #~ msgstr "Gradnik stranske vrstice lupine"
-
 #~ msgid "The sidebar widget appears in a shell window's left pane"
 #~ msgstr "Gradnik stranske vrstice se pojavi v levem pladnju okna lupine"
-
 #~ msgid "Shell Taskbar Widget"
 #~ msgstr "Gradnik opravilne vrstice"
-
 #~ msgid "The taskbar widget appears at the bottom of a shell window"
 #~ msgstr "Gradnik opravilne vrstice se pojavi na dnu okna lupine"
-
 #~ msgid "Shell Window"
 #~ msgstr "Okno lupine"
-
 #~ msgid "The window to which the shell view belongs"
 #~ msgstr "Okno, ki mu pripada lupinski pogled"
-
 #~ msgid "The key file holding widget state data"
 #~ msgstr "Datoteka ključa z gradnikom stanja podatkov"
-
 #~ msgid "The title of the shell view"
 #~ msgstr "Naziv lupinskega pogleda"
-
 #~ msgid "Current View ID"
 #~ msgstr "ID trenutnega pogleda"
-
 #~ msgid "The current GAL view ID"
 #~ msgstr "ID trenutnega pogleda GAL"
-
 #~ msgid "GNOME Pilot is not installed."
 #~ msgstr "Program GNOME Pilot ni nameščen."
-
 #~ msgid "GNOME Pilot could not be run."
 #~ msgstr "Programa GNOME Pilot ni mogoče zagnati."
-
 #~ msgid "GNOME Pilot _Synchronization..."
 #~ msgstr "_Usklajevalnje GNOME pilot ..."
-
 #~ msgid "Set up GNOME Pilot configuration"
 #~ msgstr "Spremeni nastavitve programa GNOME Pilot"
-
 #~ msgid "Active Shell View"
 #~ msgstr "Dejavni lupinski pogled"
-
 #~ msgid "Name of the active shell view"
 #~ msgstr "Ime dejavnega lupinskega pogleda"
-
 #~ msgid "The shell window's EFocusTracker"
 #~ msgstr "EFocusTracker lupine okna"
-
 #~ msgid "Geometry"
 #~ msgstr "Geometrija"
-
 #~ msgid "Initial window geometry string"
 #~ msgstr "Začetni niz velikosti okna"
-
 #~ msgid "Safe Mode"
 #~ msgstr "Varni način"
-
 #~ msgid "Whether the shell window is in safe mode"
 #~ msgstr "Ali je okno lupine v varnem načinu"
-
 #~ msgid "Sidebar Visible"
 #~ msgstr "Stransko okno je vidno"
-
 #~ msgid "Whether the shell window's side bar is visible"
 #~ msgstr "Ali naj bodo stransko okno okna lupine vidno"
-
 #~ msgid "Switcher Visible"
 #~ msgstr "Preklopnik je viden"
-
 #~ msgid "Whether the shell window's switcher buttons are visible"
 #~ msgstr "Ali naj bodo gumbi preklopnika okna lupine vidni"
-
 #~ msgid "Taskbar Visible"
 #~ msgstr "Opravilna vrstica je vidna"
-
 #~ msgid "Whether the shell window's task bar is visible"
 #~ msgstr "Ali naj bo opravilna vrstica okna lupine vidna"
-
 #~ msgid "Whether the shell window's tool bar is visible"
 #~ msgstr "Ali naj bo orodna vrstica okna lupine vidna"
-
 #~ msgid "UI Manager"
 #~ msgstr "Upravljalnik uporabniškega vmesnika"
-
 #~ msgid "The shell window's GtkUIManager"
 #~ msgstr "GtkUIManager okna lupine"
-
 #~ msgid "Module Directory"
 #~ msgstr "Mapa modulov"
-
 #~ msgid "The directory from which to load EModules"
 #~ msgstr "Mapa iz katere bodo naloženi EModuli"
-
 #~ msgid "Network Available"
 #~ msgstr "Omrežje je na voljo"
-
 #~ msgid "Online"
 #~ msgstr "Povezano"
-
 #~ msgid "Whether the shell is online"
 #~ msgstr "Ali je lupina povezana v omrežje"
-
 #~ msgid "Forcibly re-migrate from Evolution 1.4"
 #~ msgstr "Vsiljeno nadgradi iz Evolution 1.4"
-
 #~ msgid "Insufficient disk space for upgrade."
 #~ msgstr "Premalo prostora na disku za nadgradnjo."
-
 #~ msgid "Really delete old data?"
 #~ msgstr "Ali naj bodo stari podatki zares izbrisani?"
-
 #~ msgid ""
 #~ "The entire contents of the &quot;evolution&quot; directory are about to "
 #~ "be permanently removed.\n"
@@ -22234,7 +21963,6 @@ msgstr "Načini vnosa"
 #~ "\n"
 #~ "Po izbrisu ni mogoče nazadovati na starejšo različico Evolutiona brez "
 #~ "ročnega posega.\n"
-
 #~ msgid ""
 #~ "The previous version of Evolution stored its data in a different "
 #~ "location.\n"
@@ -22251,7 +21979,6 @@ msgstr "Načini vnosa"
 #~ "izbrisana celotna vsebina mape &quot;evolution&quot;. V primeru, da "
 #~ "podatke obdržite, pa boste lahko  vsebino mape  &quot;evolution&quot; "
 #~ "ročno odstranili kasneje.\n"
-
 #~ msgid ""
 #~ "Upgrading your data and settings will require up to {0} of disk space, "
 #~ "but you only have {1} available.\n"
@@ -22264,351 +21991,236 @@ msgstr "Načini vnosa"
 #~ "\n"
 #~ "Pred nadaljevanjem boste morali sprostiti nekaj prostora v vaši domači "
 #~ "mapi."
-
 #~ msgid "_Keep Data"
 #~ msgstr "Obdrži podat_ke"
-
 #~ msgid "_Remind Me Later"
 #~ msgstr "_Opomni me kasneje"
-
 #~ msgid "Edit"
 #~ msgstr "Uredi"
-
 #~ msgid "Import"
 #~ msgstr "Uvozi"
-
 #~ msgid "View"
 #~ msgstr "Pogled"
-
 #~ msgid "Collection"
 #~ msgstr "Zbirka"
-
 #~ msgid "Instance"
 #~ msgstr "Primerek"
-
 #~ msgid "Factory"
 #~ msgstr "Tovarna"
-
 #~ msgid "Action"
 #~ msgstr "Dejanje"
-
 #~ msgid "A GtkRadioAction"
 #~ msgstr "GtkRadioAction"
-
 #~ msgid "Show _Attachment Bar"
 #~ msgstr "_Pokaži vrstico prilog"
-
 #~ msgid "Fill color"
 #~ msgstr "Barva polnila"
-
 #~ msgid "GDK fill color"
 #~ msgstr "Barva polnila GDK"
-
 #~ msgid "Fill stipple"
 #~ msgstr "Točkano polnilo"
-
 #~ msgid "X1"
 #~ msgstr "X1"
-
 #~ msgid "X2"
 #~ msgstr "X2"
-
 #~ msgid "Y1"
 #~ msgstr "Y1"
-
 #~ msgid "Y2"
 #~ msgstr "Y2"
-
 #~ msgid "Minimum width"
 #~ msgstr "Najmanjša širina"
-
 #~ msgid "Minimum Width"
 #~ msgstr "Najmanjša širina"
-
 #~ msgid "Spacing"
 #~ msgstr "Razmik"
-
 #~ msgid "The button state is online"
 #~ msgstr "Stanje gumba je povezano"
-
 #~ msgid "Horizontal Position"
 #~ msgstr "Vodoravni položaj"
-
 #~ msgid "Pane position when oriented horizontally"
 #~ msgstr "Položaj pladnja, ko je usmerjen vodoravno"
-
 #~ msgid "Vertical Position"
 #~ msgstr "Navpični položaj"
-
 #~ msgid "Pane position when oriented vertically"
 #~ msgstr "Položaj pladnja, ko je usmerjen navpično"
-
 #~ msgid "Proportion"
 #~ msgstr "Sorazmerje"
-
 #~ msgid "Proportion of the 2nd pane size"
 #~ msgstr "Sorazmerje velikosti drugega okna"
-
 #~ msgid "Fixed Resize"
 #~ msgstr "Ohranjena sprememba velikosti"
-
 #~ msgid "Keep the 2nd pane fixed during resize"
 #~ msgstr "Med spreminjanjem velikosti ohrani velikost drugega okna"
-
 #~ msgid "Sync with:"
 #~ msgstr "Uskladi z:"
-
 #~ msgid "Sync Private Records:"
 #~ msgstr "Uskladi zasebne zapise:"
-
 #~ msgid "Sync Categories:"
 #~ msgstr "Kategorije usklajevanja:"
-
 #~ msgid "Cursor Row"
 #~ msgstr "Vrstica kazalca"
-
 #~ msgid "Cursor Column"
 #~ msgstr "Stolpec kazalca"
-
 #~ msgid "Sorter"
 #~ msgstr "Razvrstilnik"
-
 #~ msgid "Selection Mode"
 #~ msgstr "Način izbire"
-
 #~ msgid "Cursor Mode"
 #~ msgstr "Način kazalca"
-
 #~ msgid "Selected Column"
 #~ msgstr "Izbran stolpec"
-
 #~ msgid "Focused Column"
 #~ msgstr "Dejaven stolpec"
-
 #~ msgid "Unselected Column"
 #~ msgstr "Neizbran stolpec"
-
 #~ msgid "Strikeout Column"
 #~ msgstr "Prečrtan stolpec"
-
 #~ msgid "Underline Column"
 #~ msgstr "Podčrtan stolpec"
-
 #~ msgid "Bold Column"
 #~ msgstr "Krepki stolpec"
-
 #~ msgid "Color Column"
 #~ msgstr "Obarvan stolpec"
-
 #~ msgid "BG Color Column"
 #~ msgstr "Barva ozadja stolpca"
-
 #~ msgid "State"
 #~ msgstr "Stanje"
-
 #~ msgid "Alternating Row Colors"
 #~ msgstr "Izmenične barve vrstic"
-
 #~ msgid "Horizontal Draw Grid"
 #~ msgstr "Vodoravna mreža risanja"
-
 #~ msgid "Vertical Draw Grid"
 #~ msgstr "Navpična mreža risanja"
-
 #~ msgid "Draw focus"
 #~ msgstr "Nariši žarišče"
-
 #~ msgid "Cursor mode"
 #~ msgstr "Način kazalca"
-
 #~ msgid "Selection model"
 #~ msgstr "Način izbire"
-
 #~ msgid "Length Threshold"
 #~ msgstr "Prag dolžine"
-
 #~ msgid "Uniform row height"
 #~ msgstr "Enotna višina vrstic"
-
 #~ msgid "Frozen"
 #~ msgstr "Zamrznjena"
-
 #~ msgid "Table header"
-#~ msgstr "Glava preglednice"
-
+#~ msgstr "Glava razpredelnice"
 #~ msgid "Table model"
-#~ msgstr "Model preglednice"
-
+#~ msgstr "Model razpredelnice"
 #~ msgid "Cursor row"
 #~ msgstr "Vrstica kazalca"
-
 #~ msgid "Sort Info"
 #~ msgstr "Razvrsti podatke"
-
 #~ msgid "Always search"
 #~ msgstr "Vedno išči"
-
 #~ msgid "Use click to add"
 #~ msgstr "Za dodajanje uporabite klik"
-
 #~ msgid "Vertical Row Spacing"
 #~ msgstr "Navpični razmik vrstic"
-
 #~ msgid ""
 #~ "Vertical space between rows. It is added to top and to bottom of a row"
 #~ msgstr ""
 #~ "Navpični razmik med vrsticami. Razmik je dodan na vrhu in na dnu vrstice"
-
 #~ msgid "ETree table adapter"
-#~ msgstr "Vmesnik preglednice ETree"
-
+#~ msgstr "Vmesnik razpredelnice ETree"
 #~ msgid "Retro Look"
 #~ msgstr "Staromoden videz"
-
 #~ msgid "Draw lines and +/- expanders."
 #~ msgstr "Nariši črte in razširitvene gumbe +/-."
-
 #~ msgid "Expander Size"
 #~ msgstr "Velikost razširitvenega gumba"
-
 #~ msgid "Size of the expander arrow"
 #~ msgstr "Velikost razširitvene puščice"
-
 #~ msgid "popup"
 #~ msgstr "pojavno okno"
-
 #~ msgid "edit"
 #~ msgstr "uredi"
-
 #~ msgid "toggle"
 #~ msgstr "preklopi"
-
 #~ msgid "expand"
 #~ msgstr "razširi"
-
 #~ msgid "Event Processor"
 #~ msgstr "Opravilnik dogodkov"
-
 #~ msgid "Text"
 #~ msgstr "Besedilo"
-
 #~ msgid "Bold"
 #~ msgstr "Krepko"
-
 #~ msgid "Strikeout"
 #~ msgstr "Prečrtano"
-
 #~ msgid "Anchor"
 #~ msgstr "Sidro"
-
 #~ msgid "Justification"
 #~ msgstr "Poravnava"
-
 #~ msgid "Clip Width"
 #~ msgstr "Širina izrezka"
-
 #~ msgid "Clip Height"
 #~ msgstr "Višina izrezka"
-
 #~ msgid "Clip"
 #~ msgstr "Izrezek"
-
 #~ msgid "Fill clip rectangle"
 #~ msgstr "Zapolni pravokotni izrezek"
-
 #~ msgid "X Offset"
 #~ msgstr "Odmik X"
-
 #~ msgid "Y Offset"
 #~ msgstr "Odmik Y"
-
 #~ msgid "Text width"
 #~ msgstr "Širina besedila"
-
 #~ msgid "Text height"
 #~ msgstr "Višina besedila"
-
 #~ msgid "Use ellipsis"
 #~ msgstr "Uporabi tripičje"
-
 #~ msgid "Ellipsis"
 #~ msgstr "Tripičje"
-
 #~ msgid "Line wrap"
 #~ msgstr "Prelom vrstic"
-
 #~ msgid "Break characters"
 #~ msgstr "Prekinitveni znaki"
-
 #~ msgid "Max lines"
 #~ msgstr "Največje število vrstic"
-
 #~ msgid "Draw borders"
 #~ msgstr "Nariši robove"
-
 #~ msgid "Allow newlines"
 #~ msgstr "Dovoli nove vrstice"
-
 #~ msgid "Draw background"
 #~ msgstr "Nariši ozadje"
-
 #~ msgid "Draw button"
 #~ msgstr "Nariši gumb"
-
 #~ msgid "Cursor position"
 #~ msgstr "Položaj kazalca"
-
 #~ msgid "IM Context"
 #~ msgstr "Vsebina HS"
-
 #~ msgid "Handle Popup"
 #~ msgstr "Upravljaj pojavna okna"
-
 #~ msgid "Loading appointments at %s"
 #~ msgstr "Nalaganje sestankov pri %s"
-
 #~ msgid "_Security"
 #~ msgstr "_Varnost"
-
 #~ msgid "Copying `%s' to `%s'"
 #~ msgstr "Kopiranje `%s' to `%s'"
-
 #~ msgid "Deleting selected memos..."
 #~ msgstr "Brisanje izbranih opomnikov ..."
-
 #~ msgid "Deleting selected tasks..."
 #~ msgstr "Brisanje izbranih nalog ..."
-
 #~ msgid "_Synchronization Options..."
 #~ msgstr "Možnosti _usklajevanja ..."
-
 #~ msgid "Error loading address book."
 #~ msgstr "Napaka med nalaganjem imenika."
-
 #~ msgid "Server Version"
 #~ msgstr "Različica strežnika"
-
 #~ msgid "Save Appointment"
 #~ msgstr "Shrani sestanek"
-
 #~ msgid "Save Meeting"
 #~ msgstr "Shrani srečanje"
-
 #~ msgid "Save Memo"
 #~ msgstr "Shrani opomnik"
-
 #~ msgid "Save Task"
 #~ msgstr "Shrani nalogo"
-
 #~ msgid "Show CC"
 #~ msgstr "Pokaži Kp"
-
 #~ msgid "Show BCC"
 #~ msgstr "Pokaži Skp"
-
 #~ msgid "Directories can not be attached to Messages."
 #~ msgstr "Map ni mogoče priložiti sporočilom."
-
 #~ msgid ""
 #~ "To attach the contents of this directory, either attach the files in this "
 #~ "directory individually, or create an archive of the directory and attach "
@@ -22616,88 +22228,60 @@ msgstr "Načini vnosa"
 #~ msgstr ""
 #~ "Za prilaganje vsebine te mape ročno priložite posamezne datoteke ali "
 #~ "ustvarite arhiv mape in ga priložite."
-
 #~ msgid "Warning: Modified Message"
 #~ msgstr "Opozorilo: Spremenjeno sporočilo"
-
 #~ msgid "Overwrite file?"
 #~ msgstr "Ali naj se datoteka prepiše?"
-
 #~ msgid "Select _All Text"
 #~ msgstr "Izberi _vso besedilo"
-
 #~ msgid "Select all the text in a message"
 #~ msgstr "Izberi vso besedilo v sporočilu"
-
 #~ msgid "Show the \"Preview\" pane"
 #~ msgstr "Pokaži pladenj \"predogleda\""
-
 #~ msgid "Show the \"Preview\" pane."
 #~ msgstr "Pokaži pladenj \"predogleda\"."
-
 #~ msgid "Thread the message list."
 #~ msgstr "Niten seznam sporočil."
-
 #~ msgid "Thread the message-list"
 #~ msgstr "Niten seznam sporočil"
-
 #~ msgid "Advanced search"
 #~ msgstr "Napredno iskanje"
-
 #~ msgid "Copy selected memo"
 #~ msgstr "Kopiraj izbran opomnik"
-
 #~ msgid "Cut selected memo"
 #~ msgstr "Izreži izbran opomnik"
-
 #~ msgid "Copy selected tasks"
 #~ msgstr "Kopiraj izbrane naloge"
-
 #~ msgid "Cut selected tasks"
 #~ msgstr "Izreži izbrane naloge"
-
 #~ msgid "Select _All Messages"
 #~ msgstr "Izberi vs_a sporočila"
-
 #~ msgid "Dummy window only"
 #~ msgstr "Samo slepo okno"
-
 #~ msgid "Copy the selection to the clipboard"
 #~ msgstr "Kopiraj izbiro v odložišče"
-
 #~ msgid "Hide _Attachment Bar"
 #~ msgstr "_Skrij vrstico prilog"
-
 #~ msgid "Add a column..."
 #~ msgstr "Dodaj stolpec ..."
-
 #~ msgid "Tree"
 #~ msgstr "Drevo"
-
 #~ msgid "<b>Email</b>"
 #~ msgstr "<b>E-pošta</b>"
-
 #~ msgid "<b>Home</b>"
 #~ msgstr "<b>Doma</b>"
-
 #~ msgid "<b>Job</b>"
 #~ msgstr "<b>Delo</b>"
-
 #~ msgid "<b>Miscellaneous</b>"
 #~ msgstr "<b>Različno</b>"
-
 #~ msgid "<b>Notes</b>"
 #~ msgstr "<b>Zapiski</b>"
-
 #~ msgid "<b>Other</b>"
 #~ msgstr "<b>Drugo</b>"
-
 #~ msgid "<b>Telephone</b>"
 #~ msgstr "<b>Telefon</b>"
-
 #~ msgid "<b>Work</b>"
 #~ msgstr "<b>Služba</b>"
-
 #~ msgid ""
 #~ "\n"
 #~ "Mr.\n"
@@ -22712,7 +22296,6 @@ msgstr "Načini vnosa"
 #~ "Gdč.\n"
 #~ "Prof.\n"
 #~ "Dr."
-
 #~ msgid ""
 #~ "\n"
 #~ "Sr.\n"
@@ -22729,23 +22312,18 @@ msgstr "Načini vnosa"
 #~ "II\n"
 #~ "III\n"
 #~ "Pl."
-
 #~ msgid "<b>Members</b>"
 #~ msgstr "<b>Člani</b>"
-
 #~ msgid "<b>Alarm</b>"
 #~ msgstr "<b>Alarm</b>"
-
 #~ msgid "<b>Options</b>"
 #~ msgstr "<b>Možnosti</b>"
-
 #~ msgid ""
 #~ "before\n"
 #~ "after"
 #~ msgstr ""
 #~ "pred\n"
 #~ "po"
-
 #~ msgid ""
 #~ "minute(s)\n"
 #~ "hour(s)\n"
@@ -22754,7 +22332,6 @@ msgstr "Načini vnosa"
 #~ "minut\n"
 #~ "ur\n"
 #~ "dni"
-
 #~ msgid ""
 #~ "minutes\n"
 #~ "hours\n"
@@ -22763,14 +22340,12 @@ msgstr "Načini vnosa"
 #~ "minut\n"
 #~ "ur\n"
 #~ "dni"
-
 #~ msgid ""
 #~ "start of appointment\n"
 #~ "end of appointment"
 #~ msgstr ""
 #~ "začetek sestanka\n"
 #~ "konec sestanka"
-
 #~ msgid ""
 #~ "60 minutes\n"
 #~ "30 minutes\n"
@@ -22783,25 +22358,18 @@ msgstr "Načini vnosa"
 #~ "15 minut\n"
 #~ "10 minut\n"
 #~ "05 minut"
-
 #~ msgid "<span weight=\"bold\">Alarms</span>"
 #~ msgstr "<span weight=\"bold\">Alarmi</span>"
-
 #~ msgid "<span weight=\"bold\">Alerts</span>"
 #~ msgstr "<span weight=\"bold\">Opozorila</span>"
-
 #~ msgid "<span weight=\"bold\">Date/Time Format</span>"
 #~ msgstr "<span weight=\"bold\">Zapis datuma in časa</span>"
-
 #~ msgid "<span weight=\"bold\">Task List</span>"
 #~ msgstr "<span weight=\"bold\">Seznam opravil</span>"
-
 #~ msgid "<span weight=\"bold\">Time</span>"
 #~ msgstr "<span weight=\"bold\">Čas</span>"
-
 #~ msgid "<span weight=\"bold\">Work Week</span>"
 #~ msgstr "<span weight=\"bold\">Delovni teden</span>"
-
 #~ msgid ""
 #~ "Minutes\n"
 #~ "Hours\n"
@@ -22810,7 +22378,6 @@ msgstr "Načini vnosa"
 #~ "Minute\n"
 #~ "Ure\n"
 #~ "Dnevi"
-
 #~ msgid ""
 #~ "Monday\n"
 #~ "Tuesday\n"
@@ -22827,7 +22394,6 @@ msgstr "Načini vnosa"
 #~ "Petek\n"
 #~ "Sobota\n"
 #~ "Nedelja"
-
 #~ msgid ""
 #~ "15 minutes before appointment\n"
 #~ "1 hour before appointment\n"
@@ -22836,20 +22402,16 @@ msgstr "Načini vnosa"
 #~ "15 minut pred sestankom\n"
 #~ "1 uro pred sestankom\n"
 #~ "1 dan pred sestankom"
-
 #~ msgid ""
 #~ "a\n"
 #~ "b"
 #~ msgstr ""
 #~ "a\n"
 #~ "b"
-
 #~ msgid "<b>Preview</b>"
 #~ msgstr "<b>Predogled</b>"
-
 #~ msgid "<b>Recurrence</b>"
 #~ msgstr "<b>Ponovitev</b>"
-
 #~ msgid ""
 #~ "day(s)\n"
 #~ "week(s)\n"
@@ -22860,7 +22422,6 @@ msgstr "Načini vnosa"
 #~ "ted-en/nov\n"
 #~ "mesec-ev\n"
 #~ "let-o"
-
 #~ msgid ""
 #~ "for\n"
 #~ "until\n"
@@ -22869,13 +22430,10 @@ msgstr "Načini vnosa"
 #~ "za\n"
 #~ "do\n"
 #~ "za vedno"
-
 #~ msgid "<span weight=\"bold\">Miscellaneous</span>"
 #~ msgstr "<span weight=\"bold\">Razno</span>"
-
 #~ msgid "<span weight=\"bold\">Status</span>"
 #~ msgstr "<span weight=\"bold\">Stanje</span>"
-
 #~ msgid ""
 #~ "High\n"
 #~ "Normal\n"
@@ -22886,7 +22444,6 @@ msgstr "Načini vnosa"
 #~ "Normalno\n"
 #~ "Nizko\n"
 #~ "Nedoločeno"
-
 #~ msgid ""
 #~ "Not Started\n"
 #~ "In Progress\n"
@@ -22897,7 +22454,6 @@ msgstr "Načini vnosa"
 #~ "V teku\n"
 #~ "Končano\n"
 #~ "Preklicano"
-
 #~ msgid ""
 #~ "January\n"
 #~ "February\n"
@@ -22924,13 +22480,10 @@ msgstr "Načini vnosa"
 #~ "Oktober\n"
 #~ "November\n"
 #~ "December"
-
 #~ msgid "Rule name"
 #~ msgstr "Ime pravila"
-
 #~ msgid "<b>_Filter Rules</b>"
 #~ msgstr "<b>Pravila _filtriranja</b>"
-
 #~ msgid ""
 #~ "seconds\n"
 #~ "minutes\n"
@@ -22947,73 +22500,50 @@ msgstr "Načini vnosa"
 #~ "tednov\n"
 #~ "mesecev\n"
 #~ "let"
-
 #~ msgid "<b>Sig_natures</b>"
 #~ msgstr "<b>Podpi_si</b>"
-
 #~ msgid "<b>_Languages</b>"
 #~ msgstr "<b>_Jeziki</b>"
-
 #~ msgid "<span weight=\"bold\">Authentication</span>"
 #~ msgstr "<span weight=\"bold\">Overitev</span>"
-
 #~ msgid "<span weight=\"bold\">Composing Messages</span>"
 #~ msgstr "<span weight=\"bold\">Ustvarjanje sporočil</span>"
-
 #~ msgid "<span weight=\"bold\">Configuration</span>"
 #~ msgstr "<span weight=\"bold\">Nastavitve</span>"
-
 #~ msgid "<span weight=\"bold\">Default Behavior</span>"
 #~ msgstr "<span weight=\"bold\">Privzeto vedenje</span>"
-
 #~ msgid "<span weight=\"bold\">Displayed Message _Headers</span>"
 #~ msgstr "<span weight=\"bold\">Prikazane _glave sporočil</span>"
-
 #~ msgid "<span weight=\"bold\">Labels</span>"
 #~ msgstr "<span weight=\"bold\">Oznake</span>"
-
 #~ msgid "<span weight=\"bold\">Loading Images</span>"
 #~ msgstr "<span weight=\"bold\">Nalaganje slik</span>"
-
 #~ msgid "<span weight=\"bold\">Message Display</span>"
 #~ msgstr "<span weight=\"bold\">Prikaz sporočila</span>"
-
 #~ msgid "<span weight=\"bold\">Message Fonts</span>"
 #~ msgstr "<span weight=\"bold\">Pisave sporočil</span>"
-
 #~ msgid "<span weight=\"bold\">Message Receipts</span>"
 #~ msgstr "<span weight=\"bold\">Povratnice sporočil</span>"
-
 #~ msgid "<span weight=\"bold\">Optional Information</span>"
 #~ msgstr "<span weight=\"bold\">Dodatni podatki</span>"
-
 #~ msgid "<span weight=\"bold\">Options</span>"
 #~ msgstr "<span weight=\"bold\">Možnosti</span>"
-
 #~ msgid "<span weight=\"bold\">Printed Fonts</span>"
 #~ msgstr "<span weight=\"bold\">Natisnjene pisave</span>"
-
 #~ msgid "<span weight=\"bold\">Proxy Settings</span>"
 #~ msgstr "<span weight=\"bold\">Nastavitve posredniškega strežnika</span>"
-
 #~ msgid "<span weight=\"bold\">Required Information</span>"
 #~ msgstr "<span weight=\"bold\">Zahtevani podatki</span>"
-
 #~ msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
 #~ msgstr "<span weight=\"bold\">Varen MIME (S/MIME)</span>"
-
 #~ msgid "<span weight=\"bold\">Security</span>"
 #~ msgstr "<span weight=\"bold\">Varnost</span>"
-
 #~ msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
 #~ msgstr "<span weight=\"bold\">Poslana sporočila in osnutki</span>"
-
 #~ msgid "<span weight=\"bold\">Server Configuration</span>"
 #~ msgstr "<span weight=\"bold\">Nastavitve strežnika</span>"
-
 #~ msgid "<span weight=\"bold\">_Authentication Type</span>"
 #~ msgstr "<span weight=\"bold\">Overitev</span>"
-
 #~ msgid ""
 #~ "Attachment\n"
 #~ "Inline\n"
@@ -23022,7 +22552,6 @@ msgstr "Načini vnosa"
 #~ "Priloga\n"
 #~ "Medvrstica\n"
 #~ "Citat"
-
 #~ msgid ""
 #~ "Attachment\n"
 #~ "Inline (Outlook style)\n"
@@ -23033,25 +22562,18 @@ msgstr "Načini vnosa"
 #~ "Medvrstica (Outlook slog)\n"
 #~ "Navedeno\n"
 #~ "Brez navajanja"
-
 #~ msgid "Message Composer"
 #~ msgstr "Sestavljalnik sporočil"
-
 #~ msgid "<b>Search Folder Sources</b>"
 #~ msgstr "<b>Viri iskalne mape</b>"
-
 #~ msgid "<span weight=\"bold\">Digital Signature</span>"
 #~ msgstr "<span weight=\"bold\">Digitalni podpis</span>"
-
 #~ msgid "<span weight=\"bold\">Encryption</span>"
 #~ msgstr "<span weight=\"bold\">Šifriranje</span>"
-
 #~ msgid "Base"
 #~ msgstr "Osnovno"
-
 #~ msgid "_Open"
 #~ msgstr "_Odpri"
-
 #~ msgid ""
 #~ "389\n"
 #~ "636\n"
@@ -23060,16 +22582,12 @@ msgstr "Načini vnosa"
 #~ "389\n"
 #~ "636\n"
 #~ "3268"
-
 #~ msgid "<b>Authentication</b>"
 #~ msgstr "<b>Overitev</b>"
-
 #~ msgid "<b>Downloading</b>"
 #~ msgstr "<b>Prenašanje</b>"
-
 #~ msgid "<b>Searching</b>"
 #~ msgstr "<b>Iskanje</b>"
-
 #~ msgid ""
 #~ "Anonymously\n"
 #~ "Using email address\n"
@@ -23078,20 +22596,17 @@ msgstr "Načini vnosa"
 #~ "Brezimeno\n"
 #~ "Z uporabo poštega naslova\n"
 #~ "Z uporabo razločnega imena (DN)"
-
 #~ msgid ""
 #~ "Evolution will use this email address to authenticate you with the server."
 #~ msgstr ""
 #~ "Evolution bo uporabila ta e-poštni naslov, za vašo overitev pri povezavi "
 #~ "s strežnikom."
-
 #~ msgid ""
 #~ "One\n"
 #~ "Sub"
 #~ msgstr ""
 #~ "Ena\n"
 #~ "Pod"
-
 #~ msgid ""
 #~ "SSL encryption\n"
 #~ "TLS encryption\n"
@@ -23100,7 +22615,6 @@ msgstr "Načini vnosa"
 #~ "SSL šifriranje\n"
 #~ "TLS šifriranje\n"
 #~ "Brez šifriranja"
-
 #~ msgid ""
 #~ "The search base is the distinguished name (DN) of the entry where your "
 #~ "searches will begin. If you leave this blank, the search will begin at "
@@ -23109,46 +22623,36 @@ msgstr "Načini vnosa"
 #~ "Iskalna zbirka je razločno ime (DN) vnosa, kjer se začnejo vaša iskanja. "
 #~ "Če želite to polje prazno, se bo iskanje začelo pri korenu drevesne "
 #~ "razporeditve map."
-
 #~ msgid ""
 #~ "This is the full name of your LDAP server. For example, \"ldap.mycompany."
 #~ "com\"."
 #~ msgstr ""
 #~ "To je polno ime vašega strežnika LDAP. Na primer: \"ldap.mojepodjetje.com"
 #~ "\"."
-
 #~ msgid ""
 #~ "This is the maximum number of entries to download. Setting this number to "
 #~ "be too large will slow down your address book."
 #~ msgstr ""
 #~ "To je največje število predmetov za prenos. Če je nastavljeno na večjo "
 #~ "vrednost, bo upočasnilo ta imenik."
-
 #~ msgid ""
 #~ "This is the name for this server that will appear in your Evolution "
 #~ "folder list. It is for display purposes only. "
 #~ msgstr ""
 #~ "To ime strežnika bo prikazano v seznamu map Evolutiona. Uporablja se le "
 #~ "za prikaz."
-
 #~ msgid "<b>Junk List:</b>"
 #~ msgstr "<b>Seznam neželene pošte:</b>"
-
 #~ msgid "<b>Name</b>"
 #~ msgstr "<b>Ime</b>"
-
 #~ msgid "<b>Custom Headers</b>"
 #~ msgstr "<b>Glava po meni</b>"
-
 #~ msgid "<b>IMAP Headers</b>"
 #~ msgstr "<b>IMAP Glave</b>"
-
 #~ msgid "<span weight=\"bold\">Location</span>"
 #~ msgstr "<span weight=\"bold\">Mesto</span>"
-
 #~ msgid "<span weight=\"bold\">Sources</span>"
 #~ msgstr "<span weight=\"bold\">Viri</span>"
-
 #~ msgid ""
 #~ "Secure FTP (SSH)\n"
 #~ "Public FTP\n"
@@ -23165,7 +22669,6 @@ msgstr "Načini vnosa"
 #~ "WebDAV (HTTP)\n"
 #~ "Secure WebDAV (HTTPS)\n"
 #~ "Mesto po meri"
-
 #~ msgid ""
 #~ "days\n"
 #~ "weeks\n"
@@ -23174,42 +22677,32 @@ msgstr "Načini vnosa"
 #~ "dni\n"
 #~ "tednov\n"
 #~ "mesecev"
-
 #~ msgid ""
 #~ "iCal\n"
 #~ "Free/Busy"
 #~ msgstr ""
 #~ "iCal\n"
 #~ "Zasedenost"
-
 #~ msgid "<b>Field Value</b>"
 #~ msgstr "<b>Vrednost polja</b>"
-
 #~ msgid "<b>Fingerprints</b>"
 #~ msgstr "<b>Prstni odtisi</b>"
-
 #~ msgid "<b>Issued By</b>"
 #~ msgstr "<b>Izdan s strani</b>"
-
 #~ msgid "<b>Issued To</b>"
 #~ msgstr "<b>Izdan za</b>"
-
 #~ msgid "<b>Time Zones</b>"
 #~ msgstr "<b>Časovni pasovi</b>"
-
 #~ msgid "<b>_Selection</b>"
 #~ msgstr "<b>Izbira</b>"
 
 #, fuzzy
 #~ msgid "Source Action"
 #~ msgstr "Izvorni račun"
-
 #~ msgid "<b>Replies</b>"
 #~ msgstr "<b>Odgovori</b>"
-
 #~ msgid "<b>Status Tracking</b>"
 #~ msgstr "<b>Sledenje stanja</b>"
-
 #~ msgid ""
 #~ "Normal\n"
 #~ "Proprietary\n"
@@ -23224,7 +22717,6 @@ msgstr "Načini vnosa"
 #~ "Zaupno\n"
 #~ "Strogo zaupno\n"
 #~ "Samo za vaše oči"
-
 #~ msgid ""
 #~ "Undefined\n"
 #~ "High\n"
@@ -23235,682 +22727,476 @@ msgstr "Načini vnosa"
 #~ "Visoko\n"
 #~ "Običajno\n"
 #~ "Nizko"
-
 #~ msgid "Field Chooser"
 #~ msgstr "Izbirnik polij"
-
 #~ msgid ""
 #~ "%s already exists\n"
 #~ "Do you want to overwrite it?"
 #~ msgstr ""
 #~ "%s že obstaja\n"
 #~ "Ali jo želite prepisati?"
-
 #~ msgid "Overwrite"
 #~ msgstr "Prepiši"
-
 #~ msgid "contact"
-
 #~ msgid_plural "contacts"
 #~ msgstr[0] "stikov"
 #~ msgstr[1] "stik"
 #~ msgstr[2] "stika"
 #~ msgstr[3] "stiki"
-
 #~ msgid "Attach file(s)"
 #~ msgstr "Priloži datoteko(e)"
-
 #~ msgid "message"
 #~ msgstr "sporočilo"
-
 #~ msgid "Save Message..."
 #~ msgstr "Shrani sporočilo ..."
-
 #~ msgid "Save As..."
 #~ msgstr "Shrani kot ..."
-
 #~ msgid "Test"
 #~ msgstr "Preizkus"
-
 #~ msgid "Prefer PLAIN"
 #~ msgstr "Raje PLAIN"
-
 #~ msgid "search bar"
 #~ msgstr "vrstica za iskanje"
-
 #~ msgid "evolution calendar search bar"
 #~ msgstr "vrstica za iskanje koledarja Evolution"
-
 #~ msgid "Combo Button"
 #~ msgstr "Spustni gumb"
-
 #~ msgid "Activate Default"
 #~ msgstr "Vključi privzeto"
-
 #~ msgid "Popup Menu"
 #~ msgstr "Pojavni meni"
-
 #~ msgid "C_ontacts"
 #~ msgstr "_Stiki"
-
 #~ msgid "Configure contacts and autocompletion here"
 #~ msgstr "Nastavitve stikov in samodejnega dopolnjevanja"
-
 #~ msgid "Evolution Address Book"
 #~ msgstr "Imenik Evolution"
-
 #~ msgid "Evolution Address Book address popup"
 #~ msgstr "Pojavno okno naslovov imenika Evolution"
-
 #~ msgid "Evolution Address Book address viewer"
 #~ msgstr "Pregledovalnik naslovov imenika Evolution"
-
 #~ msgid "Evolution Address Book card viewer"
 #~ msgstr "Pregledovalnik vizitk imenika Evolution"
-
 #~ msgid "Evolution Address Book component"
 #~ msgstr "Komponenta imenika Evolution"
-
 #~ msgid "Evolution S/MIME Certificate Management Control"
 #~ msgstr "Nadzornik upravljanja potrdil S/Mime v Evolution"
-
 #~ msgid "Evolution folder settings configuration control"
 #~ msgstr "Gradnik za nastavitve map Evolution"
-
 #~ msgid "Manage your S/MIME certificates here"
 #~ msgstr "Tu lahko upravljate vaša potrdila S/MIME"
-
 #~ msgid "Failed upgrading Address Book settings or folders."
 #~ msgstr "Napaka med nadgradnjo nastavitev ali map imenika."
-
 #~ msgid "Rename the \"%s\" folder to:"
 #~ msgstr "Preimenuj mapo \"%s\" v:"
-
 #~ msgid "Rename Folder"
 #~ msgstr "Preimenuj mapo"
-
 #~ msgid "Save As vCard..."
 #~ msgstr "Shrani kot VCard ..."
-
 #~ msgid "Contact Source Selector"
 #~ msgstr "Izbirnik virov stika"
-
 #~ msgid ""
 #~ "Position of the vertical pane, between the card and list views and the "
 #~ "preview pane, in pixels."
 #~ msgstr ""
 #~ "Položaj navpičnega panoja med pogledom vizitk in pogledom seznama ter "
 #~ "panojem predogleda v točkah."
-
 #~ msgid "Look up in address books"
 #~ msgstr "Poglej v imenik naslovov"
-
 #~ msgid "Name begins with"
 #~ msgstr "Ime se začne z"
-
 #~ msgid "_Print"
 #~ msgstr "_Natisni"
-
 #~ msgid "Cop_y to Address Book..."
 #~ msgstr "_Kopiraj v imenik ..."
-
 #~ msgid "Mo_ve to Address Book..."
 #~ msgstr "_Premakni v imenik ..."
-
 #~ msgid "Cu_t"
 #~ msgstr "_Izreži"
-
 #~ msgid "_Copy"
 #~ msgstr "_Kopiraj"
-
 #~ msgid "P_aste"
 #~ msgstr "P_rilepi"
-
 #~ msgid "Querying Address Book..."
 #~ msgstr "Poizvedovanje imenika ..."
-
 #~ msgid "Configure your timezone, Calendar and Task List here "
 #~ msgstr "Tu lahko nastavite časovni pas, koledar in seznam opravil"
-
 #~ msgid "Evolution Calendar and Tasks"
 #~ msgstr "Koledar in opravila Evolutiona"
-
 #~ msgid "Evolution Calendar configuration control"
 #~ msgstr "Gradnik za nastavitve koledarja Evolution"
-
 #~ msgid "Evolution Calendar scheduling message viewer"
 #~ msgstr "Pregledovalnik sporočil razvrščevanja koledarja Evolution"
-
 #~ msgid "Evolution Calendar/Task editor"
 #~ msgstr "Urejevalnik koledarja/opravil Evolution"
-
 #~ msgid "Evolution's Calendar component"
 #~ msgstr "Komponenta Koledar Evolution"
-
 #~ msgid "Evolution's Memos component"
 #~ msgstr "Komponenta Zapiski Evolution"
-
 #~ msgid "Evolution's Tasks component"
 #~ msgstr "Komponenta Opravila Evolution"
-
 #~ msgid "Memo_s"
 #~ msgstr "Zapisk_i"
-
 #~ msgid "_Calendars"
 #~ msgstr "_Koledarji"
-
 #~ msgid "Evolution Calendar alarm notification service"
 #~ msgstr "Storitev obvestil alarma koledarja Evolution"
-
 #~ msgid "Could not initialize Bonobo"
 #~ msgstr "Ni mogoče zagnati Bonoba"
-
 #~ msgid ""
 #~ "Could not create the alarm notify service factory, maybe it's already "
 #~ "running..."
 #~ msgstr "Ni mogoče ustvariti tovarne opozorilnega alarma; morda že teče ..."
-
 #~ msgid ""
 #~ "Position of the vertical pane, between the task list and the task preview "
 #~ "pane, in pixels."
 #~ msgstr ""
 #~ "Položaj navpičnega panoja med seznamom opravil in panojem predogleda "
 #~ "opravil v točkah."
-
 #~ msgid "Category is"
 #~ msgstr "Kategorija je"
-
 #~ msgid "Comment contains"
 #~ msgstr "Komentar vsebuje"
-
 #~ msgid "Location contains"
 #~ msgstr "Mesto vsebuje"
-
 #~ msgid "_Make available for offline use"
 #~ msgstr "_Pripravi za uporabo brez povezave"
-
 #~ msgid "_Do not make available for offline use"
 #~ msgstr "_Ne pripravi za uporabo brez povezave"
-
 #~ msgid "Failed upgrading calendars."
 #~ msgstr "Nadgradnja koledarjev ni uspela."
-
 #~ msgid "Unable to open the calendar '%s' for creating events and meetings"
 #~ msgstr ""
 #~ "Ni mogoče odpreti koledarja '%s' za ustvarjanje dogodkov in sestankov"
-
 #~ msgid "There is no calendar available for creating events and meetings"
 #~ msgstr "Na voljo ni nobenega koledarja za ustvarjanje dogodkov in sestankov"
-
 #~ msgid "New appointment"
 #~ msgstr "Nov sestanek"
-
 #~ msgid "New meeting"
 #~ msgstr "Nov sestanek"
-
 #~ msgid "New all day appointment"
 #~ msgstr "Nov celodnevni sestanek"
-
 #~ msgid "Error while opening the calendar"
 #~ msgstr "Napaka med odpiranjem koledarja"
-
 #~ msgid "Method not supported when opening the calendar"
 #~ msgstr "Metoda ni podprta med odpiranjem koledarja"
-
 #~ msgid "Permission denied to open the calendar"
 #~ msgstr "Nimate dovoljenja za odpiranje koledarja"
-
 #~ msgid "_Add "
 #~ msgstr "Dod_aj"
-
 #~ msgid "_Save As..."
 #~ msgstr "_Shrani kot ..."
-
 #~ msgid "P_rint..."
 #~ msgstr "Na_tisni ..."
-
 #~ msgid "C_ut"
 #~ msgstr "_Izreži"
-
 #~ msgid "_Paste"
 #~ msgstr "_Prilepi"
-
 #~ msgid "_Forward as iCalendar"
 #~ msgstr "Posreduj kot i_Koledar"
-
 #~ msgid "_Mark Selected Tasks as Complete"
 #~ msgstr "_Označi izbrana opravila kot dokončana"
-
 #~ msgid "_Mark Selected Tasks as Incomplete"
 #~ msgstr "_Označi izbrana opravila kot nedokončana"
-
 #~ msgid "_Delete Selected Tasks"
 #~ msgstr "_Izbriši izbrana opravila"
-
 #~ msgid "Select T_oday"
 #~ msgstr "Izberi _danes"
-
 #~ msgid "_Select Date..."
 #~ msgstr "_Izberi datum ..."
-
 #~ msgid "Pri_nt..."
 #~ msgstr "Na_tisni ..."
-
 #~ msgid "_Delete Selected Memos"
 #~ msgstr "_Izbriši izbrane opomnike"
-
 #~ msgid "Completing tasks..."
 #~ msgstr "Dokončevanje opravil ..."
-
 #~ msgid "_Custom View"
 #~ msgstr "Pogled _po meri"
-
 #~ msgid "_Save Custom View"
 #~ msgstr "_Shrani pogled po meri"
-
 #~ msgid "_Define Views..."
 #~ msgstr "_Določi poglede ..."
-
 #~ msgid "Loading tasks at %s"
 #~ msgstr "Nalaganje opravil pri %s"
-
 #~ msgid "Loading memos at %s"
 #~ msgstr "Nalaganje opomnikov v %s"
-
 #~ msgid "Failed upgrading memos."
 #~ msgstr "Nadgradnja opomnikov ni uspela."
-
 #~ msgid "Unable to open the memo list '%s' for creating events and meetings"
 #~ msgstr ""
 #~ "Ni mogoče odpreti seznama opomnikov '%s' za ustvarjanje dogodkov in "
 #~ "sestankov"
-
 #~ msgid "There is no calendar available for creating memos"
 #~ msgstr "Za ustvarjanje opomnikov ni na voljo nobenega koledarja"
-
 #~ msgid "New shared memo"
 #~ msgstr "Nov zapisek v skupni rabi"
-
 #~ msgid "New memo list"
 #~ msgstr "Nov seznam opomnikov"
 #~ msgctxt "New"
-
 #~ msgid "Memo li_st"
 #~ msgstr "_Seznam opomnikov"
-
 #~ msgid "Failed upgrading tasks."
 #~ msgstr "Nadgradnja opravil ni uspela."
-
 #~ msgid "Unable to open the task list '%s' for creating events and meetings"
 #~ msgstr ""
 #~ "Ni mogoče odpreti seznama opravil '%s' za ustvarjanje dogodkov in "
 #~ "sestankov"
-
 #~ msgid "There is no calendar available for creating tasks"
 #~ msgstr "Za ustvarjanje opravil ni na voljo nobenega koledarja"
-
 #~ msgid "New task"
 #~ msgstr "Nova naloga"
-
 #~ msgid "New assigned task"
 #~ msgstr "Novo dodeljeno opravilo"
-
 #~ msgid "New task list"
 #~ msgstr "Nov seznam opravil"
 #~ msgctxt "New"
-
 #~ msgid "Tas_k list"
 #~ msgstr "Seznam _opravil"
-
 #~ msgid ""
 #~ "Send options available only for Novell GroupWise and Microsoft Exchange "
 #~ "accounts."
 #~ msgstr ""
 #~ "Možnosti pošiljanja so na voljo le za imetnike računov Novell Groupwise "
 #~ "in Microsoft Exchange."
-
 #~ msgid "Send options not available."
 #~ msgstr "Možnosti pošiljanja niso na voljo."
-
 #~ msgid "Evolution Information"
 #~ msgstr "Podatki Evolution"
-
 #~ msgid "Evolution Query"
 #~ msgstr "Poizvedba Evolution"
-
 #~ msgid "Component"
 #~ msgstr "Enota"
-
 #~ msgid "Label name cannot be empty."
 #~ msgstr "Ime oznake ne sme biti prazno."
-
 #~ msgid ""
 #~ "A label having the same tag already exists on the server. Please rename "
 #~ "your label."
 #~ msgstr "Oznaka z istim imenom na strežniku že obstaja. Preimenujte oznako."
-
 #~ msgid ""
 #~ "Configure mail preferences, including security and message display, here"
 #~ msgstr ""
 #~ "Tukaj lahko spreminjate možnosti pošte, tudi varnost in prikaz sporočil"
-
 #~ msgid "Configure spell-checking, signatures, and the message composer here"
 #~ msgstr "Tukaj lahko nastavljate črkovanje, podpise in sestavljanik pošte"
-
 #~ msgid "Configure your network connection settings here"
 #~ msgstr "Tu lahko nastavite vaše omrežne povezave"
-
 #~ msgid "Evolution Mail"
 #~ msgstr "Pošta Evolution"
-
 #~ msgid "Evolution Mail accounts configuration control"
 #~ msgstr "Gradnik za nastavitve poštnih računov Evolution"
-
 #~ msgid "Evolution Mail component"
 #~ msgstr "Komponenta Pošta Evolution."
-
 #~ msgid "Evolution Mail composer"
 #~ msgstr "Sestavljalnik pošte Evolution"
-
 #~ msgid "Evolution Mail composer configuration control"
 #~ msgstr "Gradnik za nastavitve sestavljalnika pošte Evolution"
-
 #~ msgid "Evolution Mail preferences control"
 #~ msgstr "Gradnik za možnosti pošte Evolution"
-
 #~ msgid "Evolution Network configuration control"
 #~ msgstr "Nadzornik nastavitev omrežja Evolution"
-
 #~ msgid "[Default]"
 #~ msgstr "[Privzeto]"
-
 #~ msgid "Signature(s)"
 #~ msgstr "Podpis(i)"
-
 #~ msgid "_Copy to Folder"
 #~ msgstr "_Kopiraj v mapo"
-
 #~ msgid "_Move to Folder"
 #~ msgstr "_Prestavi v mapo"
-
 #~ msgid "Cancel _Drag"
 #~ msgstr "Prekliči _vlečenje"
-
 #~ msgid "Open in _New Window"
 #~ msgstr "Odpri v _novem oknu"
-
 #~ msgid "_Move..."
 #~ msgstr "_Prestavi ..."
-
 #~ msgid "_Unread Search Folder"
 #~ msgstr "Mapa iskanja _neprebranih sporočil"
-
 #~ msgid "U_ndelete"
 #~ msgstr "O_dbriši"
-
 #~ msgid "Fla_g Completed"
 #~ msgstr "Postavi zastavico končano"
-
 #~ msgid "Cl_ear Flag"
 #~ msgstr "Zb_riši zastavico"
-
 #~ msgid "Crea_te Rule From Message"
 #~ msgstr "Iz sporočila ustvari _pravilo"
-
 #~ msgid "Search Folder based on _Subject"
 #~ msgstr "Iskalna mapa po _zadevi"
-
 #~ msgid "Search Folder based on Se_nder"
 #~ msgstr "Iskalna mapa po _pošiljatelju"
-
 #~ msgid "Search Folder based on _Recipients"
 #~ msgstr "Iskalna mapa po _prejemnikih"
-
 #~ msgid "Filter based on Sub_ject"
 #~ msgstr "Filter povzet po za_devi"
-
 #~ msgid "Filter based on Sen_der"
 #~ msgstr "Filter povzet po pošilja_telju"
-
 #~ msgid "Filter based on Re_cipients"
 #~ msgstr "Filter povzet po preje_mnikih"
-
 #~ msgid "Filter based on _Mailing List"
 #~ msgstr "Filter povzet po p_oštnem seznamu"
-
 #~ msgid "_Fit to Width"
 #~ msgstr "P_rilagodi širini"
-
 #~ msgid "Tag"
 #~ msgstr "Oznaka"
-
 #~ msgid "untitled_image.%s"
 #~ msgstr "neimenovana_slika.%s"
-
 #~ msgid "_Reply to sender"
 #~ msgstr "_Odgovori pošiljatelju"
-
 #~ msgid "Open in %s..."
 #~ msgstr "Odpri v %s ..."
-
 #~ msgid "Add address"
 #~ msgstr "Dodaj naslov"
-
 #~ msgid "Default height of the message window."
 #~ msgstr "Privzeta višina okna za pisanje sporočil."
-
 #~ msgid "Default width of the message window."
 #~ msgstr "Privzeta širina okna za pisanje sporočil."
-
 #~ msgid ""
 #~ "If the \"Preview\" pane is on, then show it side-by-side rather than "
 #~ "vertically."
 #~ msgstr ""
 #~ "Če je pult \"Predogled\" prikazan, ga prikaži raje ob strani kot navpično."
-
 #~ msgid "Message Window default height"
 #~ msgstr "Privzeta višina okna za pisanje sporočil"
-
 #~ msgid "Message Window default width"
 #~ msgstr "Privzeta širina okna za pisanje sporočil"
-
 #~ msgid "Prompt to check if the user wants to go offline immediately"
 #~ msgstr ""
 #~ "Opomnik, ki preveri ali uporabnik želi takoj nadaljevati z delom brez "
 #~ "povezave"
-
 #~ msgid "Use side-by-side or wide layout"
 #~ msgstr "Uporabi stransko razporeditev namesto široke"
-
 #~ msgid "New Mail Message"
 #~ msgstr "Novo poštno sporočilo"
-
 #~ msgid "New Mail Folder"
 #~ msgstr "Nova poštna mapa"
-
 #~ msgid "Failed upgrading Mail settings or folders."
 #~ msgstr "Nadgradnja nastavitev ali map Pošte ni uspela."
-
 #~ msgid "Baltic (ISO-8859-13)"
 #~ msgstr "Baltsko (ISO-8859-13)"
-
 #~ msgid "Baltic (ISO-8859-4)"
 #~ msgstr "Baltsko (ISO-8859-4)"
-
 #~ msgid "Email Accounts"
 #~ msgstr "E-poštni računi"
-
 #~ msgid ""
 #~ "If the server uses a non-standard port then specify the server address as "
 #~ "\"server-name:port-number\""
 #~ msgstr ""
 #~ "V primeru da strežnik uporablja nestandardna vrata, določite naslov "
 #~ "strežnika kot \"ime-strežnika:številka-vrat\""
-
 #~ msgid "Signatures Table"
-#~ msgstr "Preglednica podpisov"
-
+#~ msgstr "Razpredelnica podpisov"
 #~ msgid "Delete \"{0}\"?"
 #~ msgstr "Ali naj se izbriše \"{0}\"?"
-
 #~ msgid "Delete messages in Search Folder?"
 #~ msgstr "Ali naj se izbrišejo izbrana sporočila iz iskalne mape?"
-
 #~ msgid "Discard changes?"
 #~ msgstr "Zavržem spremembe?"
-
 #~ msgid "Mark all messages as read"
 #~ msgstr "Označi vsa sporočila kot prebrana"
-
 #~ msgid "Querying server"
 #~ msgstr "Strežnik poizvedb"
-
 #~ msgid "Subject or Recipients contains"
 #~ msgstr "Zadeva ali Pošiljatelj vsebuje"
-
 #~ msgid "Subject or Sender contains"
 #~ msgstr "Zadeva ali Pošiljatelj vsebuje"
-
 #~ msgid "Audio Inline"
 #~ msgstr "Vstavek za vgrajeni zvok"
-
 #~ msgid "Copy Tool"
 #~ msgstr "Orodje za kopiranje"
-
 #~ msgid "_Folder Name:"
 #~ msgstr "Ime _mape:"
-
 #~ msgid "_User:"
 #~ msgstr "_Uporabnik:"
-
 #~ msgid "Secure Password"
 #~ msgstr "Varno geslo"
-
 #~ msgid ""
 #~ "This option will connect to the Exchange server using secure password "
 #~ "(NTLM) authentication."
 #~ msgstr ""
 #~ "Ta možnost bo vzpostavila povezavo s strežnikom Exchange ob uporabi varne "
 #~ "overitve z geslom (NTLM)."
-
 #~ msgid "Plaintext Password"
 #~ msgstr "Besedilno geslo"
-
 #~ msgid ""
 #~ "This option will connect to the Exchange server using standard plaintext "
 #~ "password authentication."
 #~ msgstr ""
 #~ "Ta možnost bo vzpostavila povezavo s strežnikom Exchange ob uporabi "
 #~ "običajne overitve z geslom kot navadnim besedilom."
-
 #~ msgid "Out Of Office"
 #~ msgstr "Iz pisarne"
-
 #~ msgid ""
 #~ "The message specified below will be automatically sent to \n"
 #~ "each person who sends mail to you while you are out of the office."
 #~ msgstr ""
 #~ "Spodnje sporočilo bo samodejno poslano vsaki osebi, \n"
 #~ "ki vam pošlje sporočilo v času vaše odsotnosti."
-
 #~ msgid "I am out of the office"
 #~ msgstr "Sam iz pisarne"
-
 #~ msgid "I am in the office"
 #~ msgstr "Sem v pisarni"
-
 #~ msgid "Change the password for Exchange account"
 #~ msgstr "Spremeni geslo računa Exchange"
-
 #~ msgid "Change Password"
 #~ msgstr "Spremeni geslo"
-
 #~ msgid "Manage the delegate settings for Exchange account"
 #~ msgstr "Upravljaj nastavitve pooblaščenca za račun Exchange"
-
 #~ msgid "Delegation Assistant"
 #~ msgstr "Pomočnik pooblaščanja"
-
 #~ msgid "Miscelleneous"
 #~ msgstr "Različno"
-
 #~ msgid "View the size of all Exchange folders"
 #~ msgstr "Ogled velikosti vseh map Exchange"
-
 #~ msgid "Folders Size"
 #~ msgstr "Velikost map"
-
 #~ msgid "_OWA URL:"
 #~ msgstr "URL _OWA:"
-
 #~ msgid "A_uthenticate"
 #~ msgstr "Overi"
-
 #~ msgid "Mailbox name is _different than user name"
 #~ msgstr "Ime poštnega predala je _drugačno kot uporabniško ime"
-
 #~ msgid "_Mailbox:"
 #~ msgstr "_Poštni predal:"
-
 #~ msgid "%s KB"
 #~ msgstr "%s KB"
-
 #~ msgid "0 KB"
 #~ msgstr "0 KB"
-
 #~ msgid "Size:"
 #~ msgstr "Velikost:"
-
 #~ msgid ""
 #~ "Evolution is in offline mode. You cannot create or modify folders now.\n"
 #~ "Please switch to online mode for such operations."
 #~ msgstr ""
 #~ "Evolution ni na zvezi, zato ni mogoče ustvarjati in spreminjati map.\n"
 #~ "Če želite to storiti, preklopite na način na zvezi."
-
 #~ msgid ""
 #~ "The current password does not match the existing password for your "
 #~ "account. Please enter the correct password"
 #~ msgstr ""
 #~ "Trenutno geslo se ne ujema z obstoječim geslom vašega računa. Vnesite "
 #~ "pravilno geslo"
-
 #~ msgid "The two passwords do not match. Please re-enter the passwords."
 #~ msgstr "Gesli se ne ujemata. Ponovno ju vnesite."
-
 #~ msgid "Confirm Password:"
 #~ msgstr "Potrdi geslo:"
-
 #~ msgid "Current Password:"
 #~ msgstr "Trenutno geslo:"
-
 #~ msgid "New Password:"
 #~ msgstr "Novo geslo:"
-
 #~ msgid "Your current password has expired. Please change your password now."
 #~ msgstr "Vaše trenutno geslo je poteklo. Spremenite ga zdaj."
-
 #~ msgid "Your password will expire in the next %d days"
 #~ msgstr "Vaše geslo bo poteklo v naslednjih %d dneh"
-
 #~ msgid "Custom"
 #~ msgstr "Po meri"
-
 #~ msgid "Editor (read, create, edit)"
 #~ msgstr "Urednik (branje, ustvarjanje, urejanje)"
-
 #~ msgid "Author (read, create)"
 #~ msgstr "Avtor (branje, ustvarjanje)"
-
 #~ msgid "Reviewer (read-only)"
 #~ msgstr "Ocenjevalec (samo branje)"
-
 #~ msgid "Delegate Permissions"
 #~ msgstr "Dovoljenja pooblaščenca"
-
 #~ msgid "Permissions for %s"
 #~ msgstr "Dovoljenja za %s"
-
 #~ msgid ""
 #~ "This message was sent automatically by Evolution to inform you that you "
 #~ "have been designated as a delegate. You can now send messages on my "
@@ -23919,50 +23205,35 @@ msgstr "Načini vnosa"
 #~ "Sporočilo je poslano samodejno, z namenom obvestiti vas, da ste "
 #~ "predlagani kot pooblaščenec. Sedaj lahko v mojem imenu pošiljate "
 #~ "sporočila."
-
 #~ msgid "You have been given the following permissions on my folders:"
 #~ msgstr "Pridobili ste si naslednja dovoljenja v mojih mapah:"
-
 #~ msgid "You are also permitted to see my private items."
 #~ msgstr "Dovoljeno vam je videti moje zasebne predmete."
-
 #~ msgid "However you are not permitted to see my private items."
 #~ msgstr ""
 #~ "Kljub vsemu pa nimate dovoljenja za pregled mojih osebnih predmetov."
-
 #~ msgid "You have been designated as a delegate for %s"
 #~ msgstr "Predlagani ste bili za pooblaščenca %s"
-
 #~ msgid "Could not access Active Directory"
 #~ msgstr "Ni mogoč dostop do dejavnega imenika"
-
 #~ msgid "Could not find self in Active Directory"
 #~ msgstr "Ni mogoče najti sebe v dejavnem imeniku"
-
 #~ msgid "Could not find delegate %s in Active Directory"
 #~ msgstr "Ni mogoče najti pooblaščenca %s v dejavnem imeniku"
-
 #~ msgid "Could not remove delegate %s"
 #~ msgstr "Ni mogoče odstraniti pooblaščenca %s"
-
 #~ msgid "Could not update list of delegates."
 #~ msgstr "Ni mogoče posodobiti seznama pooblaščencev."
-
 #~ msgid "Could not add delegate %s"
 #~ msgstr "Ni mogoče dodati pooblaščenca %s"
-
 #~ msgid "Error reading delegates list."
 #~ msgstr "Napaka med branjem seznama pooblaščencev."
-
 #~ msgid "C_alendar:"
 #~ msgstr "Koled_ar"
-
 #~ msgid "Co_ntacts:"
 #~ msgstr "_Stiki: "
-
 #~ msgid "Delegates"
 #~ msgstr "Pooblaščenci"
-
 #~ msgid ""
 #~ "None\n"
 #~ "Reviewer (read-only)\n"
@@ -23973,50 +23244,36 @@ msgstr "Načini vnosa"
 #~ "Pregledovalec (samo za branje)\n"
 #~ "Avtor (branje, ustvarjanje)\n"
 #~ "Urejevalec (branje, ustvarjanje, urejanje)"
-
 #~ msgid "Permissions for"
 #~ msgstr "Dovoljenja za"
-
 #~ msgid ""
 #~ "These users will be able to send mail on your behalf\n"
 #~ "and access your folders with the permissions you give them."
 #~ msgstr ""
 #~ "Ti uporabniki bodo lahko v vašem imenu pošiljali pošto\n"
 #~ "in bodo imeli dostop do map z dovoljenji, ki jim jih dodelite."
-
 #~ msgid "_Delegate can see private items"
 #~ msgstr "Pooblaščenec lahko vi_di zasebne predmete"
-
 #~ msgid "_Inbox:"
 #~ msgstr "_Dohodna pošta:"
-
 #~ msgid "_Summarize permissions"
 #~ msgstr "_Povzetek dovoljenj"
-
 #~ msgid "Permissions..."
 #~ msgstr "Dovoljenja ..."
-
 #~ msgid "Folder Name"
 #~ msgstr "Ime mape"
-
 #~ msgid "Folder Size"
 #~ msgstr "Velikost mape"
-
 #~ msgid "User"
 #~ msgstr "Uporabnik"
-
 #~ msgid "Subscribe to Other User's Folder"
 #~ msgstr "Naroči se na mapo drugega uporabnika"
-
 #~ msgid "Exchange Folder Tree"
 #~ msgstr "Drevesna razporeditev map Exchange"
-
 #~ msgid "Unsubscribe Folder..."
 #~ msgstr "Prekliči naročnino na mapo ..."
-
 #~ msgid "Unsubscribe from \"%s\""
 #~ msgstr "Prekliči naročnino na \"%s\""
-
 #~ msgid ""
 #~ "<b>Currently, your status is \"Out of the Office\". </b>\n"
 #~ "\n"
@@ -24025,13 +23282,10 @@ msgstr "Načini vnosa"
 #~ "<b>Trenutno je vaše stanje \"Iz pisarne\". </b>\n"
 #~ "\n"
 #~ "Ali želite spremeniti stanje na \"V pisarni\"? "
-
 #~ msgid "<b>Out of Office Message:</b>"
 #~ msgstr "<b>Sporočilo iz pisarne:</b>"
-
 #~ msgid "<b>Status:</b>"
 #~ msgstr "<b>Stanje:</b>"
-
 #~ msgid ""
 #~ "<small>The message specified below will be automatically sent to each "
 #~ "person who sends\n"
@@ -24040,91 +23294,62 @@ msgstr "Načini vnosa"
 #~ "<small>Spodnje sporočilo bo samodejno poslano vsem osebam, ki vam "
 #~ "pošljejo\n"
 #~ "sporočilo, ko vas ni v pisarni.</small>"
-
 #~ msgid "I am currently in the office"
 #~ msgstr "Trenutno sem v pisarni"
-
 #~ msgid "I am currently out of the office"
 #~ msgstr "Trenutno sem izven pisarne"
-
 #~ msgid "No, Don't Change Status"
 #~ msgstr "Ne, ne spreminjaj stanja"
-
 #~ msgid "Out of Office Assistant"
 #~ msgstr "Pomočnik za stanje iz pisarne"
-
 #~ msgid "Yes, Change Status"
 #~ msgstr "Da, spremeni stanje"
-
 #~ msgid "Password Expiry Warning..."
 #~ msgstr "Opozorilo o poteku gesla ..."
-
 #~ msgid "Your password will expire in 7 days..."
 #~ msgstr "Vaše geslo bo poteklo čez 7 dni ..."
-
 #~ msgid "_Change Password"
 #~ msgstr "_Spremeni geslo"
-
 #~ msgid "(Permission denied.)"
 #~ msgstr "(Nimate dovoljenj.)"
-
 #~ msgid "Add User:"
 #~ msgstr "Dodaj uporabnika:"
-
 #~ msgid "<b>Permissions</b>"
 #~ msgstr "<b>Dovoljenja</b>"
-
 #~ msgid "Cannot Delete"
 #~ msgstr "Ni mogoče izbrisati"
-
 #~ msgid "Cannot Edit"
 #~ msgstr "Ni mogoče urejati"
-
 #~ msgid "Create items"
 #~ msgstr "Ustvari predmete"
-
 #~ msgid "Create subfolders"
 #~ msgstr "Ustvari podmape"
-
 #~ msgid "Delete Any Items"
 #~ msgstr "Zbriši poljubne predmete"
-
 #~ msgid "Delete Own Items"
 #~ msgstr "Zbriši lastne predmete"
-
 #~ msgid "Edit Any Items"
 #~ msgstr "Uredi poljubne predmete"
-
 #~ msgid "Edit Own Items"
 #~ msgstr "Uredi lastne predmete"
-
 #~ msgid "Folder contact"
 #~ msgstr "Stik mape"
-
 #~ msgid "Folder owner"
 #~ msgstr "Lastnik mape"
-
 #~ msgid "Folder visible"
 #~ msgstr "Mapa vidna"
-
 #~ msgid "Read items"
 #~ msgstr "Preberi predmete"
-
 #~ msgid "Role: "
 #~ msgstr "Vloga:"
-
 #~ msgid "<b>Message Settings</b>"
 #~ msgstr "<b>Nastavitve sporočil</b>"
-
 #~ msgid "<b>Tracking Options</b>"
 #~ msgstr "<b>Možnosti sledenjal</b>"
-
 #~ msgid "Exchange - Send Options"
 #~ msgstr "Exchange - Možnosti pošiljanja"
-
 #~ msgid "I_mportance: "
 #~ msgstr "Po_membnost:"
-
 #~ msgid ""
 #~ "Normal\n"
 #~ "High\n"
@@ -24133,7 +23358,6 @@ msgstr "Načini vnosa"
 #~ "Običajno\n"
 #~ "Visoko\n"
 #~ "Nizko"
-
 #~ msgid ""
 #~ "Normal\n"
 #~ "Personal\n"
@@ -24144,64 +23368,46 @@ msgstr "Načini vnosa"
 #~ "Osebno\n"
 #~ "Privatno\n"
 #~ "Zaupno"
-
 #~ msgid "Request a _delivery receipt for this message"
 #~ msgstr "Zahtevaj povratnico ob prejemu sporočila"
-
 #~ msgid "Request a _read receipt for this message"
 #~ msgstr "Zahtevaj _povratnico ob branju sporočila"
-
 #~ msgid "Send as Delegate"
 #~ msgstr "Pošlji kot pooblaščenec"
-
 #~ msgid "_Sensitivity: "
 #~ msgstr "_Občutljivost:"
-
 #~ msgid "_User"
 #~ msgstr "_Uporabnik"
-
 #~ msgid "Select User"
 #~ msgstr "Izberi uporabnika"
-
 #~ msgid "Address Book..."
 #~ msgstr "imenik ..."
-
 #~ msgid "Subscribe to Other User's Contacts"
 #~ msgstr "Naroči se na stike drugega uporabnika"
-
 #~ msgid "Subscribe to Other User's Calendar"
 #~ msgstr "Naroči se na koledar drugega uporabnika"
-
 #~ msgid "Activates the Evolution-Exchange extension package."
 #~ msgstr "Vključi Evolution-Exchange razširitveni paket."
-
 #~ msgid "Exchange Operations"
 #~ msgstr "Opravila Exchange"
-
 #~ msgid "Cannot access the \"Exchange settings\" tab in offline mode."
 #~ msgstr ""
 #~ "Ni mogoče dostopiti do  \"Nastavitev Exchange\" zavihka v načinu brez "
 #~ "povezave."
-
 #~ msgid "Cannot change password due to configuration problems."
 #~ msgstr "Ni mogoče spremeniti gesla zaradi napačnih nastavitev."
-
 #~ msgid "Cannot display folders."
 #~ msgstr "Ni mogoče prikazati map."
-
 #~ msgid ""
 #~ "Changes to options for Exchange account \"{0}\" will only take effect "
 #~ "after restarting Evolution."
 #~ msgstr ""
 #~ "Spremembe nastavitev računa Exchange \"{0}\" bodo uveljavljene po "
 #~ "ponovnem zagonu Evolutiona."
-
 #~ msgid "Could not authenticate to server."
 #~ msgstr "Overitev na strežniku ni bila mogoča."
-
 #~ msgid "Could not change password."
 #~ msgstr "Ni mogoče spremeniti gesla."
-
 #~ msgid ""
 #~ "Could not configure Exchange account because \n"
 #~ "an unknown error occurred. Check the URL, \n"
@@ -24210,48 +23416,34 @@ msgstr "Načini vnosa"
 #~ "Ni mogoče nastaviti računa Exchange, ker \n"
 #~ "je prišlo do neznane napake. Preverite URL, \n"
 #~ "uporabniško ime in geslo ter poskusite znova."
-
 #~ msgid "Could not connect to Exchange server."
 #~ msgstr "Ni se mogoče povezati na strežnik Exchange."
-
 #~ msgid "Could not connect to server {0}."
 #~ msgstr "Ni se mogoče povezati na srežnik {0}."
-
 #~ msgid "Could not determine folder permissions for delegates."
 #~ msgstr "Ni mogoče ugotoviti dovoljenj map za pooblaščence."
-
 #~ msgid "Could not find Exchange Web Storage System."
 #~ msgstr "Ni mogoče najti spletnega prostora Exchange."
-
 #~ msgid "Could not locate server {0}."
 #~ msgstr "Ni mogoče najti strežnika {0}."
-
 #~ msgid "Could not make {0} a delegate"
 #~ msgstr "Osebe {0} ni mogoče pooblastiti"
-
 #~ msgid "Could not read folder permissions"
 #~ msgstr "Ni mogoče prebrati dovoljenj map"
-
 #~ msgid "Could not read folder permissions."
 #~ msgstr "Ni mogoče prebrati dovoljenj map."
-
 #~ msgid "Could not read out-of-office state"
 #~ msgstr "Ni mogoče prebrati stanja Iz pisarne"
-
 #~ msgid "Could not update folder permissions."
 #~ msgstr "Ni mogoče nadgraditi dovoljenj mape."
-
 #~ msgid "Could not update out-of-office state"
 #~ msgstr "Ni mogoče posodobiti stanja Iz pisarne"
-
 #~ msgid "Evolution requires a restart to load the subscribed user's mailbox"
 #~ msgstr ""
 #~ "Program Evolution zahteva ponovni zagon za nalaganje poštnega predala "
 #~ "prijavljenega uporabnika."
-
 #~ msgid "Exchange Account is offline."
 #~ msgstr "Račun Exchange ni na zvezi."
-
 #~ msgid ""
 #~ "Exchange Connector requires access to certain\n"
 #~ "functionality on the Exchange Server that appears\n"
@@ -24278,86 +23470,63 @@ msgstr "Načini vnosa"
 #~ "\n"
 #~ "{0}\n"
 #~ "  "
-
 #~ msgid "Folder already exists"
 #~ msgstr "Mapa že obstaja"
-
 #~ msgid "Folder does not exist"
 #~ msgstr "Mapa ne obstaja"
-
 #~ msgid "Folder offline"
 #~ msgstr "Mapa ni na zvezi"
-
 #~ msgid "Generic error"
 #~ msgstr "Generična napaka"
-
 #~ msgid "Global Catalog Server is not reachable"
 #~ msgstr "Global Catalog Server ni dosegljiv"
-
 #~ msgid ""
 #~ "If OWA is running on a different path, you must specify that in the "
 #~ "account configuration dialog."
 #~ msgstr ""
 #~ "Če OWA teče na drugi poti, morate to označiti v pogovornem oknu za "
 #~ "nastavitev računa."
-
 #~ msgid "Mailbox for {0} is not on this server."
 #~ msgstr "Poštni predal za {0} ni na tem strežniku."
-
 #~ msgid "Make sure the URL is correct and try again."
 #~ msgstr "Prepričajte se, da je URL pravilen in poskusite znova."
-
 #~ msgid "Make sure the server name is spelled correctly and try again."
 #~ msgstr "Prepričajte se, da je ime strežnika pravilno, in poskusite znova."
-
 #~ msgid "Make sure the username and password are correct and try again."
 #~ msgstr ""
 #~ "Prepričajte se, da sta uporabniško ime in geslo pravilna, in poskusite "
 #~ "znova."
-
 #~ msgid "No Global Catalog server configured for this account."
 #~ msgstr "Noben strežnik Global Catalog ni nastavljen za ta račun."
-
 #~ msgid "No mailbox for user {0} on {1}."
 #~ msgstr "Uporabnik {0} nima poštnega predala na {1}."
-
 #~ msgid "No such user {0}"
 #~ msgstr "Ni tega uporabnika {0}"
-
 #~ msgid "Password successfully changed."
 #~ msgstr "Geslo uspešno spremenjeno."
-
 #~ msgid ""
 #~ "Please enter a Delegate's ID or deselect the Send as a Delegate option."
 #~ msgstr ""
 #~ "Vnesite vaš ID pooblaščenca ali pa odstranite oznako pošiljanja kot "
 #~ "pooblaščenec."
-
 #~ msgid "Please make sure the Global Catalog Server name is correct."
 #~ msgstr "Prepričajte se, da je ime strežnika Global Catalog Server pravilno."
-
 #~ msgid "Please restart Evolution for changes to take effect"
 #~ msgstr "Za uveljavitev sprememb ponovno zaženite Evolution"
-
 #~ msgid "Server rejected password because it is too weak."
 #~ msgstr "Strežnik je zavrnil geslo, ker je prešibko."
-
 #~ msgid "The Exchange account will be disabled when you quit Evolution"
 #~ msgstr "Račun Exchange bo onemogočen, ko končate Evolution"
-
 #~ msgid "The Exchange account will be removed when you quit Evolution"
 #~ msgstr "Račun Exchange bo izbrisan, ko končate Evolution."
-
 #~ msgid "The Exchange server is not compatible with Exchange Connector."
 #~ msgstr "Strežnik Exchange ni združljiv z Exchange Connectorjem."
-
 #~ msgid ""
 #~ "The server is running Exchange 5.5. Exchange Connector \n"
 #~ "supports Microsoft Exchange 2000 and 2003 only."
 #~ msgstr ""
 #~ "Strežnik poganja Exchange 5.5. Exchange Connector \n"
 #~ "podpira le Microsoft Exchange 2000 in 2003."
-
 #~ msgid ""
 #~ "This probably means that your server requires \n"
 #~ "you to specify the Windows domain name \n"
@@ -24370,90 +23539,68 @@ msgstr "Načini vnosa"
 #~ "uporabniškega imena (npr. &quot;MOJA-DOMENA\\user&quot;).\n"
 #~ "\n"
 #~ "Morda pa ste narobe vnesli vaše geslo."
-
 #~ msgid "Try again with a different password."
 #~ msgstr "Poskusite ponovno z novim geslom."
-
 #~ msgid "Unable to add user to access control list:"
 #~ msgstr "Ni mogoče dodati uporabnika na seznam nadzora dostopa: "
-
 #~ msgid "Unable to edit delegates."
 #~ msgstr "Ni mogoče urediti pooblaščencev."
-
 #~ msgid "Unknown error looking up {0}"
 #~ msgstr "Neznana napaka med iskanjem {0}"
-
 #~ msgid "Unknown type"
 #~ msgstr "Neznana vrsta"
-
 #~ msgid "Unsupported operation"
 #~ msgstr "Nepodprto dejanje"
-
 #~ msgid ""
 #~ "You are nearing your quota available for storing mail on this server."
 #~ msgstr ""
 #~ "Približujete se prostorski omejitvi za shranjevanje pošte na tem "
 #~ "strežniku."
-
 #~ msgid ""
 #~ "You are permitted to send a message on behalf of only one delegator at a "
 #~ "time."
 #~ msgstr ""
 #~ "Imate dovoljenje, da pošljete sporočilo sočasno v imenu le ene osebe "
 #~ "katere pooblaščenec ste."
-
 #~ msgid "You cannot make yourself your own delegate"
 #~ msgstr "Sami sebe ne morete pooblastiti"
-
 #~ msgid "You have exceeded your quota for storing mail on this server."
 #~ msgstr ""
 #~ "Presegli ste prostorsko omejitev za shranjevanje pošte na tem strežniku."
-
 #~ msgid ""
 #~ "Your current usage is: {0} KB. Try to clear up some space by deleting "
 #~ "some mail."
 #~ msgstr ""
 #~ "Vaša trenutna uporaba je: {0} KB. Poskusite sprostiti nekaj prostora, "
 #~ "tako da zbrišete nekaj sporočil."
-
 #~ msgid ""
 #~ "Your current usage is: {0} KB. You will not be able to either send or "
 #~ "receive mail now."
 #~ msgstr ""
 #~ "Vaša trenutna uporaba je: {0} KB. Trenutno ni mogoče pošiljati ali "
 #~ "prejemati e-pošte."
-
 #~ msgid ""
 #~ "Your current usage is: {0} KB. You will not be able to send mail until "
 #~ "you clear up some space by deleting some mail."
 #~ msgstr ""
 #~ "Vaša trenutna uporaba je: {0} KB. Dokler ne sprostite nekaj prostora, "
 #~ "tako da zbrišete nekaj sporočil, ne boste mogli pošiljati e-pošte."
-
 #~ msgid "Your password has expired."
 #~ msgstr "Vaše geslo je poteklo."
-
 #~ msgid "{0} cannot be added to an access control list"
 #~ msgstr "{0} ni mogoče dodati na seznam nadzora dostopa"
-
 #~ msgid "{0} is already a delegate"
 #~ msgstr "{0} je že pooblaščen"
-
 #~ msgid "{0} is already in the list"
 #~ msgstr "{0} je že na seznamu"
-
 #~ msgid "Subscribe to Other User's Tasks"
 #~ msgstr "Naroči se na opravila drugih uporabnikov"
-
 #~ msgid "Check folder permissions"
 #~ msgstr "Preveri dovoljenja map"
-
 #~ msgid "PNG files"
 #~ msgstr "Datoteke PNGVse krajevne mape"
-
 #~ msgid "_Face"
 #~ msgstr "_ObrazFrancija"
-
 #~ msgid ""
 #~ "Attach a small picture of your face to outgoing messages.\n"
 #~ "\n"
@@ -24466,149 +23613,104 @@ msgstr "Načini vnosa"
 #~ "Prvič mora uporabnik nastaviti 48*48 točk veliko png sliko. Slika je "
 #~ "kodirana v base64 načinu in je shranjena v ~/.evolution/faces. Slika bo "
 #~ "uporabljena pri vseh pošiljanjih sporočil."
-
 #~ msgid "Unsubscribe Folders"
 #~ msgstr "Prekliči naročnino na mape"
-
 #~ msgid ""
 #~ "Unsubscribe from an IMAP folder by right-clicking on it in the folder "
 #~ "tree."
 #~ msgstr "Odjava iz IMAP mape z desnim klikom v drevesu map."
-
 #~ msgid "Add Novell GroupWise support to Evolution."
 #~ msgstr "Dodajanje Novell GroupWise podpore Evolution."
-
 #~ msgid "GroupWise Account Setup"
 #~ msgstr "Nastavitev računa Groupwise"
-
 #~ msgid "Hardware Abstraction Layer not loaded"
 #~ msgstr "Hardware Abstraction Layer ni naložen"
-
 #~ msgid ""
 #~ "The \"hald\" service is required but not currently running. Please enable "
 #~ "the service and rerun this program, or contact your system administrator."
 #~ msgstr ""
 #~ "Zahtevana storitev \"hald\" trenutno ne teče. Omogočite storitev in "
 #~ "ponovno zaženite program ali pa obvestite upravljalca vašega sistema."
-
 #~ msgid ""
 #~ "Evolution could not find an iPod to synchronize with. Either the iPod is "
 #~ "not connected to the system or it is not powered on."
 #~ msgstr ""
 #~ "Z napravo iPod ni mogoče uskladiti sistema. Ali iPod naprava ni povezana "
 #~ "ali pa ni priključena."
-
 #~ msgid "Synchronize to iPod"
 #~ msgstr "Uskladi z iPodom"
-
 #~ msgid "Synchronize your data with your Apple iPod."
 #~ msgstr "Uskladi podatke z iPodom"
-
 #~ msgid "Disable an account by right-clicking on it in the folder tree."
 #~ msgstr "Onemogočite račun z desnim klikom nanj v drevesni razporeditvi map."
-
 #~ msgid "Specify _filename:"
 #~ msgstr "Navedite ime _datoteke:"
-
 #~ msgid "Pl_ay"
 #~ msgstr "_Predvajaj"
-
 #~ msgid "Mail-to-Task"
 #~ msgstr "Pošta-v-opravilo"
-
 #~ msgid "Contact list _owner"
 #~ msgstr "Lastnik d_opisnega seznama"
-
 #~ msgid "Get list _archive"
 #~ msgstr "Dobi _arhiv seznama"
-
 #~ msgid "Get list _usage information"
 #~ msgstr "Dobi podatke o _uporabi seznama"
-
 #~ msgid "_Post message to list"
 #~ msgstr "_Pošlji sporočilo na seznam"
-
 #~ msgid "_Subscribe to list"
 #~ msgstr "_Naroči se na seznam"
-
 #~ msgid "_Un-subscribe to list"
 #~ msgstr "_Prekliči naročnino na seznam"
-
 #~ msgid "Mono Loader"
 #~ msgstr "Nalagalnik Mono"
-
 #~ msgid "Support plugins written in Mono."
 #~ msgstr "Podpora vstavkov napisanih v Mono."
-
 #~ msgid "A plugin which loads other plugins written using Python."
 #~ msgstr "Vstavek, ki nalaga druge vstavke napisane v jeziku python."
-
 #~ msgid "Python Loader"
 #~ msgstr "Nalagalnik Python"
-
 #~ msgid "_Save to Disk"
 #~ msgstr "_Shrani na disk"
-
 #~ msgid "Quickly select a single calendar or task list for viewing."
 #~ msgstr "Izbere posamezen vir koledarja ali opravil za ogled."
-
 #~ msgid "Select One Source"
 #~ msgstr "Izbor enega vira"
-
 #~ msgid "Evolution Shell"
 #~ msgstr "Lupina Evolution"
-
 #~ msgid "Evolution Shell Config factory"
 #~ msgstr "Nastavitev lupine Evolution"
-
 #~ msgid "Evolution Test"
 #~ msgstr "Preizkus Evolutiona"
-
 #~ msgid "Evolution Test component"
 #~ msgstr "Komponenta za preizkušanje Evolutiona"
-
 #~ msgid "<b>Active Connections</b>"
 #~ msgstr "<b>Dejavne povezave</b>"
-
 #~ msgid "Active Connections"
 #~ msgstr "Dejavne povezave"
-
 #~ msgid "Click OK to close these connections and go offline"
 #~ msgstr "Kliknite \"V redu\" za zaprtje povezav in nadalnje delo brez mreže"
-
 #~ msgid "The GNOME Pilot tools do not appear to be installed on this system."
 #~ msgstr "Orodja GNOME Pilot niso nameščena na vašem sistemu."
-
 #~ msgid "Error executing %s. (%s)"
 #~ msgstr "Napaka ob izvajanju %s. (%s)"
-
 #~ msgid "Work Offline"
 #~ msgstr "Delaj brez mreže"
-
 #~ msgid "Evolution is in the process of going offline."
 #~ msgstr "Evolution je v postopku preklaplanja na delo brez povezave."
-
 #~ msgid "Unknown system error."
 #~ msgstr "Neznana sistemska napaka."
-
 #~ msgid "Invalid arguments"
 #~ msgstr "Neveljavni argumenti"
-
 #~ msgid "Cannot register on OAF"
 #~ msgstr "Ni mogoča registracija pri OAF"
-
 #~ msgid "Configuration Database not found"
 #~ msgstr "Podatkovna zbirka nastavitev ni bila najdena"
-
 #~ msgid "New Test"
 #~ msgstr "Nov preizkus"
-
 #~ msgid "Import File"
 #~ msgstr "Uvozi datoteko"
-
 #~ msgid "Evolution can not start."
 #~ msgstr "Evolutiona ni mogoče zagnati."
-
 #~ msgid ""
 #~ "Your system configuration does not match your Evolution configuration.\n"
 #~ "\n"
@@ -24617,7 +23719,6 @@ msgstr "Načini vnosa"
 #~ "Nastavitve vašega sistema se ne ujemajo z nastavitvami Evolutiona.\n"
 #~ "\n"
 #~ "Kliknite pomoč za podrobnosti"
-
 #~ msgid ""
 #~ "Your system configuration does not match your Evolution configuration:\n"
 #~ "\n"
@@ -24630,1181 +23731,790 @@ msgstr "Načini vnosa"
 #~ "{0}\n"
 #~ "\n"
 #~ "Kliknite pomoč za podrobnosti"
-
 #~ msgid "Could not execute '%s': %s\n"
 #~ msgstr "Ni mogoče izvesti '%s': %s\n"
-
 #~ msgid "Shutting down %s (%s)\n"
 #~ msgstr "Ugašanje %s (%s)\n"
-
 #~ msgid "Copy"
 #~ msgstr "Kopiraj"
-
 #~ msgid "Copy to Folder..."
 #~ msgstr "Kopiraj v mapo ..."
-
 #~ msgid "Create a new address book folder"
 #~ msgstr "Ustvari novo mapo imenika"
-
 #~ msgid "Cut"
 #~ msgstr "Izreži"
-
 #~ msgid "Forward Contact"
 #~ msgstr "Posreduj _stik"
-
 #~ msgid "Move to Folder..."
 #~ msgstr "Prestavi v mapo ..."
-
 #~ msgid "Paste"
 #~ msgstr "Prilepi"
-
 #~ msgid "Save as VCard..."
 #~ msgstr "Shrani kot VCard ..."
-
 #~ msgid "Select _All"
 #~ msgstr "Izberi _vse"
-
 #~ msgid "Send message to contact"
 #~ msgstr "Stiku pošlji sporočilo"
-
 #~ msgid "St_op"
 #~ msgstr "Us_tavi"
-
 #~ msgid "Stop"
 #~ msgstr "Ustavi"
-
 #~ msgid "_Copy Folder Contacts To"
 #~ msgstr "_Kopiraj stike mape v"
-
 #~ msgid "_Move Folder Contacts To"
 #~ msgstr "_Premakni stike mape v"
-
 #~ msgid "_Rename"
 #~ msgstr "_Preimenuj"
-
 #~ msgid "_Save Contact as VCard..."
 #~ msgstr "_Shrani stik kot VCard ..."
-
 #~ msgid "_Save Folder Contacts As VCard"
 #~ msgstr "_Shrani stike map kot VCard"
-
 #~ msgid "Delete _all Occurrences"
 #~ msgstr "Zbriši vse poj_avitve"
-
 #~ msgid "Show the working week"
 #~ msgstr "Pokaži delavni teden"
-
 #~ msgid "View the debug console for log messages"
 #~ msgstr "Pregled konzole razhroščevanja za sporočila beleženja."
-
 #~ msgid "_Debug Logs"
 #~ msgstr "_Beleženje razhroščevanja"
-
 #~ msgid "Show message preview side-by-side with the message list"
 #~ msgstr "Pokaži predogled sporočil ob strani seznama sporočil"
-
 #~ msgid "Copy selected message(s) to the clipboard"
 #~ msgstr "Kopiraj izbrana sporočila na odložišče"
-
 #~ msgid "Cut selected message(s) to the clipboard"
 #~ msgstr "Izreži izbrana sporočila na odložišče"
-
 #~ msgid "Paste message(s) from the clipboard"
 #~ msgstr "Prilepi sporočila z odložišča"
-
 #~ msgid "Select all and only the messages that are not currently selected"
 #~ msgstr "Izberi vse in le tista sporočila, ki trenutno niso izbrana"
-
 #~ msgid "Not Junk"
 #~ msgstr "Ni neželeno"
-
 #~ msgid "Paste messages from the clipboard"
 #~ msgstr "Prilepi sporočila z odložišča"
-
 #~ msgid "_Save Message..."
 #~ msgstr "_Shrani sporočilo ..."
-
 #~ msgid "Main toolbar"
 #~ msgstr "Glavna orodjarna"
-
 #~ msgid "Mar_k as Complete"
 #~ msgstr "_Označi kot opravljeno"
-
 #~ msgid "Show task preview window"
 #~ msgstr "Pokaži okno predogleda opravil"
-
 #~ msgid "About Evolution..."
 #~ msgstr "O Evolutionu ..."
-
 #~ msgid "Change the visibility of the toolbar"
 #~ msgstr "Spremeni vidnost orodne vrstice"
-
 #~ msgid "Forget remembered passwords so you will be prompted for them again"
 #~ msgstr "Pozabi pomnjena gesla tako, da boste zanje znova vprašani"
-
 #~ msgid "Hide window buttons"
 #~ msgstr "Skrij gumbe okna"
-
 #~ msgid "Page Set_up..."
 #~ msgstr "Nastavitev strani ..."
-
 #~ msgid "Prefere_nces"
 #~ msgstr "_Nastavitve"
-
 #~ msgid "Send / Receive"
 #~ msgstr "Oddaja / sprejem"
-
 #~ msgid "Submit Bug Report"
 #~ msgstr "Pošlji poročilo o hrošču"
-
 #~ msgid "Toggle whether we are working offline."
 #~ msgstr "Preklopi delo z mrežo"
-
 #~ msgid "View/Hide the Side Bar"
 #~ msgstr "Pokaži/skrij stranski pult"
-
 #~ msgid "View/Hide the Status Bar"
 #~ msgstr "Pokaži/skrij vrstico stanja"
-
 #~ msgid "Work _Offline"
 #~ msgstr "_Nepovezan v omrežje"
-
 #~ msgid "_About"
 #~ msgstr "_O"
-
 #~ msgid "_Frequently Asked Questions"
 #~ msgstr "_Pogosto zastavljena vprašanja"
-
 #~ msgid "_Hide Buttons"
 #~ msgstr "_Skrij gumbe"
-
 #~ msgid "Save Custom View"
 #~ msgstr "Shrani prikrojen pogled"
-
 #~ msgid "Unknown character set: %s"
 #~ msgstr "Neznan nabor znakov: %s"
-
 #~ msgid "_Searches"
 #~ msgstr "I_skanja"
-
 #~ msgid "Choose Image"
 #~ msgstr "Izberi sliko"
-
 #~ msgid "Empty message"
 #~ msgstr "Prazno sporočilo"
-
 #~ msgid "Reflow model"
 #~ msgstr "Model ponovnega toka"
-
 #~ msgid "Column width"
 #~ msgstr "Širina stolpca"
-
 #~ msgid "Search"
 #~ msgstr "Iskanje"
-
 #~ msgid "_Clear"
 #~ msgstr "_Počisti"
-
 #~ msgid "Item ID"
 #~ msgstr "ID predmeta"
-
 #~ msgid "Toggle Attachment Bar"
 #~ msgstr "Preklopi vrstico prilog"
-
 #~ msgid "activate"
 #~ msgstr "Vključi"
-
 #~ msgid "<b>Type:</b>"
 #~ msgstr "<b>Vrsta:</b>"
-
 #~ msgid "Add Address Book"
 #~ msgstr "Dodaj imenik"
-
 #~ msgid "Basic"
 #~ msgstr "Osnovno"
-
 #~ msgid "Find Possible Search Bases"
 #~ msgstr "Najdi mogoče iskalne zbirke"
-
 #~ msgid "Whenever Possible"
 #~ msgstr "Kadar je možno"
-
 #~ msgid "_Add Address Book"
 #~ msgstr "_Dodaj imenik"
-
 #~ msgid "MSN Messenger"
 #~ msgstr "MSN Messenger"
-
 #~ msgid "Novell GroupWise"
 #~ msgstr "Novell GroupWise"
-
 #~ msgid "Novell Groupwise"
 #~ msgstr "Novell Groupwise"
-
 #~ msgid "_Notes:"
 #~ msgstr "Opom_be:"
-
 #~ msgid "United States"
 #~ msgstr "Združene države Amerike"
-
 #~ msgid "Afghanistan"
 #~ msgstr "Afganistan"
-
 #~ msgid "Albania"
 #~ msgstr "Albanija"
-
 #~ msgid "Algeria"
 #~ msgstr "Alžirija"
-
 #~ msgid "American Samoa"
 #~ msgstr "Ameriška Samoa"
-
 #~ msgid "Andorra"
 #~ msgstr "Andora"
-
 #~ msgid "Angola"
 #~ msgstr "Angola"
-
 #~ msgid "Anguilla"
 #~ msgstr "Angvila"
-
 #~ msgid "Antarctica"
 #~ msgstr "Antarktika"
-
 #~ msgid "Antigua And Barbuda"
 #~ msgstr "Antigva in Barbuda"
-
 #~ msgid "Argentina"
 #~ msgstr "Argentina"
-
 #~ msgid "Armenia"
 #~ msgstr "Armenija"
-
 #~ msgid "Aruba"
 #~ msgstr "Aruba"
-
 #~ msgid "Australia"
 #~ msgstr "Avstralija"
-
 #~ msgid "Austria"
 #~ msgstr "Avstrija"
-
 #~ msgid "Azerbaijan"
 #~ msgstr "Azerbajdžan"
-
 #~ msgid "Bahamas"
 #~ msgstr "Bahami"
-
 #~ msgid "Bahrain"
 #~ msgstr "Bahrajn"
-
 #~ msgid "Bangladesh"
 #~ msgstr "Bangladeš"
-
 #~ msgid "Barbados"
 #~ msgstr "Barbados"
-
 #~ msgid "Belarus"
 #~ msgstr "Belorusija"
-
 #~ msgid "Belgium"
 #~ msgstr "Belgija"
-
 #~ msgid "Belize"
 #~ msgstr "Belize"
-
 #~ msgid "Benin"
 #~ msgstr "Benin"
-
 #~ msgid "Bermuda"
 #~ msgstr "Bermudi"
-
 #~ msgid "Bhutan"
 #~ msgstr "Butan"
-
 #~ msgid "Bolivia"
 #~ msgstr "Bolivija"
-
 #~ msgid "Bosnia And Herzegowina"
 #~ msgstr "Bosna in Hercegovina"
-
 #~ msgid "Botswana"
 #~ msgstr "Bocvana"
-
 #~ msgid "Bouvet Island"
 #~ msgstr "Bouvetski otoki"
-
 #~ msgid "Brazil"
 #~ msgstr "Brazilija"
-
 #~ msgid "British Indian Ocean Territory"
 #~ msgstr "Britansko Indijsko oceansko območje"
-
 #~ msgid "Brunei Darussalam"
 #~ msgstr "Brunei Darussalam"
-
 #~ msgid "Bulgaria"
 #~ msgstr "Bolgarija"
-
 #~ msgid "Burkina Faso"
 #~ msgstr "Burkina Faso"
-
 #~ msgid "Burundi"
 #~ msgstr "Burundi"
-
 #~ msgid "Cambodia"
 #~ msgstr "Kambodža"
-
 #~ msgid "Cameroon"
 #~ msgstr "Kamerun"
-
 #~ msgid "Canada"
 #~ msgstr "Kanada"
-
 #~ msgid "Cape Verde"
 #~ msgstr "Zelenortski otoki"
-
 #~ msgid "Cayman Islands"
 #~ msgstr "Kajmanski otoki"
-
 #~ msgid "Central African Republic"
 #~ msgstr "Srednjeafriška republika"
-
 #~ msgid "Chad"
 #~ msgstr "Čad"
-
 #~ msgid "Chile"
 #~ msgstr "Čile"
-
 #~ msgid "China"
 #~ msgstr "Kitajska"
-
 #~ msgid "Christmas Island"
 #~ msgstr "Velikonočni otok"
-
 #~ msgid "Cocos (Keeling) Islands"
 #~ msgstr "Kokosovi otoki"
-
 #~ msgid "Colombia"
 #~ msgstr "Kolumbija"
-
 #~ msgid "Comoros"
 #~ msgstr "Komori"
-
 #~ msgid "Congo"
 #~ msgstr "Kongo"
-
 #~ msgid "Congo, The Democratic Republic Of The"
 #~ msgstr "Demokratična republika Kongo"
-
 #~ msgid "Cook Islands"
 #~ msgstr "Cookovi otoki"
-
 #~ msgid "Costa Rica"
 #~ msgstr "Kostarika"
-
 #~ msgid "Cote d'Ivoire"
 #~ msgstr "Slonokoščena obala"
-
 #~ msgid "Croatia"
 #~ msgstr "Hrvaška"
-
 #~ msgid "Cuba"
 #~ msgstr "Kuba"
-
 #~ msgid "Cyprus"
 #~ msgstr "Ciper"
-
 #~ msgid "Czech Republic"
 #~ msgstr "Češka"
-
 #~ msgid "Denmark"
 #~ msgstr "Danska"
-
 #~ msgid "Djibouti"
 #~ msgstr "Džibuti"
-
 #~ msgid "Dominica"
 #~ msgstr "Dominika"
-
 #~ msgid "Dominican Republic"
 #~ msgstr "Dominikanska republika"
-
 #~ msgid "Ecuador"
 #~ msgstr "Ekvador"
-
 #~ msgid "Egypt"
 #~ msgstr "Egipt"
-
 #~ msgid "El Salvador"
 #~ msgstr "Salvador"
-
 #~ msgid "Equatorial Guinea"
 #~ msgstr "Ekvatorialna Gvineja"
-
 #~ msgid "Eritrea"
 #~ msgstr "Eritreja"
-
 #~ msgid "Estonia"
 #~ msgstr "Estonija"
-
 #~ msgid "Ethiopia"
 #~ msgstr "Etiopija"
-
 #~ msgid "Falkland Islands"
 #~ msgstr "Falklandski otoki"
-
 #~ msgid "Faroe Islands"
 #~ msgstr "Ferski otoki"
-
 #~ msgid "Finland"
 #~ msgstr "Finska"
-
 #~ msgid "France"
 #~ msgstr "Francija"
-
 #~ msgid "French Guiana"
 #~ msgstr "Francoska Gvajana"
-
 #~ msgid "French Polynesia"
 #~ msgstr "Francoska Polinezija"
-
 #~ msgid "French Southern Territories"
 #~ msgstr "Francoska južna območja"
-
 #~ msgid "Gabon"
 #~ msgstr "Gabon"
-
 #~ msgid "Gambia"
 #~ msgstr "Gambija"
-
 #~ msgid "Georgia"
 #~ msgstr "Gruzija"
-
 #~ msgid "Germany"
 #~ msgstr "Nemčija"
-
 #~ msgid "Ghana"
 #~ msgstr "Gana"
-
 #~ msgid "Gibraltar"
 #~ msgstr "Gibraltar"
-
 #~ msgid "Greece"
 #~ msgstr "Grčija"
-
 #~ msgid "Greenland"
 #~ msgstr "Grenlandija"
-
 #~ msgid "Grenada"
 #~ msgstr "Grenada"
-
 #~ msgid "Guadeloupe"
 #~ msgstr "Guadeloupe"
-
 #~ msgid "Guam"
 #~ msgstr "Guam"
-
 #~ msgid "Guatemala"
 #~ msgstr "Gvatemala"
-
 #~ msgid "Guernsey"
 #~ msgstr "Guernsey"
-
 #~ msgid "Guinea"
 #~ msgstr "Gvineja"
-
 #~ msgid "Guinea-Bissau"
 #~ msgstr "Gvineja Bissau"
-
 #~ msgid "Guyana"
 #~ msgstr "Gvajana"
-
 #~ msgid "Haiti"
 #~ msgstr "Haiti"
-
 #~ msgid "Heard And McDonald Islands"
 #~ msgstr "Heardovi in McDonaldovi otoki"
-
 #~ msgid "Holy See"
 #~ msgstr "Sveto morje"
-
 #~ msgid "Honduras"
 #~ msgstr "Honduras"
-
 #~ msgid "Hong Kong"
 #~ msgstr "Hong Kong"
-
 #~ msgid "Hungary"
 #~ msgstr "Madžarska"
-
 #~ msgid "Iceland"
 #~ msgstr "Islandija"
-
 #~ msgid "India"
 #~ msgstr "Indija"
-
 #~ msgid "Indonesia"
 #~ msgstr "Indonezija"
-
 #~ msgid "Iran"
 #~ msgstr "Iran"
-
 #~ msgid "Iraq"
 #~ msgstr "Irak"
-
 #~ msgid "Ireland"
 #~ msgstr "Irska"
-
 #~ msgid "Isle of Man"
 #~ msgstr "Isle of Man"
-
 #~ msgid "Israel"
 #~ msgstr "Izrael"
-
 #~ msgid "Italy"
 #~ msgstr "Italija"
-
 #~ msgid "Jamaica"
 #~ msgstr "Jamajka"
-
 #~ msgid "Japan"
 #~ msgstr "Japonska"
-
 #~ msgid "Jersey"
 #~ msgstr "Jersey"
-
 #~ msgid "Jordan"
 #~ msgstr "Jordanija"
-
 #~ msgid "Kazakhstan"
 #~ msgstr "Kazahstan"
-
 #~ msgid "Kenya"
 #~ msgstr "Kenija"
-
 #~ msgid "Kiribati"
 #~ msgstr "Kiribati"
-
 #~ msgid "Korea, Democratic People's Republic Of"
 #~ msgstr "Demokratična ljudska republika Koreja"
-
 #~ msgid "Korea, Republic Of"
 #~ msgstr "Republika Koreja"
-
 #~ msgid "Kuwait"
 #~ msgstr "Kuvajt"
-
 #~ msgid "Kyrgyzstan"
 #~ msgstr "Kirgizistan"
-
 #~ msgid "Laos"
 #~ msgstr "Laos"
-
 #~ msgid "Latvia"
 #~ msgstr "Latvija"
-
 #~ msgid "Lebanon"
 #~ msgstr "Libanon"
-
 #~ msgid "Lesotho"
 #~ msgstr "Lesoto"
-
 #~ msgid "Liberia"
 #~ msgstr "Liberija"
-
 #~ msgid "Libya"
 #~ msgstr "Libija"
-
 #~ msgid "Liechtenstein"
 #~ msgstr "Liechtenstein"
-
 #~ msgid "Lithuania"
 #~ msgstr "Litvanija"
-
 #~ msgid "Luxembourg"
 #~ msgstr "Luksemburg"
-
 #~ msgid "Macao"
 #~ msgstr "Macau"
-
 #~ msgid "Macedonia"
 #~ msgstr "Makedonija"
-
 #~ msgid "Madagascar"
 #~ msgstr "Madagaskar"
-
 #~ msgid "Malawi"
 #~ msgstr "Malavi"
-
 #~ msgid "Malaysia"
 #~ msgstr "Malezija"
-
 #~ msgid "Maldives"
 #~ msgstr "Maldivi"
-
 #~ msgid "Mali"
 #~ msgstr "Mali"
-
 #~ msgid "Malta"
 #~ msgstr "Malta"
-
 #~ msgid "Marshall Islands"
 #~ msgstr "Marshallovi otoki"
-
 #~ msgid "Martinique"
 #~ msgstr "Martinik"
-
 #~ msgid "Mauritania"
 #~ msgstr "Mavretanija"
-
 #~ msgid "Mauritius"
 #~ msgstr "Mauritius"
-
 #~ msgid "Mayotte"
 #~ msgstr "Mayotte"
-
 #~ msgid "Mexico"
 #~ msgstr "Mehika"
-
 #~ msgid "Micronesia"
 #~ msgstr "Mikronezija"
-
 #~ msgid "Moldova, Republic Of"
 #~ msgstr "Moldova, Republika"
-
 #~ msgid "Monaco"
 #~ msgstr "Monako"
-
 #~ msgid "Mongolia"
 #~ msgstr "Mongolija"
-
 #~ msgid "Montserrat"
 #~ msgstr "Montserrat"
-
 #~ msgid "Morocco"
 #~ msgstr "Maroko"
-
 #~ msgid "Mozambique"
 #~ msgstr "Mozambik"
-
 #~ msgid "Myanmar"
 #~ msgstr "Mjanmar"
-
 #~ msgid "Namibia"
 #~ msgstr "Namibija"
-
 #~ msgid "Nauru"
 #~ msgstr "Nauru"
-
 #~ msgid "Nepal"
 #~ msgstr "Nepal"
-
 #~ msgid "Netherlands"
 #~ msgstr "Nizozemska"
-
 #~ msgid "Netherlands Antilles"
 #~ msgstr "Nizozemski Antili"
-
 #~ msgid "New Caledonia"
 #~ msgstr "Nova Kaledonija"
-
 #~ msgid "New Zealand"
 #~ msgstr "Nova Zelandija"
-
 #~ msgid "Nicaragua"
 #~ msgstr "Nikaragva"
-
 #~ msgid "Niger"
 #~ msgstr "Niger"
-
 #~ msgid "Nigeria"
 #~ msgstr "Nigerija"
-
 #~ msgid "Niue"
 #~ msgstr "Niue"
-
 #~ msgid "Norfolk Island"
 #~ msgstr "Norfolški otoki"
-
 #~ msgid "Northern Mariana Islands"
 #~ msgstr "Severni marianski otoki"
-
 #~ msgid "Norway"
 #~ msgstr "Norveška"
-
 #~ msgid "Oman"
 #~ msgstr "Oman"
-
 #~ msgid "Pakistan"
 #~ msgstr "Pakistan"
-
 #~ msgid "Palau"
 #~ msgstr "Paragvaj"
-
 #~ msgid "Palestinian Territory"
 #~ msgstr "Palestinsko osvobojeno ozemlje"
-
 #~ msgid "Panama"
 #~ msgstr "Panama"
-
 #~ msgid "Papua New Guinea"
 #~ msgstr "Papua Nova Gvineja"
-
 #~ msgid "Paraguay"
 #~ msgstr "Paragvaj"
-
 #~ msgid "Peru"
 #~ msgstr "Peru"
-
 #~ msgid "Philippines"
 #~ msgstr "Filipini"
-
 #~ msgid "Pitcairn"
 #~ msgstr "Pitcairin"
-
 #~ msgid "Poland"
 #~ msgstr "Poljska"
-
 #~ msgid "Portugal"
 #~ msgstr "Portugalska"
-
 #~ msgid "Puerto Rico"
 #~ msgstr "Portoriko"
-
 #~ msgid "Qatar"
 #~ msgstr "Katar"
-
 #~ msgid "Reunion"
 #~ msgstr "Reunion"
-
 #~ msgid "Romania"
 #~ msgstr "Romunija"
-
 #~ msgid "Russian Federation"
 #~ msgstr "Ruska federacija"
-
 #~ msgid "Rwanda"
 #~ msgstr "Ruanda"
-
 #~ msgid "Saint Kitts And Nevis"
 #~ msgstr "St. Kitts in Nevis"
-
 #~ msgid "Saint Lucia"
 #~ msgstr "St. Lucija"
-
 #~ msgid "Saint Vincent And The Grenadines"
 #~ msgstr "Staint Vincent in Grenadini"
-
 #~ msgid "Samoa"
 #~ msgstr "Samoa"
-
 #~ msgid "San Marino"
 #~ msgstr "San Marino"
-
 #~ msgid "Sao Tome And Principe"
 #~ msgstr "Sao Tome in Principe"
-
 #~ msgid "Saudi Arabia"
 #~ msgstr "Savdska Arabija"
-
 #~ msgid "Senegal"
 #~ msgstr "Senegalija"
-
 #~ msgid "Serbia And Montenegro"
 #~ msgstr "Srbija in Črna gora"
-
 #~ msgid "Sierra Leone"
 #~ msgstr "Sierra Leone"
-
 #~ msgid "Singapore"
 #~ msgstr "Singapur"
-
 #~ msgid "Slovakia"
 #~ msgstr "Slovaška"
-
 #~ msgid "Slovenia"
 #~ msgstr "Slovenija"
-
 #~ msgid "Solomon Islands"
 #~ msgstr "Solomonovi otoki"
-
 #~ msgid "Somalia"
 #~ msgstr "Somalija"
-
 #~ msgid "South Africa"
 #~ msgstr "Južno afriška republika"
-
 #~ msgid "South Georgia And The South Sandwich Islands"
 #~ msgstr "Južna Georgija in Južni Sandwichovi otoki"
-
 #~ msgid "Spain"
 #~ msgstr "Španija"
-
 #~ msgid "Sri Lanka"
 #~ msgstr "Šrilanka"
-
 #~ msgid "St. Helena"
 #~ msgstr "Sv. Helena"
-
 #~ msgid "St. Pierre And Miquelon"
 #~ msgstr "Sv. Pierre in Miquelon"
-
 #~ msgid "Sudan"
 #~ msgstr "Sudan"
-
 #~ msgid "Suriname"
 #~ msgstr "Surinam"
-
 #~ msgid "Svalbard And Jan Mayen Islands"
 #~ msgstr "Svalbardovi in Jan Mayenovi otoki"
-
 #~ msgid "Swaziland"
 #~ msgstr "Svazi"
-
 #~ msgid "Sweden"
 #~ msgstr "Švedska"
-
 #~ msgid "Switzerland"
 #~ msgstr "Švica"
-
 #~ msgid "Syria"
 #~ msgstr "Sirija"
-
 #~ msgid "Taiwan"
 #~ msgstr "Tajvan"
-
 #~ msgid "Tajikistan"
 #~ msgstr "Tadžikistan"
-
 #~ msgid "Tanzania, United Republic Of"
 #~ msgstr "Tanzanija, Združena republika"
-
 #~ msgid "Thailand"
 #~ msgstr "Tajska"
-
 #~ msgid "Timor-Leste"
 #~ msgstr "Timor-Leste"
-
 #~ msgid "Togo"
 #~ msgstr "Togo"
-
 #~ msgid "Tokelau"
 #~ msgstr "Tokelau"
-
 #~ msgid "Tonga"
 #~ msgstr "Tongo"
-
 #~ msgid "Trinidad And Tobago"
 #~ msgstr "Trinidad in Tobago"
-
 #~ msgid "Tunisia"
 #~ msgstr "Tunizija"
-
 #~ msgid "Turkey"
 #~ msgstr "Turčija"
-
 #~ msgid "Turkmenistan"
 #~ msgstr "Turkmenistan"
-
 #~ msgid "Turks And Caicos Islands"
 #~ msgstr "Otočji Turks in Caicos"
-
 #~ msgid "Tuvalu"
 #~ msgstr "Tuvalu"
-
 #~ msgid "Uganda"
 #~ msgstr "Uganda"
-
 #~ msgid "Ukraine"
 #~ msgstr "Ukrajina"
-
 #~ msgid "United Arab Emirates"
 #~ msgstr "Združeni arabski emirati"
-
 #~ msgid "United Kingdom"
 #~ msgstr "Velika Britanija"
-
 #~ msgid "United States Minor Outlying Islands"
 #~ msgstr "Ameriški zunajležeči otoki"
-
 #~ msgid "Uruguay"
 #~ msgstr "Urugvaj"
-
 #~ msgid "Uzbekistan"
 #~ msgstr "Uzbekistan"
-
 #~ msgid "Vanuatu"
 #~ msgstr "Vanuatu"
-
 #~ msgid "Venezuela"
 #~ msgstr "Venezuela"
-
 #~ msgid "Viet Nam"
 #~ msgstr "Vietnam"
-
 #~ msgid "Virgin Islands, British"
 #~ msgstr "Britanski deviški otoki"
-
 #~ msgid "Virgin Islands, U.S."
 #~ msgstr "Ameriški deviški otoki"
-
 #~ msgid "Wallis And Futuna Islands"
 #~ msgstr "Wallisovi in Futunini otoki"
-
 #~ msgid "Western Sahara"
 #~ msgstr "Zahodna sahara"
-
 #~ msgid "Yemen"
 #~ msgstr "Jemen"
-
 #~ msgid "Zambia"
 #~ msgstr "Zambija"
-
 #~ msgid "Zimbabwe"
 #~ msgstr "Zimbabve"
-
 #~ msgid "AOL Instant Messenger"
 #~ msgstr "AOL hipni sporočilnik"
-
 #~ msgid "Yahoo Messenger"
 #~ msgstr "Yahoo sporočilnik"
-
 #~ msgid "Gadu-Gadu Messenger"
 #~ msgstr "Gadu-Gadu sporočilnik"
-
 #~ msgid "Service"
 #~ msgstr "Storitev"
-
 #~ msgid "Username"
 #~ msgstr "Uporabniško ime"
-
 #~ msgid "Address _2:"
 #~ msgstr "Naslov _2:"
-
 #~ msgid "Ci_ty:"
 #~ msgstr "_Mesto:"
-
 #~ msgid "Countr_y:"
 #~ msgstr "Držav_a:"
-
 #~ msgid "Full Address"
 #~ msgstr "Celoten naslov"
-
 #~ msgid "_ZIP Code:"
 #~ msgstr "_Poštna številka:"
-
 #~ msgid "_Account name:"
 #~ msgstr "Ime _računa:"
-
 #~ msgid "_IM Service:"
 #~ msgstr "Storitev _IM:"
-
 #~ msgid "10 pt. Tahoma"
 #~ msgstr "10 pik Tahoma"
-
 #~ msgid "8 pt. Tahoma"
 #~ msgstr "8 pik Tahoma"
-
 #~ msgid "Blank forms at end:"
 #~ msgstr "Prazni obrazci na koncu:"
-
 #~ msgid "Body"
 #~ msgstr "Telo"
-
 #~ msgid "Bottom:"
 #~ msgstr "Spodaj:"
-
 #~ msgid "Dimensions:"
 #~ msgstr "Mere:"
-
 #~ msgid "F_ont..."
 #~ msgstr "_Pisava ..."
-
 #~ msgid "Fonts"
 #~ msgstr "Pisave"
-
 #~ msgid "Footer:"
 #~ msgstr "Noga:"
-
 #~ msgid "Header/Footer"
 #~ msgstr "Glava/noga"
-
 #~ msgid "Headings"
 #~ msgstr "Zaglavja"
-
 #~ msgid "Headings for each letter"
 #~ msgstr "Zaglavja za vsako črko"
-
 #~ msgid "Height:"
 #~ msgstr "Višina:"
-
 #~ msgid "Immediately follow each other"
 #~ msgstr "Si sledijo takoj"
-
 #~ msgid "Landscape"
 #~ msgstr "Ležeče"
-
 #~ msgid "Left:"
 #~ msgstr "Levo:"
-
 #~ msgid "Letter tabs on side"
 #~ msgstr "Uhlji črk ob strani"
-
 #~ msgid "Margins"
 #~ msgstr "Robovi"
-
 #~ msgid "Number of columns:"
 #~ msgstr "Število stolpcev:"
-
 #~ msgid "Orientation"
 #~ msgstr "Usmerjenost"
-
 #~ msgid "Page Setup:"
 #~ msgstr "Nastavitev strani:"
-
 #~ msgid "Paper"
 #~ msgstr "Papir"
-
 #~ msgid "Paper source:"
 #~ msgstr "Vir papirja:"
-
 #~ msgid "Portrait"
 #~ msgstr "Pokončno"
-
 #~ msgid "Preview:"
 #~ msgstr "Predogled:"
-
 #~ msgid "Print using gray shading"
 #~ msgstr "Tiskaj z uporabo sivinskega senčenja"
-
 #~ msgid "Reverse on even pages"
 #~ msgstr "Obratno na sodih straneh"
-
 #~ msgid "Right:"
 #~ msgstr "Desno:"
-
 #~ msgid "Sections:"
 #~ msgstr "Sekcije:"
-
 #~ msgid "Start on a new page"
 #~ msgstr "Začni na novi strani"
-
 #~ msgid "Style name:"
 #~ msgstr "Ime sloga:"
-
 #~ msgid "Top:"
 #~ msgstr "Zgoraj:"
-
 #~ msgid "Width:"
 #~ msgstr "Širina:"
-
 #~ msgid "_Font..."
 #~ msgstr "_Pisava ..."
-
 #~ msgid "Contact Print Style Editor Test"
 #~ msgstr "Preskus urejevalnika izpisa stikov"
-
 #~ msgid "Copyright (C) 2000, Ximian, Inc."
 #~ msgstr "Avtorske pravice pridržane (C) 2000, Ximian, Inc."
-
 #~ msgid "This should test the contact print style editor widget"
 #~ msgstr "S tem lahko preizkusite gradnik za urejanje sloga izpisa"
-
 #~ msgid "This should test the contact print code"
 #~ msgstr "S tem lahko preizkusite kodo izpisa vizitke"
-
 #~ msgid "Whether to use daylight savings time while displaying events."
 #~ msgstr "Ali naj se ob prikazu dogodkov uporabi prilagojeni čas."
-
 #~ msgid "daylight savings time"
 #~ msgstr "prilagojeni čas"
-
 #~ msgid "Adjust for daylight sa_ving time"
 #~ msgstr "Prilagodi za _prilagojeni čas"
-
 #~ msgid "Attached message - %s"
 #~ msgstr "Priloženo sporočilo - %s"
-
 #~ msgid "<b>%d</b> Attachment"
-
 #~ msgid_plural "<b>%d</b> Attachments"
 #~ msgstr[0] "<b>%d</b> prilog"
 #~ msgstr[1] "<b>%d</b>priloga"
 #~ msgstr[2] "<b>%d</b> prilogi"
 #~ msgstr[3] "<b>%d</b> priloge"
-
 #~ msgid "Show Attachments"
 #~ msgstr "Pokaži priloge"
-
 #~ msgid "Press space key to toggle attachment bar"
 #~ msgstr "Za preklop vrstice prilog pritisnite preslednico"
-
 #~ msgid "<b>Att_endees</b>"
 #~ msgstr "<b>Udel_eženci</b>"
-
 #~ msgid "C_hange Organizer"
 #~ msgstr "_Spremeni organizatorja"
-
 #~ msgid "Co_ntacts..."
 #~ msgstr "_Stiki ..."
-
 #~ msgid "_Save Selected"
 #~ msgstr "_Shrani izbrano"
-
 #~ msgid "_Post-To Field"
 #~ msgstr "Polje _Pošlji-Za"
-
 #~ msgid "Toggles whether the Post-To field is displayed"
 #~ msgstr "Preklopi prikaz polja Pošlji-Za"
-
 #~ msgid "_Subject Field"
 #~ msgstr "Polje _zadeva"
-
 #~ msgid "Toggles whether the Subject field is displayed"
 #~ msgstr "Preklopi prikaz polja zadeve"
-
 #~ msgid "_To Field"
 #~ msgstr "Polje _Za"
-
 #~ msgid "Toggles whether the To field is displayed"
 #~ msgstr "Preklopi prikaz polja Za"
-
 #~ msgid "Retrieving Message..."
 #~ msgstr "Prenašanje sporočila ..."
-
 #~ msgid "C_all To..."
 #~ msgstr "_Klic za ..."
-
 #~ msgid "Completed on %B %d, %Y, %l:%M %p"
 #~ msgstr "Dokončano dne %B %d, %Y ob %l:%M %p"
-
 #~ msgid "by %B %d, %Y, %l:%M %p"
 #~ msgstr "by %B %d, %Y, %l:%M %p"
-
 #~ msgid "_Save Selected..."
 #~ msgstr "_Shrani izbrano ..."
-
 #~ msgid "%d at_tachment"
-
 #~ msgid_plural "%d at_tachments"
 #~ msgstr[0] "%d prilog"
 #~ msgstr[1] "%d priloga"
 #~ msgstr[2] "%d prilogi"
 #~ msgstr[3] "%d priloge"
-
 #~ msgid "S_ave"
 #~ msgstr "Shr_ani"
-
 #~ msgid "No Attachment"
 #~ msgstr "Brez prilog"
-
 #~ msgid " (%a, %R %Z)"
 #~ msgstr " (%a, %R %Z)"
-
 #~ msgid " (%R %Z)"
 #~ msgstr " (%R %Z)"
-
 #~ msgid ""
 #~ "Enable side bar search feature so that you can start interactive "
 #~ "searching by typing in the text. Use is that you can easily find a folder "
@@ -25814,116 +24524,84 @@ msgstr "Načini vnosa"
 #~ "Omogoči možnost iskanja v stranski vrstici, tako da lahko iščete z "
 #~ "interaktivnim vnosom besedila. Tako lahko v stranski vrstici z vnosom "
 #~ "imena preprosto najdete mapo, ki se ob zadetku samodejno izbere."
-
 #~ msgid "View/Bcc menu item is checked"
 #~ msgstr "Predmet menija Pogled/Skp je označen"
-
 #~ msgid "View/Bcc menu item is checked."
 #~ msgstr "Predmet menija Pogled/Skp je označen."
-
 #~ msgid "View/Cc menu item is checked"
 #~ msgstr "Predmet menija Pogled/Kp je označen"
-
 #~ msgid "View/Cc menu item is checked."
 #~ msgstr "Predmet menija Pogled/Kp je označen."
-
 #~ msgid "View/From menu item is checked"
 #~ msgstr "Predmet menija Pogled/Od je označen"
-
 #~ msgid "View/From menu item is checked."
 #~ msgstr "Predmet menija Pogled/Od je označen."
-
 #~ msgid "View/PostTo menu item is checked"
 #~ msgstr "Predmet menija Pogled/PošljiZa je označen"
-
 #~ msgid "View/PostTo menu item is checked."
 #~ msgstr "Predmet menija Pogled/PošljiZa je označen."
-
 #~ msgid "View/ReplyTo menu item is checked"
 #~ msgstr "Predmet menija Pogled/OdgovoriNa je označen"
-
 #~ msgid "View/ReplyTo menu item is checked."
 #~ msgstr "Predmet menija Pogled/OdgovoriNa je označen."
-
 #~ msgid " Ch_eck for Supported Types "
 #~ msgstr "Pr_everi podprte vrste"
-
 #~ msgid "Ch_eck for Supported Types "
 #~ msgstr "Pr_everi podprte vrste"
-
 #~ msgid "S_OCKS Host:"
 #~ msgstr "Gostitelj _SOCKS:"
-
 #~ msgid "_Automatic proxy configuration URL:"
 #~ msgstr "URL za _samodejno nastavitev posredovalnega strežnika"
-
 #~ msgid "Case _sensitive"
 #~ msgstr "_Loči velike/male črke"
-
 #~ msgid "F_ind:"
 #~ msgstr "Najd_i:"
-
 #~ msgid "Find in Message"
 #~ msgstr "Poišči v sporočilu"
-
 #~ msgid "None Selected"
 #~ msgstr "Prazen izbor"
-
 #~ msgid "Provides core functionality for local address books."
 #~ msgstr "Omogoča osnovne zmogljivosti za lokalne imenike."
-
 #~ msgid ""
 #~ "Looks for clues in a message for mention of attachments and warns if the "
 #~ "attachment is missing"
 #~ msgstr ""
 #~ "Poišle namige v sporočilu za omenjanje priloge in opozori, če manjka"
-
 #~ msgid ""
 #~ "A formatter plugin which displays audio attachments inline and allows you "
 #~ "to play them directly from Evolution."
 #~ msgstr ""
 #~ "Vstavek za vgrajeno predvajanje zvočnih prilog znotraj programa Evolution."
-
 #~ msgid "A plugin for backing up and restore Evolution data and settings."
 #~ msgstr ""
 #~ "Vstavek za izdelavo varnostnih kopij in obnovitev podatkov ter nastavitev "
 #~ "Evolutiona."
-
 #~ msgid "CalDAV Calendar sources"
 #~ msgstr "CalDAV viri koledarja"
-
 #~ msgid "Provides core functionality for local calendars."
 #~ msgstr "Omogoča osnovne zmogljivosti za lokalne koledarje."
-
 #~ msgid "HTTP Calendars"
 #~ msgstr "Koledarji HTTP"
-
 #~ msgid "Provides core functionality for webcal and http calendars."
 #~ msgstr "Omogoča osnovne zmogljivosti za koledarje webcal in http."
-
 #~ msgid "Provides core functionality for weather calendars."
 #~ msgstr "Omogoča osnovne zmogljivosti za vremenske koledarje."
-
 #~ msgid ""
 #~ "A test plugin which demonstrates a popup menu plugin which lets you copy "
 #~ "things to the clipboard."
 #~ msgstr ""
 #~ "Poskusni vstavek, ki prikazuje vstavek pojavnega menija za kopiranje "
 #~ "predmetov na odložišče."
-
 #~ msgid ""
 #~ "Provides functionality for marking a calendar or an address book as the "
 #~ "default one."
 #~ msgstr "Omogoča možnost nastavitve privzetega koledarja ali imenika."
-
 #~ msgid "S_pecify the mailbox name"
 #~ msgstr "Navedite ime _poštnega predala"
-
 #~ msgid ""
 #~ "A plugin that manages a collection of Exchange account specific "
 #~ "operations and features."
 #~ msgstr "Vstavek, ki skrbi za opravila in lastnosti računov Exchange."
-
 #~ msgid "Compose messages using an external editor"
 #~ msgstr "Urejanje sporočil z zunanjim urejevalnikom."
 
@@ -25931,47 +24609,33 @@ msgstr "Načini vnosa"
 #~ msgid "Allows unsubscribing of mail folders in the side bar context menu."
 #~ msgstr ""
 #~ "Dovoli preklic naročnine na poštne mape v vsebinskem meniju drevesa map."
-
 #~ msgid "A plugin to setup Google Calendar and Contacts."
 #~ msgstr "Vstavek za nastavitev virov koledarja in stikov Google."
-
 #~ msgid "Google sources"
 #~ msgstr "Google viri"
-
 #~ msgid "A plugin to setup GroupWise calendar and contacts sources."
 #~ msgstr "Vstavek za nastavitev virov koledarja Groupwise in virov stikov."
-
 #~ msgid "A plugin to setup hula calendar sources."
 #~ msgstr "Vstavek za nastavitev virov koledarja Hula."
-
 #~ msgid "Hula Account Setup"
 #~ msgstr "Nastavitve računa Hula"
-
 #~ msgid "A plugin for the features in the IMAP accounts."
 #~ msgstr "Vstavek za razširjanje možnosti IMAP računov."
-
 #~ msgid "_Import to Calendar"
 #~ msgstr "Uvoz_i v koledar"
-
 #~ msgid "Import ICS"
 #~ msgstr "Uvozi ICS"
-
 #~ msgid "Imports ICS attachments to calendar."
 #~ msgstr "Uvoz ICS priplog v koledar"
-
 #~ msgid ""
 #~ "Synchronize the selected task/memo/calendar/address book with Apple iPod"
 #~ msgstr "Uskladi izbrana opravila/opomniki/koledar/imenik z Apple iPodom"
-
 #~ msgid "_Tasks :"
 #~ msgstr "_Opravila:"
-
 #~ msgid "Memos :"
 #~ msgstr "Opomniki :"
-
 #~ msgid "Allows disabling of accounts."
 #~ msgstr "Omogoča onemogočanje računov."
-
 #~ msgid ""
 #~ "Generates a D-Bus message or notifies the user with an icon in "
 #~ "notification area and a notification message whenever a new message has "
@@ -25979,37 +24643,28 @@ msgstr "Načini vnosa"
 #~ msgstr ""
 #~ "Ustvari D-Bus sporočilo ali pa opomni uporabnika z ikono v opozorilni "
 #~ "vrstici, da je prispelo novo sporočilo."
-
 #~ msgid ""
 #~ "A plugin which allows the creation of meetings from the contents of a "
 #~ "mail message."
 #~ msgstr ""
 #~ "Vstavek, ki omogoča ustvarjanje sestankov iz vsebine poštnega sporočila."
-
 #~ msgid "Con_vert to Meeting"
 #~ msgstr "Pretvori _v sestanek"
-
 #~ msgid "Mail to meeting"
 #~ msgstr "Pošta za sestanek"
-
 #~ msgid ""
 #~ "A plugin which allows the creation of tasks from the contents of a mail "
 #~ "message."
 #~ msgstr ""
 #~ "Vstavek, ki omogoča ustvarjanje opravil iz vsebine poštnega sporočila."
-
 #~ msgid "Con_vert to Task"
 #~ msgstr "Pretvori v opravilo"
-
 #~ msgid "Used for marking all the messages under a folder as read"
 #~ msgstr "Uporabljeno za označevanje vseh sporočil znotraj mape kot prebranih"
-
 #~ msgid "A plugin which implements mono plugins."
 #~ msgstr "Vstavek, ki izvaja vstavke mono."
-
 #~ msgid "A plugin for managing which plugins are enabled or disabled."
 #~ msgstr "Vstavek za omogočanje in onemogočanje vstavkov."
-
 #~ msgid ""
 #~ "A test plugin which demonstrates a formatter plugin which lets you choose "
 #~ "to disable HTML messages.\n"
@@ -26019,295 +24674,204 @@ msgstr "Načini vnosa"
 #~ "Poskusni vstavek, ki ponazarja vstavek za onemogočanje sporočil HTML.\n"
 #~ "\n"
 #~ "Ta vstavek je le nepodprta koda za ponazoritev.\n"
-
 #~ msgid "Writes a log of profiling data events."
 #~ msgstr "Zapisuje dnevnik podatkovnih dogodkov."
-
 #~ msgid "SpamAssassin (built-in)"
 #~ msgstr "Spamassassin (vgrajen)"
-
 #~ msgid ""
 #~ "Filters junk messages using SpamAssassin. This plugin requires "
 #~ "SpamAssassin to be installed."
 #~ msgstr ""
 #~ "Filtrira neželena sporočila z uporabo vstavka Spamassassin. Vstavek "
 #~ "zahteva nameščen program Spamassassin."
-
 #~ msgid "A plugin for saving all attachments or parts of a message at once."
 #~ msgstr "Vstavek za shranjevanje vseh priplog ali delov sporočila sočasno."
-
 #~ msgid "Save Attachments..."
 #~ msgstr "Shrani priloge ..."
-
 #~ msgid "Save all attachments"
 #~ msgstr "Shrani vse priloge"
-
 #~ msgid "Select save base name"
 #~ msgstr "Izberite ime zbirke"
-
 #~ msgid "Indicates if threading of messages should fall back to subject."
 #~ msgstr "Označuje, če naj se nitenje sporočil navezuje na zadevo."
-
 #~ msgid "A simple plugin which uses yTNEF to decode TNEF attachments."
 #~ msgstr "Enostaven vstavek, ki uporablja ytnef za dekodiranje tnef prilog."
-
 #~ msgid "A plugin to setup WebDAV contacts."
 #~ msgstr "Vstavek za nastavitev WebDAV virov."
-
 #~ msgid "Error opening the FAQ webpage."
 #~ msgstr "Napaka med odpiranjem strani pogostih vprašanj."
-
 #~ msgid "Pos_t New Message to Folder"
 #~ msgstr "Poš_lji novo sporočilo v mapo"
-
 #~ msgid "Post a Repl_y"
 #~ msgstr "Pošl_ji odgovor"
-
 #~ msgid "Post a message to a Public folder"
 #~ msgstr "Pošlji sporočilo v Javno mapo"
-
 #~ msgid "Post a reply to a message in a Public folder"
 #~ msgstr "Pošlji odgovor na sporočilo v Javni mapi"
-
 #~ msgid "Attachment Bar"
 #~ msgstr "Vrstica prilog"
-
 #~ msgid "Cannot attach file %s: %s"
 #~ msgstr "Ni mogoče priložiti datoteke %s: %s"
-
 #~ msgid "Cannot attach file %s: not a regular file"
 #~ msgstr "Ni mogoče priložiti datoteke %s: ni običajna datoteka"
-
 #~ msgid "MIME type:"
 #~ msgstr "Vrsta MIME:"
-
 #~ msgid "Suggest automatic display of attachment"
 #~ msgstr "Predlagan samodejen prikaz priloge"
-
 #~ msgid "Expanded"
 #~ msgstr "Razširjeno"
-
 #~ msgid "Whether or not the expander is expanded"
 #~ msgstr "Ali je razširitveni gumb razširjen ali ne"
-
 #~ msgid "Text of the expander's label"
 #~ msgstr "Besedilo oznake razširitvenega gumba"
-
 #~ msgid ""
 #~ "If set, an underline in the text indicates the next character should be "
 #~ "used for the mnemonic accelerator key"
 #~ msgstr ""
 #~ "Če nastavljen, podčrtaj v besedilu označuje, da naj bo naslednji znak "
 #~ "uporabljen kot mnemonična pospeševalna tipka"
-
 #~ msgid "Space to put between the label and the child"
 #~ msgstr "Prostor za vstavljanje med napis in podrejenega"
-
 #~ msgid "Label widget"
 #~ msgstr "Gradnik napis"
-
 #~ msgid "A widget to display in place of the usual expander label"
 #~ msgstr "Gradnik za prikaz namesto običajnega napisa razširitvenega gumba"
-
 #~ msgid "Indicator Spacing"
 #~ msgstr "Razmik kazalnika"
-
 #~ msgid "Spacing around expander arrow"
 #~ msgstr "Razmik okoli puščice razširitvenega gumba"
-
 #~ msgid "Current Message"
 #~ msgstr "Trenutno sporočilo"
-
 #~ msgid "Edit Master Category List..."
 #~ msgstr "Uredi seznam glavnih kategorij ..."
-
 #~ msgid "Item(s) belong to these _categories:"
 #~ msgstr "Predmet(i) pripada(jo) tem _kategorijam:"
-
 #~ msgid "_Available Categories:"
 #~ msgstr "K_ategorije na voljo:"
-
 #~ msgid "categories"
 #~ msgstr "kategorije"
-
 #~ msgid "%l:%M %p"
 #~ msgstr "%l:%M %p"
-
 #~ msgid "DnD code"
 #~ msgstr "šifra DnD"
-
 #~ msgid "Full Header"
 #~ msgstr "Polna glava"
-
 #~ msgid "Font Description"
 #~ msgstr "Opis pisave"
-
 #~ msgid ""
 #~ "We were unable to open this address book.  This either means you have "
 #~ "entered an incorrect URI, or the LDAP server is unreachable."
 #~ msgstr ""
 #~ "Ni bilo mogoče odpreti tega imenika. To pomeni, da ste vpisali neveljaven "
 #~ "URI ali da je LDAP strežnik nedosegljiv."
-
 #~ msgid "Business"
 #~ msgstr "posel"
-
 #~ msgid "Competition"
 #~ msgstr "Tekmovanje"
-
 #~ msgid "Favourites"
 #~ msgstr "Priljubljeno"
-
 #~ msgid "Gifts"
 #~ msgstr "Darila"
-
 #~ msgid "Goals/Objectives"
 #~ msgstr "Cilji"
-
 #~ msgid "Holiday"
 #~ msgstr "Prazniki"
-
 #~ msgid "Holiday Cards"
 #~ msgstr "Praznične voščilnice"
-
 #~ msgid "Hot Contacts"
 #~ msgstr "Vroči stiki"
-
 #~ msgid "Ideas"
 #~ msgstr "Ideje"
-
 #~ msgid "International"
 #~ msgstr "Mednarodno"
-
 #~ msgid "Key Customer"
 #~ msgstr "Ključna stranka"
-
 #~ msgid "Next 7 days"
 #~ msgstr "Naslednjih 7 dni"
-
 #~ msgid "Phone Calls"
 #~ msgstr "Telefonski klici"
-
 #~ msgid "Strategies"
 #~ msgstr "Strategije"
-
 #~ msgid "Time &amp; Expenses"
 #~ msgstr "Čas &amp; Stroški"
-
 #~ msgid "VIP"
 #~ msgstr "VIP"
-
 #~ msgid "Next 7 Days"
 #~ msgstr "Naslednjih 7 dni"
-
 #~ msgid "A_dd Filter Criteria"
 #~ msgstr "Dodaj pravilo filtru"
-
 #~ msgid "Weather: Partly Cloudy"
 #~ msgstr "Vreme: delno oblačno"
-
 #~ msgid "Mark calendar offline"
 #~ msgstr "Označi koledar kot nepovezan"
-
 #~ msgid "Marks the selected calendar for offline viewing."
 #~ msgstr "Označi izbran koledar za ogled v stanju brez povezave."
-
 #~ msgid "Select Importers"
 #~ msgstr "Izberi uvoznike"
-
 #~ msgid "Re_fresh..."
 #~ msgstr "_Osveži ..."
-
 #~ msgid "_Properties..."
 #~ msgstr "_Lastnosti ..."
-
 #~ msgid ""
 #~ "'{0}' is a read-only calendar source. Change Calendar to one that can "
 #~ "accept appointments."
 #~ msgstr ""
 #~ "'{0}' je vir koledarja le za branje. Preklopite na pogled koledarja in "
 #~ "označite koledar, ki lahko sprejema sestanke."
-
 #~ msgid "D_escription:"
 #~ msgstr "_Opis:"
-
 #~ msgid "De_scription:"
 #~ msgstr "_Opis:"
-
 #~ msgid "Updating query"
 #~ msgstr "Posodabljanje poizvedbe"
-
 #~ msgid "Upcoming Appointments"
 #~ msgstr "Prihajajoči sestanki"
-
 #~ msgid "folder-display|%s (%u)"
 #~ msgstr "%s (%u)"
-
 #~ msgid "Do you want the operation to be performed also in the subfolders?"
 #~ msgstr "Ali želite, da se opravilo izvede tudi v podmapah?"
-
 #~ msgid "Mark all messages in this folder and subfolders as read?"
 #~ msgstr ""
 #~ "Ali naj bodo vsa sporočila mape in njenih podmap označija kot prebrana?"
-
 #~ msgid "Only on _Current Folder"
 #~ msgstr "Le na trenutni mapi"
-
 #~ msgid "Enable attachment reminder plugin"
 #~ msgstr "Omogoči vstavek opomnikov prilog"
-
 #~ msgid "Enable attachment reminder plugin."
 #~ msgstr "Omogoči vstavek opomnikov prilog."
-
 #~ msgid "button-user"
 #~ msgstr "gumb_uporabnik"
-
 #~ msgid "There is no configuration option for this plugin."
 #~ msgstr "Ni namestitvenih možnosti za ta vstavek."
-
 #~ msgid "A plugin that handles the Startup wizard."
 #~ msgstr "Vstavek, ki upravlja čarovnika ob zagonu"
-
 #~ msgid "Startup wizard"
 #~ msgstr "Čarovnik ob zagonu"
-
 #~ msgid "A string description of the current printer settings."
 #~ msgstr "Opis trenutnih nastavitev tiskanja."
-
 #~ msgid "Decides whether the crash detection should be run or not."
 #~ msgstr "Določa ali naj se zažene zaznavanje sesutja ali ne."
-
 #~ msgid "Skip recovery warning dialog"
 #~ msgstr "Preskoči opozorilo o obnavljanju"
-
 #~ msgid "Whether crash detection should be done or not"
 #~ msgstr "Ali naj se zažene zaznavanje sesutja ali ne."
-
 #~ msgid "Whether the warning dialog in recovery of Evolution is skipped."
 #~ msgstr ""
 #~ "Ali naj se opozorilno okno obnavljanja v programu Evolution preskoči."
-
 #~ msgid "No folder name specified."
 #~ msgstr "Ime mape ni navedeno."
-
 #~ msgid "Folder name cannot contain the Return character."
 #~ msgstr "Ime mape me sme vsebovati znaka return"
-
 #~ msgid "Folder name cannot contain the character \"/\"."
 #~ msgstr "Ime mape ne sme vsebovati znaka \"/\"."
-
 #~ msgid "Folder name cannot contain the character \"#\"."
 #~ msgstr "Ime mape ne sme vsebovati znaka \"#\"."
-
 #~ msgid "'.' and '..' are reserved folder names."
 #~ msgstr "'.' in '..' sta rezervirana za imena map."
-
 #~ msgid "Evolution Crash Detection"
 #~ msgstr "Zaznavanje sesutja programa"
-
 #~ msgid "Ig_nore"
 #~ msgstr "P_rezri"
-
 #~ msgid ""
 #~ "Evolution appears to have exited unexpectedly the last time it was\n"
 #~ "run.  As a precautionary measure, all preview panes will be hidden.\n"
@@ -26316,71 +24880,50 @@ msgstr "Načini vnosa"
 #~ "Vide ti je, da se je program Evolution ob zadnjem zagonu nenadoma sesul.\n"
 #~ "Zaradi varnosti, bodo vsa okna pogledov skrita.\n"
 #~ "Okna lahko obnovite preko menija pogled.\n"
-
 #~ msgid "All Day Event"
 #~ msgstr "Celodnevni dogodek"
-
 #~ msgid "Send _Options"
 #~ msgstr "Možnosti _pošiljanja"
-
 #~ msgid "Show messages in the normal style"
 #~ msgstr "Pokaži sporočila v običajnem slogu"
-
 #~ msgid "C_lose"
 #~ msgstr "_Zapri"
-
 #~ msgid "For_mat"
 #~ msgstr "O_blika"
-
 #~ msgid "H_TML"
 #~ msgstr "H_TML"
-
 #~ msgid "Save and Close"
 #~ msgstr "Shrani in zapri"
-
 #~ msgid "Save and _Close"
 #~ msgstr "Shrani in _zapri"
-
 #~ msgid "Save the current file and close the window"
 #~ msgstr "Shrani trenutno datoteko in zapri okno"
-
 #~ msgid "Send the mail in HTML format"
 #~ msgstr "Pošlji pošto v HTML obliki"
-
 #~ msgid "Refresh List"
 #~ msgstr "Osveži seznam"
-
 #~ msgid "Refresh List of Folders"
 #~ msgstr "Osveži seznam map"
-
 #~ msgid "Remove folder from your list of subscribed folders"
 #~ msgstr "Odstrani mapo iz seznama naročenih map"
-
 #~ msgid "Unsubscribe"
 #~ msgstr "Prekini naročnino"
-
 #~ msgid "_Invert Selection"
 #~ msgstr "_Obrni izbor"
-
 #~ msgid "Status Details"
 #~ msgstr "Podrobnosti stanja"
-
 #~ msgid "%u byte"
-
 #~ msgid_plural "%u bytes"
 #~ msgstr[0] "%u bajtov"
 #~ msgstr[1] "%u bajt"
 #~ msgstr[2] "%u bajta"
 #~ msgstr[3] "%u bajti"
-
 #~ msgid "%.1f KB"
 #~ msgstr "%.1f KB"
-
 #~ msgid "%.1f MB"
 #~ msgstr "%.1f MB"
-
 #~ msgid "%.1f GB"
 #~ msgstr "%.1f GB"
-
 #~ msgid "Recent Docu_ments"
 #~ msgstr "Nedavni _dokumenti"
+
