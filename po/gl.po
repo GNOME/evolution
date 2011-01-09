@@ -22,16 +22,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-master-po-gl-53747.merged\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=evolution\n"
-"POT-Creation-Date: 2011-01-06 15:34+0000\n"
-"PO-Revision-Date: 2011-01-07 00:41+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-01-09 16:50+0100\n"
+"PO-Revision-Date: 2011-01-09 16:53+0100\n"
 "Last-Translator: Fran Diéguez <frandieguez@ubuntu.com>\n"
 "Language-Team: Galician <gnome-gl-list@gnome.org>\n"
+"Language: gl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: gl\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 "X-Generator: KBabel 1.11.4\n"
 "X-Poedit-Language: Galician\n"
@@ -104,7 +103,7 @@ msgid "Delete address book '{0}'?"
 msgstr "Desexa eliminar a axenda de enderezos «{0}»?"
 
 #: ../addressbook/addressbook.error.xml.h:13
-#: ../calendar/calendar.error.xml.h:34 ../mail/mail.error.xml.h:49
+#: ../calendar/calendar.error.xml.h:34 ../mail/mail.error.xml.h:46
 msgid "Do _Not Delete"
 msgstr "_Non eliminar"
 
@@ -1980,7 +1979,7 @@ msgid "_Save Changes"
 msgstr "_Gardar as modificacións"
 
 #: ../calendar/calendar.error.xml.h:86
-#: ../composer/mail-composer.error.xml.h:33 ../mail/mail.error.xml.h:156
+#: ../composer/mail-composer.error.xml.h:33 ../mail/mail.error.xml.h:158
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
 msgid "_Send"
 msgstr "_Enviar"
@@ -6949,17 +6948,17 @@ msgstr ""
 "Non é posíbel cifrar a mensaxe saínte: non hai un certificado de cifrado "
 "estabelecido para esta conta"
 
-#: ../composer/e-msg-composer.c:1675 ../composer/e-msg-composer.c:2042
+#: ../composer/e-msg-composer.c:1675 ../composer/e-msg-composer.c:2045
 msgid "Compose Message"
 msgstr "Escribir unha mensaxe"
 
-#: ../composer/e-msg-composer.c:4117
+#: ../composer/e-msg-composer.c:4120
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr ""
 "O editor contén un corpo de mensaxe sen texto, polo que non é posíbel a "
 "edición."
 
-#: ../composer/e-msg-composer.c:4822
+#: ../composer/e-msg-composer.c:4825
 msgid "Untitled Message"
 msgstr "Mensaxe sen título"
 
@@ -7382,7 +7381,7 @@ msgid "Evolution account assistant"
 msgstr "Asistente de contas do Evolution"
 
 #. create the local source group
-#: ../capplet/settings/mail-capplet-shell.c:358 ../mail/e-mail-migrate.c:677
+#: ../capplet/settings/mail-capplet-shell.c:358 ../mail/e-mail-migrate.c:680
 #: ../mail/e-mail-store.c:225 ../mail/em-folder-tree-model.c:148
 #: ../mail/em-folder-tree-model.c:151 ../mail/em-folder-tree-model.c:154
 #: ../mail/em-folder-tree-model.c:156 ../mail/em-folder-tree-model.c:163
@@ -7660,7 +7659,7 @@ msgstr "Desexa sobrescribilo?"
 msgid "File exists \"{0}\"."
 msgstr "O ficheiro xa existe «{0}»."
 
-#: ../e-util/e-system.error.xml.h:6 ../mail/mail.error.xml.h:155
+#: ../e-util/e-system.error.xml.h:6 ../mail/mail.error.xml.h:157
 msgid "_Overwrite"
 msgstr "S_obrescribir"
 
@@ -8210,13 +8209,13 @@ msgid "Name"
 msgstr "Nome"
 
 #: ../mail/e-mail-local.c:35 ../mail/em-folder-properties.c:285
-#: ../mail/em-folder-tree-model.c:766 ../mail/em-folder-tree.c:2986
+#: ../mail/em-folder-tree-model.c:766 ../mail/em-folder-tree.c:3131
 #: ../modules/mail/e-mail-shell-view-private.c:1099
 #: ../modules/mail/e-mail-shell-view-private.c:1110
 msgid "Inbox"
 msgstr "Caixa de entrada"
 
-#: ../mail/e-mail-local.c:36 ../mail/e-mail-migrate.c:1007
+#: ../mail/e-mail-local.c:36 ../mail/e-mail-migrate.c:1000
 #: ../mail/em-folder-tree-model.c:758
 #: ../modules/mail/e-mail-shell-view-private.c:1097
 msgid "Drafts"
@@ -8227,7 +8226,7 @@ msgstr "Borradores"
 msgid "Outbox"
 msgstr "Caixa de saída"
 
-#: ../mail/e-mail-local.c:38 ../mail/e-mail-migrate.c:1000
+#: ../mail/e-mail-local.c:38 ../mail/e-mail-migrate.c:994
 #: ../mail/em-folder-tree-model.c:772
 #: ../modules/mail/e-mail-shell-view-private.c:1103
 msgid "Sent"
@@ -8253,11 +8252,11 @@ msgstr "Migración"
 msgid "Migrating '%s':"
 msgstr "Migrando «%s»:"
 
-#: ../mail/e-mail-migrate.c:657
+#: ../mail/e-mail-migrate.c:660
 msgid "Migrating Folders"
 msgstr "Migrando cartafoles"
 
-#: ../mail/e-mail-migrate.c:658
+#: ../mail/e-mail-migrate.c:661
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to SQLite "
 "since Evolution 2.24.\n"
@@ -8269,7 +8268,7 @@ msgstr ""
 "\n"
 "Sexa paciente mentres o Evolution migra os seus cartafoles..."
 
-#: ../mail/e-mail-migrate.c:1147
+#: ../mail/e-mail-migrate.c:1131
 #, c-format
 msgid "Unable to create local mail folders at '%s': %s"
 msgstr "Non é posíbel crear os cartafoles de correo local en «%s»: %s"
@@ -9135,9 +9134,6 @@ msgid "Account Information"
 msgstr "Información da conta"
 
 #: ../mail/em-account-editor.c:2105
-#| msgid ""
-#| "Please enter a descriptive name for this account in the space below.\n"
-#| "This name will be used for display purposes only."
 msgid ""
 "Please enter a descriptive name for this account below.\n"
 "This name will be used for display purposes only."
@@ -9542,46 +9538,46 @@ msgstr "SEN COINCIDENCIAS"
 msgid "Loading..."
 msgstr "Cargando..."
 
-#: ../mail/em-folder-tree.c:201
+#: ../mail/em-folder-tree.c:203
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Examinando os cartafoles en «%s»"
 
-#: ../mail/em-folder-tree.c:629
+#: ../mail/em-folder-tree.c:631
 msgid "Folder names cannot contain '/'"
 msgstr "Os nomes dos cartafoles non poden conter o carácter «/»"
 
-#: ../mail/em-folder-tree.c:1191
+#: ../mail/em-folder-tree.c:1249
 #, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
 msgstr "%s (%u%s)"
 
-#: ../mail/em-folder-tree.c:1427
+#: ../mail/em-folder-tree.c:1485
 msgid "Mail Folder Tree"
 msgstr "Árbore de cartafoles de correo"
 
-#: ../mail/em-folder-tree.c:1788 ../mail/em-folder-utils.c:90
+#: ../mail/em-folder-tree.c:1933 ../mail/em-folder-utils.c:90
 #, c-format
 msgid "Moving folder %s"
 msgstr "Movendo o cartafol %s"
 
-#: ../mail/em-folder-tree.c:1792 ../mail/em-folder-utils.c:92
+#: ../mail/em-folder-tree.c:1937 ../mail/em-folder-utils.c:92
 #, c-format
 msgid "Copying folder %s"
 msgstr "Copiando o cartafol %s"
 
-#: ../mail/em-folder-tree.c:1801 ../mail/message-list.c:2214
+#: ../mail/em-folder-tree.c:1946 ../mail/message-list.c:2214
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Movendo as mensaxes ao cartafol %s"
 
-#: ../mail/em-folder-tree.c:1805 ../mail/message-list.c:2216
+#: ../mail/em-folder-tree.c:1950 ../mail/message-list.c:2216
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copiando as mensaxes ao cartafol %s"
 
-#: ../mail/em-folder-tree.c:1824
+#: ../mail/em-folder-tree.c:1969
 #, c-format
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Non é posíbel soltar as mensaxe(s) no almacenamento do nivel superior"
@@ -10502,9 +10498,6 @@ msgstr ""
 "resposta de novo á lista."
 
 #: ../mail/evolution-mail.schemas.in.h:101
-#| msgid ""
-#| "It disables/enables the repeated prompts to warn that you are sending a "
-#| "private reply to a message which arrived via a mailing list."
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
@@ -10686,9 +10679,6 @@ msgstr ""
 "valor) preguntar ao usuario"
 
 #: ../mail/evolution-mail.schemas.in.h:138
-#| msgid ""
-#| "The following recipients were not recognized as valid mail addresses:\n"
-#| "{0}"
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr ""
 "Preguntar antes de enviar a destinatarios non inseridos como enderezos de "
@@ -11099,9 +11089,6 @@ msgstr ""
 "mensaxes predefinida, para os restantes mostrarase '...'."
 
 #: ../mail/evolution-mail.schemas.in.h:209
-#| msgid ""
-#| "This setting specifies whether the threads should be in expanded or "
-#| "collapsed state by default. Evolution requires a restart."
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Requires a restart to apply."
@@ -11768,7 +11755,6 @@ msgstr "Enviar unha resposta _privada á mensaxes da lista de correo"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:105
-#| msgid "Sending a message with only _Bcc recipients defined"
 msgid "Sending a message with _recipients not entered as mail addresses"
 msgstr ""
 "Enviar unha mensaxe con _destinatarios non inseridos como enderezos de correo"
@@ -12559,38 +12545,22 @@ msgid "Could not save signature file."
 msgstr "Non foi posíbel gardar o ficheiro da sinatura."
 
 #: ../mail/mail.error.xml.h:45
-msgid ""
-"Default local store has been changed from mbox to maildir format. Do you "
-"want to migrate now ?\n"
-"\n"
-"A mbox account will be created to preserve the old mbox folders. You can "
-"delete it after ensuring the data is safely migrated. Please make sure there "
-"is enough space if you choose to migrate."
-msgstr ""
-"O almacenamento local predefinido cambiouse do formato mbox a maildir. "
-"Desexa facer a migración agora?\n"
-"\n"
-"Crearase unha conta mbox para conservar os cartafoles mbox antigos. Pode "
-"eliminala despois de asegurarse que a migración se fixo correctamente. Se "
-"escolle a migración comprobe que haxa suficiente espazo. "
-
-#: ../mail/mail.error.xml.h:48
 msgid "Delete messages in Search Folder \"{0}\"?"
 msgstr "Desexa eliminar as mensaxes do cartafol de busca «{0}»?"
 
-#: ../mail/mail.error.xml.h:50
+#: ../mail/mail.error.xml.h:47
 msgid "Do _Not Disable"
 msgstr "_Non desactivar"
 
-#: ../mail/mail.error.xml.h:51
+#: ../mail/mail.error.xml.h:48
 msgid "Do _Not Send"
 msgstr "_Non enviar"
 
-#: ../mail/mail.error.xml.h:52
+#: ../mail/mail.error.xml.h:49
 msgid "Do _Not Synchronize"
 msgstr "_Non sincronizar"
 
-#: ../mail/mail.error.xml.h:53
+#: ../mail/mail.error.xml.h:50
 msgid ""
 "Do you want to locally synchronize the folders that are marked for offline "
 "usage?"
@@ -12598,55 +12568,78 @@ msgstr ""
 "Desexa sincronizar localmente os cartafoles que están marcados para o uso "
 "sen conexión?"
 
-#: ../mail/mail.error.xml.h:54
+#: ../mail/mail.error.xml.h:51
 msgid "Do you want to mark all messages as read?"
 msgstr "Desexa marcar todas as mensaxes como lidas?"
 
-#: ../mail/mail.error.xml.h:55
+#: ../mail/mail.error.xml.h:52
 msgid "Do you wish to save your changes?"
 msgstr "Desexa gardar as modificacións?"
 
-#: ../mail/mail.error.xml.h:56
+#: ../mail/mail.error.xml.h:53
 msgid "Enter password."
 msgstr "Introduza o contrasinal."
 
-#: ../mail/mail.error.xml.h:57
+#: ../mail/mail.error.xml.h:54
 msgid "Error loading filter definitions."
 msgstr "Produciuse un erro ao cargar as definicións dos filtros."
 
-#: ../mail/mail.error.xml.h:58
+#: ../mail/mail.error.xml.h:55
 msgid "Error while performing operation."
 msgstr "Produciuse un erro ao efectuar a operación."
 
 #. Translators: the {0} is replaced with an operation name, which failed.
 #. It can be basically anything run asynchronously, like "Fetching Mail",
 #. "Sending message" and others, mostly from mail-ops.c file.
-#: ../mail/mail.error.xml.h:62
+#: ../mail/mail.error.xml.h:59
 msgid "Error while {0}."
 msgstr "Produciuse un erro ao {0}."
 
+#: ../mail/mail.error.xml.h:60
+msgid ""
+"Evolution's local mail format has changed from mbox to Maildir. Your local "
+"mail must be migrated to the new format before Evolution can proceed. Do you "
+"want to migrate now?\n"
+"\n"
+"An mbox account will be created to preserve the old mbox folders. You can "
+"delete the account after ensuring the data is safely migrated. Please make "
+"sure there is enough disk space if you choose to migrate now."
+msgstr ""
+"O formato de almacenamento local predeterminado foi cambiado do formato mbox "
+"a maildir. O seu correo electrónico local debe ser migrado ao novo formato "
+"antes de que Evolution poida seguir. Desexa facer a migración agora?\n"
+"\n"
+"Crearase unha conta mbox para conservar os cartafoles mbox antigos. Pode "
+"eliminala despois de asegurarse que a migración se fixo de forma correcta. "
+"Se escolle a migración comprobe con anterioridade que haxa suficiente espazo "
+"libre no seu disco. "
+
 #: ../mail/mail.error.xml.h:63
+msgid "Evolution's local mail format has changed."
+msgstr "O formato de correo electrónico local de Evolution cambiou."
+
+#: ../mail/mail.error.xml.h:64
 msgid "Failed to unsubscribe from folder."
 msgstr "Produciuse un fallo ao eliminar a subscrición do cartafol."
 
-#: ../mail/mail.error.xml.h:64
+#: ../mail/mail.error.xml.h:65
 msgid "File exists but cannot overwrite it."
 msgstr "O ficheiro existe pero non é posíbel sobrescribilo."
 
-#: ../mail/mail.error.xml.h:65
+#: ../mail/mail.error.xml.h:66
 msgid "File exists but is not a regular file."
 msgstr "O ficheiro existe pero non é un ficheiro normal."
 
 #. Translators: {0} is replaced with a folder name
-#: ../mail/mail.error.xml.h:67
+#: ../mail/mail.error.xml.h:68
 msgid "Folder '{0}' doesn't contain any duplicate message."
 msgstr "O cartafol «{0}» non contén ningunha mensaxe duplicada."
 
-#: ../mail/mail.error.xml.h:68
+#: ../mail/mail.error.xml.h:69
 msgid "If you continue, you will not be able to recover these messages."
 msgstr "Se continúa non poderá recuperar estas mensaxes."
 
-#: ../mail/mail.error.xml.h:69
+#: ../mail/mail.error.xml.h:70
 msgid ""
 "If you delete the folder, all of its contents and its subfolders' contents "
 "will be deleted permanently."
@@ -12654,16 +12647,16 @@ msgstr ""
 "Se elimina o cartafol, todo o seu contido e o dos seus subcartafoles "
 "eliminarase permanentemente."
 
-#: ../mail/mail.error.xml.h:70
+#: ../mail/mail.error.xml.h:71
 msgid ""
 "If you delete the folder, all of its contents will be deleted permanently."
 msgstr "Se elimina o cartafol, eliminarase permanentemente todo o seu contido."
 
-#: ../mail/mail.error.xml.h:71
+#: ../mail/mail.error.xml.h:72
 msgid "If you proceed, all proxy accounts will be deleted permanently."
 msgstr "Se continúa, as contas proxy eliminaranse permanentemente."
 
-#: ../mail/mail.error.xml.h:72
+#: ../mail/mail.error.xml.h:73
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
@@ -12671,11 +12664,11 @@ msgstr ""
 "Se continúa, a información da conta e toda a\n"
 "información do proxy eliminarase permanentemente."
 
-#: ../mail/mail.error.xml.h:74
+#: ../mail/mail.error.xml.h:75
 msgid "If you proceed, the account information will be deleted permanently."
 msgstr "Se continúa, a información da conta eliminarase permanentemente."
 
-#: ../mail/mail.error.xml.h:75
+#: ../mail/mail.error.xml.h:76
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
@@ -12683,23 +12676,23 @@ msgstr ""
 "Se sae do aplicativo, estas mensaxes non se enviarán até que o Evolution se "
 "inicie de novo."
 
-#: ../mail/mail.error.xml.h:76
+#: ../mail/mail.error.xml.h:77
 msgid "Ignore"
 msgstr "Ignorar"
 
-#: ../mail/mail.error.xml.h:77
+#: ../mail/mail.error.xml.h:78
 msgid "Invalid authentication"
 msgstr "A autenticación non é correcta"
 
-#: ../mail/mail.error.xml.h:78
+#: ../mail/mail.error.xml.h:79
 msgid "Mail Deletion Failed"
 msgstr "Produciuse un fallo na eliminación do correo"
 
-#: ../mail/mail.error.xml.h:79
+#: ../mail/mail.error.xml.h:80
 msgid "Mail filters automatically updated."
 msgstr "Filtros de correo actualizados automaticamente."
 
-#: ../mail/mail.error.xml.h:80
+#: ../mail/mail.error.xml.h:81
 msgid ""
 "Many email systems add an Apparently-To header to messages that only have "
 "BCC recipients. This header, if added, will list all of your recipients to "
@@ -12710,10 +12703,6 @@ msgstr ""
 "que só teñen destinatarios Cco. Esta cabeceira, se se engade, mostrará todos "
 "os destinatarios na súa mensaxe. Para evitar isto debería engadir polo menos "
 "un destinatario «Para:» ou «CC:»."
-
-#: ../mail/mail.error.xml.h:81
-msgid "Migrate local mbox folders to maildir"
-msgstr "Migrar os cartafoles locais con formato mbox a maildir"
 
 #: ../mail/mail.error.xml.h:82
 msgid "Missing folder."
@@ -13043,26 +13032,36 @@ msgid "_Empty Trash"
 msgstr "_Baleirar o lixo"
 
 #: ../mail/mail.error.xml.h:152
+#, fuzzy
+msgid "_Exit Evolution"
+msgstr "Evolution"
+
+#: ../mail/mail.error.xml.h:153
 msgid "_Expunge"
 msgstr "_Expurgar"
 
-#: ../mail/mail.error.xml.h:153
+#: ../mail/mail.error.xml.h:154
+#, fuzzy
+msgid "_Migrate Now"
+msgstr "Migración"
+
+#: ../mail/mail.error.xml.h:155
 msgid "_No"
 msgstr "_Non"
 
-#: ../mail/mail.error.xml.h:154
+#: ../mail/mail.error.xml.h:156
 msgid "_Open Messages"
 msgstr "_Abrir as mensaxes"
 
-#: ../mail/mail.error.xml.h:157
+#: ../mail/mail.error.xml.h:159
 msgid "_Send Receipt"
 msgstr "_Enviar a confirmación"
 
-#: ../mail/mail.error.xml.h:158
+#: ../mail/mail.error.xml.h:160
 msgid "_Synchronize"
 msgstr "_Sincronizar"
 
-#: ../mail/mail.error.xml.h:159
+#: ../mail/mail.error.xml.h:161
 msgid "_Yes"
 msgstr "_Si"
 
@@ -15654,7 +15653,6 @@ msgid "Send queued items and retrieve new items"
 msgstr "Enviar os elementos da cola e obter os elementos novos"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1210
-#| msgid "R_eceive all"
 msgid "R_eceive All"
 msgstr "R_ecibir todos"
 
@@ -15663,7 +15661,6 @@ msgid "Receive new items from all accounts"
 msgstr "Recibir os elementos novos de todas as contas"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1217
-#| msgid "_Send all"
 msgid "_Send All"
 msgstr "_Enviar todos"
 
@@ -16160,17 +16157,14 @@ msgid "Play audio attachments directly in mail messages."
 msgstr "Reproducir os anexos de son directamente nas mensaxes de correo."
 
 #: ../plugins/backup-restore/backup-restore.c:183
-#| msgid "Select name of the Evolution back up file"
 msgid "Select name of the Evolution backup file"
 msgstr "Seleccionar o nome do ficheiro de copia de seguranza do Evolution"
 
 #: ../plugins/backup-restore/backup-restore.c:216
-#| msgid "_Restart Evolution after back up"
 msgid "_Restart Evolution after backup"
 msgstr "_Reiniciar o Evolution despois de facer unha copia de seguranza"
 
 #: ../plugins/backup-restore/backup-restore.c:242
-#| msgid "Select name of the Evolution back up file to restore"
 msgid "Select name of the Evolution backup file to restore"
 msgstr ""
 "Seleccionar o nome do ficheiro da copia de seguranza do Evolution para "
@@ -16181,10 +16175,6 @@ msgid "_Restart Evolution after restore"
 msgstr "_Reiniciar o Evolution despois de restabelecer"
 
 #: ../plugins/backup-restore/backup-restore.c:323
-#| msgid ""
-#| "You can restore Evolution from your back up. It can restore all the "
-#| "Mails, Calendars, Tasks, Memos, Contacts. It also restores all your "
-#| "personal settings, mail filters etc."
 msgid ""
 "You can restore Evolution from your backup. It can restore all the Mails, "
 "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
@@ -16195,7 +16185,6 @@ msgstr ""
 "restabelecerá todas as configuracións persoais, filtros de correo, etc."
 
 #: ../plugins/backup-restore/backup-restore.c:330
-#| msgid "_Restore Evolution from the back up file"
 msgid "_Restore Evolution from the backup file"
 msgstr "_Restaurar Evolution desde a copia de seguranza"
 
@@ -16208,7 +16197,6 @@ msgid "Choose a file to restore"
 msgstr "Escoller un ficheiro para restabelecer"
 
 #: ../plugins/backup-restore/backup-restore.c:348
-#| msgid "Restore from back up"
 msgid "Restore from backup"
 msgstr "Restabelecer desde unha copia de seguranza"
 
@@ -21038,12 +21026,12 @@ msgstr "_Enviar a..."
 msgid "Send the selected attachments somewhere"
 msgstr "Enviar os anexos seleccionados a algún lugar"
 
-#: ../widgets/misc/e-attachment-icon-view.c:506
+#: ../widgets/misc/e-attachment-icon-view.c:162
 #: ../widgets/misc/e-attachment-tree-view.c:545
 msgid "Loading"
 msgstr "Cargando"
 
-#: ../widgets/misc/e-attachment-icon-view.c:518
+#: ../widgets/misc/e-attachment-icon-view.c:174
 #: ../widgets/misc/e-attachment-tree-view.c:557
 msgid "Saving"
 msgstr "Gardando"
@@ -21929,6 +21917,9 @@ msgstr "Seleccionar todo"
 #: ../widgets/text/e-text.c:2301
 msgid "Input Methods"
 msgstr "Métodos de entrada"
+
+#~ msgid "Migrate local mbox folders to maildir"
+#~ msgstr "Migrar os cartafoles locais con formato mbox a maildir"
 
 #~ msgid "Account Management"
 #~ msgstr "Xestión de contas"
