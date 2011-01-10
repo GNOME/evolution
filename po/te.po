@@ -10,15 +10,16 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: te\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
-"POT-Creation-Date: 2009-12-14 17:23+0000\n"
-"PO-Revision-Date: 2010-01-04 17:01+0530\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-03-29 12:50+0530\n"
+"PO-Revision-Date: 2010-05-10 17:53+0530\n"
 "Last-Translator: Krishna Babu K <kkrothap@redhat.com>\n"
 "Language-Team: Telugu <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -159,7 +160,7 @@ msgid "calendar view for one or more days"
 msgstr "ఒకటి లేదా కొన్ని రోజులకి క్యాలెండర్ దర్శనం"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:186
-#: ../calendar/gui/calendar-component.c:774
+#: ../calendar/gui/calendar-component.c:776
 msgid "%A %d %b %Y"
 msgstr "%A %d %b %Y"
 
@@ -170,7 +171,7 @@ msgstr "%A %d %b %Y"
 #. You can change the order but don't change the
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:189
-#: ../calendar/gui/calendar-component.c:777
+#: ../calendar/gui/calendar-component.c:779
 #: ../calendar/gui/e-day-view-top-item.c:844 ../calendar/gui/e-day-view.c:1593
 #: ../calendar/gui/e-week-view-main-item.c:368
 msgid "%a %d %b"
@@ -179,9 +180,9 @@ msgstr "%a %d %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:191
 #: ../a11y/calendar/ea-gnome-calendar.c:196
 #: ../a11y/calendar/ea-gnome-calendar.c:198
-#: ../calendar/gui/calendar-component.c:779
-#: ../calendar/gui/calendar-component.c:784
+#: ../calendar/gui/calendar-component.c:781
 #: ../calendar/gui/calendar-component.c:786
+#: ../calendar/gui/calendar-component.c:788
 msgid "%a %d %b %Y"
 msgstr "%a %d %b %Y"
 
@@ -189,10 +190,10 @@ msgstr "%a %d %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:221
 #: ../a11y/calendar/ea-gnome-calendar.c:227
 #: ../a11y/calendar/ea-gnome-calendar.c:229
-#: ../calendar/gui/calendar-component.c:798
-#: ../calendar/gui/calendar-component.c:805
-#: ../calendar/gui/calendar-component.c:811
+#: ../calendar/gui/calendar-component.c:800
+#: ../calendar/gui/calendar-component.c:807
 #: ../calendar/gui/calendar-component.c:813
+#: ../calendar/gui/calendar-component.c:815
 msgid "%d %b %Y"
 msgstr "%d %b %Y"
 
@@ -202,7 +203,7 @@ msgstr "%d %b %Y"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:219
-#: ../calendar/gui/calendar-component.c:803
+#: ../calendar/gui/calendar-component.c:805
 #: ../calendar/gui/e-day-view-top-item.c:848 ../calendar/gui/e-day-view.c:1609
 #: ../calendar/gui/e-week-view-main-item.c:382
 msgid "%d %b"
@@ -584,9 +585,9 @@ msgstr "పరిచయాలను మరియు స్వయంచాలక�
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 #: ../addressbook/gui/component/addressbook-view.c:1219
-#: ../calendar/gui/calendar-component.c:196 ../calendar/gui/migration.c:395
+#: ../calendar/gui/calendar-component.c:198 ../calendar/gui/migration.c:395
 #: ../plugins/exchange-operations/exchange-delegates-user.c:75
-#: ../plugins/exchange-operations/exchange-folder.c:579
+#: ../plugins/exchange-operations/exchange-folder.c:585
 msgid "Contacts"
 msgstr "పరిచయాలు"
 
@@ -626,10 +627,10 @@ msgstr "మీ S/MIME దృవీకరణపత్రాలను ఇక్క
 #. On This Computer is always first and Search Folders is always last
 #: ../addressbook/gui/component/addressbook-component.c:97
 #: ../addressbook/gui/component/addressbook-migrate.c:499
-#: ../calendar/gui/calendar-component.c:195
-#: ../calendar/gui/memos-component.c:154 ../calendar/gui/migration.c:474
+#: ../calendar/gui/calendar-component.c:197
+#: ../calendar/gui/memos-component.c:157 ../calendar/gui/migration.c:474
 #: ../calendar/gui/migration.c:576 ../calendar/gui/migration.c:1090
-#: ../calendar/gui/tasks-component.c:151 ../mail/em-folder-tree-model.c:191
+#: ../calendar/gui/tasks-component.c:153 ../mail/em-folder-tree-model.c:191
 #: ../mail/em-folder-tree-model.c:193 ../mail/em-migrate.c:2890
 #: ../mail/mail-component.c:320 ../mail/mail-vfolder.c:217
 #: ../mail/message-list.c:1515
@@ -657,12 +658,12 @@ msgstr "LDAP సేవికలపై"
 #: ../addressbook/gui/component/addressbook-component.c:138
 #: ../addressbook/gui/component/addressbook-migrate.c:507
 #: ../addressbook/gui/widgets/eab-contact-display.c:650
-#: ../calendar/gui/calendar-component.c:235
-#: ../calendar/gui/calendar-component.c:241
-#: ../calendar/gui/memos-component.c:192 ../calendar/gui/memos-component.c:196
+#: ../calendar/gui/calendar-component.c:237
+#: ../calendar/gui/calendar-component.c:243
+#: ../calendar/gui/memos-component.c:195 ../calendar/gui/memos-component.c:199
 #: ../calendar/gui/migration.c:484 ../calendar/gui/migration.c:584
-#: ../calendar/gui/migration.c:1098 ../calendar/gui/tasks-component.c:189
-#: ../calendar/gui/tasks-component.c:193 ../mail/em-migrate.c:960
+#: ../calendar/gui/migration.c:1098 ../calendar/gui/tasks-component.c:191
+#: ../calendar/gui/tasks-component.c:195 ../mail/em-migrate.c:960
 #: ../plugins/email-custom-header/email-custom-header.c:334
 msgid "Personal"
 msgstr "వ్యక్తిగత"
@@ -877,18 +878,18 @@ msgstr ""
 "ఎవాల్యషన్ మీ పైలెట్ సింక్ డాటా ను వలసపంపుతున్నప్పుడు దయచేసి ఓర్పుతో ఉండండి..."
 
 #: ../addressbook/gui/component/addressbook-view.c:422
-#: ../mail/em-folder-utils.c:453
+#: ../mail/em-folder-utils.c:456
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "\"%s\" సంచయాన్ని దీనికి పునఃనామకరణ చేయుము:"
 
 #: ../addressbook/gui/component/addressbook-view.c:425
-#: ../mail/em-folder-utils.c:455
+#: ../mail/em-folder-utils.c:458
 msgid "Rename Folder"
 msgstr "సంచయాన్నిపునర్నామకరణ చేయుము"
 
 #: ../addressbook/gui/component/addressbook-view.c:430
-#: ../mail/em-folder-utils.c:461
+#: ../mail/em-folder-utils.c:464
 msgid "Folder names cannot contain '/'"
 msgstr "సంచయనామములు '/' ను కలిగిఉండలేవు"
 
@@ -901,19 +902,19 @@ msgid "Save As vCard..."
 msgstr "Vకార్డ్‍ లాగా దాయుము..."
 
 #: ../addressbook/gui/component/addressbook-view.c:957
-#: ../calendar/gui/calendar-component.c:631
-#: ../calendar/gui/memos-component.c:482 ../calendar/gui/tasks-component.c:475
-#: ../mail/em-folder-tree.c:2122 ../ui/evolution-mail-list.xml.h:39
+#: ../calendar/gui/calendar-component.c:633
+#: ../calendar/gui/memos-component.c:485 ../calendar/gui/tasks-component.c:477
+#: ../mail/em-folder-tree.c:2127 ../ui/evolution-mail-list.xml.h:39
 msgid "_Rename..."
 msgstr "పునఃనామకరణ(_R)..."
 
 #: ../addressbook/gui/component/addressbook-view.c:960
 #: ../addressbook/gui/widgets/e-addressbook-view.c:954
-#: ../calendar/gui/calendar-component.c:634
-#: ../calendar/gui/e-calendar-table.c:1616
-#: ../calendar/gui/e-calendar-view.c:1831 ../calendar/gui/e-memo-table.c:952
-#: ../calendar/gui/memos-component.c:485 ../calendar/gui/tasks-component.c:478
-#: ../mail/em-folder-tree.c:2119 ../mail/em-folder-view.c:1340
+#: ../calendar/gui/calendar-component.c:636
+#: ../calendar/gui/e-calendar-table.c:1618
+#: ../calendar/gui/e-calendar-view.c:1833 ../calendar/gui/e-memo-table.c:954
+#: ../calendar/gui/memos-component.c:488 ../calendar/gui/tasks-component.c:480
+#: ../mail/em-folder-tree.c:2124 ../mail/em-folder-view.c:1340
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:42
 #: ../ui/evolution-mail-list.xml.h:35 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -921,9 +922,9 @@ msgid "_Delete"
 msgstr "తొలగించు(_D)"
 
 #: ../addressbook/gui/component/addressbook-view.c:963
-#: ../calendar/gui/calendar-component.c:639
-#: ../calendar/gui/memos-component.c:490 ../calendar/gui/tasks-component.c:483
-#: ../mail/em-folder-tree.c:2127 ../ui/evolution-addressbook.xml.h:59
+#: ../calendar/gui/calendar-component.c:641
+#: ../calendar/gui/memos-component.c:493 ../calendar/gui/tasks-component.c:485
+#: ../mail/em-folder-tree.c:2132 ../ui/evolution-addressbook.xml.h:59
 #: ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
 msgstr "లక్షణాలు(_P)"
@@ -1488,7 +1489,7 @@ msgstr "నివాసం"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:192
 #: ../addressbook/gui/widgets/eab-contact-display.c:59
 #: ../addressbook/gui/widgets/eab-contact-display.c:516
-#: ../calendar/gui/e-calendar-view.c:2292
+#: ../calendar/gui/e-calendar-view.c:2294
 msgid "Other"
 msgstr "ఇతరములు"
 
@@ -1846,8 +1847,8 @@ msgid "Save as vCard..."
 msgstr "Vపలకంగా దాయుము..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:932
-#: ../calendar/gui/e-calendar-table.c:1594
-#: ../calendar/gui/e-calendar-view.c:1809 ../calendar/gui/e-memo-table.c:935
+#: ../calendar/gui/e-calendar-table.c:1596
+#: ../calendar/gui/e-calendar-view.c:1811 ../calendar/gui/e-memo-table.c:937
 #: ../ui/evolution-addressbook.xml.h:56
 msgid "_Open"
 msgstr "తెరువుము(_O)"
@@ -1901,8 +1902,8 @@ msgid "Cu_t"
 msgstr "కట్(_t)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:952
-#: ../calendar/gui/e-calendar-table.c:1602
-#: ../calendar/gui/e-calendar-view.c:1816 ../calendar/gui/e-memo-table.c:943
+#: ../calendar/gui/e-calendar-table.c:1604
+#: ../calendar/gui/e-calendar-view.c:1818 ../calendar/gui/e-memo-table.c:945
 #: ../mail/em-folder-tree.c:991 ../mail/em-folder-view.c:1325
 #: ../mail/message-list.c:2109 ../ui/evolution-addressbook.xml.h:46
 #: ../ui/evolution-calendar.xml.h:40 ../ui/evolution-mail-message.xml.h:99
@@ -2233,7 +2234,7 @@ msgstr "ఎంపికచేయబడ్డ"
 msgid "Has Cursor"
 msgstr "ములుకు ఉన్నది"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:169 ../mail/em-popup.c:545
+#: ../addressbook/gui/widgets/eab-contact-display.c:169 ../mail/em-popup.c:547
 msgid "_Open Link in Browser"
 msgstr "అన్వేషి లో జోడికను తెరువుము(_O)"
 
@@ -2242,7 +2243,7 @@ msgstr "అన్వేషి లో జోడికను తెరువుమ
 msgid "_Copy Link Location"
 msgstr "జోడిక స్థానాన్ని నకలు తీయుము(_C)"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:171 ../mail/em-popup.c:546
+#: ../addressbook/gui/widgets/eab-contact-display.c:171 ../mail/em-popup.c:548
 msgid "_Send New Message To..."
 msgstr "కొత్త సందేశాన్ని ఇక్కడకి పంపించుము(_S)..."
 
@@ -2287,9 +2288,9 @@ msgstr "దృశ్య మాటామంతి"
 #: ../addressbook/gui/widgets/eab-contact-display.c:626
 #: ../calendar/gui/calendar-commands.c:89
 #: ../calendar/gui/dialogs/calendar-setup.c:368
-#: ../calendar/gui/gnome-cal.c:2548
+#: ../calendar/gui/gnome-cal.c:2560
 #: ../plugins/exchange-operations/exchange-delegates-user.c:75
-#: ../plugins/exchange-operations/exchange-folder.c:572
+#: ../plugins/exchange-operations/exchange-folder.c:578
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:419
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:449
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:562
@@ -2328,12 +2329,12 @@ msgid "Web Log"
 msgstr "మహాతలంలో నమోదు"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:646
-#: ../calendar/gui/e-calendar-view.c:2583
+#: ../calendar/gui/e-calendar-view.c:2585
 msgid "Birthday"
 msgstr "పుట్టిన రోజు"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:647
-#: ../calendar/gui/e-calendar-view.c:2584
+#: ../calendar/gui/e-calendar-view.c:2586
 msgid "Anniversary"
 msgstr "వార్షీకోత్సవం"
 
@@ -2403,8 +2404,8 @@ msgstr "ఈ ప్రొటోకాల్ కు సహకారంలేదు
 #: ../calendar/gui/e-cal-component-preview.c:248
 #: ../calendar/gui/e-cal-model-tasks.c:363
 #: ../calendar/gui/e-cal-model-tasks.c:633
-#: ../calendar/gui/e-calendar-table.c:241
-#: ../calendar/gui/e-calendar-table.c:664 ../calendar/gui/print.c:2591
+#: ../calendar/gui/e-calendar-table.c:243
+#: ../calendar/gui/e-calendar-table.c:666 ../calendar/gui/print.c:2591
 msgid "Canceled"
 msgstr "రద్దుచేయబడినది"
 
@@ -2415,13 +2416,13 @@ msgstr "రద్దు చేయలేకపోయింది"
 
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
 #: ../addressbook/gui/widgets/eab-gui-util.c:72
-#: ../calendar/gui/comp-editor-factory.c:435
+#: ../calendar/gui/comp-editor-factory.c:437
 msgid "Authentication Failed"
 msgstr "ప్రామాణీకరణ విఫలం చెందింది"
 
 #. E_BOOK_ERROR_AUTHENTICATION_REQUIRED
 #: ../addressbook/gui/widgets/eab-gui-util.c:73
-#: ../calendar/gui/comp-editor-factory.c:429
+#: ../calendar/gui/comp-editor-factory.c:431
 msgid "Authentication Required"
 msgstr "ప్రామాణీకరణ అవసరం"
 
@@ -2757,23 +2758,23 @@ msgstr "అకాలనియమిత విధంలో కార్డుల 
 msgid "NUMBER"
 msgstr "సంఖ్య"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:99
+#: ../addressbook/tools/evolution-addressbook-export.c:101
 msgid "Command line arguments error, please use --help option to see the usage."
 msgstr "ఆదేశవాక్య క్రమానుగత సంకేతాల దోషం, దయచేసి వాడకాన్ని చూడటానికి --సహాయ ఇచ్చాపూర్వకాన్ని వాడండి"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:113
+#: ../addressbook/tools/evolution-addressbook-export.c:115
 msgid "Only support csv or vcard format."
 msgstr "కేవలం csv లేక vకార్డు రూపలావణ్యాన్ని సహకారించును."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:122
+#: ../addressbook/tools/evolution-addressbook-export.c:124
 msgid "In async mode, output must be file."
 msgstr "అకాలనియమిత విధం లో, దిగుబడి చేసేది దస్త్రమై ఉండాలి."
 
-#: ../addressbook/tools/evolution-addressbook-export.c:130
+#: ../addressbook/tools/evolution-addressbook-export.c:132
 msgid "In normal mode, there is no need for the size option."
 msgstr "సాధారణ సంవిధానంలో, పరిమాణ ఇచ్చాపూర్వకాల ఆవశ్యం లేదు"
 
-#: ../addressbook/tools/evolution-addressbook-export.c:161
+#: ../addressbook/tools/evolution-addressbook-export.c:163
 msgid "Unhandled error"
 msgstr "సంభాలించని దోషం"
 
@@ -2831,7 +2832,7 @@ msgstr "ఈ కర్తవ్యాలలోని సమాచారం అం
 
 #: ../calendar/calendar.error.xml.h:11
 msgid "All information on this appointment will be deleted and can not be restored."
-msgstr "All information on this appointment will be deleted and can not be restored."
+msgstr "ఈ నియామకము పైని సమాచారము అంతా తొలగించబడును మరియు తిరిగినిల్వచేయబడదు."
 
 #: ../calendar/calendar.error.xml.h:12
 msgid "All information on this meeting will be deleted and can not be restored."
@@ -3221,8 +3222,8 @@ msgid "Calendar and Tasks"
 msgstr "క్యాలెండర్ మరియు కర్తవ్యాలు"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:822
-#: ../calendar/gui/calendar-component.c:1241
+#: ../calendar/gui/calendar-component.c:824
+#: ../calendar/gui/calendar-component.c:1243
 msgid "Calendars"
 msgstr "క్యాలెండర్ లు"
 
@@ -3263,22 +3264,22 @@ msgid "Memo_s"
 msgstr "మెమోస్(_s)"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: ../calendar/gui/e-memo-table.c:296 ../calendar/gui/e-memos.c:1123
-#: ../calendar/gui/gnome-cal.c:1846 ../calendar/gui/memos-component.c:567
-#: ../calendar/gui/memos-component.c:885 ../calendar/gui/memos-control.c:386
+#: ../calendar/gui/e-memo-table.c:298 ../calendar/gui/e-memos.c:1123
+#: ../calendar/gui/gnome-cal.c:1853 ../calendar/gui/memos-component.c:570
+#: ../calendar/gui/memos-component.c:888 ../calendar/gui/memos-control.c:386
 #: ../calendar/gui/memos-control.c:402
 msgid "Memos"
 msgstr "మెమోస్"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
-#: ../calendar/gui/e-calendar-table.c:728 ../calendar/gui/e-tasks.c:1426
-#: ../calendar/gui/gnome-cal.c:1714 ../calendar/gui/print.c:2016
-#: ../calendar/gui/tasks-component.c:560 ../calendar/gui/tasks-component.c:882
+#: ../calendar/gui/e-calendar-table.c:730 ../calendar/gui/e-tasks.c:1426
+#: ../calendar/gui/gnome-cal.c:1721 ../calendar/gui/print.c:2016
+#: ../calendar/gui/tasks-component.c:562 ../calendar/gui/tasks-component.c:884
 #: ../calendar/gui/tasks-control.c:524 ../calendar/gui/tasks-control.c:540
 #: ../calendar/importers/icalendar-importer.c:76
 #: ../calendar/importers/icalendar-importer.c:751
 #: ../plugins/exchange-operations/exchange-delegates-user.c:75
-#: ../plugins/exchange-operations/exchange-folder.c:586
+#: ../plugins/exchange-operations/exchange-folder.c:592
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:420
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:563
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
@@ -3982,7 +3983,7 @@ msgstr "పనిరోజు ప్రారంభ గంట"
 msgid "Workday start minute"
 msgstr "పనిరోజు ప్రారంభ నిమిషం"
 
-#: ../calendar/gui/cal-editor-utils.c:103
+#: ../calendar/gui/cal-editor-utils.c:105
 msgid "Invalid object"
 msgstr "చెల్లని ఆబ్జక్టు"
 
@@ -4065,110 +4066,110 @@ msgid "days"
 msgstr "రోజులు"
 
 #. Create the Webcal source group
-#: ../calendar/gui/calendar-component.c:197
-#: ../calendar/gui/memos-component.c:155 ../calendar/gui/migration.c:504
+#: ../calendar/gui/calendar-component.c:199
+#: ../calendar/gui/memos-component.c:158 ../calendar/gui/migration.c:504
 #: ../calendar/gui/migration.c:603 ../calendar/gui/migration.c:1117
-#: ../calendar/gui/tasks-component.c:152
+#: ../calendar/gui/tasks-component.c:154
 msgid "On The Web"
 msgstr "మహాతలం పైన"
 
-#: ../calendar/gui/calendar-component.c:198
+#: ../calendar/gui/calendar-component.c:200
 #: ../plugins/calendar-weather/calendar-weather.c:126
 msgid "Weather"
 msgstr "వాతావరణం"
 
 #. ensure the source name is in current locale, not read from configuration
-#: ../calendar/gui/calendar-component.c:292
-#: ../calendar/gui/calendar-component.c:294 ../calendar/gui/migration.c:398
+#: ../calendar/gui/calendar-component.c:294
+#: ../calendar/gui/calendar-component.c:296 ../calendar/gui/migration.c:398
 msgid "Birthdays & Anniversaries"
 msgstr "పుట్టినరోజులు & వార్షికోత్సవాలు"
 
-#: ../calendar/gui/calendar-component.c:629
+#: ../calendar/gui/calendar-component.c:631
 msgid "_New Calendar"
 msgstr "కొత్త క్యాలెండర్(_N)"
 
-#: ../calendar/gui/calendar-component.c:630
-#: ../calendar/gui/memos-component.c:481 ../calendar/gui/tasks-component.c:474
-#: ../mail/em-folder-tree.c:2114
+#: ../calendar/gui/calendar-component.c:632
+#: ../calendar/gui/memos-component.c:484 ../calendar/gui/tasks-component.c:476
+#: ../mail/em-folder-tree.c:2119
 msgid "_Copy..."
 msgstr "నకలుతీయు(_C)..."
 
-#: ../calendar/gui/calendar-component.c:635
-#: ../calendar/gui/memos-component.c:486 ../calendar/gui/tasks-component.c:479
+#: ../calendar/gui/calendar-component.c:637
+#: ../calendar/gui/memos-component.c:489 ../calendar/gui/tasks-component.c:481
 msgid "_Make available for offline use"
 msgstr "ఆఫ్‌లైన్ ఉపయోగార్దం అందుబాటుచేయుము (_M)"
 
-#: ../calendar/gui/calendar-component.c:636
-#: ../calendar/gui/memos-component.c:487 ../calendar/gui/tasks-component.c:480
+#: ../calendar/gui/calendar-component.c:638
+#: ../calendar/gui/memos-component.c:490 ../calendar/gui/tasks-component.c:482
 msgid "_Do not make available for offline use"
 msgstr "ఆఫ్‌లైన్ వుపయోగం కొరకు అందుబాటు చేయవద్దు (_D)"
 
-#: ../calendar/gui/calendar-component.c:964
+#: ../calendar/gui/calendar-component.c:966
 msgid "Failed upgrading calendars."
 msgstr "క్యాలెండర్ ను తాజాపరుచుట లో విఫలం ."
 
-#: ../calendar/gui/calendar-component.c:1092
+#: ../calendar/gui/calendar-component.c:1094
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "ఘటనలు మరియు సమావేశాలు సృష్టించుట కొరకు క్యాలెండర్'%s' ను తెరవలేకపోయింది"
 
-#: ../calendar/gui/calendar-component.c:1108
+#: ../calendar/gui/calendar-component.c:1110
 msgid "There is no calendar available for creating events and meetings"
 msgstr "ఘటనలు మరియు సమావేశాలు సృష్టించుట కొరకు క్యాలెండర్ అందుబాటు లొ లేదు"
 
-#: ../calendar/gui/calendar-component.c:1221
+#: ../calendar/gui/calendar-component.c:1223
 msgid "Calendar Source Selector"
 msgstr "క్యాలెండర్ వనరు ఎంపికచేసేది"
 
-#: ../calendar/gui/calendar-component.c:1436
+#: ../calendar/gui/calendar-component.c:1438
 msgid "New appointment"
 msgstr "కొత్త నియామకం"
 
-#: ../calendar/gui/calendar-component.c:1437
+#: ../calendar/gui/calendar-component.c:1439
 msgctxt "New"
 msgid "_Appointment"
 msgstr "నియామకం (_A)"
 
-#: ../calendar/gui/calendar-component.c:1438
+#: ../calendar/gui/calendar-component.c:1440
 msgid "Create a new appointment"
 msgstr "కొత్త నియామకమును సృష్టించు"
 
-#: ../calendar/gui/calendar-component.c:1444
+#: ../calendar/gui/calendar-component.c:1446
 msgid "New meeting"
 msgstr "కొత్త సమావేశం"
 
-#: ../calendar/gui/calendar-component.c:1445
+#: ../calendar/gui/calendar-component.c:1447
 msgctxt "New"
 msgid "M_eeting"
 msgstr "సమావేశం (_e)"
 
-#: ../calendar/gui/calendar-component.c:1446
+#: ../calendar/gui/calendar-component.c:1448
 msgid "Create a new meeting request"
 msgstr "కొత్త సమావేశ అభ్యర్థన ను సృష్టించు"
 
-#: ../calendar/gui/calendar-component.c:1452
+#: ../calendar/gui/calendar-component.c:1454
 msgid "New all day appointment"
 msgstr "కొత్త పూర్తిరోజు నియామకం"
 
-#: ../calendar/gui/calendar-component.c:1453
+#: ../calendar/gui/calendar-component.c:1455
 msgctxt "New"
 msgid "All Day A_ppointment"
 msgstr "పూర్తిరోజు నియామకం (_p)"
 
-#: ../calendar/gui/calendar-component.c:1454
+#: ../calendar/gui/calendar-component.c:1456
 msgid "Create a new all-day appointment"
 msgstr "కొత్త పూర్తిరోజు నియామకాన్ని సృష్టించు"
 
-#: ../calendar/gui/calendar-component.c:1460
+#: ../calendar/gui/calendar-component.c:1462
 msgid "New calendar"
 msgstr "కొత్త క్యాలెండర్"
 
-#: ../calendar/gui/calendar-component.c:1461
+#: ../calendar/gui/calendar-component.c:1463
 msgctxt "New"
 msgid "Cale_ndar"
 msgstr "క్యాలెండర్ (_n)"
 
-#: ../calendar/gui/calendar-component.c:1462
+#: ../calendar/gui/calendar-component.c:1464
 msgid "Create a new calendar"
 msgstr "కొత్త క్యాలెండర్ ను సృష్టించు"
 
@@ -4214,7 +4215,7 @@ msgid "Classification"
 msgstr "వర్గీకరణ"
 
 #: ../calendar/gui/caltypes.xml.h:7 ../calendar/gui/e-cal-list-view.c:249
-#: ../calendar/gui/e-cal-model.c:370 ../calendar/gui/e-calendar-table.c:568
+#: ../calendar/gui/e-cal-model.c:370 ../calendar/gui/e-calendar-table.c:570
 #: ../calendar/gui/memotypes.xml.h:6
 #: ../plugins/email-custom-header/email-custom-header.c:337
 msgid "Confidential"
@@ -4256,14 +4257,14 @@ msgid "Organizer"
 msgstr "నిర్వాహకుడు"
 
 #: ../calendar/gui/caltypes.xml.h:14 ../calendar/gui/e-cal-list-view.c:248
-#: ../calendar/gui/e-cal-model.c:368 ../calendar/gui/e-calendar-table.c:567
+#: ../calendar/gui/e-cal-model.c:368 ../calendar/gui/e-calendar-table.c:569
 #: ../calendar/gui/memotypes.xml.h:12
 msgid "Private"
 msgstr "స్వంత"
 
 #: ../calendar/gui/caltypes.xml.h:15 ../calendar/gui/e-cal-list-view.c:247
 #: ../calendar/gui/e-cal-model.c:359 ../calendar/gui/e-cal-model.c:366
-#: ../calendar/gui/e-calendar-table.c:566 ../calendar/gui/memotypes.xml.h:13
+#: ../calendar/gui/e-calendar-table.c:568 ../calendar/gui/memotypes.xml.h:13
 msgid "Public"
 msgstr "ప్రజా"
 
@@ -4306,19 +4307,19 @@ msgstr "ఇక"
 msgid "is not"
 msgstr "ఇది కాదు"
 
-#: ../calendar/gui/comp-editor-factory.c:411
+#: ../calendar/gui/comp-editor-factory.c:413
 msgid "Error while opening the calendar"
 msgstr "క్యాలెండర్ తెరుస్తుండగా దోషం"
 
-#: ../calendar/gui/comp-editor-factory.c:417
+#: ../calendar/gui/comp-editor-factory.c:419
 msgid "Method not supported when opening the calendar"
 msgstr "క్యాలెండర్ తెరుస్తుండగా, పద్దతికి సహకారం లేదు"
 
-#: ../calendar/gui/comp-editor-factory.c:423
+#: ../calendar/gui/comp-editor-factory.c:425
 msgid "Permission denied to open the calendar"
 msgstr "క్యాలెండర్ తెరువటకు అనుమతి నిరాకరించబడినది"
 
-#: ../calendar/gui/comp-editor-factory.c:441 ../shell/e-shell.c:1261
+#: ../calendar/gui/comp-editor-factory.c:443 ../shell/e-shell.c:1261
 msgid "Unknown error"
 msgstr "అపరిచిత దోషం"
 
@@ -4470,7 +4471,7 @@ msgstr "దస్త్రం(ల) ను అనుభందించు"
 #: ../calendar/gui/e-cal-model-tasks.c:625
 #: ../calendar/gui/e-day-view-time-item.c:785
 #: ../calendar/gui/e-itip-control.c:1150 ../filter/filter-rule.c:946
-#: ../mail/em-account-editor.c:717 ../mail/em-account-editor.c:1451
+#: ../mail/em-account-editor.c:723 ../mail/em-account-editor.c:1457
 #: ../mail/em-account-prefs.c:435 ../mail/em-junk-hook.c:93
 #: ../plugins/calendar-weather/calendar-weather.c:333
 #: ../plugins/calendar-weather/calendar-weather.c:387
@@ -4516,7 +4517,7 @@ msgstr ""
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 #, no-c-format
 msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
-msgstr "<i>%u and %d will be replaced by user and domain from the email address.</i>"
+msgstr "<i>%u మరియు %d ఈ మెయిల్ చిరునామా నుండి వినియోగదారుడు మరియు అధికారక్షేత్రము చేత పునఃస్థాపించబడతాయి.</i>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "<span weight=\"bold\">Alarms</span>"
@@ -5000,7 +5001,7 @@ msgstr "చేర్చుము (_I)"
 msgid "_Options"
 msgstr "ఇచ్ఛాపూర్వకాలు(_O)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1078 ../mail/em-folder-tree.c:2106
+#: ../calendar/gui/dialogs/comp-editor.c:1078 ../mail/em-folder-tree.c:2111
 #: ../ui/evolution-addressbook.xml.h:64 ../ui/evolution-mail-global.xml.h:34
 #: ../ui/evolution-mail-messagedisplay.xml.h:8 ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:55
@@ -5989,8 +5990,8 @@ msgstr "సుస్థితి:"
 #: ../calendar/gui/e-cal-model-tasks.c:359
 #: ../calendar/gui/e-cal-model-tasks.c:629
 #: ../calendar/gui/e-cal-model-tasks.c:706
-#: ../calendar/gui/e-calendar-table.c:237
-#: ../calendar/gui/e-calendar-table.c:662 ../calendar/gui/print.c:2585
+#: ../calendar/gui/e-calendar-table.c:239
+#: ../calendar/gui/e-calendar-table.c:664 ../calendar/gui/print.c:2585
 msgid "In Progress"
 msgstr "పురోగమనంలొ ఉన్న"
 
@@ -5999,8 +6000,8 @@ msgstr "పురోగమనంలొ ఉన్న"
 #: ../calendar/gui/e-cal-component-preview.c:245
 #: ../calendar/gui/e-cal-model-tasks.c:361
 #: ../calendar/gui/e-cal-model-tasks.c:631
-#: ../calendar/gui/e-calendar-table.c:239
-#: ../calendar/gui/e-calendar-table.c:663 ../calendar/gui/e-itip-control.c:939
+#: ../calendar/gui/e-calendar-table.c:241
+#: ../calendar/gui/e-calendar-table.c:665 ../calendar/gui/e-itip-control.c:939
 #: ../calendar/gui/e-meeting-store.c:179 ../calendar/gui/e-meeting-store.c:202
 #: ../calendar/gui/print.c:2588 ../calendar/gui/tasktypes.xml.h:9
 #: ../plugins/save-calendar/csv-format.c:361
@@ -6010,8 +6011,8 @@ msgstr "పూర్తిచేయబడిన"
 #: ../calendar/gui/e-cal-component-preview.c:252
 #: ../calendar/gui/e-cal-model-tasks.c:357
 #: ../calendar/gui/e-cal-model-tasks.c:627
-#: ../calendar/gui/e-calendar-table.c:235
-#: ../calendar/gui/e-calendar-table.c:661 ../calendar/gui/print.c:2582
+#: ../calendar/gui/e-calendar-table.c:237
+#: ../calendar/gui/e-calendar-table.c:663 ../calendar/gui/print.c:2582
 #: ../calendar/gui/tasktypes.xml.h:18
 msgid "Not Started"
 msgstr "ప్రారంభం కాలేదు"
@@ -6021,19 +6022,19 @@ msgid "Priority:"
 msgstr "ప్రాధాన్యం:"
 
 #: ../calendar/gui/e-cal-component-preview.c:264
-#: ../calendar/gui/e-calendar-table.c:588 ../calendar/gui/tasktypes.xml.h:14
+#: ../calendar/gui/e-calendar-table.c:590 ../calendar/gui/tasktypes.xml.h:14
 #: ../mail/message-list.c:1064
 msgid "High"
 msgstr "ఎక్కువ"
 
 #: ../calendar/gui/e-cal-component-preview.c:266
-#: ../calendar/gui/e-cal-model.c:1114 ../calendar/gui/e-calendar-table.c:589
+#: ../calendar/gui/e-cal-model.c:1114 ../calendar/gui/e-calendar-table.c:591
 #: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1063
 msgid "Normal"
 msgstr "మామూలు"
 
 #: ../calendar/gui/e-cal-component-preview.c:268
-#: ../calendar/gui/e-calendar-table.c:590 ../calendar/gui/tasktypes.xml.h:16
+#: ../calendar/gui/e-calendar-table.c:592 ../calendar/gui/tasktypes.xml.h:16
 #: ../mail/message-list.c:1062
 msgid "Low"
 msgstr "తక్కువ"
@@ -6061,12 +6062,12 @@ msgid "Start Date"
 msgstr " తారీఖు మొదలు"
 
 #: ../calendar/gui/e-cal-model-calendar.c:187
-#: ../calendar/gui/e-calendar-table.c:640
+#: ../calendar/gui/e-calendar-table.c:642
 msgid "Free"
 msgstr "స్వతంత్ర"
 
 #: ../calendar/gui/e-cal-model-calendar.c:190
-#: ../calendar/gui/e-calendar-table.c:641
+#: ../calendar/gui/e-calendar-table.c:643
 #: ../calendar/gui/e-meeting-time-sel.c:391
 msgid "Busy"
 msgstr "తీరికలేదు"
@@ -6119,162 +6120,162 @@ msgstr "పునరావృతికరణ"
 msgid "Assigned"
 msgstr "స్థానం ఇవ్వబడినది"
 
-#: ../calendar/gui/e-calendar-table.c:338
+#: ../calendar/gui/e-calendar-table.c:340
 msgid "* No Summary *"
 msgstr "* సంక్షిప్తం లేదు *"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-table.c:374
-#: ../calendar/gui/e-calendar-view.c:2432
+#: ../calendar/gui/e-calendar-table.c:376
+#: ../calendar/gui/e-calendar-view.c:2434
 #, c-format
 msgid "Organizer: %s <%s>"
 msgstr "నిర్వాహకి: %s <%s>"
 
 #. With SunOne accounts, there may be no ':' in organiser.value
 #. With SunOne accouts, there may be no ':' in organiser.value
-#: ../calendar/gui/e-calendar-table.c:377
-#: ../calendar/gui/e-calendar-view.c:2436
+#: ../calendar/gui/e-calendar-table.c:379
+#: ../calendar/gui/e-calendar-view.c:2438
 #, c-format
 msgid "Organizer: %s"
 msgstr "నిర్వాహకి: %s"
 
-#: ../calendar/gui/e-calendar-table.c:408
+#: ../calendar/gui/e-calendar-table.c:410
 msgid "Start: "
 msgstr "ప్రారంభించు: "
 
-#: ../calendar/gui/e-calendar-table.c:420
+#: ../calendar/gui/e-calendar-table.c:422
 msgid "Due: "
 msgstr "మిగిలివున్న: "
 
-#: ../calendar/gui/e-calendar-table.c:591 ../calendar/gui/tasktypes.xml.h:24
+#: ../calendar/gui/e-calendar-table.c:593 ../calendar/gui/tasktypes.xml.h:24
 msgid "Undefined"
 msgstr "నిర్వచించబడలేదు"
 
-#: ../calendar/gui/e-calendar-table.c:610
+#: ../calendar/gui/e-calendar-table.c:612
 msgid "0%"
 msgstr "0%"
 
-#: ../calendar/gui/e-calendar-table.c:611
+#: ../calendar/gui/e-calendar-table.c:613
 msgid "10%"
 msgstr "10%"
 
-#: ../calendar/gui/e-calendar-table.c:612
+#: ../calendar/gui/e-calendar-table.c:614
 msgid "20%"
 msgstr "20%"
 
-#: ../calendar/gui/e-calendar-table.c:613
+#: ../calendar/gui/e-calendar-table.c:615
 msgid "30%"
 msgstr "30%"
 
-#: ../calendar/gui/e-calendar-table.c:614
+#: ../calendar/gui/e-calendar-table.c:616
 msgid "40%"
 msgstr "40%"
 
-#: ../calendar/gui/e-calendar-table.c:615
+#: ../calendar/gui/e-calendar-table.c:617
 msgid "50%"
 msgstr "50%"
 
-#: ../calendar/gui/e-calendar-table.c:616
+#: ../calendar/gui/e-calendar-table.c:618
 msgid "60%"
 msgstr "60%"
 
-#: ../calendar/gui/e-calendar-table.c:617
+#: ../calendar/gui/e-calendar-table.c:619
 msgid "70%"
 msgstr "70%"
 
-#: ../calendar/gui/e-calendar-table.c:618
+#: ../calendar/gui/e-calendar-table.c:620
 msgid "80%"
 msgstr "80%"
 
-#: ../calendar/gui/e-calendar-table.c:619
+#: ../calendar/gui/e-calendar-table.c:621
 msgid "90%"
 msgstr "90%"
 
-#: ../calendar/gui/e-calendar-table.c:620
+#: ../calendar/gui/e-calendar-table.c:622
 msgid "100%"
 msgstr "100%"
 
-#: ../calendar/gui/e-calendar-table.c:900
-#: ../calendar/gui/e-calendar-view.c:662 ../calendar/gui/e-memo-table.c:452
+#: ../calendar/gui/e-calendar-table.c:902
+#: ../calendar/gui/e-calendar-view.c:664 ../calendar/gui/e-memo-table.c:454
 msgid "Deleting selected objects"
 msgstr "ఎంపికచేసిన అంశాలను తొలగించుతున్నది"
 
-#: ../calendar/gui/e-calendar-table.c:1179
-#: ../calendar/gui/e-calendar-view.c:876 ../calendar/gui/e-memo-table.c:657
+#: ../calendar/gui/e-calendar-table.c:1181
+#: ../calendar/gui/e-calendar-view.c:878 ../calendar/gui/e-memo-table.c:659
 msgid "Updating objects"
 msgstr "అంశాలను తాజా పరుచుతున్నది"
 
-#: ../calendar/gui/e-calendar-table.c:1367
-#: ../calendar/gui/e-calendar-view.c:1336 ../calendar/gui/e-memo-table.c:831
+#: ../calendar/gui/e-calendar-table.c:1369
+#: ../calendar/gui/e-calendar-view.c:1338 ../calendar/gui/e-memo-table.c:833
 #: ../composer/e-composer-actions.c:221
 msgid "Save as..."
 msgstr "ఇలా దాయు..."
 
-#: ../calendar/gui/e-calendar-table.c:1591
-#: ../calendar/gui/e-calendar-view.c:1792
+#: ../calendar/gui/e-calendar-table.c:1593
+#: ../calendar/gui/e-calendar-view.c:1794
 msgid "New _Task"
 msgstr "కొత్త కార్యం(_T)"
 
-#: ../calendar/gui/e-calendar-table.c:1595 ../calendar/gui/e-memo-table.c:936
+#: ../calendar/gui/e-calendar-table.c:1597 ../calendar/gui/e-memo-table.c:938
 msgid "Open _Web Page"
 msgstr "మహాతల పుటను తెరువు(_W)"
 
-#: ../calendar/gui/e-calendar-table.c:1596
-#: ../calendar/gui/e-calendar-view.c:1810 ../calendar/gui/e-memo-table.c:937
-#: ../mail/em-folder-view.c:1336 ../mail/em-popup.c:494
+#: ../calendar/gui/e-calendar-table.c:1598
+#: ../calendar/gui/e-calendar-view.c:1812 ../calendar/gui/e-memo-table.c:939
+#: ../mail/em-folder-view.c:1336 ../mail/em-popup.c:496
 msgid "_Save As..."
 msgstr "ఇలా దాయుము(_S)..."
 
-#: ../calendar/gui/e-calendar-table.c:1597
-#: ../calendar/gui/e-calendar-view.c:1795 ../calendar/gui/e-memo-table.c:938
+#: ../calendar/gui/e-calendar-table.c:1599
+#: ../calendar/gui/e-calendar-view.c:1797 ../calendar/gui/e-memo-table.c:940
 msgid "P_rint..."
 msgstr "ముద్రించు(_r)..."
 
-#: ../calendar/gui/e-calendar-table.c:1601
-#: ../calendar/gui/e-calendar-view.c:1815 ../calendar/gui/e-memo-table.c:942
+#: ../calendar/gui/e-calendar-table.c:1603
+#: ../calendar/gui/e-calendar-view.c:1817 ../calendar/gui/e-memo-table.c:944
 #: ../ui/evolution-addressbook.xml.h:2 ../ui/evolution-calendar.xml.h:1
 #: ../ui/evolution-memos.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "కోయుము(_u)"
 
-#: ../calendar/gui/e-calendar-table.c:1603
-#: ../calendar/gui/e-calendar-view.c:1798
-#: ../calendar/gui/e-calendar-view.c:1817 ../calendar/gui/e-memo-table.c:944
+#: ../calendar/gui/e-calendar-table.c:1605
+#: ../calendar/gui/e-calendar-view.c:1800
+#: ../calendar/gui/e-calendar-view.c:1819 ../calendar/gui/e-memo-table.c:946
 #: ../ui/evolution-addressbook.xml.h:57 ../ui/evolution-calendar.xml.h:46
 #: ../ui/evolution-memos.xml.h:19 ../ui/evolution-tasks.xml.h:28
 msgid "_Paste"
 msgstr "అతికించు(_P)"
 
-#: ../calendar/gui/e-calendar-table.c:1607 ../ui/evolution-tasks.xml.h:22
+#: ../calendar/gui/e-calendar-table.c:1609 ../ui/evolution-tasks.xml.h:22
 msgid "_Assign Task"
 msgstr "కర్తవ్యాన్ని అప్పగించుము(_A)"
 
-#: ../calendar/gui/e-calendar-table.c:1608 ../calendar/gui/e-memo-table.c:948
+#: ../calendar/gui/e-calendar-table.c:1610 ../calendar/gui/e-memo-table.c:950
 #: ../ui/evolution-tasks.xml.h:26
 msgid "_Forward as iCalendar"
 msgstr "iక్యాలెండర్ గా ముందుకు పంపించు(_F)"
 
-#: ../calendar/gui/e-calendar-table.c:1609
+#: ../calendar/gui/e-calendar-table.c:1611
 msgid "_Mark as Complete"
 msgstr "పూర్తయిన్నటు గా గుర్తుపెట్టు(_M)"
 
-#: ../calendar/gui/e-calendar-table.c:1610
+#: ../calendar/gui/e-calendar-table.c:1612
 msgid "_Mark Selected Tasks as Complete"
 msgstr "ఎంపిక చేసిన కార్యాలు పూర్తయిన్నటు గా గుర్తుపెట్టు(_M)"
 
-#: ../calendar/gui/e-calendar-table.c:1611
+#: ../calendar/gui/e-calendar-table.c:1613
 msgid "_Mark as Incomplete"
 msgstr "అసంపూర్తిగా గుర్తుపెట్టు(_M)"
 
-#: ../calendar/gui/e-calendar-table.c:1612
+#: ../calendar/gui/e-calendar-table.c:1614
 msgid "_Mark Selected Tasks as Incomplete"
 msgstr "ఎంపిక చేసిన కార్యాలు అసంపూర్తిగా గుర్తుపెట్టు(_M)"
 
-#: ../calendar/gui/e-calendar-table.c:1617
+#: ../calendar/gui/e-calendar-table.c:1619
 msgid "_Delete Selected Tasks"
 msgstr "ఎంపిక చేసిన కార్యాలను తీసివేయు(_D)"
 
-#: ../calendar/gui/e-calendar-table.c:1852
+#: ../calendar/gui/e-calendar-table.c:1854
 #: ../calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
 msgstr "కర్తవ్యాన్ని జతపర్చుటకు నొక్కండి"
@@ -6309,7 +6310,7 @@ msgstr "ప్రారంభ తేది"
 #. To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
 #. Status: Accepted: X   Declined: Y   ...
 #: ../calendar/gui/e-calendar-table.etspec.h:12
-#: ../calendar/gui/e-calendar-view.c:2340
+#: ../calendar/gui/e-calendar-view.c:2342
 #: ../calendar/gui/e-meeting-list-view.c:606
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10
 #: ../calendar/gui/tasktypes.xml.h:21 ../mail/em-filter-i18n.h:72
@@ -6317,87 +6318,87 @@ msgstr "ప్రారంభ తేది"
 msgid "Status"
 msgstr "సుస్థితి"
 
-#: ../calendar/gui/e-calendar-view.c:1481
+#: ../calendar/gui/e-calendar-view.c:1483
 msgid "Moving items"
 msgstr "అంశాలను జరుపుతుంది"
 
-#: ../calendar/gui/e-calendar-view.c:1483
+#: ../calendar/gui/e-calendar-view.c:1485
 msgid "Copying items"
 msgstr "అంశాల నకలుతీస్తుంది"
 
-#: ../calendar/gui/e-calendar-view.c:1789
+#: ../calendar/gui/e-calendar-view.c:1791
 msgid "New _Appointment..."
 msgstr "కొత్త నియామకం(_A)..."
 
-#: ../calendar/gui/e-calendar-view.c:1790
+#: ../calendar/gui/e-calendar-view.c:1792
 msgid "New All Day _Event"
 msgstr "కొత్త రోజు ఘటన(_E)"
 
-#: ../calendar/gui/e-calendar-view.c:1791
+#: ../calendar/gui/e-calendar-view.c:1793
 msgid "New _Meeting"
 msgstr "కొత్త సమావేశం(_M)"
 
 #. FIXME: hook in this somehow
-#: ../calendar/gui/e-calendar-view.c:1802
+#: ../calendar/gui/e-calendar-view.c:1804
 msgid "_Current View"
 msgstr "ప్రస్తుత దర్శనం(_C)"
 
-#: ../calendar/gui/e-calendar-view.c:1804
+#: ../calendar/gui/e-calendar-view.c:1806
 msgid "Select T_oday"
 msgstr "ఈ రోజును గుర్తించు(_o)"
 
-#: ../calendar/gui/e-calendar-view.c:1805
+#: ../calendar/gui/e-calendar-view.c:1807
 msgid "_Select Date..."
 msgstr "తారీఖు ఎంపికచేయు(_S)..."
 
-#: ../calendar/gui/e-calendar-view.c:1811
+#: ../calendar/gui/e-calendar-view.c:1813
 msgid "Pri_nt..."
 msgstr "ముద్రణ(_n)..."
 
-#: ../calendar/gui/e-calendar-view.c:1821
+#: ../calendar/gui/e-calendar-view.c:1823
 msgid "Cop_y to Calendar..."
 msgstr "క్యాలెండర్ కు నకలుతీయు(_y)..."
 
-#: ../calendar/gui/e-calendar-view.c:1822
+#: ../calendar/gui/e-calendar-view.c:1824
 msgid "Mo_ve to Calendar..."
 msgstr "క్యాలెండర్ కు పంపు(_v)..."
 
-#: ../calendar/gui/e-calendar-view.c:1823
+#: ../calendar/gui/e-calendar-view.c:1825
 msgid "_Delegate Meeting..."
 msgstr "సమావేశాల కాలాన్ని నియమించు(_D)..."
 
-#: ../calendar/gui/e-calendar-view.c:1824
+#: ../calendar/gui/e-calendar-view.c:1826
 msgid "_Schedule Meeting..."
 msgstr "సమావేశాల కాలాన్ని నియమించు(_S)..."
 
-#: ../calendar/gui/e-calendar-view.c:1825
+#: ../calendar/gui/e-calendar-view.c:1827
 msgid "_Forward as iCalendar..."
 msgstr "iక్యాలెండర్ గా ముందుకు పంపు(_F)"
 
-#: ../calendar/gui/e-calendar-view.c:1826
+#: ../calendar/gui/e-calendar-view.c:1828
 msgid "_Reply"
 msgstr "ప్రత్యుత్తరము(_R):"
 
-#: ../calendar/gui/e-calendar-view.c:1827
+#: ../calendar/gui/e-calendar-view.c:1829
 #: ../mail/e-attachment-handler-mail.c:140 ../mail/em-folder-view.c:1330
-#: ../mail/em-popup.c:499 ../ui/evolution-mail-message.xml.h:78
+#: ../mail/em-popup.c:501 ../ui/evolution-mail-message.xml.h:78
 msgid "Reply to _All"
 msgstr "అందరికి ప్రత్యుత్తరముఇవ్వు(_A)"
 
 #
-#: ../calendar/gui/e-calendar-view.c:1832
+#: ../calendar/gui/e-calendar-view.c:1834
 msgid "Make this Occurrence _Movable"
 msgstr "ఈ సంభవాన్ని కదిపించేది గా చేయు(_M)"
 
-#: ../calendar/gui/e-calendar-view.c:1833 ../ui/evolution-calendar.xml.h:9
+#: ../calendar/gui/e-calendar-view.c:1835 ../ui/evolution-calendar.xml.h:9
 msgid "Delete this _Occurrence"
 msgstr "ఈ సంభవాన్ని తీసివేయు(_O)"
 
-#: ../calendar/gui/e-calendar-view.c:1834
+#: ../calendar/gui/e-calendar-view.c:1836
 msgid "Delete _All Occurrences"
 msgstr "సంభవాలన్నింటి తీసివేయు(_A)"
 
-#: ../calendar/gui/e-calendar-view.c:2287
+#: ../calendar/gui/e-calendar-view.c:2289
 #: ../calendar/gui/e-itip-control.c:1183
 #: ../calendar/gui/e-meeting-list-view.c:202
 #: ../calendar/gui/e-meeting-store.c:171 ../calendar/gui/e-meeting-store.c:194
@@ -6405,7 +6406,7 @@ msgstr "సంభవాలన్నింటి తీసివేయు(_A)"
 msgid "Accepted"
 msgstr "ఆమొదించబడినది"
 
-#: ../calendar/gui/e-calendar-view.c:2288
+#: ../calendar/gui/e-calendar-view.c:2290
 #: ../calendar/gui/e-itip-control.c:1191
 #: ../calendar/gui/e-meeting-list-view.c:203
 #: ../calendar/gui/e-meeting-store.c:173 ../calendar/gui/e-meeting-store.c:196
@@ -6413,32 +6414,32 @@ msgstr "ఆమొదించబడినది"
 msgid "Declined"
 msgstr "తగించబడినది"
 
-#: ../calendar/gui/e-calendar-view.c:2289
+#: ../calendar/gui/e-calendar-view.c:2291
 #: ../calendar/gui/e-meeting-list-view.c:204
 #: ../calendar/gui/e-meeting-store.c:175 ../calendar/gui/e-meeting-store.c:198
 #: ../calendar/gui/e-meeting-time-sel.c:390
 msgid "Tentative"
 msgstr "తాత్కాలిక"
 
-#: ../calendar/gui/e-calendar-view.c:2290
+#: ../calendar/gui/e-calendar-view.c:2292
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:177 ../calendar/gui/e-meeting-store.c:200
 #: ../plugins/itip-formatter/itip-formatter.c:2230
 msgid "Delegated"
 msgstr "ప్రాతినిధ్యంవహించే"
 
-#: ../calendar/gui/e-calendar-view.c:2291
+#: ../calendar/gui/e-calendar-view.c:2293
 msgid "Needs action"
 msgstr "చర్య అవసరం"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2452 ../calendar/gui/print.c:2544
+#: ../calendar/gui/e-calendar-view.c:2454 ../calendar/gui/print.c:2544
 #, c-format
 msgid "Location: %s"
 msgstr "స్థానం: %s"
 
 #. To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"
-#: ../calendar/gui/e-calendar-view.c:2483
+#: ../calendar/gui/e-calendar-view.c:2485
 #, c-format
 msgid "Time: %s %s"
 msgstr "సమయం: %s %s"
@@ -7103,11 +7104,11 @@ msgstr "భాష"
 msgid "Member"
 msgstr "సభ్యుడు"
 
-#: ../calendar/gui/e-memo-table.c:953
+#: ../calendar/gui/e-memo-table.c:955
 msgid "_Delete Selected Memos"
 msgstr "ఎంపిక చేసిన మెమోలను తొలగించుము(_D)"
 
-#: ../calendar/gui/e-memo-table.c:1102 ../calendar/gui/e-memo-table.etspec.h:2
+#: ../calendar/gui/e-memo-table.c:1104 ../calendar/gui/e-memo-table.etspec.h:2
 msgid "Click to add a memo"
 msgstr "మెమోను జతచేయుటకు నొక్కుము"
 
@@ -7161,39 +7162,39 @@ msgstr "సమయక్షేత్రం ను ఎంపికచేయుమ�
 msgid "%d %B"
 msgstr "%d·%B"
 
-#: ../calendar/gui/gnome-cal.c:2673
+#: ../calendar/gui/gnome-cal.c:2685
 msgid "_Custom View"
 msgstr "మలుచుకొనిన దర్శనం(_C)"
 
-#: ../calendar/gui/gnome-cal.c:2674
+#: ../calendar/gui/gnome-cal.c:2686
 msgid "_Save Custom View"
 msgstr "మలుచుకొనిన దర్శనంను దాయుము(_S)"
 
-#: ../calendar/gui/gnome-cal.c:2679
+#: ../calendar/gui/gnome-cal.c:2691
 msgid "_Define Views..."
 msgstr "దర్శనాలను నిర్వచించు(_D)..."
 
-#: ../calendar/gui/gnome-cal.c:2916
+#: ../calendar/gui/gnome-cal.c:2928
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "నియామాకాలను నింపుతుంది%s"
 
-#: ../calendar/gui/gnome-cal.c:2931
+#: ../calendar/gui/gnome-cal.c:2943
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "%sకార్యాలను నింపుతుంది"
 
-#: ../calendar/gui/gnome-cal.c:2940
+#: ../calendar/gui/gnome-cal.c:2952
 #, c-format
 msgid "Loading memos at %s"
 msgstr "%s వద్ద మెమోలను నింపుతుంది"
 
-#: ../calendar/gui/gnome-cal.c:3052
+#: ../calendar/gui/gnome-cal.c:3064
 #, c-format
 msgid "Opening %s"
 msgstr "%sతెరుస్తుంది"
 
-#: ../calendar/gui/gnome-cal.c:4018
+#: ../calendar/gui/gnome-cal.c:4032
 msgid "Purging"
 msgstr "శాశ్వతంగా తొలగించుతుంది"
 
@@ -7346,77 +7347,77 @@ msgstr "iక్యాలెండర్ సమాచారం"
 msgid "You must be an attendee of the event."
 msgstr "మీరు ఘటన హాజరవ్వాలి"
 
-#: ../calendar/gui/memos-component.c:480
+#: ../calendar/gui/memos-component.c:483
 msgid "_New Memo List"
 msgstr "కొత్త సంపర్క జాబితా(_N)"
 
-#: ../calendar/gui/memos-component.c:563
+#: ../calendar/gui/memos-component.c:566
 #, c-format
 msgid "%d memo"
 msgid_plural "%d memos"
 msgstr[0] "%d మెమో"
 msgstr[1] "%d మెమోలు"
 
-#: ../calendar/gui/memos-component.c:565 ../calendar/gui/tasks-component.c:558
+#: ../calendar/gui/memos-component.c:568 ../calendar/gui/tasks-component.c:560
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
 msgstr[0] ", %d ఎంపికచేయబడెను"
 msgstr[1] ", %d లు ఎంపికచేయబడెను"
 
-#: ../calendar/gui/memos-component.c:612
+#: ../calendar/gui/memos-component.c:615
 msgid "Failed upgrading memos."
 msgstr "మెమోలను మెరుగుపరుచుట విఫలమయ్యెను."
 
-#: ../calendar/gui/memos-component.c:742
+#: ../calendar/gui/memos-component.c:745
 #, c-format
 msgid "Unable to open the memo list '%s' for creating events and meetings"
 msgstr "ఘటనలు మరియు సమావేశాలు సృష్టించుటకు '%s' కొరకు మెమో జాబితా తెరవలేక పొయింది"
 
-#: ../calendar/gui/memos-component.c:755
+#: ../calendar/gui/memos-component.c:758
 msgid "There is no calendar available for creating memos"
 msgstr "మెమోలను సృష్టించుటకు ఏ క్యాలెండర్ అందుబాటు లో లేదు"
 
-#: ../calendar/gui/memos-component.c:865
+#: ../calendar/gui/memos-component.c:868
 msgid "Memo Source Selector"
 msgstr "మెమో మూలంను ఎంపికచేయునది"
 
-#: ../calendar/gui/memos-component.c:1044
+#: ../calendar/gui/memos-component.c:1047
 msgid "New memo"
 msgstr "కొత్త మెమో"
 
-#: ../calendar/gui/memos-component.c:1045
+#: ../calendar/gui/memos-component.c:1048
 msgctxt "New"
 msgid "Mem_o"
 msgstr "మెమో (_o)"
 
-#: ../calendar/gui/memos-component.c:1046
+#: ../calendar/gui/memos-component.c:1049
 msgid "Create a new memo"
 msgstr "కొత్త మెమోను సృష్టించు"
 
-#: ../calendar/gui/memos-component.c:1052
+#: ../calendar/gui/memos-component.c:1055
 msgid "New shared memo"
 msgstr "కొత్త భాగస్వామ్య మెమో"
 
-#: ../calendar/gui/memos-component.c:1053
+#: ../calendar/gui/memos-component.c:1056
 msgctxt "New"
 msgid "_Shared memo"
 msgstr "భాగస్వామ్య మెమో (_S)"
 
-#: ../calendar/gui/memos-component.c:1054
+#: ../calendar/gui/memos-component.c:1057
 msgid "Create a shared new memo"
 msgstr "కొత్త భాగస్వామ్య మెమోను సృష్టించు"
 
-#: ../calendar/gui/memos-component.c:1060
+#: ../calendar/gui/memos-component.c:1063
 msgid "New memo list"
 msgstr "కొత్త మెమో జాబితా"
 
-#: ../calendar/gui/memos-component.c:1061
+#: ../calendar/gui/memos-component.c:1064
 msgctxt "New"
 msgid "Memo li_st"
 msgstr "మెమో జాబితా (_s)"
 
-#: ../calendar/gui/memos-component.c:1062
+#: ../calendar/gui/memos-component.c:1065
 msgid "Create a new memo list"
 msgstr "కొత్త మెమోజాబితా ను సృష్టించు"
 
@@ -7663,70 +7664,70 @@ msgstr "%s: వర్గములు"
 msgid "Contacts: "
 msgstr "చిరునామాలు: "
 
-#: ../calendar/gui/tasks-component.c:473
+#: ../calendar/gui/tasks-component.c:475
 msgid "_New Task List"
 msgstr "కొత్త కర్తవ్యంజాబితా(_N)"
 
-#: ../calendar/gui/tasks-component.c:556
+#: ../calendar/gui/tasks-component.c:558
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
 msgstr[0] "%d కర్తవ్యం"
 msgstr[1] "%d కర్తవ్యాలు"
 
-#: ../calendar/gui/tasks-component.c:605
+#: ../calendar/gui/tasks-component.c:607
 msgid "Failed upgrading tasks."
 msgstr " కర్తవ్యాలు మెరుగుపరుచుట విఫలమయ్యెను."
 
-#: ../calendar/gui/tasks-component.c:738
+#: ../calendar/gui/tasks-component.c:740
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr "ఘటనలు మరియు సమావేశాలు సృష్టించుటకు '%s' కొరకు కార్య జాబితా తెరవలేక పొయింది"
 
-#: ../calendar/gui/tasks-component.c:751
+#: ../calendar/gui/tasks-component.c:753
 msgid "There is no calendar available for creating tasks"
 msgstr "కార్యాలు సృష్టించుటకు క్యాలెండర్ లేదు"
 
-#: ../calendar/gui/tasks-component.c:862
+#: ../calendar/gui/tasks-component.c:864
 msgid "Task Source Selector"
 msgstr "కర్తవ్యం మూల ఎంపికదారి"
 
-#: ../calendar/gui/tasks-component.c:1116
+#: ../calendar/gui/tasks-component.c:1118
 msgid "New task"
 msgstr "కొత్త కార్యం"
 
-#: ../calendar/gui/tasks-component.c:1117
+#: ../calendar/gui/tasks-component.c:1119
 msgctxt "New"
 msgid "_Task"
 msgstr "కార్యం(_T)"
 
-#: ../calendar/gui/tasks-component.c:1118
+#: ../calendar/gui/tasks-component.c:1120
 msgid "Create a new task"
 msgstr "కొత్త కార్యాన్ని సృష్టించు"
 
-#: ../calendar/gui/tasks-component.c:1124
+#: ../calendar/gui/tasks-component.c:1126
 msgid "New assigned task"
 msgstr "కొత్తగా స్థానం ఇవ్వబడ్డ కార్యం"
 
-#: ../calendar/gui/tasks-component.c:1125
+#: ../calendar/gui/tasks-component.c:1127
 msgctxt "New"
 msgid "Assigne_d Task"
 msgstr "అప్పగించబడిన కార్తవ్యం (_d)"
 
-#: ../calendar/gui/tasks-component.c:1126
+#: ../calendar/gui/tasks-component.c:1128
 msgid "Create a new assigned task"
 msgstr "కొత్తగా స్థానం ఇవ్వబడ్డ కార్యాన్ని సృష్టించు"
 
-#: ../calendar/gui/tasks-component.c:1132
+#: ../calendar/gui/tasks-component.c:1134
 msgid "New task list"
 msgstr "కొత్త కార్యజాబితా"
 
-#: ../calendar/gui/tasks-component.c:1133
+#: ../calendar/gui/tasks-component.c:1135
 msgctxt "New"
 msgid "Tas_k list"
 msgstr "కార్తవ్యం జాబితా (_k)"
 
-#: ../calendar/gui/tasks-component.c:1134
+#: ../calendar/gui/tasks-component.c:1136
 msgid "Create a new task list"
 msgstr "కొత్త కార్యజాబితా ను సృష్టించు"
 
@@ -10428,7 +10429,7 @@ msgid "_Mail"
 msgstr "మెయిల్(_M)"
 
 #: ../mail/e-attachment-handler-mail.c:133 ../mail/em-folder-view.c:1331
-#: ../mail/em-popup.c:501 ../ui/evolution-mail-message.xml.h:105
+#: ../mail/em-popup.c:503 ../ui/evolution-mail-message.xml.h:105
 msgid "_Forward"
 msgstr "ముందుకుపంపు(_F)"
 
@@ -10507,30 +10508,30 @@ msgstr "పేజీ పైనకు చేరుకొన్నది, క్�
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
-#: ../mail/em-account-editor.c:309
+#: ../mail/em-account-editor.c:315
 msgid "No encryption"
 msgstr "ఎన్క్రిప్షన్ లేదు"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
 #. this abbreviation.
-#: ../mail/em-account-editor.c:313
+#: ../mail/em-account-editor.c:319
 msgid "TLS encryption"
 msgstr "TLS ఎన్క్రిప్షన్"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
 #. abbreviation.
-#: ../mail/em-account-editor.c:317
+#: ../mail/em-account-editor.c:323
 msgid "SSL encryption"
 msgstr "SSL ఎన్క్రిప్షన్"
 
-#: ../mail/em-account-editor.c:408
+#: ../mail/em-account-editor.c:414
 #, c-format
 msgid "%s License Agreement"
 msgstr "%s లైసెన్సు ఒప్పందం"
 
-#: ../mail/em-account-editor.c:415
+#: ../mail/em-account-editor.c:421
 #, c-format
 msgid ""
 "\n"
@@ -10542,68 +10543,68 @@ msgstr ""
 "%s కొరకు క్రింద ప్రదర్శించబడిన లైసెన్సు ఒప్పందంను\n"
 "జాగ్రత్తగా చదవండి మరియు దానిని ఆమోదించుటకు చెక్‌బాక్సును గుర్తుపెట్టండి\n"
 
-#: ../mail/em-account-editor.c:487 ../mail/em-filter-folder-element.c:258
+#: ../mail/em-account-editor.c:493 ../mail/em-filter-folder-element.c:258
 #: ../mail/em-vfolder-rule.c:513
 msgid "Select Folder"
 msgstr "సంచయాన్ని ఎంపికచేసుకొనుము"
 
-#: ../mail/em-account-editor.c:797
+#: ../mail/em-account-editor.c:803
 msgid "Never"
 msgstr "ఎప్పటికివద్దు"
 
-#: ../mail/em-account-editor.c:798
+#: ../mail/em-account-editor.c:804
 msgid "Always"
 msgstr "యెల్లప్పుడు"
 
-#: ../mail/em-account-editor.c:799
+#: ../mail/em-account-editor.c:805
 msgid "Ask for each message"
 msgstr "ప్రతి సందేశం కొరకు అడుగుము"
 
-#: ../mail/em-account-editor.c:1877 ../mail/mail-config.glade.h:100
+#: ../mail/em-account-editor.c:1883 ../mail/mail-config.glade.h:100
 msgid "Identity"
 msgstr "గుర్తింపు"
 
-#: ../mail/em-account-editor.c:1928 ../mail/mail-config.glade.h:127
+#: ../mail/em-account-editor.c:1934 ../mail/mail-config.glade.h:127
 msgid "Receiving Email"
 msgstr "మెయిల్ ను తీసుకుంటోంది"
 
-#: ../mail/em-account-editor.c:2216
+#: ../mail/em-account-editor.c:2222
 msgid "Check for _new messages every"
 msgstr "కొత్త సందేశాల కొరకు వెతుకుము (_n)"
 
-#: ../mail/em-account-editor.c:2224
+#: ../mail/em-account-editor.c:2230
 msgid "minu_tes"
 msgstr "నిమిషాలు(_t)"
 
-#: ../mail/em-account-editor.c:2420 ../mail/mail-config.glade.h:138
+#: ../mail/em-account-editor.c:2426 ../mail/mail-config.glade.h:138
 msgid "Sending Email"
 msgstr "ఈమెయిల్ పంపిస్తున్నది"
 
-#: ../mail/em-account-editor.c:2479 ../mail/mail-config.glade.h:73
+#: ../mail/em-account-editor.c:2485 ../mail/mail-config.glade.h:73
 msgid "Defaults"
 msgstr "అప్రమేయాలు"
 
 #. Security settings
-#: ../mail/em-account-editor.c:2545 ../mail/mail-config.glade.h:133
-#: ../plugins/exchange-operations/exchange-account-setup.c:329
+#: ../mail/em-account-editor.c:2551 ../mail/mail-config.glade.h:133
+#: ../plugins/exchange-operations/exchange-account-setup.c:330
 msgid "Security"
 msgstr "రక్షణ"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:2582 ../mail/em-account-editor.c:2677
+#: ../mail/em-account-editor.c:2588 ../mail/em-account-editor.c:2683
 msgid "Receiving Options"
 msgstr "ఐచ్చికాలను తిరిగిపొందుతుంది"
 
-#: ../mail/em-account-editor.c:2583 ../mail/em-account-editor.c:2678
+#: ../mail/em-account-editor.c:2589 ../mail/em-account-editor.c:2684
 msgid "Checking for New Messages"
 msgstr "కొత్త సందేశాల కొరకు పరిశీలిస్తున్నది"
 
-#: ../mail/em-account-editor.c:3149 ../mail/mail-config.glade.h:34
+#: ../mail/em-account-editor.c:3155 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "ఖాతా కూర్పరి"
 
-#: ../mail/em-account-editor.c:3149 ../mail/mail-config.glade.h:89
+#: ../mail/em-account-editor.c:3155 ../mail/mail-config.glade.h:89
 msgid "Evolution Account Assistant"
 msgstr "ఎవాల్యూషన్ ఖాతా సహాయకుడు"
 
@@ -10637,26 +10638,26 @@ msgstr "సతకం లిపిని జతపరుచుము"
 msgid "Signature(s)"
 msgstr "సంతకము(లు)"
 
-#: ../mail/em-composer-utils.c:1132 ../mail/em-format-quote.c:415
+#: ../mail/em-composer-utils.c:1137 ../mail/em-format-quote.c:415
 msgid "-------- Forwarded Message --------"
 msgstr "-------- ముందుకు పంపబడినసందేశం --------"
 
-#: ../mail/em-composer-utils.c:1587
+#: ../mail/em-composer-utils.c:1592
 msgid "No destination address provided, forward of the message has been cancelled."
 msgstr "ఏ గమ్యస్థానపు చిరునామా అందివ్వలేదు, సందేశముయొక్క కొనసాగింపు రద్దైనది."
 
-#: ../mail/em-composer-utils.c:1593
+#: ../mail/em-composer-utils.c:1598
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr "ఉపయోగించుటకు ఏ ఖాతా కనబడలేదు, సందేశముయొక్క కొనసాగింపు రద్దైనది."
 
-#: ../mail/em-composer-utils.c:2060
+#: ../mail/em-composer-utils.c:2065
 msgid "an unknown sender"
 msgstr "తెలియని పంపకదారు"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:2107
+#: ../mail/em-composer-utils.c:2112
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -10664,7 +10665,7 @@ msgstr ""
 "${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone} నాడు, ${Sender} వ్రాశారు:"
 
-#: ../mail/em-composer-utils.c:2250
+#: ../mail/em-composer-utils.c:2255
 msgid "-----Original Message-----"
 msgstr "-----వాస్తన సందేశం-----"
 
@@ -10932,11 +10933,11 @@ msgid "Unset Status"
 msgstr "అమర్చని స్థితి"
 
 #. and now for the action area
-#: ../mail/em-filter-rule.c:521
+#: ../mail/em-filter-rule.c:528
 msgid "Then"
 msgstr "అప్పుడు"
 
-#: ../mail/em-filter-rule.c:549
+#: ../mail/em-filter-rule.c:559
 msgid "Add Ac_tion"
 msgstr "చర్యను జతచేయుము(_t)"
 
@@ -11015,10 +11016,10 @@ msgstr "కోటా వుపయోగం:"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-properties.c:359 ../mail/em-folder-tree-model.c:517
-#: ../mail/em-folder-tree.c:2637 ../mail/mail-component.c:168
+#: ../mail/em-folder-tree.c:2642 ../mail/mail-component.c:168
 #: ../mail/mail-component.c:608
 #: ../plugins/exchange-operations/exchange-delegates-user.c:75
-#: ../plugins/exchange-operations/exchange-folder.c:593
+#: ../plugins/exchange-operations/exchange-folder.c:599
 msgid "Inbox"
 msgstr "ఇన్‌బాక్స్"
 
@@ -11096,12 +11097,12 @@ msgstr "%s (%u%s)"
 msgid "Mail Folder Tree"
 msgstr "మెయిల్ సంచయం వృక్షం"
 
-#: ../mail/em-folder-tree.c:886
+#: ../mail/em-folder-tree.c:886 ../mail/em-folder-utils.c:100
 #, c-format
 msgid "Moving folder %s"
 msgstr "కదులుతున్న సంచయం %s"
 
-#: ../mail/em-folder-tree.c:888
+#: ../mail/em-folder-tree.c:888 ../mail/em-folder-utils.c:102
 #, c-format
 msgid "Copying folder %s"
 msgstr "నకలుతీయుతున్న సంచయం %s"
@@ -11128,7 +11129,7 @@ msgstr "సంచయంకు నకలుతీయుము(_C)"
 msgid "_Move to Folder"
 msgstr "సంచయంకు నకలుతీయుము(_M)"
 
-#: ../mail/em-folder-tree.c:992 ../mail/em-folder-utils.c:362
+#: ../mail/em-folder-tree.c:992 ../mail/em-folder-utils.c:365
 #: ../mail/em-folder-view.c:1186 ../mail/message-list.c:2110
 msgid "_Move"
 msgstr "జరుపు(_M)"
@@ -11142,64 +11143,59 @@ msgstr "లాగినదానిని రద్దుచేయుము(_D)"
 msgid "Scanning folders in \"%s\""
 msgstr "\"%s\" నందలి సంచయాల స్కానింగ్"
 
-#: ../mail/em-folder-tree.c:2107
+#: ../mail/em-folder-tree.c:2112
 msgid "Open in _New Window"
 msgstr "కొత్త విండో నందు తెరువుము(_N)"
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2112
+#: ../mail/em-folder-tree.c:2117
 msgid "_New Folder..."
 msgstr "కొత్త సంచయం(_N)..."
 
-#: ../mail/em-folder-tree.c:2115
+#: ../mail/em-folder-tree.c:2120
 msgid "_Move..."
 msgstr "కదుపుము(_M)..."
 
-#: ../mail/em-folder-tree.c:2123 ../ui/evolution-mail-list.xml.h:21
+#: ../mail/em-folder-tree.c:2128 ../ui/evolution-mail-list.xml.h:21
 msgid "Re_fresh"
 msgstr "రీఫ్రెష్(_f)"
 
-#: ../mail/em-folder-tree.c:2124
+#: ../mail/em-folder-tree.c:2129
 msgid "Fl_ush Outbox"
 msgstr "అవుట్‌బాక్స్  ను తుడిచివేయుము(_u)"
 
-#: ../mail/em-folder-tree.c:2129 ../mail/mail.error.xml.h:138
+#: ../mail/em-folder-tree.c:2134 ../mail/mail.error.xml.h:138
 msgid "_Empty Trash"
 msgstr "చెత్తకుండీని ఖాళీచేయుము(_E)"
 
-#: ../mail/em-folder-tree.c:2232
+#: ../mail/em-folder-tree.c:2237
 msgid "_Unread Search Folder"
 msgstr "చదవని శోధన సంచయం (_U)"
 
-#: ../mail/em-folder-utils.c:99
-#, c-format
-msgid "Copying `%s' to `%s'"
-msgstr "`%s' నుండి `%s' కు నకలుతీయుచున్నది"
-
-#: ../mail/em-folder-utils.c:362 ../mail/em-folder-view.c:1186
+#: ../mail/em-folder-utils.c:365 ../mail/em-folder-view.c:1186
 #: ../mail/em-folder-view.c:1201
 #: ../mail/importers/evolution-mbox-importer.c:82
 #: ../plugins/pst-import/pst-importer.c:302
 msgid "Select folder"
 msgstr "సంచయంను ఎంపికచేసుకొనుము"
 
-#: ../mail/em-folder-utils.c:362 ../mail/em-folder-view.c:1201
+#: ../mail/em-folder-utils.c:365 ../mail/em-folder-view.c:1201
 msgid "C_opy"
 msgstr "నకలుతీయుము(_o)"
 
-#: ../mail/em-folder-utils.c:537
+#: ../mail/em-folder-utils.c:540
 #: ../plugins/groupwise-features/share-folder-common.c:144
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "సంచయం `%s' ను సృష్టించుట"
 
-#: ../mail/em-folder-utils.c:695
+#: ../mail/em-folder-utils.c:698
 #: ../plugins/groupwise-features/install-shared.c:168
 #: ../plugins/groupwise-features/share-folder-common.c:385
 msgid "Create folder"
 msgstr "సంచయంను సృష్టించుట"
 
-#: ../mail/em-folder-utils.c:695
+#: ../mail/em-folder-utils.c:698
 #: ../plugins/groupwise-features/install-shared.c:168
 #: ../plugins/groupwise-features/share-folder-common.c:385
 msgid "Specify where to create the folder:"
@@ -11808,33 +11804,33 @@ msgstr ""
 "మునుపటి ఎవాల్యూషన్ సంస్థాపన నుండి అమరికలను చదువలేక పోయింది. `ఎవాల్యుషన్/ config.xmldb' లేదు "
 "లేదా పాడైనది."
 
-#: ../mail/em-popup.c:364
+#: ../mail/em-popup.c:366
 msgid "Save As..."
 msgstr "ఇలా దాచు..."
 
-#: ../mail/em-popup.c:389
+#: ../mail/em-popup.c:391
 #, c-format
 msgid "untitled_image.%s"
 msgstr "శీర్షికలేని చిత్రము(_i).%s"
 
-#: ../mail/em-popup.c:495 ../widgets/misc/e-attachment-handler-image.c:147
+#: ../mail/em-popup.c:497 ../widgets/misc/e-attachment-handler-image.c:153
 msgid "Set as _Background"
 msgstr "బ్యాక్‌గ్రౌండ్ లా అమర్చుము(_B)"
 
-#: ../mail/em-popup.c:497
+#: ../mail/em-popup.c:499
 msgid "_Reply to sender"
 msgstr "పంపకందారు కి ప్రత్యుత్తరం(_R)"
 
-#: ../mail/em-popup.c:498 ../ui/evolution-mail-message.xml.h:79
+#: ../mail/em-popup.c:500 ../ui/evolution-mail-message.xml.h:79
 msgid "Reply to _List"
 msgstr "జాబితాకి ప్రత్యుత్తరం(_L)"
 
 #. make it first item
-#: ../mail/em-popup.c:547 ../mail/em-popup.c:746
+#: ../mail/em-popup.c:549 ../mail/em-popup.c:748
 msgid "_Add to Address Book"
 msgstr "చిరునామా పుస్తకంకు కలుపుము(_A)"
 
-#: ../mail/em-popup.c:725
+#: ../mail/em-popup.c:727
 #, c-format
 msgid "Open in %s..."
 msgstr "%s లో తెరువుము...."
@@ -13188,7 +13184,7 @@ msgid "C_haracter set:"
 msgstr "అక్షర సమితి(_h):"
 
 #: ../mail/mail-config.glade.h:56
-#: ../plugins/exchange-operations/exchange-account-setup.c:1015
+#: ../plugins/exchange-operations/exchange-account-setup.c:1017
 msgid "Ch_eck for Supported Types"
 msgstr "మద్దతివ్వబడు రకముల కొరకు పరిశీలించుము(_e)"
 
@@ -14921,27 +14917,27 @@ msgstr "ఆడియో ఇన్‌లైన్"
 msgid "Play audio attachments directly from Evolution."
 msgstr "ఆడియో అనుభందములను నేరుగా ఎవాల్యూషన్ నుండి ప్లే చేయుము."
 
-#: ../plugins/backup-restore/backup-restore.c:139
+#: ../plugins/backup-restore/backup-restore.c:143
 msgid "Select name of the Evolution backup file"
 msgstr "ఎవాల్యూషన్ బ్యాక్అప్ దస్త్రం యొక్క నామమును ఎంపికచేయుము"
 
-#: ../plugins/backup-restore/backup-restore.c:167
+#: ../plugins/backup-restore/backup-restore.c:171
 msgid "_Restart Evolution after backup"
 msgstr "బ్యాక్అప్ తర్వాత ఎవాల్యూషన్ ను పునఃప్రారంభించుము(_R)"
 
-#: ../plugins/backup-restore/backup-restore.c:190
+#: ../plugins/backup-restore/backup-restore.c:194
 msgid "Select name of the Evolution backup file to restore"
 msgstr "ఎవాల్యూషన్ బ్యాక్అప్ దస్త్రం యొక్క నామమును తిరిగినిల్వఉంచుటకు ఎంపికచేయుము"
 
-#: ../plugins/backup-restore/backup-restore.c:214
+#: ../plugins/backup-restore/backup-restore.c:218
 msgid "_Restart Evolution after restore"
 msgstr "ఎవాల్యూషన్ ను తిరిగినిల్వ చేసినతర్వాత పునఃప్రారంభిచుము(_R)"
 
-#: ../plugins/backup-restore/backup-restore.c:287
+#: ../plugins/backup-restore/backup-restore.c:291
 msgid "Restore from backup"
 msgstr "బ్యాక్అప్ నుండి తిరిగినిల్వఉంచుము"
 
-#: ../plugins/backup-restore/backup-restore.c:289
+#: ../plugins/backup-restore/backup-restore.c:293
 msgid ""
 "You can restore Evolution from your backup. It can restore all the Mails, "
 "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
@@ -14951,15 +14947,15 @@ msgstr ""
 "మెమోస్, పరిచయాలను తిరిగినిల్వచేస్తుంది.ఇది మీ వ్యక్తిగత అమరికలు, మెయిల్ వడపోతలు మెద. వాటిని తిరిగినిల్వ "
 "ఉంచుతుంది."
 
-#: ../plugins/backup-restore/backup-restore.c:297
+#: ../plugins/backup-restore/backup-restore.c:301
 msgid "_Restore Evolution from the backup file"
 msgstr "ఎవాల్యూషన్‌ను బ్యాక్అప్ దస్త్రములనుండి తిరిగినిల్వ చేయుము (_R)"
 
-#: ../plugins/backup-restore/backup-restore.c:304
+#: ../plugins/backup-restore/backup-restore.c:308
 msgid "Please select an Evolution Archive to restore:"
 msgstr "దయచేసి ఒక ఎవాల్యూషన్ ఆర్చివ్‌ను తిరిగినిల్వచేయుటకు ఎంచుకొనుము:"
 
-#: ../plugins/backup-restore/backup-restore.c:307
+#: ../plugins/backup-restore/backup-restore.c:311
 msgid "Choose a file to restore"
 msgstr "తిరిగినిల్వఉంచుకొనుటకు ఒక దస్త్రాన్ని ఎంచుకొనుము"
 
@@ -15134,35 +15130,35 @@ msgstr "అమరికలను తిరిగినిల్వఉంచు(_
 msgid "_Backup Settings..."
 msgstr "బ్యాక్అప్ అమరికలు(_B)..."
 
-#: ../plugins/bbdb/bbdb.c:622 ../plugins/bbdb/bbdb.c:631
+#: ../plugins/bbdb/bbdb.c:638 ../plugins/bbdb/bbdb.c:647
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1
 msgid "Automatic Contacts"
 msgstr "స్వయంచాలక పరిచయాలు"
 
 #. Enable BBDB checkbox
-#: ../plugins/bbdb/bbdb.c:646
+#: ../plugins/bbdb/bbdb.c:662
 msgid "Create _address book entries when sending mails"
 msgstr "సందేశములను పంపునప్పుడు చిరునామా పుస్తకం ప్రవేశాలను సృష్టిస్తుంది (_a)"
 
-#: ../plugins/bbdb/bbdb.c:652
+#: ../plugins/bbdb/bbdb.c:668
 msgid "Select Address book for Automatic Contacts"
 msgstr "స్వయంచాలక పరిచయాల కొరకు చిరునామా పుస్తంకంను ఎంపికచేయుము"
 
-#: ../plugins/bbdb/bbdb.c:667
+#: ../plugins/bbdb/bbdb.c:683
 msgid "Instant Messaging Contacts"
 msgstr "త్వరిత సందేశ పరిచయాలు"
 
 #. Enable Gaim Checkbox
-#: ../plugins/bbdb/bbdb.c:682
+#: ../plugins/bbdb/bbdb.c:698
 msgid "Synchronize contact info and images from Pidgin buddy list"
 msgstr "పిడిగిన్ మిత్ర జాబితానుండి పరిచయాల మరియు చిత్రాల సమాచారాన్ని క్రమంగా కాలనియమత చేయుము"
 
-#: ../plugins/bbdb/bbdb.c:688
+#: ../plugins/bbdb/bbdb.c:704
 msgid "Select Address book for Pidgin buddy list"
 msgstr "పిడిగిన్ మిత్ర జాబితా కొరకు చిరునామా పుస్తకాన్ని ఎంచుకొనుము"
 
 #. Synchronize now button.
-#: ../plugins/bbdb/bbdb.c:699
+#: ../plugins/bbdb/bbdb.c:715
 msgid "Synchronize with _buddy list now"
 msgstr "మిత్ర జాబితా తో ఇప్పుడు కాలనియమత చేయుము(_b)"
 
@@ -15569,77 +15565,77 @@ msgid "I am in the office"
 msgstr "నేను కార్యాలయంలో ఉన్నాను"
 
 #. Change Password
-#: ../plugins/exchange-operations/exchange-account-setup.c:340
+#: ../plugins/exchange-operations/exchange-account-setup.c:341
 msgid "Change the password for Exchange account"
 msgstr "ఖాతాను ఇచ్చిపుచ్చుకొనుటకు సంకేతపదాన్ని మార్చుము"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:342
+#: ../plugins/exchange-operations/exchange-account-setup.c:343
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:1
 msgid "Change Password"
 msgstr "సంకేతపదాన్ని మార్చండి"
 
 #. Delegation Assistant
-#: ../plugins/exchange-operations/exchange-account-setup.c:347
+#: ../plugins/exchange-operations/exchange-account-setup.c:348
 msgid "Manage the delegate settings for Exchange account"
 msgstr "ఇచ్చిపుచ్చుకొను ఖాతా కొరకు ప్రాతినిధ్య అమరికలను నిర్వహించుము"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:349
+#: ../plugins/exchange-operations/exchange-account-setup.c:350
 msgid "Delegation Assistant"
 msgstr "ప్రాతినిధ్యపు సహాయకుడు"
 
 #. Miscelleneous settings
-#: ../plugins/exchange-operations/exchange-account-setup.c:361
+#: ../plugins/exchange-operations/exchange-account-setup.c:362
 msgid "Miscelleneous"
 msgstr "వివిధమైన"
 
 #. Folder Size
-#: ../plugins/exchange-operations/exchange-account-setup.c:371
+#: ../plugins/exchange-operations/exchange-account-setup.c:372
 msgid "View the size of all Exchange folders"
 msgstr "అన్ని ఇచ్చిపుచ్చుకొను సంచయాల పరిమాణంను దర్శించుము"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:373
+#: ../plugins/exchange-operations/exchange-account-setup.c:374
 msgid "Folders Size"
 msgstr "సంచయాల పరిణామం"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:380
+#: ../plugins/exchange-operations/exchange-account-setup.c:381
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:3
 msgid "Exchange Settings"
 msgstr "ఇచ్చిపుచ్చుకొను అమరికలు"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:726
+#: ../plugins/exchange-operations/exchange-account-setup.c:727
 msgid "_OWA URL:"
 msgstr "_OWA URL:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:752
+#: ../plugins/exchange-operations/exchange-account-setup.c:753
 msgid "A_uthenticate"
 msgstr "దృవీకరించు(_u)"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:774
+#: ../plugins/exchange-operations/exchange-account-setup.c:775
 msgid "Mailbox name is _different than user name"
 msgstr "మెయిల్‌బాక్స్ నామము వినియోగదారి నామముకు వేరుగా వుంటుంది (_d)"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:787
+#: ../plugins/exchange-operations/exchange-account-setup.c:788
 msgid "_Mailbox:"
 msgstr "మెయిల్‌బాక్స్‍ (_M):"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:1001
+#: ../plugins/exchange-operations/exchange-account-setup.c:1003
 msgid "_Authentication Type"
 msgstr "దృవీకరణ రకం (_A)"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:1130
+#: ../plugins/exchange-operations/exchange-account-setup.c:1132
 #: ../plugins/exchange-operations/exchange-contacts.c:217
 #, c-format
 msgid "%s KB"
 msgstr "%s KB"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:1132
+#: ../plugins/exchange-operations/exchange-account-setup.c:1134
 #: ../plugins/exchange-operations/exchange-contacts.c:219
 #, c-format
 msgid "0 KB"
 msgstr "0 KB"
 
 #. FIXME: Take care of i18n
-#: ../plugins/exchange-operations/exchange-account-setup.c:1137
+#: ../plugins/exchange-operations/exchange-account-setup.c:1139
 #: ../plugins/exchange-operations/exchange-calendar.c:236
 #: ../plugins/exchange-operations/exchange-contacts.c:222
 msgid "Size:"
@@ -15879,19 +15875,19 @@ msgid "Exchange Folder Tree"
 msgstr "ఇచ్చిపుచ్చుకొను సంచయం వృక్షం"
 
 #: ../plugins/exchange-operations/exchange-folder.c:65
-#: ../plugins/exchange-operations/exchange-folder.c:233
-#: ../plugins/exchange-operations/exchange-folder.c:243
+#: ../plugins/exchange-operations/exchange-folder.c:239
+#: ../plugins/exchange-operations/exchange-folder.c:249
 msgid "Unsubscribe Folder..."
 msgstr "సంచయానకి చందాదారుకావద్దు..."
 
-#: ../plugins/exchange-operations/exchange-folder.c:463
-#: ../plugins/exchange-operations/exchange-folder.c:518
+#: ../plugins/exchange-operations/exchange-folder.c:469
+#: ../plugins/exchange-operations/exchange-folder.c:524
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "నిజంగా సంచయం \"%s\" కు చందాదారుకావుటలేదా?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:475
-#: ../plugins/exchange-operations/exchange-folder.c:530
+#: ../plugins/exchange-operations/exchange-folder.c:481
+#: ../plugins/exchange-operations/exchange-folder.c:536
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "\"%s\" నుండి చందాదారుగా తొలగుము"
@@ -17903,48 +17899,48 @@ msgid_plural "You have received %d new messages."
 msgstr[0] "మీరు %d కొత్త సందేశాన్ని పొందారు."
 msgstr[1] "మీరు %d కొత్త సందేశాన్ని పొందారు."
 
-#: ../plugins/mail-notification/mail-notification.c:520
-#: ../plugins/mail-notification/mail-notification.c:525
+#: ../plugins/mail-notification/mail-notification.c:521
+#: ../plugins/mail-notification/mail-notification.c:526
 msgid "New email"
 msgstr "కొత్త ఈమెయిల్"
 
-#: ../plugins/mail-notification/mail-notification.c:588
+#: ../plugins/mail-notification/mail-notification.c:590
 msgid "Show icon in _notification area"
 msgstr "ప్రకటన ప్రదేశంలో ప్రతిమను చూపుము(_n)"
 
-#: ../plugins/mail-notification/mail-notification.c:591
+#: ../plugins/mail-notification/mail-notification.c:593
 msgid "B_link icon in notification area"
 msgstr "ప్రకటన ప్రదేశం లో ప్రతిమను బ్లింక్ చేయుము(_l)"
 
-#: ../plugins/mail-notification/mail-notification.c:593
+#: ../plugins/mail-notification/mail-notification.c:595
 msgid "Popup _message together with the icon"
 msgstr "ప్రతిమతో కూడి సందేశాన్ని పాప్అప్ చేయుము(_m)"
 
-#: ../plugins/mail-notification/mail-notification.c:774
+#: ../plugins/mail-notification/mail-notification.c:776
 msgid "_Play sound when new messages arrive"
 msgstr "కొత్త సందేశం వచ్చినప్పుడు శబ్దమును ప్లే చేయుము (_P)"
 
-#: ../plugins/mail-notification/mail-notification.c:780
+#: ../plugins/mail-notification/mail-notification.c:782
 msgid "_Beep"
 msgstr "బీప్(_B)"
 
-#: ../plugins/mail-notification/mail-notification.c:781
+#: ../plugins/mail-notification/mail-notification.c:783
 msgid "Play _sound file"
 msgstr "శబ్దపు దస్త్రాన్ని ప్లే చేయుము(_s)"
 
-#: ../plugins/mail-notification/mail-notification.c:792
+#: ../plugins/mail-notification/mail-notification.c:794
 msgid "Specify _filename:"
 msgstr "దస్త్రనామము ను తెలియజేయుము(_f):"
 
-#: ../plugins/mail-notification/mail-notification.c:793
+#: ../plugins/mail-notification/mail-notification.c:795
 msgid "Select sound file"
 msgstr "శబ్దపు దస్త్రాన్ని ఎంపికచేయుము"
 
-#: ../plugins/mail-notification/mail-notification.c:794
+#: ../plugins/mail-notification/mail-notification.c:796
 msgid "Pl_ay"
 msgstr "ప్లే(_a)"
 
-#: ../plugins/mail-notification/mail-notification.c:851
+#: ../plugins/mail-notification/mail-notification.c:853
 msgid "Notify new messages for _Inbox only"
 msgstr "ఇన్‌బాక్స్ కు కొత్త సందేశాలను మాత్రమే ప్రకటింటుము(_I)"
 
@@ -21701,54 +21697,54 @@ msgstr "దర్శనం రకం"
 msgid "Type of view:"
 msgstr "దర్శన రకం:"
 
-#: ../widgets/misc/e-attachment.c:990
+#: ../widgets/misc/e-attachment.c:991
 msgid "Attached message"
 msgstr "అనుభందించిన సందేశము"
 
 #. Translators: Default attachment filename.
-#: ../widgets/misc/e-attachment.c:1773 ../widgets/misc/e-attachment.c:2313
+#: ../widgets/misc/e-attachment.c:1774 ../widgets/misc/e-attachment.c:2331
 #: ../widgets/misc/e-attachment-store.c:636
 msgid "attachment.dat"
 msgstr "attachment.dat"
 
-#: ../widgets/misc/e-attachment.c:1822 ../widgets/misc/e-attachment.c:2619
+#: ../widgets/misc/e-attachment.c:1823 ../widgets/misc/e-attachment.c:2637
 msgid "A load operation is already in progress"
 msgstr "లోడ్ ఆపరేషన్ యిప్పటికే పురోగతిలో వుంది"
 
-#: ../widgets/misc/e-attachment.c:1830 ../widgets/misc/e-attachment.c:2627
+#: ../widgets/misc/e-attachment.c:1831 ../widgets/misc/e-attachment.c:2645
 msgid "A save operation is already in progress"
 msgstr "దాయు ఆపరేషన్ యిప్పటికే పురోగతిలోవుంది"
 
-#: ../widgets/misc/e-attachment.c:1923
+#: ../widgets/misc/e-attachment.c:1924
 #, c-format
 msgid "Could not load '%s'"
 msgstr "'%s' లోడు చేయలేక పోయింది"
 
-#: ../widgets/misc/e-attachment.c:1926
+#: ../widgets/misc/e-attachment.c:1927
 #, c-format
 msgid "Could not load the attachment"
 msgstr "అనుభందమును లోడు చేయలేక పోయింది"
 
-#: ../widgets/misc/e-attachment.c:2190
+#: ../widgets/misc/e-attachment.c:2208
 #, c-format
 msgid "Could not open '%s'"
 msgstr "'%s'ను తెరువలేక పోయింది"
 
-#: ../widgets/misc/e-attachment.c:2193
+#: ../widgets/misc/e-attachment.c:2211
 #, c-format
 msgid "Could not open the attachment"
 msgstr "అనుభందమును తెరువలేక పోయింది"
 
-#: ../widgets/misc/e-attachment.c:2635
+#: ../widgets/misc/e-attachment.c:2653
 msgid "Attachment contents not loaded"
 msgstr "అనుభందము సారములు లోడు కాలేదు"
 
-#: ../widgets/misc/e-attachment.c:2712
+#: ../widgets/misc/e-attachment.c:2730
 #, c-format
 msgid "Could not save '%s'"
 msgstr "'%s'ను దాయలేక పోయింది"
 
-#: ../widgets/misc/e-attachment.c:2715
+#: ../widgets/misc/e-attachment.c:2733
 #, c-format
 msgid "Could not save the attachment"
 msgstr "అనుభందమును దాయలేక పోయింది"
@@ -22043,21 +22039,21 @@ msgid "Invalid Time Value"
 msgstr "చెల్లని కాలం విలువ"
 
 #. FIXME: get the toplevel window...
-#: ../widgets/misc/e-filter-bar.c:124 ../widgets/misc/e-filter-bar.c:179
-#: ../widgets/misc/e-filter-bar.c:307 ../widgets/misc/e-filter-bar.c:740
+#: ../widgets/misc/e-filter-bar.c:126 ../widgets/misc/e-filter-bar.c:181
+#: ../widgets/misc/e-filter-bar.c:309 ../widgets/misc/e-filter-bar.c:742
 msgid "Advanced Search"
 msgstr "ఉన్నతమైన వెతుకు"
 
 #. FIXME: get the toplevel window...
-#: ../widgets/misc/e-filter-bar.c:230
+#: ../widgets/misc/e-filter-bar.c:232
 msgid "Save Search"
 msgstr "వెతికిన దానిని దాచుము"
 
-#: ../widgets/misc/e-filter-bar.c:267
+#: ../widgets/misc/e-filter-bar.c:269
 msgid "_Searches"
 msgstr "వెతుకుట(_S)"
 
-#: ../widgets/misc/e-filter-bar.c:269
+#: ../widgets/misc/e-filter-bar.c:271
 msgid "Searches"
 msgstr "శోధనలు"
 
@@ -22134,51 +22130,51 @@ msgstr "తిరిగివేళ్ళు రీతి"
 msgid "Column width"
 msgstr "నిలువు పట్టీ వెడల్పు"
 
-#: ../widgets/misc/e-search-bar.c:92 ../widgets/misc/e-search-bar.c:359
-#: ../widgets/misc/e-search-bar.c:503 ../widgets/misc/e-search-bar.c:505
-#: ../widgets/misc/e-search-bar.c:1021
+#: ../widgets/misc/e-search-bar.c:94 ../widgets/misc/e-search-bar.c:355
+#: ../widgets/misc/e-search-bar.c:499 ../widgets/misc/e-search-bar.c:501
+#: ../widgets/misc/e-search-bar.c:1017
 msgid "Search"
 msgstr "శోధించు"
 
-#: ../widgets/misc/e-search-bar.c:359 ../widgets/misc/e-search-bar.c:503
-#: ../widgets/misc/e-search-bar.c:505
+#: ../widgets/misc/e-search-bar.c:355 ../widgets/misc/e-search-bar.c:499
+#: ../widgets/misc/e-search-bar.c:501
 msgid "Click here to change the search type"
 msgstr "శోధన రకాన్ని మార్చుటకు ఇక్కడ నొక్కండి"
 
-#: ../widgets/misc/e-search-bar.c:637
+#: ../widgets/misc/e-search-bar.c:633
 msgid "_Search"
 msgstr "వెతుకు(_S)"
 
-#: ../widgets/misc/e-search-bar.c:643
+#: ../widgets/misc/e-search-bar.c:639
 msgid "_Find Now"
 msgstr "ఇప్పుడు కనుగొనుము(_F)"
 
-#: ../widgets/misc/e-search-bar.c:644
+#: ../widgets/misc/e-search-bar.c:640
 msgid "_Clear"
 msgstr "శుబ్రం చేయు(_C)"
 
-#: ../widgets/misc/e-search-bar.c:899
+#: ../widgets/misc/e-search-bar.c:895
 msgid "Item ID"
 msgstr "అంశం  యొక్కID"
 
-#: ../widgets/misc/e-search-bar.c:906 ../widgets/text/e-text.c:3555
+#: ../widgets/misc/e-search-bar.c:902 ../widgets/text/e-text.c:3555
 #: ../widgets/text/e-text.c:3556
 msgid "Text"
 msgstr "పాఠం"
 
 #. To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
-#: ../widgets/misc/e-search-bar.c:1053
+#: ../widgets/misc/e-search-bar.c:1049
 msgid "Sho_w: "
 msgstr "చూపుము:"
 
-#: ../widgets/misc/e-search-bar.c:1072
+#: ../widgets/misc/e-search-bar.c:1068
 msgid "Sear_ch: "
 msgstr "శోధించు(_c): "
 
 #. To Translators: The " in " label is part of the Quick Search Bar, example:
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
-#: ../widgets/misc/e-search-bar.c:1088
+#: ../widgets/misc/e-search-bar.c:1084
 msgid " i_n "
 msgstr "లోపల(_n)"
 
