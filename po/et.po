@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Evolution MASTER\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2011-01-07 20:37+0000\n"
-"PO-Revision-Date: 2011-01-09 13:57+0200\n"
+"POT-Creation-Date: 2011-01-09 19:49+0000\n"
+"PO-Revision-Date: 2011-01-10 13:10+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -7717,16 +7717,12 @@ msgstr ""
 "saabunud sõnumile eraviisilise vastuse saatmisest, kui postiloend on sõnumi "
 "päisesse lisanud \"Vastamise aadressi\" kirje."
 
-#, fuzzy
-#| msgid ""
-#| "It disables/enables the repeated prompts to warn that you are sending a "
-#| "private reply to a message which arrived via a mailing list."
 msgid ""
 "It disables/enables the repeated prompts to warn that you are trying to send "
 "a message to recipients not entered as mail addresses"
 msgstr ""
-"See keelab/lubab korduvad kinnituse küsimised hoiatamaks postiloendi kaudu "
-"saabunud sõnumile eraviisilise vastuse saatmisest."
+"See võti lubab/keelab korduvad kinnituse küsimised, kui sõnumit proovitakse "
+"saata ilma e-posti aadressita adressaatidele."
 
 msgid "Last time Empty Junk was run"
 msgstr "Viimane kord, kui rämpsukausta tühjendati"
@@ -8680,10 +8676,8 @@ msgid "Sending a _private reply to a mailing list message"
 msgstr "_Eravastuse saatmist listikirjale"
 
 #. This is in the context of: Ask for confirmation before...
-#, fuzzy
-#| msgid "Sending a message with only _Bcc recipients defined"
 msgid "Sending a message with _recipients not entered as mail addresses"
-msgstr "Ainult _pimekoopia adressaatidega sõnumi saatmist"
+msgstr "Sõnumi saatmist ilma _e-posti aadressita adressaatidele"
 
 #. This is in the context of: Ask for confirmation before...
 msgid "Sending a message with an _empty subject line"
@@ -9339,14 +9333,6 @@ msgstr "Viga käsu täitmisel."
 msgid "Error while {0}."
 msgstr "Viga toimingul: {0}."
 
-#, fuzzy
-#| msgid ""
-#| "Default local store has been changed from mbox to maildir format. Do you "
-#| "want to migrate now ?\n"
-#| "\n"
-#| "A mbox account will be created to preserve the old mbox folders. You can "
-#| "delete it after ensuring the data is safely migrated. Please make sure "
-#| "there is enough space if you choose to migrate."
 msgid ""
 "Evolution's local mail format has changed from mbox to Maildir. Your local "
 "mail must be migrated to the new format before Evolution can proceed. Do you "
@@ -9356,15 +9342,17 @@ msgid ""
 "delete the account after ensuring the data is safely migrated. Please make "
 "sure there is enough disk space if you choose to migrate now."
 msgstr ""
-"Vaikimisi salvestusvorming muutus, endise mbox vormingu asemel on see nüüd "
-"maildir. Kas tahad kohe andmebaasi teisendada?\n"
+"Evolutioni kohalik sõnumivorming on muutunud, endise mbox vormingu asemel on "
+"nüüd kasutusel Maildir vorming. Evolutionil pole võimalik jätkata enne, kui "
+"Sinu kohalik e-post on uude vormingusse teisendatud. Kas soovid siirdamist "
+"kohe läbi viia?\n"
 "\n"
 "Vanade mbox kaustade säilitamiseks luuakse mbox konto. Sa võid selle "
 "kustutada, kui oled veendunud, et kõik andmed on edukalt teisendatud. Palun "
 "veendu, et teisendamiseks on piisavalt vaba ruumi."
 
 msgid "Evolution's local mail format has changed."
-msgstr ""
+msgstr "Evolutioni kohalik sõnumivorming on muutunud."
 
 msgid "Failed to unsubscribe from folder."
 msgstr "Kausta tellimusest loobumine nurjus."
@@ -9480,7 +9468,7 @@ msgid "Please wait."
 msgstr "Palun oota."
 
 msgid "Problem migrating old mail folder \"{0}\"."
-msgstr "Probleem vana postikausta \"{0}\" migreerimisel."
+msgstr "Probleem vana postikausta \"{0}\" siirdamisel."
 
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr "Serverilt küsitakse toetatud autentimismehhanismide nimekirja."
@@ -12039,9 +12027,6 @@ msgstr "Evolutioni sätete laadimine"
 msgid "Removing temporary back up files"
 msgstr "Ajutiste varufailide eemaldamine"
 
-msgid "Removing temporary backup files"
-msgstr "Ajutiste varufailide eemaldamine"
-
 msgid "Ensuring local sources"
 msgstr "Kohalike allikate kindlakstegemine"
 
@@ -12089,10 +12074,6 @@ msgid ""
 "Are you sure you want to restore Evolution from the selected back up file?"
 msgstr "Kas soovid kindlasti Evolutioni valitud varukoopiafailist taastada?"
 
-msgid ""
-"Are you sure you want to restore Evolution from the selected backup file?"
-msgstr "Kas soovid kindlasti Evolutioni valitud varukoopiafailist taastada?"
-
 msgid "Close and Back up Evolution"
 msgstr "Sulge ja varunda Evolution"
 
@@ -12105,13 +12086,7 @@ msgstr "Puuduvad õigused"
 msgid "Invalid Evolution back up file"
 msgstr "Vigane Evolutioni varukoopia fail"
 
-msgid "Invalid Evolution backup file"
-msgstr "Vigane Evolutioni varukoopia fail"
-
 msgid "Please select a valid back up file to restore."
-msgstr "Taastamiseks vali palun töökorras varukoopiafail."
-
-msgid "Please select a valid backup file to restore."
 msgstr "Taastamiseks vali palun töökorras varukoopiafail."
 
 msgid "The selected folder is not writable."
@@ -16353,11 +16328,21 @@ msgstr "Vali kõik"
 msgid "Input Methods"
 msgstr "Sisestusmeetodid"
 
+#~ msgid "Removing temporary backup files"
+#~ msgstr "Ajutiste varufailide eemaldamine"
+
+#~ msgid ""
+#~ "Are you sure you want to restore Evolution from the selected backup file?"
+#~ msgstr "Kas soovid kindlasti Evolutioni valitud varukoopiafailist taastada?"
+
+#~ msgid "Invalid Evolution backup file"
+#~ msgstr "Vigane Evolutioni varukoopia fail"
+
+#~ msgid "Please select a valid backup file to restore."
+#~ msgstr "Taastamiseks vali palun töökorras varukoopiafail."
+
 #~ msgid "Account Management"
 #~ msgstr "Kontohaldus"
-
-#~ msgid "Migrate local mbox folders to maildir"
-#~ msgstr "Kohalike mbox kaustade migreerimine maildir vormingusse"
 
 #~ msgid ""
 #~ "Folder '%s' contains %d duplicate messages. Are you sure you want to "
@@ -16648,9 +16633,6 @@ msgstr "Sisestusmeetodid"
 #~ msgid "Send Latest Information"
 #~ msgstr "Värskemate andmete saatmine"
 
-#~ msgid "--to--"
-#~ msgstr "--kellele--"
-
 #~ msgid "Calendar Message"
 #~ msgstr "Kalendri sõnum"
 
@@ -16708,55 +16690,8 @@ msgstr "Sisestusmeetodid"
 #~ msgstr[0] "%d päev tagasi"
 #~ msgstr[1] "%d päeva tagasi"
 
-#~ msgid "Debug Logs"
-#~ msgstr "Silumislogid"
-
-#~ msgid "Show _errors in the status bar for"
-#~ msgstr "Ol_ekuribal näidatakse vigu"
-
-#~ msgid "second(s)."
-#~ msgstr "sekund(it)."
-
-#~ msgid "Log Messages:"
-#~ msgstr "Logiteated:"
-
-#~ msgid "Log Level"
-#~ msgstr "Logimise tase"
-
-#~ msgid "Error"
-#~ msgstr "Viga"
-
-#~ msgid "Errors"
-#~ msgstr "Vead"
-
-#~ msgid "Warnings and Errors"
-#~ msgstr "Hoiatused ja vead"
-
-#~ msgid "Debug"
-#~ msgstr "Silumine"
-
-#~ msgid "Error, Warnings and Debug messages"
-#~ msgstr "Vea-, hoiatus- ja silumisteated"
-
-#~ msgid "%s License Agreement"
-#~ msgstr "Litsents %s"
-
-#~ msgid ""
-#~ "\n"
-#~ "Please read carefully the license agreement\n"
-#~ "for %s displayed below\n"
-#~ "and tick the check box for accepting it\n"
-#~ msgstr ""
-#~ "\n"
-#~ "Palun loe hoolikalt %s litsentsitingimusi, mida\n"
-#~ "kuvatakse allpool ja nendega nõustumise korral\n"
-#~ "märgi märkeruut\n"
-
 #~ msgid "This store does not support subscriptions, or they are not enabled."
 #~ msgstr "See hoidla ei toeta tellimusi või pole tellimused lubatud."
-
-#~ msgid "Folder"
-#~ msgstr "Kaust"
 
 #~ msgid "Please select a server."
 #~ msgstr "Palun vali server."
@@ -16828,9 +16763,6 @@ msgstr "Sisestusmeetodid"
 #~ msgid "Font Properties"
 #~ msgstr "Kirjatüübi omadused"
 
-#~ msgid "KB"
-#~ msgstr "KB"
-
 #~ msgid "Message Fonts"
 #~ msgstr "Sõnumi kirjatüübid"
 
@@ -16883,9 +16815,6 @@ msgstr "Sisestusmeetodid"
 
 #~ msgid "_Shrink To / Cc / Bcc headers to "
 #~ msgstr "Kellele / koopia / pimekoopia välju vä_hendatakse"
-
-#~ msgid "addresses"
-#~ msgstr "aadressid"
 
 #~ msgid "_Sharing"
 #~ msgstr "_Jagamine"
