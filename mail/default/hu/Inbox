@@ -1,27 +1,27 @@
-From evolution@novell.com Wed 10 Sep 07:45:12 2008
-Return-Path: <evolution@novell.com>
-Received: from pop.novell.com (IDENT:mail@localhost [127.0.0.1]) by
-	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 10 Sep 2008
+From evolution@gnome.org Wed 10 Sep 07:45:12 2008
+Return-Path: <evolution@gnome.org>
+Received: from pop.gnome.org (IDENT:mail@localhost [127.0.0.1]) by
+	pop.gnome.org (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 10 Sep 2008
 	07:45:12 -0400
-Received: from smtp.novell.com (smtp.novell.com [141.154.95.10]) by
-	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
-	<evolution@novell.com>; Wed, 10 Sep 2008 07:45:10 -0400
+Received: from smtp.gnome.org (smtp.gnome.org [141.154.95.10]) by
+	pop.gnome.org (8.9.3/8.9.3) with ESMTP id HAA20659 for
+	<evolution@gnome.org>; Wed, 10 Sep 2008 07:45:10 -0400
 Received: (qmail 5610 invoked from network); 10 Sep 2008 12:00:00 -0000
-Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
-	pop.novell.com with SMTP; 10 Sep 2008 12:00:00 -0000
-From: "Az Evolution csapat" <evolution@novell.com>
-To: Evolution felhasználók <evolution@novell.com>
+Received: from smtp.gnome.org (HELO localhost) (141.154.95.10) by
+	pop.gnome.org with SMTP; 10 Sep 2008 12:00:00 -0000
+From: "Az Evolution csapat" <evolution@gnome.org>
+To: Evolution felhasználók <evolution@gnome.org>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
 X-Mailer: Evolution 2.24.0
 Date: Wed Sep 10 2008 19:35:00 +0200
 Message-ID: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
 Subject: Üdvözli az Evolution!
-Sender: evolution@novell.com
-Errors-To: evolution@novell.com
+Sender: evolution@gnome.org
+Errors-To: evolution@gnome.org
 X-Mailman-Version: 1.1
 Status:   
-X-Evolution-Source: pop://rupert@pop.novell.com/inbox
+X-Evolution-Source: pop://rupert@pop.gnome.org/inbox
 X-Evolution: 00000002-0000
 
 
@@ -57,7 +57,7 @@ További információk
 	http://mail.gnome.org/mailman/listinfo/evolution-list címen iratkozhat fel.
 
 	Az Evolution projekttel kapcsolatos információk a
-	http://www.gnome.org/projects/evolution címen érhetők el.
+	http://projects.gnome.org/evolution címen érhetők el.
 
 
 Tisztelettel,
@@ -133,13 +133,13 @@ További információk
 
 <blockquote>
 	Az Evolution felhasználók (angol nyelvű) levelezőlistájára a
-	<a href="http://lists.gnome.org/mailman/listinfo/evolution">http://lists.gnome.org/mailman/listinfo/evolution</a> címen iratkozhat fel.
+	<a href="http://lists.gnome.org/mailman/listinfo/evolution-list">http://lists.gnome.org/mailman/listinfo/evolution-list</a> címen iratkozhat fel.
 
 	Az Evolution projekttel kapcsolatos információk a
-	<a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a> címen érhetők el.
+	<a href="http://projects.gnome.org/evolution">http://projects.gnome.org/evolution</a> címen érhetők el.
 	<!--
 	A gyakran feltett kérdésekre adott válaszok a 
-	<a href="http://go-evolution.org/FAQ">http://go-evolution.org/FAQ</a> oldalon találhatók.
+	<a href="http://live.gnome.org/Evolution/FAQ">http://live.gnome.org/Evolution/FAQ</a> oldalon találhatók.
 	-->
 <br><br>	
 </blockquote>

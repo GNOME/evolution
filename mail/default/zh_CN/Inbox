@@ -1,27 +1,27 @@
-From evolution@ximian.com Tue Sep 25 07:45:12 2001
-Return-Path: <evolution@ximian.com>
-Received: from pop.ximian.com (IDENT:mail@localhost [127.0.0.1]) by
-	pop.ximian.com (8.9.3/8.9.3) with ESMTP id HAA20680; Tue, 25 Sep 2001
+From evolution@gnome.org Tue Sep 25 07:45:12 2001
+Return-Path: <evolution@gnome.org>
+Received: from pop.gnome.org (IDENT:mail@localhost [127.0.0.1]) by
+	pop.gnome.org (8.9.3/8.9.3) with ESMTP id HAA20680; Tue, 25 Sep 2001
 	07:45:12 -0400
-Received: from smtp.ximian.com (smtp.ximian.com [141.154.95.10]) by
-	pop.ximian.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
-	<evolution@ximian.com>; Tue, 25 Sep 2001 07:45:10 -0400
+Received: from smtp.gnome.org (smtp.gnome.org [141.154.95.10]) by
+	pop.gnome.org (8.9.3/8.9.3) with ESMTP id HAA20659 for
+	<evolution@gnome.org>; Tue, 25 Sep 2001 07:45:10 -0400
 Received: (qmail 5610 invoked from network); 25 Sep 2001 11:45:02 -0000
-Received: from smtp.ximian.com (HELO localhost) (141.154.95.10) by
-	pop.ximian.com with SMTP; 25 Sep 2001 11:45:02 -0000
-From: =?UTF-8?B?IkV2b2x1dGlvbiDlm6LpmJ8i?= <evolution@ximian.com>
-To: Evolution =?UTF-8?B?55So5oi3?= <evolution@ximian.com>
+Received: from smtp.gnome.org (HELO localhost) (141.154.95.10) by
+	pop.gnome.org with SMTP; 25 Sep 2001 11:45:02 -0000
+From: =?UTF-8?B?IkV2b2x1dGlvbiDlm6LpmJ8i?= <evolution@gnome.org>
+To: Evolution =?UTF-8?B?55So5oi3?= <evolution@gnome.org>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
 X-Mailer: Evolution/1.1.99 (Preview Release)
 Date: 25 June 2002 14:45:00 +0300
 Message-ID: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
 Subject: =?UTF-8?B?5qyi6L+O5L2/55So?= Evolution!
-Sender: evolution@ximian.com
-Errors-To: evolution@ximian.com
+Sender: evolution@gnome.org
+Errors-To: evolution@gnome.org
 X-Mailman-Version: 1.1
 Status:   
-X-Evolution-Source: pop://rupert@pop.ximian.com/inbox
+X-Evolution-Source: pop://rupert@pop.gnome.org/inbox
 X-Evolution: 00000ddd-0030
 
 
@@ -55,21 +55,21 @@ Content-Transfer-Encoding: 8bit
 
 错误报告
 
-	错误应该报告至 http://bugzilla.ximian.com
+	错误应该报告至 http://bugzilla.gnome.org
 
 更多信息
 
 	您可以订阅下面的 Evolution 用户邮件列表(英语)
-	http://lists.ximian.com/mailman/listinfo/evolution 。
+	http://lists.gnome.org/mailman/listinfo/evolution-list 。
 
 	关于 Evolution 项目的信息可在这里找到
-	http://www.gnome.org/projects/evolution 。
+	http://projects.gnome.org/evolution 。
 
 
     此致
 敬礼
 Evolution 团队
-evolution@ximian.com
+evolution@gnome.org
 
 
 --=-2gZ1roA/HoYrlRDVGyiM
@@ -141,18 +141,18 @@ Content-Type: text/html; charset=utf-8
 <blockquote>Evolution 2.0 支持连接到 Novell GroupWise 服务器(6.5.3 或更新版本)，还可支持 Exchange 2000/2003。Evolution 2.0 的其它新特性包括垃圾邮件过滤、S/MIME 安全、改进的脱机 IMAP、NNTP(新闻)支持、Web 日历显示，层叠的日历，以及为访问联系人、日历和任务数据所提供的全新开发接口。</blockquote>
 
 <h2>错误报告</h2>
-<blockquote>错误应该报告至 <a href="http://bugzilla.ximian.com">http://bugzilla.ximian.com</a>
+<blockquote>错误应该报告至 <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>
 </blockquote>
 
 <h2>更多信息</h2>
 
-<blockquote>您可以订阅下面的 Evolution 用户邮件列表(英语) <a href="http://lists.ximian.com/mailman/listinfo/evolution">http://lists.ximian.com/mailman/listinfo/evolution</a>。关于 Evolution 项目的信息可在 <a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a> 找到。</blockquote>
+<blockquote>您可以订阅下面的 Evolution 用户邮件列表(英语) <a href="http://lists.gnome.org/mailman/listinfo/evolution-list">http://lists.gnome.org/mailman/listinfo/evolution-list</a>。关于 Evolution 项目的信息可在 <a href="http://projects.gnome.org/evolution">http://projects.gnome.org/evolution</a> 找到。</blockquote>
 
 
 　　此致<br/>
 敬礼<br>
 Evolution 团队<br>
-<a href="mailto:evolution@ximian.com">evolution@ximian.com</a>
+<a href="mailto:evolution@gnome.org">evolution@gnome.org</a>
 
 </BODY>
 </HTML>

@@ -1,27 +1,27 @@
-From evolution@novell.com Wed Sep 06 07:45:12 2006
-Return-Path: <evolution@novell.com>
-Received: from pop.novell.com (IDENT:mail@localhost [127.0.0.1]) by
-	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 06 Sep 2006
+From evolution@gnome.org Wed Sep 06 07:45:12 2006
+Return-Path: <evolution@gnome.org>
+Received: from pop.gnome.org (IDENT:mail@localhost [127.0.0.1]) by
+	pop.gnome.org (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 06 Sep 2006
 	07:45:12 -0400
-Received: from smtp.novell.com (smtp.novell.com [141.154.95.10]) by
-	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
-	<evolution@novell.com>; Wed, 06 Sep 2006 07:45:10 -0400
+Received: from smtp.gnome.org (smtp.gnome.org [141.154.95.10]) by
+	pop.gnome.org (8.9.3/8.9.3) with ESMTP id HAA20659 for
+	<evolution@gnome.org>; Wed, 06 Sep 2006 07:45:10 -0400
 Received: (qmail 5610 invoked from network); 06 Sep 2006 12:00:00 -0000
-Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
-	pop.novell.com with SMTP; 06 Sep 2006 12:00:00 -0000
-From: "Das Evolution-Team" <evolution@novell.com>
-To: Evolution-Benutzer <evolution@novell.com>
+Received: from smtp.gnome.org (HELO localhost) (141.154.95.10) by
+	pop.gnome.org with SMTP; 06 Sep 2006 12:00:00 -0000
+From: "Das Evolution-Team" <evolution@gnome.org>
+To: Evolution-Benutzer <evolution@gnome.org>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
 X-Mailer: Evolution 2.8.0
 Date: 06 September 2006 12:00:00 +0000
 Message-ID: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
 Subject: Willkommen bei Evolution!
-Sender: evolution@novell.com
-Errors-To: evolution@novell.com
+Sender: evolution@gnome.org
+Errors-To: evolution@gnome.org
 X-Mailman-Version: 1.1
 Status:   
-X-Evolution-Source: pop://rupert@pop.novell.com/inbox
+X-Evolution-Source: pop://rupert@pop.gnome.org/inbox
 X-Evolution: 00000002-0000
 
 
@@ -62,12 +62,12 @@ Weitere Informationen
 	unter http://mail.gnome.org/mailman/listinfo/evolution-list.
 
 	Informationen über das Projekt Evolution erhalten Sie unter
-	http://www.gnome.org/projects/evolution.
+	http://projects.gnome.org/evolution.
 
 
 Mit freundlichen Grüßen,
 Das Evolution-Team
-evolution@novell.com
+evolution@gnome.org
 
 
 --=-2gZ1roA/HoYrlRDVGyiM
@@ -158,22 +158,22 @@ Content-Type: text/html; charset=utf-8
 
 <blockquote>
 	Die Mailingliste für Anwender von Evolution können Sie abonnieren unter
-	<a href="http://lists.gnome.org/mailman/listinfo/evolution"
-	>http://lists.gnome.org/mailman/listinfo/evolution</a>.
+	<a href="http://lists.gnome.org/mailman/listinfo/evolution-list"
+	>http://lists.gnome.org/mailman/listinfo/evolution-list</a>.
 
 	Informationen über das Projekt Evolution erhalten Sie unter
-	<a href="http://www.gnome.org/projects/evolution"
-	>http://www.gnome.org/projects/evolution</a>.
+	<a href="http://projects.gnome.org/evolution"
+	>http://projects.gnome.org/evolution</a>.
 	<!--
 	Eine Liste von häufig gestellten Fragen (FAQ) ist verfügbar unter
-	<a href="http://go-evolution.org/FAQ">http://go-evolution.org/FAQ</a>.
+	<a href="http://live.gnome.org/Evolution/FAQ">http://live.gnome.org/Evolution/FAQ</a>.
 	-->
 <br><br>	
 </blockquote>
 
 Mit freundlichen Grüßen,<br>
 Das Evolution-Team<br>
-<a href="mailto:evolution@novell.com">evolution@novell.com</a>
+<a href="mailto:evolution@gnome.org">evolution@gnome.org</a>
 
 </BODY>
 </HTML>

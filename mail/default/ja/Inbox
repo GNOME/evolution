@@ -1,16 +1,16 @@
-From evolution@ximian.com Tue Sep 25 07:45:12 2001
-Return-Path: <evolution@ximian.com>
-Received: from pop.ximian.com (IDENT:mail@localhost [127.0.0.1]) by
-	pop.ximian.com (8.9.3/8.9.3) with ESMTP id HAA20680; Tue, 25 Sep 2001
+From evolution@gnome.org Tue Sep 25 07:45:12 2001
+Return-Path: <evolution@gnome.org>
+Received: from pop.gnome.org (IDENT:mail@localhost [127.0.0.1]) by
+	pop.gnome.org (8.9.3/8.9.3) with ESMTP id HAA20680; Tue, 25 Sep 2001
 	07:45:12 -0400
-Received: from smtp.ximian.com (smtp.ximian.com [141.154.95.10]) by
-	pop.ximian.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
-	<evolution@ximian.com>; Tue, 25 Sep 2001 07:45:10 -0400
+Received: from smtp.gnome.org (smtp.gnome.org [141.154.95.10]) by
+	pop.gnome.org (8.9.3/8.9.3) with ESMTP id HAA20659 for
+	<evolution@gnome.org>; Tue, 25 Sep 2001 07:45:10 -0400
 Received: (qmail 5610 invoked from network); 25 Sep 2001 11:45:02 -0000
-Received: from smtp.ximian.com (HELO localhost) (141.154.95.10) by
-	pop.ximian.com with SMTP; 25 Sep 2001 11:45:02 -0000
-From: "The Evolution Team" <evolution@ximian.com>
-To: Evolution Users <evolution@ximian.com>
+Received: from smtp.gnome.org (HELO localhost) (141.154.95.10) by
+	pop.gnome.org with SMTP; 25 Sep 2001 11:45:02 -0000
+From: "The Evolution Team" <evolution@gnome.org>
+To: Evolution Users <evolution@gnome.org>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
 X-Mailer: Evolution/1.1.99 (Preview Release)
 Date: 25 June 2002 14:45:00 +0300
@@ -19,11 +19,11 @@ Mime-Version: 1.0
 Content-Type: Text/Plain; charset=iso-2022-jp
 Content-Transfer-Encoding: 7bit
 Subject: Evolution =?ISO-2022-JP?B?GyRCJFgkaCQmJDMkPRsoQiE=?=
-Sender: evolution@ximian.com
-Errors-To: evolution@ximian.com
+Sender: evolution@gnome.org
+Errors-To: evolution@gnome.org
 X-Mailman-Version: 1.1
 Status:   
-X-Evolution-Source: pop://rupert@pop.ximian.com/inbox
+X-Evolution-Source: pop://rupert@pop.gnome.org/inbox
 X-Evolution: 00000ddd-0030
 
 
@@ -63,16 +63,16 @@ Evolution $B%7%9%F%`$rF3F~$7$F$/$l$?$3$H$r$H$F$b8w1I$K;W$$$^$9!#(B
 
 $BIT6q9g$NJs9p(B
 
-        $BIT6q9g$O(B http://bugzilla.ximian.com $B$^$G8fJs9p2<$5$$!#(B
+        $BIT6q9g$O(B http://bugzilla.gnome.org $B$^$G8fJs9p2<$5$$!#(B
 
 $B$b$C$H>\$7$/(B
 
 	Evolution $B%f!<%6!<8~$1%a!<%j%s%0%j%9%H$K;22C$9$k$3$H$,(B
 	$B$G$-$^$9(B:
-	http://lists.ximian.com/mailman/listinfo/evolution
+	http://lists.gnome.org/mailman/listinfo/evolution-list
 
 	Evolution $B%W%m%8%'%/%H$N>pJs$K$D$$$F$O(B
-        http://www.gnome.org/projects/evolution $B$X!#(B
+        http://projects.gnome.org/evolution $B$X!#(B
 
 
 $B7I6q!"(B
@@ -171,7 +171,7 @@ Content-Type: text/html; charset=utf-8
 
 <h2>不具合の報告</h2>
 <blockquote>
-        不具合は <a href="http://bugzilla.ximian.com">http://bugzilla.ximian.com</a> まで御報告下さい。
+        不具合は <a href="http://bugzilla.gnome.og">http://bugzilla.gnome.org</a> まで御報告下さい。
 </blockquote> 
 
 <h2>もっと詳しく</h2>
@@ -179,16 +179,16 @@ Content-Type: text/html; charset=utf-8
 <blockquote>
 	Evolution ユーザー向けメーリングリストに参加することが
 	できます:
-	<a href="http://lists.ximian.com/mailman/listinfo/evolution">http://lists.ximian.com/mailman/listinfo/evolution</a>.
+	<a href="http://lists.gnome.org/mailman/listinfo/evolution-list">http://lists.gnome.org/mailman/listinfo/evolution-list</a>.
 
 	Evolution プロジェクトの情報については
-	<a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a> へ。
+	<a href="http://projects.gnome.org/evolution">http://projects.gnome.org/evolution</a> へ。
  </blockquote>
 
 
 敬具、<br>
 Evolution 開発チーム<br>
-<a href="mailto:evolution@ximian.com">evolution@ximian.com</a>
+<a href="mailto:evolution@gnome.org">evolution@gnome.org</a>
 
 </BODY>
 </HTML>

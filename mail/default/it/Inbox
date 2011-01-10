@@ -1,16 +1,16 @@
-From evolution@novell.com Wed Mar 14 07:45:12 2007
-Return-Path: <evolution@novell.com>
-Received: from pop.novell.com (IDENT:mail@localhost [127.0.0.1]) by
- pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 14 Mar 2007
+From evolution@gnome.org Wed Mar 14 07:45:12 2007
+Return-Path: <evolution@gnome.org>
+Received: from pop.gnome.org (IDENT:mail@localhost [127.0.0.1]) by
+ pop.gnome.org (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 14 Mar 2007
  07:45:12 -0400
-Received: from smtp.novell.com (smtp.novell.com [141.154.95.10]) by
- pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
- <evolution@novell.com>; Wed, 14 Mar 2007 07:45:10 -0400
+Received: from smtp.gnome.org (smtp.gnome.org [141.154.95.10]) by
+ pop.gnome.org (8.9.3/8.9.3) with ESMTP id HAA20659 for
+ <evolution@gnome.org>; Wed, 14 Mar 2007 07:45:10 -0400
 Received: (qmail 5610 invoked from network); 14 Mar 2007 12:00:00 -0000
-Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
- pop.novell.com with SMTP; 14 Mar 2007 12:00:00 -0000
-From: "Il Team di Evolution" <evolution@novell.com>
-To: Utenti di Evoltuion <evolution@novell.com>
+Received: from smtp.gnome.org (HELO localhost) (141.154.95.10) by
+ pop.gnome.org with SMTP; 14 Mar 2007 12:00:00 -0000
+From: "Il Team di Evolution" <evolution@gnome.org>
+To: Utenti di Evoltuion <evolution@gnome.org>
 Subject: Welcome to Evolution!
 X-Mailman-Version: 1.1
 Content-Type: multipart/related; type="multipart/alternative";
@@ -94,7 +94,7 @@ Maggiori informazioni
         You can subscribe to the Evolution users mailing list at
         http://lists.gnome.org/mailman/listinfo/evolution. Information
         on the Evolution project is available at
-        http://www.gnome.org/projects/evolution.=20
+        http://projects.gnome.org/evolution.=20
        =20
 
 Yours Sincerely,=20
@@ -201,7 +201,7 @@ Content-Type: text/html; charset="utf-8"
 <B><FONT SIZE="5">Maggiori informazioni</FONT></B>
 </H2>
 <BLOCKQUOTE>
-    You can subscribe to the Evolution users mailing list at <A HREF="http://lists.gnome.org/mailman/listinfo/evolution">http://lists.gnome.org/mailman/listinfo/evolution</A>. Information on the Evolution project is available at <A HREF="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</A>. <BR>
+    You can subscribe to the Evolution users mailing list at <A HREF="http://lists.gnome.org/mailman/listinfo/evolution-list">http://lists.gnome.org/mailman/listinfo/evolution-list</A>. Information on the Evolution project is available at <A HREF="http://projects.gnome.org/evolution">http://projects.gnome.org/evolution</A>. <BR>
     <BR>
 </BLOCKQUOTE>
 Yours Sincerely, <BR>
@@ -371,7 +371,7 @@ CPAAAjyAAA8gwAMIOL8fcegyqOBdwTkAAAAASUVORK5CYII=
 From elle.uca@libero.it Thu Sep 18 13:56:53 2008
 Subject: Benvenuti in Evolution!
 From: Luca Ferretti <elle.uca@libero.it>
-To: Utenti <evolution@novell.com>
+To: Utenti <evolution@gnome.org>
 X-Mailman-Version: 1.1
 Content-Type: multipart/related; type="multipart/alternative";
 	boundary="=-KY6mBUirEUuiJCdWIcAx"
@@ -736,7 +736,7 @@ CPAAAjyAAA8gwAMIOL8fcegyqOBdwTkAAAAASUVORK5CYII=
 From elle.uca@libero.it Thu Sep 18 13:57:36 2008
 Subject: Benvenuti in Evolution!
 From: Luca Ferretti <elle.uca@libero.it>
-To: Utenti <evolution@novell.com>
+To: Utenti <evolution@gnome.org>
 X-Mailman-Version: 1.1
 Content-Type: multipart/related; type="multipart/alternative";
 	boundary="=-npCA7I/c/xZ7QcYvWHkm"
@@ -1101,7 +1101,7 @@ CPAAAjyAAA8gwAMIOL8fcegyqOBdwTkAAAAASUVORK5CYII=
 From elle.uca@libero.it Thu Sep 18 14:00:35 2008
 Subject: Benvenuti in Evolution!
 From: Luca Ferretti <elle.uca@libero.it>
-To: Utenti <evolution@novell.com>
+To: Utenti <evolution@gnome.org>
 X-Mailman-Version: 1.1
 Content-Type: multipart/related; type="multipart/alternative";
 	boundary="=-WMAIwqnePon/ifCZPTbp"
