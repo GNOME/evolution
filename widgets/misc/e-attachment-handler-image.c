@@ -116,6 +116,7 @@ action_image_set_as_background_cb (GtkAction *action,
 	GFile *destination;
 	GList *selected;
 	gchar *path;
+        const gchar *override;
 
 	view = e_attachment_handler_get_view (handler);
 	selected = e_attachment_view_get_selected_attachments (view);
@@ -123,8 +124,13 @@ action_image_set_as_background_cb (GtkAction *action,
 	attachment = E_ATTACHMENT (selected->data);
 
 	/* Save the image under ~/.gnome2/wallpapers/. */
-	path = g_build_filename (
-		g_get_home_dir (), ".gnome2", "wallpapers", NULL);
+        override = g_getenv ("GNOME22_USER_DIR");
+        if (override)
+                path = g_build_filename (override, "wallpapers", NULL);
+        else
+	        path = g_build_filename (
+		        g_get_home_dir (), ".gnome2", "wallpapers", NULL);
+
 	destination = g_file_new_for_path (path);
 	g_mkdir_with_parents (path, 0755);
 	g_free (path);
