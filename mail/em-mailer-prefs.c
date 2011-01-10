@@ -257,15 +257,21 @@ label_tree_refill (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpoint
 		GdkColor color;
 		GtkTreeIter iter;
 		EUtilLabel *label = l->data;
+		const gchar *name;
 
 		if (label->colour)
 			gdk_color_parse (label->colour, &color);
+
+		if (e_util_labels_is_system (label->tag))
+			name = _(label->name);
+		else
+			name = label->name;
 
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (
 			store, &iter,
 			LABEL_LIST_COLUMN_COLOR, label->colour ? &color : NULL,
-			LABEL_LIST_COLUMN_NAME, label->name,
+			LABEL_LIST_COLUMN_NAME, name,
 			LABEL_LIST_COLUMN_TAG, label->tag,
 			-1);
 	}
