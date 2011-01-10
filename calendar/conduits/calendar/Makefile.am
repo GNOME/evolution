@@ -28,7 +28,7 @@ e-calendar.conduit: e-calendar.conduit.in
 	    -e 's^\@BASE_VERSION\@^$(BASE_VERSION)^g' 			\
 	    $< > $@
 
-conduitdir = $(datadir)/gnome-pilot/conduits/
+conduitdir = $(libdir)/gnome-pilot/conduits/
 conduit_DATA = e-calendar.conduit
 
 BUILT_SOURCES = $(conduit_DATA)
