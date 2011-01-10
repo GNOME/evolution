@@ -31,5 +31,8 @@ void            e_contact_print               (EBook *book,
 					       EBookQuery *query,
 					       GList *contact_list,
 					       GtkPrintOperationAction action);
+void 		contact_page_draw_footer      (GtkPrintOperation *operation, 
+						GtkPrintContext *context, 
+						gint page_nr);
 
 #endif /* E_CONTACT_PRINT_H */

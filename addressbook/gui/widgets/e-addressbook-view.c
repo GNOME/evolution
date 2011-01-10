@@ -1597,11 +1597,12 @@ contact_print_button_draw_page (GtkPrintOperation *operation,
                                 EPrintable *printable)
 {
 	GtkPageSetup *setup;
-	gdouble top_margin;
+	gdouble top_margin, page_width;
 	cairo_t *cr;
 
 	setup = gtk_print_context_get_page_setup (context);
 	top_margin = gtk_page_setup_get_top_margin (setup, GTK_UNIT_POINTS);
+	page_width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
 
 	cr = gtk_print_context_get_cairo_context (context);
 
@@ -1609,8 +1610,9 @@ contact_print_button_draw_page (GtkPrintOperation *operation,
 
 	while (e_printable_data_left (printable)) {
 		cairo_save (cr);
+		contact_page_draw_footer(operation,context,page_nr++);
 		e_printable_print_page (
-			printable, context, 6.5 * 72, top_margin + 10, TRUE);
+			printable, context, page_width - 16, top_margin + 10, TRUE);
 		cairo_restore (cr);
 	}
 }

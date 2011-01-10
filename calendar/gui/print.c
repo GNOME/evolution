@@ -135,7 +135,7 @@ get_font_size (PangoFontDescription *font)
 #define DAY_VIEW_MIN_ROWS_IN_TOP_DISPLAY	2
 
 /* The row height for long events in the day view. */
-#define DAY_VIEW_ROW_HEIGHT		20
+#define DAY_VIEW_ROW_HEIGHT		14
 
 /* The minutes per row in the day view printout. */
 #define DAY_VIEW_MINS_PER_ROW		30
@@ -1103,8 +1103,8 @@ print_day_long_event (GtkPrintContext *context, PangoFontDescription *font,
 
 	x1 = left + 10;
 	x2 = right - 10;
-	y1 = top + event->start_row_or_col * row_height + 4;
-	y2 = y1 + row_height-7;
+	y1 = top + event->start_row_or_col * row_height + 1;
+	y2 = y1 + row_height - 1;
 	red = green = blue = 0.95;
 	e_cal_model_get_rgb_color_for_component (model, event->comp_data, &red, &green, &blue);
 	print_border_with_triangles (context, x1, x2, y1, y2, 0.5, red, green, blue,
@@ -1248,6 +1248,8 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 	double font_size, max_font_size;
 	cairo_t *cr;
 	GdkPixbuf *pixbuf = NULL;
+#define LONG_DAY_EVENTS_TOP_SPACING 4
+#define LONG_DAY_EVENTS_BOTTOM_SPACING 2
 
 	ECalModel *model = gnome_calendar_get_calendar_model (gcal);
 
@@ -1318,7 +1320,7 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 
 	for (i = 0; i < rows_in_top_display && i < pdi.long_events->len; i++) {
 		event = &g_array_index (pdi.long_events, EDayViewEvent, i);
-		print_day_long_event (context, font, left, right, top, bottom,
+		print_day_long_event (context, font, left, right, top + LONG_DAY_EVENTS_TOP_SPACING, bottom,
 				      DAY_VIEW_ROW_HEIGHT, event, &pdi, model);
 	}
 
@@ -1326,8 +1328,6 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 		/* too many events */
 		cairo_t *cr = gtk_print_context_get_cairo_context (context);
 		gint x, y;
-
-		rows_in_top_display++;
 
 		if (!pixbuf) {
 			const gchar **xpm = (const gchar **)jump_xpm;
@@ -1342,9 +1342,12 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 
 		/* Right align - 10 comes from print_day_long_event  too */
 		x = right - gdk_pixbuf_get_width (pixbuf) * 0.5 - 10;
-		/* Placing '...' at mid height. 4 and 7 constant come from print_day_long_event 
-		   (offsets used to place events boxes in their respective cells) */
-		y = top + DAY_VIEW_ROW_HEIGHT * i + (DAY_VIEW_ROW_HEIGHT - 4 - 7) * 0.5;
+		/* Placing '...' over the last all day event entry printed.
+		 * '-1 -1' comes from print_long_day_event (top / bottom
+		 * spacing in each cell). */
+		y = top + LONG_DAY_EVENTS_TOP_SPACING +
+			DAY_VIEW_ROW_HEIGHT * (i - 1) +
+			(DAY_VIEW_ROW_HEIGHT - 1 - 1) * 0.5;
 
 		cairo_save (cr);
 		cairo_scale (cr, 0.5, 0.5);
@@ -1361,11 +1364,12 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 
 	cairo_set_source_rgb (cr, 0, 0, 0);
 		print_border (context, left, right,
-		      top, top + rows_in_top_display * DAY_VIEW_ROW_HEIGHT - 4,
+		      top, 
+		      top + rows_in_top_display * DAY_VIEW_ROW_HEIGHT + LONG_DAY_EVENTS_TOP_SPACING + LONG_DAY_EVENTS_BOTTOM_SPACING,
 		      1.0, -1.0);
 
 	/* Adjust the area containing the main display. */
-	top += rows_in_top_display * DAY_VIEW_ROW_HEIGHT - 2;
+	top += rows_in_top_display * DAY_VIEW_ROW_HEIGHT + LONG_DAY_EVENTS_TOP_SPACING + LONG_DAY_EVENTS_BOTTOM_SPACING;
 
 	/* Draw the borders, lines, and times down the left. */
 	print_day_background (context, gcal, whence, &pdi,
@@ -1616,7 +1620,10 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 
 				if (end_day_of_week == 5 || end_day_of_week == 6) {
 					/* Sat or Sun */
-					y1 = y1 + (psi->rows_per_compressed_cell - psi->rows_per_cell) * psi->row_height - 3.0;
+					y1 = top + start_y * cell_height +
+						psi->header_row_height +
+						psi->rows_per_compressed_cell *
+						(psi->row_height + 2);
 				}
 			}
 
@@ -1839,7 +1846,7 @@ print_week_summary (GtkPrintContext *context, GnomeCalendar *gcal,
 	psi.rows_per_cell = ((cell_height * 2) - psi.header_row_height)
 		/ (psi.row_height + 2);
 	psi.rows_per_compressed_cell = (cell_height - psi.header_row_height)
-		/ psi.row_height;
+		/ (psi.row_height + 2);
 
 	font = get_font_for_size (font_size, PANGO_WEIGHT_NORMAL);
 	/* Draw the grid and the day names/numbers. */

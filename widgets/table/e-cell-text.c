@@ -609,7 +609,7 @@ build_layout (ECellTextView *text_view, gint row, const gchar *text, gint width)
 	}
 
 	pango_layout_set_width (layout, width * PANGO_SCALE);
-	pango_layout_set_wrap (layout, PANGO_WRAP_CHAR);
+	pango_layout_set_wrap (layout, PANGO_WRAP_WORD_CHAR);
 
 	pango_layout_set_ellipsize (layout, PANGO_ELLIPSIZE_END);
 	pango_layout_set_height (layout, 0);
@@ -1353,7 +1353,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 
 	cairo_save (cr);
 	layout = gtk_print_context_create_pango_layout (context);
-	font_des = pango_font_description_from_string ("sans 12"); /* fix me font hardcoded */
+	font_des = pango_font_description_from_string ("sans 10"); /* fix me font hardcoded */
 	pango_layout_set_font_description (layout, font_des);
 
 	pango_layout_set_text (layout, string, -1);
@@ -1410,6 +1410,7 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 
 	cairo_move_to(cr, 2, text_height- 5);
 	pango_layout_set_width (layout, (width - 4)*PANGO_SCALE);
+	pango_layout_set_wrap (layout, PANGO_WRAP_CHAR);
 	pango_cairo_show_layout(cr, layout);
 	cairo_restore (cr);
 
@@ -1430,7 +1431,31 @@ ect_print_height (ECellView *ecell_view, GtkPrintContext *context,
 	 * Height of some special font is much higher than others,
 	 * such	as Arabic. So leave some more margin for cell.
 `	 */
-	return 16 + 8;
+
+	PangoFontDescription *font_des;
+	PangoLayout *layout;
+	ECellText *ect = E_CELL_TEXT(ecell_view->ecell);
+	ECellTextView *ectView = (ECellTextView *)ecell_view;
+	gchar *string;
+	gdouble text_width = 0.0, text_height = 0.0;
+	gint lines=1;
+
+	string = e_cell_text_get_text (
+		ect, ecell_view->e_table_model, model_col, row);
+
+	layout = gtk_print_context_create_pango_layout (context);
+	font_des = pango_font_description_from_string ("sans 10");
+	pango_layout_set_font_description (layout, font_des);
+
+	pango_layout_set_text (layout, string, -1);
+	get_font_size (layout, font_des, string, &text_width, &text_height);
+
+	/* Checking if the text width goes beyond the column width
+	 * to increase the number of lines. */
+	if ( text_width > width - 4)
+		lines = (text_width / (width - 4)) + 1;
+
+	return 16 * lines + 8;
 }
 
 static gint

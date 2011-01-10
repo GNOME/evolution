@@ -1168,7 +1168,9 @@ e_table_group_container_print_page  (EPrintable *ep,
 				     ETGCPrintContext *groupcontext)
 {
 	cairo_t *cr;
-	gdouble yd = height;
+	GtkPageSetup *setup;
+	gdouble yd;
+	gdouble page_height, page_margin;
 	gdouble child_height;
 	ETableGroupContainerChildNode *child_node;
 	GList *child;
@@ -1179,8 +1181,13 @@ e_table_group_container_print_page  (EPrintable *ep,
 
 	child_printable = groupcontext->child_printable;
 	child = groupcontext->child;
-	yd = 6.5 * 72;
-	height = 5 * 72;
+	setup = gtk_print_context_get_page_setup (context);
+	page_height =
+		gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
+	page_margin =
+		gtk_page_setup_get_top_margin (setup, GTK_UNIT_POINTS) +
+		gtk_page_setup_get_bottom_margin (setup, GTK_UNIT_POINTS);
+	yd = page_height - page_margin;
 
 	if (child_printable) {
 		if (child)
@@ -1244,7 +1251,7 @@ e_table_group_container_print_page  (EPrintable *ep,
 		cairo_rectangle (cr, 0, 0, width - 2 * TEXT_AREA_HEIGHT,child_height);
 		cairo_clip(cr);
 
-		e_printable_print_page (child_printable, context, width-2 * TEXT_AREA_HEIGHT, 0, quantize);
+		e_printable_print_page (child_printable, context, width-2 * TEXT_AREA_HEIGHT, height , quantize);
 		yd += child_height + TEXT_AREA_HEIGHT;
 
 		if (e_printable_data_left(child_printable))

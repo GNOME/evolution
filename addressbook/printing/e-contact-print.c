@@ -121,6 +121,7 @@ e_contact_output (GtkPrintContext *context,
 	pango_layout_set_text (layout, text, -1);
 	pango_layout_set_width (layout, pango_units_from_double (width));
 	pango_layout_set_indent (layout, pango_units_from_double (indent));
+	pango_layout_set_wrap (layout, PANGO_WRAP_WORD_CHAR);
 
 	cr = gtk_print_context_get_cairo_context (context);
 
@@ -223,11 +224,77 @@ e_contact_start_new_page (EContactPrintContext *ctxt)
 }
 
 static void
+e_contact_start_new_column (EContactPrintContext *ctxt)
+{
+	if (++ctxt->column >= ctxt->style->num_columns)
+		e_contact_start_new_page (ctxt);
+	else {
+		ctxt->x = ctxt->column *
+			(ctxt->column_width + ctxt->column_spacing);
+		ctxt->y = .0;
+	}
+}
+
+static gdouble
+e_contact_get_contact_height (EContact *contact, EContactPrintContext *ctxt)
+{
+	GtkPageSetup *setup;
+	gchar *file_as;
+	gdouble page_height;
+	gint field;
+	gdouble cntct_height = 0.0;
+
+	setup = gtk_print_context_get_page_setup (ctxt->context);
+	page_height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
+
+	cntct_height += get_font_height (ctxt->style->headings_font) * .2;
+
+	file_as = e_contact_get (contact, E_CONTACT_FILE_AS);
+
+	cntct_height += e_contact_text_height (
+		ctxt->context, ctxt->style->headings_font, file_as);
+
+	g_free (file_as);
+
+	cntct_height += get_font_height (ctxt->style->headings_font) * .2;
+
+	for (field = E_CONTACT_FILE_AS; field != E_CONTACT_LAST_SIMPLE_STRING; field++)
+	{
+		const gchar *value;
+		gchar *text;
+
+		value = e_contact_get_const (contact, field);
+		if (value == NULL || *value == '\0')
+			continue;
+
+		text = g_strdup_printf ("%s:  %s",
+			e_contact_pretty_name (field), value);
+
+		cntct_height += e_contact_text_height (
+			ctxt->context, ctxt->style->body_font, text);
+
+		cntct_height += .2 * get_font_height (ctxt->style->body_font);
+
+		g_free (text);
+	}
+
+	cntct_height += get_font_height (ctxt->style->headings_font) * .4 + 8;
+
+	return cntct_height;
+}
+
+
+static void
 e_contact_print_contact (EContact *contact, EContactPrintContext *ctxt)
 {
+	GtkPageSetup *setup;
 	gchar *file_as;
 	cairo_t *cr;
+	gdouble page_height;
 	gint field;
+
+	setup = gtk_print_context_get_page_setup (ctxt->context);
+	page_height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
 
 	cr = gtk_print_context_get_cairo_context (ctxt->context);
 	cairo_save(cr);
@@ -260,6 +327,10 @@ e_contact_print_contact (EContact *contact, EContactPrintContext *ctxt)
 	{
 		const gchar *value;
 		gchar *text;
+		gint wrapped_lines=0;
+
+		if (ctxt->y > page_height)
+			e_contact_start_new_column (ctxt);
 
 		value = e_contact_get_const (contact, field);
 		if (value == NULL || *value == '\0')
@@ -271,10 +342,12 @@ e_contact_print_contact (EContact *contact, EContactPrintContext *ctxt)
 		if (ctxt->pages == ctxt->page_nr)
 			e_contact_output (
 				ctxt->context, ctxt->style->body_font,
-				ctxt->x, ctxt->y, -1, text);
+				ctxt->x, ctxt->y, ctxt->column_width + 4, text);
 
-		ctxt->y += e_contact_text_height (
-			ctxt->context, ctxt->style->body_font, text);
+		if ( get_font_width (ctxt->context, ctxt->style->body_font, text) > ctxt->column_width)
+			wrapped_lines =  ( get_font_width (ctxt->context, ctxt->style->body_font, text) / (ctxt->column_width+4)) + 1;
+		ctxt->y = ctxt->y + ((wrapped_lines+1) *e_contact_text_height (
+			ctxt->context, ctxt->style->body_font, text));
 
 		ctxt->y += .2 * get_font_height (ctxt->style->body_font);
 
@@ -286,17 +359,7 @@ e_contact_print_contact (EContact *contact, EContactPrintContext *ctxt)
 	cairo_restore (cr);
 }
 
-static void
-e_contact_start_new_column (EContactPrintContext *ctxt)
-{
-	if (++ctxt->column >= ctxt->style->num_columns)
-		e_contact_start_new_page (ctxt);
-	else {
-		ctxt->x = ctxt->column *
-			(ctxt->column_width + ctxt->column_spacing);
-		ctxt->y = .0;
-	}
-}
+
 
 static gint
 contact_compare (EContact *contact1, EContact *contact2)
@@ -584,7 +647,7 @@ contact_draw (EContact *contact, EContactPrintContext *ctxt)
 		if (!ctxt->first_contact) {
 			if (ctxt->style->sections_start_new_page)
 				e_contact_start_new_page (ctxt);
-			else if (ctxt->y > page_height)
+			else if ((ctxt->y + e_contact_get_contact_height (contact, ctxt)) > page_height)
 				e_contact_start_new_column (ctxt);
 		}
 		if (ctxt->style->letter_headings)
@@ -592,7 +655,7 @@ contact_draw (EContact *contact, EContactPrintContext *ctxt)
 		ctxt->first_section = FALSE;
 	}
 
-	else if (!ctxt->first_contact && (ctxt->y > page_height)) {
+	else if (!ctxt->first_contact && (( ctxt->y + e_contact_get_contact_height (contact, ctxt)) > page_height)) {
 		e_contact_start_new_column (ctxt);
 		if (ctxt->style->letter_headings)
 			e_contact_print_letter_heading (ctxt, ctxt->section);
@@ -653,6 +716,55 @@ contact_begin_print (GtkPrintOperation *operation,
 	}
 }
 
+/* contact_page_draw_footer inserts the 
+ * page number at the end of each page 
+ * while printing*/
+void
+contact_page_draw_footer (GtkPrintOperation *operation,
+			  GtkPrintContext *context,
+			  gint page_nr)
+{
+	PangoFontDescription *desc;
+	PangoLayout *layout;
+	gdouble x, y, page_height, page_width, page_margin;
+	gint n_pages;
+	gchar *text;
+	cairo_t *cr;
+	GtkPageSetup *setup;
+	
+	/*Uncomment next if it is successful to get total number if pages in list view
+	 * g_object_get (operation, "n-pages", &n_pages, NULL)*/
+	text = g_strdup_printf (_("Page %d"), page_nr + 1);
+
+	setup = gtk_print_context_get_page_setup ( context);
+	page_height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
+	page_width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
+	page_margin = gtk_page_setup_get_bottom_margin (setup, GTK_UNIT_POINTS);
+
+	desc = pango_font_description_from_string ("Sans Regular 8");
+	layout = gtk_print_context_create_pango_layout (context);
+	pango_layout_set_alignment (layout, PANGO_ALIGN_CENTER);
+	pango_layout_set_font_description (layout, desc);
+	pango_layout_set_text (layout, text, -1);
+	pango_layout_set_width (layout, -1);
+
+	x = page_width/2.0 - page_margin;
+	y = page_height - page_margin/2.0;
+
+	cr = gtk_print_context_get_cairo_context (context);
+
+	cairo_save (cr);
+	cairo_set_source_rgb (cr, .0, .0, .0);
+	cairo_move_to (cr, x, y);
+	pango_cairo_show_layout (cr, layout);
+	cairo_restore (cr);
+
+	g_object_unref (layout);
+	pango_font_description_free (desc);
+
+	g_free (text);
+}
+
 static void
 contact_draw_page (GtkPrintOperation *operation,
                    GtkPrintContext *context,
@@ -670,6 +782,7 @@ contact_draw_page (GtkPrintOperation *operation,
 	ctxt->section = NULL;
 
 	g_list_foreach (ctxt->contact_list, (GFunc) contact_draw, ctxt);
+	contact_page_draw_footer (operation, context, page_nr);
 }
 
 static void
