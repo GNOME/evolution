@@ -5683,6 +5683,9 @@ e_day_view_start_editing_event (EDayView *day_view,
 	if (!event->canvas_item)
 		return;
 
+	/* Reset IM context. */
+	gtk_im_context_reset (E_TEXT (event->canvas_item)->im_context);
+
 	/* We must grab the focus before setting the initial text, since
 	   grabbing the focus will result in a call to
 	   e_day_view_on_editing_started(), which will reset the text to get
