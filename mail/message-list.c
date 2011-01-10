@@ -3512,6 +3512,8 @@ static gint
 on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, MessageList *list)
 {
 	CamelMessageInfo *info;
+	gboolean folder_is_trash;
+	const gchar *uid;
 	gint flag;
 	guint32 flags;
 
@@ -3527,10 +3529,16 @@ on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, Mess
 
 	flags = camel_message_info_flags(info);
 
+	folder_is_trash =
+		((list->folder->folder_flags & CAMEL_FOLDER_IS_TRASH) != 0);
+
 	/* If a message was marked as deleted and the user flags it as
-	   important, marks it as needing a reply, marks it as unread,
-	   then undelete the message. */
-	if (flags & CAMEL_MESSAGE_DELETED) {
+	 * important or unread in a non-Trash folder, then undelete the
+	 * message.  We avoid automatically undeleting messages while
+	 * viewing a Trash folder because it would cause the message to
+	 * suddenly disappear from the message list, which is confusing
+	 * and alarming to the user. */
+	if (!folder_is_trash && flags & CAMEL_MESSAGE_DELETED) {
 		if (col == COL_FLAGGED && !(flags & CAMEL_MESSAGE_FLAGGED))
 			flag |= CAMEL_MESSAGE_DELETED;
 
@@ -3538,7 +3546,8 @@ on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, Mess
 			flag |= CAMEL_MESSAGE_DELETED;
 	}
 
-	camel_folder_set_message_flags (list->folder, camel_message_info_uid (info), flag, ~flags);
+	uid = camel_message_info_uid (info);
+	camel_folder_set_message_flags (list->folder, uid, flag, ~flags);
 
 	if (flag == CAMEL_MESSAGE_SEEN && list->seen_id) {
 		g_source_remove (list->seen_id);
