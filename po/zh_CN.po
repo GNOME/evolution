@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_CN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-29 12:50+0530\n"
-"PO-Revision-Date: 2010-04-21 12:33+1000\n"
+"POT-Creation-Date: 2010-07-19 17:35+0530\n"
+"PO-Revision-Date: 2010-09-14 13:24+1000\n"
 "Last-Translator: Leah Liu <lliu@redhat.com>\n"
 "Language-Team: Wei Liu\n"
 "MIME-Version: 1.0\n"
@@ -401,7 +401,7 @@ msgstr "认证到 IMAP 服务器失败。"
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:16
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1752
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1754
 msgid "Failed to delete contact"
 msgstr "删除联系人失败"
 
@@ -1010,7 +1010,7 @@ msgid "Date/Time Format"
 msgstr "日期/时间格式"
 
 #: ../addressbook/gui/component/autocompletion-config.c:185
-#: ../mail/em-mailer-prefs.c:1456
+#: ../mail/em-mailer-prefs.c:1462
 msgid "Table column:"
 msgstr "表格列："
 
@@ -1105,7 +1105,9 @@ msgstr "搜索过滤器(_F)："
 msgid ""
 "Search filter is the type of object to be searched for. If this is not "
 "modified, the default search will be performed on the type \"person\"."
-msgstr "搜索过滤器是指执行搜索时要搜索的对象类型。如果没有修改过，默认搜索将会在“个人”类型中执行。"
+msgstr ""
+"搜索过滤器是指执行搜索时要搜索的对象类型。如果没有修改过，默认搜索将会在“个"
+"人”类型中执行。"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:28
 msgid "Supported Search Bases"
@@ -1390,7 +1392,7 @@ msgid "_Zip/Postal Code:"
 msgstr "邮政编码(_Z)："
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:85
-#: ../mail/em-mailer-prefs.c:473
+#: ../mail/em-mailer-prefs.c:479
 #: ../plugins/exchange-operations/exchange-delegates.c:951
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:697
 #: ../plugins/plugin-manager/plugin-manager.c:57
@@ -1410,7 +1412,7 @@ msgstr "姓名"
 #: ../addressbook/gui/widgets/e-minicard-view.c:544
 #: ../addressbook/gui/widgets/e-minicard.c:191
 #: ../widgets/menus/gal-define-views-model.c:178
-#: ../widgets/table/e-cell-text.c:1829 ../widgets/text/e-text.c:3674
+#: ../widgets/table/e-cell-text.c:1854 ../widgets/text/e-text.c:3674
 #: ../widgets/text/e-text.c:3675
 msgid "Editable"
 msgstr "可编辑"
@@ -1815,7 +1817,7 @@ msgid "Type"
 msgstr "类型"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:812
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1971
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1973
 msgid "Save as vCard..."
 msgstr "另存为 VCard..."
 
@@ -2378,7 +2380,7 @@ msgstr "不支持的协议"
 #: ../calendar/gui/e-cal-model-tasks.c:363
 #: ../calendar/gui/e-cal-model-tasks.c:633
 #: ../calendar/gui/e-calendar-table.c:243
-#: ../calendar/gui/e-calendar-table.c:666 ../calendar/gui/print.c:2591
+#: ../calendar/gui/e-calendar-table.c:666 ../calendar/gui/print.c:2598
 msgid "Canceled"
 msgstr "已取消"
 
@@ -2673,6 +2675,13 @@ msgstr "vCard (.vfg, .gcrd)"
 #: ../addressbook/importers/evolution-vcard-importer.c:549
 msgid "Evolution vCard Importer"
 msgstr "Evolution vCard 导入器"
+
+#. Uncomment next if it is successful to get total number if pages in list view
+#. * g_object_get (operation, "n-pages", &n_pages, NULL)
+#: ../addressbook/printing/e-contact-print.c:737
+#, c-format
+msgid "Page %d"
+msgstr "页 %d"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:643
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:678
@@ -3228,7 +3237,7 @@ msgstr "便签"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 #: ../calendar/gui/e-calendar-table.c:730 ../calendar/gui/e-tasks.c:1426
-#: ../calendar/gui/gnome-cal.c:1721 ../calendar/gui/print.c:2016
+#: ../calendar/gui/gnome-cal.c:1721 ../calendar/gui/print.c:2023
 #: ../calendar/gui/tasks-component.c:562 ../calendar/gui/tasks-component.c:884
 #: ../calendar/gui/tasks-control.c:524 ../calendar/gui/tasks-control.c:540
 #: ../calendar/importers/icalendar-importer.c:76
@@ -3832,7 +3841,7 @@ msgstr "删除约会或任务时是否要求确认。"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:97
 msgid "Whether to ask for confirmation when expunging appointments and tasks."
-msgstr "销毁约会和任务时是否要求确认。"
+msgstr "删除约会和任务时是否要求确认。"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:98
 msgid ""
@@ -3922,7 +3931,7 @@ msgstr "无效对象"
 
 #: ../calendar/gui/cal-search-bar.c:74
 msgid "Summary contains"
-msgstr "概要含有"
+msgstr "摘要包括"
 
 #: ../calendar/gui/cal-search-bar.c:75
 msgid "Description contains"
@@ -4211,12 +4220,12 @@ msgstr "再现"
 #: ../calendar/gui/tasktypes.xml.h:22
 #: ../plugins/save-calendar/csv-format.c:357
 msgid "Summary"
-msgstr "概要"
+msgstr "摘要"
 
 #: ../calendar/gui/caltypes.xml.h:18 ../calendar/gui/memotypes.xml.h:15
 #: ../calendar/gui/tasktypes.xml.h:23
 msgid "Summary Contains"
-msgstr "概要含有"
+msgstr "摘要包括"
 
 #: ../calendar/gui/caltypes.xml.h:19 ../calendar/gui/memotypes.xml.h:16
 #: ../calendar/gui/tasktypes.xml.h:25 ../mail/em-filter-i18n.h:10
@@ -4815,23 +4824,23 @@ msgstr "%s  您还没有进行修改，更新编辑器吗？"
 msgid "Validation error: %s"
 msgstr "校验错误：%s"
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:189 ../calendar/gui/print.c:2392
+#: ../calendar/gui/dialogs/comp-editor-util.c:189 ../calendar/gui/print.c:2399
 msgid " to "
 msgstr " 到 "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2396
+#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2403
 msgid " (Completed "
 msgstr " (完成 "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:195 ../calendar/gui/print.c:2398
+#: ../calendar/gui/dialogs/comp-editor-util.c:195 ../calendar/gui/print.c:2405
 msgid "Completed "
 msgstr "已完成 "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2403
+#: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2410
 msgid " (Due "
 msgstr " (预定 "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:202 ../calendar/gui/print.c:2405
+#: ../calendar/gui/dialogs/comp-editor-util.c:202 ../calendar/gui/print.c:2412
 msgid "Due "
 msgstr "预定 "
 
@@ -4874,7 +4883,7 @@ msgstr "便签 - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:625
 msgid "No Summary"
-msgstr "没有概要"
+msgstr "无摘要"
 
 #: ../calendar/gui/dialogs/comp-editor.c:767
 msgid "Keep original item?"
@@ -5336,7 +5345,7 @@ msgstr "事件描述"
 #: ../calendar/gui/dialogs/memo-page.glade.h:4
 #: ../calendar/gui/dialogs/task-page.glade.h:6
 msgid "Su_mmary:"
-msgstr "概要(_M)："
+msgstr "摘要(_M)："
 
 #: ../calendar/gui/dialogs/event-page.glade.h:14
 msgid "_Alarm"
@@ -5378,10 +5387,10 @@ msgid ""
 "for\n"
 "until"
 msgstr ""
-"为\n"
+"持续\n"
 "直到"
 
-#: ../calendar/gui/dialogs/memo-editor.c:111 ../calendar/gui/print.c:2512
+#: ../calendar/gui/dialogs/memo-editor.c:111 ../calendar/gui/print.c:2519
 msgid "Memo"
 msgstr "便签"
 
@@ -5636,7 +5645,7 @@ msgid ""
 "until\n"
 "forever"
 msgstr ""
-"为\n"
+"持续\n"
 "直到\n"
 "永远"
 
@@ -5896,7 +5905,7 @@ msgstr "网页："
 #: ../calendar/gui/e-itip-control.c:1154
 #: ../calendar/gui/e-itip-control.glade.h:9
 msgid "Summary:"
-msgstr "概要："
+msgstr "摘要："
 
 #: ../calendar/gui/e-cal-component-preview.c:231
 msgid "Due Date:"
@@ -5916,7 +5925,7 @@ msgstr "状态："
 #: ../calendar/gui/e-cal-model-tasks.c:629
 #: ../calendar/gui/e-cal-model-tasks.c:706
 #: ../calendar/gui/e-calendar-table.c:239
-#: ../calendar/gui/e-calendar-table.c:664 ../calendar/gui/print.c:2585
+#: ../calendar/gui/e-calendar-table.c:664 ../calendar/gui/print.c:2592
 msgid "In Progress"
 msgstr "进行中"
 
@@ -5928,7 +5937,7 @@ msgstr "进行中"
 #: ../calendar/gui/e-calendar-table.c:241
 #: ../calendar/gui/e-calendar-table.c:665 ../calendar/gui/e-itip-control.c:939
 #: ../calendar/gui/e-meeting-store.c:179 ../calendar/gui/e-meeting-store.c:202
-#: ../calendar/gui/print.c:2588 ../calendar/gui/tasktypes.xml.h:9
+#: ../calendar/gui/print.c:2595 ../calendar/gui/tasktypes.xml.h:9
 #: ../plugins/save-calendar/csv-format.c:361
 msgid "Completed"
 msgstr "已完成"
@@ -5937,7 +5946,7 @@ msgstr "已完成"
 #: ../calendar/gui/e-cal-model-tasks.c:357
 #: ../calendar/gui/e-cal-model-tasks.c:627
 #: ../calendar/gui/e-calendar-table.c:237
-#: ../calendar/gui/e-calendar-table.c:663 ../calendar/gui/print.c:2582
+#: ../calendar/gui/e-calendar-table.c:663 ../calendar/gui/print.c:2589
 #: ../calendar/gui/tasktypes.xml.h:18
 msgid "Not Started"
 msgstr "尚未开始"
@@ -6047,7 +6056,7 @@ msgstr "已分配"
 
 #: ../calendar/gui/e-calendar-table.c:340
 msgid "* No Summary *"
-msgstr "* 没有概要 *"
+msgstr "* 无摘要 *"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #: ../calendar/gui/e-calendar-table.c:376
@@ -6357,7 +6366,7 @@ msgid "Needs action"
 msgstr "需要动作"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2454 ../calendar/gui/print.c:2544
+#: ../calendar/gui/e-calendar-view.c:2454 ../calendar/gui/print.c:2551
 #, c-format
 msgid "Location: %s"
 msgstr "位置：%s"
@@ -6407,7 +6416,7 @@ msgstr "显示第二时区"
 #. order but don't change the specifiers or add
 #. anything.
 #: ../calendar/gui/e-day-view-top-item.c:840 ../calendar/gui/e-day-view.c:1576
-#: ../calendar/gui/e-week-view-main-item.c:359 ../calendar/gui/print.c:1709
+#: ../calendar/gui/e-week-view-main-item.c:359 ../calendar/gui/print.c:1716
 msgid "%A %d %B"
 msgstr "%B%d日%A"
 
@@ -7076,7 +7085,7 @@ msgstr "选择时区"
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: ../calendar/gui/e-week-view-main-item.c:376 ../calendar/gui/print.c:1690
+#: ../calendar/gui/e-week-view-main-item.c:376 ../calendar/gui/print.c:1697
 msgid "%d %B"
 msgstr "%-m月%-d日"
 
@@ -7533,49 +7542,49 @@ msgstr "五"
 msgid "Sa"
 msgstr "六"
 
-#: ../calendar/gui/print.c:2508
+#: ../calendar/gui/print.c:2515
 msgid "Appointment"
 msgstr "约会"
 
-#: ../calendar/gui/print.c:2510
+#: ../calendar/gui/print.c:2517
 msgid "Task"
 msgstr "任务"
 
-#: ../calendar/gui/print.c:2535
+#: ../calendar/gui/print.c:2542
 #, c-format
 msgid "Summary: %s"
-msgstr "概要：%s"
+msgstr "摘要：%s"
 
-#: ../calendar/gui/print.c:2558
+#: ../calendar/gui/print.c:2565
 msgid "Attendees: "
 msgstr "出席者："
 
-#: ../calendar/gui/print.c:2598
+#: ../calendar/gui/print.c:2605
 #, c-format
 msgid "Status: %s"
 msgstr "状态：%s"
 
-#: ../calendar/gui/print.c:2612
+#: ../calendar/gui/print.c:2619
 #, c-format
 msgid "Priority: %s"
 msgstr "优先级：%s"
 
-#: ../calendar/gui/print.c:2627
+#: ../calendar/gui/print.c:2634
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "完成率：%i"
 
-#: ../calendar/gui/print.c:2638
+#: ../calendar/gui/print.c:2645
 #, c-format
 msgid "URL: %s"
 msgstr "URL：%s"
 
-#: ../calendar/gui/print.c:2651
+#: ../calendar/gui/print.c:2658
 #, c-format
 msgid "Categories: %s"
 msgstr "类别：%s"
 
-#: ../calendar/gui/print.c:2662
+#: ../calendar/gui/print.c:2669
 msgid "Contacts: "
 msgstr "联系人："
 
@@ -11459,7 +11468,7 @@ msgstr "密件抄送"
 
 #. pseudo-header
 #: ../mail/em-format-html.c:1753 ../mail/em-format-quote.c:352
-#: ../mail/em-mailer-prefs.c:1435
+#: ../mail/em-mailer-prefs.c:1441
 msgid "Mailer"
 msgstr "邮件程序"
 
@@ -11552,52 +11561,52 @@ msgstr "每周一次"
 msgid "Once per month"
 msgstr "每月一次"
 
-#: ../mail/em-mailer-prefs.c:332
+#: ../mail/em-mailer-prefs.c:338
 msgid "Add Custom Junk Header"
 msgstr "添加自定义垃圾信头"
 
-#: ../mail/em-mailer-prefs.c:336
+#: ../mail/em-mailer-prefs.c:342
 msgid "Header Name:"
 msgstr "信头名称："
 
-#: ../mail/em-mailer-prefs.c:337
+#: ../mail/em-mailer-prefs.c:343
 msgid "Header Value Contains:"
 msgstr "信头值含有："
 
-#: ../mail/em-mailer-prefs.c:438 ../widgets/table/e-table-click-to-add.c:500
+#: ../mail/em-mailer-prefs.c:444 ../widgets/table/e-table-click-to-add.c:500
 #: ../widgets/table/e-table-selection-model.c:309
 msgid "Header"
 msgstr "页眉"
 
-#: ../mail/em-mailer-prefs.c:442
+#: ../mail/em-mailer-prefs.c:448
 msgid "Contains Value"
 msgstr "包含值"
 
-#: ../mail/em-mailer-prefs.c:465
+#: ../mail/em-mailer-prefs.c:471
 msgid "Color"
 msgstr "颜色"
 
-#: ../mail/em-mailer-prefs.c:468
+#: ../mail/em-mailer-prefs.c:474
 msgid "Tag"
 msgstr "标签"
 
 #. May be a better text
-#: ../mail/em-mailer-prefs.c:1063 ../mail/em-mailer-prefs.c:1117
+#: ../mail/em-mailer-prefs.c:1069 ../mail/em-mailer-prefs.c:1123
 #, c-format
 msgid "%s plugin is available and the binary is installed."
 msgstr "%s 插件可用，二进制文件已经安装。"
 
 #. May be a better text
-#: ../mail/em-mailer-prefs.c:1071 ../mail/em-mailer-prefs.c:1126
+#: ../mail/em-mailer-prefs.c:1077 ../mail/em-mailer-prefs.c:1132
 #, c-format
 msgid "%s plugin is not available. Please check whether the package is installed."
 msgstr "%s 插件不可用。请检查软件包是否已安装。"
 
-#: ../mail/em-mailer-prefs.c:1092
+#: ../mail/em-mailer-prefs.c:1098
 msgid "No Junk plugin available"
 msgstr "没有可用的垃圾邮件插件"
 
-#: ../mail/em-mailer-prefs.c:1455
+#: ../mail/em-mailer-prefs.c:1461
 msgid "Date header:"
 msgstr "日期表头："
 
@@ -12039,7 +12048,9 @@ msgid ""
 "them display correctly file names with UTF-8 letters sent by Evolution, "
 "because they do not follow the RFC 2231, but use the incorrect RFC 2047 "
 "standard."
-msgstr "在邮件标头中的编码文件名与 Outlook 或者 GMail 类似，使其正确显示 Evolution 发送的使用 UTF-8 字母的文件名，因为它们不使用 RFC 2231，而是 RFC 2047 标准。"
+msgstr ""
+"在邮件标头中的编码文件名与 Outlook 或者 GMail 类似，使其正确显示 Evolution 发"
+"送的使用 UTF-8 字母的文件名，因为它们不使用 RFC 2231，而是 RFC 2047 标准。"
 
 #: ../mail/evolution-mail.schemas.in.h:60
 msgid "Height of the message-list pane"
@@ -12088,7 +12099,10 @@ msgid ""
 "particular value is not used by Evolution since the \"Send and Receive Mail"
 "\" window cannot be maximized. This key exists only as an implementation "
 "detail."
-msgstr "“发送和接收电子邮件”窗口的初始最大状态。当用户最大化或者最小化窗口时会更新该值。请注意：Evolution 不使用这个特殊值，因为无法最大化“发送和接收电子邮件”窗口。这个按键只是作为使用详情存在。"
+msgstr ""
+"“发送和接收电子邮件”窗口的初始最大状态。当用户最大化或者最小化窗口时会更新该"
+"值。请注意：Evolution 不使用这个特殊值，因为无法最大化“发送和接收电子邮件”窗"
+"口。这个按键只是作为使用详情存在。"
 
 #: ../mail/evolution-mail.schemas.in.h:68
 msgid ""
@@ -12501,7 +12515,9 @@ msgstr ""
 msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
-msgstr "此键只被读取一次并在读取后被重设为 \"false\"。它取消选中列表中的邮件并移除相应文件夹的预览。"
+msgstr ""
+"此键只被读取一次并在读取后被重设为 \"false\"。它取消选中列表中的邮件并移除相"
+"应文件夹的预览。"
 
 #: ../mail/evolution-mail.schemas.in.h:162
 msgid ""
@@ -12518,7 +12534,9 @@ msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
 "mail sent by known contacts from junk filtering."
-msgstr "这个选项与按键 lookup_addressbook 关联，并用来确定是否只在本地地址簿中查找地址，而排除垃圾过滤器中已知联系人发送的邮件。"
+msgstr ""
+"这个选项与按键 lookup_addressbook 关联，并用来确定是否只在本地地址簿中查找地"
+"址，而排除垃圾过滤器中已知联系人发送的邮件。"
 
 #: ../mail/evolution-mail.schemas.in.h:164
 msgid "This option would help in improving the speed of fetching."
@@ -14525,23 +14543,23 @@ msgid "%b %d %Y"
 msgstr "%Y年%m月%d日"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:3987 ../mail/message-list.c:4462
+#: ../mail/message-list.c:3996 ../mail/message-list.c:4471
 msgid "Generating message list"
 msgstr "生成消息列表"
 
-#: ../mail/message-list.c:4299
+#: ../mail/message-list.c:4308
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
 msgstr "没有满足您标准的信息。请使用 -> 清除菜单项目或者更改它清除搜索。"
 
-#: ../mail/message-list.c:4301
+#: ../mail/message-list.c:4310
 msgid ""
 "There are only hidden messages in this folder. Use View->Show Hidden "
 "Messages to show them."
 msgstr "这个文件夹中只有隐藏信息。请使用查看 -> 显示隐藏信息显示它们。"
 
-#: ../mail/message-list.c:4303
+#: ../mail/message-list.c:4312
 msgid "There are no messages in this folder."
 msgstr "此文件夹中没有消息。"
 
@@ -14732,7 +14750,9 @@ msgid ""
 "You can restore Evolution from your backup. It can restore all the Mails, "
 "Calendars, Tasks, Memos, Contacts. It also restores all your personal "
 "settings, mail filters etc."
-msgstr "您可以从备份中恢复 Evolution。它能够恢复所有邮件、日历、任务、便签和联系人。它还能恢复您的所有的个人设置和邮件过滤器等。"
+msgstr ""
+"您可以从备份中恢复 Evolution。它能够恢复所有邮件、日历、任务、便签和联系人。"
+"它还能恢复您的所有的个人设置和邮件过滤器等。"
 
 #: ../plugins/backup-restore/backup-restore.c:301
 msgid "_Restore Evolution from the backup file"
@@ -15281,7 +15301,9 @@ msgid ""
 "The key specifies the list of custom headers that you can add to an outgoing "
 "message. The format for specifying a Header and Header value is: Name of the "
 "custom header followed by \"=\" and the values separated by \";\""
-msgstr "该键指定您可在外发消息中添加的自定义标头列表。指定标头和标头值的格式为：自定义标头名称后跟随 \"=\" 和用 \";\" 分开的值。"
+msgstr ""
+"该键指定您可在外发消息中添加的自定义标头列表。指定标头和标头值的格式为：自定"
+"义标头名称后跟随 \"=\" 和用 \";\" 分开的值。"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
 msgid "Open Other User's Folder"
@@ -16299,7 +16321,8 @@ msgid ""
 msgstr ""
 "在发出的邮件中附上您的小头像图片。\n"
 "\n"
-"第一次使用时用户需要配置一个 48x48 的 PNG 图象。它以 base64 编码并保存在 ~/.evolution/faces 中。它将会被用于今后发出的邮件中。"
+"第一次使用时用户需要配置一个 48x48 的 PNG 图象。它以 base64 编码并保存在 ~/."
+"evolution/faces 中。它将会被用于今后发出的邮件中。"
 
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:53
 #, c-format
@@ -17766,7 +17789,7 @@ msgstr[0] "选择的便签列表中已包含给出邮件中的一个便签。您
 
 #: ../plugins/mail-to-task/mail-to-task.c:494
 msgid "[No Summary]"
-msgstr "[没有概要]"
+msgstr "[无摘要]"
 
 #: ../plugins/mail-to-task/mail-to-task.c:505
 msgid "Invalid object returned from a server"
@@ -18749,7 +18772,10 @@ msgid ""
 "username is retrieved from the \"/apps/evolution/shell/network_config/"
 "authentication_user\" GConf key, and the password is retrieved from either "
 "gnome-keyring or the ~/.gnome2_private/Evolution password file."
-msgstr "如果是这样，那么到代理服务器的连接需要认证。用户名在 \"/apps/evolution/shell/network_config/authentication_user\" GConf 密钥中搜索，密码可在 gnome 密钥环或者 ~/.gnome2_private/Evolution 密码文件中搜索。"
+msgstr ""
+"如果是这样，那么到代理服务器的连接需要认证。用户名在 \"/apps/evolution/shell/"
+"network_config/authentication_user\" GConf 密钥中搜索，密码可在 gnome 密钥环"
+"或者 ~/.gnome2_private/Evolution 密码文件中搜索。"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:15
 msgid "Initial attachment view"
@@ -18811,7 +18837,10 @@ msgid ""
 "representing \"use system settings\", \"no proxy\", \"use manual proxy "
 "configuration\" and \"use proxy configuration provided in the autoconfig url"
 "\" respectively."
-msgstr "选择代理服务器配置模式。支持的值有 0、1、2 和 3，分别代表“使用系统设置”、“无代理服务器”、“使用手动代理服务器配置”和“使用 autoconfig url 中提供的代理服务器配置”。"
+msgstr ""
+"选择代理服务器配置模式。支持的值有 0、1、2 和 3，分别代表“使用系统设置”、“无"
+"代理服务器”、“使用手动代理服务器配置”和“使用 autoconfig url 中提供的代理服务"
+"器配置”。"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:29
 msgid "Sidebar is visible"
@@ -18869,19 +18898,25 @@ msgstr "使用代理服务器 socks HTTP 连接的机器名称。"
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "http_host\" that you proxy through."
-msgstr "使用的代理服务器 \"/apps/evolution/shell/network_config/http_host\" 定义的机器中的端口。"
+msgstr ""
+"使用的代理服务器 \"/apps/evolution/shell/network_config/http_host\" 定义的机"
+"器中的端口。"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:42
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "secure_host\" that you proxy through."
-msgstr "使用的代理服务器 \"/apps/evolution/shell/network_config/secure_host\" 定义的机器中的端口。"
+msgstr ""
+"使用的代理服务器 \"/apps/evolution/shell/network_config/secure_host\" 定义的"
+"机器中的端口。"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:43
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "socks_host\" that you proxy through."
-msgstr "使用的代理服务器 \"/apps/evolution/shell/network_config/socks_host\" 定义的机器中的端口。"
+msgstr ""
+"使用的代理服务器 \"/apps/evolution/shell/network_config/socks_host\" 定义的机"
+"器中的端口。"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:44
 msgid ""
@@ -18898,7 +18933,10 @@ msgid ""
 "than via the proxy (if it is active). The values can be hostnames, domains "
 "(using an initial wildcard like *.foo.com), IP host addresses (both IPv4 and "
 "IPv6) and network addresses with a netmask (something like 192.168.0.0/24)."
-msgstr "这个键包含直接连接而不是通过代理服务器（如果它是活跃的）连接的主机列表。该值可以是主机名、域（使用通配符开头，例如 *.foo.com）、IP 主机地址（IPv4 和 IPv6 都可以）以及含有子网掩码的网络地址（比如 192.168.0.0/24）。"
+msgstr ""
+"这个键包含直接连接而不是通过代理服务器（如果它是活跃的）连接的主机列表。该值"
+"可以是主机名、域（使用通配符开头，例如 *.foo.com）、IP 主机地址（IPv4 和 "
+"IPv6 都可以）以及含有子网掩码的网络地址（比如 192.168.0.0/24）。"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:46
 msgid "Toolbar is visible"
@@ -19322,8 +19360,9 @@ msgid ""
 msgstr ""
 "先前版本的 Evolution 将其数据存储在不同的位置。\n"
 "\n"
-"如果您选择删除此数据，&quot;evolution&quot; 目录中的全部内容都将被永久删除。如果您选择保"
-"留此数据，那么您可以适当的时候手动删除 &quot;evolution&quot; 内容。\n"
+"如果您选择删除此数据，&quot;evolution&quot; 目录中的全部内容都将被永久删除。"
+"如果您选择保留此数据，那么您可以适当的时候手动删除 &quot;evolution&quot; 内"
+"容。\n"
 
 #: ../shell/shell.error.xml.h:20
 msgid "Upgrade from previous version failed: {0}"
@@ -22039,23 +22078,23 @@ msgstr "聚焦列"
 msgid "Unselected Column"
 msgstr "未选列"
 
-#: ../widgets/table/e-cell-text.c:1801
+#: ../widgets/table/e-cell-text.c:1826
 msgid "Strikeout Column"
 msgstr "给列加删除线"
 
-#: ../widgets/table/e-cell-text.c:1808
+#: ../widgets/table/e-cell-text.c:1833
 msgid "Underline Column"
 msgstr "给列加下划线"
 
-#: ../widgets/table/e-cell-text.c:1815
+#: ../widgets/table/e-cell-text.c:1840
 msgid "Bold Column"
 msgstr "给列加粗"
 
-#: ../widgets/table/e-cell-text.c:1822
+#: ../widgets/table/e-cell-text.c:1847
 msgid "Color Column"
 msgstr "给列着色"
 
-#: ../widgets/table/e-cell-text.c:1836
+#: ../widgets/table/e-cell-text.c:1861
 msgid "BG Color Column"
 msgstr "给列着背景色"
 

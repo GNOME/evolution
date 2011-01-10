@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bn_IN\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-29 12:50+0530\n"
-"PO-Revision-Date: 2010-04-17 17:02+0530\n"
+"POT-Creation-Date: 2010-07-19 17:35+0530\n"
+"PO-Revision-Date: 2010-07-21 15:33+0530\n"
 "Last-Translator: Runa Bhattacharjee <runab@redhat.com>\n"
 "Language-Team: Bengali INDIA <anubad@lists.ankur.org.in>\n"
 "MIME-Version: 1.0\n"
@@ -419,7 +419,7 @@ msgstr "LDAP সার্ভারে পরিচয়-প্রমাণ কর�
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:16
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1752
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1754
 msgid "Failed to delete contact"
 msgstr "নির্বাচিত পরিচিতি মুছে ফেলতে ব্যর্থ"
 
@@ -1055,7 +1055,7 @@ msgid "Date/Time Format"
 msgstr "তারিখ/সময়ের বিন্যাস"
 
 #: ../addressbook/gui/component/autocompletion-config.c:185
-#: ../mail/em-mailer-prefs.c:1456
+#: ../mail/em-mailer-prefs.c:1462
 msgid "Table column:"
 msgstr "টেবিলের কলাম:"
 
@@ -1447,7 +1447,7 @@ msgid "_Zip/Postal Code:"
 msgstr "জিপ/পোস্টাল কোড(_Z):"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:85
-#: ../mail/em-mailer-prefs.c:473
+#: ../mail/em-mailer-prefs.c:479
 #: ../plugins/exchange-operations/exchange-delegates.c:951
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:697
 #: ../plugins/plugin-manager/plugin-manager.c:57
@@ -1467,7 +1467,7 @@ msgstr "নাম"
 #: ../addressbook/gui/widgets/e-minicard-view.c:544
 #: ../addressbook/gui/widgets/e-minicard.c:191
 #: ../widgets/menus/gal-define-views-model.c:178
-#: ../widgets/table/e-cell-text.c:1829 ../widgets/text/e-text.c:3674
+#: ../widgets/table/e-cell-text.c:1854 ../widgets/text/e-text.c:3674
 #: ../widgets/text/e-text.c:3675
 msgid "Editable"
 msgstr "সম্পাদনযোগ্য"
@@ -1888,7 +1888,7 @@ msgid "Type"
 msgstr "ধরন"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:812
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1971
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1973
 msgid "Save as vCard..."
 msgstr "vCard হিসাবে সংরক্ষণ করা হবে..."
 
@@ -2455,7 +2455,7 @@ msgstr "অসমর্থিত প্রোটোকল"
 #: ../calendar/gui/e-cal-model-tasks.c:363
 #: ../calendar/gui/e-cal-model-tasks.c:633
 #: ../calendar/gui/e-calendar-table.c:243
-#: ../calendar/gui/e-calendar-table.c:666 ../calendar/gui/print.c:2591
+#: ../calendar/gui/e-calendar-table.c:666 ../calendar/gui/print.c:2598
 msgid "Canceled"
 msgstr "বাতিল করা হয়েছে"
 
@@ -2763,6 +2763,13 @@ msgstr "vCard (.vcf, .gcrd)"
 #: ../addressbook/importers/evolution-vcard-importer.c:549
 msgid "Evolution vCard Importer"
 msgstr "Evolution vCard ইম্পোর্ট ব্যবস্থা"
+
+#. Uncomment next if it is successful to get total number if pages in list view
+#. * g_object_get (operation, "n-pages", &n_pages, NULL)
+#: ../addressbook/printing/e-contact-print.c:737
+#, c-format
+msgid "Page %d"
+msgstr "পৃষ্ঠা %d"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:643
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:678
@@ -3351,7 +3358,7 @@ msgstr "কর্মসূচী"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 #: ../calendar/gui/e-calendar-table.c:730 ../calendar/gui/e-tasks.c:1426
-#: ../calendar/gui/gnome-cal.c:1721 ../calendar/gui/print.c:2016
+#: ../calendar/gui/gnome-cal.c:1721 ../calendar/gui/print.c:2023
 #: ../calendar/gui/tasks-component.c:562 ../calendar/gui/tasks-component.c:884
 #: ../calendar/gui/tasks-control.c:524 ../calendar/gui/tasks-control.c:540
 #: ../calendar/importers/icalendar-importer.c:76
@@ -3776,8 +3783,8 @@ msgid ""
 "Position of the vertical pane, between the task list and the task preview "
 "pane, in pixels."
 msgstr ""
-"পিক্সেলের দ্বারা নির্ধারিত উলম্ব পেইনের অবস্থান,  কর্মতালিকা ও কর্ম পূর্বদৃশ্য "
-"ক্ষেত্রের মধ্যবর্তী অংশে।"
+"পিক্সেলের দ্বারা নির্ধারিত উলম্ব পেইনের অবস্থান,  কর্মতালিকা ও কর্ম পূর্বদৃশ্য ক্ষেত্রের "
+"মধ্যবর্তী অংশে।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:51
 msgid ""
@@ -4138,8 +4145,8 @@ msgid ""
 "amount of time. If you continue, you will not be able to recover these "
 "events."
 msgstr ""
-"এই কাজ সঞ্চালনার ফলে, নির্বাচিত সময়সীমার পূর্ববর্তী সমস্ত অনুষ্ঠানগুলিকে একেবারে মুছে দেবে। "
-"যদি আপনি এগিয়ে যান, আপনি এই অনুষ্ঠানগুলি পুনরুদ্ধার করতে পারবেন না।"
+"এই কাজ সঞ্চালনার ফলে, নির্বাচিত সময়সীমার পূর্ববর্তী সমস্ত অনুষ্ঠানগুলিকে একেবারে মুছে "
+"দেবে। যদি আপনি এগিয়ে যান, আপনি এই অনুষ্ঠানগুলি পুনরুদ্ধার করতে পারবেন না।"
 
 #: ../calendar/gui/calendar-commands.c:337
 msgid "Purge events older than"
@@ -4983,24 +4990,24 @@ msgstr "%s  আপনি কোনো পরিবর্তন সাধন ক�
 msgid "Validation error: %s"
 msgstr "বৈধতা সংক্রান্ত ত্রুটি: %s"
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:189 ../calendar/gui/print.c:2392
+#: ../calendar/gui/dialogs/comp-editor-util.c:189 ../calendar/gui/print.c:2399
 msgid " to "
 msgstr " প্রতি "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2396
+#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2403
 msgid " (Completed "
 msgstr " (সম্পন্ন "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:195 ../calendar/gui/print.c:2398
+#: ../calendar/gui/dialogs/comp-editor-util.c:195 ../calendar/gui/print.c:2405
 msgid "Completed "
 msgstr "সম্পন্ন"
 
 # FIXME
-#: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2403
+#: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2410
 msgid " (Due "
 msgstr " (পূর্বনির্ধারিত "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:202 ../calendar/gui/print.c:2405
+#: ../calendar/gui/dialogs/comp-editor-util.c:202 ../calendar/gui/print.c:2412
 msgid "Due "
 msgstr "পূর্বনির্ধারিত "
 
@@ -5556,7 +5563,7 @@ msgstr ""
 "প্রতি\n"
 "অবধি"
 
-#: ../calendar/gui/dialogs/memo-editor.c:111 ../calendar/gui/print.c:2512
+#: ../calendar/gui/dialogs/memo-editor.c:111 ../calendar/gui/print.c:2519
 msgid "Memo"
 msgstr "কর্মসূচী"
 
@@ -6097,7 +6104,7 @@ msgstr "অবস্থা:"
 #: ../calendar/gui/e-cal-model-tasks.c:629
 #: ../calendar/gui/e-cal-model-tasks.c:706
 #: ../calendar/gui/e-calendar-table.c:239
-#: ../calendar/gui/e-calendar-table.c:664 ../calendar/gui/print.c:2585
+#: ../calendar/gui/e-calendar-table.c:664 ../calendar/gui/print.c:2592
 msgid "In Progress"
 msgstr "চলছে"
 
@@ -6109,7 +6116,7 @@ msgstr "চলছে"
 #: ../calendar/gui/e-calendar-table.c:241
 #: ../calendar/gui/e-calendar-table.c:665 ../calendar/gui/e-itip-control.c:939
 #: ../calendar/gui/e-meeting-store.c:179 ../calendar/gui/e-meeting-store.c:202
-#: ../calendar/gui/print.c:2588 ../calendar/gui/tasktypes.xml.h:9
+#: ../calendar/gui/print.c:2595 ../calendar/gui/tasktypes.xml.h:9
 #: ../plugins/save-calendar/csv-format.c:361
 msgid "Completed"
 msgstr "সম্পন্ন"
@@ -6118,7 +6125,7 @@ msgstr "সম্পন্ন"
 #: ../calendar/gui/e-cal-model-tasks.c:357
 #: ../calendar/gui/e-cal-model-tasks.c:627
 #: ../calendar/gui/e-calendar-table.c:237
-#: ../calendar/gui/e-calendar-table.c:663 ../calendar/gui/print.c:2582
+#: ../calendar/gui/e-calendar-table.c:663 ../calendar/gui/print.c:2589
 #: ../calendar/gui/tasktypes.xml.h:18
 msgid "Not Started"
 msgstr "আরম্ভ হয়নি"
@@ -6539,7 +6546,7 @@ msgid "Needs action"
 msgstr "কর্ম প্রয়োজন"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2454 ../calendar/gui/print.c:2544
+#: ../calendar/gui/e-calendar-view.c:2454 ../calendar/gui/print.c:2551
 #, c-format
 msgid "Location: %s"
 msgstr "অবস্থান: %s"
@@ -6589,7 +6596,7 @@ msgstr "দ্বিতীয় সময়ের অঞ্চল প্রদর্
 #. order but don't change the specifiers or add
 #. anything.
 #: ../calendar/gui/e-day-view-top-item.c:840 ../calendar/gui/e-day-view.c:1576
-#: ../calendar/gui/e-week-view-main-item.c:359 ../calendar/gui/print.c:1709
+#: ../calendar/gui/e-week-view-main-item.c:359 ../calendar/gui/print.c:1716
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
@@ -7268,7 +7275,7 @@ msgstr "সময়ের অঞ্চল নির্বাচন করুন"
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: ../calendar/gui/e-week-view-main-item.c:376 ../calendar/gui/print.c:1690
+#: ../calendar/gui/e-week-view-main-item.c:376 ../calendar/gui/print.c:1697
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -7729,49 +7736,49 @@ msgstr "শুক্র"
 msgid "Sa"
 msgstr "শনি"
 
-#: ../calendar/gui/print.c:2508
+#: ../calendar/gui/print.c:2515
 msgid "Appointment"
 msgstr "সাক্ষাৎকার"
 
-#: ../calendar/gui/print.c:2510
+#: ../calendar/gui/print.c:2517
 msgid "Task"
 msgstr "কাজ"
 
-#: ../calendar/gui/print.c:2535
+#: ../calendar/gui/print.c:2542
 #, c-format
 msgid "Summary: %s"
 msgstr "সারাংশ: %s"
 
-#: ../calendar/gui/print.c:2558
+#: ../calendar/gui/print.c:2565
 msgid "Attendees: "
 msgstr "অংশগ্রহণকারী: "
 
-#: ../calendar/gui/print.c:2598
+#: ../calendar/gui/print.c:2605
 #, c-format
 msgid "Status: %s"
 msgstr "অবস্থা: %s"
 
-#: ../calendar/gui/print.c:2612
+#: ../calendar/gui/print.c:2619
 #, c-format
 msgid "Priority: %s"
 msgstr "প্রাধান্য: %s"
 
-#: ../calendar/gui/print.c:2627
+#: ../calendar/gui/print.c:2634
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "শতাংশ সম্পন্ন : %i"
 
-#: ../calendar/gui/print.c:2638
+#: ../calendar/gui/print.c:2645
 #, c-format
 msgid "URL: %s"
 msgstr "ইউ-আর-এল: %s"
 
-#: ../calendar/gui/print.c:2651
+#: ../calendar/gui/print.c:2658
 #, c-format
 msgid "Categories: %s"
 msgstr "শ্রেণীসমূহ: %s"
 
-#: ../calendar/gui/print.c:2662
+#: ../calendar/gui/print.c:2669
 msgid "Contacts: "
 msgstr "পরিচিতি: "
 
@@ -11714,7 +11721,7 @@ msgstr "অপ্রকাশিত অনুলিপি প্রাপক"
 
 #. pseudo-header
 #: ../mail/em-format-html.c:1753 ../mail/em-format-quote.c:352
-#: ../mail/em-mailer-prefs.c:1435
+#: ../mail/em-mailer-prefs.c:1441
 msgid "Mailer"
 msgstr "মেইলার"
 
@@ -11807,52 +11814,52 @@ msgstr "প্রতি সপ্তাহে একবার"
 msgid "Once per month"
 msgstr "প্রতি মাসে একবার"
 
-#: ../mail/em-mailer-prefs.c:332
+#: ../mail/em-mailer-prefs.c:338
 msgid "Add Custom Junk Header"
 msgstr "অবাঞ্ছিত বার্তার জন্য স্বনির্ধারিত হেডার"
 
-#: ../mail/em-mailer-prefs.c:336
+#: ../mail/em-mailer-prefs.c:342
 msgid "Header Name:"
 msgstr "হেডারের নাম:"
 
-#: ../mail/em-mailer-prefs.c:337
+#: ../mail/em-mailer-prefs.c:343
 msgid "Header Value Contains:"
 msgstr "হেডার মানের মধ্যে অন্তর্ভুক্ত হয়েছে:"
 
-#: ../mail/em-mailer-prefs.c:438 ../widgets/table/e-table-click-to-add.c:500
+#: ../mail/em-mailer-prefs.c:444 ../widgets/table/e-table-click-to-add.c:500
 #: ../widgets/table/e-table-selection-model.c:309
 msgid "Header"
 msgstr "হেডার"
 
-#: ../mail/em-mailer-prefs.c:442
+#: ../mail/em-mailer-prefs.c:448
 msgid "Contains Value"
 msgstr "অন্তর্ভুক্ত মান"
 
-#: ../mail/em-mailer-prefs.c:465
+#: ../mail/em-mailer-prefs.c:471
 msgid "Color"
 msgstr "রঙ"
 
-#: ../mail/em-mailer-prefs.c:468
+#: ../mail/em-mailer-prefs.c:474
 msgid "Tag"
 msgstr "ট্যাগ"
 
 #. May be a better text
-#: ../mail/em-mailer-prefs.c:1063 ../mail/em-mailer-prefs.c:1117
+#: ../mail/em-mailer-prefs.c:1069 ../mail/em-mailer-prefs.c:1123
 #, c-format
 msgid "%s plugin is available and the binary is installed."
 msgstr "%s প্লাগ-ইন উপলব্ধ ও বাইনারি ইনস্টল করা হয়েছে।"
 
 #. May be a better text
-#: ../mail/em-mailer-prefs.c:1071 ../mail/em-mailer-prefs.c:1126
+#: ../mail/em-mailer-prefs.c:1077 ../mail/em-mailer-prefs.c:1132
 #, c-format
 msgid "%s plugin is not available. Please check whether the package is installed."
 msgstr "%s প্লাগ-ইন উপলব্ধ নয়। অনুগ্রহ করে পরীক্ষা করুন প্যাকেজটি ইনস্টল করা হয়েছে কি না।"
 
-#: ../mail/em-mailer-prefs.c:1092
+#: ../mail/em-mailer-prefs.c:1098
 msgid "No Junk plugin available"
 msgstr "অবাঞ্ছিত বার্তা সংক্রান্ত প্লাগ-ইন উপস্থিত নয়"
 
-#: ../mail/em-mailer-prefs.c:1455
+#: ../mail/em-mailer-prefs.c:1461
 msgid "Date header:"
 msgstr "তারিখের শিরোনাম:"
 
@@ -12300,8 +12307,8 @@ msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
 msgstr ""
-"বার্তার পূর্বদৃশ্য ক্ষেত্রে, বার্তার তালিকায় ও ফোল্ডারের মধ্যে স্ক্রোল করার জন্য স্পেস-"
-"বার কি ব্যবহার করার জন্য এটি সক্রিয় করুন।"
+"বার্তার পূর্বদৃশ্য ক্ষেত্রে, বার্তার তালিকায় ও ফোল্ডারের মধ্যে স্ক্রোল করার জন্য স্পেস-বার "
+"কি ব্যবহার করার জন্য এটি সক্রিয় করুন।"
 
 #: ../mail/evolution-mail.schemas.in.h:56
 msgid "Enable to render message text part of limited size."
@@ -14947,11 +14954,11 @@ msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:3987 ../mail/message-list.c:4462
+#: ../mail/message-list.c:3996 ../mail/message-list.c:4471
 msgid "Generating message list"
 msgstr "বার্তার তালিকা প্রস্তুত করা হচ্ছে"
 
-#: ../mail/message-list.c:4299
+#: ../mail/message-list.c:4308
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -14959,7 +14966,7 @@ msgstr ""
 "অনুসন্ধানের মান অনুযায়ী কোনো বার্তা চিহ্নিত করা হয়নি। অনুসন্ধান->মুছে ফেলুন শীর্ষক মেনু "
 "থেকে এই অনুসন্ধান মুছে ফেলুন অথবা এটি পরিবর্তন করুন।"
 
-#: ../mail/message-list.c:4301
+#: ../mail/message-list.c:4310
 msgid ""
 "There are only hidden messages in this folder. Use View->Show Hidden "
 "Messages to show them."
@@ -14967,7 +14974,7 @@ msgstr ""
 "এই ফোল্ডারের মধ্যে শুধুমাত্র আড়াল করা বার্তা উপস্থিত রয়েছে। বার্তাগুলি প্রদর্শন করা জন্য "
 "প্রদর্শন->আড়াল করা বার্তা প্রদর্শন করুন শীর্ষক মেনু প্রয়োগ করুন।"
 
-#: ../mail/message-list.c:4303
+#: ../mail/message-list.c:4312
 msgid "There are no messages in this folder."
 msgstr "এই ফোল্ডারের মধ্যে কোনো বার্তা উপস্থিত নেই।"
 
@@ -22681,23 +22688,23 @@ msgstr "ফোকাস করা কলাম"
 msgid "Unselected Column"
 msgstr "অনির্বাচিত কলাম"
 
-#: ../widgets/table/e-cell-text.c:1801
+#: ../widgets/table/e-cell-text.c:1826
 msgid "Strikeout Column"
 msgstr "কলামে মধ্যরেখাঙ্কন করা হবে"
 
-#: ../widgets/table/e-cell-text.c:1808
+#: ../widgets/table/e-cell-text.c:1833
 msgid "Underline Column"
 msgstr "কলামে নিম্নরেখাঙ্কন করা হবে"
 
-#: ../widgets/table/e-cell-text.c:1815
+#: ../widgets/table/e-cell-text.c:1840
 msgid "Bold Column"
 msgstr "কলামকে উজ্জ্বল করা হবে"
 
-#: ../widgets/table/e-cell-text.c:1822
+#: ../widgets/table/e-cell-text.c:1847
 msgid "Color Column"
 msgstr "কলাম রঙীন করা হবে"
 
-#: ../widgets/table/e-cell-text.c:1836
+#: ../widgets/table/e-cell-text.c:1861
 msgid "BG Color Column"
 msgstr "কলামের পএভূমির রং"
 

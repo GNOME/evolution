@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-29 12:50+0530\n"
-"PO-Revision-Date: 2010-05-10 16:52+0530\n"
+"POT-Creation-Date: 2010-07-19 17:35+0530\n"
+"PO-Revision-Date: 2010-07-21 15:21+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <Translation-team-or@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -439,7 +439,7 @@ msgstr "LDAP ସେବକ ସହିତ ବୈଧିକରଣ କରିବା ସ
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:16
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1752
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1754
 msgid "Failed to delete contact"
 msgstr "ଖାତାକୁ ଅପସାରଣ କରିବା ସମୟରେ ତ୍ରୁଟି"
 
@@ -1056,7 +1056,7 @@ msgid "Date/Time Format"
 msgstr "ଦିନ/ତାରିଖ ଶୈଳୀ"
 
 #: ../addressbook/gui/component/autocompletion-config.c:185
-#: ../mail/em-mailer-prefs.c:1456
+#: ../mail/em-mailer-prefs.c:1462
 msgid "Table column:"
 msgstr "ସାରଣୀ ନମୁନା:"
 
@@ -1442,7 +1442,7 @@ msgid "_Zip/Postal Code:"
 msgstr "ଜିପ/ପୋଷ୍ଟାଲ କୋଡ (_Z):"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:85
-#: ../mail/em-mailer-prefs.c:473
+#: ../mail/em-mailer-prefs.c:479
 #: ../plugins/exchange-operations/exchange-delegates.c:951
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:697
 #: ../plugins/plugin-manager/plugin-manager.c:57
@@ -1462,7 +1462,7 @@ msgstr "ନାମ"
 #: ../addressbook/gui/widgets/e-minicard-view.c:544
 #: ../addressbook/gui/widgets/e-minicard.c:191
 #: ../widgets/menus/gal-define-views-model.c:178
-#: ../widgets/table/e-cell-text.c:1829 ../widgets/text/e-text.c:3674
+#: ../widgets/table/e-cell-text.c:1854 ../widgets/text/e-text.c:3674
 #: ../widgets/text/e-text.c:3675
 msgid "Editable"
 msgstr "ସମ୍ପାଦନ ଯୋଗ୍ଯ"
@@ -1878,7 +1878,7 @@ msgid "Type"
 msgstr "ପ୍ରକାର"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:812
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1971
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1973
 msgid "Save as vCard..."
 msgstr "vCard ଭାବରେ ସଂରକ୍ଷଣ କରନ୍ତୁ..."
 
@@ -2441,7 +2441,7 @@ msgstr "ପ୍ରୋଟୋକଲ ସମର୍ଥିତ ନୁହେଁ"
 #: ../calendar/gui/e-cal-model-tasks.c:363
 #: ../calendar/gui/e-cal-model-tasks.c:633
 #: ../calendar/gui/e-calendar-table.c:243
-#: ../calendar/gui/e-calendar-table.c:666 ../calendar/gui/print.c:2591
+#: ../calendar/gui/e-calendar-table.c:666 ../calendar/gui/print.c:2598
 msgid "Canceled"
 msgstr "ବାତିଲ କରାଗଲା"
 
@@ -2745,6 +2745,13 @@ msgstr "vCard (.vcf, .gcrd)"
 #: ../addressbook/importers/evolution-vcard-importer.c:549
 msgid "Evolution vCard Importer"
 msgstr "Evolution VCard ଆୟତକ"
+
+#. Uncomment next if it is successful to get total number if pages in list view
+#. * g_object_get (operation, "n-pages", &n_pages, NULL)
+#: ../addressbook/printing/e-contact-print.c:737
+#, c-format
+msgid "Page %d"
+msgstr "ପୃଷ୍ଠା %d"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:643
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:678
@@ -3322,7 +3329,7 @@ msgstr "Memos"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 #: ../calendar/gui/e-calendar-table.c:730 ../calendar/gui/e-tasks.c:1426
-#: ../calendar/gui/gnome-cal.c:1721 ../calendar/gui/print.c:2016
+#: ../calendar/gui/gnome-cal.c:1721 ../calendar/gui/print.c:2023
 #: ../calendar/gui/tasks-component.c:562 ../calendar/gui/tasks-component.c:884
 #: ../calendar/gui/tasks-control.c:524 ../calendar/gui/tasks-control.c:540
 #: ../calendar/importers/icalendar-importer.c:76
@@ -4933,23 +4940,23 @@ msgstr "%s  ଆପଣ କୌଣସି ପରିବର୍ତ୍ତନ କରି�
 msgid "Validation error: %s"
 msgstr "ବୈଧିକରଣ ତ୍ରୁଟି: %s"
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:189 ../calendar/gui/print.c:2392
+#: ../calendar/gui/dialogs/comp-editor-util.c:189 ../calendar/gui/print.c:2399
 msgid " to "
 msgstr "ଏଠାକୁ"
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2396
+#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2403
 msgid " (Completed "
 msgstr " (ସମାପ୍ତ"
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:195 ../calendar/gui/print.c:2398
+#: ../calendar/gui/dialogs/comp-editor-util.c:195 ../calendar/gui/print.c:2405
 msgid "Completed "
 msgstr "ସମାପ୍ତ"
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2403
+#: ../calendar/gui/dialogs/comp-editor-util.c:200 ../calendar/gui/print.c:2410
 msgid " (Due "
 msgstr " (Due "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:202 ../calendar/gui/print.c:2405
+#: ../calendar/gui/dialogs/comp-editor-util.c:202 ../calendar/gui/print.c:2412
 msgid "Due "
 msgstr "ବାକି"
 
@@ -5502,7 +5509,7 @@ msgstr ""
 "ପାଇଁ\n"
 "ଯେ ପର୍ଯ୍ଯନ୍ତ"
 
-#: ../calendar/gui/dialogs/memo-editor.c:111 ../calendar/gui/print.c:2512
+#: ../calendar/gui/dialogs/memo-editor.c:111 ../calendar/gui/print.c:2519
 msgid "Memo"
 msgstr "ସ୍ମାରକପତ୍ର"
 
@@ -6039,7 +6046,7 @@ msgstr "ଅବସ୍ଥିତି:"
 #: ../calendar/gui/e-cal-model-tasks.c:629
 #: ../calendar/gui/e-cal-model-tasks.c:706
 #: ../calendar/gui/e-calendar-table.c:239
-#: ../calendar/gui/e-calendar-table.c:664 ../calendar/gui/print.c:2585
+#: ../calendar/gui/e-calendar-table.c:664 ../calendar/gui/print.c:2592
 msgid "In Progress"
 msgstr "ପ୍ରଗତି ପଥରେ"
 
@@ -6051,7 +6058,7 @@ msgstr "ପ୍ରଗତି ପଥରେ"
 #: ../calendar/gui/e-calendar-table.c:241
 #: ../calendar/gui/e-calendar-table.c:665 ../calendar/gui/e-itip-control.c:939
 #: ../calendar/gui/e-meeting-store.c:179 ../calendar/gui/e-meeting-store.c:202
-#: ../calendar/gui/print.c:2588 ../calendar/gui/tasktypes.xml.h:9
+#: ../calendar/gui/print.c:2595 ../calendar/gui/tasktypes.xml.h:9
 #: ../plugins/save-calendar/csv-format.c:361
 msgid "Completed"
 msgstr "ସମାପ୍ତ"
@@ -6060,7 +6067,7 @@ msgstr "ସମାପ୍ତ"
 #: ../calendar/gui/e-cal-model-tasks.c:357
 #: ../calendar/gui/e-cal-model-tasks.c:627
 #: ../calendar/gui/e-calendar-table.c:237
-#: ../calendar/gui/e-calendar-table.c:663 ../calendar/gui/print.c:2582
+#: ../calendar/gui/e-calendar-table.c:663 ../calendar/gui/print.c:2589
 #: ../calendar/gui/tasktypes.xml.h:18
 msgid "Not Started"
 msgstr "ପ୍ରାରମ୍ଭ କରାଯାଇ ନାହିଁ"
@@ -6480,7 +6487,7 @@ msgid "Needs action"
 msgstr "କାର୍ଯ୍ଯ କରିବା ଆବଶ୍ୟକ"
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
-#: ../calendar/gui/e-calendar-view.c:2454 ../calendar/gui/print.c:2544
+#: ../calendar/gui/e-calendar-view.c:2454 ../calendar/gui/print.c:2551
 #, c-format
 msgid "Location: %s"
 msgstr "ଅବସ୍ଥାନ: %s"
@@ -6530,7 +6537,7 @@ msgstr "ଦ୍ୱିତିୟ ସମୟ ମଣ୍ଡଳ ଦର୍ଶାନ୍ତ
 #. order but don't change the specifiers or add
 #. anything.
 #: ../calendar/gui/e-day-view-top-item.c:840 ../calendar/gui/e-day-view.c:1576
-#: ../calendar/gui/e-week-view-main-item.c:359 ../calendar/gui/print.c:1709
+#: ../calendar/gui/e-week-view-main-item.c:359 ../calendar/gui/print.c:1716
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
@@ -7205,7 +7212,7 @@ msgstr "ସମୟ ମଣ୍ଡଳ ମନୋନୀତ କରନ୍ତୁ"
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: ../calendar/gui/e-week-view-main-item.c:376 ../calendar/gui/print.c:1690
+#: ../calendar/gui/e-week-view-main-item.c:376 ../calendar/gui/print.c:1697
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -7664,49 +7671,49 @@ msgstr "Fr"
 msgid "Sa"
 msgstr "Sa"
 
-#: ../calendar/gui/print.c:2508
+#: ../calendar/gui/print.c:2515
 msgid "Appointment"
 msgstr "ସାକ୍ଷାତକାର"
 
-#: ../calendar/gui/print.c:2510
+#: ../calendar/gui/print.c:2517
 msgid "Task"
 msgstr "ଟାସ୍କ"
 
-#: ../calendar/gui/print.c:2535
+#: ../calendar/gui/print.c:2542
 #, c-format
 msgid "Summary: %s"
 msgstr "ସାରାଂଶ: %s"
 
-#: ../calendar/gui/print.c:2558
+#: ../calendar/gui/print.c:2565
 msgid "Attendees: "
 msgstr "ଉପସ୍ଥିତ ବ୍ୟକ୍ତିଗଣ: "
 
-#: ../calendar/gui/print.c:2598
+#: ../calendar/gui/print.c:2605
 #, c-format
 msgid "Status: %s"
 msgstr "ଅବସ୍ଥିତି: %s"
 
-#: ../calendar/gui/print.c:2612
+#: ../calendar/gui/print.c:2619
 #, c-format
 msgid "Priority: %s"
 msgstr "ଅଗ୍ରାଧିକାର: %s"
 
-#: ../calendar/gui/print.c:2627
+#: ../calendar/gui/print.c:2634
 #, c-format
 msgid "Percent Complete: %i"
 msgstr "ଶତକଡା ସମ୍ପୂର୍ଣ୍ଣ: %i"
 
-#: ../calendar/gui/print.c:2638
+#: ../calendar/gui/print.c:2645
 #, c-format
 msgid "URL: %s"
 msgstr "URL: %s"
 
-#: ../calendar/gui/print.c:2651
+#: ../calendar/gui/print.c:2658
 #, c-format
 msgid "Categories: %s"
 msgstr "ବିଭାଗ: %s"
 
-#: ../calendar/gui/print.c:2662
+#: ../calendar/gui/print.c:2669
 msgid "Contacts: "
 msgstr "ଯୋଗାଯୋଗ: %s"
 
@@ -11637,7 +11644,7 @@ msgstr "Bcc"
 
 #. pseudo-header
 #: ../mail/em-format-html.c:1753 ../mail/em-format-quote.c:352
-#: ../mail/em-mailer-prefs.c:1435
+#: ../mail/em-mailer-prefs.c:1441
 msgid "Mailer"
 msgstr "ପ୍ରେରକ"
 
@@ -11730,52 +11737,52 @@ msgstr "ସପ୍ତାହକୁ ଥରେ"
 msgid "Once per month"
 msgstr "ମାସକୁ ଥରେ"
 
-#: ../mail/em-mailer-prefs.c:332
+#: ../mail/em-mailer-prefs.c:338
 msgid "Add Custom Junk Header"
 msgstr "ଇଚ୍ଛାରୂପଣ Junk ଶୀର୍ଷକକୁ ଯୋଡନ୍ତୁ"
 
-#: ../mail/em-mailer-prefs.c:336
+#: ../mail/em-mailer-prefs.c:342
 msgid "Header Name:"
 msgstr "ଶୀର୍ଷକ ନାମ:"
 
-#: ../mail/em-mailer-prefs.c:337
+#: ../mail/em-mailer-prefs.c:343
 msgid "Header Value Contains:"
 msgstr "ଶୀର୍ଷକ ମୂଲ୍ଯ ରହିଅଛି:"
 
-#: ../mail/em-mailer-prefs.c:438 ../widgets/table/e-table-click-to-add.c:500
+#: ../mail/em-mailer-prefs.c:444 ../widgets/table/e-table-click-to-add.c:500
 #: ../widgets/table/e-table-selection-model.c:309
 msgid "Header"
 msgstr "ଶୀର୍ଷକ"
 
-#: ../mail/em-mailer-prefs.c:442
+#: ../mail/em-mailer-prefs.c:448
 msgid "Contains Value"
 msgstr "ମୂଲ୍ୟ ଧାରଣ କରିଥାଏ"
 
-#: ../mail/em-mailer-prefs.c:465
+#: ../mail/em-mailer-prefs.c:471
 msgid "Color"
 msgstr "ରଙ୍ଗ"
 
-#: ../mail/em-mailer-prefs.c:468
+#: ../mail/em-mailer-prefs.c:474
 msgid "Tag"
 msgstr "ସୂଚକ"
 
 #. May be a better text
-#: ../mail/em-mailer-prefs.c:1063 ../mail/em-mailer-prefs.c:1117
+#: ../mail/em-mailer-prefs.c:1069 ../mail/em-mailer-prefs.c:1123
 #, c-format
 msgid "%s plugin is available and the binary is installed."
 msgstr "%s ପ୍ଲଗଇନ ଉପଲବ୍ଧ ଅଛି ଏବଂ ବାଇନାରୀ ସ୍ଥାପିତ ହୋଇଛି।"
 
 #. May be a better text
-#: ../mail/em-mailer-prefs.c:1071 ../mail/em-mailer-prefs.c:1126
+#: ../mail/em-mailer-prefs.c:1077 ../mail/em-mailer-prefs.c:1132
 #, c-format
 msgid "%s plugin is not available. Please check whether the package is installed."
 msgstr "%s ପ୍ଲଗଇନ ଉପଲବ୍ଧ ନାହିଁ। ଦୟାକରି ପ୍ୟାକେଜଟି ସ୍ଥାପିତ ହୋଇଛି କି ନାହିଁ ଯାଞ୍ଚକରନ୍ତୁ।"
 
-#: ../mail/em-mailer-prefs.c:1092
+#: ../mail/em-mailer-prefs.c:1098
 msgid "No Junk plugin available"
 msgstr "କୌଣସି ଜଙ୍କ ପ୍ଲଗଇନ ଉପଲବ୍ଧ ନାହିଁ"
 
-#: ../mail/em-mailer-prefs.c:1455
+#: ../mail/em-mailer-prefs.c:1461
 msgid "Date header:"
 msgstr "ତାରିଖ ଶୀର୍ଷକ:"
 
@@ -14806,11 +14813,11 @@ msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:3987 ../mail/message-list.c:4462
+#: ../mail/message-list.c:3996 ../mail/message-list.c:4471
 msgid "Generating message list"
 msgstr "ସନ୍ଦେଶ ତାଲିକା ପ୍ରସ୍ତୁତ କରୁଅଛି"
 
-#: ../mail/message-list.c:4299
+#: ../mail/message-list.c:4308
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -14818,7 +14825,7 @@ msgstr ""
 "କୌଣସି ସନ୍ଦେଶ ଆପଣଙ୍କର ସନ୍ଧାନ ପ୍ରକାରକୁ ସନ୍ତୁଷ୍ଟ କରିପାରିବ ନାହିଁ। ସନ୍ଧାନ->ତାଲିକା ବସ୍ତୁକୁ ସଫାକରନ୍ତୁ "
 "କିମ୍ବା ଏହାକୁ ପରିବର୍ତ୍ତନ କରନ୍ତୁ ସହାୟତାରେ ସଫାକରନ୍ତୁ।"
 
-#: ../mail/message-list.c:4301
+#: ../mail/message-list.c:4310
 msgid ""
 "There are only hidden messages in this folder. Use View->Show Hidden "
 "Messages to show them."
@@ -14826,7 +14833,7 @@ msgstr ""
 "ଏହି ଫୋଲଡରରେ କେବଳ ଲୁକ୍କଇତ ସନ୍ଦେଶଗୁଡ଼ିକ ଅଛି। ସେମାନଙ୍କୁ ଦର୍ଶାଇବା ପାଇଁ ଦୃଶ୍ୟ->ଲୁକ୍କାଇତ ସନ୍ଦେଶଗୁଡ଼ିକୁ "
 "ଦର୍ଶାନ୍ତୁ।"
 
-#: ../mail/message-list.c:4303
+#: ../mail/message-list.c:4312
 msgid "There are no messages in this folder."
 msgstr "ଏହି ଫୋଲଡରରେ କୌଣସି ସନ୍ଦେଶ ନାହିଁ।"
 
@@ -22459,23 +22466,23 @@ msgstr "କେନ୍ଦ୍ରୀଭୂତ ସ୍ତମ୍ଭ"
 msgid "Unselected Column"
 msgstr "ଅଚୟିତ ସ୍ତମ୍ଭ"
 
-#: ../widgets/table/e-cell-text.c:1801
+#: ../widgets/table/e-cell-text.c:1826
 msgid "Strikeout Column"
 msgstr "ସ୍ତମ୍ଭକୁ ଗାର ପକାଇ କାଟନ୍ତୁ"
 
-#: ../widgets/table/e-cell-text.c:1808
+#: ../widgets/table/e-cell-text.c:1833
 msgid "Underline Column"
 msgstr "ରେଖାଙ୍କିତ ସ୍ତମ୍ଭ"
 
-#: ../widgets/table/e-cell-text.c:1815
+#: ../widgets/table/e-cell-text.c:1840
 msgid "Bold Column"
 msgstr "ଗାଢ ସ୍ତମ୍ଭ"
 
-#: ../widgets/table/e-cell-text.c:1822
+#: ../widgets/table/e-cell-text.c:1847
 msgid "Color Column"
 msgstr "ରଙ୍ଗ ସ୍ତମ୍ଭ"
 
-#: ../widgets/table/e-cell-text.c:1836
+#: ../widgets/table/e-cell-text.c:1861
 msgid "BG Color Column"
 msgstr "BG ରଙ୍ଗ ସ୍ତମ୍ଭ"
 
