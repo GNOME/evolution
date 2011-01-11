@@ -202,7 +202,6 @@ mail_backend_poll_to_quit (EActivity *activity)
 static void
 mail_backend_ready_to_quit (EActivity *activity)
 {
-	mail_session_shutdown ();
 	emu_free_mail_cache ();
 
 	/* Do this last.  It may terminate the process. */
@@ -380,6 +379,15 @@ mail_backend_idle_cb (EShellBackend *shell_backend)
 }
 
 static void
+mail_backend_finalize (GObject *object)
+{
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		G_OBJECT_CLASS (parent_class)->finalize (object);
+
+	mail_session_shutdown ();
+}
+
+static void
 mail_backend_constructed (GObject *object)
 {
 	EShell *shell;
@@ -447,6 +455,7 @@ mail_backend_class_init (EMailBackendClass *class)
 	g_type_class_add_private (class, sizeof (EMailBackendPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = mail_backend_finalize;
 	object_class->constructed = mail_backend_constructed;
 
 	shell_backend_class = E_SHELL_BACKEND_CLASS (class);

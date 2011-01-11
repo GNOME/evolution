@@ -661,6 +661,7 @@ shell_finalize (GObject *object)
 	if (!unique_app_is_running (UNIQUE_APP (object)))
 		e_file_lock_destroy ();
 
+	g_list_foreach (priv->loaded_backends, (GFunc) g_object_unref, NULL);
 	g_list_free (priv->loaded_backends);
 
 	g_free (priv->geometry);
