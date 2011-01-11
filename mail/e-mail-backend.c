@@ -226,7 +226,6 @@ mail_backend_poll_to_quit (EActivity *activity)
 static void
 mail_backend_ready_to_quit (EActivity *activity)
 {
-	camel_shutdown ();
 	emu_free_mail_cache ();
 
 	/* Do this last.  It may terminate the process. */
@@ -429,6 +428,15 @@ mail_backend_dispose (GObject *object)
 }
 
 static void
+mail_backend_finalize (GObject *object)
+{
+	if (G_OBJECT_CLASS (e_mail_backend_parent_class)->finalize)
+		G_OBJECT_CLASS (e_mail_backend_parent_class)->finalize (object);
+
+	camel_shutdown ();
+}
+
+static void
 mail_backend_constructed (GObject *object)
 {
 	EMailBackendPrivate *priv;
@@ -515,6 +523,7 @@ e_mail_backend_class_init (EMailBackendClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->get_property = mail_backend_get_property;
 	object_class->dispose = mail_backend_dispose;
+	object_class->finalize = mail_backend_finalize;
 	object_class->constructed = mail_backend_constructed;
 
 	shell_backend_class = E_SHELL_BACKEND_CLASS (class);
