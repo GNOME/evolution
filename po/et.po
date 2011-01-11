@@ -2,12 +2,12 @@
 # Estonian translation of Evolution.
 #
 # Copyright (C) 2001–2006 Free Software Foundation, Inc.
-# Copyright (C) 2007–2010 The GNOME Project.
+# Copyright (C) 2007–2011 The GNOME Project.
 # This file is distributed under the same license as the evolution package.
 #
 # Ilmar Kerm <ikerm hot ee>, 2001.
 # Marek Sepp <marek sepp ttu ee>, 2001, 2002.
-# Ivar Smolin <okul linux ee>, 2002, 2003, 2005–2010.
+# Ivar Smolin <okul linux ee>, 2002, 2003, 2005–2011.
 # Kaarel Jõgi <kaarel gg ee>, 2002.
 # Priit Laes <plaes plaes org>, 2003–2007, 2009, 2010.
 # Mattias Põldaru <mahfiaz gmail com>, 2009–2010.
@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2011-01-09 19:49+0000\n"
-"PO-Revision-Date: 2011-01-10 13:10+0200\n"
+"PO-Revision-Date: 2011-01-11 13:52+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -9927,7 +9927,7 @@ msgstr "Eelvaatluspaani kuvamine"
 msgid ""
 "The UID of the selected (or \"primary\") address book in the sidebar of the "
 "\"Contacts\" view."
-msgstr ""
+msgstr "Kontaktivaate külgribal valitud (ehk \"peamise\") aadressiraamatu UID."
 
 msgid ""
 "The layout style determines where to place the preview pane in relation to "
@@ -10327,6 +10327,8 @@ msgstr "_Meeldetuletusi näidatakse"
 
 msgid "Show r_ecurring events in italic in bottom left calendar"
 msgstr ""
+"_Korduvaid sündmusi näidatakse kalendri alumises vasakus nurgas "
+"kursiivkirjas."
 
 msgid "Show week _numbers"
 msgstr "_Nädalanumbrite näitamine"
@@ -10639,6 +10641,8 @@ msgstr "Kategooriavälja näitamine sündmuste/ülesannete/koosolekute redaktori
 
 msgid "Show days with recurrent events in italic font in bottom left calendar."
 msgstr ""
+"Korduvate sündmustega päevade näitamine kalendri alumises "
+"vasakus nurgas kursiivkirjas."
 
 msgid "Show display alarms in notification tray"
 msgstr "Alarmide kuvamine teatealal"
@@ -10684,17 +10688,17 @@ msgstr "Tänase tähtajaga ülesannete värvus"
 msgid ""
 "The UID of the selected (or \"primary\") calendar in the sidebar of the "
 "\"Calendar\" view."
-msgstr ""
+msgstr "Kalendrivaate külgribal valitud (ehk \"peamise\") kalendri UID."
 
 msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view."
-msgstr ""
+msgstr "Märkmevaate külgribal valitud (ehk \"peamise\") märkmiku UID."
 
 msgid ""
 "The UID of the selected (or \"primary\") task list in the sidebar of the "
 "\"Tasks\" view."
-msgstr ""
+msgstr "Ülesandevaate külgribal valitud (ehk \"peamise\") ülesandeloendi UID."
 
 #, no-c-format
 msgid ""
@@ -11811,7 +11815,7 @@ msgid "Do you want to make Evolution your default email client?"
 msgstr "Kas soovid Evolutioni määrata vaikimisi e-posti kliendiks?"
 
 msgid "Click 'Work Online' to return to online mode."
-msgstr ""
+msgstr "Võrku ühendumiseks klõpsa \"Ühendu võrku\"."
 
 msgid "Evolution is currently offline due to a network outage."
 msgstr "Evolution on praegu võrguvabas olekus, kuna võrk pole saadaval."
@@ -14689,7 +14693,7 @@ msgid "translator-credits"
 msgstr ""
 "Ilmar Kerm <ikerm hot ee>, 2001.\n"
 "Marek Sepp <marek sepp ttu ee>, 2001, 2002.\n"
-"Ivar Smolin <okul linux ee>, 2002, 2003, 2005–2010.\n"
+"Ivar Smolin <okul linux ee>, 2002, 2003, 2005–2011.\n"
 "Kaarel Jõgi <kaarel gg ee>, 2002.\n"
 "Priit Laes <plaes plaes org>, 2003–2007, 2009, 2010.\n"
 "Mattias Põldaru <mahfiaz gmail com>, 2009–2010."
@@ -16830,3 +16834,9 @@ msgstr "Sisestusmeetodid"
 
 #~ msgid "Thread messages by subject"
 #~ msgstr "Jutulõngade koostamine teema järgi"
+
+#~ msgid ""
+#~ "Show days with recurring events in italic font in bottom left calendar."
+#~ msgstr ""
+#~ "Korduvate sündmustega päevade näitamine kursiivkirjas, kalendri alumises "
+#~ "vasakus nurgas."
