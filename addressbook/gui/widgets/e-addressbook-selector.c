@@ -42,6 +42,7 @@ struct _MergeContext {
 	EContact *current_contact;
 	GList *remaining_contacts;
 	guint pending_removals;
+	gboolean pending_adds;
 
 	gint remove_from_source : 1;
 	gint copy_done          : 1;
@@ -62,6 +63,10 @@ static void
 merge_context_next (MergeContext *merge_context)
 {
 	GList *list;
+
+	merge_context->current_contact = NULL;
+	if (!merge_context->remaining_contacts)
+		return;
 
 	list = merge_context->remaining_contacts;
 	merge_context->current_contact = list->data;
@@ -104,7 +109,7 @@ addressbook_selector_removed_cb (EBook *book,
 {
 	merge_context->pending_removals--;
 
-	if (merge_context->remaining_contacts != NULL)
+	if (merge_context->pending_adds)
 		return;
 
 	if (merge_context->pending_removals > 0)
@@ -139,8 +144,10 @@ addressbook_selector_merge_next_cb (EBook *book,
 			(EBookIdAsyncCallback) addressbook_selector_merge_next_cb,
 			merge_context);
 
-	} else if (merge_context->pending_removals == 0)
+	} else if (merge_context->pending_removals == 0) {
 		merge_context_free (merge_context);
+	} else
+		merge_context->pending_adds = FALSE;
 }
 
 static void
@@ -275,6 +282,7 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 
 	merge_context = merge_context_new (source_book, target_book, list);
 	merge_context->remove_from_source = remove_from_source;
+	merge_context->pending_adds = TRUE;
 
 	eab_merging_book_add_contact (
 		target_book, merge_context->current_contact,
