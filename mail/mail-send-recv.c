@@ -384,7 +384,7 @@ get_receive_type (const gchar *url)
 
 	/* HACK: since mbox is ALSO used for native evolution trees now, we need to
 	   fudge this to treat it as a special 'movemail' source */
-	if (!strncmp(url, "maildir:", 5))
+	if (!strncmp(url, "maildir:", 8))
 		return SEND_RECEIVE;
 
 	provider = camel_provider_get (url, NULL);
