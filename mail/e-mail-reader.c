@@ -2606,6 +2606,12 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	formatter = e_mail_reader_get_formatter (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
+	if (!message_list) {
+		/* for cases where message fetching took so long that
+		   user closed the message window before this was called */
+		goto exit;
+	}
+
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
