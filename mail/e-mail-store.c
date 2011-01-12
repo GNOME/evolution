@@ -248,12 +248,6 @@ mail_store_load_accounts (EMailSession *session,
 		if (uri == NULL || *uri == '\0')
 			continue;
 
-		/* HACK: mbox URI's are handled by the local store setup
-		 *       above.  Any that come through as account sources
-		 *       are really movemail sources! */
-		if (g_str_has_prefix (uri, "maildir:"))
-			continue;
-
 		e_mail_store_add_by_uri (session, uri, display_name);
 	}
 

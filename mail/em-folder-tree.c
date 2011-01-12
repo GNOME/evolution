@@ -3279,7 +3279,7 @@ em_folder_tree_restore_state (EMFolderTree *folder_tree,
 		/* Do not expand local stores in Express mode. */
 		if (e_shell_get_express_mode (shell)) {
 			expand_row &= (strncmp (uri, "vfolder", 7) != 0);
-			expand_row &= (strncmp (uri, "maildir", 4) != 0);
+			expand_row &= (strncmp (uri, "maildir", 7) != 0);
 		}
 
 		if (expand_row) {
