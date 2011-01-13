@@ -399,7 +399,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	GtkWidget *alignment, *child_hbox, *arrow, *menuitem;
 	GtkWidget *child;
 	GtkAdjustment *adjustment;
-	GtkLayout *layout;
+	GtkScrollable *scrollable;
 	GSList *group;
 	guint accel_key;
 	time_t meeting_start_time;
@@ -508,13 +508,13 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	g_signal_connect (mts->display_main, "scroll-event",
 			  G_CALLBACK (e_meeting_time_selector_on_canvas_scroll_event), mts);
 
-	layout = GTK_LAYOUT (mts->display_main);
+	scrollable = GTK_SCROLLABLE (mts->display_main);
 
-	adjustment = gtk_layout_get_vadjustment (layout);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 	gtk_scrolled_window_set_vadjustment (
 		GTK_SCROLLED_WINDOW (sw), adjustment);
 
-	adjustment = gtk_layout_get_hadjustment (layout);
+	adjustment = gtk_scrollable_get_hadjustment (scrollable);
 	mts->hscrollbar = gtk_hscrollbar_new (adjustment);
 	gtk_adjustment_set_step_increment (adjustment, mts->day_width);
 	gtk_table_attach (
@@ -522,7 +522,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 		1, 4, 2, 3, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_widget_show (mts->hscrollbar);
 
-	adjustment = gtk_layout_get_vadjustment (layout);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 	mts->vscrollbar = gtk_vscrollbar_new (adjustment);
 	gtk_adjustment_set_step_increment (adjustment, mts->row_height);
 	gtk_table_attach (
@@ -842,12 +842,12 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	e_meeting_time_selector_alloc_named_color (mts, "orange4", &mts->busy_colors[E_MEETING_FREE_BUSY_OUT_OF_OFFICE]);
 
 	/* Connect handlers to the adjustments  scroll the other items. */
-	layout = GTK_LAYOUT (mts->display_main);
-	adjustment = gtk_layout_get_hadjustment (layout);
+	scrollable = GTK_SCROLLABLE (mts->display_main);
+	adjustment = gtk_scrollable_get_hadjustment (scrollable);
 	g_signal_connect (
 		adjustment, "value_changed",
 		G_CALLBACK (e_meeting_time_selector_hadjustment_changed), mts);
-	adjustment = gtk_layout_get_vadjustment (layout);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 	g_signal_connect (
 		adjustment, "value_changed",
 		G_CALLBACK (e_meeting_time_selector_vadjustment_changed), mts);
@@ -1182,10 +1182,10 @@ style_change_idle_func (EMeetingTimeSelector *mts)
 
 	widget = mts->display_main;
 
-	adjustment = gtk_layout_get_hadjustment (GTK_LAYOUT (widget));
+	adjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (widget));
 	gtk_adjustment_set_step_increment (adjustment, mts->day_width);
 
-	adjustment = gtk_layout_get_vadjustment (GTK_LAYOUT (widget));
+	adjustment = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (widget));
 	gtk_adjustment_set_step_increment (adjustment, mts->row_height);
 
 	g_object_unref (layout);
@@ -1256,11 +1256,11 @@ e_meeting_time_selector_hadjustment_changed (GtkAdjustment *adjustment,
 					     EMeetingTimeSelector *mts)
 {
 	GtkAdjustment *hadjustment;
-	GtkLayout *layout;
+	GtkScrollable *scrollable;
 	gdouble value;
 
-	layout = GTK_LAYOUT (mts->display_top);
-	hadjustment = gtk_layout_get_hadjustment (layout);
+	scrollable = GTK_SCROLLABLE (mts->display_top);
+	hadjustment = gtk_scrollable_get_hadjustment (scrollable);
 
 	value = gtk_adjustment_get_value (adjustment);
 	gtk_adjustment_set_value (hadjustment, value);

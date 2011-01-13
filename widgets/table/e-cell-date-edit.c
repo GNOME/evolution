@@ -648,7 +648,7 @@ e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas);
 	GtkRequisition popup_requisition;
 	GtkAdjustment *adjustment;
-	GtkLayout *layout;
+	GtkScrollable *scrollable;
 	GdkWindow *window;
 	gint avail_height, screen_width, column_width, row_height;
 	gdouble x1, y1, wx, wy;
@@ -677,8 +677,8 @@ e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
 	*x += x1;
 	/* The ETable positions don't include the grid lines, I think, so we
 	   add 1. */
-	layout = &GNOME_CANVAS (canvas)->layout;
-	adjustment = gtk_layout_get_vadjustment (layout);
+	scrollable = GTK_SCROLLABLE (&GNOME_CANVAS (canvas)->layout);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 	value = (gint) gtk_adjustment_get_value (adjustment);
 	*y += y1 + 1 - value + ((GnomeCanvas *)canvas)->zoom_yofs;
 

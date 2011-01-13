@@ -34,6 +34,9 @@
 #include "e-table-field-chooser.h"
 #include "e-table-field-chooser-item.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 static void e_table_field_chooser_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
 static void e_table_field_chooser_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static void e_table_field_chooser_dispose (GObject *object);
@@ -86,8 +89,8 @@ ensure_nonzero_step_increments (ETableFieldChooser *etfc)
 {
 	GtkAdjustment *va, *ha;
 
-	va = gtk_layout_get_vadjustment (GTK_LAYOUT (etfc->canvas));
-	ha = gtk_layout_get_hadjustment (GTK_LAYOUT (etfc->canvas));
+	va = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (etfc->canvas));
+	ha = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (etfc->canvas));
 
 	/*
 	  it looks pretty complicated to get height of column header

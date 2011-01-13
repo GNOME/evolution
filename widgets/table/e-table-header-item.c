@@ -506,10 +506,10 @@ ethi_add_drop_marker (ETableHeaderItem *ethi, gint col, gboolean recreate)
 	window = gtk_widget_get_window (GTK_WIDGET (canvas));
 	gdk_window_get_origin (window, &rx, &ry);
 
-	adjustment = gtk_layout_get_hadjustment (GTK_LAYOUT (canvas));
+	adjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (canvas));
 	rx -= gtk_adjustment_get_value (adjustment);
 
-	adjustment = gtk_layout_get_vadjustment (GTK_LAYOUT (canvas));
+	adjustment = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (canvas));
 	ry -= gtk_adjustment_get_value (adjustment);
 
 	gtk_window_move (
@@ -625,8 +625,8 @@ scroll_timeout (gpointer data)
 {
 	ETableHeaderItem *ethi = data;
 	gint dx = 0;
-	GtkLayout *layout;
 	GtkAdjustment *adjustment;
+	GtkScrollable *scrollable;
 	gdouble hadjustment_value;
 	gdouble vadjustment_value;
 	gdouble page_size;
@@ -639,17 +639,17 @@ scroll_timeout (gpointer data)
 	if (ethi->scroll_direction & ET_SCROLL_LEFT)
 		dx -= 20;
 
-	layout = GTK_LAYOUT (GNOME_CANVAS_ITEM (ethi)->canvas);
+	scrollable = GTK_SCROLLABLE (GNOME_CANVAS_ITEM (ethi)->canvas);
 
-	adjustment = gtk_layout_get_hadjustment (layout);
+	adjustment = gtk_scrollable_get_hadjustment (scrollable);
 	hadjustment_value = gtk_adjustment_get_value (adjustment);
 
-	adjustment = gtk_layout_get_vadjustment (layout);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 	vadjustment_value = gtk_adjustment_get_value (adjustment);
 
 	value = hadjustment_value;
 
-	adjustment = gtk_layout_get_hadjustment (layout);
+	adjustment = gtk_scrollable_get_hadjustment (scrollable);
 	page_size = gtk_adjustment_get_page_size (adjustment);
 	lower = gtk_adjustment_get_lower (adjustment);
 	upper = gtk_adjustment_get_upper (adjustment);
@@ -759,10 +759,10 @@ ethi_drag_motion (GtkWidget *widget,
 	ethi->last_drop_context = context;
 	context_connect (ethi, context);
 
-	adjustment = gtk_layout_get_hadjustment (GTK_LAYOUT (widget));
+	adjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (widget));
 	hadjustment_value = gtk_adjustment_get_value (adjustment);
 
-	adjustment = gtk_layout_get_vadjustment (GTK_LAYOUT (widget));
+	adjustment = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (widget));
 	vadjustment_value = gtk_adjustment_get_value (adjustment);
 
 	do_drag_motion (

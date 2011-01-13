@@ -919,7 +919,7 @@ e_day_view_init (EDayView *day_view)
 	gint day;
 	GnomeCanvasGroup *canvas_group;
 	GtkAdjustment *adjustment;
-	GtkLayout *layout;
+	GtkScrollable *scrollable;
 	GtkWidget *w;
 
 	gtk_widget_set_can_focus (GTK_WIDGET (day_view), TRUE);
@@ -1170,10 +1170,10 @@ e_day_view_init (EDayView *day_view)
 	 * Times Canvas
 	 */
 	day_view->time_canvas = e_canvas_new ();
-	layout = GTK_LAYOUT (day_view->main_canvas);
-	adjustment = gtk_layout_get_vadjustment (layout);
-	layout = GTK_LAYOUT (day_view->time_canvas);
-	gtk_layout_set_vadjustment (layout, adjustment);
+	scrollable = GTK_SCROLLABLE (day_view->main_canvas);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
+	scrollable = GTK_SCROLLABLE (day_view->time_canvas);
+	gtk_scrollable_set_vadjustment (scrollable, adjustment);
 	gtk_table_attach (GTK_TABLE (day_view), day_view->time_canvas,
 			  0, 1, 1, 2,
 			  GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
@@ -1192,21 +1192,21 @@ e_day_view_init (EDayView *day_view)
 	/*
 	 * Scrollbar.
 	 */
-	layout = GTK_LAYOUT (day_view->main_canvas);
-	adjustment = gtk_layout_get_hadjustment (layout);
+	scrollable = GTK_SCROLLABLE (day_view->main_canvas);
+	adjustment = gtk_scrollable_get_hadjustment (scrollable);
 	day_view->mc_hscrollbar = gtk_hscrollbar_new (adjustment);
 	gtk_table_attach (GTK_TABLE (day_view), day_view->mc_hscrollbar, 1, 2, 2, 3, GTK_FILL, 0, 0, 0);
 	gtk_widget_show (day_view->mc_hscrollbar);
 
-	layout = GTK_LAYOUT (day_view->top_canvas);
-	adjustment = gtk_layout_get_vadjustment (layout);
+	scrollable = GTK_SCROLLABLE (day_view->top_canvas);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 	day_view->tc_vscrollbar = gtk_vscrollbar_new (adjustment);
 	gtk_table_attach (GTK_TABLE (day_view), day_view->tc_vscrollbar,
 			  2, 3, 0, 1, 0, GTK_FILL, 0, 0);
 	/* gtk_widget_show (day_view->tc_vscrollbar); */
 
-	layout = GTK_LAYOUT (day_view->main_canvas);
-	adjustment = gtk_layout_get_vadjustment (layout);
+	scrollable = GTK_SCROLLABLE (day_view->main_canvas);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 	day_view->vscrollbar = gtk_vscrollbar_new (adjustment);
 	gtk_table_attach (GTK_TABLE (day_view), day_view->vscrollbar,
 			  2, 3, 1, 2, 0, GTK_EXPAND | GTK_FILL, 0, 0);
@@ -1582,7 +1582,7 @@ e_day_view_style_set (GtkWidget *widget,
 		MAX (day_view->row_height,
 		E_DAY_VIEW_ICON_HEIGHT + E_DAY_VIEW_ICON_Y_PAD + 2);
 
-	adjustment = gtk_layout_get_vadjustment (GTK_LAYOUT (day_view->main_canvas));
+	adjustment = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (day_view->main_canvas));
 	gtk_adjustment_set_step_increment (adjustment, day_view->row_height);
 
 	day_view->top_row_height =
@@ -1595,7 +1595,7 @@ e_day_view_style_set (GtkWidget *widget,
 		E_DAY_VIEW_ICON_HEIGHT + E_DAY_VIEW_ICON_Y_PAD + 2 +
 		E_DAY_VIEW_TOP_CANVAS_Y_GAP);
 
-	adjustment = gtk_layout_get_vadjustment (GTK_LAYOUT (day_view->top_canvas));
+	adjustment = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (day_view->top_canvas));
 	gtk_adjustment_set_step_increment (adjustment, day_view->top_row_height);
 	gtk_widget_set_size_request (day_view->top_dates_canvas, -1, day_view->top_row_height - 2);
 
@@ -5899,16 +5899,16 @@ static void
 e_day_view_scroll	(EDayView	*day_view,
 			 gfloat		 pages_to_scroll)
 {
-	GtkLayout *layout;
 	GtkAdjustment *adjustment;
+	GtkScrollable *scrollable;
 	gdouble new_value;
 	gdouble page_size;
 	gdouble lower;
 	gdouble upper;
 	gdouble value;
 
-	layout = GTK_LAYOUT (day_view->main_canvas);
-	adjustment = gtk_layout_get_vadjustment (layout);
+	scrollable = GTK_SCROLLABLE (day_view->main_canvas);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 
 	page_size = gtk_adjustment_get_page_size (adjustment);
 	lower = gtk_adjustment_get_lower (adjustment);
@@ -5924,16 +5924,16 @@ static void
 e_day_view_top_scroll	(EDayView	*day_view,
 			 gfloat		 pages_to_scroll)
 {
-	GtkLayout *layout;
 	GtkAdjustment *adjustment;
+	GtkScrollable *scrollable;
 	gdouble new_value;
 	gdouble page_size;
 	gdouble lower;
 	gdouble upper;
 	gdouble value;
 
-	layout = GTK_LAYOUT (day_view->top_canvas);
-	adjustment = gtk_layout_get_vadjustment (layout);
+	scrollable = GTK_SCROLLABLE (day_view->top_canvas);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 
 	page_size = gtk_adjustment_get_page_size (adjustment);
 	lower = gtk_adjustment_get_lower (adjustment);
@@ -5950,15 +5950,15 @@ e_day_view_ensure_rows_visible (EDayView *day_view,
 				gint start_row,
 				gint end_row)
 {
-	GtkLayout *layout;
 	GtkAdjustment *adjustment;
+	GtkScrollable *scrollable;
 	gdouble max_value;
 	gdouble min_value;
 	gdouble page_size;
 	gdouble value;
 
-	layout = GTK_LAYOUT (day_view->main_canvas);
-	adjustment = gtk_layout_get_vadjustment (layout);
+	scrollable = GTK_SCROLLABLE (day_view->main_canvas);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 
 	value = gtk_adjustment_get_value (adjustment);
 	page_size = gtk_adjustment_get_page_size (adjustment);
@@ -6615,11 +6615,11 @@ e_day_view_on_editing_started (EDayView *day_view,
 						       &start_day, &end_day,
 						       &item_x, &item_y,
 						       &item_w, &item_h)) {
-			GtkLayout *layout;
 			GtkAdjustment *adjustment;
+			GtkScrollable *scrollable;
 
-			layout = GTK_LAYOUT (day_view->top_canvas);
-			adjustment = gtk_layout_get_vadjustment (layout);
+			scrollable = GTK_SCROLLABLE (day_view->top_canvas);
+			adjustment = gtk_scrollable_get_vadjustment (scrollable);
 
 			/* and ensure it's visible too */
 			/*item_y = (event_num * (day_view->top_row_height + 1)) - 1;*/
@@ -6953,7 +6953,7 @@ e_day_view_auto_scroll_handler (gpointer data)
 	ECalendarViewPosition pos;
 	gint scroll_x, scroll_y, new_scroll_y, canvas_x, canvas_y, row, day;
 	GtkAdjustment *adjustment;
-	GtkLayout *layout;
+	GtkScrollable *scrollable;
 	gdouble step_increment;
 	gdouble page_size;
 	gdouble upper;
@@ -6973,8 +6973,8 @@ e_day_view_auto_scroll_handler (gpointer data)
 	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (day_view->main_canvas),
 					 &scroll_x, &scroll_y);
 
-	layout = GTK_LAYOUT (day_view->main_canvas);
-	adjustment = gtk_layout_get_vadjustment (layout);
+	scrollable = GTK_SCROLLABLE (day_view->main_canvas);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 
 	step_increment = gtk_adjustment_get_step_increment (adjustment);
 	page_size = gtk_adjustment_get_page_size (adjustment);

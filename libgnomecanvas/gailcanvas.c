@@ -182,13 +182,13 @@ gail_canvas_real_initialize (AtkObject *obj,
 
   canvas = GNOME_CANVAS (data);
 
-  adj = gtk_layout_get_hadjustment (GTK_LAYOUT (canvas));
+  adj = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (canvas));
   g_signal_connect (adj,
                     "value_changed",
                     G_CALLBACK (adjustment_changed),
                     canvas);
 
-  adj = gtk_layout_get_vadjustment (GTK_LAYOUT (canvas));
+  adj = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (canvas));
   g_signal_connect (adj,
                     "value_changed",
                     G_CALLBACK (adjustment_changed),
