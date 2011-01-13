@@ -1740,7 +1740,7 @@ e_calendar_view_move_tip (GtkWidget *widget, gint x, gint y)
 
 	screen = gtk_widget_get_screen (widget);
 
-	gtk_widget_size_request (widget, &requisition);
+	gtk_widget_get_preferred_size (widget, &requisition, NULL);
 	w = requisition.width;
 	h = requisition.height;
 

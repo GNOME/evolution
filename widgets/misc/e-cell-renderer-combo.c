@@ -27,6 +27,9 @@
 #include "e-combo-cell-editable.h"
 #include "e-cell-renderer-combo.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 enum {
 	PROP_0,
 	PROP_LIST
@@ -102,7 +105,7 @@ ecrc_get_size (GtkCellRenderer *cell, GtkWidget *widget, GdkRectangle *cell_area
 
 	btn = gtk_button_new ();
 	gtk_container_add (GTK_CONTAINER (btn), gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE));
-	gtk_widget_size_request (btn, &req);
+	gtk_widget_get_preferred_size (btn, &req, NULL);
 	*width += req.width;
 	gtk_widget_destroy (btn);
 }

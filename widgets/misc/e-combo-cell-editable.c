@@ -215,7 +215,7 @@ position_popup (EComboCellEditable *ecce, gint x, gint y, gint offset)
 	GtkRequisition req;
 
 	gtk_widget_realize (ecce->priv->popup);
-	gtk_widget_size_request (ecce->priv->popup, &req);
+	gtk_widget_get_preferred_size (ecce->priv->popup, &req, NULL);
 
 	if (req.height > gdk_screen_height () - y) {
 		y -= (offset + req.height);

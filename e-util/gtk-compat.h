@@ -5,6 +5,11 @@
 
 /* Provide a GTK+ compatibility layer. */
 
+#if !GTK_CHECK_VERSION (2,91,0)  /* approximately  */
+#define gtk_widget_get_preferred_size(widget, minimum_size, natural_size) \
+	(gtk_widget_size_request ((widget), ((minimum_size))))
+#endif
+
 #if !GTK_CHECK_VERSION (2,23,0)
 #define gtk_combo_box_text_new			gtk_combo_box_new_text
 #define gtk_combo_box_text_append_text		gtk_combo_box_append_text

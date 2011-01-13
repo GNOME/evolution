@@ -688,7 +688,7 @@ e_cell_date_edit_get_popup_pos		(ECellDateEdit	*ecde,
 	   the vertical scrollbar in case we need to show that. */
 	screen_width = gdk_screen_width ();
 
-	gtk_widget_size_request (ecde->popup_window, &popup_requisition);
+	gtk_widget_get_preferred_size (ecde->popup_window, &popup_requisition, NULL);
 
 	/* Calculate the desired width. */
 	*width = popup_requisition.width;

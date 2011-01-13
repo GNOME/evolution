@@ -23,6 +23,9 @@
 
 #include "e-attachment-button.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define E_ATTACHMENT_BUTTON_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ATTACHMENT_BUTTON, EAttachmentButtonPrivate))
@@ -93,7 +96,7 @@ attachment_button_menu_position (GtkMenu *menu,
 
 	widget = GTK_WIDGET (button);
 	toggle_button = button->priv->toggle_button;
-	gtk_widget_size_request (GTK_WIDGET (menu), &menu_requisition);
+	gtk_widget_get_preferred_size (GTK_WIDGET (menu), &menu_requisition, NULL);
 
 	window = gtk_widget_get_parent_window (widget);
 	screen = gtk_widget_get_screen (GTK_WIDGET (menu));
