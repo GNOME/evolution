@@ -50,13 +50,13 @@ ecc_print (ECellView *ecell_view, GtkPrintContext *context,
 	cairo_save (cr);
 
 	if ( value == 1) {
-
 		cairo_set_line_width (cr, 2);
 		cairo_move_to (cr, 3, 11);
 		cairo_line_to (cr, 7, 14);
 		cairo_line_to (cr, 11, 5);
 		cairo_stroke (cr);
 	}
+
 	cairo_restore (cr);
 }
 

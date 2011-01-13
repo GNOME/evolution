@@ -131,9 +131,16 @@ ecv_unrealize (ECellView *ecv)
  * ECell::draw method
  */
 static void
-ecv_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	  gint model_col, gint view_col, gint row, ECellFlags flags,
-	  gint x1, gint y1, gint x2, gint y2)
+ecv_draw (ECellView *ecell_view,
+          GdkDrawable *drawable,
+          gint model_col,
+          gint view_col,
+          gint row,
+          ECellFlags flags,
+          gint x1,
+          gint y1,
+          gint x2,
+          gint y2)
 {
 	ECellVboxView *vbox_view = (ECellVboxView *)ecell_view;
 
@@ -143,12 +150,20 @@ ecv_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	for (i = 0; i < vbox_view->subcell_view_count; i++) {
 		/* Now cause our subcells to draw their contents,
 		   shifted by subcell_offset pixels */
-		gint height = e_cell_height (vbox_view->subcell_views[i], vbox_view->model_cols[i], view_col, row);
-		e_cell_draw (vbox_view->subcell_views[i], drawable,
-			     vbox_view->model_cols[i], view_col, row, flags,
-			     x1, y1 + subcell_offset, x2, y1 + subcell_offset + height);
+		gint height;
 
-		subcell_offset += e_cell_height (vbox_view->subcell_views[i], vbox_view->model_cols[i], view_col, row);
+		height = e_cell_height (
+			vbox_view->subcell_views[i],
+			vbox_view->model_cols[i], view_col, row);
+		e_cell_draw (
+			vbox_view->subcell_views[i], drawable,
+			vbox_view->model_cols[i], view_col, row, flags,
+			x1, y1 + subcell_offset, x2,
+			y1 + subcell_offset + height);
+
+		subcell_offset += e_cell_height (
+			vbox_view->subcell_views[i],
+			vbox_view->model_cols[i], view_col, row);
 	}
 }
 

@@ -126,8 +126,8 @@ ect_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view
 	tree_view->cell_view.ecell = ecell;
 	tree_view->cell_view.e_table_model = table_model;
 	tree_view->cell_view.e_table_item_view = e_table_item_view;
-        tree_view->cell_view.kill_view_cb = NULL;
-        tree_view->cell_view.kill_view_cb_data = NULL;
+	tree_view->cell_view.kill_view_cb = NULL;
+	tree_view->cell_view.kill_view_cb_data = NULL;
 
 	/* create our subcell view */
 	tree_view->subcell_view = e_cell_new_view (ect->subcell, table_model, e_table_item_view /* XXX */);
@@ -145,11 +145,11 @@ ect_kill_view (ECellView *ecv)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecv;
 
-        if (tree_view->cell_view.kill_view_cb)
-            (tree_view->cell_view.kill_view_cb)(ecv, tree_view->cell_view.kill_view_cb_data);
+	if (tree_view->cell_view.kill_view_cb)
+	    (tree_view->cell_view.kill_view_cb)(ecv, tree_view->cell_view.kill_view_cb_data);
 
-        if (tree_view->cell_view.kill_view_cb_data)
-            g_list_free (tree_view->cell_view.kill_view_cb_data);
+	if (tree_view->cell_view.kill_view_cb_data)
+	    g_list_free (tree_view->cell_view.kill_view_cb_data);
 
 	/* kill our subcell view */
 	e_cell_kill_view (tree_view->subcell_view);
@@ -188,7 +188,11 @@ ect_unrealize (ECellView *ecv)
 }
 
 static void
-draw_expander (ECellTreeView *ectv, GdkDrawable *drawable, GtkExpanderStyle expander_style, GtkStateType state, GdkRectangle *rect)
+draw_expander (ECellTreeView *ectv,
+               GdkDrawable *drawable,
+               GtkExpanderStyle expander_style,
+               GtkStateType state,
+               GdkRectangle *rect)
 {
 	GtkStyle *style;
 	GtkWidget *tree;
@@ -209,9 +213,16 @@ draw_expander (ECellTreeView *ectv, GdkDrawable *drawable, GtkExpanderStyle expa
  * ECell::draw method
  */
 static void
-ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	  gint model_col, gint view_col, gint row, ECellFlags flags,
-	  gint x1, gint y1, gint x2, gint y2)
+ect_draw (ECellView *ecell_view,
+          GdkDrawable *drawable,
+          gint model_col,
+          gint view_col,
+          gint row,
+          ECellFlags flags,
+          gint x1,
+          gint y1,
+          gint x2,
+          gint y2)
 {
 	ECellTreeView *tree_view = (ECellTreeView *)ecell_view;
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
@@ -265,16 +276,16 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			gboolean expanded = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
 			GdkRectangle r;
 
-                        r = rect;
-                        r.width -= node_image_width + 2;
-                        draw_expander (tree_view, drawable, expanded ? GTK_EXPANDER_EXPANDED : GTK_EXPANDER_COLLAPSED, GTK_STATE_NORMAL, &r);
+			r = rect;
+			r.width -= node_image_width + 2;
+			draw_expander (tree_view, drawable, expanded ? GTK_EXPANDER_EXPANDED : GTK_EXPANDER_COLLAPSED, GTK_STATE_NORMAL, &r);
 		}
 
 		if (node_image) {
-                        gdk_cairo_set_source_pixbuf (cr, node_image,
-                                                     x1 + subcell_offset,
-                                                     y1 + (y2 - y1) / 2 - node_image_height / 2);
-                        cairo_paint (cr);
+			gdk_cairo_set_source_pixbuf (cr, node_image,
+						     x1 + subcell_offset,
+						     y1 + (y2 - y1) / 2 - node_image_height / 2);
+			cairo_paint (cr);
 
 			subcell_offset += node_image_width;
 		}
@@ -394,30 +405,30 @@ ect_event (ECellView *ecell_view, GdkEvent *event, gint model_col, gint view_col
 		if (event_in_expander (event, offset, 0)) {
 			if (e_tree_model_node_is_expandable (tree_model, node)) {
 				gboolean expanded = e_tree_table_adapter_node_is_expanded (etta, node);
-                                gint tmp_row = row;
-                                GdkRectangle area;
-                                animate_closure_t *closure = g_new0 (animate_closure_t, 1);
-                                gint hgt;
+				gint tmp_row = row;
+				GdkRectangle area;
+				animate_closure_t *closure = g_new0 (animate_closure_t, 1);
+				gint hgt;
 
-                                e_table_item_get_cell_geometry (tree_view->cell_view.e_table_item_view,
-                                                        &tmp_row, &view_col, &area.x, &area.y, NULL, &area.height);
-                                area.width = offset - 2;
-                                hgt = e_cell_height (ecell_view, model_col, view_col, row);
+				e_table_item_get_cell_geometry (tree_view->cell_view.e_table_item_view,
+							&tmp_row, &view_col, &area.x, &area.y, NULL, &area.height);
+				area.width = offset - 2;
+				hgt = e_cell_height (ecell_view, model_col, view_col, row);
 
-                                if (hgt != area.height) /* Composite cells */
-                                        area.height += hgt;
+				if (hgt != area.height) /* Composite cells */
+					area.height += hgt;
 
-                                draw_expander (
-                                        tree_view, window, expanded ?
-                                        GTK_EXPANDER_SEMI_EXPANDED :
-                                        GTK_EXPANDER_SEMI_COLLAPSED,
-                                        GTK_STATE_NORMAL, &area);
-                                closure->ectv = tree_view;
-                                closure->etta = etta;
-                                closure->node = node;
-                                closure->expanded = expanded;
-                                closure->area = area;
-                                tree_view->animate_timeout = g_timeout_add (50, animate_expander, closure);
+				draw_expander (
+					tree_view, window, expanded ?
+					GTK_EXPANDER_SEMI_EXPANDED :
+					GTK_EXPANDER_SEMI_COLLAPSED,
+					GTK_STATE_NORMAL, &area);
+				closure->ectv = tree_view;
+				closure->etta = etta;
+				closure->node = node;
+				closure->expanded = expanded;
+				closure->area = area;
+				tree_view->animate_timeout = g_timeout_add (50, animate_expander, closure);
 				return TRUE;
 			}
 		}
@@ -531,8 +542,8 @@ ect_max_width (ECellView *ecell_view, gint model_col, gint view_col)
 		expanded = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
 
 		/* This is unnecessary since this is already handled
-                   by the offset_of_node function.  If that changes,
-                   this will have to change too. */
+		 * by the offset_of_node function.  If that changes,
+		 * this will have to change too. */
 
 		if (expandable) {
 			GdkPixbuf *image;
