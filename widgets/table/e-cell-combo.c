@@ -447,7 +447,7 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	widget = gtk_scrolled_window_get_vscrollbar (popup);
 	gtk_widget_get_child_requisition (widget, &requisition);
 
-	gtk_widget_size_request (ecc->popup_tree_view, &list_requisition);
+	gtk_widget_get_preferred_size (ecc->popup_tree_view, &list_requisition, NULL);
 	min_height = MIN (list_requisition.height, requisition.height);
 	if (!gtk_tree_model_iter_n_children (gtk_tree_view_get_model (GTK_TREE_VIEW (ecc->popup_tree_view)), NULL))
 		list_requisition.height += E_CELL_COMBO_LIST_EMPTY_HEIGHT;

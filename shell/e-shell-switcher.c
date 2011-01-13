@@ -30,6 +30,9 @@
 #include <glib/gi18n.h>
 #include <e-util/e-extensible.h>
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define E_SHELL_SWITCHER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_SWITCHER, EShellSwitcherPrivate))
@@ -100,7 +103,7 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 		GtkWidget *widget = p->data;
 		GtkRequisition requisition;
 
-		gtk_widget_size_request (widget, &requisition);
+		gtk_widget_get_preferred_size (widget, &requisition, NULL);
 		max_height = MAX (max_height, requisition.height);
 		max_width = MAX (max_width, requisition.width);
 	}
@@ -261,7 +264,7 @@ shell_switcher_size_request (GtkWidget *widget,
 
 	child = gtk_bin_get_child (GTK_BIN (widget));
 	if (child != NULL)
-		gtk_widget_size_request (child, requisition);
+		gtk_widget_get_preferred_size (child, requisition, NULL);
 
 	if (!priv->toolbar_visible)
 		return;
@@ -270,7 +273,7 @@ shell_switcher_size_request (GtkWidget *widget,
 		GtkWidget *widget = iter->data;
 		GtkRequisition child_requisition;
 
-		gtk_widget_size_request (widget, &child_requisition);
+		gtk_widget_get_preferred_size (widget, &child_requisition, NULL);
 
 		child_requisition.width += H_PADDING;
 		child_requisition.height += V_PADDING;

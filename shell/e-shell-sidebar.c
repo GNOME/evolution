@@ -31,6 +31,9 @@
 #include <e-util/e-unicode.h>
 #include <shell/e-shell-view.h>
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define E_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_SIDEBAR, EShellSidebarPrivate))
@@ -233,10 +236,10 @@ shell_sidebar_size_request (GtkWidget *widget,
 	requisition->height = 0;
 
 	child = gtk_bin_get_child (GTK_BIN (widget));
-	gtk_widget_size_request (child, requisition);
+	gtk_widget_get_preferred_size (child, requisition, NULL);
 
 	child = priv->event_box;
-	gtk_widget_size_request (child, &child_requisition);
+	gtk_widget_get_preferred_size (child, &child_requisition, NULL);
 	requisition->width = MAX (requisition->width, child_requisition.width);
 	requisition->height += child_requisition.height;
 }
@@ -255,7 +258,7 @@ shell_sidebar_size_allocate (GtkWidget *widget,
 	gtk_widget_set_allocation (widget, allocation);
 
 	child = priv->event_box;
-	gtk_widget_size_request (child, &child_requisition);
+	gtk_widget_get_preferred_size (child, &child_requisition, NULL);
 
 	child_allocation.x = allocation->x;
 	child_allocation.y = allocation->y;

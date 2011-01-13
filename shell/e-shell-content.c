@@ -44,6 +44,9 @@
 #include "e-shell-view.h"
 #include "e-shell-window-actions.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define E_SHELL_CONTENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_CONTENT, EShellContentPrivate))
@@ -226,16 +229,16 @@ shell_content_size_request (GtkWidget *widget,
 	requisition->height = 0;
 
 	child = gtk_bin_get_child (GTK_BIN (widget));
-	gtk_widget_size_request (child, requisition);
+	gtk_widget_get_preferred_size (child, requisition, NULL);
 
-	gtk_widget_size_request (priv->alert_bar, &child_requisition);
+	gtk_widget_get_preferred_size (priv->alert_bar, &child_requisition, NULL);
 	requisition->width = MAX (requisition->width, child_requisition.width);
 	requisition->height += child_requisition.height;
 
 	if (priv->searchbar == NULL)
 		return;
 
-	gtk_widget_size_request (priv->searchbar, &child_requisition);
+	gtk_widget_get_preferred_size (priv->searchbar, &child_requisition, NULL);
 	requisition->width = MAX (requisition->width, child_requisition.width);
 	requisition->height += child_requisition.height;
 }
@@ -267,7 +270,7 @@ shell_content_size_allocate (GtkWidget *widget,
 	child_allocation.y += child_requisition.height;
 
 	if (gtk_widget_get_visible (child))
-		gtk_widget_size_request (child, &child_requisition);
+		gtk_widget_get_preferred_size (child, &child_requisition, NULL);
 	else
 		child_requisition.height = 0;
 
@@ -282,7 +285,7 @@ shell_content_size_allocate (GtkWidget *widget,
 	child_allocation.y += child_requisition.height;
 
 	if (child != NULL)
-		gtk_widget_size_request (child, &child_requisition);
+		gtk_widget_get_preferred_size (child, &child_requisition, NULL);
 	else
 		child_requisition.height = 0;
 

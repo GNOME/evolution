@@ -1411,12 +1411,12 @@ position_date_popup		(EDateEdit	*dedit)
 	GtkRequisition cal_req, button_req;
 	gint screen_width, screen_height;
 
-	gtk_widget_size_request (dedit->priv->cal_popup, &cal_req);
+	gtk_widget_get_preferred_size (dedit->priv->cal_popup, &cal_req, NULL);
 
-	gtk_widget_size_request (dedit->priv->date_button, &button_req);
+	gtk_widget_get_preferred_size (dedit->priv->date_button, &button_req, NULL);
 	bwidth = button_req.width;
-	gtk_widget_size_request (
-		gtk_widget_get_parent (dedit->priv->date_button), &button_req);
+	gtk_widget_get_preferred_size (
+		gtk_widget_get_parent (dedit->priv->date_button), &button_req, NULL);
 	bheight = button_req.height;
 
 	gtk_widget_translate_coordinates (

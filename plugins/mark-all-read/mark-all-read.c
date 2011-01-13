@@ -38,6 +38,9 @@
 #include <shell/e-shell-view.h>
 #include <shell/e-shell-window.h>
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 #define PRIMARY_TEXT \
 	N_("Also mark messages in subfolders?")
 #define SECONDARY_TEXT \
@@ -79,7 +82,7 @@ box_mapped_cb (GtkWidget *box,
 	/* In order to get decent line wrapping we need to wait until the
 	 * box containing the buttons is mapped, and then resize the label
 	 * to the same width as the box. */
-	gtk_widget_size_request (box, &requisition);
+	gtk_widget_get_preferred_size (box, &requisition, NULL);
 	gtk_widget_set_size_request (label, requisition.width, -1);
 }
 
