@@ -31,9 +31,9 @@
 G_BEGIN_DECLS
 
 gdouble  e_table_header_compute_height (ETableCol *ecol,
-				       GtkWidget *widget);
-gdouble  e_table_header_width_extras    (GtkStyle       *style);
-void    e_table_header_draw_button     (GdkDrawable    *drawable,
+					GtkWidget *widget);
+gdouble  e_table_header_width_extras   (GtkStyle       *style);
+void     e_table_header_draw_button    (GdkDrawable    *drawable,
 					ETableCol      *ecol,
 					GtkStyle       *style,
 					GtkStateType    state,

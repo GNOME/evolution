@@ -1351,9 +1351,9 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 		cairo_restore (cr);
 	}
 
-        e_calendar_item_draw_day_numbers (calitem, drawable, width, height,
-                                          row, col, year, month, start_weekday,
-                                          cells_x, cells_y);
+	e_calendar_item_draw_day_numbers (
+		calitem, drawable, width, height, row, col,
+		year, month, start_weekday, cells_x, cells_y);
 
 	g_object_unref (layout);
 	cairo_destroy (cr);

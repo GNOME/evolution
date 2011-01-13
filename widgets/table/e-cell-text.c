@@ -736,8 +736,9 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			gchar *color_spec;
 			GdkColor *cell_foreground;
 
-			color_spec = e_table_model_value_at (ecell_view->e_table_model,
-							     ect->color_column, row);
+			color_spec = e_table_model_value_at (
+				ecell_view->e_table_model,
+				ect->color_column, row);
 			cell_foreground = e_cell_text_get_color (text_view,
 								 color_spec);
 			if (cell_foreground)

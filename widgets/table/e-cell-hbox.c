@@ -138,9 +138,16 @@ ecv_unrealize (ECellView *ecv)
  * ECell::draw method
  */
 static void
-ecv_draw (ECellView *ecell_view, GdkDrawable *drawable,
-	  gint model_col, gint view_col, gint row, ECellFlags flags,
-	  gint x1, gint y1, gint x2, gint y2)
+ecv_draw (ECellView *ecell_view,
+          GdkDrawable *drawable,
+          gint model_col,
+          gint view_col,
+          gint row,
+          ECellFlags flags,
+          gint x1,
+          gint y1,
+          gint x2,
+          gint y2)
 {
 	ECellHboxView *hbox_view = (ECellHboxView *)ecell_view;
 
@@ -156,9 +163,12 @@ ecv_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		if (width < hbox_view->def_size_cols[i])
 			width = hbox_view->def_size_cols[i];
 		printf("width of %d %d of %d\n", width,hbox_view->def_size_cols[i], allotted_width ); */
-		e_cell_draw (hbox_view->subcell_views[i], drawable,
-			     hbox_view->model_cols[i], view_col, row, flags,
-			     x1 + subcell_offset , y1, x1 + subcell_offset + width, y2);
+
+		e_cell_draw (
+			hbox_view->subcell_views[i], drawable,
+			hbox_view->model_cols[i], view_col, row, flags,
+			x1 + subcell_offset , y1,
+			x1 + subcell_offset + width, y2);
 
 		subcell_offset += width; /* e_cell_max_width_by_row (hbox_view->subcell_views[i], hbox_view->model_cols[i], view_col, row); */
 	}
