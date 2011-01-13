@@ -37,6 +37,9 @@
 #include "e-reflow.h"
 #include "misc/e-selection-model-simple.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 static gboolean e_reflow_event (GnomeCanvasItem *item, GdkEvent *event);
 static void e_reflow_realize (GnomeCanvasItem *item);
 static void e_reflow_unrealize (GnomeCanvasItem *item);
@@ -180,7 +183,7 @@ do_adjustment (gpointer user_data)
 		return FALSE;
 
 	layout = GTK_LAYOUT (GNOME_CANVAS_ITEM (reflow)->canvas);
-	adjustment = gtk_layout_get_hadjustment (layout);
+	adjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (layout));
 
 	value = gtk_adjustment_get_value (adjustment);
 	page_size = gtk_adjustment_get_page_size (adjustment);
@@ -254,7 +257,7 @@ incarnate (EReflow *reflow)
 	gdouble page_size;
 
 	layout = GTK_LAYOUT (GNOME_CANVAS_ITEM (reflow)->canvas);
-	adjustment = gtk_layout_get_hadjustment (layout);
+	adjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (layout));
 
 	value = gtk_adjustment_get_value (adjustment);
 	page_size = gtk_adjustment_get_page_size (adjustment);
@@ -758,7 +761,7 @@ e_reflow_set_property (GObject *object, guint prop_id, const GValue *value, GPar
 			gdouble page_size;
 
 			layout = GTK_LAYOUT (item->canvas);
-			adjustment = gtk_layout_get_hadjustment (layout);
+			adjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (layout));
 			page_size = gtk_adjustment_get_page_size (adjustment);
 
 			reflow->column_width = g_value_get_double (value);
@@ -882,7 +885,7 @@ e_reflow_realize (GnomeCanvasItem *item)
 	reflow->need_reflow_columns = TRUE;
 	e_canvas_item_request_reflow (item);
 
-	adjustment = gtk_layout_get_hadjustment (GTK_LAYOUT (item->canvas));
+	adjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (item->canvas));
 
 #if 0
 	connect_set_adjustment (reflow);
@@ -1011,7 +1014,7 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 						gdouble new_value;
 
 						layout = GTK_LAYOUT (item->canvas);
-						adjustment = gtk_layout_get_hadjustment (layout);
+						adjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (layout));
 						new_value = gtk_adjustment_get_value (adjustment);
 						new_value -= gtk_adjustment_get_step_increment (adjustment);
 						gtk_adjustment_set_value (adjustment, new_value);
@@ -1026,7 +1029,7 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 						gdouble upper;
 
 						layout = GTK_LAYOUT (item->canvas);
-						adjustment = gtk_layout_get_hadjustment (layout);
+						adjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (layout));
 						new_value = gtk_adjustment_get_value (adjustment);
 						new_value += gtk_adjustment_get_step_increment (adjustment);
 						upper = gtk_adjustment_get_upper (adjustment);
@@ -1047,7 +1050,7 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 				gdouble value;
 
 				layout = GTK_LAYOUT (item->canvas);
-				adjustment = gtk_layout_get_hadjustment (layout);
+				adjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (layout));
 				value = gtk_adjustment_get_value (adjustment);
 
 				reflow->temp_column_width = reflow->column_width +
@@ -1087,7 +1090,7 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 				gdouble value;
 
 				layout = GTK_LAYOUT (item->canvas);
-				adjustment = gtk_layout_get_hadjustment (layout);
+				adjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (layout));
 				value = gtk_adjustment_get_value (adjustment);
 
 				reflow->temp_column_width = reflow->column_width +
@@ -1226,7 +1229,7 @@ static void e_reflow_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		gint start_line;
 
 		layout = GTK_LAYOUT (item->canvas);
-		adjustment = gtk_layout_get_hadjustment (layout);
+		adjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (layout));
 		value = gtk_adjustment_get_value (adjustment);
 
 		start_line = e_reflow_pick_line (reflow, value);
@@ -1312,7 +1315,7 @@ e_reflow_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags)
 		gdouble value;
 
 		layout = GTK_LAYOUT (item->canvas);
-		adjustment = gtk_layout_get_hadjustment (layout);
+		adjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (layout));
 		value = gtk_adjustment_get_value (adjustment);
 		start_line = e_reflow_pick_line (reflow, value);
 

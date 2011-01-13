@@ -759,7 +759,7 @@ scroll_to_cursor (ETree *e_tree)
 {
 	ETreePath path;
 	GtkAdjustment *adjustment;
-	GtkLayout *layout;
+	GtkScrollable *scrollable;
 	gint x, y, w, h;
 	gdouble page_size;
 	gdouble lower;
@@ -779,8 +779,8 @@ scroll_to_cursor (ETree *e_tree)
 				&row, &col, &x, &y, &w, &h);
 	}
 
-	layout = GTK_LAYOUT (e_tree->priv->table_canvas);
-	adjustment = gtk_layout_get_vadjustment (layout);
+	scrollable = GTK_SCROLLABLE (e_tree->priv->table_canvas);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 
 	page_size = gtk_adjustment_get_page_size (adjustment);
 	lower = gtk_adjustment_get_lower (adjustment);
@@ -928,13 +928,13 @@ item_key_press (ETableItem *eti, gint row, gint col, GdkEvent *event, ETree *et)
 	ETreePath path;
 	gint y, row_local, col_local;
 	GtkAdjustment *adjustment;
-	GtkLayout *layout;
+	GtkScrollable *scrollable;
 	gdouble page_size;
 	gdouble upper;
 	gdouble value;
 
-	layout = GTK_LAYOUT (et->priv->table_canvas);
-	adjustment = gtk_layout_get_vadjustment (layout);
+	scrollable = GTK_SCROLLABLE (et->priv->table_canvas);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 
 	page_size = gtk_adjustment_get_page_size (adjustment);
 	upper = gtk_adjustment_get_upper (adjustment);
@@ -1514,7 +1514,7 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 		   ETableSpecification *specification, ETableState *state)
 {
 	GtkAdjustment *adjustment;
-	GtkLayout *layout;
+	GtkScrollable *scrollable;
 	gint row = 0;
 
 	if (ete)
@@ -1566,12 +1566,12 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	}
 	e_tree_setup_table (e_tree);
 
-	layout = GTK_LAYOUT (e_tree->priv->table_canvas);
+	scrollable = GTK_SCROLLABLE (e_tree->priv->table_canvas);
 
-	adjustment = gtk_layout_get_vadjustment (layout);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 	gtk_adjustment_set_step_increment (adjustment, 20);
 
-	adjustment = gtk_layout_get_hadjustment (layout);
+	adjustment = gtk_scrollable_get_hadjustment (scrollable);
 	gtk_adjustment_set_step_increment (adjustment, 20);
 
 	if (!specification->no_headers) {
@@ -2036,17 +2036,16 @@ set_scroll_adjustments   (ETree *tree,
 		gtk_adjustment_set_step_increment (hadjustment, 20);
 
 	if (tree->priv) {
-		GtkLayout *layout;
+		GtkScrollable *scrollable;
 
-		layout = GTK_LAYOUT (tree->priv->table_canvas);
+		scrollable = GTK_SCROLLABLE (tree->priv->table_canvas);
+		gtk_scrollable_set_hadjustment (scrollable, hadjustment);
+		gtk_scrollable_set_vadjustment (scrollable, vadjustment);
 
-		gtk_layout_set_hadjustment (layout, hadjustment);
-		gtk_layout_set_vadjustment (layout, vadjustment);
-
-		if (tree->priv->header_canvas != NULL)
-			gtk_layout_set_hadjustment (
-				GTK_LAYOUT (tree->priv->header_canvas),
-				hadjustment);
+		if (tree->priv->header_canvas != NULL) {
+			scrollable = GTK_SCROLLABLE (tree->priv->header_canvas);
+			gtk_scrollable_set_hadjustment (scrollable, hadjustment);
+		}
 	}
 }
 
@@ -2485,16 +2484,16 @@ e_tree_drag_highlight (ETree *tree,
 		       gint     row,
 		       gint     col)
 {
-	GtkAdjustment *adjustment;
 	GtkAllocation allocation;
-	GtkLayout *layout;
+	GtkAdjustment *adjustment;
+	GtkScrollable *scrollable;
 	GtkStyle *style;
 
 	g_return_if_fail (E_IS_TREE (tree));
 
-	layout = GTK_LAYOUT (tree->priv->table_canvas);
+	scrollable = GTK_SCROLLABLE (tree->priv->table_canvas);
 	style = gtk_widget_get_style (GTK_WIDGET (tree));
-	gtk_widget_get_allocation (GTK_WIDGET (layout), &allocation);
+	gtk_widget_get_allocation (GTK_WIDGET (scrollable), &allocation);
 
 	if (row != -1) {
 		gint x, y, width, height;
@@ -2504,11 +2503,11 @@ e_tree_drag_highlight (ETree *tree,
 			width = allocation.width;
 		} else {
 			e_tree_get_cell_geometry (tree, row, col, &x, &y, &width, &height);
-			adjustment = gtk_layout_get_hadjustment (layout);
+			adjustment = gtk_scrollable_get_hadjustment (scrollable);
 			x += gtk_adjustment_get_value (adjustment);
 		}
 
-		adjustment = gtk_layout_get_vadjustment (layout);
+		adjustment = gtk_scrollable_get_vadjustment (scrollable);
 		y += gtk_adjustment_get_value (adjustment);
 
 		if (tree->priv->drop_highlight == NULL) {
@@ -2731,7 +2730,7 @@ e_tree_get_cell_at (ETree *tree,
 		     gint *row_return, gint *col_return)
 {
 	GtkAdjustment *adjustment;
-	GtkLayout *layout;
+	GtkScrollable *scrollable;
 
 	g_return_if_fail (E_IS_TREE (tree));
 	g_return_if_fail (row_return != NULL);
@@ -2745,12 +2744,12 @@ e_tree_get_cell_at (ETree *tree,
 	if (col_return)
 		*col_return = -1;
 
-	layout = GTK_LAYOUT (tree->priv->table_canvas);
+	scrollable = GTK_SCROLLABLE (tree->priv->table_canvas);
 
-	adjustment = gtk_layout_get_hadjustment (layout);
+	adjustment = gtk_scrollable_get_hadjustment (scrollable);
 	x += gtk_adjustment_get_value (adjustment);
 
-	adjustment = gtk_layout_get_vadjustment (layout);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 	y += gtk_adjustment_get_value (adjustment);
 
 	e_table_item_compute_location (
@@ -2779,7 +2778,7 @@ e_tree_get_cell_geometry (ETree *tree,
 			  gint *width_return, gint *height_return)
 {
 	GtkAdjustment *adjustment;
-	GtkLayout *layout;
+	GtkScrollable *scrollable;
 
 	g_return_if_fail (E_IS_TREE (tree));
 	g_return_if_fail (row >= 0);
@@ -2793,15 +2792,15 @@ e_tree_get_cell_geometry (ETree *tree,
 		&row, &col, x_return, y_return,
 		width_return, height_return);
 
-	layout = GTK_LAYOUT (tree->priv->table_canvas);
+	scrollable = GTK_SCROLLABLE (tree->priv->table_canvas);
 
 	if (x_return) {
-		adjustment = gtk_layout_get_hadjustment (layout);
+		adjustment = gtk_scrollable_get_hadjustment (scrollable);
 		(*x_return) -= gtk_adjustment_get_value (adjustment);
 	}
 
 	if (y_return) {
-		adjustment = gtk_layout_get_vadjustment (layout);
+		adjustment = gtk_scrollable_get_vadjustment (scrollable);
 		(*y_return) -= gtk_adjustment_get_value (adjustment);
 	}
 }
@@ -2915,7 +2914,7 @@ scroll_timeout (gpointer data)
 	ETree *et = data;
 	gint dx = 0, dy = 0;
 	GtkAdjustment *adjustment;
-	GtkLayout *layout;
+	GtkScrollable *scrollable;
 	gdouble old_h_value;
 	gdouble new_h_value;
 	gdouble old_v_value;
@@ -2934,9 +2933,9 @@ scroll_timeout (gpointer data)
 	if (et->priv->scroll_direction & ET_SCROLL_LEFT)
 		dx -= 20;
 
-	layout = GTK_LAYOUT (et->priv->table_canvas);
+	scrollable = GTK_SCROLLABLE (et->priv->table_canvas);
 
-	adjustment = gtk_layout_get_hadjustment (layout);
+	adjustment = gtk_scrollable_get_hadjustment (scrollable);
 
 	page_size = gtk_adjustment_get_page_size (adjustment);
 	lower = gtk_adjustment_get_lower (adjustment);
@@ -2947,7 +2946,7 @@ scroll_timeout (gpointer data)
 
 	gtk_adjustment_set_value (adjustment, new_h_value);
 
-	adjustment = gtk_layout_get_vadjustment (layout);
+	adjustment = gtk_scrollable_get_vadjustment (scrollable);
 
 	page_size = gtk_adjustment_get_page_size (adjustment);
 	lower = gtk_adjustment_get_lower (adjustment);

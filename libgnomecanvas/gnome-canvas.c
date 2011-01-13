@@ -1877,8 +1877,8 @@ gnome_canvas_init (GnomeCanvas *canvas)
 	 */
 	canvas->center_scroll_region = TRUE;
 
-	gtk_layout_set_hadjustment (GTK_LAYOUT (canvas), NULL);
-	gtk_layout_set_vadjustment (GTK_LAYOUT (canvas), NULL);
+	gtk_scrollable_set_hadjustment (GTK_SCROLLABLE (canvas), NULL);
+	gtk_scrollable_set_vadjustment (GTK_SCROLLABLE (canvas), NULL);
 
 	/* Disable the gtk+ gdouble buffering since the canvas uses it's own. */
 	gtk_widget_set_double_buffered (GTK_WIDGET (canvas), FALSE);
@@ -2067,8 +2067,8 @@ static void
 scroll_to (GnomeCanvas *canvas, gint cx, gint cy)
 {
 	GtkWidget *widget;
-	GtkLayout *layout;
 	GtkAllocation allocation;
+	GtkScrollable *scrollable;
 	GtkAdjustment *hadjustment;
 	GtkAdjustment *vadjustment;
 	guint layout_width, layout_height;
@@ -2080,10 +2080,11 @@ scroll_to (GnomeCanvas *canvas, gint cx, gint cy)
 	widget = GTK_WIDGET (canvas);
 	gtk_widget_get_allocation (widget, &allocation);
 
-	layout = GTK_LAYOUT (canvas);
-	hadjustment = gtk_layout_get_hadjustment (layout);
-	vadjustment = gtk_layout_get_vadjustment (layout);
-	gtk_layout_get_size (layout, &layout_width, &layout_height);
+	scrollable = GTK_SCROLLABLE (canvas);
+	hadjustment = gtk_scrollable_get_hadjustment (scrollable);
+	vadjustment = gtk_scrollable_get_vadjustment (scrollable);
+
+	gtk_layout_get_size (GTK_LAYOUT (canvas), &layout_width, &layout_height);
 
 	canvas_width = allocation.width;
 	canvas_height = allocation.height;
@@ -2163,7 +2164,7 @@ scroll_to (GnomeCanvas *canvas, gint cx, gint cy)
 static void
 gnome_canvas_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
-	GtkLayout *layout;
+	GtkScrollable *scrollable;
 	GtkAdjustment *hadjustment;
 	GtkAdjustment *vadjustment;
 
@@ -2173,9 +2174,9 @@ gnome_canvas_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	if (GTK_WIDGET_CLASS (canvas_parent_class)->size_allocate)
 		(* GTK_WIDGET_CLASS (canvas_parent_class)->size_allocate) (widget, allocation);
 
-	layout = GTK_LAYOUT (widget);
-	hadjustment = gtk_layout_get_hadjustment (layout);
-	vadjustment = gtk_layout_get_vadjustment (layout);
+	scrollable = GTK_SCROLLABLE (widget);
+	hadjustment = gtk_scrollable_get_hadjustment (scrollable);
+	vadjustment = gtk_scrollable_get_vadjustment (scrollable);
 
 	/* Recenter the view, if appropriate */
 
@@ -2670,9 +2671,9 @@ static void
 gnome_canvas_paint_rect (GnomeCanvas *canvas, gint x0, gint y0, gint x1, gint y1)
 {
 	GtkWidget *widget;
-	GtkLayout *layout;
 	GdkWindow *bin_window;
 	GtkAllocation allocation;
+	GtkScrollable *scrollable;
 	GtkAdjustment *hadjustment;
 	GtkAdjustment *vadjustment;
 	gint draw_x1, draw_y1;
@@ -2687,11 +2688,11 @@ gnome_canvas_paint_rect (GnomeCanvas *canvas, gint x0, gint y0, gint x1, gint y1
 
 	widget = GTK_WIDGET (canvas);
 	gtk_widget_get_allocation (widget, &allocation);
+	bin_window = gtk_layout_get_bin_window (GTK_LAYOUT (canvas));
 
-	layout = GTK_LAYOUT (canvas);
-	bin_window = gtk_layout_get_bin_window (layout);
-	hadjustment = gtk_layout_get_hadjustment (layout);
-	vadjustment = gtk_layout_get_vadjustment (layout);
+	scrollable = GTK_SCROLLABLE (canvas);
+	hadjustment = gtk_scrollable_get_hadjustment (scrollable);
+	vadjustment = gtk_scrollable_get_vadjustment (scrollable);
 
 	hadjustment_value = gtk_adjustment_get_value (hadjustment);
 	vadjustment_value = gtk_adjustment_get_value (vadjustment);
@@ -2915,7 +2916,7 @@ gnome_canvas_set_scroll_region (GnomeCanvas *canvas,
                                 gdouble x2,
                                 gdouble y2)
 {
-	GtkLayout *layout;
+	GtkScrollable *scrollable;
 	GtkAdjustment *hadjustment;
 	GtkAdjustment *vadjustment;
 	gdouble hadjustment_value;
@@ -2925,9 +2926,9 @@ gnome_canvas_set_scroll_region (GnomeCanvas *canvas,
 
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
-	layout = GTK_LAYOUT (canvas);
-	hadjustment = gtk_layout_get_hadjustment (layout);
-	vadjustment = gtk_layout_get_vadjustment (layout);
+	scrollable = GTK_SCROLLABLE (canvas);
+	hadjustment = gtk_scrollable_get_hadjustment (scrollable);
+	vadjustment = gtk_scrollable_get_vadjustment (scrollable);
 
 	hadjustment_value = gtk_adjustment_get_value (hadjustment);
 	vadjustment_value = gtk_adjustment_get_value (vadjustment);
@@ -3008,7 +3009,7 @@ void
 gnome_canvas_set_center_scroll_region (GnomeCanvas *canvas,
                                        gboolean center_scroll_region)
 {
-	GtkLayout *layout;
+	GtkScrollable *scrollable;
 	GtkAdjustment *hadjustment;
 	GtkAdjustment *vadjustment;
 	gdouble hadjustment_value;
@@ -3016,9 +3017,9 @@ gnome_canvas_set_center_scroll_region (GnomeCanvas *canvas,
 
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
-	layout = GTK_LAYOUT (canvas);
-	hadjustment = gtk_layout_get_hadjustment (layout);
-	vadjustment = gtk_layout_get_vadjustment (layout);
+	scrollable = GTK_SCROLLABLE (canvas);
+	hadjustment = gtk_scrollable_get_hadjustment (scrollable);
+	vadjustment = gtk_scrollable_get_vadjustment (scrollable);
 
 	hadjustment_value = gtk_adjustment_get_value (hadjustment);
 	vadjustment_value = gtk_adjustment_get_value (vadjustment);
@@ -3064,7 +3065,7 @@ gnome_canvas_get_center_scroll_region (GnomeCanvas *canvas)
 void
 gnome_canvas_set_pixels_per_unit (GnomeCanvas *canvas, gdouble n)
 {
-	GtkLayout *layout;
+	GtkScrollable *scrollable;
 	GtkAdjustment *hadjustment;
 	GtkAdjustment *vadjustment;
 	gdouble ax, ay;
@@ -3074,9 +3075,9 @@ gnome_canvas_set_pixels_per_unit (GnomeCanvas *canvas, gdouble n)
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 	g_return_if_fail (n > GNOME_CANVAS_EPSILON);
 
-	layout = GTK_LAYOUT (canvas);
-	hadjustment = gtk_layout_get_hadjustment (layout);
-	vadjustment = gtk_layout_get_vadjustment (layout);
+	scrollable = GTK_SCROLLABLE (canvas);
+	hadjustment = gtk_scrollable_get_hadjustment (scrollable);
+	vadjustment = gtk_scrollable_get_vadjustment (scrollable);
 
 	if (canvas->center_scroll_region) {
 		GtkAllocation allocation;
@@ -3153,20 +3154,20 @@ gnome_canvas_scroll_to (GnomeCanvas *canvas, gint cx, gint cy)
 void
 gnome_canvas_get_scroll_offsets (GnomeCanvas *canvas, gint *cx, gint *cy)
 {
-	GtkLayout *layout;
 	GtkAdjustment *adjustment;
+	GtkScrollable *scrollable;
 
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
-	layout = GTK_LAYOUT (canvas);
+	scrollable = GTK_SCROLLABLE (canvas);
 
 	if (cx) {
-		adjustment = gtk_layout_get_hadjustment (layout);
+		adjustment = gtk_scrollable_get_hadjustment (scrollable);
 		*cx = (gint) gtk_adjustment_get_value (adjustment);
 	}
 
 	if (cy) {
-		adjustment = gtk_layout_get_vadjustment (layout);
+		adjustment = gtk_scrollable_get_vadjustment (scrollable);
 		*cy = (gint) gtk_adjustment_get_value (adjustment);
 	}
 }
@@ -3216,8 +3217,8 @@ gnome_canvas_request_update_real (GnomeCanvas *canvas)
 static inline void
 get_visible_rect (GnomeCanvas *canvas, GdkRectangle *visible)
 {
-	GtkLayout *layout;
 	GtkAllocation allocation;
+	GtkScrollable *scrollable;
 	GtkAdjustment *hadjustment;
 	GtkAdjustment *vadjustment;
 	gdouble hadjustment_value;
@@ -3225,9 +3226,9 @@ get_visible_rect (GnomeCanvas *canvas, GdkRectangle *visible)
 
 	gtk_widget_get_allocation (GTK_WIDGET (canvas), &allocation);
 
-	layout = GTK_LAYOUT (canvas);
-	hadjustment = gtk_layout_get_hadjustment (layout);
-	vadjustment = gtk_layout_get_vadjustment (layout);
+	scrollable = GTK_SCROLLABLE (canvas);
+	hadjustment = gtk_scrollable_get_hadjustment (scrollable);
+	vadjustment = gtk_scrollable_get_vadjustment (scrollable);
 
 	hadjustment_value = gtk_adjustment_get_value (hadjustment);
 	vadjustment_value = gtk_adjustment_get_value (vadjustment);

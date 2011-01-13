@@ -5,9 +5,21 @@
 
 /* Provide a GTK+ compatibility layer. */
 
-#if !GTK_CHECK_VERSION (2,91,0)  /* approximately  */
+#if !GTK_CHECK_VERSION (2,91,0)  /* approximately; who cares at this point */
+
 #define gtk_widget_get_preferred_size(widget, minimum_size, natural_size) \
 	(gtk_widget_size_request ((widget), ((minimum_size))))
+
+/* XXX Yes, the GtkScrollable interface is implemented by more than just
+ *     GtkLayout, but it turns out GtkLayout is the only thing Evolution
+ *     uses the GtkScrollable API for on the gtk3 branch. */
+#define GtkScrollable				GtkLayout
+#define GTK_SCROLLABLE				GTK_LAYOUT
+#define gtk_scrollable_get_hadjustment		gtk_layout_get_hadjustment
+#define gtk_scrollable_set_hadjustment		gtk_layout_set_hadjustment
+#define gtk_scrollable_get_vadjustment		gtk_layout_get_vadjustment
+#define gtk_scrollable_set_vadjustment		gtk_layout_set_vadjustment
+
 #endif
 
 #if !GTK_CHECK_VERSION (2,23,0)

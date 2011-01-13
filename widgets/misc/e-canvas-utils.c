@@ -23,6 +23,9 @@
 
 #include "e-canvas-utils.h"
 
+/* backward-compatibility cruft */
+#include "e-util/gtk-compat.h"
+
 void
 e_canvas_item_move_absolute (GnomeCanvasItem *item, gdouble dx, gdouble dy)
 {
@@ -75,7 +78,7 @@ e_canvas_show_area (GnomeCanvas *canvas, gdouble x1, gdouble y1, gdouble x2, gdo
 	g_return_if_fail (canvas != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
-	h = gtk_layout_get_hadjustment (GTK_LAYOUT (canvas));
+	h = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (canvas));
 	page_size = gtk_adjustment_get_page_size (h);
 	lower = gtk_adjustment_get_lower (h);
 	upper = gtk_adjustment_get_upper (h);
@@ -84,7 +87,7 @@ e_canvas_show_area (GnomeCanvas *canvas, gdouble x1, gdouble y1, gdouble x2, gdo
 	if (dx)
 		gtk_adjustment_set_value (h, CLAMP (value + dx, lower, upper - page_size));
 
-	v = gtk_layout_get_vadjustment (GTK_LAYOUT (canvas));
+	v = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (canvas));
 	page_size = gtk_adjustment_get_page_size (v);
 	lower = gtk_adjustment_get_lower (v);
 	upper = gtk_adjustment_get_upper (v);
@@ -119,7 +122,7 @@ e_canvas_area_shown (GnomeCanvas *canvas, gdouble x1, gdouble y1, gdouble x2, gd
 	g_return_val_if_fail (canvas != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CANVAS (canvas), FALSE);
 
-	h = gtk_layout_get_hadjustment (GTK_LAYOUT (canvas));
+	h = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (canvas));
 	page_size = gtk_adjustment_get_page_size (h);
 	lower = gtk_adjustment_get_lower (h);
 	upper = gtk_adjustment_get_upper (h);
@@ -128,7 +131,7 @@ e_canvas_area_shown (GnomeCanvas *canvas, gdouble x1, gdouble y1, gdouble x2, gd
 	if (CLAMP (value + dx, lower, upper - page_size) - value != 0)
 		return FALSE;
 
-	v = gtk_layout_get_vadjustment (GTK_LAYOUT (canvas));
+	v = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (canvas));
 	page_size = gtk_adjustment_get_page_size (v);
 	lower = gtk_adjustment_get_lower (v);
 	upper = gtk_adjustment_get_upper (v);
