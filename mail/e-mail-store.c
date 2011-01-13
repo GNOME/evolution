@@ -406,7 +406,10 @@ e_mail_store_foreach (GHFunc func,
 	gpointer key, value;
 
 	g_return_if_fail (func != NULL);
-	g_return_if_fail (store_table != NULL);
+
+	/* case when started in other than mailer component and closing evolution */
+	if (!store_table)
+		return;
 
 	g_hash_table_iter_init (&iter, store_table);
 
