@@ -1171,9 +1171,9 @@ e_text_unrealize (GnomeCanvasItem *item)
 
 	text = E_TEXT (item);
 
-	gdk_cursor_unref (text->i_cursor);
+	g_object_unref (text->i_cursor);
 	text->i_cursor = NULL;
-	gdk_cursor_unref (text->default_cursor);
+	g_object_unref (text->default_cursor);
 	text->default_cursor = NULL;
 
 	if (GNOME_CANVAS_ITEM_CLASS (e_text_parent_class)->unrealize)

@@ -108,7 +108,7 @@ ethi_dispose (GObject *object) {
 	scroll_off (ethi);
 
 	if (ethi->resize_cursor) {
-		gdk_cursor_unref (ethi->resize_cursor);
+		g_object_unref (ethi->resize_cursor);
 		ethi->resize_cursor = NULL;
 	}
 

@@ -903,8 +903,8 @@ e_reflow_unrealize (GnomeCanvasItem *item)
 
 	reflow = E_REFLOW (item);
 
-	gdk_cursor_unref (reflow->arrow_cursor);
-	gdk_cursor_unref (reflow->default_cursor);
+	g_object_unref (reflow->arrow_cursor);
+	g_object_unref (reflow->default_cursor);
 	reflow->arrow_cursor = NULL;
 	reflow->default_cursor = NULL;
 

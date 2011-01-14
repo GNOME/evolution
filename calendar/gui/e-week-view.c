@@ -888,15 +888,15 @@ e_week_view_dispose (GObject *object)
 	}
 
 	if (week_view->normal_cursor) {
-		gdk_cursor_unref (week_view->normal_cursor);
+		g_object_unref (week_view->normal_cursor);
 		week_view->normal_cursor = NULL;
 	}
 	if (week_view->move_cursor) {
-		gdk_cursor_unref (week_view->move_cursor);
+		g_object_unref (week_view->move_cursor);
 		week_view->move_cursor = NULL;
 	}
 	if (week_view->resize_width_cursor) {
-		gdk_cursor_unref (week_view->resize_width_cursor);
+		g_object_unref (week_view->resize_width_cursor);
 		week_view->resize_width_cursor = NULL;
 	}
 
