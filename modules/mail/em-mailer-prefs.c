@@ -670,9 +670,12 @@ junk_plugin_changed (GtkWidget *combo, EMMailerPrefs *prefs)
 {
 	gchar *def_plugin;
 	const GList *plugins = mail_session_get_junk_plugins (prefs->session);
+	GtkTreeIter iter;
 
-	def_plugin = gtk_combo_box_text_get_active_text (
-		GTK_COMBO_BOX_TEXT (combo));
+	g_return_if_fail (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combo), &iter));
+
+	def_plugin = NULL;
+	gtk_tree_model_get (gtk_combo_box_get_model (GTK_COMBO_BOX (combo)), &iter, 0, &def_plugin, -1);
 
 	gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/junk/default_plugin", def_plugin, NULL);
 	while (plugins) {
@@ -705,6 +708,8 @@ junk_plugin_changed (GtkWidget *combo, EMMailerPrefs *prefs)
 		}
 		plugins = plugins->next;
 	}
+
+	g_free (def_plugin);
 }
 
 static void

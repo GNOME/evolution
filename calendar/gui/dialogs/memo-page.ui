@@ -422,10 +422,12 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkComboBoxEntry" id="org-combo">
+                  <object class="GtkComboBox" id="org-combo">
                     <property name="visible">False</property>
                     <property name="add_tearoffs">False</property>
                     <property name="has_frame">True</property>
+                    <property name="has-entry">True</property>
+		    <property name="entry-text-column">0</property>
                     <property name="focus_on_click">True</property>
                     <property name="model">model1</property>
                   </object>

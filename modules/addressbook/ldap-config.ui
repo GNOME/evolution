@@ -308,9 +308,11 @@
       </packing>
     </child>
     <child>
-      <object class="GtkComboBoxEntry" id="port-comboentry">
+      <object class="GtkComboBox" id="port-comboentry">
         <property name="visible">True</property>
         <property name="model">model2</property>
+	<property name="has-entry">True</property>
+	<property name="entry-text-column">0</property>
       </object>
       <packing>
         <property name="left_attach">1</property>

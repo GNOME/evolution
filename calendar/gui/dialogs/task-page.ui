@@ -408,9 +408,10 @@
                     <property name="spacing">6</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkComboBoxEntry" id="organizer">
+                      <object class="GtkComboBox" id="organizer">
                         <property name="visible">True</property>
                         <property name="model">model1</property>
+                        <property name="has-entry">TRUE</property>
                       </object>
                       <packing>
                         <property name="position">0</property>

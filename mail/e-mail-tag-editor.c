@@ -158,10 +158,12 @@ mail_tag_editor_get_tag_list (EMailTagEditor *editor)
 {
 	CamelTag *tag_list = NULL;
 	time_t date;
-	gchar *text;
+	gchar *text = NULL;
+	GtkWidget *entry;
 
-	text = gtk_combo_box_text_get_active_text (
-		GTK_COMBO_BOX_TEXT (editor->priv->combo_entry));
+	entry = gtk_bin_get_child (GTK_BIN (editor->priv->combo_entry));
+	if (entry)
+		text = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 	camel_tag_set (&tag_list, "follow-up", text);
 	g_free (text);
 
@@ -332,7 +334,6 @@ mail_tag_editor_init (EMailTagEditor *editor)
 		renderer, "text", 1, NULL);
 
 	widget = e_builder_get_widget (builder, "combo");
-	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX_ENTRY (widget), 0);
 	editor->priv->combo_entry = GTK_COMBO_BOX (widget);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (widget), DEFAULT_FLAG);
 

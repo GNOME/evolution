@@ -331,8 +331,10 @@ Please select a follow up action from the "Flag" menu.</property>
           </packing>
         </child>
         <child>
-          <object class="GtkComboBoxEntry" id="combo">
+          <object class="GtkComboBox" id="combo">
             <property name="visible">True</property>
+            <property name="has-entry">True</property>
+            <property name="entry-text-column">0</property>
             <property name="model">combo_model</property>
           </object>
           <packing>

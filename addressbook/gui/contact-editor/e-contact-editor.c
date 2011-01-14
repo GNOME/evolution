@@ -537,8 +537,13 @@ file_as_set_style (EContactEditor *editor, gint style)
 	company = gtk_entry_get_text (GTK_ENTRY (company_w));
 
 	if (style == -1) {
-		string = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (combo_file_as));
-		strings = g_list_append (strings, string);
+		GtkWidget *entry;
+
+		entry = gtk_bin_get_child (GTK_BIN (combo_file_as));
+		if (entry) {
+			string = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+			strings = g_list_append (strings, string);
+		}
 	}
 
 	for (i = 0; i < 6; i++) {
@@ -554,11 +559,16 @@ file_as_set_style (EContactEditor *editor, gint style)
 
 	if (combo_file_as) {
 		GList *l;
+		GtkListStore *list_store;
+		GtkTreeIter iter;
 
-		gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (combo_file_as)));
+		list_store = GTK_LIST_STORE (gtk_combo_box_get_model (combo_file_as));
+
+		gtk_list_store_clear (list_store);
 
 		for (l = strings; l; l = l->next) {
-			gtk_combo_box_text_append_text (GTK_COMBO_BOX_TEXT (combo_file_as), l->data);
+			gtk_list_store_append (list_store, &iter);
+			gtk_list_store_set (list_store, &iter, 0, l->data, -1);
 		}
 	}
 
@@ -592,7 +602,12 @@ name_entry_changed (GtkWidget *widget, EContactEditor *editor)
 static void
 file_as_combo_changed (GtkWidget *widget, EContactEditor *editor)
 {
-	gchar *string = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (widget));
+	GtkWidget *entry;
+	gchar *string = NULL;
+
+	entry = gtk_bin_get_child (GTK_BIN (widget));
+	if (entry)
+		string = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 
 	if (string && *string) {
 		gchar *title;
@@ -2550,7 +2565,7 @@ init_simple (EContactEditor *editor)
 	widget = e_builder_get_widget (editor->builder, "entry-fullname");
 	g_signal_connect (widget, "changed", G_CALLBACK (name_entry_changed), editor);
 	widget = e_builder_get_widget (editor->builder, "combo-file-as");
-	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX_ENTRY (widget), 0);
+	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX (widget), 0);
 	g_signal_connect (widget, "changed", G_CALLBACK (file_as_combo_changed), editor);
 	widget = e_builder_get_widget (editor->builder, "entry-company");
 	g_signal_connect (widget, "changed", G_CALLBACK (company_entry_changed), editor);
