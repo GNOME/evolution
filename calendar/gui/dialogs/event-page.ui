@@ -741,10 +741,12 @@
                     <property name="homogeneous">True</property>
                     <property name="spacing">0</property>
                     <child>
-                      <object class="GtkComboBoxEntry" id="organizer">
+                      <object class="GtkComboBox" id="organizer">
                         <property name="visible">True</property>
                         <property name="add_tearoffs">False</property>
                         <property name="has_frame">True</property>
+                        <property name="has-entry">True</property>
+			<property name="entry-text-column">0</property>
                         <property name="focus_on_click">True</property>
                         <property name="model">model2</property>
                       </object>

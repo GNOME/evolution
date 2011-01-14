@@ -312,8 +312,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkComboBoxEntry" id="comboentry-title">
+              <object class="GtkComboBox" id="comboentry-title">
                 <property name="visible">True</property>
+                <property name="has-entry">True</property>
+                <property name="entry-text-column">0</property>
                 <property name="add_tearoffs">False</property>
                 <property name="has_frame">True</property>
                 <property name="focus_on_click">True</property>
@@ -329,8 +331,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkComboBoxEntry" id="comboentry-suffix">
+              <object class="GtkComboBox" id="comboentry-suffix">
                 <property name="visible">True</property>
+                <property name="has-entry">True</property>
+                <property name="entry-text-column">0</property>
                 <property name="add_tearoffs">False</property>
                 <property name="has_frame">True</property>
                 <property name="focus_on_click">True</property>

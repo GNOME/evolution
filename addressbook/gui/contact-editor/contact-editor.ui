@@ -255,8 +255,10 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkComboBoxEntry" id="combo-file-as">
+                                  <object class="GtkComboBox" id="combo-file-as">
                                     <property name="visible">True</property>
+                                    <property name="has-entry">True</property>
+                                    <property name="entry-text-column">0</property>
                                     <property name="model">model1</property>
                                   </object>
                                   <packing>

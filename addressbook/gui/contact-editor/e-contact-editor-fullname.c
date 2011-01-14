@@ -227,11 +227,6 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 
 	gtk_window_set_icon_name (
 		GTK_WINDOW (e_contact_editor_fullname), "contact-new");
-
-	widget = e_builder_get_widget (builder, "comboentry-title");
-	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX_ENTRY (widget), 0);
-	widget = e_builder_get_widget (builder, "comboentry-suffix");
-	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX_ENTRY (widget), 0);
 }
 
 GtkWidget*
