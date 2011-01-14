@@ -432,8 +432,7 @@ build_dialog (GtkWindow *parent,
 	EMEventTargetSendReceive *target;
 
 	send_recv_dialog = gtk_dialog_new_with_buttons (
-		_("Send & Receive Mail"), parent,
-		GTK_DIALOG_NO_SEPARATOR, NULL);
+		_("Send & Receive Mail"), parent, 0, NULL);
 	gd = GTK_DIALOG (send_recv_dialog);
 	gtk_window_set_modal ((GtkWindow *) gd, FALSE);
 

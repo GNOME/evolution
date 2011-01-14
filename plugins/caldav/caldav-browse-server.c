@@ -1521,7 +1521,7 @@ caldav_browse_server (GtkWindow *parent, const gchar *server_url, const gchar *u
 	dialog = gtk_dialog_new_with_buttons (
 			_("Browse for a CalDAV calendar"),
 			parent,
-			GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
+			GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 			GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 			GTK_STOCK_OK, GTK_RESPONSE_OK,
 			NULL);

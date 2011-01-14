@@ -221,7 +221,7 @@ mergeit (EContactMergingLookup *lookup)
 	gint row = -1;
 	gint value = 0, result;
 
-	dialog = (GtkDialog *)(gtk_dialog_new_with_buttons (_("Merge Contact"), NULL, GTK_DIALOG_NO_SEPARATOR, NULL));
+	dialog = (GtkDialog *)(gtk_dialog_new_with_buttons (_("Merge Contact"), NULL, 0, NULL));
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 5);
 
 	content_area = gtk_dialog_get_content_area (dialog);

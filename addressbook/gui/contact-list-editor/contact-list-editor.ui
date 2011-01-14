@@ -8,7 +8,6 @@
     <property name="window_position">GTK_WIN_POS_CENTER</property>
     <property name="icon_name">stock_contact-list</property>
     <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
-    <property name="has_separator">False</property>
     <signal handler="contact_list_editor_delete_event_cb" name="delete_event"/>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox">

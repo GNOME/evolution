@@ -1143,8 +1143,7 @@ e_config_create_window (EConfig *emp, GtkWindow *parent, const gchar *title)
 
 	if (emp->type == E_CONFIG_BOOK) {
 		w = gtk_dialog_new_with_buttons (title, parent,
-						GTK_DIALOG_DESTROY_WITH_PARENT |
-						GTK_DIALOG_NO_SEPARATOR,
+						GTK_DIALOG_DESTROY_WITH_PARENT,
 						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						GTK_STOCK_OK, GTK_RESPONSE_OK,
 						NULL);

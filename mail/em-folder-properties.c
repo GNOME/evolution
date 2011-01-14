@@ -288,7 +288,7 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 
 	dialog = gtk_dialog_new_with_buttons (
 		_("Folder Properties"), GTK_WINDOW (shell_window),
-		GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
+		GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_STOCK_CLOSE, GTK_RESPONSE_OK, NULL);
 	gtk_window_set_default_size ((GtkWindow *) dialog, 192, 160);
 
