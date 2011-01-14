@@ -408,7 +408,7 @@ subscription_editor_subscribe (EMSubscriptionEditor *editor)
 	cursor = gdk_cursor_new (GDK_WATCH);
 	window = gtk_widget_get_window (GTK_WIDGET (editor));
 	gdk_window_set_cursor (window, cursor);
-	gdk_cursor_unref (cursor);
+	g_object_unref (cursor);
 
 	gtk_tree_model_get (
 		tree_model, &iter, COL_FOLDER_INFO, &folder_info, -1);
@@ -466,7 +466,7 @@ subscription_editor_unsubscribe (EMSubscriptionEditor *editor)
 	cursor = gdk_cursor_new (GDK_WATCH);
 	window = gtk_widget_get_window (GTK_WIDGET (editor));
 	gdk_window_set_cursor (window, cursor);
-	gdk_cursor_unref (cursor);
+	g_object_unref (cursor);
 
 	gtk_tree_model_get (
 		tree_model, &iter, COL_FOLDER_INFO, &folder_info, -1);
@@ -520,7 +520,7 @@ subscription_editor_refresh (EMSubscriptionEditor *editor)
 	cursor = gdk_cursor_new (GDK_WATCH);
 	window = gtk_widget_get_window (GTK_WIDGET (editor));
 	gdk_window_set_cursor (window, cursor);
-	gdk_cursor_unref (cursor);
+	g_object_unref (cursor);
 
 	camel_store_get_folder_info (
 		editor->priv->active->store, NULL,

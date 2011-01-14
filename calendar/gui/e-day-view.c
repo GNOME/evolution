@@ -1307,19 +1307,19 @@ e_day_view_dispose (GObject *object)
 	}
 
 	if (day_view->normal_cursor) {
-		gdk_cursor_unref (day_view->normal_cursor);
+		g_object_unref (day_view->normal_cursor);
 		day_view->normal_cursor = NULL;
 	}
 	if (day_view->move_cursor) {
-		gdk_cursor_unref (day_view->move_cursor);
+		g_object_unref (day_view->move_cursor);
 		day_view->move_cursor = NULL;
 	}
 	if (day_view->resize_width_cursor) {
-		gdk_cursor_unref (day_view->resize_width_cursor);
+		g_object_unref (day_view->resize_width_cursor);
 		day_view->resize_width_cursor = NULL;
 	}
 	if (day_view->resize_height_cursor) {
-		gdk_cursor_unref (day_view->resize_height_cursor);
+		g_object_unref (day_view->resize_height_cursor);
 		day_view->resize_height_cursor = NULL;
 	}
 

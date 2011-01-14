@@ -1467,7 +1467,7 @@ e_meeting_time_selector_refresh_cb (gpointer data)
 		window = gtk_widget_get_window (GTK_WIDGET (mts));
 		if (window)
 			gdk_window_set_cursor (window, cursor);
-		gdk_cursor_unref (cursor);
+		g_object_unref (cursor);
 
 		mts->last_cursor_set = GDK_LEFT_PTR;
 
@@ -1515,7 +1515,7 @@ e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, gint row, 
 		cursor = gdk_cursor_new (GDK_WATCH);
 		window = gtk_widget_get_window (GTK_WIDGET (mts));
 		gdk_window_set_cursor (window, cursor);
-		gdk_cursor_unref (cursor);
+		g_object_unref (cursor);
 
 		mts->last_cursor_set = GDK_WATCH;
 	}
