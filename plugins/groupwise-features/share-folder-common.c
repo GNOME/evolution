@@ -313,7 +313,7 @@ new_folder_response (EMFolderSelector *emfs, gint response, EMFolderTreeModel *m
 
 	cnc = get_cnc (store);
 	users_dialog = gtk_dialog_new_with_buttons (
-			_("Users"), NULL, GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+			_("Users"), NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 	w = gtk_label_new_with_mnemonic (_("Enter the users and set permissions"));
 	gtk_widget_show (w);
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (users_dialog));

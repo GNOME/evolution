@@ -387,7 +387,7 @@ build_quick_add_dialog (QuickAdd *qa)
 	dialog = gtk_dialog_new_with_buttons (
 		_("Contact Quick-Add"),
 		e_shell_get_active_window (NULL),
-		GTK_DIALOG_NO_SEPARATOR,
+		0,
 		_("_Edit Full"), QUICK_ADD_RESPONSE_EDIT_FULL,
 		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 		GTK_STOCK_OK, GTK_RESPONSE_OK,

@@ -69,7 +69,6 @@
     <property name="title" translatable="yes">Contact Editor</property>
     <property name="window_position">center</property>
     <property name="type_hint">dialog</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>

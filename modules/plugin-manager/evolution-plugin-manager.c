@@ -256,7 +256,6 @@ action_plugin_manager_cb (GtkAction *action,
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 
 	gtk_window_set_default_size (GTK_WINDOW (dialog), 640, 400);
-	g_object_set (dialog, "has_separator", FALSE, NULL);
 	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
 
 	hbox = gtk_hbox_new (FALSE, 12);

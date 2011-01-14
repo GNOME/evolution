@@ -20,7 +20,6 @@
     <property name="default_width">384</property>
     <property name="default_height">200</property>
     <property name="type_hint">dialog</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="content-area">
         <property name="visible">True</property>

@@ -20,7 +20,6 @@
     <property name="title">dialog1</property>
     <property name="window_position">center</property>
     <property name="type_hint">dialog</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox1">
         <property name="visible">True</property>
@@ -1163,7 +1162,6 @@
     <property name="title" translatable="yes">Certificate Authority Trust</property>
     <property name="window_position">center</property>
     <property name="type_hint">normal</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox2">
         <property name="visible">True</property>
@@ -1390,7 +1388,6 @@
     <property name="title" translatable="yes">Email Certificate Trust Settings</property>
     <property name="window_position">center</property>
     <property name="type_hint">normal</property>
-    <property name="has_separator">False</property>
     <child internal-child="vbox">
       <object class="GtkVBox" id="dialog-vbox3">
         <property name="visible">True</property>
