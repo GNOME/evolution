@@ -100,7 +100,7 @@ e_select_names_renderer_editing_done (GtkCellEditable *editable, ESelectNamesRen
 
 static GtkCellEditable *
 e_select_names_renderer_start_editing (GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, const gchar *path,
-		    GdkRectangle *bg_area, GdkRectangle *cell_area, GtkCellRendererState flags)
+		    const GdkRectangle *bg_area, const GdkRectangle *cell_area, GtkCellRendererState flags)
 {
 	ESelectNamesRenderer *sn_cell = E_SELECT_NAMES_RENDERER (cell);
 	GtkCellRendererText *text_cell = GTK_CELL_RENDERER_TEXT (cell);

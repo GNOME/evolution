@@ -60,7 +60,7 @@ ecrc_editing_done (GtkCellEditable *editable, ECellRendererCombo *cell)
 
 static GtkCellEditable *
 ecrc_start_editing (GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, const gchar *path,
-		    GdkRectangle *bg_area, GdkRectangle *cell_area, GtkCellRendererState flags)
+		    const GdkRectangle *bg_area, const GdkRectangle *cell_area, GtkCellRendererState flags)
 {
 	ECellRendererCombo *combo_cell = E_CELL_RENDERER_COMBO (cell);
 	GtkCellRendererText *text_cell = GTK_CELL_RENDERER_TEXT (cell);
@@ -91,7 +91,7 @@ ecrc_start_editing (GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, c
 }
 
 static void
-ecrc_get_size (GtkCellRenderer *cell, GtkWidget *widget, GdkRectangle *cell_area,
+ecrc_get_size (GtkCellRenderer *cell, GtkWidget *widget, const GdkRectangle *cell_area,
 	       gint *x_offset, gint *y_offset, gint *width, gint *height)
 {
 	GtkWidget *btn;
