@@ -1045,13 +1045,9 @@ e_week_view_get_text_color (EWeekView *week_view, EWeekViewEvent *event, GtkWidg
 
 	if (is_comp_data_valid (event) && gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)), event->comp_data),
 	     &bg_color)) {
-                GdkColormap *colormap;
-		colormap = gtk_widget_get_colormap (GTK_WIDGET (week_view));
-		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
-			red = bg_color.red;
-			green = bg_color.green;
-			blue = bg_color.blue;
-                }
+		red = bg_color.red;
+		green = bg_color.green;
+		blue = bg_color.blue;
 	}
 
 	style = gtk_widget_get_style (widget);
@@ -2911,14 +2907,16 @@ e_week_view_reshape_events (EWeekView *week_view)
 		if (week_view->rows_per_day[day] <= max_rows) {
 			gnome_canvas_item_hide (week_view->jump_buttons[day]);
 		} else {
+			cairo_matrix_t matrix;
+
 			e_week_view_get_day_position (week_view, day,
 						      &day_x, &day_y,
 						      &day_w, &day_h);
 
-			gnome_canvas_item_set (week_view->jump_buttons[day],
-					       "GnomeCanvasPixbuf::x", (gdouble) (day_x + day_w - E_WEEK_VIEW_JUMP_BUTTON_X_PAD - E_WEEK_VIEW_JUMP_BUTTON_WIDTH),
-					       "GnomeCanvasPixbuf::y", (gdouble) (day_y + day_h - E_WEEK_VIEW_JUMP_BUTTON_Y_PAD - E_WEEK_VIEW_JUMP_BUTTON_HEIGHT),
-					       NULL);
+			cairo_matrix_init_translate (&matrix,
+					       day_x + day_w - E_WEEK_VIEW_JUMP_BUTTON_X_PAD - E_WEEK_VIEW_JUMP_BUTTON_WIDTH,
+					       day_y + day_h - E_WEEK_VIEW_JUMP_BUTTON_Y_PAD - E_WEEK_VIEW_JUMP_BUTTON_HEIGHT);
+			gnome_canvas_item_set_matrix (week_view->jump_buttons[day], &matrix);
 
 			gnome_canvas_item_show (week_view->jump_buttons[day]);
 			gnome_canvas_item_raise_to_top (week_view->jump_buttons[day]);

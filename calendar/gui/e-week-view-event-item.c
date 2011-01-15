@@ -387,7 +387,7 @@ week_view_draw_time (EWeekView *week_view,
 
 static void
 week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
-                                 GdkDrawable *drawable,
+                                 cairo_t *cr,
                                  gint icon_x,
                                  gint icon_y,
                                  gint x2,
@@ -404,7 +404,6 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 	gboolean draw_timezone_icon = FALSE, draw_attach_icon = FALSE;
 	gboolean draw_meeting_icon = FALSE;
 	GSList *categories_pixbufs = NULL, *pixbufs;
-	cairo_t *cr;
 
 	canvas = GNOME_CANVAS_ITEM (event_item)->canvas;
 	parent = gtk_widget_get_parent (GTK_WIDGET (canvas));
@@ -422,8 +421,6 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (
 		comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-
-	cr = gdk_cairo_create (drawable);
 
 	if (e_cal_component_has_alarms (comp)) {
 		draw_reminder_icon = TRUE;
@@ -502,7 +499,6 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
 	g_slist_foreach (categories_pixbufs, (GFunc)g_object_unref, NULL);
 	g_slist_free (categories_pixbufs);
 
-	cairo_destroy (cr);
 	g_object_unref (comp);
 }
 
@@ -510,7 +506,7 @@ week_view_event_item_draw_icons (EWeekViewEventItem *event_item,
    the days visible on screen. */
 static void
 week_view_event_item_draw_triangle (EWeekViewEventItem *event_item,
-                                    GdkDrawable *drawable,
+                                    cairo_t *cr,
                                     GdkColor bg_color,
                                     gint x,
                                     gint y,
@@ -526,7 +522,6 @@ week_view_event_item_draw_triangle (EWeekViewEventItem *event_item,
 	GdkPoint points[3];
 	const gchar *color_spec;
 	gint c1, c2;
-	cairo_t *cr;
 
 	if (!can_draw_in_region (draw_region, x, y, w, h))
 		return;
@@ -544,8 +539,6 @@ week_view_event_item_draw_triangle (EWeekViewEventItem *event_item,
 	if (!is_comp_data_valid (event))
 		return;
 
-	cr = gdk_cairo_create (drawable);
-
 	points[0].x = x;
 	points[0].y = y;
 	points[1].x = x + w;
@@ -559,20 +552,7 @@ week_view_event_item_draw_triangle (EWeekViewEventItem *event_item,
 		e_cal_model_get_color_for_component (model, event->comp_data);
 
 	if (gdk_color_parse (color_spec, &bg_color)) {
-		GdkColormap *colormap;
-
-		colormap = gtk_widget_get_colormap (GTK_WIDGET (week_view));
-		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
-			gdk_cairo_set_source_color (cr, &bg_color);
-		} else {
-			EWeekViewColors wvc;
-			GdkColor *color;
-
-			wvc = E_WEEK_VIEW_COLOR_EVENT_BACKGROUND;
-			color = &week_view->colors[wvc];
-
-			gdk_cairo_set_source_color (cr, color);
-		}
+		gdk_cairo_set_source_color (cr, &bg_color);
 	} else {
 		EWeekViewColors wvc;
 		GdkColor *color;
@@ -607,8 +587,6 @@ week_view_event_item_draw_triangle (EWeekViewEventItem *event_item,
 	cairo_move_to (cr, x, y + h - 1);
 	cairo_line_to (cr, x + w, c2);
 	cairo_restore (cr);
-
-	cairo_destroy (cr);
 }
 
 static void
@@ -703,7 +681,7 @@ week_view_event_item_update (GnomeCanvasItem *item,
 
 static void
 week_view_event_item_draw (GnomeCanvasItem *canvas_item,
-                           GdkDrawable *drawable,
+                           cairo_t *cr,
                            gint x,
                            gint y,
                            gint width,
@@ -723,7 +701,6 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 	gboolean draw_start, draw_end;
 	gboolean draw_start_triangle = FALSE, draw_end_triangle = FALSE;
 	GdkColor bg_color;
-	cairo_t *cr;
 	cairo_pattern_t *pat;
 	guint16 red, green, blue;
 	gdouble radius, cx0, cy0, rect_height, rect_width;
@@ -787,8 +764,6 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 		return;
 	}
 
-	cr = gdk_cairo_create (drawable);
-
 	icon_y = y1 + E_WEEK_VIEW_EVENT_BORDER_HEIGHT + E_WEEK_VIEW_ICON_Y_PAD;
 
 	/* Get the start & end times in 24-hour format. */
@@ -812,13 +787,8 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 		e_cal_model_get_color_for_component (model, event->comp_data);
 
 	bg_color = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND];
-	if (gdk_color_parse (color_spec, &bg_color)) {
-		GdkColormap *colormap;
-
-		colormap = gtk_widget_get_colormap (GTK_WIDGET (week_view));
-		if (!gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
-			bg_color = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND];
-		}
+	if (!gdk_color_parse (color_spec, &bg_color)) {
+		bg_color = week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND];
 	}
 
 	red = bg_color.red;
@@ -918,7 +888,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 		/* Draw the icons. */
 		week_view_event_item_draw_icons (
-			event_item, drawable, icon_x,
+			event_item, cr, icon_x,
 			icon_y, x2, FALSE, draw_region);
 
 	} else {
@@ -987,7 +957,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 		if (draw_start_triangle) {
 			week_view_event_item_draw_triangle (
-				event_item, drawable, bg_color,
+				event_item, cr, bg_color,
 				x1 + E_WEEK_VIEW_EVENT_L_PAD + 2,
 				y1, -3, y2 - y1 + 1, draw_region);
 		} else if (can_draw_in_region (draw_region, rect_x, y1, 1, y2 - y1)) {
@@ -1008,7 +978,7 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 
 		if (draw_end_triangle) {
 			week_view_event_item_draw_triangle (
-				event_item, drawable, bg_color,
+				event_item, cr, bg_color,
 				x2 - E_WEEK_VIEW_EVENT_R_PAD - 2,
 				y1, 3, y2 - y1 + 1, draw_region);
 		} else if (can_draw_in_region (draw_region, rect_x2, y2, 1, 1)) {
@@ -1098,11 +1068,10 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 			|| week_view->editing_span_num != event_item->priv->span_num)) {
 			icon_x = span->text_item->x1 - E_WEEK_VIEW_ICON_R_PAD - x;
 			week_view_event_item_draw_icons (
-				event_item, drawable, icon_x,
+				event_item, cr, icon_x,
 				icon_y, max_icon_x, TRUE, draw_region);
 		}
 	}
-	cairo_destroy (cr);
 
 	cairo_region_destroy (draw_region);
 }
