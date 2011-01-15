@@ -112,11 +112,6 @@ struct _ETreeClass {
 	gboolean	(*white_space_event)	(ETree *et,
 						 GdkEvent *event);
 
-	void		(*set_scroll_adjustments)
-						(ETree	 *tree,
-						 GtkAdjustment *hadjustment,
-						 GtkAdjustment *vadjustment);
-
 	/* Source side drag signals */
 	void		(*tree_drag_begin)	(ETree	 *tree,
 						 gint row,
