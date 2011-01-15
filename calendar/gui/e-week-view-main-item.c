@@ -69,7 +69,7 @@ static void
 week_view_main_item_draw_day (EWeekViewMainItem *main_item,
                               gint day,
                               GDate *date,
-                              GdkDrawable *drawable,
+                              cairo_t *cr,
                               gint x,
                               gint y,
                               gint width,
@@ -87,12 +87,10 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
 	gboolean today = FALSE;
-	cairo_t *cr;
 	CalWeekdays working_days;
 
 	week_view = e_week_view_main_item_get_week_view (main_item);
 	style = gtk_widget_get_style (GTK_WIDGET (week_view));
-	cr = gdk_cairo_create (drawable);
 
 	/* Set up Pango prerequisites */
 	font_desc = pango_font_description_copy (style->font_desc);
@@ -295,7 +293,6 @@ week_view_main_item_draw_day (EWeekViewMainItem *main_item,
 	}
 	pango_font_metrics_unref (font_metrics);
 	pango_font_description_free (font_desc);
-	cairo_destroy (cr);
 }
 
 static void
@@ -368,7 +365,7 @@ week_view_main_item_update (GnomeCanvasItem *item,
 
 static void
 week_view_main_item_draw (GnomeCanvasItem *canvas_item,
-                          GdkDrawable *drawable,
+                          cairo_t *cr,
                           gint x,
                           gint y,
                           gint width,
@@ -399,7 +396,7 @@ week_view_main_item_draw (GnomeCanvasItem *canvas_item,
 		if (day_x < x + width && day_x + day_w >= x
 		    && day_y < y + height && day_y + day_h >= y) {
 			week_view_main_item_draw_day (
-				main_item, day, &date, drawable,
+				main_item, day, &date, cr,
 				day_x - x, day_y - y, day_w, day_h);
 		}
 		g_date_add_days (&date, 1);

@@ -115,7 +115,7 @@ week_view_titles_item_update (GnomeCanvasItem *item,
 
 static void
 week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
-                            GdkDrawable *drawable,
+                            cairo_t *cr,
                             gint x,
                             gint y,
                             gint width,
@@ -130,13 +130,12 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 	gboolean abbreviated;
 	gint weekday;
 	PangoLayout *layout;
-        cairo_t *cr;
 
 	titles_item = E_WEEK_VIEW_TITLES_ITEM (canvas_item);
 	week_view = e_week_view_titles_item_get_week_view (titles_item);
 	g_return_if_fail (week_view != NULL);
 
-        cr = gdk_cairo_create (drawable);
+	cairo_save (cr);
         cairo_set_line_width (cr, 1.0);
 
 	gtk_widget_get_allocation (
@@ -234,7 +233,7 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 	}
 
 	g_object_unref (layout);
-        cairo_destroy (cr);
+	cairo_restore (cr);
 }
 
 static GnomeCanvasItem *
