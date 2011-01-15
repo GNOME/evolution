@@ -1739,8 +1739,7 @@ tree_drag_begin (GtkWidget *widget,
 	EMFolderTreePrivate *priv = folder_tree->priv;
 	GtkTreeSelection *selection;
 	GtkTreeView *tree_view;
-	GdkColormap *colormap;
-	GdkPixmap *pixmap;
+	cairo_surface_t *s;
 	GtkTreeModel *model;
 	GtkTreePath *path;
 	GtkTreeIter iter;
@@ -1753,9 +1752,8 @@ tree_drag_begin (GtkWidget *widget,
 	path = gtk_tree_model_get_path (model, &iter);
 	priv->drag_row = gtk_tree_row_reference_new (model, path);
 
-	pixmap = gtk_tree_view_create_row_drag_icon (tree_view, path);
-	colormap = gdk_drawable_get_colormap (pixmap);
-	gtk_drag_set_icon_pixmap (context, colormap, pixmap, NULL, 0, 0);
+	s = gtk_tree_view_create_row_drag_icon (tree_view, path);
+	gtk_drag_set_icon_surface (context, s);
 
 	gtk_tree_path_free (path);
 }
