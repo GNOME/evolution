@@ -466,7 +466,7 @@ etfci_unrealize (GnomeCanvasItem *item)
 
 static void
 etfci_draw (GnomeCanvasItem *item,
-            GdkDrawable *drawable,
+            cairo_t *cr,
             gint x,
             gint y,
             gint width,
@@ -505,13 +505,17 @@ etfci_draw (GnomeCanvasItem *item,
 		if (y2 < y)
 			continue;
 
-		e_table_header_draw_button (drawable, ecol,
+		cairo_save (cr);
+
+		e_table_header_draw_button (cr, ecol,
 					    style, state,
 					    GTK_WIDGET (canvas),
 					    -x, y1 - y,
 					    width, height,
 					    etfci->width, y2 - y1,
 					    E_TABLE_COL_ARROW_NONE);
+
+		cairo_restore (cr);
 	}
 }
 
@@ -544,9 +548,11 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, gdouble x, gdo
 	GtkStyle *style;
 	GtkStateType state;
 	ETableCol *ecol;
-	GdkPixmap *pixmap;
+	cairo_surface_t *cs;
+	cairo_t *cr;
 	gint drag_col;
 	gint button_height;
+	GdkPixbuf *pixbuf;
 
 	GtkTargetEntry  etfci_drag_types[] = {
 		{ (gchar *) TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
@@ -576,26 +582,29 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, gdouble x, gdo
 
 	button_height = e_table_header_compute_height (ecol, widget);
 	window = gtk_widget_get_window (widget);
-	pixmap = gdk_pixmap_new (window, etfci->width, button_height, -1);
+	cs = gdk_window_create_similar_surface (window, CAIRO_CONTENT_COLOR, etfci->width, button_height);
 
 	style = gtk_widget_get_style (widget);
 	state = gtk_widget_get_state (widget);
 
+	cr = cairo_create (cs);
 	e_table_header_draw_button (
-		pixmap, ecol, style,
+		cr, ecol, style,
 		state, widget, 0, 0,
 		etfci->width, button_height,
 		etfci->width, button_height,
 		E_TABLE_COL_ARROW_NONE);
 
-	gtk_drag_set_icon_pixmap (
+	pixbuf = gdk_pixbuf_get_from_window (window, 0, 0, etfci->width, button_height);
+	gtk_drag_set_icon_pixbuf (
 		context,
-		gdk_drawable_get_colormap (GDK_DRAWABLE (window)),
-		pixmap, NULL,
+		pixbuf,
 		etfci->width / 2,
 		button_height / 2);
+	g_object_unref (pixbuf);
 
-	g_object_unref (pixmap);
+	cairo_surface_destroy (cs);
+	cairo_destroy (cr);
 	etfci->maybe_drag = FALSE;
 }
 
