@@ -268,8 +268,6 @@ eti_get_cell_background_color (ETableItem *eti, gint row, gint col, gboolean sel
 	if (color_spec != NULL) {
 		if (gdk_color_parse (color_spec, &bg)) {
 			background = gdk_color_copy (&bg);
-			gdk_colormap_alloc_color (gtk_widget_get_colormap (canvas), background,
-						  FALSE, TRUE);
 			allocated = TRUE;
 		}
 	}
@@ -283,8 +281,6 @@ eti_get_cell_background_color (ETableItem *eti, gint row, gint col, gboolean sel
 				allocated = TRUE;
 			}
 			e_hsv_tweak (background, 0.0f, 0.0f, -0.07f);
-			gdk_colormap_alloc_color (gtk_widget_get_colormap (canvas), background,
-						  FALSE, TRUE);
 		}
 	}
 	if (allocatedp)
@@ -1731,7 +1727,7 @@ eti_draw_grid_line (ETableItem *eti, cairo_t *cr, GtkStyle *style,
 }
 
 static void
-eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint width, gint height)
+eti_draw (GnomeCanvasItem *item, cairo_t *cr, gint x, gint y, gint width, gint height)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
 	const gint rows = eti->rows;
@@ -1747,10 +1743,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 	GtkWidget *canvas = GTK_WIDGET (item->canvas);
         GtkStyle *style = gtk_widget_get_style (canvas);
 	gint height_extra = eti->horizontal_draw_grid ? 1 : 0;
-	cairo_t *cr;
-
-	cr = gdk_cairo_create (drawable);
-
+	
 	/*
 	 * Find out our real position after grouping
 	 */
@@ -1789,7 +1782,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 	 * Nothing to paint
 	 */
 	if (first_col == -1)
-		goto exit;
+		return;
 
 	/*
 	 * Compute row span.
@@ -1798,7 +1791,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 		first_row = (y          - floor (eti_base_y) - height_extra) / (ETI_ROW_HEIGHT (eti, -1) + height_extra);
 		last_row  = (y + height - floor (eti_base_y)               ) / (ETI_ROW_HEIGHT (eti, -1) + height_extra) + 1;
 		if (first_row > last_row)
-			goto exit;
+			return;
 		y_offset = floor (eti_base_y) - y + height_extra + first_row * (ETI_ROW_HEIGHT (eti, -1) + height_extra);
 		if (first_row < 0)
 			first_row = 0;
@@ -1829,11 +1822,11 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 		last_row = row;
 
 		if (first_row == -1)
-			goto exit;
+			return;
 	}
 
 	if (first_row == -1)
-		goto exit;
+		return;
 
 	/*
 	 * Draw cells
@@ -1955,7 +1948,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
 				break;
 			}
 
-			e_cell_draw (ecell_view, drawable, ecol->col_idx, col, row, flags,
+			e_cell_draw (ecell_view, cr, ecol->col_idx, col, row, flags,
 				     xd, yd, xd + ecol->width, yd + height);
 
 			if (!f_found && !selected) {
@@ -2025,9 +2018,6 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, gint x, gint y, gint wid
                 gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_NORMAL]);
                 cairo_stroke (cr);
 	}
-
-exit:
-	cairo_destroy (cr);
 }
 
 static GnomeCanvasItem *
@@ -3441,6 +3431,7 @@ e_table_item_print_page  (EPrintable *ep,
 				      row_height + 2 );
 
 			cairo_restore (cr);
+
 			xd += widths[col];
 		}
 
