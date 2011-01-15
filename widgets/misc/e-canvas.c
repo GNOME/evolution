@@ -272,8 +272,8 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 
 		/* world coords */
 
-		x = canvas->scroll_x1 + x / canvas->pixels_per_unit;
-		y = canvas->scroll_y1 + y / canvas->pixels_per_unit;
+		x = canvas->scroll_x1 + x;
+		y = canvas->scroll_y1 + y;
 
 		/* find the closest item */
 

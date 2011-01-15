@@ -1866,16 +1866,9 @@ gnome_canvas_init (GnomeCanvas *canvas)
 	canvas->scroll_x2 = layout_width;
 	canvas->scroll_y2 = layout_height;
 
-	canvas->pixels_per_unit = 1.0;
-
 	canvas->pick_event.type = GDK_LEAVE_NOTIFY;
 	canvas->pick_event.crossing.x = 0;
 	canvas->pick_event.crossing.y = 0;
-
-	/* This may not be what people want, but it is set to be turned on by
-	 * default to have the same initial behavior as the canvas in GNOME 1.4.
-	 */
-	canvas->center_scroll_region = TRUE;
 
 	gtk_scrollable_set_hadjustment (GTK_SCROLLABLE (canvas), NULL);
 	gtk_scrollable_set_vadjustment (GTK_SCROLLABLE (canvas), NULL);
@@ -2090,11 +2083,9 @@ scroll_to (GnomeCanvas *canvas, gint cx, gint cy)
 	canvas_height = allocation.height;
 
 	scroll_width =
-		floor ((canvas->scroll_x2 - canvas->scroll_x1) *
-		canvas->pixels_per_unit + 0.5);
+		floor ((canvas->scroll_x2 - canvas->scroll_x1) + 0.5);
 	scroll_height =
-		floor ((canvas->scroll_y2 - canvas->scroll_y1) *
-		canvas->pixels_per_unit + 0.5);
+		floor ((canvas->scroll_y2 - canvas->scroll_y1) + 0.5);
 
 	right_limit = scroll_width - canvas_width;
 	bottom_limit = scroll_height - canvas_height;
@@ -2104,12 +2095,8 @@ scroll_to (GnomeCanvas *canvas, gint cx, gint cy)
 
 	if (right_limit < 0) {
 		cx = 0;
-
-		if (canvas->center_scroll_region) {
-			canvas->zoom_xofs = (canvas_width - scroll_width) / 2;
-			scroll_width = canvas_width;
-		} else
-			canvas->zoom_xofs = 0;
+		canvas->zoom_xofs = (canvas_width - scroll_width) / 2;
+		scroll_width = canvas_width;
 	} else if (cx < 0) {
 		cx = 0;
 		canvas->zoom_xofs = 0;
@@ -2121,12 +2108,8 @@ scroll_to (GnomeCanvas *canvas, gint cx, gint cy)
 
 	if (bottom_limit < 0) {
 		cy = 0;
-
-		if (canvas->center_scroll_region) {
-			canvas->zoom_yofs = (canvas_height - scroll_height) / 2;
-			scroll_height = canvas_height;
-		} else
-			canvas->zoom_yofs = 0;
+		canvas->zoom_yofs = (canvas_height - scroll_height) / 2;
+		scroll_height = canvas_height;
 	} else if (cy < 0) {
 		cy = 0;
 		canvas->zoom_yofs = 0;
@@ -2412,8 +2395,8 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 
 		/* world coords */
 
-		x = canvas->scroll_x1 + x / canvas->pixels_per_unit;
-		y = canvas->scroll_y1 + y / canvas->pixels_per_unit;
+		x = canvas->scroll_x1 + x;
+		y = canvas->scroll_y1 + y;
 
 		/* find the closest item */
 
@@ -2995,135 +2978,6 @@ gnome_canvas_get_scroll_region (GnomeCanvas *canvas,
 }
 
 /**
- * gnome_canvas_set_center_scroll_region:
- * @canvas: A canvas.
- * @center_scroll_region: Whether to center the scrolling region in the canvas
- * window when it is smaller than the canvas' allocation.
- *
- * When the scrolling region of the canvas is smaller than the canvas window,
- * e.g.  the allocation of the canvas, it can be either centered on the window
- * or simply made to be on the upper-left corner on the window.  This function
- * lets you configure this property.
- **/
-void
-gnome_canvas_set_center_scroll_region (GnomeCanvas *canvas,
-                                       gboolean center_scroll_region)
-{
-	GtkScrollable *scrollable;
-	GtkAdjustment *hadjustment;
-	GtkAdjustment *vadjustment;
-	gdouble hadjustment_value;
-	gdouble vadjustment_value;
-
-	g_return_if_fail (GNOME_IS_CANVAS (canvas));
-
-	scrollable = GTK_SCROLLABLE (canvas);
-	hadjustment = gtk_scrollable_get_hadjustment (scrollable);
-	vadjustment = gtk_scrollable_get_vadjustment (scrollable);
-
-	hadjustment_value = gtk_adjustment_get_value (hadjustment);
-	vadjustment_value = gtk_adjustment_get_value (vadjustment);
-
-	canvas->center_scroll_region = center_scroll_region != 0;
-
-	scroll_to (canvas, hadjustment_value, vadjustment_value);
-}
-
-/**
- * gnome_canvas_get_center_scroll_region:
- * @canvas: A canvas.
- *
- * Returns whether the canvas is set to center the scrolling region in the window
- * if the former is smaller than the canvas' allocation.
- *
- * Return value: Whether the scroll region is being centered in the canvas window.
- **/
-gboolean
-gnome_canvas_get_center_scroll_region (GnomeCanvas *canvas)
-{
-	g_return_val_if_fail (GNOME_IS_CANVAS (canvas), FALSE);
-
-	return canvas->center_scroll_region ? TRUE : FALSE;
-}
-
-/**
- * gnome_canvas_set_pixels_per_unit:
- * @canvas: A canvas.
- * @n: The number of pixels that correspond to one canvas unit.
- *
- * Sets the zooming factor of a canvas by specifying the number of pixels that
- * correspond to one canvas unit.
- *
- * The anchor point for zooming, i.e. the point that stays fixed and all others
- * zoom inwards or outwards from it, depends on whether the canvas is set to
- * center the scrolling region or not.  You can control this using the
- * gnome_canvas_set_center_scroll_region() function.  If the canvas is set to
- * center the scroll region, then the center of the canvas window is used as the
- * anchor point for zooming.  Otherwise, the upper-left corner of the canvas
- * window is used as the anchor point.
- **/
-void
-gnome_canvas_set_pixels_per_unit (GnomeCanvas *canvas, gdouble n)
-{
-	GtkScrollable *scrollable;
-	GtkAdjustment *hadjustment;
-	GtkAdjustment *vadjustment;
-	gdouble ax, ay;
-	gint x1, y1;
-	gint anchor_x, anchor_y;
-
-	g_return_if_fail (GNOME_IS_CANVAS (canvas));
-	g_return_if_fail (n > GNOME_CANVAS_EPSILON);
-
-	scrollable = GTK_SCROLLABLE (canvas);
-	hadjustment = gtk_scrollable_get_hadjustment (scrollable);
-	vadjustment = gtk_scrollable_get_vadjustment (scrollable);
-
-	if (canvas->center_scroll_region) {
-		GtkAllocation allocation;
-
-		gtk_widget_get_allocation (GTK_WIDGET (canvas), &allocation);
-
-		anchor_x = allocation.width / 2;
-		anchor_y = allocation.height / 2;
-	} else
-		anchor_x = anchor_y = 0;
-
-	/* Find the coordinates of the anchor point in units. */
-	if (hadjustment) {
-		gdouble value = gtk_adjustment_get_value (hadjustment);
-		ax = (value + anchor_x) / canvas->pixels_per_unit +
-			canvas->scroll_x1 + canvas->zoom_xofs;
-	} else {
-		ax = (0.0 + anchor_x) / canvas->pixels_per_unit +
-			canvas->scroll_x1 + canvas->zoom_xofs;
-	}
-	if (vadjustment) {
-		gdouble value = gtk_adjustment_get_value (vadjustment);
-		ay = (value + anchor_y) / canvas->pixels_per_unit +
-			canvas->scroll_y1 + canvas->zoom_yofs;
-	} else {
-		ay = (0.0 + anchor_y) / canvas->pixels_per_unit +
-			canvas->scroll_y1 + canvas->zoom_yofs;
-	}
-
-	/* Now calculate the new offset of the upper left corner. */
-	x1 = ((ax - canvas->scroll_x1) * n) - anchor_x;
-	y1 = ((ay - canvas->scroll_y1) * n) - anchor_y;
-
-	canvas->pixels_per_unit = n;
-
-	scroll_to (canvas, x1, y1);
-
-	if (!(canvas->root->flags & GNOME_CANVAS_ITEM_NEED_AFFINE)) {
-		canvas->root->flags |= GNOME_CANVAS_ITEM_NEED_AFFINE;
-		gnome_canvas_request_update (canvas);
-	}
-
-	canvas->need_repick = TRUE;
-}
-
-/**
  * gnome_canvas_scroll_to:
  * @canvas: A canvas.
  * @cx: Horizontal scrolling offset in canvas pixel units.
@@ -3288,12 +3142,8 @@ gnome_canvas_w2c_matrix (GnomeCanvas *canvas, cairo_matrix_t *matrix)
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 	g_return_if_fail (matrix != NULL);
 
-	cairo_matrix_init_scale (matrix,
-                                 canvas->pixels_per_unit,
-                                 canvas->pixels_per_unit);
-        cairo_matrix_translate (matrix,
-                                -canvas->scroll_x1,
-                                -canvas->scroll_y1);
+	cairo_matrix_init_translate (
+		matrix, -canvas->scroll_x1, -canvas->scroll_y1);
 }
 
 /**
@@ -3310,12 +3160,8 @@ gnome_canvas_c2w_matrix (GnomeCanvas *canvas, cairo_matrix_t *matrix)
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 	g_return_if_fail (matrix != NULL);
 
-        cairo_matrix_init_translate (matrix,
-                                     canvas->scroll_x1,
-                                     canvas->scroll_y1);
-	cairo_matrix_scale (matrix,
-                            1 / canvas->pixels_per_unit,
-                            1 / canvas->pixels_per_unit);
+	cairo_matrix_init_translate (
+		matrix, canvas->scroll_x1, canvas->scroll_y1);
 }
 
 /**
@@ -3424,12 +3270,10 @@ gnome_canvas_window_to_world (GnomeCanvas *canvas, gdouble winx, gdouble winy,
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
 	if (worldx)
-		*worldx = canvas->scroll_x1 + ((winx - canvas->zoom_xofs)
-					       / canvas->pixels_per_unit);
+		*worldx = canvas->scroll_x1 + (winx - canvas->zoom_xofs);
 
 	if (worldy)
-		*worldy = canvas->scroll_y1 + ((winy - canvas->zoom_yofs)
-					       / canvas->pixels_per_unit);
+		*worldy = canvas->scroll_y1 + (winy - canvas->zoom_yofs);
 }
 
 /**
@@ -3449,10 +3293,10 @@ gnome_canvas_world_to_window (GnomeCanvas *canvas, gdouble worldx, gdouble world
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
 	if (winx)
-		*winx = (canvas->pixels_per_unit)*(worldx - canvas->scroll_x1) + canvas->zoom_xofs;
+		*winx = (worldx - canvas->scroll_x1) + canvas->zoom_xofs;
 
 	if (winy)
-		*winy = (canvas->pixels_per_unit)*(worldy - canvas->scroll_y1) + canvas->zoom_yofs;
+		*winy = (worldy - canvas->scroll_y1) + canvas->zoom_yofs;
 }
 
 static gboolean

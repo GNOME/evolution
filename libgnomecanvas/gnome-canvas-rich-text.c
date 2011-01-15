@@ -902,10 +902,8 @@ selection_motion_event_handler (GnomeCanvasRichText *text, GdkEvent *event,
 	if (event->type != GDK_MOTION_NOTIFY)
 		return FALSE;
 
-	newx = (event->motion.x - text->_priv->x) *
-		GNOME_CANVAS_ITEM (text)->canvas->pixels_per_unit;
-	newy = (event->motion.y - text->_priv->y) *
-		GNOME_CANVAS_ITEM (text)->canvas->pixels_per_unit;
+	newx = (event->motion.x - text->_priv->x);
+	newy = (event->motion.y - text->_priv->y);
 
 	gtk_text_layout_get_iter_at_pixel (text->_priv->layout, &newplace, newx, newy);
 	mark = gtk_text_buffer_get_mark(get_buffer(text), "insert");
@@ -1223,8 +1221,8 @@ gnome_canvas_rich_text_button_press_event (GnomeCanvasItem *item,
 	GdkEventType event_type;
 	gdouble newx, newy;
 
-	newx = (event->x - text->_priv->x) * item->canvas->pixels_per_unit;
-	newy = (event->y - text->_priv->y) * item->canvas->pixels_per_unit;
+	newx = (event->x - text->_priv->x);
+	newy = (event->y - text->_priv->y);
 
 	gtk_text_layout_get_iter_at_pixel (text->_priv->layout, &iter, newx, newy);
 
@@ -1352,8 +1350,8 @@ gnome_canvas_rich_text_button_release_event (GnomeCanvasItem *item,
 	GnomeCanvasRichText *text = GNOME_CANVAS_RICH_TEXT (item);
 	gdouble newx, newy;
 
-	newx = (event->x - text->_priv->x) * item->canvas->pixels_per_unit;
-	newy = (event->y - text->_priv->y) * item->canvas->pixels_per_unit;
+	newx = (event->x - text->_priv->x);
+	newy = (event->y - text->_priv->y);
 
 	if (event->button == 1) {
 		if (text->_priv->drag_start_x >= 0) {
@@ -1714,12 +1712,10 @@ changed_handler (GtkTextLayout *layout, gint start_y,
 	printf("Layout %p is being changed.\n", text->_priv->layout);
 #endif
 
-	if (text->_priv->layout->default_style->font_scale !=
-	    GNOME_CANVAS_ITEM (text)->canvas->pixels_per_unit) {
+	if (text->_priv->layout->default_style->font_scale != 1.0) {
 		GtkTextTagTable *tag_table;
 
-		text->_priv->layout->default_style->font_scale =
-			GNOME_CANVAS_ITEM (text)->canvas->pixels_per_unit;
+		text->_priv->layout->default_style->font_scale = 1.0;
 
 		tag_table = gtk_text_buffer_get_tag_table (get_buffer (text));
 		gtk_text_tag_table_foreach (tag_table, scale_fonts, text);
