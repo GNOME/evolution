@@ -539,8 +539,8 @@ get_bounds (EText *text, gdouble *px1, gdouble *py1, gdouble *px2, gdouble *py2)
 		clip_height = text->clip_height;
 
 	/* Get canvas pixel coordinates for clip rectangle position */
-	text->clip_cwidth = clip_width * item->canvas->pixels_per_unit;
-	text->clip_cheight = clip_height * item->canvas->pixels_per_unit;
+	text->clip_cwidth = clip_width;
+	text->clip_cheight = clip_height;
 
 	text->text_cx = text->cx;
 	text->text_cy = text->cy;
@@ -1006,11 +1006,11 @@ e_text_get_property (GObject *object,
 		break;
 
 	case PROP_TEXT_WIDTH:
-		g_value_set_double (value, text->width / text->item.canvas->pixels_per_unit);
+		g_value_set_double (value, text->width);
 		break;
 
 	case PROP_TEXT_HEIGHT:
-		g_value_set_double (value, text->height / text->item.canvas->pixels_per_unit);
+		g_value_set_double (value, text->height);
 		break;
 
 	case PROP_EDITABLE:
@@ -1045,8 +1045,7 @@ e_text_get_property (GObject *object,
 		g_value_set_double (
 			value, text->clip &&
 			text->clip_height != -1 ?
-			text->clip_height : text->height /
-			text->item.canvas->pixels_per_unit);
+			text->clip_height : text->height);
 		break;
 
 	case PROP_DRAW_BORDERS:
@@ -1557,10 +1556,6 @@ e_text_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 	else
 		clip_height = text->clip_height;
 
-	/* Get canvas pixel coordinates for clip rectangle position */
-	clip_width = clip_width * item->canvas->pixels_per_unit;
-	clip_height = clip_height * item->canvas->pixels_per_unit;
-
 	if (cx < text->clip_cx ||
 	    cx > text->clip_cx + clip_width ||
 	    cy < text->clip_cy ||
@@ -1603,9 +1598,6 @@ e_text_bounds (GnomeCanvasItem *item,
 		if (text->clip_height >= 0)
 			height = text->clip_height;
 	}
-
-	width = width / item->canvas->pixels_per_unit;
-	height = height / item->canvas->pixels_per_unit;
 
 	*x2 = *x1 + width;
 	*y2 = *y1 + height;

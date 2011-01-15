@@ -373,9 +373,6 @@ struct _GnomeCanvas {
 	gdouble scroll_x1, scroll_y1;
 	gdouble scroll_x2, scroll_y2;
 
-	/* Scaling factor to be used for display */
-	gdouble pixels_per_unit;
-
 	/* Idle handler ID */
 	guint idle_id;
 
@@ -396,11 +393,6 @@ struct _GnomeCanvas {
 
 	/* Event mask specified when grabbing an item */
 	guint grabbed_event_mask;
-
-	/* Whether the canvas should center the scroll region in the middle of
-	 * the window if the scroll region is smaller than the window.
-	 */
-	guint center_scroll_region : 1;
 
 	/* Whether items need update at next idle loop iteration */
 	guint need_update : 1;
@@ -452,15 +444,6 @@ void gnome_canvas_set_scroll_region (GnomeCanvas *canvas,
 /* Gets the limits of the scrolling region, in world coordinates */
 void gnome_canvas_get_scroll_region (GnomeCanvas *canvas,
 				     gdouble *x1, gdouble *y1, gdouble *x2, gdouble *y2);
-
-/* Whether the canvas centers the scroll region if it is smaller than the window */
-void gnome_canvas_set_center_scroll_region (GnomeCanvas *canvas, gboolean center_scroll_region);
-
-/* Returns whether the canvas is set to center the scroll region if it is smaller than the window */
-gboolean gnome_canvas_get_center_scroll_region (GnomeCanvas *canvas);
-
-/* Sets the number of pixels that correspond to one unit in world coordinates */
-void gnome_canvas_set_pixels_per_unit (GnomeCanvas *canvas, gdouble n);
 
 /* Scrolls the canvas to the specified offsets, given in canvas pixel coordinates */
 void gnome_canvas_scroll_to (GnomeCanvas *canvas, gint cx, gint cy);

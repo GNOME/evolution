@@ -388,13 +388,8 @@ gnome_canvas_widget_update (GnomeCanvasItem *item,
 		(* parent_class->update) (item, matrix, flags);
 
 	if (witem->widget) {
-		if (witem->size_pixels) {
-			witem->cwidth = (gint) (witem->width + 0.5);
-			witem->cheight = (gint) (witem->height + 0.5);
-		} else {
-			witem->cwidth = (gint) (witem->width * item->canvas->pixels_per_unit + 0.5);
-			witem->cheight = (gint) (witem->height * item->canvas->pixels_per_unit + 0.5);
-		}
+		witem->cwidth = (gint) (witem->width + 0.5);
+		witem->cheight = (gint) (witem->height + 0.5);
 
 		gtk_widget_set_size_request (witem->widget, witem->cwidth, witem->cheight);
 	} else {
@@ -432,8 +427,8 @@ gnome_canvas_widget_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 
 	gnome_canvas_c2w (item->canvas, witem->cx, witem->cy, &x1, &y1);
 
-	x2 = x1 + (witem->cwidth - 1) / item->canvas->pixels_per_unit;
-	y2 = y1 + (witem->cheight - 1) / item->canvas->pixels_per_unit;
+	x2 = x1 + (witem->cwidth - 1);
+	y2 = y1 + (witem->cheight - 1);
 
 	/* Is point inside widget bounds? */
 

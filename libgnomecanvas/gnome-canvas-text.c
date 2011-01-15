@@ -569,8 +569,8 @@ get_bounds (GnomeCanvasText *text,
 	/* Get canvas pixel coordinates for clip rectangle position */
 
 	gnome_canvas_w2c (item->canvas, wx, wy, &text->clip_cx, &text->clip_cy);
-	text->clip_cwidth = text->clip_width * item->canvas->pixels_per_unit;
-	text->clip_cheight = text->clip_height * item->canvas->pixels_per_unit;
+	text->clip_cwidth = text->clip_width;
+	text->clip_cheight = text->clip_height;
 
 	/* Bounds */
 
@@ -1055,11 +1055,11 @@ gnome_canvas_text_get_property (GObject            *object,
 		break;
 
 	case PROP_TEXT_WIDTH:
-		g_value_set_double (value, text->max_width / text->item.canvas->pixels_per_unit);
+		g_value_set_double (value, text->max_width);
 		break;
 
 	case PROP_TEXT_HEIGHT:
-		g_value_set_double (value, text->height / text->item.canvas->pixels_per_unit);
+		g_value_set_double (value, text->height);
 		break;
 
 	default:
@@ -1299,8 +1299,8 @@ gnome_canvas_text_bounds (GnomeCanvasItem *item,
 		width = text->clip_width;
 		height = text->clip_height;
 	} else {
-		width = text->max_width / item->canvas->pixels_per_unit;
-		height = text->height / item->canvas->pixels_per_unit;
+		width = text->max_width;
+		height = text->height;
 	}
 
 	*x2 = *x1 + width;
