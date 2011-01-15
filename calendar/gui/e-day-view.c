@@ -1262,7 +1262,7 @@ e_day_view_on_canvas_realized (GtkWidget *widget,
 	GdkWindow *window;
 
 	window = gtk_layout_get_bin_window (GTK_LAYOUT (widget));
-	gdk_window_set_back_pixmap (window, NULL, FALSE);
+	gdk_window_set_background_pattern (window, NULL);
 }
 
 /**
@@ -1440,13 +1440,9 @@ e_day_view_get_text_color (EDayView *day_view, EDayViewEvent *event, GtkWidget *
 
 	if (is_comp_data_valid (event) && gdk_color_parse (e_cal_model_get_color_for_component (e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)), event->comp_data),
 	     &bg_color)) {
-                GdkColormap *colormap;
-		colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
-		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
-			red = bg_color.red;
-			green = bg_color.green;
-			blue = bg_color.blue;
-                }
+		red = bg_color.red;
+		green = bg_color.green;
+		blue = bg_color.blue;
 	}
 
 	style = gtk_widget_get_style (widget);

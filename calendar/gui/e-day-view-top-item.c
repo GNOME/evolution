@@ -61,7 +61,7 @@ static gpointer parent_class;
    the days visible on screen. */
 static void
 day_view_top_item_draw_triangle (EDayViewTopItem *top_item,
-                                 GdkDrawable *drawable,
+				 cairo_t *cr,
                                  gint x,
                                  gint y,
                                  gint w,
@@ -73,7 +73,6 @@ day_view_top_item_draw_triangle (EDayViewTopItem *top_item,
 	GdkColor bg_color;
 	GdkPoint points[3];
 	gint c1, c2;
-	cairo_t *cr;
 
 	day_view = e_day_view_top_item_get_day_view (top_item);
 
@@ -99,24 +98,13 @@ day_view_top_item_draw_triangle (EDayViewTopItem *top_item,
 	if (!is_comp_data_valid (event))
 		return;
 
-	cr = gdk_cairo_create (drawable);
-
 	cairo_save (cr);
 	/* Fill it in. */
 	if (gdk_color_parse (
 		e_cal_model_get_color_for_component (
 		e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)),
 		event->comp_data), &bg_color)) {
-		GdkColormap *colormap;
-
-		colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
-		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
-			gdk_cairo_set_source_color (cr, &bg_color);
-		} else {
-			gdk_cairo_set_source_color (
-				cr, &day_view->colors
-				[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
-		}
+		gdk_cairo_set_source_color (cr, &bg_color);
 	} else {
 		gdk_cairo_set_source_color (
 			cr, &day_view->colors
@@ -139,15 +127,13 @@ day_view_top_item_draw_triangle (EDayViewTopItem *top_item,
 	cairo_line_to (cr, x + w, c2);
 	cairo_stroke (cr);
 	cairo_restore (cr);
-
-	cairo_destroy (cr);
 }
 
 /* This draws one event in the top canvas. */
 static void
 day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
                                    gint event_num,
-                                   GdkDrawable *drawable,
+				   cairo_t *cr,
                                    gint x,
                                    gint y,
                                    gint width,
@@ -169,7 +155,6 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	GSList *categories_list, *elem;
 	PangoLayout *layout;
 	GdkColor bg_color;
-	cairo_t *cr;
 	cairo_pattern_t *pat;
 	guint16 red, green, blue;
 	gdouble cc = 65535.0;
@@ -199,8 +184,6 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	if (!is_comp_data_valid (event))
 		return;
 
-	cr = gdk_cairo_create (drawable);
-
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (
@@ -210,18 +193,9 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 		e_cal_model_get_color_for_component (
 		e_calendar_view_get_model (E_CALENDAR_VIEW (day_view)),
 		event->comp_data), &bg_color)) {
-		GdkColormap *colormap;
-
-		colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
-		if (gdk_colormap_alloc_color (colormap, &bg_color, TRUE, TRUE)) {
-			red = bg_color.red;
-			green = bg_color.green;
-			blue = bg_color.blue;
-		} else {
-			red = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].red;
-			green = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].green;
-			blue = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].blue;
-		}
+		red = bg_color.red;
+		green = bg_color.green;
+		blue = bg_color.blue;
 	} else {
 		red = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].red;
 		green = day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].green;
@@ -304,7 +278,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	if (draw_start_triangle
 	    && event->start < day_view->day_starts[start_day]) {
 		day_view_top_item_draw_triangle (
-			top_item, drawable, item_x - x + 4, item_y - y,
+			top_item, cr, item_x - x + 4, item_y - y,
 			-E_DAY_VIEW_BAR_WIDTH, item_h, event_num);
 	}
 
@@ -312,7 +286,7 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	if (draw_end_triangle
 	    && event->end > day_view->day_starts[end_day + 1]) {
 		day_view_top_item_draw_triangle (
-			top_item, drawable, item_x + item_w - 4 - x,
+			top_item, cr, item_x + item_w - 4 - x,
 			item_y - y, E_DAY_VIEW_BAR_WIDTH, item_h,
 			event_num);
 	}
@@ -322,7 +296,6 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 	if (day_view->editing_event_day == E_DAY_VIEW_LONG_EVENT
 	    && day_view->editing_event_num == event_num) {
 		g_object_unref (comp);
-		cairo_destroy (cr);
 		return;
 	}
 
@@ -497,7 +470,6 @@ day_view_top_item_draw_long_event (EDayViewTopItem *top_item,
 
 	e_cal_component_free_categories_list (categories_list);
 	g_object_unref (comp);
-	cairo_destroy (cr);
 }
 
 static void
@@ -582,7 +554,7 @@ day_view_top_item_update (GnomeCanvasItem *item,
 
 static void
 day_view_top_item_draw (GnomeCanvasItem *canvas_item,
-                        GdkDrawable *drawable,
+                        cairo_t *cr,
                         gint x,
                         gint y,
                         gint width,
@@ -597,7 +569,6 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	gint canvas_width, canvas_height, left_edge, day, date_width, date_x;
 	gint item_height, event_num;
 	PangoLayout *layout;
-	cairo_t *cr;
 	GdkColor bg, light, dark;
 	gboolean show_dates;
 
@@ -605,8 +576,6 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	day_view = e_day_view_top_item_get_day_view (top_item);
 	g_return_if_fail (day_view != NULL);
 	show_dates = top_item->priv->show_dates;
-
-	cr = gdk_cairo_create (drawable);
 
 	style = gtk_widget_get_style (GTK_WIDGET (day_view));
 	gtk_widget_get_allocation (
@@ -760,12 +729,10 @@ day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 		/* Draw the long events. */
 		for (event_num = 0; event_num < day_view->long_events->len; event_num++) {
 			day_view_top_item_draw_long_event (
-				top_item, event_num, drawable,
+				top_item, event_num, cr,
 				x, y, width, height);
 		}
 	}
-
-	cairo_destroy (cr);
 }
 
 static GnomeCanvasItem *
