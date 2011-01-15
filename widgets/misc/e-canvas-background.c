@@ -188,23 +188,22 @@ ecb_init (ECanvasBackground *ecb)
 
 static void
 ecb_draw (GnomeCanvasItem *item,
-          GdkDrawable *drawable,
+          cairo_t *cr,
           gint x,
           gint y,
           gint width,
           gint height)
 {
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
-        cairo_t *cr;
 
-        cr = gdk_cairo_create (drawable);
+	cairo_save (cr);
         cairo_set_source_rgba (cr,
                                ((ecb->priv->rgba >> 24) & 0xff) / 255.0,
                                ((ecb->priv->rgba >> 16) & 0xff) / 255.0,
                                ((ecb->priv->rgba >>  8) & 0xff) / 255.0,
                                ( ecb->priv->rgba        & 0xff) / 255.0);
         cairo_paint (cr);
-        cairo_destroy (cr);
+	cairo_restore (cr);
 }
 
 static GnomeCanvasItem *
