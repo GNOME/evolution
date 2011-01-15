@@ -237,7 +237,7 @@ make_composite_pixmap (GdkDrawable *drawable, GdkGC *gc,
  * Draws a button suitable for a table header.
  **/
 void
-e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
+e_table_header_draw_button (cairo_t *cr, ETableCol *ecol,
 			    GtkStyle *style, GtkStateType state,
 			    GtkWidget *widget,
 			    gint x, gint y, gint width, gint height,
@@ -249,10 +249,9 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	gint inner_width, inner_height;
 	gint arrow_width = 0, arrow_height = 0;
 	PangoLayout *layout;
-        cairo_t *cr;
 	static gpointer g_label = NULL;
 
-	g_return_if_fail (drawable != NULL);
+	g_return_if_fail (cr != NULL);
 	g_return_if_fail (ecol != NULL);
 	g_return_if_fail (E_IS_TABLE_COL (ecol));
 	g_return_if_fail (style != NULL);
@@ -272,8 +271,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 		gtk_widget_realize (g_label);
 	}
 
-        cr = gdk_cairo_create (drawable);
-
+	cairo_save (cr);
         gdk_cairo_set_source_color (cr, &gtk_widget_get_style (GTK_WIDGET (g_label))->fg[state]);
 
 	xthick = style->xthickness;
@@ -281,8 +279,8 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 
 	/* Button bevel */
 
-	gtk_paint_box (style, drawable, state, GTK_SHADOW_OUT,
-		       NULL, widget, "button",
+	gtk_paint_box (style, cr, state, GTK_SHADOW_OUT,
+		       widget, "button",
 		       x, y, button_width, button_height);
 
 	/* Inside area */
@@ -291,7 +289,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	inner_height = button_height - 2 * (ythick + HEADER_PADDING);
 
 	if (inner_width < 1 || inner_height < 1) {
-		cairo_destroy (cr);
+		cairo_restore (cr);
 		return; /* nothing fits */
 	}
 
@@ -313,11 +311,12 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 			inner_width -= arrow_width + HEADER_PADDING;
 		break;
 	default:
+		cairo_restore (cr);
 		g_return_if_reached ();
 	}
 
 	if (inner_width < 1) {
-		cairo_destroy (cr);
+		cairo_restore (cr);
 		return; /* nothing else fits */
 	}
 
@@ -397,8 +396,8 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 		if (ecol->icon_name == NULL)
 			inner_width += arrow_width + HEADER_PADDING;
 
-		gtk_paint_arrow (style, drawable, state,
-				 GTK_SHADOW_NONE, NULL, widget, "header",
+		gtk_paint_arrow (style, cr, state,
+				 GTK_SHADOW_NONE, widget, "header",
 				 (arrow == E_TABLE_COL_ARROW_UP) ? GTK_ARROW_UP : GTK_ARROW_DOWN,
 				 (ecol->icon_name == NULL),
 				 inner_x + inner_width - arrow_width,
@@ -408,10 +407,10 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	}
 
 	default:
+		cairo_restore (cr);
 		g_return_if_reached ();
 	}
 
 	g_object_unref (layout);
-
-        cairo_destroy (cr);
+	cairo_restore (cr);
 }

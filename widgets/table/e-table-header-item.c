@@ -454,24 +454,18 @@ static GtkWidget *
 make_shaped_window_from_xpm (const gchar **xpm)
 {
 	GdkPixbuf *pixbuf;
-	GdkPixmap *pixmap;
-	GdkBitmap *bitmap;
 	GtkWidget *win, *pix;
 
 	pixbuf = gdk_pixbuf_new_from_xpm_data (xpm);
-	gdk_pixbuf_render_pixmap_and_mask (pixbuf, &pixmap, &bitmap, 128);
-	g_object_unref (pixbuf);
 
 	win = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_window_set_type_hint (GTK_WINDOW (win), GDK_WINDOW_TYPE_HINT_NOTIFICATION);
 
-	pix = gtk_image_new_from_pixmap (pixmap, bitmap);
+	pix = gtk_image_new_from_pixbuf (pixbuf);
 	gtk_widget_realize (win);
 	gtk_container_add (GTK_CONTAINER (win), pix);
-	gtk_widget_shape_combine_mask (win, bitmap, 0, 0);
 
-	g_object_unref (pixmap);
-	g_object_unref (bitmap);
+	g_object_unref (pixbuf);
 
 	return win;
 }
@@ -972,7 +966,7 @@ ethi_unrealize (GnomeCanvasItem *item)
 
 static void
 ethi_draw (GnomeCanvasItem *item,
-           GdkDrawable *drawable,
+           cairo_t *cr,
            gint x,
            gint y,
            gint width,
@@ -1036,7 +1030,7 @@ ethi_draw (GnomeCanvasItem *item,
 		state = gtk_widget_get_state (GTK_WIDGET (canvas));
 
 		e_table_header_draw_button (
-			drawable, ecol,
+			cr, ecol,
 			style, state, GTK_WIDGET (canvas),
 			x1 - x, -y, width, height,
 			x2 - x1, ethi->height,
@@ -1176,7 +1170,10 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	GdkDragContext *context;
 	ETableCol *ecol;
 	gint col_width;
-	GdkPixmap *pixmap;
+	cairo_surface_t *s;
+	GdkPixbuf *pixbuf;
+	cairo_t *cr;
+
 	gint group_indent = 0;
 	GHashTable *arrows = g_hash_table_new (NULL, NULL);
 	GtkStateType state;
@@ -1236,26 +1233,29 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 
 	ecol = e_table_header_get_column (ethi->eth, ethi->drag_col);
 	col_width = ecol->width;
-	pixmap = gdk_pixmap_new (window, col_width, ethi->height, -1);
+	s = cairo_image_surface_create (CAIRO_FORMAT_A1, col_width, ethi->height);
+	cr = cairo_create (s);
+	pixbuf = gdk_pixbuf_get_from_surface(s, 
+			0, 0, 
+			col_width, ethi->height);
 
 	state = gtk_widget_get_state (widget);
 
 	e_table_header_draw_button (
-		pixmap, ecol,
+		cr, ecol,
 		style, state,
 		widget, 0, 0,
 		col_width, ethi->height,
 		col_width, ethi->height,
 		(ETableColArrow) g_hash_table_lookup (
 			arrows, GINT_TO_POINTER (ecol->col_idx)));
-	gtk_drag_set_icon_pixmap (
+	gtk_drag_set_icon_pixbuf (
 		context,
-		gdk_drawable_get_colormap (GDK_DRAWABLE (window)),
-		pixmap,
-		NULL,
+		pixbuf,
 		col_width / 2,
 		ethi->height / 2);
-	g_object_unref (pixmap);
+	g_object_unref (pixbuf);
+	cairo_surface_destroy (s);
 
 	ethi->maybe_drag = FALSE;
 	g_hash_table_destroy (arrows);
