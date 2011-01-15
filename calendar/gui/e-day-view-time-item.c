@@ -77,7 +77,7 @@ static void e_day_view_time_item_update (GnomeCanvasItem *item,
 					 const cairo_matrix_t *i2c,
 					 gint flags);
 static void e_day_view_time_item_draw (GnomeCanvasItem *item,
-				       GdkDrawable *drawable,
+				       cairo_t *cr,
 				       gint x, gint y,
 				       gint width, gint height);
 static GnomeCanvasItem *e_day_view_time_item_point (GnomeCanvasItem *item,
@@ -275,7 +275,7 @@ e_day_view_time_item_update (GnomeCanvasItem *item,
  */
 static void
 edvti_draw_zone (GnomeCanvasItem   *canvas_item,
-		GdkDrawable	   *drawable,
+		cairo_t 	   *cr,
 		gint		    x,
 		gint		    y,
 		gint		    width,
@@ -301,11 +301,8 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 	PangoContext *context;
 	PangoFontDescription *small_font_desc;
 	PangoFontMetrics *large_font_metrics, *small_font_metrics;
-	cairo_t *cr;
 	GdkColor fg, dark;
 	GdkColor mb_color;
-
-	cr = gdk_cairo_create (drawable);
 
 	time_item = E_DAY_VIEW_TIME_ITEM (canvas_item);
 	day_view = e_day_view_time_item_get_day_view (time_item);
@@ -431,12 +428,8 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 		gdk_cairo_set_source_color (cr, &day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE]);
 
 		if (day_view->marcus_bains_time_bar_color && gdk_color_parse (day_view->marcus_bains_time_bar_color, &mb_color)) {
-			GdkColormap *colormap;
 
-			colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
-			if (gdk_colormap_alloc_color (colormap, &mb_color, TRUE, TRUE)) {
-				gdk_cairo_set_source_color (cr, &mb_color);
-			}
+			gdk_cairo_set_source_color (cr, &mb_color);
 		} else
 			mb_color = day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE];
 
@@ -451,12 +444,7 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 		mb_color = day_view->colors[E_DAY_VIEW_COLOR_MARCUS_BAINS_LINE];
 
 		if (day_view->marcus_bains_time_bar_color && gdk_color_parse (day_view->marcus_bains_time_bar_color, &mb_color)) {
-			GdkColormap *colormap;
-
-			colormap = gtk_widget_get_colormap (GTK_WIDGET (day_view));
-			if (gdk_colormap_alloc_color (colormap, &mb_color, TRUE, TRUE)) {
-				gdk_cairo_set_source_color (cr, &mb_color);
-			}
+			gdk_cairo_set_source_color (cr, &mb_color);
 		}
 	}
 
@@ -609,7 +597,6 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 
 	pango_font_metrics_unref (large_font_metrics);
 	pango_font_metrics_unref (small_font_metrics);
-	cairo_destroy (cr);
 
 	g_free (midnight_day);
 	g_free (midnight_month);
@@ -617,7 +604,7 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 
 static void
 e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
-			   GdkDrawable	   *drawable,
+			   cairo_t 	   *cr,
 			   gint		    x,
 			   gint		    y,
 			   gint		    width,
@@ -628,10 +615,10 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 	time_item = E_DAY_VIEW_TIME_ITEM (canvas_item);
 	g_return_if_fail (time_item != NULL);
 
-	edvti_draw_zone (canvas_item, drawable, x, y, width, height, 0, NULL);
+	edvti_draw_zone (canvas_item, cr, x, y, width, height, 0, NULL);
 
 	if (time_item->priv->second_zone)
-		edvti_draw_zone (canvas_item, drawable, x, y, width, height, time_item->priv->column_width, time_item->priv->second_zone);
+		edvti_draw_zone (canvas_item, cr, x, y, width, height, time_item->priv->column_width, time_item->priv->second_zone);
 }
 
 /* Increment the time by the 5/10/15/30/60 minute interval.
