@@ -100,7 +100,11 @@ enum {
 	PROP_MODEL,
 	PROP_UNIFORM_ROW_HEIGHT,
 	PROP_ALWAYS_SEARCH,
-	PROP_USE_CLICK_TO_ADD
+	PROP_USE_CLICK_TO_ADD,
+	PROP_HADJUSTMENT,
+	PROP_VADJUSTMENT,
+	PROP_HSCROLL_POLICY,
+	PROP_VSCROLL_POLICY
 };
 
 enum {
@@ -163,7 +167,8 @@ static gint et_focus (GtkWidget *container, GtkDirectionType direction);
 static void scroll_off (ETable *et);
 static void scroll_on (ETable *et, guint scroll_direction);
 
-G_DEFINE_TYPE (ETable, e_table, GTK_TYPE_TABLE)
+G_DEFINE_TYPE_WITH_CODE (ETable, e_table, GTK_TYPE_TABLE,
+			 G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
 
 static void
 et_disconnect_model (ETable *et)
@@ -2248,6 +2253,30 @@ et_get_property (GObject *object,
 	case PROP_USE_CLICK_TO_ADD:
 		g_value_set_boolean (value, etable->use_click_to_add);
 		break;
+	case PROP_HADJUSTMENT:
+		if (etable->table_canvas)
+			g_object_get_property (G_OBJECT (etable->table_canvas), "hadjustment", value);
+		else
+			g_value_set_object (value, NULL);
+		break;
+	case PROP_VADJUSTMENT:
+		if (etable->table_canvas)
+			g_object_get_property (G_OBJECT (etable->table_canvas), "vadjustment", value);
+		else
+			g_value_set_object (value, NULL);
+		break;
+	case PROP_HSCROLL_POLICY:
+		if (etable->table_canvas)
+			g_object_get_property (G_OBJECT (etable->table_canvas), "hscroll-policy", value);
+		else
+			g_value_set_enum (value, 0);
+		break;
+	case PROP_VSCROLL_POLICY:
+		if (etable->table_canvas)
+			g_object_get_property (G_OBJECT (etable->table_canvas), "vscroll-policy", value);
+		else
+			g_value_set_enum (value, 0);
+		break;
 	default:
 		break;
 	}
@@ -2320,30 +2349,23 @@ et_set_property (GObject *object,
 			etable->click_to_add = NULL;
 		}
 		break;
+	case PROP_HADJUSTMENT:
+		if (etable->table_canvas)
+			g_object_set_property (G_OBJECT (etable->table_canvas), "hadjustment", value);
+		break;
+	case PROP_VADJUSTMENT:
+		if (etable->table_canvas)
+			g_object_set_property (G_OBJECT (etable->table_canvas), "vadjustment", value);
+		break;
+	case PROP_HSCROLL_POLICY:
+		if (etable->table_canvas)
+			g_object_set_property (G_OBJECT (etable->table_canvas), "hscroll-policy", value);
+		break;
+	case PROP_VSCROLL_POLICY:
+		if (etable->table_canvas)
+			g_object_set_property (G_OBJECT (etable->table_canvas), "vscroll-policy", value);
+		break;
 	}
-}
-
-static void
-set_scroll_adjustments   (ETable *table,
-			  GtkAdjustment *hadjustment,
-			  GtkAdjustment *vadjustment)
-{
-	if (vadjustment != NULL)
-		gtk_adjustment_set_step_increment (vadjustment, 20);
-
-	if (hadjustment != NULL)
-		gtk_adjustment_set_step_increment (hadjustment, 20);
-
-	if (table->table_canvas != NULL) {
-		gtk_scrollable_set_hadjustment (
-			GTK_SCROLLABLE (table->table_canvas), hadjustment);
-		gtk_scrollable_set_vadjustment (
-			GTK_SCROLLABLE (table->table_canvas), vadjustment);
-	}
-
-	if (table->header_canvas != NULL)
-		gtk_scrollable_set_hadjustment (
-			GTK_SCROLLABLE (table->header_canvas), hadjustment);
 }
 
 /**
@@ -2589,9 +2611,7 @@ struct _ETableDragSourceSite
 	GdkModifierType    start_button_mask;
 	GtkTargetList     *target_list;        /* Targets for drag data */
 	GdkDragAction      actions;            /* Possible actions */
-	GdkColormap       *colormap;		 /* Colormap for drag icon */
-	GdkPixmap         *pixmap;             /* Icon for drag data */
-	GdkBitmap         *mask;
+	GdkPixbuf         *pixbuf;             /* Icon for drag data */
 
 	/* Stored button press information to detect drag beginning */
 	gint               state;
@@ -2828,11 +2848,10 @@ et_real_start_drag (ETable *table, gint row, gint col, GdkEvent *event)
 			info = g_dataset_get_data (context, "gtk-info");
 
 			if (info && !info->icon_window) {
-				if (site->pixmap)
-					gtk_drag_set_icon_pixmap (context,
-								  site->colormap,
-								  site->pixmap,
-								  site->mask, -2, -2);
+				if (site->pixbuf)
+					gtk_drag_set_icon_pixbuf (context,
+								  site->pixbuf,
+								  -2, -2);
 				else
 					gtk_drag_set_icon_default (context);
 			}
@@ -3472,17 +3491,6 @@ e_table_class_init (ETableClass *class)
 			      G_TYPE_UINT,
 			      G_TYPE_UINT);
 
-	class->set_scroll_adjustments = set_scroll_adjustments;
-
-	widget_class->set_scroll_adjustments_signal =
-		g_signal_new ("set_scroll_adjustments",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ETableClass, set_scroll_adjustments),
-			      NULL, NULL,
-			      e_marshal_NONE__OBJECT_OBJECT,
-			      G_TYPE_NONE, 2, GTK_TYPE_ADJUSTMENT, GTK_TYPE_ADJUSTMENT);
-
 	g_object_class_install_property (object_class, PROP_LENGTH_THRESHOLD,
 					 g_param_spec_int ("length_threshold",
 							   "Length Threshold",
@@ -3528,6 +3536,12 @@ e_table_class_init (ETableClass *class)
 			0, G_MAXINT, 3,
 			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
+
+	/* Scrollable interface */
+	g_object_class_override_property (object_class, PROP_HADJUSTMENT,    "hadjustment");
+	g_object_class_override_property (object_class, PROP_VADJUSTMENT,    "vadjustment");
+	g_object_class_override_property (object_class, PROP_HSCROLL_POLICY, "hscroll-policy");
+	g_object_class_override_property (object_class, PROP_VSCROLL_POLICY, "vscroll-policy");
 
 	gal_a11y_e_table_init ();
 }

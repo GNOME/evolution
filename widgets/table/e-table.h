@@ -204,11 +204,6 @@ struct _ETableClass {
 	gboolean	(*white_space_event)	(ETable *et,
 						 GdkEvent *event);
 
-	void		(*set_scroll_adjustments)
-						(ETable *table,
-						 GtkAdjustment *hadjustment,
-						 GtkAdjustment *vadjustment);
-
 	/* Source side drag signals */
 	void		(*table_drag_begin)	 (ETable *table,
 						 gint row,
