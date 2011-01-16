@@ -98,9 +98,9 @@ et_get_layer (AtkComponent *component)
 }
 
 static void
-et_class_init (GalA11yETreeClass *klass)
+et_class_init (GalA11yETreeClass *class)
 {
-	AtkObjectClass *atk_object_class = ATK_OBJECT_CLASS (klass);
+	AtkObjectClass *atk_object_class = ATK_OBJECT_CLASS (class);
 
 	parent_class                              = g_type_class_ref (PARENT_TYPE);
 
@@ -190,7 +190,7 @@ gal_a11y_e_tree_init (void)
 {
 	if (atk_get_root ())
 		atk_registry_set_factory_type (atk_get_default_registry (),
-					E_TREE_TYPE,
+					E_TYPE_TREE,
 					gal_a11y_e_tree_factory_get_type ());
 
 }

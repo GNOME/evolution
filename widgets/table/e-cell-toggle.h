@@ -64,7 +64,7 @@ struct _ECellToggleClass {
 	ECellClass parent_class;
 };
 
-GType		e_cell_toggle_get_type		(void);
+GType		e_cell_toggle_get_type		(void) G_GNUC_CONST;
 ECell *		e_cell_toggle_new		(const gchar **icon_names,
 						 guint n_icon_names);
 void		e_cell_toggle_construct		(ECellToggle *cell_toggle,

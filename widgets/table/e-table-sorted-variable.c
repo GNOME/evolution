@@ -39,7 +39,7 @@
 
 /* workaround for avoiding API breakage */
 #define etsv_get_type e_table_sorted_variable_get_type
-G_DEFINE_TYPE (ETableSortedVariable, etsv, E_TABLE_SUBSET_VARIABLE_TYPE)
+G_DEFINE_TYPE (ETableSortedVariable, etsv, E_TYPE_TABLE_SUBSET_VARIABLE)
 
 static void etsv_sort_info_changed        (ETableSortInfo *info, ETableSortedVariable *etsv);
 static void etsv_sort                     (ETableSortedVariable *etsv);
@@ -77,10 +77,10 @@ etsv_dispose (GObject *object)
 }
 
 static void
-etsv_class_init (ETableSortedVariableClass *klass)
+etsv_class_init (ETableSortedVariableClass *class)
 {
-	ETableSubsetVariableClass *etssv_class = E_TABLE_SUBSET_VARIABLE_CLASS (klass);
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	ETableSubsetVariableClass *etssv_class = E_TABLE_SUBSET_VARIABLE_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->dispose = etsv_dispose;
 
@@ -187,7 +187,7 @@ etsv_add_all   (ETableSubsetVariable *etssv)
 ETableModel *
 e_table_sorted_variable_new (ETableModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)
 {
-	ETableSortedVariable *etsv = g_object_new (E_TABLE_SORTED_VARIABLE_TYPE, NULL);
+	ETableSortedVariable *etsv = g_object_new (E_TYPE_TABLE_SORTED_VARIABLE, NULL);
 	ETableSubsetVariable *etssv = E_TABLE_SUBSET_VARIABLE (etsv);
 
 	if (e_table_subset_variable_construct (etssv, source) == NULL) {

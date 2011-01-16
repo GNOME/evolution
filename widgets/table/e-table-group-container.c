@@ -46,7 +46,7 @@
 
 /* workaround for avoiding API breakage */
 #define etgc_get_type e_table_group_container_get_type
-G_DEFINE_TYPE (ETableGroupContainer, etgc, E_TABLE_GROUP_TYPE)
+G_DEFINE_TYPE (ETableGroupContainer, etgc, E_TYPE_TABLE_GROUP)
 
 /* The arguments we take */
 enum {
@@ -195,7 +195,7 @@ e_table_group_container_new (GnomeCanvasGroup *parent, ETableHeader *full_header
 
 	g_return_val_if_fail (parent != NULL, NULL);
 
-	etgc = g_object_new (E_TABLE_GROUP_CONTAINER_TYPE, NULL);
+	etgc = g_object_new (E_TYPE_TABLE_GROUP_CONTAINER, NULL);
 
 	e_table_group_container_construct (parent, etgc, full_header, header,
 					   model, sort_info, n);
@@ -916,11 +916,11 @@ etgc_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *ps
 }
 
 static void
-etgc_class_init (ETableGroupContainerClass *klass)
+etgc_class_init (ETableGroupContainerClass *class)
 {
-	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (klass);
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	ETableGroupClass *e_group_class = E_TABLE_GROUP_CLASS (klass);
+	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	ETableGroupClass *e_group_class = E_TABLE_GROUP_CLASS (class);
 
 	object_class->dispose = etgc_dispose;
 	object_class->set_property = etgc_set_property;

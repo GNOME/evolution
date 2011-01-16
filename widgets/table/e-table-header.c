@@ -249,9 +249,9 @@ eth_get_property (GObject *object, guint prop_id, GValue *val, GParamSpec *pspec
 }
 
 static void
-e_table_header_class_init (ETableHeaderClass *klass)
+e_table_header_class_init (ETableHeaderClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->finalize = eth_finalize;
 	object_class->set_property = eth_set_property;
@@ -274,7 +274,7 @@ e_table_header_class_init (ETableHeaderClass *klass)
 	g_object_class_install_property (
 		object_class, PROP_SORT_INFO,
 		g_param_spec_object ("sort_info", "Sort Info", "Sort Info",
-				     E_TABLE_SORT_INFO_TYPE,
+				     E_TYPE_TABLE_SORT_INFO,
 				     G_PARAM_READWRITE));
 
 	eth_signals[STRUCTURE_CHANGE] =
@@ -310,10 +310,10 @@ e_table_header_class_init (ETableHeaderClass *klass)
 			      e_marshal_INT__INT,
 			      G_TYPE_INT, 1, G_TYPE_INT);
 
-	klass->structure_change = NULL;
-	klass->dimension_change = NULL;
-	klass->expansion_change = NULL;
-	klass->request_width = NULL;
+	class->structure_change = NULL;
+	class->dimension_change = NULL;
+	class->expansion_change = NULL;
+	class->request_width = NULL;
 }
 
 static void
@@ -342,7 +342,7 @@ ETableHeader *
 e_table_header_new (void)
 {
 
-	return (ETableHeader *) g_object_new (E_TABLE_HEADER_TYPE, NULL);
+	return g_object_new (E_TYPE_TABLE_HEADER, NULL);
 }
 
 static void

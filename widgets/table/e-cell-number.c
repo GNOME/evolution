@@ -45,9 +45,9 @@ ecn_free_text (ECellText *cell, gchar *text)
 }
 
 static void
-e_cell_number_class_init (ECellNumberClass *klass)
+e_cell_number_class_init (ECellNumberClass *class)
 {
-	ECellTextClass *ectc = E_CELL_TEXT_CLASS (klass);
+	ECellTextClass *ectc = E_CELL_TEXT_CLASS (class);
 
 	ectc->get_text  = ecn_get_text;
 	ectc->free_text = ecn_free_text;

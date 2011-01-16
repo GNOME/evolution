@@ -48,7 +48,11 @@
 
 #define d(x)
 
-G_DEFINE_TYPE (ETreeSorted, e_tree_sorted, E_TREE_MODEL_TYPE)
+#define E_TREE_SORTED_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TREE_SORTED, ETreeSortedPrivate))
+
+G_DEFINE_TYPE (ETreeSorted, e_tree_sorted, E_TYPE_TREE_MODEL)
 
 enum {
 	NODE_RESORTED,
@@ -75,7 +79,7 @@ struct ETreeSortedPath {
 	guint             needs_regen_to_sort : 1;
 };
 
-struct ETreeSortedPriv {
+struct _ETreeSortedPrivate {
 	ETreeModel      *source;
 	ETreeSortedPath *root;
 
@@ -582,34 +586,29 @@ schedule_resort (ETreeSorted *ets, ETreeSortedPath *path, gboolean needs_regen, 
 static void
 ets_dispose (GObject *object)
 {
-	ETreeSorted *ets = E_TREE_SORTED (object);
-	ETreeSortedPriv *priv = ets->priv;
+	ETreeSortedPrivate *priv;
 
-	/* FIXME lots of stuff to free here */
-	if (!priv) {
-		G_OBJECT_CLASS (e_tree_sorted_parent_class)->dispose (object);
-		return;
-	}
+	priv = E_TREE_SORTED_GET_PRIVATE (object);
 
 	if (priv->source) {
-		g_signal_handler_disconnect (G_OBJECT (priv->source),
-					     priv->tree_model_pre_change_id);
-		g_signal_handler_disconnect (G_OBJECT (priv->source),
-					     priv->tree_model_no_change_id);
-		g_signal_handler_disconnect (G_OBJECT (priv->source),
-					     priv->tree_model_node_changed_id);
-		g_signal_handler_disconnect (G_OBJECT (priv->source),
-					     priv->tree_model_node_data_changed_id);
-		g_signal_handler_disconnect (G_OBJECT (priv->source),
-					     priv->tree_model_node_col_changed_id);
-		g_signal_handler_disconnect (G_OBJECT (priv->source),
-					     priv->tree_model_node_inserted_id);
-		g_signal_handler_disconnect (G_OBJECT (priv->source),
-					     priv->tree_model_node_removed_id);
-		g_signal_handler_disconnect (G_OBJECT (priv->source),
-					     priv->tree_model_node_deleted_id);
-		g_signal_handler_disconnect (G_OBJECT (priv->source),
-					     priv->tree_model_node_request_collapse_id);
+		g_signal_handler_disconnect (
+			priv->source, priv->tree_model_pre_change_id);
+		g_signal_handler_disconnect (
+			priv->source, priv->tree_model_no_change_id);
+		g_signal_handler_disconnect (
+			priv->source, priv->tree_model_node_changed_id);
+		g_signal_handler_disconnect (
+			priv->source, priv->tree_model_node_data_changed_id);
+		g_signal_handler_disconnect (
+			priv->source, priv->tree_model_node_col_changed_id);
+		g_signal_handler_disconnect (
+			priv->source, priv->tree_model_node_inserted_id);
+		g_signal_handler_disconnect (
+			priv->source, priv->tree_model_node_removed_id);
+		g_signal_handler_disconnect (
+			priv->source, priv->tree_model_node_deleted_id);
+		g_signal_handler_disconnect (
+			priv->source, priv->tree_model_node_request_collapse_id);
 
 		g_object_unref (priv->source);
 		priv->source = NULL;
@@ -626,43 +625,48 @@ ets_dispose (GObject *object)
 	}
 
 	if (priv->sort_info) {
-		g_signal_handler_disconnect (G_OBJECT (priv->sort_info),
-					     priv->sort_info_changed_id);
+		g_signal_handler_disconnect (
+			priv->sort_info, priv->sort_info_changed_id);
 		priv->sort_info_changed_id = 0;
 
 		g_object_unref (priv->sort_info);
 		priv->sort_info = NULL;
 	}
 
-	ets_stop_sort_idle (ets);
-	if (ets->priv->insert_idle_id) {
-		g_source_remove (ets->priv->insert_idle_id);
-		ets->priv->insert_idle_id = 0;
+	ets_stop_sort_idle (E_TREE_SORTED (object));
+
+	if (priv->insert_idle_id) {
+		g_source_remove (priv->insert_idle_id);
+		priv->insert_idle_id = 0;
 	}
 
-	if (priv->full_header)
+	if (priv->full_header) {
 		g_object_unref (priv->full_header);
+		priv->full_header = NULL;
+	}
 
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_tree_sorted_parent_class)->dispose (object);
 }
 
 static void
 ets_finalize (GObject *object)
 {
-	ETreeSorted *ets = (ETreeSorted *) object;
+	ETreeSortedPrivate *priv;
 
-	if (ets->priv->root)
-		free_path (ets->priv->root);
+	priv = E_TREE_SORTED_GET_PRIVATE (object);
 
-	g_free (ets->priv);
-	ets->priv = NULL;
+	if (priv->root)
+		free_path (priv->root);
 
+	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_tree_sorted_parent_class)->finalize (object);
 }
 
 static ETreePath
 ets_get_root (ETreeModel *etm)
 {
-	ETreeSortedPriv *priv = E_TREE_SORTED (etm)->priv;
+	ETreeSortedPrivate *priv = E_TREE_SORTED (etm)->priv;
 	if (priv->root == NULL) {
 		ETreeSorted *ets = E_TREE_SORTED (etm);
 		ETreePath corresponding = e_tree_model_get_root (ets->priv->source);
@@ -1143,50 +1147,52 @@ ets_sort_info_changed (ETableSortInfo *sort_info, ETreeSorted *ets)
 /* Initialization and creation */
 
 static void
-e_tree_sorted_class_init (ETreeSortedClass *klass)
+e_tree_sorted_class_init (ETreeSortedClass *class)
 {
-	ETreeModelClass *tree_class      = E_TREE_MODEL_CLASS (klass);
-	GObjectClass *object_class       = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class;
+	ETreeModelClass *tree_model_class;
 
-	klass->node_resorted             = NULL;
+	g_type_class_add_private (class, sizeof (ETreeSortedPrivate));
 
-	object_class->dispose            = ets_dispose;
-	object_class->finalize           = ets_finalize;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = ets_dispose;
+	object_class->finalize = ets_finalize;
 
-	tree_class->get_root             = ets_get_root;
-	tree_class->get_parent           = ets_get_parent;
-	tree_class->get_first_child      = ets_get_first_child;
-	tree_class->get_last_child       = ets_get_last_child;
-	tree_class->get_prev             = ets_get_prev;
-	tree_class->get_next             = ets_get_next;
+	tree_model_class = E_TREE_MODEL_CLASS (class);
+	tree_model_class->get_root = ets_get_root;
+	tree_model_class->get_parent = ets_get_parent;
+	tree_model_class->get_first_child = ets_get_first_child;
+	tree_model_class->get_last_child = ets_get_last_child;
+	tree_model_class->get_prev = ets_get_prev;
+	tree_model_class->get_next = ets_get_next;
 
-	tree_class->is_root              = ets_is_root;
-	tree_class->is_expandable        = ets_is_expandable;
-	tree_class->get_children         = ets_get_children;
-	tree_class->depth                = ets_depth;
+	tree_model_class->is_root = ets_is_root;
+	tree_model_class->is_expandable = ets_is_expandable;
+	tree_model_class->get_children = ets_get_children;
+	tree_model_class->depth = ets_depth;
 
-	tree_class->icon_at              = ets_icon_at;
+	tree_model_class->icon_at = ets_icon_at;
 
-	tree_class->get_expanded_default = ets_get_expanded_default;
-	tree_class->column_count         = ets_column_count;
+	tree_model_class->get_expanded_default = ets_get_expanded_default;
+	tree_model_class->column_count = ets_column_count;
 
-	tree_class->has_save_id          = ets_has_save_id;
-	tree_class->get_save_id          = ets_get_save_id;
+	tree_model_class->has_save_id = ets_has_save_id;
+	tree_model_class->get_save_id = ets_get_save_id;
 
-	tree_class->has_get_node_by_id   = ets_has_get_node_by_id;
-	tree_class->get_node_by_id       = ets_get_node_by_id;
+	tree_model_class->has_get_node_by_id = ets_has_get_node_by_id;
+	tree_model_class->get_node_by_id = ets_get_node_by_id;
 
-	tree_class->has_change_pending   = ets_has_change_pending;
+	tree_model_class->has_change_pending = ets_has_change_pending;
 
-	tree_class->value_at             = ets_value_at;
-	tree_class->set_value_at         = ets_set_value_at;
-	tree_class->is_editable          = ets_is_editable;
+	tree_model_class->value_at = ets_value_at;
+	tree_model_class->set_value_at = ets_set_value_at;
+	tree_model_class->is_editable = ets_is_editable;
 
-	tree_class->duplicate_value      = ets_duplicate_value;
-	tree_class->free_value           = ets_free_value;
-	tree_class->initialize_value     = ets_initialize_value;
-	tree_class->value_is_empty       = ets_value_is_empty;
-	tree_class->value_to_string      = ets_value_to_string;
+	tree_model_class->duplicate_value = ets_duplicate_value;
+	tree_model_class->free_value = ets_free_value;
+	tree_model_class->initialize_value = ets_initialize_value;
+	tree_model_class->value_is_empty = ets_value_is_empty;
+	tree_model_class->value_to_string = ets_value_to_string;
 
 	signals[NODE_RESORTED] =
 		g_signal_new ("node_resorted",
@@ -1201,36 +1207,7 @@ e_tree_sorted_class_init (ETreeSortedClass *klass)
 static void
 e_tree_sorted_init (ETreeSorted *ets)
 {
-	ETreeSortedPriv *priv;
-
-	priv                                      = g_new0 (ETreeSortedPriv, 1);
-	ets->priv                                 = priv;
-
-	priv->root                                = NULL;
-	priv->source                              = NULL;
-
-	priv->sort_info                           = NULL;
-	priv->full_header                         = NULL;
-
-	priv->last_access                         = NULL;
-
-	priv->tree_model_pre_change_id            = 0;
-	priv->tree_model_no_change_id             = 0;
-	priv->tree_model_node_changed_id          = 0;
-	priv->tree_model_node_data_changed_id     = 0;
-	priv->tree_model_node_col_changed_id      = 0;
-	priv->tree_model_node_inserted_id         = 0;
-	priv->tree_model_node_removed_id          = 0;
-	priv->tree_model_node_deleted_id          = 0;
-	priv->tree_model_node_request_collapse_id = 0;
-
-	priv->sort_info_changed_id                = 0;
-	priv->sort_idle_id                        = 0;
-	priv->insert_idle_id                      = 0;
-	priv->insert_count                        = 0;
-
-	priv->in_resort_idle                      = 0;
-	priv->nested_resort_idle                  = 0;
+	ets->priv = E_TREE_SORTED_GET_PRIVATE (ets);
 }
 
 /**
@@ -1283,7 +1260,7 @@ e_tree_sorted_construct (ETreeSorted *ets, ETreeModel *source, ETableHeader *ful
 ETreeSorted *
 e_tree_sorted_new (ETreeModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)
 {
-	ETreeSorted *ets = g_object_new (E_TREE_SORTED_TYPE, NULL);
+	ETreeSorted *ets = g_object_new (E_TYPE_TREE_SORTED, NULL);
 
 	e_tree_sorted_construct (ets, source, full_header, sort_info);
 

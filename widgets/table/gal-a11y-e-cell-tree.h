@@ -23,7 +23,6 @@
 #ifndef __GAL_A11Y_E_CELL_TREE_H__
 #define __GAL_A11Y_E_CELL_TREE_H__
 
-#include <glib-object.h>
 #include <table/e-table-item.h>
 #include <table/e-cell-tree.h>
 #include "gal-a11y-e-cell.h"

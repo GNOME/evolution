@@ -105,7 +105,7 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 static GdkAtom clipboard_atom = GDK_NONE;
 
-G_DEFINE_TYPE (ECellText, e_cell_text, E_CELL_TYPE)
+G_DEFINE_TYPE (ECellText, e_cell_text, E_TYPE_CELL)
 
 #define UTF8_ATOM  gdk_atom_intern ("UTF8_STRING", FALSE)
 
@@ -1153,7 +1153,7 @@ ect_enter_edit (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 		}
 		gtk_im_context_focus_in (edit->im_context);
 	}
-	
+
 #if 0
 	if (edit->pointer_in) {
 		if (edit->default_cursor_shown) {
@@ -1527,10 +1527,10 @@ static gchar *ellipsis_default = NULL;
 static gboolean use_ellipsis_default = TRUE;
 
 static void
-e_cell_text_class_init (ECellTextClass *klass)
+e_cell_text_class_init (ECellTextClass *class)
 {
-	ECellClass *ecc = E_CELL_CLASS (klass);
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	ECellClass *ecc = E_CELL_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 	const gchar *ellipsis_env;
 
 	object_class->finalize = ect_finalize;
@@ -1553,9 +1553,9 @@ e_cell_text_class_init (ECellTextClass *klass)
 	ecc->max_width_by_row = ect_max_width_by_row;
 	ecc->get_bg_color = ect_get_bg_color;
 
-	klass->get_text = ect_real_get_text;
-	klass->free_text = ect_real_free_text;
-	klass->set_value = ect_real_set_value;
+	class->get_text = ect_real_get_text;
+	class->free_text = ect_real_free_text;
+	class->set_value = ect_real_set_value;
 
 	object_class->get_property = ect_get_property;
 	object_class->set_property = ect_set_property;

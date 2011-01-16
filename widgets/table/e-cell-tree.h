@@ -34,34 +34,50 @@
 #include <libgnomecanvas/libgnomecanvas.h>
 #include <table/e-cell.h>
 
+/* Standard GObject macros */
+#define E_TYPE_CELL_TREE \
+	(e_cell_tree_get_type ())
+#define E_CELL_TREE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CELL_TREE, ECellTree))
+#define E_CELL_TREE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CELL_TREE, ECellTreeClass))
+#define E_IS_CELL_TREE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CELL_TREE))
+#define E_IS_CELL_TREE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CELL_TREE))
+#define E_CELL_TREE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CELL_TREE, ECellTreeClass))
+
 G_BEGIN_DECLS
 
-#define E_CELL_TREE_TYPE        (e_cell_tree_get_type ())
-#define E_CELL_TREE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_TREE_TYPE, ECellTree))
-#define E_CELL_TREE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_CELL_TREE_TYPE, ECellTreeClass))
-#define E_IS_CELL_TREE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_TREE_TYPE))
-#define E_IS_CELL_TREE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_TREE_TYPE))
+typedef struct _ECellTree ECellTree;
+typedef struct _ECellTreeClass ECellTreeClass;
 
-typedef struct {
+struct _ECellTree {
 	ECell parent;
 
 	gboolean draw_lines;
 
 	ECell *subcell;
-} ECellTree;
+};
 
-typedef struct {
+struct _ECellTreeClass {
 	ECellClass parent_class;
-} ECellTreeClass;
+};
 
-GType      e_cell_tree_get_type (void);
-ECell     *e_cell_tree_new      (gboolean draw_lines,
-				 ECell *subcell);
-void       e_cell_tree_construct (ECellTree *ect,
-				  gboolean draw_lines,
-				  ECell *subcell);
-
-ECellView *e_cell_tree_view_get_subcell_view (ECellView *ect);
+GType		e_cell_tree_get_type		(void) G_GNUC_CONST;
+ECell *		e_cell_tree_new			(gboolean draw_lines,
+						 ECell *subcell);
+void		e_cell_tree_construct		(ECellTree *ect,
+						 gboolean draw_lines,
+						 ECell *subcell);
+ECellView *	e_cell_tree_view_get_subcell_view
+						(ECellView *ect);
 
 G_END_DECLS
 

@@ -917,10 +917,10 @@ eti_real_initialize (AtkObject *obj,
 }
 
 static void
-eti_class_init (GalA11yETableItemClass *klass)
+eti_class_init (GalA11yETableItemClass *class)
 {
-	AtkObjectClass *atk_object_class = ATK_OBJECT_CLASS (klass);
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	AtkObjectClass *atk_object_class = ATK_OBJECT_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	quark_accessible_object =
 		g_quark_from_static_string ("gtk-accessible-object");
@@ -1341,7 +1341,7 @@ gal_a11y_e_table_item_init (void)
 {
 	if (atk_get_root ())
 		atk_registry_set_factory_type (atk_get_default_registry (),
-					E_TABLE_ITEM_TYPE,
+					E_TYPE_TABLE_ITEM,
 					gal_a11y_e_table_item_factory_get_type ());
 }
 

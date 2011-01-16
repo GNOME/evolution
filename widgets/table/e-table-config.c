@@ -127,11 +127,11 @@ config_get_property (GObject *object,
 }
 
 static void
-e_table_config_class_init (ETableConfigClass *klass)
+e_table_config_class_init (ETableConfigClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-	klass->changed        = NULL;
+	class->changed        = NULL;
 
 	object_class->finalize = config_finalize;
 	object_class->get_property = config_get_property;
@@ -149,7 +149,7 @@ e_table_config_class_init (ETableConfigClass *klass)
 					 g_param_spec_object ("state",
 							      "State",
 							      NULL,
-							      E_TABLE_STATE_TYPE,
+							      E_TYPE_TABLE_STATE,
 							      G_PARAM_READABLE));
 }
 
@@ -1383,7 +1383,7 @@ e_table_config_new (const gchar          *header,
 		    ETableState         *state,
 		    GtkWindow           *parent_window)
 {
-	ETableConfig *config = g_object_new (E_TABLE_CONFIG_TYPE, NULL);
+	ETableConfig *config = g_object_new (E_TYPE_TABLE_CONFIG, NULL);
 	GtkDialog *dialog;
 	GtkWidget *widget;
 

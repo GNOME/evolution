@@ -27,6 +27,7 @@
 #include <table/e-cell.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
+/* Standard GObject macros */
 #define E_TYPE_TABLE_EXTRAS \
 	(e_table_extras_get_type ())
 #define E_TABLE_EXTRAS(obj) \
@@ -60,7 +61,7 @@ struct _ETableExtrasClass {
 	GObjectClass parent_class;
 };
 
-GType		e_table_extras_get_type		(void);
+GType		e_table_extras_get_type		(void) G_GNUC_CONST;
 ETableExtras *	e_table_extras_new		(void);
 void		e_table_extras_add_cell		(ETableExtras *extras,
 						 const gchar *id,

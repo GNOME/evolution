@@ -25,64 +25,118 @@
 
 #include <table/e-table-memory.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TABLE_MEMORY_CALLBACKS \
+	(e_table_memory_callbacks_get_type ())
+#define E_TABLE_MEMORY_CALLBACKS(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_MEMORY_CALLBACKS, ETableMemoryCallbacks))
+#define E_TABLE_MEMORY_CALLBACKS_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_MEMORY_CALLBACKS, ETableMemoryCallbacksClass))
+#define E_IS_TABLE_MEMORY_CALLBACKS(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_MEMORY_CALLBACKS))
+#define E_IS_TABLE_MEMORY_CALLBACKS_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_MEMORY_CALLBACKS))
+#define E_TABLE_MEMORY_CALLBACKS_GET_CLASS(cls) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((cls), E_TYPE_TABLE_MEMORY_CALLBACKS, ETableMemoryCallbacksClass))
+
 G_BEGIN_DECLS
 
-#define E_TABLE_MEMORY_CALLBACKS_TYPE        (e_table_memory_callbacks_get_type ())
-#define E_TABLE_MEMORY_CALLBACKS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_MEMORY_CALLBACKS_TYPE, ETableMemoryCalbacks))
-#define E_TABLE_MEMORY_CALLBACKS_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_MEMORY_CALLBACKS_TYPE, ETableMemoryCalbacksClass))
-#define E_IS_TABLE_MEMORY_CALLBACKS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_MEMORY_CALLBACKS_TYPE))
-#define E_IS_TABLE_MEMORY_CALLBACKS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_MEMORY_CALLBACKS_TYPE))
-#define E_TABLE_MEMORY_CALLBACKS_GET_CLASS(k) (G_TYPE_INSTANCE_GET_CLASS((k), E_TABLE_MEMORY_CALLBACKS_TYPE, ETableMemoryCalbacksClass))
+typedef struct _ETableMemoryCallbacks ETableMemoryCallbacks;
+typedef struct _ETableMemoryCallbacksClass ETableMemoryCallbacksClass;
 
-typedef gint         (*ETableMemoryCalbacksColumnCountFn)     (ETableModel *etm, gpointer data);
-typedef void        (*ETableMemoryCalbacksAppendRowFn)       (ETableModel *etm, ETableModel *model, gint row, gpointer data);
+typedef gint		(*ETableMemoryCallbacksColumnCountFn)
+							(ETableModel *etm,
+							 gpointer data);
+typedef void		(*ETableMemoryCallbacksAppendRowFn)
+							(ETableModel *etm,
+							 ETableModel *model,
+							 gint row,
+							 gpointer data);
 
-typedef	void       *(*ETableMemoryCalbacksValueAtFn)         (ETableModel *etm, gint col, gint row, gpointer data);
-typedef	void        (*ETableMemoryCalbacksSetValueAtFn)      (ETableModel *etm, gint col, gint row, gconstpointer val, gpointer data);
-typedef	gboolean    (*ETableMemoryCalbacksIsCellEditableFn)  (ETableModel *etm, gint col, gint row, gpointer data);
+typedef gpointer	(*ETableMemoryCallbacksValueAtFn)
+							(ETableModel *etm,
+							 gint col,
+							 gint row,
+							 gpointer data);
+typedef void		(*ETableMemoryCallbacksSetValueAtFn)
+							(ETableModel *etm,
+							 gint col,
+							 gint row,
+							 gconstpointer val,
+							 gpointer data);
+typedef gboolean	(*ETableMemoryCallbacksIsCellEditableFn)
+							(ETableModel *etm,
+							 gint col,
+							 gint row,
+							 gpointer data);
 
-typedef	void       *(*ETableMemoryCalbacksDuplicateValueFn)  (ETableModel *etm, gint col, gconstpointer val, gpointer data);
-typedef	void        (*ETableMemoryCalbacksFreeValueFn)       (ETableModel *etm, gint col, gpointer val, gpointer data);
-typedef void       *(*ETableMemoryCalbacksInitializeValueFn) (ETableModel *etm, gint col, gpointer data);
-typedef gboolean    (*ETableMemoryCalbacksValueIsEmptyFn)    (ETableModel *etm, gint col, gconstpointer val, gpointer data);
-typedef gchar       *(*ETableMemoryCalbacksValueToStringFn)   (ETableModel *etm, gint col, gconstpointer val, gpointer data);
+typedef gpointer	(*ETableMemoryCallbacksDuplicateValueFn)
+							(ETableModel *etm,
+							 gint col,
+							 gconstpointer val,
+							 gpointer data);
+typedef void		(*ETableMemoryCallbacksFreeValueFn)
+							(ETableModel *etm,
+							 gint col,
+							 gpointer val,
+							 gpointer data);
+typedef gpointer	(*ETableMemoryCallbacksInitializeValueFn)
+							(ETableModel *etm,
+							 gint col,
+							 gpointer data);
+typedef gboolean	(*ETableMemoryCallbacksValueIsEmptyFn)
+							(ETableModel *etm,
+							 gint col,
+							 gconstpointer val,
+							 gpointer data);
+typedef gchar *		(*ETableMemoryCallbacksValueToStringFn)
+							(ETableModel *etm,
+							 gint col,
+							 gconstpointer val,
+							 gpointer data);
 
-typedef struct {
+struct _ETableMemoryCallbacks {
 	ETableMemory parent;
 
-	ETableMemoryCalbacksColumnCountFn     col_count;
-	ETableMemoryCalbacksAppendRowFn       append_row;
+	ETableMemoryCallbacksColumnCountFn     col_count;
+	ETableMemoryCallbacksAppendRowFn       append_row;
 
-	ETableMemoryCalbacksValueAtFn         value_at;
-	ETableMemoryCalbacksSetValueAtFn      set_value_at;
-	ETableMemoryCalbacksIsCellEditableFn  is_cell_editable;
+	ETableMemoryCallbacksValueAtFn         value_at;
+	ETableMemoryCallbacksSetValueAtFn      set_value_at;
+	ETableMemoryCallbacksIsCellEditableFn  is_cell_editable;
 
-	ETableMemoryCalbacksDuplicateValueFn  duplicate_value;
-	ETableMemoryCalbacksFreeValueFn       free_value;
-	ETableMemoryCalbacksInitializeValueFn initialize_value;
-	ETableMemoryCalbacksValueIsEmptyFn    value_is_empty;
-	ETableMemoryCalbacksValueToStringFn   value_to_string;
+	ETableMemoryCallbacksDuplicateValueFn  duplicate_value;
+	ETableMemoryCallbacksFreeValueFn       free_value;
+	ETableMemoryCallbacksInitializeValueFn initialize_value;
+	ETableMemoryCallbacksValueIsEmptyFn    value_is_empty;
+	ETableMemoryCallbacksValueToStringFn   value_to_string;
 	gpointer data;
-} ETableMemoryCalbacks;
+};
 
-typedef struct {
+struct _ETableMemoryCallbacksClass {
 	ETableMemoryClass parent_class;
-} ETableMemoryCalbacksClass;
+};
 
-GType e_table_memory_callbacks_get_type (void);
+GType		e_table_memory_callbacks_get_type
+			(void) G_GNUC_CONST;
+ETableModel *	e_table_memory_callbacks_new
+			(ETableMemoryCallbacksColumnCountFn col_count,
 
-ETableModel *e_table_memory_callbacks_new (ETableMemoryCalbacksColumnCountFn col_count,
+			 ETableMemoryCallbacksValueAtFn value_at,
+			 ETableMemoryCallbacksSetValueAtFn set_value_at,
+			 ETableMemoryCallbacksIsCellEditableFn is_cell_editable,
 
-				 ETableMemoryCalbacksValueAtFn value_at,
-				 ETableMemoryCalbacksSetValueAtFn set_value_at,
-				 ETableMemoryCalbacksIsCellEditableFn is_cell_editable,
-
-				 ETableMemoryCalbacksDuplicateValueFn duplicate_value,
-				 ETableMemoryCalbacksFreeValueFn free_value,
-				 ETableMemoryCalbacksInitializeValueFn initialize_value,
-				 ETableMemoryCalbacksValueIsEmptyFn value_is_empty,
-				 ETableMemoryCalbacksValueToStringFn value_to_string,
-				 gpointer data);
+			 ETableMemoryCallbacksDuplicateValueFn duplicate_value,
+			 ETableMemoryCallbacksFreeValueFn free_value,
+			 ETableMemoryCallbacksInitializeValueFn initialize_value,
+			 ETableMemoryCallbacksValueIsEmptyFn value_is_empty,
+			 ETableMemoryCallbacksValueToStringFn value_to_string,
+			 gpointer data);
 
 G_END_DECLS
 

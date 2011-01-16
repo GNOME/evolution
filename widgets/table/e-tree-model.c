@@ -61,9 +61,9 @@ static guint e_tree_model_signals[LAST_SIGNAL] = {0, };
 
 
 static void
-e_tree_model_class_init (ETreeModelClass *klass)
+e_tree_model_class_init (ETreeModelClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	e_tree_model_signals[PRE_CHANGE] =
 		g_signal_new ("pre_change",
@@ -155,52 +155,52 @@ e_tree_model_class_init (ETreeModelClass *klass)
 			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
 
-	klass->get_root              = NULL;
+	class->get_root              = NULL;
 
-	klass->get_parent            = NULL;
-	klass->get_first_child       = NULL;
-	klass->get_last_child        = NULL;
-	klass->get_next              = NULL;
-	klass->get_prev              = NULL;
+	class->get_parent            = NULL;
+	class->get_first_child       = NULL;
+	class->get_last_child        = NULL;
+	class->get_next              = NULL;
+	class->get_prev              = NULL;
 
-	klass->is_root               = NULL;
-	klass->is_expandable         = NULL;
-	klass->get_children          = NULL;
-	klass->depth                 = NULL;
+	class->is_root               = NULL;
+	class->is_expandable         = NULL;
+	class->get_children          = NULL;
+	class->depth                 = NULL;
 
-	klass->icon_at               = NULL;
+	class->icon_at               = NULL;
 
-	klass->get_expanded_default  = NULL;
-	klass->column_count          = NULL;
+	class->get_expanded_default  = NULL;
+	class->column_count          = NULL;
 
-	klass->has_save_id           = NULL;
-	klass->get_save_id           = NULL;
-	klass->has_get_node_by_id    = NULL;
-	klass->get_node_by_id        = NULL;
+	class->has_save_id           = NULL;
+	class->get_save_id           = NULL;
+	class->has_get_node_by_id    = NULL;
+	class->get_node_by_id        = NULL;
 
-	klass->has_change_pending    = NULL;
+	class->has_change_pending    = NULL;
 
-	klass->sort_value_at	  = NULL;
-	klass->value_at              = NULL;
-	klass->set_value_at          = NULL;
-	klass->is_editable           = NULL;
+	class->sort_value_at	  = NULL;
+	class->value_at              = NULL;
+	class->set_value_at          = NULL;
+	class->is_editable           = NULL;
 
-	klass->duplicate_value       = NULL;
-	klass->free_value            = NULL;
-	klass->initialize_value      = NULL;
-	klass->value_is_empty        = NULL;
-	klass->value_to_string       = NULL;
+	class->duplicate_value       = NULL;
+	class->free_value            = NULL;
+	class->initialize_value      = NULL;
+	class->value_is_empty        = NULL;
+	class->value_to_string       = NULL;
 
-	klass->pre_change            = NULL;
-	klass->no_change             = NULL;
-	klass->rebuilt		     = NULL;
-	klass->node_changed          = NULL;
-	klass->node_data_changed     = NULL;
-	klass->node_col_changed      = NULL;
-	klass->node_inserted         = NULL;
-	klass->node_removed          = NULL;
-	klass->node_deleted          = NULL;
-	klass->node_request_collapse = NULL;
+	class->pre_change            = NULL;
+	class->no_change             = NULL;
+	class->rebuilt		     = NULL;
+	class->node_changed          = NULL;
+	class->node_data_changed     = NULL;
+	class->node_col_changed      = NULL;
+	class->node_inserted         = NULL;
+	class->node_removed          = NULL;
+	class->node_deleted          = NULL;
+	class->node_request_collapse = NULL;
 }
 
 static void
@@ -226,7 +226,7 @@ e_tree_model_pre_change  (ETreeModel *tree_model)
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
 
-	d(g_print("Emitting pre_change on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->klass->type)));
+	d(g_print("Emitting pre_change on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->class->type)));
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[PRE_CHANGE], 0);
 }
@@ -246,7 +246,7 @@ e_tree_model_no_change  (ETreeModel *tree_model)
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
 
-	d(g_print("Emitting no_change on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->klass->type)));
+	d(g_print("Emitting no_change on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->class->type)));
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[NO_CHANGE], 0);
 }
@@ -266,7 +266,7 @@ e_tree_model_rebuilt  (ETreeModel *tree_model)
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
 
-	d(g_print("Emitting rebuilt on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->klass->type)));
+	d(g_print("Emitting rebuilt on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->class->type)));
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[REBUILT], 0);
 }
@@ -285,7 +285,7 @@ e_tree_model_node_changed  (ETreeModel *tree_model, ETreePath node)
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
 
-	d(g_print("Emitting node_changed on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->klass->type)));
+	d(g_print("Emitting node_changed on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->class->type)));
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[NODE_CHANGED], 0, node);
 }
@@ -305,7 +305,7 @@ e_tree_model_node_data_changed  (ETreeModel *tree_model, ETreePath node)
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
 
-	d(g_print("Emitting node_data_changed on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->klass->type)));
+	d(g_print("Emitting node_data_changed on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->class->type)));
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[NODE_DATA_CHANGED], 0, node);
 }
@@ -325,7 +325,7 @@ e_tree_model_node_col_changed  (ETreeModel *tree_model, ETreePath node, gint col
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
 
-	d(g_print("Emitting node_col_changed on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->klass->type)));
+	d(g_print("Emitting node_col_changed on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->class->type)));
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[NODE_COL_CHANGED], 0, node, col);
 }
@@ -346,7 +346,7 @@ e_tree_model_node_inserted (ETreeModel *tree_model,
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
 
-	d(g_print("Emitting node_inserted on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->klass->type)));
+	d(g_print("Emitting node_inserted on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->class->type)));
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[NODE_INSERTED], 0,
 		       parent_node, inserted_node);
@@ -366,7 +366,7 @@ e_tree_model_node_removed  (ETreeModel *tree_model, ETreePath parent_node, ETree
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
 
-	d(g_print("Emitting node_removed on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->klass->type)));
+	d(g_print("Emitting node_removed on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->class->type)));
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[NODE_REMOVED], 0,
 		       parent_node, removed_node, old_position);
@@ -385,7 +385,7 @@ e_tree_model_node_deleted  (ETreeModel *tree_model, ETreePath deleted_node)
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
 
-	d(g_print("Emitting node_deleted on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->klass->type)));
+	d(g_print("Emitting node_deleted on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->class->type)));
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[NODE_DELETED], 0, deleted_node);
 }
@@ -403,7 +403,7 @@ e_tree_model_node_request_collapse  (ETreeModel *tree_model, ETreePath collapsed
 	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
 
-	d(g_print("Emitting node_request_collapse on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->klass->type)));
+	d(g_print("Emitting node_request_collapse on model 0x%p, a %s.\n", tree_model, g_type_name (G_OBJECT(tree_model)->class->type)));
 
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals[NODE_REQUEST_COLLAPSE], 0, collapsed_node);
 }
@@ -420,7 +420,7 @@ e_tree_model_node_request_collapse  (ETreeModel *tree_model, ETreePath collapsed
 ETreeModel *
 e_tree_model_new (void)
 {
-	return (ETreeModel *) g_object_new (E_TREE_MODEL_TYPE, NULL);
+	return g_object_new (E_TYPE_TREE_MODEL, NULL);
 }
 
 /**

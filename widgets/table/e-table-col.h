@@ -92,7 +92,7 @@ struct _ETableColClass {
 	GObjectClass parent_class;
 };
 
-GType		e_table_col_get_type		(void);
+GType		e_table_col_get_type		(void) G_GNUC_CONST;
 ETableCol *	e_table_col_new			(gint col_idx,
 						 const gchar *text,
 						 const gchar *icon_name,

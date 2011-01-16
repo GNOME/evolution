@@ -61,9 +61,9 @@ ecd_free_text (ECellText *cell, gchar *text)
 }
 
 static void
-e_cell_date_class_init (ECellDateClass *klass)
+e_cell_date_class_init (ECellDateClass *class)
 {
-	ECellTextClass *ectc = E_CELL_TEXT_CLASS (klass);
+	ECellTextClass *ectc = E_CELL_TEXT_CLASS (class);
 
 	ectc->get_text  = ecd_get_text;
 	ectc->free_text = ecd_free_text;

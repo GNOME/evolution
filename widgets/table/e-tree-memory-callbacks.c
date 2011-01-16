@@ -29,7 +29,7 @@
 
 #include "e-tree-memory-callbacks.h"
 
-G_DEFINE_TYPE (ETreeMemoryCallbacks, e_tree_memory_callbacks, E_TREE_MEMORY_TYPE)
+G_DEFINE_TYPE (ETreeMemoryCallbacks, e_tree_memory_callbacks, E_TYPE_TREE_MEMORY)
 
 static GdkPixbuf *
 etmc_icon_at (ETreeModel *etm, ETreePath node)
@@ -184,9 +184,9 @@ etmc_value_to_string (ETreeModel *etm, gint col, gconstpointer value)
 }
 
 static void
-e_tree_memory_callbacks_class_init (ETreeMemoryCallbacksClass *klass)
+e_tree_memory_callbacks_class_init (ETreeMemoryCallbacksClass *class)
 {
-	ETreeModelClass *model_class        = E_TREE_MODEL_CLASS (klass);
+	ETreeModelClass *model_class        = E_TREE_MODEL_CLASS (class);
 
 	model_class->icon_at            = etmc_icon_at;
 
@@ -263,7 +263,7 @@ e_tree_memory_callbacks_new  (ETreeMemoryCallbacksIconAtFn icon_at,
 {
 	ETreeMemoryCallbacks *etmc;
 
-	etmc = g_object_new (E_TREE_MEMORY_CALLBACKS_TYPE, NULL);
+	etmc = g_object_new (E_TYPE_TREE_MEMORY_CALLBACKS, NULL);
 
 	etmc->icon_at            = icon_at;
 

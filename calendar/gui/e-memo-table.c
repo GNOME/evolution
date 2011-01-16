@@ -1173,7 +1173,7 @@ e_memo_table_get_type (void)
 		};
 
 		type = g_type_register_static (
-			E_TABLE_TYPE, "EMemoTable", &type_info, 0);
+			E_TYPE_TABLE, "EMemoTable", &type_info, 0);
 
 		g_type_add_interface_static (
 			type, E_TYPE_SELECTABLE, &selectable_info);

@@ -33,7 +33,7 @@
 
 /* workaround for avoiding API breakage */
 #define etssv_get_type e_table_subset_variable_get_type
-G_DEFINE_TYPE (ETableSubsetVariable, etssv, E_TABLE_SUBSET_TYPE)
+G_DEFINE_TYPE (ETableSubsetVariable, etssv, E_TYPE_TABLE_SUBSET)
 
 #define INCREMENT_AMOUNT 10
 
@@ -120,12 +120,12 @@ etssv_remove    (ETableSubsetVariable *etssv,
 }
 
 static void
-etssv_class_init (ETableSubsetVariableClass *klass)
+etssv_class_init (ETableSubsetVariableClass *class)
 {
-	klass->add     = etssv_add;
-	klass->add_array = etssv_add_array;
-	klass->add_all = etssv_add_all;
-	klass->remove  = etssv_remove;
+	class->add     = etssv_add;
+	class->add_array = etssv_add_array;
+	class->add_all = etssv_add_all;
+	class->remove  = etssv_remove;
 }
 
 static void
@@ -148,7 +148,7 @@ e_table_subset_variable_construct (ETableSubsetVariable *etssv,
 ETableModel *
 e_table_subset_variable_new (ETableModel *source)
 {
-	ETableSubsetVariable *etssv = g_object_new (E_TABLE_SUBSET_VARIABLE_TYPE, NULL);
+	ETableSubsetVariable *etssv = g_object_new (E_TYPE_TABLE_SUBSET_VARIABLE, NULL);
 
 	if (e_table_subset_variable_construct (etssv, source) == NULL) {
 		g_object_unref (etssv);

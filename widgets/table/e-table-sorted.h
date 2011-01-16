@@ -24,41 +24,56 @@
 #ifndef _E_TABLE_SORTED_H_
 #define _E_TABLE_SORTED_H_
 
-#include <glib-object.h>
 #include <table/e-table-model.h>
 #include <table/e-table-subset.h>
 #include <table/e-table-sort-info.h>
 #include <table/e-table-header.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TABLE_SORTED \
+	(e_table_sorted_get_type ())
+#define E_TABLE_SORTED(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_SORTED, ETableSorted))
+#define E_TABLE_SORTED_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_SORTED, ETableSortedClass))
+#define E_IS_TABLE_SORTED(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_SORTED))
+#define E_IS_TABLE_SORTED_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_SORTED))
+#define E_TABLE_SORTED_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_SORTED, ETableSortedClass))
+
 G_BEGIN_DECLS
 
-#define E_TABLE_SORTED_TYPE        (e_table_sorted_get_type ())
-#define E_TABLE_SORTED(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_SORTED_TYPE, ETableSorted))
-#define E_TABLE_SORTED_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_SORTED_TYPE, ETableSortedClass))
-#define E_IS_TABLE_SORTED(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_SORTED_TYPE))
-#define E_IS_TABLE_SORTED_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_SORTED_TYPE))
-#define E_TABLE_SORTED_GET_CLASS(o)   (G_TYPE_INSTANCE_GET_CLASS ((obj), E_TABLE_SORTED_TYPE, ETableSortedClass))
+typedef struct _ETableSorted ETableSorted;
+typedef struct _ETableSortedClass ETableSortedClass;
 
-typedef struct {
-	ETableSubset base;
+struct _ETableSorted {
+	ETableSubset parent;
 
 	ETableSortInfo *sort_info;
 
 	ETableHeader *full_header;
 
-	gint              sort_info_changed_id;
-	gint              sort_idle_id;
-	gint		 insert_idle_id;
-	gint		 insert_count;
+	gint sort_info_changed_id;
+	gint sort_idle_id;
+	gint insert_idle_id;
+	gint insert_count;
+};
 
-} ETableSorted;
-
-typedef struct {
+struct _ETableSortedClass {
 	ETableSubsetClass parent_class;
-} ETableSortedClass;
+};
 
-GType        e_table_sorted_get_type (void);
-ETableModel *e_table_sorted_new      (ETableModel *etm, ETableHeader *header, ETableSortInfo *sort_info);
+GType		e_table_sorted_get_type		(void) G_GNUC_CONST;
+ETableModel *	e_table_sorted_new		(ETableModel *etm,
+						 ETableHeader *header,
+						 ETableSortInfo *sort_info);
 
 G_END_DECLS
 

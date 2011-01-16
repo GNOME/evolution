@@ -54,7 +54,7 @@ struct _ECellTogglePrivate {
 	gint height;
 };
 
-G_DEFINE_TYPE (ECellToggle, e_cell_toggle, E_CELL_TYPE)
+G_DEFINE_TYPE (ECellToggle, e_cell_toggle, E_TYPE_CELL)
 
 typedef struct {
 	ECellView cell_view;

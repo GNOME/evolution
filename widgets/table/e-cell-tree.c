@@ -48,7 +48,7 @@
 #include "e-tree-model.h"
 #include "e-tree-table-adapter.h"
 
-G_DEFINE_TYPE (ECellTree, e_cell_tree, E_CELL_TYPE)
+G_DEFINE_TYPE (ECellTree, e_cell_tree, E_TYPE_CELL)
 
 typedef struct {
 	ECellView    cell_view;
@@ -701,10 +701,10 @@ ect_dispose (GObject *object)
 }
 
 static void
-e_cell_tree_class_init (ECellTreeClass *klass)
+e_cell_tree_class_init (ECellTreeClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	ECellClass *ecc = E_CELL_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	ECellClass *ecc = E_CELL_CLASS (class);
 
 	object_class->dispose = ect_dispose;
 
@@ -722,7 +722,7 @@ e_cell_tree_class_init (ECellTreeClass *klass)
 	ecc->max_width        = ect_max_width;
 	ecc->get_bg_color     = ect_get_bg_color;
 
-        gal_a11y_e_cell_registry_add_cell_type (NULL, E_CELL_TREE_TYPE, gal_a11y_e_cell_tree_new);
+        gal_a11y_e_cell_registry_add_cell_type (NULL, E_TYPE_CELL_TREE, gal_a11y_e_cell_tree_new);
 }
 
 static void
@@ -771,7 +771,7 @@ ECell *
 e_cell_tree_new (gboolean draw_lines,
 		 ECell *subcell)
 {
-	ECellTree *ect = g_object_new (E_CELL_TREE_TYPE, NULL);
+	ECellTree *ect = g_object_new (E_TYPE_CELL_TREE, NULL);
 
 	e_cell_tree_construct (ect, draw_lines, subcell);
 

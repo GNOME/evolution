@@ -27,17 +27,32 @@
 
 #include <table/e-table.h>
 
-#define E_CELL_PIXBUF_TYPE		(e_cell_pixbuf_get_type ())
-#define E_CELL_PIXBUF(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_PIXBUF_TYPE, ECellPixbuf))
-#define E_CELL_PIXBUF_CLASS(k)	(G_TYPE_CHECK_INSTANCE_CAST_CLASS ((k), E_CELL_PIXBUF_TYPE, ECellPixbufClass))
-#define E_IS_CELL_PIXBUF(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_PIXBUF_TYPE))
-#define E_IS_CELL_PIXBUF_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_PIXBUF_TYPE))
+/* Standard GObject macros */
+#define E_TYPE_CELL_PIXBUF \
+	(e_cell_pixbuf_get_type ())
+#define E_CELL_PIXBUF(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CELL_PIXBUF, ECellPixbuf))
+#define E_CELL_PIXBUF_CLASS(cls) \
+	(G_TYPE_CHECK_INSTANCE_CAST_CLASS \
+	((cls), E_TYPE_CELL_PIXBUF, ECellPixbufClass))
+#define E_IS_CELL_PIXBUF(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CELL_PIXBUF))
+#define E_IS_CELL_PIXBUF_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CELL_PIXBUF))
+#define E_CELL_PIXBUF_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CELL_PIXBUF, ECellPixbufClass))
+
+G_BEGIN_DECLS
 
 typedef struct _ECellPixbuf ECellPixbuf;
 typedef struct _ECellPixbufClass ECellPixbufClass;
 
 struct _ECellPixbuf {
-    ECell parent;
+	ECell parent;
 
 	gint selected_column;
 	gint focused_column;
@@ -45,11 +60,12 @@ struct _ECellPixbuf {
 };
 
 struct _ECellPixbufClass {
-    ECellClass parent_class;
+	ECellClass parent_class;
 };
 
-GType   e_cell_pixbuf_get_type (void);
-ECell *e_cell_pixbuf_new (void);
-void e_cell_pixbuf_construct (ECellPixbuf *ecp);
+GType		e_cell_pixbuf_get_type		(void) G_GNUC_CONST;
+ECell *		e_cell_pixbuf_new		(void);
 
-#endif
+G_END_DECLS
+
+#endif /* _E_CELL_PIXBUF_H */

@@ -46,13 +46,13 @@ enum {
 G_DEFINE_TYPE (ETableFieldChooserDialog, e_table_field_chooser_dialog, GTK_TYPE_DIALOG)
 
 static void
-e_table_field_chooser_dialog_class_init (ETableFieldChooserDialogClass *klass)
+e_table_field_chooser_dialog_class_init (ETableFieldChooserDialogClass *class)
 {
 	GObjectClass *object_class;
 	GtkDialogClass *dialog_class;
 
-	object_class = (GObjectClass*) klass;
-	dialog_class = GTK_DIALOG_CLASS (klass);
+	object_class = (GObjectClass*) class;
+	dialog_class = GTK_DIALOG_CLASS (class);
 
 	object_class->dispose      = e_table_field_chooser_dialog_dispose;
 	object_class->set_property = e_table_field_chooser_dialog_set_property;
@@ -71,14 +71,14 @@ e_table_field_chooser_dialog_class_init (ETableFieldChooserDialogClass *klass)
 					 g_param_spec_object ("full_header",
 							      "Full Header",
 							      NULL,
-							      E_TABLE_HEADER_TYPE,
+							      E_TYPE_TABLE_HEADER,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_HEADER,
 					 g_param_spec_object ("header",
 							      "Header",
 							      NULL,
-							      E_TABLE_HEADER_TYPE,
+							      E_TYPE_TABLE_HEADER,
 							      G_PARAM_READWRITE));
 }
 
@@ -120,8 +120,7 @@ e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_choos
 GtkWidget*
 e_table_field_chooser_dialog_new (void)
 {
-	GtkWidget *widget = g_object_new (E_TABLE_FIELD_CHOOSER_DIALOG_TYPE, NULL);
-	return widget;
+	return g_object_new (E_TYPE_TABLE_FIELD_CHOOSER_DIALOG, NULL);
 }
 
 static void

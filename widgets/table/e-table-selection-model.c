@@ -283,13 +283,13 @@ e_table_selection_model_init (ETableSelectionModel *selection)
 }
 
 static void
-e_table_selection_model_class_init (ETableSelectionModelClass *klass)
+e_table_selection_model_class_init (ETableSelectionModelClass *class)
 {
 	GObjectClass *object_class;
 	ESelectionModelArrayClass *esma_class;
 
-	object_class             = G_OBJECT_CLASS (klass);
-	esma_class               = E_SELECTION_MODEL_ARRAY_CLASS (klass);
+	object_class             = G_OBJECT_CLASS (class);
+	esma_class               = E_SELECTION_MODEL_ARRAY_CLASS (class);
 
 	object_class->dispose      = etsm_dispose;
 	object_class->get_property = etsm_get_property;
@@ -301,14 +301,14 @@ e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 					 g_param_spec_object ("model",
 							      "Model",
 							      NULL,
-							      E_TABLE_MODEL_TYPE,
+							      E_TYPE_TABLE_MODEL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_HEADER,
 					 g_param_spec_object ("header",
 							      "Header",
 							      NULL,
-							      E_TABLE_HEADER_TYPE,
+							      E_TYPE_TABLE_HEADER,
 							      G_PARAM_READWRITE));
 }
 
@@ -322,7 +322,7 @@ e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 ETableSelectionModel *
 e_table_selection_model_new (void)
 {
-	return g_object_new (E_TABLE_SELECTION_MODEL_TYPE, NULL);
+	return g_object_new (E_TYPE_TABLE_SELECTION_MODEL, NULL);
 }
 
 static gint

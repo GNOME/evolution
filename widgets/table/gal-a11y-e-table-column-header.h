@@ -24,7 +24,6 @@
 #ifndef __GAL_A11Y_E_TABLE_COLUMN_HEADER_H__
 #define __GAL_A11Y_E_TABLE_COLUMN_HEADER_H__
 
-#include <glib-object.h>
 #include <atk/atkgobjectaccessible.h>
 
 #define GAL_A11Y_TYPE_E_TABLE_COLUMN_HEADER            (gal_a11y_e_table_column_header_get_type ())

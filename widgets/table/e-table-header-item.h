@@ -31,15 +31,31 @@
 #include <table/e-table-header.h>
 #include <table/e-table-sort-info.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TABLE_HEADER_ITEM \
+	(e_table_header_item_get_type ())
+#define E_TABLE_HEADER_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_HEADER_ITEM, ETableHeaderItem))
+#define E_TABLE_HEADER_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_HEADER_ITEM, ETableHeaderItemClass))
+#define E_IS_TABLE_HEADER_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_HEADER_ITEM))
+#define E_IS_TABLE_HEADER_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_HEADER_ITEM))
+#define E_TABLE_HEADER_ITEM_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_HEADER_ITEM, ETableHeaderItemClass))
+
 G_BEGIN_DECLS
 
-#define E_TABLE_HEADER_ITEM_TYPE        (e_table_header_item_get_type ())
-#define E_TABLE_HEADER_ITEM(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_HEADER_ITEM_TYPE, ETableHeaderItem))
-#define E_TABLE_HEADER_ITEM_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_HEADER_ITEM_TYPE, ETableHeaderItemClass))
-#define E_IS_TABLE_HEADER_ITEM(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_HEADER_ITEM_TYPE))
-#define E_IS_TABLE_HEADER_ITEM_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_HEADER_ITEM_TYPE))
+typedef struct _ETableHeaderItem ETableHeaderItem;
+typedef struct _ETableHeaderItemClass ETableHeaderItemClass;
 
-typedef struct {
+struct _ETableHeaderItem {
 	GnomeCanvasItem  parent;
 	ETableHeader    *eth;
 
@@ -103,22 +119,19 @@ typedef struct {
 
 	/* For keyboard navigation*/
 	gint selected_col;
+};
 
-} ETableHeaderItem;
-
-typedef struct {
+struct _ETableHeaderItemClass {
 	GnomeCanvasItemClass parent_class;
 
-	/*
-	 * signals
-	 */
-	void (*button_pressed) (ETableHeaderItem *ethi, GdkEventButton *button);
-} ETableHeaderItemClass;
+	/* Signals */
+	void		(*button_pressed)	(ETableHeaderItem *ethi,
+						 GdkEventButton *button);
+};
 
-void
-ethi_change_sort_state (ETableHeaderItem *ethi, ETableCol *col);
-
-GType      e_table_header_item_get_type (void);
+GType		e_table_header_item_get_type	(void) G_GNUC_CONST;
+void		ethi_change_sort_state		(ETableHeaderItem *ethi,
+						 ETableCol *col);
 
 G_END_DECLS
 

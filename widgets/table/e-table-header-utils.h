@@ -30,22 +30,22 @@
 
 G_BEGIN_DECLS
 
-gdouble  e_table_header_compute_height (ETableCol *ecol,
-					GtkWidget *widget);
-gdouble  e_table_header_width_extras   (GtkStyle       *style);
-void     e_table_header_draw_button    (GdkDrawable    *drawable,
-					ETableCol      *ecol,
-					GtkStyle       *style,
-					GtkStateType    state,
-					GtkWidget      *widget,
-					gint             x,
-					gint             y,
-					gint             width,
-					gint             height,
-					gint             button_width,
-					gint             button_height,
-					ETableColArrow  arrow);
+gdouble		e_table_header_compute_height	(ETableCol *ecol,
+						 GtkWidget *widget);
+gdouble		e_table_header_width_extras	(GtkStyle       *style);
+void		e_table_header_draw_button	(GdkDrawable    *drawable,
+						 ETableCol*ecol,
+						 GtkStyle *style,
+						 GtkStateType state,
+						 GtkWidget *widget,
+						 gint x,
+						 gint y,
+						 gint width,
+						 gint height,
+						 gint button_width,
+						 gint button_height,
+						 ETableColArrow arrow);
 
 G_END_DECLS
 
-#endif
+#endif /* E_TABLE_HEADER_UTILS_H */

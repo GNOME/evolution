@@ -2792,10 +2792,10 @@ eti_style_set (ETableItem *eti, GtkStyle *previous_style)
 }
 
 static void
-eti_class_init (ETableItemClass *klass)
+eti_class_init (ETableItemClass *class)
 {
-	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (klass);
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->dispose       = eti_dispose;
 	object_class->set_property  = eti_set_property;
@@ -2808,29 +2808,29 @@ eti_class_init (ETableItemClass *klass)
 	item_class->point           = eti_point;
 	item_class->event           = eti_event;
 
-	klass->cursor_change    = NULL;
-	klass->cursor_activated = NULL;
-	klass->double_click     = NULL;
-	klass->right_click      = NULL;
-	klass->click            = NULL;
-	klass->key_press        = NULL;
-	klass->start_drag       = NULL;
-	klass->style_set        = eti_style_set;
-	klass->selection_model_removed = NULL;
-	klass->selection_model_added = NULL;
+	class->cursor_change    = NULL;
+	class->cursor_activated = NULL;
+	class->double_click     = NULL;
+	class->right_click      = NULL;
+	class->click            = NULL;
+	class->key_press        = NULL;
+	class->start_drag       = NULL;
+	class->style_set        = eti_style_set;
+	class->selection_model_removed = NULL;
+	class->selection_model_added = NULL;
 
 	g_object_class_install_property (object_class, PROP_TABLE_HEADER,
 					 g_param_spec_object ("ETableHeader",
 							      "Table header",
 							      "Table header",
-							      E_TABLE_HEADER_TYPE,
+							      E_TYPE_TABLE_HEADER,
 							      G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_TABLE_MODEL,
 					 g_param_spec_object ("ETableModel",
 							      "Table model",
 							      "Table model",
-							      E_TABLE_MODEL_TYPE,
+							      E_TYPE_TABLE_MODEL,
 							      G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_SELECTION_MODEL,

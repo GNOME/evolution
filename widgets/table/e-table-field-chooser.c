@@ -52,11 +52,11 @@ enum {
 G_DEFINE_TYPE (ETableFieldChooser, e_table_field_chooser, GTK_TYPE_VBOX)
 
 static void
-e_table_field_chooser_class_init (ETableFieldChooserClass *klass)
+e_table_field_chooser_class_init (ETableFieldChooserClass *class)
 {
 	GObjectClass *object_class;
 
-	object_class = (GObjectClass*) klass;
+	object_class = (GObjectClass*) class;
 
 	object_class->set_property = e_table_field_chooser_set_property;
 	object_class->get_property = e_table_field_chooser_get_property;
@@ -73,14 +73,14 @@ e_table_field_chooser_class_init (ETableFieldChooserClass *klass)
 					 g_param_spec_object ("full_header",
 							      "Full Header",
 							      NULL,
-							      E_TABLE_HEADER_TYPE,
+							      E_TYPE_TABLE_HEADER,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_HEADER,
 					 g_param_spec_object ("header",
 							      "Header",
 							      NULL,
-							      E_TABLE_HEADER_TYPE,
+							      E_TYPE_TABLE_HEADER,
 							      G_PARAM_READWRITE));
 }
 
@@ -242,8 +242,7 @@ e_table_field_chooser_dispose (GObject *object)
 GtkWidget*
 e_table_field_chooser_new (void)
 {
-	GtkWidget *widget = GTK_WIDGET (g_object_new (E_TABLE_FIELD_CHOOSER_TYPE, NULL));
-	return widget;
+	return g_object_new (E_TYPE_TABLE_FIELD_CHOOSER, NULL);
 }
 
 static void

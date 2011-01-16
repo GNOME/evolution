@@ -29,56 +29,70 @@
 #include <table/e-table-sort-info.h>
 #include <table/e-table-header.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TREE_SORTED \
+	(e_tree_sorted_get_type ())
+#define E_TREE_SORTED(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TREE_SORTED, ETreeSorted))
+#define E_TREE_SORTED_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TREE_SORTED, ETreeSortedClass))
+#define E_IS_TREE_SORTED(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TREE_SORTED))
+#define E_IS_TREE_SORTED_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TREE_SORTED))
+#define E_TREE_SORTED_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TREE_SORTED, ETreeSortedClass))
+
 G_BEGIN_DECLS
 
-#define E_TREE_SORTED_TYPE        (e_tree_sorted_get_type ())
-#define E_TREE_SORTED(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TREE_SORTED_TYPE, ETreeSorted))
-#define E_TREE_SORTED_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TREE_SORTED_TYPE, ETreeSortedClass))
-#define E_IS_TREE_SORTED(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TREE_SORTED_TYPE))
-#define E_IS_TREE_SORTED_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TREE_SORTED_TYPE))
-#define E_TREE_SORTED_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TREE_SORTED_TYPE, ETreeSortedClass))
+typedef struct _ETreeSorted ETreeSorted;
+typedef struct _ETreeSortedClass ETreeSortedClass;
+typedef struct _ETreeSortedPrivate ETreeSortedPrivate;
 
-typedef struct ETreeSorted ETreeSorted;
-typedef struct ETreeSortedPriv ETreeSortedPriv;
-typedef struct ETreeSortedClass ETreeSortedClass;
-
-struct ETreeSorted {
-	ETreeModel base;
-
-	ETreeSortedPriv *priv;
+struct _ETreeSorted {
+	ETreeModel parent;
+	ETreeSortedPrivate *priv;
 };
 
-struct ETreeSortedClass {
+struct _ETreeSortedClass {
 	ETreeModelClass parent_class;
 
 	/* Signals */
-	void       (*node_resorted)         (ETreeSorted *etm, ETreePath node);
+	void		(*node_resorted)	(ETreeSorted *etm,
+						 ETreePath node);
 };
 
-GType        e_tree_sorted_get_type            (void);
-void         e_tree_sorted_construct           (ETreeSorted    *etree,
-						ETreeModel     *source,
-						ETableHeader   *full_header,
-						ETableSortInfo *sort_info);
-ETreeSorted *e_tree_sorted_new                 (ETreeModel     *source,
-						ETableHeader   *full_header,
-						ETableSortInfo *sort_info);
+GType		e_tree_sorted_get_type		(void) G_GNUC_CONST;
+void		e_tree_sorted_construct		(ETreeSorted *etree,
+						 ETreeModel *source,
+						 ETableHeader *full_header,
+						 ETableSortInfo *sort_info);
+ETreeSorted *	e_tree_sorted_new		(ETreeModel *source,
+						 ETableHeader *full_header,
+						 ETableSortInfo *sort_info);
 
-ETreePath    e_tree_sorted_view_to_model_path  (ETreeSorted    *ets,
-						ETreePath       view_path);
-ETreePath    e_tree_sorted_model_to_view_path  (ETreeSorted    *ets,
-						ETreePath       model_path);
-gint          e_tree_sorted_orig_position       (ETreeSorted    *ets,
-						ETreePath       path);
-gint          e_tree_sorted_node_num_children   (ETreeSorted    *ets,
-						ETreePath       path);
+ETreePath	e_tree_sorted_view_to_model_path
+						(ETreeSorted *ets,
+						 ETreePath view_path);
+ETreePath	e_tree_sorted_model_to_view_path
+						(ETreeSorted *ets,
+						 ETreePath model_path);
+gint		e_tree_sorted_orig_position	(ETreeSorted *ets,
+						 ETreePath path);
+gint		e_tree_sorted_node_num_children	(ETreeSorted *ets,
+						 ETreePath path);
 
-void         e_tree_sorted_node_resorted       (ETreeSorted    *tree_model,
-						ETreePath       node);
+void		e_tree_sorted_node_resorted	(ETreeSorted *tree_model,
+						 ETreePath node);
 
-ETableSortInfo* e_tree_sorted_get_sort_info       (ETreeSorted    *tree_model);
-void            e_tree_sorted_set_sort_info       (ETreeSorted    *tree_model,
-						   ETableSortInfo *sort_info);
+ETableSortInfo *e_tree_sorted_get_sort_info	(ETreeSorted *tree_model);
+void		e_tree_sorted_set_sort_info	(ETreeSorted *tree_model,
+						 ETableSortInfo *sort_info);
 
 G_END_DECLS
 

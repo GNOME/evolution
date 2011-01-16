@@ -181,9 +181,9 @@ etcta_ref_state_set (AtkObject *accessible)
 }
 
 static void
-etcta_class_init (GalA11yETableClickToAddClass *klass)
+etcta_class_init (GalA11yETableClickToAddClass *class)
 {
-	AtkObjectClass *atk_object_class = ATK_OBJECT_CLASS (klass);
+	AtkObjectClass *atk_object_class = ATK_OBJECT_CLASS (class);
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
 
@@ -335,7 +335,7 @@ gal_a11y_e_table_click_to_add_init (void)
 {
 	if (atk_get_root ())
 		atk_registry_set_factory_type (atk_get_default_registry (),
-					E_TABLE_CLICK_TO_ADD_TYPE,
+					E_TYPE_TABLE_CLICK_TO_ADD,
 					gal_a11y_e_table_click_to_add_factory_get_type ());
 
 }

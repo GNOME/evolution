@@ -109,13 +109,13 @@ static gint e_cell_combo_key_press	(GtkWidget	*popup_window,
 static void e_cell_combo_update_cell	(ECellCombo	*ecc);
 static void e_cell_combo_restart_edit	(ECellCombo	*ecc);
 
-G_DEFINE_TYPE (ECellCombo, e_cell_combo, E_CELL_POPUP_TYPE)
+G_DEFINE_TYPE (ECellCombo, e_cell_combo, E_TYPE_CELL_POPUP)
 
 static void
-e_cell_combo_class_init			(ECellComboClass	*klass)
+e_cell_combo_class_init			(ECellComboClass	*class)
 {
-	ECellPopupClass *ecpc = E_CELL_POPUP_CLASS (klass);
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	ECellPopupClass *ecpc = E_CELL_POPUP_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->dispose = e_cell_combo_dispose;
 
@@ -203,11 +203,9 @@ e_cell_combo_init			(ECellCombo	*ecc)
  * Returns: an ECellCombo object.
  */
 ECell *
-e_cell_combo_new			(void)
+e_cell_combo_new (void)
 {
-	ECellCombo *ecc = g_object_new (E_CELL_COMBO_TYPE, NULL);
-
-	return (ECell*) ecc;
+	return g_object_new (E_TYPE_CELL_COMBO, NULL);
 }
 
 /*

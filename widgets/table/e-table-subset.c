@@ -42,7 +42,7 @@ static void etss_proxy_model_rows_deleted_real (ETableSubset *etss, ETableModel 
 
 /* workaround for avoding API breakage */
 #define etss_get_type e_table_subset_get_type
-G_DEFINE_TYPE (ETableSubset, etss, E_TABLE_MODEL_TYPE)
+G_DEFINE_TYPE (ETableSubset, etss, E_TYPE_TABLE_MODEL)
 
 #define ETSS_CLASS(object) (E_TABLE_SUBSET_GET_CLASS(object))
 
@@ -248,10 +248,10 @@ etss_value_to_string (ETableModel *etm, gint col, gconstpointer value)
 }
 
 static void
-etss_class_init (ETableSubsetClass *klass)
+etss_class_init (ETableSubsetClass *class)
 {
-	ETableModelClass *table_class    = E_TABLE_MODEL_CLASS (klass);
-	GObjectClass *object_class       = G_OBJECT_CLASS (klass);
+	ETableModelClass *table_class    = E_TABLE_MODEL_CLASS (class);
+	GObjectClass *object_class       = G_OBJECT_CLASS (class);
 
 	object_class->dispose            = etss_dispose;
 	object_class->finalize           = etss_finalize;
@@ -273,13 +273,13 @@ etss_class_init (ETableSubsetClass *klass)
 	table_class->value_is_empty      = etss_value_is_empty;
 	table_class->value_to_string     = etss_value_to_string;
 
-	klass->proxy_model_pre_change    = etss_proxy_model_pre_change_real;
-	klass->proxy_model_no_change     = etss_proxy_model_no_change_real;
-	klass->proxy_model_changed       = etss_proxy_model_changed_real;
-	klass->proxy_model_row_changed   = etss_proxy_model_row_changed_real;
-	klass->proxy_model_cell_changed  = etss_proxy_model_cell_changed_real;
-	klass->proxy_model_rows_inserted = etss_proxy_model_rows_inserted_real;
-	klass->proxy_model_rows_deleted  = etss_proxy_model_rows_deleted_real;
+	class->proxy_model_pre_change    = etss_proxy_model_pre_change_real;
+	class->proxy_model_no_change     = etss_proxy_model_no_change_real;
+	class->proxy_model_changed       = etss_proxy_model_changed_real;
+	class->proxy_model_row_changed   = etss_proxy_model_row_changed_real;
+	class->proxy_model_cell_changed  = etss_proxy_model_cell_changed_real;
+	class->proxy_model_rows_inserted = etss_proxy_model_rows_inserted_real;
+	class->proxy_model_rows_deleted  = etss_proxy_model_rows_deleted_real;
 }
 
 static void
@@ -429,7 +429,7 @@ e_table_subset_construct (ETableSubset *etss, ETableModel *source, gint nvals)
 ETableModel *
 e_table_subset_new (ETableModel *source, const gint nvals)
 {
-	ETableSubset *etss = g_object_new (E_TABLE_SUBSET_TYPE, NULL);
+	ETableSubset *etss = g_object_new (E_TYPE_TABLE_SUBSET, NULL);
 
 	if (e_table_subset_construct (etss, source, nvals) == NULL) {
 		g_object_unref (etss);

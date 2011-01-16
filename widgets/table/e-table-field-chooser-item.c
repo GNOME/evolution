@@ -639,10 +639,10 @@ etfci_event (GnomeCanvasItem *item, GdkEvent *e)
 }
 
 static void
-etfci_class_init (ETableFieldChooserItemClass *klass)
+etfci_class_init (ETableFieldChooserItemClass *class)
 {
-	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (klass);
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->dispose = etfci_dispose;
 	object_class->set_property = etfci_set_property;
@@ -666,14 +666,14 @@ etfci_class_init (ETableFieldChooserItemClass *klass)
 					 g_param_spec_object ("full_header",
 							      "Full Header",
 							      NULL,
-							      E_TABLE_HEADER_TYPE,
+							      E_TYPE_TABLE_HEADER,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_HEADER,
 					 g_param_spec_object ("header",
 							      "Header",
 							      NULL,
-							      E_TABLE_HEADER_TYPE,
+							      E_TYPE_TABLE_HEADER,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_WIDTH,

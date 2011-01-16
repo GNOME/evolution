@@ -26,45 +26,56 @@
 
 #include <glib-object.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TABLE_SEARCH \
+	(e_table_search_get_type ())
+#define E_TABLE_SEARCH(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_SEARCH, ETableSearch))
+#define E_TABLE_SEARCH_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_SEARCH, ETableSearchClass))
+#define E_IS_TABLE_SEARCH(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_SEARCH))
+#define E_IS_TABLE_SEARCH_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_SEARCH))
+#define E_TABLE_SEARCH_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_SEARCH, ETableSearchClass))
+
 G_BEGIN_DECLS
 
-#define E_TABLE_SEARCH_TYPE        (e_table_search_get_type ())
-#define E_TABLE_SEARCH(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_SEARCH_TYPE, ETableSearch))
-#define E_TABLE_SEARCH_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_SEARCH_TYPE, ETableSearchClass))
-#define E_IS_TABLE_SEARCH(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_SEARCH_TYPE))
-#define E_IS_TABLE_SEARCH_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_SEARCH_TYPE))
-#define E_TABLE_SEARCH_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TABLE_SEARCH_TYPE, ETableSearchClass))
-
+typedef struct _ETableSearch ETableSearch;
+typedef struct _ETableSearchClass ETableSearchClass;
 typedef struct _ETableSearchPrivate ETableSearchPrivate;
 
 typedef enum {
 	E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST = 1 << 0
 } ETableSearchFlags;
 
-typedef struct {
-	GObject   base;
-
+struct _ETableSearch {
+	GObject parent;
 	ETableSearchPrivate *priv;
-} ETableSearch;
+};
 
-typedef struct {
+struct _ETableSearchClass {
 	GObjectClass parent_class;
 
-	/*
-	 * Signals
-	 */
-	gboolean (*search)    (ETableSearch *ets, gchar *string /* utf8 */, ETableSearchFlags flags);
-	void     (*accept)    (ETableSearch *ets);
-} ETableSearchClass;
+	/* Signals */
+	gboolean	(*search)		(ETableSearch *ets,
+						 gchar *string /* utf8 */,
+						 ETableSearchFlags flags);
+	void		(*accept)		(ETableSearch *ets);
+};
 
-GType       e_table_search_get_type         (void);
-ETableSearch *e_table_search_new              (void);
-
-/**/
-void          e_table_search_input_character  (ETableSearch *e_table_search,
-					       gunichar      character);
-gboolean      e_table_search_backspace        (ETableSearch *e_table_search);
-void          e_table_search_cancel           (ETableSearch *e_table_search);
+GType		e_table_search_get_type		(void) G_GNUC_CONST;
+ETableSearch *	e_table_search_new		(void);
+void		e_table_search_input_character	(ETableSearch *e_table_search,
+						 gunichar character);
+gboolean	e_table_search_backspace	(ETableSearch *e_table_search);
+void		e_table_search_cancel		(ETableSearch *e_table_search);
 
 G_END_DECLS
 

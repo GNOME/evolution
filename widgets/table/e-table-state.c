@@ -71,9 +71,9 @@ etst_finalize (GObject *object)
 }
 
 static void
-e_table_state_class_init (ETableStateClass *klass)
+e_table_state_class_init (ETableStateClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->dispose = etst_dispose;
 	object_class->finalize = etst_finalize;
@@ -90,7 +90,7 @@ e_table_state_init (ETableState *state)
 ETableState *
 e_table_state_new (void)
 {
-	return (ETableState *) g_object_new (E_TABLE_STATE_TYPE, NULL);
+	return g_object_new (E_TYPE_TABLE_STATE, NULL);
 }
 
 ETableState *

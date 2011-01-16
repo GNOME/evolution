@@ -1869,7 +1869,7 @@ e_table_new (ETableModel *etm,
 	g_return_val_if_fail (ete == NULL || E_IS_TABLE_EXTRAS (ete), NULL);
 	g_return_val_if_fail (spec != NULL, NULL);
 
-	e_table = g_object_new (E_TABLE_TYPE, NULL);
+	e_table = g_object_new (E_TYPE_TABLE, NULL);
 
 	e_table = e_table_construct (e_table, etm, ete, spec, state);
 
@@ -1909,7 +1909,7 @@ e_table_new_from_spec_file (ETableModel *etm,
 	g_return_val_if_fail (ete == NULL || E_IS_TABLE_EXTRAS (ete), NULL);
 	g_return_val_if_fail (spec_fn != NULL, NULL);
 
-	e_table = g_object_new (E_TABLE_TYPE, NULL);
+	e_table = g_object_new (E_TYPE_TABLE, NULL);
 
 	e_table = e_table_construct_from_spec_file (e_table, etm, ete, spec_fn, state_fn);
 
@@ -3510,7 +3510,7 @@ e_table_class_init (ETableClass *class)
 					 g_param_spec_object ("model",
 							      "Model",
 							      NULL,
-							      E_TABLE_MODEL_TYPE,
+							      E_TYPE_TABLE_MODEL,
 							      G_PARAM_READABLE));
 
 	gtk_widget_class_install_style_property (

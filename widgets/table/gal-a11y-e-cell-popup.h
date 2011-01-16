@@ -24,7 +24,6 @@
 #ifndef __GAL_A11Y_E_CELL_POPUP_H__
 #define __GAL_A11Y_E_CELL_POPUP_H__
 
-#include <glib-object.h>
 #include <table/e-table-item.h>
 #include <table/gal-a11y-e-cell.h>
 #include <atk/atkgobjectaccessible.h>

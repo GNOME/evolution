@@ -58,7 +58,7 @@ struct _ECellDateClass {
 	ECellTextClass parent_class;
 };
 
-GType		e_cell_date_get_type		(void);
+GType		e_cell_date_get_type		(void) G_GNUC_CONST;
 ECell *		e_cell_date_new			(const gchar *fontname,
 						 GtkJustification justify);
 void		e_cell_date_set_format_component

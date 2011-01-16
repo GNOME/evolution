@@ -32,38 +32,56 @@
 #include <libgnomecanvas/libgnomecanvas.h>
 #include <table/e-cell.h>
 
+/* Standard GObject macros */
+#define E_TYPE_CELL_VBOX \
+	(e_cell_vbox_get_type ())
+#define E_CELL_VBOX(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CELL_VBOX, ECellVbox))
+#define E_CELL_VBOX_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CELL_VBOX, ECellVboxClass))
+#define E_IS_CELL_VBOX(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CELL_VBOX))
+#define E_IS_CELL_VBOX_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CELL_VBOX))
+#define E_CELL_VBOX_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CELL_VBOX, ECellVboxClass))
+
 G_BEGIN_DECLS
 
-#define E_CELL_VBOX_TYPE        (e_cell_vbox_get_type ())
-#define E_CELL_VBOX(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_VBOX_TYPE, ECellVbox))
-#define E_CELL_VBOX_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_CELL_VBOX_TYPE, ECellVboxClass))
-#define E_IS_CELL_VBOX(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_VBOX_TYPE))
-#define E_IS_CELL_VBOX_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_VBOX_TYPE))
+typedef struct _ECellVbox ECellVbox;
+typedef struct _ECellVboxView ECellVboxView;
+typedef struct _ECellVboxClass ECellVboxClass;
 
-typedef struct {
+struct _ECellVbox {
 	ECell parent;
 
-	gint     subcell_count;
+	gint subcell_count;
 	ECell **subcells;
-	gint    *model_cols;
-} ECellVbox;
+	gint *model_cols;
+};
 
-typedef struct {
-	ECellView     cell_view;
-	gint           subcell_view_count;
-	ECellView   **subcell_views;
-	gint          *model_cols;
-} ECellVboxView;
+struct _ECellVboxView  {
+	ECellView cell_view;
 
-typedef struct {
+	gint subcell_view_count;
+	ECellView **subcell_views;
+	gint *model_cols;
+};
+
+struct _ECellVboxClass {
 	ECellClass parent_class;
-} ECellVboxClass;
+};
 
-GType    e_cell_vbox_get_type  (void);
-ECell   *e_cell_vbox_new       (void);
-void     e_cell_vbox_append    (ECellVbox *vbox,
-				ECell     *subcell,
-				gint model_col);
+GType		e_cell_vbox_get_type		(void) G_GNUC_CONST;
+ECell *		e_cell_vbox_new			(void);
+void		e_cell_vbox_append		(ECellVbox *vbox,
+						 ECell *subcell,
+						 gint model_col);
 
 G_END_DECLS
 

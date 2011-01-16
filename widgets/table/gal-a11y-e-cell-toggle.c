@@ -30,7 +30,7 @@
 #define PARENT_TYPE  (gal_a11y_e_cell_get_type ())
 static GObjectClass *parent_class;
 
-static void gal_a11y_e_cell_toggle_class_init (GalA11yECellToggleClass *klass);
+static void gal_a11y_e_cell_toggle_class_init (GalA11yECellToggleClass *class);
 
 static void
 gal_a11y_e_cell_toggle_dispose (GObject *object)
@@ -78,9 +78,9 @@ gal_a11y_e_cell_toggle_get_type (void)
 }
 
 static void
-gal_a11y_e_cell_toggle_class_init (GalA11yECellToggleClass *klass)
+gal_a11y_e_cell_toggle_class_init (GalA11yECellToggleClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->dispose      = gal_a11y_e_cell_toggle_dispose;
 	parent_class               = g_type_class_ref (PARENT_TYPE);

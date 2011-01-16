@@ -27,7 +27,7 @@
 
 #include "e-table-one.h"
 
-G_DEFINE_TYPE (ETableOne, e_table_one, E_TABLE_MODEL_TYPE)
+G_DEFINE_TYPE (ETableOne, e_table_one, E_TYPE_TABLE_MODEL)
 
 static gint
 one_column_count (ETableModel *etm)
@@ -167,10 +167,10 @@ one_dispose (GObject *object)
 }
 
 static void
-e_table_one_class_init (ETableOneClass *klass)
+e_table_one_class_init (ETableOneClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	ETableModelClass *model_class = E_TABLE_MODEL_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	ETableModelClass *model_class = E_TABLE_MODEL_CLASS (class);
 
 	model_class->column_count = one_column_count;
 	model_class->row_count = one_row_count;
@@ -201,7 +201,7 @@ e_table_one_new (ETableModel *source)
 	gint col_count;
 	gint i;
 
-	eto = g_object_new (E_TABLE_ONE_TYPE, NULL);
+	eto = g_object_new (E_TYPE_TABLE_ONE, NULL);
 	eto->source = source;
 
 	col_count = e_table_model_column_count (source);

@@ -37,30 +37,28 @@
 
 #include "e-table-memory.h"
 
-G_DEFINE_TYPE (ETableMemory, e_table_memory, E_TABLE_MODEL_TYPE)
+#define E_TABLE_MEMORY_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TABLE_MEMORY, ETableMemoryPrivate))
 
-struct ETableMemoryPriv {
+G_DEFINE_TYPE (ETableMemory, e_table_memory, E_TYPE_TABLE_MODEL)
+
+struct _ETableMemoryPrivate {
 	gpointer *data;
 	gint num_rows;
 	gint frozen;
 };
 
-
-/* virtual methods */
-
 static void
 etmm_finalize (GObject *object)
 {
-	ETableMemory *etmm = E_TABLE_MEMORY (object);
-	ETableMemoryPriv *priv = etmm->priv;
+	ETableMemoryPrivate *priv;
 
-	/* XXX lots of stuff to free here */
-	if (priv) {
-		g_free (priv->data);
-		g_free (priv);
-	}
-	etmm->priv = NULL;
+	priv = E_TABLE_MEMORY_GET_PRIVATE (object);
 
+	g_free (priv->data);
+
+	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_table_memory_parent_class)->finalize (object);
 }
 
@@ -72,29 +70,25 @@ etmm_row_count (ETableModel *etm)
 	return etmm->priv->num_rows;
 }
 
-
 static void
-e_table_memory_class_init (ETableMemoryClass *klass)
+e_table_memory_class_init (ETableMemoryClass *class)
 {
-	ETableModelClass *table_class = E_TABLE_MODEL_CLASS (klass);
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class;
+	ETableModelClass *table_model_class;
 
-	object_class->finalize     = etmm_finalize;
+	g_type_class_add_private (class, sizeof (ETableMemoryPrivate));
 
-	table_class->row_count     = etmm_row_count;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = etmm_finalize;
+
+	table_model_class = E_TABLE_MODEL_CLASS (class);
+	table_model_class->row_count = etmm_row_count;
 }
 
 static void
 e_table_memory_init (ETableMemory *etmm)
 {
-	ETableMemoryPriv *priv;
-
-	priv = g_new0 (ETableMemoryPriv, 1);
-	etmm->priv = priv;
-
-	priv->data = NULL;
-	priv->num_rows = 0;
-	priv->frozen = 0;
+	etmm->priv = E_TABLE_MEMORY_GET_PRIVATE (etmm);
 }
 
 /**
@@ -107,7 +101,7 @@ e_table_memory_init (ETableMemory *etmm)
 ETableMemory *
 e_table_memory_new (void)
 {
-	return g_object_new (E_TABLE_MEMORY_TYPE, NULL);
+	return g_object_new (E_TYPE_TABLE_MEMORY, NULL);
 }
 
 /**
@@ -245,7 +239,7 @@ e_table_memory_clear (ETableMemory *etmm)
 void
 e_table_memory_freeze (ETableMemory *etmm)
 {
-	ETableMemoryPriv *priv = etmm->priv;
+	ETableMemoryPrivate *priv = etmm->priv;
 
 	if (priv->frozen == 0)
 		e_table_model_pre_change (E_TABLE_MODEL (etmm));
@@ -265,7 +259,7 @@ e_table_memory_freeze (ETableMemory *etmm)
 void
 e_table_memory_thaw (ETableMemory *etmm)
 {
-	ETableMemoryPriv *priv = etmm->priv;
+	ETableMemoryPrivate *priv = etmm->priv;
 
 	if (priv->frozen > 0)
 		priv->frozen--;

@@ -31,7 +31,7 @@
 #include <gtk/gtk.h>
 #include "e-cell-pixbuf.h"
 
-G_DEFINE_TYPE (ECellPixbuf, e_cell_pixbuf, E_CELL_TYPE)
+G_DEFINE_TYPE (ECellPixbuf, e_cell_pixbuf, E_TYPE_CELL)
 
 typedef struct _ECellPixbufView ECellPixbufView;
 
@@ -56,19 +56,7 @@ enum {
 ECell *
 e_cell_pixbuf_new (void)
 {
-    ECellPixbuf *ecp;
-
-    ecp = g_object_new (E_CELL_PIXBUF_TYPE, NULL);
-    e_cell_pixbuf_construct (ecp);
-
-    return (ECell *) ecp;
-}
-
-void
-e_cell_pixbuf_construct (ECellPixbuf *ecp)
-{
-    /* noop */
-    return;
+	return g_object_new (E_TYPE_CELL_PIXBUF, NULL);
 }
 
 /*
@@ -334,10 +322,10 @@ e_cell_pixbuf_init (ECellPixbuf *ecp)
 }
 
 static void
-e_cell_pixbuf_class_init (ECellPixbufClass *klass)
+e_cell_pixbuf_class_init (ECellPixbufClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	ECellClass *ecc = E_CELL_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	ECellClass *ecc = E_CELL_CLASS (class);
 
 	object_class->dispose = pixbuf_dispose;
 	object_class->set_property = pixbuf_set_property;

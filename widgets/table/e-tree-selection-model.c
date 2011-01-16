@@ -29,6 +29,10 @@
 
 #include "e-tree-selection-model.h"
 
+#define E_TREE_SELECTION_MODEL_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TREE_SELECTION_MODEL, ETreeSelectionModelPrivate))
+
 G_DEFINE_TYPE (
 	ETreeSelectionModel, e_tree_selection_model, E_TYPE_SELECTION_MODEL)
 
@@ -40,7 +44,7 @@ enum {
 	PROP_ETTA
 };
 
-struct ETreeSelectionModelPriv {
+struct _ETreeSelectionModelPrivate {
 	ETreeTableAdapter *etta;
 	ETreeModel *model;
 
@@ -206,7 +210,7 @@ etsm_node_deleted (ETreeModel *etm, ETreePath child, ETreeSelectionModel *etsm)
 static void
 add_model (ETreeSelectionModel *etsm, ETreeModel *model)
 {
-	ETreeSelectionModelPriv *priv = etsm->priv;
+	ETreeSelectionModelPrivate *priv = etsm->priv;
 
 	priv->model = model;
 
@@ -235,7 +239,7 @@ add_model (ETreeSelectionModel *etsm, ETreeModel *model)
 static void
 drop_model (ETreeSelectionModel *etsm)
 {
-	ETreeSelectionModelPriv *priv = etsm->priv;
+	ETreeSelectionModelPrivate *priv = etsm->priv;
 
 	if (!priv->model)
 		return;
@@ -277,24 +281,22 @@ etsm_dispose (GObject *object)
 
 	drop_model (etsm);
 
-	if (G_OBJECT_CLASS (e_tree_selection_model_parent_class)->dispose)
-		(* G_OBJECT_CLASS (e_tree_selection_model_parent_class)->dispose) (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_tree_selection_model_parent_class)->dispose (object);
 }
 
 static void
 etsm_finalize (GObject *object)
 {
-	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (object);
+	ETreeSelectionModelPrivate *priv;
 
-	if (etsm->priv) {
-		clear_selection (etsm);
-		g_hash_table_destroy (etsm->priv->paths);
-		g_free (etsm->priv);
-		etsm->priv = NULL;
-	}
+	priv = E_TREE_SELECTION_MODEL_GET_PRIVATE (object);
 
-	if (G_OBJECT_CLASS (e_tree_selection_model_parent_class)->finalize)
-		(* G_OBJECT_CLASS (e_tree_selection_model_parent_class)->finalize) (object);
+	clear_selection (E_TREE_SELECTION_MODEL (object));
+	g_hash_table_destroy (priv->paths);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_tree_selection_model_parent_class)->finalize (object);
 }
 
 static void
@@ -743,61 +745,44 @@ e_tree_selection_model_get_cursor (ETreeSelectionModel *etsm)
 static void
 e_tree_selection_model_init (ETreeSelectionModel *etsm)
 {
-	ETreeSelectionModelPriv *priv;
-	priv                                  = g_new (ETreeSelectionModelPriv, 1);
-	etsm->priv                            = priv;
+	etsm->priv = E_TREE_SELECTION_MODEL_GET_PRIVATE (etsm);
 
-	priv->etta                            = NULL;
-	priv->model                           = NULL;
-
-	priv->paths                           = g_hash_table_new (NULL, NULL);
-
-	priv->cursor_path                     = NULL;
-	priv->start_path                      = NULL;
-	priv->cursor_col                      = -1;
-	priv->cursor_save_id		      = NULL;
-
-	priv->tree_model_pre_change_id        = 0;
-	priv->tree_model_no_change_id         = 0;
-	priv->tree_model_node_changed_id      = 0;
-	priv->tree_model_node_data_changed_id = 0;
-	priv->tree_model_node_col_changed_id  = 0;
-	priv->tree_model_node_inserted_id     = 0;
-	priv->tree_model_node_removed_id      = 0;
-	priv->tree_model_node_deleted_id      = 0;
+	etsm->priv->paths = g_hash_table_new (NULL, NULL);
+	etsm->priv->cursor_col = -1;
 }
 
 static void
-e_tree_selection_model_class_init (ETreeSelectionModelClass *klass)
+e_tree_selection_model_class_init (ETreeSelectionModelClass *class)
 {
 	GObjectClass *object_class;
 	ESelectionModelClass *esm_class;
 
-	object_class = G_OBJECT_CLASS (klass);
-	esm_class = E_SELECTION_MODEL_CLASS (klass);
+	g_type_class_add_private (class, sizeof (ETreeSelectionModelPrivate));
 
+	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = etsm_dispose;
 	object_class->finalize = etsm_finalize;
 	object_class->get_property = etsm_get_property;
 	object_class->set_property = etsm_set_property;
 
-	esm_class->is_row_selected    = etsm_is_row_selected;
-	esm_class->foreach            = etsm_foreach;
-	esm_class->clear              = etsm_clear;
-	esm_class->selected_count     = etsm_selected_count;
-	esm_class->select_all         = etsm_select_all;
-	esm_class->invert_selection   = etsm_invert_selection;
-	esm_class->row_count          = etsm_row_count;
+	esm_class = E_SELECTION_MODEL_CLASS (class);
+	esm_class->is_row_selected = etsm_is_row_selected;
+	esm_class->foreach = etsm_foreach;
+	esm_class->clear = etsm_clear;
+	esm_class->selected_count = etsm_selected_count;
+	esm_class->select_all = etsm_select_all;
+	esm_class->invert_selection = etsm_invert_selection;
+	esm_class->row_count = etsm_row_count;
 
-	esm_class->change_one_row     = etsm_change_one_row;
-	esm_class->change_cursor      = etsm_change_cursor;
-	esm_class->cursor_row         = etsm_cursor_row;
-	esm_class->cursor_col         = etsm_cursor_col;
+	esm_class->change_one_row = etsm_change_one_row;
+	esm_class->change_cursor = etsm_change_cursor;
+	esm_class->cursor_row = etsm_cursor_row;
+	esm_class->cursor_col = etsm_cursor_col;
 
-	esm_class->select_single_row  = etsm_select_single_row;
-	esm_class->toggle_single_row  = etsm_toggle_single_row;
+	esm_class->select_single_row = etsm_select_single_row;
+	esm_class->toggle_single_row = etsm_toggle_single_row;
 	esm_class->move_selection_end = etsm_move_selection_end;
-	esm_class->set_selection_end  = etsm_set_selection_end;
+	esm_class->set_selection_end = etsm_set_selection_end;
 
 	g_object_class_install_property (object_class, PROP_CURSOR_ROW,
 					 g_param_spec_int ("cursor_row",
@@ -817,14 +802,14 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *klass)
 					 g_param_spec_object ("model",
 							      "Model",
 							      NULL,
-							      E_TREE_MODEL_TYPE,
+							      E_TYPE_TREE_MODEL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_ETTA,
 					 g_param_spec_object ("etta",
 							      "ETTA",
 							      NULL,
-							      E_TREE_TABLE_ADAPTER_TYPE,
+							      E_TYPE_TREE_TABLE_ADAPTER,
 							      G_PARAM_READWRITE));
 
 }
@@ -832,6 +817,6 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *klass)
 ESelectionModel *
 e_tree_selection_model_new (void)
 {
-	return g_object_new (E_TREE_SELECTION_MODEL_TYPE, NULL);
+	return g_object_new (E_TYPE_TREE_SELECTION_MODEL, NULL);
 }
 

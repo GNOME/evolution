@@ -39,7 +39,7 @@
 #include "e-cell-hbox.h"
 #include "e-table-item.h"
 
-G_DEFINE_TYPE (ECellHbox, e_cell_hbox, E_CELL_TYPE)
+G_DEFINE_TYPE (ECellHbox, e_cell_hbox, E_TYPE_CELL)
 
 #define INDENT_AMOUNT 16
 #define MAX_CELL_SIZE 25
@@ -270,10 +270,10 @@ ecv_dispose (GObject *object)
 }
 
 static void
-e_cell_hbox_class_init (ECellHboxClass *klass)
+e_cell_hbox_class_init (ECellHboxClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	ECellClass *ecc = E_CELL_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	ECellClass *ecc = E_CELL_CLASS (class);
 
 	object_class->dispose = ecv_dispose;
 
@@ -287,7 +287,7 @@ e_cell_hbox_class_init (ECellHboxClass *klass)
 
 	ecc->max_width        = ecv_max_width;
 
-/*	gal_a11y_e_cell_registry_add_cell_type (NULL, E_CELL_HBOX_TYPE, gal_a11y_e_cell_hbox_new); */
+/*	gal_a11y_e_cell_registry_add_cell_type (NULL, E_TYPE_CELL_HBOX, gal_a11y_e_cell_hbox_new); */
 }
 
 static void
@@ -309,9 +309,7 @@ e_cell_hbox_init (ECellHbox *ecv)
 ECell *
 e_cell_hbox_new (void)
 {
-	ECellHbox *ecv = g_object_new (E_CELL_HBOX_TYPE, NULL);
-
-	return (ECell *) ecv;
+	return g_object_new (E_TYPE_CELL_HBOX, NULL);
 }
 
 void

@@ -35,60 +35,79 @@
 #include <libgnomecanvas/libgnomecanvas.h>
 #include <table/e-cell.h>
 
-#define E_CELL_POPUP_TYPE        (e_cell_popup_get_type ())
-#define E_CELL_POPUP(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_POPUP_TYPE, ECellPopup))
-#define E_CELL_POPUP_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_CELL_POPUP_TYPE, ECellPopupClass))
-#define E_IS_CELL_POPUP(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_POPUP_TYPE))
-#define E_IS_CELL_POPUP_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_POPUP_TYPE))
+/* Standard GObject macros */
+#define E_TYPE_CELL_POPUP \
+	(e_cell_popup_get_type ())
+#define E_CELL_POPUP(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CELL_POPUP, ECellPopup))
+#define E_CELL_POPUP_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CELL_POPUP, ECellPopupClass))
+#define E_IS_CELL_POPUP(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CELL_POPUP))
+#define E_IS_CELL_POPUP_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CELL_POPUP))
+#define E_CELL_POPUP_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CELL_POPUP, ECellPopupClass))
 
+G_BEGIN_DECLS
+
+typedef struct _ECellPopup ECellPopup;
 typedef struct _ECellPopupView ECellPopupView;
+typedef struct _ECellPopupClass ECellPopupClass;
 
-typedef struct {
+struct _ECellPopup {
 	ECell parent;
 
 	ECell *child;
 
 	/* This is TRUE if the popup window is shown for the cell being
 	   edited. While shown we display the arrow indented. */
-	gboolean	 popup_shown;
+	gboolean popup_shown;
 
 	/* This is TRUE if the popup arrow is shown for the cell being edited.
 	   This is needed to stop the first click on the cell from popping up
 	   the popup window. We only popup the window after we have drawn the
 	   arrow. */
-	gboolean	 popup_arrow_shown;
+	gboolean popup_arrow_shown;
 
 	/* The view in which the popup is shown. */
-	ECellPopupView	*popup_cell_view;
+	ECellPopupView *popup_cell_view;
 
-	gint		 popup_view_col;
-	gint		 popup_row;
-	ETableModel	*popup_model;
-} ECellPopup;
+	gint popup_view_col;
+	gint popup_row;
+	ETableModel *popup_model;
+};
 
-typedef struct {
+struct _ECellPopupView {
+	ECellView cell_view;
+
+	ECellView *child_view;
+};
+
+struct _ECellPopupClass {
 	ECellClass parent_class;
 
 	/* Virtual function for subclasses to override. */
-	gint	   (*popup)        (ECellPopup *ecp, GdkEvent *event, gint row, gint view_col);
-} ECellPopupClass;
-
-struct _ECellPopupView {
-	ECellView	 cell_view;
-
-	ECellView	*child_view;
+	gint		(*popup)		(ECellPopup *ecp,
+						 GdkEvent *event,
+						 gint row,
+						 gint view_col);
 };
 
-GType    e_cell_popup_get_type           (void);
-ECell   *e_cell_popup_new                (void);
+GType		e_cell_popup_get_type		(void) G_GNUC_CONST;
+ECell *		e_cell_popup_new		(void);
+ECell *		e_cell_popup_get_child		(ECellPopup *ecp);
+void		e_cell_popup_set_child		(ECellPopup *ecp,
+						 ECell *child);
+void		e_cell_popup_set_shown		(ECellPopup *ecp,
+						 gboolean shown);
+void		e_cell_popup_queue_cell_redraw	(ECellPopup *ecp);
 
-/* Get and set the child ECell. */
-ECell   *e_cell_popup_get_child          (ECellPopup *ecp);
-void     e_cell_popup_set_child          (ECellPopup *ecp,
-					  ECell      *child);
-
-void     e_cell_popup_set_shown          (ECellPopup *ecp,
-					  gboolean    shown);
-void     e_cell_popup_queue_cell_redraw  (ECellPopup *ecp);
+G_END_DECLS
 
 #endif /* _E_CELL_POPUP_H_ */

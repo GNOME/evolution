@@ -642,36 +642,36 @@ etg_get_focus (ETableGroup      *etg)
 }
 
 static void
-etg_class_init (ETableGroupClass *klass)
+etg_class_init (ETableGroupClass *class)
 {
-	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (klass);
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->dispose = etg_dispose;
 
 	item_class->event = etg_event;
 
-	klass->cursor_change = NULL;
-	klass->cursor_activated = NULL;
-	klass->double_click = NULL;
-	klass->right_click = NULL;
-	klass->click = NULL;
-	klass->key_press = NULL;
-	klass->start_drag = NULL;
+	class->cursor_change = NULL;
+	class->cursor_activated = NULL;
+	class->double_click = NULL;
+	class->right_click = NULL;
+	class->click = NULL;
+	class->key_press = NULL;
+	class->start_drag = NULL;
 
-	klass->add = NULL;
-	klass->add_array = NULL;
-	klass->add_all = NULL;
-	klass->remove = NULL;
-	klass->row_count  = NULL;
-	klass->increment  = NULL;
-	klass->decrement  = NULL;
-	klass->set_focus  = NULL;
-	klass->get_focus = etg_get_focus;
-	klass->get_printable = NULL;
-	klass->compute_location = NULL;
-	klass->get_mouse_over = NULL;
-	klass->get_cell_geometry = NULL;
+	class->add = NULL;
+	class->add_array = NULL;
+	class->add_all = NULL;
+	class->remove = NULL;
+	class->row_count  = NULL;
+	class->increment  = NULL;
+	class->decrement  = NULL;
+	class->set_focus  = NULL;
+	class->get_focus = etg_get_focus;
+	class->get_printable = NULL;
+	class->compute_location = NULL;
+	class->get_mouse_over = NULL;
+	class->get_cell_geometry = NULL;
 
 	etg_signals[CURSOR_CHANGE] =
 		g_signal_new ("cursor_change",

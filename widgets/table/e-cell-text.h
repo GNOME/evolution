@@ -127,7 +127,7 @@ struct _ECellTextClass {
 						 gint model_col);
 };
 
-GType		e_cell_text_get_type		(void);
+GType		e_cell_text_get_type		(void) G_GNUC_CONST;
 ECell *		e_cell_text_new			(const gchar *fontname,
 						 GtkJustification justify);
 ECell *		e_cell_text_construct		(ECellText *cell,
