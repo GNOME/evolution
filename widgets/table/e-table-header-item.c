@@ -1961,10 +1961,10 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 }
 
 static void
-ethi_class_init (ETableHeaderItemClass *klass)
+ethi_class_init (ETableHeaderItemClass *class)
 {
-	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (klass);
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->dispose = ethi_dispose;
 	object_class->set_property = ethi_set_property;
@@ -1995,35 +1995,35 @@ ethi_class_init (ETableHeaderItemClass *klass)
 					 g_param_spec_object ("full_header",
 							      "Full Header",
 							      NULL,
-							      E_TABLE_HEADER_TYPE,
+							      E_TYPE_TABLE_HEADER,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_TABLE_HEADER,
 					 g_param_spec_object ("ETableHeader",
 							      "Header",
 							      NULL,
-							      E_TABLE_HEADER_TYPE,
+							      E_TYPE_TABLE_HEADER,
 							      G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_SORT_INFO,
 					 g_param_spec_object ("sort_info",
 							      "Sort Info",
 							      NULL,
-							      E_TABLE_SORT_INFO_TYPE,
+							      E_TYPE_TABLE_SORT_INFO,
 							      G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_TABLE,
 					 g_param_spec_object ("table",
 							      "Table",
 							      NULL,
-							      E_TABLE_TYPE,
+							      E_TYPE_TABLE,
 							      G_PARAM_WRITABLE));
 
 	g_object_class_install_property (object_class, PROP_TREE,
 					 g_param_spec_object ("tree",
 							      "Tree",
 							      NULL,
-							      E_TREE_TYPE,
+							      E_TYPE_TREE,
 							      G_PARAM_WRITABLE));
 
 	ethi_signals[BUTTON_PRESSED] =

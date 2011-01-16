@@ -24,62 +24,76 @@
 #ifndef _E_TABLE_WITHOUT_H_
 #define _E_TABLE_WITHOUT_H_
 
-#include <glib-object.h>
 #include <table/e-table-subset.h>
+
+/* Standard GObject macros */
+#define E_TYPE_TABLE_WITHOUT \
+	(e_table_without_get_type ())
+#define E_TABLE_WITHOUT(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_WITHOUT, ETableWithout))
+#define E_TABLE_WITHOUT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_WITHOUT, ETableWithoutClass))
+#define E_IS_TABLE_WITHOUT(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_WITHOUT))
+#define E_IS_TABLE_WITHOUT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_WITHOUT))
+#define E_TABLE_WITHOUT_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_WITHOUT, ETableWithoutClass))
 
 G_BEGIN_DECLS
 
-#define E_TABLE_WITHOUT_TYPE        (e_table_without_get_type ())
-#define E_TABLE_WITHOUT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_WITHOUT_TYPE, ETableWithout))
-#define E_TABLE_WITHOUT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_WITHOUT_TYPE, ETableWithoutClass))
-#define E_IS_TABLE_WITHOUT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_WITHOUT_TYPE))
-#define E_IS_TABLE_WITHOUT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_WITHOUT_TYPE))
-
+typedef struct _ETableWithout ETableWithout;
+typedef struct _ETableWithoutClass ETableWithoutClass;
 typedef struct _ETableWithoutPrivate ETableWithoutPrivate;
-typedef gpointer (*ETableWithoutGetKeyFunc)       (ETableModel *source,
-						gint          row,
-						void        *closure);
-typedef gpointer (*ETableWithoutDuplicateKeyFunc) (const void  *key,
-						void        *closure);
-typedef void  (*ETableWithoutFreeKeyFunc)      (void        *key,
-						void        *closure);
 
-typedef struct {
-	ETableSubset base;
+typedef gpointer	(*ETableWithoutGetKeyFunc)	(ETableModel *source,
+							 gint row,
+							 gpointer closure);
+typedef gpointer	(*ETableWithoutDuplicateKeyFunc)(gconstpointer key,
+							 gpointer closure);
+typedef void		(*ETableWithoutFreeKeyFunc)	(gpointer key,
+							 gpointer closure);
 
+struct _ETableWithout {
+	ETableSubset parent;
 	ETableWithoutPrivate *priv;
-} ETableWithout;
+};
 
-typedef struct {
+struct _ETableWithoutClass {
 	ETableSubsetClass parent_class;
+};
 
-} ETableWithoutClass;
+GType		e_table_without_get_type	(void) G_GNUC_CONST;
+ETableModel *	e_table_without_new		(ETableModel *source,
+						 GHashFunc hash_func,
+						 GCompareFunc compare_func,
+						 ETableWithoutGetKeyFunc get_key_func,
+						 ETableWithoutDuplicateKeyFunc duplicate_key_func,
+						 ETableWithoutFreeKeyFunc free_gotten_key_func,
+						 ETableWithoutFreeKeyFunc free_duplicated_key_func,
+						 gpointer closure);
+ETableModel *	e_table_without_construct	(ETableWithout *etw,
+						 ETableModel *source,
+						 GHashFunc hash_func,
+						 GCompareFunc compare_func,
+						 ETableWithoutGetKeyFunc get_key_func,
+						 ETableWithoutDuplicateKeyFunc duplicate_key_func,
+						 ETableWithoutFreeKeyFunc free_gotten_key_func,
+						 ETableWithoutFreeKeyFunc free_duplicated_key_func,
+						 gpointer closure);
+void		e_table_without_hide		(ETableWithout *etw,
+						 gpointer key);
+void		e_table_without_hide_adopt	(ETableWithout *etw,
+						 gpointer key);
+void		e_table_without_show		(ETableWithout *etw,
+						 gpointer key);
+void		e_table_without_show_all	(ETableWithout *etw);
 
-GType        e_table_without_get_type   (void);
-ETableModel *e_table_without_new        (ETableModel                   *source,
-					 GHashFunc                      hash_func,
-					 GCompareFunc                   compare_func,
-					 ETableWithoutGetKeyFunc        get_key_func,
-					 ETableWithoutDuplicateKeyFunc  duplicate_key_func,
-					 ETableWithoutFreeKeyFunc       free_gotten_key_func,
-					 ETableWithoutFreeKeyFunc       free_duplicated_key_func,
-					 void                          *closure);
-ETableModel *e_table_without_construct  (ETableWithout                 *etw,
-					 ETableModel                   *source,
-					 GHashFunc                      hash_func,
-					 GCompareFunc                   compare_func,
-					 ETableWithoutGetKeyFunc        get_key_func,
-					 ETableWithoutDuplicateKeyFunc  duplicate_key_func,
-					 ETableWithoutFreeKeyFunc       free_gotten_key_func,
-					 ETableWithoutFreeKeyFunc       free_duplicated_key_func,
-					 void                          *closure);
-void         e_table_without_hide       (ETableWithout                 *etw,
-					 void                          *key);
-void         e_table_without_hide_adopt (ETableWithout                 *etw,
-					 void                          *key);
-void         e_table_without_show       (ETableWithout                 *etw,
-					 void                          *key);
-void         e_table_without_show_all   (ETableWithout                 *etw);
 G_END_DECLS
 
 #endif /* _E_TABLE_WITHOUT_H_ */

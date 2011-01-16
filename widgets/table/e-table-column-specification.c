@@ -66,9 +66,9 @@ etcs_finalize (GObject *object)
 }
 
 static void
-etcs_class_init (ETableColumnSpecificationClass *klass)
+etcs_class_init (ETableColumnSpecificationClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->finalize = etcs_finalize;
 }
@@ -95,9 +95,7 @@ etcs_init (ETableColumnSpecification *specification)
 ETableColumnSpecification *
 e_table_column_specification_new (void)
 {
-	ETableColumnSpecification *etcs = g_object_new (E_TABLE_COLUMN_SPECIFICATION_TYPE, NULL);
-
-	return (ETableColumnSpecification *) etcs;
+	return g_object_new (E_TYPE_TABLE_COLUMN_SPECIFICATION, NULL);
 }
 
 void

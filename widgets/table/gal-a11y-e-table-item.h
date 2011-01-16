@@ -24,7 +24,6 @@
 #ifndef __GAL_A11Y_E_TABLE_ITEM_H__
 #define __GAL_A11Y_E_TABLE_ITEM_H__
 
-#include <glib-object.h>
 #include <table/e-table-item.h>
 #include <atk/atkgobjectaccessible.h>
 

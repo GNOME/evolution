@@ -31,16 +31,33 @@
 #include <table/e-table.h>
 #include <gtk/gtk.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TABLE_CONFIG \
+	(e_table_config_get_type ())
+#define E_TABLE_CONFIG(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_CONFIG, ETableConfig))
+#define E_TABLE_CONFIG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_CONFIG, ETableConfigClass))
+#define E_IS_TABLE_CONFIG(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_CONFIG))
+#define E_IS_TABLE_CONFIG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_CONFIG))
+#define E_TABLE_CONFIG_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_CONFIG, ETableConfigClass))
+
 G_BEGIN_DECLS
 
-#define E_TABLE_CONFIG_TYPE        (e_table_config_get_type ())
-#define E_TABLE_CONFIG(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_CONFIG_TYPE, ETableConfig))
-#define E_TABLE_CONFIG_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_CONFIG_TYPE, ETableConfigClass))
-#define E_IS_TABLE_CONFIG(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_CONFIG_TYPE))
-#define E_IS_TABLE_CONFIG_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_CONFIG_TYPE))
-#define E_TABLE_CONFIG_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TABLE_CONFIG_TYPE, ETableConfigClass))
+typedef struct _ETableConfigSortWidgets ETableConfigSortWidgets;
 
-typedef struct {
+typedef struct _ETableConfig ETableConfig;
+typedef struct _ETableConfigClass ETableConfigClass;
+
+struct _ETableConfigSortWidgets {
 	GtkWidget    *combo;
 	GtkWidget    *frames;
 	GtkWidget    *radio_ascending;
@@ -48,9 +65,9 @@ typedef struct {
 	GtkWidget    *view_check; /* Only for group dialog */
 	guint         changed_id, toggled_id;
 	gpointer e_table_config;
-} ETableConfigSortWidgets;
+};
 
-typedef struct {
+struct _ETableConfig {
 	GObject parent;
 
 	gchar *header;
@@ -86,26 +103,26 @@ typedef struct {
 	 * List of valid column names
 	 */
 	GSList *column_names;
-} ETableConfig;
+};
 
-typedef struct {
+struct _ETableConfigClass {
 	GObjectClass parent_class;
 
 	/* Signals */
-	void        (*changed)        (ETableConfig *config);
-} ETableConfigClass;
+	void		(*changed)		(ETableConfig *config);
+};
 
-GType         e_table_config_get_type  (void);
-ETableConfig *e_table_config_new       (const gchar          *header,
-					ETableSpecification *spec,
-					ETableState         *state,
-					GtkWindow           *parent_window);
-ETableConfig *e_table_config_construct (ETableConfig        *etco,
-					const gchar          *header,
-					ETableSpecification *spec,
-					ETableState         *state,
-					GtkWindow           *parent_window);
-void          e_table_config_raise     (ETableConfig        *config);
+GType		e_table_config_get_type		(void) G_GNUC_CONST;
+ETableConfig *	e_table_config_new		(const gchar *header,
+						 ETableSpecification *spec,
+						 ETableState *state,
+						 GtkWindow *parent_window);
+ETableConfig *e_table_config_construct		(ETableConfig *etco,
+						 const gchar *header,
+						 ETableSpecification *spec,
+						 ETableState *state,
+						 GtkWindow *parent_window);
+void		e_table_config_raise		(ETableConfig *config);
 
 G_END_DECLS
 

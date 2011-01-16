@@ -27,27 +27,30 @@
 #include <table/e-table-field-chooser.h>
 #include <table/e-table-header.h>
 
+#define E_TYPE_TABLE_FIELD_CHOOSER_DIALOG \
+	(e_table_field_chooser_dialog_get_type ())
+#define E_TABLE_FIELD_CHOOSER_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_FIELD_CHOOSER_DIALOG, ETableFieldChooserDialog))
+#define E_TABLE_FIELD_CHOOSER_DIALOG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_FIELD_CHOOSER_DIALOG, ETableFieldChooserDialogClass))
+#define E_IS_TABLE_FIELD_CHOOSER_DIALOG(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_FIELD_CHOOSER_DIALOG))
+#define E_IS_TABLE_FIELD_CHOOSER_DIALOG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_FIELD_CHOOSER_DIALOG))
+#define E_TABLE_FIELD_CHOOSER_DIALOG_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_FIELD_CHOOSER_DIALOG, ETableFieldChooserDialogClass))
+
 G_BEGIN_DECLS
 
-/* ETableFieldChooserDialog - A dialog displaying information about a contact.
- *
- * The following arguments are available:
- *
- * name		type		read/write	description
- * --------------------------------------------------------------------------------
- */
+typedef struct _ETableFieldChooserDialog ETableFieldChooserDialog;
+typedef struct _ETableFieldChooserDialogClass ETableFieldChooserDialogClass;
 
-#define E_TABLE_FIELD_CHOOSER_DIALOG_TYPE			(e_table_field_chooser_dialog_get_type ())
-#define E_TABLE_FIELD_CHOOSER_DIALOG(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TABLE_FIELD_CHOOSER_DIALOG_TYPE, ETableFieldChooserDialog))
-#define E_TABLE_FIELD_CHOOSER_DIALOG_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), E_TABLE_FIELD_CHOOSER_DIALOG_TYPE, ETableFieldChooserDialogClass))
-#define E_IS_TABLE_FIELD_CHOOSER_DIALOG(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TABLE_FIELD_CHOOSER_DIALOG_TYPE))
-#define E_IS_TABLE_FIELD_CHOOSER_DIALOG_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TABLE_FIELD_CHOOSER_DIALOG_TYPE))
-
-typedef struct _ETableFieldChooserDialog       ETableFieldChooserDialog;
-typedef struct _ETableFieldChooserDialogClass  ETableFieldChooserDialogClass;
-
-struct _ETableFieldChooserDialog
-{
+struct _ETableFieldChooserDialog {
 	GtkDialog parent;
 
 	/* item specific fields */
@@ -57,13 +60,12 @@ struct _ETableFieldChooserDialog
 	ETableHeader       *header;
 };
 
-struct _ETableFieldChooserDialogClass
-{
+struct _ETableFieldChooserDialogClass {
 	GtkDialogClass parent_class;
 };
 
-GtkWidget *e_table_field_chooser_dialog_new (void);
-GType      e_table_field_chooser_dialog_get_type (void);
+GType		e_table_field_chooser_dialog_get_type	(void) G_GNUC_CONST;
+GtkWidget *	e_table_field_chooser_dialog_new	(void);
 
 G_END_DECLS
 

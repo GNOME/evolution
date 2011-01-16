@@ -37,7 +37,11 @@
 
 #include "e-tree-memory.h"
 
-G_DEFINE_TYPE (ETreeMemory, e_tree_memory, E_TREE_MODEL_TYPE)
+#define E_TREE_MEMORY_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TREE_MEMORY, ETreeMemoryPrivate))
+
+G_DEFINE_TYPE (ETreeMemory, e_tree_memory, E_TYPE_TREE_MODEL)
 
 enum {
 	FILL_IN_CHILDREN,
@@ -63,7 +67,7 @@ struct ETreeMemoryPath {
 	gint             num_children;
 };
 
-struct ETreeMemoryPriv {
+struct _ETreeMemoryPrivate {
 	ETreeMemoryPath *root;
 
 	/* whether nodes are created expanded
@@ -180,7 +184,7 @@ e_tree_path_unlink (ETreeMemoryPath *path)
 void
 e_tree_memory_freeze (ETreeMemory *etmm)
 {
-	ETreeMemoryPriv *priv = etmm->priv;
+	ETreeMemoryPrivate *priv = etmm->priv;
 
 	if (priv->frozen == 0)
 		e_tree_model_pre_change (E_TREE_MODEL (etmm));
@@ -200,7 +204,7 @@ e_tree_memory_freeze (ETreeMemory *etmm)
 void
 e_tree_memory_thaw (ETreeMemory *etmm)
 {
-	ETreeMemoryPriv *priv = etmm->priv;
+	ETreeMemoryPrivate *priv = etmm->priv;
 
 	if (priv->frozen > 0)
 		priv->frozen--;
@@ -215,18 +219,13 @@ e_tree_memory_thaw (ETreeMemory *etmm)
 static void
 etmm_dispose (GObject *object)
 {
-	ETreeMemory *etmm = E_TREE_MEMORY (object);
-	ETreeMemoryPriv *priv = etmm->priv;
+	ETreeMemoryPrivate *priv;
 
-	if (priv) {
-	/* XXX lots of stuff to free here */
+	priv = E_TREE_MEMORY_GET_PRIVATE (object);
 
-		if (priv->root)
-			e_tree_memory_node_remove (etmm, priv->root);
-
-		g_free (priv);
-	}
-	etmm->priv = NULL;
+	if (priv->root)
+		e_tree_memory_node_remove (
+			E_TREE_MEMORY (object), priv->root);
 
 	G_OBJECT_CLASS (e_tree_memory_parent_class)->dispose (object);
 }
@@ -234,7 +233,7 @@ etmm_dispose (GObject *object)
 static ETreePath
 etmm_get_root (ETreeModel *etm)
 {
-	ETreeMemoryPriv *priv = E_TREE_MEMORY (etm)->priv;
+	ETreeMemoryPrivate *priv = E_TREE_MEMORY (etm)->priv;
 	return priv->root;
 }
 
@@ -326,7 +325,7 @@ static gboolean
 etmm_get_expanded_default (ETreeModel *etm)
 {
 	ETreeMemory *etmm = E_TREE_MEMORY (etm);
-	ETreeMemoryPriv *priv = etmm->priv;
+	ETreeMemoryPrivate *priv = etmm->priv;
 
 	return priv->expanded_default;
 }
@@ -353,10 +352,33 @@ etmm_node_request_collapse (ETreeModel *etm, ETreePath node)
 
 
 static void
-e_tree_memory_class_init (ETreeMemoryClass *klass)
+e_tree_memory_class_init (ETreeMemoryClass *class)
 {
-	ETreeModelClass *tree_class = (ETreeModelClass *) klass;
-	GObjectClass  *object_class = (GObjectClass *) klass;
+	GObjectClass *object_class;
+	ETreeModelClass *tree_model_class;
+
+	g_type_class_add_private (class, sizeof (ETreeMemoryPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = etmm_dispose;
+
+	tree_model_class = E_TREE_MODEL_CLASS (class);
+	tree_model_class->get_root = etmm_get_root;
+	tree_model_class->get_prev = etmm_get_prev;
+	tree_model_class->get_next = etmm_get_next;
+	tree_model_class->get_first_child = etmm_get_first_child;
+	tree_model_class->get_last_child = etmm_get_last_child;
+	tree_model_class->get_parent = etmm_get_parent;
+
+	tree_model_class->is_root = etmm_is_root;
+	tree_model_class->is_expandable = etmm_is_expandable;
+	tree_model_class->get_children = etmm_get_children;
+	tree_model_class->depth = etmm_depth;
+	tree_model_class->get_expanded_default = etmm_get_expanded_default;
+
+	tree_model_class->node_request_collapse = etmm_node_request_collapse;
+
+	class->fill_in_children = NULL;
 
 	signals[FILL_IN_CHILDREN] =
 		g_signal_new ("fill_in_children",
@@ -366,40 +388,12 @@ e_tree_memory_class_init (ETreeMemoryClass *klass)
 			      (GSignalAccumulator) NULL, NULL,
 			      g_cclosure_marshal_VOID__POINTER,
 			      G_TYPE_NONE, 1, G_TYPE_POINTER);
-
-	object_class->dispose             = etmm_dispose;
-
-	tree_class->get_root              = etmm_get_root;
-	tree_class->get_prev              = etmm_get_prev;
-	tree_class->get_next              = etmm_get_next;
-	tree_class->get_first_child       = etmm_get_first_child;
-	tree_class->get_last_child        = etmm_get_last_child;
-	tree_class->get_parent            = etmm_get_parent;
-
-	tree_class->is_root               = etmm_is_root;
-	tree_class->is_expandable         = etmm_is_expandable;
-	tree_class->get_children          = etmm_get_children;
-	tree_class->depth                 = etmm_depth;
-	tree_class->get_expanded_default  = etmm_get_expanded_default;
-
-	tree_class->node_request_collapse = etmm_node_request_collapse;
-
-	klass->fill_in_children           = NULL;
 }
 
 static void
 e_tree_memory_init (ETreeMemory *etmm)
 {
-	ETreeMemoryPriv *priv;
-
-	priv = g_new0 (ETreeMemoryPriv, 1);
-	etmm->priv = priv;
-
-	priv->root = NULL;
-	priv->frozen = 0;
-	priv->expanded_default = 0;
-	priv->destroy_func = NULL;
-	priv->destroy_user_data = NULL;
+	etmm->priv = E_TREE_MEMORY_GET_PRIVATE (etmm);
 }
 
 /**
@@ -423,7 +417,7 @@ e_tree_memory_construct (ETreeMemory *etmm)
 ETreeMemory *
 e_tree_memory_new (void)
 {
-	return (ETreeMemory *) g_object_new (E_TREE_MEMORY_TYPE, NULL);
+	return g_object_new (E_TYPE_TREE_MEMORY, NULL);
 }
 
 /**
@@ -495,7 +489,7 @@ e_tree_memory_node_insert (ETreeMemory *tree_model,
 			   gint position,
 			   gpointer node_data)
 {
-	ETreeMemoryPriv *priv;
+	ETreeMemoryPrivate *priv;
 	ETreeMemoryPath *new_path;
 	ETreeMemoryPath *parent_path = parent_node;
 

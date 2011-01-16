@@ -63,7 +63,7 @@ struct _ECellPercentClass {
 	ECellTextClass parent_class;
 };
 
-GType		e_cell_percent_get_type		(void);
+GType		e_cell_percent_get_type		(void) G_GNUC_CONST;
 ECell *		e_cell_percent_new		(const gchar *fontname,
 						 GtkJustification justify);
 

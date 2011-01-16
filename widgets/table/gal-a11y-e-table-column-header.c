@@ -86,17 +86,17 @@ gal_a11y_e_table_column_header_dispose (GObject *object)
 }
 
 static void
-etch_class_init (GalA11yETableColumnHeaderClass *klass)
+etch_class_init (GalA11yETableColumnHeaderClass *class)
 {
-	AtkObjectClass *class = ATK_OBJECT_CLASS (klass);
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	AtkObjectClass *atk_object_class = ATK_OBJECT_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	object_class->dispose = gal_a11y_e_table_column_header_dispose;
 
-	class->ref_state_set = gal_a11y_e_table_column_header_ref_state_set;
-	class->initialize = gal_a11y_e_table_column_header_real_initialize;
+	atk_object_class->ref_state_set = gal_a11y_e_table_column_header_ref_state_set;
+	atk_object_class->initialize = gal_a11y_e_table_column_header_real_initialize;
 }
 
 inline static GObject *

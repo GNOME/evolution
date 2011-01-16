@@ -109,14 +109,14 @@ static gint e_cell_popup_do_popup	(ECellPopupView	*ecp_view,
 					 gint             row,
 					 gint             model_col);
 
-G_DEFINE_TYPE (ECellPopup, e_cell_popup, E_CELL_TYPE)
+G_DEFINE_TYPE (ECellPopup, e_cell_popup, E_TYPE_CELL)
 
 static void
-e_cell_popup_class_init		(ECellPopupClass	*klass)
+e_cell_popup_class_init		(ECellPopupClass	*class)
 {
-	ECellClass *ecc = E_CELL_CLASS (klass);
+	ECellClass *ecc = E_CELL_CLASS (class);
 
-	G_OBJECT_CLASS (klass)->dispose = e_cell_popup_dispose;
+	G_OBJECT_CLASS (class)->dispose = e_cell_popup_dispose;
 
 	ecc->new_view     = ecp_new_view;
 	ecc->kill_view    = ecp_kill_view;
@@ -133,7 +133,7 @@ e_cell_popup_class_init		(ECellPopupClass	*klass)
 	ecc->get_bg_color = ecp_get_bg_color;
 
 	gal_a11y_e_cell_registry_add_cell_type (NULL,
-                                                E_CELL_POPUP_TYPE,
+                                                E_TYPE_CELL_POPUP,
                                                 gal_a11y_e_cell_popup_new);
 }
 
@@ -152,11 +152,9 @@ e_cell_popup_init		(ECellPopup	*ecp)
  * Returns: an ECellPopup object.
  */
 ECell *
-e_cell_popup_new		(void)
+e_cell_popup_new (void)
 {
-	ECellPopup *ecp = g_object_new (E_CELL_POPUP_TYPE, NULL);
-
-	return (ECell*) ecp;
+	return g_object_new (E_TYPE_CELL_POPUP, NULL);
 }
 
 static void

@@ -26,24 +26,40 @@
 
 #include <table/e-cell-toggle.h>
 
+/* Standard GObject macros */
+#define E_TYPE_CELL_CHECKBOX \
+	(e_cell_checkbox_get_type ())
+#define E_CELL_CHECKBOX(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CELL_CHECKBOX, ECellCheckbox))
+#define E_CELL_CHECKBOX_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CELL_CHECKBOX, ECellCheckboxClass))
+#define E_IS_CELL_CHECKBOX(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CELL_CHECKBOX))
+#define E_IS_CELL_CHECKBOX_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CELL_CHECKBOX))
+#define E_CELL_CHECKBOX_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CELL_CHECKBOX, ECellCheckboxClass))
+
 G_BEGIN_DECLS
 
-#define E_CELL_CHECKBOX_TYPE        (e_cell_checkbox_get_type ())
-#define E_CELL_CHECKBOX(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_CHECKBOX_TYPE, ECellCheckbox))
-#define E_CELL_CHECKBOX_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_CELL_CHECKBOX_TYPE, ECellCheckboxClass))
-#define E_IS_CELL_CHECKBOX(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_CHECKBOX_TYPE))
-#define E_IS_CELL_CHECKBOX_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_CHECKBOX_TYPE))
+typedef struct _ECellCheckbox ECellCheckbox;
+typedef struct _ECellCheckboxClass ECellCheckboxClass;
 
-typedef struct {
+struct _ECellCheckbox {
 	ECellToggle parent;
-} ECellCheckbox;
+};
 
-typedef struct {
+struct _ECellCheckboxClass {
 	ECellToggleClass parent_class;
-} ECellCheckboxClass;
+};
 
-GType      e_cell_checkbox_get_type (void);
-ECell     *e_cell_checkbox_new      (void);
+GType		e_cell_checkbox_get_type	(void) G_GNUC_CONST;
+ECell *		e_cell_checkbox_new		(void);
 
 G_END_DECLS
 

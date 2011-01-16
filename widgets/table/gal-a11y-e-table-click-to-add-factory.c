@@ -56,9 +56,9 @@ gal_a11y_e_table_click_to_add_factory_create_accessible (GObject *obj)
 }
 
 static void
-gal_a11y_e_table_click_to_add_factory_class_init (GalA11yETableClickToAddFactoryClass *klass)
+gal_a11y_e_table_click_to_add_factory_class_init (GalA11yETableClickToAddFactoryClass *class)
 {
-	AtkObjectFactoryClass *factory_class = ATK_OBJECT_FACTORY_CLASS (klass);
+	AtkObjectFactoryClass *factory_class = ATK_OBJECT_FACTORY_CLASS (class);
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
 

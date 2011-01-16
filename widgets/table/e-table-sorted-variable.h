@@ -24,41 +24,57 @@
 #ifndef _E_TABLE_SORTED_VARIABLE_H_
 #define _E_TABLE_SORTED_VARIABLE_H_
 
-#include <glib-object.h>
 #include <table/e-table-model.h>
 #include <table/e-table-subset-variable.h>
 #include <table/e-table-sort-info.h>
 #include <table/e-table-header.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TABLE_SORTED_VARIABLE \
+	(e_table_sorted_variable_get_type ())
+#define E_TABLE_SORTED_VARIABLE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_SORTED_VARIABLE, ETableSortedVariable))
+#define E_TABLE_SORTED_VARIABLE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_SORTED_VARIABLE, ETableSortedVariableClass))
+#define E_IS_TABLE_SORTED_VARIABLE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_SORTED_VARIABLE))
+#define E_IS_TABLE_SORTED_VARIABLE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_SORTED_VARIABLE))
+#define E_TABLE_SORTED_VARIABLE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_SORTED_VARIABLE, ETableSortedVariableClass))
+
 G_BEGIN_DECLS
 
-#define E_TABLE_SORTED_VARIABLE_TYPE        (e_table_sorted_variable_get_type ())
-#define E_TABLE_SORTED_VARIABLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_SORTED_VARIABLE_TYPE, ETableSortedVariable))
-#define E_TABLE_SORTED_VARIABLE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_SORTED_VARIABLE_TYPE, ETableSortedVariableClass))
-#define E_IS_TABLE_SORTED_VARIABLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_SORTED_VARIABLE_TYPE))
-#define E_IS_TABLE_SORTED_VARIABLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_SORTED_VARIABLE_TYPE))
-#define E_TABLE_SORTED_VARIABLE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TABLE_SORTED_VARIABLE_TYPE, ETableSortedVariableClass))
+typedef struct _ETableSortedVariable ETableSortedVariable;
+typedef struct _ETableSortedVariableClass ETableSortedVariableClass;
 
-typedef struct {
-	ETableSubsetVariable base;
+struct _ETableSortedVariable {
+	ETableSubsetVariable parent;
 
 	ETableSortInfo *sort_info;
 
 	ETableHeader *full_header;
 
-	gint              sort_info_changed_id;
-	gint              sort_idle_id;
-	gint		 insert_idle_id;
-	gint		 insert_count;
+	gint sort_info_changed_id;
+	gint sort_idle_id;
+	gint insert_idle_id;
+	gint insert_count;
+};
 
-} ETableSortedVariable;
-
-typedef struct {
+struct _ETableSortedVariableClass {
 	ETableSubsetVariableClass parent_class;
-} ETableSortedVariableClass;
+};
 
-GType        e_table_sorted_variable_get_type (void);
-ETableModel *e_table_sorted_variable_new      (ETableModel *etm, ETableHeader *header, ETableSortInfo *sort_info);
+GType		e_table_sorted_variable_get_type
+						(void) G_GNUC_CONST;
+ETableModel *	e_table_sorted_variable_new	(ETableModel *etm,
+						 ETableHeader *header,
+						 ETableSortInfo *sort_info);
 
 G_END_DECLS
 

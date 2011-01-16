@@ -177,7 +177,7 @@ static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
 G_DEFINE_TYPE_WITH_CODE (
-	ECalModel, e_cal_model, E_TABLE_MODEL_TYPE,
+	ECalModel, e_cal_model, E_TYPE_TABLE_MODEL,
 	G_IMPLEMENT_INTERFACE (E_TYPE_EXTENSIBLE, NULL))
 
 static void

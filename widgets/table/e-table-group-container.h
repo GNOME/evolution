@@ -30,15 +30,33 @@
 #include <table/e-table-group.h>
 #include <table/e-table-item.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TABLE_GROUP_CONTAINER \
+	(e_table_group_container_get_type ())
+#define E_TABLE_GROUP_CONTAINER(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_GROUP_CONTAINER, ETableGroupContainer))
+#define E_TABLE_GROUP_CONTAINER_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_GROUP_CONTAINER, ETableGroupContainerClass))
+#define E_IS_TABLE_GROUP_CONTAINER(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_GROUP_CONTAINER))
+#define E_IS_TABLE_GROUP_CONTAINER_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_GROUP_CONTAINER))
+#define E_TABLE_GROUP_CONTAINER_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_GROUP_CONTAINER, ETableGroupContainerClass))
+
 G_BEGIN_DECLS
 
-#define E_TABLE_GROUP_CONTAINER_TYPE        (e_table_group_container_get_type ())
-#define E_TABLE_GROUP_CONTAINER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_GROUP_CONTAINER_TYPE, ETableGroupContainer))
-#define E_TABLE_GROUP_CONTAINER_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_GROUP_CONTAINER_TYPE, ETableGroupContainerClass))
-#define E_IS_TABLE_GROUP_CONTAINER(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_GROUP_CONTAINER_TYPE))
-#define E_IS_TABLE_GROUP_CONTAINER_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_GROUP_CONTAINER_TYPE))
+typedef struct _ETableGroupContainer ETableGroupContainer;
+typedef struct _ETableGroupContainerClass ETableGroupContainerClass;
 
-typedef struct {
+typedef struct _ETableGroupContainerChildNode ETableGroupContainerChildNode;
+
+struct _ETableGroupContainer {
 	ETableGroup group;
 
 	/*
@@ -78,29 +96,37 @@ typedef struct {
 	 * State: the ETableGroup is open or closed
 	 */
 	guint open:1;
-} ETableGroupContainer;
+};
 
-typedef struct {
+struct _ETableGroupContainerClass {
 	ETableGroupClass parent_class;
-} ETableGroupContainerClass;
+};
 
-typedef struct {
-        ETableGroup *child;
-        gpointer key;
-        gchar *string;
-        GnomeCanvasItem *text;
-        GnomeCanvasItem *rect;
-        gint count;
-} ETableGroupContainerChildNode;
+struct _ETableGroupContainerChildNode {
+	ETableGroup *child;
+	gpointer key;
+	gchar *string;
+	GnomeCanvasItem *text;
+	GnomeCanvasItem *rect;
+	gint count;
+};
 
-ETableGroup *e_table_group_container_new       (GnomeCanvasGroup *parent, ETableHeader *full_header, ETableHeader     *header,
-						ETableModel *model, ETableSortInfo *sort_info, gint n);
-void         e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContainer *etgc,
-						ETableHeader *full_header,
-						ETableHeader     *header,
-						ETableModel *model, ETableSortInfo *sort_info, gint n);
-
-GType        e_table_group_container_get_type  (void);
+GType		e_table_group_container_get_type
+						(void) G_GNUC_CONST;
+ETableGroup *	e_table_group_container_new	(GnomeCanvasGroup *parent,
+						 ETableHeader *full_header,
+						 ETableHeader *header,
+						 ETableModel *model,
+						 ETableSortInfo *sort_info,
+						 gint n);
+void		e_table_group_container_construct
+						(GnomeCanvasGroup *parent,
+						 ETableGroupContainer *etgc,
+						 ETableHeader *full_header,
+						 ETableHeader *header,
+						 ETableModel *model,
+						 ETableSortInfo *sort_info,
+						 gint n);
 
 G_END_DECLS
 

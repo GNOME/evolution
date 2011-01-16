@@ -32,11 +32,26 @@
 #include <time.h>
 #include <table/e-cell-popup.h>
 
-#define E_CELL_DATE_EDIT_TYPE        (e_cell_date_edit_get_type ())
-#define E_CELL_DATE_EDIT(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_DATE_EDIT_TYPE, ECellDateEdit))
-#define E_CELL_DATE_EDIT_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), E_CELL_DATE_EDIT_TYPE, ECellDateEditClass))
-#define E_IS_CELL_DATE_EDIT(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_DATE_EDIT_TYPE))
-#define E_IS_CELL_DATE_EDIT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_DATE_EDIT_TYPE))
+/* Standard GObject macros */
+#define E_TYPE_CELL_DATE_EDIT \
+	(e_cell_date_edit_get_type ())
+#define E_CELL_DATE_EDIT(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CELL_DATE_EDIT, ECellDateEdit))
+#define E_CELL_DATE_EDIT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CELL_DATE_EDIT, ECellDateEditClass))
+#define E_IS_CELL_DATE_EDIT(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CELL_DATE_EDIT))
+#define E_IS_CELL_DATE_EDIT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CELL_DATE_EDIT))
+#define E_CELL_DATE_EDIT_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CELL_DATE_EDIT, ECellDateEditClass))
+
+G_BEGIN_DECLS
 
 typedef struct _ECellDateEdit ECellDateEdit;
 typedef struct _ECellDateEditClass ECellDateEditClass;
@@ -81,7 +96,7 @@ struct _ECellDateEditClass {
 	ECellPopupClass parent_class;
 };
 
-GType		e_cell_date_edit_get_type	(void);
+GType		e_cell_date_edit_get_type	(void) G_GNUC_CONST;
 ECell *		e_cell_date_edit_new		(void);
 
 /* These freeze and thaw the rebuilding of the time list. They are useful when
@@ -98,5 +113,7 @@ void		e_cell_date_edit_set_get_time_callback
 						 ECellDateEditGetTimeCallback cb,
 						 gpointer data,
 						 GDestroyNotify destroy);
+
+G_END_DECLS
 
 #endif /* _E_CELL_DATE_EDIT_H_ */

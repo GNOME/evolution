@@ -59,6 +59,10 @@
 
 #define d(x)
 
+#define E_TREE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TREE, ETreePrivate))
+
 enum {
 	CURSOR_CHANGE,
 	CURSOR_ACTIVATED,
@@ -107,7 +111,7 @@ enum {
 	ET_SCROLL_RIGHT = 1 << 3
 };
 
-struct ETreePriv {
+struct _ETreePrivate {
 	ETreeModel *model;
 	ETreeTableAdapter *etta;
 
@@ -379,70 +383,94 @@ connect_header (ETree *e_tree, ETableState *state)
 static void
 et_dispose (GObject *object)
 {
-	ETree *et = E_TREE (object);
+	ETreePrivate *priv;
 
-	if (et->priv) {
+	priv = E_TREE_GET_PRIVATE (object);
 
-		if (et->priv->search) {
-			if (et->priv->search_search_id)
-				g_signal_handler_disconnect (et->priv->search,
-							     et->priv->search_search_id);
-			if (et->priv->search_accept_id)
-				g_signal_handler_disconnect (et->priv->search,
-							     et->priv->search_accept_id);
-			g_object_unref (et->priv->search);
-		}
-
-		if (et->priv->reflow_idle_id)
-			g_source_remove (et->priv->reflow_idle_id);
-		et->priv->reflow_idle_id = 0;
-
-		scroll_off (et);
-		hover_off (et);
-		g_list_foreach (
-			et->priv->expanded_list,
-			(GFunc) g_free, NULL);
-		g_list_free (et->priv->expanded_list);
-
-		et_disconnect_from_etta (et);
-
-		g_object_unref (et->priv->etta);
-		g_object_unref (et->priv->model);
-		g_object_unref (et->priv->full_header);
-		disconnect_header (et);
-		g_object_unref (et->priv->selection);
-		if (et->priv->spec)
-			g_object_unref (et->priv->spec);
-		et->priv->spec = NULL;
-
-		if (et->priv->sorter)
-			g_object_unref (et->priv->sorter);
-		et->priv->sorter = NULL;
-
-		if (et->priv->header_canvas)
-			gtk_widget_destroy (GTK_WIDGET (et->priv->header_canvas));
-		et->priv->header_canvas = NULL;
-
-		if (et->priv->site)
-			e_tree_drag_source_unset (et);
-
-		if (et->priv->last_drop_context)
-			g_object_weak_unref (G_OBJECT (et->priv->last_drop_context), context_destroyed, et);
-		et->priv->last_drop_context = NULL;
-
-		if (et->priv->info_text)
-			g_object_run_dispose (G_OBJECT (et->priv->info_text));
-		et->priv->info_text = NULL;
-		et->priv->info_text_resize_id = 0;
-
-		gtk_widget_destroy (GTK_WIDGET (et->priv->table_canvas));
-
-		g_free (et->priv);
-		et->priv = NULL;
+	if (priv->search != NULL) {
+		g_signal_handler_disconnect (
+			priv->search, priv->search_search_id);
+		g_signal_handler_disconnect (
+			priv->search, priv->search_accept_id);
+		g_object_unref (priv->search);
+		priv->search = NULL;
 	}
 
-	if (G_OBJECT_CLASS (e_tree_parent_class)->dispose)
-		G_OBJECT_CLASS (e_tree_parent_class)->dispose (object);
+	if (priv->reflow_idle_id > 0) {
+		g_source_remove (priv->reflow_idle_id);
+		priv->reflow_idle_id = 0;
+	}
+
+	scroll_off (E_TREE (object));
+	hover_off (E_TREE (object));
+	g_list_foreach (
+		priv->expanded_list,
+		(GFunc) g_free, NULL);
+	g_list_free (priv->expanded_list);
+	priv->expanded_list = NULL;
+
+	et_disconnect_from_etta (E_TREE (object));
+
+	if (priv->etta != NULL) {
+		g_object_unref (priv->etta);
+		priv->etta = NULL;
+	}
+
+	if (priv->model != NULL) {
+		g_object_unref (priv->model);
+		priv->model = NULL;
+	}
+
+	if (priv->full_header != NULL) {
+		g_object_unref (priv->full_header);
+		priv->full_header = NULL;
+	}
+
+	disconnect_header (E_TREE (object));
+
+	if (priv->selection != NULL) {
+		g_object_unref (priv->selection);
+		priv->selection = NULL;
+	}
+
+	if (priv->spec != NULL) {
+		g_object_unref (priv->spec);
+		priv->spec = NULL;
+	}
+
+	if (priv->sorter != NULL) {
+		g_object_unref (priv->sorter);
+		priv->sorter = NULL;
+	}
+
+	if (priv->header_canvas != NULL) {
+		gtk_widget_destroy (GTK_WIDGET (priv->header_canvas));
+		priv->header_canvas = NULL;
+	}
+
+	if (priv->site)
+		e_tree_drag_source_unset (E_TREE (object));
+
+	if (priv->last_drop_context != NULL) {
+		g_object_weak_unref (
+			G_OBJECT (priv->last_drop_context),
+			context_destroyed, object);
+		priv->last_drop_context = NULL;
+	}
+
+	if (priv->info_text != NULL) {
+		g_object_run_dispose (G_OBJECT (priv->info_text));
+		priv->info_text = NULL;
+	}
+	priv->info_text_resize_id = 0;
+
+	if (priv->table_canvas != NULL) {
+		gtk_widget_destroy (GTK_WIDGET (priv->table_canvas));
+		priv->table_canvas = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_tree_parent_class)->dispose (object);
 }
 
 static void
@@ -555,65 +583,20 @@ e_tree_init (ETree *e_tree)
 
 	gtk_table_set_homogeneous (GTK_TABLE (e_tree), FALSE);
 
-	e_tree->priv                         = g_new (ETreePriv, 1);
-
-	e_tree->priv->model                  = NULL;
-	e_tree->priv->etta                   = NULL;
-
-	e_tree->priv->full_header            = NULL;
-	e_tree->priv->header                 = NULL;
-
-	e_tree->priv->structure_change_id    = 0;
-	e_tree->priv->expansion_change_id    = 0;
-	e_tree->priv->sort_info_change_id    = 0;
-	e_tree->priv->group_info_change_id   = 0;
-
-	e_tree->priv->sort_info              = NULL;
-	e_tree->priv->sorter                 = NULL;
-	e_tree->priv->reflow_idle_id         = 0;
-	e_tree->priv->scroll_idle_id         = 0;
-	e_tree->priv->hover_idle_id          = 0;
-
-	e_tree->priv->show_cursor_after_reflow = FALSE;
-
-	e_tree->priv->table_model_change_id  = 0;
-	e_tree->priv->table_row_change_id    = 0;
-	e_tree->priv->table_cell_change_id   = 0;
-	e_tree->priv->table_rows_delete_id   = 0;
+	e_tree->priv = E_TREE_GET_PRIVATE (e_tree);
 
 	e_tree->priv->alternating_row_colors = 1;
-	e_tree->priv->horizontal_draw_grid   = 1;
-	e_tree->priv->vertical_draw_grid     = 1;
-	e_tree->priv->draw_focus             = 1;
-	e_tree->priv->cursor_mode            = E_CURSOR_SIMPLE;
-	e_tree->priv->length_threshold       = 200;
-	e_tree->priv->uniform_row_height     = FALSE;
+	e_tree->priv->horizontal_draw_grid = 1;
+	e_tree->priv->vertical_draw_grid = 1;
+	e_tree->priv->draw_focus = 1;
+	e_tree->priv->cursor_mode = E_CURSOR_SIMPLE;
+	e_tree->priv->length_threshold = 200;
 
-	e_tree->priv->row_selection_active   = FALSE;
-	e_tree->priv->horizontal_scrolling   = FALSE;
-	e_tree->priv->scroll_direction       = 0;
+	e_tree->priv->drop_row = -1;
+	e_tree->priv->drop_col = -1;
 
-	e_tree->priv->drop_row               = -1;
-	e_tree->priv->drop_path              = NULL;
-	e_tree->priv->drop_col               = -1;
-	e_tree->priv->drop_highlight         = NULL;
-
-	e_tree->priv->last_drop_x            = 0;
-	e_tree->priv->last_drop_y            = 0;
-	e_tree->priv->last_drop_time         = 0;
-	e_tree->priv->last_drop_context      = NULL;
-
-	e_tree->priv->hover_x                = 0;
-	e_tree->priv->hover_y                = 0;
-
-	e_tree->priv->drag_row               = -1;
-	e_tree->priv->drag_path              = NULL;
-	e_tree->priv->drag_col               = -1;
-
-	e_tree->priv->expanded_list          = NULL;
-
-	e_tree->priv->site                   = NULL;
-	e_tree->priv->do_drag                = FALSE;
+	e_tree->priv->drag_row = -1;
+	e_tree->priv->drag_col = -1;
 
 #ifdef E_TREE_USE_TREE_SELECTION
 	e_tree->priv->selection =
@@ -622,32 +605,17 @@ e_tree_init (ETree *e_tree)
 	e_tree->priv->selection =
 		E_SELECTION_MODEL (e_table_selection_model_new ());
 #endif
-	e_tree->priv->spec                   = NULL;
 
-	e_tree->priv->info_text              = NULL;
-	e_tree->priv->info_text_resize_id    = 0;
+	e_tree->priv->search = e_table_search_new ();
 
-	e_tree->priv->header_canvas          = NULL;
-	e_tree->priv->table_canvas           = NULL;
-
-	e_tree->priv->header_item            = NULL;
-	e_tree->priv->root                   = NULL;
-
-	e_tree->priv->white_item             = NULL;
-	e_tree->priv->item                   = NULL;
-
-	e_tree->priv->search                 = e_table_search_new ();
-
-	e_tree->priv->search_search_id       =
+	e_tree->priv->search_search_id =
 		g_signal_connect (G_OBJECT (e_tree->priv->search), "search",
-				  G_CALLBACK (et_search_search), e_tree);
-	e_tree->priv->search_accept_id       =
+				 G_CALLBACK (et_search_search), e_tree);
+	e_tree->priv->search_accept_id =
 		g_signal_connect (G_OBJECT (e_tree->priv->search), "accept",
-				  G_CALLBACK (et_search_accept), e_tree);
+				 G_CALLBACK (et_search_accept), e_tree);
 
-	e_tree->priv->current_search_col     = NULL;
-	e_tree->priv->search_col_set         = FALSE;
-	e_tree->priv->always_search          = g_getenv ("GAL_ALWAYS_SEARCH") ? TRUE : FALSE;
+	e_tree->priv->always_search = g_getenv ("GAL_ALWAYS_SEARCH") ? TRUE : FALSE;
 }
 
 /* Grab_focus handler for the ETree */
@@ -1747,7 +1715,7 @@ e_tree_new (ETreeModel *etm, ETableExtras *ete, const gchar *spec, const gchar *
 	g_return_val_if_fail (ete == NULL || E_IS_TABLE_EXTRAS (ete), NULL);
 	g_return_val_if_fail (spec != NULL, NULL);
 
-	e_tree = g_object_new (E_TREE_TYPE, NULL);
+	e_tree = g_object_new (E_TYPE_TREE, NULL);
 
 	if (!e_tree_construct (e_tree, etm, ete, spec, state)) {
 		g_object_unref (e_tree);
@@ -1790,7 +1758,7 @@ e_tree_new_from_spec_file (ETreeModel *etm,
 	g_return_val_if_fail (ete == NULL || E_IS_TABLE_EXTRAS (ete), NULL);
 	g_return_val_if_fail (spec_fn != NULL, NULL);
 
-	e_tree = g_object_new (E_TREE_TYPE, NULL);
+	e_tree = g_object_new (E_TYPE_TREE, NULL);
 
 	if (!e_tree_construct_from_spec_file (e_tree, etm, ete, spec_fn, state_fn)) {
 		g_object_unref (e_tree);
@@ -2035,7 +2003,8 @@ set_scroll_adjustments   (ETree *tree,
 	if (hadjustment != NULL)
 		gtk_adjustment_set_step_increment (hadjustment, 20);
 
-	if (tree->priv) {
+	/* XXX This can be called after our dispose() method has run. */
+	if (tree->priv->table_canvas != NULL) {
 		GtkScrollable *scrollable;
 
 		scrollable = GTK_SCROLLABLE (tree->priv->table_canvas);
@@ -3275,38 +3244,20 @@ e_tree_class_init (ETreeClass *class)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	object_class                   = (GObjectClass *) class;
-	widget_class                   = (GtkWidgetClass *) class;
+	g_type_class_add_private (class, sizeof (ETreePrivate));
 
-	object_class->dispose          = et_dispose;
-	object_class->set_property     = et_set_property;
-	object_class->get_property     = et_get_property;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = et_dispose;
+	object_class->set_property = et_set_property;
+	object_class->get_property = et_get_property;
 
-	widget_class->grab_focus       = et_grab_focus;
-	widget_class->unrealize        = et_unrealize;
-	widget_class->style_set        = et_canvas_style_set;
-	widget_class->focus            = et_focus;
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->grab_focus = et_grab_focus;
+	widget_class->unrealize = et_unrealize;
+	widget_class->style_set = et_canvas_style_set;
+	widget_class->focus = et_focus;
 
-	class->cursor_change           = NULL;
-	class->cursor_activated        = NULL;
-	class->selection_change        = NULL;
-	class->double_click            = NULL;
-	class->right_click             = NULL;
-	class->click                   = NULL;
-	class->key_press               = NULL;
-	class->start_drag              = et_real_start_drag;
-	class->state_change            = NULL;
-	class->white_space_event       = NULL;
-
-	class->tree_drag_begin         = NULL;
-	class->tree_drag_end           = NULL;
-	class->tree_drag_data_get      = NULL;
-	class->tree_drag_data_delete   = NULL;
-
-	class->tree_drag_leave         = NULL;
-	class->tree_drag_motion        = NULL;
-	class->tree_drag_drop          = NULL;
-	class->tree_drag_data_received = NULL;
+	class->start_drag = et_real_start_drag;
 
 	et_signals[CURSOR_CHANGE] =
 		g_signal_new ("cursor_change",
@@ -3557,7 +3508,7 @@ e_tree_class_init (ETreeClass *class)
 					 g_param_spec_object ("ETreeTableAdapter",
 							      "ETree table adapter",
 							      "ETree table adapter",
-							      E_TREE_TABLE_ADAPTER_TYPE,
+							      E_TYPE_TREE_TABLE_ADAPTER,
 							      G_PARAM_READABLE));
 
 	g_object_class_install_property (object_class, PROP_UNIFORM_ROW_HEIGHT,

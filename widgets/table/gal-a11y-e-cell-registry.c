@@ -47,9 +47,9 @@ gal_a11y_e_cell_registry_finalize (GObject *obj)
 }
 
 static void
-gal_a11y_e_cell_registry_class_init (GalA11yECellRegistryClass *klass)
+gal_a11y_e_cell_registry_class_init (GalA11yECellRegistryClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
 

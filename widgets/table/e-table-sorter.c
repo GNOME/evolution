@@ -153,10 +153,10 @@ ets_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *psp
 }
 
 static void
-ets_class_init (ETableSorterClass *klass)
+ets_class_init (ETableSorterClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	ESorterClass *sorter_class = E_SORTER_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	ESorterClass *sorter_class = E_SORTER_CLASS (class);
 
 	object_class->dispose                   = ets_dispose;
 	object_class->set_property              = ets_set_property;
@@ -172,7 +172,7 @@ ets_class_init (ETableSorterClass *klass)
 					 g_param_spec_object ("sort_info",
 							      "Sort Info",
 							      NULL,
-							      E_TABLE_SORT_INFO_TYPE,
+							      E_TYPE_TABLE_SORT_INFO,
 							      G_PARAM_READWRITE));
 }
 
@@ -197,7 +197,7 @@ ets_init (ETableSorter *ets)
 ETableSorter *
 e_table_sorter_new (ETableModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)
 {
-	ETableSorter *ets = g_object_new (E_TABLE_SORTER_TYPE, NULL);
+	ETableSorter *ets = g_object_new (E_TYPE_TABLE_SORTER, NULL);
 
 	ets->sort_info = sort_info;
 	g_object_ref (ets->sort_info);

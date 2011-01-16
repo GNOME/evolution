@@ -28,16 +28,33 @@
 #include <libxml/tree.h>
 #include <table/e-table-header.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TABLE_FIELD_CHOOSER_ITEM \
+	(e_table_field_chooser_item_get_type ())
+#define E_TABLE_FIELD_CHOOSER_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_FIELD_CHOOSER_ITEM, ETableFieldChooserItem))
+#define E_TABLE_FIELD_CHOOSER_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_FIELD_CHOOSER_ITEM, ETableFieldChooserItemClass))
+#define E_IS_TABLE_FIELD_CHOOSER_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_FIELD_CHOOSER_ITEM))
+#define E_IS_TABLE_FIELD_CHOOSER_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_FIELD_CHOOSER_ITEM))
+#define E_TABLE_FIELD_CHOOSER_ITEM_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_FIELD_CHOOSER_ITEM, ETableFieldChooserItemClass))
+
 G_BEGIN_DECLS
 
-#define E_TABLE_FIELD_CHOOSER_ITEM_TYPE        (e_table_field_chooser_item_get_type ())
-#define E_TABLE_FIELD_CHOOSER_ITEM(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_FIELD_CHOOSER_ITEM_TYPE, ETableFieldChooserItem))
-#define E_TABLE_FIELD_CHOOSER_ITEM_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_FIELD_CHOOSER_ITEM_TYPE, ETableFieldChooserItemClass))
-#define E_IS_TABLE_FIELD_CHOOSER_ITEM(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_FIELD_CHOOSER_ITEM_TYPE))
-#define E_IS_TABLE_FIELD_CHOOSER_ITEM_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_FIELD_CHOOSER_ITEM_TYPE))
+typedef struct _ETableFieldChooserItem ETableFieldChooserItem;
+typedef struct _ETableFieldChooserItemClass ETableFieldChooserItemClass;
 
-typedef struct {
+struct _ETableFieldChooserItem {
 	GnomeCanvasItem  parent;
+
 	ETableHeader    *full_header;
 	ETableHeader    *header;
 	ETableHeader    *combined_header;
@@ -62,13 +79,13 @@ typedef struct {
 	gint              drag_col;
 	guint            drag_data_get_id;
         guint            drag_end_id;
-} ETableFieldChooserItem;
+};
 
-typedef struct {
+struct _ETableFieldChooserItemClass {
 	GnomeCanvasItemClass parent_class;
-} ETableFieldChooserItemClass;
+};
 
-GType      e_table_field_chooser_item_get_type (void);
+GType		e_table_field_chooser_item_get_type	(void) G_GNUC_CONST;
 
 G_END_DECLS
 

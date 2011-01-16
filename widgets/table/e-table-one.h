@@ -25,30 +25,45 @@
 
 #include <table/e-table-model.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TABLE_ONE \
+	(e_table_one_get_type ())
+#define E_TABLE_ONE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_ONE, ETableOne))
+#define E_TABLE_ONE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_ONE, ETableOneClass))
+#define E_IS_TABLE_ONE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_ONE))
+#define E_IS_TABLE_ONE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_ONE))
+#define E_TABLE_ONE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_ONE, ETableOneClass))
+
 G_BEGIN_DECLS
 
-#define E_TABLE_ONE_TYPE        (e_table_one_get_type ())
-#define E_TABLE_ONE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_ONE_TYPE, ETableOne))
-#define E_TABLE_ONE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_ONE_TYPE, ETableOneClass))
-#define E_IS_TABLE_ONE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_ONE_TYPE))
-#define E_IS_TABLE_ONE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_ONE_TYPE))
-#define E_TABLE_ONE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((obj), E_TABLE_ONE_TYPE, ETableOneClass))
+typedef struct _ETableOne ETableOne;
+typedef struct _ETableOneClass ETableOneClass;
 
-typedef struct {
-	ETableModel   parent;
+struct _ETableOne {
+	ETableModel parent;
 
 	ETableModel  *source;
-	void        **data;
-} ETableOne;
+	gpointer *data;
+};
 
-typedef struct {
+struct _ETableOneClass {
 	ETableModelClass parent_class;
-} ETableOneClass;
+};
 
-GType e_table_one_get_type (void);
+GType		e_table_one_get_type		(void) G_GNUC_CONST;
 
-ETableModel *e_table_one_new (ETableModel *source);
-void         e_table_one_commit (ETableOne *one);
+ETableModel *	e_table_one_new			(ETableModel *source);
+void		e_table_one_commit		(ETableOne *one);
 
 G_END_DECLS
 

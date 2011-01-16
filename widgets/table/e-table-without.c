@@ -30,9 +30,13 @@
 
 #include "e-table-without.h"
 
+#define E_TABLE_WITHOUT_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TABLE_WITHOUT, ETableWithoutPrivate))
+
 /* workaround for avoiding API breakage */
 #define etw_get_type e_table_without_get_type
-G_DEFINE_TYPE (ETableWithout, etw, E_TABLE_SUBSET_TYPE)
+G_DEFINE_TYPE (ETableWithout, etw, E_TYPE_TABLE_SUBSET)
 
 #define INCREMENT_AMOUNT 10
 
@@ -135,20 +139,18 @@ delete_hash_element (gpointer key,
 static void
 etw_dispose (GObject *object)
 {
-	ETableWithout *etw = E_TABLE_WITHOUT (object);
+	ETableWithoutPrivate *priv;
 
-	if (etw->priv) {
-		if (etw->priv->hash) {
-			g_hash_table_foreach (etw->priv->hash, delete_hash_element, etw);
-			g_hash_table_destroy (etw->priv->hash);
-			etw->priv->hash = NULL;
-		}
-		g_free (etw->priv);
-		etw->priv = NULL;
+	priv = E_TABLE_WITHOUT_GET_PRIVATE (object);
+
+	if (priv->hash != NULL) {
+		g_hash_table_foreach (priv->hash, delete_hash_element, object);
+		g_hash_table_destroy (priv->hash);
+		priv->hash = NULL;
 	}
 
-	if (G_OBJECT_CLASS (etw_parent_class)->dispose)
-		(* G_OBJECT_CLASS (etw_parent_class)->dispose) (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (etw_parent_class)->dispose (object);
 }
 
 static void
@@ -231,28 +233,26 @@ etw_proxy_model_changed (ETableSubset *etss, ETableModel *etm)
 }
 
 static void
-etw_class_init (ETableWithoutClass *klass)
+etw_class_init (ETableWithoutClass *class)
 {
-	ETableSubsetClass *etss_class         = E_TABLE_SUBSET_CLASS (klass);
-	GObjectClass *object_class            = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class;
+	ETableSubsetClass *etss_class;
 
-	object_class->dispose                 = etw_dispose;
+	g_type_class_add_private (class, sizeof (ETableWithoutPrivate));
 
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = etw_dispose;
+
+	etss_class = E_TABLE_SUBSET_CLASS (class);
 	etss_class->proxy_model_rows_inserted = etw_proxy_model_rows_inserted;
 	etss_class->proxy_model_rows_deleted  = etw_proxy_model_rows_deleted;
-	etss_class->proxy_model_changed       = etw_proxy_model_changed;
+	etss_class->proxy_model_changed = etw_proxy_model_changed;
 }
 
 static void
 etw_init (ETableWithout *etw)
 {
-	etw->priv                           = g_new (ETableWithoutPrivate, 1);
-	etw->priv->hash_func                = NULL;
-	etw->priv->compare_func             = NULL;
-	etw->priv->get_key_func             = NULL;
-	etw->priv->duplicate_key_func       = NULL;
-	etw->priv->free_gotten_key_func     = NULL;
-	etw->priv->free_duplicated_key_func = NULL;
+	etw->priv = E_TABLE_WITHOUT_GET_PRIVATE (etw);
 }
 
 ETableModel *
@@ -293,7 +293,7 @@ e_table_without_new        (ETableModel                   *source,
 			    ETableWithoutFreeKeyFunc       free_duplicated_key_func,
 			    void                          *closure)
 {
-	ETableWithout *etw = g_object_new (E_TABLE_WITHOUT_TYPE, NULL);
+	ETableWithout *etw = g_object_new (E_TYPE_TABLE_WITHOUT, NULL);
 
 	if (e_table_without_construct (etw,
 				       source,

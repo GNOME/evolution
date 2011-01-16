@@ -23,50 +23,61 @@
 #ifndef _E_TABLE_STATE_H_
 #define _E_TABLE_STATE_H_
 
-#include <glib-object.h>
 #include <libxml/tree.h>
 #include <table/e-table-sort-info.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TABLE_STATE \
+	(e_table_state_get_type ())
+#define E_TABLE_STATE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_STATE, ETableState))
+#define E_TABLE_STATE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_STATE, ETableStateClass))
+#define E_IS_TABLE_STATE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_STATE))
+#define E_IS_TABLE_STATE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_STATE))
+#define E_TABLE_STATE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_STATE, ETableStateClass))
+
 G_BEGIN_DECLS
 
-#define E_TABLE_STATE_TYPE        (e_table_state_get_type ())
-#define E_TABLE_STATE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_STATE_TYPE, ETableState))
-#define E_TABLE_STATE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_STATE_TYPE, ETableStateClass))
-#define E_IS_TABLE_STATE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_STATE_TYPE))
-#define E_IS_TABLE_STATE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_STATE_TYPE))
-#define E_TABLE_STATE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TABLE_STATE_TYPE, ETableStateClass))
+typedef struct _ETableState ETableState;
+typedef struct _ETableStateClass ETableStateClass;
 
-typedef struct {
-	GObject base;
+struct _ETableState {
+	GObject parent;
 
 	ETableSortInfo *sort_info;
-	gint             col_count;
-	gint            *columns;
-	gdouble         *expansions;
-} ETableState;
+	gint col_count;
+	gint *columns;
+	gdouble *expansions;
+};
 
-typedef struct {
+struct _ETableStateClass {
 	GObjectClass parent_class;
-} ETableStateClass;
+};
 
-GType        e_table_state_get_type          (void);
-ETableState *e_table_state_new               (void);
-
-ETableState *e_table_state_vanilla	     (gint col_count);
-
-gboolean     e_table_state_load_from_file    (ETableState   *state,
-					      const gchar    *filename);
-void         e_table_state_load_from_string  (ETableState   *state,
-					      const gchar    *xml);
-void         e_table_state_load_from_node    (ETableState   *state,
-					      const xmlNode *node);
-
-void         e_table_state_save_to_file      (ETableState   *state,
-					      const gchar    *filename);
-gchar        *e_table_state_save_to_string    (ETableState   *state);
-xmlNode     *e_table_state_save_to_node      (ETableState   *state,
-					      xmlNode       *parent);
-ETableState *e_table_state_duplicate         (ETableState   *state);
+GType		e_table_state_get_type		(void) G_GNUC_CONST;
+ETableState *	e_table_state_new		(void);
+ETableState *	e_table_state_vanilla		(gint col_count);
+gboolean	e_table_state_load_from_file	(ETableState *state,
+						 const gchar *filename);
+void		e_table_state_load_from_string	(ETableState *state,
+						 const gchar *xml);
+void		e_table_state_load_from_node	(ETableState *state,
+						 const xmlNode *node);
+void		e_table_state_save_to_file	(ETableState *state,
+						 const gchar *filename);
+gchar *		e_table_state_save_to_string	(ETableState *state);
+xmlNode *	e_table_state_save_to_node	(ETableState *state,
+						 xmlNode *parent);
+ETableState *	e_table_state_duplicate		(ETableState *state);
 
 G_END_DECLS
 

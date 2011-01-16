@@ -23,7 +23,6 @@
 #ifndef __GAL_A11Y_E_CELL_REGISTRY_H__
 #define __GAL_A11Y_E_CELL_REGISTRY_H__
 
-#include <glib-object.h>
 #include <atk/atkobject.h>
 #include <table/e-table-item.h>
 #include <table/e-cell.h>

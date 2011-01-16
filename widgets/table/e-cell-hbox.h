@@ -27,41 +27,59 @@
 #include <libgnomecanvas/libgnomecanvas.h>
 #include <table/e-cell.h>
 
+/* Standard GObject macros */
+#define E_TYPE_CELL_HBOX \
+	(e_cell_hbox_get_type ())
+#define E_CELL_HBOX(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CELL_HBOX, ECellHbox))
+#define E_CELL_HBOX_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CELL_HBOX, ECellHboxClass))
+#define E_IS_CELL_HBOX(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CELL_HBOX))
+#define E_IS_CELL_HBOX_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CELL_HBOX))
+#define E_CELL_HBOX_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CELL_HBOX, ECellHboxClass))
+
 G_BEGIN_DECLS
 
-#define E_CELL_HBOX_TYPE        (e_cell_hbox_get_type ())
-#define E_CELL_HBOX(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_HBOX_TYPE, ECellHbox))
-#define E_CELL_HBOX_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_CELL_HBOX_TYPE, ECellHboxClass))
-#define E_IS_CELL_HBOX(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_HBOX_TYPE))
-#define E_IS_CELL_HBOX_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_HBOX_TYPE))
+typedef struct _ECellHbox ECellHbox;
+typedef struct _ECellHboxView ECellHboxView;
+typedef struct _ECellHboxClass ECellHboxClass;
 
-typedef struct {
+struct _ECellHbox {
 	ECell parent;
 
-	gint     subcell_count;
+	gint subcell_count;
 	ECell **subcells;
-	gint    *model_cols;
-	gint    *def_size_cols;
-} ECellHbox;
+	gint *model_cols;
+	gint *def_size_cols;
+};
 
-typedef struct {
-	ECellView     cell_view;
-	gint           subcell_view_count;
-	ECellView   **subcell_views;
-	gint          *model_cols;
-	gint    *def_size_cols;
-} ECellHboxView;
+struct _ECellHboxView {
+	ECellView cell_view;
 
-typedef struct {
+	gint subcell_view_count;
+	ECellView **subcell_views;
+	gint *model_cols;
+	gint *def_size_cols;
+};
+
+struct _ECellHboxClass {
 	ECellClass parent_class;
-} ECellHboxClass;
+};
 
-GType    e_cell_hbox_get_type  (void);
-ECell   *e_cell_hbox_new       (void);
-void     e_cell_hbox_append    (ECellHbox *vbox,
-				ECell     *subcell,
-				gint model_col,
-				gint size);
+GType		e_cell_hbox_get_type		(void) G_GNUC_CONST;
+ECell *		e_cell_hbox_new			(void);
+void		e_cell_hbox_append		(ECellHbox *vbox,
+						 ECell *subcell,
+						 gint model_col,
+						 gint size);
 
 G_END_DECLS
 

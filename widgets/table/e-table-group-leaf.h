@@ -29,15 +29,31 @@
 #include <table/e-table-subset.h>
 #include <table/e-table-item.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TABLE_GROUP_LEAF \
+	(e_table_group_leaf_get_type ())
+#define E_TABLE_GROUP_LEAF(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_GROUP_LEAF, ETableGroupLeaf))
+#define E_TABLE_GROUP_LEAF_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_GROUP_LEAF, ETableGroupLeafClass))
+#define E_IS_TABLE_GROUP_LEAF(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_GROUP_LEAF))
+#define E_IS_TABLE_GROUP_LEAF_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_GROUP_LEAF))
+#define E_TABLE_GROUP_LEAF_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_GROUP_LEAF, ETableGroupLeafClass))
+
 G_BEGIN_DECLS
 
-#define E_TABLE_GROUP_LEAF_TYPE        (e_table_group_leaf_get_type ())
-#define E_TABLE_GROUP_LEAF(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_GROUP_LEAF_TYPE, ETableGroupLeaf))
-#define E_TABLE_GROUP_LEAF_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_GROUP_LEAF_TYPE, ETableGroupLeafClass))
-#define E_IS_TABLE_GROUP_LEAF(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_GROUP_LEAF_TYPE))
-#define E_IS_TABLE_GROUP_LEAF_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_GROUP_LEAF_TYPE))
+typedef struct _ETableGroupLeaf ETableGroupLeaf;
+typedef struct _ETableGroupLeafClass ETableGroupLeafClass;
 
-typedef struct {
+struct _ETableGroupLeaf {
 	ETableGroup group;
 
 	/*
@@ -70,18 +86,18 @@ typedef struct {
 	gint etgl_start_drag_id;
 
 	ESelectionModel *selection_model;
-} ETableGroupLeaf;
+};
 
-typedef struct {
+struct _ETableGroupLeafClass {
 	ETableGroupClass parent_class;
-} ETableGroupLeafClass;
+};
 
-ETableGroup *e_table_group_leaf_new       (GnomeCanvasGroup *parent,
-					   ETableHeader *full_header,
-					   ETableHeader     *header,
-					   ETableModel *model,
-					   ETableSortInfo *sort_info);
-GType        e_table_group_leaf_get_type  (void);
+GType		e_table_group_leaf_get_type	(void) G_GNUC_CONST;
+ETableGroup *	e_table_group_leaf_new		(GnomeCanvasGroup *parent,
+						 ETableHeader *full_header,
+						 ETableHeader *header,
+						 ETableModel *model,
+						 ETableSortInfo *sort_info);
 
 G_END_DECLS
 

@@ -6,7 +6,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
@@ -29,50 +29,62 @@ G_BEGIN_DECLS
 #include <table/e-tree-model.h>
 #include <table/e-table-sort-info.h>
 #include <table/e-table-header.h>
-gboolean  e_table_sorting_utils_affects_sort         (ETableSortInfo *sort_info,
-						      ETableHeader   *full_header,
-						      gint             col);
 
-void      e_table_sorting_utils_sort                 (ETableModel    *source,
-						      ETableSortInfo *sort_info,
-						      ETableHeader   *full_header,
-						      gint            *map_table,
-						      gint             rows);
-gint       e_table_sorting_utils_insert               (ETableModel    *source,
-						      ETableSortInfo *sort_info,
-						      ETableHeader   *full_header,
-						      gint            *map_table,
-						      gint             rows,
-						      gint             row);
-gint       e_table_sorting_utils_check_position       (ETableModel    *source,
-						      ETableSortInfo *sort_info,
-						      ETableHeader   *full_header,
-						      gint            *map_table,
-						      gint             rows,
-						      gint             view_row);
+gboolean	e_table_sorting_utils_affects_sort
+						(ETableSortInfo *sort_info,
+						 ETableHeader *full_header,
+						 gint col);
 
-void      e_table_sorting_utils_tree_sort            (ETreeModel     *source,
-						      ETableSortInfo *sort_info,
-						      ETableHeader   *full_header,
-						      ETreePath      *map_table,
-						      gint             count);
-gint       e_table_sorting_utils_tree_check_position  (ETreeModel     *source,
-						      ETableSortInfo *sort_info,
-						      ETableHeader   *full_header,
-						      ETreePath      *map_table,
-						      gint             count,
-						      gint             old_index);
-gint       e_table_sorting_utils_tree_insert          (ETreeModel     *source,
-						      ETableSortInfo *sort_info,
-						      ETableHeader   *full_header,
-						      ETreePath      *map_table,
-						      gint             count,
-						      ETreePath       path);
+void		e_table_sorting_utils_sort	(ETableModel *source,
+						 ETableSortInfo *sort_info,
+						 ETableHeader *full_header,
+						 gint *map_table,
+						 gint rows);
+gint		e_table_sorting_utils_insert	(ETableModel *source,
+						 ETableSortInfo *sort_info,
+						 ETableHeader *full_header,
+						 gint *map_table,
+						 gint rows,
+						 gint row);
+gint		e_table_sorting_utils_check_position
+						(ETableModel *source,
+						 ETableSortInfo *sort_info,
+						 ETableHeader *full_header,
+						 gint *map_table,
+						 gint rows,
+						 gint view_row);
 
-gpointer     e_table_sorting_utils_create_cmp_cache (void);
-void         e_table_sorting_utils_free_cmp_cache (gpointer cmp_cache);
-void         e_table_sorting_utils_add_to_cmp_cache (gpointer cmp_cache, const gchar *key, gchar *value);
-const gchar *e_table_sorting_utils_lookup_cmp_cache (gpointer cmp_cache, const gchar *key);
+void		e_table_sorting_utils_tree_sort	(ETreeModel *source,
+						 ETableSortInfo *sort_info,
+						 ETableHeader *full_header,
+						 ETreePath *map_table,
+						 gint count);
+gint		e_table_sorting_utils_tree_check_position
+						(ETreeModel *source,
+						 ETableSortInfo *sort_info,
+						 ETableHeader *full_header,
+						 ETreePath *map_table,
+						 gint count,
+						 gint old_index);
+gint		e_table_sorting_utils_tree_insert
+						(ETreeModel *source,
+						 ETableSortInfo *sort_info,
+						 ETableHeader *full_header,
+						 ETreePath *map_table,
+						 gint count,
+						 ETreePath path);
+
+gpointer	e_table_sorting_utils_create_cmp_cache
+						(void);
+void		e_table_sorting_utils_free_cmp_cache
+						(gpointer cmp_cache);
+void		e_table_sorting_utils_add_to_cmp_cache
+						(gpointer cmp_cache,
+						 const gchar *key,
+						 gchar *value);
+const gchar *	e_table_sorting_utils_lookup_cmp_cache
+						(gpointer cmp_cache,
+						 const gchar *key);
 
 G_END_DECLS
 

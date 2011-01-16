@@ -114,9 +114,9 @@ etc_get_property (GObject *object,
 }
 
 static void
-e_table_col_class_init (ETableColClass *klass)
+e_table_col_class_init (ETableColClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->dispose = etc_dispose;
 	object_class->set_property = etc_set_property;

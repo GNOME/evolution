@@ -36,7 +36,7 @@
 
 /* workaround for avoding API breakage */
 #define ets_get_type e_table_sorted_get_type
-G_DEFINE_TYPE (ETableSorted, ets, E_TABLE_SUBSET_TYPE)
+G_DEFINE_TYPE (ETableSorted, ets, E_TYPE_TABLE_SUBSET)
 
 /* maximum insertions between an idle event that we will do without scheduling an idle sort */
 #define ETS_INSERT_MAX (4)
@@ -77,10 +77,10 @@ ets_dispose (GObject *object)
 }
 
 static void
-ets_class_init (ETableSortedClass *klass)
+ets_class_init (ETableSortedClass *class)
 {
-	ETableSubsetClass *etss_class = E_TABLE_SUBSET_CLASS (klass);
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	ETableSubsetClass *etss_class = E_TABLE_SUBSET_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	etss_class->proxy_model_changed = ets_proxy_model_changed;
 	etss_class->proxy_model_row_changed = ets_proxy_model_row_changed;
@@ -125,7 +125,7 @@ ets_insert_idle (ETableSorted *ets)
 ETableModel *
 e_table_sorted_new (ETableModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)
 {
-	ETableSorted *ets = g_object_new (E_TABLE_SORTED_TYPE, NULL);
+	ETableSorted *ets = g_object_new (E_TYPE_TABLE_SORTED, NULL);
 	ETableSubset *etss = E_TABLE_SUBSET (ets);
 
 	if (E_TABLE_SUBSET_CLASS (ets_parent_class)->proxy_model_pre_change)

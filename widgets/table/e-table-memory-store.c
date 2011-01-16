@@ -28,6 +28,10 @@
 
 #include "e-table-memory-store.h"
 
+#define E_TABLE_MEMORY_STORE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_TABLE_MEMORY_STORE, ETableMemoryStorePrivate))
+
 #define STORE_LOCATOR(etms, col, row) (*((etms)->priv->store + (row) * (etms)->priv->col_count + (col)))
 
 struct _ETableMemoryStorePrivate {
@@ -36,7 +40,7 @@ struct _ETableMemoryStorePrivate {
 	gpointer *store;
 };
 
-G_DEFINE_TYPE (ETableMemoryStore, e_table_memory_store, E_TABLE_MEMORY_TYPE)
+G_DEFINE_TYPE (ETableMemoryStore, e_table_memory_store, E_TYPE_TABLE_MEMORY)
 
 static gpointer
 duplicate_value (ETableMemoryStore *etms, gint col, gconstpointer val)
@@ -222,50 +226,49 @@ etms_append_row (ETableModel *etm, ETableModel *source, gint row)
 }
 
 static void
-etms_finalize (GObject *obj)
+etms_finalize (GObject *object)
 {
-	ETableMemoryStore *etms = (ETableMemoryStore *) obj;
+	ETableMemoryStorePrivate *priv;
 
-	if (etms->priv) {
-		e_table_memory_store_clear (etms);
+	priv = E_TABLE_MEMORY_STORE_GET_PRIVATE (object);
 
-		g_free (etms->priv->columns);
-		g_free (etms->priv->store);
-		g_free (etms->priv);
-	}
+	e_table_memory_store_clear (E_TABLE_MEMORY_STORE (object));
 
-	if (G_OBJECT_CLASS (e_table_memory_store_parent_class)->finalize)
-		G_OBJECT_CLASS (e_table_memory_store_parent_class)->finalize (obj);
+	g_free (priv->columns);
+	g_free (priv->store);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_table_memory_store_parent_class)->finalize (object);
 }
 
 static void
 e_table_memory_store_init (ETableMemoryStore *etms)
 {
-	etms->priv            = g_new (ETableMemoryStorePrivate, 1);
-
-	etms->priv->col_count = 0;
-	etms->priv->columns   = NULL;
-	etms->priv->store     = NULL;
+	etms->priv = E_TABLE_MEMORY_STORE_GET_PRIVATE (etms);
 }
 
 static void
-e_table_memory_store_class_init (ETableMemoryStoreClass *klass)
+e_table_memory_store_class_init (ETableMemoryStoreClass *class)
 {
-	ETableModelClass *model_class = E_TABLE_MODEL_CLASS (klass);
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class;
+	ETableModelClass *model_class;
 
-	object_class->finalize	      = etms_finalize;
+	g_type_class_add_private (class, sizeof (ETableMemoryStorePrivate));
 
-	model_class->column_count     = etms_column_count;
-	model_class->value_at         = etms_value_at;
-	model_class->set_value_at     = etms_set_value_at;
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = etms_finalize;
+
+	model_class = E_TABLE_MODEL_CLASS (class);
+	model_class->column_count = etms_column_count;
+	model_class->value_at = etms_value_at;
+	model_class->set_value_at = etms_set_value_at;
 	model_class->is_cell_editable = etms_is_cell_editable;
-	model_class->duplicate_value  = etms_duplicate_value;
-	model_class->free_value       = etms_free_value;
+	model_class->duplicate_value = etms_duplicate_value;
+	model_class->free_value = etms_free_value;
 	model_class->initialize_value = etms_initialize_value;
-	model_class->value_is_empty   = etms_value_is_empty;
-	model_class->value_to_string  = etms_value_to_string;
-	model_class->append_row       = etms_append_row;
+	model_class->value_is_empty = etms_value_is_empty;
+	model_class->value_to_string = etms_value_to_string;
+	model_class->append_row = etms_append_row;
 }
 
 /**
@@ -297,7 +300,7 @@ e_table_memory_store_class_init (ETableMemoryStoreClass *klass)
 ETableModel *
 e_table_memory_store_new (ETableMemoryStoreColumnInfo *columns)
 {
-	ETableMemoryStore *et = g_object_new (E_TABLE_MEMORY_STORE_TYPE, NULL);
+	ETableMemoryStore *et = g_object_new (E_TYPE_TABLE_MEMORY_STORE, NULL);
 
 	if (e_table_memory_store_construct (et, columns)) {
 		return (ETableModel *) et;

@@ -32,15 +32,31 @@
 #include <misc/e-selection-model.h>
 #include <misc/e-printable.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TABLE_ITEM \
+	(e_table_item_get_type ())
+#define E_TABLE_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_ITEM, ETableItem))
+#define E_TABLE_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_ITEM, ETableItemClass))
+#define E_IS_TABLE_ITEM(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_ITEM))
+#define E_IS_TABLE_ITEM_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_ITEM))
+#define E_TABLE_ITEM_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_ITEM, ETableItemClass))
+
 G_BEGIN_DECLS
 
-#define E_TABLE_ITEM_TYPE        (e_table_item_get_type ())
-#define E_TABLE_ITEM(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_ITEM_TYPE, ETableItem))
-#define E_TABLE_ITEM_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_ITEM_TYPE, ETableItemClass))
-#define E_IS_TABLE_ITEM(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_ITEM_TYPE))
-#define E_IS_TABLE_ITEM_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_ITEM_TYPE))
+typedef struct _ETableItem ETableItem;
+typedef struct _ETableItemClass ETableItemClass;
 
-typedef struct {
+struct _ETableItem {
 	GnomeCanvasItem  parent;
 	ETableModel     *table_model;
 	ETableHeader    *header;
@@ -151,67 +167,89 @@ typedef struct {
 
 	gint grabbed_col, grabbed_row;
 	gint grabbed_count;
+};
 
-} ETableItem;
-
-typedef struct {
+struct _ETableItemClass {
 	GnomeCanvasItemClass parent_class;
 
-	void        (*cursor_change)    (ETableItem *eti, gint row);
-	void        (*cursor_activated) (ETableItem *eti, gint row);
-	void        (*double_click)     (ETableItem *eti, gint row, gint col, GdkEvent *event);
-	gboolean    (*right_click)      (ETableItem *eti, gint row, gint col, GdkEvent *event);
-	gboolean    (*click)            (ETableItem *eti, gint row, gint col, GdkEvent *event);
-	gboolean    (*key_press)        (ETableItem *eti, gint row, gint col, GdkEvent *event);
-	gboolean    (*start_drag)       (ETableItem *eti, gint row, gint col, GdkEvent *event);
-	void        (*style_set)        (ETableItem *eti, GtkStyle *previous_style);
-	void        (*selection_model_removed)    (ETableItem *eti, ESelectionModel *selection);
-	void        (*selection_model_added)    (ETableItem *eti, ESelectionModel *selection);
-} ETableItemClass;
-GType       e_table_item_get_type            (void);
+	void		(*cursor_change)	(ETableItem *eti,
+						 gint row);
+	void		(*cursor_activated)	(ETableItem *eti,
+						 gint row);
+	void		(*double_click)		(ETableItem *eti,
+						 gint row,
+						 gint col,
+						 GdkEvent *event);
+	gboolean	(*right_click)		(ETableItem *eti,
+						 gint row,
+						 gint col,
+						 GdkEvent *event);
+	gboolean	(*click)		(ETableItem *eti,
+						 gint row,
+						 gint col,
+						 GdkEvent *event);
+	gboolean	(*key_press)		(ETableItem *eti,
+						 gint row,
+						 gint col,
+						 GdkEvent *event);
+	gboolean	(*start_drag)		(ETableItem *eti,
+						 gint row,
+						 gint col,
+						 GdkEvent *event);
+	void		(*style_set)		(ETableItem *eti,
+						 GtkStyle *previous_style);
+	void		(*selection_model_removed)
+						(ETableItem *eti,
+						 ESelectionModel *selection);
+	void		(*selection_model_added)
+						(ETableItem *eti,
+						 ESelectionModel *selection);
+};
+
+GType		e_table_item_get_type		(void) G_GNUC_CONST;
 
 /*
  * Focus
  */
-void        e_table_item_set_cursor          (ETableItem        *eti,
-					      gint                col,
-					      gint                row);
+void		e_table_item_set_cursor		(ETableItem *eti,
+						 gint col,
+						 gint row);
 
-gint        e_table_item_get_focused_column  (ETableItem        *eti);
+gint		e_table_item_get_focused_column	(ETableItem *eti);
 
-void        e_table_item_leave_edit          (ETableItem        *eti);
-void        e_table_item_enter_edit          (ETableItem        *eti,
-					      gint                col,
-					      gint                row);
+void		e_table_item_leave_edit		(ETableItem *eti);
+void		e_table_item_enter_edit		(ETableItem *eti,
+						 gint col,
+						 gint row);
 
-void        e_table_item_redraw_range        (ETableItem        *eti,
-					      gint                start_col,
-					      gint                start_row,
-					      gint                end_col,
-					      gint                end_row);
+void		e_table_item_redraw_range	(ETableItem *eti,
+						 gint start_col,
+						 gint start_row,
+						 gint end_col,
+						 gint end_row);
 
-EPrintable *e_table_item_get_printable       (ETableItem        *eti);
-void        e_table_item_compute_location    (ETableItem        *eti,
-					      gint               *x,
-					      gint               *y,
-					      gint               *row,
-					      gint               *col);
-void        e_table_item_compute_mouse_over  (ETableItem        *eti,
-					      gint                x,
-					      gint                y,
-					      gint               *row,
-					      gint               *col);
-void        e_table_item_get_cell_geometry   (ETableItem        *eti,
-					      gint               *row,
-					      gint               *col,
-					      gint               *x,
-					      gint               *y,
-					      gint               *width,
-					      gint               *height);
+EPrintable *	e_table_item_get_printable	(ETableItem *eti);
+void		e_table_item_compute_location	(ETableItem *eti,
+						 gint *x,
+						 gint *y,
+						 gint *row,
+						 gint *col);
+void		e_table_item_compute_mouse_over	(ETableItem *eti,
+						 gint x,
+						 gint y,
+						 gint *row,
+						 gint *col);
+void		e_table_item_get_cell_geometry	(ETableItem *eti,
+						 gint *row,
+						 gint *col,
+						 gint *x,
+						 gint *y,
+						 gint *width,
+						 gint *height);
 
-gint	    e_table_item_row_diff	     (ETableItem	*eti,
-					      gint		 start_row,
-					      gint		 end_row);
+gint		e_table_item_row_diff		(ETableItem *eti,
+						 gint start_row,
+						 gint end_row);
 
 G_END_DECLS
 

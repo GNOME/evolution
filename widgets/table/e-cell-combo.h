@@ -33,29 +33,50 @@
 
 #include <table/e-cell-popup.h>
 
-#define E_CELL_COMBO_TYPE        (e_cell_combo_get_type ())
-#define E_CELL_COMBO(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_CELL_COMBO_TYPE, ECellCombo))
-#define E_CELL_COMBO_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_CELL_COMBO_TYPE, ECellComboClass))
-#define E_IS_CELL_COMBO(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_CELL_COMBO_TYPE))
-#define E_IS_CELL_COMBO_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_CELL_COMBO_TYPE))
+/* Standard GObject macros */
+#define E_TYPE_CELL_COMBO \
+	(e_cell_combo_get_type ())
+#define E_CELL_COMBO(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CELL_COMBO, ECellCombo))
+#define E_CELL_COMBO_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CELL_COMBO, ECellComboClass))
+#define E_IS_CELL_COMBO(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CELL_COMBO))
+#define E_IS_CELL_COMBO_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CELL_COMBO))
+#define E_CELL_COMBO_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CELL_COMBO, ECellComboClass))
 
-typedef struct {
+G_BEGIN_DECLS
+
+typedef struct _ECellCombo ECellCombo;
+typedef struct _ECellComboClass ECellComboClass;
+
+struct _ECellCombo {
 	ECellPopup parent;
 
 	GtkWidget *popup_window;
 	GtkWidget *popup_scrolled_window;
 	GtkWidget *popup_tree_view;
-} ECellCombo;
+};
 
-typedef struct {
+struct _ECellComboClass {
 	ECellPopupClass parent_class;
-} ECellComboClass;
+};
 
-GType      e_cell_combo_get_type		(void);
-ECell     *e_cell_combo_new			(void);
+GType		e_cell_combo_get_type		(void) G_GNUC_CONST;
+ECell *		e_cell_combo_new		(void);
 
 /* These must be UTF-8. */
-void       e_cell_combo_set_popdown_strings	(ECellCombo	*ecc,
-						 GList		*strings);
+void		e_cell_combo_set_popdown_strings
+						(ECellCombo *ecc,
+						 GList *strings);
+
+G_END_DECLS
 
 #endif /* _E_CELL_COMBO_H_ */

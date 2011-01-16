@@ -114,7 +114,7 @@ enum {
 	PROP_UPPER_HOUR
 };
 
-G_DEFINE_TYPE (ECellDateEdit, e_cell_date_edit, E_CELL_POPUP_TYPE)
+G_DEFINE_TYPE (ECellDateEdit, e_cell_date_edit, E_TYPE_CELL_POPUP)
 
 static void
 e_cell_date_edit_class_init (ECellDateEditClass *class)

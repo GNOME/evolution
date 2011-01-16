@@ -38,7 +38,7 @@
 static AtkObjectClass *parent_class = NULL;
 #define PARENT_TYPE (gal_a11y_e_cell_get_type ())
 
-static void gal_a11y_e_cell_popup_class_init (GalA11yECellPopupClass *klass);
+static void gal_a11y_e_cell_popup_class_init (GalA11yECellPopupClass *class);
 static void popup_cell_action (GalA11yECell *cell);
 
 /**
@@ -77,7 +77,7 @@ gal_a11y_e_cell_popup_get_type (void)
 }
 
 static void
-gal_a11y_e_cell_popup_class_init (GalA11yECellPopupClass *klass)
+gal_a11y_e_cell_popup_class_init (GalA11yECellPopupClass *class)
 {
 	parent_class = g_type_class_ref (PARENT_TYPE);
 }

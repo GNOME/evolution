@@ -30,15 +30,31 @@
 #include <table/e-table-item.h>
 #include <table/e-table-selection-model.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TABLE_CLICK_TO_ADD \
+	(e_table_click_to_add_get_type ())
+#define E_TABLE_CLICK_TO_ADD(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_CLICK_TO_ADD, ETableClickToAdd))
+#define E_TABLE_CLICK_TO_ADD_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_CLICK_TO_ADD, ETableClickToAddClass))
+#define E_IS_TABLE_CLICK_TO_ADD(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_CLICK_TO_ADD))
+#define E_IS_TABLE_CLICK_TO_ADD_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_CLICK_TO_ADD))
+#define E_TABLE_CLICK_TO_ADD_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_CLICK_TO_ADD, ETableClickToAddClass))
+
 G_BEGIN_DECLS
 
-#define E_TABLE_CLICK_TO_ADD_TYPE        (e_table_click_to_add_get_type ())
-#define E_TABLE_CLICK_TO_ADD(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_CLICK_TO_ADD_TYPE, ETableClickToAdd))
-#define E_TABLE_CLICK_TO_ADD_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_CLICK_TO_ADD_TYPE, ETableClickToAddClass))
-#define E_IS_TABLE_CLICK_TO_ADD(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_CLICK_TO_ADD_TYPE))
-#define E_IS_TABLE_CLICK_TO_ADD_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_CLICK_TO_ADD_TYPE))
+typedef struct _ETableClickToAdd ETableClickToAdd;
+typedef struct _ETableClickToAddClass ETableClickToAddClass;
 
-typedef struct {
+struct _ETableClickToAdd {
 	GnomeCanvasGroup  parent;
 
 	ETableModel      *one;    /* The ETableOne. */
@@ -56,21 +72,21 @@ typedef struct {
 	gdouble           height;
 
 	ETableSelectionModel *selection;
-} ETableClickToAdd;
+};
 
-typedef struct {
+struct _ETableClickToAddClass {
 	GnomeCanvasGroupClass parent_class;
 
-	/*
-	 * signals
-	 */
-	void (*cursor_change) (ETableClickToAdd *etcta, gint row, gint col);
-	void (*style_set) (ETableClickToAdd *etcta, GtkStyle *previous_style);
-} ETableClickToAddClass;
+	/* Signals */
+	void		(*cursor_change)	(ETableClickToAdd *etcta,
+						 gint row,
+						 gint col);
+	void		(*style_set)		(ETableClickToAdd *etcta,
+						 GtkStyle *previous_style);
+};
 
-GType      e_table_click_to_add_get_type (void);
-
-void       e_table_click_to_add_commit (ETableClickToAdd *etcta);
+GType		e_table_click_to_add_get_type	(void) G_GNUC_CONST;
+void		e_table_click_to_add_commit	(ETableClickToAdd *etcta);
 
 G_END_DECLS
 

@@ -27,14 +27,26 @@
 #include <table/e-table-memory.h>
 #include <table/e-table-memory-callbacks.h>
 
-G_BEGIN_DECLS
+/* Standard GObject macros */
+#define E_TYPE_TABLE_MEMORY_STORE \
+	(e_table_memory_store_get_type ())
+#define E_TABLE_MEMORY_STORE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_MEMORY_STORE, ETableMemoryStore))
+#define E_TABLE_MEMORY_STORE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_MEMORY_STORE, ETableMemoryStoreClass))
+#define E_IS_TABLE_MEMORY_STORE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_MEMORY_STORE))
+#define E_IS_TABLE_MEMORY_STORE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_MEMORY_STORE))
+#define E_TABLE_MEMORY_STORE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_MEMORY_STORE, ETableMemoryStoreClass))
 
-#define E_TABLE_MEMORY_STORE_TYPE        (e_table_memory_store_get_type ())
-#define E_TABLE_MEMORY_STORE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_MEMORY_STORE_TYPE, ETableMemoryStore))
-#define E_TABLE_MEMORY_STORE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_MEMORY_STORE_TYPE, ETableMemoryStoreClass))
-#define E_IS_TABLE_MEMORY_STORE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_MEMORY_STORE_TYPE))
-#define E_IS_TABLE_MEMORY_STORE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_MEMORY_STORE_TYPE))
-#define E_TABLE_MEMORY_STORE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((obj), E_TABLE_MEMORY_STORE_TYPE, ETableMemoryStoreClass))
+G_BEGIN_DECLS
 
 typedef enum {
 	E_TABLE_MEMORY_STORE_COLUMN_TYPE_TERMINATOR,
@@ -46,11 +58,11 @@ typedef enum {
 } ETableMemoryStoreColumnType;
 
 typedef struct {
-	ETableMemoryCalbacksDuplicateValueFn  duplicate_value;
-	ETableMemoryCalbacksFreeValueFn       free_value;
-	ETableMemoryCalbacksInitializeValueFn initialize_value;
-	ETableMemoryCalbacksValueIsEmptyFn    value_is_empty;
-	ETableMemoryCalbacksValueToStringFn   value_to_string;
+	ETableMemoryCallbacksDuplicateValueFn  duplicate_value;
+	ETableMemoryCallbacksFreeValueFn       free_value;
+	ETableMemoryCallbacksInitializeValueFn initialize_value;
+	ETableMemoryCallbacksValueIsEmptyFn    value_is_empty;
+	ETableMemoryCallbacksValueToStringFn   value_to_string;
 } ETableMemoryStoreCustomColumn;
 
 typedef struct {
@@ -59,79 +71,80 @@ typedef struct {
 	guint                         editable : 1;
 } ETableMemoryStoreColumnInfo;
 
-#define E_TABLE_MEMORY_STORE_TERMINATOR { E_TABLE_MEMORY_STORE_COLUMN_TYPE_TERMINATOR, { NULL }, FALSE }
-#define E_TABLE_MEMORY_STORE_INTEGER { E_TABLE_MEMORY_STORE_COLUMN_TYPE_INTEGER, { NULL }, FALSE }
-#define E_TABLE_MEMORY_STORE_STRING { E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING, { NULL }, FALSE }
-#define E_TABLE_MEMORY_STORE_PIXBUF { E_TABLE_MEMORY_STORE_COLUMN_TYPE_PIXBUF, { NULL }, FALSE }
-#define E_TABLE_MEMORY_STORE_EDITABLE_STRING { E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING, { NULL }, TRUE }
-#define E_TABLE_MEMORY_STORE_CUSTOM(editable, duplicate, free, initialize, empty, string) \
-        { E_TABLE_MEMORY_STORE_COLUMN_TYPE_CUSTOM, \
-             { (duplicate), (free), (initialize), (empty), (string) }, editable }
-#define E_TABLE_MEMORY_STORE_OBJECT(editable, initialize, empty, string) \
-        { E_TABLE_MEMORY_STORE_COLUMN_TYPE_CUSTOM, \
-             { NULL, NULL, (initialize), (empty), (string) }, editable }
+#define E_TABLE_MEMORY_STORE_TERMINATOR \
+	{ E_TABLE_MEMORY_STORE_COLUMN_TYPE_TERMINATOR, { NULL }, FALSE }
+#define E_TABLE_MEMORY_STORE_INTEGER \
+	{ E_TABLE_MEMORY_STORE_COLUMN_TYPE_INTEGER, { NULL }, FALSE }
+#define E_TABLE_MEMORY_STORE_STRING \
+	{ E_TABLE_MEMORY_STORE_COLUMN_TYPE_STRING, { NULL }, FALSE }
 
+typedef struct _ETableMemoryStore ETableMemoryStore;
+typedef struct _ETableMemoryStoreClass ETableMemoryStoreClass;
 typedef struct _ETableMemoryStorePrivate ETableMemoryStorePrivate;
 
-typedef struct {
+struct _ETableMemoryStore {
 	ETableMemory parent;
-
 	ETableMemoryStorePrivate *priv;
-} ETableMemoryStore;
+};
 
-typedef struct {
+struct _ETableMemoryStoreClass {
 	ETableMemoryClass parent_class;
-} ETableMemoryStoreClass;
+};
 
-GType        e_table_memory_store_get_type            (void);
-
-/* Object Creation */
-ETableModel *e_table_memory_store_new                 (ETableMemoryStoreColumnInfo  *columns);
-ETableModel *e_table_memory_store_construct           (ETableMemoryStore            *store,
-						       ETableMemoryStoreColumnInfo  *columns);
+GType		e_table_memory_store_get_type	(void) G_GNUC_CONST;
+ETableModel *	e_table_memory_store_new	(ETableMemoryStoreColumnInfo *columns);
+ETableModel *	e_table_memory_store_construct	(ETableMemoryStore *store,
+						 ETableMemoryStoreColumnInfo *columns);
 
 /* Adopt a value instead of copying it. */
-void         e_table_memory_store_adopt_value_at      (ETableMemoryStore            *etms,
-						       gint                           col,
-						       gint                           row,
-						       void                         *value);
+void		e_table_memory_store_adopt_value_at
+						(ETableMemoryStore *etms,
+						 gint col,
+						 gint row,
+						 gpointer value);
 
 /* The size of these arrays is the number of columns. */
-void         e_table_memory_store_insert_array        (ETableMemoryStore            *etms,
-						       gint                           row,
-						       void                        **store,
-						       gpointer                      data);
-void         e_table_memory_store_insert              (ETableMemoryStore            *etms,
-						       gint                           row,
-						       gpointer                      data,
-						       ...);
-void         e_table_memory_store_insert_adopt        (ETableMemoryStore            *etms,
-						       gint                           row,
-						       gpointer                      data,
-						       ...);
-void         e_table_memory_store_insert_adopt_array  (ETableMemoryStore            *etms,
-						       gint                           row,
-						       void                        **store,
-						       gpointer                      data);
-void         e_table_memory_store_change_array        (ETableMemoryStore            *etms,
-						       gint                           row,
-						       void                        **store,
-						       gpointer                      data);
-void         e_table_memory_store_change              (ETableMemoryStore            *etms,
-						       gint                           row,
-						       gpointer                      data,
-						       ...);
-void         e_table_memory_store_change_adopt        (ETableMemoryStore            *etms,
-						       gint                           row,
-						       gpointer                      data,
-						       ...);
-void         e_table_memory_store_change_adopt_array  (ETableMemoryStore            *etms,
-						       gint                           row,
-						       void                        **store,
-						       gpointer                      data);
-void         e_table_memory_store_remove              (ETableMemoryStore            *etms,
-						       gint                           row);
-void         e_table_memory_store_clear               (ETableMemoryStore            *etms);
+void		e_table_memory_store_insert_array
+						(ETableMemoryStore *etms,
+						 gint row,
+						 gpointer *store,
+						 gpointer data);
+void		e_table_memory_store_insert	(ETableMemoryStore *etms,
+						 gint row,
+						 gpointer data,
+						 ...);
+void		e_table_memory_store_insert_adopt
+						(ETableMemoryStore *etms,
+						 gint row,
+						 gpointer data,
+						 ...);
+void		e_table_memory_store_insert_adopt_array
+						(ETableMemoryStore *etms,
+						 gint row,
+						 gpointer *store,
+						 gpointer data);
+void		e_table_memory_store_change_array
+						(ETableMemoryStore *etms,
+						 gint row,
+						 gpointer *store,
+						 gpointer data);
+void		e_table_memory_store_change	(ETableMemoryStore *etms,
+						 gint row,
+						 gpointer data,
+						 ...);
+void		e_table_memory_store_change_adopt
+						(ETableMemoryStore *etms,
+						 gint row,
+						 gpointer data,
+						 ...);
+void		e_table_memory_store_change_adopt_array
+						(ETableMemoryStore *etms,
+						 gint row,
+						 gpointer *store,
+						 gpointer data);
+void		e_table_memory_store_remove	(ETableMemoryStore *etms,
+						 gint row);
+void		e_table_memory_store_clear	(ETableMemoryStore *etms);
 
 G_END_DECLS
 

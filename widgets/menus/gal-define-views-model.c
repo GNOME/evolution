@@ -31,7 +31,7 @@
 
 #include "gal-define-views-model.h"
 
-G_DEFINE_TYPE (GalDefineViewsModel, gal_define_views_model, E_TABLE_MODEL_TYPE)
+G_DEFINE_TYPE (GalDefineViewsModel, gal_define_views_model, E_TYPE_TABLE_MODEL)
 
 enum {
 	PROP_0,

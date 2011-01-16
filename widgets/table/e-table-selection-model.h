@@ -24,21 +24,36 @@
 #ifndef _E_TABLE_SELECTION_MODEL_H_
 #define _E_TABLE_SELECTION_MODEL_H_
 
-#include <glib-object.h>
 #include <misc/e-selection-model-array.h>
 #include <table/e-table-model.h>
 #include <table/e-table-header.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TABLE_SELECTION_MODEL \
+	(e_table_selection_model_get_type ())
+#define E_TABLE_SELECTION_MODEL(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_SELECTION_MODEL, ETableSelectionModel))
+#define E_TABLE_SELECTION_MODEL_CLASS(cls) \
+	(G_TYPE-CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_SELECTION_MODEL, ETableSelectionModelClass))
+#define E_IS_TABLE_SELECTION_MODEL(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_SELECTION_MODEL))
+#define E_IS_TABLE_SELECTION_MODEL_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_SELECTION_MODEL))
+#define E_TABLE_SELECTION_MODEL_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_SELECTION_MODEL, ETableSelectionModelClass))
+
 G_BEGIN_DECLS
 
-#define E_TABLE_SELECTION_MODEL_TYPE        (e_table_selection_model_get_type ())
-#define E_TABLE_SELECTION_MODEL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_SELECTION_MODEL_TYPE, ETableSelectionModel))
-#define E_TABLE_SELECTION_MODEL_CLASS(k)    (G_TYPE-CHECK_CLASS_CAST((k), E_TABLE_SELECTION_MODEL_TYPE, ETableSelectionModelClass))
-#define E_IS_TABLE_SELECTION_MODEL(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_SELECTION_MODEL_TYPE))
-#define E_IS_TABLE_SELECTION_MODEL_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_SELECTION_MODEL_TYPE))
+typedef struct _ETableSelectionModel ETableSelectionModel;
+typedef struct _ETableSelectionModelClass ETableSelectionModelClass;
 
-typedef struct {
-	ESelectionModelArray base;
+struct _ETableSelectionModel {
+	ESelectionModelArray parent;
 
 	ETableModel  *model;
 	ETableHeader *eth;
@@ -57,14 +72,15 @@ typedef struct {
 
 	GHashTable *hash;
 	gchar *cursor_id;
-} ETableSelectionModel;
+};
 
-typedef struct {
+struct _ETableSelectionModelClass {
 	ESelectionModelArrayClass parent_class;
-} ETableSelectionModelClass;
+};
 
-GType                 e_table_selection_model_get_type            (void);
-ETableSelectionModel *e_table_selection_model_new                 (void);
+GType		e_table_selection_model_get_type	(void) G_GNUC_CONST;
+ETableSelectionModel *
+		e_table_selection_model_new		(void);
 
 G_END_DECLS
 

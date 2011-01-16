@@ -61,9 +61,9 @@ ecc_print (ECellView *ecell_view, GtkPrintContext *context,
 }
 
 static void
-e_cell_checkbox_class_init (ECellCheckboxClass *klass)
+e_cell_checkbox_class_init (ECellCheckboxClass *class)
 {
-	ECellClass *ecc = E_CELL_CLASS (klass);
+	ECellClass *ecc = E_CELL_CLASS (class);
 
 	ecc->print = ecc_print;
 	checks[0] = gdk_pixbuf_new_from_xpm_data (check_empty_xpm);
@@ -93,5 +93,5 @@ e_cell_checkbox_init (ECellCheckbox *eccb)
 ECell *
 e_cell_checkbox_new (void)
 {
-	return g_object_new (E_CELL_CHECKBOX_TYPE, NULL);
+	return g_object_new (E_TYPE_CELL_CHECKBOX, NULL);
 }

@@ -147,10 +147,10 @@ ecv_ref_accessible_at_point (AtkComponent *component,
 }
 
 static void
-ecv_class_init (GalA11yECellVboxClass *klass)
+ecv_class_init (GalA11yECellVboxClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	AtkObjectClass *a11y_class = ATK_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
+	AtkObjectClass *a11y_class = ATK_OBJECT_CLASS (class);
 	parent_class		   = g_type_class_ref (PARENT_TYPE);
 
 	object_class->dispose	   = ecv_dispose;

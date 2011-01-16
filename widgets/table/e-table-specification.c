@@ -69,9 +69,9 @@ etsp_finalize (GObject *object)
 }
 
 static void
-etsp_class_init (ETableSpecificationClass *klass)
+etsp_class_init (ETableSpecificationClass *class)
 {
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->finalize = etsp_finalize;
 }

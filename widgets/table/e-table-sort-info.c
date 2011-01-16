@@ -71,11 +71,11 @@ e_table_sort_info_init (ETableSortInfo *info)
 }
 
 static void
-e_table_sort_info_class_init (ETableSortInfoClass *klass)
+e_table_sort_info_class_init (ETableSortInfoClass *class)
 {
-	GObjectClass * object_class = G_OBJECT_CLASS (klass);
+	GObjectClass * object_class = G_OBJECT_CLASS (class);
 
-	e_table_sort_info_parent_class = g_type_class_peek_parent (klass);
+	e_table_sort_info_parent_class = g_type_class_peek_parent (class);
 
 	object_class->finalize = etsi_finalize;
 
@@ -97,8 +97,8 @@ e_table_sort_info_class_init (ETableSortInfoClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	klass->sort_info_changed = NULL;
-	klass->group_info_changed = NULL;
+	class->sort_info_changed = NULL;
+	class->group_info_changed = NULL;
 }
 
 static void
@@ -340,7 +340,7 @@ e_table_sort_info_sorting_set_nth   (ETableSortInfo *info, gint n, ETableSortCol
 ETableSortInfo *
 e_table_sort_info_new (void)
 {
-	return g_object_new (E_TABLE_SORT_INFO_TYPE, NULL);
+	return g_object_new (E_TYPE_TABLE_SORT_INFO, NULL);
 }
 
 /**

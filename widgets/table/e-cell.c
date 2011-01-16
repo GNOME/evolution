@@ -127,26 +127,26 @@ ec_free_state (ECellView *ecell_view, gint model_col, gint view_col, gint row, g
 }
 
 static void
-e_cell_class_init (ECellClass *klass)
+e_cell_class_init (ECellClass *class)
 {
-	klass->realize = ec_realize;
-	klass->unrealize = ec_unrealize;
-	klass->new_view = ec_new_view;
-	klass->kill_view = ec_kill_view;
-	klass->draw = ec_draw;
-	klass->event = ec_event;
-	klass->focus = ec_focus;
-	klass->unfocus = ec_unfocus;
-	klass->height = ec_height;
-	klass->enter_edit = ec_enter_edit;
-	klass->leave_edit = ec_leave_edit;
-	klass->save_state = ec_save_state;
-	klass->load_state = ec_load_state;
-	klass->free_state = ec_free_state;
-	klass->print = NULL;
-	klass->print_height = NULL;
-	klass->max_width = NULL;
-	klass->max_width_by_row = NULL;
+	class->realize = ec_realize;
+	class->unrealize = ec_unrealize;
+	class->new_view = ec_new_view;
+	class->kill_view = ec_kill_view;
+	class->draw = ec_draw;
+	class->event = ec_event;
+	class->focus = ec_focus;
+	class->unfocus = ec_unfocus;
+	class->height = ec_height;
+	class->enter_edit = ec_enter_edit;
+	class->leave_edit = ec_leave_edit;
+	class->save_state = ec_save_state;
+	class->load_state = ec_load_state;
+	class->free_state = ec_free_state;
+	class->print = NULL;
+	class->print_height = NULL;
+	class->max_width = NULL;
+	class->max_width_by_row = NULL;
 }
 
 static void

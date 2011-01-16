@@ -37,7 +37,7 @@
 
 /* workaround for avoiding APi breakage */
 #define etgl_get_type e_table_group_leaf_get_type
-G_DEFINE_TYPE (ETableGroupLeaf, etgl, E_TABLE_GROUP_TYPE)
+G_DEFINE_TYPE (ETableGroupLeaf, etgl, E_TYPE_TABLE_GROUP)
 
 /* The arguments we take */
 enum {
@@ -158,7 +158,7 @@ e_table_group_leaf_new (GnomeCanvasGroup *parent,
 
 	g_return_val_if_fail (parent != NULL, NULL);
 
-	etgl = g_object_new (E_TABLE_GROUP_LEAF_TYPE, NULL);
+	etgl = g_object_new (E_TYPE_TABLE_GROUP_LEAF, NULL);
 
 	e_table_group_leaf_construct (parent, etgl, full_header,
 				      header, model, sort_info);
@@ -584,11 +584,11 @@ etgl_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *ps
 }
 
 static void
-etgl_class_init (ETableGroupLeafClass *klass)
+etgl_class_init (ETableGroupLeafClass *class)
 {
-	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (klass);
-	ETableGroupClass *e_group_class = E_TABLE_GROUP_CLASS (klass);
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (class);
+	ETableGroupClass *e_group_class = E_TABLE_GROUP_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	object_class->dispose = etgl_dispose;
 	object_class->set_property = etgl_set_property;

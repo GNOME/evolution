@@ -24,24 +24,38 @@
 #ifndef _E_TABLE_SPECIFICATION_H_
 #define _E_TABLE_SPECIFICATION_H_
 
-#include <glib-object.h>
 #include <libxml/tree.h>
 #include <misc/e-selection-model.h>
 #include <table/e-table-state.h>
 #include <table/e-table-column-specification.h>
 #include <table/e-table-defines.h>
 
+/* Standard GObject macros */
+#define E_TYPE_TABLE_SPECIFICATION \
+	(e_table_specification_get_type ())
+#define E_TABLE_SPECIFICATION(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_TABLE_SPECIFICATION, ETableSpecification))
+#define E_TABLE_SPECIFICATION_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_TABLE_SPECIFICATION, ETableSpecificationClass))
+#define E_IS_TABLE_SPECIFICATION(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_TABLE_SPECIFICATION))
+#define E_IS_TABLE_SPECIFICATION_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_TABLE_SPECIFICATION))
+#define E_TABLE_SPECIFICATION_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_TABLE_SPECIFICATION, ETableSpecificationClass))
+
 G_BEGIN_DECLS
 
-#define E_TYPE_TABLE_SPECIFICATION        (e_table_specification_get_type ())
-#define E_TABLE_SPECIFICATION(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TYPE_TABLE_SPECIFICATION, ETableSpecification))
-#define E_TABLE_SPECIFICATION_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TYPE_TABLE_SPECIFICATION, ETableSpecificationClass))
-#define E_IS_TABLE_SPECIFICATION(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TYPE_TABLE_SPECIFICATION))
-#define E_IS_TABLE_SPECIFICATION_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TYPE_TABLE_SPECIFICATION))
-#define E_TABLE_SPECIFICATION_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TYPE_TABLE_SPECIFICATION, ETableSpecificationClass))
+typedef struct _ETableSpecification ETableSpecification;
+typedef struct _ETableSpecificationClass ETableSpecificationClass;
 
-typedef struct {
-	GObject base;
+struct _ETableSpecification {
+	GObject parent;
 
 	ETableColumnSpecification **columns;
 	ETableState *state;
@@ -61,28 +75,36 @@ typedef struct {
 
 	gchar *click_to_add_message;
 	gchar *domain;
-} ETableSpecification;
+};
 
-typedef struct {
+struct _ETableSpecificationClass {
 	GObjectClass parent_class;
-} ETableSpecificationClass;
+};
 
-GType                e_table_specification_get_type          (void);
-ETableSpecification *e_table_specification_new               (void);
+GType		e_table_specification_get_type	(void) G_GNUC_CONST;
+ETableSpecification *
+		e_table_specification_new	(void);
 
-gboolean             e_table_specification_load_from_file    (ETableSpecification *specification,
-							      const gchar          *filename);
-gboolean             e_table_specification_load_from_string  (ETableSpecification *specification,
-							      const gchar          *xml);
-void                 e_table_specification_load_from_node    (ETableSpecification *specification,
-							      const xmlNode       *node);
+gboolean	e_table_specification_load_from_file
+						(ETableSpecification *specification,
+						 const gchar *filename);
+gboolean	e_table_specification_load_from_string
+						(ETableSpecification *specification,
+						 const gchar *xml);
+void		e_table_specification_load_from_node
+						(ETableSpecification *specification,
+						 const xmlNode *node);
 
-gint                  e_table_specification_save_to_file      (ETableSpecification *specification,
-							      const gchar          *filename);
-gchar                *e_table_specification_save_to_string    (ETableSpecification *specification);
-xmlNode             *e_table_specification_save_to_node      (ETableSpecification *specification,
-							      xmlDoc              *doc);
-ETableSpecification *e_table_specification_duplicate         (ETableSpecification *spec);
+gint		e_table_specification_save_to_file
+						(ETableSpecification *specification,
+						 const gchar *filename);
+gchar *		e_table_specification_save_to_string
+						(ETableSpecification *specification);
+xmlNode *	e_table_specification_save_to_node
+						(ETableSpecification *specification,
+						 xmlDoc              *doc);
+ETableSpecification *
+		e_table_specification_duplicate	(ETableSpecification *specification);
 
 G_END_DECLS
 

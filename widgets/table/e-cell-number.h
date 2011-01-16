@@ -58,7 +58,7 @@ struct _ECellNumberClass {
 	ECellTextClass parent_class;
 };
 
-GType		e_cell_number_get_type		(void);
+GType		e_cell_number_get_type		(void) G_GNUC_CONST;
 ECell *		e_cell_number_new		(const gchar *fontname,
 						 GtkJustification justify);
 

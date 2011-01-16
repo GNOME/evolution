@@ -228,10 +228,10 @@ gal_a11y_e_cell_atk_component_iface_init (AtkComponentIface *iface)
 }
 
 static void
-gal_a11y_e_cell_class_init (GalA11yECellClass *klass)
+gal_a11y_e_cell_class_init (GalA11yECellClass *class)
 {
-	AtkObjectClass *atk_object_class = ATK_OBJECT_CLASS (klass);
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	AtkObjectClass *atk_object_class = ATK_OBJECT_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
 	parent_class                          = g_type_class_ref (PARENT_TYPE);
 

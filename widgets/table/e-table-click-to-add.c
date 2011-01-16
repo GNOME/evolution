@@ -492,13 +492,13 @@ etcta_reflow (GnomeCanvasItem *item, gint flags)
 }
 
 static void
-etcta_class_init (ETableClickToAddClass *klass)
+etcta_class_init (ETableClickToAddClass *class)
 {
-	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (klass);
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	GnomeCanvasItemClass *item_class = GNOME_CANVAS_ITEM_CLASS (class);
+	GObjectClass *object_class = G_OBJECT_CLASS (class);
 
-	klass->cursor_change = NULL;
-	klass->style_set     = etcta_style_set;
+	class->cursor_change = NULL;
+	class->style_set     = etcta_style_set;
 
 	object_class->dispose      = etcta_dispose;
 	object_class->set_property = etcta_set_property;
@@ -512,14 +512,14 @@ etcta_class_init (ETableClickToAddClass *klass)
 					 g_param_spec_object ("header",
 							      "Header",
 							      NULL,
-							      E_TABLE_HEADER_TYPE,
+							      E_TYPE_TABLE_HEADER,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_MODEL,
 					 g_param_spec_object ("model",
 							      "Model",
 							      NULL,
-							      E_TABLE_MODEL_TYPE,
+							      E_TYPE_TABLE_MODEL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_MESSAGE,
