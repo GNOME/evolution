@@ -659,8 +659,9 @@ folder_tree_cell_edited_cb (EMFolderTree *folder_tree,
 		e_alert_run_dialog_for_args (
 			parent, "mail:no-rename-folder",
 			old_full_name, new_full_name,
-			local_error->message, NULL);
-		g_clear_error (&local_error);
+			local_error ? local_error->message : _("Unknown error"), NULL);
+		if (local_error)
+			g_clear_error (&local_error);
 		goto exit;
 	}
 
