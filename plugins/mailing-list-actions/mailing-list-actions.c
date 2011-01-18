@@ -348,7 +348,8 @@ update_actions_cb (EMailReader *reader,
 {
 	gboolean sensitive;
 
-	sensitive = (state & E_MAIL_READER_SELECTION_IS_MAILING_LIST);
+	sensitive = (state & E_MAIL_READER_SELECTION_IS_MAILING_LIST) != 0
+		 && (state & E_MAIL_READER_SELECTION_SINGLE) != 0;
 	gtk_action_group_set_sensitive (action_group, sensitive);
 }
 
