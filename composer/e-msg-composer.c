@@ -1691,8 +1691,10 @@ msg_composer_account_changed_cb (EMsgComposer *composer)
 	table = e_msg_composer_get_header_table (composer);
 	account = e_composer_header_table_get_account (table);
 
-	if (account == NULL)
-		goto exit;
+	if (account == NULL) {
+		e_msg_composer_show_sig_file (composer);
+		return;
+	}
 
 	can_sign = (!account->pgp_no_imip_sign || p->mime_type == NULL ||
 		g_ascii_strncasecmp (p->mime_type, "text/calendar", 13) != 0);
@@ -1712,10 +1714,6 @@ msg_composer_account_changed_cb (EMsgComposer *composer)
 	uid = account->id->sig_uid;
 	signature = uid ? e_get_signature_by_uid (uid) : NULL;
 	e_composer_header_table_set_signature (table, signature);
-
- exit:
-
-	e_msg_composer_show_sig_file (composer);
 }
 
 static void
