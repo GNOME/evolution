@@ -325,15 +325,8 @@ cal_shell_sidebar_row_changed_cb (ECalShellSidebar *cal_shell_sidebar,
 	ESourceSelector *selector;
 	ESource *source;
 
-	/* XXX ESourceSelector's underlying tree store has only one
-	 *     column: ESource objects.  While we're not supposed to
-	 *     know this, listening for "row-changed" signals from
-	 *     the model is easier to deal with than the selector's
-	 *     "selection-changed" signal, which doesn't tell you
-	 *     _which_ row changed. */
-
 	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
-	gtk_tree_model_get (tree_model, tree_iter, 0, &source, -1);
+	source = e_source_selector_get_source_by_path (selector, tree_path);
 
 	/* XXX This signal gets emitted a lot while the model is being
 	 *     rebuilt, during which time we won't get a valid ESource.
