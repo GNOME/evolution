@@ -387,6 +387,20 @@ mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view,
 }
 
 static void
+mail_shell_view_reader_update_actions_cb (EMailReader *reader,
+					  guint32 state,
+					  EMailShellView *mail_shell_view)
+{
+	EMailShellContent *mail_shell_content;
+
+	g_return_if_fail (mail_shell_view != NULL);
+	g_return_if_fail (mail_shell_view->priv != NULL);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	e_mail_reader_update_actions (E_MAIL_READER (mail_shell_content), state);
+}
+
+static void
 mail_shell_view_prepare_for_quit_done_cb (CamelFolder *folder,
                                           gpointer user_data)
 {
@@ -606,6 +620,11 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		reader, "changed",
 		G_CALLBACK (mail_shell_view_reader_changed_cb),
 		mail_shell_view, G_CONNECT_SWAPPED);
+
+	g_signal_connect_object (
+		e_mail_shell_content_get_mail_view (mail_shell_content), "update-actions",
+		G_CALLBACK (mail_shell_view_reader_update_actions_cb),
+		mail_shell_view, 0);
 
 	g_signal_connect_object (
 		reader, "folder-loaded",
