@@ -344,8 +344,10 @@ plugin_ui_disable_manager (EPluginUIHook *hook,
 		merge_id = GPOINTER_TO_UINT (data);
 
 		/* Merge ID could be 0 if the plugin is disabled. */
-		if (merge_id > 0)
+		if (merge_id > 0) {
 			gtk_ui_manager_remove_ui (ui_manager, merge_id);
+			gtk_ui_manager_ensure_update (ui_manager);
+		}
 
 		if (remove)
 			g_hash_table_remove (hash_table, id);

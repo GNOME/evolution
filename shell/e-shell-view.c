@@ -730,6 +730,7 @@ shell_view_toggled (EShellView *shell_view)
 	} else if (!view_is_active && priv->merge_id != 0) {
 		e_plugin_ui_disable_manager (ui_manager, id);
 		gtk_ui_manager_remove_ui (ui_manager, priv->merge_id);
+		gtk_ui_manager_ensure_update (ui_manager);
 		priv->merge_id = 0;
 	}
 

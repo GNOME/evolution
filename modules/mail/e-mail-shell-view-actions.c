@@ -1819,6 +1819,7 @@ e_mail_shell_view_update_popup_labels (EMailShellView *mail_shell_view)
 	/* Unmerge the previous menu items. */
 	gtk_ui_manager_remove_ui (ui_manager, merge_id);
 	e_action_group_remove_all_actions (action_group);
+	gtk_ui_manager_ensure_update (ui_manager);
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	mail_view = e_mail_shell_content_get_mail_view (mail_shell_content);

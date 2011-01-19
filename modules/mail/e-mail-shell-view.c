@@ -193,6 +193,7 @@ mail_shell_view_toggled (EShellView *shell_view)
 			ui_manager, priv->merge_id);
 	} else if (!view_is_active && priv->merge_id != 0) {
 		gtk_ui_manager_remove_ui (ui_manager, priv->merge_id);
+		gtk_ui_manager_ensure_update (ui_manager);
 		priv->merge_id = 0;
 	}
 
