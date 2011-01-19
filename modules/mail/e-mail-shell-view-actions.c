@@ -157,7 +157,9 @@ action_mail_create_search_folder_cb (GtkAction *action,
 	reader = E_MAIL_READER (mail_view);
 	folder_uri = e_mail_reader_get_folder_uri (reader);
 
-	search_rule = vfolder_clone_rule (search_rule);
+	search_rule = vfolder_clone_rule (session, search_rule);
+	g_return_if_fail (search_rule != NULL);
+
 	rule_name = g_strdup_printf ("%s %s", search_rule->name, search_text);
 	e_filter_rule_set_source (search_rule, E_FILTER_SOURCE_INCOMING);
 	e_filter_rule_set_name (search_rule, rule_name);
