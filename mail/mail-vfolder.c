@@ -1347,13 +1347,11 @@ vfolder_create_part (const gchar *name)
 
 /* clones a filter/search rule into a matching vfolder rule (assuming the same system definitions) */
 EFilterRule *
-vfolder_clone_rule (EFilterRule *in)
+vfolder_clone_rule (EMailSession *session, EFilterRule *in)
 {
-	EMailSession *session;
 	EFilterRule *rule;
 	xmlNodePtr xml;
 
-	session = em_vfolder_rule_get_session (EM_VFOLDER_RULE (in));
 	rule = em_vfolder_rule_new (session);
 
 	xml = e_filter_rule_xml_encode (in);
