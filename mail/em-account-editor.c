@@ -1219,7 +1219,7 @@ smime_encrypt_key_select (GtkWidget *button, EMAccountEditor *emae)
 	EMAccountEditorPrivate *priv = emae->priv;
 	GtkWidget *w;
 
-	w = e_cert_selector_new (E_CERT_SELECTOR_SIGNER, gtk_entry_get_text (priv->smime_encrypt_key));
+	w = e_cert_selector_new (E_CERT_SELECTOR_RECIPIENT, gtk_entry_get_text (priv->smime_encrypt_key));
 	gtk_window_set_modal ((GtkWindow *)w, TRUE);
 	gtk_window_set_transient_for ((GtkWindow *)w, (GtkWindow *)gtk_widget_get_toplevel (button));
 	g_signal_connect (w, "selected", G_CALLBACK(smime_encrypt_key_selected), emae);
