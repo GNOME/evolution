@@ -716,6 +716,7 @@ attachment_view_update_actions (EAttachmentView *view)
 	gtk_ui_manager_remove_ui (priv->ui_manager, priv->merge_id);
 	action_group = e_attachment_view_get_action_group (view, "openwith");
 	e_action_group_remove_all_actions (action_group);
+	gtk_ui_manager_ensure_update (priv->ui_manager);
 
 	if (attachment == NULL || busy)
 		return;

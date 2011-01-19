@@ -2252,6 +2252,7 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 	/* Unmerge the previous menu. */
 	gtk_ui_manager_remove_ui (ui_manager, merge_id);
 	e_action_group_remove_all_actions (action_group);
+	gtk_ui_manager_ensure_update (ui_manager);
 
 	/* We have a view ID, so forge ahead. */
 	count = gal_view_collection_get_count (view_collection);
@@ -2362,6 +2363,7 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 	/* Unmerge the previous menu. */
 	gtk_ui_manager_remove_ui (ui_manager, merge_id);
 	e_action_group_remove_all_actions (action_group);
+	gtk_ui_manager_ensure_update (ui_manager);
 
 	rule = e_rule_context_next_rule (context, NULL, source);
 	while (rule != NULL) {

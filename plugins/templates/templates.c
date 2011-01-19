@@ -780,6 +780,7 @@ update_actions_cb (EShellView *shell_view)
 
 	gtk_ui_manager_remove_ui (ui_manager, merge_id);
 	e_action_group_remove_all_actions (action_group);
+	gtk_ui_manager_ensure_update (ui_manager);
 
 	if (!plugin_enabled)
 		return;
