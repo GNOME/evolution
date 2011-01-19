@@ -1638,6 +1638,7 @@ modules/book-config-ldap/Makefile
 modules/book-config-local/Makefile
 modules/book-config-webdav/Makefile
 modules/cal-config-caldav/Makefile
+modules/cal-config-contacts/Makefile
 modules/cal-config-local/Makefile
 modules/composer-autosave/Makefile
 modules/mailto-handler/Makefile

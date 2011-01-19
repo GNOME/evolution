@@ -1,0 +1,139 @@
+/*
+ * e-source-contacts.c
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <webcal://www.gnu.org/licenses/>
+ *
+ */
+
+#include "e-source-contacts.h"
+
+#define E_SOURCE_CONTACTS_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_SOURCE_CONTACTS, ESourceContactsPrivate))
+
+struct _ESourceContactsPrivate {
+	gboolean include_me;
+};
+
+enum {
+	PROP_0,
+	PROP_INCLUDE_ME
+};
+
+G_DEFINE_DYNAMIC_TYPE (
+	ESourceContacts,
+	e_source_contacts,
+	E_TYPE_SOURCE_EXTENSION)
+
+static void
+source_contacts_set_property (GObject *object,
+                              guint property_id,
+                              const GValue *value,
+                              GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_INCLUDE_ME:
+			e_source_contacts_set_include_me (
+				E_SOURCE_CONTACTS (object),
+				g_value_get_boolean (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+source_contacts_get_property (GObject *object,
+                              guint property_id,
+                              GValue *value,
+                              GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_INCLUDE_ME:
+			g_value_set_boolean (
+				value,
+				e_source_contacts_get_include_me (
+				E_SOURCE_CONTACTS (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+e_source_contacts_class_init (ESourceContactsClass *class)
+{
+	GObjectClass *object_class;
+	ESourceExtensionClass *extension_class;
+
+	g_type_class_add_private (class, sizeof (ESourceContactsPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = source_contacts_set_property;
+	object_class->get_property = source_contacts_get_property;
+
+	extension_class = E_SOURCE_EXTENSION_CLASS (class);
+	extension_class->name = E_SOURCE_EXTENSION_CONTACTS_BACKEND;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_INCLUDE_ME,
+		g_param_spec_boolean (
+			"include-me",
+			"Include Me",
+			"Include this address book in the contacts calendar",
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT |
+			E_SOURCE_PARAM_SETTING));
+}
+
+static void
+e_source_contacts_class_finalize (ESourceContactsClass *class)
+{
+}
+
+static void
+e_source_contacts_init (ESourceContacts *extension)
+{
+	extension->priv = E_SOURCE_CONTACTS_GET_PRIVATE (extension);
+}
+
+void
+e_source_contacts_type_register (GTypeModule *type_module)
+{
+	/* XXX G_DEFINE_DYNAMIC_TYPE declares a static type registration
+	 *     function, so we have to wrap it with a public function in
+	 *     order to register types from a separate compilation unit. */
+	e_source_contacts_register_type (type_module);
+}
+
+gboolean
+e_source_contacts_get_include_me (ESourceContacts *extension)
+{
+	g_return_val_if_fail (E_IS_SOURCE_CONTACTS (extension), FALSE);
+
+	return extension->priv->include_me;
+}
+
+void
+e_source_contacts_set_include_me (ESourceContacts *extension,
+                                  gboolean include_me)
+{
+	g_return_if_fail (E_IS_SOURCE_CONTACTS (extension));
+
+	extension->priv->include_me = include_me;
+
+	g_object_notify (G_OBJECT (extension), "include-me");
+}
