@@ -97,6 +97,8 @@ extern CamelStore *vfolder_store;
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
+G_DEFINE_TYPE (EMFolderTreeModel, em_folder_tree_model, GTK_TYPE_TREE_STORE)
+
 static void
 store_info_free (EMFolderTreeModelStoreInfo *si)
 {
@@ -378,7 +380,7 @@ folder_tree_model_finalize (GObject *object)
 }
 
 static void
-folder_tree_model_class_init (EMFolderTreeModelClass *class)
+em_folder_tree_model_class_init (EMFolderTreeModelClass *class)
 {
 	GObjectClass *object_class;
 
@@ -501,7 +503,7 @@ folder_tree_model_set_unread_count (EMFolderTreeModel *model,
 }
 
 static void
-folder_tree_model_init (EMFolderTreeModel *model)
+em_folder_tree_model_init (EMFolderTreeModel *model)
 {
 	GHashTable *store_index;
 	GHashTable *uri_index;
@@ -557,33 +559,6 @@ folder_tree_model_init (EMFolderTreeModel *model)
 	model->priv->account_added_id = g_signal_connect (
 		model->priv->accounts, "account-added",
 		G_CALLBACK (account_added_cb), model);
-}
-
-GType
-em_folder_tree_model_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMFolderTreeModelClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) folder_tree_model_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMFolderTreeModel),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) folder_tree_model_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			GTK_TYPE_TREE_STORE, "EMFolderTreeModel",
-			&type_info, 0);
-	}
-
-	return type;
 }
 
 EMFolderTreeModel *
