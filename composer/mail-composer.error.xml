@@ -77,6 +77,11 @@
   <button _label="_Try Again" response="GTK_RESPONSE_OK"/>
  </error>
 
+ <error id="send-post-processing-error" type="warning">
+   <_primary>Your message was sent, but an error occurred during post-processing.</_primary>
+  <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
+ </error>
+
  <error id="saving-to-outbox" type="info">
   <_primary>Saving message to Outbox.</_primary>
   <_secondary>Because you are working offline, the message will be saved to your local Outbox folder. When you are back online you can send the message by clicking the Send/Receive button in Evolution's toolbar.</_secondary>

@@ -101,6 +101,19 @@ async_context_free (AsyncContext *context)
 	g_slice_free (AsyncContext, context);
 }
 
+GQuark
+e_mail_error_quark (void)
+{
+	static GQuark quark = 0;
+
+	if (G_UNLIKELY (quark == 0)) {
+		const gchar *string = "e-mail-error-quark";
+		quark = g_quark_from_static_string (string);
+	}
+
+	return quark;
+}
+
 static void
 mail_session_handle_draft_headers_thread (GSimpleAsyncResult *simple,
                                           EMailSession *session,
@@ -590,7 +603,8 @@ exit:
 	/* Stuff the accumulated error messages in a GError. */
 	} else if (error_messages->len > 0) {
 		g_simple_async_result_set_error (
-			simple, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
+			simple, E_MAIL_ERROR,
+			E_MAIL_ERROR_POST_PROCESSING,
 			"%s", error_messages->str);
 	}
 

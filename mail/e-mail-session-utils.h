@@ -23,8 +23,15 @@
 
 #include <mail/e-mail-session.h>
 
+#define E_MAIL_ERROR (e_mail_error_quark ())
+
 G_BEGIN_DECLS
 
+typedef enum {
+	E_MAIL_ERROR_POST_PROCESSING
+} EMailError;
+
+GQuark		e_mail_error_quark		(void) G_GNUC_CONST;
 gboolean	e_mail_session_handle_draft_headers_sync
 						(EMailSession *session,
 						 CamelMimeMessage *message,
