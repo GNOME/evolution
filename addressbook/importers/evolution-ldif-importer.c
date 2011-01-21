@@ -42,12 +42,12 @@
 #include <glib/gstdio.h>
 
 #include <libebook/e-book.h>
+#include <libedataserverui/e-book-auth-util.h>
 #include <libedataserverui/e-source-selector.h>
 
 #include <libebook/e-destination.h>
 
 #include "e-util/e-import.h"
-#include "util/addressbook.h"
 
 #include "evolution-addressbook-importers.h"
 
@@ -622,34 +622,28 @@ ldif_import_done (LDIFImporter *gci)
 }
 
 static void
-book_loaded_cb (EBook *book, const GError *error, gpointer closure)
+book_loaded_cb (ESource *source,
+                GAsyncResult *result,
+                LDIFImporter *gci)
 {
-	LDIFImporter *gci = closure;
+	gci->book = e_load_book_source_finish (source, result, NULL);
 
-	g_return_if_fail (gci != NULL);
-	g_return_if_fail (gci->book == book);
-
-	if (error)
+	if (gci->book == NULL) {
 		ldif_import_done (gci);
-	else
-		gci->idle_id = g_idle_add (ldif_import_contacts, gci);
+		return;
+	}
+
+	gci->idle_id = g_idle_add (ldif_import_contacts, gci);
 }
 
 static void
 ldif_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	LDIFImporter *gci;
-	EBook *book;
+	ESource *source;
 	FILE *file = NULL;
 	EImportTargetURI *s = (EImportTargetURI *)target;
 	gchar *filename;
-
-	book = e_book_new(g_datalist_get_data(&target->data, "ldif-source"), NULL);
-	if (book == NULL) {
-		g_message(G_STRLOC ":Couldn't create EBook.");
-		e_import_complete (ei, target);
-		return;
-	}
 
 	filename = g_filename_from_uri (s->uri_src, NULL, NULL);
 	if (filename != NULL) {
@@ -659,7 +653,6 @@ ldif_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 	if (file == NULL) {
 		g_message(G_STRLOC ":Can't open .ldif file");
 		e_import_complete (ei, target);
-		g_object_unref (book);
 		return;
 	}
 
@@ -667,7 +660,6 @@ ldif_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 	g_datalist_set_data(&target->data, "ldif-data", gci);
 	gci->import = g_object_ref (ei);
 	gci->target = target;
-	gci->book = book;
 	gci->file = file;
 	fseek (file, 0, SEEK_END);
 	gci->size = ftell (file);
@@ -677,7 +669,11 @@ ldif_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) NULL);
 
-	addressbook_load (gci->book, book_loaded_cb, gci);
+	source = g_datalist_get_data (&target->data, "ldif-source");
+
+	e_load_book_source_async (
+		source, NULL, NULL, (GAsyncReadyCallback)
+		book_loaded_cb, gci);
 }
 
 static void

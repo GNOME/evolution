@@ -24,7 +24,7 @@
 #include <config.h>
 #include <ctype.h>
 #include <string.h>
-#include "addressbook/util/addressbook.h"
+#include <libedataserverui/e-book-auth-util.h>
 #include "addressbook/util/eab-book-util.h"
 #include "eab-contact-compare.h"
 
@@ -541,6 +541,7 @@ eab_contact_compare (EContact *contact1, EContact *contact2)
 
 typedef struct _MatchSearchInfo MatchSearchInfo;
 struct _MatchSearchInfo {
+	ESourceList *source_list;
 	EContact *contact;
 	GList *avoid;
 	EABContactMatchQueryCallback cb;
@@ -551,6 +552,9 @@ static void
 match_search_info_free (MatchSearchInfo *info)
 {
 	if (info) {
+		if (info->source_list != NULL)
+			g_object_unref (info->source_list);
+
 		g_object_unref (info->contact);
 
 		/* This should already have been deallocated, but just in case... */
@@ -626,9 +630,9 @@ query_cb (EBook *book, const GError *error, GList *contacts, gpointer closure)
 
 #define MAX_QUERY_PARTS 10
 static void
-use_common_book_cb (EBook *book, const GError *error, gpointer closure)
+use_common_book (EBook *book,
+                 MatchSearchInfo *info)
 {
-	MatchSearchInfo *info = (MatchSearchInfo *) closure;
 	EContact *contact = info->contact;
 	EContactName *contact_name;
 	GList *contact_email;
@@ -716,22 +720,23 @@ use_common_book_cb (EBook *book, const GError *error, gpointer closure)
 		e_book_query_unref (query);
 }
 
-void
-eab_contact_locate_match (EContact *contact, EABContactMatchQueryCallback cb, gpointer closure)
+static void
+book_loaded_cb (ESource *source,
+                GAsyncResult *result,
+                MatchSearchInfo *info)
 {
-	MatchSearchInfo *info;
+	EBook *book;
 
-	g_return_if_fail (contact && E_IS_CONTACT (contact));
-	g_return_if_fail (cb != NULL);
+	book = e_load_book_source_finish (source, result, NULL);
+	use_common_book (book, info);
+}
 
-	info = g_new (MatchSearchInfo, 1);
-	info->contact = contact;
-	g_object_ref (contact);
-	info->cb = cb;
-	info->closure = closure;
-	info->avoid = NULL;
-
-	addressbook_load_default_book ((EBookAsyncCallback) use_common_book_cb, info);
+void
+eab_contact_locate_match (EContact *contact,
+                          EABContactMatchQueryCallback cb,
+                          gpointer closure)
+{
+	eab_contact_locate_match_full (NULL, contact, NULL, cb, closure);
 }
 
 /**
@@ -746,24 +751,37 @@ eab_contact_locate_match (EContact *contact, EABContactMatchQueryCallback cb, gp
  * Look for the best match and return it using the EABContactMatchQueryCallback.
  **/
 void
-eab_contact_locate_match_full (EBook *book, EContact *contact, GList *avoid, EABContactMatchQueryCallback cb, gpointer closure)
+eab_contact_locate_match_full (EBook *book,
+                               EContact *contact,
+                               GList *avoid,
+                               EABContactMatchQueryCallback cb,
+                               gpointer closure)
 {
 	MatchSearchInfo *info;
+	ESource *source;
 
-	g_return_if_fail (contact && E_IS_CONTACT (contact));
+	g_return_if_fail (E_IS_CONTACT (contact));
 	g_return_if_fail (cb != NULL);
 
 	info = g_new (MatchSearchInfo, 1);
-	info->contact = contact;
-	g_object_ref (contact);
+	info->contact = g_object_ref (contact);
 	info->cb = cb;
 	info->closure = closure;
 	info->avoid = g_list_copy (avoid);
 	g_list_foreach (info->avoid, (GFunc) g_object_ref, NULL);
 
-	if (book)
-		use_common_book_cb (book, NULL, info);
-	else
-		addressbook_load_default_book ((EBookAsyncCallback) use_common_book_cb, info);
+	if (book) {
+		use_common_book (book, info);
+		return;
+	}
+
+	if (!e_book_get_addressbooks (&info->source_list, NULL))
+		return;
+
+	source = e_source_list_peek_default_source (info->source_list);
+
+	e_load_book_source_async (
+		source, NULL, NULL, (GAsyncReadyCallback)
+		book_loaded_cb, info);
 }
 

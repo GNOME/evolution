@@ -36,6 +36,7 @@
 #include <glib/gstdio.h>
 
 #include <libebook/e-book.h>
+#include <libedataserverui/e-book-auth-util.h>
 #include <libedataserverui/e-source-selector.h>
 
 #include <util/eab-book-util.h>
@@ -44,7 +45,6 @@
 #include "e-util/e-import.h"
 #include "e-util/e-datetime-format.h"
 #include "misc/e-web-view-preview.h"
-#include "util/addressbook.h"
 
 #include "evolution-addressbook-importers.h"
 
@@ -475,14 +475,13 @@ vcard_import_done (VCardImporter *gci)
 }
 
 static void
-book_loaded_cb (EBook *book, const GError *error, gpointer closure)
+book_loaded_cb (ESource *source,
+                GAsyncResult *result,
+                VCardImporter *gci)
 {
-	VCardImporter *gci = closure;
+	gci->book = e_load_book_source_finish (source, result, NULL);
 
-	g_return_if_fail (gci != NULL);
-	g_return_if_fail (gci->book == book);
-
-	if (error) {
+	if (gci->book == NULL) {
 		vcard_import_done (gci);
 		return;
 	}
@@ -517,7 +516,7 @@ static void
 vcard_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	VCardImporter *gci;
-	EBook *book;
+	ESource *source;
 	EImportTargetURI *s = (EImportTargetURI *)target;
 	gchar *filename;
 	gchar *contents;
@@ -538,19 +537,10 @@ vcard_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 		return;
 	}
 
-	book = e_book_new(g_datalist_get_data(&target->data, "vcard-source"), NULL);
-	if (book == NULL) {
-		g_message(G_STRLOC ":Couldn't create EBook.");
-		g_free (filename);
-		e_import_complete (ei, target);
-		return;
-	}
-
 	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
 		g_message (G_STRLOC ":Couldn't read file.");
 		g_free (filename);
 		e_import_complete (ei, target);
-		g_object_unref (book);
 		return;
 	}
 
@@ -559,11 +549,14 @@ vcard_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 	g_datalist_set_data(&target->data, "vcard-data", gci);
 	gci->import = g_object_ref (ei);
 	gci->target = target;
-	gci->book = book;
 	gci->encoding = encoding;
 	gci->contents = contents;
 
-	addressbook_load (book, book_loaded_cb, gci);
+	source = g_datalist_get_data (&target->data, "vcard-source");
+
+	e_load_book_source_async (
+		source, NULL, NULL, (GAsyncReadyCallback)
+		book_loaded_cb, gci);
 }
 
 static void
