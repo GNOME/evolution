@@ -32,12 +32,12 @@
 #include <glib/gstdio.h>
 
 #include <libebook/e-book.h>
+#include <libedataserverui/e-book-auth-util.h>
 #include <libedataserverui/e-source-selector.h>
 
 #include <libebook/e-destination.h>
 
 #include "e-util/e-import.h"
-#include "util/addressbook.h"
 
 #include "evolution-addressbook-importers.h"
 
@@ -828,24 +828,25 @@ csv_import_done (CSVImporter *gci)
 }
 
 static void
-book_loaded_cb (EBook *book, const GError *error, gpointer closure)
+book_loaded_cb (ESource *source,
+                GAsyncResult *result,
+                CSVImporter *gci)
 {
-	CSVImporter *gci = closure;
+	gci->book = e_load_book_source_finish (source, result, NULL);
 
-	g_return_if_fail (gci != NULL);
-	g_return_if_fail (gci->book == book);
-
-	if (error)
+	if (gci->book == NULL) {
 		csv_import_done (gci);
-	else
-		gci->idle_id = g_idle_add (csv_import_contacts, gci);
+		return;
+	}
+
+	gci->idle_id = g_idle_add (csv_import_contacts, gci);
 }
 
 static void
 csv_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	CSVImporter *gci;
-	EBook *book;
+	ESource *source;
 	gchar *filename;
 	FILE *file;
 	EImportTargetURI *s = (EImportTargetURI *) target;
@@ -856,20 +857,11 @@ csv_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 		return;
 	}
 
-	book = e_book_new(g_datalist_get_data(&target->data, "csv-source"), NULL);
-	if (book == NULL) {
-		g_message("Couldn't Create EBook");
-		e_import_complete (ei, target);
-		g_free (filename);
-		return;
-	}
-
 	file = g_fopen (filename, "r");
 	g_free (filename);
 	if (file == NULL) {
 		g_message("Can't open .csv file");
 		e_import_complete (ei, target);
-		g_object_unref (book);
 		return;
 	}
 
@@ -877,7 +869,6 @@ csv_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 	g_datalist_set_data(&target->data, "csv-data", gci);
 	gci->import = g_object_ref (ei);
 	gci->target = target;
-	gci->book = book;
 	gci->file = file;
 	gci->fields_map = NULL;
 	gci->count = 0;
@@ -885,7 +876,11 @@ csv_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 	gci->size = ftell (file);
 	fseek (file, 0, SEEK_SET);
 
-	addressbook_load (gci->book, book_loaded_cb, gci);
+	source = g_datalist_get_data (&target->data, "csv-source");
+
+	e_load_book_source_async (
+		source, NULL, NULL, (GAsyncReadyCallback)
+		book_loaded_cb, gci);
 }
 
 static void

@@ -41,7 +41,6 @@
 #undef DATADIR
 #endif
 
-#include "addressbook.h"
 #include "addressbook-config.h"
 
 #include "e-util/e-util.h"

@@ -27,8 +27,8 @@
 #include <glib/gi18n.h>
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
+#include <libedataserverui/e-book-auth-util.h>
 #include <libedataserverui/e-source-combo-box.h>
-#include <addressbook/util/addressbook.h>
 #include <addressbook/util/eab-book-util.h>
 #include "e-contact-editor.h"
 #include "e-contact-quick-add.h"
@@ -41,7 +41,9 @@ struct _QuickAdd {
 	gchar *email;
 	gchar *vcard;
 	EContact *contact;
-	EBook *book;
+	GCancellable *cancellable;
+	ESourceList *source_list;
+	ESource *source;
 
 	EContactQuickAddCallback cb;
 	gpointer closure;
@@ -60,20 +62,9 @@ quick_add_new (void)
 {
 	QuickAdd *qa = g_new0 (QuickAdd, 1);
 	qa->contact = e_contact_new ();
-	qa->book = NULL;
 	qa->refs = 1;
 	return qa;
 }
-
-#if 0
-static void
-quick_add_ref (QuickAdd *qa)
-{
-	if (qa) {
-		++qa->refs;
-	}
-}
-#endif
 
 static void
 quick_add_unref (QuickAdd *qa)
@@ -81,6 +72,12 @@ quick_add_unref (QuickAdd *qa)
 	if (qa) {
 		--qa->refs;
 		if (qa->refs == 0) {
+			if (qa->cancellable != NULL) {
+				g_cancellable_cancel (qa->cancellable);
+				g_object_unref (qa->cancellable);
+			}
+			if (qa->source_list != NULL)
+				g_object_unref (qa->source_list);
 			g_free (qa->name);
 			g_free (qa->email);
 			g_free (qa->vcard);
@@ -121,9 +118,18 @@ quick_add_set_vcard (QuickAdd *qa, const gchar *vcard)
 }
 
 static void
-merge_cb (EBook *book, const GError *error, gpointer closure)
+merge_cb (ESource *source,
+          GAsyncResult *result,
+          QuickAdd *qa)
 {
-	QuickAdd *qa = (QuickAdd *) closure;
+	EBook *book;
+	GError *error = NULL;
+
+	book = e_load_book_source_finish (source, result, &error);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+		return;
 
 	if (!error) {
 		if (e_book_is_writable (book))
@@ -151,7 +157,16 @@ merge_cb (EBook *book, const GError *error, gpointer closure)
 static void
 quick_add_merge_contact (QuickAdd *qa)
 {
-	addressbook_load (qa->book, merge_cb, qa);
+	if (qa->cancellable != NULL) {
+		g_cancellable_cancel (qa->cancellable);
+		g_object_unref (qa->cancellable);
+	}
+
+	qa->cancellable = g_cancellable_new ();
+
+	e_load_book_source_async (
+		qa->source, NULL, qa->cancellable,
+		(GAsyncReadyCallback) merge_cb, qa);
 }
 
 /*
@@ -235,9 +250,18 @@ ce_have_contact (EBook *book, const GError *error, EContact *contact, gpointer c
 }
 
 static void
-ce_have_book (EBook *book, const GError *error, gpointer closure)
+ce_have_book (ESource *source,
+              GAsyncResult *result,
+              QuickAdd *qa)
 {
-	QuickAdd *qa = (QuickAdd *) closure;
+	EBook *book;
+	GError *error = NULL;
+
+	book = e_load_book_source_finish (source, result, &error);
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+		return;
 
 	if (error) {
 		if (book)
@@ -252,7 +276,16 @@ ce_have_book (EBook *book, const GError *error, gpointer closure)
 static void
 edit_contact (QuickAdd *qa)
 {
-	addressbook_load (qa->book, ce_have_book, qa);
+	if (qa->cancellable != NULL) {
+		g_cancellable_cancel (qa->cancellable);
+		g_object_unref (qa->cancellable);
+	}
+
+	qa->cancellable = g_cancellable_new ();
+
+	e_load_book_source_async (
+		qa->source, NULL, qa->cancellable,
+		(GAsyncReadyCallback) ce_have_book, qa);
 }
 
 #define QUICK_ADD_RESPONSE_EDIT_FULL 2
@@ -313,11 +346,14 @@ sanitize_widgets (QuickAdd *qa)
 	g_return_if_fail (qa != NULL);
 	g_return_if_fail (qa->dialog != NULL);
 
-	/* do not call here e_book_is_writable (qa->book), because it requires opened book, which takes time for remote books */
-	enabled = qa->book != NULL && e_source_combo_box_get_active_uid (E_SOURCE_COMBO_BOX (qa->combo_box));
+	enabled = (e_source_combo_box_get_active_uid (
+		E_SOURCE_COMBO_BOX (qa->combo_box)) != NULL);
 
-	gtk_dialog_set_response_sensitive (GTK_DIALOG (qa->dialog), QUICK_ADD_RESPONSE_EDIT_FULL, enabled);
-	gtk_dialog_set_response_sensitive (GTK_DIALOG (qa->dialog), GTK_RESPONSE_OK, enabled);
+	gtk_dialog_set_response_sensitive (
+		GTK_DIALOG (qa->dialog),
+		QUICK_ADD_RESPONSE_EDIT_FULL, enabled);
+	gtk_dialog_set_response_sensitive (
+		GTK_DIALOG (qa->dialog), GTK_RESPONSE_OK, enabled);
 }
 
 static void
@@ -327,11 +363,9 @@ source_changed (ESourceComboBox *source_combo_box, QuickAdd *qa)
 
 	source = e_source_combo_box_get_active (source_combo_box);
 	if (source != NULL) {
-		if (qa->book) {
-			g_object_unref (qa->book);
-			qa->book = NULL;
-		}
-		qa->book = e_book_new (source, NULL);
+		if (qa->source != NULL)
+			g_object_unref (qa->source);
+		qa->source = g_object_ref (source);
 	}
 
 	sanitize_widgets (qa);
@@ -340,13 +374,12 @@ source_changed (ESourceComboBox *source_combo_box, QuickAdd *qa)
 static GtkWidget *
 build_quick_add_dialog (QuickAdd *qa)
 {
-	ESourceList *source_list;
 	GConfClient *gconf_client;
 	GtkWidget *container;
 	GtkWidget *dialog;
 	GtkWidget *label;
 	GtkTable *table;
-	EBook *book;
+	ESource *source;
 	const gint xpad=0, ypad=0;
 
 	g_return_val_if_fail (qa != NULL, NULL);
@@ -386,45 +419,18 @@ build_quick_add_dialog (QuickAdd *qa)
 	}
 
 	gconf_client = gconf_client_get_default ();
-	source_list = e_source_list_new_for_gconf (gconf_client, "/apps/evolution/addressbook/sources");
+	qa->source_list = e_source_list_new_for_gconf (
+		gconf_client, "/apps/evolution/addressbook/sources");
+	source = e_source_list_peek_default_source (qa->source_list);
 	g_object_unref (gconf_client);
-	qa->combo_box = e_source_combo_box_new (source_list);
-	book = e_book_new_default_addressbook (NULL);
+	qa->combo_box = e_source_combo_box_new (qa->source_list);
 	e_source_combo_box_set_active (
-		E_SOURCE_COMBO_BOX (qa->combo_box),
-		e_book_get_source (book));
+		E_SOURCE_COMBO_BOX (qa->combo_box), source);
 
-	if (!e_source_combo_box_get_active_uid (E_SOURCE_COMBO_BOX (qa->combo_box))) {
-		/* this means the e_book_new_default_addressbook didn't find any "default" nor "system" source,
-		    and created new one for us. That is wrong, choose one from combo instead. */
-
-		if (book) {
-			g_object_unref (book);
-			book = NULL;
-		}
-
-		book = e_book_new (e_source_list_peek_source_any (source_list), NULL);
-		e_source_combo_box_set_active (E_SOURCE_COMBO_BOX (qa->combo_box), e_book_get_source (book));
-
-		if (!e_source_combo_box_get_active_uid (E_SOURCE_COMBO_BOX (qa->combo_box))) {
-			/* Does it failed again? What is going on? */
-			if (book)
-				g_object_unref (book);
-			book = NULL;
-		}
-	}
-
-	if (qa->book) {
-		g_object_unref (qa->book);
-		qa->book = NULL;
-	}
-	qa->book = book;
 	source_changed (E_SOURCE_COMBO_BOX (qa->combo_box), qa);
 	g_signal_connect (
 		qa->combo_box, "changed",
 		G_CALLBACK (source_changed), qa);
-
-	g_object_unref (source_list);
 
 	table = GTK_TABLE (gtk_table_new (3, 2, FALSE));
 	gtk_table_set_row_spacings (table, 6);

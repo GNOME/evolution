@@ -15,8 +15,6 @@ libeabutil_la_CPPFLAGS =				\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 libeabutil_la_SOURCES =					\
-	addressbook.c					\
-	addressbook.h					\
 	eab-book-util.c					\
 	eab-book-util.h
 
