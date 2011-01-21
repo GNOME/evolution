@@ -489,7 +489,21 @@ composer_send_completed (EMailSession *session,
 		goto exit;
 	}
 
-	if (error != NULL) {
+	/* Post-processing errors are shown in the shell window. */
+	if (g_error_matches (error, E_MAIL_ERROR, E_MAIL_ERROR_POST_PROCESSING)) {
+		EAlert *alert;
+		EShell *shell;
+
+		shell = e_msg_composer_get_shell (context->composer);
+
+		alert = e_alert_new (
+			"mail-composer:send-post-processing-error",
+			error->message, NULL);
+		e_shell_submit_alert (shell, alert);
+		g_object_unref (alert);
+
+	/* All other errors are shown in the composer window. */
+	} else if (error != NULL) {
 		gint response;
 
 		/* Clear the activity bar before
