@@ -45,6 +45,7 @@ typedef enum {
 
 typedef struct {
 	EContactMergingOpType op;
+	ESourceRegistry *registry;
 	EBookClient *book_client;
 	/*contact is the new contact which the user has tried to add to the addressbook*/
 	EContact *contact;
@@ -74,7 +75,7 @@ add_lookup (EContactMergingLookup *lookup)
 	if (running_merge_requests < SIMULTANEOUS_MERGING_REQUESTS) {
 		running_merge_requests++;
 		eab_contact_locate_match_full (
-			lookup->book_client,
+			lookup->registry, lookup->book_client,
 			lookup->contact, lookup->avoid,
 			match_query_callback, lookup);
 	}
@@ -100,7 +101,7 @@ finished_lookup (void)
 
 		running_merge_requests++;
 		eab_contact_locate_match_full (
-			lookup->book_client,
+			lookup->registry, lookup->book_client,
 			lookup->contact, lookup->avoid,
 			match_query_callback, lookup);
 	}
@@ -109,6 +110,7 @@ finished_lookup (void)
 static void
 free_lookup (EContactMergingLookup *lookup)
 {
+	g_object_unref (lookup->registry);
 	g_object_unref (lookup->book_client);
 	g_object_unref (lookup->contact);
 	g_list_free (lookup->avoid);
@@ -674,16 +676,20 @@ match_query_callback (EContact *contact,
 }
 
 gboolean
-eab_merging_book_add_contact (EBookClient *book_client,
+eab_merging_book_add_contact (ESourceRegistry *registry,
+                              EBookClient *book_client,
                               EContact *contact,
                               EABMergingIdAsyncCallback cb,
                               gpointer closure)
 {
 	EContactMergingLookup *lookup;
 
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
+
 	lookup = g_new (EContactMergingLookup, 1);
 
 	lookup->op = E_CONTACT_MERGING_ADD;
+	lookup->registry = g_object_ref (registry);
 	lookup->book_client = g_object_ref (book_client);
 	lookup->contact = g_object_ref (contact);
 	lookup->id_cb = cb;
@@ -697,16 +703,20 @@ eab_merging_book_add_contact (EBookClient *book_client,
 }
 
 gboolean
-eab_merging_book_modify_contact (EBookClient *book_client,
+eab_merging_book_modify_contact (ESourceRegistry *registry,
+                                 EBookClient *book_client,
                                  EContact *contact,
                                  EABMergingAsyncCallback cb,
                                  gpointer closure)
 {
 	EContactMergingLookup *lookup;
 
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
+
 	lookup = g_new (EContactMergingLookup, 1);
 
 	lookup->op = E_CONTACT_MERGING_COMMIT;
+	lookup->registry = g_object_ref (registry);
 	lookup->book_client = g_object_ref (book_client);
 	lookup->contact = g_object_ref (contact);
 	lookup->cb = cb;
@@ -720,7 +730,8 @@ eab_merging_book_modify_contact (EBookClient *book_client,
 }
 
 gboolean
-eab_merging_book_find_contact (EBookClient *book_client,
+eab_merging_book_find_contact (ESourceRegistry *registry,
+                               EBookClient *book_client,
                                EContact *contact,
                                EABMergingContactAsyncCallback cb,
                                gpointer closure)
@@ -730,6 +741,7 @@ eab_merging_book_find_contact (EBookClient *book_client,
 	lookup = g_new (EContactMergingLookup, 1);
 
 	lookup->op = E_CONTACT_MERGING_FIND;
+	lookup->registry = g_object_ref (registry);
 	lookup->book_client = g_object_ref (book_client);
 	lookup->contact = g_object_ref (contact);
 	lookup->c_cb = cb;

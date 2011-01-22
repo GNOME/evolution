@@ -28,6 +28,7 @@
 
 #include <libebook/e-contact.h>
 #include <libebook/e-book-client.h>
+#include <libedataserver/e-source-registry.h>
 
 typedef enum {
 	EAB_CONTACT_MATCH_NOT_APPLICABLE = 0,
@@ -87,10 +88,12 @@ EABContactMatchType
 		eab_contact_compare		(EContact *contact1,
 						 EContact *contact2);
 
-void		eab_contact_locate_match	(EContact *contact,
+void		eab_contact_locate_match	(ESourceRegistry *registry,
+						 EContact *contact,
 						 EABContactMatchQueryCallback cb,
 						 gpointer closure);
-void		eab_contact_locate_match_full	(EBookClient *book_client,
+void		eab_contact_locate_match_full	(ESourceRegistry *registry,
+						 EBookClient *book_client,
 						 EContact *contact,
 						 GList *avoid,
 						 EABContactMatchQueryCallback cb,

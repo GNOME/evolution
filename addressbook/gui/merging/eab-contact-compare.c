@@ -28,6 +28,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <libebook/e-book-query.h>
+#include <libedataserver/e-source-registry.h>
 #include <libedataserverui/e-client-utils.h>
 #include "addressbook/util/eab-book-util.h"
 #include "eab-contact-compare.h"
@@ -562,7 +563,6 @@ eab_contact_compare (EContact *contact1,
 
 typedef struct _MatchSearchInfo MatchSearchInfo;
 struct _MatchSearchInfo {
-	ESourceList *source_list;
 	EContact *contact;
 	GList *avoid;
 	EABContactMatchQueryCallback cb;
@@ -573,9 +573,6 @@ static void
 match_search_info_free (MatchSearchInfo *info)
 {
 	if (info) {
-		if (info->source_list != NULL)
-			g_object_unref (info->source_list);
-
 		g_object_unref (info->contact);
 
 		/* This should already have been deallocated, but just in case... */
@@ -786,15 +783,18 @@ book_loaded_cb (GObject *source_object,
 }
 
 void
-eab_contact_locate_match (EContact *contact,
+eab_contact_locate_match (ESourceRegistry *registry,
+                          EContact *contact,
                           EABContactMatchQueryCallback cb,
                           gpointer closure)
 {
-	eab_contact_locate_match_full (NULL, contact, NULL, cb, closure);
+	eab_contact_locate_match_full (
+		registry, NULL, contact, NULL, cb, closure);
 }
 
 /**
  * e_contact_locate_match_full:
+ * @registry: an #ESourceRegistry
  * @book: The book to look in.  If this is NULL, use the default
  * addressbook.
  * @contact: The contact to compare to.
@@ -805,7 +805,8 @@ eab_contact_locate_match (EContact *contact,
  * Look for the best match and return it using the EABContactMatchQueryCallback.
  **/
 void
-eab_contact_locate_match_full (EBookClient *book_client,
+eab_contact_locate_match_full (ESourceRegistry *registry,
+                               EBookClient *book_client,
                                EContact *contact,
                                GList *avoid,
                                EABContactMatchQueryCallback cb,
@@ -814,6 +815,7 @@ eab_contact_locate_match_full (EBookClient *book_client,
 	MatchSearchInfo *info;
 	ESource *source;
 
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
 	g_return_if_fail (E_IS_CONTACT (contact));
 	g_return_if_fail (cb != NULL);
 
@@ -829,14 +831,12 @@ eab_contact_locate_match_full (EBookClient *book_client,
 		return;
 	}
 
-	if (!e_book_client_get_sources (&info->source_list, NULL))
-		return;
-
-	source = e_source_list_peek_default_source (info->source_list);
+	source = e_source_registry_ref_default_address_book (registry);
 
 	e_client_utils_open_new (
 		source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE, NULL,
-		e_client_utils_authenticate_handler, NULL,
 		book_loaded_cb, info);
+
+	g_object_unref (source);
 }
 

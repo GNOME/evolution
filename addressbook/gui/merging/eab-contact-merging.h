@@ -27,6 +27,7 @@
 #define __E_CONTACT_MERGING_H__
 
 #include <libebook/e-book-client.h>
+#include <libedataserver/e-source-registry.h>
 
 G_BEGIN_DECLS
 
@@ -43,17 +44,20 @@ typedef void	(*EABMergingContactAsyncCallback)
 						 EContact *contact,
 						 gpointer closure);
 
-gboolean	eab_merging_book_add_contact	(EBookClient *book_client,
+gboolean	eab_merging_book_add_contact	(ESourceRegistry *registry,
+						 EBookClient *book_client,
 						 EContact *contact,
 						 EABMergingIdAsyncCallback cb,
 						 gpointer closure);
 
-gboolean	eab_merging_book_modify_contact	(EBookClient *book_client,
+gboolean	eab_merging_book_modify_contact	(ESourceRegistry *registry,
+						 EBookClient *book_client,
 						 EContact *contact,
 						 EABMergingAsyncCallback cb,
 						 gpointer closure);
 
-gboolean	eab_merging_book_find_contact	(EBookClient *book_client,
+gboolean	eab_merging_book_find_contact	(ESourceRegistry *registry,
+						 EBookClient *book_client,
 						 EContact *contact,
 						 EABMergingContactAsyncCallback cb,
 						 gpointer closure);
