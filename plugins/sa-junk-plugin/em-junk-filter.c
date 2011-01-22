@@ -719,7 +719,6 @@ em_junk_sa_report_junk (EPlugin *ep, EMJunkTarget *target)
 		return;
 
 	sub = g_strdup (camel_mime_message_get_subject (msg));
-	g_print ("\nreport junk?? %s\n", sub);
 
 	d(fprintf (stderr, "em_junk_sa_report_junk\n"));
 	if (em_junk_sa_is_available (&target->error)) {
