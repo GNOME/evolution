@@ -5080,7 +5080,7 @@ msgid ""
 "Outbox folder. When you are back online you can send the message by clicking "
 "the Send/Receive button in Evolution's toolbar."
 msgstr ""
-"Võrguvabas režiimi tõttu salvestatakse sõnum kohalikku väljuvate sõnumite "
+"Võrguvaba režiimi tõttu salvestatakse sõnum kohalikku väljuvate sõnumite "
 "kausta. Võrgurežiimi mineku järel saab selle sõnumi ära saata, kui vajutada "
 "tööriistaribal nuppu \"Saada / võta vastu\"."
 
