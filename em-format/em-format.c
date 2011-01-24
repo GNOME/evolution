@@ -2026,8 +2026,7 @@ emf_application_mbox (EMFormat *emf,
 	camel_data_wrapper_decode_to_stream_sync (
 		camel_medium_get_content (CAMEL_MEDIUM (mime_part)),
 		mem_stream, NULL, NULL);
-	camel_seekable_stream_seek (
-		CAMEL_SEEKABLE_STREAM (mem_stream), 0, CAMEL_STREAM_SET, NULL);
+	g_seekable_seek (G_SEEKABLE (mem_stream), 0, G_SEEK_SET, NULL, NULL);
 	camel_mime_parser_init_with_stream (parser, mem_stream, NULL);
 	g_object_unref (mem_stream);
 

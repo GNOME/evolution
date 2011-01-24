@@ -886,7 +886,7 @@ mail_session_forward_to (CamelSession *session,
 	/* make copy of the message, because we are going to modify it */
 	mem = camel_stream_mem_new ();
 	camel_data_wrapper_write_to_stream_sync ((CamelDataWrapper *)message, mem, NULL, NULL);
-	camel_seekable_stream_seek (CAMEL_SEEKABLE_STREAM (mem), 0, CAMEL_STREAM_SET, NULL);
+	g_seekable_seek (G_SEEKABLE (mem), 0, G_SEEK_SET, NULL, NULL);
 	camel_data_wrapper_construct_from_stream_sync ((CamelDataWrapper *)forward, mem, NULL, NULL);
 	g_object_unref (mem);
 
