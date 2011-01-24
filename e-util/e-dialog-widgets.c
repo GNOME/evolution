@@ -161,3 +161,25 @@ e_dialog_combo_box_get (GtkWidget *widget, const gint *value_map)
 	}
 	return i;
 }
+
+/**
+ * e_dialog_append_list_store_text:
+ * @list_store: A #GtkListStore
+ * @text_column: A string column ID, where to write @text_value
+ * @text_value: A string to be added to the @list_store
+ **/
+void
+e_dialog_append_list_store_text (GtkTreeModel *list_store, gint text_column, const gchar *text_value)
+{
+	GtkTreeIter iter;
+	GtkListStore *store;
+
+	g_return_if_fail (list_store != NULL);
+	g_return_if_fail (GTK_IS_LIST_STORE (list_store));
+	g_return_if_fail (text_column >= 0);
+	g_return_if_fail (text_value != NULL);
+
+	store = GTK_LIST_STORE (list_store);
+	gtk_list_store_append (store, &iter);
+	gtk_list_store_set (store, &iter, text_column, text_value, -1);
+}

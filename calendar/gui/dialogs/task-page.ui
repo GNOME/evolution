@@ -411,7 +411,8 @@
                       <object class="GtkComboBox" id="organizer">
                         <property name="visible">True</property>
                         <property name="model">model1</property>
-                        <property name="has-entry">TRUE</property>
+                        <property name="has-entry">True</property>
+                        <property name="entry-text-column">0</property>
                       </object>
                       <packing>
                         <property name="position">0</property>
