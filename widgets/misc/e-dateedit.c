@@ -570,6 +570,7 @@ create_children			(EDateEdit	*dedit)
 	time_store = gtk_list_store_new (1, G_TYPE_STRING);
 	priv->time_combo = gtk_combo_box_new_with_model_and_entry (
 		GTK_TREE_MODEL (time_store));
+	gtk_combo_box_set_entry_text_column (GTK_COMBO_BOX (priv->time_combo), 0);
 	g_object_unref (time_store);
 
 	child = gtk_bin_get_child (GTK_BIN (priv->time_combo));

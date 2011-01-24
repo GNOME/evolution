@@ -25,10 +25,14 @@
 #ifndef E_DIALOG_WIDGETS_H
 #define E_DIALOG_WIDGETS_H
 
+#include <gtk/gtk.h>
+
 void e_dialog_editable_set (GtkWidget *widget, const gchar *value);
 gchar *e_dialog_editable_get (GtkWidget *widget);
 
 void e_dialog_combo_box_set (GtkWidget *widget, gint value, const gint *value_map);
 gint e_dialog_combo_box_get (GtkWidget *widget, const gint *value_map);
+
+void e_dialog_append_list_store_text (GtkTreeModel *list_store, gint text_column, const gchar *text_value);
 
 #endif

@@ -1419,6 +1419,27 @@ comp_editor_get_property (GObject *object,
 }
 
 static void
+unref_page_cb (gpointer editor_page, gpointer comp_editor)
+{
+	if (IS_COMP_EDITOR_PAGE (editor_page)) {
+		GtkWidget *page_widget;
+		CompEditorPage *page = COMP_EDITOR_PAGE (editor_page);
+		CompEditor *editor = COMP_EDITOR (comp_editor);
+
+		g_return_if_fail (page != NULL);
+		g_return_if_fail (editor != NULL);
+
+		page_widget = comp_editor_page_get_widget (page);
+		g_signal_handlers_disconnect_matched (
+			page_widget, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, page);
+	}
+
+	g_signal_handlers_disconnect_matched (
+		editor_page, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, comp_editor);
+	g_object_unref (editor_page);
+}
+
+static void
 comp_editor_dispose (GObject *object)
 {
 	CompEditorPrivate *priv;
@@ -1464,7 +1485,7 @@ comp_editor_dispose (GObject *object)
 	/* We want to destroy the pages after the widgets get destroyed,
 	   since they have lots of signal handlers connected to the widgets
 	   with the pages as the data. */
-	g_list_foreach (priv->pages, (GFunc) g_object_unref, NULL);
+	g_list_foreach (priv->pages, (GFunc) unref_page_cb, object);
 	g_list_free (priv->pages);
 	priv->pages = NULL;
 
@@ -2589,8 +2610,7 @@ page_unmapped_cb (GtkWidget *page_widget,
 		return;
 
 	if (page->accel_group) {
-		gtk_window_remove_accel_group (GTK_WINDOW (toplevel),
-					       page->accel_group);
+		gtk_window_remove_accel_group (GTK_WINDOW (toplevel), page->accel_group);
 	}
 }
 
