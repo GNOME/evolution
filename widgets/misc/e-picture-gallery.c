@@ -327,8 +327,35 @@ visible_cb (EPictureGallery *gallery)
 static void
 picture_gallery_constructed (GObject *object)
 {
+	GtkIconView *icon_view;
+	GtkListStore *list_store;
+	GtkTargetEntry *targets;
+	GtkTargetList *list;
+	gint n_targets;
+
 	if (G_OBJECT_CLASS (e_picture_gallery_parent_class)->constructed)
 		G_OBJECT_CLASS (e_picture_gallery_parent_class)->constructed (object);
+
+	icon_view = GTK_ICON_VIEW (object);
+
+	list_store = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
+	gtk_icon_view_set_model (icon_view, GTK_TREE_MODEL (list_store));
+	g_object_unref (list_store);
+
+	gtk_icon_view_set_pixbuf_column (icon_view, COL_PIXBUF);
+	gtk_icon_view_set_text_column (icon_view, COL_FILENAME_TEXT);
+	gtk_icon_view_set_tooltip_column (icon_view, -1);
+
+	list = gtk_target_list_new (NULL, 0);
+	gtk_target_list_add_uri_targets (list, 0);
+	targets = gtk_target_table_new_from_list (list, &n_targets);
+
+	gtk_icon_view_enable_model_drag_source (
+		icon_view, GDK_BUTTON1_MASK,
+		targets, n_targets, GDK_ACTION_COPY);
+
+	gtk_target_table_free (targets, n_targets);
+	gtk_target_list_unref (list);
 
 	g_signal_connect (object, "notify::visible", G_CALLBACK (visible_cb), NULL);
 }
@@ -379,37 +406,10 @@ e_picture_gallery_class_init (EPictureGalleryClass *class)
 static void
 e_picture_gallery_init (EPictureGallery *gallery)
 {
-	GtkIconView *icon_view;
-	GtkListStore *list_store;
-	GtkTargetEntry *targets;
-	GtkTargetList *list;
-	gint n_targets;
-
 	gallery->priv = E_PICTURE_GALLERY_GET_PRIVATE (gallery);
 	gallery->priv->initialized = FALSE;
 	gallery->priv->monitor = NULL;
 	picture_gallery_set_path (gallery, NULL);
-
-	icon_view = GTK_ICON_VIEW (gallery);
-
-	list_store = gtk_list_store_new (3, GDK_TYPE_PIXBUF, G_TYPE_STRING, G_TYPE_STRING);
-	gtk_icon_view_set_model (icon_view, GTK_TREE_MODEL (list_store));
-	g_object_unref (list_store);
-
-	gtk_icon_view_set_pixbuf_column (icon_view, COL_PIXBUF);
-	gtk_icon_view_set_text_column (icon_view, COL_FILENAME_TEXT);
-	gtk_icon_view_set_tooltip_column (icon_view, -1);
-
-	list = gtk_target_list_new (NULL, 0);
-	gtk_target_list_add_uri_targets (list, 0);
-	targets = gtk_target_table_new_from_list (list, &n_targets);
-
-	gtk_icon_view_enable_model_drag_source (
-		icon_view, GDK_BUTTON1_MASK,
-		targets, n_targets, GDK_ACTION_COPY);
-
-	gtk_target_table_free (targets, n_targets);
-	gtk_target_list_unref (list);
 }
 
 GtkWidget *
