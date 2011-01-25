@@ -225,7 +225,6 @@ shell_sidebar_get_preferred_width (GtkWidget *widget,
                                    gint      *natural)
 {
 	EShellSidebarPrivate *priv;
-        gint child_min, child_nat;
 	GtkWidget *child;
 
 	priv = E_SHELL_SIDEBAR_GET_PRIVATE (widget);
@@ -233,10 +232,7 @@ shell_sidebar_get_preferred_width (GtkWidget *widget,
 	child = gtk_bin_get_child (GTK_BIN (widget));
         gtk_widget_get_preferred_width (child, minimum, natural);
 
-	child = priv->event_box;
-        gtk_widget_get_preferred_width (child, &child_min, &child_nat);
-        *minimum = MAX (*minimum, child_min);
-        *natural = MAX (*natural, child_nat);
+	/* do not use priv->event_box here, otherwise it'll not ellipsize */
 }
 
 static void
@@ -302,7 +298,7 @@ shell_sidebar_forall (GtkContainer *container,
 
 	priv = E_SHELL_SIDEBAR_GET_PRIVATE (container);
 
-	if (include_internals && callback_data)
+	if (include_internals && callback && priv->event_box)
 		callback (priv->event_box, callback_data);
 
 	/* Chain up to parent's forall() method. */
