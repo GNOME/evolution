@@ -632,6 +632,7 @@
                     <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                     <property name="shadow_type">GTK_SHADOW_IN</property>
                     <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
+                    <property name="height_request">100</property>
                     <child>
                       <object class="GtkTextView" id="description">
                         <property name="visible">True</property>
