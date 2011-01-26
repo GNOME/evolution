@@ -36,7 +36,7 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 
 dnl Required Packages
 m4_define([glib_minimum_version], [2.26.0])
-m4_define([gtk_minimum_version], [2.90.4])
+m4_define([gtk_minimum_version], [2.99.2])
 m4_define([eds_minimum_version], [evo_version])
 m4_define([gtkhtml_minimum_version], [3.91.3])
 m4_define([gnome_desktop_minimum_version], [2.91.3])
