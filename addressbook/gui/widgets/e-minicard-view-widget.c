@@ -139,7 +139,7 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *class)
 					 g_param_spec_double ("column_width",
 							      "Column Width",
 							      NULL,
-							      0.0, G_MAXDOUBLE, 150.0,
+							      0.0, G_MAXDOUBLE, 225.0,
 							      G_PARAM_READWRITE));
 
 	signals[CREATE_CONTACT] =
@@ -196,7 +196,7 @@ e_minicard_view_widget_init (EMinicardViewWidget *view)
 	view->book = NULL;
 	view->query = NULL;
 	view->editable = FALSE;
-	view->column_width = 150;
+	view->column_width = 225;
 }
 
 GtkWidget *

@@ -82,7 +82,7 @@ view_minicard_load (GalView *view,
 	root = xmlDocGetRootElement (doc);
 	view_minicard->column_width =
 		e_xml_get_double_prop_by_name_with_default (
-		root, (guchar *) "column_width", 150);
+		root, (guchar *) "column_width", 225);
 	xmlFreeDoc (doc);
 }
 
@@ -175,7 +175,7 @@ static void
 gal_view_minicard_init (GalViewMinicard *gvm)
 {
 	gvm->title = NULL;
-	gvm->column_width = 150.0;
+	gvm->column_width = 225.0;
 
 	gvm->emvw = NULL;
 	gvm->emvw_column_width_changed_id = 0;
