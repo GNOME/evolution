@@ -196,8 +196,6 @@ editor_closed_cb (GtkWidget *w, gpointer closure)
 	if (qa)
 		/* We don't need to unref qa because we set_data_full below */
 		g_object_set_data (G_OBJECT (w), "quick_add", NULL);
-
-	g_object_unref (w);
 }
 
 static void
