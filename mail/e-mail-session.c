@@ -200,9 +200,7 @@ user_message_exec (struct _user_message_msg *m,
 	parent = e_shell_get_active_window (e_shell_get_default ());
 	user_message_dialog = e_alert_dialog_new_for_args (
 		parent, error_type, m->prompt, NULL);
-	g_object_set (
-		user_message_dialog, "allow_shrink", TRUE,
-		"allow_grow", TRUE, NULL);
+	g_object_set (user_message_dialog, "resizable", TRUE, NULL);
 
 	/* XXX This is a case where we need to be able to construct
 	 *     custom EAlerts without a predefined XML definition. */
