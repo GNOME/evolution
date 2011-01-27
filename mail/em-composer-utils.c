@@ -402,6 +402,9 @@ composer_presend_check_plugins (EMsgComposer *composer)
 	/* A non-NULL value for this key means the check failed. */
 	data = g_object_get_data (G_OBJECT (composer), "presend_check_status");
 
+	/* Clear the value in case we have to run these checks again. */
+	g_object_set_data (G_OBJECT (composer), "presend_check_status", NULL);
+
 	return (data == NULL);
 }
 
