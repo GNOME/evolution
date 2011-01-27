@@ -354,12 +354,7 @@ setup_google_accounts (MailAccountView *mav)
 		GSList *ids, *temp;
 
 		slist = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
-		sgrp = e_source_list_peek_group_by_base_uri (slist, "google://");
-		if (!sgrp) {
-			sgrp = e_source_list_ensure_group (slist, _("Google"), "google://", TRUE);
-		}
-
-		printf("Setting up Google Calendar: list:%p GoogleGrp: %p\n", slist, sgrp);
+		sgrp = e_source_list_ensure_group (slist, _("Google"), "google://", TRUE);
 
 		/* FIXME: Not sure if we should localize 'Calendar' */
 		calendar = e_source_new ("Calendar", "");
@@ -372,6 +367,8 @@ setup_google_accounts (MailAccountView *mav)
 		e_source_set_property (calendar, "default", "true");
 		e_source_set_readonly (calendar, FALSE);
 
+		e_source_group_add_source (sgrp, calendar, -1);
+
 		sanitize_uname = sanitize_user_mail (mav->priv->username);
 
 		abs_uri = g_strdup_printf (CALENDAR_CALDAV_URI, sanitize_uname, mav->priv->username);
@@ -382,7 +379,6 @@ setup_google_accounts (MailAccountView *mav)
 		rel_uri = g_strconcat ("https", GMAIL_CALENDAR_LOCATION, sanitize_uname, CALENDAR_DEFAULT_PATH, NULL);
 		e_source_set_relative_uri (calendar, rel_uri);
 
-		e_source_group_add_source (sgrp, calendar, -1);
 		e_source_list_sync (slist, NULL);
 
 		ids = gconf_client_get_list (gconf, SELECTED_CALENDARS, GCONF_VALUE_STRING, NULL);
@@ -400,8 +396,7 @@ setup_google_accounts (MailAccountView *mav)
 		g_object_unref (slist);
 		g_object_unref (sgrp);
 		g_object_unref (calendar);
-	} else
-		printf("Not setting up Google Calendar\n");
+	}
 
 	if (mav->priv->do_gcontacts) {
 		ESourceList *slist;
@@ -411,7 +406,7 @@ setup_google_accounts (MailAccountView *mav)
 
 		slist = e_source_list_new_for_gconf (gconf, "/apps/evolution/addressbook/sources" );
 
-		sgrp = e_source_list_peek_group_by_base_uri (slist, "google://");
+		sgrp = e_source_list_ensure_group (slist, _("Google"), "google://", TRUE);
 
 		/* FIXME: Not sure if we should localize 'Contacts' */
 		abook = e_source_new ("Contacts", "");
@@ -423,19 +418,20 @@ setup_google_accounts (MailAccountView *mav)
 		e_source_set_property (abook, "refresh-interval", "86400");
 		e_source_set_property (abook, "completion", "true");
 		e_source_set_property (abook, "username", mav->priv->username);
+
+		e_source_group_add_source (sgrp, abook, -1);
+
 		e_source_set_relative_uri (abook, mav->priv->username);
 
 		rel_uri = g_strdup_printf("google://%s/", mav->priv->username);
 		e_passwords_add_password (rel_uri, gtk_entry_get_text ((GtkEntry *)mav->password));
 		e_passwords_remember_password ("Addressbook", rel_uri);
-		e_source_group_add_source (sgrp, abook, -1);
 		e_source_list_sync (slist, NULL);
 
 		g_free (rel_uri);
 		g_object_unref (slist);
 		g_object_unref (sgrp);
 		g_object_unref (abook);
-
 	}
 
 	g_object_unref (gconf);
