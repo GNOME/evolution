@@ -1281,7 +1281,7 @@ vfolder_edit_rule (EMailBackend *backend,
 		gtk_box_set_spacing (GTK_BOX (container), 6);
 
 		gtk_dialog_set_default_response (gd, GTK_RESPONSE_OK);
-		g_object_set(gd, "allow_shrink", FALSE, "allow_grow", TRUE, NULL);
+		g_object_set (gd, "resizable", TRUE, NULL);
 		gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);
 		gtk_box_pack_start (GTK_BOX (container), w, TRUE, TRUE, 0);
 		gtk_widget_show ((GtkWidget *)gd);
@@ -1387,7 +1387,7 @@ vfolder_gui_add_rule (EMVFolderRule *rule)
 	container = gtk_dialog_get_content_area (gd);
 	gtk_box_set_spacing (GTK_BOX (container), 6);
 
-	g_object_set(gd, "allow_shrink", FALSE, "allow_grow", TRUE, NULL);
+	g_object_set (gd, "resizable", TRUE, NULL);
 	gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);
 	gtk_box_pack_start (GTK_BOX (container), w, TRUE, TRUE, 0);
 	gtk_widget_show ((GtkWidget *)gd);
