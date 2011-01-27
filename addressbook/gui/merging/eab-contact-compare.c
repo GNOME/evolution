@@ -763,7 +763,7 @@ eab_contact_locate_match_full (EBook *book,
 	g_return_if_fail (E_IS_CONTACT (contact));
 	g_return_if_fail (cb != NULL);
 
-	info = g_new (MatchSearchInfo, 1);
+	info = g_new0 (MatchSearchInfo, 1);
 	info->contact = g_object_ref (contact);
 	info->cb = cb;
 	info->closure = closure;
