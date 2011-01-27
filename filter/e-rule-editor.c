@@ -353,9 +353,7 @@ rule_edit (GtkWidget *widget, ERuleEditor *editor)
 	gtk_window_set_title ((GtkWindow *) editor->dialog, _("Edit Rule"));
 	gtk_window_set_default_size (GTK_WINDOW (editor->dialog), 650, 400);
 	gtk_window_set_resizable (GTK_WINDOW (editor->dialog), TRUE);
-	gtk_widget_set_parent_window (
-		GTK_WIDGET (editor->dialog),
-		gtk_widget_get_window (GTK_WIDGET (editor)));
+	gtk_window_set_transient_for (GTK_WINDOW (editor->dialog), GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (editor))));
 	gtk_container_set_border_width ((GtkContainer *) editor->dialog, 6);
 
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (editor->dialog));
