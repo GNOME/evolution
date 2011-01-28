@@ -1633,7 +1633,7 @@ AC_ARG_WITH([glade-catalog],
 	[(for maintainers only) [default=no]])],
 	[with_catalog="$withval"], [with_catalog="no"])
 if test "$with_catalog" = "yes"; then
-	PKG_CHECK_MODULES(GLADEUI, [gladeui-1.0 >= gladeui_minimum_version])
+	PKG_CHECK_MODULES(GLADEUI, [gladeui-2.0 >= gladeui_minimum_version])
 fi
 AM_CONDITIONAL(GLADE_CATALOG, test "x$with_catalog" != "xno")
 

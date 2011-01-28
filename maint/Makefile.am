@@ -1,10 +1,10 @@
 ### Process this file with automake to produce Makefile.in
 
 gladecatalog_DATA = evolution.xml
-gladecatalogdir = `$(PKG_CONFIG) --variable=catalogdir gladeui-1.0`
+gladecatalogdir = `$(PKG_CONFIG) --variable=catalogdir gladeui-2.0`
 
 gladeevolution_LTLIBRARIES = libgladeevolution.la
-gladeevolutiondir = `$(PKG_CONFIG) --variable=moduledir gladeui-1.0`
+gladeevolutiondir = `$(PKG_CONFIG) --variable=moduledir gladeui-2.0`
 
 libgladeevolution_la_SOURCES =
 
