@@ -181,7 +181,8 @@ disconnect_im_context (EText *text)
 	if (!text || !text->im_context)
 		return;
 
-	g_signal_handlers_disconnect_matched (text->im_context, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, text);
+	g_signal_handlers_disconnect_matched (
+		text->im_context, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, text);
 	text->im_context_signals_registered = FALSE;
 }
 
@@ -1123,25 +1124,28 @@ e_text_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags)
 
 	if ( text->needs_recalc_bounds
 	     || (flags & GNOME_CANVAS_UPDATE_AFFINE)) {
-                get_bounds (text, &x1, &y1, &x2, &y2);
-                if ( item->x1 != x1 ||
-                     item->x2 != x2 ||
-                     item->y1 != y1 ||
-                     item->y2 != y2 ) {
-                        gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
-                        item->x1 = x1;
-                        item->y1 = y1;
-                        item->x2 = x2;
-                        item->y2 = y2;
-                        text->needs_redraw = 1;
-                        item->canvas->need_repick = TRUE;
-                }
-                if (!text->fill_clip_rectangle)
-                        item->canvas->need_repick = TRUE;
+		get_bounds (text, &x1, &y1, &x2, &y2);
+		if ( item->x1 != x1 ||
+		     item->x2 != x2 ||
+		     item->y1 != y1 ||
+		     item->y2 != y2 ) {
+			gnome_canvas_request_redraw (
+				item->canvas, item->x1, item->y1,
+				item->x2, item->y2);
+			item->x1 = x1;
+			item->y1 = y1;
+			item->x2 = x2;
+			item->y2 = y2;
+			text->needs_redraw = 1;
+			item->canvas->need_repick = TRUE;
+		}
+		if (!text->fill_clip_rectangle)
+			item->canvas->need_repick = TRUE;
 		text->needs_recalc_bounds = 0;
 	}
 	if (text->needs_redraw) {
-		gnome_canvas_request_redraw (item->canvas, item->x1, item->y1, item->x2, item->y2);
+		gnome_canvas_request_redraw (
+			item->canvas, item->x1, item->y1, item->x2, item->y2);
 		text->needs_redraw = 0;
 	}
 }
@@ -1201,12 +1205,16 @@ draw_pango_rectangle (cairo_t *cr,
 {
 	gint width = rect.width / PANGO_SCALE;
 	gint height = rect.height / PANGO_SCALE;
+
 	if (width <= 0)
 		width = 1;
 	if (height <= 0)
 		height = 1;
-	cairo_rectangle (cr, x1 + rect.x / PANGO_SCALE, y1 + rect.y / PANGO_SCALE, width, height);
-        cairo_fill (cr);
+
+	cairo_rectangle (
+		cr, x1 + rect.x / PANGO_SCALE,
+		y1 + rect.y / PANGO_SCALE, width, height);
+	cairo_fill (cr);
 }
 
 static gboolean
@@ -1456,11 +1464,11 @@ e_text_draw (GnomeCanvasItem *item, cairo_t *cr,
 	cairo_save (cr);
 
 	if (text->clip) {
-                cairo_rectangle (cr,
-                                 xpos, ypos,
-                                 text->clip_cwidth - text->xofs,
-                                 text->clip_cheight - text->yofs);
-                cairo_clip (cr);
+		cairo_rectangle (cr,
+				 xpos, ypos,
+				 text->clip_cwidth - text->xofs,
+				 text->clip_cheight - text->yofs);
+		cairo_clip (cr);
 	}
 
 	if (text->editing) {
@@ -1468,16 +1476,19 @@ e_text_draw (GnomeCanvasItem *item, cairo_t *cr,
 		ypos -= text->yofs_edit;
 	}
 
-        cairo_move_to (cr, xpos, ypos);
-        pango_cairo_show_layout (cr, text->layout);
+	cairo_move_to (cr, xpos, ypos);
+	pango_cairo_show_layout (cr, text->layout);
 
 	if (text->editing) {
 		if (text->selection_start != text->selection_end) {
 			cairo_region_t *clip_region = cairo_region_create ();
 			gint indices[2];
-                        GtkStateType state;
+			GtkStateType state;
 
-                        state = text->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE;
+			if (text->has_selection)
+				state = GTK_STATE_SELECTED;
+			else
+				state = GTK_STATE_ACTIVE;
 
 			indices[0] = MIN (text->selection_start, text->selection_end);
 			indices[1] = MAX (text->selection_start, text->selection_end);
@@ -1486,19 +1497,19 @@ e_text_draw (GnomeCanvasItem *item, cairo_t *cr,
 			indices[0] = g_utf8_offset_to_pointer (text->text, indices[0]) - text->text;
 			indices[1] = g_utf8_offset_to_pointer (text->text, indices[1]) - text->text;
 
-                        clip_region = gdk_pango_layout_get_clip_region (text->layout,
-                                                                        xpos, ypos,
-                                                                        indices, 1);
-                        gdk_cairo_region (cr, clip_region);
-                        cairo_clip (cr);
+			clip_region = gdk_pango_layout_get_clip_region (text->layout,
+									xpos, ypos,
+									indices, 1);
+			gdk_cairo_region (cr, clip_region);
+			cairo_clip (cr);
 			cairo_region_destroy (clip_region);
 
-                        gdk_cairo_set_source_color (cr, &style->base[state]);
-                        cairo_paint (cr);
+			gdk_cairo_set_source_color (cr, &style->base[state]);
+			cairo_paint (cr);
 
-                        gdk_cairo_set_source_color (cr, &style->text[state]);
-                        cairo_move_to (cr, xpos, ypos);
-                        pango_cairo_show_layout (cr, text->layout);
+			gdk_cairo_set_source_color (cr, &style->text[state]);
+			cairo_move_to (cr, xpos, ypos);
+			pango_cairo_show_layout (cr, text->layout);
 		} else {
 			if (text->show_cursor) {
 				PangoRectangle strong_pos, weak_pos;

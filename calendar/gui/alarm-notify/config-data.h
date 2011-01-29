@@ -51,7 +51,7 @@ void config_data_stop_debugging (void);
 #define debug(x) G_STMT_START {					\
 	if (config_data_start_debugging ()) {			\
 		g_print ("%s (%s): ", G_STRFUNC, G_STRLOC);	\
-		g_print  x ;					\
+		g_print  x;					\
 		g_print ("\n");					\
 								\
 		config_data_stop_debugging ();			\

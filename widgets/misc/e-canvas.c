@@ -278,7 +278,9 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 		/* find the closest item */
 
 		if (canvas->root->flags & GNOME_CANVAS_ITEM_VISIBLE)
-			canvas->new_current_item = gnome_canvas_item_invoke_point (canvas->root, x, y, cx, cy);
+			canvas->new_current_item =
+				gnome_canvas_item_invoke_point (
+				canvas->root, x, y, cx, cy);
 		else
 			canvas->new_current_item = NULL;
 	} else

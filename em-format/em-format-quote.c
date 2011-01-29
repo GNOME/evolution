@@ -530,9 +530,8 @@ emfq_format_message (EMFormat *emf,
 			cancellable, NULL);
 }
 
-/* Decodes inline encoded parts of 'part'. The returned pointer, if not NULL, should
-   be unreffed with g_object_unref().
-*/
+/* Decodes inline encoded parts of 'part'. The returned pointer,
+ * if not NULL, should be unreffed with g_object_unref(). */
 static CamelMimePart *
 decode_inline_parts (CamelMimePart *part, GCancellable *cancellable)
 {
@@ -547,13 +546,16 @@ decode_inline_parts (CamelMimePart *part, GCancellable *cancellable)
 	filtered_stream = camel_stream_filter_new (null);
 	g_object_unref (null);
 
-	inline_filter = em_inline_filter_new (camel_mime_part_get_encoding (part), camel_mime_part_get_content_type (part));
+	inline_filter = em_inline_filter_new (
+		camel_mime_part_get_encoding (part),
+		camel_mime_part_get_content_type (part));
 	camel_stream_filter_add (
 		CAMEL_STREAM_FILTER (filtered_stream),
 		CAMEL_MIME_FILTER (inline_filter));
 	camel_data_wrapper_decode_to_stream_sync (
-		camel_medium_get_content (CAMEL_MEDIUM (part)), (CamelStream *)filtered_stream, cancellable, NULL);
-	camel_stream_close ((CamelStream *)filtered_stream, cancellable, NULL);
+		camel_medium_get_content (CAMEL_MEDIUM (part)),
+		filtered_stream, cancellable, NULL);
+	camel_stream_close (filtered_stream, cancellable, NULL);
 	g_object_unref (filtered_stream);
 
 	if (!em_inline_filter_found_any (inline_filter)) {
@@ -567,7 +569,8 @@ decode_inline_parts (CamelMimePart *part, GCancellable *cancellable)
 
 	if (mp) {
 		part = camel_mime_part_new ();
-		camel_medium_set_content (CAMEL_MEDIUM (part), CAMEL_DATA_WRAPPER (mp));
+		camel_medium_set_content (
+			CAMEL_MEDIUM (part), CAMEL_DATA_WRAPPER (mp));
 		g_object_unref (mp);
 	} else {
 		g_object_ref (part);

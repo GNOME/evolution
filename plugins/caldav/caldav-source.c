@@ -252,7 +252,9 @@ oge_caldav  (EPlugin                    *epl,
 	g_free (username);
 
 	mail = e_plugin_util_add_entry (parent, _("User e-_mail:"), source, "usermail");
-	autoschedule = e_plugin_util_add_check (parent, _("Server _handles meeting invitations"), source, "autoschedule", "1", "0");
+	autoschedule = e_plugin_util_add_check (
+		parent, _("Server _handles meeting invitations"),
+		source, "autoschedule", "1", "0");
 
 	browse_cal = gtk_button_new_with_mnemonic (_("Brows_e server for a calendar"));
 	gtk_widget_show (browse_cal);

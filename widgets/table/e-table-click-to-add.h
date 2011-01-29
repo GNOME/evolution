@@ -64,7 +64,8 @@ struct _ETableClickToAdd {
 
 	gchar             *message;
 
-	GnomeCanvasItem  *row;    /* If row is NULL, we're sitting with no data and a "Click here" message. */
+	GnomeCanvasItem  *row;    /* If row is NULL, we're sitting with
+				   * no data and a "Click here" message. */
 	GnomeCanvasItem  *text;   /* If text is NULL, row shouldn't be. */
 	GnomeCanvasItem  *rect;   /* What the heck.  Why not. */
 

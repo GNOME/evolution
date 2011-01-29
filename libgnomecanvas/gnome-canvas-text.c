@@ -105,7 +105,9 @@ static void gnome_canvas_text_get_property (GObject            *object,
 					    GValue             *value,
 					    GParamSpec         *pspec);
 
-static void gnome_canvas_text_update (GnomeCanvasItem *item, const cairo_matrix_t *matrix, gint flags);
+static void gnome_canvas_text_update (GnomeCanvasItem *item,
+				      const cairo_matrix_t *matrix,
+				      gint flags);
 static void gnome_canvas_text_draw (GnomeCanvasItem *item, cairo_t *cr,
 				    gint x, gint y, gint width, gint height);
 static GnomeCanvasItem *gnome_canvas_text_point (GnomeCanvasItem *item,
@@ -635,7 +637,9 @@ gnome_canvas_text_set_property (GObject            *object,
 	text = GNOME_CANVAS_TEXT (object);
 
 	if (!text->layout)
-                text->layout = pango_layout_new (gtk_widget_get_pango_context (GTK_WIDGET (item->canvas)));
+                text->layout = pango_layout_new (
+			gtk_widget_get_pango_context (
+			GTK_WIDGET (item->canvas)));
 
 	switch (param_id) {
 	case PROP_TEXT:

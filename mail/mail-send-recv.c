@@ -410,7 +410,7 @@ build_dialog (GtkWindow *parent,
               EAccountList *accounts,
               CamelFolder *outbox,
               const gchar *destination,
-	      gboolean allow_send)
+              gboolean allow_send)
 {
 	GtkDialog *gd;
 	GtkWidget *table;
@@ -1193,14 +1193,20 @@ auto_online (EShell *shell)
 {
 	EIterator *iter;
 	EAccountList *accounts;
+	EShellSettings *shell_settings;
 	struct _auto_data *info;
 	gboolean can_update_all;
 
 	if (!e_shell_get_online (shell))
 		return;
 
-	can_update_all = e_shell_settings_get_boolean (e_shell_get_shell_settings (shell), "mail-check-on-start")
-			&& e_shell_settings_get_boolean (e_shell_get_shell_settings (shell), "mail-check-all-on-start");
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	can_update_all =
+		e_shell_settings_get_boolean (
+			shell_settings, "mail-check-on-start") &&
+		e_shell_settings_get_boolean (
+			shell_settings, "mail-check-all-on-start");
 
 	accounts = e_get_account_list ();
 	for (iter = e_list_get_iterator ((EList *)accounts);
@@ -1212,8 +1218,7 @@ auto_online (EShell *shell)
 			continue;
 
 		info = g_object_get_data (
-			G_OBJECT (account),
-			"mail-autoreceive");
+			G_OBJECT (account), "mail-autoreceive");
 		if (info && (info->timeout_id || can_update_all))
 			auto_timeout (info);
 	}
@@ -1228,6 +1233,7 @@ void
 mail_autoreceive_init (EMailBackend *backend)
 {
 	EShellBackend *shell_backend;
+	EShellSettings *shell_settings;
 	EMailSession *session;
 	EAccountList *accounts;
 	EIterator *iter;
@@ -1262,8 +1268,10 @@ mail_autoreceive_init (EMailBackend *backend)
 
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
+	shell_settings = e_shell_get_shell_settings (shell);
 
-	if (e_shell_settings_get_boolean (e_shell_get_shell_settings (shell), "mail-check-on-start")) {
+	if (e_shell_settings_get_boolean (
+		shell_settings, "mail-check-on-start")) {
 		auto_online (shell);
 
 		/* also flush outbox on start */

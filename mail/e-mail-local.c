@@ -85,7 +85,7 @@ e_mail_local_init (EMailSession *session,
 		/* FIXME camel_store_get_folder() may block. */
 		default_local_folders[ii].folder_uri = folder_uri;
 		if (!strcmp (display_name, "Inbox"))
-			default_local_folders [ii].folder = camel_store_get_inbox_folder_sync (
+			default_local_folders[ii].folder = camel_store_get_inbox_folder_sync (
 				CAMEL_STORE (service), NULL, NULL);
 		else
 			default_local_folders[ii].folder = camel_store_get_folder_sync (

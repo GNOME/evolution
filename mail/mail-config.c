@@ -99,7 +99,8 @@ config_write_style (void)
 	fprintf (rc, "        GtkHTML::spell_error_color = \"%s\"\n", spell_color);
 	g_free (spell_color);
 
-	if (gconf_client_get_bool (client, "/apps/evolution/mail/display/mark_citations", NULL))
+	key = "/apps/evolution/mail/display/mark_citations";
+	if (gconf_client_get_bool (client, key, NULL))
 		fprintf (rc, "        GtkHTML::cite_color = \"%s\"\n",
 			 citation_color);
 	g_free (citation_color);
@@ -125,24 +126,31 @@ config_write_style (void)
 }
 
 static void
-gconf_style_changed (GConfClient *client, guint cnxn_id,
-		     GConfEntry *entry, gpointer user_data)
+gconf_style_changed (GConfClient *client,
+                     guint cnxn_id,
+                     GConfEntry *entry,
+                     gpointer user_data)
 {
 	config_write_style ();
 }
 
 static void
-gconf_outlook_filenames_changed (GConfClient *client, guint cnxn_id,
-				 GConfEntry *entry, gpointer user_data)
+gconf_outlook_filenames_changed (GConfClient *client,
+                                 guint cnxn_id,
+                                 GConfEntry *entry,
+                                 gpointer user_data)
 {
+	const gchar *key;
+
 	g_return_if_fail (client != NULL);
 
+	key = "/apps/evolution/mail/composer/outlook_filenames";
+
 	/* pass option to the camel */
-	if (gconf_client_get_bool (client, "/apps/evolution/mail/composer/outlook_filenames", NULL)) {
+	if (gconf_client_get_bool (client, key, NULL))
 		camel_header_param_encode_filenames_in_rfc_2047 = 1;
-	} else {
+	else
 		camel_header_param_encode_filenames_in_rfc_2047 = 0;
-	}
 }
 
 static void
@@ -450,16 +458,28 @@ mail_config_get_lookup_book_local_only (void)
 }
 
 static void
-folder_deleted_cb (MailFolderCache *cache, CamelStore *store, const gchar *uri, gpointer user_data)
+folder_deleted_cb (MailFolderCache *cache,
+                   CamelStore *store,
+                   const gchar *uri,
+                   gpointer user_data)
 {
-	mail_config_uri_deleted (CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS (store))->compare_folder_name, uri);
+	CamelStoreClass *class;
+
+	class = CAMEL_STORE_GET_CLASS (store);
+	mail_config_uri_deleted (class->compare_folder_name, uri);
 }
 
 static void
-folder_renamed_cb (MailFolderCache *cache, CamelStore *store, const gchar *olduri, const gchar *newuri, gpointer user_data)
+folder_renamed_cb (MailFolderCache *cache,
+                   CamelStore *store,
+                   const gchar *olduri,
+                   const gchar *newuri,
+                   gpointer user_data)
 {
-	mail_config_uri_renamed (CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS (store))->compare_folder_name,
-				olduri, newuri);
+	CamelStoreClass *class;
+
+	class = CAMEL_STORE_GET_CLASS (store);
+	mail_config_uri_renamed (class->compare_folder_name, olduri, newuri);
 }
 
 /* Config struct routines */

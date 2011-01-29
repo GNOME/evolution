@@ -257,8 +257,10 @@ action_mail_folder_expunge_cb (GtkAction *action,
 {
 	EMailShellSidebar *mail_shell_sidebar;
 	EMFolderTree *folder_tree;
+	EShellBackend *shell_backend;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
+	EMailSession *session;
 	CamelFolder *folder;
 
 	/* This handles both the "folder-expunge" and "account-expunge"
@@ -278,7 +280,10 @@ action_mail_folder_expunge_cb (GtkAction *action,
 	folder = em_folder_tree_get_selected_folder (folder_tree);
 	g_return_if_fail (folder != NULL);
 
-	em_utils_expunge_folder (GTK_WIDGET (shell_window), e_mail_backend_get_session (E_MAIL_BACKEND (e_shell_view_get_shell_backend (shell_view))), folder);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+
+	em_utils_expunge_folder (GTK_WIDGET (shell_window), session, folder);
 }
 
 static void
@@ -718,21 +723,27 @@ action_mail_label_none_cb (GtkAction *action,
 }
 
 static void
-action_mail_send_receive_cb (GtkAction *action, EMailShellView *mail_shell_view)
+action_mail_send_receive_cb (GtkAction *action,
+                             EMailShellView *mail_shell_view)
 {
-	e_mail_shell_view_send_receive (mail_shell_view, E_MAIL_SEND_RECEIVE_BOTH, NULL);
+	e_mail_shell_view_send_receive (
+		mail_shell_view, E_MAIL_SEND_RECEIVE_BOTH, NULL);
 }
 
 static void
-action_mail_send_receive_receive_all_cb (GtkAction *action, EMailShellView *mail_shell_view)
+action_mail_send_receive_receive_all_cb (GtkAction *action,
+                                         EMailShellView *mail_shell_view)
 {
-	e_mail_shell_view_send_receive (mail_shell_view, E_MAIL_SEND_RECEIVE_RECEIVE, NULL);
+	e_mail_shell_view_send_receive (
+		mail_shell_view, E_MAIL_SEND_RECEIVE_RECEIVE, NULL);
 }
 
 static void
-action_mail_send_receive_send_all_cb (GtkAction *action, EMailShellView *mail_shell_view)
+action_mail_send_receive_send_all_cb (GtkAction *action,
+                                      EMailShellView *mail_shell_view)
 {
-	e_mail_shell_view_send_receive (mail_shell_view, E_MAIL_SEND_RECEIVE_SEND, NULL);
+	e_mail_shell_view_send_receive (
+		mail_shell_view, E_MAIL_SEND_RECEIVE_SEND, NULL);
 }
 
 static void

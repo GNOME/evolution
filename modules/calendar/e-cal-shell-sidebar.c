@@ -111,6 +111,7 @@ cal_shell_sidebar_backend_died_cb (ECalShellSidebar *cal_shell_sidebar,
                                    ECal *client)
 {
 	EShellView *shell_view;
+	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	GHashTable *client_table;
 	ESource *source;
@@ -120,6 +121,7 @@ cal_shell_sidebar_backend_died_cb (ECalShellSidebar *cal_shell_sidebar,
 
 	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	source = e_cal_get_source (client);
 	uid = e_source_peek_uid (source);
@@ -129,7 +131,8 @@ cal_shell_sidebar_backend_died_cb (ECalShellSidebar *cal_shell_sidebar,
 	g_hash_table_remove (client_table, uid);
 	cal_shell_sidebar_emit_status_message (cal_shell_sidebar, NULL);
 
-	e_alert_submit (E_ALERT_SINK (e_shell_view_get_shell_content (shell_view)),
+	e_alert_submit (
+		E_ALERT_SINK (shell_content),
 		"calendar:calendar-crashed", NULL);
 
 	g_object_unref (source);
@@ -141,18 +144,23 @@ cal_shell_sidebar_backend_error_cb (ECalShellSidebar *cal_shell_sidebar,
                                     ECal *client)
 {
 	EShellView *shell_view;
+	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	ESourceGroup *source_group;
 	ESource *source;
 
 	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	source = e_cal_get_source (client);
 	source_group = e_source_peek_group (source);
 
-	e_alert_submit (E_ALERT_SINK (e_shell_view_get_shell_content (shell_view)),
-		"calendar:backend-error", e_source_group_peek_name (source_group), e_source_peek_name (source), message, NULL);
+	e_alert_submit (
+		E_ALERT_SINK (shell_content),
+		"calendar:backend-error",
+		e_source_group_peek_name (source_group),
+		e_source_peek_name (source), message, NULL);
 }
 
 static void
@@ -161,11 +169,13 @@ cal_shell_sidebar_client_opened_cb (ECalShellSidebar *cal_shell_sidebar,
                                     ECal *client)
 {
 	EShellView *shell_view;
+	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	const gchar *message;
 
 	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	if (g_error_matches (error, E_CALENDAR_ERROR,
 		E_CALENDAR_STATUS_AUTHENTICATION_FAILED) ||
@@ -186,14 +196,16 @@ cal_shell_sidebar_client_opened_cb (ECalShellSidebar *cal_shell_sidebar,
 			return;
 
 		case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
-			e_alert_submit (E_ALERT_SINK (e_shell_view_get_shell_content (shell_view)),
+			e_alert_submit (
+				E_ALERT_SINK (shell_content),
 				"calendar:prompt-no-contents-offline-calendar",
 				NULL);
 			/* fall through */
 
 		default:
 			if (error->code != E_CALENDAR_STATUS_REPOSITORY_OFFLINE) {
-				e_alert_submit (E_ALERT_SINK (e_shell_view_get_shell_content (shell_view)),
+				e_alert_submit (
+					E_ALERT_SINK (shell_content),
 					"calendar:failed-open-calendar",
 					error->message, NULL);
 			}
@@ -222,6 +234,7 @@ cal_shell_sidebar_default_loaded_cb (ESource *source,
                                      EShellSidebar *shell_sidebar)
 {
 	ECalShellSidebarPrivate *priv;
+	EShellContent *shell_content;
 	EShellView *shell_view;
 	ECal *client;
 	GError *error = NULL;
@@ -229,6 +242,7 @@ cal_shell_sidebar_default_loaded_cb (ESource *source,
 	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
 
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	client = e_load_cal_source_finish (source, result, &error);
 
@@ -237,7 +251,8 @@ cal_shell_sidebar_default_loaded_cb (ESource *source,
 		goto exit;
 
 	} else if (error != NULL) {
-		e_alert_submit (E_ALERT_SINK (e_shell_view_get_shell_content (shell_view)),
+		e_alert_submit (
+			E_ALERT_SINK (shell_content),
 			"calendar:failed-open-calendar",
 			error->message, NULL);
 		g_error_free (error);

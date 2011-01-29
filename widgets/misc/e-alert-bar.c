@@ -243,33 +243,31 @@ e_alert_bar_new (void)
 	return g_object_new (E_TYPE_ALERT_BAR, NULL);
 }
 
-struct DuplicateData
-{
+typedef struct {
 	gboolean found;
 	EAlert *looking_for;
-};
+} DuplicateData;
 
 static void
-find_duplicate_cb (gpointer data, gpointer user_data)
+alert_bar_find_duplicate_cb (EAlert *alert,
+                             DuplicateData *dd)
 {
-	EAlert *alert = data;
-	struct DuplicateData *dd = user_data;
-
-	g_return_if_fail (alert != NULL);
-	g_return_if_fail (dd != NULL);
 	g_return_if_fail (dd->looking_for != NULL);
 
-	dd->found = dd->found || (
-		e_alert_get_message_type (alert) == e_alert_get_message_type (dd->looking_for) &&
-		g_strcmp0 (e_alert_get_primary_text (alert), e_alert_get_primary_text (dd->looking_for)) == 0 &&
-		g_strcmp0 (e_alert_get_secondary_text (alert), e_alert_get_secondary_text (dd->looking_for)) == 0);
+	dd->found |= (
+		e_alert_get_message_type (alert) ==
+		e_alert_get_message_type (dd->looking_for) &&
+		g_strcmp0 (e_alert_get_primary_text (alert),
+		e_alert_get_primary_text (dd->looking_for)) == 0 &&
+		g_strcmp0 (e_alert_get_secondary_text (alert),
+		e_alert_get_secondary_text (dd->looking_for)) == 0);
 }
 
 void
 e_alert_bar_add_alert (EAlertBar *alert_bar,
                        EAlert *alert)
 {
-	struct DuplicateData dd;
+	DuplicateData dd;
 
 	g_return_if_fail (E_IS_ALERT_BAR (alert_bar));
 	g_return_if_fail (E_IS_ALERT (alert));
@@ -277,7 +275,9 @@ e_alert_bar_add_alert (EAlertBar *alert_bar,
 	dd.found = FALSE;
 	dd.looking_for = alert;
 
-	g_queue_foreach (&alert_bar->priv->alerts, find_duplicate_cb, &dd);
+	g_queue_foreach (
+		&alert_bar->priv->alerts,
+		(GFunc) alert_bar_find_duplicate_cb, &dd);
 
 	if (dd.found)
 		return;

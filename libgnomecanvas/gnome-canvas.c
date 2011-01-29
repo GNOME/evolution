@@ -160,8 +160,9 @@ gnome_canvas_item_get_type (void)
 			NULL			/* value_table */
 		};
 
-		canvas_item_type = g_type_register_static (G_TYPE_INITIALLY_UNOWNED, "GnomeCanvasItem",
-							   &object_info, 0);
+		canvas_item_type = g_type_register_static (
+			G_TYPE_INITIALLY_UNOWNED,
+			"GnomeCanvasItem", &object_info, 0);
 	}
 
 	return canvas_item_type;
@@ -1504,7 +1505,7 @@ gnome_canvas_group_draw (GnomeCanvasItem *item,
 		if ((child->flags & GNOME_CANVAS_ITEM_VISIBLE)
 		    && ((child->x1 < (x + width))
 		    && (child->y1 < (y + height))
-	            && (child->x2 > x)
+		    && (child->x2 > x)
 		    && (child->y2 > y))) {
 			cairo_save (cr);
 
@@ -2517,7 +2518,9 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 		/* find the closest item */
 
 		if (canvas->root->flags & GNOME_CANVAS_ITEM_VISIBLE)
-			canvas->new_current_item = gnome_canvas_item_invoke_point (canvas->root, x, y, cx, cy);
+			canvas->new_current_item =
+				gnome_canvas_item_invoke_point (
+				canvas->root, x, y, cx, cy);
 		else
 			canvas->new_current_item = NULL;
 	} else

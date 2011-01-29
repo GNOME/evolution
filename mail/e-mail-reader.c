@@ -434,7 +434,8 @@ get_message_checksum (CamelFolder *folder, CamelMimeMessage *msg)
 
 	buffer = camel_stream_mem_get_byte_array (CAMEL_STREAM_MEM (mem));
 	if (buffer)
-		digest = g_compute_checksum_for_data (duplicate_csum, buffer->data, buffer->len);
+		digest = g_compute_checksum_for_data (
+			duplicate_csum, buffer->data, buffer->len);
 
 	g_object_unref (mem);
 
@@ -453,7 +454,10 @@ message_is_duplicated (GHashTable *messages, guint64 id, gchar *digest)
 }
 
 static void
-remove_duplicates_got_messages_cb (CamelFolder *folder, GPtrArray *uids, GPtrArray *msgs, gpointer data)
+remove_duplicates_got_messages_cb (CamelFolder *folder,
+                                   GPtrArray *uids,
+                                   GPtrArray *msgs,
+                                   gpointer data)
 {
 	EMailReader *reader = data;
 	GtkWindow *parent;
@@ -461,36 +465,46 @@ remove_duplicates_got_messages_cb (CamelFolder *folder, GPtrArray *uids, GPtrArr
 	GPtrArray *dups;
 	gint ii;
 
-	g_return_if_fail (folder != NULL);
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 	g_return_if_fail (msgs != NULL);
 	g_return_if_fail (msgs->len <= uids->len);
-	g_return_if_fail (reader != NULL);
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	parent = e_mail_reader_get_window (reader);
 
-	messages = g_hash_table_new_full (g_int_hash, g_int_equal, g_free, g_free);
+	messages = g_hash_table_new_full (
+		g_int_hash, g_int_equal, g_free, g_free);
 	dups = g_ptr_array_new ();
 
 	for (ii = 0; ii < msgs->len; ii++) {
-		CamelMessageInfo *msg_info = camel_folder_get_message_info (folder, uids->pdata[ii]);
-		const CamelSummaryMessageID *mid = camel_message_info_message_id (msg_info);
-		guint32 flags = camel_message_info_flags (msg_info);
+		CamelMessageInfo *msg_info;
+		const CamelSummaryMessageID *mid;
+		guint32 flags;
+
+		msg_info = camel_folder_get_message_info (
+			folder, uids->pdata[ii]);
+		mid = camel_message_info_message_id (msg_info);
+		flags = camel_message_info_flags (msg_info);
 
 		if (!(flags & CAMEL_MESSAGE_DELETED)) {
-			gchar *digest = get_message_checksum (folder, msgs->pdata[ii]);
+			gchar *digest;
 
-			if (digest) {
-				if (message_is_duplicated (messages, mid->id.id, digest)) {
+			digest = get_message_checksum (folder, msgs->pdata[ii]);
+
+			if (digest != NULL) {
+				if (message_is_duplicated (
+					messages, mid->id.id, digest)) {
 					g_ptr_array_add (dups, uids->pdata[ii]);
 					g_free (digest);
 				} else {
 					guint64 *id;
+
 					id = g_new0 (guint64, 1);
 					*id = mid->id.id;
-					g_hash_table_insert (messages, id, digest);
+
+					g_hash_table_insert (
+						messages, id, digest);
 				}
 			}
 		}
@@ -499,20 +513,26 @@ remove_duplicates_got_messages_cb (CamelFolder *folder, GPtrArray *uids, GPtrArr
 	}
 
 	if (dups->len == 0) {
-		em_utils_prompt_user (parent, NULL, "mail:info-no-remove-duplicates", camel_folder_get_name (folder), NULL);
+		em_utils_prompt_user (
+			parent, NULL, "mail:info-no-remove-duplicates",
+			camel_folder_get_name (folder), NULL);
 	} else {
 		gchar *msg = g_strdup_printf (ngettext (
 			/* Translators: %s is replaced with a folder name
 			   %d with count of duplicate messages. */
-			"Folder '%s' contains %d duplicate message. Are you sure you want to delete it?",
-			"Folder '%s' contains %d duplicate messages. Are you sure you want to delete them?",
+			"Folder '%s' contains %d duplicate message. "
+			"Are you sure you want to delete it?",
+			"Folder '%s' contains %d duplicate messages. "
+			"Are you sure you want to delete them?",
 			dups->len),
 			camel_folder_get_name (folder), dups->len);
 
-		if (em_utils_prompt_user (parent, NULL, "mail:ask-remove-duplicates", msg, NULL)) {
+		if (em_utils_prompt_user (
+			parent, NULL, "mail:ask-remove-duplicates", msg, NULL)) {
 			camel_folder_freeze (folder);
 			for (ii = 0; ii < dups->len; ii++)
-				camel_folder_delete_message (folder, g_ptr_array_index (dups, ii));
+				camel_folder_delete_message (
+					folder, g_ptr_array_index (dups, ii));
 			camel_folder_thaw (folder);
 		}
 
@@ -539,7 +559,9 @@ action_mail_remove_duplicates (GtkAction *action, EMailReader *reader)
 			em_utils_uids_free (uids);
 	} else {
 		/* the function itself is freeing uids */
-		mail_get_messages (folder, uids, remove_duplicates_got_messages_cb, reader);
+		mail_get_messages (
+			folder, uids,
+			remove_duplicates_got_messages_cb, reader);
 	}
 }
 
@@ -3012,12 +3034,18 @@ mail_reader_update_actions (EMailReader *reader,
 		MessageList *message_list;
 		gint row = -1, count = -1;
 		ETreeTableAdapter *etta;
-		ETreePath node;
+		ETreePath node = NULL;
 
-		message_list = MESSAGE_LIST (e_mail_reader_get_message_list (reader));
+		message_list = MESSAGE_LIST (
+			e_mail_reader_get_message_list (reader));
 		etta = e_tree_get_table_adapter (E_TREE (message_list));
 
-		if (message_list->cursor_uid != NULL && (node = g_hash_table_lookup (message_list->uid_nodemap, message_list->cursor_uid)) != NULL) {
+		if (message_list->cursor_uid != NULL)
+			node = g_hash_table_lookup (
+				message_list->uid_nodemap,
+				message_list->cursor_uid);
+
+		if (node != NULL) {
 			row = e_tree_table_adapter_row_of_node (etta, node);
 			count = e_table_model_row_count (E_TABLE_MODEL (etta));
 		}

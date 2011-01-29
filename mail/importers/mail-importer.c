@@ -141,7 +141,8 @@ import_mbox_exec (struct _import_mbox_msg *m,
 
 		mp = camel_mime_parser_new ();
 		camel_mime_parser_scan_from (mp, TRUE);
-		if (camel_mime_parser_init_with_fd (mp, fd) == -1) { /* will never happen - 0 is unconditionally returned */
+		if (camel_mime_parser_init_with_fd (mp, fd) == -1) {
+			/* will never happen - 0 is unconditionally returned */
 			goto fail2;
 		}
 
@@ -195,7 +196,6 @@ import_mbox_exec (struct _import_mbox_msg *m,
 		camel_folder_synchronize_sync (folder, FALSE, NULL, NULL);
 		camel_folder_thaw (folder);
 		camel_operation_pop_message (cancellable);
-		/* TODO: these api's are a bit weird, registering the old is the same as deregistering */
 	fail2:
 		g_object_unref (mp);
 	}
@@ -342,7 +342,8 @@ import_folders_rec (struct _import_folders_data *m,
 			m->session, filefull, uri, m->cancellable);
 		g_free (uri);
 
-		/* This little gem re-uses the stat buffer and filefull to automagically scan mozilla-format folders */
+		/* This little gem re-uses the stat buffer and filefull
+		 * to automagically scan mozilla-format folders. */
 		if (!m->elmfmt) {
 			gchar *tmp = g_strdup_printf("%s.sbd", filefull);
 
@@ -355,7 +356,10 @@ import_folders_rec (struct _import_folders_data *m,
 		}
 
 		if (S_ISDIR (st.st_mode)) {
-			foldersub = folderparent?g_strdup_printf("%s/%s", folderparent, folder):g_strdup(folder);
+			foldersub = folderparent ?
+				g_strdup_printf (
+					"%s/%s", folderparent, folder) :
+				g_strdup (folder);
 			import_folders_rec (m, filefull, foldersub);
 			g_free (foldersub);
 		}

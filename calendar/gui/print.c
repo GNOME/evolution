@@ -528,7 +528,14 @@ titled_box (GtkPrintContext *context, const gchar *text,
 static gboolean
 get_show_week_numbers (void)
 {
-	return e_shell_settings_get_boolean (e_shell_get_shell_settings (e_shell_get_default ()), "cal-show-week-numbers");
+	EShell *shell;
+	EShellSettings *shell_settings;
+
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	return e_shell_settings_get_boolean (
+		shell_settings, "cal-show-week-numbers");
 }
 
 enum datefmt {
@@ -614,14 +621,17 @@ calc_small_month_width (GtkPrintContext *context, gdouble for_height)
 	gint ii;
 
 	font_bold = get_font_for_size (for_height / 7.4, PANGO_WEIGHT_BOLD);
-	res = MAX (evo_calendar_print_renderer_get_width (context, font_bold, "23"), res);
+	res = MAX (evo_calendar_print_renderer_get_width (
+		context, font_bold, "23"), res);
 	for (ii = 0; ii < 7; ii++) {
-		res = MAX (evo_calendar_print_renderer_get_width (context, font_bold, _(daynames[ii])), res);
+		res = MAX (evo_calendar_print_renderer_get_width (
+			context, font_bold, _(daynames[ii])), res);
 	}
 
 	pango_font_description_free (font_bold);
 
-	/* res is max cell width, thus multiply it with column count plus some space between columns */
+	/* res is max cell width, so multiply it with column
+	 * count plus some space between columns. */
 	res = (res + 1.0) * (7 + (get_show_week_numbers () ? 1 : 0)) - 1.0;
 
 	if (res < MIN_SMALL_MONTH_WIDTH)
@@ -706,7 +716,8 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 		print_text (
 			context, font_bold,
 			_(daynames[weekday]), PANGO_ALIGN_RIGHT,
-			x1 + (x + (week_numbers ? 1 : 0)) * col_width, x1 + (x + 1 + (week_numbers ? 1 : 0)) * col_width,
+			x1 + (x + (week_numbers ? 1 : 0)) * col_width,
+			x1 + (x + 1 + (week_numbers ? 1 : 0)) * col_width,
 			y1, y1 + row_height * 1.4);
 		weekday = (weekday + 1) % 7;
 	}
@@ -741,7 +752,11 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 				convert_timet_to_struct_tm (week_begin, zone, &tm);
 
 				/* month in e_calendar_item_get_week_number is also zero-based */
-				sprintf (buf, "%d", e_calendar_item_get_week_number (NULL, tm.tm_mday, tm.tm_mon, tm.tm_year + 1900));
+				sprintf (
+					buf, "%d",
+					e_calendar_item_get_week_number (
+					NULL, tm.tm_mday, tm.tm_mon,
+					tm.tm_year + 1900));
 
 				print_text (context, font_normal, buf, PANGO_ALIGN_RIGHT,
 					    cell_left, text_right,
@@ -901,9 +916,13 @@ print_day_background (GtkPrintContext *context, GnomeCalendar *gcal,
 	max_font_size = width * 0.2;
 	minute_font_size = MIN (font_size, max_font_size);
 	font_minute = get_font_for_size (minute_font_size, PANGO_WEIGHT_BOLD);
-	hour_minute_width = evo_calendar_print_renderer_get_width (context, font_minute, use_24_hour ? "00" : _("am"));
+	hour_minute_width = evo_calendar_print_renderer_get_width (
+		context, font_minute, use_24_hour ? "00" : _("am"));
 	if (!use_24_hour)
-		hour_minute_width = MAX (hour_minute_width, evo_calendar_print_renderer_get_width (context, font_minute, _("pm")));
+		hour_minute_width =
+			MAX (hour_minute_width,
+			evo_calendar_print_renderer_get_width (
+			context, font_minute, _("pm")));
 
 	row = 0;
 	hour_minute_x = left + width - hour_minute_width - 3;
@@ -2245,7 +2264,9 @@ print_day_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 			      0.0, HEADER_HEIGHT + 4, 1.0, 0.9);
 
 		/* Print the 2 mini calendar-months. */
-		l = width - SMALL_MONTH_PAD - (small_month_width + week_numbers_inc) * 2  - SMALL_MONTH_SPACING;
+		l = width - SMALL_MONTH_PAD -
+			(small_month_width + week_numbers_inc) * 2 -
+			SMALL_MONTH_SPACING;
 
 		print_month_small (context, gcal, date,
 				   l, 2, l + small_month_width + week_numbers_inc, HEADER_HEIGHT + 2,
@@ -2338,9 +2359,13 @@ print_work_week_background (GtkPrintContext *context, GnomeCalendar *gcal,
 	max_font_size = width * 0.2;
 	minute_font_size = MIN (font_size, max_font_size);
 	font_minute = get_font_for_size (minute_font_size, PANGO_WEIGHT_BOLD);
-	hour_minute_xr = evo_calendar_print_renderer_get_width (context, font_minute, use_24_hour ? "00" : _("am"));
+	hour_minute_xr = evo_calendar_print_renderer_get_width (
+		context, font_minute, use_24_hour ? "00" : _("am"));
 	if (!use_24_hour)
-		hour_minute_xr = MAX (hour_minute_xr, evo_calendar_print_renderer_get_width (context, font_minute, _("pm")));
+		hour_minute_xr =
+			MAX (hour_minute_xr,
+			evo_calendar_print_renderer_get_width (
+			context, font_minute, _("pm")));
 
 	row = 0;
 	hour_minute_xl = left + width - hour_minute_xr - 3;
@@ -2624,7 +2649,9 @@ print_work_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date
 	GtkPageSetup *setup;
 	icaltimezone *zone;
 	time_t when, start, end;
-	gdouble width, height, l, small_month_width = calc_small_month_width (context, HEADER_HEIGHT);
+	gdouble width, height, l;
+	gdouble small_month_width;
+	gdouble weeknum_inc;
 	gint i, days = 5;
 	gchar buf[100];
 	const gint LONG_EVENT_OFFSET = 6;
@@ -2632,7 +2659,6 @@ print_work_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date
 	struct tm tm;
 	gdouble day_width, day_x;
 	ECalModel *model;
-	gdouble weeknum_inc = get_show_week_numbers () ? small_month_width / 7.0 : 0;
 
 	model = gnome_calendar_get_model (gcal);
 	zone = e_cal_model_get_timezone (model);
@@ -2641,6 +2667,9 @@ print_work_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date
 
 	width = gtk_page_setup_get_page_width (setup, GTK_UNIT_POINTS);
 	height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
+
+	small_month_width = calc_small_month_width (context, HEADER_HEIGHT);
+	weeknum_inc = get_show_week_numbers () ? small_month_width / 7.0 : 0;
 
 	/* We always start on a Monday */
 	start = time_week_begin_with_zone (date, 1, zone);
@@ -2661,7 +2690,8 @@ print_work_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date
 	print_border (context, 0.0, width, 0.0, HEADER_HEIGHT, 1.0, 0.9);
 
 	/* Print the 2 mini calendar-months. */
-	l = width - SMALL_MONTH_PAD - (small_month_width + weeknum_inc) * 2  - SMALL_MONTH_SPACING;
+	l = width - SMALL_MONTH_PAD - (small_month_width + weeknum_inc) * 2 -
+		SMALL_MONTH_SPACING;
 
 	print_month_small (context, gcal, start,
 			   l, 4, l + small_month_width + weeknum_inc, HEADER_HEIGHT + 4,

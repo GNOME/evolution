@@ -85,7 +85,9 @@ G_DEFINE_TYPE (GnomeCanvasRect, gnome_canvas_rect, GNOME_TYPE_CANVAS_ITEM)
 static guint32
 get_rgba_from_color (GdkColor *color)
 {
-       return ((color->red & 0xff00) << 16) | ((color->green & 0xff00) << 8) | (color->blue & 0xff00) | 0xff;
+	return ((color->red & 0xff00) << 16) |
+		((color->green & 0xff00) << 8) |
+		(color->blue & 0xff00) | 0xff;
 }
 
 static gboolean

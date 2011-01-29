@@ -741,7 +741,6 @@ migrate_to_db (EShellBackend *shell_backend)
 
 #endif
 
-
 static gboolean
 mbox_to_maildir_migration_needed (EShellBackend *shell_backend)
 {

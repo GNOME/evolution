@@ -227,24 +227,24 @@ void		*e_tree_model_value_at		(ETreeModel *etree,
 void		e_tree_model_set_value_at	(ETreeModel *etree,
 						 ETreePath node,
 						 gint col,
-						 const void *val);
+						 gconstpointer val);
 gboolean	e_tree_model_node_is_editable	(ETreeModel *etree,
 						 ETreePath node,
 						 gint col);
 void		*e_tree_model_duplicate_value	(ETreeModel *etree,
 						 gint col,
-						 const void *value);
+						 gconstpointer value);
 void		e_tree_model_free_value		(ETreeModel *etree,
 						 gint col,
-						 void *value);
+						 gpointer value);
 void		*e_tree_model_initialize_value	(ETreeModel *etree,
 						 gint col);
 gboolean	e_tree_model_value_is_empty	(ETreeModel *etree,
 						 gint col,
-						 const void *value);
+						 gconstpointer value);
 gchar *		e_tree_model_value_to_string	(ETreeModel *etree,
 						 gint col,
-						 const void *value);
+						 gconstpointer value);
 
 /* depth first traversal of path's descendents, calling func on each one */
 void		e_tree_model_node_traverse	(ETreeModel *model,

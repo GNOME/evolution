@@ -87,7 +87,9 @@ itip_organizer_is_user_ex (ECalComponent *comp, ECal *client, gboolean skip_cap_
 	const gchar *strip;
 	gboolean user_org = FALSE;
 
-	if (!e_cal_component_has_organizer (comp) || (!skip_cap_test && e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_ORGANIZER)))
+	if (!e_cal_component_has_organizer (comp) ||
+		(!skip_cap_test && e_cal_get_static_capability (
+		client, CAL_STATIC_CAPABILITY_NO_ORGANIZER)))
 		return FALSE;
 
 	e_cal_component_get_organizer (comp, &organizer);
@@ -95,10 +97,12 @@ itip_organizer_is_user_ex (ECalComponent *comp, ECal *client, gboolean skip_cap_
 
 		strip = itip_strip_mailto (organizer.value);
 
-		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) {
+		if (e_cal_get_static_capability (
+			client, CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) {
 			gchar *email = NULL;
 
-			if (e_cal_get_cal_address (client, &email, NULL) && !g_ascii_strcasecmp (email, strip)) {
+			if (e_cal_get_cal_address (client, &email, NULL) &&
+				!g_ascii_strcasecmp (email, strip)) {
 				g_free (email);
 
 				return TRUE;
@@ -108,7 +112,9 @@ itip_organizer_is_user_ex (ECalComponent *comp, ECal *client, gboolean skip_cap_
 			return FALSE;
 		}
 
-		user_org = e_account_list_find (itip_addresses_get (), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
+		user_org = e_account_list_find (
+			itip_addresses_get (),
+			E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
 	}
 
 	return user_org;
@@ -127,13 +133,17 @@ itip_sentby_is_user (ECalComponent *comp, ECal *client)
 	const gchar *strip;
 	gboolean user_sentby = FALSE;
 
-	if (!e_cal_component_has_organizer (comp) ||e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_ORGANIZER))
+	if (!e_cal_component_has_organizer (comp) ||
+		e_cal_get_static_capability (
+		client, CAL_STATIC_CAPABILITY_NO_ORGANIZER))
 		return FALSE;
 
 	e_cal_component_get_organizer (comp, &organizer);
 	if (organizer.sentby != NULL) {
 		strip = itip_strip_mailto (organizer.sentby);
-		user_sentby = e_account_list_find (itip_addresses_get (), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
+		user_sentby = e_account_list_find (
+			itip_addresses_get (),
+			E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
 	}
 
 	return user_sentby;
@@ -166,7 +176,8 @@ get_attendee_if_attendee_sentby_is_user (GSList *attendees, gchar *address)
 	for (l = attendees; l; l = l->next) {
 		ECalComponentAttendee *attendee = l->data;
 
-		if (attendee->sentby && g_str_equal (itip_strip_mailto (attendee->sentby), address)) {
+		if (attendee->sentby && g_str_equal (
+			itip_strip_mailto (attendee->sentby), address)) {
 			return attendee;
 		}
 	}
@@ -327,12 +338,16 @@ foreach_tzid_callback (icalparameter *param, gpointer data)
 	if (!vtimezone_comp)
 		return;
 
-	icalcomponent_add_component (tz_data->icomp, icalcomponent_new_clone (vtimezone_comp));
+	icalcomponent_add_component (
+		tz_data->icomp, icalcomponent_new_clone (vtimezone_comp));
 	g_hash_table_insert (tz_data->tzids, (gchar *)tzid, (gchar *)tzid);
 }
 
 static icalcomponent *
-comp_toplevel_with_zones (ECalComponentItipMethod method, ECalComponent *comp, ECal *client, icalcomponent *zones)
+comp_toplevel_with_zones (ECalComponentItipMethod method,
+                          ECalComponent *comp,
+                          ECal *client,
+                          icalcomponent *zones)
 {
 	icalcomponent *top_level, *icomp;
 	icalproperty *prop;
@@ -426,7 +441,11 @@ comp_from (ECalComponentItipMethod method, ECalComponent *comp)
 }
 
 static EDestination **
-comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users, gboolean reply_all, const GSList *only_attendees)
+comp_to_list (ECalComponentItipMethod method,
+              ECalComponent *comp,
+              GList *users,
+              gboolean reply_all,
+              const GSList *only_attendees)
 {
 	ECalComponentOrganizer organizer;
 	GSList *attendees, *l;
@@ -481,7 +500,9 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 			else if (att->status == ICAL_PARTSTAT_DELEGATED && (att->delto && *att->delto)
 					&& !(att->rsvp) && method == E_CAL_COMPONENT_METHOD_REQUEST)
 				continue;
-			else if (only_attendees && !comp_editor_have_in_new_attendees_lst (only_attendees, itip_strip_mailto (att->value)))
+			else if (only_attendees &&
+				!comp_editor_have_in_new_attendees_lst (
+				only_attendees, itip_strip_mailto (att->value)))
 				continue;
 
 			destination = e_destination_new ();
@@ -514,7 +535,9 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 
 				if (att->cutype != ICAL_CUTYPE_INDIVIDUAL && att->cutype != ICAL_CUTYPE_GROUP)
 					continue;
-				else if (only_attendees && !comp_editor_have_in_new_attendees_lst (only_attendees, itip_strip_mailto (att->value)))
+				else if (only_attendees &&
+					!comp_editor_have_in_new_attendees_lst (
+					only_attendees, itip_strip_mailto (att->value)))
 					continue;
 
 				destination = e_destination_new ();
@@ -570,7 +593,10 @@ comp_to_list (ECalComponentItipMethod method, ECalComponent *comp, GList *users,
 			if (att->cutype != ICAL_CUTYPE_INDIVIDUAL && att->cutype != ICAL_CUTYPE_GROUP)
 				continue;
 
-			if (!g_ascii_strcasecmp (itip_strip_mailto (att->value), sender) || (att->sentby && !g_ascii_strcasecmp (itip_strip_mailto (att->sentby), sender))) {
+			if (!g_ascii_strcasecmp (
+				itip_strip_mailto (att->value), sender) ||
+				(att->sentby && !g_ascii_strcasecmp (
+				itip_strip_mailto (att->sentby), sender))) {
 
 				if (!(att->delfrom && *att->delfrom))
 					break;
@@ -660,7 +686,10 @@ comp_subject (ECalComponentItipMethod method, ECalComponent *comp)
 
 			for (l = alist; l != NULL; l = l->next) {
 				a = l->data;
-				if ((sender && *sender) && (g_ascii_strcasecmp (itip_strip_mailto (a->value), sender) || (a->sentby && g_ascii_strcasecmp (itip_strip_mailto (a->sentby), sender))))
+				if ((sender && *sender) && (g_ascii_strcasecmp (
+					itip_strip_mailto (a->value), sender) ||
+					(a->sentby && g_ascii_strcasecmp (
+					itip_strip_mailto (a->sentby), sender))))
 					break;
 			}
 			g_free (sender);
@@ -816,8 +845,11 @@ comp_description (ECalComponent *comp,
 }
 
 static gboolean
-comp_server_send (ECalComponentItipMethod method, ECalComponent *comp, ECal *client,
-		  icalcomponent *zones, GList **users)
+comp_server_send (ECalComponentItipMethod method,
+                  ECalComponent *comp,
+                  ECal *client,
+                  icalcomponent *zones,
+                  GList **users)
 {
 	icalcomponent *top_level, *returned_icalcomp = NULL;
 	gboolean retval = TRUE;
@@ -828,9 +860,14 @@ comp_server_send (ECalComponentItipMethod method, ECalComponent *comp, ECal *cli
 		/* FIXME Really need a book problem status code */
 		if (error->code != E_CALENDAR_STATUS_OK) {
 			if (error->code == E_CALENDAR_STATUS_OBJECT_ID_ALREADY_EXISTS) {
-				e_notice (NULL, GTK_MESSAGE_ERROR, _("Unable to book a resource, the new event collides with some other."));
+				e_notice (
+					NULL, GTK_MESSAGE_ERROR,
+					_("Unable to book a resource, the "
+					  "new event collides with some other."));
 			} else {
-				gchar *msg = g_strconcat (_("Unable to book a resource, error: "), error->message, NULL);
+				gchar *msg = g_strconcat (
+					_("Unable to book a resource, error: "),
+					error->message, NULL);
 				e_notice (NULL, GTK_MESSAGE_ERROR, msg);
 				g_free (msg);
 			}
@@ -881,7 +918,10 @@ comp_limit_attendees (ECalComponent *comp)
 		attendee_text = g_strdup (itip_strip_mailto (attendee));
 		g_free (attendee);
 		attendee_text = g_strstrip (attendee_text);
-		found = match = e_account_list_find (itip_addresses_get (), E_ACCOUNT_FIND_ID_ADDRESS, attendee_text) != NULL;
+		found = match = e_account_list_find (
+			itip_addresses_get (),
+			E_ACCOUNT_FIND_ID_ADDRESS,
+			attendee_text) != NULL;
 
 		if (!found) {
 			param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
@@ -889,7 +929,10 @@ comp_limit_attendees (ECalComponent *comp)
 				attendee_sentby = icalparameter_get_sentby (param);
 				attendee_sentby_text = g_strdup (itip_strip_mailto (attendee_sentby));
 				attendee_sentby_text = g_strstrip (attendee_sentby_text);
-				found = match = e_account_list_find (itip_addresses_get (), E_ACCOUNT_FIND_ID_ADDRESS, attendee_sentby_text) != NULL;
+				found = match = e_account_list_find (
+					itip_addresses_get (),
+					E_ACCOUNT_FIND_ID_ADDRESS,
+					attendee_sentby_text) != NULL;
 			}
 		}
 
@@ -938,7 +981,10 @@ comp_sentby (ECalComponent *comp, ECal *client)
 	for (l = attendees; l; l = l->next) {
 		ECalComponentAttendee *a = l->data;
 
-		if (!g_ascii_strcasecmp (itip_strip_mailto (a->value), user) || (a->sentby && !g_ascii_strcasecmp (itip_strip_mailto (a->sentby), user))) {
+		if (!g_ascii_strcasecmp (
+			itip_strip_mailto (a->value), user) ||
+			(a->sentby && !g_ascii_strcasecmp (
+			itip_strip_mailto (a->sentby), user))) {
 			g_free (user);
 			return;
 		}
@@ -1273,7 +1319,10 @@ find_enabled_account (EAccountList *accounts, const gchar *id_address)
 }
 
 static void
-setup_from (ECalComponentItipMethod method, ECalComponent *comp, ECal *client, EComposerHeaderTable *table)
+setup_from (ECalComponentItipMethod method,
+            ECalComponent *comp,
+            ECal *client,
+            EComposerHeaderTable *table)
 {
 	EAccountList *accounts;
 
@@ -1350,7 +1399,9 @@ itip_send_comp (ECalComponentItipMethod method,
 	}
 
 	/* check whether backend could handle sending requests/updates */
-	if (method != E_CAL_COMPONENT_METHOD_PUBLISH && e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
+	if (method != E_CAL_COMPONENT_METHOD_PUBLISH &&
+		e_cal_get_static_capability (client,
+		CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
 		if (users) {
 			g_list_foreach (users, (GFunc) g_free, NULL);
 			g_list_free (users);
@@ -1366,7 +1417,10 @@ itip_send_comp (ECalComponentItipMethod method,
 		goto cleanup;
 
 	/* Recipients */
-	destinations = comp_to_list (method, comp, users, FALSE, only_new_attendees ? g_object_get_data (G_OBJECT (send_comp), "new-attendees") : NULL);
+	destinations = comp_to_list (
+		method, comp, users, FALSE,
+		only_new_attendees ?  g_object_get_data (
+		G_OBJECT (send_comp), "new-attendees") : NULL);
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH) {
 		if (destinations == NULL) {
 			/* We sent them all via the server */
@@ -1550,7 +1604,10 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 			start_zone = icaltimezone_get_builtin_timezone_from_tzid (dtstart.tzid);
 			if (!start_zone) {
 				if (!e_cal_get_timezone (client, dtstart.tzid, &start_zone, NULL))
-					g_warning ("Couldn't get timezone from server: %s", dtstart.tzid ? dtstart.tzid : "");
+					g_warning (
+						"Couldn't get timezone from "
+						"server: %s", dtstart.tzid ?
+						dtstart.tzid : "");
 			}
 
 			if (!start_zone || dtstart.value->is_date)
@@ -1560,7 +1617,10 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 			time = g_strdup (ctime (&start));
 		}
 
-		body = g_string_new ("<br><br><hr><br><b>______ Original Appointment ______ </b><br><br><table>");
+		body = g_string_new (
+			"<br><br><hr><br><b>"
+			"______ Original Appointment ______ "
+			"</b><br><br><table>");
 
 		if (orig_from && *orig_from)
 			g_string_append_printf (body,
@@ -1841,7 +1901,8 @@ check_time (const struct icaltimetype tmval, gboolean can_null_time)
 		tmval.second >= 0 && tmval.second < 60;
 }
 
-/* returns whether the passed-in icalcomponent is valid or not. It does some sanity checks on values too. */
+/* Returns whether the passed-in icalcomponent is valid or not.
+ * It does some sanity checks on values too. */
 gboolean
 is_icalcomp_valid (icalcomponent *icalcomp)
 {

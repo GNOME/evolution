@@ -1743,7 +1743,7 @@ eti_draw (GnomeCanvasItem *item, cairo_t *cr, gint x, gint y, gint width, gint h
 	GtkWidget *canvas = GTK_WIDGET (item->canvas);
         GtkStyle *style = gtk_widget_get_style (canvas);
 	gint height_extra = eti->horizontal_draw_grid ? 1 : 0;
-	
+
 	/*
 	 * Find out our real position after grouping
 	 */

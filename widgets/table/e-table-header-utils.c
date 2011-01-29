@@ -272,7 +272,8 @@ e_table_header_draw_button (cairo_t *cr, ETableCol *ecol,
 	}
 
 	cairo_save (cr);
-        gdk_cairo_set_source_color (cr, &gtk_widget_get_style (GTK_WIDGET (g_label))->fg[state]);
+	gdk_cairo_set_source_color (
+		cr, &gtk_widget_get_style (GTK_WIDGET (g_label))->fg[state]);
 
 	xthick = style->xthickness;
 	ythick = style->ythickness;
@@ -321,7 +322,7 @@ e_table_header_draw_button (cairo_t *cr, ETableCol *ecol,
 	}
 
 	layout = build_header_layout (widget, ecol->text);
-        pango_layout_set_ellipsize (layout, PANGO_ELLIPSIZE_END);
+	pango_layout_set_ellipsize (layout, PANGO_ELLIPSIZE_END);
 
 	/* Pixbuf or label */
 	if (ecol->icon_name != NULL) {
@@ -351,10 +352,12 @@ e_table_header_draw_button (cairo_t *cr, ETableCol *ecol,
 
 			ypos = inner_y;
 
-                        pango_layout_set_width (layout, (inner_width - (xpos - inner_x)) * PANGO_SCALE);
+			pango_layout_set_width (
+				layout, (inner_width - (xpos - inner_x)) *
+				PANGO_SCALE);
 
-                        cairo_move_to (cr, xpos + pwidth + 1, ypos);
-                        pango_cairo_show_layout (cr, layout);
+			cairo_move_to (cr, xpos + pwidth + 1, ypos);
+			pango_cairo_show_layout (cr, layout);
 		}
 
 		/* FIXME: For some reason, under clutter gdk_draw_rgb_image_dithalign crashes
@@ -377,14 +380,14 @@ e_table_header_draw_button (cairo_t *cr, ETableCol *ecol,
 			g_object_unref (pixmap);
 		}
 #endif
-                gdk_cairo_set_source_pixbuf (cr, ecol->pixbuf,
+		gdk_cairo_set_source_pixbuf (cr, ecol->pixbuf,
 					     xpos, inner_y + (inner_height - clip_height) / 2);
-                cairo_paint (cr);
+		cairo_paint (cr);
 	} else {
-                pango_layout_set_width (layout, inner_width * PANGO_SCALE);
+		pango_layout_set_width (layout, inner_width * PANGO_SCALE);
 
-                cairo_move_to (cr, inner_x, inner_y);
-                pango_cairo_show_layout (cr, layout);
+		cairo_move_to (cr, inner_x, inner_y);
+		pango_cairo_show_layout (cr, layout);
 	}
 
 	switch (arrow) {

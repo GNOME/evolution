@@ -826,7 +826,8 @@ e_meeting_store_init (EMeetingStore *store)
 
 	store->priv->attendees = g_ptr_array_new ();
 	store->priv->refresh_queue = g_ptr_array_new ();
-	store->priv->refresh_data = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	store->priv->refresh_data = g_hash_table_new_full (
+		g_str_hash, g_str_equal, g_free, NULL);
 
 	store->priv->mutex = g_mutex_new ();
 
@@ -1708,7 +1709,11 @@ async_read (GObject *source_object, GAsyncResult *res, gpointer data)
 }
 
 static void
-soup_authenticate (SoupSession *session, SoupMessage *msg, SoupAuth *auth, gboolean retrying, gpointer data)
+soup_authenticate (SoupSession *session,
+                   SoupMessage *msg,
+                   SoupAuth *auth,
+                   gboolean retrying,
+                   gpointer data)
 {
 	SoupURI *suri;
 	const gchar *orig_uri;
@@ -1757,7 +1762,10 @@ soup_authenticate (SoupSession *session, SoupMessage *msg, SoupAuth *auth, gbool
 
 		description = g_string_new ("");
 
-		g_string_append_printf (description, _("Enter password to access free/busy information on server %s as user %s"), bold_host, bold_user);
+		g_string_append_printf (
+			description, _("Enter password to access "
+			"free/busy information on server %s as user %s"),
+			bold_host, bold_user);
 
 		g_free (bold_host);
 		g_free (bold_user);
@@ -1767,9 +1775,12 @@ soup_authenticate (SoupSession *session, SoupMessage *msg, SoupAuth *auth, gbool
 			g_string_append_printf (description, _("Failure reason: %s"), msg->reason_phrase);
 		}
 
-		password = e_passwords_ask_password (_("Enter password"), "Calendar", orig_uri, description->str,
-					     E_PASSWORDS_REMEMBER_FOREVER | E_PASSWORDS_SECRET | E_PASSWORDS_ONLINE | (retrying ? E_PASSWORDS_REPROMPT : 0),
-					     &remember, NULL);
+		password = e_passwords_ask_password (
+			_("Enter password"), "Calendar", orig_uri,
+			description->str, E_PASSWORDS_REMEMBER_FOREVER |
+			E_PASSWORDS_SECRET | E_PASSWORDS_ONLINE |
+			(retrying ? E_PASSWORDS_REPROMPT : 0),
+			&remember, NULL);
 
 		g_string_free (description, TRUE);
 
@@ -1822,12 +1833,17 @@ soup_msg_ready_cb (SoupSession *session, SoupMessage *msg, gpointer user_data)
 	g_return_if_fail (qdata != NULL);
 
 	if (SOUP_STATUS_IS_SUCCESSFUL (msg->status_code)) {
-		qdata->string = g_string_new_len (msg->response_body->data, msg->response_body->length);
+		qdata->string = g_string_new_len (
+			msg->response_body->data,
+			msg->response_body->length);
 		process_free_busy (qdata, qdata->string->str);
 	} else {
-		g_warning ("Unable to access free/busy url: %s",
-				msg->reason_phrase && *msg->reason_phrase ? msg->reason_phrase :
-				(soup_status_get_phrase (msg->status_code) ? soup_status_get_phrase (msg->status_code) : "Unknown error"));
+		g_warning (
+			"Unable to access free/busy url: %s",
+			msg->reason_phrase && *msg->reason_phrase ?
+			msg->reason_phrase : (soup_status_get_phrase (
+			msg->status_code) ? soup_status_get_phrase (
+			msg->status_code) : "Unknown error"));
 		process_callbacks (qdata);
 	}
 }
@@ -1867,7 +1883,9 @@ download_with_libsoup (const gchar *uri, EMeetingStoreQueueData *qdata)
 	g_object_unref (proxy);
 
 	soup_message_set_flags (msg, SOUP_MESSAGE_NO_REDIRECT);
-	soup_message_add_header_handler (msg, "got_body", "Location", G_CALLBACK (redirect_handler), session);
+	soup_message_add_header_handler (
+		msg, "got_body", "Location",
+		G_CALLBACK (redirect_handler), session);
 	soup_message_headers_append (msg->request_headers, "Connection", "close");
 	soup_session_queue_message (session, msg, soup_msg_ready_cb, qdata);
 }

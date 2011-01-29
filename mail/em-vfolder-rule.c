@@ -79,8 +79,17 @@ static void
 vfolder_rule_set_session (EMVFolderRule *rule,
                           EMailSession *session)
 {
-	if (!session)
-		session = e_mail_backend_get_session (E_MAIL_BACKEND (e_shell_get_backend_by_name (e_shell_get_default(), "mail")));
+	if (session == NULL) {
+		EShell *shell;
+		EShellBackend *shell_backend;
+		EMailBackend *backend;
+
+		shell = e_shell_get_default ();
+		shell_backend = e_shell_get_backend_by_name (shell, "mail");
+
+		backend = E_MAIL_BACKEND (shell_backend);
+		session = e_mail_backend_get_session (backend);
+	}
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (rule->priv->session == NULL);
@@ -376,7 +385,8 @@ xml_decode (EFilterRule *fr, xmlNodePtr node, struct _ERuleContext *f)
 	EMVFolderRule *vr =(EMVFolderRule *)fr;
 	gchar *tmp;
 
-        result = E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->xml_decode (fr, node, f);
+	result = E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->
+		xml_decode (fr, node, f);
 	if (result != 0)
 		return result;
 
@@ -668,7 +678,8 @@ get_widget (EFilterRule *fr, ERuleContext *rc)
 	GObject *object;
 	gint i;
 
-        widget = E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->get_widget (fr, rc);
+	widget = E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->
+		get_widget (fr, rc);
 
 	data = g_malloc0 (sizeof (*data));
 	data->rc = rc;

@@ -94,9 +94,11 @@ create_calendar_sources (EShellBackend *shell_backend,
 	if (groups) {
 		/* groups are already there, we need to search for things... */
 		GSList *g;
+		const gchar *data_dir;
 		gchar *base_dir, *base_uri;
 
-		base_dir = g_build_filename (e_shell_backend_get_data_dir (shell_backend), "local", NULL);
+		data_dir = e_shell_backend_get_data_dir (shell_backend);
+		base_dir = g_build_filename (data_dir, "local", NULL);
 		base_uri = g_filename_to_uri (base_dir, NULL, NULL);
 
 		for (g = groups; g; g = g->next) {

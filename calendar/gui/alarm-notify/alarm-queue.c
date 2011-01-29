@@ -123,19 +123,32 @@ typedef struct {
 static gpointer midnight_refresh_id = NULL;
 static time_t midnight = 0;
 
-static void
-remove_client_alarms (ClientAlarms *ca);
-static void display_notification (time_t trigger, CompQueuedAlarms *cqa,
-				  gpointer alarm_id, gboolean use_description);
-static void audio_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id);
-static void mail_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id);
-static void procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id);
+static void	remove_client_alarms		(ClientAlarms *ca);
+static void	display_notification		(time_t trigger,
+						 CompQueuedAlarms *cqa,
+						 gpointer alarm_id,
+						 gboolean use_description);
+static void	audio_notification		(time_t trigger,
+						 CompQueuedAlarms *cqa,
+						 gpointer alarm_id);
+static void	mail_notification		(time_t trigger,
+						 CompQueuedAlarms *cqa,
+						 gpointer alarm_id);
+static void	procedure_notification		(time_t trigger,
+						 CompQueuedAlarms *cqa,
+						 gpointer alarm_id);
 #ifdef HAVE_LIBNOTIFY
-static void popup_notification (time_t trigger, CompQueuedAlarms *cqa,
-				  gpointer alarm_id, gboolean use_description);
+static void	popup_notification		(time_t trigger,
+						 CompQueuedAlarms *cqa,
+						 gpointer alarm_id,
+						 gboolean use_description);
 #endif
-static void query_objects_changed_cb (ECal *client, GList *objects, gpointer data);
-static void query_objects_removed_cb (ECal *client, GList *objects, gpointer data);
+static void	query_objects_changed_cb	(ECal *client,
+						 GList *objects,
+						 gpointer data);
+static void	query_objects_removed_cb	(ECal *client,
+						 GList *objects,
+						 gpointer data);
 
 static void update_cqa (CompQueuedAlarms *cqa, ECalComponent *comp);
 static void update_qa (ECalComponentAlarms *alarms, QueuedAlarm *qa);
@@ -196,7 +209,9 @@ e_ctime (const time_t *timep)
 	ret = buffer[next++] = g_strdup (ctime (timep));
 	if (buffer[next - 1] && *buffer[next - 1]) {
 		gint len = strlen (buffer[next - 1]);
-		while (len > 0 && (buffer[next - 1][len - 1] == '\n' || buffer[next - 1][len - 1] == '\r' || g_ascii_isspace (buffer[next - 1][len - 1])))
+		while (len > 0 && (buffer[next - 1][len - 1] == '\n' ||
+			buffer[next - 1][len - 1] == '\r' ||
+			g_ascii_isspace (buffer[next - 1][len - 1])))
 			len--;
 
 		buffer[next - 1][len - 1] = 0;
@@ -485,20 +500,16 @@ add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 		ECalComponentAlarmInstance *instance;
 		gpointer alarm_id;
 		QueuedAlarm *qa;
-		time_t tnow = time (NULL);
 
 		instance = l->data;
 
-		if (!has_known_notification (cqa->alarms->comp, instance->auid)) {
-			g_debug ("Could not recognize alarm's notification type, discarding.");
+		if (!has_known_notification (cqa->alarms->comp, instance->auid))
 			continue;
-		}
 
-		alarm_id = alarm_add (instance->trigger, alarm_trigger_cb, cqa, NULL);
-		if (!alarm_id) {
-			debug (("Could not schedule a trigger for %s. Discarding", e_ctime (&(instance->trigger))));
+		alarm_id = alarm_add (
+			instance->trigger, alarm_trigger_cb, cqa, NULL);
+		if (!alarm_id)
 			continue;
-		}
 
 		qa = g_new (QueuedAlarm, 1);
 		qa->alarm_id = alarm_id;
@@ -507,7 +518,6 @@ add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 		qa->snooze = FALSE;
 
 		cqa->queued_alarms = g_slist_prepend (cqa->queued_alarms, qa);
-		debug (("Adding alarm %p %p at %s %s", qa, alarm_id, e_ctime (&(instance->trigger)), e_ctime (&tnow)));
 	}
 
 	id = e_cal_component_get_id (alarms->comp);
@@ -545,15 +555,17 @@ load_alarms (ClientAlarms *ca, time_t start, time_t end)
 		return;
 	}
 
-	str_query = g_strdup_printf ("(has-alarms-in-range? (make-time \"%s\") (make-time \"%s\"))",
-				     iso_start, iso_end);
+	str_query = g_strdup_printf (
+		"(has-alarms-in-range? (make-time \"%s\") "
+		"(make-time \"%s\"))", iso_start, iso_end);
 	g_free (iso_start);
 	g_free (iso_end);
 
 	/* create the live query */
 	if (ca->query) {
 		debug (("Disconnecting old queries"));
-		g_signal_handlers_disconnect_matched (ca->query, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, ca);
+		g_signal_handlers_disconnect_matched (
+			ca->query, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, ca);
 		g_object_unref (ca->query);
 		ca->query = NULL;
 	}
@@ -564,12 +576,15 @@ load_alarms (ClientAlarms *ca, time_t start, time_t end)
 	} else {
 		debug (("Setting Call backs"));
 
-		g_signal_connect (G_OBJECT (ca->query), "objects_added",
-				  G_CALLBACK (query_objects_changed_cb), ca);
-		g_signal_connect (G_OBJECT (ca->query), "objects_modified",
-				  G_CALLBACK (query_objects_changed_cb), ca);
-		g_signal_connect (G_OBJECT (ca->query), "objects_removed",
-				  G_CALLBACK (query_objects_removed_cb), ca);
+		g_signal_connect (
+			ca->query, "objects_added",
+			G_CALLBACK (query_objects_changed_cb), ca);
+		g_signal_connect (
+			ca->query, "objects_modified",
+			G_CALLBACK (query_objects_changed_cb), ca);
+		g_signal_connect (
+			ca->query, "objects_removed",
+			G_CALLBACK (query_objects_removed_cb), ca);
 
 		e_cal_view_start (ca->query);
 	}
@@ -610,7 +625,6 @@ cal_opened_cb (ECal *client, const GError *error, gpointer data)
 
 	ca = data;
 
-	debug (("Opened Calendar %p (Status %d%s%s%s)", client, error ? error->code : 0, error ? " (" : "", error ? error->message : "", error ? ")" : ""));
 	if (error)
 		return;
 
@@ -767,7 +781,8 @@ query_objects_changed_async (struct _query_msg *msg)
 		}
 
 		debug (("Alarm Already Exist for %s", id->uid));
-		/* if the alarms or the alarms list is empty remove it after updating the cqa structure */
+		/* If the alarms or the alarms list is empty,
+		 * remove it after updating the cqa structure. */
 		if (alarms == NULL || alarms->alarms == NULL) {
 
 			/* update the cqa and its queued alarms for changes in summary and alarm_uid  */
@@ -1075,7 +1090,8 @@ tray_list_remove_cqa_async (struct _tray_cqa_msg *msg)
 			debug (("Found"));
 			tray_icons_list = g_list_delete_link (tray_icons_list, tmp);
 			if (alarm_notifications_dialog) {
-				model = gtk_tree_view_get_model (GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
+				model = gtk_tree_view_get_model (
+					GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
 				gtk_list_store_remove (GTK_LIST_STORE (model), &(tray_data->iter));
 			}
 			free_tray_icon_data (tray_data);
@@ -1091,11 +1107,14 @@ tray_list_remove_cqa_async (struct _tray_cqa_msg *msg)
 			alarm_notifications_dialog = NULL;
 		} else {
 			GtkTreeIter iter;
-			GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
+			GtkTreeModel *model;
 			GtkTreeSelection *sel;
 
+			model = gtk_tree_view_get_model (
+				GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
 			gtk_tree_model_get_iter_first (model, &iter);
-			sel = gtk_tree_view_get_selection (GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
+			sel = gtk_tree_view_get_selection (
+				GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
 			gtk_tree_selection_select_iter (sel, &iter);
 		}
 	}
@@ -1133,7 +1152,9 @@ tray_list_remove_async (Message *msg)
 			tray_icons_list = g_list_remove_link (tray_icons_list, list);
 			status = remove_queued_alarm (tray_data->cqa, tray_data->alarm_id, FALSE, TRUE);
 			if (status) {
-				g_hash_table_remove (tray_data->cqa->parent_client->uid_alarms_hash, tray_data->cqa->id);
+				g_hash_table_remove (
+					tray_data->cqa->parent_client->uid_alarms_hash,
+					tray_data->cqa->id);
 				e_cal_component_free_id (tray_data->cqa->id);
 				g_free (tray_data->cqa);
 			}
@@ -1241,7 +1262,10 @@ notify_dialog_cb (AlarmNotifyResult result, gint snooze_mins, gpointer data)
 
 	case ALARM_NOTIFY_DISMISS:
 		if (alarm_notifications_dialog) {
-			GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
+			GtkTreeModel *model;
+
+			model = gtk_tree_view_get_model (
+				GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
 			gtk_list_store_remove (GTK_LIST_STORE (model), &tray_data->iter);
 		}
 		break;
@@ -1520,7 +1544,10 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	if (g_list_length (tray_icons_list) > 1) {
 		gchar *tip;
 
-		tip =  g_strdup_printf (ngettext ("You have %d alarm", "You have %d alarms", g_list_length (tray_icons_list)), g_list_length (tray_icons_list));
+		tip =  g_strdup_printf (ngettext (
+			"You have %d alarm", "You have %d alarms",
+			g_list_length (tray_icons_list)),
+			g_list_length (tray_icons_list));
 		gtk_status_icon_set_tooltip_text (tray_icon, tip);
 	}
 	else {
@@ -1599,15 +1626,23 @@ popup_notification (time_t trigger, CompQueuedAlarms *cqa,
 
 	if (organiser.cn) {
 		if (location)
-			body = g_strdup_printf ("<b>%s</b>\n%s %s\n%s %s", organiser.cn, _("Location:"), location, start_str, time_str);
+			body = g_strdup_printf (
+				"<b>%s</b>\n%s %s\n%s %s",
+				organiser.cn, _("Location:"),
+				location, start_str, time_str);
 		else
-			body = g_strdup_printf ("<b>%s</b>\n%s %s", organiser.cn, start_str, time_str);
+			body = g_strdup_printf (
+				"<b>%s</b>\n%s %s",
+				organiser.cn, start_str, time_str);
 	}
 	else {
 		if (location)
-			body = g_strdup_printf ("%s %s\n%s %s", _("Location:"), location, start_str, time_str);
+			body = g_strdup_printf (
+				"%s %s\n%s %s", _("Location:"),
+				location, start_str, time_str);
 		else
-			body = g_strdup_printf ("%s %s", start_str, time_str);
+			body = g_strdup_printf (
+				"%s %s", start_str, time_str);
 	}
 
 #ifdef HAVE_LIBNOTIFY_07
@@ -1759,7 +1794,8 @@ procedure_notification_dialog (const gchar *cmd, const gchar *url)
 
 	/* Run the dialog */
 	btn = gtk_dialog_run (GTK_DIALOG (dialog));
-	if (btn == GTK_RESPONSE_OK && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
+	if (btn == GTK_RESPONSE_OK &&
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
 		config_data_save_blessed_program (url);
 	gtk_widget_destroy (dialog);
 
@@ -1937,7 +1973,8 @@ alarm_queue_done (void)
 
 	debug (("..."));
 
-	g_hash_table_foreach_remove (client_alarms_hash, (GHRFunc) free_client_alarms_cb, NULL);
+	g_hash_table_foreach_remove (
+		client_alarms_hash, (GHRFunc) free_client_alarms_cb, NULL);
 	g_hash_table_destroy (client_alarms_hash);
 	client_alarms_hash = NULL;
 
@@ -2007,7 +2044,8 @@ alarm_queue_add_async (struct _alarm_client_msg *msg)
 
 	g_hash_table_insert (client_alarms_hash, client, ca);
 
-	ca->uid_alarms_hash = g_hash_table_new ((GHashFunc) hash_ids, (GEqualFunc) compare_ids);
+	ca->uid_alarms_hash = g_hash_table_new (
+		(GHashFunc) hash_ids, (GEqualFunc) compare_ids);
 
 	if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED) {
 		load_alarms_for_today (ca);
@@ -2160,8 +2198,8 @@ alarm_queue_remove_client (ECal *client, gboolean immediately)
 		message_push ((Message *) msg);
 }
 
-/* Update non-time related variables for various structures on modification of an existing component
-   to be called only from query_objects_changed_cb */
+/* Update non-time related variables for various structures on modification
+ * of an existing component to be called only from query_objects_changed_cb */
 static void
 update_cqa (CompQueuedAlarms *cqa, ECalComponent *newcomp)
 {
@@ -2221,9 +2259,13 @@ update_qa (ECalComponentAlarms *alarms, QueuedAlarm *qa)
 	GSList *instance_list;
 
 	debug (("..."));
-	for (instance_list = alarms->alarms; instance_list; instance_list = instance_list->next) {
+	for (instance_list = alarms->alarms;
+	     instance_list;
+	     instance_list = instance_list->next) {
 		al_inst = instance_list->data;
-		if (al_inst->trigger == qa->orig_trigger) {  /* FIXME if two or more alarm instances (audio, note)									  for same component have same trigger */
+		/* FIXME If two or more alarm instances (audio, note)
+		 *       for same component have same trigger... */
+		if (al_inst->trigger == qa->orig_trigger) {
 			g_free ((gchar *) qa->instance->auid);
 			qa->instance->auid = g_strdup (al_inst->auid);
 			break;

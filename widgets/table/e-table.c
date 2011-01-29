@@ -234,17 +234,21 @@ static void
 et_get_preferred_width (GtkWidget *widget, gint *minimum, gint *natural)
 {
 	ETable *et = E_TABLE (widget);
-	GTK_WIDGET_CLASS (e_table_parent_class)->get_preferred_width (widget, minimum, natural);
+
+	GTK_WIDGET_CLASS (e_table_parent_class)->
+		get_preferred_width (widget, minimum, natural);
+
 	if (et->horizontal_resize) {
-                *minimum = MAX (*minimum, et->header_width);
-                *natural = MAX (*natural, et->header_width);
-        }
+		*minimum = MAX (*minimum, et->header_width);
+		*natural = MAX (*natural, et->header_width);
+	}
 }
 
 static void
 et_get_preferred_height (GtkWidget *widget, gint *minimum, gint *natural)
 {
-        GTK_WIDGET_CLASS (e_table_parent_class)->get_preferred_height (widget, minimum, natural);
+	GTK_WIDGET_CLASS (e_table_parent_class)->
+		get_preferred_height (widget, minimum, natural);
 }
 
 static void
@@ -3538,10 +3542,14 @@ e_table_class_init (ETableClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/* Scrollable interface */
-	g_object_class_override_property (object_class, PROP_HADJUSTMENT,    "hadjustment");
-	g_object_class_override_property (object_class, PROP_VADJUSTMENT,    "vadjustment");
-	g_object_class_override_property (object_class, PROP_HSCROLL_POLICY, "hscroll-policy");
-	g_object_class_override_property (object_class, PROP_VSCROLL_POLICY, "vscroll-policy");
+	g_object_class_override_property (
+		object_class, PROP_HADJUSTMENT, "hadjustment");
+	g_object_class_override_property (
+		object_class, PROP_VADJUSTMENT, "vadjustment");
+	g_object_class_override_property (
+		object_class, PROP_HSCROLL_POLICY, "hscroll-policy");
+	g_object_class_override_property (
+		object_class, PROP_VSCROLL_POLICY, "vscroll-policy");
 
 	gal_a11y_e_table_init ();
 }

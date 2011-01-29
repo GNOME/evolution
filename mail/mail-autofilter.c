@@ -50,7 +50,9 @@
 #define d(x)
 
 static void
-rule_match_recipients (ERuleContext *context, EFilterRule *rule, CamelInternetAddress *iaddr)
+rule_match_recipients (ERuleContext *context,
+                       EFilterRule *rule,
+                       CamelInternetAddress *iaddr)
 {
 	EFilterPart *part;
 	EFilterElement *element;
@@ -218,7 +220,10 @@ rule_match_mlist (ERuleContext *context, EFilterRule *rule, const gchar *mlist)
 }
 
 static void
-rule_from_address (EFilterRule *rule, ERuleContext *context, CamelInternetAddress* addr, gint flags)
+rule_from_address (EFilterRule *rule,
+                   ERuleContext *context,
+                   CamelInternetAddress *addr,
+                   gint flags)
 {
 	rule->grouping = E_FILTER_GROUP_ANY;
 
@@ -241,7 +246,10 @@ rule_from_address (EFilterRule *rule, ERuleContext *context, CamelInternetAddres
 }
 
 static void
-rule_from_message (EFilterRule *rule, ERuleContext *context, CamelMimeMessage *msg, gint flags)
+rule_from_message (EFilterRule *rule,
+                   ERuleContext *context,
+                   CamelMimeMessage *msg,
+                   gint flags)
 {
 	CamelInternetAddress *addr;
 
@@ -275,10 +283,14 @@ rule_from_message (EFilterRule *rule, ERuleContext *context, CamelMimeMessage *m
 		}
 	}
 	if (flags & AUTO_TO) {
-		addr = (CamelInternetAddress *)camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_TO);
+		addr = (CamelInternetAddress *)
+			camel_mime_message_get_recipients (
+			msg, CAMEL_RECIPIENT_TYPE_TO);
 		if (addr)
 			rule_match_recipients (context, rule, addr);
-		addr = (CamelInternetAddress *)camel_mime_message_get_recipients (msg, CAMEL_RECIPIENT_TYPE_CC);
+		addr = (CamelInternetAddress *)
+			camel_mime_message_get_recipients (
+			msg, CAMEL_RECIPIENT_TYPE_CC);
 		if (addr)
 			rule_match_recipients (context, rule, addr);
 	}
@@ -409,9 +421,9 @@ mail_filter_rename_uri (EMailBackend *backend,
 	e_rule_context_load ((ERuleContext *)fc, system, user);
 	g_free (system);
 
-	changed = e_rule_context_rename_uri ((ERuleContext *)fc, eolduri, enewuri, g_str_equal);
+	changed = e_rule_context_rename_uri (
+		(ERuleContext *)fc, eolduri, enewuri, g_str_equal);
 	if (changed) {
-		d(printf("Folder rename '%s' -> '%s' changed filters, resaving\n", olduri, newuri));
 		if (e_rule_context_save ((ERuleContext *)fc, user) == -1)
 			g_warning("Could not write out changed filter rules\n");
 		e_rule_context_free_uri_list ((ERuleContext *)fc, changed);

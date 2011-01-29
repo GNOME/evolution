@@ -402,8 +402,8 @@ config_data_init_debugging (void)
 }
 
 /* returns whether started debugging;
-   call config_data_stop_debugging() when started and you are done with it
-*/
+ * call config_data_stop_debugging() when started and you are done with it
+ */
 gboolean
 config_data_start_debugging (void)
 {

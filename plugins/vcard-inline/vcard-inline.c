@@ -158,14 +158,17 @@ org_gnome_vcard_inline_save_cb (VCardInlinePObject *vcard_object)
 
 	dialog = e_source_selector_dialog_new (NULL, vcard_object->source_list);
 
-	e_source_selector_dialog_select_default_source (E_SOURCE_SELECTOR_DIALOG (dialog));
+	e_source_selector_dialog_select_default_source (
+		E_SOURCE_SELECTOR_DIALOG (dialog));
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (dialog);
 		return;
 	}
 
-	source = e_source_selector_dialog_peek_primary_selection (E_SOURCE_SELECTOR_DIALOG (dialog));
+	source = e_source_selector_dialog_peek_primary_selection (
+		E_SOURCE_SELECTOR_DIALOG (dialog));
+
 	gtk_widget_destroy (dialog);
 
 	g_return_if_fail (source != NULL);

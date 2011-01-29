@@ -582,7 +582,8 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, gdouble x, gdo
 
 	button_height = e_table_header_compute_height (ecol, widget);
 	window = gtk_widget_get_window (widget);
-	cs = gdk_window_create_similar_surface (window, CAIRO_CONTENT_COLOR, etfci->width, button_height);
+	cs = gdk_window_create_similar_surface (
+		window, CAIRO_CONTENT_COLOR, etfci->width, button_height);
 
 	style = gtk_widget_get_style (widget);
 	state = gtk_widget_get_state (widget);

@@ -197,11 +197,19 @@ addressbook_create_cmp_cache (EReflowModel *erm)
 	cmp_cache = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
 
 	for (ii = 0; ii < count; ii++) {
-		EContact *contact = (EContact*) e_addressbook_model_contact_at (priv->model, ii);
-		if (contact) {
-			const gchar *file_as = e_contact_get_const (contact, E_CONTACT_FILE_AS);
-			if (file_as)
-				g_hash_table_insert (cmp_cache, GINT_TO_POINTER (ii), g_utf8_collate_key (file_as, -1));
+		EContact *contact;
+
+		contact  = (EContact *)
+			e_addressbook_model_contact_at (priv->model, ii);
+		if (contact != NULL) {
+			const gchar *file_as;
+
+			file_as = e_contact_get_const (
+				contact, E_CONTACT_FILE_AS);
+			if (file_as != NULL)
+				g_hash_table_insert (
+					cmp_cache, GINT_TO_POINTER (ii),
+					g_utf8_collate_key (file_as, -1));
 		}
 	}
 

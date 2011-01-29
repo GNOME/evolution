@@ -4627,7 +4627,7 @@ e_day_view_check_layout (EDayView *day_view)
 	    || day_view->long_events_need_reshape)
 		e_day_view_reshape_long_events (day_view);
 
-	if (day_view->long_events_need_layout 
+	if (day_view->long_events_need_layout
 			&& day_view->rows_in_top_display != rows_in_top_display) {
 		day_view->rows_in_top_display = rows_in_top_display;
 		e_day_view_update_top_scroll (day_view, FALSE);

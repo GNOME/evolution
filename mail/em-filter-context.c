@@ -150,8 +150,11 @@ filter_context_rename_uri (ERuleContext *context,
 				element = el->data;
 
 				if (EM_IS_FILTER_FOLDER_ELEMENT (element)
-				    && cmp (em_filter_folder_element_get_uri (EM_FILTER_FOLDER_ELEMENT (element)), olduri)) {
-					em_filter_folder_element_set_uri (EM_FILTER_FOLDER_ELEMENT (element), newuri);
+				    && cmp (em_filter_folder_element_get_uri (
+				    EM_FILTER_FOLDER_ELEMENT (element)), olduri)) {
+					em_filter_folder_element_set_uri (
+						EM_FILTER_FOLDER_ELEMENT (
+						element), newuri);
 					rulecount++;
 				}
 				el = el->next;
@@ -202,7 +205,8 @@ filter_context_delete_uri (ERuleContext *context,
 				element = el->data;
 
 				if (EM_IS_FILTER_FOLDER_ELEMENT (element)
-				    && cmp (em_filter_folder_element_get_uri (EM_FILTER_FOLDER_ELEMENT (element)), uri)) {
+				    && cmp (em_filter_folder_element_get_uri (
+				    EM_FILTER_FOLDER_ELEMENT (element)), uri)) {
 					/* check if last action, if so, remove rule instead? */
 					l = l->next;
 					em_filter_rule_remove_action ((EMFilterRule *)rule, action);
