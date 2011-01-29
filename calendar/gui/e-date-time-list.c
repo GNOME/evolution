@@ -31,9 +31,11 @@
  *     one-column list store?  There's no mention of why this was done. */
 
 #define G_LIST(x)                        ((GList *) x)
-#define E_DATE_TIME_LIST_IS_SORTED(list) (E_DATE_TIME_LIST (list)->sort_column_id != -2)
-#define IS_VALID_ITER(dt_list, iter)     (iter!= NULL && iter->user_data != NULL && \
-                                          dt_list->stamp == iter->stamp)
+#define E_DATE_TIME_LIST_IS_SORTED(list) \
+	(E_DATE_TIME_LIST (list)->sort_column_id != -2)
+#define IS_VALID_ITER(dt_list, iter) \
+	(iter != NULL && iter->user_data != NULL && \
+	dt_list->stamp == iter->stamp)
 
 enum {
 	PROP_0,
@@ -74,7 +76,8 @@ copy_datetime (const ECalComponentDateTime *datetime)
 }
 
 static gint
-compare_datetime (const ECalComponentDateTime *datetime1, const ECalComponentDateTime *datetime2)
+compare_datetime (const ECalComponentDateTime *datetime1,
+                  const ECalComponentDateTime *datetime2)
 {
 	return icaltime_compare (*datetime1->value, *datetime2->value);
 }
@@ -494,7 +497,9 @@ e_date_time_list_set_date_time (EDateTimeList *date_time_list, GtkTreeIter *iter
 	datetime_old = G_LIST (iter->user_data)->data;
 	free_datetime (datetime_old);
 	G_LIST (iter->user_data)->data = copy_datetime (datetime);
-	row_updated (date_time_list, g_list_position (date_time_list->list, G_LIST (iter->user_data)));
+	row_updated (
+		date_time_list, g_list_position (
+		date_time_list->list, G_LIST (iter->user_data)));
 }
 
 gboolean
@@ -522,8 +527,11 @@ e_date_time_list_append (EDateTimeList *date_time_list, GtkTreeIter *iter,
 {
 	g_return_if_fail (datetime != NULL);
 
-	if (g_list_find_custom (date_time_list->list, datetime, (GCompareFunc)compare_datetime) == NULL) {
-		date_time_list->list = g_list_append (date_time_list->list, copy_datetime (datetime));
+	if (g_list_find_custom (
+			date_time_list->list, datetime,
+			(GCompareFunc)compare_datetime) == NULL) {
+		date_time_list->list = g_list_append (
+			date_time_list->list, copy_datetime (datetime));
 		row_added (date_time_list, g_list_length (date_time_list->list) - 1);
 	}
 
@@ -542,7 +550,8 @@ e_date_time_list_remove (EDateTimeList *date_time_list, GtkTreeIter *iter)
 
 	n = g_list_position (date_time_list->list, G_LIST (iter->user_data));
 	free_datetime ((ECalComponentDateTime *) G_LIST (iter->user_data)->data);
-	date_time_list->list = g_list_delete_link (date_time_list->list, G_LIST (iter->user_data));
+	date_time_list->list = g_list_delete_link (
+		date_time_list->list, G_LIST (iter->user_data));
 	row_deleted (date_time_list, n);
 }
 

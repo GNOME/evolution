@@ -43,7 +43,6 @@ component_has_new_attendees (ECalComponent *comp)
 	return g_object_get_data (G_OBJECT (comp), "new-attendees") != NULL;
 }
 
-
 static gboolean
 component_has_recipients (ECalComponent *comp)
 {

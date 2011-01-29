@@ -262,7 +262,9 @@ vfolder_adduri_exec (struct _adduri_msg *m,
 
 	if (!m->remove &&
 	    !mail_folder_cache_get_folder_from_uri (folder_cache, m->uri, &folder)) {
-		g_warning("Folder '%s' disappeared while I was adding/remove it to/from my vfolder", m->uri);
+		g_warning (
+			"Folder '%s' disappeared while I was "
+			"adding/removing it to/from my vfolder", m->uri);
 		return;
 	}
 
@@ -463,9 +465,12 @@ mail_vfolder_add_uri (EMailSession *session,
 	const gchar *source;
 	CamelVeeFolder *vf;
 	GList *folders = NULL, *link;
-	gint remote = (((CamelService *)store)->provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0;
+	gint remote;
 	gint is_ignore;
 	gchar *uri;
+
+	remote = (((CamelService *)store)->provider->flags &
+		CAMEL_PROVIDER_IS_REMOTE) != 0;
 
 	uri = em_uri_from_camel (curi);
 	if (uri_is_spethal (store, curi)) {
@@ -518,7 +523,8 @@ mail_vfolder_add_uri (EMailSession *session,
 			d(printf("invalid rule (%p): rule->name is set to NULL\n", rule));
 			continue;
 		}
-		/* dont auto-add any sent/drafts folders etc, they must be explictly listed as a source */
+		/* Don't auto-add any sent/drafts folders etc,
+		 * they must be explictly listed as a source. */
 		if (rule->source
 		    && !is_ignore
 		    && ((((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_LOCAL && !remote)
@@ -527,7 +533,8 @@ mail_vfolder_add_uri (EMailSession *session,
 			found = TRUE;
 
 		source = NULL;
-		while (!found && (source = em_vfolder_rule_next_source ((EMVFolderRule *)rule, source))) {
+		while (!found && (source = em_vfolder_rule_next_source (
+				(EMVFolderRule *)rule, source))) {
 			gchar *csource;
 			csource = em_uri_to_camel (source);
 			found = camel_store_folder_uri_equal (store, curi, csource);
@@ -663,8 +670,10 @@ mail_vfolder_delete_uri (EMailBackend *backend,
 					g_warning ("vf is NULL for %s\n", rule->name);
 					continue;
 				}
-				g_signal_handlers_disconnect_matched (rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
-								      0, NULL, rule_changed, vf);
+				g_signal_handlers_disconnect_matched (
+					rule, G_SIGNAL_MATCH_FUNC |
+					G_SIGNAL_MATCH_DATA, 0, 0, NULL,
+					rule_changed, vf);
 				em_vfolder_rule_remove_source ((EMVFolderRule *)rule, source);
 				g_signal_connect (rule, "changed", G_CALLBACK(rule_changed), vf);
 				if (changed_count == 0) {
@@ -758,14 +767,15 @@ mail_vfolder_rename_uri (CamelStore *store, const gchar *cfrom, const gchar *cto
 			/* Remove all sources that match, ignore changed events though
 			   because the adduri call above does the work async */
 			if (camel_store_folder_uri_equal (store, cfrom, csource)) {
-				d(printf("Vfolder '%s' used '%s' ('%s') now uses '%s'\n", rule->name, source, from, to));
 				vf = g_hash_table_lookup (vfolder_hash, rule->name);
 				if (!vf) {
 					g_warning ("vf is NULL for %s\n", rule->name);
 					continue;
 				}
-				g_signal_handlers_disconnect_matched (rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
-								     0, NULL, rule_changed, vf);
+				g_signal_handlers_disconnect_matched (
+					rule, G_SIGNAL_MATCH_FUNC |
+					G_SIGNAL_MATCH_DATA, 0, 0, NULL,
+					rule_changed, vf);
 				em_vfolder_rule_remove_source ((EMVFolderRule *)rule, source);
 				em_vfolder_rule_add_source ((EMVFolderRule *)rule, to);
 				g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), vf);
@@ -885,11 +895,17 @@ rule_changed (EFilterRule *rule, CamelFolder *folder)
 		&sources_folder, &sources_uri);
 
 	G_LOCK (vfolder);
-	if (((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_LOCAL || ((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)
+	if (((EMVFolderRule *)rule)->with ==
+			EM_VFOLDER_RULE_WITH_LOCAL ||
+			((EMVFolderRule *)rule)->with ==
+			EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)
 		rule_add_sources (
 			session, source_folders_local,
 			&sources_folder, &sources_uri);
-	if (((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_REMOTE_ACTIVE || ((EMVFolderRule *)rule)->with == EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)
+	if (((EMVFolderRule *)rule)->with ==
+			EM_VFOLDER_RULE_WITH_REMOTE_ACTIVE ||
+			((EMVFolderRule *)rule)->with ==
+			EM_VFOLDER_RULE_WITH_LOCAL_REMOTE_ACTIVE)
 		rule_add_sources (
 			session, source_folders_remote,
 			&sources_folder, &sources_uri);
@@ -970,9 +986,11 @@ store_folder_deleted_cb (CamelStore *store,
 	if (rule) {
 		const gchar *config_dir;
 
-		/* We need to stop listening to removed events, otherwise we'll try and remove it again */
-		g_signal_handlers_disconnect_matched (context, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
-						     0, NULL, context_rule_removed, context);
+		/* We need to stop listening to removed events,
+		 * otherwise we'll try and remove it again. */
+		g_signal_handlers_disconnect_matched (
+			context, G_SIGNAL_MATCH_FUNC | G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, context_rule_removed, context);
 		e_rule_context_remove_rule ((ERuleContext *)context, rule);
 		g_object_unref (rule);
 		g_signal_connect(context, "rule_removed", G_CALLBACK(context_rule_removed), context);
@@ -1019,8 +1037,9 @@ store_folder_renamed_cb (CamelStore *store,
 			return;
 		}
 
-		g_signal_handlers_disconnect_matched (rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
-						     0, NULL, rule_changed, folder);
+		g_signal_handlers_disconnect_matched (
+			rule, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, rule_changed, folder);
 		e_filter_rule_set_name (rule, info->full_name);
 		g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), folder);
 
@@ -1064,7 +1083,11 @@ folder_deleted_cb (MailFolderCache *cache,
 }
 
 static void
-folder_renamed_cb (MailFolderCache *cache, CamelStore *store, const gchar *olduri, const gchar *newuri, gpointer user_data)
+folder_renamed_cb (MailFolderCache *cache,
+                   CamelStore *store,
+                   const gchar *olduri,
+                   const gchar *newuri,
+                   gpointer user_data)
 {
 	mail_vfolder_rename_uri (store, olduri, newuri);
 }
@@ -1075,6 +1098,7 @@ vfolder_load_storage (EMailBackend *backend)
 	/* lock for loading storage, it is safe to call it more than once */
 	G_LOCK_DEFINE_STATIC (vfolder_hash);
 
+	const gchar *key;
 	const gchar *data_dir;
 	const gchar *config_dir;
 	gchar *user, *storeuri;
@@ -1154,8 +1178,9 @@ vfolder_load_storage (EMailBackend *backend)
 
 	/* reenable the feature if required */
 	client = gconf_client_get_default ();
-	if (!gconf_client_get_bool (client, "/apps/evolution/mail/display/enable_vfolders", NULL))
-		gconf_client_set_bool (client, "/apps/evolution/mail/display/enable_vfolders", TRUE, NULL);
+	key = "/apps/evolution/mail/display/enable_vfolders";
+	if (!gconf_client_get_bool (client, key, NULL))
+		gconf_client_set_bool (client, key, TRUE, NULL);
 	g_object_unref (client);
 
 	folder_cache = e_mail_session_get_folder_cache (session);
@@ -1263,7 +1288,8 @@ vfolder_edit_rule (EMailBackend *backend,
 
 	url = camel_url_new (uri, NULL);
 	if (url && url->fragment
-	    && (rule = e_rule_context_find_rule ((ERuleContext *)context, url->fragment, NULL))) {
+	    && (rule = e_rule_context_find_rule (
+	    (ERuleContext *) context, url->fragment, NULL))) {
 		g_object_ref (G_OBJECT (rule));
 		newrule = e_filter_rule_clone (rule);
 
@@ -1285,9 +1311,15 @@ vfolder_edit_rule (EMailBackend *backend,
 		gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);
 		gtk_box_pack_start (GTK_BOX (container), w, TRUE, TRUE, 0);
 		gtk_widget_show ((GtkWidget *)gd);
-		g_object_set_data_full(G_OBJECT(gd), "rule", newrule, (GDestroyNotify)g_object_unref);
-		g_object_set_data_full(G_OBJECT(gd), "orig", rule, (GDestroyNotify)g_object_unref);
-		g_signal_connect(gd, "response", G_CALLBACK(edit_rule_response), NULL);
+		g_object_set_data_full (
+			G_OBJECT (gd), "rule", newrule,
+			(GDestroyNotify) g_object_unref);
+		g_object_set_data_full (
+			G_OBJECT (gd), "orig", rule,
+			(GDestroyNotify) g_object_unref);
+		g_signal_connect (
+			gd, "response",
+			G_CALLBACK (edit_rule_response), NULL);
 		gtk_widget_show ((GtkWidget *)gd);
 	} else {
 		/* TODO: we should probably just create it ... */
@@ -1315,7 +1347,9 @@ new_rule_clicked (GtkWidget *w, gint button, gpointer data)
 		}
 
 		if (e_rule_context_find_rule ((ERuleContext *)context, rule->name, rule->source)) {
-			e_alert_run_dialog_for_args ((GtkWindow *)w, "mail:vfolder-notunique", rule->name, NULL);
+			e_alert_run_dialog_for_args (
+				GTK_WINDOW (w), "mail:vfolder-notunique",
+				rule->name, NULL);
 			return;
 		}
 
@@ -1345,7 +1379,8 @@ vfolder_create_part (const gchar *name)
 	return e_rule_context_create_part ((ERuleContext *)context, name);
 }
 
-/* clones a filter/search rule into a matching vfolder rule (assuming the same system definitions) */
+/* clones a filter/search rule into a matching vfolder rule
+ * (assuming the same system definitions) */
 EFilterRule *
 vfolder_clone_rule (EMailSession *session, EFilterRule *in)
 {

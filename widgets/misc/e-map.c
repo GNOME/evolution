@@ -118,9 +118,6 @@ enum {
 
 /* Internal prototypes */
 
-static void e_map_get_current_location (EMap *map, gdouble *longitude, gdouble *latitude);
-static void e_map_world_to_render_surface (EMap *map, gdouble world_longitude, gdouble world_latitude,
-                                           gdouble *win_x, gdouble *win_y);
 static void update_render_surface (EMap *map, gboolean render_overlays);
 static void set_scroll_area (EMap *map, gint width, gint height);
 static void center_at (EMap *map, gdouble longitude, gdouble latitude);
@@ -205,7 +202,11 @@ e_map_start_tweening (EMap *map)
 }
 
 static void
-e_map_tween_new (EMap *map, guint msecs, gdouble longitude_offset, gdouble latitude_offset, gdouble zoom_factor)
+e_map_tween_new (EMap *map,
+                 guint msecs,
+                 gdouble longitude_offset,
+                 gdouble latitude_offset,
+                 gdouble zoom_factor)
 {
 	EMapTween *tween;
 
@@ -232,6 +233,37 @@ G_DEFINE_TYPE_WITH_CODE (
 	e_map,
 	GTK_TYPE_WIDGET,
 	G_IMPLEMENT_INTERFACE (GTK_TYPE_SCROLLABLE, NULL))
+
+static void
+e_map_get_current_location (EMap *map,
+                            gdouble *longitude,
+                            gdouble *latitude)
+{
+	GtkAllocation allocation;
+
+	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
+
+	e_map_window_to_world (
+		map, allocation.width / 2.0,
+		allocation.height / 2.0,
+		longitude, latitude);
+}
+
+static void
+e_map_world_to_render_surface (EMap *map,
+                               gdouble world_longitude,
+                               gdouble world_latitude,
+                               gdouble *win_x,
+                               gdouble *win_y)
+{
+	gint width, height;
+
+	width = E_MAP_GET_WIDTH (map);
+	height = E_MAP_GET_HEIGHT (map);
+
+	*win_x = (width / 2.0 + (width / 2.0) * world_longitude / 180.0);
+	*win_y = (height / 2.0 - (height / 2.0) * world_latitude / 90.0);
+}
 
 static void
 e_map_tween_new_from (EMap *map,
@@ -393,14 +425,18 @@ e_map_set_hadjustment (EMap *map, GtkAdjustment *adjustment)
 		return;
 
 	if (priv->hadjustment != NULL) {
-		g_signal_handlers_disconnect_matched (priv->hadjustment, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, map);
+		g_signal_handlers_disconnect_matched (
+			priv->hadjustment, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, map);
 		g_object_unref (priv->hadjustment);
 	}
 
 	if (!adjustment)
 		adjustment = gtk_adjustment_new (0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-	g_signal_connect (adjustment, "value-changed", G_CALLBACK (e_map_adjustment_changed), map);
+	g_signal_connect (
+		adjustment, "value-changed",
+		G_CALLBACK (e_map_adjustment_changed), map);
 	priv->hadjustment = g_object_ref_sink (adjustment);
 	e_map_set_hadjustment_values (map);
 
@@ -416,14 +452,18 @@ e_map_set_vadjustment (EMap *map, GtkAdjustment *adjustment)
 		return;
 
 	if (priv->vadjustment != NULL) {
-		g_signal_handlers_disconnect_matched (priv->vadjustment, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, map);
+		g_signal_handlers_disconnect_matched (
+			priv->vadjustment, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, map);
 		g_object_unref (priv->vadjustment);
 	}
 
 	if (!adjustment)
 		adjustment = gtk_adjustment_new (0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-	g_signal_connect (adjustment, "value-changed", G_CALLBACK (e_map_adjustment_changed), map);
+	g_signal_connect (
+		adjustment, "value-changed",
+		G_CALLBACK (e_map_adjustment_changed), map);
 	priv->vadjustment = g_object_ref_sink (adjustment);
 	e_map_set_vadjustment_values (map);
 
@@ -435,7 +475,10 @@ e_map_set_vadjustment (EMap *map, GtkAdjustment *adjustment)
  * ----------------- */
 
 static void
-e_map_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+e_map_set_property (GObject *object,
+                    guint prop_id,
+                    const GValue *value,
+                    GParamSpec *pspec)
 {
 	EMap *map;
 
@@ -464,7 +507,10 @@ e_map_set_property (GObject *object, guint prop_id, const GValue *value, GParamS
 }
 
 static void
-e_map_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+e_map_get_property (GObject *object,
+                    guint prop_id,
+                    GValue *value,
+                    GParamSpec *pspec)
 {
 	EMap *map;
 
@@ -750,10 +796,14 @@ e_map_class_init (EMapClass *class)
 	object_class->get_property = e_map_get_property;
 
 	/* Scrollable interface properties */
-	g_object_class_override_property (object_class, PROP_HADJUSTMENT,    "hadjustment");
-	g_object_class_override_property (object_class, PROP_VADJUSTMENT,    "vadjustment");
-	g_object_class_override_property (object_class, PROP_HSCROLL_POLICY, "hscroll-policy");
-	g_object_class_override_property (object_class, PROP_VSCROLL_POLICY, "vscroll-policy");
+	g_object_class_override_property (
+		object_class, PROP_HADJUSTMENT, "hadjustment");
+	g_object_class_override_property (
+		object_class, PROP_VADJUSTMENT, "vadjustment");
+	g_object_class_override_property (
+		object_class, PROP_HSCROLL_POLICY, "hscroll-policy");
+	g_object_class_override_property (
+		object_class, PROP_VSCROLL_POLICY, "vscroll-policy");
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = e_map_realize;
@@ -772,7 +822,10 @@ static void
 e_map_init (EMap *map)
 {
 	GtkWidget *widget;
-	gchar *map_file_name = g_build_filename (EVOLUTION_IMAGESDIR, "world_map-960.png", NULL);
+	gchar *map_file_name;
+
+	map_file_name = g_build_filename (
+		EVOLUTION_IMAGESDIR, "world_map-960.png", NULL);
 
 	widget = GTK_WIDGET (map);
 
@@ -812,7 +865,10 @@ e_map_new (void)
 	a11y = gtk_widget_get_accessible (widget);
 	atk_object_set_name (a11y, _("World Map"));
 	atk_object_set_role (a11y, ATK_ROLE_IMAGE);
-	atk_object_set_description (a11y, _("Mouse-based interactive map widget for selecting timezone. Keyboard users should instead select the timezone from the drop-down combination box below."));
+	atk_object_set_description (
+		a11y, _("Mouse-based interactive map widget for selecting "
+		"timezone. Keyboard users should instead select the timezone "
+		"from the drop-down combination box below."));
 	return (E_MAP (widget));
 }
 
@@ -825,7 +881,11 @@ e_map_new (void)
  * Latitude  E <-90, 90]   */
 
 void
-e_map_window_to_world (EMap *map, gdouble win_x, gdouble win_y, gdouble *world_longitude, gdouble *world_latitude)
+e_map_window_to_world (EMap *map,
+                       gdouble win_x,
+                       gdouble win_y,
+                       gdouble *world_longitude,
+                       gdouble *world_latitude)
 {
 	gint width, height;
 
@@ -842,33 +902,23 @@ e_map_window_to_world (EMap *map, gdouble win_x, gdouble win_y, gdouble *world_l
 		((gdouble) height / 2.0) * 90.0;
 }
 
-static void
-e_map_world_to_render_surface (EMap *map, gdouble world_longitude, gdouble world_latitude, gdouble *win_x, gdouble *win_y)
-{
-	gint width, height;
-
-	width = E_MAP_GET_WIDTH (map);
-	height = E_MAP_GET_HEIGHT (map);
-
-	*win_x = (width / 2.0 + (width / 2.0) * world_longitude / 180.0);
-	*win_y = (height / 2.0 - (height / 2.0) * world_latitude / 90.0);
-}
-
 void
-e_map_world_to_window (EMap *map, gdouble world_longitude, gdouble world_latitude, gdouble *win_x, gdouble *win_y)
+e_map_world_to_window (EMap *map,
+                       gdouble world_longitude,
+                       gdouble world_latitude,
+                       gdouble *win_x,
+                       gdouble *win_y)
 {
 	g_return_if_fail (E_IS_MAP (map));
 	g_return_if_fail (gtk_widget_get_realized (GTK_WIDGET (map)));
 	g_return_if_fail (world_longitude >= -180.0 && world_longitude <= 180.0);
 	g_return_if_fail (world_latitude >= -90.0 && world_latitude <= 90.0);
 
-	e_map_world_to_render_surface (map, world_longitude, world_latitude, win_x, win_y);
+	e_map_world_to_render_surface (
+		map, world_longitude, world_latitude, win_x, win_y);
+
 	*win_x -= map->priv->xofs;
 	*win_y -= map->priv->yofs;
-
-#ifdef DEBUG
-	printf ("Map size: (%d, %d)\nCoords: (%.1f, %.1f) -> (%.1f, %.1f)\n---\n", width, height, world_longitude, world_latitude, *win_x, *win_y);
-#endif
 }
 
 /* --- Zoom --- */
@@ -954,7 +1004,11 @@ e_map_thaw (EMap *map)
 /* --- Point manipulation --- */
 
 EMapPoint *
-e_map_add_point (EMap *map, gchar *name, gdouble longitude, gdouble latitude, guint32 color_rgba)
+e_map_add_point (EMap *map,
+                 gchar *name,
+                 gdouble longitude,
+                 gdouble latitude,
+                 guint32 color_rgba)
 {
 	EMapPoint *point;
 
@@ -994,7 +1048,9 @@ e_map_remove_point (EMap *map, EMapPoint *point)
 }
 
 void
-e_map_point_get_location (EMapPoint *point, gdouble *longitude, gdouble *latitude)
+e_map_point_get_location (EMapPoint *point,
+                          gdouble *longitude,
+                          gdouble *latitude)
 {
 	*longitude = point->longitude;
 	*latitude = point->latitude;
@@ -1013,7 +1069,9 @@ e_map_point_get_color_rgba (EMapPoint *point)
 }
 
 void
-e_map_point_set_color_rgba (EMap *map, EMapPoint *point, guint32 color_rgba)
+e_map_point_set_color_rgba (EMap *map,
+                            EMapPoint *point,
+                            guint32 color_rgba)
 {
 	point->rgba = color_rgba;
 
@@ -1057,7 +1115,10 @@ e_map_point_is_in_view (EMap *map, EMapPoint *point)
 }
 
 EMapPoint *
-e_map_get_closest_point (EMap *map, gdouble longitude, gdouble latitude, gboolean in_view)
+e_map_get_closest_point (EMap *map,
+                         gdouble longitude,
+                         gdouble latitude,
+                         gboolean in_view)
 {
 	EMapPoint *point_chosen = NULL, *point;
 	gdouble min_dist = 0.0, dist;
@@ -1284,19 +1345,7 @@ scroll_to (EMap *map, gint x, gint y)
 }
 
 static void
-e_map_get_current_location (EMap *map, gdouble *longitude, gdouble *latitude)
-{
-	GtkAllocation allocation;
-
-	gtk_widget_get_allocation (GTK_WIDGET (map), &allocation);
-
-	e_map_window_to_world (map,
-			       allocation.width / 2.0, allocation.height / 2.0,
-			       longitude, latitude);
-}
-
-static void
-set_scroll_area (EMap *view, int width, int height)
+set_scroll_area (EMap *view, gint width, gint height)
 {
 	EMapPrivate *priv;
 	GtkAllocation allocation;

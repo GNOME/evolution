@@ -1490,19 +1490,31 @@ add_validity_found (EMFormat *emf,
 /* ********************************************************************** */
 
 static void
-preserve_charset_in_content_type (CamelMimePart *ipart, CamelMimePart *opart)
+preserve_charset_in_content_type (CamelMimePart *ipart,
+                                  CamelMimePart *opart)
 {
-	CamelContentType *ict;
+	CamelDataWrapper *data_wrapper;
+	CamelContentType *content_type;
+	const gchar *charset;
 
 	g_return_if_fail (ipart != NULL);
 	g_return_if_fail (opart != NULL);
 
-	ict = camel_data_wrapper_get_mime_type_field (camel_medium_get_content (CAMEL_MEDIUM (ipart)));
-	if (!ict || !camel_content_type_param (ict, "charset") || !*camel_content_type_param (ict, "charset"))
+	data_wrapper = camel_medium_get_content (CAMEL_MEDIUM (ipart));
+	content_type = camel_data_wrapper_get_mime_type_field (data_wrapper);
+
+	if (content_type == NULL)
 		return;
 
-	camel_content_type_set_param (camel_data_wrapper_get_mime_type_field (camel_medium_get_content (CAMEL_MEDIUM (opart))),
-		"charset", camel_content_type_param (ict, "charset"));
+	charset = camel_content_type_param (content_type, "charset");
+
+	if (charset == NULL || *charset == '\0')
+		return;
+
+	data_wrapper = camel_medium_get_content (CAMEL_MEDIUM (opart));
+	content_type = camel_data_wrapper_get_mime_type_field (data_wrapper);
+
+	camel_content_type_set_param (content_type, "charset", charset);
 }
 
 #ifdef ENABLE_SMIME

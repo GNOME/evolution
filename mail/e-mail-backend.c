@@ -360,8 +360,10 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 	gint folder_type;
 	gint flags = 0;
 
-	if (mail_folder_cache_get_folder_from_uri (folder_cache, folder_uri, &folder))
-		if (folder && !mail_folder_cache_get_folder_info_flags (folder_cache, folder, &flags))
+	if (mail_folder_cache_get_folder_from_uri (
+			folder_cache, folder_uri, &folder))
+		if (folder && !mail_folder_cache_get_folder_info_flags (
+				folder_cache, folder, &flags))
 			g_return_if_reached ();
 
 	target = em_event_target_new_folder (

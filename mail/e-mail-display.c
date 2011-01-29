@@ -269,11 +269,19 @@ mail_display_link_clicked (GtkHTML *html,
 	} else if (g_ascii_strncasecmp (uri, "mailto:", 7) == 0) {
 		EMFormat *format = EM_FORMAT (priv->formatter);
 		CamelFolder *folder = NULL;
+		const gchar *folder_uri = NULL;
+		EShell *shell;
 
-		if (format && format->folder)
+		if (format != NULL && format->folder != NULL)
 			folder = format->folder;
 
-		em_utils_compose_new_message_with_mailto (e_shell_get_default (), uri, folder ? camel_folder_get_uri (folder) : NULL);
+		if (folder != NULL)
+			folder_uri = camel_folder_get_uri (folder);
+
+		shell = e_shell_get_default ();
+		em_utils_compose_new_message_with_mailto (
+			shell, uri, folder_uri);
+
 	} else if (*uri == '#')
 		gtk_html_jump_to_anchor (html, uri + 1);
 

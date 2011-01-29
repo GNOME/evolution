@@ -1235,9 +1235,8 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	col_width = ecol->width;
 	s = cairo_image_surface_create (CAIRO_FORMAT_A1, col_width, ethi->height);
 	cr = cairo_create (s);
-	pixbuf = gdk_pixbuf_get_from_surface(s, 
-			0, 0, 
-			col_width, ethi->height);
+	pixbuf = gdk_pixbuf_get_from_surface (
+		s, 0, 0, col_width, ethi->height);
 
 	state = gtk_widget_get_state (widget);
 

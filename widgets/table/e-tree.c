@@ -1922,25 +1922,33 @@ et_get_property (GObject *object,
 		break;
 	case PROP_HADJUSTMENT:
 		if (etree->priv->table_canvas)
-			g_object_get_property (G_OBJECT (etree->priv->table_canvas), "hadjustment", value);
+			g_object_get_property (
+				G_OBJECT (etree->priv->table_canvas),
+				"hadjustment", value);
 		else
 			g_value_set_object (value, NULL);
 		break;
 	case PROP_VADJUSTMENT:
 		if (etree->priv->table_canvas)
-			g_object_get_property (G_OBJECT (etree->priv->table_canvas), "vadjustment", value);
+			g_object_get_property (
+				G_OBJECT (etree->priv->table_canvas),
+				"vadjustment", value);
 		else
 			g_value_set_object (value, NULL);
 		break;
 	case PROP_HSCROLL_POLICY:
 		if (etree->priv->table_canvas)
-			g_object_get_property (G_OBJECT (etree->priv->table_canvas), "hscroll-policy", value);
+			g_object_get_property (
+				G_OBJECT (etree->priv->table_canvas),
+				"hscroll-policy", value);
 		else
 			g_value_set_enum (value, 0);
 		break;
 	case PROP_VSCROLL_POLICY:
 		if (etree->priv->table_canvas)
-			g_object_get_property (G_OBJECT (etree->priv->table_canvas), "vscroll-policy", value);
+			g_object_get_property (
+				G_OBJECT (etree->priv->table_canvas),
+				"vscroll-policy", value);
 		else
 			g_value_set_enum (value, 0);
 		break;
@@ -2018,19 +2026,27 @@ et_set_property (GObject *object,
 
 	case PROP_HADJUSTMENT:
 		if (etree->priv->table_canvas)
-			g_object_set_property (G_OBJECT (etree->priv->table_canvas), "hadjustment", value);
+			g_object_set_property (
+				G_OBJECT (etree->priv->table_canvas),
+				"hadjustment", value);
 		break;
 	case PROP_VADJUSTMENT:
 		if (etree->priv->table_canvas)
-			g_object_set_property (G_OBJECT (etree->priv->table_canvas), "vadjustment", value);
+			g_object_set_property (
+				G_OBJECT (etree->priv->table_canvas),
+				"vadjustment", value);
 		break;
 	case PROP_HSCROLL_POLICY:
 		if (etree->priv->table_canvas)
-			g_object_set_property (G_OBJECT (etree->priv->table_canvas), "hscroll-policy", value);
+			g_object_set_property (
+				G_OBJECT (etree->priv->table_canvas),
+				"hscroll-policy", value);
 		break;
 	case PROP_VSCROLL_POLICY:
 		if (etree->priv->table_canvas)
-			g_object_set_property (G_OBJECT (etree->priv->table_canvas), "vscroll-policy", value);
+			g_object_set_property (
+				G_OBJECT (etree->priv->table_canvas),
+				"vscroll-policy", value);
 		break;
 	}
 }
@@ -3548,10 +3564,14 @@ e_tree_class_init (ETreeClass *class)
 			G_PARAM_STATIC_STRINGS));
 
 	/* Scrollable interface */
-	g_object_class_override_property (object_class, PROP_HADJUSTMENT,    "hadjustment");
-	g_object_class_override_property (object_class, PROP_VADJUSTMENT,    "vadjustment");
-	g_object_class_override_property (object_class, PROP_HSCROLL_POLICY, "hscroll-policy");
-	g_object_class_override_property (object_class, PROP_VSCROLL_POLICY, "vscroll-policy");
+	g_object_class_override_property (
+		object_class, PROP_HADJUSTMENT, "hadjustment");
+	g_object_class_override_property (
+		object_class, PROP_VADJUSTMENT, "vadjustment");
+	g_object_class_override_property (
+		object_class, PROP_HSCROLL_POLICY, "hscroll-policy");
+	g_object_class_override_property (
+		object_class, PROP_VSCROLL_POLICY, "vscroll-policy");
 
 	gal_a11y_e_tree_init ();
 }

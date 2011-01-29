@@ -101,24 +101,12 @@ task_shell_sidebar_emit_status_message (ETaskShellSidebar *task_shell_sidebar,
 	g_signal_emit (task_shell_sidebar, signal_id, 0, status_message, -1.0);
 }
 
-static EAlertSink *
-get_alert_sink (EShellView *shell_view)
-{
-	EShellWindow *shell_window;
-
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	if (g_strcmp0 (e_shell_window_get_active_view (shell_window), "calendar") == 0)
-		shell_view = e_shell_window_peek_shell_view (shell_window, "calendar");
-
-	return E_ALERT_SINK (e_shell_view_get_shell_content (shell_view));
-}
-
 static void
 task_shell_sidebar_backend_died_cb (ETaskShellSidebar *task_shell_sidebar,
                                     ECal *client)
 {
 	EShellView *shell_view;
+	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	GHashTable *client_table;
 	ESource *source;
@@ -128,6 +116,7 @@ task_shell_sidebar_backend_died_cb (ETaskShellSidebar *task_shell_sidebar,
 
 	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	source = e_cal_get_source (client);
 	uid = e_source_peek_uid (source);
@@ -137,7 +126,8 @@ task_shell_sidebar_backend_died_cb (ETaskShellSidebar *task_shell_sidebar,
 	g_hash_table_remove (client_table, uid);
 	task_shell_sidebar_emit_status_message (task_shell_sidebar, NULL);
 
-	e_alert_submit (get_alert_sink (shell_view),
+	e_alert_submit (
+		E_ALERT_SINK (shell_content),
 		"calendar:tasks-crashed", NULL);
 
 	g_object_unref (source);
@@ -149,18 +139,23 @@ task_shell_sidebar_backend_error_cb (ETaskShellSidebar *task_shell_sidebar,
                                      ECal *client)
 {
 	EShellView *shell_view;
+	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	ESourceGroup *source_group;
 	ESource *source;
 
 	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	source = e_cal_get_source (client);
 	source_group = e_source_peek_group (source);
 
-	e_alert_submit (get_alert_sink (shell_view),
-		"calendar:backend-error", e_source_group_peek_name (source_group), e_source_peek_name (source), message, NULL);
+	e_alert_submit (
+		E_ALERT_SINK (shell_content),
+		"calendar:backend-error",
+		e_source_group_peek_name (source_group),
+		e_source_peek_name (source), message, NULL);
 }
 
 static void
@@ -169,11 +164,13 @@ task_shell_sidebar_client_opened_cb (ETaskShellSidebar *task_shell_sidebar,
                                      ECal *client)
 {
 	EShellView *shell_view;
+	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	const gchar *message;
 
 	shell_sidebar = E_SHELL_SIDEBAR (task_shell_sidebar);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	if (g_error_matches (error, E_CALENDAR_ERROR,
 		E_CALENDAR_STATUS_AUTHENTICATION_FAILED) ||
@@ -194,14 +191,16 @@ task_shell_sidebar_client_opened_cb (ETaskShellSidebar *task_shell_sidebar,
 			return;
 
 		case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
-			e_alert_submit (get_alert_sink (shell_view),
+			e_alert_submit (
+				E_ALERT_SINK (shell_content),
 				"calendar:prompt-no-contents-offline-tasks",
 				NULL);
 			/* fall through */
 
 		default:
 			if (error->code != E_CALENDAR_STATUS_REPOSITORY_OFFLINE) {
-				e_alert_submit (get_alert_sink (shell_view),
+				e_alert_submit (
+					E_ALERT_SINK (shell_content),
 					"calendar:failed-open-tasks",
 					error->message, NULL);
 			}
@@ -230,6 +229,7 @@ task_shell_sidebar_default_loaded_cb (ESource *source,
                                       EShellSidebar *shell_sidebar)
 {
 	ETaskShellSidebarPrivate *priv;
+	EShellContent *shell_content;
 	EShellView *shell_view;
 	ECal *client;
 	GError *error = NULL;
@@ -237,6 +237,7 @@ task_shell_sidebar_default_loaded_cb (ESource *source,
 	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
 
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	client = e_load_cal_source_finish (source, result, &error);
 
@@ -245,7 +246,8 @@ task_shell_sidebar_default_loaded_cb (ESource *source,
 		goto exit;
 
 	} else if (error != NULL) {
-		e_alert_submit (get_alert_sink (shell_view),
+		e_alert_submit (
+			E_ALERT_SINK (shell_content),
 			"calendar:failed-open-tasks",
 			error->message, NULL);
 		g_error_free (error);

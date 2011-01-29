@@ -169,12 +169,14 @@ quick_add_merge_contact (QuickAdd *qa)
 		(GAsyncReadyCallback) merge_cb, qa);
 }
 
-/*
- * Raise a contact editor with all fields editable, and hook up all signals accordingly.
- */
+/* Raise a contact editor with all fields editable,
+ * and hook up all signals accordingly. */
 
 static void
-contact_added_cb (EContactEditor *ce, EBookStatus status, EContact *contact, gpointer closure)
+contact_added_cb (EContactEditor *ce,
+                  EBookStatus status,
+                  EContact *contact,
+                  gpointer closure)
 {
 	QuickAdd *qa = (QuickAdd *) g_object_get_data (G_OBJECT (ce), "quick_add");
 
@@ -228,11 +230,14 @@ ce_have_contact (EBook *book, const GError *error, EContact *contact, gpointer c
 				"changed", contact != NULL,
 				NULL);
 
-		/* We pass this via object data, so that we don't get a dangling pointer referenced if both
-		   the "contact_added" and "editor_closed" get emitted.  (Which, based on a backtrace in bugzilla,
-		   I think can happen and cause a crash. */
-		g_object_set_data_full (G_OBJECT (contact_editor), "quick_add", qa,
-					(GDestroyNotify) quick_add_unref);
+		/* We pass this via object data, so that we don't get a
+		 * dangling pointer referenced if both the "contact_added"
+		 * and "editor_closed" get emitted.  (Which, based on a
+		 * backtrace in bugzilla, I think can happen and cause a
+		 * crash. */
+		g_object_set_data_full (
+			G_OBJECT (contact_editor), "quick_add", qa,
+			(GDestroyNotify) quick_add_unref);
 
 		g_signal_connect (contact_editor,
 				  "contact_added",
@@ -294,7 +299,8 @@ clicked_cb (GtkWidget *w, gint button, gpointer closure)
 	QuickAdd *qa = (QuickAdd *) closure;
 
 	/* Get data out of entries. */
-	if (!qa->vcard && (button == GTK_RESPONSE_OK || button == QUICK_ADD_RESPONSE_EDIT_FULL)) {
+	if (!qa->vcard && (button == GTK_RESPONSE_OK ||
+			button == QUICK_ADD_RESPONSE_EDIT_FULL)) {
 		gchar *name = NULL;
 		gchar *email = NULL;
 
@@ -498,7 +504,8 @@ e_contact_quick_add (const gchar *in_name, const gchar *email,
 		/* Remove extra whitespace and the quotes some mailers put around names. */
 		g_strstrip (name);
 		len = strlen (name);
-		if ((name[0] == '\'' && name[len-1] == '\'') || (name[0] == '"' && name[len-1] == '"')) {
+		if ((name[0] == '\'' && name[len-1] == '\'') ||
+			(name[0] == '"' && name[len-1] == '"')) {
 			name[0] = ' ';
 			name[len-1] = ' ';
 		}
@@ -520,7 +527,9 @@ e_contact_quick_add (const gchar *in_name, const gchar *email,
 }
 
 void
-e_contact_quick_add_free_form (const gchar *text, EContactQuickAddCallback cb, gpointer closure)
+e_contact_quick_add_free_form (const gchar *text,
+                               EContactQuickAddCallback cb,
+                               gpointer closure)
 {
 	gchar *name=NULL, *email=NULL;
 	const gchar *last_at, *s;
@@ -595,7 +604,9 @@ e_contact_quick_add_free_form (const gchar *text, EContactQuickAddCallback cb, g
 }
 
 void
-e_contact_quick_add_email (const gchar *email, EContactQuickAddCallback cb, gpointer closure)
+e_contact_quick_add_email (const gchar *email,
+                           EContactQuickAddCallback cb,
+                           gpointer closure)
 {
 	gchar *name = NULL;
 	gchar *addr = NULL;
@@ -622,7 +633,9 @@ e_contact_quick_add_email (const gchar *email, EContactQuickAddCallback cb, gpoi
 }
 
 void
-e_contact_quick_add_vcard (const gchar *vcard, EContactQuickAddCallback cb, gpointer closure)
+e_contact_quick_add_vcard (const gchar *vcard,
+                           EContactQuickAddCallback cb,
+                           gpointer closure)
 {
 	QuickAdd *qa;
 	GtkWidget *dialog;

@@ -56,25 +56,25 @@ typedef struct _ETableHeaderItem ETableHeaderItem;
 typedef struct _ETableHeaderItemClass ETableHeaderItemClass;
 
 struct _ETableHeaderItem {
-	GnomeCanvasItem  parent;
-	ETableHeader    *eth;
+	GnomeCanvasItem parent;
+	ETableHeader *eth;
 
-	GdkCursor       *change_cursor;
-	GdkCursor       *resize_cursor;
+	GdkCursor *change_cursor;
+	GdkCursor *resize_cursor;
 
-	gshort            height, width;
+	gshort height, width;
 	PangoFontDescription *font_desc;
 
 	/*
-	 * Used during resizing;  Could be shorts
+	 * Used during resizing; Could be shorts
 	 */
-	gint              resize_col;
-	gint              resize_start_pos;
-	gint              resize_min_width;
+	gint resize_col;
+	gint resize_start_pos;
+	gint resize_min_width;
 
-	gpointer	  resize_guide;
+	gpointer  resize_guide;
 
-	gint              group_indent_width;
+	gint group_indent_width;
 
 	/*
 	 * Ids
@@ -84,20 +84,25 @@ struct _ETableHeaderItem {
 	/*
 	 * For dragging columns
 	 */
-	guint            maybe_drag:1;
-	guint            dnd_ready:1;
-	gint              click_x, click_y;
-	gint              drag_col, drop_col, drag_mark;
-        guint            drag_motion_id, drag_end_id, drag_leave_id, drag_drop_id, drag_data_received_id, drag_data_get_id;
-	guint            sort_info_changed_id, group_info_changed_id;
+	guint maybe_drag:1;
+	guint dnd_ready:1;
+	gint click_x, click_y;
+	gint drag_col, drop_col, drag_mark;
+	guint drag_motion_id;
+	guint drag_end_id;
+	guint drag_leave_id;
+	guint drag_drop_id;
+	guint drag_data_received_id;
+	guint drag_data_get_id;
+	guint sort_info_changed_id, group_info_changed_id;
 	GnomeCanvasItem *remove_item;
 
-	gchar           *dnd_code;
+	gchar *dnd_code;
 
 	/*
 	 * For column sorting info
 	 */
-	ETableSortInfo  *sort_info;
+	ETableSortInfo *sort_info;
 
 	guint scroll_direction : 4;
 	gint last_drop_x;
@@ -107,10 +112,10 @@ struct _ETableHeaderItem {
 	gint scroll_idle_id;
 
 	/* For adding fields. */
-	ETableHeader    *full_header;
-	ETable          *table;
-	ETree           *tree;
-	void            *config;
+	ETableHeader *full_header;
+	ETable *table;
+	ETree *tree;
+	gpointer config;
 
 	union {
 		GtkWidget *widget;

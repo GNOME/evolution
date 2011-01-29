@@ -49,7 +49,9 @@ static void gnome_canvas_pixbuf_get_property (GObject *object,
 					      GValue *value,
 					      GParamSpec *pspec);
 
-static void gnome_canvas_pixbuf_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags);
+static void gnome_canvas_pixbuf_update (GnomeCanvasItem *item,
+					const cairo_matrix_t *i2c,
+					gint flags);
 static void gnome_canvas_pixbuf_draw (GnomeCanvasItem *item, cairo_t *cr,
 				      gint x, gint y, gint width, gint height);
 static GnomeCanvasItem *gnome_canvas_pixbuf_point (GnomeCanvasItem *item,
@@ -250,7 +252,8 @@ gnome_canvas_pixbuf_update (GnomeCanvasItem *item,
 	priv = gcp->priv;
 
 	if (GNOME_CANVAS_ITEM_CLASS (gnome_canvas_pixbuf_parent_class)->update)
-		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_pixbuf_parent_class)->update (item, i2c, flags);
+		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_pixbuf_parent_class)->
+			update (item, i2c, flags);
 
 	/* ordinary update logic */
         gnome_canvas_request_redraw (

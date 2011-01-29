@@ -360,8 +360,11 @@ static GOptionEntry entries[] = {
 	  NULL, NULL },
 #endif /* G_OS_WIN32 */
 	{ "component", 'c', 0, G_OPTION_ARG_STRING, &requested_view,
-	/* Translators: Do NOT translate the five component names, they MUST remain in English! */
-	  N_("Start Evolution showing the specified component. Available options are 'mail', 'calendar', 'contacts', 'tasks', and 'memos'"), NULL },
+	/* Translators: Do NOT translate the five component
+	 * names, they MUST remain in English! */
+	  N_("Start Evolution showing the specified component. "
+	     "Available options are 'mail', 'calendar', 'contacts', "
+	     "'tasks', and 'memos'"), NULL },
 	{ "geometry", 'g', 0, G_OPTION_ARG_STRING, &geometry,
 	  N_("Apply the given geometry to the main window"), "GEOMETRY" },
 	{ "offline", '\0', 0, G_OPTION_ARG_NONE, &start_offline,

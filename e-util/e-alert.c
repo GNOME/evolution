@@ -496,8 +496,8 @@ alert_dispose (GObject *object)
 	while (!g_queue_is_empty (&priv->actions)) {
 		GtkAction *action = g_queue_pop_head (&priv->actions);
 
-		g_signal_handlers_disconnect_by_func (action, G_CALLBACK (alert_action_activate), object);
-
+		g_signal_handlers_disconnect_by_func (
+			action, G_CALLBACK (alert_action_activate), object);
 		g_object_unref (action);
 	}
 

@@ -169,7 +169,9 @@ e_dialog_combo_box_get (GtkWidget *widget, const gint *value_map)
  * @text_value: A string to be added to the @list_store
  **/
 void
-e_dialog_append_list_store_text (GtkTreeModel *list_store, gint text_column, const gchar *text_value)
+e_dialog_append_list_store_text (GtkTreeModel *list_store,
+                                 gint text_column,
+                                 const gchar *text_value)
 {
 	GtkTreeIter iter;
 	GtkListStore *store;

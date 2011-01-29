@@ -313,7 +313,8 @@ main_get_filter_driver (CamelSession *session,
 		if (ms->priv->filter_logfile == NULL) {
 			gchar *filename;
 
-			filename = gconf_client_get_string (client, "/apps/evolution/mail/filters/logfile", NULL);
+			filename = gconf_client_get_string (
+				client, "/apps/evolution/mail/filters/logfile", NULL);
 			if (filename) {
 				ms->priv->filter_logfile = g_fopen (filename, "a+");
 				g_free (filename);
@@ -328,10 +329,14 @@ main_get_filter_driver (CamelSession *session,
 	camel_filter_driver_set_play_sound_func (driver, session_play_sound, NULL);
 	camel_filter_driver_set_system_beep_func (driver, session_system_beep, NULL);
 
-	if ((!strcmp (type, E_FILTER_SOURCE_INCOMING) || !strcmp (type, E_FILTER_SOURCE_JUNKTEST))
-	    && camel_session_get_check_junk (session)) {
+	if ((!strcmp (type, E_FILTER_SOURCE_INCOMING) ||
+		!strcmp (type, E_FILTER_SOURCE_JUNKTEST))
+		&& camel_session_get_check_junk (session)) {
+
 		/* implicit junk check as 1st rule */
-		camel_filter_driver_add_rule (driver, "Junk check", "(junk-test)", "(begin (set-system-flag \"junk\"))");
+		camel_filter_driver_add_rule (
+			driver, "Junk check", "(junk-test)",
+			"(begin (set-system-flag \"junk\"))");
 	}
 
 	if (strcmp (type, E_FILTER_SOURCE_JUNKTEST) != 0) {
@@ -397,8 +402,8 @@ ms_forward_to_cb (CamelFolder *folder,
 	client = gconf_client_get_default ();
 
 	/* do not call mail send immediately, just pile them all in the outbox */
-	if (preparing_flush ||
-	    gconf_client_get_bool (client, "/apps/evolution/mail/filters/flush-outbox", NULL)) {
+	if (preparing_flush || gconf_client_get_bool (
+		client, "/apps/evolution/mail/filters/flush-outbox", NULL)) {
 		if (preparing_flush)
 			g_source_remove (preparing_flush);
 
@@ -668,12 +673,15 @@ mail_session_get_password (CamelSession *session,
 					eflags |= E_PASSWORDS_PASSPHRASE;
 
 				/* HACK: breaks abstraction ...
-				   e_account_writable doesn't use the eaccount, it also uses the same writable key for
-				   source and transport */
+				 * e_account_writable() doesn't use the
+				 * EAccount, it also uses the same writable
+				 * key for source and transport. */
 				if (!e_account_writable (NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD))
 					eflags |= E_PASSWORDS_DISABLE_REMEMBER;
 
-				ret = e_passwords_ask_password (title, domain, key, prompt, eflags, &remember, NULL);
+				ret = e_passwords_ask_password (
+					title, domain, key, prompt,
+					eflags, &remember, NULL);
 
 				if (!ret)
 					e_passwords_forget_password (domain, key);
@@ -855,6 +863,8 @@ mail_session_forward_to (CamelSession *session,
 	CamelInternetAddress *addr;
 	CamelFolder *out_folder;
 	CamelMessageInfo *info;
+	CamelMedium *medium;
+	const gchar *header_name;
 	struct _camel_header_raw *xev;
 	gchar *subject;
 
@@ -883,25 +893,37 @@ mail_session_forward_to (CamelSession *session,
 
 	/* make copy of the message, because we are going to modify it */
 	mem = camel_stream_mem_new ();
-	camel_data_wrapper_write_to_stream_sync ((CamelDataWrapper *)message, mem, NULL, NULL);
+	camel_data_wrapper_write_to_stream_sync (
+		CAMEL_DATA_WRAPPER (message), mem, NULL, NULL);
 	g_seekable_seek (G_SEEKABLE (mem), 0, G_SEEK_SET, NULL, NULL);
-	camel_data_wrapper_construct_from_stream_sync ((CamelDataWrapper *)forward, mem, NULL, NULL);
+	camel_data_wrapper_construct_from_stream_sync (
+		CAMEL_DATA_WRAPPER (forward), mem, NULL, NULL);
 	g_object_unref (mem);
 
 	/* clear previous recipients */
-	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_TO, NULL);
-	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_CC, NULL);
-	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_BCC, NULL);
-	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_RESENT_TO, NULL);
-	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_RESENT_CC, NULL);
-	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_RESENT_BCC, NULL);
+	camel_mime_message_set_recipients (
+		forward, CAMEL_RECIPIENT_TYPE_TO, NULL);
+	camel_mime_message_set_recipients (
+		forward, CAMEL_RECIPIENT_TYPE_CC, NULL);
+	camel_mime_message_set_recipients (
+		forward, CAMEL_RECIPIENT_TYPE_BCC, NULL);
+	camel_mime_message_set_recipients (
+		forward, CAMEL_RECIPIENT_TYPE_RESENT_TO, NULL);
+	camel_mime_message_set_recipients (
+		forward, CAMEL_RECIPIENT_TYPE_RESENT_CC, NULL);
+	camel_mime_message_set_recipients (
+		forward, CAMEL_RECIPIENT_TYPE_RESENT_BCC, NULL);
+
+	medium = CAMEL_MEDIUM (forward);
 
 	/* remove all delivery and notification headers */
-	while (camel_medium_get_header (CAMEL_MEDIUM (forward), "Disposition-Notification-To"))
-		camel_medium_remove_header (CAMEL_MEDIUM (forward), "Disposition-Notification-To");
+	header_name = "Disposition-Notification-To";
+	while (camel_medium_get_header (medium, header_name))
+		camel_medium_remove_header (medium, header_name);
 
-	while (camel_medium_get_header (CAMEL_MEDIUM (forward), "Delivered-To"))
-		camel_medium_remove_header (CAMEL_MEDIUM (forward), "Delivered-To");
+	header_name = "Delivered-To";
+	while (camel_medium_get_header (medium, header_name))
+		camel_medium_remove_header (medium, header_name);
 
 	/* remove any X-Evolution-* headers that may have been set */
 	xev = mail_tool_remove_xevolution_headers (forward);
@@ -909,14 +931,16 @@ mail_session_forward_to (CamelSession *session,
 
 	/* from */
 	addr = camel_internet_address_new ();
-	camel_internet_address_add (addr, account->id->name, account->id->address);
+	camel_internet_address_add (
+		addr, account->id->name, account->id->address);
 	camel_mime_message_set_from (forward, addr);
 	g_object_unref (addr);
 
 	/* to */
 	addr = camel_internet_address_new ();
 	camel_address_decode (CAMEL_ADDRESS (addr), address);
-	camel_mime_message_set_recipients (forward, CAMEL_RECIPIENT_TYPE_TO, addr);
+	camel_mime_message_set_recipients (
+		forward, CAMEL_RECIPIENT_TYPE_TO, addr);
 	g_object_unref (addr);
 
 	/* subject */

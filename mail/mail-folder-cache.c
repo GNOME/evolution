@@ -295,7 +295,8 @@ update_1folder (MailFolderCache *self,
 			else
 				unread = camel_folder_get_unread_message_count (folder);
 		}
-	} else if (info && !em_utils_folder_is_drafts (NULL, info->uri) && !em_utils_folder_is_outbox (NULL, info->uri))
+	} else if (info && !em_utils_folder_is_drafts (NULL, info->uri) &&
+		!em_utils_folder_is_outbox (NULL, info->uri))
 		unread = info->unread;
 
 	d(printf("folder updated: unread %d: '%s'\n", unread, mfi->full_name));

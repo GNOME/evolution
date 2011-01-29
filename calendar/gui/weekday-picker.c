@@ -220,8 +220,8 @@ weekday_picker_realize (GtkWidget *widget)
 
 static void
 weekday_picker_get_preferred_width (GtkWidget *widget,
-                             	    gint *minimum_width,
-				    gint *natural_width)
+                                    gint *minimum_width,
+                                    gint *natural_width)
 {
 	WeekdayPicker *wp;
 	WeekdayPickerPrivate *priv;
@@ -231,10 +231,11 @@ weekday_picker_get_preferred_width (GtkWidget *widget,
 
 	*minimum_width = *natural_width = (priv->max_letter_width + 2 * PADDING + 1) * 7 + 1;
 }
+
 static void
 weekday_picker_get_preferred_height (GtkWidget *widget,
-                             	    gint *minimum_height,
-				    gint *natural_height)
+                                     gint *minimum_height,
+                                     gint *natural_height)
 {
 	WeekdayPicker *wp;
 	WeekdayPickerPrivate *priv;
@@ -242,7 +243,8 @@ weekday_picker_get_preferred_height (GtkWidget *widget,
 	wp = WEEKDAY_PICKER (widget);
 	priv = wp->priv;
 
-	*minimum_height = *natural_height = (priv->font_ascent + priv->font_descent + 2 * PADDING + 2);
+	*minimum_height = *natural_height =
+		(priv->font_ascent + priv->font_descent + 2 * PADDING + 2);
 }
 
 static void

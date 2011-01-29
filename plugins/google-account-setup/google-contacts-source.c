@@ -213,8 +213,12 @@ check_username_filled (ESource *source)
 
 	g_return_val_if_fail (source != NULL, NULL);
 
-	if (g_ascii_strncasecmp (GOOGLE_BASE_URI, e_source_group_peek_base_uri (e_source_peek_group (source)), strlen (GOOGLE_BASE_URI)) == 0) {
-		gchar *username = g_strdup (e_source_get_property (source, "username"));
+	if (g_ascii_strncasecmp (
+		GOOGLE_BASE_URI, e_source_group_peek_base_uri (
+		e_source_peek_group (source)), strlen (GOOGLE_BASE_URI)) == 0) {
+		gchar *username;
+
+		username  = g_strdup (e_source_get_property (source, "username"));
 
 		if (username)
 			username = g_strstrip (username);
@@ -238,7 +242,7 @@ plugin_google_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	t = (EABConfigTargetSource *) data->target;
 	g_return_val_if_fail (t->source != NULL, NULL);
 
-	return 	check_username_filled (t->source);
+	return	check_username_filled (t->source);
 }
 
 struct ui_data {

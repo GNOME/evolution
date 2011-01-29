@@ -245,7 +245,9 @@ e_sorter_array_construct  (ESorterArray *esa,
 }
 
 ESorterArray *
-e_sorter_array_new (ECreateCmpCacheFunc create_cmp_cache, ECompareRowsFunc compare, gpointer closure)
+e_sorter_array_new (ECreateCmpCacheFunc create_cmp_cache,
+                    ECompareRowsFunc compare,
+                    gpointer closure)
 {
 	ESorterArray *esa = g_object_new (E_SORTER_ARRAY_TYPE, NULL);
 

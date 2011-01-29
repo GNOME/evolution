@@ -274,14 +274,14 @@ e_day_view_time_item_update (GnomeCanvasItem *item,
  * DRAWING ROUTINES - functions to paint the canvas item.
  */
 static void
-edvti_draw_zone (GnomeCanvasItem   *canvas_item,
-		cairo_t 	   *cr,
-		gint		    x,
-		gint		    y,
-		gint		    width,
-		gint		    height,
-		gint		    x_offset,
-		icaltimezone       *use_zone)
+edvti_draw_zone (GnomeCanvasItem *canvas_item,
+                 cairo_t *cr,
+                 gint x,
+                 gint y,
+                 gint width,
+                 gint height,
+                 gint x_offset,
+                 icaltimezone *use_zone)
 {
 	EDayView *day_view;
 	EDayViewTimeItem *time_item;
@@ -604,11 +604,11 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 
 static void
 e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
-			   cairo_t 	   *cr,
-			   gint		    x,
-			   gint		    y,
-			   gint		    width,
-			   gint		    height)
+                           cairo_t *cr,
+                           gint x,
+                           gint y,
+                           gint width,
+                           gint height)
 {
 	EDayViewTimeItem *time_item;
 

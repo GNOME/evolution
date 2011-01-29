@@ -1570,6 +1570,7 @@ static void
 rebuild_time_popup			(EDateEdit	*dedit)
 {
 	EDateEditPrivate *priv;
+	GtkTreeModel *model;
 	GtkListStore *list_store;
 	GtkTreeIter iter;
 	gchar buffer[40];
@@ -1578,7 +1579,8 @@ rebuild_time_popup			(EDateEdit	*dedit)
 
 	priv = dedit->priv;
 
-	list_store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->time_combo)));
+	model = gtk_combo_box_get_model (GTK_COMBO_BOX (priv->time_combo));
+	list_store = GTK_LIST_STORE (model);
 	gtk_list_store_clear (list_store);
 
 	/* Fill the struct tm with some sane values. */

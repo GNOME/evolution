@@ -2368,7 +2368,7 @@ emae_option_checkspin_check_changed (GtkToggleButton *toggle, EMAccountEditorSer
 }
 
 static void
-parse_checkspin_format (const char *str,
+parse_checkspin_format (const gchar *str,
 			gboolean *on_ret,
 			gdouble *min_ret,
 			gdouble *def_ret,
@@ -3784,7 +3784,7 @@ static void
 set_provider_defaults_on_url (EMAccountEditor *emae, CamelProvider *provider, CamelURL *url)
 {
 	CamelProviderConfEntry *entries;
-	int i;
+	gint i;
 
 	if (!emae->priv->new_account)
 		return;

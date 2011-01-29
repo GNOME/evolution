@@ -1143,8 +1143,8 @@ edit_message (EShell *shell,
 typedef enum { QUOTING_ATTRIBUTION, QUOTING_FORWARD, QUOTING_ORIGINAL } QuotingTextEnum;
 
 static struct {
-	const gchar* gconf_key;
-	const gchar* message;
+	const gchar * gconf_key;
+	const gchar * message;
 } conf_messages[] = {
 	[QUOTING_ATTRIBUTION] =
 		{ "/apps/evolution/mail/composer/message_attribution",

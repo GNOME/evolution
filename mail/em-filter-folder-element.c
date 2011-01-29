@@ -72,7 +72,9 @@ filter_folder_element_set_session (EMFilterFolderElement *element,
                                    EMailSession *session)
 {
 	if (!session)
-		session = e_mail_backend_get_session (E_MAIL_BACKEND (e_shell_get_backend_by_name (e_shell_get_default(), "mail")));
+		session = e_mail_backend_get_session (
+			E_MAIL_BACKEND (e_shell_get_backend_by_name (
+			e_shell_get_default (), "mail")));
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (element->priv->session == NULL);
@@ -242,8 +244,10 @@ validate (EFilterElement *fe, EAlert **alert)
 static gint
 folder_eq (EFilterElement *fe, EFilterElement *cm)
 {
-        return E_FILTER_ELEMENT_CLASS (em_filter_folder_element_parent_class)->eq (fe, cm)
-		&& strcmp (((EMFilterFolderElement *)fe)->priv->uri, ((EMFilterFolderElement *)cm)->priv->uri)== 0;
+	return E_FILTER_ELEMENT_CLASS (
+		em_filter_folder_element_parent_class)->eq (fe, cm) &&
+		strcmp (((EMFilterFolderElement *)fe)->priv->uri,
+		((EMFilterFolderElement *)cm)->priv->uri)== 0;
 }
 
 static xmlNodePtr
@@ -366,8 +370,11 @@ static void
 emff_copy_value (EFilterElement *de, EFilterElement *se)
 {
 	if (EM_IS_FILTER_FOLDER_ELEMENT (se)) {
-		((EMFilterFolderElement *)de)->store_camel_uri = ((EMFilterFolderElement *)se)->store_camel_uri;
-		em_filter_folder_element_set_uri ((EMFilterFolderElement *)de, ((EMFilterFolderElement *)se)->priv->uri);
+		((EMFilterFolderElement *)de)->store_camel_uri =
+			((EMFilterFolderElement *)se)->store_camel_uri;
+		em_filter_folder_element_set_uri ((
+			EMFilterFolderElement *) de,
+			((EMFilterFolderElement *) se)->priv->uri);
 	} else
 		E_FILTER_ELEMENT_CLASS (em_filter_folder_element_parent_class)->copy_value (de, se);
 }
