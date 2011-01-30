@@ -803,23 +803,23 @@ comp_description (ECalComponent *comp,
                   gboolean use_24_hour_format)
 {
 	gchar *description;
-        ECalComponentDateTime dt;
-        gchar *start = NULL, *end = NULL;
+	ECalComponentDateTime dt;
+	gchar *start = NULL, *end = NULL;
 
-        switch (e_cal_component_get_vtype (comp)) {
-        case E_CAL_COMPONENT_EVENT:
+	switch (e_cal_component_get_vtype (comp)) {
+	case E_CAL_COMPONENT_EVENT:
                 description = g_strdup (_("Event information"));
 		break;
-        case E_CAL_COMPONENT_TODO:
+	case E_CAL_COMPONENT_TODO:
                 description = g_strdup (_("Task information"));
 		break;
-        case E_CAL_COMPONENT_JOURNAL:
+	case E_CAL_COMPONENT_JOURNAL:
                 description = g_strdup (_("Memo information"));
 		break;
-        case E_CAL_COMPONENT_FREEBUSY:
-                e_cal_component_get_dtstart (comp, &dt);
-                if (dt.value)
-                        start = get_label (dt.value, use_24_hour_format);
+	case E_CAL_COMPONENT_FREEBUSY:
+		e_cal_component_get_dtstart (comp, &dt);
+		if (dt.value)
+			start = get_label (dt.value, use_24_hour_format);
 		e_cal_component_free_datetime (&dt);
 
 		e_cal_component_get_dtend (comp, &dt);
@@ -827,19 +827,19 @@ comp_description (ECalComponent *comp,
 			end = get_label (dt.value, use_24_hour_format);
 		e_cal_component_free_datetime (&dt);
 
-                if (start != NULL && end != NULL)
+		if (start != NULL && end != NULL)
 			description = g_strdup_printf (
 				_("Free/Busy information (%s to %s)"),
 				start, end);
-                else
+		else
 			description = g_strdup (_("Free/Busy information"));
-                g_free (start);
-                g_free (end);
+		g_free (start);
+		g_free (end);
 		break;
-        default:
+	default:
                 description = g_strdup (_("iCalendar information"));
 		break;
-        }
+	}
 
 	return description;
 }

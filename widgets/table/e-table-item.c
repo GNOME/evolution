@@ -439,7 +439,7 @@ eti_bounds (GnomeCanvasItem *item, gdouble *x1, gdouble *y1, gdouble *x2, gdoubl
 	*y2 = eti->height;
 
 	gnome_canvas_item_i2c_matrix (GNOME_CANVAS_ITEM (eti), &i2c);
-        gnome_canvas_matrix_transform_rect (&i2c, x1, y1, x2, y2);
+	gnome_canvas_matrix_transform_rect (&i2c, x1, y1, x2, y2);
 }
 
 static void
@@ -477,7 +477,7 @@ static void
 eti_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
-        double x1, x2, y1, y2;
+	double x1, x2, y1, y2;
 
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)
 		(*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)(item, i2c, flags);
@@ -1324,7 +1324,7 @@ eti_add_selection_model (ETableItem *eti, ESelectionModel *selection)
 		G_CALLBACK (eti_cursor_activated), eti);
 
 	eti_selection_change (selection, eti);
-        g_signal_emit_by_name (G_OBJECT (eti),
+	g_signal_emit_by_name (G_OBJECT (eti),
                                "selection_model_added", eti->selection);
 }
 
@@ -1640,7 +1640,7 @@ eti_realize (GnomeCanvasItem *item)
 	GtkStyle *style;
 
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)
-                (*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)(item);
+		(*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)(item);
 
 	eti->rows = e_table_model_row_count (eti->table_model);
 
@@ -1707,23 +1707,23 @@ eti_unrealize (GnomeCanvasItem *item)
 	eti->height = 0;
 
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->unrealize)
-                (*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->unrealize)(item);
+		(*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->unrealize)(item);
 }
 
 static void
 eti_draw_grid_line (ETableItem *eti, cairo_t *cr, GtkStyle *style,
                     gint x1, gint y1, gint x2, gint y2)
 {
-        cairo_save (cr);
+	cairo_save (cr);
 
-        cairo_set_line_width (cr, 1.0);
-        gdk_cairo_set_source_color (cr, &style->dark[GTK_STATE_NORMAL]);
+	cairo_set_line_width (cr, 1.0);
+	gdk_cairo_set_source_color (cr, &style->dark[GTK_STATE_NORMAL]);
 
-        cairo_move_to (cr, x1 + 0.5, y1 + 0.5);
-        cairo_line_to (cr, x2 + 0.5, y2 + 0.5);
-        cairo_stroke (cr);
+	cairo_move_to (cr, x1 + 0.5, y1 + 0.5);
+	cairo_line_to (cr, x2 + 0.5, y2 + 0.5);
+	cairo_stroke (cr);
 
-        cairo_restore (cr);
+	cairo_restore (cr);
 }
 
 static void
@@ -1741,7 +1741,7 @@ eti_draw (GnomeCanvasItem *item, cairo_t *cr, gint x, gint y, gint width, gint h
 	cairo_matrix_t i2c;
 	gdouble eti_base_x, eti_base_y, lower_right_y, lower_right_x;
 	GtkWidget *canvas = GTK_WIDGET (item->canvas);
-        GtkStyle *style = gtk_widget_get_style (canvas);
+	GtkStyle *style = gtk_widget_get_style (canvas);
 	gint height_extra = eti->horizontal_draw_grid ? 1 : 0;
 
 	/*
@@ -1750,11 +1750,11 @@ eti_draw (GnomeCanvasItem *item, cairo_t *cr, gint x, gint y, gint width, gint h
 	gnome_canvas_item_i2c_matrix (item, &i2c);
 	eti_base_x = 0;
 	eti_base_y = 0;
-        cairo_matrix_transform_point (&i2c, &eti_base_x, &eti_base_y);
+	cairo_matrix_transform_point (&i2c, &eti_base_x, &eti_base_y);
 
 	lower_right_x = eti->width;
 	lower_right_y = eti->height;
-        cairo_matrix_transform_point (&i2c, &lower_right_x, &lower_right_y);
+	cairo_matrix_transform_point (&i2c, &lower_right_x, &lower_right_y);
 
 	/*
 	 * First column to draw, last column to draw
@@ -2005,18 +2005,18 @@ eti_draw (GnomeCanvasItem *item, cairo_t *cr, gint x, gint y, gint width, gint h
 	 * Draw focus
 	 */
 	if (eti->draw_focus && f_found) {
-                static const double dash[] = { 1.0, 1.0 };
-                cairo_set_line_width (cr, 1.0);
-                cairo_rectangle (cr,
-                                 f_x1 + 0.5, f_x2 + 0.5,
-                                 f_x2 - f_x1 - 1, f_y2 - f_y1);
+		static const double dash[] = { 1.0, 1.0 };
+		cairo_set_line_width (cr, 1.0);
+		cairo_rectangle (cr,
+				 f_x1 + 0.5, f_x2 + 0.5,
+				 f_x2 - f_x1 - 1, f_y2 - f_y1);
 
-                gdk_cairo_set_source_color (cr, &style->bg[GTK_STATE_NORMAL]);
-                cairo_stroke_preserve (cr);
+		gdk_cairo_set_source_color (cr, &style->bg[GTK_STATE_NORMAL]);
+		cairo_stroke_preserve (cr);
 
-                cairo_set_dash (cr, dash, G_N_ELEMENTS (dash), 0.0);
-                gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_NORMAL]);
-                cairo_stroke (cr);
+		cairo_set_dash (cr, dash, G_N_ELEMENTS (dash), 0.0);
+		gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_NORMAL]);
+		cairo_stroke (cr);
 	}
 }
 
@@ -3239,7 +3239,7 @@ e_table_item_compute_location (ETableItem        *eti,
 			       gint               *col)
 {
 	/* Save the grabbed row but make sure that we don't get flawed
-           results because the cursor is grabbed. */
+	   results because the cursor is grabbed. */
 	gint grabbed_row = eti->grabbed_row;
 	eti->grabbed_row = -1;
 
@@ -3264,7 +3264,7 @@ e_table_item_compute_mouse_over (ETableItem        *eti,
 {
 	gdouble realx, realy;
 	/* Save the grabbed row but make sure that we don't get flawed
-           results because the cursor is grabbed. */
+	   results because the cursor is grabbed. */
 	gint grabbed_row = eti->grabbed_row;
 	eti->grabbed_row = -1;
 

@@ -174,7 +174,7 @@ gnome_canvas_item_init (GnomeCanvasItem *item)
 {
 	item->flags |= GNOME_CANVAS_ITEM_VISIBLE;
 
-        cairo_matrix_init_identity (&item->matrix);
+	cairo_matrix_init_identity (&item->matrix);
 }
 
 /**
@@ -435,7 +435,7 @@ gnome_canvas_item_invoke_update (GnomeCanvasItem *item,
 
 	/* Calculate actual item transformation matrix */
 
-        cairo_matrix_multiply (&i2c, &item->matrix, p2c);
+	cairo_matrix_multiply (&i2c, &item->matrix, p2c);
 
 	/* apply object flags to child flags */
 
@@ -473,14 +473,14 @@ gnome_canvas_item_invoke_point (GnomeCanvasItem *item,
                                 gint cx,
                                 gint cy)
 {
-        cairo_matrix_t inverse;
+	cairo_matrix_t inverse;
 
 	/* Calculate x & y in item local coordinates */
-        inverse = item->matrix;
-        if (cairo_matrix_invert (&inverse) != CAIRO_STATUS_SUCCESS)
-                return NULL;
+	inverse = item->matrix;
+	if (cairo_matrix_invert (&inverse) != CAIRO_STATUS_SUCCESS)
+		return NULL;
 
-        cairo_matrix_transform_point (&inverse, &x, &y);
+	cairo_matrix_transform_point (&inverse, &x, &y);
 
 	if (GNOME_CANVAS_ITEM_GET_CLASS (item)->point)
 		return GNOME_CANVAS_ITEM_GET_CLASS (item)->point (item, x, y, cx, cy);
@@ -565,9 +565,9 @@ gnome_canvas_item_set_matrix (GnomeCanvasItem *item, const cairo_matrix_t *matri
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 
 	if (matrix) {
-                item->matrix = *matrix;
+		item->matrix = *matrix;
 	} else {
-                cairo_matrix_init_identity (&item->matrix);
+		cairo_matrix_init_identity (&item->matrix);
 	}
 
 	if (!(item->flags & GNOME_CANVAS_ITEM_NEED_AFFINE)) {
@@ -913,7 +913,7 @@ gnome_canvas_item_i2w_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix)
 	cairo_matrix_init_identity (matrix);
 
 	while (item) {
-                cairo_matrix_multiply (matrix, matrix, &item->matrix);
+		cairo_matrix_multiply (matrix, matrix, &item->matrix);
 
 		item = item->parent;
 	}
@@ -944,14 +944,14 @@ gnome_canvas_item_w2i_matrix (GnomeCanvasItem *item, cairo_matrix_t *matrix)
 void
 gnome_canvas_item_w2i (GnomeCanvasItem *item, gdouble *x, gdouble *y)
 {
-        cairo_matrix_t matrix;
+	cairo_matrix_t matrix;
 
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 	g_return_if_fail (x != NULL);
 	g_return_if_fail (y != NULL);
 
 	gnome_canvas_item_w2i_matrix (item, &matrix);
-        cairo_matrix_transform_point (&matrix, x, y);
+	cairo_matrix_transform_point (&matrix, x, y);
 }
 
 /**
@@ -966,14 +966,14 @@ gnome_canvas_item_w2i (GnomeCanvasItem *item, gdouble *x, gdouble *y)
 void
 gnome_canvas_item_i2w (GnomeCanvasItem *item, gdouble *x, gdouble *y)
 {
-        cairo_matrix_t matrix;
+	cairo_matrix_t matrix;
 
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 	g_return_if_fail (x != NULL);
 	g_return_if_fail (y != NULL);
 
 	gnome_canvas_item_i2w_matrix (item, &matrix);
-        cairo_matrix_transform_point (&matrix, x, y);
+	cairo_matrix_transform_point (&matrix, x, y);
 }
 
 /**
@@ -1129,7 +1129,7 @@ gnome_canvas_item_get_bounds (GnomeCanvasItem *item,
 		(* GNOME_CANVAS_ITEM_GET_CLASS (item)->bounds) (item, &tx1, &ty1, &tx2, &ty2);
 
 	/* Make the bounds relative to the item's parent coordinate system */
-        gnome_canvas_matrix_transform_rect (&item->matrix, &tx1, &ty1, &tx2, &ty2);
+	gnome_canvas_matrix_transform_rect (&item->matrix, &tx1, &ty1, &tx2, &ty2);
 
 	/* Return the values */
 
@@ -1373,7 +1373,7 @@ gnome_canvas_group_update (GnomeCanvasItem *item,
 	GnomeCanvasGroup *group;
 	GList *list;
 	GnomeCanvasItem *i;
-        double x1, y1, x2, y2;
+	double x1, y1, x2, y2;
 
 	group = GNOME_CANVAS_GROUP (item);
 
@@ -1389,19 +1389,19 @@ gnome_canvas_group_update (GnomeCanvasItem *item,
 
 		gnome_canvas_item_invoke_update (i, i2c, flags);
 
-                x1 = MIN (x1, i->x1);
-                x2 = MAX (x2, i->x2);
-                y1 = MIN (y1, i->y1);
-                y2 = MAX (y2, i->y2);
+		x1 = MIN (x1, i->x1);
+		x2 = MAX (x2, i->x2);
+		y1 = MIN (y1, i->y1);
+		y2 = MAX (y2, i->y2);
 	}
-        if (x1 >= x2 || y1 >= y2) {
-                item->x1 = item->x2 = item->y1 = item->y2 = 0;
-        } else {
-                item->x1 = x1;
-                item->y1 = y1;
-                item->x2 = x2;
-                item->y2 = y2;
-        }
+	if (x1 >= x2 || y1 >= y2) {
+		item->x1 = item->x2 = item->y1 = item->y2 = 0;
+	} else {
+		item->x1 = x1;
+		item->y1 = y1;
+		item->x2 = x2;
+		item->y2 = y2;
+	}
 }
 
 /* Realize handler for canvas groups */
@@ -1538,11 +1538,11 @@ gnome_canvas_group_point (GnomeCanvasItem *item,
 			continue;
 
 		if (!(child->flags & GNOME_CANVAS_ITEM_VISIBLE))
-                        continue;
+			continue;
 
 		point_item = gnome_canvas_item_invoke_point (child, x, y, cx, cy);
 		if (point_item)
-                        return point_item;
+			return point_item;
 	}
 
 	return NULL;
@@ -2253,14 +2253,14 @@ gnome_canvas_draw (GtkWidget *widget,
 	GnomeCanvas *canvas = GNOME_CANVAS (widget);
 	cairo_rectangle_int_t rect;
 
-        gdk_cairo_get_clip_rectangle (cr, &rect);
+	gdk_cairo_get_clip_rectangle (cr, &rect);
 
-        if (canvas->need_update) {
-                gnome_canvas_request_redraw (canvas,
-                                             rect.x, rect.y,
-                                             rect.x + rect.width,
-                                             rect.y + rect.height);
-        } else {
+	if (canvas->need_update) {
+		gnome_canvas_request_redraw (canvas,
+					     rect.x, rect.y,
+					     rect.x + rect.width,
+					     rect.y + rect.height);
+	} else {
 		GtkLayout *layout;
 		GtkAdjustment *hadjustment;
 		GtkAdjustment *vadjustment;
@@ -2274,25 +2274,25 @@ gnome_canvas_draw (GtkWidget *widget,
 		hadjustment_value = gtk_adjustment_get_value (hadjustment);
 		vadjustment_value = gtk_adjustment_get_value (vadjustment);
 
-                cairo_save (cr);
-                cairo_translate (cr,
-                                 -canvas->zoom_xofs + rect.x,
-                                 -canvas->zoom_yofs + rect.y);
+		cairo_save (cr);
+		cairo_translate (cr,
+				 -canvas->zoom_xofs + rect.x,
+				 -canvas->zoom_yofs + rect.y);
 
 		rect.x += hadjustment_value;
 		rect.y += vadjustment_value;
 
                 /* No pending updates, draw exposed area immediately */
-                gnome_canvas_paint_rect (canvas, cr,
-                                         rect.x, rect.y,
-                                         rect.x + rect.width,
-                                         rect.y + rect.height);
-                cairo_restore (cr);
+		gnome_canvas_paint_rect (canvas, cr,
+					 rect.x, rect.y,
+					 rect.x + rect.width,
+					 rect.y + rect.height);
+		cairo_restore (cr);
 
                 /* And call expose on parent container class */
-                GTK_WIDGET_CLASS (canvas_parent_class)->
-                        draw (widget, cr);
-        }
+		GTK_WIDGET_CLASS (canvas_parent_class)->
+			draw (widget, cr);
+	}
 
 	return FALSE;
 }
@@ -2319,7 +2319,7 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 		 */
 /*                g_warning ("emit_event() returning FALSE!\n");*/
 		return FALSE;
-        }
+	}
 
 	if (canvas->grabbed_item) {
 		switch (event->type) {
@@ -2373,7 +2373,7 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 	ev = gdk_event_copy (event);
 
 	switch (ev->type)
-        {
+	{
 	case GDK_ENTER_NOTIFY:
 	case GDK_LEAVE_NOTIFY:
 		gnome_canvas_window_to_world (canvas,
@@ -2386,10 +2386,10 @@ emit_event (GnomeCanvas *canvas, GdkEvent *event)
 	case GDK_2BUTTON_PRESS:
 	case GDK_3BUTTON_PRESS:
 	case GDK_BUTTON_RELEASE:
-                gnome_canvas_window_to_world (canvas,
-                                              ev->motion.x, ev->motion.y,
-                                              &ev->motion.x, &ev->motion.y);
-                break;
+		gnome_canvas_window_to_world (canvas,
+					      ev->motion.x, ev->motion.y,
+					      &ev->motion.x, &ev->motion.y);
+		break;
 
 	default:
 		break;
@@ -2792,10 +2792,10 @@ do_update (GnomeCanvas *canvas)
 
 update_again:
 	if (canvas->need_update) {
-                cairo_matrix_t w2c;
+		cairo_matrix_t w2c;
 
 		/* We start updating root with w2c matrix */
-                gnome_canvas_w2c_matrix (canvas, &w2c);
+		gnome_canvas_w2c_matrix (canvas, &w2c);
 
 		gnome_canvas_item_invoke_update (canvas->root, &w2c, 0);
 
@@ -3098,24 +3098,24 @@ get_visible_rect (GnomeCanvas *canvas, GdkRectangle *visible)
 void
 gnome_canvas_request_redraw (GnomeCanvas *canvas, gint x1, gint y1, gint x2, gint y2)
 {
-        GdkRectangle area, clip;
+	GdkRectangle area, clip;
 
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
 	if (!gtk_widget_is_drawable (GTK_WIDGET (canvas)) || (x1 >= x2) || (y1 >= y2))
 		return;
 
-        area.x = x1;
-        area.y = y1;
-        area.width = x2 - x1;
-        area.height = y2 - y1;
+	area.x = x1;
+	area.y = y1;
+	area.width = x2 - x1;
+	area.height = y2 - y1;
 
 	get_visible_rect (canvas, &clip);
-        if (!gdk_rectangle_intersect (&area, &clip, &area))
-                return;
+	if (!gdk_rectangle_intersect (&area, &clip, &area))
+		return;
 
 	gdk_window_invalidate_rect (gtk_layout_get_bin_window (GTK_LAYOUT (canvas)),
-                                    &area, FALSE);
+				    &area, FALSE);
 }
 
 /**
@@ -3172,7 +3172,7 @@ gnome_canvas_w2c (GnomeCanvas *canvas, gdouble wx, gdouble wy, gint *cx, gint *c
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
 	gnome_canvas_w2c_matrix (canvas, &w2c);
-        cairo_matrix_transform_point (&w2c, &wx, &wy);
+	cairo_matrix_transform_point (&w2c, &wx, &wy);
 
 	if (cx)
 		*cx = floor (wx + 0.5);
@@ -3204,7 +3204,7 @@ gnome_canvas_w2c_d (GnomeCanvas *canvas,
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
 	gnome_canvas_w2c_matrix (canvas, &w2c);
-        cairo_matrix_transform_point (&w2c, &wx, &wy);
+	cairo_matrix_transform_point (&w2c, &wx, &wy);
 
 	if (cx)
 		*cx = wx;
@@ -3226,14 +3226,14 @@ void
 gnome_canvas_c2w (GnomeCanvas *canvas, gint cx, gint cy, gdouble *wx, gdouble *wy)
 {
 	cairo_matrix_t c2w;
-        double x, y;
+	double x, y;
 
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 
-        x = cx;
-        y = cy;
+	x = cx;
+	y = cy;
 	gnome_canvas_c2w_matrix (canvas, &c2w);
-        cairo_matrix_transform_point (&c2w, &x, &y);
+	cairo_matrix_transform_point (&c2w, &x, &y);
 
 	if (wx)
 		*wx = x;

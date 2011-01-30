@@ -43,7 +43,7 @@ e_book_file_dummy (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gchar *uri_text;
 	const gchar *relative_uri;
 
-        uri_text = e_source_get_uri (source);
+	uri_text = e_source_get_uri (source);
 	if (strncmp (uri_text, "file", 4)) {
 		g_free (uri_text);
 

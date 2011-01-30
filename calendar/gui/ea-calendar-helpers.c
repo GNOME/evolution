@@ -52,15 +52,15 @@ ea_calendar_helpers_get_accessible_for (GnomeCanvasItem *canvas_item)
 	 */
 	atk_obj = g_object_get_data (g_obj, "accessible-object");
 	if (!atk_obj) {
-                if (E_IS_TEXT (canvas_item)) {
+		if (E_IS_TEXT (canvas_item)) {
 		atk_obj = ea_cal_view_event_new (g_obj);
-                }
-                else if (GNOME_IS_CANVAS_PIXBUF (canvas_item)) {
-                        atk_obj = ea_jump_button_new (g_obj);
-                }
-                else
-                        return NULL;
-        }
+		}
+		else if (GNOME_IS_CANVAS_PIXBUF (canvas_item)) {
+			atk_obj = ea_jump_button_new (g_obj);
+		}
+		else
+			return NULL;
+	}
 	return atk_obj;
 }
 

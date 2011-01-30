@@ -129,7 +129,7 @@ static const gint action_map[] = {
 static const gchar *action_map_cap[] = {
 	CAL_STATIC_CAPABILITY_NO_DISPLAY_ALARMS,
 	CAL_STATIC_CAPABILITY_NO_AUDIO_ALARMS,
-        CAL_STATIC_CAPABILITY_NO_PROCEDURE_ALARMS,
+	CAL_STATIC_CAPABILITY_NO_PROCEDURE_ALARMS,
 	CAL_STATIC_CAPABILITY_NO_EMAIL_ALARMS
 };
 
@@ -499,46 +499,46 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 static void
 alarm_to_malarm_widgets (Dialog *dialog, ECalComponentAlarm *alarm )
 {
-    ENameSelectorModel *name_selector_model;
-    EDestinationStore *destination_store;
-    ECalComponentText description;
-    GtkTextBuffer *text_buffer;
-    GSList *attendee_list, *l;
-    gint len;
+	ENameSelectorModel *name_selector_model;
+	EDestinationStore *destination_store;
+	ECalComponentText description;
+	GtkTextBuffer *text_buffer;
+	GSList *attendee_list, *l;
+	gint len;
 
-    /* Attendees */
-    name_selector_model = e_name_selector_peek_model (dialog->name_selector);
-    e_name_selector_model_peek_section (name_selector_model, section_name, NULL, &destination_store);
+	/* Attendees */
+	name_selector_model = e_name_selector_peek_model (dialog->name_selector);
+	e_name_selector_model_peek_section (name_selector_model, section_name, NULL, &destination_store);
 
-    e_cal_component_alarm_get_attendee_list (alarm, &attendee_list);
-    len = g_slist_length (attendee_list);
-    if (len > 0) {
-        for (l = attendee_list; l; l = g_slist_next (l)) {
-            ECalComponentAttendee *a = l->data;
-            EDestination *dest;
+	e_cal_component_alarm_get_attendee_list (alarm, &attendee_list);
+	len = g_slist_length (attendee_list);
+	if (len > 0) {
+	for (l = attendee_list; l; l = g_slist_next (l)) {
+		ECalComponentAttendee *a = l->data;
+		EDestination *dest;
 
-            dest = e_destination_new ();
-            if (a->cn != NULL && *a->cn)
-                e_destination_set_name (dest, a->cn);
-            if (a->value != NULL && *a->value) {
-                if (!strncasecmp (a->value, "MAILTO:", 7))
-                    e_destination_set_email (dest, a->value + 7);
-                else
-                    e_destination_set_email (dest, a->value);
-            }
-            e_destination_store_append_destination (destination_store, dest);
-            g_object_unref (G_OBJECT (dest));
-        }
-        e_cal_component_free_attendee_list (attendee_list);
-    }
+		dest = e_destination_new ();
+		if (a->cn != NULL && *a->cn)
+		e_destination_set_name (dest, a->cn);
+		if (a->value != NULL && *a->value) {
+				if (!strncasecmp (a->value, "MAILTO:", 7))
+			e_destination_set_email (dest, a->value + 7);
+		else
+			e_destination_set_email (dest, a->value);
+		}
+		e_destination_store_append_destination (destination_store, dest);
+		g_object_unref (G_OBJECT (dest));
+	}
+	e_cal_component_free_attendee_list (attendee_list);
+	}
 
-    /* Description */
-    e_cal_component_alarm_get_description (alarm, &description);
-    if (description.value) {
-        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->malarm_message), TRUE);
-        text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->malarm_description));
-        gtk_text_buffer_set_text (text_buffer, description.value, -1);
-    }
+	/* Description */
+	e_cal_component_alarm_get_description (alarm, &description);
+	if (description.value) {
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->malarm_message), TRUE);
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (dialog->malarm_description));
+	gtk_text_buffer_set_text (text_buffer, description.value, -1);
+	}
 }
 
 /* Fills the widgets from procedure alarm data */
@@ -634,8 +634,8 @@ populate_widgets_from_alarm (Dialog *dialog)
 	case E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END:
 		e_dialog_combo_box_set (dialog->time_combo, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END, time_map);
 		break;
-        default:
-                g_warning ("%s: Unexpected alarm type (%d)", G_STRLOC, trigger->type);
+	default:
+		g_warning ("%s: Unexpected alarm type (%d)", G_STRLOC, trigger->type);
 	}
 
 	switch (trigger->u.rel_duration.is_neg) {
@@ -692,8 +692,8 @@ populate_widgets_from_alarm (Dialog *dialog)
 	case E_CAL_COMPONENT_ALARM_PROCEDURE:
 		alarm_to_palarm_widgets (dialog, dialog->alarm);
 		break;
-        default:
-                g_warning ("%s: Unexpected alarm action (%d)", G_STRLOC, *action);
+	default:
+		g_warning ("%s: Unexpected alarm action (%d)", G_STRLOC, *action);
 	}
 }
 
@@ -1085,8 +1085,8 @@ check_custom_email (Dialog *dialog)
 }
 
 static void
-malarm_addresses_changed_cb  (GtkWidget *editable,
-			      gpointer   data)
+malarm_addresses_changed_cb (GtkWidget *editable,
+                             gpointer data)
 {
 	Dialog *dialog = data;
 
@@ -1241,8 +1241,9 @@ alarm_dialog_run (GtkWidget *parent, ECal *ecal, ECalComponentAlarm *alarm)
 	gtk_window_set_icon_name (
 		GTK_WINDOW (dialog.toplevel), "x-office-calendar");
 
-	gtk_window_set_transient_for (GTK_WINDOW (dialog.toplevel),
-				      GTK_WINDOW (parent));
+	gtk_window_set_transient_for (
+		GTK_WINDOW (dialog.toplevel),
+		GTK_WINDOW (parent));
 
 	response_id = gtk_dialog_run (GTK_DIALOG (dialog.toplevel));
 

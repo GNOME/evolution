@@ -579,7 +579,7 @@ static gboolean
 is_email (const gchar *address)
 {
 	/* This is supposed to check if the address's domain could be
-           an FQDN but alas, it's not worth the pain and suffering. */
+	   an FQDN but alas, it's not worth the pain and suffering. */
 	const gchar *at;
 
 	at = strchr (address, '@');
@@ -1410,36 +1410,36 @@ emae_uri_changed (EMAccountEditorService *service, CamelURL *url)
 static void
 emae_service_url_changed (EMAccountEditorService *service, void (*setval)(CamelURL *, const gchar *), GtkEntry *entry)
 {
-        GtkComboBox *dropdown;
-        gint id;
-        GtkTreeModel *model;
-        GtkTreeIter iter;
-        CamelServiceAuthType *authtype;
+	GtkComboBox *dropdown;
+	gint id;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	CamelServiceAuthType *authtype;
 
-        CamelURL *url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
-        gchar *text = g_strdup (gtk_entry_get_text (entry));
+	CamelURL *url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
+	gchar *text = g_strdup (gtk_entry_get_text (entry));
 
 	g_strstrip (text);
 
-        setval (url, (text && text[0])?text:NULL);
+	setval (url, (text && text[0])?text:NULL);
 
-        if (text && text[0] && setval == camel_url_set_user) {
-                dropdown = service->authtype;
-                if (dropdown) {
-                        id = gtk_combo_box_get_active (dropdown);
-                        if (id != -1) {
-                                model = gtk_combo_box_get_model (dropdown);
-                                        if (gtk_tree_model_iter_nth_child (model, &iter, NULL, id)) {
-                                                gtk_tree_model_get (model, &iter, 1, &authtype, -1);
-                                                if (authtype)
-                                                        camel_url_set_authmech (url, authtype->authproto);
-                                        }
-                        }
-                }
-        }
+	if (text && text[0] && setval == camel_url_set_user) {
+		dropdown = service->authtype;
+		if (dropdown) {
+			id = gtk_combo_box_get_active (dropdown);
+			if (id != -1) {
+				model = gtk_combo_box_get_model (dropdown);
+					if (gtk_tree_model_iter_nth_child (model, &iter, NULL, id)) {
+						gtk_tree_model_get (model, &iter, 1, &authtype, -1);
+						if (authtype)
+							camel_url_set_authmech (url, authtype->authproto);
+					}
+			}
+		}
+	}
 
-        emae_uri_changed (service, url);
-        camel_url_free (url);
+	emae_uri_changed (service, url);
+	camel_url_free (url);
 	g_free (text);
 }
 

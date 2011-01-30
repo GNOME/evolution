@@ -130,8 +130,8 @@ e_cell_popup_class_init		(ECellPopupClass	*class)
 	ecc->get_bg_color = ecp_get_bg_color;
 
 	gal_a11y_e_cell_registry_add_cell_type (NULL,
-                                                E_TYPE_CELL_POPUP,
-                                                gal_a11y_e_cell_popup_new);
+						E_TYPE_CELL_POPUP,
+						gal_a11y_e_cell_popup_new);
 }
 
 static void
@@ -183,8 +183,8 @@ ecp_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view
 	ecp_view->cell_view.ecell = ecell;
 	ecp_view->cell_view.e_table_model = table_model;
 	ecp_view->cell_view.e_table_item_view = e_table_item_view;
-        ecp_view->cell_view.kill_view_cb = NULL;
-        ecp_view->cell_view.kill_view_cb_data = NULL;
+	ecp_view->cell_view.kill_view_cb = NULL;
+	ecp_view->cell_view.kill_view_cb_data = NULL;
 
 	ecp_view->child_view = e_cell_new_view (ecp->child, table_model,
 						e_table_item_view);

@@ -613,21 +613,21 @@ change_edit_cols_for_user (gpointer key, gpointer value, gpointer user_data)
        gint key_val = GPOINTER_TO_INT (key);
        switch (key_val)
        {
-               case E_MEETING_STORE_ATTENDEE_COL:
+	       case E_MEETING_STORE_ATTENDEE_COL:
                        g_object_set (G_OBJECT (renderer), "editable", FALSE, NULL);
-               break;
-               case E_MEETING_STORE_ROLE_COL:
+	       break;
+	       case E_MEETING_STORE_ROLE_COL:
                        g_object_set (G_OBJECT (renderer), "editable", FALSE, NULL);
-               break;
-               case E_MEETING_STORE_TYPE_COL:
+	       break;
+	       case E_MEETING_STORE_TYPE_COL:
                        g_object_set (G_OBJECT (renderer), "editable", FALSE, NULL);
-               break;
-               case E_MEETING_STORE_RSVP_COL:
+	       break;
+	       case E_MEETING_STORE_RSVP_COL:
                        g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
-               break;
-               case E_MEETING_STORE_STATUS_COL:
+	       break;
+	       case E_MEETING_STORE_STATUS_COL:
                        g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
-               break;
+	       break;
        }
 }
 
@@ -654,9 +654,9 @@ row_activated_cb (GtkTreeSelection *selection, EMeetingListView *view)
        priv = view->priv;
 
        if (!(paths = gtk_tree_selection_get_selected_rows (selection, &model)))
-               return;
+	       return;
        if (g_list_length (paths) > 1)
-               return;
+	       return;
        path = g_list_nth_data (paths, 0);
        if (!path)
 	       return;
@@ -667,20 +667,20 @@ row_activated_cb (GtkTreeSelection *selection, EMeetingListView *view)
 
        switch (el)
        {
-               case  E_MEETING_ATTENDEE_EDIT_NONE:
-               edit_level = FALSE;
-               g_hash_table_foreach (priv->renderers, change_edit_cols_for_organizer, GINT_TO_POINTER (edit_level));
-               break;
+	       case  E_MEETING_ATTENDEE_EDIT_NONE:
+	       edit_level = FALSE;
+	       g_hash_table_foreach (priv->renderers, change_edit_cols_for_organizer, GINT_TO_POINTER (edit_level));
+	       break;
 
-               case E_MEETING_ATTENDEE_EDIT_FULL:
-               edit_level = TRUE;
-               g_hash_table_foreach (priv->renderers, change_edit_cols_for_organizer, GINT_TO_POINTER (edit_level));
-               break;
+	       case E_MEETING_ATTENDEE_EDIT_FULL:
+	       edit_level = TRUE;
+	       g_hash_table_foreach (priv->renderers, change_edit_cols_for_organizer, GINT_TO_POINTER (edit_level));
+	       break;
 
-               case E_MEETING_ATTENDEE_EDIT_STATUS:
-               edit_level = FALSE;
-               g_hash_table_foreach (priv->renderers, change_edit_cols_for_user, GINT_TO_POINTER (edit_level));
-               break;
+	       case E_MEETING_ATTENDEE_EDIT_STATUS:
+	       edit_level = FALSE;
+	       g_hash_table_foreach (priv->renderers, change_edit_cols_for_user, GINT_TO_POINTER (edit_level));
+	       break;
        }
 
 }

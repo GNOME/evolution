@@ -143,7 +143,7 @@ filter_folder_element_finalize (GObject *object)
 	g_free (priv->uri);
 
 	/* Chain up to parent's finalize() method. */
-        G_OBJECT_CLASS (em_filter_folder_element_parent_class)->finalize (object);
+	G_OBJECT_CLASS (em_filter_folder_element_parent_class)->finalize (object);
 }
 
 static void

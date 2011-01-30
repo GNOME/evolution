@@ -418,7 +418,7 @@ build_dialog (GtkWindow *parent,
 	GList *list = NULL;
 	struct _send_data *data;
 	GtkWidget *container;
-        GtkWidget *send_icon;
+	GtkWidget *send_icon;
 	GtkWidget *recv_icon;
 	GtkWidget *scrolled_window;
 	GtkWidget *label;

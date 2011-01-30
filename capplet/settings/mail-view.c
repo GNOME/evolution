@@ -314,7 +314,7 @@ mail_view_add_folder (MailView *mv, gpointer data, gboolean block)
 	mv->priv->children = block ? g_list_append (mv->priv->children,  mfv) :  g_list_prepend (mv->priv->children,  mfv);
 	position = gtk_notebook_append_page ((GtkNotebook *)mv, (GtkWidget *)mfv, mfv->tab_label);
 	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (mv), (GtkWidget *)mfv, TRUE);
-        gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (mv), (GtkWidget *)mfv, FALSE);
+	gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (mv), (GtkWidget *)mfv, FALSE);
 
 	g_signal_connect (mfv, "view-close", G_CALLBACK(mv_close_mcv), mv);
 	if (!block)
@@ -355,7 +355,7 @@ mail_view_add_composer (MailView *mv, gpointer data, gboolean block)
 	}
 
 	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (mv), (GtkWidget *)mcv, TRUE);
-        gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (mv), (GtkWidget *)mcv, FALSE);
+	gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (mv), (GtkWidget *)mcv, FALSE);
 	if (!block)
 		 gtk_notebook_set_current_page ((GtkNotebook *)mv, position);
 	if (!block)
@@ -382,7 +382,7 @@ mail_view_add_message (MailView *mv, gpointer data, gboolean block)
 	position = gtk_notebook_get_current_page ((GtkNotebook *)mv);
 	gtk_notebook_insert_page ((GtkNotebook *)mv, (GtkWidget *)mcv, mail_conv_view_get_tab_widget (mcv), position+1);
 	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (mv), (GtkWidget *)mcv, TRUE);
-        gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (mv), (GtkWidget *)mcv, FALSE);
+	gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (mv), (GtkWidget *)mcv, FALSE);
 	if (!block)
 		gtk_notebook_set_current_page ((GtkNotebook *)mv, position+1);
 	if (!block)
@@ -417,7 +417,7 @@ mail_view_add_settings (MailView *mv, gpointer data, gboolean block)
 	g_signal_connect (msv, "view-close", G_CALLBACK(mv_close_mcv), mv);
 	g_signal_connect (msv, "show-account", G_CALLBACK(mv_show_acc_mcv), mv);
 	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (mv), (GtkWidget *)msv, TRUE);
-        gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (mv), (GtkWidget *)msv, FALSE);
+	gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (mv), (GtkWidget *)msv, FALSE);
 	if (!block)
 		gtk_notebook_set_current_page ((GtkNotebook *)mv, position);
 	if (!block)
@@ -453,7 +453,7 @@ mail_view_add_account (MailView *mv,
 	position = gtk_notebook_append_page ((GtkNotebook *)mv, (GtkWidget *)msv, mail_account_view_get_tab_widget (msv));
 	g_signal_connect_after (msv, "view-close", G_CALLBACK(mv_close_mcv), mv);
 	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (mv), (GtkWidget *)msv, TRUE);
-        gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (mv), (GtkWidget *)msv, FALSE);
+	gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (mv), (GtkWidget *)msv, FALSE);
 	if (!block)
 		gtk_notebook_set_current_page ((GtkNotebook *)mv, position);
 	if (!block)

@@ -131,7 +131,7 @@ add_clicked_cb (GtkButton *button, gpointer data)
 	icalcomp = e_cal_component_alarm_get_icalcomponent (alarm);
 	icalprop = icalproperty_new_x ("1");
 	icalproperty_set_x_name (icalprop, "X-EVOLUTION-NEEDS-DESCRIPTION");
-        icalcomponent_add_property (icalcomp, icalprop);
+	icalcomponent_add_property (icalcomp, icalprop);
 
 	if (alarm_dialog_run (dialog->toplevel, dialog->ecal, alarm)) {
 		e_alarm_list_append (dialog->list_store, &iter, alarm);

@@ -136,7 +136,7 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 	g_return_if_fail (week_view != NULL);
 
 	cairo_save (cr);
-        cairo_set_line_width (cr, 1.0);
+	cairo_set_line_width (cr, 1.0);
 
 	gtk_widget_get_allocation (
 		GTK_WIDGET (canvas_item->canvas), &allocation);
@@ -145,16 +145,16 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 	layout = gtk_widget_create_pango_layout (GTK_WIDGET (week_view), NULL);
 
 	/* Draw the shadow around the dates. */
-        gdk_cairo_set_source_color (cr, &style->light[GTK_STATE_NORMAL]);
-        cairo_move_to (cr, 1.5 - x, 1.5 - y);
-        cairo_rel_line_to (cr, allocation.width - 1, 0);
-        cairo_move_to (cr, 1.5 - x, 2.5 - y);
-        cairo_rel_line_to (cr, 0, allocation.height - 1);
-        cairo_stroke (cr);
+	gdk_cairo_set_source_color (cr, &style->light[GTK_STATE_NORMAL]);
+	cairo_move_to (cr, 1.5 - x, 1.5 - y);
+	cairo_rel_line_to (cr, allocation.width - 1, 0);
+	cairo_move_to (cr, 1.5 - x, 2.5 - y);
+	cairo_rel_line_to (cr, 0, allocation.height - 1);
+	cairo_stroke (cr);
 
-        gdk_cairo_set_source_color (cr, &style->dark[GTK_STATE_NORMAL]);
-        cairo_rectangle (cr, 0.5 - x, 0.5 - y, allocation.width - 1, allocation.height);
-        cairo_stroke (cr);
+	gdk_cairo_set_source_color (cr, &style->dark[GTK_STATE_NORMAL]);
+	cairo_rectangle (cr, 0.5 - x, 0.5 - y, allocation.width - 1, allocation.height);
+	cairo_stroke (cr);
 
 	/* Determine the format to use. */
 	col_width = allocation.width / week_view->columns;
@@ -178,12 +178,12 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 				buffer, sizeof (buffer), "%s",
 				e_get_weekday_name (weekday + 1, abbreviated));
 
-                cairo_save (cr);
+		cairo_save (cr);
 
-                cairo_rectangle (cr,
-                                 week_view->col_offsets[col] - x, 2 - y,
-                                 week_view->col_widths[col], allocation.height - 2);
-                cairo_clip (cr);
+		cairo_rectangle (cr,
+				 week_view->col_offsets[col] - x, 2 - y,
+				 week_view->col_widths[col], allocation.height - 2);
+		cairo_clip (cr);
 
 		if (weekday == 5 && week_view->compress_weekend)
 			date_width = week_view->abbr_day_widths[5]
@@ -199,29 +199,29 @@ week_view_titles_item_draw (GnomeCanvasItem *canvas_item,
 		date_x = MAX (date_x, week_view->col_offsets[col]);
 
 		pango_layout_set_text (layout, buffer, -1);
-                cairo_move_to (cr, date_x - x, 3 - y);
+		cairo_move_to (cr, date_x - x, 3 - y);
 		pango_cairo_show_layout (cr, layout);
 
-                cairo_restore (cr);
+		cairo_restore (cr);
 
 		/* Draw the lines down the left and right of the date cols. */
 		if (col != 0) {
-                        gdk_cairo_set_source_color (cr, &style->light[GTK_STATE_NORMAL]);
-                        cairo_move_to (cr, week_view->col_offsets[col] - x + 0.5, 4.5 - y);
-                        cairo_rel_line_to (cr, 0, allocation.height - 8);
-                        cairo_stroke (cr);
+			gdk_cairo_set_source_color (cr, &style->light[GTK_STATE_NORMAL]);
+			cairo_move_to (cr, week_view->col_offsets[col] - x + 0.5, 4.5 - y);
+			cairo_rel_line_to (cr, 0, allocation.height - 8);
+			cairo_stroke (cr);
 
-                        gdk_cairo_set_source_color (cr, &style->dark[GTK_STATE_NORMAL]);
-                        cairo_move_to (cr, week_view->col_offsets[col] - x - 0.5, 4.5 - y);
-                        cairo_rel_line_to (cr, 0, allocation.height - 8);
-                        cairo_stroke (cr);
+			gdk_cairo_set_source_color (cr, &style->dark[GTK_STATE_NORMAL]);
+			cairo_move_to (cr, week_view->col_offsets[col] - x - 0.5, 4.5 - y);
+			cairo_rel_line_to (cr, 0, allocation.height - 8);
+			cairo_stroke (cr);
 		}
 
 		/* Draw the lines between each column. */
 		if (col != 0) {
-                        cairo_set_source_rgb (cr, 0, 0, 0);
-                        cairo_rectangle (cr, week_view->col_offsets[col] - x, allocation.height - y, 1, 1);
-                        cairo_fill (cr);
+			cairo_set_source_rgb (cr, 0, 0, 0);
+			cairo_rectangle (cr, week_view->col_offsets[col] - x, allocation.height - y, 1, 1);
+			cairo_fill (cr);
 		}
 
 		if (weekday == 5 && week_view->compress_weekend)

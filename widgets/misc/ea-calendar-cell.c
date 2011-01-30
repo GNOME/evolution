@@ -201,7 +201,7 @@ ea_calendar_cell_new (GObject *obj)
 #ifdef ACC_DEBUG
 static void ea_calendar_cell_finalize (GObject *object)
 {
-        G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 
 	++n_ea_calendar_cell_destroyed;
 	g_print ("ACC_DEBUG: n_ea_calendar_cell_destroyed = %d\n",

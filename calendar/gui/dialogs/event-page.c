@@ -847,7 +847,7 @@ sensitize_widgets (EventPage *epage)
 			gtk_combo_box_set_active (GTK_COMBO_BOX (priv->end_time_combo), 1);
 		else
 			gtk_combo_box_set_active (GTK_COMBO_BOX (priv->end_time_combo), 0);
-        } else
+	} else
 		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->end_time_combo), 1);
 
 	gtk_widget_set_sensitive (priv->hour_selector, sensitize);
@@ -1673,16 +1673,16 @@ void update_end_time_combo (EventPage *epage)
 	priv = epage->priv;
 
 	e_date_edit_get_date (E_DATE_EDIT (priv->start_time),
-                             &start_tt.year,
-                             &start_tt.month,
-                             &start_tt.day);
-        e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
+			     &start_tt.year,
+			     &start_tt.month,
+			     &start_tt.day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
 				     &start_tt.hour,
 				     &start_tt.minute);
 	e_date_edit_get_date (E_DATE_EDIT (priv->end_time),
-                             &end_tt.year,
-                             &end_tt.month,
-                             &end_tt.day);
+			     &end_tt.year,
+			     &end_tt.month,
+			     &end_tt.day);
 	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->end_time),
 				     &end_tt.hour,
 				     &end_tt.minute);
@@ -1720,12 +1720,12 @@ hour_minute_changed (EventPage *epage)
 	priv = epage->priv;
 
 	e_date_edit_get_date (E_DATE_EDIT (priv->start_time),
-                              &end_tt.year,
-                              &end_tt.month,
-                              &end_tt.day);
-        e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
-                                     &end_tt.hour,
-                                     &end_tt.minute);
+			      &end_tt.year,
+			      &end_tt.month,
+			      &end_tt.day);
+	e_date_edit_get_time_of_day (E_DATE_EDIT (priv->start_time),
+				     &end_tt.hour,
+				     &end_tt.minute);
 
 	for_hours = gtk_spin_button_get_value (GTK_SPIN_BUTTON (priv->hour_selector));
 	for_minutes = gtk_spin_button_get_value (GTK_SPIN_BUTTON (priv->minute_selector));

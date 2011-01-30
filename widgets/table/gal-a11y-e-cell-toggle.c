@@ -57,16 +57,16 @@ gal_a11y_e_cell_toggle_get_type (void)
     {
       static const GTypeInfo tinfo =
       {
-        sizeof (GalA11yECellToggleClass),
-        (GBaseInitFunc) NULL, /* base init */
-        (GBaseFinalizeFunc) NULL, /* base finalize */
-        (GClassInitFunc) gal_a11y_e_cell_toggle_class_init, /* class init */
-        (GClassFinalizeFunc) NULL, /* class finalize */
-        NULL, /* class data */
-        sizeof (GalA11yECellToggle), /* instance size */
-        0, /* nb preallocs */
-        NULL, /* instance init */
-        NULL /* value table */
+	sizeof (GalA11yECellToggleClass),
+	(GBaseInitFunc) NULL, /* base init */
+	(GBaseFinalizeFunc) NULL, /* base finalize */
+	(GClassInitFunc) gal_a11y_e_cell_toggle_class_init, /* class init */
+	(GClassFinalizeFunc) NULL, /* class finalize */
+	NULL, /* class data */
+	sizeof (GalA11yECellToggle), /* instance size */
+	0, /* nb preallocs */
+	NULL, /* instance init */
+	NULL /* value table */
       };
 
       type = g_type_register_static (GAL_A11Y_TYPE_E_CELL,
@@ -108,10 +108,10 @@ toggle_cell_action (GalA11yECell *cell)
 
 	event.type = GDK_BUTTON_PRESS;
 	event.window = gtk_layout_get_bin_window (layout);
-        event.button = 1;
-        event.send_event = TRUE;
-        event.time = GDK_CURRENT_TIME;
-        event.axes = NULL;
+	event.button = 1;
+	event.send_event = TRUE;
+	event.time = GDK_CURRENT_TIME;
+	event.axes = NULL;
 
 	g_signal_emit_by_name (cell->item, "event", &event, &finished);
 }
@@ -130,7 +130,7 @@ model_change_cb (ETableModel *etm,
 			e_table_model_value_at (cell->cell_view->e_table_model,
 						cell->model_col, cell->row));
 		/* Cheat gnopernicus, or it will ignore the state change signal  */
-                atk_focus_tracker_notify (ATK_OBJECT (cell));
+		atk_focus_tracker_notify (ATK_OBJECT (cell));
 
 		if (value)
 			gal_a11y_e_cell_add_state (cell, ATK_STATE_CHECKED, TRUE);
@@ -160,13 +160,13 @@ gal_a11y_e_cell_toggle_new (ETableItem *item,
 	toggle_cell = GAL_A11Y_E_CELL_TOGGLE (a11y);
 	a11y->role  = ATK_ROLE_TABLE_CELL;
 
-        gal_a11y_e_cell_construct (a11y,
-                                   item,
-                                   cell_view,
-                                   parent,
-                                   model_col,
-                                   view_col,
-                                   row);
+	gal_a11y_e_cell_construct (a11y,
+				   item,
+				   cell_view,
+				   parent,
+				   model_col,
+				   view_col,
+				   row);
 
 	gal_a11y_e_cell_add_action (cell,
 				    "toggle",
@@ -182,7 +182,7 @@ gal_a11y_e_cell_toggle_new (ETableItem *item,
 
 	value = GPOINTER_TO_INT (
 			e_table_model_value_at (cell->cell_view->e_table_model,
-                                                cell->model_col, cell->row));
+						cell->model_col, cell->row));
 	if (value)
 		gal_a11y_e_cell_add_state (cell, ATK_STATE_CHECKED, FALSE);
 	else

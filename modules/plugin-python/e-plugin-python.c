@@ -162,7 +162,7 @@ plugin_python_invoke (EPlugin *plugin,
 	}
 
 	if (pValue) {
-                Py_DECREF (pValue);
+		Py_DECREF (pValue);
 		/* Fixme */
 		return NULL;
 	} else

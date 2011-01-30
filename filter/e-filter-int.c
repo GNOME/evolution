@@ -53,7 +53,7 @@ filter_int_finalize (GObject *object)
 	g_free (filter_int->type);
 
 	/* Chain up to parent's finalize() method. */
-        G_OBJECT_CLASS (e_filter_int_parent_class)->finalize (object);
+	G_OBJECT_CLASS (e_filter_int_parent_class)->finalize (object);
 }
 
 static gint

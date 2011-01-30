@@ -1033,13 +1033,13 @@ array_putenv (GPtrArray *env, gchar *variable)
 
       envp = g_listenv ();
       for (i = 0; envp[i]; i++)
-        {
-          const gchar *value;
+	{
+	  const gchar *value;
 
-          value = g_getenv (envp[i]);
+	  value = g_getenv (envp[i]);
           g_ptr_array_add (env, g_strdup_printf ("%s=%s", envp[i],
                                                  value ? value : ""));
-        }
+	}
       g_strfreev (envp);
     }
 
@@ -1424,10 +1424,10 @@ egg_set_desktop_file_internal (const gchar *desktop_file_path,
       g_set_application_name (egg_desktop_file->name);
     if (egg_desktop_file->icon)
       {
-        if (g_path_is_absolute (egg_desktop_file->icon))
-          gtk_window_set_default_icon_from_file (egg_desktop_file->icon, NULL);
-        else
-          gtk_window_set_default_icon_name (egg_desktop_file->icon);
+	if (g_path_is_absolute (egg_desktop_file->icon))
+	  gtk_window_set_default_icon_from_file (egg_desktop_file->icon, NULL);
+	else
+	  gtk_window_set_default_icon_name (egg_desktop_file->icon);
       }
   }
 

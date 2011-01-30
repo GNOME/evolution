@@ -641,7 +641,7 @@ create_children			(EDateEdit	*dedit)
 
 	vbox = gtk_vbox_new (FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (frame), vbox);
-        gtk_widget_show (vbox);
+	gtk_widget_show (vbox);
 
 	priv->calendar = e_calendar_new ();
 	calendar = E_CALENDAR (priv->calendar);
@@ -655,23 +655,23 @@ create_children			(EDateEdit	*dedit)
 			  G_CALLBACK (on_date_popup_date_selected), dedit);
 
 	gtk_box_pack_start (GTK_BOX (vbox), priv->calendar, FALSE, FALSE, 0);
-        gtk_widget_show (priv->calendar);
+	gtk_widget_show (priv->calendar);
 
 	bbox = gtk_hbutton_box_new ();
 	gtk_container_set_border_width (GTK_CONTAINER (bbox), 4);
 	gtk_box_set_spacing (GTK_BOX (bbox), 2);
 	gtk_box_pack_start (GTK_BOX (vbox), bbox, FALSE, FALSE, 0);
-        gtk_widget_show (bbox);
+	gtk_widget_show (bbox);
 
 	priv->now_button = gtk_button_new_with_mnemonic (_("No_w"));
 	gtk_container_add (GTK_CONTAINER (bbox), priv->now_button);
-        gtk_widget_show (priv->now_button);
+	gtk_widget_show (priv->now_button);
 	g_signal_connect (priv->now_button, "clicked",
 			  G_CALLBACK (on_date_popup_now_button_clicked), dedit);
 
 	priv->today_button = gtk_button_new_with_mnemonic (_("_Today"));
 	gtk_container_add (GTK_CONTAINER (bbox), priv->today_button);
-        gtk_widget_show (priv->today_button);
+	gtk_widget_show (priv->today_button);
 	g_signal_connect (priv->today_button, "clicked",
 			  G_CALLBACK (on_date_popup_today_button_clicked), dedit);
 
@@ -1803,8 +1803,8 @@ on_date_entry_focus_out			(GtkEntry	*entry,
 	GtkWidget *msg_dialog;
 
 	tmp_tm.tm_year = 0;
-        tmp_tm.tm_mon = 0;
-        tmp_tm.tm_mday = 0;
+	tmp_tm.tm_mon = 0;
+	tmp_tm.tm_mday = 0;
 
 	e_date_edit_check_date_changed (dedit);
 

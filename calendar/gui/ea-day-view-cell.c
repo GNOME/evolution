@@ -363,35 +363,35 @@ component_interface_get_extents (AtkComponent *component,
 static gboolean
 component_interface_grab_focus (AtkComponent *comp)
 {
-        GObject *g_obj;
-        EDayViewCell *cell;
-        EDayView *day_view;
-        GtkWidget *toplevel;
+	GObject *g_obj;
+	EDayViewCell *cell;
+	EDayView *day_view;
+	GtkWidget *toplevel;
 
-        g_return_val_if_fail (EA_IS_DAY_VIEW_CELL (comp), FALSE);
+	g_return_val_if_fail (EA_IS_DAY_VIEW_CELL (comp), FALSE);
 
-        g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (comp));
-        if (!g_obj)
-                return FALSE;
+	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (comp));
+	if (!g_obj)
+		return FALSE;
 
-        cell = E_DAY_VIEW_CELL (g_obj);
-        day_view = cell->day_view;
+	cell = E_DAY_VIEW_CELL (g_obj);
+	day_view = cell->day_view;
 
-        day_view->selection_start_day = cell->column;
-        day_view->selection_end_day = cell->column;
-        day_view->selection_start_row = cell->row;
-        day_view->selection_end_row = cell->row;
+	day_view->selection_start_day = cell->column;
+	day_view->selection_end_day = cell->column;
+	day_view->selection_start_row = cell->row;
+	day_view->selection_end_row = cell->row;
 
-        e_day_view_ensure_rows_visible (day_view,
-                        day_view->selection_start_row,
-                        day_view->selection_end_row);
-        e_day_view_update_calendar_selection_time (day_view);
-        gtk_widget_queue_draw (day_view->main_canvas);
+	e_day_view_ensure_rows_visible (day_view,
+			day_view->selection_start_row,
+			day_view->selection_end_row);
+	e_day_view_update_calendar_selection_time (day_view);
+	gtk_widget_queue_draw (day_view->main_canvas);
 
-        toplevel = gtk_widget_get_toplevel (GTK_WIDGET (day_view));
-        if (gtk_widget_is_toplevel (toplevel))
-                gtk_window_present (GTK_WINDOW (toplevel));
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (day_view));
+	if (gtk_widget_is_toplevel (toplevel))
+		gtk_window_present (GTK_WINDOW (toplevel));
 
-        return TRUE;
+	return TRUE;
 }
 

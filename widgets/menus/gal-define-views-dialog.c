@@ -259,7 +259,7 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 				NULL);
 
 	dialog->treeview = GTK_TREE_VIEW (e_builder_get_widget (dialog->builder, "treeview1"));
-        gtk_tree_view_set_reorderable (GTK_TREE_VIEW (dialog->treeview), FALSE);
+	gtk_tree_view_set_reorderable (GTK_TREE_VIEW (dialog->treeview), FALSE);
 	gtk_tree_view_set_headers_visible (dialog->treeview, TRUE);
 
 	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);

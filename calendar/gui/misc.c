@@ -108,7 +108,7 @@ calculate_time (time_t start, time_t end)
 	gchar *joined;
 	gint   i;
 
-        i = 0;
+	i = 0;
 	if (difference >= 3600) {
 		hours = difference / 3600;
 		difference %= 3600;

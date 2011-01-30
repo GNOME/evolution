@@ -84,7 +84,7 @@ gail_canvas_item_initialize (AtkObject   *obj,
   ATK_OBJECT_CLASS (parent_class)->initialize (obj, data);
 
   g_object_set_data (G_OBJECT (obj), "atk-component-layer",
-                     GINT_TO_POINTER (ATK_LAYER_MDI));
+		     GINT_TO_POINTER (ATK_LAYER_MDI));
 }
 
 static void
@@ -138,17 +138,17 @@ gail_canvas_item_get_index_in_parent (AtkObject *obj)
 
       n_children = atk_object_get_n_accessible_children (obj->accessible_parent);
       for (i = 0; i < n_children; i++)
-        {
-          AtkObject *child;
+	{
+	  AtkObject *child;
 
-          child = atk_object_ref_accessible_child (obj->accessible_parent, i);
-          if (child == obj)
-            found = TRUE;
+	  child = atk_object_ref_accessible_child (obj->accessible_parent, i);
+	  if (child == obj)
+	    found = TRUE;
 
-          g_object_unref (child);
-          if (found)
-            return i;
-        }
+	  g_object_unref (child);
+	  if (found)
+	    return i;
+	}
       return -1;
     }
 
@@ -194,22 +194,22 @@ gail_canvas_item_ref_state_set (AtkObject         *obj)
       item = GNOME_CANVAS_ITEM (g_obj);
 
       if (item->flags & GNOME_CANVAS_ITEM_VISIBLE)
-        {
-          atk_state_set_add_state (state_set, ATK_STATE_VISIBLE);
-          if (is_item_on_screen (item))
-            {
-              atk_state_set_add_state (state_set, ATK_STATE_SHOWING);
-            }
-        }
+	{
+	  atk_state_set_add_state (state_set, ATK_STATE_VISIBLE);
+	  if (is_item_on_screen (item))
+	    {
+	      atk_state_set_add_state (state_set, ATK_STATE_SHOWING);
+	    }
+	}
       if (gtk_widget_get_can_focus (GTK_WIDGET (item->canvas)))
-        {
-          atk_state_set_add_state (state_set, ATK_STATE_FOCUSABLE);
+	{
+	  atk_state_set_add_state (state_set, ATK_STATE_FOCUSABLE);
 
-          if (item->canvas->focused_item == item)
-            {
-              atk_state_set_add_state (state_set, ATK_STATE_FOCUSED);
-            }
-        }
+	  if (item->canvas->focused_item == item)
+	    {
+	      atk_state_set_add_state (state_set, ATK_STATE_FOCUSED);
+	    }
+	}
     }
 
   return state_set;
@@ -239,15 +239,15 @@ gail_canvas_item_add_focus_handler (AtkComponent    *component,
   signal_id = g_signal_lookup ("focus-event", ATK_TYPE_OBJECT);
 
   ret = g_signal_handler_find (component, match_type, signal_id, 0, NULL,
-                               (gpointer) handler, NULL);
+			       (gpointer) handler, NULL);
   if (!ret)
     {
       return g_signal_connect_closure_by_id (component,
-                                             signal_id, 0,
-                                             g_cclosure_new (
-                                             G_CALLBACK (handler), NULL,
-                                             (GClosureNotify) NULL),
-                                             FALSE);
+					     signal_id, 0,
+					     g_cclosure_new (
+					     G_CALLBACK (handler), NULL,
+					     (GClosureNotify) NULL),
+					     FALSE);
     }
   else
     {
@@ -295,7 +295,7 @@ gail_canvas_item_get_extents (AtkComponent *component,
     }
 
   gail_misc_get_origins (GTK_WIDGET (item->canvas), &window_x, &window_y,
-                         &toplevel_x, &toplevel_y);
+			 &toplevel_x, &toplevel_y);
   *x = extents.x + window_x - toplevel_x;
   *y = extents.y + window_y - toplevel_y;
 

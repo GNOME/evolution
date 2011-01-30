@@ -159,7 +159,7 @@ proxy_login_get_type (void)
     };
     type = g_type_register_static (G_TYPE_OBJECT,
                                    "proxyLoginType",
-                                   &info, 0);
+				   &info, 0);
   }
 
   return type;
@@ -192,7 +192,7 @@ proxy_get_password (EAccount *account, gchar **user_name, gchar **password)
 		return 0;
 
         soap_port = camel_url_get_param (url, "soap_port");
-        if (!soap_port || strlen (soap_port) == 0)
+	if (!soap_port || strlen (soap_port) == 0)
                 soap_port = "7191";
 	use_ssl = camel_url_get_param (url, "use_ssl");
 
@@ -235,7 +235,7 @@ proxy_login_get_cnc (EAccount *account, GtkWindow *password_dlg_parrent)
 		return NULL;
 
         soap_port = camel_url_get_param (url, "soap_port");
-        if (!soap_port || strlen (soap_port) == 0)
+	if (!soap_port || strlen (soap_port) == 0)
                 soap_port = "7191";
 	use_ssl = camel_url_get_param (url, "use_ssl");
 

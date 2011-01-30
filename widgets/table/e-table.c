@@ -1381,9 +1381,9 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 		g_signal_connect (
 			G_OBJECT (e_table->click_to_add), "event",
 			G_CALLBACK (click_to_add_event), e_table);
-                g_signal_connect (
+		g_signal_connect (
                         G_OBJECT (e_table->click_to_add), "cursor_change",
-                        G_CALLBACK (click_to_add_cursor_change), e_table);
+			G_CALLBACK (click_to_add_cursor_change), e_table);
 	}
 }
 
@@ -3269,8 +3269,8 @@ e_table_class_init (ETableClass *class)
 
 	widget_class->grab_focus        = et_grab_focus;
 	widget_class->unrealize         = et_unrealize;
-        widget_class->get_preferred_width = et_get_preferred_width;
-        widget_class->get_preferred_height = et_get_preferred_height;
+	widget_class->get_preferred_width = et_get_preferred_width;
+	widget_class->get_preferred_height = et_get_preferred_height;
 
 	widget_class->focus             = et_focus;
 

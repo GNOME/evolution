@@ -1832,9 +1832,9 @@ gnome_canvas_rich_text_get_iter_at_location (GnomeCanvasRichText *text,
   g_return_if_fail (text->_priv->layout != NULL);
 
   gtk_text_layout_get_iter_at_pixel (text->_priv->layout,
-                                     iter,
-                                     x,
-                                     y);
+				     iter,
+				     x,
+				     y);
 }
 
 static void
@@ -2016,7 +2016,7 @@ gnome_canvas_rich_text_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 	if ((x > x1) && (y > y1) && (x < x2) && (y < y2))
 		return item;
 
-        return NULL;
+	return NULL;
 } /* gnome_canvas_rich_text_point */
 
 static void

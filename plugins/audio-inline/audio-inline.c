@@ -244,9 +244,9 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 		}
 	}
 
-        gst_element_get_state (po->playbin, &cur_state, NULL, 0);
+	gst_element_get_state (po->playbin, &cur_state, NULL, 0);
 
-        if (cur_state >= GST_STATE_PAUSED) {
+	if (cur_state >= GST_STATE_PAUSED) {
 		gst_element_set_state (po->playbin, GST_STATE_READY);
 	}
 

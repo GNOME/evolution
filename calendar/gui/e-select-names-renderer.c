@@ -126,7 +126,7 @@ e_select_names_renderer_start_editing (GtkCellRenderer *cell, GdkEvent *event, G
 	g_signal_connect (editable, "editing_done", G_CALLBACK (e_select_names_renderer_editing_done), sn_cell);
 
 	/* Removed focus-out-event. focus out event already listen by base class.
-           We don't need to listen for the focus out event any more */
+	   We don't need to listen for the focus out event any more */
 
 	sn_cell->priv->editable = g_object_ref (editable);
 	sn_cell->priv->path = g_strdup (path);

@@ -1252,12 +1252,12 @@ e_reflow_draw (GnomeCanvasItem *item,
 			if (running_width > x + width)
 				break;
 			x_rect = running_width;
-                        cairo_rectangle (cr,
+			cairo_rectangle (cr,
 					 x_rect - x,
 					 y_rect - y,
 					 width_rect - 1,
 					 height_rect - 1);
-                        cairo_fill (cr);
+			cairo_fill (cr);
 			running_width += E_REFLOW_DIVIDER_WIDTH + E_REFLOW_BORDER_WIDTH + column_width + E_REFLOW_BORDER_WIDTH;
 		}
 		cairo_restore (cr);
@@ -1358,7 +1358,7 @@ static GnomeCanvasItem *
 e_reflow_point (GnomeCanvasItem *item,
 		gdouble x, gdouble y, gint cx, gint cy)
 {
-        GnomeCanvasItem *child;
+	GnomeCanvasItem *child;
 
 	if (GNOME_CANVAS_ITEM_CLASS (e_reflow_parent_class)->point)
 		child = GNOME_CANVAS_ITEM_CLASS (e_reflow_parent_class)->point (item, x, y, cx, cy);

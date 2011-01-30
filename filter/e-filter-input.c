@@ -167,7 +167,7 @@ filter_input_xml_encode (EFilterElement *element)
 		xmlChar *str = link->data;
 		xmlNodePtr cur;
 
-                cur = xmlNewChild (value, NULL, (xmlChar *)type, NULL);
+		cur = xmlNewChild (value, NULL, (xmlChar *)type, NULL);
 
 		str = xmlEncodeEntitiesReentrant (NULL, str);
 		xmlNodeSetContent (cur, str);

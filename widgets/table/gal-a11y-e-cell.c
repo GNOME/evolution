@@ -105,7 +105,7 @@ static G_CONST_RETURN gchar *
 gal_a11y_e_cell_get_name (AtkObject * a11y)
 {
 	GalA11yECell *cell = GAL_A11Y_E_CELL (a11y);
-        ETableCol *ecol;
+	ETableCol *ecol;
 
 	if (a11y->name != NULL && strcmp (a11y->name, ""))
 		return a11y->name;

@@ -188,7 +188,7 @@ ea_week_view_cell_new (GObject *obj)
 #ifdef ACC_DEBUG
 static void ea_week_view_cell_finalize (GObject *object)
 {
-        G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 
 	++n_ea_week_view_cell_destroyed;
 	printf ("ACC_DEBUG: n_ea_week_view_cell_destroyed = %d\n",
@@ -210,8 +210,8 @@ ea_week_view_cell_get_name (AtkObject *accessible)
 		GnomeCanvasItem *main_item;
 		gchar *new_name;
 		const gchar *row_label, *column_label;
-                gint new_column, new_row;
-                gint start_day;
+		gint new_column, new_row;
+		gint start_day;
 
 		atk_gobj = ATK_GOBJECT_ACCESSIBLE (accessible);
 		g_obj = atk_gobject_accessible_get_object (atk_gobj);
@@ -222,14 +222,14 @@ ea_week_view_cell_get_name (AtkObject *accessible)
 		main_item = cell->week_view->main_canvas_item;
 		ea_main_item = atk_gobject_accessible_for_object (G_OBJECT (main_item));
 
-                start_day = cell->week_view->display_start_day;
-                if (cell->column + start_day >= 7) {
-                        new_column = cell->column + start_day - 7;
-                        new_row = cell->row + 1;
-                } else {
-                        new_column = cell->column + start_day;
-                        new_row = cell->row;
-                }
+		start_day = cell->week_view->display_start_day;
+		if (cell->column + start_day >= 7) {
+			new_column = cell->column + start_day - 7;
+			new_row = cell->row + 1;
+		} else {
+			new_column = cell->column + start_day;
+			new_row = cell->row;
+		}
 
 		column_label = atk_table_get_column_description (ATK_TABLE (ea_main_item),
 								 new_column);
@@ -327,7 +327,7 @@ atk_component_interface_init (AtkComponentIface *iface)
 	g_return_if_fail (iface != NULL);
 
 	iface->get_extents = component_interface_get_extents;
-        iface->grab_focus = component_interface_grab_focus;
+	iface->grab_focus = component_interface_grab_focus;
 }
 
 static void
@@ -342,7 +342,7 @@ component_interface_get_extents (AtkComponent *component,
 	GtkWidget *main_canvas;
 	gint week_view_width, week_view_height;
 	gint scroll_x, scroll_y;
-        gint start_day;
+	gint start_day;
 
 	*x = *y = *width = *height = 0;
 
@@ -364,114 +364,114 @@ component_interface_get_extents (AtkComponent *component,
 				   coord_type);
 	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (week_view->main_canvas),
 					 &scroll_x, &scroll_y);
-        start_day = week_view->display_start_day;
-        if (week_view->multi_week_view) {
-                if (week_view->compress_weekend && (cell->column == (5 - start_day))) {
+	start_day = week_view->display_start_day;
+	if (week_view->multi_week_view) {
+		if (week_view->compress_weekend && (cell->column == (5 - start_day))) {
                         *height = week_view->row_heights[cell->row*2];
 			*width = week_view->col_widths[cell->column];
 			*x += week_view->col_offsets[cell->column] - scroll_x;
 			*y += week_view->row_offsets[cell->row*2]- scroll_y;
-                } else if (week_view->compress_weekend && (cell->column == (6 - start_day))) {
+		} else if (week_view->compress_weekend && (cell->column == (6 - start_day))) {
                         *height = week_view->row_heights[cell->row*2];
                         *width = week_view->col_widths[cell->column - 1];
                         *x += week_view->col_offsets[cell->column - 1]- scroll_x;
                         *y += week_view->row_offsets[cell->row*2 + 1]- scroll_y;
-                } else if (week_view->compress_weekend && (cell->column > (6 - start_day))) {
+		} else if (week_view->compress_weekend && (cell->column > (6 - start_day))) {
                         *height = week_view->row_heights[cell->row*2]*2;
                         *width = week_view->col_widths[cell->column - 1];
                         *x += week_view->col_offsets[cell->column - 1] - scroll_x;
                         *y += week_view->row_offsets[cell->row*2]- scroll_y;
-                } else {
+		} else {
 			*height = week_view->row_heights[cell->row*2]*2;
                         *width = week_view->col_widths[cell->column];
 			*x += week_view->col_offsets[cell->column] - scroll_x;
 			*y += week_view->row_offsets[cell->row*2]- scroll_y;
-                }
-        } else {
-                if (start_day < 3) {
-                        if (cell->column < 3) {
+		}
+	} else {
+		if (start_day < 3) {
+			if (cell->column < 3) {
                                 *height = week_view->row_heights[cell->column*2]*2;
                                 *width = week_view->col_widths[0];
                                 *x += week_view->col_offsets[0] - scroll_x;
                                 *y += week_view->row_offsets[cell->column*2]- scroll_y;
-                        } else {
-                                if (cell->column == 5 - start_day) {
+			} else {
+				if (cell->column == 5 - start_day) {
                                         *height = week_view->row_heights[(cell->column - 3)*2];
                                         *width = week_view->col_widths[1];
                                         *x += week_view->col_offsets[1] - scroll_x;
                                         *y += week_view->row_offsets[(cell->column - 3)*2]- scroll_y;
-                                } else if (cell->column == 6 - start_day) {
+				} else if (cell->column == 6 - start_day) {
                                         *height = week_view->row_heights[(cell->column - 4)*2];
                                         *width = week_view->col_widths[1];
                                         *x += week_view->col_offsets[1] - scroll_x;
                                         *y += week_view->row_offsets[(cell->column - 3)*2 - 1]- scroll_y;
-                                } else if (cell->column > 6 - start_day) {
+				} else if (cell->column > 6 - start_day) {
                                         *height = week_view->row_heights[(cell->column - 4)*2]*2;
                                         *width = week_view->col_widths[1];
                                         *x += week_view->col_offsets[1] - scroll_x;
                                         *y += week_view->row_offsets[(cell->column - 4)*2]- scroll_y;
-                                } else {
+				} else {
                                         *height = week_view->row_heights[(cell->column - 3)*2]*2;
                                         *width = week_view->col_widths[1];
                                         *x += week_view->col_offsets[1] - scroll_x;
                                         *y += week_view->row_offsets[(cell->column - 3)*2]- scroll_y;
-                                }
-                        }
-                } else if (cell->column < 4) {
-                        if (cell->column == 5 - start_day) {
+				}
+			}
+		} else if (cell->column < 4) {
+			if (cell->column == 5 - start_day) {
                                 *height = week_view->row_heights[cell->column*2];
                                 *width = week_view->col_widths[0];
                                 *x += week_view->col_offsets[0] - scroll_x;
                                 *y += week_view->row_offsets[cell->column*2]- scroll_y;
-                        } else if (cell->column == 6 - start_day) {
+			} else if (cell->column == 6 - start_day) {
                                 *height = week_view->row_heights[(cell->column - 1)*2];
                                 *width = week_view->col_widths[0];
                                 *x += week_view->col_offsets[0] - scroll_x;
                                 *y += week_view->row_offsets[cell->column*2 - 1]- scroll_y;
-                        } else if (cell->column > 6 - start_day) {
+			} else if (cell->column > 6 - start_day) {
                                 *height = week_view->row_heights[(cell->column - 1)*2]*2;
                                 *width = week_view->col_widths[0];
                                 *x += week_view->col_offsets[0] - scroll_x;
                                 *y += week_view->row_offsets[(cell->column - 1)*2]- scroll_y;
-                        } else {
+			} else {
                                 *height = week_view->row_heights[(cell->column)*2]*2;
                                 *width = week_view->col_widths[0];
                                 *x += week_view->col_offsets[0] - scroll_x;
                                 *y += week_view->row_offsets[cell->column*2]- scroll_y;
-                        }
-                } else {
+			}
+		} else {
                         *height = week_view->row_heights[(cell->column - 4)*2]*2;
                         *width = week_view->col_widths[1];
                         *x += week_view->col_offsets[1] - scroll_x;
                         *y += week_view->row_offsets[(cell->column - 4)*2]- scroll_y;
-                }
-        }
+		}
+	}
 }
 
 static gboolean
 component_interface_grab_focus (AtkComponent *comp)
 {
-        GObject *g_obj;
-        EWeekViewCell *cell;
-        EWeekView *week_view;
-        GtkWidget *toplevel;
+	GObject *g_obj;
+	EWeekViewCell *cell;
+	EWeekView *week_view;
+	GtkWidget *toplevel;
 
-        g_return_val_if_fail (EA_IS_WEEK_VIEW_CELL (comp), FALSE);
+	g_return_val_if_fail (EA_IS_WEEK_VIEW_CELL (comp), FALSE);
 
-        g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (comp));
-        if (!g_obj)
-                return FALSE;
+	g_obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (comp));
+	if (!g_obj)
+		return FALSE;
 
-        cell = E_WEEK_VIEW_CELL (g_obj);
-        week_view = cell->week_view;
+	cell = E_WEEK_VIEW_CELL (g_obj);
+	week_view = cell->week_view;
 
-        week_view->selection_start_day = cell->row * 7 + cell->column;
-        week_view->selection_end_day = cell->row * 7 + cell->column;
-        gtk_widget_queue_draw (week_view->main_canvas);
+	week_view->selection_start_day = cell->row * 7 + cell->column;
+	week_view->selection_end_day = cell->row * 7 + cell->column;
+	gtk_widget_queue_draw (week_view->main_canvas);
 
-        toplevel = gtk_widget_get_toplevel (GTK_WIDGET (week_view));
-        if (gtk_widget_is_toplevel (toplevel))
-                gtk_window_present (GTK_WINDOW (toplevel));
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (week_view));
+	if (gtk_widget_is_toplevel (toplevel))
+		gtk_window_present (GTK_WINDOW (toplevel));
 
-        return TRUE;
+	return TRUE;
 }

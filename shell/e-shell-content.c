@@ -218,8 +218,8 @@ shell_content_get_preferred_width (GtkWidget *widget,
                                    gint      *natural)
 {
 	EShellContentPrivate *priv;
-        gint min, nat;
-        gint child_min, child_nat;
+	gint min, nat;
+	gint child_min, child_nat;
 	GtkWidget *child;
 
 	priv = E_SHELL_CONTENT_GET_PRIVATE (widget);
@@ -227,8 +227,8 @@ shell_content_get_preferred_width (GtkWidget *widget,
         *minimum = *natural = 0;
 
 	child = gtk_bin_get_child (GTK_BIN (widget));
-        gtk_widget_get_preferred_width (child, &child_min, &child_nat);
-        gtk_widget_get_preferred_width (priv->alert_bar, &min, &nat);
+	gtk_widget_get_preferred_width (child, &child_min, &child_nat);
+	gtk_widget_get_preferred_width (priv->alert_bar, &min, &nat);
 
         *minimum = MAX (min, child_min);
         *natural = MAX (nat, child_nat);
@@ -236,7 +236,7 @@ shell_content_get_preferred_width (GtkWidget *widget,
 	if (priv->searchbar == NULL)
 		return;
 
-        gtk_widget_get_preferred_width (priv->searchbar, &min, &nat);
+	gtk_widget_get_preferred_width (priv->searchbar, &min, &nat);
         *minimum = MAX (*minimum, min);
         *natural = MAX (*natural, nat);
 }
@@ -247,7 +247,7 @@ shell_content_get_preferred_height (GtkWidget *widget,
                                     gint      *natural)
 {
 	EShellContentPrivate *priv;
-        gint min, nat;
+	gint min, nat;
 	GtkWidget *child;
 
 	priv = E_SHELL_CONTENT_GET_PRIVATE (widget);
@@ -421,8 +421,8 @@ e_shell_content_class_init (EShellContentClass *class)
 	object_class->constructed = shell_content_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-        widget_class->get_preferred_width = shell_content_get_preferred_width;
-        widget_class->get_preferred_height = shell_content_get_preferred_height;
+	widget_class->get_preferred_width = shell_content_get_preferred_width;
+	widget_class->get_preferred_height = shell_content_get_preferred_height;
 	widget_class->size_allocate = shell_content_size_allocate;
 
 	container_class = GTK_CONTAINER_CLASS (class);

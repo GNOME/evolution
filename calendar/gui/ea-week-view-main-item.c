@@ -278,7 +278,7 @@ ea_week_view_main_item_new (GObject *obj)
 					       NULL));
 
 	atk_object_initialize (accessible, obj);
-        accessible->role = ATK_ROLE_TABLE;
+	accessible->role = ATK_ROLE_TABLE;
 
 #ifdef ACC_DEBUG
 	++n_ea_week_view_main_item_created;
@@ -494,8 +494,8 @@ ea_week_view_main_item_time_change_cb (EWeekView *week_view, gpointer data)
 			       "active-descendant-changed",
 			       item_cell);
 		g_signal_emit_by_name (data, "selection_changed");
-                atk_focus_tracker_notify (item_cell);
-                g_object_unref (item_cell);
+		atk_focus_tracker_notify (item_cell);
+		g_object_unref (item_cell);
 	}
 }
 

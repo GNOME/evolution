@@ -143,17 +143,17 @@ static GwAccountInfo*
 lookup_account_info (const gchar *key)
 {
 	GList *list;
-        GwAccountInfo *info;
+	GwAccountInfo *info;
 	gint found = 0;
 
-        if (!key)
-                return NULL;
+	if (!key)
+		return NULL;
 
 	info = NULL;
 
-        for (list = g_list_first (groupwise_accounts);  list;  list = g_list_next (list)) {
-                info = (GwAccountInfo *) (list->data);
-                found = (strcmp (info->uid, key) == 0);
+	for (list = g_list_first (groupwise_accounts);  list;  list = g_list_next (list)) {
+		info = (GwAccountInfo *) (list->data);
+		found = (strcmp (info->uid, key) == 0);
 		if (found)
 			break;
 	}
@@ -175,7 +175,7 @@ add_esource (const gchar *conf_key, GwAccountInfo *info,  const gchar *source_na
 	ESourceList *source_list;
 	ESourceGroup *group;
 	ESource *source;
-        GConfClient* client;
+	GConfClient* client;
 	GSList *ids, *temp;
 	const gchar *source_selection_key;
 	gchar *relative_uri;
@@ -268,15 +268,15 @@ static void
 remove_esource (const gchar *conf_key, const gchar *group_name, gchar * source_name, const gchar * relative_uri)
 {
 	ESourceList *list;
-        GSList *groups;
+	GSList *groups;
 	gboolean found_group;
 	GConfClient* client;
 	GSList *ids;
 	GSList *node_tobe_deleted;
 	const gchar *source_selection_key;
 
-        client = gconf_client_get_default ();
-        list = e_source_list_new_for_gconf (client, conf_key);
+	client = gconf_client_get_default ();
+	list = e_source_list_new_for_gconf (client, conf_key);
 	groups = e_source_list_peek_groups (list);
 
 	found_group = FALSE;
@@ -339,7 +339,7 @@ static void
 modify_esource (const gchar * conf_key, GwAccountInfo *old_account_info, EAccount *a, CamelURL *new_url)
 {
 	ESourceList *list;
-        GSList *groups;
+	GSList *groups;
 	gchar *old_relative_uri;
 	CamelURL *url;
 	gboolean found_group;
@@ -356,7 +356,7 @@ modify_esource (const gchar * conf_key, GwAccountInfo *old_account_info, EAccoun
 
 	old_relative_uri =  g_strdup_printf ("%s@%s/", url->user, poa_address);
 	client = gconf_client_get_default ();
-        list = e_source_list_new_for_gconf (client, conf_key);
+	list = e_source_list_new_for_gconf (client, conf_key);
 	groups = e_source_list_peek_groups (list);
 
 	found_group = FALSE;
@@ -456,7 +456,7 @@ static GList*
 get_addressbook_names_from_server (gchar *source_url)
 {
 	gchar *key;
-        EGwConnection *cnc;
+	EGwConnection *cnc;
 	gchar *password;
 	GList *book_list = NULL;
 	gint status, count = 0;
@@ -472,15 +472,15 @@ get_addressbook_names_from_server (gchar *source_url)
 	guint32 flags = E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET;
 
 	url = camel_url_new (source_url, NULL);
-        if (url == NULL) {
-                return NULL;
-        }
+	if (url == NULL) {
+		return NULL;
+	}
 	poa_address = url->host;
 	if (!poa_address || strlen (poa_address) ==0)
 		return NULL;
 
         soap_port = camel_url_get_param (url, "soap_port");
-        if (!soap_port || strlen (soap_port) == 0)
+	if (!soap_port || strlen (soap_port) == 0)
                 soap_port = "7191";
 	use_ssl = camel_url_get_param (url, "use_ssl");
 
@@ -571,8 +571,8 @@ add_addressbook_sources (EAccount *account)
 {
 	CamelURL *url;
 	ESourceList *list;
-        ESourceGroup *group;
-        ESource *source;
+	ESourceGroup *group;
+	ESource *source;
 	gchar *base_uri;
 	const gchar *soap_port;
 	GList *books_list, *temp_list;
@@ -581,7 +581,7 @@ add_addressbook_sources (EAccount *account)
 	const gchar *poa_address;
 	gboolean is_frequent_contacts = FALSE, is_writable = FALSE;
 
-        url = camel_url_new (account->source->url, NULL);
+	url = camel_url_new (account->source->url, NULL);
 	if (url == NULL) {
 		return FALSE;
 	}
@@ -663,7 +663,7 @@ modify_addressbook_sources ( EAccount *account, GwAccountInfo *existing_account_
 {
 	CamelURL *url;
 	ESourceList *list;
-        ESourceGroup *group;
+	ESourceGroup *group;
 	GSList *groups;
 	gboolean found_group;
 	gboolean delete_group;
@@ -746,7 +746,7 @@ static void
 remove_addressbook_sources (GwAccountInfo *existing_account_info)
 {
 	ESourceList *list;
-        ESourceGroup *group;
+	ESourceGroup *group;
 	GSList *groups;
 	gboolean found_group;
 	CamelURL *url;
@@ -841,7 +841,7 @@ account_removed (EAccountList *account_listener, EAccount *account)
 	g_free (info->uid);
 	g_free (info->name);
 	g_free (info->source_url);
-        g_free (info);
+	g_free (info);
 }
 
 static void
@@ -1014,15 +1014,15 @@ camel_gw_listener_get_type (void)
 
 	if (!camel_gw_listener_type) {
 		static GTypeInfo info = {
-                        sizeof (CamelGwListenerClass),
-                        (GBaseInitFunc) NULL,
-                        (GBaseFinalizeFunc) NULL,
-                        (GClassInitFunc) camel_gw_listener_class_init,
-                        NULL, NULL,
-                        sizeof (CamelGwListener),
-                        0,
-                        (GInstanceInitFunc) camel_gw_listener_init
-                };
+			sizeof (CamelGwListenerClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) camel_gw_listener_class_init,
+			NULL, NULL,
+			sizeof (CamelGwListener),
+			0,
+			(GInstanceInitFunc) camel_gw_listener_init
+		};
 		camel_gw_listener_type = g_type_register_static (PARENT_TYPE, "CamelGwListener", &info, 0);
 	}
 

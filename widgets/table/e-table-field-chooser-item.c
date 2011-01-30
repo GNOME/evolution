@@ -190,7 +190,7 @@ etfci_update (GnomeCanvasItem *item,
 	x2 = etfci->width;
 	y2 = etfci->height;
 
-        gnome_canvas_matrix_transform_rect (i2c, &x1, &y1, &x2, &y2);
+	gnome_canvas_matrix_transform_rect (i2c, &x1, &y1, &x2, &y2);
 
 	if (item->x1 != x1 ||
 	    item->y1 != y1 ||

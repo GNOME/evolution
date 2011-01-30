@@ -401,7 +401,7 @@ org_gnome_bogo_convert_unicode (struct _EPlugin *epl, struct _EConfigHookItemFac
 	g_object_get (data->parent, "n-rows", &n_rows, NULL);
 
 	if (data->old)
-                return data->old;
+		return data->old;
 
 	check = gtk_check_button_new_with_mnemonic (_("Convert message text to _Unicode"));
 
