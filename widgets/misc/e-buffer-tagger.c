@@ -480,8 +480,8 @@ textview_motion_notify_event (GtkTextView *textview, GdkEventMotion *event)
 	g_return_val_if_fail (GTK_IS_TEXT_VIEW (textview), FALSE);
 
 	gtk_text_view_window_to_buffer_coords (textview,
-                GTK_TEXT_WINDOW_WIDGET,
-                event->x, event->y, &x, &y);
+		GTK_TEXT_WINDOW_WIDGET,
+		event->x, event->y, &x, &y);
 
 	update_mouse_cursor (textview, x, y);
 

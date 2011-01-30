@@ -2285,7 +2285,7 @@ print_day_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 
 		print_text_size_bold (context, buf, PANGO_ALIGN_LEFT,
 				      4, todo, 4,
-                                      4 + 24);
+				      4 + 24);
 
 		/* Print the day, e.g. 'Tuesday'. */
 		format_date (&tm, DATE_DAYNAME, buf, 100);
@@ -2788,7 +2788,7 @@ print_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 
 	/* Print the border around the header area. */
 	print_border (context, 0.0, width,
-                      0.0, HEADER_HEIGHT + 2.0 + 20, 1.0, 0.9);
+		      0.0, HEADER_HEIGHT + 2.0 + 20, 1.0, 0.9);
 
 	/* Print the 2 mini calendar-months. */
 	l = width - SMALL_MONTH_PAD - (small_month_width + week_numbers_inc) * 2
@@ -2866,7 +2866,7 @@ print_month_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 	format_date (&tm, DATE_MONTH | DATE_YEAR, buf, 100);
 	print_text_size_bold (context, buf, PANGO_ALIGN_CENTER,
 			      3, width - 3,
-                              3, 3 + 24);
+			      3, 3 + 24);
 
 }
 
@@ -3110,7 +3110,7 @@ print_calendar (GnomeCalendar *gcal,
 	operation = e_print_operation_new ();
 	gtk_print_operation_set_n_pages (operation, 1);
 
-        g_signal_connect (
+	g_signal_connect (
 		operation, "draw_page",
 		G_CALLBACK (print_calendar_draw_page), &pcali);
 

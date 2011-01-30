@@ -83,7 +83,7 @@ GtkWidget *org_gnome_email_custom_header_config_option (struct _EPlugin *epl, st
 gint
 e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
-        return 0;
+	return 0;
 }
 
 static void
@@ -335,8 +335,8 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 		/* To create an empty label widget. Text will be added dynamically. */
 		priv->header_type_name_label = gtk_label_new ("");
 		temp_header_ptr = &g_array_index (priv->email_custom_header_details, EmailCustomHeaderDetails,header_section_id);
-                str = (temp_header_ptr->header_type_value)->str;
-                if (strcmp (str, security_field) == 0)
+		str = (temp_header_ptr->header_type_value)->str;
+		if (strcmp (str, security_field) == 0)
 			str = g_dpgettext2 (GETTEXT_PACKAGE, "email-custom-header-Security", security_field);
 		gtk_label_set_markup (GTK_LABEL (priv->header_type_name_label), str);
 
@@ -351,7 +351,7 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 	}
 
 	for (sub_index = 0,row_combo = 0,column_combo = 1; sub_index < priv->combo_box_header_value->len;
-                sub_index++,row_combo++,column_combo++) {
+		sub_index++,row_combo++,column_combo++) {
 		temp = &g_array_index (priv->email_custom_header_details, EmailCustomHeaderDetails,sub_index);
 
 		sub_combo_box_ptr = &g_array_index (priv->combo_box_header_value, HeaderValueComboBox,sub_index);
@@ -485,25 +485,25 @@ epech_append_to_custom_header (CustomHeaderOptionsDialog *dialog, gint state, gp
 static void
 epech_custom_header_options_commit (EMsgComposer *comp, gpointer user_data)
 {
-        EMsgComposer *composer;
-        EmailCustomHeaderWindow *new_email_custom_header_window = NULL;
-        CustomHeaderOptionsDialog *current_dialog = NULL;
+	EMsgComposer *composer;
+	EmailCustomHeaderWindow *new_email_custom_header_window = NULL;
+	CustomHeaderOptionsDialog *current_dialog = NULL;
 
-        composer = (EMsgComposer *) user_data;
+	composer = (EMsgComposer *) user_data;
 
-        if (!user_data || !EMAIL_CUSTOM_HEADER_OPTIONS_IS_DIALOG (user_data))
+	if (!user_data || !EMAIL_CUSTOM_HEADER_OPTIONS_IS_DIALOG (user_data))
 		return;
 
         new_email_custom_header_window = g_object_get_data ((GObject *) composer, "compowindow");
 
-        if (new_email_custom_header_window) {
+	if (new_email_custom_header_window) {
 		current_dialog = new_email_custom_header_window->epech_dialog;
-        }
+	}
 
-        if (current_dialog) {
+	if (current_dialog) {
 		g_free (current_dialog);
 		current_dialog = NULL;
-        }
+	}
 
 	if (new_email_custom_header_window) {
 		g_free (new_email_custom_header_window);
@@ -526,12 +526,12 @@ epech_check_existing_composer_window (gconstpointer compowindow, gconstpointer o
 static void
 destroy_compo_data (gpointer data)
 {
-        EmailCustomHeaderWindow *compo_data = (EmailCustomHeaderWindow *) data;
+	EmailCustomHeaderWindow *compo_data = (EmailCustomHeaderWindow *) data;
 
-        if (!compo_data)
-                return;
+	if (!compo_data)
+		return;
 
-        g_free (compo_data);
+	g_free (compo_data);
 }
 
 static void action_email_custom_header_cb (GtkAction *action, EMsgComposer *composer)
@@ -554,10 +554,10 @@ static void action_email_custom_header_cb (GtkAction *action, EMsgComposer *comp
 	} else {
 		dialog = epech_dialog_new ();
 		if (dialog) {
-                        EmailCustomHeaderWindow *new_email_custom_header_window;
-                        new_email_custom_header_window = g_new0 (EmailCustomHeaderWindow, 1);
-                        new_email_custom_header_window->epech_window = window;
-                        new_email_custom_header_window->epech_dialog = dialog;
+			EmailCustomHeaderWindow *new_email_custom_header_window;
+			new_email_custom_header_window = g_new0 (EmailCustomHeaderWindow, 1);
+			new_email_custom_header_window->epech_window = window;
+			new_email_custom_header_window->epech_dialog = dialog;
                         g_object_set_data_full ((GObject *) composer, "compowindow", new_email_custom_header_window, destroy_compo_data);
 		}
 	}
@@ -613,12 +613,12 @@ commit_changes (ConfigData *cd)
 			-1);
 
                 /* Check if the keyword is not empty */
-                if ((keyword) && (g_utf8_strlen (g_strstrip (keyword), -1) > 0)) {
-                        if ((value) && (g_utf8_strlen (g_strstrip (value), -1) > 0)) {
+		if ((keyword) && (g_utf8_strlen (g_strstrip (keyword), -1) > 0)) {
+			if ((value) && (g_utf8_strlen (g_strstrip (value), -1) > 0)) {
                                 keyword = g_strconcat (keyword, "=", value, NULL);
-                        }
-                        header_config_list = g_slist_append (header_config_list, g_strdup (keyword));
-                }
+			}
+			header_config_list = g_slist_append (header_config_list, g_strdup (keyword));
+		}
 
 		g_free (keyword);
 		g_free (value);

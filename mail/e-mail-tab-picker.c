@@ -146,30 +146,30 @@ e_mail_tab_picker_drop (MxDroppable         *droppable,
 
       /* Ignore docked tabs */
       if (!props->docked)
-        {
+	{
           /* If the tab is beyond the dragged tab and not draggable,
            * we don't want to drag past it.
            */
-          if ((event_x >= props->position + priv->scroll_offset) &&
-              (tab->position + tab->width <= props->position) &&
-              !mx_draggable_is_enabled (MX_DRAGGABLE (props->tab)))
-            {
-              new_position--;
-              break;
-            }
+	  if ((event_x >= props->position + priv->scroll_offset) &&
+	      (tab->position + tab->width <= props->position) &&
+	      !mx_draggable_is_enabled (MX_DRAGGABLE (props->tab)))
+	    {
+	      new_position--;
+	      break;
+	    }
 
           /* The same check for dragging left instead of right */
-          if ((event_x < props->position + props->width + priv->scroll_offset)&&
-              (tab->position >= props->position) &&
-              !mx_draggable_is_enabled (MX_DRAGGABLE (props->tab)))
-            break;
+	  if ((event_x < props->position + props->width + priv->scroll_offset)&&
+	      (tab->position >= props->position) &&
+	      !mx_draggable_is_enabled (MX_DRAGGABLE (props->tab)))
+	    break;
 
           /* If the tab-end position is after the drop position,
            * break - we want to drop before here.
            */
-          if (props->position + props->width + priv->scroll_offset > event_x)
-            break;
-        }
+	  if (props->position + props->width + priv->scroll_offset > event_x)
+	    break;
+	}
 
       /* Increment the position */
       new_position++;
@@ -309,14 +309,14 @@ e_mail_tab_picker_paint (ClutterActor *actor)
       EMailTabPickerProps *props = t->data;
 
       if (props->docked)
-        continue;
+	continue;
       if (props->position + props->width < offset)
-        continue;
+	continue;
       if (props->position > width + offset)
-        break;
+	break;
 
       if (CLUTTER_ACTOR_IS_MAPPED (props->tab))
-        clutter_actor_paint (CLUTTER_ACTOR (props->tab));
+	clutter_actor_paint (CLUTTER_ACTOR (props->tab));
     }
 
   cogl_translate (priv->scroll_offset, 0, 0);
@@ -325,15 +325,15 @@ e_mail_tab_picker_paint (ClutterActor *actor)
   if (priv->docked_tabs)
     {
       for (t = priv->tabs; t; t = t->next)
-        {
-          EMailTabPickerProps *props = t->data;
+	{
+	  EMailTabPickerProps *props = t->data;
 
-          if (!props->docked)
-            continue;
+	  if (!props->docked)
+	    continue;
 
-          if (CLUTTER_ACTOR_IS_MAPPED (props->tab))
-            clutter_actor_paint (CLUTTER_ACTOR (props->tab));
-        }
+	  if (CLUTTER_ACTOR_IS_MAPPED (props->tab))
+	    clutter_actor_paint (CLUTTER_ACTOR (props->tab));
+	}
     }
 
   cogl_clip_pop ();
@@ -347,16 +347,16 @@ e_mail_tab_picker_paint (ClutterActor *actor)
     {
       gfloat height;
       clutter_actor_get_preferred_height (CLUTTER_ACTOR (priv->close_button),
-                                          -1, NULL, &height);
+					  -1, NULL, &height);
       height *= priv->preview_progress;
       if (height >= 1.0)
-        {
-          cogl_clip_push_rectangle (0, 0, width, height);
-          if (CLUTTER_ACTOR_IS_MAPPED (priv->close_button))
-            clutter_actor_paint (CLUTTER_ACTOR (priv->close_button));
-          clutter_actor_paint (CLUTTER_ACTOR (priv->scroll_bar));
-          cogl_clip_pop ();
-        }
+	{
+	  cogl_clip_push_rectangle (0, 0, width, height);
+	  if (CLUTTER_ACTOR_IS_MAPPED (priv->close_button))
+	    clutter_actor_paint (CLUTTER_ACTOR (priv->close_button));
+	  clutter_actor_paint (CLUTTER_ACTOR (priv->scroll_bar));
+	  cogl_clip_pop ();
+	}
     }
 }
 
@@ -385,7 +385,7 @@ e_mail_tab_picker_get_preferred_width (ClutterActor *actor,
   EMailTabPickerPrivate *priv = E_MAIL_TAB_PICKER (actor)->priv;
 
   clutter_actor_get_preferred_width (CLUTTER_ACTOR (priv->chooser_button),
-                                     for_height, min_width_p, natural_width_p);
+				     for_height, min_width_p, natural_width_p);
 
   mx_widget_get_padding (MX_WIDGET (actor), &padding);
   if (min_width_p)
@@ -400,7 +400,7 @@ e_mail_tab_picker_get_preferred_width (ClutterActor *actor,
       EMailTabPickerProps *props = t->data;
 
       clutter_actor_get_preferred_width (CLUTTER_ACTOR (props->tab), for_height,
-                                         &min_width, &natural_width);
+					 &min_width, &natural_width);
 
       if (min_width_p && !t->prev)
         *min_width_p += min_width;
@@ -422,7 +422,7 @@ e_mail_tab_picker_get_preferred_height (EMailTabPicker *tab_picker,
   EMailTabPickerPrivate *priv = tab_picker->priv;
 
   clutter_actor_get_preferred_height (CLUTTER_ACTOR (priv->chooser_button),
-                                     for_width, min_height_p, natural_height_p);
+				     for_width, min_height_p, natural_height_p);
 
   if (priv->tabs)
     {
@@ -434,25 +434,25 @@ e_mail_tab_picker_get_preferred_height (EMailTabPicker *tab_picker,
        * fixed height.
        */
       if (with_previews)
-        {
-          clutter_actor_get_preferred_height (CLUTTER_ACTOR (props->tab),
-                                              for_width,
-                                              &min_height,
-                                              &natural_height);
-          if (CLUTTER_ACTOR_IS_VISIBLE (priv->scroll_bar))
-            {
+	{
+	  clutter_actor_get_preferred_height (CLUTTER_ACTOR (props->tab),
+					      for_width,
+					      &min_height,
+					      &natural_height);
+	  if (CLUTTER_ACTOR_IS_VISIBLE (priv->scroll_bar))
+	    {
               /* Add the height of the scrollbar-section */
-              clutter_actor_get_preferred_height (
-                CLUTTER_ACTOR (priv->close_button), -1, NULL, &scroll_height);
-              scroll_height *= priv->preview_progress;
+	      clutter_actor_get_preferred_height (
+		CLUTTER_ACTOR (priv->close_button), -1, NULL, &scroll_height);
+	      scroll_height *= priv->preview_progress;
 
-              min_height += scroll_height;
-              natural_height += scroll_height;
-            }
-        }
+	      min_height += scroll_height;
+	      natural_height += scroll_height;
+	    }
+	}
       else
-        e_mail_tab_get_height_no_preview (props->tab, for_width,
-                                       &min_height, &natural_height);
+	e_mail_tab_get_height_no_preview (props->tab, for_width,
+				       &min_height, &natural_height);
 
       if (min_height_p && (*min_height_p < min_height))
         *min_height_p = min_height;
@@ -474,7 +474,7 @@ _e_mail_tab_picker_get_preferred_height (ClutterActor *actor,
                                       gfloat       *natural_height_p)
 {
   e_mail_tab_picker_get_preferred_height (E_MAIL_TAB_PICKER (actor), for_width,
-                                       min_height_p, natural_height_p, TRUE);
+				       min_height_p, natural_height_p, TRUE);
 }
 
 static void
@@ -493,13 +493,13 @@ e_mail_tab_picker_allocate_docked (EMailTabPicker           *tab_picker,
   if (!picker_box_p)
     {
       clutter_actor_get_allocation_box (CLUTTER_ACTOR (tab_picker),
-                                        &picker_box);
+					&picker_box);
       picker_box_p = &picker_box;
     }
   if (!chooser_box_p)
     {
       clutter_actor_get_allocation_box (CLUTTER_ACTOR (priv->chooser_button),
-                                        &chooser_box);
+					&chooser_box);
       chooser_box_p = &chooser_box;
     }
 
@@ -528,31 +528,31 @@ e_mail_tab_picker_allocate_docked (EMailTabPicker           *tab_picker,
       props->docked = FALSE;
 
       if (!props->docking)
-        continue;
+	continue;
 
       if (props->position < offset)
-        {
+	{
           /* Dock left */
-          priv->docked_tabs = TRUE;
-          props->docked = TRUE;
-          child_box.x1 = left;
-          child_box.x2 = child_box.x1 + props->width;
-          left += props->width;
-        }
+	  priv->docked_tabs = TRUE;
+	  props->docked = TRUE;
+	  child_box.x1 = left;
+	  child_box.x2 = child_box.x1 + props->width;
+	  left += props->width;
+	}
       else if (props->position + props->width > width + offset)
-        {
+	{
           /* Dock right */
-          priv->docked_tabs = TRUE;
-          props->docked = TRUE;
-          child_box.x2 = right;
-          child_box.x1 = child_box.x2 - props->width;
-          right -= props->width;
-        }
+	  priv->docked_tabs = TRUE;
+	  props->docked = TRUE;
+	  child_box.x2 = right;
+	  child_box.x1 = child_box.x2 - props->width;
+	  right -= props->width;
+	}
       else
-        {
-          child_box.x1 = props->position;
-          child_box.x2 = child_box.x1 + props->width;
-        }
+	{
+	  child_box.x1 = props->position;
+	  child_box.x2 = child_box.x1 + props->width;
+	}
 
       clutter_actor_allocate (CLUTTER_ACTOR (props->tab), &child_box, flags);
     }
@@ -567,7 +567,7 @@ e_mail_tab_picker_scroll_new_frame_cb (ClutterTimeline *timeline,
   gdouble alpha = clutter_alpha_get_alpha (priv->scroll_alpha);
 
   priv->scroll_offset = (priv->scroll_start * (1.0 - alpha)) +
-                        (priv->scroll_end * alpha);
+			(priv->scroll_end * alpha);
   mx_adjustment_set_value (priv->scroll_adjustment, priv->scroll_offset);
   e_mail_tab_picker_allocate_docked (tab_picker, NULL, NULL, 0);
   clutter_actor_queue_redraw (CLUTTER_ACTOR (tab_picker));
@@ -609,17 +609,17 @@ e_mail_tab_picker_scroll_to (EMailTabPicker *tab_picker,
   else
     {
       if (priv->scroll_end == priv->scroll_offset)
-        return;
+	return;
 
       priv->scroll_timeline = clutter_timeline_new (duration);
       priv->scroll_alpha = clutter_alpha_new_full (priv->scroll_timeline,
-                                                   CLUTTER_EASE_OUT_QUAD);
+						   CLUTTER_EASE_OUT_QUAD);
       g_signal_connect (priv->scroll_timeline, "new_frame",
-                        G_CALLBACK (e_mail_tab_picker_scroll_new_frame_cb),
-                        tab_picker);
+			G_CALLBACK (e_mail_tab_picker_scroll_new_frame_cb),
+			tab_picker);
       g_signal_connect (priv->scroll_timeline, "completed",
-                        G_CALLBACK (e_mail_tab_picker_scroll_completed_cb),
-                        tab_picker);
+			G_CALLBACK (e_mail_tab_picker_scroll_completed_cb),
+			tab_picker);
     }
 
   clutter_timeline_start (priv->scroll_timeline);
@@ -643,14 +643,14 @@ e_mail_tab_picker_allocate (ClutterActor           *actor,
 
   /* Allocate for scroll-bar and close button */
   clutter_actor_get_preferred_size (CLUTTER_ACTOR (priv->close_button),
-                                    NULL, NULL, &width, &height);
+				    NULL, NULL, &width, &height);
   child_box.x1 = 0;
   child_box.x2 = box->x2 - box->x1 - padding.right;
   child_box.y1 = 0;
   child_box.y2 = child_box.y1 + height;
   clutter_actor_allocate (CLUTTER_ACTOR (priv->close_button),
-                          &child_box,
-                          flags);
+			  &child_box,
+			  flags);
 
   /* FIXME: Make this a property */
 #define SPACING 4.0
@@ -685,9 +685,9 @@ e_mail_tab_picker_allocate (ClutterActor           *actor,
 
       /* Don't stretch tabs without a preview to fit tabs with a preview */
       if (e_mail_tab_get_preview_actor (props->tab))
-        child_box.y2 = box->y2 - box->y1 - padding.bottom;
+	child_box.y2 = box->y2 - box->y1 - padding.bottom;
       else
-        child_box.y2 = child_box.y1 + height;
+	child_box.y2 = child_box.y1 + height;
 
       child_box.x2 = child_box.x1 + width;
       clutter_actor_allocate (actor, &child_box, flags);
@@ -697,14 +697,14 @@ e_mail_tab_picker_allocate (ClutterActor           *actor,
 
   /* Allocate for the chooser button */
   clutter_actor_get_preferred_width (CLUTTER_ACTOR (priv->chooser_button),
-                                     box->y2 - box->y1, NULL, &width);
+				     box->y2 - box->y1, NULL, &width);
 
   child_box.x2 = box->x2 - box->x1 - padding.right;
   child_box.x1 = child_box.x2 - width;
   child_box.y1 = 0;
   child_box.y2 = child_box.y1 + height;
   clutter_actor_allocate (CLUTTER_ACTOR (priv->chooser_button),
-                          &child_box, flags);
+			  &child_box, flags);
 
   /* Cache some useful size values */
   priv->width = (gint)(box->x2 - box->x1);
@@ -713,7 +713,7 @@ e_mail_tab_picker_allocate (ClutterActor           *actor,
 
   old_max_offset = priv->max_offset;
   priv->max_offset = priv->total_width - priv->width +
-                     (gint)(child_box.x2 - child_box.x1);
+		     (gint)(child_box.x2 - child_box.x1);
   if (priv->max_offset < 0)
     priv->max_offset = 0;
 
@@ -731,12 +731,12 @@ e_mail_tab_picker_allocate (ClutterActor           *actor,
                 "page-increment", (gdouble)(box->x2 - box->x1),
                 "page-size", (gdouble)(box->x2 - box->x1),
                 "upper", (gdouble)total_width,
-                NULL);
+		NULL);
 
   if ((priv->max_offset != old_max_offset) ||
       (priv->scroll_offset != old_scroll_offset))
     mx_adjustment_set_value (priv->scroll_adjustment,
-                             (gdouble)priv->scroll_offset);
+			     (gdouble)priv->scroll_offset);
 
   /* Allocate for scroll-bar */
   clutter_actor_allocate (CLUTTER_ACTOR (priv->scroll_bar), &scroll_box, flags);
@@ -745,11 +745,11 @@ e_mail_tab_picker_allocate (ClutterActor           *actor,
   if (priv->keep_current_visible)
     {
       EMailTabPickerProps *current =
-        g_list_nth_data (priv->tabs, priv->current_tab);
+	g_list_nth_data (priv->tabs, priv->current_tab);
 
       if ((current->position < priv->scroll_offset) ||
-          (current->position + current->width >= priv->max_offset))
-        e_mail_tab_picker_scroll_to (tab_picker, current->position, 150);
+	  (current->position + current->width >= priv->max_offset))
+	e_mail_tab_picker_scroll_to (tab_picker, current->position, 150);
     }
 }
 
@@ -813,38 +813,38 @@ e_mail_tab_picker_class_init (EMailTabPickerClass *klass)
   actor_class->unmap = e_mail_tab_picker_unmap;
 
   g_object_class_install_property (object_class,
-                                   PROP_PREVIEW_MODE,
+				   PROP_PREVIEW_MODE,
                                    g_param_spec_boolean ("preview-mode",
                                                          "Preview mode",
                                                          "Whether to display "
                                                          "in preview mode.",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+							 FALSE,
+							 G_PARAM_READWRITE |
+							 G_PARAM_STATIC_NAME |
+							 G_PARAM_STATIC_NICK |
+							 G_PARAM_STATIC_BLURB));
 
   g_object_class_override_property (object_class,
-                                    PROP_DROP_ENABLED,
+				    PROP_DROP_ENABLED,
                                     "drop-enabled");
 
   signals[TAB_ACTIVATED] =
     g_signal_new ("tab-activated",
-                  G_TYPE_FROM_CLASS (klass),
-                  G_SIGNAL_RUN_LAST,
-                  G_STRUCT_OFFSET (EMailTabPickerClass, tab_activated),
-                  NULL, NULL,
-                  g_cclosure_marshal_VOID__OBJECT,
-                  G_TYPE_NONE, 1, E_MAIL_TYPE_TAB);
+		  G_TYPE_FROM_CLASS (klass),
+		  G_SIGNAL_RUN_LAST,
+		  G_STRUCT_OFFSET (EMailTabPickerClass, tab_activated),
+		  NULL, NULL,
+		  g_cclosure_marshal_VOID__OBJECT,
+		  G_TYPE_NONE, 1, E_MAIL_TYPE_TAB);
 
   signals[CHOOSER_CLICKED] =
     g_signal_new ("chooser-clicked",
-                  G_TYPE_FROM_CLASS (klass),
-                  G_SIGNAL_RUN_LAST,
-                  G_STRUCT_OFFSET (EMailTabPickerClass, chooser_clicked),
-                  NULL, NULL,
-                  g_cclosure_marshal_VOID__VOID,
-                  G_TYPE_NONE, 0);
+		  G_TYPE_FROM_CLASS (klass),
+		  G_SIGNAL_RUN_LAST,
+		  G_STRUCT_OFFSET (EMailTabPickerClass, chooser_clicked),
+		  NULL, NULL,
+		  g_cclosure_marshal_VOID__VOID,
+		  G_TYPE_NONE, 0);
 }
 
 static void
@@ -907,28 +907,28 @@ e_mail_tab_picker_init (EMailTabPicker *self)
   clutter_actor_set_name (CLUTTER_ACTOR (priv->chooser_button),
                           "chooser-button");
   clutter_actor_set_parent (CLUTTER_ACTOR (priv->chooser_button),
-                            CLUTTER_ACTOR (self));
+			    CLUTTER_ACTOR (self));
 
   priv->close_button = mx_button_new ();
   clutter_actor_set_name (CLUTTER_ACTOR (priv->close_button),
                           "chooser-close-button");
   clutter_actor_set_parent (CLUTTER_ACTOR (priv->close_button),
-                            CLUTTER_ACTOR (self));
+			    CLUTTER_ACTOR (self));
   clutter_actor_hide (CLUTTER_ACTOR (priv->close_button));
 
   priv->scroll_adjustment = mx_adjustment_new_with_values (0, 0, 0, 100, 200, 200);
   priv->scroll_bar = mx_scroll_bar_new_with_adjustment (priv->scroll_adjustment);
   g_object_unref (priv->scroll_adjustment);
   clutter_actor_set_parent (CLUTTER_ACTOR (priv->scroll_bar),
-                            CLUTTER_ACTOR (self));
+			    CLUTTER_ACTOR (self));
   clutter_actor_hide (CLUTTER_ACTOR (priv->scroll_bar));
 
   g_signal_connect (priv->chooser_button, "clicked",
-                    G_CALLBACK (e_mail_tab_picker_chooser_clicked_cb), self);
+		    G_CALLBACK (e_mail_tab_picker_chooser_clicked_cb), self);
   g_signal_connect (priv->close_button, "clicked",
-                    G_CALLBACK (e_mail_tab_picker_chooser_clicked_cb), self);
+		    G_CALLBACK (e_mail_tab_picker_chooser_clicked_cb), self);
   g_signal_connect (self, "scroll-event",
-                    G_CALLBACK (e_mail_tab_picker_scroll_event_cb), NULL);
+		    G_CALLBACK (e_mail_tab_picker_scroll_event_cb), NULL);
 }
 
 static gint
@@ -950,7 +950,7 @@ e_mail_tab_picker_tab_clicked_cb (EMailTab *tab, EMailTabPicker *self)
   EMailTab *old_tab =
     ((EMailTabPickerProps *)g_list_nth_data (priv->tabs, priv->current_tab))->tab;
   GList *new_tab_link = g_list_find_custom (priv->tabs, tab,
-                                            e_mail_tab_picker_find_tab_cb);
+					    e_mail_tab_picker_find_tab_cb);
 
   if (!new_tab_link)
     return;
@@ -962,7 +962,7 @@ e_mail_tab_picker_tab_clicked_cb (EMailTab *tab, EMailTabPicker *self)
     {
       e_mail_tab_set_active (tab, TRUE);
       if (priv->preview_mode)
-        g_signal_emit (self, signals[TAB_ACTIVATED], 0, tab);
+	g_signal_emit (self, signals[TAB_ACTIVATED], 0, tab);
       return;
     }
 
@@ -1032,11 +1032,11 @@ e_mail_tab_picker_add_tab (EMailTabPicker *picker, EMailTab *tab, gint position)
   mx_draggable_set_axis (MX_DRAGGABLE (tab), MX_DRAG_AXIS_X);
 
   g_signal_connect_after (tab, "clicked",
-                          G_CALLBACK (e_mail_tab_picker_tab_clicked_cb), picker);
+			  G_CALLBACK (e_mail_tab_picker_tab_clicked_cb), picker);
   g_signal_connect (tab, "drag-begin",
-                    G_CALLBACK (e_mail_tab_picker_tab_drag_begin_cb), picker);
+		    G_CALLBACK (e_mail_tab_picker_tab_drag_begin_cb), picker);
   g_signal_connect (tab, "drag-end",
-                    G_CALLBACK (e_mail_tab_picker_tab_drag_end_cb), picker);
+		    G_CALLBACK (e_mail_tab_picker_tab_drag_end_cb), picker);
 
   e_mail_tab_set_preview_mode (tab, priv->preview_mode);
   clutter_actor_queue_relayout (CLUTTER_ACTOR (picker));
@@ -1054,14 +1054,14 @@ e_mail_tab_picker_remove_tab (EMailTabPicker *picker, EMailTab *tab)
     return;
 
   g_signal_handlers_disconnect_by_func (tab,
-                                        e_mail_tab_picker_tab_clicked_cb,
-                                        picker);
+					e_mail_tab_picker_tab_clicked_cb,
+					picker);
   g_signal_handlers_disconnect_by_func (tab,
-                                        e_mail_tab_picker_tab_drag_begin_cb,
-                                        picker);
+					e_mail_tab_picker_tab_drag_begin_cb,
+					picker);
   g_signal_handlers_disconnect_by_func (tab,
-                                        e_mail_tab_picker_tab_drag_end_cb,
-                                        picker);
+					e_mail_tab_picker_tab_drag_end_cb,
+					picker);
 
   /* We don't want to do this during dispose, checking if chooser_button
    * exists is a way of checking if we're in dispose without keeping an
@@ -1071,17 +1071,17 @@ e_mail_tab_picker_remove_tab (EMailTabPicker *picker, EMailTab *tab)
     {
       gint position = g_list_position (priv->tabs, tab_link);
       if (priv->current_tab)
-        {
-          if (priv->current_tab > position)
-            priv->current_tab--;
-          else if (priv->current_tab == position)
-            e_mail_tab_picker_set_current_tab (picker, priv->current_tab - 1);
-        }
+	{
+	  if (priv->current_tab > position)
+	    priv->current_tab--;
+	  else if (priv->current_tab == position)
+	    e_mail_tab_picker_set_current_tab (picker, priv->current_tab - 1);
+	}
       else if (priv->tabs->next && (position == 0))
-        {
-          e_mail_tab_picker_set_current_tab (picker, priv->current_tab + 1);
-          priv->current_tab--;
-        }
+	{
+	  e_mail_tab_picker_set_current_tab (picker, priv->current_tab + 1);
+	  priv->current_tab--;
+	}
     }
 
   g_slice_free (EMailTabPickerProps, tab_link->data);
@@ -1120,7 +1120,7 @@ gint
 e_mail_tab_picker_get_tab_no (EMailTabPicker *picker, EMailTab *tab)
 {
   GList *tab_link = g_list_find_custom (picker->priv->tabs, tab,
-                                        e_mail_tab_picker_find_tab_cb);
+					e_mail_tab_picker_find_tab_cb);
   return g_list_position (picker->priv->tabs, tab_link);
 }
 
@@ -1178,15 +1178,15 @@ e_mail_tab_picker_reorder (EMailTabPicker *picker,
   if (priv->current_tab == old_position)
     {
       if (new_position < 0)
-        priv->current_tab = priv->n_tabs - 1;
+	priv->current_tab = priv->n_tabs - 1;
       else
-        priv->current_tab = CLAMP (new_position, 0, priv->n_tabs - 1);
+	priv->current_tab = CLAMP (new_position, 0, priv->n_tabs - 1);
     }
   else if ((priv->current_tab > old_position) &&
-           (new_position >= priv->current_tab))
+	   (new_position >= priv->current_tab))
     priv->current_tab--;
   else if ((priv->current_tab < old_position) &&
-           (new_position <= priv->current_tab))
+	   (new_position <= priv->current_tab))
     priv->current_tab++;
 
   clutter_actor_queue_relayout (CLUTTER_ACTOR (picker));
@@ -1219,16 +1219,16 @@ preview_completed_cb (ClutterTimeline *timeline,
       priv->preview_timeline = NULL;
 
       if (priv->preview_mode)
-        {
-          priv->preview_progress = 1.0;
-          clutter_actor_hide (CLUTTER_ACTOR (priv->chooser_button));
-        }
+	{
+	  priv->preview_progress = 1.0;
+	  clutter_actor_hide (CLUTTER_ACTOR (priv->chooser_button));
+	}
       else
-        {
-          priv->preview_progress = 0.0;
-          clutter_actor_hide (CLUTTER_ACTOR (priv->scroll_bar));
-          clutter_actor_hide (CLUTTER_ACTOR (priv->close_button));
-        }
+	{
+	  priv->preview_progress = 0.0;
+	  clutter_actor_hide (CLUTTER_ACTOR (priv->scroll_bar));
+	  clutter_actor_hide (CLUTTER_ACTOR (priv->close_button));
+	}
       clutter_actor_queue_relayout (CLUTTER_ACTOR (picker));
     }
 }
@@ -1256,35 +1256,35 @@ e_mail_tab_picker_set_preview_mode (EMailTabPicker *picker, gboolean preview)
   if (!priv->preview_timeline)
     {
       if (preview)
-        clutter_actor_show (CLUTTER_ACTOR (priv->scroll_bar));
+	clutter_actor_show (CLUTTER_ACTOR (priv->scroll_bar));
 
       priv->preview_timeline = clutter_timeline_new (150);
       g_signal_connect (priv->preview_timeline, "new-frame",
-                        G_CALLBACK (preview_new_frame_cb), picker);
+			G_CALLBACK (preview_new_frame_cb), picker);
       g_signal_connect (priv->preview_timeline, "completed",
-                        G_CALLBACK (preview_completed_cb), picker);
+			G_CALLBACK (preview_completed_cb), picker);
       clutter_timeline_start (priv->preview_timeline);
     }
   clutter_timeline_set_direction (priv->preview_timeline,
-                                  preview ? CLUTTER_TIMELINE_FORWARD :
-                                            CLUTTER_TIMELINE_BACKWARD);
+				  preview ? CLUTTER_TIMELINE_FORWARD :
+					    CLUTTER_TIMELINE_BACKWARD);
 
   /* Connect/disconnect the scrollbar */
   if (preview)
     g_signal_connect (priv->scroll_adjustment, "notify::value",
-                      G_CALLBACK (e_mail_tab_picker_scroll_value_cb), picker);
+		      G_CALLBACK (e_mail_tab_picker_scroll_value_cb), picker);
   else
     g_signal_handlers_disconnect_by_func (priv->scroll_adjustment,
-                                          e_mail_tab_picker_scroll_value_cb,
-                                          picker);
+					  e_mail_tab_picker_scroll_value_cb,
+					  picker);
 
   if (preview)
     {
       /* Fade out the chooser button show close button */
       clutter_actor_animate (CLUTTER_ACTOR (priv->chooser_button),
-                             CLUTTER_EASE_IN_OUT_QUAD, 150,
+			     CLUTTER_EASE_IN_OUT_QUAD, 150,
                              "opacity", 0x00,
-                             NULL);
+			     NULL);
       clutter_actor_show (CLUTTER_ACTOR (priv->close_button));
     }
   else
@@ -1292,16 +1292,16 @@ e_mail_tab_picker_set_preview_mode (EMailTabPicker *picker, gboolean preview)
       /* Fade in the chooser button */
       clutter_actor_show (CLUTTER_ACTOR (priv->chooser_button));
       clutter_actor_animate (CLUTTER_ACTOR (priv->chooser_button),
-                             CLUTTER_EASE_IN_OUT_QUAD, 150,
+			     CLUTTER_EASE_IN_OUT_QUAD, 150,
                              "opacity", 0xff,
-                             NULL);
+			     NULL);
     }
   clutter_actor_set_reactive (CLUTTER_ACTOR (priv->chooser_button), !preview);
 
   /* Remove the hover state, which likely got stuck when we clicked it */
   if (!preview)
     mx_stylable_set_style_pseudo_class (MX_STYLABLE (priv->chooser_button),
-                                        NULL);
+					NULL);
 
   g_object_notify (G_OBJECT (picker), "preview-mode");
 }

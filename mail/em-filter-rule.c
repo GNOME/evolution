@@ -116,7 +116,7 @@ em_filter_rule_finalise (GObject *obj)
 	unref_list (ff->actions);
 	g_list_free (ff->actions);
 
-        G_OBJECT_CLASS (parent_class)->finalize (obj);
+	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /**
@@ -209,7 +209,7 @@ list_eq (GList *al, GList *bl)
 static gint
 filter_eq (EFilterRule *fr, EFilterRule *cm)
 {
-        return E_FILTER_RULE_CLASS (parent_class)->eq (fr, cm)
+	return E_FILTER_RULE_CLASS (parent_class)->eq (fr, cm)
 		&& list_eq (((EMFilterRule *)fr)->actions,((EMFilterRule *)cm)->actions);
 }
 
@@ -220,7 +220,7 @@ xml_encode (EFilterRule *fr)
 	xmlNodePtr node, set, work;
 	GList *l;
 
-        node = E_FILTER_RULE_CLASS (parent_class)->xml_encode (fr);
+	node = E_FILTER_RULE_CLASS (parent_class)->xml_encode (fr);
 	g_return_val_if_fail (node != NULL, NULL);
 	set = xmlNewNode(NULL, (const guchar *)"actionset");
 	xmlAddChild (node, set);
@@ -269,7 +269,7 @@ xml_decode (EFilterRule *fr, xmlNodePtr node, ERuleContext *rc)
 	xmlNodePtr work;
 	gint result;
 
-        result = E_FILTER_RULE_CLASS (parent_class)->xml_decode (fr, node, rc);
+	result = E_FILTER_RULE_CLASS (parent_class)->xml_decode (fr, node, rc);
 	if (result != 0)
 		return result;
 
@@ -313,7 +313,7 @@ rule_copy (EFilterRule *dest, EFilterRule *src)
 
 /*static void build_code(EFilterRule *fr, GString *out)
 {
-        return FILTER_RULE_CLASS (parent_class)->build_code (fr, out);
+	return FILTER_RULE_CLASS (parent_class)->build_code (fr, out);
 }*/
 
 struct _part_data {
@@ -530,7 +530,7 @@ get_widget (EFilterRule *fr, ERuleContext *rc)
 	gint rows, i = 0;
 	gchar *msg;
 
-        widget = E_FILTER_RULE_CLASS (parent_class)->get_widget (fr, rc);
+	widget = E_FILTER_RULE_CLASS (parent_class)->get_widget (fr, rc);
 
 	/* and now for the action area */
 	msg = g_strdup_printf("<b>%s</b>", _("Then"));

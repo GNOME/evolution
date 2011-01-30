@@ -148,7 +148,7 @@ e_mail_tab_drag_begin (MxDraggable         *draggable,
       clutter_actor_set_opacity (actor, 0x00);
       clutter_actor_animate (actor, CLUTTER_LINEAR, 150,
                              "opacity", 0xff,
-                             NULL);
+			     NULL);
     }
   clutter_container_add_actor (CLUTTER_CONTAINER (stage), actor);
 }
@@ -188,24 +188,24 @@ e_mail_tab_drag_end (MxDraggable *draggable,
     {
       ClutterActor *parent = clutter_actor_get_parent (priv->drag_actor);
       if (parent)
-        {
+	{
           /* Animate drop */
-          if (CLUTTER_IS_TEXTURE (priv->drag_actor))
-            {
+	  if (CLUTTER_IS_TEXTURE (priv->drag_actor))
+	    {
               /* TODO: Some neat deformation effect? */
-              clutter_container_remove_actor (CLUTTER_CONTAINER (parent),
-                                              priv->drag_actor);
-            }
-          else
-            {
-              clutter_actor_animate (priv->drag_actor, CLUTTER_LINEAR, 150,
+	      clutter_container_remove_actor (CLUTTER_CONTAINER (parent),
+					      priv->drag_actor);
+	    }
+	  else
+	    {
+	      clutter_actor_animate (priv->drag_actor, CLUTTER_LINEAR, 150,
                                      "opacity", 0x00,
                                      "signal::completed",
-                                       G_CALLBACK (e_mail_tab_drag_end_anim_cb),
-                                       self,
-                                     NULL);
-            }
-        }
+				       G_CALLBACK (e_mail_tab_drag_end_anim_cb),
+				       self,
+				     NULL);
+	    }
+	}
       g_object_unref (priv->drag_actor);
       priv->drag_actor = NULL;
     }
@@ -294,21 +294,21 @@ e_mail_tab_get_property (GObject *object, guint property_id,
 
     case PROP_DRAG_ACTOR:
       if (!priv->drag_actor)
-        {
-          ClutterActor *fbo =
+	{
+	  ClutterActor *fbo =
             /*clutter_texture_new_from_actor (CLUTTER_ACTOR (tab));*/
-            NULL;
-          if (fbo)
-            {
+	    NULL;
+	  if (fbo)
+	    {
               /* This is where we'd setup deformations, or something along
                * those lines.
                */
-              priv->drag_actor = g_object_ref_sink (fbo);
-            }
-          else
-            priv->drag_actor =
-              g_object_ref_sink (clutter_clone_new (CLUTTER_ACTOR (tab)));
-        }
+	      priv->drag_actor = g_object_ref_sink (fbo);
+	    }
+	  else
+	    priv->drag_actor =
+	      g_object_ref_sink (clutter_clone_new (CLUTTER_ACTOR (tab)));
+	}
       g_value_set_object (value, priv->drag_actor);
       break;
 
@@ -347,7 +347,7 @@ e_mail_tab_set_property (GObject *object, guint property_id,
 
     case PROP_PREVIEW:
       e_mail_tab_set_preview_actor (tab,
-                                 CLUTTER_ACTOR (g_value_get_object (value)));
+				 CLUTTER_ACTOR (g_value_get_object (value)));
       break;
 
     case PROP_PREVIEW_MODE:
@@ -383,14 +383,14 @@ e_mail_tab_set_property (GObject *object, guint property_id,
 
     case PROP_DRAG_CONTAINMENT_AREA:
       {
-        ClutterActorBox *box = g_value_get_boxed (value);
+	ClutterActorBox *box = g_value_get_boxed (value);
 
-        if (box)
-          priv->drag_area = *box;
-        else
-          memset (&priv->drag_area, 0, sizeof (ClutterActorBox));
+	if (box)
+	  priv->drag_area = *box;
+	else
+	  memset (&priv->drag_area, 0, sizeof (ClutterActorBox));
 
-        break;
+	break;
       }
 
     case PROP_DRAG_ENABLED:
@@ -399,25 +399,25 @@ e_mail_tab_set_property (GObject *object, guint property_id,
 
     case PROP_DRAG_ACTOR:
       {
-        ClutterActor *new_actor = g_value_get_object (value);
+	ClutterActor *new_actor = g_value_get_object (value);
 
-        if (priv->drag_actor)
-          {
-            ClutterActor *parent = clutter_actor_get_parent (priv->drag_actor);
+	if (priv->drag_actor)
+	  {
+	    ClutterActor *parent = clutter_actor_get_parent (priv->drag_actor);
 
             /* We know it's a container because we added it ourselves */
-            if (parent)
-              clutter_container_remove_actor (CLUTTER_CONTAINER (parent),
-                                              priv->drag_actor);
+	    if (parent)
+	      clutter_container_remove_actor (CLUTTER_CONTAINER (parent),
+					      priv->drag_actor);
 
-            g_object_unref (priv->drag_actor);
-            priv->drag_actor = NULL;
-          }
+	    g_object_unref (priv->drag_actor);
+	    priv->drag_actor = NULL;
+	  }
 
-        if (new_actor)
-          priv->drag_actor = g_object_ref_sink (new_actor);
+	if (new_actor)
+	  priv->drag_actor = g_object_ref_sink (new_actor);
 
-        break;
+	break;
       }
 
     default:
@@ -433,7 +433,7 @@ e_mail_tab_dispose_old_bg (EMailTab *tab)
   if (priv->old_bg)
     {
       if (clutter_actor_get_parent (priv->old_bg) == (ClutterActor *)tab)
-        clutter_actor_unparent (priv->old_bg);
+	clutter_actor_unparent (priv->old_bg);
       g_object_unref (priv->old_bg);
       priv->old_bg = NULL;
     }
@@ -487,8 +487,8 @@ e_mail_tab_dispose (GObject *object)
     {
       ClutterActor *parent = clutter_actor_get_parent (priv->drag_actor);
       if (parent)
-        clutter_container_remove_actor (CLUTTER_CONTAINER (parent),
-                                        priv->drag_actor);
+	clutter_container_remove_actor (CLUTTER_CONTAINER (parent),
+					priv->drag_actor);
       g_object_unref (priv->drag_actor);
       priv->drag_actor = NULL;
     }
@@ -496,7 +496,7 @@ e_mail_tab_dispose (GObject *object)
   if (priv->drag_threshold_handler)
     {
       g_signal_handler_disconnect (gtk_settings_get_default (),
-                                   priv->drag_threshold_handler);
+				   priv->drag_threshold_handler);
       priv->drag_threshold_handler = 0;
     }
 
@@ -537,38 +537,38 @@ e_mail_tab_get_preferred_width (ClutterActor *actor,
       acc_min_width = acc_nat_width = 0;
 
       if (priv->has_text)
-        clutter_actor_get_preferred_size (CLUTTER_ACTOR (priv->label),
-                                          &acc_min_width, NULL,
-                                          &acc_nat_width, NULL);
+	clutter_actor_get_preferred_size (CLUTTER_ACTOR (priv->label),
+					  &acc_min_width, NULL,
+					  &acc_nat_width, NULL);
 
       if (priv->icon)
-        {
-          clutter_actor_get_preferred_size (priv->icon,
-                                            &min_width, NULL,
-                                            &nat_width, NULL);
-          acc_min_width += min_width;
-          acc_nat_width += nat_width;
-        }
+	{
+	  clutter_actor_get_preferred_size (priv->icon,
+					    &min_width, NULL,
+					    &nat_width, NULL);
+	  acc_min_width += min_width;
+	  acc_nat_width += nat_width;
+	}
 
       if (priv->can_close)
-        {
-          clutter_actor_get_preferred_size (CLUTTER_ACTOR (priv->close_button),
-                                            &min_width, NULL,
-                                            &nat_width, NULL);
-          acc_min_width += min_width;
-          acc_nat_width += nat_width;
-        }
+	{
+	  clutter_actor_get_preferred_size (CLUTTER_ACTOR (priv->close_button),
+					    &min_width, NULL,
+					    &nat_width, NULL);
+	  acc_min_width += min_width;
+	  acc_nat_width += nat_width;
+	}
 
       if (priv->preview && priv->preview_mode)
-        {
-          clutter_actor_get_preferred_size (priv->preview,
-                                            &min_width, NULL,
-                                            &nat_width, NULL);
-          if (min_width > acc_min_width)
-            acc_min_width = min_width;
-          if (nat_width > acc_nat_width)
-            acc_nat_width = nat_width;
-        }
+	{
+	  clutter_actor_get_preferred_size (priv->preview,
+					    &min_width, NULL,
+					    &nat_width, NULL);
+	  if (min_width > acc_min_width)
+	    acc_min_width = min_width;
+	  if (nat_width > acc_nat_width)
+	    acc_nat_width = nat_width;
+	}
 
       if (min_width_p)
         *min_width_p += acc_min_width;
@@ -599,26 +599,26 @@ e_mail_tab_get_height_no_preview (EMailTab *tab,
   min_height = nat_height = 0;
   if (priv->has_text)
     clutter_actor_get_preferred_height (CLUTTER_ACTOR (priv->label), -1,
-                                        &min_height, &nat_height);
+					&min_height, &nat_height);
 
   if (priv->icon)
     {
       clutter_actor_get_preferred_height (priv->icon, -1,
-                                          &tmp_min_height, &tmp_nat_height);
+					  &tmp_min_height, &tmp_nat_height);
       if (tmp_min_height > min_height)
-        min_height = tmp_min_height;
+	min_height = tmp_min_height;
       if (tmp_nat_height > nat_height)
-        nat_height = tmp_nat_height;
+	nat_height = tmp_nat_height;
     }
 
   if (priv->can_close)
     {
       clutter_actor_get_preferred_height (CLUTTER_ACTOR (priv->close_button),
-                                          -1, &tmp_min_height, &tmp_nat_height);
+					  -1, &tmp_min_height, &tmp_nat_height);
       if (tmp_min_height > min_height)
-        min_height = tmp_min_height;
+	min_height = tmp_min_height;
       if (tmp_nat_height > nat_height)
-        nat_height = tmp_nat_height;
+	nat_height = tmp_nat_height;
     }
 
   if (min_height_p)
@@ -637,7 +637,7 @@ e_mail_tab_get_preferred_height (ClutterActor *actor,
   EMailTabPrivate *priv = tab->priv;
 
   e_mail_tab_get_height_no_preview (tab, for_width,
-                                 min_height_p, natural_height_p);
+				 min_height_p, natural_height_p);
 
   if (priv->preview)
     {
@@ -648,20 +648,20 @@ e_mail_tab_get_preferred_height (ClutterActor *actor,
       mx_widget_get_padding (MX_WIDGET (actor), &padding);
 
       clutter_actor_get_preferred_height (priv->preview,
-                                          (gfloat)priv->width,
-                                          &min_height,
-                                          &nat_height);
+					  (gfloat)priv->width,
+					  &min_height,
+					  &nat_height);
 
       /* Add label height */
       clutter_actor_get_preferred_height (CLUTTER_ACTOR (priv->label), -1,
-                                          &label_min_height, &label_nat_height);
+					  &label_min_height, &label_nat_height);
 
       min_height = (min_height * priv->preview_height_progress) +
-                   padding.top + padding.bottom + priv->spacing +
-                   label_min_height;
+		   padding.top + padding.bottom + priv->spacing +
+		   label_min_height;
       nat_height = (nat_height * priv->preview_height_progress) +
-                   padding.top + padding.bottom + priv->spacing +
-                   label_nat_height;
+		   padding.top + padding.bottom + priv->spacing +
+		   label_nat_height;
 
       /* Sometimes the preview's natural height will be nan due to
        * keeping of the aspect ratio. This guards against that and stops
@@ -669,7 +669,7 @@ e_mail_tab_get_preferred_height (ClutterActor *actor,
        * minimum height.
        */
       if (isnan (nat_height))
-        nat_height = min_height;
+	nat_height = min_height;
 
       if (min_height_p && (min_height > *min_height_p))
         *min_height_p = min_height;
@@ -686,7 +686,7 @@ e_mail_tab_allocate (ClutterActor           *actor,
   MxPadding padding;
   ClutterActorBox child_box;
   gfloat icon_width, icon_height, label_width, label_height,
-         close_width, close_height, preview_width, preview_height;
+	 close_width, close_height, preview_width, preview_height;
 
   EMailTabPrivate *priv = E_MAIL_TAB (actor)->priv;
 
@@ -697,26 +697,26 @@ e_mail_tab_allocate (ClutterActor           *actor,
   if (priv->in_drag)
     {
       ClutterActor *drag_actor =
-        mx_draggable_get_drag_actor (MX_DRAGGABLE (actor));
+	mx_draggable_get_drag_actor (MX_DRAGGABLE (actor));
 
       if (drag_actor)
-        {
-          gfloat x, y;
-          clutter_actor_get_transformed_position (actor, &x, &y);
-          switch (mx_draggable_get_axis (MX_DRAGGABLE (actor)))
-            {
-            case MX_DRAG_AXIS_X :
+	{
+	  gfloat x, y;
+	  clutter_actor_get_transformed_position (actor, &x, &y);
+	  switch (mx_draggable_get_axis (MX_DRAGGABLE (actor)))
+	    {
+	    case MX_DRAG_AXIS_X :
               /* Synchronise y axis */
-              clutter_actor_set_y (drag_actor, y);
-              break;
-            case MX_DRAG_AXIS_Y :
+	      clutter_actor_set_y (drag_actor, y);
+	      break;
+	    case MX_DRAG_AXIS_Y :
               /* Synchronise x axis */
-              clutter_actor_set_x (drag_actor, x);
-              break;
-            default :
-              break;
-            }
-        }
+	      clutter_actor_set_x (drag_actor, x);
+	      break;
+	    default :
+	      break;
+	    }
+	}
     }
 
   /* Allocate old background texture */
@@ -734,12 +734,12 @@ e_mail_tab_allocate (ClutterActor           *actor,
   /* Get the preferred width/height of the icon, label and close-button first */
   if (priv->icon)
     clutter_actor_get_preferred_size (priv->icon, NULL, NULL,
-                                      &icon_width, &icon_height);
+				      &icon_width, &icon_height);
   clutter_actor_get_preferred_size (CLUTTER_ACTOR (priv->label), NULL, NULL,
-                                    &label_width, &label_height);
+				    &label_width, &label_height);
   if (priv->can_close)
     clutter_actor_get_preferred_size (CLUTTER_ACTOR (priv->close_button),
-                                      NULL, NULL, &close_width, &close_height);
+				      NULL, NULL, &close_width, &close_height);
 
   /* Allocate for icon */
   if (priv->icon)
@@ -759,8 +759,8 @@ e_mail_tab_allocate (ClutterActor           *actor,
       child_box.y1 = E_MAIL_PIXBOUND ((box->y2 - box->y1)/2 - close_height/2);
       child_box.y2 = child_box.y1 + close_height;
       clutter_actor_allocate (CLUTTER_ACTOR (priv->close_button),
-                              &child_box,
-                              flags);
+			      &child_box,
+			      flags);
     }
 
   /* Allocate for preview widget */
@@ -769,7 +769,7 @@ e_mail_tab_allocate (ClutterActor           *actor,
     {
       preview_width = (box->x2 - box->x1 - padding.left - padding.right);
       preview_height = (box->y2 - box->y1 - padding.top - padding.bottom -
-                        priv->spacing - label_height);
+			priv->spacing - label_height);
 
       child_box.x1 = E_MAIL_PIXBOUND (padding.left);
       child_box.y1 = E_MAIL_PIXBOUND (padding.top);
@@ -782,16 +782,16 @@ e_mail_tab_allocate (ClutterActor           *actor,
   if ((priv->preview_height_progress <= TAB_S1_ANIM) || (!priv->preview))
     {
       if (priv->icon)
-        child_box.x1 = E_MAIL_PIXBOUND (padding.left + icon_width + priv->spacing);
+	child_box.x1 = E_MAIL_PIXBOUND (padding.left + icon_width + priv->spacing);
       else
-        child_box.x1 = E_MAIL_PIXBOUND (padding.left);
+	child_box.x1 = E_MAIL_PIXBOUND (padding.left);
       child_box.x2 = (box->x2 - box->x1 - padding.right);
       child_box.y1 = E_MAIL_PIXBOUND ((box->y2 - box->y1)/2 - label_height/2);
       child_box.y2 = child_box.y1 + label_height;
 
       /* If close button is visible, don't overlap it */
       if (priv->can_close)
-        child_box.x2 -= close_width + priv->spacing;
+	child_box.x2 -= close_width + priv->spacing;
     }
   else
     {
@@ -799,7 +799,7 @@ e_mail_tab_allocate (ClutterActor           *actor,
       child_box.x1 = E_MAIL_PIXBOUND (padding.left);
       child_box.x2 = (box->x2 - box->x1 - padding.right);
       child_box.y1 = E_MAIL_PIXBOUND (padding.top + preview_height +
-                                   priv->spacing);
+				   priv->spacing);
       child_box.y2 = child_box.y1 + label_height;
     }
 
@@ -812,23 +812,23 @@ e_mail_tab_allocate (ClutterActor           *actor,
     {
       gfloat max_height = padding.top + padding.bottom + preview_height;
       if (box->y2 - box->y1 > max_height)
-        {
-          MxWidget *widget = MX_WIDGET (actor);
-          ClutterActor *background = mx_widget_get_border_image (widget);
+	{
+	  MxWidget *widget = MX_WIDGET (actor);
+	  ClutterActor *background = mx_widget_get_border_image (widget);
 
-          if (!background)
-            background = mx_widget_get_background_image (widget);
+	  if (!background)
+	    background = mx_widget_get_background_image (widget);
 
-          child_box.x1 = 0;
-          child_box.x2 = box->x2 - box->x1;
-          child_box.y1 = 0;
-          child_box.y2 = max_height;
+	  child_box.x1 = 0;
+	  child_box.x2 = box->x2 - box->x1;
+	  child_box.y1 = 0;
+	  child_box.y2 = max_height;
 
-          if (background)
-            clutter_actor_allocate (background, &child_box, flags);
-          if (priv->old_bg && (priv->old_bg != background))
-            clutter_actor_allocate (priv->old_bg, &child_box, flags);
-        }
+	  if (background)
+	    clutter_actor_allocate (background, &child_box, flags);
+	  if (priv->old_bg && (priv->old_bg != background))
+	    clutter_actor_allocate (priv->old_bg, &child_box, flags);
+	}
     }
 }
 
@@ -934,12 +934,12 @@ e_mail_tab_button_release_event (ClutterActor       *actor,
        * in being set active.
        */
       if (priv->hover)
-        {
-          if (!priv->active)
-            e_mail_tab_set_active (tab, TRUE);
+	{
+	  if (!priv->active)
+	    e_mail_tab_set_active (tab, TRUE);
 
-          g_signal_emit (actor, signals[CLICKED], 0);
-        }
+	  g_signal_emit (actor, signals[CLICKED], 0);
+	}
     }
 
   return FALSE;
@@ -955,20 +955,20 @@ e_mail_tab_motion_event (ClutterActor       *actor,
   if (priv->pressed && priv->drag_enabled)
     {
       if ((ABS (event->x - priv->press_x) >= priv->drag_threshold) ||
-          (ABS (event->y - priv->press_y) >= priv->drag_threshold))
-        {
+	  (ABS (event->y - priv->press_y) >= priv->drag_threshold))
+	{
           /* Ungrab the pointer so that the MxDraggable code can take over */
-          clutter_ungrab_pointer ();
-          priv->pressed = FALSE;
-          if (!priv->active)
-            {
-              if (priv->hover)
-                mx_stylable_set_style_pseudo_class (MX_STYLABLE (actor),
+	  clutter_ungrab_pointer ();
+	  priv->pressed = FALSE;
+	  if (!priv->active)
+	    {
+	      if (priv->hover)
+		mx_stylable_set_style_pseudo_class (MX_STYLABLE (actor),
                                                     "hover");
-              else
-                mx_stylable_set_style_pseudo_class (MX_STYLABLE (actor), NULL);
-            }
-        }
+	      else
+		mx_stylable_set_style_pseudo_class (MX_STYLABLE (actor), NULL);
+	    }
+	}
     }
 
   return FALSE;
@@ -1038,182 +1038,182 @@ e_mail_tab_class_init (EMailTabClass *klass)
   actor_class->unmap = e_mail_tab_unmap;
 
   g_object_class_install_property (object_class,
-                                   PROP_ICON,
+				   PROP_ICON,
                                    g_param_spec_object ("icon",
                                                         "Icon",
                                                         "Icon actor.",
-                                                        CLUTTER_TYPE_ACTOR,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+							CLUTTER_TYPE_ACTOR,
+							G_PARAM_READWRITE |
+							G_PARAM_STATIC_NAME |
+							G_PARAM_STATIC_NICK |
+							G_PARAM_STATIC_BLURB));
 
   g_object_class_install_property (object_class,
-                                   PROP_TEXT,
+				   PROP_TEXT,
                                    g_param_spec_string ("text",
                                                         "Text",
                                                         "Tab text.",
                                                         "",
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+							G_PARAM_READWRITE |
+							G_PARAM_STATIC_NAME |
+							G_PARAM_STATIC_NICK |
+							G_PARAM_STATIC_BLURB));
 
   g_object_class_install_property (object_class,
-                                   PROP_CAN_CLOSE,
+				   PROP_CAN_CLOSE,
                                    g_param_spec_boolean ("can-close",
                                                          "Can close",
                                                          "Whether the tab can "
                                                          "close.",
-                                                         TRUE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+							 TRUE,
+							 G_PARAM_READWRITE |
+							 G_PARAM_STATIC_NAME |
+							 G_PARAM_STATIC_NICK |
+							 G_PARAM_STATIC_BLURB));
 
   g_object_class_install_property (object_class,
-                                   PROP_TAB_WIDTH,
+				   PROP_TAB_WIDTH,
                                    g_param_spec_int ("tab-width",
                                                      "Tab width",
                                                      "Tab width.",
-                                                     -1, G_MAXINT, -1,
-                                                     G_PARAM_READWRITE |
-                                                     G_PARAM_STATIC_NAME |
-                                                     G_PARAM_STATIC_NICK |
-                                                     G_PARAM_STATIC_BLURB));
+						     -1, G_MAXINT, -1,
+						     G_PARAM_READWRITE |
+						     G_PARAM_STATIC_NAME |
+						     G_PARAM_STATIC_NICK |
+						     G_PARAM_STATIC_BLURB));
 
   g_object_class_install_property (object_class,
-                                   PROP_DOCKING,
+				   PROP_DOCKING,
                                    g_param_spec_boolean ("docking",
                                                          "Docking",
                                                          "Whether the tab "
                                                          "should dock to edges "
                                                          "when scrolled.",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+							 FALSE,
+							 G_PARAM_READWRITE |
+							 G_PARAM_STATIC_NAME |
+							 G_PARAM_STATIC_NICK |
+							 G_PARAM_STATIC_BLURB));
 
   g_object_class_install_property (object_class,
-                                   PROP_PREVIEW,
+				   PROP_PREVIEW,
                                    g_param_spec_object ("preview",
                                                         "Preview actor",
                                                         "ClutterActor used "
                                                         "when in preview mode.",
-                                                        CLUTTER_TYPE_ACTOR,
-                                                        G_PARAM_READWRITE |
-                                                        G_PARAM_STATIC_NAME |
-                                                        G_PARAM_STATIC_NICK |
-                                                        G_PARAM_STATIC_BLURB));
+							CLUTTER_TYPE_ACTOR,
+							G_PARAM_READWRITE |
+							G_PARAM_STATIC_NAME |
+							G_PARAM_STATIC_NICK |
+							G_PARAM_STATIC_BLURB));
 
   g_object_class_install_property (object_class,
-                                   PROP_PREVIEW_MODE,
+				   PROP_PREVIEW_MODE,
                                    g_param_spec_boolean ("preview-mode",
                                                          "Preview mode",
                                                          "Whether to display "
                                                          "in preview mode.",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+							 FALSE,
+							 G_PARAM_READWRITE |
+							 G_PARAM_STATIC_NAME |
+							 G_PARAM_STATIC_NICK |
+							 G_PARAM_STATIC_BLURB));
 
   g_object_class_install_property (object_class,
-                                   PROP_PREVIEW_DURATION,
+				   PROP_PREVIEW_DURATION,
                                    g_param_spec_uint ("preview-duration",
                                                       "Preview duration",
                                                       "How long the transition "
                                                       "between preview mode "
                                                       "states lasts, in ms.",
-                                                      0, G_MAXUINT, 200,
-                                                      G_PARAM_READWRITE |
-                                                      G_PARAM_STATIC_NAME |
-                                                      G_PARAM_STATIC_NICK |
-                                                      G_PARAM_STATIC_BLURB));
+						      0, G_MAXUINT, 200,
+						      G_PARAM_READWRITE |
+						      G_PARAM_STATIC_NAME |
+						      G_PARAM_STATIC_NICK |
+						      G_PARAM_STATIC_BLURB));
 
   g_object_class_install_property (object_class,
-                                   PROP_SPACING,
+				   PROP_SPACING,
                                    g_param_spec_float ("spacing",
                                                        "Spacing",
                                                        "Spacing between "
                                                        "tab elements.",
-                                                       0, G_MAXFLOAT,
-                                                       6.0,
-                                                       G_PARAM_READWRITE |
-                                                       G_PARAM_STATIC_NAME |
-                                                       G_PARAM_STATIC_NICK |
-                                                       G_PARAM_STATIC_BLURB));
+						       0, G_MAXFLOAT,
+						       6.0,
+						       G_PARAM_READWRITE |
+						       G_PARAM_STATIC_NAME |
+						       G_PARAM_STATIC_NICK |
+						       G_PARAM_STATIC_BLURB));
 
   g_object_class_install_property (object_class,
-                                   PROP_PRIVATE,
+				   PROP_PRIVATE,
                                    g_param_spec_boolean ("private",
                                                          "Private",
                                                          "Set if the tab is "
                                                          "'private'.",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+							 FALSE,
+							 G_PARAM_READWRITE |
+							 G_PARAM_STATIC_NAME |
+							 G_PARAM_STATIC_NICK |
+							 G_PARAM_STATIC_BLURB));
 
   g_object_class_install_property (object_class,
-                                   PROP_ACTIVE,
+				   PROP_ACTIVE,
                                    g_param_spec_boolean ("active",
                                                          "Active",
                                                          "Set if the tab is "
                                                          "active.",
-                                                         FALSE,
-                                                         G_PARAM_READWRITE |
-                                                         G_PARAM_STATIC_NAME |
-                                                         G_PARAM_STATIC_NICK |
-                                                         G_PARAM_STATIC_BLURB));
+							 FALSE,
+							 G_PARAM_READWRITE |
+							 G_PARAM_STATIC_NAME |
+							 G_PARAM_STATIC_NICK |
+							 G_PARAM_STATIC_BLURB));
 
   g_object_class_override_property (object_class,
-                                    PROP_DRAG_THRESHOLD,
+				    PROP_DRAG_THRESHOLD,
                                     "drag-threshold");
   g_object_class_override_property (object_class,
-                                    PROP_DRAG_AXIS,
+				    PROP_DRAG_AXIS,
                                     "axis");
  // g_object_class_override_property (object_class,
    //                                 PROP_DRAG_CONTAINMENT_TYPE,
      //                               "containment-type");
   g_object_class_override_property (object_class,
-                                    PROP_DRAG_CONTAINMENT_AREA,
+				    PROP_DRAG_CONTAINMENT_AREA,
                                     "containment-area");
   g_object_class_override_property (object_class,
-                                    PROP_DRAG_ENABLED,
+				    PROP_DRAG_ENABLED,
                                     "drag-enabled");
   g_object_class_override_property (object_class,
-                                    PROP_DRAG_ACTOR,
+				    PROP_DRAG_ACTOR,
                                     "drag-actor");
 
   signals[CLICKED] =
     g_signal_new ("clicked",
-                  G_TYPE_FROM_CLASS (klass),
-                  G_SIGNAL_RUN_LAST,
-                  G_STRUCT_OFFSET (EMailTabClass, clicked),
-                  NULL, NULL,
-                  g_cclosure_marshal_VOID__VOID,
-                  G_TYPE_NONE, 0);
+		  G_TYPE_FROM_CLASS (klass),
+		  G_SIGNAL_RUN_LAST,
+		  G_STRUCT_OFFSET (EMailTabClass, clicked),
+		  NULL, NULL,
+		  g_cclosure_marshal_VOID__VOID,
+		  G_TYPE_NONE, 0);
 
   signals[CLOSED] =
     g_signal_new ("closed",
-                  G_TYPE_FROM_CLASS (klass),
-                  G_SIGNAL_RUN_LAST,
-                  G_STRUCT_OFFSET (EMailTabClass, closed),
-                  NULL, NULL,
-                  g_cclosure_marshal_VOID__VOID,
-                  G_TYPE_NONE, 0);
+		  G_TYPE_FROM_CLASS (klass),
+		  G_SIGNAL_RUN_LAST,
+		  G_STRUCT_OFFSET (EMailTabClass, closed),
+		  NULL, NULL,
+		  g_cclosure_marshal_VOID__VOID,
+		  G_TYPE_NONE, 0);
 
   signals[TRANSITION_COMPLETE] =
     g_signal_new ("transition-complete",
-                  G_TYPE_FROM_CLASS (klass),
-                  G_SIGNAL_RUN_LAST,
-                  G_STRUCT_OFFSET (EMailTabClass, transition_complete),
-                  NULL, NULL,
-                  g_cclosure_marshal_VOID__VOID,
-                  G_TYPE_NONE, 0);
+		  G_TYPE_FROM_CLASS (klass),
+		  G_SIGNAL_RUN_LAST,
+		  G_STRUCT_OFFSET (EMailTabClass, transition_complete),
+		  NULL, NULL,
+		  g_cclosure_marshal_VOID__VOID,
+		  G_TYPE_NONE, 0);
 }
 
 static void
@@ -1242,42 +1242,42 @@ e_mail_tab_style_changed_cb (MxWidget *widget)
   if (priv->old_bg)
     {
       if (!clutter_actor_get_parent (priv->old_bg))
-        {
-          ClutterActorBox box;
-          ClutterActor *background;
-          ClutterActor *actor = CLUTTER_ACTOR (widget);
+	{
+	  ClutterActorBox box;
+	  ClutterActor *background;
+	  ClutterActor *actor = CLUTTER_ACTOR (widget);
 
-          clutter_actor_set_parent (priv->old_bg, actor);
+	  clutter_actor_set_parent (priv->old_bg, actor);
 
           /* Try to allocate the same size as the background widget,
            * otherwise allocate the same size as the widget itself.
            */
-          background = mx_widget_get_border_image (widget);
-          if (!background)
-            background = mx_widget_get_background_image (widget);
+	  background = mx_widget_get_border_image (widget);
+	  if (!background)
+	    background = mx_widget_get_background_image (widget);
 
-          if (background)
-            clutter_actor_get_allocation_box (background, &box);
-          else
-            {
-              clutter_actor_get_allocation_box (actor, &box);
-              box.x2 -= box.x1;
-              box.y2 -= box.y1;
-              box.x1 = 0;
-              box.y1 = 0;
-            }
+	  if (background)
+	    clutter_actor_get_allocation_box (background, &box);
+	  else
+	    {
+	      clutter_actor_get_allocation_box (actor, &box);
+	      box.x2 -= box.x1;
+	      box.y2 -= box.y1;
+	      box.x1 = 0;
+	      box.y1 = 0;
+	    }
 
-          clutter_actor_allocate (priv->old_bg, &box, 0);
-        }
+	  clutter_actor_allocate (priv->old_bg, &box, 0);
+	}
 
       clutter_actor_animate (priv->old_bg,
-                             CLUTTER_LINEAR,
-                             150,
+			     CLUTTER_LINEAR,
+			     150,
                              "opacity", 0,
                              "signal::completed",
-                               G_CALLBACK (e_mail_tab_anim_completed_cb),
-                               widget,
-                             NULL);
+			       G_CALLBACK (e_mail_tab_anim_completed_cb),
+			       widget,
+			     NULL);
     }
 }
 
@@ -1301,7 +1301,7 @@ e_mail_tab_dnd_notify_cb (GObject    *settings,
 {
   g_object_get (settings,
                 "gtk-dnd-drag-threshold", &tab->priv->drag_threshold,
-                NULL);
+		NULL);
 }
 
 static void
@@ -1322,32 +1322,32 @@ e_mail_tab_init (EMailTab *self)
   text = mx_label_get_clutter_text (MX_LABEL (priv->label));
   clutter_text_set_ellipsize (CLUTTER_TEXT (text), PANGO_ELLIPSIZE_END);
   clutter_actor_set_parent (CLUTTER_ACTOR (priv->label),
-                            CLUTTER_ACTOR (self));
+			    CLUTTER_ACTOR (self));
 
   priv->close_button = mx_button_new ();
   clutter_actor_set_name (CLUTTER_ACTOR (priv->close_button),
                           "tab-close-button");
   clutter_actor_set_parent (CLUTTER_ACTOR (priv->close_button),
-                            CLUTTER_ACTOR (self));
+			    CLUTTER_ACTOR (self));
 
   g_signal_connect (priv->close_button, "clicked",
-                    G_CALLBACK (e_mail_tab_close_clicked_cb), self);
+		    G_CALLBACK (e_mail_tab_close_clicked_cb), self);
 
   /* Connect up styling signals */
   g_signal_connect (self, "style-changed",
-                    G_CALLBACK (e_mail_tab_style_changed_cb), NULL);
+		    G_CALLBACK (e_mail_tab_style_changed_cb), NULL);
   g_signal_connect (self, "stylable-changed",
-                    G_CALLBACK (e_mail_tab_stylable_changed_cb), NULL);
+		    G_CALLBACK (e_mail_tab_stylable_changed_cb), NULL);
 
   clutter_actor_set_reactive (CLUTTER_ACTOR (self), TRUE);
 
   settings = gtk_settings_get_default ();
   priv->drag_threshold_handler =
     g_signal_connect (settings, "notify::gtk-dnd-drag-threshold",
-                      G_CALLBACK (e_mail_tab_dnd_notify_cb), self);
+		      G_CALLBACK (e_mail_tab_dnd_notify_cb), self);
   g_object_get (G_OBJECT (settings),
                 "gtk-dnd-drag-threshold", &priv->drag_threshold,
-                NULL);
+		NULL);
 }
 
 ClutterActor *
@@ -1526,7 +1526,7 @@ e_mail_tab_set_preview_actor (EMailTab *tab, ClutterActor *actor)
 
       clutter_actor_set_opacity (actor, priv->preview_mode ? 0xff : 0x00);
       if (!priv->preview_mode)
-        clutter_actor_hide (actor);
+	clutter_actor_hide (actor);
     }
 
   clutter_actor_queue_relayout (CLUTTER_ACTOR (tab));
@@ -1550,7 +1550,7 @@ preview_new_frame_cb (ClutterTimeline *timeline,
   EMailTabPrivate *priv = tab->priv;
 
   forwards = (clutter_timeline_get_direction (timeline) ==
-               CLUTTER_TIMELINE_FORWARD) ? TRUE : FALSE;
+	       CLUTTER_TIMELINE_FORWARD) ? TRUE : FALSE;
   if (priv->preview_mode)
     forwards = !forwards;
 
@@ -1575,32 +1575,32 @@ preview_completed_cb (ClutterTimeline *timeline,
       priv->preview_timeline = NULL;
 
       if (priv->preview_mode)
-        priv->preview_height_progress = 1.0;
+	priv->preview_height_progress = 1.0;
       else
-        {
-          priv->preview_height_progress = 0.0;
-          if (priv->preview)
-            clutter_actor_hide (priv->preview);
-          if (priv->can_close)
-            clutter_actor_set_reactive (CLUTTER_ACTOR (priv->close_button),
-                                        TRUE);
-        }
+	{
+	  priv->preview_height_progress = 0.0;
+	  if (priv->preview)
+	    clutter_actor_hide (priv->preview);
+	  if (priv->can_close)
+	    clutter_actor_set_reactive (CLUTTER_ACTOR (priv->close_button),
+					TRUE);
+	}
 
       /* Remove style hint if we're not in preview mode */
       if (priv->preview)
-        {
-          if (!priv->preview_mode)
-            clutter_actor_set_name (CLUTTER_ACTOR (tab),
+	{
+	  if (!priv->preview_mode)
+	    clutter_actor_set_name (CLUTTER_ACTOR (tab),
                                     priv->private ? "private-tab" : NULL);
-        }
+	}
       else
-        {
+	{
           /* If there's no preview actor, disable the tab */
-          clutter_actor_set_reactive (CLUTTER_ACTOR (tab), !priv->preview_mode);
-        }
+	  clutter_actor_set_reactive (CLUTTER_ACTOR (tab), !priv->preview_mode);
+	}
 
       if (priv->preview)
-        clutter_actor_queue_relayout (CLUTTER_ACTOR (tab));
+	clutter_actor_queue_relayout (CLUTTER_ACTOR (tab));
 
       g_signal_emit (tab, signals[TRANSITION_COMPLETE], 0);
     }
@@ -1614,10 +1614,10 @@ preview_s1_started_cb (ClutterTimeline *timeline,
 
   if (!priv->preview)
     clutter_actor_animate_with_timeline (CLUTTER_ACTOR (priv->label),
-                                         CLUTTER_EASE_IN_OUT_QUAD,
-                                         timeline,
+					 CLUTTER_EASE_IN_OUT_QUAD,
+					 timeline,
                                          "opacity", 0xff,
-                                         NULL);
+					 NULL);
 }
 
 static void
@@ -1628,10 +1628,10 @@ preview_s2_started_cb (ClutterTimeline *timeline,
 
   if (priv->preview)
     clutter_actor_animate_with_timeline (CLUTTER_ACTOR (priv->label),
-                                         CLUTTER_EASE_IN_OUT_QUAD,
-                                         timeline,
+					 CLUTTER_EASE_IN_OUT_QUAD,
+					 timeline,
                                          "opacity", 0xff,
-                                         NULL);
+					 NULL);
 }
 
 void
@@ -1648,87 +1648,87 @@ e_mail_tab_set_preview_mode (EMailTab *tab, gboolean preview)
 
       /* Disable the close button in preview mode */
       if (preview && priv->can_close)
-        clutter_actor_set_reactive (CLUTTER_ACTOR (priv->close_button), FALSE);
+	clutter_actor_set_reactive (CLUTTER_ACTOR (priv->close_button), FALSE);
 
 #define DEBUG_MULT 1
       if (priv->preview_timeline)
-        {
-          progress = 1.0 -
-                     clutter_timeline_get_progress (priv->preview_timeline);
-          clutter_timeline_stop (priv->preview_timeline);
-          g_object_unref (priv->preview_timeline);
-        }
+	{
+	  progress = 1.0 -
+		     clutter_timeline_get_progress (priv->preview_timeline);
+	  clutter_timeline_stop (priv->preview_timeline);
+	  g_object_unref (priv->preview_timeline);
+	}
       else
-        progress = 0.0;
+	progress = 0.0;
 
       total_duration = priv->anim_length * (1.0 - progress) * DEBUG_MULT;
       duration1 = total_duration * TAB_S1_ANIM;
       duration2 = total_duration * TAB_S2_ANIM;
 
       priv->preview_timeline =
-        clutter_timeline_new (priv->anim_length * DEBUG_MULT);
+	clutter_timeline_new (priv->anim_length * DEBUG_MULT);
       clutter_timeline_skip (priv->preview_timeline,
-        clutter_timeline_get_duration (priv->preview_timeline) * progress);
+	clutter_timeline_get_duration (priv->preview_timeline) * progress);
 
       g_signal_connect (priv->preview_timeline, "completed",
-                        G_CALLBACK (preview_completed_cb), tab);
+			G_CALLBACK (preview_completed_cb), tab);
 
       clutter_timeline_start (priv->preview_timeline);
 
       if (!priv->preview)
-        {
-          clutter_actor_animate_with_timeline (CLUTTER_ACTOR (tab),
-                                               CLUTTER_EASE_IN_OUT_QUAD,
-                                               priv->preview_timeline,
+	{
+	  clutter_actor_animate_with_timeline (CLUTTER_ACTOR (tab),
+					       CLUTTER_EASE_IN_OUT_QUAD,
+					       priv->preview_timeline,
                                                "opacity", preview ? 0x00 : 0xff,
-                                               NULL);
-          return;
-        }
+					       NULL);
+	  return;
+	}
 
       g_signal_connect (priv->preview_timeline, "new-frame",
-                        G_CALLBACK (preview_new_frame_cb), tab);
+			G_CALLBACK (preview_new_frame_cb), tab);
 
       timeline = clutter_timeline_new ((guint)duration1);
       timeline2 = clutter_timeline_new ((guint)duration2);
 
       g_signal_connect (timeline, "started",
-                        G_CALLBACK (preview_s1_started_cb), tab);
+			G_CALLBACK (preview_s1_started_cb), tab);
       g_signal_connect (timeline2, "started",
-                        G_CALLBACK (preview_s2_started_cb), tab);
+			G_CALLBACK (preview_s2_started_cb), tab);
 
       if (preview)
-        clutter_timeline_set_delay (timeline2, duration1);
+	clutter_timeline_set_delay (timeline2, duration1);
       else
-        clutter_timeline_set_delay (timeline, duration2);
+	clutter_timeline_set_delay (timeline, duration2);
 
       /* clutter_actor_animate_with_timeline will start the timelines */
       clutter_actor_animate_with_timeline (CLUTTER_ACTOR (priv->label),
-                                           CLUTTER_EASE_IN_OUT_QUAD,
-                                           preview ? timeline : timeline2,
+					   CLUTTER_EASE_IN_OUT_QUAD,
+					   preview ? timeline : timeline2,
                                            "opacity", 0x00,
-                                           NULL);
+					   NULL);
       if (priv->icon)
-        clutter_actor_animate_with_timeline (priv->icon,
-                                             CLUTTER_EASE_IN_OUT_QUAD,
-                                             timeline,
+	clutter_actor_animate_with_timeline (priv->icon,
+					     CLUTTER_EASE_IN_OUT_QUAD,
+					     timeline,
                                              "opacity", preview ? 0x00 : 0xff,
-                                             NULL);
+					     NULL);
       if (priv->can_close)
-        clutter_actor_animate_with_timeline (CLUTTER_ACTOR (priv->close_button),
-                                             CLUTTER_EASE_IN_OUT_QUAD,
-                                             timeline,
+	clutter_actor_animate_with_timeline (CLUTTER_ACTOR (priv->close_button),
+					     CLUTTER_EASE_IN_OUT_QUAD,
+					     timeline,
                                              "opacity", preview ? 0x00 : 0xff,
-                                             NULL);
+					     NULL);
 
       if (priv->preview)
-        {
-          clutter_actor_show (priv->preview);
-          clutter_actor_animate_with_timeline (priv->preview,
-                                               CLUTTER_EASE_IN_OUT_QUAD,
-                                               timeline2,
+	{
+	  clutter_actor_show (priv->preview);
+	  clutter_actor_animate_with_timeline (priv->preview,
+					       CLUTTER_EASE_IN_OUT_QUAD,
+					       timeline2,
                                                "opacity", preview ? 0xff : 0x00,
-                                               NULL);
-        }
+					       NULL);
+	}
 
       /* The animations have references on these, drop ours */
       g_object_unref (timeline);
@@ -1830,7 +1830,7 @@ e_mail_tab_set_active (EMailTab *tab, gboolean active)
       if (priv->hover)
         mx_stylable_set_style_pseudo_class (MX_STYLABLE (tab), "hover");
       else
-        mx_stylable_set_style_pseudo_class (MX_STYLABLE (tab), NULL);
+	mx_stylable_set_style_pseudo_class (MX_STYLABLE (tab), NULL);
     }
 }
 
@@ -1878,10 +1878,10 @@ e_mail_tab_alert (EMailTab *tab)
   if (!priv->alert_source)
     priv->alert_source =
       g_timeout_add_full (G_PRIORITY_HIGH,
-                          500,
-                          (GSourceFunc)e_mail_tab_alert_cb,
-                          tab,
-                          NULL);
+			  500,
+			  (GSourceFunc)e_mail_tab_alert_cb,
+			  tab,
+			  NULL);
 }
 
 void

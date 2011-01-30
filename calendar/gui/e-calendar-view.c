@@ -1717,7 +1717,7 @@ tooltip_grab (GtkWidget *tooltip, GdkEventKey *event, ECalendarView *view)
 static gchar *
 get_label (struct icaltimetype *tt, icaltimezone *f_zone, icaltimezone *t_zone)
 {
-        struct tm tmp_tm;
+	struct tm tmp_tm;
 
 	tmp_tm = icaltimetype_to_tm_with_zone (tt, f_zone, t_zone);
 

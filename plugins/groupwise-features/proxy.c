@@ -233,7 +233,7 @@ proxy_dialog_get_type (void)
 
     type = g_type_register_static (G_TYPE_OBJECT,
                                    "proxyDialogType",
-                                   &info, 0);
+				   &info, 0);
   }
 
   return type;
@@ -477,7 +477,7 @@ proxy_get_cnc (EAccount *account, GtkWindow *parent_window)
 		return NULL;
 
         soap_port = camel_url_get_param (url, "soap_port");
-        if (!soap_port || strlen (soap_port) == 0)
+	if (!soap_port || strlen (soap_port) == 0)
                 soap_port = "7191";
 	use_ssl = camel_url_get_param (url, "use_ssl");
 
@@ -853,7 +853,7 @@ static void
 proxy_remove_account (GtkWidget *button, EAccount *account)
 {
 	GtkTreeIter iter;
-        GtkTreeModel *model;
+	GtkTreeModel *model;
 	proxyDialogPrivate *priv;
 	proxyHandler *deleted;
 	GtkTreeSelection* account_select;
@@ -864,8 +864,8 @@ proxy_remove_account (GtkWidget *button, EAccount *account)
 	priv = prd->priv;
 	account_select = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->tree));
 
-        if (gtk_tree_selection_get_selected (account_select, &model, &iter)) {
-                gtk_tree_model_get (model, &iter, ACCOUNT_NAME, &account_mailid, -1);
+	if (gtk_tree_selection_get_selected (account_select, &model, &iter)) {
+		gtk_tree_model_get (model, &iter, ACCOUNT_NAME, &account_mailid, -1);
 		account_mailid = g_strrstr (account_mailid, "\n") + 1;
 		deleted = proxy_get_item_from_list (account, account_mailid);
 
@@ -873,7 +873,7 @@ proxy_remove_account (GtkWidget *button, EAccount *account)
 			deleted->flags |= E_GW_PROXY_DELETED;
 
 		proxy_update_tree_view (account);
-        }
+	}
 }
 
 static void
@@ -998,7 +998,7 @@ static void
 proxy_edit_account (GtkWidget *button, EAccount *account)
 {
 	GtkTreeIter iter;
-        GtkTreeModel *model;
+	GtkTreeModel *model;
 	proxyDialogPrivate *priv;
 	GtkTreeSelection* account_select;
 	proxyHandler *edited;
@@ -1014,8 +1014,8 @@ proxy_edit_account (GtkWidget *button, EAccount *account)
 
 	account_select = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->tree));
 
-        if (gtk_tree_selection_get_selected (account_select, &model, &iter)) {
-                gtk_tree_model_get (model, &iter, ACCOUNT_NAME, &account_mailid, -1);
+	if (gtk_tree_selection_get_selected (account_select, &model, &iter)) {
+		gtk_tree_model_get (model, &iter, ACCOUNT_NAME, &account_mailid, -1);
 		account_mailid = g_strrstr (account_mailid, "\n") + 1;
 		edited = proxy_get_item_from_list (account, account_mailid);
 		if (edited) {
@@ -1034,5 +1034,5 @@ proxy_edit_account (GtkWidget *button, EAccount *account)
 			gtk_widget_hide (contacts);
 			gtk_widget_show (GTK_WIDGET (priv->main));
 		}
-        }
+	}
 }

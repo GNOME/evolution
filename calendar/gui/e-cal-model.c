@@ -819,7 +819,7 @@ static ECellDateEditValue*
 get_dtstart (ECalModel *model, ECalModelComponent *comp_data)
 {
 	ECalModelPrivate *priv;
-        struct icaltimetype tt_start;
+	struct icaltimetype tt_start;
 
 	priv = model->priv;
 
@@ -867,7 +867,7 @@ static ECellDateEditValue*
 get_datetime_from_utc (ECalModel *model, ECalModelComponent *comp_data, icalproperty_kind propkind, struct icaltimetype (*get_value)(const icalproperty* prop), ECellDateEditValue **buffer)
 {
 	ECalModelPrivate *priv;
-        struct icaltimetype tt_value;
+	struct icaltimetype tt_value;
 	icalproperty *prop;
 	ECellDateEditValue *res;
 
@@ -3234,15 +3234,15 @@ e_cal_model_component_get_type (void)
 
 	if (!e_cal_model_component_type) {
 		static GTypeInfo info = {
-                        sizeof (ECalModelComponentClass),
-                        (GBaseInitFunc) NULL,
-                        (GBaseFinalizeFunc) NULL,
-                        (GClassInitFunc) e_cal_model_component_class_init,
-                        NULL, NULL,
-                        sizeof (ECalModelComponent),
-                        0,
-                        (GInstanceInitFunc) e_cal_model_component_init
-                };
+			sizeof (ECalModelComponentClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) e_cal_model_component_class_init,
+			NULL, NULL,
+			sizeof (ECalModelComponent),
+			0,
+			(GInstanceInitFunc) e_cal_model_component_init
+		};
 		e_cal_model_component_type = g_type_register_static (G_TYPE_OBJECT, "ECalModelComponent", &info, 0);
 	}
 

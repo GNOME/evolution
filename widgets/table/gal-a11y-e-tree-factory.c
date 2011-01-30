@@ -33,7 +33,7 @@ static AtkObjectFactoryClass *parent_class;
 static GType
 gal_a11y_e_tree_factory_get_accessible_type (void)
 {
-        return GAL_A11Y_TYPE_E_TREE;
+	return GAL_A11Y_TYPE_E_TREE;
 }
 
 static AtkObject*

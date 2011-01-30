@@ -67,7 +67,7 @@ get_cnc (GtkWindow *parent_window)
 		return NULL;
 
         soap_port = camel_url_get_param (url, "soap_port");
-        if (!soap_port || strlen (soap_port) == 0)
+	if (!soap_port || strlen (soap_port) == 0)
                 soap_port = "7191";
 	use_ssl = camel_url_get_param (url, "use_ssl");
 
@@ -350,7 +350,7 @@ send_options_copy_check_changed (EGwSendOptions *n_opts)
 	e_send_options_copy_status_options (sod->data->copts, gcopts);
 	e_send_options_copy_status_options (sod->data->topts, gtopts);
 
-        if (check_general_changed (ggopts, o_gopts))
+	if (check_general_changed (ggopts, o_gopts))
 		changed = TRUE;
 	if (check_status_options_changed (gmopts, o_gmopts))
 		changed = TRUE;

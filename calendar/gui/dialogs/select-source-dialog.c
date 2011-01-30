@@ -48,7 +48,7 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type, ESource *excep
 		gconf_key = "/apps/evolution/calendar/sources";
 	else if (obj_type == E_CAL_SOURCE_TYPE_TODO)
 		gconf_key = "/apps/evolution/tasks/sources";
-        else if (obj_type == E_CAL_SOURCE_TYPE_JOURNAL)
+	else if (obj_type == E_CAL_SOURCE_TYPE_JOURNAL)
                 gconf_key = "/apps/evolution/memos/sources";
 	else
 		return NULL;
@@ -63,7 +63,7 @@ select_source_dialog (GtkWindow *parent, ECalSourceType obj_type, ESource *excep
 		icon_name = "x-office-calendar";
 	else if (obj_type == E_CAL_SOURCE_TYPE_TODO)
 		icon_name = "stock_todo";
-        else if (obj_type == E_CAL_SOURCE_TYPE_JOURNAL)
+	else if (obj_type == E_CAL_SOURCE_TYPE_JOURNAL)
                 icon_name = "stock_journal";
 
 	if (icon_name)

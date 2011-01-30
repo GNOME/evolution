@@ -742,7 +742,7 @@ e_cell_tree_class_init (ECellTreeClass *class)
 	ecc->max_width        = ect_max_width;
 	ecc->get_bg_color     = ect_get_bg_color;
 
-        gal_a11y_e_cell_registry_add_cell_type (NULL, E_TYPE_CELL_TREE, gal_a11y_e_cell_tree_new);
+	gal_a11y_e_cell_registry_add_cell_type (NULL, E_TYPE_CELL_TREE, gal_a11y_e_cell_tree_new);
 }
 
 static void

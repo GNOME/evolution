@@ -909,12 +909,12 @@ e_meeting_time_selector_draw_key_color (GtkWidget *darea, cairo_t *cr, GdkColor 
 	if (color) {
 		gdk_cairo_set_source_color (cr, color);
 	} else {
-                cairo_set_source (cr, mts->no_info_pattern);
+		cairo_set_source (cr, mts->no_info_pattern);
 	}
-        cairo_rectangle (cr,
-                         1, 1,
-                         allocation.width - 2, allocation.height - 2);
-        cairo_fill (cr);
+	cairo_rectangle (cr,
+			 1, 1,
+			 allocation.width - 2, allocation.height - 2);
+	cairo_fill (cr);
 
 	return TRUE;
 }
@@ -1032,35 +1032,35 @@ e_meeting_time_selector_set_week_start_day (EMeetingTimeSelector *mts,
 static cairo_pattern_t *
 e_meeting_time_selector_create_no_info_pattern (EMeetingTimeSelector *mts)
 {
-        cairo_surface_t *surface;
-        cairo_pattern_t *pattern;
-        GdkColor color;
-        cairo_t *cr;
+	cairo_surface_t *surface;
+	cairo_pattern_t *pattern;
+	GdkColor color;
+	cairo_t *cr;
 
-        surface = gdk_window_create_similar_surface (gtk_widget_get_window (GTK_WIDGET (mts)),
-                                                     CAIRO_CONTENT_COLOR, 8, 8);
-        cr = cairo_create (surface);
+	surface = gdk_window_create_similar_surface (gtk_widget_get_window (GTK_WIDGET (mts)),
+						     CAIRO_CONTENT_COLOR, 8, 8);
+	cr = cairo_create (surface);
 
         gdk_color_parse ("white", &color);
-        gdk_cairo_set_source_color (cr, &color);
-        cairo_paint (cr);
+	gdk_cairo_set_source_color (cr, &color);
+	cairo_paint (cr);
 
-        gdk_cairo_set_source_color (cr, &mts->grid_color);
-        cairo_set_line_width (cr, 1.0);
-        cairo_move_to (cr, -1,  5);
-        cairo_line_to (cr,  9, -5);
-        cairo_move_to (cr, -1, 13);
-        cairo_line_to (cr,  9,  3);
-        cairo_stroke (cr);
+	gdk_cairo_set_source_color (cr, &mts->grid_color);
+	cairo_set_line_width (cr, 1.0);
+	cairo_move_to (cr, -1,  5);
+	cairo_line_to (cr,  9, -5);
+	cairo_move_to (cr, -1, 13);
+	cairo_line_to (cr,  9,  3);
+	cairo_stroke (cr);
 
-        cairo_destroy (cr);
+	cairo_destroy (cr);
 
-        pattern = cairo_pattern_create_for_surface (surface);
-        cairo_pattern_set_extend (pattern, CAIRO_EXTEND_REPEAT);
+	pattern = cairo_pattern_create_for_surface (surface);
+	cairo_pattern_set_extend (pattern, CAIRO_EXTEND_REPEAT);
 
-        cairo_surface_destroy (surface);
+	cairo_surface_destroy (surface);
 
-        return pattern;
+	return pattern;
 }
 
 static void
@@ -1075,7 +1075,7 @@ e_meeting_time_selector_realize (GtkWidget *widget)
 	mts = E_MEETING_TIME_SELECTOR (widget);
 
 	window = gtk_widget_get_window (widget);
-        mts->no_info_pattern = e_meeting_time_selector_create_no_info_pattern (mts);
+	mts->no_info_pattern = e_meeting_time_selector_create_no_info_pattern (mts);
 }
 
 static void
@@ -1085,8 +1085,8 @@ e_meeting_time_selector_unrealize (GtkWidget *widget)
 
 	mts = E_MEETING_TIME_SELECTOR (widget);
 
-        cairo_pattern_destroy (mts->no_info_pattern);
-        mts->no_info_pattern = NULL;
+	cairo_pattern_destroy (mts->no_info_pattern);
+	mts->no_info_pattern = NULL;
 
 	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->unrealize)
 		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->unrealize)(widget);

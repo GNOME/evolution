@@ -94,14 +94,14 @@ gnome_canvas_update_bbox (GnomeCanvasItem *item, gint x1, gint y1, gint x2, gint
 cairo_t *
 gnome_canvas_cairo_create_scratch (void)
 {
-        cairo_surface_t *surface;
-        cairo_t *cr;
+	cairo_surface_t *surface;
+	cairo_t *cr;
 
-        surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 0, 0);
-        cr = cairo_create (surface);
-        cairo_surface_destroy (surface);
+	surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 0, 0);
+	cr = cairo_create (surface);
+	cairo_surface_destroy (surface);
 
-        return cr;
+	return cr;
 }
 
 /**
@@ -119,38 +119,38 @@ void
 gnome_canvas_matrix_transform_rect (const cairo_matrix_t *matrix,
                                     double *x1, double *y1, double *x2, double *y2)
 {
-        double maxx, maxy, minx, miny;
-        double tmpx, tmpy;
+	double maxx, maxy, minx, miny;
+	double tmpx, tmpy;
 
-        tmpx = *x1;
-        tmpy = *y1;
-        cairo_matrix_transform_point (matrix, &tmpx, &tmpy);
-        minx = maxx = tmpx;
-        miny = maxy = tmpy;
+	tmpx = *x1;
+	tmpy = *y1;
+	cairo_matrix_transform_point (matrix, &tmpx, &tmpy);
+	minx = maxx = tmpx;
+	miny = maxy = tmpy;
 
-        tmpx = *x2;
-        tmpy = *y1;
-        cairo_matrix_transform_point (matrix, &tmpx, &tmpy);
-        minx = MIN (minx, tmpx);
-        maxx = MAX (maxx, tmpx);
-        miny = MIN (miny, tmpy);
-        maxy = MAX (maxy, tmpy);
+	tmpx = *x2;
+	tmpy = *y1;
+	cairo_matrix_transform_point (matrix, &tmpx, &tmpy);
+	minx = MIN (minx, tmpx);
+	maxx = MAX (maxx, tmpx);
+	miny = MIN (miny, tmpy);
+	maxy = MAX (maxy, tmpy);
 
-        tmpx = *x2;
-        tmpy = *y2;
-        cairo_matrix_transform_point (matrix, &tmpx, &tmpy);
-        minx = MIN (minx, tmpx);
-        maxx = MAX (maxx, tmpx);
-        miny = MIN (miny, tmpy);
-        maxy = MAX (maxy, tmpy);
+	tmpx = *x2;
+	tmpy = *y2;
+	cairo_matrix_transform_point (matrix, &tmpx, &tmpy);
+	minx = MIN (minx, tmpx);
+	maxx = MAX (maxx, tmpx);
+	miny = MIN (miny, tmpy);
+	maxy = MAX (maxy, tmpy);
 
-        tmpx = *x1;
-        tmpy = *y2;
-        cairo_matrix_transform_point (matrix, &tmpx, &tmpy);
-        minx = MIN (minx, tmpx);
-        maxx = MAX (maxx, tmpx);
-        miny = MIN (miny, tmpy);
-        maxy = MAX (maxy, tmpy);
+	tmpx = *x1;
+	tmpy = *y2;
+	cairo_matrix_transform_point (matrix, &tmpx, &tmpy);
+	minx = MIN (minx, tmpx);
+	maxx = MAX (maxx, tmpx);
+	miny = MIN (miny, tmpy);
+	maxy = MAX (maxy, tmpy);
 
         *x1 = minx;
         *x2 = maxx;

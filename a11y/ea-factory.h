@@ -46,7 +46,7 @@ type_as_function ## _factory_create_accessible (GObject *obj)			\
 {                                                                               \
   GtkWidget *widget;								\
   AtkObject *accessible;							\
-                                                                                \
+										\
   g_return_val_if_fail (GTK_IS_WIDGET (obj), NULL);				\
 										\
   widget = GTK_WIDGET (obj);							\
@@ -105,11 +105,11 @@ type_as_function ## _factory_get_type (void)					\
 
 #define EA_SET_FACTORY(obj_type, type_as_function)				\
 {                                                                               \
-        if (atk_get_root ()) {                                                  \
-                atk_registry_set_factory_type (atk_get_default_registry (),     \
-                                      obj_type,                                 \
-                                      type_as_function ## _factory_get_type ());\
-        }									\
+	if (atk_get_root ()) {                                                  \
+		atk_registry_set_factory_type (atk_get_default_registry (),     \
+				      obj_type,                                 \
+				      type_as_function ## _factory_get_type ());\
+	}									\
 }
 
 #endif /* _EA_FACTORY_H__ */

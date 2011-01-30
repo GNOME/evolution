@@ -251,7 +251,7 @@ day_view_main_item_draw_day_event (EDayViewMainItem *main_item,
 	   column of the day, we might not want to paint over the vertical bar,
 	   since that is used for multiple events. But then you can't see
 	   where the event in the first column finishes. The border is drawn
-           along with the event using cairo*/
+	   along with the event using cairo*/
 
 	red = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].red;
 	green = day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].green;

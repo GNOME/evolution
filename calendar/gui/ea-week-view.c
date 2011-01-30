@@ -218,8 +218,8 @@ ea_week_view_get_n_children (AtkObject *accessible)
 		EWeekViewEventSpan *span;
 
                 /* If week_view->spans == NULL, there is no visible events. */
-                if (!week_view->spans)
-                        break;
+		if (!week_view->spans)
+			break;
 
 		event = &g_array_index (week_view->events,
 					EWeekViewEvent, event_index);

@@ -766,7 +766,7 @@ e_text_set_property (GObject *object,
 		needs_update = 1;
 		break;
 
-        case PROP_FILL_COLOR:
+	case PROP_FILL_COLOR:
 		if (g_value_get_string (value))
 			gdk_color_parse (g_value_get_string (value), &color);
 
@@ -792,7 +792,7 @@ e_text_set_property (GObject *object,
 		needs_update = 1;
 		break;
 
-        case PROP_FILL_COLOR_RGBA:
+	case PROP_FILL_COLOR_RGBA:
 		text->rgba = g_value_get_uint (value);
 		color.red = ((text->rgba >> 24) & 0xff) * 0x101;
 		color.green = ((text->rgba >> 16) & 0xff) * 0x101;
@@ -1306,11 +1306,11 @@ e_text_draw (GnomeCanvasItem *item, cairo_t *cr,
 	if (text->draw_background || text->draw_button) {
 		gdk_cairo_set_source_color (cr, &style->fg[state]);
 	} else {
-                cairo_set_source_rgba (cr,
-                                       ((text->rgba >> 24) & 0xff) / 255.0,
-                                       ((text->rgba >> 16) & 0xff) / 255.0,
-                                       ((text->rgba >>  8) & 0xff) / 255.0,
-                                       ( text->rgba        & 0xff) / 255.0);
+		cairo_set_source_rgba (cr,
+				       ((text->rgba >> 24) & 0xff) / 255.0,
+				       ((text->rgba >> 16) & 0xff) / 255.0,
+				       ((text->rgba >>  8) & 0xff) / 255.0,
+				       ( text->rgba        & 0xff) / 255.0);
 	}
 
 	if (text->draw_borders || text->draw_background) {

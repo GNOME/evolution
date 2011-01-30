@@ -48,14 +48,10 @@ unlink_model (EAddressbookTableAdapter *adapter)
 {
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 
-	g_signal_handler_disconnect (priv->model,
-				     priv->create_contact_id);
-	g_signal_handler_disconnect (priv->model,
-				     priv->remove_contact_id);
-	g_signal_handler_disconnect (priv->model,
-				     priv->modify_contact_id);
-	g_signal_handler_disconnect (priv->model,
-				     priv->model_changed_id);
+	g_signal_handler_disconnect (priv->model, priv->create_contact_id);
+	g_signal_handler_disconnect (priv->model, priv->remove_contact_id);
+	g_signal_handler_disconnect (priv->model, priv->modify_contact_id);
+	g_signal_handler_disconnect (priv->model, priv->model_changed_id);
 
 	priv->create_contact_id = 0;
 	priv->remove_contact_id = 0;
@@ -143,8 +139,9 @@ addressbook_value_at (ETableModel *etc, gint col, gint row)
 
 /* This function sets the value at a particular point in our ETableModel. */
 static void
-contact_modified_cb (EBook* book, const GError *error,
-		     gpointer user_data)
+contact_modified_cb (EBook* book,
+                     const GError *error,
+                     gpointer user_data)
 {
 	if (error)
 		eab_error_dialog (NULL, _("Error modifying card"), error);
@@ -177,8 +174,9 @@ addressbook_set_value_at (ETableModel *etc, gint col, gint row, gconstpointer va
 		}
 
 		e_contact_set (contact, col, (gpointer) val);
-		eab_merging_book_commit_contact (e_addressbook_model_get_book (priv->model),
-						 contact, contact_modified_cb, etc);
+		eab_merging_book_commit_contact (
+			e_addressbook_model_get_book (priv->model),
+			contact, contact_modified_cb, etc);
 
 		g_object_unref (contact);
 
@@ -205,7 +203,7 @@ addressbook_is_cell_editable (ETableModel *etc, gint col, gint row)
 		return FALSE;
 	else if (contact && e_contact_get ((EContact *) contact, E_CONTACT_IS_LIST))
 		/* we only allow editing of the name and file as for
-                   lists */
+		 * lists */
 		return col == E_CONTACT_FULL_NAME || col == E_CONTACT_FILE_AS;
 	else
 		return col < E_CONTACT_LAST_SIMPLE_STRING;
@@ -343,7 +341,7 @@ modify_contact (EAddressbookModel *model,
 
 static void
 model_changed (EAddressbookModel *model,
-	       EAddressbookTableAdapter *adapter)
+               EAddressbookTableAdapter *adapter)
 {
 	/* clear whole cache */
 	g_hash_table_remove_all (adapter->priv->emails);
@@ -378,31 +376,33 @@ eab_table_adapter_get_type (void)
 
 void
 eab_table_adapter_construct (EAddressbookTableAdapter *adapter,
-				       EAddressbookModel *model)
+                             EAddressbookModel *model)
 {
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 
 	priv->model = model;
 	g_object_ref (priv->model);
 
-	priv->create_contact_id = g_signal_connect (priv->model,
-						   "contact_added",
-						   G_CALLBACK (create_contact),
-						   adapter);
-	priv->remove_contact_id = g_signal_connect (priv->model,
-						   "contacts_removed",
-						   G_CALLBACK (remove_contacts),
-						   adapter);
-	priv->modify_contact_id = g_signal_connect (priv->model,
-						   "contact_changed",
-						   G_CALLBACK (modify_contact),
-						   adapter);
-	priv->model_changed_id = g_signal_connect (priv->model,
-						  "model_changed",
-						  G_CALLBACK (model_changed),
-						  adapter);
+	priv->create_contact_id = g_signal_connect (
+		priv->model, "contact_added",
+		G_CALLBACK (create_contact), adapter);
 
-	priv->emails = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, (GDestroyNotify) g_free);
+	priv->remove_contact_id = g_signal_connect (
+		priv->model, "contacts_removed",
+		G_CALLBACK (remove_contacts), adapter);
+
+	priv->modify_contact_id = g_signal_connect (
+		priv->model, "contact_changed",
+		G_CALLBACK (modify_contact), adapter);
+
+	priv->model_changed_id = g_signal_connect (
+		priv->model, "model_changed",
+		G_CALLBACK (model_changed), adapter);
+
+	priv->emails = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_free);
 }
 
 ETableModel *

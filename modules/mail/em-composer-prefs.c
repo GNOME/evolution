@@ -138,7 +138,7 @@ composer_prefs_finalize (GObject *object)
 	g_object_unref (prefs->builder);
 
 	/* Chain up to parent's finalize() method. */
-        G_OBJECT_CLASS (em_composer_prefs_parent_class)->finalize (object);
+	G_OBJECT_CLASS (em_composer_prefs_parent_class)->finalize (object);
 }
 
 static void

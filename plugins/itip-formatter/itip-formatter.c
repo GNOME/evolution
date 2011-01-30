@@ -730,7 +730,7 @@ find_cal_opened_cb (ECal *ecal, const GError *error, gpointer data)
 		 * Replies only make sense for events with an organizer.
 		 */
 		if (!e_cal_get_static_capability (ecal, CAL_STATIC_CAPABILITY_SAVE_SCHEDULES) &&
-                    (pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) &&
+		    (pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) &&
 		    pitip->has_organizer) {
 			rsvp_enabled = TRUE;
 		}
@@ -848,7 +848,7 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 
 		sources = e_source_group_peek_sources (group);
 		for (m = sources; m; m = m->next) {
-                        gchar *source_uri = NULL;
+			gchar *source_uri = NULL;
 
 			source = m->data;
 
@@ -2036,7 +2036,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 
 	/*FIXME Save schedules is misused here, remove it */
 	save_schedules = e_cal_get_static_capability (pitip->current_ecal,
-                                                      CAL_STATIC_CAPABILITY_SAVE_SCHEDULES);
+						      CAL_STATIC_CAPABILITY_SAVE_SCHEDULES);
 
 	switch (response) {
 		case ITIP_VIEW_RESPONSE_ACCEPT:
@@ -2153,40 +2153,40 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 	if (!save_schedules && pitip->delete_message && pitip->folder)
 		camel_folder_delete_message (pitip->folder, pitip->uid);
 
-        if (itip_view_get_rsvp (ITIP_VIEW (pitip->view)) && status) {
-                ECalComponent *comp = NULL;
-                icalcomponent *ical_comp;
-                icalvalue *value;
-                const gchar *attendee, *comment;
-                GSList *l, *list = NULL;
+	if (itip_view_get_rsvp (ITIP_VIEW (pitip->view)) && status) {
+		ECalComponent *comp = NULL;
+		icalcomponent *ical_comp;
+		icalvalue *value;
+		const gchar *attendee, *comment;
+		GSList *l, *list = NULL;
 		gboolean found;
 
-                comp = e_cal_component_clone (pitip->comp);
-                if (comp == NULL)
-                        return;
+		comp = e_cal_component_clone (pitip->comp);
+		if (comp == NULL)
+			return;
 
-                if (pitip->to_address == NULL)
-                        find_to_address (pitip, pitip->ical_comp, NULL);
-                g_assert (pitip->to_address != NULL);
+		if (pitip->to_address == NULL)
+			find_to_address (pitip, pitip->ical_comp, NULL);
+		g_assert (pitip->to_address != NULL);
 
-                ical_comp = e_cal_component_get_icalcomponent (comp);
+		ical_comp = e_cal_component_get_icalcomponent (comp);
 
 		/* Remove all attendees except the one we are responding as */
 		found = FALSE;
-                for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
-                     prop != NULL;
-                     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY))
-                {
-                        gchar *text;
+		for (prop = icalcomponent_get_first_property (ical_comp, ICAL_ATTENDEE_PROPERTY);
+		     prop != NULL;
+		     prop = icalcomponent_get_next_property (ical_comp, ICAL_ATTENDEE_PROPERTY))
+		{
+			gchar *text;
 
-                        value = icalproperty_get_value (prop);
-                        if (!value)
-                                continue;
+			value = icalproperty_get_value (prop);
+			if (!value)
+				continue;
 
-                        attendee = icalvalue_get_string (value);
+			attendee = icalvalue_get_string (value);
 
-                        text = g_strdup (itip_strip_mailto (attendee));
-                        text = g_strstrip (text);
+			text = g_strdup (itip_strip_mailto (attendee));
+			text = g_strstrip (text);
 
 			/* We do this to ensure there is at most one
 			 * attendee in the response */
@@ -2194,15 +2194,15 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 				list = g_slist_prepend (list, prop);
 			else if (!g_ascii_strcasecmp (pitip->to_address, text))
 				found = TRUE;
-                        g_free (text);
-                }
+			g_free (text);
+		}
 
-                for (l = list; l; l = l->next) {
-                        prop = l->data;
-                        icalcomponent_remove_property (ical_comp, prop);
-                        icalproperty_free (prop);
-                }
-                g_slist_free (list);
+		for (l = list; l; l = l->next) {
+			prop = l->data;
+			icalcomponent_remove_property (ical_comp, prop);
+			icalproperty_free (prop);
+		}
+		g_slist_free (list);
 
 		/* Add a comment if there user set one */
 		comment = itip_view_get_rsvp_comment (ITIP_VIEW (pitip->view));
@@ -2219,17 +2219,17 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 			e_cal_component_set_comment_list (comp, &comments);
 		}
 
-                e_cal_component_rescan (comp);
-                if (itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, pitip->current_ecal, pitip->top_level, NULL, NULL, TRUE, FALSE) && pitip->folder) {
+		e_cal_component_rescan (comp);
+		if (itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, pitip->current_ecal, pitip->top_level, NULL, NULL, TRUE, FALSE) && pitip->folder) {
 			camel_folder_set_message_flags (
 				pitip->folder, pitip->uid,
 				CAMEL_MESSAGE_ANSWERED,
 				CAMEL_MESSAGE_ANSWERED);
 		}
 
-                g_object_unref (comp);
+		g_object_unref (comp);
 
-        }
+	}
 }
 
 static gboolean

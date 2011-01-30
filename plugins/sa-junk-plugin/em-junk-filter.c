@@ -942,7 +942,7 @@ org_gnome_sa_use_remote_tests (struct _EPlugin *epl, struct _EConfigHookItemFact
 	g_object_get (data->parent, "n-rows", &n_rows, NULL);
 
 	if (data->old)
-                return data->old;
+		return data->old;
 
 	check = gtk_check_button_new_with_mnemonic (_("I_nclude remote tests"));
 	label = gtk_label_new (NULL);

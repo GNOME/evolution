@@ -298,8 +298,8 @@ emmp_header_remove_sensitivity (EMMailerPrefs *prefs)
 	gboolean is_default;
 
 	/* remove button should be sensitive if the currenlty selected entry in the list view
-           is not a default header. if there are no entries, or none is selected, it should be
-           disabled
+	   is not a default header. if there are no entries, or none is selected, it should be
+	   disabled
 	*/
 	if (gtk_tree_selection_get_selected (selection, NULL, &iter)) {
 		gtk_tree_model_get (GTK_TREE_MODEL (prefs->header_list_store), &iter,
@@ -1057,7 +1057,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	renderer = gtk_cell_renderer_toggle_new ();
 	g_object_set (renderer, "activatable", TRUE, NULL);
 	g_signal_connect (renderer, "toggled", G_CALLBACK (emmp_header_list_enabled_toggled), prefs);
-        gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (prefs->header_list), -1,
+	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (prefs->header_list), -1,
 						     "Enabled", renderer,
 						     "active", HEADER_LIST_ENABLED_COLUMN,
 						     NULL);

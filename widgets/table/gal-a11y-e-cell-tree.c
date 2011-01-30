@@ -69,28 +69,28 @@ static void
 kill_view_cb (ECellView *subcell_view,
              gpointer psubcell_a11ies)
 {
-        GList *node;
+	GList *node;
 	GList *subcell_a11ies = (GList *) psubcell_a11ies;
-        GalA11yECell *subcell;
+	GalA11yECell *subcell;
 
-        for (node = subcell_a11ies; node != NULL; node = g_list_next (node))
-        {
-            subcell = GAL_A11Y_E_CELL (node->data);
-            if (subcell && subcell->cell_view == subcell_view)
-            {
+	for (node = subcell_a11ies; node != NULL; node = g_list_next (node))
+	{
+	    subcell = GAL_A11Y_E_CELL (node->data);
+	    if (subcell && subcell->cell_view == subcell_view)
+	    {
                 d(fprintf(stderr, "subcell_view %p deleted before the a11y object %p\n", subcell_view, subcell));
-                subcell->cell_view = NULL;
-            }
-        }
+		subcell->cell_view = NULL;
+	    }
+	}
 }
 
 static void
 ectr_subcell_weak_ref (GalA11yECellTree *a11y,
 		       GalA11yECell     *subcell_a11y)
 {
-        ECellView *subcell_view = subcell_a11y ? subcell_a11y->cell_view : NULL;
-        if (subcell_a11y && subcell_view && subcell_view->kill_view_cb_data)
-            subcell_view->kill_view_cb_data = g_list_remove (subcell_view->kill_view_cb_data, subcell_a11y);
+	ECellView *subcell_view = subcell_a11y ? subcell_a11y->cell_view : NULL;
+	if (subcell_a11y && subcell_view && subcell_view->kill_view_cb_data)
+	    subcell_view->kill_view_cb_data = g_list_remove (subcell_view->kill_view_cb_data, subcell_a11y);
 
 	g_signal_handler_disconnect (GAL_A11Y_E_CELL (a11y)->item->table_model,
 				     a11y->model_row_changed_id);
@@ -102,11 +102,11 @@ ectr_do_action_expand (AtkAction *action)
 {
 	GalA11yECell *a11y;
 	ETableModel *table_model;
-        ETreePath node;
+	ETreePath node;
 	ETreeModel *tree_model;
-        ETreeTableAdapter *tree_table_adapter;
+	ETreeTableAdapter *tree_table_adapter;
 
-        a11y = GAL_A11Y_E_CELL (action);
+	a11y = GAL_A11Y_E_CELL (action);
 	table_model = a11y->item->table_model;
 	node = e_table_model_value_at (table_model, -1, a11y->row);
 	tree_model = e_table_model_value_at (table_model, -2, a11y->row);
@@ -125,15 +125,15 @@ ectr_do_action_collapse (AtkAction *action)
 {
 	GalA11yECell *a11y;
 	ETableModel *table_model;
-        ETreePath node;
+	ETreePath node;
 	ETreeModel *tree_model;
-        ETreeTableAdapter *tree_table_adapter;
+	ETreeTableAdapter *tree_table_adapter;
 
-        a11y = GAL_A11Y_E_CELL (action);
+	a11y = GAL_A11Y_E_CELL (action);
 	table_model = a11y->item->table_model;
-        node = e_table_model_value_at (table_model, -1, a11y->row);
+	node = e_table_model_value_at (table_model, -1, a11y->row);
 	tree_model = e_table_model_value_at (table_model, -2, a11y->row);
-        tree_table_adapter = e_table_model_value_at (table_model, -3, a11y->row);
+	tree_table_adapter = e_table_model_value_at (table_model, -3, a11y->row);
 
 	if (e_tree_model_node_is_expandable (tree_model, node)) {
 		e_tree_table_adapter_node_set_expanded (tree_table_adapter,
@@ -191,9 +191,9 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
 	AtkObject *subcell_a11y;
 	GalA11yECellTree *a11y;
 
-        ETreePath node;
-        ETreeModel *tree_model;
-        ETreeTableAdapter *tree_table_adapter;
+	ETreePath node;
+	ETreeModel *tree_model;
+	ETreeTableAdapter *tree_table_adapter;
 
 	ECellView *subcell_view;
 	subcell_view = e_cell_tree_view_get_subcell_view (cell_view);
@@ -249,12 +249,12 @@ gal_a11y_e_cell_tree_new (ETableItem *item,
 				  G_CALLBACK (ectr_model_row_changed_cb),
 				  subcell_a11y);
 
-        if (subcell_a11y && subcell_view)
-        {
-            subcell_view->kill_view_cb = kill_view_cb;
-            if (!g_list_find (subcell_view->kill_view_cb_data, subcell_a11y))
-                subcell_view->kill_view_cb_data = g_list_append (subcell_view->kill_view_cb_data, subcell_a11y);
-        }
+	if (subcell_a11y && subcell_view)
+	{
+	    subcell_view->kill_view_cb = kill_view_cb;
+	    if (!g_list_find (subcell_view->kill_view_cb_data, subcell_a11y))
+		subcell_view->kill_view_cb_data = g_list_append (subcell_view->kill_view_cb_data, subcell_a11y);
+	}
 
 	g_object_weak_ref (G_OBJECT (subcell_a11y), (GWeakNotify) ectr_subcell_weak_ref, a11y);
 

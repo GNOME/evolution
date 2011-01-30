@@ -1032,7 +1032,7 @@ etgc_reflow (GnomeCanvasItem *item, gint flags)
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (item);
 	gboolean frozen;
 
-        g_object_get (etgc,
+	g_object_get (etgc,
 		      "frozen", &frozen,
 		      NULL);
 

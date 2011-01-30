@@ -408,7 +408,7 @@ resolve_list_card (LDIFImporter *gci, EContact *contact)
 	gchar *full_name;
 
 	/* set file_as to full_name so we don't later try and figure
-           out a first/last name for the list. */
+	   out a first/last name for the list. */
 	full_name = e_contact_get (contact, E_CONTACT_FULL_NAME);
 	if (full_name)
 		e_contact_set (contact, E_CONTACT_FILE_AS, full_name);

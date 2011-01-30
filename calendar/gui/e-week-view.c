@@ -4429,18 +4429,18 @@ static gint
 e_week_view_get_adjust_days_for_move_up (EWeekView *week_view,gint current_day)
 {
        if (week_view->multi_week_view)
-               return -7;
+	       return -7;
        else
-               return 0;
+	       return 0;
 }
 
 static gint
 e_week_view_get_adjust_days_for_move_down (EWeekView *week_view,gint current_day)
 {
        if (week_view->multi_week_view)
-               return 7;
+	       return 7;
        else
-               return 0;
+	       return 0;
 }
 
 static gint

@@ -234,11 +234,11 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 
 	vbox = gtk_vbox_new (FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (frame), vbox);
-        gtk_widget_show (vbox);
+	gtk_widget_show (vbox);
 
 	hbox = gtk_hbox_new (FALSE, 4);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-        gtk_widget_show (hbox);
+	gtk_widget_show (hbox);
 
 	ecde->calendar = e_calendar_new ();
 	gnome_canvas_item_set (GNOME_CANVAS_ITEM (E_CALENDAR (ecde->calendar)->calitem),
@@ -249,7 +249,7 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 
 	vbox2 = gtk_vbox_new (FALSE, 2);
 	gtk_box_pack_start (GTK_BOX (hbox), vbox2, TRUE, TRUE, 0);
-        gtk_widget_show (vbox2);
+	gtk_widget_show (vbox2);
 
 	ecde->time_entry = gtk_entry_new ();
 	gtk_widget_set_size_request (ecde->time_entry, 50, -1);
@@ -295,11 +295,11 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 	gtk_container_set_border_width (GTK_CONTAINER (bbox), 4);
 	gtk_box_set_spacing (GTK_BOX (bbox), 2);
 	gtk_box_pack_start (GTK_BOX (vbox), bbox, FALSE, FALSE, 0);
-        gtk_widget_show (bbox);
+	gtk_widget_show (bbox);
 
 	now_button = gtk_button_new_with_label (_("Now"));
 	gtk_container_add (GTK_CONTAINER (bbox), now_button);
-        gtk_widget_show (now_button);
+	gtk_widget_show (now_button);
 	g_signal_connect((now_button), "clicked",
 			    G_CALLBACK (e_cell_date_edit_on_now_clicked),
 			    ecde);
@@ -307,7 +307,7 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 
 	today_button = gtk_button_new_with_label (_("Today"));
 	gtk_container_add (GTK_CONTAINER (bbox), today_button);
-        gtk_widget_show (today_button);
+	gtk_widget_show (today_button);
 	g_signal_connect((today_button), "clicked",
 			    G_CALLBACK (e_cell_date_edit_on_today_clicked),
 			    ecde);
@@ -316,7 +316,7 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 	/* Translators: "None" as a label of a button to unset date in a date table cell */
 	none_button = gtk_button_new_with_label (C_("table-date", "None"));
 	gtk_container_add (GTK_CONTAINER (bbox), none_button);
-        gtk_widget_show (none_button);
+	gtk_widget_show (none_button);
 	g_signal_connect((none_button), "clicked",
 			    G_CALLBACK (e_cell_date_edit_on_none_clicked),
 			    ecde);
@@ -324,7 +324,7 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 
 	ok_button = gtk_button_new_with_label (_("OK"));
 	gtk_container_add (GTK_CONTAINER (bbox), ok_button);
-        gtk_widget_show (ok_button);
+	gtk_widget_show (ok_button);
 	g_signal_connect((ok_button), "clicked",
 			    G_CALLBACK (e_cell_date_edit_on_ok_clicked),
 			    ecde);

@@ -110,14 +110,14 @@ e_icon_factory_get_icon (const gchar *icon_name,
 		g_clear_error (&error);
 
 		/* Fallback to missing image */
-                pixbuf = gtk_icon_theme_load_icon (
-                        icon_theme, GTK_STOCK_MISSING_IMAGE,
+		pixbuf = gtk_icon_theme_load_icon (
+			icon_theme, GTK_STOCK_MISSING_IMAGE,
 			height, 0, &error);
 
-                if (error != NULL) {
+		if (error != NULL) {
 			g_error ("%s", error->message);
 			g_clear_error (&error);
-                }
+		}
 	}
 
 	return pixbuf;
@@ -164,8 +164,8 @@ gchar *
 e_icon_factory_create_thumbnail (const gchar *filename)
 {
 	static GnomeDesktopThumbnailFactory *thumbnail_factory = NULL;
-        struct stat file_stat;
-        gchar *thumbnail = NULL;
+	struct stat file_stat;
+	gchar *thumbnail = NULL;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 

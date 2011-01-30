@@ -50,9 +50,9 @@ static void
 set_esource_props (const gchar *path, EAccount *a, GConfClient *client, const gchar *name)
 {
 	ESourceList *list;
-        GSList *groups;
+	GSList *groups;
 
-        list = e_source_list_new_for_gconf (client, path);
+	list = e_source_list_new_for_gconf (client, path);
 	groups = e_source_list_peek_groups (list);
 
 	for (; groups != NULL; groups = g_slist_next (groups)) {
@@ -84,7 +84,7 @@ set_esource_props (const gchar *path, EAccount *a, GConfClient *client, const gc
 void
 ensure_mandatory_esource_properties (EPlugin *ep, ESEventTargetUpgrade *target)
 {
-        GConfClient* client;
+	GConfClient* client;
 	EAccountList *al;
 	EIterator *it;
 

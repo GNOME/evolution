@@ -88,7 +88,7 @@ delete_component_dialog (ECalComponent *comp,
 
 		switch (vtype) {
 		case E_CAL_COMPONENT_EVENT:
-                        attendees = e_cal_component_has_attendees (comp);
+			attendees = e_cal_component_has_attendees (comp);
 			if (arg0) {
 				if (attendees)
 					id = "calendar:prompt-delete-titled-meeting";

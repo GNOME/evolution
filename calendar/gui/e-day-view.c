@@ -5065,7 +5065,7 @@ e_day_view_add_new_event_in_selected_range (EDayView *day_view, GdkEventKey *key
 	time_t dtstart, dtend;
 	ECalComponentDateTime start_dt, end_dt;
 	struct icaltimetype start_tt, end_tt;
-        const gchar *uid;
+	const gchar *uid;
 	AddEventData add_event_data;
 	gboolean read_only = TRUE;
 
@@ -6018,10 +6018,10 @@ e_day_view_start_editing_event (EDayView *day_view,
 	e_canvas_item_grab_focus (event->canvas_item, TRUE);
 
 	if (key_event) {
-                if (gtk_im_context_filter_keypress (((EText *)(event->canvas_item))->im_context, key_event)) {
-                        ((EText *)(event->canvas_item))->need_im_reset = TRUE;
-                }
-                else {
+		if (gtk_im_context_filter_keypress (((EText *)(event->canvas_item))->im_context, key_event)) {
+			((EText *)(event->canvas_item))->need_im_reset = TRUE;
+		}
+		else {
 			gchar *initial_text;
 
 			initial_text = e_utf8_from_gtk_event_key (GTK_WIDGET (day_view), key_event->keyval, key_event->string);
@@ -6171,18 +6171,18 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			/* focus should go to day view when stop editing */
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 			return TRUE;
-               } else if ((event->key.keyval == GDK_KEY_Up)
-                          && (event->key.state & GDK_SHIFT_MASK)
-                          && (event->key.state & GDK_CONTROL_MASK)
-                          && !(event->key.state & GDK_MOD1_MASK)) {
-                       e_day_view_change_event_end_time_up (day_view);
-                       return TRUE;
-               } else if ((event->key.keyval == GDK_KEY_Down)
-                          && (event->key.state & GDK_SHIFT_MASK)
-                          && (event->key.state & GDK_CONTROL_MASK)
-                          && !(event->key.state & GDK_MOD1_MASK)) {
-                       e_day_view_change_event_end_time_down (day_view);
-                       return TRUE;
+	       } else if ((event->key.keyval == GDK_KEY_Up)
+			  && (event->key.state & GDK_SHIFT_MASK)
+			  && (event->key.state & GDK_CONTROL_MASK)
+			  && !(event->key.state & GDK_MOD1_MASK)) {
+		       e_day_view_change_event_end_time_up (day_view);
+		       return TRUE;
+	       } else if ((event->key.keyval == GDK_KEY_Down)
+			  && (event->key.state & GDK_SHIFT_MASK)
+			  && (event->key.state & GDK_CONTROL_MASK)
+			  && !(event->key.state & GDK_MOD1_MASK)) {
+		       e_day_view_change_event_end_time_down (day_view);
+		       return TRUE;
 		}
 		break;
 	case GDK_2BUTTON_PRESS:

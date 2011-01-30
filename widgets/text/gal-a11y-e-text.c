@@ -121,14 +121,14 @@ et_get_text (AtkText *text,
 	     gint start_offset,
 	     gint end_offset)
 {
-        gint start, end, real_start, real_end, len;
+	gint start, end, real_start, real_end, len;
 	const gchar *full_text = et_get_full_text (text);
-        if (full_text == NULL)
-                return NULL;
-        len = g_utf8_strlen (full_text, -1);
+	if (full_text == NULL)
+		return NULL;
+	len = g_utf8_strlen (full_text, -1);
 
-        start = MIN (MAX (0, start_offset), len);
-        end = MIN (MAX (-1, end_offset), len);
+	start = MIN (MAX (0, start_offset), len);
+	end = MIN (MAX (-1, end_offset), len);
 
 	if (end_offset == -1)
 		end = strlen (full_text);
@@ -236,23 +236,23 @@ find_sentence_end (const gchar *text,
                    gint begin_offset,
                    gint step)
 {
-        gint offset;
-        gchar *at_offset;
-        gunichar previous;
-        gint len;
+	gint offset;
+	gchar *at_offset;
+	gunichar previous;
+	gint len;
 
-        offset = begin_offset;
-        len = g_utf8_strlen (text, -1);
+	offset = begin_offset;
+	len = g_utf8_strlen (text, -1);
 
-        while (offset > 0 && offset < len) {
-                at_offset = g_utf8_offset_to_pointer (text, offset - 1);
-                previous = g_utf8_get_char_validated (at_offset, -1);
-                if (previous == '.' || previous == '!' || previous == '?')
-                        break;
-                offset += step;
-        }
+	while (offset > 0 && offset < len) {
+		at_offset = g_utf8_offset_to_pointer (text, offset - 1);
+		previous = g_utf8_get_char_validated (at_offset, -1);
+		if (previous == '.' || previous == '!' || previous == '?')
+			break;
+		offset += step;
+	}
 
-        return offset;
+	return offset;
 }
 
 static gint
@@ -260,23 +260,23 @@ find_line_start (const gchar *text,
                      gint begin_offset,
                      gint step)
 {
-        gint offset;
-        gchar *at_offset;
-        gunichar previous;
-        gint len;
+	gint offset;
+	gchar *at_offset;
+	gunichar previous;
+	gint len;
 
-        offset = begin_offset;
-        len = g_utf8_strlen (text, -1);
+	offset = begin_offset;
+	len = g_utf8_strlen (text, -1);
 
-        while (offset > 0 && offset < len) {
-                at_offset = g_utf8_offset_to_pointer (text, offset - 1);
-                previous = g_utf8_get_char_validated (at_offset, -1);
-                if (previous == '\n' || previous == '\r')
-                        break;
-                offset += step;
-        }
+	while (offset > 0 && offset < len) {
+		at_offset = g_utf8_offset_to_pointer (text, offset - 1);
+		previous = g_utf8_get_char_validated (at_offset, -1);
+		if (previous == '\n' || previous == '\r')
+			break;
+		offset += step;
+	}
 
-        return offset;
+	return offset;
 }
 
 static gint
@@ -284,23 +284,23 @@ find_line_end (const gchar *text,
                      gint begin_offset,
                      gint step)
 {
-        gint offset;
-        gchar *at_offset;
-        gunichar current;
-        gint len;
+	gint offset;
+	gchar *at_offset;
+	gunichar current;
+	gint len;
 
-        offset = begin_offset;
-        len = g_utf8_strlen (text, -1);
+	offset = begin_offset;
+	len = g_utf8_strlen (text, -1);
 
-        while (offset >= 0 && offset < len) {
-                at_offset = g_utf8_offset_to_pointer (text, offset);
-                current = g_utf8_get_char_validated (at_offset, -1);
-                if (current == '\n' || current == '\r')
-                        break;
-                offset += step;
-        }
+	while (offset >= 0 && offset < len) {
+		at_offset = g_utf8_offset_to_pointer (text, offset);
+		current = g_utf8_get_char_validated (at_offset, -1);
+		if (current == '\n' || current == '\r')
+			break;
+		offset += step;
+	}
 
-        return offset;
+	return offset;
 }
 
 static gchar *
@@ -310,9 +310,9 @@ et_get_text_after_offset (AtkText *text,
 			  gint *start_offset,
 			  gint *end_offset)
 {
-        gint start, end, len;
-        const gchar *full_text = et_get_full_text (text);
-        g_return_val_if_fail (full_text, NULL);
+	gint start, end, len;
+	const gchar *full_text = et_get_full_text (text);
+	g_return_val_if_fail (full_text, NULL);
 
 	switch (boundary_type)
 	{
@@ -364,8 +364,8 @@ et_get_text_at_offset (AtkText *text,
 		       gint *end_offset)
 {
 	gint start, end, len;
-        const gchar *full_text = et_get_full_text (text);
-        g_return_val_if_fail (full_text, NULL);
+	const gchar *full_text = et_get_full_text (text);
+	g_return_val_if_fail (full_text, NULL);
 
 	switch (boundary_type)
 	{
@@ -383,19 +383,19 @@ et_get_text_at_offset (AtkText *text,
 		break;
 	case ATK_TEXT_BOUNDARY_SENTENCE_START:
 		start = find_sentence_start (full_text, offset - 1, -1);
-                end = find_sentence_start (full_text, offset, 1);
+		end = find_sentence_start (full_text, offset, 1);
 		break;
 	case ATK_TEXT_BOUNDARY_SENTENCE_END:
 		start = find_sentence_end (full_text, offset, -1);
-                end = find_sentence_end (full_text, offset + 1, 1);
+		end = find_sentence_end (full_text, offset + 1, 1);
 		break;
 	case ATK_TEXT_BOUNDARY_LINE_START:
 		start = find_line_start (full_text, offset - 1, -1);
-                end = find_line_start (full_text, offset, 1);
+		end = find_line_start (full_text, offset, 1);
 		break;
 	case ATK_TEXT_BOUNDARY_LINE_END:
 		start = find_line_end (full_text, offset, -1);
-                end = find_line_end (full_text, offset + 1, 1);
+		end = find_line_end (full_text, offset + 1, 1);
 		break;
 	default:
 		return NULL;
@@ -427,9 +427,9 @@ et_get_text_before_offset (AtkText *text,
 			   gint *start_offset,
 			   gint *end_offset)
 {
-        gint start, end, len;
-        const gchar *full_text = et_get_full_text (text);
-        g_return_val_if_fail (full_text, NULL);
+	gint start, end, len;
+	const gchar *full_text = et_get_full_text (text);
+	g_return_val_if_fail (full_text, NULL);
 
 	switch (boundary_type)
 	{
@@ -451,15 +451,15 @@ et_get_text_before_offset (AtkText *text,
 		break;
 	case ATK_TEXT_BOUNDARY_SENTENCE_END:
 		end = find_sentence_end (full_text, offset, -1);
-                start = find_sentence_end (full_text, end - 1, -1);
+		start = find_sentence_end (full_text, end - 1, -1);
 		break;
 	case ATK_TEXT_BOUNDARY_LINE_START:
 		end = find_line_start (full_text, offset, -1);
-                start = find_line_start (full_text, end - 1, -1);
+		start = find_line_start (full_text, end - 1, -1);
 		break;
 	case ATK_TEXT_BOUNDARY_LINE_END:
 		end = find_line_end (full_text, offset, -1);
-                start = find_line_end (full_text, end - 1, -1);
+		start = find_line_end (full_text, end - 1, -1);
 		break;
 	default:
 		return NULL;
@@ -518,24 +518,24 @@ et_get_character_extents (AtkText *text,
 			  gint *height,
 			  AtkCoordType coords)
 {
-        GObject *obj;
-        EText *etext;
-        GnomeCanvas *canvas;
-        gint x_widget, y_widget, x_window, y_window;
-        GdkWindow *window;
-        GtkWidget *widget;
+	GObject *obj;
+	EText *etext;
+	GnomeCanvas *canvas;
+	gint x_widget, y_widget, x_window, y_window;
+	GdkWindow *window;
+	GtkWidget *widget;
 	PangoRectangle pango_pos;
 
-        g_return_if_fail (ATK_IS_GOBJECT_ACCESSIBLE (text));
-        obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
-        if (obj == NULL)
-            return;
-        g_return_if_fail (E_IS_TEXT (obj));
-        etext = E_TEXT (obj);
-        canvas = GNOME_CANVAS_ITEM (etext)->canvas;
-        widget = GTK_WIDGET (canvas);
-        window = gtk_widget_get_window (widget);
-        gdk_window_get_origin (window, &x_widget, &y_widget);
+	g_return_if_fail (ATK_IS_GOBJECT_ACCESSIBLE (text));
+	obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
+	if (obj == NULL)
+	    return;
+	g_return_if_fail (E_IS_TEXT (obj));
+	etext = E_TEXT (obj);
+	canvas = GNOME_CANVAS_ITEM (etext)->canvas;
+	widget = GTK_WIDGET (canvas);
+	window = gtk_widget_get_window (widget);
+	gdk_window_get_origin (window, &x_widget, &y_widget);
 
 	pango_layout_index_to_pos (etext->layout, offset, &pango_pos);
 	pango_pos.x = PANGO_PIXELS (pango_pos.x);
@@ -549,18 +549,18 @@ et_get_character_extents (AtkText *text,
 	*width  = pango_pos.width;
 	*height = pango_pos.height;
 
-        if (etext->draw_borders) {
+	if (etext->draw_borders) {
                 *x += 3; /*BORDER_INDENT;*/
                 *y += 3; /*BORDER_INDENT;*/
-        }
+	}
 
         *x += etext->xofs;
         *y += etext->yofs;
 
-        if (etext->editing) {
+	if (etext->editing) {
                 *x -= etext->xofs_edit;
                 *y -= etext->yofs_edit;
-        }
+	}
 
         *x += etext->cx;
         *y += etext->cy;
@@ -595,23 +595,23 @@ et_get_offset_at_point (AtkText *text,
 			gint y,
 			AtkCoordType coords)
 {
-        GObject *obj;
-        EText *etext;
-        GnomeCanvas *canvas;
+	GObject *obj;
+	EText *etext;
+	GnomeCanvas *canvas;
 	gint x_widget, y_widget, x_window, y_window;
 	GdkWindow *window;
-        GtkWidget *widget;
-        gint index;
-        gint trailing;
+	GtkWidget *widget;
+	gint index;
+	gint trailing;
 
-        g_return_val_if_fail (ATK_IS_GOBJECT_ACCESSIBLE (text), -1);
-        obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
-        if (obj == NULL)
-            return -1;
-        g_return_val_if_fail (E_IS_TEXT (obj), -1);
-        etext = E_TEXT (obj);
-        canvas = GNOME_CANVAS_ITEM (etext)->canvas;
-        widget = GTK_WIDGET (canvas);
+	g_return_val_if_fail (ATK_IS_GOBJECT_ACCESSIBLE (text), -1);
+	obj = atk_gobject_accessible_get_object (ATK_GOBJECT_ACCESSIBLE (text));
+	if (obj == NULL)
+	    return -1;
+	g_return_val_if_fail (E_IS_TEXT (obj), -1);
+	etext = E_TEXT (obj);
+	canvas = GNOME_CANVAS_ITEM (etext)->canvas;
+	widget = GTK_WIDGET (canvas);
 	window = gtk_widget_get_window (widget);
 	gdk_window_get_origin (window, &x_widget, &y_widget);
 
@@ -628,29 +628,29 @@ et_get_offset_at_point (AtkText *text,
 	else
 		return -1;
 
-        if (etext->draw_borders) {
-                x -= 3; /*BORDER_INDENT;*/
-                y -= 3; /*BORDER_INDENT;*/
-        }
+	if (etext->draw_borders) {
+		x -= 3; /*BORDER_INDENT;*/
+		y -= 3; /*BORDER_INDENT;*/
+	}
 
-        x -= etext->xofs;
-        y -= etext->yofs;
+	x -= etext->xofs;
+	y -= etext->yofs;
 
-        if (etext->editing) {
-                x += etext->xofs_edit;
-                y += etext->yofs_edit;
-        }
+	if (etext->editing) {
+		x += etext->xofs_edit;
+		y += etext->yofs_edit;
+	}
 
-        x -= etext->cx;
-        y -= etext->cy;
+	x -= etext->cx;
+	y -= etext->cy;
 
-        pango_layout_xy_to_index (etext->layout,
+	pango_layout_xy_to_index (etext->layout,
 				  x * PANGO_SCALE - PANGO_SCALE / 2,
 				  y * PANGO_SCALE - PANGO_SCALE / 2,
 				  &index,
 				  &trailing);
 
-        return g_utf8_pointer_to_offset (etext->text, etext->text + index + trailing);
+	return g_utf8_pointer_to_offset (etext->text, etext->text + index + trailing);
 }
 
 static gint
@@ -772,8 +772,8 @@ et_set_selection (AtkText *text,
 		return FALSE;
 	g_return_val_if_fail (E_IS_TEXT (obj), FALSE);
 	if (selection_num == 0)
-                return et_add_selection (text, start_offset, end_offset);
-        return FALSE;
+		return et_add_selection (text, start_offset, end_offset);
+	return FALSE;
 }
 
 static gboolean

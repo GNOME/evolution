@@ -70,20 +70,20 @@ rule_editor_add_undo (ERuleEditor *editor,
                       gint rank,
                       gint newrank)
 {
-        ERuleEditorUndo *undo;
+	ERuleEditorUndo *undo;
 
-        if (!editor->undo_active && enable_undo) {
-                undo = g_malloc0 (sizeof (*undo));
-                undo->rule = rule;
-                undo->type = type;
-                undo->rank = rank;
-                undo->newrank = newrank;
+	if (!editor->undo_active && enable_undo) {
+		undo = g_malloc0 (sizeof (*undo));
+		undo->rule = rule;
+		undo->type = type;
+		undo->rank = rank;
+		undo->newrank = newrank;
 
-                undo->next = editor->undo_log;
-                editor->undo_log = undo;
-        } else {
-                g_object_unref (rule);
-        }
+		undo->next = editor->undo_log;
+		editor->undo_log = undo;
+	} else {
+		g_object_unref (rule);
+	}
 }
 
 static void

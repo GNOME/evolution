@@ -333,7 +333,7 @@ list_eq (GList *al, GList *bl)
 static gint
 vfolder_eq (EFilterRule *fr, EFilterRule *cm)
 {
-        return E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->eq (fr, cm)
+	return E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->eq (fr, cm)
 		&& list_eq (((EMVFolderRule *)fr)->sources, ((EMVFolderRule *)cm)->sources);
 }
 
@@ -344,7 +344,7 @@ xml_encode (EFilterRule *fr)
 	xmlNodePtr node, set, work;
 	GList *l;
 
-        node = E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->xml_encode (fr);
+	node = E_FILTER_RULE_CLASS (em_vfolder_rule_parent_class)->xml_encode (fr);
 	g_return_val_if_fail (node != NULL, NULL);
 	g_return_val_if_fail (vr->with < G_N_ELEMENTS (with_names), NULL);
 

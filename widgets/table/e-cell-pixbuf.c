@@ -87,11 +87,11 @@ pixbuf_kill_view (ECellView *ecell_view)
     ECellPixbufView *pixbuf_view = (ECellPixbufView *) ecell_view;
 
     if (pixbuf_view->cell_view.kill_view_cb)
-        pixbuf_view->cell_view.kill_view_cb (
-            ecell_view, pixbuf_view->cell_view.kill_view_cb_data);
+	pixbuf_view->cell_view.kill_view_cb (
+	    ecell_view, pixbuf_view->cell_view.kill_view_cb_data);
 
     if (pixbuf_view->cell_view.kill_view_cb_data)
-        g_list_free (pixbuf_view->cell_view.kill_view_cb_data);
+	g_list_free (pixbuf_view->cell_view.kill_view_cb_data);
 
     g_free (pixbuf_view);
 }
@@ -111,7 +111,7 @@ pixbuf_draw (ECellView *ecell_view, cairo_t *cr,
     /* we can't make sure we really got a pixbuf since, well, it's a Gdk thing */
 
     if (x2 - x1 == 0)
-        return;
+	return;
 
     if (!cell_pixbuf)
 	return;
@@ -121,17 +121,17 @@ pixbuf_draw (ECellView *ecell_view, cairo_t *cr,
 
     /* We center the pixbuf within our allocated space */
     if (x2 - x1 > pix_w) {
-        gint diff = (x2 - x1) - pix_w;
-        real_x = x1 + diff/2;
+	gint diff = (x2 - x1) - pix_w;
+	real_x = x1 + diff/2;
     } else {
-        real_x = x1;
+	real_x = x1;
     }
 
     if (y2 - y1 > pix_h) {
-        gint diff = (y2 - y1) - pix_h;
-        real_y = y1 + diff/2;
+	gint diff = (y2 - y1) - pix_h;
+	real_y = y1 + diff/2;
     } else {
-        real_y = y1;
+	real_y = y1;
     }
 
     cairo_save (cr);
@@ -156,7 +156,7 @@ pixbuf_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
     GdkPixbuf *pixbuf;
     if (row == -1) {
       if (e_table_model_row_count (ecell_view->e_table_model) > 0) {
-        row = 0;
+	row = 0;
       } else {
 	return 6;
       }
@@ -164,7 +164,7 @@ pixbuf_height (ECellView *ecell_view, gint model_col, gint view_col, gint row)
 
     pixbuf = (GdkPixbuf *) e_table_model_value_at (ecell_view->e_table_model, 1, row);
     if (!pixbuf)
-        return 0;
+	return 0;
 
     /* We give ourselves 3 pixels of padding on either side */
     return gdk_pixbuf_get_height (pixbuf) + 6;
@@ -225,21 +225,21 @@ pixbuf_max_width (ECellView *ecell_view, gint model_col, gint view_col)
     gint max_width = -1;
 
     if (model_col == 0) {
-        num_rows = e_table_model_row_count (ecell_view->e_table_model);
+	num_rows = e_table_model_row_count (ecell_view->e_table_model);
 
-        for (i = 0; i <= num_rows; i++) {
-            GdkPixbuf *pixbuf = (GdkPixbuf *) e_table_model_value_at
-                (ecell_view->e_table_model,
-                 1,
-                 i);
-           if (!pixbuf)
-               continue;
-            pw = gdk_pixbuf_get_width (pixbuf);
-            if (max_width < pw)
-                max_width = pw;
-        }
+	for (i = 0; i <= num_rows; i++) {
+	    GdkPixbuf *pixbuf = (GdkPixbuf *) e_table_model_value_at
+		(ecell_view->e_table_model,
+		 1,
+		 i);
+	   if (!pixbuf)
+	       continue;
+	    pw = gdk_pixbuf_get_width (pixbuf);
+	    if (max_width < pw)
+		max_width = pw;
+	}
     } else {
-        return -1;
+	return -1;
     }
 
     return max_width;

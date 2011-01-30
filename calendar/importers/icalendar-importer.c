@@ -129,7 +129,7 @@ prepare_events (icalcomponent *icalcomp, GList **vtodos)
 			if (child_kind == ICAL_VTODO_COMPONENT && vtodos)
 				*vtodos = g_list_prepend (*vtodos, subcomp);
 			else
-                                icalcomponent_free (subcomp);
+				icalcomponent_free (subcomp);
 		} else {
 			icalcompiter_next (&iter);
 		}

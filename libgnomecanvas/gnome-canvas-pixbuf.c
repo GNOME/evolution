@@ -70,21 +70,21 @@ G_DEFINE_TYPE (GnomeCanvasPixbuf, gnome_canvas_pixbuf, GNOME_TYPE_CANVAS_ITEM)
 static void
 gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class)
 {
-        GObjectClass *gobject_class;
+	GObjectClass *gobject_class;
 	GnomeCanvasItemClass *item_class;
 
-        gobject_class = (GObjectClass *) class;
+	gobject_class = (GObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
 
 	gobject_class->set_property = gnome_canvas_pixbuf_set_property;
 	gobject_class->get_property = gnome_canvas_pixbuf_get_property;
 
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_PIXBUF,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_PIXBUF,
                  g_param_spec_object ("pixbuf", NULL, NULL,
-                                      GDK_TYPE_PIXBUF,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      GDK_TYPE_PIXBUF,
+				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
 	item_class->dispose = gnome_canvas_pixbuf_dispose;
 	item_class->update = gnome_canvas_pixbuf_update;
@@ -92,7 +92,7 @@ gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class)
 	item_class->point = gnome_canvas_pixbuf_point;
 	item_class->bounds = gnome_canvas_pixbuf_bounds;
 
-        g_type_class_add_private (class, sizeof (GnomeCanvasPixbufPrivate));
+	g_type_class_add_private (class, sizeof (GnomeCanvasPixbufPrivate));
 }
 
 /* Object initialization function for the pixbuf canvas item */
@@ -102,8 +102,8 @@ gnome_canvas_pixbuf_init (GnomeCanvasPixbuf *gcp)
 	GnomeCanvasPixbufPrivate *priv;
 
 	priv = gcp->priv =  G_TYPE_INSTANCE_GET_PRIVATE (gcp,
-                                                         GNOME_TYPE_CANVAS_PIXBUF,
-                                                         GnomeCanvasPixbufPrivate);
+							 GNOME_TYPE_CANVAS_PIXBUF,
+							 GnomeCanvasPixbufPrivate);
 }
 
 /* Dispose handler for the pixbuf canvas item */
@@ -211,7 +211,7 @@ recompute_bounding_box (GnomeCanvasPixbuf *gcp)
 	GnomeCanvasItem *item;
 	GnomeCanvasPixbufPrivate *priv;
 	cairo_matrix_t i2c;
-        double x1, x2, y1, y2;
+	double x1, x2, y1, y2;
 
 	item = GNOME_CANVAS_ITEM (gcp);
 	priv = gcp->priv;
@@ -256,10 +256,10 @@ gnome_canvas_pixbuf_update (GnomeCanvasItem *item,
 			update (item, i2c, flags);
 
 	/* ordinary update logic */
-        gnome_canvas_request_redraw (
+	gnome_canvas_request_redraw (
 		item->canvas, item->x1, item->y1, item->x2, item->y2);
-        recompute_bounding_box (gcp);
-        gnome_canvas_request_redraw (
+	recompute_bounding_box (gcp);
+	gnome_canvas_request_redraw (
 		item->canvas, item->x1, item->y1, item->x2, item->y2);
 }
 
@@ -272,7 +272,7 @@ gnome_canvas_pixbuf_draw (GnomeCanvasItem *item, cairo_t *cr,
 {
 	GnomeCanvasPixbuf *gcp;
 	GnomeCanvasPixbufPrivate *priv;
-        cairo_matrix_t matrix;
+	cairo_matrix_t matrix;
 
 	gcp = GNOME_CANVAS_PIXBUF (item);
 	priv = gcp->priv;
@@ -280,13 +280,13 @@ gnome_canvas_pixbuf_draw (GnomeCanvasItem *item, cairo_t *cr,
 	if (!priv->pixbuf)
 		return;
 
-        gnome_canvas_item_i2c_matrix (item, &matrix);
+	gnome_canvas_item_i2c_matrix (item, &matrix);
 
 	cairo_save (cr);
-        cairo_transform (cr, &matrix);
+	cairo_transform (cr, &matrix);
 
-        gdk_cairo_set_source_pixbuf (cr, priv->pixbuf, 0, 0);
-        cairo_paint (cr);
+	gdk_cairo_set_source_pixbuf (cr, priv->pixbuf, 0, 0);
+	cairo_paint (cr);
 	cairo_restore (cr);
 }
 
@@ -302,9 +302,9 @@ gnome_canvas_pixbuf_point (GnomeCanvasItem *item,
 {
 	GnomeCanvasPixbuf *gcp;
 	GnomeCanvasPixbufPrivate *priv;
-        GdkPixbuf *pixbuf;
-        gint px, py;
-        guchar *src;
+	GdkPixbuf *pixbuf;
+	gint px, py;
+	guchar *src;
 
 	gcp = GNOME_CANVAS_PIXBUF (item);
 	priv = gcp->priv;
@@ -313,8 +313,8 @@ gnome_canvas_pixbuf_point (GnomeCanvasItem *item,
 	if (!priv->pixbuf)
 		return NULL;
 
-        px = x;
-        py = y;
+	px = x;
+	py = y;
 
 	if (px < 0 || px >= gdk_pixbuf_get_width (pixbuf) ||
 	    py < 0 || py >= gdk_pixbuf_get_height (pixbuf))

@@ -274,5 +274,5 @@ e_memo_shell_backend_migrate (EShellBackend *shell_backend,
 	if (personal_source)
 		g_object_unref (personal_source);
 
-        return retval;
+	return retval;
 }

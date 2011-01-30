@@ -142,7 +142,7 @@ ea_cal_view_real_initialize (AtkObject *accessible, gpointer data)
 	g_return_if_fail (EA_IS_CAL_VIEW (accessible));
 	g_return_if_fail (E_IS_CALENDAR_VIEW (data));
 
-        ATK_OBJECT_CLASS (parent_class)->initialize (accessible, data);
+	ATK_OBJECT_CLASS (parent_class)->initialize (accessible, data);
 	if (role == ATK_ROLE_INVALID)
 		role = atk_role_register ("Calendar View");
 	accessible->role = role;

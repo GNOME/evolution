@@ -96,11 +96,11 @@ ea_cal_view_event_get_type (void)
 			NULL
 		};
 
-                static const GInterfaceInfo atk_action_info = {
-                        (GInterfaceInitFunc) atk_action_interface_init,
-                        (GInterfaceFinalizeFunc) NULL,
-                        NULL
-                };
+		static const GInterfaceInfo atk_action_info = {
+			(GInterfaceInitFunc) atk_action_interface_init,
+			(GInterfaceFinalizeFunc) NULL,
+			NULL
+		};
 
 		/*
 		 * Figure out the size of the class and instance
@@ -120,8 +120,8 @@ ea_cal_view_event_get_type (void)
 					       "EaCalViewEvent", &tinfo, 0);
 		g_type_add_interface_static (type, ATK_TYPE_COMPONENT,
 					     &atk_component_info);
-                g_type_add_interface_static (type, ATK_TYPE_ACTION,
-                                             &atk_action_info);
+		g_type_add_interface_static (type, ATK_TYPE_ACTION,
+					     &atk_action_info);
 
 	}
 
@@ -152,13 +152,13 @@ ea_cal_view_event_class_init (EaCalViewEventClass *klass)
 static void
 ea_cal_view_event_init (EaCalViewEvent *a11y)
 {
-        a11y->state_set = atk_state_set_new ();
-        atk_state_set_add_state (a11y->state_set, ATK_STATE_TRANSIENT);
-        atk_state_set_add_state (a11y->state_set, ATK_STATE_ENABLED);
-        atk_state_set_add_state (a11y->state_set, ATK_STATE_SENSITIVE);
-        atk_state_set_add_state (a11y->state_set, ATK_STATE_SELECTABLE);
-        atk_state_set_add_state (a11y->state_set, ATK_STATE_SHOWING);
-        atk_state_set_add_state (a11y->state_set, ATK_STATE_FOCUSABLE);
+	a11y->state_set = atk_state_set_new ();
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_TRANSIENT);
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_ENABLED);
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_SENSITIVE);
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_SELECTABLE);
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_SHOWING);
+	atk_state_set_add_state (a11y->state_set, ATK_STATE_FOCUSABLE);
 }
 
 #ifdef ACC_DEBUG
@@ -246,15 +246,15 @@ ea_cal_view_event_new (GObject *obj)
 static void
 ea_cal_view_event_dispose (GObject *object)
 {
-        EaCalViewEvent *a11y = EA_CAL_VIEW_EVENT (object);
+	EaCalViewEvent *a11y = EA_CAL_VIEW_EVENT (object);
 
-        if (a11y->state_set) {
-                g_object_unref (a11y->state_set);
-                a11y->state_set = NULL;
-        }
+	if (a11y->state_set) {
+		g_object_unref (a11y->state_set);
+		a11y->state_set = NULL;
+	}
 
-        if (G_OBJECT_CLASS (parent_class)->dispose)
-                G_OBJECT_CLASS (parent_class)->dispose (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static G_CONST_RETURN gchar *
@@ -268,7 +268,7 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 	const gchar *recur_string;
 	const gchar *meeting_string;
 	gchar *summary_string;
-        const gchar *summary;
+	const gchar *summary;
 
 	g_return_val_if_fail (EA_IS_CAL_VIEW_EVENT (accessible), NULL);
 
@@ -421,13 +421,13 @@ ea_cal_view_event_get_index_in_parent (AtkObject *accessible)
 static AtkStateSet *
 ea_cal_view_event_ref_state_set (AtkObject *accessible)
 {
-        EaCalViewEvent *atk_event = EA_CAL_VIEW_EVENT (accessible);
+	EaCalViewEvent *atk_event = EA_CAL_VIEW_EVENT (accessible);
 
-        g_return_val_if_fail (atk_event->state_set, NULL);
+	g_return_val_if_fail (atk_event->state_set, NULL);
 
-        g_object_ref (atk_event->state_set);
+	g_object_ref (atk_event->state_set);
 
-        return atk_event->state_set;
+	return atk_event->state_set;
 }
 
 /* Atk Component Interface */
@@ -554,41 +554,41 @@ static const gchar * action_name[CAL_VIEW_EVENT_ACTION_NUM] = {
 static void
 atk_action_interface_init (AtkActionIface *iface)
 {
-        g_return_if_fail (iface != NULL);
+	g_return_if_fail (iface != NULL);
 
-        iface->do_action = ea_cal_view_event_do_action;
-        iface->get_n_actions = ea_cal_view_event_get_n_actions;
-        iface->get_name = ea_cal_view_event_action_get_name;
+	iface->do_action = ea_cal_view_event_do_action;
+	iface->get_n_actions = ea_cal_view_event_get_n_actions;
+	iface->get_name = ea_cal_view_event_action_get_name;
 }
 
 static gboolean
 ea_cal_view_event_do_action (AtkAction *action, gint i)
 {
-        AtkGObjectAccessible *atk_gobj;
-        AtkComponent *atk_comp;
+	AtkGObjectAccessible *atk_gobj;
+	AtkComponent *atk_comp;
 
-        atk_gobj = ATK_GOBJECT_ACCESSIBLE (action);
+	atk_gobj = ATK_GOBJECT_ACCESSIBLE (action);
 
-        if (i == 0) {
-                atk_comp = (AtkComponent *)atk_gobj;
-                return atk_component_grab_focus (atk_comp);
-        }
+	if (i == 0) {
+		atk_comp = (AtkComponent *)atk_gobj;
+		return atk_component_grab_focus (atk_comp);
+	}
 
-        return FALSE;
+	return FALSE;
 
 }
 
 static gint
 ea_cal_view_event_get_n_actions (AtkAction *action)
 {
-        return CAL_VIEW_EVENT_ACTION_NUM;
+	return CAL_VIEW_EVENT_ACTION_NUM;
 }
 
 static G_CONST_RETURN gchar *
 ea_cal_view_event_action_get_name (AtkAction *action, gint i)
 {
-        if (i >= 0 && i < CAL_VIEW_EVENT_ACTION_NUM)
-                return action_name[i];
-        return NULL;
+	if (i >= 0 && i < CAL_VIEW_EVENT_ACTION_NUM)
+		return action_name[i];
+	return NULL;
 }
 

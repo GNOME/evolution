@@ -100,14 +100,14 @@ org_gnome_format_tnef (gpointer ep, EMFormatHookTarget *t)
 	g_object_unref (out);
 
 	/* Extracting the winmail.dat */
-        TNEFInitialize (&tnef);
+	TNEFInitialize (&tnef);
 	tnef.Debug = verbose;
-        if (TNEFParseFile (name, &tnef) == -1) {
+	if (TNEFParseFile (name, &tnef) == -1) {
             printf("ERROR processing file\n");
-        }
+	}
 	processTnef (&tnef, tmpdir);
 
-        TNEFFree (&tnef);
+	TNEFFree (&tnef);
 	/* Extraction done */
 
 	dir = opendir (tmpdir);
@@ -772,7 +772,7 @@ void printRrule (FILE *fptr, gchar *recur_data, gint size, TNEFStruct *tnef)
     variableLength *filename;
 
     if (size < 0x1F) {
-        return;
+	return;
     }
 
     fprintf(fptr, "RRULE:FREQ=");
@@ -780,63 +780,63 @@ void printRrule (FILE *fptr, gchar *recur_data, gint size, TNEFStruct *tnef)
     if (recur_data[0x04] == 0x0A) {
         fprintf(fptr, "DAILY");
 
-        if (recur_data[0x16] == 0x23 || recur_data[0x16] == 0x22 ||
-                recur_data[0x16] == 0x21) {
-            if ((filename=MAPIFindUserProp (&(tnef->MapiProperties),
-                    PROP_TAG (PT_I2, 0x0011))) != MAPI_UNDEFINED) {
+	if (recur_data[0x16] == 0x23 || recur_data[0x16] == 0x22 ||
+		recur_data[0x16] == 0x21) {
+	    if ((filename=MAPIFindUserProp (&(tnef->MapiProperties),
+		    PROP_TAG (PT_I2, 0x0011))) != MAPI_UNDEFINED) {
                 fprintf(fptr, ";INTERVAL=%d", *(filename->data));
-            }
-            if (recur_data[0x16] == 0x22 || recur_data[0x16] == 0x21) {
+	    }
+	    if (recur_data[0x16] == 0x22 || recur_data[0x16] == 0x21) {
                 fprintf(fptr, ";COUNT=%d",
-                    getRruleCount (recur_data[0x1B], recur_data[0x1A]));
-            }
-        } else if (recur_data[0x16] == 0x3E) {
+		    getRruleCount (recur_data[0x1B], recur_data[0x1A]));
+	    }
+	} else if (recur_data[0x16] == 0x3E) {
             fprintf(fptr, ";BYDAY=MO,TU,WE,TH,FR");
-            if (recur_data[0x1A] == 0x22 || recur_data[0x1A] == 0x21) {
+	    if (recur_data[0x1A] == 0x22 || recur_data[0x1A] == 0x21) {
                 fprintf(fptr, ";COUNT=%d",
-                    getRruleCount (recur_data[0x1F], recur_data[0x1E]));
-            }
-        }
+		    getRruleCount (recur_data[0x1F], recur_data[0x1E]));
+	    }
+	}
     } else if (recur_data[0x04] == 0x0B) {
         fprintf(fptr, "WEEKLY;INTERVAL=%d;BYDAY=%s",
-            recur_data[0x0E], getRruleDayname (recur_data[0x16]));
-        if (recur_data[0x1A] == 0x22 || recur_data[0x1A] == 0x21) {
+	    recur_data[0x0E], getRruleDayname (recur_data[0x16]));
+	if (recur_data[0x1A] == 0x22 || recur_data[0x1A] == 0x21) {
             fprintf(fptr, ";COUNT=%d",
-                getRruleCount (recur_data[0x1F], recur_data[0x1E]));
-        }
+		getRruleCount (recur_data[0x1F], recur_data[0x1E]));
+	}
     } else if (recur_data[0x04] == 0x0C) {
         fprintf(fptr, "MONTHLY");
-        if (recur_data[0x06] == 0x02) {
+	if (recur_data[0x06] == 0x02) {
             fprintf(fptr, ";INTERVAL=%d;BYMONTHDAY=%d", recur_data[0x0E],
-                recur_data[0x16]);
-            if (recur_data[0x1A] == 0x22 || recur_data[0x1A] == 0x21) {
+		recur_data[0x16]);
+	    if (recur_data[0x1A] == 0x22 || recur_data[0x1A] == 0x21) {
                 fprintf(fptr, ";COUNT=%d", getRruleCount(recur_data[0x1F],
-                    recur_data[0x1E]));
-            }
-        } else if (recur_data[0x06] == 0x03) {
+		    recur_data[0x1E]));
+	    }
+	} else if (recur_data[0x06] == 0x03) {
             fprintf(fptr, ";BYDAY=%s;BYSETPOS=%d;INTERVAL=%d",
-                getRruleDayname (recur_data[0x16]),
-                recur_data[0x1A] == 0x05 ? -1 : recur_data[0x1A],
-                recur_data[0x0E]);
-            if (recur_data[0x1E] == 0x22 || recur_data[0x1E] == 0x21) {
+		getRruleDayname (recur_data[0x16]),
+		recur_data[0x1A] == 0x05 ? -1 : recur_data[0x1A],
+		recur_data[0x0E]);
+	    if (recur_data[0x1E] == 0x22 || recur_data[0x1E] == 0x21) {
                 fprintf(fptr, ";COUNT=%d", getRruleCount(recur_data[0x23],
-                    recur_data[0x22]));
-            }
-        }
+		    recur_data[0x22]));
+	    }
+	}
     } else if (recur_data[0x04] == 0x0D) {
         fprintf(fptr, "YEARLY;BYMONTH=%d",
-                getRruleMonthNum (recur_data[0x0A], recur_data[0x0B]));
-        if (recur_data[0x06] == 0x02) {
+		getRruleMonthNum (recur_data[0x0A], recur_data[0x0B]));
+	if (recur_data[0x06] == 0x02) {
             fprintf(fptr, ";BYMONTHDAY=%d", recur_data[0x16]);
-        } else if (recur_data[0x06] == 0x03) {
+	} else if (recur_data[0x06] == 0x03) {
             fprintf(fptr, ";BYDAY=%s;BYSETPOS=%d",
-                getRruleDayname (recur_data[0x16]),
-                recur_data[0x1A] == 0x05 ? -1 : recur_data[0x1A]);
-        }
-        if (recur_data[0x1E] == 0x22 || recur_data[0x1E] == 0x21) {
+		getRruleDayname (recur_data[0x16]),
+		recur_data[0x1A] == 0x05 ? -1 : recur_data[0x1A]);
+	}
+	if (recur_data[0x1E] == 0x22 || recur_data[0x1E] == 0x21) {
             fprintf(fptr, ";COUNT=%d", getRruleCount(recur_data[0x23],
-                recur_data[0x22]));
-        }
+		recur_data[0x22]));
+	}
     }
     fprintf(fptr, "\n");
 }

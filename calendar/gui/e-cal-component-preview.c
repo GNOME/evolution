@@ -134,8 +134,8 @@ timet_to_str_with_zone (ECalComponentDateTime *dt,
 {
 	struct icaltimetype itt;
 	icaltimezone *zone;
-        struct tm tm;
-        gchar buf[256];
+	struct tm tm;
+	gchar buf[256];
 
 	if (dt->tzid) {
 		/* If we can't find the zone, we'll guess its "local" */
@@ -150,9 +150,9 @@ timet_to_str_with_zone (ECalComponentDateTime *dt,
 	itt = *dt->value;
 	if (zone)
 		icaltimezone_convert_time (&itt, zone, default_zone);
-        tm = icaltimetype_to_tm (&itt);
+	tm = icaltimetype_to_tm (&itt);
 
-        e_time_format_date_and_time (
+	e_time_format_date_and_time (
 		&tm, use_24_hour_format,
 		FALSE, FALSE, buf, sizeof (buf));
 

@@ -116,10 +116,10 @@ lookup_gnode (ETreeTableAdapter *etta, ETreePath path)
 static void
 resize_map (ETreeTableAdapter *etta, gint size)
 {
-        if (size > etta->priv->n_vals_allocated) {
-                etta->priv->n_vals_allocated = MAX (etta->priv->n_vals_allocated + INCREMENT_AMOUNT, size);
-                etta->priv->map_table = g_renew (node_t *, etta->priv->map_table, etta->priv->n_vals_allocated);
-        }
+	if (size > etta->priv->n_vals_allocated) {
+		etta->priv->n_vals_allocated = MAX (etta->priv->n_vals_allocated + INCREMENT_AMOUNT, size);
+		etta->priv->map_table = g_renew (node_t *, etta->priv->map_table, etta->priv->n_vals_allocated);
+	}
 
 	etta->priv->n_map = size;
 }

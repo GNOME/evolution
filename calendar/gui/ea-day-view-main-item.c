@@ -460,8 +460,8 @@ ea_day_view_main_item_time_change_cb (EDayView *day_view, gpointer data)
 			       item_cell);
 		g_signal_emit_by_name (data, "selection_changed");
 
-                atk_focus_tracker_notify (item_cell);
-                g_object_unref (item_cell);
+		atk_focus_tracker_notify (item_cell);
+		g_object_unref (item_cell);
 	}
 
 }

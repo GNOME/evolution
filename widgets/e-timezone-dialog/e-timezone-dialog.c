@@ -491,7 +491,7 @@ on_map_timeout (gpointer data)
 	if (!priv->point_selected)
 		return TRUE;
 
-        if (e_map_point_get_color_rgba (priv->point_selected)
+	if (e_map_point_get_color_rgba (priv->point_selected)
 	    == E_TIMEZONE_DIALOG_MAP_POINT_SELECTED_1_RGBA)
 		e_map_point_set_color_rgba (priv->map, priv->point_selected,
 					    E_TIMEZONE_DIALOG_MAP_POINT_SELECTED_2_RGBA);

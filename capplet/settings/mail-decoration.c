@@ -91,7 +91,7 @@ md_translate_position (GdkWindow *w, double ex, double ey, gint *x, gint *y, Gtk
 		gdk_window_get_geometry (w, &cx, &cy, &cw, &ch);
                 *x += cx;
                 *y += cy;
-                w = gdk_window_get_parent (w);
+		w = gdk_window_get_parent (w);
 	}
 }
 
@@ -254,18 +254,18 @@ md_button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer user_d
 	gint y_root = (gint) event->y_root;
 	gint x, y;
 
-        if (!md->priv->can_resize) {
-                return FALSE;
-        }
+	if (!md->priv->can_resize) {
+		return FALSE;
+	}
 
 	md_translate_position (event->window, event->x, event->y, &x, &y, (GtkWidget *)md->window);
-        update_cursor (md, x, y, TRUE);
-        if (md->priv->resizing && event->button == 1 && event->type != GDK_2BUTTON_PRESS) {
+	update_cursor (md, x, y, TRUE);
+	if (md->priv->resizing && event->button == 1 && event->type != GDK_2BUTTON_PRESS) {
 		gtk_window_begin_resize_drag ((GtkWindow *)widget, md->priv->last_edge, 1, x_root, y_root, event->time);
 
-        } else if ((md->priv->resizing && event->button == 2 && event->type != GDK_2BUTTON_PRESS) ||
-                (event->button == 1 && y <= md->priv->top_height && event->type != GDK_2BUTTON_PRESS)) {
-                gtk_window_begin_move_drag ((GtkWindow *)widget, event->button, x_root, y_root, event->time);
+	} else if ((md->priv->resizing && event->button == 2 && event->type != GDK_2BUTTON_PRESS) ||
+		(event->button == 1 && y <= md->priv->top_height && event->type != GDK_2BUTTON_PRESS)) {
+		gtk_window_begin_move_drag ((GtkWindow *)widget, event->button, x_root, y_root, event->time);
 	} else if (y <= md->priv->top_height && event->type == GDK_2BUTTON_PRESS) {
 		if (md->priv->full_screen)
 			gtk_window_unfullscreen (md->window);

@@ -139,7 +139,7 @@ e_printable_print_page          (EPrintable        *e_printable,
 gboolean
 e_printable_data_left           (EPrintable        *e_printable)
 {
-        gboolean ret_val;
+	gboolean ret_val;
 
 	g_return_val_if_fail (e_printable != NULL, FALSE);
 	g_return_val_if_fail (E_IS_PRINTABLE (e_printable), FALSE);
@@ -168,7 +168,7 @@ e_printable_height              (EPrintable        *e_printable,
 				 gdouble            max_height,
 				 gboolean           quantized)
 {
-        gdouble ret_val;
+	gdouble ret_val;
 
 	g_return_val_if_fail (e_printable != NULL, -1);
 	g_return_val_if_fail (E_IS_PRINTABLE (e_printable), -1);
@@ -191,7 +191,7 @@ e_printable_will_fit            (EPrintable        *e_printable,
 				 gdouble            max_height,
 				 gboolean           quantized)
 {
-        gboolean ret_val;
+	gboolean ret_val;
 
 	g_return_val_if_fail (e_printable != NULL, FALSE);
 	g_return_val_if_fail (E_IS_PRINTABLE (e_printable), FALSE);

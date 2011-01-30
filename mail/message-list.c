@@ -4664,8 +4664,8 @@ regen_list_done (struct _regen_list_msg *m)
 	} else
 		build_flat (m->ml, m->summary, m->changes);
 
-        if (m->ml->search && m->ml->search != m->search)
-                g_free (m->ml->search);
+	if (m->ml->search && m->ml->search != m->search)
+		g_free (m->ml->search);
 	m->ml->search = m->search;
 	m->search = NULL;
 

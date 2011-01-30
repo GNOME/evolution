@@ -106,7 +106,7 @@ ecb_dispose (GObject *object)
 	}
 
 	if (G_OBJECT_CLASS (ecb_parent_class)->dispose)
-                G_OBJECT_CLASS (ecb_parent_class)->dispose (object);
+		G_OBJECT_CLASS (ecb_parent_class)->dispose (object);
 }
 
 static void
@@ -150,7 +150,7 @@ ecb_set_property (GObject *object,
 		color_changed = TRUE;
 		break;
 
-        case PROP_FILL_COLOR_RGBA:
+	case PROP_FILL_COLOR_RGBA:
 		ecb->priv->rgba = g_value_get_uint (value);
 		color_changed = TRUE;
 		break;
@@ -171,7 +171,7 @@ ecb_get_property (GObject *object,
 	ecb = E_CANVAS_BACKGROUND (object);
 
 	switch (prop_id) {
-        case PROP_FILL_COLOR_RGBA:
+	case PROP_FILL_COLOR_RGBA:
 		g_value_set_uint (value, ecb->priv->rgba);
 		break;
 	default:
@@ -197,12 +197,12 @@ ecb_draw (GnomeCanvasItem *item,
 	ECanvasBackground *ecb = E_CANVAS_BACKGROUND (item);
 
 	cairo_save (cr);
-        cairo_set_source_rgba (cr,
-                               ((ecb->priv->rgba >> 24) & 0xff) / 255.0,
-                               ((ecb->priv->rgba >> 16) & 0xff) / 255.0,
-                               ((ecb->priv->rgba >>  8) & 0xff) / 255.0,
-                               ( ecb->priv->rgba        & 0xff) / 255.0);
-        cairo_paint (cr);
+	cairo_set_source_rgba (cr,
+			       ((ecb->priv->rgba >> 24) & 0xff) / 255.0,
+			       ((ecb->priv->rgba >> 16) & 0xff) / 255.0,
+			       ((ecb->priv->rgba >>  8) & 0xff) / 255.0,
+			       ( ecb->priv->rgba        & 0xff) / 255.0);
+	cairo_paint (cr);
 	cairo_restore (cr);
 }
 

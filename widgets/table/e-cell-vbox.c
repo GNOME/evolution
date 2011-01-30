@@ -53,8 +53,8 @@ ecv_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view
 	vbox_view->cell_view.ecell = ecell;
 	vbox_view->cell_view.e_table_model = table_model;
 	vbox_view->cell_view.e_table_item_view = e_table_item_view;
-        vbox_view->cell_view.kill_view_cb = NULL;
-        vbox_view->cell_view.kill_view_cb_data = NULL;
+	vbox_view->cell_view.kill_view_cb = NULL;
+	vbox_view->cell_view.kill_view_cb_data = NULL;
 
 	/* create our subcell view */
 	vbox_view->subcell_view_count = ecv->subcell_count;
@@ -78,11 +78,11 @@ ecv_kill_view (ECellView *ecv)
 	ECellVboxView *vbox_view = (ECellVboxView *) ecv;
 	gint i;
 
-        if (vbox_view->cell_view.kill_view_cb)
+	if (vbox_view->cell_view.kill_view_cb)
 		(vbox_view->cell_view.kill_view_cb)(ecv, vbox_view->cell_view.kill_view_cb_data);
 
-        if (vbox_view->cell_view.kill_view_cb_data)
-            g_list_free (vbox_view->cell_view.kill_view_cb_data);
+	if (vbox_view->cell_view.kill_view_cb_data)
+	    g_list_free (vbox_view->cell_view.kill_view_cb_data);
 
 	/* kill our subcell view */
 	for (i = 0; i < vbox_view->subcell_view_count; i++)

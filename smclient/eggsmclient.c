@@ -90,13 +90,13 @@ egg_sm_client_class_init (EggSMClientClass *klass)
    **/
   signals[SAVE_STATE] =
     g_signal_new ("save_state",
-                  G_OBJECT_CLASS_TYPE (object_class),
-                  G_SIGNAL_RUN_LAST,
-                  G_STRUCT_OFFSET (EggSMClientClass, save_state),
-                  NULL, NULL,
-                  g_cclosure_marshal_VOID__POINTER,
-                  G_TYPE_NONE,
-                  1, G_TYPE_POINTER);
+		  G_OBJECT_CLASS_TYPE (object_class),
+		  G_SIGNAL_RUN_LAST,
+		  G_STRUCT_OFFSET (EggSMClientClass, save_state),
+		  NULL, NULL,
+		  g_cclosure_marshal_VOID__POINTER,
+		  G_TYPE_NONE,
+		  1, G_TYPE_POINTER);
 
   /**
    * EggSMClient::quit_requested:
@@ -124,13 +124,13 @@ egg_sm_client_class_init (EggSMClientClass *klass)
    **/
   signals[QUIT_REQUESTED] =
     g_signal_new ("quit_requested",
-                  G_OBJECT_CLASS_TYPE (object_class),
-                  G_SIGNAL_RUN_LAST,
-                  G_STRUCT_OFFSET (EggSMClientClass, quit_requested),
-                  NULL, NULL,
-                  g_cclosure_marshal_VOID__VOID,
-                  G_TYPE_NONE,
-                  0);
+		  G_OBJECT_CLASS_TYPE (object_class),
+		  G_SIGNAL_RUN_LAST,
+		  G_STRUCT_OFFSET (EggSMClientClass, quit_requested),
+		  NULL, NULL,
+		  g_cclosure_marshal_VOID__VOID,
+		  G_TYPE_NONE,
+		  0);
 
   /**
    * EggSMClient::quit_cancelled:
@@ -143,13 +143,13 @@ egg_sm_client_class_init (EggSMClientClass *klass)
    **/
   signals[QUIT_CANCELLED] =
     g_signal_new ("quit_cancelled",
-                  G_OBJECT_CLASS_TYPE (object_class),
-                  G_SIGNAL_RUN_LAST,
-                  G_STRUCT_OFFSET (EggSMClientClass, quit_cancelled),
-                  NULL, NULL,
-                  g_cclosure_marshal_VOID__VOID,
-                  G_TYPE_NONE,
-                  0);
+		  G_OBJECT_CLASS_TYPE (object_class),
+		  G_SIGNAL_RUN_LAST,
+		  G_STRUCT_OFFSET (EggSMClientClass, quit_cancelled),
+		  NULL, NULL,
+		  g_cclosure_marshal_VOID__VOID,
+		  G_TYPE_NONE,
+		  0);
 
   /**
    * EggSMClient::quit:
@@ -168,13 +168,13 @@ egg_sm_client_class_init (EggSMClientClass *klass)
    **/
   signals[QUIT] =
     g_signal_new ("quit",
-                  G_OBJECT_CLASS_TYPE (object_class),
-                  G_SIGNAL_RUN_LAST,
-                  G_STRUCT_OFFSET (EggSMClientClass, quit),
-                  NULL, NULL,
-                  g_cclosure_marshal_VOID__VOID,
-                  G_TYPE_NONE,
-                  0);
+		  G_OBJECT_CLASS_TYPE (object_class),
+		  G_SIGNAL_RUN_LAST,
+		  G_STRUCT_OFFSET (EggSMClientClass, quit),
+		  NULL, NULL,
+		  g_cclosure_marshal_VOID__VOID,
+		  G_TYPE_NONE,
+		  0);
 }
 
 static gboolean sm_client_disable = FALSE;
@@ -197,7 +197,7 @@ sm_client_post_parse_func (GOptionContext  *context,
       desktop_autostart_id = g_getenv ("DESKTOP_AUTOSTART_ID");
 
       if (desktop_autostart_id != NULL)
-        sm_client_id = g_strdup (desktop_autostart_id);
+	sm_client_id = g_strdup (desktop_autostart_id);
     }
 
   /* Unset DESKTOP_AUTOSTART_ID in order to avoid child processes to

@@ -65,8 +65,8 @@ struct _CustomHeaderOptionsDialogClass {
 
 typedef struct _EmailCustomHeaderWindow
 {
-        GdkWindow *epech_window;
-        CustomHeaderOptionsDialog *epech_dialog;
+	GdkWindow *epech_window;
+	CustomHeaderOptionsDialog *epech_dialog;
 }EmailCustomHeaderWindow;
 
 enum {

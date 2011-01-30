@@ -176,7 +176,7 @@ ethi_update (GnomeCanvasItem *item,
              gint flags)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
-        double x1, y1, x2, y2;
+	double x1, y1, x2, y2;
 
 	if (GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->update)
 		GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->update (
@@ -197,7 +197,7 @@ ethi_update (GnomeCanvasItem *item,
 	x2 = ethi->width;
 	y2 = ethi->height;
 
-        gnome_canvas_matrix_transform_rect (i2c, &x1, &y1, &x2, &y2);
+	gnome_canvas_matrix_transform_rect (i2c, &x1, &y1, &x2, &y2);
 
 	if (item->x1 != x1 ||
 	    item->y1 != y1 ||

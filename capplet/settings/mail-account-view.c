@@ -200,7 +200,7 @@ static gboolean
 is_email (const gchar *address)
 {
 	/* This is supposed to check if the address's domain could be
-           an FQDN but alas, it's not worth the pain and suffering. */
+	   an FQDN but alas, it's not worth the pain and suffering. */
 	const gchar *at;
 
 	at = strchr (address, '@');

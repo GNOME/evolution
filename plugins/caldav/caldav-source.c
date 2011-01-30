@@ -248,7 +248,7 @@ oge_caldav  (EPlugin                    *epl,
 		user, "changed",
 		G_CALLBACK (user_changed_cb), source);
 
-        g_free (uri);
+	g_free (uri);
 	g_free (username);
 
 	mail = e_plugin_util_add_entry (parent, _("User e-_mail:"), source, "usermail");

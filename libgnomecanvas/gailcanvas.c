@@ -90,16 +90,16 @@ gail_canvas_get_type (void)
       GTypeQuery query;
       static GTypeInfo tinfo =
       {
-        0, /* class size */
-        (GBaseInitFunc) NULL, /* base init */
-        (GBaseFinalizeFunc) NULL, /* base finalize */
-        (GClassInitFunc) gail_canvas_class_init, /* class init */
-        (GClassFinalizeFunc) NULL, /* class finalize */
-        NULL, /* class data */
-        0, /* instance size */
-        0, /* nb preallocs */
-        (GInstanceInitFunc) NULL, /* instance init */
-        NULL /* value table */
+	0, /* class size */
+	(GBaseInitFunc) NULL, /* base init */
+	(GBaseFinalizeFunc) NULL, /* base finalize */
+	(GClassInitFunc) gail_canvas_class_init, /* class init */
+	(GClassFinalizeFunc) NULL, /* class finalize */
+	NULL, /* class data */
+	0, /* instance size */
+	0, /* nb preallocs */
+	(GInstanceInitFunc) NULL, /* instance init */
+	NULL /* value table */
       };
       g_type_query (atkobject_parent_type, &query);
       tinfo.class_size = query.class_size;
@@ -182,14 +182,14 @@ gail_canvas_real_initialize (AtkObject *obj,
   adj = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (canvas));
   g_signal_connect (adj,
                     "value_changed",
-                    G_CALLBACK (adjustment_changed),
-                    canvas);
+		    G_CALLBACK (adjustment_changed),
+		    canvas);
 
   adj = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (canvas));
   g_signal_connect (adj,
                     "value_changed",
-                    G_CALLBACK (adjustment_changed),
-                    canvas);
+		    G_CALLBACK (adjustment_changed),
+		    canvas);
 
   obj->role =  ATK_ROLE_LAYERED_PANE;
 }

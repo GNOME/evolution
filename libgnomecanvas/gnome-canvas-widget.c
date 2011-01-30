@@ -121,39 +121,39 @@ gnome_canvas_widget_class_init (GnomeCanvasWidgetClass *class)
 	gobject_class->set_property = gnome_canvas_widget_set_property;
 	gobject_class->get_property = gnome_canvas_widget_get_property;
 
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_WIDGET,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_WIDGET,
                  g_param_spec_object ("widget", NULL, NULL,
-                                      GTK_TYPE_WIDGET,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_X,
+				      GTK_TYPE_WIDGET,
+				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_X,
                  g_param_spec_double ("x", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_Y,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_Y,
                  g_param_spec_double ("y", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_WIDTH,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_WIDTH,
                  g_param_spec_double ("width", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_HEIGHT,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_HEIGHT,
                  g_param_spec_double ("height", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_SIZE_PIXELS,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_SIZE_PIXELS,
                  g_param_spec_boolean ("size_pixels", NULL, NULL,
 				       FALSE,
 				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
@@ -436,7 +436,7 @@ gnome_canvas_widget_point (GnomeCanvasItem *item, gdouble x, gdouble y,
 		return item;
 
 	/* Point is outside widget bounds */
-        return NULL;
+	return NULL;
 }
 
 static void

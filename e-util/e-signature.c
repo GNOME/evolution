@@ -117,7 +117,7 @@ xml_set_content (xmlNodePtr node,
 	gchar *buf, *new_val;
 
 	buf = (gchar *)xmlNodeGetContent (node);
-        new_val = g_strdup (buf);
+	new_val = g_strdup (buf);
 	xmlFree (buf);
 
 	/* We can use strcmp here whether the value is UTF8 or

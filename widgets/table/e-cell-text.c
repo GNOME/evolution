@@ -326,7 +326,7 @@ ect_new_view (ECell *ecell, ETableModel *table_model, gpointer e_table_item_view
 	text_view->cell_view.e_table_model = table_model;
 	text_view->cell_view.e_table_item_view = e_table_item_view;
 	text_view->cell_view.kill_view_cb = NULL;
-        text_view->cell_view.kill_view_cb_data = NULL;
+	text_view->cell_view.kill_view_cb_data = NULL;
 
 	text_view->canvas = canvas;
 
@@ -345,7 +345,7 @@ ect_kill_view (ECellView *ecv)
 	ECellTextView *text_view = (ECellTextView *) ecv;
 
 	if (text_view->cell_view.kill_view_cb)
-            (text_view->cell_view.kill_view_cb)(ecv, text_view->cell_view.kill_view_cb_data);
+	    (text_view->cell_view.kill_view_cb)(ecv, text_view->cell_view.kill_view_cb_data);
 
 	if (text_view->cell_view.kill_view_cb_data)
 	    g_list_free (text_view->cell_view.kill_view_cb_data);
@@ -722,8 +722,8 @@ ect_draw (ECellView *ecell_view, cairo_t *cr,
 	x_origin = x1 + ect->x + text_view->xofs - (edit ? edit->xofs_edit : 0);
 	y_origin = y1 + ect->y + text_view->yofs - (edit ? edit->yofs_edit : 0);
 
-        cairo_rectangle (cr, x1, y1, x2 - x1, y2 - y1);
-        cairo_clip (cr);
+	cairo_rectangle (cr, x1, y1, x2 - x1, y2 - y1);
+	cairo_clip (cr);
 
 	layout = generate_layout (text_view, model_col, view_col, row, x2 - x1);
 
@@ -731,33 +731,33 @@ ect_draw (ECellView *ecell_view, cairo_t *cr,
 		layout = layout_with_preedit  (text_view, row, edit->text ? edit->text : "?",  x2 - x1);
 	}
 
-        cairo_move_to (cr, x_origin, y_origin);
+	cairo_move_to (cr, x_origin, y_origin);
 	pango_cairo_show_layout (cr, layout);
 
 	if (edit && edit->view_col == view_col && edit->row == row) {
 		if (edit->selection_start != edit->selection_end) {
 			cairo_region_t *clip_region;
-                        gint indices[2];
-                        GtkStateType state;
+			gint indices[2];
+			GtkStateType state;
 
-                        state = edit->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE;
+			state = edit->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE;
 
 			indices[0] = MIN (edit->selection_start, edit->selection_end);
 			indices[1] = MAX (edit->selection_start, edit->selection_end);
 
-                        clip_region = gdk_pango_layout_get_clip_region (layout,
-                                                                        x_origin, y_origin,
-                                                                        indices, 1);
-                        gdk_cairo_region (cr, clip_region);
-                        cairo_clip (cr);
+			clip_region = gdk_pango_layout_get_clip_region (layout,
+									x_origin, y_origin,
+									indices, 1);
+			gdk_cairo_region (cr, clip_region);
+			cairo_clip (cr);
 			cairo_region_destroy (clip_region);
 
-                        gdk_cairo_set_source_color (cr, &style->base[state]);
-                        cairo_paint (cr);
+			gdk_cairo_set_source_color (cr, &style->base[state]);
+			cairo_paint (cr);
 
-                        gdk_cairo_set_source_color (cr, &style->text[state]);
-                        cairo_move_to (cr, x_origin, y_origin);
-                        pango_cairo_show_layout (cr, layout);
+			gdk_cairo_set_source_color (cr, &style->text[state]);
+			cairo_move_to (cr, x_origin, y_origin);
+			pango_cairo_show_layout (cr, layout);
 		} else {
 			if (edit->show_cursor) {
 				PangoRectangle strong_pos, weak_pos;

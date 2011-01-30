@@ -427,7 +427,7 @@ system_timezone_monitor_changed (GFileMonitor *handle,
                                  GFileMonitorEvent event,
                                  gpointer user_data)
 {
-        ECalShellView  *view = E_CAL_SHELL_VIEW (user_data);
+	ECalShellView  *view = E_CAL_SHELL_VIEW (user_data);
 	ECalShellViewPrivate *priv = view->priv;
 	ECalShellContent *cal_shell_content;
 	icaltimezone *timezone = NULL, *current_zone = NULL;
@@ -649,7 +649,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	init_timezone_monitors (cal_shell_view);
 	e_cal_shell_view_actions_init (cal_shell_view);
 	e_cal_shell_view_update_sidebar (cal_shell_view);
-        e_cal_shell_view_update_search_filter (cal_shell_view);
+	e_cal_shell_view_update_search_filter (cal_shell_view);
 	e_cal_shell_view_update_timezone (cal_shell_view);
 
 	/* Keep the ECalModel in sync with the sidebar. */

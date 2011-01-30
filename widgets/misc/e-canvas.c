@@ -172,14 +172,14 @@ gnome_canvas_item_invoke_point (GnomeCanvasItem *item,
                                 gint cx,
                                 gint cy)
 {
-        cairo_matrix_t inverse;
+	cairo_matrix_t inverse;
 
 	/* Calculate x & y in item local coordinates */
-        inverse = item->matrix;
-        if (cairo_matrix_invert (&inverse) != CAIRO_STATUS_SUCCESS)
-                return NULL;
+	inverse = item->matrix;
+	if (cairo_matrix_invert (&inverse) != CAIRO_STATUS_SUCCESS)
+		return NULL;
 
-        cairo_matrix_transform_point (&inverse, &x, &y);
+	cairo_matrix_transform_point (&inverse, &x, &y);
 
 	if (GNOME_CANVAS_ITEM_GET_CLASS (item)->point)
 		return GNOME_CANVAS_ITEM_GET_CLASS (item)->point (item, x, y, cx, cy);
@@ -452,7 +452,7 @@ canvas_button_event (GtkWidget *widget,
 		   canvas->current_item));
 
         /* dispatch normally regardless of the event's window if an item has
-           has a pointer grab in effect */
+	   has a pointer grab in effect */
 	if (!canvas->grabbed_item && event->window != bin_window)
 		return retval;
 

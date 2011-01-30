@@ -185,50 +185,50 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 	gobject_class->get_property = gnome_canvas_text_get_property;
 
 	/* Text */
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_TEXT,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_TEXT,
                  g_param_spec_string ("text",
 				      "Text",
 				      "Text to render",
-                                      NULL,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      NULL,
+				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_MARKUP,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_MARKUP,
                  g_param_spec_string ("markup",
 				      "Markup",
 				      "Marked up text to render",
 				      NULL,
-                                      (G_PARAM_WRITABLE)));
+				      (G_PARAM_WRITABLE)));
 
 	/* Position */
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_X,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_X,
                  g_param_spec_double ("x", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_Y,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_Y,
                  g_param_spec_double ("y", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
 	/* Font */
 	g_object_class_install_property
-                (gobject_class,
-                 PROP_FONT,
+		(gobject_class,
+		 PROP_FONT,
                  g_param_spec_string ("font",
 				      "Font",
 				      "Font description as a string",
-                                      NULL,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+				      NULL,
+				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
-        g_object_class_install_property
+	g_object_class_install_property
 		(gobject_class,
 		 PROP_FONT_DESC,
 		 g_param_spec_boxed ("font_desc",
@@ -247,9 +247,9 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
 
 	/* Style */
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_ATTRIBUTES,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_ATTRIBUTES,
                  g_param_spec_boxed ("attributes", NULL, NULL,
 				     PANGO_TYPE_ATTR_LIST,
 				     (G_PARAM_READABLE | G_PARAM_WRITABLE)));
@@ -359,78 +359,78 @@ gnome_canvas_text_class_init (GnomeCanvasTextClass *class)
 				      1.0,
 				      G_PARAM_READABLE | G_PARAM_WRITABLE));
 
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_JUSTIFICATION,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_JUSTIFICATION,
                  g_param_spec_enum ("justification", NULL, NULL,
-                                    GTK_TYPE_JUSTIFICATION,
-                                    GTK_JUSTIFY_LEFT,
-                                    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_CLIP_WIDTH,
+				    GTK_TYPE_JUSTIFICATION,
+				    GTK_JUSTIFY_LEFT,
+				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_CLIP_WIDTH,
                  g_param_spec_double ("clip_width", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_CLIP_HEIGHT,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_CLIP_HEIGHT,
                  g_param_spec_double ("clip_height", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_CLIP,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_CLIP,
                  g_param_spec_boolean ("clip", NULL, NULL,
 				       FALSE,
 				       (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_X_OFFSET,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_X_OFFSET,
                  g_param_spec_double ("x_offset", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_Y_OFFSET,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_Y_OFFSET,
                  g_param_spec_double ("y_offset", NULL, NULL,
 				      -G_MAXDOUBLE, G_MAXDOUBLE, 0.0,
 				      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_FILL_COLOR,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_FILL_COLOR,
                  g_param_spec_string ("fill_color",
 				      "Color",
 				      "Text color, as string",
-                                      NULL,
-                                      G_PARAM_WRITABLE));
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_FILL_COLOR_GDK,
+				      NULL,
+				      G_PARAM_WRITABLE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_FILL_COLOR_GDK,
                  g_param_spec_boxed ("fill_color_gdk",
 				     "Color",
 				     "Text color, as a GdkColor",
 				     GDK_TYPE_COLOR,
 				     G_PARAM_WRITABLE));
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_FILL_COLOR_RGBA,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_FILL_COLOR_RGBA,
                  g_param_spec_uint ("fill_color_rgba",
 				    "Color",
 				    "Text color, as an R/G/B/A combined integer",
 				    0, G_MAXUINT, 0,
 				    (G_PARAM_READABLE | G_PARAM_WRITABLE)));
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_TEXT_WIDTH,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_TEXT_WIDTH,
                  g_param_spec_double ("text_width",
 				      "Text width",
 				      "Width of the rendered text",
 				      0.0, G_MAXDOUBLE, 0.0,
 				      G_PARAM_READABLE));
-        g_object_class_install_property
-                (gobject_class,
-                 PROP_TEXT_HEIGHT,
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_TEXT_HEIGHT,
                  g_param_spec_double ("text_height",
 				      "Text height",
 				      "Height of the rendered text",
@@ -637,7 +637,7 @@ gnome_canvas_text_set_property (GObject            *object,
 	text = GNOME_CANVAS_TEXT (object);
 
 	if (!text->layout)
-                text->layout = pango_layout_new (
+		text->layout = pango_layout_new (
 			gtk_widget_get_pango_context (
 			GTK_WIDGET (item->canvas)));
 
@@ -842,12 +842,12 @@ gnome_canvas_text_set_property (GObject            *object,
 		text->yofs = g_value_get_double (value);
 		break;
 
-        case PROP_FILL_COLOR: {
+	case PROP_FILL_COLOR: {
 		const gchar *color_name;
 
 		color_name = g_value_get_string (value);
 		if (color_name) {
-                        GdkColor color;
+			GdkColor color;
 			gdk_color_parse (color_name, &color);
 
 			text->rgba = ((color.red & 0xff00) << 16 |
@@ -861,16 +861,16 @@ gnome_canvas_text_set_property (GObject            *object,
 	case PROP_FILL_COLOR_GDK:
 		pcolor = g_value_get_boxed (value);
 		if (pcolor) {
-                        text->rgba = ((pcolor->red & 0xff00) << 16 |
-                                      (pcolor->green & 0xff00) << 8|
-                                      (pcolor->blue & 0xff00) |
-                                      0xff);
-                } else {
-                        text->rgba = 0;
-                }
+			text->rgba = ((pcolor->red & 0xff00) << 16 |
+				      (pcolor->green & 0xff00) << 8|
+				      (pcolor->blue & 0xff00) |
+				      0xff);
+		} else {
+			text->rgba = 0;
+		}
 		break;
 
-        case PROP_FILL_COLOR_RGBA:
+	case PROP_FILL_COLOR_RGBA:
 		text->rgba = g_value_get_uint (value);
 		break;
 
@@ -1203,23 +1203,23 @@ gnome_canvas_text_draw (GnomeCanvasItem *item, cairo_t *cr,
 
 	cairo_save (cr);
 
-        if (text->clip) {
-                cairo_rectangle (cr,
-                                 text->clip_cx - x,
-                                 text->clip_cy - y,
-                                 text->clip_cwidth,
-                                 text->clip_cheight);
-                cairo_clip (cr);
+	if (text->clip) {
+		cairo_rectangle (cr,
+				 text->clip_cx - x,
+				 text->clip_cy - y,
+				 text->clip_cwidth,
+				 text->clip_cheight);
+		cairo_clip (cr);
 	}
 
-        cairo_set_source_rgba (cr,
-                               ((text->rgba >> 24) & 0xff) / 255.0,
-                               ((text->rgba >> 16) & 0xff) / 255.0,
-                               ((text->rgba >>  8) & 0xff) / 255.0,
-                               ( text->rgba        & 0xff) / 255.0);
+	cairo_set_source_rgba (cr,
+			       ((text->rgba >> 24) & 0xff) / 255.0,
+			       ((text->rgba >> 16) & 0xff) / 255.0,
+			       ((text->rgba >>  8) & 0xff) / 255.0,
+			       ( text->rgba        & 0xff) / 255.0);
 
-        cairo_move_to (cr, text->cx - x, text->cy - y);
-        pango_cairo_show_layout (cr, text->layout);
+	cairo_move_to (cr, text->cx - x, text->cy - y);
+	pango_cairo_show_layout (cr, text->layout);
 
 	cairo_restore (cr);
 }

@@ -188,9 +188,9 @@ etcta_class_init (GalA11yETableClickToAddClass *class)
 	parent_class = g_type_class_ref (PARENT_TYPE);
 
 	atk_object_class->get_name = etcta_get_name;
-        atk_object_class->get_n_children = etcta_get_n_children;
-        atk_object_class->ref_child = etcta_ref_child;
-        atk_object_class->ref_state_set = etcta_ref_state_set;
+	atk_object_class->get_n_children = etcta_get_n_children;
+	atk_object_class->ref_child = etcta_ref_child;
+	atk_object_class->ref_state_set = etcta_ref_state_set;
 }
 
 static void
@@ -234,14 +234,14 @@ gal_a11y_e_table_click_to_add_get_type (void)
 			NULL
 		};
 
-                factory = atk_registry_get_factory (atk_get_default_registry (), GNOME_TYPE_CANVAS_ITEM);
+		factory = atk_registry_get_factory (atk_get_default_registry (), GNOME_TYPE_CANVAS_ITEM);
 
 		parent_type = atk_object_factory_get_accessible_type (factory);
-                type = gal_a11y_type_register_static_with_private (PARENT_TYPE,
+		type = gal_a11y_type_register_static_with_private (PARENT_TYPE,
 				"GalA11yETableClickToAdd", &info, 0,
 				sizeof (GalA11yETableClickToAddPrivate), &priv_offset);
 
-                g_type_add_interface_static (type, ATK_TYPE_ACTION, &atk_action_info);
+		g_type_add_interface_static (type, ATK_TYPE_ACTION, &atk_action_info);
 
 	}
 
@@ -251,7 +251,7 @@ gal_a11y_e_table_click_to_add_get_type (void)
 static gboolean
 etcta_event (GnomeCanvasItem *item, GdkEvent *e, gpointer data)
 {
-        ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
+	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
 	GalA11yETableClickToAdd *a11y;
 	GalA11yETableClickToAddPrivate *priv;
 

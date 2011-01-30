@@ -229,7 +229,7 @@ static void
 attachment_store_changed_cb (CompEditor *editor)
 {
 	/* Mark the editor as changed so it prompts about unsaved
-           changes on close */
+	   changes on close */
 	comp_editor_set_changed (editor, TRUE);
 }
 

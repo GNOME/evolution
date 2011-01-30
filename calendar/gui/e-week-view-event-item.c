@@ -301,7 +301,7 @@ week_view_draw_time (EWeekView *week_view,
 	PangoLayout *layout;
 	PangoFontDescription *small_font_desc;
 
-        cairo_save (cr);
+	cairo_save (cr);
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 
@@ -326,16 +326,16 @@ week_view_draw_time (EWeekView *week_view,
 		/* Draw the hour. */
 		if (hour_to_display < 10) {
 			pango_layout_set_text (layout, buffer + 1, 1);
-                        cairo_move_to (cr,
-                                       time_x + week_view->digit_width,
-                                       time_y_normal_font);
-                        pango_cairo_show_layout (cr, layout);
+			cairo_move_to (cr,
+				       time_x + week_view->digit_width,
+				       time_y_normal_font);
+			pango_cairo_show_layout (cr, layout);
 		} else {
 			pango_layout_set_text (layout, buffer, 2);
-                        cairo_move_to (cr,
-                                       time_x,
-                                       time_y_normal_font);
-                        pango_cairo_show_layout (cr, layout);
+			cairo_move_to (cr,
+				       time_x,
+				       time_y_normal_font);
+			pango_cairo_show_layout (cr, layout);
 		}
 
 		time_x += week_view->digit_width * 2;
@@ -343,10 +343,10 @@ week_view_draw_time (EWeekView *week_view,
 		/* Draw the start minute, in the small font. */
 		pango_layout_set_font_description (layout, week_view->small_font_desc);
 		pango_layout_set_text (layout, buffer + 3, 2);
-                cairo_move_to (cr,
-                               time_x,
-                               time_y_small_font);
-                pango_cairo_show_layout (cr, layout);
+		cairo_move_to (cr,
+			       time_x,
+			       time_y_small_font);
+		pango_cairo_show_layout (cr, layout);
 
 		pango_layout_set_font_description (layout, style->font_desc);
 
@@ -356,10 +356,10 @@ week_view_draw_time (EWeekView *week_view,
 		if (!e_cal_model_get_use_24_hour_format (model)) {
 			pango_layout_set_text (layout, suffix, -1);
 
-                        cairo_move_to (cr,
-                                       time_x,
-                                       time_y_normal_font);
-                        pango_cairo_show_layout (cr, layout);
+			cairo_move_to (cr,
+				       time_x,
+				       time_y_normal_font);
+			pango_cairo_show_layout (cr, layout);
 		}
 	} else {
 		/* Draw the start time in one go. */
@@ -367,22 +367,22 @@ week_view_draw_time (EWeekView *week_view,
 			    hour_to_display, minute, suffix);
 		if (hour_to_display < 10) {
 			pango_layout_set_text (layout, buffer + 1, -1);
-                        cairo_move_to (cr,
-                                       time_x + week_view->digit_width,
-                                       time_y_normal_font);
-                        pango_cairo_show_layout (cr, layout);
+			cairo_move_to (cr,
+				       time_x + week_view->digit_width,
+				       time_y_normal_font);
+			pango_cairo_show_layout (cr, layout);
 		} else {
 			pango_layout_set_text (layout, buffer, -1);
-                        cairo_move_to (cr,
-                                       time_x,
-                                       time_y_normal_font);
-                        pango_cairo_show_layout (cr, layout);
+			cairo_move_to (cr,
+				       time_x,
+				       time_y_normal_font);
+			pango_cairo_show_layout (cr, layout);
 		}
 
 	}
 	g_object_unref (layout);
 
-        cairo_restore (cr);
+	cairo_restore (cr);
 }
 
 static void
@@ -1017,20 +1017,20 @@ week_view_event_item_draw (GnomeCanvasItem *canvas_item,
 				+ E_WEEK_VIEW_EVENT_BORDER_WIDTH
 				+ E_WEEK_VIEW_EVENT_EDGE_X_PAD;
 
-                        cairo_save (cr);
+			cairo_save (cr);
 
-                        cairo_rectangle (cr,
-                                         x1, y1,
+			cairo_rectangle (cr,
+					 x1, y1,
 					 x2 - x1 - E_WEEK_VIEW_EVENT_R_PAD
 					  - E_WEEK_VIEW_EVENT_BORDER_WIDTH + 1,
 					 y2 - y1 + 1);
-                        cairo_clip (cr);
+			cairo_clip (cr);
 
 			week_view_draw_time (
 				week_view, cr, time_x,
 				time_y, start_hour, start_minute);
 
-                        cairo_restore (cr);
+			cairo_restore (cr);
 
 			/* We don't want the end time to be drawn over the
 			   start time, so we increase the minimum position. */

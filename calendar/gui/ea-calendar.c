@@ -73,8 +73,8 @@ gnome_calendar_a11y_init (void)
 					    0, ea_calendar_focus_watcher,
 					    NULL, (GDestroyNotify) NULL);
 		g_signal_add_emission_hook (g_signal_lookup ("event", GNOME_TYPE_CANVAS_PIXBUF),
-                                            0, ea_calendar_focus_watcher,
-                                            NULL, (GDestroyNotify) NULL);
+					    0, ea_calendar_focus_watcher,
+					    NULL, (GDestroyNotify) NULL);
 		g_signal_add_emission_hook (g_signal_lookup ("event-after",
 							     e_day_view_get_type ()),
 					    0, ea_calendar_focus_watcher,
@@ -133,7 +133,7 @@ ea_calendar_focus_watcher (GSignalInvocationHint *ihint,
 {
 	GObject *object;
 	GdkEvent *event;
-        AtkObject *ea_event = NULL;
+	AtkObject *ea_event = NULL;
 
 	object = g_value_get_object (param_values + 0);
 	event = g_value_get_boxed (param_values + 1);

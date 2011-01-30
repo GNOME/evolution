@@ -1218,12 +1218,12 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	start_weekday = (tmp_tm.tm_wday + 6) % 7;
 
 	if (month_x + max_x - clip_rect.x > 0) {
-                cairo_save (cr);
+		cairo_save (cr);
 
 		clip_rect.width = month_x + max_x - clip_rect.x;
 		clip_rect.height = text_y + char_height - clip_rect.y;
-                gdk_cairo_rectangle (cr, &clip_rect);
-                cairo_clip (cr);
+		gdk_cairo_rectangle (cr, &clip_rect);
+		cairo_clip (cr);
 
 		/* This is a strftime() format. %B = Month name, %Y = Year. */
 		e_utf8_strftime (buffer, sizeof (buffer), _("%B %Y"), &tmp_tm);
@@ -1237,13 +1237,13 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 		text_x = (calitem->month_width - text_width) / 2;
 		text_x = MAX (min_x, text_x);
 
-                gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_NORMAL]);
-                cairo_move_to (cr,
-                               month_x + text_x,
-                               text_y);
+		gdk_cairo_set_source_color (cr, &style->fg[GTK_STATE_NORMAL]);
+		cairo_move_to (cr,
+			       month_x + text_x,
+			       text_y);
 		pango_cairo_show_layout (cr, layout);
 
-                cairo_restore (cr);
+		cairo_restore (cr);
 	}
 
 	/* Set the clip rectangle for the main month display. */
@@ -1262,8 +1262,8 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 
 	cairo_save (cr);
 
-        gdk_cairo_rectangle (cr, &clip_rect);
-        cairo_clip (cr);
+	gdk_cairo_rectangle (cr, &clip_rect);
+	cairo_clip (cr);
 
 	/* Draw the day initials across the top of the month. */
 	min_cell_width = MAX (calitem->max_day_width, (calitem->max_digit_width * 2))
@@ -1298,14 +1298,14 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	pango_layout_set_font_description (layout, font_desc);
 	if (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
 		text_x += (7-1) * calitem->cell_width;
-        gdk_cairo_set_source_color (cr, &style->text[GTK_STATE_ACTIVE]);
+	gdk_cairo_set_source_color (cr, &style->text[GTK_STATE_ACTIVE]);
 	for (day = 0; day < 7; day++) {
 		cairo_save (cr);
 		layout_set_day_text (calitem, layout, day_index);
-                cairo_move_to (cr,
-                               text_x - calitem->day_widths[day_index],
-                               text_y);
-                pango_cairo_show_layout (cr, layout);
+		cairo_move_to (cr,
+			       text_x - calitem->day_widths[day_index],
+			       text_y);
+		pango_cairo_show_layout (cr, layout);
 		text_x += (gtk_widget_get_direction (widget) == GTK_TEXT_DIR_RTL)
 				? -calitem->cell_width : calitem->cell_width;
 		day_index++;

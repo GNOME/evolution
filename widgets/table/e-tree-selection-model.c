@@ -501,7 +501,7 @@ static void
 etsm_invert_selection (ESelectionModel *selection)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL (selection);
-        gint count = etsm_row_count (selection);
+	gint count = etsm_row_count (selection);
 	gint i;
 
 	for (i = 0; i < count; i++) {

@@ -203,7 +203,7 @@ ea_calendar_item_class_init (EaCalendarItemClass *klass)
 
 	class->get_name = ea_calendar_item_get_name;
 	class->get_description = ea_calendar_item_get_description;
-        class->ref_state_set = ea_calendar_item_ref_state_set;
+	class->ref_state_set = ea_calendar_item_ref_state_set;
 
 	class->get_n_children = ea_calendar_item_get_n_children;
 	class->ref_child = ea_calendar_item_ref_child;
@@ -310,7 +310,7 @@ ea_calendar_item_get_name (AtkObject *accessible)
 		name_str = g_strdup_printf (
 			_("Calendar: from %s to %s"),
 			buffer_start, buffer_end);
-        }
+	}
 
 #if 0
 	if (e_calendar_item_get_selection (calitem, &select_start, &select_end)) {

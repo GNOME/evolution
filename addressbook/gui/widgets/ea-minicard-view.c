@@ -371,7 +371,7 @@ static gboolean atk_action_interface_do_action (AtkAction *action, gint i)
 	EMinicardView *card_view;
 
 	AtkGObjectAccessible *atk_gobj= NULL;
-        EReflow *reflow = NULL;
+	EReflow *reflow = NULL;
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (action);
 	reflow = E_REFLOW (atk_gobject_accessible_get_object (atk_gobj));

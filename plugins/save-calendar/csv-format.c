@@ -281,9 +281,9 @@ userstring_to_systemstring (const gchar *userstring)
 				i++;
 				break;
 			case 't':
-                                str = g_string_append_c (str, '\t');
-                                i++;
-                                break;
+				str = g_string_append_c (str, '\t');
+				i++;
+				break;
 			}
 		} else {
 			str = g_string_append_c (str, text[i]);

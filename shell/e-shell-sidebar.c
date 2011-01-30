@@ -230,7 +230,7 @@ shell_sidebar_get_preferred_width (GtkWidget *widget,
 	priv = E_SHELL_SIDEBAR_GET_PRIVATE (widget);
 
 	child = gtk_bin_get_child (GTK_BIN (widget));
-        gtk_widget_get_preferred_width (child, minimum, natural);
+	gtk_widget_get_preferred_width (child, minimum, natural);
 
 	/* do not use priv->event_box here, otherwise it'll not ellipsize */
 }
@@ -241,7 +241,7 @@ shell_sidebar_get_preferred_height (GtkWidget *widget,
                                     gint      *natural)
 {
 	EShellSidebarPrivate *priv;
-        gint child_min, child_nat;
+	gint child_min, child_nat;
 	GtkWidget *child;
 
 	priv = E_SHELL_SIDEBAR_GET_PRIVATE (widget);
@@ -323,8 +323,8 @@ e_shell_sidebar_class_init (EShellSidebarClass *class)
 	object_class->constructed = shell_sidebar_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-        widget_class->get_preferred_width = shell_sidebar_get_preferred_width;
-        widget_class->get_preferred_height = shell_sidebar_get_preferred_height;
+	widget_class->get_preferred_width = shell_sidebar_get_preferred_width;
+	widget_class->get_preferred_height = shell_sidebar_get_preferred_height;
 	widget_class->size_allocate = shell_sidebar_size_allocate;
 
 	container_class = GTK_CONTAINER_CLASS (class);
