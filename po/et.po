@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Evolution MASTER\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2011-01-09 19:49+0000\n"
-"PO-Revision-Date: 2011-01-26 15:07+0200\n"
+"POT-Creation-Date: 2011-01-30 01:24+0000\n"
+"PO-Revision-Date: 2011-01-30 14:22+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -520,6 +520,7 @@ msgstr "Viga loendi eemaldamisel"
 msgid "Changed Contact:"
 msgstr "Muudetud kontakt:"
 
+#. Translators: Heading of the contact which has same name or email address in this folder already.
 msgid "Conflicting Contact:"
 msgstr "Vastuolus kontakt:"
 
@@ -618,7 +619,7 @@ msgstr "Kas soovid kustutada selle kontakti?"
 msgid "Are you sure you want to delete this contact (%s)?"
 msgstr "Kas soovid kustutada selle kontakti (%s)?"
 
-#. Translators: This is shown for more than 5 contacts.
+#. Translators: This is shown for > 5 contacts.
 #, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
@@ -1110,19 +1111,6 @@ msgstr "Tavaolekus pole suuruse võtit tarvis."
 msgid "Unhandled error"
 msgstr "Käsitlemata viga"
 
-msgid "Accessing LDAP Server anonymously"
-msgstr "LDAP-serveriga anonüümselt ühendumine"
-
-msgid "Failed to authenticate.\n"
-msgstr "Tõrge autentimisel.\n"
-
-#, c-format
-msgid "Enter password for %s (user %s)"
-msgstr "Sisesta %s parool (kasutaja %s)"
-
-msgid "Enter password"
-msgstr "Sisesta parool"
-
 #. For Translators: {0} is the name of the calendar source
 msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
@@ -1455,6 +1443,9 @@ msgstr "Saa_da"
 
 msgid "_Send Notice"
 msgstr "Saada _teavitus"
+
+msgid "Enter password"
+msgstr "Sisesta parool"
 
 msgid "minute"
 msgid_plural "minutes"
@@ -5144,6 +5135,10 @@ msgstr "Sul pole võimalik sellele sõnumile faili &quot;{0}&quot; manustada."
 msgid "You need to configure an account before you can compose mail."
 msgstr "Enne sõnumite koostamist tuleb sul seadistada postikonto."
 
+msgid "Your message was sent, but an error occurred during post-processing."
+msgstr ""
+"Sinu sõnum sai küll saadetud, kuid saatmise järeltöötluse käigus esines viga."
+
 #. Response codes were chosen somewhat arbitrarily.
 msgid "_Continue Editing"
 msgstr "_Jätka muutmist"
@@ -8127,7 +8122,6 @@ msgid ""
 "message to the original author."
 msgstr ""
 
-
 msgid "The variable width font for mail display."
 msgstr "Muutuva laiusega kirjatüüp sõnumikuvas."
 
@@ -8213,6 +8207,9 @@ msgid ""
 "folder, usually set to ~/Pictures. This folder will be also used when the "
 "set path is not pointing to the existent folder."
 msgstr ""
+"See väärtus võib olla tühi string, mille puhul kasutatakse süsteemis "
+"määratud pildikataloogi. Harilikult on selleks ~/Pictures. Seda kataloogi "
+"kasutatakse ka juhul, kui määratud rada viitab olematule kataloogile."
 
 msgid "Thread the message-list based on Subject"
 msgstr "Sõnumiloendi paigutamine lõimedesse teema alusel"
@@ -12657,6 +12654,13 @@ msgstr "Google'i kalendrid"
 msgid "Checklist"
 msgstr "Kontroll-loend"
 
+#, c-format
+msgid "Enter password for %s (user %s)"
+msgstr "Sisesta %s parool (kasutaja %s)"
+
+msgid "Failed to authenticate.\n"
+msgstr "Tõrge autentimisel.\n"
+
 msgid "New _Shared Folder..."
 msgstr "Uus _jagatud kaust..."
 
@@ -14974,7 +14978,8 @@ msgstr ""
 msgid "Do not tell me again"
 msgstr "Enam uuesti mitte näidata"
 
-#. Translators: Do NOT translate the five component names, they MUST remain in English!
+#. Translators: Do NOT translate the five component
+#. * names, they MUST remain in English!
 msgid ""
 "Start Evolution showing the specified component. Available options are "
 "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
@@ -16343,6 +16348,9 @@ msgstr "Vali kõik"
 
 msgid "Input Methods"
 msgstr "Sisestusmeetodid"
+
+#~ msgid "Accessing LDAP Server anonymously"
+#~ msgstr "LDAP-serveriga anonüümselt ühendumine"
 
 #~ msgid "Removing temporary backup files"
 #~ msgstr "Ajutiste varufailide eemaldamine"
