@@ -36,7 +36,6 @@ addressbook/printing/test-print.c
 addressbook/tools/evolution-addressbook-export-list-cards.c
 addressbook/tools/evolution-addressbook-export-list-folders.c
 addressbook/tools/evolution-addressbook-export.c
-addressbook/util/addressbook.c
 calendar/calendar.error.xml
 calendar/common/authentication.c
 calendar/gui/alarm-notify/alarm-notify-dialog.c
