@@ -26,6 +26,8 @@
 #ifdef HAVE_CONFIG_H
 #  include <config.h>
 #endif
+
+#include <gtk/gtkx.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <gconf/gconf-client.h>
