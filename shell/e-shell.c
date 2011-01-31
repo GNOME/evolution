@@ -47,6 +47,7 @@ struct _EShellPrivate {
 	GList *watched_windows;
 	EShellSettings *settings;
 	GConfClient *gconf_client;
+	GActionGroup *action_group;
 	GtkWidget *preferences_window;
 
 	/* Shell Backends */
@@ -109,10 +110,15 @@ static GDebugKey debug_keys[] = {
 static gpointer default_shell;
 static guint signals[LAST_SIGNAL];
 
+/* Forward Declarations */
+static void e_shell_initable_init (GInitableIface *interface);
+
 G_DEFINE_TYPE_WITH_CODE (
 	EShell,
 	e_shell,
-	UNIQUE_TYPE_APP,
+	GTK_TYPE_APPLICATION,
+	G_IMPLEMENT_INTERFACE (
+		G_TYPE_INITABLE, e_shell_initable_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL))
 
@@ -216,6 +222,57 @@ shell_window_weak_notify_cb (EShell *shell,
 	g_idle_add (
 		(GSourceFunc) shell_emit_window_destroyed_cb,
 		g_object_ref (shell));
+}
+
+static void
+shell_action_new_window_cb (GSimpleAction *action,
+                            GVariant *parameter,
+                            EShell *shell)
+{
+	const gchar *view_name;
+
+	view_name = g_variant_get_string (parameter, NULL);
+	e_shell_create_shell_window (shell, view_name);
+}
+
+static void
+shell_action_quit_cb (GSimpleAction *action,
+                      GVariant *parameter,
+                      EShell *shell)
+{
+	e_shell_quit (shell, E_SHELL_QUIT_REMOTE_REQUEST);
+}
+
+static void
+shell_add_actions (GApplication *application)
+{
+	EShell *shell;
+	GSimpleActionGroup *action_group;
+	GSimpleAction *action;
+
+	/* Add actions that remote instances can invoke. */
+
+	action_group = g_simple_action_group_new ();
+
+	action = g_simple_action_new ("new-window", G_VARIANT_TYPE_STRING);
+	g_signal_connect (
+		action, "activate",
+		G_CALLBACK (shell_action_new_window_cb), application);
+	g_simple_action_group_insert (action_group, G_ACTION (action));
+	g_object_unref (action);
+
+	action = g_simple_action_new ("quit", NULL);
+	g_signal_connect (
+		action, "activate",
+		G_CALLBACK (shell_action_quit_cb), application);
+	g_simple_action_group_insert (action_group, G_ACTION (action));
+	g_object_unref (action);
+
+	shell = E_SHELL (application);
+	shell->priv->action_group = G_ACTION_GROUP (action_group);
+
+	g_application_set_action_group (
+		application, shell->priv->action_group);
 }
 
 static void
@@ -658,6 +715,11 @@ shell_dispose (GObject *object)
 		priv->gconf_client = NULL;
 	}
 
+	if (priv->action_group != NULL) {
+		g_object_unref (priv->action_group);
+		priv->action_group = NULL;
+	}
+
 	if (priv->preferences_window != NULL) {
 		g_object_unref (priv->preferences_window);
 		priv->preferences_window = NULL;
@@ -683,10 +745,6 @@ shell_finalize (GObject *object)
 	g_hash_table_destroy (priv->backends_by_name);
 	g_hash_table_destroy (priv->backends_by_scheme);
 
-	/* Indicates a clean shut down to the next session. */
-	if (!unique_app_is_running (UNIQUE_APP (object)))
-		e_file_lock_destroy ();
-
 	g_list_foreach (priv->loaded_backends, (GFunc) g_object_unref, NULL);
 	g_list_free (priv->loaded_backends);
 
@@ -706,21 +764,34 @@ shell_constructed (GObject *object)
 		g_object_add_weak_pointer (object, &default_shell);
 	}
 
-	if (!unique_app_is_running (UNIQUE_APP (object)))
-		e_file_lock_create ();
-
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_shell_parent_class)->constructed (object);
 }
 
-static UniqueResponse
-shell_message_handle_activate (EShell *shell,
-                               UniqueMessageData *data)
+static void
+shell_startup (GApplication *application)
 {
-	GList *watched_windows;
-	GdkScreen *screen;
+	e_file_lock_create ();
 
-	screen = unique_message_data_get_screen (data);
+	/* Destroy the lock file when the EShell is finalized
+	 * to indicate a clean shut down to the next session. */
+	g_object_weak_ref (
+		G_OBJECT (application),
+		(GWeakNotify) e_file_lock_destroy, NULL);
+
+	/* Chain up to parent's startup() method. */
+	G_APPLICATION_CLASS (e_shell_parent_class)->startup (application);
+}
+
+static void
+shell_activate (GApplication *application)
+{
+	EShell *shell;
+	GList *watched_windows;
+
+	/* Do not chain up.  Default method just emits a warning. */
+
+	shell = E_SHELL (application);
 	watched_windows = e_shell_get_watched_windows (shell);
 
 	/* Present the first EShellWindow, if found. */
@@ -728,9 +799,8 @@ shell_message_handle_activate (EShell *shell,
 		GtkWindow *window = GTK_WINDOW (watched_windows->data);
 
 		if (E_IS_SHELL_WINDOW (window)) {
-			gtk_window_set_screen (window, screen);
 			gtk_window_present (window);
-			return UNIQUE_RESPONSE_OK;
+			return;
 		}
 
 		watched_windows = g_list_next (watched_windows);
@@ -738,94 +808,29 @@ shell_message_handle_activate (EShell *shell,
 
 	/* No EShellWindow found, so create one. */
 	e_shell_create_shell_window (shell, NULL);
-
-	return UNIQUE_RESPONSE_OK;
 }
 
-static UniqueResponse
-shell_message_handle_new (EShell *shell,
-                          UniqueMessageData *data)
+static void
+shell_open (GApplication *application,
+            GFile **files,
+            gint n_files,
+            const gchar *hint)
 {
-	gchar *view_name;
-
-	view_name = unique_message_data_get_text (data);
-	e_shell_create_shell_window (shell, view_name);
-	g_free (view_name);
-
-	return UNIQUE_RESPONSE_OK;
-}
-
-static UniqueResponse
-shell_message_handle_open (EShell *shell,
-                           UniqueMessageData *data)
-{
+	EShell *shell;
 	gchar **uris;
+	gint ii;
 
-	uris = unique_message_data_get_uris (data);
-	if (uris && uris[0] && g_str_equal (uris[0], "--import")) {
-		gint ii;
-		GPtrArray *arr = g_ptr_array_new ();
+	/* Do not chain up.  Default method just emits a warning. */
 
-		/* skip the first argument */
-		for (ii = 1; uris[ii] != NULL; ii++) {
-			g_ptr_array_add (arr, uris[ii]);
-		}
+	shell = E_SHELL (application);
+	uris = g_new0 (gchar *, n_files + 1);
 
-		g_ptr_array_add (arr, NULL);
+	for (ii = 0; ii < n_files; ii++)
+		uris[ii] = g_file_get_uri (files[ii]);
 
-		e_shell_handle_uris (shell, (gchar **)arr->pdata, TRUE);
+	e_shell_handle_uris (shell, uris, FALSE);
 
-		g_ptr_array_free (arr, TRUE);
-	} else {
-		e_shell_handle_uris (shell, uris, FALSE);
-	}
 	g_strfreev (uris);
-
-	return UNIQUE_RESPONSE_OK;
-}
-
-static UniqueResponse
-shell_message_handle_close (EShell *shell,
-                            UniqueMessageData *data)
-{
-	UniqueResponse response;
-
-	if (e_shell_quit (shell, E_SHELL_QUIT_REMOTE_REQUEST))
-		response = UNIQUE_RESPONSE_OK;
-	else
-		response = UNIQUE_RESPONSE_CANCEL;
-
-	return response;
-}
-
-static UniqueResponse
-shell_message_received (UniqueApp *app,
-                        gint command,
-                        UniqueMessageData *data,
-                        guint time_)
-{
-	EShell *shell = E_SHELL (app);
-
-	switch (command) {
-		case UNIQUE_ACTIVATE:
-			return shell_message_handle_activate (shell, data);
-
-		case UNIQUE_NEW:
-			return shell_message_handle_new (shell, data);
-
-		case UNIQUE_OPEN:
-			return shell_message_handle_open (shell, data);
-
-		case UNIQUE_CLOSE:
-			return shell_message_handle_close (shell, data);
-
-		default:
-			break;
-	}
-
-	/* Chain up to parent's message_received() method. */
-	return UNIQUE_APP_CLASS (e_shell_parent_class)->
-		message_received (app, command, data, time_);
 }
 
 static void
@@ -835,11 +840,23 @@ shell_window_destroyed (EShell *shell)
 		gtk_main_quit ();
 }
 
+static gboolean
+shell_initable_init (GInitable *initable,
+                     GCancellable *cancellable,
+                     GError **error)
+{
+	GApplication *application = G_APPLICATION (initable);
+
+	shell_add_actions (application);
+
+	return g_application_register (application, cancellable, error);
+}
+
 static void
 e_shell_class_init (EShellClass *class)
 {
 	GObjectClass *object_class;
-	UniqueAppClass *unique_app_class;
+	GApplicationClass *application_class;
 
 	g_type_class_add_private (class, sizeof (EShellPrivate));
 
@@ -850,8 +867,10 @@ e_shell_class_init (EShellClass *class)
 	object_class->finalize = shell_finalize;
 	object_class->constructed = shell_constructed;
 
-	unique_app_class = UNIQUE_APP_CLASS (class);
-	unique_app_class->message_received = shell_message_received;
+	application_class = G_APPLICATION_CLASS (class);
+	application_class->startup = shell_startup;
+	application_class->activate = shell_activate;
+	application_class->open = shell_open;
 
 	class->window_destroyed = shell_window_destroyed;
 
@@ -1162,6 +1181,12 @@ e_shell_class_init (EShellClass *class)
 }
 
 static void
+e_shell_initable_init (GInitableIface *interface)
+{
+	interface->init = shell_initable_init;
+}
+
+static void
 e_shell_init (EShell *shell)
 {
 	GHashTable *backends_by_name;
@@ -1347,8 +1372,8 @@ e_shell_get_canonical_name (EShell *shell,
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	/* Handle NULL name arguments silently. */
-	if (name == NULL)
+	/* Handle NULL or empty name arguments silently. */
+	if (name == NULL || *name == '\0')
 		return NULL;
 
 	shell_backend = e_shell_get_backend_by_name (shell, name);
@@ -1455,16 +1480,12 @@ e_shell_create_shell_window (EShell *shell,
                              const gchar *view_name)
 {
 	GtkWidget *shell_window;
-	UniqueMessageData *data;
-	UniqueApp *app;
 	GList *link;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	app = UNIQUE_APP (shell);
-
-	if (unique_app_is_running (app))
-		goto unique;
+	if (g_application_get_is_remote (G_APPLICATION (shell)))
+		goto remote;
 
 	view_name = e_shell_get_canonical_name (shell, view_name);
 
@@ -1508,17 +1529,14 @@ e_shell_create_shell_window (EShell *shell,
 
 	return shell_window;
 
-unique:  /* Send a message to the other Evolution process. */
-
-	/* XXX Do something with UniqueResponse? */
+remote:  /* Send a message to the other Evolution process. */
 
 	if (view_name != NULL) {
-		data = unique_message_data_new ();
-		unique_message_data_set_text (data, view_name, -1);
-		unique_app_send_message (app, UNIQUE_NEW, data);
-		unique_message_data_free (data);
+		g_action_group_activate_action (
+			shell->priv->action_group, "new-window",
+			g_variant_new_string (view_name));
 	} else
-		unique_app_send_message (app, UNIQUE_ACTIVATE, NULL);
+		g_application_activate (G_APPLICATION (shell));
 
 	return NULL;
 }
@@ -1538,18 +1556,15 @@ e_shell_handle_uris (EShell *shell,
                      gchar **uris,
                      gboolean do_import)
 {
-	UniqueApp *app;
-	UniqueMessageData *data;
+	GFile **files;
 	guint n_handled = 0;
-	gint ii;
+	guint length, ii;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 	g_return_val_if_fail (uris != NULL, FALSE);
 
-	app = UNIQUE_APP (shell);
-
-	if (unique_app_is_running (app))
-		goto unique;
+	if (g_application_get_is_remote (G_APPLICATION (shell)))
+		goto remote;
 
 	if (do_import) {
 		n_handled = e_shell_utils_import_uris (shell, uris);
@@ -1569,34 +1584,23 @@ e_shell_handle_uris (EShell *shell,
 
 	return n_handled;
 
-unique:  /* Send a message to the other Evolution process. */
+remote:  /* Send a message to the other Evolution process. */
 
-	/* XXX Do something with UniqueResponse? */
+	length = g_strv_length (uris);
 
-	data = unique_message_data_new ();
-	if (do_import) {
-		GPtrArray *arr = g_ptr_array_new ();
+	files = g_new0 (GFile *, length + 1);
+	for (ii = 0; ii < length; ii++)
+		files[ii] = g_file_new_for_uri (uris[ii]);
 
-		g_ptr_array_add (arr, (gpointer)"--import");
+	g_application_open (G_APPLICATION (shell), files, length, "");
 
-		for (ii = 0; uris[ii] != NULL; ii++) {
-			g_ptr_array_add (arr, uris[ii]);
-		}
-
-		g_ptr_array_add (arr, NULL);
-
-		unique_message_data_set_uris (data, (gchar **)arr->pdata);
-
-		g_ptr_array_free (arr, TRUE);
-	} else {
-		unique_message_data_set_uris (data, uris);
-	}
-	unique_app_send_message (app, UNIQUE_OPEN, data);
-	unique_message_data_free (data);
+	for (ii = 0; ii < length; ii++)
+		g_object_unref (files[ii]);
+	g_free (files);
 
 	/* As far as we're concerned, all URIs have been handled. */
 
-	return g_strv_length (uris);
+	return length;
 }
 
 /**
@@ -1655,6 +1659,12 @@ e_shell_watch_window (EShell *shell,
 
 	list = shell->priv->watched_windows;
 
+	/* XXX If my suggestion in [1] is accepted for GtkApplication
+	 *     then we can get rid of our own watched_windows list.
+	 *
+	 *     [1] https://bugzilla.gnome.org/show_bug.cgi?id=624539
+	 */
+
 	/* Ignore duplicates. */
 	if (g_list_find (list, window) != NULL)
 		return;
@@ -1662,7 +1672,7 @@ e_shell_watch_window (EShell *shell,
 	list = g_list_prepend (list, window);
 	shell->priv->watched_windows = list;
 
-	unique_app_watch_window (UNIQUE_APP (shell), window);
+	gtk_application_add_window (GTK_APPLICATION (shell), window);
 
 	/* We use the window's own type name and memory
 	 * address to form a unique window role for X11. */
@@ -1987,15 +1997,10 @@ gboolean
 e_shell_quit (EShell *shell,
               EShellQuitReason reason)
 {
-	UniqueApp *app;
-	UniqueResponse response;
-
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
-	app = UNIQUE_APP (shell);
-
-	if (unique_app_is_running (app))
-		goto unique;
+	if (g_application_get_is_remote (G_APPLICATION (shell)))
+		goto remote;
 
 	if (!shell_request_quit (shell, reason))
 		return FALSE;
@@ -2004,11 +2009,12 @@ e_shell_quit (EShell *shell,
 
 	return TRUE;
 
-unique:  /* Send a message to the other Evolution process. */
+remote:  /* Send a message to the other Evolution process. */
 
-	response = unique_app_send_message (app, UNIQUE_CLOSE, NULL);
+	g_action_group_activate_action (
+		shell->priv->action_group, "quit", NULL);
 
-	return (response == UNIQUE_RESPONSE_OK);
+	return TRUE;
 }
 
 /**

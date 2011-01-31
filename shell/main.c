@@ -84,6 +84,8 @@
 #include <libical/ical.h>
 #endif
 
+#define APPLICATION_ID "org.gnome.Evolution"
+
 #define SKIP_WARNING_DIALOG_KEY \
 	"/apps/evolution/shell/skip_warning_dialog"
 
@@ -257,7 +259,7 @@ idle_cb (gchar **uris)
 	}
 
 	/* If another Evolution process is running, we're done. */
-	if (unique_app_is_running (UNIQUE_APP (shell)))
+	if (g_application_get_is_remote (G_APPLICATION (shell)))
 		gtk_main_quit ();
 
 	return FALSE;
@@ -324,7 +326,8 @@ quit_signal (gint sig)
 	g_print ("Received quit signal...\n");
 
 	shell = e_shell_get_default ();
-	if (shell)
+
+	if (shell != NULL)
 		e_shell_quit (shell, E_SHELL_QUIT_OPTION);
 }
 
@@ -411,10 +414,12 @@ create_default_shell (void)
 {
 	EShell *shell;
 	GConfClient *client;
-	gboolean online = TRUE;
+	GApplicationFlags flags;
 	const gchar *key;
+	gboolean online = TRUE;
+	gboolean is_meego = FALSE;
+	gboolean small_screen = FALSE;
 	GError *error = NULL;
-	gboolean is_meego = FALSE, small_screen = FALSE;
 
 	client = gconf_client_get_default ();
 
@@ -457,9 +462,13 @@ create_default_shell (void)
 		g_clear_error (&error);
 	}
 
-	shell = g_object_new (
-		E_TYPE_SHELL,
-		"name", "org.gnome.Evolution",
+	flags = G_APPLICATION_HANDLES_OPEN |
+		G_APPLICATION_HANDLES_COMMAND_LINE;
+
+	shell = g_initable_new (
+		E_TYPE_SHELL, NULL, &error,
+		"application-id", APPLICATION_ID,
+		"flags", flags,
 		"geometry", geometry,
 		"module-directory", EVOLUTION_MODULEDIR,
 		"meego-mode", is_meego,
@@ -467,6 +476,10 @@ create_default_shell (void)
 		"small-screen-mode", small_screen,
 		"online", online,
 		NULL);
+
+	/* Failure to register is fatal. */
+	if (error != NULL)
+		g_error ("%s", error->message);
 
 	if (force_online)
 		e_shell_lock_network_available (shell);
@@ -571,9 +584,9 @@ main (gint argc, gchar **argv)
 		exit (1);
 	}
 
-	#ifdef HAVE_ICAL_UNKNOWN_TOKEN_HANDLING
+#ifdef HAVE_ICAL_UNKNOWN_TOKEN_HANDLING
 	ical_set_unknown_token_handling_setting (ICAL_DISCARD_TOKEN);
-	#endif
+#endif
 
 #ifdef G_OS_WIN32
 	path = g_build_path (";", _e_get_bindir (), g_getenv ("PATH"), NULL);
@@ -622,6 +635,7 @@ main (gint argc, gchar **argv)
 		setlocale (LC_ALL, "C");
 	}
 #endif
+
 	if (start_online && start_offline) {
 		g_printerr (
 			_("%s: --online and --offline cannot be used "
