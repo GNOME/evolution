@@ -56,8 +56,6 @@
 #endif
 #endif
 
-#include <unique/unique.h>
-
 gboolean windowed = FALSE;
 gboolean anjal_icon_decoration = FALSE;
 gboolean default_app =  FALSE;
@@ -69,35 +67,6 @@ extern gchar *shell_moduledir;
 #define GCONF_KEY_MAILTO_ENABLED "/desktop/gnome/url-handlers/mailto/enabled"
 #define GCONF_KEY_MAILTO_COMMAND "/desktop/gnome/url-handlers/mailto/command"
 #define ANJAL_MAILTO_COMMAND "anjal %s"
-
-static UniqueResponse
-mail_message_received_cb (UniqueApp         *app G_GNUC_UNUSED,
-                         gint               command,
-                         UniqueMessageData *message_data,
-                         guint              time_ G_GNUC_UNUSED,
-                         gpointer           user_data)
-{
-	 GtkWindow *window = (GtkWindow *) user_data;
-
-	 switch (command) {
-	 case UNIQUE_ACTIVATE :
-		  gtk_window_deiconify (window);
-		  gtk_window_present (window);
-		  return UNIQUE_RESPONSE_OK;
-
-	 case UNIQUE_NEW :
-		  return UNIQUE_RESPONSE_OK;
-
-	 case UNIQUE_OPEN :
-		  gdk_window_raise (gtk_widget_get_window (GTK_WIDGET (window)));
-		  gtk_window_deiconify (window);
-		  gtk_window_present (window);
-
-		  return UNIQUE_RESPONSE_OK;
-	 }
-
-	 return UNIQUE_RESPONSE_PASSTHROUGH;
-}
 
 static void
 categories_icon_theme_hack (void)
@@ -172,7 +141,6 @@ main (gint argc, gchar *argv[])
 	GError *error = NULL;
 	GConfClient *client;
 
-	UniqueApp *app;
 
 #ifdef G_OS_WIN32
 	/* Reduce risks */
@@ -252,27 +220,7 @@ main (gint argc, gchar *argv[])
 	gconf_client_set_bool (client, "/apps/evolution/mail/display/enable_vfolders", FALSE, NULL);
 	g_object_unref (client);
 
-	app = unique_app_new ("org.gnome.AnjalSettings", NULL);
-	  if (unique_app_is_running (app) && !socket_id)  {
-		   gboolean cmd_line =  (remaining_args && remaining_args[0] != NULL);
-
-		  if (!cmd_line)
-			unique_app_send_message (app, UNIQUE_ACTIVATE, NULL);
-		  else {
-			  UniqueMessageData *data = unique_message_data_new ();
-			  unique_message_data_set_text (data, remaining_args[0], -1);
-			  unique_app_send_message (app, UNIQUE_OPEN, data);
-			  unique_message_data_free (data);
-		  }
-
-		  return 0;
-	  }
-
 	create_default_shell ();
-
-	g_signal_connect (
-		UNIQUE_APP(app), "message-received",
-		G_CALLBACK (mail_message_received_cb),  main_window);
 
 	if (windowed)
 		anjal_icon_decoration = TRUE;
