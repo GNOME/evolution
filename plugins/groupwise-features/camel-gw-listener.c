@@ -503,6 +503,7 @@ get_addressbook_names_from_server (gchar *source_url)
 
 		password = e_passwords_get_password ("Groupwise", key);
 		if (!password) {
+			/* Translators: First %s is the server name, second %s is user name */
 			password_prompt = g_strdup_printf (_("Enter password for %s (user %s)"),
 					poa_address, url->user);
 			prompt = g_strconcat (failed_auth ? failed_auth : "", password_prompt, NULL);
