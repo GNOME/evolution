@@ -50,6 +50,7 @@ m4_define([libnotify_minimum_version], [0.5.1])
 m4_define([unique_minimum_version], [2.90.4])
 
 dnl Optional Packages
+m4_define([champlain_minimum_version], [0.8])
 m4_define([clutter_gtk_minimum_version], [0.90])
 m4_define([geoclue_minimum_version], [0.11.1])
 m4_define([gladeui_minimum_version], [3.0.0])
@@ -60,7 +61,6 @@ m4_define([nm_minimum_version], [0.7])
 dnl XXX These versions don't yet exist.  The latest releases
 dnl     link to gtk+-2.0 so we've bumped the versions to some
 dnl     bogus value to force some plugins to be disabled.
-m4_define([champlain_minimum_version], [0.8])
 m4_define([gtkimageview_minimum_version], [2.0])
 
 dnl ******************************
