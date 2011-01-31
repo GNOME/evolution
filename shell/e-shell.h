@@ -22,7 +22,6 @@
 #ifndef E_SHELL_H
 #define E_SHELL_H
 
-#include <unique/unique.h>
 #include <gconf/gconf-client.h>
 
 #include <e-util/e-activity.h>
@@ -90,12 +89,12 @@ typedef enum {
  * functions below.
  **/
 struct _EShell {
-	UniqueApp parent;
+	GtkApplication parent;
 	EShellPrivate *priv;
 };
 
 struct _EShellClass {
-	UniqueAppClass parent_class;
+	GtkApplicationClass parent_class;
 
 	gboolean	(*handle_uri)		(EShell *shell,
 						 const gchar *uri);
@@ -154,7 +153,7 @@ gboolean	e_shell_quit			(EShell *shell,
 						 EShellQuitReason reason);
 void		e_shell_cancel_quit		(EShell *shell);
 
-void		e_shell_adapt_window_size	(EShell    *shell,
+void		e_shell_adapt_window_size	(EShell *shell,
 						 GtkWindow *window);
 void		e_shell_set_startup_view	(EShell *shell,
 						 const gchar *view);
