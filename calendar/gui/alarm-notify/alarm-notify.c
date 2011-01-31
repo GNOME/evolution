@@ -25,14 +25,19 @@
 #endif
 
 #include <string.h>
+#include <camel/camel.h>
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserverui/e-passwords.h>
 #include <libecal/e-cal.h>
+
+#include "alarm.h"
 #include "alarm-notify.h"
 #include "alarm-queue.h"
 #include "config-data.h"
 #include "common/authentication.h"
+
+#define APPLICATION_ID "org.gnome.EvolutionAlarmNotify"
 
 struct _AlarmNotifyPrivate {
 	/* Mapping from EUri's to LoadedClient structures */
@@ -50,7 +55,7 @@ typedef struct {
 	GList *removals;
 } ProcessRemovalsData;
 
-static gpointer parent_class;
+G_DEFINE_TYPE (AlarmNotify, alarm_notify, GTK_TYPE_APPLICATION)
 
 static void
 process_removal_in_hash (const gchar *uri,
@@ -214,23 +219,53 @@ alarm_notify_finalize (GObject *object)
 	}
 
 	alarm_queue_done ();
+	alarm_done ();
+
+	e_passwords_shutdown ();
 
 	g_mutex_free (priv->mutex);
 
 	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
+	G_OBJECT_CLASS (alarm_notify_parent_class)->finalize (object);
+}
+
+static void
+alarm_notify_startup (GApplication *application)
+{
+	GtkIconTheme *icon_theme;
+
+	/* Chain up to parent's startup() method. */
+	G_APPLICATION_CLASS (alarm_notify_parent_class)->startup (application);
+
+	/* Keep the application running. */
+	g_application_hold (application);
+
+	config_data_init_debugging ();
+
+	/* FIXME Ideally we should not use Camel libraries in calendar,
+	 *       though it is the case currently for attachments.  Remove
+	 *       this once that is fixed. */
+
+	/* Initialize Camel's type system. */
+	camel_object_get_type ();
+
+	icon_theme = gtk_icon_theme_get_default ();
+	gtk_icon_theme_append_search_path (icon_theme, EVOLUTION_ICONDIR);
 }
 
 static void
 alarm_notify_class_init (AlarmNotifyClass *class)
 {
 	GObjectClass *object_class;
+	GApplicationClass *application_class;
 
-	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (AlarmNotifyPrivate));
 
-	object_class = (GObjectClass *) class;
+	object_class = G_OBJECT_CLASS (class);
 	object_class->finalize = alarm_notify_finalize;
+
+	application_class = G_APPLICATION_CLASS (class);
+	application_class->startup = alarm_notify_startup;
 }
 
 static void
@@ -262,32 +297,6 @@ alarm_notify_get_selected_calendars (AlarmNotify *an)
 	return an->priv->selected_calendars;
 }
 
-GType
-alarm_notify_get_type (void)
-{
-	static GType type = 0;
-
-	if (G_UNLIKELY (type == 0)) {
-		const GTypeInfo type_info = {
-			sizeof (AlarmNotifyClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) alarm_notify_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (AlarmNotify),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) alarm_notify_init,
-			NULL   /* value_table */
-		};
-
-		type = g_type_register_static (
-			G_TYPE_OBJECT, "AlarmNotify", &type_info, 0);
-	}
-
-	return type;
-}
-
 /**
  * alarm_notify_new:
  *
@@ -298,7 +307,9 @@ alarm_notify_get_type (void)
 AlarmNotify *
 alarm_notify_new (void)
 {
-	return g_object_new (TYPE_ALARM_NOTIFY, NULL);
+	return g_object_new (
+		TYPE_ALARM_NOTIFY,
+		"application-id", APPLICATION_ID, NULL);
 }
 
 static void

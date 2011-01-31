@@ -23,22 +23,10 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include <string.h>
-#include <gtk/gtk.h>
+#include <config.h>
 #include <glib/gi18n.h>
-#include <camel/camel.h>
-#include <unique/unique.h>
-#include <libedataserver/e-source.h>
-#include <libedataserverui/e-passwords.h>
 
-#include "alarm.h"
-#include "alarm-queue.h"
 #include "alarm-notify.h"
-#include "config-data.h"
 
 #ifdef G_OS_WIN32
 #include <windows.h>
@@ -56,9 +44,8 @@
 gint
 main (gint argc, gchar **argv)
 {
-	GtkIconTheme *icon_theme;
 	AlarmNotify *alarm_notify_service;
-	UniqueApp *app;
+	gint exit_status;
 #ifdef G_OS_WIN32
 	gchar *path;
 
@@ -87,7 +74,7 @@ main (gint argc, gchar **argv)
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	g_thread_init (NULL);
+	gtk_init (&argc, &argv);
 
 #ifdef G_OS_WIN32
 	path = g_build_path (";", _e_get_bindir (), g_getenv ("PATH"), NULL);
@@ -96,38 +83,12 @@ main (gint argc, gchar **argv)
 		g_warning ("Could not set PATH for Evolution Alarm Notifier");
 #endif
 
-	gtk_init (&argc, &argv);
-
-	app = unique_app_new ("org.gnome.EvolutionAlarmNotify", NULL);
-
-	if (unique_app_is_running (app))
-		goto exit;
-
-	config_data_init_debugging ();
-
 	alarm_notify_service = alarm_notify_new ();
 
-	/* FIXME Ideally we should not use camel libraries in calendar,
-	 *       though it is the case currently for attachments. Remove
-	 *       this once that is fixed. */
+	exit_status = g_application_run (
+		G_APPLICATION (alarm_notify_service), argc, argv);
 
-	/* Initialize Camel's type system. */
-	camel_object_get_type ();
+	g_object_unref (alarm_notify_service);
 
-	icon_theme = gtk_icon_theme_get_default ();
-	gtk_icon_theme_append_search_path (icon_theme, EVOLUTION_ICONDIR);
-
-	gtk_main ();
-
-	if (alarm_notify_service != NULL)
-		g_object_unref (alarm_notify_service);
-
-	alarm_done ();
-
-	e_passwords_shutdown ();
-
-exit:
-	g_object_unref (app);
-
-	return 0;
+	return exit_status;
 }

@@ -26,6 +26,7 @@
 #ifndef ALARM_NOTIFY_H
 #define ALARM_NOTIFY_H
 
+#include <gtk/gtk.h>
 #include <libecal/e-cal.h>
 
 /* Standard GObject macros */
@@ -54,12 +55,12 @@ typedef struct _AlarmNotifyClass AlarmNotifyClass;
 typedef struct _AlarmNotifyPrivate AlarmNotifyPrivate;
 
 struct _AlarmNotify {
-	GObject parent;
+	GtkApplication parent;
 	AlarmNotifyPrivate *priv;
 };
 
 struct _AlarmNotifyClass {
-	GObjectClass parent_class;
+	GtkApplicationClass parent_class;
 };
 
 GType		alarm_notify_get_type		(void);
