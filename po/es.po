@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: evolution.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2011-01-30 01:24+0000\n"
-"PO-Revision-Date: 2011-01-30 12:39+0100\n"
+"POT-Creation-Date: 2011-01-30 11:44+0000\n"
+"PO-Revision-Date: 2011-01-31 19:03+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -7050,7 +7050,6 @@ msgid "You need to configure an account before you can compose mail."
 msgstr "Necesita configurar una cuenta antes de poder escribir correo."
 
 #: ../composer/mail-composer.error.xml.h:26
-#| msgid "An error occurred during processing: %s"
 msgid "Your message was sent, but an error occurred during post-processing."
 msgstr "Se envió su mensaje pero ocurrió un error en el posprocesado."
 
@@ -18821,7 +18820,7 @@ msgstr "En la carpeta actual y _subcarpetas"
 
 #: ../plugins/mark-all-read/mark-all-read.c:207
 msgid "In Current _Folder Only"
-msgstr "Sólo en la ca_rpeta actual"
+msgstr "Sólo en la carpeta _actual"
 
 #: ../plugins/mark-all-read/mark-all-read.c:444
 msgid "Mark Me_ssages as Read"
