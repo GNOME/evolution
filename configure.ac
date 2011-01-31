@@ -47,7 +47,6 @@ m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
 m4_define([libpst_minimum_version], [0.6.41])
 m4_define([libnotify_minimum_version], [0.5.1])
-m4_define([unique_minimum_version], [2.90.4])
 
 dnl Optional Packages
 m4_define([champlain_minimum_version], [0.8])
@@ -237,7 +236,6 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
 	 cairo-gobject
 	 gtk+-3.0 >= gtk_minimum_version
 	 gail-3.0 >= gtk_minimum_version
-	 unique-3.0 >= unique_minimum_version
 	 gconf-2.0 >= gconf_minimum_version
 	 libxml-2.0 >= libxml_minimum_version
 	 shared-mime-info >= shared_mime_info_minimum_version
