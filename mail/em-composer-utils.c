@@ -1415,14 +1415,13 @@ forward_non_attached (EShell *shell,
 		flags |= EM_FORMAT_QUOTE_CITE;
 
 	for (i = 0; i < messages->len; i++) {
-		gssize len;
 		guint32 validity_found = 0;
 
 		message = messages->pdata[i];
 		subject = mail_tool_generate_forward_subject (message);
 
 		forward = quoting_text (QUOTING_FORWARD);
-		text = em_utils_message_to_html (message, forward, flags, &len, NULL, NULL, &validity_found);
+		text = em_utils_message_to_html (message, forward, flags, NULL, NULL, &validity_found);
 
 		if (text) {
 			composer = create_new_composer (shell, subject, from_uri);
@@ -1431,7 +1430,7 @@ forward_non_attached (EShell *shell,
 				if (CAMEL_IS_MULTIPART (camel_medium_get_content ((CamelMedium *)message)))
 					e_msg_composer_add_message_attachments (composer, message, FALSE);
 
-				e_msg_composer_set_body_text (composer, text, len);
+				e_msg_composer_set_body_text (composer, text, TRUE);
 
 				if (uids && uids->pdata[i])
 					e_msg_composer_set_source_headers (
@@ -2460,8 +2459,7 @@ composer_set_body (EMsgComposer *composer,
 	gchar *text, *credits, *original;
 	CamelMimePart *part;
 	GConfClient *client;
-	gssize len = 0;
-	gboolean start_bottom;
+	gboolean start_bottom, has_body_text = FALSE;
 	guint32 validity_found = 0;
 	const gchar *key;
 
@@ -2482,8 +2480,9 @@ composer_set_body (EMsgComposer *composer,
 		break;
 	case E_MAIL_REPLY_STYLE_OUTLOOK:
 		original = quoting_text (QUOTING_ORIGINAL);
-		text = em_utils_message_to_html (message, original, EM_FORMAT_QUOTE_HEADERS, &len, source, start_bottom ? "<BR>" : NULL, &validity_found);
-		e_msg_composer_set_body_text (composer, text, len);
+		text = em_utils_message_to_html (message, original, EM_FORMAT_QUOTE_HEADERS, source, start_bottom ? "<BR>" : NULL, &validity_found);
+		e_msg_composer_set_body_text (composer, text, TRUE);
+		has_body_text = text && *text;
 		g_free (text);
 		g_free (original);
 		emu_update_composers_security (composer, validity_found);
@@ -2493,15 +2492,16 @@ composer_set_body (EMsgComposer *composer,
 	default:
 		/* do what any sane user would want when replying... */
 		credits = attribution_format (message);
-		text = em_utils_message_to_html (message, credits, EM_FORMAT_QUOTE_CITE, &len, source, start_bottom ? "<BR>" : NULL, &validity_found);
+		text = em_utils_message_to_html (message, credits, EM_FORMAT_QUOTE_CITE, source, start_bottom ? "<BR>" : NULL, &validity_found);
 		g_free (credits);
-		e_msg_composer_set_body_text (composer, text, len);
+		e_msg_composer_set_body_text (composer, text, TRUE);
+		has_body_text = text && *text;
 		g_free (text);
 		emu_update_composers_security (composer, validity_found);
 		break;
 	}
 
-	if (len > 0 && start_bottom) {
+	if (has_body_text && start_bottom) {
 		GtkhtmlEditor *editor = GTKHTML_EDITOR (composer);
 
 		/* If we are placing signature on top, then move cursor to the end,
@@ -2531,11 +2531,10 @@ gchar *
 em_utils_construct_composer_text (CamelMimeMessage *message, EMFormat *source)
 {
 	gchar *text, *credits;
-	gssize len = 0;
 	gboolean start_bottom = 0;
 
 	credits = attribution_format (message);
-	text = em_utils_message_to_html (message, credits, EM_FORMAT_QUOTE_CITE, &len, source, start_bottom ? "<BR>" : NULL, NULL);
+	text = em_utils_message_to_html (message, credits, EM_FORMAT_QUOTE_CITE, source, start_bottom ? "<BR>" : NULL, NULL);
 
 	g_free (credits);
 	return text;

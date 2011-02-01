@@ -193,7 +193,7 @@ update_composer_text (GArray *array)
 	composer = g_array_index (array, gpointer, 0);
 	text = g_array_index (array, gpointer, 1);
 
-	e_msg_composer_set_body_text (composer, text, -1);
+	e_msg_composer_set_body_text (composer, text, FALSE);
 
 	enable_composer (composer);
 
