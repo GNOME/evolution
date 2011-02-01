@@ -1266,7 +1266,6 @@ em_utils_get_proxy_uri (const gchar *pUri)
  * @message:
  * @credits:
  * @flags: EMFormatQuote flags
- * @len:
  * @source:
  * @append: Text to append, can be NULL.
  * @validity_found: if not NULL, then here will be set what validities
@@ -1276,13 +1275,12 @@ em_utils_get_proxy_uri (const gchar *pUri)
  * Convert a message to html, quoting if the @credits attribution
  * string is given.
  *
- * Return value: The html version.
+ * Return value: The html version as a NULL terminated string.
  **/
 gchar *
 em_utils_message_to_html (CamelMimeMessage *message,
                           const gchar *credits,
                           guint32 flags,
-                          gssize *len,
                           EMFormat *source,
                           const gchar *append,
                           guint32 *validity_found)
@@ -1290,7 +1288,6 @@ em_utils_message_to_html (CamelMimeMessage *message,
 	EMFormatQuote *emfq;
 	CamelStream *mem;
 	GByteArray *buf;
-	gchar *text;
 
 	buf = g_byte_array_new ();
 	mem = camel_stream_mem_new ();
@@ -1324,12 +1321,7 @@ em_utils_message_to_html (CamelMimeMessage *message,
 	camel_stream_write(mem, "", 1, NULL, NULL);
 	g_object_unref (mem);
 
-	text = (gchar *)buf->data;
-	if (len)
-		*len = buf->len-1;
-	g_byte_array_free (buf, FALSE);
-
-	return text;
+	return (gchar *) g_byte_array_free (buf, FALSE);
 }
 
 /* ********************************************************************** */

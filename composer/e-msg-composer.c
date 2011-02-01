@@ -4078,18 +4078,20 @@ e_msg_composer_new_from_url (EShell *shell,
  * e_msg_composer_set_body_text:
  * @composer: a composer object
  * @text: the HTML text to initialize the editor with
+ * @update_signature: whether update signature in the text after setting it;
+ *    Might be usually called with TRUE.
  *
  * Loads the given HTML text into the editor.
  **/
 void
 e_msg_composer_set_body_text (EMsgComposer *composer,
                               const gchar *text,
-                              gssize len)
+                              gboolean update_signature)
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (text != NULL);
 
-	set_editor_text (composer, text, TRUE);
+	set_editor_text (composer, text, update_signature);
 }
 
 /**

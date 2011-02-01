@@ -1460,7 +1460,7 @@ itip_send_comp (ECalComponentItipMethod method,
 
 		body = camel_text_to_html (
 			description, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
-		e_msg_composer_set_body_text (composer, body, -1);
+		e_msg_composer_set_body_text (composer, body, TRUE);
 		g_free (body);
 
 		attachment = camel_mime_part_new ();
@@ -1650,7 +1650,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 		g_string_append (body, html_description);
 		g_free (html_description);
 
-		e_msg_composer_set_body_text (composer, body->str, -1);
+		e_msg_composer_set_body_text (composer, body->str, TRUE);
 		g_string_free (body, TRUE);
 	}
 

@@ -110,7 +110,7 @@ void		e_msg_composer_print		(EMsgComposer *composer,
 
 void		e_msg_composer_set_body_text	(EMsgComposer *composer,
 						 const gchar *text,
-						 gssize len);
+						 gboolean update_signature);
 void		e_msg_composer_set_body		(EMsgComposer *composer,
 						 const gchar *body,
 						 const gchar *mime_type);
