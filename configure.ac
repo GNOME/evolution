@@ -1410,12 +1410,12 @@ plugins_base_always="calendar-file calendar-http itip-formatter default-source a
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN"
 dist_plugins_base="$plugins_base_always calendar-weather sa-junk-plugin bogo-junk-plugin"
 
-plugins_standard_always="bbdb save-calendar mail-to-task mailing-list-actions prefer-plain mail-notification attachment-reminder backup-restore email-custom-header templates vcard-inline dbx-import"
+plugins_standard_always="bbdb save-calendar mail-to-task mailing-list-actions prefer-plain mail-notification attachment-reminder backup-restore email-custom-header face templates vcard-inline dbx-import"
 
 plugins_standard="$plugins_standard_always"
 dist_plugins_standard="$plugins_standard audio-inline image-inline pst-import"
 
-plugins_experimental_always="face external-editor"
+plugins_experimental_always="external-editor"
 
 plugins_experimental="$plugins_experimental_always $TNEF_ATTACHMENTS"
 dist_plugins_experimental="$plugins_experimental_always profiler tnef-attachments contacts-map"
