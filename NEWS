@@ -1,3 +1,8 @@
+Evolution 2.91.6.1 2011-02-02
+-----------------------------
+
+Work around last-minute API breaks in GTK+ 2.99.3.
+
 Evolution 2.91.6 2011-01-11
 ---------------------------
 Bug Fixes:
