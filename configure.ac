@@ -1493,15 +1493,12 @@ if test "x$enable_plugins" = "xexperimental"; then
 		[enable_contacts_map="$enableval"], [enable_contacts_map=yes])
 
 	if test "x$enable_contacts_map" = "xyes"; then
-		PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.5 >= champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
-		if test "x$have_champlain" = "xno"; then
-			PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.4 >= champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
-		fi
+		PKG_CHECK_MODULES([CHAMPLAIN], [champlain-gtk-0.8 >= champlain_minimum_version], [have_champlain=yes], [have_champlain=no])
 		AC_SUBST(CHAMPLAIN_CFLAGS)
 		AC_SUBST(CHAMPLAIN_LIBS)
 
 		if test "x$have_champlain" = "xno"; then
-			AC_MSG_ERROR([champlain-gtk >= champlain_minimum_version is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
+			AC_MSG_ERROR([champlain-gtk-0.8 >= champlain_minimum_version is required for the contacts-map plugin.  Use --disable-contacts-map to exclude the plugin.])
 		fi
 
 		PKG_CHECK_MODULES([GEOCLUE], [geoclue >= geoclue_minimum_version], [have_geoclue=yes], [have_geoclue=no])
