@@ -27,7 +27,7 @@
 
 #include "composer/e-msg-composer.h"
 #include <gtk/gtk.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <mail/em-event.h>
 #include <e-util/e-alert-dialog.h>
 #include <e-util/e-util.h>
@@ -282,8 +282,8 @@ choose_new_face (void)
 	GtkWidget *filesel, *preview;
 	GtkFileFilter *filter;
 
-	filesel = gtk_file_chooser_dialog_new (_
-				("Select a png picture (the best 48*48 of size < 720 bytes)"),
+	filesel = gtk_file_chooser_dialog_new (
+				_("Select a Face Picture"),
 				NULL,
 				GTK_FILE_CHOOSER_ACTION_OPEN,
 				GTK_STOCK_CANCEL,
@@ -328,18 +328,15 @@ toggled_check_include_by_default_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-click_load_face_cb (GtkButton *butt, gpointer data)
+click_load_face_cb (GtkButton *butt,
+                    GtkImage *image)
 {
 	GdkPixbuf *face;
-	GtkWidget *img;
-
-	img = gtk_button_get_image (butt);
-	g_return_if_fail (img != NULL);
 
 	face = choose_new_face ();
 
 	if (face) {
-		gtk_image_set_from_pixbuf (GTK_IMAGE (img), face);
+		gtk_image_set_from_pixbuf (image, face);
 		g_object_unref (face);
 	}
 }
@@ -364,10 +361,11 @@ get_cfg_widget (void)
 		g_object_unref (face);
 
 	butt = gtk_button_new_with_mnemonic (_("Load new _Face picture"));
-	gtk_button_set_image (GTK_BUTTON (butt), img);
-	g_signal_connect (butt, "clicked", G_CALLBACK (click_load_face_cb), NULL);
+	g_signal_connect (butt, "clicked", G_CALLBACK (click_load_face_cb), img);
 
 	gtk_box_pack_start (GTK_BOX (vbox), butt, FALSE, FALSE, 0);
+
+	gtk_box_pack_start (GTK_BOX (vbox), img, FALSE, FALSE, 0);	
 
 	gtk_widget_show_all (vbox);
 
