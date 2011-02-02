@@ -811,7 +811,12 @@ e_rule_editor_construct (ERuleEditor *editor,
 	editor->list = GTK_TREE_VIEW (object);
 
 	column = gtk_tree_view_get_column (GTK_TREE_VIEW (object), 0);
+	g_return_if_fail (column != NULL);
+
+	gtk_tree_view_column_set_visible (column, FALSE);
 	list = gtk_cell_layout_get_cells (GTK_CELL_LAYOUT (column));
+	g_return_if_fail (list != NULL);
+
 	renderer = GTK_CELL_RENDERER (list->data);
 	g_warn_if_fail (GTK_IS_CELL_RENDERER_TOGGLE (renderer));
 
