@@ -5250,7 +5250,7 @@ msgid ""
 "Now we need your settings for sending mail. We've tried to make some guesses "
 "but you should check them over to make sure."
 msgstr ""
-"Nüüd on vaja määrata e-posti saatmise sätted. Proovisimee need ära arvata, "
+"Nüüd on vaja määrata e-posti saatmise sätted. Proovisime need ära arvata, "
 "aga kindluse mõttes tuleks need üle kontrollida."
 
 msgid "You can specify your default settings for your account."
