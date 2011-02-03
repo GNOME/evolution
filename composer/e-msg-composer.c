@@ -1830,6 +1830,21 @@ msg_composer_drag_data_received_cb (GtkWidget *widget,
 {
 	EAttachmentView *view;
 
+	/* HTML mode has a few special cases for drops... */
+	if (gtkhtml_editor_get_html_mode (GTKHTML_EDITOR (composer))) {
+
+		/* If we're receiving an image, we want the image to be
+		 * inserted in the message body.  Let GtkHtml handle it. */
+		if (gtk_selection_data_targets_include_image (selection, TRUE))
+			return;
+
+		/* If we're receiving URIs and -all- the URIs point to
+		 * image files, we want the image(s) to be inserted in
+		 * the message body.  Let GtkHtml handle it. */
+		if (e_composer_selection_is_image_uris (composer, selection))
+			return;
+	}
+
 	view = e_msg_composer_get_attachment_view (composer);
 
 	/* Forward the data to the attachment view.  Note that calling
