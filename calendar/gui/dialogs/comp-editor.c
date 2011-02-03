@@ -2644,8 +2644,10 @@ comp_editor_append_widget (CompEditor *editor,
 
 	priv->pages = g_list_append (priv->pages, page);
 
-	if (add)
+	if (add) {
 		gtk_notebook_append_page (priv->notebook, page, label_widget);
+		gtk_container_child_set (GTK_CONTAINER (priv->notebook), page, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
+	}
 
 	/* Listen for when the page is mapped/unmapped so we can
 	   install/uninstall the appropriate GtkAccelGroup.
@@ -2706,8 +2708,10 @@ comp_editor_append_page (CompEditor *editor,
 
 	priv->pages = g_list_append (priv->pages, page);
 
-	if (add)
+	if (add) {
 		gtk_notebook_append_page (priv->notebook, page_widget, label_widget);
+		gtk_container_child_set (GTK_CONTAINER (priv->notebook), page_widget, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
+	}
 
 	/* Listen for things happening on the page */
 	g_signal_connect_swapped (

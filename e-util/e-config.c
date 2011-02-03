@@ -790,6 +790,7 @@ ec_rebuild (EConfig *emp)
 					gtk_container_set_border_width ((GtkContainer *)page, 12);
 					gtk_widget_show (page);
 					gtk_notebook_insert_page ((GtkNotebook *)book, page, w, pageno);
+					gtk_container_child_set (GTK_CONTAINER (book), page, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
 					wn->frame = page;
 				}
 			} else
