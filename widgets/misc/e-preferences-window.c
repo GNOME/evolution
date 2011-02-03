@@ -210,7 +210,7 @@ preferences_window_show (GtkWidget *widget)
 
 	priv = E_PREFERENCES_WINDOW_GET_PRIVATE (widget);
 	if (!priv->setup)
-		g_warning ("Error - preferences window has not been setup correctly");
+		g_warning ("Preferences window has not been setup correctly");
 
 	icon_view = GTK_ICON_VIEW (priv->icon_view);
 
@@ -308,7 +308,8 @@ e_preferences_window_init (EPreferencesWindow *window)
 
 	container = widget;
 
-	widget = gtk_icon_view_new_with_model (GTK_TREE_MODEL (window->priv->filter));
+	widget = gtk_icon_view_new_with_model (
+		GTK_TREE_MODEL (window->priv->filter));
 	gtk_icon_view_set_columns (GTK_ICON_VIEW (widget), 1);
 	gtk_icon_view_set_text_column (GTK_ICON_VIEW (widget), COLUMN_TEXT);
 	gtk_icon_view_set_pixbuf_column (GTK_ICON_VIEW (widget), COLUMN_PIXBUF);
@@ -379,7 +380,6 @@ gpointer
 e_preferences_window_get_shell (EPreferencesWindow *window)
 {
 	g_return_val_if_fail (E_IS_PREFERENCES_WINDOW (window), NULL);
-	g_return_val_if_fail (window->priv != NULL, NULL);
 
 	return window->priv->shell;
 }
@@ -389,7 +389,7 @@ e_preferences_window_add_page (EPreferencesWindow *window,
                                const gchar *page_name,
                                const gchar *icon_name,
                                const gchar *caption,
-			       EPreferencesWindowCreatePageFn create_fn,
+                               EPreferencesWindowCreatePageFn create_fn,
                                gint sort_order)
 {
 	GtkTreeRowReference *reference;
@@ -434,7 +434,9 @@ e_preferences_window_add_page (EPreferencesWindow *window,
 	gtk_widget_show (GTK_WIDGET (align));
 	g_object_set_data (G_OBJECT (align), "create_fn", create_fn);
 	gtk_notebook_append_page (notebook, align, NULL);
-	gtk_container_child_set (GTK_CONTAINER (notebook), align, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
+	gtk_container_child_set (
+		GTK_CONTAINER (notebook), align,
+		"tab-fill", FALSE, "tab-expand", FALSE, NULL);
 
 	/* Force GtkIconView to recalculate the text wrap width,
 	 * otherwise we get a really narrow icon list on the left
@@ -506,6 +508,8 @@ e_preferences_window_setup (EPreferencesWindow *window)
 	gint i, num;
 	GtkNotebook *notebook;
 	EPreferencesWindowPrivate *priv;
+
+	g_return_if_fail (E_IS_PREFERENCES_WINDOW (window));
 
 	priv = E_PREFERENCES_WINDOW_GET_PRIVATE (window);
 	notebook = GTK_NOTEBOOK (priv->notebook);
