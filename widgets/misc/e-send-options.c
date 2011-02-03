@@ -499,10 +499,12 @@ setup_widgets (ESendOptionsDialog *sod, Item_type type)
 		GtkWidget *widget = gtk_label_new (_("Calendar"));
 		gtk_label_set_text (GTK_LABEL (priv->sopts_label), _("Mail"));
 		gtk_notebook_append_page (priv->notebook, priv->status, widget);
+		gtk_container_child_set (GTK_CONTAINER (priv->notebook), priv->status, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
 		gtk_widget_show (widget);
 		widget = gtk_label_new (_("Task"));
 		gtk_widget_show (widget);
 		gtk_notebook_append_page (priv->notebook, priv->status,widget);
+		gtk_container_child_set (GTK_CONTAINER (priv->notebook), priv->status, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
 		gtk_notebook_set_show_tabs (priv->notebook, TRUE);
 	}
 

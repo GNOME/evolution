@@ -842,6 +842,7 @@ subscription_editor_add_account (EMSubscriptionEditor *editor,
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_notebook_append_page (GTK_NOTEBOOK (container), widget, NULL);
+	gtk_container_child_set (GTK_CONTAINER (container), widget, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
 	gtk_widget_show (widget);
 
 	container = widget;

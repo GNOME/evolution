@@ -340,6 +340,7 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	g_signal_connect (selection, "changed", G_CALLBACK (epif_tv_selection_changed), ui->remove_header);
 
 	gtk_notebook_append_page ((GtkNotebook *)(data->parent), vbox, gtk_label_new(_("IMAP Headers")));
+	gtk_container_child_set (GTK_CONTAINER (data->parent), vbox, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
 	gtk_widget_show_all (vbox);
 
 	return GTK_WIDGET (vbox);

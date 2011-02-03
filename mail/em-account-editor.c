@@ -2214,6 +2214,7 @@ emae_identity_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 		w = page;
 	} else {
 		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Identity")));
+		gtk_container_child_set (GTK_CONTAINER (parent), w, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
 	}
 
 	emae_queue_widgets (
@@ -2258,6 +2259,7 @@ emae_receive_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget 
 		w = page;
 	} else {
 		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Receiving Email")));
+		gtk_container_child_set (GTK_CONTAINER (parent), w, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
 	}
 
 	emae_queue_widgets (
@@ -2757,6 +2759,7 @@ emae_send_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *ol
 		w = page;
 	} else {
 		gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Sending Email")));
+		gtk_container_child_set (GTK_CONTAINER (parent), w, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
 	}
 
 	emae_queue_widgets (
@@ -3042,6 +3045,7 @@ emae_defaults_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 		gtk_widget_show  (widget);
 	}else {
 		gtk_notebook_append_page ((GtkNotebook *)parent, widget, gtk_label_new (_("Defaults")));
+		gtk_container_child_set (GTK_CONTAINER (parent), widget, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
 	}
 
 	emae_queue_widgets (
@@ -3170,6 +3174,7 @@ emae_security_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 
 	w = e_builder_get_widget (builder, item->label);
 	gtk_notebook_append_page ((GtkNotebook *)parent, w, gtk_label_new (_("Security")));
+	gtk_container_child_set (GTK_CONTAINER (parent), w, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
 
 	g_object_unref (builder);
 

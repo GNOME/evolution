@@ -434,6 +434,7 @@ e_preferences_window_add_page (EPreferencesWindow *window,
 	gtk_widget_show (GTK_WIDGET (align));
 	g_object_set_data (G_OBJECT (align), "create_fn", create_fn);
 	gtk_notebook_append_page (notebook, align, NULL);
+	gtk_container_child_set (GTK_CONTAINER (notebook), align, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
 
 	/* Force GtkIconView to recalculate the text wrap width,
 	 * otherwise we get a really narrow icon list on the left
