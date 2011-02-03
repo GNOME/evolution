@@ -20,6 +20,10 @@
         <menuitem action='close'/>
       </menu>
     </placeholder>
+    <menu action='edit-menu'>
+      <separator/>
+      <menuitem action='preferences'/>
+    </menu>
     <placeholder name='pre-insert-menu'>
       <menu action='view-menu'>
         <menuitem action='view-reply-to'/>

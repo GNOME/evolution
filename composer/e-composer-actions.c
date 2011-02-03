@@ -61,6 +61,19 @@ action_close_cb (GtkAction *action,
 }
 
 static void
+action_new_message_cb (GtkAction *action,
+                       EMsgComposer *composer)
+{
+	EMsgComposer *new_composer;
+	EShell *shell;
+
+	shell = e_msg_composer_get_shell (composer);
+
+	new_composer = e_msg_composer_new (shell);
+	gtk_widget_show (GTK_WIDGET (new_composer));
+}
+
+static void
 action_pgp_encrypt_cb (GtkToggleAction *action,
                        EMsgComposer *composer)
 {
@@ -78,6 +91,34 @@ action_pgp_sign_cb (GtkToggleAction *action,
 
 	editor = GTKHTML_EDITOR (composer);
 	gtkhtml_editor_set_changed (editor, TRUE);
+}
+
+static void
+action_preferences_cb (GtkAction *action,
+                       EMsgComposer *composer)
+{
+	EShell *shell;
+	GtkWidget *preferences_window;
+	const gchar *page_name = "composer";
+
+	shell = e_msg_composer_get_shell (composer);
+	preferences_window = e_shell_get_preferences_window (shell);
+	e_preferences_window_setup (E_PREFERENCES_WINDOW (preferences_window));
+
+	gtk_window_set_transient_for (
+		GTK_WINDOW (preferences_window),
+		GTK_WINDOW (composer));
+	gtk_window_set_position (
+		GTK_WINDOW (preferences_window),
+		GTK_WIN_POS_CENTER_ON_PARENT);
+	gtk_window_present (GTK_WINDOW (preferences_window));
+
+	if (e_shell_get_express_mode (shell))
+		e_preferences_window_filter_page (
+			E_PREFERENCES_WINDOW (preferences_window), page_name);
+	else
+		e_preferences_window_show_page (
+			E_PREFERENCES_WINDOW (preferences_window), page_name);
 }
 
 static void
@@ -218,19 +259,6 @@ action_send_cb (GtkAction *action,
 }
 
 static void
-action_new_message_cb (GtkAction *action,
-                       EMsgComposer *composer)
-{
-	EMsgComposer *new_composer;
-	EShell *shell;
-
-	shell = e_msg_composer_get_shell (composer);
-
-	new_composer = e_msg_composer_new (shell);
-	gtk_widget_show (GTK_WIDGET (new_composer));
-}
-
-static void
 action_smime_encrypt_cb (GtkToggleAction *action,
                          EMsgComposer *composer)
 {
@@ -266,6 +294,20 @@ static GtkActionEntry entries[] = {
 	  N_("Close the current file"),
 	  G_CALLBACK (action_close_cb) },
 
+	{ "new-message",
+	  "mail-message-new",
+	  N_("New _Message"),
+	  "<Control>n",
+	  N_("Open New Message window"),
+	  G_CALLBACK (action_new_message_cb) },
+
+	{ "preferences",
+	  GTK_STOCK_PREFERENCES,
+	  NULL,
+	  NULL,
+	  N_("Configure Evolution"),
+	  G_CALLBACK (action_preferences_cb) },
+
 	{ "save",
 	  GTK_STOCK_SAVE,
 	  N_("_Save"),
@@ -279,13 +321,6 @@ static GtkActionEntry entries[] = {
 	  NULL,
 	  N_("Save the current file with a different name"),
 	  G_CALLBACK (action_save_as_cb) },
-
-	{ "new-message",
-	  "mail-message-new",
-	  N_("New _Message"),
-	  "<Control>n",
-	  N_("Open New Message window"),
-	  G_CALLBACK (action_new_message_cb) },
 
 	/* Menus */
 

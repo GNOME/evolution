@@ -930,15 +930,14 @@ action_preferences_cb (GtkAction *action,
 	shell_backend_class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
 
 	if (shell_backend_class->preferences_page != NULL) {
-		if (e_shell_get_express_mode (shell)) {
+		if (e_shell_get_express_mode (shell))
 			e_preferences_window_filter_page (
 				E_PREFERENCES_WINDOW (preferences_window),
 				shell_backend_class->preferences_page);
-		} else {
+		else
 			e_preferences_window_show_page (
 				E_PREFERENCES_WINDOW (preferences_window),
 				shell_backend_class->preferences_page);
-		}
 	}
 }
 

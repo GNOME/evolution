@@ -52,6 +52,7 @@
 #include "widgets/misc/e-attachment-paned.h"
 #include "widgets/misc/e-attachment-store.h"
 #include "widgets/misc/e-picture-gallery.h"
+#include "widgets/misc/e-preferences-window.h"
 #include "widgets/misc/e-signature-combo-box.h"
 #include "widgets/misc/e-web-view.h"
 #include "shell/e-shell.h"
