@@ -84,7 +84,7 @@
 #include <stdio.h>
 #include <gdk/gdkprivate.h>
 #include <gtk/gtk.h>
-#include <cairo/cairo-gobject.h>
+#include <cairo-gobject.h>
 #include "gailcanvas.h"
 #include "gnome-canvas.h"
 #include "gnome-canvas-i18n.h"
