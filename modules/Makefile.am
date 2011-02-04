@@ -2,6 +2,10 @@ if ENABLE_LDAP
 CONFIG_LDAP_DIR = book-config-ldap
 endif
 
+if ENABLE_WEATHER
+CONFIG_WEATHER_DIR = cal-config-weather
+endif
+
 if ENABLE_MONO
 MONO_DIR = plugin-mono
 endif
@@ -28,6 +32,7 @@ SUBDIRS = \
 	cal-config-contacts \
 	cal-config-google \
 	cal-config-local \
+	$(CONFIG_WEATHER_DIR) \
 	composer-autosave \
 	mailto-handler \
 	mdn \

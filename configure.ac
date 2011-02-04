@@ -1301,7 +1301,7 @@ dnl Add any new plugins here
 plugins_base_always="calendar-http itip-formatter default-source mark-all-read publish-calendar imap-features"
 
 plugins_base="$plugins_base_always"
-dist_plugins_base="$plugins_base_always calendar-weather"
+dist_plugins_base="$plugins_base_always"
 
 plugins_standard_always="bbdb save-calendar mail-to-task mailing-list-actions prefer-plain mail-notification attachment-reminder email-custom-header face templates vcard-inline dbx-import external-editor"
 
@@ -1352,10 +1352,8 @@ if test "x$enable_weather" != "xno"; then
 	AC_SUBST(GWEATHER_CFLAGS)
 	AC_SUBST(GWEATHER_LIBS)
 
-	if test "x$have_weather" = "xyes"; then
-		plugins_base="$plugins_base calendar-weather"
-	else
-		AC_MSG_ERROR([gweather-3.0 >= gweather_minimum_version is required for configuring weather calendars.  Use --disable-weather to disable this features.])
+	if test "x$have_weather" = "xno"; then
+		AC_MSG_ERROR([gweather-3.0 >= gweather_minimum_version is required for configuring weather calendars.  Use --disable-weather to disable this feature.])
 	fi
 
 	dnl gweather-3.5 introduces API changes we do not yet support.
@@ -1363,6 +1361,7 @@ if test "x$enable_weather" != "xno"; then
 		AC_MSG_ERROR([gweather-3.5 is not yet supported.  Install gweather-3.4 or specify --disable-weather as a configure option to exclude the calendar-weather plugin.])
 	fi
 fi
+AM_CONDITIONAL(ENABLE_WEATHER, [test "x$enable_weather" != "xno"])
 
 dnl ********************************************************************
 dnl maps in contacts preview requires champlain-gtk, geoclue and clutter
@@ -1641,6 +1640,7 @@ modules/cal-config-caldav/Makefile
 modules/cal-config-contacts/Makefile
 modules/cal-config-google/Makefile
 modules/cal-config-local/Makefile
+modules/cal-config-weather/Makefile
 modules/composer-autosave/Makefile
 modules/mailto-handler/Makefile
 modules/mdn/Makefile
@@ -1658,7 +1658,6 @@ plugins/attachment-reminder/Makefile
 plugins/audio-inline/Makefile
 plugins/bbdb/Makefile
 plugins/calendar-http/Makefile
-plugins/calendar-weather/Makefile
 plugins/dbx-import/Makefile
 plugins/default-source/Makefile
 plugins/email-custom-header/Makefile
