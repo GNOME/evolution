@@ -33,6 +33,7 @@ SUBDIRS = \
 	cal-config-google \
 	cal-config-local \
 	$(CONFIG_WEATHER_DIR) \
+	cal-config-webcal \
 	composer-autosave \
 	mailto-handler \
 	mdn \
