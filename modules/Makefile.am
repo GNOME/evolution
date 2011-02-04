@@ -26,6 +26,7 @@ SUBDIRS = \
 	book-config-webdav \
 	cal-config-caldav \
 	cal-config-contacts \
+	cal-config-google \
 	cal-config-local \
 	composer-autosave \
 	mailto-handler \
