@@ -24,6 +24,7 @@ SUBDIRS = \
 	$(CONFIG_LDAP_DIR) \
 	book-config-local \
 	book-config-webdav \
+	cal-config-caldav \
 	cal-config-local \
 	composer-autosave \
 	mailto-handler \
