@@ -1,3 +1,49 @@
+Evolution 2.32.2 2011-02-07
+---------------------------
+
+Bug Fixes:
+	Bug 553438 - Deletes lines of a reply when changing address
+	             (Milan Crha)
+	Bug 627176 - Do not spawn other process when clicking mailto: uri
+	             (Milan Crha)
+	Bug 632962 - Duplicate "On this computer" sources after update
+	             (Milan Crha)
+	Bug 633854 - [templates] Crash in build_template_menus_recurse
+	             (Milan Crha)
+	Bug 634385 - Crash in smtp_connect (Milan Crha)
+	Bug 634387 - Crash in bbdb_sync_buddy_list_in_thread (Milan Crha)
+	Bug 635087 - Leftover files after migration of config/data/cache to
+	             XDG directories (Mathieu Trudel-Lapierre)
+	Bug 635673 - Stack overflow when opening slow calendar (Milan Crha)
+	Bug 635738 - Sanitize Previous/Next buttons when not usable
+	             (Milan Crha)
+	Bug 637482 - Flushing outbox gives up on first error (Matthew Barnes)
+	Bug 638808 - camel_shutdown() called too early (Milan Crha)
+	Bug 640083 - Cannot configure LDAPS on port 636 (Matthew Barnes)
+
+Other Changes:
+	* vcard-inline: Check also text/directory parts (Milan Crha)
+	* Update actions in EMailBrowser on message select too (Milan Crha)
+	* Default to beginning of the day for the last alarm notification
+	  (Milan Crha)
+	* Function to set a CamelURL's defaults based on a provider's
+	  defaults (Federico Mena Quintero)
+	* Don't set the provider's defaults on the URL from the widget
+	  functions (Federico Mena Quintero)
+	* Set the provider's defaults on when CamelURLs get refreshed
+	  with a new protocol (Federico Mena Quintero)
+	* Only set the URL's defaults when we are creating a new account
+	  (Federico Mena Quintero)
+	* Don't set the URL's defaults when the providers have not been
+	  refreshed (Federico Mena Quintero)
+
+Translations:
+	Ivar Smolin (et)
+	Ani Peter (ml)
+	Daniel Nylander (sv)
+	Chao-Hsiung Liao (zh_HK)
+
+
 Evolution 2.32.1 2010-11-15
 ---------------------------
 
