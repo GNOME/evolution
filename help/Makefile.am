@@ -60,8 +60,6 @@ DOC_FIGURES =  \
 	figures/exchng-rec-options.png 		\
 	figures/filter-new-fig.png 		\
 	figures/folder_plus.png			\
-	figures/folder_size_mapi.png		\
-	figures/folder_size_preference.png	\
 	figures/google_cal_view.png		\
 	figures/groupwise_resend.png		\
 	figures/groupwise_resend_retract.png	\
