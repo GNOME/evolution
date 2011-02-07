@@ -54,6 +54,7 @@
 
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-local.h>
+#include <mail/em-folder-selection-button.h>
 #include <mail/mail-mt.h>
 #include <mail/mail-tools.h>
 #include <mail/em-utils.h>
@@ -100,10 +101,6 @@ gint e_plugin_lib_enable (EPlugin *ep, gint enable);
    so declare the functions here
    TODO: sort out whether this should really be private
 */
-typedef struct _EMFolderSelectionButton        EMFolderSelectionButton;
-GtkWidget *em_folder_selection_button_new (const gchar *title, const gchar *caption);
-void        em_folder_selection_button_set_selection (EMFolderSelectionButton *button, const gchar *uri);
-const gchar *em_folder_selection_button_get_selection (EMFolderSelectionButton *button);
 
 static guchar pst_signature[] = { '!', 'B', 'D', 'N' };
 
@@ -295,6 +292,9 @@ get_suggested_foldername (EImportTargetURI *target)
 GtkWidget *
 org_credativ_evolution_readpst_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailSession *session;
 	GtkWidget *hbox, *framebox, *w;
 	gchar *foldername;
 
@@ -313,7 +313,11 @@ org_credativ_evolution_readpst_getwidget (EImport *ei, EImportTarget *target, EI
 	g_signal_connect (w, "toggled", G_CALLBACK (checkbox_mail_toggle_cb), target);
 	gtk_box_pack_start ((GtkBox *) hbox, w, FALSE, FALSE, 0);
 
-	w = em_folder_selection_button_new (_("Select folder"), _("Select folder to import into"));
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+
+	w = em_folder_selection_button_new (session, _("Select folder"), _("Select folder to import into"));
 	foldername = get_suggested_foldername ((EImportTargetURI *) target);
 	((EImportTargetURI *) target)->uri_dest = g_strdup (foldername);
 	em_folder_selection_button_set_selection ((EMFolderSelectionButton *) w, foldername);
