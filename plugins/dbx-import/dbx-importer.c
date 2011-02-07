@@ -67,6 +67,7 @@
 
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-local.h>
+#include <mail/em-folder-selection-button.h>
 #include <mail/mail-mt.h>
 #include <mail/mail-tools.h>
 #include <mail/em-utils.h>
@@ -90,10 +91,6 @@ gint e_plugin_lib_enable (EPlugin *ep, gint enable);
    so declare the functions here
    TODO: sort out whether this should really be private
 */
-typedef struct _EMFolderSelectionButton        EMFolderSelectionButton;
-GtkWidget *em_folder_selection_button_new (const gchar *title, const gchar *caption);
-void        em_folder_selection_button_set_selection (EMFolderSelectionButton *button, const gchar *uri);
-const gchar *em_folder_selection_button_get_selection (EMFolderSelectionButton *button);
 
 typedef struct {
 	MailMsg base;
@@ -189,6 +186,9 @@ folder_selected (EMFolderSelectionButton *button, EImportTargetURI *target)
 GtkWidget *
 org_gnome_evolution_readdbx_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
+	EShell *shell;
+	EShellBackend *shell_backend;
+	EMailSession *session;
 	GtkWidget *hbox, *w;
 	GtkLabel *label;
 	gchar *select_uri = NULL;
@@ -229,8 +229,14 @@ org_gnome_evolution_readdbx_getwidget (EImport *ei, EImportTarget *target, EImpo
 
 	label = GTK_LABEL (w);
 
+	shell = e_shell_get_default ();
+	shell_backend = e_shell_get_backend_by_name (shell, "mail");
+	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
+
 	w = em_folder_selection_button_new (
-		_("Select folder"), _("Select folder to import OE folder into"));
+		session, _("Select folder"),
+		_("Select folder to import into"));
+
 	gtk_label_set_mnemonic_widget (label, w);
 	em_folder_selection_button_set_selection ((EMFolderSelectionButton *)w, select_uri);
 	folder_selected ((EMFolderSelectionButton *)w, (EImportTargetURI *)target);
