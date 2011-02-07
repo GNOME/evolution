@@ -690,14 +690,12 @@ dnl ******************************
 dnl Mono hooks
 dnl This should just define mono CFLAGS etc here, it is used later to turn on the mono plugin or not.
 dnl ******************************
-MONO_CFLAGS=
-MONO_LIBS=
 AC_ARG_ENABLE([mono],
 	AS_HELP_STRING([--enable-mono],
 	[Add Mono embedded hooks.]),
 	[enable_mono=$enableval],[enable_mono=no])
 if test "x${enable_mono}" = "xyes"; then
-	PKG_CHECK_MODULES([MONO], ["mono"])
+	PKG_CHECK_MODULES([MONO], ["mono-2"])
 	AC_DEFINE(ENABLE_MONO,1,[Define if Mono embedding should be enabled])
 fi
 AC_SUBST(MONO_CFLAGS)
