@@ -118,7 +118,6 @@ static void
 mail_view_class_init (MailViewClass *klass)
 {
 	GObjectClass * object_class = G_OBJECT_CLASS (klass);
-	AnjalMailViewClass *pclass;
 	signals[VIEW_NEW] =
 		g_signal_new ("view-new",
 			      G_OBJECT_CLASS_TYPE (object_class),
@@ -128,7 +127,7 @@ mail_view_class_init (MailViewClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	pclass = mail_view_parent_class = g_type_class_peek_parent (klass);
+	mail_view_parent_class = g_type_class_peek_parent (klass);
 	((AnjalMailViewClass *)klass)->set_folder_uri = mv_set_folder_uri;
 	((AnjalMailViewClass *)klass)->set_folder_tree = set_folder_tree;
 	((AnjalMailViewClass *)klass)->set_search = set_search;

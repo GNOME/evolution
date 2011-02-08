@@ -799,13 +799,8 @@ emae_signaturetype_changed (GtkComboBox *dropdown, EMAccountEditor *emae)
 static void
 emae_signature_new (GtkWidget *widget, EMAccountEditor *emae)
 {
-	EShell *shell;
-	EShellSettings *shell_settings;
 	GtkWidget *editor;
 	gpointer parent;
-
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	parent = gtk_widget_get_toplevel (widget);
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;

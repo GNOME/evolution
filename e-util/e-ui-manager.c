@@ -102,7 +102,6 @@ ui_manager_filter_ui (EUIManager *ui_manager,
 	gchar **lines;
 	gchar *filtered;
 	gboolean express_mode;
-	gboolean in_conditional = FALSE;
 	gboolean include = TRUE;
 	gint ii;
 
@@ -120,11 +119,9 @@ ui_manager_filter_ui (EUIManager *ui_manager,
 				gboolean not_express = lines[ii][4] == '!';
 				include = express_mode ^ not_express;
 				lines[ii][0] = '\0';
-				in_conditional = TRUE;
 			} else if (!strncmp (lines[ii], "#endif", 6)) {
 				lines[ii][0] = '\0';
 				include = TRUE;
-				in_conditional = FALSE;
 			}
 		}
 		if (!include)

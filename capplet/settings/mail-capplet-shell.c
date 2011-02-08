@@ -202,9 +202,7 @@ static void
 mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean just_druid, gboolean main_loop)
 {
 	MailCappletShellPrivate *priv = shell->priv;
-	GtkWidget *tmp;
 	GtkStyle *style = gtk_widget_get_default_style ();
-	gint window_width = 1024;
 	gchar *custom_dir;
 
 	gtk_window_set_icon_name ((GtkWindow *)shell, "evolution");
@@ -214,7 +212,6 @@ mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean 
 	gtk_window_set_type_hint ((GtkWindow *)shell, GDK_WINDOW_TYPE_HINT_NORMAL);
 	if (g_getenv("ANJAL_NO_MAX") == NULL && FALSE) {
 		 GdkScreen *scr = gtk_widget_get_screen ((GtkWidget *)shell);
-		 window_width = gdk_screen_get_width (scr);
 		 gtk_window_set_default_size ((GtkWindow *)shell, gdk_screen_get_width (scr), gdk_screen_get_height (scr));
 		 gtk_window_set_decorated ((GtkWindow *)shell, FALSE);
 	} else  {
@@ -247,7 +244,6 @@ mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean 
 	shell->view = mail_view_new ();
 	shell->view->session = shell->priv->session;
 	gtk_widget_show ((GtkWidget *)shell->view);
-	tmp = gtk_vbox_new (FALSE, 0);
 	gtk_box_pack_end ((GtkBox *)priv->box, (GtkWidget *)shell->view, TRUE, TRUE, 2);
 
 	mail_config_init (shell->priv->session);

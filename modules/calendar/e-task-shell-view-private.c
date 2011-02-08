@@ -587,23 +587,16 @@ e_task_shell_view_update_timezone (ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
 	ETaskShellSidebar *task_shell_sidebar;
-	ECalComponentPreview *task_preview;
-	EPreviewPane *preview_pane;
-	EWebView *web_view;
 	icaltimezone *timezone;
 	ECalModel *model;
 	GList *clients, *iter;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
-	preview_pane = e_task_shell_content_get_preview_pane (task_shell_content);
 	model = e_task_shell_content_get_task_model (task_shell_content);
 	timezone = e_cal_model_get_timezone (model);
 
 	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
 	clients = e_task_shell_sidebar_get_clients (task_shell_sidebar);
-
-	web_view = e_preview_pane_get_web_view (preview_pane);
-	task_preview = E_CAL_COMPONENT_PREVIEW (web_view);
 
 	for (iter = clients; iter != NULL; iter = iter->next) {
 		ECal *client = iter->data;

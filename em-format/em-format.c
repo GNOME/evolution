@@ -1868,15 +1868,12 @@ emf_multipart_related (EMFormat *emf,
 	for (i = 0; i < nparts; i++) {
 		body_part = camel_multipart_get_part (mp, i);
 		if (body_part != display_part) {
-			EMFormatPURI *puri;
-
 			/* set the partid since add_puri uses it */
 			g_string_append_printf(emf->part_id, ".related.%d", i);
-			puri = em_format_add_puri (
+			em_format_add_puri (
 				emf, sizeof (EMFormatPURI), NULL,
 				body_part, emf_write_related);
 			g_string_truncate (emf->part_id, partidlen);
-			d(printf(" part '%s' '%s' added\n", puri->uri?puri->uri:"", puri->cid));
 		}
 	}
 

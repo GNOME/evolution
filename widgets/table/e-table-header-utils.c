@@ -327,16 +327,14 @@ e_table_header_draw_button (cairo_t *cr, ETableCol *ecol,
 	/* Pixbuf or label */
 	if (ecol->icon_name != NULL) {
 		gint pwidth, pheight;
-		gint clip_width, clip_height;
+		gint clip_height;
 		gint xpos;
-		/* GdkPixmap *pixmap; */
 
 		g_return_if_fail (ecol->pixbuf != NULL);
 
 		pwidth = gdk_pixbuf_get_width (ecol->pixbuf);
 		pheight = gdk_pixbuf_get_height (ecol->pixbuf);
 
-		clip_width = MIN (pwidth, inner_width);
 		clip_height = MIN (pheight, inner_height);
 
 		xpos = inner_x;
@@ -360,26 +358,6 @@ e_table_header_draw_button (cairo_t *cr, ETableCol *ecol,
 			pango_cairo_show_layout (cr, layout);
 		}
 
-		/* FIXME: For some reason, under clutter gdk_draw_rgb_image_dithalign crashes
-		 * Debug that later */
-#if 0
-		pixmap = make_composite_pixmap (drawable, gc,
-						ecol->pixbuf, &style->bg[state],
-						clip_width, clip_height,
-						xpos,
-						inner_y + (inner_height - clip_height) / 2);
-
-		gdk_gc_set_clip_rectangle (gc, NULL);
-
-		if (pixmap) {
-			gdk_draw_drawable (drawable, gc, pixmap,
-					 0, 0,
-					 xpos,
-					 inner_y + (inner_height - clip_height) / 2,
-					 clip_width, clip_height);
-			g_object_unref (pixmap);
-		}
-#endif
 		gdk_cairo_set_source_pixbuf (cr, ecol->pixbuf,
 					     xpos, inner_y + (inner_height - clip_height) / 2);
 		cairo_paint (cr);

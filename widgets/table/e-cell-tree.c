@@ -229,14 +229,7 @@ ect_draw (ECellView *ecell_view,
 	ETreeTableAdapter *tree_table_adapter = e_cell_tree_get_tree_table_adapter (ecell_view->e_table_model, row);
 	ETreePath node;
 	GdkRectangle rect;
-	GtkWidget *canvas = GTK_WIDGET (tree_view->canvas);
-	GtkStyle *style;
-	gboolean selected;
 	gint offset, subcell_offset;
-
-	style = gtk_widget_get_style (canvas);
-
-	selected = flags & E_CELL_SELECTED;
 
 	cairo_save (cr);
 
@@ -244,9 +237,6 @@ ect_draw (ECellView *ecell_view,
 	if (/* XXX */ TRUE) {
 		GdkPixbuf *node_image;
 		gint node_image_width = 0, node_image_height = 0;
-		ETree *tree;
-
-		tree = E_TREE (gtk_widget_get_parent (canvas));
 
 		tree_view->prelit = FALSE;
 

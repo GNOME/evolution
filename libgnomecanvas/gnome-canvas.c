@@ -1729,7 +1729,6 @@ gnome_canvas_paint_rect (GnomeCanvas *canvas,
                          gint y1)
 {
 	GtkWidget *widget;
-	GdkWindow *bin_window;
 	GtkAllocation allocation;
 	GtkScrollable *scrollable;
 	GtkAdjustment *hadjustment;
@@ -1744,7 +1743,6 @@ gnome_canvas_paint_rect (GnomeCanvas *canvas,
 
 	widget = GTK_WIDGET (canvas);
 	gtk_widget_get_allocation (widget, &allocation);
-	bin_window = gtk_layout_get_bin_window (GTK_LAYOUT (canvas));
 
 	scrollable = GTK_SCROLLABLE (canvas);
 	hadjustment = gtk_scrollable_get_hadjustment (scrollable);

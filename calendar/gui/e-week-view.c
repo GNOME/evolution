@@ -913,13 +913,11 @@ static void
 e_week_view_realize (GtkWidget *widget)
 {
 	EWeekView *week_view;
-	GdkWindow *window;
 
 	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->realize)
 		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->realize)(widget);
 
 	week_view = E_WEEK_VIEW (widget);
-	window = gtk_widget_get_window (widget);
 
 	/* Allocate the colors. */
 	e_week_view_set_colors (week_view, widget);

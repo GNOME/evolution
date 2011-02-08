@@ -436,23 +436,16 @@ e_memo_shell_view_update_timezone (EMemoShellView *memo_shell_view)
 {
 	EMemoShellContent *memo_shell_content;
 	EMemoShellSidebar *memo_shell_sidebar;
-	ECalComponentPreview *memo_preview;
-	EPreviewPane *preview_pane;
-	EWebView *web_view;
 	icaltimezone *timezone;
 	ECalModel *model;
 	GList *clients, *iter;
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
-	preview_pane = e_memo_shell_content_get_preview_pane (memo_shell_content);
 	model = e_memo_shell_content_get_memo_model (memo_shell_content);
 	timezone = e_cal_model_get_timezone (model);
 
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	clients = e_memo_shell_sidebar_get_clients (memo_shell_sidebar);
-
-	web_view = e_preview_pane_get_web_view (preview_pane);
-	memo_preview = E_CAL_COMPONENT_PREVIEW (web_view);
 
 	for (iter = clients; iter != NULL; iter = iter->next) {
 		ECal *client = iter->data;

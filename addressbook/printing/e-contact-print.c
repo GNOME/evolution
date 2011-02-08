@@ -234,14 +234,9 @@ static gdouble
 e_contact_get_contact_height (EContact *contact,
                               EContactPrintContext *ctxt)
 {
-	GtkPageSetup *setup;
 	gchar *file_as;
-	gdouble page_height;
 	gint field;
 	gdouble cntct_height = 0.0;
-
-	setup = gtk_print_context_get_page_setup (ctxt->context);
-	page_height = gtk_page_setup_get_page_height (setup, GTK_UNIT_POINTS);
 
 	cntct_height += get_font_height (ctxt->style->headings_font) * .2;
 

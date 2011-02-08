@@ -99,25 +99,20 @@ gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class)
 static void
 gnome_canvas_pixbuf_init (GnomeCanvasPixbuf *gcp)
 {
-	GnomeCanvasPixbufPrivate *priv;
-
-	priv = gcp->priv =  G_TYPE_INSTANCE_GET_PRIVATE (gcp,
-							 GNOME_TYPE_CANVAS_PIXBUF,
-							 GnomeCanvasPixbufPrivate);
+	gcp->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		gcp, GNOME_TYPE_CANVAS_PIXBUF, GnomeCanvasPixbufPrivate);
 }
 
 /* Dispose handler for the pixbuf canvas item */
 static void
 gnome_canvas_pixbuf_dispose (GnomeCanvasItem *object)
 {
-	GnomeCanvasItem *item;
 	GnomeCanvasPixbuf *gcp;
 	GnomeCanvasPixbufPrivate *priv;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_PIXBUF (object));
 
-	item = GNOME_CANVAS_ITEM (object);
 	gcp = GNOME_CANVAS_PIXBUF (object);
 	priv = gcp->priv;
 
@@ -246,10 +241,8 @@ gnome_canvas_pixbuf_update (GnomeCanvasItem *item,
                             gint flags)
 {
 	GnomeCanvasPixbuf *gcp;
-	GnomeCanvasPixbufPrivate *priv;
 
 	gcp = GNOME_CANVAS_PIXBUF (item);
-	priv = gcp->priv;
 
 	if (GNOME_CANVAS_ITEM_CLASS (gnome_canvas_pixbuf_parent_class)->update)
 		GNOME_CANVAS_ITEM_CLASS (gnome_canvas_pixbuf_parent_class)->

@@ -1344,13 +1344,11 @@ static void
 e_day_view_realize (GtkWidget *widget)
 {
 	EDayView *day_view;
-	GdkWindow *window;
 
 	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->realize)
 		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->realize)(widget);
 
 	day_view = E_DAY_VIEW (widget);
-	window = gtk_widget_get_window (widget);
 
 	/* Allocate the colors. */
 

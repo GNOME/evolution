@@ -170,8 +170,6 @@ mail_shell_content_constructed (GObject *object)
 {
 	EMailShellContentPrivate *priv;
 	EShellContent *shell_content;
-	EShellBackend *shell_backend;
-	EShellWindow *shell_window;
 	EShellView *shell_view;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -183,8 +181,6 @@ mail_shell_content_constructed (GObject *object)
 
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
 	/* Build content widgets. */
 

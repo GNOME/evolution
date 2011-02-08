@@ -943,7 +943,6 @@ exit:
 static gboolean
 create_mbox_account (EShellBackend *shell_backend, EMMigrateSession *session)
 {
-	CamelService *mbox_service;
 	EMailBackend *mail_backend;
 	EMailSession *mail_session;
 	CamelURL *url;
@@ -968,9 +967,6 @@ create_mbox_account (EShellBackend *shell_backend, EMMigrateSession *session)
 	g_free (temp);
 
 	uri = camel_url_to_string (url, 0);
-	mbox_service = camel_session_get_service (
-		CAMEL_SESSION (session), uri,
-		CAMEL_PROVIDER_STORE, NULL);
 	e_account_set_string (account, E_ACCOUNT_SOURCE_URL, uri);
 
 #ifndef G_OS_WIN32

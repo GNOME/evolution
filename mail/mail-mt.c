@@ -131,14 +131,7 @@ checkmem (gpointer p)
 static gboolean
 mail_msg_free (MailMsg *mail_msg)
 {
-	EShell *shell;
-	EShellBackend *shell_backend;
-
 	/* This is an idle callback. */
-
-	shell = e_shell_get_default ();
-	shell_backend = e_shell_get_backend_by_name (
-		shell, shell_builtin_backend);
 
 	if (mail_msg->activity != NULL)
 		g_object_unref (mail_msg->activity);

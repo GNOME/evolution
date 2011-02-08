@@ -1290,7 +1290,6 @@ e_text_draw (GnomeCanvasItem *item, cairo_t *cr,
 	gint xpos, ypos;
 	GnomeCanvas *canvas;
 	GtkWidget *widget;
-	GdkWindow *window;
 	GtkStyle *style;
 	GtkStateType state;
 
@@ -1299,7 +1298,6 @@ e_text_draw (GnomeCanvasItem *item, cairo_t *cr,
 	widget = GTK_WIDGET (canvas);
 	state = gtk_widget_get_state (widget);
 	style = gtk_widget_get_style (widget);
-	window = gtk_widget_get_window (widget);
 
 	cairo_save (cr);
 

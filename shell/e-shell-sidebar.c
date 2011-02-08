@@ -221,24 +221,21 @@ shell_sidebar_constructed (GObject *object)
 
 static void
 shell_sidebar_get_preferred_width (GtkWidget *widget,
-                                   gint      *minimum,
-                                   gint      *natural)
+                                   gint *minimum,
+                                   gint *natural)
 {
-	EShellSidebarPrivate *priv;
 	GtkWidget *child;
-
-	priv = E_SHELL_SIDEBAR_GET_PRIVATE (widget);
 
 	child = gtk_bin_get_child (GTK_BIN (widget));
 	gtk_widget_get_preferred_width (child, minimum, natural);
 
-	/* do not use priv->event_box here, otherwise it'll not ellipsize */
+	/* Do not use priv->event_box here, otherwise it won't ellipsize. */
 }
 
 static void
 shell_sidebar_get_preferred_height (GtkWidget *widget,
-                                    gint      *minimum,
-                                    gint      *natural)
+                                    gint *minimum,
+                                    gint *natural)
 {
 	EShellSidebarPrivate *priv;
 	gint child_min, child_nat;
@@ -252,8 +249,8 @@ shell_sidebar_get_preferred_height (GtkWidget *widget,
 	child = priv->event_box;
 	gtk_widget_get_preferred_height (child, &child_min, &child_nat);
 
-        *minimum += child_min;
-        *natural += child_nat;
+	*minimum += child_min;
+	*natural += child_nat;
 }
 
 static void

@@ -91,7 +91,6 @@ xml_to_gchar (xmlChar *xml, EmailProvider *provider)
 static SoupMessage *
 get_url (SoupSession *session, const gchar *url)
 {
-	const gchar *name;
 	SoupMessage *msg;
 	const gchar *header;
 
@@ -99,8 +98,6 @@ get_url (SoupSession *session, const gchar *url)
 	soup_message_set_flags (msg, SOUP_MESSAGE_NO_REDIRECT);
 
 	soup_session_send_message (session, msg);
-
-	name = soup_message_get_uri (msg)->path;
 
 	if (SOUP_STATUS_IS_REDIRECTION (msg->status_code)) {
 		header = soup_message_headers_get_one (msg->response_headers,
@@ -167,7 +164,7 @@ static gboolean
 parse_message (const gchar *msg, gint length, EmailProvider *provider)
 {
 	xmlDocPtr doc;
-	xmlNodePtr node, top;
+	xmlNodePtr node;
 
 	doc = xmlReadMemory (msg, length, "file.xml", NULL, 0);
 
@@ -197,7 +194,6 @@ parse_message (const gchar *msg, gint length, EmailProvider *provider)
 		return FALSE;
 	}
 
-	top = node;
 	node = node->children;
 	while (node) {
 		if (strcmp ((gchar *)node->name, "incomingServer") == 0) {

@@ -1635,21 +1635,11 @@ static void
 eti_realize (GnomeCanvasItem *item)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
-	GdkWindow *window;
-	GtkWidget *widget;
-	GtkStyle *style;
 
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)
 		(*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->realize)(item);
 
 	eti->rows = e_table_model_row_count (eti->table_model);
-
-	/*
-	 * Gdk Resource allocation
-	 */
-	widget = GTK_WIDGET (item->canvas);
-	style = gtk_widget_get_style (widget);
-	window = gtk_widget_get_window (widget);
 
 	g_signal_connect (GTK_LAYOUT(item->canvas), "scroll_event", G_CALLBACK (eti_tree_unfreeze), eti);
 

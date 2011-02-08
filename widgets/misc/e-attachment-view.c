@@ -1286,7 +1286,6 @@ e_attachment_view_motion_notify_event (EAttachmentView *view,
 {
 	EAttachmentViewPrivate *priv;
 	GtkWidget *widget = GTK_WIDGET (view);
-	GdkDragContext *context;
 	GtkTargetList *targets;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), FALSE);
@@ -1307,7 +1306,7 @@ e_attachment_view_motion_notify_event (EAttachmentView *view,
 
 	targets = gtk_drag_source_get_target_list (widget);
 
-	context = gtk_drag_begin (
+	gtk_drag_begin (
 		widget, targets, GDK_ACTION_COPY, 1, (GdkEvent *) event);
 
 	return TRUE;

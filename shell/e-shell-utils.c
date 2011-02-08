@@ -44,12 +44,8 @@ void
 e_shell_configure_ui_manager (EShell *shell,
                               EUIManager *ui_manager)
 {
-	EShellSettings *shell_settings;
-
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (E_IS_UI_MANAGER (ui_manager));
-
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	g_object_bind_property (
 		shell, "express-mode",
