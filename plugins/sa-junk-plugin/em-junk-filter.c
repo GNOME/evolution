@@ -712,13 +712,10 @@ em_junk_sa_report_junk (EPlugin *ep, EMJunkTarget *target)
 	  "spam",
 	  NULL
 	};
-	gchar *sub = NULL;
 	CamelMimeMessage *msg = target->m;
 
 	if (!is_installed)
 		return;
-
-	sub = g_strdup (camel_mime_message_get_subject (msg));
 
 	d(fprintf (stderr, "em_junk_sa_report_junk\n"));
 	if (em_junk_sa_is_available (&target->error)) {

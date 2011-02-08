@@ -360,9 +360,6 @@ static void
 ect_realize (ECellView *ecell_view)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
-	GdkWindow *window;
-
-	window = gtk_widget_get_window (GTK_WIDGET (text_view->canvas));
 
 	text_view->i_cursor = gdk_cursor_new (GDK_XTERM);
 

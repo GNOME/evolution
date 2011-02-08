@@ -1218,7 +1218,6 @@ vfolder_edit (EShellView *shell_view)
 	EShellBackend *shell_backend;
 	EShellWindow *shell_window;
 	EMailBackend *backend;
-	EMailSession *session;
 	GtkWidget *dialog;
 	const gchar *config_dir;
 	gchar *filename;
@@ -1232,7 +1231,6 @@ vfolder_edit (EShellView *shell_view)
 	filename = g_build_filename (config_dir, "vfolders.xml", NULL);
 
 	backend = E_MAIL_BACKEND (shell_backend);
-	session = e_mail_backend_get_session (backend);
 
 	vfolder_load_storage (backend);
 
@@ -1400,12 +1398,9 @@ vfolder_clone_rule (EMailSession *session, EFilterRule *in)
 void
 vfolder_gui_add_rule (EMVFolderRule *rule)
 {
-	EMailSession *session;
 	GtkWidget *w;
 	GtkDialog *gd;
 	GtkWidget *container;
-
-	session = em_vfolder_rule_get_session (rule);
 
 	w = e_filter_rule_get_widget ((EFilterRule *)rule, (ERuleContext *)context);
 

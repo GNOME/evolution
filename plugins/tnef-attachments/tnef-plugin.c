@@ -878,7 +878,6 @@ void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
     FILE *fptr;
     gint index;
     DWORD *dword_ptr;
-    DWORD dword_val;
     dtr thedate;
 
     ifilename = g_build_filename (tmpdir, "calendar.vcf", NULL);
@@ -1098,7 +1097,6 @@ void saveVCalendar (TNEFStruct *tnef, const gchar *tmpdir) {
         if ((filename=MAPIFindUserProp (&(tnef->MapiProperties),
                         PROP_TAG (PT_BOOLEAN, 0x8506))) != MAPI_UNDEFINED) {
             dword_ptr = (DWORD*)filename->data;
-            dword_val = SwapDWord ((BYTE*)dword_ptr);
             fprintf(fptr, "CLASS:" );
             if (*dword_ptr == 1) {
                 fprintf(fptr,"PRIVATE\n");
@@ -1131,7 +1129,6 @@ void saveVTask (TNEFStruct *tnef, const gchar *tmpdir) {
     dtr thedate;
     FILE *fptr;
     DWORD *dword_ptr;
-    DWORD dword_val;
 
     vl = MAPIFindProperty (&(tnef->MapiProperties), PROP_TAG (PT_STRING8, PR_CONVERSATION_TOPIC));
 
@@ -1234,7 +1231,6 @@ void saveVTask (TNEFStruct *tnef, const gchar *tmpdir) {
                         PROP_TAG (PT_BOOLEAN, 0x8506));
         if (filename != MAPI_UNDEFINED) {
             dword_ptr = (DWORD*)filename->data;
-            dword_val = SwapDWord ((BYTE*)dword_ptr);
             fprintf(fptr, "CLASS:" );
             if (*dword_ptr == 1) {
                 fprintf(fptr,"PRIVATE\n");

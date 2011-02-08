@@ -2096,12 +2096,9 @@ create_exception_dialog (RecurrencePage *rpage, const gchar *title, GtkWidget **
 {
 	RecurrencePagePrivate *priv;
 	GtkWidget *dialog, *toplevel;
-	CompEditor *editor;
 	GtkWidget *container;
 
 	priv = rpage->priv;
-
-	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (rpage));
 
 	toplevel = gtk_widget_get_toplevel (priv->main);
 	dialog = gtk_dialog_new_with_buttons (title, GTK_WINDOW (toplevel),

@@ -571,14 +571,12 @@ cal_shell_sidebar_finalize (GObject *object)
 
 static void
 new_calendar_clicked (GtkButton *button,
-		      EShellSidebar *shell_sidebar)
+                      EShellSidebar *shell_sidebar)
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EShellBackend *shell_backend;
 
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	calendar_setup_new_calendar (GTK_WINDOW (shell_window));

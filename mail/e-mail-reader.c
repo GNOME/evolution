@@ -630,8 +630,6 @@ check_close_browser_reader (EMailReader *reader)
 	gchar *value;
 	gboolean close_it = FALSE;
 
-	g_return_if_fail (read != NULL);
-
 	/* only allow closing of a mail browser and nothing else */
 	if (!E_IS_MAIL_BROWSER (reader))
 		return;
@@ -2715,7 +2713,6 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 	GtkWidget *message_list;
 	EWebView *web_view;
 	CamelFolder *folder;
-	CamelStore *parent_store;
 	EMailBackend *backend;
 	const gchar *cursor_uid;
 	const gchar *format_uid;
@@ -2723,7 +2720,6 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
 	folder = e_mail_reader_get_folder (reader);
-	parent_store = camel_folder_get_parent_store (folder);
 
 	backend = e_mail_reader_get_backend (reader);
 	formatter = e_mail_reader_get_formatter (reader);
@@ -2804,13 +2800,8 @@ mail_reader_message_selected_cb (EMailReader *reader,
 {
 	EMailReaderPrivate *priv;
 	MessageList *message_list;
-	CamelFolder *folder;
-	CamelStore *parent_store;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
-
-	folder = e_mail_reader_get_folder (reader);
-	parent_store = camel_folder_get_parent_store (folder);
 
 	/* Cancel the previous message retrieval activity. */
 	g_cancellable_cancel (priv->retrieving_message);
@@ -2954,7 +2945,6 @@ mail_reader_update_actions (EMailReader *reader,
 	GtkAction *action;
 	const gchar *action_name;
 	gboolean sensitive;
-	EMailReaderPrivate *priv;
 
 	/* Be descriptive. */
 	gboolean any_messages_selected;
@@ -2977,8 +2967,6 @@ mail_reader_update_actions (EMailReader *reader,
 	gboolean single_message_selected;
 	gboolean first_message_selected = FALSE;
 	gboolean last_message_selected = FALSE;
-
-	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
 	backend = e_mail_reader_get_backend (reader);
 
@@ -3516,10 +3504,6 @@ e_mail_reader_init (EMailReader *reader,
                     gboolean init_actions,
                     gboolean connect_signals)
 {
-	EShell *shell;
-	EMailBackend *backend;
-	EShellBackend *shell_backend;
-	EShellSettings *shell_settings;
 	EMFormatHTML *formatter;
 	EMenuToolAction *menu_tool_action;
 	EWebView *web_view;
@@ -3533,13 +3517,8 @@ e_mail_reader_init (EMailReader *reader,
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	backend = e_mail_reader_get_backend (reader);
 	formatter = e_mail_reader_get_formatter (reader);
 	message_list = e_mail_reader_get_message_list (reader);
-
-	shell_backend = E_SHELL_BACKEND (backend);
-	shell = e_shell_backend_get_shell (shell_backend);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	web_view = em_format_html_get_web_view (formatter);
 
@@ -4288,7 +4267,6 @@ e_mail_reader_show_search_bar (EMailReader *reader)
 void
 e_mail_reader_enable_show_folder (EMailReader *reader)
 {
-	EMailReaderPrivate *priv;
 	CamelFolder *folder;
 	GtkAction *action;
 	const gchar *action_name;
@@ -4298,7 +4276,6 @@ e_mail_reader_enable_show_folder (EMailReader *reader)
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
-	priv = E_MAIL_READER_GET_PRIVATE (reader);
 	folder = e_mail_reader_get_folder (reader);
 
 	full_name = camel_folder_get_full_name (folder);

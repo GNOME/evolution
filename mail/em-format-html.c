@@ -2175,8 +2175,6 @@ efh_multipart_related (EMFormat *emf,
 	CamelContentType *content_type;
 	const gchar *start;
 	gint i, nparts, partidlen, displayid = 0;
-	/* puri is set but never used */
-	EMFormatPURI *puri;
 	struct _EMFormatHTMLJob *job;
 
 	if (!CAMEL_IS_MULTIPART (mp)) {
@@ -2225,7 +2223,7 @@ efh_multipart_related (EMFormat *emf,
 		body_part = camel_multipart_get_part (mp, i);
 		if (body_part != display_part) {
 			g_string_append_printf(emf->part_id, "related.%d", i);
-			puri = em_format_add_puri (emf, sizeof (EMFormatPURI), NULL, body_part, emfh_write_related);
+			em_format_add_puri (emf, sizeof (EMFormatPURI), NULL, body_part, emfh_write_related);
 			g_string_truncate (emf->part_id, partidlen);
 			d(printf(" part '%s' '%s' added\n", puri->uri?puri->uri:"", puri->cid));
 		}

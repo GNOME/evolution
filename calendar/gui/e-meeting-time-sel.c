@@ -1067,14 +1067,12 @@ static void
 e_meeting_time_selector_realize (GtkWidget *widget)
 {
 	EMeetingTimeSelector *mts;
-	GdkWindow *window;
 
 	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->realize)
 		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->realize)(widget);
 
 	mts = E_MEETING_TIME_SELECTOR (widget);
 
-	window = gtk_widget_get_window (widget);
 	mts->no_info_pattern = e_meeting_time_selector_create_no_info_pattern (mts);
 }
 

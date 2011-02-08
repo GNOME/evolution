@@ -377,10 +377,7 @@ gnome_canvas_rect_update (GnomeCanvasItem *item,
                           const cairo_matrix_t *i2c,
                           gint flags)
 {
-	GnomeCanvasRect *rect;
 	gdouble x1, x2, y1, y2;
-
-	rect = GNOME_CANVAS_RECT (item);
 
 	GNOME_CANVAS_ITEM_CLASS (gnome_canvas_rect_parent_class)->
 		update (item, i2c, flags);

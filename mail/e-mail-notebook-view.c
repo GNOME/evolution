@@ -898,7 +898,6 @@ mail_netbook_view_open_mail (EMailView *view,
 	EMailView *pane;
 	gint page;
 	CamelMessageInfo *info;
-	GtkWidget *preview;
 	gint pos;
 
 #if HAVE_CLUTTER
@@ -924,8 +923,6 @@ mail_netbook_view_open_mail (EMailView *view,
 	priv->current_view = pane;
 
 	gtk_widget_show (GTK_WIDGET (pane));
-
-	preview = e_mail_paned_view_get_preview (E_MAIL_PANED_VIEW (pane));
 
 	folder = e_mail_reader_get_folder (E_MAIL_READER (view));
 	folder_uri = e_mail_reader_get_folder_uri (E_MAIL_READER (view));
@@ -1131,7 +1128,9 @@ mail_notebook_view_set_folder (EMailReader *reader,
 
 	if (folder || folder_uri) {
 		gint page;
+#if HAVE_CLUTTER
 		GtkWidget *list;
+#endif
 
 		if (priv->inited) {
 			EMailView *old_view = priv->current_view;
@@ -1216,8 +1215,8 @@ mail_notebook_view_set_folder (EMailReader *reader,
 #endif
 		}
 
-		list = e_mail_reader_get_message_list (E_MAIL_READER (priv->current_view));
 #if HAVE_CLUTTER
+		list = e_mail_reader_get_message_list (E_MAIL_READER (priv->current_view));
 		g_signal_connect (tab , "closed",
 				   G_CALLBACK (mnv_tab_closed), reader);
 		g_object_set_data ((GObject *)priv->current_view, "stage", priv->stage);

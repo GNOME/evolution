@@ -639,31 +639,19 @@ memo_page_fill_component (CompEditorPage *page,
 		e_cal_component_set_description_list (comp, NULL);
 	}
 	else {
-		gint idxToUse = 1;
 		GSList l;
-		ECalComponentText text, sumText;
-		gchar *txt, *p;
+		ECalComponentText text;
+		gchar *p;
 		gunichar uc;
 
 		for (i = 0, p = str, uc = g_utf8_get_char_validated (p, -1);
 		    i < 50 && p && uc < (gunichar)-2;
 		    i++, p = g_utf8_next_char (p), uc = g_utf8_get_char_validated (p, -1)) {
-			idxToUse = p - str;
 			if (uc == '\n' || !uc) {
 				p = NULL;
 				break;
 			}
 		}
-
-		if (p)
-			idxToUse = p - str;
-
-		if (i == 50 && uc && uc < (gunichar)-2)
-			sumText.value = txt = g_strdup_printf ("%.*s...", idxToUse, str);
-		else
-			sumText.value = txt = g_strndup (str, idxToUse);
-
-		sumText.altrep = NULL;
 
 		text.value = str;
 		text.altrep = NULL;
@@ -671,8 +659,6 @@ memo_page_fill_component (CompEditorPage *page,
 		l.next = NULL;
 
 		e_cal_component_set_description_list (comp, &l);
-
-		g_free (txt);
 	}
 
 	if (str)

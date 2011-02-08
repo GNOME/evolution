@@ -750,7 +750,6 @@ void
 org_gnome_evolution_readdbx_import (EImport *ei, EImportTarget *target, EImportImporter *im)
 {
 	DbxImporter *m;
-	gint id;
 
 	m = mail_msg_new (&dbx_import_info);
 	g_datalist_set_data (&target->data, "dbx-msg", m);
@@ -770,8 +769,6 @@ org_gnome_evolution_readdbx_import (EImport *ei, EImportTarget *target, EImportI
 	g_signal_connect (
 		m->cancellable, "status",
 		G_CALLBACK (dbx_status), m);
-
-	id = m->base.seq;
 
 	mail_msg_unordered_push (m);
 }

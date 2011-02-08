@@ -230,13 +230,11 @@ static void
 mailto_handler_constructed (GObject *object)
 {
 	EShell *shell;
-	EShellSettings *shell_settings;
 	EMailtoHandler *extension;
 
 	extension = E_MAILTO_HANDLER (object);
 
 	shell = mailto_handler_get_shell (extension);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	e_shell_settings_install_property_for_key (
 		"mailto-handler-check",

@@ -41,10 +41,6 @@ G_DEFINE_TYPE (EMailMessagePane, e_mail_message_pane, E_TYPE_MAIL_PANED_VIEW)
 static void
 mail_message_pane_constructed (GObject *object)
 {
-	EMailMessagePanePrivate *priv;
-
-	priv = E_MAIL_MESSAGE_PANE_GET_PRIVATE (object);
-
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_message_pane_parent_class)->constructed (object);
 

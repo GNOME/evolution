@@ -218,7 +218,6 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	EMailBackend *backend;
 	EMailSession *session;
 	EMFolderTree *folder_tree;
-	GtkTreeSelection *selection;
 	GtkWidget *message_list;
 	EFilterRule *rule;
 	EMailReader *reader;
@@ -263,7 +262,6 @@ mail_shell_view_execute_search (EShellView *shell_view)
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (folder_tree));
 
 	reader = E_MAIL_READER (mail_view);
 	folder = e_mail_reader_get_folder (reader);

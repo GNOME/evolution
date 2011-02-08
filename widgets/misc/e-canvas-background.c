@@ -115,14 +115,11 @@ ecb_set_property (GObject *object,
 		  const GValue *value,
 		  GParamSpec *pspec)
 {
-	GnomeCanvasItem *item;
 	ECanvasBackground *ecb;
 
 	GdkColor color = { 0, 0, 0, 0, };
 	GdkColor *pcolor;
-	gboolean color_changed = FALSE;
 
-	item = GNOME_CANVAS_ITEM (object);
 	ecb = E_CANVAS_BACKGROUND (object);
 
 	switch (prop_id) {
@@ -134,7 +131,6 @@ ecb_set_property (GObject *object,
 				   (color.green & 0xff00) << 8 |
 				   (color.blue & 0xff00) |
 				   0xff);
-		color_changed = TRUE;
 		break;
 
 	case PROP_FILL_COLOR_GDK:
@@ -147,12 +143,10 @@ ecb_set_property (GObject *object,
 				   (color.green & 0xff00) << 8 |
 				   (color.blue & 0xff00) |
 				   0xff);
-		color_changed = TRUE;
 		break;
 
 	case PROP_FILL_COLOR_RGBA:
 		ecb->priv->rgba = g_value_get_uint (value);
-		color_changed = TRUE;
 		break;
 
 	}
@@ -217,13 +211,9 @@ ecb_style_set (ECanvasBackground *ecb,
                GtkStyle *previous_style)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ecb);
-	GtkStyle *style;
 
-	style = gtk_widget_get_style (GTK_WIDGET (item->canvas));
-
-	if (gtk_widget_get_realized (GTK_WIDGET (item->canvas))) {
+	if (gtk_widget_get_realized (GTK_WIDGET (item->canvas)))
 		gnome_canvas_item_request_update (GNOME_CANVAS_ITEM (ecb));
-	}
 }
 
 static void

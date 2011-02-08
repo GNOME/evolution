@@ -450,9 +450,6 @@ proxy_gconf_notify_cb (GConfClient* client,
                        gpointer user_data)
 {
 	CamelSession *session = CAMEL_SESSION (user_data);
-	const gchar *key;
-
-	key = gconf_entry_get_key (entry);
 
 	if (strcmp (entry->key, KEY_SOCKS_HOST) == 0
 	    || strcmp (entry->key, KEY_SOCKS_PORT) == 0)

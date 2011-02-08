@@ -978,10 +978,8 @@ ethi_draw (GnomeCanvasItem *item,
 	gint x1, x2;
 	gint col;
 	GHashTable *arrows = g_hash_table_new (NULL, NULL);
-	GtkStateType state;
 	GtkStyle *style;
 
-	state = gtk_widget_get_state (GTK_WIDGET (canvas));
 	style = gtk_widget_get_style (GTK_WIDGET (canvas));
 
 	if (ethi->sort_info) {
@@ -1178,14 +1176,12 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	GHashTable *arrows = g_hash_table_new (NULL, NULL);
 	GtkStateType state;
 	GtkStyle *style;
-	GdkWindow *window;
 
 	GtkTargetEntry  ethi_drag_types[] = {
 		{ (gchar *) TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
 	};
 
 	widget = GTK_WIDGET (GNOME_CANVAS_ITEM (ethi)->canvas);
-	window = gtk_widget_get_window (widget);
 	state = gtk_widget_get_state (widget);
 	style = gtk_widget_get_style (widget);
 
