@@ -60,6 +60,7 @@ e_mail_local_init (EMailSession *session,
 	url = camel_url_new ("maildir:", NULL);
 	temp = g_build_filename (data_dir, "local", NULL);
 	camel_url_set_path (url, temp);
+	camel_url_set_param (url, "need-summary-check", "no");
 	g_free (temp);
 
 	temp = camel_url_to_string (url, 0);
