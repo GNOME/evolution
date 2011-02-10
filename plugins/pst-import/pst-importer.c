@@ -114,7 +114,7 @@ struct _PstImporter {
 	gchar *status_what;
 	gint status_pc;
 	gint status_timeout_id;
-	GCancellable *status;
+	GCancellable *cancellable;
 
 	pst_file pst;
 
@@ -650,6 +650,9 @@ string_to_utf8 (const gchar *string)
 {
 	gchar *utf8;
 
+	if (g_utf8_validate (string, -1, NULL))
+		return g_strdup (string);
+
 	utf8 = g_locale_to_utf8 (string, -1, NULL, NULL, NULL);
 
 	return utf8;
@@ -737,6 +740,11 @@ pst_create_folder (PstImporter *m)
 
 	g_assert (g_str_has_prefix (dest, parent));
 
+	if (m->folder) {
+		g_object_unref (m->folder);
+		m->folder = NULL;
+	}
+
 	dest_len = strlen (dest);
 	dest_end = dest + dest_len;
 
@@ -752,20 +760,20 @@ pst_create_folder (PstImporter *m)
 			folder = e_mail_session_uri_to_folder_sync (
 				session, dest, CAMEL_STORE_FOLDER_CREATE,
 				cancellable, &m->base.error);
-			g_object_unref (folder);
+			if (folder)
+				g_object_unref (folder);
+			else
+				break;
 			*pos = '/';
 		}
 	}
 
 	g_free (dest);
 
-	if (m->folder) {
-		g_object_unref (m->folder);
-	}
-
-	m->folder = e_mail_session_uri_to_folder_sync (
-		session, m->folder_uri, CAMEL_STORE_FOLDER_CREATE,
-		cancellable, &m->base.error);
+	if (!m->base.error)
+		m->folder = e_mail_session_uri_to_folder_sync (
+			session, m->folder_uri, CAMEL_STORE_FOLDER_CREATE,
+			cancellable, &m->base.error);
 }
 
 /**
@@ -821,6 +829,8 @@ pst_process_email (PstImporter *m, pst_item *item)
 
 	if (m->folder == NULL) {
 		pst_create_folder (m);
+		if (!m->folder)
+			return;
 	}
 
 	camel_folder_freeze (m->folder);
@@ -1591,7 +1601,7 @@ static void
 pst_import_free (PstImporter *m)
 {
 //	pst_close (&m->pst);
-	g_object_unref (m->status);
+	g_object_unref (m->cancellable);
 
 	g_free (m->status_what);
 	g_mutex_free (m->status_lock);
@@ -1670,9 +1680,10 @@ pst_import (EImport *ei, EImportTarget *target)
 	m->status_timeout_id = g_timeout_add (100, pst_status_timeout, m);
 	/*m->status_timeout_id = NULL;*/
 	m->status_lock = g_mutex_new ();
+	m->cancellable = camel_operation_new ();
 
 	g_signal_connect (
-		m->status, "status",
+		m->cancellable, "status",
 		G_CALLBACK (pst_status), m);
 
 	id = m->base.seq;
@@ -1703,7 +1714,7 @@ org_credativ_evolution_readpst_cancel (EImport *ei, EImportTarget *target, EImpo
 	PstImporter *m = g_datalist_get_data (&target->data, "pst-msg");
 
 	if (m) {
-		g_cancellable_cancel (m->status);
+		g_cancellable_cancel (m->cancellable);
 	}
 }
 
