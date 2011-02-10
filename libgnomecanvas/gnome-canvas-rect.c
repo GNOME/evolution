@@ -276,7 +276,7 @@ gnome_canvas_rect_set_property (GObject *object,
 
 	case PROP_DASH:
 		/* XXX */
-		g_assert_not_reached ();
+		g_warn_if_reached ();
 		break;
 
 	default:
@@ -342,7 +342,7 @@ gnome_canvas_rect_get_property (GObject *object,
 
 	case PROP_DASH:
 		/* XXX */
-		g_assert_not_reached ();
+		g_warn_if_reached ();
 		break;
 
 	default:

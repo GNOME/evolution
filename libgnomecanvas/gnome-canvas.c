@@ -677,7 +677,7 @@ gnome_canvas_item_raise (GnomeCanvasItem *item, gint positions)
 
 	parent = GNOME_CANVAS_GROUP (item->parent);
 	link = g_list_find (parent->item_list, item);
-	g_assert (link != NULL);
+	g_return_if_fail (link != NULL);
 
 	for (before = link; positions && before; positions--)
 		before = before->next;
@@ -714,7 +714,7 @@ gnome_canvas_item_lower (GnomeCanvasItem *item, gint positions)
 
 	parent = GNOME_CANVAS_GROUP (item->parent);
 	link = g_list_find (parent->item_list, item);
-	g_assert (link != NULL);
+	g_return_if_fail (link != NULL);
 
 	if (link->prev)
 		for (before = link->prev; positions && before; positions--)
@@ -747,7 +747,7 @@ gnome_canvas_item_raise_to_top (GnomeCanvasItem *item)
 
 	parent = GNOME_CANVAS_GROUP (item->parent);
 	link = g_list_find (parent->item_list, item);
-	g_assert (link != NULL);
+	g_return_if_fail (link != NULL);
 
 	if (put_item_after (link, parent->item_list_end)) {
 		redraw_if_visible (item);
@@ -774,7 +774,7 @@ gnome_canvas_item_lower_to_bottom (GnomeCanvasItem *item)
 
 	parent = GNOME_CANVAS_GROUP (item->parent);
 	link = g_list_find (parent->item_list, item);
-	g_assert (link != NULL);
+	g_return_if_fail (link != NULL);
 
 	if (put_item_after (link, NULL)) {
 		redraw_if_visible (item);
@@ -2250,47 +2250,49 @@ gnome_canvas_draw (GtkWidget *widget,
 {
 	GnomeCanvas *canvas = GNOME_CANVAS (widget);
 	cairo_rectangle_int_t rect;
+	GtkLayout *layout;
+	GtkAdjustment *hadjustment;
+	GtkAdjustment *vadjustment;
+	gdouble hadjustment_value;
+	gdouble vadjustment_value;
+
+	layout = GTK_LAYOUT (canvas);
+	hadjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (layout));
+	vadjustment = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (layout));
+
+	hadjustment_value = gtk_adjustment_get_value (hadjustment);
+	vadjustment_value = gtk_adjustment_get_value (vadjustment);
 
 	gdk_cairo_get_clip_rectangle (cr, &rect);
 
 	if (canvas->need_update) {
-		gnome_canvas_request_redraw (canvas,
-					     rect.x, rect.y,
-					     rect.x + rect.width,
-					     rect.y + rect.height);
-	} else {
-		GtkLayout *layout;
-		GtkAdjustment *hadjustment;
-		GtkAdjustment *vadjustment;
-		gdouble hadjustment_value;
-		gdouble vadjustment_value;
+		cairo_matrix_t w2c;
 
-		layout = GTK_LAYOUT (canvas);
-		hadjustment = gtk_scrollable_get_hadjustment (GTK_SCROLLABLE (layout));
-		vadjustment = gtk_scrollable_get_vadjustment (GTK_SCROLLABLE (layout));
+		/* We start updating root with w2c matrix */
+		gnome_canvas_w2c_matrix (canvas, &w2c);
 
-		hadjustment_value = gtk_adjustment_get_value (hadjustment);
-		vadjustment_value = gtk_adjustment_get_value (vadjustment);
+		gnome_canvas_item_invoke_update (canvas->root, &w2c, 0);
 
-		cairo_save (cr);
-		cairo_translate (cr,
-				 -canvas->zoom_xofs + rect.x,
-				 -canvas->zoom_yofs + rect.y);
-
-		rect.x += hadjustment_value;
-		rect.y += vadjustment_value;
-
-                /* No pending updates, draw exposed area immediately */
-		gnome_canvas_paint_rect (canvas, cr,
-					 rect.x, rect.y,
-					 rect.x + rect.width,
-					 rect.y + rect.height);
-		cairo_restore (cr);
-
-                /* And call expose on parent container class */
-		GTK_WIDGET_CLASS (canvas_parent_class)->
-			draw (widget, cr);
+		canvas->need_update = FALSE;
 	}
+
+	cairo_save (cr);
+	cairo_translate (cr,
+			 -canvas->zoom_xofs + rect.x,
+			 -canvas->zoom_yofs + rect.y);
+
+	rect.x += hadjustment_value;
+	rect.y += vadjustment_value;
+
+	/* No pending updates, draw exposed area immediately */
+	gnome_canvas_paint_rect (canvas, cr,
+				 rect.x, rect.y,
+				 rect.x + rect.width,
+				 rect.y + rect.height);
+	cairo_restore (cr);
+
+	/* And call expose on parent container class */
+	GTK_WIDGET_CLASS (canvas_parent_class)->draw (widget, cr);
 
 	return FALSE;
 }
@@ -2642,7 +2644,7 @@ gnome_canvas_button (GtkWidget *widget, GdkEventButton *event)
 		break;
 
 	default:
-		g_assert_not_reached ();
+		g_warn_if_reached ();
 	}
 
 	return retval;
@@ -2695,7 +2697,7 @@ gnome_canvas_key (GtkWidget *widget, GdkEventKey *event)
 			if (widget_class->key_release_event)
 				return (* widget_class->key_release_event) (widget, event);
 		} else
-			g_assert_not_reached ();
+			g_warn_if_reached ();
 
 		return FALSE;
 	} else
@@ -2841,7 +2843,7 @@ idle_handler (gpointer data)
 static void
 add_idle (GnomeCanvas *canvas)
 {
-	g_assert (canvas->need_update);
+	g_return_if_fail (canvas->need_update);
 
 	if (!canvas->idle_id)
 		canvas->idle_id = g_idle_add_full (CANVAS_IDLE_PRIORITY,
