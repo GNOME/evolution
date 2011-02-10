@@ -1581,14 +1581,14 @@ preblink_cb (gpointer data)
 	return FALSE;
 } /* preblink_cb */
 
-static gint
+static gboolean
 blink_cb (gpointer data)
 {
 	GnomeCanvasRichText *text = GNOME_CANVAS_RICH_TEXT (data);
 	gboolean visible;
 
-	g_assert (text->_priv->layout);
-	g_assert (text->_priv->cursor_visible);
+	g_return_val_if_fail (text->_priv->layout, FALSE);
+	g_return_val_if_fail (text->_priv->cursor_visible, FALSE);
 
 	visible = gtk_text_layout_get_cursor_visible (text->_priv->layout);
 	if (visible)
