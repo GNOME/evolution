@@ -669,10 +669,21 @@ ect_print (ECellView *ecell_view, GtkPrintContext *context,
 
 		/* now draw our icon if we're expandable */
 		if (expandable) {
-#if GTK_CHECK_VERSION (3, 0, 0)
-			gboolean expanded = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
-#error Paint an expander here
-#endif
+			gboolean expanded;
+			GdkRectangle r;
+			gint exp_size = 0;
+
+			gtk_widget_style_get (GTK_WIDGET (gtk_widget_get_parent (GTK_WIDGET (tree_view->canvas))), "expander_size", &exp_size, NULL);
+
+			node = e_cell_tree_get_node (ecell_view->e_table_model, row);
+			expanded = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
+
+			r.x = 0;
+			r.y = 0;
+			r.width = MIN (width, exp_size);
+			r.height = height;
+
+			draw_expander (tree_view, cr, expanded ? GTK_EXPANDER_EXPANDED : GTK_EXPANDER_COLLAPSED, GTK_STATE_NORMAL, &r);
 		}
 
 		cairo_stroke (cr);
