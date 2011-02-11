@@ -42,6 +42,10 @@ struct _MailAccountViewPrivate {
 	GtkWidget *gcontacts;
 	GtkWidget *gmail_info_label;
 
+	GtkWidget *account_label;
+	GtkWidget *gmail_link;
+	GtkWidget *yahoo_cal_box;
+
 	gboolean is_gmail;
 	gboolean is_yahoo;
 	gboolean do_gcontacts;
@@ -705,16 +709,31 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 			gtk_widget_destroy (mav->priv->gcontacts);
 			gtk_widget_destroy (mav->priv->calendar);
 			gtk_widget_destroy (mav->priv->gmail_info_label);
+			if (mav->priv->account_label) {
+				gtk_widget_destroy (mav->priv->account_label);
+				mav->priv->account_label = NULL;
+			}
+			if (mav->priv->gmail_link) {
+				gtk_widget_destroy (mav->priv->gmail_link);
+				mav->priv->gmail_link = NULL;
+			}
 		} else if (mav->priv->is_yahoo) {
 			gtk_widget_destroy (mav->priv->calendar);
 			gtk_widget_destroy (mav->priv->gmail_info_label);
 			gtk_widget_destroy (mav->priv->yahoo_cal_entry);
+			if (mav->priv->account_label) {
+				gtk_widget_destroy (mav->priv->account_label);
+				mav->priv->account_label = NULL;
+			}
+			if (mav->priv->yahoo_cal_box) {
+				gtk_widget_destroy (mav->priv->yahoo_cal_box);
+				mav->priv->yahoo_cal_box = NULL;
+			}
 		}
 
 		if (mav->original == NULL && (g_strrstr(account->source->url, "gmail") ||
 				g_strrstr(account->source->url, "googlemail"))) {
 			/* Google accounts*/
-			GtkWidget *tmp;
 			gchar *buff;
 			mav->priv->is_gmail = TRUE;
 
@@ -731,30 +750,29 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 			gtk_widget_show (mav->priv->calendar);
 			gtk_widget_show (mav->priv->gmail_info_label);
 
-			tmp = gtk_label_new (NULL);
+			mav->priv->account_label = gtk_label_new (NULL);
 			buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Google account settings:"));
-			gtk_label_set_markup ((GtkLabel *)tmp, buff);
+			gtk_label_set_markup ((GtkLabel *)mav->priv->account_label, buff);
 			g_free (buff);
-			gtk_widget_show (tmp);
+			gtk_widget_show (mav->priv->account_label);
 
 #define PACK_IN_BOX(wid,child,num) { GtkWidget *tbox; tbox = gtk_hbox_new (FALSE, 0); gtk_box_pack_start ((GtkBox *)tbox, child, FALSE, FALSE, num); gtk_widget_show (tbox); gtk_box_pack_start ((GtkBox *)wid, tbox, FALSE, FALSE, 0); }
 
-			PACK_IN_BOX (page->box,tmp,12);
+			PACK_IN_BOX (page->box,mav->priv->account_label,12);
 			PACK_IN_BOX (page->box,mav->priv->gcontacts,24);
 			PACK_IN_BOX (page->box,mav->priv->calendar,24);
 #undef PACK_IN_BOX
 #define PACK_IN_BOX(wid,child1,child2,num1,num2) { GtkWidget *tbox; tbox = gtk_hbox_new (FALSE, 0); gtk_box_pack_start ((GtkBox *)tbox, child1, FALSE, FALSE, num1); gtk_box_pack_start ((GtkBox *)tbox, child2, FALSE, FALSE, num2); gtk_widget_show_all (tbox); gtk_box_pack_start ((GtkBox *)wid, tbox, FALSE, FALSE, 0); }
 
-			PACK_IN_BOX(page->box,mav->priv->gmail_info_label,gtk_link_button_new("https://mail.google.com/mail/?ui=2&amp;shva=1#settings/fwdandpop"), 24, 0);
+			mav->priv->gmail_link = gtk_link_button_new ("https://mail.google.com/mail/?ui=2&amp;shva=1#settings/fwdandpop");
+			PACK_IN_BOX(page->box,mav->priv->gmail_info_label,mav->priv->gmail_link, 24, 0);
 #undef PACK_IN_BOX
 		} else if (mav->original == NULL &&
 				(g_strrstr(account->source->url, "yahoo.") ||
 				 g_strrstr(account->source->url, "ymail.") ||
 				 g_strrstr(account->source->url, "rocketmail."))) {
 			/* Yahoo accounts*/
-			GtkWidget *tmp;
 			gchar *cal_name;
-			GtkWidget *tmpbox;
 			gchar *buff;
 
 			mav->priv->is_yahoo = TRUE;
@@ -771,23 +789,23 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 			gtk_widget_show (mav->priv->calendar);
 			gtk_widget_show (mav->priv->gmail_info_label);
 
-			tmp = gtk_label_new (NULL);
+			mav->priv->account_label = gtk_label_new (NULL);
 			buff = g_markup_printf_escaped ("<span size=\"large\" weight=\"bold\">%s</span>", _("Yahoo account settings:"));
-			gtk_label_set_markup ((GtkLabel *)tmp, buff);
+			gtk_label_set_markup ((GtkLabel *)mav->priv->account_label, buff);
 			g_free (buff);
-			gtk_widget_show (tmp);
+			gtk_widget_show (mav->priv->account_label);
 
 #define PACK_IN_BOX(wid,child,num) { GtkWidget *tbox; tbox = gtk_hbox_new (FALSE, 0); gtk_box_pack_start ((GtkBox *)tbox, child, FALSE, FALSE, num); gtk_widget_show (tbox); gtk_box_pack_start ((GtkBox *)wid, tbox, FALSE, FALSE, 0); }
-#define PACK_IN_BOX_AND_TEXT(txt, child,num) { GtkWidget *txtlbl = gtk_label_new (txt); tmpbox = gtk_hbox_new (FALSE, 12); gtk_box_pack_start ((GtkBox *)tmpbox, txtlbl, FALSE, FALSE, num); gtk_box_pack_start ((GtkBox *)tmpbox, child, FALSE, FALSE, num); gtk_widget_show_all (tmpbox);}
+#define PACK_IN_BOX_AND_TEXT(txt,box,child,num) { GtkWidget *txtlbl = gtk_label_new (txt); box = gtk_hbox_new (FALSE, 12); gtk_box_pack_start ((GtkBox *)box, txtlbl, FALSE, FALSE, num); gtk_box_pack_start ((GtkBox *)box, child, FALSE, FALSE, num); gtk_widget_show_all (box);}
 
-			PACK_IN_BOX (page->box,tmp,12);
+			PACK_IN_BOX (page->box,mav->priv->account_label,12);
 			PACK_IN_BOX (page->box,mav->priv->calendar,24);
 
 			mav->priv->yahoo_cal_entry = gtk_entry_new ();
 			gtk_widget_show (mav->priv->yahoo_cal_entry);
 			PACK_IN_BOX (page->box,mav->priv->gmail_info_label, 24);
-			PACK_IN_BOX_AND_TEXT(_("Yahoo Calendar name:"), mav->priv->yahoo_cal_entry, 0);
-			PACK_IN_BOX (page->box, tmpbox, 24);
+			PACK_IN_BOX_AND_TEXT(_("Yahoo Calendar name:"), mav->priv->yahoo_cal_box, mav->priv->yahoo_cal_entry, 0);
+			PACK_IN_BOX (page->box, mav->priv->yahoo_cal_box, 24);
 			cal_name = g_strdup (e_account_get_string (em_account_editor_get_modified_account (mav->edit), E_ACCOUNT_ID_NAME));
 			cal_name = g_strdelimit(cal_name, " ", '_');
 			gtk_entry_set_text ((GtkEntry *)mav->priv->yahoo_cal_entry, cal_name);
