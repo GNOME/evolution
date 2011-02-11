@@ -1508,7 +1508,7 @@ remove_folder_exec (struct _remove_folder_msg *m,
                     GCancellable *cancellable,
                     GError **error)
 {
-	CamelFolderInfo *fi;
+	CamelFolderInfo *fi, *to_remove, *next = NULL;
 	CamelStore *parent_store;
 	const gchar *full_name;
 
@@ -1526,8 +1526,32 @@ remove_folder_exec (struct _remove_folder_msg *m,
 	if (fi == NULL)
 		return;
 
+	if (fi->next) {
+		/* for cases when the folder info contains more folders on the 0-level,
+		   like when full_name contains a wildcard letter, use only folder info
+		   for the the exact full_name, to not delete more than requested */
+		for (to_remove = fi; to_remove; to_remove = to_remove->next) {
+			if (g_strcmp0 (to_remove->full_name, full_name) == 0)
+				break;
+		}
+
+		if (!to_remove) {
+			g_warning ("%s: Failed to find '%s' in returned folder info", G_STRFUNC, full_name);
+			camel_store_free_folder_info (parent_store, fi);
+			return;
+		}
+
+		next = to_remove->next;
+		to_remove->next = NULL;
+	} else {
+		to_remove = fi;
+	}
+
 	m->removed = remove_folder_rec (
-		parent_store, fi, cancellable, error);
+		parent_store, to_remove, cancellable, error);
+
+	to_remove->next = next;
+
 	camel_store_free_folder_info (parent_store, fi);
 }
 
