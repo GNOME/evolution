@@ -41,21 +41,25 @@ static struct {
 };
 
 static CamelStore *local_store;
+static gboolean mail_local_initialized = FALSE;
 
 void
 e_mail_local_init (EMailSession *session,
                    const gchar *data_dir)
 {
-	static gboolean initialized = FALSE;
 	CamelService *service;
 	CamelURL *url;
 	gchar *temp;
 	gint ii;
 	GError *local_error = NULL;
 
-	g_return_if_fail (!initialized);
+	if (mail_local_initialized)
+		return;
+
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (data_dir != NULL);
+
+	mail_local_initialized = TRUE;
 
 	url = camel_url_new ("maildir:", NULL);
 	temp = g_build_filename (data_dir, "local", NULL);
@@ -113,6 +117,7 @@ fail:
 CamelFolder *
 e_mail_local_get_folder (EMailLocalFolder type)
 {
+	g_return_val_if_fail (mail_local_initialized, NULL);
 	g_return_val_if_fail (CHECK_LOCAL_FOLDER_TYPE (type), NULL);
 
 	return default_local_folders[type].folder;
@@ -121,6 +126,7 @@ e_mail_local_get_folder (EMailLocalFolder type)
 const gchar *
 e_mail_local_get_folder_uri (EMailLocalFolder type)
 {
+	g_return_val_if_fail (mail_local_initialized, NULL);
 	g_return_val_if_fail (CHECK_LOCAL_FOLDER_TYPE (type), NULL);
 
 	return default_local_folders[type].folder_uri;
@@ -129,6 +135,7 @@ e_mail_local_get_folder_uri (EMailLocalFolder type)
 CamelStore *
 e_mail_local_get_store (void)
 {
+	g_return_val_if_fail (mail_local_initialized, NULL);
 	g_return_val_if_fail (CAMEL_IS_STORE (local_store), NULL);
 
 	return local_store;
