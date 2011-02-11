@@ -764,6 +764,8 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 			gtk_toggle_button_set_active ((GtkToggleButton *)mav->priv->calendar, TRUE);
 
 			mav->priv->gmail_info_label = gtk_label_new (_("Yahoo calendars are named as firstname_lastname. We have tried to form the calendar name. So please confirm and re-enter the calendar name if it is not correct."));
+			gtk_label_set_line_wrap ((GtkLabel *)mav->priv->gmail_info_label, TRUE);
+			gtk_label_set_line_wrap_mode ((GtkLabel *)mav->priv->gmail_info_label, PANGO_WRAP_WORD);
 			gtk_label_set_selectable ((GtkLabel *)mav->priv->gmail_info_label, TRUE);
 
 			gtk_widget_show (mav->priv->calendar);
