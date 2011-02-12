@@ -1213,6 +1213,9 @@ e_shell_init (EShell *shell)
 		"start-offline",
 		"/apps/evolution/shell/start_offline");
 
+#if 0  /* XXX Lockdown keys have moved to gsettings-desktop-schemas,
+	*     so disable lockdown integration until we're ready for
+	*     GSettings. */
 #ifndef G_OS_WIN32
 	e_shell_settings_install_property_for_key (
 		"disable-application-handlers",
@@ -1234,6 +1237,7 @@ e_shell_init (EShell *shell)
 		"disable-save-to-disk",
 		"/desktop/gnome/lockdown/disable_save_to_disk");
 #endif /* G_OS_WIN32 */
+#endif
 
 	/*** Session Management ***/
 

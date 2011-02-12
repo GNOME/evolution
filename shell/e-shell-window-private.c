@@ -356,6 +356,9 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 		shell_window, "notify::active-view",
 		G_CALLBACK (e_shell_window_update_search_menu), NULL);
 
+#if 0  /* XXX Lockdown keys have moved to gsettings-desktop-schemas,
+	*     so disable lockdown integration until we're ready for
+	*     GSettings. */
 #ifndef G_OS_WIN32
 	/* Support lockdown. */
 
@@ -382,6 +385,7 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 		action_group, "visible",
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_INVERT_BOOLEAN);
+#endif /* G_OS_WIN32 */
 #endif
 
 	/* Bind GObject properties to GObject properties. */
