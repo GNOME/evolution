@@ -563,12 +563,16 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 			widget, "prefer-html",
 			G_BINDING_SYNC_CREATE);
 
+#if 0  /* XXX Lockdown keys have moved to gsettings-desktop-schemas,
+	*     so disable lockdown integration until we're ready for
+	*     GSettings. */
 #ifndef G_OS_WIN32
 	g_object_bind_property (
 		shell_settings, "disable-command-line",
 		widget, "allow-scripts",
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_INVERT_BOOLEAN);
+#endif
 #endif
 
 	signature_tree_view = e_signature_manager_get_tree_view (
@@ -580,12 +584,16 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
+#if 0  /* XXX Lockdown keys have moved to gsettings-desktop-schemas,
+	*     so disable lockdown integration until we're ready for
+	*     GSettings. */
 #ifndef G_OS_WIN32
 	g_object_bind_property (
 		shell_settings, "disable-command-line",
 		widget, "allow-scripts",
 		G_BINDING_SYNC_CREATE |
 		G_BINDING_INVERT_BOOLEAN);
+#endif
 #endif
 
 	g_object_bind_property (
