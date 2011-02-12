@@ -586,8 +586,8 @@ cleanup:
 		g_free (buf);
 	}
 
-	if (G_OBJECT_CLASS (e_windows_sens_parent_class)->constructed)
-		G_OBJECT_CLASS (e_windows_sens_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_windows_sens_parent_class)->constructed (object);
 }
 
 static void

@@ -60,8 +60,7 @@ folder_selector_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		G_OBJECT_CLASS (parent_class)->dispose (object);
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void

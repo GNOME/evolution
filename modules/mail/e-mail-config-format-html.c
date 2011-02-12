@@ -66,8 +66,8 @@ mail_config_format_html_constructed (GObject *object)
 		extensible, "show-real-date",
 		G_BINDING_SYNC_CREATE);
 
-	if (G_OBJECT_CLASS (parent_class)->constructed)
-		G_OBJECT_CLASS (parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void

@@ -597,8 +597,8 @@ startup_wizard_constructed (GObject *object)
 		shell, "event::ready-to-start",
 		G_CALLBACK (startup_wizard_run), extension);
 
-	if (G_OBJECT_CLASS (e_startup_wizard_parent_class)->constructed)
-		G_OBJECT_CLASS (e_startup_wizard_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_startup_wizard_parent_class)->constructed (object);
 }
 
 static void

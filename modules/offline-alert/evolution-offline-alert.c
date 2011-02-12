@@ -173,8 +173,8 @@ offline_alert_constructed (GObject *object)
 		shell, "window-created",
 		G_CALLBACK (offline_alert_window_created_cb), extension);
 
-	if (G_OBJECT_CLASS (e_offline_alert_parent_class)->constructed)
-		G_OBJECT_CLASS (e_offline_alert_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_offline_alert_parent_class)->constructed (object);
 }
 
 static void

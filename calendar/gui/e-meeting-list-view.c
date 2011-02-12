@@ -93,8 +93,8 @@ e_meeting_list_view_finalize (GObject *obj)
 
 	g_free (priv);
 
-	if (G_OBJECT_CLASS (e_meeting_list_view_parent_class)->finalize)
-		(* G_OBJECT_CLASS (e_meeting_list_view_parent_class)->finalize) (obj);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_meeting_list_view_parent_class)->finalize (obj);
 }
 
 static void

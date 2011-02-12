@@ -93,13 +93,13 @@ junk_settings_finalise (GObject *obj)
 }
 
 static void
-junk_settings_dispose (GObject *obj)
+junk_settings_dispose (GObject *object)
 {
-	JunkSettings *js = (JunkSettings *) obj;
+	JunkSettings *js = (JunkSettings *) object;
 	free_all (js);
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		G_OBJECT_CLASS (parent_class)->dispose (obj);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void

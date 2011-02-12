@@ -108,8 +108,8 @@ e_delegate_dialog_finalize (GObject *object)
 	g_free (priv);
 	edd->priv = NULL;
 
-	if (G_OBJECT_CLASS (e_delegate_dialog_parent_class)->finalize)
-		(* G_OBJECT_CLASS (e_delegate_dialog_parent_class)->finalize) (object);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_delegate_dialog_parent_class)->finalize (object);
 }
 
 EDelegateDialog *

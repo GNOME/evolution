@@ -155,8 +155,8 @@ gal_view_etable_dispose         (GObject *object)
 		g_object_unref (view->state);
 	view->state = NULL;
 
-	if (G_OBJECT_CLASS (gal_view_etable_parent_class)->dispose)
-		(* G_OBJECT_CLASS (gal_view_etable_parent_class)->dispose) (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (gal_view_etable_parent_class)->dispose (object);
 }
 
 static void

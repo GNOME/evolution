@@ -122,17 +122,6 @@ extension_get_property (GObject *object,
 }
 
 static void
-extension_constructed (GObject *object)
-{
-	/* This allows subclasses to chain up safely since GObject
-	 * does not implement this method, and we might want to do
-	 * something here in the future. */
-
-	if (G_OBJECT_CLASS (e_extension_parent_class)->constructed)
-		G_OBJECT_CLASS (e_extension_parent_class)->constructed (object);
-}
-
-static void
 extension_dispose (GObject *object)
 {
 	EExtensionPrivate *priv;
@@ -159,7 +148,6 @@ e_extension_class_init (EExtensionClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = extension_set_property;
 	object_class->get_property = extension_get_property;
-	object_class->constructed = extension_constructed;
 	object_class->dispose = extension_dispose;
 
 	g_object_class_install_property (

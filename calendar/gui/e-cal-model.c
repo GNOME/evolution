@@ -377,8 +377,7 @@ cal_model_constructed (GObject *object)
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
 	/* Chain up to parent's constructed() method. */
-	if (G_OBJECT_CLASS (parent_class)->constructed)
-		G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void
@@ -3210,8 +3209,8 @@ e_cal_model_component_finalize (GObject *object)
 		comp_data->color = NULL;
 	}
 
-	if (G_OBJECT_CLASS (component_parent_class)->finalize)
-		(* G_OBJECT_CLASS (component_parent_class)->finalize) (object);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (component_parent_class)->finalize (object);
 }
 
 /* Object initialization function for the calendar component object */

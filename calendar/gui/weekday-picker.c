@@ -201,8 +201,7 @@ weekday_picker_dispose (GObject *object)
 	wp->priv = NULL;
 
 	/* Chain up to parent's dispose() method. */
-	if (G_OBJECT_CLASS (weekday_picker_parent_class)->dispose)
-		G_OBJECT_CLASS (weekday_picker_parent_class)->dispose (object);
+	G_OBJECT_CLASS (weekday_picker_parent_class)->dispose (object);
 }
 
 static void

@@ -71,8 +71,8 @@ mail_config_web_view_constructed (GObject *object)
 		extensible, "realize",
 		G_CALLBACK (mail_config_web_view_realize), NULL);
 
-	if (G_OBJECT_CLASS (parent_class)->constructed)
-		G_OBJECT_CLASS (parent_class)->constructed (object);
+	/* Chain up to parent's consturcted() method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void

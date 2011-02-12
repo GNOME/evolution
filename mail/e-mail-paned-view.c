@@ -683,8 +683,8 @@ mail_paned_view_constructed (GObject *object)
 	 * set_preview_visible() method relies on it. */
 	e_mail_view_set_preview_visible (view, TRUE);
 
-	if (G_OBJECT_CLASS (e_mail_paned_view_parent_class)->constructed)
-		G_OBJECT_CLASS (e_mail_paned_view_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_mail_paned_view_parent_class)->constructed (object);
 }
 
 static void

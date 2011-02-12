@@ -215,8 +215,8 @@ alert_dialog_constructed (GObject *object)
 
 	pango_attr_list_unref (list);
 
-	if (G_OBJECT_CLASS (e_alert_dialog_parent_class)->constructed)
-		G_OBJECT_CLASS (e_alert_dialog_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_alert_dialog_parent_class)->constructed (object);
 }
 
 static void

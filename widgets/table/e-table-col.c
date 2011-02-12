@@ -74,8 +74,8 @@ etc_dispose (GObject *object)
 	g_free (etc->icon_name);
 	etc->icon_name = NULL;
 
-	if (G_OBJECT_CLASS (e_table_col_parent_class)->dispose)
-		G_OBJECT_CLASS (e_table_col_parent_class)->dispose (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_table_col_parent_class)->dispose (object);
 }
 
 static void

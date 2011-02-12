@@ -432,8 +432,8 @@ mail_backend_dispose (GObject *object)
 static void
 mail_backend_finalize (GObject *object)
 {
-	if (G_OBJECT_CLASS (e_mail_backend_parent_class)->finalize)
-		G_OBJECT_CLASS (e_mail_backend_parent_class)->finalize (object);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_mail_backend_parent_class)->finalize (object);
 
 	camel_shutdown ();
 }
@@ -510,8 +510,8 @@ mail_backend_constructed (GObject *object)
 	mail_config_init (priv->session);
 	mail_msg_init ();
 
-	if (G_OBJECT_CLASS (e_mail_backend_parent_class)->constructed)
-		G_OBJECT_CLASS (e_mail_backend_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_mail_backend_parent_class)->constructed (object);
 }
 
 static void

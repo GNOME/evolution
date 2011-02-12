@@ -95,23 +95,25 @@ share_folder_class_init (ShareFolderClass *klass)
 }
 
 static void
-share_folder_finalise (GObject *obj)
+share_folder_finalise (GObject *object)
 {
-	ShareFolder *sf = (ShareFolder *) obj;
+	ShareFolder *sf = (ShareFolder *) object;
 	g_object_unref (sf->builder);
 	free_all (sf);
-	G_OBJECT_CLASS (parent_class)->finalize (obj);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
-share_folder_dispose (GObject *obj)
+share_folder_dispose (GObject *object)
 {
 
-	ShareFolder *sf = (ShareFolder *) obj;
+	ShareFolder *sf = (ShareFolder *) object;
 	free_all (sf);
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		G_OBJECT_CLASS (parent_class)->dispose (obj);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void

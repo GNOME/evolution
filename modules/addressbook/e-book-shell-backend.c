@@ -511,8 +511,8 @@ book_shell_backend_constructed (GObject *object)
 	 * that all EPlugins and EPluginHooks are loaded first. */
 	g_idle_add ((GSourceFunc) book_shell_backend_init_preferences, shell);
 
-	if (G_OBJECT_CLASS (parent_class)->constructed)
-		G_OBJECT_CLASS (parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void

@@ -526,8 +526,8 @@ task_shell_backend_constructed (GObject *object)
 		G_CALLBACK (task_shell_backend_window_created_cb),
 		shell_backend);
 
-	if (G_OBJECT_CLASS (parent_class)->constructed)
-		G_OBJECT_CLASS (parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void

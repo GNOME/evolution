@@ -297,8 +297,8 @@ meeting_time_selector_dispose (GObject *object)
 		mts->style_change_idle_id = 0;
 	}
 
-	if (G_OBJECT_CLASS (e_meeting_time_selector_parent_class)->dispose)
-		G_OBJECT_CLASS (e_meeting_time_selector_parent_class)->dispose (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_meeting_time_selector_parent_class)->dispose (object);
 }
 
 static void

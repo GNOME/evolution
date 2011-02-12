@@ -311,8 +311,8 @@ e_minicard_view_widget_dispose (GObject *object)
 		view->adapter = NULL;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		G_OBJECT_CLASS (parent_class)->dispose (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void

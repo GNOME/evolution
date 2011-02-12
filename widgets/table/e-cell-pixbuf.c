@@ -246,13 +246,6 @@ pixbuf_max_width (ECellView *ecell_view, gint model_col, gint view_col)
 }
 
 static void
-pixbuf_dispose (GObject *object)
-{
-	if (G_OBJECT_CLASS (e_cell_pixbuf_parent_class)->dispose)
-		(* G_OBJECT_CLASS (e_cell_pixbuf_parent_class)->dispose) (object);
-}
-
-static void
 pixbuf_set_property (GObject *object,
 		     guint prop_id,
 		     const GValue *value,
@@ -324,7 +317,6 @@ e_cell_pixbuf_class_init (ECellPixbufClass *class)
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
 	ECellClass *ecc = E_CELL_CLASS (class);
 
-	object_class->dispose = pixbuf_dispose;
 	object_class->set_property = pixbuf_set_property;
 	object_class->get_property = pixbuf_get_property;
 

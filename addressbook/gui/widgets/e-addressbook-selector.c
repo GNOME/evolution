@@ -238,8 +238,8 @@ addressbook_selector_constructed (GObject *object)
 	selector = E_SOURCE_SELECTOR (object);
 	addressbook_selector_load_primary_source (selector);
 
-	if (G_OBJECT_CLASS (parent_class)->constructed)
-		G_OBJECT_CLASS (parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static gboolean

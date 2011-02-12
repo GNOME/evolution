@@ -137,8 +137,8 @@ ethi_dispose (GObject *object) {
 		g_object_unref (ethi->config);
 	ethi->config = NULL;
 
-	if (G_OBJECT_CLASS (ethi_parent_class)->dispose)
-		(*G_OBJECT_CLASS (ethi_parent_class)->dispose) (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (ethi_parent_class)->dispose (object);
 }
 
 static gint

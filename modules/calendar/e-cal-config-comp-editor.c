@@ -68,8 +68,8 @@ cal_config_comp_editor_constructed (GObject *object)
 		extensible, "work-day-start-minute",
 		G_BINDING_SYNC_CREATE);
 
-	if (G_OBJECT_CLASS (parent_class)->constructed)
-		G_OBJECT_CLASS (parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void

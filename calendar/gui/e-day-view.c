@@ -1336,8 +1336,8 @@ e_day_view_dispose (GObject *object)
 		}
 	}
 
-	if (G_OBJECT_CLASS (e_day_view_parent_class)->dispose)
-		G_OBJECT_CLASS (e_day_view_parent_class)->dispose (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_day_view_parent_class)->dispose (object);
 }
 
 static void

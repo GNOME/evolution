@@ -915,8 +915,8 @@ itip_view_dispose (GObject *object)
 		view->priv = NULL;
 	}
 
-	if (G_OBJECT_CLASS (itip_view_parent_class)->dispose)
-		G_OBJECT_CLASS (itip_view_parent_class)->dispose (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (itip_view_parent_class)->dispose (object);
 }
 
 static void

@@ -552,8 +552,7 @@ mail_browser_constructed (GObject *object)
 	guint merge_id;
 
 	/* Chain up to parent's constructed() method. */
-	if (G_OBJECT_CLASS (parent_class)->constructed)
-		G_OBJECT_CLASS (parent_class)->constructed (object);
+	G_OBJECT_CLASS (parent_class)->constructed (object);
 
 	priv = E_MAIL_BROWSER_GET_PRIVATE (object);
 

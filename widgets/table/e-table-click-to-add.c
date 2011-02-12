@@ -183,8 +183,8 @@ etcta_dispose (GObject *object)
 		g_object_unref (etcta->selection);
 	etcta->selection = NULL;
 
-	if (G_OBJECT_CLASS (etcta_parent_class)->dispose)
-		(*G_OBJECT_CLASS (etcta_parent_class)->dispose) (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (etcta_parent_class)->dispose (object);
 }
 
 static void

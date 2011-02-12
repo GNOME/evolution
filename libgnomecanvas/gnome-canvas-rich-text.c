@@ -184,8 +184,8 @@ gnome_canvas_rich_text_finalize (GObject *object)
 	g_free (text->_priv);
 	text->_priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		G_OBJECT_CLASS (parent_class)->finalize (object);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void

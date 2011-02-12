@@ -435,8 +435,8 @@ e_minicard_dispose (GObject *object)
 		e_minicard->list_icon_pixbuf = NULL;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
@@ -459,8 +459,8 @@ e_minicard_finalize (GObject *object)
 		e_minicard->list_icon_pixbuf = NULL;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void

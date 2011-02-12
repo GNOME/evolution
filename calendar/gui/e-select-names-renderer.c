@@ -171,9 +171,9 @@ e_select_names_renderer_set_property (GObject *object, guint prop_id, const GVal
 }
 
 static void
-e_select_names_renderer_finalize (GObject *obj)
+e_select_names_renderer_finalize (GObject *object)
 {
-	ESelectNamesRenderer *cell = (ESelectNamesRenderer *) obj;
+	ESelectNamesRenderer *cell = (ESelectNamesRenderer *) object;
 
 	if (cell->priv->editable)
 		g_object_unref (cell->priv->editable);
@@ -184,8 +184,8 @@ e_select_names_renderer_finalize (GObject *obj)
 	g_free (cell->priv->email);
 	g_free (cell->priv);
 
-	if (G_OBJECT_CLASS (e_select_names_renderer_parent_class)->finalize)
-		G_OBJECT_CLASS (e_select_names_renderer_parent_class)->finalize (obj);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_select_names_renderer_parent_class)->finalize (object);
 }
 
 static void

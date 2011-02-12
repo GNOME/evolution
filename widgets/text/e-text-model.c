@@ -165,8 +165,8 @@ e_text_model_dispose (GObject *object)
 		model->priv = NULL;
 	}
 
-	if (G_OBJECT_CLASS (e_text_model_parent_class)->dispose)
-		G_OBJECT_CLASS (e_text_model_parent_class)->dispose (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_text_model_parent_class)->dispose (object);
 }
 
 static gint

@@ -285,8 +285,8 @@ gal_define_views_dialog_dispose (GObject *object)
 		g_object_unref (gal_define_views_dialog->builder);
 	gal_define_views_dialog->builder = NULL;
 
-	if (G_OBJECT_CLASS (gal_define_views_dialog_parent_class)->dispose)
-		(* G_OBJECT_CLASS (gal_define_views_dialog_parent_class)->dispose) (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (gal_define_views_dialog_parent_class)->dispose (object);
 }
 
 static void

@@ -333,8 +333,8 @@ picture_gallery_constructed (GObject *object)
 	GtkTargetList *list;
 	gint n_targets;
 
-	if (G_OBJECT_CLASS (e_picture_gallery_parent_class)->constructed)
-		G_OBJECT_CLASS (e_picture_gallery_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_picture_gallery_parent_class)->constructed (object);
 
 	icon_view = GTK_ICON_VIEW (object);
 
@@ -375,8 +375,8 @@ picture_gallery_dispose (GObject *object)
 		gallery->priv->monitor = NULL;
 	}
 
-	if (G_OBJECT_CLASS (e_picture_gallery_parent_class)->dispose)
-		G_OBJECT_CLASS (e_picture_gallery_parent_class)->dispose (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_picture_gallery_parent_class)->dispose (object);
 }
 
 static void

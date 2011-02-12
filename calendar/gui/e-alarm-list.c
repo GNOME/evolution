@@ -40,7 +40,6 @@ static GType column_types[E_ALARM_LIST_NUM_COLUMNS];
 static void         e_alarm_list_init            (EAlarmList         *file_list);
 static void         e_alarm_list_class_init      (EAlarmListClass    *class);
 static void         e_alarm_list_tree_model_init (GtkTreeModelIface  *iface);
-static void         e_alarm_list_finalize        (GObject            *object);
 static GtkTreeModelFlags e_alarm_list_get_flags       (GtkTreeModel       *tree_model);
 static gint         e_alarm_list_get_n_columns   (GtkTreeModel       *tree_model);
 static GType        e_alarm_list_get_column_type (GtkTreeModel       *tree_model,
@@ -114,12 +113,7 @@ e_alarm_list_get_type (void)
 static void
 e_alarm_list_class_init (EAlarmListClass *class)
 {
-	GObjectClass *object_class;
-
 	parent_class = g_type_class_peek_parent (class);
-	object_class = (GObjectClass *) class;
-
-	object_class->finalize = e_alarm_list_finalize;
 }
 
 static void
@@ -217,13 +211,6 @@ row_updated (EAlarmList *alarm_list, gint n)
 		gtk_tree_model_row_changed (GTK_TREE_MODEL (alarm_list), path, &iter);
 
 	gtk_tree_path_free (path);
-}
-
-static void
-e_alarm_list_finalize (GObject *object)
-{
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 /* Fulfill the GtkTreeModel requirements */

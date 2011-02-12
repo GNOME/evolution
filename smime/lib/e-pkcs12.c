@@ -98,8 +98,8 @@ e_pkcs12_dispose (GObject *object)
 	g_free (pk->priv);
 	pk->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		G_OBJECT_CLASS (parent_class)->dispose (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
