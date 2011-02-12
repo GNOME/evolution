@@ -188,8 +188,8 @@ esma_dispose (GObject *object)
 		esma->eba = NULL;
 	}
 
-	if (G_OBJECT_CLASS (e_selection_model_array_parent_class)->dispose)
-		(* G_OBJECT_CLASS (e_selection_model_array_parent_class)->dispose) (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_selection_model_array_parent_class)->dispose (object);
 }
 
 static void

@@ -63,8 +63,8 @@ cal_config_meeting_store_constructed (GObject *object)
 		extensible, "week-start-day",
 		G_BINDING_SYNC_CREATE);
 
-	if (G_OBJECT_CLASS (parent_class)->constructed)
-		G_OBJECT_CLASS (parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void

@@ -379,8 +379,8 @@ e_cert_db_dispose (GObject *object)
 	g_free (ec->priv);
 	ec->priv = NULL;
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		G_OBJECT_CLASS (parent_class)->dispose (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 #ifdef notyet

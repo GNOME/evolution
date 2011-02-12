@@ -564,8 +564,8 @@ alert_constructed (GObject *object)
 		button = button->next;
 	}
 
-	if (G_OBJECT_CLASS (e_alert_parent_class)->constructed)
-		G_OBJECT_CLASS (e_alert_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_alert_parent_class)->constructed (object);
 }
 
 static void

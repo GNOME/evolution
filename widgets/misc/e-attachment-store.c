@@ -148,8 +148,8 @@ attachment_store_constructed (GObject *object)
 	key = "/apps/evolution/shell/file_chooser_folder";
 	gconf_bridge_bind_property (bridge, key, object, "current-folder-uri");
 
-	if (G_OBJECT_CLASS (e_attachment_store_parent_class)->constructed)
-		G_OBJECT_CLASS (e_attachment_store_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_attachment_store_parent_class)->constructed (object);
 }
 
 static void

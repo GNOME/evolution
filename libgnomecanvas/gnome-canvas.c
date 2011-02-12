@@ -1996,8 +1996,8 @@ gnome_canvas_dispose (GObject *object)
 
 	shutdown_transients (canvas);
 
-	if (G_OBJECT_CLASS (canvas_parent_class)->dispose)
-		G_OBJECT_CLASS (canvas_parent_class)->dispose (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (canvas_parent_class)->dispose (object);
 }
 
 /**

@@ -108,8 +108,8 @@ memo_editor_constructed (GObject *object)
 		editor, COMP_EDITOR_PAGE (priv->memo_page),
 		_("Memo"), TRUE);
 
-	if (G_OBJECT_CLASS (memo_editor_parent_class)->constructed)
-		G_OBJECT_CLASS (memo_editor_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (memo_editor_parent_class)->constructed (object);
 }
 
 static void

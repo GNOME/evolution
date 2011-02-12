@@ -144,8 +144,8 @@ preview_pane_constructed (GObject *object)
 	priv->search_bar = g_object_ref (widget);
 	gtk_widget_hide (widget);
 
-	if (G_OBJECT_CLASS (e_preview_pane_parent_class)->constructed)
-		G_OBJECT_CLASS (e_preview_pane_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_preview_pane_parent_class)->constructed (object);
 }
 
 static void

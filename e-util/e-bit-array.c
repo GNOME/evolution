@@ -157,8 +157,8 @@ eba_dispose (GObject *object)
 		g_free (eba->data);
 	eba->data = NULL;
 
-	if (G_OBJECT_CLASS (e_bit_array_parent_class)->dispose)
-		(* G_OBJECT_CLASS (e_bit_array_parent_class)->dispose) (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_bit_array_parent_class)->dispose (object);
 }
 
 /**

@@ -487,8 +487,8 @@ gnome_calendar_constructed (GObject *object)
 
 	gnome_calendar_goto_today (gcal);
 
-	if (G_OBJECT_CLASS (gnome_calendar_parent_class)->constructed)
-		G_OBJECT_CLASS (gnome_calendar_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (gnome_calendar_parent_class)->constructed (object);
 }
 
 /* Class initialization function for the gnome calendar */

@@ -755,8 +755,8 @@ cal_shell_backend_constructed (GObject *object)
 		e_calendar_preferences_new,
 		600);
 
-	if (G_OBJECT_CLASS (parent_class)->constructed)
-		G_OBJECT_CLASS (parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static void

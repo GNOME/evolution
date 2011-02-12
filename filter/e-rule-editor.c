@@ -571,8 +571,7 @@ rule_editor_dispose (GObject *object)
 	}
 
 	/* Chain up to parent's dispose() method. */
-	if (G_OBJECT_CLASS (e_rule_editor_parent_class)->dispose)
-		G_OBJECT_CLASS (e_rule_editor_parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_rule_editor_parent_class)->dispose (object);
 }
 
 static void

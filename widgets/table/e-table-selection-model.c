@@ -237,8 +237,8 @@ etsm_dispose (GObject *object)
 	drop_model (etsm);
 	free_hash (etsm);
 
-	if (G_OBJECT_CLASS (e_table_selection_model_parent_class)->dispose)
-		G_OBJECT_CLASS (e_table_selection_model_parent_class)->dispose (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_table_selection_model_parent_class)->dispose (object);
 }
 
 static void

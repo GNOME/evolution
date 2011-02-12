@@ -168,8 +168,8 @@ gal_view_instance_dispose (GObject *object)
 
 	g_free (instance->default_view);
 
-	if (G_OBJECT_CLASS (gal_view_instance_parent_class)->dispose)
-		(* G_OBJECT_CLASS (gal_view_instance_parent_class)->dispose)(object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (gal_view_instance_parent_class)->dispose (object);
 }
 
 static void

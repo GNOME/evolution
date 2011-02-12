@@ -244,8 +244,8 @@ mailto_handler_constructed (GObject *object)
 		shell, "event::ready-to-start",
 		G_CALLBACK (mailto_handler_check), extension);
 
-	if (G_OBJECT_CLASS (e_mailto_handler_parent_class)->constructed)
-		G_OBJECT_CLASS (e_mailto_handler_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_mailto_handler_parent_class)->constructed (object);
 }
 
 static void

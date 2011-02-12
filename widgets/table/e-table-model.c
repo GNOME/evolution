@@ -264,18 +264,9 @@ e_table_model_value_to_string (ETableModel *e_table_model, gint col, gconstpoint
 }
 
 static void
-e_table_model_finalize (GObject *object)
-{
-	if (G_OBJECT_CLASS (e_table_model_parent_class)->finalize)
-		(* G_OBJECT_CLASS (e_table_model_parent_class)->finalize)(object);
-}
-
-static void
 e_table_model_class_init (ETableModelClass *class)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
-
-	object_class->finalize = e_table_model_finalize;
 
 	e_table_model_signals[MODEL_NO_CHANGE] =
 		g_signal_new ("model_no_change",

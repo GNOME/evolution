@@ -181,8 +181,8 @@ eth_finalize (GObject *object)
 	eth->col_count = 0;
 	eth->columns = NULL;
 
-	if (G_OBJECT_CLASS (e_table_header_parent_class)->finalize)
-		G_OBJECT_CLASS (e_table_header_parent_class)->finalize (object);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_table_header_parent_class)->finalize (object);
 }
 
 static void

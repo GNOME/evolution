@@ -103,8 +103,8 @@ e_cal_model_memos_finalize (GObject *object)
 		model->priv = NULL;
 	}
 
-	if (G_OBJECT_CLASS (e_cal_model_memos_parent_class)->finalize)
-		G_OBJECT_CLASS (e_cal_model_memos_parent_class)->finalize (object);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_cal_model_memos_parent_class)->finalize (object);
 }
 
 /* ETableModel methods */

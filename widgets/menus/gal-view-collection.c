@@ -187,8 +187,8 @@ gal_view_collection_dispose (GObject *object)
 	g_free (collection->title);
 	collection->title = NULL;
 
-	if (G_OBJECT_CLASS (gal_view_collection_parent_class)->dispose)
-		(* G_OBJECT_CLASS (gal_view_collection_parent_class)->dispose)(object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (gal_view_collection_parent_class)->dispose (object);
 }
 
 static void

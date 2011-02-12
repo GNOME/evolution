@@ -105,8 +105,8 @@ ecb_dispose (GObject *object)
 		ecb->priv = NULL;
 	}
 
-	if (G_OBJECT_CLASS (ecb_parent_class)->dispose)
-		G_OBJECT_CLASS (ecb_parent_class)->dispose (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (ecb_parent_class)->dispose (object);
 }
 
 static void

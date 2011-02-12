@@ -82,8 +82,8 @@ etfci_dispose (GObject *object)
 		pango_font_description_free (etfci->font_desc);
 	etfci->font_desc = NULL;
 
-	if (G_OBJECT_CLASS (etfci_parent_class)->dispose)
-		(*G_OBJECT_CLASS (etfci_parent_class)->dispose) (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (etfci_parent_class)->dispose (object);
 }
 
 static gint

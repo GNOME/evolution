@@ -905,8 +905,8 @@ e_week_view_dispose (GObject *object)
 		week_view->scroll_by_week_notif_id = 0;
 	}
 
-	if (G_OBJECT_CLASS (e_week_view_parent_class)->dispose)
-		G_OBJECT_CLASS (e_week_view_parent_class)->dispose (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_week_view_parent_class)->dispose (object);
 }
 
 static void

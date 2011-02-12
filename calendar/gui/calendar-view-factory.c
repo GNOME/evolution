@@ -96,8 +96,8 @@ calendar_view_factory_finalize (GObject *object)
 	g_free (priv);
 	cal_view_factory->priv = NULL;
 
-	if (G_OBJECT_CLASS (calendar_view_factory_parent_class)->finalize)
-		(* G_OBJECT_CLASS (calendar_view_factory_parent_class)->finalize) (object);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (calendar_view_factory_parent_class)->finalize (object);
 }
 
 

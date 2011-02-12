@@ -136,9 +136,9 @@ ecrc_set_prop (GObject *object, guint prop_id, const GValue *value, GParamSpec *
 }
 
 static void
-ecrc_finalize (GObject *obj)
+ecrc_finalize (GObject *object)
 {
-	ECellRendererCombo *cell = (ECellRendererCombo *) obj;
+	ECellRendererCombo *cell = (ECellRendererCombo *) object;
 
 	if (cell->priv->editable)
 		g_object_unref (cell->priv->editable);
@@ -150,8 +150,8 @@ ecrc_finalize (GObject *obj)
 
 	g_free (cell->priv);
 
-	if (G_OBJECT_CLASS (e_cell_renderer_combo_parent_class)->finalize)
-		G_OBJECT_CLASS (e_cell_renderer_combo_parent_class)->finalize (obj);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_cell_renderer_combo_parent_class)->finalize (object);
 }
 
 static void

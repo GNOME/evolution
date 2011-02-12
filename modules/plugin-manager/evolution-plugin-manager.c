@@ -501,8 +501,8 @@ plugin_manager_constructed (GObject *object)
 
 	g_object_unref (action);
 
-	if (G_OBJECT_CLASS (e_plugin_manager_parent_class)->constructed)
-		G_OBJECT_CLASS (e_plugin_manager_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_plugin_manager_parent_class)->constructed (object);
 }
 
 static void

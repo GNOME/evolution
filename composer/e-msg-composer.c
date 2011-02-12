@@ -2175,8 +2175,8 @@ msg_composer_constructed (GObject *object)
 
 	e_extensible_load_extensions (E_EXTENSIBLE (composer));
 
-	if (G_OBJECT_CLASS (e_msg_composer_parent_class)->constructed)
-		G_OBJECT_CLASS (e_msg_composer_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_msg_composer_parent_class)->constructed (object);
 }
 
 static void
@@ -2201,8 +2201,7 @@ msg_composer_dispose (GObject *object)
 	e_composer_private_dispose (composer);
 
 	/* Chain up to parent's dispose() method. */
-	if (G_OBJECT_CLASS (e_msg_composer_parent_class)->dispose)
-		G_OBJECT_CLASS (e_msg_composer_parent_class)->dispose (object);
+	G_OBJECT_CLASS (e_msg_composer_parent_class)->dispose (object);
 }
 
 static void

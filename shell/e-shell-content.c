@@ -208,8 +208,8 @@ shell_content_constructed (GObject *object)
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
-	if (G_OBJECT_CLASS (e_shell_content_parent_class)->constructed)
-		G_OBJECT_CLASS (e_shell_content_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_shell_content_parent_class)->constructed (object);
 }
 
 static void

@@ -445,8 +445,8 @@ focus_tracker_constructed (GObject *object)
 		clipboard, "owner-change",
 		G_CALLBACK (e_focus_tracker_update_actions), object);
 
-	if (G_OBJECT_CLASS (e_focus_tracker_parent_class)->constructed)
-		G_OBJECT_CLASS (e_focus_tracker_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_focus_tracker_parent_class)->constructed (object);
 }
 
 static void

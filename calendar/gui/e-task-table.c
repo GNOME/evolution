@@ -635,8 +635,8 @@ task_table_constructed (GObject *object)
 	if (a11y)
 		atk_object_set_name (a11y, _("Tasks"));
 
-	if (G_OBJECT_CLASS (parent_class)->constructed)
-		G_OBJECT_CLASS (parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
 }
 
 static gboolean

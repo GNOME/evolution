@@ -40,14 +40,14 @@ esne_cell_editable_init (GtkCellEditableIface *iface)
 }
 
 static void
-esne_finalize (GObject *obj)
+esne_finalize (GObject *object)
 {
-	ESelectNamesEditable *esne = (ESelectNamesEditable *) obj;
+	ESelectNamesEditable *esne = (ESelectNamesEditable *) object;
 
 	g_free (esne->priv);
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		G_OBJECT_CLASS (parent_class)->finalize (obj);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void

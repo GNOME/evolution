@@ -1426,8 +1426,8 @@ eti_dispose (GObject *object)
 		g_free (eti->height_cache);
 	eti->height_cache = NULL;
 
-	if (G_OBJECT_CLASS (eti_parent_class)->dispose)
-		(*G_OBJECT_CLASS (eti_parent_class)->dispose) (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (eti_parent_class)->dispose (object);
 }
 
 static void

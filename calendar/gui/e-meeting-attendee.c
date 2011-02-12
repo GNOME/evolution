@@ -182,8 +182,8 @@ e_meeting_attendee_finalize (GObject *obj)
 
 	g_free (priv);
 
-	if (G_OBJECT_CLASS (e_meeting_attendee_parent_class)->finalize)
-		(* G_OBJECT_CLASS (e_meeting_attendee_parent_class)->finalize) (obj);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_meeting_attendee_parent_class)->finalize (obj);
 }
 
 GObject *

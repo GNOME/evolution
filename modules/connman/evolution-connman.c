@@ -180,8 +180,8 @@ network_manager_constructed (GObject *object)
 {
 	network_manager_connect (E_CONNMAN (object));
 
-	if (G_OBJECT_CLASS (e_connman_parent_class)->constructed)
-		G_OBJECT_CLASS (e_connman_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_connman_parent_class)->constructed (object);
 }
 
 static void

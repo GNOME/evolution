@@ -106,8 +106,8 @@ etgl_dispose (GObject *object)
 		etgl->selection_model = NULL;
 	}
 
-	if (G_OBJECT_CLASS (etgl_parent_class)->dispose)
-		G_OBJECT_CLASS (etgl_parent_class)->dispose (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (etgl_parent_class)->dispose (object);
 }
 
 static void

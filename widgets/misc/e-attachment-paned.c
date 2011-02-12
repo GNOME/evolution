@@ -350,8 +350,8 @@ attachment_paned_constructed (GObject *object)
 	key = "/apps/evolution/shell/attachment_view";
 	gconf_bridge_bind_property (bridge, key, object, "active-view");
 
-	if (G_OBJECT_CLASS (e_attachment_paned_parent_class)->constructed)
-		G_OBJECT_CLASS (e_attachment_paned_parent_class)->constructed (object);
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_attachment_paned_parent_class)->constructed (object);
 }
 
 static EAttachmentViewPrivate *

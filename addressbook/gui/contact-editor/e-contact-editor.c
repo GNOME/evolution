@@ -3728,8 +3728,8 @@ e_contact_editor_dispose (GObject *object)
 		e_contact_editor->cancellable = NULL;
 	}
 
-	if (G_OBJECT_CLASS (parent_class)->dispose)
-		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void

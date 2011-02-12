@@ -1522,8 +1522,7 @@ comp_editor_constructed (GObject *object)
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 
 	/* Chain up to parent's constructed() method. */
-	if (G_OBJECT_CLASS (comp_editor_parent_class)->constructed)
-		G_OBJECT_CLASS (comp_editor_parent_class)->constructed (object);
+	G_OBJECT_CLASS (comp_editor_parent_class)->constructed (object);
 }
 
 static void

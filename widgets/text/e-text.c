@@ -274,8 +274,8 @@ e_text_dispose (GObject *object)
 		text->font_desc = NULL;
 	}
 
-	if (G_OBJECT_CLASS (e_text_parent_class)->dispose)
-		(* G_OBJECT_CLASS (e_text_parent_class)->dispose) (object);
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_text_parent_class)->dispose (object);
 }
 
 static void
