@@ -1279,7 +1279,7 @@ fi
 dnl **************
 dnl Calendar Flags
 dnl **************
-EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.4 >= libsoup_minimum_version)
+EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-gnome-2.4 >= libsoup_minimum_version)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
