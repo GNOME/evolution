@@ -183,6 +183,7 @@ setup_e_table (ECalListView *cal_list_view)
 		      NULL);
 
 	e_table_extras_add_cell (extras, "calstring", cell);
+	g_object_unref (cell);
 
 	/* Date fields */
 
@@ -214,6 +215,7 @@ setup_e_table (ECalListView *cal_list_view)
 		G_BINDING_SYNC_CREATE);
 
 	e_table_extras_add_cell (extras, "dateedit", popup_cell);
+	g_object_unref (popup_cell);
 	cal_list_view->dates_cell = E_CELL_DATE_EDIT (popup_cell);
 
 	gtk_widget_hide (E_CELL_DATE_EDIT (popup_cell)->none_button);
@@ -243,6 +245,7 @@ setup_e_table (ECalListView *cal_list_view)
 	g_list_free (strings);
 
 	e_table_extras_add_cell (extras, "classification", popup_cell);
+	g_object_unref (popup_cell);
 
 	/* Sorting */
 

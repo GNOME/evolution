@@ -266,6 +266,12 @@ ecv_dispose (GObject *object)
 	ecv->subcells = NULL;
 	ecv->subcell_count = 0;
 
+	g_free (ecv->model_cols);
+	ecv->model_cols = NULL;
+
+	g_free (ecv->def_size_cols);
+	ecv->def_size_cols = NULL;
+
 	G_OBJECT_CLASS (e_cell_hbox_parent_class)->dispose (object);
 }
 

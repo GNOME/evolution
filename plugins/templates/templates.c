@@ -629,8 +629,6 @@ build_template_menus_recurse (GtkUIManager *ui_manager,
 			if (template == NULL)
 				continue;
 
-			g_object_ref (template);
-
 			action_label =
 				camel_mime_message_get_subject (template);
 			if (action_label == NULL || *action_label == '\0')

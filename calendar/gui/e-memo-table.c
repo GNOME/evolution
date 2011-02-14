@@ -347,6 +347,7 @@ memo_table_constructed (GObject *object)
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (cell, "bg_color_column", E_CAL_MODEL_FIELD_COLOR, NULL);
 	e_table_extras_add_cell (extras, "calstring", cell);
+	g_object_unref (cell);
 
 	/*
 	 * Date fields.
@@ -377,6 +378,7 @@ memo_table_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE);
 
 	e_table_extras_add_cell (extras, "dateedit", popup_cell);
+	g_object_unref (popup_cell);
 	memo_table->dates_cell = E_CELL_DATE_EDIT (popup_cell);
 
 	e_cell_date_edit_set_get_time_callback (
@@ -391,6 +393,8 @@ memo_table_constructed (GObject *object)
 
 	cell = e_cell_toggle_new (icon_names, G_N_ELEMENTS (icon_names));
 	e_table_extras_add_cell (extras, "icon", cell);
+	g_object_unref (cell);
+
 	e_table_extras_add_icon_name (extras, "icon", "stock_notes");
 
 	/* set proper format component for a default 'date' cell renderer */

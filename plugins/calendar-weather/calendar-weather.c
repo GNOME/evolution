@@ -49,7 +49,7 @@ gint        e_plugin_lib_enable (EPlugin *epl, gint enable);
 gint
 e_plugin_lib_enable (EPlugin *epl, gint enable)
 {
-	GList *l;
+	GList *l, *saved_cats;
 	const gchar *tmp;
 	gint ii;
 
@@ -71,8 +71,10 @@ e_plugin_lib_enable (EPlugin *epl, gint enable)
 
 	tmp = _(categories[0].description);
 
+	saved_cats = e_categories_get_list ();
+
 	/* Add the categories icons if we don't have them. */
-	for (l = e_categories_get_list (); l; l = g_list_next (l)) {
+	for (l = saved_cats; l; l = g_list_next (l)) {
 		if (!strcmp ((const gchar *)l->data, tmp))
 			goto exit;
 	}
@@ -88,6 +90,8 @@ e_plugin_lib_enable (EPlugin *epl, gint enable)
 	}
 
 exit:
+	g_list_free (saved_cats);
+
 	return 0;
 }
 

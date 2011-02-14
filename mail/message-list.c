@@ -1922,6 +1922,9 @@ static ECell * create_composite_cell (gint col)
 	e_cell_hbox_append (E_CELL_HBOX (cell_hbox), cell_from, show_email ? col : alt_col, 68);
 	e_cell_hbox_append (E_CELL_HBOX (cell_hbox), cell_attach, COL_ATTACHMENT, 5);
 	e_cell_hbox_append (E_CELL_HBOX (cell_hbox), cell_date, COL_SENT, 27);
+	g_object_unref (cell_from);
+	g_object_unref (cell_attach);
+	g_object_unref (cell_date);
 
 	cell_sub = e_cell_text_new (fixed_name? fixed_name:NULL, GTK_JUSTIFY_LEFT);
 	g_object_set (G_OBJECT (cell_sub),
@@ -1931,6 +1934,9 @@ static ECell * create_composite_cell (gint col)
 	cell_tree = e_cell_tree_new (TRUE, cell_sub);
 	e_cell_vbox_append (E_CELL_VBOX (cell_vbox), cell_hbox, COL_FROM);
 	e_cell_vbox_append (E_CELL_VBOX (cell_vbox), cell_tree, COL_SUBJECT);
+	g_object_unref (cell_sub);
+	g_object_unref (cell_hbox);
+	g_object_unref (cell_tree);
 
 	g_object_set_data (G_OBJECT (cell_vbox), "cell_date", cell_date);
 	g_object_set_data (G_OBJECT (cell_vbox), "cell_sub", cell_sub);
@@ -1966,22 +1972,27 @@ message_list_create_extras (void)
 	cell = e_cell_toggle_new (
 		status_icons, G_N_ELEMENTS (status_icons));
 	e_table_extras_add_cell (extras, "render_message_status", cell);
+	g_object_unref (cell);
 
 	cell = e_cell_toggle_new (
 		attachment_icons, G_N_ELEMENTS (attachment_icons));
 	e_table_extras_add_cell (extras, "render_attachment", cell);
+	g_object_unref (cell);
 
 	cell = e_cell_toggle_new (
 		flagged_icons, G_N_ELEMENTS (flagged_icons));
 	e_table_extras_add_cell (extras, "render_flagged", cell);
+	g_object_unref (cell);
 
 	cell = e_cell_toggle_new (
 		followup_icons, G_N_ELEMENTS (followup_icons));
 	e_table_extras_add_cell (extras, "render_flag_status", cell);
+	g_object_unref (cell);
 
 	cell = e_cell_toggle_new (
 		score_icons, G_N_ELEMENTS (score_icons));
 	e_table_extras_add_cell (extras, "render_score", cell);
+	g_object_unref (cell);
 
 	/* date cell */
 	cell = e_cell_date_new (NULL, GTK_JUSTIFY_LEFT);
@@ -1991,6 +2002,7 @@ message_list_create_extras (void)
 		      "color_column", COL_COLOUR,
 		      NULL);
 	e_table_extras_add_cell (extras, "render_date", cell);
+	g_object_unref (cell);
 
 	/* text cell */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
@@ -1999,9 +2011,11 @@ message_list_create_extras (void)
 		      "color_column", COL_COLOUR,
 		      NULL);
 	e_table_extras_add_cell (extras, "render_text", cell);
+	g_object_unref (cell);
 
-	e_table_extras_add_cell (extras, "render_tree",
-				 e_cell_tree_new (TRUE, cell));
+	cell = e_cell_tree_new (TRUE, cell);
+	e_table_extras_add_cell (extras, "render_tree", cell);
+	g_object_unref (cell);
 
 	/* size cell */
 	cell = e_cell_size_new (NULL, GTK_JUSTIFY_RIGHT);
@@ -2010,13 +2024,16 @@ message_list_create_extras (void)
 		      "color_column", COL_COLOUR,
 		      NULL);
 	e_table_extras_add_cell (extras, "render_size", cell);
+	g_object_unref (cell);
 
 	/* Composite cell for wide view */
 	cell = create_composite_cell (COL_FROM);
 	e_table_extras_add_cell (extras, "render_composite_from", cell);
+	g_object_unref (cell);
 
 	cell = create_composite_cell (COL_TO);
 	e_table_extras_add_cell (extras, "render_composite_to", cell);
+	g_object_unref (cell);
 
 	/* set proper format component for a default 'date' cell renderer */
 	cell = e_table_extras_get_cell (extras, "date");
