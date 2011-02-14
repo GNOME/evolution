@@ -108,8 +108,6 @@ shell_view_init_search_context (EShellViewClass *class)
 {
 	EShellBackend *shell_backend;
 	ERuleContext *search_context;
-	EFilterRule *rule;
-	EFilterPart *part;
 	const gchar *config_dir;
 	gchar *system_filename;
 	gchar *user_filename;
@@ -144,15 +142,6 @@ shell_view_init_search_context (EShellViewClass *class)
 		search_context, "ruleset", E_TYPE_FILTER_RULE,
 		e_rule_context_add_rule, e_rule_context_next_rule);
 	e_rule_context_load (search_context, system_filename, user_filename);
-
-	rule = e_filter_rule_new ();
-	part = e_rule_context_next_part (search_context, NULL);
-	if (part == NULL)
-		g_warning (
-			"Could not load %s search: no parts",
-			G_OBJECT_CLASS_NAME (class));
-	else
-		e_filter_rule_add_part (rule, e_filter_part_clone (part));
 
 	g_free (system_filename);
 	g_free (user_filename);

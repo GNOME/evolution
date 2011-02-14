@@ -232,7 +232,7 @@ safe_unref (gpointer object)
 static void
 ete_init (ETableExtras *extras)
 {
-	ECell *cell;
+	ECell *cell, *sub_cell;
 
 	extras->priv = E_TABLE_EXTRAS_GET_PRIVATE (extras);
 
@@ -276,25 +276,33 @@ ete_init (ETableExtras *extras)
 
 	cell = e_cell_checkbox_new ();
 	e_table_extras_add_cell (extras, "checkbox", cell);
+	g_object_unref (cell);
 
 	cell = e_cell_date_new (NULL, GTK_JUSTIFY_LEFT);
 	e_table_extras_add_cell (extras, "date", cell);
+	g_object_unref (cell);
 
 	cell = e_cell_number_new (NULL, GTK_JUSTIFY_RIGHT);
 	e_table_extras_add_cell (extras, "number", cell);
+	g_object_unref (cell);
 
 	cell = e_cell_pixbuf_new ();
 	e_table_extras_add_cell (extras, "pixbuf", cell);
+	g_object_unref (cell);
 
 	cell = e_cell_size_new (NULL, GTK_JUSTIFY_RIGHT);
 	e_table_extras_add_cell (extras, "size", cell);
+	g_object_unref (cell);
 
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
 	e_table_extras_add_cell (extras, "string", cell);
+	g_object_unref (cell);
 
-	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
-	cell = e_cell_tree_new (TRUE, cell);
+	sub_cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
+	cell = e_cell_tree_new (TRUE, sub_cell);
 	e_table_extras_add_cell (extras, "tree-string", cell);
+	g_object_unref (sub_cell);
+	g_object_unref (cell);
 }
 
 ETableExtras *

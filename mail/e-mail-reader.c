@@ -2582,7 +2582,7 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 {
 	EMailReader *reader;
 	EMailReaderPrivate *priv;
-	CamelMimeMessage *message;
+	CamelMimeMessage *message = NULL;
 	EMFormatHTML *formatter;
 	GtkWidget *message_list;
 	EMailBackend *backend;
@@ -2703,6 +2703,9 @@ exit:
 	priv->restoring_message_selection = FALSE;
 
 	mail_reader_closure_free (closure);
+
+	if (message)
+		g_object_unref (message);
 }
 
 static gboolean

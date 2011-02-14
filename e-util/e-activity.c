@@ -212,14 +212,15 @@ activity_describe (EActivity *activity)
 	const gchar *text;
 	gdouble percent;
 
-	string = g_string_sized_new (256);
-	cancellable = e_activity_get_cancellable (activity);
-	percent = e_activity_get_percent (activity);
-	state = e_activity_get_state (activity);
 	text = e_activity_get_text (activity);
 
 	if (text == NULL)
 		return NULL;
+
+	string = g_string_sized_new (256);
+	cancellable = e_activity_get_cancellable (activity);
+	percent = e_activity_get_percent (activity);
+	state = e_activity_get_state (activity);
 
 	if (state == E_ACTIVITY_CANCELLED) {
 		/* Translators: This is a cancelled activity. */

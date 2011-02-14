@@ -2027,7 +2027,7 @@ tree_drag_data_received (GtkWidget *widget,
 	GtkTreeViewDropPosition pos;
 	GtkTreeModel *model;
 	GtkTreeView *tree_view;
-	GtkTreePath *dest_path;
+	GtkTreePath *dest_path = NULL;
 	EMailSession *session;
 	struct _DragDataReceivedAsync *m;
 	gboolean is_store;
@@ -2046,16 +2046,19 @@ tree_drag_data_received (GtkWidget *widget,
 	/* this means we are receiving no data */
 	if (gtk_selection_data_get_data (selection) == NULL) {
 		gtk_drag_finish (context, FALSE, FALSE, GDK_CURRENT_TIME);
+		gtk_tree_path_free (dest_path);
 		return;
 	}
 
 	if (gtk_selection_data_get_length (selection) == -1) {
 		gtk_drag_finish (context, FALSE, FALSE, GDK_CURRENT_TIME);
+		gtk_tree_path_free (dest_path);
 		return;
 	}
 
 	if (!gtk_tree_model_get_iter (model, &iter, dest_path)) {
 		gtk_drag_finish (context, FALSE, FALSE, GDK_CURRENT_TIME);
+		gtk_tree_path_free (dest_path);
 		return;
 	}
 
@@ -2068,6 +2071,7 @@ tree_drag_data_received (GtkWidget *widget,
 	/* make sure user isn't try to drop on a placeholder row */
 	if (full_name == NULL && !is_store) {
 		gtk_drag_finish (context, FALSE, FALSE, GDK_CURRENT_TIME);
+		gtk_tree_path_free (dest_path);
 		return;
 	}
 
@@ -2083,6 +2087,7 @@ tree_drag_data_received (GtkWidget *widget,
 	m->selection = gtk_selection_data_copy (selection);
 
 	tree_drag_data_action (m);
+	gtk_tree_path_free (dest_path);
 }
 
 static gboolean
@@ -2475,7 +2480,7 @@ tree_drag_motion (GtkWidget *widget,
 	GdkDragAction actions;
 	GdkDragAction suggested_action;
 	GdkDragAction chosen_action = 0;
-	GtkTreePath *path;
+	GtkTreePath *path = NULL;
 	GtkTreeIter iter;
 	GdkAtom target;
 	gint i;
@@ -2552,6 +2557,7 @@ tree_drag_motion (GtkWidget *widget,
 	}
 
 	gdk_drag_status (context, chosen_action, time);
+	gtk_tree_path_free (path);
 
 	return chosen_action != 0;
 }

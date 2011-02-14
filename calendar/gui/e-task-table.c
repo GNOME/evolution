@@ -432,6 +432,7 @@ task_table_constructed (GObject *object)
 		      NULL);
 
 	e_table_extras_add_cell (extras, "calstring", cell);
+	g_object_unref (cell);
 
 	/*
 	 * Date fields.
@@ -466,6 +467,8 @@ task_table_constructed (GObject *object)
 		G_BINDING_SYNC_CREATE);
 
 	e_table_extras_add_cell (extras, "dateedit", popup_cell);
+	g_object_unref (popup_cell);
+
 	task_table->dates_cell = E_CELL_DATE_EDIT (popup_cell);
 
 	e_cell_date_edit_set_get_time_callback (
@@ -498,6 +501,7 @@ task_table_constructed (GObject *object)
 	g_list_free (strings);
 
 	e_table_extras_add_cell (extras, "classification", popup_cell);
+	g_object_unref (popup_cell);
 
 	/* Priority field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
@@ -522,6 +526,7 @@ task_table_constructed (GObject *object)
 	g_list_free (strings);
 
 	e_table_extras_add_cell (extras, "priority", popup_cell);
+	g_object_unref (popup_cell);
 
 	/* Percent field. */
 	cell = e_cell_percent_new (NULL, GTK_JUSTIFY_LEFT);
@@ -550,6 +555,7 @@ task_table_constructed (GObject *object)
 	g_list_free (strings);
 
 	e_table_extras_add_cell (extras, "percent", popup_cell);
+	g_object_unref (popup_cell);
 
 	/* Transparency field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
@@ -572,6 +578,7 @@ task_table_constructed (GObject *object)
 	g_list_free (strings);
 
 	e_table_extras_add_cell (extras, "transparency", popup_cell);
+	g_object_unref (popup_cell);
 
 	/* Status field. */
 	cell = e_cell_text_new (NULL, GTK_JUSTIFY_LEFT);
@@ -596,6 +603,7 @@ task_table_constructed (GObject *object)
 	g_list_free (strings);
 
 	e_table_extras_add_cell (extras, "calstatus", popup_cell);
+	g_object_unref (popup_cell);
 
 	e_table_extras_add_compare (extras, "date-compare",
 				    e_cell_date_edit_compare_cb);
@@ -610,6 +618,8 @@ task_table_constructed (GObject *object)
 
 	cell = e_cell_toggle_new (icon_names, G_N_ELEMENTS (icon_names));
 	e_table_extras_add_cell (extras, "icon", cell);
+	g_object_unref (cell);
+
 	e_table_extras_add_icon_name (extras, "icon", "stock_task");
 
 	e_table_extras_add_icon_name (extras, "complete", "stock_check-filled");
