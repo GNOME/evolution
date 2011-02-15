@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gu\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2011-02-07 04:37+0000\n"
-"PO-Revision-Date: 2011-02-15 15:10+0530\n"
+"PO-Revision-Date: 2011-02-15 15:18+0530\n"
 "Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
 "Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
@@ -1468,10 +1468,10 @@ msgstr ""
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../addressbook/gui/widgets/eab-gui-util.c:179
-#, fuzzy, c-format
+#, c-format
 #| msgid "The backend for this address book was unable to parse this query."
 msgid "The backend for this address book was unable to parse this query. %s"
-msgstr "આ સરનામા પુસ્તિકાના પાશ્વભાગ માટે આ પ્રશ્નનું પદચ્છેદન કરવામાં અસમર્થ હતા."
+msgstr "આ સરનામા પુસ્તિકાના પાશ્વભાગ માટે આ પ્રશ્નનું પદચ્છેદન કરવામાં અસમર્થ હતા. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../addressbook/gui/widgets/eab-gui-util.c:184
@@ -1482,10 +1482,10 @@ msgstr "આ સરનામા પુસ્તિકાના પાશ્વભ
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../addressbook/gui/widgets/eab-gui-util.c:189
-#, fuzzy, c-format
+#, c-format
 #| msgid "This query did not complete successfully."
 msgid "This query did not complete successfully. %s"
-msgstr "આ પ્રશ્ન સફળતાપૂર્વક પૂર્ણ થયો નહિં."
+msgstr "આ પ્રશ્ન સફળતાપૂર્વક પૂર્ણ થયો નહિં. %s"
 
 #. This is a filename. Translators take note.
 #: ../addressbook/gui/widgets/eab-gui-util.c:214
@@ -20728,7 +20728,7 @@ msgstr "%s માં બદલો"
 
 #: ../shell/e-shell-window-actions.c:2382
 msgid "Execute these search parameters"
-msgstr ""
+msgstr "આ શોધ પરિમાણોને ચલાવો"
 
 #. Translators: This is used for the main window title.
 #: ../shell/e-shell-window-private.c:580
