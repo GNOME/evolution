@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gu\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2011-02-07 04:37+0000\n"
-"PO-Revision-Date: 2011-02-14 16:58+0530\n"
+"PO-Revision-Date: 2011-02-15 15:10+0530\n"
 "Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
 "Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
@@ -358,10 +358,9 @@ msgid "Email"
 msgstr "ઈ-મેઈલ"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:10
-#, fuzzy
 #| msgid "_Free/Busy:"
 msgid "Free/Busy:"
-msgstr "મુક્ત/વ્યસ્ત (_F):"
+msgstr "મુક્ત/વ્યસ્ત:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:11
 msgid "Full _Name..."
@@ -374,20 +373,18 @@ msgid "Home"
 msgstr "ઘર"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:13
-#, fuzzy
 #| msgid "_Home Page:"
 msgid "Home Page:"
-msgstr "ઘર પાનુ (_H):"
+msgstr "ઘર પાનુ:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:14
 msgid "Image"
 msgstr "ઈમેજ"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:15
-#, fuzzy
 #| msgid "<b>Instant Messaging</b>"
 msgid "Instant Messaging"
-msgstr "<b>તુરંત સંદેશાવ્યવહાર</b>"
+msgstr "તુરંત સંદેશાવ્યવહાર"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:16
 msgid "Job"
@@ -433,22 +430,19 @@ msgid "Telephone"
 msgstr "ટેલિફોન"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:24
-#, fuzzy
 #| msgid "_Video Chat:"
 msgid "Video Chat:"
-msgstr "વિડીયો સંવાદ (_V):"
+msgstr "વિડીયો સંવાદ:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:25
-#, fuzzy
 #| msgid "<b>Web Addresses</b>"
 msgid "Web Addresses"
-msgstr "<b>વેબ સરનામાઓ</b>"
+msgstr "વેબ સરનામાં"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:26
-#, fuzzy
 #| msgid "addresses"
 msgid "Web addresses"
-msgstr "સરનામાઓ"
+msgstr "વેબ સરનામાં"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:27
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:186
@@ -474,10 +468,9 @@ msgid "_Birthday:"
 msgstr "જન્મ દિવસ (_B):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:32
-#, fuzzy
 #| msgid "Blog"
 msgid "_Blog:"
-msgstr "બ્લોગ"
+msgstr "બ્લોગ (_B):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:33
 #: ../calendar/gui/dialogs/event-page.c:884
@@ -747,10 +740,9 @@ msgid "Contact List Editor"
 msgstr "સંપર્ક યાદી સંપાદક"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
-#, fuzzy
 #| msgid "_Members"
 msgid "Members"
-msgstr "સભ્યો (_M)"
+msgstr "સભ્યો"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 msgid "_Hide addresses when sending mail to this list"
@@ -912,10 +904,9 @@ msgid "Delete selected contacts"
 msgstr "પસંદ કરેલ સંપર્કો કાઢી નાંખો"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:652
-#, fuzzy
 #| msgid "Select all contacts"
 msgid "Select all visible contacts"
-msgstr "બધા સંપર્કો પસંદ કરો"
+msgstr "બધા દેખાતા સંપર્કોને પસંદ કરો"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1298
 #, fuzzy
@@ -1288,10 +1279,9 @@ msgstr "ઈમેઈલ સરનામાની નકલ કરો (_E)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:176
 #: ../widgets/misc/e-web-view.c:395
-#, fuzzy
 #| msgid "Copy things to the clipboard."
 msgid "Copy the email address to the clipboard"
-msgstr "ક્લિપબોર્ડમાં વસ્તુઓની નકલ કરો."
+msgstr "ક્લિપબોર્ડમાં ઇમેલ સરનામાની નકલ કરો"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:181
 #: ../widgets/misc/e-web-view.c:400
@@ -1300,10 +1290,9 @@ msgstr "ના પ્રતિ નવો સંદેશો મોકલો (_S)
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:183
 #: ../widgets/misc/e-web-view.c:402
-#, fuzzy
 #| msgid "Convert a mail message to a task."
 msgid "Send a mail message to this address"
-msgstr "કાર્યમાં મેઇલ સંદેશાને રૂપાંતર કરો."
+msgstr "આ સરનામા માં મેઇલ સંદેશો મોકલો"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:258
 #: ../addressbook/gui/widgets/eab-contact-display.c:260
@@ -1582,10 +1571,10 @@ msgstr "ઈવોલ્યુશન vCard આયાત કરનાર"
 #. Uncomment next if it is successful to get total number if pages in list view
 #. * g_object_get (operation, "n-pages", &n_pages, NULL)
 #: ../addressbook/printing/e-contact-print.c:746
-#, fuzzy, c-format
+#, c-format
 #| msgid "Page %d of %d"
 msgid "Page %d"
-msgstr "પાનુ %d %d નું"
+msgstr "પાનું %d"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:643
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:678
@@ -1860,10 +1849,9 @@ msgstr "બાબત યાદી લાવવામાં ભૂલ"
 #. Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
 #. {1} is replaced with a calendar/task/memo list name, where the error happened
 #: ../calendar/calendar.error.xml.h:46
-#, fuzzy
 #| msgid "Error on '{0}'"
 msgid "Error on {0}: {1}"
-msgstr "'{0}' પર ભૂલ"
+msgstr "{0} પર ભૂલ: {1}"
 
 #: ../calendar/calendar.error.xml.h:47
 msgid ""
@@ -2071,12 +2059,11 @@ msgstr[0] "મિનિટ"
 msgstr[1] "મિનિટો"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:116
-#, fuzzy
 #| msgid "hours"
 #| msgid_plural "hours"
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] "કલાકો"
+msgstr[0] "કલાક"
 msgstr[1] "કલાકો"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:286
@@ -2118,7 +2105,6 @@ msgstr "પુનરાવર્તન (_S)"
 #: ../calendar/gui/dialogs/event-page.ui.h:26 ../e-util/e-plugin-util.c:424
 #: ../filter/filter.ui.h:15
 #: ../plugins/google-account-setup/google-contacts-source.c:376
-#, fuzzy
 #| msgid "hours"
 #| msgid_plural "hours"
 msgid "hours"
@@ -2400,7 +2386,6 @@ msgstr "એલાર્મ ઉમેરો"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:2
 #: ../calendar/gui/dialogs/event-editor.c:364
-#, fuzzy
 #| msgid "Alarms"
 msgid "Alarm"
 msgstr "એલાર્મ"
@@ -2418,16 +2403,14 @@ msgid "Mes_sage:"
 msgstr "સંદેશો (_s):"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:6 ../mail/mail-config.ui.h:72
-#, fuzzy
 #| msgid "_Options"
 msgid "Options"
-msgstr "વિકલ્પો (_O)"
+msgstr "વિકલ્પો"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:7
-#, fuzzy
 #| msgid "<b>Repeat</b>"
 msgid "Repeat"
-msgstr "<b>પુનરાવર્તન</b>"
+msgstr "પૂનરાવર્તન"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:8
 msgid "Select A File"
@@ -2454,22 +2437,19 @@ msgid "_Sound:"
 msgstr "ધ્વનિ (_S):"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:14
-#, fuzzy
 #| msgid "Later"
 msgid "after"
 msgstr "પછી"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:15
-#, fuzzy
 #| msgid "is before"
 msgid "before"
-msgstr "એ પહેલા"
+msgstr "પહેલાં"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:16
-#, fuzzy
 #| msgid "days"
 msgid "day(s)"
-msgstr "દિવસો"
+msgstr "દિવસ (સો)"
 
 #. Translators: This is the last part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
@@ -2492,17 +2472,15 @@ msgid "extra times every"
 msgstr "દરેક માટે વધારાનો સમય"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:21
-#, fuzzy
 #| msgid "hours"
 #| msgid_plural "hours"
 msgid "hour(s)"
-msgstr "કલાકો"
+msgstr "કલાક (ઓ)"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:23
-#, fuzzy
 #| msgid "minutes"
 msgid "minute(s)"
-msgstr "મિનિટો"
+msgstr "મિનિટ (ઓ)"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:25
 #, fuzzy
@@ -2717,10 +2695,9 @@ msgstr "પસંદગી કાપો"
 #: ../calendar/gui/dialogs/comp-editor.c:1031
 #: ../shell/e-shell-window-actions.c:1447
 #: ../widgets/misc/e-focus-tracker.c:132 ../widgets/misc/e-focus-tracker.c:565
-#, fuzzy
 #| msgid "Cut the selection"
 msgid "Delete the selection"
-msgstr "પસંદગી કાપો"
+msgstr "પસંદગી કાઢી નાંખો"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1038
 msgid "Click here to view help available"
@@ -3056,10 +3033,9 @@ msgid "Attendees"
 msgstr "સભાજનો"
 
 #: ../calendar/gui/dialogs/event-editor.c:585
-#, fuzzy
 #| msgid "Print this message"
 msgid "Print this event"
-msgstr "આ સંદેશાને છાપો"
+msgstr "આ ઘટનાને છાપો"
 
 #: ../calendar/gui/dialogs/event-page.c:768
 msgid "Event's start time is in the past"
@@ -3258,33 +3234,28 @@ msgstr "મુલાકાત પહેલાં %d મિનિટ"
 
 #. TRANSLATORS: 'for' in a sense of 'duration'; example string: Time: [date] [time] for [ H ] hours [ M ] minutes
 #: ../calendar/gui/dialogs/event-page.ui.h:23
-#, fuzzy
 #| msgid "fourth"
 msgctxt "eventpage"
 msgid "for"
-msgstr "ચતુર્થ"
+msgstr "માટે"
 
 #. TRANSLATORS: 'until' in a sense of 'duration'; example string: Time: [date] [time] until [ date ] [ time ]
 #: ../calendar/gui/dialogs/event-page.ui.h:25
-#, fuzzy
 #| msgid ""
 #| "for\n"
 #| "until"
 msgctxt "eventpage"
 msgid "until"
-msgstr ""
-"માટે\n"
-"જ્યાં સુધી"
+msgstr "જ્યાં સુધી"
 
 #: ../calendar/gui/dialogs/memo-editor.c:109 ../calendar/gui/print.c:3176
 msgid "Memo"
 msgstr "મેમો"
 
 #: ../calendar/gui/dialogs/memo-editor.c:159
-#, fuzzy
 #| msgid "Print the list of memos"
 msgid "Print this memo"
-msgstr "મેમોની યાદી છાપો"
+msgstr "આ મેમોને છાપો"
 
 #: ../calendar/gui/dialogs/memo-page.c:340
 msgid "Memo's start date is in the past"
@@ -4060,10 +4031,9 @@ msgid "Paste events from the clipboard"
 msgstr "ક્લિપબોર્ડમાંથી લખાણ ચોંટાડો"
 
 #: ../calendar/gui/e-calendar-view.c:445
-#, fuzzy
 #| msgid "Delete selected memos"
 msgid "Delete selected events"
-msgstr "પસંદ કરેલ મેમો કાઢી નાંખો"
+msgstr "પસંદ થયેલ ઘટનાઓને કાઢી નાંખો"
 
 #: ../calendar/gui/e-calendar-view.c:464 ../calendar/gui/e-memo-table.c:187
 #: ../calendar/gui/e-task-table.c:265
@@ -4477,7 +4447,6 @@ msgid "Copy selected memos to the clipboard"
 msgstr "પસંદ કરેલ સંદેશાઓને ક્લિપબોર્ડમાં નકલ કરો"
 
 #: ../calendar/gui/e-memo-table.c:732
-#, fuzzy
 #| msgid "Paste memo from the clipboard"
 msgid "Paste memos from the clipboard"
 msgstr "ક્લિપબોર્ડમાંથી મેમો ચોંટાડો"
@@ -4488,7 +4457,6 @@ msgid "Delete selected memos"
 msgstr "પસંદ કરેલ મેમો કાઢી નાંખો"
 
 #: ../calendar/gui/e-memo-table.c:744
-#, fuzzy
 #| msgid "Select all visible messages"
 msgid "Select all visible memos"
 msgstr "બધા દૃશ્યમાન સંદેશાઓને પસંદ કરો"
@@ -4522,16 +4490,14 @@ msgid "Tasks"
 msgstr "બાબતો"
 
 #: ../calendar/gui/e-task-table.c:943
-#, fuzzy
 #| msgid "Cut selected text to the clipboard"
 msgid "Cut selected tasks to the clipboard"
-msgstr "પસંદ કરેલ લખાણને ક્લિપબોર્ડમાં કાપો"
+msgstr "પસંદ કરેલ કાર્યોને ક્લિપબોર્ડમાં કાપો"
 
 #: ../calendar/gui/e-task-table.c:949
-#, fuzzy
 #| msgid "Copy selected text to the clipboard"
 msgid "Copy selected tasks to the clipboard"
-msgstr "પસંદ કરેલ લખાણને ક્લિપબોર્ડમાં નકલ કરો"
+msgstr "પસંદ કરેલ કાર્યોને ક્લિપબોર્ડમાં નકલ કરો"
 
 #: ../calendar/gui/e-task-table.c:955
 msgid "Paste tasks from the clipboard"
@@ -4543,10 +4509,9 @@ msgid "Delete selected tasks"
 msgstr "પસંદ કરેલ બાબતો કાઢી નાંખો"
 
 #: ../calendar/gui/e-task-table.c:967
-#, fuzzy
 #| msgid "Select all visible messages"
 msgid "Select all visible tasks"
-msgstr "બધા દૃશ્યમાન સંદેશાઓને પસંદ કરો"
+msgstr "બધા દૃશ્યમાન કાર્યો પસંદ કરો"
 
 #: ../calendar/gui/e-timezone-entry.c:330
 msgid "Select Timezone"
@@ -4771,10 +4736,9 @@ msgid "Select _Today"
 msgstr "આજનો દિવસ પસંદ કરો (_T)"
 
 #: ../calendar/gui/goto-dialog.ui.h:14
-#, fuzzy
 #| msgid "Member"
 msgid "September"
-msgstr "સભ્ય"
+msgstr "સપ્ટેમ્બર"
 
 #: ../calendar/gui/itip-utils.c:422 ../calendar/gui/itip-utils.c:477
 #: ../calendar/gui/itip-utils.c:573
@@ -5147,10 +5111,9 @@ msgid "Reminder!"
 msgstr "યાદ અપાવનાર!"
 
 #: ../calendar/importers/icalendar-importer.c:662
-#, fuzzy
 #| msgid "vCalendar files (.vcf)"
 msgid "vCalendar files (.vcs)"
-msgstr "vCalendar ફાઈલો (.vcf)"
+msgstr "vCalendar ફાઈલો (.vcs)"
 
 #: ../calendar/importers/icalendar-importer.c:663
 msgid "Evolution vCalendar importer"
@@ -5208,18 +5171,16 @@ msgid "is an instance"
 msgstr "આ અને પહેલાની પળો"
 
 #: ../calendar/importers/icalendar-importer.c:951
-#, fuzzy
 #| msgid "It has alarms."
 msgctxt "iCalImp"
 msgid "has alarms"
-msgstr "તેની પાસે એલાર્મો છે."
+msgstr "તેની પાસે એલાર્મો છે"
 
 #: ../calendar/importers/icalendar-importer.c:956
-#, fuzzy
 #| msgid "%s attachment"
 msgctxt "iCalImp"
 msgid "has attachments"
-msgstr "%s જોડાણ"
+msgstr "તેની પાસે જોડાણો છે"
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:969
@@ -6915,10 +6876,9 @@ msgid "Open New Message window"
 msgstr "નવા સંદેશા વિન્ડો ખોલો"
 
 #: ../composer/e-composer-actions.c:308 ../shell/e-shell-window-actions.c:1489
-#, fuzzy
 #| msgid "Configuration"
 msgid "Configure Evolution"
-msgstr "રુપરેખાંકન"
+msgstr "Evolution રૂપરેખાંકિત કરો"
 
 #: ../composer/e-composer-actions.c:315
 msgid "Save the current file"
@@ -7111,16 +7071,12 @@ msgid "Redo the last undone action"
 msgstr "તાજી જાણકારી મોકલો"
 
 #: ../composer/e-composer-private.c:253
-#, fuzzy
 #| msgid ""
 #| "\n"
 #| "\n"
 #| "Search for the Contact."
 msgid "Search for text"
-msgstr ""
-"\n"
-"\n"
-"સંપર્ક માટે શોધો."
+msgstr "લખાણ માટે શોધો"
 
 #: ../composer/e-composer-private.c:257
 #, fuzzy
@@ -7319,10 +7275,9 @@ msgid "_Save Draft"
 msgstr "ડ્રાફ્ટ સંગ્રહો (_S)"
 
 #: ../composer/mail-composer.error.xml.h:33
-#, fuzzy
 #| msgid "_Save to Disk"
 msgid "_Save to Outbox"
-msgstr "ડિસ્કમાં સંગ્રહો (_S)"
+msgstr "આઉટબોક્સમાં સંગ્રહો (_S)"
 
 #: ../composer/mail-composer.error.xml.h:35
 msgid "_Try Again"
@@ -7349,16 +7304,14 @@ msgid "socket"
 msgstr "સોકેટ"
 
 #: ../capplet/anjal-settings-main.c:246
-#, fuzzy
 #| msgid "Default Mail Client"
 msgid "Anjal email client"
-msgstr "મૂળભૂત મેઈલ ક્લાઈન્ટ"
+msgstr "Anjal ઇમેલ ક્લાયન્ટ"
 
 #: ../capplet/settings/mail-account-view.c:73
-#, fuzzy
 #| msgid "Please choose another name."
 msgid "Please enter your full name."
-msgstr "મહેરબાની કરીને બીજું નામ પસંદ કરો."
+msgstr "મહેરબાની કરીને તમારું સંપૂર્ણ નામ દાખલ કરો."
 
 #: ../capplet/settings/mail-account-view.c:74
 msgid "Please enter your email address."
@@ -7369,10 +7322,9 @@ msgid "The email address you have entered is invalid."
 msgstr "ઇમેલ સરનામું જે તમે દાખલ થયેલ તે અયોગ્ય છે."
 
 #: ../capplet/settings/mail-account-view.c:76
-#, fuzzy
 #| msgid "Enter password."
 msgid "Please enter your password."
-msgstr "પાસવર્ડ દાખલ કરો."
+msgstr "મહેરબાની કરીને તમારા પાસવર્ડને દાખલ કરો."
 
 #: ../capplet/settings/mail-account-view.c:255
 #: ../plugins/caldav/caldav-source.c:66
@@ -7387,10 +7339,9 @@ msgid "Google"
 msgstr "Google"
 
 #: ../capplet/settings/mail-account-view.c:459
-#, fuzzy
 #| msgid "Personal"
 msgid "Personal details:"
-msgstr "ખાનગી"
+msgstr "વ્યક્તિગત વિગતો:"
 
 #: ../capplet/settings/mail-account-view.c:466
 #| msgid "_Name:"
@@ -7408,10 +7359,9 @@ msgid "Details:"
 msgstr "વિગતો:"
 
 #: ../capplet/settings/mail-account-view.c:493
-#, fuzzy
 #| msgid "Receiving Email"
 msgid "Receiving"
-msgstr "ઈ-મેઈલ મેળવી રહ્યા છીએ"
+msgstr "મેળવી રહ્યા છીએ"
 
 #: ../capplet/settings/mail-account-view.c:500
 #| msgid "Server _Type:"
@@ -7459,10 +7409,9 @@ msgid ""
 msgstr ""
 
 #: ../capplet/settings/mail-account-view.c:590
-#, fuzzy
 #| msgid "You may only configure a single Exchange account."
 msgid "You can specify more options to configure the account."
-msgstr "તમે માત્ર એક એક્સચેન્જ ખાતું રૂપરેખાંકિત કરી શકો છો."
+msgstr "તમે ખાતાને રૂપરેખાંકિત કરવા માટે વધારે વિકલ્પોને સ્પષ્ટ કરી શકો છો."
 
 #: ../capplet/settings/mail-account-view.c:592
 msgid ""
@@ -7486,54 +7435,46 @@ msgid "Identity"
 msgstr "ઓળખ"
 
 #: ../capplet/settings/mail-account-view.c:609
-#, fuzzy
 #| msgid "Receiving Email"
 msgid "Next - Receiving mail"
-msgstr "ઈ-મેઈલ મેળવી રહ્યા છીએ"
+msgstr "આગળ - મેઇલ મેળવી રહ્યા છે"
 
 #: ../capplet/settings/mail-account-view.c:610
-#, fuzzy
 #| msgid "Receiving Email"
 msgid "Receiving mail"
-msgstr "ઈ-મેઈલ મેળવી રહ્યા છીએ"
+msgstr "ઇ-મેલ મેળવી રહ્યા છીએ"
 
 #: ../capplet/settings/mail-account-view.c:610
 #: ../capplet/settings/mail-account-view.c:611
-#, fuzzy
 #| msgid "Sending Email"
 msgid "Next - Sending mail"
-msgstr "ઈ-મેઈલ મોકલી રહ્યા છીએ"
+msgstr "આગળ - મેઇલ મોકલી રહ્યા છીએ"
 
 #: ../capplet/settings/mail-account-view.c:610
-#, fuzzy
 #| msgid "Identity"
 msgid "Back - Identity"
-msgstr "ઓળખ"
+msgstr "પાછળ - ઓળખ"
 
 #: ../capplet/settings/mail-account-view.c:610
-#, fuzzy
 #| msgid "Receiving Options"
 msgid "Next - Receiving options"
-msgstr "વિકલ્પો મેળવી રહ્યા છીએ"
+msgstr "આગળ - વિકલ્પોને મેળવી રહ્યા છે"
 
 #: ../capplet/settings/mail-account-view.c:611
-#, fuzzy
 #| msgid "Receiving Options"
 msgid "Receiving options"
 msgstr "વિકલ્પો મેળવી રહ્યા છીએ"
 
 #: ../capplet/settings/mail-account-view.c:611
 #: ../capplet/settings/mail-account-view.c:613
-#, fuzzy
 #| msgid "Receiving Email"
 msgid "Back - Receiving mail"
-msgstr "ઈ-મેઈલ મેળવી રહ્યા છીએ"
+msgstr "પાછળ - મેઇલને મેળવી રહ્યા છે"
 
 #: ../capplet/settings/mail-account-view.c:613
-#, fuzzy
 #| msgid "Sending Email"
 msgid "Sending mail"
-msgstr "ઈ-મેઈલ મોકલી રહ્યા છીએ"
+msgstr "ઈમેલ મોકલી રહ્યા છીએ"
 
 #: ../capplet/settings/mail-account-view.c:613
 #: ../capplet/settings/mail-account-view.c:614
@@ -7543,16 +7484,14 @@ msgid "Next - Review account"
 msgstr "ખાતું કાઢી નાંખવું છે?"
 
 #: ../capplet/settings/mail-account-view.c:613
-#, fuzzy
 #| msgid "Defaults"
 msgid "Next - Defaults"
-msgstr "મૂળભુતો"
+msgstr "આગળ - મૂળભૂતો"
 
 #: ../capplet/settings/mail-account-view.c:613
-#, fuzzy
 #| msgid "Receiving Options"
 msgid "Back - Receiving options"
-msgstr "વિકલ્પો મેળવી રહ્યા છીએ"
+msgstr "પાછળ - વિકલ્પોને મેળવી રહ્યા છે"
 
 #: ../capplet/settings/mail-account-view.c:614
 #: ../mail/em-account-editor.c:3047
@@ -7560,10 +7499,9 @@ msgid "Defaults"
 msgstr "મૂળભુતો"
 
 #: ../capplet/settings/mail-account-view.c:614
-#, fuzzy
 #| msgid "Sending Email"
 msgid "Back - Sending mail"
-msgstr "ઈ-મેઈલ મોકલી રહ્યા છીએ"
+msgstr "પાછળ - મેઇલને મોકલી રહ્યા છે"
 
 #: ../capplet/settings/mail-account-view.c:616
 #, fuzzy
@@ -7576,10 +7514,9 @@ msgid "Finish"
 msgstr "સમાપ્ત"
 
 #: ../capplet/settings/mail-account-view.c:616
-#, fuzzy
 #| msgid "Ascending"
 msgid "Back - Sending"
-msgstr "ચઢતો ક્રમ"
+msgstr "પાછળ - મોકલી રહ્યા છે"
 
 #: ../capplet/settings/mail-account-view.c:721
 #, fuzzy
@@ -7588,26 +7525,23 @@ msgid "Setup Google contacts with Evolution"
 msgstr "Evolution માં WebDAV સંપર્કોને ઉમેરો."
 
 #: ../capplet/settings/mail-account-view.c:722
-#, fuzzy
 #| msgid "Add Google Calendars to Evolution."
 msgid "Setup Google calendar with Evolution"
-msgstr "Evolution માં Google કૅલેન્ડરોને ઉમેરો."
+msgstr "Evolution સાથે Google કૅલેન્ડરને સુયોજિત કરો"
 
 #: ../capplet/settings/mail-account-view.c:727
 msgid "You may need to enable IMAP access."
 msgstr "તમારે IMAP પ્રવેશને સક્રિય કરવાની જરૂર પડી શકે છે."
 
 #: ../capplet/settings/mail-account-view.c:735
-#, fuzzy
 #| msgid "Backing Evolution accounts and settings"
 msgid "Google account settings:"
-msgstr "Evolution ખાતાઓ અને સુયોજનો બેક કરી રહ્યા છીએ"
+msgstr "Google ખાતા સુયોજનો:"
 
 #: ../capplet/settings/mail-account-view.c:762
-#, fuzzy
 #| msgid "Add weather calendars to Evolution."
 msgid "Setup Yahoo calendar with Evolution"
-msgstr "Evolution માં હવામાન કેલેન્ડરોને ઉમેરો."
+msgstr "Evolution સાથે Yahoo કૅલેન્ડરને સુયોજિત કરો"
 
 #: ../capplet/settings/mail-account-view.c:766
 msgid ""
@@ -7622,10 +7556,9 @@ msgid "Yahoo account settings:"
 msgstr "Yahoo ખાતા સુયોજનો:"
 
 #: ../capplet/settings/mail-account-view.c:787
-#, fuzzy
 #| msgid "Choose calendar file"
 msgid "Yahoo Calendar name:"
-msgstr "કૅલેન્ડર ફાઇલને પસંદ કરો"
+msgstr "Yahoo કૅલેન્ડર નામ:"
 
 #: ../capplet/settings/mail-account-view.c:1059
 #| msgid "Pass_word:"
@@ -7634,16 +7567,14 @@ msgstr "પાસવર્ડ:"
 
 #: ../capplet/settings/mail-account-view.c:1110
 #: ../capplet/settings/mail-settings-view.c:248
-#, fuzzy
 #| msgid "Close"
 msgid "Close Tab"
-msgstr "બંધ કરો"
+msgstr "ટૅબ બંધ કરો"
 
 #: ../capplet/settings/mail-account-view.c:1120
-#, fuzzy
 #| msgid "Account Editor"
 msgid "Account Wizard"
-msgstr "ખાતા સંપાદક"
+msgstr "ખાતા વિઝાર્ડ"
 
 #: ../capplet/settings/mail-capplet-shell.c:211
 #, fuzzy
@@ -7670,10 +7601,10 @@ msgid "On This Computer"
 msgstr "આ કમ્પ્યુટરમાં"
 
 #: ../capplet/settings/mail-settings-view.c:145
-#, fuzzy, c-format
+#, c-format
 #| msgid "Modify"
 msgid "Modify %s..."
-msgstr "સુધારો"
+msgstr "%s સુધારો..."
 
 #: ../capplet/settings/mail-settings-view.c:147
 #| msgid "Add a column..."
@@ -7732,17 +7663,17 @@ msgstr "ઇમેલ સુયોજનો"
 
 #. Translators: This is a cancelled activity.
 #: ../e-util/e-activity.c:226
-#, fuzzy, c-format
+#, c-format
 #| msgid "Cancelled"
 msgid "%s (cancelled)"
-msgstr "નકારાઈ ગયું"
+msgstr "%s (રદ થયેલ)"
 
 #. Translators: This is a completed activity.
 #: ../e-util/e-activity.c:229
-#, fuzzy, c-format
+#, c-format
 #| msgid "%s (%d%% complete)"
 msgid "%s (completed)"
-msgstr "%s (%d%% પૂર્ણ થયું)"
+msgstr "%s (સમાપ્ત)"
 
 #. Translators: This is an activity waiting to run.
 #: ../e-util/e-activity.c:232
@@ -7882,17 +7813,16 @@ msgid "Format:"
 msgstr "બંધારણ:"
 
 #: ../e-util/e-file-utils.c:152
-#, fuzzy
 #| msgid "Unknown type"
 msgid "(Unknown Filename)"
-msgstr "અજ્ઞાત પ્રકાર"
+msgstr "(અજ્ઞાત ફાઇલનામ)"
 
 #. Translators: The string value is the basename of a file.
 #: ../e-util/e-file-utils.c:156
-#, fuzzy, c-format
+#, c-format
 #| msgid "Pinging %s"
 msgid "Writing \"%s\""
-msgstr "%s ને ચકાસી રહ્યા છીએ"
+msgstr "\"%s\" ને લખી રહ્યા છીએ"
 
 #. Translators: The first string value is the basename of a
 #. * remote file, the second string value is the hostname.
@@ -8060,10 +7990,9 @@ msgid "Unknown error verifying signature"
 msgstr "સહી ચકાસણી કરતી વખતે અજ્ઞાત ભૂલ"
 
 #: ../em-format/em-format.c:2240
-#, fuzzy
 #| msgid "Could not parse PGP message"
 msgid "Could not parse PGP message: "
-msgstr "PGP સંદેશાનું પદચ્છેદન કરી શક્યા નહિં"
+msgstr "PGP સંદેશાનું પદચ્છેદન કરી શક્યા નહિં: "
 
 #: ../em-format/em-format.c:2246 ../mail/em-folder-tree.c:659
 #: ../mail/mail-ops.c:624 ../plugins/caldav/caldav-browse-server.c:210
@@ -8343,16 +8272,12 @@ msgid "_Filter Rules"
 msgstr "ગાળક નિયમો (_F)"
 
 #: ../filter/filter.ui.h:12
-#, fuzzy
 #| msgid ""
 #| "the current time\n"
 #| "the time you specify\n"
 #| "a time relative to the current time"
 msgid "a time relative to the current time"
-msgstr ""
-"હાલનો સમય\n"
-"તમે સ્પષ્ટ કર્યો છે તે સમય\n"
-"હાલનાં સમય ને સંબંધિત સમય"
+msgstr "હાલનાં સમય ને સંબંધિત સમય"
 
 #: ../filter/filter.ui.h:13
 #| msgid "Tag"
@@ -8421,34 +8346,30 @@ msgid "(No Subject)"
 msgstr "(વિષય નથી)"
 
 #: ../mail/e-mail-display.c:66
-#, fuzzy
 #| msgid "_Add to Address Book"
 msgid "_Add to Address Book..."
-msgstr "સરનામા પુસ્તિકામાં ઉમેરો (_A)"
+msgstr "સરનામા પુસ્તિકામાં ઉમેરો (_A)..."
 
 #: ../mail/e-mail-display.c:73
-#, fuzzy
 #| msgid "_To this Address"
 msgid "_To This Address"
 msgstr "આ સરનામા પ્રતિ (_T)"
 
 #: ../mail/e-mail-display.c:80
-#, fuzzy
 #| msgid "_From this Address"
 msgid "_From This Address"
 msgstr "આ સરનામા તરફથી (_F)"
 
 #: ../mail/e-mail-display.c:89
-#, fuzzy
 #| msgid "Create _Search Folder"
 msgid "Create Search _Folder"
-msgstr "શોધ ફોલ્ડર બનાવો (_S)"
+msgstr "શોધ ફોલ્ડર બનાવો (_F)"
 
 #: ../mail/e-mail-folder-utils.c:88
-#, fuzzy, c-format
+#, c-format
 #| msgid "Saving message to folder"
 msgid "Saving message to folder '%s'"
-msgstr "સંદેશાને ફોલ્ડરમાં સંગ્રહી રહ્યા છીએ"
+msgstr "ફોલ્ડર '%s' માં સંદેશાને સંગ્રહી રહ્યા છે"
 
 #: ../mail/e-mail-label-dialog.c:222
 #| msgid "Label _Name:"
@@ -8657,7 +8578,6 @@ msgid "A_dd Sender to Address Book"
 msgstr "સરનામાપોથીમાં મોકલનાર ઉમેરો (_d)"
 
 #: ../mail/e-mail-reader.c:1874
-#, fuzzy
 #| msgid "Add Sender to Address Book"
 msgid "Add sender to address book"
 msgstr "સરનામાપોથીમાં મોકલનાર ઉમેરો"
@@ -8892,7 +8812,7 @@ msgstr "ફોલ્ડરમાં ખસેડો (_M)..."
 
 #: ../mail/e-mail-reader.c:2077
 msgid "Move selected messages to another folder"
-msgstr "પસંદિત સંદેશાઓને અન્ય ફોલ્ડરમાં ખસેડો"
+msgstr "બીજા ફોલ્ડરમાં પસંદ થયેલ સંદેશાઓને ખસેડો"
 
 #: ../mail/e-mail-reader.c:2082
 #, fuzzy
@@ -8901,10 +8821,9 @@ msgid "_Switch to Folder"
 msgstr "%s માં બદલો"
 
 #: ../mail/e-mail-reader.c:2084
-#, fuzzy
 #| msgid "Install the shared folder"
 msgid "Display the parent folder"
-msgstr "વહેંચાયેલ ફોલ્ડર સ્થાપિત કરો"
+msgstr "મુખ્ય ફોલ્ડરને દર્શાવો"
 
 #: ../mail/e-mail-reader.c:2089
 #, fuzzy
@@ -8927,10 +8846,9 @@ msgid "Switch to the previous tab"
 msgstr ""
 
 #: ../mail/e-mail-reader.c:2103
-#, fuzzy
 #| msgid "Close the current file"
 msgid "Cl_ose current tab"
-msgstr "વર્તમાન ફાઈલ બંધ કરો"
+msgstr "વર્તમાન ટૅબને બંધ કરો (_o)"
 
 #: ../mail/e-mail-reader.c:2105
 #| msgid "Close the current file"
@@ -8991,10 +8909,9 @@ msgid "Previous T_hread"
 msgstr "પહેલાનું થ્રેડ (_h)"
 
 #: ../mail/e-mail-reader.c:2154
-#, fuzzy
 #| msgid "Display the previous message"
 msgid "Display the previous thread"
-msgstr "પહેલાનો સંદેશો પ્રદર્શિત કરો"
+msgstr "પહેલાંના થ્રેડને દર્શાવો"
 
 #: ../mail/e-mail-reader.c:2159
 msgid "P_revious Unread Message"
@@ -9033,10 +8950,9 @@ msgid "Remove attachments"
 msgstr "જોડાણો દૂર કરો"
 
 #: ../mail/e-mail-reader.c:2194
-#, fuzzy
 #| msgid "Hide S_elected Messages"
 msgid "Remove Du_plicate Messages"
-msgstr "પસંદિત સંદેશાઓ છુપાવો (_e)"
+msgstr "નકલી સંદેશાઓને દૂર કરો (_p)"
 
 #: ../mail/e-mail-reader.c:2196
 #, fuzzy
@@ -9074,23 +8990,20 @@ msgid "Compose a reply to the sender of the selected message"
 msgstr "પસંદ કરેલ સંદેશાના મોકલનારને વળતો જવાબ કમ્પોઝ કરો"
 
 #: ../mail/e-mail-reader.c:2222
-#, fuzzy
 #| msgid "Save as..."
 msgid "_Save as mbox..."
-msgstr "આ રીતે સંગ્રહો..."
+msgstr "mbox તરીકે સંગ્રહો (_S)..."
 
 #: ../mail/e-mail-reader.c:2224
-#, fuzzy
 #| msgid "Save the selected messages as a text file"
 msgid "Save selected messages as an mbox file"
-msgstr "પસંદિત સંદેશાઓને લખાણ ફાઈલ તરીકે સંગ્રહો"
+msgstr "mbox ફાઇલ તરીકે પસંદ થયેલ સંદેશાઓને સંગ્રહો"
 
 #: ../mail/e-mail-reader.c:2229
 msgid "Search Folder from Mailing _List..."
 msgstr "મેઈલિંગ યાદીમાંથી શોધ ફોલ્ડર (_L)..."
 
 #: ../mail/e-mail-reader.c:2231
-#, fuzzy
 #| msgid "Create a Search Folder for this mailing list"
 msgid "Create a search folder for this mailing list"
 msgstr "આ મેઈલિંગ યાદી માટે શોધ ફોલ્ડર બનાવો"
@@ -9100,7 +9013,6 @@ msgid "Search Folder from Recipien_ts..."
 msgstr "મેળવનારાઓમાંથી ફોલ્ડર શોધો (_t)..."
 
 #: ../mail/e-mail-reader.c:2238
-#, fuzzy
 #| msgid "Create a Search Folder for these recipients"
 msgid "Create a search folder for these recipients"
 msgstr "આ મેળવનારાઓ માટે શોધ ફોલ્ડર બનાવો"
@@ -9110,7 +9022,6 @@ msgid "Search Folder from Sen_der..."
 msgstr "મોકલનારમાંથી શોધ ફોલ્ડર (_d)..."
 
 #: ../mail/e-mail-reader.c:2245
-#, fuzzy
 #| msgid "Create a Search Folder for this sender"
 msgid "Create a search folder for this sender"
 msgstr "આ મોકલનાર માટે શોધ ફોલ્ડર બનાવો"
@@ -9174,10 +9085,9 @@ msgid "Ch_aracter Encoding"
 msgstr "અક્ષરોની સંગ્રહપદ્ધતિ (_a)"
 
 #: ../mail/e-mail-reader.c:2315
-#, fuzzy
 #| msgid "F_orward As..."
 msgid "F_orward As"
-msgstr "આ રીતે આગળ ધપાવો (_o)..."
+msgstr "આ રીતે આગળ ધપાવો (_o)"
 
 #: ../mail/e-mail-reader.c:2322
 #, fuzzy
@@ -9190,7 +9100,6 @@ msgid "_Go To"
 msgstr "પર જાઓ (_G)"
 
 #: ../mail/e-mail-reader.c:2336
-#, fuzzy
 #| msgid "Mar_k as"
 msgid "Mar_k As"
 msgstr "આ રીતે ચિહ્નિત કરો (_k)"
@@ -9254,10 +9163,10 @@ msgid "Unable to retrieve message"
 msgstr "સંદેશો પાછો મેળવવા સમર્થ નથી"
 
 #: ../mail/e-mail-reader.c:2756 ../mail/mail-ops.c:2044
-#, fuzzy, c-format
+#, c-format
 #| msgid "Retrieving message %s"
 msgid "Retrieving message '%s'"
-msgstr "સંદેશો %s મેળવી રહ્યા છીએ"
+msgstr "સંદેશો '%s' મેળવી રહ્યા છીએ"
 
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
@@ -9392,22 +9301,22 @@ msgid "Sending message"
 msgstr "સંદેશો મોકલી રહ્યા છીએ"
 
 #: ../mail/e-mail-session-utils.c:850
-#, fuzzy, c-format
+#, c-format
 #| msgid "Unsubscribing from folder \"%s\""
 msgid "Unsubscribing from folder '%s'"
-msgstr "ફોલ્ડર \"%s\" માંથી ઉમેદવારી દૂર કરી રહ્યા છીએ"
+msgstr "ફોલ્ડર '%s' માંથી ઉમેદવારી દૂર કરી રહ્યા છીએ"
 
 #: ../mail/e-mail-store-utils.c:39
-#, fuzzy, c-format
+#, c-format
 #| msgid "Disconnecting from %s"
 msgid "Disconnecting from '%s'"
-msgstr "%sમાંથી સંપર્ક તોડી રહ્યા છીએ"
+msgstr "'%s' માંથી સંપર્ક તોડી રહ્યા છીએ"
 
 #: ../mail/e-mail-store-utils.c:130
-#, fuzzy, c-format
+#, c-format
 #| msgid "Reconnecting to %s"
 msgid "Reconnecting to '%s'"
-msgstr "%s સાથે ફરીથી જોડાઈ રહ્યા છીએ"
+msgstr "'%s' સાથે ફરીથી જોડાઈ રહ્યા છીએ"
 
 #: ../mail/e-mail-tag-editor.c:294
 msgid "Flag to Follow Up"
@@ -9558,10 +9467,9 @@ msgid "minu_tes"
 msgstr "મિનિટો (_t)"
 
 #: ../mail/em-account-editor.c:2866
-#, fuzzy
 #| msgid "Please select an image for this contact"
 msgid "Please select a folder from the current account."
-msgstr "મહેરબાની કરીને આ સંપર્ક માટે ચિત્ર પસંદ કરો"
+msgstr "મહેરબાની કરીને હાલનાં ખાતામાંથી ફોલ્ડરને પસંદ કરો."
 
 #: ../mail/em-account-editor.c:3176 ../mail/mail-config.ui.h:98
 msgid "Security"
@@ -9975,23 +9883,21 @@ msgid "Cannot drop message(s) into toplevel store"
 msgstr "ઉચ્ચ સ્તરના સંગ્રહસ્થાનમાં સંદેશાઓ મૂકી શકતા નથી"
 
 #: ../mail/em-folder-utils.c:422
-#, fuzzy
 #| msgid "_Move Folder To..."
 msgid "Move Folder To"
-msgstr "ફોલ્ડરને આમાં ખસેડો (_M)..."
+msgstr "ફોલ્ડરને આમાં ખસેડો"
 
 #: ../mail/em-folder-utils.c:422
-#, fuzzy
 #| msgid "_Copy Folder To..."
 msgid "Copy Folder To"
-msgstr "ફોલ્ડરને આમાં નકલ કરો (_C)..."
+msgstr "ફોલ્ડરને આમાં નકલ કરો"
 
 #: ../mail/em-folder-utils.c:571
 #: ../plugins/groupwise-features/share-folder-common.c:138
-#, fuzzy, c-format
+#, c-format
 #| msgid "Creating folder `%s'"
 msgid "Creating folder '%s'"
-msgstr "ફોલ્ડર `%s' બનાવી રહ્યા છીએ"
+msgstr "ફોલ્ડર '%s' બનાવી રહ્યા છીએ"
 
 #: ../mail/em-folder-utils.c:745
 #| msgid "Create folder"
@@ -10239,10 +10145,9 @@ msgstr "ઉમેદવારી કરો (_b)"
 
 #: ../mail/em-subscription-editor.c:1228
 #: ../modules/mail/e-mail-shell-view-actions.c:1174
-#, fuzzy
 #| msgid "Rename the selected folder"
 msgid "Unsubscribe from the selected folder"
-msgstr "પસંદ કરેલ ફોલ્ડરનું નામ બદલો"
+msgstr "પસંદ થયેલ ફોલ્ડરમાંથી ઉમેદવારી દૂર કરી રહ્યા છે"
 
 #: ../mail/em-subscription-editor.c:1229
 #: ../modules/mail/e-mail-shell-view-actions.c:1172
@@ -10295,10 +10200,9 @@ msgstr[1] "શું તમે ખરેખર {0} સંદેશાઓ એક�
 
 #: ../mail/em-utils.c:153
 #: ../modules/mailto-handler/evolution-mailto-handler.c:151
-#, fuzzy
 #| msgid "_Do not show this message again."
 msgid "_Do not show this message again"
-msgstr "આ સંદેશો ફરીથી બતાવશો નહિં (_D)."
+msgstr "આ સંદેશો ફરીથી બતાવશો નહિં (_D)"
 
 #: ../mail/em-utils.c:327
 msgid "Message Filters"
@@ -10990,10 +10894,9 @@ msgid "Last time Empty Trash was run"
 msgstr "છેલ્લી વખતે ખાલી કચરાપેટી ચાલી હતી"
 
 #: ../mail/evolution-mail.schemas.in.h:104
-#, fuzzy
 #| msgid "Lay_out"
 msgid "Layout style"
-msgstr "દેખાવ (_o)"
+msgstr "લેઆઉટ શૈલી"
 
 #: ../mail/evolution-mail.schemas.in.h:105
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:31
@@ -11075,20 +10978,18 @@ msgid "Logfile to log filter actions."
 msgstr "ગાળકની ક્રિયાઓનો લોગ માટેની લોગ ફાઈલ."
 
 #: ../mail/evolution-mail.schemas.in.h:121
-#, fuzzy
 #| msgid "Uniform row height"
 msgid "Mail browser height"
-msgstr "હરોળની અનન્ય ઊંચાઈ"
+msgstr "મેઇલ બ્રાઉઝર ઊંચાઇ"
 
 #: ../mail/evolution-mail.schemas.in.h:122
 msgid "Mail browser maximized"
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:123
-#, fuzzy
 #| msgid "Email begins with"
 msgid "Mail browser width"
-msgstr "ઈ-મેઈલ આની સાથે શરુ થાય છે"
+msgstr "મેઇલ બ્રાઉઝર પહોળાઇ"
 
 #: ../mail/evolution-mail.schemas.in.h:124
 msgid "Mark as Seen after specified timeout"
@@ -11724,7 +11625,6 @@ msgid "Subject"
 msgstr "વિષય"
 
 #: ../mail/importers/evolution-mbox-importer.c:408
-#, fuzzy
 #| msgid "From"
 msgctxt "mboxImp"
 msgid "From"
@@ -12115,10 +12015,9 @@ msgid "Port:"
 msgstr "પોર્ટ:"
 
 #: ../mail/mail-config.ui.h:78
-#, fuzzy
 #| msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
 msgid "Pretty Good Privacy (PGP/GPG)"
-msgstr "<span weight=\"bold\">ખૂબ સારુ ખાનગીપણુ (PGP/GPG)</span>"
+msgstr "Pretty Good Privacy (PGP/GPG)"
 
 #: ../mail/mail-config.ui.h:80
 #| msgid "Junk Settings"
@@ -12301,10 +12200,9 @@ msgid "Start _typing at the bottom on replying"
 msgstr "પ્રત્યુત્તર આપતી વખતે તળિયે લખવાનું શરૂ કરો (_t)"
 
 #: ../mail/mail-config.ui.h:125
-#, fuzzy
 #| msgid "Start: "
 msgid "Start up"
-msgstr "શરુ કરો: "
+msgstr "શરૂઆત"
 
 #: ../mail/mail-config.ui.h:127
 msgid "T_ype:"
@@ -12461,10 +12359,9 @@ msgid "_Show the photograph of sender in the message preview"
 msgstr "સંદેશા પૂર્વદર્શનમાં મોકલનારનો ફોટોગ્રાફ બતાવો (_S)"
 
 #: ../mail/mail-config.ui.h:164
-#, fuzzy
 #| msgid "Drafts _Folder:"
 msgid "_Trash Folder:"
-msgstr "ડ્રાફ્ટનું ફોલ્ડર (_F):"
+msgstr "કચરાપેટી ફોલ્ડર (_T)"
 
 #: ../mail/mail-config.ui.h:165
 msgid "_Use Secure Connection:"
@@ -12560,10 +12457,9 @@ msgid "Review"
 msgstr "ઉપરછલ્લી સમજ"
 
 #: ../mail/mail-dialogs.ui.h:19
-#, fuzzy
 #| msgid "Search Folder source"
 msgid "Search Folder Sources"
-msgstr "ફોલ્ડર સ્રોત શોધો"
+msgstr "શોધ ફોલ્ડર સ્ત્રોતો"
 
 #: ../mail/mail-dialogs.ui.h:20
 msgid "Security Information"
@@ -12657,10 +12553,10 @@ msgid "Retrieving quota information for folder '%s'"
 msgstr "ફોલ્ડર %s માટે ક્વોટા જાણકારી ને મેળવી રહ્યા છે"
 
 #: ../mail/mail-ops.c:1370
-#, fuzzy, c-format
+#, c-format
 #| msgid "Opening store %s"
 msgid "Opening store '%s'"
-msgstr "સ્ટોર %s ખોલી રહ્યા છીએ"
+msgstr "સ્ટોર '%s' ખોલી રહ્યા છીએ"
 
 #: ../mail/mail-ops.c:1446
 #, c-format
@@ -12738,10 +12634,10 @@ msgid "Checking Service"
 msgstr "સેવા ચકાસી રહ્યા છીએ"
 
 #: ../mail/mail-ops.c:2558
-#, fuzzy, c-format
+#, c-format
 #| msgid "Disconnecting from %s"
 msgid "Disconnecting %s"
-msgstr "%sમાંથી સંપર્ક તોડી રહ્યા છીએ"
+msgstr "%s માંથી સંપર્ક તોડી રહ્યા છીએ"
 
 #: ../mail/mail-ops.c:2615
 #, c-format
@@ -12989,10 +12885,9 @@ msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgstr "ફોલ્ડર \"{0}\" ને \"{1}\" માં ખસેડી શકતા નથી."
 
 #: ../mail/mail.error.xml.h:32
-#, fuzzy
 #| msgid "Cannot open source \"{1}\""
 msgid "Cannot open source \"{1}\"."
-msgstr "\"{1}\" ને ઓપન સોર્સ કરી શકતા નથી"
+msgstr "\"{1}\" ને ઓપન સોર્સ કરી શકતા નથી."
 
 #: ../mail/mail.error.xml.h:33
 msgid "Cannot open source \"{2}\"."
@@ -13043,10 +12938,9 @@ msgstr ""
 "પાસવર્ડો કેસ પ્રત્યે સંવેદનશીલ હોય છે; તમારી કેપ્સ લોક કી કદાચ ચાલુ હશે."
 
 #: ../mail/mail.error.xml.h:43
-#, fuzzy
 #| msgid "Close this window"
 msgid "Close message window."
-msgstr "આ વિન્ડો બંધ કરો"
+msgstr "સંદેશા વિન્ડોને બંધ કરો."
 
 #: ../mail/mail.error.xml.h:44
 msgid "Could not save signature file."
@@ -13057,22 +12951,19 @@ msgid "Delete messages in Search Folder \"{0}\"?"
 msgstr "શું શોધ ફોલ્ડર \"{0}\" માંના સંદેશાઓ કાઢી નાંખવા છે?"
 
 #: ../mail/mail.error.xml.h:47
-#, fuzzy
 #| msgid "Do not disable"
 msgid "Do _Not Disable"
-msgstr "નિષ્ક્રિય કરશો નંહિ"
+msgstr "નિષ્ક્રિય કરો નહિં (_N)"
 
 #: ../mail/mail.error.xml.h:48
-#, fuzzy
 #| msgid "Do _not Send"
 msgid "Do _Not Send"
-msgstr "મોકલો નહિં (_n)"
+msgstr "મોકલો નહિં (_N)"
 
 #: ../mail/mail.error.xml.h:49
-#, fuzzy
 #| msgid "_Do not Synchronize"
 msgid "Do _Not Synchronize"
-msgstr "સુમેળ કરશો નહિં (_D)"
+msgstr "સુમેળ કરશો નહિં (_N)"
 
 #: ../mail/mail.error.xml.h:50
 msgid ""
@@ -13223,10 +13114,9 @@ msgid "Missing folder."
 msgstr "ખોવાયેલ ફોલ્ડર."
 
 #: ../mail/mail.error.xml.h:84
-#, fuzzy
 #| msgid "Never"
 msgid "N_ever"
-msgstr "ક્યારેય નહિ"
+msgstr "ક્યારેય નહિ (_e)"
 
 #: ../mail/mail.error.xml.h:85
 #, fuzzy
@@ -13449,10 +13339,9 @@ msgstr ""
 "શું તમે ખરેખર આવું કરવા માંગો છો?"
 
 #: ../mail/mail.error.xml.h:134
-#, fuzzy
 #| msgid "Would you like to accept it?"
 msgid "Would you like to close the message window?"
-msgstr "શું તમે તેને સ્વીકારવાનું ગમે છે?"
+msgstr "શું તમે સંદેશા વિન્ડોને બંધ કરવા માંગો છો?"
 
 #: ../mail/mail.error.xml.h:135
 msgid ""
@@ -13519,10 +13408,9 @@ msgid "Your login to your server \"{0}\" as \"{0}\" failed."
 msgstr "તમારા સર્વર પરનો તમારો પ્રવેશ \"{0}\" નો \"{0}\" તરીકે નિષ્ફળ."
 
 #: ../mail/mail.error.xml.h:147
-#, fuzzy
 #| msgid "Always"
 msgid "_Always"
-msgstr "હંમેશા"
+msgstr "હંમેશા (_A)"
 
 #: ../mail/mail.error.xml.h:148
 msgid "_Append"
@@ -13544,10 +13432,9 @@ msgid "_Empty Trash"
 msgstr "કચરાપેટી ખાલી કરો (_E)"
 
 #: ../mail/mail.error.xml.h:152
-#, fuzzy
 #| msgid "Evolution"
 msgid "_Exit Evolution"
-msgstr "Evolution"
+msgstr "Evolution માંથી બહાર નીકળો (_E)"
 
 #: ../mail/mail.error.xml.h:153
 msgid "_Expunge"
@@ -13560,32 +13447,28 @@ msgid "_Migrate Now"
 msgstr "રુપાંતરિત"
 
 #: ../mail/mail.error.xml.h:155
-#, fuzzy
 #| msgid "No"
 msgid "_No"
-msgstr "ના"
+msgstr "ના (_N)"
 
 #: ../mail/mail.error.xml.h:156
 msgid "_Open Messages"
 msgstr "સંદેશાઓ ખોલો (_O)"
 
 #: ../mail/mail.error.xml.h:159
-#, fuzzy
 #| msgid "Send Receipt"
 msgid "_Send Receipt"
-msgstr "મોકલાયેલની રસીદ"
+msgstr "રસીદ મોકલો (_S)"
 
 #: ../mail/mail.error.xml.h:160
-#, fuzzy
 #| msgid "Synchronize"
 msgid "_Synchronize"
-msgstr "સુમેળ કરો"
+msgstr "સુમેળ કરો (_S)"
 
 #: ../mail/mail.error.xml.h:161
-#, fuzzy
 #| msgid "Yes"
 msgid "_Yes"
-msgstr "હા"
+msgstr "હાં (_Y)"
 
 #: ../mail/message-list.c:1210
 msgid "Unseen"
@@ -13985,10 +13868,9 @@ msgstr "પ્રમાણપત્રો"
 #. Translators: This is a save dialog title
 #: ../modules/addressbook/e-book-shell-view-actions.c:263
 #: ../modules/addressbook/e-book-shell-view-actions.c:549
-#, fuzzy
 #| msgid "Save as vCard..."
 msgid "Save as vCard"
-msgstr "vCard તરીકે સંગ્રહો..."
+msgstr "vCard તરીકે સંગ્રહો"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:680
 msgid "Co_py All Contacts To..."
@@ -14001,16 +13883,14 @@ msgid "Copy the contacts of the selected address book to another"
 msgstr "પસંદિત ફોલ્ડરના સંપર્કોની અન્ય ફોલ્ડરમાં નકલ કરો"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:687
-#, fuzzy
 #| msgid "Del_ete Address Book"
 msgid "D_elete Address Book"
 msgstr "સરનામા પુસ્તિકા કાઢી નાંખો (_e)"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:689
-#, fuzzy
 #| msgid "Delete the selected folder"
 msgid "Delete the selected address book"
-msgstr "પસંદ કરેલ ફોલ્ડર કાઢી નાંખો"
+msgstr "પસંદ થયેલ સરનામાં પુસ્તિકા કાઢી નાંખો"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:694
 msgid "Mo_ve All Contacts To..."
@@ -14045,16 +13925,14 @@ msgid "_Rename..."
 msgstr "નામ બદલો (_R)..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:717
-#, fuzzy
 #| msgid "Rename the selected folder"
 msgid "Rename the selected address book"
-msgstr "પસંદ કરેલ ફોલ્ડરનું નામ બદલો"
+msgstr "પસંદ થયેલ સરનામાં પુસ્તિકાનુ નામ બદલો"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:722
-#, fuzzy
 #| msgid "S_ave Address Book As VCard"
 msgid "S_ave Address Book as vCard"
-msgstr "સરનામા પુસ્તિકાને VCard તરીકે સંગ્રહો (_a)"
+msgstr "vCard તરીકે સરનામાં પુસ્તિકાને સંગ્રહો (_a)"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:724
 #, fuzzy
@@ -14063,7 +13941,6 @@ msgid "Save the contacts of the selected address book as a vCard"
 msgstr "પસંદ કરેલ ફોલ્ડરના સંપર્કોને VCard તરીકે સંગ્રહો"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:731
-#, fuzzy
 #| msgid "Stop Loading"
 msgid "Stop loading"
 msgstr "લાવવાનું અટકાવો"
@@ -14085,16 +13962,14 @@ msgid "_Delete Contact"
 msgstr "સંપર્ક કાઢી નાંખો (_D)"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:750
-#, fuzzy
 #| msgid "_Forward Contact..."
 msgid "_Find in Contact..."
-msgstr "સંપર્ક આગળ ધપાવો (_F)..."
+msgstr "સંપર્કમાં શોધો (_F)..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:752
-#, fuzzy
 #| msgid "Search for text in the body of the displayed message"
 msgid "Search for text in the displayed contact"
-msgstr "પ્રદર્શિત સંદેશાના ભાગમાં લખાણ માટે શોધ કરો"
+msgstr "દર્શાવેલ સંપર્કમાં લખાણ માટે શોધો"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:757
 msgid "_Forward Contact..."
@@ -14111,10 +13986,9 @@ msgid "_Move Contact To..."
 msgstr "સંપર્કોને આમાં ખસેડો (_M)..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:766
-#, fuzzy
 #| msgid "Move selected contacts to another folder"
 msgid "Move selected contacts to another address book"
-msgstr "પસંદિત સંપર્કોને બીજા ફોલ્ડરમાં ખસેડો"
+msgstr "બીજી સરનામાં પુસ્તિકામાં પસંદ થયેલ સંપર્કોને ખસેડો"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:771
 msgid "_New Contact..."
@@ -14125,11 +13999,10 @@ msgid "New Contact _List..."
 msgstr "નવી સંપર્ક યાદી (_L)..."
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:785
-#, fuzzy
 #| msgctxt "New"
 #| msgid "_Contact"
 msgid "_Open Contact"
-msgstr "સંપર્ક (_C)"
+msgstr "સંપર્કને ખોલો (_O)"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:787
 msgid "View the current contact"
@@ -14189,10 +14062,9 @@ msgid "_Classic View"
 msgstr "શાસ્ત્રિય દેખાવ (_C)"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:881
-#, fuzzy
 #| msgid "Show message preview below the message list"
 msgid "Show contact preview below the contact list"
-msgstr "સંદેશા યાદી નીચે સંદેશા પૂર્વદર્શન બતાવો"
+msgstr ""
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:886
 #: ../modules/calendar/e-memo-shell-view-actions.c:740
@@ -14231,10 +14103,9 @@ msgid "Advanced Search"
 msgstr "ઉન્નત શોધ"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:946
-#, fuzzy
 #| msgid "Print selected contacts"
 msgid "Print all shown contacts"
-msgstr "પસંદ કરેલ સંપર્કોને છાપો"
+msgstr "બધા બતાવેલ સંપર્કોને છાપો"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:953
 #, fuzzy
@@ -14247,7 +14118,6 @@ msgid "Print selected contacts"
 msgstr "પસંદ કરેલ સંપર્કોને છાપો"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:978
-#, fuzzy
 #| msgid "Save selected contacts as a VCard"
 msgid "Save selected contacts as a vCard"
 msgstr "પસંદ કરેલ સંપર્કોને VCard તરીકે સંગ્રહો"
@@ -14261,22 +14131,19 @@ msgid "_Forward Contact"
 msgstr "સંપર્ક આગળ ધપાવો (_F)"
 
 #: ../modules/addressbook/e-book-shell-view.c:378
-#, fuzzy
 #| msgid "Send _Message to Contacts"
 msgid "_Send Message to Contacts"
-msgstr "સંપર્કોને સંદેશો મોકલો (_M)"
+msgstr "સંપર્કોને સંદેશો મોકલો (_S)"
 
 #: ../modules/addressbook/e-book-shell-view.c:380
-#, fuzzy
 #| msgid "Send _Message to List"
 msgid "_Send Message to List"
-msgstr "યાદીને સંદેશો મોકલો (_M)"
+msgstr "યાદીને સંદેશો મોકલો (_S)"
 
 #: ../modules/addressbook/e-book-shell-view.c:382
-#, fuzzy
 #| msgid "Send _Message to Contact"
 msgid "_Send Message to Contact"
-msgstr "સંપર્કને સંદેશો મોકલો (_M)"
+msgstr "સંપર્કને સંદેશો મોકલો (_S)"
 
 #: ../modules/addressbook/eab-composer-util.c:143
 msgid "Multiple vCards"
@@ -14359,16 +14226,12 @@ msgid "Supported Search Bases"
 msgstr "આધારભૂત શોધના આધારો"
 
 #: ../modules/addressbook/ldap-config.ui.h:21
-#, fuzzy
 #| msgid ""
 #| "Anonymously\n"
 #| "Using email address\n"
 #| "Using distinguished name (DN)"
 msgid "Using distinguished name (DN)"
-msgstr ""
-"અનામિક રીતે\n"
-"ઇમેઇલ સરનામું વાપરી રહ્યા છે\n"
-"અલગ તારવેલ નામ (DN) વાપરી રહ્યા છીએ"
+msgstr "અલગ તારવેલ નામ (DN) વાપરી રહ્યા છીએ"
 
 #: ../modules/addressbook/ldap-config.ui.h:22
 #| msgid "Email _Address:"
@@ -14459,10 +14322,9 @@ msgid "Days"
 msgstr "દિવસો"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:14
-#, fuzzy
 #| msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
 msgid "Default Free/Busy Server"
-msgstr "<span weight=\"bold\">મૂળભૂત મુક્ત/વ્યસ્ત સર્વર</span>"
+msgstr "મૂળભૂત મુક્ત/વ્યસ્ત સર્વર"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:15
 msgid "Display"
@@ -14515,10 +14377,9 @@ msgid "Show r_ecurring events in italic in bottom left calendar"
 msgstr ""
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:35
-#, fuzzy
 #| msgid "Show week _numbers in date navigator"
 msgid "Show week _numbers"
-msgstr "તારીખ બતાવનારમાં અઠવાડિયાનો ક્રમાંક બતાવો (_n)"
+msgstr "અઠવાડિયાનો ક્રમાંક બતાવો (_n)"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:37
 msgid "T_asks due today:"
@@ -14786,10 +14647,9 @@ msgid "Maximum number of recently used timezones to remember."
 msgstr "યાદ રાખવા માટે તાજેતરમાં વપરાયેલ ટાઇમઝોનો નાં મહત્તમ નંબર."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:39
-#, fuzzy
 #| msgid "_Reply style:"
 msgid "Memo layout style"
-msgstr "જવાબની શૈલી (_R):"
+msgstr "મેમો લેઆઉટ શૈલી"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:40
 msgid "Memo preview pane position (horizontal)"
@@ -15297,22 +15157,19 @@ msgid "Calendar and Tasks"
 msgstr "કેલેન્ડર અને બાબતો"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:225
-#, fuzzy
 #| msgid "Loading Calendar"
 msgid "Loading calendars"
 msgstr "કેલેન્ડર લાવી રહ્યા છીએ"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:642
-#, fuzzy
 #| msgid "_New Calendar"
 msgid "_New Calendar..."
-msgstr "નવું કેલેન્ડર (_N)"
+msgstr "નવું કૅલેન્ડર (_N)..."
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:659
-#, fuzzy
 #| msgid "Calendar Source Selector"
 msgid "Calendar Selector"
-msgstr "કેલેન્ડર સ્રોત પસંદ કરનાર"
+msgstr "કૅલેન્ડર પસંદ કરનાર"
 
 #. Translators: The string field is a URI.
 #: ../modules/calendar/e-cal-shell-sidebar.c:1002
@@ -15342,13 +15199,11 @@ msgid "Purge events older than"
 msgstr "ના કરતાં જૂની ઘટનાઓ કાઢો"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:534
-#, fuzzy
 #| msgid "Copying items"
 msgid "Copying Items"
 msgstr "વસ્તુઓની નકલ કરી રહ્યા છીએ"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:804
-#, fuzzy
 #| msgid "Moving items"
 msgid "Moving Items"
 msgstr "વસ્તુઓ ખસેડી રહ્યા છીએ"
@@ -15365,10 +15220,9 @@ msgstr "ઘટના"
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:283
 #: ../modules/calendar/e-memo-shell-view-actions.c:510
 #: ../modules/calendar/e-task-shell-view-actions.c:627
-#, fuzzy
 #| msgid "Select a Calendar"
 msgid "Save as iCalendar"
-msgstr "કેલેન્ડર પસંદ કરો"
+msgstr "iCalendar તરીકે સંગ્રહો"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1290
 #: ../modules/calendar/e-memo-shell-view-actions.c:591
@@ -15376,25 +15230,21 @@ msgid "_Copy..."
 msgstr "નકલ કરો (_C)..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1297
-#, fuzzy
 #| msgid "Select a Calendar"
 msgid "D_elete Calendar"
-msgstr "કેલેન્ડર પસંદ કરો"
+msgstr "કૅલેન્ડરને કાઢી નાંખો (_e)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1299
-#, fuzzy
 #| msgid "Delete the selected folder"
 msgid "Delete the selected calendar"
-msgstr "પસંદ કરેલ ફોલ્ડર કાઢી નાંખો"
+msgstr "પસંદ થયેલ કૅલેન્ડરને કાઢી નાંખો"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1306
-#, fuzzy
 #| msgid "Go back"
 msgid "Go Back"
 msgstr "પાછા જાઓ"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1313
-#, fuzzy
 #| msgid "Go forward"
 msgid "Go Forward"
 msgstr "આગળ જાઓ"
@@ -15431,22 +15281,19 @@ msgid "Re_fresh"
 msgstr "પુનઃતાજું કરો (_f)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1355
-#, fuzzy
 #| msgid "Rename the selected folder"
 msgid "Refresh the selected calendar"
-msgstr "પસંદ કરેલ ફોલ્ડરનું નામ બદલો"
+msgstr "પસંદ થયેલ કૅલેન્ડરને પુન:તાજુ કરો"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1362
-#, fuzzy
 #| msgid "Rename the selected folder"
 msgid "Rename the selected calendar"
-msgstr "પસંદ કરેલ ફોલ્ડરનું નામ બદલો"
+msgstr "પસંદ થયેલ કૅલેન્ડરનુ પુન:નામ બદલો"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1367
-#, fuzzy
 #| msgid "Show _only this Calendar"
 msgid "Show _Only This Calendar"
-msgstr "માત્ર આ કેલેન્ડર જ બતાવો (_o)"
+msgstr "ફક્ત આ કૅલેન્ડરને બતાવો (_O)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1374
 msgid "Cop_y to Calendar..."
@@ -15457,19 +15304,16 @@ msgid "_Delegate Meeting..."
 msgstr "પ્રતિનિધી મંત્રણા (_D)..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1388
-#, fuzzy
 #| msgid "Delete the appointment"
 msgid "_Delete Appointment"
-msgstr "મુલાકાત કાઢી નાંખો"
+msgstr "મુલાકાત કાઢી નાંખો (_D)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1390
-#, fuzzy
 #| msgid "Delete the appointment"
 msgid "Delete selected appointments"
-msgstr "મુલાકાત કાઢી નાંખો"
+msgstr "પસંદ થયેલ મુલાકાતોને કાઢી નાંખો"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1395
-#, fuzzy
 #| msgid "Delete this _Occurrence"
 msgid "Delete This _Occurrence"
 msgstr "આ વારો કાઢી નાંખો (_O)"
@@ -15479,26 +15323,23 @@ msgid "Delete this occurrence"
 msgstr "આ વારાને કાઢી નાંખો"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1402
-#, fuzzy
 #| msgid "Delete _All Occurrences"
 msgid "Delete All Occ_urrences"
-msgstr "બધા વારાઓ કાઢી નાંખો (_A)"
+msgstr "બધા વારાઓ કાઢી નાંખો (_u)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1404
 msgid "Delete all occurrences"
 msgstr "બધા વારાઓ કાઢી નાંખો"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1409
-#, fuzzy
 #| msgid "New All Day _Event"
 msgid "New All Day _Event..."
-msgstr "નવી બધા દિવસની ઘટના (_E)"
+msgstr "નવી બધા દિવસની ઘટના (_E)..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1411
-#, fuzzy
 #| msgid "Create a new all-day appointment"
 msgid "Create a new all day event"
-msgstr "નવી બધા દિવસની મુલાકાત બનાવો"
+msgstr "નવી બધા દિવસની ઘટના બનાવો"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1416
 #: ../modules/calendar/e-cal-shell-view-memopad.c:250
@@ -15509,16 +15350,14 @@ msgid "_Forward as iCalendar..."
 msgstr "iCalendar તરીકે આગળ ધપાવો (_F)..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1423
-#, fuzzy
 #| msgid "New _Meeting"
 msgid "New _Meeting..."
-msgstr "નવી મંત્રણા (_M)"
+msgstr "નવી મંત્રણા (_M)..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1425
-#, fuzzy
 #| msgid "Create a new meeting request"
 msgid "Create a new meeting"
-msgstr "નવી મંત્રણા મંજૂરી બનાવો"
+msgstr "નવી મંત્રણા બનાવો"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1430
 msgid "Mo_ve to Calendar..."
@@ -15546,10 +15385,9 @@ msgstr "પ્રત્યુત્તર (_R)"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1472
 #: ../modules/calendar/e-cal-shell-view-memopad.c:278
-#, fuzzy
 #| msgid "Save as vCard..."
 msgid "Save as iCalendar..."
-msgstr "vCard તરીકે સંગ્રહો..."
+msgstr "iCalendar તરીકે સંગ્રહો..."
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1479
 msgid "_Schedule Meeting..."
@@ -15611,10 +15449,9 @@ msgid "Show one week"
 msgstr "એક અઠવાડિયું બતાવો"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1647
-#, fuzzy
 #| msgid "Show one week"
 msgid "Show one work week"
-msgstr "એક અઠવાડિયું બતાવો"
+msgstr "એક કામ કરવાનું અઠવાડિયું બતાવો"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1655
 msgid "Active Appointments"
@@ -15660,10 +15497,9 @@ msgstr "મેમો"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:257
 #: ../modules/calendar/e-memo-shell-view-actions.c:640
-#, fuzzy
 #| msgid "New memo"
 msgid "New _Memo"
-msgstr "નવી મેમો"
+msgstr "નવી મેમો (_M)"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:259
 #: ../modules/calendar/e-memo-shell-backend.c:287
@@ -15690,10 +15526,9 @@ msgstr "વેબ પાનું ખોલો (_W)"
 
 #: ../modules/calendar/e-cal-shell-view-memopad.c:290
 #: ../modules/calendar/e-memo-shell-view-actions.c:814
-#, fuzzy
 #| msgid "View the selected memo"
 msgid "Print the selected memo"
-msgstr "પસંદ કરેલ મેમો જુઓ"
+msgstr "પસંદ થયેલ મેમોને છાપો"
 
 #. Translators: Default filename part saving a task to a file when
 #. * no summary is filed, the '.ics' extension is concatenated to it.
@@ -15755,33 +15590,29 @@ msgstr "પસંદ કરેલ બાબત જુઓ"
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:365
 #: ../modules/calendar/e-memo-shell-view-actions.c:829
 #: ../modules/calendar/e-task-shell-view-actions.c:1028
-#, fuzzy
 #| msgid "_Forward as iCalendar..."
 msgid "_Save as iCalendar..."
-msgstr "iCalendar તરીકે આગળ ધપાવો (_F)..."
+msgstr "iCalendar તરીકે સંગ્રહો (_S)..."
 
 #: ../modules/calendar/e-cal-shell-view-taskpad.c:377
 #: ../modules/calendar/e-task-shell-view-actions.c:1013
-#, fuzzy
 #| msgid "View the selected task"
 msgid "Print the selected task"
-msgstr "પસંદ કરેલ બાબત જુઓ"
+msgstr "પસંદ થયેલ કાર્યને છાપો"
 
 #: ../modules/calendar/e-calendar-preferences.c:437
 msgid "Selected Calendars for Alarms"
 msgstr "એલાર્મ માટે પસંદ કરેલ કેલેન્ડરો"
 
 #: ../modules/calendar/e-calendar-preferences.c:836
-#, fuzzy
 #| msgid "Time and date:"
 msgid "Ti_me and date:"
-msgstr "સમય અને તારીખ:"
+msgstr "સમય અને તારીખ (_m):"
 
 #: ../modules/calendar/e-calendar-preferences.c:837
-#, fuzzy
 #| msgid "Date only:"
 msgid "_Date only:"
-msgstr "તારીખ ફક્ત:"
+msgstr "તારીખ ફક્ત (_D):"
 
 #: ../modules/calendar/e-memo-shell-backend.c:285
 msgctxt "New"
@@ -15789,7 +15620,6 @@ msgid "Mem_o"
 msgstr "મેમો (_o)"
 
 #: ../modules/calendar/e-memo-shell-backend.c:292
-#, fuzzy
 #| msgctxt "New"
 #| msgid "_Shared memo"
 msgctxt "New"
@@ -15797,7 +15627,6 @@ msgid "_Shared Memo"
 msgstr "વહેંચાયેલ મેમો (_S)"
 
 #: ../modules/calendar/e-memo-shell-backend.c:294
-#, fuzzy
 #| msgid "Create a shared new memo"
 msgid "Create a new shared memo"
 msgstr "વહેંચાયેલ નવો મેમો બનાવો"
@@ -15818,10 +15647,9 @@ msgid "Loading memos"
 msgstr "મેમો લાવી રહ્યા છીએ"
 
 #: ../modules/calendar/e-memo-shell-sidebar.c:582
-#, fuzzy
 #| msgid "Memo Source Selector"
 msgid "Memo List Selector"
-msgstr "મેમો સ્રોત પસંદ કરનાર"
+msgstr "મેમો યાદી પસંદ કરનાર"
 
 #. Translators: The string field is a URI.
 #: ../modules/calendar/e-memo-shell-sidebar.c:887
@@ -15835,16 +15663,14 @@ msgid "Print Memos"
 msgstr "મેમો છાપો"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:570
-#, fuzzy
 #| msgid "_Delete Message"
 msgid "_Delete Memo"
-msgstr "સંદેશો કાઢી નાંખો (_D)"
+msgstr "મેમો કાઢી નાંખો (_D)"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:577
-#, fuzzy
 #| msgid "_Find in Message..."
 msgid "_Find in Memo..."
-msgstr "સંદેશામાં શોધો (_F)..."
+msgstr "મેમોમાં શોધો (_F)..."
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:579
 #, fuzzy
@@ -15853,50 +15679,43 @@ msgid "Search for text in the displayed memo"
 msgstr "પ્રદર્શિત સંદેશાના ભાગમાં લખાણ માટે શોધ કરો"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:598
-#, fuzzy
 #| msgid "_New Memo List"
 msgid "D_elete Memo List"
-msgstr "નવી મેમો યાદી (_N)"
+msgstr "મેમો યાદી કાઢી નાંખો (_e)"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:600
-#, fuzzy
 #| msgid "Delete selected memos"
 msgid "Delete the selected memo list"
-msgstr "પસંદ કરેલ મેમો કાઢી નાંખો"
+msgstr "પસંદ થયેલ મેમો યાદીને કાઢી નાંખો"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:605
 msgid "_New Memo List"
 msgstr "નવી મેમો યાદી (_N)"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:621
-#, fuzzy
 #| msgid "Delete selected memos"
 msgid "Refresh the selected memo list"
-msgstr "પસંદ કરેલ મેમો કાઢી નાંખો"
+msgstr "પસંદ થયેલ મેમો યાદીને પુન:તાજુ કરો"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:628
-#, fuzzy
 #| msgid "Rename the selected folder"
 msgid "Rename the selected memo list"
-msgstr "પસંદ કરેલ ફોલ્ડરનું નામ બદલો"
+msgstr "પસંદ થયેલ મેમો યાદીનુ નામ બદલો"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:633
-#, fuzzy
 #| msgid "Show _only this Memo List"
 msgid "Show _Only This Memo List"
-msgstr "માત્ર આ મેમો યાદી બતાવો (_o)"
+msgstr "માત્ર આ મેમો યાદી બતાવો (_O)"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:712
-#, fuzzy
 #| msgid "_Preview"
 msgid "Memo _Preview"
-msgstr "પૂર્વદર્શન (_P)"
+msgstr "મેમો પૂર્વદર્શન (_P)"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:714
-#, fuzzy
 #| msgid "Show preview pane"
 msgid "Show memo preview pane"
-msgstr "પૂર્વદર્શન તકતી બતાવો"
+msgstr "મેમો પૂર્વદર્શન તકતી બતાવો"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:735
 #, fuzzy
@@ -15915,7 +15734,6 @@ msgid "Print the list of memos"
 msgstr "મેમોની યાદી છાપો"
 
 #: ../modules/calendar/e-memo-shell-view-actions.c:807
-#, fuzzy
 #| msgid "Previews the list of memos to be printed"
 msgid "Preview the list of memos to be printed"
 msgstr "છાપવા માટેની મેમોની યાદીનું પૂર્વદર્શન કરે છે"
@@ -15929,23 +15747,21 @@ msgstr[1] "%d મેમો"
 
 #: ../modules/calendar/e-memo-shell-view-private.c:424
 #: ../modules/calendar/e-task-shell-view-private.c:575
-#, fuzzy, c-format
+#, c-format
 #| msgid ", %d selected"
 #| msgid_plural ", %d selected"
 msgid "%d selected"
-msgstr ", %d પસંદ થયેલ"
+msgstr "%d પસંદ થયેલ"
 
 #: ../modules/calendar/e-memo-shell-view.c:223
-#, fuzzy
 #| msgid "_Delete Message"
 msgid "Delete Memos"
-msgstr "સંદેશો કાઢી નાંખો (_D)"
+msgstr "મેમો કાઢી નાંખો"
 
 #: ../modules/calendar/e-memo-shell-view.c:225
-#, fuzzy
 #| msgid "Delegate To"
 msgid "Delete Memo"
-msgstr "પ્રતિનિધી પ્રતિ"
+msgstr "મેમો કાઢી નાંખો"
 
 #: ../modules/calendar/e-task-shell-backend.c:284
 msgctxt "New"
@@ -15962,11 +15778,10 @@ msgid "Create a new assigned task"
 msgstr "નવી સોંપાયેલ બાબત બનાવો"
 
 #: ../modules/calendar/e-task-shell-backend.c:301
-#, fuzzy
 #| msgid "Task List"
 msgctxt "New"
 msgid "Tas_k List"
-msgstr "બાબત યાદી"
+msgstr "કાર્ય યાદી (_k)"
 
 #: ../modules/calendar/e-task-shell-backend.c:303
 #: ../modules/calendar/e-task-shell-view-actions.c:731
@@ -15978,10 +15793,9 @@ msgid "Loading tasks"
 msgstr "બાબતો લાવી રહ્યા છીએ"
 
 #: ../modules/calendar/e-task-shell-sidebar.c:582
-#, fuzzy
 #| msgid "Task Source Selector"
 msgid "Task List Selector"
-msgstr "બાબત સ્રોત પસંદ કરનાર"
+msgstr "કાર્ય યાદી પસંદ કરનાર"
 
 #. Translators: The string field is a URI.
 #: ../modules/calendar/e-task-shell-sidebar.c:887
@@ -16007,22 +15821,19 @@ msgstr ""
 "શું ખરેખર આ બાબતો કાઢી નાંખવા માંગો છો?"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:694
-#, fuzzy
 #| msgid "_Delete"
 msgid "_Delete Task"
-msgstr "કાઢી નાંખો (_D)"
+msgstr "કાર્ય કાઢી નાંખો (_D)"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:701
-#, fuzzy
 #| msgid "_Find in Message..."
 msgid "_Find in Task..."
-msgstr "સંદેશામાં શોધો (_F)..."
+msgstr "કાર્યમાં શોધો (_F)..."
 
 #: ../modules/calendar/e-task-shell-view-actions.c:703
-#, fuzzy
 #| msgid "Search for text in the body of the displayed message"
 msgid "Search for text in the displayed task"
-msgstr "પ્રદર્શિત સંદેશાના ભાગમાં લખાણ માટે શોધ કરો"
+msgstr "દર્શાવેલ કાર્યમાં લખાણ માટે શોધો"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:715
 #| msgid "_Copy..."
@@ -16030,48 +15841,42 @@ msgid "Copy..."
 msgstr "નકલ કરો..."
 
 #: ../modules/calendar/e-task-shell-view-actions.c:722
-#, fuzzy
 #| msgid "Select a Task List"
 msgid "D_elete Task List"
-msgstr "કાર્ય યાદીને પસંદ કરો"
+msgstr "કાર્ય યાદીને કાઢી નાંખો (_e)"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:724
-#, fuzzy
 #| msgid "Delete selected tasks"
 msgid "Delete the selected task list"
-msgstr "પસંદ કરેલ બાબતો કાઢી નાંખો"
+msgstr "પસંદ થયેલ કાર્ય યાદીને કાઢી નાંખો"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:729
 msgid "_New Task List"
 msgstr "નવી બાબત યાદી (_N)"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:745
-#, fuzzy
 #| msgid "Delete selected tasks"
 msgid "Refresh the selected task list"
-msgstr "પસંદ કરેલ બાબતો કાઢી નાંખો"
+msgstr "પસંદ થયેલ કાર્ય યાદીને પુન:તાજુ કરો"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:752
-#, fuzzy
 #| msgid "Rename the selected folder"
 msgid "Rename the selected task list"
-msgstr "પસંદ કરેલ ફોલ્ડરનું નામ બદલો"
+msgstr "પસંદ થયેલ કાર્ય યાદીનુ નામ બદલો"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:757
-#, fuzzy
 #| msgid "Show _only this Task List"
 msgid "Show _Only This Task List"
-msgstr "માત્ર આ બાબત યાદી જ બતાવો (_o)"
+msgstr "માત્ર આ કાર્ય યાદીને જ બતાવો (_O)"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:771
-#, fuzzy
 #| msgid "_Mark as Incomplete"
 msgid "Mar_k as Incomplete"
-msgstr "અપૂર્ણ તરીકે ચિહ્નિત કરો (_M)"
+msgstr "અપૂર્ણ તરીકે ચિહ્નિત કરો (_k)"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:801
 msgid "Delete completed tasks"
-msgstr "પૂર્ણ થયેલ બાબતો કાઢી નાંખો"
+msgstr "સમાપ્ત કાર્યોને કાઢી નાંખો"
 
 #: ../modules/calendar/e-task-shell-view-actions.c:876
 msgid "Task _Preview"
@@ -16137,16 +15942,14 @@ msgstr[0] "%d બાબત"
 msgstr[1] "%d બાબતો"
 
 #: ../modules/calendar/e-task-shell-view.c:358
-#, fuzzy
 #| msgid "Completed Tasks"
 msgid "Delete Tasks"
-msgstr "સમાપ્ત થયેલ બાબતો"
+msgstr "કાર્યોને કાઢી નાંખો"
 
 #: ../modules/calendar/e-task-shell-view.c:360
-#, fuzzy
 #| msgid "Delegate To"
 msgid "Delete Task"
-msgstr "પ્રતિનિધી પ્રતિ"
+msgstr "કાર્યને કાઢી નાંખો"
 
 #. Translators: This is only for multiple messages.
 #: ../modules/mail/e-mail-attachment-handler.c:380
@@ -16342,20 +16145,18 @@ msgid "Send queued items and retrieve new items"
 msgstr "કતારમાં રહેલી વસ્તુઓ મોકલો અને નવી વસ્તુઓ મેળવો"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1223
-#, fuzzy
 #| msgid "Received"
 msgid "R_eceive All"
-msgstr "મેળવેલ છે"
+msgstr "બધુ મેળવો (_e)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1225
 msgid "Receive new items from all accounts"
 msgstr "બધા ખાતાઓમાંથી નવી વસ્તુઓને પ્રાપ્ત કરો"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1230
-#, fuzzy
 #| msgid "_Send"
 msgid "_Send All"
-msgstr "મોકલો (_S)"
+msgstr "બધુ મોકલો (_S)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1232
 #, fuzzy
@@ -16433,10 +16234,9 @@ msgid "Show message preview pane"
 msgstr "સંદેશા પૂર્વદર્શન વિન્ડો બતાવો"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1385
-#, fuzzy
 #| msgid "Hide _Deleted Messages"
 msgid "Show _Deleted Messages"
-msgstr "કાઢી નંખાયેલ સંદેશાઓને છુપાવો (_D)"
+msgstr "કાઢી નાંખેલ સંદેશાને બતાવો (_D)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1387
 #, fuzzy
@@ -16449,7 +16249,6 @@ msgid "_Group By Threads"
 msgstr "થ્રેડો દ્વારા જૂથ પાડો (_G)"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1395
-#, fuzzy
 #| msgid "Threaded Message list"
 msgid "Threaded message list"
 msgstr "થ્રેડેડ સંદેશા યાદી"
@@ -16671,16 +16470,14 @@ msgstr "કોઈ બગડેલ પ્લગઈન ઉપલબ્ધ નથ�
 
 #. To Translators: 'Date header' is a label for configurable date/time format for 'Date' header in mail message window/preview
 #: ../modules/mail/em-mailer-prefs.c:1142
-#, fuzzy
 #| msgid "Date header:"
 msgid "_Date header:"
-msgstr "તારીખ હેડર:"
+msgstr "તારીખ હેડર (_D):"
 
 #: ../modules/mail/em-mailer-prefs.c:1143
-#, fuzzy
 #| msgid "Show _Original Size"
 msgid "Show _original header value"
-msgstr "મૂળ માપ બતાવો (_O)"
+msgstr "મૂળભૂત હેડર કિંમતને બતાવો (_o)"
 
 #: ../modules/mailto-handler/apps-evolution-mail-prompts-checkdefault.schemas.in.h:1
 msgid "Check whether Evolution is the default mailer"
@@ -16919,10 +16716,9 @@ msgid "Restore from backup"
 msgstr "બેકઅપમાંથી પુનઃસંગ્રહો"
 
 #: ../plugins/backup-restore/backup-restore.c:386
-#, fuzzy
 #| msgid "Backing up Evolution Data"
 msgid "_Back up Evolution Data..."
-msgstr "Evolution માહિતી બેકઅપ કરો"
+msgstr "Evolution માહિતી બેકઅપ લો (_B)..."
 
 #: ../plugins/backup-restore/backup-restore.c:388
 #, fuzzy
@@ -16931,10 +16727,9 @@ msgid "Back up Evolution data and settings to an archive file"
 msgstr "Evolution માહિતી અને સુયોજનોની બેકઅપ લો અને પાછા સંગ્રહો"
 
 #: ../plugins/backup-restore/backup-restore.c:393
-#, fuzzy
 #| msgid "Restoring Evolution Data"
 msgid "R_estore Evolution Data..."
-msgstr "Evolution માહિતી પુનઃસંગ્રહ કરી રહ્યા છીએ"
+msgstr "Evolution માહિતી પુનઃસંગ્રહ કરી રહ્યા છીએ (_e)..."
 
 #: ../plugins/backup-restore/backup-restore.c:395
 #, fuzzy
@@ -16943,7 +16738,6 @@ msgid "Restore Evolution data and settings from an archive file"
 msgstr "Evolution માહિતી અને સુયોજનોની બેકઅપ લો અને પાછા સંગ્રહો"
 
 #: ../plugins/backup-restore/backup.c:79
-#, fuzzy
 #| msgid "Backup Evolution directory"
 msgid "Back up Evolution directory"
 msgstr "બેકઅપ Evolution ડિરેક્ટરી"
@@ -16953,7 +16747,6 @@ msgid "Restore Evolution directory"
 msgstr "Evolution ડિરેક્ટરી પાછી સંગ્રહિત કરો"
 
 #: ../plugins/backup-restore/backup.c:83
-#, fuzzy
 #| msgid "Check Evolution Backup"
 msgid "Check Evolution Back up"
 msgstr "Evolution બેકઅપ ચકાસો"
@@ -16980,7 +16773,6 @@ msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr "Evolution માહિતી બેક કરી રહ્યા છીએ (મેઈલો, સંપર્કો, કેલેન્ડર, બાબતો, મેમો)"
 
 #: ../plugins/backup-restore/backup.c:317
-#, fuzzy
 #| msgid "Backup complete"
 msgid "Back up complete"
 msgstr "બેકઅપ સમાપ્ત"
@@ -16991,13 +16783,11 @@ msgid "Restarting Evolution"
 msgstr "Evolution પુનઃશરૂ કરી રહ્યા છીએ"
 
 #: ../plugins/backup-restore/backup.c:403
-#, fuzzy
 #| msgid "Backup current Evolution data"
 msgid "Back up current Evolution data"
-msgstr "વર્તમાન Evolution માહિતી બેકઅપ કરો"
+msgstr "વર્તમાન Evolution માહિતી બેકઅપ લો"
 
 #: ../plugins/backup-restore/backup.c:409
-#, fuzzy
 #| msgid "Extracting files from backup"
 msgid "Extracting files from back up"
 msgstr "બેકઅપમાંથી ફાઈલોનો અર્ક કાઢી રહ્યા છીએ"
@@ -17007,7 +16797,6 @@ msgid "Loading Evolution settings"
 msgstr "Evolution સુયોજનો લાવી રહ્યા છીએ"
 
 #: ../plugins/backup-restore/backup.c:481
-#, fuzzy
 #| msgid "Removing temporary backup files"
 msgid "Removing temporary back up files"
 msgstr "કામચલાઉ બેકઅપ ફાઈલો દૂર કરી રહ્યા છીએ"
@@ -17028,7 +16817,6 @@ msgstr "%s ફોલ્ડરમાંથી પુનઃસંગ્રહી �
 
 #. Backup / Restore only can have GUI. We should restrict the rest
 #: ../plugins/backup-restore/backup.c:705
-#, fuzzy
 #| msgid "Evolution Backup"
 msgid "Evolution Back up"
 msgstr "Evolution બેકઅપ"
@@ -17059,7 +16847,6 @@ msgstr "તમારા ખાતામાં માહિતીના જથ્
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
-#, fuzzy
 #| msgid "Backup and Restore"
 msgid "Back up and Restore"
 msgstr "બેકઅપ અને પુનઃસંગ્રહ"
@@ -17088,23 +16875,20 @@ msgid "Close and Back up Evolution"
 msgstr "Evolution માહિતી બેકઅપ કરો"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
-#, fuzzy
 #| msgid "Cannot start Evolution"
 msgid "Close and Restore Evolution"
-msgstr "Evolution ને શરૂ કરી શકાતુ નથી"
+msgstr "Evolution ને બંધ કરો અને પુન:સંગ્રહો"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
 msgid "Insufficient Permissions"
 msgstr "અપૂરતી પરવાનગીઓ"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
-#, fuzzy
 #| msgid "Invalid Evolution backup file"
 msgid "Invalid Evolution back up file"
 msgstr "અયોગ્ય Evolution બેકઅપ ફાઈલ"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
-#, fuzzy
 #| msgid "Please select a valid backup file to restore."
 msgid "Please select a valid back up file to restore."
 msgstr "પુનઃસંગ્રહ કરવા માટે મહેરબાની કરીને માન્ય બેકઅપ ફાઈલ પસંદ કરો."
@@ -17181,7 +16965,7 @@ msgstr ""
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:163
 #, c-format
 msgid "Bogofilter is not available. Please install it first."
-msgstr ""
+msgstr "Bogofilter ઉપલબ્ધ નથી. મહેરબાની કરીને પહેલાં તેને સ્થાપિત કરો."
 
 #. For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself.
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:167
@@ -17234,11 +17018,11 @@ msgstr "Bogofilter ની મદદથી બગડેલ સંદેશાઓ�
 
 #: ../plugins/caldav/caldav-browse-server.c:204
 msgid "Authentication failed. Server requires correct login."
-msgstr ""
+msgstr "સત્તાધિકરણ નિષ્ફળ. સર્વરને યોગ્ય પ્રવેશની જરૂર છે."
 
 #: ../plugins/caldav/caldav-browse-server.c:206
 msgid "Given URL cannot be found."
-msgstr ""
+msgstr "આપેલ URL મળી શકતુ નથી."
 
 #: ../plugins/caldav/caldav-browse-server.c:210
 #, c-format
@@ -17255,16 +17039,14 @@ msgid "Failed to parse server response."
 msgstr "પ્રતિનિધીઓ સુધારવામાં નિષ્ફળ:"
 
 #: ../plugins/caldav/caldav-browse-server.c:434
-#, fuzzy
 #| msgid "Ends"
 msgid "Events"
-msgstr "અંત થાય છે"
+msgstr "ઘટનાઓ"
 
 #: ../plugins/caldav/caldav-browse-server.c:456
-#, fuzzy
 #| msgid "New calendar"
 msgid "User's calendars"
-msgstr "નવું કેલેન્ડર"
+msgstr "વપરાશકર્તાનું કૅલેન્ડર"
 
 #: ../plugins/caldav/caldav-browse-server.c:565
 #: ../plugins/caldav/caldav-browse-server.c:733
@@ -17276,32 +17058,27 @@ msgstr "LDAP સર્વર સાથે સત્તાધિકરણ કર�
 #: ../plugins/caldav/caldav-browse-server.c:731
 #: ../plugins/caldav/caldav-browse-server.c:772
 #: ../plugins/caldav/caldav-browse-server.c:1431
-#, fuzzy
 #| msgid ""
 #| "\n"
 #| "\n"
 #| "Searching for the Contacts..."
 msgid "Searching for user's calendars..."
-msgstr ""
-"\n"
-"\n"
-"સંપર્કો માટે શોધી રહ્યા છે..."
+msgstr "વપરાશકર્તાનાં કૅલેન્ડરો માટે શોધી રહ્યા છે..."
 
 #: ../plugins/caldav/caldav-browse-server.c:770
-#, fuzzy
 #| msgid "Unable to find any calendars"
 msgid "Could not find any user calendar."
-msgstr "કોઈપણ કેલેન્ડર શોધવામાં અસમર્થ"
+msgstr "કોઇપણ વપરાશકર્તા કૅલેન્ડર મળી શક્યુ નહિં."
 
 #: ../plugins/caldav/caldav-browse-server.c:902
 #, c-format
 msgid "Previous attempt failed: %s"
-msgstr ""
+msgstr "પહેલાંનો પ્રયત્ન નિષ્ફળ: %s"
 
 #: ../plugins/caldav/caldav-browse-server.c:904
 #, c-format
 msgid "Previous attempt failed with code %d"
-msgstr ""
+msgstr "પહેલાંનો પ્રયત્ન કોડ %d સાથે નિષ્ફળ"
 
 #: ../plugins/caldav/caldav-browse-server.c:909
 #, fuzzy, c-format
@@ -17338,10 +17115,9 @@ msgid "Server _handles meeting invitations"
 msgstr ""
 
 #: ../plugins/caldav/caldav-browse-server.c:1270
-#, fuzzy
 #| msgid "Local Calendars"
 msgid "List of available calendars:"
-msgstr "સ્થાનિક કેલેન્ડરો"
+msgstr "ઉપલબ્ધ કૅલેન્ડરોની યાદી:"
 
 #: ../plugins/caldav/caldav-browse-server.c:1308
 #| msgid "Hula Support"
@@ -17350,16 +17126,15 @@ msgstr "આધારો"
 
 #: ../plugins/caldav/caldav-browse-server.c:1335
 #: ../plugins/caldav/caldav-source.c:254
-#, fuzzy
 #| msgid "New email"
 msgid "User e-_mail:"
-msgstr "નવો મેઈલ"
+msgstr "વપરાશકર્તા ઇમેલ:"
 
 #: ../plugins/caldav/caldav-browse-server.c:1407
-#, fuzzy, c-format
+#, c-format
 #| msgid "Failed to create pipe: %s"
 msgid "Failed to create thread: %s"
-msgstr "પાઇપ બનાવવા માટે નિષ્ફળતા: %s"
+msgstr "થ્રેડ બનાવતી વખતે નિષ્ફળતા: %s"
 
 #: ../plugins/caldav/caldav-browse-server.c:1516
 #, c-format
@@ -17530,10 +17305,9 @@ msgstr "હવામાન કેલેન્ડરો"
 
 #: ../plugins/contacts-map/contacts-map.c:55
 #: ../plugins/contacts-map/contacts-map.c:201
-#, fuzzy
 #| msgid "Contacts: "
 msgid "Contacts map"
-msgstr "સંપર્કો: "
+msgstr "સંપર્કો નક્ષો"
 
 #: ../plugins/contacts-map/contacts-map.c:56
 #, fuzzy
@@ -17546,10 +17320,9 @@ msgid "Add a map showing the location of contacts when possible."
 msgstr ""
 
 #: ../plugins/contacts-map/org-gnome-contacts-map.eplug.xml.h:2
-#, fuzzy
 #| msgid "No contacts"
 msgid "Map for contacts"
-msgstr "સંપર્કો નથી"
+msgstr "સંપર્કો માટે નક્ષો"
 
 #: ../plugins/dbx-import/dbx-importer.c:258
 #, fuzzy
@@ -17564,10 +17337,9 @@ msgid "Import Outlook Express messages from DBX file"
 msgstr "PST ફાઇલ માંથી આઉટલુક સંદેશાઓ ને આયાત કરો"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:2
-#, fuzzy
 #| msgid "Outlook PST import"
 msgid "Outlook DBX import"
-msgstr "આઉટલુક PST આયાત"
+msgstr "આઉટલુક DBX આયાત"
 
 #: ../plugins/dbx-import/org-gnome-dbx-import.eplug.xml.h:3
 #, fuzzy
@@ -17620,7 +17392,6 @@ msgstr ""
 "કિંમતો \";\" દ્વારા અલગ કરવામાં આવે છે"
 
 #: ../plugins/email-custom-header/email-custom-header.c:316
-#, fuzzy
 #| msgid "Security:"
 msgctxt "email-custom-header-Security"
 msgid "Security:"
@@ -17633,7 +17404,6 @@ msgid "Personal"
 msgstr "વ્યક્તિગત"
 
 #: ../plugins/email-custom-header/email-custom-header.c:321
-#, fuzzy
 #| msgid "Unclassified"
 msgctxt "email-custom-header-Security"
 msgid "Unclassified"
@@ -17799,10 +17569,9 @@ msgid "Select a Face Picture"
 msgstr "ફાઈલ પસંદ કરો"
 
 #: ../plugins/face/face.c:296
-#, fuzzy
 #| msgid "Importing files"
 msgid "Image files"
-msgstr "ફાઈલો આયાત કરી રહ્યા છીએ"
+msgstr "ઇમેજ ફાઇલો"
 
 #: ../plugins/face/face.c:352
 msgid "_Insert Face picture by default"
@@ -17829,10 +17598,9 @@ msgid "Failed Read"
 msgstr "કોષ્ટક હેડર"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:2
-#, fuzzy
 #| msgid "Invalid Date Value"
 msgid "Invalid Image Size"
-msgstr "અયોગ્ય તારીખ મૂલ્ય"
+msgstr "અયોગ્ય ઇમેજ માપ"
 
 #: ../plugins/face/org-gnome-face.error.xml.h:3
 #| msgid "_No image"
@@ -17885,10 +17653,9 @@ msgid "Cal_endar:"
 msgstr "કેલેન્ડર (_e):"
 
 #: ../plugins/google-account-setup/google-source.c:684
-#, fuzzy
 #| msgid "Retrieve _list"
 msgid "Retrieve _List"
-msgstr "યાદી ને મેળવી રહ્યા છે (_l)"
+msgstr "યાદી ને મેળવી રહ્યા છે (_L)"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
 msgid "Add Google Calendars to Evolution."
@@ -18557,10 +18324,9 @@ msgid "calendar.ics"
 msgstr "calendar.ics"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1645
-#, fuzzy
 #| msgid "New Calendar"
 msgid "Save Calendar"
-msgstr "નવું કેલેન્ડર"
+msgstr "કૅલેન્ડર સંગ્રહો"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1703
 #: ../plugins/itip-formatter/itip-formatter.c:1714
@@ -19057,10 +18823,9 @@ msgid "All day:"
 msgstr "બધા દિવસ:"
 
 #: ../plugins/itip-formatter/itip-view.c:698
-#, fuzzy
 #| msgid "Sta_rt date:"
 msgid "Start day:"
-msgstr "શરુઆતની તારીખ (_r):"
+msgstr "શરૂઆતનો દિવસ:"
 
 #. Start time
 #: ../plugins/itip-formatter/itip-view.c:698
@@ -19069,11 +18834,10 @@ msgid "Start time:"
 msgstr "શરૂઆતનો સમય:"
 
 #: ../plugins/itip-formatter/itip-view.c:710
-#, fuzzy
 #| msgid "%d day"
 #| msgid_plural "%d days"
 msgid "End day:"
-msgstr "%d દિવસ"
+msgstr "અંતિમ દિવસ:"
 
 #. End time
 #: ../plugins/itip-formatter/itip-view.c:710
@@ -19119,10 +18883,9 @@ msgid "_Tentative"
 msgstr "અજમાયશ (_T)"
 
 #: ../plugins/itip-formatter/itip-view.c:855
-#, fuzzy
 #| msgid "_Accept all"
 msgid "A_ccept all"
-msgstr "બધું સ્વીકારો (_A)"
+msgstr "બધું સ્વીકારો (_c)"
 
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:866
@@ -19292,18 +19055,18 @@ msgstr[1] ""
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
 #: ../plugins/mail-notification/mail-notification.c:402
-#, fuzzy, c-format
+#, c-format
 #| msgid "From %s:"
 msgid "From: %s"
-msgstr "%s માંથી:"
+msgstr "માંથી: %s"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
 #: ../plugins/mail-notification/mail-notification.c:415
-#, fuzzy, c-format
+#, c-format
 #| msgid "Subject:"
 msgid "Subject: %s"
-msgstr "વિષય:"
+msgstr "વિષય: %s"
 
 #: ../plugins/mail-notification/mail-notification.c:425
 #, c-format
@@ -19339,10 +19102,9 @@ msgid "Use sound _theme"
 msgstr "સાઉન્ડ થીમને વાપરો (_t)"
 
 #: ../plugins/mail-notification/mail-notification.c:777
-#, fuzzy
 #| msgid "Play _sound file"
 msgid "Play _file:"
-msgstr "ધ્વનિ ફાઈલ વગાડો (_s)"
+msgstr "ફાઈલ વગાડો (_f)"
 
 #: ../plugins/mail-notification/mail-notification.c:788
 msgid "Select sound file"
@@ -19755,10 +19517,9 @@ msgid "Let Evolution choose the best part to show."
 msgstr ""
 
 #: ../plugins/prefer-plain/prefer-plain.c:226
-#, fuzzy
 #| msgid "Show HTML if present"
 msgid "Show plain text if present"
-msgstr "HTML બતાવો જો હાજર હોય તો"
+msgstr "સાદા લખાણને બતાવો જો હાજર હોય તો"
 
 #: ../plugins/prefer-plain/prefer-plain.c:226
 msgid ""
@@ -19900,20 +19661,18 @@ msgid "_Publish Calendar Information"
 msgstr "કેલેન્ડર જાણકારી પ્રકાશિત કરો (_P)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:2
-#, fuzzy
 #| msgid "Custom Notification"
 msgid "Custom Location"
-msgstr "વૈવિધ્યપૂર્ણ સૂચન"
+msgstr "વૈવિધ્ય સ્થાન"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:3
-#, fuzzy
 #| msgid "Day"
 msgid "Daily"
-msgstr "દિવસ"
+msgstr "દરરોજ"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:5
 msgid "FTP (with login)"
-msgstr ""
+msgstr "FTP (પ્રવેશ સાથે)"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:9
 #, fuzzy
@@ -20755,10 +20514,9 @@ msgid "_Quick Reference"
 msgstr "ઝડપી સંદર્ભ (_Q)"
 
 #: ../shell/e-shell-window-actions.c:1496
-#, fuzzy
 #| msgid "Change Evolution's settings"
 msgid "Show Evolution's shortcut keys"
-msgstr "Evolution ના સુયોજનો બદલો"
+msgstr "Evolution ટૂંકાણ કીઓને બતાવો"
 
 #: ../shell/e-shell-window-actions.c:1503
 msgid "Exit the program"
@@ -20770,7 +20528,7 @@ msgstr "અદ્યતન શોધ (_A)..."
 
 #: ../shell/e-shell-window-actions.c:1510
 msgid "Construct a more advanced search"
-msgstr ""
+msgstr "વધારે ઉન્નત શોધને બંધારિત કરો"
 
 #: ../shell/e-shell-window-actions.c:1517
 #, fuzzy
@@ -20783,10 +20541,9 @@ msgid "_Edit Saved Searches..."
 msgstr "સંગ્રહાયેલ શોધોમાં ફેરફાર કરો (_E)..."
 
 #: ../shell/e-shell-window-actions.c:1524
-#, fuzzy
 #| msgid "Manage your email, contacts and schedule"
 msgid "Manage your saved searches"
-msgstr "તમારું ઈમેઈલ, સંપર્કો અને સમયક્રમની વ્યવસ્થા કરો"
+msgstr "તમારા સંગ્રહેલ શોધોને સંચાલિત કરો"
 
 #: ../shell/e-shell-window-actions.c:1531
 msgid "Click here to change the search type"
@@ -20798,20 +20555,18 @@ msgstr "હમણાં શોધો (_F)"
 
 #. Block the default Ctrl+F.
 #: ../shell/e-shell-window-actions.c:1538
-#, fuzzy
 #| msgid "Cancel the current mail operation"
 msgid "Execute the current search parameters"
-msgstr "વર્તમાન મેઈલ પ્રક્રિયા રદ કરો"
+msgstr "વર્તમાન શોધ પરિમાણોને ચલાવો"
 
 #: ../shell/e-shell-window-actions.c:1543
 msgid "_Save Search..."
 msgstr "શોધ સંગ્રહો (_S)..."
 
 #: ../shell/e-shell-window-actions.c:1545
-#, fuzzy
 #| msgid "Save the current file"
 msgid "Save the current search parameters"
-msgstr "વર્તમાન ફાઈલ સંગ્રહો"
+msgstr "વર્તમાન શોધ પરિમાણોને સંગ્રહો"
 
 #: ../shell/e-shell-window-actions.c:1557
 #, fuzzy
@@ -20828,20 +20583,18 @@ msgid "_Work Offline"
 msgstr "ઓફલાઈન કામ કરો (_W)"
 
 #: ../shell/e-shell-window-actions.c:1566
-#, fuzzy
 #| msgid "Start in offline mode"
 msgid "Put Evolution into offline mode"
-msgstr "ઓફલાઈન સ્થિતિમાં શરુ કરો"
+msgstr "ઓફલાઈન સ્થિતિમાં Evolution ને મૂકો"
 
 #: ../shell/e-shell-window-actions.c:1571
 msgid "_Work Online"
 msgstr "ઓનલાઈન કામ કરો (_W)"
 
 #: ../shell/e-shell-window-actions.c:1573
-#, fuzzy
 #| msgid "Start in online mode"
 msgid "Put Evolution into online mode"
-msgstr "ઓનલાઈન સ્થિતિમાં શરુ કરો"
+msgstr "ઓનલાઈન સ્થિતિમાં Evolution ને મૂકો"
 
 #: ../shell/e-shell-window-actions.c:1601
 msgid "Lay_out"
@@ -20868,16 +20621,14 @@ msgid "Show Side _Bar"
 msgstr "બાજુ પટ્ટી બતાવો (_B)"
 
 #: ../shell/e-shell-window-actions.c:1667
-#, fuzzy
 #| msgid "Show Side _Bar"
 msgid "Show the side bar"
-msgstr "બાજુ પટ્ટી બતાવો (_B)"
+msgstr "બાજુ પટ્ટી બતાવો"
 
 #: ../shell/e-shell-window-actions.c:1673
-#, fuzzy
 #| msgid "Show Animations"
 msgid "Show _Buttons"
-msgstr "એનિમેશન બતાવો"
+msgstr "બટનો બતાવો (_B)"
 
 #: ../shell/e-shell-window-actions.c:1675
 #, fuzzy
@@ -20890,22 +20641,19 @@ msgid "Show _Status Bar"
 msgstr "પરિસ્થિતિદર્શક પટ્ટી બતાવો (_S)"
 
 #: ../shell/e-shell-window-actions.c:1683
-#, fuzzy
 #| msgid "Show _Status Bar"
 msgid "Show the status bar"
-msgstr "પરિસ્થિતિદર્શક પટ્ટી બતાવો (_S)"
+msgstr "પરિસ્થિતિદર્શક પટ્ટી બતાવો"
 
 #: ../shell/e-shell-window-actions.c:1689
-#, fuzzy
 #| msgid "Show _Toolbar"
 msgid "Show _Tool Bar"
 msgstr "સાધનપટ્ટી બતાવો (_T)"
 
 #: ../shell/e-shell-window-actions.c:1691
-#, fuzzy
 #| msgid "Show _Toolbar"
 msgid "Show the tool bar"
-msgstr "સાધનપટ્ટી બતાવો (_T)"
+msgstr "સાધનપટ્ટી બતાવો"
 
 #: ../shell/e-shell-window-actions.c:1713
 msgid "_Icons Only"
@@ -20993,16 +20741,14 @@ msgid "New"
 msgstr "નવું"
 
 #: ../shell/e-shell.c:261
-#, fuzzy
 #| msgid "Preparing account '%s' for offline"
 msgid "Preparing to go offline..."
-msgstr "ઓફલાઈન માટે ખાતું '%s' તૈયાર કરી રહ્યા છીએ"
+msgstr "ઓફલાઇન જવા માટે તૈયારી કરી રહ્યા છે..."
 
 #: ../shell/e-shell.c:314
-#, fuzzy
 #| msgid "Preparing account '%s' for offline"
 msgid "Preparing to go online..."
-msgstr "ઓફલાઈન માટે ખાતું '%s' તૈયાર કરી રહ્યા છીએ"
+msgstr "ઓનલાઇન જવા માટે તૈયારી કરી રહ્યા છીએ..."
 
 #: ../shell/e-shell.c:376
 msgid "Preparing to quit..."
@@ -21176,10 +20922,9 @@ msgid "Quit Now"
 msgstr "બહાર નીકળો (_Q)"
 
 #: ../shell/shell.error.xml.h:8
-#, fuzzy
 #| msgid "Upgrade from previous version failed: {0}"
 msgid "Upgrade from previous version failed:"
-msgstr "પહેલાંની આવૃત્તિમાંથી સુધારો કરવામાં નિષ્ફળ: {0}"
+msgstr "નિષ્ફળ થયેલ પહેલાંની આવૃત્તિમાંથી સુધારો:"
 
 #: ../shell/shell.error.xml.h:9
 msgid "_Forget"
@@ -21204,29 +20949,26 @@ msgstr ""
 "પરવાનગી નથી.\n"
 
 #: ../shell/test/e-test-shell-backend.c:60
-#, fuzzy
 #| msgctxt "New"
 #| msgid "_Test"
 msgctxt "New"
 msgid "_Test Item"
-msgstr "ચકાસણી (_T)"
+msgstr "ચકાસણી વસ્તુ (_T)"
 
 #: ../shell/test/e-test-shell-backend.c:62
 msgid "Create a new test item"
 msgstr "નવી ચકાસણી વસ્તુ બનાવો"
 
 #: ../shell/test/e-test-shell-backend.c:70
-#, fuzzy
 #| msgid "Resource"
 msgctxt "New"
 msgid "Test _Source"
-msgstr "સ્રોત"
+msgstr "ચકાસણી સ્ત્રોત (_S)"
 
 #: ../shell/test/e-test-shell-backend.c:72
-#, fuzzy
 #| msgid "Create a new test item"
 msgid "Create a new test source"
-msgstr "નવી ચકાસણી વસ્તુ બનાવો"
+msgstr "નવા ચકાસણી સ્ત્રોત બનાવો"
 
 #: ../smclient/eggdesktopfile.c:165
 #, c-format
@@ -21236,18 +20978,18 @@ msgstr "ફાઇલ એ માન્ય .desktop ફાઇલ નથી"
 #: ../smclient/eggdesktopfile.c:188
 #, c-format
 msgid "Unrecognized desktop file Version '%s'"
-msgstr ""
+msgstr "બિનઓળખાયેલ ડેસ્કટોપ ફાઇલ આવૃત્તિ '%s'"
 
 #: ../smclient/eggdesktopfile.c:957
-#, fuzzy, c-format
+#, c-format
 #| msgid "Scanning %s"
 msgid "Starting %s"
-msgstr "%s સ્કેન કરી રહ્યા છીએ"
+msgstr "%s શરૂ કરી રહ્યા છીએ"
 
 #: ../smclient/eggdesktopfile.c:1098
 #, c-format
 msgid "Application does not accept documents on command line"
-msgstr ""
+msgstr "કાર્યક્રમ આદેશ વાક્ય પર દસ્તાવેજોને સ્વીકારતુ નથી"
 
 #: ../smclient/eggdesktopfile.c:1166
 #, c-format
@@ -21260,10 +21002,10 @@ msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
 msgstr ""
 
 #: ../smclient/eggdesktopfile.c:1386
-#, fuzzy, c-format
+#, c-format
 #| msgid "Editor not launchable"
 msgid "Not a launchable item"
-msgstr "સંપાદક ને પ્રકાશિત કરવામાં આવ્યુ નથી"
+msgstr "શરૂ કરી શકાય તેવી વસ્તુ નથી"
 
 #: ../smclient/eggsmclient.c:227
 #, fuzzy
@@ -21286,20 +21028,18 @@ msgid "Specify session management ID"
 msgstr "સત્ર સંચાલન ID ને સ્પષ્ટ કરો"
 
 #: ../smclient/eggsmclient.c:233
-#, fuzzy
 #| msgid "UID"
 msgid "ID"
-msgstr "UID"
+msgstr "ID"
 
 #: ../smclient/eggsmclient.c:254
 msgid "Session management options:"
 msgstr "સત્ર સંચાલન વિકલ્પો:"
 
 #: ../smclient/eggsmclient.c:255
-#, fuzzy
 #| msgid "Show image animations"
 msgid "Show session management options"
-msgstr "ચિત્ર એનીમેશનો બતાવો"
+msgstr "સત્ર સંચાલન વિકલ્પોને બતાવો"
 
 #: ../smime/gui/ca-trust-dialog.c:104
 #, c-format
@@ -21347,10 +21087,9 @@ msgid "All files"
 msgstr "બધી ફાઈલો"
 
 #: ../smime/gui/certificate-manager.c:182
-#, fuzzy
 #| msgid "Imported Certificate"
 msgid "Failed to import user's certificate"
-msgstr "મહત્વના પ્રમાણપત્ર"
+msgstr "વપરાશકર્તાનાં પ્રમાણપત્રને આયાત કરવાનું નિષ્ફળ"
 
 #: ../smime/gui/certificate-manager.c:352
 #: ../smime/gui/certificate-manager.c:574
@@ -21377,10 +21116,9 @@ msgid "All email certificate files"
 msgstr "બધી ઈમેઈલ પ્રમાણપત્ર ફાઈલો"
 
 #: ../smime/gui/certificate-manager.c:502
-#, fuzzy
 #| msgid "Failed to delete contact"
 msgid "Failed to import contact's certificate"
-msgstr "સંપર્ક કાઢી નાંખવામાં નિષ્ફળ"
+msgstr "સંપર્કના પ્રમાણપત્રને આયાત કરવાનું નિષ્ફળ"
 
 #: ../smime/gui/certificate-manager.c:583
 msgid "E-Mail Address"
@@ -21400,10 +21138,10 @@ msgid "Certificate Viewer: %s"
 msgstr "પ્રમાણપત્ર દર્શક: %s"
 
 #: ../smime/gui/component.c:46
-#, fuzzy, c-format
+#, c-format
 #| msgid "Enter the password for `%s'"
 msgid "Enter the password for '%s'"
-msgstr "`%s' માટે પાસવર્ડ દાખલ કરો"
+msgstr "'%s' માટે પાસવર્ડ દાખલ કરો"
 
 #. we're setting the password initially
 #: ../smime/gui/component.c:69
@@ -21446,10 +21184,9 @@ msgid "Authorities"
 msgstr "સત્તાધિકારો"
 
 #: ../smime/gui/smime-ui.ui.h:3
-#, fuzzy
 #| msgid "Backup All"
 msgid "Backup _All"
-msgstr "બધું બેકઅપ"
+msgstr "બધું બેકઅપ લો (_A)"
 
 #: ../smime/gui/smime-ui.ui.h:4
 msgid ""
@@ -21468,16 +21205,14 @@ msgid "Certificate Authority Trust"
 msgstr "પ્રમાણપત્ર સત્તાધિકાર વિશ્વાસ"
 
 #: ../smime/gui/smime-ui.ui.h:7
-#, fuzzy
 #| msgid "<b>Certificate Fields</b>"
 msgid "Certificate Fields"
-msgstr "<b>પ્રમાણપત્રના ક્ષેત્રો</b>"
+msgstr "પ્રમાણપત્રના ક્ષેત્રો"
 
 #: ../smime/gui/smime-ui.ui.h:8
-#, fuzzy
 #| msgid "<b>Certificate Hierarchy</b>"
 msgid "Certificate Hierarchy"
-msgstr "<b>પ્રમાણપત્ર વંશવેલો</b>"
+msgstr "પ્રમાણપત્ર વંશવેલો"
 
 #: ../smime/gui/smime-ui.ui.h:9
 msgid "Certificate details"
@@ -21516,16 +21251,14 @@ msgid "Expires On"
 msgstr "આ વખતે મુદત પુરી થાય છે"
 
 #: ../smime/gui/smime-ui.ui.h:19
-#, fuzzy
 #| msgid "Field Name"
 msgid "Field Value"
-msgstr "ક્ષેત્ર નામ"
+msgstr "ક્ષેત્ર કિંમત"
 
 #: ../smime/gui/smime-ui.ui.h:20
-#, fuzzy
 #| msgid "MD5 Fingerprint"
 msgid "Fingerprints"
-msgstr "MD5 આંગળીની છાપ"
+msgstr "આંગળીની છાપ"
 
 #: ../smime/gui/smime-ui.ui.h:23
 #, fuzzy
@@ -21592,10 +21325,9 @@ msgid "Trust this CA to identify websites."
 msgstr "વેબ સાઈટોને ઓળખવા માટે આ CA નો વિશ્વાસ કરો."
 
 #: ../smime/gui/smime-ui.ui.h:38
-#, fuzzy
 #| msgid "<b>Validity</b>"
 msgid "Validity"
-msgstr "<b>માન્યતા</b>"
+msgstr "માન્યતા"
 
 #: ../smime/gui/smime-ui.ui.h:39
 msgid "You have certificates from these organizations that identify you:"
@@ -21615,10 +21347,9 @@ msgstr "તમારા પ્રમાણપત્રો"
 
 #. This is a verb, as in "make a backup".
 #: ../smime/gui/smime-ui.ui.h:44
-#, fuzzy
 #| msgid "Backup"
 msgid "_Backup"
-msgstr "બેકઅપ"
+msgstr "બેકઅપ (_B)"
 
 #: ../smime/gui/smime-ui.ui.h:45
 msgid "_Edit CA Trust"
@@ -21913,10 +21644,9 @@ msgid "Select a Time Zone"
 msgstr "ટાઈમ ઝોન પસંદ કરો"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:3
-#, fuzzy
 #| msgid "Time _Zone"
 msgid "Time Zones"
-msgstr "ટાઈમ ઝોન (_Z)"
+msgstr "ટાઈમ ઝોન"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:4
 msgid "Timezone drop-down combination box"
@@ -21933,10 +21663,9 @@ msgstr ""
 "તેને નાનું કરવા માટે જમણું માઉસ બટન વાપરો."
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.ui.h:7
-#, fuzzy
 #| msgid "Selection Mode"
 msgid "_Selection"
-msgstr "પસંદગી પદ્ધતિ"
+msgstr "પસંદગી (_S)"
 
 #: ../widgets/menus/gal-define-views-dialog.c:346
 #: ../widgets/menus/gal-define-views.ui.h:4
@@ -22044,17 +21773,15 @@ msgid "Saving"
 msgstr "સંગ્રહ કરી રહ્યા છીએ"
 
 #: ../widgets/misc/e-attachment-paned.c:97
-#, fuzzy
 #| msgid "Hide _Attachment Bar"
 msgid "Hide Attachment _Bar"
-msgstr "જોડાણપટ્ટી છુપાવો (_A)"
+msgstr "જોડાણપટ્ટી છુપાવો (_B)"
 
 #: ../widgets/misc/e-attachment-paned.c:99
 #: ../widgets/misc/e-attachment-paned.c:637
-#, fuzzy
 #| msgid "Show _Attachment Bar"
 msgid "Show Attachment _Bar"
-msgstr "જોડાણ પટ્ટી બતાવો (_A)"
+msgstr "જોડાણ પટ્ટી બતાવો (_B)"
 
 #: ../widgets/misc/e-attachment-store.c:521
 msgid "Add Attachment"
@@ -22089,10 +21816,9 @@ msgid "_Hide"
 msgstr "છુપાવો (_H)"
 
 #: ../widgets/misc/e-attachment-view.c:406
-#, fuzzy
 #| msgid "S_ave All"
 msgid "Hid_e All"
-msgstr "બધું સંગ્રહો (_a)"
+msgstr "બધુ છુપાડો (_e)"
 
 #: ../widgets/misc/e-attachment-view.c:413
 msgid "_View Inline"
@@ -22166,10 +21892,9 @@ msgstr "જોડાણનો સંગ્રહ કરી શક્યા ન�
 
 #. To Translators: The text is concatenated to a form: "Ctrl-click to open a link http://www.example.com"
 #: ../widgets/misc/e-buffer-tagger.c:359
-#, fuzzy
 #| msgid "Click to open %s"
 msgid "Ctrl-click to open a link"
-msgstr "%s ખોલવા માટે ક્લિક કરો"
+msgstr "Ctrl-કડી ખોલવા માટે ક્લિક કરો"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../widgets/misc/e-calendar-item.c:1229
@@ -22225,7 +21950,6 @@ msgstr "કંઈ નહિં (_N)"
 #. Translators: "None" for date field of a date edit, shown when
 #. * there is no date set.
 #: ../widgets/misc/e-dateedit.c:1689 ../widgets/misc/e-dateedit.c:1921
-#, fuzzy
 #| msgid "None"
 msgctxt "date"
 msgid "None"
@@ -22299,10 +22023,9 @@ msgstr ""
 
 #. Install a custom "Cancel Import" button.
 #: ../widgets/misc/e-import-assistant.c:766
-#, fuzzy
 #| msgid "_Import"
 msgid "_Cancel Import"
-msgstr "આયાત (_I)"
+msgstr "આયાત રદ કરો (_C)"
 
 #: ../widgets/misc/e-import-assistant.c:908
 #, fuzzy
@@ -22315,10 +22038,9 @@ msgstr "છાપવા માટે સંદેશાનું પૂર્વ
 #: ../widgets/misc/e-import-assistant.c:1277
 #: ../widgets/misc/e-import-assistant.c:1343
 #: ../widgets/misc/e-import-assistant.c:1352
-#, fuzzy
 #| msgid "Important"
 msgid "Import Data"
-msgstr "મહત્વનું"
+msgstr "માહિતી આયાત કરો"
 
 #: ../widgets/misc/e-import-assistant.c:922
 msgid "Select what type of file you want to import from the list."
@@ -22475,41 +22197,35 @@ msgid "Deli_vered and opened"
 msgstr "પહોંચી ગયેલ અને ખૂલેલા (_v)"
 
 #: ../widgets/misc/e-send-options.ui.h:5
-#, fuzzy
 #| msgid "<b>Delivery Options</b>"
 msgid "Delivery Options"
-msgstr "<b>પહોંચાડનાર વિકલ્પો</b>"
+msgstr "પહોંચાડનાર વિકલ્પો"
 
 #: ../widgets/misc/e-send-options.ui.h:6
-#, fuzzy
 #| msgid "_Until:"
 msgctxt "ESendOptions"
 msgid "_Until"
-msgstr "જ્યાં સુધી નહિં (_U):"
+msgstr "જ્યાં સુધી (_U)"
 
 #: ../widgets/misc/e-send-options.ui.h:7
-#, fuzzy
 #| msgid "_After:"
 msgctxt "ESendOptionsAfter"
 msgid "_After"
-msgstr "પછી (_A):"
+msgstr "પછી (_A)"
 
 #: ../widgets/misc/e-send-options.ui.h:8
-#, fuzzy
 #| msgid "days"
 msgctxt "ESendOptionsAfter"
 msgid "days"
 msgstr "દિવસો"
 
 #: ../widgets/misc/e-send-options.ui.h:9
-#, fuzzy
 #| msgid "Wi_thin"
 msgctxt "ESendOptionsWithin"
 msgid "Wi_thin"
-msgstr "ની સાથે (_t)"
+msgstr "ની અંદર (_t)"
 
 #: ../widgets/misc/e-send-options.ui.h:10
-#, fuzzy
 #| msgid "days"
 msgctxt "ESendOptionsWithin"
 msgid "days"
@@ -22524,14 +22240,11 @@ msgid "Gene_ral Options"
 msgstr "સામાન્ય વિકલ્પો (_r)"
 
 #: ../widgets/misc/e-send-options.ui.h:15
-#, fuzzy
 #| msgid ""
 #| "None\n"
 #| "Mail Receipt"
 msgid "Mail Receipt"
-msgstr ""
-"કંઈ નહિં\n"
-"મેઈલ રસીદ"
+msgstr "મેઈલ રસીદ"
 
 #: ../widgets/misc/e-send-options.ui.h:17
 #, fuzzy
@@ -22558,10 +22271,9 @@ msgid "Sta_tus Tracking"
 msgstr "પરિસ્થિતિ પકડવાનું (_t)"
 
 #: ../widgets/misc/e-send-options.ui.h:24
-#, fuzzy
 #| msgid "S_tandard Font:"
 msgid "Standard"
-msgstr "પ્રમાણભૂત ફોન્ટ (_t):"
+msgstr "પ્રમાણભૂત"
 
 #: ../widgets/misc/e-send-options.ui.h:25
 #, fuzzy
@@ -22570,7 +22282,6 @@ msgid "Status Tracking"
 msgstr "પરિસ્થિતિ પકડવાનું (_t)"
 
 #: ../widgets/misc/e-send-options.ui.h:26
-#, fuzzy
 #| msgid "Top secret"
 msgid "Top Secret"
 msgstr "અતિ ગુપ્ત"
@@ -22617,7 +22328,6 @@ msgstr "જ્યારે ખૂલે (_W):"
 
 #. Translators: Used in send options dialog
 #: ../widgets/misc/e-send-options.ui.h:40
-#, fuzzy
 #| msgid "None"
 msgctxt "send-options"
 msgid "None"
@@ -22643,16 +22353,14 @@ msgid "_Signature Name:"
 msgstr "સહીનું નામ (_S):"
 
 #: ../widgets/misc/e-signature-manager.c:297
-#, fuzzy
 #| msgid "Add signature script"
 msgid "Add Signature Script"
 msgstr "સહી સ્ક્રિપ્ટ ઉમેરો"
 
 #: ../widgets/misc/e-signature-manager.c:362
-#, fuzzy
 #| msgid "Edit Signature"
 msgid "Edit Signature Script"
-msgstr "સહીમાં ફેરફાર કરો"
+msgstr "સહી સ્ક્રિપ્ટમાં ફેરફાર કરો"
 
 #: ../widgets/misc/e-signature-manager.c:580
 msgid "Add _Script"
