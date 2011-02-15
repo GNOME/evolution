@@ -120,6 +120,10 @@ alert_dialog_constructed (GObject *object)
 	PangoAttrList *list;
 	GList *actions;
 	const gchar *primary, *secondary;
+	gint min_width = -1, prefer_width = -1;
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_alert_dialog_parent_class)->constructed (object);
 
 	dialog = E_ALERT_DIALOG (object);
 	alert = e_alert_dialog_get_alert (dialog);
@@ -159,7 +163,7 @@ alert_dialog_constructed (GObject *object)
 
 		gtk_box_pack_end (
 			GTK_BOX (action_area),
-			button, FALSE, TRUE, 0);
+			button, FALSE, FALSE, 0);
 
 		actions = g_list_next (actions);
 	}
@@ -171,7 +175,7 @@ alert_dialog_constructed (GObject *object)
 
 	widget = gtk_hbox_new (FALSE, 12);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 12);
-	gtk_box_pack_start (GTK_BOX (content_area), widget, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (content_area), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -213,10 +217,13 @@ alert_dialog_constructed (GObject *object)
 	gtk_widget_set_can_focus (widget, FALSE);
 	gtk_widget_show (widget);
 
-	pango_attr_list_unref (list);
+	widget = GTK_WIDGET (dialog);
 
-	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (e_alert_dialog_parent_class)->constructed (object);
+	gtk_widget_get_preferred_width_for_height (widget, gtk_widget_get_allocated_height (widget), &min_width, &prefer_width);
+	if (min_width < prefer_width)
+		gtk_window_set_default_size (GTK_WINDOW (dialog), MIN ((min_width + prefer_width) / 2, min_width * 5 / 4), -1);
+
+	pango_attr_list_unref (list);
 }
 
 static void
