@@ -691,7 +691,7 @@ e_mail_session_send_to (EMailSession *session,
 		if (g_strcmp0 (header->name, "X-Evolution-PostTo") != 0)
 			continue;
 
-		folder_uri = g_strstrip (g_strdup (header->name));
+		folder_uri = g_strstrip (g_strdup (header->value));
 		g_ptr_array_add (post_to_uris, folder_uri);
 	}
 
