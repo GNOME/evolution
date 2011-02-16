@@ -262,6 +262,17 @@ book_shell_content_constructed (GObject *object)
 	eab_contact_display_set_mode (
 		EAB_CONTACT_DISPLAY (widget),
 		EAB_CONTACT_DISPLAY_RENDER_NORMAL);
+
+	eab_contact_display_set_orientation (
+		EAB_CONTACT_DISPLAY (widget),
+		priv->orientation);
+
+	g_object_bind_property (
+		object, "orientation",
+		widget, "orientation",
+		G_BINDING_SYNC_CREATE);
+
+
 	e_shell_configure_web_view (shell, E_WEB_VIEW (widget));
 	gtk_widget_show (widget);
 

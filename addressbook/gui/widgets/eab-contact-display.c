@@ -47,12 +47,14 @@
 struct _EABContactDisplayPrivate {
 	EContact *contact;
 	EABContactDisplayMode mode;
+	GtkOrientation orientation;
 };
 
 enum {
 	PROP_0,
 	PROP_CONTACT,
-	PROP_MODE
+	PROP_MODE,
+	PROP_ORIENTATION
 };
 
 enum {
@@ -185,61 +187,6 @@ static GtkActionEntry internal_mailto_entries[] = {
 };
 
 static void
-render_name_value (GString *buffer,
-                   const gchar *label,
-                   const gchar *str,
-                   const gchar *icon,
-                   guint html_flags)
-{
-	gchar *value = e_text_to_html (str, html_flags);
-
-	if (TEXT_IS_RIGHT_TO_LEFT) {
-		g_string_append_printf (
-			buffer, "<tr>"
-			"<td align=\"right\" valign=\"top\">%s</td> "
-			"<td align=\"right\" valign=\"top\" width=\"100\" nowrap>"
-			"<font color=" HEADER_COLOR ">%s:</font></td>",
-			value, label);
-		g_string_append (
-			buffer, "<td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
-		if (icon != NULL)
-			g_string_append_printf (
-				buffer, "<img width=\"16\" height=\"16\" "
-				"src=\"evo-icon:%s\">", icon);
-		g_string_append (buffer, "</td></tr>");
-	} else {
-		g_string_append (
-			buffer, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
-		if (icon != NULL)
-			g_string_append_printf (
-				buffer, "<img width=\"16\" height=\"16\" "
-				"src=\"evo-icon:%s\">", icon);
-		g_string_append_printf (
-			buffer, "</td><td valign=\"top\" width=\"100\" nowrap>"
-			"<font color=" HEADER_COLOR ">%s:</font></td> "
-			"<td valign=\"top\">%s</td></tr>", label, value);
-	}
-
-	g_free (value);
-}
-
-static void
-render_attribute (GString *buffer,
-                  EContact *contact,
-                  const gchar *html_label,
-                  EContactField field,
-                  const gchar *icon,
-                  guint html_flags)
-{
-	const gchar *str;
-
-	str = e_contact_get_const (contact, field);
-
-	if (str != NULL && *str != '\0')
-		render_name_value (buffer, html_label, str, icon, html_flags);
-}
-
-static void
 accum_address (GString *buffer,
                EContact *contact,
                const gchar *html_label,
@@ -253,17 +200,10 @@ accum_address (GString *buffer,
 	if (label) {
 		gchar *html = e_text_to_html (label, E_TEXT_TO_HTML_CONVERT_NL);
 
-#ifdef mapping_works
 		if (TEXT_IS_RIGHT_TO_LEFT)
-			g_string_append_printf (buffer, "<tr><td align=\"right\" valign=\"top\">%s</td><td valign=\"top\" width=\"100\" align=\"right\"><font color=" HEADER_COLOR ">%s:</font><br><a href=\"http://www.mapquest.com/\">%s</a></td><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td></tr>", html, html_label, _("(map)"));
+			g_string_append_printf (buffer, "<tr><td align=\"right\" valign=\"top\" nowrap>%s</td><td valign=\"top\" width=\"100\" align=\"right\"><font color=" HEADER_COLOR ">%s:</font></td><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td></tr>", html, html_label);
 		else
-			g_string_append_printf (buffer, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font><br><a href=\"http://www.mapquest.com/\">%s</a></td><td valign=\"top\">%s</td></tr>", html_label, _("(map)"), html);
-#else
-		if (TEXT_IS_RIGHT_TO_LEFT)
-			g_string_append_printf (buffer, "<tr><td align=\"right\" valign=\"top\">%s</td><td valign=\"top\" width=\"100\" align=\"right\"><font color=" HEADER_COLOR ">%s:</font></td><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td></tr>", html, html_label);
-		else
-			g_string_append_printf (buffer, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font></td><td valign=\"top\">%s</td></tr>", html_label, html);
-#endif
+			g_string_append_printf (buffer, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font></td><td valign=\"top\" nowrap>%s</td></tr>", html_label, html);
 
 		g_free (html);
 		return;
@@ -273,9 +213,9 @@ accum_address (GString *buffer,
 	if (adr &&
 	    (adr->po || adr->ext || adr->street || adr->locality || adr->region || adr->code || adr->country)) {
 		if (TEXT_IS_RIGHT_TO_LEFT)
-			g_string_append_printf (buffer, "<tr><td align=\"right\" valign=\"top\">");
+			g_string_append_printf (buffer, "<tr><td align=\"right\" valign=\"top\" nowrap>");
 		else
-			g_string_append_printf (buffer, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font><br><a href=\"http://www.mapquest.com/\">%s</a></td><td valign=\"top\">", html_label, _("map"));
+			g_string_append_printf (buffer, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font></td><td valign=\"top\" nowrap>", html_label);
 
 		if (adr->po && *adr->po) g_string_append_printf (buffer, "%s<br>", adr->po);
 		if (adr->ext && *adr->ext) g_string_append_printf (buffer, "%s<br>", adr->ext);
@@ -286,7 +226,7 @@ accum_address (GString *buffer,
 		if (adr->country && *adr->country) g_string_append_printf (buffer, "%s<br>", adr->country);
 
 		if (TEXT_IS_RIGHT_TO_LEFT)
-			g_string_append_printf (buffer, "</td><td valign=\"top\" width=\"100\" align=\"right\"><font color=" HEADER_COLOR ">%s:</font><br><a href=\"http://www.mapquest.com/\">%s</a></td><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td></tr>", html_label, _("map"));
+			g_string_append_printf (buffer, "</td><td valign=\"top\" width=\"100\" align=\"right\"><font color=" HEADER_COLOR ">%s:</font></td><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td></tr>", html_label);
 		else
 			g_string_append_printf (buffer, "</td></tr>");
 	}
@@ -395,43 +335,6 @@ accum_multival_attribute (GString *buffer,
 }
 
 static void
-render_contact_list (GString *buffer,
-                     EContact *contact)
-{
-	GList *email_list;
-	GList *l;
-
-	g_string_append (
-		buffer, "<table border=\"0\" cellspacing=\"0\" "
-		"cellpadding=\"0\"><tr>");
-	g_string_append (
-		buffer, "<td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
-	g_string_append (
-		buffer, "<img width=\"16\" height=\"16\" "
-		"src=\"evo-icon:" CONTACT_LIST_ICON "\">");
-	g_string_append_printf (
-		buffer, "</td><td valign=\"top\" width=\"100\" nowrap>"
-		"<font color=" HEADER_COLOR ">%s:</font></td> "
-		"<td valign=\"top\">", _("List Members"));
-
-	email_list = e_contact_get (contact, E_CONTACT_EMAIL);
-	for (l = email_list; l; l = l->next) {
-		gchar *value;
-
-		value = eab_parse_qp_email_to_html (l->data);
-
-		if (!value)
-			value = e_text_to_html (l->data, E_TEXT_TO_HTML_CONVERT_ADDRESSES);
-
-		g_string_append_printf (buffer, "%s<br>", value);
-
-		g_free (value);
-	}
-
-	g_string_append (buffer, "</td></tr></table>");
-}
-
-static void
 start_block (GString *buffer,
              const gchar *label)
 {
@@ -461,8 +364,89 @@ get_email_location (EVCardAttribute *attr)
 }
 
 static void
-render_contact (GString *buffer,
-                EContact *contact)
+render_title_block (GString *buffer, EContact *contact)
+{
+	const gchar *str;
+	gchar *html;
+	EContactPhoto *photo;
+
+	g_string_append_printf (
+			buffer, "<table border=\"0\"><tr>"
+			"<td %s valign=\"top\">", TEXT_IS_RIGHT_TO_LEFT ?
+			"align=\"right\"" : "");
+	photo = e_contact_get (contact, E_CONTACT_PHOTO);
+	if (!photo)
+		photo = e_contact_get (contact, E_CONTACT_LOGO);
+	/* Only handle inlined photos for now */
+	if (photo && photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
+		g_string_append (buffer, "<img border=\"1\" src=\"internal-contact-photo:\">");
+	}
+	if (photo)
+		e_contact_photo_free (photo);
+
+	g_string_append_printf (
+		buffer, "</td><td width=\"20\"></td><td %s valign=\"top\">\n",
+		TEXT_IS_RIGHT_TO_LEFT ? "align=\"right\"" : "");
+
+	str = e_contact_get_const (contact, E_CONTACT_FILE_AS);
+	if (!str)
+		str = e_contact_get_const (contact, E_CONTACT_FULL_NAME);
+
+	if (str) {
+		html = e_text_to_html (str, 0);
+		if (e_contact_get (contact, E_CONTACT_IS_LIST))
+			g_string_append_printf (buffer, "<h2><a href=\"internal-mailto:0\">%s</a></h2>", html);
+		else
+			g_string_append_printf (buffer, "<h2>%s</h2>", html);
+		g_free (html);
+	}
+
+	g_string_append (buffer, "</td></tr></table>");
+
+}
+
+static void
+render_contact_list (GString *buffer,
+                     EContact *contact)
+{
+	GList *email_list;
+	GList *l;
+
+	render_title_block (buffer, contact);
+
+	g_string_append (
+		buffer, "<br><table border=\"0\" cellspacing=\"0\" "
+		"cellpadding=\"0\"><tr>");
+	g_string_append (
+		buffer, "<td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
+	g_string_append (
+		buffer, "<img width=\"16\" height=\"16\" "
+		"src=\"evo-icon:" CONTACT_LIST_ICON "\">");
+	g_string_append_printf (
+		buffer, "</td><td valign=\"top\" width=\"100\" nowrap>"
+		"<font color=" HEADER_COLOR ">%s:</font></td> "
+		"<td valign=\"top\">", _("List Members"));
+
+	email_list = e_contact_get (contact, E_CONTACT_EMAIL);
+	for (l = email_list; l; l = l->next) {
+		gchar *value;
+
+		value = eab_parse_qp_email_to_html (l->data);
+
+		if (!value)
+			value = e_text_to_html (l->data, E_TEXT_TO_HTML_CONVERT_ADDRESSES);
+
+		g_string_append_printf (buffer, "%s<br>", value);
+
+		g_free (value);
+	}
+
+	g_string_append (buffer, "</td></tr></table>");
+	g_list_free (email_list);
+}
+
+static void
+render_contact_block (GString *buffer, EContact *contact)
 {
 	GString *accum;
 	GList *email_list, *l, *email_attr_list, *al;
@@ -470,7 +454,6 @@ render_contact (GString *buffer,
 	const gchar *nl;
 	gchar *nick=NULL;
 
-	g_string_append (buffer, "<table border=\"0\">");
 
 	accum = g_string_new ("");
 	nl = "";
@@ -481,7 +464,7 @@ render_contact (GString *buffer,
 	email_attr_list = e_contact_get_attributes (contact, E_CONTACT_EMAIL);
 
 	for (l = email_list, al=email_attr_list; l && al; l = l->next, al = al->next) {
-		gchar *html = NULL, *name = NULL, *mail = NULL;
+		gchar *name = NULL, *mail = NULL;
 		gchar *attr_str = (gchar *)get_email_location ((EVCardAttribute *) al->data);
 
 		if (!eab_parse_qp_email (l->data, &name, &mail))
@@ -498,7 +481,6 @@ render_contact (GString *buffer,
 		email_num++;
 		nl = "<br>";
 
-		g_free (html);
 		g_free (name);
 		g_free (mail);
 	}
@@ -521,7 +503,7 @@ render_contact (GString *buffer,
 			g_string_append_printf (
 				buffer, "</td><td valign=\"top\" width=\"100\" nowrap>"
 				"<font color=" HEADER_COLOR ">%s:</font></td> "
-				"<td valign=\"top\">%s</td></tr>",
+				"<td valign=\"top\" nowrap>%s</td></tr>",
 				_("Email"), accum->str);
 		}
 	}
@@ -550,7 +532,15 @@ render_contact (GString *buffer,
 
 	end_block (buffer);
 
-	g_string_assign (accum, "");
+	g_string_free (accum, TRUE);
+	g_free (nick);
+
+}
+
+static void
+render_work_block (GString *buffer, EContact *contact)
+{
+	GString *accum = g_string_new ("");
 
 	accum_attribute (accum, contact, _("Company"), E_CONTACT_ORG, NULL, 0);
 	accum_attribute (accum, contact, _("Department"), E_CONTACT_ORG_UNIT, NULL, 0);
@@ -571,7 +561,13 @@ render_contact (GString *buffer,
 		end_block (buffer);
 	}
 
-	g_string_assign (accum, "");
+	g_string_free (accum, TRUE);
+}
+
+static void
+render_personal_block (GString *buffer, EContact *contact)
+{
+	GString *accum = g_string_new ("");
 
 	accum_attribute (accum, contact, _("Home Page"), E_CONTACT_HOMEPAGE_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
 	accum_attribute (accum, contact, _("Web Log"), E_CONTACT_BLOG_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
@@ -588,16 +584,90 @@ render_contact (GString *buffer,
 		end_block (buffer);
 	}
 
-	start_block (buffer, "");
+	g_string_free (accum, TRUE);
+}
 
-	render_attribute (
-		buffer, contact, _("Note"), E_CONTACT_NOTE, NULL,
-		E_TEXT_TO_HTML_CONVERT_ADDRESSES |
-		E_TEXT_TO_HTML_CONVERT_URLS |
-		E_TEXT_TO_HTML_CONVERT_NL);
+static void
+render_note_block (GString *buffer, EContact *contact)
+{
+	const gchar *str;
+	gchar *html;
+
+	str = e_contact_get_const (contact, E_CONTACT_NOTE);
+	if (!str || !*str)
+		return;
+
+	html = e_text_to_html (str,  E_TEXT_TO_HTML_CONVERT_ADDRESSES | E_TEXT_TO_HTML_CONVERT_URLS | E_TEXT_TO_HTML_CONVERT_NL);
+
+	start_block (buffer, _("Note"));
+	g_string_append_printf (buffer, "<tr><td>%s</td></tr>", html);
 	end_block (buffer);
 
+	g_free (html);
+}
+
+static void
+render_contact_horizontal (GString *buffer, EContact *contact)
+{
+	g_string_append (buffer, "<table border=\"0\">");
+	render_title_block (buffer, contact);
 	g_string_append (buffer, "</table>");
+
+	g_string_append (buffer, "<table border=\"0\">");
+	render_contact_block (buffer, contact);
+	render_work_block (buffer, contact);
+	render_personal_block (buffer, contact);
+	g_string_append (buffer, "</table>");
+
+	g_string_append (buffer, "<table border=\"0\">");
+	render_note_block (buffer, contact);
+	g_string_append (buffer, "</table>");
+}
+
+static void
+render_contact_vertical (GString *buffer, EContact *contact)
+{
+	/* First row: photo & name */
+	g_string_append (buffer, "<tr><td colspan=\"3\">");
+	render_title_block (buffer, contact);
+	g_string_append (buffer, "</td></tr>");
+
+	/* Second row: addresses etc. */
+	g_string_append (buffer, "<tr>");
+
+	/* First column: email, IM */
+	g_string_append (buffer, "<td valign=\"top\">");
+	g_string_append (buffer, "<table border=\"0\">");
+	render_contact_block (buffer, contact);
+	g_string_append (buffer, "</table></td>");
+
+	/* Second column: Work */
+	g_string_append (buffer, "<td width=\"30\"></td><td valign=\"top\"><table border=\"0\">");
+	render_work_block (buffer, contact);
+	g_string_append (buffer, "</table>");
+	g_string_append (buffer, "</td>");
+
+	/* Third column: Personal */
+	g_string_append (buffer, "<td width=\"30\"></td><td valign=\"top\"><table border=\"0\">");
+	render_personal_block (buffer, contact);
+	g_string_append (buffer, "</table>");
+	g_string_append (buffer, "</td>");
+
+	/* Third row: note */
+	g_string_append (buffer, "<tr><td colspan=\"3\"><table border=\"0\"");
+	render_note_block (buffer, contact);
+	g_string_append (buffer, "</table></td></tr>");
+
+	g_string_append (buffer, "</table>\n");
+}
+
+static void
+render_contact (GString *buffer, EContact *contact, GtkOrientation orientation)
+{
+	if (orientation == GTK_ORIENTATION_VERTICAL)
+		render_contact_vertical (buffer, contact);
+	else
+		render_contact_horizontal (buffer, contact);
 }
 
 static void
@@ -611,50 +681,18 @@ eab_contact_display_render_normal (EABContactDisplay *display,
 	buffer = g_string_sized_new (4096);
 	g_string_append (buffer, HTML_HEADER);
 	g_string_append_printf (
-		buffer, "<body><table width=\"100%%\"><tr>"
+		buffer, "<body><table><tr>"
 		"<td %s>\n", TEXT_IS_RIGHT_TO_LEFT ? "align=\"right\"" : "");
 
 	if (contact) {
-		const gchar *str;
-		gchar *html;
-		EContactPhoto *photo;
-
-		g_string_append_printf (
-			buffer, "<table cellspacing=\"20\" border=\"0\">"
-			"<td %s valign=\"top\">", TEXT_IS_RIGHT_TO_LEFT ?
-			"align=\"right\"" : "");
-		photo = e_contact_get (contact, E_CONTACT_PHOTO);
-		if (!photo)
-			photo = e_contact_get (contact, E_CONTACT_LOGO);
-		/* Only handle inlined photos for now */
-		if (photo && photo->type == E_CONTACT_PHOTO_TYPE_INLINED) {
-			g_string_append (buffer, "<img border=\"1\" src=\"internal-contact-photo:\">");
-			e_contact_photo_free (photo);
-		}
-
-		g_string_append_printf (
-			buffer, "</td><td %s valign=\"top\">\n",
-			TEXT_IS_RIGHT_TO_LEFT ? "align=\"right\"" : "");
-
-		str = e_contact_get_const (contact, E_CONTACT_FILE_AS);
-		if (!str)
-			str = e_contact_get_const (contact, E_CONTACT_FULL_NAME);
-
-		if (str) {
-			html = e_text_to_html (str, 0);
-			if (e_contact_get (contact, E_CONTACT_IS_LIST))
-				g_string_append_printf (buffer, "<h2><a href=\"internal-mailto:0\">%s</a></h2>", html);
-			else
-				g_string_append_printf (buffer, "<h2>%s</h2>", html);
-			g_free (html);
-		}
+		GtkOrientation orientation;
+		orientation = display->priv->orientation;
 
 		if (e_contact_get (contact, E_CONTACT_IS_LIST))
 			render_contact_list (buffer, contact);
 		else
-			render_contact (buffer, contact);
+			render_contact (buffer, contact, orientation);
 
-		g_string_append (buffer, "</td></tr></table>\n");
 	}
 
 	g_string_append (buffer, "</td></tr></table></body></html>\n");
@@ -871,6 +909,12 @@ contact_display_set_property (GObject *object,
 				EAB_CONTACT_DISPLAY (object),
 				g_value_get_int (value));
 			return;
+
+		case PROP_ORIENTATION:
+			eab_contact_display_set_orientation (
+				EAB_CONTACT_DISPLAY (object),
+				g_value_get_int (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -892,6 +936,11 @@ contact_display_get_property (GObject *object,
 		case PROP_MODE:
 			g_value_set_int (
 				value, eab_contact_display_get_mode (
+				EAB_CONTACT_DISPLAY (object)));
+			return;
+		case PROP_ORIENTATION:
+			g_value_set_int (
+				value, eab_contact_display_get_orientation (
 				EAB_CONTACT_DISPLAY (object)));
 			return;
 	}
@@ -1118,6 +1167,18 @@ eab_contact_display_class_init (EABContactDisplayClass *class)
 			EAB_CONTACT_DISPLAY_RENDER_NORMAL,
 			G_PARAM_READWRITE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_ORIENTATION,
+		g_param_spec_int(
+			"orientation",
+			NULL,
+			NULL,
+			GTK_ORIENTATION_HORIZONTAL,
+			GTK_ORIENTATION_VERTICAL,
+			GTK_ORIENTATION_HORIZONTAL,
+			G_PARAM_READWRITE));
+
 	signals[SEND_MESSAGE] = g_signal_new (
 		"send-message",
 		G_OBJECT_CLASS_TYPE (class),
@@ -1140,6 +1201,7 @@ eab_contact_display_init (EABContactDisplay *display)
 
 	display->priv = EAB_CONTACT_DISPLAY_GET_PRIVATE (display);
 	display->priv->mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
+	display->priv->orientation = GTK_ORIENTATION_HORIZONTAL;
 
 	web_view = E_WEB_VIEW (display);
 	ui_manager = e_web_view_get_ui_manager (web_view);
@@ -1260,4 +1322,37 @@ eab_contact_display_set_mode (EABContactDisplay *display,
 	}
 
 	g_object_notify (G_OBJECT (display), "mode");
+}
+
+GtkOrientation
+eab_contact_display_get_orientation (EABContactDisplay *display)
+{
+	g_return_val_if_fail (EAB_IS_CONTACT_DISPLAY (display), 0);
+
+	return display->priv->orientation;
+}
+
+void
+eab_contact_display_set_orientation (EABContactDisplay *display, GtkOrientation orientation)
+{
+	EABContactDisplayMode mode;
+	EContact *contact;
+
+	g_return_if_fail (EAB_IS_CONTACT_DISPLAY (display));
+
+	display->priv->orientation = orientation;
+	contact = eab_contact_display_get_contact (display);
+	mode = eab_contact_display_get_mode (display);
+
+	switch (mode) {
+		case EAB_CONTACT_DISPLAY_RENDER_NORMAL:
+			eab_contact_display_render_normal (display, contact);
+			break;
+
+		case EAB_CONTACT_DISPLAY_RENDER_COMPACT:
+			eab_contact_display_render_compact (display, contact);
+			break;
+	}
+
+	g_object_notify (G_OBJECT (display), "orientation");
 }
