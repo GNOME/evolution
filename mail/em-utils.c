@@ -1580,12 +1580,16 @@ emu_addr_setup (gpointer user_data)
 static void
 emu_addr_cancel_book (gpointer data)
 {
-	EBook *book = data;
+	EBook **pbook = data;
 	GError *err = NULL;
 
-	/* we dunna care if this fails, its just the best we can try */
-	e_book_cancel (book, &err);
-	g_clear_error (&err);
+	g_return_if_fail (pbook != NULL);
+
+	if (*pbook) {
+		/* we dunna care if this fails, its just the best we can try */
+		e_book_cancel (*pbook, &err);
+		g_clear_error (&err);
+	}
 }
 
 static void
@@ -1750,7 +1754,7 @@ search_address_in_addressbooks (const gchar *address, gboolean local_only, gbool
 
 		d(printf(" checking '%s'\n", e_source_get_uri(source)));
 
-		hook_book = mail_cancel_hook_add (emu_addr_cancel_book, book);
+		hook_book = mail_cancel_hook_add (emu_addr_cancel_book, &book);
 		hook_stop = mail_cancel_hook_add (emu_addr_cancel_stop, &stop);
 
 		book = g_hash_table_lookup (emu_books_hash, e_source_peek_uid (source));
