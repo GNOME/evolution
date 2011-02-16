@@ -266,7 +266,9 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	GConfBridge *bridge;
 	GtkAction *action;
 	GtkAccelGroup *accel_group;
+#if 0
 	GtkActionGroup *action_group;
+#endif
 	GtkUIManager *ui_manager;
 	GtkBox *box;
 	GtkPaned *paned;

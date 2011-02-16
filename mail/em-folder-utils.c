@@ -650,11 +650,11 @@ new_folder_created_cb (CamelFolderInfo *fi, gpointer user_data)
 {
 	struct _EMCreateFolderTempData *emcftd=user_data;
 	if (fi) {
-		gtk_widget_destroy ((GtkWidget *) emcftd->emfs);
-
 		/* Exapnding newly created folder */
 		if (emcftd->emft)
 			em_folder_tree_set_selected ((EMFolderTree *) emcftd->emft, emcftd->uri, GPOINTER_TO_INT(g_object_get_data ((GObject *)emcftd->emft, "select")) ? FALSE : TRUE);
+
+		gtk_widget_destroy ((GtkWidget *) emcftd->emfs);
 	}
 	g_object_unref (emcftd->emfs);
 	g_free (emcftd->uri);
@@ -727,15 +727,11 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs,
 void
 em_folder_utils_create_folder (CamelFolderInfo *folderinfo,
                                EMFolderTree *emft,
+			       EMailSession *session,
                                GtkWindow *parent)
 {
 	EMFolderTree *folder_tree;
-	EMailSession *session;
 	GtkWidget *dialog;
-
-	g_return_if_fail (EM_IS_FOLDER_TREE (emft));
-
-	session = em_folder_tree_get_session (emft);
 
 	folder_tree = (EMFolderTree *) em_folder_tree_new (session);
 	emu_restore_folder_tree_state (folder_tree);
@@ -746,7 +742,7 @@ em_folder_utils_create_folder (CamelFolderInfo *folderinfo,
 		_("Specify where to create the folder:"));
 	if (folderinfo != NULL)
 		em_folder_selector_set_selected ((EMFolderSelector *) dialog, folderinfo->uri);
-	g_signal_connect (dialog, "response", G_CALLBACK (emfu_popup_new_folder_response), emft);
+	g_signal_connect (dialog, "response", G_CALLBACK (emfu_popup_new_folder_response), emft ? emft : folder_tree);
 
 	if (!parent || !GTK_IS_DIALOG (parent))
 		gtk_widget_show (dialog);

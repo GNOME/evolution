@@ -116,7 +116,7 @@ emfs_response (GtkWidget *dialog, gint response, EMFolderSelector *emfs)
 
 	g_object_set_data ((GObject *)emfs->emft, "select", GUINT_TO_POINTER (1));
 
-	em_folder_utils_create_folder (NULL, emfs->emft, GTK_WINDOW (dialog));
+	em_folder_utils_create_folder (NULL, emfs->emft, em_folder_tree_get_session (emfs->emft), GTK_WINDOW (dialog));
 
 	g_signal_stop_emission_by_name (emfs, "response");
 }

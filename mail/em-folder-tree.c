@@ -64,6 +64,7 @@
 
 #include "e-mail-local.h"
 #include "e-mail-session.h"
+#include "e-mail-store.h"
 
 #define d(x)
 
@@ -1695,7 +1696,17 @@ em_folder_tree_get_type (void)
 GtkWidget *
 em_folder_tree_new (EMailSession *session)
 {
+	const gchar *data_dir;
+	EShell *default_shell;
+	EShellBackend *mail_backend;
+
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+
+	default_shell = e_shell_get_default ();
+	mail_backend = e_shell_get_backend_by_name (default_shell, "mail");
+	data_dir = e_shell_backend_get_data_dir (mail_backend);
+
+	e_mail_store_init (session, data_dir);
 
 	return g_object_new (
 		EM_TYPE_FOLDER_TREE, "session", session, NULL);
