@@ -88,6 +88,9 @@ EABContactDisplayMode
 void		eab_contact_display_set_mode	(EABContactDisplay *display,
 						 EABContactDisplayMode mode);
 
+GtkOrientation eab_contact_display_get_orientation (EABContactDisplay *display);
+void eab_contact_display_set_orientation (EABContactDisplay *display, GtkOrientation orientation);
+
 G_END_DECLS
 
 #endif /* EAB_CONTACT_DISPLAY_H */
