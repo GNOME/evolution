@@ -2133,17 +2133,53 @@ ensure_dates_are_in_default_zone (ECalModel *model,
 	}
 }
 
+static gint
+place_master_object_first_cb (gconstpointer p1, gconstpointer p2)
+{
+	icalcomponent *c1 = (icalcomponent *) p1, *c2 = (icalcomponent *) p2;
+	const gchar *uid1, *uid2;
+	gint res;
+
+	g_return_val_if_fail (c1 != NULL, 0);
+	g_return_val_if_fail (c2 != NULL, 0);
+
+	uid1 = icalcomponent_get_uid (c1);
+	uid2 = icalcomponent_get_uid (c2);
+
+	res = g_strcmp0 (uid1, uid2);
+	if (res == 0) {
+		struct icaltimetype rid1, rid2;
+
+		rid1 = icalcomponent_get_recurrenceid (c1);
+		rid2 = icalcomponent_get_recurrenceid (c2);
+
+		if (icaltime_is_null_time (rid1)) {
+			if (!icaltime_is_null_time (rid2))
+				res = -1;
+		} else if (icaltime_is_null_time (rid2)) {
+			res = 1;
+		} else {
+			res = icaltime_compare (rid1, rid2);
+		}
+	}
+
+	return res;
+}
+
 static void e_cal_view_objects_added_cb (ECalView *query, GList *objects, ECalModel *model);
 
 static void
 process_added (ECalView *query, GList *objects, ECalModel *model)
 {
 	ECalModelPrivate *priv;
-	GList *l;
+	GList *l, *copy;
 
 	priv = model->priv;
 
-	for (l = objects; l; l = l->next) {
+	/* order matters, process master object first, then detached instances */
+	copy = g_list_sort (g_list_copy (objects), place_master_object_first_cb);
+
+	for (l = copy; l; l = l->next) {
 		ECalModelComponent *comp_data;
 		ECalComponentId *id;
 		ECalComponent *comp = e_cal_component_new ();
@@ -2205,6 +2241,8 @@ process_added (ECalView *query, GList *objects, ECalModel *model)
 			e_table_model_row_inserted (E_TABLE_MODEL (model), priv->objects->len - 1);
 		}
 	}
+
+	g_list_free (copy);
 }
 
 static void
