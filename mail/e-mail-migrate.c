@@ -986,13 +986,13 @@ create_mbox_account (EShellBackend *shell_backend, EMMigrateSession *session)
 		goto exit;
 	}
 
-	camel_url_set_fragment (url, _("Sent"));
+	camel_url_set_fragment (url, "Sent");
 	folder_uri = camel_url_to_string (url, 0);
 	e_account_set_string (
 		account, E_ACCOUNT_SENT_FOLDER_URI, folder_uri);
 	g_free (folder_uri);
 
-	camel_url_set_fragment (url, _("Drafts"));
+	camel_url_set_fragment (url, "Drafts");
 	folder_uri = camel_url_to_string (url, 0);
 	e_account_set_string (
 		account, E_ACCOUNT_DRAFTS_FOLDER_URI, folder_uri);
