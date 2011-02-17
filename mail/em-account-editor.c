@@ -1734,6 +1734,7 @@ emae_refresh_providers (EMAccountEditor *emae, EMAccountEditorService *service)
 
 			set_provider_defaults_on_url (emae, provider, url);
 			emae_uri_changed (service, url);
+			uri = e_account_get_string (account, info->account_uri_key);
 			camel_url_free (url);
 		}
 		i++;
@@ -1762,6 +1763,8 @@ emae_refresh_providers (EMAccountEditor *emae, EMAccountEditorService *service)
 			break;
 		}
 	}
+
+	camel_url_free (url);
 }
 
 static void

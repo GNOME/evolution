@@ -88,7 +88,6 @@ struct _ESendOptionsDialogPrivate {
 	GtkWidget *security_label;
 	GtkWidget *priority_label;
 	GtkWidget *gopts_label;
-	GtkWidget *sopts_label;
 	GtkWidget *opened_label;
 	GtkWidget *declined_label;
 	GtkWidget *accepted_label;
@@ -225,7 +224,6 @@ e_send_options_fill_widgets_with_data (ESendOptionsDialog *sod)
 	gtk_combo_box_set_active ((GtkComboBox *) priv->when_declined, sopts->declined);
 	gtk_combo_box_set_active ((GtkComboBox *) priv->when_accepted, sopts->accepted);
 	gtk_combo_box_set_active ((GtkComboBox *) priv->when_completed, sopts->completed);
-
 }
 
 static void
@@ -321,7 +319,6 @@ sent_item_toggled_cb (GtkToggleButton *toggle, gpointer data)
 	gtk_widget_set_sensitive (priv->delivered_opened, active);
 	gtk_widget_set_sensitive (priv->all_info, active);
 	gtk_widget_set_sensitive (priv->autodelete, active);
-
 }
 
 static void
@@ -350,6 +347,8 @@ page_changed_cb (GtkNotebook *notebook, GtkWidget *page, gint num, gpointer data
 
 	e_send_options_get_widgets_data (sod);
 	if (num > 0) {
+		GtkWidget *child;
+
 		if (num == 1) {
 			gtk_widget_hide (priv->accepted_label);
 			gtk_widget_hide (priv->when_accepted);
@@ -357,6 +356,10 @@ page_changed_cb (GtkNotebook *notebook, GtkWidget *page, gint num, gpointer data
 			gtk_widget_hide (priv->when_completed);
 			gtk_widget_set_sensitive (priv->autodelete, TRUE);
 			sod->data->sopts = sod->data->mopts;
+
+			child = gtk_notebook_get_nth_page (notebook, 1);
+			if (child != priv->status && (!GTK_IS_BIN (child) || gtk_bin_get_child (GTK_BIN (child)) != priv->status))
+				gtk_widget_reparent (priv->status, child);
 		} else if (num == 2) {
 			gtk_widget_hide (priv->completed_label);
 			gtk_widget_hide (priv->when_completed);
@@ -365,6 +368,10 @@ page_changed_cb (GtkNotebook *notebook, GtkWidget *page, gint num, gpointer data
 			gtk_widget_show (priv->accepted_label);
 			gtk_widget_show (priv->when_accepted);
 			sod->data->sopts = sod->data->copts;
+
+			child = gtk_notebook_get_nth_page (notebook, 2);
+			if (gtk_bin_get_child (GTK_BIN (child)) != priv->status)
+				gtk_widget_reparent (priv->status, child);
 		} else {
 			gtk_widget_set_sensitive (priv->autodelete, FALSE);
 
@@ -373,6 +380,10 @@ page_changed_cb (GtkNotebook *notebook, GtkWidget *page, gint num, gpointer data
 			gtk_widget_show (priv->accepted_label);
 			gtk_widget_show (priv->when_accepted);
 			sod->data->sopts = sod->data->topts;
+
+			child = gtk_notebook_get_nth_page (notebook, 3);
+			if (gtk_bin_get_child (GTK_BIN (child)) != priv->status)
+				gtk_widget_reparent (priv->status, child);
 		}
 	}
 	e_send_options_fill_widgets_with_data (sod);
@@ -435,7 +446,6 @@ get_widgets (ESendOptionsDialog *sod)
 	priv->when_completed = e_builder_get_widget (builder, "complete-combo");
 	priv->security_label = e_builder_get_widget (builder, "security-label");
 	priv->gopts_label = e_builder_get_widget (builder, "gopts-label");
-	priv->sopts_label = e_builder_get_widget (builder, "slabel");
 	priv->priority_label = e_builder_get_widget (builder, "priority-label");
 	priv->until_label = e_builder_get_widget (builder, "until-label");
 	priv->opened_label = e_builder_get_widget (builder, "opened-label");
@@ -496,15 +506,30 @@ setup_widgets (ESendOptionsDialog *sod, Item_type type)
 	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->until_label), priv->delay_until);
 
 	if (priv->global) {
-		GtkWidget *widget = gtk_label_new (_("Calendar"));
-		gtk_label_set_text (GTK_LABEL (priv->sopts_label), _("Mail"));
-		gtk_notebook_append_page (priv->notebook, priv->status, widget);
-		gtk_container_child_set (GTK_CONTAINER (priv->notebook), priv->status, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
+		GtkWidget *widget, *page;
+
+		widget = gtk_label_new (_("Mail"));
+		page = gtk_alignment_new (0.0, 0.0, 0.0, 0.0);
+		gtk_widget_reparent (priv->status, page);
+		gtk_notebook_append_page (priv->notebook, page, widget);
+		gtk_container_child_set (GTK_CONTAINER (priv->notebook), page, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
+		gtk_widget_show (page);
 		gtk_widget_show (widget);
+
+		widget = gtk_label_new (_("Calendar"));
+		page = gtk_alignment_new (0.0, 0.0, 0.0, 0.0);
+		gtk_notebook_append_page (priv->notebook, page, widget);
+		gtk_container_child_set (GTK_CONTAINER (priv->notebook), page, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
+		gtk_widget_show (page);
+		gtk_widget_show (widget);
+
 		widget = gtk_label_new (_("Task"));
+		page = gtk_alignment_new (0.0, 0.0, 0.0, 0.0);
+		gtk_notebook_append_page (priv->notebook, page, widget);
+		gtk_container_child_set (GTK_CONTAINER (priv->notebook), page, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
+		gtk_widget_show (page);
 		gtk_widget_show (widget);
-		gtk_notebook_append_page (priv->notebook, priv->status,widget);
-		gtk_container_child_set (GTK_CONTAINER (priv->notebook), priv->status, "tab-fill", FALSE, "tab-expand", FALSE, NULL);
+
 		gtk_notebook_set_show_tabs (priv->notebook, TRUE);
 	}
 
@@ -737,7 +762,6 @@ e_send_options_dialog_init (ESendOptionsDialog *sod)
 	priv->priority_label = NULL;
 	priv->opened_label = NULL;
 	priv->gopts_label = NULL;
-	priv->sopts_label = NULL;
 	priv-> declined_label = NULL;
 	priv->accepted_label = NULL;
 	priv->completed_label = NULL;
