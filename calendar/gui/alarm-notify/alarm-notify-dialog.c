@@ -63,10 +63,12 @@ typedef struct {
 	GtkWidget *dialog;
 	GtkWidget *snooze_time_min;
 	GtkWidget *snooze_time_hrs;
+	GtkWidget *snooze_time_days;
 	GtkWidget *snooze_btn;
 	GtkWidget *dismiss_btn;
 	GtkWidget *minutes_label;
 	GtkWidget *hrs_label;
+	GtkWidget *days_label;
 	GtkWidget *description;
 	GtkWidget *location;
 	GtkWidget *treeview;
@@ -92,30 +94,36 @@ static void
 an_update_minutes_label (GtkSpinButton *sb, gpointer data)
 {
 	AlarmNotify *an;
-	gchar *new_label;
 	gint snooze_timeout_min;
 
 	an = (AlarmNotify *) data;
 
 	snooze_timeout_min  = gtk_spin_button_get_value_as_int (sb);
-	new_label = g_strdup (ngettext ("minute", "minutes", snooze_timeout_min));
-	gtk_label_set_text (GTK_LABEL (an->minutes_label), new_label);
-	g_free (new_label);
+	gtk_label_set_text (GTK_LABEL (an->minutes_label), ngettext ("minute", "minutes", snooze_timeout_min));
 }
 
 static void
 an_update_hrs_label (GtkSpinButton *sb, gpointer data)
 {
 	AlarmNotify *an;
-	gchar *new_label;
 	gint snooze_timeout_hrs;
 
 	an = (AlarmNotify *) data;
 
 	snooze_timeout_hrs  = gtk_spin_button_get_value_as_int (sb);
-	new_label = g_strdup (ngettext ("hour", "hours", snooze_timeout_hrs));
-	gtk_label_set_text (GTK_LABEL (an->hrs_label), new_label);
-	g_free (new_label);
+	gtk_label_set_text (GTK_LABEL (an->hrs_label), ngettext ("hour", "hours", snooze_timeout_hrs));
+}
+
+static void
+an_update_days_label (GtkSpinButton *sb, gpointer data)
+{
+	AlarmNotify *an;
+	gint snooze_timeout_days;
+
+	an = (AlarmNotify *) data;
+
+	snooze_timeout_days  = gtk_spin_button_get_value_as_int (sb);
+	gtk_label_set_text (GTK_LABEL (an->days_label), ngettext ("days", "days", snooze_timeout_days));
 }
 
 static void
@@ -185,6 +193,7 @@ snooze_pressed_cb (GtkButton *button, gpointer user_data)
 
 	snooze_timeout = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time_min));
 	snooze_timeout += 60 * (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time_hrs)));
+	snooze_timeout += 60 * 24 * (gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (an->snooze_time_days)));
 	if (!snooze_timeout)
 		snooze_timeout = DEFAULT_SNOOZE_MINS;
 	(* funcinfo->func) (ALARM_NOTIFY_SNOOZE, snooze_timeout, funcinfo->func_data);
@@ -261,6 +270,8 @@ notified_alarms_dialog_new (void)
 	an->minutes_label = e_builder_get_widget (an->builder, "minutes-label");
 	an->snooze_time_hrs = e_builder_get_widget (an->builder, "snooze-time-hrs");
 	an->hrs_label = e_builder_get_widget (an->builder, "hrs-label");
+	an->snooze_time_days = e_builder_get_widget (an->builder, "snooze-time-days");
+	an->days_label = e_builder_get_widget (an->builder, "days-label");
 	an->description = e_builder_get_widget (an->builder, "description-label");
 	an->location = e_builder_get_widget (an->builder, "location-label");
 	an->treeview = e_builder_get_widget (an->builder, "appointments-treeview");
@@ -269,7 +280,8 @@ notified_alarms_dialog_new (void)
 	an->dismiss_btn = e_builder_get_widget (an->builder, "dismiss-button");
 	edit_btn = e_builder_get_widget (an->builder, "edit-button");
 
-	if (!(an->dialog && an->treeview && an->snooze_time_min && an->snooze_time_hrs
+	if (!(an->dialog && an->treeview 
+	      && an->snooze_time_min && an->snooze_time_hrs && an->snooze_time_days
 	      && an->description && an->location && edit_btn && snooze_btn && an->dismiss_btn)) {
 		g_warning ("alarm_notify_dialog(): Could not find all widgets in alarm-notify.ui file!");
 		g_object_unref (an->builder);
@@ -326,6 +338,10 @@ notified_alarms_dialog_new (void)
 	/* Set callback for updating the snooze "hours" label */
 	g_signal_connect (G_OBJECT (an->snooze_time_hrs), "value_changed",
 			G_CALLBACK (an_update_hrs_label), an);
+
+	/* Set callback for updating the snooze "days" label */
+	g_signal_connect (G_OBJECT (an->snooze_time_days), "value_changed",
+			G_CALLBACK (an_update_days_label), an);
 
 	na = g_new0 (AlarmNotificationsDialog, 1);
 
