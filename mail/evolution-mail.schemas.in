@@ -353,7 +353,7 @@
       <type>string</type>
       <default></default>
       <locale name="C">
-         <short>Path where image gallery should search for its content</short>
+         <short>Path where picture gallery should search for its content</short>
          <long>This value can be an empty string, which means it'll use
 	 the system Picture folder, usually set to ~/Pictures. This folder will
 	 be also used when the set path is not pointing to the existent folder.</long>
