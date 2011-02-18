@@ -40,6 +40,7 @@
 #include <clutter/clutter.h>
 #include <mx/mx.h>
 #include <clutter-gtk/clutter-gtk.h>
+#include <math.h>
 
 #include "e-mail-tab-picker.h"
 #endif
