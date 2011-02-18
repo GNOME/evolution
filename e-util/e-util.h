@@ -140,6 +140,7 @@ gchar *		e_util_guess_mime_type		(const gchar *filename,
 
 GSList *	e_util_get_category_filter_options
 						(void);
+GList *		e_util_get_searchable_categories(void);
 
 void		e_util_set_source_combo_box_list
 						(GtkWidget *source_combo_box,

@@ -977,7 +977,7 @@ e_memo_shell_view_update_search_filter (EMemoShellView *memo_shell_view)
 
 	/* Build the category actions. */
 
-	list = e_categories_get_list ();
+	list = e_util_get_searchable_categories ();
 	for (iter = list, ii = 0; iter != NULL; iter = iter->next, ii++) {
 		const gchar *category_name = iter->data;
 		const gchar *filename;
