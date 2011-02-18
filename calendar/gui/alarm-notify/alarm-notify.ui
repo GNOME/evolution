@@ -3,13 +3,18 @@
   <!-- interface-requires gtk+ 2.12 -->
   <!-- interface-naming-policy toplevel-contextual -->
   <object class="GtkAdjustment" id="adjustment1">
-    <property name="upper">12</property>
+    <property name="upper">65535</property>
     <property name="step_increment">1</property>
     <property name="page_increment">5</property>
   </object>
   <object class="GtkAdjustment" id="adjustment2">
+    <property name="upper">65535</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">5</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment3">
+    <property name="upper">65535</property>
     <property name="value">5</property>
-    <property name="upper">59</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
@@ -177,7 +182,7 @@
                         <property name="visible">True</property>
                         <property name="spacing">6</property>
                         <child>
-                          <object class="GtkSpinButton" id="snooze-time-hrs">
+                          <object class="GtkSpinButton" id="snooze-time-days">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="invisible_char">&#x25CF;</property>
@@ -191,9 +196,9 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkLabel" id="hrs-label">
+                          <object class="GtkLabel" id="days-label">
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes">hours</property>
+                            <property name="label" translatable="yes">days</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -201,8 +206,9 @@
                             <property name="position">1</property>
                           </packing>
                         </child>
+
                         <child>
-                          <object class="GtkSpinButton" id="snooze-time-min">
+                          <object class="GtkSpinButton" id="snooze-time-hrs">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="invisible_char">&#x25CF;</property>
@@ -216,6 +222,33 @@
                           </packing>
                         </child>
                         <child>
+                          <object class="GtkLabel" id="hrs-label">
+                            <property name="visible">True</property>
+                            <property name="label" translatable="yes">hours</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
+
+
+                        <child>
+                          <object class="GtkSpinButton" id="snooze-time-min">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="invisible_char">&#x25CF;</property>
+                            <property name="adjustment">adjustment3</property>
+                            <property name="climb_rate">1</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">4</property>
+                          </packing>
+                        </child>
+                        <child>
                           <object class="GtkLabel" id="minutes-label">
                             <property name="visible">True</property>
                             <property name="label" translatable="yes">minutes</property>
@@ -223,7 +256,7 @@
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
-                            <property name="position">3</property>
+                            <property name="position">5</property>
                           </packing>
                         </child>
                       </object>
