@@ -139,7 +139,7 @@ memo_shell_view_execute_search (EShellView *shell_view)
 			GList *categories;
 			const gchar *category_name;
 
-			categories = e_categories_get_list ();
+			categories = e_util_get_searchable_categories ();
 			category_name = g_list_nth_data (categories, value);
 			g_list_free (categories);
 
