@@ -1457,7 +1457,12 @@ e_util_get_category_filter_options (void)
 	clist = e_categories_get_list ();
 	for (l = clist; l; l = l->next) {
 		const gchar *cname = l->data;
-		struct _filter_option *fo = g_new0 (struct _filter_option, 1);
+		struct _filter_option *fo;
+
+		if (!e_categories_is_searchable (cname))
+			continue;
+
+		fo = g_new0 (struct _filter_option, 1);
 
 		fo->title = g_strdup (cname);
 		fo->value = g_strdup (cname);
@@ -1467,6 +1472,33 @@ e_util_get_category_filter_options (void)
 	g_list_free (clist);
 
 	return g_slist_reverse (res);
+}
+
+/**
+ * e_util_get_searchable_categories:
+ *
+ * Returns list of searchable categories only. The list should
+ * be freed with g_list_free() when done with it, but the items
+ * are internal strings, names of categories, which should not
+ * be touched in other than read-only way, in other words the same
+ * restrictions as for e_categories_get_list() applies here too.
+ **/
+GList *
+e_util_get_searchable_categories (void)
+{
+	GList *res = NULL, *all_categories, *l;
+
+	all_categories = e_categories_get_list ();
+	for (l = all_categories; l; l = l->next) {
+		const gchar *cname = l->data;
+
+		if (e_categories_is_searchable (cname))
+			res = g_list_prepend (res, (gpointer) cname);
+	}
+
+	g_list_free (all_categories);
+
+	return g_list_reverse (res);
 }
 
 /**
