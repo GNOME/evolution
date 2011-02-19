@@ -68,7 +68,7 @@ guchar getRruleCount (guchar a, guchar b);
 guchar getRruleMonthNum (guchar a, guchar b);
 gchar * getRruleDayname (guchar a);
 
-static gchar* 
+static gchar *
 sanitize_filename (const gchar *filename)
 {
 	gchar * sanitized_name;
@@ -409,7 +409,7 @@ void saveVCard (TNEFStruct *tnef, const gchar *tmpdir) {
     if ((vl = MAPIFindProperty (&(tnef->MapiProperties), PROP_TAG (PT_STRING8, PR_DISPLAY_NAME))) == MAPI_UNDEFINED) {
         if ((vl=MAPIFindProperty (&(tnef->MapiProperties), PROP_TAG (PT_STRING8, PR_COMPANY_NAME))) == MAPI_UNDEFINED) {
             if (tnef->subject.size > 0) {
-    	       file = sanitize_filename (tnef->subject.data);
+	       file = sanitize_filename (tnef->subject.data);
 		if (!file)
 		    return;
 		absfilename = g_strconcat (file, ".vcard", NULL);
@@ -1124,7 +1124,7 @@ void saveVTask (TNEFStruct *tnef, const gchar *tmpdir) {
     variableLength *filename;
     gint index;
     gchar *ifilename;
-    gchar *absfilename, *file; 
+    gchar *absfilename, *file;
     gchar *charptr, *charptr2;
     dtr thedate;
     FILE *fptr;

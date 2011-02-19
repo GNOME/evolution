@@ -477,7 +477,7 @@ static void
 eti_update (GnomeCanvasItem *item, const cairo_matrix_t *i2c, gint flags)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
-	double x1, x2, y1, y2;
+	gdouble x1, x2, y1, y2;
 
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)
 		(*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)(item, i2c, flags);

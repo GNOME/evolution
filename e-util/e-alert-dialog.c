@@ -121,6 +121,7 @@ alert_dialog_constructed (GObject *object)
 	GList *actions;
 	const gchar *primary, *secondary;
 	gint min_width = -1, prefer_width = -1;
+	gint height;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_alert_dialog_parent_class)->constructed (object);
@@ -219,9 +220,14 @@ alert_dialog_constructed (GObject *object)
 
 	widget = GTK_WIDGET (dialog);
 
-	gtk_widget_get_preferred_width_for_height (widget, gtk_widget_get_allocated_height (widget), &min_width, &prefer_width);
+	height = gtk_widget_get_allocated_height (widget);
+	gtk_widget_get_preferred_width_for_height (
+		widget, height, &min_width, &prefer_width);
 	if (min_width < prefer_width)
-		gtk_window_set_default_size (GTK_WINDOW (dialog), MIN ((min_width + prefer_width) / 2, min_width * 5 / 4), -1);
+		gtk_window_set_default_size (
+			GTK_WINDOW (dialog), MIN (
+			(min_width + prefer_width) / 2,
+			min_width * 5 / 4), -1);
 
 	pango_attr_list_unref (list);
 }

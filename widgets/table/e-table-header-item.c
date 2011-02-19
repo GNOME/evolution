@@ -176,7 +176,7 @@ ethi_update (GnomeCanvasItem *item,
              gint flags)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
-	double x1, y1, x2, y2;
+	gdouble x1, y1, x2, y2;
 
 	if (GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->update)
 		GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->update (

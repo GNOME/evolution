@@ -1373,7 +1373,7 @@ gnome_canvas_group_update (GnomeCanvasItem *item,
 	GnomeCanvasGroup *group;
 	GList *list;
 	GnomeCanvasItem *i;
-	double x1, y1, x2, y2;
+	gdouble x1, y1, x2, y2;
 
 	group = GNOME_CANVAS_GROUP (item);
 
@@ -3226,7 +3226,7 @@ void
 gnome_canvas_c2w (GnomeCanvas *canvas, gint cx, gint cy, gdouble *wx, gdouble *wy)
 {
 	cairo_matrix_t c2w;
-	double x, y;
+	gdouble x, y;
 
 	g_return_if_fail (GNOME_IS_CANVAS (canvas));
 

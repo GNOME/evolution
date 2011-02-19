@@ -2941,10 +2941,12 @@ static void
 mail_reader_update_actions (EMailReader *reader,
                             guint32 state)
 {
+#if 0
 	EShell *shell;
 	EMailBackend *backend;
 	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
+#endif
 	GtkAction *action;
 	const gchar *action_name;
 	gboolean sensitive;
@@ -2971,15 +2973,15 @@ mail_reader_update_actions (EMailReader *reader,
 	gboolean first_message_selected = FALSE;
 	gboolean last_message_selected = FALSE;
 
+#if 0  /* XXX Lockdown keys have moved to gsettings-desktop-schemas,
+	*     so disable lockdown integration until we're ready for
+	*     GSettings. */
 	backend = e_mail_reader_get_backend (reader);
 
 	shell_backend = E_SHELL_BACKEND (backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-#if 0  /* XXX Lockdown keys have moved to gsettings-desktop-schemas,
-	*     so disable lockdown integration until we're ready for
-	*     GSettings. */
 #ifndef G_OS_WIN32
 	disable_printing = e_shell_settings_get_boolean (
 		shell_settings, "disable-printing");
