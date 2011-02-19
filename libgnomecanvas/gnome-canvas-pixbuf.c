@@ -206,7 +206,7 @@ recompute_bounding_box (GnomeCanvasPixbuf *gcp)
 	GnomeCanvasItem *item;
 	GnomeCanvasPixbufPrivate *priv;
 	cairo_matrix_t i2c;
-	double x1, x2, y1, y2;
+	gdouble x1, x2, y1, y2;
 
 	item = GNOME_CANVAS_ITEM (gcp);
 	priv = gcp->priv;

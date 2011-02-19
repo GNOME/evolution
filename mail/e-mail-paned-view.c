@@ -780,7 +780,10 @@ mail_paned_view_update_view_instance (EMailView *view)
 
 	orientable = GTK_ORIENTABLE (view);
 	orientation = gtk_orientable_get_orientation (orientable);
-	show_vertical_view = (orientation == GTK_ORIENTATION_HORIZONTAL) && !e_shell_settings_get_boolean (shell_settings, "mail-global-view-setting");
+	show_vertical_view =
+		(orientation == GTK_ORIENTATION_HORIZONTAL) &&
+		!e_shell_settings_get_boolean (
+		shell_settings, "mail-global-view-setting");
 
 	if (show_vertical_view) {
 		gchar *filename;

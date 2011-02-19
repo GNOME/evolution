@@ -261,7 +261,9 @@ void
 e_shell_window_private_constructed (EShellWindow *shell_window)
 {
 	EShellWindowPrivate *priv = shell_window->priv;
+#if 0
 	EShellSettings *shell_settings;
+#endif
 	EShell *shell;
 	GConfBridge *bridge;
 	GtkAction *action;
@@ -282,7 +284,9 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	window = GTK_WINDOW (shell_window);
 
 	shell = e_shell_window_get_shell (shell_window);
+#if 0
 	shell_settings = e_shell_get_shell_settings (shell);
+#endif
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	e_shell_configure_ui_manager (shell, E_UI_MANAGER (ui_manager));

@@ -381,6 +381,7 @@ action_mail_folder_new_cb (GtkAction *action,
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	EMailSession *session;
 	EMailShellSidebar *mail_shell_sidebar;
 	CamelFolderInfo *folder_info;
 	EMFolderTree *folder_tree;
@@ -391,10 +392,13 @@ action_mail_folder_new_cb (GtkAction *action,
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 	folder_info = em_folder_tree_get_selected_folder_info (folder_tree);
+	session = em_folder_tree_get_session (folder_tree);
 	g_return_if_fail (folder_info != NULL);
 
 	em_folder_utils_create_folder (
-		folder_info, folder_tree, em_folder_tree_get_session (folder_tree), GTK_WINDOW (shell_window));
+		folder_info, folder_tree, session,
+		GTK_WINDOW (shell_window));
+
 	camel_folder_info_free (folder_info);
 }
 

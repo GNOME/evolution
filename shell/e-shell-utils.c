@@ -65,6 +65,9 @@ void
 e_shell_configure_web_view (EShell *shell,
                             EWebView *web_view)
 {
+#if 0  /* XXX Lockdown keys have moved to gsettings-desktop-scheams,
+	*     so disable lockdown integration until we're ready for
+	*     GSettings. */
 	EShellSettings *shell_settings;
 
 	g_return_if_fail (E_IS_SHELL (shell));
@@ -72,9 +75,6 @@ e_shell_configure_web_view (EShell *shell,
 
 	shell_settings = e_shell_get_shell_settings (shell);
 
-#if 0  /* XXX Lockdown keys have moved to gsettings-desktop-scheams,
-	*     so disable lockdown integration until we're ready for
-	*     GSettings. */
 #ifndef G_OS_WIN32
 	g_object_bind_property (
 		shell_settings, "disable-printing",

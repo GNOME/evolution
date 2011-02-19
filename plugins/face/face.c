@@ -365,7 +365,7 @@ get_cfg_widget (void)
 
 	gtk_box_pack_start (GTK_BOX (vbox), butt, FALSE, FALSE, 0);
 
-	gtk_box_pack_start (GTK_BOX (vbox), img, FALSE, FALSE, 0);	
+	gtk_box_pack_start (GTK_BOX (vbox), img, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (vbox);
 

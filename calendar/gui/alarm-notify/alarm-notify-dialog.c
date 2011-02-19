@@ -280,7 +280,7 @@ notified_alarms_dialog_new (void)
 	an->dismiss_btn = e_builder_get_widget (an->builder, "dismiss-button");
 	edit_btn = e_builder_get_widget (an->builder, "edit-button");
 
-	if (!(an->dialog && an->treeview 
+	if (!(an->dialog && an->treeview
 	      && an->snooze_time_min && an->snooze_time_hrs && an->snooze_time_days
 	      && an->description && an->location && edit_btn && snooze_btn && an->dismiss_btn)) {
 		g_warning ("alarm_notify_dialog(): Could not find all widgets in alarm-notify.ui file!");

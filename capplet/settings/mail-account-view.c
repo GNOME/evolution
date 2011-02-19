@@ -765,7 +765,7 @@ mav_next_pressed (GtkButton *button, MailAccountView *mav)
 #define PACK_IN_BOX(wid,child1,child2,num1,num2) { GtkWidget *tbox; tbox = gtk_hbox_new (FALSE, 0); gtk_box_pack_start ((GtkBox *)tbox, child1, FALSE, FALSE, num1); gtk_box_pack_start ((GtkBox *)tbox, child2, FALSE, FALSE, num2); gtk_widget_show_all (tbox); gtk_box_pack_start ((GtkBox *)wid, tbox, FALSE, FALSE, 0); }
 
 			mav->priv->gmail_link = gtk_link_button_new ("https://mail.google.com/mail/?ui=2&amp;shva=1#settings/fwdandpop");
-			PACK_IN_BOX(page->box,mav->priv->gmail_info_label,mav->priv->gmail_link, 24, 0);
+			PACK_IN_BOX (page->box,mav->priv->gmail_info_label,mav->priv->gmail_link, 24, 0);
 #undef PACK_IN_BOX
 		} else if (mav->original == NULL &&
 				(g_strrstr(account->source->url, "yahoo.") ||

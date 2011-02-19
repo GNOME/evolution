@@ -105,14 +105,17 @@ addressbook_value_at (ETableModel *etc, gint col, gint row)
 {
 	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER (etc);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
+	EContact *contact;
 	const gchar *value;
 
 	if (col >= COLS || row >= e_addressbook_model_contact_count (priv->model))
 		return NULL;
 
-	value = e_contact_get_const ((EContact*)e_addressbook_model_contact_at (priv->model, row), col);
+	contact = e_addressbook_model_contact_at (priv->model, row);
+	value = e_contact_get_const (contact, col);
 
-	if (value && *value && (col == E_CONTACT_EMAIL_1 || col == E_CONTACT_EMAIL_2 || col == E_CONTACT_EMAIL_3)) {
+	if (value && *value && (col == E_CONTACT_EMAIL_1 ||
+	    col == E_CONTACT_EMAIL_2 || col == E_CONTACT_EMAIL_3)) {
 		gchar *val = g_hash_table_lookup (priv->emails, value);
 
 		if (val) {
@@ -165,7 +168,9 @@ addressbook_set_value_at (ETableModel *etc, gint col, gint row, gconstpointer va
 
 		e_table_model_pre_change (etc);
 
-		if (col == E_CONTACT_EMAIL_1 || col == E_CONTACT_EMAIL_2 || col == E_CONTACT_EMAIL_3) {
+		if (col == E_CONTACT_EMAIL_1 ||
+		    col == E_CONTACT_EMAIL_2 ||
+		    col == E_CONTACT_EMAIL_3) {
 			const gchar *old_value = e_contact_get_const (contact, col);
 
 			/* remove old value from cache and use new one */
@@ -218,6 +223,7 @@ addressbook_append_row (ETableModel *etm, ETableModel *source, gint row)
 	EAddressbookTableAdapter *adapter = EAB_TABLE_ADAPTER (etm);
 	EAddressbookTableAdapterPrivate *priv = adapter->priv;
 	EContact *contact;
+	EBook *book;
 	gint col;
 
 	contact = e_contact_new ();
@@ -227,7 +233,8 @@ addressbook_append_row (ETableModel *etm, ETableModel *source, gint row)
 		e_contact_set (contact, col, (gpointer) val);
 	}
 
-	eab_merging_book_add_contact (e_addressbook_model_get_book (priv->model), contact, NULL, NULL);
+	book = e_addressbook_model_get_book (priv->model);
+	eab_merging_book_add_contact (book, contact, NULL, NULL);
 
 	g_object_unref (contact);
 }
@@ -322,7 +329,9 @@ remove_contacts (EAddressbookModel *model,
 
 	e_table_model_pre_change (E_TABLE_MODEL (adapter));
 	if (count == 1)
-		e_table_model_rows_deleted (E_TABLE_MODEL (adapter), g_array_index (indices, gint, 0), 1);
+		e_table_model_rows_deleted (
+			E_TABLE_MODEL (adapter),
+			g_array_index (indices, gint, 0), 1);
 	else
 		e_table_model_changed (E_TABLE_MODEL (adapter));
 }

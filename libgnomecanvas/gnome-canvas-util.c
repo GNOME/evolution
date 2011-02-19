@@ -119,8 +119,8 @@ void
 gnome_canvas_matrix_transform_rect (const cairo_matrix_t *matrix,
                                     double *x1, double *y1, double *x2, double *y2)
 {
-	double maxx, maxy, minx, miny;
-	double tmpx, tmpy;
+	gdouble maxx, maxy, minx, miny;
+	gdouble tmpx, tmpy;
 
 	tmpx = *x1;
 	tmpy = *y1;

@@ -454,7 +454,6 @@ render_contact_block (GString *buffer, EContact *contact)
 	const gchar *nl;
 	gchar *nick=NULL;
 
-
 	accum = g_string_new ("");
 	nl = "";
 
@@ -1170,7 +1169,7 @@ eab_contact_display_class_init (EABContactDisplayClass *class)
 	g_object_class_install_property (
 		object_class,
 		PROP_ORIENTATION,
-		g_param_spec_int(
+		g_param_spec_int (
 			"orientation",
 			NULL,
 			NULL,
