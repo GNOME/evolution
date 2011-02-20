@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution-help.master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-11 12:52+0000\n"
+"POT-Creation-Date: 2011-02-07 05:06+0000\n"
 "PO-Revision-Date: 2011-01-14 18:10+0100\n"
 "Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
@@ -2597,7 +2597,6 @@ msgstr ""
 "evolution-backup.tar.gz disponibles."
 
 #: C/evolution.xml:1102(para)
-#| msgid "Select the file and click Save."
 msgid "Select the file and click Open."
 msgstr "Seleccione el archivo y pulse Abrir."
 
@@ -3163,7 +3162,7 @@ msgid ""
 "typical choice would be mbox files, with the path /home/<varname>username</"
 "varname>/Mail/."
 msgstr ""
-"Bajo la solapa Recepción de correo elija el tipo de archivo de correo que "
+"Bajo la pestaña Recepción de correo elija el tipo de archivo de correo que "
 "usa su otra aplicación y escriba la ruta de directorios completa a ese "
 "lugar. Una elección habitual son los archivos mbox, con la ruta «/home/"
 "<varname>nombresdelusuario</varname>/Mail»."
@@ -3316,7 +3315,7 @@ msgstr "Seleccione Editar &gt; Preferencias, después pulse Opciones de correo."
 
 #: C/evolution.xml:1370(para)
 msgid "Click the HTML Mail tab."
-msgstr "Pulse sobre la solapa Correo en HTML."
+msgstr "Pulse sobre la pestaña Correo en HTML."
 
 #: C/evolution.xml:1373(para)
 msgid ""
@@ -3663,7 +3662,7 @@ msgid ""
 "title of the Custom Header. You can enter multiple values for the keys. You "
 "must use a semicolon to separate every value you enter."
 msgstr ""
-"En el Gestor de complementos seleccione la solapa Configuración para "
+"En el Gestor de complementos seleccione la pestaña Configuración para "
 "personalizar sus campos de cabeceras. Puede añadir, editar o quitar los "
 "campos de cabeceras. Para cada campo de cabecera que añada puede especificar "
 "las claves y los valores. La clave se usa como el título de la cabecera "
@@ -4668,7 +4667,7 @@ msgstr "Pulse Editar para abrir la ventana del Editor de cuentas."
 
 #: C/evolution.xml:1924(para)
 msgid "Click the Default tab."
-msgstr "Pulse sobre la solapa Predeterminados."
+msgstr "Pulse sobre la pestaña Predeterminados."
 
 #: C/evolution.xml:1927(para)
 msgid ""
@@ -4896,7 +4895,7 @@ msgid ""
 "message templates. You can add, edit or remove the key-value pairs. You can "
 "specify any number of key-value pairs."
 msgstr ""
-"En el Gestor de complementos seleccione la solapa Configuración para "
+"En el Gestor de complementos seleccione la pestaña Configuración para "
 "personalizar sus plantillas de mensajes. Puede añadir, editar o quitar pares "
 "de claves y valores. Puede especificar cualquier número de pares de claves y "
 "valores."
@@ -4925,7 +4924,7 @@ msgstr ""
 "director como referencia en ellas. Cuando el director actual cambia, no es "
 "fácil reemplazar el nombre del director en las 1.000 plantillas. Si los "
 "mensajes tienen un valor de clave $Director, puede cambiar el valor en la "
-"solapa Configuración de este complemento."
+"pestaña Configuración de este complemento."
 
 #: C/evolution.xml:2076(para)
 msgid ""
@@ -4948,7 +4947,7 @@ msgid ""
 "$key is replaced by the value set for it in the Configuration tab of the "
 "Templates plugin."
 msgstr ""
-"$key se reemplaza por el valor ajustado para ello en la solapa Configuración "
+"$key se reemplaza por el valor ajustado para ello en la pestaña Configuración "
 "del complemento Plantillas."
 
 #: C/evolution.xml:2083(para)
@@ -5433,7 +5432,7 @@ msgstr ""
 
 #: C/evolution.xml:2245(para) C/evolution.xml:2287(para)
 msgid "Click the Security tab."
-msgstr "Pulse en la solapa de Seguridad."
+msgstr "Pulse en la pestaña de Seguridad."
 
 #: C/evolution.xml:2248(para)
 msgid "Specify your key ID in the PGP/GPG Key ID field."
@@ -5593,7 +5592,7 @@ msgid ""
 "own certificate files, in the same way."
 msgstr ""
 "De forma similar, puede añadir certificados que le sean enviados "
-"independientemente de ninguna autoridad, pulsando la solapa Certificados de "
+"independientemente de ninguna autoridad, pulsando la pestaña Certificados de "
 "contactos y usando la misma herramienta de importación. También puede añadir "
 "nuevas autoridades de certificados, que tienen sus propios archivos de "
 "certificados, de la misma forma."
@@ -6381,7 +6380,7 @@ msgstr ""
 "de la ventana. Especifique la ubicación e introduzca la etiqueta para la "
 "carpeta en la entrada de texto que aparecerá en la parte superior. También "
 "puede mover los mensajes desde una carpeta a otra seleccionando el mensaje y "
-"pulsando la solapa Mover en la parte inferior derecha."
+"pulsando la pestaña Mover en la parte inferior derecha."
 
 #: C/evolution.xml:2669(para)
 msgid ""
@@ -6400,7 +6399,7 @@ msgid ""
 "filtering, see <link linkend=\"usage-mail-org-filters-new\">Creating New "
 "Filter Rules</link>."
 msgstr ""
-"Pulse la solapa de añadir para que aparezca la ventana Añadir regla, donde "
+"Pulse la pestaña de añadir para que aparezca la ventana Añadir regla, donde "
 "puede establecer diferentes criterios para filtrar los mensajes. Para "
 "obtener más información consulte <link linkend=\"usage-mail-org-filters-new"
 "\">Crear de reglas de filtrado nuevas</link>."
@@ -6709,7 +6708,7 @@ msgid ""
 "\"bsazsjd\">Step 4</link> under <link linkend=\"vfolder-create\">Creating A "
 "Search Folder</link>."
 msgstr ""
-"Pulse la solapa Añadir para añadir reglas. Para obtener más información "
+"Pulse la pestaña Añadir para añadir reglas. Para obtener más información "
 "acerca de las reglas, vea el <link linkend=\"bsazsjd\">Paso 4</link> bajo "
 "<link linkend=\"vfolder-create\">Crear una carpeta de búsqueda</link>."
 
@@ -7690,7 +7689,7 @@ msgstr ""
 
 #: C/evolution.xml:3290(para)
 msgid "The contact editor window has three tabs:"
-msgstr "La ventana del editor de contactos tiene tres solapas:"
+msgstr "La ventana del editor de contactos tiene tres pestañas:"
 
 #: C/evolution.xml:3292(title)
 msgid "Contact:"
@@ -7828,7 +7827,7 @@ msgid ""
 "servers here. After you do so, you can check their schedules when creating "
 "appointments in the calendar."
 msgstr ""
-"Pulse sobre la solapa Información personal para introducir direcciones web "
+"Pulse sobre la pestaña Información personal para introducir direcciones web "
 "para el contacto. Si el contacto publica su Disponibilidad o su calendario "
 "en línea, usando un servidor Exchange o GroupWise, puede especificar las "
 "direcciones para esos servidores aquí. Después de hacerlo, puede comprobar "
@@ -7893,7 +7892,7 @@ msgid ""
 "Press the Edit Full button at the bottom left to bring up the Contact Editor "
 "window."
 msgstr ""
-"Pulse la solapa Editar todo en la parte inferior izquierda para mostrar la "
+"Pulse la pestaña Editar todo en la parte inferior izquierda para mostrar la "
 "ventana del Editor de contactos."
 
 #: C/evolution.xml:3375(title)
@@ -8420,7 +8419,7 @@ msgstr ""
 "entrada del calendario, puede añadirla a una tarjeta de visita. Para ello, "
 "pulse con el botón derecho sobre cualquier dirección de correo o sobre "
 "cualquier correo-e y elija la opción Añadir remitente a la libreta de "
-"direcciones en el menú que aparece. Si el remitente ya existe, la solapa del "
+"direcciones en el menú que aparece. Si el remitente ya existe, la pestaña del "
 "Editor se abrirá y podrá editar los detalles. Evolution también puede añadir "
 "tarjetas desde dispositivos de mano durante la operación de sincronización "
 "HotSync*. Para obtener más información consulte <link linkend=\"config-sync"
@@ -8729,7 +8728,7 @@ msgid ""
 "select the desired color, then click OK."
 msgstr ""
 "Si quiere establecer un color para una etiqueta del calendario, pulse la "
-"solapa Color y seleccione el color que desee y pulse Aceptar."
+"pestaña Color y seleccione el color que desee y pulse Aceptar."
 
 #: C/evolution.xml:3810(para)
 msgid ""
@@ -9520,7 +9519,7 @@ msgid ""
 "Click the Calendar Publishing tab, click Add, then select the information "
 "you want to publish."
 msgstr ""
-"Pulse en la solapa Publicación de calendarios, pulse Añadir, después "
+"Pulse en la pestaña Publicación de calendarios, pulse Añadir, después "
 "seleccione la información que quiere publicar."
 
 #: C/evolution.xml:4179(para)
@@ -9783,7 +9782,7 @@ msgid ""
 "To set a color label for the calendar, click the Color tab, select the "
 "desired color, then click OK."
 msgstr ""
-"Para establecer el color de la etiqueta para el calendario pulse la solapa "
+"Para establecer el color de la etiqueta para el calendario pulse la pestaña "
 "Color, seleccione el color que quiera y después pulse Aceptar."
 
 #: C/evolution.xml:4345(para)
@@ -10571,7 +10570,7 @@ msgstr "Seleccione la cuenta que quiere convertir, después pulse Editar."
 
 #: C/evolution.xml:4921(para) C/evolution.xml:5482(para)
 msgid "Click the Identity tab."
-msgstr "Pulse la solapa de Identidad."
+msgstr "Pulse la pestaña de Identidad."
 
 #: C/evolution.xml:4924(para) C/evolution.xml:5486(para)
 msgid "Change your email address as needed."
@@ -10582,7 +10581,7 @@ msgid ""
 "Click the Receiving Mail tab, then select Microsoft Exchange as your server "
 "type."
 msgstr ""
-"Pulse sobre la solapa Recepción de correo, después seleccione Microsoft "
+"Pulse sobre la pestaña Recepción de correo, después seleccione Microsoft "
 "Exchange como tipo de servidor."
 
 #: C/evolution.xml:4930(para)
@@ -10597,7 +10596,7 @@ msgstr ""
 
 #: C/evolution.xml:4936(para) C/evolution.xml:5499(para)
 msgid "Click the Receiving Options tab."
-msgstr "Pulse en la solapa Opciones de recepción."
+msgstr "Pulse en la pestaña Opciones de recepción."
 
 #: C/evolution.xml:4937(para)
 msgid ""
@@ -10615,13 +10614,13 @@ msgid ""
 "Use the Defaults tab to define folders, send CC or BCC messages to certain "
 "email addresses, and set options for message receipts."
 msgstr ""
-"Use la solapa Predeterminados para definir las carpetas, enviar Cc: o Cco: a "
+"Use la pestaña Predeterminados para definir las carpetas, enviar Cc: o Cco: a "
 "determinadas identidades y establecer opciones para los destinatarios de los "
 "mensajes."
 
 #: C/evolution.xml:4943(para)
 msgid "Use the Security tab to set PGP and S/MIME options."
-msgstr "Use la solapa Seguridad para establecer las opciones PGP y S/MIME."
+msgstr "Use la pestaña Seguridad para establecer las opciones PGP y S/MIME."
 
 # index.docbook:88, index.docbook:89
 #: C/evolution.xml:4946(para)
@@ -10901,7 +10900,7 @@ msgstr "Para añadir alguien a su lista de delegados:"
 
 #: C/evolution.xml:5082(para)
 msgid "Click the Exchange Settings tab."
-msgstr "Pulse en la solapa Configuración de Exchange."
+msgstr "Pulse en la pestaña Configuración de Exchange."
 
 #: C/evolution.xml:5085(para)
 msgid "Click Delegation Assistant to open the Delegates dialog box."
@@ -11095,7 +11094,7 @@ msgid ""
 "Select the Exchange Settings tab. The top option allows you to set an Out of "
 "Office message."
 msgstr ""
-"Seleccione la solapa Configuración de Exchange. La opción superior le "
+"Seleccione la pestaña Configuración de Exchange. La opción superior le "
 "permitirá establecer un Mensaje para cuando esté fuera de la oficina."
 
 #: C/evolution.xml:5190(para)
@@ -11141,7 +11140,7 @@ msgstr ""
 #: C/evolution.xml:5214(para)
 msgid "Click the Add tab to enter the email addresses into the list."
 msgstr ""
-"Pulse sobre la solapa Añadir para introducir las direcciones de correo-e en "
+"Pulse sobre la pestaña Añadir para introducir las direcciones de correo-e en "
 "la lista."
 
 #: C/evolution.xml:5217(para)
@@ -11149,7 +11148,7 @@ msgid ""
 "Click the Attendees tab to select the participants from Global Address List "
 "(GAL)."
 msgstr ""
-"Pulse la solapa Participantes para seleccionar los participantes de Listas "
+"Pulse la pestaña Participantes para seleccionar los participantes de Listas "
 "de direcciones globales (GAL)."
 
 #: C/evolution.xml:5218(para)
@@ -11475,7 +11474,7 @@ msgid ""
 "Click the Receiving Email tab, then select Novell GroupWise as your server "
 "type."
 msgstr ""
-"Pulse sobre la solapa Recepción de correo, después seleccione Novell "
+"Pulse sobre la pestaña Recepción de correo, después seleccione Novell "
 "GroupWise como el tipo de servidor."
 
 #: C/evolution.xml:5493(para)
@@ -11523,7 +11522,7 @@ msgid ""
 "(Optional) Click the Proxy tab, then click Add to add any Proxy users to "
 "your account."
 msgstr ""
-"(Opcional) pulse sobre la solapa Proxy, después pulse Añadir para añadir "
+"(Opcional) pulse sobre la pestaña Proxy, después pulse Añadir para añadir "
 "cualquier usuario proxy a su cuenta."
 
 #: C/evolution.xml:5541(title)
@@ -11736,7 +11735,7 @@ msgid ""
 "&gt; Preferences &gt; Mail preferences &gt; General tab unless other wise "
 "you want messages to be threaded on subject basis."
 msgstr ""
-"No hay necesidad de activar «Agrupar los mensajes por asunto» desde la solapa "
+"No hay necesidad de activar «Agrupar los mensajes por asunto» desde la pestaña "
 "Editar &gt; Preferencias &gt; Opciones de correo &gt; General a no ser que "
 "quiera agrupar los mensajes por su asunto."
 
@@ -12187,7 +12186,7 @@ msgstr "Seleccione la cuenta GruopWise para editarla, después pulse Editar."
 
 #: C/evolution.xml:5944(para)
 msgid "Click the Proxy tab, then click Add."
-msgstr "Pulse en la solapa Proxy, después en Añadir."
+msgstr "Pulse en la pestaña Proxy, después en Añadir."
 
 #: C/evolution.xml:5947(para)
 msgid ""
@@ -12915,7 +12914,7 @@ msgid ""
 "On the Account Editor, click IMAP Headers tab to open IMAP Headers to the "
 "Account Editor."
 msgstr ""
-"En el Editor de cuentas, pulse la solapa Cabeceras IMAP para abrir las "
+"En el Editor de cuentas, pulse la pestaña Cabeceras IMAP para abrir las "
 "Cabeceras IMAP en el Editor de cuentas."
 
 #: C/evolution.xml:6233(para)
@@ -13168,7 +13167,7 @@ msgstr ""
 
 #: C/evolution.xml:6331(para)
 msgid "Click the color tab and select a color, then click OK."
-msgstr "Pulse la solapa de color y seleccione el color, después pulse Aceptar."
+msgstr "Pulse la pestaña de color y seleccione el color, después pulse Aceptar."
 
 #: C/evolution.xml:6334(para)
 msgid "To edit label properties:"
@@ -13451,10 +13450,10 @@ msgid ""
 "Signature tab sets your signature, and the Spell Checking tab controls spell "
 "checking."
 msgstr ""
-"Existen tres solapas para los ajustes del editor de mensajes donde puede "
-"configurar las preferencias del editor. La solapa General le permite "
-"configurar el comportamiento, la solapa Firma le permite establecer su firma "
-"y la solapa Ortografía controla la corrección ortográfica."
+"Existen tres pestañas para los ajustes del editor de mensajes donde puede "
+"configurar las preferencias del editor. La pestaña General le permite "
+"configurar el comportamiento, la pestaña Firma le permite establecer su firma "
+"y la pestaña Ortografía controla la corrección ortográfica."
 
 #: C/evolution.xml:6435(link) C/evolution.xml:6475(title)
 msgid "Signature"
@@ -13962,7 +13961,7 @@ msgid ""
 "Click the Your Certificates tab to display a list of certificates that you "
 "own. You can import, view and delete your certificates from this page."
 msgstr ""
-"Pulse sobre la solapa Sus certificados para mostrar una lista de los "
+"Pulse sobre la pestaña Sus certificados para mostrar una lista de los "
 "certificados que posee. Desde esta página puede importar, ver y borrar sus "
 "certificados."
 
@@ -13977,7 +13976,7 @@ msgid ""
 "well verify signed messages. You can import, view, edit, and delete your "
 "contact certificates from this page."
 msgstr ""
-"Pulse sobre la solapa Certificados de contactos para mostrar una lista de "
+"Pulse sobre la pestaña Certificados de contactos para mostrar una lista de "
 "los certificados que posee de sus contactos. Estos certificados le permiten "
 "descifrar mensajes así como verificar los mensajes firmados. Desde esta "
 "página puede importar, ver, respaldar y borrar los certificados de sus "
@@ -13993,7 +13992,7 @@ msgid ""
 "authorities who verify that the certificate you have is valid. You can "
 "import, view, edit, and delete certificate authorities from this page."
 msgstr ""
-"Pulse sobre la solapa Autoridades para mostrar una lista de las autoridades "
+"Pulse sobre la pestaña Autoridades para mostrar una lista de las autoridades "
 "de certificados de confianza quienes verifican que el certificado que tiene "
 "es válido. Puede importar, ver, editar y borrar las autoridades de "
 "certificados desde esta página."
@@ -15480,7 +15479,7 @@ msgstr ""
 #~ msgstr "Seleccione Editar &gt; Preferencias &gt; Cuenta MAPI &gt; Editar."
 
 #~ msgid "Select the Exchange settings tab."
-#~ msgstr "Seleccione la solapa de ajustes de Exchange."
+#~ msgstr "Seleccione la pestaña de ajustes de Exchange."
 
 #~ msgid "Select Folder size."
 #~ msgstr "Seleccione Tamaño de carpeta."
