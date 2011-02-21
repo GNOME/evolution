@@ -1,5 +1,61 @@
+Evolution 2.91.90 2011-02-21
+----------------------------
+
+Bug Fixes:
+	Bug 639483 - Category list includes weather information (Milan Crha)
+	Bug 639043 - Alarm notify snooze time not properly adjustable (Chris Hemsing)
+	Bug 642121 - Won't build with --with-clutter due missing include (Dan Vrátil)
+	Bug 642566 - Picture Gallery, not Image Gallery (Matthew Barnes)
+	Bug 638307 - Error when sending mail after converting to maildir (Milan Crha)
+	Bug 642088 - Crash when changing advanced send options in GroupWise (Milan Crha)
+	Bug 638478 - During sending fails to parse X-Evolution-PostTo field (Milan Crha)
+	Bug 638391 - Always passing NULL to emu_addr_cancel_book() (Milan Crha)
+	Bug 638333 - Critical warning when invoking File->New->Mail Folder (Milan Crha)
+	Bug 640802 - [express] Message preview automatically switches to vertical view (Milan Crha)
+	Bug 255973 - Contact preview waste space and cosmetic correction (Dan Vrátil)
+	Bug 642171 - Implicit libgnome dependency for lockdown GConf keys (Matthew Barnes)
+	Bug 638057 - Evolution --express doesn't remember status bar setting (Milan Crha)
+	Bug 637924 - Shows duplicate sentence while click "Back-Sending" button (Gary Lin)
+	Bug 637923 - Wrap long text in Yahoo email setup (Frederic Crozat)
+	Bug 637727 - Sent/Draft folder not set in startup-wizard account (Milan Crha)
+	Bug 637493 - Fails to build with --enable-profiling configure option (Milan Crha)
+	Bug 636408 - Loss of data on removal of an IMAP folder with an asterisk (Milan Crha)
+	Bug 641502 - Flickering while resizing the mail list (Milan Crha)
+	Bug 641701 - Issues with pst-import plugin (Milan Crha)
+	Bug 641756 - Fix warnings from GCC 4.6 (Kjartan Maraas)
+	Bug 634571 - Check for 'mono-2' rather than 'mono' package (Milan Crha)
+	Bug 641451 - Crash in folder_selection_button_new (Bharath Acharya)
+	Bug 641011 - Ugly appointment editing windows (Milan Crha)
+	Bug 222423 - Support Face headers (Dan Vrátil)
+	Bug 640801 - Workaround gtk3 bug (Milan Crha)
+	Bug 635144 - Using external editor duplicates signature (Milan Crha)
+
+Miscellaneous Fixes:
+	Order matters, process master object first, then detached instances (Milan Crha)
+	Slightly nicer EAlertDialog after move to gtk3 (Milan Crha)
+	Require libsoup-gnome-2.4 instead of libsoup-2.4. (Matthew Barnes)
+	Remove NULL checks for GObject methods. (Matthew Barnes)
+	Bump GTK+ requirement to 3.0. (Matthew Barnes)
+	Do not perform the summary consistency check on local folders, 'On this Computer' (Chenthill Palanisamy)
+	Composer: Add Edit -> Preferences (Matthew Barnes)
+	Fix cairo-gobject.h include path (Milan Crha)
+	Fix image dropping in composer while in HTML mode. (Matthew Barnes)
+
+Translations:
+	Changwoo Ryu (ko)
+	Daniel Mustieles (es)
+	Ivar Smolin (et)
+	Petr Kovar (cs)
+	Jorge González (es)
+	Fran Diéguez (gl)
+	Xandru Armesto (ast)
+	Mario Blättermann (de)
+	Kjartan Maraas (nn)
+	Sweta Kothari ()
+
 Evolution 2.91.6 2011-01-11
 ---------------------------
+
 Bug Fixes:
 	Bug 640760 - New mail "stuck" if missing attachment dialog cancelled (Matthew Barnes)
 	Bug 640707 - Crash on 'Add to address book'->'Edit full' click (Milan Crha)
