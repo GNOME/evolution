@@ -198,6 +198,7 @@ inline_filter_scan (CamelMimeFilter *f, gchar *in, gsize len, gint final)
 
 	while (inptr < inend) {
 		gint rest_len;
+		gboolean set_null_byte = FALSE;
 
 		start = inptr;
 
@@ -213,10 +214,12 @@ inline_filter_scan (CamelMimeFilter *f, gchar *in, gsize len, gint final)
 		}
 
 		rest_len = inend - start;
-		if (inptr < inend)
+		if (inptr < inend) {
 			*inptr++ = 0;
+			set_null_byte = TRUE;
+		}
 
-		#define restore_inptr() G_STMT_START { if (inptr < inend) inptr[-1] = '\n'; } G_STMT_END
+		#define restore_inptr() G_STMT_START { if (set_null_byte) inptr[-1] = '\n'; } G_STMT_END
 
 		switch (emif->state) {
 		case EMIF_PLAIN:
