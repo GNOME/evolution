@@ -1358,26 +1358,49 @@ e_attachment_get_thumbnail_path (EAttachment *attachment)
 	return g_file_info_get_attribute_byte_string (file_info, attribute);
 }
 
-gboolean
-e_attachment_is_rfc822 (EAttachment *attachment)
+/**
+ * e_attachment_get_mime_type:
+ *
+ * Returns mime_type part of the file_info as a newly allocated string,
+ * which should be freed with g_free().
+ * Returns NULL, if mime_type not found or set on the attachment.
+ **/
+gchar *
+e_attachment_get_mime_type (EAttachment *attachment)
 {
 	GFileInfo *file_info;
 	const gchar *content_type;
+	gchar *mime_type;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
+
+	file_info = e_attachment_get_file_info (attachment);
+	if (file_info == NULL)
+		return NULL;
+
+	content_type = g_file_info_get_content_type (file_info);
+	if (content_type == NULL)
+		return NULL;
+
+	mime_type = g_content_type_get_mime_type (content_type);
+	if (!mime_type)
+		return NULL;
+
+	camel_strdown (mime_type);
+
+	return mime_type;
+}
+
+gboolean
+e_attachment_is_rfc822 (EAttachment *attachment)
+{
 	gchar *mime_type;
 	gboolean is_rfc822;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
 
-	file_info = e_attachment_get_file_info (attachment);
-	if (file_info == NULL)
-		return FALSE;
-
-	content_type = g_file_info_get_content_type (file_info);
-	if (content_type == NULL)
-		return FALSE;
-
-	mime_type = g_content_type_get_mime_type (content_type);
-	is_rfc822 = (g_ascii_strcasecmp (mime_type, "message/rfc822") == 0);
+	mime_type = e_attachment_get_mime_type (attachment);
+	is_rfc822 = mime_type && g_ascii_strcasecmp (mime_type, "message/rfc822") == 0;
 	g_free (mime_type);
 
 	return is_rfc822;
