@@ -268,6 +268,50 @@ attachment_button_expand_drag_data_get_cb (EAttachmentButton *button,
 {
 	EAttachmentView *view;
 
+	if (button->priv->attachment) {
+		gchar *mime_type;
+
+		mime_type = e_attachment_get_mime_type (button->priv->attachment);
+
+		if (mime_type) {
+			gboolean processed = FALSE;
+			GdkAtom atom;
+			gchar *atom_name;
+
+			atom = gtk_selection_data_get_target (selection);
+			atom_name = gdk_atom_name (atom);
+
+			if (g_strcmp0 (atom_name, mime_type) == 0) {
+				CamelMimePart *mime_part;
+
+				mime_part = e_attachment_get_mime_part (button->priv->attachment);
+				if (CAMEL_IS_MIME_PART (mime_part)) {
+					CamelDataWrapper *wrapper;
+					CamelStream *stream;
+					GByteArray *buffer;
+
+					buffer = g_byte_array_new ();
+					stream = camel_stream_mem_new ();
+					camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), buffer);
+					wrapper = camel_medium_get_content (CAMEL_MEDIUM (mime_part));
+					camel_data_wrapper_decode_to_stream_sync (wrapper, stream, NULL, NULL);
+					g_object_unref (stream);
+
+					gtk_selection_data_set (selection, atom, 8, buffer->data, buffer->len);
+					processed = TRUE;
+
+					g_byte_array_free (buffer, TRUE);
+				}
+			}
+
+			g_free (atom_name);
+			g_free (mime_type);
+
+			if (processed)
+				return;
+		}
+	}
+
 	view = e_attachment_button_get_view (button);
 
 	e_attachment_view_drag_data_get (
@@ -670,6 +714,10 @@ void
 e_attachment_button_set_attachment (EAttachmentButton *button,
                                     EAttachment *attachment)
 {
+	GtkTargetEntry *targets;
+	GtkTargetList *list;
+	gint n_targets;
+
 	g_return_if_fail (E_IS_ATTACHMENT_BUTTON (button));
 
 	if (attachment != NULL) {
@@ -717,6 +765,38 @@ e_attachment_button_set_attachment (EAttachmentButton *button,
 		attachment_button_update_cell_view (button);
 		attachment_button_update_pixbufs (button);
 	}
+
+	/* update drag sources */
+	list = gtk_target_list_new (NULL, 0);
+	gtk_target_list_add_uri_targets (list, 0);
+
+	if (attachment) {
+		gchar *simple_type;
+
+		simple_type = e_attachment_get_mime_type (attachment);
+		if (simple_type) {
+			GtkTargetEntry attach_entry[] = { { NULL, 0, 2 } };
+
+			attach_entry[0].target = simple_type;
+
+			gtk_target_list_add_table (list, attach_entry, G_N_ELEMENTS (attach_entry));
+
+			g_free (simple_type);
+		}
+	}
+
+	targets = gtk_target_table_new_from_list (list, &n_targets);
+
+	gtk_drag_source_set (
+		button->priv->expand_button, GDK_BUTTON1_MASK,
+		targets, n_targets, GDK_ACTION_COPY);
+
+	gtk_drag_source_set (
+		button->priv->toggle_button, GDK_BUTTON1_MASK,
+		targets, n_targets, GDK_ACTION_COPY);
+
+	gtk_target_table_free (targets, n_targets);
+	gtk_target_list_unref (list);
 
 	g_object_notify (G_OBJECT (button), "attachment");
 }
