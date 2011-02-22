@@ -486,10 +486,19 @@ get_normalised_string (MessageList *message_list, CamelMessageInfo *info, gint c
 
 	if (col == COL_SUBJECT_NORM) {
 		const guchar *subject;
+		gboolean found_re = TRUE;
 
 		subject = (const guchar *) string;
-		while (!g_ascii_strncasecmp ((gchar *)subject, "Re:", 3)) {
-			subject += 3;
+		while (found_re) {
+			found_re = FALSE;
+
+			if (g_ascii_strncasecmp ((gchar *) subject, "Re:", 3) == 0) {
+				found_re = TRUE;
+				subject += 3;
+			} else if (g_ascii_strncasecmp ((gchar *) subject, "Re :", 4)) {
+				found_re = TRUE;
+				subject += 4;
+			}
 
 			/* jump over any spaces */
 			while (*subject && isspace ((gint) *subject))
@@ -1475,10 +1484,20 @@ get_trimmed_subject (CamelMessageInfo *info)
 	}
 
 	do {
+		gboolean found_re = TRUE;
+
 		found_mlist = FALSE;
 
-		while (!g_ascii_strncasecmp ((gchar *) subject, "Re:", 3)) {
-			subject += 3;
+		while (found_re) {
+			found_re = FALSE;
+
+			if (g_ascii_strncasecmp ((gchar *) subject, "Re:", 3) == 0) {
+				found_re = TRUE;
+				subject += 3;
+			} else if (g_ascii_strncasecmp ((gchar *) subject, "Re :", 4) == 0) {
+				found_re = TRUE;
+				subject += 4;
+			}
 
 			/* jump over any spaces */
 			while (*subject && isspace ((gint) *subject))
