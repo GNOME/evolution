@@ -83,7 +83,19 @@ attachment_handler_get_component (EAttachment *attachment)
 	camel_data_wrapper_decode_to_stream_sync (wrapper, stream, NULL, NULL);
 	g_object_unref (stream);
 
-	component = e_cal_util_parse_ics_string ((gchar *) buffer->data);
+	if (buffer->len > 0) {
+		const gchar *str;
+
+		/* ensure string being null-terminated  */
+		g_byte_array_append (buffer, (const guint8 *) "", 1);
+
+		str = (const gchar *) buffer->data;
+		while (*str && g_ascii_isspace (*str))
+			str++;
+
+		if (g_ascii_strncasecmp (str, "BEGIN:", 6) == 0)
+			component = e_cal_util_parse_ics_string (str);
+	}
 
 	g_byte_array_free (buffer, TRUE);
 
