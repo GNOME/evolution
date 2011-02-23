@@ -2427,9 +2427,6 @@ tree_autoscroll (EMFolderTree *folder_tree)
 	GdkRectangle rect;
 	GdkWindow *window;
 	gint offset, y;
-	gdouble page_size;
-	gdouble upper;
-	gdouble value;
 
 	/* get the y pointer position relative to the treeview */
 	tree_view = GTK_TREE_VIEW (folder_tree);
@@ -2450,13 +2447,7 @@ tree_autoscroll (EMFolderTree *folder_tree)
 	}
 
 	adjustment = gtk_tree_view_get_vadjustment (tree_view);
-
-	page_size = gtk_adjustment_get_value (adjustment);
-	upper = gtk_adjustment_get_upper (adjustment);
-	value = gtk_adjustment_get_value (adjustment);
-
-	value = CLAMP (value + offset, 0.0, upper - page_size);
-	gtk_adjustment_set_value (adjustment, value);
+	gtk_adjustment_set_value (adjustment, MAX (gtk_adjustment_get_value (adjustment) + offset, 0.0));
 
 	return TRUE;
 }
