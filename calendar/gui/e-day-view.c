@@ -2122,7 +2122,13 @@ e_day_view_update_event_label (EDayView *day_view,
 
 	if (!editing_event) {
 		if (!short_event) {
-			text = g_strdup_printf (" \n%s", text);
+			const gchar *location = icalcomponent_get_location (event->comp_data->icalcomp);
+
+			if (location && *location)
+				text = g_strdup_printf (" \n%s%c(%s)", text, day_view->days_shown == 1 ? ' ' : '\n', location);
+			else
+				text = g_strdup_printf (" \n%s", text);
+
 			free_text = TRUE;
 		}
 	}

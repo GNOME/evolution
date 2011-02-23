@@ -2975,7 +2975,7 @@ tooltip_event_cb (GnomeCanvasItem *item,
 
 	switch (event->type) {
 		case GDK_ENTER_NOTIFY:
-		{
+		if (view->editing_event_num == -1) {
 			ECalendarViewEventData *data;
 
 			data = g_malloc (sizeof (ECalendarViewEventData));
@@ -2994,7 +2994,9 @@ tooltip_event_cb (GnomeCanvasItem *item,
 				data, (GDestroyNotify) g_free);
 			g_object_set_data ((GObject *)view, "tooltip-timeout", GUINT_TO_POINTER (pevent->timeout));
 
-		return TRUE;
+			return TRUE;
+		} else {
+			return FALSE;
 		}
 		case GDK_MOTION_NOTIFY:
 			pevent->x = ((GdkEventMotion *)event)->x_root;
@@ -3013,6 +3015,32 @@ tooltip_event_cb (GnomeCanvasItem *item,
 		default:
 			return FALSE;
 	}
+}
+
+static const gchar *
+get_comp_summary (ECal *ecal, icalcomponent *icalcomp, gboolean *free_text)
+{
+	const gchar *my_summary, *location;
+	const gchar *summary;
+	gboolean my_free_text = FALSE;
+
+	g_return_val_if_fail (icalcomp != NULL && free_text != NULL, NULL);
+
+	my_summary = e_calendar_view_get_icalcomponent_summary (ecal, icalcomp, &my_free_text);
+
+	location = icalcomponent_get_location (icalcomp);
+	if (location && *location) {
+		*free_text = TRUE;
+		summary = g_strdup_printf ("%s (%s)", my_summary, location);
+
+		if (my_free_text)
+			g_free ((gchar *) my_summary);
+	} else {
+		*free_text = my_free_text;
+		summary = my_summary;
+	}
+
+	return summary;
 }
 
 static void
@@ -3127,7 +3155,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		widget = (GtkWidget *)week_view;
 
 		color = e_week_view_get_text_color (week_view, event, widget);
-		summary = e_calendar_view_get_icalcomponent_summary (event->comp_data->client, event->comp_data->icalcomp, &free_text);
+		summary = get_comp_summary (event->comp_data->client, event->comp_data->icalcomp, &free_text);
 
 		span->text_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->main_canvas)->root),
@@ -3348,11 +3376,9 @@ e_week_view_start_editing_event (EWeekView *week_view,
 			return FALSE;
 	}
 
-	if (initial_text) {
-		gnome_canvas_item_set (span->text_item,
-				       "text", initial_text,
-				       NULL);
-	}
+	gnome_canvas_item_set (span->text_item,
+			       "text", initial_text ? initial_text : icalcomponent_get_summary (event->comp_data->icalcomp),
+			       NULL);
 
 	/* Save the comp_data value because we use that as our invariant */
 	comp_data = event->comp_data;
@@ -3419,7 +3445,6 @@ cancel_editing (EWeekView *week_view)
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
 	const gchar *summary;
-	gboolean free_text = FALSE;
 
 	event_num = week_view->editing_event_num;
 	span_num = week_view->editing_span_num;
@@ -3441,11 +3466,8 @@ cancel_editing (EWeekView *week_view)
 
 	/* Reset the text to what was in the component */
 
-	summary = e_calendar_view_get_icalcomponent_summary (event->comp_data->client, event->comp_data->icalcomp, &free_text);
+	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
 	g_object_set (G_OBJECT (span->text_item), "text", summary ? summary : "", NULL);
-
-	if (free_text)
-		g_free ((gchar *)summary);
 
 	/* Stop editing */
 	e_week_view_stop_editing_event (week_view);
@@ -3598,10 +3620,8 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		ECalendarViewEventData *data;
 		gint nspan;
 
-		if (!e_week_view_find_event_from_item (week_view,
-						       item,
-						       &nevent,
-						       &nspan))
+		if (week_view->editing_event_num != -1
+		    || !e_week_view_find_event_from_item (week_view, item, &nevent, &nspan))
 			return FALSE;
 
 		g_object_set_data ((GObject *)item, "event-num", GINT_TO_POINTER (nevent));
@@ -3963,9 +3983,17 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	/* Only update the summary if necessary. */
 	e_cal_component_get_summary (comp, &summary);
 	if (summary.value && !strcmp (text, summary.value)) {
+		gboolean free_text = FALSE;
+		const gchar *summary;
+
+		summary = get_comp_summary (event->comp_data->client, event->comp_data->icalcomp, &free_text);
+		g_object_set (G_OBJECT (span->text_item), "text", summary ? summary : "", NULL);
+
+		if (free_text)
+			g_free ((gchar *) summary);
+
 		if (!e_week_view_is_one_day_event (week_view, event_num))
-			e_week_view_reshape_event_span (week_view, event_num,
-							span_num);
+			e_week_view_reshape_event_span (week_view, event_num, span_num);
 	} else if (summary.value || !string_is_empty (text)) {
 		icalcomponent *icalcomp = e_cal_component_get_icalcomponent (comp);
 
