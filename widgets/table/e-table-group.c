@@ -698,8 +698,10 @@ etg_class_init (ETableGroupClass *class)
 			      G_STRUCT_OFFSET (ETableGroupClass, double_click),
 			      NULL, NULL,
 			      e_marshal_NONE__INT_INT_BOXED,
-			      G_TYPE_NONE, 3, G_TYPE_INT,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_NONE, 3,
+			      G_TYPE_INT,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	etg_signals[RIGHT_CLICK] =
 		g_signal_new ("right_click",
@@ -708,8 +710,10 @@ etg_class_init (ETableGroupClass *class)
 			      G_STRUCT_OFFSET (ETableGroupClass, right_click),
 			      g_signal_accumulator_true_handled, NULL,
 			      e_marshal_BOOLEAN__INT_INT_BOXED,
-			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_BOOLEAN, 3,
+			      G_TYPE_INT,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	etg_signals[CLICK] =
 		g_signal_new ("click",
@@ -718,8 +722,10 @@ etg_class_init (ETableGroupClass *class)
 			      G_STRUCT_OFFSET (ETableGroupClass, click),
 			      g_signal_accumulator_true_handled, NULL,
 			      e_marshal_BOOLEAN__INT_INT_BOXED,
-			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_BOOLEAN, 3,
+			      G_TYPE_INT,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	etg_signals[KEY_PRESS] =
 		g_signal_new ("key_press",
@@ -728,8 +734,10 @@ etg_class_init (ETableGroupClass *class)
 			      G_STRUCT_OFFSET (ETableGroupClass, key_press),
 			      g_signal_accumulator_true_handled, NULL,
 			      e_marshal_BOOLEAN__INT_INT_BOXED,
-			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_BOOLEAN, 3,
+			      G_TYPE_INT,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	etg_signals[START_DRAG] =
 		g_signal_new ("start_drag",
@@ -738,8 +746,10 @@ etg_class_init (ETableGroupClass *class)
 			      G_STRUCT_OFFSET (ETableGroupClass, start_drag),
 			      g_signal_accumulator_true_handled, NULL,
 			      e_marshal_BOOLEAN__INT_INT_BOXED,
-			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_BOOLEAN, 3,
+			      G_TYPE_INT,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 }
 
 static void

@@ -2918,8 +2918,10 @@ eti_class_init (ETableItemClass *class)
 			      G_STRUCT_OFFSET (ETableItemClass, double_click),
 			      NULL, NULL,
 			      e_marshal_NONE__INT_INT_BOXED,
-			      G_TYPE_NONE, 3, G_TYPE_INT,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_NONE, 3,
+			      G_TYPE_INT,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	eti_signals[START_DRAG] =
 		g_signal_new ("start_drag",
@@ -2928,8 +2930,10 @@ eti_class_init (ETableItemClass *class)
 			      G_STRUCT_OFFSET (ETableItemClass, start_drag),
 			      g_signal_accumulator_true_handled, NULL,
 			      e_marshal_BOOLEAN__INT_INT_BOXED,
-			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_BOOLEAN, 3,
+			      G_TYPE_INT,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	eti_signals[RIGHT_CLICK] =
 		g_signal_new ("right_click",
@@ -2938,8 +2942,10 @@ eti_class_init (ETableItemClass *class)
 			      G_STRUCT_OFFSET (ETableItemClass, right_click),
 			      g_signal_accumulator_true_handled, NULL,
 			      e_marshal_BOOLEAN__INT_INT_BOXED,
-			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_BOOLEAN, 3,
+			      G_TYPE_INT,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	eti_signals[CLICK] =
 		g_signal_new ("click",
@@ -2948,8 +2954,10 @@ eti_class_init (ETableItemClass *class)
 			      G_STRUCT_OFFSET (ETableItemClass, click),
 			      g_signal_accumulator_true_handled, NULL,
 			      e_marshal_BOOLEAN__INT_INT_BOXED,
-			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_BOOLEAN, 3,
+			      G_TYPE_INT,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	eti_signals[KEY_PRESS] =
 		g_signal_new ("key_press",
@@ -2958,8 +2966,10 @@ eti_class_init (ETableItemClass *class)
 			      G_STRUCT_OFFSET (ETableItemClass, key_press),
 			      g_signal_accumulator_true_handled, NULL,
 			      e_marshal_BOOLEAN__INT_INT_BOXED,
-			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_BOOLEAN, 3,
+			      G_TYPE_INT,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	eti_signals[STYLE_SET] =
 		g_signal_new ("style_set",

@@ -2025,7 +2025,8 @@ ethi_class_init (ETableHeaderItemClass *class)
 			      G_STRUCT_OFFSET (ETableHeaderItemClass, button_pressed),
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__BOXED,
-			      G_TYPE_NONE, 1, GDK_TYPE_EVENT);
+			      G_TYPE_NONE, 1,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 }
 
 static void
