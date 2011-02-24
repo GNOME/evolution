@@ -492,12 +492,11 @@ save_comp (CompEditor *editor)
 		}
 		result = e_cal_modify_object (priv->client, icalcomp, priv->mod, &error);
 
-		if (result && priv->mod == CALOBJ_MOD_THIS) {
-			/* FIXME do we really need to do this ? */
-			if ((flags & COMP_EDITOR_DELEGATE) ||
+		if (priv->mod == CALOBJ_MOD_THIS) {
+			if (result && ((flags & COMP_EDITOR_DELEGATE) ||
 				!e_cal_component_has_organizer (clone) ||
 				itip_organizer_is_user (clone, priv->client) ||
-				itip_sentby_is_user (clone, priv->client))
+				itip_sentby_is_user (clone, priv->client)))
 				e_cal_component_commit_sequence (clone);
 			else
 				e_cal_component_abort_sequence (clone);
