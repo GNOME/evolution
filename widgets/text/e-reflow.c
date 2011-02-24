@@ -1548,8 +1548,9 @@ e_reflow_class_init (EReflowClass *klass)
 			      G_STRUCT_OFFSET (EReflowClass, selection_event),
 			      NULL, NULL,
 			      e_marshal_INT__OBJECT_BOXED,
-			      G_TYPE_INT, 2, G_TYPE_OBJECT,
-			      GDK_TYPE_EVENT);
+			      G_TYPE_INT, 2,
+			      G_TYPE_OBJECT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	signals[COLUMN_WIDTH_CHANGED] =
 		g_signal_new ("column_width_changed",

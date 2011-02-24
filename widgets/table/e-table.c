@@ -3329,8 +3329,10 @@ e_table_class_init (ETableClass *class)
 			      G_STRUCT_OFFSET (ETableClass, double_click),
 			      NULL, NULL,
 			      e_marshal_NONE__INT_INT_BOXED,
-			      G_TYPE_NONE, 3, G_TYPE_INT,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_NONE, 3,
+			      G_TYPE_INT,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	et_signals[RIGHT_CLICK] =
 		g_signal_new ("right_click",
@@ -3339,8 +3341,10 @@ e_table_class_init (ETableClass *class)
 			      G_STRUCT_OFFSET (ETableClass, right_click),
 			      g_signal_accumulator_true_handled, NULL,
 			      e_marshal_BOOLEAN__INT_INT_BOXED,
-			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_BOOLEAN, 3,
+			      G_TYPE_INT,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	et_signals[CLICK] =
 		g_signal_new ("click",
@@ -3349,8 +3353,10 @@ e_table_class_init (ETableClass *class)
 			      G_STRUCT_OFFSET (ETableClass, click),
 			      g_signal_accumulator_true_handled, NULL,
 			      e_marshal_BOOLEAN__INT_INT_BOXED,
-			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_BOOLEAN, 3,
+			      G_TYPE_INT,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	et_signals[KEY_PRESS] =
 		g_signal_new ("key_press",
@@ -3359,8 +3365,10 @@ e_table_class_init (ETableClass *class)
 			      G_STRUCT_OFFSET (ETableClass, key_press),
 			      g_signal_accumulator_true_handled, NULL,
 			      e_marshal_BOOLEAN__INT_INT_BOXED,
-			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_BOOLEAN, 3,
+			      G_TYPE_INT,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	et_signals[START_DRAG] =
 		g_signal_new ("start_drag",
@@ -3369,8 +3377,10 @@ e_table_class_init (ETableClass *class)
 			      G_STRUCT_OFFSET (ETableClass, start_drag),
 			      g_signal_accumulator_true_handled, NULL,
 			      e_marshal_BOOLEAN__INT_INT_BOXED,
-			      G_TYPE_BOOLEAN, 3, G_TYPE_INT,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_BOOLEAN, 3,
+			      G_TYPE_INT,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	et_signals[STATE_CHANGE] =
 		g_signal_new ("state_change",
@@ -3388,7 +3398,8 @@ e_table_class_init (ETableClass *class)
 			      G_STRUCT_OFFSET (ETableClass, white_space_event),
 			      g_signal_accumulator_true_handled, NULL,
 			      e_marshal_BOOLEAN__BOXED,
-			      G_TYPE_BOOLEAN, 1, GDK_TYPE_EVENT);
+			      G_TYPE_BOOLEAN, 1,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	et_signals[TABLE_DRAG_BEGIN] =
 		g_signal_new ("table_drag_begin",

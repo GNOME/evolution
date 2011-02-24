@@ -3323,8 +3323,11 @@ e_tree_class_init (ETreeClass *class)
 			      G_STRUCT_OFFSET (ETreeClass, double_click),
 			      NULL, NULL,
 			      e_marshal_NONE__INT_POINTER_INT_BOXED,
-			      G_TYPE_NONE, 4, G_TYPE_INT,
-			      G_TYPE_POINTER, G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_NONE, 4,
+			      G_TYPE_INT,
+			      G_TYPE_POINTER,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	et_signals[RIGHT_CLICK] =
 		g_signal_new ("right_click",
@@ -3333,8 +3336,11 @@ e_tree_class_init (ETreeClass *class)
 			      G_STRUCT_OFFSET (ETreeClass, right_click),
 			      g_signal_accumulator_true_handled, NULL,
 			      e_marshal_BOOLEAN__INT_POINTER_INT_BOXED,
-			      G_TYPE_BOOLEAN, 4, G_TYPE_INT, G_TYPE_POINTER,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_BOOLEAN, 4,
+			      G_TYPE_INT,
+			      G_TYPE_POINTER,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	et_signals[CLICK] =
 		g_signal_new ("click",
@@ -3343,8 +3349,11 @@ e_tree_class_init (ETreeClass *class)
 			      G_STRUCT_OFFSET (ETreeClass, click),
 			      g_signal_accumulator_true_handled, NULL,
 			      e_marshal_BOOLEAN__INT_POINTER_INT_BOXED,
-			      G_TYPE_BOOLEAN, 4, G_TYPE_INT, G_TYPE_POINTER,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_BOOLEAN, 4,
+			      G_TYPE_INT,
+			      G_TYPE_POINTER,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	et_signals[KEY_PRESS] =
 		g_signal_new ("key_press",
@@ -3353,8 +3362,11 @@ e_tree_class_init (ETreeClass *class)
 			      G_STRUCT_OFFSET (ETreeClass, key_press),
 			      g_signal_accumulator_true_handled, NULL,
 			      e_marshal_BOOLEAN__INT_POINTER_INT_BOXED,
-			      G_TYPE_BOOLEAN, 4, G_TYPE_INT, G_TYPE_POINTER,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_BOOLEAN, 4,
+			      G_TYPE_INT,
+			      G_TYPE_POINTER,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	et_signals[START_DRAG] =
 		g_signal_new ("start_drag",
@@ -3363,8 +3375,11 @@ e_tree_class_init (ETreeClass *class)
 			      G_STRUCT_OFFSET (ETreeClass, start_drag),
 			      NULL, NULL,
 			      e_marshal_NONE__INT_POINTER_INT_BOXED,
-			      G_TYPE_NONE, 4, G_TYPE_INT, G_TYPE_POINTER,
-			      G_TYPE_INT, GDK_TYPE_EVENT);
+			      G_TYPE_NONE, 4,
+			      G_TYPE_INT,
+			      G_TYPE_POINTER,
+			      G_TYPE_INT,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	et_signals[STATE_CHANGE] =
 		g_signal_new ("state_change",
@@ -3382,7 +3397,8 @@ e_tree_class_init (ETreeClass *class)
 			      G_STRUCT_OFFSET (ETreeClass, white_space_event),
 			      g_signal_accumulator_true_handled, NULL,
 			      e_marshal_BOOLEAN__POINTER,
-			      G_TYPE_BOOLEAN, 1, GDK_TYPE_EVENT);
+			      G_TYPE_BOOLEAN, 1,
+			      GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	et_signals[TREE_DRAG_BEGIN] =
 		g_signal_new ("tree_drag_begin",

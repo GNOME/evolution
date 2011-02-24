@@ -1164,14 +1164,15 @@ folder_tree_class_init (EMFolderTreeClass *class)
 		G_TYPE_NONE, 1,
 		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
-	signals[HIDDEN_KEY_EVENT] =
-		g_signal_new ("hidden-key-event",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EMFolderTreeClass, hidden_key_event),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__BOXED,
-			      G_TYPE_NONE, 1, GDK_TYPE_EVENT);
+	signals[HIDDEN_KEY_EVENT] = g_signal_new (
+		"hidden-key-event",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMFolderTreeClass, hidden_key_event),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__BOXED,
+		G_TYPE_NONE, 1,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 }
 
 static gboolean
