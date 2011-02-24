@@ -247,7 +247,7 @@ shell_view_save_state_done_cb (GFile *file,
 }
 
 static EActivity *
-shell_view_save_state (EShellView *shell_view)
+shell_view_save_state (EShellView *shell_view, gboolean immediately)
 {
 	EShellBackend *shell_backend;
 	SaveStateData *data;
@@ -266,6 +266,15 @@ shell_view_save_state (EShellView *shell_view)
 	g_return_val_if_fail (contents != NULL, NULL);
 
 	path = g_build_filename (config_dir, "state.ini", NULL);
+	if (immediately) {
+		g_file_set_contents (path, contents, -1, NULL);
+
+		g_free (path);
+		g_free (contents);
+
+		return NULL;
+	}
+
 	file = g_file_new_for_path (path);
 	g_free (path);
 
@@ -301,7 +310,7 @@ shell_view_state_timeout_cb (EShellView *shell_view)
 	if (shell_view->priv->state_save_activity != NULL)
 		return TRUE;
 
-	activity = shell_view_save_state (shell_view);
+	activity = shell_view_save_state (shell_view, FALSE);
 
 	/* Set up a weak pointer that gets set to NULL when the
 	 * activity finishes.  This will tell us if we're still
@@ -496,7 +505,7 @@ shell_view_dispose (GObject *object)
 		g_source_remove (priv->state_save_timeout_id);
 		priv->state_save_timeout_id = 0;
 		if (priv->state_save_activity == NULL)
-			shell_view_save_state (E_SHELL_VIEW (object));
+			shell_view_save_state (E_SHELL_VIEW (object), TRUE);
 	}
 
 	if (priv->state_save_activity != NULL) {
