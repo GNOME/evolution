@@ -18,10 +18,6 @@
 
 #include "e-activity-bar.h"
 
-#define E_ACTIVITY_BAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ACTIVITY_BAR, EActivityBarPrivate))
-
 #define FEEDBACK_PERIOD		1 /* seconds */
 #define COMPLETED_ICON_NAME	"emblem-default"
 
@@ -206,7 +202,7 @@ activity_bar_dispose (GObject *object)
 {
 	EActivityBarPrivate *priv;
 
-	priv = E_ACTIVITY_BAR_GET_PRIVATE (object);
+	priv = E_ACTIVITY_BAR (object)->priv;
 
 	if (priv->timeout_id > 0) {
 		g_source_remove (priv->timeout_id);
@@ -257,7 +253,7 @@ e_activity_bar_init (EActivityBar *bar)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	bar->priv = E_ACTIVITY_BAR_GET_PRIVATE (bar);
+	bar->priv = G_TYPE_INSTANCE_GET_PRIVATE (bar, E_TYPE_ACTIVITY_BAR, EActivityBarPrivate);
 
 	container = gtk_info_bar_get_content_area (GTK_INFO_BAR (bar));
 

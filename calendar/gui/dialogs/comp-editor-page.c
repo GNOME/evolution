@@ -31,10 +31,6 @@
 #include "comp-editor.h"
 #include "comp-editor-page.h"
 
-#define COMP_EDITOR_PAGE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), TYPE_COMP_EDITOR_PAGE, CompEditorPagePrivate))
-
 struct _CompEditorPagePrivate {
 	CompEditor *editor;  /* not referenced */
 	gboolean updating;
@@ -62,7 +58,7 @@ comp_editor_page_set_property (GObject *object,
 {
 	CompEditorPagePrivate *priv;
 
-	priv = COMP_EDITOR_PAGE_GET_PRIVATE (object);
+	priv = COMP_EDITOR_PAGE (object)->priv;
 
 	switch (property_id) {
 		case PROP_EDITOR:
@@ -176,7 +172,7 @@ comp_editor_page_class_init (CompEditorPageClass *class)
 static void
 comp_editor_page_init (CompEditorPage *page)
 {
-	page->priv = COMP_EDITOR_PAGE_GET_PRIVATE (page);
+	page->priv = G_TYPE_INSTANCE_GET_PRIVATE (page, TYPE_COMP_EDITOR_PAGE, CompEditorPagePrivate);
 
 	page->accel_group = NULL;
 }

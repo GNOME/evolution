@@ -23,10 +23,6 @@
 
 #include <glib/gi18n.h>
 
-#define E_ATTACHMENT_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ATTACHMENT_DIALOG, EAttachmentDialogPrivate))
-
 struct _EAttachmentDialogPrivate {
 	EAttachment *attachment;
 	GtkWidget *display_name_entry;
@@ -158,7 +154,7 @@ attachment_dialog_dispose (GObject *object)
 {
 	EAttachmentDialogPrivate *priv;
 
-	priv = E_ATTACHMENT_DIALOG_GET_PRIVATE (object);
+	priv = E_ATTACHMENT_DIALOG (object)->priv;
 
 	if (priv->attachment != NULL) {
 		g_object_unref (priv->attachment);
@@ -223,7 +219,7 @@ attachment_dialog_response (GtkDialog *dialog,
 	if (response_id != GTK_RESPONSE_OK)
 		return;
 
-	priv = E_ATTACHMENT_DIALOG_GET_PRIVATE (dialog);
+	priv = E_ATTACHMENT_DIALOG (dialog)->priv;
 	g_return_if_fail (E_IS_ATTACHMENT (priv->attachment));
 	attachment = priv->attachment;
 
@@ -295,7 +291,7 @@ e_attachment_dialog_init (EAttachmentDialog *dialog)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	dialog->priv = E_ATTACHMENT_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (dialog, E_TYPE_ATTACHMENT_DIALOG, EAttachmentDialogPrivate);
 
 	gtk_dialog_add_button (
 		GTK_DIALOG (dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);

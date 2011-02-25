@@ -43,10 +43,6 @@
 #include "cancel-comp.h"
 #include "event-editor.h"
 
-#define EVENT_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), TYPE_EVENT_EDITOR, EventEditorPrivate))
-
 struct _EventEditorPrivate {
 	EventPage *event_page;
 	RecurrencePage *recur_page;
@@ -121,7 +117,7 @@ create_schedule_page (CompEditor *editor)
 	CompEditorPage *page;
 	GtkWidget *content_area;
 
-	priv = EVENT_EDITOR_GET_PRIVATE (editor);
+	priv = EVENT_EDITOR (editor)->priv;
 
 	priv->sched_window = gtk_dialog_new_with_buttons (
 		_("Free/Busy"), GTK_WINDOW (editor), GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -300,7 +296,7 @@ event_editor_constructor (GType type,
 		type, n_construct_properties, construct_properties);
 
 	editor = COMP_EDITOR (object);
-	priv = EVENT_EDITOR_GET_PRIVATE (object);
+	priv = EVENT_EDITOR (object)->priv;
 
 	shell = comp_editor_get_shell (editor);
 
@@ -398,7 +394,7 @@ event_editor_dispose (GObject *object)
 {
 	EventEditorPrivate *priv;
 
-	priv = EVENT_EDITOR_GET_PRIVATE (object);
+	priv = EVENT_EDITOR (object)->priv;
 
 	if (priv->event_page) {
 		g_object_unref (priv->event_page);
@@ -431,7 +427,7 @@ event_editor_constructed (GObject *object)
 {
 	EventEditorPrivate *priv;
 
-	priv = EVENT_EDITOR_GET_PRIVATE (object);
+	priv = EVENT_EDITOR (object)->priv;
 
 	g_object_bind_property (
 		object, "client",
@@ -448,7 +444,7 @@ event_editor_show_categories (CompEditor *editor,
 {
 	EventEditorPrivate *priv;
 
-	priv = EVENT_EDITOR_GET_PRIVATE (editor);
+	priv = EVENT_EDITOR (editor)->priv;
 
 	event_page_set_show_categories (priv->event_page, visible);
 }
@@ -459,7 +455,7 @@ event_editor_show_role (CompEditor *editor,
 {
 	EventEditorPrivate *priv;
 
-	priv = EVENT_EDITOR_GET_PRIVATE (editor);
+	priv = EVENT_EDITOR (editor)->priv;
 
 	event_page_set_view_role (priv->event_page, visible);
 }
@@ -470,7 +466,7 @@ event_editor_show_rsvp (CompEditor *editor,
 {
 	EventEditorPrivate *priv;
 
-	priv = EVENT_EDITOR_GET_PRIVATE (editor);
+	priv = EVENT_EDITOR (editor)->priv;
 
 	event_page_set_view_rsvp (priv->event_page, visible);
 }
@@ -481,7 +477,7 @@ event_editor_show_status (CompEditor *editor,
 {
 	EventEditorPrivate *priv;
 
-	priv = EVENT_EDITOR_GET_PRIVATE (editor);
+	priv = EVENT_EDITOR (editor)->priv;
 
 	event_page_set_view_status (priv->event_page, visible);
 }
@@ -492,7 +488,7 @@ event_editor_show_time_zone (CompEditor *editor,
 {
 	EventEditorPrivate *priv;
 
-	priv = EVENT_EDITOR_GET_PRIVATE (editor);
+	priv = EVENT_EDITOR (editor)->priv;
 
 	event_page_set_show_timezone (priv->event_page, visible);
 }
@@ -503,7 +499,7 @@ event_editor_show_type (CompEditor *editor,
 {
 	EventEditorPrivate *priv;
 
-	priv = EVENT_EDITOR_GET_PRIVATE (editor);
+	priv = EVENT_EDITOR (editor)->priv;
 
 	event_page_set_view_type (priv->event_page, visible);
 }
@@ -543,7 +539,7 @@ event_editor_init (EventEditor *ee)
 	const gchar *id;
 	GError *error = NULL;
 
-	ee->priv = EVENT_EDITOR_GET_PRIVATE (ee);
+	ee->priv = G_TYPE_INSTANCE_GET_PRIVATE (ee, TYPE_EVENT_EDITOR, EventEditorPrivate);
 	ee->priv->model = E_MEETING_STORE (e_meeting_store_new ());
 	ee->priv->meeting_shown = TRUE;
 	ee->priv->updating = FALSE;
@@ -609,7 +605,7 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	ECal *client;
 	GSList *attendees = NULL;
 
-	priv = EVENT_EDITOR_GET_PRIVATE (editor);
+	priv = EVENT_EDITOR (editor)->priv;
 
 	priv->updating = TRUE;
 	delegate = (comp_editor_get_flags (COMP_EDITOR (editor)) & COMP_EDITOR_DELEGATE);
@@ -722,7 +718,7 @@ event_editor_send_comp (CompEditor *editor,
 	EventEditorPrivate *priv;
 	ECalComponent *comp = NULL;
 
-	priv = EVENT_EDITOR_GET_PRIVATE (editor);
+	priv = EVENT_EDITOR (editor)->priv;
 
 	/* Don't cancel more than once or when just publishing */
 	if (method == E_CAL_COMPONENT_METHOD_PUBLISH ||

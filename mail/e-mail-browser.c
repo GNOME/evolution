@@ -40,10 +40,6 @@
 #include "mail/em-format-html-display.h"
 #include "mail/message-list.h"
 
-#define E_MAIL_BROWSER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_BROWSER, EMailBrowserPrivate))
-
 #define MAIL_BROWSER_GCONF_PREFIX "/apps/evolution/mail/mail_browser"
 
 struct _EMailBrowserPrivate {
@@ -465,7 +461,7 @@ mail_browser_dispose (GObject *object)
 {
 	EMailBrowserPrivate *priv;
 
-	priv = E_MAIL_BROWSER_GET_PRIVATE (object);
+	priv = E_MAIL_BROWSER (object)->priv;
 
 	if (priv->backend != NULL) {
 		g_object_unref (priv->backend);
@@ -554,7 +550,7 @@ mail_browser_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
 
-	priv = E_MAIL_BROWSER_GET_PRIVATE (object);
+	priv = E_MAIL_BROWSER (object)->priv;
 
 	reader = E_MAIL_READER (object);
 	backend = e_mail_reader_get_backend (reader);
@@ -715,7 +711,7 @@ mail_browser_submit_alert (EAlertSink *alert_sink,
 	GtkWidget *dialog;
 	GtkWindow *parent;
 
-	priv = E_MAIL_BROWSER_GET_PRIVATE (alert_sink);
+	priv = E_MAIL_BROWSER (alert_sink)->priv;
 
 	switch (e_alert_get_message_type (alert)) {
 		case GTK_MESSAGE_INFO:
@@ -739,7 +735,7 @@ mail_browser_get_action_group (EMailReader *reader)
 {
 	EMailBrowserPrivate *priv;
 
-	priv = E_MAIL_BROWSER_GET_PRIVATE (reader);
+	priv = E_MAIL_BROWSER (reader)->priv;
 
 	return priv->action_group;
 }
@@ -755,7 +751,7 @@ mail_browser_get_backend (EMailReader *reader)
 {
 	EMailBrowserPrivate *priv;
 
-	priv = E_MAIL_BROWSER_GET_PRIVATE (reader);
+	priv = E_MAIL_BROWSER (reader)->priv;
 
 	return priv->backend;
 }
@@ -775,7 +771,7 @@ mail_browser_get_formatter (EMailReader *reader)
 {
 	EMailBrowserPrivate *priv;
 
-	priv = E_MAIL_BROWSER_GET_PRIVATE (reader);
+	priv = E_MAIL_BROWSER (reader)->priv;
 
 	return EM_FORMAT_HTML (priv->formatter);
 }
@@ -785,7 +781,7 @@ mail_browser_get_message_list (EMailReader *reader)
 {
 	EMailBrowserPrivate *priv;
 
-	priv = E_MAIL_BROWSER_GET_PRIVATE (reader);
+	priv = E_MAIL_BROWSER (reader)->priv;
 
 	return priv->message_list;
 }
@@ -843,7 +839,7 @@ mail_browser_show_search_bar (EMailReader *reader)
 {
 	EMailBrowserPrivate *priv;
 
-	priv = E_MAIL_BROWSER_GET_PRIVATE (reader);
+	priv = E_MAIL_BROWSER (reader)->priv;
 
 	gtk_widget_show (priv->search_bar);
 }
@@ -943,7 +939,7 @@ e_mail_browser_init (EMailBrowser *browser)
 	GConfBridge *bridge;
 	const gchar *prefix;
 
-	browser->priv = E_MAIL_BROWSER_GET_PRIVATE (browser);
+	browser->priv = G_TYPE_INSTANCE_GET_PRIVATE (browser, E_TYPE_MAIL_BROWSER, EMailBrowserPrivate);
 
 	browser->priv->action_group = gtk_action_group_new ("mail-browser");
 	browser->priv->formatter = em_format_html_display_new ();

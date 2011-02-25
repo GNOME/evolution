@@ -27,10 +27,6 @@
 #include "e-signature-tree-view.h"
 #include "e-signature-script-dialog.h"
 
-#define E_SIGNATURE_MANAGER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SIGNATURE_MANAGER, ESignatureManagerPrivate))
-
 struct _ESignatureManagerPrivate {
 	ESignatureList *signature_list;
 
@@ -234,7 +230,7 @@ signature_manager_dispose (GObject *object)
 {
 	ESignatureManagerPrivate *priv;
 
-	priv = E_SIGNATURE_MANAGER_GET_PRIVATE (object);
+	priv = E_SIGNATURE_MANAGER (object)->priv;
 
 	if (priv->signature_list != NULL) {
 		g_object_unref (priv->signature_list);
@@ -505,7 +501,7 @@ e_signature_manager_init (ESignatureManager *manager)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	manager->priv = E_SIGNATURE_MANAGER_GET_PRIVATE (manager);
+	manager->priv = G_TYPE_INSTANCE_GET_PRIVATE (manager, E_TYPE_SIGNATURE_MANAGER, ESignatureManagerPrivate);
 
 	gtk_table_resize (GTK_TABLE (manager), 1, 2);
 	gtk_table_set_col_spacings (GTK_TABLE (manager), 6);

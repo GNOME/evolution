@@ -42,10 +42,6 @@
 #include "shell/e-shell.h"
 #include "capplet/settings/mail-capplet-shell.h"
 
-#define EM_ACCOUNT_PREFS_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_ACCOUNT_PREFS, EMAccountPrefsPrivate))
-
 struct _EMAccountPrefsPrivate {
 	EMailSession *session;
 	gpointer assistant; /* weak pointer */
@@ -162,7 +158,7 @@ account_prefs_dispose (GObject *object)
 {
 	EMAccountPrefsPrivate *priv;
 
-	priv = EM_ACCOUNT_PREFS_GET_PRIVATE (object);
+	priv = EM_ACCOUNT_PREFS (object)->priv;
 
 	if (priv->session != NULL) {
 		g_object_unref (priv->session);
@@ -192,7 +188,7 @@ account_prefs_add_account (EAccountManager *manager)
 	EMAccountEditor *emae;
 	gpointer parent;
 
-	priv = EM_ACCOUNT_PREFS_GET_PRIVATE (manager);
+	priv = EM_ACCOUNT_PREFS (manager)->priv;
 
 	if (priv->assistant != NULL) {
 		gtk_window_present (GTK_WINDOW (priv->assistant));
@@ -239,7 +235,7 @@ account_prefs_edit_account (EAccountManager *manager)
 	EAccount *account;
 	gpointer parent;
 
-	priv = EM_ACCOUNT_PREFS_GET_PRIVATE (manager);
+	priv = EM_ACCOUNT_PREFS (manager)->priv;
 
 	if (priv->editor != NULL) {
 		gtk_window_present (GTK_WINDOW (priv->editor));
@@ -286,7 +282,7 @@ account_prefs_delete_account (EAccountManager *manager)
 	gpointer parent;
 	gint response;
 
-	priv = EM_ACCOUNT_PREFS_GET_PRIVATE (manager);
+	priv = EM_ACCOUNT_PREFS (manager)->priv;
 
 	account_list = e_account_manager_get_account_list (manager);
 	tree_view = e_account_manager_get_tree_view (manager);
@@ -364,7 +360,7 @@ em_account_prefs_init (EMAccountPrefs *prefs)
 	EAccountManager *manager;
 	EAccountTreeView *tree_view;
 
-	prefs->priv = EM_ACCOUNT_PREFS_GET_PRIVATE (prefs);
+	prefs->priv = G_TYPE_INSTANCE_GET_PRIVATE (prefs, EM_TYPE_ACCOUNT_PREFS, EMAccountPrefsPrivate);
 
 	manager = E_ACCOUNT_MANAGER (prefs);
 	tree_view = e_account_manager_get_tree_view (manager);

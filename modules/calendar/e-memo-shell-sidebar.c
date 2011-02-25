@@ -35,10 +35,6 @@
 #include "e-memo-shell-backend.h"
 #include "e-memo-shell-content.h"
 
-#define E_MEMO_SHELL_SIDEBAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MEMO_SHELL_SIDEBAR, EMemoShellSidebarPrivate))
-
 struct _EMemoShellSidebarPrivate {
 	GtkWidget *selector;
 
@@ -234,7 +230,7 @@ memo_shell_sidebar_default_loaded_cb (ESource *source,
 	ECal *client;
 	GError *error = NULL;
 
-	priv = E_MEMO_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
+	priv = E_MEMO_SHELL_SIDEBAR (shell_sidebar)->priv;
 
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_content = e_shell_view_get_shell_content (shell_view);
@@ -412,7 +408,7 @@ memo_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 	GtkTreeModel *model;
 	GSList *list, *iter;
 
-	priv = E_MEMO_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
+	priv = E_MEMO_SHELL_SIDEBAR (shell_sidebar)->priv;
 
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -499,7 +495,7 @@ memo_shell_sidebar_dispose (GObject *object)
 {
 	EMemoShellSidebarPrivate *priv;
 
-	priv = E_MEMO_SHELL_SIDEBAR_GET_PRIVATE (object);
+	priv = E_MEMO_SHELL_SIDEBAR (object)->priv;
 
 	if (priv->selector != NULL) {
 		g_object_unref (priv->selector);
@@ -528,7 +524,7 @@ memo_shell_sidebar_finalize (GObject *object)
 {
 	EMemoShellSidebarPrivate *priv;
 
-	priv = E_MEMO_SHELL_SIDEBAR_GET_PRIVATE (object);
+	priv = E_MEMO_SHELL_SIDEBAR (object)->priv;
 
 	g_hash_table_destroy (priv->client_table);
 
@@ -549,7 +545,7 @@ memo_shell_sidebar_constructed (GObject *object)
 	GtkWidget *widget;
 	AtkObject *a11y;
 
-	priv = E_MEMO_SHELL_SIDEBAR_GET_PRIVATE (object);
+	priv = E_MEMO_SHELL_SIDEBAR (object)->priv;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
@@ -744,8 +740,7 @@ memo_shell_sidebar_init (EMemoShellSidebar *memo_shell_sidebar)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_object_unref);
 
-	memo_shell_sidebar->priv =
-		E_MEMO_SHELL_SIDEBAR_GET_PRIVATE (memo_shell_sidebar);
+	memo_shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (memo_shell_sidebar, E_TYPE_MEMO_SHELL_SIDEBAR, EMemoShellSidebarPrivate);
 
 	memo_shell_sidebar->priv->client_table = client_table;
 

@@ -43,10 +43,6 @@
 #include "e-task-shell-sidebar.h"
 #include "e-task-shell-view.h"
 
-#define E_TASK_SHELL_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TASK_SHELL_BACKEND, ETaskShellBackendPrivate))
-
 struct _ETaskShellBackendPrivate {
 	ESourceList *source_list;
 };
@@ -494,7 +490,7 @@ task_shell_backend_dispose (GObject *object)
 {
 	ETaskShellBackendPrivate *priv;
 
-	priv = E_TASK_SHELL_BACKEND_GET_PRIVATE (object);
+	priv = E_TASK_SHELL_BACKEND (object)->priv;
 
 	if (priv->source_list != NULL) {
 		g_object_unref (priv->source_list);
@@ -568,8 +564,7 @@ task_shell_backend_class_init (ETaskShellBackendClass *class)
 static void
 task_shell_backend_init (ETaskShellBackend *task_shell_backend)
 {
-	task_shell_backend->priv =
-		E_TASK_SHELL_BACKEND_GET_PRIVATE (task_shell_backend);
+	task_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (task_shell_backend, E_TYPE_TASK_SHELL_BACKEND, ETaskShellBackendPrivate);
 }
 
 GType

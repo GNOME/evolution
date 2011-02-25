@@ -21,10 +21,6 @@
 
 #include "e-hinted-entry.h"
 
-#define E_HINTED_ENTRY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_HINTED_ENTRY, EHintedEntryPrivate))
-
 struct _EHintedEntryPrivate {
 	gchar *hint;
 	guint hint_shown : 1;
@@ -118,7 +114,7 @@ hinted_entry_finalize (GObject *object)
 {
 	EHintedEntryPrivate *priv;
 
-	priv = E_HINTED_ENTRY_GET_PRIVATE (object);
+	priv = E_HINTED_ENTRY (object)->priv;
 
 	g_free (priv->hint);
 
@@ -214,7 +210,7 @@ e_hinted_entry_class_init (EHintedEntryClass *class)
 static void
 e_hinted_entry_init (EHintedEntry *entry)
 {
-	entry->priv = E_HINTED_ENTRY_GET_PRIVATE (entry);
+	entry->priv = G_TYPE_INSTANCE_GET_PRIVATE (entry, E_TYPE_HINTED_ENTRY, EHintedEntryPrivate);
 	entry->priv->hint = g_strdup ("");  /* hint must never be NULL */
 	hinted_entry_show_hint (entry);
 }

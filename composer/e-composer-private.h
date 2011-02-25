@@ -61,10 +61,6 @@
 #include <X11/XF86keysym.h>
 #endif
 
-#define E_MSG_COMPOSER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MSG_COMPOSER, EMsgComposerPrivate))
-
 /* Mail configuration keys */
 #define MAIL_GCONF_PREFIX \
 	"/apps/evolution/mail"

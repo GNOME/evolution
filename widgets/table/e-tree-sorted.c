@@ -48,10 +48,6 @@
 
 #define d(x)
 
-#define E_TREE_SORTED_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TREE_SORTED, ETreeSortedPrivate))
-
 G_DEFINE_TYPE (ETreeSorted, e_tree_sorted, E_TYPE_TREE_MODEL)
 
 enum {
@@ -588,7 +584,7 @@ ets_dispose (GObject *object)
 {
 	ETreeSortedPrivate *priv;
 
-	priv = E_TREE_SORTED_GET_PRIVATE (object);
+	priv = E_TREE_SORTED (object)->priv;
 
 	if (priv->source) {
 		g_signal_handler_disconnect (
@@ -654,7 +650,7 @@ ets_finalize (GObject *object)
 {
 	ETreeSortedPrivate *priv;
 
-	priv = E_TREE_SORTED_GET_PRIVATE (object);
+	priv = E_TREE_SORTED (object)->priv;
 
 	if (priv->root)
 		free_path (priv->root);
@@ -1207,7 +1203,7 @@ e_tree_sorted_class_init (ETreeSortedClass *class)
 static void
 e_tree_sorted_init (ETreeSorted *ets)
 {
-	ets->priv = E_TREE_SORTED_GET_PRIVATE (ets);
+	ets->priv = G_TYPE_INSTANCE_GET_PRIVATE (ets, E_TYPE_TREE_SORTED, ETreeSortedPrivate);
 }
 
 /**

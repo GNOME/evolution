@@ -23,10 +23,6 @@
 
 #include <glib/gi18n.h>
 
-#define E_ACTIVITY_PROXY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ACTIVITY_PROXY, EActivityProxyPrivate))
-
 #define FEEDBACK_PERIOD		1 /* seconds */
 #define COMPLETED_ICON_NAME	"emblem-default"
 
@@ -212,7 +208,7 @@ activity_proxy_dispose (GObject *object)
 {
 	EActivityProxyPrivate *priv;
 
-	priv = E_ACTIVITY_PROXY_GET_PRIVATE (object);
+	priv = E_ACTIVITY_PROXY (object)->priv;
 
 	if (priv->timeout_id > 0) {
 		g_source_remove (priv->timeout_id);
@@ -263,7 +259,7 @@ e_activity_proxy_init (EActivityProxy *proxy)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	proxy->priv = E_ACTIVITY_PROXY_GET_PRIVATE (proxy);
+	proxy->priv = G_TYPE_INSTANCE_GET_PRIVATE (proxy, E_TYPE_ACTIVITY_PROXY, EActivityProxyPrivate);
 
 	container = GTK_WIDGET (proxy);
 

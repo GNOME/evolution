@@ -47,10 +47,6 @@
 #define localtime_r(tp,tmp) memcpy(tmp,localtime(tp),sizeof(struct tm))
 #endif
 
-#define E_FILTER_DATESPEC_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_FILTER_DATESPEC, EFilterDatespecPrivate))
-
 #define d(x)
 
 typedef struct {
@@ -172,7 +168,7 @@ set_button (EFilterDatespec *fds)
 static void
 get_values (EFilterDatespec *fds)
 {
-	EFilterDatespecPrivate *p = E_FILTER_DATESPEC_GET_PRIVATE (fds);
+	EFilterDatespecPrivate *p = fds->priv;
 
 	switch (fds->priv->type) {
 	case FDST_SPECIFIED: {
@@ -207,7 +203,7 @@ set_values (EFilterDatespec *fds)
 {
 	gint note_type;
 
-	EFilterDatespecPrivate *p = E_FILTER_DATESPEC_GET_PRIVATE (fds);
+	EFilterDatespecPrivate *p = fds->priv;
 
 	p->type = fds->type==FDST_UNKNOWN ? FDST_NOW : fds->type;
 
@@ -270,7 +266,7 @@ set_combobox_past_future (GtkComboBox *combobox, EFilterDatespec *fds)
 static void
 button_clicked (GtkButton *button, EFilterDatespec *fds)
 {
-	EFilterDatespecPrivate *p = E_FILTER_DATESPEC_GET_PRIVATE (fds);
+	EFilterDatespecPrivate *p = fds->priv;
 	GtkWidget *content_area;
 	GtkWidget *toplevel;
 	GtkDialog *dialog;
@@ -465,7 +461,7 @@ e_filter_datespec_class_init (EFilterDatespecClass *class)
 static void
 e_filter_datespec_init (EFilterDatespec *datespec)
 {
-	datespec->priv = E_FILTER_DATESPEC_GET_PRIVATE (datespec);
+	datespec->priv = G_TYPE_INSTANCE_GET_PRIVATE (datespec, E_TYPE_FILTER_DATESPEC, EFilterDatespecPrivate);
 	datespec->type = FDST_UNKNOWN;
 }
 

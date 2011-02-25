@@ -29,8 +29,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <gconf/gconf-client.h>
 
-#define MAIL_DECORATION_GET_PRIVATE(object)(G_TYPE_INSTANCE_GET_PRIVATE ((object), MAIL_DECORATION_TYPE, MailDecorationPrivate))
-
 struct _MailDecorationPrivate
 {
 	GdkCursor *cursors[8];
@@ -339,25 +337,22 @@ mail_decoration_class_init (MailDecorationClass *klass)
 static void
 mail_decoration_init (MailDecoration *md)
 {
-	MailDecorationPrivate *priv;
+	md->priv = G_TYPE_INSTANCE_GET_PRIVATE (md, MAIL_DECORATION_TYPE, MailDecorationPrivate);
 
-	priv = MAIL_DECORATION_GET_PRIVATE (md);
-	md->priv = priv;
+	md->priv->cursors[0]= gdk_cursor_new (GDK_TOP_LEFT_CORNER);
+	md->priv->cursors[1]= gdk_cursor_new (GDK_TOP_SIDE);
+	md->priv->cursors[2]= gdk_cursor_new (GDK_TOP_RIGHT_CORNER);
+	md->priv->cursors[3]= gdk_cursor_new (GDK_LEFT_SIDE);
+	md->priv->cursors[4]= gdk_cursor_new (GDK_RIGHT_SIDE);
+	md->priv->cursors[5]= gdk_cursor_new (GDK_BOTTOM_LEFT_CORNER);
+	md->priv->cursors[6]= gdk_cursor_new (GDK_BOTTOM_SIDE);
+	md->priv->cursors[7]= gdk_cursor_new (GDK_BOTTOM_RIGHT_CORNER);
 
-	priv->cursors[0]= gdk_cursor_new (GDK_TOP_LEFT_CORNER);
-	priv->cursors[1]= gdk_cursor_new (GDK_TOP_SIDE);
-	priv->cursors[2]= gdk_cursor_new (GDK_TOP_RIGHT_CORNER);
-	priv->cursors[3]= gdk_cursor_new (GDK_LEFT_SIDE);
-	priv->cursors[4]= gdk_cursor_new (GDK_RIGHT_SIDE);
-	priv->cursors[5]= gdk_cursor_new (GDK_BOTTOM_LEFT_CORNER);
-	priv->cursors[6]= gdk_cursor_new (GDK_BOTTOM_SIDE);
-	priv->cursors[7]= gdk_cursor_new (GDK_BOTTOM_RIGHT_CORNER);
-
-	priv->default_cursor = TRUE;
-	priv->resizing = FALSE;
-	priv->resize_width = 4;
-	priv->top_height = 54;
-	priv->check_window = TRUE;
-	priv->can_resize = TRUE;
-	priv->full_screen = TRUE;
+	md->priv->default_cursor = TRUE;
+	md->priv->resizing = FALSE;
+	md->priv->resize_width = 4;
+	md->priv->top_height = 54;
+	md->priv->check_window = TRUE;
+	md->priv->can_resize = TRUE;
+	md->priv->full_screen = TRUE;
 }

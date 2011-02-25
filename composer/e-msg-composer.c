@@ -1471,7 +1471,7 @@ is_top_signature (EMsgComposer *composer)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
-	EMsgComposerPrivate *priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
+	EMsgComposerPrivate *priv = composer->priv;
 
 	g_return_val_if_fail (priv != NULL, FALSE);
 
@@ -2475,7 +2475,7 @@ msg_composer_submit_alert (EAlertSink *alert_sink,
 	GtkWidget *dialog;
 	GtkWindow *parent;
 
-	priv = E_MSG_COMPOSER_GET_PRIVATE (alert_sink);
+	priv = E_MSG_COMPOSER (alert_sink)->priv;
 
 	switch (e_alert_get_message_type (alert)) {
 		case GTK_MESSAGE_INFO:
@@ -2627,7 +2627,7 @@ e_msg_composer_alert_sink_init (EAlertSinkInterface *interface)
 static void
 e_msg_composer_init (EMsgComposer *composer)
 {
-	composer->priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
+	composer->priv = G_TYPE_INSTANCE_GET_PRIVATE (composer, E_TYPE_MSG_COMPOSER, EMsgComposerPrivate);
 }
 
 /* Callbacks.  */
@@ -3159,7 +3159,7 @@ e_msg_composer_new_with_message (EShell *shell,
 	}
 
 	composer = e_msg_composer_new (shell);
-	priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
+	priv = composer->priv;
 	table = e_msg_composer_get_header_table (composer);
 
 	if (postto) {

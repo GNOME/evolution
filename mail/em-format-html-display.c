@@ -64,10 +64,6 @@
 
 #define d(x)
 
-#define EM_FORMAT_HTML_DISPLAY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_FORMAT_HTML_DISPLAY, EMFormatHTMLDisplayPrivate))
-
 struct _EMFormatHTMLDisplayPrivate {
 	GtkWidget *attachment_view;  /* weak reference */
 };
@@ -626,7 +622,7 @@ efhd_init (EMFormatHTMLDisplay *efhd)
 
 	web_view = em_format_html_get_web_view (EM_FORMAT_HTML (efhd));
 
-	efhd->priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (efhd);
+	efhd->priv = G_TYPE_INSTANCE_GET_PRIVATE (efhd, EM_TYPE_FORMAT_HTML_DISPLAY, EMFormatHTMLDisplayPrivate);
 
 	e_mail_display_set_formatter (
 		E_MAIL_DISPLAY (web_view), EM_FORMAT_HTML (efhd));
@@ -907,7 +903,7 @@ efhd_bar_resize (EMFormatHTML *efh,
 	GtkWidget *widget;
 	gint width;
 
-	priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (efh);
+	priv = EM_FORMAT_HTML_DISPLAY (efh)->priv;
 
 	web_view = em_format_html_get_web_view (efh);
 
@@ -933,7 +929,7 @@ efhd_add_bar (EMFormatHTML *efh,
 	if (!EM_IS_FORMAT_HTML_DISPLAY (efh))
 		return FALSE;
 
-	priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (efh);
+	priv = EM_FORMAT_HTML_DISPLAY (efh)->priv;
 
 	widget = e_mail_attachment_bar_new ();
 	gtk_container_add (GTK_CONTAINER (eb), widget);

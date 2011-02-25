@@ -29,10 +29,6 @@
 
 #include "e-util/gconf-bridge.h"
 
-#define E_SHELL_SETTINGS_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SHELL_SETTINGS, EShellSettingsPrivate))
-
 struct _EShellSettingsPrivate {
 	GArray *value_array;
 	guint debug	: 1;
@@ -180,7 +176,7 @@ shell_settings_set_property (GObject *object,
 	EShellSettingsPrivate *priv;
 	GValue *dest_value;
 
-	priv = E_SHELL_SETTINGS_GET_PRIVATE (object);
+	priv = E_SHELL_SETTINGS (object)->priv;
 
 	dest_value = &g_array_index (
 		priv->value_array, GValue, property_id - 1);
@@ -208,7 +204,7 @@ shell_settings_get_property (GObject *object,
 	EShellSettingsPrivate *priv;
 	GValue *src_value;
 
-	priv = E_SHELL_SETTINGS_GET_PRIVATE (object);
+	priv = E_SHELL_SETTINGS (object)->priv;
 
 	src_value = &g_array_index (
 		priv->value_array, GValue, property_id - 1);
@@ -222,7 +218,7 @@ shell_settings_finalize (GObject *object)
 	EShellSettingsPrivate *priv;
 	guint ii;
 
-	priv = E_SHELL_SETTINGS_GET_PRIVATE (object);
+	priv = E_SHELL_SETTINGS (object)->priv;
 
 	for (ii = 0; ii < priv->value_array->len; ii++)
 		g_value_unset (&g_array_index (priv->value_array, GValue, ii));
@@ -260,7 +256,7 @@ shell_settings_init (EShellSettings *shell_settings,
 	value_array = g_array_new (FALSE, TRUE, sizeof (GValue));
 	g_array_set_size (value_array, property_count);
 
-	shell_settings->priv = E_SHELL_SETTINGS_GET_PRIVATE (shell_settings);
+	shell_settings->priv = G_TYPE_INSTANCE_GET_PRIVATE (shell_settings, E_TYPE_SHELL_SETTINGS, EShellSettingsPrivate);
 	shell_settings->priv->value_array = value_array;
 
 	g_object_freeze_notify (G_OBJECT (shell_settings));

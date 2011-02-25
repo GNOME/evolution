@@ -39,10 +39,6 @@
 #include "libedataserver/e-sexp.h"
 #include "e-util/e-alert.h"
 
-#define EM_FILTER_FOLDER_ELEMENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_FILTER_FOLDER_ELEMENT, EMFilterFolderElementPrivate))
-
 struct _EMFilterFolderElementPrivate {
 	EMailSession *session;
 	gchar *uri;
@@ -122,7 +118,7 @@ filter_folder_element_dispose (GObject *object)
 {
 	EMFilterFolderElementPrivate *priv;
 
-	priv = EM_FILTER_FOLDER_ELEMENT_GET_PRIVATE (object);
+	priv = EM_FILTER_FOLDER_ELEMENT (object)->priv;
 
 	if (priv->session != NULL) {
 		g_object_unref (priv->session);
@@ -138,7 +134,7 @@ filter_folder_element_finalize (GObject *object)
 {
 	EMFilterFolderElementPrivate *priv;
 
-	priv = EM_FILTER_FOLDER_ELEMENT_GET_PRIVATE (object);
+	priv = EM_FILTER_FOLDER_ELEMENT (object)->priv;
 
 	g_free (priv->uri);
 
@@ -185,7 +181,7 @@ em_filter_folder_element_class_init (EMFilterFolderElementClass *class)
 static void
 em_filter_folder_element_init (EMFilterFolderElement *element)
 {
-	element->priv = EM_FILTER_FOLDER_ELEMENT_GET_PRIVATE (element);
+	element->priv = G_TYPE_INSTANCE_GET_PRIVATE (element, EM_TYPE_FILTER_FOLDER_ELEMENT, EMFilterFolderElementPrivate);
 }
 
 EFilterElement *

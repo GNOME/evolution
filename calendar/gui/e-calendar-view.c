@@ -61,10 +61,6 @@
 #include "goto.h"
 #include "misc.h"
 
-#define E_CALENDAR_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CALENDAR_VIEW, ECalendarViewPrivate))
-
 struct _ECalendarViewPrivate {
 	/* The GnomeCalendar we are associated to */
 	GnomeCalendar *calendar;
@@ -322,7 +318,7 @@ calendar_view_dispose (GObject *object)
 {
 	ECalendarViewPrivate *priv;
 
-	priv = E_CALENDAR_VIEW_GET_PRIVATE (object);
+	priv = E_CALENDAR_VIEW (object)->priv;
 
 	if (priv->model != NULL) {
 		g_signal_handlers_disconnect_matched (
@@ -351,7 +347,7 @@ calendar_view_finalize (GObject *object)
 {
 	ECalendarViewPrivate *priv;
 
-	priv = E_CALENDAR_VIEW_GET_PRIVATE (object);
+	priv = E_CALENDAR_VIEW (object)->priv;
 
 	g_free (priv->default_category);
 
@@ -917,7 +913,7 @@ e_calendar_view_init (ECalendarView *calendar_view)
 {
 	GtkTargetList *target_list;
 
-	calendar_view->priv = E_CALENDAR_VIEW_GET_PRIVATE (calendar_view);
+	calendar_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (calendar_view, E_TYPE_CALENDAR_VIEW, ECalendarViewPrivate);
 
 	/* Set this early to avoid a divide-by-zero during init. */
 	calendar_view->priv->time_divisions = 30;

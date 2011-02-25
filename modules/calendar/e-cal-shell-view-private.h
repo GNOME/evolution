@@ -63,10 +63,6 @@
 #include "e-cal-shell-sidebar.h"
 #include "e-cal-shell-view-actions.h"
 
-#define E_CAL_SHELL_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_SHELL_VIEW, ECalShellViewPrivate))
-
 /* Shorthand, requires a variable named "shell_window". */
 #define ACTION(name) \
 	(E_SHELL_WINDOW_ACTION_##name (shell_window))

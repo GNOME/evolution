@@ -23,10 +23,6 @@
 
 #include <string.h>
 
-#define E_ACCOUNT_COMBO_BOX_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ACCOUNT_COMBO_BOX, EAccountComboBoxPrivate))
-
 enum {
 	COLUMN_STRING,
 	COLUMN_ACCOUNT
@@ -258,7 +254,7 @@ account_combo_box_dispose (GObject *object)
 {
 	EAccountComboBoxPrivate *priv;
 
-	priv = E_ACCOUNT_COMBO_BOX_GET_PRIVATE (object);
+	priv = E_ACCOUNT_COMBO_BOX (object)->priv;
 
 	if (priv->account_list != NULL) {
 		g_signal_handlers_disconnect_by_func (
@@ -279,7 +275,7 @@ account_combo_box_finalize (GObject *object)
 {
 	EAccountComboBoxPrivate *priv;
 
-	priv = E_ACCOUNT_COMBO_BOX_GET_PRIVATE (object);
+	priv = E_ACCOUNT_COMBO_BOX (object)->priv;
 
 	g_hash_table_destroy (priv->index);
 
@@ -319,7 +315,7 @@ e_account_combo_box_init (EAccountComboBox *combo_box)
 		(GDestroyNotify) g_object_unref,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 
-	combo_box->priv = E_ACCOUNT_COMBO_BOX_GET_PRIVATE (combo_box);
+	combo_box->priv = G_TYPE_INSTANCE_GET_PRIVATE (combo_box, E_TYPE_ACCOUNT_COMBO_BOX, EAccountComboBoxPrivate);
 	combo_box->priv->index = index;
 }
 
@@ -366,7 +362,7 @@ e_account_combo_box_set_account_list (EAccountComboBox *combo_box,
 	if (account_list != NULL)
 		g_return_if_fail (E_IS_ACCOUNT_LIST (account_list));
 
-	priv = E_ACCOUNT_COMBO_BOX_GET_PRIVATE (combo_box);
+	priv = combo_box->priv;
 
 	if (priv->account_list != NULL) {
 		g_signal_handlers_disconnect_by_func (

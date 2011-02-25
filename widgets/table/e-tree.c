@@ -56,10 +56,6 @@
 
 #define d(x)
 
-#define E_TREE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TREE, ETreePrivate))
-
 enum {
 	CURSOR_CHANGE,
 	CURSOR_ACTIVATED,
@@ -387,7 +383,7 @@ et_dispose (GObject *object)
 {
 	ETreePrivate *priv;
 
-	priv = E_TREE_GET_PRIVATE (object);
+	priv = E_TREE (object)->priv;
 
 	if (priv->search != NULL) {
 		g_signal_handler_disconnect (
@@ -585,7 +581,7 @@ e_tree_init (ETree *e_tree)
 
 	gtk_table_set_homogeneous (GTK_TABLE (e_tree), FALSE);
 
-	e_tree->priv = E_TREE_GET_PRIVATE (e_tree);
+	e_tree->priv = G_TYPE_INSTANCE_GET_PRIVATE (e_tree, E_TYPE_TREE, ETreePrivate);
 
 	e_tree->priv->alternating_row_colors = 1;
 	e_tree->priv->horizontal_draw_grid = 1;

@@ -37,10 +37,6 @@
 
 #include "e-rule-editor.h"
 
-#define E_RULE_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_RULE_EDITOR, ERuleEditorPrivate))
-
 static gint enable_undo = 0;
 
 enum {
@@ -654,7 +650,7 @@ e_rule_editor_class_init (ERuleEditorClass *class)
 static void
 e_rule_editor_init (ERuleEditor *editor)
 {
-	editor->priv = E_RULE_EDITOR_GET_PRIVATE (editor);
+	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (editor, E_TYPE_RULE_EDITOR, ERuleEditorPrivate);
 }
 
 /**

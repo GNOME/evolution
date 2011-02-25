@@ -66,10 +66,6 @@
 
 #define d(x)
 
-#define EM_FORMAT_HTML_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_FORMAT_HTML, EMFormatHTMLPrivate))
-
 #define EFM_MESSAGE_START_ANAME "evolution#message#start"
 #define EFH_MESSAGE_START "<A name=\"" EFM_MESSAGE_START_ANAME "\"></A>"
 
@@ -766,7 +762,7 @@ efh_busy (EMFormat *emf)
 {
 	EMFormatHTMLPrivate *priv;
 
-	priv = EM_FORMAT_HTML_GET_PRIVATE (emf);
+	priv = EM_FORMAT_HTML (emf)->priv;
 
 	return (priv->format_id != -1);
 }
@@ -937,12 +933,12 @@ efh_class_init (EMFormatHTMLClass *class)
 
 static void
 efh_init (EMFormatHTML *efh,
-          EMFormatHTMLClass *class)
+	  EMFormatHTMLClass *class)
 {
 	EWebView *web_view;
 	GdkColor *color;
 
-	efh->priv = EM_FORMAT_HTML_GET_PRIVATE (efh);
+	efh->priv = G_TYPE_INSTANCE_GET_PRIVATE (efh, EM_TYPE_FORMAT_HTML, EMFormatHTMLPrivate);
 
 	g_queue_init (&efh->pending_object_list);
 	g_queue_init (&efh->priv->pending_jobs);

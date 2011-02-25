@@ -38,10 +38,6 @@
 #include "cancel-comp.h"
 #include "memo-editor.h"
 
-#define MEMO_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), TYPE_MEMO_EDITOR, MemoEditorPrivate))
-
 struct _MemoEditorPrivate {
 	MemoPage *memo_page;
 
@@ -73,7 +69,7 @@ memo_editor_show_categories (CompEditor *editor,
 {
 	MemoEditorPrivate *priv;
 
-	priv = MEMO_EDITOR_GET_PRIVATE (editor);
+	priv = MEMO_EDITOR (editor)->priv;
 
 	memo_page_set_show_categories (priv->memo_page, visible);
 }
@@ -83,7 +79,7 @@ memo_editor_dispose (GObject *object)
 {
 	MemoEditorPrivate *priv;
 
-	priv = MEMO_EDITOR_GET_PRIVATE (object);
+	priv = MEMO_EDITOR (object)->priv;
 
 	if (priv->memo_page) {
 		g_object_unref (priv->memo_page);
@@ -100,7 +96,7 @@ memo_editor_constructed (GObject *object)
 	MemoEditorPrivate *priv;
 	CompEditor *editor;
 
-	priv = MEMO_EDITOR_GET_PRIVATE (object);
+	priv = MEMO_EDITOR (object)->priv;
 	editor = COMP_EDITOR (object);
 
 	priv->memo_page = memo_page_new (editor);
@@ -140,7 +136,7 @@ memo_editor_init (MemoEditor *me)
 	const gchar *id;
 	GError *error = NULL;
 
-	me->priv = MEMO_EDITOR_GET_PRIVATE (me);
+	me->priv = G_TYPE_INSTANCE_GET_PRIVATE (me, TYPE_MEMO_EDITOR, MemoEditorPrivate);
 	me->priv->updating = FALSE;
 
 	ui_manager = comp_editor_get_ui_manager (editor);

@@ -39,10 +39,6 @@
 
 #include "e-cal-shell-view-private.h"
 
-#define E_CAL_SHELL_CONTENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_SHELL_CONTENT, ECalShellContentPrivate))
-
 struct _ECalShellContentPrivate {
 	GtkWidget *hpaned;
 	GtkWidget *notebook;
@@ -202,7 +198,7 @@ e_cal_shell_content_save_state (ECalShellContent *cal_shell_content)
 	g_return_if_fail (cal_shell_content != NULL);
 	g_return_if_fail (E_IS_CAL_SHELL_CONTENT (cal_shell_content));
 
-	priv = E_CAL_SHELL_CONTENT_GET_PRIVATE (cal_shell_content);
+	priv = cal_shell_content->priv;
 
 	if (priv->task_table != NULL)
 		cal_shell_content_save_table_state (
@@ -261,7 +257,7 @@ cal_shell_content_dispose (GObject *object)
 {
 	ECalShellContentPrivate *priv;
 
-	priv = E_CAL_SHELL_CONTENT_GET_PRIVATE (object);
+	priv = E_CAL_SHELL_CONTENT (object)->priv;
 
 	if (priv->hpaned != NULL) {
 		g_object_unref (priv->hpaned);
@@ -339,7 +335,7 @@ cal_shell_content_constructed (GObject *object)
 	gchar *markup;
 	gint ii;
 
-	priv = E_CAL_SHELL_CONTENT_GET_PRIVATE (object);
+	priv = E_CAL_SHELL_CONTENT (object)->priv;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
@@ -545,7 +541,7 @@ cal_shell_content_map (GtkWidget *widget)
 	 *     callback in GnomeCalendar that requires the date navigator.
 	 *     Ordinarily we would do this at the end of constructed(), but
 	 *     that's too soon in this case.  (This feels kind of kludgy.) */
-	priv = E_CAL_SHELL_CONTENT_GET_PRIVATE (widget);
+	priv = E_CAL_SHELL_CONTENT (widget)->priv;
 	gal_view_instance_load (priv->view_instance);
 
 	/* Chain up to parent's map() method. */
@@ -624,8 +620,7 @@ cal_shell_content_class_init (ECalShellContentClass *class)
 static void
 cal_shell_content_init (ECalShellContent *cal_shell_content)
 {
-	cal_shell_content->priv =
-		E_CAL_SHELL_CONTENT_GET_PRIVATE (cal_shell_content);
+	cal_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (cal_shell_content, E_TYPE_CAL_SHELL_CONTENT, ECalShellContentPrivate);
 
 	/* Postpone widget construction until we have a shell view. */
 }

@@ -21,10 +21,6 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#define E_ALERT_BAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ALERT_BAR, EAlertBarPrivate))
-
 /* GTK_ICON_SIZE_DIALOG is a tad too big. */
 #define ICON_SIZE	GTK_ICON_SIZE_DND
 
@@ -152,7 +148,7 @@ alert_bar_dispose (GObject *object)
 {
 	EAlertBarPrivate *priv;
 
-	priv = E_ALERT_BAR_GET_PRIVATE (object);
+	priv = E_ALERT_BAR (object)->priv;
 
 	while (!g_queue_is_empty (&priv->alerts)) {
 		EAlert *alert = g_queue_pop_head (&priv->alerts);
@@ -184,7 +180,7 @@ e_alert_bar_init (EAlertBar *alert_bar)
 	PangoAttribute *attr;
 	PangoAttrList *attr_list;
 
-	alert_bar->priv = E_ALERT_BAR_GET_PRIVATE (alert_bar);
+	alert_bar->priv = G_TYPE_INSTANCE_GET_PRIVATE (alert_bar, E_TYPE_ALERT_BAR, EAlertBarPrivate);
 
 	g_queue_init (&alert_bar->priv->alerts);
 

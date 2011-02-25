@@ -37,10 +37,6 @@
 #include "e-cell-date-edit-text.h"
 #include "misc.h"
 
-#define E_CAL_MODEL_TASKS_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_MODEL_TASKS, ECalModelTasksPrivate))
-
 struct _ECalModelTasksPrivate {
 	gchar *color_due_today;
 	gchar *color_overdue;
@@ -122,7 +118,7 @@ cal_model_tasks_finalize (GObject *object)
 {
 	ECalModelTasksPrivate *priv;
 
-	priv = E_CAL_MODEL_TASKS_GET_PRIVATE (object);
+	priv = E_CAL_MODEL_TASKS (object)->priv;
 
 	g_free (priv->color_due_today);
 	g_free (priv->color_overdue);
@@ -184,7 +180,7 @@ e_cal_model_tasks_class_init (ECalModelTasksClass *class)
 static void
 e_cal_model_tasks_init (ECalModelTasks *model)
 {
-	model->priv = E_CAL_MODEL_TASKS_GET_PRIVATE (model);
+	model->priv = G_TYPE_INSTANCE_GET_PRIVATE (model, E_TYPE_CAL_MODEL_TASKS, ECalModelTasksPrivate);
 
 	e_cal_model_set_component_kind (
 		E_CAL_MODEL (model), ICAL_VTODO_COMPONENT);

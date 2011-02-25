@@ -30,10 +30,6 @@
 
 #include <string.h>
 
-#define E_UI_MANAGER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_UI_MANAGER, EUIManagerPrivate))
-
 /*
  * --- NOTE TO SELF ---
  *
@@ -163,7 +159,7 @@ e_ui_manager_class_init (EUIManagerClass *class)
 static void
 e_ui_manager_init (EUIManager *ui_manager)
 {
-	ui_manager->priv = E_UI_MANAGER_GET_PRIVATE (ui_manager);
+	ui_manager->priv = G_TYPE_INSTANCE_GET_PRIVATE (ui_manager, E_TYPE_UI_MANAGER, EUIManagerPrivate);
 }
 
 /**

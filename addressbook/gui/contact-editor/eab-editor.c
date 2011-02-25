@@ -31,10 +31,6 @@
 #include "e-util/e-util.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 
-#define EAB_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EAB_TYPE_EDITOR, EABEditorPrivate))
-
 struct _EABEditorPrivate {
 	EShell *shell;
 };
@@ -127,7 +123,7 @@ eab_editor_dispose (GObject *object)
 {
 	EABEditorPrivate *priv;
 
-	priv = EAB_EDITOR_GET_PRIVATE (object);
+	priv = EAB_EDITOR (object)->priv;
 
 	if (priv->shell != NULL) {
 		g_signal_handlers_disconnect_matched (
@@ -218,7 +214,7 @@ eab_editor_class_init (EABEditorClass *class)
 static void
 eab_editor_init (EABEditor *editor)
 {
-	editor->priv = EAB_EDITOR_GET_PRIVATE (editor);
+	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (editor, EAB_TYPE_EDITOR, EABEditorPrivate);
 
 	all_editors = g_slist_prepend (all_editors, editor);
 }

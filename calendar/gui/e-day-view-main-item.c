@@ -40,10 +40,6 @@
 #include "e-calendar-view.h"
 #include "comp-util.h"
 
-#define E_DAY_VIEW_MAIN_ITEM_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_DAY_VIEW_MAIN_ITEM, EDayViewMainItemPrivate))
-
 struct _EDayViewMainItemPrivate {
 	EDayView *day_view;
 };
@@ -935,7 +931,7 @@ day_view_main_item_dispose (GObject *object)
 {
 	EDayViewMainItemPrivate *priv;
 
-	priv = E_DAY_VIEW_MAIN_ITEM_GET_PRIVATE (object);
+	priv = E_DAY_VIEW_MAIN_ITEM (object)->priv;
 
 	if (priv->day_view != NULL) {
 		g_object_unref (priv->day_view);
@@ -1261,7 +1257,7 @@ day_view_main_item_class_init (EDayViewMainItemClass *class)
 static void
 day_view_main_item_init (EDayViewMainItem *main_item)
 {
-	main_item->priv = E_DAY_VIEW_MAIN_ITEM_GET_PRIVATE (main_item);
+	main_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (main_item, E_TYPE_DAY_VIEW_MAIN_ITEM, EDayViewMainItemPrivate);
 }
 
 GType

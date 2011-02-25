@@ -63,10 +63,6 @@
 #include <e-util/e-icon-factory.h>
 #include "misc.h"
 
-#define E_TASK_TABLE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TASK_TABLE, ETaskTablePrivate))
-
 struct _ETaskTablePrivate {
 	gpointer shell_view;  /* weak pointer */
 	ECalModel *model;
@@ -375,7 +371,7 @@ task_table_dispose (GObject *object)
 {
 	ETaskTablePrivate *priv;
 
-	priv = E_TASK_TABLE_GET_PRIVATE (object);
+	priv = E_TASK_TABLE (object)->priv;
 
 	if (priv->shell_view != NULL) {
 		g_object_remove_weak_pointer (
@@ -1431,7 +1427,7 @@ task_table_init (ETaskTable *task_table)
 {
 	GtkTargetList *target_list;
 
-	task_table->priv = E_TASK_TABLE_GET_PRIVATE (task_table);
+	task_table->priv = G_TYPE_INSTANCE_GET_PRIVATE (task_table, E_TYPE_TASK_TABLE, ETaskTablePrivate);
 
 	target_list = gtk_target_list_new (NULL, 0);
 	e_target_list_add_calendar_targets (target_list, 0);

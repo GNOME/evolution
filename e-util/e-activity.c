@@ -28,10 +28,6 @@
 #include "e-util/e-util.h"
 #include "e-util/e-util-enumtypes.h"
 
-#define E_ACTIVITY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ACTIVITY, EActivityPrivate))
-
 struct _EActivityPrivate {
 	GCancellable *cancellable;
 	EAlertSink *alert_sink;
@@ -169,7 +165,7 @@ activity_dispose (GObject *object)
 {
 	EActivityPrivate *priv;
 
-	priv = E_ACTIVITY_GET_PRIVATE (object);
+	priv = E_ACTIVITY (object)->priv;
 
 	if (priv->alert_sink != NULL) {
 		g_object_unref (priv->alert_sink);
@@ -194,7 +190,7 @@ activity_finalize (GObject *object)
 {
 	EActivityPrivate *priv;
 
-	priv = E_ACTIVITY_GET_PRIVATE (object);
+	priv = E_ACTIVITY (object)->priv;
 
 	g_free (priv->icon_name);
 	g_free (priv->text);
@@ -336,7 +332,7 @@ e_activity_class_init (EActivityClass *class)
 static void
 e_activity_init (EActivity *activity)
 {
-	activity->priv = E_ACTIVITY_GET_PRIVATE (activity);
+	activity->priv = G_TYPE_INSTANCE_GET_PRIVATE (activity, E_TYPE_ACTIVITY, EActivityPrivate);
 }
 
 EActivity *

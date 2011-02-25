@@ -43,10 +43,6 @@
 #include "e-mail-shell-backend.h"
 #include "e-mail-shell-view-actions.h"
 
-#define E_MAIL_SHELL_CONTENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_SHELL_CONTENT, EMailShellContentPrivate))
-
 struct _EMailShellContentPrivate {
 	EMailView *mail_view;
 };
@@ -154,7 +150,7 @@ mail_shell_content_dispose (GObject *object)
 {
 	EMailShellContentPrivate *priv;
 
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (object);
+	priv = E_MAIL_SHELL_CONTENT (object)->priv;
 
 	if (priv->mail_view != NULL) {
 		g_object_unref (priv->mail_view);
@@ -174,7 +170,7 @@ mail_shell_content_constructed (GObject *object)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (object);
+	priv = E_MAIL_SHELL_CONTENT (object)->priv;
 
 	/* Chain up to parent's constructed () method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
@@ -213,7 +209,7 @@ mail_shell_content_check_state (EShellContent *shell_content)
 	EMailShellContentPrivate *priv;
 	EMailReader *reader;
 
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (shell_content);
+	priv = E_MAIL_SHELL_CONTENT (shell_content)->priv;
 
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
@@ -229,7 +225,7 @@ mail_shell_content_focus_search_results (EShellContent *shell_content)
 	GtkWidget *message_list;
 	EMailReader *reader;
 
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (shell_content);
+	priv = E_MAIL_SHELL_CONTENT (shell_content)->priv;
 
 	reader = E_MAIL_READER (priv->mail_view);
 	message_list = e_mail_reader_get_message_list (reader);
@@ -242,7 +238,7 @@ mail_shell_content_open_selected_mail (EMailReader *reader)
 {
 	EMailShellContentPrivate *priv;
 
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
+	priv = E_MAIL_SHELL_CONTENT (reader)->priv;
 
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
@@ -270,7 +266,7 @@ mail_shell_content_get_alert_sink (EMailReader *reader)
 {
 	EMailShellContentPrivate *priv;
 
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
+	priv = E_MAIL_SHELL_CONTENT (reader)->priv;
 
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
@@ -284,7 +280,7 @@ mail_shell_content_get_backend (EMailReader *reader)
 {
 	EMailShellContentPrivate *priv;
 
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
+	priv = E_MAIL_SHELL_CONTENT (reader)->priv;
 
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
@@ -298,7 +294,7 @@ mail_shell_content_get_formatter (EMailReader *reader)
 {
 	EMailShellContentPrivate *priv;
 
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
+	priv = E_MAIL_SHELL_CONTENT (reader)->priv;
 
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
@@ -312,7 +308,7 @@ mail_shell_content_get_hide_deleted (EMailReader *reader)
 {
 	EMailShellContentPrivate *priv;
 
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
+	priv = E_MAIL_SHELL_CONTENT (reader)->priv;
 
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
@@ -326,7 +322,7 @@ mail_shell_content_get_message_list (EMailReader *reader)
 {
 	EMailShellContentPrivate *priv;
 
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
+	priv = E_MAIL_SHELL_CONTENT (reader)->priv;
 
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
@@ -340,7 +336,7 @@ mail_shell_content_get_popup_menu (EMailReader *reader)
 {
 	EMailShellContentPrivate *priv;
 
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
+	priv = E_MAIL_SHELL_CONTENT (reader)->priv;
 
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
@@ -354,7 +350,7 @@ mail_shell_content_get_window (EMailReader *reader)
 {
 	EMailShellContentPrivate *priv;
 
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
+	priv = E_MAIL_SHELL_CONTENT (reader)->priv;
 
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
@@ -370,7 +366,7 @@ mail_shell_content_set_folder (EMailReader *reader,
 {
 	EMailShellContentPrivate *priv;
 
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
+	priv = E_MAIL_SHELL_CONTENT (reader)->priv;
 
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
@@ -384,7 +380,7 @@ mail_shell_content_show_search_bar (EMailReader *reader)
 {
 	EMailShellContentPrivate *priv;
 
-	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
+	priv = E_MAIL_SHELL_CONTENT (reader)->priv;
 
 	/* Forward this to our internal EMailView, which
 	 * also implements the EMailReader interface. */
@@ -444,8 +440,7 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 static void
 mail_shell_content_init (EMailShellContent *mail_shell_content)
 {
-	mail_shell_content->priv =
-		E_MAIL_SHELL_CONTENT_GET_PRIVATE (mail_shell_content);
+	mail_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (mail_shell_content, E_TYPE_MAIL_SHELL_CONTENT, EMailShellContentPrivate);
 
 	/* Postpone widget construction until we have a shell view. */
 }

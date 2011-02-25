@@ -45,10 +45,6 @@
 #include "e-mail-tab-picker.h"
 #endif
 
-#define E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_NOTEBOOK_VIEW, EMailNotebookViewPrivate))
-
 struct _EMailNotebookViewPrivate {
 	GtkNotebook *book;
 	EMailView *current_view;
@@ -128,7 +124,7 @@ mnv_page_changed (GtkNotebook *book,
 	EMailView *mview;
 	const gchar *uri;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+	priv = E_MAIL_NOTEBOOK_VIEW (view)->priv;
 
 	shell_view = e_mail_view_get_shell_view (view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
@@ -189,7 +185,7 @@ chooser_clicked_cb (EMailTabPicker *picker,
 
 	gboolean preview_mode;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+	priv = view->priv;
 	preview_mode = !e_mail_tab_picker_get_preview_mode (priv->tab_picker);
 
 	e_mail_tab_picker_set_preview_mode (priv->tab_picker , preview_mode);
@@ -581,7 +577,7 @@ mail_notebook_view_set_property (GObject *object,
 {
 	EMailNotebookViewPrivate *priv;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (object);
+	priv = E_MAIL_NOTEBOOK_VIEW (object)->priv;
 
 	switch (property_id) {
 		case PROP_FORWARD_STYLE:
@@ -614,7 +610,7 @@ mail_notebook_view_get_property (GObject *object,
 {
 	EMailNotebookViewPrivate *priv;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (object);
+	priv = E_MAIL_NOTEBOOK_VIEW (object)->priv;
 
 	switch (property_id) {
 		case PROP_FORWARD_STYLE:
@@ -648,7 +644,7 @@ mail_notebook_view_set_search_strings (EMailView *view,
 {
 	EMailNotebookViewPrivate *priv;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+	priv = E_MAIL_NOTEBOOK_VIEW (view)->priv;
 
 	e_mail_view_set_search_strings (priv->current_view, search_strings);
 }
@@ -658,7 +654,7 @@ mail_notebook_view_get_view_instance (EMailView *view)
 {
 	EMailNotebookViewPrivate *priv;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+	priv = E_MAIL_NOTEBOOK_VIEW (view)->priv;
 
 	if (priv->current_view == NULL)
 		return NULL;
@@ -671,7 +667,7 @@ mail_notebook_view_update_view_instance (EMailView *view)
 {
 	EMailNotebookViewPrivate *priv;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+	priv = E_MAIL_NOTEBOOK_VIEW (view)->priv;
 
 	if (priv->current_view == NULL)
 		return;
@@ -685,7 +681,7 @@ mail_notebook_view_set_orientation (EMailView *view,
 {
 	EMailNotebookViewPrivate *priv;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+	priv = E_MAIL_NOTEBOOK_VIEW (view)->priv;
 
 	if (priv->current_view == NULL)
 		return;
@@ -698,7 +694,7 @@ mail_notebook_view_get_orientation (EMailView *view)
 {
 	EMailNotebookViewPrivate *priv;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+	priv = E_MAIL_NOTEBOOK_VIEW (view)->priv;
 
 	if (priv->current_view == NULL)
 		return GTK_ORIENTATION_VERTICAL;
@@ -711,7 +707,7 @@ mail_notebook_view_get_show_deleted (EMailView *view)
 {
 	EMailNotebookViewPrivate *priv;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+	priv = E_MAIL_NOTEBOOK_VIEW (view)->priv;
 
 	if (priv->current_view == NULL)
 		return FALSE;
@@ -725,7 +721,7 @@ mail_notebook_view_set_show_deleted (EMailView *view,
 {
 	EMailNotebookViewPrivate *priv;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+	priv = E_MAIL_NOTEBOOK_VIEW (view)->priv;
 
 	if (priv->current_view == NULL)
 		return;
@@ -738,7 +734,7 @@ mail_notebook_view_get_preview_visible (EMailView *view)
 {
 	EMailNotebookViewPrivate *priv;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+	priv = E_MAIL_NOTEBOOK_VIEW (view)->priv;
 
 	if (priv->current_view == NULL)
 		return FALSE;
@@ -752,7 +748,7 @@ mail_notebook_view_set_preview_visible (EMailView *view,
 {
 	EMailNotebookViewPrivate *priv;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+	priv = E_MAIL_NOTEBOOK_VIEW (view)->priv;
 
 	if (priv->current_view == NULL)
 		return;
@@ -807,7 +803,7 @@ mail_notebook_view_get_formatter (EMailReader *reader)
 {
 	EMailNotebookViewPrivate *priv;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (reader);
+	priv = E_MAIL_NOTEBOOK_VIEW (reader)->priv;
 
 	if (priv->current_view == NULL)
 		return NULL;
@@ -820,7 +816,7 @@ mail_notebook_view_get_hide_deleted (EMailReader *reader)
 {
 	EMailNotebookViewPrivate *priv;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (reader);
+	priv = E_MAIL_NOTEBOOK_VIEW (reader)->priv;
 
 	if (priv->current_view == NULL)
 		return FALSE;
@@ -835,7 +831,7 @@ mail_notebook_view_get_message_list (EMailReader *reader)
 {
 	EMailNotebookViewPrivate *priv;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (reader);
+	priv = E_MAIL_NOTEBOOK_VIEW (reader)->priv;
 
 	if (priv->current_view == NULL)
 		return NULL;
@@ -850,7 +846,7 @@ mail_notebook_view_get_popup_menu (EMailReader *reader)
 {
 	EMailNotebookViewPrivate *priv;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (reader);
+	priv = E_MAIL_NOTEBOOK_VIEW (reader)->priv;
 
 	if (priv->current_view == NULL)
 		return NULL;
@@ -908,7 +904,7 @@ mail_netbook_view_open_mail (EMailView *view,
 	GtkWidget *mlist;
 #endif
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (nview);
+	priv = nview->priv;
 
 #if HAVE_CLUTTER
 	e_mail_tab_set_active (
@@ -1096,7 +1092,7 @@ mail_notebook_view_set_folder (EMailReader *reader,
 	if (!folder_uri)
 		return;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (reader);
+	priv = E_MAIL_NOTEBOOK_VIEW (reader)->priv;
 
 	new_view = g_hash_table_lookup (priv->views, folder_uri);
 	if (new_view) {
@@ -1244,7 +1240,7 @@ mail_notebook_view_show_search_bar (EMailReader *reader)
 {
 	EMailNotebookViewPrivate *priv;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (reader);
+	priv = E_MAIL_NOTEBOOK_VIEW (reader)->priv;
 
 	if (priv->current_view == NULL)
 		return;
@@ -1270,7 +1266,7 @@ mail_notebook_view_open_selected_mail (EMailReader *reader)
 {
 	EMailNotebookViewPrivate *priv;
 
-	priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (reader);
+	priv = E_MAIL_NOTEBOOK_VIEW (reader)->priv;
 
 	if (priv->current_view == NULL)
 		return 0;
@@ -1343,7 +1339,7 @@ e_mail_notebook_view_reader_init (EMailReaderInterface *interface)
 static void
 e_mail_notebook_view_init (EMailNotebookView  *view)
 {
-	view->priv = E_MAIL_NOTEBOOK_VIEW_GET_PRIVATE (view);
+	view->priv = G_TYPE_INSTANCE_GET_PRIVATE (view, E_TYPE_MAIL_NOTEBOOK_VIEW, EMailNotebookViewPrivate);
 
 	view->priv->inited = FALSE;
 	view->priv->views = g_hash_table_new (g_str_hash, g_str_equal);

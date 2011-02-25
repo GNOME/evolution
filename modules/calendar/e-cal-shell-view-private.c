@@ -239,7 +239,7 @@ cal_shell_view_popup_event_cb (EShellView *shell_view,
 	const gchar *widget_path;
 	gint n_selected;
 
-	priv = E_CAL_SHELL_VIEW_GET_PRIVATE (shell_view);
+	priv = E_CAL_SHELL_VIEW (shell_view)->priv;
 
 	calendar = e_cal_shell_content_get_calendar (priv->cal_shell_content);
 

@@ -27,10 +27,6 @@
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
 #include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"
 
-#define E_COMPOSER_NAME_HEADER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_COMPOSER_NAME_HEADER, EComposerNameHeaderPrivate))
-
 /* Convenience macro */
 #define E_COMPOSER_NAME_HEADER_GET_ENTRY(header) \
 	(E_NAME_SELECTOR_ENTRY (E_COMPOSER_HEADER (header)->input_widget))
@@ -123,7 +119,7 @@ composer_name_header_constructor (GType type,
 		e_composer_name_header_parent_class)->constructor (
 		type, n_construct_properties, construct_properties);
 
-	priv = E_COMPOSER_NAME_HEADER_GET_PRIVATE (object);
+	priv = E_COMPOSER_NAME_HEADER (object)->priv;
 	g_assert (E_IS_NAME_SELECTOR (priv->name_selector));
 
 	model = e_name_selector_peek_model (priv->name_selector);
@@ -171,7 +167,7 @@ composer_name_header_set_property (GObject *object,
 {
 	EComposerNameHeaderPrivate *priv;
 
-	priv = E_COMPOSER_NAME_HEADER_GET_PRIVATE (object);
+	priv = E_COMPOSER_NAME_HEADER (object)->priv;
 
 	switch (property_id) {
 		case PROP_NAME_SELECTOR:	/* construct only */
@@ -206,7 +202,7 @@ composer_name_header_dispose (GObject *object)
 {
 	EComposerNameHeaderPrivate *priv;
 
-	priv = E_COMPOSER_NAME_HEADER_GET_PRIVATE (object);
+	priv = E_COMPOSER_NAME_HEADER (object)->priv;
 
 	if (priv->name_selector != NULL) {
 		g_object_unref (priv->name_selector);
@@ -223,7 +219,7 @@ composer_name_header_clicked (EComposerHeader *header)
 	EComposerNameHeaderPrivate *priv;
 	ENameSelectorDialog *dialog;
 
-	priv = E_COMPOSER_NAME_HEADER_GET_PRIVATE (header);
+	priv = E_COMPOSER_NAME_HEADER (header)->priv;
 
 	dialog = e_name_selector_peek_dialog (priv->name_selector);
 	e_name_selector_dialog_set_destination_index (
@@ -265,7 +261,7 @@ e_composer_name_header_class_init (EComposerNameHeaderClass *class)
 static void
 e_composer_name_header_init (EComposerNameHeader *header)
 {
-	header->priv = E_COMPOSER_NAME_HEADER_GET_PRIVATE (header);
+	header->priv = G_TYPE_INSTANCE_GET_PRIVATE (header, E_TYPE_COMPOSER_NAME_HEADER, EComposerNameHeaderPrivate);
 }
 
 EComposerHeader *

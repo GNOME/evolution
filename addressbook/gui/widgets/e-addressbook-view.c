@@ -59,10 +59,6 @@
 #include <ctype.h>
 #include <string.h>
 
-#define E_ADDRESSBOOK_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ADDRESSBOOK_VIEW, EAddressbookViewPrivate))
-
 #define d(x)
 
 static void	status_message			(EAddressbookView *view,
@@ -498,7 +494,7 @@ addressbook_view_dispose (GObject *object)
 {
 	EAddressbookViewPrivate *priv;
 
-	priv = E_ADDRESSBOOK_VIEW_GET_PRIVATE (object);
+	priv = E_ADDRESSBOOK_VIEW (object)->priv;
 
 	if (priv->shell_view != NULL) {
 		g_object_remove_weak_pointer (
@@ -848,7 +844,7 @@ addressbook_view_init (EAddressbookView *view)
 {
 	GtkTargetList *target_list;
 
-	view->priv = E_ADDRESSBOOK_VIEW_GET_PRIVATE (view);
+	view->priv = G_TYPE_INSTANCE_GET_PRIVATE (view, E_TYPE_ADDRESSBOOK_VIEW, EAddressbookViewPrivate);
 
 	view->priv->model = e_addressbook_model_new ();
 

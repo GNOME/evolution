@@ -27,10 +27,6 @@
 
 #define SWITCH_PAGE_INTERVAL 250
 
-#define E_PREFERENCES_WINDOW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_PREFERENCES_WINDOW, EPreferencesWindowPrivate))
-
 struct _EPreferencesWindowPrivate {
 	gboolean   setup;
 	gpointer   shell;
@@ -165,7 +161,7 @@ preferences_window_dispose (GObject *object)
 {
 	EPreferencesWindowPrivate *priv;
 
-	priv = E_PREFERENCES_WINDOW_GET_PRIVATE (object);
+	priv = E_PREFERENCES_WINDOW (object)->priv;
 
 	if (priv->icon_view != NULL) {
 		g_object_unref (priv->icon_view);
@@ -193,7 +189,7 @@ preferences_window_finalize (GObject *object)
 {
 	EPreferencesWindowPrivate *priv;
 
-	priv = E_PREFERENCES_WINDOW_GET_PRIVATE (object);
+	priv = E_PREFERENCES_WINDOW (object)->priv;
 
 	g_hash_table_destroy (priv->index);
 
@@ -208,7 +204,7 @@ preferences_window_show (GtkWidget *widget)
 	GtkIconView *icon_view;
 	GtkTreePath *path;
 
-	priv = E_PREFERENCES_WINDOW_GET_PRIVATE (widget);
+	priv = E_PREFERENCES_WINDOW (widget)->priv;
 	if (!priv->setup)
 		g_warning ("Preferences window has not been setup correctly");
 
@@ -258,7 +254,7 @@ e_preferences_window_init (EPreferencesWindow *window)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 
-	window->priv = E_PREFERENCES_WINDOW_GET_PRIVATE (window);
+	window->priv = G_TYPE_INSTANCE_GET_PRIVATE (window, E_TYPE_PREFERENCES_WINDOW, EPreferencesWindowPrivate);
 	window->priv->index = index;
 	window->priv->filter_view = NULL;
 
@@ -511,7 +507,7 @@ e_preferences_window_setup (EPreferencesWindow *window)
 
 	g_return_if_fail (E_IS_PREFERENCES_WINDOW (window));
 
-	priv = E_PREFERENCES_WINDOW_GET_PRIVATE (window);
+	priv = window->priv;
 	notebook = GTK_NOTEBOOK (priv->notebook);
 	num = gtk_notebook_get_n_pages (notebook);
 

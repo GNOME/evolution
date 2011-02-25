@@ -41,10 +41,6 @@
 #include "e-shell-searchbar.h"
 #include "e-shell-window-actions.h"
 
-#define E_SHELL_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SHELL_VIEW, EShellViewPrivate))
-
 #define SIMPLE_SEARCHBAR_WIDTH 300
 #define STATE_SAVE_TIMEOUT_SECONDS 3
 
@@ -498,7 +494,7 @@ shell_view_dispose (GObject *object)
 {
 	EShellViewPrivate *priv;
 
-	priv = E_SHELL_VIEW_GET_PRIVATE (object);
+	priv = E_SHELL_VIEW (object)->priv;
 
 	/* Expedite any pending state saves. */
 	if (priv->state_save_timeout_id > 0) {
@@ -555,7 +551,7 @@ shell_view_finalize (GObject *object)
 {
 	EShellViewPrivate *priv;
 
-	priv = E_SHELL_VIEW_GET_PRIVATE (object);
+	priv = E_SHELL_VIEW (object)->priv;
 
 	g_key_file_free (priv->state_key_file);
 
@@ -1082,7 +1078,7 @@ e_shell_view_init (EShellView *shell_view,
 
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_VERTICAL);
 
-	shell_view->priv = E_SHELL_VIEW_GET_PRIVATE (shell_view);
+	shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (shell_view, E_TYPE_SHELL_VIEW, EShellViewPrivate);
 	shell_view->priv->state_key_file = g_key_file_new ();
 	shell_view->priv->size_group = size_group;
 }

@@ -60,10 +60,6 @@
 #include <e-util/e-icon-factory.h>
 #include "misc.h"
 
-#define E_MEMO_TABLE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MEMO_TABLE, EMemoTablePrivate))
-
 struct _EMemoTablePrivate {
 	gpointer shell_view;  /* weak pointer */
 	ECalModel *model;
@@ -297,7 +293,7 @@ memo_table_dispose (GObject *object)
 {
 	EMemoTablePrivate *priv;
 
-	priv = E_MEMO_TABLE_GET_PRIVATE (object);
+	priv = E_MEMO_TABLE (object)->priv;
 
 	if (priv->shell_view != NULL) {
 		g_object_remove_weak_pointer (
@@ -1129,7 +1125,7 @@ memo_table_init (EMemoTable *memo_table)
 {
 	GtkTargetList *target_list;
 
-	memo_table->priv = E_MEMO_TABLE_GET_PRIVATE (memo_table);
+	memo_table->priv = G_TYPE_INSTANCE_GET_PRIVATE (memo_table, E_TYPE_MEMO_TABLE, EMemoTablePrivate);
 
 	target_list = gtk_target_list_new (NULL, 0);
 	e_target_list_add_calendar_targets (target_list, 0);

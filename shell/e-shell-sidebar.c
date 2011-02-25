@@ -31,10 +31,6 @@
 #include <e-util/e-unicode.h>
 #include <shell/e-shell-view.h>
 
-#define E_SHELL_SIDEBAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SHELL_SIDEBAR, EShellSidebarPrivate))
-
 struct _EShellSidebarPrivate {
 
 	gpointer shell_view;  /* weak pointer */
@@ -149,7 +145,7 @@ shell_sidebar_dispose (GObject *object)
 {
 	EShellSidebarPrivate *priv;
 
-	priv = E_SHELL_SIDEBAR_GET_PRIVATE (object);
+	priv = E_SHELL_SIDEBAR (object)->priv;
 
 	if (priv->shell_view != NULL) {
 		g_object_remove_weak_pointer (
@@ -176,7 +172,7 @@ shell_sidebar_finalize (GObject *object)
 {
 	EShellSidebarPrivate *priv;
 
-	priv = E_SHELL_SIDEBAR_GET_PRIVATE (object);
+	priv = E_SHELL_SIDEBAR (object)->priv;
 
 	g_free (priv->icon_name);
 	g_free (priv->primary_text);
@@ -241,7 +237,7 @@ shell_sidebar_get_preferred_height (GtkWidget *widget,
 	gint child_min, child_nat;
 	GtkWidget *child;
 
-	priv = E_SHELL_SIDEBAR_GET_PRIVATE (widget);
+	priv = E_SHELL_SIDEBAR (widget)->priv;
 
 	child = gtk_bin_get_child (GTK_BIN (widget));
 	gtk_widget_get_preferred_height (child, minimum, natural);
@@ -262,7 +258,7 @@ shell_sidebar_size_allocate (GtkWidget *widget,
 	GtkRequisition child_requisition;
 	GtkWidget *child;
 
-	priv = E_SHELL_SIDEBAR_GET_PRIVATE (widget);
+	priv = E_SHELL_SIDEBAR (widget)->priv;
 
 	gtk_widget_set_allocation (widget, allocation);
 
@@ -293,7 +289,7 @@ shell_sidebar_forall (GtkContainer *container,
 {
 	EShellSidebarPrivate *priv;
 
-	priv = E_SHELL_SIDEBAR_GET_PRIVATE (container);
+	priv = E_SHELL_SIDEBAR (container)->priv;
 
 	if (include_internals && callback && priv->event_box)
 		callback (priv->event_box, callback_data);
@@ -401,7 +397,7 @@ e_shell_sidebar_init (EShellSidebar *shell_sidebar)
 	const GdkColor *color;
 	const gchar *icon_name;
 
-	shell_sidebar->priv = E_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
+	shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (shell_sidebar, E_TYPE_SHELL_SIDEBAR, EShellSidebarPrivate);
 
 	gtk_widget_set_has_window (GTK_WIDGET (shell_sidebar), FALSE);
 

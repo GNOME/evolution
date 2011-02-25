@@ -24,10 +24,6 @@
 #include <glib/gi18n.h>
 #include <camel/camel.h>
 
-#define E_COMPOSER_POST_HEADER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_COMPOSER_POST_HEADER, EComposerPostHeaderPrivate))
-
 enum {
 	PROP_0,
 	PROP_ACCOUNT
@@ -172,7 +168,7 @@ composer_post_header_dispose (GObject *object)
 {
 	EComposerPostHeaderPrivate *priv;
 
-	priv = E_COMPOSER_POST_HEADER_GET_PRIVATE (object);
+	priv = E_COMPOSER_POST_HEADER (object)->priv;
 
 	if (priv->account != NULL) {
 		g_object_unref (priv->account);
@@ -188,7 +184,7 @@ composer_post_header_finalize (GObject *object)
 {
 	EComposerPostHeaderPrivate *priv;
 
-	priv = E_COMPOSER_POST_HEADER_GET_PRIVATE (object);
+	priv = E_COMPOSER_POST_HEADER (object)->priv;
 
 	g_free (priv->base_url);
 
@@ -201,7 +197,7 @@ composer_post_header_changed (EComposerHeader *header)
 {
 	EComposerPostHeaderPrivate *priv;
 
-	priv = E_COMPOSER_POST_HEADER_GET_PRIVATE (header);
+	priv = E_COMPOSER_POST_HEADER (header)->priv;
 
 	priv->custom = TRUE;
 }
@@ -211,7 +207,7 @@ composer_post_header_clicked (EComposerHeader *header)
 {
 	EComposerPostHeaderPrivate *priv;
 
-	priv = E_COMPOSER_POST_HEADER_GET_PRIVATE (header);
+	priv = E_COMPOSER_POST_HEADER (header)->priv;
 
 	priv->custom = FALSE;
 }
@@ -249,7 +245,7 @@ e_composer_post_header_class_init (EComposerPostHeaderClass *class)
 static void
 e_composer_post_header_init (EComposerPostHeader *header)
 {
-	header->priv = E_COMPOSER_POST_HEADER_GET_PRIVATE (header);
+	header->priv = G_TYPE_INSTANCE_GET_PRIVATE (header, E_TYPE_COMPOSER_POST_HEADER, EComposerPostHeaderPrivate);
 }
 
 EComposerHeader *

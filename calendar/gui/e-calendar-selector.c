@@ -24,10 +24,6 @@
 #include "e-util/e-selection.h"
 #include "common/authentication.h"
 
-#define E_CALENDAR_SELECTOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CALENDAR_SELECTOR, ECalendarSelectorPrivate))
-
 struct _ECalendarSelectorPrivate {
 	gint dummy_value;
 };
@@ -162,7 +158,7 @@ calendar_selector_class_init (ECalendarSelectorClass *class)
 static void
 calendar_selector_init (ECalendarSelector *selector)
 {
-	selector->priv = E_CALENDAR_SELECTOR_GET_PRIVATE (selector);
+	selector->priv = G_TYPE_INSTANCE_GET_PRIVATE (selector, E_TYPE_CALENDAR_SELECTOR, ECalendarSelectorPrivate);
 
 	gtk_drag_dest_set (
 		GTK_WIDGET (selector), GTK_DEST_DEFAULT_ALL,

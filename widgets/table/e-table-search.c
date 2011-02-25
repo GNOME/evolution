@@ -30,10 +30,6 @@
 
 #define d(x)
 
-#define E_TABLE_SEARCH_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TABLE_SEARCH, ETableSearchPrivate))
-
 d (static gint depth = 0)
 
 struct _ETableSearchPrivate {
@@ -112,7 +108,7 @@ e_table_search_finalize (GObject *object)
 {
 	ETableSearchPrivate *priv;
 
-	priv = E_TABLE_SEARCH_GET_PRIVATE (object);
+	priv = E_TABLE_SEARCH (object)->priv;
 
 	drop_timeout (E_TABLE_SEARCH (object));
 
@@ -157,7 +153,7 @@ e_table_search_class_init (ETableSearchClass *class)
 static void
 e_table_search_init (ETableSearch *ets)
 {
-	ets->priv = E_TABLE_SEARCH_GET_PRIVATE (ets);
+	ets->priv = G_TYPE_INSTANCE_GET_PRIVATE (ets, E_TYPE_TABLE_SEARCH, ETableSearchPrivate);
 
 	ets->priv->search_string = g_strdup ("");
 }

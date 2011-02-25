@@ -25,10 +25,6 @@
 #include <eab-book-util.h>
 #include <eab-contact-merging.h>
 
-#define E_ADDRESSBOOK_SELECTOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ADDRESSBOOK_SELECTOR, EAddressbookSelectorPrivate))
-
 typedef struct _MergeContext MergeContext;
 
 struct _EAddressbookSelectorPrivate {
@@ -219,7 +215,7 @@ addressbook_selector_dispose (GObject *object)
 {
 	EAddressbookSelectorPrivate *priv;
 
-	priv = E_ADDRESSBOOK_SELECTOR_GET_PRIVATE (object);
+	priv = E_ADDRESSBOOK_SELECTOR (object)->priv;
 
 	if (priv->current_view != NULL) {
 		g_object_unref (priv->current_view);
@@ -258,7 +254,7 @@ addressbook_selector_data_dropped (ESourceSelector *selector,
 	const gchar *string;
 	gboolean remove_from_source;
 
-	priv = E_ADDRESSBOOK_SELECTOR_GET_PRIVATE (selector);
+	priv = E_ADDRESSBOOK_SELECTOR (selector)->priv;
 	g_return_val_if_fail (priv->current_view != NULL, FALSE);
 
 	string = (const gchar *) gtk_selection_data_get_data (selection_data);
@@ -324,7 +320,7 @@ addressbook_selector_class_init (EAddressbookSelectorClass *class)
 static void
 addressbook_selector_init (EAddressbookSelector *selector)
 {
-	selector->priv = E_ADDRESSBOOK_SELECTOR_GET_PRIVATE (selector);
+	selector->priv = G_TYPE_INSTANCE_GET_PRIVATE (selector, E_TYPE_ADDRESSBOOK_SELECTOR, EAddressbookSelectorPrivate);
 
 	gtk_drag_dest_set (
 		GTK_WIDGET (selector), GTK_DEST_DEFAULT_ALL,

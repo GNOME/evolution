@@ -30,10 +30,6 @@
 #include "e-util/e-util.h"
 #include "e-util/e-icon-factory.h"
 
-#define E_IMAGE_CHOOSER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_IMAGE_CHOOSER, EImageChooserPrivate))
-
 struct _EImageChooserPrivate {
 	GtkWidget *frame;
 	GtkWidget *image;
@@ -374,7 +370,7 @@ image_chooser_dispose (GObject *object)
 {
 	EImageChooserPrivate *priv;
 
-	priv = E_IMAGE_CHOOSER_GET_PRIVATE (object);
+	priv = E_IMAGE_CHOOSER (object)->priv;
 
 	if (priv->frame != NULL) {
 		g_object_unref (priv->frame);
@@ -395,7 +391,7 @@ image_chooser_finalize (GObject *object)
 {
 	EImageChooserPrivate *priv;
 
-	priv = E_IMAGE_CHOOSER_GET_PRIVATE (object);
+	priv = E_IMAGE_CHOOSER (object)->priv;
 
 	g_free (priv->image_buf);
 	g_free (priv->icon_name);
@@ -444,7 +440,7 @@ e_image_chooser_init (EImageChooser *chooser)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	chooser->priv = E_IMAGE_CHOOSER_GET_PRIVATE (chooser);
+	chooser->priv = G_TYPE_INSTANCE_GET_PRIVATE (chooser, E_TYPE_IMAGE_CHOOSER, EImageChooserPrivate);
 
 	container = GTK_WIDGET (chooser);
 

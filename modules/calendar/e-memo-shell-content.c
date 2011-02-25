@@ -35,10 +35,6 @@
 #include "calendar/gui/e-cal-model-memos.h"
 #include "calendar/gui/e-memo-table.h"
 
-#define E_MEMO_SHELL_CONTENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MEMO_SHELL_CONTENT, EMemoShellContentPrivate))
-
 #define E_MEMO_TABLE_DEFAULT_STATE \
 	"<?xml version=\"1.0\"?>" \
 	"<ETableState>" \
@@ -277,7 +273,7 @@ memo_shell_content_restore_state_cb (EShellWindow *shell_window,
 	GObject *object;
 	const gchar *key;
 
-	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (shell_content);
+	priv = E_MEMO_SHELL_CONTENT (shell_content)->priv;
 
 	/* Bind GObject properties to GConf keys. */
 
@@ -367,7 +363,7 @@ memo_shell_content_dispose (GObject *object)
 {
 	EMemoShellContentPrivate *priv;
 
-	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (object);
+	priv = E_MEMO_SHELL_CONTENT (object)->priv;
 
 	if (priv->paned != NULL) {
 		g_object_unref (priv->paned);
@@ -403,7 +399,7 @@ memo_shell_content_finalize (GObject *object)
 {
 	EMemoShellContentPrivate *priv;
 
-	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (object);
+	priv = E_MEMO_SHELL_CONTENT (object)->priv;
 
 	g_free (priv->current_uid);
 
@@ -428,7 +424,7 @@ memo_shell_content_constructed (GObject *object)
 	GtkWidget *widget;
 	gint n_targets;
 
-	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (object);
+	priv = E_MEMO_SHELL_CONTENT (object)->priv;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
@@ -606,7 +602,7 @@ memo_shell_content_focus_search_results (EShellContent *shell_content)
 {
 	EMemoShellContentPrivate *priv;
 
-	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (shell_content);
+	priv = E_MEMO_SHELL_CONTENT (shell_content)->priv;
 
 	gtk_widget_grab_focus (priv->memo_table);
 }
@@ -659,8 +655,7 @@ memo_shell_content_class_init (EMemoShellContentClass *class)
 static void
 memo_shell_content_init (EMemoShellContent *memo_shell_content)
 {
-	memo_shell_content->priv =
-		E_MEMO_SHELL_CONTENT_GET_PRIVATE (memo_shell_content);
+	memo_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (memo_shell_content, E_TYPE_MEMO_SHELL_CONTENT, EMemoShellContentPrivate);
 
 	/* Postpone widget construction until we have a shell view. */
 }

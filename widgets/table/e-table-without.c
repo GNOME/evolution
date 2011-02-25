@@ -30,10 +30,6 @@
 
 #include "e-table-without.h"
 
-#define E_TABLE_WITHOUT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TABLE_WITHOUT, ETableWithoutPrivate))
-
 /* workaround for avoiding API breakage */
 #define etw_get_type e_table_without_get_type
 G_DEFINE_TYPE (ETableWithout, etw, E_TYPE_TABLE_SUBSET)
@@ -141,7 +137,7 @@ etw_dispose (GObject *object)
 {
 	ETableWithoutPrivate *priv;
 
-	priv = E_TABLE_WITHOUT_GET_PRIVATE (object);
+	priv = E_TABLE_WITHOUT (object)->priv;
 
 	if (priv->hash != NULL) {
 		g_hash_table_foreach (priv->hash, delete_hash_element, object);
@@ -252,7 +248,7 @@ etw_class_init (ETableWithoutClass *class)
 static void
 etw_init (ETableWithout *etw)
 {
-	etw->priv = E_TABLE_WITHOUT_GET_PRIVATE (etw);
+	etw->priv = G_TYPE_INSTANCE_GET_PRIVATE (etw, E_TYPE_TABLE_WITHOUT, ETableWithoutPrivate);
 }
 
 ETableModel *

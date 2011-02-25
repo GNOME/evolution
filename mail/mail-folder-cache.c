@@ -59,10 +59,6 @@
 
 /* This code is a mess, there is no reason it should be so complicated. */
 
-#define MAIL_FOLDER_CACHE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), MAIL_TYPE_FOLDER_CACHE, MailFolderCachePrivate))
-
 struct _MailFolderCachePrivate {
 	/* source id for the ping timeout callback */
 	guint ping_id;
@@ -1054,7 +1050,7 @@ mail_folder_cache_init (MailFolderCache *self)
 	const gchar *buf;
 	guint timeout;
 
-	self->priv = MAIL_FOLDER_CACHE_GET_PRIVATE (self);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, MAIL_TYPE_FOLDER_CACHE, MailFolderCachePrivate);
 
 	/* initialize values */
 	self->priv->stores = g_hash_table_new (NULL, NULL);

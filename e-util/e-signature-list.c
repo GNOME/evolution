@@ -28,10 +28,6 @@
 
 #include <libedataserver/e-uid.h>
 
-#define E_SIGNATURE_LIST_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SIGNATURE_LIST, ESignatureListPrivate))
-
 struct _ESignatureListPrivate {
 	GConfClient *gconf;
 	guint notify_id;
@@ -113,7 +109,7 @@ e_signature_list_class_init (ESignatureListClass *class)
 static void
 e_signature_list_init (ESignatureList *signature_list)
 {
-	signature_list->priv = E_SIGNATURE_LIST_GET_PRIVATE (signature_list);
+	signature_list->priv = G_TYPE_INSTANCE_GET_PRIVATE (signature_list, E_TYPE_SIGNATURE_LIST, ESignatureListPrivate);
 }
 
 static GSList *

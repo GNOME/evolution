@@ -47,13 +47,9 @@
 #include "e-contact-list-model.h"
 #include "eab-contact-merging.h"
 
-#define E_CONTACT_LIST_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CONTACT_LIST_EDITOR, EContactListEditorPrivate))
-
 #define CONTACT_LIST_EDITOR_WIDGET(editor, name) \
 	(e_builder_get_widget \
-	(E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor)->builder, name))
+	(E_CONTACT_LIST_EDITOR (editor)->priv->builder, name))
 
 /* More macros, less typos. */
 #define CONTACT_LIST_EDITOR_WIDGET_ADD_BUTTON(editor) \
@@ -63,7 +59,7 @@
 #define CONTACT_LIST_EDITOR_WIDGET_DIALOG(editor) \
 	CONTACT_LIST_EDITOR_WIDGET ((editor), "dialog")
 #define CONTACT_LIST_EDITOR_WIDGET_EMAIL_ENTRY(editor) \
-	E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor)->email_entry
+	editor->priv->email_entry
 #define CONTACT_LIST_EDITOR_WIDGET_LIST_NAME_ENTRY(editor) \
 	CONTACT_LIST_EDITOR_WIDGET ((editor), "list-name-entry")
 #define CONTACT_LIST_EDITOR_WIDGET_MEMBERS_VBOX(editor) \
@@ -881,7 +877,7 @@ setup_custom_widgets (EContactListEditor *editor)
 
 	g_return_if_fail (editor != NULL);
 
-	priv = E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor);
+	priv = editor->priv;
 
 	combo_box = WIDGET (SOURCE_MENU);
 	client = gconf_client_get_default ();
@@ -1134,7 +1130,7 @@ contact_list_editor_is_valid (EABEditor *editor)
 static gboolean
 contact_list_editor_is_changed (EABEditor *editor)
 {
-	return E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor)->changed;
+	return E_CONTACT_LIST_EDITOR (editor)->priv->changed;
 }
 
 static GtkWindow *
@@ -1270,7 +1266,7 @@ contact_list_editor_init (EContactListEditor *editor)
 	GtkCellRenderer *renderer;
 	GtkTreeView *view;
 
-	priv = E_CONTACT_LIST_EDITOR_GET_PRIVATE (editor);
+	editor->priv = priv = G_TYPE_INSTANCE_GET_PRIVATE (editor, E_TYPE_CONTACT_LIST_EDITOR, EContactListEditorPrivate);
 
 	priv->editable = TRUE;
 	priv->allows_contact_lists = TRUE;
@@ -1328,8 +1324,6 @@ contact_list_editor_init (EContactListEditor *editor)
 	gtk_widget_show_all (WIDGET (DIALOG));
 
 	setup_custom_widgets (editor);
-
-	editor->priv = priv;
 }
 
 /***************************** Public Interface ******************************/

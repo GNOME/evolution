@@ -58,10 +58,6 @@
 #include "event-page.h"
 #include "e-send-options-utils.h"
 
-#define EVENT_PAGE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), TYPE_EVENT_PAGE, EventPagePrivate))
-
 enum {
 	ALARM_NONE,
 	ALARM_15_MINUTES,
@@ -215,7 +211,7 @@ event_page_dispose (GObject *object)
 {
 	EventPagePrivate *priv;
 
-	priv = EVENT_PAGE_GET_PRIVATE (object);
+	priv = EVENT_PAGE (object)->priv;
 
 	if (priv->comp != NULL) {
 		g_object_unref (priv->comp);
@@ -251,7 +247,7 @@ event_page_finalize (GObject *object)
 {
 	EventPagePrivate *priv;
 
-	priv = EVENT_PAGE_GET_PRIVATE (object);
+	priv = EVENT_PAGE (object)->priv;
 
 	g_list_foreach (priv->address_strings, (GFunc) g_free, NULL);
 	g_list_free (priv->address_strings);
@@ -293,7 +289,7 @@ event_page_class_init (EventPageClass *class)
 static void
 event_page_init (EventPage *epage)
 {
-	epage->priv = EVENT_PAGE_GET_PRIVATE (epage);
+	epage->priv = G_TYPE_INSTANCE_GET_PRIVATE (epage, TYPE_EVENT_PAGE, EventPagePrivate);
 	epage->priv->deleted_attendees = g_ptr_array_new ();
 	epage->priv->alarm_interval = -1;
 	epage->priv->alarm_map = alarm_map_with_user_time;
@@ -338,7 +334,7 @@ event_page_get_widget (CompEditorPage *page)
 {
 	EventPagePrivate *priv;
 
-	priv = EVENT_PAGE_GET_PRIVATE (page);
+	priv = EVENT_PAGE (page)->priv;
 
 	return priv->main;
 }
@@ -349,7 +345,7 @@ event_page_focus_main_widget (CompEditorPage *page)
 {
 	EventPagePrivate *priv;
 
-	priv = EVENT_PAGE_GET_PRIVATE (page);
+	priv = EVENT_PAGE (page)->priv;
 
 	gtk_widget_grab_focus (priv->summary);
 }

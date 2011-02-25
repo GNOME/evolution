@@ -99,8 +99,7 @@ gnome_canvas_pixbuf_class_init (GnomeCanvasPixbufClass *class)
 static void
 gnome_canvas_pixbuf_init (GnomeCanvasPixbuf *gcp)
 {
-	gcp->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		gcp, GNOME_TYPE_CANVAS_PIXBUF, GnomeCanvasPixbufPrivate);
+	gcp->priv = G_TYPE_INSTANCE_GET_PRIVATE (gcp, GNOME_TYPE_CANVAS_PIXBUF, GnomeCanvasPixbufPrivate);
 }
 
 /* Dispose handler for the pixbuf canvas item */

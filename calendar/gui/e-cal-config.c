@@ -33,17 +33,16 @@ struct _ECalConfigPrivate {
 	guint source_changed_id;
 };
 
-#define _PRIVATE(o) (g_type_instance_get_private ((GTypeInstance *)o, e_cal_config_get_type ()))
-
 static void
-ecp_init (GObject *o)
+ecp_init (ECalConfig *cfg)
 {
+	cfg->priv = G_TYPE_INSTANCE_GET_PRIVATE (cfg, E_TYPE_CAL_CONFIG, ECalConfigPrivate);
 }
 
 static void
 ecp_target_free (EConfig *ec, EConfigTarget *t)
 {
-	struct _ECalConfigPrivate *p = _PRIVATE (ec);
+	struct _ECalConfigPrivate *p = E_CAL_CONFIG (ec)->priv;
 
 	if (ec->target == t) {
 		switch (t->type) {
@@ -85,7 +84,7 @@ ecp_source_changed (struct _ESource *source, EConfig *ec)
 static void
 ecp_set_target (EConfig *ec, EConfigTarget *t)
 {
-	struct _ECalConfigPrivate *p = _PRIVATE (ec);
+	struct _ECalConfigPrivate *p = E_CAL_CONFIG (ec)->priv;
 
 	((EConfigClass *)ecp_parent_class)->set_target (ec, t);
 

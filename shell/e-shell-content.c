@@ -44,10 +44,6 @@
 #include "e-shell-view.h"
 #include "e-shell-window-actions.h"
 
-#define E_SHELL_CONTENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SHELL_CONTENT, EShellContentPrivate))
-
 struct _EShellContentPrivate {
 
 	gpointer shell_view;	/* weak pointer */
@@ -150,7 +146,7 @@ shell_content_dispose (GObject *object)
 {
 	EShellContentPrivate *priv;
 
-	priv = E_SHELL_CONTENT_GET_PRIVATE (object);
+	priv = E_SHELL_CONTENT (object)->priv;
 
 	if (priv->shell_view != NULL) {
 		g_object_remove_weak_pointer (
@@ -172,7 +168,7 @@ shell_content_finalize (GObject *object)
 {
 	EShellContentPrivate *priv;
 
-	priv = E_SHELL_CONTENT_GET_PRIVATE (object);
+	priv = E_SHELL_CONTENT (object)->priv;
 
 	g_free (priv->user_filename);
 
@@ -222,7 +218,7 @@ shell_content_get_preferred_width (GtkWidget *widget,
 	gint child_min, child_nat;
 	GtkWidget *child;
 
-	priv = E_SHELL_CONTENT_GET_PRIVATE (widget);
+	priv = E_SHELL_CONTENT (widget)->priv;
 
         *minimum = *natural = 0;
 
@@ -250,7 +246,7 @@ shell_content_get_preferred_height (GtkWidget *widget,
 	gint min, nat;
 	GtkWidget *child;
 
-	priv = E_SHELL_CONTENT_GET_PRIVATE (widget);
+	priv = E_SHELL_CONTENT (widget)->priv;
 
 	child = gtk_bin_get_child (GTK_BIN (widget));
 	gtk_widget_get_preferred_height (child, minimum, natural);
@@ -273,7 +269,7 @@ shell_content_size_allocate (GtkWidget *widget,
 	GtkWidget *child;
 	gint remaining_height;
 
-	priv = E_SHELL_CONTENT_GET_PRIVATE (widget);
+	priv = E_SHELL_CONTENT (widget)->priv;
 
 	remaining_height = allocation->height;
 	gtk_widget_set_allocation (widget, allocation);
@@ -332,7 +328,7 @@ shell_content_remove (GtkContainer *container,
 	GtkContainerClass *container_class;
 	EShellContentPrivate *priv;
 
-	priv = E_SHELL_CONTENT_GET_PRIVATE (container);
+	priv = E_SHELL_CONTENT (container)->priv;
 
 	if (widget == priv->alert_bar) {
 		gtk_widget_unparent (priv->alert_bar);
@@ -359,7 +355,7 @@ shell_content_forall (GtkContainer *container,
 {
 	EShellContentPrivate *priv;
 
-	priv = E_SHELL_CONTENT_GET_PRIVATE (container);
+	priv = E_SHELL_CONTENT (container)->priv;
 
 	if (priv->alert_bar != NULL)
 		callback (priv->alert_bar, callback_data);
@@ -470,7 +466,7 @@ e_shell_content_alert_sink_init (EAlertSinkInterface *interface)
 static void
 e_shell_content_init (EShellContent *shell_content)
 {
-	shell_content->priv = E_SHELL_CONTENT_GET_PRIVATE (shell_content);
+	shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (shell_content, E_TYPE_SHELL_CONTENT, EShellContentPrivate);
 
 	gtk_widget_set_has_window (GTK_WIDGET (shell_content), FALSE);
 }

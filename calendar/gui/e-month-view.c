@@ -23,10 +23,6 @@
 
 #include <libecal/e-cal-time-util.h>
 
-#define E_MONTH_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MONTH_VIEW, EMonthViewPrivate))
-
 struct _EMonthViewPrivate {
 	gint placeholder;
 };
@@ -175,7 +171,7 @@ month_view_class_init (EMonthViewClass *class)
 static void
 month_view_init (EMonthView *month_view)
 {
-	month_view->priv = E_MONTH_VIEW_GET_PRIVATE (month_view);
+	month_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (month_view, E_TYPE_MONTH_VIEW, EMonthViewPrivate);
 }
 
 GType

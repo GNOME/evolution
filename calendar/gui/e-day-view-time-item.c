@@ -54,10 +54,6 @@
 #define E_DVTMI_LARGE_HOUR_Y_PAD	1
 #define E_DVTMI_SMALL_FONT_Y_PAD	1
 
-#define E_DAY_VIEW_TIME_ITEM_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_DAY_VIEW_TIME_ITEM, EDayViewTimeItemPrivate))
-
 struct _EDayViewTimeItemPrivate {
 	/* The parent EDayView widget. */
 	EDayView *day_view;
@@ -149,7 +145,7 @@ day_view_time_item_dispose (GObject *object)
 {
 	EDayViewTimeItemPrivate *priv;
 
-	priv = E_DAY_VIEW_TIME_ITEM_GET_PRIVATE (object);
+	priv = E_DAY_VIEW_TIME_ITEM (object)->priv;
 
 	if (priv->day_view != NULL) {
 		g_object_unref (priv->day_view);
@@ -212,7 +208,7 @@ day_view_time_item_init (EDayViewTimeItem *time_item)
 {
 	gchar *last;
 
-	time_item->priv = E_DAY_VIEW_TIME_ITEM_GET_PRIVATE (time_item);
+	time_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (time_item, E_TYPE_DAY_VIEW_TIME_ITEM, EDayViewTimeItemPrivate);
 
 	time_item->priv->dragging_selection = FALSE;
 	time_item->priv->second_zone = NULL;

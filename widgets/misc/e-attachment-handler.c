@@ -21,10 +21,6 @@
 
 #include "e-attachment-handler.h"
 
-#define E_ATTACHMENT_HANDLER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ATTACHMENT_HANDLER, EAttachmentHandlerPrivate))
-
 struct _EAttachmentHandlerPrivate {
 	gpointer placeholder;
 };
@@ -77,7 +73,7 @@ e_attachment_handler_class_init (EAttachmentHandlerClass *class)
 static void
 e_attachment_handler_init (EAttachmentHandler *handler)
 {
-	handler->priv = E_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
+	handler->priv = G_TYPE_INSTANCE_GET_PRIVATE (handler, E_TYPE_ATTACHMENT_HANDLER, EAttachmentHandlerPrivate);
 }
 
 EAttachmentView *

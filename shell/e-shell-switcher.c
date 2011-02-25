@@ -30,10 +30,6 @@
 #include <glib/gi18n.h>
 #include <e-util/e-extensible.h>
 
-#define E_SHELL_SWITCHER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_SHELL_SWITCHER, EShellSwitcherPrivate))
-
 #define H_PADDING 6
 #define V_PADDING 6
 
@@ -235,7 +231,7 @@ shell_switcher_dispose (GObject *object)
 {
 	EShellSwitcherPrivate *priv;
 
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (object);
+	priv = E_SHELL_SWITCHER (object)->priv;
 
 	while (priv->proxies != NULL) {
 		GtkWidget *widget = priv->proxies->data;
@@ -255,7 +251,7 @@ shell_switcher_get_preferred_width (GtkWidget *widget,
 	GtkWidget *child;
 	GList *iter;
 
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (widget);
+	priv = E_SHELL_SWITCHER (widget)->priv;
 
 	*minimum = *natural = 0;
 
@@ -290,7 +286,7 @@ shell_switcher_get_preferred_height (GtkWidget *widget,
 	GtkWidget *child;
 	GList *iter;
 
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (widget);
+	priv = E_SHELL_SWITCHER (widget)->priv;
 
 	*minimum = *natural = 0;
 
@@ -351,7 +347,7 @@ shell_switcher_screen_changed (GtkWidget *widget,
 	EShellSwitcherPrivate *priv;
 	GtkSettings *settings;
 
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (widget);
+	priv = E_SHELL_SWITCHER (widget)->priv;
 
 	if (gtk_widget_has_screen (widget))
 		settings = gtk_widget_get_settings (widget);
@@ -386,7 +382,7 @@ shell_switcher_remove (GtkContainer *container,
 	EShellSwitcherPrivate *priv;
 	GList *link;
 
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (container);
+	priv = E_SHELL_SWITCHER (container)->priv;
 
 	/* Look in the internal widgets first. */
 
@@ -413,7 +409,7 @@ shell_switcher_forall (GtkContainer *container,
 {
 	EShellSwitcherPrivate *priv;
 
-	priv = E_SHELL_SWITCHER_GET_PRIVATE (container);
+	priv = E_SHELL_SWITCHER (container)->priv;
 
 	if (include_internals)
 		g_list_foreach (
@@ -551,7 +547,7 @@ e_shell_switcher_class_init (EShellSwitcherClass *class)
 static void
 e_shell_switcher_init (EShellSwitcher *switcher)
 {
-	switcher->priv = E_SHELL_SWITCHER_GET_PRIVATE (switcher);
+	switcher->priv = G_TYPE_INSTANCE_GET_PRIVATE (switcher, E_TYPE_SHELL_SWITCHER, EShellSwitcherPrivate);
 
 	gtk_widget_set_has_window (GTK_WIDGET (switcher), FALSE);
 
