@@ -24,10 +24,6 @@
 
 #include <glib/gi18n.h>
 
-#define E_COMPOSER_HEADER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_COMPOSER_HEADER, EComposerHeaderPrivate))
-
 enum {
 	PROP_0,
 	PROP_BUTTON,
@@ -122,7 +118,7 @@ composer_header_set_property (GObject *object,
 {
 	EComposerHeaderPrivate *priv;
 
-	priv = E_COMPOSER_HEADER_GET_PRIVATE (object);
+	priv = E_COMPOSER_HEADER (object)->priv;
 
 	switch (property_id) {
 		case PROP_BUTTON:	/* construct only */
@@ -157,7 +153,7 @@ composer_header_get_property (GObject *object,
 {
 	EComposerHeaderPrivate *priv;
 
-	priv = E_COMPOSER_HEADER_GET_PRIVATE (object);
+	priv = E_COMPOSER_HEADER (object)->priv;
 
 	switch (property_id) {
 		case PROP_BUTTON:	/* construct only */
@@ -282,7 +278,7 @@ e_composer_header_class_init (EComposerHeaderClass *class)
 static void
 e_composer_header_init (EComposerHeader *header)
 {
-	header->priv = E_COMPOSER_HEADER_GET_PRIVATE (header);
+	header->priv = G_TYPE_INSTANCE_GET_PRIVATE (header, E_TYPE_COMPOSER_HEADER, EComposerHeaderPrivate);
 }
 
 gchar *

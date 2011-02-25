@@ -33,10 +33,6 @@
 
 #include "em-folder-utils.h"
 
-#define EM_SUBSCRIPTION_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_SUBSCRIPTION_EDITOR, EMSubscriptionEditorPrivate))
-
 #define FOLDER_CAN_SELECT(folder_info) \
 	((folder_info) != NULL && \
 	((folder_info)->flags & CAMEL_FOLDER_NOSELECT) == 0)
@@ -980,7 +976,7 @@ subscription_editor_dispose (GObject *object)
 {
 	EMSubscriptionEditorPrivate *priv;
 
-	priv = EM_SUBSCRIPTION_EDITOR_GET_PRIVATE (object);
+	priv = EM_SUBSCRIPTION_EDITOR (object)->priv;
 
 	if (priv->session != NULL) {
 		g_object_unref (priv->session);
@@ -1008,7 +1004,7 @@ subscription_editor_finalize (GObject *object)
 {
 	EMSubscriptionEditorPrivate *priv;
 
-	priv = EM_SUBSCRIPTION_EDITOR_GET_PRIVATE (object);
+	priv = EM_SUBSCRIPTION_EDITOR (object)->priv;
 
 	g_ptr_array_free (priv->stores, TRUE);
 
@@ -1099,7 +1095,7 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 	GtkWidget *box;
 	const gchar *tooltip;
 
-	editor->priv = EM_SUBSCRIPTION_EDITOR_GET_PRIVATE (editor);
+	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (editor, EM_TYPE_SUBSCRIPTION_EDITOR, EMSubscriptionEditorPrivate);
 	editor->priv->stores = g_ptr_array_new_with_free_func (
 		(GDestroyNotify) store_data_free);
 

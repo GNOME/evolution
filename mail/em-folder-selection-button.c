@@ -35,10 +35,6 @@
 
 #include "em-folder-selection-button.h"
 
-#define EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_FOLDER_SELECTION_BUTTON, EMFolderSelectionButtonPrivate))
-
 struct _EMFolderSelectionButtonPrivate {
 	EMailSession *session;
 	GtkWidget *icon;
@@ -195,7 +191,7 @@ folder_selection_button_dispose (GObject *object)
 {
 	EMFolderSelectionButtonPrivate *priv;
 
-	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (object);
+	priv = EM_FOLDER_SELECTION_BUTTON (object)->priv;
 
 	if (priv->session != NULL) {
 		g_object_unref (priv->session);
@@ -211,7 +207,7 @@ folder_selection_button_finalize (GObject *object)
 {
 	EMFolderSelectionButtonPrivate *priv;
 
-	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (object);
+	priv = EM_FOLDER_SELECTION_BUTTON (object)->priv;
 
 	g_list_foreach (priv->uris, (GFunc) g_free, NULL);
 	g_list_free (priv->uris);
@@ -234,7 +230,7 @@ folder_selection_button_clicked (GtkButton *button)
 	GtkSelectionMode mode;
 	gpointer parent;
 
-	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (button);
+	priv = EM_FOLDER_SELECTION_BUTTON (button)->priv;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (button));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
@@ -365,7 +361,7 @@ em_folder_selection_button_init (EMFolderSelectionButton *emfsb)
 {
 	GtkWidget *box;
 
-	emfsb->priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (emfsb);
+	emfsb->priv = G_TYPE_INSTANCE_GET_PRIVATE (emfsb, EM_TYPE_FOLDER_SELECTION_BUTTON, EMFolderSelectionButtonPrivate);
 
 	emfsb->priv->multiple_select = FALSE;
 

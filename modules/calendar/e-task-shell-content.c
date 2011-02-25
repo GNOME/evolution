@@ -34,10 +34,6 @@
 #include "calendar/gui/e-cal-component-preview.h"
 #include "calendar/gui/e-cal-model-tasks.h"
 
-#define E_TASK_SHELL_CONTENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TASK_SHELL_CONTENT, ETaskShellContentPrivate))
-
 #define E_TASK_TABLE_DEFAULT_STATE \
 	"<?xml version=\"1.0\"?>" \
 	"<ETableState>" \
@@ -275,7 +271,7 @@ task_shell_content_restore_state_cb (EShellWindow *shell_window,
 	GObject *object;
 	const gchar *key;
 
-	priv = E_TASK_SHELL_CONTENT_GET_PRIVATE (shell_content);
+	priv = E_TASK_SHELL_CONTENT (shell_content)->priv;
 
 	/* Bind GObject properties to GConf keys. */
 
@@ -365,7 +361,7 @@ task_shell_content_dispose (GObject *object)
 {
 	ETaskShellContentPrivate *priv;
 
-	priv = E_TASK_SHELL_CONTENT_GET_PRIVATE (object);
+	priv = E_TASK_SHELL_CONTENT (object)->priv;
 
 	if (priv->paned != NULL) {
 		g_object_unref (priv->paned);
@@ -401,7 +397,7 @@ task_shell_content_finalize (GObject *object)
 {
 	ETaskShellContentPrivate *priv;
 
-	priv = E_TASK_SHELL_CONTENT_GET_PRIVATE (object);
+	priv = E_TASK_SHELL_CONTENT (object)->priv;
 
 	g_free (priv->current_uid);
 
@@ -425,7 +421,7 @@ task_shell_content_constructed (GObject *object)
 	GtkWidget *widget;
 	gint n_targets;
 
-	priv = E_TASK_SHELL_CONTENT_GET_PRIVATE (object);
+	priv = E_TASK_SHELL_CONTENT (object)->priv;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
@@ -627,7 +623,7 @@ task_shell_content_focus_search_results (EShellContent *shell_content)
 {
 	ETaskShellContentPrivate *priv;
 
-	priv = E_TASK_SHELL_CONTENT_GET_PRIVATE (shell_content);
+	priv = E_TASK_SHELL_CONTENT (shell_content)->priv;
 
 	gtk_widget_grab_focus (priv->task_table);
 }
@@ -680,8 +676,7 @@ task_shell_content_class_init (ETaskShellContentClass *class)
 static void
 task_shell_content_init (ETaskShellContent *task_shell_content)
 {
-	task_shell_content->priv =
-		E_TASK_SHELL_CONTENT_GET_PRIVATE (task_shell_content);
+	task_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (task_shell_content, E_TYPE_TASK_SHELL_CONTENT, ETaskShellContentPrivate);
 
 	/* Postpone widget construction until we have a shell view. */
 }

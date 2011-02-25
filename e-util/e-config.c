@@ -34,10 +34,6 @@
 
 #include <glib/gi18n.h>
 
-#define E_CONFIG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CONFIG, EConfigPrivate))
-
 #define d(x)
 
 typedef GtkWidget * (*EConfigItemSectionFactoryFunc)(EConfig *ec, EConfigItem *, GtkWidget *parent, GtkWidget *old, gpointer data, GtkWidget **real_frame);
@@ -191,7 +187,7 @@ e_config_class_init (EConfigClass *class)
 static void
 e_config_init (EConfig *config)
 {
-	config->priv = E_CONFIG_GET_PRIVATE (config);
+	config->priv = G_TYPE_INSTANCE_GET_PRIVATE (config, E_TYPE_CONFIG, EConfigPrivate);
 }
 
 /**

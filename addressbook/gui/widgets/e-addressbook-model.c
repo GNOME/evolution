@@ -28,10 +28,6 @@
 #include <e-util/e-util.h>
 #include "eab-gui-util.h"
 
-#define E_ADDRESSBOOK_MODEL_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ADDRESSBOOK_MODEL, EAddressbookModelPrivate))
-
 struct _EAddressbookModelPrivate {
 	EBook *book;
 	EBookQuery *query;
@@ -516,7 +512,7 @@ addressbook_model_finalize (GObject *object)
 {
 	EAddressbookModelPrivate *priv;
 
-	priv = E_ADDRESSBOOK_MODEL_GET_PRIVATE (object);
+	priv = E_ADDRESSBOOK_MODEL (object)->priv;
 
 	g_ptr_array_free (priv->contacts, TRUE);
 
@@ -674,7 +670,7 @@ addressbook_model_class_init (EAddressbookModelClass *class)
 static void
 addressbook_model_init (EAddressbookModel *model)
 {
-	model->priv = E_ADDRESSBOOK_MODEL_GET_PRIVATE (model);
+	model->priv = G_TYPE_INSTANCE_GET_PRIVATE (model, E_TYPE_ADDRESSBOOK_MODEL, EAddressbookModelPrivate);
 
 	model->priv->contacts = g_ptr_array_new ();
 	model->priv->first_get_view = TRUE;

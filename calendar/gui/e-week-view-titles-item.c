@@ -29,10 +29,6 @@
 #include <e-util/e-util.h>
 #include "e-week-view-titles-item.h"
 
-#define E_WEEK_VIEW_TITLES_ITEM_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_WEEK_VIEW_TITLES_ITEM, EWeekViewTitlesItemPrivate))
-
 struct _EWeekViewTitlesItemPrivate {
 	EWeekView *week_view;
 };
@@ -84,7 +80,7 @@ week_view_titles_item_dispose (GObject *object)
 {
 	EWeekViewTitlesItemPrivate *priv;
 
-	priv = E_WEEK_VIEW_TITLES_ITEM_GET_PRIVATE (object);
+	priv = E_WEEK_VIEW_TITLES_ITEM (object)->priv;
 
 	if (priv->week_view != NULL) {
 		g_object_unref (priv->week_view);
@@ -279,7 +275,7 @@ week_view_titles_item_class_init (EWeekViewTitlesItemClass *class)
 static void
 week_view_titles_item_init (EWeekViewTitlesItem *titles_item)
 {
-	titles_item->priv = E_WEEK_VIEW_TITLES_ITEM_GET_PRIVATE (titles_item);
+	titles_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (titles_item, E_TYPE_WEEK_VIEW_TITLES_ITEM, EWeekViewTitlesItemPrivate);
 }
 
 GType

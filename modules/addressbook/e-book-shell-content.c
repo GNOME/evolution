@@ -30,10 +30,6 @@
 #include "widgets/misc/e-preview-pane.h"
 #include "e-book-shell-view.h"
 
-#define E_BOOK_SHELL_CONTENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_BOOK_SHELL_CONTENT, EBookShellContentPrivate))
-
 struct _EBookShellContentPrivate {
 	GtkWidget *paned;
 	GtkWidget *notebook;
@@ -84,7 +80,7 @@ book_shell_content_restore_state_cb (EShellWindow *shell_window,
 	GObject *object;
 	const gchar *key;
 
-	priv = E_BOOK_SHELL_CONTENT_GET_PRIVATE (shell_content);
+	priv = E_BOOK_SHELL_CONTENT (shell_content)->priv;
 
 	/* Bind GObject properties to GConf keys. */
 
@@ -193,7 +189,7 @@ book_shell_content_dispose (GObject *object)
 {
 	EBookShellContentPrivate *priv;
 
-	priv = E_BOOK_SHELL_CONTENT_GET_PRIVATE (object);
+	priv = E_BOOK_SHELL_CONTENT (object)->priv;
 
 	if (priv->paned != NULL) {
 		g_object_unref (priv->paned);
@@ -226,7 +222,7 @@ book_shell_content_constructed (GObject *object)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	priv = E_BOOK_SHELL_CONTENT_GET_PRIVATE (object);
+	priv = E_BOOK_SHELL_CONTENT (object)->priv;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
@@ -456,8 +452,7 @@ book_shell_content_class_init (EBookShellContentClass *class)
 static void
 book_shell_content_init (EBookShellContent *book_shell_content)
 {
-	book_shell_content->priv =
-		E_BOOK_SHELL_CONTENT_GET_PRIVATE (book_shell_content);
+	book_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (book_shell_content, E_TYPE_BOOK_SHELL_CONTENT, EBookShellContentPrivate);
 
 	/* Postpone widget construction until we have a shell view. */
 }

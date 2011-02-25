@@ -51,10 +51,6 @@
 
 #include "e-calendar-preferences.h"
 
-#define E_CAL_SHELL_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_SHELL_BACKEND, ECalShellBackendPrivate))
-
 struct _ECalShellBackendPrivate {
 	ESourceList *source_list;
 };
@@ -707,7 +703,7 @@ cal_shell_backend_dispose (GObject *object)
 {
 	ECalShellBackendPrivate *priv;
 
-	priv = E_CAL_SHELL_BACKEND_GET_PRIVATE (object);
+	priv = E_CAL_SHELL_BACKEND (object)->priv;
 
 	if (priv->source_list != NULL) {
 		g_object_unref (priv->source_list);
@@ -800,8 +796,7 @@ cal_shell_backend_init (ECalShellBackend *cal_shell_backend)
 	icalarray *builtin_timezones;
 	gint ii;
 
-	cal_shell_backend->priv =
-		E_CAL_SHELL_BACKEND_GET_PRIVATE (cal_shell_backend);
+	cal_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (cal_shell_backend, E_TYPE_CAL_SHELL_BACKEND, ECalShellBackendPrivate);
 
 	/* XXX Pre-load all built-in timezones in libical.
 	 *

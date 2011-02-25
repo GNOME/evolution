@@ -27,10 +27,6 @@
 #include "mail/e-mail-local.h"
 #include "mail/em-utils.h"
 
-#define E_MAIL_SIDEBAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_SIDEBAR, EMailSidebarPrivate))
-
 struct _EMailSidebarPrivate {
 	GKeyFile *key_file;  /* not owned */
 };
@@ -425,7 +421,7 @@ mail_sidebar_init (EMailSidebar *sidebar)
 	GtkTreeSelection *selection;
 	EMFolderTree *folder_tree;
 
-	sidebar->priv = E_MAIL_SIDEBAR_GET_PRIVATE (sidebar);
+	sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (sidebar, E_TYPE_MAIL_SIDEBAR, EMailSidebarPrivate);
 
 	folder_tree = EM_FOLDER_TREE (sidebar);
 	em_folder_tree_set_excluded (folder_tree, 0);

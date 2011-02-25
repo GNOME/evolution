@@ -26,10 +26,6 @@
 
 #include <misc/e-selectable.h>
 
-#define E_FOCUS_TRACKER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_FOCUS_TRACKER, EFocusTrackerPrivate))
-
 struct _EFocusTrackerPrivate {
 	GtkWidget *focus;  /* not referenced */
 	GtkWindow *window;
@@ -357,7 +353,7 @@ focus_tracker_dispose (GObject *object)
 {
 	EFocusTrackerPrivate *priv;
 
-	priv = E_FOCUS_TRACKER_GET_PRIVATE (object);
+	priv = E_FOCUS_TRACKER (object)->priv;
 
 	g_signal_handlers_disconnect_matched (
 		gtk_clipboard_get (GDK_SELECTION_PRIMARY),
@@ -539,7 +535,7 @@ e_focus_tracker_init (EFocusTracker *focus_tracker)
 {
 	GtkAction *action;
 
-	focus_tracker->priv = E_FOCUS_TRACKER_GET_PRIVATE (focus_tracker);
+	focus_tracker->priv = G_TYPE_INSTANCE_GET_PRIVATE (focus_tracker, E_TYPE_FOCUS_TRACKER, EFocusTrackerPrivate);
 
 	/* Define dummy actions.  These will most likely be overridden,
 	 * but for cases where they're not it ensures ESelectable objects

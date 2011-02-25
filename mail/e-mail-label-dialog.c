@@ -23,10 +23,6 @@
 
 #include <glib/gi18n.h>
 
-#define E_MAIL_LABEL_DIALOG_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_LABEL_DIALOG, EMailLabelDialogPrivate))
-
 struct _EMailLabelDialogPrivate {
 	GtkWidget *entry;
 	GtkWidget *colorsel;
@@ -106,7 +102,7 @@ mail_label_dialog_dispose (GObject *object)
 {
 	EMailLabelDialogPrivate *priv;
 
-	priv = E_MAIL_LABEL_DIALOG_GET_PRIVATE (object);
+	priv = E_MAIL_LABEL_DIALOG (object)->priv;
 
 	if (priv->entry != NULL) {
 		g_object_unref (priv->entry);
@@ -185,7 +181,7 @@ mail_label_dialog_init (EMailLabelDialog *dialog)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	dialog->priv = E_MAIL_LABEL_DIALOG_GET_PRIVATE (dialog);
+	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (dialog, E_TYPE_MAIL_LABEL_DIALOG, EMailLabelDialogPrivate);
 
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 

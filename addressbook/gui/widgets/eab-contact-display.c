@@ -37,10 +37,6 @@
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
 
-#define EAB_CONTACT_DISPLAY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EAB_TYPE_CONTACT_DISPLAY, EABContactDisplayPrivate))
-
 #define TEXT_IS_RIGHT_TO_LEFT \
 	(gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
 
@@ -952,7 +948,7 @@ contact_display_dispose (GObject *object)
 {
 	EABContactDisplayPrivate *priv;
 
-	priv = EAB_CONTACT_DISPLAY_GET_PRIVATE (object);
+	priv = EAB_CONTACT_DISPLAY (object)->priv;
 
 	if (priv->contact != NULL) {
 		g_object_unref (priv->contact);
@@ -1198,7 +1194,7 @@ eab_contact_display_init (EABContactDisplay *display)
 	const gchar *domain = GETTEXT_PACKAGE;
 	GError *error = NULL;
 
-	display->priv = EAB_CONTACT_DISPLAY_GET_PRIVATE (display);
+	display->priv = G_TYPE_INSTANCE_GET_PRIVATE (display, EAB_TYPE_CONTACT_DISPLAY, EABContactDisplayPrivate);
 	display->priv->mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
 	display->priv->orientation = GTK_ORIENTATION_HORIZONTAL;
 

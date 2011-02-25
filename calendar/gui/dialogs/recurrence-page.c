@@ -46,10 +46,6 @@
 #include "e-util/e-dialog-widgets.h"
 #include "e-util/e-util-private.h"
 
-#define RECURRENCE_PAGE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), TYPE_RECURRENCE_PAGE, RecurrencePagePrivate))
-
 enum month_num_options {
 	MONTH_NUM_FIRST,
 	MONTH_NUM_SECOND,
@@ -301,7 +297,7 @@ recurrence_page_dispose (GObject *object)
 {
 	RecurrencePagePrivate *priv;
 
-	priv = RECURRENCE_PAGE_GET_PRIVATE (object);
+	priv = RECURRENCE_PAGE (object)->priv;
 
 	if (priv->main != NULL) {
 		g_object_unref (priv->main);
@@ -337,7 +333,7 @@ recurrence_page_finalize (GObject *object)
 {
 	RecurrencePagePrivate *priv;
 
-	priv = RECURRENCE_PAGE_GET_PRIVATE (object);
+	priv = RECURRENCE_PAGE (object)->priv;
 
 	g_signal_handlers_disconnect_matched (
 		E_CALENDAR (priv->preview_calendar)->calitem,
@@ -381,7 +377,7 @@ recurrence_page_class_init (RecurrencePageClass *class)
 static void
 recurrence_page_init (RecurrencePage *rpage)
 {
-	rpage->priv = RECURRENCE_PAGE_GET_PRIVATE (rpage);
+	rpage->priv = G_TYPE_INSTANCE_GET_PRIVATE (rpage, TYPE_RECURRENCE_PAGE, RecurrencePagePrivate);
 }
 
 /* get_widget handler for the recurrence page */
@@ -390,7 +386,7 @@ recurrence_page_get_widget (CompEditorPage *page)
 {
 	RecurrencePagePrivate *priv;
 
-	priv = RECURRENCE_PAGE_GET_PRIVATE (page);
+	priv = RECURRENCE_PAGE (page)->priv;
 
 	return priv->main;
 }
@@ -401,7 +397,7 @@ recurrence_page_focus_main_widget (CompEditorPage *page)
 {
 	RecurrencePagePrivate *priv;
 
-	priv = RECURRENCE_PAGE_GET_PRIVATE (page);
+	priv = RECURRENCE_PAGE (page)->priv;
 
 	gtk_widget_grab_focus (priv->recurs);
 }

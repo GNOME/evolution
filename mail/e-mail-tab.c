@@ -35,9 +35,6 @@ G_DEFINE_TYPE_WITH_CODE (EMailTab,
                          G_IMPLEMENT_INTERFACE (MX_TYPE_DRAGGABLE,
                                                 mx_draggable_iface_init))
 
-#define TAB_PRIVATE(o) \
-  (G_TYPE_INSTANCE_GET_PRIVATE ((o), E_MAIL_TYPE_TAB, EMailTabPrivate))
-
 enum
 {
   PROP_0,
@@ -1310,7 +1307,7 @@ e_mail_tab_init (EMailTab *self)
   ClutterActor *text;
   GtkSettings *settings;
 
-  EMailTabPrivate *priv = self->priv = TAB_PRIVATE (self);
+  EMailTabPrivate *priv = self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, E_MAIL_TYPE_TAB, EMailTabPrivate);
 
   priv->width = -1;
   priv->anim_length = 200;

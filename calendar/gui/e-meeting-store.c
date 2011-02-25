@@ -44,10 +44,6 @@
 #define ROW_VALID(store, row) \
 	(row >= 0 && row < store->priv->attendees->len)
 
-#define E_MEETING_STORE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MEETING_STORE, EMeetingStorePrivate))
-
 struct _EMeetingStorePrivate {
 	GPtrArray *attendees;
 	gint stamp;
@@ -715,7 +711,7 @@ meeting_store_finalize (GObject *object)
 	EMeetingStorePrivate *priv;
 	gint i;
 
-	priv = E_MEETING_STORE_GET_PRIVATE (object);
+	priv = E_MEETING_STORE (object)->priv;
 
 	for (i = 0; i < priv->attendees->len; i++)
 		g_object_unref (g_ptr_array_index (priv->attendees, i));
@@ -822,7 +818,7 @@ e_meeting_store_class_init (EMeetingStoreClass *class)
 static void
 e_meeting_store_init (EMeetingStore *store)
 {
-	store->priv = E_MEETING_STORE_GET_PRIVATE (store);
+	store->priv = G_TYPE_INSTANCE_GET_PRIVATE (store, E_TYPE_MEETING_STORE, EMeetingStorePrivate);
 
 	store->priv->attendees = g_ptr_array_new ();
 	store->priv->refresh_queue = g_ptr_array_new ();

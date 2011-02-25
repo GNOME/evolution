@@ -28,10 +28,6 @@
 #include <sys/types.h>
 #include <string.h>
 
-#define E_PLUGIN_PYTHON_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_PLUGIN_PYTHON, EPluginPythonPrivate))
-
 struct _EPluginPythonPrivate {
 	PyObject *pModule;
 	PyObject *pClass;
@@ -197,7 +193,7 @@ plugin_python_init (EPluginPython *plugin_python)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) NULL);
 
-	plugin_python->priv = E_PLUGIN_PYTHON_GET_PRIVATE (plugin_python);
+	plugin_python->priv = G_TYPE_INSTANCE_GET_PRIVATE (plugin_python, E_TYPE_PLUGIN_PYTHON, EPluginPythonPrivate);
 	plugin_python->priv->methods = methods;
 }
 

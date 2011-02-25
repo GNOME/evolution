@@ -64,10 +64,6 @@
 #include "mail-send-recv.h"
 #include "mail-tools.h"
 
-#define E_MAIL_SESSION_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_SESSION, EMailSessionPrivate))
-
 static guint session_check_junk_notify_id;
 static guint session_gconf_proxy_id;
 
@@ -556,7 +552,7 @@ mail_session_dispose (GObject *object)
 {
 	EMailSessionPrivate *priv;
 
-	priv = E_MAIL_SESSION_GET_PRIVATE (object);
+	priv = E_MAIL_SESSION (object)->priv;
 
 	if (priv->folder_cache != NULL) {
 		g_object_unref (priv->folder_cache);
@@ -1001,7 +997,7 @@ e_mail_session_init (EMailSession *session)
 {
 	GConfClient *client;
 
-	session->priv = E_MAIL_SESSION_GET_PRIVATE (session);
+	session->priv = G_TYPE_INSTANCE_GET_PRIVATE (session, E_TYPE_MAIL_SESSION, EMailSessionPrivate);
 	session->priv->folder_cache = mail_folder_cache_new ();
 
 	/* Initialize the EAccount setup. */

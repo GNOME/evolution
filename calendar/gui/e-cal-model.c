@@ -40,14 +40,6 @@
 #include "e-util/e-extensible.h"
 #include "e-util/e-util-enumtypes.h"
 
-#define E_CAL_MODEL_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_MODEL, ECalModelPrivate))
-
-#define E_CAL_MODEL_COMPONENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_MODEL_COMPONENT, ECalModelComponentPrivate))
-
 typedef struct {
 	ECal *client;
 	ECalView *query;
@@ -385,7 +377,7 @@ cal_model_dispose (GObject *object)
 {
 	ECalModelPrivate *priv;
 
-	priv = E_CAL_MODEL_GET_PRIVATE (object);
+	priv = E_CAL_MODEL (object)->priv;
 
 	if (priv->clients) {
 		while (priv->clients != NULL) {
@@ -419,7 +411,7 @@ cal_model_finalize (GObject *object)
 	ECalModelPrivate *priv;
 	gint ii;
 
-	priv = E_CAL_MODEL_GET_PRIVATE (object);
+	priv = E_CAL_MODEL (object)->priv;
 
 	g_free (priv->search_sexp);
 	g_free (priv->full_sexp);
@@ -698,7 +690,7 @@ e_cal_model_class_init (ECalModelClass *class)
 static void
 e_cal_model_init (ECalModel *model)
 {
-	model->priv = E_CAL_MODEL_GET_PRIVATE (model);
+	model->priv = G_TYPE_INSTANCE_GET_PRIVATE (model, E_TYPE_CAL_MODEL, ECalModelPrivate);
 
 	/* match none by default */
 	model->priv->start = -1;

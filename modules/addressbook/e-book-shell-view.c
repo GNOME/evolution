@@ -141,7 +141,7 @@ book_shell_view_execute_search (EShellView *shell_view)
 	gchar *search_text = NULL;
 	EFilterRule *advanced_search = NULL;
 
-	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
+	priv = E_BOOK_SHELL_VIEW (shell_view)->priv;
 
 	if (priv->search_locked)
 		return;
@@ -414,8 +414,7 @@ static void
 book_shell_view_init (EBookShellView *book_shell_view,
                       EShellViewClass *shell_view_class)
 {
-	book_shell_view->priv =
-		E_BOOK_SHELL_VIEW_GET_PRIVATE (book_shell_view);
+	book_shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (book_shell_view, E_TYPE_BOOK_SHELL_VIEW, EBookShellViewPrivate);
 
 	e_book_shell_view_private_init (book_shell_view, shell_view_class);
 }
@@ -455,7 +454,7 @@ e_book_shell_view_disable_searching (EBookShellView *book_shell_view)
 	g_return_if_fail (book_shell_view != NULL);
 	g_return_if_fail (E_IS_BOOK_SHELL_VIEW (book_shell_view));
 
-	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (book_shell_view);
+	priv = book_shell_view->priv;
 	priv->search_locked++;
 }
 
@@ -467,7 +466,7 @@ e_book_shell_view_enable_searching (EBookShellView *book_shell_view)
 	g_return_if_fail (book_shell_view != NULL);
 	g_return_if_fail (E_IS_BOOK_SHELL_VIEW (book_shell_view));
 
-	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (book_shell_view);
+	priv = book_shell_view->priv;
 	g_return_if_fail (priv->search_locked > 0);
 
 	priv->search_locked--;

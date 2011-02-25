@@ -30,10 +30,6 @@
 #include "e-book-shell-backend.h"
 #include "e-addressbook-selector.h"
 
-#define E_BOOK_SHELL_SIDEBAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_BOOK_SHELL_SIDEBAR, EBookShellSidebarPrivate))
-
 struct _EBookShellSidebarPrivate {
 	GtkWidget *selector;
 };
@@ -68,7 +64,7 @@ book_shell_sidebar_dispose (GObject *object)
 {
 	EBookShellSidebarPrivate *priv;
 
-	priv = E_BOOK_SHELL_SIDEBAR_GET_PRIVATE (object);
+	priv = E_BOOK_SHELL_SIDEBAR (object)->priv;
 
 	if (priv->selector != NULL) {
 		g_object_unref (priv->selector);
@@ -92,7 +88,7 @@ book_shell_sidebar_constructed (GObject *object)
 	GtkContainer *container;
 	GtkWidget *widget;
 
-	priv = E_BOOK_SHELL_SIDEBAR_GET_PRIVATE (object);
+	priv = E_BOOK_SHELL_SIDEBAR (object)->priv;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
@@ -204,8 +200,7 @@ book_shell_sidebar_class_init (EBookShellSidebarClass *class)
 static void
 book_shell_sidebar_init (EBookShellSidebar *book_shell_sidebar)
 {
-	book_shell_sidebar->priv =
-		E_BOOK_SHELL_SIDEBAR_GET_PRIVATE (book_shell_sidebar);
+	book_shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (book_shell_sidebar, E_TYPE_BOOK_SHELL_SIDEBAR, EBookShellSidebarPrivate);
 
 	/* Postpone widget construction until we have a shell view. */
 }

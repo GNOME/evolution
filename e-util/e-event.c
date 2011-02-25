@@ -33,10 +33,6 @@
 
 #include <glib/gi18n.h>
 
-#define E_EVENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_EVENT, EEventPrivate))
-
 #define d(x)
 
 struct _event_node {
@@ -113,7 +109,7 @@ e_event_class_init (EEventClass *class)
 static void
 e_event_init (EEvent *event)
 {
-	event->priv = E_EVENT_GET_PRIVATE (event);
+	event->priv = G_TYPE_INSTANCE_GET_PRIVATE (event, E_TYPE_EVENT, EEventPrivate);
 
 	g_queue_init (&event->priv->events);
 }

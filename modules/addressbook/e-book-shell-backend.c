@@ -54,10 +54,6 @@
 #include "smime/gui/certificate-manager.h"
 #endif
 
-#define E_BOOK_SHELL_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_BOOK_SHELL_BACKEND, EBookShellBackendPrivate))
-
 struct _EBookShellBackendPrivate {
 	ESourceList *source_list;
 };
@@ -85,7 +81,7 @@ book_shell_backend_ensure_sources (EShellBackend *shell_backend)
 	on_this_computer = NULL;
 	personal = NULL;
 
-	priv = E_BOOK_SHELL_BACKEND_GET_PRIVATE (shell_backend);
+	priv = E_BOOK_SHELL_BACKEND (shell_backend)->priv;
 
 	if (!e_book_get_addressbooks (&priv->source_list, NULL)) {
 		g_warning ("Could not get addressbook sources from GConf!");
@@ -458,7 +454,7 @@ book_shell_backend_dispose (GObject *object)
 {
 	EBookShellBackendPrivate *priv;
 
-	priv = E_BOOK_SHELL_BACKEND_GET_PRIVATE (object);
+	priv = E_BOOK_SHELL_BACKEND (object)->priv;
 
 	if (priv->source_list != NULL) {
 		g_object_unref (priv->source_list);
@@ -553,8 +549,7 @@ book_shell_backend_class_init (EBookShellBackendClass *class)
 static void
 book_shell_backend_init (EBookShellBackend *book_shell_backend)
 {
-	book_shell_backend->priv =
-		E_BOOK_SHELL_BACKEND_GET_PRIVATE (book_shell_backend);
+	book_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (book_shell_backend, E_TYPE_BOOK_SHELL_BACKEND, EBookShellBackendPrivate);
 }
 
 GType

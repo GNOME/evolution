@@ -26,10 +26,6 @@
 #include "calendar/common/authentication.h"
 #include "calendar/gui/comp-util.h"
 
-#define E_MEMO_LIST_SELECTOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MEMO_LIST_SELECTOR, EMemoListSelectorPrivate))
-
 struct _EMemoListSelectorPrivate {
 	gint dummy_value;
 };
@@ -233,7 +229,7 @@ memo_list_selector_class_init (EMemoListSelectorClass *class)
 static void
 memo_list_selector_init (EMemoListSelector *selector)
 {
-	selector->priv = E_MEMO_LIST_SELECTOR_GET_PRIVATE (selector);
+	selector->priv = G_TYPE_INSTANCE_GET_PRIVATE (selector, E_TYPE_MEMO_LIST_SELECTOR, EMemoListSelectorPrivate);
 
 	gtk_drag_dest_set (
 		GTK_WIDGET (selector), GTK_DEST_DEFAULT_ALL,

@@ -41,10 +41,6 @@
 #include "mail/mail-tools.h"
 #include "mail/message-list.h"
 
-#define E_MAIL_FOLDER_PANE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_FOLDER_PANE, EMailFolderPanePrivate))
-
 struct _EMailFolderPanePrivate {
 	gint placeholder;
 };
@@ -171,7 +167,7 @@ e_mail_folder_pane_class_init (EMailFolderPaneClass *class)
 static void
 e_mail_folder_pane_init (EMailFolderPane *browser)
 {
-	browser->priv = E_MAIL_FOLDER_PANE_GET_PRIVATE (browser);
+	browser->priv = G_TYPE_INSTANCE_GET_PRIVATE (browser, E_TYPE_MAIL_FOLDER_PANE, EMailFolderPanePrivate);
 }
 
 EMailView *

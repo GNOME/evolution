@@ -25,10 +25,6 @@
 #include "e-mail-label-dialog.h"
 #include "e-mail-label-tree-view.h"
 
-#define E_MAIL_LABEL_MANAGER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_LABEL_MANAGER, EMailLabelManagerPrivate))
-
 struct _EMailLabelManagerPrivate {
 	GtkWidget *tree_view;
 	GtkWidget *add_button;
@@ -121,7 +117,7 @@ mail_label_manager_dispose (GObject *object)
 {
 	EMailLabelManagerPrivate *priv;
 
-	priv = E_MAIL_LABEL_MANAGER_GET_PRIVATE (object);
+	priv = E_MAIL_LABEL_MANAGER (object)->priv;
 
 	if (priv->tree_view != NULL) {
 		g_object_unref (priv->tree_view);
@@ -309,7 +305,7 @@ mail_label_manager_init (EMailLabelManager *manager)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	manager->priv = E_MAIL_LABEL_MANAGER_GET_PRIVATE (manager);
+	manager->priv = G_TYPE_INSTANCE_GET_PRIVATE (manager, E_TYPE_MAIL_LABEL_MANAGER, EMailLabelManagerPrivate);
 
 	gtk_table_resize (GTK_TABLE (manager), 2, 2);
 	gtk_table_set_col_spacings (GTK_TABLE (manager), 6);

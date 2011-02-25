@@ -21,10 +21,6 @@
 
 #include "e-mail-label-action.h"
 
-#define E_MAIL_LABEL_ACTION_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_LABEL_ACTION, EMailLabelActionPrivate))
-
 struct _EMailLabelActionPrivate {
 	gint placeholder;
 };
@@ -106,7 +102,7 @@ mail_label_action_class_init (EMailLabelActionClass *class)
 static void
 mail_label_action_init (EMailLabelAction *action)
 {
-	action->priv = E_MAIL_LABEL_ACTION_GET_PRIVATE (action);
+	action->priv = G_TYPE_INSTANCE_GET_PRIVATE (action, E_TYPE_MAIL_LABEL_ACTION, EMailLabelActionPrivate);
 }
 
 GType

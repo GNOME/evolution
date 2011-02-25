@@ -34,10 +34,6 @@
 #include "config-data.h"
 #include "common/authentication.h"
 
-#define ALARM_NOTIFY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), TYPE_ALARM_NOTIFY, AlarmNotifyPrivate))
-
 struct _AlarmNotifyPrivate {
 	/* Mapping from EUri's to LoadedClient structures */
 	/* FIXME do we need per source type uri hashes? or perhaps we
@@ -208,7 +204,7 @@ alarm_notify_finalize (GObject *object)
 	AlarmNotifyPrivate *priv;
 	gint ii;
 
-	priv = ALARM_NOTIFY_GET_PRIVATE (object);
+	priv = ALARM_NOTIFY (object)->priv;
 
 	for (ii = 0; ii < E_CAL_SOURCE_TYPE_LAST; ii++) {
 		g_hash_table_foreach (
@@ -242,7 +238,7 @@ alarm_notify_init (AlarmNotify *an)
 {
 	gint ii;
 
-	an->priv = ALARM_NOTIFY_GET_PRIVATE (an);
+	an->priv = G_TYPE_INSTANCE_GET_PRIVATE (an, TYPE_ALARM_NOTIFY, AlarmNotifyPrivate);
 	an->priv->mutex = g_mutex_new ();
 	an->priv->selected_calendars = config_data_get_calendars (
 		"/apps/evolution/calendar/sources");

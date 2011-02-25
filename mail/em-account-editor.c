@@ -72,10 +72,6 @@
 #include "smime/gui/e-cert-selector.h"
 #endif
 
-#define EM_ACCOUNT_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_ACCOUNT_EDITOR, EMAccountEditorPrivate))
-
 #define d(x)
 
 static ServerData mail_servers[] = {
@@ -338,7 +334,7 @@ emae_dispose (GObject *object)
 {
 	EMAccountEditorPrivate *priv;
 
-	priv = EM_ACCOUNT_EDITOR_GET_PRIVATE (object);
+	priv = EM_ACCOUNT_EDITOR (object)->priv;
 
 	if (priv->session != NULL) {
 		g_object_unref (priv->session);
@@ -433,7 +429,7 @@ emae_class_init (GObjectClass *class)
 static void
 emae_init (EMAccountEditor *emae)
 {
-	emae->priv = EM_ACCOUNT_EDITOR_GET_PRIVATE (emae);
+	emae->priv = G_TYPE_INSTANCE_GET_PRIVATE (emae, EM_TYPE_ACCOUNT_EDITOR, EMAccountEditorPrivate);
 
 	emae->priv->selected_server = NULL;
 	emae->emae_check_servers = emae_check_servers;

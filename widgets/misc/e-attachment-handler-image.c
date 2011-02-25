@@ -26,10 +26,6 @@
 
 #include <e-util/e-util.h>
 
-#define E_ATTACHMENT_HANDLER_IMAGE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ATTACHMENT_HANDLER_IMAGE, EAttachmentHandlerImagePrivate))
-
 struct _EAttachmentHandlerImagePrivate {
 	gint placeholder;
 };
@@ -247,5 +243,5 @@ e_attachment_handler_image_class_init (EAttachmentHandlerImageClass *class)
 static void
 e_attachment_handler_image_init (EAttachmentHandlerImage *handler)
 {
-	handler->priv = E_ATTACHMENT_HANDLER_IMAGE_GET_PRIVATE (handler);
+	handler->priv = G_TYPE_INSTANCE_GET_PRIVATE (handler, E_TYPE_ATTACHMENT_HANDLER_IMAGE, EAttachmentHandlerImagePrivate);
 }

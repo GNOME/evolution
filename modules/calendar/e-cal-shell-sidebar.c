@@ -37,10 +37,6 @@
 #include "e-cal-shell-backend.h"
 #include "e-cal-shell-content.h"
 
-#define E_CAL_SHELL_SIDEBAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_SHELL_SIDEBAR, ECalShellSidebarPrivate))
-
 struct _ECalShellSidebarPrivate {
 	GtkWidget *paned;
 	GtkWidget *selector;
@@ -239,7 +235,7 @@ cal_shell_sidebar_default_loaded_cb (ESource *source,
 	ECal *client;
 	GError *error = NULL;
 
-	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
+	priv = E_CAL_SHELL_SIDEBAR (shell_sidebar)->priv;
 
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_content = e_shell_view_get_shell_content (shell_view);
@@ -420,7 +416,7 @@ cal_shell_sidebar_restore_state_cb (EShellWindow *shell_window,
 	GObject *object;
 	const gchar *key;
 
-	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
+	priv = E_CAL_SHELL_SIDEBAR (shell_sidebar)->priv;
 
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -522,7 +518,7 @@ cal_shell_sidebar_dispose (GObject *object)
 {
 	ECalShellSidebarPrivate *priv;
 
-	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (object);
+	priv = E_CAL_SHELL_SIDEBAR (object)->priv;
 
 	if (priv->paned != NULL) {
 		g_object_unref (priv->paned);
@@ -561,7 +557,7 @@ cal_shell_sidebar_finalize (GObject *object)
 {
 	ECalShellSidebarPrivate *priv;
 
-	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (object);
+	priv = E_CAL_SHELL_SIDEBAR (object)->priv;
 
 	g_hash_table_destroy (priv->client_table);
 
@@ -598,7 +594,7 @@ cal_shell_sidebar_constructed (GObject *object)
 	GtkWidget *widget;
 	AtkObject *a11y;
 
-	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (object);
+	priv = E_CAL_SHELL_SIDEBAR (object)->priv;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
@@ -848,8 +844,7 @@ cal_shell_sidebar_init (ECalShellSidebar *cal_shell_sidebar)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_object_unref);
 
-	cal_shell_sidebar->priv =
-		E_CAL_SHELL_SIDEBAR_GET_PRIVATE (cal_shell_sidebar);
+	cal_shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (cal_shell_sidebar, E_TYPE_CAL_SHELL_SIDEBAR, ECalShellSidebarPrivate);
 
 	cal_shell_sidebar->priv->client_table = client_table;
 

@@ -28,10 +28,6 @@
 
 #include "e-test-shell-view.h"
 
-#define E_TEST_SHELL_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TEST_SHELL_BACKEND, ETestShellBackendPrivate))
-
 struct _ETestShellBackendPrivate {
 	gint placeholder;
 };
@@ -182,8 +178,7 @@ test_shell_backend_class_init (ETestShellBackendClass *class)
 static void
 test_shell_backend_init (ETestShellBackend *test_shell_backend)
 {
-	test_shell_backend->priv =
-		E_TEST_SHELL_BACKEND_GET_PRIVATE (test_shell_backend);
+	test_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (test_shell_backend, E_TYPE_TEST_SHELL_BACKEND, ETestShellBackendPrivate);
 }
 
 GType

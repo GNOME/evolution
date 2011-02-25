@@ -37,10 +37,6 @@
 
 #include "e-table-memory.h"
 
-#define E_TABLE_MEMORY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TABLE_MEMORY, ETableMemoryPrivate))
-
 G_DEFINE_TYPE (ETableMemory, e_table_memory, E_TYPE_TABLE_MODEL)
 
 struct _ETableMemoryPrivate {
@@ -54,7 +50,7 @@ etmm_finalize (GObject *object)
 {
 	ETableMemoryPrivate *priv;
 
-	priv = E_TABLE_MEMORY_GET_PRIVATE (object);
+	priv = E_TABLE_MEMORY (object)->priv;
 
 	g_free (priv->data);
 
@@ -88,7 +84,7 @@ e_table_memory_class_init (ETableMemoryClass *class)
 static void
 e_table_memory_init (ETableMemory *etmm)
 {
-	etmm->priv = E_TABLE_MEMORY_GET_PRIVATE (etmm);
+	etmm->priv = G_TYPE_INSTANCE_GET_PRIVATE (etmm, E_TYPE_TABLE_MEMORY, ETableMemoryPrivate);
 }
 
 /**

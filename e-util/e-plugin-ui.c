@@ -22,10 +22,6 @@
 
 #include <string.h>
 
-#define E_PLUGIN_UI_HOOK_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_PLUGIN_UI_HOOK, EPluginUIHookPrivate))
-
 #define E_PLUGIN_UI_DEFAULT_FUNC	"e_plugin_ui_init"
 #define E_PLUGIN_UI_HOOK_CLASS_ID	"org.gnome.evolution.ui:1.0"
 
@@ -399,7 +395,7 @@ plugin_ui_hook_finalize (GObject *object)
 	GHashTableIter iter;
 	gpointer ui_manager;
 
-	priv = E_PLUGIN_UI_HOOK_GET_PRIVATE (object);
+	priv = E_PLUGIN_UI_HOOK (object)->priv;
 
 	/* Remove weak reference callbacks to GtkUIManagers. */
 	g_hash_table_iter_init (&iter, priv->registry);
@@ -423,7 +419,7 @@ plugin_ui_hook_construct (EPluginHook *hook,
 {
 	EPluginUIHookPrivate *priv;
 
-	priv = E_PLUGIN_UI_HOOK_GET_PRIVATE (hook);
+	priv = E_PLUGIN_UI_HOOK (hook)->priv;
 
 	/* XXX The EPlugin should be a property of EPluginHookClass.
 	 *     Then it could be passed directly to g_object_new() and
@@ -524,7 +520,7 @@ e_plugin_ui_hook_init (EPluginUIHook *hook)
 
 	registry = g_hash_table_new (g_direct_hash, g_direct_equal);
 
-	hook->priv = E_PLUGIN_UI_HOOK_GET_PRIVATE (hook);
+	hook->priv = G_TYPE_INSTANCE_GET_PRIVATE (hook, E_TYPE_PLUGIN_UI_HOOK, EPluginUIHookPrivate);
 	hook->priv->ui_definitions = ui_definitions;
 	hook->priv->callbacks = callbacks;
 	hook->priv->registry = registry;

@@ -54,10 +54,6 @@
 #include "e-send-options-utils.h"
 #include "memo-page.h"
 
-#define MEMO_PAGE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), TYPE_MEMO_PAGE, MemoPagePrivate))
-
 /* Private part of the MemoPage structure */
 struct _MemoPagePrivate {
 	GtkBuilder *builder;
@@ -140,7 +136,7 @@ memo_page_dispose (GObject *object)
 {
 	MemoPagePrivate *priv;
 
-	priv = MEMO_PAGE_GET_PRIVATE (object);
+	priv = MEMO_PAGE (object)->priv;
 
 	g_list_foreach (priv->address_strings, (GFunc) g_free, NULL);
 	g_list_free (priv->address_strings);
@@ -154,7 +150,7 @@ memo_page_finalize (GObject *object)
 {
 	MemoPagePrivate *priv;
 
-	priv = MEMO_PAGE_GET_PRIVATE (object);
+	priv = MEMO_PAGE (object)->priv;
 
 	if (priv->main != NULL) {
 		g_object_unref (priv->main);
@@ -175,7 +171,7 @@ memo_page_finalize (GObject *object)
 static GtkWidget *
 memo_page_get_widget (CompEditorPage *page)
 {
-	MemoPagePrivate *priv = MEMO_PAGE_GET_PRIVATE (page);
+	MemoPagePrivate *priv = MEMO_PAGE (page)->priv;
 
 	return priv->main;
 }
@@ -183,7 +179,7 @@ memo_page_get_widget (CompEditorPage *page)
 static void
 memo_page_focus_main_widget (CompEditorPage *page)
 {
-	MemoPagePrivate *priv = MEMO_PAGE_GET_PRIVATE (page);
+	MemoPagePrivate *priv = MEMO_PAGE (page)->priv;
 
 	gtk_widget_grab_focus (priv->summary_entry);
 }
@@ -319,7 +315,7 @@ memo_page_class_init (MemoPageClass *class)
 static void
 memo_page_init (MemoPage *mpage)
 {
-	mpage->priv = MEMO_PAGE_GET_PRIVATE (mpage);
+	mpage->priv = G_TYPE_INSTANCE_GET_PRIVATE (mpage, TYPE_MEMO_PAGE, MemoPagePrivate);
 }
 
 /* returns whether changed info text */

@@ -24,10 +24,6 @@
 #include <glib/gi18n.h>
 #include <camel/camel.h>
 
-#define E_ACCOUNT_TREE_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ACCOUNT_TREE_VIEW, EAccountTreeViewPrivate))
-
 enum {
 	COLUMN_ACCOUNT,
 	COLUMN_DEFAULT,
@@ -337,7 +333,7 @@ account_tree_view_dispose (GObject *object)
 {
 	EAccountTreeViewPrivate *priv;
 
-	priv = E_ACCOUNT_TREE_VIEW_GET_PRIVATE (object);
+	priv = E_ACCOUNT_TREE_VIEW (object)->priv;
 
 	if (priv->account_list != NULL) {
 		g_signal_handlers_disconnect_by_func (
@@ -358,7 +354,7 @@ account_tree_view_finalize (GObject *object)
 {
 	EAccountTreeViewPrivate *priv;
 
-	priv = E_ACCOUNT_TREE_VIEW_GET_PRIVATE (object);
+	priv = E_ACCOUNT_TREE_VIEW (object)->priv;
 
 	g_hash_table_destroy (priv->index);
 
@@ -482,7 +478,7 @@ e_account_tree_view_init (EAccountTreeView *tree_view)
 		(GDestroyNotify) g_object_unref,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 
-	tree_view->priv = E_ACCOUNT_TREE_VIEW_GET_PRIVATE (tree_view);
+	tree_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (tree_view, E_TYPE_ACCOUNT_TREE_VIEW, EAccountTreeViewPrivate);
 	tree_view->priv->index = index;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
@@ -534,7 +530,7 @@ e_account_tree_view_set_account_list (EAccountTreeView *tree_view,
 	if (account_list != NULL)
 		g_return_if_fail (E_IS_ACCOUNT_LIST (account_list));
 
-	priv = E_ACCOUNT_TREE_VIEW_GET_PRIVATE (tree_view);
+	priv = tree_view->priv;
 
 	if (priv->account_list != NULL) {
 		g_signal_handlers_disconnect_by_func (

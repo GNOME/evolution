@@ -33,10 +33,6 @@
 #include "e-util/e-mktemp.h"
 #include "e-attachment-store.h"
 
-#define E_ATTACHMENT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ATTACHMENT, EAttachmentPrivate))
-
 /* Fallback Icon */
 #define DEFAULT_ICON_NAME	"mail-attachment"
 
@@ -667,7 +663,7 @@ attachment_dispose (GObject *object)
 {
 	EAttachmentPrivate *priv;
 
-	priv = E_ATTACHMENT_GET_PRIVATE (object);
+	priv = E_ATTACHMENT (object)->priv;
 
 	if (priv->file != NULL) {
 		g_object_unref (priv->file);
@@ -712,7 +708,7 @@ attachment_finalize (GObject *object)
 {
 	EAttachmentPrivate *priv;
 
-	priv = E_ATTACHMENT_GET_PRIVATE (object);
+	priv = E_ATTACHMENT (object)->priv;
 
 	g_free (priv->disposition);
 
@@ -881,7 +877,7 @@ e_attachment_class_init (EAttachmentClass *class)
 static void
 e_attachment_init (EAttachment *attachment)
 {
-	attachment->priv = E_ATTACHMENT_GET_PRIVATE (attachment);
+	attachment->priv = G_TYPE_INSTANCE_GET_PRIVATE (attachment, E_TYPE_ATTACHMENT, EAttachmentPrivate);
 	attachment->priv->cancellable = g_cancellable_new ();
 	attachment->priv->encrypted = CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE;
 	attachment->priv->signed_ = CAMEL_CIPHER_VALIDITY_SIGN_NONE;

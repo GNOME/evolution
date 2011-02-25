@@ -27,10 +27,6 @@
 #include "mail/e-mail-backend.h"
 #include "mail/em-composer-utils.h"
 
-#define E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_ATTACHMENT_HANDLER, EMailAttachmentHandlerPrivate))
-
 struct _EMailAttachmentHandlerPrivate {
 	EShell *shell;
 	EMailSession *session;
@@ -71,7 +67,7 @@ mail_attachment_handler_forward (GtkAction *action,
 	GList *selected;
 
 	view = e_attachment_handler_get_view (handler);
-	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
+	priv = E_MAIL_ATTACHMENT_HANDLER (handler)->priv;
 
 	selected = e_attachment_view_get_selected_attachments (view);
 	g_return_if_fail (g_list_length (selected) == 1);
@@ -106,7 +102,7 @@ mail_attachment_handler_reply_all (GtkAction *action,
 	GList *selected;
 
 	view = e_attachment_handler_get_view (handler);
-	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
+	priv = E_MAIL_ATTACHMENT_HANDLER (handler)->priv;
 
 	selected = e_attachment_view_get_selected_attachments (view);
 	g_return_if_fail (g_list_length (selected) == 1);
@@ -142,7 +138,7 @@ mail_attachment_handler_reply_sender (GtkAction *action,
 	GList *selected;
 
 	view = e_attachment_handler_get_view (handler);
-	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
+	priv = E_MAIL_ATTACHMENT_HANDLER (handler)->priv;
 
 	selected = e_attachment_view_get_selected_attachments (view);
 	g_return_if_fail (g_list_length (selected) == 1);
@@ -286,7 +282,7 @@ mail_attachment_handler_x_uid_list (EAttachmentView *view,
 		return;
 
 	store = e_attachment_view_get_store (view);
-	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
+	priv = E_MAIL_ATTACHMENT_HANDLER (handler)->priv;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
@@ -453,7 +449,7 @@ mail_attachment_handler_dispose (GObject *object)
 {
 	EMailAttachmentHandlerPrivate *priv;
 
-	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (object);
+	priv = E_MAIL_ATTACHMENT_HANDLER (object)->priv;
 
 	if (priv->shell != NULL) {
 		g_object_unref (priv->shell);
@@ -483,7 +479,7 @@ mail_attachment_handler_constructed (GObject *object)
 	GError *error = NULL;
 
 	handler = E_ATTACHMENT_HANDLER (object);
-	priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (object);
+	priv = E_MAIL_ATTACHMENT_HANDLER (object)->priv;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
@@ -563,7 +559,7 @@ mail_attachment_handler_class_init (EMailAttachmentHandlerClass *class)
 static void
 mail_attachment_handler_init (EMailAttachmentHandler *handler)
 {
-	handler->priv = E_MAIL_ATTACHMENT_HANDLER_GET_PRIVATE (handler);
+	handler->priv = G_TYPE_INSTANCE_GET_PRIVATE (handler, E_TYPE_MAIL_ATTACHMENT_HANDLER, EMailAttachmentHandlerPrivate);
 }
 
 GType

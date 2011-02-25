@@ -33,10 +33,6 @@
 #include "ea-calendar.h"
 #include "calendar-config.h"
 
-#define E_WEEK_VIEW_MAIN_ITEM_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_WEEK_VIEW_MAIN_ITEM, EWeekViewMainItemPrivate))
-
 struct _EWeekViewMainItemPrivate {
 	EWeekView *week_view;
 };
@@ -334,7 +330,7 @@ week_view_main_item_dispose (GObject *object)
 {
 	EWeekViewMainItemPrivate *priv;
 
-	priv = E_WEEK_VIEW_MAIN_ITEM_GET_PRIVATE (object);
+	priv = E_WEEK_VIEW_MAIN_ITEM (object)->priv;
 
 	if (priv->week_view != NULL) {
 		g_object_unref (priv->week_view);
@@ -449,7 +445,7 @@ week_view_main_item_class_init (EWeekViewMainItemClass *class)
 static void
 week_view_main_item_init (EWeekViewMainItem *main_item)
 {
-	main_item->priv = E_WEEK_VIEW_MAIN_ITEM_GET_PRIVATE (main_item);
+	main_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (main_item, E_TYPE_WEEK_VIEW_MAIN_ITEM, EWeekViewMainItemPrivate);
 }
 
 GType

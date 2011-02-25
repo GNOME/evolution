@@ -25,10 +25,6 @@
 #include <gdk/gdkkeysyms.h>
 #include "e-account-tree-view.h"
 
-#define E_ACCOUNT_MANAGER_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ACCOUNT_MANAGER, EAccountManagerPrivate))
-
 struct _EAccountManagerPrivate {
 	EAccountList *account_list;
 
@@ -168,7 +164,7 @@ account_manager_dispose (GObject *object)
 {
 	EAccountManagerPrivate *priv;
 
-	priv = E_ACCOUNT_MANAGER_GET_PRIVATE (object);
+	priv = E_ACCOUNT_MANAGER (object)->priv;
 
 	if (priv->account_list != NULL) {
 		g_object_unref (priv->account_list);
@@ -260,7 +256,7 @@ e_account_manager_init (EAccountManager *manager)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	manager->priv = E_ACCOUNT_MANAGER_GET_PRIVATE (manager);
+	manager->priv = G_TYPE_INSTANCE_GET_PRIVATE (manager, E_TYPE_ACCOUNT_MANAGER, EAccountManagerPrivate);
 
 	gtk_table_resize (GTK_TABLE (manager), 1, 2);
 	gtk_table_set_col_spacings (GTK_TABLE (manager), 6);

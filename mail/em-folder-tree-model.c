@@ -52,10 +52,6 @@
 
 #define d(x)
 
-#define EM_FOLDER_TREE_MODEL_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_FOLDER_TREE_MODEL, EMFolderTreeModelPrivate))
-
 struct _EMFolderTreeModelPrivate {
 	/* This is set by EMailShellSidebar.  It allows new EMFolderTree
 	 * instances to initialize their selection and expanded states to
@@ -339,7 +335,7 @@ folder_tree_model_dispose (GObject *object)
 {
 	EMFolderTreeModelPrivate *priv;
 
-	priv = EM_FOLDER_TREE_MODEL_GET_PRIVATE (object);
+	priv = EM_FOLDER_TREE_MODEL (object)->priv;
 
 	if (priv->selection != NULL) {
 		g_object_weak_unref (
@@ -362,7 +358,7 @@ folder_tree_model_finalize (GObject *object)
 {
 	EMFolderTreeModelPrivate *priv;
 
-	priv = EM_FOLDER_TREE_MODEL_GET_PRIVATE (object);
+	priv = EM_FOLDER_TREE_MODEL (object)->priv;
 
 	g_hash_table_destroy (priv->account_index);
 	g_hash_table_destroy (priv->store_index);
@@ -533,7 +529,7 @@ em_folder_tree_model_init (EMFolderTreeModel *model)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 
-	model->priv = EM_FOLDER_TREE_MODEL_GET_PRIVATE (model);
+	model->priv = G_TYPE_INSTANCE_GET_PRIVATE (model, EM_TYPE_FOLDER_TREE_MODEL, EMFolderTreeModelPrivate);
 	model->priv->store_index = store_index;
 	model->priv->uri_index = uri_index;
 

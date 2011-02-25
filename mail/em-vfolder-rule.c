@@ -42,10 +42,6 @@
 #include "e-util/e-alert.h"
 #include "e-util/e-util-private.h"
 
-#define EM_VFOLDER_RULE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_VFOLDER_RULE, EMVFolderRulePrivate))
-
 struct _EMVFolderRulePrivate {
 	EMailSession *session;
 };
@@ -137,7 +133,7 @@ vfolder_rule_dispose (GObject *object)
 {
 	EMVFolderRulePrivate *priv;
 
-	priv = EM_VFOLDER_RULE_GET_PRIVATE (object);
+	priv = EM_VFOLDER_RULE (object)->priv;
 
 	if (priv->session != NULL) {
 		g_object_unref (priv->session);
@@ -197,7 +193,7 @@ em_vfolder_rule_class_init (EMVFolderRuleClass *class)
 static void
 em_vfolder_rule_init (EMVFolderRule *rule)
 {
-	rule->priv = EM_VFOLDER_RULE_GET_PRIVATE (rule);
+	rule->priv = G_TYPE_INSTANCE_GET_PRIVATE (rule, EM_TYPE_VFOLDER_RULE, EMVFolderRulePrivate);
 
 	rule->with = EM_VFOLDER_RULE_WITH_SPECIFIC;
 	rule->rule.source = g_strdup ("incoming");

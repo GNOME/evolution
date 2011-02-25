@@ -37,10 +37,6 @@
 #include "e-calendar-view.h"
 #include "e-day-view-top-item.h"
 
-#define E_DAY_VIEW_TOP_ITEM_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_DAY_VIEW_TOP_ITEM, EDayViewTopItemPrivate))
-
 struct _EDayViewTopItemPrivate {
 	/* The parent EDayView widget. */
 	EDayView *day_view;
@@ -523,7 +519,7 @@ day_view_top_item_dispose (GObject *object)
 {
 	EDayViewTopItemPrivate *priv;
 
-	priv = E_DAY_VIEW_TOP_ITEM_GET_PRIVATE (object);
+	priv = E_DAY_VIEW_TOP_ITEM (object)->priv;
 
 	if (priv->day_view != NULL) {
 		g_object_unref (priv->day_view);
@@ -788,7 +784,7 @@ day_view_top_item_class_init (EDayViewTopItemClass *class)
 static void
 day_view_top_item_init (EDayViewTopItem *top_item)
 {
-	top_item->priv = E_DAY_VIEW_TOP_ITEM_GET_PRIVATE (top_item);
+	top_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (top_item, E_TYPE_DAY_VIEW_TOP_ITEM, EDayViewTopItemPrivate);
 }
 
 GType

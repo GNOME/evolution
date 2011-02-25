@@ -39,10 +39,6 @@
 
 #include <text/e-text.h>
 
-#define E_WEEK_VIEW_EVENT_ITEM_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_WEEK_VIEW_EVENT_ITEM, EWeekViewEventItemPrivate))
-
 struct _EWeekViewEventItemPrivate {
 	/* The event index in the EWeekView events array. */
 	gint event_num;
@@ -1157,7 +1153,7 @@ week_view_event_item_class_init (EWeekViewEventItemClass *class)
 static void
 week_view_event_item_init (EWeekViewEventItem *event_item)
 {
-	event_item->priv = E_WEEK_VIEW_EVENT_ITEM_GET_PRIVATE (event_item);
+	event_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (event_item, E_TYPE_WEEK_VIEW_EVENT_ITEM, EWeekViewEventItemPrivate);
 
 	event_item->priv->event_num = -1;
 	event_item->priv->span_num = -1;

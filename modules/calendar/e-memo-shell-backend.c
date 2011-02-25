@@ -41,10 +41,6 @@
 #include "e-memo-shell-migrate.h"
 #include "e-memo-shell-view.h"
 
-#define E_MEMO_SHELL_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MEMO_SHELL_BACKEND, EMemoShellBackendPrivate))
-
 #define WEB_BASE_URI		"webcal://"
 #define PERSONAL_RELATIVE_URI	"system"
 
@@ -489,7 +485,7 @@ memo_shell_backend_dispose (GObject *object)
 {
 	EMemoShellBackendPrivate *priv;
 
-	priv = E_MEMO_SHELL_BACKEND_GET_PRIVATE (object);
+	priv = E_MEMO_SHELL_BACKEND (object)->priv;
 
 	if (priv->source_list != NULL) {
 		g_object_unref (priv->source_list);
@@ -563,8 +559,7 @@ memo_shell_backend_class_init (EMemoShellBackendClass *class)
 static void
 memo_shell_backend_init (EMemoShellBackend *memo_shell_backend)
 {
-	memo_shell_backend->priv =
-		E_MEMO_SHELL_BACKEND_GET_PRIVATE (memo_shell_backend);
+	memo_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (memo_shell_backend, E_TYPE_MEMO_SHELL_BACKEND, EMemoShellBackendPrivate);
 }
 
 GType

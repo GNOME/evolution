@@ -23,10 +23,6 @@
 
 #include <gdk/gdkkeysyms.h>
 
-#define E_PREVIEW_PANE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_PREVIEW_PANE, EPreviewPanePrivate))
-
 struct _EPreviewPanePrivate {
 	GtkWidget *web_view;
 	GtkWidget *search_bar;
@@ -105,7 +101,7 @@ preview_pane_dispose (GObject *object)
 {
 	EPreviewPanePrivate *priv;
 
-	priv = E_PREVIEW_PANE_GET_PRIVATE (object);
+	priv = E_PREVIEW_PANE (object)->priv;
 
 	if (priv->search_bar != NULL) {
 		g_object_unref (priv->search_bar);
@@ -127,7 +123,7 @@ preview_pane_constructed (GObject *object)
 	EPreviewPanePrivate *priv;
 	GtkWidget *widget;
 
-	priv = E_PREVIEW_PANE_GET_PRIVATE (object);
+	priv = E_PREVIEW_PANE (object)->priv;
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
@@ -215,7 +211,7 @@ e_preview_pane_class_init (EPreviewPaneClass *class)
 static void
 e_preview_pane_init (EPreviewPane *preview_pane)
 {
-	preview_pane->priv = E_PREVIEW_PANE_GET_PRIVATE (preview_pane);
+	preview_pane->priv = G_TYPE_INSTANCE_GET_PRIVATE (preview_pane, E_TYPE_PREVIEW_PANE, EPreviewPanePrivate);
 
 	gtk_box_set_spacing (GTK_BOX (preview_pane), 1);
 }

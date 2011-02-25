@@ -31,9 +31,6 @@ G_DEFINE_TYPE_WITH_CODE (EMailTabPicker,
                          G_IMPLEMENT_INTERFACE (MX_TYPE_DROPPABLE,
                                                 mx_droppable_iface_init))
 
-#define TAB_PICKER_PRIVATE(o) \
-  (G_TYPE_INSTANCE_GET_PRIVATE ((o), E_MAIL_TYPE_TAB_PICKER, EMailTabPickerPrivate))
-
 enum
 {
   PROP_0,
@@ -899,7 +896,7 @@ e_mail_tab_picker_scroll_value_cb (MxAdjustment   *adjustment,
 static void
 e_mail_tab_picker_init (EMailTabPicker *self)
 {
-  EMailTabPickerPrivate *priv = self->priv = TAB_PICKER_PRIVATE (self);
+  EMailTabPickerPrivate *priv = self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, E_MAIL_TYPE_TAB_PICKER, EMailTabPickerPrivate);
 
   clutter_actor_set_reactive (CLUTTER_ACTOR (self), TRUE);
 

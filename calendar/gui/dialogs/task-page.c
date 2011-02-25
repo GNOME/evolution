@@ -54,10 +54,6 @@
 #include "../e-meeting-store.h"
 #include "../e-meeting-list-view.h"
 
-#define TASK_PAGE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), TYPE_TASK_PAGE, TaskPagePrivate))
-
 /* Private part of the TaskPage structure */
 struct _TaskPagePrivate {
 	GtkBuilder *builder;
@@ -152,7 +148,7 @@ task_page_dispose (GObject *object)
 {
 	TaskPagePrivate *priv;
 
-	priv = TASK_PAGE_GET_PRIVATE (object);
+	priv = TASK_PAGE (object)->priv;
 
 	if (priv->main != NULL) {
 		g_object_unref (priv->main);
@@ -183,7 +179,7 @@ task_page_finalize (GObject *object)
 {
 	TaskPagePrivate *priv;
 
-	priv = TASK_PAGE_GET_PRIVATE (object);
+	priv = TASK_PAGE (object)->priv;
 
 	g_list_foreach (priv->address_strings, (GFunc) g_free, NULL);
 	g_list_free (priv->address_strings);
@@ -221,7 +217,7 @@ task_page_class_init (TaskPageClass *class)
 static void
 task_page_init (TaskPage *tpage)
 {
-	tpage->priv = TASK_PAGE_GET_PRIVATE (tpage);
+	tpage->priv = G_TYPE_INSTANCE_GET_PRIVATE (tpage, TYPE_TASK_PAGE, TaskPagePrivate);
 	tpage->priv->deleted_attendees = g_ptr_array_new ();
 }
 

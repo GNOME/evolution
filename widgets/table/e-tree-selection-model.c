@@ -29,10 +29,6 @@
 
 #include "e-tree-selection-model.h"
 
-#define E_TREE_SELECTION_MODEL_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TREE_SELECTION_MODEL, ETreeSelectionModelPrivate))
-
 G_DEFINE_TYPE (
 	ETreeSelectionModel, e_tree_selection_model, E_TYPE_SELECTION_MODEL)
 
@@ -290,7 +286,7 @@ etsm_finalize (GObject *object)
 {
 	ETreeSelectionModelPrivate *priv;
 
-	priv = E_TREE_SELECTION_MODEL_GET_PRIVATE (object);
+	priv = E_TREE_SELECTION_MODEL (object)->priv;
 
 	clear_selection (E_TREE_SELECTION_MODEL (object));
 	g_hash_table_destroy (priv->paths);
@@ -745,7 +741,7 @@ e_tree_selection_model_get_cursor (ETreeSelectionModel *etsm)
 static void
 e_tree_selection_model_init (ETreeSelectionModel *etsm)
 {
-	etsm->priv = E_TREE_SELECTION_MODEL_GET_PRIVATE (etsm);
+	etsm->priv = G_TYPE_INSTANCE_GET_PRIVATE (etsm, E_TYPE_TREE_SELECTION_MODEL, ETreeSelectionModelPrivate);
 
 	etsm->priv->paths = g_hash_table_new (NULL, NULL);
 	etsm->priv->cursor_col = -1;

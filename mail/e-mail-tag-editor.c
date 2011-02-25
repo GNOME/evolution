@@ -33,10 +33,6 @@
 #include "e-util/e-util.h"
 #include "widgets/misc/e-dateedit.h"
 
-#define E_MAIL_TAG_EDITOR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_TAG_EDITOR, EMailTagEditorPrivate))
-
 #define DEFAULT_FLAG 2  /* "Follow-Up" */
 
 struct _EMailTagEditorPrivate {
@@ -285,7 +281,7 @@ mail_tag_editor_init (EMailTagEditor *editor)
 	GtkCellRenderer *renderer;
 	GtkListStore *store;
 
-	editor->priv = E_MAIL_TAG_EDITOR_GET_PRIVATE (editor);
+	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (editor, E_TYPE_MAIL_TAG_EDITOR, EMailTagEditorPrivate);
 
 	dialog = GTK_DIALOG (editor);
 	window = GTK_WINDOW (editor);

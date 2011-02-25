@@ -24,10 +24,6 @@
 #include "shell/e-shell-content.h"
 #include "shell/e-shell-sidebar.h"
 
-#define E_TEST_SHELL_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_TEST_SHELL_VIEW, ETestShellViewPrivate))
-
 struct _ETestShellViewPrivate {
 	EActivity *activity;
 };
@@ -53,7 +49,7 @@ test_shell_view_dispose (GObject *object)
 {
 	ETestShellViewPrivate *priv;
 
-	priv = E_TEST_SHELL_VIEW_GET_PRIVATE (object);
+	priv = E_TEST_SHELL_VIEW (object)->priv;
 
 	if (priv->activity != NULL) {
 		e_activity_set_state (priv->activity, E_ACTIVITY_COMPLETED);
@@ -80,7 +76,7 @@ test_shell_view_constructed (GObject *object)
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
 
-	priv = E_TEST_SHELL_VIEW_GET_PRIVATE (object);
+	priv = E_TEST_SHELL_VIEW (object)->priv;
 
 	shell_view = E_SHELL_VIEW (object);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
@@ -127,8 +123,7 @@ test_shell_view_class_init (ETestShellViewClass *class,
 static void
 test_shell_view_init (ETestShellView *test_shell_view)
 {
-	test_shell_view->priv =
-		E_TEST_SHELL_VIEW_GET_PRIVATE (test_shell_view);
+	test_shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (test_shell_view, E_TYPE_TEST_SHELL_VIEW, ETestShellViewPrivate);
 }
 
 GType

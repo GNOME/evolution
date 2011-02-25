@@ -24,10 +24,6 @@
 #include <config.h>
 #include <glib/gi18n-lib.h>
 
-#define E_PANED_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_PANED, EPanedPrivate))
-
 #define SYNC_REQUEST_NONE		0
 #define SYNC_REQUEST_POSITION		1
 #define SYNC_REQUEST_PROPORTION		2
@@ -217,7 +213,7 @@ paned_realize (GtkWidget *widget)
 	GdkWindowState state;
 	GdkWindow *window;
 
-	priv = E_PANED_GET_PRIVATE (widget);
+	priv = E_PANED (widget)->priv;
 
 	/* Chain up to parent's realize() method. */
 	GTK_WIDGET_CLASS (e_paned_parent_class)->realize (widget);
@@ -351,7 +347,7 @@ e_paned_class_init (EPanedClass *class)
 static void
 e_paned_init (EPaned *paned)
 {
-	paned->priv = E_PANED_GET_PRIVATE (paned);
+	paned->priv = G_TYPE_INSTANCE_GET_PRIVATE (paned, E_TYPE_PANED, EPanedPrivate);
 
 	paned->priv->proportion = 0.5;
 	paned->priv->fixed_resize = TRUE;

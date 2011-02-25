@@ -29,10 +29,6 @@
 #include "e-attachment-icon-view.h"
 #include "e-attachment-tree-view.h"
 
-#define E_MAIL_ATTACHMENT_BAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_ATTACHMENT_BAR, EMailAttachmentBarPrivate))
-
 #define NUM_VIEWS 2
 
 struct _EMailAttachmentBarPrivate {
@@ -186,7 +182,7 @@ mail_attachment_bar_dispose (GObject *object)
 {
 	EMailAttachmentBarPrivate *priv;
 
-	priv = E_MAIL_ATTACHMENT_BAR_GET_PRIVATE (object);
+	priv = E_MAIL_ATTACHMENT_BAR (object)->priv;
 
 	if (priv->model != NULL) {
 		g_object_unref (priv->model);
@@ -259,7 +255,7 @@ mail_attachment_bar_constructed (GObject *object)
 	GConfBridge *bridge;
 	const gchar *key;
 
-	priv = E_MAIL_ATTACHMENT_BAR_GET_PRIVATE (object);
+	priv = E_MAIL_ATTACHMENT_BAR (object)->priv;
 
 	bridge = gconf_bridge_get ();
 
@@ -327,7 +323,7 @@ mail_attachment_bar_get_private (EAttachmentView *view)
 {
 	EMailAttachmentBarPrivate *priv;
 
-	priv = E_MAIL_ATTACHMENT_BAR_GET_PRIVATE (view);
+	priv = E_MAIL_ATTACHMENT_BAR (view)->priv;
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	return e_attachment_view_get_private (view);
@@ -338,7 +334,7 @@ mail_attachment_bar_get_store (EAttachmentView *view)
 {
 	EMailAttachmentBarPrivate *priv;
 
-	priv = E_MAIL_ATTACHMENT_BAR_GET_PRIVATE (view);
+	priv = E_MAIL_ATTACHMENT_BAR (view)->priv;
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	return e_attachment_view_get_store (view);
@@ -351,7 +347,7 @@ mail_attachment_bar_get_path_at_pos (EAttachmentView *view,
 {
 	EMailAttachmentBarPrivate *priv;
 
-	priv = E_MAIL_ATTACHMENT_BAR_GET_PRIVATE (view);
+	priv = E_MAIL_ATTACHMENT_BAR (view)->priv;
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	return e_attachment_view_get_path_at_pos (view, x, y);
@@ -362,7 +358,7 @@ mail_attachment_bar_get_selected_paths (EAttachmentView *view)
 {
 	EMailAttachmentBarPrivate *priv;
 
-	priv = E_MAIL_ATTACHMENT_BAR_GET_PRIVATE (view);
+	priv = E_MAIL_ATTACHMENT_BAR (view)->priv;
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	return e_attachment_view_get_selected_paths (view);
@@ -374,7 +370,7 @@ mail_attachment_bar_path_is_selected (EAttachmentView *view,
 {
 	EMailAttachmentBarPrivate *priv;
 
-	priv = E_MAIL_ATTACHMENT_BAR_GET_PRIVATE (view);
+	priv = E_MAIL_ATTACHMENT_BAR (view)->priv;
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	return e_attachment_view_path_is_selected (view, path);
@@ -386,7 +382,7 @@ mail_attachment_bar_select_path (EAttachmentView *view,
 {
 	EMailAttachmentBarPrivate *priv;
 
-	priv = E_MAIL_ATTACHMENT_BAR_GET_PRIVATE (view);
+	priv = E_MAIL_ATTACHMENT_BAR (view)->priv;
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	e_attachment_view_select_path (view, path);
@@ -398,7 +394,7 @@ mail_attachment_bar_unselect_path (EAttachmentView *view,
 {
 	EMailAttachmentBarPrivate *priv;
 
-	priv = E_MAIL_ATTACHMENT_BAR_GET_PRIVATE (view);
+	priv = E_MAIL_ATTACHMENT_BAR (view)->priv;
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	e_attachment_view_unselect_path (view, path);
@@ -409,7 +405,7 @@ mail_attachment_bar_select_all (EAttachmentView *view)
 {
 	EMailAttachmentBarPrivate *priv;
 
-	priv = E_MAIL_ATTACHMENT_BAR_GET_PRIVATE (view);
+	priv = E_MAIL_ATTACHMENT_BAR (view)->priv;
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	e_attachment_view_select_all (view);
@@ -420,7 +416,7 @@ mail_attachment_bar_unselect_all (EAttachmentView *view)
 {
 	EMailAttachmentBarPrivate *priv;
 
-	priv = E_MAIL_ATTACHMENT_BAR_GET_PRIVATE (view);
+	priv = E_MAIL_ATTACHMENT_BAR (view)->priv;
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	e_attachment_view_unselect_all (view);
@@ -431,7 +427,7 @@ mail_attachment_bar_update_actions (EAttachmentView *view)
 {
 	EMailAttachmentBarPrivate *priv;
 
-	priv = E_MAIL_ATTACHMENT_BAR_GET_PRIVATE (view);
+	priv = E_MAIL_ATTACHMENT_BAR (view)->priv;
 	view = E_ATTACHMENT_VIEW (priv->icon_view);
 
 	e_attachment_view_update_actions (view);
@@ -506,7 +502,7 @@ mail_attachment_bar_init (EMailAttachmentBar *bar)
 	GtkWidget *widget;
 	GtkAction *action;
 
-	bar->priv = E_MAIL_ATTACHMENT_BAR_GET_PRIVATE (bar);
+	bar->priv = G_TYPE_INSTANCE_GET_PRIVATE (bar, E_TYPE_MAIL_ATTACHMENT_BAR, EMailAttachmentBarPrivate);
 	bar->priv->model = e_attachment_store_new ();
 
 	gtk_box_set_spacing (GTK_BOX (bar), 6);

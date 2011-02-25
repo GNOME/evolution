@@ -42,10 +42,6 @@
 
 #define d(x)
 
-#define E_ALERT_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ALERT, EAlertPrivate))
-
 typedef struct _EAlertButton EAlertButton;
 
 struct _e_alert {
@@ -491,7 +487,7 @@ alert_dispose (GObject *object)
 {
 	EAlertPrivate *priv;
 
-	priv = E_ALERT_GET_PRIVATE (object);
+	priv = E_ALERT (object)->priv;
 
 	while (!g_queue_is_empty (&priv->actions)) {
 		GtkAction *action = g_queue_pop_head (&priv->actions);
@@ -510,7 +506,7 @@ alert_finalize (GObject *object)
 {
 	EAlertPrivate *priv;
 
-	priv = E_ALERT_GET_PRIVATE (object);
+	priv = E_ALERT (object)->priv;
 
 	g_free (priv->tag);
 	g_free (priv->primary_text);
@@ -655,7 +651,7 @@ e_alert_class_init (EAlertClass *class)
 static void
 e_alert_init (EAlert *alert)
 {
-	alert->priv = E_ALERT_GET_PRIVATE (alert);
+	alert->priv = G_TYPE_INSTANCE_GET_PRIVATE (alert, E_TYPE_ALERT, EAlertPrivate);
 
 	g_queue_init (&alert->priv->actions);
 }

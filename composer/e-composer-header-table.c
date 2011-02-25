@@ -32,10 +32,6 @@
 #include "e-composer-post-header.h"
 #include "e-composer-text-header.h"
 
-#define E_COMPOSER_HEADER_TABLE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_COMPOSER_HEADER_TABLE, EComposerHeaderTablePrivate))
-
 #define HEADER_TOOLTIP_TO \
 	_("Enter the recipients of the message")
 #define HEADER_TOOLTIP_CC \
@@ -538,7 +534,7 @@ composer_header_table_constructor (GType type,
 		e_composer_header_table_parent_class)->constructor (
 		type, n_construct_properties, construct_properties);
 
-	priv = E_COMPOSER_HEADER_TABLE_GET_PRIVATE (object);
+	priv = E_COMPOSER_HEADER_TABLE (object)->priv;
 
 	small_screen_mode = e_shell_get_small_screen_mode (priv->shell);
 
@@ -810,7 +806,7 @@ composer_header_table_dispose (GObject *object)
 	EComposerHeaderTablePrivate *priv;
 	gint ii;
 
-	priv = E_COMPOSER_HEADER_TABLE_GET_PRIVATE (object);
+	priv = E_COMPOSER_HEADER_TABLE (object)->priv;
 
 	for (ii = 0; ii < G_N_ELEMENTS (priv->headers); ii++) {
 		if (priv->headers[ii] != NULL) {
@@ -998,7 +994,7 @@ e_composer_header_table_init (EComposerHeaderTable *table)
 	GtkWidget *widget;
 	gint ii;
 
-	table->priv = E_COMPOSER_HEADER_TABLE_GET_PRIVATE (table);
+	table->priv = G_TYPE_INSTANCE_GET_PRIVATE (table, E_TYPE_COMPOSER_HEADER_TABLE, EComposerHeaderTablePrivate);
 
 	name_selector = e_name_selector_new ();
 	table->priv->name_selector = name_selector;

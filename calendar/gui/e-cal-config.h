@@ -29,13 +29,19 @@
 #include <libecal/e-cal.h>
 #include "e-util/e-config.h"
 
+#define E_TYPE_CAL_CONFIG (e_cal_config_get_type())
+#define E_CAL_CONFIG(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CAL_CONFIG, ECalConfig))
+
 G_BEGIN_DECLS
 
 typedef struct _ECalConfig ECalConfig;
 typedef struct _ECalConfigClass ECalConfigClass;
+typedef struct _ECalConfigPrivate ECalConfigPrivate;
 
 struct _ECalConfig {
 	EConfig config;
+
+	ECalConfigPrivate *priv;
 };
 
 struct _ECalConfigClass {

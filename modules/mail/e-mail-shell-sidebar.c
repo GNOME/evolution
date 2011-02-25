@@ -25,10 +25,6 @@
 #include "mail/e-mail-sidebar.h"
 #include "mail/em-folder-utils.h"
 
-#define E_MAIL_SHELL_SIDEBAR_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_SHELL_SIDEBAR, EMailShellSidebarPrivate))
-
 struct _EMailShellSidebarPrivate {
 	GtkWidget *folder_tree;
 };
@@ -99,7 +95,7 @@ mail_shell_sidebar_dispose (GObject *object)
 {
 	EMailShellSidebarPrivate *priv;
 
-	priv = E_MAIL_SHELL_SIDEBAR_GET_PRIVATE (object);
+	priv = E_MAIL_SHELL_SIDEBAR (object)->priv;
 
 	if (priv->folder_tree != NULL) {
 		g_object_unref (priv->folder_tree);
@@ -294,7 +290,7 @@ mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	EMailShellSidebarPrivate *priv;
 	EMailSidebar *sidebar;
 
-	priv = E_MAIL_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
+	priv = E_MAIL_SHELL_SIDEBAR (shell_sidebar)->priv;
 	sidebar = E_MAIL_SIDEBAR (priv->folder_tree);
 
 	return e_mail_sidebar_check_state (sidebar);
@@ -336,8 +332,7 @@ mail_shell_sidebar_class_init (EMailShellSidebarClass *class)
 static void
 mail_shell_sidebar_init (EMailShellSidebar *mail_shell_sidebar)
 {
-	mail_shell_sidebar->priv =
-		E_MAIL_SHELL_SIDEBAR_GET_PRIVATE (mail_shell_sidebar);
+	mail_shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (mail_shell_sidebar, E_TYPE_MAIL_SHELL_SIDEBAR, EMailShellSidebarPrivate);
 
 	/* Postpone widget construction until we have a shell view. */
 }

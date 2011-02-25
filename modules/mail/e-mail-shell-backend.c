@@ -55,10 +55,6 @@
 #include "mail-vfolder.h"
 #include "importers/mail-importer.h"
 
-#define E_MAIL_SHELL_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_SHELL_BACKEND, EMailShellBackendPrivate))
-
 #define BACKEND_NAME "mail"
 
 struct _EMailShellBackendPrivate {
@@ -374,7 +370,7 @@ mail_shell_backend_prepare_for_quit_cb (EShell *shell,
 {
 	EMailShellBackendPrivate *priv;
 
-	priv = E_MAIL_SHELL_BACKEND_GET_PRIVATE (shell_backend);
+	priv = E_MAIL_SHELL_BACKEND (shell_backend)->priv;
 
 	/* Prevent a sync from starting while trying to shutdown. */
 	if (priv->mail_sync_source_id > 0) {
@@ -535,7 +531,7 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 	gboolean enable_search_folders;
 	const gchar *data_dir;
 
-	priv = E_MAIL_SHELL_BACKEND_GET_PRIVATE (shell_backend);
+	priv = E_MAIL_SHELL_BACKEND (shell_backend)->priv;
 
 	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
@@ -706,8 +702,7 @@ mail_shell_backend_class_init (EMailShellBackendClass *class)
 static void
 mail_shell_backend_init (EMailShellBackend *mail_shell_backend)
 {
-	mail_shell_backend->priv =
-		E_MAIL_SHELL_BACKEND_GET_PRIVATE (mail_shell_backend);
+	mail_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (mail_shell_backend, E_TYPE_MAIL_SHELL_BACKEND, EMailShellBackendPrivate);
 }
 
 GType

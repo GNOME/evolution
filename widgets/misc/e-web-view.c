@@ -34,10 +34,6 @@
 #include "e-popup-action.h"
 #include "e-selectable.h"
 
-#define E_WEB_VIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_WEB_VIEW, EWebViewPrivate))
-
 typedef struct _EWebViewRequest EWebViewRequest;
 
 struct _EWebViewPrivate {
@@ -674,7 +670,7 @@ web_view_dispose (GObject *object)
 {
 	EWebViewPrivate *priv;
 
-	priv = E_WEB_VIEW_GET_PRIVATE (object);
+	priv = E_WEB_VIEW (object)->priv;
 
 	if (priv->ui_manager != NULL) {
 		g_object_unref (priv->ui_manager);
@@ -715,7 +711,7 @@ web_view_finalize (GObject *object)
 {
 	EWebViewPrivate *priv;
 
-	priv = E_WEB_VIEW_GET_PRIVATE (object);
+	priv = E_WEB_VIEW (object)->priv;
 
 	/* All URI requests should be complete or cancelled by now. */
 	if (priv->requests != NULL)
@@ -1362,7 +1358,7 @@ e_web_view_init (EWebView *web_view)
 	const gchar *id;
 	GError *error = NULL;
 
-	web_view->priv = E_WEB_VIEW_GET_PRIVATE (web_view);
+	web_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (web_view, E_TYPE_WEB_VIEW, EWebViewPrivate);
 
 	ui_manager = gtk_ui_manager_new ();
 	web_view->priv->ui_manager = ui_manager;

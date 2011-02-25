@@ -50,8 +50,9 @@ typedef enum {
 
 struct _EggSMClient
 {
-  GObject parent;
+	GObject parent;
 
+	EggSMClientPrivate *priv;
 };
 
 struct _EggSMClientClass

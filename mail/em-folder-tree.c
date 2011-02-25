@@ -68,10 +68,6 @@
 
 #define d(x)
 
-#define EM_FOLDER_TREE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), EM_TYPE_FOLDER_TREE, EMFolderTreePrivate))
-
 struct _selected_uri {
 	gchar *key;		/* store:path or account/path */
 	gchar *uri;
@@ -395,7 +391,7 @@ folder_tree_select_func (GtkTreeSelection *selection,
 
 	tree_view = gtk_tree_selection_get_tree_view (selection);
 
-	priv = EM_FOLDER_TREE_GET_PRIVATE (tree_view);
+	priv = EM_FOLDER_TREE (tree_view)->priv;
 
 	if (selected)
 		return TRUE;
@@ -822,7 +818,7 @@ folder_tree_dispose (GObject *object)
 	EMFolderTreePrivate *priv;
 	GtkTreeModel *model;
 
-	priv = EM_FOLDER_TREE_GET_PRIVATE (object);
+	priv = EM_FOLDER_TREE (object)->priv;
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (object));
 
 	if (priv->loaded_row_id != 0) {
@@ -862,7 +858,7 @@ folder_tree_finalize (GObject *object)
 {
 	EMFolderTreePrivate *priv;
 
-	priv = EM_FOLDER_TREE_GET_PRIVATE (object);
+	priv = EM_FOLDER_TREE (object)->priv;
 
 	if (priv->select_uris != NULL) {
 		g_slist_foreach (
@@ -888,7 +884,7 @@ folder_tree_button_press_event (GtkWidget *widget,
 	GtkTreePath *path;
 	gulong handler_id;
 
-	priv = EM_FOLDER_TREE_GET_PRIVATE (widget);
+	priv = EM_FOLDER_TREE (widget)->priv;
 
 	tree_view = GTK_TREE_VIEW (widget);
 	selection = gtk_tree_view_get_selection (tree_view);
@@ -947,7 +943,7 @@ folder_tree_key_press_event (GtkWidget *widget,
 		return TRUE;
 	}
 
-	priv = EM_FOLDER_TREE_GET_PRIVATE (widget);
+	priv = EM_FOLDER_TREE (widget)->priv;
 
 	tree_view = GTK_TREE_VIEW (widget);
 	selection = gtk_tree_view_get_selection (tree_view);
@@ -981,7 +977,7 @@ folder_tree_row_activated (GtkTreeView *tree_view,
 	GtkTreeIter iter;
 	guint32 flags;
 
-	priv = EM_FOLDER_TREE_GET_PRIVATE (tree_view);
+	priv = EM_FOLDER_TREE (tree_view)->priv;
 
 	model = gtk_tree_view_get_model (tree_view);
 
@@ -1457,7 +1453,7 @@ folder_tree_init (EMFolderTree *folder_tree)
 
 	select_uris_table = g_hash_table_new (g_str_hash, g_str_equal);
 
-	folder_tree->priv = EM_FOLDER_TREE_GET_PRIVATE (folder_tree);
+	folder_tree->priv = G_TYPE_INSTANCE_GET_PRIVATE (folder_tree, EM_TYPE_FOLDER_TREE, EMFolderTreePrivate);
 	folder_tree->priv->select_uris_table = select_uris_table;
 
 	tree_view = GTK_TREE_VIEW (folder_tree);

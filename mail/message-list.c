@@ -97,10 +97,6 @@
 #define d(x)
 #define t(x)
 
-#define MESSAGE_LIST_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), MESSAGE_LIST_TYPE, MessageListPrivate))
-
 struct _MLSelection {
 	GPtrArray *uids;
 	CamelFolder *folder;
@@ -2468,7 +2464,7 @@ message_list_init (MessageList *message_list)
 	GtkTargetList *target_list;
 	GdkAtom matom;
 
-	message_list->priv = MESSAGE_LIST_GET_PRIVATE (message_list);
+	message_list->priv = G_TYPE_INSTANCE_GET_PRIVATE (message_list, MESSAGE_LIST_TYPE, MessageListPrivate);
 
 #if HAVE_CLUTTER
 	message_list->priv->timeline = NULL;
@@ -2566,7 +2562,7 @@ message_list_dispose (GObject *object)
 	MessageList *message_list = MESSAGE_LIST (object);
 	MessageListPrivate *priv;
 
-	priv = MESSAGE_LIST_GET_PRIVATE (message_list);
+	priv = message_list->priv;
 
 	if (priv->backend != NULL) {
 		g_object_unref (priv->backend);

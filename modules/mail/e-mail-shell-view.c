@@ -174,7 +174,7 @@ mail_shell_view_toggled (EShellView *shell_view)
 	const gchar *basename;
 	gboolean view_is_active;
 
-	priv = E_MAIL_SHELL_VIEW_GET_PRIVATE (shell_view);
+	priv = E_MAIL_SHELL_VIEW (shell_view)->priv;
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
@@ -243,7 +243,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	const gchar *use_tag;
 	gint value;
 
-	priv = E_MAIL_SHELL_VIEW_GET_PRIVATE (shell_view);
+	priv = E_MAIL_SHELL_VIEW (shell_view)->priv;
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
@@ -1059,8 +1059,7 @@ static void
 mail_shell_view_init (EMailShellView *mail_shell_view,
                       EShellViewClass *shell_view_class)
 {
-	mail_shell_view->priv =
-		E_MAIL_SHELL_VIEW_GET_PRIVATE (mail_shell_view);
+	mail_shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (mail_shell_view, E_TYPE_MAIL_SHELL_VIEW, EMailShellViewPrivate);
 
 	e_mail_shell_view_private_init (mail_shell_view, shell_view_class);
 }

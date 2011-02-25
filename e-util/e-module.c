@@ -35,10 +35,6 @@
 /* This is the symbol we call when unloading a module. */
 #define UNLOAD_SYMBOL	"e_module_unload"
 
-#define E_MODULE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MODULE, EModulePrivate))
-
 struct _EModulePrivate {
 	GModule *module;
 	gchar *filename;
@@ -105,7 +101,7 @@ module_finalize (GObject *object)
 {
 	EModulePrivate *priv;
 
-	priv = E_MODULE_GET_PRIVATE (object);
+	priv = E_MODULE (object)->priv;
 
 	g_free (priv->filename);
 
@@ -119,7 +115,7 @@ module_load (GTypeModule *type_module)
 	EModulePrivate *priv;
 	gpointer symbol;
 
-	priv = E_MODULE_GET_PRIVATE (type_module);
+	priv = E_MODULE (type_module)->priv;
 
 	g_return_val_if_fail (priv->filename != NULL, FALSE);
 	priv->module = g_module_open (priv->filename, 0);
@@ -155,7 +151,7 @@ module_unload (GTypeModule *type_module)
 {
 	EModulePrivate *priv;
 
-	priv = E_MODULE_GET_PRIVATE (type_module);
+	priv = E_MODULE (type_module)->priv;
 
 	priv->unload (type_module);
 
@@ -203,7 +199,7 @@ e_module_class_init (EModuleClass *class)
 static void
 e_module_init (EModule *module)
 {
-	module->priv = E_MODULE_GET_PRIVATE (module);
+	module->priv = G_TYPE_INSTANCE_GET_PRIVATE (module, E_TYPE_MODULE, EModulePrivate);
 }
 
 /**

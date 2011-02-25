@@ -29,10 +29,6 @@
 #include "mail/em-composer-utils.h"
 #include "mail/em-utils.h"
 
-#define E_MAIL_DISPLAY_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_DISPLAY, EMailDisplayPrivate))
-
 struct _EMailDisplayPrivate {
 	EMFormatHTML *formatter;
 };
@@ -172,7 +168,7 @@ mail_display_dispose (GObject *object)
 {
 	EMailDisplayPrivate *priv;
 
-	priv = E_MAIL_DISPLAY_GET_PRIVATE (object);
+	priv = E_MAIL_DISPLAY (object)->priv;
 
 	if (priv->formatter) {
 		g_object_unref (priv->formatter);
@@ -198,7 +194,7 @@ mail_display_style_set (GtkWidget *widget,
 {
 	EMailDisplayPrivate *priv;
 
-	priv = E_MAIL_DISPLAY_GET_PRIVATE (widget);
+	priv = E_MAIL_DISPLAY (widget)->priv;
 
 	/* Chain up to parent's style_set() method. */
 	GTK_WIDGET_CLASS (parent_class)->style_set (widget, previous_style);
@@ -213,7 +209,7 @@ mail_display_load_string (EWebView *web_view,
 {
 	EMailDisplayPrivate *priv;
 
-	priv = E_MAIL_DISPLAY_GET_PRIVATE (web_view);
+	priv = E_MAIL_DISPLAY (web_view)->priv;
 	g_return_if_fail (priv->formatter != NULL);
 
 	if (em_format_busy (EM_FORMAT (priv->formatter)))
@@ -238,7 +234,7 @@ mail_display_link_clicked (GtkHTML *html,
 {
 	EMailDisplayPrivate *priv;
 
-	priv = E_MAIL_DISPLAY_GET_PRIVATE (html);
+	priv = E_MAIL_DISPLAY (html)->priv;
 	g_return_if_fail (priv->formatter != NULL);
 
 	if (g_str_has_prefix (uri, "##")) {
@@ -345,7 +341,7 @@ mail_display_init (EMailDisplay *display)
 
 	web_view = E_WEB_VIEW (display);
 
-	display->priv = E_MAIL_DISPLAY_GET_PRIVATE (display);
+	display->priv = G_TYPE_INSTANCE_GET_PRIVATE (display, E_TYPE_MAIL_DISPLAY, EMailDisplayPrivate);
 
 	/* EWebView's action groups are added during its instance
 	 * initialization function (like what we're in now), so it

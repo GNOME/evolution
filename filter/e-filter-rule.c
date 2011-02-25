@@ -35,10 +35,6 @@
 #include "e-filter-rule.h"
 #include "e-rule-context.h"
 
-#define E_FILTER_RULE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_FILTER_RULE, EFilterRulePrivate))
-
 typedef struct _FilterPartData FilterPartData;
 typedef struct _FilterRuleData FilterRuleData;
 
@@ -864,7 +860,7 @@ e_filter_rule_class_init (EFilterRuleClass *class)
 static void
 e_filter_rule_init (EFilterRule *rule)
 {
-	rule->priv = E_FILTER_RULE_GET_PRIVATE (rule);
+	rule->priv = G_TYPE_INSTANCE_GET_PRIVATE (rule, E_TYPE_FILTER_RULE, EFilterRulePrivate);
 	rule->enabled = TRUE;
 }
 

@@ -34,10 +34,6 @@
 #include <e-util/e-util.h>
 #include <e-util/e-categories-config.h>
 
-#define E_CAL_COMPONENT_PREVIEW_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_CAL_COMPONENT_PREVIEW, ECalComponentPreviewPrivate))
-
 struct _ECalComponentPreviewPrivate {
 	/* information about currently showing component in a preview;
 	   if it didn't change then the preview is not updated */
@@ -404,7 +400,7 @@ cal_component_preview_class_init (ECalComponentPreviewClass *class)
 static void
 cal_component_preview_init (ECalComponentPreview *preview)
 {
-	preview->priv = E_CAL_COMPONENT_PREVIEW_GET_PRIVATE (preview);
+	preview->priv = G_TYPE_INSTANCE_GET_PRIVATE (preview, E_TYPE_CAL_COMPONENT_PREVIEW, ECalComponentPreviewPrivate);
 }
 
 GType

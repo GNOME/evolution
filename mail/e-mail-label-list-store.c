@@ -25,10 +25,6 @@
 #include <camel/camel.h>
 #include "e-util/gconf-bridge.h"
 
-#define E_MAIL_LABEL_LIST_STORE_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_LABEL_LIST_STORE, EMailLabelListStorePrivate))
-
 struct _EMailLabelListStorePrivate {
 	GHashTable *tag_index;
 };
@@ -157,7 +153,7 @@ mail_label_list_store_finalize (GObject *object)
 {
 	EMailLabelListStorePrivate *priv;
 
-	priv = E_MAIL_LABEL_LIST_STORE_GET_PRIVATE (object);
+	priv = E_MAIL_LABEL_LIST_STORE (object)->priv;
 
 	g_hash_table_destroy (priv->tag_index);
 
@@ -238,7 +234,7 @@ mail_label_list_store_init (EMailLabelListStore *store)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 
-	store->priv = E_MAIL_LABEL_LIST_STORE_GET_PRIVATE (store);
+	store->priv = G_TYPE_INSTANCE_GET_PRIVATE (store, E_TYPE_MAIL_LABEL_LIST_STORE, EMailLabelListStorePrivate);
 	store->priv->tag_index = tag_index;
 
 	/* XXX While it may seem awkward to cram the label name and color

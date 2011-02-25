@@ -19,10 +19,6 @@
 
 #include <glib/gi18n.h>
 
-#define E_ONLINE_BUTTON_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_ONLINE_BUTTON, EOnlineButtonPrivate))
-
 #define ONLINE_TOOLTIP \
 	_("Evolution is currently online.  Click this button to work offline.")
 
@@ -101,7 +97,7 @@ online_button_dispose (GObject *object)
 {
 	EOnlineButtonPrivate *priv;
 
-	priv = E_ONLINE_BUTTON_GET_PRIVATE (object);
+	priv = E_ONLINE_BUTTON (object)->priv;
 
 	if (priv->image != NULL) {
 		g_object_unref (priv->image);
@@ -141,7 +137,7 @@ e_online_button_init (EOnlineButton *button)
 {
 	GtkWidget *widget;
 
-	button->priv = E_ONLINE_BUTTON_GET_PRIVATE (button);
+	button->priv = G_TYPE_INSTANCE_GET_PRIVATE (button, E_TYPE_ONLINE_BUTTON, EOnlineButtonPrivate);
 
 	gtk_widget_set_can_focus (GTK_WIDGET (button), FALSE);
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);

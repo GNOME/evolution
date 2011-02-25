@@ -49,10 +49,6 @@
 #include "mail/mail-ops.h"
 #include "mail/mail-vfolder.h"
 
-#define E_MAIL_BACKEND_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_BACKEND, EMailBackendPrivate))
-
 #define QUIT_POLL_INTERVAL 1  /* seconds */
 
 struct _EMailBackendPrivate {
@@ -418,7 +414,7 @@ mail_backend_dispose (GObject *object)
 {
 	EMailBackendPrivate *priv;
 
-	priv = E_MAIL_BACKEND_GET_PRIVATE (object);
+	priv = E_MAIL_BACKEND (object)->priv;
 
 	if (priv->session != NULL) {
 		g_object_unref (priv->session);
@@ -447,7 +443,7 @@ mail_backend_constructed (GObject *object)
 	EMFolderTreeModel *folder_tree_model;
 	MailFolderCache *folder_cache;
 
-	priv = E_MAIL_BACKEND_GET_PRIVATE (object);
+	priv = E_MAIL_BACKEND (object)->priv;
 
 	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);
@@ -547,7 +543,7 @@ e_mail_backend_class_init (EMailBackendClass *class)
 static void
 e_mail_backend_init (EMailBackend *backend)
 {
-	backend->priv = E_MAIL_BACKEND_GET_PRIVATE (backend);
+	backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (backend, E_TYPE_MAIL_BACKEND, EMailBackendPrivate);
 }
 
 EMailSession *

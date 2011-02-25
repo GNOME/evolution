@@ -31,10 +31,6 @@
 #include "mail/e-mail-backend.h"
 #include "mail/e-mail-session.h"
 
-#define E_MAIL_JUNK_HOOK_GET_PRIVATE(obj) \
-	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MAIL_JUNK_HOOK, EMailJunkHookPrivate))
-
 struct _EMailJunkHookPrivate {
 	EMJunkInterface interface;
 };
@@ -195,7 +191,7 @@ mail_junk_hook_finalize (GObject *object)
 {
 	EMailJunkHookPrivate *priv;
 
-	priv = E_MAIL_JUNK_HOOK_GET_PRIVATE (object);
+	priv = E_MAIL_JUNK_HOOK (object)->priv;
 
 	g_free (priv->interface.check_junk);
 	g_free (priv->interface.report_junk);
@@ -220,7 +216,7 @@ mail_junk_hook_construct (EPluginHook *hook,
 	EMailSession *session;
 	gchar *property;
 
-	priv = E_MAIL_JUNK_HOOK_GET_PRIVATE (hook);
+	priv = E_MAIL_JUNK_HOOK (hook)->priv;
 
 	/* Chain up to parent's construct() method. */
 	if (E_PLUGIN_HOOK_CLASS (parent_class)->construct (hook, plugin, node) == -1)
@@ -302,7 +298,7 @@ mail_junk_hook_init (EMailJunkHook *mail_junk_hook)
 {
 	EMJunkInterface *interface;
 
-	mail_junk_hook->priv = E_MAIL_JUNK_HOOK_GET_PRIVATE (mail_junk_hook);
+	mail_junk_hook->priv = G_TYPE_INSTANCE_GET_PRIVATE (mail_junk_hook, E_TYPE_MAIL_JUNK_HOOK, EMailJunkHookPrivate);
 
 	interface = &mail_junk_hook->priv->interface;
 	interface->camel.get_name = mail_junk_hook_get_name;
