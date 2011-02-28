@@ -209,10 +209,53 @@ format_relative_date (time_t tvalue, time_t ttoday, const struct tm *value, cons
 				res = g_strdup (_("Yesterday"));
 		} else {
 			if (future) {
-				/* Translators: %a is a strftime modifier, the abbreviated week day name, for example "Next Tue".
-				   ngettext is used to be able to define different translations for different days of week, where
-				   necessary. Index is between 1 and 7 inclusive, meaning 1 .. Monday, 2 .. Tuesday, ..., 7 .. Sunday */
-				res = g_strdup (ngettext ("Next %a", "Next %a", g_date_get_weekday (&val)));
+				switch (g_date_get_weekday (&val)) {
+				case 1:
+					/* Translators: This is used for abbreviated days in the future.
+				           You can use strftime modifiers here too, like "Next %a", to avoid
+					   repeated translation of the abbreviated day name. */
+					res = g_strdup (C_ ("DateFmt", "Next Mon"));
+					break;
+				case 2:
+					/* Translators: This is used for abbreviated days in the future.
+				           You can use strftime modifiers here too, like "Next %a", to avoid
+					   repeated translation of the abbreviated day name. */
+					res = g_strdup (C_ ("DateFmt", "Next Tue"));
+					break;
+				case 3:
+					/* Translators: This is used for abbreviated days in the future.
+				           You can use strftime modifiers here too, like "Next %a", to avoid
+					   repeated translation of the abbreviated day name. */
+					res = g_strdup (C_ ("DateFmt", "Next Wed"));
+					break;
+				case 4:
+					/* Translators: This is used for abbreviated days in the future.
+				           You can use strftime modifiers here too, like "Next %a", to avoid
+					   repeated translation of the abbreviated day name. */
+					res = g_strdup (C_ ("DateFmt", "Next Thu"));
+					break;
+				case 5:
+					/* Translators: This is used for abbreviated days in the future.
+				           You can use strftime modifiers here too, like "Next %a", to avoid
+					   repeated translation of the abbreviated day name. */
+					res = g_strdup (C_ ("DateFmt", "Next Fri"));
+					break;
+				case 6:
+					/* Translators: This is used for abbreviated days in the future.
+				           You can use strftime modifiers here too, like "Next %a", to avoid
+					   repeated translation of the abbreviated day name. */
+					res = g_strdup (C_ ("DateFmt", "Next Sat"));
+					break;
+				case 7:
+					/* Translators: This is used for abbreviated days in the future.
+				           You can use strftime modifiers here too, like "Next %a", to avoid
+					   repeated translation of the abbreviated day name. */
+					res = g_strdup (C_ ("DateFmt", "Next Sun"));
+					break;
+				default:
+					g_return_val_if_reached (NULL);
+					break;
+				}
 			} else {
 				res = g_strdup ("%a");
 			}
