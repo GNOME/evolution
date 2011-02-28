@@ -88,6 +88,7 @@ enum {
 	STATUS_MESSAGE,
 	STOP_LOADING,
 	UPDATE_ACTIONS,
+	PROCESS_MAILTO,
 	LAST_SIGNAL
 };
 
@@ -337,6 +338,7 @@ action_send_message_cb (GtkAction *action,
 {
 	const gchar *uri;
 	gpointer parent;
+	gboolean handled;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
@@ -344,7 +346,11 @@ action_send_message_cb (GtkAction *action,
 	uri = e_web_view_get_selected_uri (web_view);
 	g_return_if_fail (uri != NULL);
 
-	e_show_uri (parent, uri);
+	handled = FALSE;
+	g_signal_emit (web_view, signals[PROCESS_MAILTO], 0, uri, &handled);
+
+	if (!handled)
+		e_show_uri (parent, uri);
 }
 
 static void
@@ -1335,6 +1341,16 @@ e_web_view_class_init (EWebViewClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
+
+	/* return TRUE when a signal handler processed the mailto URI */
+	signals[PROCESS_MAILTO] = g_signal_new (
+		"process-mailto",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EWebViewClass, process_mailto),
+		NULL, NULL,
+		e_marshal_BOOLEAN__STRING,
+		G_TYPE_BOOLEAN, 1, G_TYPE_STRING);
 }
 
 static void

@@ -228,6 +228,41 @@ mail_display_url_requested (GtkHTML *html,
 	 *     until EMFormatHTML is made asynchronous. */
 }
 
+static gboolean
+mail_display_process_mailto (EWebView *web_view, const gchar *mailto_uri)
+{
+	g_return_val_if_fail (web_view != NULL, FALSE);
+	g_return_val_if_fail (mailto_uri != NULL, FALSE);
+	g_return_val_if_fail (E_IS_MAIL_DISPLAY (web_view), FALSE);
+
+	if (g_ascii_strncasecmp (mailto_uri, "mailto:", 7) == 0) {
+		EMailDisplayPrivate *priv;
+		EMFormat *format;
+		CamelFolder *folder = NULL;
+		const gchar *folder_uri = NULL;
+		EShell *shell;
+
+		priv = E_MAIL_DISPLAY (web_view)->priv;
+		g_return_val_if_fail (priv->formatter != NULL, FALSE);
+
+		format = EM_FORMAT (priv->formatter);
+
+		if (format != NULL && format->folder != NULL)
+			folder = format->folder;
+
+		if (folder != NULL)
+			folder_uri = camel_folder_get_uri (folder);
+
+		shell = e_shell_get_default ();
+		em_utils_compose_new_message_with_mailto (
+			shell, mailto_uri, folder_uri);
+
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 static void
 mail_display_link_clicked (GtkHTML *html,
                            const gchar *uri)
@@ -262,22 +297,8 @@ mail_display_link_clicked (GtkHTML *html,
 		priv->formatter->header_wrap_flags = flags;
 		em_format_queue_redraw (EM_FORMAT (priv->formatter));
 
-	} else if (g_ascii_strncasecmp (uri, "mailto:", 7) == 0) {
-		EMFormat *format = EM_FORMAT (priv->formatter);
-		CamelFolder *folder = NULL;
-		const gchar *folder_uri = NULL;
-		EShell *shell;
-
-		if (format != NULL && format->folder != NULL)
-			folder = format->folder;
-
-		if (folder != NULL)
-			folder_uri = camel_folder_get_uri (folder);
-
-		shell = e_shell_get_default ();
-		em_utils_compose_new_message_with_mailto (
-			shell, uri, folder_uri);
-
+	} else if (mail_display_process_mailto (E_WEB_VIEW (html), uri)) {
+		/* do nothing, function handled the "mailto:" uri already */
 	} else if (*uri == '#')
 		gtk_html_jump_to_anchor (html, uri + 1);
 
@@ -315,6 +336,7 @@ mail_display_class_init (EMailDisplayClass *class)
 
 	web_view_class = E_WEB_VIEW_CLASS (class);
 	web_view_class->load_string = mail_display_load_string;
+	web_view_class->process_mailto = mail_display_process_mailto;
 
 	html_class = GTK_HTML_CLASS (class);
 	html_class->url_requested = mail_display_url_requested;
