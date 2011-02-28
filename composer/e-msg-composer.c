@@ -2417,25 +2417,6 @@ msg_composer_image_uri (GtkhtmlEditor *editor,
 }
 
 static void
-msg_composer_link_clicked (GtkhtmlEditor *editor,
-                           const gchar *uri)
-{
-	if (uri == NULL || *uri == '\0')
-		return;
-
-	if (g_ascii_strncasecmp (uri, "mailto:", 7) == 0)
-		return;
-
-	if (g_ascii_strncasecmp (uri, "thismessage:", 12) == 0)
-		return;
-
-	if (g_ascii_strncasecmp (uri, "cid:", 4) == 0)
-		return;
-
-	e_show_uri (GTK_WINDOW (editor), uri);
-}
-
-static void
 msg_composer_object_deleted (GtkhtmlEditor *editor)
 {
 	const gchar *data;
@@ -2537,7 +2518,7 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 	editor_class->command_before = msg_composer_command_before;
 	editor_class->command_after = msg_composer_command_after;
 	editor_class->image_uri = msg_composer_image_uri;
-	editor_class->link_clicked = msg_composer_link_clicked;
+	editor_class->link_clicked = NULL; /* EWebView takes care of it in link-clicked handler */
 	editor_class->object_deleted = msg_composer_object_deleted;
 
 	class->presend = msg_composer_presend;
