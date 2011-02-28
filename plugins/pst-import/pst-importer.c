@@ -1488,96 +1488,45 @@ fill_calcomponent (PstImporter *m, pst_item *item, ECalComponent *ec, const gcha
 }
 
 static void
-pst_process_appointment (PstImporter *m, pst_item *item)
+pst_process_component (PstImporter *m, pst_item *item, const gchar *comp_type, ECal *cal)
 {
 	ECalComponent *ec;
+	GError *error = NULL;
 
 	g_return_if_fail (item->appointment != NULL);
 
 	ec = e_cal_component_new ();
 	e_cal_component_set_new_vtype (ec, E_CAL_COMPONENT_EVENT);
 
-	fill_calcomponent (m, item, ec, "appointment");
-	set_cal_attachments (m->calendar, ec, m, item->attach);
+	fill_calcomponent (m, item, ec, comp_type);
+	set_cal_attachments (cal, ec, m, item->attach);
 
-	if (!e_cal_create_object (m->calendar, e_cal_component_get_icalcomponent (ec), NULL, NULL)) {
-		g_warning("Creation of appointment failed");
-		g_free (ec);
+	if (!e_cal_create_object (cal, e_cal_component_get_icalcomponent (ec), NULL, &error)) {
+		g_warning ("Creation of %s failed: %s", comp_type, error ? error->message : "Unknown error");
 	}
 
 	g_object_unref (ec);
 
+	if (error)
+		g_error_free (error);
+}
+
+static void
+pst_process_appointment (PstImporter *m, pst_item *item)
+{
+	pst_process_component (m, item, "appointment", m->calendar);
 }
 
 static void
 pst_process_task (PstImporter *m, pst_item *item)
 {
-	ECalComponent *ec;
-
-	g_return_if_fail (item->appointment != NULL);
-
-	ec = e_cal_component_new ();
-	e_cal_component_set_new_vtype (ec, E_CAL_COMPONENT_TODO);
-
-	fill_calcomponent (m, item, ec, "task");
-	set_cal_attachments (m->tasks, ec, m, item->attach);
-
-	/* Note - libpst is missing many fields. E.g. task status, start/completion date, % complete */
-
-	if (!e_cal_create_object (m->tasks, e_cal_component_get_icalcomponent (ec), NULL, NULL)) {
-		g_warning("Creation of task failed");
-		g_free (ec);
-	}
-
-	g_object_unref (ec);
-
+	pst_process_component (m, item, "task", m->tasks);
 }
 
 static void
 pst_process_journal (PstImporter *m, pst_item *item)
 {
-	ECalComponent *ec;
-
-	g_return_if_fail (item->appointment != NULL);
-
-	/*j = item->journal;*/
-	ec = e_cal_component_new ();
-	e_cal_component_set_new_vtype (ec, E_CAL_COMPONENT_JOURNAL);
-
-	fill_calcomponent (m, item, ec, "journal");
-	set_cal_attachments (m->journal, ec, m, item->attach);
-
-	/* Note - an Evo memo entry does not have date started/finished or type fields :( */
-	/*if (j) {
-		ECalComponentText text;
-		struct icaltimetype tt_start, tt_end;
-		ECalComponentDateTime dt_start, dt_end;
-
-		if (j->start) {
-			tt_start = get_ical_date (j->start, FALSE);
-			dt_start.value = &tt_start;
-			dt_start.tzid = NULL;
-			e_cal_component_set_dtstart (ec, &dt_start);
-			g_message ("journal start:%s", rfc2445_datetime_format (j->start));
-		}
-
-		if (j->end) {
-			tt_end = get_ical_date (j->end, FALSE);
-			dt_end.value = &tt_end;
-			dt_end.tzid = NULL;
-			e_cal_component_set_dtend (ec, &dt_end);
-			g_message ("end:%s", rfc2445_datetime_format (j->end));
-		}
-		g_message ("type: %s", j->type);
-	}*/
-
-	if (!e_cal_create_object (m->journal, e_cal_component_get_icalcomponent (ec), NULL, NULL)) {
-		g_warning("Creation of journal entry failed");
-		g_free (ec);
-	}
-
-	g_object_unref (ec);
-
+	pst_process_component (m, item, "journal", m->journal);
 }
 
 /* Print an error message - maybe later bring up an error dialog? */
