@@ -88,6 +88,7 @@ struct _EWebViewClass {
 						 const gchar *status_message);
 	void		(*stop_loading)		(EWebView *web_view);
 	void		(*update_actions)	(EWebView *web_view);
+	gboolean	(*process_mailto)	(EWebView *web_view, const gchar *mailto_uri);
 };
 
 GType		e_web_view_get_type		(void);
