@@ -2135,7 +2135,7 @@ emfh_multipart_related_check (struct _EMFormatHTMLJob *job,
 		return;
 	}
 
-	while (link->next != NULL) {
+	while (link != NULL) {
 		EMFormatPURI *puri = link->data;
 
 		if (puri->use_count == 0) {
