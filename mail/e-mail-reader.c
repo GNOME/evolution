@@ -1284,8 +1284,10 @@ action_mail_reply_all_check (CamelFolder *folder,
 
 		if (response == GTK_RESPONSE_NO)
 			type = E_MAIL_REPLY_TO_SENDER;
-		else if (response == GTK_RESPONSE_CANCEL)
+		else if (response == GTK_RESPONSE_CANCEL || response == GTK_RESPONSE_DELETE_EVENT) {
+			g_object_unref (message);
 			return;
+		}
 	}
 
 	e_mail_reader_reply_to_message (reader, message, type);
@@ -1437,8 +1439,10 @@ action_mail_reply_sender_check (CamelFolder *folder,
 			type = E_MAIL_REPLY_TO_ALL;
 		else if (response == GTK_RESPONSE_OK)
 			type = E_MAIL_REPLY_TO_LIST;
-		else if (response == GTK_RESPONSE_CANCEL)
+		else if (response == GTK_RESPONSE_CANCEL || response == GTK_RESPONSE_DELETE_EVENT) {
+			g_object_unref (message);
 			goto exit;
+		}
 
 	} else if (ask_list_reply_to) {
 		GtkWidget *dialog;
@@ -1487,8 +1491,10 @@ action_mail_reply_sender_check (CamelFolder *folder,
 			type = E_MAIL_REPLY_TO_FROM;
 		else if (response == GTK_RESPONSE_OK)
 			type = E_MAIL_REPLY_TO_LIST;
-		else if (response == GTK_RESPONSE_CANCEL)
+		else if (response == GTK_RESPONSE_CANCEL || response == GTK_RESPONSE_DELETE_EVENT) {
+			g_object_unref (message);
 			goto exit;
+		}
 	}
 
 	e_mail_reader_reply_to_message (reader, message, type);
