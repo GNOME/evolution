@@ -1179,10 +1179,10 @@ e_cal_model_tasks_set_color_overdue (ECalModelTasks *model,
 
 /**
  * e_cal_model_tasks_mark_comp_complete
- * Marks component as complete and commits changes to the calendar backend.
+ * @model: Currently not used...
+ * @comp_data: Component of our interest
  *
- * @param model Currently not used...
- * @param comp_data Component of our interest
+ * Marks component as complete and commits changes to the calendar backend.
  **/
 void e_cal_model_tasks_mark_comp_complete (ECalModelTasks *model, ECalModelComponent *comp_data)
 {
@@ -1201,10 +1201,10 @@ void e_cal_model_tasks_mark_comp_complete (ECalModelTasks *model, ECalModelCompo
 
 /**
  * e_cal_model_tasks_mark_comp_incomplete
- * Marks component as incomplete and commits changes to the calendar backend.
+ * @model: Currently not used...
+ * @comp_data: Component of our interest
  *
- * @param model Currently not used...
- * @param comp_data Component of our interest
+ * Marks component as incomplete and commits changes to the calendar backend.
  **/
 void e_cal_model_tasks_mark_comp_incomplete (ECalModelTasks *model, ECalModelComponent *comp_data)
 {
@@ -1244,9 +1244,9 @@ void e_cal_model_tasks_mark_comp_incomplete (ECalModelTasks *model, ECalModelCom
 
 /**
  * commit_component_changes
- * Commits changes to the backend calendar of the component.
+ * @comp_data: Component of our interest, which has been changed.
  *
- * @param comp_data Component of our interest, which has been changed.
+ * Commits changes to the backend calendar of the component.
  **/
 static void
 commit_component_changes (ECalModelComponent *comp_data)

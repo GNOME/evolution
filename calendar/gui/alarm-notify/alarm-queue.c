@@ -379,9 +379,10 @@ remove_queued_alarm (CompQueuedAlarms *cqa, gpointer alarm_id,
 /**
  * has_known_notification:
  * Test for notification method and returns if it knows it or not.
- * @param comp Component with an alarm.
- * @param alarm_uid ID of the alarm in the comp to test.
- * @return TRUE when we know the notification type, FALSE otherwise.
+ * @comp: Component with an alarm.
+ * @alarm_uid: ID of the alarm in the comp to test.
+ *
+ * Returns: %TRUE when we know the notification type, %FALSE otherwise.
  */
 static gboolean
 has_known_notification (ECalComponent *comp, const gchar *alarm_uid)
@@ -2179,8 +2180,8 @@ alarm_queue_remove_async (struct _alarm_client_msg *msg)
 /** alarm_queue_remove_client
  *
  * asynchronously remove client from alarm queue.
- * @param client Client to remove.
- * @param immediately Indicates whether use thread or do it right now.
+ * @client: Client to remove.
+ * @immediately: Indicates whether use thread or do it right now.
  */
 
 void

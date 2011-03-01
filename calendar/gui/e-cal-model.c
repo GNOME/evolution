@@ -1234,11 +1234,14 @@ ecm_set_value_at (ETableModel *etm, gint col, gint row, gconstpointer value)
 
 /**
  * e_cal_model_test_row_editable
- * Checks if component at row 'row' is editable or not. It doesn't check bounds for 'row'.
+ * @model: an #ECalModel
+ * @row: Row of our interest. -1 is editable only when default client is
+ * editable.
  *
- * @param model Calendar model.
- * @param row Row of our interest. -1 is editable only when default client is editable.
- * @return Whether row is editable or not.
+ * Checks if component at @row is editable or not.  It doesn't check bounds
+ * for @row.
+ *
+ * Returns: Whether @row is editable or not.
  **/
 gboolean
 e_cal_model_test_row_editable (ECalModel *model, gint row)

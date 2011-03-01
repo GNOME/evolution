@@ -206,8 +206,6 @@ folder_selected (EMFolderSelectionButton *button, EImportTargetURI *target)
 
 /**
  * Suggest a folder to import data into
- * @param target
- * @return
  */
 static gchar *
 get_suggested_foldername (EImportTargetURI *target)
@@ -639,11 +637,13 @@ pst_process_item (PstImporter *m, pst_desc_tree *d_ptr)
 }
 
 /**
- * Convert string to utf8. Currently we just use the locale, but maybe there is encoding
- * information hidden somewhere in the PST file?
+ * string_to_utf8:
+ * @string: String from PST file
  *
- * @param string String from PST file
- * @return utf8 representation (caller should free), or NULL for error.
+ * Convert string to utf8. Currently we just use the locale, but maybe
+ * there is encoding information hidden somewhere in the PST file?
+ *
+ * Returns: utf8 representation (caller should free), or NULL for error.
  */
 gchar *
 string_to_utf8 (const gchar *string)
@@ -659,9 +659,12 @@ string_to_utf8 (const gchar *string)
 }
 
 /**
+ * foldername_to_utf8:
+ * @foldername: from PST file
+ *
  * Convert foldername to utf8 and escape characters if needed
- * @param foldername from PST file
- * @return converted folder name, or NULL for error. Caller should free
+ *
+ * Returns: converted folder name, or NULL for error. Caller should free
  */
 gchar *
 foldername_to_utf8 (const gchar *pstname)
@@ -712,8 +715,11 @@ pst_process_folder (PstImporter *m, pst_item *item)
 }
 
 /**
- * Create current folder in mail hierarchy. Parent folders will also be created.
- * @param m PstImporter set to current folder
+ * pst_create_folder:
+ * @m: PstImporter set to current folder
+ *
+ * Create current folder in mail hierarchy. Parent folders will also be
+ * created.
  */
 static void
 pst_create_folder (PstImporter *m)
@@ -777,9 +783,13 @@ pst_create_folder (PstImporter *m)
 }
 
 /**
- * Create a camel mime part from given PST attachment
- * @param attach attachment to convert
- * @return CamelMimePart containing data and mime type
+ * attachment_to_part:
+ * @m: a #PstImporter
+ * @attach: attachment to convert
+ *
+ * Create a #CamelMimePart from given PST attachment
+ *
+ * Returns: #CamelMimePart containing data and mime type
  */
 static CamelMimePart *
 attachment_to_part (PstImporter *m, pst_item_attach *attach)
@@ -1213,10 +1223,13 @@ pst_process_contact (PstImporter *m, pst_item *item)
 }
 
 /**
+ * get_ical_date:
+ * @date: time value from libpst
+ * @is_date: treat as date only (all day event)?
+ *
  * Convert pst time to icaltimetype
- * @param date time value from libpst
- * @param is_date treat as date only (all day event)?
- * @return converted date
+ *
+ * Returns: converted date
  */
 struct icaltimetype
 get_ical_date (FILETIME *date, gboolean is_date)
@@ -1682,10 +1695,13 @@ e_plugin_lib_enable (EPlugin *ep, gint enable)
 }
 
 /**
+ * pst_init:
+ * @pst: pst_file structure to be used by libpst
+ * @filename: path to file
+ *
  * Open PST file and determine root folder name
- * @param pst: pst_file structure to be used by libpst
- * @param filename : path to file
- * @return 0 for sucess, -1 for failure
+ *
+ * Returns: 0 for sucess, -1 for failure
  */
 gint
 pst_init (pst_file *pst, gchar *filename)
@@ -1717,10 +1733,15 @@ pst_init (pst_file *pst, gchar *filename)
 }
 
 /**
+ * get_pst_rootname:
+ * @pst: pst_file structure to be used by libpst
+ * @filename: if non %NULL, fallback to this name if folder name is not
+ * available
+ *
  * Open determine root folder name of PST file
- * @param pst: pst_file structure to be used by libpst
- * @param filename : if non NULL, fallback to this name if folder name is not available
- * @return pointer to name of root folder (should be freed by caller), or NULL if error
+ *
+ * Returns: pointer to name of root folder (should be freed by caller),
+ * or %NULL if error
  */
 gchar *
 get_pst_rootname (pst_file *pst, gchar *filename)

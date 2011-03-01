@@ -2205,10 +2205,12 @@ e_date_edit_time_is_valid	(EDateEdit	*dedit)
 
 /**
  * e_date_edit_have_time
- * Check if time is set, i.e. it isn't 'None'/empty. Date can be set in this case.
+ * @dedit: an #EDateEdit
  *
- * @param dedit an EDateEdit widget.
- * @return TRUE is time is set, FALSE otherwise.
+ * Check if time is set, i.e. it isn't 'None'/empty. Date can be set in
+ * this case.
+ *
+ * Returns: %TRUE is time is set, %FALSE otherwise.
  **/
 gboolean
 e_date_edit_have_time (EDateEdit *dedit)
