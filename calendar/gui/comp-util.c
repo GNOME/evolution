@@ -527,11 +527,11 @@ cal_comp_util_get_n_icons (ECalComponent *comp, GSList **pixbufs)
 
 /**
  * cal_comp_selection_set_string_list
- * Stores list of strings into selection target data.
- * Use @ref cal_comp_selection_get_string_list to get this list from target data.
+ * @data: Selection data, where to put list of strings.
+ * @str_list: List of strings. (Each element is of type const gchar *.)
  *
- * @param data Selection data, where to put list of strings.
- * @param str_list List of strings. (Each element is of type const gchar *.)
+ * Stores list of strings into selection target data.  Use
+ * cal_comp_selection_get_string_list() to get this list from target data.
  **/
 void
 cal_comp_selection_set_string_list (GtkSelectionData *data, GSList *str_list)
@@ -561,13 +561,14 @@ cal_comp_selection_set_string_list (GtkSelectionData *data, GSList *str_list)
 
 /**
  * cal_comp_selection_get_string_list
- * Converts data from selection to list of strings. Data should be assigned
- * to selection data with @ref cal_comp_selection_set_string_list.
- * Each string in newly created list should be freed by g_free.
- * List itself should be freed by g_slist_free.
+ * @data: Selection data, where to put list of strings.
  *
- * @param data Selection data, where to put list of strings.
- * @return Newly allocated GSList of strings.
+ * Converts data from selection to list of strings. Data should be assigned
+ * to selection data with cal_comp_selection_set_string_list().
+ * Each string in newly created list should be freed by g_free().
+ * List itself should be freed by g_slist_free().
+ *
+ * Returns: Newly allocated #GSList of strings.
  **/
 GSList *
 cal_comp_selection_get_string_list (GtkSelectionData *selection_data)
@@ -630,10 +631,11 @@ datetime_to_zone (ECal *client, ECalComponentDateTime *date, const gchar *tzid)
 
 /**
  * cal_comp_set_dtstart_with_oldzone:
+ * @client: ECal structure, to retrieve timezone from, when required.
+ * @comp: Component, where make the change.
+ * @pdate: Value, to change to.
+ *
  * Changes 'dtstart' of the component, but converts time to the old timezone.
- * @param client ECal structure, to retrieve timezone from, when required.
- * @param comp Component, where make the change.
- * @param pdate Value, to change to.
  **/
 void
 cal_comp_set_dtstart_with_oldzone (ECal *client, ECalComponent *comp, const ECalComponentDateTime *pdate)
@@ -655,10 +657,11 @@ cal_comp_set_dtstart_with_oldzone (ECal *client, ECalComponent *comp, const ECal
 
 /**
  * cal_comp_set_dtend_with_oldzone:
+ * @client: ECal structure, to retrieve timezone from, when required.
+ * @comp: Component, where make the change.
+ * @pdate: Value, to change to.
+ *
  * Changes 'dtend' of the component, but converts time to the old timezone.
- * @param client ECal structure, to retrieve timezone from, when required.
- * @param comp Component, where make the change.
- * @param pdate Value, to change to.
  **/
 void
 cal_comp_set_dtend_with_oldzone (ECal *client, ECalComponent *comp, const ECalComponentDateTime *pdate)
@@ -748,13 +751,15 @@ update_objects (ECal *client, icalcomponent *icalcomp)
 
 /**
  * cal_comp_process_source_list_drop:
+ * @destination: Where to put the component.
+ * @comp: Component to move/copy.
+ * @action: What to do.
+ * @source_uid: Where the component comes from; used when moving.
+ * @source_list: The ESourceList over which the event was called.
+ *
  * Processes the drop signal over the ESourceList.
- * @param destination Where to put the component.
- * @param comp Component to move/copy.
- * @param action What to do.
- * @param source_uid Where the component comes from; used when moving.
- * @param source_list The ESourceList over which the event was called.
- * @return Whether was the operation successful.
+ *
+ * Returns: Whether was the operation successful.
  **/
 gboolean
 cal_comp_process_source_list_drop (ECal *destination, icalcomponent *comp, GdkDragAction action, const gchar *source_uid, ESourceList *source_list)

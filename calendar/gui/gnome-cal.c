@@ -1983,8 +1983,8 @@ gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 /**
  * gnome_calendar_new_task:
  * @gcal: An Evolution calendar.
- * @param dtstart Start time of the task, in same timezone as model.
- * @param dtend End time of the task, in same timezone as model.
+ * @dtstart: Start time of the task, in same timezone as model.
+ * @dtend: End time of the task, in same timezone as model.
  *
  * Opens a task editor dialog for a new task. dtstart or dtend can be NULL.
  **/

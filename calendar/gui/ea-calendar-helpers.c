@@ -33,8 +33,8 @@
 /**
  * ea_calendar_helpers_get_accessible_for
  * @canvas_item: the canvas item for a event or a jump button
- * @returns: the atk object for the canvas_item
  *
+ * Returns: the atk object for the canvas_item
  **/
 AtkObject *
 ea_calendar_helpers_get_accessible_for (GnomeCanvasItem *canvas_item)
@@ -67,10 +67,10 @@ ea_calendar_helpers_get_accessible_for (GnomeCanvasItem *canvas_item)
 /**
  * ea_calendar_helpers_get_view_widget_from:
  * @canvas_item: the canvas item for a event or a jump button
- * @returns: the cal view widget if exists
  *
  * Get the cal view widget contains the canvas_item.
  *
+ * Returns: the cal view widget if exists
  **/
 ECalendarView *
 ea_calendar_helpers_get_cal_view_from (GnomeCanvasItem *canvas_item)
@@ -96,10 +96,10 @@ ea_calendar_helpers_get_cal_view_from (GnomeCanvasItem *canvas_item)
 /**
  * ea_calendar_helpers_get_cal_view_event_from
  * @canvas_item: the cavas_item (e_text) for the event
- * @returns: the ECalendarViewEvent
  *
  * Get the ECalendarViewEvent for the canvas_item.
  *
+ * Returns: the ECalendarViewEvent
  **/
 ECalendarViewEvent *
 ea_calendar_helpers_get_cal_view_event_from (GnomeCanvasItem *canvas_item)

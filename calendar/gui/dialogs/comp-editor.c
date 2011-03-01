@@ -3193,11 +3193,11 @@ comp_editor_get_comp (CompEditor *editor)
 
 /**
  * comp_editor_get_current_comp
+ * @editor: a #CompEditor
+ * @correct: Set this no non-%NULL if you are interested to know if all
+ * pages reported success when filling component.
  *
- * @param editor
- * @param correct Set this no non-NULL if you are interested to know if
- *                all pages reported success when filling component.
- * @return Newly allocated component, should be unref-ed by g_object_unref.
+ * Returns: Newly allocated component, should be unref-ed by g_object_unref().
  **/
 ECalComponent *
 comp_editor_get_current_comp (CompEditor *editor, gboolean *correct)

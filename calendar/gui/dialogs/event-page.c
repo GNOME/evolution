@@ -3304,9 +3304,10 @@ event_page_get_name_selector (EventPage *epage)
 
 /**
  * event_page_add_attendee
+ * @epage: an #EventPage
+ * @attendee: Attendee to be added.
+ *
  * Add attendee to meeting store and name selector.
- * @param epage EventPage.
- * @param attendee Attendee to be added.
  **/
 void
 event_page_add_attendee (EventPage *epage, EMeetingAttendee *attendee)
@@ -3328,8 +3329,9 @@ event_page_add_attendee (EventPage *epage, EMeetingAttendee *attendee)
 
 /**
  * event_page_remove_all_attendees
+ * @epage: an #EventPage
+ *
  * Removes all attendees from the meeting store and name selector.
- * @param epage EventPage.
  **/
 void
 event_page_remove_all_attendees (EventPage *epage)

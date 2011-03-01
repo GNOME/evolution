@@ -285,12 +285,18 @@ free_slist_strs (gpointer data)
 
 /**
  * comp_editor_manage_new_attendees:
- * Manages the 'new-attendees' string of new attendees of the component.
- * @param comp: The component.
- * @param ma: An attendee.
- * @param add: TRUE to add attendee's email to new-attendees, FALSE to remove from it.
+ * @comp: The component.
+ * @ma: An attendee.
+ * @add: %TRUE to add attendee's email to new-attendees, %FALSE to remove
+ * from it.
  *
- * @note The list is just string of emails separated by ';'
+ * Manages the 'new-attendees' string of new attendees of the component.
+ *
+ * <note>
+ *   <para>
+ *     The list is just string of emails separated by ';'
+ *   </para>
+ * </note>
  **/
 void
 comp_editor_manage_new_attendees (ECalComponent *comp,
@@ -316,9 +322,10 @@ comp_editor_manage_new_attendees (ECalComponent *comp,
 
 /**
  * comp_editor_copy_new_attendees:
- * Copies "new-attendees" information from src to des component.
- * @param des: Component, to copy to.
- * @param src: Component, to copy from.
+ * @des: Component, to copy to.
+ * @src: Component, to copy from.
+ *
+ * Copies "new-attendees" information from @src to @des component.
  **/
 void
 comp_editor_copy_new_attendees (ECalComponent *des, ECalComponent *src)
@@ -337,9 +344,10 @@ comp_editor_copy_new_attendees (ECalComponent *des, ECalComponent *src)
 
 /**
  * comp_editor_have_in_new_attendees:
- * @param comp: Component with the "new-attendees" possibly set.
- * @param ma: Meeting attendee to check.
- * @return Whether ma is present in the list of new attendees of the comp.
+ * @comp: Component with the "new-attendees" possibly set.
+ * @ma: Meeting attendee to check.
+ *
+ * Returns: Whether @ma is present in the list of new attendees of the comp.
  **/
 gboolean
 comp_editor_have_in_new_attendees (ECalComponent *comp, EMeetingAttendee *ma)

@@ -376,11 +376,13 @@ e_table_sorting_utils_tree_insert (ETreeModel *source, ETableSortInfo *sort_info
 /**
  * e_table_sorting_utils_create_cmp_cache:
  *
- * Creates a new compare cache, which is storing pairs of string keys and string values.
- * This can be accessed by @ref e_table_sorting_utils_lookup_cmp_cache and
- * @ref e_table_sorting_utils_add_to_cmp_cache.
+ * Creates a new compare cache, which is storing pairs of string keys and
+ * string values.  This can be accessed by
+ * e_table_sorting_utils_lookup_cmp_cache() and
+ * e_table_sorting_utils_add_to_cmp_cache().
  *
- * Returned pointer should be freed with @ref e_table_sorting_utils_free_cmp_cache.
+ * Returned pointer should be freed with
+ * e_table_sorting_utils_free_cmp_cache().
  **/
 gpointer
 e_table_sorting_utils_create_cmp_cache (void)
@@ -392,8 +394,8 @@ e_table_sorting_utils_create_cmp_cache (void)
  * e_table_sorting_utils_free_cmp_cache:
  * @cmp_cache: a compare cache; cannot be %NULL
  *
- * Frees a compare cache previously created
- * with @ref e_table_sorting_utils_create_cmp_cache.
+ * Frees a compare cache previously created with
+ * e_table_sorting_utils_create_cmp_cache().
  **/
 void
 e_table_sorting_utils_free_cmp_cache (gpointer cmp_cache)

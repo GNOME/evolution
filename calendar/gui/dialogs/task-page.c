@@ -2148,9 +2148,10 @@ task_page_get_cancel_comp (TaskPage *page)
 
 /**
  * task_page_add_attendee
+ * @tpage: a #TaskPage
+ * @attendee: Attendee to be added.
+ *
  * Add attendee to meeting store and name selector.
- * @param tpage TaskPage.
- * @param attendee Attendee to be added.
  **/
 void
 task_page_add_attendee (TaskPage *tpage, EMeetingAttendee *attendee)

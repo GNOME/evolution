@@ -1497,10 +1497,11 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 
 /**
  * e_calendar_view_new_appointment_full
- * @param cal_view: A calendar view.
- * @param all_day: Whether create all day event or not.
- * @param meeting: This is a meeting or an appointment.
- * @param no_past_date: Don't create event in past date, use actual date instead (if TRUE).
+ * @cal_view: an #ECalendarView
+ * @all_day: Whether create all day event or not.
+ * @meeting: This is a meeting or an appointment.
+ * @no_past_date: Don't create event in past date, use actual date instead
+ * (if %TRUE).
  *
  * Opens an event editor dialog for a new appointment. The appointment's
  * start and end times are set to the currently selected time range in
