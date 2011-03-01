@@ -324,6 +324,9 @@ remove_esource (const gchar *conf_key, const gchar *group_name, gchar * source_n
 				}
 			}
 
+			if (found_group)
+				break;
+
 		}
 
 	}
@@ -400,6 +403,9 @@ modify_esource (const gchar * conf_key, GwAccountInfo *old_account_info, EAccoun
 					break;
 				}
 			}
+
+			if (found_group)
+				break;
 		}
 	}
 
@@ -749,7 +755,6 @@ remove_addressbook_sources (GwAccountInfo *existing_account_info)
 	ESourceList *list;
 	ESourceGroup *group;
 	GSList *groups;
-	gboolean found_group;
 	CamelURL *url;
 	gchar *base_uri;
 	GConfClient *client;
@@ -769,17 +774,14 @@ remove_addressbook_sources (GwAccountInfo *existing_account_info)
 	list = e_source_list_new_for_gconf (client, "/apps/evolution/addressbook/sources" );
 	groups = e_source_list_peek_groups (list);
 
-	found_group = FALSE;
-
-	for (; groups != NULL &&  !found_group; groups = g_slist_next (groups)) {
+	for (; groups != NULL; groups = g_slist_next (groups)) {
 
 		group = E_SOURCE_GROUP (groups->data);
 		if ( strcmp ( e_source_group_peek_base_uri (group), base_uri) == 0 && strcmp (e_source_group_peek_name (group), existing_account_info->name) == 0) {
 
 			e_source_list_remove_group (list, group);
 			e_source_list_sync (list, NULL);
-			found_group = TRUE;
-
+			break;
 		}
 	}
 	g_object_unref (list);
@@ -967,6 +969,7 @@ prune_proxies (void) {
 					if (parent_id_name) {
 						e_source_group_remove_source (group, source);
 						e_source_list_remove_group (sources, group);
+						break;
 					}
 				}
 			}
