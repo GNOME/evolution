@@ -1265,7 +1265,7 @@ action_mail_reply_all_check (CamelFolder *folder,
 		check = gtk_check_button_new_with_mnemonic (_("_Do not ask me again."));
 		gtk_container_set_border_width (GTK_CONTAINER (check), 12);
 		content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-		gtk_box_pack_start (GTK_BOX (content_area), check, TRUE, TRUE, 0);
+		gtk_box_pack_start (GTK_BOX (content_area), check, FALSE, FALSE, 0);
 		gtk_widget_show (check);
 
 		response = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -1422,7 +1422,7 @@ action_mail_reply_sender_check (CamelFolder *folder,
 		gtk_container_set_border_width ((GtkContainer *)check, 12);
 		content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 		gtk_box_pack_start (
-			GTK_BOX (content_area), check, TRUE, TRUE, 0);
+			GTK_BOX (content_area), check, FALSE, FALSE, 0);
 		gtk_widget_show (check);
 
 		response = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -1456,18 +1456,18 @@ action_mail_reply_sender_check (CamelFolder *folder,
 		vbox = gtk_vbox_new (FALSE, 0);
 		content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 		gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
-		gtk_box_pack_start (GTK_BOX (content_area), vbox, TRUE, TRUE, 0);
+		gtk_box_pack_start (GTK_BOX (content_area), vbox, FALSE, FALSE, 0);
 		gtk_widget_show (vbox);
 
 		check_again = gtk_check_button_new_with_mnemonic (
 			_("_Do not ask me again."));
-		gtk_box_pack_start (GTK_BOX (vbox), check_again, TRUE, TRUE, 0);
+		gtk_box_pack_start (GTK_BOX (vbox), check_again, FALSE, FALSE, 0);
 		gtk_widget_show (check_again);
 
 		check_always_ignore = gtk_check_button_new_with_mnemonic (
 			_("_Always ignore Reply-To: for mailing lists."));
 		gtk_box_pack_start (
-			GTK_BOX (vbox), check_always_ignore, TRUE, TRUE, 0);
+			GTK_BOX (vbox), check_always_ignore, FALSE, FALSE, 0);
 		gtk_widget_show (check_always_ignore);
 
 		response = gtk_dialog_run (GTK_DIALOG (dialog));
