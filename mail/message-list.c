@@ -491,7 +491,7 @@ get_normalised_string (MessageList *message_list, CamelMessageInfo *info, gint c
 			if (g_ascii_strncasecmp ((gchar *) subject, "Re:", 3) == 0) {
 				found_re = TRUE;
 				subject += 3;
-			} else if (g_ascii_strncasecmp ((gchar *) subject, "Re :", 4)) {
+			} else if (g_ascii_strncasecmp ((gchar *) subject, "Re :", 4) == 0) {
 				found_re = TRUE;
 				subject += 4;
 			}
