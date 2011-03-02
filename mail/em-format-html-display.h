@@ -69,8 +69,8 @@ EMFormatHTMLDisplay *
 		em_format_html_display_new	(void);
 EAttachmentView *
 		em_format_html_display_get_attachment_view
-						(EMFormatHTMLDisplay *html_display);
-
+						(EMFormatHTMLDisplay *html_display,
+						 const gchar *message_part_id);
 G_END_DECLS
 
 #endif /* EM_FORMAT_HTML_DISPLAY_H */

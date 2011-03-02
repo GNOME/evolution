@@ -80,6 +80,7 @@ void		e_attachment_store_add_attachment
 gboolean	e_attachment_store_remove_attachment
 						(EAttachmentStore *store,
 						 EAttachment *attachment);
+void		e_attachment_store_remove_all	(EAttachmentStore *store);
 void		e_attachment_store_add_to_multipart
 						(EAttachmentStore *store,
 						 CamelMultipart *multipart,

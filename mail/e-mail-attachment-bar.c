@@ -185,6 +185,7 @@ mail_attachment_bar_dispose (GObject *object)
 	priv = E_MAIL_ATTACHMENT_BAR (object)->priv;
 
 	if (priv->model != NULL) {
+		e_attachment_store_remove_all (E_ATTACHMENT_STORE (priv->model));
 		g_object_unref (priv->model);
 		priv->model = NULL;
 	}
