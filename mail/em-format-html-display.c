@@ -65,7 +65,7 @@
 #define d(x)
 
 struct _EMFormatHTMLDisplayPrivate {
-	GtkWidget *attachment_view;  /* weak reference */
+	GHashTable *attachment_views;  /* weak reference; message_part_id->EAttachmentView */
 };
 
 struct _smime_pobject {
@@ -106,6 +106,7 @@ static void efhd_attachment_frame (EMFormat *emf, CamelStream *stream, EMFormatP
 static void efhd_message_add_bar (EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info);
 static gboolean efhd_attachment_button (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
 static gboolean efhd_attachment_optional (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *object);
+static void efhd_free_attach_puri_data (EMFormatPURI *puri);
 
 struct _attach_puri {
 	EMFormatPURI puri;
@@ -125,6 +126,7 @@ struct _attach_puri {
 
 	/* Attachment */
 	EAttachment *attachment;
+	gchar *attachment_view_part_id;
 
 	/* image stuff */
 	gint fit_width;
@@ -378,6 +380,28 @@ efhd_xpkcs7mime_button (EMFormatHTML *efh,
 	return TRUE;
 }
 
+static gboolean
+remove_attachment_view_cb (gpointer message_part_id, gpointer attachment_view, gpointer gone_attachment_view)
+{
+	return attachment_view == gone_attachment_view;
+}
+
+static void
+efhd_attachment_view_gone_cb (gpointer efh, GObject *gone_attachment_view)
+{
+	EMFormatHTMLDisplay *efhd = EM_FORMAT_HTML_DISPLAY (efh);
+
+	g_return_if_fail (efhd != NULL);
+
+	g_hash_table_foreach_remove (efhd->priv->attachment_views, remove_attachment_view_cb, gone_attachment_view);
+}
+
+static void
+weak_unref_attachment_view_cb (gpointer message_part_id, gpointer attachment_view, gpointer efh)
+{
+	g_object_weak_unref (G_OBJECT (attachment_view), efhd_attachment_view_gone_cb, efh);
+}
+
 static void
 efhd_format_clone (EMFormat *emf,
                    CamelFolder *folder,
@@ -386,6 +410,14 @@ efhd_format_clone (EMFormat *emf,
                    EMFormat *src,
                    GCancellable *cancellable)
 {
+	EMFormatHTMLDisplay *efhd;
+
+	efhd = EM_FORMAT_HTML_DISPLAY (emf);
+	g_return_if_fail (efhd != NULL);
+
+	g_hash_table_foreach (efhd->priv->attachment_views, weak_unref_attachment_view_cb, efhd);
+	g_hash_table_remove_all (efhd->priv->attachment_views);
+
 	if (emf != src)
 		EM_FORMAT_HTML (emf)->header_wrap_flags = 0;
 
@@ -408,6 +440,8 @@ efhd_format_attachment (EMFormat *emf,
 	classid = g_strdup_printf ("attachment%s", emf->part_id->str);
 	info = (struct _attach_puri *) em_format_add_puri (
 		emf, sizeof (*info), classid, part, efhd_attachment_frame);
+	info->puri.free = efhd_free_attach_puri_data;
+	info->attachment_view_part_id = g_strdup (emf->current_message_part_id);
 	em_format_html_add_pobject (
 		EM_FORMAT_HTML (emf), sizeof (EMFormatHTMLPObject),
 		classid, part, efhd_attachment_button);
@@ -479,6 +513,8 @@ efhd_format_optional (EMFormat *emf,
 	classid = g_strdup_printf ("optional%s", emf->part_id->str);
 	info = (struct _attach_puri *) em_format_add_puri (
 		emf, sizeof (*info), classid, part, efhd_attachment_frame);
+	info->puri.free = efhd_free_attach_puri_data;
+	info->attachment_view_part_id = g_strdup (emf->current_message_part_id);
 	em_format_html_add_pobject (
 		EM_FORMAT_HTML (emf), sizeof (EMFormatHTMLPObject),
 		classid, part, efhd_attachment_optional);
@@ -595,13 +631,34 @@ efhd_format_secure (EMFormat *emf,
 }
 
 static void
+efhd_finalize (GObject *object)
+{
+	EMFormatHTMLDisplay *efhd;
+
+	efhd = EM_FORMAT_HTML_DISPLAY (object);
+	g_return_if_fail (efhd != NULL);
+
+	if (efhd->priv->attachment_views) {
+		g_hash_table_foreach (efhd->priv->attachment_views, weak_unref_attachment_view_cb, efhd);
+		g_hash_table_destroy (efhd->priv->attachment_views);
+		efhd->priv->attachment_views = NULL;
+	}
+
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
 efhd_class_init (EMFormatHTMLDisplayClass *class)
 {
+	GObjectClass *object_class;
 	EMFormatClass *format_class;
 	EMFormatHTMLClass *format_html_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMFormatHTMLDisplayPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = efhd_finalize;
 
 	format_class = EM_FORMAT_CLASS (class);
 	format_class->format_clone = efhd_format_clone;
@@ -623,6 +680,7 @@ efhd_init (EMFormatHTMLDisplay *efhd)
 	web_view = em_format_html_get_web_view (EM_FORMAT_HTML (efhd));
 
 	efhd->priv = G_TYPE_INSTANCE_GET_PRIVATE (efhd, EM_TYPE_FORMAT_HTML_DISPLAY, EMFormatHTMLDisplayPrivate);
+	efhd->priv->attachment_views = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
 	e_mail_display_set_formatter (
 		E_MAIL_DISPLAY (web_view), EM_FORMAT_HTML (efhd));
@@ -841,7 +899,7 @@ efhd_attachment_button (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObj
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
-	view = em_format_html_display_get_attachment_view (efhd);
+	view = em_format_html_display_get_attachment_view (efhd, info->attachment_view_part_id);
 	gtk_widget_show (GTK_WIDGET (view));
 
 	store = e_attachment_view_get_store (view);
@@ -894,6 +952,12 @@ efhd_attachment_frame (EMFormat *emf,
 }
 
 static void
+set_size_request_cb (gpointer message_part_id, gpointer widget, gpointer width)
+{
+	gtk_widget_set_size_request (widget, GPOINTER_TO_INT (width), -1);
+}
+
+static void
 efhd_bar_resize (EMFormatHTML *efh,
                  GtkAllocation *event)
 {
@@ -912,8 +976,7 @@ efhd_bar_resize (EMFormatHTML *efh,
 	width = allocation.width - 12;
 
 	if (width > 0) {
-		widget = priv->attachment_view;
-		gtk_widget_set_size_request (widget, width, -1);
+		g_hash_table_foreach (priv->attachment_views, set_size_request_cb, GINT_TO_POINTER (width));
 	}
 }
 
@@ -933,7 +996,9 @@ efhd_add_bar (EMFormatHTML *efh,
 
 	widget = e_mail_attachment_bar_new ();
 	gtk_container_add (GTK_CONTAINER (eb), widget);
-	priv->attachment_view = widget;
+
+	g_hash_table_insert (priv->attachment_views, g_strdup (EM_FORMAT (efh)->current_message_part_id), widget);
+	g_object_weak_ref (G_OBJECT (widget), efhd_attachment_view_gone_cb, efh);
 	gtk_widget_hide (widget);
 
 	g_signal_connect_swapped (
@@ -1086,10 +1151,34 @@ efhd_attachment_optional (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPO
 	return TRUE;
 }
 
-EAttachmentView *
-em_format_html_display_get_attachment_view (EMFormatHTMLDisplay *html_display)
+static void
+efhd_free_attach_puri_data (EMFormatPURI *puri)
 {
-	g_return_val_if_fail (EM_IS_FORMAT_HTML_DISPLAY (html_display), NULL);
+	struct _attach_puri *info = (struct _attach_puri *) puri;
 
-	return E_ATTACHMENT_VIEW (html_display->priv->attachment_view);
+	g_return_if_fail (puri != NULL);
+
+	if (info->attachment) {
+		g_object_unref (info->attachment);
+		info->attachment = NULL;
+	}
+
+	g_free (info->attachment_view_part_id);
+	info->attachment_view_part_id = NULL;
+}
+
+/* returned object owned by html_display, thus do not unref it */
+EAttachmentView *
+em_format_html_display_get_attachment_view (EMFormatHTMLDisplay *html_display, const gchar *message_part_id)
+{
+	gpointer aview;
+
+	g_return_val_if_fail (EM_IS_FORMAT_HTML_DISPLAY (html_display), NULL);
+	g_return_val_if_fail (message_part_id != NULL, NULL);
+
+	/* it should be added in efhd_add_bar() with this message_part_id */
+	aview = g_hash_table_lookup (html_display->priv->attachment_views, message_part_id);
+	g_return_val_if_fail (aview != NULL, NULL);
+
+	return E_ATTACHMENT_VIEW (aview);
 }

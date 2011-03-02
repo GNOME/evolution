@@ -150,6 +150,7 @@ emf_finalize (GObject *object)
 	g_free (emf->charset);
 	g_free (emf->default_charset);
 	g_string_free (emf->part_id, TRUE);
+	g_free (emf->current_message_part_id);
 	g_free (emf->uid);
 
 	if (emf->pending_uri_table != NULL)
@@ -240,6 +241,7 @@ emf_format_clone (EMFormat *emf,
 		emf->message = msg;
 	}
 
+	emf->current_message_part_id = g_strdup ("root-message");
 	g_string_truncate (emf->part_id, 0);
 	if (folder != NULL)
 		/* TODO build some string based on the folder name/location? */
@@ -365,6 +367,7 @@ emf_init (EMFormat *emf)
 	g_queue_init (&emf->header_list);
 	em_format_default_headers (emf);
 	emf->part_id = g_string_new("");
+	emf->current_message_part_id = NULL;
 	emf->validity_found = 0;
 
 	shell = e_shell_get_default ();
@@ -2075,11 +2078,15 @@ emf_message_rfc822 (EMFormat *emf,
 	CamelDataWrapper *dw = camel_medium_get_content ((CamelMedium *)part);
 	const EMFormatHandler *handle;
 	gint len;
+	gchar *parent_message_part_id;
 
 	if (!CAMEL_IS_MIME_MESSAGE (dw)) {
 		em_format_format_source (emf, stream, part, cancellable);
 		return;
 	}
+
+	parent_message_part_id = emf->current_message_part_id;
+	emf->current_message_part_id = g_strdup (emf->part_id->str);
 
 	len = emf->part_id->len;
 	g_string_append_printf(emf->part_id, ".rfc822");
@@ -2091,6 +2098,9 @@ emf_message_rfc822 (EMFormat *emf,
 			handle, cancellable, FALSE);
 
 	g_string_truncate (emf->part_id, len);
+
+	g_free (emf->current_message_part_id);
+	emf->current_message_part_id = parent_message_part_id;
 }
 
 static void

@@ -384,6 +384,7 @@ set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
 	/* XXX Does this take ownership of the list? */
 	e_cal_component_set_attachment_list (comp, uri_list);
 
+	e_attachment_store_remove_all (store);
 	g_object_unref (destination);
 	g_object_unref (store);
 }

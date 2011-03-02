@@ -108,11 +108,7 @@ attachment_store_get_property (GObject *object,
 static void
 attachment_store_dispose (GObject *object)
 {
-	EAttachmentStorePrivate *priv;
-
-	priv = E_ATTACHMENT_STORE (object)->priv;
-
-	g_hash_table_remove_all (priv->attachment_index);
+	e_attachment_store_remove_all (E_ATTACHMENT_STORE (object));
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_attachment_store_parent_class)->dispose (object);
@@ -324,6 +320,36 @@ e_attachment_store_remove_attachment (EAttachmentStore *store,
 	g_object_thaw_notify (G_OBJECT (store));
 
 	return TRUE;
+}
+
+void
+e_attachment_store_remove_all (EAttachmentStore *store)
+{
+	GList *list, *iter;
+
+	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
+
+	if (!g_hash_table_size (store->priv->attachment_index))
+		return;
+
+	g_object_freeze_notify (G_OBJECT (store));
+
+	list = e_attachment_store_get_attachments (store);
+	for (iter = list; iter; iter = iter->next) {
+		EAttachment *attachment = iter->data;
+
+		e_attachment_cancel (attachment);
+		g_hash_table_remove (store->priv->attachment_index, iter->data);
+	}
+
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
+
+	gtk_list_store_clear (GTK_LIST_STORE (store));
+
+	g_object_notify (G_OBJECT (store), "num-attachments");
+	g_object_notify (G_OBJECT (store), "total-size");
+	g_object_thaw_notify (G_OBJECT (store));
 }
 
 void
