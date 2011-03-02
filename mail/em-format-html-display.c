@@ -50,7 +50,7 @@
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
 
-#ifdef HAVE_NSS
+#if defined (HAVE_NSS) && defined (ENABLE_SMIME)
 #include "certificate-viewer.h"
 #include "e-cert-db.h"
 #endif
@@ -172,7 +172,7 @@ efhd_xpkcs7mime_info_response (GtkWidget *widget,
 	po->widget = NULL;
 }
 
-#ifdef HAVE_NSS
+#if defined (HAVE_NSS) && defined (ENABLE_SMIME)
 static void
 efhd_xpkcs7mime_viewcert_clicked (GtkWidget *button,
                                   struct _smime_pobject *po)
@@ -225,14 +225,14 @@ efhd_xpkcs7mime_add_cert_table (GtkWidget *vbox,
 
 		if (l) {
 			GtkWidget *w;
-#if defined(HAVE_NSS)
+#if defined (HAVE_NSS) && defined (ENABLE_SMIME)
 			ECert *ec = NULL;
 #endif
 			w = gtk_label_new (l);
 			gtk_misc_set_alignment ((GtkMisc *)w, 0.0, 0.5);
 			g_free (la);
 			gtk_table_attach (table, w, 0, 1, n, n+1, GTK_FILL, GTK_FILL, 3, 3);
-#if defined(HAVE_NSS)
+#if defined (HAVE_NSS) && defined (ENABLE_SMIME)
 			w = gtk_button_new_with_mnemonic(_("_View Certificate"));
 			gtk_table_attach (table, w, 1, 2, n, n+1, 0, 0, 3, 3);
 			g_object_set_data((GObject *)w, "e-cert-info", info);

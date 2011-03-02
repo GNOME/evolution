@@ -68,7 +68,7 @@
 #include "mail-ops.h"
 #include "mail-mt.h"
 
-#if defined (HAVE_NSS)
+#if defined (HAVE_NSS) && defined (ENABLE_SMIME)
 #include "smime/gui/e-cert-selector.h"
 #endif
 
@@ -1131,7 +1131,7 @@ emae_account_folder (EMAccountEditor *emae, const gchar *name, gint item, gint d
 	return folder;
 }
 
-#if defined (HAVE_NSS)
+#if defined (HAVE_NSS) && defined (ENABLE_SMIME)
 static void
 smime_changed (EMAccountEditor *emae)
 {
@@ -3116,7 +3116,7 @@ static GtkWidget *
 emae_security_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, gpointer data)
 {
 	EMAccountEditor *emae = data;
-#if defined (HAVE_NSS)
+#if defined (HAVE_NSS) && defined (ENABLE_SMIME)
 	EMAccountEditorPrivate *priv = emae->priv;
 #endif
 	GtkWidget *w;
@@ -3136,7 +3136,7 @@ emae_security_page (EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget
 	emae_account_toggle (emae, "pgp_no_imip_sign", E_ACCOUNT_PGP_NO_IMIP_SIGN, builder);
 	emae_account_toggle (emae, "pgp_always_trust", E_ACCOUNT_PGP_ALWAYS_TRUST, builder);
 
-#if defined (HAVE_NSS)
+#if defined (HAVE_NSS) && defined (ENABLE_SMIME)
 	/* TODO: this should handle its entry separately? */
 	priv->smime_sign_key = emae_account_entry (emae, "smime_sign_key", E_ACCOUNT_SMIME_SIGN_KEY, builder);
 	priv->smime_sign_key_select = (GtkButton *)e_builder_get_widget (builder, "smime_sign_key_select");
