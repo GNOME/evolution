@@ -313,6 +313,7 @@ book_shell_backend_init_preferences (EShell *shell)
 		autocompletion_config_new,
 		200);
 
+#ifdef ENABLE_SMIME
 	preferences_window = e_shell_get_preferences_window (shell);
 	e_preferences_window_add_page (
 		E_PREFERENCES_WINDOW (preferences_window),
@@ -321,6 +322,7 @@ book_shell_backend_init_preferences (EShell *shell)
 		_("Certificates"),
 		certificate_manager_config_new,
 		700);
+#endif
 
 	return FALSE;
 }
