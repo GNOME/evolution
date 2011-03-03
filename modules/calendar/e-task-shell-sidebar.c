@@ -651,6 +651,7 @@ task_shell_sidebar_client_removed (ETaskShellSidebar *task_shell_sidebar,
 
 	source = e_cal_get_source (client);
 	uid = e_source_peek_uid (source);
+	g_return_if_fail (uid != NULL);
 
 	g_hash_table_remove (client_table, uid);
 	e_source_selector_unselect_source (selector, source);
