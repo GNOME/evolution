@@ -30,6 +30,7 @@
 
 #include "mail/e-mail-local.h"
 #include "mail/em-folder-tree-model.h"
+#include "mail/em-utils.h"
 #include "mail/mail-folder-cache.h"
 #include "mail/mail-mt.h"
 #include "mail/mail-ops.h"
@@ -249,6 +250,10 @@ mail_store_load_accounts (EMailSession *session,
 			continue;
 
 		if (uri == NULL || *uri == '\0')
+			continue;
+
+		/* do not add local-delivery files into the tree those are server specifically */
+		if (em_utils_is_local_delivery_mbox_file (uri))
 			continue;
 
 		e_mail_store_add_by_uri (session, uri, display_name);

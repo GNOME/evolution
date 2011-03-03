@@ -102,6 +102,8 @@ void emu_free_mail_cache (void);
 
 void emu_restore_folder_tree_state (EMFolderTree *folder_tree);
 
+gboolean em_utils_is_local_delivery_mbox_file (const gchar *uri);
+
 G_END_DECLS
 
 #endif /* __EM_UTILS_H__ */
