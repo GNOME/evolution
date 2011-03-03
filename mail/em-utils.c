@@ -2353,3 +2353,27 @@ emu_restore_folder_tree_state (EMFolderTree *folder_tree)
 
 	g_key_file_free (key_file);
 }
+
+/* checks whether uri points to a local mbox file and returns TRUE if yes. */
+gboolean
+em_utils_is_local_delivery_mbox_file (const gchar *uri)
+{
+	g_return_val_if_fail (uri != NULL, FALSE);
+
+	if (g_str_has_prefix (uri, "mbox:///")) {
+		CamelURL *curl;
+
+		curl = camel_url_new (uri, NULL);
+		if (curl) {
+			if (curl->path
+			    && g_file_test (curl->path, G_FILE_TEST_EXISTS)
+			    && !g_file_test (curl->path, G_FILE_TEST_IS_DIR)) {
+				camel_url_free (curl);
+				return TRUE;
+			}
+			camel_url_free (curl);
+		}
+	}
+
+	return FALSE;
+}

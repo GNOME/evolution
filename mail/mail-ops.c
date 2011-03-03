@@ -241,7 +241,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 
 	/* FIXME: this should support keep_on_server too, which would then perform a spool
 	   access thingy, right?  problem is matching raw messages to uid's etc. */
-	if (!strncmp (m->source_uri, "maildir:", 5)) {
+	if (em_utils_is_local_delivery_mbox_file (m->source_uri)) {
 		gchar *path = mail_tool_do_movemail (m->source_uri, error);
 
 		if (path && (!error || !*error)) {

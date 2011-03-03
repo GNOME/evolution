@@ -39,6 +39,7 @@
 #include "e-mail-session.h"
 #include "em-event.h"
 #include "em-filter-rule.h"
+#include "em-utils.h"
 #include "mail-folder-cache.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
@@ -382,9 +383,9 @@ get_receive_type (const gchar *url)
 {
 	CamelProvider *provider;
 
-	/* HACK: since mbox is ALSO used for native evolution trees now, we need to
-	   fudge this to treat it as a special 'movemail' source */
-	if (!strncmp(url, "maildir:", 8))
+	/* mbox pointing to a file is a 'Local delivery' source
+	   which requires special processing */
+	if (em_utils_is_local_delivery_mbox_file (url))
 		return SEND_RECEIVE;
 
 	provider = camel_provider_get (url, NULL);
