@@ -508,6 +508,21 @@ e_shell_backend_start (EShellBackend *shell_backend)
 }
 
 /**
+ * e_shell_backend_is_started:
+ * @shell_backend: an #EShellBackend
+ *
+ * Returns whether was shelll_backend already started, by
+ * calling e_shell_backend_start().
+ **/
+gboolean
+e_shell_backend_is_started (EShellBackend *shell_backend)
+{
+	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), FALSE);
+
+	return shell_backend->priv->started;
+}
+
+/**
  * e_shell_backend_migrate:
  * @shell_backend: an #EShellBackend
  * @major: major part of version to migrate from

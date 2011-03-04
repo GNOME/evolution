@@ -127,6 +127,7 @@ void		e_shell_backend_add_activity	(EShellBackend *shell_backend,
 gboolean	e_shell_backend_is_busy		(EShellBackend *shell_backend);
 void		e_shell_backend_cancel_all	(EShellBackend *shell_backend);
 void		e_shell_backend_start		(EShellBackend *shell_backend);
+gboolean	e_shell_backend_is_started	(EShellBackend *shell_backend);
 gboolean	e_shell_backend_migrate		(EShellBackend *shell_backend,
 						 gint major,
 						 gint minor,
