@@ -792,115 +792,11 @@ fix_folder_permissions (const gchar *data_dir)
 		change_dir_modes (data_dir);
 }
 
-static void
-merge_duplicate_local_sources (GConfClient *client,
-                               const gchar *gconf_key)
-{
-	ESourceList *source_list;
-	GSList *iter, *to_remove = NULL;
-	ESourceGroup *first_local = NULL;
-
-	g_return_if_fail (client != NULL);
-	g_return_if_fail (gconf_key != NULL);
-
-	source_list = e_source_list_new_for_gconf (client, gconf_key);
-
-	for (iter = e_source_list_peek_groups (source_list); iter; iter = iter->next) {
-		GSList *sources;
-		ESourceGroup *group = iter->data;
-
-		if (!group || !e_source_group_peek_base_uri (group) ||
-			g_ascii_strncasecmp (
-			e_source_group_peek_base_uri (group), "local:", 6) != 0)
-			continue;
-
-		if (!first_local) {
-			first_local = group;
-			continue;
-		}
-
-		/* merging respective sources */
-		for (sources = e_source_group_peek_sources (group);
-				sources != NULL; sources = sources->next) {
-			GSList *liter;
-			ESource *dupe_source = sources->data;
-
-			if (!dupe_source)
-				continue;
-
-			for (liter = e_source_group_peek_sources (first_local);
-					liter != NULL; liter = liter->next) {
-				ESource *my_source = liter->data;
-				const gchar *val1, *val2;
-
-				if (!my_source)
-					continue;
-
-				/* pretty unlikely, but just in case */
-				val1 = e_source_get_uid (dupe_source);
-				val2 = e_source_get_uid (my_source);
-				if (g_strcmp0 (val1, val2) == 0)
-					break;
-
-				/* relative uri should not be empty
-				 * (but adressbook can have it empty) */
-				val1 = e_source_peek_relative_uri (dupe_source);
-				val2 = e_source_peek_relative_uri (my_source);
-				if (g_strcmp0 (val1, val2) == 0 && val1 && *val1)
-					break;
-			}
-
-			/* didn't find matching source, thus add its copy */
-			if (liter == NULL) {
-				ESource *copy;
-
-				copy = e_source_copy (dupe_source);
-				e_source_group_add_source (first_local, copy, -1);
-				g_object_unref (copy);
-			}
-		}
-
-		to_remove = g_slist_prepend (to_remove, group);
-	}
-
-	if (first_local) {
-		GSList *sources;
-
-		for (sources = e_source_group_peek_sources (first_local);
-				sources != NULL; sources = sources->next) {
-			ESource *source = sources->data;
-			const gchar *relative_uri;
-
-			if (!source)
-				continue;
-
-			relative_uri = e_source_peek_relative_uri (source);
-			if (!relative_uri || !*relative_uri)
-				e_source_set_relative_uri (source, e_source_get_uid (source));
-		}
-	}
-
-	if (!to_remove) {
-		g_object_unref (source_list);
-		return;
-	}
-
-	for (iter = to_remove; iter; iter = iter->next) {
-		e_source_list_remove_group (source_list, iter->data);
-	}
-
-	e_source_list_sync (source_list, NULL);
-
-	g_object_unref (source_list);
-	g_slist_free (to_remove);
-}
-
 gboolean
 e_shell_migrate_attempt (EShell *shell)
 {
 	ESEvent *ese;
 	GSettings *settings;
-	GConfClient *client;
 	gint major, minor, micro;
 	gint last_major, last_minor, last_micro;
 	gint curr_major, curr_minor, curr_micro;
@@ -932,15 +828,6 @@ e_shell_migrate_attempt (EShell *shell)
 	 * make the choice */
 	if (!shell_migrate_attempt (shell, major, minor, micro))
 		_exit (EXIT_SUCCESS);
-
-	/* The 2.32.x (except of 2.32.2) lefts duplicate
-	 * On This Computer/Personal sources, thus clean the mess up */
-	client = gconf_client_get_default ();
-	merge_duplicate_local_sources (client, "/apps/evolution/addressbook/sources");
-	merge_duplicate_local_sources (client, "/apps/evolution/calendar/sources");
-	merge_duplicate_local_sources (client, "/apps/evolution/tasks/sources");
-	merge_duplicate_local_sources (client, "/apps/evolution/memos/sources");
-	g_object_unref (client);
 
 	/* Record a successful migration. */
 	string = g_strdup_printf (

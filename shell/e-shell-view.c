@@ -37,6 +37,7 @@
 
 #include "e-util/e-file-utils.h"
 #include "e-util/e-plugin-ui.h"
+#include "e-util/e-source-util.h"
 #include "e-util/e-ui-manager.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
@@ -1884,3 +1885,66 @@ e_shell_view_new_view_instance (EShellView *shell_view,
 
 	return view_instance;
 }
+
+/**
+ * e_shell_view_write_source:
+ * @shell_view: an #EShellView
+ * @source: an #ESource
+ *
+ * Submits the current contents of @source to the D-Bus service to be
+ * written to disk and broadcast to other clients.
+ *
+ * This function does not block: @shell_view will dispatch the operation
+ * asynchronously and handle any errors.
+ **/
+void
+e_shell_view_write_source (EShellView *shell_view,
+                           ESource *source)
+{
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	EShellBackend *shell_backend;
+	EShellContent *shell_content;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	alert_sink = E_ALERT_SINK (shell_content);
+	activity = e_source_util_write (source, alert_sink);
+	e_shell_backend_add_activity (shell_backend, activity);
+}
+
+/**
+ * e_shell_view_remove_source:
+ * @shell_view: an #EShellView
+ * @source: the #ESource to be removed
+ *
+ * Requests the D-Bus service to delete the key files for @source and all of
+ * its descendants and broadcast their removal to all clients.
+ *
+ * This function does not block: @shell_view will dispatch the operation
+ * asynchronously and handle any errors.
+ **/
+void
+e_shell_view_remove_source (EShellView *shell_view,
+                            ESource *source)
+{
+	EActivity *activity;
+	EAlertSink *alert_sink;
+	EShellBackend *shell_backend;
+	EShellContent *shell_content;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	alert_sink = E_ALERT_SINK (shell_content);
+	activity = e_source_util_remove (source, alert_sink);
+	e_shell_backend_add_activity (shell_backend, activity);
+}
+

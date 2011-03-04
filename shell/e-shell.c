@@ -53,6 +53,7 @@
 struct _EShellPrivate {
 	GQueue alerts;
 	EShellSettings *settings;
+	ESourceRegistry *registry;
 	GActionGroup *action_group;
 	GtkWidget *preferences_window;
 
@@ -90,6 +91,7 @@ enum {
 	PROP_MODULE_DIRECTORY,
 	PROP_NETWORK_AVAILABLE,
 	PROP_ONLINE,
+	PROP_REGISTRY,
 	PROP_SHELL_SETTINGS
 };
 
@@ -683,6 +685,12 @@ shell_get_property (GObject *object,
 				E_SHELL (object)));
 			return;
 
+		case PROP_REGISTRY:
+			g_value_set_object (
+				value, e_shell_get_registry (
+				E_SHELL (object)));
+			return;
+
 		case PROP_SHELL_SETTINGS:
 			g_value_set_object (
 				value, e_shell_get_shell_settings (
@@ -721,6 +729,11 @@ shell_dispose (GObject *object)
 	if (priv->settings != NULL) {
 		g_object_unref (priv->settings);
 		priv->settings = NULL;
+	}
+
+	if (priv->registry != NULL) {
+		g_object_unref (priv->registry);
+		priv->registry = NULL;
 	}
 
 	if (priv->action_group != NULL) {
@@ -857,10 +870,20 @@ shell_initable_init (GInitable *initable,
                      GError **error)
 {
 	GApplication *application = G_APPLICATION (initable);
+	EShellPrivate *priv;
+
+	priv = E_SHELL_GET_PRIVATE (initable);
 
 	shell_add_actions (application);
 
-	return g_application_register (application, cancellable, error);
+	priv->registry = e_source_registry_new_sync (cancellable, error);
+	if (priv->registry == NULL)
+		return FALSE;
+
+	if (!g_application_register (application, cancellable, error))
+		return FALSE;
+
+	return TRUE;
 }
 
 static void
@@ -1000,6 +1023,21 @@ e_shell_class_init (EShellClass *class)
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
+
+	/**
+	 * EShell:registry
+	 *
+	 * The #ESourceRegistry manages #ESource instances.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_REGISTRY,
+		g_param_spec_object (
+			"registry",
+			"Registry",
+			"Data source registry",
+			E_TYPE_SOURCE_REGISTRY,
+			G_PARAM_READABLE));
 
 	/**
 	 * EShell:settings
@@ -1394,6 +1432,22 @@ e_shell_get_shell_settings (EShell *shell)
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	return shell->priv->settings;
+}
+
+/**
+ * e_shell_get_registry:
+ * @shell: an #EShell
+ *
+ * Returns the shell's #ESourceRegistry which holds all #ESource instances.
+ *
+ * Returns: the #ESourceRegistry
+ **/
+ESourceRegistry *
+e_shell_get_registry (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	return shell->priv->registry;
 }
 
 /**

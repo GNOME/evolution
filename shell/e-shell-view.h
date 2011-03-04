@@ -22,6 +22,8 @@
 #ifndef E_SHELL_VIEW_H
 #define E_SHELL_VIEW_H
 
+#include <libedataserver/e-source.h>
+
 #include <shell/e-shell-common.h>
 #include <shell/e-shell-backend.h>
 #include <shell/e-shell-content.h>
@@ -228,6 +230,10 @@ GtkWidget *	e_shell_view_show_popup_menu	(EShellView *shell_view,
 GalViewInstance *
 		e_shell_view_new_view_instance	(EShellView *shell_view,
 						 const gchar *instance_id);
+void		e_shell_view_write_source	(EShellView *shell_view,
+						 ESource *source);
+void		e_shell_view_remove_source	(EShellView *shell_view,
+						 ESource *source);
 
 G_END_DECLS
 

@@ -736,27 +736,6 @@ action_custom_rule_cb (GtkAction *action,
 }
 
 /**
- * E_SHELL_WINDOW_ACTION_FORGET_PASSWORDS:
- * @window: an #EShellWindow
- *
- * Activation of this action deletes all stored passwords.
- *
- * Main menu item: File -> Forget Passwords
- **/
-static void
-action_forget_passwords_cb (GtkAction *action,
-                            EShellWindow *shell_window)
-{
-	gint response;
-
-	response = e_alert_run_dialog_for_args (
-		GTK_WINDOW (shell_window), "shell:forget-passwords", NULL);
-
-	if (response == GTK_RESPONSE_OK)
-		e_passwords_forget_passwords ();
-}
-
-/**
  * E_SHELL_WINDOW_ACTION_GAL_DEFINE_VIEWS:
  * @window: an #EShellWindow
  *
@@ -1481,13 +1460,6 @@ static GtkActionEntry shell_entries[] = {
 	  NULL,
 	  N_("Delete the selection"),
 	  NULL },  /* Handled by EFocusTracker */
-
-	{ "forget-passwords",
-	  NULL,
-	  N_("_Forget Passwords"),
-	  NULL,
-	  N_("Forget all remembered passwords"),
-	  G_CALLBACK (action_forget_passwords_cb) },
 
 	{ "import",
 	  "stock_mail-import",

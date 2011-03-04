@@ -17,7 +17,6 @@
       <placeholder name='print-actions'/>
       <separator/>
       <placeholder name='long-running-actions'/>
-      <menuitem action='forget-passwords'/>
       <menuitem action='work-online'/>
       <menuitem action='work-offline'/>
       <menuitem action='close'/>

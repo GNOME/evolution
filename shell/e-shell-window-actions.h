@@ -41,8 +41,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "cut-clipboard")
 #define E_SHELL_WINDOW_ACTION_DELETE_SELECTION(window) \
 	E_SHELL_WINDOW_ACTION ((window), "delete-selection")
-#define E_SHELL_WINDOW_ACTION_FORGET_PASSWORDS(window) \
-	E_SHELL_WINDOW_ACTION ((window), "forget-passwords")
 #define E_SHELL_WINDOW_ACTION_GAL_CUSTOM_VIEW(window) \
 	E_SHELL_WINDOW_ACTION ((window), "gal-custom-view")
 #define E_SHELL_WINDOW_ACTION_GAL_DEFINE_VIEWS(window) \
