@@ -992,12 +992,15 @@ efhd_add_bar (EMFormatHTML *efh,
 	if (!EM_IS_FORMAT_HTML_DISPLAY (efh))
 		return FALSE;
 
+	g_return_val_if_fail (pobject != NULL && pobject->classid != NULL, FALSE);
+	g_return_val_if_fail (g_str_has_prefix (pobject->classid, "attachment-bar:"), FALSE);
+
 	priv = EM_FORMAT_HTML_DISPLAY (efh)->priv;
 
 	widget = e_mail_attachment_bar_new ();
 	gtk_container_add (GTK_CONTAINER (eb), widget);
 
-	g_hash_table_insert (priv->attachment_views, g_strdup (EM_FORMAT (efh)->current_message_part_id), widget);
+	g_hash_table_insert (priv->attachment_views, g_strdup (strchr (pobject->classid, ':') + 1), widget);
 	g_object_weak_ref (G_OBJECT (widget), efhd_attachment_view_gone_cb, efh);
 	gtk_widget_hide (widget);
 
@@ -1014,7 +1017,9 @@ efhd_message_add_bar (EMFormat *emf,
                       CamelMimePart *part,
                       const EMFormatHandler *info)
 {
-	const gchar *classid = "attachment-bar";
+	gchar *classid;
+
+	classid = g_strdup_printf ("attachment-bar:%s", emf->current_message_part_id);
 
 	/* XXX Apparently this installs the callback for -all-
 	 *     EMFormatHTML subclasses, not just this subclass.
@@ -1027,6 +1032,8 @@ efhd_message_add_bar (EMFormat *emf,
 
 	camel_stream_printf (
 		stream, "<td><object classid=\"%s\"></object></td>", classid);
+
+	g_free (classid);
 }
 
 static void
