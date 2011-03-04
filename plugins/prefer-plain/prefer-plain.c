@@ -70,9 +70,25 @@ make_part_attachment (EMFormat *format, CamelStream *stream, CamelMimePart *part
 		em_format_part_as (
 			format, stream, part,
 			"application/octet-stream", NULL);
-	} else
+	} else if (i == -1 && CAMEL_IS_MIME_MESSAGE (part)) {
+		/* message was asked to be formatted as text/html;
+		   might be for cases where message itself is a text/html part */
+		CamelMimePart *new_part;
+		CamelDataWrapper *content;
+
+		content = camel_medium_get_content (CAMEL_MEDIUM (part));
+		g_return_if_fail (content != NULL);
+
+		new_part = camel_mime_part_new ();
+		camel_medium_set_content (CAMEL_MEDIUM (new_part), content);
+
+		em_format_part (format, stream, new_part, NULL);
+
+		g_object_unref (new_part);
+	} else {
 		/* FIXME Not passing a GCancellable here. */
 		em_format_part (format, stream, part, NULL);
+	}
 
 	g_string_truncate (format->part_id, partidlen);
 }
