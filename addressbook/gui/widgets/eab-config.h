@@ -31,7 +31,6 @@
 #define EAB_TYPE_CONFIG (eab_config_get_type ())
 #define EAB_CONFIG(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EAB_TYPE_CONFIG, EABConfig))
 
-
 G_BEGIN_DECLS
 
 typedef struct _EABConfig EABConfig;
