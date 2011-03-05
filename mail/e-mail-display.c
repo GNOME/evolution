@@ -363,7 +363,8 @@ mail_display_init (EMailDisplay *display)
 
 	web_view = E_WEB_VIEW (display);
 
-	display->priv = G_TYPE_INSTANCE_GET_PRIVATE (display, E_TYPE_MAIL_DISPLAY, EMailDisplayPrivate);
+	display->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		display, E_TYPE_MAIL_DISPLAY, EMailDisplayPrivate);
 
 	/* EWebView's action groups are added during its instance
 	 * initialization function (like what we're in now), so it

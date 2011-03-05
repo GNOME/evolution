@@ -386,7 +386,8 @@ e_cell_toggle_class_init (ECellToggleClass *class)
 static void
 e_cell_toggle_init (ECellToggle *cell_toggle)
 {
-	cell_toggle->priv = G_TYPE_INSTANCE_GET_PRIVATE (cell_toggle, E_TYPE_CELL_TOGGLE, ECellTogglePrivate);
+	cell_toggle->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		cell_toggle, E_TYPE_CELL_TOGGLE, ECellTogglePrivate);
 
 	cell_toggle->priv->empty =
 		gdk_pixbuf_new_from_xpm_data (empty_xpm);

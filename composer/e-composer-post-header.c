@@ -245,7 +245,9 @@ e_composer_post_header_class_init (EComposerPostHeaderClass *class)
 static void
 e_composer_post_header_init (EComposerPostHeader *header)
 {
-	header->priv = G_TYPE_INSTANCE_GET_PRIVATE (header, E_TYPE_COMPOSER_POST_HEADER, EComposerPostHeaderPrivate);
+	header->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		header, E_TYPE_COMPOSER_POST_HEADER,
+		EComposerPostHeaderPrivate);
 }
 
 EComposerHeader *

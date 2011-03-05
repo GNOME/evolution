@@ -356,7 +356,8 @@ emf_init (EMFormat *emf)
 	EShell *shell;
 	EShellSettings *shell_settings;
 
-	emf->priv = G_TYPE_INSTANCE_GET_PRIVATE (emf, EM_TYPE_FORMAT, EMFormatPrivate);
+	emf->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		emf, EM_TYPE_FORMAT, EMFormatPrivate);
 
 	emf->inline_table = g_hash_table_new_full (
 		g_str_hash, g_str_equal,

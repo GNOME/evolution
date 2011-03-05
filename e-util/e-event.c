@@ -109,7 +109,8 @@ e_event_class_init (EEventClass *class)
 static void
 e_event_init (EEvent *event)
 {
-	event->priv = G_TYPE_INSTANCE_GET_PRIVATE (event, E_TYPE_EVENT, EEventPrivate);
+	event->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		event, E_TYPE_EVENT, EEventPrivate);
 
 	g_queue_init (&event->priv->events);
 }
@@ -380,11 +381,13 @@ emph_event_handle (EEvent *ee, EEventItem *item, gpointer data)
 {
 	EEventHook *hook = data;
 
-	/* FIXME: we could/should just remove the items we added to the event handler */
+	/* FIXME We could/should just remove the items
+	 *       we added to the event handler. */
 	if (!hook->hook.plugin->enabled)
 		return;
 
-	e_plugin_invoke (hook->hook.plugin, (gchar *)item->user_data, ee->target);
+	e_plugin_invoke (
+		hook->hook.plugin, (gchar *)item->user_data, ee->target);
 }
 
 static void
@@ -449,7 +452,8 @@ emph_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	d(printf("loading event hook\n"));
 
-	if (((EPluginHookClass *)e_event_hook_parent_class)->construct (eph, ep, root) == -1)
+	if (((EPluginHookClass *)e_event_hook_parent_class)->
+		construct (eph, ep, root) == -1)
 		return -1;
 
 	class = E_EVENT_HOOK_GET_CLASS (eph);

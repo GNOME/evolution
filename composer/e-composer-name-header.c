@@ -261,7 +261,9 @@ e_composer_name_header_class_init (EComposerNameHeaderClass *class)
 static void
 e_composer_name_header_init (EComposerNameHeader *header)
 {
-	header->priv = G_TYPE_INSTANCE_GET_PRIVATE (header, E_TYPE_COMPOSER_NAME_HEADER, EComposerNameHeaderPrivate);
+	header->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		header, E_TYPE_COMPOSER_NAME_HEADER,
+		EComposerNameHeaderPrivate);
 }
 
 EComposerHeader *

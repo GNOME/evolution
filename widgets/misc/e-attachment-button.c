@@ -564,7 +564,8 @@ e_attachment_button_init (EAttachmentButton *button)
 	GtkWidget *widget;
 	gint n_targets;
 
-	button->priv = G_TYPE_INSTANCE_GET_PRIVATE (button, E_TYPE_ATTACHMENT_BUTTON, EAttachmentButtonPrivate);
+	button->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		button, E_TYPE_ATTACHMENT_BUTTON, EAttachmentButtonPrivate);
 
 	/* Configure Widgets */
 

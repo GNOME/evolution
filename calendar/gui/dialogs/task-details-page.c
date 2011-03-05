@@ -436,7 +436,8 @@ task_details_page_class_init (TaskDetailsPageClass *class)
 static void
 task_details_page_init (TaskDetailsPage *tdpage)
 {
-	tdpage->priv = G_TYPE_INSTANCE_GET_PRIVATE (tdpage, TYPE_TASK_DETAILS_PAGE, TaskDetailsPagePrivate);
+	tdpage->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		tdpage, TYPE_TASK_DETAILS_PAGE, TaskDetailsPagePrivate);
 }
 
 /* Gets the widgets from the XML file and returns if they are all available. */

@@ -136,7 +136,8 @@ memo_editor_init (MemoEditor *me)
 	const gchar *id;
 	GError *error = NULL;
 
-	me->priv = G_TYPE_INSTANCE_GET_PRIVATE (me, TYPE_MEMO_EDITOR, MemoEditorPrivate);
+	me->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		me, TYPE_MEMO_EDITOR, MemoEditorPrivate);
 	me->priv->updating = FALSE;
 
 	ui_manager = comp_editor_get_ui_manager (editor);

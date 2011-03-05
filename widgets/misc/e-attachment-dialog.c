@@ -291,7 +291,8 @@ e_attachment_dialog_init (EAttachmentDialog *dialog)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (dialog, E_TYPE_ATTACHMENT_DIALOG, EAttachmentDialogPrivate);
+	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		dialog, E_TYPE_ATTACHMENT_DIALOG, EAttachmentDialogPrivate);
 
 	gtk_dialog_add_button (
 		GTK_DIALOG (dialog), GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);

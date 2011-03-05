@@ -226,7 +226,9 @@ e_signature_script_dialog_init (ESignatureScriptDialog *dialog)
 	GtkWidget *widget;
 	gchar *markup;
 
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (dialog, E_TYPE_SIGNATURE_SCRIPT_DIALOG, ESignatureScriptDialogPrivate);
+	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		dialog, E_TYPE_SIGNATURE_SCRIPT_DIALOG,
+		ESignatureScriptDialogPrivate);
 
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 

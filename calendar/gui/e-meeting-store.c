@@ -818,7 +818,8 @@ e_meeting_store_class_init (EMeetingStoreClass *class)
 static void
 e_meeting_store_init (EMeetingStore *store)
 {
-	store->priv = G_TYPE_INSTANCE_GET_PRIVATE (store, E_TYPE_MEETING_STORE, EMeetingStorePrivate);
+	store->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		store, E_TYPE_MEETING_STORE, EMeetingStorePrivate);
 
 	store->priv->attendees = g_ptr_array_new ();
 	store->priv->refresh_queue = g_ptr_array_new ();

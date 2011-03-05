@@ -504,7 +504,9 @@ e_attachment_tree_view_init (EAttachmentTreeView *tree_view)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 
-	tree_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (tree_view, E_TYPE_ATTACHMENT_TREE_VIEW, EAttachmentTreeViewPrivate);
+	tree_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		tree_view, E_TYPE_ATTACHMENT_TREE_VIEW,
+		EAttachmentTreeViewPrivate);
 
 	e_attachment_view_init (E_ATTACHMENT_VIEW (tree_view));
 

@@ -520,7 +520,8 @@ e_plugin_ui_hook_init (EPluginUIHook *hook)
 
 	registry = g_hash_table_new (g_direct_hash, g_direct_equal);
 
-	hook->priv = G_TYPE_INSTANCE_GET_PRIVATE (hook, E_TYPE_PLUGIN_UI_HOOK, EPluginUIHookPrivate);
+	hook->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		hook, E_TYPE_PLUGIN_UI_HOOK, EPluginUIHookPrivate);
 	hook->priv->ui_definitions = ui_definitions;
 	hook->priv->callbacks = callbacks;
 	hook->priv->registry = registry;

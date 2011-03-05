@@ -181,7 +181,8 @@ mail_label_dialog_init (EMailLabelDialog *dialog)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (dialog, E_TYPE_MAIL_LABEL_DIALOG, EMailLabelDialogPrivate);
+	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		dialog, E_TYPE_MAIL_LABEL_DIALOG, EMailLabelDialogPrivate);
 
 	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 

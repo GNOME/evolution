@@ -501,7 +501,8 @@ e_signature_manager_init (ESignatureManager *manager)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	manager->priv = G_TYPE_INSTANCE_GET_PRIVATE (manager, E_TYPE_SIGNATURE_MANAGER, ESignatureManagerPrivate);
+	manager->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		manager, E_TYPE_SIGNATURE_MANAGER, ESignatureManagerPrivate);
 
 	gtk_table_resize (GTK_TABLE (manager), 1, 2);
 	gtk_table_set_col_spacings (GTK_TABLE (manager), 6);

@@ -254,20 +254,30 @@ e_alert_load (const gchar *path)
 						button->stock_id = stock_id;
 						xmlFree (tmp);
 					}
-					tmp = (gchar *)xmlGetProp(scan, (const guchar *)"label");
+					tmp = (gchar *) xmlGetProp (
+						scan, (xmlChar *) "label");
 					if (tmp) {
-						label = g_strdup (dgettext (table->translation_domain, tmp));
+						label = g_strdup (
+							dgettext (table->
+							translation_domain,
+							tmp));
 						button->label = label;
 						xmlFree (tmp);
 					}
-					tmp = (gchar *)xmlGetProp(scan, (const guchar *)"response");
+					tmp = (gchar *) xmlGetProp (
+						scan, (xmlChar *) "response");
 					if (tmp) {
-						button->response_id = map_response (tmp);
+						button->response_id =
+							map_response (tmp);
 						xmlFree (tmp);
 					}
 
 					if (stock_id == NULL && label == NULL) {
-						g_warning("Error file '%s': missing button details in error '%s'", path, e->id);
+						g_warning (
+							"Error file '%s': "
+							"missing button "
+							"details in error "
+							"'%s'", path, e->id);
 						g_free (stock_id);
 						g_free (label);
 						g_free (button);
@@ -362,7 +372,9 @@ alert_format_string (const gchar *format,
 		if (id < args->len) {
 			g_string_append (string, args->pdata[id]);
 		} else
-			g_warning("Error references argument %d not supplied by caller", id);
+			g_warning (
+				"Error references argument %d "
+				"not supplied by caller", id);
 		format = end + 1;
 	}
 
@@ -651,7 +663,8 @@ e_alert_class_init (EAlertClass *class)
 static void
 e_alert_init (EAlert *alert)
 {
-	alert->priv = G_TYPE_INSTANCE_GET_PRIVATE (alert, E_TYPE_ALERT, EAlertPrivate);
+	alert->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		alert, E_TYPE_ALERT, EAlertPrivate);
 
 	g_queue_init (&alert->priv->actions);
 }

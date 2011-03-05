@@ -467,7 +467,9 @@ static void
 task_shell_view_init (ETaskShellView *task_shell_view,
                       EShellViewClass *shell_view_class)
 {
-	task_shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (task_shell_view, E_TYPE_TASK_SHELL_VIEW, ETaskShellViewPrivate);
+	task_shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		task_shell_view, E_TYPE_TASK_SHELL_VIEW,
+		ETaskShellViewPrivate);
 
 	e_task_shell_view_private_init (task_shell_view, shell_view_class);
 }

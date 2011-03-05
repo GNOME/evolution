@@ -180,7 +180,8 @@ e_alert_bar_init (EAlertBar *alert_bar)
 	PangoAttribute *attr;
 	PangoAttrList *attr_list;
 
-	alert_bar->priv = G_TYPE_INSTANCE_GET_PRIVATE (alert_bar, E_TYPE_ALERT_BAR, EAlertBarPrivate);
+	alert_bar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		alert_bar, E_TYPE_ALERT_BAR, EAlertBarPrivate);
 
 	g_queue_init (&alert_bar->priv->alerts);
 

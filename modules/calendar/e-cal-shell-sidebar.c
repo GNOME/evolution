@@ -845,7 +845,9 @@ cal_shell_sidebar_init (ECalShellSidebar *cal_shell_sidebar)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_object_unref);
 
-	cal_shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (cal_shell_sidebar, E_TYPE_CAL_SHELL_SIDEBAR, ECalShellSidebarPrivate);
+	cal_shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		cal_shell_sidebar, E_TYPE_CAL_SHELL_SIDEBAR,
+		ECalShellSidebarPrivate);
 
 	cal_shell_sidebar->priv->client_table = client_table;
 

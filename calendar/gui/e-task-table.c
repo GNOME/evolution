@@ -1427,7 +1427,8 @@ task_table_init (ETaskTable *task_table)
 {
 	GtkTargetList *target_list;
 
-	task_table->priv = G_TYPE_INSTANCE_GET_PRIVATE (task_table, E_TYPE_TASK_TABLE, ETaskTablePrivate);
+	task_table->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		task_table, E_TYPE_TASK_TABLE, ETaskTablePrivate);
 
 	target_list = gtk_target_list_new (NULL, 0);
 	e_target_list_add_calendar_targets (target_list, 0);

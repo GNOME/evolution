@@ -211,7 +211,8 @@ e_preview_pane_class_init (EPreviewPaneClass *class)
 static void
 e_preview_pane_init (EPreviewPane *preview_pane)
 {
-	preview_pane->priv = G_TYPE_INSTANCE_GET_PRIVATE (preview_pane, E_TYPE_PREVIEW_PANE, EPreviewPanePrivate);
+	preview_pane->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		preview_pane, E_TYPE_PREVIEW_PANE, EPreviewPanePrivate);
 
 	gtk_box_set_spacing (GTK_BOX (preview_pane), 1);
 }

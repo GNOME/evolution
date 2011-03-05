@@ -1257,7 +1257,8 @@ day_view_main_item_class_init (EDayViewMainItemClass *class)
 static void
 day_view_main_item_init (EDayViewMainItem *main_item)
 {
-	main_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (main_item, E_TYPE_DAY_VIEW_MAIN_ITEM, EDayViewMainItemPrivate);
+	main_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		main_item, E_TYPE_DAY_VIEW_MAIN_ITEM, EDayViewMainItemPrivate);
 }
 
 GType

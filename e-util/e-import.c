@@ -533,7 +533,8 @@ emph_construct (EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 
 	d (printf ("loading import hook\n"));
 
-	if (E_PLUGIN_HOOK_CLASS (e_import_hook_parent_class)->construct (eph, ep, root) == -1)
+	if (E_PLUGIN_HOOK_CLASS (e_import_hook_parent_class)->
+		construct (eph, ep, root) == -1)
 		return -1;
 
 	class = E_IMPORT_HOOK_GET_CLASS (eph)->import_class;

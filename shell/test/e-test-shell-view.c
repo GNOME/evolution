@@ -123,7 +123,9 @@ test_shell_view_class_init (ETestShellViewClass *class,
 static void
 test_shell_view_init (ETestShellView *test_shell_view)
 {
-	test_shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (test_shell_view, E_TYPE_TEST_SHELL_VIEW, ETestShellViewPrivate);
+	test_shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		test_shell_view, E_TYPE_TEST_SHELL_VIEW,
+		ETestShellViewPrivate);
 }
 
 GType

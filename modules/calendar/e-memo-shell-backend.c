@@ -559,7 +559,9 @@ memo_shell_backend_class_init (EMemoShellBackendClass *class)
 static void
 memo_shell_backend_init (EMemoShellBackend *memo_shell_backend)
 {
-	memo_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (memo_shell_backend, E_TYPE_MEMO_SHELL_BACKEND, EMemoShellBackendPrivate);
+	memo_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		memo_shell_backend, E_TYPE_MEMO_SHELL_BACKEND,
+		EMemoShellBackendPrivate);
 }
 
 GType

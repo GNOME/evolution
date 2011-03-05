@@ -844,7 +844,8 @@ addressbook_view_init (EAddressbookView *view)
 {
 	GtkTargetList *target_list;
 
-	view->priv = G_TYPE_INSTANCE_GET_PRIVATE (view, E_TYPE_ADDRESSBOOK_VIEW, EAddressbookViewPrivate);
+	view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		view, E_TYPE_ADDRESSBOOK_VIEW, EAddressbookViewPrivate);
 
 	view->priv->model = e_addressbook_model_new ();
 

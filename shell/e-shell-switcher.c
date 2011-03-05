@@ -547,7 +547,8 @@ e_shell_switcher_class_init (EShellSwitcherClass *class)
 static void
 e_shell_switcher_init (EShellSwitcher *switcher)
 {
-	switcher->priv = G_TYPE_INSTANCE_GET_PRIVATE (switcher, E_TYPE_SHELL_SWITCHER, EShellSwitcherPrivate);
+	switcher->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		switcher, E_TYPE_SHELL_SWITCHER, EShellSwitcherPrivate);
 
 	gtk_widget_set_has_window (GTK_WIDGET (switcher), FALSE);
 

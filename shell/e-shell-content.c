@@ -466,7 +466,8 @@ e_shell_content_alert_sink_init (EAlertSinkInterface *interface)
 static void
 e_shell_content_init (EShellContent *shell_content)
 {
-	shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (shell_content, E_TYPE_SHELL_CONTENT, EShellContentPrivate);
+	shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		shell_content, E_TYPE_SHELL_CONTENT, EShellContentPrivate);
 
 	gtk_widget_set_has_window (GTK_WIDGET (shell_content), FALSE);
 }

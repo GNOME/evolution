@@ -1266,7 +1266,8 @@ contact_list_editor_init (EContactListEditor *editor)
 	GtkCellRenderer *renderer;
 	GtkTreeView *view;
 
-	editor->priv = priv = G_TYPE_INSTANCE_GET_PRIVATE (editor, E_TYPE_CONTACT_LIST_EDITOR, EContactListEditorPrivate);
+	editor->priv = priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		editor, E_TYPE_CONTACT_LIST_EDITOR, EContactListEditorPrivate);
 
 	priv->editable = TRUE;
 	priv->allows_contact_lists = TRUE;

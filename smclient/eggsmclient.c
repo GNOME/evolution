@@ -52,7 +52,8 @@ static EggSMClientMode global_client_mode = EGG_SM_CLIENT_MODE_NORMAL;
 static void
 egg_sm_client_init (EggSMClient *client)
 {
-	client->priv = G_TYPE_INSTANCE_GET_PRIVATE (client, EGG_TYPE_SM_CLIENT, EggSMClientPrivate);
+	client->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		client, EGG_TYPE_SM_CLIENT, EggSMClientPrivate);
 }
 
 static void

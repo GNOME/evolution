@@ -676,7 +676,9 @@ task_shell_content_class_init (ETaskShellContentClass *class)
 static void
 task_shell_content_init (ETaskShellContent *task_shell_content)
 {
-	task_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (task_shell_content, E_TYPE_TASK_SHELL_CONTENT, ETaskShellContentPrivate);
+	task_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		task_shell_content, E_TYPE_TASK_SHELL_CONTENT,
+		ETaskShellContentPrivate);
 
 	/* Postpone widget construction until we have a shell view. */
 }

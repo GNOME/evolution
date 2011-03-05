@@ -1078,7 +1078,8 @@ e_shell_view_init (EShellView *shell_view,
 
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_VERTICAL);
 
-	shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (shell_view, E_TYPE_SHELL_VIEW, EShellViewPrivate);
+	shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		shell_view, E_TYPE_SHELL_VIEW, EShellViewPrivate);
 	shell_view->priv->state_key_file = g_key_file_new ();
 	shell_view->priv->size_group = size_group;
 }

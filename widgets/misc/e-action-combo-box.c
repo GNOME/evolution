@@ -427,7 +427,8 @@ e_action_combo_box_class_init (EActionComboBoxClass *class)
 static void
 e_action_combo_box_init (EActionComboBox *combo_box)
 {
-	combo_box->priv = G_TYPE_INSTANCE_GET_PRIVATE (combo_box, E_TYPE_ACTION_COMBO_BOX, EActionComboBoxPrivate);
+	combo_box->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		combo_box, E_TYPE_ACTION_COMBO_BOX, EActionComboBoxPrivate);
 
 	combo_box->priv->index = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal,

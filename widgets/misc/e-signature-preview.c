@@ -211,7 +211,8 @@ e_signature_preview_class_init (ESignaturePreviewClass *class)
 static void
 e_signature_preview_init (ESignaturePreview *preview)
 {
-	preview->priv = G_TYPE_INSTANCE_GET_PRIVATE (preview, E_TYPE_SIGNATURE_PREVIEW, ESignaturePreviewPrivate);
+	preview->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		preview, E_TYPE_SIGNATURE_PREVIEW, ESignaturePreviewPrivate);
 }
 
 GtkWidget *

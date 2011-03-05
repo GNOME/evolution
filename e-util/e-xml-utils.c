@@ -75,7 +75,8 @@ e_xml_get_child_by_name_by_lang (const xmlNode *parent,
 	}
 	for (child = parent->xmlChildrenNode; child != NULL; child = child->next) {
 		if (xmlStrcmp (child->name, child_name) == 0) {
-			xmlChar *this_lang = xmlGetProp (child, (const guchar *)"lang");
+			xmlChar *this_lang = xmlGetProp (
+				child, (const guchar *)"lang");
 			if (this_lang == NULL) {
 				C = child;
 			} else if (xmlStrcmp (this_lang, (xmlChar *)lang) == 0) {

@@ -396,7 +396,8 @@ e_signature_editor_init (ESignatureEditor *editor)
 	GtkWidget *vbox;
 	GError *error = NULL;
 
-	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (editor, E_TYPE_SIGNATURE_EDITOR, ESignatureEditorPrivate);
+	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		editor, E_TYPE_SIGNATURE_EDITOR, ESignatureEditorPrivate);
 	vbox = GTKHTML_EDITOR (editor)->vbox;
 
 	gtkhtml_editor = GTKHTML_EDITOR (editor);

@@ -452,7 +452,9 @@ book_shell_content_class_init (EBookShellContentClass *class)
 static void
 book_shell_content_init (EBookShellContent *book_shell_content)
 {
-	book_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (book_shell_content, E_TYPE_BOOK_SHELL_CONTENT, EBookShellContentPrivate);
+	book_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		book_shell_content, E_TYPE_BOOK_SHELL_CONTENT,
+		EBookShellContentPrivate);
 
 	/* Postpone widget construction until we have a shell view. */
 }

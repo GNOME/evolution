@@ -253,7 +253,8 @@ e_activity_bar_init (EActivityBar *bar)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	bar->priv = G_TYPE_INSTANCE_GET_PRIVATE (bar, E_TYPE_ACTIVITY_BAR, EActivityBarPrivate);
+	bar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		bar, E_TYPE_ACTIVITY_BAR, EActivityBarPrivate);
 
 	container = gtk_info_bar_get_content_area (GTK_INFO_BAR (bar));
 

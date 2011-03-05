@@ -909,7 +909,8 @@ e_shell_searchbar_init (EShellSearchbar *searchbar)
 	GtkLabel *label;
 	GtkWidget *widget;
 
-	searchbar->priv = G_TYPE_INSTANCE_GET_PRIVATE (searchbar, E_TYPE_SHELL_SEARCHBAR, EShellSearchbarPrivate);
+	searchbar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		searchbar, E_TYPE_SHELL_SEARCHBAR, EShellSearchbarPrivate);
 
 	gtk_box_set_spacing (GTK_BOX (searchbar), 24);
 

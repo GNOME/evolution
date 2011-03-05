@@ -154,8 +154,6 @@ ep_construct (EPlugin *ep, xmlNodePtr root)
 
 	ep->name = e_plugin_xml_prop_domain(root, "name", ep->domain);
 
-	pd(printf("creating plugin '%s' '%s'\n", ep->name?ep->name:"un-named", ep->id));
-
 	node = root->children;
 	while (node) {
 		if (strcmp((gchar *)node->name, "hook") == 0) {
@@ -173,12 +171,15 @@ ep_construct (EPlugin *ep, xmlNodePtr root)
 
 			if (ep->enabled
 			    && eph_types != NULL
-			    && (type = g_hash_table_lookup (eph_types, class)) != NULL) {
+			    && (type = g_hash_table_lookup (
+					eph_types, class)) != NULL) {
 				g_free (class);
 				hook = g_object_new (G_OBJECT_CLASS_TYPE (type), NULL);
 				res = type->construct (hook, ep, node);
 				if (res == -1) {
-					g_warning("Plugin '%s' failed to load hook", ep->name);
+					g_warning (
+						"Plugin '%s' failed to "
+						"load hook", ep->name);
 					g_object_unref (hook);
 					goto fail;
 				} else {
@@ -188,7 +189,8 @@ ep_construct (EPlugin *ep, xmlNodePtr root)
 				g_free (class);
 			}
 		} else if (strcmp((gchar *)node->name, "description") == 0) {
-			ep->description = e_plugin_xml_content_domain (node, ep->domain);
+			ep->description =
+				e_plugin_xml_content_domain (node, ep->domain);
 		} else if (strcmp((gchar *)node->name, "author") == 0) {
 			gchar *name = e_plugin_xml_prop(node, "name");
 			gchar *email = e_plugin_xml_prop(node, "email");
@@ -353,7 +355,6 @@ ep_load_plugin (xmlNodePtr root, struct _plugin_doc *pdoc)
 	 * which is checked when a new type is registered. */
 	class = g_hash_table_lookup (ep_types, prop);
 	if (class == NULL) {
-		pd(printf("Delaying loading of plugin '%s' unknown type '%s'\n", id, prop));
 		g_free (id);
 		xmlFree (prop);
 		return NULL;
@@ -404,22 +405,20 @@ ep_load (const gchar *filename, gint load_level)
 				if ((atoi (plugin_load_level) == load_level) ) {
 					ep = ep_load_plugin (root, pdoc);
 
-					if (ep) {
-						if (load_level == 1)
-							e_plugin_invoke (ep, "load_plugin_type_register_function", NULL);
-					}
+					if (ep && load_level == 1)
+						e_plugin_invoke (ep, "load_plugin_type_register_function", NULL);
 				}
 			} else if (load_level == 2) {
 				ep = ep_load_plugin (root, pdoc);
 			}
 
 			if (ep) {
-				pd(printf ("\nloading plugin [%s] at load_level [%d]\n", ep->name, load_level));
-
-				/* README: May be we can use load_levels to achieve the same thing.
-				   But it may be confusing for a plugin writer */
-				is_system_plugin = e_plugin_xml_prop (root, "system_plugin");
-				if (is_system_plugin && !strcmp (is_system_plugin, "true")) {
+				/* README: Maybe we can use load_levels to
+				 * achieve the same thing.  But it may be
+				 * confusing for a plugin writer. */
+				is_system_plugin =
+					e_plugin_xml_prop (root, "system_plugin");
+				if (g_strcmp0 (is_system_plugin, "true") == 0) {
 					e_plugin_enable (ep, TRUE);
 					ep->flags |= E_PLUGIN_FLAGS_SYSTEM_PLUGIN;
 				} else
@@ -559,8 +558,9 @@ e_plugin_load_plugins (void)
 
 			while ((d = g_dir_read_name (dir))) {
 				if (g_str_has_suffix  (d, ".eplug")) {
-					gchar * name = g_build_filename (path, d, NULL);
+					gchar *name;
 
+					name = g_build_filename (path, d, NULL);
 					ep_load (name, i);
 					g_free (name);
 				}

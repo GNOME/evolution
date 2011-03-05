@@ -320,7 +320,9 @@ addressbook_selector_class_init (EAddressbookSelectorClass *class)
 static void
 addressbook_selector_init (EAddressbookSelector *selector)
 {
-	selector->priv = G_TYPE_INSTANCE_GET_PRIVATE (selector, E_TYPE_ADDRESSBOOK_SELECTOR, EAddressbookSelectorPrivate);
+	selector->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		selector, E_TYPE_ADDRESSBOOK_SELECTOR,
+		EAddressbookSelectorPrivate);
 
 	gtk_drag_dest_set (
 		GTK_WIDGET (selector), GTK_DEST_DEFAULT_ALL,

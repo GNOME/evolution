@@ -1194,7 +1194,8 @@ eab_contact_display_init (EABContactDisplay *display)
 	const gchar *domain = GETTEXT_PACKAGE;
 	GError *error = NULL;
 
-	display->priv = G_TYPE_INSTANCE_GET_PRIVATE (display, EAB_TYPE_CONTACT_DISPLAY, EABContactDisplayPrivate);
+	display->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		display, EAB_TYPE_CONTACT_DISPLAY, EABContactDisplayPrivate);
 	display->priv->mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
 	display->priv->orientation = GTK_ORIENTATION_HORIZONTAL;
 

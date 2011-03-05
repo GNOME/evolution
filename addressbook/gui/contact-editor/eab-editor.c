@@ -214,7 +214,8 @@ eab_editor_class_init (EABEditorClass *class)
 static void
 eab_editor_init (EABEditor *editor)
 {
-	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (editor, EAB_TYPE_EDITOR, EABEditorPrivate);
+	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		editor, EAB_TYPE_EDITOR, EABEditorPrivate);
 
 	all_editors = g_slist_prepend (all_editors, editor);
 }

@@ -819,14 +819,16 @@ merge_duplicate_local_sources (GConfClient *client, const gchar *gconf_key)
 		}
 
 		/* merging respective sources */
-		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
+		for (sources = e_source_group_peek_sources (group);
+				sources != NULL; sources = sources->next) {
 			GSList *liter;
 			ESource *dupe_source = sources->data;
 
 			if (!dupe_source)
 				continue;
 
-			for (liter = e_source_group_peek_sources (first_local); liter != NULL; liter = liter->next) {
+			for (liter = e_source_group_peek_sources (first_local);
+					liter != NULL; liter = liter->next) {
 				ESource *my_source = liter->data;
 				const gchar *val1, *val2;
 

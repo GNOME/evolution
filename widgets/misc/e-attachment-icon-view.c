@@ -527,7 +527,9 @@ e_attachment_icon_view_class_init (EAttachmentIconViewClass *class)
 static void
 e_attachment_icon_view_init (EAttachmentIconView *icon_view)
 {
-	icon_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (icon_view, E_TYPE_ATTACHMENT_ICON_VIEW, EAttachmentIconViewPrivate);
+	icon_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		icon_view, E_TYPE_ATTACHMENT_ICON_VIEW,
+		EAttachmentIconViewPrivate);
 
 	e_attachment_view_init (E_ATTACHMENT_VIEW (icon_view));
 

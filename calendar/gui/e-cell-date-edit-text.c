@@ -266,7 +266,8 @@ cell_date_edit_text_class_init (ECellDateEditTextClass *class)
 static void
 cell_date_edit_text_init (ECellDateEditText *ecd)
 {
-	ecd->priv = G_TYPE_INSTANCE_GET_PRIVATE (ecd, E_TYPE_CELL_DATE_EDIT_TEXT, ECellDateEditTextPrivate);
+	ecd->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		ecd, E_TYPE_CELL_DATE_EDIT_TEXT, ECellDateEditTextPrivate);
 
 	ecd->priv->timezone = icaltimezone_get_utc_timezone ();
 	ecd->priv->use_24_hour_format = TRUE;

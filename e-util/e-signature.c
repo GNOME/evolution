@@ -319,7 +319,8 @@ e_signature_class_init (ESignatureClass *class)
 static void
 e_signature_init (ESignature *signature)
 {
-	signature->priv = G_TYPE_INSTANCE_GET_PRIVATE (signature, E_TYPE_SIGNATURE, ESignaturePrivate);
+	signature->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		signature, E_TYPE_SIGNATURE, ESignaturePrivate);
 }
 
 /**
@@ -453,12 +454,15 @@ e_signature_set_from_xml (ESignature *signature, const gchar *xml)
 	cur = node->children;
 	while (cur) {
 		if (!strcmp ((gchar *)cur->name, "filename")) {
-			changed |= xml_set_content (cur, &signature->priv->filename);
-			changed |= xml_set_bool (cur, "script", &signature->priv->is_script);
+			changed |= xml_set_content (
+				cur, &signature->priv->filename);
+			changed |= xml_set_bool (
+				cur, "script", &signature->priv->is_script);
 			break;
 		} else if (!strcmp ((gchar *)cur->name, "script")) {
 			/* this is for handling 1.4 signature script definitions */
-			changed |= xml_set_content (cur, &signature->priv->filename);
+			changed |= xml_set_content (
+				cur, &signature->priv->filename);
 			if (!e_signature_get_is_script (signature)) {
 				e_signature_set_is_script (signature, TRUE);
 				changed = TRUE;

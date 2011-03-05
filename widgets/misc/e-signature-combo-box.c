@@ -219,7 +219,9 @@ e_signature_combo_box_init (ESignatureComboBox *combo_box)
 		(GDestroyNotify) g_object_unref,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 
-	combo_box->priv = G_TYPE_INSTANCE_GET_PRIVATE (combo_box, E_TYPE_SIGNATURE_COMBO_BOX, ESignatureComboBoxPrivate);
+	combo_box->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		combo_box, E_TYPE_SIGNATURE_COMBO_BOX,
+		ESignatureComboBoxPrivate);
 	combo_box->priv->index = index;
 }
 

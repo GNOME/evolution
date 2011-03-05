@@ -1080,7 +1080,9 @@ e_searching_tokenizer_class_init (ESearchingTokenizerClass *class)
 static void
 e_searching_tokenizer_init (ESearchingTokenizer *tokenizer)
 {
-	tokenizer->priv = G_TYPE_INSTANCE_GET_PRIVATE (tokenizer, E_TYPE_SEARCHING_TOKENIZER, ESearchingTokenizerPrivate);
+	tokenizer->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		tokenizer, E_TYPE_SEARCHING_TOKENIZER,
+		ESearchingTokenizerPrivate);
 
 	tokenizer->priv->primary = search_info_new ();
 	search_info_set_flags (

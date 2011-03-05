@@ -243,5 +243,7 @@ e_attachment_handler_image_class_init (EAttachmentHandlerImageClass *class)
 static void
 e_attachment_handler_image_init (EAttachmentHandlerImage *handler)
 {
-	handler->priv = G_TYPE_INSTANCE_GET_PRIVATE (handler, E_TYPE_ATTACHMENT_HANDLER_IMAGE, EAttachmentHandlerImagePrivate);
+	handler->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		handler, E_TYPE_ATTACHMENT_HANDLER_IMAGE,
+		EAttachmentHandlerImagePrivate);
 }

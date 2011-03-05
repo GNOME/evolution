@@ -159,7 +159,9 @@ gal_view_factory_etable_class_init (GalViewFactoryEtableClass *class)
 static void
 gal_view_factory_etable_init (GalViewFactoryEtable *factory)
 {
-	factory->priv = G_TYPE_INSTANCE_GET_PRIVATE (factory, GAL_TYPE_VIEW_FACTORY_ETABLE, GalViewFactoryEtablePrivate);
+	factory->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		factory, GAL_TYPE_VIEW_FACTORY_ETABLE,
+		GalViewFactoryEtablePrivate);
 }
 
 /**

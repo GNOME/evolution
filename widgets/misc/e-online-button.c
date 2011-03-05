@@ -137,7 +137,8 @@ e_online_button_init (EOnlineButton *button)
 {
 	GtkWidget *widget;
 
-	button->priv = G_TYPE_INSTANCE_GET_PRIVATE (button, E_TYPE_ONLINE_BUTTON, EOnlineButtonPrivate);
+	button->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		button, E_TYPE_ONLINE_BUTTON, EOnlineButtonPrivate);
 
 	gtk_widget_set_can_focus (GTK_WIDGET (button), FALSE);
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);

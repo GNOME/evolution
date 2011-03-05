@@ -102,7 +102,8 @@ mail_label_action_class_init (EMailLabelActionClass *class)
 static void
 mail_label_action_init (EMailLabelAction *action)
 {
-	action->priv = G_TYPE_INSTANCE_GET_PRIVATE (action, E_TYPE_MAIL_LABEL_ACTION, EMailLabelActionPrivate);
+	action->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		action, E_TYPE_MAIL_LABEL_ACTION, EMailLabelActionPrivate);
 }
 
 GType

@@ -440,7 +440,8 @@ e_image_chooser_init (EImageChooser *chooser)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	chooser->priv = G_TYPE_INSTANCE_GET_PRIVATE (chooser, E_TYPE_IMAGE_CHOOSER, EImageChooserPrivate);
+	chooser->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		chooser, E_TYPE_IMAGE_CHOOSER, EImageChooserPrivate);
 
 	container = GTK_WIDGET (chooser);
 

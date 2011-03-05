@@ -198,7 +198,8 @@ struct _EMFormat {
 
 	/* Current part ID prefix for identifying parts directly. */
 	GString *part_id;
-	/* part_id of the currently processing message (when the message has message-attachments) */
+	/* part_id of the currently processing message
+	 * (when the message has message-attachments) */
 	gchar *current_message_part_id;
 
 	/* If empty, then all. */

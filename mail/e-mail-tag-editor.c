@@ -281,7 +281,8 @@ mail_tag_editor_init (EMailTagEditor *editor)
 	GtkCellRenderer *renderer;
 	GtkListStore *store;
 
-	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (editor, E_TYPE_MAIL_TAG_EDITOR, EMailTagEditorPrivate);
+	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		editor, E_TYPE_MAIL_TAG_EDITOR, EMailTagEditorPrivate);
 
 	dialog = GTK_DIALOG (editor);
 	window = GTK_WINDOW (editor);

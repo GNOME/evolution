@@ -49,7 +49,9 @@ e_bit_array_insert_real (EBitArray *eba, gint row)
 	if (eba->bit_count >= 0) {
 		/* Add another word if needed. */
 		if ((eba->bit_count & 0x1f) == 0) {
-			eba->data = g_renew (guint32, eba->data, (eba->bit_count >> 5) + 1);
+			eba->data = g_renew (
+				guint32, eba->data,
+				(eba->bit_count >> 5) + 1);
 			eba->data[eba->bit_count >> 5] = 0;
 		}
 
@@ -95,7 +97,9 @@ e_bit_array_delete_real (EBitArray *eba, gint row, gboolean move_selection_mode)
 			eba->data[box] &= eba->data[box + 1] >> 31;
 
 			for (i = box + 1; i < last; i++) {
-				eba->data[i] = (eba->data[i] << 1) | (eba->data[i + 1] >> 31);
+				eba->data[i] =
+					(eba->data[i] << 1) |
+					(eba->data[i + 1] >> 31);
 			}
 			/* this over-runs our memory! */
 			/*eba->data[i] = eba->data[i] << 1; */
@@ -106,7 +110,8 @@ e_bit_array_delete_real (EBitArray *eba, gint row, gboolean move_selection_mode)
 			eba->data = g_renew (guint32, eba->data, eba->bit_count >> 5);
 		}
 		if (move_selection_mode && selected && eba->bit_count > 0) {
-			e_bit_array_select_single_row (eba, row == eba->bit_count ? row - 1 : row);
+			e_bit_array_select_single_row (
+				eba, row == eba->bit_count ? row - 1 : row);
 		}
 	}
 }
@@ -327,7 +332,9 @@ e_bit_array_change_range (EBitArray *eba, gint start, gint end, gboolean grow)
 		last = BOX (end);
 
 		if (i == last) {
-			OPERATE (eba, i, BITMASK_LEFT (start) | BITMASK_RIGHT (end), grow);
+			OPERATE (
+				eba, i, BITMASK_LEFT (start) |
+				BITMASK_RIGHT (end), grow);
 		} else {
 			OPERATE (eba, i, BITMASK_LEFT (start), grow);
 			if (grow)

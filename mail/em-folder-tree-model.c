@@ -529,7 +529,8 @@ em_folder_tree_model_init (EMFolderTreeModel *model)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 
-	model->priv = G_TYPE_INSTANCE_GET_PRIVATE (model, EM_TYPE_FOLDER_TREE_MODEL, EMFolderTreeModelPrivate);
+	model->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		model, EM_TYPE_FOLDER_TREE_MODEL, EMFolderTreeModelPrivate);
 	model->priv->store_index = store_index;
 	model->priv->uri_index = uri_index;
 

@@ -180,7 +180,8 @@ e_cal_model_tasks_class_init (ECalModelTasksClass *class)
 static void
 e_cal_model_tasks_init (ECalModelTasks *model)
 {
-	model->priv = G_TYPE_INSTANCE_GET_PRIVATE (model, E_TYPE_CAL_MODEL_TASKS, ECalModelTasksPrivate);
+	model->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		model, E_TYPE_CAL_MODEL_TASKS, ECalModelTasksPrivate);
 
 	e_cal_model_set_component_kind (
 		E_CAL_MODEL (model), ICAL_VTODO_COMPONENT);

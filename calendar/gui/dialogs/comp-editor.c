@@ -1831,7 +1831,8 @@ comp_editor_init (CompEditor *editor)
 	express_mode = e_shell_get_express_mode (shell);
 	meego_mode = e_shell_get_meego_mode (shell);
 
-	editor->priv = priv = G_TYPE_INSTANCE_GET_PRIVATE (editor, TYPE_COMP_EDITOR, CompEditorPrivate);
+	editor->priv = priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		editor, TYPE_COMP_EDITOR, CompEditorPrivate);
 
 	g_object_weak_ref (
 		G_OBJECT (editor), (GWeakNotify)

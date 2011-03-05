@@ -1374,7 +1374,8 @@ e_web_view_init (EWebView *web_view)
 	const gchar *id;
 	GError *error = NULL;
 
-	web_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (web_view, E_TYPE_WEB_VIEW, EWebViewPrivate);
+	web_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		web_view, E_TYPE_WEB_VIEW, EWebViewPrivate);
 
 	ui_manager = gtk_ui_manager_new ();
 	web_view->priv->ui_manager = ui_manager;

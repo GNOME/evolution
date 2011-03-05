@@ -445,7 +445,9 @@ week_view_main_item_class_init (EWeekViewMainItemClass *class)
 static void
 week_view_main_item_init (EWeekViewMainItem *main_item)
 {
-	main_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (main_item, E_TYPE_WEEK_VIEW_MAIN_ITEM, EWeekViewMainItemPrivate);
+	main_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		main_item, E_TYPE_WEEK_VIEW_MAIN_ITEM,
+		EWeekViewMainItemPrivate);
 }
 
 GType

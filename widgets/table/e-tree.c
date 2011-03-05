@@ -581,7 +581,8 @@ e_tree_init (ETree *e_tree)
 
 	gtk_table_set_homogeneous (GTK_TABLE (e_tree), FALSE);
 
-	e_tree->priv = G_TYPE_INSTANCE_GET_PRIVATE (e_tree, E_TYPE_TREE, ETreePrivate);
+	e_tree->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		e_tree, E_TYPE_TREE, ETreePrivate);
 
 	e_tree->priv->alternating_row_colors = 1;
 	e_tree->priv->horizontal_draw_grid = 1;

@@ -1125,7 +1125,8 @@ memo_table_init (EMemoTable *memo_table)
 {
 	GtkTargetList *target_list;
 
-	memo_table->priv = G_TYPE_INSTANCE_GET_PRIVATE (memo_table, E_TYPE_MEMO_TABLE, EMemoTablePrivate);
+	memo_table->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		memo_table, E_TYPE_MEMO_TABLE, EMemoTablePrivate);
 
 	target_list = gtk_target_list_new (NULL, 0);
 	e_target_list_add_calendar_targets (target_list, 0);

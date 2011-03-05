@@ -84,7 +84,8 @@ e_table_memory_class_init (ETableMemoryClass *class)
 static void
 e_table_memory_init (ETableMemory *etmm)
 {
-	etmm->priv = G_TYPE_INSTANCE_GET_PRIVATE (etmm, E_TYPE_TABLE_MEMORY, ETableMemoryPrivate);
+	etmm->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		etmm, E_TYPE_TABLE_MEMORY, ETableMemoryPrivate);
 }
 
 /**

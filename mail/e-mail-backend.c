@@ -546,7 +546,8 @@ e_mail_backend_class_init (EMailBackendClass *class)
 static void
 e_mail_backend_init (EMailBackend *backend)
 {
-	backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (backend, E_TYPE_MAIL_BACKEND, EMailBackendPrivate);
+	backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		backend, E_TYPE_MAIL_BACKEND, EMailBackendPrivate);
 }
 
 EMailSession *

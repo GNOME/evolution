@@ -2518,7 +2518,7 @@ e_msg_composer_class_init (EMsgComposerClass *class)
 	editor_class->command_before = msg_composer_command_before;
 	editor_class->command_after = msg_composer_command_after;
 	editor_class->image_uri = msg_composer_image_uri;
-	editor_class->link_clicked = NULL; /* EWebView takes care of it in link-clicked handler */
+	editor_class->link_clicked = NULL; /* EWebView handles this */
 	editor_class->object_deleted = msg_composer_object_deleted;
 
 	class->presend = msg_composer_presend;
@@ -2608,7 +2608,8 @@ e_msg_composer_alert_sink_init (EAlertSinkInterface *interface)
 static void
 e_msg_composer_init (EMsgComposer *composer)
 {
-	composer->priv = G_TYPE_INSTANCE_GET_PRIVATE (composer, E_TYPE_MSG_COMPOSER, EMsgComposerPrivate);
+	composer->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		composer, E_TYPE_MSG_COMPOSER, EMsgComposerPrivate);
 }
 
 /* Callbacks.  */

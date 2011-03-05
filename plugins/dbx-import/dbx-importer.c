@@ -81,13 +81,26 @@
 #define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):0)
 #endif
 
-gboolean org_gnome_evolution_readdbx_supported (EPlugin *epl, EImportTarget *target);
-GtkWidget *org_gnome_evolution_readdbx_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im);
-void org_gnome_evolution_readdbx_import (EImport *ei, EImportTarget *target, EImportImporter *im);
-void org_gnome_evolution_readdbx_cancel (EImport *ei, EImportTarget *target, EImportImporter *im);
-gint e_plugin_lib_enable (EPlugin *ep, gint enable);
+gboolean	org_gnome_evolution_readdbx_supported
+						(EPlugin *epl,
+						 EImportTarget *target);
+GtkWidget *	org_gnome_evolution_readdbx_getwidget
+						(EImport *ei,
+						 EImportTarget *target,
+						 EImportImporter *im);
+void		org_gnome_evolution_readdbx_import
+						(EImport *ei,
+						 EImportTarget *target,
+						 EImportImporter *im);
+void		org_gnome_evolution_readdbx_cancel
+						(EImport *ei,
+						 EImportTarget *target,
+						 EImportImporter *im);
+gint		e_plugin_lib_enable		(EPlugin *ep,
+						 gint enable);
 
-/* em-folder-selection-button.h is private, even though other internal evo plugins use it!
+/* em-folder-selection-button.h is private, even though other internal
+ * evo plugins use it!
    so declare the functions here
    TODO: sort out whether this should really be private
 */
@@ -184,7 +197,9 @@ folder_selected (EMFolderSelectionButton *button, EImportTargetURI *target)
 }
 
 GtkWidget *
-org_gnome_evolution_readdbx_getwidget (EImport *ei, EImportTarget *target, EImportImporter *im)
+org_gnome_evolution_readdbx_getwidget (EImport *ei,
+                                       EImportTarget *target,
+                                       EImportImporter *im)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
@@ -330,7 +345,8 @@ static gboolean dbx_load_index_table (DbxImporter *m, guint32 pos, guint32 *inde
 		return FALSE;
 	}
 
-	d(printf("Index at %x: indexCount %x, anotherTablePtr %x\n", pos, tindex.indexCount, tindex.anotherTablePtr));
+	d(printf("Index at %x: indexCount %x, anotherTablePtr %x\n",
+		pos, tindex.indexCount, tindex.anotherTablePtr));
 
 	if (tindex.indexCount > 0) {
 		if (!dbx_load_index_table (m, tindex.anotherTablePtr, index_ofs))
@@ -454,7 +470,8 @@ dbx_read_mail_body (DbxImporter *m, guint32 offset, gint bodyfd)
 			buffer = g_malloc (buflen);
 		}
 		d(printf("Reading %d bytes from %lx\n", hdr.blocksize, offset + sizeof(hdr)));
-		if (dbx_pread (m->dbx_fd, buffer, hdr.blocksize, offset + sizeof (hdr)) != hdr.blocksize) {
+		if (dbx_pread (m->dbx_fd, buffer, hdr.blocksize,
+			offset + sizeof (hdr)) != hdr.blocksize) {
 			g_set_error (
 				&m->base.error,
 				CAMEL_ERROR, CAMEL_ERROR_GENERIC,
@@ -560,7 +577,9 @@ dbx_import_file (DbxImporter *m)
 	gint missing = 0;
 	m->status_what = NULL;
 	filename = g_filename_from_uri (((EImportTargetURI *)m->target)->uri_src, NULL, NULL);
-	m->parent_uri = g_strdup (((EImportTargetURI *)m->target)->uri_dest); /* Destination folder, was set in our widget */
+
+	/* Destination folder, was set in our widget */
+	m->parent_uri = g_strdup (((EImportTargetURI *)m->target)->uri_dest);
 
 	cancellable = e_activity_get_cancellable (m->base.activity);
 
@@ -727,7 +746,9 @@ dbx_status_timeout (gpointer data)
 		pc = importer->status_pc;
 		g_mutex_unlock (importer->status_lock);
 
-		e_import_status (importer->target->import, (EImportTarget *)importer->target, what, pc);
+		e_import_status (
+			importer->target->import,
+			(EImportTarget *) importer->target, what, pc);
 	}
 
 	return TRUE;
@@ -747,7 +768,9 @@ dbx_status (CamelOperation *op, const gchar *what, gint pc, gpointer data)
 
 /* Start the main import operation */
 void
-org_gnome_evolution_readdbx_import (EImport *ei, EImportTarget *target, EImportImporter *im)
+org_gnome_evolution_readdbx_import (EImport *ei,
+                                    EImportTarget *target,
+                                    EImportImporter *im)
 {
 	DbxImporter *m;
 
@@ -774,7 +797,9 @@ org_gnome_evolution_readdbx_import (EImport *ei, EImportTarget *target, EImportI
 }
 
 void
-org_gnome_evolution_readdbx_cancel (EImport *ei, EImportTarget *target, EImportImporter *im)
+org_gnome_evolution_readdbx_cancel (EImport *ei,
+                                    EImportTarget *target,
+                                    EImportImporter *im)
 {
 	DbxImporter *m = g_datalist_get_data (&target->data, "dbx-msg");
 

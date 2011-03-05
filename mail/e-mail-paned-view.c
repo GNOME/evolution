@@ -975,7 +975,8 @@ e_mail_paned_view_reader_init (EMailReaderInterface *interface)
 static void
 e_mail_paned_view_init (EMailPanedView *view)
 {
-	view->priv = G_TYPE_INSTANCE_GET_PRIVATE (view, E_TYPE_MAIL_PANED_VIEW, EMailPanedViewPrivate);
+	view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		view, E_TYPE_MAIL_PANED_VIEW, EMailPanedViewPrivate);
 	view->priv->enable_show_folder = FALSE;
 
 	g_signal_connect (

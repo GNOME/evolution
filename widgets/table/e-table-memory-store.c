@@ -240,7 +240,8 @@ etms_finalize (GObject *object)
 static void
 e_table_memory_store_init (ETableMemoryStore *etms)
 {
-	etms->priv = G_TYPE_INSTANCE_GET_PRIVATE (etms, E_TYPE_TABLE_MEMORY_STORE, ETableMemoryStorePrivate);
+	etms->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		etms, E_TYPE_TABLE_MEMORY_STORE, ETableMemoryStorePrivate);
 }
 
 static void

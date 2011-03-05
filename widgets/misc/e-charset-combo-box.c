@@ -308,7 +308,8 @@ e_charset_combo_box_init (ECharsetComboBox *combo_box)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_object_unref);
 
-	combo_box->priv = G_TYPE_INSTANCE_GET_PRIVATE (combo_box, E_TYPE_CHARSET_COMBO_BOX, ECharsetComboBoxPrivate);
+	combo_box->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		combo_box, E_TYPE_CHARSET_COMBO_BOX, ECharsetComboBoxPrivate);
 	combo_box->priv->action_group = action_group;
 	combo_box->priv->charset_index = charset_index;
 

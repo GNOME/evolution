@@ -254,7 +254,8 @@ e_preferences_window_init (EPreferencesWindow *window)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 
-	window->priv = G_TYPE_INSTANCE_GET_PRIVATE (window, E_TYPE_PREFERENCES_WINDOW, EPreferencesWindowPrivate);
+	window->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		window, E_TYPE_PREFERENCES_WINDOW, EPreferencesWindowPrivate);
 	window->priv->index = index;
 	window->priv->filter_view = NULL;
 

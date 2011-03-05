@@ -655,7 +655,9 @@ memo_shell_content_class_init (EMemoShellContentClass *class)
 static void
 memo_shell_content_init (EMemoShellContent *memo_shell_content)
 {
-	memo_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (memo_shell_content, E_TYPE_MEMO_SHELL_CONTENT, EMemoShellContentPrivate);
+	memo_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		memo_shell_content, E_TYPE_MEMO_SHELL_CONTENT,
+		EMemoShellContentPrivate);
 
 	/* Postpone widget construction until we have a shell view. */
 }

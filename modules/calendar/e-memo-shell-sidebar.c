@@ -741,7 +741,9 @@ memo_shell_sidebar_init (EMemoShellSidebar *memo_shell_sidebar)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_object_unref);
 
-	memo_shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (memo_shell_sidebar, E_TYPE_MEMO_SHELL_SIDEBAR, EMemoShellSidebarPrivate);
+	memo_shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		memo_shell_sidebar, E_TYPE_MEMO_SHELL_SIDEBAR,
+		EMemoShellSidebarPrivate);
 
 	memo_shell_sidebar->priv->client_table = client_table;
 

@@ -377,7 +377,8 @@ recurrence_page_class_init (RecurrencePageClass *class)
 static void
 recurrence_page_init (RecurrencePage *rpage)
 {
-	rpage->priv = G_TYPE_INSTANCE_GET_PRIVATE (rpage, TYPE_RECURRENCE_PAGE, RecurrencePagePrivate);
+	rpage->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		rpage, TYPE_RECURRENCE_PAGE, RecurrencePagePrivate);
 }
 
 /* get_widget handler for the recurrence page */

@@ -360,7 +360,8 @@ em_account_prefs_init (EMAccountPrefs *prefs)
 	EAccountManager *manager;
 	EAccountTreeView *tree_view;
 
-	prefs->priv = G_TYPE_INSTANCE_GET_PRIVATE (prefs, EM_TYPE_ACCOUNT_PREFS, EMAccountPrefsPrivate);
+	prefs->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		prefs, EM_TYPE_ACCOUNT_PREFS, EMAccountPrefsPrivate);
 
 	manager = E_ACCOUNT_MANAGER (prefs);
 	tree_view = e_account_manager_get_tree_view (manager);

@@ -326,7 +326,8 @@ e_shell_taskbar_init (EShellTaskbar *shell_taskbar)
 	GtkWidget *widget;
 	gint height;
 
-	shell_taskbar->priv = G_TYPE_INSTANCE_GET_PRIVATE (shell_taskbar, E_TYPE_SHELL_TASKBAR, EShellTaskbarPrivate);
+	shell_taskbar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		shell_taskbar, E_TYPE_SHELL_TASKBAR, EShellTaskbarPrivate);
 	shell_taskbar->priv->proxy_table = g_hash_table_new (NULL, NULL);
 
 	gtk_box_set_spacing (GTK_BOX (shell_taskbar), 12);

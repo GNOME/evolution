@@ -535,7 +535,8 @@ e_focus_tracker_init (EFocusTracker *focus_tracker)
 {
 	GtkAction *action;
 
-	focus_tracker->priv = G_TYPE_INSTANCE_GET_PRIVATE (focus_tracker, E_TYPE_FOCUS_TRACKER, EFocusTrackerPrivate);
+	focus_tracker->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		focus_tracker, E_TYPE_FOCUS_TRACKER, EFocusTrackerPrivate);
 
 	/* Define dummy actions.  These will most likely be overridden,
 	 * but for cases where they're not it ensures ESelectable objects

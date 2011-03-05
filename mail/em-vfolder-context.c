@@ -171,7 +171,8 @@ em_vfolder_context_class_init (EMVFolderContextClass *class)
 static void
 em_vfolder_context_init (EMVFolderContext *context)
 {
-	context->priv = G_TYPE_INSTANCE_GET_PRIVATE (context, EM_TYPE_VFOLDER_CONTEXT, EMVFolderContextPrivate);
+	context->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		context, EM_TYPE_VFOLDER_CONTEXT, EMVFolderContextPrivate);
 
 	e_rule_context_add_part_set (
 		E_RULE_CONTEXT (context), "partset", E_TYPE_FILTER_PART,

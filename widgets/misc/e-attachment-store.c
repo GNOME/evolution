@@ -218,7 +218,8 @@ e_attachment_store_init (EAttachmentStore *store)
 		(GDestroyNotify) g_object_unref,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 
-	store->priv = G_TYPE_INSTANCE_GET_PRIVATE (store, E_TYPE_ATTACHMENT_STORE, EAttachmentStorePrivate);
+	store->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		store, E_TYPE_ATTACHMENT_STORE, EAttachmentStorePrivate);
 	store->priv->attachment_index = attachment_index;
 
 	types[column++] = E_TYPE_ATTACHMENT;	/* COLUMN_ATTACHMENT */

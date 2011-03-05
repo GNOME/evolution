@@ -702,7 +702,9 @@ mail_shell_backend_class_init (EMailShellBackendClass *class)
 static void
 mail_shell_backend_init (EMailShellBackend *mail_shell_backend)
 {
-	mail_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (mail_shell_backend, E_TYPE_MAIL_SHELL_BACKEND, EMailShellBackendPrivate);
+	mail_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		mail_shell_backend, E_TYPE_MAIL_SHELL_BACKEND,
+		EMailShellBackendPrivate);
 }
 
 GType

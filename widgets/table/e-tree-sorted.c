@@ -1203,7 +1203,8 @@ e_tree_sorted_class_init (ETreeSortedClass *class)
 static void
 e_tree_sorted_init (ETreeSorted *ets)
 {
-	ets->priv = G_TYPE_INSTANCE_GET_PRIVATE (ets, E_TYPE_TREE_SORTED, ETreeSortedPrivate);
+	ets->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		ets, E_TYPE_TREE_SORTED, ETreeSortedPrivate);
 }
 
 /**

@@ -171,7 +171,8 @@ month_view_class_init (EMonthViewClass *class)
 static void
 month_view_init (EMonthView *month_view)
 {
-	month_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (month_view, E_TYPE_MONTH_VIEW, EMonthViewPrivate);
+	month_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		month_view, E_TYPE_MONTH_VIEW, EMonthViewPrivate);
 }
 
 GType

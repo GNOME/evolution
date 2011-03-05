@@ -208,7 +208,8 @@ day_view_time_item_init (EDayViewTimeItem *time_item)
 {
 	gchar *last;
 
-	time_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (time_item, E_TYPE_DAY_VIEW_TIME_ITEM, EDayViewTimeItemPrivate);
+	time_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		time_item, E_TYPE_DAY_VIEW_TIME_ITEM, EDayViewTimeItemPrivate);
 
 	time_item->priv->dragging_selection = FALSE;
 	time_item->priv->second_zone = NULL;

@@ -234,7 +234,9 @@ mail_label_list_store_init (EMailLabelListStore *store)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 
-	store->priv = G_TYPE_INSTANCE_GET_PRIVATE (store, E_TYPE_MAIL_LABEL_LIST_STORE, EMailLabelListStorePrivate);
+	store->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		store, E_TYPE_MAIL_LABEL_LIST_STORE,
+		EMailLabelListStorePrivate);
 	store->priv->tag_index = tag_index;
 
 	/* XXX While it may seem awkward to cram the label name and color

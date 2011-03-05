@@ -938,7 +938,8 @@ efh_init (EMFormatHTML *efh,
 	EWebView *web_view;
 	GdkColor *color;
 
-	efh->priv = G_TYPE_INSTANCE_GET_PRIVATE (efh, EM_TYPE_FORMAT_HTML, EMFormatHTMLPrivate);
+	efh->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		efh, EM_TYPE_FORMAT_HTML, EMFormatHTMLPrivate);
 
 	g_queue_init (&efh->pending_object_list);
 	g_queue_init (&efh->priv->pending_jobs);

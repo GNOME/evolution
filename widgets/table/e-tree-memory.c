@@ -389,7 +389,8 @@ e_tree_memory_class_init (ETreeMemoryClass *class)
 static void
 e_tree_memory_init (ETreeMemory *etmm)
 {
-	etmm->priv = G_TYPE_INSTANCE_GET_PRIVATE (etmm, E_TYPE_TREE_MEMORY, ETreeMemoryPrivate);
+	etmm->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		etmm, E_TYPE_TREE_MEMORY, ETreeMemoryPrivate);
 }
 
 /**

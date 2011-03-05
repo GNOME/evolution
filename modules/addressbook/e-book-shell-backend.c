@@ -551,7 +551,9 @@ book_shell_backend_class_init (EBookShellBackendClass *class)
 static void
 book_shell_backend_init (EBookShellBackend *book_shell_backend)
 {
-	book_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (book_shell_backend, E_TYPE_BOOK_SHELL_BACKEND, EBookShellBackendPrivate);
+	book_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		book_shell_backend, E_TYPE_BOOK_SHELL_BACKEND,
+		EBookShellBackendPrivate);
 }
 
 GType

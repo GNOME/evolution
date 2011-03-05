@@ -517,7 +517,8 @@ static void
 cal_shell_view_init (ECalShellView *cal_shell_view,
                      EShellViewClass *shell_view_class)
 {
-	cal_shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (cal_shell_view, E_TYPE_CAL_SHELL_VIEW, ECalShellViewPrivate);
+	cal_shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		cal_shell_view, E_TYPE_CAL_SHELL_VIEW, ECalShellViewPrivate);
 
 	e_cal_shell_view_private_init (cal_shell_view, shell_view_class);
 }

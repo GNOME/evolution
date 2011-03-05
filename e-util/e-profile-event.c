@@ -68,17 +68,24 @@ EProfileEvent *
 e_profile_event_peek (void)
 {
 	if (e_profile_event == NULL) {
-		e_profile_event = g_object_new (e_profile_event_get_type (), NULL);
-		e_event_construct(&e_profile_event->popup, "org.gnome.evolution.profile.events");
+		e_profile_event = g_object_new (
+			e_profile_event_get_type (), NULL);
+		e_event_construct (
+			&e_profile_event->popup,
+			"org.gnome.evolution.profile.events");
 	}
 
 	return e_profile_event;
 }
 
 EProfileEventTarget *
-e_profile_event_target_new (EProfileEvent *eme, const gchar *id, const gchar *uid, guint32 flags)
+e_profile_event_target_new (EProfileEvent *eme,
+                            const gchar *id,
+                            const gchar *uid,
+                            guint32 flags)
 {
-	EProfileEventTarget *t = e_event_target_new (&eme->popup, E_PROFILE_EVENT_TARGET, sizeof (*t));
+	EProfileEventTarget *t = e_event_target_new (
+		&eme->popup, E_PROFILE_EVENT_TARGET, sizeof (*t));
 	GTimeVal tv;
 
 	t->id = g_strdup (id);
@@ -133,10 +140,12 @@ e_profile_event_hook_class_init (EProfileEventHookClass *class)
 {
 	gint i;
 
-	((EPluginHookClass *)class)->id = "org.gnome.evolution.profile.events:1.0";
+	((EPluginHookClass *)class)->id =
+		"org.gnome.evolution.profile.events:1.0";
 
 	for (i=0;emeh_targets[i].type;i++)
-		e_event_hook_class_add_target_map ((EEventHookClass *)class, &emeh_targets[i]);
+		e_event_hook_class_add_target_map (
+			(EEventHookClass *) class, &emeh_targets[i]);
 
 	((EEventHookClass *)class)->event = (EEvent *)e_profile_event_peek ();
 }
