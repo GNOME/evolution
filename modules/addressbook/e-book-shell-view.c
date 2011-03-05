@@ -414,7 +414,9 @@ static void
 book_shell_view_init (EBookShellView *book_shell_view,
                       EShellViewClass *shell_view_class)
 {
-	book_shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (book_shell_view, E_TYPE_BOOK_SHELL_VIEW, EBookShellViewPrivate);
+	book_shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		book_shell_view, E_TYPE_BOOK_SHELL_VIEW,
+		EBookShellViewPrivate);
 
 	e_book_shell_view_private_init (book_shell_view, shell_view_class);
 }

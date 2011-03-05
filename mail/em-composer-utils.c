@@ -69,7 +69,8 @@
 #define gmtime_r(tp,tmp) (gmtime(tp)?(*(tmp)=*gmtime(tp),(tmp)):0)
 #endif
 
-#define GCONF_KEY_TEMPLATE_PLACEHOLDERS "/apps/evolution/mail/template_placeholders"
+#define GCONF_KEY_TEMPLATE_PLACEHOLDERS \
+	"/apps/evolution/mail/template_placeholders"
 
 typedef struct _AsyncContext AsyncContext;
 typedef struct _ForwardData ForwardData;
@@ -126,13 +127,14 @@ forward_data_free (ForwardData *data)
 }
 
 static gboolean
-ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recipients)
+ask_confirm_for_unwanted_html_mail (EMsgComposer *composer,
+                                    EDestination **recipients)
 {
 	gboolean res;
 	GString *str;
 	gint i;
 
-	str = g_string_new("");
+	str = g_string_new ("");
 	for (i = 0; recipients[i] != NULL; ++i) {
 		if (!e_destination_get_html_mail_pref (recipients[i])) {
 			const gchar *name;
@@ -144,8 +146,10 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recip
 	}
 
 	if (str->len)
-		res = em_utils_prompt_user((GtkWindow *)composer,"/apps/evolution/mail/prompts/unwanted_html",
-					   "mail:ask-send-html", str->str, NULL);
+		res = em_utils_prompt_user (
+			GTK_WINDOW (composer),
+			"/apps/evolution/mail/prompts/unwanted_html",
+			"mail:ask-send-html", str->str, NULL);
 	else
 		res = TRUE;
 
@@ -157,12 +161,15 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recip
 static gboolean
 ask_confirm_for_empty_subject (EMsgComposer *composer)
 {
-	return em_utils_prompt_user((GtkWindow *)composer, "/apps/evolution/mail/prompts/empty_subject",
-				    "mail:ask-send-no-subject", NULL);
+	return em_utils_prompt_user (
+		GTK_WINDOW (composer),
+		"/apps/evolution/mail/prompts/empty_subject",
+		"mail:ask-send-no-subject", NULL);
 }
 
 static gboolean
-ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
+ask_confirm_for_only_bcc (EMsgComposer *composer,
+                          gboolean hidden_list_case)
 {
 	/* If the user is mailing a hidden contact list, it is possible for
 	   them to create a message with only Bcc recipients without really
@@ -170,8 +177,12 @@ ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 	   this dialog to provide slightly different text in that case, to
 	   better explain what the hell is going on. */
 
-	return em_utils_prompt_user((GtkWindow *)composer, "/apps/evolution/mail/prompts/only_bcc",
-				    hidden_list_case?"mail:ask-send-only-bcc-contact":"mail:ask-send-only-bcc", NULL);
+	return em_utils_prompt_user (
+		GTK_WINDOW (composer),
+		"/apps/evolution/mail/prompts/only_bcc",
+		hidden_list_case ?
+		"mail:ask-send-only-bcc-contact" :
+		"mail:ask-send-only-bcc", NULL);
 }
 
 static gboolean
@@ -1112,10 +1123,14 @@ edit_message (EShell *shell,
 
 		gconf = gconf_client_get_default ();
 		/* Get the list from gconf */
-		clue_list = gconf_client_get_list ( gconf, GCONF_KEY_TEMPLATE_PLACEHOLDERS, GCONF_VALUE_STRING, NULL );
+		clue_list = gconf_client_get_list (
+			gconf, GCONF_KEY_TEMPLATE_PLACEHOLDERS,
+			GCONF_VALUE_STRING, NULL );
 		g_object_unref (gconf);
 
-		traverse_parts (clue_list, message, camel_medium_get_content (CAMEL_MEDIUM (message)));
+		traverse_parts (
+			clue_list, message,
+			camel_medium_get_content (CAMEL_MEDIUM (message)));
 
 		g_slist_foreach (clue_list, (GFunc) g_free, NULL);
 		g_slist_free (clue_list);
@@ -1140,7 +1155,11 @@ edit_message (EShell *shell,
 	return (GtkWidget *)composer;
 }
 
-typedef enum { QUOTING_ATTRIBUTION, QUOTING_FORWARD, QUOTING_ORIGINAL } QuotingTextEnum;
+typedef enum {
+	QUOTING_ATTRIBUTION,
+	QUOTING_FORWARD,
+	QUOTING_ORIGINAL
+} QuotingTextEnum;
 
 static struct {
 	const gchar * gconf_key;
@@ -1151,7 +1170,8 @@ static struct {
 		/* Note to translators: this is the attribution string used when quoting messages.
 		 * each ${Variable} gets replaced with a value. To see a full list of available
 		 * variables, see mail/em-composer-utils.c:attribvars array */
-		  N_("On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:") 
+		  N_("On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at "
+		     "${24Hour}:${Minute} ${TimeZone}, ${Sender} wrote:") 
 		},
 
 	[QUOTING_FORWARD] =
@@ -1421,7 +1441,8 @@ forward_non_attached (EShell *shell,
 		subject = mail_tool_generate_forward_subject (message);
 
 		forward = quoting_text (QUOTING_FORWARD);
-		text = em_utils_message_to_html (message, forward, flags, NULL, NULL, &validity_found);
+		text = em_utils_message_to_html (
+			message, forward, flags, NULL, NULL, &validity_found);
 
 		if (text) {
 			composer = create_new_composer (shell, subject, from_uri);
@@ -1773,14 +1794,22 @@ em_utils_send_receipt (EMailSession *session,
 	CamelStream *stream;
 	CamelFolder *out_folder;
 	CamelMessageInfo *info;
-	const gchar *message_id = camel_medium_get_header (CAMEL_MEDIUM (message), "Message-ID");
-	const gchar *message_date = camel_medium_get_header (CAMEL_MEDIUM (message), "Date");
-	const gchar *message_subject = camel_mime_message_get_subject (message);
-	const gchar *receipt_address = camel_medium_get_header (CAMEL_MEDIUM (message), "Disposition-Notification-To");
+	const gchar *message_id;
+	const gchar *message_date;
+	const gchar *message_subject;
+	const gchar *receipt_address;
 	gchar *fake_msgid;
 	gchar *hostname;
 	gchar *self_address, *receipt_subject;
 	gchar *ua, *recipient;
+
+	message_id = camel_medium_get_header (
+		CAMEL_MEDIUM (message), "Message-ID");
+	message_date = camel_medium_get_header (
+		CAMEL_MEDIUM (message), "Date");
+	message_subject = camel_mime_message_get_subject (message);
+	receipt_address = camel_medium_get_header (
+		CAMEL_MEDIUM (message), "Disposition-Notification-To");
 
 	if (!receipt_address)
 		return;
@@ -1817,16 +1846,18 @@ em_utils_send_receipt (EMailSession *session,
 	camel_content_type_unref (type);
 	stream = camel_stream_mem_new ();
 	camel_stream_printf (stream,
-	/* Translators: First %s is an email address, second %s is the subject of the email, third %s is the date */
-			     _("Your message to %s about \"%s\" on %s has been read."),
-			     self_address, message_subject, message_date);
+	/* Translators: First %s is an email address, second %s
+	 * is the subject of the email, third %s is the date. */
+		_("Your message to %s about \"%s\" on %s has been read."),
+		self_address, message_subject, message_date);
 	camel_data_wrapper_construct_from_stream_sync (
 		receipt_text, stream, NULL, NULL);
 	g_object_unref (stream);
 
 	part = camel_mime_part_new ();
 	camel_medium_set_content (CAMEL_MEDIUM (part), receipt_text);
-	camel_mime_part_set_encoding (part, CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE);
+	camel_mime_part_set_encoding (
+		part, CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE);
 	g_object_unref (receipt_text);
 	camel_multipart_add_part (body, part);
 	g_object_unref (part);
@@ -1835,7 +1866,9 @@ em_utils_send_receipt (EMailSession *session,
 	receipt_data = camel_data_wrapper_new ();
 	part = camel_mime_part_new ();
 
-	ua = g_strdup_printf ("%s; %s", hostname, "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT);
+	ua = g_strdup_printf (
+		"%s; %s", hostname, "Evolution "
+		VERSION SUB_VERSION " " VERSION_COMMENT);
 	recipient = g_strdup_printf ("rfc822; %s", self_address);
 
 	type = camel_content_type_new ("message", "disposition-notification");
@@ -1868,7 +1901,8 @@ em_utils_send_receipt (EMailSession *session,
 	g_object_unref (body);
 
 	/* Translators: %s is the subject of the email message */
-	receipt_subject = g_strdup_printf (_("Delivery Notification for: \"%s\""), message_subject);
+	receipt_subject = g_strdup_printf (
+		_("Delivery Notification for: \"%s\""), message_subject);
 	camel_mime_message_set_subject (receipt, receipt_subject);
 	g_free (receipt_subject);
 
@@ -1882,10 +1916,21 @@ em_utils_send_receipt (EMailSession *session,
 	camel_mime_message_set_recipients (receipt, CAMEL_RECIPIENT_TYPE_TO, addr);
 	g_object_unref (addr);
 
-	camel_medium_set_header (CAMEL_MEDIUM (receipt), "Return-Path", "<>");
-	camel_medium_set_header (CAMEL_MEDIUM (receipt), "X-Evolution-Account", account->uid);
-	camel_medium_set_header (CAMEL_MEDIUM (receipt), "X-Evolution-Transport", account->transport->url);
-	camel_medium_set_header (CAMEL_MEDIUM (receipt), "X-Evolution-Fcc",  account->sent_folder_uri);
+	camel_medium_set_header (
+		CAMEL_MEDIUM (receipt),
+		"Return-Path", "<>");
+	camel_medium_set_header (
+		CAMEL_MEDIUM (receipt),
+		"X-Evolution-Account",
+		account->uid);
+	camel_medium_set_header (
+		CAMEL_MEDIUM (receipt),
+		"X-Evolution-Transport",
+		account->transport->url);
+	camel_medium_set_header (
+		CAMEL_MEDIUM (receipt),
+		"X-Evolution-Fcc",
+		account->sent_folder_uri);
 
 	/* Send the receipt */
 	info = camel_message_info_new (NULL);
@@ -1966,7 +2011,8 @@ reply_get_composer (EShell *shell,
 
 	/* Set the subject of the new message. */
 	if ((subject = (gchar *) camel_mime_message_get_subject (message))) {
-		if (g_ascii_strncasecmp (subject, "Re: ", 4) != 0 && g_ascii_strncasecmp (subject, "Re : ", 5) != 0)
+		if (g_ascii_strncasecmp (subject, "Re: ", 4) != 0 &&
+			g_ascii_strncasecmp (subject, "Re : ", 5) != 0)
 			subject = g_strdup_printf ("Re: %s", subject);
 		else if (g_ascii_strncasecmp (subject, "Re : ", 5) == 0)
 			subject = g_strdup_printf ("Re: %s", subject + 5);
@@ -2085,7 +2131,8 @@ em_utils_is_munged_list_message (CamelMimeMessage *message)
 		list = camel_internet_address_new ();
 
 		if (get_reply_list (message, list) &&
-		    camel_address_length (CAMEL_ADDRESS (list)) == camel_address_length (CAMEL_ADDRESS (reply_to))) {
+		    camel_address_length (CAMEL_ADDRESS (list)) ==
+		    camel_address_length (CAMEL_ADDRESS (reply_to))) {
 			gint i;
 			const gchar *r_name, *r_addr;
 			const gchar *l_name, *l_addr;
@@ -2132,7 +2179,9 @@ get_reply_to (CamelMimeMessage *message)
 }
 
 static void
-get_reply_sender (CamelMimeMessage *message, CamelInternetAddress *to, CamelNNTPAddress *postto)
+get_reply_sender (CamelMimeMessage *message,
+                  CamelInternetAddress *to,
+                  CamelNNTPAddress *postto)
 {
 	CamelInternetAddress *reply_to;
 	const gchar *name, *addr, *posthdr;
@@ -2155,13 +2204,17 @@ get_reply_sender (CamelMimeMessage *message, CamelInternetAddress *to, CamelNNTP
 }
 
 void
-em_utils_get_reply_sender (CamelMimeMessage *message, CamelInternetAddress *to, CamelNNTPAddress *postto)
+em_utils_get_reply_sender (CamelMimeMessage *message,
+                           CamelInternetAddress *to,
+                           CamelNNTPAddress *postto)
 {
 	get_reply_sender (message, to, postto);
 }
 
 static void
-get_reply_from (CamelMimeMessage *message, CamelInternetAddress *to, CamelNNTPAddress *postto)
+get_reply_from (CamelMimeMessage *message,
+                CamelInternetAddress *to,
+                CamelNNTPAddress *postto)
 {
 	CamelInternetAddress *from;
 	const gchar *name, *addr, *posthdr;
@@ -2184,7 +2237,9 @@ get_reply_from (CamelMimeMessage *message, CamelInternetAddress *to, CamelNNTPAd
 }
 
 static void
-concat_unique_addrs (CamelInternetAddress *dest, CamelInternetAddress *src, GHashTable *rcpt_hash)
+concat_unique_addrs (CamelInternetAddress *dest,
+                     CamelInternetAddress *src,
+                     GHashTable *rcpt_hash)
 {
 	const gchar *name, *addr;
 	gint i;
@@ -2198,7 +2253,10 @@ concat_unique_addrs (CamelInternetAddress *dest, CamelInternetAddress *src, GHas
 }
 
 static void
-get_reply_all (CamelMimeMessage *message, CamelInternetAddress *to, CamelInternetAddress *cc, CamelNNTPAddress *postto)
+get_reply_all (CamelMimeMessage *message,
+               CamelInternetAddress *to,
+               CamelInternetAddress *cc,
+               CamelNNTPAddress *postto)
 {
 	CamelInternetAddress *reply_to, *to_addrs, *cc_addrs;
 	const gchar *name, *addr, *posthdr;
@@ -2236,14 +2294,16 @@ get_reply_all (CamelMimeMessage *message, CamelInternetAddress *to, CamelInterne
 	concat_unique_addrs (cc, to_addrs, rcpt_hash);
 	concat_unique_addrs (cc, cc_addrs, rcpt_hash);
 
-	/* promote the first Cc: address to To: if To: is empty */
-	if (camel_address_length ((CamelAddress *) to) == 0 && camel_address_length ((CamelAddress *)cc) > 0) {
+	/* Promote the first Cc: address to To: if To: is empty. */
+	if (camel_address_length ((CamelAddress *) to) == 0 &&
+			camel_address_length ((CamelAddress *)cc) > 0) {
 		camel_internet_address_get (cc, 0, &name, &addr);
 		camel_internet_address_add (to, name, addr);
 		camel_address_remove ((CamelAddress *)cc, 0);
 	}
 
-	/* if To: is still empty, may we removed duplicates (i.e. ourself), so add the original To if it was set */
+	/* If To: is still empty, may we removed duplicates (i.e. ourself),
+	 * so add the original To if it was set. */
 	if (camel_address_length ((CamelAddress *)to) == 0
 	    && (camel_internet_address_get (to_addrs, 0, &name, &addr)
 		|| camel_internet_address_get (cc_addrs, 0, &name, &addr))) {
@@ -2254,7 +2314,10 @@ get_reply_all (CamelMimeMessage *message, CamelInternetAddress *to, CamelInterne
 }
 
 void
-em_utils_get_reply_all (CamelMimeMessage *message, CamelInternetAddress *to, CamelInternetAddress *cc, CamelNNTPAddress *postto)
+em_utils_get_reply_all (CamelMimeMessage *message,
+                        CamelInternetAddress *to,
+                        CamelInternetAddress *cc,
+                        CamelNNTPAddress *postto)
 {
 	get_reply_all (message, to, cc, postto);
 }
@@ -2276,7 +2339,9 @@ enum {
 	ATTRIB_TM_YDAY
 };
 
-typedef void (* AttribFormatter) (GString *str, const gchar *attr, CamelMimeMessage *message);
+typedef void		(*AttribFormatter)	(GString *str,
+						 const gchar *attr,
+						 CamelMimeMessage *message);
 
 static void
 format_sender (GString *str, const gchar *attr, CamelMimeMessage *message)
@@ -2310,26 +2375,26 @@ static struct {
 		AttribFormatter formatter;  /* custom formatter */
 	} v;
 } attribvars[] = {
-	{ "{Sender}",            ATTRIB_CUSTOM,    { NULL,    format_sender  } },
-	{ "{SenderName}",        ATTRIB_CUSTOM,    { NULL,    format_sender  } },
-	{ "{SenderEMail}",       ATTRIB_CUSTOM,    { NULL,    format_sender  } },
-	{ "{AbbrevWeekdayName}", ATTRIB_STRFTIME,  { "%a",    NULL           } },
-	{ "{WeekdayName}",       ATTRIB_STRFTIME,  { "%A",    NULL           } },
-	{ "{AbbrevMonthName}",   ATTRIB_STRFTIME,  { "%b",    NULL           } },
-	{ "{MonthName}",         ATTRIB_STRFTIME,  { "%B",    NULL           } },
-	{ "{AmPmUpper}",         ATTRIB_STRFTIME,  { "%p",    NULL           } },
-	{ "{AmPmLower}",         ATTRIB_STRFTIME,  { "%P",    NULL           } },
-	{ "{Day}",               ATTRIB_TM_MDAY,   { "%02d",  NULL           } },  /* %d  01-31 */
-	{ "{ Day}",              ATTRIB_TM_MDAY,   { "% 2d",  NULL           } },  /* %e   1-31 */
-	{ "{24Hour}",            ATTRIB_TM_24HOUR, { "%02d",  NULL           } },  /* %H  00-23 */
-	{ "{12Hour}",            ATTRIB_TM_12HOUR, { "%02d",  NULL           } },  /* %I  00-12 */
-	{ "{DayOfYear}",         ATTRIB_TM_YDAY,   { "%d",    NULL           } },  /* %j  1-366 */
-	{ "{Month}",             ATTRIB_TM_MON,    { "%02d",  NULL           } },  /* %m  01-12 */
-	{ "{Minute}",            ATTRIB_TM_MIN,    { "%02d",  NULL           } },  /* %M  00-59 */
-	{ "{Seconds}",           ATTRIB_TM_SEC,    { "%02d",  NULL           } },  /* %S  00-61 */
-	{ "{2DigitYear}",        ATTRIB_TM_2YEAR,  { "%02d",  NULL           } },  /* %y */
-	{ "{Year}",              ATTRIB_TM_YEAR,   { "%04d",  NULL           } },  /* %Y */
-	{ "{TimeZone}",          ATTRIB_TIMEZONE,  { "%+05d", NULL           } }
+	{ "{Sender}", ATTRIB_CUSTOM, { NULL, format_sender } },
+	{ "{SenderName}", ATTRIB_CUSTOM, { NULL, format_sender } },
+	{ "{SenderEMail}", ATTRIB_CUSTOM, { NULL, format_sender } },
+	{ "{AbbrevWeekdayName}", ATTRIB_STRFTIME, { "%a", NULL } },
+	{ "{WeekdayName}", ATTRIB_STRFTIME, { "%A", NULL } },
+	{ "{AbbrevMonthName}", ATTRIB_STRFTIME, { "%b", NULL } },
+	{ "{MonthName}", ATTRIB_STRFTIME, { "%B", NULL } },
+	{ "{AmPmUpper}", ATTRIB_STRFTIME, { "%p", NULL } },
+	{ "{AmPmLower}", ATTRIB_STRFTIME, { "%P", NULL } },
+	{ "{Day}", ATTRIB_TM_MDAY, { "%02d", NULL } },  /* %d  01-31 */
+	{ "{ Day}", ATTRIB_TM_MDAY, { "% 2d", NULL } },  /* %e   1-31 */
+	{ "{24Hour}", ATTRIB_TM_24HOUR, { "%02d", NULL } },  /* %H  00-23 */
+	{ "{12Hour}", ATTRIB_TM_12HOUR, { "%02d", NULL } },  /* %I  00-12 */
+	{ "{DayOfYear}", ATTRIB_TM_YDAY, { "%d", NULL } },  /* %j  1-366 */
+	{ "{Month}", ATTRIB_TM_MON, { "%02d", NULL } },  /* %m  01-12 */
+	{ "{Minute}", ATTRIB_TM_MIN, { "%02d", NULL } },  /* %M  00-59 */
+	{ "{Seconds}", ATTRIB_TM_SEC, { "%02d", NULL } },  /* %S  00-61 */
+	{ "{2DigitYear}", ATTRIB_TM_2YEAR, { "%02d", NULL } },  /* %y */
+	{ "{Year}", ATTRIB_TM_YEAR, { "%04d", NULL } },  /* %Y */
+	{ "{TimeZone}", ATTRIB_TIMEZONE, { "%+05d", NULL } }
 };
 
 static gchar *
@@ -2482,7 +2547,9 @@ composer_set_body (EMsgComposer *composer,
 		break;
 	case E_MAIL_REPLY_STYLE_OUTLOOK:
 		original = quoting_text (QUOTING_ORIGINAL);
-		text = em_utils_message_to_html (message, original, EM_FORMAT_QUOTE_HEADERS, source, start_bottom ? "<BR>" : NULL, &validity_found);
+		text = em_utils_message_to_html (
+			message, original, EM_FORMAT_QUOTE_HEADERS, source,
+			start_bottom ? "<BR>" : NULL, &validity_found);
 		e_msg_composer_set_body_text (composer, text, TRUE);
 		has_body_text = text && *text;
 		g_free (text);
@@ -2494,7 +2561,9 @@ composer_set_body (EMsgComposer *composer,
 	default:
 		/* do what any sane user would want when replying... */
 		credits = attribution_format (message);
-		text = em_utils_message_to_html (message, credits, EM_FORMAT_QUOTE_CITE, source, start_bottom ? "<BR>" : NULL, &validity_found);
+		text = em_utils_message_to_html (
+			message, credits, EM_FORMAT_QUOTE_CITE, source,
+			start_bottom ? "<BR>" : NULL, &validity_found);
 		g_free (credits);
 		e_msg_composer_set_body_text (composer, text, TRUE);
 		has_body_text = text && *text;
@@ -2511,7 +2580,8 @@ composer_set_body (EMsgComposer *composer,
 		   before the signature. We added there an empty line already. */
 		gtkhtml_editor_run_command (editor, "block-selection");
 		gtkhtml_editor_run_command (editor, "cursor-bod");
-		if (gconf_client_get_bool (client, "/apps/evolution/mail/composer/top_signature", NULL)
+		if (gconf_client_get_bool (
+			client, "/apps/evolution/mail/composer/top_signature", NULL)
 		    || !gtkhtml_editor_search_by_data (editor, 1, "ClueFlow", "signature", "1"))
 			gtkhtml_editor_run_command (editor, "cursor-eod");
 		else
@@ -2536,7 +2606,9 @@ em_utils_construct_composer_text (CamelMimeMessage *message, EMFormat *source)
 	gboolean start_bottom = 0;
 
 	credits = attribution_format (message);
-	text = em_utils_message_to_html (message, credits, EM_FORMAT_QUOTE_CITE, source, start_bottom ? "<BR>" : NULL, NULL);
+	text = em_utils_message_to_html (
+		message, credits, EM_FORMAT_QUOTE_CITE, source,
+		start_bottom ? "<BR>" : NULL, NULL);
 
 	g_free (credits);
 	return text;

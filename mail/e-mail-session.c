@@ -997,7 +997,8 @@ e_mail_session_init (EMailSession *session)
 {
 	GConfClient *client;
 
-	session->priv = G_TYPE_INSTANCE_GET_PRIVATE (session, E_TYPE_MAIL_SESSION, EMailSessionPrivate);
+	session->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		session, E_TYPE_MAIL_SESSION, EMailSessionPrivate);
 	session->priv->folder_cache = mail_folder_cache_new ();
 
 	/* Initialize the EAccount setup. */

@@ -259,7 +259,8 @@ e_activity_proxy_init (EActivityProxy *proxy)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	proxy->priv = G_TYPE_INSTANCE_GET_PRIVATE (proxy, E_TYPE_ACTIVITY_PROXY, EActivityProxyPrivate);
+	proxy->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		proxy, E_TYPE_ACTIVITY_PROXY, EActivityProxyPrivate);
 
 	container = GTK_WIDGET (proxy);
 

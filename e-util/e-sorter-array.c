@@ -37,14 +37,18 @@ G_DEFINE_TYPE (
 	e_sorter_array,
 	E_SORTER_TYPE)
 
-static void	esa_sort               (ESorterArray *esa);
-static void	esa_backsort           (ESorterArray *esa);
+static void	esa_sort			(ESorterArray *esa);
+static void	esa_backsort			(ESorterArray *esa);
 
-static gint	esa_model_to_sorted           (ESorter *sorter, gint row);
-static gint	esa_sorted_to_model           (ESorter *sorter, gint row);
-static void	esa_get_model_to_sorted_array (ESorter *sorter, gint **array, gint *count);
-static void	esa_get_sorted_to_model_array (ESorter *sorter, gint **array, gint *count);
-static gboolean esa_needs_sorting             (ESorter *esa);
+static gint	esa_model_to_sorted		(ESorter *sorter, gint row);
+static gint	esa_sorted_to_model		(ESorter *sorter, gint row);
+static void	esa_get_model_to_sorted_array	(ESorter *sorter,
+						 gint **array,
+						 gint *count);
+static void	esa_get_sorted_to_model_array	(ESorter *sorter,
+						 gint **array,
+						 gint *count);
+static gboolean	esa_needs_sorting		(ESorter *esa);
 
 #define ESA_NEEDS_SORTING(esa) (((ESorterArray *) (esa))->compare != NULL)
 

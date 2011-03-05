@@ -248,7 +248,8 @@ etw_class_init (ETableWithoutClass *class)
 static void
 etw_init (ETableWithout *etw)
 {
-	etw->priv = G_TYPE_INSTANCE_GET_PRIVATE (etw, E_TYPE_TABLE_WITHOUT, ETableWithoutPrivate);
+	etw->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		etw, E_TYPE_TABLE_WITHOUT, ETableWithoutPrivate);
 }
 
 ETableModel *

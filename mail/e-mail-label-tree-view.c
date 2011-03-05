@@ -75,7 +75,9 @@ mail_label_tree_view_init (EMailLabelTreeView *tree_view)
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *renderer;
 
-	tree_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (tree_view, E_TYPE_MAIL_LABEL_TREE_VIEW, EMailLabelTreeViewPrivate);
+	tree_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		tree_view, E_TYPE_MAIL_LABEL_TREE_VIEW,
+		EMailLabelTreeViewPrivate);
 
 	column = gtk_tree_view_column_new ();
 	renderer = gtk_cell_renderer_pixbuf_new ();

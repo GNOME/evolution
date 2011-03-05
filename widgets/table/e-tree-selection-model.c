@@ -741,7 +741,8 @@ e_tree_selection_model_get_cursor (ETreeSelectionModel *etsm)
 static void
 e_tree_selection_model_init (ETreeSelectionModel *etsm)
 {
-	etsm->priv = G_TYPE_INSTANCE_GET_PRIVATE (etsm, E_TYPE_TREE_SELECTION_MODEL, ETreeSelectionModelPrivate);
+	etsm->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		etsm, E_TYPE_TREE_SELECTION_MODEL, ETreeSelectionModelPrivate);
 
 	etsm->priv->paths = g_hash_table_new (NULL, NULL);
 	etsm->priv->cursor_col = -1;

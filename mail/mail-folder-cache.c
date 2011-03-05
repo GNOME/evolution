@@ -1050,7 +1050,8 @@ mail_folder_cache_init (MailFolderCache *self)
 	const gchar *buf;
 	guint timeout;
 
-	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, MAIL_TYPE_FOLDER_CACHE, MailFolderCachePrivate);
+	self->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		self, MAIL_TYPE_FOLDER_CACHE, MailFolderCachePrivate);
 
 	/* initialize values */
 	self->priv->stores = g_hash_table_new (NULL, NULL);

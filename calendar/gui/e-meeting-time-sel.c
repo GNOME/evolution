@@ -361,7 +361,9 @@ e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * class)
 static void
 e_meeting_time_selector_init (EMeetingTimeSelector * mts)
 {
-	mts->priv = G_TYPE_INSTANCE_GET_PRIVATE (mts, E_TYPE_MEETING_TIME_SELECTOR, EMeetingTimeSelectorPrivate);
+	mts->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		mts, E_TYPE_MEETING_TIME_SELECTOR,
+		EMeetingTimeSelectorPrivate);
 
 	/* The shadow is drawn in the border so it must be >= 2 pixels. */
 	gtk_container_set_border_width (GTK_CONTAINER (mts), 2);

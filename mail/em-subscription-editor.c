@@ -1095,7 +1095,9 @@ em_subscription_editor_init (EMSubscriptionEditor *editor)
 	GtkWidget *box;
 	const gchar *tooltip;
 
-	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (editor, EM_TYPE_SUBSCRIPTION_EDITOR, EMSubscriptionEditorPrivate);
+	editor->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		editor, EM_TYPE_SUBSCRIPTION_EDITOR,
+		EMSubscriptionEditorPrivate);
 	editor->priv->stores = g_ptr_array_new_with_free_func (
 		(GDestroyNotify) store_data_free);
 

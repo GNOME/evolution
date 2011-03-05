@@ -332,7 +332,8 @@ e_activity_class_init (EActivityClass *class)
 static void
 e_activity_init (EActivity *activity)
 {
-	activity->priv = G_TYPE_INSTANCE_GET_PRIVATE (activity, E_TYPE_ACTIVITY, EActivityPrivate);
+	activity->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		activity, E_TYPE_ACTIVITY, EActivityPrivate);
 }
 
 EActivity *

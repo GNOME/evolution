@@ -169,7 +169,8 @@ e_web_view_preview_init (EWebViewPreview *preview)
 {
 	GtkWidget *tree_view_sw, *web_view_sw;
 
-	preview->priv = G_TYPE_INSTANCE_GET_PRIVATE (preview, E_TYPE_WEB_VIEW_PREVIEW, EWebViewPreviewPrivate);
+	preview->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		preview, E_TYPE_WEB_VIEW_PREVIEW, EWebViewPreviewPrivate);
 	preview->priv->escape_values = TRUE;
 
 	tree_view_sw = in_scrolled_window (gtk_tree_view_new ());

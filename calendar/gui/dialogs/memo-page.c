@@ -315,7 +315,8 @@ memo_page_class_init (MemoPageClass *class)
 static void
 memo_page_init (MemoPage *mpage)
 {
-	mpage->priv = G_TYPE_INSTANCE_GET_PRIVATE (mpage, TYPE_MEMO_PAGE, MemoPagePrivate);
+	mpage->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		mpage, TYPE_MEMO_PAGE, MemoPagePrivate);
 }
 
 /* returns whether changed info text */

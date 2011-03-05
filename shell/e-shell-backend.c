@@ -290,7 +290,8 @@ e_shell_backend_class_init (EShellBackendClass *class)
 static void
 e_shell_backend_init (EShellBackend *shell_backend)
 {
-	shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (shell_backend, E_TYPE_SHELL_BACKEND, EShellBackendPrivate);
+	shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		shell_backend, E_TYPE_SHELL_BACKEND, EShellBackendPrivate);
 	shell_backend->priv->activities = g_queue_new ();
 }
 

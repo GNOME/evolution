@@ -877,7 +877,8 @@ e_attachment_class_init (EAttachmentClass *class)
 static void
 e_attachment_init (EAttachment *attachment)
 {
-	attachment->priv = G_TYPE_INSTANCE_GET_PRIVATE (attachment, E_TYPE_ATTACHMENT, EAttachmentPrivate);
+	attachment->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		attachment, E_TYPE_ATTACHMENT, EAttachmentPrivate);
 	attachment->priv->cancellable = g_cancellable_new ();
 	attachment->priv->encrypted = CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE;
 	attachment->priv->signed_ = CAMEL_CIPHER_VALIDITY_SIGN_NONE;

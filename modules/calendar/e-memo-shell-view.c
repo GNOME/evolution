@@ -302,7 +302,9 @@ static void
 memo_shell_view_init (EMemoShellView *memo_shell_view,
                       EShellViewClass *shell_view_class)
 {
-	memo_shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (memo_shell_view, E_TYPE_MEMO_SHELL_VIEW, EMemoShellViewPrivate);
+	memo_shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		memo_shell_view, E_TYPE_MEMO_SHELL_VIEW,
+		EMemoShellViewPrivate);
 
 	e_memo_shell_view_private_init (memo_shell_view, shell_view_class);
 }

@@ -257,7 +257,8 @@ e_alert_dialog_class_init (EAlertDialogClass *class)
 static void
 e_alert_dialog_init (EAlertDialog *dialog)
 {
-	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (dialog, E_TYPE_ALERT_DIALOG, EAlertDialogPrivate);
+	dialog->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		dialog, E_TYPE_ALERT_DIALOG, EAlertDialogPrivate);
 }
 
 GtkWidget *

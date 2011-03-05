@@ -1356,7 +1356,9 @@ import_assistant_construct (EImportAssistant *import_assistant)
 static void
 e_import_assistant_init (EImportAssistant *import_assistant)
 {
-	import_assistant->priv = G_TYPE_INSTANCE_GET_PRIVATE (import_assistant, E_TYPE_IMPORT_ASSISTANT, EImportAssistantPrivate);
+	import_assistant->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		import_assistant, E_TYPE_IMPORT_ASSISTANT,
+		EImportAssistantPrivate);
 }
 
 GtkWidget *

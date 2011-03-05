@@ -531,7 +531,8 @@ e_search_bar_init (ESearchBar *search_bar)
 	GtkWidget *widget;
 	GtkWidget *container;
 
-	search_bar->priv = G_TYPE_INSTANCE_GET_PRIVATE (search_bar, E_TYPE_SEARCH_BAR, ESearchBarPrivate);
+	search_bar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		search_bar, E_TYPE_SEARCH_BAR, ESearchBarPrivate);
 	search_bar->priv->tokenizer = e_searching_tokenizer_new ();
 
 	g_signal_connect_swapped (

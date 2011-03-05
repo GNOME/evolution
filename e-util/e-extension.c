@@ -161,7 +161,8 @@ e_extension_class_init (EExtensionClass *class)
 static void
 e_extension_init (EExtension *extension)
 {
-	extension->priv = G_TYPE_INSTANCE_GET_PRIVATE (extension, E_TYPE_EXTENSION, EExtensionPrivate);
+	extension->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		extension, E_TYPE_EXTENSION, EExtensionPrivate);
 }
 
 /**

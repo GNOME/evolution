@@ -193,7 +193,8 @@ plugin_python_init (EPluginPython *plugin_python)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) NULL);
 
-	plugin_python->priv = G_TYPE_INSTANCE_GET_PRIVATE (plugin_python, E_TYPE_PLUGIN_PYTHON, EPluginPythonPrivate);
+	plugin_python->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		plugin_python, E_TYPE_PLUGIN_PYTHON, EPluginPythonPrivate);
 	plugin_python->priv->methods = methods;
 }
 

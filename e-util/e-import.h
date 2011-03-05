@@ -78,7 +78,8 @@ typedef void		(*EImportImportFunc)	(EImport *ei,
 /* The global target types, implementors may add additional ones */
 enum _e_import_target_t {
 	E_IMPORT_TARGET_URI,	/* simple file */
-	E_IMPORT_TARGET_HOME,	/* a home-directory thing, i.e. old applications */
+	E_IMPORT_TARGET_HOME,	/* a home-directory thing,
+				 * i.e. old applications */
 	E_IMPORT_TARGET_LAST = 256
 };
 

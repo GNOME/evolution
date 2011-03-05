@@ -913,7 +913,8 @@ e_calendar_view_init (ECalendarView *calendar_view)
 {
 	GtkTargetList *target_list;
 
-	calendar_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (calendar_view, E_TYPE_CALENDAR_VIEW, ECalendarViewPrivate);
+	calendar_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		calendar_view, E_TYPE_CALENDAR_VIEW, ECalendarViewPrivate);
 
 	/* Set this early to avoid a divide-by-zero during init. */
 	calendar_view->priv->time_divisions = 30;

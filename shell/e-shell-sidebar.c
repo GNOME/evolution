@@ -397,7 +397,8 @@ e_shell_sidebar_init (EShellSidebar *shell_sidebar)
 	const GdkColor *color;
 	const gchar *icon_name;
 
-	shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (shell_sidebar, E_TYPE_SHELL_SIDEBAR, EShellSidebarPrivate);
+	shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		shell_sidebar, E_TYPE_SHELL_SIDEBAR, EShellSidebarPrivate);
 
 	gtk_widget_set_has_window (GTK_WIDGET (shell_sidebar), FALSE);
 

@@ -860,7 +860,8 @@ e_filter_rule_class_init (EFilterRuleClass *class)
 static void
 e_filter_rule_init (EFilterRule *rule)
 {
-	rule->priv = G_TYPE_INSTANCE_GET_PRIVATE (rule, E_TYPE_FILTER_RULE, EFilterRulePrivate);
+	rule->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		rule, E_TYPE_FILTER_RULE, EFilterRulePrivate);
 	rule->enabled = TRUE;
 }
 

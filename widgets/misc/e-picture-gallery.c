@@ -402,7 +402,8 @@ e_picture_gallery_class_init (EPictureGalleryClass *class)
 static void
 e_picture_gallery_init (EPictureGallery *gallery)
 {
-	gallery->priv = G_TYPE_INSTANCE_GET_PRIVATE (gallery, E_TYPE_PICTURE_GALLERY, EPictureGalleryPrivate);
+	gallery->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		gallery, E_TYPE_PICTURE_GALLERY, EPictureGalleryPrivate);
 	gallery->priv->initialized = FALSE;
 	gallery->priv->monitor = NULL;
 	picture_gallery_set_path (gallery, NULL);

@@ -421,7 +421,8 @@ mail_sidebar_init (EMailSidebar *sidebar)
 	GtkTreeSelection *selection;
 	EMFolderTree *folder_tree;
 
-	sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (sidebar, E_TYPE_MAIL_SIDEBAR, EMailSidebarPrivate);
+	sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		sidebar, E_TYPE_MAIL_SIDEBAR, EMailSidebarPrivate);
 
 	folder_tree = EM_FOLDER_TREE (sidebar);
 	em_folder_tree_set_excluded (folder_tree, 0);

@@ -461,7 +461,8 @@ e_filter_datespec_class_init (EFilterDatespecClass *class)
 static void
 e_filter_datespec_init (EFilterDatespec *datespec)
 {
-	datespec->priv = G_TYPE_INSTANCE_GET_PRIVATE (datespec, E_TYPE_FILTER_DATESPEC, EFilterDatespecPrivate);
+	datespec->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		datespec, E_TYPE_FILTER_DATESPEC, EFilterDatespecPrivate);
 	datespec->type = FDST_UNKNOWN;
 }
 

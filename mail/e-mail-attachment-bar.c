@@ -503,7 +503,8 @@ mail_attachment_bar_init (EMailAttachmentBar *bar)
 	GtkWidget *widget;
 	GtkAction *action;
 
-	bar->priv = G_TYPE_INSTANCE_GET_PRIVATE (bar, E_TYPE_MAIL_ATTACHMENT_BAR, EMailAttachmentBarPrivate);
+	bar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		bar, E_TYPE_MAIL_ATTACHMENT_BAR, EMailAttachmentBarPrivate);
 	bar->priv->model = e_attachment_store_new ();
 
 	gtk_box_set_spacing (GTK_BOX (bar), 6);

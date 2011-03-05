@@ -256,7 +256,8 @@ shell_settings_init (EShellSettings *shell_settings,
 	value_array = g_array_new (FALSE, TRUE, sizeof (GValue));
 	g_array_set_size (value_array, property_count);
 
-	shell_settings->priv = G_TYPE_INSTANCE_GET_PRIVATE (shell_settings, E_TYPE_SHELL_SETTINGS, EShellSettingsPrivate);
+	shell_settings->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		shell_settings, E_TYPE_SHELL_SETTINGS, EShellSettingsPrivate);
 	shell_settings->priv->value_array = value_array;
 
 	g_object_freeze_notify (G_OBJECT (shell_settings));

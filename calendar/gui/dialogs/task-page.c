@@ -217,7 +217,8 @@ task_page_class_init (TaskPageClass *class)
 static void
 task_page_init (TaskPage *tpage)
 {
-	tpage->priv = G_TYPE_INSTANCE_GET_PRIVATE (tpage, TYPE_TASK_PAGE, TaskPagePrivate);
+	tpage->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		tpage, TYPE_TASK_PAGE, TaskPagePrivate);
 	tpage->priv->deleted_attendees = g_ptr_array_new ();
 }
 

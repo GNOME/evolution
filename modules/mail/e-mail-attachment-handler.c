@@ -565,7 +565,9 @@ mail_attachment_handler_class_init (EMailAttachmentHandlerClass *class)
 static void
 mail_attachment_handler_init (EMailAttachmentHandler *handler)
 {
-	handler->priv = G_TYPE_INSTANCE_GET_PRIVATE (handler, E_TYPE_MAIL_ATTACHMENT_HANDLER, EMailAttachmentHandlerPrivate);
+	handler->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		handler, E_TYPE_MAIL_ATTACHMENT_HANDLER,
+		EMailAttachmentHandlerPrivate);
 }
 
 GType

@@ -316,7 +316,8 @@ task_editor_init (TaskEditor *te)
 	const gchar *id;
 	GError *error = NULL;
 
-	te->priv = G_TYPE_INSTANCE_GET_PRIVATE (te, TYPE_TASK_EDITOR, TaskEditorPrivate);
+	te->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		te, TYPE_TASK_EDITOR, TaskEditorPrivate);
 	te->priv->model = E_MEETING_STORE (e_meeting_store_new ());
 	te->priv->assignment_shown = TRUE;
 	te->priv->updating = FALSE;

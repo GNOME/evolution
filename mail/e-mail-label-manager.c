@@ -305,7 +305,8 @@ mail_label_manager_init (EMailLabelManager *manager)
 	GtkWidget *container;
 	GtkWidget *widget;
 
-	manager->priv = G_TYPE_INSTANCE_GET_PRIVATE (manager, E_TYPE_MAIL_LABEL_MANAGER, EMailLabelManagerPrivate);
+	manager->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		manager, E_TYPE_MAIL_LABEL_MANAGER, EMailLabelManagerPrivate);
 
 	gtk_table_resize (GTK_TABLE (manager), 2, 2);
 	gtk_table_set_col_spacings (GTK_TABLE (manager), 6);

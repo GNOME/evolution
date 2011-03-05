@@ -275,7 +275,9 @@ week_view_titles_item_class_init (EWeekViewTitlesItemClass *class)
 static void
 week_view_titles_item_init (EWeekViewTitlesItem *titles_item)
 {
-	titles_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (titles_item, E_TYPE_WEEK_VIEW_TITLES_ITEM, EWeekViewTitlesItemPrivate);
+	titles_item->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		titles_item, E_TYPE_WEEK_VIEW_TITLES_ITEM,
+		EWeekViewTitlesItemPrivate);
 }
 
 GType

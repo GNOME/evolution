@@ -159,7 +159,8 @@ e_ui_manager_class_init (EUIManagerClass *class)
 static void
 e_ui_manager_init (EUIManager *ui_manager)
 {
-	ui_manager->priv = G_TYPE_INSTANCE_GET_PRIVATE (ui_manager, E_TYPE_UI_MANAGER, EUIManagerPrivate);
+	ui_manager->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		ui_manager, E_TYPE_UI_MANAGER, EUIManagerPrivate);
 }
 
 /**

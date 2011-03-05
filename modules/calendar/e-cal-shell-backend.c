@@ -796,7 +796,9 @@ cal_shell_backend_init (ECalShellBackend *cal_shell_backend)
 	icalarray *builtin_timezones;
 	gint ii;
 
-	cal_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (cal_shell_backend, E_TYPE_CAL_SHELL_BACKEND, ECalShellBackendPrivate);
+	cal_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		cal_shell_backend, E_TYPE_CAL_SHELL_BACKEND,
+		ECalShellBackendPrivate);
 
 	/* XXX Pre-load all built-in timezones in libical.
 	 *

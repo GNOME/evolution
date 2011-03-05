@@ -670,7 +670,8 @@ addressbook_model_class_init (EAddressbookModelClass *class)
 static void
 addressbook_model_init (EAddressbookModel *model)
 {
-	model->priv = G_TYPE_INSTANCE_GET_PRIVATE (model, E_TYPE_ADDRESSBOOK_MODEL, EAddressbookModelPrivate);
+	model->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		model, E_TYPE_ADDRESSBOOK_MODEL, EAddressbookModelPrivate);
 
 	model->priv->contacts = g_ptr_array_new ();
 	model->priv->first_get_view = TRUE;

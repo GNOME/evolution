@@ -1453,7 +1453,8 @@ folder_tree_init (EMFolderTree *folder_tree)
 
 	select_uris_table = g_hash_table_new (g_str_hash, g_str_equal);
 
-	folder_tree->priv = G_TYPE_INSTANCE_GET_PRIVATE (folder_tree, EM_TYPE_FOLDER_TREE, EMFolderTreePrivate);
+	folder_tree->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		folder_tree, EM_TYPE_FOLDER_TREE, EMFolderTreePrivate);
 	folder_tree->priv->select_uris_table = select_uris_table;
 
 	tree_view = GTK_TREE_VIEW (folder_tree);
@@ -2423,28 +2424,33 @@ tree_autoscroll (EMFolderTree *folder_tree)
 	GtkTreeView *tree_view;
 	GdkRectangle rect;
 	GdkWindow *window;
+	gdouble value;
 	gint offset, y;
 
-	/* get the y pointer position relative to the treeview */
+	/* Get the y pointer position relative to the treeview. */
 	tree_view = GTK_TREE_VIEW (folder_tree);
 	window = gtk_tree_view_get_bin_window (tree_view);
 	gdk_window_get_pointer (window, NULL, &y, NULL);
 
-	/* rect is in coorinates relative to the scrolled window relative to the treeview */
+	/* Rect is in coorinates relative to the scrolled window,
+	 * relative to the treeview. */
 	gtk_tree_view_get_visible_rect (tree_view, &rect);
 
-	/* move y into the same coordinate system as rect */
+	/* Move y into the same coordinate system as rect. */
 	y += rect.y;
 
-	/* see if we are near the top edge */
-	if ((offset = y - (rect.y + 2 * SCROLL_EDGE_SIZE)) > 0) {
-		/* see if we are near the bottom edge */
-		if ((offset = y - (rect.y + rect.height - 2 * SCROLL_EDGE_SIZE)) < 0)
+	/* See if we are near the top edge. */
+	offset = y - (rect.y + 2 * SCROLL_EDGE_SIZE);
+	if (offset > 0) {
+		/* See if we are near the bottom edge. */
+		offset = y - (rect.y + rect.height - 2 * SCROLL_EDGE_SIZE);
+		if (offset < 0)
 			return TRUE;
 	}
 
 	adjustment = gtk_tree_view_get_vadjustment (tree_view);
-	gtk_adjustment_set_value (adjustment, MAX (gtk_adjustment_get_value (adjustment) + offset, 0.0));
+	value = gtk_adjustment_get_value (adjustment);
+	gtk_adjustment_set_value (adjustment, MAX (value + offset, 0.0));
 
 	return TRUE;
 }

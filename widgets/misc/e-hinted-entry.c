@@ -210,7 +210,8 @@ e_hinted_entry_class_init (EHintedEntryClass *class)
 static void
 e_hinted_entry_init (EHintedEntry *entry)
 {
-	entry->priv = G_TYPE_INSTANCE_GET_PRIVATE (entry, E_TYPE_HINTED_ENTRY, EHintedEntryPrivate);
+	entry->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		entry, E_TYPE_HINTED_ENTRY, EHintedEntryPrivate);
 	entry->priv->hint = g_strdup ("");  /* hint must never be NULL */
 	hinted_entry_show_hint (entry);
 }

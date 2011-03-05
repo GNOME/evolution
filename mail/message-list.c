@@ -2464,7 +2464,8 @@ message_list_init (MessageList *message_list)
 	GtkTargetList *target_list;
 	GdkAtom matom;
 
-	message_list->priv = G_TYPE_INSTANCE_GET_PRIVATE (message_list, MESSAGE_LIST_TYPE, MessageListPrivate);
+	message_list->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		message_list, MESSAGE_LIST_TYPE, MessageListPrivate);
 
 #if HAVE_CLUTTER
 	message_list->priv->timeline = NULL;

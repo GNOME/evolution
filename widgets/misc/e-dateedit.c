@@ -451,7 +451,8 @@ e_date_edit_class_init (EDateEditClass *class)
 static void
 e_date_edit_init (EDateEdit *dedit)
 {
-	dedit->priv = G_TYPE_INSTANCE_GET_PRIVATE (dedit, E_TYPE_DATE_EDIT, EDateEditPrivate);
+	dedit->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		dedit, E_TYPE_DATE_EDIT, EDateEditPrivate);
 
 	dedit->priv->show_date = TRUE;
 	dedit->priv->show_time = TRUE;

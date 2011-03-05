@@ -347,7 +347,8 @@ e_paned_class_init (EPanedClass *class)
 static void
 e_paned_init (EPaned *paned)
 {
-	paned->priv = G_TYPE_INSTANCE_GET_PRIVATE (paned, E_TYPE_PANED, EPanedPrivate);
+	paned->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		paned, E_TYPE_PANED, EPanedPrivate);
 
 	paned->priv->proportion = 0.5;
 	paned->priv->fixed_resize = TRUE;

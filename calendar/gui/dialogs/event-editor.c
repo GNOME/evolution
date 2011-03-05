@@ -539,7 +539,8 @@ event_editor_init (EventEditor *ee)
 	const gchar *id;
 	GError *error = NULL;
 
-	ee->priv = G_TYPE_INSTANCE_GET_PRIVATE (ee, TYPE_EVENT_EDITOR, EventEditorPrivate);
+	ee->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		ee, TYPE_EVENT_EDITOR, EventEditorPrivate);
 	ee->priv->model = E_MEETING_STORE (e_meeting_store_new ());
 	ee->priv->meeting_shown = TRUE;
 	ee->priv->updating = FALSE;

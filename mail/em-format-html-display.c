@@ -679,7 +679,8 @@ efhd_init (EMFormatHTMLDisplay *efhd)
 
 	web_view = em_format_html_get_web_view (EM_FORMAT_HTML (efhd));
 
-	efhd->priv = G_TYPE_INSTANCE_GET_PRIVATE (efhd, EM_TYPE_FORMAT_HTML_DISPLAY, EMFormatHTMLDisplayPrivate);
+	efhd->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		efhd, EM_TYPE_FORMAT_HTML_DISPLAY, EMFormatHTMLDisplayPrivate);
 	efhd->priv->attachment_views = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
 	e_mail_display_set_formatter (

@@ -231,9 +231,11 @@ cal_comp_is_on_server (ECalComponent *comp, ECal *client)
 	 */
 	e_cal_component_get_uid (comp, &uid);
 
-	/*TODO We should not be checking for this here. But since e_cal_util_construct_instance does not
-	  create the instances of all day events, so we dafault to old behaviour */
-	if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
+	/* TODO We should not be checking for this here. But since
+	 *      e_cal_util_construct_instance does not create the instances
+	 *      of all day events, so we default to old behaviour. */
+	if (e_cal_get_static_capability (
+		client, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
 		rid = e_cal_component_get_recurid_as_string (comp);
 	}
 
@@ -255,7 +257,8 @@ cal_comp_is_on_server (ECalComponent *comp, ECal *client)
 
 /**
  * is_icalcomp_on_the_server:
- * same as @cal_comp_is_on_server, only the component parameter is icalcomponent, not the ECalComponent.
+ * same as @cal_comp_is_on_server, only the component parameter is
+ * icalcomponent, not the ECalComponent.
  **/
 gboolean
 is_icalcomp_on_the_server (icalcomponent *icalcomp, ECal *client)
@@ -446,7 +449,8 @@ cal_comp_update_time_by_active_window (ECalComponent *comp, EShell *shell)
 
 		if (e_shell_window_get_active_view (shell_window)
 		    && g_str_equal (e_shell_window_get_active_view (shell_window), "calendar")) {
-			EShellView *view;
+			EShellContent *shell_content;
+			EShellView *shell_view;
 			GnomeCalendar *gnome_cal;
 			time_t start = 0, end = 0;
 			icaltimezone *zone;
@@ -454,11 +458,13 @@ cal_comp_update_time_by_active_window (ECalComponent *comp, EShell *shell)
 			icalcomponent *icalcomp;
 			icalproperty *prop;
 
-			view = e_shell_window_peek_shell_view (shell_window, "calendar");
-			g_return_if_fail (view != NULL);
+			shell_view = e_shell_window_peek_shell_view (
+				shell_window, "calendar");
+			g_return_if_fail (shell_view != NULL);
 
 			gnome_cal = NULL;
-			g_object_get (G_OBJECT (e_shell_view_get_shell_content (view)), "calendar", &gnome_cal, NULL);
+			shell_content = e_shell_view_get_shell_content (shell_view);
+			g_object_get (shell_content, "calendar", &gnome_cal, NULL);
 			g_return_if_fail (gnome_cal != NULL);
 
 			gnome_calendar_get_current_time_range (gnome_cal, &start, &end);
@@ -616,7 +622,9 @@ datetime_to_zone (ECal *client, ECalComponentDateTime *date, const gchar *tzid)
 	from = icaltimezone_get_builtin_timezone_from_tzid (date->tzid);
 	if (!from) {
 		if (!e_cal_get_timezone (client, date->tzid, &from, NULL))
-			g_warning ("%s: Could not get timezone from server: %s", G_STRFUNC, date->tzid ? date->tzid : "");
+			g_warning (
+				"%s: Could not get timezone from server: %s",
+				G_STRFUNC, date->tzid ? date->tzid : "");
 	}
 
 	to = icaltimezone_get_builtin_timezone_from_tzid (tzid);
@@ -638,7 +646,9 @@ datetime_to_zone (ECal *client, ECalComponentDateTime *date, const gchar *tzid)
  * Changes 'dtstart' of the component, but converts time to the old timezone.
  **/
 void
-cal_comp_set_dtstart_with_oldzone (ECal *client, ECalComponent *comp, const ECalComponentDateTime *pdate)
+cal_comp_set_dtstart_with_oldzone (ECal *client,
+                                   ECalComponent *comp,
+                                   const ECalComponentDateTime *pdate)
 {
 	ECalComponentDateTime olddate, date;
 
@@ -664,7 +674,9 @@ cal_comp_set_dtstart_with_oldzone (ECal *client, ECalComponent *comp, const ECal
  * Changes 'dtend' of the component, but converts time to the old timezone.
  **/
 void
-cal_comp_set_dtend_with_oldzone (ECal *client, ECalComponent *comp, const ECalComponentDateTime *pdate)
+cal_comp_set_dtend_with_oldzone (ECal *client,
+                                 ECalComponent *comp,
+                                 const ECalComponentDateTime *pdate)
 {
 	ECalComponentDateTime olddate, date;
 
@@ -682,7 +694,8 @@ cal_comp_set_dtend_with_oldzone (ECal *client, ECalComponent *comp, const ECalCo
 }
 
 void
-comp_util_sanitize_recurrence_master (ECalComponent *comp, ECal *client)
+comp_util_sanitize_recurrence_master (ECalComponent *comp,
+                                      ECal *client)
 {
 	ECalComponent *master = NULL;
 	icalcomponent *icalcomp = NULL;
@@ -704,7 +717,9 @@ comp_util_sanitize_recurrence_master (ECalComponent *comp, ECal *client)
 	e_cal_component_get_recurid (comp, &rid);
 	e_cal_component_get_dtstart (comp, &sdt);
 
-	if (rid.datetime.value && sdt.value && icaltime_compare_date_only (*rid.datetime.value, *sdt.value) == 0) {
+	if (rid.datetime.value && sdt.value &&
+	    icaltime_compare_date_only (
+	    *rid.datetime.value, *sdt.value) == 0) {
 		ECalComponentDateTime msdt, medt, edt;
 		gint *sequence;
 

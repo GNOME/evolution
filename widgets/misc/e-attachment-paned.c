@@ -519,7 +519,8 @@ e_attachment_paned_init (EAttachmentPaned *paned)
 	GtkWidget *widget;
 	GtkAction *action;
 
-	paned->priv = G_TYPE_INSTANCE_GET_PRIVATE (paned, E_TYPE_ATTACHMENT_PANED, EAttachmentPanedPrivate);
+	paned->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		paned, E_TYPE_ATTACHMENT_PANED, EAttachmentPanedPrivate);
 	paned->priv->model = e_attachment_store_new ();
 
 	/* Keep the expander label and combo box the same height. */

@@ -153,7 +153,8 @@ e_table_search_class_init (ETableSearchClass *class)
 static void
 e_table_search_init (ETableSearch *ets)
 {
-	ets->priv = G_TYPE_INSTANCE_GET_PRIVATE (ets, E_TYPE_TABLE_SEARCH, ETableSearchPrivate);
+	ets->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		ets, E_TYPE_TABLE_SEARCH, ETableSearchPrivate);
 
 	ets->priv->search_string = g_strdup ("");
 }

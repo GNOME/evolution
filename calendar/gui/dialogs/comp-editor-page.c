@@ -172,7 +172,8 @@ comp_editor_page_class_init (CompEditorPageClass *class)
 static void
 comp_editor_page_init (CompEditorPage *page)
 {
-	page->priv = G_TYPE_INSTANCE_GET_PRIVATE (page, TYPE_COMP_EDITOR_PAGE, CompEditorPagePrivate);
+	page->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		page, TYPE_COMP_EDITOR_PAGE, CompEditorPagePrivate);
 
 	page->accel_group = NULL;
 }

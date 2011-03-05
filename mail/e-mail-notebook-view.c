@@ -1339,7 +1339,8 @@ e_mail_notebook_view_reader_init (EMailReaderInterface *interface)
 static void
 e_mail_notebook_view_init (EMailNotebookView  *view)
 {
-	view->priv = G_TYPE_INSTANCE_GET_PRIVATE (view, E_TYPE_MAIL_NOTEBOOK_VIEW, EMailNotebookViewPrivate);
+	view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		view, E_TYPE_MAIL_NOTEBOOK_VIEW, EMailNotebookViewPrivate);
 
 	view->priv->inited = FALSE;
 	view->priv->views = g_hash_table_new (g_str_hash, g_str_equal);

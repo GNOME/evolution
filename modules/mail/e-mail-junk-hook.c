@@ -298,7 +298,8 @@ mail_junk_hook_init (EMailJunkHook *mail_junk_hook)
 {
 	EMJunkInterface *interface;
 
-	mail_junk_hook->priv = G_TYPE_INSTANCE_GET_PRIVATE (mail_junk_hook, E_TYPE_MAIL_JUNK_HOOK, EMailJunkHookPrivate);
+	mail_junk_hook->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		mail_junk_hook, E_TYPE_MAIL_JUNK_HOOK, EMailJunkHookPrivate);
 
 	interface = &mail_junk_hook->priv->interface;
 	interface->camel.get_name = mail_junk_hook_get_name;

@@ -743,7 +743,8 @@ etta_class_init (ETreeTableAdapterClass *class)
 static void
 etta_init (ETreeTableAdapter *etta)
 {
-	etta->priv = G_TYPE_INSTANCE_GET_PRIVATE (etta, E_TYPE_TREE_TABLE_ADAPTER, ETreeTableAdapterPrivate);
+	etta->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		etta, E_TYPE_TREE_TABLE_ADAPTER, ETreeTableAdapterPrivate);
 
 	etta->priv->root_visible = TRUE;
 	etta->priv->remap_needed = TRUE;

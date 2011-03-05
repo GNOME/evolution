@@ -289,7 +289,8 @@ event_page_class_init (EventPageClass *class)
 static void
 event_page_init (EventPage *epage)
 {
-	epage->priv = G_TYPE_INSTANCE_GET_PRIVATE (epage, TYPE_EVENT_PAGE, EventPagePrivate);
+	epage->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		epage, TYPE_EVENT_PAGE, EventPagePrivate);
 	epage->priv->deleted_attendees = g_ptr_array_new ();
 	epage->priv->alarm_interval = -1;
 	epage->priv->alarm_map = alarm_map_with_user_time;

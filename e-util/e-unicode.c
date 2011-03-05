@@ -168,7 +168,8 @@ e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 			ibl = bytes - (ib - string);
 			if (ibl > bytes) ibl = 0;
 
-			/* FIXME: this is wrong... what if the destination charset is 16 or 32 bit? */
+			/* FIXME This is wrong.  What if the destination
+			 *       charset is 16 or 32 bit? */
 			*ob++ = '_';
 			obl--;
 		}
@@ -181,7 +182,9 @@ e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 }
 
 gchar *
-e_utf8_to_charset_string_sized (const gchar *charset, const gchar *string, gint bytes)
+e_utf8_to_charset_string_sized (const gchar *charset,
+                                const gchar *string,
+                                gint bytes)
 {
 	iconv_t ic;
 	gchar *ret;

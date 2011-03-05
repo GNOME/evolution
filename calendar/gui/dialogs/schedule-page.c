@@ -271,7 +271,8 @@ schedule_page_class_init (SchedulePageClass *class)
 static void
 schedule_page_init (SchedulePage *spage)
 {
-	spage->priv = G_TYPE_INSTANCE_GET_PRIVATE (spage, TYPE_SCHEDULE_PAGE, SchedulePagePrivate);
+	spage->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		spage, TYPE_SCHEDULE_PAGE, SchedulePagePrivate);
 }
 
 /* Gets the widgets from the XML file and returns if they are all available. */

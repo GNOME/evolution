@@ -1169,7 +1169,8 @@ e_shell_init (EShell *shell)
 	GtkIconTheme *icon_theme;
 	EggSMClient *sm_client;
 
-	shell->priv = G_TYPE_INSTANCE_GET_PRIVATE (shell, E_TYPE_SHELL, EShellPrivate);
+	shell->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		shell, E_TYPE_SHELL, EShellPrivate);
 
 	backends_by_name = g_hash_table_new (g_str_hash, g_str_equal);
 	backends_by_scheme = g_hash_table_new (g_str_hash, g_str_equal);

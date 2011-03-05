@@ -337,7 +337,8 @@ mail_decoration_class_init (MailDecorationClass *klass)
 static void
 mail_decoration_init (MailDecoration *md)
 {
-	md->priv = G_TYPE_INSTANCE_GET_PRIVATE (md, MAIL_DECORATION_TYPE, MailDecorationPrivate);
+	md->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		md, MAIL_DECORATION_TYPE, MailDecorationPrivate);
 
 	md->priv->cursors[0]= gdk_cursor_new (GDK_TOP_LEFT_CORNER);
 	md->priv->cursors[1]= gdk_cursor_new (GDK_TOP_SIDE);

@@ -564,7 +564,9 @@ task_shell_backend_class_init (ETaskShellBackendClass *class)
 static void
 task_shell_backend_init (ETaskShellBackend *task_shell_backend)
 {
-	task_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (task_shell_backend, E_TYPE_TASK_SHELL_BACKEND, ETaskShellBackendPrivate);
+	task_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		task_shell_backend, E_TYPE_TASK_SHELL_BACKEND,
+		ETaskShellBackendPrivate);
 }
 
 GType

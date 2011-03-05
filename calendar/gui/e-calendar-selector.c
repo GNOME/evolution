@@ -158,7 +158,8 @@ calendar_selector_class_init (ECalendarSelectorClass *class)
 static void
 calendar_selector_init (ECalendarSelector *selector)
 {
-	selector->priv = G_TYPE_INSTANCE_GET_PRIVATE (selector, E_TYPE_CALENDAR_SELECTOR, ECalendarSelectorPrivate);
+	selector->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		selector, E_TYPE_CALENDAR_SELECTOR, ECalendarSelectorPrivate);
 
 	gtk_drag_dest_set (
 		GTK_WIDGET (selector), GTK_DEST_DEFAULT_ALL,

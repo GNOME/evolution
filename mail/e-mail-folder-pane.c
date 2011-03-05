@@ -167,7 +167,8 @@ e_mail_folder_pane_class_init (EMailFolderPaneClass *class)
 static void
 e_mail_folder_pane_init (EMailFolderPane *browser)
 {
-	browser->priv = G_TYPE_INSTANCE_GET_PRIVATE (browser, E_TYPE_MAIL_FOLDER_PANE, EMailFolderPanePrivate);
+	browser->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		browser, E_TYPE_MAIL_FOLDER_PANE, EMailFolderPanePrivate);
 }
 
 EMailView *

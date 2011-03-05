@@ -36,7 +36,8 @@ struct _ECalConfigPrivate {
 static void
 ecp_init (ECalConfig *cfg)
 {
-	cfg->priv = G_TYPE_INSTANCE_GET_PRIVATE (cfg, E_TYPE_CAL_CONFIG, ECalConfigPrivate);
+	cfg->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		cfg, E_TYPE_CAL_CONFIG, ECalConfigPrivate);
 }
 
 static void

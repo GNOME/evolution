@@ -160,7 +160,8 @@ e_composer_activity_class_init (EComposerActivityClass *class)
 static void
 e_composer_activity_init (EComposerActivity *activity)
 {
-	activity->priv = G_TYPE_INSTANCE_GET_PRIVATE (activity, E_TYPE_COMPOSER_ACTIVITY, EComposerActivityPrivate);
+	activity->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		activity, E_TYPE_COMPOSER_ACTIVITY, EComposerActivityPrivate);
 }
 
 EActivity *

@@ -298,7 +298,8 @@ e_timezone_entry_init (ETimezoneEntry *timezone_entry)
 	AtkObject *a11y;
 	GtkWidget *widget;
 
-	timezone_entry->priv = G_TYPE_INSTANCE_GET_PRIVATE (timezone_entry, E_TYPE_TIMEZONE_ENTRY, ETimezoneEntryPrivate);
+	timezone_entry->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		timezone_entry, E_TYPE_TIMEZONE_ENTRY, ETimezoneEntryPrivate);
 
 	gtk_widget_set_can_focus (GTK_WIDGET (timezone_entry), TRUE);
 

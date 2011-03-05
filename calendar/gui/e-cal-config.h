@@ -29,8 +29,24 @@
 #include <libecal/e-cal.h>
 #include "e-util/e-config.h"
 
-#define E_TYPE_CAL_CONFIG (e_cal_config_get_type())
-#define E_CAL_CONFIG(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CAL_CONFIG, ECalConfig))
+/* Standard GObject macros */
+#define E_TYPE_CAL_CONFIG \
+	(e_cal_config_get_type ())
+#define E_CAL_CONFIG(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CAL_CONFIG, ECalConfig))
+#define E_CAL_CONFIG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CAL_CONFIG, ECalConfigClass))
+#define E_IS_CAL_CONFIG(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CAL_CONFIG))
+#define E_IS_CAL_CONFIG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CAL_CONFIG))
+#define E_CAL_CONFIG_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CAL_CONFIG, ECalConfigClass))
 
 G_BEGIN_DECLS
 

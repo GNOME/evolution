@@ -35,7 +35,8 @@ struct _EABConfigPrivate {
 static void
 ecp_init (EABConfig *cfg)
 {
-	cfg->priv = G_TYPE_INSTANCE_GET_PRIVATE (cfg, EAB_TYPE_CONFIG, EABConfigPrivate);
+	cfg->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		cfg, EAB_TYPE_CONFIG, EABConfigPrivate);
 }
 
 static void
@@ -86,7 +87,9 @@ ecp_set_target (EConfig *ec, EConfigTarget *t)
 		case EAB_CONFIG_TARGET_SOURCE: {
 			EABConfigTargetSource *s = (EABConfigTargetSource *)t;
 
-			p->source_changed_id = g_signal_connect(s->source, "changed", G_CALLBACK(ecp_source_changed), ec);
+			p->source_changed_id = g_signal_connect (
+				s->source, "changed",
+				G_CALLBACK (ecp_source_changed), ec);
 			break; }
 		}
 	}
@@ -134,7 +137,8 @@ eab_config_new (gint type, const gchar *menuid)
 EABConfigTargetSource *
 eab_config_target_new_source (EABConfig *ecp, struct _ESource *source)
 {
-	EABConfigTargetSource *t = e_config_target_new (&ecp->config, EAB_CONFIG_TARGET_SOURCE, sizeof (*t));
+	EABConfigTargetSource *t = e_config_target_new (
+		&ecp->config, EAB_CONFIG_TARGET_SOURCE, sizeof (*t));
 
 	t->source = source;
 	g_object_ref (source);

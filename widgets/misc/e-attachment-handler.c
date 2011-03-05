@@ -73,7 +73,8 @@ e_attachment_handler_class_init (EAttachmentHandlerClass *class)
 static void
 e_attachment_handler_init (EAttachmentHandler *handler)
 {
-	handler->priv = G_TYPE_INSTANCE_GET_PRIVATE (handler, E_TYPE_ATTACHMENT_HANDLER, EAttachmentHandlerPrivate);
+	handler->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		handler, E_TYPE_ATTACHMENT_HANDLER, EAttachmentHandlerPrivate);
 }
 
 EAttachmentView *

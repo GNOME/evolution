@@ -332,7 +332,9 @@ mail_shell_sidebar_class_init (EMailShellSidebarClass *class)
 static void
 mail_shell_sidebar_init (EMailShellSidebar *mail_shell_sidebar)
 {
-	mail_shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (mail_shell_sidebar, E_TYPE_MAIL_SHELL_SIDEBAR, EMailShellSidebarPrivate);
+	mail_shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		mail_shell_sidebar, E_TYPE_MAIL_SHELL_SIDEBAR,
+		EMailShellSidebarPrivate);
 
 	/* Postpone widget construction until we have a shell view. */
 }

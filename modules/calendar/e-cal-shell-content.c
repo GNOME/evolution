@@ -620,7 +620,9 @@ cal_shell_content_class_init (ECalShellContentClass *class)
 static void
 cal_shell_content_init (ECalShellContent *cal_shell_content)
 {
-	cal_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (cal_shell_content, E_TYPE_CAL_SHELL_CONTENT, ECalShellContentPrivate);
+	cal_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		cal_shell_content, E_TYPE_CAL_SHELL_CONTENT,
+		ECalShellContentPrivate);
 
 	/* Postpone widget construction until we have a shell view. */
 }

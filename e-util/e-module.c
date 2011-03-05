@@ -199,7 +199,8 @@ e_module_class_init (EModuleClass *class)
 static void
 e_module_init (EModule *module)
 {
-	module->priv = G_TYPE_INSTANCE_GET_PRIVATE (module, E_TYPE_MODULE, EModulePrivate);
+	module->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		module, E_TYPE_MODULE, EModulePrivate);
 }
 
 /**

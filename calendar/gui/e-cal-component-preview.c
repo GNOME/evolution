@@ -400,7 +400,9 @@ cal_component_preview_class_init (ECalComponentPreviewClass *class)
 static void
 cal_component_preview_init (ECalComponentPreview *preview)
 {
-	preview->priv = G_TYPE_INSTANCE_GET_PRIVATE (preview, E_TYPE_CAL_COMPONENT_PREVIEW, ECalComponentPreviewPrivate);
+	preview->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		preview, E_TYPE_CAL_COMPONENT_PREVIEW,
+		ECalComponentPreviewPrivate);
 }
 
 GType

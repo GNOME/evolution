@@ -238,7 +238,8 @@ alarm_notify_init (AlarmNotify *an)
 {
 	gint ii;
 
-	an->priv = G_TYPE_INSTANCE_GET_PRIVATE (an, TYPE_ALARM_NOTIFY, AlarmNotifyPrivate);
+	an->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		an, TYPE_ALARM_NOTIFY, AlarmNotifyPrivate);
 	an->priv->mutex = g_mutex_new ();
 	an->priv->selected_calendars = config_data_get_calendars (
 		"/apps/evolution/calendar/sources");

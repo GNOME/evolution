@@ -317,21 +317,28 @@ em_utils_edit_filters (GtkWidget *parent,
 		em_filter_source_element_names[1].name = _("Outgoing");
 	}
 
-	filter_editor = (GtkWidget *) em_filter_editor_new (fc, em_filter_source_element_names);
+	filter_editor = (GtkWidget *) em_filter_editor_new (
+		fc, em_filter_source_element_names);
 	if (parent != NULL)
 		gtk_window_set_transient_for (
 			GTK_WINDOW (filter_editor),
 			GTK_WINDOW (parent));
 
-	gtk_window_set_title (GTK_WINDOW (filter_editor), _("Message Filters"));
-	g_object_set_data_full ((GObject *) filter_editor, "context", fc, (GDestroyNotify) g_object_unref);
-	g_signal_connect (filter_editor, "response", G_CALLBACK (em_filter_editor_response), NULL);
+	gtk_window_set_title (
+		GTK_WINDOW (filter_editor), _("Message Filters"));
+	g_object_set_data_full (
+		G_OBJECT (filter_editor), "context", fc,
+		(GDestroyNotify) g_object_unref);
+	g_signal_connect (
+		filter_editor, "response",
+		G_CALLBACK (em_filter_editor_response), NULL);
 	gtk_widget_show (GTK_WIDGET (filter_editor));
 }
 
 /*
  * Picked this from e-d-s/libedataserver/e-data.
- * But it allows more characters to occur in filenames, especially when saving attachment.
+ * But it allows more characters to occur in filenames, especially
+ * when saving attachment.
  */
 void
 em_filename_make_safe (gchar *string)
@@ -491,7 +498,9 @@ exit:
  * @folder and @uids.
  **/
 void
-em_utils_flag_for_followup_clear (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids)
+em_utils_flag_for_followup_clear (GtkWindow *parent,
+                                  CamelFolder *folder,
+                                  GPtrArray *uids)
 {
 	gint i;
 
@@ -527,7 +536,9 @@ em_utils_flag_for_followup_clear (GtkWindow *parent, CamelFolder *folder, GPtrAr
  * Flag-for-Followup.
  **/
 void
-em_utils_flag_for_followup_completed (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids)
+em_utils_flag_for_followup_completed (GtkWindow *parent,
+                                      CamelFolder *folder,
+                                      GPtrArray *uids)
 {
 	gchar *now;
 	gint i;
@@ -558,10 +569,13 @@ em_utils_flag_for_followup_completed (GtkWindow *parent, CamelFolder *folder, GP
 	em_utils_uids_free (uids);
 }
 
-/* This kind of sucks, because for various reasons most callers need to run synchronously
-   in the gui thread, however this could take a long, blocking time, to run */
+/* This kind of sucks, because for various reasons most callers need to run
+ * synchronously in the gui thread, however this could take a long, blocking
+ * time to run. */
 static gint
-em_utils_write_messages_to_stream (CamelFolder *folder, GPtrArray *uids, CamelStream *stream)
+em_utils_write_messages_to_stream (CamelFolder *folder,
+                                   GPtrArray *uids,
+                                   CamelStream *stream)
 {
 	CamelStream *filtered_stream;
 	CamelMimeFilter *from_filter;
@@ -585,13 +599,17 @@ em_utils_write_messages_to_stream (CamelFolder *folder, GPtrArray *uids, CamelSt
 			break;
 		}
 
-		/* we need to flush after each stream write since we are writing to the same stream */
+		/* We need to flush after each stream write since we are
+		 * writing to the same stream. */
 		from = camel_mime_message_build_mbox_from (message);
 
 		if (camel_stream_write_string (stream, from, NULL, NULL) == -1
 		    || camel_stream_flush (stream, NULL, NULL) == -1
-		    || camel_data_wrapper_write_to_stream_sync ((CamelDataWrapper *)message, (CamelStream *)filtered_stream, NULL, NULL) == -1
-		    || camel_stream_flush ((CamelStream *)filtered_stream, NULL, NULL) == -1)
+		    || camel_data_wrapper_write_to_stream_sync (
+			(CamelDataWrapper *) message, (CamelStream *)
+			filtered_stream, NULL, NULL) == -1
+		    || camel_stream_flush (
+			(CamelStream *) filtered_stream, NULL, NULL) == -1)
 			res = -1;
 
 		g_free (from);
@@ -606,10 +624,12 @@ em_utils_write_messages_to_stream (CamelFolder *folder, GPtrArray *uids, CamelSt
 	return res;
 }
 
-/* This kind of sucks, because for various reasons most callers need to run synchronously
-   in the gui thread, however this could take a long, blocking time, to run */
+/* This kind of sucks, because for various reasons most callers need to run
+ * synchronously in the gui thread, however this could take a long, blocking
+ * time to run. */
 static gint
-em_utils_read_messages_from_stream (CamelFolder *folder, CamelStream *stream)
+em_utils_read_messages_from_stream (CamelFolder *folder,
+                                    CamelStream *stream)
 {
 	CamelMimeParser *mp = camel_mime_parser_new ();
 	gboolean success = TRUE;
@@ -854,7 +874,9 @@ em_utils_selection_get_uidlist (GtkSelectionData *selection_data,
  * up when the application quits.
  **/
 void
-em_utils_selection_set_urilist (GtkSelectionData *data, CamelFolder *folder, GPtrArray *uids)
+em_utils_selection_set_urilist (GtkSelectionData *data,
+                                CamelFolder *folder,
+                                GPtrArray *uids)
 {
 	gchar *tmpdir;
 	CamelStream *fstream;
@@ -1301,7 +1323,8 @@ em_utils_message_to_html (CamelMimeMessage *message,
 
 		/* FIXME: we should be getting this from the current view, not the global setting. */
 		gconf = gconf_client_get_default ();
-		charset = gconf_client_get_string (gconf, "/apps/evolution/mail/display/charset", NULL);
+		charset = gconf_client_get_string (
+			gconf, "/apps/evolution/mail/display/charset", NULL);
 		em_format_set_default_charset ((EMFormat *) emfq, charset);
 		g_object_unref (gconf);
 		g_free (charset);
@@ -1367,7 +1390,9 @@ em_utils_empty_trash (GtkWidget *parent,
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
-	if (!em_utils_prompt_user((GtkWindow *) parent, "/apps/evolution/mail/prompts/empty_trash", "mail:ask-empty-trash", NULL))
+	if (!em_utils_prompt_user ((GtkWindow *) parent,
+		"/apps/evolution/mail/prompts/empty_trash",
+		"mail:ask-empty-trash", NULL))
 		return;
 
 	accounts = e_get_account_list ();
@@ -1647,11 +1672,15 @@ try_open_e_book (EBook *book, gboolean only_if_exists, GError **error)
 	if (!e_book_open_async (book, only_if_exists, try_open_e_book_cb, &data)) {
 		e_flag_free (flag);
 		g_clear_error (error);
-		g_set_error (error, E_BOOK_ERROR, E_BOOK_ERROR_OTHER_ERROR, "Failed to call e_book_open_async.");
+		g_set_error (
+			error, E_BOOK_ERROR,
+			E_BOOK_ERROR_OTHER_ERROR,
+			"Failed to call e_book_open_async.");
 		return FALSE;
 	}
 
-	while (canceled = camel_operation_cancel_check (NULL), !canceled && !e_flag_is_set (flag)) {
+	while (canceled = camel_operation_cancel_check (NULL),
+			!canceled && !e_flag_is_set (flag)) {
 		GTimeVal wait;
 
 		g_get_current_time (&wait);
@@ -1662,9 +1691,13 @@ try_open_e_book (EBook *book, gboolean only_if_exists, GError **error)
 
 	if (canceled) {
 		g_clear_error (error);
-		g_set_error (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED, "Operation has been canceled.");
-		/* if the operation is cancelled sucessfully set the flag else wait. file, groupwise,.. backend's operations
-		   are not cancellable */
+		g_set_error (
+			error, E_BOOK_ERROR,
+			E_BOOK_ERROR_CANCELLED,
+			"Operation has been canceled.");
+		/* if the operation is cancelled sucessfully set the flag
+		 * else wait. file, groupwise,.. backend's operations
+		 * are not cancellable */
 		if (e_book_cancel_async_op (book, NULL))
 			e_flag_set (flag);
 	}
@@ -1678,13 +1711,26 @@ try_open_e_book (EBook *book, gboolean only_if_exists, GError **error)
 #define NOT_FOUND_BOOK (GINT_TO_POINTER (1))
 
 G_LOCK_DEFINE_STATIC (contact_cache);
-static GHashTable *contact_cache = NULL; /* key is lowercased contact email; value is EBook pointer (just for comparison) where it comes from */
-static GHashTable *emu_books_hash = NULL; /* key is source ID; value is pointer to EBook */
-static GHashTable *emu_broken_books_hash = NULL; /* key is source ID; value is same pointer as key; this is hash of broken books, which failed to open for some reason */
+
+/* key is lowercased contact email; value is EBook pointer
+ * (just for comparison) where it comes from */
+static GHashTable *contact_cache = NULL;
+
+/* key is source ID; value is pointer to EBook */
+static GHashTable *emu_books_hash = NULL;
+
+/* key is source ID; value is same pointer as key; this is hash of
+ * broken books, which failed to open for some reason */
+static GHashTable *emu_broken_books_hash = NULL;
+
 static ESourceList *emu_books_source_list = NULL;
 
 static gboolean
-search_address_in_addressbooks (const gchar *address, gboolean local_only, gboolean (*check_contact) (EContact *contact, gpointer user_data), gpointer user_data)
+search_address_in_addressbooks (const gchar *address,
+                                gboolean local_only,
+                                gboolean (*check_contact) (EContact *contact,
+                                                           gpointer user_data),
+                                gpointer user_data)
 {
 	gboolean found = FALSE, stop = FALSE, found_any = FALSE;
 	gchar *lowercase_addr;
@@ -1698,10 +1744,15 @@ search_address_in_addressbooks (const gchar *address, gboolean local_only, gbool
 	G_LOCK (contact_cache);
 
 	if (!emu_books_source_list) {
-		mail_call_main (MAIL_CALL_p_p, (MailMainFunc)emu_addr_setup, &emu_books_source_list);
-		emu_books_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
-		emu_broken_books_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-		contact_cache = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+		mail_call_main (
+			MAIL_CALL_p_p, (MailMainFunc)
+			emu_addr_setup, &emu_books_source_list);
+		emu_books_hash = g_hash_table_new_full (
+			g_str_hash, g_str_equal, g_free, g_object_unref);
+		emu_broken_books_hash = g_hash_table_new_full (
+			g_str_hash, g_str_equal, g_free, NULL);
+		contact_cache = g_hash_table_new_full (
+			g_str_hash, g_str_equal, g_free, NULL);
 	}
 
 	if (!emu_books_source_list) {
@@ -1725,7 +1776,9 @@ search_address_in_addressbooks (const gchar *address, gboolean local_only, gbool
 		if (!group)
 			continue;
 
-		if (local_only && !(e_source_group_peek_base_uri (group) && g_str_has_prefix (e_source_group_peek_base_uri (group), "local:")))
+		if (local_only && !(e_source_group_peek_base_uri (group) &&
+			g_str_has_prefix (
+			e_source_group_peek_base_uri (group), "local:")))
 			continue;
 
 		for (s = e_source_group_peek_sources (group); s; s = g_slist_next (s)) {
@@ -1747,8 +1800,10 @@ search_address_in_addressbooks (const gchar *address, gboolean local_only, gbool
 		GError *err = NULL;
 
 		/* failed to load this book last time, skip it now */
-		if (g_hash_table_lookup (emu_broken_books_hash, e_source_peek_uid (source)) != NULL) {
-			d(printf ("%s: skipping broken book '%s'\n", G_STRFUNC, e_source_peek_name (source)));
+		if (g_hash_table_lookup (emu_broken_books_hash,
+				e_source_peek_uid (source)) != NULL) {
+			d(printf ("%s: skipping broken book '%s'\n",
+				G_STRFUNC, e_source_peek_name (source)));
 			continue;
 		}
 
@@ -1769,7 +1824,10 @@ search_address_in_addressbooks (const gchar *address, gboolean local_only, gbool
 
 					g_hash_table_insert (emu_broken_books_hash, source_uid, source_uid);
 
-					g_warning ("%s: Unable to create addressbook '%s': %s", G_STRFUNC, e_source_peek_name (source), err->message);
+					g_warning (
+						"%s: Unable to create addressbook '%s': %s",
+						G_STRFUNC, e_source_peek_name (source),
+						err->message);
 				}
 				g_clear_error (&err);
 			} else if (!stop && !try_open_e_book (book, TRUE, &err)) {
@@ -1783,7 +1841,10 @@ search_address_in_addressbooks (const gchar *address, gboolean local_only, gbool
 
 					g_hash_table_insert (emu_broken_books_hash, source_uid, source_uid);
 
-					g_warning ("%s: Unable to open addressbook '%s': %s", G_STRFUNC, e_source_peek_name (source), err->message);
+					g_warning (
+						"%s: Unable to open addressbook '%s': %s",
+						G_STRFUNC, e_source_peek_name (source),
+						err->message);
 				}
 				g_clear_error (&err);
 			}
@@ -1820,7 +1881,10 @@ search_address_in_addressbooks (const gchar *address, gboolean local_only, gbool
 
 				g_hash_table_insert (emu_broken_books_hash, source_uid, source_uid);
 
-				g_warning ("%s: Can't get contacts from '%s': %s", G_STRFUNC, e_source_peek_name (source), err->message);
+				g_warning (
+					"%s: Can't get contacts from '%s': %s",
+					G_STRFUNC, e_source_peek_name (source),
+					err->message);
 			}
 			g_clear_error (&err);
 		}
@@ -1937,7 +2001,8 @@ em_utils_contact_photo (CamelInternetAddress *cia, gboolean local_only)
 	}
 
 	/* !p means the address had not been found in the cache */
-	if (!p && search_address_in_addressbooks (addr, local_only, extract_photo_data, &photo)) {
+	if (!p && search_address_in_addressbooks (
+			addr, local_only, extract_photo_data, &photo)) {
 		PhotoInfo *pi;
 
 		if (photo && photo->type != E_CONTACT_PHOTO_TYPE_INLINED) {
@@ -2034,7 +2099,8 @@ emu_remove_from_mail_cache_1 (const gchar *address)
 	g_slist_free (l);
 }
 
-/* frees all data created by call of em_utils_in_addressbook or em_utils_contact_photo */
+/* frees all data created by call of em_utils_in_addressbook() or
+ * em_utils_contact_photo() */
 void
 emu_free_mail_cache (void)
 {
@@ -2190,7 +2256,10 @@ em_utils_generate_account_hash (void)
 			}
 
 			if (!acnt)
-				g_hash_table_insert (account_hash, (gchar *) account->id->address, (gpointer) account);
+				g_hash_table_insert (
+					account_hash, (gchar *)
+					account->id->address,
+					(gpointer) account);
 		}
 
 		e_iterator_next (iter);

@@ -138,14 +138,16 @@ get_dir (gboolean make)
 					return NULL;
 				}
 
-				/* make sure this is a directory and belongs to us... */
+				/* make sure this is a directory and
+				 * belongs to us... */
 				if (!S_ISDIR (st.st_mode) || st.st_uid != getuid ()) {
 					/* eek! this is bad... */
 					g_string_free (path, TRUE);
 					return NULL;
 				}
 			} else {
-				/* some other error...do not pass go, do not collect $200 */
+				/* some other error...do not pass go,
+				 * do not collect $200 */
 				g_string_free (path, TRUE);
 				return NULL;
 			}

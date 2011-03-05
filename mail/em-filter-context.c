@@ -280,7 +280,8 @@ em_filter_context_class_init (EMFilterContextClass *class)
 static void
 em_filter_context_init (EMFilterContext *context)
 {
-	context->priv = G_TYPE_INSTANCE_GET_PRIVATE (context, EM_TYPE_FILTER_CONTEXT, EMFilterContextPrivate);
+	context->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		context, EM_TYPE_FILTER_CONTEXT, EMFilterContextPrivate);
 
 	e_rule_context_add_part_set (
 		E_RULE_CONTEXT (context),

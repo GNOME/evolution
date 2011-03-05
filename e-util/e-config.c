@@ -187,7 +187,8 @@ e_config_class_init (EConfigClass *class)
 static void
 e_config_init (EConfig *config)
 {
-	config->priv = G_TYPE_INSTANCE_GET_PRIVATE (config, E_TYPE_CONFIG, EConfigPrivate);
+	config->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		config, E_TYPE_CONFIG, EConfigPrivate);
 }
 
 /**

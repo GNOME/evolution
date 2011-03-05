@@ -700,7 +700,8 @@ gnome_canvas_rect_class_init (GnomeCanvasRectClass *class)
 static void
 gnome_canvas_rect_init (GnomeCanvasRect *rect)
 {
-	rect->priv = G_TYPE_INSTANCE_GET_PRIVATE (rect, GNOME_TYPE_CANVAS_RECT, GnomeCanvasRectPrivate);
+	rect->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		rect, GNOME_TYPE_CANVAS_RECT, GnomeCanvasRectPrivate);
 
 	rect->priv->scale = 1.0;
 

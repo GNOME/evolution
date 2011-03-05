@@ -181,7 +181,9 @@ em_filter_folder_element_class_init (EMFilterFolderElementClass *class)
 static void
 em_filter_folder_element_init (EMFilterFolderElement *element)
 {
-	element->priv = G_TYPE_INSTANCE_GET_PRIVATE (element, EM_TYPE_FILTER_FOLDER_ELEMENT, EMFilterFolderElementPrivate);
+	element->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		element, EM_TYPE_FILTER_FOLDER_ELEMENT,
+		EMFilterFolderElementPrivate);
 }
 
 EFilterElement *

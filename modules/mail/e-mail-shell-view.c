@@ -1059,7 +1059,9 @@ static void
 mail_shell_view_init (EMailShellView *mail_shell_view,
                       EShellViewClass *shell_view_class)
 {
-	mail_shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (mail_shell_view, E_TYPE_MAIL_SHELL_VIEW, EMailShellViewPrivate);
+	mail_shell_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		mail_shell_view, E_TYPE_MAIL_SHELL_VIEW,
+		EMailShellViewPrivate);
 
 	e_mail_shell_view_private_init (mail_shell_view, shell_view_class);
 }

@@ -200,7 +200,9 @@ book_shell_sidebar_class_init (EBookShellSidebarClass *class)
 static void
 book_shell_sidebar_init (EBookShellSidebar *book_shell_sidebar)
 {
-	book_shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (book_shell_sidebar, E_TYPE_BOOK_SHELL_SIDEBAR, EBookShellSidebarPrivate);
+	book_shell_sidebar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		book_shell_sidebar, E_TYPE_BOOK_SHELL_SIDEBAR,
+		EBookShellSidebarPrivate);
 
 	/* Postpone widget construction until we have a shell view. */
 }

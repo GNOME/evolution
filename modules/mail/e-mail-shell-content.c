@@ -440,7 +440,9 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 static void
 mail_shell_content_init (EMailShellContent *mail_shell_content)
 {
-	mail_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (mail_shell_content, E_TYPE_MAIL_SHELL_CONTENT, EMailShellContentPrivate);
+	mail_shell_content->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		mail_shell_content, E_TYPE_MAIL_SHELL_CONTENT,
+		EMailShellContentPrivate);
 
 	/* Postpone widget construction until we have a shell view. */
 }

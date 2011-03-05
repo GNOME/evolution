@@ -712,9 +712,11 @@ e_format_number (gint number)
 		case 0:
 			divider = epow10 (last_count);
 			if (number >= divider) {
-				group = g_strdup_printf("%0*d", last_count, number % divider);
+				group = g_strdup_printf (
+					"%0*d", last_count, number % divider);
 			} else {
-				group = g_strdup_printf("%d", number % divider);
+				group = g_strdup_printf (
+					"%d", number % divider);
 			}
 			number /= divider;
 			break;
@@ -1132,9 +1134,11 @@ e_flexible_strtod (const gchar *nptr, gchar **endptr)
 
 	if (fail_pos) {
 		if (fail_pos > decimal_point_pos)
-			fail_pos = (gchar *)nptr + (fail_pos - copy) - (decimal_point_len - 1);
+			fail_pos =
+				(gchar *) nptr + (fail_pos - copy) -
+				(decimal_point_len - 1);
 		else
-			fail_pos = (gchar *)nptr + (fail_pos - copy);
+			fail_pos = (gchar *) nptr + (fail_pos - copy);
 	}
 
 	g_free (copy);
@@ -1296,41 +1300,58 @@ get_font_options (void)
 
 	/* Antialiasing */
 	if (fo_antialiasing == NULL)
-		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_DEFAULT);
+		cairo_font_options_set_antialias (
+			font_options, CAIRO_ANTIALIAS_DEFAULT);
 	else if (strcmp (fo_antialiasing, "grayscale") == 0)
-		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_GRAY);
+		cairo_font_options_set_antialias (
+			font_options, CAIRO_ANTIALIAS_GRAY);
 	else if (strcmp (fo_antialiasing, "rgba") == 0)
-		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_SUBPIXEL);
+		cairo_font_options_set_antialias (
+			font_options, CAIRO_ANTIALIAS_SUBPIXEL);
 	else if (strcmp (fo_antialiasing, "none") == 0)
-		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_NONE);
+		cairo_font_options_set_antialias (
+			font_options, CAIRO_ANTIALIAS_NONE);
 	else
-		cairo_font_options_set_antialias (font_options, CAIRO_ANTIALIAS_DEFAULT);
+		cairo_font_options_set_antialias (
+			font_options, CAIRO_ANTIALIAS_DEFAULT);
 
 	if (fo_hinting == NULL)
-		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_DEFAULT);
+		cairo_font_options_set_hint_style (
+			font_options, CAIRO_HINT_STYLE_DEFAULT);
 	else if (strcmp (fo_hinting, "full") == 0)
-		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_FULL);
+		cairo_font_options_set_hint_style (
+			font_options, CAIRO_HINT_STYLE_FULL);
 	else if (strcmp (fo_hinting, "medium") == 0)
-		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_MEDIUM);
+		cairo_font_options_set_hint_style (
+			font_options, CAIRO_HINT_STYLE_MEDIUM);
 	else if (strcmp (fo_hinting, "slight") == 0)
-		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_SLIGHT);
+		cairo_font_options_set_hint_style (
+			font_options, CAIRO_HINT_STYLE_SLIGHT);
 	else if (strcmp (fo_hinting, "none") == 0)
-		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_NONE);
+		cairo_font_options_set_hint_style (
+			font_options, CAIRO_HINT_STYLE_NONE);
 	else
-		cairo_font_options_set_hint_style (font_options, CAIRO_HINT_STYLE_DEFAULT);
+		cairo_font_options_set_hint_style (
+			font_options, CAIRO_HINT_STYLE_DEFAULT);
 
 	if (fo_subpixel_order == NULL)
-		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_DEFAULT);
+		cairo_font_options_set_subpixel_order (
+			font_options, CAIRO_SUBPIXEL_ORDER_DEFAULT);
 	else if (strcmp (fo_subpixel_order, "rgb") == 0)
-		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_RGB);
+		cairo_font_options_set_subpixel_order (
+			font_options, CAIRO_SUBPIXEL_ORDER_RGB);
 	else if (strcmp (fo_subpixel_order, "bgr") == 0)
-		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_BGR);
+		cairo_font_options_set_subpixel_order (
+			font_options, CAIRO_SUBPIXEL_ORDER_BGR);
 	else if (strcmp (fo_subpixel_order, "vrgb") == 0)
-		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_VRGB);
+		cairo_font_options_set_subpixel_order (
+			font_options, CAIRO_SUBPIXEL_ORDER_VRGB);
 	else if (strcmp (fo_subpixel_order, "vbgr") == 0)
-		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_VBGR);
+		cairo_font_options_set_subpixel_order (
+			font_options, CAIRO_SUBPIXEL_ORDER_VBGR);
 	else
-		cairo_font_options_set_subpixel_order (font_options, CAIRO_SUBPIXEL_ORDER_DEFAULT);
+		cairo_font_options_set_subpixel_order (
+			font_options, CAIRO_SUBPIXEL_ORDER_DEFAULT);
 
 	g_static_mutex_unlock (&fo_lock);
 

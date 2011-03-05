@@ -1306,8 +1306,10 @@ e_mail_tab_init (EMailTab *self)
 {
   ClutterActor *text;
   GtkSettings *settings;
+  EMailTabPrivate *priv;
 
-  EMailTabPrivate *priv = self->priv = G_TYPE_INSTANCE_GET_PRIVATE (self, E_MAIL_TYPE_TAB, EMailTabPrivate);
+  priv = self->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+	self, E_MAIL_TYPE_TAB, EMailTabPrivate);
 
   priv->width = -1;
   priv->anim_length = 200;

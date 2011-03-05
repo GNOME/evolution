@@ -76,7 +76,8 @@ e_mail_message_pane_class_init (EMailMessagePaneClass *class)
 static void
 e_mail_message_pane_init (EMailMessagePane *browser)
 {
-	browser->priv = G_TYPE_INSTANCE_GET_PRIVATE (browser, E_TYPE_MAIL_MESSAGE_PANE, EMailMessagePanePrivate);
+	browser->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		browser, E_TYPE_MAIL_MESSAGE_PANE, EMailMessagePanePrivate);
 }
 
 EMailView *

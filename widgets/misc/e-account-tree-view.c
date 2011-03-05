@@ -478,7 +478,8 @@ e_account_tree_view_init (EAccountTreeView *tree_view)
 		(GDestroyNotify) g_object_unref,
 		(GDestroyNotify) gtk_tree_row_reference_free);
 
-	tree_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (tree_view, E_TYPE_ACCOUNT_TREE_VIEW, EAccountTreeViewPrivate);
+	tree_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		tree_view, E_TYPE_ACCOUNT_TREE_VIEW, EAccountTreeViewPrivate);
 	tree_view->priv->index = index;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));

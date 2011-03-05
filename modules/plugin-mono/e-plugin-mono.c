@@ -230,7 +230,8 @@ plugin_mono_init (EPluginMono *plugin_mono)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) NULL);
 
-	plugin_mono->priv = G_TYPE_INSTANCE_GET_PRIVATE (plugin_mono, E_TYPE_PLUGIN_MONO, EPluginMonoPrivate);
+	plugin_mono->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		plugin_mono, E_TYPE_PLUGIN_MONO, EPluginMonoPrivate);
 	plugin_mono->priv->methods = methods;
 }
 

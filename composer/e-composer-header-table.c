@@ -994,7 +994,9 @@ e_composer_header_table_init (EComposerHeaderTable *table)
 	GtkWidget *widget;
 	gint ii;
 
-	table->priv = G_TYPE_INSTANCE_GET_PRIVATE (table, E_TYPE_COMPOSER_HEADER_TABLE, EComposerHeaderTablePrivate);
+	table->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		table, E_TYPE_COMPOSER_HEADER_TABLE,
+		EComposerHeaderTablePrivate);
 
 	name_selector = e_name_selector_new ();
 	table->priv->name_selector = name_selector;

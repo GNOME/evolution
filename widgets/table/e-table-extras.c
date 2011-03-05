@@ -230,7 +230,8 @@ ete_init (ETableExtras *extras)
 {
 	ECell *cell, *sub_cell;
 
-	extras->priv = G_TYPE_INSTANCE_GET_PRIVATE (extras, E_TYPE_TABLE_EXTRAS, ETableExtrasPrivate);
+	extras->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		extras, E_TYPE_TABLE_EXTRAS, ETableExtrasPrivate);
 
 	extras->priv->cells = g_hash_table_new_full (
 		g_str_hash, g_str_equal,

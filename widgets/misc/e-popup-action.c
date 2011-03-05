@@ -330,7 +330,8 @@ e_popup_action_class_init (EPopupActionClass *class)
 static void
 e_popup_action_init (EPopupAction *popup_action)
 {
-	popup_action->priv = G_TYPE_INSTANCE_GET_PRIVATE (popup_action, E_TYPE_POPUP_ACTION, EPopupActionPrivate);
+	popup_action->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		popup_action, E_TYPE_POPUP_ACTION, EPopupActionPrivate);
 	popup_action->priv->use_action_appearance = TRUE;
 
 	/* Remain invisible until we have a related action. */

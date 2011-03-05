@@ -178,7 +178,9 @@ test_shell_backend_class_init (ETestShellBackendClass *class)
 static void
 test_shell_backend_init (ETestShellBackend *test_shell_backend)
 {
-	test_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (test_shell_backend, E_TYPE_TEST_SHELL_BACKEND, ETestShellBackendPrivate);
+	test_shell_backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		test_shell_backend, E_TYPE_TEST_SHELL_BACKEND,
+		ETestShellBackendPrivate);
 }
 
 GType

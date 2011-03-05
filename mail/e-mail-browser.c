@@ -939,7 +939,8 @@ e_mail_browser_init (EMailBrowser *browser)
 	GConfBridge *bridge;
 	const gchar *prefix;
 
-	browser->priv = G_TYPE_INSTANCE_GET_PRIVATE (browser, E_TYPE_MAIL_BROWSER, EMailBrowserPrivate);
+	browser->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		browser, E_TYPE_MAIL_BROWSER, EMailBrowserPrivate);
 
 	browser->priv->action_group = gtk_action_group_new ("mail-browser");
 	browser->priv->formatter = em_format_html_display_new ();

@@ -193,7 +193,8 @@ em_vfolder_rule_class_init (EMVFolderRuleClass *class)
 static void
 em_vfolder_rule_init (EMVFolderRule *rule)
 {
-	rule->priv = G_TYPE_INSTANCE_GET_PRIVATE (rule, EM_TYPE_VFOLDER_RULE, EMVFolderRulePrivate);
+	rule->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		rule, EM_TYPE_VFOLDER_RULE, EMVFolderRulePrivate);
 
 	rule->with = EM_VFOLDER_RULE_WITH_SPECIFIC;
 	rule->rule.source = g_strdup ("incoming");

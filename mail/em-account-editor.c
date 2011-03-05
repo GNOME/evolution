@@ -429,7 +429,8 @@ emae_class_init (GObjectClass *class)
 static void
 emae_init (EMAccountEditor *emae)
 {
-	emae->priv = G_TYPE_INSTANCE_GET_PRIVATE (emae, EM_TYPE_ACCOUNT_EDITOR, EMAccountEditorPrivate);
+	emae->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		emae, EM_TYPE_ACCOUNT_EDITOR, EMAccountEditorPrivate);
 
 	emae->priv->selected_server = NULL;
 	emae->emae_check_servers = emae_check_servers;

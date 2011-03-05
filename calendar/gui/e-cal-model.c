@@ -690,7 +690,8 @@ e_cal_model_class_init (ECalModelClass *class)
 static void
 e_cal_model_init (ECalModel *model)
 {
-	model->priv = G_TYPE_INSTANCE_GET_PRIVATE (model, E_TYPE_CAL_MODEL, ECalModelPrivate);
+	model->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		model, E_TYPE_CAL_MODEL, ECalModelPrivate);
 
 	/* match none by default */
 	model->priv->start = -1;

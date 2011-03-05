@@ -488,7 +488,9 @@ cal_attachment_handler_class_init (ECalAttachmentHandlerClass *class)
 static void
 cal_attachment_handler_init (ECalAttachmentHandler *handler)
 {
-	handler->priv = G_TYPE_INSTANCE_GET_PRIVATE (handler, E_TYPE_CAL_ATTACHMENT_HANDLER, ECalAttachmentHandlerPrivate);
+	handler->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		handler, E_TYPE_CAL_ATTACHMENT_HANDLER,
+		ECalAttachmentHandlerPrivate);
 }
 
 GType

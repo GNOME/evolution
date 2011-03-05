@@ -319,7 +319,8 @@ e_mail_view_class_init (EMailViewClass *class)
 static void
 e_mail_view_init (EMailView *view)
 {
-	view->priv = G_TYPE_INSTANCE_GET_PRIVATE (view, E_TYPE_MAIL_VIEW, EMailViewPrivate);
+	view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		view, E_TYPE_MAIL_VIEW, EMailViewPrivate);
 }
 
 EShellView *

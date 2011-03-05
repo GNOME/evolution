@@ -361,7 +361,9 @@ em_folder_selection_button_init (EMFolderSelectionButton *emfsb)
 {
 	GtkWidget *box;
 
-	emfsb->priv = G_TYPE_INSTANCE_GET_PRIVATE (emfsb, EM_TYPE_FOLDER_SELECTION_BUTTON, EMFolderSelectionButtonPrivate);
+	emfsb->priv = G_TYPE_INSTANCE_GET_PRIVATE (
+		emfsb, EM_TYPE_FOLDER_SELECTION_BUTTON,
+		EMFolderSelectionButtonPrivate);
 
 	emfsb->priv->multiple_select = FALSE;
 
