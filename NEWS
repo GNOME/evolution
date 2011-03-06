@@ -1,3 +1,69 @@
+Evolution 2.91.91 2011-03-07
+----------------------------
+
+Bug Fixes:
+	Bug 434972 - Reply does not detect "RE :" subject prefix (Milan Crha)
+	Bug 550867 - Showing location in meetings (Milan Crha)
+	Bug 608804 - Some attachments make evolution crash in libical
+	             (Milan Crha)
+	Bug 614480 - Avoid using G_TYPE_INSTANCE_GET_PRIVATE repeatedly
+	             (Milan Crha)
+	Bug 623593 - Cannot drag&drop attached messages from mails (Milan Crha)
+	Bug 635002 - Fix invalid use of .la file in contact-editor
+	             (Pacho Ramos)
+	Bug 637091 - Crash in g_str_hash, task_shell_sidebar_client_removed
+	             (Matthew Barnes)
+	Bug 640829 - Can drop text/plain message lines in message preview
+	             (Milan Crha)
+	Bug 641343 - Cannot scroll to bottom of folder list while dragging
+	             (Milan Crha)
+	Bug 641374 - "Send new mail to..." popup action doesn't work
+	             (Milan Crha)
+	Bug 641456 - Crash in pst_process_appointment at pst-importer.c
+	             (Milan Crha)
+	Bug 641805 - Clicking links in mail composer opens URL twice
+	             (Milan Crha)
+	Bug 642093 - Frees message attachment content on Reply (Milan Crha)
+	Bug 642447 - Invalid reads while disabling groupwise account
+	             (Milan Crha)
+	Bug 642954 - Doesn't commit/abort sequence on modification error
+	             (Milan Crha)
+	Bug 643218 - Local delivery doesn't deliver after maildir migration
+	             (Milan Crha)
+	Bug 643297 - multipart/related formatter skips the last part
+	             (Milan Crha)
+	Bug 643402 - Fails to build with --disable-smime (Milan Crha)
+	Bug 643635 - Typo in the code from commit for bug #434972 (Milan Crha)
+	Bug 643693 - Crash opening attached text/html mail (Milan Crha)
+
+Other Changes:
+	* Write state.ini immediately in EShellView::dispose method
+	  (Milan Crha)
+	* Use G_SIGNAL_TYPE_STATIC_SCOPE for all GdkEvent signal params.
+	  (Matthew Barnes)
+	* Fix incorrect use of ngettext from a patch for bug #635414
+	  (Milan Crha)
+	* Slightly smaller dialogs for Reply type questions (but not all)
+	  (Milan Crha)
+	* Let Esc behave like Cancel in Reply questions and do not leak
+	  message (Milan Crha)
+	* Do not leak attachments in a mail view (Milan Crha)
+	* Merge duplicate local sources (Milan Crha)
+	* Do not flush Outbox when mail shell backend not started (Milan Crha)
+	* Construct attachment bars for correct message part ids (Milan Crha)
+	* Bump BASE_VERSION to 3.0. (Matthew Barnes)
+
+Translations:
+	Daniel Mustieles (es)
+	Mattias Põldaru (et)
+	Bruno Brouard (fr)
+	Rudolfs Mazurs (lv)
+	Kjartan Maraas (nb)
+	Nguyễn Thái Ngọc Duy (vi)
+	Wei Li (zh_CN)
+	Chao-Hsiung Liao (zh_HK)
+
+
 Evolution 2.91.90 2011-02-21
 ----------------------------
 
