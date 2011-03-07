@@ -481,7 +481,7 @@ shell_xdg_migrate_config_dir (EShell *shell,
 	old_config_dir = old_base_dir;
 	new_config_dir = e_get_user_config_dir ();
 
-	/* Subtle name change: datetime-formats --> datefime-formats.ini */
+	/* Subtle name change: datetime-formats --> datetime-formats.ini */
 	old_filename = g_build_filename (old_config_dir, "datetime-formats", NULL);
 	new_filename = g_build_filename (new_config_dir, "datetime-formats.ini", NULL);
 	shell_xdg_migrate_rename (old_filename, new_filename);
