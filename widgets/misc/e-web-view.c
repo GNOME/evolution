@@ -431,12 +431,16 @@ web_view_button_press_event_cb (EWebView *web_view,
                                 GtkHTML *frame)
 {
 	gboolean event_handled = FALSE;
-	gchar *uri;
+	gchar *uri = NULL;
 
 	if (event != NULL && event->button != 3)
 		return FALSE;
 
-	uri = e_web_view_extract_uri (web_view, event, frame);
+	/* Only extract a URI if no selection is active.  Selected text
+	 * implies the user is more likely to want to copy the selection
+	 * to the clipboard than open a link within the selection. */
+	if (!e_web_view_is_selection_active (web_view))
+		uri = e_web_view_extract_uri (web_view, event, frame);
 
 	if (uri != NULL && g_str_has_prefix (uri, "##")) {
 		g_free (uri);
@@ -935,9 +939,6 @@ web_view_popup_event (EWebView *web_view,
                       GdkEventButton *event,
                       const gchar *uri)
 {
-	if (uri != NULL)
-		e_web_view_unselect_all (web_view);
-
 	e_web_view_set_selected_uri (web_view, uri);
 	e_web_view_show_popup_menu (web_view, event, NULL, NULL);
 
