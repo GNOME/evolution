@@ -43,8 +43,6 @@
 #include "mail-tools.h"
 
 typedef struct {
-	gchar *gtkrc;
-
 	GSList *labels;
 
 	gboolean address_compress;
@@ -60,79 +58,6 @@ typedef struct {
 extern gint camel_header_param_encode_filenames_in_rfc_2047;
 
 static MailConfig *config = NULL;
-
-static void
-config_write_style (void)
-{
-	GConfClient *client;
-	gboolean custom;
-	gchar *fix_font;
-	gchar *var_font;
-	gchar *citation_color;
-	gchar *spell_color;
-	const gchar *key;
-	FILE *rc;
-
-	if (!(rc = g_fopen (config->gtkrc, "wt"))) {
-		g_warning ("unable to open %s", config->gtkrc);
-		return;
-	}
-
-	client = gconf_client_get_default ();
-
-	key = "/apps/evolution/mail/display/fonts/use_custom";
-	custom = gconf_client_get_bool (client, key, NULL);
-
-	key = "/apps/evolution/mail/display/fonts/variable";
-	var_font = gconf_client_get_string (client, key, NULL);
-
-	key = "/apps/evolution/mail/display/fonts/monospace";
-	fix_font = gconf_client_get_string (client, key, NULL);
-
-	key = "/apps/evolution/mail/display/citation_colour";
-	citation_color = gconf_client_get_string (client, key, NULL);
-
-	key = "/apps/evolution/mail/composer/spell_color";
-	spell_color = gconf_client_get_string (client, key, NULL);
-
-	fprintf (rc, "style \"evolution-mail-custom-fonts\" {\n");
-	fprintf (rc, "        GtkHTML::spell_error_color = \"%s\"\n", spell_color);
-	g_free (spell_color);
-
-	key = "/apps/evolution/mail/display/mark_citations";
-	if (gconf_client_get_bool (client, key, NULL))
-		fprintf (rc, "        GtkHTML::cite_color = \"%s\"\n",
-			 citation_color);
-	g_free (citation_color);
-
-	if (custom && var_font && fix_font) {
-		fprintf (rc,
-			 "        GtkHTML::fixed_font_name = \"%s\"\n"
-			 "        font_name = \"%s\"\n",
-			 fix_font, var_font);
-	}
-	g_free (fix_font);
-	g_free (var_font);
-
-	fprintf (rc, "}\n\n");
-
-	fprintf (rc, "class \"EWebView\" style \"evolution-mail-custom-fonts\"\n");
-	fflush (rc);
-	fclose (rc);
-
-	gtk_rc_reparse_all ();
-
-	g_object_unref (client);
-}
-
-static void
-gconf_style_changed (GConfClient *client,
-                     guint cnxn_id,
-                     GConfEntry *entry,
-                     gpointer user_data)
-{
-	config_write_style ();
-}
 
 static void
 gconf_outlook_filenames_changed (GConfClient *client,
@@ -497,11 +422,6 @@ mail_config_init (EMailSession *session)
 		return;
 
 	config = g_new0 (MailConfig, 1);
-	config->gtkrc = g_build_filename (
-		mail_session_get_config_dir (),
-		"gtkrc-mail-fonts", NULL);
-
-	gtk_rc_parse (config->gtkrc);
 
 	client = gconf_client_get_default ();
 
@@ -514,10 +434,6 @@ mail_config_init (EMailSession *session)
 	gconf_client_add_dir (
 		client, "/apps/evolution/mail/composer",
 		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-
-	key = "/apps/evolution/mail/composer/spell_color";
-	func = (GConfClientNotifyFunc) gconf_style_changed;
-	gconf_client_notify_add (client, key, func, NULL, NULL, NULL);
 
 	key = "/apps/evolution/mail/composer/outlook_filenames";
 	func = (GConfClientNotifyFunc) gconf_outlook_filenames_changed;
@@ -544,23 +460,11 @@ mail_config_init (EMailSession *session)
 		&config->address_count, NULL, NULL);
 	config->address_count = gconf_client_get_int (client, key, NULL);
 
-	key = "/apps/evolution/mail/display/citation_colour";
-	func = (GConfClientNotifyFunc) gconf_style_changed;
-	gconf_client_notify_add (client, key, func, NULL, NULL, NULL);
-
-	key = "/apps/evolution/mail/display/mark_citations";
-	func = (GConfClientNotifyFunc) gconf_style_changed;
-	gconf_client_notify_add (client, key, func, NULL, NULL, NULL);
-
 	/* Font Configuration */
 
 	gconf_client_add_dir (
 		client, "/apps/evolution/mail/display/fonts",
 		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-
-	key = "/apps/evolution/mail/display/fonts";
-	func = (GConfClientNotifyFunc) gconf_style_changed;
-	gconf_client_notify_add (client, key, func, NULL, NULL, NULL);
 
 	/* Junk Configuration */
 
