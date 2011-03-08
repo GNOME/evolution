@@ -19,6 +19,10 @@
 #include <gio/gio.h>
 #include <NetworkManager/NetworkManager.h>
 
+#if !defined(NM_CHECK_VERSION)
+#define NM_CHECK_VERSION(x,y,z) 0
+#endif
+
 #include <shell/e-shell.h>
 #include <e-util/e-extension.h>
 
@@ -95,11 +99,20 @@ network_manager_signal_cb (GDBusConnection *connection,
 
 	g_variant_get (parameters, "(u)", &state);
 	switch (state) {
+#if NM_CHECK_VERSION(0,8,992)
+		case NM_STATE_CONNECTED_LOCAL:
+		case NM_STATE_CONNECTED_SITE:
+		case NM_STATE_CONNECTED_GLOBAL:
+#else
 		case NM_STATE_CONNECTED:
+#endif
 			e_shell_set_network_available (shell, TRUE);
 			break;
 		case NM_STATE_ASLEEP:
 		case NM_STATE_DISCONNECTED:
+#if NM_CHECK_VERSION(0,8,992)
+		case NM_STATE_DISCONNECTING:
+#endif
 			e_shell_set_network_available (shell, FALSE);
 			break;
 		default:
