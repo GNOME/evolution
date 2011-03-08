@@ -21,8 +21,8 @@
 #include <shell/e-shell.h>
 #include <e-util/e-extension.h>
 
-#define CM_DBUS_SERVICE   "org.moblin.connman"
-#define CM_DBUS_INTERFACE "org.moblin.connman.Manager"
+#define CM_DBUS_SERVICE   "net.connman"
+#define CM_DBUS_INTERFACE "net.connman.Manager"
 #define CM_DBUS_PATH      "/"
 
 /* Standard GObject macros */
