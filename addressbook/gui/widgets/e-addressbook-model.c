@@ -179,10 +179,20 @@ create_contact (EBookView *book_view,
 	update_folder_bar_message (model);
 }
 
+static gint
+sort_descending (gconstpointer ca,
+                 gconstpointer cb)
+{
+	gint a = *((gint *) ca);
+	gint b = *((gint *) cb);
+
+	return (a == b) ? 0 : (a < b) ? 1 : -1;
+}
+
 static void
 remove_contact (EBookView *book_view,
-	       GList *ids,
-	       EAddressbookModel *model)
+                GList *ids,
+                EAddressbookModel *model)
 {
 	/* XXX we should keep a hash around instead of this O(n*m) loop */
 	GList *iter;
@@ -217,6 +227,11 @@ remove_contact (EBookView *book_view,
 		}
 	}
 
+	/* Sort the 'indices' array in descending order, since
+	 * g_ptr_array_remove_index() shifts subsequent elements
+	 * down one position to fill the gap. */
+	g_array_sort (indices, sort_descending);
+
 	for (ii = 0; ii < indices->len; ii++) {
 		gint index;
 
@@ -232,8 +247,8 @@ remove_contact (EBookView *book_view,
 
 static void
 modify_contact (EBookView *book_view,
-	       const GList *contact_list,
-	       EAddressbookModel *model)
+                const GList *contact_list,
+                EAddressbookModel *model)
 {
 	GPtrArray *array;
 
@@ -247,15 +262,19 @@ modify_contact (EBookView *book_view,
 		target_uid = e_contact_get_const (contact, E_CONTACT_UID);
 
 		for (ii = 0; ii < array->len; ii++) {
+			EContact *contact;
 			const gchar *uid;
 
-			uid = e_contact_get_const (
-				array->pdata[ii], E_CONTACT_UID);
+			contact = array->pdata[ii];
+			g_return_if_fail (contact != NULL);
+
+			uid = e_contact_get_const (contact, E_CONTACT_UID);
+			g_return_if_fail (uid != NULL);
 
 			if (strcmp (uid, target_uid) != 0)
 				continue;
 
-			g_object_unref (array->pdata[ii]);
+			g_object_unref (contact);
 			contact = e_contact_duplicate (contact);
 			array->pdata[ii] = contact;
 
