@@ -414,6 +414,10 @@ shell_window_construct_toolbar (EShellWindow *shell_window)
 	toolbar = e_shell_window_get_managed_widget (
 		shell_window, "/main-toolbar");
 
+	gtk_style_context_add_class (
+		gtk_widget_get_style_context (toolbar),
+		GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
+
 	if (e_shell_get_meego_mode (shell))
 		 gtk_widget_set_name (GTK_WIDGET (toolbar), "MeeGoToolbar");
 

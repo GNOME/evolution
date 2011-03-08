@@ -1965,6 +1965,10 @@ comp_editor_init (CompEditor *editor)
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
+	gtk_style_context_add_class (
+		gtk_widget_get_style_context (widget),
+		GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
+
 	widget = e_attachment_paned_new ();
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
