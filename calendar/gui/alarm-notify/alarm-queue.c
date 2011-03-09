@@ -1690,25 +1690,28 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 
 	if (attach && icalattach_get_is_url (attach)) {
 		const gchar *url;
-		gchar *filename;
-		GError *error = NULL;
 
 		url = icalattach_get_url (attach);
-		filename = g_filename_from_uri (url, NULL, &error);
+		if (url && *url) {
+			gchar *filename;
+			GError *error = NULL;
 
-		if (error != NULL) {
-			g_warning ("%s: %s", G_STRFUNC, error->message);
-			g_error_free (error);
-		} else if (g_file_test (filename, G_FILE_TEST_EXISTS)) {
-			flag = 1;
+			filename = g_filename_from_uri (url, NULL, &error);
+
+			if (error != NULL) {
+				g_warning ("%s: %s", G_STRFUNC, error->message);
+				g_error_free (error);
+			} else if (filename && g_file_test (filename, G_FILE_TEST_EXISTS)) {
 #ifdef HAVE_CANBERRA
-			ca_context_play (
-				ca_gtk_context_get (), 0,
-				CA_PROP_MEDIA_FILENAME, filename, NULL);
+				flag = 1;
+				ca_context_play (
+					ca_gtk_context_get (), 0,
+					CA_PROP_MEDIA_FILENAME, filename, NULL);
 #endif
-		}
+			}
 
-		g_free (filename);
+			g_free (filename);
+		}
 	}
 
 	if (!flag)
