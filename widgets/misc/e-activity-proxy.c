@@ -47,7 +47,7 @@ enum {
 G_DEFINE_TYPE (
 	EActivityProxy,
 	e_activity_proxy,
-	GTK_TYPE_EVENT_BOX)
+	GTK_TYPE_FRAME)
 
 static void
 activity_proxy_feedback (EActivityProxy *proxy)
@@ -262,14 +262,9 @@ e_activity_proxy_init (EActivityProxy *proxy)
 	proxy->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		proxy, E_TYPE_ACTIVITY_PROXY, EActivityProxyPrivate);
 
+	gtk_frame_set_shadow_type (GTK_FRAME (proxy), GTK_SHADOW_IN);
+
 	container = GTK_WIDGET (proxy);
-
-	widget = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (widget), GTK_SHADOW_IN);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	gtk_widget_show (widget);
-
-	container = widget;
 
 	widget = gtk_hbox_new (FALSE, 3);
 	gtk_container_add (GTK_CONTAINER (container), widget);
