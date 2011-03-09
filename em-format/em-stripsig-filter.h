@@ -53,6 +53,7 @@ struct _EMStripSigFilter {
 	CamelMimeFilter parent;
 
 	guint32 midline:1;
+	guint32 text_plain_only:1;
 };
 
 struct _EMStripSigFilterClass {
@@ -61,7 +62,7 @@ struct _EMStripSigFilterClass {
 
 GType		em_stripsig_filter_get_type	(void);
 CamelMimeFilter *
-		em_stripsig_filter_new		(void);
+		em_stripsig_filter_new		(gboolean text_plain_only);
 
 G_END_DECLS
 

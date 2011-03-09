@@ -61,6 +61,9 @@ strip_signature (CamelMimeFilter *filter,
 		if ((inend - inptr) >= 4 && !strncmp (inptr, "-- \n", 4)) {
 			start = inptr;
 			inptr += 4;
+		} else if (!stripsig->text_plain_only && (inend - inptr) >= 7 && !g_ascii_strncasecmp (inptr, "-- <BR>", 7)) {
+			start = inptr;
+			inptr += 7;
 		} else {
 			while (inptr < inend && *inptr != '\n')
 				inptr++;
@@ -142,13 +145,19 @@ em_stripsig_filter_init (EMStripSigFilter *filter)
 
 /**
  * em_stripsig_filter_new:
+ * @text_plain_only: Whether should look for a text/plain signature
+ * delimiter "-- \n" only or also an HTML signature delimiter "-- <BR>".
  *
  * Creates a new stripsig filter.
  *
  * Returns a new stripsig filter.
  **/
 CamelMimeFilter *
-em_stripsig_filter_new (void)
+em_stripsig_filter_new (gboolean text_plain_only)
 {
-	return g_object_new (EM_TYPE_STRIPSIG_FILTER, NULL);
+	EMStripSigFilter *filter = g_object_new (EM_TYPE_STRIPSIG_FILTER, NULL);
+
+	filter->text_plain_only = text_plain_only;
+
+	return CAMEL_MIME_FILTER (filter);
 }
