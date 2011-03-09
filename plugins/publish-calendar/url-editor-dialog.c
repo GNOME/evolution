@@ -209,7 +209,8 @@ publish_service_changed (GtkComboBox *combo, UrlEditorDialog *dialog)
 		break;
 	case TYPE_URI:
 		gtk_label_set_text_with_mnemonic (GTK_LABEL (dialog->server_label), "_Location (URI):");
-		gtk_entry_set_text (GTK_ENTRY (dialog->server_entry), "");
+		if (uri->service_type != TYPE_URI)
+			gtk_entry_set_text (GTK_ENTRY (dialog->server_entry), "");
 		gtk_widget_hide (dialog->file_hbox);
 		gtk_widget_hide (dialog->optional_label);
 		gtk_widget_hide (dialog->port_hbox);
@@ -319,6 +320,9 @@ set_from_uri (UrlEditorDialog *dialog)
 	if (euri->path)
 		gtk_entry_set_text (GTK_ENTRY (dialog->file_entry), euri->path);
 
+	if (uri->service_type == TYPE_URI)
+		gtk_entry_set_text (GTK_ENTRY (dialog->server_entry), uri->location);
+
 	gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->publish_service), uri->service_type);
 
 	e_uri_free (euri);
@@ -426,6 +430,7 @@ url_editor_dialog_construct (UrlEditorDialog *dialog)
 		if (uri->location && strlen (uri->location)) {
 			set_from_uri (dialog);
 		}
+
 		gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->publish_frequency), uri->publish_frequency);
 		gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->type_selector), uri->publish_format);
 
@@ -442,6 +447,10 @@ url_editor_dialog_construct (UrlEditorDialog *dialog)
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->fb_duration_spin), uri->fb_duration_value);
 	gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->fb_duration_combo), uri->fb_duration_type);
+
+	type_selector_changed (GTK_COMBO_BOX (dialog->type_selector), dialog);
+	frequency_changed_cb (GTK_COMBO_BOX (dialog->publish_frequency), dialog);
+	publish_service_changed (GTK_COMBO_BOX (dialog->publish_service), dialog);
 
 	g_signal_connect (G_OBJECT (dialog->publish_service), "changed",           G_CALLBACK (publish_service_changed),  dialog);
 	g_signal_connect (G_OBJECT (dialog->type_selector),   "changed",           G_CALLBACK (type_selector_changed),    dialog);
