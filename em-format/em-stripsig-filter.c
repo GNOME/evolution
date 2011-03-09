@@ -74,8 +74,10 @@ strip_signature (CamelMimeFilter *filter,
 		}
 	}
 
-	if (start != NULL)
+	if (start != NULL) {
 		inptr = start;
+		stripsig->midline = FALSE;
+	}
 
 	if (!flush && inend > inptr)
 		camel_mime_filter_backup (filter, inptr, inend - inptr);
