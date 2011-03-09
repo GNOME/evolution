@@ -51,12 +51,12 @@ typedef struct _EActivityProxyClass EActivityProxyClass;
 typedef struct _EActivityProxyPrivate EActivityProxyPrivate;
 
 struct _EActivityProxy {
-	GtkEventBox parent;
+	GtkFrame parent;
 	EActivityProxyPrivate *priv;
 };
 
 struct _EActivityProxyClass {
-	GtkEventBoxClass parent_class;
+	GtkFrameClass parent_class;
 };
 
 GType		e_activity_proxy_get_type	(void);
