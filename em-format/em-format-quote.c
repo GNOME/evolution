@@ -623,7 +623,7 @@ emfq_text_plain (EMFormat *emf,
 	filtered_stream = camel_stream_filter_new (stream);
 
 	if ((emfq->flags & EM_FORMAT_QUOTE_KEEP_SIG) == 0) {
-		sig_strip = em_stripsig_filter_new ();
+		sig_strip = em_stripsig_filter_new (TRUE);
 		camel_stream_filter_add (
 			CAMEL_STREAM_FILTER (filtered_stream), sig_strip);
 		g_object_unref (sig_strip);
@@ -674,6 +674,7 @@ emfq_text_enriched (EMFormat *emf,
 	camel_stream_write_string (stream, "<br><hr><br>", cancellable, NULL);
 	em_format_format_text (
 		emf, filtered_stream, CAMEL_DATA_WRAPPER (part), cancellable);
+	camel_stream_flush (filtered_stream, cancellable, NULL);
 	g_object_unref (filtered_stream);
 }
 
@@ -687,8 +688,23 @@ emfq_text_html (EMFormat *emf,
 {
 	camel_stream_write_string (
 		stream, "\n<!-- text/html -->\n", cancellable, NULL);
-	em_format_format_text (
-		emf, stream, (CamelDataWrapper *)part, cancellable);
+
+	if ((EM_FORMAT_QUOTE (emf)->flags & EM_FORMAT_QUOTE_KEEP_SIG) == 0) {
+		CamelMimeFilter *sig_strip;
+		CamelStream *filtered_stream;
+
+		filtered_stream = camel_stream_filter_new (stream);
+
+		sig_strip = em_stripsig_filter_new (FALSE);
+		camel_stream_filter_add (CAMEL_STREAM_FILTER (filtered_stream), sig_strip);
+		g_object_unref (sig_strip);
+
+		em_format_format_text (emf, filtered_stream, (CamelDataWrapper *) part, cancellable);
+		camel_stream_flush (filtered_stream, cancellable, NULL);
+		g_object_unref (filtered_stream);
+	} else {
+		em_format_format_text (emf, stream, (CamelDataWrapper *)part, cancellable);
+	}
 }
 
 static void
