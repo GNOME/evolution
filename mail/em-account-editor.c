@@ -79,9 +79,9 @@ static ServerData mail_servers[] = {
 	{"googlemail", "imap.gmail.com", "smtp.gmail.com", "imap", "always"},
 	{"yahoo", "pop3.yahoo.com", "smtp.yahoo.com", "pop", "never"},
 	{"aol", "imap.aol.com", "smtp.aol.com", "pop", "never"},
-	{"msn", "pop3.email.msn.com", "smtp.email.msn.com", "pop", "never"},
-	{"hotmail", "pop3.live.com", "smtp.live.com", "pop", "always"},
-	{"live.com", "pop3.live.com", "smtp.live.com", "pop", "always"},
+	{"msn", "pop3.email.msn.com", "smtp.email.msn.com", "pop", "never", "@", "@"},
+	{"hotmail", "pop3.live.com", "smtp.live.com", "pop", "always", "@", "@"},
+	{"live.com", "pop3.live.com", "smtp.live.com", "pop", "always", "@", "@"},
 
 };
 
@@ -3367,12 +3367,6 @@ emae_service_complete (EMAccountEditor *emae, EMAccountEditorService *service)
 	return ok;
 }
 
-enum {
-	GMAIL = 0,
-	YAHOO,
-	AOL
-};
-
 static ServerData *
 emae_check_servers (const gchar *email)
 {
@@ -3463,14 +3457,14 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 				at++;
 
 				sdata = emae->priv->selected_server = emae->emae_check_servers (tmp);
-				gtk_entry_set_text (emae->priv->source.username, sdata && sdata->recv_user && *sdata->recv_user ? sdata->recv_user : user);
-				gtk_entry_set_text (emae->priv->transport.username, sdata && sdata->send_user && *sdata->send_user ? sdata->send_user: user);
 				if (new_account && uri && (url = camel_url_new (uri, NULL)) != NULL) {
+					const gchar *use_user = user;
 					refresh = TRUE;
 					if (sdata && sdata->recv_user && *sdata->recv_user)
-						camel_url_set_user (url, sdata->recv_user);
-					else
-						camel_url_set_user (url, user);
+						use_user = g_str_equal (sdata->recv_user, "@") ? tmp : sdata->recv_user;
+					camel_url_set_user (url, use_user);
+					gtk_entry_set_text (emae->priv->source.username, use_user);
+
 					if (sdata != NULL) {
 						camel_url_set_protocol (url, sdata->proto);
 						if (sdata->recv_sock && *sdata->recv_sock)
@@ -3492,7 +3486,8 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 						emae_check_set_authtype (emae->priv->source.authtype, sdata->recv_auth);
 
 					camel_url_free (url);
-				}
+				} else
+					gtk_entry_set_text (emae->priv->source.username, user);
 				g_free (uri);
 
 			}
@@ -3513,6 +3508,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 
 				sdata = emae->priv->selected_server;
 				if (sdata != NULL && uri && (url = camel_url_new (uri, NULL)) != NULL) {
+					const gchar *use_user = user;
 					refresh = TRUE;
 					camel_url_set_protocol (url, "smtp");
 					if (sdata->send_sock && *sdata->send_sock)
@@ -3524,9 +3520,10 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 						camel_url_set_port (url, atoi (sdata->send_port));
 
 					if (sdata->send_user && *sdata->send_user)
-						camel_url_set_user (url, sdata->send_user);
-					else
-						camel_url_set_user (url, user);
+						use_user = g_str_equal (sdata->send_user, "@") ? tmp : sdata->send_user;
+					camel_url_set_user (url, use_user);
+					gtk_entry_set_text (emae->priv->transport.username, use_user);
+
 					uri = camel_url_to_string (url, 0);
 					e_account_set_string (account, E_ACCOUNT_TRANSPORT_URL, uri);
 					g_free (uri);
@@ -3537,7 +3534,8 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 					else
 						emae_authtype_changed (emae->priv->transport.authtype, &emae->priv->transport);
 					uri = (gchar *)e_account_get_string (account, E_ACCOUNT_TRANSPORT_URL);
-				}
+				} else
+					gtk_entry_set_text (emae->priv->transport.username, user);
 			}
 
 		} else if (!strcmp (pageid, "20.receive_options")) {
@@ -3589,6 +3587,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 	if (ok && (pageid == NULL || !strcmp (pageid, "10.receive"))) {
 		if (emae->type != EMAE_NOTEBOOK && refresh) {
 			emae_refresh_providers (emae, &emae->priv->source);
+			emae_provider_changed (emae->priv->source.providers, &emae->priv->source);
 		}
 		ok = emae_service_complete (emae, &emae->priv->source);
 		if (!ok) {
@@ -3599,6 +3598,7 @@ emae_check_complete (EConfig *ec, const gchar *pageid, gpointer data)
 	if (ok && (pageid == NULL || !strcmp (pageid, "30.send"))) {
 		if (emae->type != EMAE_NOTEBOOK && refresh) {
 			emae_refresh_providers (emae, &emae->priv->transport);
+			emae_provider_changed (emae->priv->transport.providers, &emae->priv->transport);
 		}
 		ok = emae_service_complete (emae, &emae->priv->transport);
 		if (!ok) {
