@@ -767,8 +767,13 @@ mail_paned_view_update_view_instance (EMailView *view)
 	view_id = g_strdup (folder_uri);
 	e_filename_make_safe (view_id);
 
+	outgoing_folder =
+		em_utils_folder_is_drafts (folder, folder_uri) ||
+		em_utils_folder_is_outbox (folder, folder_uri) ||
+		em_utils_folder_is_sent (folder, folder_uri);
+
 	if (e_shell_settings_get_boolean (shell_settings, "mail-global-view-setting"))
-		view_instance = e_shell_view_new_view_instance (shell_view, "global_view_setting");
+		view_instance = e_shell_view_new_view_instance (shell_view, outgoing_folder ? "global_view_sent_setting" : "global_view_setting");
 	else
 		view_instance = e_shell_view_new_view_instance (shell_view, view_id);
 
@@ -809,11 +814,6 @@ mail_paned_view_update_view_instance (EMailView *view)
 	}
 
 	g_free (view_id);
-
-	outgoing_folder =
-		em_utils_folder_is_drafts (folder, folder_uri) ||
-		em_utils_folder_is_outbox (folder, folder_uri) ||
-		em_utils_folder_is_sent (folder, folder_uri);
 
 	if (outgoing_folder) {
 		if (show_vertical_view)
