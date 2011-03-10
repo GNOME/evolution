@@ -78,7 +78,7 @@ static ServerData mail_servers[] = {
 	{"gmail", "imap.gmail.com", "smtp.gmail.com", "imap", "always"},
 	{"googlemail", "imap.gmail.com", "smtp.gmail.com", "imap", "always"},
 	{"yahoo", "pop3.yahoo.com", "smtp.yahoo.com", "pop", "never"},
-	{"aol", "imap.aol.com", "smtp.aol.com", "pop", "never"},
+	{"aol", "imap.aol.com", "smtp.aol.com", "imap", "never"},
 	{"msn", "pop3.email.msn.com", "smtp.email.msn.com", "pop", "never", "@", "@"},
 	{"hotmail", "pop3.live.com", "smtp.live.com", "pop", "always", "@", "@"},
 	{"live.com", "pop3.live.com", "smtp.live.com", "pop", "always", "@", "@"},
