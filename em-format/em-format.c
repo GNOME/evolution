@@ -1458,6 +1458,13 @@ em_format_describe_part (CamelMimePart *part,
 	filename = camel_mime_part_get_filename (part);
 	description = camel_mime_part_get_description (part);
 
+	if (!filename || !*filename) {
+		CamelDataWrapper *content = camel_medium_get_content (CAMEL_MEDIUM (part));
+
+		if (content && CAMEL_IS_MIME_MESSAGE (content))
+			filename = camel_mime_message_get_subject (CAMEL_MIME_MESSAGE (content));
+	}
+
 	if (filename != NULL && *filename != '\0') {
 		gchar *basename = g_path_get_basename (filename);
 		g_string_append_printf (stext, " (%s)", basename);
