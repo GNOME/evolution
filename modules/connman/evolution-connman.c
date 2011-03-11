@@ -111,7 +111,7 @@ connman_check_initial_state (EConnMan *extension)
 		extension->connection, message,
 		G_DBUS_SEND_MESSAGE_FLAGS_NONE, 100, NULL, NULL, &error);
 
-	if (response != NULL) {
+	if (response != NULL && !g_dbus_message_to_gerror (response, &error)) {
 		gchar *state = NULL;
 		GVariant *body = g_dbus_message_get_body (response);
 
@@ -122,6 +122,8 @@ connman_check_initial_state (EConnMan *extension)
 		g_warning ("%s: %s", G_STRFUNC, error ? error->message : "Unknown error");
 		if (error)
 			g_error_free (error);
+		if (response)
+			g_object_unref (response);
 		g_object_unref (message);
 		return;
 	}
