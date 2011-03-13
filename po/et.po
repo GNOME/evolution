@@ -10,15 +10,15 @@
 # Ivar Smolin <okul linux ee>, 2002, 2003, 2005–2011.
 # Kaarel Jõgi <kaarel gg ee>, 2002.
 # Priit Laes <plaes plaes org>, 2003–2007, 2009, 2010.
-# Mattias Põldaru <mahfiaz gmail com>, 2009–2011.
+# Mattias Põldaru <mahfiaz gmail com>, 2009–2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution MASTER\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2011-02-26 15:31+0000\n"
-"PO-Revision-Date: 2011-02-28 06:52+0200\n"
+"POT-Creation-Date: 2011-03-08 23:15+0000\n"
+"PO-Revision-Date: 2011-03-13 12:45+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -5495,14 +5495,54 @@ msgstr "Homme"
 msgid "Yesterday"
 msgstr "Eile"
 
-#. Translators: %a is a strftime modifier, the abbreviated week day name, for example "Next Tue".
-#. ngettext is used to be able to define different translations for different days of week, where
-#. necessary. Index is between 1 and 7 inclusive, meaning 1 .. Monday, 2 .. Tuesday, ..., 7 .. Sunday
-#, c-format
-msgid "Next %a"
-msgid_plural "Next %a"
-msgstr[0] "Järgmine %a"
-msgstr[1] "Järgmine %a"
+#. Translators: This is used for abbreviated days in the future.
+#. You can use strftime modifiers here too, like "Next %a", to avoid
+#. repeated translation of the abbreviated day name.
+msgctxt "DateFmt"
+msgid "Next Mon"
+msgstr "Järgmine esmasp."
+
+#. Translators: This is used for abbreviated days in the future.
+#. You can use strftime modifiers here too, like "Next %a", to avoid
+#. repeated translation of the abbreviated day name.
+msgctxt "DateFmt"
+msgid "Next Tue"
+msgstr "Järgmine teisip."
+
+#. Translators: This is used for abbreviated days in the future.
+#. You can use strftime modifiers here too, like "Next %a", to avoid
+#. repeated translation of the abbreviated day name.
+msgctxt "DateFmt"
+msgid "Next Wed"
+msgstr "Järgmine kolmap."
+
+#. Translators: This is used for abbreviated days in the future.
+#. You can use strftime modifiers here too, like "Next %a", to avoid
+#. repeated translation of the abbreviated day name.
+msgctxt "DateFmt"
+msgid "Next Thu"
+msgstr "Järgmine neljap."
+
+#. Translators: This is used for abbreviated days in the future.
+#. You can use strftime modifiers here too, like "Next %a", to avoid
+#. repeated translation of the abbreviated day name.
+msgctxt "DateFmt"
+msgid "Next Fri"
+msgstr "Järgmine reede."
+
+#. Translators: This is used for abbreviated days in the future.
+#. You can use strftime modifiers here too, like "Next %a", to avoid
+#. repeated translation of the abbreviated day name.
+msgctxt "DateFmt"
+msgid "Next Sat"
+msgstr "Järgmine laup."
+
+#. Translators: This is used for abbreviated days in the future.
+#. You can use strftime modifiers here too, like "Next %a", to avoid
+#. repeated translation of the abbreviated day name.
+msgctxt "DateFmt"
+msgid "Next Sun"
+msgstr "Järgmine pühap."
 
 msgid "Use locale default"
 msgstr "Kasutatakse lokaadi vaikeväärtuseid"
@@ -6697,12 +6737,12 @@ msgstr ""
 msgid "-----Original Message-----"
 msgstr "-----Algupärane sõnum-----"
 
-#. Translators: First %s is an email address, second %s is the subject of the email, third %s is the date
+#. Translators: First %s is an email address, second %s
+#. * is the subject of the email, third %s is the date.
 #, c-format
 msgid "Your message to %s about \"%s\" on %s has been read."
 msgstr "Sinu sõnumit vastuvõtjale %s teemal \"%s\" loeti %s."
 
-#. Translators: %s is the subject of the email message
 #, c-format
 msgid "Delivery Notification for: \"%s\""
 msgstr "Sõnumiteavitus kirjale \"%s\""
@@ -7843,7 +7883,7 @@ msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Aadresside arv, mis kuvatakse saaja/koopia/pimekoopia väljadel"
 
 msgid "Original message."
-msgstr "Algupärane sõnum."
+msgstr "Algune sõnum."
 
 msgid "Path where picture gallery should search for its content"
 msgstr "Pildigalerii otsingurada"
@@ -8275,9 +8315,6 @@ msgid ""
 "account \"Check for new messages every X minutes\" option when Evolution is "
 "started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
-"Kas Evolutioni käivitamisel kontrollitakse kõikide kontode uusi sõnumeid, "
-"hoolimata kontole määratud uute sõnumite kontrollimise intervallist või "
-"mitte. Seda võtit kasutatakse koos võtmega 'send_recv_on_start'."
 
 msgid ""
 "Whether check for new messages when Evolution is started. This includes also "
@@ -14712,7 +14749,7 @@ msgstr ""
 "Ivar Smolin <okul linux ee>, 2002, 2003, 2005–2011.\n"
 "Kaarel Jõgi <kaarel gg ee>, 2002.\n"
 "Priit Laes <plaes plaes org>, 2003–2007, 2009, 2010.\n"
-"Mattias Põldaru <mahfiaz gmail com>, 2009–2011."
+"Mattias Põldaru <mahfiaz gmail com>, 2009–2010."
 
 msgid "Evolution Website"
 msgstr "Evolutioni veebisait"
@@ -16346,15 +16383,6 @@ msgstr "Vali kõik"
 msgid "Input Methods"
 msgstr "Sisestusmeetodid"
 
-#~ msgid "(map)"
-#~ msgstr "(kaart)"
-
-#~ msgid "map"
-#~ msgstr "kaart"
-
-#~ msgid "Select folder to import OE folder into"
-#~ msgstr "Vali kaust, mille alla OE kaust importida"
-
 #~ msgid "Select a png picture (the best 48*48 of size < 720 bytes)"
 #~ msgstr ""
 #~ "Vali PNG-pilt (parim on mõõtmetega 48x48 ja suurusega alla 720 baidi)"
@@ -16408,69 +16436,6 @@ msgstr "Sisestusmeetodid"
 #~ msgstr ""
 #~ "Sündmuste läbipaistvus kalendrivaadetes, väärtus 0 (läbipaistev) ja 1 "
 #~ "(läbipaistmatu) vahel."
-
-#~ msgid "URI of the highlighted (\"primary\") calendar"
-#~ msgstr "Märgitud (\"peamise\") kalendri URI"
-
-#~ msgid "URI of the highlighted (\"primary\") memo list"
-#~ msgstr "Märgitud (\"peamise\") märkmeloendi URI"
-
-#~ msgid "URI of the highlighted (\"primary\") task list"
-#~ msgstr "Märgitud (\"peamise\") ülesandeloendi URI"
-
-#~ msgid "Recurring:"
-#~ msgstr "Korduv:"
-
-#~ msgid "Every day"
-#~ msgid_plural "Every %d days"
-#~ msgstr[0] "Iga päev"
-#~ msgstr[1] "Igal %d. päeval"
-
-#~ msgid "Every week"
-#~ msgid_plural "Every %d weeks"
-#~ msgstr[0] "Iga nädal"
-#~ msgstr[1] "Igal %d. nädalal"
-
-#~ msgid "Every week on "
-#~ msgid_plural "Every %d weeks on "
-#~ msgstr[0] "Iga nädala "
-#~ msgstr[1] "Iga %d. nädala "
-
-#~ msgid "The %s day of "
-#~ msgstr "%s päev"
-
-#~ msgid "The %s %s of "
-#~ msgstr "%s. %s "
-
-#~ msgid "every month"
-#~ msgid_plural "every %d months"
-#~ msgstr[0] "iga kuu"
-#~ msgstr[1] "igal %d. kuul"
-
-#~ msgid "Every year"
-#~ msgid_plural "Every %d years"
-#~ msgstr[0] "Iga aasta"
-#~ msgstr[1] "Iga %d aasta"
-
-#~ msgid "a total of %d time"
-#~ msgid_plural "a total of %d times"
-#~ msgstr[0] "kokku %d kord"
-#~ msgstr[1] "kokku %d korda"
-
-#~ msgid ", ending on "
-#~ msgstr ", lõpeb"
-
-#~ msgid "Starts"
-#~ msgstr "Algab"
-
-#~ msgid "Ends"
-#~ msgstr "Lõpeb"
-
-#~ msgid "iCalendar Information"
-#~ msgstr "iKalendri andmed"
-
-#~ msgid "iCalendar Error"
-#~ msgstr "iKalendri viga"
 
 #~ msgid ""
 #~ "Please review the following information, and then select an action from "
@@ -16681,18 +16646,6 @@ msgstr "Sisestusmeetodid"
 
 #~ msgid "Unable to activate the address selector control."
 #~ msgstr "Aadressi valimise juhtimist pole võimalik aktiveerida."
-
-#~ msgid "%s..."
-#~ msgstr "%s..."
-
-#~ msgid "Evolution Error"
-#~ msgstr "Evolutioni viga"
-
-#~ msgid "Evolution Warning"
-#~ msgstr "Evolutioni hoiatus"
-
-#~ msgid "Internal error, unknown error '%s' requested"
-#~ msgstr "Sisemine viga, küsiti tundmatut viga '%s'"
 
 #~ msgid "%d day from now"
 #~ msgid_plural "%d days from now"
