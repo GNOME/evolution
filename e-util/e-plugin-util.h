@@ -28,7 +28,7 @@
 #include <libsoup/soup.h>
 
 #include <libedataserver/e-source.h>
-#include <libedataserver/e-source.h>
+#include <libedataserver/e-source-group.h>
 
 gboolean e_plugin_util_is_source_proto (ESource *source, const gchar *protocol);
 gboolean e_plugin_util_is_group_proto (ESourceGroup *group, const gchar *protocol);
