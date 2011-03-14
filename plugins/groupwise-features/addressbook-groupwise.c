@@ -23,6 +23,7 @@
 #include <e-util/e-config.h>
 #include <addressbook/gui/widgets/eab-config.h>
 #include <libedataserver/e-source.h>
+#include <libedataserver/e-source-group.h>
 #include <glib/gi18n.h>
 #include <string.h>
 
