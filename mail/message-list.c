@@ -4310,6 +4310,7 @@ struct sort_message_info_data {
 
 struct sort_array_data {
 	MessageList *ml;
+	CamelFolder *folder;
 	GPtrArray *sort_columns; /* struct sort_column_data in order of sorting */
 	GHashTable *message_infos; /* uid -> struct sort_message_info_data */
 	gpointer cmp_cache;
@@ -4333,6 +4334,9 @@ cmp_array_uids (gconstpointer a, gconstpointer b, gpointer user_data)
 	g_return_val_if_fail (md1->mi != NULL, 0);
 	g_return_val_if_fail (md2 != NULL, 0);
 	g_return_val_if_fail (md2->mi != NULL, 0);
+
+	if (!sort_data->ml || sort_data->folder != sort_data->ml->folder)
+		return 0;
 
 	for (i = 0; res == 0 && i < sort_data->sort_columns->len; i++) {
 		gpointer v1, v2;
@@ -4363,7 +4367,7 @@ cmp_array_uids (gconstpointer a, gconstpointer b, gpointer user_data)
 	}
 
 	if (res == 0)
-		res = camel_folder_cmp_uids (sort_data->ml->folder, uid1, uid2);
+		res = camel_folder_cmp_uids (sort_data->folder, uid1, uid2);
 
 	return res;
 }
@@ -4377,7 +4381,7 @@ free_message_info_data (gpointer uid, struct sort_message_info_data *data, struc
 		g_ptr_array_free (data->values, TRUE);
 	}
 
-	camel_folder_free_message_info (sort_data->ml->folder, data->mi);
+	camel_folder_free_message_info (sort_data->folder, data->mi);
 	g_free (data);
 }
 
@@ -4408,11 +4412,12 @@ ml_sort_uids_by_tree (MessageList *ml, GPtrArray *uids)
 	len = e_table_sort_info_sorting_get_count (sort_info);
 
 	sort_data.ml = ml;
+	sort_data.folder = g_object_ref (ml->folder);
 	sort_data.sort_columns = g_ptr_array_sized_new (len);
 	sort_data.message_infos = g_hash_table_new (g_str_hash, g_str_equal);
 	sort_data.cmp_cache = e_table_sorting_utils_create_cmp_cache ();
 
-	for (i = 0; i < len; i++) {
+	for (i = 0; i < len && ml->folder == sort_data.folder; i++) {
 		ETableSortColumn scol;
 		struct sort_column_data *data = g_new0 (struct sort_column_data, 1);
 
@@ -4428,15 +4433,15 @@ ml_sort_uids_by_tree (MessageList *ml, GPtrArray *uids)
 
 	camel_folder_summary_prepare_fetch_all (ml->folder->summary, NULL);
 
-	for (i = 0; i < uids->len; i++) {
+	for (i = 0; i < uids->len && ml->folder == sort_data.folder; i++) {
 		gchar *uid;
 		CamelMessageInfo *mi;
 		struct sort_message_info_data *md;
 
 		uid = g_ptr_array_index (uids, i);
-		mi = camel_folder_get_message_info (ml->folder, uid);
+		mi = camel_folder_get_message_info (sort_data.folder, uid);
 		if (!mi) {
-			g_warning ("%s: Cannot find uid '%s' in folder '%s'", G_STRFUNC, uid, camel_folder_get_full_name (ml->folder));
+			g_warning ("%s: Cannot find uid '%s' in folder '%s'", G_STRFUNC, uid, camel_folder_get_full_name (sort_data.folder));
 			continue;
 		}
 
@@ -4447,7 +4452,8 @@ ml_sort_uids_by_tree (MessageList *ml, GPtrArray *uids)
 		g_hash_table_insert (sort_data.message_infos, uid, md);
 	}
 
-	g_qsort_with_data (uids->pdata, uids->len, sizeof (gpointer), cmp_array_uids, &sort_data);
+	if (sort_data.folder == ml->folder)
+		g_qsort_with_data (uids->pdata, uids->len, sizeof (gpointer), cmp_array_uids, &sort_data);
 
 	g_hash_table_foreach (sort_data.message_infos, (GHFunc) free_message_info_data, &sort_data);
 	g_hash_table_destroy (sort_data.message_infos);
@@ -4456,6 +4462,8 @@ ml_sort_uids_by_tree (MessageList *ml, GPtrArray *uids)
 	g_ptr_array_free (sort_data.sort_columns, TRUE);
 
 	e_table_sorting_utils_free_cmp_cache (sort_data.cmp_cache);
+
+	g_object_unref (sort_data.folder);
 }
 
 /* ** REGENERATE MESSAGELIST ********************************************** */

@@ -126,6 +126,14 @@ send_dbus_message (const gchar *name,
 	GVariantBuilder *builder;
 	GError *error = NULL;
 
+	g_return_if_fail (name != NULL);
+	g_return_if_fail (data != NULL);
+	g_return_if_fail (g_utf8_validate (name, -1, NULL));
+	g_return_if_fail (g_utf8_validate (data, -1, NULL));
+	g_return_if_fail (msg_uid == NULL || g_utf8_validate (msg_uid, -1, NULL));
+	g_return_if_fail (msg_sender == NULL || g_utf8_validate (msg_sender, -1, NULL));
+	g_return_if_fail (msg_subject == NULL || g_utf8_validate (msg_subject, -1, NULL));
+
 	/* Create a new message on the DBUS_INTERFACE */
 	if (!(message = g_dbus_message_new_signal (DBUS_PATH, DBUS_INTERFACE, name)))
 		return;
