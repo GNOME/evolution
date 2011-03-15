@@ -294,7 +294,7 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 	if ((canvas->new_current_item != canvas->current_item)
 	    && (canvas->current_item != NULL)
 	    && !canvas->left_grabbed_item) {
-		GdkEvent new_event;
+		GdkEvent new_event = { 0 };
 
 		new_event = canvas->pick_event;
 		new_event.type = GDK_LEAVE_NOTIFY;
@@ -320,7 +320,7 @@ pick_current_item (GnomeCanvas *canvas, GdkEvent *event)
 	canvas->current_item = canvas->new_current_item;
 
 	if (canvas->current_item != NULL) {
-		GdkEvent new_event;
+		GdkEvent new_event = { 0 };
 
 		new_event = canvas->pick_event;
 		new_event.type = GDK_ENTER_NOTIFY;
@@ -511,13 +511,14 @@ canvas_key_event (GtkWidget *widget,
                   GdkEventKey *event)
 {
 	GnomeCanvas *canvas;
-	GdkEvent full_event;
+	GdkEvent full_event = { 0 };
 
 	g_return_val_if_fail (GNOME_IS_CANVAS (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
 	canvas = GNOME_CANVAS (widget);
 
+	full_event.type = event->type;
 	full_event.key = *event;
 
 	return canvas_emit_event (canvas, &full_event);
@@ -529,7 +530,7 @@ canvas_focus_in_event (GtkWidget *widget,
 {
 	GnomeCanvas *canvas;
 	ECanvas *ecanvas;
-	GdkEvent full_event;
+	GdkEvent full_event = { 0 };
 
 	canvas = GNOME_CANVAS (widget);
 	ecanvas = E_CANVAS (widget);
@@ -543,6 +544,7 @@ canvas_focus_in_event (GtkWidget *widget,
 	gtk_im_context_focus_in (ecanvas->im_context);
 
 	if (canvas->focused_item) {
+		full_event.type = event->type;
 		full_event.focus_change = *event;
 		return canvas_emit_event (canvas, &full_event);
 	} else {
@@ -556,7 +558,7 @@ canvas_focus_out_event (GtkWidget *widget,
 {
 	GnomeCanvas *canvas;
 	ECanvas *ecanvas;
-	GdkEvent full_event;
+	GdkEvent full_event = { 0 };
 
 	canvas = GNOME_CANVAS (widget);
 	ecanvas = E_CANVAS (widget);
@@ -570,6 +572,7 @@ canvas_focus_out_event (GtkWidget *widget,
 	gtk_im_context_focus_out (ecanvas->im_context);
 
 	if (canvas->focused_item) {
+		full_event.type = event->type;
 		full_event.focus_change = *event;
 		return canvas_emit_event (canvas, &full_event);
 	} else {
@@ -634,7 +637,7 @@ e_canvas_item_grab_focus (GnomeCanvasItem *item,
 {
 	GnomeCanvasItem *focused_item;
 	GdkWindow *bin_window;
-	GdkEvent ev;
+	GdkEvent ev = { 0 };
 
 	g_return_if_fail (GNOME_IS_CANVAS_ITEM (item));
 	g_return_if_fail (gtk_widget_get_can_focus (GTK_WIDGET (item->canvas)));
@@ -644,6 +647,7 @@ e_canvas_item_grab_focus (GnomeCanvasItem *item,
 	focused_item = item->canvas->focused_item;
 
 	if (focused_item) {
+		ev.type = GDK_FOCUS_CHANGE;
 		ev.focus_change.type = GDK_FOCUS_CHANGE;
 		ev.focus_change.window = bin_window;
 		ev.focus_change.send_event = FALSE;
