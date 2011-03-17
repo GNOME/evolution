@@ -681,8 +681,10 @@ mail_session_get_password (CamelSession *session,
 
 				g_free (title);
 
-				if (ret && config_service)
+				if (ret && config_service) {
 					config_service->save_passwd = remember;
+					e_account_list_save (e_get_account_list ());
+				}
 
 				if (config_service)
 					config_service->get_password_canceled = ret == NULL;
