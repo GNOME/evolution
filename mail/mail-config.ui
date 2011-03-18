@@ -625,7 +625,7 @@ For example: "Work" or "Personal"</property>
               <object class="GtkTable" id="source-config-table">
                 <property name="visible">True</property>
                 <property name="n_rows">3</property>
-                <property name="n_columns">2</property>
+                <property name="n_columns">4</property>
                 <property name="column_spacing">12</property>
                 <property name="row_spacing">6</property>
                 <child>
@@ -637,6 +637,25 @@ For example: "Work" or "Personal"</property>
                     <property name="mnemonic_widget">source_host</property>
                   </object>
                   <packing>
+                    <property name="top_attach">0</property>
+                    <property name="bottom_attach">1</property>
+                    <property name="left_attach">0</property>
+                    <property name="x_options">GTK_FILL</property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="source_port_label">
+                    <property name="visible">True</property>
+                    <property name="xalign">1</property>
+                    <property name="label">_Port:</property>
+                    <property name="use_underline">True</property>
+                    <property name="mnemonic_widget">source_port</property>
+                  </object>
+                  <packing>
+                    <property name="top_attach">0</property>
+                    <property name="bottom_attach">1</property>
+                    <property name="left_attach">2</property>
                     <property name="x_options">GTK_FILL</property>
                     <property name="y_options"></property>
                   </packing>
@@ -651,7 +670,6 @@ For example: "Work" or "Personal"</property>
                   </object>
                   <packing>
                     <property name="top_attach">1</property>
-                    <property name="bottom_attach">2</property>
                     <property name="x_options">GTK_FILL</property>
                     <property name="y_options"></property>
                   </packing>
@@ -664,8 +682,20 @@ For example: "Work" or "Personal"</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="y_options"></property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="EPortEntry" type-func="e_port_entry_get_type" id="source_port">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="has-entry">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">3</property>
+                    <property name="top_attach">0</property>
+                    <property name="x_options"></property>
+                    <property name="y_options"></property>                    
                   </packing>
                 </child>
                 <child>
@@ -676,7 +706,7 @@ For example: "Work" or "Personal"</property>
                   </object>
                   <packing>
                     <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
+                    <property name="right_attach">4</property>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>
                     <property name="y_options"></property>
@@ -1053,7 +1083,7 @@ For example: "Work" or "Personal"</property>
               <object class="GtkTable" id="transport-server-table">
                 <property name="visible">True</property>
                 <property name="n_rows">2</property>
-                <property name="n_columns">2</property>
+                <property name="n_columns">4</property>
                 <property name="column_spacing">12</property>
                 <property name="row_spacing">6</property>
                 <child>
@@ -1062,10 +1092,23 @@ For example: "Work" or "Personal"</property>
                     <property name="xalign">1</property>
                     <property name="label" translatable="yes">_Server:</property>
                     <property name="use_underline">True</property>
-                    <property name="justify">right</property>
                     <property name="mnemonic_widget">transport_host</property>
                   </object>
                   <packing>
+                    <property name="x_options">GTK_FILL</property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="transport_port_label">
+                    <property name="visible">True</property>
+                    <property name="label" translatable="yes">_Port:</property>
+                    <property name="use_underline">True</property>
+                    <property name="justify">right</property>
+                    <property name="mnemonic_widget">transport_port</property>
+                  </object>
+                  <packing>
+                    <property name="left-attach">2</property>
                     <property name="x_options">GTK_FILL</property>
                     <property name="y_options"></property>
                   </packing>
@@ -1083,6 +1126,18 @@ For example: "Work" or "Personal"</property>
                   </packing>
                 </child>
                 <child>
+                  <object class="EPortEntry" type-func="e_port_entry_get_type" id="transport_port">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="has-entry">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">3</property>
+                    <property name="x_options"></property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
                   <object class="GtkCheckButton" id="transport_needs_auth">
                     <property name="label" translatable="yes">Ser_ver requires authentication</property>
                     <property name="visible">True</property>
@@ -1092,6 +1147,7 @@ For example: "Work" or "Personal"</property>
                     <property name="draw_indicator">True</property>
                   </object>
                   <packing>
+                    <property name="left_attach">1</property>
                     <property name="right_attach">2</property>
                     <property name="top_attach">1</property>
                     <property name="bottom_attach">2</property>

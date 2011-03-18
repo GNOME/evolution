@@ -56,6 +56,7 @@
 #include "e-util/e-signature-utils.h"
 #include "e-util/e-util-private.h"
 #include "widgets/misc/e-signature-editor.h"
+#include "widgets/misc/e-port-entry.h"
 
 #include "e-mail-local.h"
 #include "e-mail-session.h"
@@ -106,6 +107,8 @@ typedef struct _EMAccountEditorService {
 	GtkLabel *description;
 	GtkLabel *hostlabel;
 	GtkEntry *hostname;
+	GtkLabel *portlabel;
+	EPortEntry *port;
 	GtkLabel *userlabel;
 	GtkEntry *username;
 	GtkEntry *path;
@@ -1229,28 +1232,23 @@ smime_encrypt_key_clear (GtkWidget *w, EMAccountEditor *emae)
 #endif
 
 static void
-emae_url_set_hostport (CamelURL *url, const gchar *txt)
+emae_url_set_host (CamelURL *url, const gchar *txt)
 {
-	const gchar *port;
 	gchar *host;
 
-	/* FIXME: what if this was a raw IPv6 address? */
-	if (txt && (port = strchr (txt, ':'))) {
-		camel_url_set_port (url, atoi (port+1));
+	if (txt && *txt) {
 		host = g_strdup (txt);
-		host[port-txt] = 0;
-	} else {
-		/* "" is converted to NULL, but if we set NULL on the url,
-		   camel_url_to_string strips lots of details */
-		host = g_strdup ((txt?txt:""));
-		camel_url_set_port (url, 0);
-	}
-
-	g_strstrip (host);
-	if (txt && *txt)
+		g_strstrip (host);
 		camel_url_set_host (url, host);
+		g_free (host);
+	}
+}
 
-	g_free (host);
+static void
+emae_url_set_port (CamelURL *url, const gchar *port)
+{
+	if (port && *port)
+		camel_url_set_port (url, atoi (port));
 }
 
 /* This is used to map a funciton which will set on the url a string value.
@@ -1263,7 +1261,8 @@ struct _provider_host_info {
 };
 
 static struct _provider_host_info emae_source_host_info[] = {
-	{ CAMEL_URL_PART_HOST, emae_url_set_hostport, { G_STRUCT_OFFSET (EMAccountEditorService, hostname), G_STRUCT_OFFSET (EMAccountEditorService, hostlabel), }, },
+	{ CAMEL_URL_PART_HOST, emae_url_set_host, { G_STRUCT_OFFSET (EMAccountEditorService, hostname), G_STRUCT_OFFSET (EMAccountEditorService, hostlabel), }, },
+	{ CAMEL_URL_PART_HOST, emae_url_set_port,  { G_STRUCT_OFFSET (EMAccountEditorService, port), G_STRUCT_OFFSET (EMAccountEditorService, portlabel), }, },
 	{ CAMEL_URL_PART_USER, camel_url_set_user, { G_STRUCT_OFFSET (EMAccountEditorService, username), G_STRUCT_OFFSET (EMAccountEditorService, userlabel), } },
 	{ CAMEL_URL_PART_PATH, camel_url_set_path, { G_STRUCT_OFFSET (EMAccountEditorService, path), G_STRUCT_OFFSET (EMAccountEditorService, pathlabel), G_STRUCT_OFFSET (EMAccountEditorService, pathentry) }, },
 	{ CAMEL_URL_PART_AUTH, NULL, { 0, G_STRUCT_OFFSET (EMAccountEditorService, auth_frame), }, },
@@ -1271,7 +1270,8 @@ static struct _provider_host_info emae_source_host_info[] = {
 };
 
 static struct _provider_host_info emae_transport_host_info[] = {
-	{ CAMEL_URL_PART_HOST, emae_url_set_hostport, { G_STRUCT_OFFSET (EMAccountEditorService, hostname), G_STRUCT_OFFSET (EMAccountEditorService, hostlabel), }, },
+	{ CAMEL_URL_PART_HOST, emae_url_set_host, { G_STRUCT_OFFSET (EMAccountEditorService, hostname), G_STRUCT_OFFSET (EMAccountEditorService, hostlabel), }, },
+	{ CAMEL_URL_PART_HOST, emae_url_set_port, { G_STRUCT_OFFSET (EMAccountEditorService, port), G_STRUCT_OFFSET (EMAccountEditorService, portlabel), }, },
 	{ CAMEL_URL_PART_USER, camel_url_set_user, { G_STRUCT_OFFSET (EMAccountEditorService, username), G_STRUCT_OFFSET (EMAccountEditorService, userlabel), } },
 	{ CAMEL_URL_PART_AUTH, NULL, { 0, G_STRUCT_OFFSET (EMAccountEditorService, auth_frame), }, },
 	{ 0 },
@@ -1292,6 +1292,8 @@ static struct _service_info {
 	const gchar *description;
 	const gchar *hostname;
 	const gchar *hostlabel;
+	const gchar *port;
+	const gchar *portlabel;
 	const gchar *username;
 	const gchar *userlabel;
 	const gchar *path;
@@ -1325,6 +1327,8 @@ static struct _service_info {
 	  "source_description",
 	  "source_host",
 	  "source_host_label",
+	  "source_port",
+	  "source_port_label",
 	  "source_user",
 	  "source_user_label",
 	  "source_path",
@@ -1356,6 +1360,8 @@ static struct _service_info {
 	  "transport_description",
 	  "transport_host",
 	  "transport_host_label",
+	  "transport_port",
+	  "transport_port_label",
 	  "transport_user",
 	  "transport_user_label",
 	  NULL,
@@ -1400,16 +1406,23 @@ emae_uri_changed (EMAccountEditorService *service, CamelURL *url)
 }
 
 static void
-emae_service_url_changed (EMAccountEditorService *service, void (*setval)(CamelURL *, const gchar *), GtkEntry *entry)
+emae_service_url_changed (EMAccountEditorService *service, void (*setval)(CamelURL *, const gchar *), GtkWidget *entry)
 {
 	GtkComboBox *dropdown;
 	gint id;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	CamelServiceAuthType *authtype;
+	gchar *text;
 
 	CamelURL *url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
-	gchar *text = g_strdup (gtk_entry_get_text (entry));
+
+	if (GTK_IS_ENTRY (entry))
+		text = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+	else if (E_IS_PORT_ENTRY (entry)) {
+		text = g_strdup_printf ("%i", e_port_entry_get_port (E_PORT_ENTRY (entry)));
+	} else
+		return;
 
 	g_strstrip (text);
 
@@ -1471,13 +1484,19 @@ emae_service_url_path_changed (EMAccountEditorService *service, void (*setval)(C
 static void
 emae_hostname_changed (GtkEntry *entry, EMAccountEditorService *service)
 {
-	emae_service_url_changed (service, emae_url_set_hostport, entry);
+	emae_service_url_changed (service, emae_url_set_host, GTK_WIDGET (entry));
+}
+
+static void
+emae_port_changed (EPortEntry *pentry, EMAccountEditorService *service)
+{
+	emae_service_url_changed (service, emae_url_set_port, GTK_WIDGET (pentry));
 }
 
 static void
 emae_username_changed (GtkEntry *entry, EMAccountEditorService *service)
 {
-	emae_service_url_changed (service, camel_url_set_user, entry);
+	emae_service_url_changed (service, camel_url_set_user, GTK_WIDGET (entry));
 }
 
 static void
@@ -1502,7 +1521,11 @@ emae_ssl_update (EMAccountEditorService *service, CamelURL *url)
 		gtk_tree_model_get (model, &iter, 1, &ssl, -1);
 		if (!strcmp (ssl, "none"))
 			ssl = NULL;
+
+		e_port_entry_security_port_changed (service->port, ssl);
+
 		camel_url_set_param (url, "use_ssl", ssl);
+		camel_url_set_port (url, e_port_entry_get_port (service->port));
 		return 1;
 	}
 
@@ -1524,6 +1547,7 @@ emae_service_provider_changed (EMAccountEditorService *service)
 {
 	EAccount *account;
 	gint i, j;
+	gint old_port;
 	void (*show)(GtkWidget *);
 	CamelURL *url = emae_account_url (service->emae, emae_service_info[service->type].account_uri_key);
 
@@ -1549,6 +1573,9 @@ emae_service_provider_changed (EMAccountEditorService *service)
 		enable = e_account_writable (account, emae_service_info[service->type].save_passwd_key);
 		gtk_widget_set_sensitive ((GtkWidget *)service->remember, enable);
 
+		if (service->port && service->provider->port_entries)
+			e_port_entry_set_camel_entries (service->port, service->provider->port_entries);
+
 		for (i=0;emae_service_info[service->type].host_info[i].flag;i++) {
 			GtkWidget *w;
 			gint hide;
@@ -1565,8 +1592,13 @@ emae_service_provider_changed (EMAccountEditorService *service)
 						if (dwidget == NULL && enable)
 							dwidget = w;
 
-						if (info->setval && !hide)
-							info->setval (url, enable?gtk_entry_get_text ((GtkEntry *)w):NULL);
+						if (info->setval && !hide) {
+							if (GTK_IS_ENTRY (w))
+								info->setval (url, enable?gtk_entry_get_text ((GtkEntry *)w):NULL);
+							else if (E_IS_PORT_ENTRY (w))
+								info->setval (url, enable?g_strdup_printf("%i",
+											e_port_entry_get_port (E_PORT_ENTRY (w))):NULL);
+						}
 					}
 				}
 			}
@@ -1599,6 +1631,7 @@ emae_service_provider_changed (EMAccountEditorService *service)
 				gtk_widget_hide ((GtkWidget *)service->needs_auth);
 		}
 #ifdef HAVE_SSL
+		old_port = url->port;
 		gtk_widget_hide (service->no_ssl);
 		if (service->provider->flags & CAMEL_PROVIDER_SUPPORTS_SSL) {
 			emae_ssl_update (service, url);
@@ -1614,6 +1647,13 @@ emae_service_provider_changed (EMAccountEditorService *service)
 		gtk_widget_show (service->no_ssl);
 		camel_url_set_param (url, "use_ssl", NULL);
 #endif
+
+		/* This must be done AFTER use_ssl is set; changing use_ssl overwrites
+		   the old port, which could be SSL port, but also could be some special
+		   port and we would otherwise lost it */
+		if (url->port)
+			e_port_entry_set_port (service->port, old_port);
+
 	} else {
 		camel_url_set_protocol (url, NULL);
 		gtk_label_set_text (service->description, "");
@@ -1978,12 +2018,17 @@ emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, GtkB
 	account = em_account_editor_get_modified_account (emae);
 	uri = e_account_get_string (account, info->account_uri_key);
 
-	service->provider = uri?camel_provider_get (uri, NULL):NULL;
+	service->provider = uri ? camel_provider_get (uri, NULL) : NULL;
+
+	/* Extract all widgets we need from the builder file. */
+
 	service->frame = e_builder_get_widget (builder, info->frame);
 	service->container = e_builder_get_widget (builder, info->container);
 	service->description = GTK_LABEL (e_builder_get_widget (builder, info->description));
 	service->hostname = GTK_ENTRY (e_builder_get_widget (builder, info->hostname));
 	service->hostlabel = (GtkLabel *)e_builder_get_widget (builder, info->hostlabel);
+	service->port = E_PORT_ENTRY (e_builder_get_widget (builder, info->port));
+	service->portlabel = (GtkLabel *)e_builder_get_widget (builder, info->portlabel);
 	service->username = GTK_ENTRY (e_builder_get_widget (builder, info->username));
 	service->userlabel = (GtkLabel *)e_builder_get_widget (builder, info->userlabel);
 	if (info->pathentry) {
@@ -1997,19 +2042,36 @@ emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, GtkB
 	service->use_ssl = (GtkComboBox *)e_builder_get_widget (builder, info->use_ssl);
 	service->no_ssl = e_builder_get_widget (builder, info->ssl_disabled);
 
+	service->auth_frame = e_builder_get_widget (builder, info->auth_frame);
+	service->check_supported = (GtkButton *)e_builder_get_widget (builder, info->authtype_check);
+	service->authtype = (GtkComboBox *)e_builder_get_widget (builder, info->authtype);
+	service->providers = (GtkComboBox *)e_builder_get_widget (builder, info->type_dropdown);
+
+	service->remember = emae_account_toggle (emae, info->remember_password, info->save_passwd_key, builder);
+
+	if (info->needs_auth)
+		service->needs_auth = (GtkToggleButton *)e_builder_get_widget (builder, info->needs_auth);
+	else
+		service->needs_auth = NULL;
+
+	service->auth_changed_id = 0;
+
+	/* Do this first.  Otherwise subsequent changes get clobbered. */
+	emae_service_provider_changed (service);
+
 	/* configure ui for current settings */
 	if (url->host) {
-		if (url->port) {
-			gchar *host = g_strdup_printf ("%s:%d", url->host, url->port);
-
-			gtk_entry_set_text (service->hostname, host);
-			g_free (host);
-		} else
-			gtk_entry_set_text (service->hostname, url->host);
+		gtk_entry_set_text (service->hostname, url->host);
 	}
+
 	if (url->user && *url->user) {
 		gtk_entry_set_text (service->username, url->user);
 	}
+
+	if (url->port) {
+		e_port_entry_set_port (service->port, url->port);
+	}
+
 	if (service->pathentry) {
 		GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
 
@@ -2035,37 +2097,27 @@ emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, GtkB
 	}
 
 	g_signal_connect (service->hostname, "changed", G_CALLBACK (emae_hostname_changed), service);
+	g_signal_connect (service->port, "changed", G_CALLBACK (emae_port_changed), service);
 	g_signal_connect (service->username, "changed", G_CALLBACK (emae_username_changed), service);
 	if (service->pathentry)
 		g_signal_connect (GTK_FILE_CHOOSER (service->pathentry), "selection-changed", G_CALLBACK (emae_path_changed), service);
 
 	g_signal_connect (service->use_ssl, "changed", G_CALLBACK(emae_ssl_changed), service);
 
-	service->auth_frame = e_builder_get_widget (builder, info->auth_frame);
-	service->remember = emae_account_toggle (emae, info->remember_password, info->save_passwd_key, builder);
-	service->check_supported = (GtkButton *)e_builder_get_widget (builder, info->authtype_check);
-	service->authtype = (GtkComboBox *)e_builder_get_widget (builder, info->authtype);
 	/* old authtype will be destroyed when we exit */
-	service->auth_changed_id = 0;
-	service->providers = (GtkComboBox *)e_builder_get_widget (builder, info->type_dropdown);
 	emae_refresh_providers (emae, service);
 	emae_refresh_authtype (emae, service);
 
-	if (info->needs_auth) {
-		service->needs_auth = (GtkToggleButton *)e_builder_get_widget (builder, info->needs_auth);
+	if (service->needs_auth != NULL) {
 		gtk_toggle_button_set_active (service->needs_auth, url->authmech != NULL);
 		g_signal_connect (service->needs_auth, "toggled", G_CALLBACK(emae_needs_auth), service);
 		emae_needs_auth (service->needs_auth, service);
-	} else {
-		service->needs_auth = NULL;
 	}
 
 	if (!e_account_writable (account, info->account_uri_key))
 		gtk_widget_set_sensitive (service->container, FALSE);
 	else
 		gtk_widget_set_sensitive (service->container, TRUE);
-
-	emae_service_provider_changed (service);
 
 	camel_url_free (url);
 }
@@ -3346,7 +3398,7 @@ emae_service_complete (EMAccountEditor *emae, EMAccountEditorService *service)
 		return FALSE;
 
 	if (CAMEL_PROVIDER_NEEDS (service->provider, CAMEL_URL_PART_HOST)) {
-		if (url->host == NULL || url->host[0] == 0)
+		if (url->host == NULL || url->host[0] == 0 || !e_port_entry_is_valid (service->port))
 			ok = FALSE;
 	}
 	/* We only need the user if the service needs auth as well, i think */
