@@ -1,3 +1,64 @@
+Evolution 2.91.92 2011-03-21
+----------------------------
+
+Bug Fixes:
+	Bug 223838 - Do not share global Sent folder view with regular folders
+	             (Milan Crha)
+	Bug 586461 - Remove signature also from HTML formatted emails on reply
+	             (Milan Crha)
+	Bug 615204 - Adding AOL mail account as IMAP results in POP account
+	             (Milan Crha)
+	Bug 618440 - "Reply" does not always strip signatures (Milan Crha)
+	Bug 637641 - Crash on audio alarms with invalid file URI set
+	             (Milan Crha)
+	Bug 641939 - Doesn't read online state on start (Milan Crha)
+	Bug 643507 - Font preferences don't work (Matthew Barnes)
+	Bug 644053 - Fix packing in "Network Preferences" (Matthew Barnes)
+	Bug 644066 - Text selection is cleared when right-clicking on a link
+	             (Matthew Barnes)
+	Bug 644107 - Local addressbooks created without relative_uri set
+	              (Milan Crha)
+	Bug 644164 - Using outdated Connman D-Bus names (Hao H Li)
+	Bug 644166 - Add style class to primary toolbars (Matthew Barnes)
+	Bug 644194 - EAddressbookModel: Logic error in remove_contact
+	             (Jari Urpalainen)
+	Bug 644232 - Support NetworkManager 0.9 (Dan Williams)
+	Bug 644235 - Make EActivityProxy a GtkFrame (Cosimo Cecchi)
+	Bug 644301 - Invalid GVariant format in NetworkManager module
+	             (Milan Crha)
+	Bug 644792 - Crash when sending D-Bus message (Milan Crha)
+
+Miscellaneous Fixes:
+	* Typo in comment: s/datefime-formats/datetime-formats/ (Paul Menzel)
+	* Do not prompt for offline when mail backend not started (Milan Crha)
+	* Use message subject for attachment description if no filename 
+	  provided (Milan Crha)
+	* Minor glitches in Account Editor (Milan Crha)
+	* Fix build break after recent eds changes (Milan Crha)
+	* Fix few invalid reads caused by ECanvas (Milan Crha)
+	* Save account list when changing account (Milan Crha)
+	* Select IMAP+ by default in new account setup (Matthew Barnes)
+
+Translations:
+	Mario Blättermann (de)
+	Bruce Cowan (en_GB)
+	Ivar Smolin (et)
+	Bruno Brouard (fr)
+	Fran Diéguez (gl)
+	Gabor Kelemen (hu)
+	Luca Ferretti (it)
+	Changwoo Ryu (ko)
+	Rudolfs Mazurs (lv)
+	Manoj Kumar Giri (or)
+	Piotr Drąg (pl)
+	Duarte Loreto (pt)
+	Lucian Adrian Grijincu (ro)
+	Yuri Myasoedov (ru)
+	Andrej Žnidaršič (sl)
+	Daniel Nylander (sv)
+	Daniel Korostil (uk)
+
+
 Evolution 2.91.91 2011-03-07
 ----------------------------
 
