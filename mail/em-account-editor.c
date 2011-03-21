@@ -1686,7 +1686,8 @@ emae_refresh_providers (EMAccountEditor *emae, EMAccountEditorService *service)
 			current[len] = 0;
 		}
 	} else {
-		current = (gchar *) "imap";
+		/* Promote the newer IMAP provider over the older one. */
+		current = (gchar *) "imapx";
 	}
 
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
