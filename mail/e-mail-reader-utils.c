@@ -70,7 +70,7 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 	CamelFolder *folder;
 	CamelStore *parent_store;
 	GtkWidget *check_button;
-	GtkWidget *content_area;
+	GtkWidget *container;
 	GtkWidget *dialog;
 	GtkWindow *window;
 	const gchar *label;
@@ -104,15 +104,11 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 		window, "mail:ask-delete-vfolder-msg",
 		camel_folder_get_full_name (folder), NULL);
 
-	/* XXX e-error should provide a widget layout and API suitable
-	 *     for packing additional widgets to the right of the alert
-	 *     icon.  But for now, screw it. */
+	container = e_alert_dialog_get_content_area (E_ALERT_DIALOG (dialog));
 
 	label = _("Do not ask me again");
-	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 	check_button = gtk_check_button_new_with_label (label);
-	gtk_box_pack_start (
-		GTK_BOX (content_area), check_button, TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (container), check_button, TRUE, TRUE, 6);
 	gtk_widget_show (check_button);
 
 	response = gtk_dialog_run (GTK_DIALOG (dialog));

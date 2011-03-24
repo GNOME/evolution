@@ -26,7 +26,7 @@
 #include "e-util.h"
 
 struct _EAlertDialogPrivate {
-	GtkWindow *parent;
+	GtkWidget *content_area;  /* not referenced */
 	EAlert *alert;
 };
 
@@ -184,6 +184,7 @@ alert_dialog_constructed (GObject *object)
 
 	widget = gtk_vbox_new (FALSE, 12);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	dialog->priv->content_area = widget;
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -334,7 +335,7 @@ e_alert_run_dialog_for_args (GtkWindow *parent,
 
 /**
  * e_alert_dialog_get_alert:
- * @dialog: a #EAlertDialog
+ * @dialog: an #EAlertDialog
  *
  * Returns the #EAlert associated with @dialog.
  *
@@ -346,4 +347,22 @@ e_alert_dialog_get_alert (EAlertDialog *dialog)
 	g_return_val_if_fail (E_IS_ALERT_DIALOG (dialog), NULL);
 
 	return dialog->priv->alert;
+}
+
+/**
+ * e_alert_dialog_get_content_area:
+ * @dialog: an #EAlertDialog
+ *
+ * Returns the vertical box containing the primary and secondary labels.
+ * Use this to pack additional widgets into the dialog with the proper
+ * horizontal alignment (maintaining the left margin below the image).
+ *
+ * Returns: the content area #GtkBox
+ **/
+GtkWidget *
+e_alert_dialog_get_content_area (EAlertDialog *dialog)
+{
+	g_return_val_if_fail (E_IS_ALERT_DIALOG (dialog), NULL);
+
+	return dialog->priv->content_area;
 }

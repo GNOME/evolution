@@ -128,7 +128,8 @@ em_utils_prompt_user (GtkWindow *parent,
                       const gchar *tag,
                       ...)
 {
-	GtkWidget *mbox, *check = NULL;
+	GtkWidget *dialog;
+	GtkWidget *check = NULL;
 	GtkWidget *container;
 	va_list ap;
 	gint button;
@@ -146,24 +147,27 @@ em_utils_prompt_user (GtkWindow *parent,
 	alert = e_alert_new_valist (tag, ap);
 	va_end (ap);
 
-	mbox = e_alert_dialog_new (parent, alert);
+	dialog = e_alert_dialog_new (parent, alert);
 	g_object_unref (alert);
 
+	container = e_alert_dialog_get_content_area (E_ALERT_DIALOG (dialog));
+
 	if (promptkey) {
-		check = gtk_check_button_new_with_mnemonic (_("_Do not show this message again"));
-		container = gtk_dialog_get_content_area (GTK_DIALOG (mbox));
-		gtk_box_pack_start (GTK_BOX (container), check, FALSE, FALSE, 0);
+		check = gtk_check_button_new_with_mnemonic (
+			_("_Do not show this message again"));
+		gtk_box_pack_start (
+			GTK_BOX (container), check, FALSE, FALSE, 0);
 		gtk_widget_show (check);
 	}
 
-	button = gtk_dialog_run ((GtkDialog *) mbox);
+	button = gtk_dialog_run (GTK_DIALOG (dialog));
 	if (promptkey)
 		gconf_client_set_bool (
 			client, promptkey,
 			!gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (check)), NULL);
 
-	gtk_widget_destroy (mbox);
+	gtk_widget_destroy (dialog);
 
 	g_object_unref (client);
 

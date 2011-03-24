@@ -658,7 +658,8 @@ check_close_browser_reader (EMailReader *reader)
 		if (!parent)
 			parent = e_mail_reader_get_window (reader);
 
-		dialog = e_alert_dialog_new_for_args (parent, "mail:ask-reply-close-browser", NULL);
+		dialog = e_alert_dialog_new_for_args (
+			parent, "mail:ask-reply-close-browser", NULL);
 		response = gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
 
@@ -1254,18 +1255,22 @@ action_mail_reply_all_check (CamelFolder *folder,
 
 	if (recip_count >= 15) {
 		GtkWidget *dialog;
-		GtkWidget *content_area, *check;
+		GtkWidget *check;
+		GtkWidget *container;
 		gint response;
 
 		dialog = e_alert_dialog_new_for_args (
 			e_mail_reader_get_window (reader),
 			"mail:ask-reply-many-recips", NULL);
 
+		container = e_alert_dialog_get_content_area (
+			E_ALERT_DIALOG (dialog));
+
 		/* Check buttons */
-		check = gtk_check_button_new_with_mnemonic (_("_Do not ask me again."));
-		gtk_container_set_border_width (GTK_CONTAINER (check), 12);
-		content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-		gtk_box_pack_start (GTK_BOX (content_area), check, FALSE, FALSE, 0);
+		check = gtk_check_button_new_with_mnemonic (
+			_("_Do not ask me again."));
+		gtk_box_pack_start (
+			GTK_BOX (container), check, FALSE, FALSE, 0);
 		gtk_widget_show (check);
 
 		response = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -1282,11 +1287,16 @@ action_mail_reply_all_check (CamelFolder *folder,
 
 		gtk_widget_destroy (dialog);
 
-		if (response == GTK_RESPONSE_NO)
-			type = E_MAIL_REPLY_TO_SENDER;
-		else if (response == GTK_RESPONSE_CANCEL || response == GTK_RESPONSE_DELETE_EVENT) {
-			g_object_unref (message);
-			return;
+		switch (response) {
+			case GTK_RESPONSE_NO:
+				type = E_MAIL_REPLY_TO_SENDER;
+				break;
+			case GTK_RESPONSE_CANCEL:
+			case GTK_RESPONSE_DELETE_EVENT:
+				g_object_unref (message);
+				return;
+			default:
+				break;
 		}
 	}
 
@@ -1411,20 +1421,22 @@ action_mail_reply_sender_check (CamelFolder *folder,
 	   it's a Reply-To: munged list message... unless we're ignoring munging */
 	if (ask_ignore_list_reply_to || !munged_list_message) {
 		GtkWidget *dialog;
-		GtkWidget *content_area, *check;
+		GtkWidget *check;
+		GtkWidget *container;
 		gint response;
 
 		dialog = e_alert_dialog_new_for_args (
 			e_mail_reader_get_window (reader),
 			"mail:ask-list-private-reply", NULL);
 
+		container = e_alert_dialog_get_content_area (
+			E_ALERT_DIALOG (dialog));
+
 		/* Check buttons */
 		check = gtk_check_button_new_with_mnemonic (
 			_("_Do not ask me again."));
-		gtk_container_set_border_width ((GtkContainer *)check, 12);
-		content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
 		gtk_box_pack_start (
-			GTK_BOX (content_area), check, FALSE, FALSE, 0);
+			GTK_BOX (container), check, FALSE, FALSE, 0);
 		gtk_widget_show (check);
 
 		response = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -1446,8 +1458,7 @@ action_mail_reply_sender_check (CamelFolder *folder,
 
 	} else if (ask_list_reply_to) {
 		GtkWidget *dialog;
-		GtkWidget *content_area;
-		GtkWidget *vbox;
+		GtkWidget *container;
 		GtkWidget *check_again;
 		GtkWidget *check_always_ignore;
 		gint response;
@@ -1456,22 +1467,20 @@ action_mail_reply_sender_check (CamelFolder *folder,
 			e_mail_reader_get_window (reader),
 			"mail:ask-list-honour-reply-to", NULL);
 
-		/*Check buttons*/
-		vbox = gtk_vbox_new (FALSE, 0);
-		content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-		gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
-		gtk_box_pack_start (GTK_BOX (content_area), vbox, FALSE, FALSE, 0);
-		gtk_widget_show (vbox);
+		container = e_alert_dialog_get_content_area (
+			E_ALERT_DIALOG (dialog));
 
 		check_again = gtk_check_button_new_with_mnemonic (
 			_("_Do not ask me again."));
-		gtk_box_pack_start (GTK_BOX (vbox), check_again, FALSE, FALSE, 0);
+		gtk_box_pack_start (
+			GTK_BOX (container), check_again, FALSE, FALSE, 0);
 		gtk_widget_show (check_again);
 
 		check_always_ignore = gtk_check_button_new_with_mnemonic (
 			_("_Always ignore Reply-To: for mailing lists."));
 		gtk_box_pack_start (
-			GTK_BOX (vbox), check_always_ignore, FALSE, FALSE, 0);
+			GTK_BOX (container), check_always_ignore,
+			FALSE, FALSE, 0);
 		gtk_widget_show (check_always_ignore);
 
 		response = gtk_dialog_run (GTK_DIALOG (dialog));
@@ -1487,13 +1496,19 @@ action_mail_reply_sender_check (CamelFolder *folder,
 
 		gtk_widget_destroy (dialog);
 
-		if (response == GTK_RESPONSE_NO)
-			type = E_MAIL_REPLY_TO_FROM;
-		else if (response == GTK_RESPONSE_OK)
-			type = E_MAIL_REPLY_TO_LIST;
-		else if (response == GTK_RESPONSE_CANCEL || response == GTK_RESPONSE_DELETE_EVENT) {
-			g_object_unref (message);
-			goto exit;
+		switch (response) {
+			case GTK_RESPONSE_NO:
+				type = E_MAIL_REPLY_TO_FROM;
+				break;
+			case GTK_RESPONSE_OK:
+				type = E_MAIL_REPLY_TO_LIST;
+				break;
+			case GTK_RESPONSE_CANCEL:
+			case GTK_RESPONSE_DELETE_EVENT:
+				g_object_unref (message);
+				goto exit;
+			default:
+				break;
 		}
 	}
 

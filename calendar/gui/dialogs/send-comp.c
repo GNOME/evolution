@@ -186,7 +186,7 @@ send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gbo
 	}
 
 	dialog = e_alert_dialog_new_for_args (parent, id, NULL);
-	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+	content_area = e_alert_dialog_get_content_area (E_ALERT_DIALOG (dialog));
 
 	if (strip_alarms)
 		sa_checkbox = add_checkbox (GTK_BOX (content_area), _("Send my alarms with this event"));

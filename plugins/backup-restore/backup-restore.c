@@ -113,7 +113,9 @@ sanity_check (const gchar *filename)
 static guint32
 dialog_prompt_user (GtkWindow *parent, const gchar *string, const gchar *tag, ...)
 {
-	GtkWidget *mbox, *check = NULL;
+	GtkWidget *dialog;
+	GtkWidget *check = NULL;
+	GtkWidget *container;
 	va_list ap;
 	gint button;
 	guint32 mask = 0;
@@ -123,24 +125,25 @@ dialog_prompt_user (GtkWindow *parent, const gchar *string, const gchar *tag, ..
 	alert = e_alert_new_valist (tag, ap);
 	va_end (ap);
 
-	mbox = e_alert_dialog_new (parent, alert);
+	dialog = e_alert_dialog_new (parent, alert);
 	g_object_unref (alert);
+
+	container = e_alert_dialog_get_content_area (E_ALERT_DIALOG (dialog));
 
 	check = gtk_check_button_new_with_mnemonic (string);
 	/* We should hardcode this to true */
-	gtk_toggle_button_set_active ((GtkToggleButton *)check, TRUE);
-	gtk_container_set_border_width ((GtkContainer *)check, 12);
-	gtk_box_pack_start ((GtkBox *)gtk_dialog_get_content_area ((GtkDialog *) mbox), check, TRUE, TRUE, 0);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), TRUE);
+	gtk_box_pack_start (GTK_BOX (container), check, FALSE, FALSE, 0);
 	gtk_widget_show (check);
 
-	button = gtk_dialog_run ((GtkDialog *) mbox);
+	button = gtk_dialog_run (GTK_DIALOG (dialog));
 
 	if (button == GTK_RESPONSE_YES)
 		mask |= BR_OK;
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)))
 		mask |= BR_START;
 
-	gtk_widget_destroy (mbox);
+	gtk_widget_destroy (dialog);
 
 	return mask;
 }
