@@ -44,6 +44,8 @@ struct _EShellTaskbarPrivate {
 	GtkWidget *hbox;
 
 	GHashTable *proxy_table;
+
+	gint fixed_height;
 };
 
 enum {
@@ -274,9 +276,45 @@ shell_taskbar_constructed (GObject *object)
 }
 
 static void
+shell_taskbar_size_allocate (GtkWidget *widget,
+                             GtkAllocation *allocation)
+{
+	EShellTaskbar *shell_taskbar;
+	gint fixed_height;
+
+	shell_taskbar = E_SHELL_TASKBAR (widget);
+
+	/* Maximum height allocation sticks. */
+	fixed_height = shell_taskbar->priv->fixed_height;
+	fixed_height = MAX (fixed_height, allocation->height);
+	shell_taskbar->priv->fixed_height = fixed_height;
+
+	/* Chain up to parent's size_allocate() method. */
+	GTK_WIDGET_CLASS (e_shell_taskbar_parent_class)->
+		size_allocate (widget, allocation);
+}
+
+static void
+shell_taskbar_get_preferred_height (GtkWidget *widget,
+                                    gint *minimum_height,
+                                    gint *natural_height)
+{
+	EShellTaskbar *shell_taskbar;
+
+	shell_taskbar = E_SHELL_TASKBAR (widget);
+
+	if (minimum_height != NULL)
+		*minimum_height = shell_taskbar->priv->fixed_height;
+
+	if (natural_height != NULL)
+		*natural_height = shell_taskbar->priv->fixed_height;
+}
+
+static void
 e_shell_taskbar_class_init (EShellTaskbarClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (class, sizeof (EShellTaskbarPrivate));
 
@@ -286,6 +324,10 @@ e_shell_taskbar_class_init (EShellTaskbarClass *class)
 	object_class->dispose = shell_taskbar_dispose;
 	object_class->finalize = shell_taskbar_finalize;
 	object_class->constructed = shell_taskbar_constructed;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->size_allocate = shell_taskbar_size_allocate;
+	widget_class->get_preferred_height = shell_taskbar_get_preferred_height;
 
 	/**
 	 * EShellTaskbar:message
@@ -324,7 +366,6 @@ static void
 e_shell_taskbar_init (EShellTaskbar *shell_taskbar)
 {
 	GtkWidget *widget;
-	gint height;
 
 	shell_taskbar->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		shell_taskbar, E_TYPE_SHELL_TASKBAR, EShellTaskbarPrivate);
@@ -343,13 +384,6 @@ e_shell_taskbar_init (EShellTaskbar *shell_taskbar)
 	gtk_box_pack_start (GTK_BOX (shell_taskbar), widget, TRUE, TRUE, 0);
 	shell_taskbar->priv->hbox = g_object_ref (widget);
 	gtk_widget_hide (widget);
-
-	/* Make the taskbar large enough to accomodate a small icon.
-	 * XXX The "* 2" is a fudge factor to allow for some padding
-	 *     The true value is probably buried in a style property. */
-	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, NULL, &height);
-	gtk_widget_set_size_request (
-		GTK_WIDGET (shell_taskbar), -1, (height * 2));
 }
 
 /**
