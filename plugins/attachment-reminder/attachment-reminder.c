@@ -105,26 +105,29 @@ org_gnome_evolution_attachment_reminder (EPlugin *ep, EMEventTargetComposer *t)
 static gboolean
 ask_for_missing_attachment (EPlugin *ep, GtkWindow *window)
 {
-	GtkWidget *check = NULL;
-	GtkDialog *dialog = NULL;
-	GtkWidget *content_area;
+	GtkWidget *check;
+	GtkWidget *dialog;
+	GtkWidget *container;
 	gint response;
 
-	dialog = (GtkDialog*) e_alert_dialog_new_for_args (
-		window, "org.gnome.evolution.plugins.attachment_reminder:attachment-reminder", NULL);
+	dialog = e_alert_dialog_new_for_args (
+		window, "org.gnome.evolution.plugins.attachment_reminder:"
+		"attachment-reminder", NULL);
+
+	container = e_alert_dialog_get_content_area (E_ALERT_DIALOG (dialog));
 
 	/*Check buttons*/
-	check = gtk_check_button_new_with_mnemonic (_("_Do not show this message again."));
-	content_area = gtk_dialog_get_content_area (dialog);
-	gtk_box_pack_start (GTK_BOX (content_area), check, FALSE, FALSE, 0);
+	check = gtk_check_button_new_with_mnemonic (
+		_("_Do not show this message again."));
+	gtk_box_pack_start (GTK_BOX (container), check, FALSE, FALSE, 0);
 	gtk_widget_show (check);
 
-	response = gtk_dialog_run ((GtkDialog *) dialog);
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)))
 		e_plugin_enable (ep, FALSE);
 
-	gtk_widget_destroy ((GtkWidget *)dialog);
+	gtk_widget_destroy (dialog);
 
 	if (response == GTK_RESPONSE_OK)
 		gtk_action_activate (E_COMPOSER_ACTION_ATTACH (window));

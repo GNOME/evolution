@@ -73,6 +73,7 @@ gint		e_alert_run_dialog_for_args	(GtkWindow *parent,
 						 const gchar *tag,
 						 ...) G_GNUC_NULL_TERMINATED;
 EAlert *	e_alert_dialog_get_alert	(EAlertDialog *dialog);
+GtkWidget *	e_alert_dialog_get_content_area	(EAlertDialog *dialog);
 
 G_END_DECLS
 
