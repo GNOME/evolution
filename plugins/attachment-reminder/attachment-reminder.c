@@ -115,9 +115,8 @@ ask_for_missing_attachment (EPlugin *ep, GtkWindow *window)
 
 	/*Check buttons*/
 	check = gtk_check_button_new_with_mnemonic (_("_Do not show this message again."));
-	gtk_container_set_border_width ((GtkContainer *)check, 12);
 	content_area = gtk_dialog_get_content_area (dialog);
-	gtk_box_pack_start (GTK_BOX (content_area), check, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (content_area), check, FALSE, FALSE, 0);
 	gtk_widget_show (check);
 
 	response = gtk_dialog_run ((GtkDialog *) dialog);
