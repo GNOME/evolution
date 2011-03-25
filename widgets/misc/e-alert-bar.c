@@ -22,7 +22,10 @@
 #include <glib/gi18n-lib.h>
 
 /* GTK_ICON_SIZE_DIALOG is a tad too big. */
-#define ICON_SIZE	GTK_ICON_SIZE_DND
+#define ICON_SIZE GTK_ICON_SIZE_DND
+
+/* Dismiss warnings automatically after 5 minutes. */
+#define WARNING_TIMEOUT_SECONDS (5 * 60)
 
 struct _EAlertBarPrivate {
 	GQueue alerts;
@@ -108,6 +111,13 @@ alert_bar_show_alert (EAlertBar *alert_bar)
 	gtk_image_set_from_stock (image, stock_id, ICON_SIZE);
 
 	gtk_widget_show (GTK_WIDGET (alert_bar));
+
+	/* Warnings are generally meant for transient errors.
+	 * No need to leave them up indefinitely.  Close them
+	 * automatically if the user hasn't responded after a
+	 * reasonable period of time has elapsed. */
+	if (message_type == GTK_MESSAGE_WARNING)
+		e_alert_start_timer (alert, WARNING_TIMEOUT_SECONDS);
 }
 
 static void
