@@ -97,15 +97,10 @@ e_get_accels_filename (void)
 {
 	static gchar *filename = NULL;
 
-	/* XXX The directory corresponds to gnome_user_accels_dir_get()
-	 *     from libgnome.  Continue using this location until GNOME
-	 *     decides on an XDG-compliant location.  Perhaps something
-	 *     like $(XDG_CONFIG_DIR)/accels. */
-
-	if (G_UNLIKELY (filename == NULL))
-		filename = g_build_filename (
-			e_get_gnome2_user_dir (),
-			"accels", PACKAGE, NULL);
+	if (G_UNLIKELY (filename == NULL)) {
+		const gchar *config_dir = e_get_user_config_dir ();
+		filename = g_build_filename (config_dir, "accels", NULL);
+	}
 
 	return filename;
 }
