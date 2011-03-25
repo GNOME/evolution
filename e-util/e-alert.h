@@ -104,6 +104,8 @@ GtkWidget *	e_alert_create_image		(EAlert *alert,
 						 GtkIconSize size);
 void		e_alert_response		(EAlert *alert,
 						 gint response_id);
+void		e_alert_start_timer		(EAlert *alert,
+						 guint seconds);
 
 void		e_alert_submit			(struct _EAlertSink *alert_sink,
 						 const gchar *tag,

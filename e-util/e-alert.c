@@ -91,6 +91,7 @@ struct _EAlertPrivate {
 	struct _e_alert *definition;
 	GtkMessageType message_type;
 	gint default_response;
+	guint timeout_id;
 
 	/* It may occur to one that we could use a GtkActionGroup here,
 	 * but we need to preserve the button order and GtkActionGroup
@@ -414,6 +415,14 @@ alert_set_tag (EAlert *alert,
 	alert->priv->definition = definition;
 }
 
+static gboolean
+alert_timeout_cb (EAlert *alert)
+{
+	e_alert_response (alert, alert->priv->default_response);
+
+	return FALSE;
+}
+
 static void
 alert_set_property (GObject *object,
                     guint property_id,
@@ -497,13 +506,17 @@ alert_get_property (GObject *object,
 static void
 alert_dispose (GObject *object)
 {
-	EAlertPrivate *priv;
+	EAlert *alert = E_ALERT (object);
 
-	priv = E_ALERT (object)->priv;
+	if (alert->priv->timeout_id > 0) {
+		g_source_remove (alert->priv->timeout_id);
+		alert->priv->timeout_id = 0;
+	}
 
-	while (!g_queue_is_empty (&priv->actions)) {
-		GtkAction *action = g_queue_pop_head (&priv->actions);
+	while (!g_queue_is_empty (&alert->priv->actions)) {
+		GtkAction *action;
 
+		action = g_queue_pop_head (&alert->priv->actions);
 		g_signal_handlers_disconnect_by_func (
 			action, G_CALLBACK (alert_action_activate), object);
 		g_object_unref (action);
@@ -921,6 +934,33 @@ e_alert_response (EAlert *alert,
 	g_return_if_fail (E_IS_ALERT (alert));
 
 	g_signal_emit (alert, signals[RESPONSE], 0, response_id);
+}
+
+/**
+ * e_alert_start_timer:
+ * @alert: an #EAlert
+ * @seconds: seconds until timeout occurs
+ *
+ * Starts an internal timer for @alert.  When the timer expires, @alert
+ * will emit the default response.  There is only one timer per #EAlert,
+ * so calling this function repeatedly on the same #EAlert will restart
+ * its timer each time.  If @seconds is zero, the timer is cancelled and
+ * no response will be emitted.
+ **/
+void
+e_alert_start_timer (EAlert *alert,
+                     guint seconds)
+{
+	g_return_if_fail (E_IS_ALERT (alert));
+
+	if (alert->priv->timeout_id > 0) {
+		g_source_remove (alert->priv->timeout_id);
+		alert->priv->timeout_id = 0;
+	}
+
+	if (seconds > 0)
+		alert->priv->timeout_id = g_timeout_add_seconds (
+			seconds, (GSourceFunc) alert_timeout_cb, alert);
 }
 
 void
