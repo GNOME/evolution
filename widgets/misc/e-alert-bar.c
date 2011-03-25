@@ -161,15 +161,27 @@ alert_bar_dispose (GObject *object)
 	G_OBJECT_CLASS (e_alert_bar_parent_class)->dispose (object);
 }
 
+static GtkSizeRequestMode
+alert_bar_get_request_mode (GtkWidget *widget)
+{
+	/* GtkHBox does width-for-height by default.  But we
+	 * want the alert bar to be as short as possible. */
+	return GTK_SIZE_REQUEST_HEIGHT_FOR_WIDTH;
+}
+
 static void
 e_alert_bar_class_init (EAlertBarClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	g_type_class_add_private (class, sizeof (EAlertBarPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = alert_bar_dispose;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->get_request_mode = alert_bar_get_request_mode;
 }
 
 static void
@@ -186,12 +198,6 @@ e_alert_bar_init (EAlertBar *alert_bar)
 	g_queue_init (&alert_bar->priv->alerts);
 
 	container = gtk_info_bar_get_content_area (GTK_INFO_BAR (alert_bar));
-
-	widget = gtk_hbox_new (FALSE, 12);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	gtk_widget_show (widget);
-
-	container = widget;
 
 	widget = gtk_image_new ();
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.5, 0.0);
