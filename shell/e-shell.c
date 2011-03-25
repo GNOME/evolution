@@ -834,6 +834,14 @@ shell_open (GApplication *application,
 }
 
 static void
+shell_quit_mainloop (GApplication *application)
+{
+	/* XXX Don't allow GApplication to quit the main loop.
+	 *     We'll do that ourselves until GtkApplication gets
+	 *     a signal equivalent to EShell::window-destroyed. */
+}
+
+static void
 shell_window_destroyed (EShell *shell)
 {
 	if (e_shell_get_watched_windows (shell) == NULL)
@@ -871,6 +879,7 @@ e_shell_class_init (EShellClass *class)
 	application_class->startup = shell_startup;
 	application_class->activate = shell_activate;
 	application_class->open = shell_open;
+	application_class->quit_mainloop =  shell_quit_mainloop;
 
 	class->window_destroyed = shell_window_destroyed;
 
