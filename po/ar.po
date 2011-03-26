@@ -11,22 +11,23 @@
 # Abou Manal <aboumanal@gmail.com, 2008.
 # Usama Akkad <uak@aya.sy>, 2008.
 # Osama Khalid <OsamaK.WFM@gmail.com>, 2008.
+# Abderrahim Kitouni <a.kitouni@gmail.com>, 2011.
 #: ../shell/main.c:615
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.ar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-26 16:58+0200\n"
-"PO-Revision-Date: 2009-09-24 20:37+0300\n"
-"Last-Translator: Khaled Hosny <khaledhosny@eglug.org>\n"
+"POT-Creation-Date: 2011-03-26 17:02+0200\n"
+"PO-Revision-Date: 2011-03-23 21:56+0100\n"
+"Last-Translator: Abderrahim Kitouni <a.kitouni@gmail.com>\n"
 "Language-Team: Arabic <doc@arabeyes.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ar\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
-"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
-"X-Generator: Virtaal 0.4.0\n"
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"X-Generator: Virtaal 0.6.1\n"
 
 #. For Translators: {0} is the name of the address book source
 #: ../addressbook/addressbook.error.xml.h:2
@@ -85,9 +86,9 @@ msgid ""
 "Evolution. Please use some other GroupWise mail client once to get your "
 "GroupWise Frequent Contacts and Groupwise Personal Contacts folders."
 msgstr ""
-"يمكنك النفاذ إلى دفتر عناوين نظام GroupWise واحد حاليًا من إيفليوشن. استخدم "
-"عميل بريد GroupWise آخر مرة واحدة، للوصول لمتراسلي GroupWise المتكررين "
-"ومجلدات متراسلي GroupWise الشخصيين."
+"حاليًا، يمكنك فقط النفاذ إلى دفتر عناوين النظام في GroupWise من إيفليوشن. "
+"استخدم عميل بريد GroupWise آخر مرة واحدة، للحصول على متراسلي GroupWise "
+"المتكررين ومجلدات متراسلي GroupWise الشخصيين."
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Delete address book '{0}'?"
@@ -95,9 +96,8 @@ msgstr "حذف دفتر العناوين '{0}'؟"
 
 #: ../addressbook/addressbook.error.xml.h:13
 #: ../calendar/calendar.error.xml.h:34 ../mail/mail.error.xml.h:46
-#, fuzzy
 msgid "Do _Not Delete"
-msgstr "لا تحذف"
+msgstr "_لا تحذف"
 
 #: ../addressbook/addressbook.error.xml.h:14
 msgid "Error saving {0} to {1}: {2}"
@@ -261,7 +261,7 @@ msgstr "عيد الميلاد"
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:4
 #, fuzzy
 msgid "Blog:"
-msgstr "المدوّنة"
+msgstr "مدوّنة:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:5
 #: ../calendar/gui/dialogs/event-page.ui.h:10
@@ -272,7 +272,7 @@ msgstr "ال_فئات..."
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:6
 #, fuzzy
 msgid "Calendar:"
-msgstr "ال_تقويم:"
+msgstr "التقويم:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:7
 #: ../addressbook/importers/evolution-vcard-importer.c:950
@@ -297,9 +297,8 @@ msgid "Email"
 msgstr "البريد الإلكتروني"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:10
-#, fuzzy
 msgid "Free/Busy:"
-msgstr "متوفّ_ر/مشغول:"
+msgstr "متفرّغ/مشغول:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:11
 msgid "Full _Name..."
@@ -312,22 +311,20 @@ msgid "Home"
 msgstr "المنزل"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:13
-#, fuzzy
 msgid "Home Page:"
-msgstr "ال_صفحة الرئيسيّة:"
+msgstr "الصفحة الرئيسيّة:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:14
 msgid "Image"
 msgstr "صورة"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:15
-#, fuzzy
 msgid "Instant Messaging"
-msgstr "<b>التراسل الفوري</b>"
+msgstr "التراسل الفوري"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:16
 msgid "Job"
-msgstr ""
+msgstr "المهنة"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:17
 msgid "Mailing Address"
@@ -367,19 +364,16 @@ msgid "Telephone"
 msgstr "الهاتف"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:24
-#, fuzzy
 msgid "Video Chat:"
-msgstr "محادثة بال_فيديو:"
+msgstr "محادثة بالفيديو:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:25
-#, fuzzy
 msgid "Web Addresses"
-msgstr "<b>عنوان الويب</b>"
+msgstr "عناوين الوب"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:26
-#, fuzzy
 msgid "Web addresses"
-msgstr "عناوين"
+msgstr "عناوين الوب"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:27
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:186
@@ -405,9 +399,8 @@ msgid "_Birthday:"
 msgstr "عيد ال_ميلاد:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:32
-#, fuzzy
 msgid "_Blog:"
-msgstr "المدوّنة"
+msgstr "الم_دوّنة:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:33
 #: ../calendar/gui/dialogs/event-page.c:881
@@ -676,9 +669,8 @@ msgid "Contact List Editor"
 msgstr "محرّر قائمة المتراسلين"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:2
-#, fuzzy
 msgid "Members"
-msgstr "الأ_عضاء"
+msgstr "الأعضاء"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:3
 msgid "_Hide addresses when sending mail to this list"
@@ -796,43 +788,39 @@ msgid "No contacts"
 msgstr "لا متراسلين"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:149
-#, fuzzy, c-format
+#, c-format
 msgid "%d contact"
 msgid_plural "%d contacts"
-msgstr[0] "متراسلاواحِد"
-msgstr[1] "متراسليْن"
-msgstr[2] "%d متراسلين"
+msgstr[0] "لا متراسلين"
+msgstr[1] "متراسل واحِد"
+msgstr[2] "متراسلان"
 msgstr[3] "%d متراسلين"
-msgstr[4] ""
-msgstr[5] ""
+msgstr[4] "%d متراسلًا"
+msgstr[5] "%d متراسل"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:342
 msgid "Error getting book view"
 msgstr "خطأ أثناء الحصول على مشهد الدفتر"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:756
-#, fuzzy
 msgid "Search Interrupted"
-msgstr "مرشّح بحث"
+msgstr "قوطع البحث"
 
 #: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:150
 msgid "Error modifying card"
 msgstr "خطأ عند تعديل البطاقة"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:624
-#, fuzzy
 msgid "Cut selected contacts to the clipboard"
-msgstr "قص النّص المنتقى للحافظة الوسيطة"
+msgstr "قص المتراسلين المنتقين إلى الحافظة"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:630
-#, fuzzy
 msgid "Copy selected contacts to the clipboard"
-msgstr "نسخ النّص المنتقى للحافظة الوسيطة"
+msgstr "انسخ المتراسلين المنتقين إلى الحافظة"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:636
-#, fuzzy
 msgid "Paste contacts from the clipboard"
-msgstr "الصق مهام من الحافظة"
+msgstr "الصق متراسلين من الحافظة"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:642
 #: ../modules/addressbook/e-book-shell-view-actions.c:745
@@ -842,53 +830,37 @@ msgstr "حذف المتراسلين المنتقَيين"
 #: ../addressbook/gui/widgets/e-addressbook-view.c:648
 #, fuzzy
 msgid "Select all visible contacts"
-msgstr "إنتقاء جميع المتراسلين"
+msgstr "انتق جميع المتراسلين"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1295
-#, fuzzy
 msgid "Are you sure you want to delete these contact lists?"
-msgstr ""
-"أمتأكّد أنّك تريد\n"
-"حذف قائمة المتراسلين هذه؟"
+msgstr "أمتأكّد أنّك تريد حذف قوائم المتراسلين هذه؟"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1299
-#, fuzzy
 msgid "Are you sure you want to delete this contact list?"
-msgstr ""
-"أمتأكّد أنّك تريد\n"
-"حذف قائمة المتراسلين هذه؟"
+msgstr "أمتأكّد أنّك تريد حذف قائمة المتراسلين هذه؟"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1303
 #, fuzzy, c-format
 msgid "Are you sure you want to delete this contact list (%s)?"
-msgstr ""
-"أمتأكّد أنّك تريد\n"
-"حذف قائمة المتراسلين (%s)؟"
+msgstr "أمتأكّد أنّك تريد حذف قائمة المتراسلين (%s)؟"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1309
-#, fuzzy
 msgid "Are you sure you want to delete these contacts?"
-msgstr ""
-"أمتأكّد أنّك تريد\n"
-"حذف هؤلاء المتراسلين؟"
+msgstr "أمتأكّد أنّك تريد حذف هؤلاء المتراسلين؟"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1313
-#, fuzzy
 msgid "Are you sure you want to delete this contact?"
-msgstr ""
-"أمتأكّد أنّك تريد\n"
-"حذف هؤلاء المتراسلين؟"
+msgstr "أمتأكّد أنّك تريد حذف هذا المتراسل؟"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1317
 #, fuzzy, c-format
 msgid "Are you sure you want to delete this contact (%s)?"
-msgstr ""
-"أمتأكّد أنّك تريد\n"
-"حذف المتراسل (%s)؟"
+msgstr "أمتأكّد أنّك تريد حذف المتراسل (%s)؟"
 
 #. Translators: This is shown for > 5 contacts.
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1474
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
@@ -896,23 +868,17 @@ msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
 msgstr[0] ""
-"فتح متراسلاسلحد سيفتح أيضًا نافذ جديدة.\n"
-"هل تريد فعلًا إظهار كل هؤلاء المتراسلتراسل"
 msgstr[1] ""
-"فتح متراسلاسلحد سيفتح أيضًا نافذ جديدة.\n"
-"هل تريد فعلًا إظهار كل هؤلاء المتراسلتراسل"
 msgstr[2] ""
-"فتح متراسلاسلحد سيفتح أيضًا نافذ جديدة.\n"
-"هل تريد فعلًا إظهار كل هؤلاء المتراسلتراسل"
 msgstr[3] ""
-"فتح متراسلاسلحد سيفتح أيضًا نافذ جديدة.\n"
-"هل تريد فعلًا إظهار كل هؤلاء المتراسلتراسل"
+"فتح %d متراسلين سيفتح أيضًا %d نوافذ جديدة.\n"
+"هل تريد فعلًا إظهار كل هؤلاء المتراسلين؟"
 msgstr[4] ""
-"فتح متراسلاسلحد سيفتح أيضًا نافذ جديدة.\n"
-"هل تريد فعلًا إظهار كل هؤلاء المتراسلتراسل"
+"فتح %d متراسلًا سيفتح أيضًا %d نافذة جديدة.\n"
+"هل تريد فعلًا إظهار كل هؤلاء المتراسلين؟"
 msgstr[5] ""
-"فتح متراسلاسلحد سيفتح أيضًا نافذ جديدة.\n"
-"هل تريد فعلًا إظهار كل هؤلاء المتراسلتراسل"
+"فتح %d متراسل سيفتح أيضًا %d نافذة جديدة.\n"
+"هل تريد فعلًا إظهار كل هؤلاء المتراسلين؟"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1482
 msgid "_Don't Display"
@@ -1175,13 +1141,15 @@ msgid "New Contact List"
 msgstr "قائمة متراسلين جديدة"
 
 #: ../addressbook/gui/widgets/ea-minicard-view.c:167
-#, fuzzy, c-format
+#, c-format
 msgid "current address book folder %s has %d card"
 msgid_plural "current address book folder %s has %d cards"
-msgstr[0] "مجلد دفتر العناوين الحالي %s له بطاقة واحدة"
-msgstr[1] "مجلد دفتر العناوين الحالي %s له بطاقتين."
-msgstr[2] "مجلد دفتر العناوين الحالي %s له %d بطاقات"
-msgstr[3] "مجلد دفتر العناوين الحالي %s له %d بطاقة"
+msgstr[0] "مجلد دفاتر العناوين الحالي %s فارغ"
+msgstr[1] "مجلد دفاتر العناوين الحالي %s فيه بطاقة واحدة"
+msgstr[2] "مجلد دفاتر العناوين الحالي %s فيه بطاقتان"
+msgstr[3] "مجلد دفاتر العناوين الحالي %s فيه %d بطاقات"
+msgstr[4] "مجلد دفاتر العناوين الحالي %s فيه %d بطاقة"
+msgstr[5] "مجلد دفاتر العناوين الحالي %s فيه %d بطاقة"
 
 #: ../addressbook/gui/widgets/ea-minicard.c:31
 msgid "Open"
@@ -1205,9 +1173,8 @@ msgstr "انسخ عنوان ال_بريد الإلكتروني"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:174
 #: ../widgets/misc/e-web-view.c:397
-#, fuzzy
 msgid "Copy the email address to the clipboard"
-msgstr "نسخ الرسائل المنتقاة إلى الحافظة"
+msgstr "انسخ العنوان إلى الحافظة"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:179
 #: ../widgets/misc/e-web-view.c:402
@@ -1216,9 +1183,8 @@ msgstr "ار_سل رسالة جديدة إلى..."
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:181
 #: ../widgets/misc/e-web-view.c:404
-#, fuzzy
 msgid "Send a mail message to this address"
-msgstr "حول الرسالة المنتقاه إلى مهمة"
+msgstr "أرسل رسالة إلى هذا العنوا"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:424
 #: ../addressbook/gui/widgets/eab-contact-display.c:811
@@ -1354,8 +1320,8 @@ msgid ""
 "This address book cannot be opened.  This either means that an incorrect URI "
 "was entered, or the server is unreachable."
 msgstr ""
-"لم نتمكّن من فتح دفتر العناوين هذا. قد يعني ذلك أنّك أدخلت مسارًا غير سليم، أو "
-"أنّه لم يمكن الوصول للخادوم."
+"لا يمكن فتح دفتر العناوين هذا. قد يعني ذلك أنّك أدخلت مسارًا غير سليم، أو أنّه "
+"لم يمكن الوصول للخادوم."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:134
 msgid "Detailed error message:"
@@ -1488,9 +1454,9 @@ msgstr "مستورد vCard لإيفُليوشِن"
 #. Uncomment next if it is successful to get total number if pages in list view
 #. * g_object_get (operation, "n-pages", &n_pages, NULL)
 #: ../addressbook/printing/e-contact-print.c:741
-#, fuzzy, c-format
+#, c-format
 msgid "Page %d"
-msgstr "صفحة"
+msgstr "صفحة %d"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:643
 #: ../addressbook/tools/evolution-addressbook-export-list-cards.c:678
@@ -1582,20 +1548,16 @@ msgstr ""
 "'{0}' تقويم للقراءة فقط و لا يمكن تعديله. اختر تقويما آخر يقبل المواعيد."
 
 #: ../calendar/calendar.error.xml.h:5
-#, fuzzy
 msgid ""
 "Adding a meaningful summary to your appointment will give you an idea of "
 "what your appointment is about."
-msgstr ""
-"إضافة ملخّص ذو معنى لموعدك سيعطي المتلقي فكرة عن ما يدور حوله هذا الموعِد."
+msgstr "إضافة ملخّص ذي معنى لموعدك سيعطيك فكرة عن ما يدور حوله هذا الموعِد."
 
 #: ../calendar/calendar.error.xml.h:6
-#, fuzzy
 msgid ""
 "Adding a meaningful summary to your task will give you an idea of what your "
 "task is about."
-msgstr ""
-"إضافة ملخّص ذي معنى لمهمتك سيعطي المتلقي فكرة عن ما يدور حوله هذه المهمة."
+msgstr "إضافة ملخّص ذي معنى لمهمتك سيعطيك فكرة عن ما تدور حوله هذه المهمة."
 
 #: ../calendar/calendar.error.xml.h:7
 msgid "All information in these memos will be deleted and can not be restored."
@@ -1642,9 +1604,8 @@ msgid "Are you sure you want to delete the appointment titled '{0}'?"
 msgstr "أمتأكد أنك ترغب في حذف الموعد المعنْوَنْ '{0}'؟"
 
 #: ../calendar/calendar.error.xml.h:17
-#, fuzzy
 msgid "Are you sure you want to delete the meeting titled '{0}'?"
-msgstr "أمتأكد أنك ترغب في حذف الموعد المعنْوَنْ '{0}'؟"
+msgstr "أمتأكد أنك ترغب في حذف الموعد ذي العنوان '{0}'؟"
 
 #: ../calendar/calendar.error.xml.h:18
 msgid "Are you sure you want to delete the memo '{0}'?"
@@ -1685,18 +1646,16 @@ msgid "Are you sure you want to delete this task?"
 msgstr "أمتأكد أنك ترغب في حذف هذه المهمّة؟"
 
 #: ../calendar/calendar.error.xml.h:26
-#, fuzzy
 msgid "Are you sure you want to save the appointment without a summary?"
-msgstr "أمتأكد أنك تريد إرسال هذا الموعد دون ملخّص؟"
+msgstr "أمتأكد أنك تريد حفظ هذا الموعد دون ملخّص؟"
 
 #: ../calendar/calendar.error.xml.h:27
 msgid "Are you sure you want to save the memo without a summary?"
 msgstr "أمتأكد أنك تريد حفظ هذه المذكرة دون ملخّص؟"
 
 #: ../calendar/calendar.error.xml.h:28
-#, fuzzy
 msgid "Are you sure you want to save the task without a summary?"
-msgstr "أمتأكد أنك تريد إرسال هذه المهمّة دون ملخّص؟"
+msgstr "أمتأكد أنك تريد حقظ هذه المهمّة دون ملخّص؟"
 
 #: ../calendar/calendar.error.xml.h:29
 msgid "Cannot create a new event"
@@ -1761,9 +1720,8 @@ msgstr "خطأ عند تحميل قائمة المهام"
 #. Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
 #. {1} is replaced with a calendar/task/memo list name, where the error happened
 #: ../calendar/calendar.error.xml.h:46
-#, fuzzy
 msgid "Error on {0}: {1}"
-msgstr "حدث خطأ أثناء '{0}'"
+msgstr "خطأ عند {0}: {1}"
 
 #: ../calendar/calendar.error.xml.h:47
 msgid ""
@@ -1860,9 +1818,8 @@ msgid "Would you like to save your changes to this appointment?"
 msgstr "أترغب في حفظ تغييراتك على هذا الموعد؟"
 
 #: ../calendar/calendar.error.xml.h:66
-#, fuzzy
 msgid "Would you like to save your changes to this meeting?"
-msgstr "أترغب في حفظ تغييراتك على هذا التذكير؟"
+msgstr "أترغب في حفظ تغييراتك لهذا الموعد؟"
 
 #: ../calendar/calendar.error.xml.h:67
 msgid "Would you like to save your changes to this memo?"
@@ -1910,9 +1867,8 @@ msgid "You have changed this appointment, but not yet saved it."
 msgstr "لقد قمت بتغييرات على هذا الموعد لكن لم تحفظه بعد."
 
 #: ../calendar/calendar.error.xml.h:77
-#, fuzzy
 msgid "You have changed this meeting, but not yet saved it."
-msgstr "لقد قمت بتغييرات على هذه المهمّة لكن لم تحفظها بعد."
+msgstr "لقد غيّرت هذه المهمّة لكنك لم تحفظها بعد."
 
 #: ../calendar/calendar.error.xml.h:78
 msgid "You have changed this task, but not yet saved it."
@@ -1967,22 +1923,24 @@ msgid "Enter password"
 msgstr "أدخل كلمة سِر"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:102
-#, fuzzy
 msgid "minute"
 msgid_plural "minutes"
-msgstr[0] "دقيقة واحدة"
-msgstr[1] "دقيقتين"
-msgstr[2] "دقائق"
+msgstr[0] ""
+msgstr[1] "دقيقة واحدة"
+msgstr[2] "دقيقتين"
 msgstr[3] "دقائق"
+msgstr[4] "دقيقة"
+msgstr[5] "دقيقة"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:114
-#, fuzzy
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] "ساعة واحدة"
-msgstr[1] "ساعتين"
-msgstr[2] "ساعات"
+msgstr[0] ""
+msgstr[1] "ساعة واحدة"
+msgstr[2] "ساعتين"
 msgstr[3] "ساعات"
+msgstr[4] "ساعة"
+msgstr[5] "ساعة"
 
 #. Translators: This is the last part of the sentence:
 #. * "Purge events older than <<spin-button>> days"
@@ -1994,15 +1952,14 @@ msgstr[3] "ساعات"
 #: ../plugins/google-account-setup/google-contacts-source.c:377
 #: ../plugins/publish-calendar/publish-calendar.ui.h:30
 #: ../widgets/misc/e-send-options.ui.h:43
-#, fuzzy
 msgid "days"
 msgid_plural "days"
-msgstr[0] "الأيّام"
-msgstr[1] "الأيّام"
-msgstr[2] "الأيّام"
-msgstr[3] "الأيّام"
-msgstr[4] "الأيّام"
-msgstr[5] "الأيّام"
+msgstr[0] "يوم"
+msgstr[1] "يوم"
+msgstr[2] "يومين"
+msgstr[3] "أيّام"
+msgstr[4] "يومًا"
+msgstr[5] "يوم"
 
 #: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:298
 msgid "Start time"
@@ -2043,9 +2000,8 @@ msgstr "غ_فوة"
 #: ../calendar/gui/dialogs/event-page.ui.h:24 ../e-util/e-plugin-util.c:424
 #: ../filter/filter.ui.h:15
 #: ../plugins/google-account-setup/google-contacts-source.c:376
-#, fuzzy
 msgid "hours"
-msgstr "ساعة واحدة"
+msgstr "ساعات"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.ui.h:9
 msgid "location of appointment"
@@ -2063,7 +2019,7 @@ msgstr "دقائق"
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1486
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1613
 msgid "No summary available."
-msgstr "لا يوجود ملخّص."
+msgstr "لا يوجد ملخّص."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1495
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1497
@@ -2075,15 +2031,15 @@ msgid "No location information available."
 msgstr "لا تتوفّر معلومات حول الموقع."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1549
-#, fuzzy, c-format
+#, c-format
 msgid "You have %d alarm"
 msgid_plural "You have %d alarms"
-msgstr[0] "لديك %d منبّهات"
-msgstr[1] "لديك %d منبّهات"
-msgstr[2] "لديك %d منبّهات"
+msgstr[0] "ليس لديك منبّهات"
+msgstr[1] "لديك منبّه واحد"
+msgstr[2] "لديك منبّهان"
 msgstr[3] "لديك %d منبّهات"
-msgstr[4] "لديك %d منبّهات"
-msgstr[5] "لديك %d منبّهات"
+msgstr[4] "لديك %d منبّهًا"
+msgstr[5] "لديك %d منبّه"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1741
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1774
@@ -2130,37 +2086,43 @@ msgstr "وقت غير صالح"
 #. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
 #: ../calendar/gui/alarm-notify/util.c:69 ../calendar/gui/e-alarm-list.c:393
 #: ../calendar/gui/misc.c:116
-#, fuzzy, c-format
+#, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] "ساعة واحدة"
-msgstr[1] "ساعتين"
-msgstr[2] "%d ساعات"
-msgstr[3] "%d ساعة"
+msgstr[0] ""
+msgstr[1] "ساعة واحدة"
+msgstr[2] "ساعتين"
+msgstr[3] "%d ساعات"
+msgstr[4] "%d ساعة"
+msgstr[5] "%d ساعة"
 
 #. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
 #: ../calendar/gui/alarm-notify/util.c:75 ../calendar/gui/e-alarm-list.c:399
 #: ../calendar/gui/misc.c:122
-#, fuzzy, c-format
+#, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
-msgstr[0] "دقيقة"
-msgstr[1] "دقيقتين"
-msgstr[2] "%d دقائق"
-msgstr[3] "%d دقيقة"
+msgstr[0] ""
+msgstr[1] "دقيقة"
+msgstr[2] "دقيقتين"
+msgstr[3] "%d دقائق"
+msgstr[4] "%d دقيقة"
+msgstr[5] "%d دقيقة"
 
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
 #. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
 #: ../calendar/gui/alarm-notify/util.c:79 ../calendar/gui/e-alarm-list.c:405
 #: ../calendar/gui/misc.c:126
-#, fuzzy, c-format
+#, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
-msgstr[0] "ثانية واحدة"
-msgstr[1] "ثانيتين"
-msgstr[2] "%d ثواني"
-msgstr[3] "%d ثانية"
+msgstr[0] ""
+msgstr[1] "ثانية واحدة"
+msgstr[2] "ثانيتين"
+msgstr[3] "%d ثوان"
+msgstr[4] "%d ثانية"
+msgstr[5] "%d ثانية"
 
 #: ../calendar/gui/cal-editor-utils.c:105
 msgid "Invalid object"
@@ -2332,9 +2294,8 @@ msgstr "أضِف منبّه"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:2
 #: ../calendar/gui/dialogs/event-editor.c:360
-#, fuzzy
 msgid "Alarm"
-msgstr "المنبّهات"
+msgstr "منبّه"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:3
 msgid "Custom _message"
@@ -2353,9 +2314,8 @@ msgid "Options"
 msgstr "خيارات"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:7
-#, fuzzy
 msgid "Repeat"
-msgstr "<b>أعِد</b>"
+msgstr "أعِد"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:8
 msgid "Select A File"
@@ -2386,9 +2346,8 @@ msgid "after"
 msgstr "بعد"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:15
-#, fuzzy
 msgid "before"
-msgstr "يقع قبل"
+msgstr "قبل"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:16
@@ -2414,9 +2373,8 @@ msgid "minute(s)"
 msgstr "دقائق"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:25
-#, fuzzy
 msgid "start of appointment"
-msgstr "موقع الموعد"
+msgstr "بداية الموعد"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.c:242
 msgid "Action/Trigger"
@@ -2560,9 +2518,8 @@ msgid "Validation error: %s"
 msgstr "خطأ في التّصديق: %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:260
-#, fuzzy
 msgid "Could not save attachments"
-msgstr "احفظ المرفقات"
+msgstr "لا يمكن حفظ المرفقات"
 
 #: ../calendar/gui/dialogs/comp-editor.c:535
 msgid "Could not update object"
@@ -2626,9 +2583,8 @@ msgstr "قص المنتقى"
 #: ../calendar/gui/dialogs/comp-editor.c:1026
 #: ../shell/e-shell-window-actions.c:1447
 #: ../widgets/misc/e-focus-tracker.c:128 ../widgets/misc/e-focus-tracker.c:562
-#, fuzzy
 msgid "Delete the selection"
-msgstr "قص المنتقى"
+msgstr "احذف المنتقى"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1033
 msgid "Click here to view help available"
@@ -2818,27 +2774,27 @@ msgstr "نسبة المُ_نجَز:"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "The event could not be deleted due to a dbus error: %s"
-msgstr "لم يمكن حذف الحَدث بسبب خطأ ما"
+msgstr "لم يمكن حذف الحَدث بسبب خطأ dbus: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:60
-#, fuzzy, c-format
+#, c-format
 msgid "The task could not be deleted due to a dbus error: %s"
-msgstr "لم يمكن حذف المهمّة بسبب خطأ ما"
+msgstr "لم يمكن حذف المهمّة بسبب خطأ dbus: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:64
-#, fuzzy, c-format
+#, c-format
 msgid "The memo could not be deleted due to a dbus error: %s"
-msgstr "لم يمكن حذف المذكرة بسبب خطأ ما"
+msgstr "لم يمكن حذف المذكرة بسبب خطأ dbus: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:68
-#, fuzzy, c-format
+#, c-format
 msgid "The item could not be deleted due to a dbus error: %s"
-msgstr "لم يمكن حذف العنصر بسبب خطأ ما"
+msgstr "لم يمكن حذف العنصر بسبب خطأ dbus: %s"
 
 #: ../calendar/gui/dialogs/delete-error.c:75
 msgid "The event could not be deleted because permission was denied"
@@ -2858,27 +2814,27 @@ msgstr "لم يمكن حذف العنصر لأن التّصريح رُفض"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:92
-#, fuzzy, c-format
+#, c-format
 msgid "The event could not be deleted due to an error: %s"
-msgstr "لم يمكن حذف الحَدث بسبب خطأ ما"
+msgstr "لم يمكن حذف الحَدث بسبب خطأ: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:96
-#, fuzzy, c-format
+#, c-format
 msgid "The task could not be deleted due to an error: %s"
-msgstr "لم يمكن حذف المهمّة بسبب خطأ ما"
+msgstr "لم يمكن حذف المهمّة بسبب خطأ: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:100
-#, fuzzy, c-format
+#, c-format
 msgid "The memo could not be deleted due to an error: %s"
-msgstr "لم يمكن حذف المذكرة بسبب خطأ ما"
+msgstr "لم يمكن حذف المذكرة بسبب خطأ: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "The item could not be deleted due to an error: %s"
-msgstr "لم يمكن حذف العنصر بسبب خطأ ما"
+msgstr "لم يمكن حذف العنصر بسبب خطأ: %s"
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.ui.h:1
 msgid "Contacts..."
@@ -2955,17 +2911,16 @@ msgid "Attendees"
 msgstr "الحضور"
 
 #: ../calendar/gui/dialogs/event-editor.c:582
-#, fuzzy
 msgid "Print this event"
-msgstr "طبع هذه الرسالة"
+msgstr "اطبع هذا الحدث"
 
 #: ../calendar/gui/dialogs/event-page.c:765
 msgid "Event's start time is in the past"
-msgstr ""
+msgstr "زمن بداية الحدث في الماضي"
 
 #: ../calendar/gui/dialogs/event-page.c:806
 msgid "Event cannot be edited, because the selected calendar is read only"
-msgstr ""
+msgstr "لا يمكن تحرير الحدث لأنّ التقويم المحدد للقراءة فقط"
 
 #: ../calendar/gui/dialogs/event-page.c:810
 msgid "Event cannot be fully edited, because you are not the organizer"
@@ -3052,31 +3007,37 @@ msgid "You are acting on behalf of %s"
 msgstr "أنت تتصرف بالنيابة عن %s"
 
 #: ../calendar/gui/dialogs/event-page.c:3009
-#, fuzzy, c-format
+#, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
-msgstr[0] "يوم واحد قبل الموعد"
-msgstr[1] "يومان قبل الموعد"
-msgstr[2] "%d أيام قبل الموعد"
-msgstr[3] "%d يومًا قبل الموعد"
+msgstr[0] ""
+msgstr[1] "يوم واحد قبل الموعد"
+msgstr[2] "يومان قبل الموعد"
+msgstr[3] "%d أيام قبل الموعد"
+msgstr[4] "%d يومًا قبل الموعد"
+msgstr[5] "%d يوم قبل الموعد"
 
 #: ../calendar/gui/dialogs/event-page.c:3015
-#, fuzzy, c-format
+#, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
-msgstr[0] "ساعة واحدة قبل الموعد"
-msgstr[1] "ساعتان قبل الموعد"
-msgstr[2] "%d ساعات قبل الموعد"
-msgstr[3] "%d ساعة قبل الموعد"
+msgstr[0] ""
+msgstr[1] "ساعة واحدة قبل الموعد"
+msgstr[2] "ساعتان قبل الموعد"
+msgstr[3] "%d ساعات قبل الموعد"
+msgstr[4] "%d ساعة قبل الموعد"
+msgstr[5] "%d ساعة قبل الموعد"
 
 #: ../calendar/gui/dialogs/event-page.c:3021
-#, fuzzy, c-format
+#, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
-msgstr[0] "دقيقة واحدة قبل الموعد"
-msgstr[1] "دقيقتين قبل الموعد"
-msgstr[2] "%d دقائق قبل الموعد"
-msgstr[3] "%d دقيقة قبل الموعد"
+msgstr[0] ""
+msgstr[1] "دقيقة واحدة قبل الموعد"
+msgstr[2] "دقيقتين قبل الموعد"
+msgstr[3] "%d دقائق قبل الموعد"
+msgstr[4] "%d دقيقة قبل الموعد"
+msgstr[5] "%d دقيقة قبل الموعد"
 
 #: ../calendar/gui/dialogs/event-page.c:3040
 msgid "Customize"
@@ -3084,23 +3045,25 @@ msgstr "خصّص"
 
 #. Translators: "None" for "No alarm set"
 #: ../calendar/gui/dialogs/event-page.c:3046
-#, fuzzy
 msgctxt "cal-alarms"
 msgid "None"
 msgstr "لا شيء"
 
 #. TRANSLATORS: Predefined alarm's description
 #: ../calendar/gui/dialogs/event-page.ui.h:2
+#, fuzzy
 msgid "1 day before appointment"
 msgstr "يوم واحد قبل الموعد"
 
 #. TRANSLATORS: Predefined alarm's description
 #: ../calendar/gui/dialogs/event-page.ui.h:4
+#, fuzzy
 msgid "1 hour before appointment"
 msgstr "ساعة واحدة قبل الموعد"
 
 #. TRANSLATORS: Predefined alarm's description
 #: ../calendar/gui/dialogs/event-page.ui.h:6
+#, fuzzy
 msgid "15 minutes before appointment"
 msgstr "15 دقيقة قبل الموعد"
 
@@ -3140,9 +3103,8 @@ msgid "_Location:"
 msgstr "ال_موقع:"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:20
-#, fuzzy
 msgid "_Summary:"
-msgstr "ملخّص:"
+msgstr "م_لخّص:"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:21
 msgid "_Time:"
@@ -3152,8 +3114,9 @@ msgstr "ال_وقت:"
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/event-page.ui.h:23
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:10
+#, fuzzy
 msgid "for"
-msgstr "لـ"
+msgstr "لمدّة"
 
 #. TRANSLATORS: 'until' in a sense of 'duration'; example string: Time: [date] [time] until [ date ] [ time ]
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
@@ -3168,17 +3131,16 @@ msgid "Memo"
 msgstr "تذكير"
 
 #: ../calendar/gui/dialogs/memo-editor.c:156
-#, fuzzy
 msgid "Print this memo"
-msgstr "اطبع قائمة التذكيرات"
+msgstr "اطبع هذه المذكرة"
 
 #: ../calendar/gui/dialogs/memo-page.c:337
 msgid "Memo's start date is in the past"
-msgstr ""
+msgstr "تاريخ بداية المذكرة في الماضي"
 
 #: ../calendar/gui/dialogs/memo-page.c:375
 msgid "Memo cannot be edited, because the selected memo list is read only"
-msgstr ""
+msgstr "لا يمكن تحرير المذكرة لأنّ التقويم المحدد للقراءة فقط"
 
 #: ../calendar/gui/dialogs/memo-page.c:379
 msgid "Memo cannot be fully edited, because you are not the organizer"
@@ -3268,7 +3230,7 @@ msgstr ""
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
 #: ../calendar/gui/dialogs/recurrence-page.c:965
 msgid "on"
-msgstr "يعمل"
+msgstr "يوم"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [first] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
@@ -3276,7 +3238,7 @@ msgstr "يعمل"
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1023
 msgid "first"
-msgstr "الأوّل"
+msgstr "أوّل"
 
 #. TRANSLATORS: here, "second" is the ordinal number (like "third"), not the time division (like "minute")
 #. * Entire string is for example: This appointment recurs/Every [x] month(s) on the [second] [Monday] [forever]'
@@ -3285,7 +3247,7 @@ msgstr "الأوّل"
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1029
 msgid "second"
-msgstr "الثّاني"
+msgstr "ثاني"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [third] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'third', either the string 'day' or
@@ -3293,7 +3255,7 @@ msgstr "الثّاني"
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1034
 msgid "third"
-msgstr "الثّالث"
+msgstr "ثالث"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fourth] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'fourth', either the string 'day' or
@@ -3301,16 +3263,15 @@ msgstr "الثّالث"
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1039
 msgid "fourth"
-msgstr "الرّابع"
+msgstr "رّابع"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [fifth] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'fifth', either the string 'day' or
 #. * the name of a week day (like 'Monday' or 'Friday') always follow.
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1044
-#, fuzzy
 msgid "fifth"
-msgstr "العرض"
+msgstr "خامس"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [last] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'last', either the string 'day' or
@@ -3318,7 +3279,7 @@ msgstr "العرض"
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1049
 msgid "last"
-msgstr "الأخير"
+msgstr "آخر"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [Other date] [11th to 20th] [17th] [forever]'
 #. * (dropdown menu options are in [square brackets]).
@@ -3355,7 +3316,7 @@ msgstr "الواحد والعشرين للواحد والثلاثين"
 #. the name of a week day (like 'Monday' or 'Friday') always follow.
 #: ../calendar/gui/dialogs/recurrence-page.c:1116
 msgid "day"
-msgstr "اليوم"
+msgstr "يوم"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1117
 #: ../modules/calendar/e-calendar-preferences.ui.h:22
@@ -3428,14 +3389,12 @@ msgid "Every"
 msgstr "كل"
 
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:2
-#, fuzzy
 msgid "Exceptions"
-msgstr "<b>الإستثنائات</b>"
+msgstr "الإستثنائات"
 
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:3 ../mail/mail-config.ui.h:79
-#, fuzzy
 msgid "Preview"
-msgstr "_معاينة"
+msgstr "معاينة"
 
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:5
 msgid "This appointment rec_urs"
@@ -3443,23 +3402,27 @@ msgstr "يت_كرّر هذا الموعد"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:12
+#, fuzzy
 msgid "forever"
 msgstr "إلى الأبد"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:14
+#, fuzzy
 msgid "month(s)"
-msgstr "شهور"
+msgstr "أشهر"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:18
+#, fuzzy
 msgid "week(s)"
 msgstr "أسابيع"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:20
+#, fuzzy
 msgid "year(s)"
-msgstr "سنين"
+msgstr "سنوات"
 
 #: ../calendar/gui/dialogs/send-comp.c:192
 msgid "Send my alarms with this event"
@@ -3612,13 +3575,12 @@ msgid "Task Details"
 msgstr "تفاصيل المهمّة"
 
 #: ../calendar/gui/dialogs/task-editor.c:373
-#, fuzzy
 msgid "Print this task"
-msgstr "اطبع قائمة بالمهام"
+msgstr "اطبع هذه المهمة"
 
 #: ../calendar/gui/dialogs/task-page.c:339
 msgid "Task's start date is in the past"
-msgstr ""
+msgstr "تاريخ بداية المهمة في الماضي"
 
 #: ../calendar/gui/dialogs/task-page.c:340
 msgid "Task's due date is in the past"
@@ -3626,7 +3588,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/task-page.c:375
 msgid "Task cannot be edited, because the selected task list is read only"
-msgstr ""
+msgstr "لا يمكن تحرير المهمة لأنّ قائمة المهامّ المحددة للقراءة فقط"
 
 #: ../calendar/gui/dialogs/task-page.c:379
 #, fuzzy
@@ -3661,23 +3623,27 @@ msgstr "المنطقة الزمنيّة:"
 
 #. Translator: Entire string is like "Pop up an alert %d days before start of appointment"
 #: ../calendar/gui/e-alarm-list.c:381
-#, fuzzy, c-format
+#, c-format
 msgid "%d day"
 msgid_plural "%d days"
-msgstr[0] "يوم واحد"
-msgstr[1] "يومين"
-msgstr[2] "%d أيام"
-msgstr[3] "%d يومًا"
+msgstr[0] ""
+msgstr[1] "يوم واحد"
+msgstr[2] "يومين"
+msgstr[3] "%d أيام"
+msgstr[4] "%d يومًا"
+msgstr[5] "%d يوم"
 
 #. Translator: Entire string is like "Pop up an alert %d weeks before start of appointment"
 #: ../calendar/gui/e-alarm-list.c:387
-#, fuzzy, c-format
+#, c-format
 msgid "%d week"
 msgid_plural "%d weeks"
-msgstr[0] "أسبوع واحد"
-msgstr[1] "أسبوعين"
-msgstr[2] "%d أسابيع"
-msgstr[3] "%d أسبوعًا"
+msgstr[0] ""
+msgstr[1] "أسبوع واحد"
+msgstr[2] "أسبوعين"
+msgstr[3] "%d أسابيع"
+msgstr[4] "%d أسبوعًا"
+msgstr[5] "%d أسبوع"
 
 #: ../calendar/gui/e-alarm-list.c:449
 msgid "Unknown action to be performed"
@@ -3744,9 +3710,8 @@ msgid "Untitled"
 msgstr "بدون عنوان"
 
 #: ../calendar/gui/e-cal-component-preview.c:194
-#, fuzzy
 msgid "Categories:"
-msgstr "الفئات"
+msgstr "الفئات:"
 
 #: ../calendar/gui/e-cal-component-preview.c:233
 msgid "Summary:"
@@ -3824,7 +3789,6 @@ msgstr ""
 
 #. Translators: "None" for task's status
 #: ../calendar/gui/e-cal-model-tasks.c:705
-#, fuzzy
 msgctxt "cal-task-status"
 msgid "None"
 msgstr "لا شيء"
@@ -3906,24 +3870,20 @@ msgid "Type"
 msgstr "النّوع"
 
 #: ../calendar/gui/e-calendar-view.c:422
-#, fuzzy
 msgid "Cut selected events to the clipboard"
-msgstr "قص النّص المنتقى للحافظة الوسيطة"
+msgstr "قص الأحداث المنتقاة إلى الحافظة"
 
 #: ../calendar/gui/e-calendar-view.c:428
-#, fuzzy
 msgid "Copy selected events to the clipboard"
-msgstr "نسخ النّص المنتقى للحافظة الوسيطة"
+msgstr "انسخ الأحداث المنتقاة إلى الحافظة"
 
 #: ../calendar/gui/e-calendar-view.c:434
-#, fuzzy
 msgid "Paste events from the clipboard"
-msgstr "لصق نص من الحافظة الوسيطة"
+msgstr "الصق الأحداث من الحافظة"
 
 #: ../calendar/gui/e-calendar-view.c:440
-#, fuzzy
 msgid "Delete selected events"
-msgstr "احذف التذكيرات المُنتقاة"
+msgstr "احذف الأحداث المُنتقاة"
 
 #: ../calendar/gui/e-calendar-view.c:459 ../calendar/gui/e-memo-table.c:183
 #: ../calendar/gui/e-task-table.c:261
@@ -4033,7 +3993,6 @@ msgstr "اظهر لوح \"المعاينة\""
 #: ../calendar/gui/e-day-view-time-item.c:783
 #: ../modules/calendar/e-calendar-preferences.c:175
 #: ../modules/calendar/e-calendar-preferences.c:224
-#, fuzzy
 msgctxt "cal-second-zone"
 msgid "None"
 msgstr "لا شيء"
@@ -4096,9 +4055,9 @@ msgstr "م"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
 #: ../calendar/gui/e-day-view.c:2606
-#, fuzzy, c-format
+#, c-format
 msgid "Week %d"
-msgstr "الأسبوع"
+msgstr "الأسبوع %d"
 
 #: ../calendar/gui/e-meeting-list-view.c:64
 msgid "Chair Persons"
@@ -4191,9 +4150,9 @@ msgid "Enter password to access free/busy information on server %s as user %s"
 msgstr ""
 
 #: ../calendar/gui/e-meeting-store.c:1772
-#, fuzzy, c-format
+#, c-format
 msgid "Failure reason: %s"
-msgstr "فشل إنشاء أنبوب: %s"
+msgstr "سبب الفشل: %s"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
@@ -4325,19 +4284,16 @@ msgid "Due: "
 msgstr "يُستح: "
 
 #: ../calendar/gui/e-memo-table.c:720
-#, fuzzy
 msgid "Cut selected memos to the clipboard"
-msgstr "قص الرسائل المُنتقاه إلى الحافظة"
+msgstr "قص المذكرات المُنتقاة إلى الحافظة"
 
 #: ../calendar/gui/e-memo-table.c:726
-#, fuzzy
 msgid "Copy selected memos to the clipboard"
-msgstr "نسخ الرسائل المنتقاة إلى الحافظة"
+msgstr "انسخ المذكرات المنتقاة إلى الحافظة"
 
 #: ../calendar/gui/e-memo-table.c:732
-#, fuzzy
 msgid "Paste memos from the clipboard"
-msgstr "الصق تذكير من الحافظة"
+msgstr "الصق المذكرات من الحافظة"
 
 #: ../calendar/gui/e-memo-table.c:738
 #: ../modules/calendar/e-memo-shell-view-actions.c:572
@@ -4347,7 +4303,7 @@ msgstr "احذف التذكيرات المُنتقاة"
 #: ../calendar/gui/e-memo-table.c:744
 #, fuzzy
 msgid "Select all visible memos"
-msgstr "إنتقاء جميع الرّسائل المرئيّة"
+msgstr "إنتقِ جميع الرّسائل المرئيّة"
 
 #: ../calendar/gui/e-memo-table.etspec.h:2
 msgid "Click to add a memo"
@@ -4358,9 +4314,9 @@ msgstr "انقر لإضافة تذكيرة"
 #. Result values will be 0%, 10%, 20%, ... 100%
 #.
 #: ../calendar/gui/e-task-table.c:545
-#, fuzzy, c-format
+#, c-format
 msgid "%d%%"
-msgstr "%d %b"
+msgstr "%d%%"
 
 #: ../calendar/gui/e-task-table.c:642 ../calendar/gui/print.c:2159
 #: ../calendar/importers/icalendar-importer.c:81
@@ -4377,14 +4333,12 @@ msgid "Tasks"
 msgstr "المهام"
 
 #: ../calendar/gui/e-task-table.c:949
-#, fuzzy
 msgid "Cut selected tasks to the clipboard"
-msgstr "قص النّص المنتقى للحافظة الوسيطة"
+msgstr "قص المهام المُنتقاة إلى الحافظة"
 
 #: ../calendar/gui/e-task-table.c:955
-#, fuzzy
 msgid "Copy selected tasks to the clipboard"
-msgstr "نسخ النّص المنتقى للحافظة الوسيطة"
+msgstr "انسخ المهام المُنتقاة إلى الحافظة"
 
 #: ../calendar/gui/e-task-table.c:961
 msgid "Paste tasks from the clipboard"
@@ -4473,6 +4427,8 @@ msgstr[0] "له حدث."
 msgstr[1] "له حدثان."
 msgstr[2] "له %d أحداث."
 msgstr[3] "له %d حدث."
+msgstr[4] ""
+msgstr[5] ""
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
@@ -5001,9 +4957,8 @@ msgid "Reminder!"
 msgstr "تذكير!"
 
 #: ../calendar/importers/icalendar-importer.c:662
-#, fuzzy
 msgid "vCalendar files (.vcs)"
-msgstr "ملفّات vCalendar (.vcf)"
+msgstr "ملفّات vCalendar (.vcs)"
 
 #: ../calendar/importers/icalendar-importer.c:663
 msgid "Evolution vCalendar importer"
@@ -5019,31 +4974,27 @@ msgstr "مستورِد تقويم إيفُليوشِن الذّكي"
 
 #: ../calendar/importers/icalendar-importer.c:926
 #: ../calendar/importers/icalendar-importer.c:1243
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Meeting"
-msgstr "اج_تماع"
+msgstr "اجتماع"
 
 #: ../calendar/importers/icalendar-importer.c:926
 #: ../calendar/importers/icalendar-importer.c:1243
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Event"
-msgstr "أرسِل"
+msgstr "حدث"
 
 #: ../calendar/importers/icalendar-importer.c:929
 #: ../calendar/importers/icalendar-importer.c:1244
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Task"
 msgstr "مهمَّة"
 
 #: ../calendar/importers/icalendar-importer.c:932
 #: ../calendar/importers/icalendar-importer.c:1245
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Memo"
-msgstr "تذكير"
+msgstr "مذكرة"
 
 #: ../calendar/importers/icalendar-importer.c:941
 #, fuzzy
@@ -5071,14 +5022,12 @@ msgstr "مُرفق %s"
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:969
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Public"
 msgstr "عام"
 
 #. Translators: Appointment's classification
 #: ../calendar/importers/icalendar-importer.c:972
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Private"
 msgstr "خاص"
@@ -5088,27 +5037,24 @@ msgstr "خاص"
 #, fuzzy
 msgctxt "iCalImp"
 msgid "Confidential"
-msgstr "خصوصي"
+msgstr "سرّي"
 
 #. Translators: Appointment's classification section name
 #: ../calendar/importers/icalendar-importer.c:979
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Classification"
-msgstr "تصنيف"
+msgstr "التصنيف"
 
 #. Translators: Appointment's summary
 #. Translators: Column header for a component summary
 #: ../calendar/importers/icalendar-importer.c:984
 #: ../calendar/importers/icalendar-importer.c:1284
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Summary"
 msgstr "الملخّص"
 
 #. Translators: Appointment's location
 #: ../calendar/importers/icalendar-importer.c:990
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Location"
 msgstr "الموقع"
@@ -5117,10 +5063,9 @@ msgstr "الموقع"
 #. Translators: Column header for a component start date/time
 #: ../calendar/importers/icalendar-importer.c:998
 #: ../calendar/importers/icalendar-importer.c:1280
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Start"
-msgstr "إبدأ"
+msgstr "البداية"
 
 #. Translators: 'Due' like the time due a task should be finished
 #: ../calendar/importers/icalendar-importer.c:1009
@@ -5131,14 +5076,12 @@ msgstr "مُستحق "
 
 #. Translators: Appointment's end time
 #: ../calendar/importers/icalendar-importer.c:1021
-#, fuzzy
 msgctxt "iCalImp"
 msgid "End"
-msgstr "اَنْهِ"
+msgstr "النهاية"
 
 #. Translators: Appointment's categories
 #: ../calendar/importers/icalendar-importer.c:1031
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Categories"
 msgstr "الفئات"
@@ -5160,10 +5103,9 @@ msgstr "العنوان"
 #. Translators: Appointment's organizer
 #: ../calendar/importers/icalendar-importer.c:1074
 #: ../calendar/importers/icalendar-importer.c:1077
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Organizer"
-msgstr "المنظّم"
+msgstr "المنظِّم"
 
 #. Translators: Appointment's attendees
 #: ../calendar/importers/icalendar-importer.c:1097
@@ -5174,14 +5116,12 @@ msgid "Attendees"
 msgstr "الحضور"
 
 #: ../calendar/importers/icalendar-importer.c:1114
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Description"
 msgstr "الوصف"
 
 #. Translators: Column header for a component type; it can be Event, Task or Memo
 #: ../calendar/importers/icalendar-importer.c:1276
-#, fuzzy
 msgctxt "iCalImp"
 msgid "Type"
 msgstr "النّوع"
@@ -6791,9 +6731,8 @@ msgid "Print Pre_view"
 msgstr "_معاينة قبل الطّباعة"
 
 #: ../composer/e-composer-actions.c:360
-#, fuzzy
 msgid "Save as _Draft"
-msgstr "احفظ _كمسودة"
+msgstr "احفظ كم_سودة"
 
 #: ../composer/e-composer-actions.c:362
 msgid "Save as draft"
@@ -6888,9 +6827,8 @@ msgid "Toggles whether the Reply-To field is displayed"
 msgstr "تحديد ما إذا كان حقل \"رد إلى\" ظاهرًا"
 
 #: ../composer/e-composer-actions.c:510
-#, fuzzy
 msgid "Save Draft"
-msgstr "احفظ _مسودّة"
+msgstr "احفظ المسودّة"
 
 #: ../composer/e-composer-header-table.c:36
 msgid "Enter the recipients of the message"
@@ -6959,19 +6897,16 @@ msgid "Redo the last undone action"
 msgstr "أرسِل آخر المعلومات"
 
 #: ../composer/e-composer-private.c:253
-#, fuzzy
 msgid "Search for text"
-msgstr "مرشّح بحث"
+msgstr "ابحث عن نصّ"
 
 #: ../composer/e-composer-private.c:257
-#, fuzzy
 msgid "Search for and replace text"
-msgstr "فشل البحث عن iPod"
+msgstr ""
 
 #: ../composer/e-composer-private.c:367
-#, fuzzy
 msgid "Save draft"
-msgstr "احفظ _مسودّة"
+msgstr "احفظ المسودّة"
 
 #: ../composer/e-msg-composer.c:784
 #, c-format
@@ -6991,9 +6926,8 @@ msgid "Compose Message"
 msgstr "اكتب رسالة"
 
 #: ../composer/e-msg-composer.c:4116
-#, fuzzy
 msgid "The composer contains a non-text message body, which cannot be edited."
-msgstr "<b>(يحتوي المؤلف متن رسالة غير نصّي، ولا يمكن تحريره.)</b>"
+msgstr "يحتوي المؤلف على متن رسالة غير نصّي، ولا يمكن تحريره."
 
 #: ../composer/e-msg-composer.c:4821
 msgid "Untitled Message"
@@ -7012,14 +6946,12 @@ msgid "All accounts have been removed."
 msgstr "كل الحِسابات أزيلت."
 
 #: ../composer/mail-composer.error.xml.h:3
-#, fuzzy
 msgid "An error occurred while saving to your Drafts folder."
-msgstr "حدث خطأ أثناء الاندفاع %s: %s."
+msgstr "حدث خطأ أثناء الحفظ إلى مجلد المسودات"
 
 #: ../composer/mail-composer.error.xml.h:4
-#, fuzzy
 msgid "An error occurred while saving to your Outbox folder."
-msgstr "حدث خطأ أثناء الطباعة"
+msgstr "حدث خطأ أثناء الحفظ إلى مجلد الصّادر"
 
 #: ../composer/mail-composer.error.xml.h:5
 #, fuzzy
@@ -7093,14 +7025,12 @@ msgstr ""
 "الرسالة سيسمح لك بالإكمال من حيث كنت."
 
 #: ../composer/mail-composer.error.xml.h:19
-#, fuzzy
 msgid "Saving message to Outbox."
-msgstr "يجري حفظ الرّسالة في المجلّد"
+msgstr "حفظ الرّسالة في مجلّد الصّادر."
 
 #: ../composer/mail-composer.error.xml.h:20
-#, fuzzy
 msgid "The file '{0}' is not a regular file and cannot be sent in a message."
-msgstr "الملف `{0}' ليس ملفا اعتياديا ولا يمكن إرساله في رسالة."
+msgstr "الملف '{0}' ليس ملفا اعتياديا ولا يمكن إرساله في رسالة."
 
 #: ../composer/mail-composer.error.xml.h:21 ../mail/mail.error.xml.h:117
 #, fuzzy
@@ -7118,9 +7048,8 @@ msgid "The reported error was &quot;{0}&quot;. The message has not been sent."
 msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:24
-#, fuzzy
 msgid "You cannot attach the file &quot;{0}&quot; to this message."
-msgstr "لا يمكنك إرفاق الملف `{0}' بهِذه الرسالة."
+msgstr "لا يمكنك إرفاق الملف &quot;{0}&quot; بهِذه الرسالة."
 
 #: ../composer/mail-composer.error.xml.h:25
 msgid "You need to configure an account before you can compose mail."
@@ -7149,9 +7078,8 @@ msgid "_Save Draft"
 msgstr "ا_حفظ المسودّة"
 
 #: ../composer/mail-composer.error.xml.h:33
-#, fuzzy
 msgid "_Save to Outbox"
-msgstr "احفظ كـ..."
+msgstr "ا_حفظ إلى صندوق الصّادر"
 
 #: ../composer/mail-composer.error.xml.h:35
 msgid "_Try Again"
@@ -7182,23 +7110,20 @@ msgid "Anjal email client"
 msgstr "عميل البريد الافتراضي"
 
 #: ../capplet/settings/mail-account-view.c:77
-#, fuzzy
 msgid "Please enter your full name."
-msgstr "أدخل اسم المستخدم أولا."
+msgstr "أدخل اسمك الكامل."
 
 #: ../capplet/settings/mail-account-view.c:78
-#, fuzzy
 msgid "Please enter your email address."
-msgstr "أدخل اسم المستخدم أولا."
+msgstr "أدخل عنوان بريدك الالكتروني."
 
 #: ../capplet/settings/mail-account-view.c:79
 msgid "The email address you have entered is invalid."
-msgstr ""
+msgstr "عنوان البريد الالكتروني الذي أدخلته غير سليم."
 
 #: ../capplet/settings/mail-account-view.c:80
-#, fuzzy
 msgid "Please enter your password."
-msgstr "أدخل اسم المستخدم أولا."
+msgstr "أدخل كلمة السّر."
 
 #: ../capplet/settings/mail-account-view.c:259
 #: ../plugins/caldav/caldav-source.c:66
@@ -7213,24 +7138,20 @@ msgid "Google"
 msgstr "جوجل"
 
 #: ../capplet/settings/mail-account-view.c:463
-#, fuzzy
 msgid "Personal details:"
-msgstr "شخصي"
+msgstr "تفاصيل شخصية:"
 
 #: ../capplet/settings/mail-account-view.c:470
-#, fuzzy
 msgid "Name:"
-msgstr "الا_سم:"
+msgstr "الاسم:"
 
 #: ../capplet/settings/mail-account-view.c:479
-#, fuzzy
 msgid "Email address:"
-msgstr "عنوان البريد الإلكتروني"
+msgstr "عنوان البريد الإلكتروني:"
 
 #: ../capplet/settings/mail-account-view.c:489
-#, fuzzy
 msgid "Details:"
-msgstr "تفاصيل"
+msgstr "تفاصيل:"
 
 #: ../capplet/settings/mail-account-view.c:497
 #, fuzzy
@@ -7238,28 +7159,23 @@ msgid "Receiving"
 msgstr "إستقبال بريد"
 
 #: ../capplet/settings/mail-account-view.c:504
-#, fuzzy
 msgid "Server type:"
-msgstr "_نوع الخادوم:"
+msgstr "نوع الخادوم:"
 
 #: ../capplet/settings/mail-account-view.c:513
-#, fuzzy
 msgid "Server address:"
-msgstr "رسالة الخادوم:"
+msgstr "عنوان الخادوم:"
 
 #: ../capplet/settings/mail-account-view.c:522
-#, fuzzy
 msgid "Username:"
-msgstr "ا_سم المستخدم:"
+msgstr "اسم المستخدم:"
 
 #: ../capplet/settings/mail-account-view.c:531
-#, fuzzy
 msgid "Use encryption:"
-msgstr "لا تشفير"
+msgstr "استعمل التشفير:"
 
 #: ../capplet/settings/mail-account-view.c:536
 #: ../capplet/settings/mail-account-view.c:571
-#, fuzzy
 msgid "never"
 msgstr "أبدًا"
 
@@ -7309,46 +7225,38 @@ msgid "Identity"
 msgstr "الهويّة"
 
 #: ../capplet/settings/mail-account-view.c:613
-#, fuzzy
 msgid "Next - Receiving mail"
-msgstr "إستقبال بريد"
+msgstr "التالي - تلقّي البريد"
 
 #: ../capplet/settings/mail-account-view.c:614
-#, fuzzy
 msgid "Receiving mail"
-msgstr "إستقبال بريد"
+msgstr "تلقّي البريد"
 
 #: ../capplet/settings/mail-account-view.c:614
 #: ../capplet/settings/mail-account-view.c:615
-#, fuzzy
 msgid "Next - Sending mail"
-msgstr "إرسال بريد"
+msgstr "التالي - إرسال البريد"
 
 #: ../capplet/settings/mail-account-view.c:614
-#, fuzzy
 msgid "Back - Identity"
-msgstr "الهويّة"
+msgstr "السابق - الهويّة"
 
 #: ../capplet/settings/mail-account-view.c:614
-#, fuzzy
 msgid "Next - Receiving options"
-msgstr "خيارات التلقي"
+msgstr "التّالي - خيارات التلقّي"
 
 #: ../capplet/settings/mail-account-view.c:615
-#, fuzzy
 msgid "Receiving options"
-msgstr "خيارات التلقي"
+msgstr "خيارات التلقّي"
 
 #: ../capplet/settings/mail-account-view.c:615
 #: ../capplet/settings/mail-account-view.c:617
-#, fuzzy
 msgid "Back - Receiving mail"
-msgstr "إستقبال بريد"
+msgstr "السابق - تلقّي البريد"
 
 #: ../capplet/settings/mail-account-view.c:617
-#, fuzzy
 msgid "Sending mail"
-msgstr "إرسال بريد"
+msgstr "إرسال البريد"
 
 #: ../capplet/settings/mail-account-view.c:617
 #: ../capplet/settings/mail-account-view.c:618
@@ -7359,12 +7267,11 @@ msgstr "حذف الحساب؟"
 #: ../capplet/settings/mail-account-view.c:617
 #, fuzzy
 msgid "Next - Defaults"
-msgstr "الإفتراضيّات"
+msgstr "التّالي - الإفتراضيّات"
 
 #: ../capplet/settings/mail-account-view.c:617
-#, fuzzy
 msgid "Back - Receiving options"
-msgstr "خيارات التلقي"
+msgstr "السّابق - خيارات التلقّي"
 
 #: ../capplet/settings/mail-account-view.c:618
 #: ../mail/em-account-editor.c:3043
@@ -7372,9 +7279,8 @@ msgid "Defaults"
 msgstr "الإفتراضيّات"
 
 #: ../capplet/settings/mail-account-view.c:618
-#, fuzzy
 msgid "Back - Sending mail"
-msgstr "إرسال بريد"
+msgstr "السّابق - إرسال البريد"
 
 #: ../capplet/settings/mail-account-view.c:620
 #, fuzzy
@@ -7431,15 +7337,13 @@ msgid "Yahoo Calendar name:"
 msgstr "اختر ملف"
 
 #: ../capplet/settings/mail-account-view.c:1079
-#, fuzzy
 msgid "Password:"
-msgstr "_كلمة السر:"
+msgstr "كلمة السر:"
 
 #: ../capplet/settings/mail-account-view.c:1130
 #: ../capplet/settings/mail-settings-view.c:248
-#, fuzzy
 msgid "Close Tab"
-msgstr "غلق"
+msgstr "أغلق اللّسان"
 
 #: ../capplet/settings/mail-account-view.c:1140
 #, fuzzy
@@ -7447,9 +7351,8 @@ msgid "Account Wizard"
 msgstr "محرّر الحسابات"
 
 #: ../capplet/settings/mail-capplet-shell.c:209
-#, fuzzy
 msgid "Evolution account assistant"
-msgstr "مساعد حسابات إيفُليوشِن"
+msgstr "مساعد حسابات إفُليوشن"
 
 #. create the local source group
 #: ../capplet/settings/mail-capplet-shell.c:353 ../mail/e-mail-migrate.c:680
@@ -7475,19 +7378,16 @@ msgid "Modify %s..."
 msgstr "غيِّر"
 
 #: ../capplet/settings/mail-settings-view.c:147
-#, fuzzy
 msgid "Add a new account"
-msgstr "أضِف مراسل محادثة فورية"
+msgstr "أضِف حسابًا جديدًا"
 
 #: ../capplet/settings/mail-settings-view.c:183
-#, fuzzy
 msgid "Account management"
 msgstr "إدارة الحسابات"
 
 #: ../capplet/settings/mail-settings-view.c:258
-#, fuzzy
 msgid "Settings"
-msgstr "إعدادت النفاية"
+msgstr "الإعدادت"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
 #, fuzzy
@@ -7523,39 +7423,38 @@ msgid "Configure email accounts"
 msgstr "قم بإعداد حساباتك البريديّة هنا"
 
 #: ../data/evolution-settings.desktop.in.in.h:2
-#, fuzzy
 msgid "Email Settings"
-msgstr "إعدادات بريد النفاية"
+msgstr "إعدادات البريد"
 
 #. Translators: This is a cancelled activity.
 #: ../e-util/e-activity.c:223
-#, fuzzy, c-format
+#, c-format
 msgid "%s (cancelled)"
-msgstr "ملغى"
+msgstr "%s (ملغى)"
 
 #. Translators: This is a completed activity.
 #: ../e-util/e-activity.c:226
-#, fuzzy, c-format
+#, c-format
 msgid "%s (completed)"
-msgstr "%s (%d%% تام)"
+msgstr "%s (مكتمل)"
 
 #. Translators: This is an activity waiting to run.
 #: ../e-util/e-activity.c:229
-#, fuzzy, c-format
+#, c-format
 msgid "%s (waiting)"
-msgstr "إنتظار"
+msgstr "%s (ينتظر)"
 
 #. Translators: This is a running activity which
 #. *              the user has requested to cancel.
 #: ../e-util/e-activity.c:233
-#, fuzzy, c-format
+#, c-format
 msgid "%s (cancelling)"
-msgstr "ملغى"
+msgstr "%s (يُلغى)"
 
 #: ../e-util/e-activity.c:235
 #, c-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: ../e-util/e-activity.c:240
 #, c-format
@@ -7653,72 +7552,64 @@ msgid "Tomorrow"
 msgstr "غدا"
 
 #: ../e-util/e-datetime-format.c:209
-#, fuzzy
 msgid "Yesterday"
-msgstr "الأمس %l:%M %p"
+msgstr "بالأمس"
 
 #. Translators: This is used for abbreviated days in the future.
 #. You can use strftime modifiers here too, like "Next %a", to avoid
 #. repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:217
-#, fuzzy
 msgctxt "DateFmt"
 msgid "Next Mon"
-msgstr "نموذج النّص"
+msgstr "الإثنين القادم"
 
 #. Translators: This is used for abbreviated days in the future.
 #. You can use strftime modifiers here too, like "Next %a", to avoid
 #. repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:223
-#, fuzzy
 msgctxt "DateFmt"
 msgid "Next Tue"
-msgstr "ال_نّقاش التالي"
+msgstr "الثلاثاء القادمة"
 
 #. Translators: This is used for abbreviated days in the future.
 #. You can use strftime modifiers here too, like "Next %a", to avoid
 #. repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:229
-#, fuzzy
 msgctxt "DateFmt"
 msgid "Next Wed"
-msgstr "ال_نّقاش التالي"
+msgstr "الأربعاء القادمة"
 
 #. Translators: This is used for abbreviated days in the future.
 #. You can use strftime modifiers here too, like "Next %a", to avoid
 #. repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:235
-#, fuzzy
 msgctxt "DateFmt"
 msgid "Next Thu"
-msgstr "ال_نّقاش التالي"
+msgstr "الخميس القادم"
 
 #. Translators: This is used for abbreviated days in the future.
 #. You can use strftime modifiers here too, like "Next %a", to avoid
 #. repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:241
-#, fuzzy
 msgctxt "DateFmt"
 msgid "Next Fri"
-msgstr "التّالي"
+msgstr "الجمعة القادمة"
 
 #. Translators: This is used for abbreviated days in the future.
 #. You can use strftime modifiers here too, like "Next %a", to avoid
 #. repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:247
-#, fuzzy
 msgctxt "DateFmt"
 msgid "Next Sat"
-msgstr "التّالي"
+msgstr "السبت القادم"
 
 #. Translators: This is used for abbreviated days in the future.
 #. You can use strftime modifiers here too, like "Next %a", to avoid
 #. repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:253
-#, fuzzy
 msgctxt "DateFmt"
 msgid "Next Sun"
-msgstr "التّالي"
+msgstr "الأحد القادم"
 
 #: ../e-util/e-datetime-format.c:335 ../e-util/e-datetime-format.c:345
 #: ../e-util/e-datetime-format.c:354
@@ -7727,27 +7618,25 @@ msgid "Use locale default"
 msgstr "إست_خدم إفتراضات النظام"
 
 #: ../e-util/e-datetime-format.c:551
-#, fuzzy
 msgid "Format:"
-msgstr "التهيئة"
+msgstr "التهيئة:"
 
 #: ../e-util/e-file-utils.c:152
-#, fuzzy
 msgid "(Unknown Filename)"
-msgstr "اسم ال_ملف:"
+msgstr "(اسم الملف مجهول)"
 
 #. Translators: The string value is the basename of a file.
 #: ../e-util/e-file-utils.c:156
-#, fuzzy, c-format
+#, c-format
 msgid "Writing \"%s\""
-msgstr "يجري مسح %s"
+msgstr "كتابة \"%s\""
 
 #. Translators: The first string value is the basename of a
 #. * remote file, the second string value is the hostname.
 #: ../e-util/e-file-utils.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "Writing \"%s\" to %s"
-msgstr "نسخ `%s' إلى `%s'"
+msgstr "كتابة \"%s\" إلى %s"
 
 #: ../e-util/e-plugin-util.c:426 ../filter/filter.ui.h:22
 #: ../plugins/google-account-setup/google-contacts-source.c:378
@@ -7909,9 +7798,8 @@ msgid "Unknown error verifying signature"
 msgstr "خطأ مجهول أثناء التّحقّق من التّوقيع"
 
 #: ../em-format/em-format.c:2251
-#, fuzzy
 msgid "Could not parse PGP message: "
-msgstr "تعذر تحليل رسالة PGP"
+msgstr "تعذر تحليل رسالة PGP:"
 
 #: ../em-format/em-format.c:2257 ../mail/em-folder-tree.c:656
 #: ../mail/mail-ops.c:624 ../plugins/caldav/caldav-browse-server.c:210
@@ -7923,13 +7811,15 @@ msgstr "خطأ مجهول"
 #. Don't delete this code, since it is needed so that xgettext can extract the translations.
 #. * Please, keep these strings in sync with the strings in the timespans array
 #: ../filter/e-filter-datespec.c:66
-#, fuzzy, c-format
+#, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] "منذ ثانية واحدة"
-msgstr[1] "منذ ثانيتين"
-msgstr[2] "منذ %d ثواني"
-msgstr[3] "منذ %d ثانية"
+msgstr[0] ""
+msgstr[1] "منذ ثانية واحدة"
+msgstr[2] "منذ ثانيتين"
+msgstr[3] "منذ %d ثوانٍ"
+msgstr[4] "منذ %d ثانية"
+msgstr[5] "منذ %d ثانية"
 
 #: ../filter/e-filter-datespec.c:67
 #, fuzzy, c-format
@@ -7939,15 +7829,19 @@ msgstr[0] "بعد ثانية واحدة"
 msgstr[1] "بعد ثانيتين"
 msgstr[2] "بعد %d ثوان"
 msgstr[3] "بعد %d ثانية"
+msgstr[4] ""
+msgstr[5] ""
 
 #: ../filter/e-filter-datespec.c:68
-#, fuzzy, c-format
+#, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
-msgstr[0] "منذ دقيقة واحدة"
-msgstr[1] "منذ دقيقتين"
-msgstr[2] "منذ %d دقائق"
-msgstr[3] "منذ %d دقيقة"
+msgstr[0] ""
+msgstr[1] "منذ دقيقة واحدة"
+msgstr[2] "منذ دقيقتين"
+msgstr[3] "منذ %d دقائق"
+msgstr[4] "منذ %d دقيقة"
+msgstr[5] "منذ %d دقيقة"
 
 #: ../filter/e-filter-datespec.c:69
 #, fuzzy, c-format
@@ -7957,15 +7851,19 @@ msgstr[0] "بعد دقيقة واحدة"
 msgstr[1] "بعد دقيقتين"
 msgstr[2] "بعد %d دقائق"
 msgstr[3] "بعد %d دقيقة"
+msgstr[4] ""
+msgstr[5] ""
 
 #: ../filter/e-filter-datespec.c:70
-#, fuzzy, c-format
+#, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
-msgstr[0] "منذ ساعة واحدة"
-msgstr[1] "منذ ساعتين"
-msgstr[2] "منذ %d ساعات"
-msgstr[3] "منذ %d ساعة"
+msgstr[0] ""
+msgstr[1] "منذ ساعة واحدة"
+msgstr[2] "منذ ساعتين"
+msgstr[3] "منذ %d ساعات"
+msgstr[4] "منذ %d ساعة"
+msgstr[5] "منذ %d ساعة"
 
 #: ../filter/e-filter-datespec.c:71
 #, fuzzy, c-format
@@ -7975,15 +7873,19 @@ msgstr[0] "بعد ساعة واحدة"
 msgstr[1] "بعد ساعتين"
 msgstr[2] "بعد %d ساعات"
 msgstr[3] "بعد %d ساعة"
+msgstr[4] ""
+msgstr[5] ""
 
 #: ../filter/e-filter-datespec.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
-msgstr[0] "منذ يوم واحد"
-msgstr[1] "منذ يومين"
-msgstr[2] "منذ %d أيام"
-msgstr[3] "منذ %d يوما"
+msgstr[0] ""
+msgstr[1] "منذ يوم واحد"
+msgstr[2] "منذ يومين"
+msgstr[3] "منذ %d أيام"
+msgstr[4] "منذ %d يومًا"
+msgstr[5] "منذ %d يوم"
 
 #: ../filter/e-filter-datespec.c:73
 #, fuzzy, c-format
@@ -7993,15 +7895,19 @@ msgstr[0] "بعد يوم واحد"
 msgstr[1] "بعد يومين"
 msgstr[2] "بعد %d أيام"
 msgstr[3] "بعد %d يومًا"
+msgstr[4] ""
+msgstr[5] ""
 
 #: ../filter/e-filter-datespec.c:74
-#, fuzzy, c-format
+#, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
-msgstr[0] "منذ أسبوع واحد"
-msgstr[1] "منذ أسبوعين"
-msgstr[2] "منذ %d أسابيع"
-msgstr[3] "منذ %d أسبوعا"
+msgstr[0] ""
+msgstr[1] "منذ أسبوع واحد"
+msgstr[2] "منذ أسبوعين"
+msgstr[3] "منذ %d أسابيع"
+msgstr[4] "منذ %d أسبوعًا"
+msgstr[5] "منذ %d أسبوع"
 
 #: ../filter/e-filter-datespec.c:75
 #, fuzzy, c-format
@@ -8011,15 +7917,19 @@ msgstr[0] "بعد أسبوع واحد"
 msgstr[1] "بعد أسبوعين"
 msgstr[2] "بعد %d أسابيع"
 msgstr[3] "بعد %d أسبوعًا"
+msgstr[4] ""
+msgstr[5] ""
 
 #: ../filter/e-filter-datespec.c:76
-#, fuzzy, c-format
+#, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
-msgstr[0] "منذ شهر واحد"
-msgstr[1] "منذ شهرين"
-msgstr[2] "منذ %d أشهر"
-msgstr[3] "منذ %d شهرًا"
+msgstr[0] ""
+msgstr[1] "منذ شهر واحد"
+msgstr[2] "منذ شهرين"
+msgstr[3] "منذ %d أشهر"
+msgstr[4] "منذ %d شهرًا"
+msgstr[5] "منذ %d شهر"
 
 #: ../filter/e-filter-datespec.c:77
 #, fuzzy, c-format
@@ -8029,15 +7939,19 @@ msgstr[0] "بعد شهر واحد"
 msgstr[1] "بعد شهرين"
 msgstr[2] "بعد %d شهور"
 msgstr[3] "بعد %d شهرًا"
+msgstr[4] ""
+msgstr[5] ""
 
 #: ../filter/e-filter-datespec.c:78
-#, fuzzy, c-format
+#, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
-msgstr[0] "منذ سنة واحدة"
-msgstr[1] "منذ سنتين"
-msgstr[2] "منذ %d سنوات"
-msgstr[3] "منذ %d سنة"
+msgstr[0] ""
+msgstr[1] "منذ سنة واحدة"
+msgstr[2] "منذ سنتين"
+msgstr[3] "منذ %d سنوات"
+msgstr[4] "منذ %d سنة"
+msgstr[5] "منذ %d سنة"
 
 #: ../filter/e-filter-datespec.c:79
 #, fuzzy, c-format
@@ -8047,6 +7961,8 @@ msgstr[0] "بعد عام واحد"
 msgstr[1] "بعد عامين"
 msgstr[2] "بعد %d أعوام"
 msgstr[3] "بعد %d عامًا"
+msgstr[4] ""
+msgstr[5] ""
 
 #: ../filter/e-filter-datespec.c:129
 msgid "<click here to select a date>"
@@ -8067,9 +7983,8 @@ msgid "Select a time to compare against"
 msgstr "اختر وقت للمقارنة به"
 
 #: ../filter/e-filter-file.c:188
-#, fuzzy
 msgid "Choose a File"
-msgstr "اختر ملف"
+msgstr "اختر ملفًّأ"
 
 #: ../filter/e-filter-rule.c:662
 msgid "R_ule name:"
@@ -8226,9 +8141,8 @@ msgid "_Filter Rules"
 msgstr "قواعد ال_مرشِّح"
 
 #: ../filter/filter.ui.h:12
-#, fuzzy
 msgid "a time relative to the current time"
-msgstr "زمن نسبيّ للوقت الحالي"
+msgstr "زمن بالنسبة للوقت الحالي"
 
 #: ../filter/filter.ui.h:13
 msgid "ago"
@@ -8249,9 +8163,8 @@ msgid "seconds"
 msgstr "ثوان"
 
 #: ../filter/filter.ui.h:20
-#, fuzzy
 msgid "the current time"
-msgstr "احفظ الملف الحالي"
+msgstr "الوقت الحالي"
 
 #: ../filter/filter.ui.h:21
 msgid "the time you specify"
@@ -8272,6 +8185,8 @@ msgstr[0] "مرفق"
 msgstr[1] "مرفقات"
 msgstr[2] "مُرفق"
 msgstr[3] "مُرفق"
+msgstr[4] ""
+msgstr[5] ""
 
 #: ../mail/e-mail-attachment-bar.c:604
 #: ../widgets/misc/e-attachment-paned.c:619
@@ -8281,9 +8196,8 @@ msgstr "مشهد الشّهر"
 
 #: ../mail/e-mail-attachment-bar.c:606
 #: ../widgets/misc/e-attachment-paned.c:621
-#, fuzzy
 msgid "List View"
-msgstr "مشهد ال_قائمة"
+msgstr "مشهد القائمة"
 
 #: ../mail/e-mail-browser.c:125 ../shell/e-shell-window-actions.c:1405
 #: ../shell/e-shell-window-actions.c:1412
@@ -8292,14 +8206,12 @@ msgid "Close this window"
 msgstr "غلق هذه النافذة"
 
 #: ../mail/e-mail-browser.c:282
-#, fuzzy
 msgid "(No Subject)"
-msgstr "الموضوع"
+msgstr "(دون موضوع)"
 
 #: ../mail/e-mail-display.c:62
-#, fuzzy
 msgid "_Add to Address Book..."
-msgstr "أ_ضف إلى دفتر العناوين"
+msgstr "أ_ضف إلى دفتر العناوين..."
 
 #: ../mail/e-mail-display.c:69
 #, fuzzy
@@ -8312,14 +8224,13 @@ msgid "_From This Address"
 msgstr "_من هذا العنوان"
 
 #: ../mail/e-mail-display.c:85
-#, fuzzy
 msgid "Create Search _Folder"
 msgstr "أنشئ مجلّد _بحث"
 
 #: ../mail/e-mail-folder-utils.c:88
-#, fuzzy, c-format
+#, c-format
 msgid "Saving message to folder '%s'"
-msgstr "يجري حفظ الرّسالة في المجلّد"
+msgstr "حفظ الرّسالة في المجلّد '%s'"
 
 #: ../mail/e-mail-label-dialog.c:219
 #, fuzzy
@@ -8455,9 +8366,8 @@ msgstr "الرجاء انتقاء مستخدم."
 #. *     icon.  But for now, screw it.
 #: ../mail/e-mail-reader-utils.c:111
 #: ../modules/calendar/e-task-shell-view-actions.c:576
-#, fuzzy
 msgid "Do not ask me again"
-msgstr "لا تسألني ثانيةً."
+msgstr "لا تسألني مرة أخرى"
 
 #: ../mail/e-mail-reader.c:306 ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
@@ -8495,9 +8405,8 @@ msgstr "ا_نقل"
 #. Check buttons
 #: ../mail/e-mail-reader.c:1265 ../mail/e-mail-reader.c:1423
 #: ../mail/e-mail-reader.c:1467
-#, fuzzy
 msgid "_Do not ask me again."
-msgstr "لا تسألني ثانيةً."
+msgstr "لا ت_سألني مرة أخرى."
 
 #: ../mail/e-mail-reader.c:1472
 msgid "_Always ignore Reply-To: for mailing lists."
@@ -8538,9 +8447,8 @@ msgid "A_dd Sender to Address Book"
 msgstr "أ_ضِف المرسِل لدفتر العناوين"
 
 #: ../mail/e-mail-reader.c:1878
-#, fuzzy
 msgid "Add sender to address book"
-msgstr "أضِف المرسِل لدفتر العناوين"
+msgstr "أضِف المرسِل إلى دفتر العناوين"
 
 #: ../mail/e-mail-reader.c:1883
 msgid "Check for _Junk"
@@ -8637,7 +8545,6 @@ msgid "Follow _Up..."
 msgstr "_تابع..."
 
 #: ../mail/e-mail-reader.c:1962
-#, fuzzy
 msgid "Flag the selected messages for follow-up"
 msgstr "علّم الرسالة المنتقاة للمتابعة"
 
@@ -9534,9 +9441,8 @@ msgid "Follow Up"
 msgstr "متابعة"
 
 #: ../mail/em-filter-i18n.h:29
-#, fuzzy
 msgid "Forward to"
-msgstr "مرر"
+msgstr "مرّر إلى"
 
 #: ../mail/em-filter-i18n.h:30
 msgid "Important"
@@ -9657,9 +9563,8 @@ msgid "Sender"
 msgstr "المرسِل"
 
 #: ../mail/em-filter-i18n.h:64
-#, fuzzy
 msgid "Sender or Recipients"
-msgstr "أرسِل إخطار الوصول"
+msgstr "المرسِل أو المستلمون"
 
 #: ../mail/em-filter-i18n.h:65
 msgid "Set Label"
@@ -9708,13 +9613,14 @@ msgstr "أضِف إجراءًا"
 
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
 #: ../mail/em-folder-properties.c:124
-#, fuzzy
 msgid "Unread messages:"
 msgid_plural "Unread messages:"
 msgstr[0] "الرسائل غير المقروءة:"
 msgstr[1] "الرسائل غير المقروءة:"
 msgstr[2] "الرسائل غير المقروءة:"
 msgstr[3] "الرسائل غير المقروءة:"
+msgstr[4] "الرسائل غير المقروءة:"
+msgstr[5] "الرسائل غير المقروءة:"
 
 #. TODO: can this be done in a loop?
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
@@ -9726,6 +9632,8 @@ msgstr[0] "مجموع الرسائل:"
 msgstr[1] "مجموع الرسائل:"
 msgstr[2] "مجموع الرسائل:"
 msgstr[3] "مجموع الرسائل:"
+msgstr[4] "مجموع الرسائل:"
+msgstr[5] "مجموع الرسائل:"
 
 #: ../mail/em-folder-properties.c:146
 #, c-format
@@ -9780,10 +9688,10 @@ msgid "Folder names cannot contain '/'"
 msgstr "لا يمكن أن يحتوي اسم المجلّد الرمز '/'."
 
 #: ../mail/em-folder-tree.c:1245
-#, fuzzy, c-format
+#, c-format
 msgctxt "folder-display"
 msgid "%s (%u%s)"
-msgstr "%s (...)"
+msgstr "%s (%u%s)"
 
 #: ../mail/em-folder-tree.c:1482
 msgid "Mail Folder Tree"
@@ -9815,25 +9723,22 @@ msgid "Cannot drop message(s) into toplevel store"
 msgstr "غير قادر على سحب الرسالة/الرسائل إلى مستوى التخزين العلوي"
 
 #: ../mail/em-folder-utils.c:422
-#, fuzzy
 msgid "Move Folder To"
-msgstr "نقل مجلّد إلى..."
+msgstr "انقل المجلّد إلى..."
 
 #: ../mail/em-folder-utils.c:422
-#, fuzzy
 msgid "Copy Folder To"
-msgstr "نسخ مجلّد إلى..."
+msgstr "انسخ المجلّد إلى..."
 
 #: ../mail/em-folder-utils.c:571
 #: ../plugins/groupwise-features/share-folder-common.c:138
 #, fuzzy, c-format
 msgid "Creating folder '%s'"
-msgstr "إنشاء المجلّد `%s'"
+msgstr "إنشاء المجلّد '%s'"
 
 #: ../mail/em-folder-utils.c:741
-#, fuzzy
 msgid "Create Folder"
-msgstr "أنشئ مجلّد"
+msgstr "أنشئ مجلّدًا"
 
 #: ../mail/em-folder-utils.c:742
 #: ../plugins/groupwise-features/install-shared.c:178
@@ -9996,7 +9901,7 @@ msgstr "يجري تهيئة الرسالة..."
 #: ../mail/em-format-html.c:1445 ../mail/em-format-html.c:1455
 #, fuzzy, c-format
 msgid "Retrieving '%s'"
-msgstr "يجري سحب `%s'"
+msgstr "يجري سحب '%s'"
 
 #: ../mail/em-format-html.c:1976
 msgid "Unknown external-body part."
@@ -10034,15 +9939,15 @@ msgstr "مؤشّر لبيانات خارجيّة مجهولة (فئة \"%s\")"
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
 #: ../mail/em-format-html.c:2763
-#, fuzzy, c-format
+#, c-format
 msgid "This message was sent by %s on behalf of %s"
-msgstr "أرسل <b>%s</b> هذه الرسالة بالنيابة عن <b>%s</b>"
+msgstr "أرسل %s هذه الرسالة بالنيابة عن %s"
 
 #: ../mail/em-html-stream.c:82 ../mail/em-html-stream.c:104
 #: ../mail/em-html-stream.c:122
 #, fuzzy, c-format
 msgid "No HTML stream available"
-msgstr "لا يوجود ملخّص."
+msgstr "لا يوجد ملخّص."
 
 #: ../mail/em-subscription-editor.c:1105
 msgid "Folder Subscriptions"
@@ -10068,15 +9973,13 @@ msgid "Subscribe to the selected folder"
 msgstr "أعِد تسمية المجلّد المنتقى"
 
 #: ../mail/em-subscription-editor.c:1217
-#, fuzzy
 msgid "Su_bscribe"
-msgstr "تم الإشتراك"
+msgstr "إ_شترك"
 
 #: ../mail/em-subscription-editor.c:1228
 #: ../modules/mail/e-mail-shell-view-actions.c:1178
-#, fuzzy
 msgid "Unsubscribe from the selected folder"
-msgstr "أعِد تسمية المجلّد المنتقى"
+msgstr "ألغ اشتراك المجلّد المنتقى"
 
 #: ../mail/em-subscription-editor.c:1229
 #: ../modules/mail/e-mail-shell-view-actions.c:1176
@@ -10084,55 +9987,48 @@ msgid "_Unsubscribe"
 msgstr "إل_غاء الإشتراك"
 
 #: ../mail/em-subscription-editor.c:1240
-#, fuzzy
 msgid "Collapse all folders"
-msgstr "كل المجلدات المحلية"
+msgstr "اطوِ كلّ المجلدات"
 
 #: ../mail/em-subscription-editor.c:1241
-#, fuzzy
 msgid "C_ollapse All"
-msgstr "إطوي كل الخيوط"
+msgstr "إ_طوِ الكلّ"
 
 #: ../mail/em-subscription-editor.c:1251
-#, fuzzy
 msgid "Expand all folders"
-msgstr "وس_ع كل الخيوط"
+msgstr "وسّع كل المجلّدات"
 
 #: ../mail/em-subscription-editor.c:1252
-#, fuzzy
 msgid "E_xpand All"
-msgstr "وس_ع كل الخيوط"
+msgstr "وسّ_ع الكلّ"
 
 #: ../mail/em-subscription-editor.c:1262
-#, fuzzy
 msgid "Refresh the folder list"
-msgstr "حدّث المجلّد"
+msgstr "حدّث قائمة المجلّدات"
 
 #: ../mail/em-subscription-editor.c:1274
-#, fuzzy
 msgid "Stop the current operation"
-msgstr "إلغاء عمليّة البريد الحاليّة"
+msgstr "الغِ العمليّة الحاليّة"
 
 #. Translators: This message is shown only for ten or more
 #. * messages to be opened.  The %d is replaced with the actual
 #. * count of messages. If you need a '%' in your text, then
 #. * write it doubled, like '%%'.
 #: ../mail/em-utils.c:101
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to open %d message at once?"
 msgid_plural "Are you sure you want to open %d messages at once?"
-msgstr[0] "هل أنت متأكد أنك تريد فتح {0} رسالة دفعة واحدة؟"
-msgstr[1] "هل أنت متأكد أنك تريد فتح {0} رسالة دفعة واحدة؟"
-msgstr[2] "هل أنت متأكد أنك تريد فتح {0} رسالة دفعة واحدة؟"
-msgstr[3] "هل أنت متأكد أنك تريد فتح {0} رسالة دفعة واحدة؟"
-msgstr[4] "هل أنت متأكد أنك تريد فتح {0} رسالة دفعة واحدة؟"
-msgstr[5] "هل أنت متأكد أنك تريد فتح {0} رسالة دفعة واحدة؟"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] "أمتأكّد أنّك تريد فتح %d رسائل دفعة واحدة؟"
+msgstr[4] "أمتأكّد أنك تريد فتح %d رسالة دفعة واحدة؟"
+msgstr[5] "أمتأكّد أنك تريد فتح %d رسالة دفعة واحدة؟"
 
 #: ../mail/em-utils.c:153
 #: ../modules/mailto-handler/evolution-mailto-handler.c:151
-#, fuzzy
 msgid "_Do not show this message again"
-msgstr "لا تظهر هذه الرسالة مرة أخرى."
+msgstr "لا ت_ظهر هذه الرسالة مرة أخرى"
 
 #: ../mail/em-utils.c:328
 msgid "Message Filters"
@@ -10148,9 +10044,8 @@ msgid "Search _Folders"
 msgstr "_مجلدات البحث"
 
 #: ../mail/em-vfolder-rule.c:610
-#, fuzzy
 msgid "Add Folder"
-msgstr "مجلّد"
+msgstr "أضف مجلّدًا"
 
 #: ../mail/evolution-mail.schemas.in.h:1
 #, fuzzy
@@ -11438,9 +11333,8 @@ msgstr "استيراد بريد من إلم."
 
 #: ../mail/importers/evolution-mbox-importer.c:127
 #: ../plugins/dbx-import/dbx-importer.c:242
-#, fuzzy
 msgid "_Destination folder:"
-msgstr "المجلد الوجهة:"
+msgstr "المجلد ال_وجهة:"
 
 #: ../mail/importers/evolution-mbox-importer.c:133
 #: ../plugins/dbx-import/dbx-importer.c:252
@@ -11455,13 +11349,11 @@ msgid "Select folder to import into"
 msgstr "انتقاء مجلدًا للاستيراد إليه"
 
 #: ../mail/importers/evolution-mbox-importer.c:403
-#, fuzzy
 msgctxt "mboxImp"
 msgid "Subject"
 msgstr "الموضوع"
 
 #: ../mail/importers/evolution-mbox-importer.c:408
-#, fuzzy
 msgctxt "mboxImp"
 msgid "From"
 msgstr "من"
@@ -11594,7 +11486,7 @@ msgstr "اطلب دائما إخطارا بالقراءة"
 
 #: ../mail/mail-config.ui.h:12
 msgid "Apply the same _view settings to all folders"
-msgstr ""
+msgstr "طبّق نفس الإ"
 
 #: ../mail/mail-config.ui.h:14
 #: ../modules/addressbook/addressbook-config.c:1018
@@ -11620,7 +11512,7 @@ msgstr "تحقق عن ترويسات مخصصة للغثاء"
 #: ../mail/mail-config.ui.h:19
 #, fuzzy
 msgid "Check for new _messages on start"
-msgstr "تحقق من الرسائل ال_جديدة كلَّ"
+msgstr "تحقق من الرسائل ال_جديدة عند البداية"
 
 #: ../mail/mail-config.ui.h:20
 #, fuzzy
@@ -11896,10 +11788,8 @@ msgid "SHA512"
 msgstr ""
 
 #: ../mail/mail-config.ui.h:92
-#, fuzzy
 msgid "SSL is not supported in this build of Evolution"
-msgstr ""
-"<b>الاتصال الآمن بواسطة SSL ليس مدعومًا بواسطة هذه النسخة من إيفُليوشن</b>"
+msgstr "الاتصال الآمن بواسطة SSL ليس مدعومًا بواسطة هذه النسخة من إيفُليوشن"
 
 #: ../mail/mail-config.ui.h:93
 msgid "S_earch for sender photograph only in local address books"
@@ -11930,9 +11820,8 @@ msgid "Select HTML variable width font"
 msgstr "إنتقاء خط HTML المتغيّر العرض"
 
 #: ../mail/mail-config.ui.h:101
-#, fuzzy
 msgid "Sender Photograph"
-msgstr "<b>صورة المرسل</b>"
+msgstr "صورة المرسل"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:103
@@ -18553,9 +18442,8 @@ msgstr "ارف_ض"
 #: ../plugins/itip-formatter/itip-view.c:862
 #: ../plugins/itip-formatter/itip-view.c:878
 #: ../plugins/itip-formatter/itip-view.c:883
-#, fuzzy
 msgid "A_ccept"
-msgstr "تقبّل"
+msgstr "ا_قبل"
 
 #: ../plugins/itip-formatter/itip-view.c:853
 msgid "_Decline all"
@@ -18573,7 +18461,6 @@ msgid "_Tentative"
 msgstr "_غير نهائي"
 
 #: ../plugins/itip-formatter/itip-view.c:855
-#, fuzzy
 msgid "A_ccept all"
 msgstr "اقبل ال_كل"
 
@@ -18628,9 +18515,8 @@ msgid "_Tasks:"
 msgstr "_مهام:"
 
 #: ../plugins/itip-formatter/itip-view.c:1926
-#, fuzzy
 msgid "_Memos:"
-msgstr "_تذكيرات"
+msgstr "ت_ذكيرات:"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
 #, fuzzy
@@ -20880,14 +20766,12 @@ msgid "Certificate Authority Trust"
 msgstr "إتّحاد سلطات الشّهادات"
 
 #: ../smime/gui/smime-ui.ui.h:7
-#, fuzzy
 msgid "Certificate Fields"
-msgstr "<b>حقول الشّهادة</b>"
+msgstr "حقول الشّهادة"
 
 #: ../smime/gui/smime-ui.ui.h:8
-#, fuzzy
 msgid "Certificate Hierarchy"
-msgstr "<b>شجريّة الشّهادة</b>"
+msgstr "شجريّة الشّهادة"
 
 #: ../smime/gui/smime-ui.ui.h:9
 msgid "Certificate details"
@@ -20974,9 +20858,8 @@ msgid "SSL Server Certificate"
 msgstr "شهادة خادوم SSL"
 
 #: ../smime/gui/smime-ui.ui.h:33
-#, fuzzy
 msgid "This certificate has been verified for the following uses:"
-msgstr "<b>تم التّحقّق من هذه الشّهادة للأغراض التّالية:</b>"
+msgstr "تم التّحقّق من هذه الشّهادة للأغراض التّالية:"
 
 #: ../smime/gui/smime-ui.ui.h:34
 msgid "Trust the authenticity of this certificate"
@@ -20996,9 +20879,8 @@ msgid "Trust this CA to identify websites."
 msgstr "ثق بسلطة إصدار الشهادات هذه لتمييز المواقع."
 
 #: ../smime/gui/smime-ui.ui.h:38
-#, fuzzy
 msgid "Validity"
-msgstr "<b>الصّلاحية</b>"
+msgstr "الصّلاحية"
 
 #: ../smime/gui/smime-ui.ui.h:39
 msgid "You have certificates from these organizations that identify you:"
@@ -21860,9 +21742,8 @@ msgid "Deli_vered and opened"
 msgstr "وصلت وتم _فتحها"
 
 #: ../widgets/misc/e-send-options.ui.h:5
-#, fuzzy
 msgid "Delivery Options"
-msgstr "<b>خيارات التسليم</b>"
+msgstr "خيارات التسليم"
 
 #: ../widgets/misc/e-send-options.ui.h:6
 msgid "For Your Eyes Only"
@@ -21873,11 +21754,8 @@ msgid "Gene_ral Options"
 msgstr "خيارات _عامة"
 
 #: ../widgets/misc/e-send-options.ui.h:10
-#, fuzzy
 msgid "Mail Receipt"
-msgstr ""
-"لا شيء\n"
-"إخطار وصول بريد"
+msgstr "إخطار وصول بريد"
 
 #: ../widgets/misc/e-send-options.ui.h:14
 #, fuzzy
@@ -21889,14 +21767,12 @@ msgid "R_eply requested"
 msgstr "الرد م_طلوب"
 
 #: ../widgets/misc/e-send-options.ui.h:17
-#, fuzzy
 msgid "Return Notification"
-msgstr "<b>تنبيه الوصول </b>"
+msgstr "تنبيه الوصول"
 
 #: ../widgets/misc/e-send-options.ui.h:18
-#, fuzzy
 msgid "Secret"
-msgstr "النّتيجة"
+msgstr "سرّي"
 
 #: ../widgets/misc/e-send-options.ui.h:20
 msgid "Sta_tus Tracking"
@@ -21908,14 +21784,12 @@ msgid "Standard"
 msgstr "الخط القيا_سي:"
 
 #: ../widgets/misc/e-send-options.ui.h:22
-#, fuzzy
 msgid "Status Tracking"
-msgstr "تع_قب الحالة"
+msgstr "تعقّب الحالة"
 
 #: ../widgets/misc/e-send-options.ui.h:23
-#, fuzzy
 msgid "Top Secret"
-msgstr "النّتيجة"
+msgstr "سرّي للغاية"
 
 #: ../widgets/misc/e-send-options.ui.h:25
 msgid "When acce_pted:"
@@ -21931,6 +21805,7 @@ msgstr "عند ال_رفض:"
 
 #. Translators: This is part of 'Within [ X ] days', where [ X ] is a spinner with a number
 #: ../widgets/misc/e-send-options.ui.h:29
+#, fuzzy
 msgid "Wi_thin"
 msgstr "_خلال"
 
@@ -21945,7 +21820,6 @@ msgid "_All information"
 msgstr "كل الم_علومات"
 
 #: ../widgets/misc/e-send-options.ui.h:33
-#, fuzzy
 msgid "_Classification:"
 msgstr "التّ_صنيف"
 
@@ -22027,7 +21901,7 @@ msgstr "_برنامج نصي:"
 #: ../widgets/misc/e-signature-script-dialog.c:340
 #, fuzzy
 msgid "Script file must be executable."
-msgstr "يجب أن يكون ملف البرنامج النصي موجودًا وقابلًا للتنفيذ."
+msgstr "يجب أن يكون ملف البرنامج النصي قابلًا للتنفيذ."
 
 #: ../widgets/misc/e-url-entry.c:78
 msgid "Click here to go to URL"
@@ -22038,28 +21912,24 @@ msgid "_Copy Link Location"
 msgstr "ا_نسخ موقع الوصلة"
 
 #: ../widgets/misc/e-web-view.c:377
-#, fuzzy
 msgid "Copy the link to the clipboard"
-msgstr "نسخ الرسائل المنتقاة إلى الحافظة"
+msgstr "انسخ الرابط إلى الحافظة"
 
 #: ../widgets/misc/e-web-view.c:385
 msgid "_Open Link in Browser"
 msgstr "ا_فتح الوصلة في المتصفّح"
 
 #: ../widgets/misc/e-web-view.c:387
-#, fuzzy
 msgid "Open the link in a web browser"
-msgstr "ا_فتح الوصلة في المتصفّح"
+msgstr "افتح الوصلة في المتصفّح"
 
 #: ../widgets/misc/e-web-view.c:395
-#, fuzzy
 msgid "_Copy Email Address"
 msgstr "انسخ عنوان ال_بريد الإلكتروني"
 
 #: ../widgets/misc/e-web-view.c:424 ../widgets/misc/e-web-view.c:1080
-#, fuzzy
 msgid "Select all text and images"
-msgstr "انتقاء كل النص في الرسالة"
+msgstr "انتقاء كل النص والصّور"
 
 #: ../widgets/misc/e-web-view.c:860 ../widgets/misc/e-web-view.c:862
 #: ../widgets/misc/e-web-view.c:864
@@ -22228,9 +22098,8 @@ msgid "_Sort..."
 msgstr "_رتّب..."
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:117
-#, fuzzy
 msgid "Add a Column"
-msgstr "أضِف عم_ود..."
+msgstr "أضِف عمودًا"
 
 #: ../widgets/table/e-table-field-chooser.c:151
 msgid ""
@@ -22368,4942 +22237,35 @@ msgstr "إنتق الكل"
 msgid "Input Methods"
 msgstr "طرق الإدخال"
 
-#~ msgid "Error loading address book."
-#~ msgstr "خطأ تحميل دفتر العناوين."
+#~| msgid "day(s)"
+#~ msgctxt "recurrpage"
+#~ msgid "day(s)"
+#~ msgstr "أيّام"
 
-#~ msgid "Server Version"
-#~ msgstr "نسخة الخادوم"
-
-#~ msgid "{0}"
-#~ msgstr "{0}"
-
-#~ msgid "{1}"
-#~ msgstr "{1}"
-
-#~ msgid "Default Sync Address:"
-#~ msgstr "عنوان التّزامن الإفتراضي:"
-
-#~ msgid "Could not load address book"
-#~ msgstr "تعذّر تحميل دفتر العناوين"
-
-#~ msgid "Could not read pilot's Address application block"
-#~ msgstr "لم يمكن قراءة قالب تطبيقات العناوين للحاسوب الكفي"
-
-#~ msgid "<b>Email</b>"
-#~ msgstr "<b>البريد الإلكتروني</b>"
-
-#~ msgid "<b>Home</b>"
-#~ msgstr "<b>المنزل</b>"
-
-#~ msgid "<b>Job</b>"
-#~ msgstr "<b>الوظيفة</b>"
-
-#~ msgid "<b>Miscellaneous</b>"
-#~ msgstr "<b>متنوع</b>"
-
-#~ msgid "<b>Notes</b>"
-#~ msgstr "<b>ملاحظات</b>"
-
-#~ msgid "<b>Other</b>"
-#~ msgstr "<b>أخرى</b>"
-
-#~ msgid "<b>Telephone</b>"
-#~ msgstr "<b>الهاتف</b>"
-
-#~ msgid "<b>Work</b>"
-#~ msgstr "<b>العمل</b>"
-
-#~ msgid "_Web Log:"
-#~ msgstr "المدو_نة:"
-
-#~ msgid "Editable"
-#~ msgstr "قابل للتّحرير"
-
-#~ msgid "Source Book"
-#~ msgstr "الدفتر المصدر"
-
-#~ msgid "Target Book"
-#~ msgstr "الدفتر الوجهة"
-
-#~ msgid "Is New Contact"
-#~ msgstr "متراسل جديد"
-
-#~ msgid "Writable Fields"
-#~ msgstr "حقول قابلة للكتابة"
-
-#~ msgid "Required Fields"
-#~ msgstr "حقول مطلوبة"
-
-#~ msgid "Changed"
-#~ msgstr "غُيِّر"
-
-#, fuzzy
-#~ msgid "Shell"
-#~ msgstr "السّيشال"
-
-#~ msgid "<b>Members</b>"
-#~ msgstr "<b>أعضاء</b>"
-
-#~ msgid "Book"
-#~ msgstr "دفتر"
-
-#~ msgid "Is New List"
-#~ msgstr "هي قائمة جديدة"
-
-#~ msgid "Query"
-#~ msgstr "استعلم"
-
-#~ msgid "Model"
-#~ msgstr "النّموذج"
-
-#, fuzzy
-#~ msgid "Shell View"
-#~ msgstr "انتقِ مشهدًا: %s"
-
-#~ msgid "Width"
-#~ msgstr "العرض"
-
-#~ msgid "Height"
-#~ msgstr "الإرتفاع"
-
-#~ msgid "Has Focus"
-#~ msgstr "له تركيز"
-
-#~ msgid "Field"
-#~ msgstr "الحقل"
-
-#~ msgid "Max field name length"
-#~ msgstr "الطّول الأقصى لاسم الحقل"
-
-#~ msgid "Column Width"
-#~ msgstr "عرض العمود"
-
-#~ msgid "Adapter"
-#~ msgstr "محوّل"
-
-#~ msgid "Selected"
-#~ msgstr "مُنتَقَى"
-
-#~ msgid "Has Cursor"
-#~ msgstr "له مؤشّر"
-
-#~ msgid "(map)"
-#~ msgstr "(خريطة)"
-
-#~ msgid "map"
-#~ msgstr "خريطة"
-
-#~ msgid "Success"
-#~ msgstr "نجاح"
-
-#~ msgid "Backend busy"
-#~ msgstr "الطرف الخلفي مشغول"
-
-#~ msgid "Repository offline"
-#~ msgstr "المستودع غير متّصل"
-
-#~ msgid "Address Book does not exist"
-#~ msgstr "دفتر العناوين غير موجود"
-
-#~ msgid "No Self Contact defined"
-#~ msgstr "لم يحدد أي متراسل شخصي"
-
-#~ msgid "Permission denied"
-#~ msgstr "رُفض التّصريح"
-
-#~ msgid "Contact not found"
-#~ msgstr "لم يوجد المتراسل"
-
-# checked, typed but the nchanged: you add a new ID and the other exists
-# the meaning of this dialog is more" you can't add a newone cz another one exists"
-#
-#~ msgid "Contact ID already exists"
-#~ msgstr "هويّة المتراسل موجودة مسبقًا"
-
-#~ msgid "Protocol not supported"
-#~ msgstr "البروتوكول غير مدعوم"
-
-#~ msgid "Could not cancel"
-#~ msgstr "لا يمكن الإلغاء"
-
-#~ msgid "Authentication Failed"
-#~ msgstr "فشل التّوثيق"
-
-#~ msgid "Authentication Required"
-#~ msgstr "التّوثيق مطلوب"
-
-#~ msgid "TLS not Available"
-#~ msgstr "TLS غير متوفر"
-
-#~ msgid "No such source"
-#~ msgstr "لا مصدر كهذا"
-
-#~ msgid "Not available in offline mode"
-#~ msgstr "غير متوفر في نمط دون اتصال"
-
-#~ msgid "Other error"
-#~ msgstr "خطأ آخر"
-
-#~ msgid "Invalid server version"
-#~ msgstr "نسخة خادوم غير صحيحة."
-
-#~ msgid "Unsupported authentication method"
-#~ msgstr "طريقة استيثاق غير مدعومة"
-
-#~ msgid ""
-#~ "%s already exists\n"
-#~ "Do you want to overwrite it?"
-#~ msgstr ""
-#~ "%s موجود\n"
-#~ "هل تريد الكتابة فوقه؟"
-
-#~ msgid "Overwrite"
-#~ msgstr "اكتب فوقه"
-
-#~ msgid "contact"
-#~ msgid_plural "contacts"
-#~ msgstr[0] "متراسل واحد"
-#~ msgstr[1] "متراسليْن"
-#~ msgstr[2] "مراسلين"
-#~ msgstr[3] "مراسلين"
-#~ msgstr[4] ""
-#~ msgstr[5] ""
-
-#~ msgid "Accessing LDAP Server anonymously"
-#~ msgstr "النّفاذ إلى خادوم LDAP كشخص مجهول"
-
-#~ msgid "Calendar repository is offline."
-#~ msgstr "مستودع التقويم غير متّصل"
-
-#~ msgid "No response from the server."
-#~ msgstr "لا استجابة من الخادوم"
-
-#~ msgid "Save Appointment"
-#~ msgstr "احفظ الموعد"
-
-#~ msgid "Save Memo"
-#~ msgstr "احفظ التذكير"
-
-#~ msgid "Save Task"
-#~ msgstr "احفظ المهمة"
-
-#~ msgid "Unable to load the calendar"
-#~ msgstr "فشل تحميل التقويم"
-
-#~ msgid "{0}."
-#~ msgstr "{0}."
-
-#~ msgid "Split Multi-Day Events:"
-#~ msgstr "جزّيء الأحداث متتعددة الأيام:"
-
-#~ msgid "Could not start evolution-data-server"
-#~ msgstr "لا يمكن بدأ evolution-data-server"
-
-#~ msgid "Could not read pilot's Calendar application block"
-#~ msgstr "لم يمكن قراءة قالب تطبيقات التقويم للحاسوب الكفّي"
-
-#~ msgid "Could not read pilot's Memo application block"
-#~ msgstr "لم يمكن قراءة قالب تطبيقات التذكيرات للحاسوب الكفّي"
-
-#~ msgid "Could not write pilot's Memo application block"
-#~ msgstr "لم يمكن كتابة قالب تطبيقات التذكيرات للحاسوب الكفّي"
-
-#~ msgid "Could not read pilot's ToDo application block"
-#~ msgstr "لم يمكن قراءة قالب تطبيقات المهام للحاسوب الكفّي"
-
-#~ msgid "Could not write pilot's ToDo application block"
-#~ msgstr "لم يمكن كتابة قالب تطبيقات المهام للحاسوب الكفّي"
-
-#, fuzzy
-#~ msgid "Default recurrence count"
-#~ msgstr "وحدات المذكِّر الإفتراض"
-
-#~ msgid "Event Gradient"
-#~ msgstr "تدرّج الحدث"
-
-#~ msgid "Event Transparency"
-#~ msgstr "شفافية الحدث"
-
-#~ msgid "Gradient of the events in calendar views."
-#~ msgstr "تدرّج الأحداث في مشاهِد التقويم."
-
-#~ msgid "Show week numbers in date navigator"
-#~ msgstr "اظهر أرقام الأسابيع في متصفّح التّواريخ"
-
-#~ msgid ""
-#~ "Transparency of the events in calendar views, a value between 0 "
-#~ "(transparent) and 1 (opaque)."
-#~ msgstr ""
-#~ "شفافية الأحداث في مشهد التقويم، وهي تقاس بقيمة بين ٠ (شفاف) و ١ (معتم)."
-
-#, fuzzy
-#~ msgid "Whether to show week number in the Day and Work Week View."
-#~ msgstr "ما إذا كانت سيظهر أرقام الأسابيع في متصفّح التّاريخ."
-
-#~ msgid "<b>Alarm</b>"
-#~ msgstr "<b>منبّه</b>"
-
-#~ msgid "<b>Options</b>"
-#~ msgstr "<b>الخيارات</b>"
-
-#~ msgid ""
-#~ "before\n"
-#~ "after"
-#~ msgstr ""
-#~ "قبل\n"
-#~ "بعد"
-
-#~ msgid ""
-#~ "minute(s)\n"
-#~ "hour(s)\n"
-#~ "day(s)"
-#~ msgstr ""
-#~ "دقائق\n"
-#~ "ساعات\n"
-#~ "أيام"
-
-#~ msgid ""
-#~ "minutes\n"
-#~ "hours\n"
-#~ "days"
-#~ msgstr ""
-#~ "دقائق\n"
-#~ "ساعات\n"
-#~ "أيام"
-
-#~ msgid ""
-#~ "start of appointment\n"
-#~ "end of appointment"
-#~ msgstr ""
-#~ "بداية الموعد\n"
-#~ "نهاية الموعد"
-
-#~ msgid "Attach file(s)"
-#~ msgstr "أرفق ملف(ات)"
-
-#~ msgid ""
-#~ "60 minutes\n"
-#~ "30 minutes\n"
-#~ "15 minutes\n"
-#~ "10 minutes\n"
-#~ "05 minutes"
-#~ msgstr ""
-#~ "60 دقيقة\n"
-#~ "30 دقيقة\n"
-#~ "15 دقيقة\n"
-#~ "10 دقائق\n"
-#~ "05 دقائق"
-
-#, fuzzy
-#~ msgid "<span weight=\"bold\">Alarms</span>"
-#~ msgstr "<span weight=\"bold\">تنبيهات</span>"
-
-#~ msgid "<span weight=\"bold\">Alerts</span>"
-#~ msgstr "<span weight=\"bold\">تنبيهات</span>"
-
-#, fuzzy
-#~ msgid "<span weight=\"bold\">Date/Time Format</span>"
-#~ msgstr "<span weight=\"bold\">الوقت</span>"
-
-#~ msgid "<span weight=\"bold\">General</span>"
-#~ msgstr "<span weight=\"bold\">عام</span>"
-
-#~ msgid "<span weight=\"bold\">Task List</span>"
-#~ msgstr "<span weight=\"bold\">قائمة المهام </span>"
-
-#~ msgid "<span weight=\"bold\">Time</span>"
-#~ msgstr "<span weight=\"bold\">الوقت</span>"
-
-#~ msgid "<span weight=\"bold\">Work Week</span>"
-#~ msgstr "<span weight=\"bold\">اسبوع العمل</span>"
-
-#~ msgid ""
-#~ "Minutes\n"
-#~ "Hours\n"
-#~ "Days"
-#~ msgstr ""
-#~ "دقائق\n"
-#~ "ساعات\n"
-#~ "أيام"
-
-#~ msgid ""
-#~ "Monday\n"
-#~ "Tuesday\n"
-#~ "Wednesday\n"
-#~ "Thursday\n"
-#~ "Friday\n"
-#~ "Saturday\n"
-#~ "Sunday"
-#~ msgstr ""
-#~ "الإثنين\n"
-#~ "الثلاثاء\n"
-#~ "الأربعاء\n"
-#~ "الخميس\n"
-#~ "الجمعة\n"
-#~ "السبت\n"
-#~ "الأحد"
-
-#, fuzzy
-#~ msgid "Show week n_umber in Day and Work Week View"
-#~ msgstr "اظهر أرقام الأسابيع في متصفّح التّواريخ"
-
-#~ msgid "Save"
-#~ msgstr "احفظ"
-
-#~ msgid "The event could not be deleted due to a corba error"
-#~ msgstr "لم يمكن حذف الحَدث بسبب خطأ في corba"
-
-#~ msgid "The task could not be deleted due to a corba error"
-#~ msgstr "لم يمكن حذف المهمّة بسبب خطأ في corba"
-
-#~ msgid "The memo could not be deleted due to a corba error"
-#~ msgstr "لم يمكن حذف المذكرة بسبب خطأ في corba"
-
-#~ msgid "The item could not be deleted due to a corba error"
-#~ msgstr "لم يمكن حذف العنصر بسبب خطأ في corba"
-
-#~ msgid "Appoint_ment"
-#~ msgstr "مو_عد"
-
-#~ msgid "Attendee_s..."
-#~ msgstr "الح_ضور..."
-
-#~ msgid "<b>Preview</b>"
-#~ msgstr "<b>معاينة</b>"
-
-#~ msgid "<b>Recurrence</b>"
-#~ msgstr "<b>التّكرار</b>"
-
-#~ msgid "<span weight=\"bold\">Miscellaneous</span>"
-#~ msgstr "<span weight=\"bold\">متفرّقات</span>"
-
-#~ msgid "<span weight=\"bold\">Status</span>"
-#~ msgstr "<span weight=\"bold\">الحالة</span>"
-
-#~ msgid "_Task"
-#~ msgstr "_مهمّة"
-
-#, fuzzy
-#~ msgid "Shell Settings"
-#~ msgstr "إعدادات إكستشينج"
-
-#, fuzzy
-#~ msgid "Application-wide settings"
-#~ msgstr "إعدادات التكملة التلقائية"
-
-#~ msgid "0%"
-#~ msgstr "0%"
-
-#~ msgid "10%"
-#~ msgstr "10%"
-
-#~ msgid "20%"
-#~ msgstr "20%"
-
-#~ msgid "30%"
-#~ msgstr "30%"
-
-#~ msgid "40%"
-#~ msgstr "40%"
-
-#~ msgid "50%"
-#~ msgstr "50%"
-
-#~ msgid "60%"
-#~ msgstr "60%"
-
-#~ msgid "70%"
-#~ msgstr "70%"
-
-#~ msgid "80%"
-#~ msgstr "80%"
-
-#~ msgid "90%"
-#~ msgstr "90%"
-
-#~ msgid "100%"
-#~ msgstr "100%"
-
-#~ msgid "Yes. (Complex Recurrence)"
-#~ msgstr "نعم. (تكرار مركّب)"
-
-#, fuzzy
-#~ msgid "Every day"
-#~ msgid_plural "Every %d days"
-#~ msgstr[0] "كل يوم"
-#~ msgstr[1] "كل يومين"
-#~ msgstr[2] "كل %d أيام"
-#~ msgstr[3] "كل %d يومًا"
-
-#, fuzzy
-#~ msgid "Every week"
-#~ msgid_plural "Every %d weeks"
-#~ msgstr[0] "كل أسبوع"
-#~ msgstr[1] "كل أسبوعين"
-#~ msgstr[2] "كل %d أسابيع"
-#~ msgstr[3] "كل %d أسبوعا"
-
-#, fuzzy
-#~ msgid "Every week on "
-#~ msgid_plural "Every %d weeks on "
-#~ msgstr[0] "كل أسبوع في"
-#~ msgstr[1] "كل أسبوعين في"
-#~ msgstr[2] "كل %d أسابيع في"
-#~ msgstr[3] "كل %d أسبوعًا في"
-
-#~ msgid " and "
-#~ msgstr " و "
-
-#~ msgid "The %s day of "
-#~ msgstr "اليوم %s من "
-
-#~ msgid "The %s %s of "
-#~ msgstr "ال %s %s من "
-
-#, fuzzy
-#~ msgid "every month"
-#~ msgid_plural "every %d months"
-#~ msgstr[0] "كل شهر"
-#~ msgstr[1] "كل شهرين"
-#~ msgstr[2] "كل %d أشهر"
-#~ msgstr[3] "كل %d شهرًا"
-
-#, fuzzy
-#~ msgid "Every year"
-#~ msgid_plural "Every %d years"
-#~ msgstr[0] "كل سنة"
-#~ msgstr[1] "كل سنتين"
-#~ msgstr[2] "كل %d سنوات"
-#~ msgstr[3] "كل %d سنة"
-
-#, fuzzy
-#~ msgid "a total of %d time"
-#~ msgid_plural "a total of %d times"
-#~ msgstr[0] " من مجموع مرة واحدة"
-#~ msgstr[1] " من مجموع مرّتين"
-#~ msgstr[2] " من مجموع %d مرّات"
-#~ msgstr[3] " من مجموع %d مرة"
-
-#~ msgid ", ending on "
-#~ msgstr "، ينتهي عند"
-
-#~ msgid "Starts"
-#~ msgstr "يبدء"
-
-#~ msgid "iCalendar Information"
-#~ msgstr "معلومات iCalendar"
-
-#~ msgid "iCalendar Error"
-#~ msgstr "خطأ iCalendar"
-
-#~ msgid ""
-#~ "<br> Please review the following information, and then select an action "
-#~ "from the menu below."
-#~ msgstr "<br> رجاء راجِع المعلومات التّالية ثم اختر إجراءً من القائمة أدناه."
-
-#~ msgid ""
-#~ "The meeting has been canceled, however it could not be found in your "
-#~ "calendars"
-#~ msgstr "تم إلغاء الإجتماع، بالرغم من هذا لا يمكن إيجاده في تقويماتك"
-
-#~ msgid ""
-#~ "The task has been canceled, however it could not be found in your task "
-#~ "lists"
-#~ msgstr "تم إلغاء المهمة، بالرغم من هذا لا يمكن إيجاده في تقويماتك"
-
-#~ msgid "<b>%s</b> has published meeting information."
-#~ msgstr "نشر <b>%s</b> معلومات الإجتماع."
-
-#~ msgid "Meeting Information"
-#~ msgstr "معلومات الإجتماع"
-
-#~ msgid "<b>%s</b> requests the presence of %s at a meeting."
-#~ msgstr "يطلب <b>%s</b> حضور %s إلى اجتماع."
-
-#~ msgid "<b>%s</b> requests your presence at a meeting."
-#~ msgstr "يطلب <b>%s</b> حضورك إلى اجتماع."
-
-#~ msgid "Meeting Proposal"
-#~ msgstr "إقتراح إجتماع"
-
-#~ msgid "<b>%s</b> wishes to be added to an existing meeting."
-#~ msgstr "يود <b>%s</b> أن تتم إضافته لاجتماع موجود."
-
-#~ msgid "Meeting Update"
-#~ msgstr "تحديث إجتماع"
-
-#~ msgid "<b>%s</b> wishes to receive the latest meeting information."
-#~ msgstr "يود <b>%s</b> إستلام آخر معلومات الإجتماع."
-
-#~ msgid "Meeting Update Request"
-#~ msgstr "طلب تحديث إجتماع"
-
-#~ msgid "<b>%s</b> has replied to a meeting request."
-#~ msgstr "ردّ <b>%s</b> على طلب إجتماع."
-
-#~ msgid "Meeting Reply"
-#~ msgstr "رد اجتماع"
-
-#~ msgid "<b>%s</b> has canceled a meeting."
-#~ msgstr "ألغى <b>%s</b> اجتماع."
-
-#~ msgid "Meeting Cancelation"
-#~ msgstr "إلغاء اجتماع"
-
-#~ msgid "<b>%s</b> has sent an unintelligible message."
-#~ msgstr "أرسل <b>%s</b> رسالة غير مفهومة."
-
-#~ msgid "Bad Meeting Message"
-#~ msgstr "رسالة إجتماع رديئة"
-
-#~ msgid "<b>%s</b> has published task information."
-#~ msgstr "نشر <b>%s</b> معلومات المَهمّة."
-
-#~ msgid "Task Information"
-#~ msgstr "معلومات المهمّة"
-
-#~ msgid "<b>%s</b> requests %s to perform a task."
-#~ msgstr "يطلب <b>%s</b> من %s أن يؤدّي مهمّة."
-
-#~ msgid "<b>%s</b> requests you perform a task."
-#~ msgstr "يطلب <b>%s</b> منك أن تؤدّي مهمّة."
-
-#~ msgid "Task Proposal"
-#~ msgstr "إقتراح مهمّة"
-
-#~ msgid "<b>%s</b> wishes to be added to an existing task."
-#~ msgstr "يود <b>%s</b> أن تتم إضافته لمهمة موجودة."
-
-#~ msgid "Task Update"
-#~ msgstr "تحديث المهمّة"
-
-#~ msgid "<b>%s</b> wishes to receive the latest task information."
-#~ msgstr "يود <b>%s</b> أن يستلم آخر معلومات المهمّة."
-
-#~ msgid "Task Update Request"
-#~ msgstr "طلب تحديث المهمّة"
-
-#~ msgid "<b>%s</b> has replied to a task assignment."
-#~ msgstr "ردّ على <b>%s</b> تكليفٍ بمهمّة."
-
-#~ msgid "Task Reply"
-#~ msgstr "رد مهمّة"
-
-#~ msgid "<b>%s</b> has canceled a task."
-#~ msgstr "ألغى <b>%s</b> مهمّة."
-
-#~ msgid "Task Cancelation"
-#~ msgstr "إلغاء مهمّة"
-
-#~ msgid "Bad Task Message"
-#~ msgstr "رسالة مهمّة رديئة"
-
-#~ msgid "<b>%s</b> has published free/busy information."
-#~ msgstr "نشر <b>%s</b> معلومات متفرّغ/مشغول."
-
-#~ msgid "Free/Busy Information"
-#~ msgstr "معلومات متفرّغ/مشغول"
-
-#~ msgid "<b>%s</b> requests your free/busy information."
-#~ msgstr "يطلب <b>%s</b> معلومات متفرّغ/مشغول الخاصّة بك."
-
-#~ msgid "Free/Busy Request"
-#~ msgstr "طلب متفرّغ/مشغول"
-
-#~ msgid "<b>%s</b> has replied to a free/busy request."
-#~ msgstr "ردّ <b>%s</b> على طلب متفرّغ/مشغول."
-
-#~ msgid "Free/Busy Reply"
-#~ msgstr "رد متفرّغ/مشغول"
-
-#~ msgid "Bad Free/Busy Message"
-#~ msgstr "رسالة متفرّغ/مشغول رديئة"
-
-#~ msgid "The message does not appear to be properly formed"
-#~ msgstr "لا تبدو الرّسالة مبنيّة بشكل صحيح"
-
-#~ msgid "The message contains only unsupported requests."
-#~ msgstr "هذه الرّسالة تحتوي فقط طلبات غير مدعومة."
-
-#~ msgid "The attachment has no viewable calendar items"
-#~ msgstr "المرفق لا يحتوي أيّة عناصر تقويم قابلة للعرض"
-
-#~ msgid "Update complete\n"
-#~ msgstr "تمَّ التّحديث\n"
-
-#~ msgid "Object is invalid and cannot be updated\n"
-#~ msgstr "الكائن غير صالح و لا يمكن تحديثه\n"
-
-#~ msgid "This response is not from a current attendee.  Add as an attendee?"
-#~ msgstr "هذه الإستجابه ليست من حاضرٍٍ حالي.  هل يضاف كحاضر؟"
-
-#~ msgid "Attendee status could not be updated because of an invalid status!\n"
-#~ msgstr "حالة الحاضر لم يمكن تحديثها بسبب حالة غير صالحة!\n"
-
-#~ msgid "Attendee status updated\n"
-#~ msgstr "تم تحديث حالة الحاضر\n"
-
-#~ msgid "Item sent!\n"
-#~ msgstr "تم إرسال العنصر!\n"
-
-#~ msgid "Choose an action:"
-#~ msgstr "اختر إجراءً:"
-
-#~ msgid "Update"
-#~ msgstr "حدّث"
-
-#~ msgid "Tentatively accept"
-#~ msgstr "تقبّل مبدئيًّا"
-
-#~ msgid "Send Free/Busy Information"
-#~ msgstr "أرسل معلومات متفرّغ/مشغول"
-
-#~ msgid "Update respondent status"
-#~ msgstr "حدّث حالة المستجيب"
-
-#~ msgid "--to--"
-#~ msgstr "--إلى--"
-
-#~ msgid "Calendar Message"
-#~ msgstr "رسالة تقويم"
-
-#~ msgid "Date:"
-#~ msgstr "التّاريخ:"
-
-#~ msgid "Loading Calendar"
-#~ msgstr "يجري تحميل التقويم"
-
-#~ msgid "Loading calendar..."
-#~ msgstr "يجري تحميل التقويم..."
-
-#~ msgid "Organizer:"
-#~ msgstr "المنظّم:"
-
-#~ msgid "A_ttendees..."
-#~ msgstr "ال_حضور..."
-
-#~ msgid "Loading appointments at %s"
-#~ msgstr "تحميل الموعد عند %s"
-
-#~ msgid "_Select Today"
-#~ msgstr "ا_نتقِ اليوم الحالي"
-
-#~ msgid "_Security"
-#~ msgstr "أ_من"
-
-#~ msgid "_From Field"
-#~ msgstr "حقل _مِن"
-
-#~ msgid "Toggles whether the From chooser is displayed"
-#~ msgstr "تحديد ما إذا كان مختار حقل \"مِن\" ظاهرًا"
-
-#~ msgid "Unable to retrieve message from editor"
-#~ msgstr "لا يمكن جلب الرّسالة من المحرّر"
-
-#, fuzzy
-#~ msgid "Show CC"
-#~ msgstr "أ_ظهر:"
-
-#, fuzzy
-#~ msgid "Show BCC"
-#~ msgstr "أ_ظهر:"
-
-#~ msgid "Could not create composer window."
-#~ msgstr "لم أستطع إنشاء نافذة مؤلف."
-
-#~ msgid "Directories can not be attached to Messages."
-#~ msgstr "لا يمكن إرفاق الأدلّة مع الرسائل."
-
-#, fuzzy
-#~ msgid ""
-#~ "Send options available only for Novell GroupWise and Microsoft Exchange "
-#~ "accounts."
-#~ msgstr "خيارات الإرسال متوفرة لنوفال جروبوايز و ميكروسوفت اكسشانج."
-
-#~ msgid "Send options not available."
-#~ msgstr "خيارات الإرسال غير متوفرة."
-
-#~ msgid ""
-#~ "To attach the contents of this directory, either attach the files in this "
-#~ "directory individually, or create an archive of the directory and attach "
-#~ "it."
-#~ msgstr ""
-#~ "لإرفاق محتويات هذا الدليل، إما أرفقهم ملفا ملفًا أو انشيئ محفوظة من الديل "
-#~ "وأرفقها."
-
-#~ msgid ""
-#~ "Unable to activate the HTML editor control.\n"
-#~ "\n"
-#~ "Please make sure that you have the correct version of gtkhtml and "
-#~ "libgtkhtml installed."
-#~ msgstr ""
-#~ "لم أستطع تنشيط تحكّم محرر HTML.\n"
-#~ "\n"
-#~ "رجاء تأكّد من أن النسخة الصحيحة من gtkhtml أو libgtkhtml مثبّتة لديك."
-
-#~ msgid "Unable to activate the address selector control."
-#~ msgstr "لم أستطع تنشيط تحكّم منتقي العنوان."
-
-#~ msgid "Warning: Modified Message"
-#~ msgstr "تحذير: رسالة معدّلة"
-
-#~ msgid "address card"
-#~ msgstr "بطاقة عنوان"
-
-#~ msgid "calendar information"
-#~ msgstr "معلومات التقويم"
-
-#, fuzzy
-#~ msgid "%d days ago"
-#~ msgstr "منذ يوم واحد"
-
-#~ msgid "Evolution Error"
-#~ msgstr "خطأ إيفُليوشِن"
-
-#~ msgid "Evolution Warning"
-#~ msgstr "تحذير إيفُليوشِن"
-
-#~ msgid "Internal error, unknown error '%s' requested"
-#~ msgstr "خطأ داخِلي، طُلِب خطأ مجهول '%s'"
-
-#, fuzzy
-#~ msgid "Name of the logger"
-#~ msgstr "اسم المكون الذي يسجل له"
-
-#, fuzzy
-#~ msgid "The filename of the module"
-#~ msgstr "تغيير اسم هذا المجلد"
-
-#~ msgid "Debug Logs"
-#~ msgstr "نقِّح السجلات"
-
-#~ msgid "Show _errors in the status bar for"
-#~ msgstr "أظهر الأ_خطاء في شريط المعلومات من أجل"
-
-#~ msgid "second(s)."
-#~ msgstr "ثانية."
-
-#~ msgid "Log Messages:"
-#~ msgstr "رسائل السجل:"
-
-#~ msgid "Log Level"
-#~ msgstr "مستوى الولوج"
-
-#~ msgid "Error"
-#~ msgstr "خطأ"
-
-#~ msgid "Errors"
-#~ msgstr "أخطاء"
-
-#~ msgid "Warnings and Errors"
-#~ msgstr "أخطاء و تنبيهات"
-
-#~ msgid "Debug"
-#~ msgstr "نقّح"
-
-#~ msgid "Error, Warnings and Debug messages"
-#~ msgstr "خطأ، تحذيرات ورسائل التنقيح"
-
-#~ msgid "Whether the plugin is enabled"
-#~ msgstr "ما إذا كان الملحق مفعلاا"
-
-#~ msgid "Overwrite file?"
-#~ msgstr "الكتابة فوق الملف؟"
-
-#~ msgid "Could not parse PGP message: Unknown error"
-#~ msgstr "تعذر تحليل رسالة PGP: خطأ مجهول"
-
-#~ msgid "Test"
-#~ msgstr "إختبر"
-
-#~ msgid "<b>_Filter Rules</b>"
-#~ msgstr "<b>_قواعد المرشّح</b>"
-
-#~ msgid "Rule name"
-#~ msgstr "اسم القاعدة"
-
-#, fuzzy
-#~ msgid "Shell Module"
-#~ msgstr "نمط الانتقاء"
-
-#, fuzzy
-#~ msgid "Show Deleted"
-#~ msgstr "حُذف"
-
-#~ msgid "Select _All Text"
-#~ msgstr "انتقي ك_ل النص"
-
-#~ msgid "%s License Agreement"
-#~ msgstr "اتفاق ترخيص %s"
-
-#~ msgid ""
-#~ "\n"
-#~ "Please read carefully the license agreement\n"
-#~ "for %s displayed below\n"
-#~ "and tick the check box for accepting it\n"
-#~ msgstr ""
-#~ "\n"
-#~ "من فضلك اقرأ بعناية اتفاق\n"
-#~ "ترخيص %s المعروض بأسفل\n"
-#~ "وعلّم على صندوق الإختيار لقبولها\n"
-
-#~ msgid "This store does not support subscriptions, or they are not enabled."
-#~ msgstr "هذا المخزن لا يدعم الإشتراكات، أو أنّها غير مفعّلة."
-
-#~ msgid "Please select a server."
-#~ msgstr "رجاء اختر خادومًا."
-
-#~ msgid "No server has been selected"
-#~ msgstr "لم يتم اختيار أي خادوم"
-
-#~ msgid "message"
-#~ msgstr "رسالة"
-
-#, fuzzy
-#~ msgid "Allows Evolution to display text part of limited size"
-#~ msgstr "السماح لإيفُليوشن بعرض جزء نصي بحجم محدود"
-
-#~ msgid "Default height of the subscribe dialog."
-#~ msgstr "الإرتفاع الافتراضي لمربع حوار الاشتراك."
-
-#~ msgid "Default width of the subscribe dialog."
-#~ msgstr "العرض الافتراضي لمربع حوار الاشتراك."
-
-#~ msgid "Enable to render message text part of limited size."
-#~ msgstr "فعِّل لرسم الجزء النصي من الرسالة ذا الحجم المحدود."
-
-#~ msgid "Prompt to check if the user wants to go offline immediately"
-#~ msgstr "المساءلة للتحقق إن كان المستخدم يريد الذهاب إلى نمط دون اتصال فورًا"
-
-#~ msgid "Show the \"Preview\" pane"
-#~ msgstr "اظهر لوح \"المعاينة\""
-
-#~ msgid "Show the \"Preview\" pane."
-#~ msgstr "اظهر لوح \"المعاينة\"."
-
-#~ msgid "Subscribe dialog default height"
-#~ msgstr "الإرتفاع الافتراضي لمربع حوار الاشتراك"
-
-#~ msgid "Subscribe dialog default width"
-#~ msgstr "العرض الافتراضي لمربع حوار الاشتراك"
-
-#~ msgid "Text message part limit"
-#~ msgstr "حد الجزء النصي من الرسالة"
-
-#~ msgid "Thread the message list."
-#~ msgstr "تشعيب قائمة الرّسائل."
-
-#~ msgid "Thread the message-list"
-#~ msgstr "تشعيب قائمة الرّسائل"
-
-#~ msgid "(Note: Requires restart of the application)"
-#~ msgstr "(ملاحظة: يتطلب إعادة تشغيل التطبيق)"
-
-#~ msgid "<b>Sig_natures</b>"
-#~ msgstr "<b>تو_قيعات</b>"
-
-#~ msgid "<b>Top Posting Option</b> (Not Recommended)"
-#~ msgstr "<b>خيار النشر الأعلى</b> (غير منصوح به)"
-
-#~ msgid "<b>_Languages</b>"
-#~ msgstr "<b>ال_لغات</b>"
-
-#~ msgid "<span weight=\"bold\">Account Information</span>"
-#~ msgstr "<span weight=\"bold\">معلومات الحساب</span>"
-
-#~ msgid "<span weight=\"bold\">Authentication</span>"
-#~ msgstr "<span weight=\"bold\">التوثيق</span>"
-
-#~ msgid "<span weight=\"bold\">Composing Messages</span>"
-#~ msgstr "<span weight=\"bold\">تأليف الرسائل</span>"
-
-#~ msgid "<span weight=\"bold\">Configuration</span>"
-#~ msgstr "<span weight=\"bold\">تشكيل</span>"
-
-#~ msgid "<span weight=\"bold\">Default Behavior</span>"
-#~ msgstr "<span weight=\"bold\">السلوك الافتراضي</span>"
-
-#~ msgid "<span weight=\"bold\">Delete Mail</span>"
-#~ msgstr "<span weight=\"bold\">حذف البريد</span>"
-
-#~ msgid "<span weight=\"bold\">Displayed Message _Headers</span>"
-#~ msgstr "<span weight=\"bold\">_ترويسات الرسالة الظاهرة</span>"
-
-#~ msgid "<span weight=\"bold\">Labels</span>"
-#~ msgstr "<span weight=\"bold\">عناوين</span>"
-
-#~ msgid "<span weight=\"bold\">Loading Images</span>"
-#~ msgstr "<span weight=\"bold\">تحميل الصور</span>"
-
-#~ msgid "<span weight=\"bold\">Message Display</span>"
-#~ msgstr "<span weight=\"bold\">عرض الرسائل</span>"
-
-#~ msgid "<span weight=\"bold\">Message Fonts</span>"
-#~ msgstr "<span weight=\"bold\">خطوط الرسائل</span>"
-
-#~ msgid "<span weight=\"bold\">Message Receipts</span>"
-#~ msgstr "<span weight=\"bold\">إخطارات الوصول</span>"
-
-#~ msgid "<span weight=\"bold\">Optional Information</span>"
-#~ msgstr "<span weight=\"bold\">معلومات اختيارية</span>"
-
-#~ msgid "<span weight=\"bold\">Options</span>"
-#~ msgstr "<span weight=\"bold\">خيارات</span>"
-
-#~ msgid "<span weight=\"bold\">Printed Fonts</span>"
-#~ msgstr "<span weight=\"bold\">الخطوط المطبوعة</span>"
-
-#~ msgid "<span weight=\"bold\">Proxy Settings</span>"
-#~ msgstr "<span weight=\"bold\">إعدادات الوسيط</span>"
-
-#~ msgid "<span weight=\"bold\">Required Information</span>"
-#~ msgstr "<span weight=\"bold\">معلومات مطلوبة</span>"
-
-#~ msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
-#~ msgstr "<span weight=\"bold\">مايم آمن (S/MIME)</span>"
-
-#~ msgid "<span weight=\"bold\">Security</span>"
-#~ msgstr "<span weight=\"bold\">أمن</span>"
-
-#~ msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
-#~ msgstr "<span weight=\"bold\">المسودات والرسائل المرسلة</span>"
-
-#~ msgid "<span weight=\"bold\">Server Configuration</span>"
-#~ msgstr "<span weight=\"bold\">تشكيل الخادوم</span>"
-
-#~ msgid "<span weight=\"bold\">_Authentication Type</span>"
-#~ msgstr "<span weight=\"bold\">نوع التوثق</span>"
-
-#, fuzzy
-#~ msgid ""
-#~ "Attachment\n"
-#~ "Inline\n"
-#~ "Quoted"
-#~ msgstr "مذكّر المرفقات"
-
-#~ msgid "Checks incoming mail messages to be Junk"
-#~ msgstr "مراجعة رسائل البريد الواردة فيما إذا كانت نفاية"
-
-#~ msgid "Do not format messages when text si_ze exceeds"
-#~ msgstr "لا تهيئ الرسائل إذا طغى _حجم النص"
-
-#, fuzzy
-#~ msgid "Enable Magic S_pacebar"
-#~ msgstr "مَكِّن مفتاح الفراغ السحري"
-
-#~ msgid "Enable Sea_rch Folders"
-#~ msgstr "مكّن مجلدات البحث"
-
-#~ msgid "Fi_xed-width:"
-#~ msgstr "العرض-ال_ثابت:"
-
-#~ msgid "Font Properties"
-#~ msgstr "خصائص الخط"
-
-#~ msgid "KB"
-#~ msgstr "ك.بايت"
-
-#~ msgid "Message Composer"
-#~ msgstr "مؤلّف الرّسائل"
-
-#~ msgid ""
-#~ "Note: you will not be prompted for a password until you connect for the "
-#~ "first time"
-#~ msgstr "ملاحظة: لن تسأل عن كلمة السر حتى تتصل لأوّل مرّة"
-
-#~ msgid "Select HTML fixed width font for printing"
-#~ msgstr "إنتقاء خط HTML الثّابت العرض للطّباعة"
-
-#~ msgid "Select HTML variable width font for printing"
-#~ msgstr "إنتقاء خط HTML المتغيّر العرض للطّباعة"
-
-#~ msgid "Sending Mail"
-#~ msgstr "يجري إرسال البريد"
-
-#~ msgid "V_ariable-width:"
-#~ msgstr "عرض _متغيّر:"
-
-#~ msgid "_Mark messages as read after"
-#~ msgstr "ت_عليم الرسائل على أنها قُرأت بعد"
-
-#~ msgid "_Show image animations"
-#~ msgstr "أ_ظهر الصور المتحركة"
-
-#~ msgid "_Shrink To / Cc / Bcc headers to "
-#~ msgstr "_قلص ترويسات إلى/ن.ك/ن.ك.م إلى"
-
-#~ msgid "    "
-#~ msgstr "    "
-
-#~ msgid "<b>Search Folder Sources</b>"
-#~ msgstr "<b>مصادر مجلد البحث</b>"
-
-#~ msgid "<span weight=\"bold\">Digital Signature</span>"
-#~ msgstr "<span weight=\"bold\">توقيع رقمي</span>"
-
-#~ msgid "<span weight=\"bold\">Encryption</span>"
-#~ msgstr "<span weight=\"bold\">تشفير</span>"
-
-#~ msgid "S_erver:"
-#~ msgstr "النّا_دل:"
-
-#~ msgid "Could not write data: %s"
-#~ msgstr "لم يمكن كتابة البيانات: %s"
-
-#~ msgid "Because \"{0}\"."
-#~ msgstr "لأن \"{0}\"."
-
-#~ msgid "Because \"{2}\"."
-#~ msgstr "لأن \"{2}\"."
-
-#~ msgid "Do not d_elete"
-#~ msgstr "لا تح_ذف"
-
-#~ msgid ""
-#~ "The following Search Folder(s):\n"
-#~ "{0}\n"
-#~ "Used the now removed folder:\n"
-#~ "    \"{1}\"\n"
-#~ "And have been updated."
-#~ msgstr ""
-#~ "مجلدات البحث التالية:\n"
-#~ "{0}\n"
-#~ "استخدمت المجلد المحذوف الآن:\n"
-#~ "    \"{1}\"\n"
-#~ "و قد حدّثت."
-
-#~ msgid ""
-#~ "The following filter rule(s):\n"
-#~ "{0}\n"
-#~ "Used the now removed folder:\n"
-#~ "    \"{1}\"\n"
-#~ "And have been updated."
-#~ msgstr ""
-#~ "قاعدة الترشيح الحالية:\n"
-#~ "{0}\n"
-#~ "استخدمت المجلد المحذوف الآن:\n"
-#~ "    \"{1}\"\n"
-#~ "وقد حدّثت."
-
-#~ msgid "Base"
-#~ msgstr "قاعدة"
-
-#, fuzzy
-#~ msgid "Source List"
-#~ msgstr "المصدر"
-
-#, fuzzy
-#~ msgid "Current View"
-#~ msgstr "المشهد ال_حالي"
-
-#, fuzzy
-#~ msgid "Previewed Contact"
-#~ msgstr "متراسل جديد"
-
-#, fuzzy
-#~ msgid "The contact being shown in the preview pane"
-#~ msgstr "فيما إذا سيعرض لوح معاينة أم لا."
-
-#, fuzzy
-#~ msgid "Preview is Visible"
-#~ msgstr "الشريط الجانبي مرئي"
-
-#, fuzzy
-#~ msgid "Whether the preview pane is visible"
-#~ msgstr "فيما إذا سيعرض لوح معاينة أم لا."
-
-#~ msgid "LDAP Servers"
-#~ msgstr "خواديم LDAP"
-
-#~ msgid "Autocompletion Settings"
-#~ msgstr "إعدادات التكملة التلقائية"
-
-#~ msgid ""
-#~ "The location and hierarchy of the Evolution contact folders has changed "
-#~ "since Evolution 1.x.\n"
-#~ "\n"
-#~ "Please be patient while Evolution migrates your folders..."
-#~ msgstr ""
-#~ "لقد تغيرت مواقع و هرميّة مجلّدات المتراسلين في إيفُليوشِن منذ إيفُليوشِن 1.x.\n"
-#~ "\n"
-#~ "رجاء كن صبورا حتى يقوم إيفُليوشِن بترقية مجلّداتك..."
-
-#~ msgid ""
-#~ "The format of mailing list contacts has changed.\n"
-#~ "\n"
-#~ "Please be patient while Evolution migrates your folders..."
-#~ msgstr ""
-#~ "لقد تغير تنسيق متراسلي القوائم البريدية في إيفُليوشِن منذ إيفُليوشِن 1.x.\n"
-#~ "\n"
-#~ "رجاء كن صبورا حتى يقوم إيفُليوشِن بترقية مجلّداتك..."
-
-#~ msgid ""
-#~ "The way Evolution stores some phone numbers has changed.\n"
-#~ "\n"
-#~ "Please be patient while Evolution migrates your folders..."
-#~ msgstr ""
-#~ "لقد تغيرت الطريقة اتي يخزن بها إيفُليوشِن بعض أرقام الهاتف.\n"
-#~ "\n"
-#~ "رجاء كن صبورا حتى يقوم إيفُليوشِن بترقية مجلّداتك..."
-
-#~ msgid ""
-#~ "Evolution's Palm Sync changelog and map files have changed.\n"
-#~ "\n"
-#~ "Please be patient while Evolution migrates your Pilot Sync data..."
-#~ msgstr ""
-#~ "سجل تغير تزامن بالم وملفات الخرائط لإيفُليوشن قد تغيرت.\n"
-#~ "\n"
-#~ "رجاءً كن صابرًا ريثما يقوم إيفُليوشن بتهجير بيانات تزامن بايلوت الخاص بك..."
-
-#, fuzzy
-#~ msgid "Source Selector Widget"
-#~ msgstr "منتقي مصدر التذكيرات"
-
-#, fuzzy
-#~ msgid "This widget displays groups of address books"
-#~ msgstr "فشلت في الحصول على قائمة دفاتر العناوين"
-
-#~ msgid "_Open"
-#~ msgstr "ا_فتح"
-
-#~ msgid ""
-#~ "389\n"
-#~ "636\n"
-#~ "3268"
-#~ msgstr ""
-#~ "389\n"
-#~ "636\n"
-#~ "3268"
-
-#~ msgid "<b>Authentication</b>"
-#~ msgstr "<b>توثق</b>"
-
-#~ msgid "<b>Downloading</b>"
-#~ msgstr "<b>تنزيل </b>"
-
-#~ msgid "<b>Searching</b>"
-#~ msgstr "<b>يجري البحث...</b>"
-
-#, fuzzy
-#~ msgid ""
-#~ "Anonymously\n"
-#~ "Using email address\n"
-#~ "Using distinguished name (DN)"
-#~ msgstr "باستخدام الاسم المُميّز (DN)"
-
-#~ msgid ""
-#~ "Evolution will use this email address to authenticate you with the server."
-#~ msgstr "سوف يستخدم إيفُليوشِن عنوان البريد الإلكتروني هذا لتوثيقك مع الخادوم."
-
-#, fuzzy
-#~ msgid ""
-#~ "One\n"
-#~ "Sub"
-#~ msgstr "واحد"
-
-#~ msgid ""
-#~ "The search base is the distinguished name (DN) of the entry where your "
-#~ "searches will begin. If you leave this blank, the search will begin at "
-#~ "the root of the directory tree."
-#~ msgstr ""
-#~ "قاعدة البحث هي الاسم المميّز (DN) للمدخل الذي تبدأ عنده بحوثك. إن تركت هذا "
-#~ "فارغًا، سيبدأ البحث عند جذر شجرة الأدلّة."
-
-#, fuzzy
-#~ msgid ""
-#~ "This is the full name of your LDAP server. For example, \"ldap.mycompany."
-#~ "com\"."
-#~ msgstr "هذا هو الاسم الكامل لخادوم ldap. مثلا، \"ldap.mycompany.com\"."
-
-#~ msgid ""
-#~ "This is the maximum number of entries to download. Setting this number to "
-#~ "be too large will slow down your address book."
-#~ msgstr ""
-#~ "هذا هو العدد الأقصى للمدخلات لتنزيلها. تحديد هذا العدد برقم كبير جدًا سوف "
-#~ "يبطئ دفتر عناوينك."
-
-#~ msgid ""
-#~ "This is the name for this server that will appear in your Evolution "
-#~ "folder list. It is for display purposes only. "
-#~ msgstr ""
-#~ "هذا هو الاسم لهذا الخادوم الذي سيظهر على لائحتك لمجلّدات إيفُليوشِن. إنّه "
-#~ "لغرض العرض فقط. "
-
-#, fuzzy
-#~ msgid "The registry of calendars"
-#~ msgstr "طباعة هذه التقويم"
-
-#~ msgid ""
-#~ "The location and hierarchy of the Evolution calendar folders has changed "
-#~ "since Evolution 1.x.\n"
-#~ "\n"
-#~ "Please be patient while Evolution migrates your folders..."
-#~ msgstr ""
-#~ "لقد تغير موقع و هرميّة مجلّدات تقويم إيفُليوشِن منذ إيفُليوشِن 1.x.\n"
-#~ "\n"
-#~ "رجاء كن صبورا حتى يقوم إيفُليوشِن بترقية مجلّداتك..."
-
-#~ msgid "Unable to migrate old settings from evolution/config.xmldb"
-#~ msgstr "لم أستطع ترقية الإعدادات القديمة من evolution/config.xmldb"
-
-#~ msgid "Unable to migrate calendar `%s'"
-#~ msgstr "لم أستطع تهجير التقويم `%s'"
-
-#, fuzzy
-#~ msgid ""
-#~ "Error on %s\n"
-#~ "%s"
-#~ msgstr ""
-#~ "خطأ على %s:\n"
-#~ "%s"
-
-#~ msgid "Save As..."
-#~ msgstr "احفظ كـ..."
-
-#, fuzzy
-#~ msgid "Deleting selected memos..."
-#~ msgstr "يجري حذف الكائنات المنتقاة..."
-
-#~ msgid "Copy selected memo"
-#~ msgstr "انسخ التذكير المُنتقى"
-
-#~ msgid "Cut selected memo"
-#~ msgstr "قص التذكير المُنتقى"
-
-#, fuzzy
-#~ msgid "Deleting selected tasks..."
-#~ msgstr "يجري حذف الكائنات المنتقاة..."
-
-#~ msgid "Copy selected tasks"
-#~ msgstr "انسخ المهام المنتقاه"
-
-#~ msgid "Cut selected tasks"
-#~ msgstr "قص المهام المُنتقاه"
-
-#, fuzzy
-#~ msgid "The registry of memo lists"
-#~ msgstr "قائمة تذكيرات جديدة"
-
-#, fuzzy
-#~ msgid "The memo table model"
-#~ msgstr "طراز الجدول"
-
-#, fuzzy
-#~ msgid "The registry of task lists"
-#~ msgstr "قائمة مهام جديدة"
-
-#, fuzzy
-#~ msgid "The task table model"
-#~ msgstr "طراز الجدول"
-
-#~ msgid ""
-#~ "The location and hierarchy of the Evolution task folders has changed "
-#~ "since Evolution 1.x.\n"
-#~ "\n"
-#~ "Please be patient while Evolution migrates your folders..."
-#~ msgstr ""
-#~ "لقد تغير موقع و هرميّة مجلّدات مهام إيفُليوشِن منذ إيفُليوشِن 1.x.\n"
-#~ "\n"
-#~ "رجاء كن صبورا حتى يقوم إيفُليوشِن بترقية مجلّداتك..."
-
-#~ msgid "Unable to migrate tasks `%s'"
-#~ msgstr "لم أستطع تهجير المهام `%s'"
-
-#~ msgid "To Do"
-#~ msgstr "للقيام به"
-
-#~ msgid "Later"
-#~ msgstr "لاحقًا"
-
-#~ msgid "Unable to create new folder `%s': %s"
-#~ msgstr "تعذر إنشاء المجلّد الجديد `%s': %s"
-
-#~ msgid "Unable to copy folder `%s' to `%s': %s"
-#~ msgstr "تعذر نسخ المجلد `%s' إلى `%s': %s"
-
-#~ msgid "Unable to scan for existing mailboxes at `%s': %s"
-#~ msgstr "تعذر المسح بحثا عن صناديق بريد في `%s': %s"
-
-#~ msgid ""
-#~ "The location and hierarchy of the Evolution mailbox folders has changed "
-#~ "since Evolution 1.x.\n"
-#~ "\n"
-#~ "Please be patient while Evolution migrates your folders..."
-#~ msgstr ""
-#~ "لقد تغيرت مواقع و هرميّة مجلّدات صندوق بريد إيفُليوشِن منذ إيفُليوشِن 1.x.\n"
-#~ "\n"
-#~ "رجاء كن صبورًا حتى يقوم إيفُليوشِن بترقية مجلّداتك..."
-
-#~ msgid "Unable to open old POP keep-on-server data `%s': %s"
-#~ msgstr "تعذر فتح بيانات POP keep-on-server قديمة `%s': %s"
-
-#~ msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
-#~ msgstr "تعذر إنشاء دليل بيانات POP3 keep-on-server `%s': %s"
-
-#~ msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-#~ msgstr "تعذر نسخ بيانات POP3 keep-on-server `%s': %s"
-
-#~ msgid "Failed to create local mail storage `%s': %s"
-#~ msgstr "تعذر إنشاء مخزن بريد محلّي `%s': %s"
-
-#~ msgid ""
-#~ "Unable to read settings from previous Evolution install, `evolution/"
-#~ "config.xmldb' does not exist or is corrupt."
-#~ msgstr ""
-#~ "تعذر قراءة الإعدادات من تثبيت إيفليوشن السابق، `evolution/config.xmldb' "
-#~ "غير موجود أو تالف."
-
-#~ msgid "Select _All Messages"
-#~ msgstr "انتق _كل الرسائل"
-
-#~ msgid "Hide _Read Messages"
-#~ msgstr "أخفي الرّسائل المقر_وءة"
-
-#~ msgid "Temporarily hide all messages that have already been read"
-#~ msgstr "إخفاء جميع الرّسائل المقروءة مؤقّتًا"
-
-#~ msgid "Temporarily hide the selected messages"
-#~ msgstr "أخفي الرّسائل المنتقاة مؤقتًا"
-
-#~ msgid "Show Hidde_n Messages"
-#~ msgstr "أظهر الرسائل الم_خفية"
-
-#~ msgid "Show messages that have been temporarily hidden"
-#~ msgstr "اظهر الرّسائل المخفيّة مؤقّتًا"
-
-#~ msgid "Hide _Deleted Messages"
-#~ msgstr "أخفي الرّسائل ال_محذوفة"
-
-#~ msgid ""
-#~ "Hide deleted messages rather than displaying them with a line through them"
-#~ msgstr "أخفي الرّسائل المحذوفة عوضًا عن إظهارها بخطٍّ يشطبها"
-
-#~ msgid ""
-#~ "List of clues for the attachment reminder plugin to look for in a message "
-#~ "body."
-#~ msgstr "قائمة الدلالات التي سيبحث عنها ملحق مُذَكِّر المرفقات في متن الرسالة."
-
-#~ msgid "_Backup Settings..."
-#~ msgstr "إعدادات النس_خ الاحتياطي..."
-
-#~ msgid "R_estore Settings..."
-#~ msgstr "استرجع الإعدادات..."
-
-#~ msgid ""
-#~ "Evolution backup can start only when Evolution is not running. Please "
-#~ "make sure that you save and close all your unsaved windows before "
-#~ "proceeding.  If you want Evolution to restart automatically after backup, "
-#~ "please enable the toggle button."
-#~ msgstr ""
-#~ "نسخ إبفوليوشن الاحتياطي يمكن أن يبدأ فقط عندما لا يكون إيفوليوشن مشغلًا. "
-#~ "رجاءً تأكد أنك حفظت وأغلقت كل النوافذ غير المحفوظة قبل المتابعة. إن كنت "
-#~ "تريد من إيفوليوشن أن يبدأ تلقائيًا بعد النسخ الاحتياطي، رجاءً فعّل مفتاح "
-#~ "التبديل."
-
-#~ msgid ""
-#~ "This will delete all your current Evolution data and settings and restore "
-#~ "them from your backup. Evolution restore can start only when Evolution is "
-#~ "not running. Please make sure that you close all your unsaved windows "
-#~ "before you proceed. If you want Evolution to restart automatically "
-#~ "restart after restore, please enable the toggle button."
-#~ msgstr ""
-#~ "هذا سوف يحذف كل بيانات إيفوليوشن الحالية والإعدادات ويسترجعها من نسختك "
-#~ "الاحتياطية. استرجاع إبفوليوشن يمكن أن يبدأ فقط عندما لا يكون إيفوليوشن "
-#~ "مشغلًا. رجاءً تأكد أنك حفظت وأغلقت كل النوافذ غير المحفوظة قبل المتابعة. إن "
-#~ "كنت تريد من إيفوليوشن أن يبدأ تلقائيًا بعد الاسترجاع، رجاءً فعّل مفتاح "
-#~ "التبديل."
-
-#, fuzzy
-#~ msgid "Check whether Evolution is the default mail client on startup."
-#~ msgstr "لفحص ما إذا كان إيفُليوشن هو عميل البريد الافتراضي عند بدء التشغيل."
-
-#~ msgid "Open Other User's Folder"
-#~ msgstr "فتح مجلّدات مستخدمين آخرين"
-
-#~ msgid "_Folder Name:"
-#~ msgstr "ا_سم المجلّد:"
-
-#~ msgid "_User:"
-#~ msgstr "_مستخدم:"
-
-#~ msgid "Secure Password"
-#~ msgstr "كلمة سر آمنة"
-
-#~ msgid ""
-#~ "This option will connect to the Exchange server using secure password "
-#~ "(NTLM) authentication."
-#~ msgstr ""
-#~ "يسمح لك هذا الخيار بالاتصال بخادوم إكستشينج باستخدام توثّق كلمة سر آمنة "
-#~ "(NTLM)."
-
-#~ msgid "Plaintext Password"
-#~ msgstr "كلمة سر نصّيّة"
-
-#~ msgid ""
-#~ "This option will connect to the Exchange server using standard plaintext "
-#~ "password authentication."
-#~ msgstr ""
-#~ "يسمح لك هذا الخيار بالاتصال بخادوم إكستشينج باستخدام توثّق كلمة سر نصّّيّّة."
-
-#~ msgid "Out Of Office"
-#~ msgstr "خارج المكتب"
-
-#~ msgid ""
-#~ "The message specified below will be automatically sent to \n"
-#~ "each person who sends mail to you while you are out of the office."
-#~ msgstr ""
-#~ "الرسالة المحددة أدناه سيتم إرسالها تلقائيًا إلى \n"
-#~ "كل شخص يرسل لك بريدًا وأنت خارج المكتب."
-
-#~ msgid "I am out of the office"
-#~ msgstr "أنا خارج المكتب"
-
-#~ msgid "I am in the office"
-#~ msgstr "أنا داخل المكتب"
-
-#~ msgid "Change the password for Exchange account"
-#~ msgstr "غير كلمة سر حساب إكستشينج"
-
-#~ msgid "Change Password"
-#~ msgstr "تغيير كلمة السر"
-
-#~ msgid "Manage the delegate settings for Exchange account"
-#~ msgstr "إدارة إعدادات التفويض لحساب إكستشينج"
-
-#~ msgid "Delegation Assistant"
-#~ msgstr "مساعد الوفود"
-
-#~ msgid "Miscelleneous"
-#~ msgstr "إعدادات متنوعة"
-
-#~ msgid "View the size of all Exchange folders"
-#~ msgstr "اعرض حجم كل مجلدات إكستشينج"
-
-#~ msgid "Folders Size"
-#~ msgstr "حجم المحلدات"
-
-#~ msgid "Exchange Settings"
-#~ msgstr "إعدادات إكستشينج"
-
-#~ msgid "_OWA URL:"
-#~ msgstr "عنوان _وصول آتولوك من ويب:"
-
-#~ msgid "A_uthenticate"
-#~ msgstr "و_ثِّق"
-
-#~ msgid "_Mailbox:"
-#~ msgstr "_صندوق البريد:"
-
-#~ msgid "%s KB"
-#~ msgstr "%s ك.بايت"
-
-#~ msgid "0 KB"
-#~ msgstr "٠ ك.بايت"
-
-#~ msgid "Size:"
-#~ msgstr "الحجم:"
-
-#~ msgid ""
-#~ "Evolution is in offline mode. You cannot create or modify folders now.\n"
-#~ "Please switch to online mode for such operations."
-#~ msgstr ""
-#~ "إيفُليوشن الآن في وضع عدم الاتصال. لا يمكنك إنشاء أو تعديل المجلدات الآن.\n"
-#~ "الرجاء التحويل لوضع الاتصال للقيام بمثل هذه العمليات."
-
-#~ msgid ""
-#~ "The current password does not match the existing password for your "
-#~ "account. Please enter the correct password"
-#~ msgstr ""
-#~ "كلمة السر الحالية لا تتطابق مع كلمة السر الموجودة لحسابك. رجاءً أدخل كلمة "
-#~ "السر الصحيحة"
-
-#~ msgid "The two passwords do not match. Please re-enter the passwords."
-#~ msgstr "كلمتا السر غير متطابقتين. الرجاء إعادة إدخال كلمتي السر."
-
-#~ msgid "Confirm Password:"
-#~ msgstr "تأكيد كلمة السر:"
-
-#~ msgid "Current Password:"
-#~ msgstr "كلمة السر الحالية:"
-
-#~ msgid "New Password:"
-#~ msgstr "كلمة السر الجديدة:"
-
-#~ msgid "Your current password has expired. Please change your password now."
-#~ msgstr "انتهت صلاحيّة كلمة سرك الحاليّة. الرجاء تغيير كلمة سرك الآن."
-
-#~ msgid "Your password will expire in the next %d days"
-#~ msgstr "كلمة سرك ستنتهي صلاحيتها خلال ال%d يوم التالية"
-
-#~ msgid "Custom"
-#~ msgstr "مخصص"
-
-#~ msgid "Editor (read, create, edit)"
-#~ msgstr "المحرّر (قراءة، إنشاء، تحرير)"
-
-#~ msgid "Author (read, create)"
-#~ msgstr "المؤلّف (قراءة، إنشاء)"
-
-#~ msgid "Reviewer (read-only)"
-#~ msgstr "المراجع (قراءة فقط)"
-
-#~ msgid "Delegate Permissions"
-#~ msgstr "أذون المُفَوَّضْ"
-
-#~ msgid "Permissions for %s"
-#~ msgstr "التصاريح لـ%s"
-
-#~ msgid ""
-#~ "This message was sent automatically by Evolution to inform you that you "
-#~ "have been designated as a delegate. You can now send messages on my "
-#~ "behalf."
-#~ msgstr ""
-#~ "هذه الرسالة أُرسلت تلقائيًا من قبل إيفوليوشن لإعلامك أنك الآن مندوب عني. "
-#~ "يمكنك الآن إرسال الرسائل باسمي."
-
-#~ msgid "You have been given the following permissions on my folders:"
-#~ msgstr "لقد أُعطيتَ الأذونات التالية على مجلداتي:"
-
-#~ msgid "You are also permitted to see my private items."
-#~ msgstr "يُسمح لك أيضًا برؤية عناصري الخاصة."
-
-#~ msgid "However you are not permitted to see my private items."
-#~ msgstr "على أي حال، ليس مسموحًا لك برؤية عناصري الخاصة."
-
-#~ msgid "You have been designated as a delegate for %s"
-#~ msgstr "لقد عُيّنتَ كمندوب عن %s"
-
-#~ msgid "Delegate To"
-#~ msgstr "مندوب عن"
-
-#~ msgid "Remove the delegate %s?"
-#~ msgstr "إزالة المندوب %s؟"
-
-#~ msgid "Could not access Active Directory"
-#~ msgstr "غير قادر على النفاذ لأكتيف دايركتوري"
-
-#~ msgid "Could not find self in Active Directory"
-#~ msgstr "غير قادر على إيجاد نفسي في أكتيف دايركتوري"
-
-#~ msgid "Could not find delegate %s in Active Directory"
-#~ msgstr "غير قادر على إيجاد المُفَوَّضْ %s في أكتيف دايركتوري"
-
-#~ msgid "Could not remove delegate %s"
-#~ msgstr "غير قادر على إزالة المُفَوَّضْ %s"
-
-#~ msgid "Could not update list of delegates."
-#~ msgstr "غير قادر على تحديث قائمة المُفَوَّضِين."
-
-#~ msgid "Could not add delegate %s"
-#~ msgstr "غير قادر على إضافة المُفَوَّضْ %s"
-
-#~ msgid "Error reading delegates list."
-#~ msgstr "حدث خطأ أثناء قراءة قائمة المُفَوَّضِين."
-
-#~ msgid "C_alendar:"
-#~ msgstr "ال_تّقويم:"
-
-#~ msgid "Co_ntacts:"
-#~ msgstr "المرا_سَلين:"
-
-#~ msgid "Delegates"
-#~ msgstr "مُفَوَّضُون"
-
-#~ msgid "Permissions for"
-#~ msgstr "الأذون لـ"
-
-#~ msgid ""
-#~ "These users will be able to send mail on your behalf\n"
-#~ "and access your folders with the permissions you give them."
-#~ msgstr ""
-#~ "يمكن لهؤلاء المستخدمين إرسال البريد نيابة عنك\n"
-#~ "و الوصول لأدلّتك بالأذون التي تعطيها لهم."
-
-#~ msgid "_Delegate can see private items"
-#~ msgstr "يمكن لل_مُفَوَّضْ رؤية العناصر الشخصية"
-
-#~ msgid "_Inbox:"
-#~ msgstr "_صندوق الداخل:"
-
-#~ msgid "_Summarize permissions"
-#~ msgstr "ل_خـّص الأذونات"
-
-#~ msgid "Permissions..."
-#~ msgstr "التصاريح..."
-
-#~ msgid "Folder Name"
-#~ msgstr "اسم المجلّد"
-
-#~ msgid "Folder Size"
-#~ msgstr "حجم المجلّد"
-
-#~ msgid "User"
-#~ msgstr "المستخدم"
-
-#~ msgid "Subscribe to Other User's Folder"
-#~ msgstr "الاشتراك في مجلد مستخدم آخر"
-
-#~ msgid "Exchange Folder Tree"
-#~ msgstr "شجرة مجلّدات إكستشينج"
-
-#~ msgid "Unsubscribe Folder..."
-#~ msgstr "ألغاء الإشتراك في المجلّد..."
-
-#~ msgid "Unsubscribe from \"%s\""
-#~ msgstr "ألغاء الإشتراك في \"%s\""
-
-#~ msgid ""
-#~ "<b>Currently, your status is \"Out of the Office\". </b>\n"
-#~ "\n"
-#~ "Would you like to change your status to \"In the Office\"? "
-#~ msgstr ""
-#~ "<b>حاليًّا، حالتك هي \"خارج المكتب\". </b>\n"
-#~ "\n"
-#~ "أتريد تغييرها إلى \"في المكتب\"؟ "
-
-#~ msgid "<b>Out of Office Message:</b>"
-#~ msgstr "<b>رسالة خارج المكتب:</b>"
-
-#~ msgid "<b>Status:</b>"
-#~ msgstr "<b>الحالة:</b>"
-
-#~ msgid ""
-#~ "<small>The message specified below will be automatically sent to each "
-#~ "person who sends\n"
-#~ "mail to you while you are out of the office.</small>"
-#~ msgstr ""
-#~ "<small>الرّسالة المحدّدة أدناه سترسل تلقائيًّا لكل شخص يرسل\n"
-#~ "لك بريدًا حين تكون خارج المكتب.</small>"
-
-#~ msgid "I am currently in the office"
-#~ msgstr "أنا في المكتب حاليًّا"
-
-#~ msgid "I am currently out of the office"
-#~ msgstr "أنا خارج المكتب حاليًّا"
-
-#~ msgid "No, Don't Change Status"
-#~ msgstr "لا، لا تغيّر الحالة"
-
-#~ msgid "Out of Office Assistant"
-#~ msgstr "مساعد خارج المكتب"
-
-#~ msgid "Yes, Change Status"
-#~ msgstr "نعم، غيّر الحالة"
-
-#~ msgid "Password Expiry Warning..."
-#~ msgstr "تنبيه نهاية صلاحية كلمة السر..."
-
-#~ msgid "Your password will expire in 7 days..."
-#~ msgstr "ستنتهي صلاحية كلمة السر الخاصة بك في 7 أيام..."
-
-#~ msgid "_Change Password"
-#~ msgstr "ت_غيير كلمة السر"
-
-#~ msgid "(Permission denied.)"
-#~ msgstr "(رُفض التّصريح.)"
-
-#~ msgid "Add User:"
-#~ msgstr "أضِف مستخدم:"
-
-#~ msgid "<b>Permissions</b>"
-#~ msgstr "<b>الأذون</b>"
-
-#~ msgid "Cannot Delete"
-#~ msgstr "غير قادر على الحذف"
-
-#~ msgid "Cannot Edit"
-#~ msgstr "غير قادر على التّحرير"
-
-#~ msgid "Create items"
-#~ msgstr "انشئ عناصر"
-
-#~ msgid "Create subfolders"
-#~ msgstr "انشئ مجلدات فرعيّة"
-
-#~ msgid "Delete Any Items"
-#~ msgstr "حذف أيّ عناصر"
-
-#~ msgid "Delete Own Items"
-#~ msgstr "حذف عناصري"
-
-#~ msgid "Edit Any Items"
-#~ msgstr "تحرير أيّ عناصر"
-
-#~ msgid "Edit Own Items"
-#~ msgstr "تحرير عناصري"
-
-#~ msgid "Folder contact"
-#~ msgstr "متراسل مجلد"
-
-#~ msgid "Folder owner"
-#~ msgstr "مالك المجلد"
-
-#~ msgid "Folder visible"
-#~ msgstr "المجلد مرئي"
-
-#~ msgid "Read items"
-#~ msgstr "العناصر المقروءة"
-
-#~ msgid "Role: "
-#~ msgstr "الدور: "
-
-#~ msgid "<b>Message Settings</b>"
-#~ msgstr "<b>إعدادات الرسائل</b>"
-
-#~ msgid "<b>Tracking Options</b>"
-#~ msgstr "<b>خيارات التتبع</b>"
-
-#~ msgid "Exchange - Send Options"
-#~ msgstr "إكستشينج - خيارات الإرسال"
-
-#~ msgid "I_mportance: "
-#~ msgstr "الأ_همية: "
-
-#~ msgid ""
-#~ "Normal\n"
-#~ "High\n"
-#~ "Low"
-#~ msgstr ""
-#~ "عادية\n"
-#~ "عالية\n"
-#~ "منخفضة"
-
-#~ msgid ""
-#~ "Normal\n"
-#~ "Personal\n"
-#~ "Private\n"
-#~ "Confidential"
-#~ msgstr ""
-#~ "عادية\n"
-#~ "شخصية\n"
-#~ "خاصة\n"
-#~ "سرية"
-
-#~ msgid "Request a _delivery receipt for this message"
-#~ msgstr "أطلب إخطارًا بالوصول لهذه الرسالة"
-
-#~ msgid "Request a _read receipt for this message"
-#~ msgstr "أطلب إخطارًا بالقراءة لهذه الرسالة"
-
-#~ msgid "Send as Delegate"
-#~ msgstr "أرسل كـوفد"
-
-#~ msgid "_Sensitivity: "
-#~ msgstr "ال_حساسية:"
-
-#~ msgid "_User"
-#~ msgstr "_مستخدم"
-
-#~ msgid "Select User"
-#~ msgstr "انتقاء مستخدم"
-
-#~ msgid "Address Book..."
-#~ msgstr "دفتر عناوين..."
-
-#~ msgid "Subscribe to Other User's Contacts"
-#~ msgstr "إشترك في لائحة متراسلين تابعة لمستخدم آخر"
-
-#~ msgid "Subscribe to Other User's Calendar"
-#~ msgstr "إشترك في تقويم تابع لمستخدم آخر"
-
-#~ msgid "Exchange Operations"
-#~ msgstr "عمليات إكستشينج"
-
-#~ msgid "Cannot change password due to configuration problems."
-#~ msgstr "غير قادر على تغيير كلمة السر نتيجة لمشاكل في التكوين."
-
-#~ msgid "Cannot display folders."
-#~ msgstr "غير قادر على عرض المجلدات."
-
-#~ msgid "Cannot perform the operation."
-#~ msgstr "غير قادر على أداء العملية"
-
-#~ msgid ""
-#~ "Changes to options for Exchange account \"{0}\" will only take effect "
-#~ "after restarting Evolution."
-#~ msgstr ""
-#~ "تغييرات حساب إكستشينج \"{0}\" لن يظهر مفعولها إلا بعد إعادة بدء إيفُليوشن."
-
-#~ msgid "Could not authenticate to server."
-#~ msgstr "غير قادر على التوثيق مع الخادوم"
-
-#~ msgid "Could not change password."
-#~ msgstr "غير قادر على تغيير كلمة السر."
-
-#~ msgid ""
-#~ "Could not configure Exchange account because \n"
-#~ "an unknown error occurred. Check the URL, \n"
-#~ "username, and password, and try again."
-#~ msgstr ""
-#~ "غير قادر على تشكيل حساب إكستشينج بسبب \n"
-#~ "حدوث خطأ غير معروف. افحص العنوان، \n"
-#~ "واسم المستخدم وكلمة السر ثم حاول مرة أخرى."
-
-#~ msgid "Could not connect to Exchange server."
-#~ msgstr "غير قادر على الاتصال بخادوم إكستشينج."
-
-#~ msgid "Could not connect to server {0}."
-#~ msgstr "غير قادر على الاتصال بالخادوم {0}."
-
-#~ msgid "Could not determine folder permissions for delegates."
-#~ msgstr "غير قادر على التعرف على تصاريح المجلدات للمُفَوَّضِين."
-
-#~ msgid "Could not find Exchange Web Storage System."
-#~ msgstr "غير قادر على إيجاد نظام تخزين ويب التابع لإكستشينج."
-
-#~ msgid "Could not locate server {0}."
-#~ msgstr "غير قادر على تحديد موقع الخادوم {0}."
-
-#~ msgid "Could not make {0} a delegate"
-#~ msgstr "غير قادر على تعيين {0} مُفَوَّضًا"
-
-#~ msgid "Could not read folder permissions"
-#~ msgstr "غير قادر على قراءة تصريحات المجلد"
-
-#~ msgid "Could not read folder permissions."
-#~ msgstr "غير قادر على قراءة تصريحات المجلد"
-
-#~ msgid "Could not read out-of-office state"
-#~ msgstr "غير قادر على قراءة حالة خارج المكتب"
-
-#~ msgid "Could not update folder permissions."
-#~ msgstr "غير قادر على تحديث تصريحات المجلد."
-
-#~ msgid "Could not update out-of-office state"
-#~ msgstr "غير قادر على تحديث حالة خارج المكتب"
-
-#~ msgid "Evolution requires a restart to load the subscribed user's mailbox"
-#~ msgstr "يطلب إيفوليوشن إعادة التشغيل لتحميل صندوق بريد المستخدم المشترك."
-
-#~ msgid "Exchange Account is offline."
-#~ msgstr "حساب إكستشينج غير متصل."
-
-#~ msgid ""
-#~ "Exchange Connector requires access to certain\n"
-#~ "functionality on the Exchange Server that appears\n"
-#~ "to be disabled or blocked. (This is usually \n"
-#~ "unintentional.) Your Exchange Administrator will \n"
-#~ "need to enable this functionality in order for \n"
-#~ "you to be able to use Evolution Exchange Connector.\n"
-#~ "\n"
-#~ "For information to provide to your Exchange \n"
-#~ "administrator, please follow the link below:\n"
-#~ "\n"
-#~ "{0}\n"
-#~ "  "
-#~ msgstr ""
-#~ "متصل إكستشينج يتطلب الوصول لبعض\n"
-#~ "وظائف خادوم إكستشينج التي يبدو أنها\n"
-#~ "معطلة أو ممنوعة. (يحدث هذا غالبًا\n"
-#~ "دون قصد.) يجب على مدير إكستشينج \n"
-#~ "تفعيل هذه الوظائف حتى تستطيع \n"
-#~ "استخدام متصل إكستشينج الخاص بإيفُليوشن.\n"
-#~ "\n"
-#~ "لكي تحصل على معلومات لتقدمها \n"
-#~ "لمدير إكستشينج، رجاءً اتبع الرابط أدناه:\n"
-#~ "\n"
-#~ "{0}\n"
-#~ "  "
-
-#~ msgid "Folder already exists"
-#~ msgstr "المجلّد موجود مسبقًا"
-
-#~ msgid "Folder does not exist"
-#~ msgstr "المجلّد ليس موجودًا"
-
-#~ msgid "Folder offline"
-#~ msgstr "المجلّد غير متصل"
-
-#~ msgid "Generic error"
-#~ msgstr "خطأ عام"
-
-#~ msgid "Global Catalog Server is not reachable"
-#~ msgstr "لا يمكن الوصول لخادوم المسرد العالمي"
-
-#~ msgid ""
-#~ "If OWA is running on a different path, you must specify that in the "
-#~ "account configuration dialog."
-#~ msgstr ""
-#~ "إن كان برنامج وصول آوتلوك من ويب يعمل على مسار مختلف، يجب أن تحدد هذا "
-#~ "المسار في مربع حوار تكوين الحساب."
-
-#~ msgid "Mailbox for {0} is not on this server."
-#~ msgstr "صندوق البريد لـ{0} ليس موجودًا على هذا الخادوم."
-
-#~ msgid "Make sure the URL is correct and try again."
-#~ msgstr "تأكد من صحة العنوان وحاول مرة أخرى."
-
-#~ msgid "Make sure the server name is spelled correctly and try again."
-#~ msgstr "تأكد من صحة كتابة اسم الخادوم وحاول مرة أخرى."
-
-#~ msgid "Make sure the username and password are correct and try again."
-#~ msgstr "تأكد من صحة اسم المستخدم وكلمة السر وحاول مرة أخرى."
-
-#~ msgid "No Global Catalog server configured for this account."
-#~ msgstr "لم يتم تعيين خادوم مسرد عالمي لهذا الحساب."
-
-#~ msgid "No mailbox for user {0} on {1}."
-#~ msgstr "لا يوجد صندوق بريد للمستخدم {0} على {1}."
-
-#~ msgid "No such user {0}"
-#~ msgstr "لا يوجد مستخدم بالاسم {0}"
-
-#~ msgid "Password successfully changed."
-#~ msgstr "تم تغيير كلمة السر بنجاح."
-
-#~ msgid ""
-#~ "Please enter a Delegate's ID or deselect the Send as a Delegate option."
-#~ msgstr "رجاءً أدخل معرّف المندوب أو أزل التأشير عن خيار الإرسال كمندوب."
-
-#~ msgid "Please make sure the Global Catalog Server name is correct."
-#~ msgstr "رجاءً تأكد من أن اسم خادوم المسرد العالمي مكتوب بصورة صحيحة."
-
-#~ msgid "Please restart Evolution for changes to take effect"
-#~ msgstr "رجاء أعد تشغيل إيفُليوشن لكي يظهر أثر التغييرات"
-
-#~ msgid "Server rejected password because it is too weak."
-#~ msgstr "رفض الخادوم كلمة السر لأنها ضعيفة جدًا."
-
-#~ msgid "The Exchange account will be disabled when you quit Evolution"
-#~ msgstr "سيتم تعطيل حساب إكستشينج عندما تنهي إيفُليوشن"
-
-#~ msgid "The Exchange account will be removed when you quit Evolution"
-#~ msgstr "ستتم إزالة حساب إكستشينج عندما تنهي إيفُليوشن"
-
-#~ msgid "The Exchange server is not compatible with Exchange Connector."
-#~ msgstr "خادوم إكستشينج غير متوافق مع متصل إكستشينج."
-
-#~ msgid ""
-#~ "The server is running Exchange 5.5. Exchange Connector \n"
-#~ "supports Microsoft Exchange 2000 and 2003 only."
-#~ msgstr ""
-#~ "الخادوم يقوم بتشغيل إكستشينج ٥.٥. متصل إكستشينج لا يدعم سوى مايكروسوفت "
-#~ "إكستشينج ٢٠٠٠ و ٢٠٠٣ فقط."
-
-#~ msgid ""
-#~ "This probably means that your server requires \n"
-#~ "you to specify the Windows domain name \n"
-#~ "as part of your username (eg, &quot;DOMAIN\\user&quot;).\n"
-#~ "\n"
-#~ "Or you might have just typed your password wrong."
-#~ msgstr ""
-#~ "يعني هذا غالبًا أن خادومك يتطلب \n"
-#~ "تحديد اسم نطاق ويندوز \n"
-#~ "كجزء من اسم المستخدم (مثل: &quot;نطاق\\مستخدم&quot;).\n"
-#~ "\n"
-#~ "أو من الممكن أن تكون قد أخطأت في كتابة كلمة السر."
-
-#~ msgid "Try again with a different password."
-#~ msgstr "حاول مرة أخرى بكلمة سر مختلفة."
-
-#~ msgid "Unable to add user to access control list:"
-#~ msgstr "غير قادر على إضافة المستخدم لقائمة التحكم بالنفاذ:"
-
-#~ msgid "Unable to edit delegates."
-#~ msgstr "غير قادر على تحرير المُفَوَّضِين."
-
-#~ msgid "Unknown error looking up {0}"
-#~ msgstr "حدث خطأ أثناء محاولة العثور على {0}"
-
-#~ msgid "Unknown type"
-#~ msgstr "نوع مجهول"
-
-#~ msgid "Unsupported operation"
-#~ msgstr "عمليّة غير مدعومة"
-
-#~ msgid ""
-#~ "You are nearing your quota available for storing mail on this server."
-#~ msgstr ""
-#~ "لقد قاربت على استخدام كل المساحة المخصصة لتخزين البريد على هذا الخادوم."
-
-#~ msgid ""
-#~ "You are permitted to send a message on behalf of only one delegator at a "
-#~ "time."
-#~ msgstr "يُسمح لك بإرسال رسالة باسم منتدب واحد في نفس الوقت."
-
-#~ msgid "You cannot make yourself your own delegate"
-#~ msgstr "لا يمكنك انتداب نفسك"
-
-#~ msgid "You have exceeded your quota for storing mail on this server."
-#~ msgstr "لقد تخطيت المساحة المخصصة لك لتخزين البريد على هذا الخادوم."
-
-#~ msgid ""
-#~ "Your current usage is: {0} KB. Try to clear up some space by deleting "
-#~ "some mail."
-#~ msgstr ""
-#~ "استخدامك الحالي هو: {0} كب. حاول إفراغ جزءًا من المساحة عن طريق حذف بعض "
-#~ "البريد."
-
-#~ msgid ""
-#~ "Your current usage is: {0} KB. You will not be able to either send or "
-#~ "receive mail now."
-#~ msgstr "استخدامك الحالي هو: {0} كب. لن تستطيع إرسال أو تلقي البريد الآن."
-
-#~ msgid ""
-#~ "Your current usage is: {0} KB. You will not be able to send mail until "
-#~ "you clear up some space by deleting some mail."
-#~ msgstr ""
-#~ "استخدامك الحالي هو: {0} كب. لن تستطيع إرسال أو تلقي البريد حتى تفرغ بعض "
-#~ "المساحة عن طريق حذف بعض البريد."
-
-#~ msgid "Your password has expired."
-#~ msgstr "نفدت صلاحية كلمة سرك."
-
-#~ msgid "{0} cannot be added to an access control list"
-#~ msgstr "{0} لا يمكن إضافته إلى قائمة تحكم بالنفاذ"
-
-#~ msgid "{0} is already a delegate"
-#~ msgstr "{0} مندوب مسبقًا"
-
-#~ msgid "{0} is already in the list"
-#~ msgstr "{0} موجود في القائمة مسبقًا"
-
-#~ msgid "Subscribe to Other User's Tasks"
-#~ msgstr "اشترك في مهام مستخدم آخر"
-
-#~ msgid "Check folder permissions"
-#~ msgstr "فحص تصريحات المجلد"
-
-#~ msgid "Select a (48*48) png of size < 700bytes"
-#~ msgstr "اختر صورة png (48*48) حجمها أقل من 700 بايت"
-
-#~ msgid "PNG files"
-#~ msgstr "ملفات PNG"
-
-#~ msgid "_Face"
-#~ msgstr "ال_وجه"
-
-#, fuzzy
-#~ msgid ""
-#~ "Attach a small picture of your face to outgoing messages.\n"
-#~ "\n"
-#~ "First time the user needs to configure a 48x48 PNG image. It is Base-64 "
-#~ "encoded and stored in ~/.evolution/faces. This will be used in subsequent "
-#~ "sent messages."
-#~ msgstr ""
-#~ "أرفق ترويسة صورة الوجه مع البريد الصادر. يحتاج المستخدم في المرة الأولى "
-#~ "إلى إعداد صورة png 48*48. ستـُرمّز بترميز base64 وتـُخزّن في ~/.evolution/"
-#~ "faces . سيُستخدم ذلك في رسائل البريد التي ستـُرسل من الآن وصاعدًا."
-
-#~ msgid "<b>Server</b>"
-#~ msgstr "<b>الخادم</b>"
-
-#~ msgid "<b>Junk List:</b>"
-#~ msgstr "<b>قائمة نفاية:</b>"
-
-#~ msgid "<b>Users:</b>"
-#~ msgstr "<b>:المستخدمون</b>"
-
-#~ msgid "_Sharing"
-#~ msgstr "مشاركة"
-
-#~ msgid "<b>Name</b>"
-#~ msgstr "<b>الاسم</b>"
-
-#~ msgid "<b>Account Name</b>"
-#~ msgstr "<b>اسم الحساب</b>"
-
-#~ msgid "<b>Custom Headers</b>"
-#~ msgstr "<b>ترويسات مخصصة</b>"
-
-#~ msgid "<b>IMAP Headers</b>"
-#~ msgstr "<b>ترويسات IMAP</b>"
-
-#~ msgid "_Accept"
-#~ msgstr "ا_قبل"
-
-#~ msgid "Blink icon in notification area."
-#~ msgstr "أيقونة نابضة في منطقة التبليغ."
-
-#~ msgid "Whether the icon should blink or not."
-#~ msgstr "ما إن كان على الأيقونة أن تومِض أم لا."
-
-#~ msgid "Evolution's Mail Notification"
-#~ msgstr "إشعار بريد إيفليوشن"
-
-#~ msgid "B_link icon in notification area"
-#~ msgstr "وم_يض الأيقونة في منطقة التبليغ"
-
-#, fuzzy
-#~ msgid "Manage your Evolution plugins."
-#~ msgstr "غير إعدادات ايفُليوشِن"
-
-#~ msgid "Prefer PLAIN"
-#~ msgstr "افضل نصا عاديا"
-
-#~ msgid "<span weight=\"bold\">Location</span>"
-#~ msgstr "<span weight=\"bold\">الموقع</span>"
-
-#~ msgid "<span weight=\"bold\">Sources</span>"
-#~ msgstr "<span weight=\"bold\">المصادر</span>"
-
-#, fuzzy
-#~ msgid ""
-#~ "Secure FTP (SSH)\n"
-#~ "Public FTP\n"
-#~ "FTP (with login)\n"
-#~ "Windows share\n"
-#~ "WebDAV (HTTP)\n"
-#~ "Secure WebDAV (HTTPS)\n"
-#~ "Custom Location"
-#~ msgstr ""
-#~ "SSH\n"
-#~ "FTP عام\n"
-#~ "FTP (مع ولوج)\n"
-#~ "مشاركة ويندوز\n"
-#~ "WebDAV (HTTP)\n"
-#~ "WebDAV آمن (HTTPS)\n"
-#~ "موقع مخصص"
-
-#~ msgid ""
-#~ "iCal\n"
-#~ "Free/Busy"
-#~ msgstr ""
-#~ "iCal\n"
-#~ "متوفر/مشغول"
-
-#~ msgid "Guides you through your initial account setup."
-#~ msgstr "يرشدك خلال الإعداد الإبتدائي لحسابك."
-
-#~ msgid "Setup Assistant"
-#~ msgstr "مساعد الإعداد"
-
-#~ msgid "Importing data."
-#~ msgstr "يجري استيراد البيانات."
-
-#~ msgid "Please wait"
-#~ msgstr "الرجاء الإنتظار"
-
-#, fuzzy
-#~ msgid "Sort mail message threads by subject."
-#~ msgstr "رسائل المناقشات حسب الموضوع"
-
-#~ msgid "Subject Threading"
-#~ msgstr "تخييط الموضوع"
-
-#~ msgid "Thread messages by subject"
-#~ msgstr "رسائل المناقشات حسب الموضوع"
-
-#~ msgid "Import File"
-#~ msgstr "إستيراد ملف"
-
-#~ msgid "%ld KB"
-#~ msgstr "%ld ك.بايت"
-
-#, fuzzy
-#~ msgid "Toolbar Style"
-#~ msgstr "أسلوب شري_ط الأدوات"
-
-#, fuzzy
-#~ msgid "Toolbar Visible"
-#~ msgstr "شريط الأدوات مرئي"
-
-#, fuzzy
-#~ msgid "Whether the switcher is visible"
-#~ msgstr "ما إن كان يجب إظهار الشريط الجانبي."
-
-#, fuzzy
-#~ msgid "Switcher Action"
-#~ msgstr "تبديل إلى %s"
-
-#, fuzzy
-#~ msgid "Page Number"
-#~ msgstr "الرّقم التّسلسلي"
-
-#, fuzzy
-#~ msgid "Shell Sidebar Widget"
-#~ msgstr "العرض الافتراضي للشريط الجانبي"
-
-#, fuzzy
-#~ msgid "Shell Window"
-#~ msgstr "ناف_ذة جديدة"
-
-#, fuzzy
-#~ msgid "Current View ID"
-#~ msgstr "المشهد ال_حالي"
-
-#, fuzzy
-#~ msgid "The current GAL view ID"
-#~ msgstr "الوقت الحالي"
-
-#, fuzzy
-#~ msgid "GNOME Pilot is not installed."
-#~ msgstr "باك بدي ليس مثبّتًا"
-
-#, fuzzy
-#~ msgid "GNOME Pilot could not be run."
-#~ msgstr "لم يمكن تشغيل فتى العلات."
-
-#~ msgid "_Synchronization Options..."
-#~ msgstr "خيارات ال_مزامنة..."
-
-#~ msgid "Set up Pilot configuration"
-#~ msgstr "اضبط إعدادات الحاسوب الكفّي"
-
-#, fuzzy
-#~ msgid "Name of the active shell view"
-#~ msgstr "اسم المشهد الجديد:"
-
-#, fuzzy
-#~ msgid "Safe Mode"
-#~ msgstr "وضع إظهار المؤ_شر"
-
-#, fuzzy
-#~ msgid "Whether the shell window is in safe mode"
-#~ msgstr "ما إذا كان الملحق مفعلاا"
-
-#, fuzzy
-#~ msgid "UI Manager"
-#~ msgstr "المدير"
-
-#, fuzzy
-#~ msgid "Network Available"
-#~ msgstr "TLS غير متوفر"
-
-#, fuzzy
-#~ msgid "Whether the shell is online"
-#~ msgstr "ما إذا كان الملحق مفعلاا"
-
-#~ msgid "Start Evolution activating the specified component"
-#~ msgstr "بدأ افليوشن بتنشيط المكوّن المحدّد"
-
-#~ msgid "Forcibly re-migrate from Evolution 1.4"
-#~ msgstr "أعد التهجير من إيفليوشن ١.٤ عنوة"
-
-#~ msgid "Insufficient disk space for upgrade."
-#~ msgstr "لا توجد مساحة كافية للترقية."
-
-#~ msgid "Really delete old data?"
-#~ msgstr "حذف البيانات القديمة فعلًا؟"
-
-#~ msgid ""
-#~ "The entire contents of the &quot;evolution&quot; directory are about to "
-#~ "be permanently removed.\n"
-#~ "\n"
-#~ "It is suggested you manually verify that all of your mail, contact, and "
-#~ "calendar data is present, and that this version of Evolution operates "
-#~ "correctly before deleting this old data.\n"
-#~ "\n"
-#~ "Once deleted, you cannot downgrade to the previous version of Evolution "
-#~ "without manual intervention.\n"
-#~ msgstr ""
-#~ "أنت على وشك إزالة جميع محتويات الدليل &quot;evolution&quot; بصورة "
-#~ "نهائية.\n"
-#~ "\n"
-#~ "ننصحك أن تتأكد بنفسك أن كل بريدك ودفاتر عناوينك وبيانات التقويمات موجودة، "
-#~ "وأن إصدار إيفُليوشن هذا يعمل بصورة صحيحة قبل حذف هذه البيانات القديمة.\n"
-#~ "\n"
-#~ "بعد الحذف، لن يمكنك العودة للإصدار السابق من إيفُليوشن دون التدخل اليدوي.\n"
-
-#, fuzzy
-#~ msgid ""
-#~ "The previous version of Evolution stored its data in a different "
-#~ "location.\n"
-#~ "\n"
-#~ "If you choose to remove this data, the entire contents of the &quot;"
-#~ "evolution&quot; directory will be removed permanently. If you choose to "
-#~ "keep this data, then you may manually remove the contents of &quot;"
-#~ "evolution&quot; at your convenience.\n"
-#~ msgstr ""
-#~ "كان الإصدار السابق من إيفُليوشن يخزن بياناته في موقع مختلف.\n"
-#~ "\n"
-#~ "ان اخترت إزالة هذه البيانات، سيتم إزالة كل محتويات المجلد &quot;"
-#~ "evolution&quot; بصورة دائمة. ان اخترت الاحتفاظ بهذه البيانات، يمكنك إزالة "
-#~ "محتويات المجلد &quot;evolution&quot; متى تختار.\n"
-
-#~ msgid ""
-#~ "Upgrading your data and settings will require up to {0} of disk space, "
-#~ "but you only have {1} available.\n"
-#~ "\n"
-#~ "You will need to make more space available in your home directory before "
-#~ "you can continue."
-#~ msgstr ""
-#~ "ترقية بياناتك وإعداداتك ستحتاج إلى ما يصل إلى {0} من مساحة القرص، لكنك لا "
-#~ "تملك سوى {1} متوفرًا.\n"
-#~ "\n"
-#~ "ستحتاج إلى إفراغ بعض المساحة في دليلك المنزلي قبل المتابعة."
-
-#~ msgid "_Keep Data"
-#~ msgstr "إحتف_ظ بالبيانات"
-
-#~ msgid "_Remind Me Later"
-#~ msgstr "_ذكرني لاحقًا"
-
-#~ msgid "<b>Field Value</b>"
-#~ msgstr "<b>قيمة الحقل</b>"
-
-#~ msgid "<b>Fingerprints</b>"
-#~ msgstr "<b>البصمات</b>"
-
-#~ msgid "<b>Issued By</b>"
-#~ msgstr "<b>أُصدر من طرف</b>"
-
-#~ msgid "<b>Issued To</b>"
-#~ msgstr "<b>أُصدر لـ</b>"
-
-#~ msgid "Dummy window only"
-#~ msgstr "نافذة زائفة فقط"
-
-#~ msgid "Edit"
-#~ msgstr "تحرير"
-
-#~ msgid "Import"
-#~ msgstr "استيراد"
-
-#~ msgid "View"
-#~ msgstr "عرض"
-
-#~ msgid "<b>Time Zones</b>"
-#~ msgstr "<b>المناطق الزمنيّة</b>"
-
-#~ msgid "<b>_Selection</b>"
-#~ msgstr "<b>ال_منتقى</b>"
-
-#~ msgid "Collection"
-#~ msgstr "مجموعة"
-
-#~ msgid "Instance"
-#~ msgstr "مرة"
-
-#~ msgid "Factory"
-#~ msgstr "مصنع"
-
-#, fuzzy
-#~ msgid "Action"
-#~ msgstr "إ_جراءات"
-
-#, fuzzy
-#~ msgid "%s..."
-#~ msgstr "%s (...)"
-
-#~ msgid "Hide _Attachment Bar"
-#~ msgstr "اخفي شريط ال_مرفقات"
-
-#~ msgid "Show _Attachment Bar"
-#~ msgstr "اظهر شريط ال_مرفقات"
-
-#~ msgid "Fill color"
-#~ msgstr "لون التّعبئة"
-
-#~ msgid "GDK fill color"
-#~ msgstr "لون GDK fill"
-
-#~ msgid "Fill stipple"
-#~ msgstr "تنقيط التّعبئة"
-
-#~ msgid "X1"
-#~ msgstr "س1"
-
-#~ msgid "X2"
-#~ msgstr "س2"
-
-#~ msgid "Y1"
-#~ msgstr "ص1"
-
-#~ msgid "Y2"
-#~ msgstr "ص2"
-
-#~ msgid "Minimum width"
-#~ msgstr "أدنى عرض"
-
-#~ msgid "Minimum Width"
-#~ msgstr "أدنى عرض"
-
-#~ msgid "Spacing"
-#~ msgstr "مباعدة"
-
-#~ msgid "The button state is online"
-#~ msgstr "حالة الزر متصل"
-
-#, fuzzy
-#~ msgid "Horizontal Position"
-#~ msgstr "موقع اللوح الأفقي"
-
-#, fuzzy
-#~ msgid "Vertical Position"
-#~ msgstr "موقع اللوح العمودي"
-
-#~ msgid "Sync with:"
-#~ msgstr "زامن مع:"
-
-#~ msgid "Sync Private Records:"
-#~ msgstr "زامن السّجلّات الخاصّة:"
-
-#~ msgid "Sync Categories:"
-#~ msgstr "زامن الفئات:"
-
-#, fuzzy
-#~ msgid "Source Action"
-#~ msgstr "الحساب المصدر"
-
-#~ msgid "Cursor Row"
-#~ msgstr "صف المؤشّر"
-
-#~ msgid "Cursor Column"
-#~ msgstr "عمود المؤشّر"
-
-#~ msgid "Sorter"
-#~ msgstr "المرتّب"
-
-#~ msgid "Cursor Mode"
-#~ msgstr "نمط المؤشّر"
-
-#~ msgid "<b>Replies</b>"
-#~ msgstr "<b>الأجوبة</b>"
-
-#~ msgid "<b>Status Tracking</b>"
-#~ msgstr "<b>تعقب الحالة</b>"
-
-#~ msgid ""
-#~ "Normal\n"
-#~ "Proprietary\n"
-#~ "Confidential\n"
-#~ "Secret\n"
-#~ "Top Secret\n"
-#~ "For Your Eyes Only"
-#~ msgstr ""
-#~ "عادي\n"
-#~ "احتكاري\n"
-#~ "خصوصي\n"
-#~ "سري\n"
-#~ "سري للغاية\n"
-#~ "لعينيك فقط"
-
-#~ msgid ""
-#~ "Undefined\n"
-#~ "High\n"
-#~ "Standard\n"
-#~ "Low"
-#~ msgstr ""
-#~ "غير معرّف\n"
-#~ "عالي\n"
-#~ "قياسي\n"
-#~ "منخفض"
-
-#~ msgid "Selected Column"
-#~ msgstr "عمود منتقى"
-
-#~ msgid "Focused Column"
-#~ msgstr "عمود مركّز عليه"
-
-#~ msgid "Unselected Column"
-#~ msgstr "عمود غير منتقى"
-
-#~ msgid "Strikeout Column"
-#~ msgstr "عمود شطب"
-
-#~ msgid "Underline Column"
-#~ msgstr "عمود تسطير"
-
-#~ msgid "Bold Column"
-#~ msgstr "عمود عريض"
-
-#~ msgid "Color Column"
-#~ msgstr "عمود اللون"
-
-#~ msgid "BG Color Column"
-#~ msgstr "عمود لون الخلفيّة"
-
-#~ msgid "State"
-#~ msgstr "الحالة"
-
-#~ msgid "Add a column..."
-#~ msgstr "أضِف عمود..."
-
-#~ msgid "Field Chooser"
-#~ msgstr "مختار الحقول"
-
-#~ msgid "Alternating Row Colors"
-#~ msgstr "ألوان صفوف متناوبة"
-
-#~ msgid "Horizontal Draw Grid"
-#~ msgstr "شبكة رسم أفقيّة"
-
-#~ msgid "Vertical Draw Grid"
-#~ msgstr "شبكة رسم عموديّة"
-
-#~ msgid "Draw focus"
-#~ msgstr "تركيز الرّسم"
-
-#~ msgid "Cursor mode"
-#~ msgstr "نمط المؤشّر"
-
-#~ msgid "Selection model"
-#~ msgstr "نموذج الانتقاء"
-
-#~ msgid "Length Threshold"
-#~ msgstr "عتبة الطّول"
-
-#~ msgid "Uniform row height"
-#~ msgstr "ارتفاع صفوف منتظم"
-
-#~ msgid "Frozen"
-#~ msgstr "مجمّد"
-
-#~ msgid "Table model"
-#~ msgstr "طراز الجدول"
-
-#~ msgid "Cursor row"
-#~ msgstr "صف المؤشر"
-
-#~ msgid "Sort Info"
-#~ msgstr "معلومات التّرتيب"
-
-#~ msgid "Always search"
-#~ msgstr "ابحث دائمًا"
-
-#~ msgid "Use click to add"
-#~ msgstr "استخدم النّقر للإضافة"
-
-#~ msgid "Tree"
-#~ msgstr "شجرة"
-
-#~ msgid "ETree table adapter"
-#~ msgstr "محوّل جدول الشّجرة الالكترونيّة"
-
-#~ msgid "Retro Look"
-#~ msgstr "مظهر ريترو"
-
-#~ msgid "Draw lines and +/- expanders."
-#~ msgstr "ارسم الخطوط و موسّعات +/-."
-
-#~ msgid "Expander Size"
-#~ msgstr "حجم الموسّع"
-
-#~ msgid "Size of the expander arrow"
-#~ msgstr "حجم سهم الموسّع"
-
-#~ msgid "popup"
-#~ msgstr "نافذة منبثقة"
-
-#~ msgid "edit"
-#~ msgstr "حرّر"
-
-#~ msgid "begin editing this cell"
-#~ msgstr "ابدأ تحرير هذه الخليّة"
-
-#~ msgid "toggle"
-#~ msgstr "بدّل"
-
-#~ msgid "expand"
-#~ msgstr "ابسط"
-
-#~ msgid "collapse"
-#~ msgstr "قلّص"
-
-#~ msgid "Event Processor"
-#~ msgstr "معالج الأحداث"
-
-#~ msgid "Text"
-#~ msgstr "نص"
-
-#~ msgid "Bold"
-#~ msgstr "سميك"
-
-#~ msgid "Strikeout"
-#~ msgstr "اشطب"
-
-#~ msgid "Anchor"
-#~ msgstr "مرساة"
-
-#~ msgid "Justification"
-#~ msgstr "المحاذاة"
-
-#~ msgid "Clip Width"
-#~ msgstr "عرض القصاصة"
-
-#~ msgid "Clip Height"
-#~ msgstr "ارتفاع القصاصة"
-
-#~ msgid "Clip"
-#~ msgstr "قصاصة"
-
-#~ msgid "Fill clip rectangle"
-#~ msgstr "املأ مستطيل القصاصة"
-
-#~ msgid "X Offset"
-#~ msgstr "الانزياح السّيني"
-
-#~ msgid "Y Offset"
-#~ msgstr "الانزياح الصّادي"
-
-#~ msgid "Text width"
-#~ msgstr "عرض النّص"
-
-#~ msgid "Text height"
-#~ msgstr "ارتفاع النّص"
-
-#~ msgid "Use ellipsis"
-#~ msgstr "استخدم الثّلاث نقاط"
-
-#~ msgid "Ellipsis"
-#~ msgstr "ثلاث نقاط"
-
-#~ msgid "Line wrap"
-#~ msgstr "لف السّطور"
-
-#~ msgid "Break characters"
-#~ msgstr "محارف التّوقّف"
-
-#~ msgid "Max lines"
-#~ msgstr "أقصى عدد من السّطور"
-
-#~ msgid "Draw borders"
-#~ msgstr "ارسم الحدود"
-
-#~ msgid "Allow newlines"
-#~ msgstr "اسمح بالأسطر الجديدة"
-
-#~ msgid "Draw background"
-#~ msgstr "ارسم الخلفيّة"
-
-#~ msgid "Draw button"
-#~ msgstr "ارسم الزّر"
-
-#~ msgid "Cursor position"
-#~ msgstr "موقع المؤشّر"
-
-#~ msgid "IM Context"
-#~ msgstr "سياق مراسِل فوري"
-
-#~ msgid "Handle Popup"
-#~ msgstr "معالجة القافزة"
-
-#~ msgid "search bar"
-#~ msgstr "شريط البحث"
-
-#~ msgid "evolution calendar search bar"
-#~ msgstr "شريط البحث لتقويم إيفُليوشِن"
-
-#~ msgid "Combo Button"
-#~ msgstr "زر كومبو"
-
-#~ msgid "Activate Default"
-#~ msgstr "نشّط الإفتراض"
-
-#~ msgid "Popup Menu"
-#~ msgstr "قائمة منبثقة"
-
-#~ msgid "C_ontacts"
-#~ msgstr "الم_راسَلون"
-
-#~ msgid "Configure contacts and autocompletion here"
-#~ msgstr "اضبط المتراسلين والتكملة التلقائية هنا"
-
-#~ msgid "Evolution Address Book"
-#~ msgstr "دفتر عناوين إيفُليوشِن"
-
-#~ msgid "Evolution Address Book address popup"
-#~ msgstr "نافذة العنوان المنبثقة لدفتر عناوين إيفُليوشِن"
-
-#~ msgid "Evolution Address Book address viewer"
-#~ msgstr "عارض عناوين دفتر عناوين إيفُليوشِن"
-
-#~ msgid "Evolution Address Book card viewer"
-#~ msgstr "عارض بطاقات دفتر عناوين إيفُليوشِن"
-
-#~ msgid "Evolution Address Book component"
-#~ msgstr "مكون دفتر عناوين إيفُليوشِن"
-
-#~ msgid "Evolution S/MIME Certificate Management Control"
-#~ msgstr "التحكّم بإدارة شهادة S/MIME لإيفُليوشِن"
-
-#~ msgid "Evolution folder settings configuration control"
-#~ msgstr "تحكّم إعداد إعدادات مجلّد إيفُليوشِن"
-
-#~ msgid "Manage your S/MIME certificates here"
-#~ msgstr "أدر شهادات S/Mime الخاصة بك هنا"
-
-#~ msgid "Failed upgrading Address Book settings or folders."
-#~ msgstr "فشلت في ترقية إعدادات أو مجلد دفتر العناوين."
-
-#~ msgid "Rename the \"%s\" folder to:"
-#~ msgstr "أعِد تسمية المجلّد \"%s\" إلى:"
-
-#~ msgid "Rename Folder"
-#~ msgstr "أعِد تسمية المجلّد"
-
-#~ msgid "Save As vCard..."
-#~ msgstr "احفظ كـ vCard..."
-
-#~ msgid "Contact Source Selector"
-#~ msgstr "منتقي مصدر المتراسلين"
-
-#~ msgid ""
-#~ "Position of the vertical pane, between the card and list views and the "
-#~ "preview pane, in pixels."
-#~ msgstr "موقع اللوح الرأسي، بين مشهدي البطاقة والقائمة ولوح العرض، بالبيكسل."
-
-#~ msgid "Look up in address books"
-#~ msgstr "ابحث في دفتر العناوين المحلي فقط"
-
-#~ msgid "Name begins with"
-#~ msgstr "يبدأ الاسم بـ"
-
-#~ msgid "_Print"
-#~ msgstr "ا_طبع"
-
-#~ msgid "Cop_y to Address Book..."
-#~ msgstr "ان_سخ لدفتر عناوين..."
-
-#~ msgid "Mo_ve to Address Book..."
-#~ msgstr "ان_قل  لدفتر عناوين..."
-
-#~ msgid "Cu_t"
-#~ msgstr "_قص"
-
-#~ msgid "_Copy"
-#~ msgstr "ا_نسخ"
-
-#~ msgid "P_aste"
-#~ msgstr "ال_صق"
-
-#~ msgid "Querying Address Book..."
-#~ msgstr "استعلام دفتر العناوين..."
-
-#~ msgid "Configure your timezone, Calendar and Task List here "
-#~ msgstr "أعدّ منطقتك الزمنيّة و التقويم ولائحة المهام هنا"
-
-#~ msgid "Evolution Calendar and Tasks"
-#~ msgstr "تقويم و مهامّ إيفُليوشِن"
-
-#~ msgid "Evolution Calendar configuration control"
-#~ msgstr "تحكّم إعداد تقويم إيفُليوشِن"
-
-#~ msgid "Evolution Calendar scheduling message viewer"
-#~ msgstr "عارض رسالة جدولة تقويم إيفُليوشِن"
-
-#~ msgid "Evolution Calendar/Task editor"
-#~ msgstr "تقويم إيفُليوشِن/محرّر المهام"
-
-#~ msgid "Evolution's Calendar component"
-#~ msgstr "مكوّن تقويم إيفُليوشِن"
-
-#~ msgid "Evolution's Memos component"
-#~ msgstr "مكوّن تذكيرات إيفُليوشِن"
-
-#~ msgid "Evolution's Tasks component"
-#~ msgstr "مكوّن مهام إيفُليوشِن"
-
-#~ msgid "Memo_s"
-#~ msgstr "ال_تذكيرات"
-
-#~ msgid "_Calendars"
-#~ msgstr "الت_قويمات"
-
-#~ msgid "Evolution Calendar alarm notification service"
-#~ msgstr "خدمة التبليغ لمنبِّه تقويم إيفُليوشِن"
-
-#~ msgid "Could not initialize Bonobo"
-#~ msgstr "لم يمكن بدأ بونوبو"
-
-#~ msgid ""
-#~ "Could not create the alarm notify service factory, maybe it's already "
-#~ "running..."
-#~ msgstr "تعذر إنشاء مصنع خدمة تبليغ التنبيهات، ربما هو يعمل الآن أصلًا..."
-
-#~ msgid ""
-#~ "Position of the vertical pane, between the task list and the task preview "
-#~ "pane, in pixels."
-#~ msgstr "موضِع اللّوح العمودي، بين قائمة المهام ولوح معاينة المهام، بالبكسل."
-
-#~ msgid "Category is"
-#~ msgstr "الفئة هي"
-
-#~ msgid "Comment contains"
-#~ msgstr "التّعليق يحتوي"
-
-#~ msgid "Location contains"
-#~ msgstr "المكان يحتوي"
-
-#~ msgid "_Make available for offline use"
-#~ msgstr "_وَفِّرْ التقويم للاستخدام دون اتصال"
-
-#~ msgid "_Do not make available for offline use"
-#~ msgstr "_لا تجعل هذا التقويم متوفرًا للاستخدام دون اتصال"
-
-#~ msgid "Failed upgrading calendars."
-#~ msgstr "فشلت ترقية التقويم."
-
-#~ msgid "Unable to open the calendar '%s' for creating events and meetings"
-#~ msgstr "لم يمكن فتح التقويم '%s' لإنشاء الأحداث و الإجتماعات"
-
-#~ msgid "There is no calendar available for creating events and meetings"
-#~ msgstr "لا يتوفّر تقويم لإنشاء الأحداث و الإجتماعات"
-
-#~ msgid "New appointment"
-#~ msgstr "موعد جديد"
-
-#~ msgid "New meeting"
-#~ msgstr "اجتماع جديد"
-
-#~ msgid "New all day appointment"
-#~ msgstr "موعد جديد يستغرق يومًا بكامله"
-
-#~ msgid "Error while opening the calendar"
-#~ msgstr "خطأ أثناء فتح التقويم"
-
-#~ msgid "Method not supported when opening the calendar"
-#~ msgstr "الطريقة غير مدعومة عند فتح التقويم"
-
-#~ msgid "Permission denied to open the calendar"
-#~ msgstr "رُفض التّصريح بفتح التقويم"
-
-#~ msgid "_Add "
-#~ msgstr "أ_ضف"
-
-#~ msgid "_Save As..."
-#~ msgstr "ا_حفظ كـ..."
-
-#~ msgid "P_rint..."
-#~ msgstr "ا_طبع..."
-
-#~ msgid "C_ut"
-#~ msgstr "_قص"
-
-#~ msgid "_Paste"
-#~ msgstr "ا_لصق"
-
-#~ msgid "_Forward as iCalendar"
-#~ msgstr "_مرّر كـ iCalendar"
-
-#~ msgid "_Mark Selected Tasks as Complete"
-#~ msgstr "_علّم المهام المنتقاة كمكتملة"
-
-#~ msgid "_Mark Selected Tasks as Incomplete"
-#~ msgstr "_علّم المهام المنتقاة كغير مكتملة"
-
-#~ msgid "_Delete Selected Tasks"
-#~ msgstr "ا_حذف المهام المنتقاة"
-
-#~ msgid "Select T_oday"
-#~ msgstr "انتقِ اليوم ال_حالي"
-
-#~ msgid "_Select Date..."
-#~ msgstr "ا_نتقِ تاريخًا..."
-
-#~ msgid "Pri_nt..."
-#~ msgstr "اط_بع..."
-
-#~ msgid "_Delete Selected Memos"
-#~ msgstr "ا_حذف التذكيرات المنتقاة"
-
-#~ msgid "Completing tasks..."
-#~ msgstr "يجري إتمام المهام..."
-
-#~ msgid "_Custom View"
-#~ msgstr "مشهد _مخصّص"
-
-#~ msgid "_Save Custom View"
-#~ msgstr "ا_حفظ المشهد المخصّص"
-
-#~ msgid "_Define Views..."
-#~ msgstr "_عرّف المشاهد..."
-
-#~ msgid "Loading tasks at %s"
-#~ msgstr "تحميل المهام عند %s"
-
-#~ msgid "Loading memos at %s"
-#~ msgstr "تحميل التذكيرات عند %s"
-
-#~ msgid "Failed upgrading memos."
-#~ msgstr "فشل ترقية التذكيرات."
-
-#~ msgid "Unable to open the memo list '%s' for creating events and meetings"
-#~ msgstr "لم يمكن فتح قائمة التذكيرات '%s' لإنشاء الأحداث و الإجتماعات"
-
-#~ msgid "There is no calendar available for creating memos"
-#~ msgstr "لا يتوفّر تقويم لإنشاء التذكيرات"
-
-#~ msgid "New shared memo"
-#~ msgstr "تذكير جديد مُشارَك"
-
-#~ msgid "New memo list"
-#~ msgstr "قائمة تذكيرات جديدة"
-
-#, fuzzy
-#~ msgctxt "New"
-#~ msgid "Memo li_st"
-#~ msgstr "قائمة التذكيرات"
-
-#~ msgid "Failed upgrading tasks."
-#~ msgstr "فشلت في ترقية المهام."
-
-#~ msgid "Unable to open the task list '%s' for creating events and meetings"
-#~ msgstr "لم يمكن فتح قائمة المهام '%s' لإنشاء الأحداث و الإجتماعات"
-
-#~ msgid "There is no calendar available for creating tasks"
-#~ msgstr "لا يتوفّر تقويم لإنشاء المهام"
-
-#~ msgid "New task"
-#~ msgstr "مهمّة جديدة"
-
-#~ msgid "New assigned task"
-#~ msgstr "مهمّة مُسندة جديدة"
-
-#~ msgid "New task list"
-#~ msgstr "قائمة مهام جديدة"
-
-#, fuzzy
-#~ msgctxt "New"
-#~ msgid "Tas_k list"
-#~ msgstr "قائمة مهام"
-
-#, fuzzy
-#~ msgid "Hide"
-#~ msgstr "ا_خفي"
-
-#~ msgid "Evolution Information"
-#~ msgstr "معلومات إيفُليوشِنة"
-
-#~ msgid "Evolution Query"
-#~ msgstr "إستفسار إيفُليوشِن"
-
-#~ msgid "Component"
-#~ msgstr "مكوّن"
-
-#~ msgid "Label name cannot be empty."
-#~ msgstr "لا يمكن أن يكون اسم اللصيقة فارغًا."
-
-#~ msgid ""
-#~ "A label having the same tag already exists on the server. Please rename "
-#~ "your label."
-#~ msgstr "لصيقة بنفس الوسم موجودة مسبقا على الخادم. أعد تسمية لصيقتك."
-
-#~ msgid ""
-#~ "Configure mail preferences, including security and message display, here"
-#~ msgstr "قم بإعداد تفضيلات البريد هنا، بما فيها الأمن و عرض الرّسائل"
-
-#~ msgid "Configure spell-checking, signatures, and the message composer here"
-#~ msgstr "قم بإعداد فحص التّهجئة و التّواقيع و مؤلّف الرّسائل هنا"
-
-#~ msgid "Configure your network connection settings here"
-#~ msgstr "اضبط اتصال الشبكة هنا"
-
-#~ msgid "Evolution Mail"
-#~ msgstr "بريد إيفُليوشِن"
-
-#~ msgid "Evolution Mail accounts configuration control"
-#~ msgstr "تحكّم إعداد حسابات بريد إيفُليوشِن"
-
-#~ msgid "Evolution Mail component"
-#~ msgstr "مكوّن بريد ايفُليوشِن"
-
-#~ msgid "Evolution Mail composer"
-#~ msgstr "مؤلّف بريد ايفُليوشِن"
-
-#~ msgid "Evolution Mail composer configuration control"
-#~ msgstr "تحكّم إعداد مؤلّف بريد إيفُليوشِن"
-
-#~ msgid "Evolution Mail preferences control"
-#~ msgstr "تحكّم تفضيلات بريد إيفُليوشِن"
-
-#~ msgid "Evolution Network configuration control"
-#~ msgstr "التحكّم بتشكيل شبكة إيفُليوشِن"
-
-#~ msgid "[Default]"
-#~ msgstr "[الإفتراض]"
-
-#~ msgid "Signature(s)"
-#~ msgstr "التّوقيع (التّواقيع)"
-
-#~ msgid "_Copy to Folder"
-#~ msgstr "ان_سخ للمجلّد"
-
-#~ msgid "_Move to Folder"
-#~ msgstr "ا_نقل للمجلّد"
-
-#~ msgid "Cancel _Drag"
-#~ msgstr "الغي ال_سحب"
-
-#~ msgid "Open in _New Window"
-#~ msgstr "افتح في نافذة _جديدة"
-
-#~ msgid "_Move..."
-#~ msgstr "ا_نقل..."
-
-#, fuzzy
-#~ msgid "_Unread Search Folder"
-#~ msgstr "أنشئ مجلّد _بحث"
-
-#~ msgid "U_ndelete"
-#~ msgstr "ترا_جع عن الحذف"
-
-#~ msgid "Fla_g Completed"
-#~ msgstr "تم ال_علم"
-
-#~ msgid "Cl_ear Flag"
-#~ msgstr "ا_مسح العلم"
-
-#~ msgid "Crea_te Rule From Message"
-#~ msgstr "أنشئ قاعدة من الرّسالة"
-
-#~ msgid "Search Folder based on _Subject"
-#~ msgstr "مجلد بحث باعتبار الموضوع"
-
-#~ msgid "Search Folder based on Se_nder"
-#~ msgstr "مجلد بحث باعتبار المر_سل"
-
-#~ msgid "Search Folder based on _Recipients"
-#~ msgstr "مجلد بحث باعتبار المست_لمين"
-
-#~ msgid "Filter based on Sub_ject"
-#~ msgstr "رشّح باعتبار المو_ضوع"
-
-#~ msgid "Filter based on Sen_der"
-#~ msgstr "رشّح باعتبار المر_سِل"
-
-#~ msgid "Filter based on Re_cipients"
-#~ msgstr "رشّح باعتبار المست_لمين"
-
-#~ msgid "Filter based on _Mailing List"
-#~ msgstr "رشّح باعتبار ال_قائمة البريديّة"
-
-#~ msgid "_Fit to Width"
-#~ msgstr "_لائم العرض"
-
-#~ msgid "Tag"
-#~ msgstr "الوسْم"
-
-#~ msgid "untitled_image.%s"
-#~ msgstr "untitled_image.%s"
-
-#~ msgid "_Reply to sender"
-#~ msgstr "رُ_د على المرسِل"
-
-#~ msgid "Open in %s..."
-#~ msgstr "افتح في %s..."
-
-#~ msgid "Add address"
-#~ msgstr "أضِف عنوان"
-
-#~ msgid "Default height of the message window."
-#~ msgstr "الارتفاع الإفتراضي لنافذة الرسائل."
-
-#~ msgid "Default width of the message window."
-#~ msgstr "العرض الإفتراضي لنافذة الرسائل."
-
-#~ msgid ""
-#~ "If the \"Preview\" pane is on, then show it side-by-side rather than "
-#~ "vertically."
-#~ msgstr ""
-#~ "عرض لوح المعاينة إذا كان مفعلا جنبًا إلى جنب مع قائمة الرسائل بدلا من "
-#~ "تحتها."
-
-#~ msgid "Message Window default height"
-#~ msgstr "ارتفاع نافِذة الرسائل الإفتراضي"
-
-#~ msgid "Message Window default width"
-#~ msgstr "العرض الافتراضي لنافذة الرسالة"
-
-#~ msgid "Use side-by-side or wide layout"
-#~ msgstr "استخدم تخطيط جنبا إلى جنب أو التخطيط العريض"
-
-#~ msgid "New Mail Message"
-#~ msgstr "رسالة بريديّة جديدة"
-
-#~ msgid "New Mail Folder"
-#~ msgstr "مجلد بريد جديد"
-
-#~ msgid "Failed upgrading Mail settings or folders."
-#~ msgstr "فشل تحديث إعدادات أو مجلدات البريد"
-
-#~ msgid "Baltic (ISO-8859-13)"
-#~ msgstr "بلطيق (ISO-8859-13)"
-
-#~ msgid "Baltic (ISO-8859-4)"
-#~ msgstr "بلطيق (ISO-8859-4)"
-
-#~ msgid "Email Accounts"
-#~ msgstr "حسابات البريد الإلكتروني"
-
-#~ msgid "Signatures Table"
-#~ msgstr "جدول التوقيعات"
-
-#~ msgid "Delete \"{0}\"?"
-#~ msgstr "حذف \"{0}\"؟"
-
-#~ msgid "Delete messages in Search Folder?"
-#~ msgstr "حذف الرّسائل من مجلّد البحث؟"
-
-#~ msgid "Discard changes?"
-#~ msgstr "التخلص من التغييرات؟"
-
-#~ msgid "Mark all messages as read"
-#~ msgstr "علم كل الرسائل كمقروء"
-
-#~ msgid "Querying server"
-#~ msgstr "يجري الاستعلام من الخادوم"
-
-#~ msgid "Subject or Recipients contains"
-#~ msgstr "الموضوع أو المتلقون يحوي"
-
-#~ msgid "Subject or Sender contains"
-#~ msgstr "الموضوع أو المرسِل يحتويان على"
-
-#, fuzzy
-#~ msgid "Audio Inline"
-#~ msgstr "ملحق المرفقات الصوتية"
-
-#, fuzzy
-#~ msgid "Copy Tool"
-#~ msgstr "أداة نسخ"
-
-#~ msgid "Unsubscribe Folders"
-#~ msgstr "ألغاء الإشتراك في المجلّدات"
-
-#, fuzzy
-#~ msgid "GroupWise Account Setup"
-#~ msgstr "تثبيت حساب جروبوايز"
-
-#~ msgid "Hardware Abstraction Layer not loaded"
-#~ msgstr "لم تـُحمّل طبقة تجريد العتاد"
-
-#~ msgid ""
-#~ "The \"hald\" service is required but not currently running. Please enable "
-#~ "the service and rerun this program, or contact your system administrator."
-#~ msgstr ""
-#~ "خدمة \"hald\" مطلوبة ولكنها غير مشغلة حاليًا. رجاءً فعّل هذه الخدمة وأعد "
-#~ "تشغيل هذا البرنامج، أو اتصل بمدير نظامك."
-
-#~ msgid ""
-#~ "Evolution could not find an iPod to synchronize with. Either the iPod is "
-#~ "not connected to the system or it is not powered on."
-#~ msgstr ""
-#~ "إيفُليوشن غير قادر على إيجاد iPod للتزامن معه. قد يكون السبب أن iPod غير "
-#~ "متصل بالنظام أو أنه مطفأ."
-
-#~ msgid "Synchronize to iPod"
-#~ msgstr "تزامن مع آيبود"
-
-#, fuzzy
-#~ msgid "Synchronize your data with your Apple iPod."
-#~ msgstr "تزامن مع آيبود"
-
-#~ msgid "iPod Synchronization"
-#~ msgstr "تزامن آيبود"
-
-#~ msgid "Specify _filename:"
-#~ msgstr "تحديد اسم _ملف:"
-
-#~ msgid "Pl_ay"
-#~ msgstr "اق_ر ء"
-
-#, fuzzy
-#~ msgid "Mail-to-Task"
-#~ msgstr "بريد إلى مهمة"
-
-#~ msgid "Contact list _owner"
-#~ msgstr "_مالك قائمة المتراسلين"
-
-#~ msgid "Get list _archive"
-#~ msgstr "أحضر أرشيف ال_قائمة"
-
-#~ msgid "Get list _usage information"
-#~ msgstr "أحضر معلومات است_خدام القائمة"
-
-#~ msgid "_Post message to list"
-#~ msgstr "ن_شر رسالة للقائمة"
-
-#~ msgid "_Subscribe to list"
-#~ msgstr "إ_شترك في القائمة"
-
-#~ msgid "_Un-subscribe to list"
-#~ msgstr "إل_غ الاشتراك في القائمة"
-
-#~ msgid "Mono Loader"
-#~ msgstr "محمل مونو"
-
-#, fuzzy
-#~ msgid "A plugin which loads other plugins written using Python."
-#~ msgstr "ملحق يحمل ملحقات اخرى كتبت بإستخدام بايثون."
-
-#~ msgid "Python Loader"
-#~ msgstr "محمل بايثون"
-
-#~ msgid "_Save to Disk"
-#~ msgstr "احف_ظ للقرص"
-
-#, fuzzy
-#~ msgid "Quickly select a single calendar or task list for viewing."
-#~ msgstr "انتقاء تقويم واحد أو مصدر مهام لعرضه."
-
-#, fuzzy
-#~ msgid "Select One Source"
-#~ msgstr "انتق مصدرًا واحدًا"
-
-#~ msgid "Evolution Shell"
-#~ msgstr "قشرة إفُليوشِن"
-
-#~ msgid "Evolution Shell Config factory"
-#~ msgstr "مصنع تشكيل صدفة إيفُليوشن"
-
-#~ msgid "Evolution Test"
-#~ msgstr "إختبار إيفُليوشِن"
-
-#~ msgid "Evolution Test component"
-#~ msgstr "مكوّن إختبار إيفُليوشِن"
-
-#~ msgid "<b>Active Connections</b>"
-#~ msgstr "<b>الإتّصالات النّشطة</b>"
-
-#~ msgid "Active Connections"
-#~ msgstr "الإتّصالات النّشطة"
-
-#~ msgid "Click OK to close these connections and go offline"
-#~ msgstr "انقر موافق لغلق هذه الإتصلات و لتكون غير متصل بالإنترنت"
-
-#~ msgid "The GNOME Pilot tools do not appear to be installed on this system."
-#~ msgstr "يبدو أن أدوات جنوم بايلوت ليست مثبتة على هذا النظام."
-
-#, fuzzy
-#~ msgid "Error executing %s. (%s)"
-#~ msgstr "خطأ تنفيذ %s."
-
-#~ msgid "Work Offline"
-#~ msgstr "اعمل دون اتّصال"
-
-#~ msgid "Evolution is in the process of going offline."
-#~ msgstr "يقوم إيفُليوشن حاليًا بالتحول لوضع عدم الاتصال."
-
-#~ msgid "Unknown system error."
-#~ msgstr "خطأ غير معروف بالنظام."
-
-#~ msgid "Invalid arguments"
-#~ msgstr "معطيات غير سليمة"
-
-#~ msgid "Cannot register on OAF"
-#~ msgstr "لم يمكن تسجيل OAF"
-
-#~ msgid "Configuration Database not found"
-#~ msgstr "لم يعثر على قاعدة بيانات الإعداد"
-
-#~ msgid "New Test"
-#~ msgstr "إختبار جديد"
-
-#~ msgid "Evolution can not start."
-#~ msgstr "إيفُليوشن غير قادر على البدء."
-
-#~ msgid ""
-#~ "Your system configuration does not match your Evolution configuration.\n"
-#~ "\n"
-#~ "Click help for details"
-#~ msgstr ""
-#~ "لا يطابق تكوين نظامك تكوين إيفُليوشن.\n"
-#~ "\n"
-#~ "انقر مساعدة للحصول على التفاصيل"
-
-#~ msgid ""
-#~ "Your system configuration does not match your Evolution configuration:\n"
-#~ "\n"
-#~ "{0}\n"
-#~ "\n"
-#~ "Click help for details."
-#~ msgstr ""
-#~ "لا يطابق تكوين نظامك تكوين إيفُليوشن:\n"
-#~ "\n"
-#~ "{0}\n"
-#~ "\n"
-#~ "انقر مساعدة للحصول على التفاصيل."
-
-#~ msgid "Could not execute '%s': %s\n"
-#~ msgstr "لم يمكن تنفيذ '%s': %s\n"
-
-#~ msgid "Shutting down %s (%s)\n"
-#~ msgstr "يجري إطفاء %s (%s)\n"
-
-#~ msgid "Copy"
-#~ msgstr "نسخ"
-
-#~ msgid "Copy to Folder..."
-#~ msgstr "نسخ للمجلّد..."
-
-#~ msgid "Create a new address book folder"
-#~ msgstr "أنشئ مجلد دفتر عناوين جديد"
-
-#~ msgid "Cut"
-#~ msgstr "قص"
-
-#~ msgid "Forward Contact"
-#~ msgstr "مرر المتراسل"
-
-#~ msgid "Move to Folder..."
-#~ msgstr "نقل للمجلّد..."
-
-#~ msgid "Paste"
-#~ msgstr "لصق"
-
-#~ msgid "Save as VCard..."
-#~ msgstr "احفظ كـ VCard..."
-
-#~ msgid "Select _All"
-#~ msgstr "إنتقاء ال_كل"
-
-#~ msgid "Send message to contact"
-#~ msgstr "أرسِل رسالة للمتراسل"
-
-#~ msgid "St_op"
-#~ msgstr "تو_قّف"
-
-#~ msgid "Stop"
-#~ msgstr "توقّف"
-
-#~ msgid "_Copy Folder Contacts To"
-#~ msgstr "ان_سخ متراسلي المجلد إلى"
-
-#~ msgid "_Move Folder Contacts To"
-#~ msgstr "ان_قل متراسلي المجلد إلى"
-
-#~ msgid "_Rename"
-#~ msgstr "إ_عد التسمية"
-
-#~ msgid "_Save Contact as VCard..."
-#~ msgstr "حفظ المتراسل كفيكارد..."
-
-#~ msgid "_Save Folder Contacts As VCard"
-#~ msgstr "احف_ظ متراسلي المجلد كفيكارد"
-
-#~ msgid "Delete _all Occurrences"
-#~ msgstr "احذف _كل الحدوثات"
-
-#~ msgid "Show the working week"
-#~ msgstr "اظهر أسبوع العمل"
-
-#~ msgid "View the debug console for log messages"
-#~ msgstr "أعرض كونسول التنقيح لرسائل السجل"
-
-#~ msgid "_Debug Logs"
-#~ msgstr "_نقِّح السجلات"
-
-#~ msgid "Show message preview side-by-side with the message list"
-#~ msgstr "اظهر معاينة الرسالة وقائمة الرسائل جنبًا إلى جنب"
-
-#~ msgid "Copy selected message(s) to the clipboard"
-#~ msgstr "نسخ الرّسائل المنتقاة إلى الحافظة الوسيطة"
-
-#~ msgid "Cut selected message(s) to the clipboard"
-#~ msgstr "قص الرّسائل المنتقاة إلى الحافظة الوسيطة"
-
-#~ msgid "Paste message(s) from the clipboard"
-#~ msgstr "لصق رسالة (أو رسائل) من الحافظة"
-
-#~ msgid "Select all and only the messages that are not currently selected"
-#~ msgstr "إنتقاء جميع الرّسائل غير المنتقاة حاليًّا و تلك الرّسائل فقط"
-
-#~ msgid "Not Junk"
-#~ msgstr "ليس نفاية"
-
-#~ msgid "Paste messages from the clipboard"
-#~ msgstr "لصق رسائل من الحافظة"
-
-#~ msgid "_Save Message..."
-#~ msgstr "احف_ظ الرّسالة..."
-
-#~ msgid "Main toolbar"
-#~ msgstr "شريط الأدوات الرّئيسي"
-
-#~ msgid "Mar_k as Complete"
-#~ msgstr "_علّم كمكتمل"
-
-#~ msgid "Show task preview window"
-#~ msgstr "أظهر نافذة معاينة المهمة"
-
-#~ msgid "About Evolution..."
-#~ msgstr "حوْل إيفُليوشن..."
-
-#~ msgid "Change the visibility of the toolbar"
-#~ msgstr "غير مدى ظهور شريط الأدوات"
-
-#~ msgid "Forget remembered passwords so you will be prompted for them again"
-#~ msgstr "انس كلمات السّر المتذكّرة حتّى يُطلب منك إدخالها من جديد"
-
-#~ msgid "Hide window buttons"
-#~ msgstr "أخفِ أزرار النافذة"
-
-#~ msgid "Page Set_up..."
-#~ msgstr "إع_داد الصّفحة..."
-
-#~ msgid "Prefere_nces"
-#~ msgstr "تف_ضيلات"
-
-#~ msgid "Submit Bug Report"
-#~ msgstr "أرسِل تقرير علّة"
-
-#~ msgid "Toggle whether we are working offline."
-#~ msgstr "تحديد ما إذا كنت تعمل دون اتصال."
-
-#~ msgid "View/Hide the Side Bar"
-#~ msgstr "اعرض/إخفِ الشريط الجانبي"
-
-#~ msgid "View/Hide the Status Bar"
-#~ msgstr "اعرض/إخفِ شريط الحالة"
-
-#~ msgid "Work _Offline"
-#~ msgstr "اعمل _دون اتصال"
-
-#~ msgid "_About"
-#~ msgstr "_حوْل"
-
-#~ msgid "_Frequently Asked Questions"
-#~ msgstr "الأسئلة الأكثر _شيوعًا"
-
-#~ msgid "_Hide Buttons"
-#~ msgstr "ا_خفِ الأزرار"
-
-#~ msgid "Save Custom View"
-#~ msgstr "احفظ المشهد المخصّص"
-
-#~ msgid "Unknown character set: %s"
-#~ msgstr "مجموعة محارف مجهولة: %s"
-
-#~ msgid "_Searches"
-#~ msgstr "_بحوث"
-
-#~ msgid "Choose Image"
-#~ msgstr "اختر صورة"
-
-#~ msgid "Empty message"
-#~ msgstr "رسالة فارغة"
-
-#~ msgid "Reflow model"
-#~ msgstr "طراز الانسياب"
-
-#~ msgid "Column width"
-#~ msgstr "عرض العمود"
-
-#~ msgid "Search"
-#~ msgstr "ابحث"
-
-#~ msgid "_Clear"
-#~ msgstr "ا_مسح"
-
-#~ msgid "Item ID"
-#~ msgstr "هوية العنصر"
-
-#~ msgid "Toggle Attachment Bar"
-#~ msgstr "بدّل شريط المرفقات"
-
-#~ msgid "activate"
-#~ msgstr "نشّط"
-
-#~ msgid "3268"
-#~ msgstr "3268"
-
-#~ msgid "389"
-#~ msgstr "389"
-
-#~ msgid "636"
-#~ msgstr "636"
-
-#~ msgid "<b>Type:</b>"
-#~ msgstr "<b>النّوع:</b>"
-
-#~ msgid "Add Address Book"
-#~ msgstr "أضف دفتر عناوين"
-
-#~ msgid "Basic"
-#~ msgstr "أساسي"
-
-#~ msgid "Find Possible Search Bases"
-#~ msgstr "جِدْ قواعد البحث المحتملة"
-
-#~ msgid "Whenever Possible"
-#~ msgstr "كلّما كان ممكنًا"
-
-#~ msgid "_Add Address Book"
-#~ msgstr "أ_ضف دفتر عناوين"
-
-#~ msgid "MSN Messenger"
-#~ msgstr "مرسال إم إس إن"
-
-#, fuzzy
-#~ msgid "Novell GroupWise"
-#~ msgstr "Novell Groupwise"
-
-#~ msgid "_Notes:"
-#~ msgstr "ملاح_ظات:"
-
-#~ msgid "United States"
-#~ msgstr "الولايات المتحدة الأمريكية"
-
-#~ msgid "Afghanistan"
-#~ msgstr "أفغانستان"
-
-#~ msgid "Albania"
-#~ msgstr "ألبانيا"
-
-#~ msgid "Algeria"
-#~ msgstr "الجزائر"
-
-#~ msgid "American Samoa"
-#~ msgstr "صامُوَا الأمريكية"
-
-#~ msgid "Andorra"
-#~ msgstr "أندورا"
-
-#~ msgid "Angola"
-#~ msgstr "أنجولا"
-
-#~ msgid "Anguilla"
-#~ msgstr "أنكويّا"
-
-#~ msgid "Antarctica"
-#~ msgstr "القارة المتجمّدة الجنوبيّة"
-
-#~ msgid "Antigua And Barbuda"
-#~ msgstr "أنتيجوا و بربودا"
-
-#~ msgid "Argentina"
-#~ msgstr "الأرجنتين"
-
-#~ msgid "Armenia"
-#~ msgstr "أرمينيا"
-
-#~ msgid "Aruba"
-#~ msgstr "اروبا"
-
-#~ msgid "Australia"
-#~ msgstr "أستراليا"
-
-#~ msgid "Austria"
-#~ msgstr "النّمسا"
-
-#~ msgid "Azerbaijan"
-#~ msgstr "أذربيجان"
-
-#~ msgid "Bahamas"
-#~ msgstr "البهاما"
-
-#~ msgid "Bahrain"
-#~ msgstr "البحرين"
-
-#~ msgid "Bangladesh"
-#~ msgstr "بنجلادش"
-
-#~ msgid "Barbados"
-#~ msgstr "بربدوس"
-
-#~ msgid "Belarus"
-#~ msgstr "بلاروسيا"
-
-#~ msgid "Belgium"
-#~ msgstr "البلجيك"
-
-#~ msgid "Belize"
-#~ msgstr "بيليز"
-
-#~ msgid "Benin"
-#~ msgstr "بنين"
-
-#~ msgid "Bermuda"
-#~ msgstr "برمودا"
-
-#~ msgid "Bhutan"
-#~ msgstr "بوتان"
-
-#~ msgid "Bolivia"
-#~ msgstr "بوليفيا"
-
-#~ msgid "Bosnia And Herzegowina"
-#~ msgstr "البوسنة و الهرسك"
-
-#~ msgid "Botswana"
-#~ msgstr "بتسوانا"
-
-#~ msgid "Bouvet Island"
-#~ msgstr "جزيرة بوفي"
-
-#~ msgid "Brazil"
-#~ msgstr "البرازيل"
-
-#~ msgid "British Indian Ocean Territory"
-#~ msgstr "إقليم المحيط الهندي البريطاني"
-
-#~ msgid "Brunei Darussalam"
-#~ msgstr "بروناي دار السّلام"
-
-#~ msgid "Bulgaria"
-#~ msgstr "بلغاريا"
-
-#~ msgid "Burkina Faso"
-#~ msgstr "بوركينا فاسو"
-
-#~ msgid "Burundi"
-#~ msgstr "بوروندي"
-
-#~ msgid "Cambodia"
-#~ msgstr "كمبوديا"
-
-#~ msgid "Cameroon"
-#~ msgstr "الكاميرون"
-
-#~ msgid "Canada"
-#~ msgstr "كندا"
-
-#~ msgid "Cape Verde"
-#~ msgstr "كاب فيردا"
-
-#~ msgid "Cayman Islands"
-#~ msgstr "جزر الكيمان"
-
-#~ msgid "Central African Republic"
-#~ msgstr "جمهورية إفريقيا الوسطى"
-
-#~ msgid "Chad"
-#~ msgstr "تشاد"
-
-#~ msgid "Chile"
-#~ msgstr "شيلي"
-
-#~ msgid "China"
-#~ msgstr "الصّين"
-
-#~ msgid "Christmas Island"
-#~ msgstr "جزيرة عيد الميلاد"
-
-#~ msgid "Cocos (Keeling) Islands"
-#~ msgstr "جزر الكوكوس (كيلنك)"
-
-#~ msgid "Colombia"
-#~ msgstr "كولومبيا"
-
-#~ msgid "Comoros"
-#~ msgstr "جزر القمر"
-
-#~ msgid "Congo"
-#~ msgstr "الكنغو"
-
-#~ msgid "Congo, The Democratic Republic Of The"
-#~ msgstr "جمهورية الكونغو الديمقراطية"
-
-#~ msgid "Cook Islands"
-#~ msgstr "جزر كوك"
-
-#~ msgid "Costa Rica"
-#~ msgstr "كوستا ريكا"
-
-#~ msgid "Cote d'Ivoire"
-#~ msgstr "ساحل العاج"
-
-#~ msgid "Croatia"
-#~ msgstr "كرواتيا"
-
-#~ msgid "Cuba"
-#~ msgstr "كوبا"
-
-#~ msgid "Cyprus"
-#~ msgstr "قبرص"
-
-#~ msgid "Czech Republic"
-#~ msgstr "الجمهورية التّشيكية"
-
-#~ msgid "Denmark"
-#~ msgstr "الدّنمارك"
-
-#~ msgid "Djibouti"
-#~ msgstr "جيبوتي"
-
-#~ msgid "Dominica"
-#~ msgstr "الدّومينيكا"
-
-#~ msgid "Dominican Republic"
-#~ msgstr "جمهورية الدّومينيك"
-
-#~ msgid "Ecuador"
-#~ msgstr "الإكوادور"
-
-#~ msgid "Egypt"
-#~ msgstr "مصر"
-
-#~ msgid "El Salvador"
-#~ msgstr "السّلفادور"
-
-#~ msgid "Equatorial Guinea"
-#~ msgstr "غينيا الإستوائيّة"
-
-#~ msgid "Eritrea"
-#~ msgstr "إريتريا"
-
-#~ msgid "Estonia"
-#~ msgstr "إستونيا"
-
-#~ msgid "Ethiopia"
-#~ msgstr "إثيوبيا"
-
-#~ msgid "Falkland Islands"
-#~ msgstr "جزر الفالكلاند"
-
-#~ msgid "Faroe Islands"
-#~ msgstr "جزر الفارو"
-
-#~ msgid "Finland"
-#~ msgstr "فنلندا"
-
-#~ msgid "France"
-#~ msgstr "فرنسا"
-
-#~ msgid "French Guiana"
-#~ msgstr "غينيا الفرنسيّة"
-
-#~ msgid "French Polynesia"
-#~ msgstr "بولونيزيا الفرنسيّة"
-
-#~ msgid "French Southern Territories"
-#~ msgstr "الأقاليم الجنوبية الفرنسيّة"
-
-#~ msgid "Gabon"
-#~ msgstr "الغابون"
-
-#~ msgid "Gambia"
-#~ msgstr "جامبيا"
-
-#~ msgid "Georgia"
-#~ msgstr "جورجيا"
-
-#~ msgid "Germany"
-#~ msgstr "ألمانيا"
-
-#~ msgid "Ghana"
-#~ msgstr "غانا"
-
-#~ msgid "Gibraltar"
-#~ msgstr "جبل طارق"
-
-#~ msgid "Greece"
-#~ msgstr "اليونان"
-
-#~ msgid "Greenland"
-#~ msgstr "جرينلاند"
-
-#~ msgid "Grenada"
-#~ msgstr "غرناطة"
-
-#~ msgid "Guadeloupe"
-#~ msgstr "كوادالوب"
-
-#~ msgid "Guam"
-#~ msgstr "كوام"
-
-#~ msgid "Guatemala"
-#~ msgstr "جواتيمالا"
-
-#~ msgid "Guernsey"
-#~ msgstr "جيرنسي"
-
-#~ msgid "Guinea"
-#~ msgstr "غينيا"
-
-#~ msgid "Guinea-Bissau"
-#~ msgstr "غينيا-بيساو"
-
-#~ msgid "Guyana"
-#~ msgstr "غوَيانة"
-
-#~ msgid "Haiti"
-#~ msgstr "هايتي"
-
-#~ msgid "Heard And McDonald Islands"
-#~ msgstr "هيرد و جزر ماكدونالد"
-
-#~ msgid "Holy See"
-#~ msgstr "البحر المقدّس"
-
-#~ msgid "Honduras"
-#~ msgstr "هندوراس"
-
-#~ msgid "Hong Kong"
-#~ msgstr "هونج كونج"
-
-#~ msgid "Hungary"
-#~ msgstr "المجر"
-
-#~ msgid "Iceland"
-#~ msgstr "إيسلاندا"
-
-#~ msgid "India"
-#~ msgstr "الهند"
-
-#~ msgid "Indonesia"
-#~ msgstr "إندونيسيا"
-
-#~ msgid "Iran"
-#~ msgstr "إيران"
-
-#~ msgid "Iraq"
-#~ msgstr "العراق"
-
-#~ msgid "Ireland"
-#~ msgstr "إيرلندا"
-
-#~ msgid "Isle of Man"
-#~ msgstr "جزيرة مان"
-
-#~ msgid "Israel"
-#~ msgstr "إسرائيل"
-
-#~ msgid "Italy"
-#~ msgstr "إيطاليا"
-
-#~ msgid "Jamaica"
-#~ msgstr "جامايكا"
-
-#~ msgid "Japan"
-#~ msgstr "اليابان"
-
-#~ msgid "Jersey"
-#~ msgstr "جيرسي"
-
-#~ msgid "Jordan"
-#~ msgstr "الأردن"
-
-#~ msgid "Kazakhstan"
-#~ msgstr "كازاخستان"
-
-#~ msgid "Kenya"
-#~ msgstr "كينيا"
-
-#~ msgid "Kiribati"
-#~ msgstr "كيريباتي"
-
-#~ msgid "Korea, Democratic People's Republic Of"
-#~ msgstr "جمهورية كوريا الديمقراطية الشعبية"
-
-#~ msgid "Korea, Republic Of"
-#~ msgstr "جمهورية كوريا"
-
-#~ msgid "Kuwait"
-#~ msgstr "الكويت"
-
-#~ msgid "Kyrgyzstan"
-#~ msgstr "كرغيزستان"
-
-#~ msgid "Laos"
-#~ msgstr "لاوس"
-
-#~ msgid "Latvia"
-#~ msgstr "لاتفيا"
-
-#~ msgid "Lebanon"
-#~ msgstr "لبنان"
-
-#~ msgid "Lesotho"
-#~ msgstr "لزوتو"
-
-#~ msgid "Liberia"
-#~ msgstr "ليبيريا"
-
-#~ msgid "Libya"
-#~ msgstr "ليبيا"
-
-#~ msgid "Liechtenstein"
-#~ msgstr "ليشتنشتاين"
-
-#~ msgid "Lithuania"
-#~ msgstr "لتوانيا"
-
-#~ msgid "Luxembourg"
-#~ msgstr "لكسمبورج"
-
-#~ msgid "Macao"
-#~ msgstr "ماكاو"
-
-#~ msgid "Macedonia"
-#~ msgstr "مقدونيا"
-
-#~ msgid "Madagascar"
-#~ msgstr "مدغشقر"
-
-#~ msgid "Malawi"
-#~ msgstr "ملاوي"
-
-#~ msgid "Malaysia"
-#~ msgstr "ماليزيا"
-
-#~ msgid "Maldives"
-#~ msgstr "المالديف"
-
-#~ msgid "Mali"
-#~ msgstr "مالي"
-
-#~ msgid "Malta"
-#~ msgstr "مالطا"
-
-#~ msgid "Marshall Islands"
-#~ msgstr "جزر المارشل"
-
-#~ msgid "Martinique"
-#~ msgstr "مارتينيك"
-
-#~ msgid "Mauritania"
-#~ msgstr "موريتانيا"
-
-#~ msgid "Mauritius"
-#~ msgstr "موريشيوس"
-
-#~ msgid "Mayotte"
-#~ msgstr "مايوتا"
-
-#~ msgid "Mexico"
-#~ msgstr "المكسيك"
-
-#~ msgid "Micronesia"
-#~ msgstr "مكرونيسيا"
-
-#~ msgid "Moldova, Republic Of"
-#~ msgstr "جمهورية مولدوفا"
-
-#~ msgid "Monaco"
-#~ msgstr "موناكو"
-
-#~ msgid "Mongolia"
-#~ msgstr "منغوليا"
-
-#~ msgid "Montserrat"
-#~ msgstr "مونسيرات"
-
-#~ msgid "Morocco"
-#~ msgstr "المغرب"
-
-#~ msgid "Mozambique"
-#~ msgstr "موزمبيق"
-
-#~ msgid "Myanmar"
-#~ msgstr "مينمار"
-
-#~ msgid "Namibia"
-#~ msgstr "ناميبيا"
-
-#~ msgid "Nauru"
-#~ msgstr "ناورو"
-
-#~ msgid "Nepal"
-#~ msgstr "نيبال"
-
-#~ msgid "Netherlands"
-#~ msgstr "هولندا"
-
-#~ msgid "Netherlands Antilles"
-#~ msgstr "أنتيل هولندا"
-
-#~ msgid "New Caledonia"
-#~ msgstr "نيو قلدونيا"
-
-#~ msgid "New Zealand"
-#~ msgstr "نيوزيلندا"
-
-#~ msgid "Nicaragua"
-#~ msgstr "نيكاراغوا"
-
-#~ msgid "Niger"
-#~ msgstr "النّيجر"
-
-#~ msgid "Nigeria"
-#~ msgstr "نيجيريا"
-
-#~ msgid "Niue"
-#~ msgstr "نيوي"
-
-#~ msgid "Norfolk Island"
-#~ msgstr "جزيرة نورفولك"
-
-#~ msgid "Northern Mariana Islands"
-#~ msgstr "جزر ماريانا الشّمالية"
-
-#~ msgid "Norway"
-#~ msgstr "النّرويج"
-
-#~ msgid "Oman"
-#~ msgstr "عمان"
-
-#~ msgid "Pakistan"
-#~ msgstr "باكستان"
-
-#~ msgid "Palau"
-#~ msgstr "بالاو"
-
-#~ msgid "Palestinian Territory"
-#~ msgstr "فلسطين"
-
-#~ msgid "Panama"
-#~ msgstr "باناما"
-
-#~ msgid "Papua New Guinea"
-#~ msgstr "غينيا الجديدة"
-
-#~ msgid "Paraguay"
-#~ msgstr "براجواي"
-
-#~ msgid "Peru"
-#~ msgstr "بيرو"
-
-#~ msgid "Philippines"
-#~ msgstr "الفلبّين"
-
-#~ msgid "Pitcairn"
-#~ msgstr "بتكيرن"
-
-#~ msgid "Poland"
-#~ msgstr "بولندا"
-
-#~ msgid "Portugal"
-#~ msgstr "البرتغال"
-
-#~ msgid "Puerto Rico"
-#~ msgstr "بوارتو ريكو"
-
-#~ msgid "Qatar"
-#~ msgstr "قطر"
-
-#~ msgid "Reunion"
-#~ msgstr "ريونيون"
-
-#~ msgid "Romania"
-#~ msgstr "رومانيا"
-
-#~ msgid "Russian Federation"
-#~ msgstr "الإتّحاد الروسي"
-
-#~ msgid "Rwanda"
-#~ msgstr "روَندا"
-
-#~ msgid "Saint Kitts And Nevis"
-#~ msgstr "سان كتس و نيفس"
-
-#~ msgid "Saint Lucia"
-#~ msgstr "سان لوسيا"
-
-#~ msgid "Saint Vincent And The Grenadines"
-#~ msgstr "سانت فنسينت والجرينادينز"
-
-#~ msgid "Samoa"
-#~ msgstr "صاموا"
-
-#~ msgid "San Marino"
-#~ msgstr "سان مارينو"
-
-#~ msgid "Sao Tome And Principe"
-#~ msgstr "صاو تومي و برنسيب"
-
-#~ msgid "Saudi Arabia"
-#~ msgstr "العربيّة السّعودية"
-
-#~ msgid "Senegal"
-#~ msgstr "السّينغال"
-
-#~ msgid "Serbia And Montenegro"
-#~ msgstr "صربيا و مونتنجرو"
-
-#~ msgid "Sierra Leone"
-#~ msgstr "سييرا ليون"
-
-#~ msgid "Singapore"
-#~ msgstr "سنغافورة"
-
-#~ msgid "Slovakia"
-#~ msgstr "سلوفاكيا"
-
-#~ msgid "Slovenia"
-#~ msgstr "سلوفينيا"
-
-#~ msgid "Solomon Islands"
-#~ msgstr "جزر سليمان"
-
-#~ msgid "Somalia"
-#~ msgstr "الصّومال"
-
-#~ msgid "South Africa"
-#~ msgstr "جنوب إفريقيا"
-
-#~ msgid "South Georgia And The South Sandwich Islands"
-#~ msgstr "جنوب جورجيا و جزر ساندويتش الجنوبيّة"
-
-#~ msgid "Spain"
-#~ msgstr "إسبانيا"
-
-#~ msgid "Sri Lanka"
-#~ msgstr "سري لانكا"
-
-#~ msgid "St. Helena"
-#~ msgstr "سان هيلانة"
-
-#~ msgid "St. Pierre And Miquelon"
-#~ msgstr "سان بيير و مِكويلون"
-
-#~ msgid "Sudan"
-#~ msgstr "السّودان"
-
-#~ msgid "Suriname"
-#~ msgstr "سورينام"
-
-#~ msgid "Svalbard And Jan Mayen Islands"
-#~ msgstr "سفالبارد و جزر جان مايِن"
-
-#~ msgid "Swaziland"
-#~ msgstr "السّوازيلاند"
-
-#~ msgid "Sweden"
-#~ msgstr "السّويد"
-
-#~ msgid "Switzerland"
-#~ msgstr "سويسرا"
-
-#~ msgid "Syria"
-#~ msgstr "سوريا"
-
-#~ msgid "Taiwan"
-#~ msgstr "تايوان"
-
-#~ msgid "Tajikistan"
-#~ msgstr "طاجيكستان"
-
-#~ msgid "Tanzania, United Republic Of"
-#~ msgstr "جمهورية تنزانيا المتّحدة"
-
-#~ msgid "Thailand"
-#~ msgstr "تايلند"
-
-#~ msgid "Timor-Leste"
-#~ msgstr "تيمور- ليشتي"
-
-#~ msgid "Togo"
-#~ msgstr "توجو"
-
-#~ msgid "Tokelau"
-#~ msgstr "توكيلاو"
-
-#~ msgid "Tonga"
-#~ msgstr "تونغا"
-
-#~ msgid "Trinidad And Tobago"
-#~ msgstr "ترنداد و توباجو"
-
-#~ msgid "Tunisia"
-#~ msgstr "تونس"
-
-#~ msgid "Turkey"
-#~ msgstr "تركيّا"
-
-#~ msgid "Turkmenistan"
-#~ msgstr "تركمانستان"
-
-#~ msgid "Turks And Caicos Islands"
-#~ msgstr "جزر تُركس و كيْكوس"
-
-#~ msgid "Tuvalu"
-#~ msgstr "توفالو"
-
-#~ msgid "Uganda"
-#~ msgstr "أوغندا"
-
-#~ msgid "Ukraine"
-#~ msgstr "أُكرانيا"
-
-#~ msgid "United Arab Emirates"
-#~ msgstr "الإمارات العربيّة المتّحدة"
-
-#~ msgid "United Kingdom"
-#~ msgstr "المملكة المتّحدة"
-
-#~ msgid "United States Minor Outlying Islands"
-#~ msgstr "جزر الولايات المتّحدة الصّغرى النّائية"
-
-#~ msgid "Uruguay"
-#~ msgstr "أوروجواي"
-
-#~ msgid "Uzbekistan"
-#~ msgstr "أوزباكستان"
-
-#~ msgid "Vanuatu"
-#~ msgstr "فانواتو"
-
-#~ msgid "Venezuela"
-#~ msgstr "فينزويلّا"
-
-#~ msgid "Viet Nam"
-#~ msgstr "الفيتنام"
-
-#~ msgid "Virgin Islands, British"
-#~ msgstr "جزر فيرجن البريطانيّة"
-
-#~ msgid "Virgin Islands, U.S."
-#~ msgstr "جزر فيرجن الأمريكيّة"
-
-#~ msgid "Wallis And Futuna Islands"
-#~ msgstr "جزر والس و فوتونا"
-
-#~ msgid "Western Sahara"
-#~ msgstr "الصّحراء الغربيّة"
-
-#~ msgid "Yemen"
-#~ msgstr "اليمن"
-
-#~ msgid "Zambia"
-#~ msgstr "زامبيا"
-
-#~ msgid "Zimbabwe"
-#~ msgstr "زيمبابوي"
-
-#~ msgid "AOL Instant Messenger"
-#~ msgstr "مرسال أمريكا أون لاين"
-
-#~ msgid "Yahoo Messenger"
-#~ msgstr "مرسال ياهو"
-
-#~ msgid "Gadu-Gadu Messenger"
-#~ msgstr "مرسال جادو-جادو"
-
-#~ msgid "Service"
-#~ msgstr "خدمة"
-
-#~ msgid "Username"
-#~ msgstr "اسم المستخدم"
-
-#~ msgid "Address _2:"
-#~ msgstr "العنوان ال_ثّاني:"
-
-#~ msgid "Ci_ty:"
-#~ msgstr "ال_مدينة:"
-
-#~ msgid "Countr_y:"
-#~ msgstr "ال_دّولة:"
-
-#~ msgid "Full Address"
-#~ msgstr "العنوان الكامل"
-
-#~ msgid "_ZIP Code:"
-#~ msgstr "ال_رّمز البريدي:"
-
-#~ msgid "_Account name:"
-#~ msgstr "اسم ال_حساب:"
-
-#~ msgid "_IM Service:"
-#~ msgstr "خدمة التراسل ال_فوري:"
-
-#~ msgid "10 pt. Tahoma"
-#~ msgstr "تاهوما 10 نقاط"
-
-#~ msgid "8 pt. Tahoma"
-#~ msgstr "تاهوما 8 نقاط"
-
-#~ msgid "Blank forms at end:"
-#~ msgstr "نماذج فارغة في النّهاية:"
-
-#~ msgid "Body"
-#~ msgstr "المتن"
-
-#~ msgid "Bottom:"
-#~ msgstr "الأسفل:"
-
-#~ msgid "Dimensions:"
-#~ msgstr "الأبعاد:"
-
-#~ msgid "F_ont..."
-#~ msgstr "_خطّ..."
-
-#~ msgid "Fonts"
-#~ msgstr "خطوط"
-
-#~ msgid "Footer:"
-#~ msgstr "التذييل:"
-
-#~ msgid "Header/Footer"
-#~ msgstr "التّرويسة/التذييل"
-
-#~ msgid "Headings"
-#~ msgstr "ترويسات"
-
-#~ msgid "Headings for each letter"
-#~ msgstr "ترويسات لكل خطاب"
-
-#~ msgid "Height:"
-#~ msgstr "الإرتفاع:"
-
-#~ msgid "Immediately follow each other"
-#~ msgstr "تتبع بعضها مباشرة"
-
-#~ msgid "Landscape"
-#~ msgstr "عرضيّ"
-
-#~ msgid "Left:"
-#~ msgstr "اليسار:"
-
-#~ msgid "Letter tabs on side"
-#~ msgstr "الألسنة الحرفيّة على الجوانب"
-
-#~ msgid "Margins"
-#~ msgstr "الحواشي"
-
-#~ msgid "Number of columns:"
-#~ msgstr "عدد الأعمدة:"
-
-#~ msgid "Orientation"
-#~ msgstr "الإتّجاه"
-
-#~ msgid "Page Setup:"
-#~ msgstr "إعداد الصّفحة:"
-
-#~ msgid "Paper"
-#~ msgstr "ورق"
-
-#~ msgid "Paper source:"
-#~ msgstr "مصدر الورق:"
-
-#~ msgid "Portrait"
-#~ msgstr "طولي"
-
-#~ msgid "Preview:"
-#~ msgstr "معاينة:"
-
-#~ msgid "Print using gray shading"
-#~ msgstr "اطبع بإستخدام التّظليل الرّمادي"
-
-#~ msgid "Reverse on even pages"
-#~ msgstr "اقلب على الصّفحات الزّوجيّة"
-
-#~ msgid "Right:"
-#~ msgstr "اليمين:"
-
-#~ msgid "Sections:"
-#~ msgstr "الأقسام:"
-
-#~ msgid "Start on a new page"
-#~ msgstr "ابدأ على صفحة جديدة"
-
-#~ msgid "Style name:"
-#~ msgstr "اسم الأسلوب:"
-
-#~ msgid "Top:"
-#~ msgstr "الأعلى:"
-
-#~ msgid "Width:"
-#~ msgstr "العرض:"
-
-#~ msgid "_Font..."
-#~ msgstr "ال_خط..."
-
-#~ msgid "Whether to use daylight savings time while displaying events."
-#~ msgstr "ما إذا كان سيتخدم التوقيت الصيفي أثناء عرض الأحداث أم لا."
-
-#~ msgid "daylight savings time"
-#~ msgstr "التوقيت الصيفي"
-
-#~ msgid "Adjust for daylight sa_ving time"
-#~ msgstr "اضبط التوقيت الصيفي"
-
-#~ msgid "Attached message - %s"
-#~ msgstr "رسالة مُرفقة - %s"
-
-#~ msgid "<b>%d</b> Attachment"
-#~ msgid_plural "<b>%d</b> Attachments"
-#~ msgstr[0] "<b>مُرفق واحد</b>"
-#~ msgstr[1] "<b>مُرفقان</b>"
-#~ msgstr[2] "<b>%d</b> مرفقات"
-#~ msgstr[3] "<b>%d</b> مُرفقات"
-
-#~ msgid "Show Attachments"
-#~ msgstr "اظهر المُرفقات"
-
-#~ msgid "Press space key to toggle attachment bar"
-#~ msgstr "اضغط مسطرة المسافات لتبديل شريط المُرفقات"
-
-#~ msgid "<b>Att_endees</b>"
-#~ msgstr "<b>ال_حضور</b>"
-
-#~ msgid "C_hange Organizer"
-#~ msgstr "غيّ_ر المنظّم"
-
-#~ msgid "Co_ntacts..."
-#~ msgstr "المُ_راسَلين..."
-
-#~ msgid "_Save Selected"
-#~ msgstr "ا_حفِظ المنتقى"
-
-#~ msgid "Could not open autosave file"
-#~ msgstr "تعذر فتح ملف الحفظ الآلي"
-
-#~ msgid "_Post-To Field"
-#~ msgstr "حقل ا_نشر إلى"
-
-#~ msgid "Toggles whether the Post-To field is displayed"
-#~ msgstr "تحديد ما إذا كان حقل \"نشر إلى\" ظاهرًا"
-
-#~ msgid "_Subject Field"
-#~ msgstr "حقل ال_موضوع"
-
-#~ msgid "Toggles whether the Subject field is displayed"
-#~ msgstr "تحديد ما إذا سيعرض حقل الموضوع "
-
-#~ msgid "_To Field"
-#~ msgstr "حقل إ_لى"
-
-#~ msgid "Toggles whether the To field is displayed"
-#~ msgstr "تحديد ما إذا كان حقل \"إلى\" ظاهرًا"
-
-#~ msgid "Retrieving Message..."
-#~ msgstr "يجري سحب الرسالة..."
-
-#~ msgid "C_all To..."
-#~ msgstr "م_كالمة إلى..."
-
-#~ msgid "Completed on %B %d, %Y, %l:%M %p"
-#~ msgstr "اكتمل في %B %d، %Y، %l:%M %p"
-
-#~ msgid "by %B %d, %Y, %l:%M %p"
-#~ msgstr "قبل يوم %B %d، %Y، %l:%M %p"
-
-#~ msgid "_Save Selected..."
-#~ msgstr "ا_حفظ المنتقَى..."
-
-#~ msgid "%d at_tachment"
-#~ msgid_plural "%d at_tachments"
-#~ msgstr[0] "مُرفق واحد"
-#~ msgstr[1] "مُرفقان"
-#~ msgstr[2] "%d مُرفقات"
-#~ msgstr[3] "%d مُرفقا"
-
-#~ msgid "S_ave"
-#~ msgstr "اح_فظ"
-
-#~ msgid "No Attachment"
-#~ msgstr "بلا مُرفق"
-
-#~ msgid " (%a, %R %Z)"
-#~ msgstr " (%a, %R %Z)"
-
-#~ msgid " (%R %Z)"
-#~ msgstr " (%R %Z)"
-
-#~ msgid ""
-#~ "Enable side bar search feature so that you can start interactive "
-#~ "searching by typing in the text. Use is that you can easily find a folder "
-#~ "in that side bar by just typing the folder name and the selection jumps "
-#~ "automatically to that folder."
-#~ msgstr ""
-#~ "تفعيل ميزة بحث الشريط الجانبي لكي تستطيع أن تبدأ البحث التفاعلي عن طريق "
-#~ "كتابة النص. يستخدم هذا لإيجاد مجلد في الشريط الجانبي عن طريق مجرد كتابة "
-#~ "اسم المجلد، وسيتم انتقاؤه آليًا."
-
-#~ msgid "View/Bcc menu item is checked"
-#~ msgstr "عنصر القائمة اعرض/ن.ك.م مشار إليه"
-
-#~ msgid "View/Bcc menu item is checked."
-#~ msgstr "عنصر القائمة اعرض/ن.ك.م مشار إليه."
-
-#~ msgid "View/Cc menu item is checked"
-#~ msgstr "عنصر القائمة اعرض/ن.ك مشار إليه"
-
-#~ msgid "View/Cc menu item is checked."
-#~ msgstr "عنصر القائمة اعرض/ن.ك.م مشار إليه."
-
-#~ msgid "View/From menu item is checked"
-#~ msgstr "عنصر القائمة اعرض/مِن مشار إليه"
-
-#~ msgid "View/From menu item is checked."
-#~ msgstr "عنصر القائمة اعرض/مِن مشار إليه."
-
-#~ msgid "View/PostTo menu item is checked"
-#~ msgstr "عنصر القائمة اعرض/نشر إلى مشار إليه"
-
-#~ msgid "View/PostTo menu item is checked."
-#~ msgstr "عنصر القائمة اعرض/نشر إلى مشار إليه."
-
-#~ msgid "View/ReplyTo menu item is checked"
-#~ msgstr "عنصر القائمة اعرض/رد على مشار إليه"
-
-#~ msgid "View/ReplyTo menu item is checked."
-#~ msgstr "عنصر القائمة اعرض/رد على مشار إليه."
-
-#~ msgid " Ch_eck for Supported Types "
-#~ msgstr "فح_ص الأنواع المدعومة"
-
-#~ msgid "Ch_eck for Supported Types "
-#~ msgstr "فح_ص الأنواع المدعومة"
-
-#~ msgid "S_OCKS Host:"
-#~ msgstr "مضيف S_OCKS:"
-
-#, fuzzy
-#~ msgid "Select Drafts Folder"
-#~ msgstr "انتقي مجلّدًا"
-
-#, fuzzy
-#~ msgid "Select Sent Folder"
-#~ msgstr "انتقي مجلّدًا"
-
-#~ msgid "_Automatic proxy configuration URL:"
-#~ msgstr "عنوان التشكيل الآ_لي للوسيط:"
-
-#~ msgid "Case _sensitive"
-#~ msgstr "حساس ل_حالة الأحرف"
-
-#~ msgid "F_ind:"
-#~ msgstr "اي_جاد:"
-
-#~ msgid "Find in Message"
-#~ msgstr "أوجد في الرسالة"
-
-#~ msgid "None Selected"
-#~ msgstr "لا شيء منتقى"
-
-#~ msgid "Provides core functionality for local address books."
-#~ msgstr "يوفر الوظائف الأساسية لدفاتر العناوين المحلية."
-
-#~ msgid ""
-#~ "Looks for clues in a message for mention of attachments and warns if the "
-#~ "attachment is missing"
-#~ msgstr ""
-#~ "ابحث عن الدلالات في رسالة للتنبه للمرفقات والتحذير إن كان المرفق مفقودًا"
-
-#, fuzzy
-#~ msgid ""
-#~ "A formatter plugin which displays audio attachments inline and allows you "
-#~ "to play them directly from Evolution."
-#~ msgstr ""
-#~ "ملحق تهيئة لعرض المرفقات الصوتية داخل الرسالة ويسمح لك أن تشغلها مباشرة "
-#~ "من إيفُليوشن."
-
-#~ msgid "A plugin for backing up and restore Evolution data and settings."
-#~ msgstr "ملحق لنسخ إعدادات وبيانات إيفُليوشن احتياطيًا واستعادتها."
-
-#~ msgid "CalDAV Calendar sources"
-#~ msgstr "مصادر تقويمات CalDAV"
-
-#~ msgid "Provides core functionality for local calendars."
-#~ msgstr "يوفر الوظائف الأساسية للتقويمات المحلية."
-
-#~ msgid "HTTP Calendars"
-#~ msgstr "تقويمات HTTP"
-
-#~ msgid "Provides core functionality for webcal and http calendars."
-#~ msgstr "يوفر الوظائف الأساسية لتقويمات ويب وتقويمات http."
-
-#~ msgid "Provides core functionality for weather calendars."
-#~ msgstr "يوفر الوظائف الأساسية لتقويمات الطقس."
-
-#~ msgid ""
-#~ "A test plugin which demonstrates a popup menu plugin which lets you copy "
-#~ "things to the clipboard."
-#~ msgstr ""
-#~ "ملحق اختباري يظهر مثالًا لملحق يعرض قائمة منبثقة تسمح لك بنسخ أشياء "
-#~ "للحافظة."
-
-#~ msgid ""
-#~ "Provides functionality for marking a calendar or an address book as the "
-#~ "default one."
-#~ msgstr "يوفر إمكانية وضع علامة لتقويم أو دفتر عناوين كافتراضي."
-
 #, fuzzy
-#~ msgid "S_pecify the mailbox name"
-#~ msgstr "تحديد اسم _ملف:"
+#~| msgid "for"
+#~ msgctxt "recurrpage"
+#~ msgid "for"
+#~ msgstr "لـ"
 
-#~ msgid ""
-#~ "A plugin that manages a collection of Exchange account specific "
-#~ "operations and features."
-#~ msgstr "ملحق يدير مجموعة من العمليات والمزايا الخاصة بحسابات إكستشينج."
+#~ msgctxt "recurrpage"
+#~ msgid "until"
+#~ msgstr "حتّى"
 
-#~ msgid "Compose messages using an external editor"
-#~ msgstr "اكتبْ الرسائل مستخدما محررا خارجيا"
-
-#, fuzzy
-#~ msgid "Allows unsubscribing of mail folders in the side bar context menu."
-#~ msgstr ""
-#~ "للسماح بإلغاء الاشتراك في مجلدات البريد في قائمة السياق لشجرة المجلدات."
-
 #, fuzzy
-#~ msgid "A plugin to setup Google Calendar and Contacts."
-#~ msgstr "ملحق لإعداد تقويم و مراسلي جوجل."
-
-#~ msgid "Google sources"
-#~ msgstr "مصادر جوجل"
+#~| msgid "days"
+#~ msgctxt "ESendOptionsAfter"
+#~ msgid "days"
+#~ msgstr "الأيّام"
 
 #, fuzzy
-#~ msgid "A plugin to setup GroupWise calendar and contacts sources."
-#~ msgstr "ملحق لضبط مصادر تقويمات ودفاتر عناوين جروبوايز."
-
-#~ msgid "A plugin to setup hula calendar sources."
-#~ msgstr "ملحق لضبط مصادر تقويمات هولا."
-
-#~ msgid "Hula Account Setup"
-#~ msgstr "تثبيت حساب هولا"
-
-#~ msgid "A plugin for the features in the IMAP accounts."
-#~ msgstr "ملحق لمزايا حسابات IMAP."
-
-#~ msgid "_Import to Calendar"
-#~ msgstr "ا_ستيراد إلى التقويم"
-
-#~ msgid "Import ICS"
-#~ msgstr "استيراد ICS"
-
-#~ msgid "Imports ICS attachments to calendar."
-#~ msgstr "لاستيراد مرفقات ICS إلى التقويم."
-
-#~ msgid ""
-#~ "Synchronize the selected task/memo/calendar/address book with Apple iPod"
-#~ msgstr "تزامن المهمة/المذكرة/التقويم/دفتر العناوين المنتقى مع أبل آيبود"
-
-#~ msgid "_Tasks :"
-#~ msgstr "ال_مهام :"
-
-#~ msgid "Memos :"
-#~ msgstr "تذكيرات :"
-
-#~ msgid "Allows disabling of accounts."
-#~ msgstr "السماح بتعطيل الحسابات."
-
-#~ msgid ""
-#~ "Generates a D-Bus message or notifies the user with an icon in "
-#~ "notification area and a notification message whenever a new message has "
-#~ "arrived."
-#~ msgstr ""
-#~ "يُوَلِّد رسالة من نوع D-Bus أو يُشعر المستخدم عن طريق أيقونة في منطقة التبيلغ "
-#~ "ورسالة تبليغ كلما وصلت رسالة جديدة."
-
-#~ msgid ""
-#~ "A plugin which allows the creation of meetings from the contents of a "
-#~ "mail message."
-#~ msgstr "ملحق يسمح بإنشاء اجتماعات من محتويات رسالة بريد."
-
-#~ msgid "Con_vert to Meeting"
-#~ msgstr "ح_ول إلى اجتماع"
-
-#~ msgid "Mail to meeting"
-#~ msgstr "بريد إلى اجتماع"
-
-#~ msgid ""
-#~ "A plugin which allows the creation of tasks from the contents of a mail "
-#~ "message."
-#~ msgstr "ملحق يسمح بإنشاء مهام من محتويات رسالة بريد."
-
-#~ msgid "Con_vert to Task"
-#~ msgstr "حوِّل إلى مهمَّة"
-
-#~ msgid "Used for marking all the messages under a folder as read"
-#~ msgstr "يستخدم لتعليم كل الرسائل في المجلد كمقروءة"
-
-#~ msgid "A plugin which implements mono plugins."
-#~ msgstr "ملحق لتطبيق ملحقات مونو."
-
-#~ msgid "A plugin for managing which plugins are enabled or disabled."
-#~ msgstr "ملحق لإدارة ما إذا كانت الملحقات مفعلة أو معطلة."
-
-#~ msgid ""
-#~ "A test plugin which demonstrates a formatter plugin which lets you choose "
-#~ "to disable HTML messages.\n"
-#~ "\n"
-#~ "This plugin is unsupported demonstration code only.\n"
-#~ msgstr ""
-#~ "ملحق اختباري يعرض مثالًا لملحق للتهيئة يسمح لك بتعطيل رسائل HTML.\n"
-#~ "\n"
-#~ "هذا الملحق ليس سوى مثال وهو غير مدعوم.\n"
+#~| msgid "days"
+#~ msgctxt "ESendOptionsWithin"
+#~ msgid "days"
+#~ msgstr "الأيّام"
 
-#~ msgid "Writes a log of profiling data events."
-#~ msgstr "يكتب سجلًا بأحداث تخصيص البيانات."
-
-#~ msgid "SpamAssassin (built-in)"
-#~ msgstr "قاتل البريد المزعج (مضمّن)"
-
-#~ msgid ""
-#~ "Filters junk messages using SpamAssassin. This plugin requires "
-#~ "SpamAssassin to be installed."
-#~ msgstr ""
-#~ "لترشيح البريد المهمل باستخدام قاتل البريد المزعج. هذا الملحق يتطلب وجود "
-#~ "قاتل البريد المزعج مثبتًا."
-
-#~ msgid "A plugin for saving all attachments or parts of a message at once."
-#~ msgstr "ملحق لحفظ كل المرفقات أو أجزاء من الرسالة دفعة واحدة."
-
-#~ msgid "Save Attachments..."
-#~ msgstr "احفظ المرفقات..."
-
-#~ msgid "Select save base name"
-#~ msgstr "انتقاء اسم حفظ القاعدة"
-
-#~ msgid "Indicates if threading of messages should fall back to subject."
-#~ msgstr "تحديد ما إذا كان تخييط الرسائل يعتمد على حقل الموضوع."
-
 #, fuzzy
-#~ msgid "A simple plugin which uses yTNEF to decode TNEF attachments."
-#~ msgstr "ملحق بسيط يستخدم ytnef لفك ترميز مرفقات tnef."
-
-#~ msgid "A plugin to setup WebDAV contacts."
-#~ msgstr "ملحق لإعداد مراسلي WebDAV."
-
-#~ msgid "Pos_t New Message to Folder"
-#~ msgstr "نشر رسالة جديدة للمجلّد"
-
-#~ msgid "Post a Repl_y"
-#~ msgstr "أرسِل _رد"
-
-#~ msgid "Post a message to a Public folder"
-#~ msgstr "تعليق الرّسالة في مجلّد عام"
-
-#~ msgid "Post a reply to a message in a Public folder"
-#~ msgstr "أرسِل رد على رسالة في مجلّد عمومي"
-
-#~ msgid "Attachment Bar"
-#~ msgstr "شريط المرفقات"
-
-#~ msgid "Cannot attach file %s: %s"
-#~ msgstr "لا يمكن إرفاق الملف %s: %s"
-
-#~ msgid "Cannot attach file %s: not a regular file"
-#~ msgstr "لا يمكن إرفاق الملف %s: ليس ملفًّا اعتياديًّا"
-
-#~ msgid "MIME type:"
-#~ msgstr "نوع MIME:"
-
-#~ msgid "Suggest automatic display of attachment"
-#~ msgstr "إقتراح العرض التّلقائي للمُرفق"
-
-#~ msgid "Expanded"
-#~ msgstr "موسع"
-
-#~ msgid "Whether or not the expander is expanded"
-#~ msgstr "ما إن كان الموسع موسعًا أم لا"
-
-#~ msgid "Text of the expander's label"
-#~ msgstr "نص تسمية الموسع"
-
-#~ msgid ""
-#~ "If set, an underline in the text indicates the next character should be "
-#~ "used for the mnemonic accelerator key"
-#~ msgstr ""
-#~ "إذا تم تعيينه، فسيكون هناك تسطير في النص يشير إلى أن المحرف التالي يمكن "
-#~ "استخدامه كمفتاح اختصار"
-
-#~ msgid "Space to put between the label and the child"
-#~ msgstr "المسافة التي توضع بين التسمية و الإبن"
-
-#~ msgid "Label widget"
-#~ msgstr "قطعة التسمية"
-
-#~ msgid "A widget to display in place of the usual expander label"
-#~ msgstr "القطعة التي سيتم عرضها عوضًا عن شارة الموسع الاعتيادية"
-
-#~ msgid "Indicator Spacing"
-#~ msgstr "مباعدة المؤشر"
-
-#~ msgid "Spacing around expander arrow"
-#~ msgstr "المباعدة حول سهم الموسع"
-
-#~ msgid "Current Message"
-#~ msgstr "الرسالة الحالية"
-
-#~ msgid "Edit Master Category List..."
-#~ msgstr "حرر قائمة التصنيفات الرئيسية..."
-
-#~ msgid "Item(s) belong to these _categories:"
-#~ msgstr "ينتمي العنصر إلى أحد هذه الفئات:"
-
-#~ msgid "_Available Categories:"
-#~ msgstr "الفئات المتوفر_ة:"
-
-#~ msgid "categories"
-#~ msgstr "فئات"
-
-#~ msgid "%l:%M %p"
-#~ msgstr "%l:%M %p"
-
-#~ msgid "DnD code"
-#~ msgstr "رمز DnD"
-
-#~ msgid "Full Header"
-#~ msgstr "ترويسة كاملة"
-
-#~ msgid "Font Description"
-#~ msgstr "وصف الخط"
-
-#~ msgid "Novell Groupwise"
-#~ msgstr "Novell Groupwise"
-
-#~ msgid ""
-#~ "We were unable to open this address book.  This either means you have "
-#~ "entered an incorrect URI, or the LDAP server is unreachable."
-#~ msgstr ""
-#~ "لم نتمكّن من فتح دفتر العناوين هذا. يعني ذلك أنّك أدخلت مسارًا خطأ، أو أنّه "
-#~ "لا يمكن الوصول إلى خادوم LDAP."
-
-#~ msgid "Contact Print Style Editor Test"
-#~ msgstr "إختبار محرّر أسلوب طباعة المتراسل"
-
-#~ msgid "Copyright (C) 2000, Ximian, Inc."
-#~ msgstr "حقوق النسخ C) 2000, Ximian, Inc."
-
-#~ msgid "This should test the contact print style editor widget"
-#~ msgstr "سيختبر هذا قطعة محرّر أسلوب طباعة المتراسل"
-
-#~ msgid "This should test the contact print code"
-#~ msgstr "سيختبر هذا رمز طباعة المتراسل"
-
-#~ msgid "Business"
-#~ msgstr "عمل"
-
-#~ msgid "Competition"
-#~ msgstr "منافسة"
-
-#~ msgid "Favourites"
-#~ msgstr "مفضّلة"
-
-#~ msgid "Gifts"
-#~ msgstr "هدايا"
-
-#~ msgid "Goals/Objectives"
-#~ msgstr "أهداف/أغراض"
-
-#~ msgid "Holiday"
-#~ msgstr "عطلة"
-
-#~ msgid "Holiday Cards"
-#~ msgstr "بطاقات معايدة"
-
-#~ msgid "Hot Contacts"
-#~ msgstr "مراسلون عاجلون"
-
-#~ msgid "Ideas"
-#~ msgstr "أفكار"
-
-#~ msgid "International"
-#~ msgstr "عالمي"
-
-#~ msgid "Key Customer"
-#~ msgstr "زبون رئيسي"
-
-#~ msgid "Next 7 days"
-#~ msgstr "الأيام 7 القادمة"
-
-#~ msgid "Phone Calls"
-#~ msgstr "اتصالات هاتفية"
-
-#~ msgid "Strategies"
-#~ msgstr "إستراتيجيات"
-
-#~ msgid "Time &amp; Expenses"
-#~ msgstr "الوقت والنفقات"
-
-#~ msgid "VIP"
-#~ msgstr "شخص مهم للغاية"
-
-#~ msgid "Next 7 Days"
-#~ msgstr "الأيام 7 القادمة"
-
-#~ msgid "A_dd Filter Criteria"
-#~ msgstr "أضِ_ف معيار المُرشِح"
-
-#~ msgid "Weather: Partly Cloudy"
-#~ msgstr "حالة الطقس: غائم جزئيًا"
-
-#~ msgid "Mark calendar offline"
-#~ msgstr "علم التقويم بدون اتصال"
-
-#~ msgid "Marks the selected calendar for offline viewing."
-#~ msgstr "وضع علامة التقويم المنتقى لعرضه في وضع عدم الاتصال."
-
-#~ msgid "Error opening the FAQ webpage."
-#~ msgstr "حدث خطأ أثناء فتح صفحة الأسئلة الشائعة."
-
-#~ msgid "Select Importers"
-#~ msgstr "إنتقاء المستوردين"
-
-#~ msgid "Re_fresh..."
-#~ msgstr "أن_عش..."
+#~| msgid "None"
+#~ msgctxt "send-options"
+#~ msgid "None"
+#~ msgstr "لا شيء"
