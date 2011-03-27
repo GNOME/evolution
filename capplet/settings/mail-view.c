@@ -425,17 +425,6 @@ mail_view_add_settings (MailView *mv, gpointer data, gboolean block)
 	return (MailViewChild *)msv;
 }
 
-void
-mail_view_switch_to_settings (MailView* mv, MailViewChild *mpv)
-{
-	gint position = 0;
-
-	position = mv_get_page_number ((GtkNotebook *)mv, (GtkWidget *)mpv);
-	REALIGN_NODES (mv->priv->children,mpv);
-	gtk_notebook_set_current_page ((GtkNotebook *)mv, position);
-	mail_settings_view_activate ((MailSettingsView *)mpv, mv->tree, mv->folder_tree, mv->check_mail, mv->sort_by, mv->slider, FALSE);
-}
-
 static MailViewChild *
 mail_view_add_account (MailView *mv,
                        gpointer data,
@@ -551,23 +540,6 @@ mail_view_set_folder_uri (MailView *mv, const gchar *uri)
 	 mv_switch_folder_view (mv, uri);
 }
 
-void
-mail_view_show_sort_popup (MailView *mv, GtkWidget *button)
-{
-	mail_folder_view_show_sort_popup ((MailFolderView *)mv->priv->current_view, button);
-}
-
-void
-mail_view_show_list (MailView *mv)
-{
-	 MailViewChild *child = (MailViewChild *)mv->priv->current_view;
-
-	 if (child->type == MAIL_VIEW_MESSAGE)
-		  mv_close_mcv (child, mv);
-	 else if (child->type == MAIL_VIEW_FOLDER)
-		  mail_folder_view_show_list ((MailFolderView *)mv->priv->current_view);
-
-}
 #endif
 void
 mail_view_close_view (MailView *mv)
@@ -577,50 +549,10 @@ mail_view_close_view (MailView *mv)
 	 mv_close_mcv (child, mv);
 }
 
-#ifndef ANJAL_SETTINGS
-static void
-mv_slider_clicked (GtkButton *slider, MailView *mv)
-{
-	gtk_widget_hide (mv->slider);
-	gtk_widget_show (mv->folder_tree);
-	if (mv->priv->current_view->type == MAIL_VIEW_FOLDER)
-		 mail_folder_view_show_list ((MailFolderView *)mv->priv->current_view);
-	else {
-		 gtk_widget_show (mv->folder_tree);
-		 gtk_widget_hide ((GtkWidget *)slider);
-	}
-}
-
-void
-mail_view_set_slider (MailView *mv, GtkWidget *slider)
-{
-	mv->slider = slider;
-	g_signal_connect (slider, "clicked", G_CALLBACK(mv_slider_clicked), mv);
-}
-#endif
-
-void
-mail_view_set_folder_tree_widget (MailView *mv, GtkWidget *tree)
-{
-	mv->folder_tree = tree;
-}
-
 void
 mail_view_set_folder_tree (MailView *mv, GtkWidget *tree)
 {
 	mv->tree = tree;
-}
-
-void
-mail_view_set_check_email (MailView *mv, GtkWidget *button)
-{
-	 mv->check_mail = button;;
-}
-
-void
-mail_view_set_sort_by  (MailView *mv, GtkWidget *button)
-{
-	 mv->sort_by = button;;
 }
 
 #ifndef ANJAL_SETTINGS
@@ -629,42 +561,6 @@ mv_spinner_done (CamelFolder *f, gpointer data)
 {
 	MailView *mv = (MailView *)data;
 	 mv_spinner_show (mv, FALSE);
-}
-
-void
-mail_view_check_mail (MailView *mv, gboolean deep)
-{
-	 MailViewChild *child = (MailViewChild *)mv->priv->current_view;
-
-	 if (child && child->type == MAIL_VIEW_FOLDER) {
-		  mail_folder_view_check_mail ((MailFolderView *)child);
-		  CamelFolder *folder;
-
-		  if ((folder = em_folder_tree_get_selected_folder ((EMFolderTree *)mv->tree)) != NULL) {
-			   mv_spinner_show (mv, TRUE);
-			   mail_refresh_folder (folder, mv_spinner_done, mv);
-		  }
-	 }
-
-	if (deep) {
-		em_utils_clear_get_password_canceled_accounts_flag ();
-		mail_send_receive (NULL);
-	}
-}
-
-void
-mail_view_save (MailView *mv)
-{
-	 GList *child = mv->priv->children;
-	 MailViewChild *cview;
-
-	 while (child) {
-		  cview = (MailViewChild *)child->data;
-		  if (cview->type == MAIL_VIEW_FOLDER) {
-			   mail_folder_view_save ((MailFolderView *)cview);
-		  }
-		  child = child->next;
-	 }
 }
 
 void
@@ -679,18 +575,6 @@ mail_view_set_search (MailView *mv, const gchar *search)
 	}
 }
 #endif
-
-void
-mail_view_set_search_entry (MailView *mv, GtkWidget *entry)
-{
-	mv->priv->search_entry = entry;
-}
-
-void
-mail_view_init_search (MailView *mv, GtkWidget *search)
-{
-	mv->priv->search = search;
-}
 
 void
 mail_view_set_shell_view (MailView *mv, EShellView *shell)

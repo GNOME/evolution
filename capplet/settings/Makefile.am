@@ -45,8 +45,6 @@ libevolution_mail_settings_la_SOURCES = \
 	mail-view.h \
 	mail-capplet-shell.c \
 	mail-capplet-shell.h \
-	mail-decoration.c \
-	mail-decoration.h \
 	anjal-mail-view.h \
 	anjal-mail-view.c \
 	mail-guess-servers.c \

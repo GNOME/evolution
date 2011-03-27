@@ -55,10 +55,4 @@ typedef struct _AnjalMailViewClass {
 } AnjalMailViewClass;
 
 GType anjal_mail_view_get_type (void);
-AnjalMailView * anjal_mail_view_new (void);
-void  anjal_mail_view_set_folder_uri (AnjalMailView *mv, const gchar *uri);
-void anjal_mail_view_set_folder_tree_widget (AnjalMailView *mv, GtkWidget *tree);
-void anjal_mail_view_set_folder_tree (AnjalMailView *mv, GtkWidget *tree);
-void anjal_mail_view_set_search (AnjalMailView *view, const gchar *search);
-void anjal_mail_view_init_search (AnjalMailView *mv, GtkWidget *search);
 #endif

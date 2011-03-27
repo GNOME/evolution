@@ -40,8 +40,7 @@ enum {
 	MAIL_VIEW_COMPOSER,
 	MAIL_VIEW_MESSAGE,
 	MAIL_VIEW_ACCOUNT,
-	MAIL_VIEW_SETTINGS,
-	MAIL_VIEW_PEOPLE
+	MAIL_VIEW_SETTINGS
 };
 
 typedef struct _MailViewPrivate MailViewPrivate;
@@ -79,22 +78,10 @@ typedef struct _MailViewChild {
 GType mail_view_get_type (void);
 MailView * mail_view_new (void);
 void  mail_view_set_folder_uri (MailView *mv, const gchar *uri);
-void mail_view_show_sort_popup (MailView *mv, GtkWidget *);
-void mail_view_show_list (MailView *mv);
 void mail_view_close_view (MailView *mv);
-void mail_view_set_check_email (MailView *mv, GtkWidget *button);
-void mail_view_set_sort_by  (MailView *mv, GtkWidget *button);
-void mail_view_check_mail (MailView *mv, gboolean deep);
-void mail_view_set_folder_tree_widget (MailView *mv, GtkWidget *tree);
 void mail_view_set_folder_tree (MailView *mv, GtkWidget *tree);
-void mail_view_save (MailView *mv);
 MailViewChild * mail_view_add_page (MailView *mv, guint16 type, gpointer data);
 void mail_view_set_search (MailView *view, const gchar *search);
-void mail_view_set_slider (MailView *mv, GtkWidget *slider);
-void mail_view_init_search (MailView *mv, GtkWidget *search);
-void mail_view_switch_to_people (MailView* mv, MailViewChild *mpv);
-void mail_view_switch_to_settings (MailView* mv, MailViewChild *mpv);
-void mail_view_set_search_entry (MailView *mv, GtkWidget *entry);
 void mail_view_set_shell_view (MailView *mv, EShellView *shell);
 
 #endif
