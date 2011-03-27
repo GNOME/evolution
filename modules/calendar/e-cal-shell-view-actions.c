@@ -1808,25 +1808,25 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 	/* Fine tuning. */
 
 	action = ACTION (CALENDAR_GO_TODAY);
-	g_object_set (action, "short-label", _("Today"), NULL);
+	gtk_action_set_short_label (action, _("Today"));
 
 	action = ACTION (CALENDAR_JUMP_TO);
-	g_object_set (action, "short-label", _("Go To"), NULL);
+	gtk_action_set_short_label (action, _("Go To"));
 
 	action = ACTION (CALENDAR_VIEW_DAY);
-	g_object_set (action, "is-important", TRUE, NULL);
+	gtk_action_set_is_important (action, TRUE);
 
 	action = ACTION (CALENDAR_VIEW_LIST);
-	g_object_set (action, "is-important", TRUE, NULL);
+	gtk_action_set_is_important (action, TRUE);
 
 	action = ACTION (CALENDAR_VIEW_MONTH);
-	g_object_set (action, "is-important", TRUE, NULL);
+	gtk_action_set_is_important (action, TRUE);
 
 	action = ACTION (CALENDAR_VIEW_WEEK);
-	g_object_set (action, "is-important", TRUE, NULL);
+	gtk_action_set_is_important (action, TRUE);
 
 	action = ACTION (CALENDAR_VIEW_WORKWEEK);
-	g_object_set (action, "is-important", TRUE, NULL);
+	gtk_action_set_is_important (action, TRUE);
 
 	g_signal_connect (
 		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",

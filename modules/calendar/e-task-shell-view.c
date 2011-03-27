@@ -358,7 +358,7 @@ task_shell_view_update_actions (EShellView *shell_view)
 		label = _("Delete Tasks");
 	else
 		label = _("Delete Task");
-	g_object_set (action, "label", label, NULL);
+	gtk_action_set_label (action, label);
 
 	action = ACTION (TASK_FIND);
 	sensitive = single_task_selected;
