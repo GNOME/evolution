@@ -37,7 +37,6 @@
 
 #include <e-util/e-util.h>
 
-#include "mail-decoration.h"
 #include <mail/em-utils.h>
 #include <mail/em-composer-utils.h>
 #include <mail/mail-config.h>
@@ -254,29 +253,14 @@ mail_capplet_shell_construct (MailCappletShell *shell, gint socket_id, gboolean 
 
 	if (just_druid) {
 		MailViewChild *mc;
-		gchar *pdir = g_build_filename (g_get_home_dir(), ".gnome2_private", NULL);
 
 		gtk_notebook_set_show_tabs ((GtkNotebook *)shell->view, FALSE);
 		mc = mail_view_add_page ((MailView *)shell->view, MAIL_VIEW_ACCOUNT, NULL);
 		g_signal_connect (mc, "view-close", G_CALLBACK(ms_show_post_druid), shell);
 		setup_abooks ();
-		if (!g_file_test (pdir, G_FILE_TEST_EXISTS)) {
-			g_mkdir (pdir, 0700);
-		}
-		g_free (pdir);
 	} else
 		shell->priv->settings_view = mail_view_add_page ((MailView *)shell->view, MAIL_VIEW_SETTINGS, NULL);
 
-}
-
-gint
-mail_capplet_shell_toolbar_height (MailCappletShell *shell)
-{
-	GtkAllocation allocation;
-
-	gtk_widget_get_allocation (shell->priv->top_bar, &allocation);
-
-	return allocation.height;
 }
 
 GtkWidget *

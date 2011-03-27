@@ -56,17 +56,9 @@
 #endif
 #endif
 
-gboolean windowed = FALSE;
-gboolean anjal_icon_decoration = FALSE;
-gboolean default_app =  FALSE;
 guint32 socket_id = 0;
 GtkWidget *main_window;
 static gchar **remaining_args;
-extern gchar *shell_moduledir;
-
-#define GCONF_KEY_MAILTO_ENABLED "/desktop/gnome/url-handlers/mailto/enabled"
-#define GCONF_KEY_MAILTO_COMMAND "/desktop/gnome/url-handlers/mailto/command"
-#define ANJAL_MAILTO_COMMAND "anjal %s"
 
 static void
 categories_icon_theme_hack (void)
@@ -99,48 +91,17 @@ categories_icon_theme_hack (void)
 }
 
 static void
-check_and_set_default_mail (void)
-{
-	GConfClient *client = gconf_client_get_default ();
-	gchar *mailer;
-
-	mailer  = gconf_client_get_string (client, GCONF_KEY_MAILTO_COMMAND, NULL);
-	if (mailer && *mailer && (strcmp (mailer, ANJAL_MAILTO_COMMAND) == 0)) {
-		g_object_unref (client);
-		return; /* Anjal is the default mailer */
-	}
-
-	gconf_client_set_bool (client, GCONF_KEY_MAILTO_ENABLED, TRUE, NULL);
-	gconf_client_set_string (client, GCONF_KEY_MAILTO_COMMAND, ANJAL_MAILTO_COMMAND, NULL);
-	g_object_unref (client);
-}
-
-static gboolean
-idle_cb (MailCappletShell *mshell G_GNUC_UNUSED)
-{
-
-	if (default_app) {
-		check_and_set_default_mail ();
-	}
-
-	return FALSE;
-}
-
-static void
 create_default_shell (void)
 {
 	main_window = mail_capplet_shell_new (socket_id, FALSE, TRUE);
 	if (!socket_id)
 		gtk_widget_show (main_window);
-	g_idle_add ((GSourceFunc) idle_cb, remaining_args);
 }
 
 gint
 main (gint argc, gchar *argv[])
 {
 	GError *error = NULL;
-	GConfClient *client;
-
 
 #ifdef G_OS_WIN32
 	/* Reduce risks */
@@ -181,8 +142,6 @@ main (gint argc, gchar *argv[])
 #endif
 
 	static GOptionEntry entries[] = {
-		{ "windowed", 'w', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_NONE, &windowed,N_("Run Anjal in a window"), NULL },
-		{ "default-mailer", 'd', G_OPTION_FLAG_NO_ARG, G_OPTION_ARG_NONE, &default_app,N_("Make Anjal the default email client"), NULL },
 		{ "socket",
 		  's',
 		  G_OPTION_FLAG_IN_MAIN,
@@ -203,27 +162,16 @@ main (gint argc, gchar *argv[])
 
 	setlocale (LC_ALL, NULL);
 
-	if (!gtk_init_with_args (&argc, &argv, _("Anjal email client"), entries, NULL, &error)) {
-		g_error ("Unable to start Anjal: %s\n", error->message);
-		g_error_free (error);
-	}
+	if (!gtk_init_with_args (&argc, &argv, NULL, entries, NULL, &error))
+		g_error ("%s", error->message);
 
 	if (!g_thread_get_initialized ())
 		g_thread_init (NULL);
 
-	client = gconf_client_get_default ();
-
 	e_passwords_init ();
-	gtk_icon_theme_append_search_path (gtk_icon_theme_get_default(), PACKAGE_DATA_DIR G_DIR_SEPARATOR_S "anjal" G_DIR_SEPARATOR_S "icons");
 	categories_icon_theme_hack ();
 
-	gconf_client_set_bool (client, "/apps/evolution/mail/display/enable_vfolders", FALSE, NULL);
-	g_object_unref (client);
-
 	create_default_shell ();
-
-	if (windowed)
-		anjal_icon_decoration = TRUE;
 
 	gtk_main ();
 
