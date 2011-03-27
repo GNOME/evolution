@@ -3205,24 +3205,25 @@ mail_reader_update_actions (EMailReader *reader,
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-goto-folder";
+	sensitive = e_mail_reader_get_enable_show_folder (reader);
 	action = e_mail_reader_get_action (reader, action_name);
-	g_object_set (action, "visible", e_mail_reader_get_enable_show_folder (reader), NULL);
-	gtk_action_set_sensitive (action, e_mail_reader_get_enable_show_folder (reader));
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, sensitive);
 
 	action_name = "mail-goto-nexttab";
 	action = e_mail_reader_get_action (reader, action_name);
-	g_object_set (action, "visible", FALSE, NULL);
 	gtk_action_set_sensitive (action, TRUE);
+	gtk_action_set_visible (action, FALSE);
 
 	action_name = "mail-goto-prevtab";
 	action = e_mail_reader_get_action (reader, action_name);
-	g_object_set (action, "visible", FALSE, NULL);
 	gtk_action_set_sensitive (action, TRUE);
+	gtk_action_set_visible (action, FALSE);
 
 	action_name = "mail-close-tab";
 	action = e_mail_reader_get_action (reader, action_name);
-	g_object_set (action, "visible", FALSE, NULL);
 	gtk_action_set_sensitive (action, TRUE);
+	gtk_action_set_visible (action, FALSE);
 
 	action_name = "mail-move";
 	sensitive = any_messages_selected;
@@ -3607,54 +3608,53 @@ e_mail_reader_init (EMailReader *reader,
 
 	action_name = "mail-delete";
 	action = e_mail_reader_get_action (reader, action_name);
-	g_object_set (action, "short-label", _("Delete"), NULL);
+	gtk_action_set_short_label (action, _("Delete"));
 
 	action_name = "mail-forward";
 	action = e_mail_reader_get_action (reader, action_name);
-	g_object_set (action, "is-important", TRUE, NULL);
+	gtk_action_set_is_important (action, TRUE);
 
 	action_name = "mail-reply-group";
 	action = e_mail_reader_get_action (reader, action_name);
-	g_object_set (action, "is-important", TRUE, NULL);
+	gtk_action_set_is_important (action, TRUE);
 
 	action_name = "mail-goto-folder";
 	action = e_mail_reader_get_action (reader, action_name);
 	sensitive = e_mail_reader_get_enable_show_folder (reader);
-	g_object_set (action, "visible", FALSE, NULL);
 	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, FALSE);
 
 	action_name = "mail-goto-nexttab";
 	action = e_mail_reader_get_action (reader, action_name);
-	g_object_set (action, "visible", FALSE, NULL);
 	gtk_action_set_sensitive (action, TRUE);
+	gtk_action_set_visible (action, FALSE);
 
 	action_name = "mail-goto-prevtab";
 	action = e_mail_reader_get_action (reader, action_name);
-	g_object_set (action, "visible", FALSE, NULL);
 	gtk_action_set_sensitive (action, TRUE);
+	gtk_action_set_visible (action, FALSE);
 
 	action_name = "mail-close-tab";
 	action = e_mail_reader_get_action (reader, action_name);
-	g_object_set (action, "visible", FALSE, NULL);
 	gtk_action_set_sensitive (action, TRUE);
+	gtk_action_set_visible (action, FALSE);
 
 	action_name = "mail-next";
 	action = e_mail_reader_get_action (reader, action_name);
-	g_object_set (action, "short-label", _("Next"), NULL);
+	gtk_action_set_short_label (action, _("Next"));
 
 	action_name = "mail-previous";
 	action = e_mail_reader_get_action (reader, action_name);
-	g_object_set (action, "short-label", _("Previous"), NULL);
+	gtk_action_set_short_label (action, _("Previous"));
 
 	action_name = "mail-reply-all";
 	action = e_mail_reader_get_action (reader, action_name);
-	g_object_set (action, "is-important", TRUE, NULL);
+	gtk_action_set_is_important (action, TRUE);
 
 	action_name = "mail-reply-sender";
 	action = e_mail_reader_get_action (reader, action_name);
-	g_object_set (
-		action, "is-important", TRUE,
-		"short-label", _("Reply"), NULL);
+	gtk_action_set_is_important (action, TRUE);
+	gtk_action_set_short_label (action, _("Reply"));
 
 	action_name = "add-to-address-book";
 	action = e_web_view_get_action (web_view, action_name);

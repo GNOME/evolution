@@ -78,7 +78,8 @@ mail_shell_backend_init_importers (void)
 
 	importer = mbox_importer_peek ();
 	e_import_class_add_importer (import_class, importer, NULL, NULL);
-	mbox_importer_set_preview_funcs (mbox_create_preview_cb, mbox_fill_preview_cb);
+	mbox_importer_set_preview_funcs (
+		mbox_create_preview_cb, mbox_fill_preview_cb);
 
 	importer = elm_importer_peek ();
 	e_import_class_add_importer (import_class, importer, NULL, NULL);
@@ -95,7 +96,7 @@ mail_shell_backend_mail_icon_cb (EShellWindow *shell_window,
 
 	action = e_shell_window_get_shell_view_action (
 		shell_window, BACKEND_NAME);
-	g_object_set (action, "icon-name", icon_name, NULL);
+	gtk_action_set_icon_name (action, icon_name);
 }
 
 static void

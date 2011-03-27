@@ -345,7 +345,7 @@ book_shell_view_update_actions (EShellView *shell_view)
 		label = _("_Forward Contacts");
 	else
 		label = _("_Forward Contact");
-	g_object_set (action, "label", label, NULL);
+	gtk_action_set_label (action, label);
 
 	action = ACTION (CONTACT_MOVE);
 	sensitive = source_is_editable && any_contacts_selected;
@@ -380,7 +380,7 @@ book_shell_view_update_actions (EShellView *shell_view)
 		label = _("_Send Message to List");
 	else
 		label = _("_Send Message to Contact");
-	g_object_set (action, "label", label, NULL);
+	gtk_action_set_label (action, label);
 }
 
 static void

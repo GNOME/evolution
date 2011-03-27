@@ -952,7 +952,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	else
 		label = _("_Disable Account");
 	gtk_action_set_sensitive (action, sensitive);
-	g_object_set (action, "label", label, NULL);
+	gtk_action_set_label (action, label);
 
 	action = ACTION (MAIL_ACCOUNT_EXPUNGE);
 	sensitive = folder_is_trash;

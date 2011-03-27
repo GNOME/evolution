@@ -223,7 +223,7 @@ memo_shell_view_update_actions (EShellView *shell_view)
 		label = _("Delete Memos");
 	else
 		label = _("Delete Memo");
-	g_object_set (action, "label", label, NULL);
+	gtk_action_set_label (action, label);
 
 	action = ACTION (MEMO_FIND);
 	sensitive = single_memo_selected;
