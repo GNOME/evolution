@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2011-03-05 17:35+0000\n"
-"PO-Revision-Date: 2011-03-10 22:14+0400\n"
+"PO-Revision-Date: 2011-03-27 13:09+0400\n"
 "Last-Translator: Yuri Myaseodov <omerta13@yandex.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -48,11 +48,11 @@ msgstr "Редактор категорий недоступен."
 
 #: ../addressbook/addressbook.error.xml.h:8
 msgid "Check to make sure your password is spelled correctly and that you are using a supported login method. Remember that many passwords are case sensitive; your caps lock might be on."
-msgstr "Убедитесь, что пароль введен правильно и используется поддерживаемый метод регистрации. Большинство паролей чувствительны к регистру, у вас может быть включена клавиша Caps Lock."
+msgstr "Убедитесь, что пароль введен правильно и используется поддерживаемый метод регистрации. Большинство паролей чувствительны к регистру, у вас может быть включён режим Caps Lock."
 
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "Could not get schema information for LDAP server."
-msgstr "Не удалось получить информацию схемы с сервера LDAP."
+msgstr "Не удалось получить информацию о схеме для сервера LDAP."
 
 #: ../addressbook/addressbook.error.xml.h:10
 msgid "Could not remove address book."
@@ -78,7 +78,7 @@ msgstr "Ошибка сохранения {0} в {1}: {2}"
 
 #: ../addressbook/addressbook.error.xml.h:15
 msgid "Failed to authenticate with LDAP server."
-msgstr "Сбой проверки подлинности на сервере LDAP."
+msgstr "Сбой аутентификации на сервере LDAP."
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:16
@@ -92,7 +92,7 @@ msgstr "Создание адресной книги GroupWise:"
 
 #: ../addressbook/addressbook.error.xml.h:18
 msgid "LDAP server did not respond with valid schema information."
-msgstr "Ответ от сервера LDAP не содержит поддерживаемой информации схемы."
+msgstr "Ответ сервера LDAP не содержит информации о поддерживаемой схеме."
 
 #: ../addressbook/addressbook.error.xml.h:19
 msgid "Some features may not work properly with your current server"
@@ -120,7 +120,7 @@ msgstr "Этот сервер адресной книги не содержит 
 
 #: ../addressbook/addressbook.error.xml.h:25
 msgid "This address book server might be unreachable or the server name may be misspelled or your network connection could be down."
-msgstr "Возможно, сервер адресной книги недоступен, имя сервера может быть введено неправильно или соединение с сетью отсутствует."
+msgstr "Возможно, сервер адресной книги недоступен, имя сервера может быть введено неправильно, или отсутствует соединение с сетью."
 
 #: ../addressbook/addressbook.error.xml.h:26
 msgid "This address book will be removed permanently."
@@ -128,7 +128,7 @@ msgstr "Эта адресная книга будет окончательно �
 
 #: ../addressbook/addressbook.error.xml.h:27
 msgid "This server does not support LDAPv3 schema information."
-msgstr "Этот сервер не поддерживает информацию LDAPv3 schema."
+msgstr "Этот сервер не поддерживает информацию о схеме LDAPv3."
 
 #: ../addressbook/addressbook.error.xml.h:28
 msgid "Unable to open address book"
@@ -189,7 +189,7 @@ msgstr "_Изменить размер"
 
 #: ../addressbook/addressbook.error.xml.h:42
 msgid "_Use as it is"
-msgstr "_Использовать как есть"
+msgstr "_Использовать, как есть"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:1
 #: ../addressbook/gui/widgets/eab-contact-display.c:574
@@ -424,7 +424,7 @@ msgstr "Видео_чат:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:49
 msgid "_Wants to receive HTML mail"
-msgstr "Согласен получать почту в формате _HTML"
+msgstr "Желает получать почту в формате _HTML"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:50
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:7
@@ -746,7 +746,7 @@ msgstr[2] "%d контактов"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:323
 msgid "Error getting book view"
-msgstr "Ошибка при получении вида книги"
+msgstr "Ошибка построения просмотра книги"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:737
 msgid "Search Interrupted"
@@ -1090,8 +1090,8 @@ msgstr "Создать список контактов"
 msgid "current address book folder %s has %d card"
 msgid_plural "current address book folder %s has %d cards"
 msgstr[0] "в текущей папке адресной книги %s имеется %d карточка"
-msgstr[1] "в текущей папке адресной книги %s имеются %d карточки"
-msgstr[2] "в текущей папке адресной книги %s имеются %d карточек"
+msgstr[1] "в текущей папке адресной книги %s имеется %d карточки"
+msgstr[2] "в текущей папке адресной книги %s имеется %d карточек"
 
 #: ../addressbook/gui/widgets/ea-minicard.c:31
 msgid "Open"
@@ -2955,7 +2955,7 @@ msgstr "Нет"
 #: ../calendar/gui/dialogs/task-page.ui.h:1
 #: ../calendar/gui/e-meeting-time-sel.c:563
 msgid "Atte_ndees..."
-msgstr "Уч_астники"
+msgstr "Уч_астники…"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:6
 msgid "Custom Alarm:"
@@ -9302,11 +9302,11 @@ msgstr "Завершено в"
 
 #: ../mail/em-filter-i18n.h:12
 msgid "Date received"
-msgstr "Получена дата"
+msgstr "Дата получения"
 
 #: ../mail/em-filter-i18n.h:13
 msgid "Date sent"
-msgstr "Отправлена дата"
+msgstr "Дата отправки"
 
 #: ../mail/em-filter-i18n.h:15
 msgid "Deleted"
@@ -9446,7 +9446,7 @@ msgstr "Получатели"
 
 #: ../mail/em-filter-i18n.h:56
 msgid "Regex Match"
-msgstr "Соответствует рег. выражению"
+msgstr "Соответствует регулярному выражению"
 
 #: ../mail/em-filter-i18n.h:57
 msgid "Replied to"
@@ -9600,7 +9600,7 @@ msgstr "Сканирование папок на «%s»"
 
 #: ../mail/em-folder-tree.c:625
 msgid "Folder names cannot contain '/'"
-msgstr "Имена папок не может содержать '/'"
+msgstr "Имена папок не могут содержать символ «/»"
 
 #: ../mail/em-folder-tree.c:1245
 #, c-format
@@ -9765,7 +9765,7 @@ msgstr "Завершено в"
 
 #: ../mail/em-format-html-display.c:812
 msgid "Overdue:"
-msgstr "Просрочена:"
+msgstr "Просрочено:"
 
 #. To Translators: the "by" is part of the string, like "Follow-up by Tuesday, January 13, 2009"
 #: ../mail/em-format-html-display.c:816
@@ -10837,11 +10837,11 @@ msgstr "Подшивать список сообщений по полю «Те�
 
 #: ../mail/evolution-mail.schemas.in.h:213
 msgid "Timeout for marking message as seen"
-msgstr "Задержка перед помечанием сообщения как просмотренное"
+msgstr "Задержка перед пометкой сообщения как просмотренное"
 
 #: ../mail/evolution-mail.schemas.in.h:214
 msgid "Timeout for marking message as seen."
-msgstr "Задержка перед помечанием сообщения как просмотренное."
+msgstr "Задержка перед пометкой сообщения как просмотренное."
 
 #: ../mail/evolution-mail.schemas.in.h:215
 msgid "UID string of the default account."
@@ -12819,15 +12819,15 @@ msgstr "Тема или получатели содержат"
 
 #: ../modules/addressbook/addressbook-config.c:205
 msgid "Selecting this option means that Evolution will only connect to your LDAP server if your LDAP server supports SSL."
-msgstr "Выбор этой опции означает, что Evolution будет устанавливать соединение с вашим сервером LDAP только в том случае, если он поддерживает SSL."
+msgstr "Выбор этого параметра означает, что Evolution будет устанавливать соединение с сервером LDAP только в том случае, если сервер поддерживает SSL."
 
 #: ../modules/addressbook/addressbook-config.c:207
 msgid "Selecting this option means that Evolution will only connect to your LDAP server if your LDAP server supports TLS."
-msgstr "Выбор этой опции означает, что Evolution будет устанавливать соединение с вашим сервером LDAP только в том случае, если он поддерживает TLS."
+msgstr "Выбор этого параметра означает, что Evolution будет устанавливать соединение с сервером LDAP только в том случае, если сервер поддерживает TLS."
 
 #: ../modules/addressbook/addressbook-config.c:209
 msgid "Selecting this option means that your server does not support either SSL or TLS. This means that your connection will be insecure, and that you will be vulnerable to security exploits."
-msgstr "Выбор этой опции означает, что ваш сервер не поддерживает ни SSL, ни TLS . Это означает, что ваше соединение с сервером будет уязвимым для атак. "
+msgstr "Выбор этого параметра означает, что сервер не поддерживает ни SSL, ни TLS . Это означает, что соединение с сервером будет уязвимым для атак."
 
 #: ../modules/addressbook/addressbook-config.c:608
 msgid "U_se in Birthday & Anniversaries calendar"
@@ -12847,7 +12847,7 @@ msgstr "Это метод, используемый Evolution для прове�
 
 #: ../modules/addressbook/addressbook-config.c:900
 msgid "The search scope defines how deep you would like the search to extend down the directory tree. A search scope of \"sub\" will include all entries below your search base. A search scope of \"one\" will only include the entries one level beneath your base."
-msgstr "Глубина поиска определяет, как далеко вниз по дереву каталогов будет осуществляться поиск. Глубина поиска «sub» включает все элементы под каталогом начала поиска. Глубина поиска «one» включает в себя элементы на один уровень ниже каталога начала поиска."
+msgstr "Глубина поиска определяет, как далеко вниз по дереву каталогов будет осуществляться поиск. Глубина поиска «sub» включает все элементы под каталогом начала поиска. Глубина поиска «one» включает в себя элементы на один уровень ниже базы."
 
 #: ../modules/addressbook/addressbook-config.c:1016
 msgid "Server Information"
@@ -12930,7 +12930,7 @@ msgstr "Стиль расположения определяет место дл
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:14
 msgid "The number of characters that must be typed before Evolution will attempt to autocomplete."
-msgstr "Количество символов, которое необходимо ввести для вызова функции автодополнения."
+msgstr "Количество символов, которое необходимо ввести для вызова автодополнения."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:15
 msgid "URI for the folder last used in the select names dialog"
@@ -13317,7 +13317,7 @@ msgstr "_Фильтр поиска:"
 
 #: ../modules/addressbook/ldap-config.ui.h:16
 msgid "Search filter is the type of object to be searched for. If this is not modified, the default search will be performed on the type \"person\"."
-msgstr "Фильтр поиска - это тип объекта, который должен быть найден. Если не изменять, по умолчанию будет произведён поиск объекта типа «person»."
+msgstr "Фильтр поиска — это тип объекта, который должен быть найден. Если поле не изменено, по умолчанию будет произведён поиск объекта типа «person»."
 
 #. To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.
 #: ../modules/addressbook/ldap-config.ui.h:18
@@ -15326,15 +15326,15 @@ msgstr "Каждый раз"
 
 #: ../modules/mail/em-mailer-prefs.c:90
 msgid "Once per day"
-msgstr "Один раз в день"
+msgstr "Ежедневно"
 
 #: ../modules/mail/em-mailer-prefs.c:91
 msgid "Once per week"
-msgstr "Один раз в неделю"
+msgstr "Еженедельно"
 
 #: ../modules/mail/em-mailer-prefs.c:92
 msgid "Once per month"
-msgstr "Один раз в месяц"
+msgstr "Ежемесячно"
 
 #: ../modules/mail/em-mailer-prefs.c:174
 msgid "Add Custom Junk Header"
