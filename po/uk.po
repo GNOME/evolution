@@ -11,16 +11,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-25 00:30+0200\n"
-"PO-Revision-Date: 2011-03-24 23:23+0300\n"
+"POT-Creation-Date: 2011-03-27 18:54+0300\n"
+"PO-Revision-Date: 2011-03-27 21:52+0300\n"
 "Last-Translator: Korostil Daniel <ted.korostiled@gmail.com>\n"
 "Language-Team: translation@linux.org.ua\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Virtaal 0.6.1\n"
 
 #. For Translators: {0} is the name of the address book source
@@ -9986,7 +9986,6 @@ msgid "Check for new messages in all active accounts"
 msgstr "Перевіряти на нові повідомлення в усіх активних облікових записах"
 
 #: ../mail/evolution-mail.schemas.in.h:20
-#, fuzzy
 msgid "Check for new messages on start"
 msgstr "Перевіряти на нові повідомлення при запуску"
 
@@ -10939,17 +10938,18 @@ msgid "The default plugin for Junk hook"
 msgstr "Типовий модуль обробки спаму"
 
 #: ../mail/evolution-mail.schemas.in.h:193
-#, fuzzy
 msgid ""
 "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
-msgstr "Час останньої чистки спаму, у днях з початку епохи."
+msgstr ""
+"Час останнього очищення спаму, у днях з початку епохи, починаючи з першого "
+"січня 1970 року."
 
 #: ../mail/evolution-mail.schemas.in.h:194
-#, fuzzy
 msgid ""
 "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
-"Останній раз, коли виконувалось очищення смітника, у днях з початку епохи."
+"Останній раз, коли виконувалось очищення смітника, у днях з початку епохи, "
+"починаючи з першого січня 1970 року."
 
 #: ../mail/evolution-mail.schemas.in.h:195
 msgid ""
@@ -10971,18 +10971,24 @@ msgid ""
 "The text that is inserted when forwarding a message, saying that the "
 "forwarded message follows."
 msgstr ""
+"Текст, який вставляється при пересиланні повідомлення, заявивши, що "
+"переслане повідомлення відповідає дійсності."
 
 #: ../mail/evolution-mail.schemas.in.h:198
 msgid ""
 "The text that is inserted when replying to a message (top posting), saying "
 "that the original message follows."
 msgstr ""
+"Текст, який вставляється при відповіді на повідомлення (верхнє дописування), "
+"заявивши, що справжнє повідомлення відповідає дійсності."
 
 #: ../mail/evolution-mail.schemas.in.h:199
 msgid ""
 "The text that is inserted when replying to a message, attributing the "
 "message to the original author."
 msgstr ""
+"Текст, який вставляється при відповіді на повідомлення, приписуючи "
+"повідомлення до його автора."
 
 #: ../mail/evolution-mail.schemas.in.h:200
 msgid "The variable width font for mail display."
@@ -10997,15 +11003,15 @@ msgstr ""
 "налагоджувальні повідомлення messages."
 
 #: ../mail/evolution-mail.schemas.in.h:202
-#, fuzzy
 msgid ""
 "This decides the max size of the message text that will be displayed under "
 "Evolution, specified in terms of KB. The default is 4096 (4MB). This value "
 "is used only when 'force_message_limit' key is activated."
 msgstr ""
 "Визначає максимальний розмір текстового долучення, яке може бути "
-"відформатовано у програмі Evolution. Типовий розмір 4MB / 4096 KB та "
-"вказується у КБ."
+"відформатовано у програмі Evolution, що вказано в кілобайтах. Типовий розмір "
+"— 4096 КБ (4МБ). Це значення використовується лише при активному ключі "
+"«force_message_limit»."
 
 #: ../mail/evolution-mail.schemas.in.h:203
 msgid ""
@@ -11061,13 +11067,12 @@ msgstr ""
 "повідомлень, при перевищенні цього числа відображається '...'."
 
 #: ../mail/evolution-mail.schemas.in.h:209
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Requires a restart to apply."
 msgstr ""
-"Цей параметр вказує стан типової гілки. Чи повинна вона розкриватися або "
-"з'являтися згорнутою. Треба перезапустити Evolution, що зміни набрали сили."
+"Цей параметр, чи повинні гілки розкриватися або з'являтися згорнутими. Треба "
+"перезапустити Evolution, щоб застосувати зміни."
 
 #: ../mail/evolution-mail.schemas.in.h:210
 msgid ""
@@ -11085,6 +11090,10 @@ msgid ""
 "folder, usually set to ~/Pictures. This folder will be also used when the "
 "set path is not pointing to the existent folder."
 msgstr ""
+"Це значення може містити порожній рядок, що означає, що "
+"використовуватиметься системна тека малюнків, це зазвичай ~/Pictures. Ця "
+"тека буде також використовуватись, коли вказаний шлях не належить до наявної "
+"теки."
 
 #: ../mail/evolution-mail.schemas.in.h:212
 msgid "Thread the message-list based on Subject"
@@ -11164,12 +11173,18 @@ msgid ""
 "account \"Check for new messages every X minutes\" option when Evolution is "
 "started. This option is used only together with 'send_recv_on_start' option."
 msgstr ""
+"Чи перевіряти на нові повідомлення в усіх активних облікових записах "
+"незалежно від параметра «Перевіряти на нові повідомлення кожних X хвилин», "
+"коли програму запущено. Цей параметр використовується лише разом з "
+"«send_recv_on_start»."
 
 #: ../mail/evolution-mail.schemas.in.h:228
 msgid ""
 "Whether check for new messages when Evolution is started. This includes also "
 "sending messages from Outbox."
 msgstr ""
+"Чи перевіряти на нові повідомлення, коли програму запущено. Це також "
+"ураховує надсилання повідомлень з вихідних."
 
 #: ../mail/evolution-mail.schemas.in.h:229
 msgid "Whether disable ellipsizing feature of folder names in side bar."
@@ -11193,6 +11208,9 @@ msgid ""
 "only when there was used any 'Forward to' filter action and approximately "
 "one minute after the last action invocation."
 msgstr ""
+"Чи очищувати вихідні після завершення фільтрування. Очищення вихідних "
+"відбудеться лише, коли буде використано дію фільтра «Переслано до» і "
+"приблизно через хвилину після останнього виклику."
 
 #: ../mail/evolution-mail.schemas.in.h:233
 msgid "Width of the message-list pane"
@@ -11223,9 +11241,8 @@ msgstr "Імпорт пошти з програми Elm."
 
 #: ../mail/importers/evolution-mbox-importer.c:127
 #: ../plugins/dbx-import/dbx-importer.c:242
-#, fuzzy
 msgid "_Destination folder:"
-msgstr "Тека призначення:"
+msgstr "Тека _призначення:"
 
 #: ../mail/importers/evolution-mbox-importer.c:133
 #: ../plugins/dbx-import/dbx-importer.c:252
@@ -11240,13 +11257,11 @@ msgid "Select folder to import into"
 msgstr "Виберіть теку у яку імпортувати"
 
 #: ../mail/importers/evolution-mbox-importer.c:403
-#, fuzzy
 msgctxt "mboxImp"
 msgid "Subject"
 msgstr "Тема"
 
 #: ../mail/importers/evolution-mbox-importer.c:408
-#, fuzzy
 msgctxt "mboxImp"
 msgid "From"
 msgstr "Від"
@@ -11269,9 +11284,9 @@ msgstr "Імпортується поштова скринька"
 #: ../plugins/dbx-import/dbx-importer.c:593
 #: ../plugins/pst-import/pst-importer.c:480
 #: ../plugins/pst-import/pst-importer.c:589
-#, fuzzy, c-format
+#, c-format
 msgid "Importing '%s'"
-msgstr "Імпортується `%s'"
+msgstr "Імпортування «%s»"
 
 #: ../mail/importers/mail-importer.c:308
 #, c-format
@@ -11334,8 +11349,16 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "\"%s\"."
 msgstr[0] ""
+"Правило фільтрування «%s» змінено в обліковому записі для вилученої теки\n"
+"«%s»."
 msgstr[1] ""
+"Такі правила фільтрування\n"
+"%s змінено в обліковому записі для вилученої теки\n"
+"«%s»."
 msgstr[2] ""
+"Такі правила фільтрування\n"
+"%s змінено в обліковому записі для вилученої теки\n"
+"«%s»."
 
 #: ../mail/mail-config.ui.h:2
 msgid "Add Ne_w Signature..."
@@ -11349,7 +11372,7 @@ msgstr ""
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:5
 msgid "Allowing a _mailing list to redirect a private reply to the list"
-msgstr ""
+msgstr "Дозволяє списку _листування перенаправляти особисті відповіді в список"
 
 #: ../mail/mail-config.ui.h:6
 msgid "Also encrypt to sel_f when sending encrypted messages"
@@ -11377,7 +11400,7 @@ msgstr "_Запитувати підтвердження про прочитан
 
 #: ../mail/mail-config.ui.h:12
 msgid "Apply the same _view settings to all folders"
-msgstr ""
+msgstr "Застосувати однаковий _перегляд налаштувань для всіх тек"
 
 #: ../mail/mail-config.ui.h:14
 #: ../modules/addressbook/addressbook-config.c:1018
@@ -11401,14 +11424,12 @@ msgid "Check cu_stom headers for junk"
 msgstr "Перевіряти _інші заголовки на спам"
 
 #: ../mail/mail-config.ui.h:19
-#, fuzzy
 msgid "Check for new _messages on start"
-msgstr "Перевіряти _нову пошту кожні"
+msgstr "Перевіряти на нові п_овідомлення при запуску"
 
 #: ../mail/mail-config.ui.h:20
-#, fuzzy
 msgid "Check for new messa_ges in all active accounts"
-msgstr "Перевіряти _нову пошту кожні"
+msgstr "Перевіряти на нові пові_домлення в усіх активних облікових записах"
 
 #: ../mail/mail-config.ui.h:21
 msgid "Check incoming _messages for junk"
@@ -11444,9 +11465,8 @@ msgid "Confirm _when expunging a folder"
 msgstr "_Питати підтвердження при очищенні вилучених повідомлень"
 
 #: ../mail/mail-config.ui.h:29
-#, fuzzy
 msgid "Confirmations"
-msgstr "Налаштування"
+msgstr "Підтвердження"
 
 #: ../mail/mail-config.ui.h:30
 #: ../modules/addressbook/autocompletion-config.c:155
@@ -11475,9 +11495,8 @@ msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "_Підписувати повідомлення, що надсилаються (типово)"
 
 #: ../mail/mail-config.ui.h:38
-#, fuzzy
 msgid "Displayed Message Headers"
-msgstr "_Відображені заголовки повідомлень"
+msgstr "Показані заголовки повідомлень"
 
 #: ../mail/mail-config.ui.h:39
 msgid "Do not mar_k messages as junk if sender is in my address book"
@@ -11513,9 +11532,8 @@ msgid "F_all back to threading messages by subject"
 msgstr "Повернутись до розбиття повідомлень на гілки за _темою"
 
 #: ../mail/mail-config.ui.h:48
-#, fuzzy
 msgid "Fix_ed Width Font:"
-msgstr "_Моноширинний шрифт:"
+msgstr "Шрифт не_змінної ширини:"
 
 #: ../mail/mail-config.ui.h:49
 msgid "Format messages in _HTML"
@@ -11527,7 +11545,7 @@ msgstr "_Повне ім'я:"
 
 #: ../mail/mail-config.ui.h:52
 msgid "Group Reply goes only to mailing list, if possible"
-msgstr ""
+msgstr "Групові відповіді йдуть лише до списку листування, якщо це можливо"
 
 #: ../mail/mail-config.ui.h:53
 msgid "HTML Messages"
@@ -11547,7 +11565,7 @@ msgstr "Висвітлювати _цитування"
 
 #: ../mail/mail-config.ui.h:57
 msgid "Ignore Reply-To: for mailing lists"
-msgstr ""
+msgstr "Ігнорувати відповісти на: для списків листування"
 
 #: ../mail/mail-config.ui.h:58
 msgid "Inline"
@@ -11646,9 +11664,8 @@ msgid "Remember _password"
 msgstr "Запам'ятати _пароль"
 
 #: ../mail/mail-config.ui.h:85
-#, fuzzy
 msgid "Replies and Forwards"
-msgstr "Відповіді та батьківські"
+msgstr "Відповіді й перенаправлення"
 
 #: ../mail/mail-config.ui.h:86
 msgid "Required Information"
@@ -11656,19 +11673,19 @@ msgstr "Обов'язкова інформація"
 
 #: ../mail/mail-config.ui.h:87
 msgid "SHA1"
-msgstr ""
+msgstr "SHA1"
 
 #: ../mail/mail-config.ui.h:88
 msgid "SHA256"
-msgstr ""
+msgstr "SHA256"
 
 #: ../mail/mail-config.ui.h:89
 msgid "SHA384"
-msgstr ""
+msgstr "SHA384"
 
 #: ../mail/mail-config.ui.h:90
 msgid "SHA512"
-msgstr ""
+msgstr "SHA512"
 
 #: ../mail/mail-config.ui.h:92
 msgid "SSL is not supported in this build of Evolution"
@@ -11708,36 +11725,28 @@ msgstr "Фотографія відправника"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:103
-#, fuzzy
 msgid "Sending a _private reply to a mailing list message"
-msgstr "Відповісти у список розсилки цього повідомлення"
+msgstr "Надсилання _особистої відповіді на повідомлення списку листування"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:105
-#, fuzzy
 msgid "Sending a message with _recipients not entered as mail addresses"
-msgstr ""
-"Адреси електронної пошти наступних отримувача нерозпізнано як коректні:\n"
-"{0}"
+msgstr "Надсилання повідомлення з о_держувачем, адресу якого не введено"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:107
-#, fuzzy
 msgid "Sending a message with an _empty subject line"
-msgstr "Поперед_жати при надсиланні повідомлень з порожньою темою"
+msgstr "Надсилання повідомлення з _порожнім рядком теми"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:109
-#, fuzzy
 msgid "Sending a message with only _Bcc recipients defined"
-msgstr ""
-"Попе_реджати при надсиланні повідомлень, у яких визначені лише отримувачі "
-"прихованої копії"
+msgstr "Надсилання повідомлення вказаних з лише п_рихованими одержувачами"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:111
 msgid "Sending a reply to a large _number of recipients"
-msgstr ""
+msgstr "Надсилання відповіді до великої _кількості одержувачі"
 
 #: ../mail/mail-config.ui.h:112
 msgid "Sent _Messages Folder:"
@@ -11756,9 +11765,8 @@ msgid "Server _Type:"
 msgstr "_Тип сервера: "
 
 #: ../mail/mail-config.ui.h:116
-#, fuzzy
 msgid "Si_gning algorithm:"
-msgstr "Сертифікат _підпису:"
+msgstr "Алгоритм підп_исування:"
 
 #: ../mail/mail-config.ui.h:117
 msgid "Sig_natures"
@@ -11777,14 +11785,12 @@ msgid "Signatures"
 msgstr "Підписи"
 
 #: ../mail/mail-config.ui.h:121
-#, fuzzy
 msgid "Signing _algorithm:"
-msgstr "Сертифікат _підпису:"
+msgstr "_Алгоритм підписування:"
 
 #: ../mail/mail-config.ui.h:122
-#, fuzzy
 msgid "Special Folders"
-msgstr "Локальні теки"
+msgstr "Спеціальні теки"
 
 #: ../mail/mail-config.ui.h:123
 msgid "Spell Checking"
@@ -11795,9 +11801,8 @@ msgid "Start _typing at the bottom on replying"
 msgstr "При відповіді починати _ввід після цитати"
 
 #: ../mail/mail-config.ui.h:125
-#, fuzzy
 msgid "Start up"
-msgstr "Починається:"
+msgstr "Запуск"
 
 #: ../mail/mail-config.ui.h:127
 msgid "T_ype:"
@@ -11824,6 +11829,8 @@ msgid ""
 "To help avoid email accidents and embarrassments, ask for confirmation "
 "before taking the following checkmarked actions:"
 msgstr ""
+"Щоб уникнути нещасних випадків і дрібних неприємностей, запитуйте про "
+"підтвердження перед виконанням таких дій checkmarked:"
 
 #: ../mail/mail-config.ui.h:133
 msgid ""
@@ -11842,9 +11849,8 @@ msgid "Use Authe_ntication"
 msgstr "Використовувати _автентифікацію"
 
 #: ../mail/mail-config.ui.h:137
-#, fuzzy
 msgid "User _Name:"
-msgstr "_Назва запису:"
+msgstr "_Користувач:"
 
 #: ../mail/mail-config.ui.h:138
 msgid "_Add Signature"
@@ -11875,24 +11881,20 @@ msgid "_Forward style:"
 msgstr "Стиль _пересилання:"
 
 #: ../mail/mail-config.ui.h:145
-#, fuzzy
 msgid "_Junk Folder:"
-msgstr "Поточна тека"
+msgstr "Тека зі _спамом:"
 
 #: ../mail/mail-config.ui.h:146
-#, fuzzy
 msgid "_Keep signature above the original message on replying"
-msgstr "При відповіді розміщувати підпис _над повідомленням"
+msgstr "_Зберігати підпис вище від оригінального повідомлення при відповіді"
 
 #: ../mail/mail-config.ui.h:147
 msgid "_Languages"
 msgstr "_Мова"
 
 #: ../mail/mail-config.ui.h:148
-#, fuzzy
 msgid "_Load images only in messages from contacts"
-msgstr ""
-"_Завантажувати зображення у повідомленні, якщо відправник є у контактах"
+msgstr "_Завантажувати зображення лише в повідомленнях від контактів"
 
 #: ../mail/mail-config.ui.h:149
 msgid "_Lookup in local address book only"
@@ -11937,18 +11939,16 @@ msgstr "_Сервер:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.ui.h:162
-#, fuzzy
 msgid "_Show animated images"
-msgstr "Показувати анімаційні зображення як анімацію."
+msgstr "_Показувати анімаційні зображення"
 
 #: ../mail/mail-config.ui.h:163
 msgid "_Show the photograph of sender in the message preview"
 msgstr "Показувати фотографію _відправника у панелі перегляду пошти"
 
 #: ../mail/mail-config.ui.h:164
-#, fuzzy
 msgid "_Trash Folder:"
-msgstr "Тека _чернеток:"
+msgstr "Тека _смітника:"
 
 #: ../mail/mail-config.ui.h:165
 msgid "_Use Secure Connection:"
@@ -12190,11 +12190,9 @@ msgstr[1] "Збереження %d повідомлень"
 msgstr[2] "Збереження %d повідомлень"
 
 #: ../mail/mail-ops.c:2336
-#, fuzzy, c-format
+#, c-format
 msgid "Error saving messages to: %s:\n"
-msgstr ""
-"Помилка при збереженні у: %s:\n"
-" %s"
+msgstr "Помилка при збереженні в: %s:\n"
 
 #: ../mail/mail-ops.c:2411
 #, c-format
@@ -12206,19 +12204,19 @@ msgid "Checking Service"
 msgstr "Перевірка служби"
 
 #: ../mail/mail-ops.c:2582
-#, fuzzy, c-format
+#, c-format
 msgid "Disconnecting %s"
-msgstr "Відключення від «%s»"
+msgstr "Від'єднання від %s"
 
 #: ../mail/mail-ops.c:2639
-#, fuzzy, c-format
+#, c-format
 msgid "Removing attachments"
 msgstr "Вилучення долучень"
 
 #: ../mail/mail-ops.c:2686
-#, fuzzy, c-format
+#, c-format
 msgid "File \"%s\" has been removed."
-msgstr "Всі облікові записи вилучено."
+msgstr "Файл «%s» вилучено."
 
 #: ../mail/mail-send-recv.c:191
 msgid "Canceling..."
@@ -12246,14 +12244,14 @@ msgid "Checking for new mail"
 msgstr "Перевірка нової пошти"
 
 #: ../mail/mail-tools.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create spool directory '%s': %s"
-msgstr "Не вдається створити буферний каталог \"%s\": %s"
+msgstr "Не вдалось створити розвантажувальний каталог «%s»: %s"
 
 #: ../mail/mail-tools.c:102
-#, fuzzy, c-format
+#, c-format
 msgid "Trying to movemail a non-mbox source '%s'"
-msgstr "Спроба перемістити пошту з не-mbox джерела \"%s\""
+msgstr "Спроба перемістити пошту з джерела «%s», яке не є mbox"
 
 #: ../mail/mail-tools.c:214
 #, c-format
@@ -12294,9 +12292,15 @@ msgid_plural ""
 "The following Search Folders\n"
 "%s have been modified to account for the deleted folder\n"
 "\"%s\"."
-msgstr[0] ""
+msgstr[0] "Пошук теки «%s» змінено в обліковому записі для вилученої теки «%s»."
 msgstr[1] ""
+"Такий пошук тек\n"
+"%s змінено в обліковому записі для вилученої теки\n"
+"«%s»."
 msgstr[2] ""
+"Такий пошук тек\n"
+"%s змінено в обліковому записі для вилученої теки\n"
+"«%s»."
 
 #: ../mail/mail-vfolder.c:1297
 msgid "Edit Search Folder"
@@ -12307,19 +12311,16 @@ msgid "New Search Folder"
 msgstr "Нова віртуальна тека"
 
 #: ../mail/mail.error.xml.h:1
-#, fuzzy
 msgid "\"Check Junk\" Failed"
-msgstr "Помилка при перевірці на спам"
+msgstr "Не вдалось перевірити спам"
 
 #: ../mail/mail.error.xml.h:2
-#, fuzzy
 msgid "\"Report Junk\" Failed"
-msgstr "Помилка звіту про помилки"
+msgstr "Не вдалось звітувати про спам"
 
 #: ../mail/mail.error.xml.h:3
-#, fuzzy
 msgid "\"Report Not Junk\" Failed"
-msgstr "Помилка звіту про не спам"
+msgstr "Не вдалось звітувати про неспам"
 
 #: ../mail/mail.error.xml.h:4
 msgid "A folder named \"{0}\" already exists. Please use a different name."
@@ -12447,7 +12448,6 @@ msgid "Cannot move folder \"{0}\" to \"{1}\"."
 msgstr "Не вдалось перемістити теку «{0}» у «{1}»."
 
 #: ../mail/mail.error.xml.h:32
-#, fuzzy
 msgid "Cannot open source \"{1}\"."
 msgstr "Не вдалось відкрити джерело «{1}»"
 
@@ -12501,9 +12501,8 @@ msgstr ""
 "чутлива до регістру символів; можливо у вас натиснута клавіша CapsLock."
 
 #: ../mail/mail.error.xml.h:43
-#, fuzzy
 msgid "Close message window."
-msgstr "Закрити це вікно"
+msgstr "Закрити вікно повідомлення."
 
 #: ../mail/mail.error.xml.h:44
 msgid "Could not save signature file."
@@ -12514,17 +12513,14 @@ msgid "Delete messages in Search Folder \"{0}\"?"
 msgstr "Delete messages in Search Folder \"{0}\"?"
 
 #: ../mail/mail.error.xml.h:47
-#, fuzzy
 msgid "Do _Not Disable"
-msgstr "Не вимикати"
+msgstr "_Не вимикати"
 
 #: ../mail/mail.error.xml.h:48
-#, fuzzy
 msgid "Do _Not Send"
 msgstr "_Не надсилати"
 
 #: ../mail/mail.error.xml.h:49
-#, fuzzy
 msgid "Do _Not Synchronize"
 msgstr "_Не синхронізувати"
 
@@ -12573,15 +12569,22 @@ msgid ""
 "delete the account after ensuring the data is safely migrated. Please make "
 "sure there is enough disk space if you choose to migrate now."
 msgstr ""
+"Формат локальної пошти Evolution змінено з mbox на Maildir. Вашу локальну "
+"пошту потрібно перенести на новий формат, поки її зможе обробити Evolution. "
+"Перенести зараз же?\n"
+"\n"
+"Обліковий запис mbox буде створено, щоб зберегти старі теки mbox. Можете "
+"вилучити обліковий запис, коли переконаєтесь, що дані безпечно перенесено. "
+"Будь ласка, переконайтесь, що достатньо місця на диску при виборі "
+"перенесення зараз."
 
 #: ../mail/mail.error.xml.h:63
 msgid "Evolution's local mail format has changed."
-msgstr ""
+msgstr "Формат локальної пошти Evolution змінено."
 
 #: ../mail/mail.error.xml.h:64
-#, fuzzy
 msgid "Failed to unsubscribe from folder."
-msgstr "Скасування підписки на теку \"%s\""
+msgstr "Не вдалось скасувати підписку з теки."
 
 #: ../mail/mail.error.xml.h:65
 msgid "File exists but cannot overwrite it."
@@ -12593,16 +12596,14 @@ msgstr "Файл існує або не є звичайним файлом."
 
 #. Translators: {0} is replaced with a folder name
 #: ../mail/mail.error.xml.h:68
-#, fuzzy
 msgid "Folder '{0}' doesn't contain any duplicate message."
-msgstr "Долучення не містить правильно сформованого повідомлення"
+msgstr "Тека «{0}» не містить повторні повідомлення."
 
 #: ../mail/mail.error.xml.h:69
 msgid "If you continue, you will not be able to recover these messages."
 msgstr "Якщо ви продовжите, ви не зможете відновити ці повідомлення."
 
 #: ../mail/mail.error.xml.h:70
-#, fuzzy
 msgid ""
 "If you delete the folder, all of its contents and its subfolders' contents "
 "will be deleted permanently."
@@ -12675,14 +12676,12 @@ msgid "Missing folder."
 msgstr "Неіснуюча тека."
 
 #: ../mail/mail.error.xml.h:84
-#, fuzzy
 msgid "N_ever"
-msgstr "Ніколи"
+msgstr "_Ніколи"
 
 #: ../mail/mail.error.xml.h:85
-#, fuzzy
 msgid "No duplicate messages found."
-msgstr "Не вдається створити повідомлення."
+msgstr "Не знайдено повторів повідомлень."
 
 #: ../mail/mail.error.xml.h:86
 msgid "No sources selected."
@@ -12750,12 +12749,11 @@ msgstr "Вилучити теку «{0}»?"
 
 #: ../mail/mail.error.xml.h:100
 msgid "Remove duplicate messages?"
-msgstr ""
+msgstr "Вилучити повторні повідомлення?"
 
 #: ../mail/mail.error.xml.h:101
-#, fuzzy
 msgid "Reply _Privately"
-msgstr "_Приватне"
+msgstr "Відповісти _особисто"
 
 #: ../mail/mail.error.xml.h:104
 msgid "Search Folders automatically updated."
@@ -12763,12 +12761,11 @@ msgstr "Віртуальні теки автоматично оновлені."
 
 #: ../mail/mail.error.xml.h:105
 msgid "Send private reply?"
-msgstr ""
+msgstr "Надіслати особисту відповідь?"
 
 #: ../mail/mail.error.xml.h:106
-#, fuzzy
 msgid "Send reply to all recipients?"
-msgstr "Відправник або отримувачі"
+msgstr "Надіслати відповідь усім одержувачам?"
 
 #: ../mail/mail.error.xml.h:107
 msgid "Signature Already Exists"
@@ -12865,11 +12862,8 @@ msgstr ""
 "прочитані."
 
 #: ../mail/mail.error.xml.h:126
-#, fuzzy
 msgid "This will mark all messages as read in the selected folder."
-msgstr ""
-"Усі повідомлення у вибраній теці та її підтеках будуть позначені як "
-"прочитані."
+msgstr "Усі повідомлення у вибраній теці буде позначено як прочитані."
 
 #: ../mail/mail.error.xml.h:127
 msgid "Unable to connect to the GroupWise server."
@@ -12906,9 +12900,8 @@ msgstr ""
 "Зробити це?"
 
 #: ../mail/mail.error.xml.h:134
-#, fuzzy
 msgid "Would you like to close the message window?"
-msgstr "Зберегти?"
+msgstr "Закрити вікно повідомлення?"
 
 #: ../mail/mail.error.xml.h:135
 msgid ""
@@ -12916,6 +12909,9 @@ msgid ""
 "but the list is trying to redirect your reply to go back to the list. Are "
 "you sure you want to proceed?"
 msgstr ""
+"Ви відповідаєте особисто на повідомлення, яке прибуло через список "
+"листування, однак список намагається перенаправити вашу відповідь назад у "
+"список. Продовжити?"
 
 #: ../mail/mail.error.xml.h:136
 msgid ""
@@ -12923,15 +12919,16 @@ msgid ""
 "replying privately to the sender; not to the list. Are you sure you want to "
 "proceed?"
 msgstr ""
+"Ви відповідаєте на повідомлення, яке прибуло через список листування, однак "
+"ви відповідаєте особисто відправнику; не у список. Продовжити?"
 
 #: ../mail/mail.error.xml.h:137
-#, fuzzy
 msgid ""
 "You are replying to a message which was sent to many recipients. Are you "
 "sure you want to reply to ALL of them?"
 msgstr ""
-"Відповідь на повідомлення може спричинити його вилучення з поштової скриньки "
-"отримувача. Відкликати повідомлення?"
+"Ви відповідаєте на повідомлення, яке надіслано кільком одержувачам. "
+"Відповісти їм усім?"
 
 #: ../mail/mail.error.xml.h:138
 msgid "You do not have sufficient permissions to delete this mail."
@@ -12972,9 +12969,8 @@ msgid "Your login to your server \"{0}\" as \"{0}\" failed."
 msgstr "Помилка реєстрації на сервері «{0}» під іменем «{0}»."
 
 #: ../mail/mail.error.xml.h:147
-#, fuzzy
 msgid "_Always"
-msgstr "Завжди"
+msgstr "_Завжди"
 
 #: ../mail/mail.error.xml.h:148
 msgid "_Append"
@@ -12996,41 +12992,36 @@ msgid "_Empty Trash"
 msgstr "О_чистити смітник"
 
 #: ../mail/mail.error.xml.h:152
-#, fuzzy
 msgid "_Exit Evolution"
-msgstr "Evolution"
+msgstr "_Вийти з Evolution"
 
 #: ../mail/mail.error.xml.h:153
 msgid "_Expunge"
 msgstr "Вик_реслити"
 
 #: ../mail/mail.error.xml.h:154
-#, fuzzy
 msgid "_Migrate Now"
-msgstr "Перенесення..."
+msgstr "_Перенести зараз же"
 
 #: ../mail/mail.error.xml.h:155
-#, fuzzy
 msgid "_No"
-msgstr "Ні"
+msgstr "_Ні"
 
 #: ../mail/mail.error.xml.h:156
 msgid "_Open Messages"
 msgstr "_Відкрити повідомлення"
 
 #: ../mail/mail.error.xml.h:159
-#, fuzzy
 msgid "_Send Receipt"
-msgstr "Надіслати звіт"
+msgstr "_Надіслати підтвердженя"
 
 #: ../mail/mail.error.xml.h:160
-#, fuzzy
 msgid "_Synchronize"
-msgstr "Синхронізувати"
+msgstr "_Синхронізувати"
 
 #: ../mail/mail.error.xml.h:161
 msgid "_Yes"
-msgstr ""
+msgstr "_Так"
 
 #: ../mail/message-list.c:1215
 msgid "Unseen"
@@ -13212,7 +13203,6 @@ msgstr ""
 "атак."
 
 #: ../modules/addressbook/addressbook-config.c:608
-#, fuzzy
 msgid "U_se in Birthday & Anniversaries calendar"
 msgstr "_Використовувати у календарі днів народжень та річниць"
 
@@ -13316,9 +13306,8 @@ msgstr ""
 "орієнтації."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:9
-#, fuzzy
 msgid "Primary address book"
-msgstr "Реєстр адресних книг"
+msgstr "Основна адресна книга"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:10
 msgid "Show autocompleted name with an address"
@@ -13333,6 +13322,8 @@ msgid ""
 "The UID of the selected (or \"primary\") address book in the sidebar of the "
 "\"Contacts\" view."
 msgstr ""
+"UID вибраної (або основної) адресної книги у бічній панелі перегляду "
+"контактів."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:13
 msgid ""
@@ -13887,12 +13878,11 @@ msgstr "Показати _нагадування"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:34
 msgid "Show r_ecurring events in italic in bottom left calendar"
-msgstr ""
+msgstr "Показувати пер_іодичні події курсивом у кнопці зліва від календарю"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:35
-#, fuzzy
 msgid "Show week _numbers"
-msgstr "Показувати _номери тижнів у навігаторі по датам"
+msgstr "Показувати _кількість тижнів"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:37
 msgid "T_asks due today:"
@@ -14022,19 +14012,16 @@ msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
 msgstr "Колір для прострочених завдань, у форматі \"#rrggbb\"."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:6
-#, fuzzy
 msgid "Birthday and anniversary reminder"
-msgstr "Дні народження та річниці"
+msgstr "Нагадування про дні народження та річниці"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:7
-#, fuzzy
 msgid "Birthday and anniversary reminder units"
-msgstr "Дні народження та річниці"
+msgstr "Одиниці нагадування про дні народження та річниці"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:8
-#, fuzzy
 msgid "Birthday and anniversary reminder value"
-msgstr "Дні народження та річниці"
+msgstr "Значення нагадування про дні народження та річниці"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:9
 msgid "Calendars to run alarms for"
@@ -14196,9 +14183,9 @@ msgid "Month view vertical pane position"
 msgstr "Позиція вертикальної панелі при огляді місяця"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:46
-#, fuzzy
 msgid "Number of units for determining a birthday or anniversary reminder."
-msgstr "Кількість одиниць для типового нагадування."
+msgstr ""
+"Кількість одиниць для визначення нагадування про дні народження і річниці."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:47
 msgid "Number of units for determining a default reminder."
@@ -14289,9 +14276,8 @@ msgid "Recently used second time zones in a Day View"
 msgstr "Останні використані другорядні часові пояси режиму \"День\"."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:63
-#, fuzzy
 msgid "Recurrent Events in Italic"
-msgstr "Неправильна дата повторення"
+msgstr "Періодичні події в курсиві"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:64
 msgid "Save directory for alarm audio"
@@ -14321,6 +14307,8 @@ msgstr "Відображати поле категорій в редакторі
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:70
 msgid "Show days with recurrent events in italic font in bottom left calendar."
 msgstr ""
+"Показувати дні з періодичними подіями курсивним шрифтом у кнопці зліва від "
+"календаря."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:71
 msgid "Show display alarms in notification tray"
@@ -14347,9 +14335,9 @@ msgid "Show type field in the event/task/meeting editor"
 msgstr "Відображати поле тиу в редакторі подій/задач/засідань"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:77
-#, fuzzy
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
-msgstr "Показати номери тижнів у режимах \"День\" та \"Робочий тиждень\""
+msgstr ""
+"Показати кількість тижнів у перегляді дня, робочого тижня, і навігатора дат"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:78
 msgid ""
@@ -14380,18 +14368,23 @@ msgid ""
 "The UID of the selected (or \"primary\") calendar in the sidebar of the "
 "\"Calendar\" view."
 msgstr ""
+"UID вибраного (або основного) календарю в бічній панелі перегляду календаря."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:84
 msgid ""
 "The UID of the selected (or \"primary\") memo list in the sidebar of the "
 "\"Memos\" view."
 msgstr ""
+"UID вибраного (або основного) списку приміток у бічній панелі у перегляді "
+"приміток."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:85
 msgid ""
 "The UID of the selected (or \"primary\") task list in the sidebar of the "
 "\"Tasks\" view."
 msgstr ""
+"UID вибраного (або основного) списку завдань у бічній панелі перегляду "
+"завдань."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:87
 #, no-c-format
@@ -14462,11 +14455,10 @@ msgid "Twenty four hour time format"
 msgstr "24-годинний формат часу"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:97
-#, fuzzy
 msgid ""
 "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 "\"days\"."
-msgstr "Типові одиниці нагадування, \"minutes\", \"hours\" чи \"days\"."
+msgstr "Типові одиниці нагадування, «minutes», «hours» або «days»."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:98
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
@@ -14541,9 +14533,8 @@ msgid "Whether to set a default reminder for appointments."
 msgstr "Чи встановлювати типове нагадування для подій."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:114
-#, fuzzy
 msgid "Whether to set a reminder for birthdays and anniversaries."
-msgstr "Чи встановлювати типове нагадування для подій."
+msgstr "Чи встановлювати типове нагадування для днів народжень і річниць."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:115
 msgid "Whether to show RSVP field in the event/task/meeting editor"
@@ -14576,9 +14567,8 @@ msgid "Whether to show type field in the event/task/meeting editor"
 msgstr "Чи відображати поле \"Тип\" у редакторі подій/завдань/зібрань"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:122
-#, fuzzy
 msgid "Whether to show week numbers in various places in the Calendar."
-msgstr "Чи показати номери тижнів у навігаторі по датам."
+msgstr "Чи показувати кількість тижнів у різних місцях у календарі."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:123
 msgid "Work days"
@@ -14689,9 +14679,8 @@ msgid "Loading calendars"
 msgstr "Завантаження календарів"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:636
-#, fuzzy
 msgid "_New Calendar..."
-msgstr "_Створити календар"
+msgstr "_Новий календар…"
 
 #: ../modules/calendar/e-cal-shell-sidebar.c:653
 msgid "Calendar Selector"
@@ -15092,14 +15081,12 @@ msgid "Selected Calendars for Alarms"
 msgstr "Календарі - джерело сигналів"
 
 #: ../modules/calendar/e-calendar-preferences.c:836
-#, fuzzy
 msgid "Ti_me and date:"
-msgstr "Дата та час:"
+msgstr "Дата й _час:"
 
 #: ../modules/calendar/e-calendar-preferences.c:837
-#, fuzzy
 msgid "_Date only:"
-msgstr "Лише дата:"
+msgstr "Лише _дата:"
 
 #: ../modules/calendar/e-memo-shell-backend.c:281
 msgctxt "New"
@@ -15559,9 +15546,8 @@ msgid "N_one"
 msgstr "_Немає"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1213
-#, fuzzy
 msgid "_Manage Subscriptions"
-msgstr "_Підписка..."
+msgstr "_Організувати підписки"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1215
 #: ../modules/mail/e-mail-shell-view-actions.c:1299
@@ -15578,24 +15564,20 @@ msgid "Send queued items and retrieve new items"
 msgstr "Відіслати повідомлення з черги та отримати нові"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1227
-#, fuzzy
 msgid "R_eceive All"
-msgstr "Отримано"
+msgstr "_Одержати все"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1229
-#, fuzzy
 msgid "Receive new items from all accounts"
-msgstr "Стерти в усіх облікових записах повідомлення, що позначені вилученими"
+msgstr "Одержати нові об'єкти з усіх облікових записів"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1234
-#, fuzzy
 msgid "_Send All"
-msgstr "_Надіслати"
+msgstr "_Надіслати все"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1236
-#, fuzzy
 msgid "Send queued items in all accounts"
-msgstr "Відіслати повідомлення з черги та отримати нові"
+msgstr "Надіслати об'єкти в черзі в усіх облікових записах"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1262
 #: ../widgets/misc/e-activity-proxy.c:306
@@ -15663,15 +15645,12 @@ msgid "Show message preview pane"
 msgstr "Показати вікно попереднього перегляду повідомлень"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1389
-#, fuzzy
 msgid "Show _Deleted Messages"
-msgstr "Показати вилучені повідомлення"
+msgstr "Показати _вилучені повідомлення"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1391
-#, fuzzy
 msgid "Show deleted messages with a line through them"
-msgstr ""
-"Показувати вилучені повідомлення (як перекреслені) у списку повідомлень."
+msgstr "Показувати вилучені повідомлення з лінією, що проходить повз них"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1397
 msgid "_Group By Threads"
@@ -15809,12 +15788,11 @@ msgstr[2] "%d всього"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1126
 msgid "Trash"
-msgstr ""
+msgstr "Смітник"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1600
-#, fuzzy
 msgid "Send / Receive"
-msgstr "Відіслати / _отримати"
+msgstr "Надіслати / одержати"
 
 #: ../modules/mail/e-mail-shell-view.c:563
 msgid "All Account Search"
@@ -15919,32 +15897,28 @@ msgid ""
 msgstr "При кожному запуску Evolution перевіряти типову поштову програму."
 
 #: ../modules/mailto-handler/evolution-mailto-handler.c:143
-#, fuzzy
 msgid "Do you want to make Evolution your default email client?"
-msgstr "Бажаєте зробити Evolution типовою поштовою програмою?"
+msgstr "Зробити Evolution типовою поштовою програмою?"
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:1
 msgid "Click 'Work Online' to return to online mode."
-msgstr ""
+msgstr "Натисніть «Працювати в мережі», щоб повернутись до відповідного режиму."
 
 #
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:2
-#, fuzzy
 msgid "Evolution is currently offline due to a network outage."
-msgstr "Evolution у автономному режимі, оскільки мережа недоступна."
+msgstr "Evolution у автономному режимі, оскільки мережа не використовується."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:3
-#, fuzzy
 msgid "Evolution is currently offline."
-msgstr "Перевести Evolution у автономний режим"
+msgstr "Evolution зараз працює автономно."
 
 #
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:4
-#, fuzzy
 msgid ""
 "Evolution will return to online mode once a network connection is "
 "established."
-msgstr "Evolution у автономному режимі, оскільки мережа недоступна."
+msgstr "Evolution повернеться у мережу, коли буде встановлено з'єднання."
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:67
 msgid "Author(s)"
@@ -16004,17 +15978,16 @@ msgstr "Від %s:"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:320
 #: ../modules/startup-wizard/evolution-startup-wizard.c:417
-#, fuzzy
 msgid "Importing Files"
-msgstr "Імпорт файлів"
+msgstr "Імпортування файлів"
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:395
 msgid "Import cancelled. Click \"Forward\" to continue."
-msgstr ""
+msgstr "Імпортування скасовано. Натисніть «Далі», щоб продовжити."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:413
 msgid "Import complete. Click \"Forward\" to continue."
-msgstr ""
+msgstr "Імпортування завершено. Натисніть «Далі», щоб продовжити."
 
 #: ../modules/startup-wizard/evolution-startup-wizard.c:487
 msgid "Evolution Setup Assistant"
@@ -16076,7 +16049,6 @@ msgid "Message has no attachments"
 msgstr "Повідомлення не містить долучень"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
-#, fuzzy
 msgid "_Add attachment..."
 msgstr "_Додати долучення…"
 
@@ -16143,26 +16115,22 @@ msgid "Restore from backup"
 msgstr "Відновити з архіву"
 
 #: ../plugins/backup-restore/backup-restore.c:386
-#, fuzzy
 msgid "_Back up Evolution Data..."
-msgstr "Резервне копіювання даних Evolution"
+msgstr "_Резервне копіювання даних Evolution…"
 
 #: ../plugins/backup-restore/backup-restore.c:388
-#, fuzzy
 msgid "Back up Evolution data and settings to an archive file"
-msgstr "Зберегти дані та параметри Evolution у архівний файл"
+msgstr "Зберегти дані й налаштування Evolution у архівний файл"
 
 #: ../plugins/backup-restore/backup-restore.c:393
-#, fuzzy
 msgid "R_estore Evolution Data..."
-msgstr "Відновлення даних Evolutuion"
+msgstr "_Відновлення даних Evolutuion…"
 
 #: ../plugins/backup-restore/backup-restore.c:395
 msgid "Restore Evolution data and settings from an archive file"
 msgstr "Відновити дані та параметри Evolution з архівного файлу"
 
 #: ../plugins/backup-restore/backup.c:79
-#, fuzzy
 msgid "Back up Evolution directory"
 msgstr "Зберегти каталог Evolution"
 
@@ -16171,7 +16139,6 @@ msgid "Restore Evolution directory"
 msgstr "Відновити каталог Evolution"
 
 #: ../plugins/backup-restore/backup.c:83
-#, fuzzy
 msgid "Check Evolution Back up"
 msgstr "Перевірити архів Evolution"
 
@@ -16198,7 +16165,6 @@ msgstr ""
 "Збереження даних Evolution (листів, контактів, календарів, задач, приміток)"
 
 #: ../plugins/backup-restore/backup.c:317
-#, fuzzy
 msgid "Back up complete"
 msgstr "Архів створено"
 
@@ -16208,21 +16174,18 @@ msgid "Restarting Evolution"
 msgstr "Перезапуск Evolutuion"
 
 #: ../plugins/backup-restore/backup.c:403
-#, fuzzy
 msgid "Back up current Evolution data"
 msgstr "Збереження поточних даних Evolution"
 
 #: ../plugins/backup-restore/backup.c:409
-#, fuzzy
 msgid "Extracting files from back up"
-msgstr "Відновлення з архіву"
+msgstr "Розпакування файлів з архіву"
 
 #: ../plugins/backup-restore/backup.c:466
 msgid "Loading Evolution settings"
 msgstr "Завантаження параметрів Evolutuion"
 
 #: ../plugins/backup-restore/backup.c:481
-#, fuzzy
 msgid "Removing temporary back up files"
 msgstr "Вилучення тимчасових резервних файлів"
 
@@ -16242,7 +16205,6 @@ msgstr "Відновлення з каталогу %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
 #: ../plugins/backup-restore/backup.c:705
-#, fuzzy
 msgid "Evolution Back up"
 msgstr "Архів Evolution"
 
@@ -16274,48 +16236,41 @@ msgstr ""
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
-#, fuzzy
 msgid "Back up and Restore"
-msgstr "Збереження та відновлення параметрів"
+msgstr "Збереження та відновлення"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
-#, fuzzy
 msgid "Back up and restore your Evolution data and settings."
-msgstr "Збереження та відновлення даних та параметрів."
+msgstr "Збереження та відновлення даних і налаштувань Evolution."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:1
 msgid "Are you sure you want to close Evolution?"
 msgstr "Ви дійсно хочете закрити Evolution?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
-#, fuzzy
 msgid ""
 "Are you sure you want to restore Evolution from the selected back up file?"
-msgstr "Ви дійсно хочете відновити Evolution з обраного файлу архіву?"
+msgstr "Відновити Evolution з вибраного файла архіву?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
-#, fuzzy
 msgid "Close and Back up Evolution"
-msgstr "Резервне копіювання даних Evolution"
+msgstr "Закрити і зберегти Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
-#, fuzzy
 msgid "Close and Restore Evolution"
-msgstr "Перезапустити Evolutuion"
+msgstr "Закрити і відновити Evolutuion"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
 msgid "Insufficient Permissions"
 msgstr "Недостатньо прав доступу"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
-#, fuzzy
 msgid "Invalid Evolution back up file"
 msgstr "Некоректний файл архіву Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
-#, fuzzy
 msgid "Please select a valid back up file to restore."
-msgstr "Виберіть архів Evolution для відновлення"
+msgstr "Виберіть файл архіву Evolution для відновлення."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:8
 msgid "The selected folder is not writable."
