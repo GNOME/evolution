@@ -268,7 +268,6 @@ book_shell_content_constructed (GObject *object)
 		widget, "orientation",
 		G_BINDING_SYNC_CREATE);
 
-	e_shell_configure_web_view (shell, E_WEB_VIEW (widget));
 	gtk_widget_show (widget);
 
 	g_signal_connect_swapped (

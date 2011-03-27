@@ -78,11 +78,11 @@ void		e_signature_manager_edit_signature
 						(ESignatureManager *manager);
 void		e_signature_manager_remove_signature
 						(ESignatureManager *manager);
-gboolean	e_signature_manager_get_allow_scripts
+gboolean	e_signature_manager_get_disable_command_line
 						(ESignatureManager *manager);
-void		e_signature_manager_set_allow_scripts
+void		e_signature_manager_set_disable_command_line
 						(ESignatureManager *manager,
-						 gboolean allow_scripts);
+						 gboolean disable_command_line);
 gboolean	e_signature_manager_get_prefer_html
 						(ESignatureManager *manager);
 void		e_signature_manager_set_prefer_html

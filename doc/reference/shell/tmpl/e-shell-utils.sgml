@@ -29,15 +29,6 @@ Shell Utilities
 @ui_manager: 
 
 
-<!-- ##### FUNCTION e_shell_configure_web_view ##### -->
-<para>
-
-</para>
-
-@shell: 
-@web_view: 
-
-
 <!-- ##### FUNCTION e_shell_run_open_dialog ##### -->
 <para>
 

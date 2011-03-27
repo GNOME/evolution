@@ -52,7 +52,6 @@ typedef struct {
 	gboolean jh_check;
 	gboolean book_lookup;
 	gboolean book_lookup_local_only;
-	gboolean scripts_disabled;
 } MailConfig;
 
 extern gint camel_header_param_encode_filenames_in_rfc_2047;
@@ -495,13 +494,6 @@ mail_config_init (EMailSession *session)
 		&config->book_lookup_local_only, NULL, NULL);
 	config->book_lookup_local_only =
 		gconf_client_get_bool (client, key, NULL);
-
-	key = "/desktop/gnome/lockdown/disable_command_line";
-	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
-	gconf_client_notify_add (
-		client, key, func,
-		&config->scripts_disabled, NULL, NULL);
-	config->scripts_disabled = gconf_client_get_bool (client, key, NULL);
 
 	gconf_jh_check_changed (client, 0, NULL, session);
 
