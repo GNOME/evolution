@@ -22,7 +22,7 @@
 #include "e-attachment-handler-image.h"
 
 #include <glib/gi18n.h>
-#include <gconf/gconf-client.h>
+#include <gdesktop-enums.h>
 
 #include <e-util/e-util.h>
 
@@ -49,39 +49,34 @@ action_image_set_as_background_saved_cb (EAttachment *attachment,
                                          GAsyncResult *result,
                                          EAttachmentHandler *handler)
 {
+	GDesktopBackgroundStyle style;
 	EAttachmentView *view;
-	GConfClient *client;
+	GSettings *settings;
 	GtkWidget *dialog;
 	GFile *file;
-	const gchar *key;
 	gpointer parent;
-	gchar *value;
+	gchar *uri;
 	GError *error = NULL;
 
-	client = gconf_client_get_default ();
 	view = e_attachment_handler_get_view (handler);
+	settings = g_settings_new ("org.gnome.desktop.background");
 
 	file = e_attachment_save_finish (attachment, result, &error);
 
 	if (error != NULL)
 		goto error;
 
-	value = g_file_get_path (file);
+	uri = g_file_get_uri (file);
+	g_settings_set_string (settings, "picture-uri", uri);
+	g_free (uri);
+
+	style = g_settings_get_enum (settings, "picture-options");
+	if (style == G_DESKTOP_BACKGROUND_STYLE_NONE)
+		g_settings_set_enum (
+			settings, "picture-options",
+			G_DESKTOP_BACKGROUND_STYLE_WALLPAPER);
+
 	g_object_unref (file);
-
-	key = "/desktop/gnome/background/picture_filename";
-	gconf_client_set_string (client, key, value, &error);
-	g_free (value);
-
-	if (error != NULL)
-		goto error;
-
-	/* Ignore errors for this part. */
-	key = "/desktop/gnome/background/picture_options";
-	value = gconf_client_get_string (client, key, NULL);
-	if (g_strcmp0 (value, "none") == 0)
-		gconf_client_set_string (client, key, "wallpaper", NULL);
-	g_free (value);
 
 	goto exit;
 
@@ -104,7 +99,7 @@ error:
 	g_error_free (error);
 
 exit:
-	g_object_unref (client);
+	g_object_unref (settings);
 	g_object_unref (handler);
 }
 
@@ -116,19 +111,17 @@ action_image_set_as_background_cb (GtkAction *action,
 	EAttachment *attachment;
 	GFile *destination;
 	GList *selected;
-	gchar *path;
+	const gchar *path;
 
 	view = e_attachment_handler_get_view (handler);
 	selected = e_attachment_view_get_selected_attachments (view);
 	g_return_if_fail (g_list_length (selected) == 1);
 	attachment = E_ATTACHMENT (selected->data);
 
-	/* Save the image under ~/.gnome2/wallpapers/. */
-	path = g_build_filename (
-		e_get_gnome2_user_dir (), "wallpapers", NULL);
+	/* Save the image under the user's Pictures directory. */
+	path = g_get_user_special_dir (G_USER_DIRECTORY_PICTURES);
 	destination = g_file_new_for_path (path);
 	g_mkdir_with_parents (path, 0755);
-	g_free (path);
 
 	e_attachment_save_async (
 		attachment, destination, (GAsyncReadyCallback)

@@ -41,6 +41,7 @@ m4_define([eds_minimum_version], [evo_version])
 m4_define([gtkhtml_minimum_version], [3.91.3])
 m4_define([gnome_desktop_minimum_version], [2.91.3])
 m4_define([gnome_icon_theme_minimum_version], [2.30.2.1])
+m4_define([gsettings_desktop_schemas_minimum_version], [2.91.92])
 m4_define([gconf_minimum_version], [2.0.0])		dnl XXX Just a Guess
 m4_define([libsoup_minimum_version], [2.4.0])		dnl XXX Just a Guess
 m4_define([libxml_minimum_version], [2.7.3])
@@ -239,7 +240,8 @@ PKG_CHECK_MODULES([GNOME_PLATFORM],
 	 gconf-2.0 >= gconf_minimum_version
 	 libxml-2.0 >= libxml_minimum_version
 	 shared-mime-info >= shared_mime_info_minimum_version
-	 gnome-desktop-3.0 >= gnome_desktop_minimum_version])
+	 gnome-desktop-3.0 >= gnome_desktop_minimum_version
+	 gsettings-desktop-schemas >= gsettings_desktop_schemas_minimum_version])
 AC_SUBST(GNOME_PLATFORM_CFLAGS)
 AC_SUBST(GNOME_PLATFORM_LIBS)
 
@@ -250,7 +252,6 @@ PKG_CHECK_MODULES([EVOLUTION_DATA_SERVER],
 	 libedataserverui-3.0 >= eds_minimum_version
 	 libegroupwise-1.2 >= eds_minimum_version
 	 libebackend-1.2 >= eds_minimum_version])
-
 
 dnl ******************************
 dnl Canberra / Canberra-GTK Sound
