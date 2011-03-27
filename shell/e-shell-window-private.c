@@ -261,16 +261,10 @@ void
 e_shell_window_private_constructed (EShellWindow *shell_window)
 {
 	EShellWindowPrivate *priv = shell_window->priv;
-#if 0
-	EShellSettings *shell_settings;
-#endif
 	EShell *shell;
 	GConfBridge *bridge;
 	GtkAction *action;
 	GtkAccelGroup *accel_group;
-#if 0
-	GtkActionGroup *action_group;
-#endif
 	GtkUIManager *ui_manager;
 	GtkBox *box;
 	GtkPaned *paned;
@@ -281,12 +275,14 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	const gchar *key;
 	const gchar *id;
 
+#ifndef G_OS_WIN32
+	GSettings *settings;
+	GtkActionGroup *action_group;
+#endif
+
 	window = GTK_WINDOW (shell_window);
 
 	shell = e_shell_window_get_shell (shell_window);
-#if 0
-	shell_settings = e_shell_get_shell_settings (shell);
-#endif
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	e_shell_configure_ui_manager (shell, E_UI_MANAGER (ui_manager));
@@ -362,37 +358,37 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 		shell_window, "notify::active-view",
 		G_CALLBACK (e_shell_window_update_search_menu), NULL);
 
-#if 0  /* XXX Lockdown keys have moved to gsettings-desktop-schemas,
-	*     so disable lockdown integration until we're ready for
-	*     GSettings. */
 #ifndef G_OS_WIN32
 	/* Support lockdown. */
 
+	settings = g_settings_new ("org.gnome.desktop.lockdown");
+
 	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
 
-	g_object_bind_property (
-		shell_settings, "disable-printing",
+	g_settings_bind (
+		settings, "disable-printing",
 		action_group, "visible",
-		G_BINDING_SYNC_CREATE |
-		G_BINDING_INVERT_BOOLEAN);
+		G_SETTINGS_BIND_GET |
+		G_SETTINGS_BIND_INVERT_BOOLEAN);
 
 	action_group = ACTION_GROUP (LOCKDOWN_PRINT_SETUP);
 
-	g_object_bind_property (
-		shell_settings, "disable-print-setup",
+	g_settings_bind (
+		settings, "disable-print-setup",
 		action_group, "visible",
-		G_BINDING_SYNC_CREATE |
-		G_BINDING_INVERT_BOOLEAN);
+		G_SETTINGS_BIND_GET |
+		G_SETTINGS_BIND_INVERT_BOOLEAN);
 
 	action_group = ACTION_GROUP (LOCKDOWN_SAVE_TO_DISK);
 
-	g_object_bind_property (
-		shell_settings, "disable-save-to-disk",
+	g_settings_bind (
+		settings, "disable-save-to-disk",
 		action_group, "visible",
-		G_BINDING_SYNC_CREATE |
-		G_BINDING_INVERT_BOOLEAN);
+		G_SETTINGS_BIND_GET |
+		G_SETTINGS_BIND_INVERT_BOOLEAN);
+
+	g_object_unref (settings);
 #endif /* G_OS_WIN32 */
-#endif
 
 	/* Bind GObject properties to GObject properties. */
 

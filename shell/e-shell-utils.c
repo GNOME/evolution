@@ -54,42 +54,6 @@ e_shell_configure_ui_manager (EShell *shell,
 }
 
 /**
- * e_shell_configure_web_view:
- * @shell: an #EShell
- * @web_view: an #EWebView
- *
- * Adds shell integration to @web_view.  In particular, it configures
- * @web_view to honor the printing and save-to-disk lockdown options.
- **/
-void
-e_shell_configure_web_view (EShell *shell,
-                            EWebView *web_view)
-{
-#if 0  /* XXX Lockdown keys have moved to gsettings-desktop-scheams,
-	*     so disable lockdown integration until we're ready for
-	*     GSettings. */
-	EShellSettings *shell_settings;
-
-	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (E_IS_WEB_VIEW (web_view));
-
-	shell_settings = e_shell_get_shell_settings (shell);
-
-#ifndef G_OS_WIN32
-	g_object_bind_property (
-		shell_settings, "disable-printing",
-		web_view, "disable-printing",
-		G_BINDING_SYNC_CREATE);
-
-	g_object_bind_property (
-		shell_settings, "disable-save-to-disk",
-		web_view, "disable-save-to-disk",
-		G_BINDING_SYNC_CREATE);
-#endif
-#endif
-}
-
-/**
  * e_shell_run_open_dialog:
  * @shell: an #EShell
  * @title: file chooser dialog title

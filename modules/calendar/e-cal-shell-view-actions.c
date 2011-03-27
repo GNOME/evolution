@@ -1467,13 +1467,6 @@ static GtkActionEntry calendar_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_event_reply_all_cb) },
 
-	{ "event-save-as",
-	  GTK_STOCK_SAVE_AS,
-	  N_("Save as iCalendar..."),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_event_save_as_cb) },
-
 	{ "event-schedule",
 	  NULL,
 	  N_("_Schedule Meeting..."),
@@ -1586,10 +1579,6 @@ static EPopupActionEntry calendar_popup_entries[] = {
 	{ "event-popup-reply-all",
 	  NULL,
 	  "event-reply-all" },
-
-	{ "event-popup-save-as",
-	  NULL,
-	  "event-save-as" },
 
 	{ "event-popup-schedule",
 	  NULL,
@@ -1741,6 +1730,23 @@ static EPopupActionEntry lockdown_printing_popup_entries[] = {
 	  "event-print" }
 };
 
+static GtkActionEntry lockdown_save_to_disk_entries[] = {
+
+	{ "event-save-as",
+	  GTK_STOCK_SAVE_AS,
+	  N_("Save as iCalendar..."),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_event_save_as_cb) },
+};
+
+static EPopupActionEntry lockdown_save_to_disk_popup_entries[] = {
+
+	{ "event-popup-save-as",
+	  NULL,
+	  "event-save-as" },
+};
+
 void
 e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 {
@@ -1789,6 +1795,15 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 	e_action_group_add_popup_actions (
 		action_group, lockdown_printing_popup_entries,
 		G_N_ELEMENTS (lockdown_printing_popup_entries));
+
+	/* Lockdown Save-to-Disk Actions */
+	action_group = ACTION_GROUP (LOCKDOWN_SAVE_TO_DISK);
+	gtk_action_group_add_actions (
+		action_group, lockdown_save_to_disk_entries,
+		G_N_ELEMENTS (lockdown_save_to_disk_entries), cal_shell_view);
+	e_action_group_add_popup_actions (
+		action_group, lockdown_save_to_disk_popup_entries,
+		G_N_ELEMENTS (lockdown_save_to_disk_popup_entries));
 
 	/* Fine tuning. */
 

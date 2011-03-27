@@ -31,9 +31,6 @@ G_BEGIN_DECLS
 void		e_shell_configure_ui_manager	(EShell *shell,
 						 EUIManager *ui_manager);
 
-void		e_shell_configure_web_view	(EShell *shell,
-						 EWebView *web_view);
-
 GFile *		e_shell_run_open_dialog		(EShell *shell,
 						 const gchar *title,
 						 GtkCallback customize_func,

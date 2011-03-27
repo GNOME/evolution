@@ -359,13 +359,6 @@ static GtkActionEntry calendar_taskpad_entries[] = {
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_calendar_taskpad_open_url_cb) },
-
-	{ "calendar-taskpad-save-as",
-	  GTK_STOCK_SAVE_AS,
-	  N_("_Save as iCalendar..."),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_calendar_taskpad_save_as_cb) }
 };
 
 static GtkActionEntry lockdown_printing_entries[] = {
@@ -376,6 +369,16 @@ static GtkActionEntry lockdown_printing_entries[] = {
 	  NULL,
 	  N_("Print the selected task"),
 	  G_CALLBACK (action_calendar_taskpad_print_cb) }
+};
+
+static GtkActionEntry lockdown_save_to_disk_entries[] = {
+
+	{ "calendar-taskpad-save-as",
+	  GTK_STOCK_SAVE_AS,
+	  N_("_Save as iCalendar..."),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_calendar_taskpad_save_as_cb) }
 };
 
 void
@@ -399,6 +402,12 @@ e_cal_shell_view_taskpad_actions_init (ECalShellView *cal_shell_view)
 	gtk_action_group_add_actions (
 		action_group, lockdown_printing_entries,
 		G_N_ELEMENTS (lockdown_printing_entries), cal_shell_view);
+
+	/* Lockdown Save-to-Disk Actions */
+	action_group = ACTION_GROUP (LOCKDOWN_SAVE_TO_DISK);
+	gtk_action_group_add_actions (
+		action_group, lockdown_save_to_disk_entries,
+		G_N_ELEMENTS (lockdown_save_to_disk_entries), cal_shell_view);
 }
 
 void

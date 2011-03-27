@@ -2962,19 +2962,12 @@ static void
 mail_reader_update_actions (EMailReader *reader,
                             guint32 state)
 {
-#if 0
-	EShell *shell;
-	EMailBackend *backend;
-	EShellBackend *shell_backend;
-	EShellSettings *shell_settings;
-#endif
 	GtkAction *action;
 	const gchar *action_name;
 	gboolean sensitive;
 
 	/* Be descriptive. */
 	gboolean any_messages_selected;
-	gboolean disable_printing;
 	gboolean enable_flag_clear;
 	gboolean enable_flag_completed;
 	gboolean enable_flag_for_followup;
@@ -2993,24 +2986,6 @@ mail_reader_update_actions (EMailReader *reader,
 	gboolean single_message_selected;
 	gboolean first_message_selected = FALSE;
 	gboolean last_message_selected = FALSE;
-
-#if 0  /* XXX Lockdown keys have moved to gsettings-desktop-schemas,
-	*     so disable lockdown integration until we're ready for
-	*     GSettings. */
-	backend = e_mail_reader_get_backend (reader);
-
-	shell_backend = E_SHELL_BACKEND (backend);
-	shell = e_shell_backend_get_shell (shell_backend);
-	shell_settings = e_shell_get_shell_settings (shell);
-
-#ifndef G_OS_WIN32
-	disable_printing = e_shell_settings_get_boolean (
-		shell_settings, "disable-printing");
-#else
-	disable_printing = FALSE;
-#endif
-#endif
-	disable_printing = FALSE;
 
 	have_enabled_account =
 		(state & E_MAIL_READER_HAVE_ENABLED_ACCOUNT);
@@ -3295,12 +3270,12 @@ mail_reader_update_actions (EMailReader *reader,
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-print";
-	sensitive = single_message_selected && !disable_printing;
+	sensitive = single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-print-preview";
-	sensitive = single_message_selected && !disable_printing;
+	sensitive = single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
@@ -3546,6 +3521,10 @@ e_mail_reader_init (EMailReader *reader,
 	const gchar *action_name;
 	const gchar *key;
 
+#ifndef G_OS_WIN32
+	GSettings *settings;
+#endif
+
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	formatter = e_mail_reader_get_formatter (reader);
@@ -3694,6 +3673,41 @@ e_mail_reader_init (EMailReader *reader,
 	g_signal_connect (
 		action, "activate",
 		G_CALLBACK (action_search_folder_sender_cb), reader);
+
+#ifndef G_OS_WIN32
+	/* Lockdown integration. */
+
+	settings = g_settings_new ("org.gnome.desktop.lockdown");
+
+	action_name = "mail-print";
+	action = e_mail_reader_get_action (reader, action_name);
+	g_settings_bind (
+		settings, "disable-printing",
+		action, "visible",
+		G_SETTINGS_BIND_GET |
+		G_SETTINGS_BIND_NO_SENSITIVITY |
+		G_SETTINGS_BIND_INVERT_BOOLEAN);
+
+	action_name = "mail-print-preview";
+	action = e_mail_reader_get_action (reader, action_name);
+	g_settings_bind (
+		settings, "disable-printing",
+		action, "visible",
+		G_SETTINGS_BIND_GET |
+		G_SETTINGS_BIND_NO_SENSITIVITY |
+		G_SETTINGS_BIND_INVERT_BOOLEAN);
+
+	action_name = "mail-save-as";
+	action = e_mail_reader_get_action (reader, action_name);
+	g_settings_bind (
+		settings, "disable-save-to-disk",
+		action, "visible",
+		G_SETTINGS_BIND_GET |
+		G_SETTINGS_BIND_NO_SENSITIVITY |
+		G_SETTINGS_BIND_INVERT_BOOLEAN);
+
+	g_object_unref (settings);
+#endif
 
 	/* Bind properties. */
 

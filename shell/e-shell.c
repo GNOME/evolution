@@ -1244,32 +1244,6 @@ e_shell_init (EShell *shell)
 		"start-offline",
 		"/apps/evolution/shell/start_offline");
 
-#if 0  /* XXX Lockdown keys have moved to gsettings-desktop-schemas,
-	*     so disable lockdown integration until we're ready for
-	*     GSettings. */
-#ifndef G_OS_WIN32
-	e_shell_settings_install_property_for_key (
-		"disable-application-handlers",
-		"/desktop/gnome/lockdown/disable_application_handlers");
-
-	e_shell_settings_install_property_for_key (
-		"disable-command-line",
-		"/desktop/gnome/lockdown/disable_command_line");
-
-	e_shell_settings_install_property_for_key (
-		"disable-printing",
-		"/desktop/gnome/lockdown/disable_printing");
-
-	e_shell_settings_install_property_for_key (
-		"disable-print-setup",
-		"/desktop/gnome/lockdown/disable_print_setup");
-
-	e_shell_settings_install_property_for_key (
-		"disable-save-to-disk",
-		"/desktop/gnome/lockdown/disable_save_to_disk");
-#endif /* G_OS_WIN32 */
-#endif
-
 	/*** Session Management ***/
 
 	sm_client = egg_sm_client_get ();

@@ -29,7 +29,7 @@
 
 enum {
 	PROP_0,
-	PROP_ALLOW_SCRIPTS,
+	PROP_DISABLE_COMMAND_LINE,
 	PROP_SIGNATURE
 };
 
@@ -40,7 +40,7 @@ enum {
 
 struct _ESignaturePreviewPrivate {
 	ESignature *signature;
-	guint allow_scripts : 1;
+	guint disable_command_line : 1;
 };
 
 static guint signals[LAST_SIGNAL];
@@ -57,8 +57,8 @@ signature_preview_set_property (GObject *object,
                                 GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ALLOW_SCRIPTS:
-			e_signature_preview_set_allow_scripts (
+		case PROP_DISABLE_COMMAND_LINE:
+			e_signature_preview_set_disable_command_line (
 				E_SIGNATURE_PREVIEW (object),
 				g_value_get_boolean (value));
 			return;
@@ -80,15 +80,17 @@ signature_preview_get_property (GObject *object,
                                 GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ALLOW_SCRIPTS:
+		case PROP_DISABLE_COMMAND_LINE:
 			g_value_set_boolean (
-				value, e_signature_preview_get_allow_scripts (
+				value,
+				e_signature_preview_get_disable_command_line (
 				E_SIGNATURE_PREVIEW (object)));
 			return;
 
 		case PROP_SIGNATURE:
 			g_value_set_object (
-				value, e_signature_preview_get_signature (
+				value,
+				e_signature_preview_get_signature (
 				E_SIGNATURE_PREVIEW (object)));
 			return;
 	}
@@ -113,6 +115,26 @@ signature_preview_dispose (GObject *object)
 }
 
 static void
+signature_preview_constructed (GObject *object)
+{
+#ifndef G_OS_WIN32
+	GSettings *settings;
+
+	settings = g_settings_new ("org.gnome.desktop.lockdown");
+
+	g_settings_bind (
+		settings, "disable-command-line",
+		object, "disable-command-line",
+		G_SETTINGS_BIND_GET);
+
+	g_object_unref (settings);
+#endif
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_signature_preview_parent_class)->constructed (object);
+}
+
+static void
 signature_preview_refresh (ESignaturePreview *preview)
 {
 	EWebView *web_view;
@@ -132,7 +154,7 @@ signature_preview_refresh (ESignaturePreview *preview)
 	filename = e_signature_get_filename (signature);
 	is_script = e_signature_get_is_script (signature);
 
-	if (is_script && !preview->priv->allow_scripts)
+	if (is_script && preview->priv->disable_command_line)
 		goto clear;
 
 	if (is_script)
@@ -174,17 +196,18 @@ e_signature_preview_class_init (ESignaturePreviewClass *class)
 	object_class->set_property = signature_preview_set_property;
 	object_class->get_property = signature_preview_get_property;
 	object_class->dispose = signature_preview_dispose;
+	object_class->constructed = signature_preview_constructed;
 
 	class->refresh = signature_preview_refresh;
 
 	g_object_class_install_property (
 		object_class,
-		PROP_ALLOW_SCRIPTS,
+		PROP_DISABLE_COMMAND_LINE,
 		g_param_spec_boolean (
-			"allow-scripts",
-			"Allow Scripts",
+			"disable-command-line",
+			"Disable Command Line",
 			NULL,
-			TRUE,
+			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
@@ -230,21 +253,22 @@ e_signature_preview_refresh (ESignaturePreview *preview)
 }
 
 gboolean
-e_signature_preview_get_allow_scripts (ESignaturePreview *preview)
+e_signature_preview_get_disable_command_line (ESignaturePreview *preview)
 {
 	g_return_val_if_fail (E_IS_SIGNATURE_PREVIEW (preview), FALSE);
 
-	return preview->priv->allow_scripts;
+	return preview->priv->disable_command_line;
 }
 
 void
-e_signature_preview_set_allow_scripts (ESignaturePreview *preview,
-                                       gboolean allow_scripts)
+e_signature_preview_set_disable_command_line (ESignaturePreview *preview,
+                                              gboolean disable_command_line)
 {
 	g_return_if_fail (E_IS_SIGNATURE_PREVIEW (preview));
 
-	preview->priv->allow_scripts = allow_scripts;
-	g_object_notify (G_OBJECT (preview), "allow-scripts");
+	preview->priv->disable_command_line = disable_command_line;
+
+	g_object_notify (G_OBJECT (preview), "disable-command-line");
 }
 
 ESignature *

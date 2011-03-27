@@ -36,13 +36,13 @@ struct _ESignatureManagerPrivate {
 	GtkWidget *edit_button;
 	GtkWidget *remove_button;
 
-	guint allow_scripts : 1;
-	guint prefer_html   : 1;
+	guint disable_command_line : 1;
+	guint prefer_html          : 1;
 };
 
 enum {
 	PROP_0,
-	PROP_ALLOW_SCRIPTS,
+	PROP_DISABLE_COMMAND_LINE,
 	PROP_PREFER_HTML,
 	PROP_SIGNATURE_LIST
 };
@@ -171,8 +171,8 @@ signature_manager_set_property (GObject *object,
                                 GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ALLOW_SCRIPTS:
-			e_signature_manager_set_allow_scripts (
+		case PROP_DISABLE_COMMAND_LINE:
+			e_signature_manager_set_disable_command_line (
 				E_SIGNATURE_MANAGER (object),
 				g_value_get_boolean (value));
 			return;
@@ -200,10 +200,10 @@ signature_manager_get_property (GObject *object,
                                 GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ALLOW_SCRIPTS:
+		case PROP_DISABLE_COMMAND_LINE:
 			g_value_set_boolean (
 				value,
-				e_signature_manager_get_allow_scripts (
+				e_signature_manager_get_disable_command_line (
 				E_SIGNATURE_MANAGER (object)));
 			return;
 
@@ -264,6 +264,26 @@ signature_manager_dispose (GObject *object)
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_signature_manager_parent_class)->dispose (object);
+}
+
+static void
+signature_manager_constructed (GObject *object)
+{
+#ifndef G_OS_WIN32
+	GSettings *settings;
+
+	settings = g_settings_new ("org.gnome.desktop.lockdown");
+
+	g_settings_bind (
+		settings, "disable-command-line",
+		object, "disable-command-line",
+		G_SETTINGS_BIND_GET);
+
+	g_object_unref (settings);
+#endif
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_signature_manager_parent_class)->constructed (object);
 }
 
 static void
@@ -407,6 +427,7 @@ e_signature_manager_class_init (ESignatureManagerClass *class)
 	object_class->set_property = signature_manager_set_property;
 	object_class->get_property = signature_manager_get_property;
 	object_class->dispose = signature_manager_dispose;
+	object_class->constructed = signature_manager_constructed;
 
 	class->add_signature = signature_manager_add_signature;
 	class->add_signature_script = signature_manager_add_signature_script;
@@ -416,12 +437,12 @@ e_signature_manager_class_init (ESignatureManagerClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_ALLOW_SCRIPTS,
+		PROP_DISABLE_COMMAND_LINE,
 		g_param_spec_boolean (
-			"allow-scripts",
-			"Allow Scripts",
+			"disable-command-line",
+			"Disable Command Line",
 			NULL,
-			TRUE,
+			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
@@ -583,9 +604,10 @@ e_signature_manager_init (ESignatureManager *manager)
 	gtk_widget_show (widget);
 
 	g_object_bind_property (
-		manager, "allow-scripts",
-		widget, "sensitive",
-		G_BINDING_SYNC_CREATE);
+		manager, "disable-command-line",
+		widget, "visible",
+		G_BINDING_SYNC_CREATE |
+		G_BINDING_INVERT_BOOLEAN);
 
 	g_signal_connect_swapped (
 		widget, "clicked",
@@ -656,22 +678,22 @@ e_signature_manager_remove_signature (ESignatureManager *manager)
 }
 
 gboolean
-e_signature_manager_get_allow_scripts (ESignatureManager *manager)
+e_signature_manager_get_disable_command_line (ESignatureManager *manager)
 {
 	g_return_val_if_fail (E_IS_SIGNATURE_MANAGER (manager), FALSE);
 
-	return manager->priv->allow_scripts;
+	return manager->priv->disable_command_line;
 }
 
 void
-e_signature_manager_set_allow_scripts (ESignatureManager *manager,
-                                       gboolean allow_scripts)
+e_signature_manager_set_disable_command_line (ESignatureManager *manager,
+                                              gboolean disable_command_line)
 {
 	g_return_if_fail (E_IS_SIGNATURE_MANAGER (manager));
 
-	manager->priv->allow_scripts = allow_scripts;
+	manager->priv->disable_command_line = disable_command_line;
 
-	g_object_notify (G_OBJECT (manager), "allow-scripts");
+	g_object_notify (G_OBJECT (manager), "disable-command-line");
 }
 
 gboolean

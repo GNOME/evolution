@@ -733,6 +733,31 @@ web_view_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
+static void
+web_view_constructed (GObject *object)
+{
+#ifndef G_OS_WIN32
+	GSettings *settings;
+
+	settings = g_settings_new ("org.gnome.desktop.lockdown");
+
+	g_settings_bind (
+		settings, "disable-printing",
+		object, "disable-printing",
+		G_SETTINGS_BIND_GET);
+
+	g_settings_bind (
+		settings, "disable-save-to-disk",
+		object, "disable-save-to-disk",
+		G_SETTINGS_BIND_GET);
+
+	g_object_unref (settings);
+#endif
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
+}
+
 static gboolean
 web_view_button_press_event (GtkWidget *widget,
                              GdkEventButton *event)
@@ -1121,6 +1146,7 @@ e_web_view_class_init (EWebViewClass *class)
 	object_class->get_property = web_view_get_property;
 	object_class->dispose = web_view_dispose;
 	object_class->finalize = web_view_finalize;
+	object_class->constructed = web_view_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->button_press_event = web_view_button_press_event;

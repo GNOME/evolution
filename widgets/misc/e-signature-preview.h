@@ -65,11 +65,11 @@ struct _ESignaturePreviewClass {
 GType		e_signature_preview_get_type	(void);
 GtkWidget *	e_signature_preview_new		(void);
 void		e_signature_preview_refresh	(ESignaturePreview *preview);
-gboolean	e_signature_preview_get_allow_scripts
+gboolean	e_signature_preview_get_disable_command_line
 						(ESignaturePreview *preview);
-void		e_signature_preview_set_allow_scripts
+void		e_signature_preview_set_disable_command_line
 						(ESignaturePreview *preview,
-						 gboolean allow_scripts);
+						 gboolean disable_command_line);
 ESignature *	e_signature_preview_get_signature
 						(ESignaturePreview *preview);
 void		e_signature_preview_set_signature
