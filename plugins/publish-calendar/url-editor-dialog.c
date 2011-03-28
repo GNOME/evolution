@@ -29,11 +29,14 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
+#include <libedataserver/e-source-calendar.h>
 #include <libedataserverui/e-passwords.h>
 #include <libedataserver/e-url.h>
 
 #include <e-util/e-util.h>
 #include <e-util/e-util-private.h>
+
+#include <shell/e-shell.h>
 
 G_DEFINE_TYPE (
 	UrlEditorDialog,
@@ -350,13 +353,12 @@ set_from_uri (UrlEditorDialog *dialog)
 static gboolean
 url_editor_dialog_construct (UrlEditorDialog *dialog)
 {
+	EShell *shell;
 	GtkWidget *toplevel;
 	GtkWidget *content_area;
-	GConfClient *gconf;
 	GtkSizeGroup *group;
 	EPublishUri *uri;
-
-	gconf = gconf_client_get_default ();
+	ESourceRegistry *registry;
 
 	dialog->builder = gtk_builder_new ();
 	e_load_ui_builder_definition (dialog->builder, "publish-calendar.ui");
@@ -408,8 +410,10 @@ url_editor_dialog_construct (UrlEditorDialog *dialog)
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
 
-	dialog->events_source_list = e_source_list_new_for_gconf (gconf, "/apps/evolution/calendar/sources");
-	dialog->events_selector = e_source_selector_new (dialog->events_source_list);
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
+	dialog->events_selector = e_source_selector_new (
+		registry, E_SOURCE_EXTENSION_CALENDAR);
 	gtk_widget_show (dialog->events_selector);
 	gtk_container_add (GTK_CONTAINER (dialog->events_swin), dialog->events_selector);
 
@@ -440,10 +444,14 @@ url_editor_dialog_construct (UrlEditorDialog *dialog)
 		GSList *p;
 
 		for (p = uri->events; p; p = g_slist_next (p)) {
-			gchar *source_uid = g_strdup (p->data);
-			source = e_source_list_peek_source_by_uid (dialog->events_source_list, source_uid);
-			e_source_selector_select_source ((ESourceSelector *) dialog->events_selector, source);
-			g_free (source_uid);
+			const gchar *uid = p->data;
+
+			source = e_source_registry_ref_source (
+				registry, uid);
+			e_source_selector_select_source (
+				E_SOURCE_SELECTOR (dialog->events_selector),
+				source);
+			g_object_unref (source);
 		}
 
 		if (uri->location && strlen (uri->location)) {
@@ -502,8 +510,6 @@ url_editor_dialog_construct (UrlEditorDialog *dialog)
 	g_signal_connect (
 		dialog->remember_pw, "toggled",
 		G_CALLBACK (remember_pw_toggled), dialog);
-
-	g_object_unref (gconf);
 
 	check_input (dialog);
 

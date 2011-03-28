@@ -71,7 +71,6 @@ struct _UrlEditorDialog {
 
 	GtkWidget *events_swin;
 
-	ESourceList *events_source_list;
 	GtkWidget *events_selector;
 
 	GtkWidget *publish_service;

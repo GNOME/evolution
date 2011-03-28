@@ -27,10 +27,13 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-source.h>
-#include <libedataserver/e-source-list.h>
+#include <libedataserver/e-source-registry.h>
 #include <libedataserverui/e-client-utils.h>
 #include <libecal/e-cal-client.h>
 #include <libecal/e-cal-util.h>
+
+#include <shell/e-shell.h>
+
 #include "publish-format-ical.h"
 
 typedef struct {
@@ -73,28 +76,30 @@ append_tz_to_comp (gpointer key,
 
 static gboolean
 write_calendar (const gchar *uid,
-                ESourceList *source_list,
                 GOutputStream *stream,
                 GError **error)
 {
+	EShell *shell;
 	ESource *source;
+	ESourceRegistry *registry;
 	ECalClient *client = NULL;
 	GSList *objects;
 	icalcomponent *top_level;
 	gboolean res = FALSE;
 
-	source = e_source_list_peek_source_by_uid (source_list, uid);
-	if (source)
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
+	source = e_source_registry_ref_source (registry, uid);
+
+	if (source != NULL) {
 		client = e_cal_client_new (source, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, error);
+		g_object_unref (source);
+	}
 	if (!client) {
 		if (error && !error)
 			*error = g_error_new (E_CAL_CLIENT_ERROR, E_CAL_CLIENT_ERROR_NO_SUCH_CALENDAR, _("Could not publish calendar: Calendar backend no longer exists"));
 		return FALSE;
 	}
-
-	g_signal_connect (
-		client, "authenticate",
-		G_CALLBACK (e_client_utils_authenticate_handler), NULL);
 
 	if (!e_client_open_sync (E_CLIENT (client), TRUE, NULL, error)) {
 		g_object_unref (client);
@@ -140,19 +145,13 @@ publish_calendar_as_ical (GOutputStream *stream,
                           GError **error)
 {
 	GSList *l;
-	ESourceList *source_list;
 
 	/* events */
-	if (!e_cal_client_get_sources (&source_list, E_CAL_CLIENT_SOURCE_TYPE_EVENTS, error))
-		return;
-
 	l = uri->events;
 	while (l) {
 		gchar *uid = l->data;
-		if (!write_calendar (uid, source_list, stream, error))
+		if (!write_calendar (uid, stream, error))
 			break;
 		l = g_slist_next (l);
 	}
-
-	g_object_unref (source_list);
 }
