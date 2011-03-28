@@ -29,6 +29,7 @@
 #include <string.h>
 
 #include <libebook/e-book-client.h>
+#include <libedataserver/e-source-address-book.h>
 #include <libedataserverui/e-source-combo-box.h>
 #include <libedataserverui/e-client-utils.h>
 
@@ -49,7 +50,6 @@ GtkWidget *bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data
 /* For internal use */
 struct bbdb_stuff {
 	EABConfigTargetPrefs *target;
-	ESourceList *source_list;
 
 	GtkWidget *combo_box;
 	GtkWidget *gaim_combo_box;
@@ -65,46 +65,6 @@ static void enable_toggled_cb (GtkWidget *widget, gpointer data);
 static void source_changed_cb (ESourceComboBox *source_combo_box, struct bbdb_stuff *stuff);
 static GtkWidget *create_addressbook_combo_box (struct bbdb_stuff *stuff, gint type);
 static void cleanup_cb (GObject *o, gpointer data);
-
-static ESource *
-find_esource_by_uri (ESourceList *source_list,
-                     const gchar *target_uri)
-{
-	GSList *groups;
-
-	/* XXX This would be unnecessary if the plugin had stored
-	 *     the addressbook's UID instead of the URI in GConf.
-	 *     Too late to change it now, I suppose. */
-
-	if (source_list == NULL || target_uri == NULL)
-		return NULL;
-
-	groups = e_source_list_peek_groups (source_list);
-
-	while (groups != NULL) {
-		GSList *sources;
-
-		sources = e_source_group_peek_sources (groups->data);
-
-		while (sources != NULL) {
-			gchar *uri;
-			gboolean match;
-
-			uri = e_source_get_uri (sources->data);
-			match = (strcmp (uri, target_uri) == 0);
-			g_free (uri);
-
-			if (match)
-				return sources->data;
-
-			sources = g_slist_next (sources);
-		}
-
-		groups = g_slist_next (groups);
-	}
-
-	return NULL;
-}
 
 /* How often check, in minutes. Read only on plugin enable. Use <= 0 to disable polling. */
 static gint
@@ -408,12 +368,14 @@ bbdb_do_it (EBookClient *client,
 EBookClient *
 bbdb_create_book_client (gint type)
 {
-	GSettings    *settings;
-	gchar        *uri;
-	EBookClient  *client = NULL;
-
-	GError      *error = NULL;
-	gboolean     enable = TRUE;
+	EShell *shell;
+	ESource *source = NULL;
+	ESourceRegistry *registry;
+	EBookClient *client = NULL;
+	GSettings *settings;
+	gboolean enable = TRUE;
+	gchar *uid;
+	GError *error = NULL;
 
 	settings = g_settings_new (CONF_SCHEMA);
 
@@ -427,26 +389,33 @@ bbdb_create_book_client (gint type)
 
 	/* Open the appropriate addresbook. */
 	if (type == GAIM_ADDRESSBOOK)
-		uri = g_settings_get_string (
+		uid = g_settings_get_string (
 			settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM);
 	else
-		uri = g_settings_get_string (
+		uid = g_settings_get_string (
 			settings, CONF_KEY_WHICH_ADDRESSBOOK);
 	g_object_unref (G_OBJECT (settings));
 
-	if (uri == NULL)
-		client = e_book_client_new_system (&error);
-	else {
-		client = e_book_client_new_from_uri (uri, &error);
-		g_free (uri);
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
+
+	if (uid != NULL) {
+		source = e_source_registry_ref_source (registry, uid);
+		g_free (uid);
 	}
 
+	if (source == NULL)
+		source = e_source_registry_ref_builtin_address_book (registry);
+
+	client = e_book_client_new (source, &error);
 	if (client == NULL) {
-		g_warning ("bbdb: failed to get addressbook: %s", error ? error->message : "Unknown error");
-		if (error)
-			g_error_free (error);
-		return NULL;
+		g_warning (
+			"bbdb: Failed to get addressbook: %s\n",
+			error->message);
+		g_error_free (error);
 	}
+
+	g_object_unref (source);
 
 	return client;
 }
@@ -459,9 +428,6 @@ bbdb_open_book_client (EBookClient *client)
 	if (!client)
 		return FALSE;
 
-	g_signal_connect (
-		client, "authenticate",
-		G_CALLBACK (e_client_utils_authenticate_handler), NULL);
 	if (!e_client_open_sync (E_CLIENT (client), FALSE, NULL, &error)) {
 		g_warning ("bbdb: failed to open addressbook: %s", error ? error->message : "Unknown error");
 		if (error)
@@ -520,14 +486,12 @@ enable_toggled_cb (GtkWidget *widget,
 	addressbook = g_settings_get_string (settings, CONF_KEY_WHICH_ADDRESSBOOK);
 
 	if (active && !addressbook) {
-		const gchar *uri = NULL;
-
 		selected_source = e_source_combo_box_ref_active (
 			E_SOURCE_COMBO_BOX (stuff->combo_box));
 		if (selected_source != NULL) {
-			uri = e_source_get_uri (selected_source);
 			g_settings_set_string (
-				settings, CONF_KEY_WHICH_ADDRESSBOOK, uri);
+				settings, CONF_KEY_WHICH_ADDRESSBOOK,
+				e_source_get_uid (selected_source));
 			g_object_unref (selected_source);
 		} else {
 			g_settings_set_string (
@@ -558,14 +522,12 @@ enable_gaim_toggled_cb (GtkWidget *widget,
 		settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM);
 	gtk_widget_set_sensitive (stuff->gaim_combo_box, active);
 	if (active && !addressbook_gaim) {
-		const gchar *uri = NULL;
-
 		selected_source = e_source_combo_box_ref_active (
 			E_SOURCE_COMBO_BOX (stuff->gaim_combo_box));
 		if (selected_source != NULL) {
-			uri = e_source_get_uri (selected_source);
 			g_settings_set_string (
-				settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM, uri);
+				settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM,
+				e_source_get_uid (selected_source));
 			g_object_unref (selected_source);
 		} else {
 			g_settings_set_string (
@@ -589,13 +551,13 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 {
 	GSettings *settings;
 	ESource *source;
-	const gchar *uri;
+	const gchar *uid;
 
 	source = e_source_combo_box_ref_active (source_combo_box);
-	uri = (source != NULL) ? e_source_get_uri (source) : "";
+	uid = (source != NULL) ? e_source_get_uid (source) : "";
 
 	settings = g_settings_new (CONF_SCHEMA);
-	g_settings_set_string (settings, CONF_KEY_WHICH_ADDRESSBOOK, uri);
+	g_settings_set_string (settings, CONF_KEY_WHICH_ADDRESSBOOK, uid);
 	g_object_unref (settings);
 
 	if (source != NULL)
@@ -608,13 +570,13 @@ gaim_source_changed_cb (ESourceComboBox *source_combo_box,
 {
 	GSettings *settings;
 	ESource *source;
-	const gchar *uri;
+	const gchar *uid;
 
 	source = e_source_combo_box_ref_active (source_combo_box);
-	uri = (source != NULL) ? e_source_get_uri (source) : "";
+	uid = (source != NULL) ? e_source_get_uid (source) : "";
 
 	settings = g_settings_new (CONF_SCHEMA);
-	g_settings_set_string (settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM, uri);
+	g_settings_set_string (settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM, uid);
 	g_object_unref (settings);
 
 	if (source != NULL)
@@ -625,32 +587,33 @@ static GtkWidget *
 create_addressbook_combo_box (struct bbdb_stuff *stuff,
                               gint type)
 {
-	GtkWidget   *combo_box;
-	ESourceList *source_list;
-	ESource     *selected_source;
-	gchar       *selected_source_uri;
-	GConfClient *gconf;
+	EShell *shell;
+	ESource *source;
+	ESourceRegistry *registry;
+	GtkWidget *combo_box;
+	const gchar *extension_name;
+	gchar *uid;
 	GSettings *settings = g_settings_new (CONF_SCHEMA);
 
-	gconf = gconf_client_get_default ();
-	source_list = e_source_list_new_for_gconf (gconf, "/apps/evolution/addressbook/sources");
-	combo_box = e_source_combo_box_new (source_list);
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
+	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
+	combo_box = e_source_combo_box_new (registry, extension_name);
 
 	if (type == GAIM_ADDRESSBOOK)
-		selected_source_uri = g_settings_get_string (settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM);
+		uid = g_settings_get_string (settings, CONF_KEY_WHICH_ADDRESSBOOK_GAIM);
 	else
-		selected_source_uri = g_settings_get_string (settings, CONF_KEY_WHICH_ADDRESSBOOK);
-	selected_source = find_esource_by_uri (
-		source_list, selected_source_uri);
-	g_free (selected_source_uri);
+		uid = g_settings_get_string (settings, CONF_KEY_WHICH_ADDRESSBOOK);
+	source = e_source_registry_ref_source (registry, uid);
+	g_free (uid);
 
-	if (selected_source != NULL)
+	if (source != NULL) {
 		e_source_combo_box_set_active (
-			E_SOURCE_COMBO_BOX (combo_box), selected_source);
+			E_SOURCE_COMBO_BOX (combo_box), source);
+		g_object_unref (source);
+	}
 
 	gtk_widget_show (combo_box);
-
-	stuff->source_list = source_list;
 
 	g_object_unref (settings);
 
@@ -796,6 +759,5 @@ cleanup_cb (GObject *o,
 {
 	struct bbdb_stuff *stuff = data;
 
-	g_object_unref (stuff->source_list);
 	g_free (stuff);
 }
