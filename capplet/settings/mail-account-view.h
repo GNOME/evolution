@@ -24,8 +24,6 @@
 #define _MAIL_ACCOUNT_VIEW_H_
 
 #include <gtk/gtk.h>
-#include "mail/em-account-editor.h"
-#include <libedataserver/e-account-list.h>
 #include "mail-view.h"
 
 #define MAIL_ACCOUNT_VIEW_TYPE        (mail_account_view_get_type ())
@@ -87,7 +85,9 @@ typedef struct _MailAccountViewClass {
 } MailAccountViewClass;
 
 GType mail_account_view_get_type (void);
+#if 0  /* ACCOUNT_MGMT */
 MailAccountView *mail_account_view_new (EAccount *account, EMailBackend *backend);
+#endif /* ACCOUNT_MGMT */
 GtkWidget * mail_account_view_get_tab_widget (MailAccountView *mcv);
 void mail_account_view_activate (MailAccountView *mcv, GtkWidget *tree, GtkWidget *folder_tree, GtkWidget *check_mail, GtkWidget *sort_by, gboolean act);
 #endif

@@ -441,6 +441,7 @@ mail_view_add_message (MailView *mv,
 
 #endif
 
+#if 0  /* ACCOUNT_MGMT */
 static void
 mv_show_acc_mcv (MailViewChild *mfv,
                  EAccount *account,
@@ -448,6 +449,7 @@ mv_show_acc_mcv (MailViewChild *mfv,
 {
 	mail_view_add_page (mv, MAIL_VIEW_ACCOUNT, account);
 }
+#endif /* ACCOUNT_MGMT */
 
 static MailViewChild *
 mail_view_add_settings (MailView *mv,
@@ -466,9 +468,11 @@ mail_view_add_settings (MailView *mv,
 	g_signal_connect (
 		msv, "view-close",
 		G_CALLBACK (mv_close_mcv), mv);
+#if 0  /* ACCOUNT_MGMT */
 	g_signal_connect (
 		msv, "show-account",
 		G_CALLBACK (mv_show_acc_mcv), mv);
+#endif /* ACCOUNT_MGMT */
 	gtk_notebook_set_tab_reorderable (GTK_NOTEBOOK (mv), (GtkWidget *) msv, TRUE);
 	gtk_notebook_set_tab_detachable (GTK_NOTEBOOK (mv), (GtkWidget *) msv, FALSE);
 	if (!block)
@@ -484,6 +488,7 @@ mail_view_add_account (MailView *mv,
                        gpointer data,
                        gboolean block)
 {
+#if 0  /* ACCOUNT_MGMT */
 	MailAccountView *msv;
 	gint position = 0;
 
@@ -504,6 +509,9 @@ mail_view_add_account (MailView *mv,
 		 mail_account_view_activate (msv, mv->tree, mv->folder_tree, mv->check_mail, mv->sort_by, FALSE);
 
 	return (MailViewChild *) msv;
+#endif /* ACCOUNT_MGMT */
+
+	return NULL;
 }
 
 MailViewChild *

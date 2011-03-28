@@ -86,8 +86,6 @@ static void mail_capplet_shell_quit (MailCappletShell *shell);
 
 G_DEFINE_TYPE (MailCappletShell, mail_capplet_shell, GTK_TYPE_WINDOW)
 
-static void setup_abooks (void);
-
 static void
 mail_capplet_shell_init (MailCappletShell *shell)
 {
@@ -288,7 +286,6 @@ mail_capplet_shell_construct (MailCappletShell *shell,
 		g_signal_connect (
 			mc, "view-close",
 			G_CALLBACK (ms_show_post_druid), shell);
-		setup_abooks ();
 	} else
 		shell->priv->settings_view = mail_view_add_page ((MailView *) shell->view, MAIL_VIEW_SETTINGS, NULL);
 
@@ -304,98 +301,3 @@ mail_capplet_shell_new (gint socket_id,
 
 	return GTK_WIDGET (shell);
 }
-
-#define LOCAL_BASE_URI "local:"
-#define PERSONAL_RELATIVE_URI "system"
-
-static void
-setup_abooks (void)
-{
-	GSList *groups;
-	ESourceGroup *group;
-	ESourceList *list = NULL;
-	ESourceGroup *on_this_computer = NULL;
-	ESource *personal_source = NULL;
-	GError *error = NULL;
-
-	e_book_client_get_sources (&list, &error);
-
-	if (error != NULL) {
-		g_warning (
-			"%s: Unable to get books: %s",
-			G_STRFUNC, error->message);
-		g_error_free (error);
-		return;
-	}
-
-	groups = e_source_list_peek_groups (list);
-	if (groups) {
-		/* groups are already there, we need to search for things... */
-		GSList *g;
-		gchar *base_dir, *base_uri;
-
-		base_dir = g_build_filename (
-			e_get_user_data_dir (), "addressbook", "local", NULL);
-		base_uri = g_filename_to_uri (base_dir, NULL, NULL);
-
-		for (g = groups; g; g = g->next) {
-			group = E_SOURCE_GROUP (g->data);
-
-			if (strcmp (base_uri, e_source_group_peek_base_uri (group)) == 0)
-				e_source_group_set_base_uri (group, LOCAL_BASE_URI);
-
-			if (!on_this_computer && !strcmp (LOCAL_BASE_URI, e_source_group_peek_base_uri (group))) {
-				on_this_computer = g_object_ref (group);
-				break;
-			}
-		}
-
-		g_free (base_dir);
-		g_free (base_uri);
-	}
-
-	if (on_this_computer) {
-		/* make sure "Personal" shows up as a source under
-		 * this group */
-		GSList *sources = e_source_group_peek_sources (on_this_computer);
-		GSList *s;
-		for (s = sources; s; s = s->next) {
-			ESource *source = E_SOURCE (s->data);
-			const gchar *relative_uri;
-
-			relative_uri = e_source_peek_relative_uri (source);
-			if (relative_uri == NULL)
-				continue;
-			if (!strcmp (PERSONAL_RELATIVE_URI, relative_uri)) {
-				personal_source = g_object_ref (source);
-				break;
-			}
-		}
-	}
-	else {
-		/* create the local source group */
-		group = e_source_group_new (_("On This Computer"), LOCAL_BASE_URI);
-		e_source_list_add_group (list, group, -1);
-
-		on_this_computer = group;
-	}
-
-	if (!personal_source) {
-		/* Create the default Person addressbook */
-		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
-		e_source_group_add_source (on_this_computer, source, -1);
-
-		e_source_set_property (source, "completion", "true");
-
-		personal_source = source;
-	}
-
-	if (on_this_computer)
-		g_object_unref (on_this_computer);
-	if (personal_source)
-		g_object_unref (personal_source);
-
-	e_source_list_sync (list, NULL);
-	g_object_unref (list);
-}
-

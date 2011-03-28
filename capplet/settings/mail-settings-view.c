@@ -25,9 +25,6 @@
 #endif
 
 #include <glib/gi18n.h>
-#include <libedataserver/e-account-list.h>
-
-#include <libemail-utils/e-account-utils.h>
 
 #include "mail-settings-view.h"
 #include "mail-view.h"
@@ -38,7 +35,9 @@ struct _MailSettingsViewPrivate {
 	GtkWidget *scroll;
 	GtkWidget *box;
 
+#if 0  /* ACCOUNT_MGMT */
 	EAccountList *accounts;
+#endif /* ACCOUNT_MGMT */
 };
 
 G_DEFINE_TYPE (MailSettingsView, mail_settings_view, GTK_TYPE_VBOX)
@@ -99,15 +98,18 @@ static void
 msv_edit_account (GtkButton *button,
                   MailSettingsView *msv)
 {
+#if 0  /* ACCOUNT_MGMT */
 	EAccount *acc = g_object_get_data((GObject *)button, "account");
 
 	g_signal_emit (msv, signals[SHOW_ACCOUNT], 0, acc);
+#endif /* ACCOUNT_MGMT */
 }
 
 static void
 msv_delete_account (GtkButton *button,
                     MailSettingsView *msv)
 {
+#if 0  /* ACCOUNT_MGMT */
 	EAccount *account = g_object_get_data((GObject *)button, "account");
 	EAccountList *account_list = e_get_account_list ();
 
@@ -116,9 +118,10 @@ msv_delete_account (GtkButton *button,
 	e_account_list_save (account_list);
 
 	msv_regen_view (msv);
-
+#endif /* ACCOUNT_MGMT */
 }
 
+#if 0  /* ACCOUNT_MGMT */
 static void
 msv_account_added (EAccountList *al,
                    EAccount *account,
@@ -126,9 +129,11 @@ msv_account_added (EAccountList *al,
 {
 	msv_regen_view (msv);
 }
+#endif /* ACCOUNT_MGMT */
 
 #define PACK_BOX(w,s) box = gtk_hbox_new(FALSE, 0); gtk_box_pack_start((GtkBox *)box, w, FALSE, FALSE, s); gtk_widget_show(box); gtk_widget_show(w); gtk_box_pack_start((GtkBox *)acview->priv->box, box, FALSE, FALSE, 3);
 
+#if 0  /* ACCOUNT_MGMT */
 static void
 build_account_button (MailSettingsView *acview,
                       EAccount *account)
@@ -178,10 +183,12 @@ build_account_button (MailSettingsView *acview,
 
 	PACK_BOX (box1,24);
 }
+#endif /* ACCOUNT_MGMT */
 
 static void
 msv_regen_view (MailSettingsView *acview)
 {
+#if 0  /* ACCOUNT_MGMT */
 	EAccount *account;
 	EAccountList *accounts = acview->priv->accounts;
 	EIterator *node;
@@ -204,6 +211,7 @@ msv_regen_view (MailSettingsView *acview)
 	}
 	g_object_unref (node);
 	build_account_button (acview, NULL);
+#endif /* ACCOUNT_MGMT */
 }
 
 static void
@@ -217,10 +225,12 @@ mail_settings_view_construct (MailSettingsView *acview)
 	gtk_widget_show (acview->priv->box);
 	gtk_scrolled_window_add_with_viewport ((GtkScrolledWindow *) acview->priv->scroll, acview->priv->box);
 
+#if 0  /* ACCOUNT_MGMT */
 	acview->priv->accounts = e_get_account_list ();
 	g_signal_connect (
 		acview->priv->accounts, "account-added",
 		G_CALLBACK (msv_account_added), acview);
+#endif /* ACCOUNT_MGMT */
 	msv_regen_view (acview);
 	gtk_widget_show ((GtkWidget *) acview);
 

@@ -27,9 +27,6 @@
 #include <glib/gi18n.h>
 #include "mail-account-view.h"
 #include <libedataserverui/e-passwords.h>
-#include <libedataserver/e-source-group.h>
-#include <libedataserver/e-source-list.h>
-#include <libedataserver/e-account-list.h>
 #include "mail-view.h"
 #include "e-util/e-config.h"
 #include "mail/e-mail-backend.h"
@@ -161,6 +158,7 @@ save_identity (MailAccountView *view)
 static gint
 validate_identity (MailAccountView *view)
 {
+#if 0  /* ACCOUNT_MGMT */
 	gchar *user = (gchar *) e_account_get_string (em_account_editor_get_modified_account (view->edit), E_ACCOUNT_ID_NAME);
 	gchar *email = (gchar *) e_account_get_string (em_account_editor_get_modified_account (view->edit), E_ACCOUNT_ID_ADDRESS);
 	gchar *tmp;
@@ -178,20 +176,10 @@ validate_identity (MailAccountView *view)
 	tmp = strchr (email, '@');
 	if (!tmp || tmp[1] == 0)
 		return ERROR_INVALID_EMAIL;
+#endif /* ACCOUNT_MGMT */
 
 	return 0;
 }
-#ifdef NOT_USED
-static void
-save_send (MailAccountView *view)
-{
-}
-
-static void
-save_account (MailAccountView *view)
-{
-}
-#endif
 
 #define PACK_BOX(w) box = gtk_hbox_new(FALSE, 0); gtk_box_pack_start((GtkBox *)box, w, FALSE, FALSE, 12); gtk_widget_show(box);
 #define PACK_BOXF(w) box = gtk_hbox_new(FALSE, 0); gtk_box_pack_start((GtkBox *)box, w, FALSE, FALSE, 0); gtk_widget_show(box);
@@ -239,36 +227,12 @@ sanitize_user_mail (const gchar *user)
 }
 
 static void
-add_selected_calendar (const gchar *uid)
-{
-	gchar **ids;
-	gint i;
-	GPtrArray *array;
-	GSettings *settings;
-
-	settings = g_settings_new ("org.gnome.evolution.calendar");
-	ids = g_settings_get_strv (settings, "selected-calendars");
-
-	array = g_ptr_array_new ();
-	for (i = 0; ids[i] != NULL; i++)
-		g_ptr_array_add (array, ids[i]);
-	g_ptr_array_add (array, (gpointer) uid);
-	g_ptr_array_add (array, NULL);
-
-	g_settings_set_strv (settings, "selected-calendars", (const gchar* const *) array->pdata);
-
-	g_ptr_array_free (array, TRUE);
-	g_object_unref (settings);
-}
-
-static void
 setup_yahoo_account (MailAccountView *mav)
 {
-	GConfClient *gconf = gconf_client_get_default ();
-
 	mav->priv->do_gcontacts = gtk_toggle_button_get_active ((GtkToggleButton *) mav->priv->gcontacts);
 	mav->priv->do_calendar = gtk_toggle_button_get_active ((GtkToggleButton *) mav->priv->calendar);
 
+#if 0  /* ACCOUNT_MGMT */
 	if (mav->priv->do_calendar) {
 		ESourceList *slist;
 		ESourceGroup *sgrp;
@@ -308,8 +272,6 @@ setup_yahoo_account (MailAccountView *mav)
 
 		e_source_group_add_source (sgrp, calendar, -1);
 		e_source_list_sync (slist, NULL);
-
-		add_selected_calendar (e_source_get_uid (calendar));
 
 		g_free (abs_uri);
 		g_free (rel_uri);
@@ -354,18 +316,16 @@ setup_yahoo_account (MailAccountView *mav)
 		g_object_unref (abook);
 
 	}
-
-	g_object_unref (gconf);
+#endif /* ACCOUNT_MGMT */
 }
 
 static void
 setup_google_accounts (MailAccountView *mav)
 {
-	GConfClient *gconf = gconf_client_get_default ();
-
 	mav->priv->do_gcontacts = gtk_toggle_button_get_active ((GtkToggleButton *) mav->priv->gcontacts);
 	mav->priv->do_calendar = gtk_toggle_button_get_active ((GtkToggleButton *) mav->priv->calendar);
 
+#if 0  /* ACCOUNT_MGMT */
 	if (mav->priv->do_calendar) {
 		ESourceList *slist;
 		ESourceGroup *sgrp;
@@ -399,8 +359,6 @@ setup_google_accounts (MailAccountView *mav)
 		e_source_set_relative_uri (calendar, rel_uri);
 
 		e_source_list_sync (slist, NULL);
-
-		add_selected_calendar (e_source_get_uid (calendar));
 
 		g_free (abs_uri);
 		g_free (rel_uri);
@@ -462,8 +420,7 @@ setup_google_accounts (MailAccountView *mav)
 		g_object_unref (slist);
 		g_object_unref (sgrp);
 	}
-
-	g_object_unref (gconf);
+#endif /* ACCOUNT_MGMT */
 }
 
 #define INDENTATION 10
@@ -471,6 +428,7 @@ setup_google_accounts (MailAccountView *mav)
 static GtkWidget *
 create_review (MailAccountView *view)
 {
+#if 0  /* ACCOUNT_MGMT */
 	GtkWidget *table, *box, *label, *entry;
 	gchar *buff;
 	CamelNetworkSettings *source_settings = NULL;
@@ -650,6 +608,9 @@ create_review (MailAccountView *view)
 	g_free (user);
 
 	return table;
+#endif /* ACCOUNT_MGMT */
+
+	return NULL;
 }
 
 #define IDENTITY_DETAIL N_("To use the email application you'll need to setup an account. Put your email address and password in below and we'll try and work out all the settings. If we can't do it automatically you'll need your server details as well.")
@@ -688,6 +649,7 @@ struct _page_text {
 static gboolean
 mav_check_same_source_transport (MailAccountView *mav)
 {
+#if 0  /* ACCOUNT_MGMT */
 	EAccount *account = em_account_editor_get_modified_account (mav->edit);
 	const gchar *uri;
 	gchar *current = NULL;
@@ -721,12 +683,16 @@ mav_check_same_source_transport (MailAccountView *mav)
 	}
 
 	return ret;
+#endif /* ACCOUNT_MGMT */
+
+	return FALSE;  /* ACCOUNT_MGMT */
 }
 
 static void
 mav_next_pressed (GtkButton *button,
                   MailAccountView *mav)
 {
+#if 0  /* ACCOUNT_MGMT */
 	if (mail_account_pages[mav->current_page].validate_page) {
 		gint ret = (*mail_account_pages[mav->current_page].validate_page) (mav);
 		MAVPage *page = mav->pages[mav->current_page];
@@ -771,8 +737,10 @@ mav_next_pressed (GtkButton *button,
 			/* Save the password ahead of time */
 			aurl = camel_url_new (account->source->url, NULL);
 			surl = camel_url_to_string (aurl, CAMEL_URL_HIDE_ALL);
+#if 0  /* ACCOUNT_MGMT */
 			e_passwords_add_password (surl, gtk_entry_get_text ((GtkEntry *) mav->password));
 			e_passwords_remember_password (NULL, surl);
+#endif /* ACCOUNT_MGMT */
 			camel_url_free (aurl);
 			g_free (surl);
 		}
@@ -942,6 +910,7 @@ mav_next_pressed (GtkButton *button,
 				mav_next_pressed (NULL, mav);
 		}
 	}
+#endif /* ACCOUNT_MGMT */
 }
 
 static void
@@ -1072,6 +1041,7 @@ next_page (GtkWidget *entry,
 	mav_next_pressed (NULL, mav);
 }
 
+#if 0  /* ACCOUNT_MGMT */
 static void
 mail_account_view_construct (MailAccountView *view,
                              EMailBackend *backend)
@@ -1097,7 +1067,7 @@ mail_account_view_construct (MailAccountView *view,
 	view->current_page = 0;
 	gtk_box_pack_start ((GtkBox *) view, view->scroll, TRUE, TRUE, 0);
 	view->edit = em_account_editor_new_for_pages (
-		view->original, EMAE_PAGES, backend,
+		view->original, EMAE_PAGES, session,
 		"org.gnome.evolution.mail.config.accountWizard", view->wpages);
 	gtk_widget_hide (e_config_create_widget (E_CONFIG (view->edit->config)));
 	if (!view->original) {
@@ -1148,6 +1118,7 @@ mail_account_view_new (EAccount *account,
 
 	return view;
 }
+#endif /* ACCOUNT_MGMT */
 
 static void
 mav_close (GtkButton *w,
