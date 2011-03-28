@@ -34,15 +34,16 @@
 
 #include <libecal/e-cal-client.h>
 #include <libecal/e-cal-component.h>
-#include <libedataserver/e-account.h>
-#include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-flag.h>
+#include <libedataserver/e-data-server-util.h>
+#include <libedataserver/e-source-calendar.h>
+#include <libedataserver/e-source-mail-identity.h>
 #include <libedataserverui/e-source-selector-dialog.h>
 #include <libedataserverui/e-client-utils.h>
 
-#include <e-util/e-dialog-utils.h>
+#include <libemail-engine/e-mail-utils.h>
 
-#include <libemail-utils/e-account-utils.h>
+#include <e-util/e-dialog-utils.h>
 
 #include <misc/e-popup-action.h>
 #include <misc/e-attachment-store.h>
@@ -84,10 +85,13 @@ get_component_editor (EShell *shell,
 	ECalComponentId *id;
 	CompEditorFlags flags = 0;
 	CompEditor *editor = NULL;
+	ESourceRegistry *registry;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 	g_return_val_if_fail (E_IS_CAL_CLIENT (client), NULL);
 	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), NULL);
+
+	registry = e_shell_get_registry (shell);
 
 	id = e_cal_component_get_id (comp);
 	g_return_val_if_fail (id != NULL, NULL);
@@ -100,7 +104,7 @@ get_component_editor (EShell *shell,
 	}
 
 	if (!editor) {
-		if (itip_organizer_is_user (comp, client))
+		if (itip_organizer_is_user (registry, comp, client))
 			flags |= COMP_EDITOR_USER_ORG;
 
 		switch (e_cal_component_get_vtype (comp)) {
@@ -319,38 +323,46 @@ static gchar *
 set_organizer (ECalComponent *comp,
                CamelFolder *folder)
 {
-	EAccount *account = NULL;
-	const gchar *str, *name;
+	EShell *shell;
+	ESource *source = NULL;
+	ESourceRegistry *registry;
+	ESourceMailIdentity *extension;
+	const gchar *extension_name;
+	const gchar *address, *name;
 	ECalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
-	gchar *res;
+	gchar *mailto = NULL;
 
-	if (folder) {
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
+
+	if (folder != NULL) {
 		CamelStore *store;
-		const gchar *uid;
 
 		store = camel_folder_get_parent_store (folder);
-		uid = camel_service_get_uid (CAMEL_SERVICE (store));
-
-		account = e_get_account_by_uid (uid);
+		source = em_utils_ref_mail_identity_for_store (registry, store);
 	}
 
-	if (!account)
-		account = e_get_default_account ();
-	if (!account)
-		return NULL;
+	if (source == NULL)
+		source = e_source_registry_ref_default_mail_identity (registry);
 
-	str = e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
-	name = e_account_get_string (account, E_ACCOUNT_ID_NAME);
+	g_return_val_if_fail (source != NULL, NULL);
 
-	if (!str)
-		return NULL;
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+	extension = e_source_get_extension (source, extension_name);
 
-	res = g_strconcat ("mailto:", str, NULL);
-	organizer.value = res;
-	organizer.cn = name;
-	e_cal_component_set_organizer (comp, &organizer);
+	name = e_source_mail_identity_get_name (extension);
+	address = e_source_mail_identity_get_address (extension);
 
-	return res;
+	if (name != NULL && address != NULL) {
+		mailto = g_strconcat ("mailto:", address, NULL);
+		organizer.value = mailto;
+		organizer.cn = name;
+		e_cal_component_set_organizer (comp, &organizer);
+	}
+
+	g_object_unref (source);
+
+	return mailto;
 }
 
 struct _att_async_cb_data {
@@ -1085,74 +1097,95 @@ mail_to_event (ECalClientSourceType source_type,
                gboolean with_attendees,
                EMailReader *reader)
 {
+	EShell *shell;
+	EMailBackend *backend;
+	ESourceRegistry *registry;
 	CamelFolder *folder;
 	GPtrArray *uids;
-	ESourceList *source_list = NULL;
-	GSList *groups, *p;
-	ESource *source = NULL, *default_source = NULL;
+	ESource *source = NULL;
+	ESource *default_source;
+	GList *list, *iter;
+	GtkWindow *parent;
+	const gchar *extension_name;
 	GError *error = NULL;
-	gint writable_sources = 0;
 
 	folder = e_mail_reader_get_folder (reader);
+	parent = e_mail_reader_get_window (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 
-	if (!e_cal_client_get_sources (&source_list, source_type, &error)) {
-		e_notice (NULL, GTK_MESSAGE_ERROR, _("Cannot get source list. %s"), error ? error->message : _("Unknown error."));
-		if (error)
-			g_error_free (error);
-		em_utils_uids_free (uids);
-		g_object_unref (folder);
-		return;
-	}
-
-	/* Ask before converting 10 or more mails to events */
+	/* Ask before converting 10 or more mails to events. */
 	if (uids->len > 10) {
-		gchar *question = g_strdup_printf (get_question_add_all_mails (source_type, uids->len), uids->len);
-		if (do_ask (question, FALSE) == GTK_RESPONSE_NO) {
-			g_free (question);
-			g_object_unref (source_list);
+		gchar *question;
+		gint response;
+
+		question = g_strdup_printf (
+			get_question_add_all_mails (source_type, uids->len), uids->len);
+		response = do_ask (question, FALSE);
+		g_free (question);
+
+		if (response == GTK_RESPONSE_NO) {
 			em_utils_uids_free (uids);
 			g_object_unref (folder);
 			return;
 		}
-		g_free (question);
 	}
 
-	/* Find 'Default' source. When no source is default, ask user to pick one */
-	groups = e_source_list_peek_groups (source_list);
-	for (p = groups; p != NULL; p = p->next) {
-		ESourceGroup *group = E_SOURCE_GROUP (p->data);
-		GSList *sources, *q;
+	backend = e_mail_reader_get_backend (reader);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+	registry = e_shell_get_registry (shell);
 
-		sources = e_source_group_peek_sources (group);
-		for (q = sources; q != NULL; q = q->next) {
-			ESource *s = E_SOURCE (q->data);
+	switch (source_type) {
+		case E_CAL_CLIENT_SOURCE_TYPE_EVENTS:
+			extension_name = E_SOURCE_EXTENSION_CALENDAR;
+			default_source = e_source_registry_ref_default_calendar (registry);
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_MEMOS:
+			extension_name = E_SOURCE_EXTENSION_MEMO_LIST;
+			default_source = e_source_registry_ref_default_memo_list (registry);
+			break;
+		case E_CAL_CLIENT_SOURCE_TYPE_TASKS:
+			extension_name = E_SOURCE_EXTENSION_TASK_LIST;
+			default_source = e_source_registry_ref_default_task_list (registry);
+			break;
+		default:
+			g_return_if_reached ();
+	}
 
-			if (s && e_source_get_property (s, "default") && !e_source_get_readonly (s)) {
-				default_source = s;
-			}
+	list = e_source_registry_list_sources (registry, extension_name);
 
-			if (s && !e_source_get_readonly (s)) {
-				writable_sources++;
-				source = s;
+	/* If there is only one writable source, no need to prompt the user. */
+	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+		ESource *candidate = E_SOURCE (iter->data);
+
+		if (e_source_get_writable (candidate)) {
+			if (source == NULL)
+				source = candidate;
+			else {
+				source = NULL;
+				break;
 			}
 		}
 	}
 
-	if (writable_sources > 1) {
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	if (source == NULL) {
 		GtkWidget *dialog;
+		ESourceSelector *selector;
 
 		/* ask the user which tasks list to save to */
-		dialog = e_source_selector_dialog_new (NULL, source_list);
+		dialog = e_source_selector_dialog_new (
+			parent, registry, extension_name);
 
-		e_source_selector_dialog_select_default_source (
+		selector = e_source_selector_dialog_get_selector (
 			E_SOURCE_SELECTOR_DIALOG (dialog));
+
+		e_source_selector_set_primary_selection (
+			selector, default_source);
 
 		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
 			source = e_source_selector_dialog_peek_primary_selection (
 				E_SOURCE_SELECTOR_DIALOG (dialog));
-		else
-			source = NULL;
 
 		gtk_widget_destroy (dialog);
 	} else if (!source && default_source) {
@@ -1160,12 +1193,11 @@ mail_to_event (ECalClientSourceType source_type,
 	} else if (!source) {
 		e_notice (NULL, GTK_MESSAGE_ERROR, _("No writable calendar is available."));
 
-		g_object_unref (source_list);
 		em_utils_uids_free (uids);
 		g_object_unref (folder);
 		if (error)
 			g_error_free (error);
-		return;
+		goto exit;
 	}
 
 	if (source) {
@@ -1177,22 +1209,12 @@ mail_to_event (ECalClientSourceType source_type,
 
 		client = e_cal_client_new (source, source_type, &error);
 		if (!client) {
-			gchar *uri = e_source_get_uri (source);
-
-			e_notice (NULL, GTK_MESSAGE_ERROR, "Could not create the client '%s': %s", uri, error ? error->message : "Unknown error");
-
-			g_free (uri);
-			g_object_unref (source_list);
-			em_utils_uids_free (uids);
-			g_object_unref (folder);
-			if (error)
-				g_error_free (error);
-			return;
+			e_notice (
+				parent, GTK_MESSAGE_ERROR,
+				"Could not connect to '%s'",
+				e_source_get_display_name (source));
+			goto exit;
 		}
-
-		g_signal_connect (
-			client, "authenticate",
-			G_CALLBACK (e_client_utils_authenticate_handler), NULL);
 
 		/* Fill the elements in AsynData */
 		data = g_new0 (AsyncData, 1);
@@ -1213,7 +1235,8 @@ mail_to_event (ECalClientSourceType source_type,
 		}
 	}
 
-	g_object_unref (source_list);
+exit:
+	g_object_unref (default_source);
 }
 
 static void
