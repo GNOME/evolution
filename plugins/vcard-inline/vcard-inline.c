@@ -24,15 +24,17 @@
 #include <glib/gi18n-lib.h>
 #include <libebook/e-book-client.h>
 #include <libebook/e-contact.h>
+#include <libedataserver/e-source-address-book.h>
 #include <libedataserverui/e-client-utils.h>
 #include <libedataserverui/e-source-selector-dialog.h>
 
-#include "addressbook/gui/merging/eab-contact-merging.h"
-#include "addressbook/gui/widgets/eab-contact-formatter.h"
-#include "addressbook/util/eab-book-util.h"
-#include "mail/em-format-hook.h"
-#include "mail/em-format-html.h"
-#include "mail/e-mail-display.h"
+#include <shell/e-shell.h>
+#include <addressbook/gui/merging/eab-contact-merging.h>
+#include <addressbook/gui/widgets/eab-contact-display.h>
+#include <addressbook/gui/widgets/eab-contact-formatter.h>
+#include <addressbook/util/eab-book-util.h>
+#include <mail/em-format-hook.h>
+#include <mail/em-format-html.h>
 
 #define d(x)
 
@@ -42,7 +44,6 @@ struct _VCardInlinePURI {
 	EMFormatPURI puri;
 
 	GSList *contact_list;
-	ESourceList *source_list;
 	GtkWidget *contact_display;
 	GtkWidget *message_label;
 
@@ -72,11 +73,6 @@ org_gnome_vcard_inline_pobject_free (EMFormatPURI *object)
 
 	e_client_util_free_object_slist (vcard_object->contact_list);
 	vcard_object->contact_list = NULL;
-
-	if (vcard_object->source_list != NULL) {
-		g_object_unref (vcard_object->source_list);
-		vcard_object->source_list = NULL;
-	}
 
 	if (vcard_object->contact_display != NULL) {
 		g_object_unref (vcard_object->contact_display);
@@ -146,8 +142,10 @@ org_gnome_vcard_inline_client_loaded_cb (ESource *source,
                                          GAsyncResult *result,
                                          GSList *contact_list)
 {
+	EShell *shell;
 	EClient *client = NULL;
 	EBookClient *book_client;
+	ESourceRegistry *registry;
 	GSList *iter;
 	GError *error = NULL;
 
@@ -166,11 +164,15 @@ org_gnome_vcard_inline_client_loaded_cb (ESource *source,
 
 	book_client = E_BOOK_CLIENT (client);
 
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
+
 	for (iter = contact_list; iter != NULL; iter = iter->next) {
 		EContact *contact;
 
 		contact = E_CONTACT (iter->data);
-		eab_merging_book_add_contact (book_client, contact, NULL, NULL);
+		eab_merging_book_add_contact (
+			registry, book_client, contact, NULL, NULL);
 	}
 
 	g_object_unref (client);
@@ -184,16 +186,26 @@ org_gnome_vcard_inline_save_cb (WebKitDOMEventTarget *button,
                                 WebKitDOMEvent *event,
                                 VCardInlinePURI *vcard_object)
 {
+	EShell *shell;
 	ESource *source;
+	ESourceRegistry *registry;
+	ESourceSelector *selector;
 	GSList *contact_list;
+	const gchar *extension_name;
 	GtkWidget *dialog;
 
-	g_return_if_fail (vcard_object->source_list != NULL);
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
+	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
 
-	dialog = e_source_selector_dialog_new (NULL, vcard_object->source_list);
+	dialog = e_source_selector_dialog_new (NULL, registry, extension_name);
 
-	e_source_selector_dialog_select_default_source (
+	selector = e_source_selector_dialog_get_selector (
 		E_SOURCE_SELECTOR_DIALOG (dialog));
+
+	source = e_source_registry_ref_default_address_book (registry);
+	e_source_selector_set_primary_selection (selector, source);
+	g_object_unref (source);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (dialog);
@@ -210,9 +222,9 @@ org_gnome_vcard_inline_save_cb (WebKitDOMEventTarget *button,
 	contact_list = e_client_util_copy_object_slist (NULL, vcard_object->contact_list);
 
 	e_client_utils_open_new (
-		source, E_CLIENT_SOURCE_TYPE_CONTACTS, FALSE,
-		NULL, e_client_utils_authenticate_handler, NULL,
-		(GAsyncReadyCallback) org_gnome_vcard_inline_client_loaded_cb,
+		source, E_CLIENT_SOURCE_TYPE_CONTACTS,
+		FALSE, NULL, (GAsyncReadyCallback)
+		org_gnome_vcard_inline_client_loaded_cb,
 		contact_list);
 }
 
@@ -438,7 +450,6 @@ org_gnome_vcard_inline_format (gpointer ep,
 	g_object_ref (target->part);
 
 	org_gnome_vcard_inline_decode (vcard_object, target->part);
-	e_book_client_get_sources (&vcard_object->source_list, NULL);
 
 	g_string_truncate (target->part_id, len);
 }
