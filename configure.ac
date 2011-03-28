@@ -1298,7 +1298,7 @@ AC_ARG_ENABLE([plugins],
 	[enable_plugins="$enableval"],[enable_plugins=all])
 
 dnl Add any new plugins here
-plugins_base_always="itip-formatter default-source mark-all-read publish-calendar"
+plugins_base_always="itip-formatter mark-all-read publish-calendar"
 
 plugins_base="$plugins_base_always"
 dist_plugins_base="$plugins_base_always"
@@ -1661,7 +1661,6 @@ plugins/attachment-reminder/Makefile
 plugins/audio-inline/Makefile
 plugins/bbdb/Makefile
 plugins/dbx-import/Makefile
-plugins/default-source/Makefile
 plugins/email-custom-header/Makefile
 plugins/external-editor/Makefile
 plugins/face/Makefile
