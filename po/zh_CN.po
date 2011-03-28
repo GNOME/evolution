@@ -20,7 +20,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2011-03-01 20:25+0000\n"
-"PO-Revision-Date: 2011-03-02 21:21+0800\n"
+"PO-Revision-Date: 2011-03-28 14:49+0000\n"
 "Last-Translator: 李炜 <lw124124@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -11303,7 +11303,7 @@ msgstr "组织(_G)："
 
 #: ../mail/mail-config.ui.h:74
 msgid "PGP/GPG _Key ID:"
-msgstr "PGP/GPG 键标识(_K)："
+msgstr "PGP/GPG 密钥 ID(_K)："
 
 #: ../mail/mail-config.ui.h:75
 msgid "Pass_word:"
