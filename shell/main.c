@@ -66,7 +66,6 @@
 #include "e-util/e-import.h"
 #include "e-util/e-plugin.h"
 #include "e-util/e-plugin-ui.h"
-#include "e-util/e-profile-event.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
 #ifdef G_OS_WIN32
@@ -721,9 +720,6 @@ main (gint argc, gchar **argv)
 		/* Register built-in plugin hook types. */
 		es_event_hook_get_type ();
 		e_import_hook_get_type ();
-#ifdef ENABLE_PROFILING
-		e_profile_event_hook_get_type ();
-#endif
 		e_plugin_ui_hook_get_type ();
 
 		/* All EPlugin and EPluginHook subclasses should be
