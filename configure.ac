@@ -1415,22 +1415,7 @@ dist_plugins_standard="$plugins_standard audio-inline image-inline pst-import"
 plugins_experimental_always="external-editor"
 
 plugins_experimental="$plugins_experimental_always $TNEF_ATTACHMENTS"
-dist_plugins_experimental="$plugins_experimental_always profiler tnef-attachments contacts-map"
-
-dnl ******************************
-dnl Profiling support
-dnl ******************************
-AC_ARG_ENABLE([profiling],
-	AS_HELP_STRING([--enable-profiling],
-	[Enable profiling plugin.]),
-	[enable_profiling=$enableval],[enable_profiling=no])
-
-case x"$enable_profiling" in
-x | xyes)
-	plugins_experimental="$plugins_experimental profiler"
-	AC_DEFINE(ENABLE_PROFILING,1,[Profiling Hooks Enabled])
-	;;
-esac
+dist_plugins_experimental="$plugins_experimental_always tnef-attachments contacts-map"
 
 dnl ******************************************************************
 dnl The following plugins have additional library dependencies.
@@ -1776,7 +1761,6 @@ plugins/mail-to-task/Makefile
 plugins/mailing-list-actions/Makefile
 plugins/mark-all-read/Makefile
 plugins/prefer-plain/Makefile
-plugins/profiler/Makefile
 plugins/pst-import/Makefile
 plugins/publish-calendar/Makefile
 plugins/sa-junk-plugin/Makefile

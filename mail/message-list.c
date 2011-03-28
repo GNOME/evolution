@@ -39,7 +39,6 @@
 #include "e-util/e-account-utils.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-poolv.h"
-#include "e-util/e-profile-event.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
 
@@ -4527,8 +4526,6 @@ regen_list_exec (struct _regen_list_msg *m,
 	if (cursor)
 		m->last_row = e_tree_table_adapter_row_of_node (e_tree_get_table_adapter (tree), cursor);
 
-	e_profile_event_emit("list.getuids", camel_folder_get_full_name (m->folder), 0);
-
 	/* if we have hidedeleted on, use a search to find it out, merge with existing search if set */
 	if (!camel_folder_has_search_capability (m->folder)) {
 		/* if we have no search capability, dont let search or hide deleted work */
@@ -4608,8 +4605,6 @@ regen_list_exec (struct _regen_list_msg *m,
 		return;
 	}
 
-	e_profile_event_emit("list.threaduids", camel_folder_get_full_name (m->folder), 0);
-
 	/* camel_folder_summary_prepare_fetch_all (m->folder->summary, NULL); */
 	if (!g_cancellable_is_cancelled (cancellable)) {
 		/* update/build a new tree */
@@ -4668,8 +4663,6 @@ regen_list_done (struct _regen_list_msg *m)
 	e_tree_show_cursor_after_reflow (tree);
 
 	g_signal_handlers_block_by_func (e_tree_get_table_adapter (tree), ml_tree_sorting_changed, m->ml);
-
-	e_profile_event_emit("list.buildtree", camel_folder_get_full_name (m->folder), 0);
 
 	if (m->dotree) {
 		gboolean forcing_expand_state = m->ml->expand_all || m->ml->collapse_all;
@@ -4776,8 +4769,6 @@ regen_list_free (struct _regen_list_msg *m)
 {
 	gint i;
 
-	e_profile_event_emit("list.regenerated", camel_folder_get_full_name (m->folder), 0);
-
 	if (m->summary) {
 		for (i = 0; i < m->summary->len; i++)
 			camel_folder_free_message_info (m->folder, m->summary->pdata[i]);
@@ -4817,8 +4808,6 @@ static MailMsgInfo regen_list_info = {
 static gboolean
 ml_regen_timeout (struct _regen_list_msg *m)
 {
-	e_profile_event_emit("list.regenerate", camel_folder_get_full_name (m->folder), 0);
-
 	g_mutex_lock (m->ml->regen_lock);
 	m->ml->regen = g_list_prepend (m->ml->regen, m);
 	g_mutex_unlock (m->ml->regen_lock);
