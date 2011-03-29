@@ -2,43 +2,6 @@
 #
 # This file is distributed under the same license as the evolution package.
 #
-# Woordenlijst: (naar believen aanvullen a.u.b)
-#
-# appointment - afspraak
-# attendee -? aanwezige/bezoeker/komt/aanwezig
-# authentication - aanmeldingscontrole
-# alarm -? alarm/wekker/alarmering
-# calendar - agenda
-# contact list - contactenlijst
-# contacts -? adresboek/contacten/kaarten
-# comment -? commentaar/opmerking
-# date navigator - datumkiezer/datumnavigator
-# draft - concept
-# due to an error -? door een fout/vanwege een fout
-# decline -? afzeggen/weigeren/afwijzen
-# delegate - gemachtigde
-# delegatee - ? machtigende/opdrachtgever
-# enveloped -? omhuld
-# event - notitie (altijd bij agenda's, agenda's bevatten notities)
-# expunge -? schrappen/leegmaken/definitief verwijderen/opruimen/opschonen/ruimen
-# inbox - postvak IN
-# journal - dagboek
-# journal entry - dagboekaantekening
-# junk -? spam/troep: Spam, want troep is niet duidelijk (wordt niet eens begrepen in de zuidelijke delen van ons taalgebied (Vincent))
-# location - locatie
-# meeting -? bijeenkomst/afspraak (vergadering) (vergelijk appointment-afspraak)
-# notification - aandachtvestiging/melding
-# occurance - instantie
-# outbox - postvak UIT
-# permission was denied -? toestemming is geweigerd/hiertoe geen recht(en) heeft
-# permanently -? definief/blijvend/onherroepelijk/voorgoed
-# search folder - (was eerst vFolder) zoekmap/filtermap
-# send -? versturen/verzenden
-# sidebar - zijpaneel
-# signature -? handtekening/ondertekening
-# subscription -? abonnement/inschrijving
-# sync -? sync/synchroniseren/actualiseren
-#
 # Arjan Scherpenisse <acscherp@wins.uva.nl>, 2000.
 # Gerard Oskamp <gerard@linuxfreak.nl>, 2000.
 # Dennis Smit <synap@area101.penguin.nl>, 2000.
@@ -51,17 +14,57 @@
 # Elros Cyriatan <cyriatan@fastmail.fm>, 2004.
 # Vincent van Adrighem <adrighem@gnome.org>, 2001, 2003–2006.
 # Reinout van Schouwen <reinouts@gnome.org>, 2007–2008.
-# Wouter Bolsterlee <wbolster@gnome.org>, 2006–2010.
+# Wouter Bolsterlee <wbolster@gnome.org>, 2006–2011.
 # Hannie Dumoleyn <hannie@ubuntu-nl.org>, 2010–2011.
+#
+# Woordenlijst (naar believen aanvullen a.u.b):
+#
+# appointment            -  afspraak
+# attendee               -? aanwezige/bezoeker/komt/aanwezig
+# authentication         -  aanmeldingscontrole
+# alarm                  -? alarm/wekker/alarmering
+# calendar               -  agenda
+# collapse               -  dichtklappen (zie ook expand)
+# contact list           -  contactenlijst
+# contacts               -? adresboek/contacten/kaarten
+# comment                -? commentaar/opmerking
+# date navigator         -  datumkiezer/datumnavigator
+# draft                  -  concept
+# due to an error        -? door een fout/vanwege een fout
+# decline                -? afzeggen/weigeren/afwijzen
+# delegate               -  gemachtigde
+# delegatee              -? machtigende/opdrachtgever
+# enveloped              -? omhuld
+# event                  -  notitie (altijd bij agenda's, agenda's bevatten notities)
+# expand                 -  openklappen (zie ook collapse)
+# expunge                -? schrappen/leegmaken/definitief verwijderen/opruimen/opschonen/ruimen
+# inbox                  -  postvak IN
+# journal                -  dagboek
+# journal entry          -  dagboekaantekening
+# junk                   -? spam/troep: Spam, want troep is niet duidelijk (wordt niet eens begrepen in de zuidelijke delen van ons taalgebied (Vincent))
+# location               -  locatie
+# meeting                -? bijeenkomst/afspraak (vergadering) (vergelijk appointment-afspraak)
+# notification           -  aandachtvestiging/melding
+# occurance              -  instantie
+# outbox                 -  postvak UIT
+# permission was denied  -? toestemming is geweigerd/hiertoe geen recht(en) heeft
+# permanently            -? definief/blijvend/onherroepelijk/voorgoed
+# search folder          -  (was eerst vFolder) zoekmap/filtermap
+# send                   -? versturen/verzenden
+# sidebar                -  zijpaneel
+# signature              -? handtekening/ondertekening
+# subscription           -? abonnement/inschrijving
+# sync                   -? sync/synchroniseren/actualiseren
+# thread                 -  voor e-mail: conversatie (sinds 20110329 in plaats van ‘discussie’ gekomen), voor caldav/calendar: thread (alleen als technische term in foutmeldingen)
 #
 #: ../shell/main.c:627
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-29 22:49+0200\n"
-"PO-Revision-Date: 2011-03-28 10:42+0200\n"
-"Last-Translator: Hannie Dumoleyn <hannie@ubuntu-nl.org>\n"
+"POT-Creation-Date: 2011-03-29 23:12+0200\n"
+"PO-Revision-Date: 2011-03-29 23:12+0200\n"
+"Last-Translator: Wouter Bolsterlee <wbolster@gnome.org>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -8155,7 +8158,7 @@ msgstr "Geen antwoord of referentie"
 
 #: ../filter/e-filter-rule.c:757
 msgid "I_nclude threads"
-msgstr "_Discussies bijsluiten"
+msgstr "_Conversaties bijsluiten"
 
 #: ../filter/e-filter-rule.c:782
 msgid "A_dd Condition"
@@ -8818,11 +8821,11 @@ msgstr "Toon het volgende belangrijke bericht"
 
 #: ../mail/e-mail-reader.c:2143
 msgid "Next _Thread"
-msgstr "Volgende _discussie"
+msgstr "Volgende _conversatie"
 
 #: ../mail/e-mail-reader.c:2145
 msgid "Display the next thread"
-msgstr "Toon de volgende discussieboom"
+msgstr "Toon de volgende conversatie"
 
 # _o wordt gebruikt voor V_olgende
 #: ../mail/e-mail-reader.c:2150
@@ -8851,11 +8854,11 @@ msgstr "Toon het vorige belangrijke bericht"
 
 #: ../mail/e-mail-reader.c:2171
 msgid "Previous T_hread"
-msgstr "Vo_rige discussie"
+msgstr "Vo_rige conversatie"
 
 #: ../mail/e-mail-reader.c:2173
 msgid "Display the previous thread"
-msgstr "Toon de vorige discussie"
+msgstr "Toon de vorige conversatie"
 
 #: ../mail/e-mail-reader.c:2178
 msgid "P_revious Unread Message"
@@ -10081,19 +10084,19 @@ msgstr "_Uitschrijven"
 
 #: ../mail/em-subscription-editor.c:1240
 msgid "Collapse all folders"
-msgstr "Alle mappen _opvouwen"
+msgstr "Alle mappen _dichtklappen"
 
 #: ../mail/em-subscription-editor.c:1241
 msgid "C_ollapse All"
-msgstr "Alles _opvouwen"
+msgstr "Alles _dichtklappen"
 
 #: ../mail/em-subscription-editor.c:1251
 msgid "Expand all folders"
-msgstr "Alle mappen _uitvouwen"
+msgstr "Alle mappen _openklappen"
 
 #: ../mail/em-subscription-editor.c:1252
 msgid "E_xpand All"
-msgstr "Alles _uitvouwen"
+msgstr "Alles _openklappen"
 
 #: ../mail/em-subscription-editor.c:1262
 msgid "Refresh the folder list"
@@ -10319,7 +10322,7 @@ msgstr "Standaard manier van antwoorden"
 
 #: ../mail/evolution-mail.schemas.in.h:41
 msgid "Default value for thread expand state"
-msgstr "Geeft aan of discussies standaard uitgevouwen worden"
+msgstr "Geeft aan of conversaties standaard opengeklapt worden"
 
 #: ../mail/evolution-mail.schemas.in.h:42
 msgid "Default width of the Composer Window."
@@ -11333,8 +11336,8 @@ msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Requires a restart to apply."
 msgstr ""
-"Deze instelling bepaalt of discussies standaard in- of uitgevouwen getoond "
-"moeten worden. Evolution moet hiervoor opnieuw gestart worden."
+"Deze instelling bepaalt of conversaties standaard open- of dichtgeklapt "
+"getoond moeten worden. Evolution moet hiervoor opnieuw gestart worden."
 
 #: ../mail/evolution-mail.schemas.in.h:210
 msgid ""
@@ -11342,8 +11345,8 @@ msgid ""
 "message in each thread, rather than by message's date. Evolution requires a "
 "restart."
 msgstr ""
-"Deze instelling bepaalt of discussies standaard gesorteerd worden op het "
-"laatste bericht in elke discussie, in plaats van op de datum van het "
+"Deze instelling bepaalt of conversaties standaard gesorteerd worden op het "
+"laatste bericht in elke conversaties, in plaats van op de datum van het "
 "bericht. Evolution moet hiervoor opnieuw gestart worden."
 
 #: ../mail/evolution-mail.schemas.in.h:211
@@ -11359,7 +11362,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:212
 msgid "Thread the message-list based on Subject"
-msgstr "Discussiestructuur gebaseerd op onderwerp tonen in de berichtenlijst"
+msgstr "Conversatiestructuur gebaseerd op onderwerp tonen in de berichtenlijst"
 
 #: ../mail/evolution-mail.schemas.in.h:213
 msgid "Timeout for marking message as seen"
@@ -11459,12 +11462,13 @@ msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr ""
-"Of teruggevallen wordt op discussiestructuur op onderwerp wanneer de "
+"Of teruggevallen wordt op conversatiestructuur op onderwerp wanneer de "
 "berichten geen kopregels ‘In-Reply-To’ of ‘References’ bevatten."
 
 #: ../mail/evolution-mail.schemas.in.h:231
 msgid "Whether sort threads based on latest message in that thread"
-msgstr "Of discussies gesorteerd worden op het laatste bericht in de discussie"
+msgstr ""
+"Of conversaties gesorteerd worden op het laatste bericht in de conversatie"
 
 #: ../mail/evolution-mail.schemas.in.h:232
 msgid ""
@@ -11800,7 +11804,7 @@ msgstr "_Uitgaande berichten (standaard) versleutelen"
 
 #: ../mail/mail-config.ui.h:47
 msgid "F_all back to threading messages by subject"
-msgstr "Terugvallen naar discussieweergave per _onderwerp"
+msgstr "Terugvallen naar conversatieweergave per _onderwerp"
 
 #: ../mail/mail-config.ui.h:48
 msgid "Fix_ed Width Font:"
@@ -15929,17 +15933,17 @@ msgstr "De naam van deze map wijzigen"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1162
 msgid "Select Message _Thread"
-msgstr "_Discussie selecteren"
+msgstr "_Conversatie selecteren"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1164
 msgid "Select all messages in the same thread as the selected message"
 msgstr ""
-"Selecteer alle berichten die bij de discussie van het geselecteerde bericht "
-"horen"
+"Selecteer alle berichten die bij de conversatie van het geselecteerde "
+"bericht horen"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1169
 msgid "Select Message S_ubthread"
-msgstr "_Subdiscussie selecteren"
+msgstr "_Subconversatie selecteren"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1171
 msgid "Select all replies to the currently selected message"
@@ -16008,23 +16012,21 @@ msgstr "Annuleren"
 msgid "Cancel the current mail operation"
 msgstr "Stop de huidige e-mailbewerking"
 
-# samenvouwen/opvouwen
-# Discussies allemaal samenvouwen
 #: ../modules/mail/e-mail-shell-view-actions.c:1269
 msgid "Collapse All _Threads"
-msgstr "_Alle discussies opvouwen"
+msgstr "_Alle conversaties dichtklappen"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1271
 msgid "Collapse all message threads"
-msgstr "Alle discussielijnen met meer dan één bericht opvouwen"
+msgstr "Alle conversaties dichtklappen"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1276
 msgid "E_xpand All Threads"
-msgstr "Alle _discussies uitvouwen"
+msgstr "Alle _conversaties openklappen"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1278
 msgid "Expand all message threads"
-msgstr "Alle discussielijnen met meer dan één bericht uitvouwen"
+msgstr "Alle conversaties openklappen"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1283
 msgid "_Message Filters"
@@ -16081,11 +16083,11 @@ msgstr "Verwijderde berichten (doorgestreept) tonen"
 # dit is onderdeel van het menu
 #: ../modules/mail/e-mail-shell-view-actions.c:1397
 msgid "_Group By Threads"
-msgstr "_Groeperen op discussie"
+msgstr "_Groeperen op conversatie"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1399
 msgid "Threaded message list"
-msgstr "Discussielijst"
+msgstr "Lijst met conversaties"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1420
 msgid "Show message preview below the message list"
@@ -16945,7 +16947,7 @@ msgstr "E-_mail gebruiker:"
 #: ../plugins/caldav/caldav-browse-server.c:1407
 #, c-format
 msgid "Failed to create thread: %s"
-msgstr "Aanmaken van discussie is mislukt: %s"
+msgstr "Aanmaken van thread is mislukt: %s"
 
 #: ../plugins/caldav/caldav-browse-server.c:1516
 #, c-format
@@ -19443,7 +19445,7 @@ msgstr "Weet u zeker dat u deze locatie wilt verwijderen?"
 #. ever happen, and if so, then something is really wrong.
 #: ../plugins/publish-calendar/publish-calendar.c:1057
 msgid "Could not create publish thread."
-msgstr "Kon ‘discussie publiceren’ niet aanmaken."
+msgstr "Kon ‘publicatiethread’ niet aanmaken."
 
 #: ../plugins/publish-calendar/publish-calendar.c:1065
 msgid "_Publish Calendar Information"
@@ -22416,12 +22418,12 @@ msgstr "de cel omschakelen"
 #. Translators: description of an "expand" action
 #: ../widgets/table/gal-a11y-e-cell-tree.c:212
 msgid "expands the row in the ETree containing this cell"
-msgstr "de rij in de ETree die deze cel bevat uitvouwen"
+msgstr "de rij in de ETree die deze cel bevat openklappen"
 
 #. Translators: description of a "collapse" action
 #: ../widgets/table/gal-a11y-e-cell-tree.c:219
 msgid "collapses the row in the ETree containing this cell"
-msgstr "de rij in de ETree die deze cel bevat opvouwen"
+msgstr "de rij in de ETree die deze cel bevat dichtklappen"
 
 #: ../widgets/table/gal-a11y-e-cell.c:119
 msgid "Table Cell"
@@ -23093,21 +23095,6 @@ msgstr "Invoermethodes"
 #~ msgid "Manage your Evolution plugins."
 #~ msgstr "Plugins van Evolution beheren."
 
-# als/met
-# discussieweergave op onderwerp/per onderwerp
-#~| msgid "Thread messages by subject"
-#~ msgid "Sort mail message threads by subject."
-#~ msgstr "Berichten groeperen op discussie per onderwerp."
-
-# discussieweergave/boom
-#~ msgid "Subject Threading"
-#~ msgstr "Discussieboom"
-
-# als/met
-# discussieweergave op onderwerp/per onderwerp
-#~ msgid "Thread messages by subject"
-#~ msgstr "Berichten groeperen op discussie per onderwerp"
-
 # hoofdletter?
 #~ msgid "search bar"
 #~ msgstr "zoekbalk"
@@ -23123,10 +23110,6 @@ msgstr "Invoermethodes"
 
 #~ msgid "toggle"
 #~ msgstr "omschakelen"
-
-# expand/collapse
-#~ msgid "expand"
-#~ msgstr "uitvouwen"
 
 #~ msgid "Combo Button"
 #~ msgstr "Combinatieknop"
@@ -25218,13 +25201,6 @@ msgstr "Invoermethodes"
 #~ msgid "Text message part limit"
 #~ msgstr "Limiet tekstberichtdeel"
 
-# boomstructuur voor berichtenlijst
-#~ msgid "Thread the message list."
-#~ msgstr "Discussiestructuur tonen in de berichtenlijst."
-
-#~ msgid "Thread the message-list"
-#~ msgstr "Discussiestructuur tonen in de berichtenlijst"
-
 #~ msgid "Use side-by-side or wide layout"
 #~ msgstr "Gebruik de ‘naast-elkaar’ ofwel de ‘breedbeeld’ weergave"
 
@@ -26542,9 +26518,6 @@ msgstr "Invoermethodes"
 #~ msgid "Please wait"
 #~ msgstr "Een ogenblik geduld aub"
 
-#~ msgid "Indicates if threading of messages should fall back to subject."
-#~ msgstr "Geeft aan of discussieweergave terugvalt op onderwerp."
-
 #~ msgid "A simple plugin which uses yTNEF to decode TNEF attachments."
 #~ msgstr ""
 #~ "Een eenvoudige plugin die yTNEF gebruikt om TNEF-bijlagen te decoderen."
@@ -26996,15 +26969,6 @@ msgstr "Invoermethodes"
 #~ msgid "Unknown character set: %s"
 #~ msgstr "Onbekende tekenset: %s"
 
-#~ msgid "Expanded"
-#~ msgstr "Uitvouwen"
-
-#~ msgid "Whether or not the expander is expanded"
-#~ msgstr "Of de uitvouwer uitgevouwd moet zijn"
-
-#~ msgid "Text of the expander's label"
-#~ msgstr "Labeltekst van de uitvouwer"
-
 #~ msgid ""
 #~ "If set, an underline in the text indicates the next character should be "
 #~ "used for the mnemonic accelerator key"
@@ -27018,22 +26982,8 @@ msgstr "Invoermethodes"
 #~ msgid "Label widget"
 #~ msgstr "Labelwidget"
 
-#~ msgid "A widget to display in place of the usual expander label"
-#~ msgstr ""
-#~ "Een widget dat wordt weergegeven in plaats van het gebruikelijke "
-#~ "uitvouwlabel"
-
-#~ msgid "Expander Size"
-#~ msgstr "Uitvouwer-grootte"
-
-#~ msgid "Size of the expander arrow"
-#~ msgstr "Grootte van de uitvouwpijl"
-
 #~ msgid "Indicator Spacing"
 #~ msgstr "Indicator ruimtes"
-
-#~ msgid "Spacing around expander arrow"
-#~ msgstr "Spatiëring rondom uitvouwpijl"
 
 #~ msgid "_Searches"
 #~ msgstr "_Zoeken"
