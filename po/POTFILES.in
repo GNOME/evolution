@@ -132,7 +132,6 @@ composer/mail-composer.error.xml
 capplet/anjal-settings-main.c
 capplet/settings/mail-view.c
 capplet/settings/mail-guess-servers.c
-capplet/settings/mail-decoration.c
 capplet/settings/mail-account-view.c
 capplet/settings/mail-capplet-shell.c
 capplet/settings/anjal-mail-view.c
@@ -373,7 +372,6 @@ plugins/mark-all-read/mark-all-read.c
 plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml
 plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml
 plugins/prefer-plain/prefer-plain.c
-plugins/profiler/org-gnome-evolution-profiler.eplug.xml
 plugins/pst-import/org-gnome-pst-import.eplug.xml
 plugins/pst-import/pst-importer.c
 plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml
