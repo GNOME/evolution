@@ -11173,6 +11173,7 @@ msgstr "வடிகட்டி விதிமுறையை சேர்"
 #. * of its name, without quotes.
 #: ../mail/mail-autofilter.c:492
 #, c-format
+#, fuzzy
 msgid ""
 "The filter rule \"%s\" has been modified to account for the deleted folder\n"
 "\"%s\"."
