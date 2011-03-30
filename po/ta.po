@@ -2737,7 +2737,7 @@ msgstr "ஒரு டிபஸ் பிழையால் இந்த நி�
 #: ../calendar/gui/dialogs/delete-error.c:60
 #, c-format
 msgid "The task could not be deleted due to a dbus error: %s"
-msgstr "ஒரு டிபஸ் பிழையால் இந்த sபணியை நீக்க முடியாது: %"
+msgstr "ஒரு டிபஸ் பிழையால் இந்த பணியை நீக்க முடியாது: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:64
