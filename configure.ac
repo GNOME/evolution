@@ -43,7 +43,7 @@ m4_define([gnome_desktop_minimum_version], [2.91.3])
 m4_define([gnome_icon_theme_minimum_version], [2.30.2.1])
 m4_define([gsettings_desktop_schemas_minimum_version], [2.91.92])
 m4_define([gconf_minimum_version], [2.0.0])		dnl XXX Just a Guess
-m4_define([libsoup_minimum_version], [2.4.0])		dnl XXX Just a Guess
+m4_define([libsoup_minimum_version], [2.31.2])
 m4_define([libxml_minimum_version], [2.7.3])
 m4_define([shared_mime_info_minimum_version], [0.22])
 m4_define([libpst_minimum_version], [0.6.41])
