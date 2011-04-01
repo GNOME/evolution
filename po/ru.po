@@ -4393,7 +4393,7 @@ msgstr "Новая встреча"
 
 #: ../calendar/gui/ea-cal-view.c:303
 msgid "New All Day Event"
-msgstr "Новое ежедневное событие"
+msgstr "Создать событие на весь день"
 
 #: ../calendar/gui/ea-cal-view.c:304
 msgid "New Meeting"
@@ -14316,7 +14316,7 @@ msgstr "Удалить все вхождения"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1409
 msgid "New All Day _Event..."
-msgstr "_Создать ежедневное событие…"
+msgstr "_Создать событие на весь день…"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1411
 msgid "Create a new all day event"
