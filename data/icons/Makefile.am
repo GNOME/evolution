@@ -21,8 +21,17 @@ public_icons = \
 	hicolor_apps_48x48_evolution-mail.png \
 	hicolor_apps_48x48_evolution-memos.png \
 	hicolor_apps_48x48_evolution-tasks.png \
-	hicolor_apps_scalable_evolution.svg \
+	hicolor_apps_256x256_evolution.png \
 	$(NULL)
+
+# hicolor_status_16x16_wrapped.png was copied from Firefox
+# (toolkit/themes/gnomestripe/global/icons/wrap.png), which
+# contained the following notice:
+#
+#     All files in this directory are assumed to be licensed under the
+#     tri-license (MPL/GPL/LGPL) used throughout this codebase.
+#
+# There is no corresponding SVG file. */
 
 private_icons = \
 	hicolor_apps_16x16_contact-editor.png \
@@ -192,16 +201,10 @@ stock_private_icons = \
 	hicolor_status_48x48_stock_signature.png \
 	$(NULL)
 
-# hicolor_status_16x16_wrapped.png was copied from Firefox
-# (toolkit/themes/gnomestripe/global/icons/wrap.png), which
-# contained the following notice:
-#
-#     All files in this directory are assumed to be licensed under the
-#     tri-license (MPL/GPL/LGPL) used throughout this codebase.
-#
-# There is no corresponding SVG file. */
-
+# These are source files for future editing
+# and are not meant to be installed as icons.
 noinst_DATA = \
+	hicolor_apps_scalable_evolution.svg \
 	hicolor_actions_16x16_go-today.svg \
 	hicolor_actions_16x16_view-calendar-day.svg \
 	hicolor_actions_16x16_view-calendar-list.svg \
