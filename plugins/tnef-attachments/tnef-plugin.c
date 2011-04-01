@@ -216,10 +216,6 @@ e_plugin_lib_enable (EPlugin *ep, gint enable)
 	    return 0;
 
     loaded = TRUE;
-    if (enable) {
-	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-	    bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
-    }
 
     return 0;
 }

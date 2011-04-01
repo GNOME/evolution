@@ -16,8 +16,6 @@ liborg_gnome_tnef_attachments_la_CPPFLAGS =		\
 	$(AM_CPPFLAGS)					\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
-	-DGETTEXT_PACKAGE="\"$(GETTEXT_PACKAGE)\""	\
-	-DLOCALEDIR="\"$(localedir)\""			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(TNEF_CFLAGS)

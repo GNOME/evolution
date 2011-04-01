@@ -17,8 +17,6 @@ liborg_gnome_dbx_import_la_CPPFLAGS =			\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_builddir)				\
-	-DGETTEXT_PACKAGE="\"$(GETTEXT_PACKAGE)\""	\
-	-DLOCALEDIR="\"$(LOCALEDIR)\""			\
 	$(GNOME_PLATFORM_CFLAGS)			\
 	$(EVOLUTION_CFLAGS)				\
 	$(EVOLUTION_CALENDAR_CFLAGS)			\
