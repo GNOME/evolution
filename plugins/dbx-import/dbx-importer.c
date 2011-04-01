@@ -811,13 +811,5 @@ org_gnome_evolution_readdbx_cancel (EImport *ei,
 gint
 e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
-	if (enable) {
-		bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-		bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-		g_message ("DBX Plugin enabled");
-	} else {
-		g_message ("DBX Plugin disabled");
-	}
-
 	return 0;
 }

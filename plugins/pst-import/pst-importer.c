@@ -1683,14 +1683,6 @@ org_credativ_evolution_readpst_cancel (EImport *ei, EImportTarget *target, EImpo
 gint
 e_plugin_lib_enable (EPlugin *ep, gint enable)
 {
-	if (enable) {
-		bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-		bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-		g_message ("pst Plugin enabled");
-	} else {
-		g_message ("pst Plugin disabled");
-	}
-
 	return 0;
 }
 
