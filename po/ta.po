@@ -6,6 +6,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
 #
+#: ../shell/main.c:627
 # Jayaradha N <jaya@pune.redhat.com>, 2004.
 # Felix <ifelix@redhat.com>, 2006.
 # Dr.T.Vasudevan <agnihot3@gmail.com>, 2007, 2008, 2009, 2010.
@@ -13,13 +14,12 @@
 # Dr.T.Vaasudevan <agnihot3@gmail.com>, 2009.
 # Dr.T.vasudevan <agnihot3@gmail.com>, 2009, 2010.
 # I Felix <ifelix@redhat.com>, 2010, 2011.
-#: ../shell/main.c:627
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-28\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-31 21:16+0530\n"
-"PO-Revision-Date: 2011-03-31 21:11+0530\n"
+"POT-Creation-Date: 2011-04-02 21:28+0530\n"
+"PO-Revision-Date: 2011-04-02 21:30+0530\n"
 "Last-Translator: \n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ta\n"
 "X-Generator: Lokalize 1.0\n"
-"Plural-Forms: nplurals=2; plural=(n!=1);\\n\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\\n"
+"\n"
 "\n"
 "\n"
 
@@ -131,8 +132,7 @@ msgid "The Evolution address book has quit unexpectedly."
 msgstr "எவல்யூஷன் முகவரிப்புத்தகம் எதிர்பாராதவிதமாகவெளியேறியது. "
 
 #: ../addressbook/addressbook.error.xml.h:21
-msgid ""
-"The image you have selected is large. Do you want to resize and store it?"
+msgid "The image you have selected is large. Do you want to resize and store it?"
 msgstr "தேர்ந்தெடுக்கப்பட்ட பிம்பம் மிகப் பெரியது. அதை சின்னதாக்கி சேமிக்க வேண்டுமா?"
 
 #: ../addressbook/addressbook.error.xml.h:22
@@ -214,8 +214,7 @@ msgstr "இந்த தொடர்பில் மாற்றமங்கள�
 
 #. Translators: {0} is replaced with an address book name which will not be available
 #: ../addressbook/addressbook.error.xml.h:37
-msgid ""
-"Your contacts for {0} will not be available until Evolution is restarted."
+msgid "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr "எவல்யூஷனை மீண்டும் துவக்காதவரை {0} க்கான தொடர்பு கிடைக்க வாய்ப்பு இல்லை"
 
 #: ../addressbook/addressbook.error.xml.h:38 ../mail/em-vfolder-rule.c:610
@@ -1491,8 +1490,7 @@ msgid "NUMBER"
 msgstr "NUMBER"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:137
-msgid ""
-"Command line arguments error, please use --help option to see the usage."
+msgid "Command line arguments error, please use --help option to see the usage."
 msgstr "கட்டளை வரி அளவுரு பிழை; --help தேர்வை பயன்படுத்தி பயன்பாட்டை தெரிந்துகொள்ளவும்"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:151
@@ -1561,20 +1559,16 @@ msgid "All information on these tasks will be deleted and can not be restored."
 msgstr "இந்த பணி தொடர்பான அனைத்து தகவல்களும் நீக்கப்படும் மீண்டும் மீட்க முடியாது"
 
 #: ../calendar/calendar.error.xml.h:11
-msgid ""
-"All information on this appointment will be deleted and can not be restored."
+msgid "All information on this appointment will be deleted and can not be restored."
 msgstr "இந்த சந்திப்பு  தொடர்பான அனைத்து தகவல்களும் நீக்கப்படும் மீட்க முடியாது"
 
 #: ../calendar/calendar.error.xml.h:12
-msgid ""
-"All information on this meeting will be deleted and can not be restored."
-msgstr ""
-"இந்த கூட்டம் பற்றிய அனைத்து தகவல்களும் ரத்து செய்யப்படும் தகவல்களை மீண்டும் பெற முடியாது"
+msgid "All information on this meeting will be deleted and can not be restored."
+msgstr "இந்த கூட்டம் பற்றிய அனைத்து தகவல்களும் ரத்து செய்யப்படும் தகவல்களை மீண்டும் பெற முடியாது"
 
 #: ../calendar/calendar.error.xml.h:13
 msgid "All information on this memo will be deleted and can not be restored."
-msgstr ""
-"இந்த குறிப்பு பற்றிய அனைத்து தகவல்களும் ரத்து செய்யப்படும் தகவல்களை மீண்டும் பெற முடியாது"
+msgstr "இந்த குறிப்பு பற்றிய அனைத்து தகவல்களும் ரத்து செய்யப்படும் தகவல்களை மீண்டும் பெற முடியாது"
 
 #: ../calendar/calendar.error.xml.h:14
 msgid "All information on this task will be deleted and can not be restored."
@@ -1685,8 +1679,7 @@ msgid ""
 msgstr "இந்த பணியை ஏற்பதற்கான அனைத்து பங்கேற்பாளர்களுக்கும் அழைப்பு அனுப்பபடும்"
 
 #: ../calendar/calendar.error.xml.h:40
-msgid ""
-"Email invitations will be sent to all participants and allow them to reply."
+msgid "Email invitations will be sent to all participants and allow them to reply."
 msgstr ""
 "மின்னஞ்சல் மூலம் அனைத்து பங்கு கொள்வோருக்கும் அழைப்புகள் அனுப்பபடும். அவர்கள் பதில் அனுப்ப "
 "அனுமதிக்கப்படுவார்கள்."
@@ -2728,8 +2721,7 @@ msgstr "சேரும் இடத்தின் பண்பு படிக
 
 #: ../calendar/gui/dialogs/delete-comp.c:210
 msgid "_Delete this item from all other recipient's mailboxes?"
-msgstr ""
-"இந்த உருப்படியை மற்ற அனைத்து பெறுநர் அஞ்சல் பெட்டிகளிலிருந்தும் அழிக்க வேண்டாமா? (_D)"
+msgstr "இந்த உருப்படியை மற்ற அனைத்து பெறுநர் அஞ்சல் பெட்டிகளிலிருந்தும் அழிக்க வேண்டாமா? (_D)"
 
 #: ../calendar/gui/dialogs/delete-comp.c:213
 msgid "_Retract comment"
@@ -4085,8 +4077,7 @@ msgstr "செயலில் உள்ளது"
 #: ../calendar/gui/e-meeting-store.c:1763
 #, c-format
 msgid "Enter password to access free/busy information on server %s as user %s"
-msgstr ""
-"சேவையகம் %s க்கு பயனர் %s ஆக வேலையின்றி/வேலையில் விவரம் பெற கடவுச்சொல்லை உள்ளிடவும் "
+msgstr "சேவையகம் %s க்கு பயனர் %s ஆக வேலையின்றி/வேலையில் விவரம் பெற கடவுச்சொல்லை உள்ளிடவும் "
 
 #: ../calendar/gui/e-meeting-store.c:1772
 #, c-format
@@ -6821,10 +6812,8 @@ msgstr "வரைவை சேமி"
 
 #: ../composer/e-msg-composer.c:784
 #, c-format
-msgid ""
-"Cannot sign outgoing message: No signing certificate set for this account"
-msgstr ""
-"வெளி செல்லிம் செய்திகளை கையொப்பமிட முடியாது. இந்த கணக்கிற்கென சான்றிதழ் எதுவும் இல்லை"
+msgid "Cannot sign outgoing message: No signing certificate set for this account"
+msgstr "வெளி செல்லிம் செய்திகளை கையொப்பமிட முடியாது. இந்த கணக்கிற்கென சான்றிதழ் எதுவும் இல்லை"
 
 #: ../composer/e-msg-composer.c:793
 #, c-format
@@ -6879,8 +6868,7 @@ msgstr "தலைப்பு '{0}',செய்தியை தவிர்க�
 
 #: ../composer/mail-composer.error.xml.h:7
 msgid "Because &quot;{0}&quot;, you may need to select different mail options."
-msgstr ""
-"ஏனெனில் &quot;{0}&quot;, நீங்கள் வேறு மின்னஞ்சல் விருப்பங்களை தேர்வு செய்ய வேண்டும்."
+msgstr "ஏனெனில் &quot;{0}&quot;, நீங்கள் வேறு மின்னஞ்சல் விருப்பங்களை தேர்வு செய்ய வேண்டும்."
 
 #: ../composer/mail-composer.error.xml.h:8
 msgid "Because &quot;{1}&quot;."
@@ -7122,8 +7110,7 @@ msgstr "உங்கள் கணக்குக்கு முன்னிர�
 msgid ""
 "Time to check things over before we try and connect to the server and fetch "
 "your mail."
-msgstr ""
-"நாங்கள் சேவ்வையகத்துக்கு இணத்து அஞ்சல்களை பெறுமுன் ஒரு முறை அமைப்புகளை  சோதித்து விடலாம்."
+msgstr "நாங்கள் சேவ்வையகத்துக்கு இணத்து அஞ்சல்களை பெறுமுன் ஒரு முறை அமைப்புகளை  சோதித்து விடலாம்."
 
 #: ../capplet/settings/mail-account-view.c:613
 #: ../mail/em-account-editor.c:2143 ../mail/em-account-editor.c:2264
@@ -7548,8 +7535,7 @@ msgid "The printing system reported the following details about the error:"
 msgstr "அச்சு அமைப்பு பிழை குறித்து பின்வரும் தகவல் தந்தது."
 
 #: ../e-util/e-print.c:170
-msgid ""
-"The printing system did not report any additional details about the error."
+msgid "The printing system did not report any additional details about the error."
 msgstr "அச்சு அமைப்பு பிழை குறித்து மேல் தகவல் ஏதும் தரவில்லை"
 
 #: ../e-util/e-signature.c:707
@@ -8875,8 +8861,7 @@ msgstr "செயலை பயனீட்டாளர் ரத்து செ
 
 #: ../mail/e-mail-session.c:873
 #, c-format
-msgid ""
-"No destination address provided, forward of the message has been cancelled."
+msgid "No destination address provided, forward of the message has been cancelled."
 msgstr "இலக்கு முகவரி ஏதும் தர வில்லை. செய்தியை மேலனுப்புதல் இரத்து செய்யப்பட்டது"
 
 #: ../mail/e-mail-session.c:882
@@ -9544,8 +9529,7 @@ msgstr "சரியான கையொப்பம் ஆனால் அனு
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
-msgstr ""
-"இந்த செய்தி சரியாக கையொப்பமிடப்பட்ட செய்தி  ஆனால் அனுப்புநரை சரி பார்க்க முடியவில்லை"
+msgstr "இந்த செய்தி சரியாக கையொப்பமிடப்பட்ட செய்தி  ஆனால் அனுப்புநரை சரி பார்க்க முடியவில்லை"
 
 #: ../mail/em-format-html-display.c:88 ../mail/em-format-html.c:1605
 msgid "Signature exists, but need public key"
@@ -10183,8 +10167,7 @@ msgstr "அடைவு முன்பார்வையை மறைக்க�
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
-msgstr ""
-"பயனர் பத்துக்கு மேல் செய்திகளை திறக்க முயற்சி செய்தால் நிச்சயம் செய்ய வேண்டுமா எனக் கேள்."
+msgstr "பயனர் பத்துக்கு மேல் செய்திகளை திறக்க முயற்சி செய்தால் நிச்சயம் செய்ய வேண்டுமா எனக் கேள்."
 
 #: ../mail/evolution-mail.schemas.in.h:82
 msgid ""
@@ -10544,8 +10527,7 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr "அடைவை முழுவதும் அழிக்க நினைக்கும் போது தெரியப்படுத்து"
 
 #: ../mail/evolution-mail.schemas.in.h:141
-msgid ""
-"Prompt the user when he or she tries to send a message without a Subject."
+msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr "தலைப்பில்லாமல் செய்தி அனுப்ப முயலும் போது எச்சரி"
 
 #: ../mail/evolution-mail.schemas.in.h:142
@@ -10574,15 +10556,13 @@ msgstr "மறை நகல் அனுப்பும் போது தெ�
 
 #: ../mail/evolution-mail.schemas.in.h:148
 msgid "Prompt when user tries to open 10 or more messages at once"
-msgstr ""
-"பயனர் 10 அல்லது அதற்கு மேற்பட்ட செய்திகளை ஒரே நேரத்தில் அனுப்பும் போது தெரியப்படுத்து"
+msgstr "பயனர் 10 அல்லது அதற்கு மேற்பட்ட செய்திகளை ஒரே நேரத்தில் அனுப்பும் போது தெரியப்படுத்து"
 
 #: ../mail/evolution-mail.schemas.in.h:149
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
-msgstr ""
-"HTML மின்னஞ்சலை ஏற்க விரும்பாதார்களுக்குHTML மின்னஞ்சல் அனுப்பப்படும் போது தெரியப்படுத்து."
+msgstr "HTML மின்னஞ்சலை ஏற்க விரும்பாதார்களுக்குHTML மின்னஞ்சல் அனுப்பப்படும் போது தெரியப்படுத்து."
 
 #: ../mail/evolution-mail.schemas.in.h:150
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
@@ -10799,15 +10779,13 @@ msgid "The default plugin for Junk hook"
 msgstr "ஜங்க் ஹூக் க்கு முன்னிருப்பு சொருகுப்பொருள்"
 
 #: ../mail/evolution-mail.schemas.in.h:193
-msgid ""
-"The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
+msgid "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "1970 ஜனவரி முதல் தேதி (சகாப்த ஆரம்பத்திலிருந்து) கடைசியாக  எரிதங்களை காலி செய் "
 "இயக்கிய நேரம், தினங்களில்"
 
 #: ../mail/evolution-mail.schemas.in.h:194
-msgid ""
-"The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
+msgid "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
 msgstr ""
 "1970 ஜனவரி முதல் தேதி (சகாப்த ஆரம்பத்திலிருந்து) கடைசியாக  எரிதங்களை காலி செய் "
 "இயக்கிய நேரம்."
@@ -10837,8 +10815,7 @@ msgstr "மேலனுப்பும்போது அது மேலனு�
 msgid ""
 "The text that is inserted when replying to a message (top posting), saying "
 "that the original message follows."
-msgstr ""
-"செய்திக்கு பதில் எழுதும் போது (மேல் பதில்) அசல் உரை கீழே என குறிக்க சேர்க்க வேண்டிய உரை"
+msgstr "செய்திக்கு பதில் எழுதும் போது (மேல் பதில்) அசல் உரை கீழே என குறிக்க சேர்க்க வேண்டிய உரை"
 
 #: ../mail/evolution-mail.schemas.in.h:199
 msgid ""
@@ -11183,7 +11160,7 @@ msgstr "வடிகட்டி விதிமுறையை சேர்"
 #. * them on a separate line, with four spaces in front
 #. * of its name, without quotes.
 #: ../mail/mail-autofilter.c:492
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The filter rule \"%s\" has been modified to account for the deleted folder\n"
 "\"%s\"."
@@ -11192,11 +11169,12 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "\"%s\"."
 msgstr[0] ""
-"\"%s\"வடிப்பி விதி நீக்கப்பட்ட \"%s\" அடைவுக்கு \n"
-"பொருத்தமாக மாற்றப்பட்டது."
+"\"%s\"வடிப்பி விதி நீக்கப்பட்ட இந்த அடைவுக்கு \n"
+"பொருத்தமாக மாற்றப்பட்டது. \"%s\" "
 msgstr[1] ""
-"%s வடிப்பி விதிகள்  நீக்கப்பட்ட \"%s\" அடைவுக்கு \n"
+"%s வடிப்பி விதிகள்  நீக்கப்பட்ட இந்த அடைவுக்கு \n"
 "பொருத்தமாக மாற்றப்பட்டன.\n"
+"\"%s\" "
 
 #: ../mail/mail-config.ui.h:2
 msgid "Add Ne_w Signature..."
@@ -11229,8 +11207,7 @@ msgstr "எப்போதும் வலையில் உள்ள விச
 
 #: ../mail/mail-config.ui.h:10
 msgid "Always encrypt to _myself when sending encrypted messages"
-msgstr ""
-"எப்போதும் மறையாக்கம் செய்த அஞ்சல் அனுப்பும் போது எனக்கும் பிரதியை மறையாக்கம் செய்க (_m)"
+msgstr "எப்போதும் மறையாக்கம் செய்த அஞ்சல் அனுப்பும் போது எனக்கும் பிரதியை மறையாக்கம் செய்க (_m)"
 
 #: ../mail/mail-config.ui.h:11
 msgid "Always request rea_d receipt"
@@ -11709,8 +11686,7 @@ msgstr "இணையத்துக்கு நேரடி இணைப்ப�
 
 #: ../mail/mail-config.ui.h:143
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
-msgstr ""
-"சந்திப்பு பற்றிய கோரிக்கைக்கு கையொப்பம் தேவை இல்லை (அவுட்லுக்கில் வேலை செய்வதற்காக) (_D)"
+msgstr "சந்திப்பு பற்றிய கோரிக்கைக்கு கையொப்பம் தேவை இல்லை (அவுட்லுக்கில் வேலை செய்வதற்காக) (_D)"
 
 #: ../mail/mail-config.ui.h:144
 msgid "_Forward style:"
@@ -12206,8 +12182,7 @@ msgid "Are you sure you want to delete this account?"
 msgstr "இந்த கணக்கை அவசியம் நீக்க வேண்டுமா?"
 
 #: ../mail/mail.error.xml.h:14
-msgid ""
-"Are you sure you want to disable this account and delete all its proxies?"
+msgid "Are you sure you want to disable this account and delete all its proxies?"
 msgstr "இந்த கணக்கை செய்லிழக்கச் செய்து மற்றும் அனைத்து பதிலாளையும் அவசியம் நீக்க வேண்டுமா?"
 
 #: ../mail/mail.error.xml.h:15
@@ -12308,8 +12283,7 @@ msgstr "\"{0}\" க்கு \"{1}\" ஆக மாற்றுப்பெயர
 
 #: ../mail/mail.error.xml.h:37
 msgid "Cannot rename or move system folder \"{0}\"."
-msgstr ""
-"கணினி அமைப்பு அடைவு  \"{0}\" க்கு மாற்றுப்பெயர் இடவோ அல்லது நகர்த்தவோ முடியவில்லை."
+msgstr "கணினி அமைப்பு அடைவு  \"{0}\" க்கு மாற்றுப்பெயர் இடவோ அல்லது நகர்த்தவோ முடியவில்லை."
 
 #: ../mail/mail.error.xml.h:38
 msgid "Cannot save changes to account."
@@ -12443,8 +12417,7 @@ msgstr ""
 "இந்த அடைவை நீக்கினால் இதில் உள்ள அனைத்து கோப்புகளும் உப அடைவுகளும் நிரந்தரமாக நீக்கப்படும்."
 
 #: ../mail/mail.error.xml.h:71
-msgid ""
-"If you delete the folder, all of its contents will be deleted permanently."
+msgid "If you delete the folder, all of its contents will be deleted permanently."
 msgstr "இந்த அடைவை நீக்கினால் இதில் உள்ளது அனைத்தும் நிரந்தரமாக நீக்கப்படும்."
 
 #: ../mail/mail.error.xml.h:72
@@ -12656,8 +12629,7 @@ msgid ""
 msgstr "நீங்கள் தேர்ந்தெடுத்த கணக்கு செயல்படுத்தப்படவில்லை, எனவே செய்தியை அனுப்ப முடியாது"
 
 #: ../mail/mail.error.xml.h:122
-msgid ""
-"This message cannot be sent because you have not specified any recipients"
+msgid "This message cannot be sent because you have not specified any recipients"
 msgstr "பெறுநர்கள் முகவரி குறிப்பிடப்படவில்லை எனவே செய்தியை அனுப்ப முடியாது"
 
 #: ../mail/mail.error.xml.h:123
@@ -12692,8 +12664,7 @@ msgstr "க்ரூப்வைஸ் சேவையகத்தினை இ�
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
-msgstr ""
-"இந்த கணக்கிற்கு வரைவு அடைவை திறக்க முடியவில்லை கணினி வரைவு அடைவை பயன்படுத்த வேண்டுமா?"
+msgstr "இந்த கணக்கிற்கு வரைவு அடைவை திறக்க முடியவில்லை கணினி வரைவு அடைவை பயன்படுத்த வேண்டுமா?"
 
 #: ../mail/mail.error.xml.h:129
 msgid "Unable to read license file."
@@ -13153,13 +13124,11 @@ msgstr "எவல்யூஷன் தானாக முடிக்க, ந�
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:15
 msgid "URI for the folder last used in the select names dialog"
-msgstr ""
-"பெயர்களை தேர்ந்தெடு உரையாடலுக்கு  கடைசியாக பயன்படுத்திய அடைவுக்கான யூஆர்ஐ(URI) "
+msgstr "பெயர்களை தேர்ந்தெடு உரையாடலுக்கு  கடைசியாக பயன்படுத்திய அடைவுக்கான யூஆர்ஐ(URI) "
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:16
 msgid "URI for the folder last used in the select names dialog."
-msgstr ""
-"பெயர்களை தேர்ந்தெடு உரையாடலுக்கு  கடைசியாக பயன்படுத்திய அடைவுக்கான யூஆர்ஐ(URI) "
+msgstr "பெயர்களை தேர்ந்தெடு உரையாடலுக்கு  கடைசியாக பயன்படுத்திய அடைவுக்கான யூஆர்ஐ(URI) "
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:17
 msgid ""
@@ -13248,8 +13217,7 @@ msgstr "அனைத்து தொடர்புகளையும் நக�
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:682
 msgid "Copy the contacts of the selected address book to another"
-msgstr ""
-"தேர்ந்தெடுக்கப்பட்ட முகவரி புத்தகத்தில் உள்ள தொடர்புகளை வேறு ஒன்றுக்கு நகல் எடுக்கவும்"
+msgstr "தேர்ந்தெடுக்கப்பட்ட முகவரி புத்தகத்தில் உள்ள தொடர்புகளை வேறு ஒன்றுக்கு நகல் எடுக்கவும்"
 
 #: ../modules/addressbook/e-book-shell-view-actions.c:687
 msgid "D_elete Address Book"
@@ -13836,8 +13804,7 @@ msgid "Calendars to run alarms for"
 msgstr "நாள்காட்டி எச்சரிக்கையை இயக்கவும்"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:10
-msgid ""
-"Color to draw the Marcus Bains Line in the Time bar (empty for default)."
+msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
 msgstr "மார்கஸ் பைன்ஸ் கோட்டினை நேர பட்டையில் வரையும் நிறம் (முன்னிருப்பாக வெற்று)."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:11
@@ -14170,8 +14137,7 @@ msgstr ""
 msgid ""
 "The UID of the selected (or \"primary\") task list in the sidebar of the "
 "\"Tasks\" view."
-msgstr ""
-"பக்கப்பட்டை \"பணிகள்\" காட்சியில் தேர்ந்தெடுத்த (அல்லது \"முதன்மை\") பணிப்பட்டியலின் யூஐடி"
+msgstr "பக்கப்பட்டை \"பணிகள்\" காட்சியில் தேர்ந்தெடுத்த (அல்லது \"முதன்மை\") பணிப்பட்டியலின் யூஐடி"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:87
 #, no-c-format
@@ -14248,14 +14214,11 @@ msgstr ""
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:98
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
-msgstr ""
-"முன்னிருப்பு நினைவூட்டிக்கான அலகுகள், \"minutes\", \"hours\" அல்லது \"days\"."
+msgstr "முன்னிருப்பு நினைவூட்டிக்கான அலகுகள், \"minutes\", \"hours\" அல்லது \"days\"."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:99
-msgid ""
-"Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
-msgstr ""
-"பணியை மறைப்பதை கண்டறிய தேவையான அலகு,  \"minutes\", \"hours\" அல்லது \"days\"."
+msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
+msgstr "பணியை மறைப்பதை கண்டறிய தேவையான அலகு,  \"minutes\", \"hours\" அல்லது \"days\"."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:100
 msgid "Use system timezone"
@@ -14303,8 +14266,7 @@ msgid "Whether to display the end time of events in the week and month views."
 msgstr "நிகழ்வின் முடிவு நேரத்தை வார மற்றும் மாத காட்சிகளில் காட்ட வேண்டுமா."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:110
-msgid ""
-"Whether to draw the Marcus Bains Line (line at current time) in the calendar."
+msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
 msgstr "நாள்காட்டியில் மார்கஸ் பைன்ஸ் கோட்டினை (நடப்பு நேரத்தில் உள்ள கோடு) வரைய வேண்டுமா."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:111
@@ -14321,8 +14283,7 @@ msgstr "சந்திப்பு  க்கு முன்னிருப்
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:114
 msgid "Whether to set a reminder for birthdays and anniversaries."
-msgstr ""
-"பிறந்தநாள் மற்றும் வருட கொண்டாட்டங்கள் க்கு முன்னிருப்பு நினைவூட்டலை அமைக்க வேண்டுமா."
+msgstr "பிறந்தநாள் மற்றும் வருட கொண்டாட்டங்கள் க்கு முன்னிருப்பு நினைவூட்டலை அமைக்க வேண்டுமா."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:115
 msgid "Whether to show RSVP field in the event/task/meeting editor"
@@ -14341,8 +14302,7 @@ msgid "Whether to show status field in the event/task/meeting editor"
 msgstr "நிகழ்வு/பணி/சந்திப்பு தொகுப்பியில் நிலை புலத்தை காட்ட வேண்டுமா"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:119
-msgid ""
-"Whether to show times in twenty four hour format instead of using am/pm."
+msgid "Whether to show times in twenty four hour format instead of using am/pm."
 msgstr "am/pm க்கு பதிலாக 24 மணிநேர முறையில் நேரங்களை காட்ட வேண்டுமா."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:120
@@ -15647,8 +15607,7 @@ msgstr "%s சொருகுப்பொருள் இருப்பில�
 #. May be a better text
 #: ../modules/mail/em-mailer-prefs.c:701 ../modules/mail/em-mailer-prefs.c:775
 #, c-format
-msgid ""
-"%s plugin is not available. Please check whether the package is installed."
+msgid "%s plugin is not available. Please check whether the package is installed."
 msgstr "%s சொருகுப்பொருள் இருப்பில் இல்லை. தயவு செய்து நிறுவப்பட்ட பொதியை சோதிக்க."
 
 #: ../modules/mail/em-mailer-prefs.c:739
@@ -15669,8 +15628,7 @@ msgid "Check whether Evolution is the default mailer"
 msgstr "முன்னிருப்பு அஞ்சல் எவல்யூஷனா என்பதை சரிபார்க்கவும்"
 
 #: ../modules/mailto-handler/apps-evolution-mail-prompts-checkdefault.schemas.in.h:2
-msgid ""
-"Every time Evolution starts, check whether or not it is the default mailer."
+msgid "Every time Evolution starts, check whether or not it is the default mailer."
 msgstr ""
 "ஒவ்வொரு முறை எவல்யூஷன் தொடங்கும் போதும், முன்னிருப்பு அஞ்சல் எவல்யூஷனா என்பதை "
 "சரிபார்க்கவும்."
@@ -15934,8 +15892,7 @@ msgstr "எவல்யூஷன் கணக்குகள் மற்று�
 
 #: ../plugins/backup-restore/backup.c:304
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
-msgstr ""
-"எவல்யூஷன் தரவுகள் பாதுகாக்கப்படுகிறன (அஞ்சல்கள், தொடர்புகள் நாள்காட்டி பணிகள் குறிப்புகள்)"
+msgstr "எவல்யூஷன் தரவுகள் பாதுகாக்கப்படுகிறன (அஞ்சல்கள், தொடர்புகள் நாள்காட்டி பணிகள் குறிப்புகள்)"
 
 #: ../plugins/backup-restore/backup.c:317
 msgid "Back up complete"
@@ -16019,8 +15976,7 @@ msgid "Are you sure you want to close Evolution?"
 msgstr "நிச்சயமாக எவல்யூஷனை மூட வேண்டுமா?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
-msgid ""
-"Are you sure you want to restore Evolution from the selected back up file?"
+msgid "Are you sure you want to restore Evolution from the selected back up file?"
 msgstr "நிச்சயம் தேர்ந்தெடுக்கப்பட்ட காப்புக்கோப்பிலிருந்து எவல்யூஷன் ஐ மீட்டெடுக்க வேண்டுமா?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
@@ -16487,8 +16443,7 @@ msgstr "முன்னிருப்பு மூலங்கள்"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
 msgid "Mark your preferred address book and calendar as default."
-msgstr ""
-"உங்களுக்கு விருப்பமான முகவரிபுத்தகம் மற்றும் நாள்காட்டி ஐ முன்னிருப்பாக குறிக்கவும்."
+msgstr "உங்களுக்கு விருப்பமான முகவரிபுத்தகம் மற்றும் நாள்காட்டி ஐ முன்னிருப்பாக குறிக்கவும்."
 
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:1
 msgid "List of Custom Headers"
@@ -16924,8 +16879,7 @@ msgstr "தேர்ந்தெடுக்கப்பட்ட செய்�
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login.error.xml.h:1
 msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
-msgstr ""
-"கணக்கு &quot;{0}&quot; ஏற்கெனவே உள்ளது தயவு செய்து உங்கள் அடைவு கிளைகளை பார்க்க."
+msgstr "கணக்கு &quot;{0}&quot; ஏற்கெனவே உள்ளது தயவு செய்து உங்கள் அடைவு கிளைகளை பார்க்க."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login.error.xml.h:2
 msgid "Account Already Exists"
@@ -16963,13 +16917,11 @@ msgstr "இந்த பயனருக்கு ஏற்கெனவே பத
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:8
 msgid "You have to specify a valid user name to give proxy rights."
-msgstr ""
-"நீங்கள் பதிலாள் அணுகல்  அனுமதி தர செல்லுபடியாகும் பயனர் பெயர் ஒன்றை குறிப்பிட வேண்டும்."
+msgstr "நீங்கள் பதிலாள் அணுகல்  அனுமதி தர செல்லுபடியாகும் பயனர் பெயர் ஒன்றை குறிப்பிட வேண்டும்."
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.error.xml.h:3
 msgid "You cannot share this folder with the specified user &quot;{0}&quot;"
-msgstr ""
-"குறிப்பிட்ட பயனர்  &quot;{0}&quot;  உடன் நீங்கள் இந்த கோப்பினை பகிர்ந்து கொள்ள  முடியாது"
+msgstr "குறிப்பிட்ட பயனர்  &quot;{0}&quot;  உடன் நீங்கள் இந்த கோப்பினை பகிர்ந்து கொள்ள  முடியாது"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.error.xml.h:4
 msgid "You have to specify a user name which you want to add to the list"
@@ -17758,8 +17710,7 @@ msgstr "%s, %s வழியாக பின்வரும் பணியைப
 
 #: ../plugins/itip-formatter/itip-view.c:488
 #, c-format
-msgid ""
-"%s wishes to receive the latest information for the following assigned task:"
+msgid "%s wishes to receive the latest information for the following assigned task:"
 msgstr "%s பின்வரும் பணியைப்பற்றிய சமீபத்திய செய்தி அறிய விரும்புகிறார்:"
 
 #: ../plugins/itip-formatter/itip-view.c:492
@@ -17968,8 +17919,7 @@ msgid "This meeting has been delegated"
 msgstr "இந்த சந்திப்பு வழங்கப்படுகிறது"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
-msgid ""
-"This response is not from a current attendee. Add the sender as an attendee?"
+msgid "This response is not from a current attendee. Add the sender as an attendee?"
 msgstr "பதில் இப்போதைய பங்கு கொள்பவரிடமிருந்து அல்ல. அனுப்பியவரை பங்கு கொள்பவராக ஆக்கவா?"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
@@ -18522,8 +18472,7 @@ msgstr "இருந்தால் வெற்று உரை ஐ காட�
 msgid ""
 "Show plain text part, if present, otherwise let Evolution choose the best "
 "part to show."
-msgstr ""
-"இருந்தால் வெற்று உரை ஐ காட்டு, அல்லது எவலூஷன் நல்ல பகுதியை காட்ட தேர்ந்தெடுக்கட்டும்"
+msgstr "இருந்தால் வெற்று உரை ஐ காட்டு, அல்லது எவலூஷன் நல்ல பகுதியை காட்ட தேர்ந்தெடுக்கட்டும்"
 
 #: ../plugins/prefer-plain/prefer-plain.c:243
 msgid "Only ever show plain text"
@@ -18957,8 +18906,7 @@ msgstr "வார்ப்புருவாக  சேமி"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
 msgid "Decode TNEF (winmail.dat) attachments from Microsoft Outlook."
-msgstr ""
-"மைக்ரோசாப்ட் அவுட்லுக்கில் இருந்து டிஎன்ஈஎஃப்  (winmail.dat) இணைப்புகளை குறிநீக்கு."
+msgstr "மைக்ரோசாப்ட் அவுட்லுக்கில் இருந்து டிஎன்ஈஎஃப்  (winmail.dat) இணைப்புகளை குறிநீக்கு."
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:2
 msgid "TNEF Decoder"
@@ -19057,8 +19005,7 @@ msgid "Enable express mode"
 msgstr "அதிவேக பாங்கை செயல்படுத்து"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:11
-msgid ""
-"Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
+msgid "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
 msgstr ""
 "இணயத்தில் ஹெச் டிடிபி/ பாதுகாப்பான ஹெச் டிடிபி  வழியாக அணுகும் போது பதிலாள் அமைப்பதை "
 "செயலுமை படுத்துகிறது."
@@ -19116,16 +19063,14 @@ msgstr "ஜிடிகேபைசூசர் உரையாடல்கள�
 msgid ""
 "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List "
 "View."
-msgstr ""
-"பலக விட்செட்டுகளுக்கு ஆரம்ப பார்வை.  \"0\" சின்ன பார்வைக்கு, \"1\" பட்டியல் பார்வைக்கு."
+msgstr "பலக விட்செட்டுகளுக்கு ஆரம்ப பார்வை.  \"0\" சின்ன பார்வைக்கு, \"1\" பட்டியல் பார்வைக்கு."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:23
 msgid "Last upgraded configuration version"
 msgstr "கடைசியாக மேம்படுத்தப்பட்ட கட்டமைப்பு பதிப்பு"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:24
-msgid ""
-"List of paths for the folders to be synchronized to disk for offline usage"
+msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr "இணையத்தில் இல்லாமல் வேலை செய்ய ஒத்திசைக்க வேண்டிய பாதைகளின் பட்டியல்"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:25
@@ -19315,8 +19260,7 @@ msgid "Whether the toolbar should be visible."
 msgstr "கருவிப்பட்டி தெரிய வேண்டுமா."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:61
-msgid ""
-"Whether the warning dialog in development versions of Evolution is skipped."
+msgid "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr "எவல்யூஷன் வளர்ச்சி பதிப்புகளில் எச்சரிக்கை உரையாடல் தவிர்க்கப்படலாமா."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:62
@@ -20196,8 +20140,7 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr "இந்த நிறுவனத்தில் வழங்கப்பட்ட சான்றிதழ் மூலம் உங்களை அடையாளம் காணலாம்:"
 
 #: ../smime/gui/smime-ui.ui.h:40
-msgid ""
-"You have certificates on file that identify these certificate authorities:"
+msgid "You have certificates on file that identify these certificate authorities:"
 msgstr "உங்கள் கோப்பில் உள்ள சான்றிதழ் மூலம் சான்றிதழ் உரிமம் உள்ளவர்களை அடையாளம் காணலாம்:"
 
 #: ../smime/gui/smime-ui.ui.h:41
@@ -20927,13 +20870,11 @@ msgstr ""
 
 #: ../widgets/misc/e-online-button.c:23
 msgid "Evolution is currently online.  Click this button to work offline."
-msgstr ""
-"எவல்யூஷன் தற்சமயம் இணைப்பில் உள்ளது. இந்தப் பொத்தானை பயன்படுத்தி இணைப்பிலிருந்து விலகவும்."
+msgstr "எவல்யூஷன் தற்சமயம் இணைப்பில் உள்ளது. இந்தப் பொத்தானை பயன்படுத்தி இணைப்பிலிருந்து விலகவும்."
 
 #: ../widgets/misc/e-online-button.c:26
 msgid "Evolution is currently offline.  Click this button to work online."
-msgstr ""
-"எவல்யூஷன் தற்சமயம் இணைப்பில்லாமல் உள்ளது. இந்தப் பொத்தானை பயன்படுத்தி இணைப்பினை பெறவும்."
+msgstr "எவல்யூஷன் தற்சமயம் இணைப்பில்லாமல் உள்ளது. இந்தப் பொத்தானை பயன்படுத்தி இணைப்பினை பெறவும்."
 
 #: ../widgets/misc/e-online-button.c:29
 msgid "Evolution is currently offline because the network is unavailable."
