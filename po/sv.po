@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-09 20:28+0100\n"
-"PO-Revision-Date: 2011-01-09 20:31+0100\n"
+"POT-Creation-Date: 2011-04-02 15:12+0200\n"
+"PO-Revision-Date: 2011-04-02 15:28+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -346,7 +346,7 @@ msgstr "_Adress:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:29
 msgid "_Anniversary:"
-msgstr "_Årsdag:"
+msgstr "_Jubileum:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:30
 msgid "_Assistant:"
@@ -1280,21 +1280,21 @@ msgstr ""
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../addressbook/gui/widgets/eab-gui-util.c:167
-#, fuzzy, c-format
+#, c-format
 msgid "The backend for this address book was unable to parse this query. %s"
-msgstr "Bakänden för denna adressbok kunde inte tolka denna fråga."
+msgstr "Bakänden för denna adressbok kunde inte tolka denna fråga. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../addressbook/gui/widgets/eab-gui-util.c:172
-#, fuzzy, c-format
+#, c-format
 msgid "The backend for this address book refused to perform this query. %s"
-msgstr "Bakänden för denna adressbok vägrade att genomföra denna fråga."
+msgstr "Bakänden för denna adressbok vägrade att genomföra denna fråga. %s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../addressbook/gui/widgets/eab-gui-util.c:177
-#, fuzzy, c-format
+#, c-format
 msgid "This query did not complete successfully. %s"
-msgstr "Denna fråga returnerade inte utan problem."
+msgstr "Denna fråga färdigställdes inte korrekt. %s"
 
 #. This is a filename. Translators take note.
 #: ../addressbook/gui/widgets/eab-gui-util.c:202
@@ -1486,14 +1486,12 @@ msgid "'{0}' is a read-only calendar and cannot be modified. Please select a dif
 msgstr "\"{0}\" är en skrivskyddad kalender och kan inte ändras. Välj en annan kalender som kan ta emot möten."
 
 #: ../calendar/calendar.error.xml.h:5
-#, fuzzy
 msgid "Adding a meaningful summary to your appointment will give you an idea of what your appointment is about."
-msgstr "Att lägga till en meningsfull sammanfattning till ditt möte kommer att ge dina mottagare en ledtråd om vad mötet handlar om."
+msgstr "Lägg till en meningsfull sammanfattning till ditt möte gör att dina mottagare får en ledtråd om vad ditt möte handlar om."
 
 #: ../calendar/calendar.error.xml.h:6
-#, fuzzy
 msgid "Adding a meaningful summary to your task will give you an idea of what your task is about."
-msgstr "Att lägga till en meningsfull sammanfattning till din uppgift kommer att ge dina mottagare en ledtråd om vad uppgiften handlar om."
+msgstr "Lägg till en meningsfull sammanfattning till din uppgift gör att du förstår vad uppgiften handlar om."
 
 #: ../calendar/calendar.error.xml.h:7
 msgid "All information in these memos will be deleted and can not be restored."
@@ -2146,9 +2144,8 @@ msgid "Maximum number of recently used timezones to remember."
 msgstr "Maximalt antal tidigare använda tidszoner att komma ihåg."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:41
-#, fuzzy
 msgid "Memo layout style"
-msgstr "_Svarsstil:"
+msgstr "Layoutstil för memo"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:42
 msgid "Memo preview pane position (horizontal)"
@@ -2291,9 +2288,8 @@ msgid "Show type field in the event/task/meeting editor"
 msgstr "Visa typfältet i evenemang/uppgift/sammanträdesredigeraren"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:76
-#, fuzzy
 msgid "Show week numbers in Day View, Work Week View, and Date Navigator"
-msgstr "Visa veckonummer i dagsvy och arbetsveckovy"
+msgstr "Visa veckonummer i dagsvy, arbetsveckovy och datumnavigator"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:77
 msgid "Shows the second time zone in a Day View, if set. Value is similar to one used in a 'timezone' key."
@@ -2301,17 +2297,15 @@ msgstr "Visa den sekundära tidszonen i en dagsvy, om inställd. Värdet är lik
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:78
 msgid "Task layout style"
-msgstr ""
+msgstr "Stil för uppgiftslayout"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:79
-#, fuzzy
 msgid "Task preview pane position (horizontal)"
-msgstr "Vertikal panelposition för uppgifter"
+msgstr "Panelposition för förhandsvisning av uppgift (horisontell)"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:80
-#, fuzzy
 msgid "Task preview pane position (vertical)"
-msgstr "Vertikal panelposition för uppgifter"
+msgstr "Panelposition för förhandsvisning av uppgift (vertikal)"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:81
 msgid "Tasks due today color"
@@ -2328,11 +2322,11 @@ msgstr "Standardstidszonen att använda för datum och tider i kalendern, som en
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:85
 msgid "The layout style determines where to place the preview pane in relation to the memo list. \"0\" (Classic View) places the preview pane below the memo list. \"1\" (Vertical View) places the preview pane next to the memo list."
-msgstr ""
+msgstr "Layoutstilen som bestämmer var förhandsvisningspanelen ska placeras i relation till memolistan. \"0\" (Klassisk vy) placerar förhandsvisningspanelen nedanför memolistan. \"1\" (Vertikal vy) placerar förhandsvisningspanelen bredvid memolistan."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
 msgid "The layout style determines where to place the preview pane in relation to the task list. \"0\" (Classic View) places the preview pane below the task list. \"1\" (Vertical View) places the preview pane next to the task list."
-msgstr ""
+msgstr "Layoutstilen som bestämmer var förhandsvisningspanelen ska placeras i relation till uppgiftslistan. \"0\" (Klassisk vy) placerar förhandsvisningspanelen nedanför uppgiftslistan. \"1\" (Vertikal vy) placerar förhandsvisningspanelen bredvid uppgiftslistan."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:87
 msgid "The second timezone for a Day View"
@@ -2483,12 +2477,9 @@ msgstr "Huruvida tidszonfältet ska visas i evenemang/sammanträdesredigeraren"
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr "Huruvida typfältet ska visas i evenemang/uppgift/sammanträdesredigeraren"
 
-# Detta borde bero på lokalen?!
-# http://bugzilla.ximian.com/show_bug.cgi?id=61073
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:120
-#, fuzzy
 msgid "Whether to show week numbers in various places in the Calendar."
-msgstr "Huruvida veckonummer ska visas i datumbläddraren."
+msgstr "Huruvida veckonummer ska visas på olika platser i kalendern."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:121
 msgid "Work days"
@@ -2788,7 +2779,7 @@ msgstr "dag"
 #: ../plugins/google-account-setup/google-contacts-source.c:336
 #: ../plugins/publish-calendar/publish-calendar.ui.h:30
 msgid "days"
-msgstr "dag"
+msgstr "dagar"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:18
 msgid "end of appointment"
@@ -2808,9 +2799,8 @@ msgid "minute(s)"
 msgstr "minut(er)"
 
 #: ../calendar/gui/dialogs/alarm-dialog.ui.h:25
-#, fuzzy
 msgid "start of appointment"
-msgstr "platsen för mötet"
+msgstr "mötets början"
 
 #: ../calendar/gui/dialogs/alarm-list-dialog.c:242
 msgid "Action/Trigger"
@@ -3517,27 +3507,27 @@ msgstr "_Dra tillbaka kommentar"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "The event could not be deleted due to a dbus error: %s"
-msgstr "Evenemanget kunde inte tas bort på grund av ett fel"
+msgstr "Evenemanget kunde inte tas bort på grund av ett dbus-fel: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:60
-#, fuzzy, c-format
+#, c-format
 msgid "The task could not be deleted due to a dbus error: %s"
-msgstr "Uppgiften kunde inte tas bort på grund av ett fel"
+msgstr "Uppgiften kunde inte tas bort på grund av ett dbus-fel: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:64
-#, fuzzy, c-format
+#, c-format
 msgid "The memo could not be deleted due to a dbus error: %s"
-msgstr "Memot kunde inte tas bort på grund av ett fel"
+msgstr "Memot kunde inte tas bort på grund av ett dbus-fel: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:68
-#, fuzzy, c-format
+#, c-format
 msgid "The item could not be deleted due to a dbus error: %s"
-msgstr "Objektet kunde inte tas bort på grund av ett fel"
+msgstr "Objektet kunde inte tas bort på grund av ett dbus-fel: %s"
 
 #: ../calendar/gui/dialogs/delete-error.c:75
 msgid "The event could not be deleted because permission was denied"
@@ -3557,27 +3547,27 @@ msgstr "Objektet kunde inte tas bort på grund av åtkomst nekades"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:92
-#, fuzzy, c-format
+#, c-format
 msgid "The event could not be deleted due to an error: %s"
-msgstr "Evenemanget kunde inte tas bort på grund av ett fel"
+msgstr "Evenemanget kunde inte tas bort på grund av ett fel: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:96
-#, fuzzy, c-format
+#, c-format
 msgid "The task could not be deleted due to an error: %s"
-msgstr "Uppgiften kunde inte tas bort på grund av ett fel"
+msgstr "Uppgiften kunde inte tas bort på grund av ett fel: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:100
-#, fuzzy, c-format
+#, c-format
 msgid "The memo could not be deleted due to an error: %s"
-msgstr "Memot kunde inte tas bort på grund av ett fel"
+msgstr "Memot kunde inte tas bort på grund av ett fel: %s"
 
 #. Translators: The '%s' is replaced with a detailed error message
 #: ../calendar/gui/dialogs/delete-error.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "The item could not be deleted due to an error: %s"
-msgstr "Objektet kunde inte tas bort på grund av ett fel"
+msgstr "Objektet kunde inte tas bort på grund av ett fel: %s"
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.ui.h:1
 msgid "Contacts..."
@@ -3660,7 +3650,7 @@ msgstr "Skriv ut detta evenemang"
 
 #: ../calendar/gui/dialogs/event-page.c:766
 msgid "Event's start time is in the past"
-msgstr ""
+msgstr "Starttiden för evenemanget har redan inträffat"
 
 #: ../calendar/gui/dialogs/event-page.c:807
 msgid "Event cannot be edited, because the selected calendar is read only"
@@ -3860,7 +3850,7 @@ msgstr "Skriv ut detta memo"
 
 #: ../calendar/gui/dialogs/memo-page.c:338
 msgid "Memo's start date is in the past"
-msgstr ""
+msgstr "Starttiden för memot har redan inträffat"
 
 #: ../calendar/gui/dialogs/memo-page.c:376
 msgid "Memo cannot be edited, because the selected memo list is read only"
@@ -4316,11 +4306,11 @@ msgstr "Skriv ut denna uppgift"
 
 #: ../calendar/gui/dialogs/task-page.c:343
 msgid "Task's start date is in the past"
-msgstr ""
+msgstr "Starttiden för uppgiften har redan inträffat"
 
 #: ../calendar/gui/dialogs/task-page.c:344
 msgid "Task's due date is in the past"
-msgstr ""
+msgstr "Sluttiden för uppgiften har redan inträffat"
 
 #: ../calendar/gui/dialogs/task-page.c:379
 msgid "Task cannot be edited, because the selected task list is read only"
@@ -8092,15 +8082,15 @@ msgid "Cannot encrypt outgoing message: No encryption certificate set for this a
 msgstr "Kan inte kryptera utgående meddelande: Inget krypteringscertifikat angivet för detta konto"
 
 #: ../composer/e-msg-composer.c:1466
-#: ../composer/e-msg-composer.c:1811
+#: ../composer/e-msg-composer.c:1809
 msgid "Compose Message"
 msgstr "Skriv ett meddelande"
 
-#: ../composer/e-msg-composer.c:3477
+#: ../composer/e-msg-composer.c:3475
 msgid "The composer contains a non-text message body, which cannot be edited."
 msgstr "Redigeraren innehåller en meddelandetext som inte är text och som inte kan redigeras."
 
-#: ../composer/e-msg-composer.c:4085
+#: ../composer/e-msg-composer.c:4083
 msgid "Untitled Message"
 msgstr "Namnlöst meddelande"
 
@@ -8219,7 +8209,7 @@ msgstr "Gör Anjal till standardklient för e-post"
 #. TRANSLATORS: don't translate the terms in brackets
 #: ../capplet/anjal-settings-main.c:231
 msgid "ID of the socket to embed in"
-msgstr ""
+msgstr "ID för uttaget att bädda in"
 
 #: ../capplet/anjal-settings-main.c:232
 msgid "socket"
@@ -8491,14 +8481,12 @@ msgid "Settings"
 msgstr "Inställningar"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:1
-#, fuzzy
 msgid "Calendar event notifications"
-msgstr "Kalenderinformation"
+msgstr "Notifieringar för kalenderevenemang"
 
 #: ../data/evolution-alarm-notify.desktop.in.in.h:2
-#, fuzzy
 msgid "Evolution Alarm Notify"
-msgstr "Evolutions Elm-importör"
+msgstr "Evolutions alarmnotifiering"
 
 #: ../data/evolution.desktop.in.in.h:1
 #: ../mail/e-mail-browser.c:847
@@ -10922,28 +10910,24 @@ msgid "\"Filter Editor\" window height"
 msgstr "Fönsterhöjd för \"Filterredigerare\""
 
 #: ../mail/evolution-mail.schemas.in.h:2
-#, fuzzy
 msgid "\"Filter Editor\" window maximize state"
-msgstr "Maximeringstillstånd för \"Skicka och ta emot e-post\"-fönstret"
+msgstr "Maximeringstillstånd för \"Filterredigerare\"-fönstret"
 
 #: ../mail/evolution-mail.schemas.in.h:3
 msgid "\"Filter Editor\" window width"
 msgstr "Fönsterbredd för \"Filterredigerare\""
 
 #: ../mail/evolution-mail.schemas.in.h:4
-#, fuzzy
 msgid "\"Search Folder Editor\" window height"
-msgstr "Standardfönsterhöjd"
+msgstr "Fönsterhöjd för \"Redigerare för sökmapp\""
 
 #: ../mail/evolution-mail.schemas.in.h:5
-#, fuzzy
 msgid "\"Search Folder Editor\" window maximize state"
-msgstr "Maximeringstillstånd för \"Skicka och ta emot e-post\"-fönstret"
+msgstr "Maximeringstillstånd för \"Redigerare för sökmapp\""
 
 #: ../mail/evolution-mail.schemas.in.h:6
-#, fuzzy
 msgid "\"Search Folder Editor\" window width"
-msgstr "Sökmapp baserat på sänd_lista"
+msgstr "Fönsterbredd för \"Redigerare för sökmapp\""
 
 #: ../mail/evolution-mail.schemas.in.h:7
 msgid "\"Send and Receive Mail\" window height"
@@ -11039,16 +11023,15 @@ msgstr "Standardhöjd för redigerarfönstret."
 
 #: ../mail/evolution-mail.schemas.in.h:31
 msgid "Default height of the mail browser window."
-msgstr "Standardhöjd för e-postbläddrarfönstret."
+msgstr "Standardhöjd för e-postläsarfönstret."
 
 #: ../mail/evolution-mail.schemas.in.h:32
 msgid "Default height of the subscribe dialog."
 msgstr "Standardhöjd för prenumerationsdialogen."
 
 #: ../mail/evolution-mail.schemas.in.h:33
-#, fuzzy
 msgid "Default maximized state of the mail browser window."
-msgstr "Standardbredd för fönstret för redigerarfönstret."
+msgstr "Standardtillstånd för maximering av e-postläsarfönstret."
 
 #: ../mail/evolution-mail.schemas.in.h:34
 msgid "Default reply style"
@@ -11179,9 +11162,8 @@ msgid "Enable to use a similar message list view settings for all folders"
 msgstr "Aktivera för att använda liknande visningsinställningar för meddelandelistor för alla mappar"
 
 #: ../mail/evolution-mail.schemas.in.h:66
-#, fuzzy
 msgid "Enable to use a similar message list view settings for all folders."
-msgstr "Aktivera denna för att använda Magiskt blanksteg för att rulla i förhandsvisning av meddelanden, meddelandelistor och mappar."
+msgstr "Aktivera för att använda liknande listvisningsinställningar för alla mappar."
 
 #: ../mail/evolution-mail.schemas.in.h:67
 msgid "Enable/disable caret mode"
@@ -11198,7 +11180,7 @@ msgstr "Koda filnamn i e-postrubriker på samma sätt som Outlook eller GMail g�
 
 #: ../mail/evolution-mail.schemas.in.h:70
 msgid "Flush Outbox after filtering"
-msgstr ""
+msgstr "Töm utkorgen efter filtrering"
 
 #: ../mail/evolution-mail.schemas.in.h:71
 msgid "Group Reply replies to list"
@@ -11229,42 +11211,36 @@ msgid "Ignore list Reply-To:"
 msgstr "Ignorera listans Svara-till:"
 
 #: ../mail/evolution-mail.schemas.in.h:78
-#, fuzzy
 msgid "Initial height of the \"Filter Editor\" window. The value updates as the user resizes the window vertically."
-msgstr "Initial höjd för \"Skicka och ta emot e-post\"-fönstret. Värdet uppdateras när användaren ändrar storlek på fönstret vertikalt."
+msgstr "Initial höjd för \"Filterredigerare\"-fönstret. Värdet uppdateras när användaren ändrar storlek på fönstret vertikalt."
 
 #: ../mail/evolution-mail.schemas.in.h:79
-#, fuzzy
 msgid "Initial height of the \"Search Folder Editor\" window. The value updates as the user resizes the window vertically."
-msgstr "Initial höjd för \"Skicka och ta emot e-post\"-fönstret. Värdet uppdateras när användaren ändrar storlek på fönstret vertikalt."
+msgstr "Initial höjd för \"Redigerare för sökmapp\"-fönstret. Värdet uppdateras när användaren ändrar storlek på fönstret vertikalt."
 
 #: ../mail/evolution-mail.schemas.in.h:80
 msgid "Initial height of the \"Send and Receive Mail\" window. The value updates as the user resizes the window vertically."
 msgstr "Initial höjd för \"Skicka och ta emot e-post\"-fönstret. Värdet uppdateras när användaren ändrar storlek på fönstret vertikalt."
 
 #: ../mail/evolution-mail.schemas.in.h:81
-#, fuzzy
 msgid "Initial maximize state of the \"Filter Editor\" window. The value updates when the user maximizes or unmaximizes the window. Note, this particular value is not used by Evolution since the \"Filter Editor\" window cannot be maximized. This key exists only as an implementation detail."
-msgstr "Initialt maximerat tillstånd för \"Skicka och ta emot e-post\"-fönstret. Värdet uppdateras när användaren maximerar eller avmaximerar fönstret. Observera att detta specifika värde inte används av Evolution eftersom \"Skicka och ta emot e-post\"-fönstret inte kan maximeras. Denna nyckel finns endast för en framtida implementation."
+msgstr "Initialt maximerat tillstånd för \"Filterredigerare\"-fönstret. Värdet uppdateras när användaren maximerar eller avmaximerar fönstret. Observera att detta specifika värde inte används av Evolution eftersom \"Filterredigerare\"-fönstret inte kan maximeras. Denna nyckel finns endast för en framtida implementation."
 
 #: ../mail/evolution-mail.schemas.in.h:82
-#, fuzzy
 msgid "Initial maximize state of the \"Search Folder Editor\" window. The value updates when the user maximizes or unmaximizes the window. Note, this particular value is not used by Evolution since the \"Search Folder Editor\" window cannot be maximized. This key exists only as an implementation detail."
-msgstr "Initialt maximerat tillstånd för \"Skicka och ta emot e-post\"-fönstret. Värdet uppdateras när användaren maximerar eller avmaximerar fönstret. Observera att detta specifika värde inte används av Evolution eftersom \"Skicka och ta emot e-post\"-fönstret inte kan maximeras. Denna nyckel finns endast för en framtida implementation."
+msgstr "Initialt maximerat tillstånd för \"Redigerare för sökmapp\"-fönstret. Värdet uppdateras när användaren maximerar eller avmaximerar fönstret. Observera att detta specifika värde inte används av Evolution eftersom \"Redigerare för sökmapp\"-fönstret inte kan maximeras. Denna nyckel finns endast för en framtida implementation."
 
 #: ../mail/evolution-mail.schemas.in.h:83
 msgid "Initial maximize state of the \"Send and Receive Mail\" window. The value updates when the user maximizes or unmaximizes the window. Note, this particular value is not used by Evolution since the \"Send and Receive Mail\" window cannot be maximized. This key exists only as an implementation detail."
 msgstr "Initialt maximerat tillstånd för \"Skicka och ta emot e-post\"-fönstret. Värdet uppdateras när användaren maximerar eller avmaximerar fönstret. Observera att detta specifika värde inte används av Evolution eftersom \"Skicka och ta emot e-post\"-fönstret inte kan maximeras. Denna nyckel finns endast för en framtida implementation."
 
 #: ../mail/evolution-mail.schemas.in.h:84
-#, fuzzy
 msgid "Initial width of the \"Filter Editor\" window. The value updates as the user resizes the window horizontally."
-msgstr "Initial bredd för \"Skicka och ta emot e-post\"-fönstret. Värdet uppdateras när användaren ändrar storlek på fönstret horisontellt."
+msgstr "Initial bredd för \"Filterredigerare\"-fönstret. Värdet uppdateras när användaren ändrar storlek på fönstret horisontellt."
 
 #: ../mail/evolution-mail.schemas.in.h:85
-#, fuzzy
 msgid "Initial width of the \"Search Folder Editor\" window. The value updates as the user resizes the window horizontally."
-msgstr "Initial bredd för \"Skicka och ta emot e-post\"-fönstret. Värdet uppdateras när användaren ändrar storlek på fönstret horisontellt."
+msgstr "Initial bredd för \"Redigerare för sökmapp\"-fönstret. Värdet uppdateras när användaren ändrar storlek på fönstret horisontellt."
 
 #: ../mail/evolution-mail.schemas.in.h:86
 msgid "Initial width of the \"Send and Receive Mail\" window. The value updates as the user resizes the window horizontally."
@@ -11272,25 +11248,23 @@ msgstr "Initial bredd för \"Skicka och ta emot e-post\"-fönstret. Värdet uppd
 
 #: ../mail/evolution-mail.schemas.in.h:87
 msgid "Instead of the normal \"Reply to All\" behaviour, this option will make the 'Group Reply' toolbar button try to reply only to the mailing list through which you happened to receive the copy of the message to which you're replying."
-msgstr ""
+msgstr "Istället för vanliga beteendet vid \"Svara till alla\" kommer detta alternativ att göra att verktygsradsknappen \"Gruppsvar\" försöker att svara endast till sändlistan genom vilken du fick kopian av meddelandet som du svarar på."
 
 #: ../mail/evolution-mail.schemas.in.h:88
 msgid "It disables/enables the repeated prompts to warn that deleting messages from a search folder permanently deletes the message, not simply removing it from the search results."
 msgstr "Den inaktiverar/aktiverar funktionen för upprepade varningar om att borttagning av meddelanden från en sökmapp permanent tar bort meddelandet, inte att den helt enkelt tar bort det från sökresultaten."
 
 #: ../mail/evolution-mail.schemas.in.h:89
-#, fuzzy
 msgid "It disables/enables the repeated prompts to warn that you are sending a private reply to a message which arrived via a mailing list."
-msgstr "Den inaktiverar/aktiverar funktionen för upprepade varningar om att borttagning av meddelanden från en sökmapp permanent tar bort meddelandet, inte att den helt enkelt tar bort det från sökresultaten."
+msgstr "Den inaktiverar/aktiverar funktionen för upprepade varningar om att du skickar ett privat svar på ett meddelande från en sändlista."
 
 #: ../mail/evolution-mail.schemas.in.h:90
-#, fuzzy
 msgid "It disables/enables the repeated prompts to warn that you are sending a reply to many people."
-msgstr "Den inaktiverar/aktiverar funktionen för upprepade förfrågningar om frånkopplad synkronisering krävs innan frånkopplat läge aktiveras."
+msgstr "Den inaktiverar/aktiverar funktionen för upprepade varningar att du skickar ett svar till många personer."
 
 #: ../mail/evolution-mail.schemas.in.h:91
 msgid "It disables/enables the repeated prompts to warn that you are trying sending a private reply to a message which arrived via a mailing list, but the list sets a Reply-To: header which redirects your reply back to the list"
-msgstr ""
+msgstr "Den inaktiverar/aktiverar funktionen för upprepade varningar om att du skickar ett privat svar på ett meddelande från en sändlista, men listan ställer in en Reply-To:-rubrik som omdirigerar ditt svar tillbaka till listan"
 
 #: ../mail/evolution-mail.schemas.in.h:92
 msgid "Last time Empty Junk was run"
@@ -11370,7 +11344,7 @@ msgstr "Höjd för e-postläsaren"
 
 #: ../mail/evolution-mail.schemas.in.h:112
 msgid "Mail browser maximized"
-msgstr ""
+msgstr "Maximerad e-postläsare"
 
 #: ../mail/evolution-mail.schemas.in.h:113
 msgid "Mail browser width"
@@ -11437,19 +11411,16 @@ msgid "Prompt when deleting messages in search folder"
 msgstr "Fråga när meddelanden tas bort från sökmappar"
 
 #: ../mail/evolution-mail.schemas.in.h:129
-#, fuzzy
 msgid "Prompt when mailing list hijacks private replies"
-msgstr "Fråga vid markering av flera meddelanden"
+msgstr "Fråga när sändlista kapar privata svar"
 
 #: ../mail/evolution-mail.schemas.in.h:130
-#, fuzzy
 msgid "Prompt when replying privately to list messages"
-msgstr "Fråga vid markering av flera meddelanden"
+msgstr "Fråga vid privat svar till sändlistmeddelanden"
 
 #: ../mail/evolution-mail.schemas.in.h:131
-#, fuzzy
 msgid "Prompt when replying to many recipients"
-msgstr "Fr_åga när meddelanden skickas med endast blindkopiemottagare angivna"
+msgstr "Fråga vid svar till många mottagare"
 
 #: ../mail/evolution-mail.schemas.in.h:132
 msgid "Prompt when user expunges"
@@ -11525,7 +11496,7 @@ msgstr "Intervall för serversynkronisering"
 
 #: ../mail/evolution-mail.schemas.in.h:150
 msgid "Set to TRUE in case you do not want to add signature delimiter before your signature when composing a mail."
-msgstr ""
+msgstr "Ställ in till TRUE om du inte vill lägga till en signaturavgränsare före din signatur när du skriver ett meddelande."
 
 #: ../mail/evolution-mail.schemas.in.h:151
 msgid "Show \"Bcc\" field when sending a mail message"
@@ -11609,7 +11580,7 @@ msgstr "Visa avsändarens e-postadress i en separat kolumn i meddelandelistan."
 
 #: ../mail/evolution-mail.schemas.in.h:171
 msgid "Show the original \"Date\" header (with a local time only if the time zone differs). Otherwise always show \"Date\" header value in a user preferred format and local time zone."
-msgstr ""
+msgstr "Visa ursprunglig \"Datum\"-rubrik (med en lokal tid endast om tidszonen skiljer sig). Visa annars alltid rubrikvärdet för \"Datum\" i ett föredraget format och lokal tidszon."
 
 #: ../mail/evolution-mail.schemas.in.h:172
 msgid "Show the photo of the sender in the message reading pane."
@@ -11617,7 +11588,7 @@ msgstr "Visa avsändarens foto i meddelandets läsningspanel."
 
 #: ../mail/evolution-mail.schemas.in.h:173
 msgid "Some mailing lists set a Reply-To: header to trick users into sending replies to the list, even when they ask Evolution to make a private reply. Setting this option to TRUE will attempt to ignore such Reply-To: headers, so that Evolution will do as you ask it. If you use the private reply action, it will reply privately, while if you use the 'Reply to List' action it will do that. It works by comparing the Reply-To: header with a List-Post: header, if there is one."
-msgstr ""
+msgstr "Vissa sändlistor ställer in en Reply-To:-rubrik för att lura användare att skicka svar till listan, även när de frågar Evolution att göra ett privat svar. Ställ in detta alternativ till TRUE kommer att försöka att ignorera sådana Reply-To:-rubriker, så att Evolution kommer att göra som du vill. Om du vill använda åtgärden för privata svar så kommer den att svara privat, men om du använder åtgärden \"Svara till lista\" så kommer den att göra det. Den fungerar så att den jämför rubriken Reply-To: med rubriken List-Post:, om det finns någon."
 
 #: ../mail/evolution-mail.schemas.in.h:174
 msgid "Spell check inline"
@@ -11649,18 +11620,16 @@ msgid "The default plugin for Junk hook"
 msgstr "Standardinsticksmodul för skräpkrok"
 
 #: ../mail/evolution-mail.schemas.in.h:181
-#, fuzzy
 msgid "The last time Empty Junk was run, in days since January 1st, 1970 (Epoch)."
-msgstr "Den senaste gången som tömning av skräpkorgen gjordes, i dagar sedan epoken."
+msgstr "Den senaste gången som tömning av skräpkorgen gjordes, i dagar sedan 1:a januari 1970."
 
 #: ../mail/evolution-mail.schemas.in.h:182
-#, fuzzy
 msgid "The last time Empty Trash was run, in days since January 1st, 1970 (Epoch)."
-msgstr "Den senaste dagen som tömning av papperskorgen gjordes, i dagar sedan epoken."
+msgstr "Den senaste gången som tömning av papperskorgen gjordes, i dagar sedan 1:a januari 1970."
 
 #: ../mail/evolution-mail.schemas.in.h:183
 msgid "The layout style determines where to place the preview pane in relation to the message list. \"0\" (Classic View) places the preview pane below the message list. \"1\" (Vertical View) places the preview pane next to the message list."
-msgstr ""
+msgstr "Layoutstilen som bestämmer var förhandsvisningspanelen ska placeras i relation till meddelandelistan. \"0\" (Klassisk vy) placerar förhandsvisningspanelen nedanför meddelandelistan. \"1\" (Vertikal vy) placerar förhandsvisningspanelen bredvid meddelandelistan."
 
 #: ../mail/evolution-mail.schemas.in.h:184
 msgid "The terminal font for mail display."
@@ -11675,9 +11644,8 @@ msgid "This can have three possible values. \"0\" for errors. \"1\" for warnings
 msgstr "Denna kan ha tre möjliga värden. \"0\" för fel. \"1\" för varningar. \"2\" för felsökningsmeddelanden."
 
 #: ../mail/evolution-mail.schemas.in.h:187
-#, fuzzy
 msgid "This decides the max size of the message text that will be displayed under Evolution, specified in terms of KB. The default is 4096 (4MB). This value is used only when 'force_message_limit' key is activated."
-msgstr "Det här bestämmer maximal storlek på textdelen som kan formateras under Evolution. Standard är 4 MB / 4096 KB och anges i KB."
+msgstr "Det här bestämmer maximal storlek på meddelandetexten som ska visas under Evolution, angiven i kilobyte. Standard är 4096 (4 MB). Detta värde används endast när nyckeln \"force_message_limit\" är aktiverad."
 
 #: ../mail/evolution-mail.schemas.in.h:188
 msgid "This is the default junk plugin, even though there are multiple plugins enabled. If the default listed plugin is disabled, then it won't fall back to the other available plugins."
@@ -11704,7 +11672,6 @@ msgid "This sets the number of addresses to show in default message list view, b
 msgstr "Detta anger antalet adresser som skall visas i standardmeddelandelistan, utanför gränsen visas en \"...\"."
 
 #: ../mail/evolution-mail.schemas.in.h:194
-#, fuzzy
 msgid "This setting specifies whether the threads should be in expanded or collapsed state by default. Evolution requires a restart."
 msgstr "Den här inställningen anger huruvida trådarna ska vara utfällda eller infällda som standard. Evolution kräver en omstart vid ändring."
 
@@ -11786,7 +11753,7 @@ msgstr "Huruvida trådar sorteras baserat på senaste meddelandet i tråden"
 
 #: ../mail/evolution-mail.schemas.in.h:214
 msgid "Whether to flush Outbox after filtering is done. Outbox flush will happen only when there was used any 'Forward to' filter action and approximately one minute after the last action invocation."
-msgstr ""
+msgstr "Huruvida utkorgen ska tömmas efter att filtreringen är färdig. Tömning av utkorgen kommer endast att inträffa när användes någon \"Vidarebefordra till\"-filteråtgärd och ungefär en minut efter senaste åtgärdskörning."
 
 #: ../mail/evolution-mail.schemas.in.h:215
 msgid "Width of the message-list pane"
@@ -11926,7 +11893,12 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "\"%s\"."
 msgstr[0] ""
+"Filterregeln \"%s\" har ändrats på grund av den borttagna mappen\n"
+"\"%s\"."
 msgstr[1] ""
+"Följande filterregeler\n"
+"%s har ändrats på grund av den borttagna mappen\n"
+"\"%s\"."
 
 #. Translators: This is part of the line with 'Top Posting Option' text. See Edit|Preferences|Composer Preferences for the usage
 #: ../mail/mail-config.ui.h:2
@@ -12104,7 +12076,6 @@ msgid "Fi_xed-width:"
 msgstr "Fast _breddsteg:"
 
 #: ../mail/mail-config.ui.h:52
-#, fuzzy
 msgid "Fix_ed width Font:"
 msgstr "Typsnitt med fast b_reddsteg:"
 
@@ -12223,9 +12194,8 @@ msgid "Port:"
 msgstr "Port:"
 
 #: ../mail/mail-config.ui.h:87
-#, fuzzy
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr "Fr_åga när meddelanden skickas med endast blindkopiemottagare angivna"
+msgstr "Fråga när meddelanden skickas med endast _blindkopiemottagare definierade"
 
 #: ../mail/mail-config.ui.h:88
 msgid "Pretty Good Privacy (PGP/GPG)"
@@ -12236,19 +12206,16 @@ msgid "Printed Fonts"
 msgstr "Utskrivna typsnitt"
 
 #: ../mail/mail-config.ui.h:91
-#, fuzzy
 msgid "Prompt when mailing list redirects private reply back to list"
-msgstr "Fråga vid markering av flera meddelanden"
+msgstr "Fråga när sändlistan omdirigerar privata svar till listan"
 
 #: ../mail/mail-config.ui.h:92
-#, fuzzy
 msgid "Prompt when sending private replies to mailing _list messages"
-msgstr "Fråga vid markering av flera meddelanden"
+msgstr "Fråga vid pri_vata svar skickas till meddelanden från sändlistor"
 
 #: ../mail/mail-config.ui.h:93
-#, fuzzy
 msgid "Prompt when sending replies to _many recipients"
-msgstr "Fr_åga när meddelanden skickas med endast blindkopiemottagare angivna"
+msgstr "Fr_åga när svar skickas till många mottagare"
 
 #: ../mail/mail-config.ui.h:94
 msgid "Proxy Settings"
@@ -12359,9 +12326,8 @@ msgid "Sent _Messages Folder:"
 msgstr "Mapp för skickade _meddelanden:"
 
 #: ../mail/mail-config.ui.h:124
-#, fuzzy
 msgid "Sent and Draft Messages"
-msgstr "Skickade meddelanden"
+msgstr "Skickade och utkastmeddelanden"
 
 #: ../mail/mail-config.ui.h:125
 msgid "Ser_ver requires authentication"
@@ -12427,9 +12393,8 @@ msgstr ""
 
 #. Translators: Section name for options related to Top Posting. See Edit|Preferences|Composer Preferences for better understanding
 #: ../mail/mail-config.ui.h:143
-#, fuzzy
 msgid "Top Posting Option"
-msgstr "Postdestination"
+msgstr "Alternativ för \"top posting\""
 
 #: ../mail/mail-config.ui.h:144
 msgid ""
@@ -12532,9 +12497,8 @@ msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr "I_nformera när HTML-meddelanden skickas till kontakter som inte vill ha dem"
 
 #: ../mail/mail-config.ui.h:169
-#, fuzzy
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "_Fråga när meddelanden skickas med en tom ämnesrad"
+msgstr "Informerar när ett meddelande skickas med en _tom ämnesrad"
 
 #: ../mail/mail-config.ui.h:170
 msgid "_Reply style:"
@@ -12628,7 +12592,6 @@ msgid "Co_mpleted"
 msgstr "Fä_rdigt"
 
 #: ../mail/mail-dialogs.ui.h:6
-#, fuzzy
 msgid "Collapse _all"
 msgstr "Fäll i_n alla"
 
@@ -12641,7 +12604,6 @@ msgid "Do Not Forward"
 msgstr "Vidarebefordra inte"
 
 #: ../mail/mail-dialogs.ui.h:9
-#, fuzzy
 msgid "E_xpand all"
 msgstr "Fä_ll ut alla"
 
@@ -12687,7 +12649,7 @@ msgstr "S_erver:"
 
 #: ../mail/mail-dialogs.ui.h:23
 msgid "S_how only items containing:"
-msgstr "Visa endast objekt som i_nnehåller:"
+msgstr "Visa endast objekt som inn_ehåller:"
 
 #: ../mail/mail-dialogs.ui.h:24
 msgid "Search Folder Sources"
@@ -12745,7 +12707,7 @@ msgstr "Misslyckades med att tillämpa utgående filter: %s"
 
 #: ../mail/mail-ops.c:612
 #: ../mail/mail-ops.c:640
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local 'Sent' folder instead."
@@ -12754,7 +12716,7 @@ msgstr ""
 "Lägger till i lokala \"Skickat\"-mappen istället."
 
 #: ../mail/mail-ops.c:659
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to append to local 'Sent' folder: %s"
 msgstr "Misslyckades med att lägga till i lokala \"Skickat\"-mappen: %s"
 
@@ -12881,9 +12843,8 @@ msgid "Error saving messages to: %s:\n"
 msgstr "Fel vid sparande av meddelanden till: %s:\n"
 
 #: ../mail/mail-ops.c:2270
-#, fuzzy
 msgid "Saving attachment"
-msgstr "Spara bilaga"
+msgstr "Sparar bilaga"
 
 #: ../mail/mail-ops.c:2290
 #: ../mail/mail-ops.c:2300
@@ -12983,7 +12944,7 @@ msgid "Could not create spool directory '%s': %s"
 msgstr "Kunde inte skapa spool-katalogen \"%s\": %s"
 
 #: ../mail/mail-tools.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "Trying to movemail a non-mbox source '%s'"
 msgstr "Försöker att movemail:a en källa \"%s\" som inte är en mbox"
 
@@ -13031,7 +12992,12 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "\"%s\"."
 msgstr[0] ""
+"Sökmappen \"%s\" har ändrats på grund av den borttagna mappen\n"
+"\"%s\"."
 msgstr[1] ""
+"Följande sökmappar\n"
+"%s har ändrats på grund av den borttagna mappen\n"
+"\"%s\"."
 
 #: ../mail/mail-vfolder.c:1185
 msgid "Edit Search Folder"
@@ -13443,8 +13409,8 @@ msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
 msgstr ""
-"Denna mapp kan ha lagts till implicit.\n"
-"Gå till redigeraren för sökmappar och lägg till den explicit, om så krävs."
+"Denna mapp kan ha lagts till automatiskt.\n"
+"Gå till redigeraren för sökmappar och lägg till den uttryckligen, om så krävs."
 
 #: ../mail/mail.error.xml.h:109
 msgid "This message cannot be sent because the account you chose to send with is not enabled"
@@ -13742,9 +13708,8 @@ msgid "Selecting this option means that your server does not support either SSL 
 msgstr "Att välja detta alternativ betyder att din server inte stöder varken SSL eller TLS. Detta betyder att din anslutning kommer att vara osäker, och att du kommer att vara sårbar för säkerhetsluckor."
 
 #: ../modules/addressbook/addressbook-config.c:609
-#, fuzzy
 msgid "U_se in Birthday & Anniversaries calendar"
-msgstr "Födelsedagar och jubileum"
+msgstr "Använd i ka_lender för födelsedagar och jubileum"
 
 #: ../modules/addressbook/addressbook-config.c:645
 msgid "Copy _book content locally for offline operation"
@@ -13793,18 +13758,16 @@ msgid "Autocomplete length"
 msgstr "Fyll i längd automatiskt"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:2
-#, fuzzy
 msgid "Contact layout style"
-msgstr "Test av utskrift av kontakter"
+msgstr "Layoutstil för kontakt"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:3
 msgid "Contact preview pane position (horizontal)"
-msgstr ""
+msgstr "Panelposition för förhandsvisning av kontakt (horisontell)"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:4
-#, fuzzy
 msgid "Contact preview pane position (vertical)"
-msgstr "Vertikal panelposition för månadsvyn"
+msgstr "Panelposition för förhandsvisning av kontakt (vertikal)"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:5
 msgid "EFolderList XML for the list of completion URIs"
@@ -13816,11 +13779,11 @@ msgstr "EFolderList XML för listan över ifyllnings-URI:er"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:7
 msgid "Position of the contact preview pane when oriented horizontally."
-msgstr ""
+msgstr "Position för förhandsvisningspanelen för kontakt vid horisontell orientering."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:8
 msgid "Position of the contact preview pane when oriented vertically."
-msgstr ""
+msgstr "Position för förhandsvisningspanelen för kontakt vid vertikal orientering."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:9
 msgid "Show autocompleted name with an address"
@@ -13832,7 +13795,7 @@ msgstr "Visa förhandsvisningspanelen"
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:11
 msgid "The layout style determines where to place the preview pane in relation to the contact list. \"0\" (Classic View) places the preview pane below the contact list. \"1\" (Vertical View) places the preview pane next to the contact list."
-msgstr ""
+msgstr "Layoutstilen som bestämmer var förhandsvisningspanelen ska placeras i relation till kontaktlistan. \"0\" (Klassisk vy) placerar förhandsvisningspanelen nedanför kontaktlistan. \"1\" (Vertikal vy) placerar förhandsvisningspanelen bredvid kontaktlistan."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:12
 msgid "The number of characters that must be typed before Evolution will attempt to autocomplete."
@@ -15793,11 +15756,11 @@ msgstr "Det kan ta lite tid beroende på mängden data som finns i ditt konto."
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
 msgid "Backup and Restore"
-msgstr "Säkerhetskopiera och återställ"
+msgstr "Säkerhetskopiera och återskapa"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
 msgid "Backup and restore your Evolution data and settings."
-msgstr "Säkerhetskopiera och återställ data samt inställningar för Evolution."
+msgstr "Säkerhetskopiera och återskapa data samt inställningar för Evolution."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:1
 msgid "Are you sure you want to close Evolution?"
@@ -15805,7 +15768,7 @@ msgstr "Är du säker på att du vill stänga Evolution?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
 msgid "Are you sure you want to restore Evolution from the selected backup file?"
-msgstr "Är du säker på att du vill återställa Evolution från den valda säkerhetskopian?"
+msgstr "Är du säker på att du vill återskapa Evolution från den valda säkerhetskopian?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid "Close and Backup Evolution"
@@ -15825,7 +15788,7 @@ msgstr "Ogiltig Evolution-säkerhetskopia"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
 msgid "Please select a valid backup file to restore."
-msgstr "Välj en giltig säkerhetskopia att återställa."
+msgstr "Välj en giltig säkerhetskopia att återskapa från."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:8
 msgid "The selected folder is not writable."
@@ -15837,7 +15800,7 @@ msgstr "Du måste först stänga Evolution för att säkerhetskopiera ditt data 
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:10
 msgid "To restore your data and settings, you must first close Evolution. Please make sure that you save any unsaved data before proceeding. This will delete all your current Evolution data and settings and restore them from your backup."
-msgstr "Du måste först stänga Evolution för att återställa ditt data och inställningar. Försäkra dig om att du har sparat allt data innan du fortsätter. Detta kommer att ta bort allt ditt aktuella Evolution-data och inställningar samt återställa dem från din säkerhetskopia."
+msgstr "Du måste först stänga Evolution för att återskapa ditt data och inställningar. Försäkra dig om att du har sparat allt data innan du fortsätter. Detta kommer att ta bort allt ditt nuvarande data och inställningar i Evolution samt återskapa dem från din säkerhetskopia."
 
 #: ../plugins/bbdb/bbdb.c:685
 #: ../plugins/bbdb/bbdb.c:694
@@ -15969,9 +15932,8 @@ msgstr "Användarens kalendrar"
 
 #: ../plugins/caldav/caldav-browse-server.c:557
 #: ../plugins/caldav/caldav-browse-server.c:628
-#, fuzzy
 msgid "Failed to get server URL."
-msgstr "Misslyckades med att autentisera med LDAP-server."
+msgstr "Misslyckades med att hämta URL för servern."
 
 #: ../plugins/caldav/caldav-browse-server.c:626
 #: ../plugins/caldav/caldav-browse-server.c:667
@@ -16013,9 +15975,8 @@ msgid "List of available calendars:"
 msgstr "Lista över tillgängliga kalendrar:"
 
 #: ../plugins/caldav/caldav-browse-server.c:1175
-#, fuzzy
 msgid "Supports"
-msgstr "Leverantörer"
+msgstr "Har stöd för"
 
 #: ../plugins/caldav/caldav-browse-server.c:1254
 #, c-format
@@ -16260,11 +16221,11 @@ msgstr "Säkerhet:"
 
 #: ../plugins/email-custom-header/email-custom-header.c:321
 msgid "Unclassified"
-msgstr "Oklassificerad"
+msgstr "Ej klassificerad"
 
 #: ../plugins/email-custom-header/email-custom-header.c:322
 msgid "Protected"
-msgstr "Skyddad"
+msgstr "Intern"
 
 #: ../plugins/email-custom-header/email-custom-header.c:324
 #: ../widgets/misc/e-send-options.ui.h:21
@@ -16389,7 +16350,7 @@ msgstr "Infoga ansiktsbild som standard"
 
 #: ../plugins/face/apps_evolution_eplugin_face.schemas.in.h:2
 msgid "Whether insert Face picture to outgoing messages by default. The picture should be set before checking this, otherwise nothing happens."
-msgstr ""
+msgstr "Huruvida ansiktsbilder ska infogas i utgående meddelanden som standard. Bilden bör ställas in innan detta alternativ aktiveras, annars händer ingenting."
 
 #: ../plugins/face/face.c:286
 msgid "Select a png picture (the best 48*48 of size < 720 bytes)"
@@ -17651,9 +17612,8 @@ msgid "Play sound when new messages arrive."
 msgstr "Spela upp ljud när nya meddelanden anländer."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
-#, fuzzy
 msgid "Play themed sound when new messages arrive, if not in beep mode."
-msgstr "Ljudfil att spela upp när nya meddelanden anländer, om inte i pipläge."
+msgstr "Spela upp temaljud när nya meddelanden anländer, om inte i pipläge."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
 msgid "Popup message together with the icon."
@@ -18135,7 +18095,7 @@ msgstr "Visa vanlig text om sådan finns"
 
 #: ../plugins/prefer-plain/prefer-plain.c:209
 msgid "Show plain text part, if present, otherwise let Evolution choose the best part to show."
-msgstr ""
+msgstr "Visa vanlig textdel, om den finns, låt annars Evolution välja att visa den bästa delen."
 
 #: ../plugins/prefer-plain/prefer-plain.c:210
 msgid "Only ever show plain text"
@@ -18147,7 +18107,7 @@ msgstr "Visa alltid vanliga textdelar och gör bilagor från andra delar, om beg
 
 #: ../plugins/prefer-plain/prefer-plain.c:257
 msgid "Show s_uppressed HTML parts as attachments"
-msgstr ""
+msgstr "Visa _dolda HTML-delar som bilagor"
 
 #: ../plugins/prefer-plain/prefer-plain.c:277
 msgid "HTML _Mode"
@@ -19401,7 +19361,6 @@ msgstr ""
 "Om du väljer att fortsätta har du kanske inte åtkomst till en del av ditt gamla data.\n"
 
 #: ../shell/test/e-test-shell-backend.c:60
-#, fuzzy
 msgctxt "New"
 msgid "_Test Item"
 msgstr "_Testa"
@@ -19427,7 +19386,7 @@ msgstr "Filen är inte en giltig .desktop-fil"
 #: ../smclient/eggdesktopfile.c:188
 #, c-format
 msgid "Unrecognized desktop file Version '%s'"
-msgstr ""
+msgstr "Okänd version av skrivbordsfil \"%s\""
 
 #: ../smclient/eggdesktopfile.c:958
 #, c-format
@@ -19447,7 +19406,7 @@ msgstr "Okänd startflagga: %d"
 #: ../smclient/eggdesktopfile.c:1373
 #, c-format
 msgid "Can't pass document URIs to a 'Type=Link' desktop entry"
-msgstr ""
+msgstr "Kan inte skicka dokument-URI:er till en skrivbordspost av typen \"Type=Link\""
 
 #: ../smclient/eggdesktopfile.c:1394
 #, c-format
@@ -20578,7 +20537,7 @@ msgstr "dagar"
 
 #: ../widgets/misc/e-send-options.ui.h:11
 msgid "For Your Eyes Only"
-msgstr ""
+msgstr "Personlig"
 
 #: ../widgets/misc/e-send-options.ui.h:12
 msgid "Gene_ral Options"
@@ -21046,41 +21005,52 @@ msgstr "Inmatningsmetoder"
 
 #~ msgid "Error on {0}: {1}"
 #~ msgstr "Fel på {0}: {1}"
-
-#, fuzzy
 #~ msgid ""
 #~ "Enter password to access free/busy information on server %s as user %s"
-#~ msgstr "Ange lösenordet för användaren %s på servern %s"
-
-#, fuzzy
+#~ msgstr ""
+#~ "Ange lösenordet för att komma åt information om ledig/upptagen på servern "
+#~ "%s som användaren %s"
 #~ msgid "Failure reason: %s"
-#~ msgstr "Misslyckades med att skapa tråd: %s"
+#~ msgstr "Anledning till felet: %s"
 #~ msgid "_Picture Gallery"
 #~ msgstr "_Bildgalleri"
-
-#, fuzzy
+#~ msgid "Show a collection of pictures that you can drag to your message"
+#~ msgstr "Visa en samling bilder som du kan dra till ditt meddelande"
 #~ msgid "An error occurred while saving to your Drafts folder."
-#~ msgstr "Fel inträffade vid start av %s: %s."
-
-#, fuzzy
+#~ msgstr "Ett fel inträffade vid sparning till din Utkast-mapp."
 #~ msgid "An error occurred while saving to your Outbox folder."
-#~ msgstr "Ett fel inträffade vid utskrift"
-
-#, fuzzy
+#~ msgstr "Ett fel inträffade vid sparning till din Utkorg-mapp."
 #~ msgid "An error occurred while sending. How do you want to proceed?"
-#~ msgstr "Ett fel inträffade vid utskrift"
-
-#, fuzzy
+#~ msgstr "Ett fel inträffade vid sändning. Hur vill du fortsätta?"
+#~ msgid ""
+#~ "Because you are working offline, the message will be saved to your local "
+#~ "Outbox folder. When you are back online you can send the message by "
+#~ "clicking the Send/Receive button in Evolution's toolbar."
+#~ msgstr ""
+#~ "Eftersom du arbetar i frånkopplat läge kommer meddelandet att sparas till "
+#~ "din lokala utkorg. När du sedan går över i anslutet läge så kan du skicka "
+#~ "meddelandet genom att klicka på knappen Skicka/Ta emot i Evolutions "
+#~ "verktygrad."
 #~ msgid "Saving message to Outbox."
-#~ msgstr "Sparar meddelande till mappen \"%s\""
-
-#, fuzzy
+#~ msgstr "Sparar meddelande till utkorgen."
 #~ msgid "The reported error was &quot;{0}&quot;."
-#~ msgstr "Ta bort &quot;{0}&quot;?"
-
-#, fuzzy
+#~ msgstr "Det rapporterade felet var &quot;{0}&quot;."
+#~ msgid ""
+#~ "The reported error was &quot;{0}&quot;. The message has most likely not "
+#~ "been saved."
+#~ msgstr ""
+#~ "Det rapporterade felet var &quot;{0}&quot;. Meddelandet har antagligen "
+#~ "inte sparats."
+#~ msgid ""
+#~ "The reported error was &quot;{0}&quot;. The message has not been sent."
+#~ msgstr ""
+#~ "Det rapporterade felet var &quot;{0}&quot;. Meddelandet har inte skickats."
+#~ msgid "Your message was sent, but an error occurred during post-processing."
+#~ msgstr ""
+#~ "Ditt meddelande skickades men ett fel inträffade vid efterbehandling av "
+#~ "det."
 #~ msgid "_Save to Outbox"
-#~ msgstr "_Spara som mbox..."
+#~ msgstr "_Spara till utkorgen"
 #~ msgid "_Try Again"
 #~ msgstr "Försök _igen"
 #~ msgid "%s (waiting)"
@@ -21089,10 +21059,39 @@ msgstr "Inmatningsmetoder"
 #~ msgstr "%s (avbryter)"
 #~ msgid "%s"
 #~ msgstr "%s"
-#~ msgid "Next %a"
-#~ msgid_plural "Next %a"
-#~ msgstr[0] "Nästa %a"
-#~ msgstr[1] "Nästa %a"
+#~ msgctxt "DateFmt"
+#~ msgid "Next Mon"
+#~ msgstr "Nästa mån"
+#~ msgctxt "DateFmt"
+#~ msgid "Next Tue"
+#~ msgstr "Nästa tis"
+#~ msgctxt "DateFmt"
+#~ msgid "Next Wed"
+#~ msgstr "Nästa ons"
+#~ msgctxt "DateFmt"
+#~ msgid "Next Thu"
+#~ msgstr "Nästa tors"
+#~ msgctxt "DateFmt"
+#~ msgid "Next Fri"
+#~ msgstr "Nästa fre"
+#~ msgctxt "DateFmt"
+#~ msgid "Next Sat"
+#~ msgstr "Nästa lör"
+#~ msgctxt "DateFmt"
+#~ msgid "Next Sun"
+#~ msgstr "Nästa sön"
+#~ msgid ""
+#~ "Folder '%s' contains %d duplicate message. Are you sure you want to "
+#~ "delete it?"
+#~ msgid_plural ""
+#~ "Folder '%s' contains %d duplicate messages. Are you sure you want to "
+#~ "delete them?"
+#~ msgstr[0] ""
+#~ "Mappen \"%s\" innehåller %d dubblett meddelande. Är du säker på att du "
+#~ "vill ta bort det?"
+#~ msgstr[1] ""
+#~ "Mappen \"%s\" innehåller %d dubbletta meddelanden. Är du säker på att du "
+#~ "vill ta bort dessa?"
 #~ msgid "Previous T_hread"
 #~ msgstr "Föregående trå_d"
 #~ msgid "Display the previous thread"
@@ -21101,80 +21100,52 @@ msgstr "Inmatningsmetoder"
 #~ msgstr "Ta b_ort bilagor"
 #~ msgid "Remove attachments"
 #~ msgstr "Ta bort bilagor"
-
-#, fuzzy
 #~ msgid "Remove Du_plicate Messages"
-#~ msgstr "Döl_j markerade meddelanden"
-
-#, fuzzy
+#~ msgstr "Ta bort dub_bletta meddelanden"
 #~ msgid "Checks selected messages for duplicates"
-#~ msgstr "Markera de markerade meddelandena för borttagning"
+#~ msgstr "Letar efter dubbletter i markerade meddelanden"
 #~ msgid "_Account:"
 #~ msgstr "_Konto:"
 #~ msgid "Clear Search"
 #~ msgstr "Töm sökfältet"
-
-#, fuzzy
 #~ msgid "Subscribe to the selected folder"
-#~ msgstr "Säg upp prenumeration på vald mapp"
-
-#, fuzzy
+#~ msgstr "Prenumerera på markerad mapp"
 #~ msgid "Su_bscribe"
-#~ msgstr "Prenumerera"
-
-#, fuzzy
+#~ msgstr "Pren_umerera"
 #~ msgid "Collapse all folders"
-#~ msgstr "Fäll i_n alla"
-
-#, fuzzy
+#~ msgstr "Fäll in alla mappar"
 #~ msgid "Expand all folders"
-#~ msgstr "Fä_ll ut alla"
-
-#, fuzzy
+#~ msgstr "Fäll ut alla mappar"
 #~ msgid "Refresh the folder list"
-#~ msgstr "Uppdatera mappen"
-
-#, fuzzy
+#~ msgstr "Uppdatera mapplistan"
 #~ msgid "Stop the current operation"
-#~ msgstr "Avbryt aktuell e-poståtgärd"
-
-#, fuzzy
+#~ msgstr "Stoppa aktuell åtgärd"
 #~ msgid "\"Folder Subscriptions\" window height"
-#~ msgstr "Standardfönsterhöjd"
-
-#, fuzzy
+#~ msgstr "Fönsterhöjd för \"Mapprenumerationer\""
 #~ msgid "\"Folder Subscriptions\" window maximize state"
-#~ msgstr "Maximeringstillstånd för \"Skicka och ta emot e-post\"-fönstret"
-
-#, fuzzy
+#~ msgstr "Maximeringstillstånd för \"Mapprenumerationer\"-fönstret"
 #~ msgid "\"Folder Subscriptions\" window width"
-#~ msgstr "Standardfönsterbredd"
-
-#, fuzzy
+#~ msgstr "Fönsterbredd för \"Mapprenumerationer\""
+#~ msgid ""
+#~ "Asks whether to close the message window when the user forwards or "
+#~ "replies to the message shown in the window"
+#~ msgstr ""
+#~ "Frågar huruvida meddelandefönstret ska stängas när användaren "
+#~ "vidarebefordrar eller svarar på meddelandet som visas i fönstret"
 #~ msgid "Attribute message."
-#~ msgstr "Bifogat meddelande"
-
-#, fuzzy
+#~ msgstr "Attributmeddelande."
 #~ msgid "Check for new messages in all active accounts"
-#~ msgstr "Leta efter _nya meddelanden var"
-
-#, fuzzy
+#~ msgstr "Leta efter nya meddelanden i alla aktiva konton"
 #~ msgid "Check for new messages on start"
-#~ msgstr "Leta efter _nya meddelanden var"
-
-#, fuzzy
+#~ msgstr "Leta efter nya meddelanden vid uppstart"
 #~ msgid "Forward message."
-#~ msgstr "Vidarebefordrat meddelande"
-
-#, fuzzy
+#~ msgstr "Vidarebefordra meddelande."
 #~ msgid ""
 #~ "Initial height of the \"Folder Subscriptions\" window. The value updates "
 #~ "as the user resizes the window vertically."
 #~ msgstr ""
-#~ "Initial höjd för \"Skicka och ta emot e-post\"-fönstret. Värdet "
-#~ "uppdateras när användaren ändrar storlek på fönstret vertikalt."
-
-#, fuzzy
+#~ "Initial höjd för \"Mapprenumerationer\"-fönstret. Värdet uppdateras när "
+#~ "användaren ändrar storlek på fönstret vertikalt."
 #~ msgid ""
 #~ "Initial maximize state of the \"Folder Subscriptions\" window. The value "
 #~ "updates when the user maximizes or unmaximizes the window. Note, this "
@@ -21182,55 +21153,68 @@ msgstr "Inmatningsmetoder"
 #~ "\" window cannot be maximized. This key exists only as an implementation "
 #~ "detail."
 #~ msgstr ""
-#~ "Initialt maximerat tillstånd för \"Skicka och ta emot e-post\"-fönstret. "
-#~ "Värdet uppdateras när användaren maximerar eller avmaximerar fönstret. "
-#~ "Observera att detta specifika värde inte används av Evolution eftersom "
-#~ "\"Skicka och ta emot e-post\"-fönstret inte kan maximeras. Denna nyckel "
-#~ "finns endast för en framtida implementation."
-
-#, fuzzy
+#~ "Initialt maximerat tillstånd för \"Mapprenumerationer\"-fönstret. Värdet "
+#~ "uppdateras när användaren maximerar eller avmaximerar fönstret. Observera "
+#~ "att detta specifika värde inte används av Evolution eftersom "
+#~ "\"Mapprenumerationer\"-fönstret inte kan maximeras. Denna nyckel finns "
+#~ "endast för en framtida implementation."
 #~ msgid ""
 #~ "Initial width of the \"Folder Subscriptions\" window. The value updates "
 #~ "as the user resizes the window horizontally."
 #~ msgstr ""
-#~ "Initial bredd för \"Skicka och ta emot e-post\"-fönstret. Värdet "
-#~ "uppdateras när användaren ändrar storlek på fönstret horisontellt."
+#~ "Initial bredd för \"Mapprenumerationer\"-fönstret. Värdet uppdateras när "
+#~ "användaren ändrar storlek på fönstret horisontellt."
+
+#, fuzzy
+#~ msgid ""
+#~ "It disables/enables the repeated prompts to warn that you are trying to "
+#~ "send a message to recipients not entered as mail addresses"
+#~ msgstr ""
+#~ "Den inaktiverar/aktiverar funktionen för upprepade varningar om att "
+#~ "borttagning av meddelanden från en sökmapp permanent tar bort "
+#~ "meddelandet, inte att den helt enkelt tar bort det från sökresultaten."
 #~ msgid "Original message."
 #~ msgstr "Originalmeddelande."
-
-#, fuzzy
+#~ msgid "Path where picture gallery should search for its content"
+#~ msgstr "Sökväg där bildgalleriet ska leta efter dess innehåll"
+#~ msgid ""
+#~ "Possible values are: never - to never close browser window always - to "
+#~ "always close browser window ask - (or any other value) will ask user"
+#~ msgstr ""
+#~ "Möjliga värden är: never - för att aldrig stänga fönstret, always - för "
+#~ "att alltid stänga fönstret, ask - (eller något annat värde) kommer att "
+#~ "fråga användaren"
+#~ msgid "Prompt before sending to recipients not entered as mail addresses"
+#~ msgstr ""
+#~ "Fråga före sändning till mottagare som inte matats in som e-postadresser"
+#~ msgid ""
+#~ "Whether check for new messages when Evolution is started. This includes "
+#~ "also sending messages from Outbox."
+#~ msgstr ""
+#~ "Huruvida nya meddelanden ska letas efter när Evolution startas. Detta "
+#~ "inkluderar även att skicka meddelanden från utkorgen."
 #~ msgid "Allowing a _mailing list to redirect a private reply to the list"
-#~ msgstr "Fråga vid markering av flera meddelanden"
-
-#, fuzzy
+#~ msgstr "Låter en sän_dlista omdirigera ett privat svar till listan"
 #~ msgid "Check for new _messages on start"
-#~ msgstr "Leta efter _nya meddelanden var"
-
-#, fuzzy
+#~ msgstr "Leta efter nya _meddelanden vid uppstart"
 #~ msgid "Check for new messa_ges in all active accounts"
-#~ msgstr "Leta efter _nya meddelanden var"
+#~ msgstr "Leta efter n_ya meddelanden i alla aktiva konton"
 #~ msgid "Confirmations"
 #~ msgstr "Bekräftelser"
-
-#, fuzzy
 #~ msgid "Replies and Forwards"
-#~ msgstr "Svar och föräldrar"
-
-#, fuzzy
+#~ msgstr "Svar och vidarebefordringar"
 #~ msgid "Sending a _private reply to a mailing list message"
-#~ msgstr "Fråga vid markering av flera meddelanden"
-
-#, fuzzy
+#~ msgstr "Skickar ett _privat svar på ett meddelande från en sändlista"
+#~ msgid "Sending a message with _recipients not entered as mail addresses"
+#~ msgstr ""
+#~ "Skickar ett meddelande med _mottagare som inte matats in som e-"
+#~ "postadresser"
 #~ msgid "Sending a reply to a large _number of recipients"
-#~ msgstr "Skicka svar till alla mottagare?"
-
-#, fuzzy
+#~ msgstr "Skickar ett svar till ett stort a_ntal mottagare"
 #~ msgid "Special Folders"
-#~ msgstr "Lokala mappar"
-
-#, fuzzy
+#~ msgstr "Speciella mappar"
 #~ msgid "Start up"
-#~ msgstr "Start: "
+#~ msgstr "Uppstart"
 #~ msgid "User _Name:"
 #~ msgstr "Användar_namn:"
 #~ msgid "_Show animated images"
@@ -21241,76 +21225,79 @@ msgstr "Inmatningsmetoder"
 #~ msgstr "Tar bort bilagor"
 #~ msgid "File \"%s\" has been removed."
 #~ msgstr "Filen \"%s\" har tagits bort."
-
-#, fuzzy
 #~ msgid "Close message window."
-#~ msgstr "Stäng detta fönster"
-
-#, fuzzy
+#~ msgstr "Stäng meddelandefönstret."
+#~ msgid "Evolution's local mail format has changed."
+#~ msgstr "Evolutions lokala e-postformat har ändrats."
 #~ msgid "Failed to unsubscribe from folder."
-#~ msgstr "Verkligen säga upp prenumerationen på mappen \"%s\"?"
-
-#, fuzzy
+#~ msgstr "Misslyckades med att säga upp prenumerationen på mappen."
 #~ msgid "Folder '{0}' doesn't contain any duplicate message."
-#~ msgstr "Bilagan innehåller inte ett giltigt kalendermeddelande"
-
-#, fuzzy
-#~ msgid "Migrate local mbox folders to maildir"
-#~ msgstr "Skapa en ny mapp för lagring av post"
+#~ msgstr "Mappen \"{0}\" innehåller inget dubblett meddelande."
 #~ msgid "N_ever"
 #~ msgstr "Al_drig"
-
-#, fuzzy
 #~ msgid "No duplicate messages found."
-#~ msgstr "Ofärdiga meddelanden hittades"
-
-#, fuzzy
+#~ msgstr "Inga dubbletta meddelanden hittades."
 #~ msgid "Remove duplicate messages?"
-#~ msgstr "Ta bort delegaten %s?"
+#~ msgstr "Ta bort dubbletta meddelanden?"
 #~ msgid "Would you like to close the message window?"
 #~ msgstr "Vill du stänga meddelandefönstret?"
 #~ msgid "_Always"
 #~ msgstr "A_lltid"
+#~ msgid "_Exit Evolution"
+#~ msgstr "A_vsluta Evolution"
+#~ msgid "_Migrate Now"
+#~ msgstr "_Migrera nu"
 #~ msgid "_No"
 #~ msgstr "_Nej"
 #~ msgid "_Yes"
 #~ msgstr "_Ja"
-
-#, fuzzy
 #~ msgid "Primary address book"
-#~ msgstr "Registret med adressböcker"
-
-#, fuzzy
+#~ msgstr "Primär adressbok"
+#~ msgid ""
+#~ "The UID of the selected (or \"primary\") address book in the sidebar of "
+#~ "the \"Contacts\" view."
+#~ msgstr ""
+#~ "UID för markerade (eller \"primära\") adressboken i sidopanelen för "
+#~ "\"Kontakter\"-vyn."
 #~ msgid "Birthday and anniversary reminder"
-#~ msgstr "Födelsedagar och jubileum"
-
-#, fuzzy
+#~ msgstr "Påminnelse för födelsedagar och jubileum"
 #~ msgid "Birthday and anniversary reminder units"
-#~ msgstr "Födelsedagar och jubileum"
-
-#, fuzzy
+#~ msgstr "Enheter för påminnelse för födelsedagar och jubileum"
 #~ msgid "Birthday and anniversary reminder value"
-#~ msgstr "Födelsedagar och jubileum"
-
-#, fuzzy
+#~ msgstr "Påminnelsevärde för födelsedagar och jubileum"
 #~ msgid "Number of units for determining a birthday or anniversary reminder."
-#~ msgstr "Antal enheter för att bestämma en standardpåminnelse."
-
-#, fuzzy
+#~ msgstr ""
+#~ "Antal enheter för att bestämma en påminnelse för en födelsedag eller "
+#~ "jubileum."
 #~ msgid "Recurrent Events in Italic"
-#~ msgstr "Upprepningsdatumet är ogiltigt"
-
-#, fuzzy
+#~ msgstr "Återkommande evenemang i kursivt"
+#~ msgid ""
+#~ "The UID of the selected (or \"primary\") calendar in the sidebar of the "
+#~ "\"Calendar\" view."
+#~ msgstr ""
+#~ "UID för den markerade (eller \"primära\") kalendern i sidopanelen för "
+#~ "\"Kalender\"-vyn."
+#~ msgid ""
+#~ "The UID of the selected (or \"primary\") memo list in the sidebar of the "
+#~ "\"Memos\" view."
+#~ msgstr ""
+#~ "UID för den markerade (eller \"primära\") memolistan i sidopanelen för "
+#~ "\"Memon\"-vyn."
+#~ msgid ""
+#~ "The UID of the selected (or \"primary\") task list in the sidebar of the "
+#~ "\"Tasks\" view."
+#~ msgstr ""
+#~ "UID för den markerade (eller \"primära\") uppgiftslistan i sidopanelen "
+#~ "för \"Uppgifter\"-vyn."
 #~ msgid ""
 #~ "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or "
 #~ "\"days\"."
 #~ msgstr ""
-#~ "Enheter för en standardpåminnelse, \"minutes\" (minuter), \"hours"
-#~ "\" (timmar) eller \"days\" (dagar)."
-
-#, fuzzy
+#~ "Enheter för en påminnelse av födelsedag eller jubileum, \"minutes"
+#~ "\" (minuter), \"hours\" (timmar) eller \"days\" (dagar)."
 #~ msgid "Whether to set a reminder for birthdays and anniversaries."
-#~ msgstr "Huruvida en standardpåminnare för möten ska ställas in."
+#~ msgstr ""
+#~ "Huruvida en påminnelse för födelsedagar och jubileum ska ställas in."
 #~ msgid "_Manage Subscriptions"
 #~ msgstr "_Hantera prenumerationer"
 #~ msgid "R_eceive All"
@@ -21325,65 +21312,64 @@ msgstr "Inmatningsmetoder"
 #~ msgstr "Papperskorg"
 #~ msgid "Send / Receive"
 #~ msgstr "Skicka / Ta emot"
-
-#, fuzzy
+#~ msgid "Click 'Work Online' to return to online mode."
+#~ msgstr "Klicka på \"Arbeta ansluten\" för att återgå till anslutet läge."
 #~ msgid "Evolution is currently offline due to a network outage."
 #~ msgstr ""
-#~ "Evolution är just nu i frånkopplat läge därför att nätverket inte är "
-#~ "tillgängligt."
+#~ "Evolution är just nu i frånkopplat läge på grund av ett nätverksproblem."
 #~ msgid "Evolution is currently offline."
 #~ msgstr "Evolution är för närvarande i frånkopplat läge."
-
-#, fuzzy
 #~ msgid ""
 #~ "Evolution will return to online mode once a network connection is "
 #~ "established."
 #~ msgstr ""
-#~ "Evolution är just nu i frånkopplat läge därför att nätverket inte är "
-#~ "tillgängligt."
-
-#, fuzzy
+#~ "Evolution kommer att återgå till anslutet läge när nätverksanslutningen "
+#~ "har etablerats."
 #~ msgid "_Back up Evolution Data..."
-#~ msgstr "Säkerhetskopierar Evolution-data"
-
-#, fuzzy
+#~ msgstr "Sä_kerhetskopiera Evolution-data..."
 #~ msgid "R_estore Evolution Data..."
-#~ msgstr "Återställer Evolution-data"
-
-#, fuzzy
+#~ msgstr "Återskapa Ev_olution-data..."
+#~ msgid "Server _handles meeting invitations"
+#~ msgstr "Servern _hanterar mötesinbjudningar"
 #~ msgid "User e-_mail:"
-#~ msgstr "Användar_namn:"
-
-#, fuzzy
+#~ msgstr "Användarens e-posta_dress:"
 #~ msgctxt "email-custom-header-Security"
 #~ msgid "Personal"
 #~ msgstr "Personligt"
-
-#, fuzzy
 #~ msgctxt "email-custom-header-Security"
 #~ msgid "Confidential"
-#~ msgstr "Konfidentiellt"
-
-#, fuzzy
+#~ msgstr "Konfidentiell"
 #~ msgctxt "email-custom-header-Security"
 #~ msgid "Secret"
 #~ msgstr "Hemlig"
+#~ msgid "Select a Face Picture"
+#~ msgstr "Välj en ansiktsbild"
+#~ msgid "Saving user interface state"
+#~ msgstr "Sparar tillstånd för användargränssnitt"
+#~ msgid ""
+#~ "Start Evolution showing the specified component. Available options are "
+#~ "'mail', 'calendar', 'contacts', 'tasks', and 'memos'"
+#~ msgstr ""
+#~ "Starta Evolution och visa den angivna komponenten. Tillgängliga flaggor "
+#~ "är \"mail\", \"calendar\", \"contacts\", \"tasks\" och \"memos\""
 #~ msgid "Ignore network availability"
 #~ msgstr "Ignorera nätverkets tillgänglighet"
-
-#, fuzzy
+#~ msgid ""
+#~ "%s: --online and --offline cannot be used together.\n"
+#~ "  Run '%s --help' for more information.\n"
+#~ msgstr ""
+#~ "%s: --online och --offline kan inte användas tillsammans.\n"
+#~ "  Kör \"%s --help\" för mer information.\n"
 #~ msgid ""
 #~ "%s: --force-online and --offline cannot be used together.\n"
 #~ "  Run '%s --help' for more information.\n"
 #~ msgstr ""
-#~ "%s: --online och --offline kan inte användas tillsammans.\n"
-#~ "  Använd %s --help för mer information.\n"
+#~ "%s: --force-online och --offline kan inte användas tillsammans.\n"
+#~ "  Kör \"%s --help\" för mer information.\n"
 
 #, fuzzy
-#~ msgid ""
-#~ "Folder '%s' contains %d duplicate messages. Are you sure you want to "
-#~ "delete them?"
-#~ msgstr "Är du säker på att du vill ta bort detta memo?"
+#~ msgid "Migrate local mbox folders to maildir"
+#~ msgstr "Skapa en ny mapp för lagring av post"
 
 #, fuzzy
 #~ msgid ""
@@ -21476,8 +21462,6 @@ msgstr "Inmatningsmetoder"
 #~ msgstr "Fält"
 #~ msgid "Field Name"
 #~ msgstr "Fältnamn"
-#~ msgid "Text Model"
-#~ msgstr "Textmodell"
 #~ msgid "Max field name length"
 #~ msgstr "Maximal fältnamnslängd"
 #~ msgid "Column Width"
