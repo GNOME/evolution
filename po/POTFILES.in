@@ -472,6 +472,7 @@ widgets/misc/e-spell-entry.c
 widgets/misc/e-url-entry.c
 widgets/misc/e-web-view.c
 widgets/misc/e-web-view-gtkhtml.c
+widgets/misc/widgets.error.xml
 widgets/table/e-cell-combo.c
 widgets/table/e-cell-date.c
 widgets/table/e-cell-date-edit.c

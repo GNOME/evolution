@@ -13,7 +13,8 @@ dialog_response (GtkDialog *dialog,
 }
 
 gint
-main (gint argc, gchar **argv)
+main (gint argc,
+      gchar **argv)
 {
 	ESourceRegistry *registry;
 	ESource *source = NULL;

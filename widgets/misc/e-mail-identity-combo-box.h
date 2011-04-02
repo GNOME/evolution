@@ -65,11 +65,6 @@ void		e_mail_identity_combo_box_refresh
 ESourceRegistry *
 		e_mail_identity_combo_box_get_registry
 					(EMailIdentityComboBox *combo_box);
-ESource *	e_mail_identity_combo_box_get_active_source
-					(EMailIdentityComboBox *combo_box);
-void		e_mail_identity_combo_box_set_active_source
-					(EMailIdentityComboBox *combo_box,
-					 ESource *active_source);
 
 G_END_DECLS
 

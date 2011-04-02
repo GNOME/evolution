@@ -79,32 +79,20 @@ mail_identity_combo_box_registry_changed (ESourceRegistry *registry,
 		combo_box);
 }
 
-static ESource *
-mail_identity_combo_box_get_default (EMailIdentityComboBox *combo_box)
+static void
+mail_identity_combo_box_activate_default (EMailIdentityComboBox *combo_box)
 {
 	ESource *source;
 	ESourceRegistry *registry;
-	ESourceMailAccount *mail_account;
-	const gchar *extension_name;
-	const gchar *uid;
 
-	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
 	registry = e_mail_identity_combo_box_get_registry (combo_box);
-	source = e_source_registry_get_default_mail_account (registry);
+	source = e_source_registry_ref_default_mail_identity (registry);
 
-	if (source == NULL)
-		return NULL;
-
-	if (!e_source_has_extension (source, extension_name))
-		return NULL;
-
-	mail_account = e_source_get_extension (source, extension_name);
-	uid = e_source_mail_account_get_identity (mail_account);
-
-	if (uid == NULL)
-		return NULL;
-
-	return e_source_registry_lookup_by_uid (registry, uid);
+	if (source != NULL) {
+		const gchar *uid = e_source_get_uid (source);
+		gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), uid);
+		g_object_unref (source);
+	}
 }
 
 static void
@@ -225,7 +213,8 @@ e_mail_identity_combo_box_class_init (EMailIdentityComboBoxClass *class)
 {
 	GObjectClass *object_class;
 
-	g_type_class_add_private (class, sizeof (EMailIdentityComboBoxPrivate));
+	g_type_class_add_private (
+		class, sizeof (EMailIdentityComboBoxPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = mail_identity_combo_box_set_property;
@@ -267,10 +256,12 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 {
 	ESourceRegistry *registry;
 	GtkTreeModel *tree_model;
+	GtkComboBox *gtk_combo_box;
 	ESource *source;
 	GList *list, *link;
+	GHashTable *address_table;
 	const gchar *extension_name;
-	gchar *saved_uid = NULL;
+	const gchar *saved_uid;
 
 	g_return_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (combo_box));
 
@@ -279,55 +270,112 @@ e_mail_identity_combo_box_refresh (EMailIdentityComboBox *combo_box)
 		combo_box->priv->refresh_idle_id = 0;
 	}
 
-	registry = e_mail_identity_combo_box_get_registry (combo_box);
-	tree_model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box));
+	gtk_combo_box = GTK_COMBO_BOX (combo_box);
+	tree_model = gtk_combo_box_get_model (gtk_combo_box);
 
-	source = e_mail_identity_combo_box_get_active_source (combo_box);
-	if (source != NULL)
-		saved_uid = g_strdup (e_source_get_uid (source));
+	/* This is an interned string, which means it's safe
+	 * to use even after clearing the combo box model. */
+	saved_uid = gtk_combo_box_get_active_id (gtk_combo_box);
 
 	gtk_list_store_clear (GTK_LIST_STORE (tree_model));
 
 	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+	registry = e_mail_identity_combo_box_get_registry (combo_box);
 	list = e_source_registry_list_sources (registry, extension_name);
 
+	/* Build a hash table of GQueues by email address so we can
+	 * spot duplicate email addresses.  Then if the GQueue for a
+	 * given email address has multiple elements, we use a more
+	 * verbose description in the combo box. */
+
+	address_table = g_hash_table_new_full (
+		(GHashFunc) g_str_hash,
+		(GEqualFunc) g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_queue_free);
+
 	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESourceMailIdentity *extension;
+		GQueue *queue;
+		const gchar *address;
+
+		source = E_SOURCE (link->data);
+		extension = e_source_get_extension (source, extension_name);
+		address = e_source_mail_identity_get_address (extension);
+
+		if (address == NULL)
+			continue;
+
+		queue = g_hash_table_lookup (address_table, address);
+		if (queue == NULL) {
+			queue = g_queue_new ();
+			g_hash_table_insert (
+				address_table,
+				g_strdup (address), queue);
+		}
+
+		g_queue_push_tail (queue, source);
+	}
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESourceMailIdentity *extension;
 		GtkTreeIter iter;
+		GQueue *queue;
+		GString *string;
+		const gchar *address;
 		const gchar *display_name;
+		const gchar *name;
 		const gchar *uid;
 
 		source = E_SOURCE (link->data);
+		if (!e_source_get_enabled (source))
+			continue;
+
+		extension = e_source_get_extension (source, extension_name);
+		name = e_source_mail_identity_get_name (extension);
+		address = e_source_mail_identity_get_address (extension);
+
+		if (name == NULL || address == NULL)
+			continue;
+
+		queue = g_hash_table_lookup (address_table, address);
+
 		display_name = e_source_get_display_name (source);
 		uid = e_source_get_uid (source);
+
+		string = g_string_sized_new (512);
+		g_string_append_printf (string, "%s <%s>", name, address);
+
+		/* Show the account name for duplicate email addresses. */
+		if (queue != NULL && g_queue_get_length (queue) > 1)
+			g_string_append_printf (string, " (%s)", display_name);
 
 		gtk_list_store_append (GTK_LIST_STORE (tree_model), &iter);
 
 		gtk_list_store_set (
 			GTK_LIST_STORE (tree_model), &iter,
-			COLUMN_DISPLAY_NAME, display_name,
+			COLUMN_DISPLAY_NAME, string->str,
 			COLUMN_UID, uid, -1);
+
+		g_string_free (string, TRUE);
 	}
 
-	g_list_free (list);
+	g_hash_table_destroy (address_table);
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 	/* Try and restore the previous selected source, or else pick
 	 * the default identity of the default mail account.  If even
 	 * that fails, just pick the first item. */
 
-	source = NULL;
+	if (saved_uid != NULL)
+		gtk_combo_box_set_active_id (gtk_combo_box, saved_uid);
 
-	if (saved_uid != NULL) {
-		source = e_source_registry_lookup_by_uid (registry, saved_uid);
-		g_free (saved_uid);
-	}
+	if (gtk_combo_box_get_active_id (gtk_combo_box) == NULL)
+		mail_identity_combo_box_activate_default (combo_box);
 
-	if (source == NULL)
-		source = mail_identity_combo_box_get_default (combo_box);
-
-	if (source != NULL)
-		e_mail_identity_combo_box_set_active_source (combo_box, source);
-	else
-		gtk_combo_box_set_active (GTK_COMBO_BOX (combo_box), 0);
+	if (gtk_combo_box_get_active_id (gtk_combo_box) == NULL)
+		gtk_combo_box_set_active (gtk_combo_box, 0);
 }
 
 ESourceRegistry *
@@ -336,39 +384,4 @@ e_mail_identity_combo_box_get_registry (EMailIdentityComboBox *combo_box)
 	g_return_val_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (combo_box), NULL);
 
 	return combo_box->priv->registry;
-}
-
-ESource *
-e_mail_identity_combo_box_get_active_source (EMailIdentityComboBox *combo_box)
-{
-	ESourceRegistry *registry;
-	ESource *source = NULL;
-	const gchar *uid;
-
-	g_return_val_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (combo_box), NULL);
-
-	registry = e_mail_identity_combo_box_get_registry (combo_box);
-	uid = gtk_combo_box_get_active_id (GTK_COMBO_BOX (combo_box));
-
-	if (uid != NULL)
-		source = e_source_registry_lookup_by_uid (registry, uid);
-
-	return source;
-}
-
-void
-e_mail_identity_combo_box_set_active_source (EMailIdentityComboBox *combo_box,
-                                             ESource *active_source)
-{
-	const gchar *uid;
-
-	g_return_if_fail (E_IS_MAIL_IDENTITY_COMBO_BOX (combo_box));
-	g_return_if_fail (E_IS_SOURCE (active_source));
-
-	/* It is a programming error to pass an ESource that has no
-	 * "Mail Identity" extension. */
-	g_return_if_fail (SOURCE_IS_MAIL_IDENTITY (active_source));
-
-	uid = e_source_get_uid (active_source);
-	gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), uid);
 }

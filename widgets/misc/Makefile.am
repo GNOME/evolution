@@ -37,9 +37,13 @@ widgetsinclude_HEADERS =			\
 	e-image-chooser.h			\
 	e-import-assistant.h			\
 	e-interval-chooser.h			\
-	e-mail-account-manager.h		\
-	e-mail-account-tree-view.h		\
 	e-mail-identity-combo-box.h		\
+	e-mail-signature-combo-box.h		\
+	e-mail-signature-editor.h		\
+	e-mail-signature-manager.h		\
+	e-mail-signature-preview.h		\
+	e-mail-signature-script-dialog.h	\
+	e-mail-signature-tree-view.h		\
 	e-map.h					\
 	e-menu-tool-action.h			\
 	e-menu-tool-button.h			\
@@ -57,16 +61,9 @@ widgetsinclude_HEADERS =			\
 	e-selection-model-array.h		\
 	e-selection-model-simple.h		\
 	e-send-options.h			\
-	e-signature-combo-box.h			\
-	e-signature-editor.h			\
-	e-signature-manager.h			\
-	e-signature-preview.h			\
-	e-signature-script-dialog.h		\
-	e-signature-tree-view.h			\
 	e-source-config.h			\
 	e-source-config-backend.h		\
 	e-source-config-dialog.h		\
-	e-source-notebook.h			\
 	e-spell-entry.h				\
 	e-url-entry.h				\
 	e-web-view.h				\
@@ -127,9 +124,13 @@ libemiscwidgets_la_SOURCES =			\
 	e-image-chooser.c			\
 	e-import-assistant.c			\
 	e-interval-chooser.c			\
-	e-mail-account-manager.c		\
-	e-mail-account-tree-view.c		\
 	e-mail-identity-combo-box.c		\
+	e-mail-signature-combo-box.c		\
+	e-mail-signature-editor.c		\
+	e-mail-signature-manager.c		\
+	e-mail-signature-preview.c		\
+	e-mail-signature-script-dialog.c	\
+	e-mail-signature-tree-view.c		\
 	e-map.c					\
 	e-menu-tool-action.c			\
 	e-menu-tool-button.c			\
@@ -147,16 +148,9 @@ libemiscwidgets_la_SOURCES =			\
 	e-selection-model-array.c		\
 	e-selection-model-simple.c		\
 	e-send-options.c			\
-	e-signature-combo-box.c			\
-	e-signature-editor.c			\
-	e-signature-manager.c			\
-	e-signature-preview.c			\
-	e-signature-script-dialog.c		\
-	e-signature-tree-view.c			\
 	e-source-config.c			\
 	e-source-config-backend.c		\
 	e-source-config-dialog.c		\
-	e-source-notebook.c			\
 	e-spell-entry.c				\
 	e-url-entry.c				\
 	e-web-view.c				\
@@ -185,9 +179,15 @@ libemiscwidgets_la_LIBADD =					\
 	$(CLUTTER_LIBS)						\
 	$(GTKHTML_LIBS)
 
+error_DATA = widgets.error
+errordir = $(privdatadir)/errors
+# provides error rules too
+@EVO_PLUGIN_RULE@
+
 noinst_PROGRAMS = 			\
 	test-calendar			\
 	test-dateedit			\
+	test-mail-signatures		\
 	test-preferences-window		\
 	test-source-config
 
@@ -205,8 +205,7 @@ test_widgets_misc_CPPFLAGS=						\
 
 test_calendar_CPPFLAGS = $(test_widgets_misc_CPPFLAGS)
 
-test_calendar_SOURCES = 	\
-	test-calendar.c
+test_calendar_SOURCES = test-calendar.c
 
 test_calendar_LDADD = 				\
 	libemiscwidgets.la			\
@@ -219,8 +218,7 @@ test_calendar_LDADD = 				\
 
 test_dateedit_CPPFLAGS = $(test_widgets_misc_CPPFLAGS)
 
-test_dateedit_SOURCES = 	\
-	test-dateedit.c
+test_dateedit_SOURCES = test-dateedit.c
 
 test_dateedit_LDADD = 				\
 	libemiscwidgets.la			\
@@ -229,12 +227,28 @@ test_dateedit_LDADD = 				\
 	$(EVOLUTION_DATA_SERVER_LIBS)		\
 	$(GNOME_PLATFORM_LIBS)
 
+# test-mail-signatures
+
+test_mail_signatures_CPPFLAGS =			\
+	$(test_widgets_misc_CPPFLAGS)		\
+	$(GTKHTML_CFLAGS)
+
+test_mail_signatures_SOURCES = test-mail-signatures.c
+
+test_mail_signatures_LDADD =			\
+	libemiscwidgets.la			\
+	$(top_builddir)/e-util/libeutil.la	\
+	$(top_builddir)/filter/libfilter.la	\
+	$(top_builddir)/libevolution-utils/libevolution-utils.la \
+	$(EVOLUTION_DATA_SERVER_LIBS)		\
+	$(GNOME_PLATFORM_LIBS)			\
+	$(GTKHTML_LIBS)
+
 # test-preferences-window
 
 test_preferences_window_CPPFLAGS = $(test_widgets_misc_CPPFLAGS)
 
-test_preferences_window_SOURCES =		\
-	test-preferences-window.c
+test_preferences_window_SOURCES = test-preferences-window.c
 
 test_preferences_window_LDADD = 		\
 	libemiscwidgets.la			\
@@ -247,8 +261,7 @@ test_preferences_window_LDADD = 		\
 
 test_source_config_CPPFLAGS = $(test_widgets_misc_CPPFLAGS)
 
-test_source_config_SOURCES =			\
-	test-source-config.c
+test_source_config_SOURCES = test-source-config.c
 
 test_source_config_LDADD = 			\
 	libemiscwidgets.la			\
@@ -257,6 +270,8 @@ test_source_config_LDADD = 			\
 	$(EVOLUTION_DATA_SERVER_LIBS)		\
 	$(GNOME_PLATFORM_LIBS)
 
-EXTRA_DIST = $(ui_DATA)
+BUILT_SOURCES = $(error_DATA)
+
+EXTRA_DIST = $(ui_DATA) widgets.error.xml
 
 -include $(top_srcdir)/git.mk
