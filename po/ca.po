@@ -15,16 +15,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-03-21 13:37+0000\n"
-"PO-Revision-Date: 2011-03-13 21:28+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-04-02 21:13+0200\n"
+"PO-Revision-Date: 2011-04-03 22:14+0200\n"
 "Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
+"Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ca\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #. For Translators: {0} is the name of the address book source
@@ -1365,8 +1364,8 @@ msgstr ""
 #, c-format
 msgid "The backend for this address book refused to perform this query. %s"
 msgstr ""
-"El rerefons de la llibreta d'adreces ha refusat realitzar aquesta consulta. %"
-"s"
+"El rerefons de la llibreta d'adreces ha refusat realitzar aquesta consulta. "
+"%s"
 
 #. Translators: %s is replaced with a detailed error message, or an empty string, if not provided
 #: ../addressbook/gui/widgets/eab-gui-util.c:189
@@ -1542,8 +1541,8 @@ msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar from the side bar in the Calendar view."
 msgstr ""
-"«{0}» és un calendari de només lectura, per la qual cosa no es pot modificar. "
-"Hauríeu de seleccionar-ne un de diferent a la barra lateral de la "
+"«{0}» és un calendari de només lectura, per la qual cosa no es pot "
+"modificar. Hauríeu de seleccionar-ne un de diferent a la barra lateral de la "
 "visualització de Calendari."
 
 #. For Translators: {0} is the name of the calendar source
@@ -1561,7 +1560,7 @@ msgid ""
 "Adding a meaningful summary to your appointment will give you an idea of "
 "what your appointment is about."
 msgstr ""
-"Afegir un camp de resum comprensible permetrà fer-se una idea del tema de la "
+"Si afegiu un camp de resum comprensible permetrà fer-se una idea del tema de la "
 "cita."
 
 #: ../calendar/calendar.error.xml.h:6
@@ -1569,7 +1568,7 @@ msgid ""
 "Adding a meaningful summary to your task will give you an idea of what your "
 "task is about."
 msgstr ""
-"Afegir un camp de resum comprensible permetrà fer-se una idea del tema de la "
+"Si afegiu un camp de resum comprensible permetrà fer-se una idea del tema de la "
 "tasca."
 
 #: ../calendar/calendar.error.xml.h:7
@@ -1780,7 +1779,7 @@ msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
 msgstr ""
-"Enviar informació actualitzada permet als altres participants mantenir "
+"Si envieu informació actualitzada permet als altres participants mantenir "
 "actualitzats els seus calendaris."
 
 #: ../calendar/calendar.error.xml.h:51
@@ -1788,7 +1787,7 @@ msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
 msgstr ""
-"Enviar informació actualitzada permet als altres participants mantenir "
+"Si envieu informació actualitzada permet als altres participants mantenir "
 "actualitzades les seves llistes de tasques."
 
 #: ../calendar/calendar.error.xml.h:52
@@ -3953,7 +3952,7 @@ msgstr "Delegat"
 
 #: ../calendar/gui/e-calendar-view.c:1782
 msgid "Needs action"
-msgstr "Precisa una acció"
+msgstr "Necessita una acció"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #. To Translators: It will display "Organizer: NameOfTheUser <email@ofuser.com>"
@@ -4155,7 +4154,7 @@ msgstr "No hi participa"
 #: ../calendar/gui/e-meeting-store.c:195 ../calendar/gui/e-meeting-store.c:218
 #: ../calendar/gui/e-meeting-store.c:1034
 msgid "Needs Action"
-msgstr "Precisa una acció"
+msgstr "Necessita una acció"
 
 #. The extra space is just a hack to occupy more space for Attendee
 #: ../calendar/gui/e-meeting-list-view.c:539
@@ -4171,7 +4170,7 @@ msgstr "Esperem la vostra resposta"
 
 #: ../calendar/gui/e-meeting-store.c:207 ../calendar/gui/e-meeting-store.c:230
 msgid "In Process"
-msgstr "En progrés"
+msgstr "En curs"
 
 #: ../calendar/gui/e-meeting-store.c:1763
 #, c-format
@@ -5998,7 +5997,7 @@ msgstr "Àsia/Irkutsk"
 
 #: ../calendar/zones.h:235
 msgid "Asia/Istanbul"
-msgstr "Àsia/Istambul"
+msgstr "Àsia/Istanbul"
 
 #: ../calendar/zones.h:236
 msgid "Asia/Jakarta"
@@ -6162,7 +6161,7 @@ msgstr "Àsia/Thimphu"
 
 #: ../calendar/zones.h:276
 msgid "Asia/Tokyo"
-msgstr "Àsia/Tòkio"
+msgstr "Àsia/Tòquio"
 
 #: ../calendar/zones.h:277
 msgid "Asia/Ujung_Pandang"
@@ -6310,7 +6309,7 @@ msgstr "Europa/Bratislava"
 
 #: ../calendar/zones.h:313
 msgid "Europe/Brussels"
-msgstr "Europa/Brusel·les"
+msgstr "Europa/Brussel·les"
 
 #: ../calendar/zones.h:314
 msgid "Europe/Bucharest"
@@ -6342,7 +6341,7 @@ msgstr "Europa/Helsinki"
 
 #: ../calendar/zones.h:321
 msgid "Europe/Istanbul"
-msgstr "Europa/Istambul"
+msgstr "Europa/Istanbul"
 
 #: ../calendar/zones.h:322
 msgid "Europe/Kaliningrad"
@@ -7005,7 +7004,7 @@ msgid ""
 "continue the message at a later date."
 msgstr ""
 "Si tanqueu la finestra del redactor es descartarà el missatge permanentment, "
-"a menys que escolliu desar el missatge a la carpeta d'Esborranys. Així "
+"a menys que trieu desar el missatge a la carpeta d'Esborranys. Així "
 "podreu continuar amb el missatge més endavant."
 
 #: ../composer/mail-composer.error.xml.h:11
@@ -7948,7 +7947,7 @@ msgstr "Seleccioneu amb quina hora es compararà"
 
 #: ../filter/e-filter-file.c:188
 msgid "Choose a File"
-msgstr "Escolliu un fitxer"
+msgstr "Trieu un fitxer"
 
 #: ../filter/e-filter-rule.c:662
 msgid "R_ule name:"
@@ -8051,7 +8050,7 @@ msgstr "Seleccioneu un altre nom."
 
 #: ../filter/filter.error.xml.h:9
 msgid "You must choose a date."
-msgstr "Heu d'escollir una data."
+msgstr "Heu de triar una data."
 
 #: ../filter/filter.error.xml.h:10
 msgid "You must name this filter."
@@ -8464,7 +8463,7 @@ msgstr "Nete_ja el senyalador"
 
 #: ../mail/e-mail-reader.c:1948
 msgid "Remove the follow-up flag from the selected messages"
-msgstr "suprimeix el senyalador de seguiment dels missatges seleccionats"
+msgstr "Suprimeix el senyalador de seguiment dels missatges seleccionats"
 
 #: ../mail/e-mail-reader.c:1953
 msgid "_Flag Completed"
@@ -9262,7 +9261,7 @@ msgstr "Destinació de l'enviament"
 
 #: ../mail/em-composer-utils.c:2788
 msgid "Choose folders to post the message to."
-msgstr "Escolliu a quines carpetes s'enviarà el missatge."
+msgstr "Trieu a quines carpetes s'enviarà el missatge."
 
 #: ../mail/em-filter-folder-element.c:339
 msgid "Select Folder"
@@ -10167,10 +10166,10 @@ msgid ""
 "can be slow, if remote address books (like LDAP) are marked for "
 "autocompletion."
 msgstr ""
-"Determina si s'ha de buscar l'adreça del remitent a la llibreta d'adreces. "
+"Determina si s'ha de cercar l'adreça del remitent a la llibreta d'adreces. "
 "Si hi és, el missatge no es considerarà com a brossa. Només es cercarà en "
 "les llibretes marcades per a l'autocompleció, per la qual cosa això pot ser "
-"lent en llibretes d'adreces remotes (p.ex. LDAP) marcades per a "
+"lent en llibretes d'adreces remotes (p. ex. LDAP) marcades per a "
 "l'autocompleció."
 
 #: ../mail/evolution-mail.schemas.in.h:47
@@ -10494,8 +10493,8 @@ msgid ""
 "Initial width of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window horizontally."
 msgstr ""
-"Amplada inicial de la finestra «Envia i rep el correu». S'actualitza a mesura "
-"que l'usuari canvia la mida horitzontal de la finestra."
+"Amplada inicial de la finestra «Envia i rep el correu». S'actualitza a "
+"mesura que l'usuari canvia la mida horitzontal de la finestra."
 
 #: ../mail/evolution-mail.schemas.in.h:96
 msgid ""
@@ -10535,7 +10534,7 @@ msgid ""
 "reply to many people."
 msgstr ""
 "Habilita o inhabilita la mostra de confirmacions múltiples per advertir que "
-"esteu enviant una resposta a diverses persones"
+"esteu enviant una resposta a diverses persones."
 
 #: ../mail/evolution-mail.schemas.in.h:100
 msgid ""
@@ -10944,9 +10943,9 @@ msgid ""
 "Show the \"Reply To\" field when posting to a newsgroup. This is controlled "
 "from the View menu when a news account is chosen."
 msgstr ""
-"Mostra el camp «Respon a» en enviar un missatge a un grup de notícies. Aquest "
-"paràmetre es controla des del menú Visualitza en seleccionar un compte de "
-"grup de notícies."
+"Mostra el camp «Respon a» en enviar un missatge a un grup de notícies. "
+"Aquest paràmetre es controla des del menú Visualitza en seleccionar un "
+"compte de grup de notícies."
 
 #: ../mail/evolution-mail.schemas.in.h:183
 msgid ""
@@ -10970,9 +10969,10 @@ msgid ""
 "differs). Otherwise always show \"Date\" header value in a user preferred "
 "format and local time zone."
 msgstr ""
-"Mostra la capçalera «Date» (data) original (amb una hora local en cas que els "
-"fusos horaris no coincideixin). En cas contrari mostra sempre el valor de la "
-"capçalera «Date» en el format preferit de l'usuari i en el fus horari local."
+"Mostra la capçalera «Date» (data) original (amb una hora local en cas que "
+"els fusos horaris no coincideixin). En cas contrari mostra sempre el valor "
+"de la capçalera «Date» en el format preferit de l'usuari i en el fus horari "
+"local."
 
 #: ../mail/evolution-mail.schemas.in.h:186
 msgid "Show the photo of the sender in the message reading pane."
@@ -10989,15 +10989,15 @@ msgid ""
 "it will do that. It works by comparing the Reply-To: header with a List-"
 "Post: header, if there is one."
 msgstr ""
-"Algunes llistes de correu estableixen una capçalera «Respon-a:» («Reply-To:») "
-"per forçar als usuaris a enviar respostes a la llista, fins i tot quan han "
-"especificat que l'Evolution enviï una resposta privada. En establir aquesta "
-"opció com a TRUE (cert), l'Evolution intentarà ignorar aquestes capçaleres "
-"Respon-a:, de manera que es pugui comportar tal com s'espera. Si utilitzeu "
-"l'acció de resposta privada, s'enviarà una resposta privada, mentre que si "
-"utilitzeu l'opció «Respon a la llista», es respondrà a la llista. El "
-"funcionament es basa en comparar la capçalera «Reply-To:» amb la capçalera "
-"«List-Post:», si és que n'hi ha una."
+"Algunes llistes de correu estableixen una capçalera «Respon-a:» («Reply-"
+"To:») per forçar als usuaris a enviar respostes a la llista, fins i tot quan "
+"han especificat que l'Evolution enviï una resposta privada. En establir "
+"aquesta opció com a TRUE (cert), l'Evolution intentarà ignorar aquestes "
+"capçaleres Respon-a:, de manera que es pugui comportar tal com s'espera. Si "
+"utilitzeu l'acció de resposta privada, s'enviarà una resposta privada, "
+"mentre que si utilitzeu l'opció «Respon a la llista», es respondrà a la "
+"llista. El funcionament es basa en comparar la capçalera «Reply-To:» amb la "
+"capçalera «List-Post:», si és que n'hi ha una."
 
 #: ../mail/evolution-mail.schemas.in.h:188
 msgid "Spell check inline"
@@ -11083,8 +11083,8 @@ msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
-"Això pot tenir tres valors possibles: «0» per als errors, «1» per als avisos, "
-"i «2» per als missatges de depuració."
+"Això pot tenir tres valors possibles: «0» per als errors, «1» per als "
+"avisos, i «2» per als missatges de depuració."
 
 #: ../mail/evolution-mail.schemas.in.h:202
 msgid ""
@@ -12139,7 +12139,7 @@ msgstr "Ressenya"
 
 #: ../mail/mail-dialogs.ui.h:19
 msgid "Search Folder Sources"
-msgstr "Origens de la carpeta de cerca"
+msgstr "Orígens de la carpeta de cerca"
 
 #: ../mail/mail-dialogs.ui.h:20
 msgid "Security Information"
@@ -12437,7 +12437,7 @@ msgid ""
 msgstr ""
 "Ja existeix una carpeta que no és buida a «{1}».\n"
 "\n"
-"Podeu escollir ignorar aquesta carpeta, sobreescriure o afegir al seu "
+"Podeu triar ignorar aquesta carpeta, sobreescriure o afegir al seu "
 "contingut, o bé sortir."
 
 #: ../mail/mail.error.xml.h:9
@@ -12553,7 +12553,7 @@ msgstr "No es pot moure la carpeta «{0}» a «{1}»."
 
 #: ../mail/mail.error.xml.h:32
 msgid "Cannot open source \"{1}\"."
-msgstr "No s'ha pogut obrir l'origen «{1}»"
+msgstr "No s'ha pogut obrir l'origen «{1}»."
 
 #: ../mail/mail.error.xml.h:33
 msgid "Cannot open source \"{2}\"."
@@ -12942,7 +12942,7 @@ msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
 msgstr ""
-"No es pot enviar el missatge perquè el compte que heu escollit per enviar no "
+"No es pot enviar el missatge perquè el compte que heu triat per enviar no "
 "està habilitat"
 
 #: ../mail/mail.error.xml.h:122
@@ -14233,8 +14233,8 @@ msgstr ""
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:28
 msgid "If \"true\", show the task preview pane in the main window."
 msgstr ""
-"Si és «true» (cert), mostra la subfinestra de previsualització de les tasques "
-"a la finestra principal."
+"Si és «true» (cert), mostra la subfinestra de previsualització de les "
+"tasques a la finestra principal."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:29
 msgid "Intervals shown in Day and Work Week views, in minutes."
@@ -14569,10 +14569,10 @@ msgid ""
 "list. \"1\" (Vertical View) places the preview pane next to the task list."
 msgstr ""
 "L'estil de disposició determina on posar la subfinestra en relació a la "
-"llista de tasques. El valor «0» (visualització clàssica) ubica la subfinestra "
-"de previsualització sota la llista de tasques. El valor «1» (visualització "
-"vertical) ubica la subfinestra de previsualització al costat de la llista de "
-"tasques."
+"llista de tasques. El valor «0» (visualització clàssica) ubica la "
+"subfinestra de previsualització sota la llista de tasques. El valor "
+"«1» (visualització vertical) ubica la subfinestra de previsualització al "
+"costat de la llista de tasques."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:91
 msgid "The second timezone for a Day View"
@@ -14583,8 +14583,8 @@ msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
 msgstr ""
-"Això pot tenir tres valors possibles: «0» per als errors, «1» per als avisos, "
-"i «2» per als missatges de depuració."
+"Això pot tenir tres valors possibles: «0» per als errors, «1» per als "
+"avisos, i «2» per als missatges de depuració."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:93
 msgid "Time divisions"
@@ -14613,8 +14613,8 @@ msgstr ""
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:98
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
-"Unitats per al recordatori predeterminat, «minutes» (minuts), «hours» (hores) "
-"o «days» (dies)."
+"Unitats per al recordatori predeterminat, «minutes» (minuts), "
+"«hours» (hores) o «days» (dies)."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:99
 msgid ""
@@ -15738,7 +15738,7 @@ msgstr "Envia / _rep"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1222
 msgid "Send queued items and retrieve new items"
-msgstr "Envia els elements encuats i obté els nous"
+msgstr "Envia els elements enviats a la cua i obté els nous"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1227
 msgid "R_eceive All"
@@ -15754,7 +15754,7 @@ msgstr "_Envia-ho tot"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1236
 msgid "Send queued items in all accounts"
-msgstr "Envia els elements encuats de tots els comptes"
+msgstr "Envia els elements enviats a la cua de tots els comptes"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1262
 #: ../widgets/misc/e-activity-proxy.c:306
@@ -16094,7 +16094,7 @@ msgid ""
 "Evolution will return to online mode once a network connection is "
 "established."
 msgstr ""
-"L'Evolution tornarà a estar en mode en línia tant bon punt es reestableixi "
+"L'Evolution tornarà a estar en mode en línia tant bon punt es restableixi "
 "la connexió de xarxa."
 
 #: ../modules/plugin-manager/evolution-plugin-manager.c:67
@@ -16291,7 +16291,7 @@ msgstr "Seleccioneu l'arxiu de l'Evolution a restaurar:"
 
 #: ../plugins/backup-restore/backup-restore.c:340
 msgid "Choose a file to restore"
-msgstr "Escolliu un fitxer a restaurar"
+msgstr "Trieu un fitxer a restaurar"
 
 #: ../plugins/backup-restore/backup-restore.c:348
 msgid "Restore from backup"
@@ -16575,8 +16575,8 @@ msgstr ""
 #, c-format
 msgid "Pipe to Bogofilter failed, error code: %d."
 msgstr ""
-"Ha fallat la creació d'un conducte cap al Bogofilter; el codi d'error fou: %"
-"d."
+"Ha fallat la creació d'un conducte cap al Bogofilter; el codi d'error fou: "
+"%d."
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:406
 msgid "Convert message text to _Unicode"
@@ -16592,7 +16592,7 @@ msgid ""
 "different character sets."
 msgstr ""
 "Converteix el text dels missatges a Unicode (codificació UTF-8) per unificar "
-"els elements d'spam/ham provinents de jocs de caràcters diferents."
+"els elements de spam/ham provinents de jocs de caràcters diferents."
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:1
 msgid "Bogofilter Junk Filter"
@@ -16756,7 +16756,7 @@ msgstr "_Nom del fitxer:"
 
 #: ../plugins/calendar-file/calendar-file.c:148
 msgid "Choose calendar file"
-msgstr "Escolliu un fitxer de calendari"
+msgstr "Trieu un fitxer de calendari"
 
 #: ../plugins/calendar-file/calendar-file.c:196
 msgid "On open"
@@ -17389,7 +17389,7 @@ msgid ""
 "address and try again."
 msgstr ""
 "No s'ha pogut entrar al servidor intermediari com a «{0}». Hauríeu de "
-"comprovar l'adreça de correu electrònic introduïda i tornar-ho a intentar."
+"comprovar l'adreça electrònica introduïda i tornar-ho a intentar."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy.error.xml.h:3
@@ -17687,7 +17687,7 @@ msgid ""
 msgstr ""
 "Mostra les capçaleres addicionals que necessiteu obtenir a més de les "
 "capçaleres estàndard de sobre.\n"
-"Podeu ignorar-ho si escolliu «Totes les capçaleres»."
+"Podeu ignorar-ho si trieu «Totes les capçaleres»."
 
 #: ../plugins/imap-features/imap-headers.ui.h:6
 msgid ""
@@ -17757,7 +17757,7 @@ msgstr "S'està obrint el calendari. Espereu..."
 
 #: ../plugins/itip-formatter/itip-formatter.c:883
 msgid "Searching for an existing version of this appointment"
-msgstr "S'està buscant una versió existent d'aquesta cita"
+msgstr "S'està cercant una versió existent d'aquesta cita"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1166
 msgid "Unable to parse item"
@@ -18299,7 +18299,7 @@ msgstr "En/na %s es voldria afegir a una anotació existent:"
 #, c-format
 msgid "%s through %s has canceled the following shared memo:"
 msgstr ""
-"En/na %s, a través de %s, ha cancel·lat l' anotació compartida següent:"
+"En/na %s, a través de %s, ha cancel·lat l'anotació compartida següent:"
 
 #: ../plugins/itip-formatter/itip-view.c:564
 #, c-format
@@ -19158,7 +19158,7 @@ msgstr "Ubicació personalitzada"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:3
 msgid "Daily"
-msgstr "A diari"
+msgstr "Cada dia"
 
 #: ../plugins/publish-calendar/publish-calendar.ui.h:5
 msgid "FTP (with login)"
@@ -19784,9 +19784,10 @@ msgid ""
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
-"L'estil dels botons de la finestra. Pot ser «text», «icons», «both» (ambdós), o "
-"«toolbar» (barra d'eines). Si s'habilita «toolbar», l'estil dels botons es "
-"determina mitjançant la configuració de la barra d'eines del GNOME."
+"L'estil dels botons de la finestra. Pot ser «text», «icons», "
+"«both» (ambdós), o «toolbar» (barra d'eines). Si s'habilita «toolbar», "
+"l'estil dels botons es determina mitjançant la configuració de la barra "
+"d'eines del GNOME."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:51
 msgid ""
@@ -20550,7 +20551,7 @@ msgstr "Ha fallat la importació del certificat del contacte"
 
 #: ../smime/gui/certificate-manager.c:583
 msgid "E-Mail Address"
-msgstr "Adreça de correu electrònic"
+msgstr "Adreça electrònica"
 
 #: ../smime/gui/certificate-manager.c:706
 msgid "All CA certificate files"
@@ -21378,7 +21379,7 @@ msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
 "of file it is from the list."
 msgstr ""
-"Escolliu el fitxer que vulgueu importar a l'Evolution i seleccioneu-ne el "
+"Trieu el fitxer que vulgueu importar a l'Evolution i seleccioneu-ne el "
 "tipus de la llista."
 
 #: ../widgets/misc/e-import-assistant.c:262
@@ -21397,11 +21398,11 @@ msgstr "_Tipus de fitxer:"
 #: ../widgets/misc/e-import-assistant.c:329
 #: ../widgets/misc/e-import-assistant.c:905
 msgid "Choose the destination for this import"
-msgstr "Escolliu la destinació per a aquesta importació"
+msgstr "Trieu la destinació per a aquesta importació"
 
 #: ../widgets/misc/e-import-assistant.c:354
 msgid "Choose the type of importer to run:"
-msgstr "Escolliu el tipus d'importador a executar:"
+msgstr "Trieu el tipus d'importador a executar:"
 
 #: ../widgets/misc/e-import-assistant.c:362
 msgid "Import data and settings from _older programs"
@@ -21476,7 +21477,8 @@ msgstr "Seleccioneu un fitxer"
 
 #: ../widgets/misc/e-import-assistant.c:1331
 msgid "Click \"Apply\" to begin importing the file into Evolution."
-msgstr "Feu clic a «Aplica» per iniciar la importació del fitxer a l'Evolution."
+msgstr ""
+"Feu clic a «Aplica» per iniciar la importació del fitxer a l'Evolution."
 
 #: ../widgets/misc/e-map.c:866
 msgid "World Map"
@@ -22370,7 +22372,7 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "No s'ha pogut enviar l'element.\n"
 
 #~ msgid "Choose an action:"
-#~ msgstr "Escolliu una acció:"
+#~ msgstr "Trieu una acció:"
 
 #~ msgid "Update"
 #~ msgstr "Actualitza"
@@ -23663,10 +23665,10 @@ msgstr "Mètodes d'entrada"
 #~ "La versió anterior de l'Evolution emmagatzemava les seves dades en una "
 #~ "ubicació diferent.\n"
 #~ "\n"
-#~ "Si escolliu suprimir aquestes dades, tots els continguts del directori "
+#~ "Si trieu suprimir aquestes dades, tots els continguts del directori "
 #~ "&quot;evolution&quot; se suprimiran permanentment. Si voleu conservar "
-#~ "aquestes dades, podeu suprimir el contingut de la carpeta «evolution» quan "
-#~ "vulgueu.\n"
+#~ "aquestes dades, podeu suprimir el contingut de la carpeta «evolution» "
+#~ "quan vulgueu.\n"
 
 #~ msgid ""
 #~ "Upgrading your data and settings will require up to {0} of disk space, "
@@ -24225,7 +24227,7 @@ msgstr "Mètodes d'entrada"
 #~ "Canceled"
 #~ msgstr ""
 #~ "Per començar\n"
-#~ "En progrés\n"
+#~ "En curs\n"
 #~ "Completada\n"
 #~ "Cancel·lada"
 
@@ -24472,7 +24474,7 @@ msgstr "Mètodes d'entrada"
 #~ msgid ""
 #~ "Evolution will use this email address to authenticate you with the server."
 #~ msgstr ""
-#~ "L'Evolution utilitzarà aquesta adreça de correu electrònic per autenticar-"
+#~ "L'Evolution utilitzarà aquesta adreça electrònica per autenticar-"
 #~ "vos al servidor"
 
 # És el nom d'un mètode
@@ -25135,8 +25137,8 @@ msgstr "Mètodes d'entrada"
 #~ "If the \"Preview\" pane is on, then show it side-by-side rather than "
 #~ "vertically."
 #~ msgstr ""
-#~ "Si la subfinestra de «Previsualització» està activada, mostra-la al costat "
-#~ "en comptes de verticalment."
+#~ "Si la subfinestra de «Previsualització» està activada, mostra-la al "
+#~ "costat en comptes de verticalment."
 
 #~ msgid "Message Window default height"
 #~ msgstr "Alçada predeterminada de la finestra de missatges"
@@ -25616,8 +25618,8 @@ msgstr "Mètodes d'entrada"
 
 #~ msgid "Cannot access the \"Exchange settings\" tab in offline mode."
 #~ msgstr ""
-#~ "No es pot accedir a la pestanya «Paràmetres de l'Exchange» en mode fora de "
-#~ "línia."
+#~ "No es pot accedir a la pestanya «Paràmetres de l'Exchange» en mode fora "
+#~ "de línia."
 
 #~ msgid "Cannot change password due to configuration problems."
 #~ msgstr "No es pot canviar la contrasenya degut a problemes de configuració."
@@ -26217,7 +26219,7 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "_Cerques"
 
 #~ msgid "Choose Image"
-#~ msgstr "Escolliu una imatge"
+#~ msgstr "Trieu una imatge"
 
 #~ msgid "Empty message"
 #~ msgstr "Missatge buit"
@@ -27450,7 +27452,7 @@ msgstr "Mètodes d'entrada"
 #~ "This plugin is unsupported demonstration code only.\n"
 #~ msgstr ""
 #~ "Un connector de prova que demostra un connector formatador que us permet "
-#~ "escollir inhabilitar els correus HTML.\n"
+#~ "triar inhabilitar els correus HTML.\n"
 #~ "\n"
 #~ "Aquest connector és un codi només per a demostració.\n"
 
@@ -27692,9 +27694,9 @@ msgstr "Mètodes d'entrada"
 #~ "'{0}' is a read-only calendar source. Change Calendar to one that can "
 #~ "accept appointments."
 #~ msgstr ""
-#~ "«{0}» és una font de calendari a la qual no és permès escriure-hi. Canvieu "
-#~ "a la visualització de calendari i ressalteu un calendari que pugui "
-#~ "acceptar cites."
+#~ "«{0}» és una font de calendari a la qual no és permès escriure-hi. "
+#~ "Canvieu a la visualització de calendari i ressalteu un calendari que "
+#~ "pugui acceptar cites."
 
 #~ msgid "D_escription:"
 #~ msgstr "D_escripció:"
@@ -27952,7 +27954,7 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "\n"
 
 #~ msgid "Add an email to the List"
-#~ msgstr "Afegeix una adreça de correu electrònic"
+#~ msgstr "Afegeix una adreça electrònica"
 
 #~ msgid "Insert email addresses from Address Book"
 #~ msgstr "Insereix adreces de correu de la llibreta d'adreces"
@@ -28084,7 +28086,7 @@ msgstr "Mètodes d'entrada"
 #~ "The changed email or name of this contact already\n"
 #~ "exists in this folder.  Would you like to add it anyway?"
 #~ msgstr ""
-#~ "Ja existeix el nom o l'adreça de correu electrònic d'aquest contacte en "
+#~ "Ja existeix el nom o l'adreça electrònica d'aquest contacte en "
 #~ "aquesta carpeta. Voleu afegir-l'hi de totes maneres?"
 
 #, fuzzy
@@ -28299,7 +28301,7 @@ msgstr "Mètodes d'entrada"
 #~ "sent is read, and to specify what Evolution should do when someone "
 #~ "requests a receipt from you.</small>"
 #~ msgstr ""
-#~ "<small>Aquesta pàgina us permet escollir si voleu que se us notifiqui "
+#~ "<small>Aquesta pàgina us permet triar si voleu que se us notifiqui "
 #~ "mitjançant una confirmació de lectura\n"
 #~ "que s'ha llegit un correu que hàgiu enviat, i per especificar què ha de "
 #~ "fer l'Evolution quan algú us sol·liciti l'enviament d'una confirmació de "
@@ -28861,7 +28863,7 @@ msgstr "Mètodes d'entrada"
 
 #, fuzzy
 #~ msgid "Merge E-Mail Address"
-#~ msgstr "Adreça de correu electrònic"
+#~ msgstr "Adreça electrònica"
 
 #, fuzzy
 #~ msgid "_Configure Alarms"
@@ -29009,7 +29011,7 @@ msgstr "Mètodes d'entrada"
 #~ msgstr "Unitats predeterminades pels recordatoris"
 
 #~ msgid "option menu to choose time units"
-#~ msgstr "menú d'opcions per escollir la unitat del temps"
+#~ msgstr "menú d'opcions per triar la unitat del temps"
 
 #~ msgid "_Attachment Bar (drop attachments here)"
 #~ msgstr "Barra de fitxers _adjunts (deixeu-hi anar els fitxers adjunts)"
