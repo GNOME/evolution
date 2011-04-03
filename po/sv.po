@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-02 14:05+0200\n"
-"PO-Revision-Date: 2011-04-02 14:57+0100\n"
+"POT-Creation-Date: 2011-04-03 10:25+0200\n"
+"PO-Revision-Date: 2011-04-03 10:40+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -9936,7 +9936,7 @@ msgstr "Frågar huruvida meddelandefönstret ska stängas när användaren vidar
 
 #: ../mail/evolution-mail.schemas.in.h:16
 msgid "Attribute message."
-msgstr "Attributmeddelande."
+msgstr "Tillskriv meddelande."
 
 #: ../mail/evolution-mail.schemas.in.h:17
 msgid "Automatic emoticon recognition"
@@ -10264,23 +10264,20 @@ msgid "It disables/enables the repeated prompts to warn that deleting messages f
 msgstr "Den inaktiverar/aktiverar funktionen för upprepade varningar om att borttagning av meddelanden från en sökmapp permanent tar bort meddelandet, inte att den helt enkelt tar bort det från sökresultaten."
 
 #: ../mail/evolution-mail.schemas.in.h:98
-#, fuzzy
 msgid "It disables/enables the repeated prompts to warn that you are sending a private reply to a message which arrived via a mailing list."
-msgstr "Den inaktiverar/aktiverar funktionen för upprepade varningar om att borttagning av meddelanden från en sökmapp permanent tar bort meddelandet, inte att den helt enkelt tar bort det från sökresultaten."
+msgstr "Den inaktiverar/aktiverar funktionen för upprepade varningar om att du skickar ett privat svar på ett meddelande från en sändlista."
 
 #: ../mail/evolution-mail.schemas.in.h:99
-#, fuzzy
 msgid "It disables/enables the repeated prompts to warn that you are sending a reply to many people."
-msgstr "Den inaktiverar/aktiverar funktionen för upprepade förfrågningar om frånkopplad synkronisering krävs innan frånkopplat läge aktiveras."
+msgstr "Den inaktiverar/aktiverar funktionen för upprepade varningar att du skickar ett svar till många personer."
 
 #: ../mail/evolution-mail.schemas.in.h:100
 msgid "It disables/enables the repeated prompts to warn that you are trying sending a private reply to a message which arrived via a mailing list, but the list sets a Reply-To: header which redirects your reply back to the list"
-msgstr ""
+msgstr "Den inaktiverar/aktiverar funktionen för upprepade varningar om att du skickar ett privat svar på ett meddelande från en sändlista, men listan ställer in en Reply-To:-rubrik som omdirigerar ditt svar tillbaka till listan"
 
 #: ../mail/evolution-mail.schemas.in.h:101
-#, fuzzy
 msgid "It disables/enables the repeated prompts to warn that you are trying to send a message to recipients not entered as mail addresses"
-msgstr "Den inaktiverar/aktiverar funktionen för upprepade varningar om att borttagning av meddelanden från en sökmapp permanent tar bort meddelandet, inte att den helt enkelt tar bort det från sökresultaten."
+msgstr "Den inaktiverar/aktiverar funktionen för upprepade varningar om att du försöker skicka ett meddelande till mottagare som inte angivits som e-postadresser"
 
 #: ../mail/evolution-mail.schemas.in.h:102
 msgid "Last time Empty Junk was run"
@@ -10617,7 +10614,7 @@ msgstr "Visa avsändarens e-postadress i en separat kolumn i meddelandelistan."
 
 #: ../mail/evolution-mail.schemas.in.h:185
 msgid "Show the original \"Date\" header (with a local time only if the time zone differs). Otherwise always show \"Date\" header value in a user preferred format and local time zone."
-msgstr ""
+msgstr "Visa ursprunglig \"Datum\"-rubrik (med en lokal tid endast om tidszonen skiljer sig). Visa annars alltid rubrikvärdet för \"Datum\" i ett föredraget format och lokal tidszon."
 
 #: ../mail/evolution-mail.schemas.in.h:186
 msgid "Show the photo of the sender in the message reading pane."
@@ -10625,7 +10622,7 @@ msgstr "Visa avsändarens foto i meddelandets läsningspanel."
 
 #: ../mail/evolution-mail.schemas.in.h:187
 msgid "Some mailing lists set a Reply-To: header to trick users into sending replies to the list, even when they ask Evolution to make a private reply. Setting this option to TRUE will attempt to ignore such Reply-To: headers, so that Evolution will do as you ask it. If you use the private reply action, it will reply privately, while if you use the 'Reply to List' action it will do that. It works by comparing the Reply-To: header with a List-Post: header, if there is one."
-msgstr ""
+msgstr "Vissa sändlistor ställer in en Reply-To:-rubrik för att lura användare att skicka svar till listan, även när de frågar Evolution att göra ett privat svar. Ställ in detta alternativ till TRUE kommer att försöka att ignorera sådana Reply-To:-rubriker, så att Evolution kommer att göra som du vill. Om du vill använda åtgärden för privata svar så kommer den att svara privat, men om du använder åtgärden \"Svara till lista\" så kommer den att göra det. Den fungerar så att den jämför rubriken Reply-To: med rubriken List-Post:, om det finns någon."
 
 #: ../mail/evolution-mail.schemas.in.h:188
 msgid "Spell check inline"
@@ -10658,7 +10655,7 @@ msgstr "Den senaste gången som tömning av papperskorgen gjordes, i dagar sedan
 
 #: ../mail/evolution-mail.schemas.in.h:195
 msgid "The layout style determines where to place the preview pane in relation to the message list. \"0\" (Classic View) places the preview pane below the message list. \"1\" (Vertical View) places the preview pane next to the message list."
-msgstr ""
+msgstr "Layoutstilen som bestämmer var förhandsvisningspanelen ska placeras i relation till meddelandelistan. \"0\" (Klassisk vy) placerar förhandsvisningspanelen nedanför meddelandelistan. \"1\" (Vertikal vy) placerar förhandsvisningspanelen bredvid meddelandelistan."
 
 #: ../mail/evolution-mail.schemas.in.h:196
 msgid "The terminal font for mail display."
@@ -10666,15 +10663,15 @@ msgstr "Terminaltypsnittet för e-postvisning."
 
 #: ../mail/evolution-mail.schemas.in.h:197
 msgid "The text that is inserted when forwarding a message, saying that the forwarded message follows."
-msgstr ""
+msgstr "Texten som infogas när ett meddelande vidarebefordras som säger att meddelandet har vidarebefordrats."
 
 #: ../mail/evolution-mail.schemas.in.h:198
 msgid "The text that is inserted when replying to a message (top posting), saying that the original message follows."
-msgstr ""
+msgstr "Texten som infogas när ett meddelande besvaras (top posting) som säger att det ursprungliga meddelandet finns nedanför."
 
 #: ../mail/evolution-mail.schemas.in.h:199
 msgid "The text that is inserted when replying to a message, attributing the message to the original author."
-msgstr ""
+msgstr "Texten som infogas när ett meddelande besvaras som tillskriver meddelandet till den ursprungliga upphovsmannen."
 
 #: ../mail/evolution-mail.schemas.in.h:200
 msgid "The variable width font for mail display."
@@ -10722,7 +10719,7 @@ msgstr "Den här inställningen anger huruvida trådarna ska sorteras baserat p�
 
 #: ../mail/evolution-mail.schemas.in.h:211
 msgid "This value can be an empty string, which means it'll use the system Picture folder, usually set to ~/Pictures. This folder will be also used when the set path is not pointing to the existent folder."
-msgstr ""
+msgstr "Detta värde kan vara en tom sträng, vilket betyder att det kommer att använda systemets bildmapp , oftast inställd till ~/Bilder (Pictures). Denna mapp kommer även att användas när den inställda sökvägen inte pekar på den befintliga mappen."
 
 #: ../mail/evolution-mail.schemas.in.h:212
 msgid "Thread the message-list based on Subject"
@@ -10786,7 +10783,7 @@ msgstr "Huruvida en begäran om läskvitto ska läggas till i varje meddelande s
 
 #: ../mail/evolution-mail.schemas.in.h:227
 msgid "Whether check for new messages in all active accounts regardless of the account \"Check for new messages every X minutes\" option when Evolution is started. This option is used only together with 'send_recv_on_start' option."
-msgstr ""
+msgstr "Huruvida nya meddelanden ska letas efter i alla aktiva konton oavsett kontoalternativet \"Leta efter nya meddelanden var X minut\" när Evolution startas. Detta alternativ används endast tillsammans med alternativet \"send_recv_on_start\"."
 
 #: ../mail/evolution-mail.schemas.in.h:228
 msgid "Whether check for new messages when Evolution is started. This includes also sending messages from Outbox."
@@ -10806,7 +10803,7 @@ msgstr "Huruvida trådar sorteras baserat på senaste meddelandet i tråden"
 
 #: ../mail/evolution-mail.schemas.in.h:232
 msgid "Whether to flush Outbox after filtering is done. Outbox flush will happen only when there was used any 'Forward to' filter action and approximately one minute after the last action invocation."
-msgstr ""
+msgstr "Huruvida utkorgen ska tömmas efter att filtreringen är färdig. Tömning av utkorgen kommer endast att inträffa när användes någon \"Vidarebefordra till\"-filteråtgärd och ungefär en minut efter senaste åtgärdskörning."
 
 #: ../mail/evolution-mail.schemas.in.h:233
 msgid "Width of the message-list pane"
@@ -11415,7 +11412,7 @@ msgstr ""
 
 #: ../mail/mail-config.ui.h:132
 msgid "To help avoid email accidents and embarrassments, ask for confirmation before taking the following checkmarked actions:"
-msgstr ""
+msgstr "För att hjälpa till att undvika pinsamheter och misstag, fråga därför efter bekräftelse innan följande kryssmarkerade åtgärder genomförs:"
 
 #: ../mail/mail-config.ui.h:133
 msgid ""
@@ -12125,6 +12122,9 @@ msgid ""
 "\n"
 "An mbox account will be created to preserve the old mbox folders. You can delete the account after ensuring the data is safely migrated. Please make sure there is enough disk space if you choose to migrate now."
 msgstr ""
+"Evolutions lokala e-postformat har ändrats från mbox till Maildir. Din lokala e-post måste migreras till det nya formatet innan Evolution kan fortsätta. Vill du migrera nu?\n"
+"\n"
+"Ett mbox-konto kommer att skapas för att behålla de gamla mbox-mapparna. Du kan ta bort detta konto efter att du försäkrat dig om att ditt data har migrerats. Försäkra dig om att det finns tillräckligt mycket diskutrymme om du väljer att migrera nu."
 
 #: ../mail/mail.error.xml.h:63
 msgid "Evolution's local mail format has changed."
@@ -12757,7 +12757,7 @@ msgstr "UID för markerade (eller \"primära\") adressboken i sidopanelen för \
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:13
 msgid "The layout style determines where to place the preview pane in relation to the contact list. \"0\" (Classic View) places the preview pane below the contact list. \"1\" (Vertical View) places the preview pane next to the contact list."
-msgstr ""
+msgstr "Layoutstilen som bestämmer var förhandsvisningspanelen ska placeras i relation till kontaktlistan. \"0\" (Klassisk vy) placerar förhandsvisningspanelen nedanför kontaktlistan. \"1\" (Vertikal vy) placerar förhandsvisningspanelen bredvid kontaktlistan."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:14
 msgid "The number of characters that must be typed before Evolution will attempt to autocomplete."
@@ -13290,7 +13290,7 @@ msgstr "Visa en p_åminnelse"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:34
 msgid "Show r_ecurring events in italic in bottom left calendar"
-msgstr ""
+msgstr "Visa åter_kommande evenemang i kursiv text i nedre vänstra kalendern"
 
 #: ../modules/calendar/e-calendar-preferences.ui.h:35
 msgid "Show week _numbers"
@@ -13681,7 +13681,7 @@ msgstr "Visa kategorierfältet i evenemang/sammanträde/uppgiftsredigeraren"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:70
 msgid "Show days with recurrent events in italic font in bottom left calendar."
-msgstr ""
+msgstr "Visa dagar med återkommande evenemang i kursiv text i nedre vänstra kalendern."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:71
 msgid "Show display alarms in notification tray"
@@ -13754,11 +13754,11 @@ msgstr "Standardstidszonen att använda för datum och tider i kalendern, som en
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:89
 msgid "The layout style determines where to place the preview pane in relation to the memo list. \"0\" (Classic View) places the preview pane below the memo list. \"1\" (Vertical View) places the preview pane next to the memo list."
-msgstr ""
+msgstr "Layoutstilen som bestämmer var förhandsvisningspanelen ska placeras i relation till memolistan. \"0\" (Klassisk vy) placerar förhandsvisningspanelen nedanför memolistan. \"1\" (Vertikal vy) placerar förhandsvisningspanelen bredvid memolistan."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:90
 msgid "The layout style determines where to place the preview pane in relation to the task list. \"0\" (Classic View) places the preview pane below the task list. \"1\" (Vertical View) places the preview pane next to the task list."
-msgstr ""
+msgstr "Layoutstilen som bestämmer var förhandsvisningspanelen ska placeras i relation till uppgiftslistan. \"0\" (Klassisk vy) placerar förhandsvisningspanelen nedanför uppgiftslistan. \"1\" (Vertikal vy) placerar förhandsvisningspanelen bredvid uppgiftslistan."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:91
 msgid "The second timezone for a Day View"
