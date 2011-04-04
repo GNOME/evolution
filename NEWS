@@ -1,3 +1,41 @@
+Evolution 3.0.0 2011-04-04
+--------------------------
+
+Bug Fixes:
+	Bug 646200 - Insufficient requirement on libsoup (Matthew Barnes)
+	Bug 646384 - Updated App Icon (Matthew Barnes)
+	Bug 645551 - Mailer statusbar jumping in size (Matthew Barnes)
+
+Other Changes:
+	* Fix translations being broken by removing calls to bindtextdomain()
+	  from plugins. It shouldn't be needed for plugins that live in
+	  the evolution source tree anyway since they should just use the
+	  translation domain they inherit from main(). (Kjartan Maraas)
+
+Translations:
+	Khaled Hosny, Abderrahim Kitouni (ar)
+	David Planella, Jordi Serratosa (ca)
+	Jiří Eischmann (cs)
+	Kenneth Nielsen (da)
+	Wolfgang Stöggl (de)
+	Inaki Larranaga Murgoitio (eu)
+	Bruno Brouard (fr)
+	Rajesh Ranjan (hi)
+	Gabor Kelemen (hu)
+	Luca Ferretti (it)
+	Takayuki KUSANO (ja)
+	Shankar Prasad (kn)
+	Žygimantas Beručka (lt)
+	Sandeep Shedmake (mr)
+	Wouter Bolsterlee, Hannie Dumoleyn (nl)
+	Djavan Fagundes (pt_BR)
+	Daniel Nylander (sv)
+	Dr.T.Vasudevan (ta)
+	Daniel Korostil (uk)
+	Aron Xu (zh_CN)
+	Chao-Hsiung Liao (zh_HK)
+
+
 Evolution 2.91.92 2011-03-21
 ----------------------------
 
