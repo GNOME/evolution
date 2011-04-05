@@ -607,8 +607,8 @@ instance_cb (ECalComponent *comp,
 	return FALSE;
 }
 
-/* Translators: These are workday abbreviations, e.g. Su=Sunday and Th=thursday */
 const gchar *daynames[] =
+/* Translators: These are workday abbreviations, e.g. Su=Sunday and Th=thursday */
 	{ N_("Su"), N_("Mo"), N_("Tu"), N_("We"),
 	  N_("Th"), N_("Fr"), N_("Sa") };
 
@@ -2994,43 +2994,43 @@ print_date_label (GtkPrintContext *context,
 			buffer, 1024, NULL, NULL);
 
 	if (end > 0 && start > 0) {
-		/* Translators: This is part of "START to END" text,
-		 * where START and END are date/times. */
 		write_label_piece (
 			end, &start, zone, use_24_hour_format,
+			/* Translators: This is part of "START to END" text,
+			 * where START and END are date/times. */
 			buffer, 1024, _(" to "), NULL);
 	}
 
 	if (complete > 0) {
 		if (start > 0) {
-			/* Translators: This is part of "START to END
-			 * (Completed COMPLETED)", where COMPLETED is a
-			 * completed date/time. */
 			write_label_piece (
 				complete, NULL, zone, use_24_hour_format,
+				/* Translators: This is part of "START to END
+				 * (Completed COMPLETED)", where COMPLETED is a
+				 * completed date/time. */
 				buffer, 1024, _(" (Completed "), ")");
 		} else {
-			/* Translators: This is part of "Completed COMPLETED",
-			 * where COMPLETED is a completed date/time. */
 			write_label_piece (
 				complete, &start, zone, use_24_hour_format,
+				/* Translators: This is part of "Completed COMPLETED",
+				 * where COMPLETED is a completed date/time. */
 				buffer, 1024, _("Completed "), NULL);
 		}
 	}
 
 	if (due > 0 && complete == 0) {
 		if (start > 0) {
-			/* Translators: This is part of "START (Due DUE)",
-			 * where START and DUE are dates/times. */
 			write_label_piece (
 				due, NULL, zone, use_24_hour_format,
+				/* Translators: This is part of "START (Due DUE)",
+				 * where START and DUE are dates/times. */
 				buffer, 1024, _(" (Due "), ")");
 		} else {
-			/* Translators: This is part of "Due DUE",
-			 * where DUE is a date/time due the event
-			 * should be finished. */
 			write_label_piece (
 				due, &start, zone, use_24_hour_format,
+				/* Translators: This is part of "Due DUE",
+				 * where DUE is a date/time due the event
+				 * should be finished. */
 				buffer, 1024, _("Due "), NULL);
 		}
 	}
