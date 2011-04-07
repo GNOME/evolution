@@ -17,12 +17,14 @@
     </menu>
     <menu action='view-menu'>
       <placeholder name='view-custom-menus'>
+#if !EXPRESS
         <menu action='mail-preview-menu'>
           <menuitem action='mail-preview'/>
           <separator/>
           <menuitem action='mail-view-classic'/>
           <menuitem action='mail-view-vertical'/>
         </menu>
+#endif
       </placeholder>
       <separator/>
       <placeholder name='mail-message-list-actions'>
