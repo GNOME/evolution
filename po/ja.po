@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: evolution gnome-3-0\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-04-03 16:10+0000\n"
+"POT-Creation-Date: 2011-04-07 21:43+0000\n"
 "PO-Revision-Date: 2011-04-04 00:31+0900\n"
 "Last-Translator: Takayuki KUSANO <AE5T-KSN@asahi-net.or.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -4760,6 +4760,7 @@ msgstr "30日"
 msgid "31st"
 msgstr "31日"
 
+#. Translators: These are workday abbreviations, e.g. Su=Sunday and Th=thursday
 #: ../calendar/gui/print.c:612
 msgid "Su"
 msgstr "日"
@@ -4788,22 +4789,34 @@ msgstr "金"
 msgid "Sa"
 msgstr "土"
 
+#. Translators: This is part of "START to END" text,
+#. * where START and END are date/times.
 #: ../calendar/gui/print.c:3001
 msgid " to "
 msgstr " から "
 
+#. Translators: This is part of "START to END
+#. * (Completed COMPLETED)", where COMPLETED is a
+#. * completed date/time.
 #: ../calendar/gui/print.c:3011
 msgid " (Completed "
 msgstr " (完了 "
 
+#. Translators: This is part of "Completed COMPLETED",
+#. * where COMPLETED is a completed date/time.
 #: ../calendar/gui/print.c:3017
 msgid "Completed "
 msgstr "完了しました "
 
+#. Translators: This is part of "START (Due DUE)",
+#. * where START and DUE are dates/times.
 #: ../calendar/gui/print.c:3027
 msgid " (Due "
 msgstr " (期日 "
 
+#. Translators: This is part of "Due DUE",
+#. * where DUE is a date/time due the event
+#. * should be finished.
 #: ../calendar/gui/print.c:3034
 msgid "Due "
 msgstr "期日 "
@@ -9551,7 +9564,7 @@ msgstr "無効な署名です"
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
-msgstr "転送中に改鼠されているので、このメッセージの署名を検証できません。"
+msgstr "転送中に改竄されているので、このメッセージの署名を検証できません。"
 
 #: ../mail/em-format-html-display.c:87 ../mail/em-format-html.c:1604
 msgid "Valid signature, but cannot verify sender"
