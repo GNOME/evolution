@@ -2706,17 +2706,10 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 			mail_reader_closure_free);
 
 	} else if (error != NULL) {
-		gchar *string;
-
-		/* Display the error inline and clear the exception. */
-		string = g_strdup_printf (
-			"<h2>%s</h2><p>%s</p>",
-			_("Unable to retrieve message"),
-			error->message);
-
-		e_web_view_load_string (web_view, string);
-		g_free (string);
-
+		e_alert_submit (
+			E_ALERT_SINK (web_view),
+			"mail:no-retrieve-message",
+			error->message, NULL);
 		g_error_free (error);
 	}
 
