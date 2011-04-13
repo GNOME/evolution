@@ -493,7 +493,9 @@ mail_paned_view_set_folder (EMailReader *reader,
 	if (folder == NULL)
 		goto exit;
 
-	mail_refresh_folder (folder, NULL, NULL);
+	/* Only refresh the folder if we're online. */
+	if (e_shell_get_online (shell))
+		mail_refresh_folder (folder, NULL, NULL);
 
 	/* This is a one-time-only callback. */
 	if (MESSAGE_LIST (message_list)->cursor_uid == NULL &&
