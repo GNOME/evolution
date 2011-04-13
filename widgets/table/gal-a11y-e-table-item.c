@@ -71,8 +71,16 @@ static AtkObject* eti_ref_at (AtkTable *table, gint row, gint column);
 static void
 item_finalized (gpointer user_data, GObject *gone_item)
 {
-	GalA11yETableItem *a11y = GAL_A11Y_E_TABLE_ITEM (user_data);
-	GalA11yETableItemPrivate *priv = GET_PRIVATE (a11y);
+	GalA11yETableItem *a11y;
+	GalA11yETableItemPrivate *priv;
+
+	/* XXX GalA11yETableItem may already be finalized.
+	 *     Just work around it for now. */
+	if (!GAL_A11Y_IS_E_TABLE_ITEM (user_data))
+		return;
+
+	a11y = GAL_A11Y_E_TABLE_ITEM (user_data);
+	priv = GET_PRIVATE (a11y);
 
 	atk_state_set_add_state (priv->state_set, ATK_STATE_DEFUNCT);
 	atk_object_notify_state_change (ATK_OBJECT (a11y), ATK_STATE_DEFUNCT, TRUE);
