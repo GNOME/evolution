@@ -74,7 +74,10 @@ folder_pane_set_preview_visible (EMailView *view,
 static guint
 mail_paned_view_open_selected_mail (EMailPanedView *view)
 {
+	EShell *shell;
 	EMailReader *reader;
+	EMailBackend *backend;
+	ESourceRegistry *registry;
 	GPtrArray *uids;
 	gint i;
 	GtkWindow *window;
@@ -88,6 +91,10 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_val_if_fail (uids != NULL, 0);
 
+	backend = e_mail_reader_get_backend (reader);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+	registry = e_shell_get_registry (shell);
+
 	/* XXX Either e_mail_reader_get_selected_uids()
 	 *     or MessageList should do this itself. */
 	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
@@ -97,9 +104,9 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 		return 0;
 	}
 
-	if (em_utils_folder_is_drafts (folder) ||
-		em_utils_folder_is_outbox (folder) ||
-		em_utils_folder_is_templates (folder)) {
+	if (em_utils_folder_is_drafts (registry, folder) ||
+		em_utils_folder_is_outbox (registry, folder) ||
+		em_utils_folder_is_templates (registry, folder)) {
 		em_utils_edit_messages (reader, folder, uids, TRUE);
 		g_ptr_array_unref (uids);
 		return 0;
@@ -127,8 +134,8 @@ mail_paned_view_open_selected_mail (EMailPanedView *view)
 			CAMEL_VEE_FOLDER (folder),
 			(CamelVeeMessageInfo *) info, &real_uid);
 
-		if (em_utils_folder_is_drafts (real_folder) ||
-			em_utils_folder_is_outbox (real_folder)) {
+		if (em_utils_folder_is_drafts (registry, real_folder) ||
+			em_utils_folder_is_outbox (registry, real_folder)) {
 			GPtrArray *edits;
 
 			edits = g_ptr_array_new_with_free_func (

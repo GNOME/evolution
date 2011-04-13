@@ -300,24 +300,6 @@ all proxy information will be deleted permanently.</_secondary>
     <button _label="_Disable" response="GTK_RESPONSE_YES"/>
   </error>
 
-  <error id="no-save-signature" type="error">
-    <_primary>Could not save signature file.</_primary>
-    <secondary xml:space="preserve">{0}.</secondary>
-  </error>
-
-  <error id="signature-notscript" type="error">
-    <_primary>Cannot set signature script "{0}".</_primary>
-    <_secondary xml:space="preserve">The script file must exist and be executable.</_secondary>
-  </error>
-
-  <error id="ask-signature-changed" type="question" default="GTK_RESPONSE_YES">
-    <_primary>Do you wish to save your changes?</_primary>
-    <_secondary xml:space="preserve">This signature has been changed, but has not been saved.</_secondary>
-    <button _label="_Discard changes" response="GTK_RESPONSE_NO"/>
-    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
-    <button stock="gtk-save" response="GTK_RESPONSE_YES"/>
-  </error>
-
   <error id="vfolder-notexist" type="error">
     <_primary>Cannot edit Search Folder "{0}" as it does not exist.</_primary>
     <_secondary xml:space="preserve">This folder may have been added implicitly,
@@ -444,16 +426,6 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <button _label="N_ever" response="GTK_RESPONSE_CANCEL"/>
   </error>
 
-  <error id="signature-already-exists" type="error" modal="true">
-    <_primary>Signature Already Exists</_primary>
-    <_secondary>A signature already exists with the name "{0}". Please specify a different name. </_secondary>
-  </error>
-  
-  <error id="blank-signature" type="error" modal="true">
-    <_primary>Blank Signature</_primary>
-    <_secondary>Please provide an unique name to identify this signature.</_secondary>
-  </error>
-  
   <error id="send-no-account-enabled" type="warning">
     <_primary>This message cannot be sent because the account you chose to send with is not enabled</_primary>
     <_secondary xml:space="preserve">Please enable the account or send using another account.</_secondary>

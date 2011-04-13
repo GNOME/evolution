@@ -28,6 +28,8 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 
+#include <libedataserver/e-source-mail-account.h>
+
 #ifdef HAVE_XFREE
 #include <X11/XF86keysym.h>
 #endif
@@ -39,7 +41,6 @@
 #include "widgets/misc/e-popup-action.h"
 #include "widgets/misc/e-menu-tool-action.h"
 
-#include "libemail-utils/e-account-utils.h"
 #include "libemail-utils/mail-mt.h"
 
 #include "libemail-engine/mail-ops.h"
@@ -892,6 +893,9 @@ static void
 action_mail_message_edit_cb (GtkAction *action,
                              EMailReader *reader)
 {
+	EShell *shell;
+	EMailBackend *backend;
+	ESourceRegistry *registry;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	gboolean replace;
@@ -900,11 +904,15 @@ action_mail_message_edit_cb (GtkAction *action,
 	uids = e_mail_reader_get_selected_uids (reader);
 	g_return_if_fail (uids != NULL);
 
+	backend = e_mail_reader_get_backend (reader);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+	registry = e_shell_get_registry (shell);
+
 	/* XXX Either e_mail_reader_get_selected_uids()
 	 *     or MessageList should do this itself. */
 	g_ptr_array_set_free_func (uids, (GDestroyNotify) g_free);
 
-	replace = em_utils_folder_is_drafts (folder);
+	replace = em_utils_folder_is_drafts (registry, folder);
 	em_utils_edit_messages (reader, folder, uids, replace);
 
 	g_ptr_array_unref (uids);
@@ -3027,6 +3035,7 @@ mail_reader_set_folder (EMailReader *reader,
 	EMailReaderPrivate *priv;
 	EMailDisplay *display;
 	CamelFolder *previous_folder;
+	ESourceRegistry *registry;
 	GtkWidget *message_list;
 	EMailBackend *backend;
 	EShell *shell;
@@ -3040,7 +3049,9 @@ mail_reader_set_folder (EMailReader *reader,
 
 	previous_folder = e_mail_reader_get_folder (reader);
 
+	backend = e_mail_reader_get_backend (reader);
 	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+	registry = e_shell_get_registry (shell);
 
 	/* Only synchronize the real folder if we're online. */
 	if (previous_folder != NULL && (CAMEL_IS_VEE_FOLDER (previous_folder) || e_shell_get_online (shell)))
@@ -3051,9 +3062,9 @@ mail_reader_set_folder (EMailReader *reader,
 		return;
 
 	outgoing = folder != NULL && (
-		em_utils_folder_is_drafts (folder) ||
-		em_utils_folder_is_outbox (folder) ||
-		em_utils_folder_is_sent (folder));
+		em_utils_folder_is_drafts (registry, folder) ||
+		em_utils_folder_is_outbox (registry, folder) ||
+		em_utils_folder_is_sent (registry, folder));
 
 	e_web_view_clear (E_WEB_VIEW (display));
 
@@ -4171,9 +4182,14 @@ e_mail_reader_changed (EMailReader *reader)
 guint32
 e_mail_reader_check_state (EMailReader *reader)
 {
+	EShell *shell;
 	GPtrArray *uids;
 	CamelFolder *folder;
 	CamelStore *store = NULL;
+	EMailBackend *backend;
+	ESourceRegistry *registry;
+	GList *list, *iter;
+	const gchar *extension_name;
 	const gchar *tag;
 	gboolean can_clear_flags = FALSE;
 	gboolean can_flag_completed = FALSE;
@@ -4187,6 +4203,7 @@ e_mail_reader_check_state (EMailReader *reader)
 	gboolean has_undeleted = FALSE;
 	gboolean has_unimportant = FALSE;
 	gboolean has_unread = FALSE;
+	gboolean have_enabled_account = FALSE;
 	gboolean drafts_or_outbox = FALSE;
 	gboolean store_supports_vjunk = FALSE;
 	gboolean is_mailing_list;
@@ -4195,6 +4212,10 @@ e_mail_reader_check_state (EMailReader *reader)
 	guint ii;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), 0);
+
+	backend = e_mail_reader_get_backend (reader);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+	registry = e_shell_get_registry (shell);
 
 	folder = e_mail_reader_get_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
@@ -4205,8 +4226,8 @@ e_mail_reader_check_state (EMailReader *reader)
 		is_junk_folder =
 			(folder->folder_flags & CAMEL_FOLDER_IS_JUNK) != 0;
 		drafts_or_outbox =
-			em_utils_folder_is_drafts (folder) ||
-			em_utils_folder_is_outbox (folder);
+			em_utils_folder_is_drafts (registry, folder) ||
+			em_utils_folder_is_outbox (registry, folder);
 	}
 
 	/* Initialize this flag based on whether there are any
@@ -4291,7 +4312,21 @@ e_mail_reader_check_state (EMailReader *reader)
 		camel_folder_free_message_info (folder, info);
 	}
 
-	if (e_get_any_enabled_account () != NULL)
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	list = e_source_registry_list_sources (registry, extension_name);
+
+	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+		ESource *source = E_SOURCE (iter->data);
+
+		if (e_source_get_enabled (source)) {
+			have_enabled_account = TRUE;
+			break;
+		}
+	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	if (have_enabled_account)
 		state |= E_MAIL_READER_HAVE_ENABLED_ACCOUNT;
 	if (uids->len == 1)
 		state |= E_MAIL_READER_SELECTION_SINGLE;

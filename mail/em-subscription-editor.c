@@ -25,7 +25,6 @@
 #include <string.h>
 #include <glib/gi18n-lib.h>
 
-#include <libemail-utils/e-account-utils.h>
 #include <libemail-utils/mail-mt.h>
 #include <libemail-engine/mail-tools.h>
 #include <libemail-engine/mail-ops.h>
@@ -1555,19 +1554,24 @@ subscription_editor_constructed (GObject *object)
 	/* Pick an initial store based on the default mail account, if
 	 * one wasn't already given in em_subscription_editor_new(). */
 	if (editor->priv->initial_store == NULL) {
-		EAccount *account;
+		ESource *source;
+		ESourceRegistry *registry;
 		CamelService *service;
 		EMailSession *session;
 
-		account = e_get_default_account ();
-
 		session = em_subscription_editor_get_session (editor);
+		registry = e_mail_session_get_registry (session);
+
+		source = e_source_registry_ref_default_mail_account (registry);
 
 		service = camel_session_get_service (
-			CAMEL_SESSION (session), account->uid);
+			CAMEL_SESSION (session),
+			e_source_get_uid (source));
 
 		if (CAMEL_IS_SUBSCRIBABLE (service))
 			editor->priv->initial_store = g_object_ref (service);
+
+		g_object_unref (source);
 	}
 
 	/* Chain up to parent's constructed() method. */

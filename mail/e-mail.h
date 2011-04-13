@@ -20,6 +20,7 @@
 #define E_MAIL_H
 
 #include <mail/e-mail-attachment-bar.h>
+#include <mail/e-mail-authenticator.h>
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-browser.h>
 #include <mail/e-mail-display.h>

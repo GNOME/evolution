@@ -341,10 +341,15 @@ update_1folder (MailFolderCache *cache,
                 const gchar *msg_subject,
                 CamelFolderInfo *info)
 {
+	EMailSession *session;
+	ESourceRegistry *registry;
 	struct _folder_update *up;
 	CamelFolder *folder;
 	gint unread = -1;
 	gint deleted;
+
+	session = mail_folder_cache_get_session (cache);
+	registry = e_mail_session_get_registry (session);
 
 	folder = mfi->folder;
 	if (folder) {
@@ -354,9 +359,9 @@ update_1folder (MailFolderCache *cache,
 		gboolean folder_is_vtrash;
 		gboolean special_case;
 
-		folder_is_sent = em_utils_folder_is_sent (folder);
-		folder_is_drafts = em_utils_folder_is_drafts (folder);
-		folder_is_outbox = em_utils_folder_is_outbox (folder);
+		folder_is_sent = em_utils_folder_is_sent (registry, folder);
+		folder_is_drafts = em_utils_folder_is_drafts (registry, folder);
+		folder_is_outbox = em_utils_folder_is_outbox (registry, folder);
 		folder_is_vtrash = CAMEL_IS_VTRASH_FOLDER (folder);
 
 		special_case =

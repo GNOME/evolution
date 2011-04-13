@@ -20,8 +20,8 @@
 #define E_MAIL_ACCOUNT_MANAGER_H
 
 #include <gtk/gtk.h>
+#include <libedataserver/e-source.h>
 #include <mail/e-mail-account-store.h>
-#include <libemail-utils/e-account-utils.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_ACCOUNT_MANAGER \
@@ -59,7 +59,7 @@ struct _EMailAccountManagerClass {
 	/* Signals */
 	void		(*add_account)		(EMailAccountManager *manager);
 	void		(*edit_account)		(EMailAccountManager *manager,
-						 EAccount *account);
+						 ESource *source);
 };
 
 GType		e_mail_account_manager_get_type	(void) G_GNUC_CONST;
@@ -71,7 +71,7 @@ void		e_mail_account_manager_add_account
 						(EMailAccountManager *manager);
 void		e_mail_account_manager_edit_account
 						(EMailAccountManager *manager,
-						 EAccount *account);
+						 ESource *source);
 
 G_END_DECLS
 

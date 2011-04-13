@@ -31,17 +31,22 @@
 #include <glib/gi18n.h>
 
 #include <libedataserver/e-data-server-util.h>
+#include <libedataserver/e-source-mail-account.h>
+#include <libedataserver/e-source-mail-composition.h>
+#include <libedataserver/e-source-mail-identity.h>
+#include <libedataserver/e-source-mail-submission.h>
+#include <libedataserver/e-source-mdn.h>
 
 #include <libevolution-utils/e-alert-dialog.h>
 #include <libevolution-utils/e-alert-sink.h>
 #include <e-util/e-util.h>
 
-#include <libemail-utils/e-account-utils.h>
 #include <libemail-utils/mail-mt.h>
 
 #include <libemail-engine/e-mail-folder-utils.h>
 #include <libemail-engine/e-mail-session.h>
 #include <libemail-engine/e-mail-session-utils.h>
+#include <libemail-engine/e-mail-utils.h>
 #include <libemail-engine/mail-ops.h>
 #include <libemail-engine/mail-tools.h>
 
@@ -366,23 +371,31 @@ finished:
 }
 
 static gboolean
-composer_presend_check_account (EMsgComposer *composer,
-                                EMailSession *session)
+composer_presend_check_identity (EMsgComposer *composer,
+                                 EMailSession *session)
 {
 	EComposerHeaderTable *table;
-	EAccount *account;
-	gboolean check_passed;
+	ESourceRegistry *registry;
+	ESource *source;
+	const gchar *uid;
+	gboolean success = TRUE;
 
 	table = e_msg_composer_get_header_table (composer);
-	account = e_composer_header_table_get_account (table);
-	check_passed = (account != NULL && account->enabled);
+	registry = e_composer_header_table_get_registry (table);
+	uid = e_composer_header_table_get_identity_uid (table);
+	source = e_source_registry_ref_source (registry, uid);
+	g_return_val_if_fail (source != NULL, FALSE);
 
-	if (!check_passed)
+	if (!e_source_get_enabled (source)) {
 		e_alert_submit (
 			E_ALERT_SINK (composer),
 			"mail:send-no-account-enabled", NULL);
+		success = FALSE;
+	}
 
-	return check_passed;
+	g_object_unref (source);
+
+	return success;
 }
 
 static gboolean
@@ -812,9 +825,11 @@ em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
 {
 	AsyncContext *context;
 	EComposerHeaderTable *table;
-	const gchar *drafts_folder_uri = NULL;
+	ESourceRegistry *registry;
+	ESource *source;
 	const gchar *local_drafts_folder_uri;
-	EAccount *account;
+	const gchar *identity_uid;
+	gchar *drafts_folder_uri = NULL;
 
 	context = g_slice_new0 (AsyncContext);
 	context->message = g_object_ref (message);
@@ -822,18 +837,30 @@ em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
 	context->composer = g_object_ref (composer);
 	context->activity = g_object_ref (activity);
 
+	table = e_msg_composer_get_header_table (composer);
+
+	registry = e_composer_header_table_get_registry (table);
+	identity_uid = e_composer_header_table_get_identity_uid (table);
+	source = e_source_registry_ref_source (registry, identity_uid);
+
+	/* Get the selected identity's preferred Drafts folder. */
+	if (source != NULL) {
+		ESourceMailComposition *extension;
+		const gchar *extension_name;
+		gchar *uri;
+
+		extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
+		extension = e_source_get_extension (source, extension_name);
+		uri = e_source_mail_composition_dup_drafts_folder (extension);
+
+		drafts_folder_uri = uri;
+
+		g_object_unref (source);
+	}
+
 	local_drafts_folder_uri =
 		e_mail_session_get_local_folder_uri (
 		session, E_MAIL_LOCAL_FOLDER_DRAFTS);
-
-	table = e_msg_composer_get_header_table (composer);
-	account = e_composer_header_table_get_account (table);
-
-	if (account != NULL && account->enabled)
-		drafts_folder_uri = account->drafts_folder_uri;
-
-	if (g_strcmp0 (drafts_folder_uri, local_drafts_folder_uri) == 0)
-		drafts_folder_uri = NULL;
 
 	if (drafts_folder_uri == NULL) {
 		composer_save_to_drafts_append_mail (context, NULL);
@@ -849,6 +876,8 @@ em_utils_composer_save_to_drafts_cb (EMsgComposer *composer,
 			G_PRIORITY_DEFAULT, cancellable,
 			(GAsyncReadyCallback)
 			composer_save_to_drafts_got_folder, context);
+
+		g_free (drafts_folder_uri);
 	}
 }
 
@@ -976,22 +1005,23 @@ create_new_composer (EShell *shell,
                      CamelFolder *folder)
 {
 	EMsgComposer *composer;
+	ESourceRegistry *registry;
 	EComposerHeaderTable *table;
-	EAccount *account = NULL;
+	ESource *source = NULL;
+	gchar *identity = NULL;
 
 	composer = e_msg_composer_new (shell);
 
 	table = e_msg_composer_get_header_table (composer);
+	registry = e_composer_header_table_get_registry (table);
 
 	if (folder != NULL) {
 		CamelStore *store;
-		const gchar *uid;
 		gchar *folder_uri;
 		GList *list;
 
 		store = camel_folder_get_parent_store (folder);
-		uid = camel_service_get_uid (CAMEL_SERVICE (store));
-		account = e_get_account_by_uid (uid);
+		source = em_utils_ref_mail_identity_for_store (registry, store);
 
 		folder_uri = e_mail_folder_uri_from_folder (folder);
 
@@ -1002,8 +1032,15 @@ create_new_composer (EShell *shell,
 		g_free (folder_uri);
 	}
 
-	e_composer_header_table_set_account (table, account);
+	if (source != NULL) {
+		identity = e_source_dup_uid (source);
+		g_object_unref (source);
+	}
+
 	e_composer_header_table_set_subject (table, subject);
+	e_composer_header_table_set_identity_uid (table, identity);
+
+	g_free (identity);
 
 	return composer;
 }
@@ -1049,8 +1086,8 @@ em_utils_compose_new_message_with_mailto (EShell *shell,
                                           CamelFolder *folder)
 {
 	EMsgComposer *composer;
+	ESourceRegistry *registry;
 	EComposerHeaderTable *table;
-	CamelService *service = NULL;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
@@ -1063,24 +1100,28 @@ em_utils_compose_new_message_with_mailto (EShell *shell,
 		composer = e_msg_composer_new (shell);
 
 	table = e_msg_composer_get_header_table (composer);
-
-	if (folder != NULL) {
-		CamelStore *store;
-
-		store = camel_folder_get_parent_store (folder);
-		service = CAMEL_SERVICE (store);
-	}
-
-	if (service != NULL) {
-		const gchar *display_name;
-
-		display_name = camel_service_get_display_name (service);
-		e_composer_header_table_set_account_name (table, display_name);
-	}
+	registry = e_composer_header_table_get_registry (table);
 
 	composer_set_no_change (composer);
 
 	gtk_window_present (GTK_WINDOW (composer));
+
+	/* If a CamelFolder was given, we need to backtrack and find
+	 * the corresponding ESource with a Mail Identity extension. */
+
+	if (folder != NULL) {
+		ESource *source;
+		CamelStore *store;
+
+		store = camel_folder_get_parent_store (folder);
+		source = em_utils_ref_mail_identity_for_store (registry, store);
+
+		if (source != NULL) {
+			const gchar *uid = e_source_get_uid (source);
+			e_composer_header_table_set_identity_uid (table, uid);
+			g_object_unref (source);
+		}
+	}
 
 	return composer;
 }
@@ -1302,6 +1343,7 @@ em_utils_edit_message (EShell *shell,
                        const gchar *message_uid)
 {
 	EMsgComposer *composer;
+	ESourceRegistry *registry;
 	gboolean folder_is_drafts;
 	gboolean folder_is_outbox;
 	gboolean folder_is_templates;
@@ -1310,9 +1352,10 @@ em_utils_edit_message (EShell *shell,
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
-	folder_is_drafts = em_utils_folder_is_drafts (folder);
-	folder_is_outbox = em_utils_folder_is_outbox (folder);
-	folder_is_templates = em_utils_folder_is_templates (folder);
+	registry = e_shell_get_registry (shell);
+	folder_is_drafts = em_utils_folder_is_drafts (registry, folder);
+	folder_is_outbox = em_utils_folder_is_outbox (registry, folder);
+	folder_is_templates = em_utils_folder_is_templates (registry, folder);
 
 	/* Template specific code follows. */
 	if (folder_is_templates) {
@@ -1339,19 +1382,23 @@ em_utils_edit_message (EShell *shell,
 	}
 
 	composer = e_msg_composer_new_with_message (shell, message, NULL);
-	if (folder && !folder_is_templates) {
+	if (!folder_is_templates) {
 		EComposerHeaderTable *table;
-		EAccount *account;
+		ESource *source;
 		CamelStore *store;
-		const gchar *uid;
 		gchar *folder_uri;
 		GList *list;
 
 		table = e_msg_composer_get_header_table (composer);
 
 		store = camel_folder_get_parent_store (folder);
-		uid = camel_service_get_uid (CAMEL_SERVICE (store));
-		account = e_get_account_by_uid (uid);
+		source = em_utils_ref_mail_identity_for_store (registry, store);
+
+		if (source != NULL) {
+			const gchar *uid = e_source_get_uid (source);
+			e_composer_header_table_set_identity_uid (table, uid);
+			g_object_unref (source);
+		}
 
 		folder_uri = e_mail_folder_uri_from_folder (folder);
 
@@ -1360,8 +1407,6 @@ em_utils_edit_message (EShell *shell,
 		g_list_free (list);
 
 		g_free (folder_uri);
-
-		e_composer_header_table_set_account (table, account);
 	}
 
 	e_msg_composer_remove_header (
@@ -1902,8 +1947,11 @@ static EMsgComposer *
 redirect_get_composer (EShell *shell,
                        CamelMimeMessage *message)
 {
+	EMsgComposer *composer;
+	ESourceRegistry *registry;
 	CamelMedium *medium;
-	EAccount *account;
+	ESource *source;
+	gchar *identity_uid = NULL;
 
 	medium = CAMEL_MEDIUM (message);
 
@@ -1919,10 +1967,23 @@ redirect_get_composer (EShell *shell,
 	while (camel_medium_get_header (medium, "Resent-Bcc"))
 		camel_medium_remove_header (medium, "Resent-Bcc");
 
-	account = em_utils_guess_account_with_recipients (message, NULL);
+	registry = e_shell_get_registry (shell);
 
-	return e_msg_composer_new_redirect (
-		shell, message, account ? account->name : NULL, NULL);
+	/* This returns a new ESource reference. */
+	source = em_utils_guess_mail_identity_with_recipients (
+		registry, message, NULL);
+
+	if (source != NULL) {
+		identity_uid = e_source_dup_uid (source);
+		g_object_unref (source);
+	}
+
+	composer = e_msg_composer_new_redirect (
+		shell, message, identity_uid, NULL);
+
+	g_free (identity_uid);
+
+	return composer;
 }
 
 /**
@@ -1989,7 +2050,7 @@ em_utils_camel_address_to_destination (CamelInternetAddress *iaddr)
 static EMsgComposer *
 reply_get_composer (EShell *shell,
                     CamelMimeMessage *message,
-                    EAccount *account,
+                    const gchar *identity_uid,
                     CamelInternetAddress *to,
                     CamelInternetAddress *cc,
                     CamelFolder *folder,
@@ -2030,9 +2091,9 @@ reply_get_composer (EShell *shell,
 	}
 
 	table = e_msg_composer_get_header_table (composer);
-	e_composer_header_table_set_account (table, account);
 	e_composer_header_table_set_subject (table, subject);
 	e_composer_header_table_set_destinations_to (table, tov);
+	e_composer_header_table_set_identity_uid (table, identity_uid);
 
 	/* Add destinations instead of setting, so we don't remove
 	 * automatic CC addresses that have already been added. */
@@ -2311,64 +2372,6 @@ get_reply_recipient (CamelMimeMessage *message,
 
 }
 
-static GHashTable *
-generate_recipient_hash (void)
-{
-	GHashTable *rcpt_hash;
-	EAccount *account, *def;
-	EAccountList *account_list;
-	EIterator *iterator;
-
-	account_list = e_get_account_list ();
-	rcpt_hash = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
-
-	def = e_get_default_account ();
-
-	iterator = e_list_get_iterator (E_LIST (account_list));
-
-	while (e_iterator_is_valid (iterator)) {
-		account = (EAccount *) e_iterator_get (iterator);
-
-		if (account->id->address) {
-			EAccount *acnt;
-
-			/* Accounts with identical email addresses that are
-			 * enabled take precedence over the accounts that
-			 * aren't. If all accounts with matching email
-			 * addresses are disabled, then the first one in
-			 * the list takes precedence. The default account
-			 * always takes precedence no matter what. */
-			acnt = g_hash_table_lookup (
-				rcpt_hash, account->id->address);
-			if (acnt && acnt != def && !acnt->enabled && account->enabled) {
-				g_hash_table_remove (
-					rcpt_hash, acnt->id->address);
-				acnt = NULL;
-			}
-
-			if (!acnt)
-				g_hash_table_insert (
-					rcpt_hash, (gchar *)
-					account->id->address,
-					(gpointer) account);
-		}
-
-		e_iterator_next (iterator);
-	}
-
-	g_object_unref (iterator);
-
-	/* The default account has to be there if none
-	 * of the enabled accounts are present. */
-	if (g_hash_table_size (rcpt_hash) == 0 && def && def->id->address)
-		g_hash_table_insert (
-			rcpt_hash, (gchar *)
-			def->id->address,
-			(gpointer) def);
-
-	return rcpt_hash;
-}
-
 static void
 concat_unique_addrs (CamelInternetAddress *dest,
                      CamelInternetAddress *src,
@@ -2385,8 +2388,91 @@ concat_unique_addrs (CamelInternetAddress *dest,
 	}
 }
 
+static GHashTable *
+generate_recipient_hash (ESourceRegistry *registry)
+{
+	GHashTable *rcpt_hash;
+	ESource *default_source;
+	GList *list, *link;
+	const gchar *extension_name;
+
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+
+	rcpt_hash = g_hash_table_new (
+		(GHashFunc) camel_strcase_hash,
+		(GEqualFunc) camel_strcase_equal);
+
+	default_source = e_source_registry_ref_default_mail_identity (registry);
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+	list = e_source_registry_list_sources (registry, extension_name);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		ESource *cached_source;
+		ESourceMailIdentity *extension;
+		const gchar *address;
+		gboolean insert_source;
+		gboolean cached_is_default;
+		gboolean cached_is_enabled;
+		gboolean source_is_default;
+		gboolean source_is_enabled;
+
+		/* No default mail identity implies there are no mail
+		 * identities at all and so we should never get here. */
+		g_warn_if_fail (default_source != NULL);
+
+		source_is_default = e_source_equal (source, default_source);
+		source_is_enabled = e_source_get_enabled (source);
+
+		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+		extension = e_source_get_extension (source, extension_name);
+
+		address = e_source_mail_identity_get_address (extension);
+
+		if (address == NULL)
+			continue;
+
+		cached_source = g_hash_table_lookup (rcpt_hash, address);
+
+		if (cached_source != NULL) {
+			cached_is_default = e_source_equal (
+				cached_source, default_source);
+			cached_is_enabled =
+				e_source_get_enabled (cached_source);
+		} else {
+			cached_is_default = FALSE;
+			cached_is_enabled = FALSE;
+		}
+
+		/* Accounts with identical email addresses that are enabled
+		 * take precedence over disabled accounts.  If all accounts
+		 * with matching email addresses are disabled, the first
+		 * one in the list takes precedence.  The default account
+		 * always takes precedence no matter what. */
+		insert_source =
+			source_is_default ||
+			cached_source == NULL ||
+			(source_is_enabled &&
+			 !cached_is_enabled &&
+			 !cached_is_default);
+
+		if (insert_source)
+			g_hash_table_insert (
+				rcpt_hash, (gchar *) address, source);
+	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	if (default_source != NULL)
+		g_object_unref (default_source);
+
+	return rcpt_hash;
+}
+
 void
-em_utils_get_reply_all (CamelMimeMessage *message,
+em_utils_get_reply_all (ESourceRegistry *registry,
+                        CamelMimeMessage *message,
                         CamelInternetAddress *to,
                         CamelInternetAddress *cc,
                         CamelNNTPAddress *postto)
@@ -2399,6 +2485,7 @@ em_utils_get_reply_all (CamelMimeMessage *message,
 	const gchar *posthdr = NULL;
 	GHashTable *rcpt_hash;
 
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 	g_return_if_fail (CAMEL_IS_INTERNET_ADDRESS (to));
 	g_return_if_fail (CAMEL_IS_INTERNET_ADDRESS (cc));
@@ -2415,7 +2502,7 @@ em_utils_get_reply_all (CamelMimeMessage *message,
 	if (postto != NULL && posthdr != NULL)
 		camel_address_decode (CAMEL_ADDRESS (postto), posthdr);
 
-	rcpt_hash = generate_recipient_hash ();
+	rcpt_hash = generate_recipient_hash (registry);
 
 	reply_to = get_reply_to (message);
 	to_addrs = camel_mime_message_get_recipients (
@@ -2804,10 +2891,12 @@ em_utils_reply_to_message (EShell *shell,
                            EMFormat *source_formatter,
                            CamelInternetAddress *address)
 {
+	ESourceRegistry *registry;
 	CamelInternetAddress *to, *cc;
 	CamelNNTPAddress *postto = NULL;
 	EMsgComposer *composer;
-	EAccount *account;
+	ESource *source;
+	gchar *identity_uid = NULL;
 	guint32 flags;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
@@ -2816,11 +2905,20 @@ em_utils_reply_to_message (EShell *shell,
 	to = camel_internet_address_new ();
 	cc = camel_internet_address_new ();
 
-	account = em_utils_guess_account_with_recipients (message, folder);
+	registry = e_shell_get_registry (shell);
+
+	/* This returns a new ESource reference. */
+	source = em_utils_guess_mail_identity_with_recipients (
+		registry, message, folder);
+	if (source != NULL) {
+		identity_uid = e_source_dup_uid (source);
+		g_object_unref (source);
+	}
+
 	flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
 
 	if (!address && (type == E_MAIL_REPLY_TO_FROM || type == E_MAIL_REPLY_TO_SENDER) &&
-	    folder && em_utils_folder_is_sent (folder))
+	    folder && em_utils_folder_is_sent (registry, folder))
 		type = E_MAIL_REPLY_TO_ALL;
 
 	switch (type) {
@@ -2852,12 +2950,12 @@ em_utils_reply_to_message (EShell *shell,
 		if (folder)
 			postto = camel_nntp_address_new ();
 
-		em_utils_get_reply_all (message, to, cc, postto);
+		em_utils_get_reply_all (registry, message, to, cc, postto);
 		break;
 	}
 
 	composer = reply_get_composer (
-		shell, message, account, to, cc, folder, postto);
+		shell, message, identity_uid, to, cc, folder, postto);
 	e_msg_composer_add_message_attachments (composer, message, TRUE);
 
 	if (postto)
@@ -2881,6 +2979,8 @@ em_utils_reply_to_message (EShell *shell,
 	composer_set_no_change (composer);
 
 	gtk_widget_show (GTK_WIDGET (composer));
+
+	g_free (identity_uid);
 
 	return composer;
 }
@@ -2969,7 +3069,7 @@ em_configure_new_composer (EMsgComposer *composer,
 
 	g_signal_connect (
 		composer, "presend",
-		G_CALLBACK (composer_presend_check_account), session);
+		G_CALLBACK (composer_presend_check_identity), session);
 
 	g_signal_connect (
 		composer, "presend",

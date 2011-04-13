@@ -79,7 +79,6 @@ typedef CamelFolder *
 						 GError **error);
 
 void		mail_fetch_mail			(CamelStore *store,
-						 gint keep,
 						 CamelFetchType fetch_type,
 						 gint fetch_count,
 						 const gchar *type,

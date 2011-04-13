@@ -29,12 +29,12 @@
 
 #include <glib/gi18n.h>
 
-#include <libedataserver/e-account-list.h>
+#include <libedataserver/e-source-mail-account.h>
+#include <libedataserver/e-source-mail-submission.h>
 
 #include <shell/e-shell.h>
 #include <e-util/e-util.h>
 
-#include <libemail-utils/e-account-utils.h>
 #include <libemail-utils/mail-mt.h>
 
 /* This is our hack, not part of libcamel. */
@@ -490,7 +490,7 @@ static struct _send_data *
 build_dialog (GtkWindow *parent,
               EMailSession *session,
               CamelFolder *outbox,
-              EAccount *outgoing_account,
+              CamelService *transport,
               gboolean allow_send)
 {
 	GtkDialog *gd;
@@ -508,24 +508,12 @@ build_dialog (GtkWindow *parent,
 	GtkWidget *progress_bar;
 	GtkWidget *cancel_button;
 	EMailAccountStore *account_store;
-	CamelService *transport = NULL;
 	struct _send_info *info;
 	gchar *pretty_url;
 	EMEventTargetSendReceive *target;
 	GQueue queue = G_QUEUE_INIT;
 
 	account_store = e_mail_ui_session_get_account_store (E_MAIL_UI_SESSION (session));
-
-	/* Convert the outgoing account to a CamelTransport. */
-	if (outgoing_account != NULL) {
-		gchar *transport_uid;
-
-		transport_uid = g_strdup_printf (
-			"%s-transport", outgoing_account->uid);
-		transport = camel_session_get_service (
-			CAMEL_SESSION (session), transport_uid);
-		g_free (transport_uid);
-	}
 
 	send_recv_dialog = gtk_dialog_new ();
 
@@ -1124,14 +1112,57 @@ receive_update_got_store (CamelStore *store,
 	}
 }
 
+static CamelService *
+get_default_transport (EMailSession *session)
+{
+	ESource *source;
+	ESourceRegistry *registry;
+	CamelService *service;
+	const gchar *extension_name;
+	const gchar *uid;
+
+	registry = e_mail_session_get_registry (session);
+	source = e_source_registry_ref_default_mail_identity (registry);
+
+	if (source == NULL)
+		return NULL;
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
+	if (e_source_has_extension (source, extension_name)) {
+		ESourceMailSubmission *extension;
+		gchar *uid;
+
+		extension = e_source_get_extension (source, extension_name);
+		uid = e_source_mail_submission_dup_transport_uid (extension);
+
+		g_object_unref (source);
+		source = e_source_registry_ref_source (registry, uid);
+
+		g_free (uid);
+	} else {
+		g_object_unref (source);
+		source = NULL;
+	}
+
+	if (source == NULL)
+		return NULL;
+
+	uid = e_source_get_uid (source);
+	service = camel_session_get_service (CAMEL_SESSION (session), uid);
+
+	g_object_unref (source);
+
+	return service;
+}
+
 static GtkWidget *
 send_receive (GtkWindow *parent,
               EMailSession *session,
               gboolean allow_send)
 {
 	CamelFolder *local_outbox;
+	CamelService *transport;
 	struct _send_data *data;
-	EAccount *account;
 	GList *scan;
 
 	if (send_recv_dialog != NULL) {
@@ -1144,16 +1175,14 @@ send_receive (GtkWindow *parent,
 	if (!camel_session_get_online (CAMEL_SESSION (session)))
 		return send_recv_dialog;
 
-	account = e_get_default_account ();
-	if (!account || !account->transport->url)
-		return send_recv_dialog;
+	transport = get_default_transport (session);
 
 	local_outbox =
 		e_mail_session_get_local_folder (
 		session, E_MAIL_LOCAL_FOLDER_OUTBOX);
 
 	data = build_dialog (
-		parent, session, local_outbox, account, allow_send);
+		parent, session, local_outbox, transport, allow_send);
 
 	for (scan = data->infos; scan != NULL; scan = scan->next) {
 		struct _send_info *info = scan->data;
@@ -1165,7 +1194,7 @@ send_receive (GtkWindow *parent,
 		case SEND_RECEIVE:
 			mail_fetch_mail (
 				CAMEL_STORE (info->service),
-				info->keep_on_server, 0, -1,
+				CAMEL_FETCH_OLD_MESSAGES, -1,
 				E_FILTER_SOURCE_INCOMING,
 				NULL, NULL, NULL,
 				info->cancellable,
@@ -1208,201 +1237,6 @@ mail_receive (GtkWindow *parent,
               EMailSession *session)
 {
 	return send_receive (parent, session, FALSE);
-}
-
-struct _auto_data {
-	EAccount *account;
-	EMailSession *session;
-	gint period;		/* in seconds */
-	gint timeout_id;
-};
-
-static GHashTable *auto_active;
-
-static gboolean
-auto_timeout (gpointer data)
-{
-	CamelService *service;
-	CamelSession *session;
-	struct _auto_data *info = data;
-
-	session = CAMEL_SESSION (info->session);
-
-	service = camel_session_get_service (
-		session, info->account->uid);
-	g_return_val_if_fail (CAMEL_IS_SERVICE (service), TRUE);
-
-	if (camel_session_get_online (session))
-		mail_receive_service (service);
-
-	return TRUE;
-}
-
-static void
-auto_account_removed (EAccountList *eal,
-                      EAccount *ea,
-                      gpointer dummy)
-{
-	struct _auto_data *info = g_object_get_data((GObject *)ea, "mail-autoreceive");
-
-	g_return_if_fail (info != NULL);
-
-	if (info->timeout_id) {
-		g_source_remove (info->timeout_id);
-		info->timeout_id = 0;
-	}
-}
-
-static void
-auto_account_finalized (struct _auto_data *info)
-{
-	if (info->session != NULL)
-		g_object_unref (info->session);
-	if (info->timeout_id)
-		g_source_remove (info->timeout_id);
-	g_free (info);
-}
-
-static void
-auto_account_commit (struct _auto_data *info)
-{
-	gint period, check;
-
-	check = info->account->enabled
-		&& e_account_get_bool (info->account, E_ACCOUNT_SOURCE_AUTO_CHECK)
-		&& e_account_get_string (info->account, E_ACCOUNT_SOURCE_URL);
-	period = e_account_get_int (info->account, E_ACCOUNT_SOURCE_AUTO_CHECK_TIME) * 60;
-	period = MAX (60, period);
-
-	if (info->timeout_id
-	    && (!check
-		|| period != info->period)) {
-		g_source_remove (info->timeout_id);
-		info->timeout_id = 0;
-	}
-	info->period = period;
-	if (check && info->timeout_id == 0)
-		info->timeout_id = g_timeout_add_seconds (info->period, auto_timeout, info);
-}
-
-static void
-auto_account_added (EAccountList *eal,
-                    EAccount *ea,
-                    EMailSession *session)
-{
-	struct _auto_data *info;
-
-	info = g_malloc0 (sizeof (*info));
-	info->account = ea;
-	info->session = g_object_ref (session);
-	g_object_set_data_full (
-		G_OBJECT (ea), "mail-autoreceive", info,
-		(GDestroyNotify) auto_account_finalized);
-	auto_account_commit (info);
-}
-
-static void
-auto_account_changed (EAccountList *eal,
-                      EAccount *ea,
-                      gpointer dummy)
-{
-	struct _auto_data *info;
-
-	info = g_object_get_data (G_OBJECT (ea), "mail-autoreceive");
-
-	if (info != NULL)
-		auto_account_commit (info);
-}
-
-static void
-auto_online (EShell *shell)
-{
-	EIterator *iter;
-	EAccountList *accounts;
-	EShellSettings *shell_settings;
-	struct _auto_data *info;
-	gboolean can_update_all;
-
-	if (!e_shell_get_online (shell))
-		return;
-
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	can_update_all =
-		e_shell_settings_get_boolean (
-			shell_settings, "mail-check-on-start") &&
-		e_shell_settings_get_boolean (
-			shell_settings, "mail-check-all-on-start");
-
-	accounts = e_get_account_list ();
-	for (iter = e_list_get_iterator ((EList *) accounts);
-	     e_iterator_is_valid (iter);
-	     e_iterator_next (iter)) {
-		EAccount *account = (EAccount *) e_iterator_get (iter);
-
-		if (!account || !account->enabled)
-			continue;
-
-		info = g_object_get_data (
-			G_OBJECT (account), "mail-autoreceive");
-		if (info && (info->timeout_id || can_update_all))
-			auto_timeout (info);
-	}
-
-	if (iter)
-		g_object_unref (iter);
-}
-
-/* call to setup initial, and after changes are made to the config */
-/* FIXME: Need a cleanup funciton for when object is deactivated */
-void
-mail_autoreceive_init (EMailSession *session)
-{
-	EShell *shell;
-	EShellSettings *shell_settings;
-	EAccountList *accounts;
-	EIterator *iter;
-
-	g_return_if_fail (E_IS_MAIL_SESSION (session));
-
-	if (auto_active)
-		return;
-
-	accounts = e_get_account_list ();
-	auto_active = g_hash_table_new (g_str_hash, g_str_equal);
-
-	g_signal_connect (
-		accounts, "account-added",
-		G_CALLBACK (auto_account_added), session);
-	g_signal_connect (
-		accounts, "account-removed",
-		G_CALLBACK (auto_account_removed), NULL);
-	g_signal_connect (
-		accounts, "account-changed",
-		G_CALLBACK (auto_account_changed), NULL);
-
-	for (iter = e_list_get_iterator ((EList *) accounts);
-	     e_iterator_is_valid (iter);
-	     e_iterator_next (iter))
-		auto_account_added (
-			accounts, (EAccount *)
-			e_iterator_get (iter), session);
-
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	if (e_shell_settings_get_boolean (
-		shell_settings, "mail-check-on-start")) {
-		auto_online (shell);
-
-		/* also flush outbox on start */
-		if (e_shell_get_online (shell))
-			mail_send (session);
-	}
-
-	g_signal_connect (
-		shell, "notify::online",
-		G_CALLBACK (auto_online), NULL);
 }
 
 /* We setup the download info's in a hashtable, if we later
@@ -1458,7 +1292,7 @@ mail_receive_service (CamelService *service)
 	case SEND_RECEIVE:
 		mail_fetch_mail (
 			CAMEL_STORE (service),
-			info->keep_on_server, 0, -1,
+			CAMEL_FETCH_OLD_MESSAGES, -1,
 			E_FILTER_SOURCE_INCOMING,
 			NULL, NULL, NULL,
 			info->cancellable,
@@ -1495,16 +1329,14 @@ mail_send (EMailSession *session)
 {
 	CamelFolder *local_outbox;
 	CamelService *service;
-	EAccount *account;
 	struct _send_info *info;
 	struct _send_data *data;
 	send_info_t type = SEND_INVALID;
-	gchar *transport_uid;
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 
-	account = e_get_default_transport ();
-	if (account == NULL || account->transport->url == NULL)
+	service = get_default_transport (session);
+	if (service == NULL)
 		return;
 
 	data = setup_send_data (session);
@@ -1515,24 +1347,12 @@ mail_send (EMailSession *session)
 		return;
 	}
 
-	transport_uid = g_strconcat (account->uid, "-transport", NULL);
-
-	service = camel_session_get_service (
-		CAMEL_SESSION (session), transport_uid);
-
-	if (!CAMEL_IS_TRANSPORT (service)) {
-		g_free (transport_uid);
-		return;
-	}
-
 	d(printf("starting non-interactive send of '%s'\n", transport->url));
 
 	type = get_receive_type (service);
 
-	if (type == SEND_INVALID) {
-		g_free (transport_uid);
+	if (type == SEND_INVALID)
 		return;
-	}
 
 	info = g_malloc0 (sizeof (*info));
 	info->type = SEND_SEND;
@@ -1555,10 +1375,6 @@ mail_send (EMailSession *session)
 	local_outbox =
 		e_mail_session_get_local_folder (
 		session, E_MAIL_LOCAL_FOLDER_OUTBOX);
-
-	g_free (transport_uid);
-
-	g_return_if_fail (CAMEL_IS_TRANSPORT (service));
 
 	mail_send_queue (
 		session, local_outbox,

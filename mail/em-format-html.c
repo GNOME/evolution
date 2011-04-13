@@ -1546,17 +1546,22 @@ efh_write_attachment (EMFormat *emf,
 static void
 efh_preparse (EMFormat *emf)
 {
-	CamelInternetAddress *addr;
-
 	EMFormatHTML *efh = EM_FORMAT_HTML (emf);
+	CamelInternetAddress *addr;
+	CamelSession *session;
+	ESourceRegistry *registry;
 
 	if (!emf->message) {
 		efh->priv->can_load_images = FALSE;
 		return;
 	}
 
+	session = em_format_get_session (emf);
+	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
+
 	addr = camel_mime_message_get_from (emf->message);
-	efh->priv->can_load_images = em_utils_in_addressbook (addr, FALSE);
+	efh->priv->can_load_images = em_utils_in_addressbook (
+		registry, addr, FALSE);
 }
 
 static void
@@ -2678,6 +2683,8 @@ efh_format_full_headers (EMFormatHTML *efh,
 	gboolean have_icon = FALSE;
 	const gchar *photo_name = NULL;
 	CamelInternetAddress *cia = NULL;
+	CamelSession *session;
+	ESourceRegistry *registry;
 	gboolean face_decoded  = FALSE, contact_has_photo = FALSE;
 	guchar *face_header_value = NULL;
 	gsize face_header_len = 0;
@@ -2688,6 +2695,9 @@ efh_format_full_headers (EMFormatHTML *efh,
 
 	if (cancellable && g_cancellable_is_cancelled (cancellable))
 		return;
+
+	session = em_format_get_session (emf);
+	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
 
 	ct = camel_mime_part_get_content_type ((CamelMimePart *) part);
 	charset = camel_content_type_param (ct, "charset");
@@ -2871,7 +2881,8 @@ efh_format_full_headers (EMFormatHTML *efh,
 		camel_address_decode ((CamelAddress *) cia, (const gchar *) photo_name);
 		only_local_photo =
 			em_format_html_get_only_local_photos (efh);
-		photopart = em_utils_contact_photo (cia, only_local_photo);
+		photopart = em_utils_contact_photo (
+			registry, cia, only_local_photo);
 
 		if (photopart) {
 			g_string_append (buffer, "<td align=\"right\" valign=\"top\">");

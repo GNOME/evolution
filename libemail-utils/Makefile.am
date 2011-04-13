@@ -13,10 +13,6 @@ libemail_utils_la_CPPFLAGS = \
 
 libmailutilsincludedir = $(privincludedir)/libemail-utils
 libmailutilsinclude_HEADERS = \
-	e-account-utils.h \
-	e-signature-list.h \
-	e-signature-utils.h \
-	e-signature.h \
 	em-filter-folder-element.h \
 	em-vfolder-context.h \
 	em-vfolder-rule.h \
@@ -25,10 +21,6 @@ libmailutilsinclude_HEADERS = \
 
 libemail_utils_la_SOURCES = \
 	$(libmailutilsinclude_HEADERS) \
-	e-account-utils.c \
-	e-signature-list.c \
-	e-signature-utils.c \
-	e-signature.c \
 	em-filter-folder-element.c \
 	em-vfolder-context.c \
 	em-vfolder-rule.c \

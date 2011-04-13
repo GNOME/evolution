@@ -29,7 +29,6 @@ G_BEGIN_DECLS
 
 /* Configuration */
 void		mail_config_init		(EMailSession *session);
-void		mail_config_write		(void);
 
 /* General Accessor functions */
 

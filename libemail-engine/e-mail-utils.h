@@ -23,21 +23,39 @@
 #define E_MAIL_UTILS_H
 
 #include <camel/camel.h>
-#include <libedataserver/e-account.h>
+#include <libedataserver/e-source-registry.h>
 
-gboolean	em_utils_folder_is_drafts	(CamelFolder *folder);
-gboolean	em_utils_folder_is_templates	(CamelFolder *folder);
-gboolean	em_utils_folder_is_sent		(CamelFolder *folder);
-gboolean	em_utils_folder_is_outbox	(CamelFolder *folder);
-gboolean	em_utils_in_addressbook		(CamelInternetAddress *addr,
+gboolean	em_utils_folder_is_drafts	(ESourceRegistry *registry,
+						 CamelFolder *folder);
+gboolean	em_utils_folder_is_templates	(ESourceRegistry *registry,
+						 CamelFolder *folder);
+gboolean	em_utils_folder_is_sent		(ESourceRegistry *registry,
+						 CamelFolder *folder);
+gboolean	em_utils_folder_is_outbox	(ESourceRegistry *registry,
+						 CamelFolder *folder);
+gboolean	em_utils_in_addressbook		(ESourceRegistry *registry,
+						 CamelInternetAddress *addr,
 						 gboolean local_only);
-CamelMimePart *	em_utils_contact_photo		(CamelInternetAddress *addr,
+CamelMimePart *	em_utils_contact_photo		(ESourceRegistry *registry,
+						 CamelInternetAddress *addr,
 						 gboolean local);
-EAccount *	em_utils_guess_account		(CamelMimeMessage *message,
+ESource *	em_utils_guess_mail_account	(ESourceRegistry *registry,
+						 CamelMimeMessage *message,
 						 CamelFolder *folder);
-EAccount *	em_utils_guess_account_with_recipients
-						(CamelMimeMessage *message,
+ESource *	em_utils_guess_mail_identity	(ESourceRegistry *registry,
+						 CamelMimeMessage *message,
 						 CamelFolder *folder);
+ESource *	em_utils_guess_mail_account_with_recipients
+						(ESourceRegistry *registry,
+						 CamelMimeMessage *message,
+						 CamelFolder *folder);
+ESource *	em_utils_guess_mail_identity_with_recipients
+						(ESourceRegistry *registry,
+						 CamelMimeMessage *message,
+						 CamelFolder *folder);
+ESource *	em_utils_ref_mail_identity_for_store
+						(ESourceRegistry *registry,
+						 CamelStore *store);
 void		emu_remove_from_mail_cache	(const GSList *addresses);
 void		emu_remove_from_mail_cache_1	(const gchar *address);
 void		emu_free_mail_cache		(void);

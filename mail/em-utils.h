@@ -27,7 +27,6 @@
 #include <sys/types.h>
 #include <camel/camel.h>
 #include <libedataserver/e-proxy.h>
-#include <libedataserver/e-account.h>
 
 #include <libemail-engine/e-mail-session.h>
 #include <libemail-engine/e-mail-utils.h>
@@ -73,13 +72,8 @@ gchar *em_utils_message_to_html (CamelSession *session, CamelMimeMessage *msg, c
 void		em_utils_empty_trash		(GtkWidget *parent,
 						 EMailSession *session);
 
-/* clears flag 'get_password_canceled' at every known accounts, so if needed, get_password will show dialog */
-void em_utils_clear_get_password_canceled_accounts_flag (void);
-
 /* Unescapes &amp; back to a real & in URIs */
 gchar *em_utils_url_unescape_amp (const gchar *url);
-
-void emu_free_mail_account_sort_order_cache (void);
 
 void emu_restore_folder_tree_state (EMFolderTree *folder_tree);
 

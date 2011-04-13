@@ -809,6 +809,7 @@ mail_paned_view_update_view_instance (EMailView *view)
 	EShellWindow *shell_window;
 	EShellViewClass *shell_view_class;
 	EShellSettings *shell_settings;
+	ESourceRegistry *registry;
 	GalViewCollection *view_collection;
 	GalViewInstance *view_instance;
 	CamelFolder *folder;
@@ -826,6 +827,7 @@ mail_paned_view_update_view_instance (EMailView *view)
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell = e_shell_window_get_shell (shell_window);
+	registry = e_shell_get_registry (shell);
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	reader = E_MAIL_READER (view);
@@ -844,9 +846,9 @@ mail_paned_view_update_view_instance (EMailView *view)
 	e_filename_make_safe (view_id);
 
 	outgoing_folder =
-		em_utils_folder_is_drafts (folder) ||
-		em_utils_folder_is_outbox (folder) ||
-		em_utils_folder_is_sent (folder);
+		em_utils_folder_is_drafts (registry, folder) ||
+		em_utils_folder_is_outbox (registry, folder) ||
+		em_utils_folder_is_sent (registry, folder);
 
 	if (e_shell_settings_get_boolean (shell_settings, "mail-global-view-setting"))
 		view_instance = e_shell_view_new_view_instance (

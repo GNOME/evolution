@@ -31,9 +31,6 @@
 
 #include <libedataserver/e-data-server-util.h>
 
-#include <libemail-utils/e-account-utils.h>
-#include <libemail-utils/e-signature-utils.h>
-
 #include "e-mail-folder-utils.h"
 #include "mail-config.h"
 #include "mail-tools.h"
@@ -135,24 +132,6 @@ settings_int_value_changed (GSettings *settings,
                             gint *save_location)
 {
 	*save_location = g_settings_get_int (settings, key);
-}
-
-void
-mail_config_write (void)
-{
-	EAccountList *account_list;
-	ESignatureList *signature_list;
-
-	if (!config)
-		return;
-
-	account_list = e_get_account_list ();
-	signature_list = e_get_signature_list ();
-
-	e_account_list_save (account_list);
-	e_signature_list_save (signature_list);
-
-	g_settings_sync ();
 }
 
 gint

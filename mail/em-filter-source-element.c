@@ -32,23 +32,18 @@
 #include <gtk/gtk.h>
 #include <camel/camel.h>
 
+#include <libedataserver/e-source-mail-account.h>
+#include <libedataserver/e-source-mail-identity.h>
+
+#include <shell/e-shell.h>
 #include <filter/e-filter-part.h>
-#include <libemail-utils/e-account-utils.h>
 
 #define EM_FILTER_SOURCE_ELEMENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), EM_TYPE_FILTER_SOURCE_ELEMENT, EMFilterSourceElementPrivate))
 
-typedef struct _SourceInfo {
-	gchar *account_name;
-	gchar *name;
-	gchar *address;
-	gchar *uid;
-} SourceInfo;
-
 struct _EMFilterSourceElementPrivate {
 	EMailSession *session;
-	GList *sources;
 	gchar *active_id;
 };
 
@@ -63,16 +58,6 @@ enum {
 };
 
 static void
-source_info_free (SourceInfo *info)
-{
-	g_free (info->account_name);
-	g_free (info->name);
-	g_free (info->address);
-	g_free (info->uid);
-	g_free (info);
-}
-
-static void
 filter_source_element_source_changed (GtkComboBox *combo_box,
                                       EMFilterSourceElement *fs)
 {
@@ -82,52 +67,6 @@ filter_source_element_source_changed (GtkComboBox *combo_box,
 
 	g_free (fs->priv->active_id);
 	fs->priv->active_id = g_strdup (active_id);
-}
-
-static void
-filter_source_element_add_source (EMFilterSourceElement *fs,
-                                  const gchar *account_name,
-                                  const gchar *name,
-                                  const gchar *addr,
-                                  const gchar *uid)
-{
-	SourceInfo *info;
-
-	g_return_if_fail (EM_IS_FILTER_SOURCE_ELEMENT (fs));
-
-	info = g_new0 (SourceInfo, 1);
-	info->account_name = g_strdup (account_name);
-	info->name = g_strdup (name);
-	info->address = g_strdup (addr);
-	info->uid = g_strdup (uid);
-
-	fs->priv->sources = g_list_append (fs->priv->sources, info);
-}
-
-static void
-filter_source_element_get_sources (EMFilterSourceElement *fs)
-{
-	EAccountList *accounts;
-	const EAccount *account;
-	EIterator *it;
-
-	/* should this get the global object from mail? */
-	accounts = e_get_account_list ();
-
-	for (it = e_list_get_iterator ((EList *) accounts);
-	     e_iterator_is_valid (it);
-	     e_iterator_next (it)) {
-		account = (const EAccount *) e_iterator_get (it);
-
-		if (account->source == NULL)
-			continue;
-
-		filter_source_element_add_source (
-			fs, account->name, account->id->name,
-			account->id->address, account->uid);
-	}
-
-	g_object_unref (it);
 }
 
 static void
@@ -198,8 +137,6 @@ filter_source_element_finalize (GObject *object)
 
 	priv = EM_FILTER_SOURCE_ELEMENT_GET_PRIVATE (object);
 
-	g_list_foreach (priv->sources, (GFunc) source_info_free, NULL);
-	g_list_free (priv->sources);
 	g_free (priv->active_id);
 
 	/* Chain up to parent's finalize() method. */
@@ -305,20 +242,12 @@ filter_source_element_clone (EFilterElement *fe)
 	EMFilterSourceElement *fs = (EMFilterSourceElement *) fe;
 	EMFilterSourceElement *cpy;
 	EMailSession *session;
-	GList *i;
 
 	session = em_filter_source_element_get_session (fs);
 	cpy = (EMFilterSourceElement *) em_filter_source_element_new (session);
 	((EFilterElement *) cpy)->name = (gchar *) xmlStrdup ((guchar *) fe->name);
 
 	cpy->priv->active_id = g_strdup (fs->priv->active_id);
-
-	for (i = fs->priv->sources; i != NULL; i = g_list_next (i)) {
-		SourceInfo *info = (SourceInfo *) i->data;
-		filter_source_element_add_source (
-			cpy, info->account_name, info->name,
-			info->address, info->uid);
-	}
 
 	return (EFilterElement *) cpy;
 }
@@ -327,29 +256,42 @@ static GtkWidget *
 filter_source_element_get_widget (EFilterElement *fe)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *) fe;
+	EMailSession *session;
+	ESourceRegistry *registry;
+	GList *list, *link;
 	GtkWidget *widget;
 	GtkComboBox *combo_box;
-	GList *i;
-
-	if (fs->priv->sources == NULL)
-		filter_source_element_get_sources (fs);
+	const gchar *extension_name;
 
 	widget = gtk_combo_box_text_new ();
 	combo_box = GTK_COMBO_BOX (widget);
 
-	for (i = fs->priv->sources; i != NULL; i = g_list_next (i)) {
-		SourceInfo *info = (SourceInfo *) i->data;
+	session = em_filter_source_element_get_session (fs);
+	registry = e_mail_session_get_registry (session);
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	list = e_source_registry_list_sources (registry, extension_name);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		ESourceMailIdentity *extension;
 		const gchar *display_name;
 		const gchar *address;
 		const gchar *name;
 		const gchar *uid;
 		gchar *label;
 
-		uid = info->uid;
-		display_name = info->account_name;
+		uid = e_source_get_uid (source);
+		display_name = e_source_get_display_name (source);
 
-		name = info->name;
-		address = info->address;
+		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+		extension = e_source_get_extension (source, extension_name);
+
+		name = e_source_mail_identity_get_name (extension);
+		address = e_source_mail_identity_get_address (extension);
+
+		if (name == NULL || address == NULL)
+			continue;
 
 		if (g_strcmp0 (display_name, address) == 0)
 			label = g_strdup_printf (
@@ -364,6 +306,8 @@ filter_source_element_get_widget (EFilterElement *fe)
 
 		g_free (label);
 	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 	if (fs->priv->active_id != NULL) {
 		gtk_combo_box_set_active_id (combo_box, fs->priv->active_id);

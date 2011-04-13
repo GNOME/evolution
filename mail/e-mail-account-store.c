@@ -23,11 +23,11 @@
 #include <glib/gi18n-lib.h>
 
 #include <libebackend/e-extensible.h>
+#include <libedataserver/e-source-collection.h>
 
 #include <e-util/e-marshal.h>
 #include <libevolution-utils/e-alert-dialog.h>
 
-#include <libemail-utils/e-account-utils.h>
 #include <libemail-engine/mail-ops.h>
 
 #include <mail/mail-vfolder-ui.h>
@@ -99,24 +99,6 @@ index_item_free (IndexItem *item)
 	gtk_tree_row_reference_free (item->reference);
 
 	g_slice_free (IndexItem, item);
-}
-
-static void
-mail_account_store_save_default (EMailAccountStore *store)
-{
-	EAccountList *account_list;
-	EAccount *account;
-	CamelService *service;
-	const gchar *uid;
-
-	service = e_mail_account_store_get_default_service (store);
-
-	account_list = e_get_account_list ();
-	uid = camel_service_get_uid (service);
-	account = e_get_account_by_uid (uid);
-	g_return_if_fail (account != NULL);
-
-	e_account_list_set_default (account_list, account);
 }
 
 static gboolean
@@ -235,6 +217,46 @@ mail_account_store_service_notify_cb (CamelService *service,
 
 	if (mail_account_store_get_iter (store, service, &iter))
 		mail_account_store_update_row (store, service, &iter);
+}
+
+static void
+mail_account_store_remove_source_cb (ESource *source,
+                                     GAsyncResult *result,
+                                     EMailAccountStore *store)
+{
+	GError *error = NULL;
+
+	/* FIXME EMailAccountStore should implement EAlertSink. */
+	if (!e_source_remove_finish (source, result, &error)) {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+
+	g_return_if_fail (store->priv->busy_count > 0);
+	store->priv->busy_count--;
+	g_object_notify (G_OBJECT (store), "busy");
+
+	g_object_unref (store);
+}
+
+static void
+mail_account_store_write_source_cb (ESource *source,
+                                    GAsyncResult *result,
+                                    EMailAccountStore *store)
+{
+	GError *error = NULL;
+
+	/* FIXME EMailAccountStore should implement EAlertSink. */
+	if (!e_source_write_finish (source, result, &error)) {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+
+	g_return_if_fail (store->priv->busy_count > 0);
+	store->priv->busy_count--;
+	g_object_notify (G_OBJECT (store), "busy");
+
+	g_object_unref (store);
 }
 
 static void
@@ -427,22 +449,33 @@ static void
 mail_account_store_constructed (GObject *object)
 {
 	EMailAccountStore *store;
+	EMailSession *session;
+	ESourceRegistry *registry;
 	const gchar *config_dir;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_account_store_parent_class)->constructed (object);
 
 	store = E_MAIL_ACCOUNT_STORE (object);
+	session = e_mail_account_store_get_session (store);
+	registry = e_mail_session_get_registry (session);
+
+	/* Bind the default mail account ESource to our default
+	 * CamelService, with help from some transform functions. */
+	g_object_bind_property_full (
+		registry, "default-mail-account",
+		store, "default-service",
+		G_BINDING_BIDIRECTIONAL |
+		G_BINDING_SYNC_CREATE,
+		e_binding_transform_source_to_service,
+		e_binding_transform_service_to_source,
+		session, (GDestroyNotify) NULL);
+
 	config_dir = mail_session_get_config_dir ();
 
 	/* XXX Should we take the filename as a constructor property? */
 	store->priv->sort_order_filename = g_build_filename (
 		config_dir, "sortorder.ini", NULL);
-
-	/* XXX This is kinda lame, but should work until EAccount dies. */
-	g_signal_connect (
-		object, "notify::default-service",
-		G_CALLBACK (mail_account_store_save_default), NULL);
 
 	e_extensible_load_extensions (E_EXTENSIBLE (object));
 }
@@ -458,94 +491,73 @@ static void
 mail_account_store_service_removed (EMailAccountStore *store,
                                     CamelService *service)
 {
-	/* XXX On the account-mgmt branch this operation is asynchronous.
-	 *     The 'busy_count' is bumped until changes are written back
-	 *     to the D-Bus service.  For now I guess we'll just block. */
-
-	EAccountList *account_list;
-	EAccount *account;
 	EMailSession *session;
-	MailFolderCache *cache;
-	CamelProvider *provider;
+	ESourceRegistry *registry;
+	ESource *source;
 	const gchar *uid;
 
 	session = e_mail_account_store_get_session (store);
-	cache = e_mail_session_get_folder_cache (session);
+	registry = e_mail_session_get_registry (session);
 
-	mail_folder_cache_service_removed (cache, service);
-
-	account_list = e_get_account_list ();
 	uid = camel_service_get_uid (service);
-	account = e_get_account_by_uid (uid);
-	g_return_if_fail (account != NULL);
+	source = e_source_registry_ref_source (registry, uid);
 
-	/* no change */
-	if (!account->enabled)
-		return;
+	/* If this ESource is part of a collection, we need to remove
+	 * the entire collection.  Check the ESource and its ancestors
+	 * for a collection extension and remove the containing source. */
+	if (source != NULL) {
+		ESource *collection;
 
-	provider = camel_service_get_provider (service);
-	g_return_if_fail (provider != NULL);
+		collection = e_source_registry_find_extension (
+			registry, source, E_SOURCE_EXTENSION_COLLECTION);
+		if (collection != NULL) {
+			g_object_unref (source);
+			source = collection;
+		}
+	}
 
-	if (provider->flags & CAMEL_PROVIDER_IS_STORAGE)
-		mail_disconnect_store (CAMEL_STORE (service));
+	if (source != NULL) {
+		store->priv->busy_count++;
+		g_object_notify (G_OBJECT (store), "busy");
 
-	/* Remove all the proxies the account has created.
-	 * FIXME This proxy stuff belongs in evolution-groupwise. */
-	e_account_list_remove_account_proxies (account_list, account);
+		/* XXX Should this be cancellable? */
+		e_source_remove (
+			source, NULL, (GAsyncReadyCallback)
+			mail_account_store_remove_source_cb,
+			g_object_ref (store));
 
-	e_account_list_remove (account_list, account);
-
-	e_account_list_save (account_list);
+		g_object_unref (source);
+	}
 }
 
 static void
 mail_account_store_service_enabled (EMailAccountStore *store,
                                     CamelService *service)
 {
-	/* XXX On the account-mgmt branch this operation is asynchronous.
-	 *     The 'busy_count' is bumped until changes are written back
-	 *     to the D-Bus service.  For now I guess we'll just block. */
-
 	EMailSession *session;
-	MailFolderCache *cache;
-	GSettings *settings;
+	ESourceRegistry *registry;
+	ESource *source;
 	const gchar *uid;
 
 	session = e_mail_account_store_get_session (store);
-	cache = e_mail_session_get_folder_cache (session);
-
-	mail_folder_cache_service_enabled (cache, service);
+	registry = e_mail_session_get_registry (session);
 
 	uid = camel_service_get_uid (service);
+	source = e_source_registry_ref_source (registry, uid);
 
-	/* Handle built-in services that don't have an EAccount. */
+	if (source != NULL) {
+		e_source_set_enabled (source, TRUE);
 
-	if (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0) {
-		settings = g_settings_new ("org.gnome.evolution.mail");
-		g_settings_set_boolean (settings, "enable-local", TRUE);
-		g_object_unref (settings);
+		store->priv->busy_count++;
+		g_object_notify (G_OBJECT (store), "busy");
 
-	} else if (g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0) {
-		settings = g_settings_new ("org.gnome.evolution.mail");
-		g_settings_set_boolean (settings, "enable-vfolders", TRUE);
-		g_object_unref (settings);
+		/* XXX Should this be cancellable? */
+		e_source_write (
+			source, NULL, (GAsyncReadyCallback)
+			mail_account_store_write_source_cb,
+			g_object_ref (store));
 
-	} else {
-		EAccountList *account_list;
-		EAccount *account;
-
-		account_list = e_get_account_list ();
-		account = e_get_account_by_uid (uid);
-		g_return_if_fail (account != NULL);
-
-		/* no change */
-		if (account->enabled)
-			return;
-
-		account->enabled = TRUE;
-
-		e_account_list_change (account_list, account);
-		e_account_list_save (account_list);
+		g_object_unref (source);
 	}
 }
 
@@ -553,63 +565,30 @@ static void
 mail_account_store_service_disabled (EMailAccountStore *store,
                                      CamelService *service)
 {
-	/* XXX On the account-mgmt branch this operation is asynchronous.
-	 *     The 'busy_count' is bumped until changes are written back
-	 *     to the D-Bus service.  For now I guess we'll just block. */
-
 	EMailSession *session;
-	MailFolderCache *cache;
-	GSettings *settings;
+	ESourceRegistry *registry;
+	ESource *source;
 	const gchar *uid;
 
 	session = e_mail_account_store_get_session (store);
-	cache = e_mail_session_get_folder_cache (session);
-
-	mail_folder_cache_service_disabled (cache, service);
+	registry = e_mail_session_get_registry (session);
 
 	uid = camel_service_get_uid (service);
+	source = e_source_registry_ref_source (registry, uid);
 
-	/* Handle built-in services that don't have an EAccount. */
+	if (source != NULL) {
+		e_source_set_enabled (source, FALSE);
 
-	if (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0) {
-		settings = g_settings_new ("org.gnome.evolution.mail");
-		g_settings_set_boolean (settings, "enable-local", FALSE);
-		g_object_unref (settings);
+		store->priv->busy_count++;
+		g_object_notify (G_OBJECT (store), "busy");
 
-	} else if (g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0) {
-		settings = g_settings_new ("org.gnome.evolution.mail");
-		g_settings_set_boolean (settings, "enable-vfolders", FALSE);
-		g_object_unref (settings);
+		/* XXX Should this be cancellable? */
+		e_source_write (
+			source, NULL, (GAsyncReadyCallback)
+			mail_account_store_write_source_cb,
+			g_object_ref (store));
 
-	} else {
-		EAccountList *account_list;
-		EAccount *account;
-		CamelProvider *provider;
-
-		account_list = e_get_account_list ();
-		account = e_get_account_by_uid (uid);
-		g_return_if_fail (account != NULL);
-
-		/* no change */
-		if (!account->enabled)
-			return;
-
-		account->enabled = FALSE;
-
-		provider = camel_service_get_provider (service);
-		g_return_if_fail (provider != NULL);
-
-		if (provider->flags & CAMEL_PROVIDER_IS_STORAGE)
-			mail_disconnect_store (CAMEL_STORE (service));
-
-		/* FIXME This proxy stuff belongs in evolution-groupwise. */
-		e_account_list_remove_account_proxies (account_list, account);
-
-		if (account->parent_uid != NULL)
-			e_account_list_remove (account_list, account);
-
-		e_account_list_change (account_list, account);
-		e_account_list_save (account_list);
+		g_object_unref (source);
 	}
 }
 
@@ -643,25 +622,14 @@ mail_account_store_remove_requested (EMailAccountStore *store,
                                      GtkWindow *parent_window,
                                      CamelService *service)
 {
-	EAccountList *account_list;
-	EAccount *account;
-	const gchar *alert;
-	const gchar *uid;
 	gint response;
 
-	account_list = e_get_account_list ();
-	uid = camel_service_get_uid (service);
-	account = e_get_account_by_uid (uid);
+	/* FIXME Need to use "mail:ask-delete-account-with-proxies" if the
+	 *       mail account has proxies.  But this is groupwise-specific
+	 *       and doesn't belong here anyway.  Think of a better idea. */
 
-	g_return_val_if_fail (account != NULL, FALSE);
-
-	/* FIXME This proxy stuff belongs in evolution-groupwise. */
-	if (e_account_list_account_has_proxies (account_list, account))
-		alert = "mail:ask-delete-account-with-proxies";
-	else
-		alert = "mail:ask-delete-account";
-
-	response = e_alert_run_dialog_for_args (parent_window, alert, NULL);
+	response = e_alert_run_dialog_for_args (
+		parent_window, "mail:ask-delete-account", NULL);
 
 	return (response == GTK_RESPONSE_YES);
 }
@@ -679,34 +647,12 @@ mail_account_store_disable_requested (EMailAccountStore *store,
                                       GtkWindow *parent_window,
                                       CamelService *service)
 {
-	EAccountList *account_list;
-	EAccount *account;
-	const gchar *uid;
-	gint response;
+	/* FIXME Need to check whether the account has proxies and run a
+	 *       "mail:ask-delete-proxy-accounts" alert dialog, but this
+	 *       is groupwise-specific and doesn't belong here anyway.
+	 *       Think of a better idea. */
 
-	account_list = e_get_account_list ();
-	uid = camel_service_get_uid (service);
-	account = e_get_account_by_uid (uid);
-
-	/* "On This Computer" and "Search Folders" do not have
-	 * EAccounts, so just silently return TRUE if we failed
-	 * to find a matching EAccount for the CamelService. */
-
-	/* Silently return TRUE if we failed to find a matching
-	 * EAccount since "On This Computer" and "Search Folders"
-	 * do not have EAccounts. */
-	if (account == NULL)
-		return TRUE;
-
-	/* FIXME This proxy stuff belongs in evolution-groupwise. */
-	if (e_account_list_account_has_proxies (account_list, account))
-		response = e_alert_run_dialog_for_args (
-			parent_window,
-			"mail:ask-delete-proxy-accounts", NULL);
-	else
-		response = GTK_RESPONSE_YES;
-
-	return (response == GTK_RESPONSE_YES);
+	return TRUE;
 }
 
 static void
@@ -1086,13 +1032,20 @@ e_mail_account_store_add_service (EMailAccountStore *store,
 		g_object_unref (settings);
 
 	} else {
-		EAccount *account;
+		EMailSession *session;
+		ESourceRegistry *registry;
+		ESource *source;
 
-		account = e_get_account_by_uid (uid);
-		g_return_if_fail (account != NULL);
+		session = e_mail_account_store_get_session (store);
+
+		registry = e_mail_session_get_registry (session);
+		source = e_source_registry_ref_source (registry, uid);
+		g_return_if_fail (source != NULL);
 
 		builtin = FALSE;
-		enabled = account->enabled;
+		enabled = e_source_get_enabled (source);
+
+		g_object_unref (source);
 	}
 
 	/* Where do we insert new services now that accounts can be

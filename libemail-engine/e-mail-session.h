@@ -26,6 +26,7 @@
 #define E_MAIL_SESSION_H
 
 #include <camel/camel.h>
+#include <libedataserver/e-source-registry.h>
 #include <libemail-engine/e-mail-enums.h>
 #include <libemail-engine/mail-folder-cache.h>
 #include <libemail-utils/em-vfolder-context.h>
@@ -67,12 +68,22 @@ struct _EMailSession {
 struct _EMailSessionClass {
 	CamelSessionClass parent_class;
 
-	EMVFolderContext *	(*create_vfolder_context)		(EMailSession *session);
-
+	EMVFolderContext *
+			(*create_vfolder_context)
+						(EMailSession *session);
+	void		(*flush_outbox)		(EMailSession *session);
+	void		(*refresh_service)	(EMailSession *session,
+						 CamelService *service);
+	void		(*store_added)		(EMailSession *session,
+						 CamelStore *store);
+	void		(*store_removed)	(EMailSession *session,
+						 CamelStore *store);
 };
 
 GType		e_mail_session_get_type		(void);
-EMailSession *	e_mail_session_new		(void);
+EMailSession *	e_mail_session_new		(ESourceRegistry *registry);
+ESourceRegistry *
+		e_mail_session_get_registry	(EMailSession *session);
 MailFolderCache *
 		e_mail_session_get_folder_cache	(EMailSession *session);
 CamelStore *	e_mail_session_get_local_store	(EMailSession *session);
@@ -131,6 +142,19 @@ CamelFolder *	e_mail_session_uri_to_folder_finish
 EMVFolderContext *
 		e_mail_session_create_vfolder_context
 						(EMailSession *session);
+
+/* Useful GBinding transform functions */
+gboolean	e_binding_transform_service_to_source
+						(GBinding *binding,
+						 const GValue *source_value,
+						 GValue *target_value,
+						 gpointer session);
+gboolean	e_binding_transform_source_to_service
+						(GBinding *binding,
+						 const GValue *source_value,
+						 GValue *target_value,
+						 gpointer session);
+
 /*** Legacy API ***/
 
 void		mail_session_flush_filter_log	(EMailSession *session);

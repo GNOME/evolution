@@ -35,8 +35,9 @@
 #include <glib/gi18n.h>
 
 #include <libedataserver/e-data-server-util.h>
+#include <libedataserver/e-source-mail-account.h>
+#include <libedataserver/e-source-mail-submission.h>
 
-#include <libemail-utils/e-account-utils.h>
 #include <libemail-utils/mail-mt.h>
 
 #include "e-mail-utils.h"
@@ -222,12 +223,20 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
                  GError **error)
 {
 	struct _filter_mail_msg *fm = (struct _filter_mail_msg *) m;
+	GObjectClass *class;
 	CamelFolder *folder = NULL;
 	CamelService *service;
 	CamelSession *session;
+	CamelSettings *settings;
+	CamelStore *parent_store;
+	CamelUIDCache *cache = NULL;
 	CamelURL *url;
+	gboolean keep;
+	gboolean delete_fetched;
 	gboolean is_local_delivery = FALSE;
 	const gchar *uid = NULL;
+	const gchar *data_dir;
+	gchar *cachename;
 	gint i;
 
 	service = CAMEL_SERVICE (m->store);
@@ -238,6 +247,18 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 	if (fm->destination == NULL)
 		goto exit;
 	g_object_ref (fm->destination);
+
+	service = CAMEL_SERVICE (m->store);
+	uid = camel_service_get_uid (service);
+	settings = camel_service_get_settings (service);
+
+	/* XXX This is a POP3-specific setting. */
+	class = G_OBJECT_GET_CLASS (settings);
+	if (g_object_class_find_property (class, "keep-on-server") != NULL)
+		g_object_get (settings, "keep-on-server", &keep, NULL);
+
+	/* Just for readability. */
+	delete_fetched = !keep;
 
 	url = camel_service_new_camel_url (service);
 	is_local_delivery = em_utils_is_local_delivery_mbox_file (url);
@@ -276,32 +297,26 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 
 	camel_url_free (url);
 
-	if (folder != NULL) {
-		/* This handles 'keep on server' stuff, if we have any new
-		 * uid's to copy across, we need to copy them to a new array
-		 * 'cause of the way fetch_mail_free works. */
-		CamelUIDCache *cache = NULL;
-		CamelStore *parent_store;
-		CamelService *service;
-		const gchar *data_dir;
-		gchar *cachename;
+	if (folder == NULL)
+		goto exit;
 
-		parent_store = camel_folder_get_parent_store (folder);
+	parent_store = camel_folder_get_parent_store (folder);
 
-		if (m->fetch_count > 0) {
-			/* We probably should fetch some old messages first. */
-			m->still_more = camel_folder_fetch_messages_sync (folder, m->fetch_type,
-					m->fetch_count, cancellable, error) ? 1 : 0;
-		}
-		service = CAMEL_SERVICE (parent_store);
-		data_dir = camel_service_get_user_data_dir (service);
+	if (m->fetch_count > 0) {
+		/* We probably should fetch some old messages first. */
+		m->still_more = camel_folder_fetch_messages_sync (folder, m->fetch_type,
+				m->fetch_count, cancellable, error) ? 1 : 0;
+	}
 
-		cachename = g_build_filename (data_dir, "uid-cache", NULL);
-		cache = camel_uid_cache_new (cachename);
-		g_free (cachename);
+	service = CAMEL_SERVICE (parent_store);
+	data_dir = camel_service_get_user_data_dir (service);
 
-		if (cache) {
-			GPtrArray *folder_uids, *cache_uids, *uids;
+	cachename = g_build_filename (data_dir, "uid-cache", NULL);
+	cache = camel_uid_cache_new (cachename);
+	g_free (cachename);
+
+	if (cache) {
+		GPtrArray *folder_uids, *cache_uids, *uids;
 
 			if (m->provider_fetch_inbox) {
 				g_object_unref (fm->destination);
@@ -325,45 +340,47 @@ fetch_mail_exec (struct _fetch_mail_msg *m,
 
 				camel_uid_cache_free_uids (cache_uids);
 
-				fm->cache = cache;
-				em_filter_folder_element_exec (fm, cancellable, error);
+			fm->cache = cache;
 
-				/* need to uncancel so writes/etc. don't fail */
-				if (g_cancellable_is_cancelled (m->cancellable))
-					g_cancellable_reset (m->cancellable);
-
-				/* save the cache of uids that we've just downloaded */
-				camel_uid_cache_save (cache);
-			}
-
-			if (fm->delete && (!error || !*error)) {
-				/* not keep on server - just delete all
-				 * the actual messages on the server */
-				for (i = 0; i < folder_uids->len; i++) {
-					camel_folder_delete_message (
-						folder, folder_uids->pdata[i]);
-				}
-			}
-
-			if ((fm->delete || cache_uids) && (!error || !*error)) {
-				/* expunge messages (downloaded so far) */
-				/* FIXME Not passing a GCancellable or GError here. */
-				camel_folder_synchronize_sync (
-					folder, fm->delete, NULL, NULL);
-			}
-
-			camel_uid_cache_destroy (cache);
-			camel_folder_free_uids (folder, folder_uids);
-		} else {
+			/* FIXME Should return a success/failure flag. */
 			em_filter_folder_element_exec (fm, cancellable, error);
+
+			/* need to uncancel so writes/etc. don't fail */
+			if (g_cancellable_is_cancelled (m->cancellable))
+				g_cancellable_reset (m->cancellable);
+
+			/* save the cache of uids that we've just downloaded */
+			camel_uid_cache_save (cache);
 		}
 
-		/* we unref the source folder here since we
-		 * may now block in finalize (we try to
-		 * disconnect cleanly) */
-		g_object_unref (fm->source_folder);
-		fm->source_folder = NULL;
+		if (delete_fetched && (!error || !*error)) {
+			/* not keep on server - just delete all
+			 * the actual messages on the server */
+			for (i = 0; i < folder_uids->len; i++) {
+				camel_folder_delete_message (
+					folder, folder_uids->pdata[i]);
+			}
+		}
+
+		if ((delete_fetched || cache_uids) && (!error || !*error)) {
+			/* expunge messages (downloaded so far) */
+			/* FIXME Not passing a GCancellable or GError here. */
+			camel_folder_synchronize_sync (
+				folder, delete_fetched, NULL, NULL);
+		}
+
+		camel_uid_cache_destroy (cache);
+		camel_folder_free_uids (folder, folder_uids);
+	} else {
+		/* FIXME Should return a success/failure flag. */
+		em_filter_folder_element_exec (fm, cancellable, error);
 	}
+
+	/* we unref the source folder here since we
+	 * may now block in finalize (we try to
+	 * disconnect cleanly) */
+	g_object_unref (fm->source_folder);
+	fm->source_folder = NULL;
 
 exit:
 	if (!is_local_delivery && m->provider_unlock)
@@ -414,8 +431,7 @@ static MailMsgInfo fetch_mail_info = {
 /* ouch, a 'do everything' interface ... */
 void
 mail_fetch_mail (CamelStore *store,
-                 gint keep,
-                 CamelFetchType fetch_type,
+                 CamelFetchType fetch_type, 
                  gint fetch_count,
                  const gchar *type,
                  MailProviderFetchLockFunc lock_func,
@@ -442,7 +458,6 @@ mail_fetch_mail (CamelStore *store,
 	fm = (struct _filter_mail_msg *) m;
 	fm->session = g_object_ref (session);
 	m->store = g_object_ref (store);
-	fm->delete = !keep;
 	fm->cache = NULL;
 	if (cancellable)
 		m->cancellable = g_object_ref (cancellable);
@@ -504,6 +519,44 @@ static void	report_status		(struct _send_queue_msg *m,
 					 const gchar *desc,
 					 ...);
 
+static gboolean
+get_submission_details_from_identity (EMailSession *session,
+                                      const gchar *identity_uid,
+                                      gchar **out_transport_uid,
+                                      gchar **out_sent_folder_uri)
+{
+	ESource *source;
+	ESourceRegistry *registry;
+	ESourceExtension *extension;
+	const gchar *extension_name;
+
+	registry = e_mail_session_get_registry (session);
+	extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
+	source = e_source_registry_ref_source (registry, identity_uid);
+
+	if (source == NULL)
+		return FALSE;
+
+	if (!e_source_has_extension (source, extension_name)) {
+		g_object_unref (source);
+		return FALSE;
+	}
+
+	extension = e_source_get_extension (source, extension_name);
+
+	*out_sent_folder_uri =
+		e_source_mail_submission_dup_sent_folder (
+		E_SOURCE_MAIL_SUBMISSION (extension));
+
+	*out_transport_uid =
+		e_source_mail_submission_dup_transport_uid (
+		E_SOURCE_MAIL_SUBMISSION (extension));
+
+	g_object_unref (source);
+
+	return TRUE;
+}
+
 /* send 1 message to a specific transport */
 static void
 mail_send_message (struct _send_queue_msg *m,
@@ -514,11 +567,11 @@ mail_send_message (struct _send_queue_msg *m,
                    GCancellable *cancellable,
                    GError **error)
 {
-	EAccount *account = NULL;
+	CamelService *service;
 	const CamelInternetAddress *iaddr;
 	CamelAddress *from, *recipients;
 	CamelMessageInfo *info = NULL;
-	CamelProvider *provider;
+	CamelProvider *provider = NULL;
 	gchar *transport_uid = NULL;
 	gchar *sent_folder_uri = NULL;
 	const gchar *resent_from, *tmp;
@@ -539,48 +592,31 @@ mail_send_message (struct _send_queue_msg *m,
 	err = g_string_new ("");
 	xev = mail_tool_remove_xevolution_headers (message);
 
-	tmp = camel_header_raw_find (&xev, "X-Evolution-Account", NULL);
+	tmp = camel_header_raw_find (&xev, "X-Evolution-Identity", NULL);
 	if (tmp != NULL) {
-		gchar *name;
+		gchar *identity_uid;
 
-		name = g_strstrip (g_strdup (tmp));
-		if ((account = e_get_account_by_uid (name))
-		    /* 'old' x-evolution-account stored the name, how silly */
-		    || (account = e_get_account_by_name (name))) {
-			if (account->transport) {
-				CamelService *service;
-				gchar *transport_uid;
-
-				transport_uid = g_strconcat (
-					account->uid, "-transport", NULL);
-				service = camel_session_get_service (
-					CAMEL_SESSION (m->session),
-					transport_uid);
-				g_free (transport_uid);
-
-				if (CAMEL_IS_TRANSPORT (service))
-					transport = CAMEL_TRANSPORT (service);
-			}
-
-			sent_folder_uri = g_strdup (account->sent_folder_uri);
-		}
-		g_free (name);
+		identity_uid = g_strstrip (g_strdup (tmp));
+		get_submission_details_from_identity (
+			m->session, identity_uid,
+			&transport_uid, &sent_folder_uri);
+		g_free (identity_uid);
 	}
 
-	if (!account) {
-		/* default back to these headers */
-		tmp = camel_header_raw_find(&xev, "X-Evolution-Transport", NULL);
-		if (tmp)
-			transport_uid = g_strstrip (g_strdup (tmp));
+	tmp = camel_header_raw_find (&xev, "X-Evolution-Transport", NULL);
+	if (transport_uid == NULL && tmp != NULL)
+		transport_uid = g_strstrip (g_strdup (tmp));
 
-		tmp = camel_header_raw_find(&xev, "X-Evolution-Fcc", NULL);
-		if (tmp)
-			sent_folder_uri = g_strstrip (g_strdup (tmp));
-	}
+	tmp = camel_header_raw_find (&xev, "X-Evolution-Fcc", NULL);
+	if (sent_folder_uri == NULL && tmp != NULL)
+		sent_folder_uri = g_strstrip (g_strdup (tmp));
 
-	if (transport != NULL) {
-		const gchar *uid;
+	service = camel_session_get_service (
+		CAMEL_SESSION (m->session), transport_uid);
+	if (service != NULL)
+		provider = camel_service_get_provider (service);
 
+	if (CAMEL_IS_TRANSPORT (service)) {
 		/* Let the dialog know the right account it is using. */
 		uid = camel_service_get_uid (CAMEL_SERVICE (transport));
 		report_status (m, CAMEL_FILTER_STATUS_ACTION, 0, uid);
@@ -607,12 +643,12 @@ mail_send_message (struct _send_queue_msg *m,
 
 	if (camel_address_length (recipients) > 0) {
 		if (!camel_service_connect_sync (
-			CAMEL_SERVICE (transport), cancellable, error))
+			service, cancellable, error))
 			goto exit;
 
 		if (!camel_transport_send_to_sync (
-			transport, message, from,
-			recipients, cancellable, error))
+			CAMEL_TRANSPORT (service), message,
+			from, recipients, cancellable, error))
 			goto exit;
 	}
 
@@ -662,8 +698,6 @@ mail_send_message (struct _send_queue_msg *m,
 			g_clear_error (&local_error);
 		}
 	}
-
-	provider = camel_service_get_provider (CAMEL_SERVICE (transport));
 
 	if (provider == NULL
 	    || !(provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)) {
@@ -1362,9 +1396,10 @@ expunge_pop3_stores (CamelFolder *expunging,
 	CamelStore *parent_store;
 	CamelService *service;
 	CamelSession *session;
+	ESourceRegistry *registry;
 	GPtrArray *uids;
-	EAccount *account;
-	EIterator *iter;
+	GList *list, *link;
+	const gchar *extension_name;
 	gboolean success = TRUE;
 	guint ii;
 
@@ -1372,6 +1407,7 @@ expunge_pop3_stores (CamelFolder *expunging,
 
 	service = CAMEL_SERVICE (parent_store);
 	session = camel_service_get_session (service);
+	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
 
 	uids = camel_folder_get_uids (expunging);
 
@@ -1432,79 +1468,89 @@ expunge_pop3_stores (CamelFolder *expunging,
 		return TRUE;
 	}
 
-	for (iter = e_list_get_iterator ((EList *) e_get_account_list ());
-	     e_iterator_is_valid (iter); e_iterator_next (iter)) {
-		account = (EAccount *) e_iterator_get (iter);
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	list = e_source_registry_list_sources (registry, extension_name);
 
-		if (account->enabled &&
-		    account->source && account->source->url &&
-		    g_str_has_prefix (account->source->url, "pop://")) {
-			CamelFolder *folder;
-			CamelService *service;
-			CamelSettings *settings;
-			gboolean any_found = FALSE;
-			gboolean delete_expunged = FALSE;
-			gboolean keep_on_server = FALSE;
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		ESourceBackend *extension;
+		CamelFolder *folder;
+		CamelService *service;
+		CamelSettings *settings;
+		const gchar *backend_name;
+		const gchar *source_uid;
+		gboolean any_found = FALSE;
+		gboolean delete_expunged = FALSE;
+		gboolean keep_on_server = FALSE;
+		gboolean enabled;
 
-			service = camel_session_get_service (session, account->uid);
+		source_uid = e_source_get_uid (source);
+		enabled = e_source_get_enabled (source);
 
-			if (!CAMEL_IS_STORE (service))
-				continue;
+		extension = e_source_get_extension (source, extension_name);
+		backend_name = e_source_backend_get_backend_name (extension);
 
-			settings = camel_service_get_settings (service);
-			if (!settings)
-				continue;
+		if (!enabled || g_strcmp0 (backend_name, "pop") != 0)
+			continue;
 
-			g_object_get (
-				settings,
-				"delete-expunged", &delete_expunged,
-				"keep-on-server", &keep_on_server,
-				NULL);
+		service = camel_session_get_service (
+			CAMEL_SESSION (session), source_uid);
 
-			if (!keep_on_server || !delete_expunged)
-				continue;
+		settings = camel_service_get_settings (service);
 
-			folder = e_mail_session_get_inbox_sync (
-				E_MAIL_SESSION (session),
-				account->uid, cancellable, error);
+		g_object_get (
+			settings,
+			"delete-expunged", &delete_expunged,
+			"keep-on-server", &keep_on_server,
+			NULL);
 
-			/* Abort the loop on error. */
-			if (folder == NULL) {
-				success = FALSE;
-				break;
-			}
+		if (!keep_on_server || !delete_expunged)
+			continue;
 
-			uids = camel_folder_get_uids (folder);
-			if (uids) {
-				for (ii = 0; ii < uids->len; ii++) {
-					/* ensure the ID is from this account,
-					 * as it's generated by evolution */
-					const gchar *source_uid;
+		folder = camel_store_get_inbox_folder_sync (
+			CAMEL_STORE (service), cancellable, error);
 
-					source_uid = g_hash_table_lookup (
-						expunging_uids, uids->pdata[ii]);
-					if (folder_is_from_source_uid (folder, source_uid)) {
-						any_found = TRUE;
-						camel_folder_delete_message (folder, uids->pdata[ii]);
-					}
-				}
-				camel_folder_free_uids (folder, uids);
-			}
-
-			if (any_found)
-				success = camel_folder_synchronize_sync (
-					folder, TRUE, cancellable, error);
-
-			g_object_unref (folder);
-
-			/* Abort the loop on error. */
-			if (!success)
-				break;
+		/* Abort the loop on error. */
+		if (folder == NULL) {
+			success = FALSE;
+			break;
 		}
+
+		uids = camel_folder_get_uids (folder);
+
+		if (uids == NULL) {
+			g_object_unref (folder);
+			continue;
+		}
+
+		for (ii = 0; ii < uids->len; ii++) {
+			/* ensure the ID is from this account,
+			 * as it's generated by evolution */
+			const gchar *source_uid;
+
+			source_uid = g_hash_table_lookup (
+				expunging_uids, uids->pdata[ii]);
+			if (folder_is_from_source_uid (folder, source_uid)) {
+				any_found = TRUE;
+				camel_folder_delete_message (
+					folder, uids->pdata[ii]);
+			}
+		}
+
+		camel_folder_free_uids (folder, uids);
+
+		if (any_found)
+			success = camel_folder_synchronize_sync (
+				folder, TRUE, cancellable, error);
+
+		g_object_unref (folder);
+
+		/* Abort the loop on error. */
+		if (!success)
+			break;
 	}
 
-	if (iter)
-		g_object_unref (iter);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 	g_hash_table_destroy (expunging_uids);
 

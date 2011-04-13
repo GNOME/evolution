@@ -45,8 +45,28 @@ mailinclude_HEADERS =					\
 	e-mail-account-store.h				\
 	e-mail-account-tree-view.h			\
 	e-mail-attachment-bar.h				\
+	e-mail-autoconfig.h				\
 	e-mail-backend.h				\
 	e-mail-browser.h				\
+	e-mail-config-assistant.h			\
+	e-mail-config-auth-check.h			\
+	e-mail-config-confirm-page.h			\
+	e-mail-config-defaults-page.h			\
+	e-mail-config-identity-page.h			\
+	e-mail-config-lookup-page.h			\
+	e-mail-config-notebook.h			\
+	e-mail-config-page.h				\
+	e-mail-config-provider-page.h			\
+	e-mail-config-receiving-page.h			\
+	e-mail-config-security-page.h			\
+	e-mail-config-sending-page.h			\
+	e-mail-config-service-backend.h			\
+	e-mail-config-service-notebook.h		\
+	e-mail-config-service-page.h			\
+	e-mail-config-sidebar.h				\
+	e-mail-config-summary-page.h			\
+	e-mail-config-welcome-page.h			\
+	e-mail-config-window.h				\
 	e-mail-display.h				\
 	e-mail-folder-pane.h				\
 	e-mail-junk-options.h				\
@@ -67,7 +87,6 @@ mailinclude_HEADERS =					\
 	e-mail-tag-editor.h				\
 	e-mail-ui-session.h				\
 	e-mail-view.h					\
-	em-account-editor.h				\
 	em-composer-utils.h				\
 	em-config.h					\
 	em-event.h					\
@@ -111,8 +130,28 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-account-store.c				\
 	e-mail-account-tree-view.c			\
 	e-mail-attachment-bar.c				\
+	e-mail-autoconfig.c				\
 	e-mail-backend.c				\
 	e-mail-browser.c				\
+	e-mail-config-assistant.c			\
+	e-mail-config-auth-check.c			\
+	e-mail-config-confirm-page.c			\
+	e-mail-config-defaults-page.c			\
+	e-mail-config-identity-page.c			\
+	e-mail-config-lookup-page.c			\
+	e-mail-config-notebook.c			\
+	e-mail-config-page.c				\
+	e-mail-config-provider-page.c			\
+	e-mail-config-receiving-page.c			\
+	e-mail-config-security-page.c			\
+	e-mail-config-sending-page.c			\
+	e-mail-config-service-backend.c			\
+	e-mail-config-service-notebook.c		\
+	e-mail-config-service-page.c			\
+	e-mail-config-sidebar.c				\
+	e-mail-config-summary-page.c			\
+	e-mail-config-welcome-page.c			\
+	e-mail-config-window.c				\
 	e-mail-display.c				\
 	e-mail-folder-pane.c				\
 	e-mail-junk-options.c				\
@@ -133,7 +172,6 @@ libevolution_mail_la_SOURCES =				\
 	e-mail-tag-editor.c				\
 	e-mail-ui-session.c				\
 	e-mail-view.c					\
-	em-account-editor.c				\
 	em-composer-utils.c				\
 	em-config.c					\
 	em-event.c					\
@@ -202,11 +240,28 @@ libevolution_mail_la_LIBADD =				\
 	$(E_WIDGETS_LIBS)				\
 	$(SMIME_LIBS)					\
 	$(LIBSOUP_LIBS)					\
-	$(GNOME_PLATFORM_LIBS)
+	-lresolv
 
 libevolution_mail_la_LDFLAGS = -avoid-version $(NO_UNDEFINED)
 
 libevolution_mail_la_DEPENDENCIES = em-filter-i18n.h
+
+noinst_PROGRAMS = test-mail-autoconfig
+
+test_mail_autoconfig_CPPFLAGS = \
+	$(AM_CPPFLAGS)					\
+	$(EVOLUTION_DATA_SERVER_CFLAGS)			\
+	$(GNOME_PLATFORM_CFLAGS)
+
+test_mail_autoconfig_SOURCES = \
+	e-mail-autoconfig.c				\
+	e-mail-autoconfig.h				\
+	test-mail-autoconfig.c
+
+test_mail_autoconfig_LDADD = \
+	$(EVOLUTION_DATA_SERVER_LIBS)			\
+	$(GNOME_PLATFORM_LIBS)				\
+	-lresolv
 
 # Misc data to install
 filterdir = $(privdatadir)

@@ -36,10 +36,14 @@
 
 #include <glib/gi18n.h>
 
+#include <libedataserver/e-source-mail-account.h>
+#include <libedataserver/e-source-mail-composition.h>
+#include <libedataserver/e-source-mail-identity.h>
+#include <libedataserver/e-source-mail-submission.h>
+
 #include <e-util/e-util.h>
 #include <shell/e-shell.h>
 
-#include <libemail-utils/e-account-utils.h>
 #include <libemail-utils/mail-mt.h>
 
 #include <libemail-engine/e-mail-folder-utils.h>
@@ -605,6 +609,64 @@ em_folder_tree_model_set_session (EMFolderTreeModel *model,
 	g_object_notify (G_OBJECT (model), "session");
 }
 
+/* Helper for em_folder_tree_model_set_folder_info() */
+static void
+folder_tree_model_get_drafts_folder_uri (ESourceRegistry *registry,
+                                         CamelStore *store,
+                                         gchar **drafts_folder_uri)
+{
+	ESource *source;
+	const gchar *extension_name;
+
+	/* In case we fail... */
+	*drafts_folder_uri = NULL;
+
+	source = em_utils_ref_mail_identity_for_store (registry, store);
+	if (source == NULL)
+		return;
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
+	if (e_source_has_extension (source, extension_name)) {
+		ESourceMailComposition *extension;
+
+		extension = e_source_get_extension (source, extension_name);
+
+		*drafts_folder_uri =
+			e_source_mail_composition_dup_drafts_folder (extension);
+	}
+
+	g_object_unref (source);
+}
+
+/* Helper for em_folder_tree_model_set_folder_info() */
+static void
+folder_tree_model_get_sent_folder_uri (ESourceRegistry *registry,
+                                       CamelStore *store,
+                                       gchar **sent_folder_uri)
+{
+	ESource *source;
+	const gchar *extension_name;
+
+	/* In case we fail... */
+	*sent_folder_uri = NULL;
+
+	source = em_utils_ref_mail_identity_for_store (registry, store);
+	if (source == NULL)
+		return;
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
+	if (e_source_has_extension (source, extension_name)) {
+		ESourceMailSubmission *extension;
+
+		extension = e_source_get_extension (source, extension_name);
+
+		*sent_folder_uri =
+			e_source_mail_submission_dup_sent_folder (extension);
+	}
+
+	g_object_unref (source);
+}
+
 void
 em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
                                       GtkTreeIter *iter,
@@ -615,8 +677,8 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	GtkTreeRowReference *path_row;
 	GtkTreeStore *tree_store;
 	MailFolderCache *folder_cache;
+	ESourceRegistry *registry;
 	EMailSession *session;
-	EAccount *account;
 	guint unread;
 	GtkTreePath *path;
 	GtkTreeIter sub;
@@ -642,10 +704,10 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 
 	session = em_folder_tree_model_get_session (model);
 	folder_cache = e_mail_session_get_folder_cache (session);
+	registry = e_mail_session_get_registry (session);
 
 	uid = camel_service_get_uid (CAMEL_SERVICE (si->store));
 	store_is_local = (g_strcmp0 (uid, E_MAIL_SESSION_LOCAL_UID) == 0);
-	account = e_get_account_by_uid (uid);
 
 	if (!fully_loaded)
 		load = (fi->child == NULL) && !(fi->flags &
@@ -668,8 +730,8 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 	unread = fi->unread;
 	if (mail_folder_cache_get_folder_from_uri (
 		folder_cache, uri, &folder) && folder) {
-		folder_is_drafts = em_utils_folder_is_drafts (folder);
-		folder_is_outbox = em_utils_folder_is_outbox (folder);
+		folder_is_drafts = em_utils_folder_is_drafts (registry, folder);
+		folder_is_outbox = em_utils_folder_is_outbox (registry, folder);
 
 		if (folder_is_drafts || folder_is_outbox) {
 			gint total;
@@ -712,20 +774,32 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model,
 		}
 	}
 
-	if (account != NULL && (flags & CAMEL_FOLDER_TYPE_MASK) == 0) {
-		if (!folder_is_drafts && account->drafts_folder_uri != NULL) {
+	if ((flags & CAMEL_FOLDER_TYPE_MASK) == 0) {
+		gchar *drafts_folder_uri;
+		gchar *sent_folder_uri;
+
+		folder_tree_model_get_drafts_folder_uri (
+			registry, si->store, &drafts_folder_uri);
+
+		folder_tree_model_get_sent_folder_uri (
+			registry, si->store, &sent_folder_uri);
+
+		if (!folder_is_drafts && drafts_folder_uri != NULL) {
 			folder_is_drafts = e_mail_folder_uri_equal (
-				CAMEL_SESSION (session), uri,
-				account->drafts_folder_uri);
+				CAMEL_SESSION (session),
+				uri, drafts_folder_uri);
 		}
 
-		if (account->sent_folder_uri != NULL) {
+		if (sent_folder_uri != NULL) {
 			if (e_mail_folder_uri_equal (
-				CAMEL_SESSION (session), uri,
-				account->sent_folder_uri)) {
+				CAMEL_SESSION (session),
+				uri, sent_folder_uri)) {
 				add_flags = CAMEL_FOLDER_TYPE_SENT;
 			}
 		}
+
+		g_free (drafts_folder_uri);
+		g_free (sent_folder_uri);
 	}
 
 	/* Choose an icon name for the folder. */

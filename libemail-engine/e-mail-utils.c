@@ -46,9 +46,14 @@
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-flag.h>
 #include <libedataserver/e-proxy.h>
+#include <libedataserver/e-source-address-book.h>
+#include <libedataserver/e-source-autocomplete.h>
+#include <libedataserver/e-source-mail-account.h>
+#include <libedataserver/e-source-mail-composition.h>
+#include <libedataserver/e-source-mail-identity.h>
+#include <libedataserver/e-source-mail-submission.h>
 
-#include "libemail-utils/e-account-utils.h"
-#include "libemail-utils/mail-mt.h"
+#include <libemail-utils/mail-mt.h>
 
 #include "e-mail-folder-utils.h"
 #include "e-mail-session.h"
@@ -58,7 +63,74 @@
 #define d(x)
 
 /**
+ * em_utils_folder_is_drafts:
+ * @registry: an #ESourceRegistry
+ * @folder: a #CamelFolder
+ *
+ * Decides if @folder is a Drafts folder.
+ *
+ * Returns %TRUE if this is a Drafts folder or %FALSE otherwise.
+ **/
+gboolean
+em_utils_folder_is_drafts (ESourceRegistry *registry,
+                           CamelFolder *folder)
+{
+	CamelFolder *local_drafts_folder;
+	CamelSession *session;
+	CamelStore *store;
+	GList *list, *iter;
+	gchar *folder_uri;
+	gboolean is_drafts = FALSE;
+	const gchar *extension_name;
+
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
+
+	store = camel_folder_get_parent_store (folder);
+	session = camel_service_get_session (CAMEL_SERVICE (store));
+
+	local_drafts_folder =
+		e_mail_session_get_local_folder (
+		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_DRAFTS);
+
+	if (folder == local_drafts_folder)
+		return TRUE;
+
+	folder_uri = e_mail_folder_uri_from_folder (folder);
+
+	store = camel_folder_get_parent_store (folder);
+	session = camel_service_get_session (CAMEL_SERVICE (store));
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
+	list = e_source_registry_list_sources (registry, extension_name);
+
+	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+		ESource *source = E_SOURCE (iter->data);
+		ESourceExtension *extension;
+		const gchar *drafts_folder_uri;
+
+		extension = e_source_get_extension (source, extension_name);
+
+		drafts_folder_uri =
+			e_source_mail_composition_get_drafts_folder (
+			E_SOURCE_MAIL_COMPOSITION (extension));
+
+		if (drafts_folder_uri != NULL)
+			is_drafts = e_mail_folder_uri_equal (
+				session, folder_uri, drafts_folder_uri);
+
+		if (is_drafts)
+			break;
+	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+	g_free (folder_uri);
+
+	return is_drafts;
+}
+
+/**
  * em_utils_folder_is_templates:
+ * @registry: an #ESourceRegistry
  * @folder: a #CamelFolder
  *
  * Decides if @folder is a Templates folder.
@@ -67,15 +139,16 @@
  **/
 
 gboolean
-em_utils_folder_is_templates (CamelFolder *folder)
+em_utils_folder_is_templates (ESourceRegistry *registry,
+                              CamelFolder *folder)
 {
 	CamelFolder *local_templates_folder;
 	CamelSession *session;
 	CamelStore *store;
-	EAccountList *account_list;
-	EIterator *iterator;
+	GList *list, *iter;
 	gchar *folder_uri;
 	gboolean is_templates = FALSE;
+	const gchar *extension_name;
 
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
@@ -91,98 +164,40 @@ em_utils_folder_is_templates (CamelFolder *folder)
 
 	folder_uri = e_mail_folder_uri_from_folder (folder);
 
-	account_list = e_get_account_list ();
-	iterator = e_list_get_iterator (E_LIST (account_list));
+	store = camel_folder_get_parent_store (folder);
+	session = camel_service_get_session (CAMEL_SERVICE (store));
 
-	while (!is_templates && e_iterator_is_valid (iterator)) {
-		EAccount *account;
+	extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
+	list = e_source_registry_list_sources (registry, extension_name);
 
-		/* XXX EIterator misuses const. */
-		account = (EAccount *) e_iterator_get (iterator);
+	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+		ESource *source = E_SOURCE (iter->data);
+		ESourceExtension *extension;
+		const gchar *templates_folder_uri;
 
-		if (account->templates_folder_uri != NULL)
+		extension = e_source_get_extension (source, extension_name);
+
+		templates_folder_uri =
+			e_source_mail_composition_get_templates_folder (
+			E_SOURCE_MAIL_COMPOSITION (extension));
+
+		if (templates_folder_uri != NULL)
 			is_templates = e_mail_folder_uri_equal (
-				session, folder_uri,
-				account->templates_folder_uri);
+				session, folder_uri, templates_folder_uri);
 
-		e_iterator_next (iterator);
+		if (is_templates)
+			break;
 	}
 
-	g_object_unref (iterator);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 	g_free (folder_uri);
 
 	return is_templates;
 }
 
 /**
- * em_utils_folder_is_drafts:
- * @folder: a #CamelFolder
- *
- * Decides if @folder is a Drafts folder.
- *
- * Returns %TRUE if this is a Drafts folder or %FALSE otherwise.
- **/
-gboolean
-em_utils_folder_is_drafts (CamelFolder *folder)
-{
-	CamelFolder *local_drafts_folder;
-	CamelSession *session;
-	CamelStore *store;
-	MailFolderCache *cache;
-	EMailSession *mail_session;
-	CamelFolderInfoFlags flags = 0;
-	EAccountList *account_list;
-	EIterator *iterator;
-	gchar *folder_uri;
-	gboolean is_drafts = FALSE;
-
-	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
-
-	store = camel_folder_get_parent_store (folder);
-	session = camel_service_get_session (CAMEL_SERVICE (store));
-	mail_session = E_MAIL_SESSION (session);
-
-	local_drafts_folder =
-		e_mail_session_get_local_folder (
-		mail_session, E_MAIL_LOCAL_FOLDER_DRAFTS);
-
-	if (folder == local_drafts_folder)
-		return TRUE;
-
-	cache = e_mail_session_get_folder_cache (mail_session);
-
-	/* user can select Inbox as his Draft folder - in that case prefer Inbox type */
-	if (mail_folder_cache_get_folder_info_flags (cache, folder, &flags) &&
-	    (flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX)
-		return FALSE;
-
-	folder_uri = e_mail_folder_uri_from_folder (folder);
-
-	account_list = e_get_account_list ();
-	iterator = e_list_get_iterator (E_LIST (account_list));
-
-	while (!is_drafts && e_iterator_is_valid (iterator)) {
-		EAccount *account;
-
-		/* XXX EIterator misuses const. */
-		account = (EAccount *) e_iterator_get (iterator);
-
-		if (account->drafts_folder_uri != NULL)
-			is_drafts = e_mail_folder_uri_equal (
-				session, folder_uri,
-				account->drafts_folder_uri);
-
-		e_iterator_next (iterator);
-	}
-
-	g_object_unref (iterator);
-	g_free (folder_uri);
-
-	return is_drafts;
-}
-
-/**
  * em_utils_folder_is_sent:
+ * @registry: an #ESourceRegistry
  * @folder: a #CamelFolder
  *
  * Decides if @folder is a Sent folder.
@@ -190,59 +205,57 @@ em_utils_folder_is_drafts (CamelFolder *folder)
  * Returns %TRUE if this is a Sent folder or %FALSE otherwise.
  **/
 gboolean
-em_utils_folder_is_sent (CamelFolder *folder)
+em_utils_folder_is_sent (ESourceRegistry *registry,
+                         CamelFolder *folder)
 {
 	CamelFolder *local_sent_folder;
 	CamelSession *session;
 	CamelStore *store;
-	MailFolderCache *cache;
-	EMailSession *mail_session;
-	CamelFolderInfoFlags flags = 0;
-	EAccountList *account_list;
-	EIterator *iterator;
+	GList *list, *iter;
 	gchar *folder_uri;
 	gboolean is_sent = FALSE;
+	const gchar *extension_name;
 
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), FALSE);
 
 	store = camel_folder_get_parent_store (folder);
 	session = camel_service_get_session (CAMEL_SERVICE (store));
-	mail_session = E_MAIL_SESSION (session);
 
 	local_sent_folder =
 		e_mail_session_get_local_folder (
-		mail_session, E_MAIL_LOCAL_FOLDER_SENT);
+		E_MAIL_SESSION (session), E_MAIL_LOCAL_FOLDER_SENT);
 
 	if (folder == local_sent_folder)
 		return TRUE;
 
-	cache = e_mail_session_get_folder_cache (mail_session);
-
-	/* user can select Inbox as his Sent folder - in that case prefer Inbox type */
-	if (mail_folder_cache_get_folder_info_flags (cache, folder, &flags) &&
-	    (flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX)
-		return FALSE;
-
 	folder_uri = e_mail_folder_uri_from_folder (folder);
 
-	account_list = e_get_account_list ();
-	iterator = e_list_get_iterator (E_LIST (account_list));
+	store = camel_folder_get_parent_store (folder);
+	session = camel_service_get_session (CAMEL_SERVICE (store));
 
-	while (!is_sent && e_iterator_is_valid (iterator)) {
-		EAccount *account;
+	extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
+	list = e_source_registry_list_sources (registry, extension_name);
 
-		/* XXX EIterator misuses const. */
-		account = (EAccount *) e_iterator_get (iterator);
+	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+		ESource *source = E_SOURCE (iter->data);
+		ESourceExtension *extension;
+		const gchar *sent_folder_uri;
 
-		if (account->sent_folder_uri != NULL)
+		extension = e_source_get_extension (source, extension_name);
+
+		sent_folder_uri =
+			e_source_mail_submission_get_sent_folder (
+			E_SOURCE_MAIL_SUBMISSION (extension));
+
+		if (sent_folder_uri != NULL)
 			is_sent = e_mail_folder_uri_equal (
-				session, folder_uri,
-				account->sent_folder_uri);
+				session, folder_uri, sent_folder_uri);
 
-		e_iterator_next (iterator);
+		if (is_sent)
+			break;
 	}
 
-	g_object_unref (iterator);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 	g_free (folder_uri);
 
 	return is_sent;
@@ -250,6 +263,7 @@ em_utils_folder_is_sent (CamelFolder *folder)
 
 /**
  * em_utils_folder_is_outbox:
+ * @registry: an #ESourceRegistry
  * @folder: a #CamelFolder
  *
  * Decides if @folder is an Outbox folder.
@@ -257,7 +271,8 @@ em_utils_folder_is_sent (CamelFolder *folder)
  * Returns %TRUE if this is an Outbox folder or %FALSE otherwise.
  **/
 gboolean
-em_utils_folder_is_outbox (CamelFolder *folder)
+em_utils_folder_is_outbox (ESourceRegistry *registry,
+                           CamelFolder *folder)
 {
 	CamelStore *store;
 	CamelSession *session;
@@ -276,19 +291,6 @@ em_utils_folder_is_outbox (CamelFolder *folder)
 }
 
 /* ********************************************************************** */
-
-/* runs sync, in main thread */
-static gpointer
-emu_addr_setup (gpointer user_data)
-{
-	GError *err = NULL;
-	ESourceList **psource_list = user_data;
-
-	if (!e_book_client_get_sources (psource_list, &err))
-		g_error_free (err);
-
-	return NULL;
-}
 
 static void
 emu_addr_cancel_stop (gpointer data)
@@ -405,44 +407,37 @@ static GHashTable *emu_books_hash = NULL;
  * broken books, which failed to open for some reason */
 static GHashTable *emu_broken_books_hash = NULL;
 
-static ESourceList *emu_books_source_list = NULL;
-
 static gboolean
-search_address_in_addressbooks (const gchar *address,
+search_address_in_addressbooks (ESourceRegistry *registry,
+                                const gchar *address,
                                 gboolean local_only,
                                 gboolean (*check_contact) (EContact *contact,
                                                            gpointer user_data),
                                 gpointer user_data)
 {
+	GList *list, *link;
+	GList *addr_sources = NULL;
 	gboolean found = FALSE, stop = FALSE, found_any = FALSE;
 	gchar *lowercase_addr;
 	gpointer ptr;
 	EBookQuery *book_query;
 	gchar *query;
-	GSList *s, *g, *addr_sources = NULL;
 	GHook *hook_cancellable;
 	GCancellable *cancellable;
+	const gchar *extension_name;
 
 	if (!address || !*address)
 		return FALSE;
 
 	G_LOCK (contact_cache);
 
-	if (!emu_books_source_list) {
-		mail_call_main (
-			MAIL_CALL_p_p, (MailMainFunc)
-			emu_addr_setup, &emu_books_source_list);
+	if (emu_books_hash == NULL) {
 		emu_books_hash = g_hash_table_new_full (
 			g_str_hash, g_str_equal, g_free, g_object_unref);
 		emu_broken_books_hash = g_hash_table_new_full (
 			g_str_hash, g_str_equal, g_free, NULL);
 		contact_cache = g_hash_table_new_full (
 			g_str_hash, g_str_equal, g_free, NULL);
-	}
-
-	if (!emu_books_source_list) {
-		G_UNLOCK (contact_cache);
-		return FALSE;
 	}
 
 	lowercase_addr = g_utf8_strdown (address, -1);
@@ -457,35 +452,48 @@ search_address_in_addressbooks (const gchar *address,
 	query = e_book_query_to_string (book_query);
 	e_book_query_unref (book_query);
 
-	for (g = e_source_list_peek_groups (emu_books_source_list);
-			g; g = g_slist_next (g)) {
-		ESourceGroup *group = g->data;
+	extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
+	list = e_source_registry_list_sources (registry, extension_name);
 
-		if (!group)
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		ESourceExtension *extension;
+		const gchar *backend_name;
+		gboolean source_is_local;
+		gboolean autocomplete;
+
+		extension_name = E_SOURCE_EXTENSION_ADDRESS_BOOK;
+		extension = e_source_get_extension (source, extension_name);
+
+		backend_name = e_source_backend_get_backend_name (
+			E_SOURCE_BACKEND (extension));
+
+		source_is_local = (g_strcmp0 (backend_name, "local") == 0);
+
+		if (local_only && !source_is_local)
 			continue;
 
-		if (local_only && !(e_source_group_peek_base_uri (group) &&
-			g_str_has_prefix (
-			e_source_group_peek_base_uri (group), "local:")))
+		extension_name = E_SOURCE_EXTENSION_AUTOCOMPLETE;
+		extension = e_source_get_extension (source, extension_name);
+
+		autocomplete = e_source_autocomplete_get_include_me (
+			E_SOURCE_AUTOCOMPLETE (extension));
+
+		if (!autocomplete)
 			continue;
 
-		for (s = e_source_group_peek_sources (group); s; s = g_slist_next (s)) {
-			ESource *source = s->data;
-			const gchar *completion = e_source_get_property (source, "completion");
-
-			if (completion && g_ascii_strcasecmp (completion, "true") == 0) {
-				addr_sources = g_slist_prepend (
-					addr_sources, g_object_ref (source));
-			}
-		}
+		addr_sources = g_list_prepend (
+			addr_sources, g_object_ref (source));
 	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
 	cancellable = g_cancellable_new ();
 	hook_cancellable = mail_cancel_hook_add (
 		emu_addr_cancel_cancellable, cancellable);
 
-	for (s = addr_sources; !stop && !found && s; s = g_slist_next (s)) {
-		ESource *source = s->data;
+	for (link = addr_sources; !stop && !found && link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
 		GSList *contacts;
 		EBookClient *book_client = NULL;
 		GHook *hook_stop;
@@ -620,7 +628,7 @@ search_address_in_addressbooks (const gchar *address,
 	mail_cancel_hook_remove (hook_cancellable);
 	g_object_unref (cancellable);
 
-	g_slist_free_full (addr_sources, (GDestroyNotify) g_object_unref);
+	g_list_free_full (addr_sources, (GDestroyNotify) g_object_unref);
 
 	g_free (query);
 
@@ -637,16 +645,20 @@ search_address_in_addressbooks (const gchar *address,
 }
 
 gboolean
-em_utils_in_addressbook (CamelInternetAddress *iaddr,
+em_utils_in_addressbook (ESourceRegistry *registry,
+                         CamelInternetAddress *iaddr,
                          gboolean local_only)
 {
 	const gchar *addr;
+
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), FALSE);
 
 	/* TODO: check all addresses? */
 	if (iaddr == NULL || !camel_internet_address_get (iaddr, 0, NULL, &addr))
 		return FALSE;
 
-	return search_address_in_addressbooks (addr, local_only, NULL, NULL);
+	return search_address_in_addressbooks (
+		registry, addr, local_only, NULL, NULL);
 }
 
 static gboolean
@@ -687,7 +699,8 @@ G_LOCK_DEFINE_STATIC (photos_cache);
 static GSList *photos_cache = NULL; /* list of PhotoInfo-s */
 
 CamelMimePart *
-em_utils_contact_photo (CamelInternetAddress *cia,
+em_utils_contact_photo (ESourceRegistry *registry,
+                        CamelInternetAddress *cia,
                         gboolean local_only)
 {
 	const gchar *addr = NULL;
@@ -695,6 +708,8 @@ em_utils_contact_photo (CamelInternetAddress *cia,
 	EContactPhoto *photo = NULL;
 	GSList *p, *last = NULL;
 	gint cache_len;
+
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
 
 	if (cia == NULL || !camel_internet_address_get (cia, 0, NULL, &addr) || !addr) {
 		return NULL;
@@ -722,7 +737,8 @@ em_utils_contact_photo (CamelInternetAddress *cia,
 
 	/* !p means the address had not been found in the cache */
 	if (!p && search_address_in_addressbooks (
-			addr, local_only, extract_photo_data, &photo)) {
+		registry, addr, local_only, extract_photo_data, &photo)) {
+
 		PhotoInfo *pi;
 
 		/* keep only up to 10 photos in memory */
@@ -838,11 +854,6 @@ emu_free_mail_cache (void)
 		emu_broken_books_hash = NULL;
 	}
 
-	if (emu_books_source_list) {
-		g_object_unref (emu_books_source_list);
-		emu_books_source_list = NULL;
-	}
-
 	if (contact_cache) {
 		g_hash_table_destroy (contact_cache);
 		contact_cache = NULL;
@@ -859,70 +870,197 @@ emu_free_mail_cache (void)
 	G_UNLOCK (photos_cache);
 }
 
-static EAccount *
-guess_account_from_folder (CamelFolder *folder)
+static ESource *
+guess_mail_account_from_folder (ESourceRegistry *registry,
+                                CamelFolder *folder)
 {
+	ESource *source;
 	CamelStore *store;
 	const gchar *uid;
 
+	/* Lookup an ESource by CamelStore UID. */
 	store = camel_folder_get_parent_store (folder);
 	uid = camel_service_get_uid (CAMEL_SERVICE (store));
+	source = e_source_registry_ref_source (registry, uid);
 
-	return e_get_account_by_uid (uid);
+	/* If we found an ESource, make sure it's a mail account. */
+	if (source != NULL) {
+		const gchar *extension_name;
+
+		extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+		if (!e_source_has_extension (source, extension_name)) {
+			g_object_unref (source);
+			source = NULL;
+		}
+	}
+
+	return source;
 }
 
-static EAccount *
-guess_account_from_message (CamelMimeMessage *message)
+static ESource *
+guess_mail_account_from_message (ESourceRegistry *registry,
+                                 CamelMimeMessage *message)
 {
+	ESource *source = NULL;
 	const gchar *uid;
 
+	/* Lookup an ESource by 'X-Evolution-Source' header. */
 	uid = camel_mime_message_get_source (message);
+	if (uid != NULL)
+		source = e_source_registry_ref_source (registry, uid);
 
-	return (uid != NULL) ? e_get_account_by_uid (uid) : NULL;
+	/* If we found an ESource, make sure it's a mail account. */
+	if (source != NULL) {
+		const gchar *extension_name;
+
+		extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+		if (!e_source_has_extension (source, extension_name)) {
+			g_object_unref (source);
+			source = NULL;
+		}
+	}
+
+	return source;
 }
 
-EAccount *
-em_utils_guess_account (CamelMimeMessage *message,
-                        CamelFolder *folder)
+ESource *
+em_utils_guess_mail_account (ESourceRegistry *registry,
+                             CamelMimeMessage *message,
+                             CamelFolder *folder)
 {
-	EAccount *account = NULL;
+	ESource *source = NULL;
+	const gchar *newsgroups;
 
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
 	if (folder != NULL)
 		g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 
 	/* check for newsgroup header */
-	if (folder != NULL
-	    && camel_medium_get_header (CAMEL_MEDIUM (message), "Newsgroups"))
-		account = guess_account_from_folder (folder);
+	newsgroups = camel_medium_get_header (
+		CAMEL_MEDIUM (message), "Newsgroups");
+	if (folder != NULL && newsgroups != NULL)
+		source = guess_mail_account_from_folder (registry, folder);
 
 	/* check for source folder */
-	if (account == NULL && folder != NULL)
-		account = guess_account_from_folder (folder);
+	if (source == NULL && folder != NULL)
+		source = guess_mail_account_from_folder (registry, folder);
 
 	/* then message source */
-	if (account == NULL)
-		account = guess_account_from_message (message);
+	if (source == NULL)
+		source = guess_mail_account_from_message (registry, message);
 
-	return account;
+	return source;
 }
 
-EAccount *
-em_utils_guess_account_with_recipients (CamelMimeMessage *message,
-                                        CamelFolder *folder)
+ESource *
+em_utils_guess_mail_identity (ESourceRegistry *registry,
+                              CamelMimeMessage *message,
+                              CamelFolder *folder)
 {
-	EAccount *account = NULL;
-	EAccountList *account_list;
+	ESource *source;
+	ESourceExtension *extension;
+	const gchar *extension_name;
+	const gchar *uid;
+
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
+
+	if (folder != NULL)
+		g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
+
+	source = em_utils_guess_mail_account (registry, message, folder);
+
+	if (source == NULL)
+		return NULL;
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	extension = e_source_get_extension (source, extension_name);
+
+	uid = e_source_mail_account_get_identity_uid (
+		E_SOURCE_MAIL_ACCOUNT (extension));
+	if (uid == NULL)
+		return NULL;
+
+	source = e_source_registry_ref_source (registry, uid);
+	if (source == NULL)
+		return NULL;
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+	if (!e_source_has_extension (source, extension_name)) {
+		g_object_unref (source);
+		return NULL;
+	}
+
+	return source;
+}
+
+static gboolean
+mail_account_in_recipients (ESourceRegistry *registry,
+                            ESource *source,
+                            GHashTable *recipients)
+{
+	ESourceExtension *extension;
+	const gchar *extension_name;
+	const gchar *uid;
+	gboolean match = FALSE;
+	gchar *address;
+
+	/* Disregard disabled mail accounts. */
+	if (!e_source_get_enabled (source))
+		return FALSE;
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	extension = e_source_get_extension (source, extension_name);
+
+	uid = e_source_mail_account_get_identity_uid (
+		E_SOURCE_MAIL_ACCOUNT (extension));
+	if (uid == NULL)
+		return FALSE;
+
+	source = e_source_registry_ref_source (registry, uid);
+	if (source == NULL)
+		return FALSE;
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+	if (!e_source_has_extension (source, extension_name)) {
+		g_object_unref (source);
+		return FALSE;
+	}
+
+	extension = e_source_get_extension (source, extension_name);
+
+	address = e_source_mail_identity_dup_address (
+		E_SOURCE_MAIL_IDENTITY (extension));
+
+	g_object_unref (source);
+
+	if (address != NULL) {
+		match = (g_hash_table_lookup (recipients, address) != NULL);
+		g_free (address);
+	}
+
+	return match;
+}
+
+ESource *
+em_utils_guess_mail_account_with_recipients (ESourceRegistry *registry,
+                                             CamelMimeMessage *message,
+                                             CamelFolder *folder)
+{
+	ESource *source = NULL;
 	GHashTable *recipients;
-	EIterator *iterator;
 	CamelInternetAddress *addr;
+	GList *list, *iter;
+	const gchar *extension_name;
 	const gchar *type;
 	const gchar *key;
 
 	/* This policy is subject to debate and tweaking,
 	 * but please also document the rational here. */
 
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 
 	/* Build a set of email addresses in which to test for membership.
@@ -952,53 +1090,126 @@ em_utils_guess_account_with_recipients (CamelMimeMessage *message,
 	}
 
 	/* First Preference: We were given a folder that maps to an
-	 * enabled account, and that account's email address appears
+	 * enabled mail account, and that account's address appears
 	 * in the list of To: or Cc: recipients. */
 
 	if (folder != NULL)
-		account = guess_account_from_folder (folder);
+		source = guess_mail_account_from_folder (registry, folder);
 
-	if (account == NULL || !account->enabled)
+	if (source == NULL)
 		goto second_preference;
 
-	if ((key = account->id->address) == NULL)
-		goto second_preference;
-
-	if (g_hash_table_lookup (recipients, key) != NULL)
+	if (mail_account_in_recipients (registry, source, recipients))
 		goto exit;
 
 second_preference:
 
-	/* Second Preference: Choose any enabled account whose email
+	/* Second Preference: Choose any enabled mail account whose
 	 * address appears in the list to To: or Cc: recipients. */
 
-	account_list = e_get_account_list ();
-	iterator = e_list_get_iterator (E_LIST (account_list));
+	if (source != NULL) {
+		g_object_unref (source);
+		source = NULL;
+	}
 
-	while (e_iterator_is_valid (iterator)) {
-		account = (EAccount *) e_iterator_get (iterator);
-		e_iterator_next (iterator);
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	list = e_source_registry_list_sources (registry, extension_name);
 
-		if (account == NULL || !account->enabled)
-			continue;
+	for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+		ESource *temp = E_SOURCE (iter->data);
 
-		if ((key = account->id->address) == NULL)
-			continue;
-
-		if (g_hash_table_lookup (recipients, key) != NULL) {
-			g_object_unref (iterator);
-			goto exit;
+		if (mail_account_in_recipients (registry, temp, recipients)) {
+			source = g_object_ref (temp);
+			break;
 		}
 	}
-	g_object_unref (iterator);
 
-	/* Last Preference: Defer to em_utils_guess_account(). */
-	account = em_utils_guess_account (message, folder);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	if (source != NULL)
+		goto exit;
+
+	/* Last Preference: Defer to em_utils_guess_mail_account(). */
+	source = em_utils_guess_mail_account (registry, message, folder);
 
 exit:
 	g_hash_table_destroy (recipients);
 
-	return account;
+	return source;
+}
+
+ESource *
+em_utils_guess_mail_identity_with_recipients (ESourceRegistry *registry,
+                                              CamelMimeMessage *message,
+                                              CamelFolder *folder)
+{
+	ESource *source;
+	ESourceExtension *extension;
+	const gchar *extension_name;
+	const gchar *uid;
+
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
+
+	source = em_utils_guess_mail_account_with_recipients (
+		registry, message, folder);
+
+	if (source == NULL)
+		return NULL;
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	extension = e_source_get_extension (source, extension_name);
+
+	uid = e_source_mail_account_get_identity_uid (
+		E_SOURCE_MAIL_ACCOUNT (extension));
+	if (uid == NULL)
+		return NULL;
+
+	source = e_source_registry_ref_source (registry, uid);
+	if (source == NULL)
+		return NULL;
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+	if (!e_source_has_extension (source, extension_name)) {
+		g_object_unref (source);
+		return NULL;
+	}
+
+	return source;
+}
+
+ESource *
+em_utils_ref_mail_identity_for_store (ESourceRegistry *registry,
+                                      CamelStore *store)
+{
+	ESourceMailAccount *extension;
+	ESource *source;
+	const gchar *extension_name;
+	const gchar *store_uid;
+	gchar *identity_uid;
+
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
+
+	store_uid = camel_service_get_uid (CAMEL_SERVICE (store));
+	g_return_val_if_fail (store_uid != NULL, NULL);
+
+	source = e_source_registry_ref_source (registry, store_uid);
+	g_return_val_if_fail (source != NULL, NULL);
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	extension = e_source_get_extension (source, extension_name);
+	identity_uid = e_source_mail_account_dup_identity_uid (extension);
+
+	g_object_unref (source);
+	source = NULL;
+
+	if (identity_uid != NULL) {
+		source = e_source_registry_ref_source (registry, identity_uid);
+		g_free (identity_uid);
+	}
+
+	return source;
 }
 
 /**

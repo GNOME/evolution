@@ -23,11 +23,11 @@
 #include "e-mail-session-utils.h"
 
 #include <glib/gi18n-lib.h>
+#include <libedataserver/e-source-mail-submission.h>
 
 #include <libemail-engine/e-mail-folder-utils.h>
 #include <libemail-engine/e-mail-utils.h>
 #include <libemail-engine/mail-tools.h>
-#include <libemail-utils/e-account-utils.h>
 
 /* X-Mailer header value */
 #define X_MAILER ("Evolution " VERSION SUB_VERSION " " VERSION_COMMENT)
@@ -671,7 +671,8 @@ e_mail_session_send_to (EMailSession *session,
 	CamelAddress *recipients;
 	CamelMedium *medium;
 	CamelMessageInfo *info;
-	EAccount *account = NULL;
+	ESourceRegistry *registry;
+	ESource *source = NULL;
 	GPtrArray *post_to_uris;
 	struct _camel_header_raw *xev;
 	struct _camel_header_raw *header;
@@ -684,6 +685,8 @@ e_mail_session_send_to (EMailSession *session,
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
+	registry = e_mail_session_get_registry (session);
+
 	medium = CAMEL_MEDIUM (message);
 
 	camel_medium_set_header (medium, "X-Mailer", X_MAILER);
@@ -692,28 +695,27 @@ e_mail_session_send_to (EMailSession *session,
 
 	/* Extract directives from X-Evolution headers. */
 
-	string = camel_header_raw_find (&xev, "X-Evolution-Account", NULL);
+	string = camel_header_raw_find (&xev, "X-Evolution-Identity", NULL);
 	if (string != NULL) {
-		gchar *account_uid;
-
-		account_uid = g_strstrip (g_strdup (string));
-		account = e_get_account_by_uid (account_uid);
-		g_free (account_uid);
+		gchar *uid = g_strstrip (g_strdup (string));
+		source = e_source_registry_ref_source (registry, uid);
+		g_free (uid);
 	}
 
-	if (account != NULL) {
-		if (account->transport != NULL) {
+	if (E_IS_SOURCE (source)) {
+		ESourceMailSubmission *extension;
+		const gchar *extension_name;
 
-			/* XXX Transport UIDs are kludgy right now.  We
-			 *     use the EAccount's regular UID and tack on
-			 *     "-transport".  Will be better soon. */
-			transport_uid = g_strconcat (
-				account->uid, "-transport", NULL);
+		extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
+		extension = e_source_get_extension (source, extension_name);
 
-			/* to reprompt password on sending if needed */
-			account->transport->get_password_canceled = FALSE;
-		}
-		sent_folder_uri = g_strdup (account->sent_folder_uri);
+		string = e_source_mail_submission_get_sent_folder (extension);
+		sent_folder_uri = g_strdup (string);
+
+		string = e_source_mail_submission_get_transport_uid (extension);
+		transport_uid = g_strdup (string);
+
+		g_object_unref (source);
 	}
 
 	string = camel_header_raw_find (&xev, "X-Evolution-Fcc", NULL);

@@ -52,6 +52,15 @@
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-flag.h>
 #include <libedataserver/e-proxy.h>
+#include <libedataserver/e-source-address-book.h>
+#include <libedataserver/e-source-autocomplete.h>
+#include <libedataserver/e-source-mail-account.h>
+#include <libedataserver/e-source-mail-composition.h>
+#include <libedataserver/e-source-mail-identity.h>
+#include <libedataserver/e-source-mail-submission.h>
+#include <libedataserver/e-data-server-util.h>
+#include <libedataserver/e-flag.h>
+#include <libedataserver/e-proxy.h>
 
 #include <e-util/e-util.h>
 #include <e-util/e-util-private.h>
@@ -62,7 +71,6 @@
 #include <shell/e-shell.h>
 #include <widgets/misc/e-attachment.h>
 
-#include <libemail-utils/e-account-utils.h>
 #include <libemail-utils/mail-mt.h>
 
 #include <libemail-engine/e-mail-folder-utils.h>
@@ -1266,9 +1274,12 @@ void
 em_utils_empty_trash (GtkWidget *parent,
                       EMailSession *session)
 {
+	ESourceRegistry *registry;
 	GList *list, *link;
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
+
+	registry = e_mail_session_get_registry (session);
 
 	if (!em_utils_prompt_user ((GtkWindow *) parent,
 		"prompt-on-empty-trash",
@@ -1278,10 +1289,11 @@ em_utils_empty_trash (GtkWidget *parent,
 	list = camel_session_list_services (CAMEL_SESSION (session));
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
-		EAccount *account;
 		CamelProvider *provider;
 		CamelService *service;
+		ESource *source;
 		const gchar *uid;
+		gboolean enabled = TRUE;
 
 		service = CAMEL_SERVICE (link->data);
 		provider = camel_service_get_provider (service);
@@ -1293,45 +1305,21 @@ em_utils_empty_trash (GtkWidget *parent,
 		if ((provider->flags & CAMEL_PROVIDER_IS_STORAGE) == 0)
 			continue;
 
-		account = e_get_account_by_uid (uid);
+		source = e_source_registry_ref_source (registry, uid);
 
-		/* The local store has no corresponding
-		 * EAccount, so skip the enabled check. */
-		if (account != NULL) {
-			if (!account->enabled)
-				continue;
+		if (source != NULL) {
+			enabled = e_source_get_enabled (source);
+			g_object_unref (source);
 		}
 
-		mail_empty_trash (CAMEL_STORE (service));
+		if (enabled)
+			mail_empty_trash (CAMEL_STORE (service));
 	}
 
 	g_list_free (list);
 }
 
 /* ********************************************************************** */
-
-void
-em_utils_clear_get_password_canceled_accounts_flag (void)
-{
-	EAccountList *account_list;
-	EIterator *iterator;
-
-	account_list = e_get_account_list ();
-
-	for (iterator = e_list_get_iterator (E_LIST (account_list));
-	     e_iterator_is_valid (iterator);
-	     e_iterator_next (iterator)) {
-		EAccount *account = (EAccount *) e_iterator_get (iterator);
-
-		if (account && account->source)
-			account->source->get_password_canceled = FALSE;
-
-		if (account && account->transport)
-			account->transport->get_password_canceled = FALSE;
-	}
-
-	g_object_unref (iterator);
-}
 
 gchar *
 em_utils_url_unescape_amp (const gchar *url)

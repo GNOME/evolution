@@ -30,6 +30,7 @@
 #include <glib/gi18n.h>
 #include <libxml/tree.h>
 #include <gtkhtml/gtkhtml.h>
+#include <gconf/gconf-client.h>
 #include <camel/camel.h>
 
 #include "libevolution-utils/e-alert-dialog.h"
@@ -358,7 +359,9 @@ copy_tree_state (EMailReader *src_reader,
 guint
 e_mail_reader_open_selected (EMailReader *reader)
 {
+	EShell *shell;
 	EMailBackend *backend;
+	ESourceRegistry *registry;
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *views;
@@ -368,6 +371,9 @@ e_mail_reader_open_selected (EMailReader *reader)
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), 0);
 
 	backend = e_mail_reader_get_backend (reader);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+	registry = e_shell_get_registry (shell);
+
 	folder = e_mail_reader_get_folder (reader);
 	uids = e_mail_reader_get_selected_uids (reader);
 	window = e_mail_reader_get_window (reader);
@@ -377,9 +383,9 @@ e_mail_reader_open_selected (EMailReader *reader)
 		return 0;
 	}
 
-	if (em_utils_folder_is_drafts (folder) ||
-		em_utils_folder_is_outbox (folder) ||
-		em_utils_folder_is_templates (folder)) {
+	if (em_utils_folder_is_drafts (registry, folder) ||
+		em_utils_folder_is_outbox (registry, folder) ||
+		em_utils_folder_is_templates (registry, folder)) {
 		em_utils_edit_messages (reader, folder, uids, TRUE);
 		return uids->len;
 	}
@@ -406,8 +412,8 @@ e_mail_reader_open_selected (EMailReader *reader)
 			CAMEL_VEE_FOLDER (folder),
 			(CamelVeeMessageInfo *) info, &real_uid);
 
-		if (em_utils_folder_is_drafts (real_folder) ||
-			em_utils_folder_is_outbox (real_folder)) {
+		if (em_utils_folder_is_drafts (registry, real_folder) ||
+			em_utils_folder_is_outbox (registry, real_folder)) {
 			GPtrArray *edits;
 
 			edits = g_ptr_array_new ();
@@ -1166,9 +1172,12 @@ void
 e_mail_reader_create_filter_from_selected (EMailReader *reader,
                                            gint filter_type)
 {
+	EShell *shell;
 	EActivity *activity;
+	EMailBackend *backend;
 	AsyncContext *context;
 	GCancellable *cancellable;
+	ESourceRegistry *registry;
 	CamelFolder *folder;
 	GPtrArray *uids;
 	const gchar *filter_source;
@@ -1176,12 +1185,16 @@ e_mail_reader_create_filter_from_selected (EMailReader *reader,
 
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
+	backend = e_mail_reader_get_backend (reader);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+	registry = e_shell_get_registry (shell);
+
 	folder = e_mail_reader_get_folder (reader);
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	if (em_utils_folder_is_sent (folder))
+	if (em_utils_folder_is_sent (registry, folder))
 		filter_source = E_FILTER_SOURCE_OUTGOING;
-	else if (em_utils_folder_is_outbox (folder))
+	else if (em_utils_folder_is_outbox (registry, folder))
 		filter_source = E_FILTER_SOURCE_OUTGOING;
 	else
 		filter_source = E_FILTER_SOURCE_INCOMING;

@@ -32,15 +32,15 @@
 #include <glib/gstdio.h>
 #include <glib/gi18n-lib.h>
 #include <libedataserver/e-data-server-util.h>
+#include <libedataserver/e-source-mail-account.h>
+#include <libedataserver/e-source-mail-composition.h>
+#include <libedataserver/e-source-mail-submission.h>
 
 #include <shell/e-shell.h>
 
 #include <libevolution-utils/e-alert-dialog.h>
 #include <libevolution-utils/e-alert-sink.h>
 
-#include <misc/e-account-combo-box.h>
-
-#include <libemail-utils/e-account-utils.h>
 #include <libemail-engine/e-mail-folder-utils.h>
 #include <libemail-engine/e-mail-session.h>
 #include <libemail-engine/e-mail-store-utils.h>
@@ -141,11 +141,14 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 {
 	GtkWindow *window;
 	EMailSession *session;
+	ESourceRegistry *registry;
 	GList *list, *link;
+	const gchar *extension_name;
 	gboolean synchronize = FALSE;
 
 	window = e_shell_get_active_window (shell);
 	session = e_mail_backend_get_session (backend);
+	registry = e_mail_session_get_registry (session);
 
 	if (e_shell_get_network_available (shell) &&
 		e_shell_backend_is_started (E_SHELL_BACKEND (backend)))
@@ -158,12 +161,17 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 			CAMEL_SESSION (session), FALSE);
 	}
 
-	list = camel_session_list_services (CAMEL_SESSION (session));
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	list = e_source_registry_list_sources (registry, extension_name);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
 		CamelService *service;
+		const gchar *uid;
 
-		service = CAMEL_SERVICE (link->data);
+		uid = e_source_get_uid (source);
+		service = camel_session_get_service (
+			CAMEL_SESSION (session), uid);
 
 		if (!CAMEL_IS_STORE (service))
 			continue;
@@ -176,7 +184,7 @@ mail_backend_prepare_for_offline_cb (EShell *shell,
 			g_object_ref (activity));
 	}
 
-	g_list_free (list);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 }
 
 static void
@@ -185,27 +193,31 @@ mail_backend_prepare_for_online_cb (EShell *shell,
                                     EMailBackend *backend)
 {
 	EMailSession *session;
+	ESourceRegistry *registry;
 	GList *list, *link;
+	const gchar *extension_name;
 
 	session = e_mail_backend_get_session (backend);
+	registry = e_mail_session_get_registry (session);
+
 	camel_session_set_online (CAMEL_SESSION (session), TRUE);
 
-	list = camel_session_list_services (CAMEL_SESSION (session));
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	list = e_source_registry_list_sources (registry, extension_name);
 
 	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
 		CamelService *service;
-		EAccount *account;
 		const gchar *uid;
 
-		service = CAMEL_SERVICE (link->data);
-
-		if (!CAMEL_IS_STORE (service))
+		if (!e_source_get_enabled (source))
 			continue;
 
-		uid = camel_service_get_uid (service);
-		account = e_get_account_by_uid (uid);
+		uid = e_source_get_uid (source);
+		service = camel_session_get_service (
+			CAMEL_SESSION (session), uid);
 
-		if (account != NULL && !account->enabled)
+		if (!CAMEL_IS_STORE (service))
 			continue;
 
 		/* FIXME Not passing a GCancellable. */
@@ -216,7 +228,7 @@ mail_backend_prepare_for_online_cb (EShell *shell,
 			g_object_ref (activity));
 	}
 
-	g_list_free (link);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 }
 
 /* Helper for mail_backend_prepare_for_quit_cb() */
@@ -273,7 +285,6 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
                                   EActivity *activity,
                                   EMailBackend *backend)
 {
-	EAccountList *account_list;
 	EMailSession *session;
 	GList *list, *link;
 	gboolean delete_junk;
@@ -285,9 +296,6 @@ mail_backend_prepare_for_quit_cb (EShell *shell,
 	empty_trash = e_mail_backend_empty_trash_policy_decision (backend);
 
 	camel_application_is_exiting = TRUE;
-
-	account_list = e_get_account_list ();
-	e_account_list_prune_proxies (account_list);
 
 	mail_vfolder_shutdown ();
 
@@ -399,19 +407,25 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
                                 const gchar *folder_name,
                                 EMailBackend *backend)
 {
+	EShell *shell;
 	CamelStoreClass *class;
-	EAccountList *account_list;
-	EIterator *iterator;
+	ESourceRegistry *registry;
+	EShellBackend *shell_backend;
 	EMailSession *session;
 	EAlertSink *alert_sink;
+	GList *list, *link;
+	const gchar *extension_name;
 	const gchar *local_drafts_folder_uri;
 	const gchar *local_sent_folder_uri;
-	gboolean write_config = FALSE;
 	gchar *uri;
 
 	/* Check whether the deleted folder was a designated Drafts or
 	 * Sent folder for any mail account, and if so revert the setting
 	 * to the equivalent local folder, which is always present. */
+
+	shell_backend = E_SHELL_BACKEND (backend);
+	shell = e_shell_backend_get_shell (shell_backend);
+	registry = e_shell_get_registry (shell);
 
 	class = CAMEL_STORE_GET_CLASS (store);
 	g_return_if_fail (class->compare_folder_name != NULL);
@@ -429,51 +443,69 @@ mail_backend_folder_deleted_cb (MailFolderCache *folder_cache,
 
 	uri = e_mail_folder_uri_build (store, folder_name);
 
-	account_list = e_get_account_list ();
-	iterator = e_list_get_iterator (E_LIST (account_list));
+	extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
+	list = e_source_registry_list_sources (registry, extension_name);
 
-	while (e_iterator_is_valid (iterator)) {
-		EAccount *account;
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		ESourceExtension *extension;
+		const gchar *drafts_folder_uri;
 
-		/* XXX EIterator misuses const. */
-		account = (EAccount *) e_iterator_get (iterator);
+		extension = e_source_get_extension (source, extension_name);
 
-		if (account->sent_folder_uri != NULL) {
-			gboolean match;
+		drafts_folder_uri =
+			e_source_mail_composition_get_drafts_folder (
+			E_SOURCE_MAIL_COMPOSITION (extension));
 
-			match = class->compare_folder_name (
-				account->sent_folder_uri, uri);
+		if (class->compare_folder_name (drafts_folder_uri, uri)) {
+			GError *error = NULL;
 
-			if (match) {
-				g_free (account->sent_folder_uri);
-				account->sent_folder_uri =
-					g_strdup (local_sent_folder_uri);
-				write_config = TRUE;
+			e_source_mail_composition_set_drafts_folder (
+				E_SOURCE_MAIL_COMPOSITION (extension),
+				local_drafts_folder_uri);
+
+			/* FIXME This is a blocking D-Bus method call. */
+			if (!e_source_write_sync (source, NULL, &error)) {
+				g_warning ("%s", error->message);
+				g_error_free (error);
 			}
 		}
-
-		if (account->drafts_folder_uri != NULL) {
-			gboolean match;
-
-			match = class->compare_folder_name (
-				account->drafts_folder_uri, uri);
-
-			if (match) {
-				g_free (account->drafts_folder_uri);
-				account->drafts_folder_uri =
-					g_strdup (local_drafts_folder_uri);
-				write_config = TRUE;
-			}
-		}
-
-		e_iterator_next (iterator);
 	}
 
-	g_object_unref (iterator);
-	g_free (uri);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
-	if (write_config)
-		mail_config_write ();
+	extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
+	list = e_source_registry_list_sources (registry, extension_name);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		ESourceExtension *extension;
+		const gchar *sent_folder_uri;
+
+		extension = e_source_get_extension (source, extension_name);
+
+		sent_folder_uri =
+			e_source_mail_submission_get_sent_folder (
+			E_SOURCE_MAIL_SUBMISSION (extension));
+
+		if (class->compare_folder_name (sent_folder_uri, uri)) {
+			GError *error = NULL;
+
+			e_source_mail_submission_set_sent_folder (
+				E_SOURCE_MAIL_SUBMISSION (extension),
+				local_sent_folder_uri);
+
+			/* FIXME This is a blocking D-Bus method call. */
+			if (!e_source_write_sync (source, NULL, &error)) {
+				g_warning ("%s", error->message);
+				g_error_free (error);
+			}
+		}
+	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	g_free (uri);
 
 	/* This does something completely different.
 	 * XXX Make it a separate signal handler? */
@@ -487,10 +519,12 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
                                 const gchar *new_folder_name,
                                 EMailBackend *backend)
 {
+	EShell *shell;
 	CamelStoreClass *class;
-	EAccountList *account_list;
-	EIterator *iterator;
-	gboolean write_config = FALSE;
+	ESourceRegistry *registry;
+	EShellBackend *shell_backend;
+	GList *list, *link;
+	const gchar *extension_name;
 	gchar *old_uri;
 	gchar *new_uri;
 	gint ii;
@@ -500,54 +534,84 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 		"views/custom_view-"
 	};
 
+	/* Check whether the renamed folder was a designated Drafts or
+	 * Sent folder for any mail account, and if so update the setting
+	 * to the new folder name. */
+
+	shell_backend = E_SHELL_BACKEND (backend);
+	shell = e_shell_backend_get_shell (shell_backend);
+	registry = e_shell_get_registry (shell);
+
 	class = CAMEL_STORE_GET_CLASS (store);
 	g_return_if_fail (class->compare_folder_name != NULL);
 
 	old_uri = e_mail_folder_uri_build (store, old_folder_name);
 	new_uri = e_mail_folder_uri_build (store, new_folder_name);
 
-	account_list = e_get_account_list ();
-	iterator = e_list_get_iterator (E_LIST (account_list));
+	extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
+	list = e_source_registry_list_sources (registry, extension_name);
 
-	while (e_iterator_is_valid (iterator)) {
-		EAccount *account;
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		ESourceExtension *extension;
+		const gchar *drafts_folder_uri;
 
-		/* XXX EIterator misuses const. */
-		account = (EAccount *) e_iterator_get (iterator);
+		extension = e_source_get_extension (source, extension_name);
 
-		if (account->sent_folder_uri != NULL) {
-			gboolean match;
+		drafts_folder_uri =
+			e_source_mail_composition_get_drafts_folder (
+			E_SOURCE_MAIL_COMPOSITION (extension));
 
-			match = class->compare_folder_name (
-				account->sent_folder_uri, old_uri);
+		if (class->compare_folder_name (drafts_folder_uri, old_uri)) {
+			GError *error = NULL;
 
-			if (match) {
-				g_free (account->sent_folder_uri);
-				account->sent_folder_uri = g_strdup (new_uri);
-				write_config = TRUE;
+			e_source_mail_composition_set_drafts_folder (
+				E_SOURCE_MAIL_COMPOSITION (extension),
+				new_uri);
+
+			/* FIXME This is a blocking D-Bus method call. */
+			if (!e_source_write_sync (source, NULL, &error)) {
+				g_warning ("%s", error->message);
+				g_error_free (error);
 			}
 		}
-
-		if (account->drafts_folder_uri != NULL) {
-			gboolean match;
-
-			match = class->compare_folder_name (
-				account->drafts_folder_uri, old_uri);
-
-			if (match) {
-				g_free (account->drafts_folder_uri);
-				account->drafts_folder_uri = g_strdup (new_uri);
-				write_config = TRUE;
-			}
-		}
-
-		e_iterator_next (iterator);
 	}
 
-	g_object_unref (iterator);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
 
-	if (write_config)
-		mail_config_write ();
+	extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
+	list = e_source_registry_list_sources (registry, extension_name);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		ESourceExtension *extension;
+		const gchar *sent_folder_uri;
+
+		extension = e_source_get_extension (source, extension_name);
+
+		sent_folder_uri =
+			e_source_mail_submission_get_sent_folder (
+			E_SOURCE_MAIL_SUBMISSION (extension));
+
+		if (class->compare_folder_name (sent_folder_uri, old_uri)) {
+			GError *error = NULL;
+
+			e_source_mail_submission_set_sent_folder (
+				E_SOURCE_MAIL_SUBMISSION (extension),
+				new_uri);
+
+			/* FIXME This is a blocking D-Bus method call. */
+			if (!e_source_write_sync (source, NULL, &error)) {
+				g_warning ("%s", error->message);
+				g_error_free (error);
+			}
+		}
+	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	g_free (old_uri);
+	g_free (new_uri);
 
 	/* Rename GalView files. */
 
@@ -564,9 +628,6 @@ mail_backend_folder_renamed_cb (MailFolderCache *folder_cache,
 		g_free (oldname);
 		g_free (newname);
 	}
-
-	g_free (old_uri);
-	g_free (new_uri);
 
 	/* This does something completely different.
 	 * XXX Make it a separate signal handler? */
@@ -606,10 +667,8 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 			g_object_unref (folder);
 	}
 
-	g_free (folder_uri);
-
 	target = em_event_target_new_folder (
-		event, store, folder_name, new_messages,
+		event, store, folder_uri, new_messages,
 		msg_uid, msg_sender, msg_subject);
 
 	folder_type = (flags & CAMEL_FOLDER_TYPE_MASK);
@@ -939,6 +998,7 @@ mail_backend_constructed (GObject *object)
 	EShell *shell;
 	EShellBackend *shell_backend;
 	MailFolderCache *folder_cache;
+	ESourceRegistry *registry;
 
 	priv = E_MAIL_BACKEND_GET_PRIVATE (object);
 
@@ -948,9 +1008,8 @@ mail_backend_constructed (GObject *object)
 	if (camel_init (e_get_user_data_dir (), TRUE) != 0)
 		exit (0);
 
-	camel_provider_init ();
-
-	priv->session = e_mail_ui_session_new ();
+	registry = e_shell_get_registry (shell);
+	priv->session = e_mail_ui_session_new (registry);
 
 	g_signal_connect (
 		priv->session, "flush-outbox",
@@ -977,10 +1036,6 @@ mail_backend_constructed (GObject *object)
 		priv->session, "job-finished",
 		G_CALLBACK (mail_backend_job_finished_cb),
 		shell_backend);
-
-	/* FIXME This is an evil hack that needs to die.
-	 *       Give EAccountComboBox a CamelSession property. */
-	e_account_combo_box_set_session (CAMEL_SESSION (priv->session));
 
 	g_signal_connect (
 		priv->session, "store-added",
@@ -1029,7 +1084,6 @@ mail_backend_constructed (GObject *object)
 		G_CALLBACK (mail_backend_folder_changed_cb), shell_backend);
 
 	mail_config_init (priv->session);
-	mail_msg_init ();
 
 	mail_msg_register_activities (
 		mail_mt_create_activity,

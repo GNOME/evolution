@@ -67,7 +67,8 @@ gboolean	em_utils_is_munged_list_message	(CamelMimeMessage *message);
 void		em_utils_get_reply_sender	(CamelMimeMessage *message,
 						 CamelInternetAddress *to,
 						 CamelNNTPAddress *postto);
-void		em_utils_get_reply_all		(CamelMimeMessage *message,
+void		em_utils_get_reply_all		(ESourceRegistry *registry,
+						 CamelMimeMessage *message,
 						 CamelInternetAddress *to,
 						 CamelInternetAddress *cc,
 						 CamelNNTPAddress *postto);

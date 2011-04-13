@@ -22,6 +22,8 @@
 #include <glib/gi18n-lib.h>
 #include <gdk/gdkkeysyms.h>
 
+#include <libedataserver/e-source-collection.h>
+
 #include <libemail-engine/e-mail-session.h>
 #include <mail/e-mail-account-tree-view.h>
 
@@ -70,18 +72,27 @@ static void
 mail_account_manager_edit_cb (EMailAccountManager *manager)
 {
 	EMailAccountTreeView *tree_view;
-	EAccount *account;
+	EMailAccountStore *store;
+	ESourceRegistry *registry;
+	EMailSession *session;
 	CamelService *service;
+	ESource *source;
 	const gchar *uid;
+
+	store = e_mail_account_manager_get_store (manager);
+	session = e_mail_account_store_get_session (store);
+	registry = e_mail_session_get_registry (session);
 
 	tree_view = E_MAIL_ACCOUNT_TREE_VIEW (manager->priv->tree_view);
 	service = e_mail_account_tree_view_get_selected_service (tree_view);
 
 	uid = camel_service_get_uid (service);
-	account = e_get_account_by_uid (uid);
-	g_return_if_fail (account != NULL);
+	source = e_source_registry_ref_source (registry, uid);
+	g_return_if_fail (source != NULL);
 
-	e_mail_account_manager_edit_account (manager, account);
+	e_mail_account_manager_edit_account (manager, source);
+
+	g_object_unref (source);
 }
 
 static void
@@ -209,6 +220,7 @@ mail_account_manager_selection_changed_cb (EMailAccountManager *manager,
 	gboolean builtin;
 	gboolean sensitive;
 	gboolean not_default;
+	gboolean removable;
 
 	add_button = manager->priv->add_button;
 	edit_button = manager->priv->edit_button;
@@ -221,9 +233,11 @@ mail_account_manager_selection_changed_cb (EMailAccountManager *manager,
 			E_MAIL_ACCOUNT_STORE_COLUMN_SERVICE, &service,
 			E_MAIL_ACCOUNT_STORE_COLUMN_BUILTIN, &builtin,
 			-1);
+		removable = !builtin;
 	} else {
 		service = NULL;
 		builtin = FALSE;
+		removable = FALSE;
 	}
 
 	store = e_mail_account_manager_get_store (manager);
@@ -232,11 +246,40 @@ mail_account_manager_selection_changed_cb (EMailAccountManager *manager,
 
 	if (service == NULL)
 		gtk_widget_grab_focus (add_button);
+	else {
+		ESource *source;
+		EMailSession *session;
+		ESourceRegistry *registry;
+		const gchar *uid;
+
+		session = e_mail_account_store_get_session (store);
+		registry = e_mail_session_get_registry (session);
+
+		uid = camel_service_get_uid (service);
+		source = e_source_registry_ref_source (registry, uid);
+
+		if (source != NULL) {
+			ESource *collection;
+			const gchar *extension_name;
+
+			extension_name = E_SOURCE_EXTENSION_COLLECTION;
+			collection = e_source_registry_find_extension (
+				registry, source, extension_name);
+			if (collection != NULL) {
+				g_object_unref (source);
+				source = collection;
+			}
+
+			removable = e_source_get_removable (source);
+
+			g_object_unref (source);
+		}
+	}
 
 	sensitive = (service != NULL && !builtin);
 	gtk_widget_set_sensitive (edit_button, sensitive);
 
-	sensitive = (service != NULL && !builtin);
+	sensitive = (service != NULL && removable);
 	gtk_widget_set_sensitive (delete_button, sensitive);
 
 	sensitive = (service != NULL && !builtin && not_default);
@@ -519,7 +562,7 @@ e_mail_account_manager_class_init (EMailAccountManagerClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
-		E_TYPE_ACCOUNT);
+		E_TYPE_SOURCE);
 }
 
 static void
@@ -556,11 +599,11 @@ e_mail_account_manager_add_account (EMailAccountManager *manager)
 
 void
 e_mail_account_manager_edit_account (EMailAccountManager *manager,
-                                     EAccount *account)
+                                     ESource *source)
 {
 	g_return_if_fail (E_IS_MAIL_ACCOUNT_MANAGER (manager));
-	g_return_if_fail (E_IS_ACCOUNT (account));
+	g_return_if_fail (E_IS_SOURCE (source));
 
-	g_signal_emit (manager, signals[EDIT_ACCOUNT], 0, account);
+	g_signal_emit (manager, signals[EDIT_ACCOUNT], 0, source);
 }
 

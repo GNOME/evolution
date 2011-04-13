@@ -45,15 +45,22 @@
 #include <libedataserver/e-flag.h>
 #include <libedataserver/e-proxy.h>
 #include <libebackend/e-extensible.h>
+#include <libedataserver/e-source-authentication.h>
+#include <libedataserver/e-source-camel.h>
+#include <libedataserver/e-source-mail-account.h>
+#include <libedataserver/e-source-mail-identity.h>
+#include <libedataserver/e-source-mail-submission.h>
+#include <libedataserver/e-source-mail-transport.h>
+#include <libedataserver/e-source-refresh.h>
 #include <libedataserverui/e-passwords.h>
 #include <libedataserver/e-data-server-util.h>
 
-#include "libemail-utils/e-account-utils.h"
 #include "libemail-utils/mail-mt.h"
 
 /* This is our hack, not part of libcamel. */
 #include "camel-null-store.h"
 
+#include "e-mail-authenticator.h"
 #include "e-mail-junk-filter.h"
 #include "e-mail-session.h"
 #include "e-mail-folder-utils.h"
@@ -70,9 +77,14 @@ typedef struct _AsyncContext AsyncContext;
 
 struct _EMailSessionPrivate {
 	MailFolderCache *folder_cache;
+	ESourceRegistry *registry;
 
-	EAccountList *account_list;
-	gulong account_added_handler_id;
+	/* ESource UID -> Timeout ID */
+	GHashTable *auto_refresh_table;
+
+	gulong source_added_handler_id;
+	gulong source_removed_handler_id;
+	gulong default_mail_account_handler_id;
 
 	CamelStore *local_store;
 	CamelStore *vfolder_store;
@@ -101,6 +113,7 @@ enum {
 	PROP_FOLDER_CACHE,
 	PROP_JUNK_FILTER_NAME,
 	PROP_LOCAL_STORE,
+	PROP_REGISTRY,
 	PROP_VFOLDER_STORE
 };
 
@@ -115,6 +128,7 @@ static const gchar *local_folder_names[E_MAIL_NUM_LOCAL_FOLDERS] = {
 
 enum {
 	FLUSH_OUTBOX,
+	REFRESH_SERVICE,
 	STORE_ADDED,
 	STORE_REMOVED,
 	LAST_SIGNAL
@@ -317,21 +331,72 @@ async_context_free (AsyncContext *context)
 }
 
 static gchar *
-mail_session_make_key (CamelService *service,
-                       const gchar *item)
+mail_session_resolve_popb4smtp (ESourceRegistry *registry,
+                                CamelService *smtp_service)
 {
-	gchar *key;
+	GList *list, *link;
+	const gchar *extension_name;
+	const gchar *smtp_uid;
+	gchar *pop_uid = NULL;
 
-	if (service != NULL) {
-		CamelURL *url;
+	/* Find a POP account that uses the given smtp_service as its
+	 * transport.  XXX This isn't foolproof though, since we don't
+	 * check that the POP server is at the same domain as the SMTP
+	 * server, which is kind of the point of POPB4SMTP. */
 
-		url = camel_service_new_camel_url (service);
-		key = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-		camel_url_free (url);
-	} else
-		key = g_strdup (item);
+	smtp_uid = camel_service_get_uid (smtp_service);
+	g_return_val_if_fail (smtp_uid != NULL, NULL);
 
-	return key;
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	list = e_source_registry_list_sources (registry, extension_name);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+		ESourceExtension *extension;
+		const gchar *backend_name;
+		gchar *uid;
+
+		extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+		extension = e_source_get_extension (source, extension_name);
+
+		/* We're only interested in POP accounts. */
+
+		backend_name = e_source_backend_get_backend_name (
+			E_SOURCE_BACKEND (extension));
+		if (g_strcmp0 (backend_name, "pop") != 0)
+			continue;
+
+		/* Get the mail account's default mail identity. */
+
+		uid = e_source_mail_account_dup_identity_uid (
+			E_SOURCE_MAIL_ACCOUNT (extension));
+		source = e_source_registry_ref_source (registry, uid);
+		g_free (uid);
+
+		if (source == NULL)
+			continue;
+
+		/* Get the mail identity's default mail transport. */
+
+		extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
+		extension = e_source_get_extension (source, extension_name);
+
+		uid = e_source_mail_submission_dup_transport_uid (
+			E_SOURCE_MAIL_SUBMISSION (extension));
+
+		g_object_unref (source);
+
+		if (g_strcmp0 (uid, smtp_uid) == 0) {
+			pop_uid = uid;
+			break;
+		}
+
+		g_free (uid);
+	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	return pop_uid;
 }
 
 static void
@@ -406,134 +471,180 @@ mail_session_set_junk_filter_name (EMailSession *session,
 }
 
 static void
-mail_session_add_by_account (EMailSession *session,
-                             EAccount *account)
+mail_session_refresh_cb (ESource *source,
+                         CamelSession *session)
 {
-	CamelService *service = NULL;
-	CamelProvider *provider;
-	CamelURL *url = NULL;
-	const gchar *protocol = NULL;
-	gboolean have_source_url;
+	CamelService *service;
+	const gchar *uid;
+
+	uid = e_source_get_uid (source);
+	service = camel_session_get_service (session, uid);
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
+
+	g_signal_emit (session, signals[REFRESH_SERVICE], 0, service);
+}
+
+static void
+mail_session_add_from_source (EMailSession *session,
+                              CamelProviderType type,
+                              ESource *source)
+{
+	ESourceBackend *extension;
+	const gchar *uid;
+	const gchar *backend_name;
+	const gchar *display_name;
+	const gchar *extension_name;
 	GError *error = NULL;
 
-	have_source_url =
-		(account->source != NULL) &&
-		(account->source->url != NULL);
-
-	if (have_source_url)
-		url = camel_url_new (account->source->url, NULL);
-
-	protocol = (url != NULL) ? url->protocol : "none";
-	provider = camel_provider_get (protocol, &error);
-
-	if (url != NULL)
-		camel_url_free (url);
-
-	if (error != NULL) {
-		g_warn_if_fail (provider == NULL);
-		g_warning ("%s", error->message);
-		g_error_free (error);
-		return;
+	switch (type) {
+		case CAMEL_PROVIDER_STORE:
+			extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+			break;
+		case CAMEL_PROVIDER_TRANSPORT:
+			extension_name = E_SOURCE_EXTENSION_MAIL_TRANSPORT;
+			break;
+		default:
+			g_return_if_reached ();
 	}
 
-	g_return_if_fail (provider != NULL);
+	uid = e_source_get_uid (source);
+	display_name = e_source_get_display_name (source);
 
-	/* Load the service, but don't connect.  Check its provider,
-	 * and if this belongs in the folder tree model, add it. */
+	extension = e_source_get_extension (source, extension_name);
+	backend_name = e_source_backend_get_backend_name (extension);
 
-	service = camel_session_add_service (
-		CAMEL_SESSION (session),
-		account->uid, provider->protocol,
-		CAMEL_PROVIDER_STORE, &error);
+	/* Sanity checks. */
+	g_return_if_fail (uid != NULL);
+	g_return_if_fail (backend_name != NULL);
+
+	/* Our own CamelSession.add_service() method will handle the
+	 * resulting CamelService, so we don't need the return value. */
+	camel_session_add_service (
+		CAMEL_SESSION (session), uid,
+		backend_name, type, &error);
 
 	if (error != NULL) {
 		g_warning (
-			"Failed to add service: %s: %s",
-			account->name, error->message);
+			"Failed to add service '%s' (%s): %s",
+			display_name, uid, error->message);
 		g_error_free (error);
-		return;
 	}
 
-	camel_service_set_display_name (service, account->name);
+	/* Set up auto-refresh. */
+	extension_name = E_SOURCE_EXTENSION_REFRESH;
+	if (e_source_has_extension (source, extension_name)) {
+		guint timeout_id;
 
-	/* While we're at it, add the account's transport (if it has one)
-	 * to the CamelSession.  The transport's UID is a kludge for now.
-	 * We take the EAccount's UID and tack on "-transport". */
+		/* Transports should not have a refresh extension. */
+		g_warn_if_fail (type != CAMEL_PROVIDER_TRANSPORT);
 
-	if (account->transport) {
-		GError *transport_error = NULL;
+		timeout_id = e_source_refresh_add_timeout (
+			source, NULL, (ESourceRefreshFunc)
+			mail_session_refresh_cb, session,
+			(GDestroyNotify) NULL);
 
-		url = camel_url_new (
-			account->transport->url,
-			&transport_error);
-
-		if (url != NULL) {
-			provider = camel_provider_get (
-				url->protocol, &transport_error);
-			camel_url_free (url);
-		} else
-			provider = NULL;
-
-		if (provider != NULL) {
-			gchar *transport_uid;
-
-			transport_uid = g_strconcat (
-				account->uid, "-transport", NULL);
-
-			camel_session_add_service (
-				CAMEL_SESSION (session),
-				transport_uid, provider->protocol,
-				CAMEL_PROVIDER_TRANSPORT, &transport_error);
-
-			g_free (transport_uid);
-		}
-
-		if (transport_error) {
-			g_warning (
-				"%s: Failed to add transport service: %s",
-				G_STRFUNC, transport_error->message);
-			g_error_free (transport_error);
-		}
+		g_hash_table_insert (
+			session->priv->auto_refresh_table,
+			g_strdup (uid),
+			GUINT_TO_POINTER (timeout_id));
 	}
 }
 
 static void
-mail_session_account_added_cb (EAccountList *account_list,
-                               EAccount *account,
-                               EMailSession *session)
+mail_session_source_added_cb (ESourceRegistry *registry,
+                              ESource *source,
+                              EMailSession *session)
 {
-	mail_session_add_by_account (session, account);
+	CamelProviderType provider_type;
+	const gchar *extension_name;
+
+	provider_type = CAMEL_PROVIDER_STORE;
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+
+	if (e_source_has_extension (source, extension_name))
+		mail_session_add_from_source (session, provider_type, source);
+
+	provider_type = CAMEL_PROVIDER_TRANSPORT;
+	extension_name = E_SOURCE_EXTENSION_MAIL_TRANSPORT;
+
+	if (e_source_has_extension (source, extension_name))
+		mail_session_add_from_source (session, provider_type, source);
 }
 
 static void
-mail_session_add_local_store (EMailSession *session)
+mail_session_source_removed_cb (ESourceRegistry *registry,
+                                ESource *source,
+                                EMailSession *session)
+{
+	CamelSession *camel_session;
+	CamelService *service;
+	const gchar *uid;
+
+	camel_session = CAMEL_SESSION (session);
+
+	uid = e_source_get_uid (source);
+	service = camel_session_get_service (camel_session, uid);
+
+	if (CAMEL_IS_SERVICE (service))
+		camel_session_remove_service (camel_session, service);
+}
+
+static void
+mail_session_default_mail_account_cb (ESourceRegistry *registry,
+                                      GParamSpec *pspec,
+                                      EMailSession *session)
+{
+	ESource *source;
+	ESourceMailAccount *extension;
+	const gchar *extension_name;
+	gchar *uid;
+
+	/* If the default mail account names a valid mail
+	 * identity, make it the default mail identity. */
+
+	/* XXX I debated whether to have ESourceRegistry do this
+	 *     itself but it seems like an Evolution policy to me
+	 *     right now.  I may change my mind in the future, or
+	 *     decide not to do this synchronization at all. */
+
+	source = e_source_registry_ref_default_mail_account (registry);
+	g_return_if_fail (source != NULL);
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	extension = e_source_get_extension (source, extension_name);
+	uid = e_source_mail_account_dup_identity_uid (extension);
+
+	g_object_unref (source);
+	source = NULL;
+
+	if (uid != NULL) {
+		source = e_source_registry_ref_source (registry, uid);
+		g_free (uid);
+	}
+
+	if (source != NULL) {
+		e_source_registry_set_default_mail_identity (registry, source);
+		g_object_unref (source);
+	}
+}
+
+static void
+mail_session_configure_local_store (EMailSession *session)
 {
 	CamelLocalSettings *local_settings;
 	CamelSession *camel_session;
 	CamelSettings *settings;
 	CamelService *service;
 	const gchar *data_dir;
+	const gchar *uid;
 	gchar *path;
 	gint ii;
-	GError *error = NULL;
 
 	camel_session = CAMEL_SESSION (session);
 
-	service = camel_session_add_service (
-		camel_session, E_MAIL_SESSION_LOCAL_UID,
-		"maildir", CAMEL_PROVIDER_STORE, &error);
-
-	/* XXX One could argue this is a fatal error
-	 *     since we depend on it in so many places. */
-	if (error != NULL) {
-		g_critical ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-		return;
-	}
-
+	uid = E_MAIL_SESSION_LOCAL_UID;
+	service = camel_session_get_service (camel_session, uid);
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
-
-	camel_service_set_display_name (service, _("On This Computer"));
 
 	settings = camel_service_get_settings (service);
 	local_settings = CAMEL_LOCAL_SETTINGS (settings);
@@ -582,6 +693,115 @@ mail_session_add_local_store (EMailSession *session)
 }
 
 static void
+mail_session_force_refresh (EMailSession *session)
+{
+	ESourceRegistry *registry;
+	GHashTableIter iter;
+	GSettings *settings;
+	gboolean unconditionally;
+	gpointer key;
+
+	/* Only refresh when the session is online. */
+	if (!camel_session_get_online (CAMEL_SESSION (session)))
+		return;
+
+	/* FIXME EMailSession should define properties for these. */
+	settings = g_settings_new ("org.gnome.evolution.mail");
+	unconditionally =
+		g_settings_get_boolean (settings, "send-recv-on-start") &&
+		g_settings_get_boolean (settings, "send-recv-all-on-start");
+	g_object_unref (settings);
+
+	registry = e_mail_session_get_registry (session);
+	g_hash_table_iter_init (&iter, session->priv->auto_refresh_table);
+
+	while (g_hash_table_iter_next (&iter, &key, NULL)) {
+		ESource *source;
+		ESourceRefresh *extension;
+		const gchar *extension_name;
+		gboolean refresh_enabled;
+
+		/* The hash table key is the ESource UID. */
+		source = e_source_registry_ref_source (registry, key);
+
+		if (source == NULL)
+			continue;
+
+		extension_name = E_SOURCE_EXTENSION_REFRESH;
+		extension = e_source_get_extension (source, extension_name);
+		refresh_enabled = e_source_refresh_get_enabled (extension);
+
+		if (refresh_enabled || unconditionally)
+			e_source_refresh_force_timeout (source);
+
+		g_object_unref (source);
+	}
+}
+
+static void
+mail_session_cancel_refresh (EMailSession *session)
+{
+	ESourceRegistry *registry;
+	GHashTableIter iter;
+	gpointer key, value;
+
+	registry = e_mail_session_get_registry (session);
+	g_hash_table_iter_init (&iter, session->priv->auto_refresh_table);
+
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		ESource *source;
+		guint timeout_id;
+
+		/* The hash table key is the ESource UID. */
+		source = e_source_registry_ref_source (registry, key);
+
+		/* The hash table value is the refresh timeout ID. */
+		timeout_id = GPOINTER_TO_UINT (value);
+
+		if (source == NULL)
+			continue;
+
+		e_source_refresh_remove_timeout (source, timeout_id);
+
+		g_object_unref (source);
+	}
+
+	/* All timeouts cancelled so clear the auto-refresh table. */
+	g_hash_table_remove_all (session->priv->auto_refresh_table);
+}
+
+static gboolean
+mail_session_idle_refresh_cb (EMailSession *session)
+{
+	/* This only runs once at startup (if settings allow). */
+
+	if (camel_session_get_online (CAMEL_SESSION (session))) {
+		mail_session_force_refresh (session);
+
+		/* Also flush the Outbox. */
+		g_signal_emit (session, signals[FLUSH_OUTBOX], 0);
+	}
+
+	/* Listen for network state changes and force a
+	 * mail store refresh when coming back online. */
+	g_signal_connect (
+		session, "notify::online",
+		G_CALLBACK (mail_session_force_refresh), NULL);
+
+	return FALSE;
+}
+
+static void
+mail_session_set_registry (EMailSession *session,
+                           ESourceRegistry *registry)
+{
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
+	g_return_if_fail (session->priv->registry == NULL);
+
+	session->priv->registry = g_object_ref (registry);
+}
+
+static void
 mail_session_set_property (GObject *object,
                            guint property_id,
                            const GValue *value,
@@ -592,6 +812,12 @@ mail_session_set_property (GObject *object,
 			mail_session_set_junk_filter_name (
 				E_MAIL_SESSION (object),
 				g_value_get_string (value));
+			return;
+
+		case PROP_REGISTRY:
+			mail_session_set_registry (
+				E_MAIL_SESSION (object),
+				g_value_get_object (value));
 			return;
 	}
 
@@ -626,6 +852,13 @@ mail_session_get_property (GObject *object,
 				E_MAIL_SESSION (object)));
 			return;
 
+		case PROP_REGISTRY:
+			g_value_set_object (
+				value,
+				e_mail_session_get_registry (
+				E_MAIL_SESSION (object)));
+			return;
+
 		case PROP_VFOLDER_STORE:
 			g_value_set_object (
 				value,
@@ -649,12 +882,22 @@ mail_session_dispose (GObject *object)
 		priv->folder_cache = NULL;
 	}
 
-	if (priv->account_list != NULL) {
+	if (priv->registry != NULL) {
 		g_signal_handler_disconnect (
-			priv->account_list,
-			priv->account_added_handler_id);
-		g_object_unref (priv->account_list);
-		priv->account_list = NULL;
+			priv->registry,
+			priv->source_added_handler_id);
+		g_signal_handler_disconnect (
+			priv->registry,
+			priv->source_removed_handler_id);
+		g_signal_handler_disconnect (
+			priv->registry,
+			priv->default_mail_account_handler_id);
+
+		/* This requires the registry. */
+		mail_session_cancel_refresh (E_MAIL_SESSION (object));
+
+		g_object_unref (priv->registry);
+		priv->registry = NULL;
 	}
 
 	if (priv->local_store != NULL) {
@@ -674,27 +917,18 @@ mail_session_dispose (GObject *object)
 }
 
 static void
-mail_session_add_vfolder_store (EMailSession *session)
+mail_session_configure_vfolder_store (EMailSession *session)
 {
 	CamelSession *camel_session;
 	CamelService *service;
-	GError *error = NULL;
+	const gchar *uid;
 
 	camel_session = CAMEL_SESSION (session);
 
-	service = camel_session_add_service (
-		camel_session, E_MAIL_SESSION_VFOLDER_UID,
-		"vfolder", CAMEL_PROVIDER_STORE, &error);
-
-	if (error != NULL) {
-		g_critical ("%s: %s", G_STRFUNC, error->message);
-		g_error_free (error);
-		return;
-	}
-
+	uid = E_MAIL_SESSION_VFOLDER_UID;
+	service = camel_session_get_service (camel_session, uid);
 	g_return_if_fail (CAMEL_IS_SERVICE (service));
 
-	camel_service_set_display_name (service, _("Search Folders"));
 	camel_service_connect_sync (service, NULL, NULL);
 
 	/* XXX There's more configuration to do in vfolder_load_storage()
@@ -712,6 +946,7 @@ mail_session_finalize (GObject *object)
 
 	priv = E_MAIL_SESSION_GET_PRIVATE (object);
 
+	g_hash_table_destroy (priv->auto_refresh_table);
 	g_hash_table_destroy (priv->junk_filters);
 	g_object_unref (priv->proxy);
 
@@ -737,73 +972,76 @@ mail_session_notify (GObject *object,
 		g_object_notify (object, "junk-filter-name");
 }
 
-static gboolean
-mail_session_initialize_stores_idle (gpointer user_data)
-{
-	EMailSession *session = user_data;
-	EAccountList *account_list;
-	EAccount *account;
-	EIterator *iter;
-
-	g_return_val_if_fail (session != NULL, FALSE);
-
-	account_list = e_get_account_list ();
-	iter = e_list_get_iterator (E_LIST (account_list));
-
-	while (e_iterator_is_valid (iter)) {
-		/* XXX EIterator misuses const. */
-		account = (EAccount *) e_iterator_get (iter);
-
-		mail_session_add_by_account (session, account);
-
-		e_iterator_next (iter);
-	}
-
-	g_object_unref (iter);
-
-	return FALSE;
-}
-
 static void
 mail_session_constructed (GObject *object)
 {
 	EMailSession *session;
 	EExtensible *extensible;
+	ESourceRegistry *registry;
 	GType extension_type;
 	GList *list, *link;
 	GSettings *settings;
-	EAccountList *account_list;
+	CamelProviderType provider_type;
+	const gchar *extension_name;
 	gulong handler_id;
 
 	session = E_MAIL_SESSION (object);
+	registry = e_mail_session_get_registry (session);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_session_parent_class)->constructed (object);
 
-	account_list = e_get_account_list ();
-	session->priv->account_list = g_object_ref (account_list);
+	/* Add available mail accounts. */
 
-	/* This must be created after the account store. */
-	session->priv->folder_cache = mail_folder_cache_new (session);
+	provider_type = CAMEL_PROVIDER_STORE;
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
 
-	/* Add built-in CamelStores. */
-	mail_session_add_local_store (session);
-	mail_session_add_vfolder_store (session);
+	list = e_source_registry_list_sources (registry, extension_name);
 
-	/* Give it a chance to load user settings, they are not loaded yet.
-	 *
-	 * XXX Is this the case where hiding such natural things like loading
-	 *     user setting into an EExtension strikes back and proves itself
-	 *     being suboptimal?
-	 */
-	g_idle_add (mail_session_initialize_stores_idle, object);
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
 
-	/* Listen for account list updates. */
+		mail_session_add_from_source (session, provider_type, source);
+	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	/* Add available mail transports. */
+
+	provider_type = CAMEL_PROVIDER_TRANSPORT;
+	extension_name = E_SOURCE_EXTENSION_MAIL_TRANSPORT;
+
+	list = e_source_registry_list_sources (registry, extension_name);
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		ESource *source = E_SOURCE (link->data);
+
+		mail_session_add_from_source (session, provider_type, source);
+	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	/* Built-in stores require extra configuration. */
+
+	mail_session_configure_local_store (session);
+	mail_session_configure_vfolder_store (session);
+
+	/* Listen for registry changes. */
 
 	handler_id = g_signal_connect (
-		account_list, "account-added",
-		G_CALLBACK (mail_session_account_added_cb), session);
-	session->priv->account_added_handler_id = handler_id;
+		registry, "source-added",
+		G_CALLBACK (mail_session_source_added_cb), session);
+	session->priv->source_added_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		registry, "source-removed",
+		G_CALLBACK (mail_session_source_removed_cb), session);
+	session->priv->source_removed_handler_id = handler_id;
+
+	handler_id = g_signal_connect (
+		registry, "notify::default-mail-account",
+		G_CALLBACK (mail_session_default_mail_account_cb), session);
+	session->priv->default_mail_account_handler_id = handler_id;
 
 	extensible = E_EXTENSIBLE (object);
 	e_extensible_load_extensions (extensible);
@@ -852,10 +1090,11 @@ mail_session_constructed (GObject *object)
 
 	g_list_free (list);
 
+	settings = g_settings_new ("org.gnome.evolution.mail");
+
 	/* Bind the "junk-default-plugin" GSettings
 	 * key to our "junk-filter-name" property. */
 
-	settings = g_settings_new ("org.gnome.evolution.mail");
 	g_settings_bind (
 		settings, "junk-default-plugin",
 		object, "junk-filter-name",
@@ -872,6 +1111,19 @@ mail_session_constructed (GObject *object)
 
 	e_proxy_setup_proxy (session->priv->proxy);
 
+	/* Initialize the legacy message-passing framework
+	 * before starting the first mail store refresh. */
+	mail_msg_init ();
+
+	/* The application is not yet fully initialized at this point,
+	 * so run the first mail store refresh from an idle callback. */
+	if (g_settings_get_boolean (settings, "send-recv-on-start"))
+		g_idle_add_full (
+			G_PRIORITY_DEFAULT,
+			(GSourceFunc) mail_session_idle_refresh_cb,
+			g_object_ref (session),
+			(GDestroyNotify) g_object_unref);
+
 	g_object_unref (settings);
 }
 
@@ -882,53 +1134,49 @@ mail_session_add_service (CamelSession *session,
                           CamelProviderType type,
                           GError **error)
 {
+	ESourceRegistry *registry;
 	CamelService *service;
+	const gchar *extension_name;
+
+	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
+	extension_name = e_source_camel_get_extension_name (protocol);
 
 	/* Chain up to parents add_service() method. */
 	service = CAMEL_SESSION_CLASS (e_mail_session_parent_class)->
 		add_service (session, uid, protocol, type, error);
 
-	/* Initialize the CamelSettings object from CamelURL parameters.
-	 * This is temporary; soon we'll read settings from key files. */
+	/* Configure the CamelService from the corresponding ESource. */
 
 	if (CAMEL_IS_SERVICE (service)) {
-		EAccount *account;
-		CamelURL *url = NULL;
+		ESource *source;
+		ESource *tmp_source;
 
-		account = e_get_account_by_uid (uid);
-		if (account != NULL) {
-			const gchar *url_string = NULL;
+		/* Each CamelService has a corresponding ESource. */
+		source = e_source_registry_ref_source (registry, uid);
+		g_return_val_if_fail (source != NULL, service);
 
-			switch (type) {
-				case CAMEL_PROVIDER_STORE:
-					url_string = account->source->url;
-					break;
-				case CAMEL_PROVIDER_TRANSPORT:
-					url_string = account->transport->url;
-					break;
-				default:
-					break;
-			}
-
-			/* Be lenient about malformed URLs. */
-			if (url_string != NULL)
-				url = camel_url_new (url_string, NULL);
+		tmp_source = e_source_registry_find_extension (
+			registry, source, extension_name);
+		if (tmp_source != NULL) {
+			g_object_unref (source);
+			source = tmp_source;
 		}
 
-		if (url != NULL) {
-			CamelSettings *settings;
+		/* This handles all the messy property bindings. */
+		e_source_camel_configure_service (source, service);
 
-			settings = camel_service_get_settings (service);
-			camel_settings_load_from_url (settings, url);
-			camel_url_free (url);
+		g_object_bind_property (
+			source, "display-name",
+			service, "display-name",
+			G_BINDING_BIDIRECTIONAL |
+			G_BINDING_SYNC_CREATE);
 
-			g_object_notify (G_OBJECT (service), "settings");
+		/* Migrate files for this service from its old
+		 * URL-based directory to a UID-based directory
+		 * if necessary. */
+		camel_service_migrate_files (service);
 
-			/* Migrate files for this service from its old
-			 * URL-based directory to a UID-based directory
-			 * if necessary. */
-			camel_service_migrate_files (service);
-		}
+		g_object_unref (source);
 	}
 
 	return service;
@@ -942,114 +1190,69 @@ mail_session_get_password (CamelSession *session,
                            guint32 flags,
                            GError **error)
 {
-	EAccount *account = NULL;
-	const gchar *display_name = NULL;
-	const gchar *uid = NULL;
-	gchar *ret = NULL;
+	ESourceRegistry *registry;
+	gchar *password = NULL;
 
-	if (CAMEL_IS_SERVICE (service)) {
-		display_name = camel_service_get_display_name (service);
-		uid = camel_service_get_uid (service);
-		account = e_get_account_by_uid (uid);
+	/* XXX This method is now only for fringe cases.  For normal
+	 *     CamelService authentication, use authenticate_sync().
+	 *
+	 *     The two known fringe cases that still need this are:
+	 *
+	 *     1) CamelSaslPOPB4SMTP, where the CamelService is an SMTP
+	 *        transport and the item name is always "popb4smtp_uid".
+	 *        (This is a dirty hack, Camel just needs some way to
+	 *        pair up a CamelService and CamelTransport.  Not sure
+	 *        what that should look like just yet...)
+	 *
+	 *     2) CamelGpgContext, where the CamelService is NULL and
+	 *        the item name is a user ID (I think).  (Seahorse, or
+	 *        one of its dependent libraries, ought to handle this
+	 *        transparently once Camel fully transitions to GIO.)
+	 */
+
+	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
+
+	/* Handle the CamelSaslPOPB4SMTP case. */
+	if (g_strcmp0 (item, "popb4smtp_uid") == 0)
+		return mail_session_resolve_popb4smtp (registry, service);
+
+	/* Otherwise this had better be the CamelGpgContext case. */
+	g_return_val_if_fail (service == NULL, NULL);
+
+	password = e_passwords_get_password (NULL, item);
+
+	if (password == NULL || (flags & CAMEL_SESSION_PASSWORD_REPROMPT)) {
+		gboolean remember;
+		guint eflags = 0;
+
+		if (flags & CAMEL_SESSION_PASSWORD_STATIC)
+			eflags |= E_PASSWORDS_REMEMBER_NEVER;
+		else
+			eflags |= E_PASSWORDS_REMEMBER_SESSION;
+
+		if (flags & CAMEL_SESSION_PASSWORD_REPROMPT)
+			eflags |= E_PASSWORDS_REPROMPT;
+
+		if (flags & CAMEL_SESSION_PASSWORD_SECRET)
+			eflags |= E_PASSWORDS_SECRET;
+
+		if (flags & CAMEL_SESSION_PASSPHRASE)
+			eflags |= E_PASSWORDS_PASSPHRASE;
+
+		password = e_passwords_ask_password (
+			"", NULL, item, prompt, eflags, &remember, NULL);
+
+		if (password == NULL)
+			e_passwords_forget_password (NULL, item);
 	}
 
-	if (!strcmp(item, "popb4smtp_uid")) {
-		/* not 100% mt safe, but should be ok */
-		ret = g_strdup ((account != NULL) ? account->uid : uid);
-	} else {
-		gchar *key = mail_session_make_key (service, item);
-		EAccountService *config_service = NULL;
-
-		ret = e_passwords_get_password (NULL, key);
-		if (ret == NULL || (flags & CAMEL_SESSION_PASSWORD_REPROMPT)) {
-			gboolean remember;
-
-			g_free (ret);
-			ret = NULL;
-
-			if (account != NULL) {
-				if (CAMEL_IS_STORE (service))
-					config_service = account->source;
-				if (CAMEL_IS_TRANSPORT (service))
-					config_service = account->transport;
-			}
-
-			remember = config_service ? config_service->save_passwd : FALSE;
-
-			if (!config_service || (config_service &&
-				!config_service->get_password_canceled)) {
-				guint32 eflags;
-				gchar *title;
-
-				if (flags & CAMEL_SESSION_PASSPHRASE) {
-					if (display_name != NULL)
-						title = g_strdup_printf (
-							_("Enter Passphrase for %s"),
-							display_name);
-					else
-						title = g_strdup (
-							_("Enter Passphrase"));
-				} else {
-					if (display_name != NULL)
-						title = g_strdup_printf (
-							_("Enter Password for %s"),
-							display_name);
-					else
-						title = g_strdup (
-							_("Enter Password"));
-				}
-				if ((flags & CAMEL_SESSION_PASSWORD_STATIC) != 0)
-					eflags = E_PASSWORDS_REMEMBER_NEVER;
-				else if (config_service == NULL)
-					eflags = E_PASSWORDS_REMEMBER_SESSION;
-				else
-					eflags = E_PASSWORDS_REMEMBER_FOREVER;
-
-				if (flags & CAMEL_SESSION_PASSWORD_REPROMPT)
-					eflags |= E_PASSWORDS_REPROMPT;
-
-				if (flags & CAMEL_SESSION_PASSWORD_SECRET)
-					eflags |= E_PASSWORDS_SECRET;
-
-				if (flags & CAMEL_SESSION_PASSPHRASE)
-					eflags |= E_PASSWORDS_PASSPHRASE;
-
-				/* HACK: breaks abstraction ...
-				 * e_account_writable() doesn't use the
-				 * EAccount, it also uses the same writable
-				 * key for source and transport. */
-				if (!e_account_writable (NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD))
-					eflags |= E_PASSWORDS_DISABLE_REMEMBER;
-
-				ret = e_passwords_ask_password (
-					title, NULL, key, prompt,
-					eflags, &remember, NULL);
-
-				if (!ret)
-					e_passwords_forget_password (NULL, key);
-
-				g_free (title);
-
-				if (ret && config_service) {
-					config_service->save_passwd = remember;
-					e_account_list_save (e_get_account_list ());
-				}
-
-				if (config_service)
-					config_service->get_password_canceled = ret == NULL;
-			}
-		}
-
-		g_free (key);
-	}
-
-	if (ret == NULL)
+	if (password == NULL)
 		g_set_error (
 			error, G_IO_ERROR,
 			G_IO_ERROR_CANCELLED,
-			_("User canceled operation."));
+			_("User cancelled operation"));
 
-	return ret;
+	return password;
 }
 
 static gboolean
@@ -1058,13 +1261,13 @@ mail_session_forget_password (CamelSession *session,
                               const gchar *item,
                               GError **error)
 {
-	gchar *key;
+	/* XXX The only remaining user of this method is CamelGpgContext,
+	 *     which does not provide a CamelService.  Use 'item' as the
+	 *     password key. */
 
-	key = mail_session_make_key (service, item);
+	g_return_val_if_fail (service == NULL, FALSE);
 
-	e_passwords_forget_password (NULL, key);
-
-	g_free (key);
+	e_passwords_forget_password (NULL, item);
 
 	return TRUE;
 }
@@ -1124,16 +1327,19 @@ static gboolean
 mail_session_lookup_addressbook (CamelSession *session,
                                  const gchar *name)
 {
+	ESourceRegistry *registry;
 	CamelInternetAddress *addr;
 	gboolean ret;
 
 	if (!mail_config_get_lookup_book ())
 		return FALSE;
 
+	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
+
 	addr = camel_internet_address_new ();
 	camel_address_decode ((CamelAddress *) addr, name);
 	ret = em_utils_in_addressbook (
-		addr, mail_config_get_lookup_book_local_only ());
+		registry, addr, mail_config_get_lookup_book_local_only ());
 	g_object_unref (addr);
 
 	return ret;
@@ -1146,13 +1352,16 @@ mail_session_forward_to (CamelSession *session,
                          const gchar *address,
                          GError **error)
 {
-	EAccount *account;
+	ESource *source;
+	ESourceRegistry *registry;
+	ESourceMailIdentity *extension;
 	CamelMimeMessage *forward;
 	CamelStream *mem;
 	CamelInternetAddress *addr;
 	CamelFolder *out_folder;
 	CamelMessageInfo *info;
 	CamelMedium *medium;
+	const gchar *extension_name;
 	const gchar *from_address;
 	const gchar *from_name;
 	const gchar *header_name;
@@ -1166,22 +1375,28 @@ mail_session_forward_to (CamelSession *session,
 	if (!*address) {
 		g_set_error (
 			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
-			_("No destination address provided, forward "
+			_("No destination address provided, forwarding "
 			  "of the message has been cancelled."));
 		return FALSE;
 	}
 
-	account = em_utils_guess_account_with_recipients (message, folder);
-	if (!account) {
+	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
+
+	/* This returns a new ESource reference. */
+	source = em_utils_guess_mail_identity_with_recipients (
+		registry, message, folder);
+	if (source == NULL) {
 		g_set_error (
 			error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
-			_("No account found to use, forward of the "
-			  "message has been cancelled."));
+			_("No identity found to use, forwarding "
+			  "of the message has been cancelled."));
 		return FALSE;
 	}
 
-	from_address = account->id->address;
-	from_name = account->id->name;
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+	extension = e_source_get_extension (source, extension_name);
+	from_address = e_source_mail_identity_get_address (extension);
+	from_name = e_source_mail_identity_get_name (extension);
 
 	forward = camel_mime_message_new ();
 
@@ -1255,6 +1470,8 @@ mail_session_forward_to (CamelSession *session,
 
 	camel_message_info_free (info);
 
+	g_object_unref (source);
+
 	return TRUE;
 }
 
@@ -1301,19 +1518,23 @@ mail_session_authenticate_sync (CamelSession *session,
                                 GCancellable *cancellable,
                                 GError **error)
 {
+	ESource *source;
+	ESourceRegistry *registry;
+	ESourceAuthenticator *auth;
 	CamelServiceAuthType *authtype = NULL;
 	CamelAuthenticationResult result;
-	CamelProvider *provider;
-	CamelSettings *settings;
-	const gchar *password;
-	guint32 password_flags;
+	const gchar *uid;
+	gboolean authenticated;
 	GError *local_error = NULL;
 
 	/* Do not chain up.  Camel's default method is only an example for
 	 * subclasses to follow.  Instead we mimic most of its logic here. */
 
-	provider = camel_service_get_provider (service);
-	settings = camel_service_get_settings (service);
+	registry = e_mail_session_get_registry (E_MAIL_SESSION (session));
+
+	/* Treat a mechanism name of "none" as NULL. */
+	if (g_strcmp0 (mechanism, "none") == 0)
+		mechanism = NULL;
 
 	/* APOP is one case where a non-SASL mechanism name is passed, so
 	 * don't bail if the CamelServiceAuthType struct comes back NULL. */
@@ -1366,58 +1587,28 @@ mail_session_authenticate_sync (CamelSession *session,
 
 	g_clear_error (&local_error);
 
-	password_flags = CAMEL_SESSION_PASSWORD_SECRET;
+	/* Find a matching ESource for this CamelService. */
+	uid = camel_service_get_uid (service);
+	source = e_source_registry_ref_source (registry, uid);
 
-retry:
-	password = camel_service_get_password (service);
-
-	if (password == NULL) {
-		CamelNetworkSettings *network_settings;
-		const gchar *host;
-		const gchar *user;
-		gchar *prompt;
-		gchar *new_passwd;
-
-		network_settings = CAMEL_NETWORK_SETTINGS (settings);
-		host = camel_network_settings_get_host (network_settings);
-		user = camel_network_settings_get_user (network_settings);
-
-		prompt = camel_session_build_password_prompt (
-			provider->name, user, host);
-
-		new_passwd = camel_session_get_password (
-			session, service, prompt, "password",
-			password_flags, &local_error);
-		camel_service_set_password (service, new_passwd);
-		password = camel_service_get_password (service);
-		g_free (new_passwd);
-
-		g_free (prompt);
-
-		if (local_error != NULL) {
-			g_propagate_error (error, local_error);
-			return FALSE;
-		}
-
-		if (password == NULL) {
-			g_set_error (
-				error, CAMEL_SERVICE_ERROR,
-				CAMEL_SERVICE_ERROR_CANT_AUTHENTICATE,
-				_("No password was provided"));
-			return FALSE;
-		}
+	if (source == NULL) {
+		g_set_error (
+			error, CAMEL_SERVICE_ERROR,
+			CAMEL_SERVICE_ERROR_CANT_AUTHENTICATE,
+			_("No data source found for UID '%s'"), uid);
+		return FALSE;
 	}
 
-	result = camel_service_authenticate_sync (
-		service, mechanism, cancellable, error);
+	auth = e_mail_authenticator_new (service, mechanism);
 
-	if (result == CAMEL_AUTHENTICATION_REJECTED) {
-		password_flags |= CAMEL_SESSION_PASSWORD_REPROMPT;
-		camel_service_set_password (service, NULL);
-		goto retry;
-	}
+	authenticated = e_source_registry_authenticate_sync (
+		registry, source, auth, cancellable, error);
 
-	return (result == CAMEL_AUTHENTICATION_ACCEPTED);
+	g_object_unref (auth);
+
+	g_object_unref (source);
+
+	return authenticated;
 }
 
 static EMVFolderContext *
@@ -1493,6 +1684,18 @@ e_mail_session_class_init (EMailSessionClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_REGISTRY,
+		g_param_spec_object (
+			"registry",
+			"Registry",
+			"Data source registry",
+			E_TYPE_SOURCE_REGISTRY,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_VFOLDER_STORE,
 		g_param_spec_object (
 			"vfolder-store",
@@ -1512,15 +1715,32 @@ e_mail_session_class_init (EMailSessionClass *class)
 		"flush-outbox",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
-		0, /* struct offset */
-		NULL, NULL, /* accumulator */
+		G_STRUCT_OFFSET (EMailSessionClass, flush_outbox),
+		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 
 	/**
+	 * EMailSession::refresh-service
+	 * @session: the #EMailSession that emitted the signal
+	 * @service: a #CamelService
+	 *
+	 * Emitted when @service should be refreshed.
+	 **/
+	signals[REFRESH_SERVICE] = g_signal_new (
+		"refresh-service",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMailSessionClass, refresh_service),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		CAMEL_TYPE_SERVICE);
+
+	/**
 	 * EMailSession::store-added
-	 * @session: the email session
-	 * @store: the CamelStore
+	 * @session: the #EMailSession that emitted the signal
+	 * @store: a #CamelStore
 	 *
 	 * Emitted when a store is added
 	 **/
@@ -1528,16 +1748,16 @@ e_mail_session_class_init (EMailSessionClass *class)
 		"store-added",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
-		0, /* struct offset */
-		NULL, NULL, /* accumulator */
+		G_STRUCT_OFFSET (EMailSessionClass, store_added),
+		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
 		CAMEL_TYPE_STORE);
 
 	/**
 	 * EMailSession::store-removed
-	 * @session: the email session
-	 * @store: the CamelStore
+	 * @session: the #EMailSession that emitted the signal
+	 * @store: a #CamelStore
 	 *
 	 * Emitted when a store is removed 
 	 **/
@@ -1545,25 +1765,37 @@ e_mail_session_class_init (EMailSessionClass *class)
 		"store-removed",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
-		0, /* struct offset */
-		NULL, NULL, /* accumulator */
+		G_STRUCT_OFFSET (EMailSessionClass, store_removed),
+		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
 		CAMEL_TYPE_STORE);
 
 	camel_null_store_register_provider ();
+
+	/* Make sure ESourceCamel picks up the "none" provider. */
+	e_source_camel_register_types ();
 }
 
 static void
 e_mail_session_init (EMailSession *session)
 {
+	GHashTable *auto_refresh_table;
 	GHashTable *junk_filters;
+
+	auto_refresh_table = g_hash_table_new_full (
+		(GHashFunc) g_str_hash,
+		(GEqualFunc) g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) NULL);
 
 	junk_filters = g_hash_table_new (
 		(GHashFunc) g_str_hash,
 		(GEqualFunc) g_str_equal);
 
 	session->priv = E_MAIL_SESSION_GET_PRIVATE (session);
+	session->priv->folder_cache = mail_folder_cache_new (session);
+	session->priv->auto_refresh_table = auto_refresh_table;
 	session->priv->junk_filters = junk_filters;
 	session->priv->proxy = e_proxy_new ();
 
@@ -1573,16 +1805,15 @@ e_mail_session_init (EMailSession *session)
 	session->priv->local_folder_uris =
 		g_ptr_array_new_with_free_func (
 		(GDestroyNotify) g_free);
-
-	/* Initialize the EAccount setup. */
-	e_account_writable (NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD);
 }
 
 EMailSession *
-e_mail_session_new (void)
+e_mail_session_new (ESourceRegistry *registry)
 {
 	const gchar *user_data_dir;
 	const gchar *user_cache_dir;
+
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
 
 	user_data_dir = mail_session_get_data_dir ();
 	user_cache_dir = mail_session_get_cache_dir ();
@@ -1591,7 +1822,16 @@ e_mail_session_new (void)
 		E_TYPE_MAIL_SESSION,
 		"user-data-dir", user_data_dir,
 		"user-cache-dir", user_cache_dir,
+		"registry", registry,
 		NULL);
+}
+
+ESourceRegistry *
+e_mail_session_get_registry (EMailSession *session)
+{
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+
+	return session->priv->registry;
 }
 
 MailFolderCache *
@@ -1987,6 +2227,67 @@ e_mail_session_uri_to_folder_finish (EMailSession *session,
 	g_return_val_if_fail (CAMEL_IS_FOLDER (context->folder), NULL);
 
 	return g_object_ref (context->folder);
+}
+
+gboolean
+e_binding_transform_service_to_source (GBinding *binding,
+                                       const GValue *source_value,
+                                       GValue *target_value,
+                                       gpointer session)
+{
+	CamelService *service;
+	ESourceRegistry *registry;
+	ESource *source;
+	const gchar *uid;
+	gboolean success = FALSE;
+
+	g_return_val_if_fail (G_IS_BINDING (binding), FALSE);
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), FALSE);
+
+	service = g_value_get_object (source_value);
+
+	if (!CAMEL_IS_SERVICE (service))
+		return FALSE;
+
+	uid = camel_service_get_uid (service);
+	registry = e_mail_session_get_registry (session);
+	source = e_source_registry_ref_source (registry, uid);
+
+	if (source != NULL) {
+		g_value_take_object (target_value, source);
+		success = TRUE;
+	}
+
+	return success;
+}
+
+gboolean
+e_binding_transform_source_to_service (GBinding *binding,
+                                       const GValue *source_value,
+                                       GValue *target_value,
+                                       gpointer session)
+{
+	CamelService *service;
+	ESource *source;
+	const gchar *uid;
+
+	g_return_val_if_fail (G_IS_BINDING (binding), FALSE);
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), FALSE);
+
+	source = g_value_get_object (source_value);
+
+	if (!E_IS_SOURCE (source))
+		return FALSE;
+
+	uid = e_source_get_uid (source);
+	service = camel_session_get_service (session, uid);
+
+	if (!CAMEL_IS_SERVICE (service))
+		return FALSE;
+
+	g_value_set_object (target_value, service);
+
+	return TRUE;
 }
 
 /******************************** Legacy API *********************************/

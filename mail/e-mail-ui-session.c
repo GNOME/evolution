@@ -44,13 +44,13 @@
 
 #include <libedataserver/e-flag.h>
 #include <libedataserver/e-proxy.h>
+#include <libedataserver/e-source-mail-account.h>
 #include <libebackend/e-extensible.h>
 #include <libedataserverui/e-passwords.h>
 
 #include "e-mail-account-store.h"
 
 #include "e-util/e-util.h"
-#include "libemail-utils/e-account-utils.h"
 #include "libevolution-utils/e-alert-dialog.h"
 #include "e-util/e-util-private.h"
 
@@ -82,11 +82,11 @@ typedef struct _SourceContext SourceContext;
 
 struct _EMailUISessionPrivate {
 	FILE *filter_logfile;
+	ESourceRegistry *registry;
 	EMailAccountStore *account_store;
 	EMailLabelListStore *label_store;
 
-	EAccountList *account_list;
-	gulong account_changed_handler_id;
+	gulong source_changed_handler_id;
 };
 
 enum {
@@ -475,11 +475,95 @@ source_context_free (SourceContext *context)
 }
 
 static void
+mail_ui_session_source_changed_cb (ESourceRegistry *registry,
+                                   ESource *source,
+                                   EMailSession *session)
+{
+	EMFolderTreeModel *folder_tree_model;
+	CamelService *service;
+	const gchar *extension_name;
+	const gchar *uid;
+
+	uid = e_source_get_uid (source);
+
+	/* We're only interested in mail account data sources. */
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	if (!e_source_has_extension (source, extension_name))
+		return;
+
+	/* There should be a CamelStore with the same UID. */
+	service = camel_session_get_service (CAMEL_SESSION (session), uid);
+	g_return_if_fail (CAMEL_IS_STORE (service));
+
+	/* Remove the store from the folder tree model and, if the
+	 * source is still enabled, re-add it.  Easier than trying
+	 * to update the model with the store in place.
+	 *
+	 * em_folder_tree_model_add_store() already knows which types
+	 * of stores to disregard, so we don't have to deal with that
+	 * here. */
+
+	folder_tree_model = em_folder_tree_model_get_default ();
+
+	em_folder_tree_model_remove_store (
+		folder_tree_model, CAMEL_STORE (service));
+
+	if (e_source_get_enabled (source))
+		em_folder_tree_model_add_store (
+			folder_tree_model, CAMEL_STORE (service));
+}
+
+static gboolean
+mail_ui_session_add_service_cb (SourceContext *context)
+{
+	EMailAccountStore *store;
+
+	/* The CamelService should be fully initialized by now. */
+	store = e_mail_ui_session_get_account_store (context->session);
+	e_mail_account_store_add_service (store, context->service);
+
+	return FALSE;
+}
+
+static void
+mail_ui_session_get_property (GObject *object,
+                              guint property_id,
+                              GValue *value,
+                              GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_ACCOUNT_STORE:
+			g_value_set_object (
+				value,
+				e_mail_ui_session_get_account_store (
+				E_MAIL_UI_SESSION (object)));
+			return;
+
+		case PROP_LABEL_STORE:
+			g_value_set_object (
+				value,
+				e_mail_ui_session_get_label_store (
+				E_MAIL_UI_SESSION (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
 mail_ui_session_dispose (GObject *object)
 {
 	EMailUISessionPrivate *priv;
 
 	priv = E_MAIL_UI_SESSION_GET_PRIVATE (object);
+
+	if (priv->registry != NULL) {
+		g_signal_handler_disconnect (
+			priv->registry,
+			priv->source_changed_handler_id);
+		g_object_unref (priv->registry);
+		priv->registry = NULL;
+	}
 
 	if (priv->account_store != NULL) {
 		e_mail_account_store_clear (priv->account_store);
@@ -492,84 +576,8 @@ mail_ui_session_dispose (GObject *object)
 		priv->label_store = NULL;
 	}
 
-	if (priv->account_list != NULL) {
-		g_signal_handler_disconnect (
-			priv->account_list,
-			priv->account_changed_handler_id);
-		g_object_unref (priv->account_list);
-		priv->account_list = NULL;
-	}
-
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_ui_session_parent_class)->dispose (object);
-}
-
-static void
-mail_ui_session_account_changed_cb (EAccountList *account_list,
-                                 EAccount *account,
-                                 EMailSession *session)
-{
-	EMFolderTreeModel *folder_tree_model;
-	CamelService *service;
-
-	service = camel_session_get_service (
-		CAMEL_SESSION (session), account->uid);
-
-	if (!CAMEL_IS_STORE (service))
-		return;
-
-	/* Update the display name of the corresponding CamelStore.
-	 * EMailAccountStore listens for "notify" signals from each
-	 * service so it will detect this and update the model.
-	 *
-	 * XXX If EAccount defined GObject properties we could just
-	 *     bind EAccount:name to CamelService:display-name and
-	 *     be done with it.  Oh well.
-	 */
-
-	camel_service_set_display_name (service, account->name);
-
-	/* Remove the store from the folder tree model and, if the
-	 * account is still enabled, re-add it.  Easier than trying
-	 * to update the model with the store in place.
-	 *
-	 * em_folder_tree_model_add_store() already knows which types
-	 * of stores to disregard, so we don't have to deal with that
-	 * here. */
-
-	folder_tree_model = em_folder_tree_model_get_default ();
-
-	em_folder_tree_model_remove_store (
-		folder_tree_model, CAMEL_STORE (service));
-
-	if (account->enabled)
-		em_folder_tree_model_add_store (
-			folder_tree_model, CAMEL_STORE (service));
-}
-
-static gboolean
-mail_ui_session_initialize_stores_idle (gpointer user_data)
-{
-	EMailUISession *session = user_data;
-	EMailAccountStore *account_store;
-	EAccount *account;
-
-	g_return_val_if_fail (session != NULL, FALSE);
-
-	account_store = e_mail_ui_session_get_account_store (session);
-
-	/* Initialize which account is default. */
-	account = e_get_default_account ();
-	if (account != NULL) {
-		CamelService *service;
-
-		service = camel_session_get_service (
-			CAMEL_SESSION (session), account->uid);
-		e_mail_account_store_set_default_service (
-			account_store, service);
-	}
-
-	return FALSE;
 }
 
 static void
@@ -577,19 +585,19 @@ mail_ui_session_constructed (GObject *object)
 {
 	EMailUISessionPrivate *priv;
 	EMFolderTreeModel *folder_tree_model;
+	ESourceRegistry *registry;
 	EMailSession *session;
-	EMailUISession *uisession;
-	EAccountList *account_list;
 	gulong handler_id;
 
 	session = E_MAIL_SESSION (object);
-	uisession = E_MAIL_UI_SESSION (object);
-	uisession->priv = priv = E_MAIL_UI_SESSION_GET_PRIVATE (object);
 
+	priv = E_MAIL_UI_SESSION_GET_PRIVATE (object);
 	priv->account_store = e_mail_account_store_new (session);
 
-	account_list = e_get_account_list ();
-	uisession->priv->account_list = g_object_ref (account_list);
+	/* Keep our own reference to the ESourceRegistry so we
+	 * can easily disconnect signal handlers in dispose(). */
+	registry = e_mail_session_get_registry (session);
+	priv->registry = g_object_ref (registry);
 
 	/* XXX Make sure the folder tree model is created before we
 	 *     add built-in CamelStores so it gets signals from the
@@ -601,19 +609,62 @@ mail_ui_session_constructed (GObject *object)
 	 * FIXME EMailSession should just own the default instance.
 	 */
 	folder_tree_model = em_folder_tree_model_get_default ();
+	em_folder_tree_model_set_session (folder_tree_model, session);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (e_mail_ui_session_parent_class)->constructed (object);
 
-	em_folder_tree_model_set_session (folder_tree_model, session);
-
-	g_idle_add (mail_ui_session_initialize_stores_idle, object);
+	/* Listen for registry changes. */
 
 	handler_id = g_signal_connect (
-		account_list, "account-changed",
-		G_CALLBACK (mail_ui_session_account_changed_cb), session);
-	priv->account_changed_handler_id = handler_id;
+		registry, "source-changed",
+		G_CALLBACK (mail_ui_session_source_changed_cb), session);
+	priv->source_changed_handler_id = handler_id;
+}
 
+static CamelService *
+mail_ui_session_add_service (CamelSession *session,
+                             const gchar *uid,
+                             const gchar *protocol,
+                             CamelProviderType type,
+                             GError **error)
+{
+	CamelService *service;
+
+	/* Chain up to parent's constructed() method. */
+	service = CAMEL_SESSION_CLASS (e_mail_ui_session_parent_class)->
+		add_service (session, uid, protocol, type, error);
+
+	/* Inform the EMailAccountStore of the new CamelService
+	 * from an idle callback so the service has a chance to
+	 * fully initialize first. */
+	if (CAMEL_IS_STORE (service)) {
+		SourceContext *context;
+
+		context = g_slice_new0 (SourceContext);
+		context->session = g_object_ref (session);
+		context->service = g_object_ref (service);
+
+		g_idle_add_full (
+			G_PRIORITY_DEFAULT_IDLE,
+			(GSourceFunc) mail_ui_session_add_service_cb,
+			context, (GDestroyNotify) source_context_free);
+	}
+
+	return service;
+}
+
+static void
+mail_ui_session_remove_service (CamelSession *session,
+                                CamelService *service)
+{
+	EMailAccountStore *store;
+	EMailUISession *ui_session;
+
+	/* Passing a NULL parent window skips confirmation prompts. */
+	ui_session = E_MAIL_UI_SESSION (session);
+	store = e_mail_ui_session_get_account_store (ui_session);
+	e_mail_account_store_remove_service (store, NULL, service);
 }
 
 static gint
@@ -659,8 +710,8 @@ mail_ui_session_alert_user (CamelSession *session,
 
 static CamelFilterDriver *
 mail_ui_session_get_filter_driver (CamelSession *session,
-                                const gchar *type,
-                                GError **error)
+                                   const gchar *type,
+                                   GError **error)
 {
 	return (CamelFilterDriver *) mail_call_main (
 		MAIL_CALL_p_ppp, (MailMainFunc) main_get_filter_driver,
@@ -668,80 +719,14 @@ mail_ui_session_get_filter_driver (CamelSession *session,
 }
 
 static void
-mail_ui_session_set_property (GObject *object,
-                           guint property_id,
-                           const GValue *value,
-                           GParamSpec *pspec)
+mail_ui_session_refresh_service (EMailSession *session,
+                                 CamelService *service)
 {
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
+	g_debug ("*** Refreshing %s ***",
+		camel_service_get_display_name (service));
 
-static void
-mail_ui_session_get_property (GObject *object,
-                           guint property_id,
-                           GValue *value,
-                           GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_ACCOUNT_STORE:
-			g_value_set_object (
-				value,
-				e_mail_ui_session_get_account_store (
-				E_MAIL_UI_SESSION (object)));
-			return;
-
-		case PROP_LABEL_STORE:
-			g_value_set_object (
-				value,
-				e_mail_ui_session_get_label_store (
-				E_MAIL_UI_SESSION (object)));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static gboolean
-mail_ui_session_add_service_cb (SourceContext *context)
-{
-	EMailAccountStore *store;
-
-	store = e_mail_ui_session_get_account_store (context->session);
-	e_mail_account_store_add_service (store, context->service);
-
-	return FALSE;
-}
-
-static CamelService *
-mail_ui_session_add_service (CamelSession *session,
-                             const gchar *uid,
-                             const gchar *protocol,
-                             CamelProviderType type,
-                             GError **error)
-{
-	CamelService *service;
-
-	/* Chain up to parent's constructed() method. */
-	service = CAMEL_SESSION_CLASS (e_mail_ui_session_parent_class)->
-		add_service (session, uid, protocol, type, error);
-
-	/* Inform the EMailAccountStore of the new CamelService
-	 * from an idle callback so the service has a chance to
-	 * fully initialize first. */
-	if (CAMEL_IS_STORE (service)) {
-		SourceContext *context;
-
-		context = g_slice_new0 (SourceContext);
-		context->session = g_object_ref (session);
-		context->service = g_object_ref (service);
-
-		g_idle_add_full (
-			G_PRIORITY_DEFAULT_IDLE,
-			(GSourceFunc) mail_ui_session_add_service_cb,
-			context, (GDestroyNotify) source_context_free);
-	}
-
-	return service;
+	if (camel_session_get_online (CAMEL_SESSION (session)))
+		mail_receive_service (service);
 }
 
 static EMVFolderContext *
@@ -755,23 +740,24 @@ e_mail_ui_session_class_init (EMailUISessionClass *class)
 {
 	GObjectClass *object_class;
 	CamelSessionClass *session_class;
-	EMailSessionClass *emailsession_class;
+	EMailSessionClass *mail_session_class;
 
 	g_type_class_add_private (class, sizeof (EMailUISessionPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->set_property = mail_ui_session_set_property;
 	object_class->get_property = mail_ui_session_get_property;
 	object_class->dispose = mail_ui_session_dispose;
 	object_class->constructed = mail_ui_session_constructed;
 
 	session_class = CAMEL_SESSION_CLASS (class);
+	session_class->add_service = mail_ui_session_add_service;
+	session_class->remove_service = mail_ui_session_remove_service;
 	session_class->alert_user = mail_ui_session_alert_user;
 	session_class->get_filter_driver = mail_ui_session_get_filter_driver;
-	session_class->add_service = mail_ui_session_add_service;
 
-	emailsession_class = E_MAIL_SESSION_CLASS (class);
-	emailsession_class->create_vfolder_context = mail_ui_session_create_vfolder_context;
+	mail_session_class = E_MAIL_SESSION_CLASS (class);
+	mail_session_class->create_vfolder_context = mail_ui_session_create_vfolder_context;
+	mail_session_class->refresh_service = mail_ui_session_refresh_service;
 
 	g_object_class_install_property (
 		object_class,
@@ -803,16 +789,19 @@ e_mail_ui_session_init (EMailUISession *session)
 }
 
 EMailSession *
-e_mail_ui_session_new (void)
+e_mail_ui_session_new (ESourceRegistry *registry)
 {
 	const gchar *user_data_dir;
 	const gchar *user_cache_dir;
+
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
 
 	user_data_dir = mail_session_get_data_dir ();
 	user_cache_dir = mail_session_get_cache_dir ();
 
 	return g_object_new (
 		E_TYPE_MAIL_UI_SESSION,
+		"registry", registry,
 		"user-data-dir", user_data_dir,
 		"user-cache-dir", user_cache_dir,
 		NULL);

@@ -1,0 +1,783 @@
+/*
+ * e-mail-config-notebook.c
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
+ *
+ */
+
+#include "e-mail-config-notebook.h"
+
+#include <libebackend/e-extensible.h>
+#include <libedataserver/e-source-goa.h>
+#include <libedataserver/e-source-mail-identity.h>
+
+#include <mail/e-mail-config-defaults-page.h>
+#include <mail/e-mail-config-identity-page.h>
+#include <mail/e-mail-config-provider-page.h>
+#include <mail/e-mail-config-receiving-page.h>
+#include <mail/e-mail-config-security-page.h>
+#include <mail/e-mail-config-sending-page.h>
+
+#define E_MAIL_CONFIG_NOTEBOOK_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_CONFIG_NOTEBOOK, EMailConfigNotebookPrivate))
+
+typedef struct _AsyncContext AsyncContext;
+
+struct _EMailConfigNotebookPrivate {
+	EMailSession *session;
+	ESource *account_source;
+	ESource *identity_source;
+	ESource *transport_source;
+	ESource *collection_source;
+};
+
+struct _AsyncContext {
+	ESourceRegistry *registry;
+	GCancellable *cancellable;
+	GQueue *source_queue;
+};
+
+enum {
+	PROP_0,
+	PROP_ACCOUNT_SOURCE,
+	PROP_COLLECTION_SOURCE,
+	PROP_COMPLETE,
+	PROP_IDENTITY_SOURCE,
+	PROP_SESSION,
+	PROP_TRANSPORT_SOURCE
+};
+
+G_DEFINE_TYPE_WITH_CODE (
+	EMailConfigNotebook,
+	e_mail_config_notebook,
+	GTK_TYPE_NOTEBOOK,
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_EXTENSIBLE, NULL))
+
+static void
+async_context_free (AsyncContext *async_context)
+{
+	if (async_context->registry != NULL)
+		g_object_unref (async_context->registry);
+
+	if (async_context->cancellable != NULL)
+		g_object_unref (async_context->cancellable);
+
+	g_queue_free_full (
+		async_context->source_queue,
+		(GDestroyNotify) g_object_unref);
+
+	g_slice_free (AsyncContext, async_context);
+}
+
+static void
+mail_config_notebook_sort_pages (EMailConfigNotebook *notebook)
+{
+	GList *list, *link;
+	gint ii = 0;
+
+	list = g_list_sort (
+		gtk_container_get_children (GTK_CONTAINER (notebook)),
+		(GCompareFunc) e_mail_config_page_compare);
+
+	for (link = list; link != NULL; link = g_list_next (link))
+		gtk_notebook_reorder_child (
+			GTK_NOTEBOOK (notebook),
+			GTK_WIDGET (link->data), ii++);
+
+	g_list_free (list);
+}
+
+static void
+mail_config_notebook_page_changed (EMailConfigPage *page,
+                                   EMailConfigNotebook *notebook)
+{
+	g_object_notify (G_OBJECT (notebook), "complete");
+}
+
+static void
+mail_config_notebook_set_account_source (EMailConfigNotebook *notebook,
+                                         ESource *account_source)
+{
+	g_return_if_fail (E_IS_SOURCE (account_source));
+	g_return_if_fail (notebook->priv->account_source == NULL);
+
+	notebook->priv->account_source = g_object_ref (account_source);
+}
+
+static void
+mail_config_notebook_set_collection_source (EMailConfigNotebook *notebook,
+                                            ESource *collection_source)
+{
+	g_return_if_fail (notebook->priv->collection_source == NULL);
+
+	if (collection_source != NULL) {
+		g_return_if_fail (E_IS_SOURCE (collection_source));
+		g_object_ref (collection_source);
+	}
+
+	notebook->priv->collection_source = collection_source;
+}
+
+static void
+mail_config_notebook_set_identity_source (EMailConfigNotebook *notebook,
+                                          ESource *identity_source)
+{
+	g_return_if_fail (E_IS_SOURCE (identity_source));
+	g_return_if_fail (notebook->priv->identity_source == NULL);
+
+	notebook->priv->identity_source = g_object_ref (identity_source);
+}
+
+static void
+mail_config_notebook_set_session (EMailConfigNotebook *notebook,
+                                  EMailSession *session)
+{
+	g_return_if_fail (E_IS_MAIL_SESSION (session));
+	g_return_if_fail (notebook->priv->session == NULL);
+
+	notebook->priv->session = g_object_ref (session);
+}
+
+static void
+mail_config_notebook_set_transport_source (EMailConfigNotebook *notebook,
+                                           ESource *transport_source)
+{
+	g_return_if_fail (E_IS_SOURCE (transport_source));
+	g_return_if_fail (notebook->priv->transport_source == NULL);
+
+	notebook->priv->transport_source = g_object_ref (transport_source);
+}
+
+static void
+mail_config_notebook_set_property (GObject *object,
+                                   guint property_id,
+                                   const GValue *value,
+                                   GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_ACCOUNT_SOURCE:
+			mail_config_notebook_set_account_source (
+				E_MAIL_CONFIG_NOTEBOOK (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_COLLECTION_SOURCE:
+			mail_config_notebook_set_collection_source (
+				E_MAIL_CONFIG_NOTEBOOK (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_IDENTITY_SOURCE:
+			mail_config_notebook_set_identity_source (
+				E_MAIL_CONFIG_NOTEBOOK (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_SESSION:
+			mail_config_notebook_set_session (
+				E_MAIL_CONFIG_NOTEBOOK (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_TRANSPORT_SOURCE:
+			mail_config_notebook_set_transport_source (
+				E_MAIL_CONFIG_NOTEBOOK (object),
+				g_value_get_object (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+mail_config_notebook_get_property (GObject *object,
+                                   guint property_id,
+                                   GValue *value,
+                                   GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_ACCOUNT_SOURCE:
+			g_value_set_object (
+				value,
+				e_mail_config_notebook_get_account_source (
+				E_MAIL_CONFIG_NOTEBOOK (object)));
+			return;
+
+		case PROP_COLLECTION_SOURCE:
+			g_value_set_object (
+				value,
+				e_mail_config_notebook_get_collection_source (
+				E_MAIL_CONFIG_NOTEBOOK (object)));
+			return;
+
+		case PROP_COMPLETE:
+			g_value_set_boolean (
+				value,
+				e_mail_config_notebook_check_complete (
+				E_MAIL_CONFIG_NOTEBOOK (object)));
+			return;
+
+		case PROP_IDENTITY_SOURCE:
+			g_value_set_object (
+				value,
+				e_mail_config_notebook_get_identity_source (
+				E_MAIL_CONFIG_NOTEBOOK (object)));
+			return;
+
+		case PROP_SESSION:
+			g_value_set_object (
+				value,
+				e_mail_config_notebook_get_session (
+				E_MAIL_CONFIG_NOTEBOOK (object)));
+			return;
+
+		case PROP_TRANSPORT_SOURCE:
+			g_value_set_object (
+				value,
+				e_mail_config_notebook_get_transport_source (
+				E_MAIL_CONFIG_NOTEBOOK (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+mail_config_notebook_dispose (GObject *object)
+{
+	EMailConfigNotebookPrivate *priv;
+
+	priv = E_MAIL_CONFIG_NOTEBOOK_GET_PRIVATE (object);
+
+	if (priv->session != NULL) {
+		g_object_ref (priv->session);
+		priv->session = NULL;
+	}
+
+	if (priv->account_source != NULL) {
+		g_object_ref (priv->account_source);
+		priv->account_source = NULL;
+	}
+
+	if (priv->identity_source != NULL) {
+		g_object_ref (priv->identity_source);
+		priv->identity_source = NULL;
+	}
+
+	if (priv->transport_source != NULL) {
+		g_object_ref (priv->transport_source);
+		priv->transport_source = NULL;
+	}
+
+	if (priv->collection_source != NULL) {
+		g_object_ref (priv->collection_source);
+		priv->collection_source = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (e_mail_config_notebook_parent_class)->
+		dispose (object);
+}
+
+static void
+mail_config_notebook_constructed (GObject *object)
+{
+	EMailConfigNotebook *notebook;
+	ESource *source;
+	ESourceRegistry *registry;
+	ESourceExtension *extension;
+	ESourceMailIdentity *mail_identity_extension;
+	EMailConfigServiceBackend *backend;
+	CamelProvider *provider;
+	EMailSession *session;
+	EMailConfigPage *page;
+	const gchar *extension_name;
+	gboolean add_receiving_page = TRUE;
+	gboolean add_sending_page = TRUE;
+
+	notebook = E_MAIL_CONFIG_NOTEBOOK (object);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_mail_config_notebook_parent_class)->
+		constructed (object);
+
+	session = e_mail_config_notebook_get_session (notebook);
+	registry = e_mail_session_get_registry (session);
+
+	source = notebook->priv->identity_source;
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+	extension = e_source_get_extension (source, extension_name);
+	mail_identity_extension = E_SOURCE_MAIL_IDENTITY (extension);
+
+	/* If we have a collection source and the collection source
+	 * has a [GNOME Online Accounts] extension, skip the Receiving
+	 * and Sending pages since GOA dictates those settings. */
+	source = notebook->priv->collection_source;
+	if (source != NULL) {
+		extension_name = E_SOURCE_EXTENSION_GOA;
+		if (e_source_has_extension (source, extension_name)) {
+			add_receiving_page = FALSE;
+			add_sending_page = FALSE;
+		}
+	}
+
+	/*** Identity Page ***/
+
+	page = e_mail_config_identity_page_new (
+		registry, notebook->priv->identity_source);
+	e_mail_config_identity_page_set_show_instructions (
+		E_MAIL_CONFIG_IDENTITY_PAGE (page), FALSE);
+	e_mail_config_notebook_add_page (notebook, page);
+
+	/*** Receiving Page ***/
+
+	page = e_mail_config_receiving_page_new (registry);
+	backend = e_mail_config_service_page_add_scratch_source (
+		E_MAIL_CONFIG_SERVICE_PAGE (page),
+		notebook->priv->account_source,
+		notebook->priv->collection_source);
+	if (add_receiving_page) {
+		e_mail_config_notebook_add_page (notebook, page);
+
+		g_object_bind_property (
+			mail_identity_extension, "address",
+			page, "email-address",
+			G_BINDING_SYNC_CREATE);
+	}
+
+	provider = e_mail_config_service_backend_get_provider (backend);
+
+	/*** Receiving Options (conditional) ***/
+
+	/* Note: We exclude this page if it has no options,
+	 *       but we don't know that until we create it. */
+	page = e_mail_config_provider_page_new (backend);
+	if (e_mail_config_provider_page_is_empty (
+			E_MAIL_CONFIG_PROVIDER_PAGE (page))) {
+		g_object_unref (g_object_ref_sink (page));
+	} else {
+		e_mail_config_notebook_add_page (notebook, page);
+	}
+
+	/*** Sending Page (conditional) ***/
+
+	if (!CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (provider)) {
+		page = e_mail_config_sending_page_new (registry);
+		e_mail_config_service_page_add_scratch_source (
+			E_MAIL_CONFIG_SERVICE_PAGE (page),
+			notebook->priv->transport_source,
+			notebook->priv->collection_source);
+		if (add_sending_page) {
+			e_mail_config_notebook_add_page (notebook, page);
+
+			g_object_bind_property (
+				mail_identity_extension, "address",
+				page, "email-address",
+				G_BINDING_SYNC_CREATE);
+		}
+	}
+
+	/*** Defaults Page ***/
+
+	page = e_mail_config_defaults_page_new (
+		session,
+		notebook->priv->account_source,
+		notebook->priv->identity_source);
+	e_mail_config_notebook_add_page (notebook, page);
+
+	/*** Security Page ***/
+
+	page = e_mail_config_security_page_new (
+		notebook->priv->identity_source);
+	e_mail_config_notebook_add_page (notebook, page);
+
+	e_extensible_load_extensions (E_EXTENSIBLE (notebook));
+}
+
+static void
+mail_config_notebook_page_removed (GtkNotebook *notebook,
+                                   GtkWidget *child,
+                                   guint page_num)
+{
+	/* Do not chain up.  GtkNotebook does not implement this method. */
+
+	if (E_IS_MAIL_CONFIG_PAGE (child))
+		g_signal_handlers_disconnect_by_func (
+			child, mail_config_notebook_page_changed,
+			E_MAIL_CONFIG_NOTEBOOK (notebook));
+}
+
+static void
+mail_config_notebook_page_added (GtkNotebook *notebook,
+                                 GtkWidget *child,
+                                 guint page_num)
+{
+	/* Do not chain up.  GtkNotebook does not implement this method. */
+
+	if (E_IS_MAIL_CONFIG_PAGE (child))
+		g_signal_connect (
+			child, "changed",
+			G_CALLBACK (mail_config_notebook_page_changed),
+			E_MAIL_CONFIG_NOTEBOOK (notebook));
+}
+
+static void
+e_mail_config_notebook_class_init (EMailConfigNotebookClass *class)
+{
+	GObjectClass *object_class;
+	GtkNotebookClass *notebook_class;
+
+	g_type_class_add_private (class, sizeof (EMailConfigNotebookPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = mail_config_notebook_set_property;
+	object_class->get_property = mail_config_notebook_get_property;
+	object_class->dispose = mail_config_notebook_dispose;
+	object_class->constructed = mail_config_notebook_constructed;
+
+	notebook_class = GTK_NOTEBOOK_CLASS (class);
+	notebook_class->page_removed = mail_config_notebook_page_removed;
+	notebook_class->page_added = mail_config_notebook_page_added;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ACCOUNT_SOURCE,
+		g_param_spec_object (
+			"account-source",
+			"Account Source",
+			"Mail account source being edited",
+			E_TYPE_SOURCE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_COLLECTION_SOURCE,
+		g_param_spec_object (
+			"collection-source",
+			"Collection Source",
+			"Optional collection source being edited",
+			E_TYPE_SOURCE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_COMPLETE,
+		g_param_spec_boolean (
+			"complete",
+			"Complete",
+			"Whether all required fields are complete",
+			FALSE,  /* default is not used */
+			G_PARAM_READABLE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_IDENTITY_SOURCE,
+		g_param_spec_object (
+			"identity-source",
+			"Identity Source",
+			"Mail identity source being edited",
+			E_TYPE_SOURCE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SESSION,
+		g_param_spec_object (
+			"session",
+			"Session",
+			"Mail session",
+			E_TYPE_MAIL_SESSION,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_TRANSPORT_SOURCE,
+		g_param_spec_object (
+			"transport-source",
+			"Transport Source",
+			"Mail transport source being edited",
+			E_TYPE_SOURCE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+}
+
+static void
+e_mail_config_notebook_init (EMailConfigNotebook *notebook)
+{
+	notebook->priv = E_MAIL_CONFIG_NOTEBOOK_GET_PRIVATE (notebook);
+}
+
+GtkWidget *
+e_mail_config_notebook_new (EMailSession *session,
+                            ESource *account_source,
+                            ESource *identity_source,
+                            ESource *transport_source,
+                            ESource *collection_source)
+{
+	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
+	g_return_val_if_fail (E_IS_SOURCE (account_source), NULL);
+	g_return_val_if_fail (E_IS_SOURCE (identity_source), NULL);
+	g_return_val_if_fail (E_IS_SOURCE (transport_source), NULL);
+
+	/* A collection source is optional. */
+	if (collection_source != NULL)
+		g_return_val_if_fail (E_IS_SOURCE (collection_source), NULL);
+
+	return g_object_new (
+		E_TYPE_MAIL_CONFIG_NOTEBOOK,
+		"session", session,
+		"account-source", account_source,
+		"identity-source", identity_source,
+		"transport-source", transport_source,
+		"collection-source", collection_source,
+		NULL);
+}
+
+EMailSession *
+e_mail_config_notebook_get_session (EMailConfigNotebook *notebook)
+{
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_NOTEBOOK (notebook), NULL);
+
+	return notebook->priv->session;
+}
+
+ESource *
+e_mail_config_notebook_get_account_source (EMailConfigNotebook *notebook)
+{
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_NOTEBOOK (notebook), NULL);
+
+	return notebook->priv->account_source;
+}
+
+ESource *
+e_mail_config_notebook_get_identity_source (EMailConfigNotebook *notebook)
+{
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_NOTEBOOK (notebook), NULL);
+
+	return notebook->priv->identity_source;
+}
+
+ESource *
+e_mail_config_notebook_get_transport_source (EMailConfigNotebook *notebook)
+{
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_NOTEBOOK (notebook), NULL);
+
+	return notebook->priv->transport_source;
+}
+
+ESource *
+e_mail_config_notebook_get_collection_source (EMailConfigNotebook *notebook)
+{
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_NOTEBOOK (notebook), NULL);
+
+	return notebook->priv->collection_source;
+}
+
+void
+e_mail_config_notebook_add_page (EMailConfigNotebook *notebook,
+                                 EMailConfigPage *page)
+{
+	EMailConfigPageInterface *page_interface;
+	GtkWidget *tab_label;
+
+	g_return_if_fail (E_IS_MAIL_CONFIG_NOTEBOOK (notebook));
+	g_return_if_fail (E_IS_MAIL_CONFIG_PAGE (page));
+
+	page_interface = E_MAIL_CONFIG_PAGE_GET_INTERFACE (page);
+	tab_label = gtk_label_new (page_interface->title);
+
+	gtk_widget_show (GTK_WIDGET (page));
+
+	gtk_notebook_append_page (
+		GTK_NOTEBOOK (notebook),
+		GTK_WIDGET (page), tab_label);
+
+	mail_config_notebook_sort_pages (notebook);
+}
+
+gboolean
+e_mail_config_notebook_check_complete (EMailConfigNotebook *notebook)
+{
+	GList *list, *link;
+	gboolean complete = TRUE;
+
+	g_return_val_if_fail (E_IS_MAIL_CONFIG_NOTEBOOK (notebook), FALSE);
+
+	list = gtk_container_get_children (GTK_CONTAINER (notebook));
+
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		if (E_IS_MAIL_CONFIG_PAGE (link->data)) {
+			EMailConfigPage *page;
+			page = E_MAIL_CONFIG_PAGE (link->data);
+			complete = e_mail_config_page_check_complete (page);
+
+			if (!complete)
+				break;
+		}
+	}
+
+	g_list_free (list);
+
+	return complete;
+}
+
+/********************** e_mail_config_notebook_commit() **********************/
+
+static void
+mail_config_notebook_commit_cb (GObject *object,
+                                GAsyncResult *result,
+                                gpointer user_data)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *async_context;
+	ESource *next_source;
+	GError *error = NULL;
+
+	simple = G_SIMPLE_ASYNC_RESULT (user_data);
+	async_context = g_simple_async_result_get_op_res_gpointer (simple);
+
+	e_source_registry_commit_source_finish (
+		E_SOURCE_REGISTRY (object), result, &error);
+
+	if (error != NULL) {
+		g_simple_async_result_take_error (simple, error);
+		g_simple_async_result_complete (simple);
+		g_object_unref (simple);
+		return;
+	}
+
+	next_source = g_queue_pop_head (async_context->source_queue);
+
+	if (next_source == NULL) {
+		g_simple_async_result_complete (simple);
+		g_object_unref (simple);
+		return;
+	}
+
+	e_source_registry_commit_source (
+		async_context->registry, next_source,
+		async_context->cancellable,
+		mail_config_notebook_commit_cb, simple);
+
+	g_object_unref (next_source);
+}
+
+void
+e_mail_config_notebook_commit (EMailConfigNotebook *notebook,
+                               GCancellable *cancellable,
+                               GAsyncReadyCallback callback,
+                               gpointer user_data)
+{
+	GSimpleAsyncResult *simple;
+	AsyncContext *async_context;
+	ESourceRegistry *registry;
+	EMailSession *session;
+	ESource *source;
+	GList *list, *link;
+	GQueue *queue;
+
+	g_return_if_fail (E_IS_MAIL_CONFIG_NOTEBOOK (notebook));
+
+	session = e_mail_config_notebook_get_session (notebook);
+	registry = e_mail_session_get_registry (session);
+
+	queue = g_queue_new ();
+
+	/* Queue the collection data source if one is defined. */
+	source = e_mail_config_notebook_get_collection_source (notebook);
+	if (source != NULL)
+		g_queue_push_tail (queue, g_object_ref (source));
+
+	/* Queue the mail-related data sources for the account. */
+	source = e_mail_config_notebook_get_account_source (notebook);
+	if (source != NULL)
+		g_queue_push_tail (queue, g_object_ref (source));
+	source = e_mail_config_notebook_get_identity_source (notebook);
+	if (source != NULL)
+		g_queue_push_tail (queue, g_object_ref (source));
+	source = e_mail_config_notebook_get_transport_source (notebook);
+	if (source != NULL)
+		g_queue_push_tail (queue, g_object_ref (source));
+
+	list = gtk_container_get_children (GTK_CONTAINER (notebook));
+
+	/* Tell all EMailConfigPages to commit their UI state to their
+	 * scratch ESources and push any additional data sources on to
+	 * the given source queue, such as calendars or address books
+	 * to be bundled with the mail account. */
+	for (link = list; link != NULL; link = g_list_next (link)) {
+		if (E_IS_MAIL_CONFIG_PAGE (link->data)) {
+			EMailConfigPage *page;
+			page = E_MAIL_CONFIG_PAGE (link->data);
+			e_mail_config_page_commit_changes (page, queue);
+		}
+	}
+
+	g_list_free (list);
+
+	async_context = g_slice_new0 (AsyncContext);
+	async_context->registry = g_object_ref (registry);
+	async_context->source_queue = queue;  /* takes ownership */
+
+	if (G_IS_CANCELLABLE (cancellable))
+		async_context->cancellable = g_object_ref (cancellable);
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (notebook), callback, user_data,
+		e_mail_config_notebook_commit);
+
+	g_simple_async_result_set_op_res_gpointer (
+		simple, async_context, (GDestroyNotify) async_context_free);
+
+	source = g_queue_pop_head (async_context->source_queue);
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	e_source_registry_commit_source (
+		async_context->registry, source,
+		async_context->cancellable,
+		mail_config_notebook_commit_cb, simple);
+
+	g_object_unref (source);
+}
+
+gboolean
+e_mail_config_notebook_commit_finish (EMailConfigNotebook *notebook,
+                                      GAsyncResult *result,
+                                      GError **error)
+{
+	GSimpleAsyncResult *simple;
+
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (
+		result, G_OBJECT (notebook),
+		e_mail_config_notebook_commit), FALSE);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+
+	/* Assume success unless a GError is set. */
+	return !g_simple_async_result_propagate_error (simple, error);
+}
+

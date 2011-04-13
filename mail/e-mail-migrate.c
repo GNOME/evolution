@@ -50,6 +50,9 @@
 
 #include <libedataserver/e-xml-utils.h>
 #include <libedataserver/e-data-server-util.h>
+#include <libedataserver/e-source-camel.h>
+#include <libedataserver/e-source-registry.h>
+#include <libedataserver/e-source-mail-account.h>
 
 #include <shell/e-shell.h>
 #include <shell/e-shell-migrate.h>
@@ -60,9 +63,6 @@
 #include <libevolution-utils/e-alert-dialog.h>
 #include <e-util/e-util-private.h>
 #include <e-util/e-plugin.h>
-
-#include <libemail-utils/e-account-utils.h>
-#include <libemail-utils/e-signature-utils.h>
 
 #include <libemail-engine/e-mail-folder-utils.h>
 
@@ -220,50 +220,6 @@ cp (const gchar *src,
 
 	return FALSE;
 }
-
-#ifndef G_OS_WIN32
-
-#define SUBFOLDER_DIR_NAME     "subfolders"
-#define SUBFOLDER_DIR_NAME_LEN 10
-
-static void
-em_update_accounts_2_11 (void)
-{
-	EAccountList *accounts;
-	EIterator *iter;
-	gboolean changed = FALSE;
-
-	if (!(accounts = e_get_account_list ()))
-		return;
-
-	iter = e_list_get_iterator ((EList *) accounts);
-	while (e_iterator_is_valid (iter)) {
-		EAccount *account = (EAccount *) e_iterator_get (iter);
-
-		if (g_str_has_prefix (account->source->url, "spool://")) {
-			if (g_file_test (account->source->url + 8, G_FILE_TEST_IS_DIR)) {
-				gchar *str;
-
-				str = g_strdup_printf (
-					"spooldir://%s",
-					account->source->url + 8);
-
-				g_free (account->source->url);
-				account->source->url = str;
-				changed = TRUE;
-			}
-		}
-
-		e_iterator_next (iter);
-	}
-
-	g_object_unref (iter);
-
-	if (changed)
-		e_account_list_save (accounts);
-}
-
-#endif	/* !G_OS_WIN32 */
 
 static gboolean
 emm_setup_initial (const gchar *data_dir)
@@ -600,27 +556,67 @@ static gboolean
 migrate_mbox_to_maildir (EShellBackend *shell_backend,
                          EMMigrateSession *session)
 {
-	CamelService *mbox_service, *maildir_service;
-	CamelStore *mbox_store, *maildir_store;
+	EShell *shell;
+	ESource *source;
+	ESourceRegistry *registry;
+	ESourceExtension *extension;
+	const gchar *extension_name;
+	CamelService *mbox_service;
+	CamelService *maildir_service;
+	CamelStore *mbox_store;
+	CamelStore *maildir_store;
 	CamelSettings *settings;
 	const gchar *data_dir;
+	const gchar *uid;
 	gchar *path;
 	struct MigrateStore ms;
+	GError *error = NULL;
 
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
+	shell = e_shell_backend_get_shell (shell_backend);
+	registry = e_shell_get_registry (shell);
 
-	mbox_service = camel_session_add_service (
-		CAMEL_SESSION (session), "local_mbox", "mbox",
-		CAMEL_PROVIDER_STORE, NULL);
+	source = e_source_new (NULL, NULL, NULL);
+	e_source_set_display_name (source, "local_mbox");
 
-	settings = camel_service_get_settings (mbox_service);
+	uid = e_source_get_uid (source);
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	extension = e_source_get_extension (source, extension_name);
+
+	e_source_backend_set_backend_name (
+		E_SOURCE_BACKEND (extension), "mbox");
+
+	extension_name = e_source_camel_get_extension_name ("mbox");
+	extension = e_source_get_extension (source, extension_name);
+	settings = e_source_camel_get_settings (E_SOURCE_CAMEL (extension));
+
 	path = g_build_filename (data_dir, "local_mbox", NULL);
 	g_object_set (settings, "path", path, NULL);
 	g_free (path);
 
-	maildir_service = camel_session_add_service (
-		CAMEL_SESSION (session), "local", "maildir",
-		CAMEL_PROVIDER_STORE, NULL);
+	e_source_registry_commit_source_sync (
+		registry, source, NULL, &error);
+
+	if (error == NULL)
+		mbox_service = camel_session_add_service (
+			CAMEL_SESSION (session), uid, "mbox",
+			CAMEL_PROVIDER_STORE, &error);
+
+	if (error == NULL)
+		maildir_service = camel_session_add_service (
+			CAMEL_SESSION (session), "local", "maildir",
+			CAMEL_PROVIDER_STORE, &error);
+
+	g_object_unref (source);
+
+	if (error != NULL) {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+		return FALSE;
+	}
+
+	camel_service_set_settings (mbox_service, settings);
 
 	settings = camel_service_get_settings (maildir_service);
 	path = g_build_filename (data_dir, "local", NULL);
@@ -667,412 +663,6 @@ exit:
 }
 
 static gboolean
-create_mbox_account (EShellBackend *shell_backend,
-                     EMMigrateSession *session)
-{
-	EMailBackend *mail_backend;
-	EMailSession *mail_session;
-	CamelService *service;
-	CamelURL *url;
-	EAccountList *accounts;
-	EAccount *account;
-	const gchar *data_dir;
-	gchar *name, *id, *temp, *uri, *folder_uri;
-
-	mail_backend = E_MAIL_BACKEND (shell_backend);
-	mail_session = e_mail_backend_get_session (mail_backend);
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
-
-	account = e_account_new ();
-	account->enabled = TRUE;
-
-	g_free (account->uid);
-	account->uid = g_strdup ("local_mbox");
-
-	url = camel_url_new ("mbox:", NULL);
-	temp = g_build_filename (data_dir, "local_mbox", NULL);
-	camel_url_set_path (url, temp);
-	g_free (temp);
-
-	uri = camel_url_to_string (url, 0);
-	e_account_set_string (account, E_ACCOUNT_SOURCE_URL, uri);
-
-#ifndef G_OS_WIN32
-	name = g_locale_to_utf8 (g_get_user_name (), -1, NULL, NULL, NULL);
-#else
-	name = g_strdup (g_get_user_name ());
-#endif
-
-	id = g_strconcat (name, "@", "localhost", NULL);
-	e_account_set_string (account, E_ACCOUNT_ID_NAME, name);
-	e_account_set_string (account, E_ACCOUNT_ID_ADDRESS, id);
-	e_account_set_string (account, E_ACCOUNT_NAME, id);
-
-	accounts = e_get_account_list ();
-	if (e_account_list_find (accounts, E_ACCOUNT_ID_ADDRESS, id)) {
-		g_object_unref (account);
-		goto exit;
-	}
-
-	/* This will also add it to the EMailSession. */
-	e_account_list_add (accounts, account);
-
-	service = camel_session_get_service (
-		CAMEL_SESSION (mail_session), account->uid);
-
-	folder_uri = e_mail_folder_uri_build (
-		CAMEL_STORE (service), "Sent");
-	e_account_set_string (
-		account, E_ACCOUNT_SENT_FOLDER_URI, folder_uri);
-	g_free (folder_uri);
-
-	folder_uri = e_mail_folder_uri_build (
-		CAMEL_STORE (service), "Drafts");
-	e_account_set_string (
-		account, E_ACCOUNT_DRAFTS_FOLDER_URI, folder_uri);
-	g_free (folder_uri);
-
-	e_account_list_save (accounts);
-
-exit:
-	camel_url_free (url);
-	g_free (uri);
-	g_free (name);
-	g_free (id);
-
-	return TRUE;
-}
-
-static void
-change_sent_and_drafts_local_folders (EShellBackend *shell_backend)
-{
-	EMailBackend *backend;
-	EMailSession *session;
-	EAccountList *accounts;
-	EIterator *iter;
-	const gchar *data_dir;
-	gboolean changed = FALSE;
-	CamelURL *url;
-	gchar *tmp_uri, *drafts_uri, *sent_uri, *old_drafts_uri, *old_sent_uri;
-
-	accounts = e_get_account_list ();
-	if (!accounts)
-		return;
-
-	backend = E_MAIL_BACKEND (shell_backend);
-	session = e_mail_backend_get_session (backend);
-
-	data_dir = e_shell_backend_get_data_dir (shell_backend);
-
-	tmp_uri = g_strconcat ("mbox:", data_dir, "/", "local", NULL);
-	url = camel_url_new (tmp_uri, NULL);
-	g_free (tmp_uri);
-
-	g_return_if_fail (url != NULL);
-
-	camel_url_set_fragment (url, "Drafts");
-	drafts_uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-
-	camel_url_set_fragment (url, "Sent");
-	sent_uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-
-	camel_url_free (url);
-
-	tmp_uri = g_strconcat (
-		"mbox:", g_get_home_dir (),
-		"/.evolution/mail/local", NULL);
-	url = camel_url_new (tmp_uri, NULL);
-	g_free (tmp_uri);
-
-	g_return_if_fail (url != NULL);
-
-	camel_url_set_fragment (url, "Drafts");
-	old_drafts_uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-
-	camel_url_set_fragment (url, "Sent");
-	old_sent_uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-
-	camel_url_free (url);
-
-	for (iter = e_list_get_iterator ((EList *) accounts);
-	     e_iterator_is_valid (iter); e_iterator_next (iter)) {
-		EAccount *account = (EAccount *) e_iterator_get (iter);
-		const gchar *uri;
-
-		if (!account)
-			continue;
-
-		uri = e_account_get_string (account, E_ACCOUNT_DRAFTS_FOLDER_URI);
-		if (g_strcmp0 (uri, drafts_uri) == 0 ||
-		    g_strcmp0 (uri, old_drafts_uri) == 0) {
-			changed = TRUE;
-			e_account_set_string (
-				account, E_ACCOUNT_DRAFTS_FOLDER_URI,
-				e_mail_session_get_local_folder_uri (
-				session, E_MAIL_LOCAL_FOLDER_DRAFTS));
-		}
-
-		uri = e_account_get_string (account, E_ACCOUNT_SENT_FOLDER_URI);
-		if (g_strcmp0 (uri, sent_uri) == 0 || g_strcmp0 (uri, old_sent_uri) == 0) {
-			changed = TRUE;
-			e_account_set_string (
-				account, E_ACCOUNT_SENT_FOLDER_URI,
-				e_mail_session_get_local_folder_uri (
-				session, E_MAIL_LOCAL_FOLDER_SENT));
-		}
-	}
-
-	g_object_unref (iter);
-	g_free (old_drafts_uri);
-	g_free (drafts_uri);
-	g_free (old_sent_uri);
-	g_free (sent_uri);
-
-	if (changed)
-		e_account_list_save (accounts);
-}
-
-static void
-em_rename_camel_url_params (CamelURL *url)
-{
-	/* This list includes known URL parameters from built-in providers
-	 * in Camel, as well as from evolution-exchange, evolution-groupwise,
-	 * and evolution-mapi.  Add more as needed. */
-	static struct {
-		const gchar *url_parameter;
-		const gchar *property_name;
-	} camel_url_conversion[] = {
-		{ "account_uid",		"account-uid" },
-		{ "ad_auth",			"gc-auth-method" },
-		{ "ad_browse",			"gc-allow-browse" },
-		{ "ad_expand_groups",		"gc-expand-groups" },
-		{ "ad_limit",			"gc-results-limit" },
-		{ "ad_server",			"gc-server-name" },
-		{ "all_headers",		"fetch-headers" },
-		{ "basic_headers",		"fetch-headers" },
-		{ "cachedconn"			"concurrent-connections" },
-		{ "check_all",			"check-all" },
-		{ "check_lsub",			"check-subscribed" },
-		{ "command",			"shell-command" },
-		{ "delete_after",		"delete-after-days" },
-		{ "delete_expunged",		"delete-expunged" },
-		{ "disable_extensions",		"disable-extensions" },
-		{ "dotfolders",			"use-dot-folders" },
-		{ "filter",			"filter-inbox" },
-		{ "filter_junk",		"filter-junk" },
-		{ "filter_junk_inbox",		"filter-junk-inbox" },
-		{ "folder_hierarchy_relative",	"folder-hierarchy-relative" },
-		{ "imap_custom_headers",	"fetch-headers-extra" },
-		{ "keep_on_server",		"keep-on-server" },
-		{ "oab_offline",		"oab-offline" },
-		{ "oal_selected",		"oal-selected" },
-		{ "offline_sync",		"stay-synchronized" },
-		{ "override_namespace",		"use-namespace" },
-		{ "owa_path",			"owa-path" },
-		{ "owa_url",			"owa-url" },
-		{ "password_exp_warn_period",	"password-exp-warn-period" },
-		{ "real_junk_path",		"real-junk-path" },
-		{ "real_trash_path",		"real-trash-path" },
-		{ "show_short_notation",	"short-folder-names" },
-		{ "soap_port",			"soap-port" },
-		{ "ssl",			"security-method" },
-		{ "sync_offline",		"stay-synchronized" },
-		{ "use_command",		"use-shell-command" },
-		{ "use_idle",			"use-idle" },
-		{ "use_lsub",			"use-subscriptions" },
-		{ "use_qresync",		"use-qresync" },
-		{ "use_ssl",			"security-method" },
-		{ "xstatus",			"use-xstatus-headers" }
-	};
-
-	const gchar *param;
-	const gchar *use_param;
-	gint ii;
-
-	for (ii = 0; ii < G_N_ELEMENTS (camel_url_conversion); ii++) {
-		const gchar *key;
-		gpointer value;
-
-		key = camel_url_conversion[ii].url_parameter;
-		value = g_datalist_get_data (&url->params, key);
-
-		if (value == NULL)
-			continue;
-
-		g_datalist_remove_no_notify (&url->params, key);
-
-		key = camel_url_conversion[ii].property_name;
-
-		/* Deal with a few special enum cases where
-		 * the parameter value also needs renamed. */
-
-		if (strcmp (key, "all_headers") == 0) {
-			GEnumClass *enum_class;
-			GEnumValue *enum_value;
-
-			enum_class = g_type_class_ref (
-				CAMEL_TYPE_FETCH_HEADERS_TYPE);
-			enum_value = g_enum_get_value (
-				enum_class, CAMEL_FETCH_HEADERS_ALL);
-			if (enum_value != NULL) {
-				g_free (value);
-				value = g_strdup (enum_value->value_nick);
-			} else
-				g_warn_if_reached ();
-			g_type_class_unref (enum_class);
-		}
-
-		if (strcmp (key, "basic_headers") == 0) {
-			GEnumClass *enum_class;
-			GEnumValue *enum_value;
-
-			enum_class = g_type_class_ref (
-				CAMEL_TYPE_FETCH_HEADERS_TYPE);
-			enum_value = g_enum_get_value (
-				enum_class, CAMEL_FETCH_HEADERS_BASIC);
-			if (enum_value != NULL) {
-				g_free (value);
-				value = g_strdup (enum_value->value_nick);
-			} else
-				g_warn_if_reached ();
-			g_type_class_unref (enum_class);
-		}
-
-		if (strcmp (key, "imap_custom_headers") == 0)
-			g_strdelimit (value, " ", ',');
-
-		if (strcmp (key, "security-method") == 0) {
-			CamelNetworkSecurityMethod method;
-			GEnumClass *enum_class;
-			GEnumValue *enum_value;
-
-			if (strcmp (value, "always") == 0)
-				method = CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
-			else if (strcmp (value, "1") == 0)
-				method = CAMEL_NETWORK_SECURITY_METHOD_SSL_ON_ALTERNATE_PORT;
-			else if (strcmp (value, "when-possible") == 0)
-				method = CAMEL_NETWORK_SECURITY_METHOD_STARTTLS_ON_STANDARD_PORT;
-			else
-				method = CAMEL_NETWORK_SECURITY_METHOD_NONE;
-
-			enum_class = g_type_class_ref (
-				CAMEL_TYPE_NETWORK_SECURITY_METHOD);
-			enum_value = g_enum_get_value (enum_class, method);
-			if (enum_value != NULL) {
-				g_free (value);
-				value = g_strdup (enum_value->value_nick);
-			} else
-				g_warn_if_reached ();
-			g_type_class_unref (enum_class);
-		}
-
-		g_datalist_set_data_full (&url->params, key, value, g_free);
-	}
-
-	/* A few more adjustments...
-	 *
-	 * These are all CAMEL_PROVIDER_CONF_CHECKSPIN settings.  The spin
-	 * button value is bound to "param" and the checkbox state is bound
-	 * to "use-param".  The "use-param" settings are new.  If "param"
-	 * exists but no "use-param", then set "use-param" to "true". */
-
-	param = g_datalist_get_data (&url->params, "gc-results-limit");
-	use_param = g_datalist_get_data (&url->params, "use-gc-results-limit");
-	if (param != NULL && *param != '\0' && use_param == NULL) {
-		g_datalist_set_data_full (
-			&url->params, "use-gc-results-limit",
-			g_strdup ("true"), (GDestroyNotify) g_free);
-	}
-
-	param = g_datalist_get_data (&url->params, "kerberos");
-	if (g_strcmp0 (param, "required") == 0) {
-		g_datalist_set_data_full (
-			&url->params, "kerberos",
-			g_strdup ("true"), (GDestroyNotify) g_free);
-	}
-
-	param = g_datalist_get_data (
-		&url->params, "password-exp-warn-period");
-	use_param = g_datalist_get_data (
-		&url->params, "use-password-exp-warn-period");
-	if (param != NULL && *param != '\0' && use_param == NULL) {
-		g_datalist_set_data_full (
-			&url->params, "use-password-exp-warn-period",
-			g_strdup ("true"), (GDestroyNotify) g_free);
-	}
-
-	param = g_datalist_get_data (&url->params, "real-junk-path");
-	use_param = g_datalist_get_data (&url->params, "use-real-junk-path");
-	if (param != NULL && *param != '\0' && use_param == NULL) {
-		g_datalist_set_data_full (
-			&url->params, "use-real-junk-path",
-			g_strdup ("true"), (GDestroyNotify) g_free);
-	}
-
-	param = g_datalist_get_data (&url->params, "real-trash-path");
-	use_param = g_datalist_get_data (&url->params, "use-real-trash-path");
-	if (param != NULL && *param != '\0' && use_param == NULL) {
-		g_datalist_set_data_full (
-			&url->params, "use-real-trash-path",
-			g_strdup ("true"), (GDestroyNotify) g_free);
-	}
-}
-
-static void
-em_rename_account_params (void)
-{
-	EAccountList *account_list;
-	EIterator *iterator;
-
-	/* XXX As of 3.2, CamelServices store settings in GObject properties,
-	 *     not CamelURL parameters.  CamelURL parameters are still used
-	 *     for storage in GConf until we can move account information to
-	 *     key files, but this is only within Evolution.  Some of the new
-	 *     GObject property names differ from the old CamelURL parameter
-	 *     names.  This routine renames the CamelURL parameter names to
-	 *     the GObject property names for all accounts, both the source
-	 *     and tranport URLs. */
-
-	account_list = e_get_account_list ();
-	iterator = e_list_get_iterator (E_LIST (account_list));
-
-	while (e_iterator_is_valid (iterator)) {
-		EAccount *account;
-		CamelURL *url = NULL;
-
-		/* XXX EIterator misuses const. */
-		account = (EAccount *) e_iterator_get (iterator);
-
-		if (account->source->url != NULL)
-			url = camel_url_new (account->source->url, NULL);
-
-		if (url != NULL) {
-			em_rename_camel_url_params (url);
-			g_free (account->source->url);
-			account->source->url = camel_url_to_string (url, 0);
-			camel_url_free (url);
-		}
-
-		url = NULL;
-
-		if (account->transport->url != NULL)
-			url = camel_url_new (account->transport->url, NULL);
-
-		if (url != NULL) {
-			em_rename_camel_url_params (url);
-			g_free (account->transport->url);
-			account->transport->url = camel_url_to_string (url, 0);
-			camel_url_free (url);
-		}
-
-		e_iterator_next (iterator);
-	}
-
-	g_object_unref (iterator);
-	e_account_list_save (account_list);
-}
-
-static gboolean
 migrate_local_store (EShellBackend *shell_backend)
 {
 	EMMigrateSession *session;
@@ -1101,8 +691,6 @@ migrate_local_store (EShellBackend *shell_backend)
 	camel_session_set_online (CAMEL_SESSION (session), FALSE);
 
 	migrate_mbox_to_maildir (shell_backend, session);
-	create_mbox_account (shell_backend, session);
-	change_sent_and_drafts_local_folders (shell_backend);
 
 	g_object_unref (session);
 
@@ -1279,10 +867,6 @@ e_mail_migrate (EShellBackend *shell_backend,
 		return emm_setup_initial (data_dir);
 
 #ifndef G_OS_WIN32
-	if (major < 2 || (major == 2 && minor < 12)) {
-		em_update_accounts_2_11 ();
-	}
-
 	if (major < 2 || (major == 2 && minor < 22))
 		em_update_message_notify_settings_2_21 ();
 
@@ -1298,10 +882,6 @@ e_mail_migrate (EShellBackend *shell_backend,
 	if (major < 2 || (major == 2 && minor < 32)) {
 		em_ensure_proxy_ignore_hosts_being_list ();
 	}
-
-	/* Rename account URL parameters to
-	 * match CamelSettings property names. */
-	em_rename_account_params ();
 
 	if (!migrate_local_store (shell_backend))
 		return FALSE;
