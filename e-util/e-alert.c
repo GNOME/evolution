@@ -553,6 +553,7 @@ alert_constructed (GObject *object)
 
 	alert = E_ALERT (object);
 	definition = alert->priv->definition;
+	g_return_if_fail (definition != NULL);
 
 	e_alert_set_message_type (alert, definition->message_type);
 	e_alert_set_default_response (alert, definition->default_response);
