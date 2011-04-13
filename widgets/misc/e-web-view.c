@@ -1064,8 +1064,11 @@ web_view_submit_alert (EAlertSink *alert_sink,
 	GtkWidget *dialog;
 	GString *buffer;
 	const gchar *icon_name = NULL;
+	const gchar *filename;
 	gpointer parent;
+	gchar *icon_uri;
 	gint size = 0;
+	GError *error = NULL;
 
 	web_view = E_WEB_VIEW (alert_sink);
 
@@ -1101,6 +1104,14 @@ web_view_submit_alert (EAlertSink *alert_sink,
 		icon_name, size, GTK_ICON_LOOKUP_NO_SVG);
 	g_return_if_fail (icon_info != NULL);
 
+	filename = gtk_icon_info_get_filename (icon_info);
+	icon_uri = g_filename_to_uri (filename, NULL, &error);
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_clear_error (&error);
+	}
+
 	buffer = g_string_sized_new (512);
 
 	g_string_append (
@@ -1132,7 +1143,7 @@ web_view_submit_alert (EAlertSink *alert_sink,
 		"%s"
 		"</td>"
 		"</tr>",
-		gtk_icon_info_get_filename (icon_info),
+		icon_uri,
 		e_alert_get_primary_text (alert),
 		e_alert_get_secondary_text (alert));
 
@@ -1150,6 +1161,7 @@ web_view_submit_alert (EAlertSink *alert_sink,
 	g_string_free (buffer, TRUE);
 
 	gtk_icon_info_free (icon_info);
+	g_free (icon_uri);
 }
 
 static void
