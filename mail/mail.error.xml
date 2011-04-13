@@ -500,5 +500,10 @@ An mbox account will be created to preserve the old mbox folders. You can delete
     <_primary>Failed to unsubscribe from folder.</_primary>
     <_secondary>The reported error was &quot;{0}&quot;.</_secondary>
   </error>
+
+  <error id="no-retrieve-message" type="warning">
+    <_primary>Unable to retrieve message.</_primary>
+    <_secondary xml:space="preserve">{0}</_secondary>
+  </error>
 </error-list>
 
