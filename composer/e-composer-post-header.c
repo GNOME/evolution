@@ -34,11 +34,11 @@
 
 enum {
 	PROP_0,
-	PROP_ACCOUNT
+	PROP_MAIL_ACCOUNT
 };
 
 struct _EComposerPostHeaderPrivate {
-	EAccount *account;
+	ESource *mail_account;
 	gchar *base_url;  /* derived from account */
 	gboolean custom;
 };
@@ -77,26 +77,16 @@ composer_post_header_folder_name_to_string (EComposerPostHeader *header,
 static void
 composer_post_header_set_base_url (EComposerPostHeader *header)
 {
-	EAccount *account = header->priv->account;
-	CamelURL *camel_url;
-	gchar *url;
+	ESource *source;
+	const gchar *uid;
 
-	if (account == NULL || account->source == NULL)
+	source = header->priv->mail_account;
+	if (source == NULL)
 		return;
 
-	url = account->source->url;
-	if (url == NULL || *url == '\0')
-		return;
-
-	camel_url = camel_url_new (url, NULL);
-	if (camel_url == NULL)
-		return;
-
-	url = camel_url_to_string (camel_url, CAMEL_URL_HIDE_ALL);
-	camel_url_free (camel_url);
-
+	uid = e_source_get_uid (source);
 	g_free (header->priv->base_url);
-	header->priv->base_url = url;
+	header->priv->base_url = g_strdup_printf ("folder://%s", uid);
 }
 
 static GList *
@@ -118,25 +108,6 @@ composer_post_header_split_csv (const gchar *csv)
 	return g_list_reverse (list);
 }
 
-static GObject *
-composer_post_header_constructor (GType type,
-                                  guint n_construct_properties,
-                                  GObjectConstructParam *construct_properties)
-{
-	GObject *object;
-
-	/* Chain up to parent's constructor() method. */
-	object = G_OBJECT_CLASS (
-		e_composer_post_header_parent_class)->constructor (
-		type, n_construct_properties, construct_properties);
-
-	e_composer_header_set_title_tooltip (
-		E_COMPOSER_HEADER (object),
-		_("Click here to select folders to post to"));
-
-	return object;
-}
-
 static void
 composer_post_header_set_property (GObject *object,
                                    guint property_id,
@@ -144,8 +115,8 @@ composer_post_header_set_property (GObject *object,
                                    GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ACCOUNT:
-			e_composer_post_header_set_account (
+		case PROP_MAIL_ACCOUNT:
+			e_composer_post_header_set_mail_account (
 				E_COMPOSER_POST_HEADER (object),
 				g_value_get_object (value));
 			return;
@@ -161,9 +132,10 @@ composer_post_header_get_property (GObject *object,
                                    GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ACCOUNT:
+		case PROP_MAIL_ACCOUNT:
 			g_value_set_object (
-				value, e_composer_post_header_get_account (
+				value,
+				e_composer_post_header_get_mail_account (
 				E_COMPOSER_POST_HEADER (object)));
 			return;
 	}
@@ -178,9 +150,9 @@ composer_post_header_dispose (GObject *object)
 
 	priv = E_COMPOSER_POST_HEADER_GET_PRIVATE (object);
 
-	if (priv->account != NULL) {
-		g_object_unref (priv->account);
-		priv->account = NULL;
+	if (priv->mail_account != NULL) {
+		g_object_unref (priv->mail_account);
+		priv->mail_account = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -198,6 +170,18 @@ composer_post_header_finalize (GObject *object)
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_composer_post_header_parent_class)->finalize (object);
+}
+
+static void
+composer_post_header_constructed (GObject *object)
+{
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_composer_post_header_parent_class)->
+		constructed (object);
+
+	e_composer_header_set_title_tooltip (
+		E_COMPOSER_HEADER (object),
+		_("Click here to select folders to post to"));
 }
 
 static void
@@ -229,11 +213,11 @@ e_composer_post_header_class_init (EComposerPostHeaderClass *class)
 	g_type_class_add_private (class, sizeof (EComposerPostHeaderPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->constructor = composer_post_header_constructor;
 	object_class->set_property = composer_post_header_set_property;
 	object_class->get_property = composer_post_header_get_property;
 	object_class->dispose = composer_post_header_dispose;
 	object_class->finalize = composer_post_header_finalize;
+	object_class->constructed = composer_post_header_constructed;
 
 	header_class = E_COMPOSER_HEADER_CLASS (class);
 	header_class->changed = composer_post_header_changed;
@@ -241,12 +225,12 @@ e_composer_post_header_class_init (EComposerPostHeaderClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_ACCOUNT,
+		PROP_MAIL_ACCOUNT,
 		g_param_spec_object (
-			"account",
+			"mail-account",
 			NULL,
 			NULL,
-			E_TYPE_ACCOUNT,
+			E_TYPE_SOURCE,
 			G_PARAM_READWRITE));
 }
 
@@ -257,51 +241,15 @@ e_composer_post_header_init (EComposerPostHeader *header)
 }
 
 EComposerHeader *
-e_composer_post_header_new (const gchar *label)
+e_composer_post_header_new (ESourceRegistry *registry,
+                            const gchar *label)
 {
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+
 	return g_object_new (
 		E_TYPE_COMPOSER_POST_HEADER,
-		"label", label, "button", TRUE, NULL);
-}
-
-EAccount *
-e_composer_post_header_get_account (EComposerPostHeader *header)
-{
-	g_return_val_if_fail (E_IS_COMPOSER_POST_HEADER (header), NULL);
-
-	return header->priv->account;
-}
-
-void
-e_composer_post_header_set_account (EComposerPostHeader *header,
-                                    EAccount *account)
-{
-	GList *folders = NULL;
-
-	g_return_if_fail (E_IS_COMPOSER_POST_HEADER (header));
-
-	if (account != NULL) {
-		g_return_if_fail (E_IS_ACCOUNT (account));
-		g_object_ref (account);
-	}
-
-	if (!header->priv->custom)
-		folders = e_composer_post_header_get_folders (header);
-
-	if (header->priv->account != NULL)
-		g_object_unref (header->priv->account);
-
-	header->priv->account = account;
-	composer_post_header_set_base_url (header);
-
-	/* Make folders relative to the new account. */
-	if (!header->priv->custom) {
-		e_composer_post_header_set_folders (header, folders);
-		g_list_foreach (folders, (GFunc) g_free, NULL);
-		g_list_free (folders);
-	}
-
-	g_object_notify (G_OBJECT (header), "account");
+		"label", label, "button", TRUE,
+		"registry", registry, NULL);
 }
 
 GList *
@@ -384,4 +332,44 @@ e_composer_post_header_set_folders_base (EComposerPostHeader *header,
 	e_composer_post_header_set_folders (header, list);
 	g_list_foreach (list, (GFunc) g_free, NULL);
 	g_list_free (list);
+}
+
+ESource *
+e_composer_post_header_get_mail_account (EComposerPostHeader *header)
+{
+	g_return_val_if_fail (E_IS_COMPOSER_POST_HEADER (header), NULL);
+
+	return header->priv->mail_account;
+}
+
+void
+e_composer_post_header_set_mail_account (EComposerPostHeader *header,
+                                         ESource *mail_account)
+{
+	GList *folders = NULL;
+
+	g_return_if_fail (E_IS_COMPOSER_POST_HEADER (header));
+
+	if (mail_account != NULL) {
+		g_return_if_fail (E_IS_SOURCE (mail_account));
+		g_object_ref (mail_account);
+	}
+
+	if (!header->priv->custom)
+		folders = e_composer_post_header_get_folders (header);
+
+	if (header->priv->mail_account != NULL)
+		g_object_unref (header->priv->mail_account);
+
+	header->priv->mail_account = mail_account;
+	composer_post_header_set_base_url (header);
+
+	/* Make folders relative to the new account. */
+	if (!header->priv->custom) {
+		e_composer_post_header_set_folders (header, folders);
+		g_list_foreach (folders, (GFunc) g_free, NULL);
+		g_list_free (folders);
+	}
+
+	g_object_notify (G_OBJECT (header), "mail-account");
 }

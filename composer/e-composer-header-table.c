@@ -23,9 +23,12 @@
 
 #include <glib/gi18n-lib.h>
 #include <libedataserverui/e-name-selector.h>
+#include <libedataserver/e-source-mail-account.h>
+#include <libedataserver/e-source-mail-composition.h>
+#include <libedataserver/e-source-mail-identity.h>
 
 #include <shell/e-shell.h>
-#include <misc/e-signature-combo-box.h>
+#include <misc/e-mail-signature-combo-box.h>
 
 #include "e-msg-composer.h"
 #include "e-composer-private.h"
@@ -53,28 +56,28 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_COMPOSER_HEADER_TABLE, EComposerHeaderTablePrivate))
 
-enum {
-	PROP_0,
-	PROP_ACCOUNT,
-	PROP_ACCOUNT_LIST,
-	PROP_ACCOUNT_NAME,
-	PROP_DESTINATIONS_BCC,
-	PROP_DESTINATIONS_CC,
-	PROP_DESTINATIONS_TO,
-	PROP_POST_TO,
-	PROP_REPLY_TO,
-	PROP_SHELL,
-	PROP_SIGNATURE,
-	PROP_SIGNATURE_LIST,
-	PROP_SUBJECT
-};
-
 struct _EComposerHeaderTablePrivate {
 	EComposerHeader *headers[E_COMPOSER_NUM_HEADERS];
 	GtkWidget *signature_label;
 	GtkWidget *signature_combo_box;
 	ENameSelector *name_selector;
+	ESourceRegistry *registry;
 	EShell *shell;
+};
+
+enum {
+	PROP_0,
+	PROP_DESTINATIONS_BCC,
+	PROP_DESTINATIONS_CC,
+	PROP_DESTINATIONS_TO,
+	PROP_IDENTITY_UID,
+	PROP_POST_TO,
+	PROP_REGISTRY,
+	PROP_REPLY_TO,
+	PROP_SHELL,
+	PROP_SIGNATURE_COMBO_BOX,
+	PROP_SIGNATURE_UID,
+	PROP_SUBJECT
 };
 
 G_DEFINE_TYPE (
@@ -217,13 +220,13 @@ composer_header_table_bind_widget (const gchar *property_name,
 
 static EDestination **
 composer_header_table_update_destinations (EDestination **old_destinations,
-                                           const gchar *auto_addresses)
+                                           const gchar * const *auto_addresses)
 {
 	CamelAddress *address;
 	CamelInternetAddress *inet_address;
 	EDestination **new_destinations;
 	EDestination *destination;
-	GList *list = NULL;
+	GQueue queue = G_QUEUE_INIT;
 	guint length;
 	gint ii;
 
@@ -235,25 +238,29 @@ composer_header_table_update_destinations (EDestination **old_destinations,
 	inet_address = camel_internet_address_new ();
 	address = CAMEL_ADDRESS (inet_address);
 
-	if (camel_address_decode (address, auto_addresses) != -1) {
-		for (ii = 0; ii < camel_address_length (address); ii++) {
-			const gchar *name, *email;
+	/* XXX Calling camel_address_decode() multiple times on the same
+	 *     CamelInternetAddress has a cumulative effect, which isn't
+	 *     well documented. */
+	for (ii = 0; auto_addresses[ii] != NULL; ii++)
+		camel_address_decode (address, auto_addresses[ii]);
 
-			if (!camel_internet_address_get (
-				inet_address, ii, &name, &email))
-				continue;
+	for (ii = 0; ii < camel_address_length (address); ii++) {
+		const gchar *name, *email;
 
-			destination = e_destination_new ();
-			e_destination_set_auto_recipient (destination, TRUE);
+		if (!camel_internet_address_get (
+			inet_address, ii, &name, &email))
+			continue;
 
-			if (name != NULL)
-				e_destination_set_name (destination, name);
+		destination = e_destination_new ();
+		e_destination_set_auto_recipient (destination, TRUE);
 
-			if (email != NULL)
-				e_destination_set_email (destination, email);
+		if (name != NULL)
+			e_destination_set_name (destination, name);
 
-			list = g_list_prepend (list, destination);
-		}
+		if (email != NULL)
+			e_destination_set_email (destination, email);
+
+		g_queue_push_tail (&queue, destination);
 	}
 
 	g_object_unref (inet_address);
@@ -270,20 +277,19 @@ skip_auto:
 			continue;
 
 		destination = e_destination_copy (old_destinations[ii]);
-		list = g_list_prepend (list, destination);
+		g_queue_push_tail (&queue, destination);
 	}
 
 skip_custom:
 
-	list = g_list_reverse (list);
-	length = g_list_length (list);
-
+	length = g_queue_get_length (&queue);
 	new_destinations = g_new0 (EDestination *, length + 1);
 
-	for (ii = 0; list != NULL; ii++) {
-		new_destinations[ii] = E_DESTINATION (list->data);
-		list = g_list_delete_link (list, list);
-	}
+	for (ii = 0; ii < length; ii++)
+		new_destinations[ii] = g_queue_pop_head (&queue);
+
+	/* Sanity check. */
+	g_warn_if_fail (g_queue_is_empty (&queue));
 
 	return new_destinations;
 }
@@ -294,7 +300,8 @@ from_header_should_be_visible (EComposerHeaderTable *table)
 	EShell *shell;
 	EComposerHeader *header;
 	EComposerHeaderType type;
-	EAccountComboBox *combo_box;
+	GtkComboBox *combo_box;
+	GtkTreeModel *tree_model;
 
 	shell = e_composer_header_table_get_shell (table);
 
@@ -304,9 +311,11 @@ from_header_should_be_visible (EComposerHeaderTable *table)
 
 	type = E_COMPOSER_HEADER_FROM;
 	header = e_composer_header_table_get_header (table, type);
-	combo_box = E_ACCOUNT_COMBO_BOX (header->input_widget);
 
-	return (e_account_combo_box_count_displayed_accounts (combo_box) > 1);
+	combo_box = GTK_COMBO_BOX (header->input_widget);
+	tree_model = gtk_combo_box_get_model (combo_box);
+
+	return (gtk_tree_model_iter_n_children (tree_model, NULL) > 1);
 }
 
 static void
@@ -436,46 +445,127 @@ composer_header_table_setup_post_headers (EComposerHeaderTable *table)
 	g_object_unref (settings);
 }
 
+static gboolean
+composer_header_table_show_post_headers (EComposerHeaderTable *table)
+{
+	ESourceRegistry *registry;
+	GList *list, *link;
+	const gchar *extension_name;
+	const gchar *target_uid;
+	gboolean show_post_headers = FALSE;
+
+	registry = e_composer_header_table_get_registry (table);
+	target_uid = e_composer_header_table_get_identity_uid (table);
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+	list = e_source_registry_list_sources (registry, extension_name);
+
+	/* Look for a mail account referencing this mail identity.
+	 * If the mail account's backend name is "nntp", show the
+	 * post headers.  Otherwise show the mail headers.
+	 *
+	 * XXX What if multiple accounts use this identity but only
+	 *     one is "nntp"?  Maybe it should be indicated by the
+	 *     transport somehow?
+	 */
+	for (link = list; link != NULL; link = link->next) {
+		ESource *source = E_SOURCE (link->data);
+		ESourceExtension *extension;
+		const gchar *backend_name;
+		const gchar *identity_uid;
+
+		extension = e_source_get_extension (source, extension_name);
+
+		backend_name = e_source_backend_get_backend_name (
+			E_SOURCE_BACKEND (extension));
+		identity_uid = e_source_mail_account_get_identity_uid (
+			E_SOURCE_MAIL_ACCOUNT (extension));
+
+		if (g_strcmp0 (identity_uid, target_uid) != 0)
+			continue;
+
+		if (g_strcmp0 (backend_name, "nntp") != 0)
+			continue;
+
+		show_post_headers = TRUE;
+		break;
+	}
+
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	return show_post_headers;
+}
+
 static void
 composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 {
-	EAccount *account;
+	ESource *source = NULL;
+	ESource *mail_account = NULL;
+	ESourceRegistry *registry;
 	EComposerHeader *header;
 	EComposerHeaderType type;
 	EComposerPostHeader *post_header;
 	EComposerTextHeader *text_header;
 	EDestination **old_destinations;
 	EDestination **new_destinations;
-	const gchar *reply_to;
-	const gchar *source_url;
-	gboolean always_cc;
-	gboolean always_bcc;
+	const gchar *reply_to = NULL;
+	const gchar * const *bcc = NULL;
+	const gchar * const *cc = NULL;
+	const gchar *uid;
 
 	/* Keep "Post-To" and "Reply-To" synchronized with "From" */
 
-	account = e_composer_header_table_get_account (table);
-	source_url = e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
+	registry = e_composer_header_table_get_registry (table);
+	uid = e_composer_header_table_get_identity_uid (table);
+
+	if (uid != NULL)
+		source = e_source_registry_ref_source (registry, uid);
+
+	/* Make sure this is really a mail identity source. */
+	if (source != NULL) {
+		const gchar *extension_name;
+
+		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+		if (!e_source_has_extension (source, extension_name)) {
+			g_object_unref (source);
+			source = NULL;
+		}
+	}
+
+	if (source != NULL) {
+		ESourceMailIdentity *mi;
+		ESourceMailComposition *mc;
+		const gchar *extension_name;
+
+		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+		mi = e_source_get_extension (source, extension_name);
+
+		extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
+		mc = e_source_get_extension (source, extension_name);
+
+		reply_to = e_source_mail_identity_get_reply_to (mi);
+		bcc = e_source_mail_composition_get_bcc (mc);
+		cc = e_source_mail_composition_get_cc (mc);
+
+		g_object_unref (source);
+	}
 
 	type = E_COMPOSER_HEADER_POST_TO;
 	header = e_composer_header_table_get_header (table, type);
 	post_header = E_COMPOSER_POST_HEADER (header);
-	e_composer_post_header_set_account (post_header, account);
+	e_composer_post_header_set_mail_account (post_header, mail_account);
 
 	type = E_COMPOSER_HEADER_REPLY_TO;
 	header = e_composer_header_table_get_header (table, type);
-	reply_to = (account != NULL) ? account->id->reply_to : NULL;
 	text_header = E_COMPOSER_TEXT_HEADER (header);
 	e_composer_text_header_set_text (text_header, reply_to);
-
-	always_cc = (account != NULL && account->always_cc);
-	always_bcc = (account != NULL && account->always_bcc);
 
 	/* Update automatic CC destinations. */
 	old_destinations =
 		e_composer_header_table_get_destinations_cc (table);
 	new_destinations =
 		composer_header_table_update_destinations (
-		old_destinations, always_cc ? account->cc_addrs : NULL);
+		old_destinations, cc);
 	e_composer_header_table_set_destinations_cc (table, new_destinations);
 	e_destination_freev (old_destinations);
 	e_destination_freev (new_destinations);
@@ -485,31 +575,25 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 		e_composer_header_table_get_destinations_bcc (table);
 	new_destinations =
 		composer_header_table_update_destinations (
-		old_destinations, always_bcc ? account->bcc_addrs : NULL);
+		old_destinations, bcc);
 	e_composer_header_table_set_destinations_bcc (table, new_destinations);
 	e_destination_freev (old_destinations);
 	e_destination_freev (new_destinations);
 
-	/* XXX We should NOT be checking specific account types here.
-	 *     Would prefer EAccount have a "send_method" enum item:
-	 *
-	 *         E_ACCOUNT_SEND_METHOD_MAIL
-	 *         E_ACCOUNT_SEND_METHOD_POST
-	 *
-	 *     And that would dictate which set of headers we show
-	 *     in the composer when an account is selected.  Alas,
-	 *     EAccount has no private storage, so it would require
-	 *     an ABI break and I don't want to deal with that now.
-	 *     (But would anything besides Evolution be affected?)
-	 *
-	 *     Currently only NNTP accounts use the "POST" fields.
-	 */
-	if (source_url == NULL)
-		composer_header_table_setup_mail_headers (table);
-	else if (g_ascii_strncasecmp (source_url, "nntp:", 5) == 0)
+	if (composer_header_table_show_post_headers (table))
 		composer_header_table_setup_post_headers (table);
 	else
 		composer_header_table_setup_mail_headers (table);
+}
+
+static void
+composer_header_table_set_registry (EComposerHeaderTable *table,
+                                    ESourceRegistry *registry)
+{
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
+	g_return_if_fail (table->priv->registry == NULL);
+
+	table->priv->registry = g_object_ref (registry);
 }
 
 static void
@@ -532,24 +616,6 @@ composer_header_table_set_property (GObject *object,
 	GList *list;
 
 	switch (property_id) {
-		case PROP_ACCOUNT:
-			e_composer_header_table_set_account (
-				E_COMPOSER_HEADER_TABLE (object),
-				g_value_get_object (value));
-			return;
-
-		case PROP_ACCOUNT_LIST:
-			e_composer_header_table_set_account_list (
-				E_COMPOSER_HEADER_TABLE (object),
-				g_value_get_object (value));
-			return;
-
-		case PROP_ACCOUNT_NAME:
-			e_composer_header_table_set_account_name (
-				E_COMPOSER_HEADER_TABLE (object),
-				g_value_get_string (value));
-			return;
-
 		case PROP_DESTINATIONS_BCC:
 			destinations = g_value_dup_destinations (value);
 			e_composer_header_table_set_destinations_bcc (
@@ -574,12 +640,24 @@ composer_header_table_set_property (GObject *object,
 			e_destination_freev (destinations);
 			return;
 
+		case PROP_IDENTITY_UID:
+			e_composer_header_table_set_identity_uid (
+				E_COMPOSER_HEADER_TABLE (object),
+				g_value_get_string (value));
+			return;
+
 		case PROP_POST_TO:
 			list = g_value_dup_string_list (value);
 			e_composer_header_table_set_post_to_list (
 				E_COMPOSER_HEADER_TABLE (object), list);
 			g_list_foreach (list, (GFunc) g_free, NULL);
 			g_list_free (list);
+			return;
+
+		case PROP_REGISTRY:
+			composer_header_table_set_registry (
+				E_COMPOSER_HEADER_TABLE (object),
+				g_value_get_object (value));
 			return;
 
 		case PROP_REPLY_TO:
@@ -594,16 +672,10 @@ composer_header_table_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
-		case PROP_SIGNATURE:
-			e_composer_header_table_set_signature (
+		case PROP_SIGNATURE_UID:
+			e_composer_header_table_set_signature_uid (
 				E_COMPOSER_HEADER_TABLE (object),
-				g_value_get_object (value));
-			return;
-
-		case PROP_SIGNATURE_LIST:
-			e_composer_header_table_set_signature_list (
-				E_COMPOSER_HEADER_TABLE (object),
-				g_value_get_object (value));
+				g_value_get_string (value));
 			return;
 
 		case PROP_SUBJECT:
@@ -626,27 +698,6 @@ composer_header_table_get_property (GObject *object,
 	GList *list;
 
 	switch (property_id) {
-		case PROP_ACCOUNT:
-			g_value_set_object (
-				value,
-				e_composer_header_table_get_account (
-				E_COMPOSER_HEADER_TABLE (object)));
-			return;
-
-		case PROP_ACCOUNT_LIST:
-			g_value_set_object (
-				value,
-				e_composer_header_table_get_account_list (
-				E_COMPOSER_HEADER_TABLE (object)));
-			return;
-
-		case PROP_ACCOUNT_NAME:
-			g_value_set_string (
-				value,
-				e_composer_header_table_get_account_name (
-				E_COMPOSER_HEADER_TABLE (object)));
-			return;
-
 		case PROP_DESTINATIONS_BCC:
 			destinations =
 				e_composer_header_table_get_destinations_bcc (
@@ -671,12 +722,26 @@ composer_header_table_get_property (GObject *object,
 			e_destination_freev (destinations);
 			return;
 
+		case PROP_IDENTITY_UID:
+			g_value_set_string (
+				value,
+				e_composer_header_table_get_identity_uid (
+				E_COMPOSER_HEADER_TABLE (object)));
+			return;
+
 		case PROP_POST_TO:
 			list = e_composer_header_table_get_post_to (
 				E_COMPOSER_HEADER_TABLE (object));
 			g_value_set_string_list (value, list);
 			g_list_foreach (list, (GFunc) g_free, NULL);
 			g_list_free (list);
+			return;
+
+		case PROP_REGISTRY:
+			g_value_set_object (
+				value,
+				e_composer_header_table_get_registry (
+				E_COMPOSER_HEADER_TABLE (object)));
 			return;
 
 		case PROP_REPLY_TO:
@@ -693,17 +758,17 @@ composer_header_table_get_property (GObject *object,
 				E_COMPOSER_HEADER_TABLE (object)));
 			return;
 
-		case PROP_SIGNATURE:
+		case PROP_SIGNATURE_COMBO_BOX:
 			g_value_set_object (
 				value,
-				e_composer_header_table_get_signature (
+				e_composer_header_table_get_signature_combo_box (
 				E_COMPOSER_HEADER_TABLE (object)));
 			return;
 
-		case PROP_SIGNATURE_LIST:
-			g_value_set_object (
+		case PROP_SIGNATURE_UID:
+			g_value_set_string (
 				value,
-				e_composer_header_table_get_signature_list (
+				e_composer_header_table_get_signature_uid (
 				E_COMPOSER_HEADER_TABLE (object)));
 			return;
 
@@ -744,6 +809,11 @@ composer_header_table_dispose (GObject *object)
 		priv->name_selector = NULL;
 	}
 
+	if (priv->registry != NULL) {
+		g_object_unref (priv->registry);
+		priv->registry = NULL;
+	}
+
 	if (priv->shell != NULL) {
 		g_object_unref (priv->shell);
 		priv->shell = NULL;
@@ -758,6 +828,7 @@ composer_header_table_constructed (GObject *object)
 {
 	EComposerHeaderTable *table;
 	ENameSelector *name_selector;
+	ESourceRegistry *registry;
 	EComposerHeader *header;
 	GtkWidget *widget;
 	EShell *shell;
@@ -771,71 +842,58 @@ composer_header_table_constructed (GObject *object)
 
 	table = E_COMPOSER_HEADER_TABLE (object);
 	shell = e_composer_header_table_get_shell (table);
+	registry = e_composer_header_table_get_registry (table);
 
 	small_screen_mode = e_shell_get_small_screen_mode (shell);
 
-	name_selector = e_name_selector_new ();
+	name_selector = e_name_selector_new (registry);
 	table->priv->name_selector = name_selector;
 
-	header = e_composer_from_header_new (_("Fr_om:"));
-	composer_header_table_bind_header ("account", "changed", header);
-	composer_header_table_bind_header ("account-list", "refreshed", header);
-	composer_header_table_bind_header ("account-name", "changed", header);
+	header = e_composer_from_header_new (registry, _("Fr_om:"));
+	composer_header_table_bind_header ("identity-uid", "changed", header);
 	g_signal_connect_swapped (
 		header, "changed", G_CALLBACK (
 		composer_header_table_from_changed_cb), table);
 	table->priv->headers[E_COMPOSER_HEADER_FROM] = header;
 
-	header = e_composer_text_header_new_label (_("_Reply-To:"));
+	header = e_composer_text_header_new_label (registry, _("_Reply-To:"));
 	composer_header_table_bind_header ("reply-to", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_REPLY_TO] = header;
 
-	header = e_composer_name_header_new (_("_To:"), name_selector);
+	header = e_composer_name_header_new (
+		registry, _("_To:"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_TO);
 	composer_header_table_bind_header ("destinations-to", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_TO] = header;
 
-	header = e_composer_name_header_new (_("_Cc:"), name_selector);
+	header = e_composer_name_header_new (
+		registry, _("_Cc:"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_CC);
 	composer_header_table_bind_header ("destinations-cc", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_CC] = header;
 
-	header = e_composer_name_header_new (_("_Bcc:"), name_selector);
+	header = e_composer_name_header_new (
+		registry, _("_Bcc:"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_BCC);
 	composer_header_table_bind_header ("destinations-bcc", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_BCC] = header;
 
-	header = e_composer_post_header_new (_("_Post To:"));
+	header = e_composer_post_header_new (registry, _("_Post To:"));
 	composer_header_table_bind_header ("post-to", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_POST_TO] = header;
 
-	header = e_composer_spell_header_new_label (_("S_ubject:"));
+	header = e_composer_spell_header_new_label (registry, _("S_ubject:"));
 	composer_header_table_bind_header ("subject", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_SUBJECT] = header;
 
-	widget = e_signature_combo_box_new ();
-	composer_header_table_bind_widget ("signature", "changed", widget);
-	composer_header_table_bind_widget ("signature-list", "refreshed", widget);
+	widget = e_mail_signature_combo_box_new (registry);
+	composer_header_table_bind_widget ("signature-uid", "changed", widget);
 	table->priv->signature_combo_box = g_object_ref_sink (widget);
 
 	widget = gtk_label_new_with_mnemonic (_("Si_gnature:"));
 	gtk_label_set_mnemonic_widget (
 		GTK_LABEL (widget), table->priv->signature_combo_box);
 	table->priv->signature_label = g_object_ref_sink (widget);
-
-	/* XXX EComposerHeader ought to do this itself, but I need to
-	 *     make the title_widget and input_widget members private. */
-	for (ii = 0; ii < E_COMPOSER_NUM_HEADERS; ii++) {
-		header = table->priv->headers[ii];
-		g_object_bind_property (
-			header, "visible",
-			header->title_widget, "visible",
-			G_BINDING_SYNC_CREATE);
-		g_object_bind_property (
-			header, "visible",
-			header->input_widget, "visible",
-			G_BINDING_SYNC_CREATE);
-	}
 
 	/* Use "ypadding" instead of "row-spacing" because some rows may
 	 * be invisible and we don't want spacing around them. */
@@ -899,6 +957,9 @@ composer_header_table_constructed (GObject *object)
 			3, 4, ii, ii + 1, GTK_FILL, 0, 0, row_padding);
 		gtk_widget_hide (box);
 	}
+
+	/* Initialize the headers. */
+	composer_header_table_from_changed_cb (table);
 }
 
 static void
@@ -914,36 +975,6 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 	object_class->get_property = composer_header_table_get_property;
 	object_class->dispose = composer_header_table_dispose;
 	object_class->constructed = composer_header_table_constructed;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_ACCOUNT,
-		g_param_spec_object (
-			"account",
-			NULL,
-			NULL,
-			E_TYPE_ACCOUNT,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_ACCOUNT_LIST,
-		g_param_spec_object (
-			"account-list",
-			NULL,
-			NULL,
-			E_TYPE_ACCOUNT_LIST,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_ACCOUNT_NAME,
-		g_param_spec_string (
-			"account-name",
-			NULL,
-			NULL,
-			NULL,
-			G_PARAM_READWRITE));
 
 	/* floating reference */
 	element_spec = g_param_spec_object (
@@ -987,6 +1018,17 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_IDENTITY_UID,
+		g_param_spec_string (
+			"identity-uid",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
 	/* floating reference */
 	element_spec = g_param_spec_string (
 		"value-array-element",
@@ -1005,6 +1047,18 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 			NULL,
 			element_spec,
 			G_PARAM_READWRITE |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_REGISTRY,
+		g_param_spec_object (
+			"registry",
+			NULL,
+			NULL,
+			E_TYPE_SOURCE_REGISTRY,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
@@ -1032,23 +1086,23 @@ e_composer_header_table_class_init (EComposerHeaderTableClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_SIGNATURE,
-		g_param_spec_object (
-			"signature",
+		PROP_SIGNATURE_COMBO_BOX,
+		g_param_spec_string (
+			"signature-combo-box",
 			NULL,
 			NULL,
-			E_TYPE_SIGNATURE,
-			G_PARAM_READWRITE |
+			NULL,
+			G_PARAM_READABLE |
 			G_PARAM_STATIC_STRINGS));
 
 	g_object_class_install_property (
 		object_class,
-		PROP_SIGNATURE_LIST,
-		g_param_spec_object (
-			"signature-list",
+		PROP_SIGNATURE_UID,
+		g_param_spec_string (
+			"signature-uid",
 			NULL,
 			NULL,
-			E_TYPE_SIGNATURE_LIST,
+			NULL,
 			G_PARAM_READWRITE |
 			G_PARAM_STATIC_STRINGS));
 
@@ -1095,13 +1149,15 @@ e_composer_header_table_init (EComposerHeaderTable *table)
 }
 
 GtkWidget *
-e_composer_header_table_new (EShell *shell)
+e_composer_header_table_new (EShell *shell,
+                             ESourceRegistry *registry)
 {
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
 
 	return g_object_new (
 		E_TYPE_COMPOSER_HEADER_TABLE,
-		"shell", shell, NULL);
+		"shell", shell, "registry", registry, NULL);
 }
 
 EShell *
@@ -1110,6 +1166,14 @@ e_composer_header_table_get_shell (EComposerHeaderTable *table)
 	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), NULL);
 
 	return table->priv->shell;
+}
+
+ESourceRegistry *
+e_composer_header_table_get_registry (EComposerHeaderTable *table)
+{
+	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), NULL);
+
+	return table->priv->registry;
 }
 
 EComposerHeader *
@@ -1122,103 +1186,12 @@ e_composer_header_table_get_header (EComposerHeaderTable *table,
 	return table->priv->headers[type];
 }
 
-EAccount *
-e_composer_header_table_get_account (EComposerHeaderTable *table)
+EMailSignatureComboBox *
+e_composer_header_table_get_signature_combo_box (EComposerHeaderTable *table)
 {
-	EComposerHeader *header;
-	EComposerHeaderType type;
-	EComposerFromHeader *from_header;
-
 	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), NULL);
 
-	type = E_COMPOSER_HEADER_FROM;
-	header = e_composer_header_table_get_header (table, type);
-	from_header = E_COMPOSER_FROM_HEADER (header);
-
-	return e_composer_from_header_get_active (from_header);
-}
-
-gboolean
-e_composer_header_table_set_account (EComposerHeaderTable *table,
-                                     EAccount *account)
-{
-	EComposerHeader *header;
-	EComposerHeaderType type;
-	EComposerFromHeader *from_header;
-
-	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), FALSE);
-
-	type = E_COMPOSER_HEADER_FROM;
-	header = e_composer_header_table_get_header (table, type);
-	from_header = E_COMPOSER_FROM_HEADER (header);
-
-	return e_composer_from_header_set_active (from_header, account);
-}
-
-EAccountList *
-e_composer_header_table_get_account_list (EComposerHeaderTable *table)
-{
-	EComposerHeader *header;
-	EComposerHeaderType type;
-	EComposerFromHeader *from_header;
-
-	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), NULL);
-
-	type = E_COMPOSER_HEADER_FROM;
-	header = e_composer_header_table_get_header (table, type);
-	from_header = E_COMPOSER_FROM_HEADER (header);
-
-	return e_composer_from_header_get_account_list (from_header);
-}
-
-void
-e_composer_header_table_set_account_list (EComposerHeaderTable *table,
-                                          EAccountList *account_list)
-{
-	EComposerHeader *header;
-	EComposerHeaderType type;
-	EComposerFromHeader *from_header;
-
-	g_return_if_fail (E_IS_COMPOSER_HEADER_TABLE (table));
-
-	type = E_COMPOSER_HEADER_FROM;
-	header = e_composer_header_table_get_header (table, type);
-	from_header = E_COMPOSER_FROM_HEADER (header);
-
-	e_composer_from_header_set_account_list (from_header, account_list);
-}
-
-const gchar *
-e_composer_header_table_get_account_name (EComposerHeaderTable *table)
-{
-	EComposerHeader *header;
-	EComposerHeaderType type;
-	EComposerFromHeader *from_header;
-
-	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), NULL);
-
-	type = E_COMPOSER_HEADER_FROM;
-	header = e_composer_header_table_get_header (table, type);
-	from_header = E_COMPOSER_FROM_HEADER (header);
-
-	return e_composer_from_header_get_active_name (from_header);
-}
-
-gboolean
-e_composer_header_table_set_account_name (EComposerHeaderTable *table,
-                                          const gchar *account_name)
-{
-	EComposerHeader *header;
-	EComposerHeaderType type;
-	EComposerFromHeader *from_header;
-
-	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), FALSE);
-
-	type = E_COMPOSER_HEADER_FROM;
-	header = e_composer_header_table_get_header (table, type);
-	from_header = E_COMPOSER_FROM_HEADER (header);
-
-	return e_composer_from_header_set_active_name (from_header, account_name);
+	return E_MAIL_SIGNATURE_COMBO_BOX (table->priv->signature_combo_box);
 }
 
 EDestination **
@@ -1423,6 +1396,39 @@ e_composer_header_table_set_destinations_to (EComposerHeaderTable *table,
 	e_composer_name_header_set_destinations (name_header, destinations);
 }
 
+const gchar *
+e_composer_header_table_get_identity_uid (EComposerHeaderTable *table)
+{
+	EComposerHeader *header;
+	EComposerHeaderType type;
+	EComposerFromHeader *from_header;
+
+	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), NULL);
+
+	type = E_COMPOSER_HEADER_FROM;
+	header = e_composer_header_table_get_header (table, type);
+	from_header = E_COMPOSER_FROM_HEADER (header);
+
+	return e_composer_from_header_get_active_id (from_header);
+}
+
+void
+e_composer_header_table_set_identity_uid (EComposerHeaderTable *table,
+                                          const gchar *identity_uid)
+{
+	EComposerHeader *header;
+	EComposerHeaderType type;
+	EComposerFromHeader *from_header;
+
+	g_return_if_fail (E_IS_COMPOSER_HEADER_TABLE (table));
+
+	type = E_COMPOSER_HEADER_FROM;
+	header = e_composer_header_table_get_header (table, type);
+	from_header = E_COMPOSER_FROM_HEADER (header);
+
+	e_composer_from_header_set_active_id (from_header, identity_uid);
+}
+
 GList *
 e_composer_header_table_get_post_to (EComposerHeaderTable *table)
 {
@@ -1510,50 +1516,29 @@ e_composer_header_table_set_reply_to (EComposerHeaderTable *table,
 		e_composer_header_set_visible (header, TRUE);
 }
 
-ESignature *
-e_composer_header_table_get_signature (EComposerHeaderTable *table)
+const gchar *
+e_composer_header_table_get_signature_uid (EComposerHeaderTable *table)
 {
-	ESignatureComboBox *combo_box;
+	EMailSignatureComboBox *combo_box;
 
 	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), NULL);
 
-	combo_box = E_SIGNATURE_COMBO_BOX (table->priv->signature_combo_box);
-	return e_signature_combo_box_get_active (combo_box);
-}
+	combo_box = e_composer_header_table_get_signature_combo_box (table);
 
-gboolean
-e_composer_header_table_set_signature (EComposerHeaderTable *table,
-                                       ESignature *signature)
-{
-	ESignatureComboBox *combo_box;
-
-	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), FALSE);
-
-	combo_box = E_SIGNATURE_COMBO_BOX (table->priv->signature_combo_box);
-	return e_signature_combo_box_set_active (combo_box, signature);
-}
-
-ESignatureList *
-e_composer_header_table_get_signature_list (EComposerHeaderTable *table)
-{
-	ESignatureComboBox *combo_box;
-
-	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), NULL);
-
-	combo_box = E_SIGNATURE_COMBO_BOX (table->priv->signature_combo_box);
-	return e_signature_combo_box_get_signature_list (combo_box);
+	return gtk_combo_box_get_active_id (GTK_COMBO_BOX (combo_box));
 }
 
 void
-e_composer_header_table_set_signature_list (EComposerHeaderTable *table,
-                                            ESignatureList *signature_list)
+e_composer_header_table_set_signature_uid (EComposerHeaderTable *table,
+                                           const gchar *signature_uid)
 {
-	ESignatureComboBox *combo_box;
+	EMailSignatureComboBox *combo_box;
 
 	g_return_if_fail (E_IS_COMPOSER_HEADER_TABLE (table));
 
-	combo_box = E_SIGNATURE_COMBO_BOX (table->priv->signature_combo_box);
-	e_signature_combo_box_set_signature_list (combo_box, signature_list);
+	combo_box = e_composer_header_table_get_signature_combo_box (table);
+
+	gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), signature_uid);
 }
 
 const gchar *

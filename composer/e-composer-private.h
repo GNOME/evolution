@@ -31,6 +31,12 @@
 #include <glib/gi18n-lib.h>
 
 #include <libebackend/e-extensible.h>
+#include <libedataserver/e-source-mail-composition.h>
+#include <libedataserver/e-source-mail-identity.h>
+#include <libedataserver/e-source-mail-signature.h>
+#include <libedataserver/e-source-mail-submission.h>
+#include <libedataserver/e-source-openpgp.h>
+#include <libedataserver/e-source-smime.h>
 
 #include "e-composer-actions.h"
 #include "e-composer-activity.h"
@@ -48,9 +54,9 @@
 #include "widgets/misc/e-attachment-icon-view.h"
 #include "widgets/misc/e-attachment-paned.h"
 #include "widgets/misc/e-attachment-store.h"
+#include "widgets/misc/e-mail-signature-combo-box.h"
 #include "widgets/misc/e-picture-gallery.h"
 #include "widgets/misc/e-preferences-window.h"
-#include "widgets/misc/e-signature-combo-box.h"
 #include "widgets/misc/e-web-view-gtkhtml.h"
 #include "shell/e-shell.h"
 
@@ -141,6 +147,7 @@ gboolean	e_composer_paste_uris		(EMsgComposer *composer,
 gboolean	e_composer_selection_is_image_uris
 						(EMsgComposer *composer,
 						 GtkSelectionData *selection);
+void		e_composer_update_signature	(EMsgComposer *composer);
 
 G_END_DECLS
 

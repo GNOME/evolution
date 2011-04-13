@@ -18,14 +18,11 @@
 #ifndef E_COMPOSER_HEADER_TABLE_H
 #define E_COMPOSER_HEADER_TABLE_H
 
-#include <libedataserver/e-account.h>
-#include <libedataserver/e-account-list.h>
 #include <libebook/e-destination.h>
 
 #include <shell/e-shell.h>
 #include <composer/e-composer-header.h>
-#include <libemail-utils/e-signature.h>
-#include <libemail-utils/e-signature-list.h>
+#include <misc/e-mail-signature-combo-box.h>
 
 /* Standard GObject macros */
 #define E_TYPE_COMPOSER_HEADER_TABLE \
@@ -74,28 +71,20 @@ struct _EComposerHeaderTableClass {
 };
 
 GType		e_composer_header_table_get_type (void);
-GtkWidget *	e_composer_header_table_new	(EShell *shell);
+GtkWidget *	e_composer_header_table_new	(EShell *shell,
+						 ESourceRegistry *registry);
 EShell *	e_composer_header_table_get_shell
+						(EComposerHeaderTable *table);
+ESourceRegistry *
+		e_composer_header_table_get_registry
 						(EComposerHeaderTable *table);
 EComposerHeader *
 		e_composer_header_table_get_header
 						(EComposerHeaderTable *table,
 						 EComposerHeaderType type);
-EAccount *	e_composer_header_table_get_account
+EMailSignatureComboBox *
+		e_composer_header_table_get_signature_combo_box
 						(EComposerHeaderTable *table);
-gboolean	e_composer_header_table_set_account
-						(EComposerHeaderTable *table,
-						 EAccount *account);
-EAccountList *	e_composer_header_table_get_account_list
-						(EComposerHeaderTable *table);
-void		e_composer_header_table_set_account_list
-						(EComposerHeaderTable *table,
-						 EAccountList *account_list);
-const gchar *	e_composer_header_table_get_account_name
-						(EComposerHeaderTable *table);
-gboolean	e_composer_header_table_set_account_name
-						(EComposerHeaderTable *table,
-						 const gchar *account_name);
 EDestination ** e_composer_header_table_get_destinations
 						(EComposerHeaderTable *table);
 EDestination **	e_composer_header_table_get_destinations_bcc
@@ -122,6 +111,11 @@ void		e_composer_header_table_add_destinations_to
 void		e_composer_header_table_set_destinations_to
 						(EComposerHeaderTable *table,
 						 EDestination **destinations);
+const gchar *	e_composer_header_table_get_identity_uid
+						(EComposerHeaderTable *table);
+void		e_composer_header_table_set_identity_uid
+						(EComposerHeaderTable *table,
+						 const gchar *identity_uid);
 GList *		e_composer_header_table_get_post_to
 						(EComposerHeaderTable *table);
 void		e_composer_header_table_set_post_to_base
@@ -136,16 +130,11 @@ const gchar *	e_composer_header_table_get_reply_to
 void		e_composer_header_table_set_reply_to
 						(EComposerHeaderTable *table,
 						 const gchar *reply_to);
-ESignature *	e_composer_header_table_get_signature
+const gchar *	e_composer_header_table_get_signature_uid
 						(EComposerHeaderTable *table);
-gboolean	e_composer_header_table_set_signature
+void		e_composer_header_table_set_signature_uid
 						(EComposerHeaderTable *table,
-						 ESignature *signature);
-ESignatureList *e_composer_header_table_get_signature_list
-						(EComposerHeaderTable *table);
-void		e_composer_header_table_set_signature_list
-						(EComposerHeaderTable *table,
-						 ESignatureList *signature_list);
+						 const gchar *signature_uid);
 const gchar *	e_composer_header_table_get_subject
 						(EComposerHeaderTable *table);
 void		e_composer_header_table_set_subject

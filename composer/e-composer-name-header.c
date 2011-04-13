@@ -110,63 +110,6 @@ composer_name_header_entry_query_tooltip_cb (GtkEntry *entry,
 	return TRUE;
 }
 
-static GObject *
-composer_name_header_constructor (GType type,
-                                  guint n_construct_properties,
-                                  GObjectConstructParam *construct_properties)
-{
-	EComposerNameHeaderPrivate *priv;
-	ENameSelectorModel *model;
-	ENameSelectorEntry *entry;
-	GObject *object;
-	GList *sections;
-	gchar *label;
-
-	/* Chain up to parent's constructor() method. */
-	object = G_OBJECT_CLASS (
-		e_composer_name_header_parent_class)->constructor (
-		type, n_construct_properties, construct_properties);
-
-	priv = E_COMPOSER_NAME_HEADER_GET_PRIVATE (object);
-	g_assert (E_IS_NAME_SELECTOR (priv->name_selector));
-
-	model = e_name_selector_peek_model (priv->name_selector);
-	label = e_composer_header_get_label (E_COMPOSER_HEADER (object));
-	g_assert (label != NULL);
-
-	sections = e_name_selector_model_list_sections (model);
-	priv->destination_index = g_list_length (sections);
-	e_name_selector_model_add_section (model, label, label, NULL);
-	g_list_foreach (sections, (GFunc) g_free, NULL);
-	g_list_free (sections);
-
-	e_composer_header_set_title_tooltip (
-		E_COMPOSER_HEADER (object),
-		_("Click here for the address book"));
-
-	entry = E_NAME_SELECTOR_ENTRY (
-		e_name_selector_peek_section_list (
-		priv->name_selector, label));
-
-	e_name_selector_entry_set_contact_editor_func (
-		entry, contact_editor_fudge_new);
-	e_name_selector_entry_set_contact_list_editor_func (
-		entry, contact_list_editor_fudge_new);
-
-	g_signal_connect (
-		entry, "changed",
-		G_CALLBACK (composer_name_header_entry_changed_cb), object);
-	g_signal_connect (
-		entry, "query-tooltip",
-		G_CALLBACK (composer_name_header_entry_query_tooltip_cb),
-		NULL);
-	E_COMPOSER_HEADER (object)->input_widget = g_object_ref_sink (entry);
-
-	g_free (label);
-
-	return object;
-}
-
 static void
 composer_name_header_set_property (GObject *object,
                                    guint property_id,
@@ -222,6 +165,57 @@ composer_name_header_dispose (GObject *object)
 }
 
 static void
+composer_name_header_constructed (GObject *object)
+{
+	EComposerNameHeaderPrivate *priv;
+	ENameSelectorModel *model;
+	ENameSelectorEntry *entry;
+	GList *sections;
+	const gchar *label;
+
+	/* Input widget must be set before chaining up. */
+
+	priv = E_COMPOSER_NAME_HEADER_GET_PRIVATE (object);
+	g_assert (E_IS_NAME_SELECTOR (priv->name_selector));
+
+	model = e_name_selector_peek_model (priv->name_selector);
+	label = e_composer_header_get_label (E_COMPOSER_HEADER (object));
+	g_assert (label != NULL);
+
+	sections = e_name_selector_model_list_sections (model);
+	priv->destination_index = g_list_length (sections);
+	e_name_selector_model_add_section (model, label, label, NULL);
+	g_list_foreach (sections, (GFunc) g_free, NULL);
+	g_list_free (sections);
+
+	entry = E_NAME_SELECTOR_ENTRY (
+		e_name_selector_peek_section_list (
+		priv->name_selector, label));
+
+	e_name_selector_entry_set_contact_editor_func (
+		entry, contact_editor_fudge_new);
+	e_name_selector_entry_set_contact_list_editor_func (
+		entry, contact_list_editor_fudge_new);
+
+	g_signal_connect (
+		entry, "changed",
+		G_CALLBACK (composer_name_header_entry_changed_cb), object);
+	g_signal_connect (
+		entry, "query-tooltip",
+		G_CALLBACK (composer_name_header_entry_query_tooltip_cb),
+		NULL);
+	E_COMPOSER_HEADER (object)->input_widget = g_object_ref_sink (entry);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_composer_name_header_parent_class)->
+		constructed (object);
+
+	e_composer_header_set_title_tooltip (
+		E_COMPOSER_HEADER (object),
+		_("Click here for the address book"));
+}
+
+static void
 composer_name_header_clicked (EComposerHeader *header)
 {
 	EComposerNameHeaderPrivate *priv;
@@ -247,10 +241,10 @@ e_composer_name_header_class_init (EComposerNameHeaderClass *class)
 	g_type_class_add_private (class, sizeof (EComposerNameHeaderPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->constructor = composer_name_header_constructor;
 	object_class->set_property = composer_name_header_set_property;
 	object_class->get_property = composer_name_header_get_property;
 	object_class->dispose = composer_name_header_dispose;
+	object_class->constructed = composer_name_header_constructed;
 
 	header_class = E_COMPOSER_HEADER_CLASS (class);
 	header_class->clicked = composer_name_header_clicked;
@@ -274,16 +268,18 @@ e_composer_name_header_init (EComposerNameHeader *header)
 }
 
 EComposerHeader *
-e_composer_name_header_new (const gchar *label,
+e_composer_name_header_new (ESourceRegistry *registry,
+                            const gchar *label,
                             ENameSelector *name_selector)
 {
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
 	g_return_val_if_fail (E_IS_NAME_SELECTOR (name_selector), NULL);
 
 	return g_object_new (
 		E_TYPE_COMPOSER_NAME_HEADER,
 		"label", label, "button", TRUE,
 		"name-selector", name_selector,
-		 NULL);
+		"registry", registry, NULL);
 }
 
 ENameSelector *

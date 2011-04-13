@@ -24,16 +24,7 @@
 
 #include "e-composer-from-header.h"
 
-/* Convenience macro */
-#define E_COMPOSER_FROM_HEADER_GET_COMBO_BOX(header) \
-	(E_ACCOUNT_COMBO_BOX (E_COMPOSER_HEADER (header)->input_widget))
-
-enum {
-	REFRESHED,
-	LAST_SIGNAL
-};
-
-static guint signal_ids[LAST_SIGNAL];
+#include <misc/e-mail-identity-combo-box.h>
 
 G_DEFINE_TYPE (
 	EComposerFromHeader,
@@ -41,119 +32,82 @@ G_DEFINE_TYPE (
 	E_TYPE_COMPOSER_HEADER)
 
 static void
-composer_from_header_changed_cb (EAccountComboBox *combo_box,
+composer_from_header_changed_cb (EMailIdentityComboBox *combo_box,
                                  EComposerFromHeader *header)
 {
 	g_signal_emit_by_name (header, "changed");
 }
 
 static void
-composer_from_header_refreshed_cb (EAccountComboBox *combo_box,
-                                   EComposerFromHeader *header)
+composer_from_header_constructed (GObject *object)
 {
-	g_signal_emit (header, signal_ids[REFRESHED], 0);
+	ESourceRegistry *registry;
+	EComposerHeader *header;
+	GtkWidget *widget;
+
+	header = E_COMPOSER_HEADER (object);
+	registry = e_composer_header_get_registry (header);
+
+	/* Input widget must be set before chaining up. */
+
+	widget = e_mail_identity_combo_box_new (registry);
+	g_signal_connect (
+		widget, "changed",
+		G_CALLBACK (composer_from_header_changed_cb), header);
+	header->input_widget = g_object_ref_sink (widget);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_composer_from_header_parent_class)->
+		constructed (object);
 }
 
 static void
 e_composer_from_header_class_init (EComposerFromHeaderClass *class)
 {
-	signal_ids[REFRESHED] = g_signal_new (
-		"refreshed",
-		G_TYPE_FROM_CLASS (class),
-		G_SIGNAL_RUN_LAST,
-		0, NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
+	GObjectClass *object_class;
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->constructed = composer_from_header_constructed;
 }
 
 static void
-e_composer_from_header_init (EComposerFromHeader *header)
+e_composer_from_header_init (EComposerFromHeader *from_header)
 {
-	GtkWidget *widget;
-
-	widget = g_object_ref_sink (e_account_combo_box_new ());
-	g_signal_connect (
-		widget, "changed",
-		G_CALLBACK (composer_from_header_changed_cb), header);
-	g_signal_connect (
-		widget, "refreshed",
-		G_CALLBACK (composer_from_header_refreshed_cb), header);
-	E_COMPOSER_HEADER (header)->input_widget = widget;
 }
 
 EComposerHeader *
-e_composer_from_header_new (const gchar *label)
+e_composer_from_header_new (ESourceRegistry *registry,
+                            const gchar *label)
 {
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+
 	return g_object_new (
-		E_TYPE_COMPOSER_FROM_HEADER, "label", label,
-		"button", FALSE, NULL);
-}
-
-EAccountList *
-e_composer_from_header_get_account_list (EComposerFromHeader *header)
-{
-	EAccountComboBox *combo_box;
-
-	g_return_val_if_fail (E_IS_COMPOSER_FROM_HEADER (header), NULL);
-
-	combo_box = E_COMPOSER_FROM_HEADER_GET_COMBO_BOX (header);
-	return e_account_combo_box_get_account_list (combo_box);
-}
-
-void
-e_composer_from_header_set_account_list (EComposerFromHeader *header,
-                                         EAccountList *account_list)
-{
-	EAccountComboBox *combo_box;
-
-	g_return_if_fail (E_IS_COMPOSER_FROM_HEADER (header));
-
-	combo_box = E_COMPOSER_FROM_HEADER_GET_COMBO_BOX (header);
-	e_account_combo_box_set_account_list (combo_box, account_list);
-}
-
-EAccount *
-e_composer_from_header_get_active (EComposerFromHeader *header)
-{
-	EAccountComboBox *combo_box;
-
-	g_return_val_if_fail (E_IS_COMPOSER_FROM_HEADER (header), NULL);
-
-	combo_box = E_COMPOSER_FROM_HEADER_GET_COMBO_BOX (header);
-	return e_account_combo_box_get_active (combo_box);
-}
-
-gboolean
-e_composer_from_header_set_active (EComposerFromHeader *header,
-                                   EAccount *account)
-{
-	EAccountComboBox *combo_box;
-
-	g_return_val_if_fail (E_IS_COMPOSER_FROM_HEADER (header), FALSE);
-
-	combo_box = E_COMPOSER_FROM_HEADER_GET_COMBO_BOX (header);
-	return e_account_combo_box_set_active (combo_box, account);
+		E_TYPE_COMPOSER_FROM_HEADER,
+		"label", label, "button", FALSE,
+		"registry", registry, NULL);
 }
 
 const gchar *
-e_composer_from_header_get_active_name (EComposerFromHeader *header)
+e_composer_from_header_get_active_id (EComposerFromHeader *header)
 {
-	EAccountComboBox *combo_box;
+	GtkComboBox *combo_box;
 
 	g_return_val_if_fail (E_IS_COMPOSER_FROM_HEADER (header), NULL);
 
-	combo_box = E_COMPOSER_FROM_HEADER_GET_COMBO_BOX (header);
-	return e_account_combo_box_get_active_name (combo_box);
+	combo_box = GTK_COMBO_BOX (E_COMPOSER_HEADER (header)->input_widget);
+
+	return gtk_combo_box_get_active_id (combo_box);
 }
 
-gboolean
-e_composer_from_header_set_active_name (EComposerFromHeader *header,
-                                        const gchar *account_name)
+void
+e_composer_from_header_set_active_id (EComposerFromHeader *header,
+                                      const gchar *active_id)
 {
-	EAccountComboBox *combo_box;
+	GtkComboBox *combo_box;
 
-	g_return_val_if_fail (E_IS_COMPOSER_FROM_HEADER (header), FALSE);
+	g_return_if_fail (E_IS_COMPOSER_FROM_HEADER (header));
 
-	combo_box = E_COMPOSER_FROM_HEADER_GET_COMBO_BOX (header);
-	return e_account_combo_box_set_active_name (combo_box, account_name);
+	combo_box = GTK_COMBO_BOX (E_COMPOSER_HEADER (header)->input_widget);
+
+	gtk_combo_box_set_active_id (combo_box, active_id);
 }

@@ -43,32 +43,38 @@ e_composer_spell_header_init (EComposerSpellHeader *header)
 }
 
 EComposerHeader *
-e_composer_spell_header_new_label (const gchar *label)
+e_composer_spell_header_new_label (ESourceRegistry *registry,
+                                   const gchar *label)
 {
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+
 	return g_object_new (
 		E_TYPE_COMPOSER_SPELL_HEADER,
 		"label", label, "button", FALSE,
-		NULL);
+		"registry", registry, NULL);
 }
 
 EComposerHeader *
-e_composer_spell_header_new_button (const gchar *label)
+e_composer_spell_header_new_button (ESourceRegistry *registry,
+                                    const gchar *label)
 {
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+
 	return g_object_new (
 		E_TYPE_COMPOSER_SPELL_HEADER,
 		"label", label, "button", TRUE,
-		NULL);
+		"registry", registry, NULL);
 }
 
 void
-e_composer_spell_header_set_languages (EComposerSpellHeader *spell_header,
+e_composer_spell_header_set_languages (EComposerSpellHeader *header,
                                        GList *languages)
 {
 	ESpellEntry *spell_entry;
 
-	g_return_if_fail (spell_header != NULL);
+	g_return_if_fail (header != NULL);
 
-	spell_entry = E_SPELL_ENTRY (E_COMPOSER_HEADER (spell_header)->input_widget);
+	spell_entry = E_SPELL_ENTRY (E_COMPOSER_HEADER (header)->input_widget);
 	g_return_if_fail (spell_entry != NULL);
 
 	e_spell_entry_set_languages (spell_entry, languages);

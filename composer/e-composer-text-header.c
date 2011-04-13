@@ -66,17 +66,18 @@ composer_text_header_query_tooltip_cb (GtkEntry *entry,
 }
 
 static void
-e_composer_text_header_constructed (GObject *object)
+composer_text_header_constructed (GObject *object)
 {
 	GtkWidget *widget;
 	EComposerTextHeader *header;
-
-	G_OBJECT_CLASS (e_composer_text_header_parent_class)->constructed (object);
+	EComposerTextHeaderClass *class;
 
 	header = E_COMPOSER_TEXT_HEADER (object);
-	g_return_if_fail (header != NULL);
+	class = E_COMPOSER_TEXT_HEADER_GET_CLASS (header);
 
-	widget = g_object_ref_sink (g_object_new (E_COMPOSER_TEXT_HEADER_GET_CLASS (header)->entry_type, NULL));
+	/* Input widget must be set before chaining up. */
+
+	widget = g_object_new (class->entry_type, NULL);
 	g_signal_connect (
 		widget, "changed",
 		G_CALLBACK (composer_text_header_changed_cb), header);
@@ -84,7 +85,11 @@ e_composer_text_header_constructed (GObject *object)
 		widget, "query-tooltip",
 		G_CALLBACK (composer_text_header_query_tooltip_cb), NULL);
 	gtk_widget_set_has_tooltip (widget, TRUE);
-	E_COMPOSER_HEADER (header)->input_widget = widget;
+	E_COMPOSER_HEADER (object)->input_widget = g_object_ref_sink (widget);
+
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (e_composer_text_header_parent_class)->
+		constructed (object);
 }
 
 static void
@@ -95,7 +100,7 @@ e_composer_text_header_class_init (EComposerTextHeaderClass *class)
 	class->entry_type = GTK_TYPE_ENTRY;
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = e_composer_text_header_constructed;
+	object_class->constructed = composer_text_header_constructed;
 }
 
 static void
@@ -104,21 +109,27 @@ e_composer_text_header_init (EComposerTextHeader *header)
 }
 
 EComposerHeader *
-e_composer_text_header_new_label (const gchar *label)
+e_composer_text_header_new_label (ESourceRegistry *registry,
+                                  const gchar *label)
 {
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+
 	return g_object_new (
 		E_TYPE_COMPOSER_TEXT_HEADER,
 		"label", label, "button", FALSE,
-		NULL);
+		"registry", registry, NULL);
 }
 
 EComposerHeader *
-e_composer_text_header_new_button (const gchar *label)
+e_composer_text_header_new_button (ESourceRegistry *registry,
+                                   const gchar *label)
 {
+	g_return_val_if_fail (E_IS_SOURCE_REGISTRY (registry), NULL);
+
 	return g_object_new (
 		E_TYPE_COMPOSER_TEXT_HEADER,
 		"label", label, "button", TRUE,
-		NULL);
+		"registry", registry, NULL);
 }
 
 const gchar *

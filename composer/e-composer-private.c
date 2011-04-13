@@ -142,6 +142,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	EShell *shell;
 	EShellSettings *shell_settings;
 	EWebViewGtkHTML *web_view;
+	ESourceRegistry *registry;
 	GtkhtmlEditor *editor;
 	GtkUIManager *ui_manager;
 	GtkAction *action;
@@ -160,6 +161,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 	ui_manager = gtkhtml_editor_get_ui_manager (editor);
 
 	shell = e_msg_composer_get_shell (composer);
+	registry = e_shell_get_registry (shell);
 	shell_settings = e_shell_get_shell_settings (shell);
 	web_view = e_msg_composer_get_web_view (composer);
 	small_screen_mode = e_shell_get_small_screen_mode (shell);
@@ -283,7 +285,7 @@ e_composer_private_constructed (EMsgComposer *composer)
 
 	/* Construct the header table. */
 
-	widget = e_composer_header_table_new (shell);
+	widget = e_composer_header_table_new (shell, registry);
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	if (small_screen_mode)
@@ -930,3 +932,210 @@ e_composer_selection_is_image_uris (EMsgComposer *composer,
 
 	return all_image_uris;
 }
+
+static gboolean
+add_signature_delimiter (EMsgComposer *composer)
+{
+	EShell *shell;
+	EShellSettings *shell_settings;
+
+	/* FIXME This preference should be an EMsgComposer property. */
+
+	shell = e_msg_composer_get_shell (composer);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	return !e_shell_settings_get_boolean (
+		shell_settings, "composer-no-signature-delim");
+}
+
+static gboolean
+use_top_signature (EMsgComposer *composer)
+{
+	EShell *shell;
+	EShellSettings *shell_settings;
+
+	/* FIXME This preference should be an EMsgComposer property. */
+
+	shell = e_msg_composer_get_shell (composer);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	return e_shell_settings_get_boolean (
+		shell_settings, "composer-top-signature");
+}
+
+static void
+composer_load_signature_cb (EMailSignatureComboBox *combo_box,
+                            GAsyncResult *result,
+                            EMsgComposer *composer)
+{
+	GString *html_buffer = NULL;
+	GtkhtmlEditor *editor;
+	gchar *contents = NULL;
+	gsize length = 0;
+	const gchar *active_id;
+	gchar *encoded_uid = NULL;
+	gboolean top_signature;
+	gboolean is_html;
+	GError *error = NULL;
+
+	e_mail_signature_combo_box_load_selected_finish (
+		combo_box, result, &contents, &length, &is_html, &error);
+
+	/* FIXME Use an EAlert here. */
+	if (error != NULL) {
+		g_warning ("%s: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+		goto exit;
+	}
+
+	/* "Edit as New Message" sets "priv->is_from_message".
+	 * Always put the signature at the bottom for that case. */
+	top_signature =
+		use_top_signature (composer) &&
+		!composer->priv->is_from_message;
+
+	if (contents == NULL)
+		goto insert;
+
+	/* Generate HTML code for the signature. */
+
+	html_buffer = g_string_sized_new (1024);
+
+	/* The combo box active ID is the signature's ESource UID. */
+	active_id = gtk_combo_box_get_active_id (GTK_COMBO_BOX (combo_box));
+
+	if (active_id != NULL && *active_id != '\0')
+		encoded_uid = e_composer_encode_clue_value (active_id);
+
+	g_string_append_printf (
+		html_buffer,
+		"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
+		"    key=\"signature\" value=\"1\">-->"
+		"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
+		"    key=\"signature_name\" value=\"uid:%s\"-->",
+		(encoded_uid != NULL) ? encoded_uid : "");
+
+	g_string_append (
+		html_buffer,
+		"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\""
+		" CELLPADDING=\"0\"><TR><TD>");
+
+	if (!is_html)
+		g_string_append (html_buffer, "<PRE>\n");
+
+	/* The signature dash convention ("-- \n") is specified
+	 * in the "Son of RFC 1036", section 4.3.2.
+	 * http://www.chemie.fu-berlin.de/outerspace/netnews/son-of-1036.html
+	 */
+	if (add_signature_delimiter (composer)) {
+		const gchar *delim;
+		const gchar *delim_nl;
+
+		if (is_html) {
+			delim = "-- \n<BR>";
+			delim_nl = "\n-- \n<BR>";
+		} else {
+			delim = "-- \n";
+			delim_nl = "\n-- \n";
+		}
+
+		/* Skip the delimiter if the signature already has one. */
+		if (g_ascii_strncasecmp (contents, delim, strlen (delim)) == 0)
+			;  /* skip */
+		else if (e_util_strstrcase (contents, delim_nl) != NULL)
+			;  /* skip */
+		else
+			g_string_append (html_buffer, delim);
+	}
+
+	g_string_append_len (html_buffer, contents, length);
+
+	if (!is_html)
+		g_string_append (html_buffer, "</PRE>\n");
+
+	if (top_signature)
+		g_string_append (html_buffer, "<BR>");
+
+	g_string_append (html_buffer, "</TD></TR></TABLE>");
+
+	g_free (encoded_uid);
+	g_free (contents);
+
+insert:
+	/* Remove the old signature and insert the new one. */
+
+	editor = GTKHTML_EDITOR (composer);
+
+	/* This prevents our command before/after callbacks from
+	 * screwing around with the signature as we insert it. */
+	composer->priv->in_signature_insert = TRUE;
+
+	gtkhtml_editor_freeze (editor);
+	gtkhtml_editor_run_command (editor, "cursor-position-save");
+	gtkhtml_editor_undo_begin (editor, "Set signature", "Reset signature");
+
+	gtkhtml_editor_run_command (editor, "block-selection");
+	gtkhtml_editor_run_command (editor, "cursor-bod");
+	if (gtkhtml_editor_search_by_data (editor, 1, "ClueFlow", "signature", "1")) {
+		gtkhtml_editor_run_command (editor, "select-paragraph");
+		gtkhtml_editor_run_command (editor, "delete");
+		gtkhtml_editor_set_paragraph_data (editor, "signature", "0");
+		gtkhtml_editor_run_command (editor, "delete-back");
+	}
+	gtkhtml_editor_run_command (editor, "unblock-selection");
+
+	if (html_buffer != NULL) {
+		gtkhtml_editor_run_command (editor, "insert-paragraph");
+		if (!gtkhtml_editor_run_command (editor, "cursor-backward"))
+			gtkhtml_editor_run_command (editor, "insert-paragraph");
+		else
+			gtkhtml_editor_run_command (editor, "cursor-forward");
+
+		gtkhtml_editor_set_paragraph_data (editor, "orig", "0");
+		gtkhtml_editor_run_command (editor, "indent-zero");
+		gtkhtml_editor_run_command (editor, "style-normal");
+		gtkhtml_editor_insert_html (editor, html_buffer->str);
+
+		g_string_free (html_buffer, TRUE);
+
+	} else if (top_signature) {
+		/* Insert paragraph after the signature ClueFlow stuff. */
+		if (gtkhtml_editor_run_command (editor, "cursor-forward"))
+			gtkhtml_editor_run_command (editor, "insert-paragraph");
+	}
+
+	gtkhtml_editor_undo_end (editor);
+	gtkhtml_editor_run_command (editor, "cursor-position-restore");
+	gtkhtml_editor_thaw (editor);
+
+	composer->priv->in_signature_insert = FALSE;
+
+exit:
+	g_object_unref (composer);
+}
+
+void
+e_composer_update_signature (EMsgComposer *composer)
+{
+	EComposerHeaderTable *table;
+	EMailSignatureComboBox *combo_box;
+
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	/* Do nothing if we're redirecting a message. */
+	if (composer->priv->redirect)
+		return;
+
+	table = e_msg_composer_get_header_table (composer);
+	combo_box = e_composer_header_table_get_signature_combo_box (table);
+
+	/* XXX Signature files should be local and therefore load quickly,
+	 *     so while we do load them asynchronously we don't allow for
+	 *     user cancellation and we keep the composer alive until the
+	 *     asynchronous loading is complete. */
+	e_mail_signature_combo_box_load_selected (
+		combo_box, G_PRIORITY_DEFAULT, NULL,
+		(GAsyncReadyCallback) composer_load_signature_cb,
+		g_object_ref (composer));
+}
+

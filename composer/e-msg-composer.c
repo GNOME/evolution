@@ -42,8 +42,6 @@
 #include <e-util/e-util-private.h>
 #include <em-format/em-format.h>
 #include <em-format/em-format-quote.h>
-#include <libemail-utils/e-account-utils.h>
-#include <libemail-utils/e-signature-utils.h>
 
 #include "e-composer-private.h"
 
@@ -56,7 +54,7 @@ struct _AsyncContext {
 	CamelDataWrapper *top_level_part;
 	CamelDataWrapper *text_plain_part;
 
-	EAccount *account;
+	ESource *source;
 	CamelSession *session;
 	CamelInternetAddress *from;
 
@@ -151,8 +149,8 @@ async_context_free (AsyncContext *context)
 	if (context->text_plain_part != NULL)
 		g_object_unref (context->text_plain_part);
 
-	if (context->account != NULL)
-		g_object_unref (context->account);
+	if (context->source != NULL)
+		g_object_unref (context->source);
 
 	if (context->session != NULL)
 		g_object_unref (context->session);
@@ -515,27 +513,47 @@ build_message_headers (EMsgComposer *composer,
 {
 	EComposerHeaderTable *table;
 	EComposerHeader *header;
-	EAccount *account;
+	ESourceRegistry *registry;
+	ESource *source;
 	const gchar *subject;
 	const gchar *reply_to;
+	const gchar *uid;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
 	table = e_msg_composer_get_header_table (composer);
 
+	registry = e_composer_header_table_get_registry (table);
+	uid = e_composer_header_table_get_identity_uid (table);
+	source = e_source_registry_ref_source (registry, uid);
+
 	/* Subject: */
 	subject = e_composer_header_table_get_subject (table);
 	camel_mime_message_set_subject (message, subject);
 
-	account = e_composer_header_table_get_account (table);
-	if (account != NULL) {
+	if (source != NULL) {
 		CamelMedium *medium;
 		CamelInternetAddress *addr;
+		ESourceMailIdentity *mi;
+		ESourceMailSubmission *ms;
+		const gchar *extension_name;
 		const gchar *header_name;
-		const gchar *name = account->id->name;
-		const gchar *address = account->id->address;
-		gchar *transport_uid;
+		const gchar *name, *address;
+		const gchar *transport_uid;
+		const gchar *sent_folder;
+
+		extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+		mi = e_source_get_extension (source, extension_name);
+
+		name = e_source_mail_identity_get_name (mi);
+		address = e_source_mail_identity_get_address (mi);
+
+		extension_name = E_SOURCE_EXTENSION_MAIL_SUBMISSION;
+		ms = e_source_get_extension (source, extension_name);
+
+		sent_folder = e_source_mail_submission_get_sent_folder (ms);
+		transport_uid = e_source_mail_submission_get_transport_uid (ms);
 
 		medium = CAMEL_MEDIUM (message);
 
@@ -554,18 +572,17 @@ build_message_headers (EMsgComposer *composer,
 
 		/* X-Evolution-Account */
 		header_name = "X-Evolution-Account";
-		camel_medium_set_header (medium, header_name, account->uid);
+		camel_medium_set_header (medium, header_name, uid);
 
 		/* X-Evolution-Fcc */
 		header_name = "X-Evolution-Fcc";
-		camel_medium_set_header (medium, header_name, account->sent_folder_uri);
+		camel_medium_set_header (medium, header_name, sent_folder);
 
 		/* X-Evolution-Transport */
 		header_name = "X-Evolution-Transport";
-		transport_uid = g_strconcat (
-			account->uid, "-transport", NULL);
 		camel_medium_set_header (medium, header_name, transport_uid);
-		g_free (transport_uid);
+
+		g_object_unref (source);
 	}
 
 	/* Reply-To: */
@@ -672,20 +689,27 @@ composer_build_message_pgp (AsyncContext *context,
                             GCancellable *cancellable,
                             GError **error)
 {
+	ESourceOpenPGP *extension;
 	CamelCipherContext *cipher;
 	CamelDataWrapper *content;
 	CamelMimePart *mime_part;
-	const gchar *pgp_userid;
-	gboolean have_pgp_key;
+	const gchar *extension_name;
+	const gchar *pgp_key_id;
+	const gchar *signing_algorithm;
+	gboolean always_trust;
+	gboolean encrypt_to_self;
 
 	/* Return silently if we're not signing or encrypting with PGP. */
 	if (!context->pgp_sign && !context->pgp_encrypt)
 		return TRUE;
 
-	have_pgp_key =
-		(context->account != NULL) &&
-		(context->account->pgp_key != NULL) &&
-		(context->account->pgp_key[0] != '\0');
+	extension_name = E_SOURCE_EXTENSION_OPENPGP;
+	extension = e_source_get_extension (context->source, extension_name);
+
+	always_trust = e_source_openpgp_get_always_trust (extension);
+	encrypt_to_self = e_source_openpgp_get_encrypt_to_self (extension);
+	pgp_key_id = e_source_openpgp_get_key_id (extension);
+	signing_algorithm = e_source_openpgp_get_signing_algorithm (extension);
 
 	mime_part = camel_mime_part_new ();
 
@@ -700,11 +724,9 @@ composer_build_message_pgp (AsyncContext *context,
 	g_object_unref (context->top_level_part);
 	context->top_level_part = NULL;
 
-	if (have_pgp_key)
-		pgp_userid = context->account->pgp_key;
-	else
+	if (pgp_key_id == NULL || *pgp_key_id == '\0')
 		camel_internet_address_get (
-			context->from, 0, NULL, &pgp_userid);
+			context->from, 0, NULL, &pgp_key_id);
 
 	if (context->pgp_sign) {
 		CamelMimePart *npart;
@@ -713,17 +735,12 @@ composer_build_message_pgp (AsyncContext *context,
 		npart = camel_mime_part_new ();
 
 		cipher = camel_gpg_context_new (context->session);
-		if (context->account != NULL)
-			camel_gpg_context_set_always_trust (
-				CAMEL_GPG_CONTEXT (cipher),
-				context->account->pgp_always_trust);
+		camel_gpg_context_set_always_trust (
+			CAMEL_GPG_CONTEXT (cipher), always_trust);
 
 		success = camel_cipher_context_sign_sync (
-			cipher, pgp_userid,
-			account_hash_algo_to_camel_hash (
-				(context->account != NULL) ?
-				e_account_get_string (context->account,
-				E_ACCOUNT_PGP_HASH_ALGORITHM) : NULL),
+			cipher, pgp_key_id,
+			account_hash_algo_to_camel_hash (signing_algorithm),
 			mime_part, npart, cancellable, error);
 
 		g_object_unref (cipher);
@@ -740,36 +757,28 @@ composer_build_message_pgp (AsyncContext *context,
 
 	if (context->pgp_encrypt) {
 		CamelMimePart *npart;
-		gboolean encrypt_to_self;
 		gboolean success;
-
-		encrypt_to_self =
-			(context->account != NULL) &&
-			(context->account->pgp_encrypt_to_self) &&
-			(pgp_userid != NULL);
 
 		npart = camel_mime_part_new ();
 
 		/* Check to see if we should encrypt to self.
-		 * NB gets removed immediately after use */
-		if (encrypt_to_self)
+		 * NB: Gets removed immediately after use. */
+		if (encrypt_to_self && pgp_key_id != NULL)
 			g_ptr_array_add (
 				context->recipients,
-				g_strdup (pgp_userid));
+				g_strdup (pgp_key_id));
 
 		cipher = camel_gpg_context_new (context->session);
-		if (context->account != NULL)
-			camel_gpg_context_set_always_trust (
-				CAMEL_GPG_CONTEXT (cipher),
-				context->account->pgp_always_trust);
+		camel_gpg_context_set_always_trust (
+			CAMEL_GPG_CONTEXT (cipher), always_trust);
 
 		success = camel_cipher_context_encrypt_sync (
-			cipher, pgp_userid, context->recipients,
+			cipher, pgp_key_id, context->recipients,
 			mime_part, npart, cancellable, error);
 
 		g_object_unref (cipher);
 
-		if (encrypt_to_self)
+		if (encrypt_to_self && pgp_key_id != NULL)
 			g_ptr_array_set_size (
 				context->recipients,
 				context->recipients->len - 1);
@@ -798,8 +807,14 @@ composer_build_message_smime (AsyncContext *context,
                               GCancellable *cancellable,
                               GError **error)
 {
+	ESourceSMIME *extension;
 	CamelCipherContext *cipher;
 	CamelMimePart *mime_part;
+	const gchar *extension_name;
+	const gchar *signing_algorithm;
+	const gchar *signing_certificate;
+	const gchar *encryption_certificate;
+	gboolean encrypt_to_self;
 	gboolean have_signing_certificate;
 	gboolean have_encryption_certificate;
 
@@ -807,15 +822,28 @@ composer_build_message_smime (AsyncContext *context,
 	if (!context->smime_sign && !context->smime_encrypt)
 		return TRUE;
 
+	extension_name = E_SOURCE_EXTENSION_SMIME;
+	extension = e_source_get_extension (context->source, extension_name);
+
+	encrypt_to_self =
+		e_source_smime_get_encrypt_to_self (extension);
+
+	signing_algorithm =
+		e_source_smime_get_signing_algorithm (extension);
+
+	signing_certificate =
+		e_source_smime_get_signing_certificate (extension);
+
+	encryption_certificate =
+		e_source_smime_get_encryption_certificate (extension);
+
 	have_signing_certificate =
-		(context->account != NULL) &&
-		(context->account->smime_sign_key != NULL) &&
-		(context->account->smime_sign_key[0] != '\0');
+		(signing_certificate != NULL) &&
+		(*signing_certificate != '\0');
 
 	have_encryption_certificate =
-		(context->account != NULL) &&
-		(context->account->smime_encrypt_key != NULL) &&
-		(context->account->smime_encrypt_key[0] != '\0');
+		(encryption_certificate != NULL) &&
+		(*encryption_certificate != '\0');
 
 	if (context->smime_sign && !have_signing_certificate) {
 		g_set_error (
@@ -862,20 +890,17 @@ composer_build_message_smime (AsyncContext *context,
 				(CamelSMIMEContext *) cipher,
 				CAMEL_SMIME_SIGN_ENVELOPED);
 			camel_smime_context_set_encrypt_key (
-				(CamelSMIMEContext *) cipher, TRUE,
-				context->account->smime_encrypt_key);
+				(CamelSMIMEContext *) cipher,
+				TRUE, encryption_certificate);
 		} else if (have_encryption_certificate) {
 			camel_smime_context_set_encrypt_key (
-				(CamelSMIMEContext *) cipher, TRUE,
-				context->account->smime_encrypt_key);
+				(CamelSMIMEContext *) cipher,
+				TRUE, encryption_certificate);
 		}
 
 		success = camel_cipher_context_sign_sync (
-			cipher, context->account->smime_sign_key,
-			account_hash_algo_to_camel_hash (
-				(context->account != NULL) ?
-				e_account_get_string (context->account,
-				E_ACCOUNT_SMIME_HASH_ALGORITHM) : NULL),
+			cipher, signing_certificate,
+			account_hash_algo_to_camel_hash (signing_algorithm),
 			mime_part, npart, cancellable, error);
 
 		g_object_unref (cipher);
@@ -893,16 +918,17 @@ composer_build_message_smime (AsyncContext *context,
 	if (context->smime_encrypt) {
 		gboolean success;
 
-		/* check to see if we should encrypt to self, NB removed after use */
-		if (context->account->smime_encrypt_to_self)
+		/* Check to see if we should encrypt to self.
+		 * NB: Gets removed immediately after use. */
+		if (encrypt_to_self)
 			g_ptr_array_add (
 				context->recipients, g_strdup (
-				context->account->smime_encrypt_key));
+				encryption_certificate));
 
 		cipher = camel_smime_context_new (context->session);
 		camel_smime_context_set_encrypt_key (
 			(CamelSMIMEContext *) cipher, TRUE,
-			context->account->smime_encrypt_key);
+			encryption_certificate);
 
 		success = camel_cipher_context_encrypt_sync (
 			cipher, NULL,
@@ -915,7 +941,7 @@ composer_build_message_smime (AsyncContext *context,
 		if (!success)
 			return FALSE;
 
-		if (context->account->smime_encrypt_to_self)
+		if (encrypt_to_self)
 			g_ptr_array_set_size (
 				context->recipients,
 				context->recipients->len - 1);
@@ -1033,7 +1059,12 @@ composer_build_message (EMsgComposer *composer,
 	EAttachmentStore *store;
 	EComposerHeaderTable *table;
 	CamelDataWrapper *html;
+	ESourceMailIdentity *mi;
+	ESourceRegistry *registry;
+	const gchar *extension_name;
 	const gchar *iconv_charset = NULL;
+	const gchar *identity_uid;
+	const gchar *organization;
 	CamelMultipart *body = NULL;
 	CamelContentType *type;
 	CamelSession *session;
@@ -1041,23 +1072,27 @@ composer_build_message (EMsgComposer *composer,
 	CamelStream *mem_stream;
 	CamelMimePart *part;
 	GByteArray *data;
-	EAccount *account;
+	ESource *source;
 	gchar *charset;
 	gint i;
 
 	priv = composer->priv;
 	editor = GTKHTML_EDITOR (composer);
 	table = e_msg_composer_get_header_table (composer);
-	account = e_composer_header_table_get_account (table);
 	view = e_msg_composer_get_attachment_view (composer);
 	store = e_attachment_view_get_store (view);
 	session = e_msg_composer_get_session (composer);
+
+	registry = e_composer_header_table_get_registry (table);
+	identity_uid = e_composer_header_table_get_identity_uid (table);
+	source = e_source_registry_ref_source (registry, identity_uid);
+	g_return_if_fail (source != NULL);
 
 	/* Do all the non-blocking work here, and defer
 	 * any blocking operations to a separate thread. */
 
 	context = g_slice_new0 (AsyncContext);
-	context->account = g_object_ref (account);
+	context->source = source;  /* takes the reference */
 	context->session = g_object_ref (session);
 	context->from = e_msg_composer_get_from (composer);
 
@@ -1110,16 +1145,21 @@ composer_build_message (EMsgComposer *composer,
 			priv->extra_hdr_values->pdata[i]);
 	}
 
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+	mi = e_source_get_extension (source, extension_name);
+	organization = e_source_mail_identity_get_organization (mi);
+
 	/* Disposition-Notification-To */
 	if (flags & COMPOSER_FLAG_REQUEST_READ_RECEIPT) {
-		gchar *mdn_address = account->id->reply_to;
+		const gchar *mdn_address;
 
-		if (mdn_address == NULL || *mdn_address == '\0')
-			mdn_address = account->id->address;
-
-		camel_medium_add_header (
-			CAMEL_MEDIUM (context->message),
-			"Disposition-Notification-To", mdn_address);
+		mdn_address = e_source_mail_identity_get_reply_to (mi);
+		if (mdn_address == NULL)
+			mdn_address = e_source_mail_identity_get_address (mi);
+		if (mdn_address != NULL)
+			camel_medium_add_header (
+				CAMEL_MEDIUM (context->message),
+				"Disposition-Notification-To", mdn_address);
 	}
 
 	/* X-Priority */
@@ -1129,15 +1169,15 @@ composer_build_message (EMsgComposer *composer,
 			"X-Priority", "1");
 
 	/* Organization */
-	if (account != NULL && account->id->organization != NULL) {
-		gchar *organization;
+	if (organization != NULL && *organization != '\0') {
+		gchar *encoded_organization;
 
-		organization = camel_header_encode_string (
-			(const guchar *) account->id->organization);
+		encoded_organization = camel_header_encode_string (
+			(const guchar *) organization);
 		camel_medium_set_header (
 			CAMEL_MEDIUM (context->message),
-			"Organization", organization);
-		g_free (organization);
+			"Organization", encoded_organization);
+		g_free (encoded_organization);
 	}
 
 	/* X-Evolution-Format */
@@ -1402,7 +1442,7 @@ composer_build_message_finish (EMsgComposer *composer,
 /* Signatures */
 
 static gboolean
-is_top_signature (EMsgComposer *composer)
+use_top_signature (EMsgComposer *composer)
 {
 	EShell *shell;
 	EShellSettings *shell_settings;
@@ -1424,20 +1464,6 @@ is_top_signature (EMsgComposer *composer)
 		shell_settings, "composer-top-signature");
 }
 
-static gboolean
-add_signature_delim (EMsgComposer *composer)
-{
-	EShell *shell;
-	EShellSettings *shell_settings;
-
-	shell = e_msg_composer_get_shell (composer);
-	shell_settings = e_shell_get_shell_settings (shell);
-
-	return !e_shell_settings_get_boolean (
-		shell_settings, "composer-no-signature-delim");
-}
-
-#define CONVERT_SPACES CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES
 #define NO_SIGNATURE_TEXT	\
 	"<!--+GtkHTML:<DATA class=\"ClueFlow\" " \
 	"                     key=\"signature\" " \
@@ -1445,115 +1471,6 @@ add_signature_delim (EMsgComposer *composer)
 	"<!--+GtkHTML:<DATA class=\"ClueFlow\" " \
 	"                     key=\"signature_name\" " \
 	"                   value=\"uid:Noname\">--><BR>"
-
-static gchar *
-get_signature_html (EMsgComposer *composer)
-{
-	EComposerHeaderTable *table;
-	gchar *text = NULL, *html = NULL;
-	ESignature *signature;
-	gboolean format_html, add_delim;
-
-	table = e_msg_composer_get_header_table (composer);
-	signature = e_composer_header_table_get_signature (table);
-
-	if (!signature)
-		return NULL;
-
-	add_delim = add_signature_delim (composer);
-
-	if (!e_signature_get_autogenerated (signature)) {
-		const gchar *filename;
-
-		filename = e_signature_get_filename (signature);
-		if (filename == NULL)
-			return NULL;
-
-		format_html = e_signature_get_is_html (signature);
-
-		if (e_signature_get_is_script (signature))
-			text = e_run_signature_script (filename);
-		else
-			text = e_read_signature_file (signature, TRUE, NULL);
-	} else {
-		EAccount *account;
-		EAccountIdentity *id;
-		gchar *organization = NULL;
-		gchar *address = NULL;
-		gchar *name = NULL;
-
-		account = e_composer_header_table_get_account (table);
-		if (!account)
-			return NULL;
-
-		id = account->id;
-		if (id->address != NULL)
-			address = camel_text_to_html (
-				id->address, CONVERT_SPACES, 0);
-		if (id->name != NULL)
-			name = camel_text_to_html (
-				id->name, CONVERT_SPACES, 0);
-		if (id->organization != NULL)
-			organization = camel_text_to_html (
-				id->organization, CONVERT_SPACES, 0);
-
-		text = g_strdup_printf ("%s%s%s%s%s%s%s%s%s",
-					add_delim ? "-- \n<BR>" : "",
-					name ? name : "",
-					(address && *address) ? " &lt;<A HREF=\"mailto:" : "",
-					address ? address : "",
-					(address && *address) ? "\">" : "",
-					address ? address : "",
-					(address && *address) ? "</A>&gt;" : "",
-					(organization && *organization) ? "<BR>" : "",
-					organization ? organization : "");
-		g_free (address);
-		g_free (name);
-		g_free (organization);
-		format_html = TRUE;
-	}
-
-	/* printf ("text: %s\n", text); */
-	if (text) {
-		gchar *encoded_uid = NULL;
-		const gchar *sig_delim = format_html ? "-- \n<BR>" : "-- \n";
-		const gchar *sig_delim_ent = format_html ? "\n-- \n<BR>" : "\n-- \n";
-
-		if (signature != NULL) {
-			const gchar *uid = e_signature_get_uid (signature);
-			encoded_uid = e_composer_encode_clue_value (uid);
-		}
-
-		/* The signature dash convention ("-- \n") is specified
-		 * in the "Son of RFC 1036", section 4.3.2.
-		 * http://www.chemie.fu-berlin.de/outerspace/netnews/son-of-1036.html
-		 */
-		html = g_strdup_printf (
-			"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
-			"    key=\"signature\" value=\"1\">-->"
-			"<!--+GtkHTML:<DATA class=\"ClueFlow\" "
-			"    key=\"signature_name\" value=\"uid:%s\">-->"
-			"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\""
-			" CELLPADDING=\"0\"><TR><TD>"
-			"%s%s%s%s"
-			"%s</TD></TR></TABLE>",
-			encoded_uid ? encoded_uid : "",
-			format_html ? "" : "<PRE>\n",
-			!add_delim ? "" :
-				(!strncmp (
-				sig_delim, text, strlen (sig_delim)) ||
-				strstr (text, sig_delim_ent))
-				? "" : sig_delim,
-			text,
-			format_html ? "" : "</PRE>\n",
-			is_top_signature (composer) ? "<BR>" : "");
-		g_free (text);
-		g_free (encoded_uid);
-		text = html;
-	}
-
-	return text;
-}
 
 static void
 set_editor_text (EMsgComposer *composer,
@@ -1579,7 +1496,9 @@ set_editor_text (EMsgComposer *composer,
 	 *
 	 */
 
-	if (is_top_signature (composer)) {
+	/* "Edit as New Message" sets "priv->is_from_message".
+	 * Always put the signature at the bottom for that case. */
+	if (!composer->priv->is_from_message && use_top_signature (composer)) {
 		/* put marker to the top */
 		body = g_strdup_printf ("<BR>" NO_SIGNATURE_TEXT "%s", text);
 	} else {
@@ -1590,7 +1509,7 @@ set_editor_text (EMsgComposer *composer,
 	gtkhtml_editor_set_text_html (GTKHTML_EDITOR (composer), body, -1);
 
 	if (set_signature)
-		e_msg_composer_show_sig_file (composer);
+		e_composer_update_signature (composer);
 
 	g_free (body);
 }
@@ -1624,43 +1543,65 @@ msg_composer_subject_changed_cb (EMsgComposer *composer)
 }
 
 static void
-msg_composer_account_changed_cb (EMsgComposer *composer)
+msg_composer_mail_identity_changed_cb (EMsgComposer *composer)
 {
 	EMsgComposerPrivate *p = composer->priv;
+	EMailSignatureComboBox *combo_box;
+	ESourceRegistry *registry;
+	ESourceMailComposition *mc;
+	ESourceOpenPGP *pgp;
+	ESourceSMIME *smime;
 	EComposerHeaderTable *table;
 	GtkToggleAction *action;
-	ESignature *signature;
-	EAccount *account;
-	gboolean active, can_sign;
+	ESource *source;
+	gboolean can_sign;
+	gboolean pgp_sign;
+	gboolean smime_sign;
+	gboolean smime_encrypt;
+	const gchar *extension_name;
 	const gchar *uid;
 
 	table = e_msg_composer_get_header_table (composer);
-	account = e_composer_header_table_get_account (table);
+	registry = e_composer_header_table_get_registry (table);
+	uid = e_composer_header_table_get_identity_uid (table);
 
-	if (account == NULL) {
-		e_msg_composer_show_sig_file (composer);
+	/* Silently return if no identity is selected. */
+	if (uid == NULL)
 		return;
-	}
 
-	can_sign = (!account->pgp_no_imip_sign || p->mime_type == NULL ||
-		g_ascii_strncasecmp (p->mime_type, "text/calendar", 13) != 0);
+	source = e_source_registry_ref_source (registry, uid);
+	g_return_if_fail (source != NULL);
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
+	mc = e_source_get_extension (source, extension_name);
+
+	extension_name = E_SOURCE_EXTENSION_OPENPGP;
+	pgp = e_source_get_extension (source, extension_name);
+	pgp_sign = e_source_openpgp_get_sign_by_default (pgp);
+
+	extension_name = E_SOURCE_EXTENSION_SMIME;
+	smime = e_source_get_extension (source, extension_name);
+	smime_sign = e_source_smime_get_sign_by_default (smime);
+	smime_encrypt = e_source_smime_get_encrypt_by_default (smime);
+
+	can_sign =
+		(p->mime_type == NULL) ||
+		e_source_mail_composition_get_sign_imip (mc) ||
+		(g_ascii_strncasecmp (p->mime_type, "text/calendar", 13) != 0);
 
 	action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
-	active = account->pgp_always_sign && can_sign;
-	gtk_toggle_action_set_active (action, active);
+	gtk_toggle_action_set_active (action, can_sign && pgp_sign);
 
 	action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
-	active = account->smime_sign_default && can_sign;
-	gtk_toggle_action_set_active (action, active);
+	gtk_toggle_action_set_active (action, can_sign && smime_sign);
 
 	action = GTK_TOGGLE_ACTION (ACTION (SMIME_ENCRYPT));
-	active = account->smime_encrypt_default;
-	gtk_toggle_action_set_active (action, active);
+	gtk_toggle_action_set_active (action, smime_encrypt);
 
-	uid = account->id->sig_uid;
-	signature = uid ? e_get_signature_by_uid (uid) : NULL;
-	e_composer_header_table_set_signature (table, signature);
-	e_msg_composer_show_sig_file (composer);
+	combo_box = e_composer_header_table_get_signature_combo_box (table);
+	e_mail_signature_combo_box_set_identity_uid (combo_box, uid);
+
+	g_object_unref (source);
 }
 
 static void
@@ -2066,14 +2007,6 @@ msg_composer_constructed (GObject *object)
 
 	/* Configure Headers */
 
-	e_composer_header_table_set_account_list (
-		table, e_get_account_list ());
-	e_composer_header_table_set_signature_list (
-		table, e_get_signature_list ());
-
-	g_signal_connect_swapped (
-		table, "notify::account",
-		G_CALLBACK (msg_composer_account_changed_cb), composer);
 	g_signal_connect_swapped (
 		table, "notify::destinations-bcc",
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
@@ -2084,11 +2017,14 @@ msg_composer_constructed (GObject *object)
 		table, "notify::destinations-to",
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
 	g_signal_connect_swapped (
+		table, "notify::identity-uid",
+		G_CALLBACK (msg_composer_mail_identity_changed_cb), composer);
+	g_signal_connect_swapped (
 		table, "notify::reply-to",
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
 	g_signal_connect_swapped (
-		table, "notify::signature",
-		G_CALLBACK (e_msg_composer_show_sig_file), composer);
+		table, "notify::signature-uid",
+		G_CALLBACK (e_composer_update_signature), composer);
 	g_signal_connect_swapped (
 		table, "notify::subject",
 		G_CALLBACK (msg_composer_subject_changed_cb), composer);
@@ -2096,7 +2032,7 @@ msg_composer_constructed (GObject *object)
 		table, "notify::subject",
 		G_CALLBACK (msg_composer_notify_header_cb), composer);
 
-	msg_composer_account_changed_cb (composer);
+	msg_composer_mail_identity_changed_cb (composer);
 
 	/* Attachments */
 
@@ -3031,28 +2967,75 @@ set_signature_gui (EMsgComposer *composer)
 {
 	GtkhtmlEditor *editor;
 	EComposerHeaderTable *table;
-	ESignature *signature = NULL;
+	EMailSignatureComboBox *combo_box;
 	const gchar *data;
-	gchar *decoded;
+	gchar *uid;
 
 	editor = GTKHTML_EDITOR (composer);
 	table = e_msg_composer_get_header_table (composer);
+	combo_box = e_composer_header_table_get_signature_combo_box (table);
 
 	if (!gtkhtml_editor_search_by_data (editor, 1, "ClueFlow", "signature", "1"))
 		return;
 
 	data = gtkhtml_editor_get_paragraph_data (editor, "signature_name");
-	if (g_str_has_prefix (data, "uid:")) {
-		decoded = e_composer_decode_clue_value (data + 4);
-		signature = e_get_signature_by_uid (decoded);
-		g_free (decoded);
-	} else if (g_str_has_prefix (data, "name:")) {
-		decoded = e_composer_decode_clue_value (data + 5);
-		signature = e_get_signature_by_name (decoded);
-		g_free (decoded);
+
+	if (!g_str_has_prefix (data, "uid:"))
+		return;
+
+	/* The combo box active ID is the signature's ESource UID. */
+	uid = e_composer_decode_clue_value (data + 4);
+	gtk_combo_box_set_active_id (GTK_COMBO_BOX (combo_box), uid);
+	g_free (uid);
+}
+
+static void
+composer_add_auto_recipients (ESource *source,
+                              const gchar *property_name,
+                              GHashTable *hash_table)
+{
+	ESourceMailComposition *extension;
+	CamelInternetAddress *inet_addr;
+	const gchar *extension_name;
+	gchar *comma_separated_addrs;
+	gchar **addr_array = NULL;
+	gint length, ii;
+	gint retval;
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
+	extension = e_source_get_extension (source, extension_name);
+
+	g_object_get (extension, property_name, &addr_array, NULL);
+
+	if (addr_array == NULL)
+		return;
+
+	inet_addr = camel_internet_address_new ();
+	comma_separated_addrs = g_strjoinv (", ", addr_array);
+
+	retval = camel_address_decode (
+		CAMEL_ADDRESS (inet_addr), comma_separated_addrs);
+
+	g_free (comma_separated_addrs);
+	g_strfreev (addr_array);
+
+	if (retval == -1)
+		return;
+
+	length = camel_address_length (CAMEL_ADDRESS (inet_addr));
+
+	for (ii = 0; ii < length; ii++) {
+		const gchar *name;
+		const gchar *addr;
+
+		if (camel_internet_address_get (inet_addr, ii, &name, &addr))
+			g_hash_table_insert (
+				hash_table,
+				g_strdup (addr),
+				GINT_TO_POINTER (1));
 	}
 
-	e_composer_header_table_set_signature (table, signature);
+	g_object_unref (inet_addr);
 }
 
 /**
@@ -3080,13 +3063,14 @@ e_msg_composer_new_with_message (EShell *shell,
 	struct _camel_header_raw *headers;
 	CamelDataWrapper *content;
 	CamelSession *session;
-	EAccount *account = NULL;
-	gchar *account_name;
 	EMsgComposer *composer;
 	EMsgComposerPrivate *priv;
 	EComposerHeaderTable *table;
+	ESourceRegistry *registry;
+	ESource *source = NULL;
 	GtkToggleAction *action;
 	struct _camel_header_raw *xev;
+	gchar *identity_uid;
 	gint len, i;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
@@ -3107,6 +3091,7 @@ e_msg_composer_new_with_message (EShell *shell,
 	priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 	session = e_msg_composer_get_session (composer);
 	table = e_msg_composer_get_header_table (composer);
+	registry = e_composer_header_table_get_registry (table);
 
 	if (postto) {
 		e_composer_header_table_set_post_to_list (table, postto);
@@ -3115,22 +3100,12 @@ e_msg_composer_new_with_message (EShell *shell,
 		postto = NULL;
 	}
 
-	/* Restore the Account preference */
-	account_name = (gchar *) camel_medium_get_header (
-		CAMEL_MEDIUM (message), "X-Evolution-Account");
-	if (account_name) {
-		account_name = g_strdup (account_name);
-		g_strstrip (account_name);
-
-		account = e_get_account_by_uid (account_name);
-		if (account == NULL)
-			/* XXX Backwards compatibility */
-			account = e_get_account_by_name (account_name);
-
-		if (account != NULL) {
-			g_free (account_name);
-			account_name = g_strdup (account->name);
-		}
+	/* Restore the mail identity preference. */
+	identity_uid = (gchar *) camel_medium_get_header (
+		CAMEL_MEDIUM (message), "X-Evolution-Identity");
+	if (identity_uid != NULL) {
+		identity_uid = g_strstrip (g_strdup (identity_uid));
+		source = e_source_registry_ref_source (registry, identity_uid);
 	}
 
 	if (postto == NULL) {
@@ -3144,45 +3119,9 @@ e_msg_composer_new_with_message (EShell *shell,
 			(GDestroyNotify) g_free,
 			(GDestroyNotify) NULL);
 
-		if (account) {
-			CamelInternetAddress *iaddr;
-
-			/* hash our auto-recipients for this account */
-			if (account->always_cc) {
-				iaddr = camel_internet_address_new ();
-				if (camel_address_decode (CAMEL_ADDRESS (iaddr), account->cc_addrs) != -1) {
-					for (i = 0; i < camel_address_length (CAMEL_ADDRESS (iaddr)); i++) {
-						const gchar *name, *addr;
-
-						if (!camel_internet_address_get (iaddr, i, &name, &addr))
-							continue;
-
-						g_hash_table_insert (
-							auto_cc,
-							g_strdup (addr),
-							GINT_TO_POINTER (TRUE));
-					}
-				}
-				g_object_unref (iaddr);
-			}
-
-			if (account->always_bcc) {
-				iaddr = camel_internet_address_new ();
-				if (camel_address_decode (CAMEL_ADDRESS (iaddr), account->bcc_addrs) != -1) {
-					for (i = 0; i < camel_address_length (CAMEL_ADDRESS (iaddr)); i++) {
-						const gchar *name, *addr;
-
-						if (!camel_internet_address_get (iaddr, i, &name, &addr))
-							continue;
-
-						g_hash_table_insert (
-							auto_bcc,
-							g_strdup (addr),
-							GINT_TO_POINTER (TRUE));
-					}
-				}
-				g_object_unref (iaddr);
-			}
+		if (source != NULL) {
+			composer_add_auto_recipients (source, "cc", auto_cc);
+			composer_add_auto_recipients (source, "bcc", auto_bcc);
 		}
 
 		to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
@@ -3200,6 +3139,7 @@ e_msg_composer_new_with_message (EShell *shell,
 				To = g_list_append (To, dest);
 			}
 		}
+
 		Tov = destination_list_to_vector (To);
 		g_list_free (To);
 
@@ -3248,15 +3188,18 @@ e_msg_composer_new_with_message (EShell *shell,
 		Bccv = NULL;
 	}
 
+	if (source != NULL)
+		g_object_unref (source);
+
 	subject = camel_mime_message_get_subject (message);
 
-	e_composer_header_table_set_account_name (table, account_name);
+	e_composer_header_table_set_identity_uid (table, identity_uid);
 	e_composer_header_table_set_destinations_to (table, Tov);
 	e_composer_header_table_set_destinations_cc (table, Ccv);
 	e_composer_header_table_set_destinations_bcc (table, Bccv);
 	e_composer_header_table_set_subject (table, subject);
 
-	g_free (account_name);
+	g_free (identity_uid);
 
 	e_destination_freev (Tov);
 	e_destination_freev (Ccv);
@@ -3410,7 +3353,7 @@ e_msg_composer_new_with_message (EShell *shell,
 EMsgComposer *
 e_msg_composer_new_redirect (EShell *shell,
                              CamelMimeMessage *message,
-                             const gchar *resent_from,
+                             const gchar *identity_uid,
                              GCancellable *cancellable)
 {
 	EMsgComposer *composer;
@@ -3430,7 +3373,7 @@ e_msg_composer_new_redirect (EShell *shell,
 	composer->priv->redirect = message;
 	g_object_ref (message);
 
-	e_composer_header_table_set_account_name (table, resent_from);
+	e_composer_header_table_set_identity_uid (table, identity_uid);
 	e_composer_header_table_set_subject (table, subject);
 
 	web_view = e_msg_composer_get_web_view (composer);
@@ -4198,16 +4141,24 @@ e_msg_composer_set_body (EMsgComposer *composer,
                          const gchar *body,
                          const gchar *mime_type)
 {
-	EMsgComposerPrivate *p = composer->priv;
+	EMsgComposerPrivate *priv = composer->priv;
 	EComposerHeaderTable *table;
 	EWebViewGtkHTML *web_view;
+	ESourceRegistry *registry;
+	ESource *source;
+	const gchar *identity_uid;
 	gchar *buff;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	table = e_msg_composer_get_header_table (composer);
+	registry = e_composer_header_table_get_registry (table);
 
-	buff = g_markup_printf_escaped ("<b>%s</b>",
+	identity_uid = e_composer_header_table_get_identity_uid (table);
+	source = e_source_registry_ref_source (registry, identity_uid);
+
+	buff = g_markup_printf_escaped (
+		"<b>%s</b>",
 		_("The composer contains a non-text "
 		  "message body, which cannot be edited."));
 	set_editor_text (composer, buff, FALSE);
@@ -4218,16 +4169,19 @@ e_msg_composer_set_body (EMsgComposer *composer,
 	web_view = e_msg_composer_get_web_view (composer);
 	e_web_view_gtkhtml_set_editable (web_view, FALSE);
 
-	g_free (p->mime_body);
-	p->mime_body = g_strdup (body);
-	g_free (p->mime_type);
-	p->mime_type = g_strdup (mime_type);
+	g_free (priv->mime_body);
+	priv->mime_body = g_strdup (body);
+	g_free (priv->mime_type);
+	priv->mime_type = g_strdup (mime_type);
 
-	if (g_ascii_strncasecmp (p->mime_type, "text/calendar", 13) == 0) {
-		EAccount *account;
+	if (g_ascii_strncasecmp (priv->mime_type, "text/calendar", 13) == 0) {
+		ESourceMailComposition *extension;
+		const gchar *extension_name;
 
-		account = e_composer_header_table_get_account (table);
-		if (account && account->pgp_no_imip_sign) {
+		extension_name = E_SOURCE_EXTENSION_MAIL_COMPOSITION;
+		extension = e_source_get_extension (source, extension_name);
+
+		if (!e_source_mail_composition_get_sign_imip (extension)) {
 			GtkToggleAction *action;
 
 			action = GTK_TOGGLE_ACTION (ACTION (PGP_SIGN));
@@ -4237,6 +4191,8 @@ e_msg_composer_set_body (EMsgComposer *composer,
 			gtk_toggle_action_set_active (action, FALSE);
 		}
 	}
+
+	g_object_unref (source);
 }
 
 /**
@@ -4739,88 +4695,45 @@ e_msg_composer_get_message_draft_finish (EMsgComposer *composer,
 	return g_object_ref (message);
 }
 
-/**
- * e_msg_composer_show_sig:
- * @composer: A message composer widget
- *
- * Set a signature
- **/
-void
-e_msg_composer_show_sig_file (EMsgComposer *composer)
-{
-	GtkhtmlEditor *editor;
-	gchar *html_text;
-
-	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
-
-	editor = GTKHTML_EDITOR (composer);
-
-	if (composer->priv->redirect)
-		return;
-
-	composer->priv->in_signature_insert = TRUE;
-
-	gtkhtml_editor_freeze (editor);
-	gtkhtml_editor_run_command (editor, "cursor-position-save");
-	gtkhtml_editor_undo_begin (editor, "Set signature", "Reset signature");
-
-	/* Delete the old signature. */
-	gtkhtml_editor_run_command (editor, "block-selection");
-	gtkhtml_editor_run_command (editor, "cursor-bod");
-	if (gtkhtml_editor_search_by_data (editor, 1, "ClueFlow", "signature", "1")) {
-		gtkhtml_editor_run_command (editor, "select-paragraph");
-		gtkhtml_editor_run_command (editor, "delete");
-		gtkhtml_editor_set_paragraph_data (editor, "signature", "0");
-		gtkhtml_editor_run_command (editor, "delete-back");
-	}
-	gtkhtml_editor_run_command (editor, "unblock-selection");
-
-	html_text = get_signature_html (composer);
-	if (html_text) {
-		gtkhtml_editor_run_command (editor, "insert-paragraph");
-		if (!gtkhtml_editor_run_command (editor, "cursor-backward"))
-			gtkhtml_editor_run_command (editor, "insert-paragraph");
-		else
-			gtkhtml_editor_run_command (editor, "cursor-forward");
-
-		gtkhtml_editor_set_paragraph_data (editor, "orig", "0");
-		gtkhtml_editor_run_command (editor, "indent-zero");
-		gtkhtml_editor_run_command (editor, "style-normal");
-		gtkhtml_editor_insert_html (editor, html_text);
-		g_free (html_text);
-	} else if (is_top_signature (composer)) {
-		/* insert paragraph after the signature ClueFlow things */
-		if (gtkhtml_editor_run_command (editor, "cursor-forward"))
-			gtkhtml_editor_run_command (editor, "insert-paragraph");
-	}
-
-	gtkhtml_editor_undo_end (editor);
-	gtkhtml_editor_run_command (editor, "cursor-position-restore");
-	gtkhtml_editor_thaw (editor);
-
-	composer->priv->in_signature_insert = FALSE;
-}
-
 CamelInternetAddress *
 e_msg_composer_get_from (EMsgComposer *composer)
 {
-	CamelInternetAddress *address;
+	CamelInternetAddress *inet_address = NULL;
+	ESourceMailIdentity *mail_identity;
 	EComposerHeaderTable *table;
-	EAccount *account;
+	ESourceRegistry *registry;
+	ESource *source;
+	const gchar *extension_name;
+	const gchar *uid;
+	gchar *name;
+	gchar *address;
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
 	table = e_msg_composer_get_header_table (composer);
 
-	account = e_composer_header_table_get_account (table);
-	if (account == NULL)
-		return NULL;
+	registry = e_composer_header_table_get_registry (table);
+	uid = e_composer_header_table_get_identity_uid (table);
+	source = e_source_registry_ref_source (registry, uid);
+	g_return_val_if_fail (source != NULL, NULL);
 
-	address = camel_internet_address_new ();
-	camel_internet_address_add (
-		address, account->id->name, account->id->address);
+	extension_name = E_SOURCE_EXTENSION_MAIL_IDENTITY;
+	mail_identity = e_source_get_extension (source, extension_name);
 
-	return address;
+	name = e_source_mail_identity_dup_name (mail_identity);
+	address = e_source_mail_identity_dup_address (mail_identity);
+
+	g_object_unref (source);
+
+	if (name != NULL && address != NULL) {
+		inet_address = camel_internet_address_new ();
+		camel_internet_address_add (inet_address, name, address);
+	}
+
+	g_free (name);
+	g_free (address);
+
+	return inet_address;
 }
 
 CamelInternetAddress *
@@ -4840,8 +4753,8 @@ e_msg_composer_get_reply_to (EMsgComposer *composer)
 
 	address = camel_internet_address_new ();
 	if (camel_address_unformat (CAMEL_ADDRESS (address), reply_to) == -1) {
-		g_object_unref (CAMEL_OBJECT (address));
-		return NULL;
+		g_object_unref (address);
+		address = NULL;
 	}
 
 	return address;

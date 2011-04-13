@@ -25,7 +25,6 @@
 #define E_MSG_COMPOSER_H
 
 #include <camel/camel.h>
-#include <libedataserver/e-account.h>
 #include <libebook/e-destination.h>
 #include <gtkhtml-editor.h>
 #include <misc/e-attachment-view.h>
@@ -94,7 +93,7 @@ EMsgComposer *	e_msg_composer_new_from_url	(EShell *shell,
 						 const gchar *url);
 EMsgComposer *	e_msg_composer_new_redirect	(EShell *shell,
 						 CamelMimeMessage *message,
-						 const gchar *resent_from,
+						 const gchar *identity_uid,
 						 GCancellable *cancellable);
 EFocusTracker *	e_msg_composer_get_focus_tracker
 						(EMsgComposer *composer);
@@ -172,7 +171,6 @@ CamelMimeMessage *
 						(EMsgComposer *composer,
 						 GAsyncResult *result,
 						 GError **error);
-void		e_msg_composer_show_sig_file	(EMsgComposer *composer);
 
 CamelInternetAddress *
 		e_msg_composer_get_from		(EMsgComposer *composer);

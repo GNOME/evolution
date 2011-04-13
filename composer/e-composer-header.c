@@ -36,12 +36,8 @@
 struct _EComposerHeaderPrivate {
 	gchar *label;
 	gboolean button;
-	GtkWidget *action_label;
 
-	GtkWidget *add_icon;
-	GtkWidget *remove_icon;
-	GtkWidget *show_label;
-	GtkWidget *hide_label;
+	ESourceRegistry *registry;
 
 	guint sensitive : 1;
 	guint visible   : 1;
@@ -55,6 +51,7 @@ enum {
 	PROP_0,
 	PROP_BUTTON,
 	PROP_LABEL,
+	PROP_REGISTRY,
 	PROP_SENSITIVE,
 	PROP_VISIBLE
 };
@@ -80,48 +77,14 @@ composer_header_button_clicked_cb (GtkButton *button,
 	g_signal_emit (header, signal_ids[CLICKED], 0);
 }
 
-static GObject *
-composer_header_constructor (GType type,
-                             guint n_construct_properties,
-                             GObjectConstructParam *construct_properties)
+static void
+composer_header_set_registry (EComposerHeader *header,
+                              ESourceRegistry *registry)
 {
-	GObject *object;
-	GtkWidget *widget;
-	EComposerHeader *header;
-	GtkWidget *label;
+	g_return_if_fail (E_IS_SOURCE_REGISTRY (registry));
+	g_return_if_fail (header->priv->registry == NULL);
 
-	/* Chain up to parent's constructor() method. */
-	object = G_OBJECT_CLASS (
-		e_composer_header_parent_class)->constructor (
-		type, n_construct_properties, construct_properties);
-
-	header = E_COMPOSER_HEADER (object);
-
-	if (header->priv->button) {
-		widget = gtk_button_new_with_mnemonic (header->priv->label);
-		gtk_widget_set_can_focus (widget, FALSE);
-		g_signal_connect (
-			widget, "clicked",
-			G_CALLBACK (composer_header_button_clicked_cb),
-			header);
-		label = gtk_bin_get_child (GTK_BIN (widget));
-	} else {
-		widget = gtk_label_new_with_mnemonic (header->priv->label);
-		gtk_label_set_mnemonic_widget (
-			GTK_LABEL (widget), header->input_widget);
-		label = widget;
-	}
-
-	gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
-
-	header->priv->action_label = NULL;
-
-	header->title_widget = g_object_ref_sink (widget);
-
-	g_free (header->priv->label);
-	header->priv->label = NULL;
-
-	return object;
+	header->priv->registry = g_object_ref (registry);
 }
 
 static void
@@ -141,6 +104,12 @@ composer_header_set_property (GObject *object,
 
 		case PROP_LABEL:	/* construct only */
 			priv->label = g_value_dup_string (value);
+			return;
+
+		case PROP_REGISTRY:
+			composer_header_set_registry (
+				E_COMPOSER_HEADER (object),
+				g_value_get_object (value));
 			return;
 
 		case PROP_SENSITIVE:
@@ -175,8 +144,12 @@ composer_header_get_property (GObject *object,
 			return;
 
 		case PROP_LABEL:	/* construct only */
-			g_value_take_string (
-				value, e_composer_header_get_label (
+			g_value_set_string (value, priv->label);
+			return;
+
+		case PROP_REGISTRY:
+			g_value_set_object (
+				value, e_composer_header_get_registry (
 				E_COMPOSER_HEADER (object)));
 			return;
 
@@ -211,8 +184,72 @@ composer_header_dispose (GObject *object)
 		header->input_widget = NULL;
 	}
 
+	if (header->priv->registry != NULL) {
+		g_object_unref (header->priv->registry);
+		header->priv->registry = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_composer_header_parent_class)->dispose (object);
+}
+
+static void
+composer_header_finalize (GObject *object)
+{
+	EComposerHeaderPrivate *priv;
+
+	priv = E_COMPOSER_HEADER_GET_PRIVATE (object);
+
+	g_free (priv->label);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (e_composer_header_parent_class)->finalize (object);
+}
+
+static void
+composer_header_constructed (GObject *object)
+{
+	EComposerHeader *header;
+	GtkWidget *widget;
+	GtkWidget *label;
+
+	header = E_COMPOSER_HEADER (object);
+
+	if (header->input_widget == NULL) {
+		g_critical (
+			"EComposerHeader's input_widget "
+			"must be set before chaining up");
+		return;
+	}
+
+	if (header->priv->button) {
+		widget = gtk_button_new_with_mnemonic (header->priv->label);
+		gtk_widget_set_can_focus (widget, FALSE);
+		g_signal_connect (
+			widget, "clicked",
+			G_CALLBACK (composer_header_button_clicked_cb),
+			header);
+		label = gtk_bin_get_child (GTK_BIN (widget));
+	} else {
+		widget = gtk_label_new_with_mnemonic (header->priv->label);
+		gtk_label_set_mnemonic_widget (
+			GTK_LABEL (widget), header->input_widget);
+		label = widget;
+	}
+
+	gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
+
+	header->title_widget = g_object_ref_sink (widget);
+
+	g_object_bind_property (
+		header, "visible",
+		header->title_widget, "visible",
+		G_BINDING_SYNC_CREATE);
+
+	g_object_bind_property (
+		header, "visible",
+		header->input_widget, "visible",
+		G_BINDING_SYNC_CREATE);
 }
 
 static void
@@ -223,10 +260,11 @@ e_composer_header_class_init (EComposerHeaderClass *class)
 	g_type_class_add_private (class, sizeof (EComposerHeaderPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->constructor = composer_header_constructor;
 	object_class->set_property = composer_header_set_property;
 	object_class->get_property = composer_header_get_property;
 	object_class->dispose = composer_header_dispose;
+	object_class->finalize = composer_header_finalize;
+	object_class->constructed = composer_header_constructed;
 
 	g_object_class_install_property (
 		object_class,
@@ -248,6 +286,18 @@ e_composer_header_class_init (EComposerHeaderClass *class)
 			NULL,
 			NULL,
 			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY |
+			G_PARAM_STATIC_STRINGS));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_REGISTRY,
+		g_param_spec_object (
+			"registry",
+			NULL,
+			NULL,
+			E_TYPE_SOURCE_REGISTRY,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY |
 			G_PARAM_STATIC_STRINGS));
@@ -299,17 +349,20 @@ e_composer_header_init (EComposerHeader *header)
 	header->priv = E_COMPOSER_HEADER_GET_PRIVATE (header);
 }
 
-gchar *
+const gchar *
 e_composer_header_get_label (EComposerHeader *header)
 {
-	gchar *label;
-
 	g_return_val_if_fail (E_IS_COMPOSER_HEADER (header), NULL);
 
-	/* GtkButton and GtkLabel both have a "label" property. */
-	g_object_get (header->title_widget, "label", &label, NULL);
+	return header->priv->label;
+}
 
-	return label;
+ESourceRegistry *
+e_composer_header_get_registry (EComposerHeader *header)
+{
+	g_return_val_if_fail (E_IS_COMPOSER_HEADER (header), NULL);
+
+	return header->priv->registry;
 }
 
 gboolean
@@ -346,20 +399,6 @@ e_composer_header_set_visible (EComposerHeader *header,
 	g_return_if_fail (E_IS_COMPOSER_HEADER (header));
 
 	header->priv->visible = visible;
-
-	if (header->priv->action_label) {
-		if (!visible) {
-			gtk_widget_show (header->priv->add_icon);
-			gtk_widget_show (header->priv->show_label);
-			gtk_widget_hide (header->priv->remove_icon);
-			gtk_widget_hide (header->priv->hide_label);
-		} else {
-			gtk_widget_hide (header->priv->add_icon);
-			gtk_widget_hide (header->priv->show_label);
-			gtk_widget_show (header->priv->remove_icon);
-			gtk_widget_show (header->priv->hide_label);
-		}
-	}
 
 	g_object_notify (G_OBJECT (header), "visible");
 }

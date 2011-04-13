@@ -21,8 +21,6 @@
 #ifndef E_COMPOSER_POST_HEADER_H
 #define E_COMPOSER_POST_HEADER_H
 
-#include <libedataserver/e-account.h>
-
 #include <composer/e-composer-text-header.h>
 
 /* Standard GObject macros */
@@ -63,12 +61,8 @@ struct _EComposerPostHeaderClass {
 
 GType		e_composer_post_header_get_type	(void);
 EComposerHeader *
-		e_composer_post_header_new	(const gchar *label);
-EAccount *	e_composer_post_header_get_account
-						(EComposerPostHeader *header);
-void		e_composer_post_header_set_account
-						(EComposerPostHeader *header,
-						 EAccount *account);
+		e_composer_post_header_new	(ESourceRegistry *registry,
+						 const gchar *label);
 GList *		e_composer_post_header_get_folders
 						(EComposerPostHeader *header);
 void		e_composer_post_header_set_folders
@@ -78,6 +72,11 @@ void		e_composer_post_header_set_folders_base
 						(EComposerPostHeader *header,
 						 const gchar *base_url,
 						 const gchar *folders);
+ESource *	e_composer_post_header_get_mail_account
+						(EComposerPostHeader *header);
+void		e_composer_post_header_set_mail_account
+						(EComposerPostHeader *header,
+						 ESource *mail_account);
 
 G_END_DECLS
 

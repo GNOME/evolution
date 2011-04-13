@@ -57,11 +57,19 @@ struct _EComposerSpellHeaderClass {
 	GType entry_type;
 };
 
-GType			e_composer_spell_header_get_type	(void);
-EComposerHeader *	e_composer_spell_header_new_label	(const gchar *label);
-EComposerHeader *	e_composer_spell_header_new_button	(const gchar *label);
-void			e_composer_spell_header_set_languages	(EComposerSpellHeader *spell_header,
-								 GList *languages);
+GType		e_composer_spell_header_get_type
+						(void) G_GNUC_CONST;
+EComposerHeader *
+		e_composer_spell_header_new_label
+						(ESourceRegistry *registry,
+						 const gchar *label);
+EComposerHeader *
+		e_composer_spell_header_new_button
+						(ESourceRegistry *registry,
+						 const gchar *label);
+void		e_composer_spell_header_set_languages
+						(EComposerSpellHeader *header,
+						 GList *languages);
 
 G_END_DECLS
 

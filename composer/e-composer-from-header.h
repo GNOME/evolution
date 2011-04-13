@@ -21,10 +21,6 @@
 #ifndef E_COMPOSER_FROM_HEADER_H
 #define E_COMPOSER_FROM_HEADER_H
 
-#include <libedataserver/e-account.h>
-#include <libedataserver/e-account-list.h>
-
-#include <misc/e-account-combo-box.h>
 #include <composer/e-composer-header.h>
 
 /* Standard GObject macros */
@@ -60,22 +56,14 @@ struct _EComposerFromHeaderClass {
 };
 
 GType		e_composer_from_header_get_type	(void);
-EComposerHeader * e_composer_from_header_new	(const gchar *label);
-EAccountList *	e_composer_from_header_get_account_list
+EComposerHeader *
+		e_composer_from_header_new	(ESourceRegistry *registry,
+						 const gchar *label);
+const gchar *	e_composer_from_header_get_active_id
 						(EComposerFromHeader *header);
-void		e_composer_from_header_set_account_list
+void		e_composer_from_header_set_active_id
 						(EComposerFromHeader *header,
-						 EAccountList *account_list);
-EAccount *	e_composer_from_header_get_active
-						(EComposerFromHeader *header);
-gboolean	e_composer_from_header_set_active
-						(EComposerFromHeader *header,
-						 EAccount *account);
-const gchar *	e_composer_from_header_get_active_name
-						(EComposerFromHeader *header);
-gboolean	e_composer_from_header_set_active_name
-						(EComposerFromHeader *header,
-						 const gchar *account_name);
+						 const gchar *active_id);
 
 G_END_DECLS
 

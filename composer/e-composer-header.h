@@ -19,6 +19,7 @@
 #define E_COMPOSER_HEADER_H
 
 #include <composer/e-composer-common.h>
+#include <libedataserver/e-source-registry.h>
 
 /* Standard GObject macros */
 #define E_TYPE_COMPOSER_HEADER \
@@ -61,7 +62,9 @@ struct _EComposerHeaderClass {
 };
 
 GType		e_composer_header_get_type	(void);
-gchar *		e_composer_header_get_label	(EComposerHeader *header);
+const gchar *	e_composer_header_get_label	(EComposerHeader *header);
+ESourceRegistry *
+		e_composer_header_get_registry	(EComposerHeader *header);
 gboolean	e_composer_header_get_sensitive	(EComposerHeader *header);
 void		e_composer_header_set_sensitive	(EComposerHeader *header,
 						 gboolean sensitive);
