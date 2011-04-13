@@ -118,9 +118,12 @@ action_mail_account_properties_cb (GtkAction *action,
                                    EMailShellView *mail_shell_view)
 {
 	EMailShellSidebar *mail_shell_sidebar;
+	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellBackend *shell_backend;
+	ESourceRegistry *registry;
+	ESource *source;
 	EMFolderTree *folder_tree;
 	CamelService *service;
 	CamelStore *store;
@@ -131,6 +134,7 @@ action_mail_account_properties_cb (GtkAction *action,
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 	store = em_folder_tree_get_selected_store (folder_tree);
@@ -138,11 +142,15 @@ action_mail_account_properties_cb (GtkAction *action,
 
 	service = CAMEL_SERVICE (store);
 	uid = camel_service_get_uid (service);
-
+	registry = e_shell_get_registry (shell);
+	source = e_source_registry_ref_source (registry, uid);
+	g_return_if_fail (source != NULL);
+	
 	e_mail_shell_backend_edit_account (
 		E_MAIL_SHELL_BACKEND (shell_backend),
-		GTK_WINDOW (shell_window),
-		e_get_account_by_uid (uid));
+		GTK_WINDOW (shell_window), source);
+
+	g_object_unref (source);
 }
 
 static void
@@ -841,24 +849,58 @@ static void
 action_mail_send_receive_cb (GtkAction *action,
                              EMailShellView *mail_shell_view)
 {
-	e_mail_shell_view_send_receive (
-		mail_shell_view, E_MAIL_SEND_RECEIVE_BOTH, NULL);
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellBackend *shell_backend;
+	EMailBackend *backend;
+	EMailSession *session;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+
+	mail_send_receive (GTK_WINDOW (shell_window), session);
 }
 
 static void
 action_mail_send_receive_receive_all_cb (GtkAction *action,
                                          EMailShellView *mail_shell_view)
 {
-	e_mail_shell_view_send_receive (
-		mail_shell_view, E_MAIL_SEND_RECEIVE_RECEIVE, NULL);
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellBackend *shell_backend;
+	EMailBackend *backend;
+	EMailSession *session;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+
+	mail_receive (GTK_WINDOW (shell_window), session);
 }
 
 static void
 action_mail_send_receive_send_all_cb (GtkAction *action,
                                       EMailShellView *mail_shell_view)
 {
-	e_mail_shell_view_send_receive (
-		mail_shell_view, E_MAIL_SEND_RECEIVE_SEND, NULL);
+	EShellView *shell_view;
+	EShellBackend *shell_backend;
+	EMailBackend *backend;
+	EMailSession *session;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+
+	backend = E_MAIL_BACKEND (shell_backend);
+	session = e_mail_backend_get_session (backend);
+
+	mail_send (session);
 }
 
 static void

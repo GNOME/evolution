@@ -41,16 +41,12 @@
 #include <e-util/e-util.h>
 #include <e-util/e-util-private.h>
 
-#include <libemail-utils/e-signature-utils.h>
-
 #include <composer/e-msg-composer.h>
 
 #include <shell/e-shell-utils.h>
 
 #include <misc/e-charset-combo-box.h>
-#include <misc/e-signature-editor.h>
-#include <misc/e-signature-manager.h>
-#include <misc/e-signature-preview.h>
+#include <misc/e-mail-signature-manager.h>
 
 #include <mail/em-config.h>
 #include <mail/em-folder-selection-button.h>
@@ -323,8 +319,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	GtkWidget *toplevel, *widget, *info_pixmap;
 	GtkWidget *container;
 	EShellSettings *shell_settings;
-	ESignatureList *signature_list;
-	ESignatureTreeView *signature_tree_view;
+	ESourceRegistry *registry;
 	GtkTreeView *view;
 	GtkListStore *store;
 	GtkTreeSelection *selection;
@@ -334,6 +329,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	GSList *l;
 	gint i;
 
+	registry = e_shell_get_registry (shell);
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	/* Make sure our custom widget classes are registered with
@@ -551,10 +547,9 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		NULL, (GDestroyNotify) NULL);
 
 	/* Signatures */
-	signature_list = e_get_signature_list ();
 	container = e_builder_get_widget (
 		prefs->builder, "signature-alignment");
-	widget = e_signature_manager_new (signature_list);
+	widget = e_mail_signature_manager_new (registry);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
@@ -570,20 +565,6 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 			shell_settings, "composer-format-html",
 			widget, "prefer-html",
 			G_BINDING_SYNC_CREATE);
-
-	signature_tree_view = e_signature_manager_get_tree_view (
-		E_SIGNATURE_MANAGER (widget));
-
-	container = e_builder_get_widget (
-		prefs->builder, "signature-preview-scrolled-window");
-	widget = e_signature_preview_new ();
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	gtk_widget_show (widget);
-
-	g_object_bind_property (
-		signature_tree_view, "selected",
-		widget, "signature",
-		G_BINDING_SYNC_CREATE);
 
 	/* Sanitize the dialog for Express mode */
 	e_shell_hide_widgets_for_express_mode (

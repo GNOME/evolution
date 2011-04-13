@@ -27,13 +27,12 @@
 #include <glib/gi18n.h>
 #include <gtkhtml/gtkhtml.h>
 #include <camel/camel-search-private.h>  /* for camel_search_word */
+#include <libedataserver/e-source-mail-account.h>
 
 #include <e-util/e-util.h>
 #include <e-util/e-ui-manager.h>
 
 #include <filter/e-filter-part.h>
-
-#include <libemail-utils/e-account-utils.h>
 
 #include <libemail-engine/e-mail-folder-utils.h>
 #include <libemail-engine/e-mail-session.h>
@@ -133,12 +132,6 @@ enum {
 	MAIL_SCOPE_ALL_ACCOUNTS
 };
 
-typedef enum  {
-	E_MAIL_SEND_RECEIVE_BOTH,
-	E_MAIL_SEND_RECEIVE_RECEIVE,
-	E_MAIL_SEND_RECEIVE_SEND
-} EMailSendReceiveMode;
-
 struct _EMailShellViewPrivate {
 
 	/*** Other Stuff ***/
@@ -194,10 +187,6 @@ void		e_mail_shell_view_update_search_filter
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_update_sidebar
 					(EMailShellView *mail_shell_view);
-void		e_mail_shell_view_send_receive
-					(EMailShellView *mail_shell_view,
-					 EMailSendReceiveMode mode,
-					 const gchar *account_uid);
 void		e_mail_shell_view_update_send_receive_menus
 					(EMailShellView *mail_shell_view);
 

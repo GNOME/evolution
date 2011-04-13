@@ -38,12 +38,9 @@
 
 #include <shell/e-shell.h>
 
-#include <libemail-utils/e-account-utils.h>
-
 #include <mail/e-mail-backend.h>
 #include <mail/e-mail-ui-session.h>
 #include <mail/em-config.h>
-#include <mail/em-account-editor.h>
 #include <mail/em-utils.h>
 #include <mail/mail-vfolder-ui.h>
 
@@ -183,7 +180,7 @@ account_prefs_add_account (EMailAccountManager *manager)
 
 static void
 account_prefs_edit_account (EMailAccountManager *manager,
-                            EAccount *account)
+                            ESource *source)
 {
 	EMAccountPrefsPrivate *priv;
 	gpointer parent;
@@ -194,7 +191,7 @@ account_prefs_edit_account (EMailAccountManager *manager,
 	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
 
 	e_mail_shell_backend_edit_account (
-		E_MAIL_SHELL_BACKEND (priv->backend), parent, account);
+		E_MAIL_SHELL_BACKEND (priv->backend), parent, source);
 }
 
 static void

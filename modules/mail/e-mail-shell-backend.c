@@ -27,6 +27,9 @@
 
 #include <glib/gi18n.h>
 
+#include <libedataserver/e-source-registry.h>
+#include <libedataserver/e-source-mail-transport.h>
+
 #include <e-util/e-import.h>
 #include <e-util/e-util.h>
 
@@ -48,8 +51,9 @@
 #include <libemail-engine/mail-ops.h>
 
 #include <mail/e-mail-browser.h>
+#include <mail/e-mail-config-assistant.h>
+#include <mail/e-mail-config-window.h>
 #include <mail/e-mail-reader.h>
-#include <mail/em-account-editor.h>
 #include <mail/em-composer-utils.h>
 #include <mail/em-folder-utils.h>
 #include <mail/em-format-hook.h>
@@ -192,13 +196,26 @@ action_mail_message_new_cb (GtkAction *action,
 	EShellSidebar *shell_sidebar;
 	EShellView *shell_view;
 	EShell *shell;
+	ESourceRegistry *registry;
 	EMFolderTree *folder_tree;
 	CamelFolder *folder = NULL;
 	CamelStore *store;
+	GList *list;
+	const gchar *extension_name;
 	const gchar *view_name;
+	gboolean no_transport_defined;
 	gchar *folder_name;
 
 	shell = e_shell_window_get_shell (shell_window);
+	registry = e_shell_get_registry (shell);
+
+	extension_name = E_SOURCE_EXTENSION_MAIL_TRANSPORT;
+	list = e_source_registry_list_sources (registry, extension_name);
+	no_transport_defined = (list == NULL);
+	g_list_free_full (list, (GDestroyNotify) g_object_unref);
+
+	if (no_transport_defined)
+		return;
 
 	/* Take care not to unnecessarily load the mail shell view. */
 	view_name = e_shell_window_get_active_view (shell_window);
@@ -538,8 +555,6 @@ mail_shell_backend_start (EShellBackend *shell_backend)
 		g_error_free (error);
 	}
 
-	mail_autoreceive_init (session);
-
 	if (g_getenv ("CAMEL_FLUSH_CHANGES") != NULL)
 		priv->mail_sync_source_id = g_timeout_add_seconds (
 			mail_config_get_sync_timeout (),
@@ -706,96 +721,73 @@ void
 e_mail_shell_backend_new_account (EMailShellBackend *mail_shell_backend,
                                   GtkWindow *parent)
 {
+	GtkWidget *assistant;
+	EMailBackend *backend;
+	EMailSession *session;
+
 #ifdef WITH_CAPPLET
 	EShell *shell;
 	EShellBackend *shell_backend;
 #endif /* WITH_CAPPLET */
-	EMailShellBackendPrivate *priv;
 
 	g_return_if_fail (mail_shell_backend != NULL);
 	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
 
-	priv = mail_shell_backend->priv;
+	assistant = mail_shell_backend->priv->assistant;
 
-	if (priv->assistant != NULL) {
-		gtk_window_present (GTK_WINDOW (priv->assistant));
+	if (assistant != NULL) {
+		gtk_window_present (GTK_WINDOW (assistant));
 		return;
 	}
+
+	backend = E_MAIL_BACKEND (mail_shell_backend);
+	session = e_mail_backend_get_session (backend);
 
 #ifdef WITH_CAPPLET
 	shell_backend = E_SHELL_BACKEND (mail_shell_backend);
 	shell = e_shell_backend_get_shell (shell_backend);
 
 	if (e_shell_get_express_mode (shell))
-		priv->assistant = mail_capplet_shell_new (0, TRUE, FALSE);
+		assistant = mail_capplet_shell_new (0, TRUE, FALSE);
 #endif /* WITH_CAPPLET */
 
-	if (priv->assistant == NULL) {
-		EMAccountEditor *emae;
+	if (assistant == NULL)
+		assistant = e_mail_config_assistant_new (session);
 
-		/** @HookPoint-EMConfig: New Mail Account Assistant
-		 * @Id: org.gnome.evolution.mail.config.accountAssistant
-		 * @Type: E_CONFIG_ASSISTANT
-		 * @Class: org.gnome.evolution.mail.config:1.0
-		 * @Target: EMConfigTargetAccount
-		 *
-		 * The new mail account assistant.
-		 */
-		emae = em_account_editor_new (
-			NULL, EMAE_ASSISTANT, E_MAIL_BACKEND (mail_shell_backend),
-			"org.gnome.evolution.mail.config.accountAssistant");
-		e_config_create_window (
-			E_CONFIG (emae->config), NULL,
-			_("Evolution Account Assistant"));
-		priv->assistant = E_CONFIG (emae->config)->window;
-		g_object_set_data_full (
-			G_OBJECT (priv->assistant), "AccountEditor",
-			emae, (GDestroyNotify) g_object_unref);
-	}
+	gtk_window_set_transient_for (GTK_WINDOW (assistant), parent);
+	gtk_widget_show (assistant);
+
+	mail_shell_backend->priv->assistant = assistant;
 
 	g_object_add_weak_pointer (
-		G_OBJECT (priv->assistant), &priv->assistant);
-	gtk_window_set_transient_for (GTK_WINDOW (priv->assistant), parent);
-	gtk_widget_show (priv->assistant);
+		G_OBJECT (mail_shell_backend->priv->assistant),
+		&mail_shell_backend->priv->assistant);
 }
 
 void
 e_mail_shell_backend_edit_account (EMailShellBackend *mail_shell_backend,
                                    GtkWindow *parent,
-                                   EAccount *account)
+                                   ESource *mail_account)
 {
 	EMailShellBackendPrivate *priv;
-	EMAccountEditor *emae;
+	EMailBackend *backend;
+	EMailSession *session;
 
-	g_return_if_fail (mail_shell_backend != NULL);
 	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
-	g_return_if_fail (account != NULL);
+	g_return_if_fail (E_IS_SOURCE (mail_account));
 
 	priv = mail_shell_backend->priv;
+
+	backend = E_MAIL_BACKEND (mail_shell_backend);
+	session = e_mail_backend_get_session (backend);
 
 	if (priv->editor != NULL) {
 		gtk_window_present (GTK_WINDOW (priv->editor));
 		return;
 	}
 
-	/** @HookPoint-EMConfig: Mail Account Editor
-	 * @Id: org.gnome.evolution.mail.config.accountEditor
-	 * @Type: E_CONFIG_BOOK
-	 * @Class: org.gnome.evolution.mail.config:1.0
-	 * @Target: EMConfigTargetAccount
-	 *
-	 * The account editor window.
-	 */
-	emae = em_account_editor_new (
-		account, EMAE_NOTEBOOK, E_MAIL_BACKEND (mail_shell_backend),
-		"org.gnome.evolution.mail.config.accountEditor");
-	e_config_create_window (
-		E_CONFIG (emae->config), parent, _("Account Editor"));
-	priv->editor = E_CONFIG (emae->config)->window;
-	g_object_set_data_full (
-		G_OBJECT (priv->editor), "AccountEditor",
-		emae, (GDestroyNotify) g_object_unref);
-
+	priv->editor = e_mail_config_window_new (session, mail_account);
+	gtk_window_set_transient_for (GTK_WINDOW (priv->editor), parent);
 	g_object_add_weak_pointer (G_OBJECT (priv->editor), &priv->editor);
 	gtk_widget_show (priv->editor);
 }
@@ -892,11 +884,13 @@ static void
 mbox_fill_preview_cb (GObject *preview,
                       CamelMimeMessage *msg)
 {
+	EShell *shell;
 	EMailDisplay *display;
 	EMFormat *formatter;
 	GHashTable *formatters;
 	SoupSession *soup_session;
 	EMailSession *mail_session;
+	ESourceRegistry *registry;
 	gchar *mail_uri;
 
 	g_return_if_fail (preview != NULL);
@@ -916,7 +910,9 @@ mbox_fill_preview_cb (GObject *preview,
 
 	mail_uri = em_format_build_mail_uri (NULL, msg->message_id, NULL, NULL);
 
-	mail_session = e_mail_session_new ();
+	shell = e_shell_get_default ();
+	registry = e_shell_get_registry (shell);
+	mail_session = e_mail_session_new (registry);
 
 	formatter = EM_FORMAT (
 		em_format_html_display_new (

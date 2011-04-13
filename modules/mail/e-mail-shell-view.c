@@ -223,6 +223,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	EMailBackend *backend;
 	EMailSession *session;
 	MailFolderCache *cache;
+	ESourceRegistry *registry;
 	EMFolderTree *folder_tree;
 	GtkWidget *message_list;
 	EFilterRule *rule;
@@ -269,6 +270,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	folder = e_mail_reader_get_folder (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
+	registry = e_mail_session_get_registry (session);
 	label_store = e_mail_ui_session_get_label_store (E_MAIL_UI_SESSION (session));
 
 	action = ACTION (MAIL_SEARCH_SUBJECT_OR_ADDRESSES_CONTAIN);
@@ -388,7 +390,7 @@ filter:
 			break;
 
 		case MAIL_FILTER_RECENT_MESSAGES:
-			if (em_utils_folder_is_sent (folder))
+			if (em_utils_folder_is_sent (registry, folder))
 				temp = g_strdup_printf (
 					"(and %s (match-all "
 					"(> (get-sent-date) "
@@ -405,7 +407,7 @@ filter:
 			break;
 
 		case MAIL_FILTER_LAST_5_DAYS_MESSAGES:
-			if (em_utils_folder_is_sent (folder))
+			if (em_utils_folder_is_sent (registry, folder))
 				temp = g_strdup_printf (
 					"(and %s (match-all "
 					"(> (get-sent-date) "
@@ -808,12 +810,14 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
+	EShell *shell;
 	EMFolderTree *folder_tree;
 	EMFolderTreeModel *model;
 	EMailReader *reader;
 	EMailView *mail_view;
 	CamelStore *store;
-	EAccount *account;
+	ESourceRegistry *registry;
+	ESource *source = NULL;
 	GtkAction *action;
 	GList *list, *link;
 	const gchar *label;
@@ -839,6 +843,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	E_SHELL_VIEW_CLASS (parent_class)->update_actions (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
+	registry = e_shell_get_registry (shell);
 
 	mail_shell_view = E_MAIL_SHELL_VIEW (shell_view);
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
@@ -880,11 +886,29 @@ mail_shell_view_update_actions (EShellView *shell_view)
 
 		service = CAMEL_SERVICE (store);
 		uid = camel_service_get_uid (service);
-		account = e_get_account_by_uid (uid);
-
+		source = e_source_registry_ref_source (registry, uid);
 		store_is_vstore = g_strcmp0 (uid, E_MAIL_SESSION_VFOLDER_UID) == 0;
-	} else
-		account = NULL;
+	}
+
+	if (source != NULL) {
+		ESourceExtension *extension;
+		const gchar *backend_name;
+		const gchar *extension_name;
+
+		extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+		extension = e_source_get_extension (source, extension_name);
+
+		backend_name =
+			e_source_backend_get_backend_name (
+			E_SOURCE_BACKEND (extension));
+
+		/* FIXME This belongs in a GroupWise plugin. */
+		account_is_groupwise =
+			(g_strcmp0 (backend_name, "groupwise") == 0) &&
+			(e_source_get_parent (source) != NULL);
+
+		g_object_unref (source);
+	}
 
 	if (uri != NULL) {
 		GtkTreeRowReference *reference;
@@ -907,11 +931,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 				(g_strcmp0 (uri, folder_uri) == 0);
 			g_free (folder_uri);
 		}
-
-		/* FIXME This belongs in a GroupWise plugin. */
-		account_is_groupwise =
-			(g_strrstr (uri, "groupwise://") != NULL) &&
-			account != NULL && account->parent_uid != NULL;
 
 		reference = em_folder_tree_model_lookup_uri (model, uri);
 		if (reference != NULL) {
@@ -943,7 +962,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	g_list_free (list);
 
 	action = ACTION (MAIL_ACCOUNT_DISABLE);
-	sensitive = (account != NULL) && folder_is_store;
+	sensitive = (store != NULL) && folder_is_store;
 	if (account_is_groupwise)
 		label = _("Proxy _Logout");
 	else
@@ -956,7 +975,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_ACCOUNT_PROPERTIES);
-	sensitive = account != NULL && folder_is_store;
+	sensitive = (store != NULL) && folder_is_store;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FLUSH_OUTBOX);

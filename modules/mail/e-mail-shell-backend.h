@@ -22,7 +22,6 @@
 #ifndef E_MAIL_SHELL_BACKEND_H
 #define E_MAIL_SHELL_BACKEND_H
 
-#include <libedataserver/e-account.h>
 #include <mail/e-mail-backend.h>
 
 /* Standard GObject macros */
@@ -69,7 +68,7 @@ void		e_mail_shell_backend_new_account
 void		e_mail_shell_backend_edit_account
 						(EMailShellBackend *mail_shell_backend,
 						 GtkWindow *parent,
-						 EAccount *account);
+						 ESource *mail_account);
 
 /* XXX Find a better place for this function. */
 GSList *	e_mail_labels_get_filter_options (void);
