@@ -14,9 +14,6 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  */
 
 #include "e-web-view.h"
@@ -28,11 +25,17 @@
 #include <camel/camel.h>
 
 #include <e-util/e-util.h>
+#include <e-util/e-alert-dialog.h>
+#include <e-util/e-alert-sink.h>
 #include <e-util/e-extensible.h>
 #include <e-util/e-plugin-ui.h>
 
 #include "e-popup-action.h"
 #include "e-selectable.h"
+
+#define E_WEB_VIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_WEB_VIEW, EWebViewPrivate))
 
 typedef struct _EWebViewRequest EWebViewRequest;
 
@@ -118,6 +121,7 @@ static const gchar *ui =
 "</ui>";
 
 /* Forward Declarations */
+static void e_web_view_alert_sink_init (EAlertSinkInterface *interface);
 static void e_web_view_selectable_init (ESelectableInterface *interface);
 
 G_DEFINE_TYPE_WITH_CODE (
@@ -126,6 +130,9 @@ G_DEFINE_TYPE_WITH_CODE (
 	GTK_TYPE_HTML,
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_EXTENSIBLE, NULL)
+	G_IMPLEMENT_INTERFACE (
+		E_TYPE_ALERT_SINK,
+		e_web_view_alert_sink_init)
 	G_IMPLEMENT_INTERFACE (
 		E_TYPE_SELECTABLE,
 		e_web_view_selectable_init))
@@ -680,7 +687,7 @@ web_view_dispose (GObject *object)
 {
 	EWebViewPrivate *priv;
 
-	priv = E_WEB_VIEW (object)->priv;
+	priv = E_WEB_VIEW_GET_PRIVATE (object);
 
 	if (priv->ui_manager != NULL) {
 		g_object_unref (priv->ui_manager);
@@ -721,7 +728,7 @@ web_view_finalize (GObject *object)
 {
 	EWebViewPrivate *priv;
 
-	priv = E_WEB_VIEW (object)->priv;
+	priv = E_WEB_VIEW_GET_PRIVATE (object);
 
 	/* All URI requests should be complete or cancelled by now. */
 	if (priv->requests != NULL)
@@ -1046,6 +1053,103 @@ web_view_update_actions (EWebView *web_view)
 	visible = (uri == NULL) && !web_view->priv->disable_save_to_disk;
 	action_group = e_web_view_get_action_group (web_view, group_name);
 	gtk_action_group_set_visible (action_group, visible);
+}
+
+static void
+web_view_submit_alert (EAlertSink *alert_sink,
+                       EAlert *alert)
+{
+	GtkIconInfo *icon_info;
+	EWebView *web_view;
+	GtkWidget *dialog;
+	GString *buffer;
+	const gchar *icon_name = NULL;
+	gpointer parent;
+	gint size = 0;
+
+	web_view = E_WEB_VIEW (alert_sink);
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (web_view));
+	parent = gtk_widget_is_toplevel (parent) ? parent : NULL;
+
+	/* We use equivalent named icons instead of stock IDs,
+	 * since it's easier to get the filename of the icon. */
+	switch (e_alert_get_message_type (alert)) {
+		case GTK_MESSAGE_INFO:
+			icon_name = "dialog-information";
+			break;
+
+		case GTK_MESSAGE_WARNING:
+			icon_name = "dialog-warning";
+			break;
+
+		case GTK_MESSAGE_ERROR:
+			icon_name = "dialog-error";
+			break;
+
+		default:
+			dialog = e_alert_dialog_new (parent, alert);
+			gtk_dialog_run (GTK_DIALOG (dialog));
+			gtk_widget_destroy (dialog);
+			return;
+	}
+
+	gtk_icon_size_lookup (GTK_ICON_SIZE_DIALOG, &size, NULL);
+
+	icon_info = gtk_icon_theme_lookup_icon (
+		gtk_icon_theme_get_default (),
+		icon_name, size, GTK_ICON_LOOKUP_NO_SVG);
+	g_return_if_fail (icon_info != NULL);
+
+	buffer = g_string_sized_new (512);
+
+	g_string_append (
+		buffer,
+		"<html>"
+		"<head>"
+		"<meta http-equiv=\"content-type\""
+		" content=\"text/html; charset=utf-8\">"
+		"</head>"
+		"<body>");
+
+	g_string_append (
+		buffer,
+		"<table bgcolor='#000000' width='100%'"
+		" cellpadding='1' cellspacing='0'>"
+		"<tr>"
+		"<td>"
+		"<table bgcolor='#dddddd' width='100%' cellpadding='6'>"
+		"<tr>");
+
+	g_string_append_printf (
+		buffer,
+		"<tr>"
+		"<td valign='top'>"
+		"<img src='%s'/>"
+		"</td>"
+		"<td align='left' width='100%%'>"
+		"<h3>%s</h3>"
+		"%s"
+		"</td>"
+		"</tr>",
+		gtk_icon_info_get_filename (icon_info),
+		e_alert_get_primary_text (alert),
+		e_alert_get_secondary_text (alert));
+
+	g_string_append (
+		buffer,
+		"</table>"
+		"</td>"
+		"</tr>"
+		"</table>"
+		"</body>"
+		"</html>");
+
+	e_web_view_load_string (web_view, buffer->str);
+
+	g_string_free (buffer, TRUE);
+
+	gtk_icon_info_free (icon_info);
 }
 
 static void
@@ -1381,6 +1485,12 @@ e_web_view_class_init (EWebViewClass *class)
 }
 
 static void
+e_web_view_alert_sink_init (EAlertSinkInterface *interface)
+{
+	interface->submit_alert = web_view_submit_alert;
+}
+
+static void
 e_web_view_selectable_init (ESelectableInterface *interface)
 {
 	interface->update_actions = web_view_selectable_update_actions;
@@ -1401,8 +1511,7 @@ e_web_view_init (EWebView *web_view)
 	const gchar *id;
 	GError *error = NULL;
 
-	web_view->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		web_view, E_TYPE_WEB_VIEW, EWebViewPrivate);
+	web_view->priv = E_WEB_VIEW_GET_PRIVATE (web_view);
 
 	ui_manager = gtk_ui_manager_new ();
 	web_view->priv->ui_manager = ui_manager;
