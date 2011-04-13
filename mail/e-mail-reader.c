@@ -2898,18 +2898,24 @@ mail_reader_set_folder (EMailReader *reader,
 	EMFormatHTML *formatter;
 	CamelFolder *previous_folder;
 	GtkWidget *message_list;
+	EMailBackend *backend;
+	EShell *shell;
 	const gchar *previous_folder_uri;
 	gboolean outgoing;
 
 	priv = E_MAIL_READER_GET_PRIVATE (reader);
 
+	backend = e_mail_reader_get_backend (reader);
 	formatter = e_mail_reader_get_formatter (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	previous_folder = e_mail_reader_get_folder (reader);
 	previous_folder_uri = e_mail_reader_get_folder_uri (reader);
 
-	if (previous_folder != NULL)
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (backend));
+
+	/* Only synchronize the folder if we're online. */
+	if (previous_folder != NULL && e_shell_get_online (shell))
 		mail_sync_folder (previous_folder, NULL, NULL);
 
 	/* Skip the rest if we're already viewing the folder. */
