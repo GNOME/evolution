@@ -131,7 +131,6 @@ typedef struct {
 	icaltimezone *default_zone;
 
 	/* Authentication Details */
-	gchar *auth_uri;
 	gchar *auth_component;
 } LoadContext;
 
@@ -147,7 +146,6 @@ load_cal_source_context_free (LoadContext *context)
 	if (context->cancellable != NULL)
 		g_object_unref (context->cancellable);
 
-	g_free (context->auth_uri);
 	g_free (context->auth_component);
 
 	g_slice_free (LoadContext, context);
@@ -177,28 +175,39 @@ static gchar *
 load_cal_source_authenticate (ECal *cal,
                               const gchar *prompt,
                               const gchar *uri,
-                              LoadContext *context)
+                              gpointer not_used)
 {
+	const gchar *auth_component;
 	const gchar *title;
 	gboolean remember;  /* not used */
+	GtkWindow *parent;
 	gchar *password;
+
+	/* XXX Dig up authentication info embedded in the ECal instance.
+	 * (See load_cal_source_thread() for an explanation of why.) */
+	auth_component = g_object_get_data (G_OBJECT (cal), "auth-component");
+	g_return_val_if_fail (auth_component != NULL, NULL);
+
+	parent = g_object_get_data (G_OBJECT (cal), "parent-window");
 
 	/* Remember the URI so we don't have to reconstruct it if
 	 * authentication fails and we have to forget the password. */
-	g_free (context->auth_uri);
-	context->auth_uri = g_strdup (uri);
+	g_object_set_data_full (
+		G_OBJECT (cal),
+		"auth-uri", g_strdup (uri),
+		(GDestroyNotify) g_free);
 
 	/* XXX Dialog windows should not have titles. */
 	title = "";
 
-	password = e_passwords_get_password (context->auth_component, uri);
+	password = e_passwords_get_password (auth_component, uri);
 
 	if (password == NULL)
 		password = e_passwords_ask_password (
-			title, context->auth_component, uri,
+			title, auth_component, uri,
 			prompt, E_PASSWORDS_REMEMBER_FOREVER |
 			E_PASSWORDS_SECRET | E_PASSWORDS_ONLINE,
-			&remember, context->parent);
+			&remember, parent);
 
 	return password;
 }
@@ -233,19 +242,27 @@ load_cal_source_thread (GSimpleAsyncResult *simple,
 		return;
 	}
 
-	/* XXX Why doesn't EBook have something like this? */
+	/* XXX e_cal_set_auth_func() does not take a GDestroyNotify callback
+	 *     for the 'user_data' argument, which makes the argument rather
+	 *     useless.  So instead, we'll embed the information needed by
+	 *     the authentication callback directly into the ECal instance
+	 *     using g_object_set_data_full(). */
+	g_object_set_data_full (
+		G_OBJECT (cal), "auth-component",
+		g_strdup (context->auth_component),
+		(GDestroyNotify) g_free);
+	if (context->parent != NULL)
+		g_object_set_data_full (
+			G_OBJECT (cal), "parent-window",
+			g_object_ref (context->parent),
+			(GDestroyNotify) g_object_unref);
+
 	e_cal_set_auth_func (
-		cal, (ECalAuthFunc)
-		load_cal_source_authenticate, context);
+		cal, (ECalAuthFunc) load_cal_source_authenticate, NULL);
 
 try_again:
 	if (!e_cal_open (cal, FALSE, &error))
 		goto fail;
-
-	/* We should be authenticated now if we're going to be,
-	 * so remove the authentication callback so it doesn't
-	 * get triggered after we free the load context. */
-	e_cal_set_auth_func (cal, NULL, NULL);
 
 	if (g_cancellable_set_error_if_cancelled (cancellable, &error)) {
 		g_simple_async_result_set_from_error (simple, error);
@@ -265,8 +282,13 @@ fail:
 	if (g_error_matches (
 		error, E_CALENDAR_ERROR,
 		E_CALENDAR_STATUS_AUTHENTICATION_FAILED)) {
+		const gchar *auth_uri;
+
+		/* Retrieve the URI set by the authentication function. */
+		auth_uri = g_object_get_data (G_OBJECT (cal), "auth-uri");
+
 		e_passwords_forget_password (
-			context->auth_component, context->auth_uri);
+			context->auth_component, auth_uri);
 		g_clear_error (&error);
 		goto try_again;
 
