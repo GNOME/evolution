@@ -155,18 +155,6 @@ em_composer_prefs_init (EMComposerPrefs *prefs)
 {
 }
 
-void
-em_composer_prefs_new_signature (GtkWindow *parent,
-                                 gboolean html_mode)
-{
-	GtkWidget *editor;
-
-	editor = e_signature_editor_new ();
-	gtkhtml_editor_set_html_mode (GTKHTML_EDITOR (editor), html_mode);
-	gtk_window_set_transient_for (GTK_WINDOW (editor), parent);
-	gtk_widget_show (editor);
-}
-
 static void
 spell_language_toggled_cb (GtkCellRendererToggle *renderer,
                            const gchar *path_string,

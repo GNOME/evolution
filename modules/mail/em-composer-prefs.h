@@ -78,8 +78,6 @@ struct _EMComposerPrefsClass {
 
 GType      em_composer_prefs_get_type      (void);
 GtkWidget *em_composer_prefs_new           (EPreferencesWindow *window);
-void       em_composer_prefs_new_signature (GtkWindow *parent,
-					    gboolean html_mode);
 
 G_END_DECLS
 
