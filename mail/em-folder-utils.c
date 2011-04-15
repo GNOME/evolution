@@ -105,8 +105,12 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 	gint fromlen;
 
 	flags = CAMEL_STORE_FOLDER_INFO_FAST |
-		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
 		CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
+
+	/* If we're copying, then we need to copy every subfolder. If we're
+	   *moving*, though, then we only need to rename the top-level folder */
+	if (!m->delete)
+		flags |= CAMEL_STORE_FOLDER_INFO_RECURSIVE;
 
 	fi = camel_store_get_folder_info_sync (
 		m->fromstore, m->frombase, flags, cancellable, error);
@@ -135,7 +139,10 @@ emft_copy_folders__exec (struct _EMCopyFolders *m,
 			GPtrArray *uids;
 			gint deleted = 0;
 
-			if (info->child)
+			/* We still get immediate children even without the
+			   CAMEL_STORE_FOLDER_INFO_RECURSIVE flag. But we only
+			   want to process the children too if we're *copying* */
+			if (info->child && !m->delete)
 				pending = g_list_append (pending, info->child);
 
 			if (m->tobase[0])
