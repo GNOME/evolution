@@ -10,11 +10,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
-"POT-Creation-Date: 2011-03-05 17:35+0000\n"
-"PO-Revision-Date: 2011-03-27 13:09+0400\n"
-"Last-Translator: Yuri Myaseodov <omerta13@yandex.ru>\n"
-"Language-Team: Russian <ru@li.org>\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&keywords=I18N+L10N\n"
+"POT-Creation-Date: 2011-04-15 14:04+0000\n"
+"PO-Revision-Date: 2011-04-15 22:53+0300\n"
+"Last-Translator: Yuri Myasoedov <omerta13@yandex.ru>\n"
+"Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -48,11 +48,11 @@ msgstr "Редактор категорий недоступен."
 
 #: ../addressbook/addressbook.error.xml.h:8
 msgid "Check to make sure your password is spelled correctly and that you are using a supported login method. Remember that many passwords are case sensitive; your caps lock might be on."
-msgstr "Убедитесь, что пароль введен правильно и используется поддерживаемый метод регистрации. Большинство паролей чувствительны к регистру, у вас может быть включён режим Caps Lock."
+msgstr "Убедитесь, что пароль введен правильно и используется поддерживаемый метод регистрации. Большинство паролей чувствительны к регистру, у вас может быть включена клавиша Caps Lock."
 
 #: ../addressbook/addressbook.error.xml.h:9
 msgid "Could not get schema information for LDAP server."
-msgstr "Не удалось получить информацию о схеме для сервера LDAP."
+msgstr "Не удалось получить информацию схемы с сервера LDAP."
 
 #: ../addressbook/addressbook.error.xml.h:10
 msgid "Could not remove address book."
@@ -78,7 +78,7 @@ msgstr "Ошибка сохранения {0} в {1}: {2}"
 
 #: ../addressbook/addressbook.error.xml.h:15
 msgid "Failed to authenticate with LDAP server."
-msgstr "Сбой аутентификации на сервере LDAP."
+msgstr "Сбой проверки подлинности на сервере LDAP."
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:16
@@ -92,7 +92,7 @@ msgstr "Создание адресной книги GroupWise:"
 
 #: ../addressbook/addressbook.error.xml.h:18
 msgid "LDAP server did not respond with valid schema information."
-msgstr "Ответ сервера LDAP не содержит информации о поддерживаемой схеме."
+msgstr "Ответ от сервера LDAP не содержит поддерживаемой информации схемы."
 
 #: ../addressbook/addressbook.error.xml.h:19
 msgid "Some features may not work properly with your current server"
@@ -120,7 +120,7 @@ msgstr "Этот сервер адресной книги не содержит 
 
 #: ../addressbook/addressbook.error.xml.h:25
 msgid "This address book server might be unreachable or the server name may be misspelled or your network connection could be down."
-msgstr "Возможно, сервер адресной книги недоступен, имя сервера может быть введено неправильно, или отсутствует соединение с сетью."
+msgstr "Возможно, сервер адресной книги недоступен, имя сервера может быть введено неправильно или соединение с сетью отсутствует."
 
 #: ../addressbook/addressbook.error.xml.h:26
 msgid "This address book will be removed permanently."
@@ -128,7 +128,7 @@ msgstr "Эта адресная книга будет окончательно �
 
 #: ../addressbook/addressbook.error.xml.h:27
 msgid "This server does not support LDAPv3 schema information."
-msgstr "Этот сервер не поддерживает информацию о схеме LDAPv3."
+msgstr "Этот сервер не поддерживает информацию LDAPv3 schema."
 
 #: ../addressbook/addressbook.error.xml.h:28
 msgid "Unable to open address book"
@@ -189,7 +189,7 @@ msgstr "_Изменить размер"
 
 #: ../addressbook/addressbook.error.xml.h:42
 msgid "_Use as it is"
-msgstr "_Использовать, как есть"
+msgstr "_Использовать как есть"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:1
 #: ../addressbook/gui/widgets/eab-contact-display.c:574
@@ -395,7 +395,7 @@ msgstr "_Мeнеджер:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:42
 msgid "_Office:"
-msgstr "_Офис:"
+msgstr "_Должность:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:43
 msgid "_PO Box:"
@@ -424,7 +424,7 @@ msgstr "Видео_чат:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:49
 msgid "_Wants to receive HTML mail"
-msgstr "Желает получать почту в формате _HTML"
+msgstr "Согласен получать почту в формате _HTML"
 
 #: ../addressbook/gui/contact-editor/contact-editor.ui.h:50
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.ui.h:7
@@ -744,11 +744,11 @@ msgstr[0] "%d контакт"
 msgstr[1] "%d контакта"
 msgstr[2] "%d контактов"
 
-#: ../addressbook/gui/widgets/e-addressbook-model.c:323
+#: ../addressbook/gui/widgets/e-addressbook-model.c:342
 msgid "Error getting book view"
-msgstr "Ошибка построения просмотра книги"
+msgstr "Ошибка при получении вида книги"
 
-#: ../addressbook/gui/widgets/e-addressbook-model.c:737
+#: ../addressbook/gui/widgets/e-addressbook-model.c:756
 msgid "Search Interrupted"
 msgstr "Поиск прерван"
 
@@ -806,9 +806,6 @@ msgstr "Действительно удалить этот контакт (%s)?"
 #. Translators: This is shown for > 5 contacts.
 #: ../addressbook/gui/widgets/e-addressbook-view.c:1474
 #, c-format
-#| msgid ""
-#| "Opening %d contacts will open %d new windows as well.\n"
-#| "Do you really want to display all of these contacts?"
 msgid ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
@@ -1090,8 +1087,8 @@ msgstr "Создать список контактов"
 msgid "current address book folder %s has %d card"
 msgid_plural "current address book folder %s has %d cards"
 msgstr[0] "в текущей папке адресной книги %s имеется %d карточка"
-msgstr[1] "в текущей папке адресной книги %s имеется %d карточки"
-msgstr[2] "в текущей папке адресной книги %s имеется %d карточек"
+msgstr[1] "в текущей папке адресной книги %s имеются %d карточки"
+msgstr[2] "в текущей папке адресной книги %s имеются %d карточек"
 
 #: ../addressbook/gui/widgets/ea-minicard.c:31
 msgid "Open"
@@ -1222,7 +1219,7 @@ msgid "Blog"
 msgstr "Блог"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:1055
-#: ../widgets/misc/e-web-view.c:854
+#: ../widgets/misc/e-web-view.c:858
 #, c-format
 msgid "Click to mail %s"
 msgstr "Нажмите, чтобы написать письмо %s"
@@ -1618,7 +1615,6 @@ msgstr "Ошибка загрузки списка задач"
 #. Translators: {0} is replaced with a group name, like CalDAV, Google, or such;
 #. {1} is replaced with a calendar/task/memo list name, where the error happened
 #: ../calendar/calendar.error.xml.h:46
-#| msgid "Error on '{0}'"
 msgid "Error on {0}: {1}"
 msgstr "Ошибка {0}: {1}"
 
@@ -1824,7 +1820,6 @@ msgstr[2] "часов"
 #: ../modules/calendar/e-cal-shell-view-actions.c:336
 #: ../plugins/google-account-setup/google-contacts-source.c:377
 #: ../plugins/publish-calendar/publish-calendar.ui.h:30
-#| msgid "days"
 msgid "days"
 msgid_plural "days"
 msgstr[0] "дни"
@@ -1906,19 +1901,18 @@ msgstr "Данные об адресе недоступны."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1549
 #, c-format
-#| msgid "You have %d alarms"
 msgid "You have %d alarm"
 msgid_plural "You have %d alarms"
 msgstr[0] "Имеется %d сигнал"
 msgstr[1] "Имеется %d сигнала"
 msgstr[2] "Имеется %d сигналов"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1738
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1771
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1741
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1774
 msgid "Warning"
 msgstr "Предупреждение"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1742
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1745
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -1930,7 +1924,7 @@ msgstr ""
 "Вместо этого Evolution отобразит нормальный диалог\n"
 "напоминания."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1777
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1780
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is configured to run the following program:\n"
@@ -1945,7 +1939,7 @@ msgstr ""
 "\n"
 "Вы действительно хотите запустить эту программу?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1792
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1795
 msgid "Do not ask me about this program again."
 msgstr "Не задавать больше этот вопрос."
 
@@ -2469,7 +2463,7 @@ msgstr "Нажмите, чтобы закрыть текущее окно"
 #: ../widgets/misc/e-focus-tracker.c:114
 #: ../widgets/misc/e-focus-tracker.c:552
 #: ../widgets/misc/e-web-view.c:414
-#: ../widgets/misc/e-web-view.c:1067
+#: ../widgets/misc/e-web-view.c:1068
 msgid "Copy the selection"
 msgstr "Копировать выделение"
 
@@ -2478,7 +2472,7 @@ msgstr "Копировать выделение"
 #: ../shell/e-shell-window-actions.c:1440
 #: ../widgets/misc/e-focus-tracker.c:107
 #: ../widgets/misc/e-focus-tracker.c:547
-#: ../widgets/misc/e-web-view.c:1061
+#: ../widgets/misc/e-web-view.c:1062
 msgid "Cut the selection"
 msgstr "Вырезать выделение"
 
@@ -2498,7 +2492,7 @@ msgstr "Нажмите, чтобы просмотреть справку"
 #: ../shell/e-shell-window-actions.c:1482
 #: ../widgets/misc/e-focus-tracker.c:121
 #: ../widgets/misc/e-focus-tracker.c:557
-#: ../widgets/misc/e-web-view.c:1073
+#: ../widgets/misc/e-web-view.c:1074
 msgid "Paste the clipboard"
 msgstr "Вставить из буфера обмена"
 
@@ -2647,18 +2641,18 @@ msgstr "Недавние _документы"
 msgid "Attach"
 msgstr "Вложить"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2265
-#: ../calendar/gui/dialogs/comp-editor.c:2428
-#: ../calendar/gui/dialogs/comp-editor.c:3403
+#: ../calendar/gui/dialogs/comp-editor.c:2269
+#: ../calendar/gui/dialogs/comp-editor.c:2432
+#: ../calendar/gui/dialogs/comp-editor.c:3407
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "Изменения этого элемента будут отменены, если будет получено обновление."
 
-#: ../calendar/gui/dialogs/comp-editor.c:3367
+#: ../calendar/gui/dialogs/comp-editor.c:3371
 #: ../plugins/prefer-plain/prefer-plain.c:64
 msgid "attachment"
 msgstr "вложение"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3435
+#: ../calendar/gui/dialogs/comp-editor.c:3439
 msgid "Unable to use current version!"
 msgstr "Не удалось использовать текущую версию!"
 
@@ -2955,7 +2949,7 @@ msgstr "Нет"
 #: ../calendar/gui/dialogs/task-page.ui.h:1
 #: ../calendar/gui/e-meeting-time-sel.c:563
 msgid "Atte_ndees..."
-msgstr "Уч_астники…"
+msgstr "Уч_астники"
 
 #: ../calendar/gui/dialogs/event-page.ui.h:6
 msgid "Custom Alarm:"
@@ -2996,35 +2990,30 @@ msgstr "_Время:"
 
 #. TRANSLATORS: Predefined alarm's description
 #: ../calendar/gui/dialogs/event-page.ui.h:17
-#| msgid "1 day before appointment"
 msgctxt "eventpage"
 msgid "1 day before appointment"
 msgstr "1 день до встречи"
 
 #. TRANSLATORS: Predefined alarm's description
 #: ../calendar/gui/dialogs/event-page.ui.h:19
-#| msgid "1 hour before appointment"
 msgctxt "eventpage"
 msgid "1 hour before appointment"
 msgstr "1 час до встречи"
 
 #. TRANSLATORS: Predefined alarm's description
 #: ../calendar/gui/dialogs/event-page.ui.h:21
-#| msgid "15 minutes before appointment"
 msgctxt "eventpage"
 msgid "15 minutes before appointment"
 msgstr "15 минут до встречи"
 
 #. TRANSLATORS: 'for' in a sense of 'duration'; example string: Time: [date] [time] for [ H ] hours [ M ] minutes
 #: ../calendar/gui/dialogs/event-page.ui.h:23
-#| msgid "for"
 msgctxt "eventpage"
 msgid "for"
 msgstr "на"
 
 #. TRANSLATORS: 'until' in a sense of 'duration'; example string: Time: [date] [time] until [ date ] [ time ]
 #: ../calendar/gui/dialogs/event-page.ui.h:25
-#| msgid "until"
 msgctxt "eventpage"
 msgid "until"
 msgstr "до"
@@ -3294,7 +3283,7 @@ msgstr "Дата/Время"
 
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:1
 msgid "Every"
-msgstr "Каждый"
+msgstr "Каждый(ое)"
 
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:2
 msgid "Exceptions"
@@ -3311,49 +3300,42 @@ msgstr "Эта встреча повтор_яется"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:8
-#| msgid "day(s)"
 msgctxt "recurrpage"
 msgid "day(s)"
 msgstr "день(дни)"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:10
-#| msgid "for"
 msgctxt "recurrpage"
 msgid "for"
 msgstr "для"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:12
-#| msgid "forever"
 msgctxt "recurrpage"
 msgid "forever"
 msgstr "всегда"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:14
-#| msgid "month(s)"
 msgctxt "recurrpage"
 msgid "month(s)"
 msgstr "месяц(ы)"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:16
-#| msgid "until"
 msgctxt "recurrpage"
 msgid "until"
 msgstr "до"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:18
-#| msgid "week(s)"
 msgctxt "recurrpage"
 msgid "week(s)"
 msgstr "неделя(ли)"
 
 #. TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
 #: ../calendar/gui/dialogs/recurrence-page.ui.h:20
-#| msgid "year(s)"
 msgctxt "recurrpage"
 msgid "year(s)"
 msgstr "год(ы)"
@@ -4134,13 +4116,11 @@ msgstr "В процессе"
 
 #: ../calendar/gui/e-meeting-store.c:1763
 #, c-format
-#| msgid "Enter password for user %s on server %s"
 msgid "Enter password to access free/busy information on server %s as user %s"
 msgstr "Введите пароль, чтобы получить сведения с сервера %s о занятости пользователя %s"
 
 #: ../calendar/gui/e-meeting-store.c:1772
 #, c-format
-#| msgid "Failed to create thread: %s"
 msgid "Failure reason: %s"
 msgstr "Причина сбоя: %s"
 
@@ -4393,7 +4373,7 @@ msgstr "Новая встреча"
 
 #: ../calendar/gui/ea-cal-view.c:303
 msgid "New All Day Event"
-msgstr "Создать событие на весь день"
+msgstr "Новое ежедневное событие"
 
 #: ../calendar/gui/ea-cal-view.c:304
 msgid "New Meeting"
@@ -4821,6 +4801,7 @@ msgstr "30-ый"
 msgid "31st"
 msgstr "31-ый"
 
+#. Translators: These are workday abbreviations, e.g. Su=Sunday and Th=thursday
 #: ../calendar/gui/print.c:612
 msgid "Su"
 msgstr "Вс"
@@ -4849,22 +4830,34 @@ msgstr "Пт"
 msgid "Sa"
 msgstr "Cб"
 
+#. Translators: This is part of "START to END" text,
+#. * where START and END are date/times.
 #: ../calendar/gui/print.c:3001
 msgid " to "
 msgstr " к "
 
+#. Translators: This is part of "START to END
+#. * (Completed COMPLETED)", where COMPLETED is a
+#. * completed date/time.
 #: ../calendar/gui/print.c:3011
 msgid " (Completed "
 msgstr " (Завершено "
 
+#. Translators: This is part of "Completed COMPLETED",
+#. * where COMPLETED is a completed date/time.
 #: ../calendar/gui/print.c:3017
 msgid "Completed "
 msgstr "Завершено "
 
+#. Translators: This is part of "START (Due DUE)",
+#. * where START and DUE are dates/times.
 #: ../calendar/gui/print.c:3027
 msgid " (Due "
 msgstr " (к дате"
 
+#. Translators: This is part of "Due DUE",
+#. * where DUE is a date/time due the event
+#. * should be finished.
 #: ../calendar/gui/print.c:3034
 msgid "Due "
 msgstr "К дате"
@@ -6918,17 +6911,14 @@ msgid "All accounts have been removed."
 msgstr "Все учётные записи были удалены."
 
 #: ../composer/mail-composer.error.xml.h:3
-#| msgid "Error occurred while spawning %s: %s."
 msgid "An error occurred while saving to your Drafts folder."
 msgstr "Произошла ошибка при сохранении сообщения в черновиках."
 
 #: ../composer/mail-composer.error.xml.h:4
-#| msgid "An error occurred while printing"
 msgid "An error occurred while saving to your Outbox folder."
 msgstr "Произошла ошибка при сохранении сообщения в исходящих сообщениях."
 
 #: ../composer/mail-composer.error.xml.h:5
-#| msgid "An error occurred while printing"
 msgid "An error occurred while sending. How do you want to proceed?"
 msgstr "Во время отправки сообщения произошла ошибка. Хотите продолжить?"
 
@@ -6985,7 +6975,6 @@ msgid "Evolution quit unexpectedly while you were composing a new message. Recov
 msgstr "Работа программы Evolution неожиданно завершилась в процессе составления нового сообщения. Восстановление сообщения поможет вам продолжить с места последнего изменения."
 
 #: ../composer/mail-composer.error.xml.h:19
-#| msgid "Saving message to folder '%s'"
 msgid "Saving message to Outbox."
 msgstr "Сохранение сообщения в папку для исходящих сообщений."
 
@@ -6995,7 +6984,6 @@ msgstr "Файл «{0}» не является обычным файлом и н
 
 #: ../composer/mail-composer.error.xml.h:21
 #: ../mail/mail.error.xml.h:117
-#| msgid "Bad regular expression &quot;{0}&quot;."
 msgid "The reported error was &quot;{0}&quot;."
 msgstr "Сообщение об ошибке: «{0}»."
 
@@ -7008,7 +6996,6 @@ msgid "The reported error was &quot;{0}&quot;. The message has not been sent."
 msgstr "Сообщение об ошибке: «{0}». Сообщение не было отправлено."
 
 #: ../composer/mail-composer.error.xml.h:24
-#| msgid "You cannot attach the file n{0}' to this message."
 msgid "You cannot attach the file &quot;{0}&quot; to this message."
 msgstr "Не удалось прикрепить файл «{0}» к этому сообщению. "
 
@@ -7017,7 +7004,6 @@ msgid "You need to configure an account before you can compose mail."
 msgstr "Перед созданием нового письма необходимо настроить учётную запись."
 
 #: ../composer/mail-composer.error.xml.h:26
-#| msgid "An error occurred during processing: %s"
 msgid "Your message was sent, but an error occurred during post-processing."
 msgstr "Сообщение отправлено, но при последующей обработке произошла ошибка."
 
@@ -7039,7 +7025,6 @@ msgid "_Save Draft"
 msgstr "_Сохранить черновик"
 
 #: ../composer/mail-composer.error.xml.h:33
-#| msgid "_Save as mbox..."
 msgid "_Save to Outbox"
 msgstr "_Сохранить в исходящих"
 
@@ -7074,11 +7059,11 @@ msgstr "Введите ваше полное имя."
 
 #: ../capplet/settings/mail-account-view.c:78
 msgid "Please enter your email address."
-msgstr "Введите ваш адрес эл. почты."
+msgstr "Введите ваш адрес электронной почты."
 
 #: ../capplet/settings/mail-account-view.c:79
 msgid "The email address you have entered is invalid."
-msgstr "Вы ввели неверный адрес электронной почты."
+msgstr "Введён некорректный адрес электронной почты."
 
 #: ../capplet/settings/mail-account-view.c:80
 msgid "Please enter your password."
@@ -7109,12 +7094,10 @@ msgid "Email address:"
 msgstr "Электронная почта:"
 
 #: ../capplet/settings/mail-account-view.c:489
-#| msgid "Details"
 msgid "Details:"
 msgstr "Подробности:"
 
 #: ../capplet/settings/mail-account-view.c:497
-#| msgid "Receiving mail"
 msgid "Receiving"
 msgstr "Получение"
 
@@ -7140,7 +7123,6 @@ msgid "never"
 msgstr "никогда"
 
 #: ../capplet/settings/mail-account-view.c:548
-#| msgid "Ascending"
 msgid "Sending"
 msgstr "Отправка"
 
@@ -7169,14 +7151,14 @@ msgid "Time to check things over before we try and connect to the server and fet
 msgstr "Теперь можно проверить все параметры учётной записи перед попыткой подключения к серверу и получения вашей почты."
 
 #: ../capplet/settings/mail-account-view.c:613
-#: ../mail/em-account-editor.c:2090
-#: ../mail/em-account-editor.c:2211
+#: ../mail/em-account-editor.c:2091
+#: ../mail/em-account-editor.c:2212
 msgid "Identity"
-msgstr "Подлинность"
+msgstr "Учётная запись"
 
 #: ../capplet/settings/mail-account-view.c:613
 msgid "Next - Receiving mail"
-msgstr "Вперёд - Получение почты"
+msgstr "Вперёд — Получение почты"
 
 #: ../capplet/settings/mail-account-view.c:614
 msgid "Receiving mail"
@@ -7185,15 +7167,15 @@ msgstr "Получение почты"
 #: ../capplet/settings/mail-account-view.c:614
 #: ../capplet/settings/mail-account-view.c:615
 msgid "Next - Sending mail"
-msgstr "Вперёд - Отправка эл.почты"
+msgstr "Вперёд — Отправка эл.почты"
 
 #: ../capplet/settings/mail-account-view.c:614
 msgid "Back - Identity"
-msgstr "Назад - Подлинность"
+msgstr "Назад — учётная запись"
 
 #: ../capplet/settings/mail-account-view.c:614
 msgid "Next - Receiving options"
-msgstr "Вперёд - Параметры получения"
+msgstr "Вперёд — Параметры получения"
 
 #: ../capplet/settings/mail-account-view.c:615
 msgid "Receiving options"
@@ -7202,7 +7184,7 @@ msgstr "Параметры получения"
 #: ../capplet/settings/mail-account-view.c:615
 #: ../capplet/settings/mail-account-view.c:617
 msgid "Back - Receiving mail"
-msgstr "Назад - Получение почты"
+msgstr "Назад — Получение почты"
 
 #: ../capplet/settings/mail-account-view.c:617
 msgid "Sending mail"
@@ -7211,24 +7193,24 @@ msgstr "Отправка эл.почты"
 #: ../capplet/settings/mail-account-view.c:617
 #: ../capplet/settings/mail-account-view.c:618
 msgid "Next - Review account"
-msgstr "Вперёд - Обзор учётной записи"
+msgstr "Вперёд — Обзор учётной записи"
 
 #: ../capplet/settings/mail-account-view.c:617
 msgid "Next - Defaults"
-msgstr "Вперёд - По умолчанию"
+msgstr "Вперёд — По умолчанию"
 
 #: ../capplet/settings/mail-account-view.c:617
 msgid "Back - Receiving options"
-msgstr "Назад - Параметры получения"
+msgstr "Назад — Параметры получения"
 
 #: ../capplet/settings/mail-account-view.c:618
-#: ../mail/em-account-editor.c:3042
+#: ../mail/em-account-editor.c:3043
 msgid "Defaults"
 msgstr "По умолчанию"
 
 #: ../capplet/settings/mail-account-view.c:618
 msgid "Back - Sending mail"
-msgstr "Назад - Отправка эл. почты"
+msgstr "Назад — Отправка почты"
 
 #: ../capplet/settings/mail-account-view.c:620
 msgid "Review account"
@@ -7240,7 +7222,7 @@ msgstr "Готово"
 
 #: ../capplet/settings/mail-account-view.c:620
 msgid "Back - Sending"
-msgstr "Назад - Отправка"
+msgstr "Назад — Отправка"
 
 #: ../capplet/settings/mail-account-view.c:740
 msgid "Setup Google contacts with Evolution"
@@ -7255,7 +7237,6 @@ msgid "You may need to enable IMAP access."
 msgstr "Возможно, требуется включить доступ IMAP."
 
 #: ../capplet/settings/mail-account-view.c:754
-#| msgid "Backing Evolution accounts and settings"
 msgid "Google account settings:"
 msgstr "Параметры учётной записи Google:"
 
@@ -7268,7 +7249,6 @@ msgid "Yahoo calendars are named as firstname_lastname. We have tried to form th
 msgstr "Календарям Yahoo даётся название имя_фамилия. Мы попытались сформировать название календаря. Если название не верное, подтвердите и введите название повторно."
 
 #: ../capplet/settings/mail-account-view.c:793
-#| msgid "Backing Evolution accounts and settings"
 msgid "Yahoo account settings:"
 msgstr "Параметры учётной записи Yahoo:"
 
@@ -7318,7 +7298,6 @@ msgstr "На этом компьютере"
 
 #: ../capplet/settings/mail-settings-view.c:145
 #, c-format
-#| msgid "Modify"
 msgid "Modify %s..."
 msgstr "Изменить %s…"
 
@@ -7392,7 +7371,6 @@ msgstr "%s (ожидание)"
 #. *              the user has requested to cancel.
 #: ../e-util/e-activity.c:233
 #, c-format
-#| msgid "%s (cancelled)"
 msgid "%s (cancelling)"
 msgstr "%s (отменяется)"
 
@@ -7509,7 +7487,6 @@ msgstr "Вчера"
 #. You can use strftime modifiers here too, like "Next %a", to avoid
 #. repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:217
-#| msgid "Next"
 msgctxt "DateFmt"
 msgid "Next Mon"
 msgstr "След. пн"
@@ -7518,7 +7495,6 @@ msgstr "След. пн"
 #. You can use strftime modifiers here too, like "Next %a", to avoid
 #. repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:223
-#| msgid "Next _Thread"
 msgctxt "DateFmt"
 msgid "Next Tue"
 msgstr "След. вт"
@@ -7527,7 +7503,6 @@ msgstr "След. вт"
 #. You can use strftime modifiers here too, like "Next %a", to avoid
 #. repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:229
-#| msgid "Next _Thread"
 msgctxt "DateFmt"
 msgid "Next Wed"
 msgstr "След. ср"
@@ -7536,7 +7511,6 @@ msgstr "След. ср"
 #. You can use strftime modifiers here too, like "Next %a", to avoid
 #. repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:235
-#| msgid "Next _Thread"
 msgctxt "DateFmt"
 msgid "Next Thu"
 msgstr "След. чт"
@@ -7545,7 +7519,6 @@ msgstr "След. чт"
 #. You can use strftime modifiers here too, like "Next %a", to avoid
 #. repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:241
-#| msgid "Next"
 msgctxt "DateFmt"
 msgid "Next Fri"
 msgstr "След. пт"
@@ -7554,7 +7527,6 @@ msgstr "След. пт"
 #. You can use strftime modifiers here too, like "Next %a", to avoid
 #. repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:247
-#| msgid "Next"
 msgctxt "DateFmt"
 msgid "Next Sat"
 msgstr "След. сб"
@@ -7563,7 +7535,6 @@ msgstr "След. сб"
 #. You can use strftime modifiers here too, like "Next %a", to avoid
 #. repeated translation of the abbreviated day name.
 #: ../e-util/e-datetime-format.c:253
-#| msgid "Next"
 msgctxt "DateFmt"
 msgid "Next Sun"
 msgstr "След. вск"
@@ -7572,7 +7543,7 @@ msgstr "След. вск"
 #: ../e-util/e-datetime-format.c:345
 #: ../e-util/e-datetime-format.c:354
 msgid "Use locale default"
-msgstr "Использовать локаль по умолчанию"
+msgstr "Параметры локализации по умолчанию"
 
 #: ../e-util/e-datetime-format.c:551
 msgid "Format:"
@@ -7740,47 +7711,47 @@ msgstr "Фото"
 msgid "%s attachment"
 msgstr "вложение %s"
 
-#: ../em-format/em-format.c:1559
+#: ../em-format/em-format.c:1566
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "Не удалось разобрать сообщение S/MIME: Неизвестная ошибка"
 
-#: ../em-format/em-format.c:1741
-#: ../em-format/em-format.c:1935
+#: ../em-format/em-format.c:1748
+#: ../em-format/em-format.c:1942
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Не удалось разобрать сообщение MIME. Отображается как есть."
 
-#: ../em-format/em-format.c:1751
+#: ../em-format/em-format.c:1758
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Неподдерживаемый тип шифрования для multipart/encrypted"
 
-#: ../em-format/em-format.c:1771
+#: ../em-format/em-format.c:1778
 msgid "Could not parse PGP/MIME message"
 msgstr "Не удалось разобрать сообщение PGP/MIME"
 
-#: ../em-format/em-format.c:1772
+#: ../em-format/em-format.c:1779
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "Не удалось разобрать сообщение PGP/MIME: Неизвестная ошибка"
 
-#: ../em-format/em-format.c:1960
+#: ../em-format/em-format.c:1967
 msgid "Unsupported signature format"
 msgstr "Неподдерживаемый формат подписи"
 
-#: ../em-format/em-format.c:1973
-#: ../em-format/em-format.c:2152
+#: ../em-format/em-format.c:1980
+#: ../em-format/em-format.c:2159
 msgid "Error verifying signature"
 msgstr "Ошибка проверки подписи"
 
-#: ../em-format/em-format.c:1974
-#: ../em-format/em-format.c:2139
-#: ../em-format/em-format.c:2153
+#: ../em-format/em-format.c:1981
+#: ../em-format/em-format.c:2146
+#: ../em-format/em-format.c:2160
 msgid "Unknown error verifying signature"
 msgstr "Неизвестная ошибка при проверке подписи"
 
-#: ../em-format/em-format.c:2244
+#: ../em-format/em-format.c:2251
 msgid "Could not parse PGP message: "
 msgstr "Не удалось разобрать сообщение PGP:"
 
-#: ../em-format/em-format.c:2250
+#: ../em-format/em-format.c:2257
 #: ../mail/em-folder-tree.c:656
 #: ../mail/mail-ops.c:624
 #: ../plugins/caldav/caldav-browse-server.c:210
@@ -7906,7 +7877,7 @@ msgstr[2] "%d лет в будущем"
 
 #: ../filter/e-filter-datespec.c:129
 msgid "<click here to select a date>"
-msgstr "<нажмите, чтобы выбрать дату>"
+msgstr "<щёлкните, чтобы выбрать дату>"
 
 #: ../filter/e-filter-datespec.c:132
 #: ../filter/e-filter-datespec.c:143
@@ -7921,7 +7892,7 @@ msgstr "%d-%b-%Y"
 
 #: ../filter/e-filter-datespec.c:282
 msgid "Select a time to compare against"
-msgstr "Выбрать время для сравнения"
+msgstr "Выберите время для сравнения"
 
 #: ../filter/e-filter-file.c:188
 msgid "Choose a File"
@@ -8310,7 +8281,7 @@ msgid "Copy to Folder"
 msgstr "Скопировать в папку"
 
 #: ../mail/e-mail-reader.c:306
-#: ../mail/em-folder-utils.c:421
+#: ../mail/em-folder-utils.c:428
 msgid "C_opy"
 msgstr "_Копировать"
 
@@ -8330,7 +8301,7 @@ msgid "Move to Folder"
 msgstr "Переместить в папку"
 
 #: ../mail/e-mail-reader.c:986
-#: ../mail/em-folder-utils.c:421
+#: ../mail/em-folder-utils.c:428
 msgid "_Move"
 msgstr "Пере_местить"
 
@@ -8457,11 +8428,11 @@ msgstr "Снять метку «к исполнению» с выбранных 
 
 #: ../mail/e-mail-reader.c:1953
 msgid "_Flag Completed"
-msgstr "_Отметка «Завершено»"
+msgstr "_Метка «Завершено»"
 
 #: ../mail/e-mail-reader.c:1955
 msgid "Set the follow-up flag to completed on the selected messages"
-msgstr "Установить флаг «к исполнению» в значение «завершено» для выделенных сообщений"
+msgstr "Установить метку «к исполнению» в значение «завершено» для выделенных сообщений"
 
 #: ../mail/e-mail-reader.c:1960
 msgid "Follow _Up..."
@@ -8524,7 +8495,7 @@ msgstr "_Важное"
 
 #: ../mail/e-mail-reader.c:2018
 msgid "Mark the selected messages as important"
-msgstr "Пометить выделенные сообщения как важные"
+msgstr "Отметить выделенные сообщения как важные"
 
 #: ../mail/e-mail-reader.c:2023
 msgid "_Junk"
@@ -8532,7 +8503,7 @@ msgstr "_Спам"
 
 #: ../mail/e-mail-reader.c:2025
 msgid "Mark the selected messages as junk"
-msgstr "Пометить выделенные сообщения как спам"
+msgstr "Отметить выделенные сообщения как спам"
 
 #: ../mail/e-mail-reader.c:2030
 msgid "_Not Junk"
@@ -8540,15 +8511,15 @@ msgstr "_Не спам"
 
 #: ../mail/e-mail-reader.c:2032
 msgid "Mark the selected messages as not being junk"
-msgstr "Пометить выделенные сообщения как не спам"
+msgstr "Отметить выделенные сообщения как не спам"
 
 #: ../mail/e-mail-reader.c:2037
 msgid "_Read"
-msgstr "_Чтение"
+msgstr "_Прочитанное"
 
 #: ../mail/e-mail-reader.c:2039
 msgid "Mark the selected messages as having been read"
-msgstr "Пометить выделенные сообщения как уже прочитанные"
+msgstr "Отметить выделенные сообщения как прочитанные"
 
 #: ../mail/e-mail-reader.c:2044
 msgid "Uni_mportant"
@@ -8556,15 +8527,15 @@ msgstr "_Неважное"
 
 #: ../mail/e-mail-reader.c:2046
 msgid "Mark the selected messages as unimportant"
-msgstr "Пометить выделенные сообщения как неважные"
+msgstr "Отметить выделенные сообщения как неважные"
 
 #: ../mail/e-mail-reader.c:2051
 msgid "_Unread"
-msgstr "_Непрочитано"
+msgstr "_Непрочитанное"
 
 #: ../mail/e-mail-reader.c:2053
 msgid "Mark the selected messages as not having been read"
-msgstr "Пометить выделенные сообщения как еще не прочитанные"
+msgstr "Отметить выделенные сообщения как еще не прочитанные"
 
 #: ../mail/e-mail-reader.c:2058
 msgid "_Edit as New Message..."
@@ -8679,12 +8650,10 @@ msgid "Display the previous important message"
 msgstr "Показать предыдущее важное сообщение"
 
 #: ../mail/e-mail-reader.c:2156
-#| msgid "_Previous Message"
 msgid "Previous T_hread"
 msgstr "_Предыдущее обсуждение"
 
 #: ../mail/e-mail-reader.c:2158
-#| msgid "Display the previous message"
 msgid "Display the previous thread"
 msgstr "Показать предыдущее обсуждение"
 
@@ -8713,24 +8682,18 @@ msgid "Redirect (bounce) the selected message to someone"
 msgstr "Переслать выбранное сообщение кому-либо от своего имени"
 
 #: ../mail/e-mail-reader.c:2191
-#| msgid "Save Attachment"
-#| msgid_plural "Save Attachments"
 msgid "Remo_ve Attachments"
 msgstr "Удалить _вложения"
 
 #: ../mail/e-mail-reader.c:2193
-#| msgid "Save Attachment"
-#| msgid_plural "Save Attachments"
 msgid "Remove attachments"
 msgstr "Удалить вложения"
 
 #: ../mail/e-mail-reader.c:2198
-#| msgid "Hide S_elected Messages"
 msgid "Remove Du_plicate Messages"
 msgstr "Удалить _дублируемые сообщения"
 
 #: ../mail/e-mail-reader.c:2200
-#| msgid "Mark the selected messages for deletion"
 msgid "Checks selected messages for duplicates"
 msgstr "Проверить выделенные сообщения на наличие дубликатов"
 
@@ -8931,7 +8894,7 @@ msgstr "Получение сообщения «%s»"
 
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
-#: ../mail/e-mail-reader.c:3379
+#: ../mail/e-mail-reader.c:3385
 #: ../mail/mail-config.ui.h:31
 #: ../plugins/google-account-setup/google-source.c:304
 #: ../plugins/google-account-setup/google-source.c:538
@@ -8940,47 +8903,47 @@ msgstr "Получение сообщения «%s»"
 msgid "Default"
 msgstr "По умолчанию"
 
-#: ../mail/e-mail-reader.c:3550
+#: ../mail/e-mail-reader.c:3556
 #: ../modules/mail/e-mail-attachment-handler.c:172
 msgid "_Forward"
 msgstr "Пе_реслать"
 
-#: ../mail/e-mail-reader.c:3551
+#: ../mail/e-mail-reader.c:3557
 msgid "Forward the selected message to someone"
 msgstr "Перенаправить выбранное сообщение кому-либо"
 
-#: ../mail/e-mail-reader.c:3570
+#: ../mail/e-mail-reader.c:3576
 msgid "Group Reply"
 msgstr "Ответить всем"
 
-#: ../mail/e-mail-reader.c:3571
+#: ../mail/e-mail-reader.c:3577
 msgid "Reply to the mailing list, or to all recipients"
 msgstr "Ответить в список рассылки или всем получателям"
 
-#: ../mail/e-mail-reader.c:3616
+#: ../mail/e-mail-reader.c:3622
 #: ../mail/em-filter-i18n.h:14
 #: ../plugins/groupwise-features/share-folder.c:746
 msgid "Delete"
 msgstr "Удалить"
 
-#: ../mail/e-mail-reader.c:3649
+#: ../mail/e-mail-reader.c:3655
 #: ../modules/calendar/e-cal-shell-view-actions.c:1311
 #: ../widgets/misc/e-calendar.c:201
 msgid "Next"
 msgstr "Вперёд"
 
-#: ../mail/e-mail-reader.c:3653
+#: ../mail/e-mail-reader.c:3659
 #: ../modules/calendar/e-cal-shell-view-actions.c:1304
 #: ../widgets/misc/e-calendar.c:177
 msgid "Previous"
 msgstr "Назад"
 
-#: ../mail/e-mail-reader.c:3663
+#: ../mail/e-mail-reader.c:3669
 #: ../mail/mail-dialogs.ui.h:16
 msgid "Reply"
 msgstr "Ответить"
 
-#: ../mail/e-mail-reader.c:4298
+#: ../mail/e-mail-reader.c:4304
 #, c-format
 msgid "Folder '%s'"
 msgstr "Папка «%s»"
@@ -9003,30 +8966,29 @@ msgstr "Введите ключевую фразу для %s"
 msgid "Enter Password"
 msgstr "Введите пароль"
 
-#: ../mail/e-mail-session.c:701
+#: ../mail/e-mail-session.c:703
 #, c-format
 msgid "User canceled operation."
 msgstr "Пользователь отменил операцию."
 
-#: ../mail/e-mail-session.c:871
+#: ../mail/e-mail-session.c:873
 #, c-format
 msgid "No destination address provided, forward of the message has been cancelled."
 msgstr "Не задан адрес получателя, пересылка сообщения отменена."
 
-#: ../mail/e-mail-session.c:880
+#: ../mail/e-mail-session.c:882
 #, c-format
 msgid "No account found to use, forward of the message has been cancelled."
 msgstr "Не найдено учётной записи, пересылка сообщения отменена."
 
-#: ../mail/e-mail-session.c:1284
+#: ../mail/e-mail-session.c:1286
 #: ../mail/mail-ops.c:1220
 #, c-format
 msgid "Opening folder '%s'"
 msgstr "Открытие папки «%s»"
 
-#: ../mail/e-mail-session.c:1300
+#: ../mail/e-mail-session.c:1302
 #, c-format
-#| msgid "Invalid folder: '%s'"
 msgid "Invalid folder: %s"
 msgstr "Неверная папка: %s"
 
@@ -9062,7 +9024,6 @@ msgstr "Отправка сообщения"
 
 #: ../mail/e-mail-session-utils.c:850
 #, c-format
-#| msgid "Unsubscribing from folder \"%s\""
 msgid "Unsubscribing from folder '%s'"
 msgstr "Отмена подписки на папку «%s»"
 
@@ -9126,17 +9087,17 @@ msgid "Ask for each message"
 msgstr "Спрашивать для каждого сообщения"
 
 #. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
-#: ../mail/em-account-editor.c:1700
+#: ../mail/em-account-editor.c:1701
 #: ../widgets/misc/e-account-tree-view.c:127
 msgctxt "mail-receiving"
 msgid "None"
 msgstr "Нет"
 
-#: ../mail/em-account-editor.c:2087
+#: ../mail/em-account-editor.c:2088
 msgid "Mail Configuration"
 msgstr "Настройка почты"
 
-#: ../mail/em-account-editor.c:2088
+#: ../mail/em-account-editor.c:2089
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -9146,37 +9107,34 @@ msgstr ""
 "\n"
 "Чтобы приступить к настройке, нажмите «Далее»."
 
-#: ../mail/em-account-editor.c:2091
+#: ../mail/em-account-editor.c:2092
 msgid "Please enter your name and email address below. The \"optional\" fields below do not need to be filled in, unless you wish to include this information in email you send."
 msgstr "Введите ниже ваше имя и адрес электронной почты. «Дополнительные» поля не обязательны для заполнения, если только вы не хотите включать эти сведения в отправляемую вами почту."
 
-#: ../mail/em-account-editor.c:2093
-#: ../mail/em-account-editor.c:2256
+#: ../mail/em-account-editor.c:2094
+#: ../mail/em-account-editor.c:2257
 msgid "Receiving Email"
 msgstr "Получение почты"
 
-#: ../mail/em-account-editor.c:2094
+#: ../mail/em-account-editor.c:2095
 msgid "Please configure the following account settings."
 msgstr "Настройте следующие параметры учётной записи."
 
-#: ../mail/em-account-editor.c:2096
-#: ../mail/em-account-editor.c:2756
+#: ../mail/em-account-editor.c:2097
+#: ../mail/em-account-editor.c:2757
 msgid "Sending Email"
 msgstr "Отправка эл.почты"
 
-#: ../mail/em-account-editor.c:2097
+#: ../mail/em-account-editor.c:2098
 msgid "Please enter information about the way you will send mail. If you are not sure, ask your system administrator or Internet Service Provider."
 msgstr "Введите информацию о способе отправки электронной почты. Если вы не уверены, свяжитесь со своим системным администратором или поставщиком услуг Интернета."
 
-#: ../mail/em-account-editor.c:2099
+#: ../mail/em-account-editor.c:2100
 #: ../mail/mail-config.ui.h:1
 msgid "Account Information"
 msgstr "Информация об учётной записи"
 
-#: ../mail/em-account-editor.c:2100
-#| msgid ""
-#| "Please enter a descriptive name for this account in the space below.\n"
-#| "This name will be used for display purposes only."
+#: ../mail/em-account-editor.c:2101
 msgid ""
 "Please enter a descriptive name for this account below.\n"
 "This name will be used for display purposes only."
@@ -9184,11 +9142,11 @@ msgstr ""
 "Введите описательное имя для этой учётной записи.\n"
 "Это имя будет использоваться только для отображения."
 
-#: ../mail/em-account-editor.c:2104
+#: ../mail/em-account-editor.c:2105
 msgid "Done"
 msgstr "Готово"
 
-#: ../mail/em-account-editor.c:2105
+#: ../mail/em-account-editor.c:2106
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -9203,32 +9161,32 @@ msgstr ""
 "\n"
 "Нажмите «Применить», чтобы сохранить ваши настройки."
 
-#: ../mail/em-account-editor.c:2570
+#: ../mail/em-account-editor.c:2571
 msgid "Check for _new messages every"
 msgstr "Проверять _новую почту каждые"
 
-#: ../mail/em-account-editor.c:2578
+#: ../mail/em-account-editor.c:2579
 msgid "minu_tes"
 msgstr "мину_т"
 
-#: ../mail/em-account-editor.c:2861
+#: ../mail/em-account-editor.c:2862
 msgid "Please select a folder from the current account."
 msgstr "Выберите папку из текущей учётной записи."
 
-#: ../mail/em-account-editor.c:3171
+#: ../mail/em-account-editor.c:3172
 #: ../mail/mail-config.ui.h:98
 msgid "Security"
 msgstr "Безопасность"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:3217
-#: ../mail/em-account-editor.c:3285
+#: ../mail/em-account-editor.c:3218
+#: ../mail/em-account-editor.c:3286
 msgid "Receiving Options"
 msgstr "Параметры получения"
 
-#: ../mail/em-account-editor.c:3218
-#: ../mail/em-account-editor.c:3286
+#: ../mail/em-account-editor.c:3219
+#: ../mail/em-account-editor.c:3287
 msgid "Checking for New Messages"
 msgstr "Проверка новых сообщений"
 
@@ -9302,11 +9260,11 @@ msgstr "Завершено в"
 
 #: ../mail/em-filter-i18n.h:12
 msgid "Date received"
-msgstr "Дата получения"
+msgstr "Получена дата"
 
 #: ../mail/em-filter-i18n.h:13
 msgid "Date sent"
-msgstr "Дата отправки"
+msgstr "Отправлена дата"
 
 #: ../mail/em-filter-i18n.h:15
 msgid "Deleted"
@@ -9446,7 +9404,7 @@ msgstr "Получатели"
 
 #: ../mail/em-filter-i18n.h:56
 msgid "Regex Match"
-msgstr "Соответствует регулярному выражению"
+msgstr "Соответствует рег. выражению"
 
 #: ../mail/em-filter-i18n.h:57
 msgid "Replied to"
@@ -9600,7 +9558,7 @@ msgstr "Сканирование папок на «%s»"
 
 #: ../mail/em-folder-tree.c:625
 msgid "Folder names cannot contain '/'"
-msgstr "Имена папок не могут содержать символ «/»"
+msgstr "Имена папок не может содержать '/'"
 
 #: ../mail/em-folder-tree.c:1245
 #, c-format
@@ -9641,25 +9599,25 @@ msgstr "Копирование сообщений в папку %s"
 msgid "Cannot drop message(s) into toplevel store"
 msgstr "Нельзя перетащить сообщение в хранилище верхнего уровня"
 
-#: ../mail/em-folder-utils.c:422
+#: ../mail/em-folder-utils.c:429
 msgid "Move Folder To"
 msgstr "Переместить папку в"
 
-#: ../mail/em-folder-utils.c:422
+#: ../mail/em-folder-utils.c:429
 msgid "Copy Folder To"
 msgstr "Копировать папку в"
 
-#: ../mail/em-folder-utils.c:571
+#: ../mail/em-folder-utils.c:578
 #: ../plugins/groupwise-features/share-folder-common.c:138
 #, c-format
 msgid "Creating folder '%s'"
 msgstr "Создание папки «%s»"
 
-#: ../mail/em-folder-utils.c:741
+#: ../mail/em-folder-utils.c:748
 msgid "Create Folder"
 msgstr "Создать папку"
 
-#: ../mail/em-folder-utils.c:742
+#: ../mail/em-folder-utils.c:749
 #: ../plugins/groupwise-features/install-shared.c:178
 #: ../plugins/groupwise-features/share-folder-common.c:353
 msgid "Specify where to create the folder:"
@@ -9765,7 +9723,7 @@ msgstr "Завершено в"
 
 #: ../mail/em-format-html-display.c:812
 msgid "Overdue:"
-msgstr "Просрочено:"
+msgstr "Просрочена:"
 
 #. To Translators: the "by" is part of the string, like "Follow-up by Tuesday, January 13, 2009"
 #: ../mail/em-format-html-display.c:816
@@ -9775,11 +9733,11 @@ msgstr "в"
 #: ../mail/em-format-html-display.c:1047
 #: ../mail/em-format-html-display.c:1094
 msgid "View _Unformatted"
-msgstr "Отобразить _неотформатированные"
+msgstr "Показывать _неотформатированные"
 
 #: ../mail/em-format-html-display.c:1049
 msgid "Hide _Unformatted"
-msgstr "Скрыть _неформатированные"
+msgstr "Скрывать _неформатированные"
 
 #: ../mail/em-format-html-display.c:1114
 msgid "O_pen With"
@@ -9856,27 +9814,22 @@ msgid "Folder Subscriptions"
 msgstr "Подписка на папки"
 
 #: ../mail/em-subscription-editor.c:1144
-#| msgid "_Country:"
 msgid "_Account:"
 msgstr "_Учётная запись:"
 
 #: ../mail/em-subscription-editor.c:1159
-#| msgid "Clear the search"
 msgid "Clear Search"
 msgstr "Очистить поиск"
 
 #: ../mail/em-subscription-editor.c:1177
-#| msgid "S_how only items containing:"
 msgid "Sho_w items that contain:"
 msgstr "По_казывать элементы, содержащие:"
 
 #: ../mail/em-subscription-editor.c:1216
-#| msgid "Unsubscribe from the selected folder"
 msgid "Subscribe to the selected folder"
 msgstr "Подписаться на выбранную папку"
 
 #: ../mail/em-subscription-editor.c:1217
-#| msgid "Subscribed"
 msgid "Su_bscribe"
 msgstr "_Подписаться"
 
@@ -9891,32 +9844,26 @@ msgid "_Unsubscribe"
 msgstr "_Отказаться от подписки"
 
 #: ../mail/em-subscription-editor.c:1240
-#| msgid "Collapse _all"
 msgid "Collapse all folders"
 msgstr "Свернуть все папки"
 
 #: ../mail/em-subscription-editor.c:1241
-#| msgid "Collapse _all"
 msgid "C_ollapse All"
 msgstr "_Свернуть все"
 
 #: ../mail/em-subscription-editor.c:1251
-#| msgid "E_xpand all"
 msgid "Expand all folders"
 msgstr "Развернуть все папки"
 
 #: ../mail/em-subscription-editor.c:1252
-#| msgid "E_xpand all"
 msgid "E_xpand All"
 msgstr "_Развернуть все"
 
 #: ../mail/em-subscription-editor.c:1262
-#| msgid "Refresh the folder"
 msgid "Refresh the folder list"
 msgstr "Обновить список папок"
 
 #: ../mail/em-subscription-editor.c:1274
-#| msgid "Cancel the current mail operation"
 msgid "Stop the current operation"
 msgstr "Остановить текущую операцию"
 
@@ -9926,8 +9873,6 @@ msgstr "Остановить текущую операцию"
 #. * write it doubled, like '%%'.
 #: ../mail/em-utils.c:101
 #, c-format
-#| msgid "Are you sure you want to open %d messages at once?"
-#| msgid_plural "Are you sure you want to open %d messages at once?"
 msgid "Are you sure you want to open %d message at once?"
 msgid_plural "Are you sure you want to open %d messages at once?"
 msgstr[0] "Действительно открыть одновременно %d сообщение?"
@@ -9969,17 +9914,14 @@ msgid "\"Filter Editor\" window width"
 msgstr "Ширина окна «Редактор фильтров»"
 
 #: ../mail/evolution-mail.schemas.in.h:4
-#| msgid "\"Filter Editor\" window height"
 msgid "\"Folder Subscriptions\" window height"
 msgstr "Высота окна «Подписка на папки»"
 
 #: ../mail/evolution-mail.schemas.in.h:5
-#| msgid "\"Filter Editor\" window maximize state"
 msgid "\"Folder Subscriptions\" window maximize state"
 msgstr "Состояние распахнутого окна «Подписка на папки»"
 
 #: ../mail/evolution-mail.schemas.in.h:6
-#| msgid "\"Filter Editor\" window width"
 msgid "\"Folder Subscriptions\" window width"
 msgstr "Ширина окна «Подписка на папки»"
 
@@ -10021,7 +9963,6 @@ msgid "Asks whether to close the message window when the user forwards or replie
 msgstr "Спрашивать при закрытии окна сообщения, когда пользователь перенаправляет или отвечает на сообщение, которое отображается в окне"
 
 #: ../mail/evolution-mail.schemas.in.h:16
-#| msgid "Attached message"
 msgid "Attribute message."
 msgstr "Вложенное сообщение."
 
@@ -10034,12 +9975,10 @@ msgid "Automatic link recognition"
 msgstr "Автоматическое распознавание гиперссылок"
 
 #: ../mail/evolution-mail.schemas.in.h:19
-#| msgid "Check for _new messages every"
 msgid "Check for new messages in all active accounts"
 msgstr "Проверять почту для всех включённых учётных записей"
 
 #: ../mail/evolution-mail.schemas.in.h:20
-#| msgid "Check for _new messages every"
 msgid "Check for new messages on start"
 msgstr "Проверять почту при запуске"
 
@@ -10265,7 +10204,6 @@ msgid "Flush Outbox after filtering"
 msgstr "Отправить исходящие после фильтрации"
 
 #: ../mail/evolution-mail.schemas.in.h:76
-#| msgid "Forwarded message"
 msgid "Forward message."
 msgstr "Пересылаемое сообщение."
 
@@ -10302,9 +10240,6 @@ msgid "Initial height of the \"Filter Editor\" window. The value updates as the 
 msgstr "Исходное значение высоты окна «Редактор фильтров». Значение обновляется, когда пользователь изменяет вертикальные размеры окна."
 
 #: ../mail/evolution-mail.schemas.in.h:85
-#| msgid ""
-#| "Initial height of the \"Filter Editor\" window. The value updates as the "
-#| "user resizes the window vertically."
 msgid "Initial height of the \"Folder Subscriptions\" window. The value updates as the user resizes the window vertically."
 msgstr "Исходное значение высоты окна «Подписка на папки». Значение обновляется, когда пользователь изменяет размер окна по вертикали."
 
@@ -10321,11 +10256,6 @@ msgid "Initial maximize state of the \"Filter Editor\" window. The value updates
 msgstr "Исходное состояние окна «Редактор фильтров». Значение обновляется, когда пользователь разворачивает окно на весь экран или восстанавливает его. Заметьте, что значение не используется Evolution, так как окно «Редактор фильтров» не может быть развёрнуто на весь экран. Этот ключ существует только из-за деталей реализации."
 
 #: ../mail/evolution-mail.schemas.in.h:89
-#| msgid ""
-#| "Initial maximize state of the \"Filter Editor\" window. The value updates "
-#| "when the user maximizes or unmaximizes the window. Note, this particular "
-#| "value is not used by Evolution since the \"Filter Editor\" window cannot "
-#| "be maximized. This key exists only as an implementation detail."
 msgid "Initial maximize state of the \"Folder Subscriptions\" window. The value updates when the user maximizes or unmaximizes the window. Note, this particular value is not used by Evolution since the \"Folder Subscriptions\" window cannot be maximized. This key exists only as an implementation detail."
 msgstr "Исходное состояние окна «Редактор фильтров». Значение обновляется, когда пользователь разворачивает окно на весь экран или восстанавливает его. Это значение не используется Evolution, так как окно «Подписка на папки» не может быть развёрнуто на весь экран. Этот ключ существует только из-за деталей реализации."
 
@@ -10342,9 +10272,6 @@ msgid "Initial width of the \"Filter Editor\" window. The value updates as the u
 msgstr "Исходное значение ширины окна «Редактор фильтров». Значение обновляется, когда пользователь изменяет горизонтальные размеры окна."
 
 #: ../mail/evolution-mail.schemas.in.h:93
-#| msgid ""
-#| "Initial width of the \"Filter Editor\" window. The value updates as the "
-#| "user resizes the window horizontally."
 msgid "Initial width of the \"Folder Subscriptions\" window. The value updates as the user resizes the window horizontally."
 msgstr "Исходное значение высоты окна «Подписка на папки». Значение обновляется, когда пользователь изменяет размер окна по горизонтали."
 
@@ -10377,9 +10304,6 @@ msgid "It disables/enables the repeated prompts to warn that you are trying send
 msgstr "Включает/выключает повторяющиеся предупреждения при попытке отправки личных ответов на сообщения, полученные через список рассылки, в заголовке которых установлен обратный адрес, перенаправляющий ответы обратно в список."
 
 #: ../mail/evolution-mail.schemas.in.h:101
-#| msgid ""
-#| "It disables/enables the repeated prompts to warn that you are sending a "
-#| "private reply to a message which arrived via a mailing list."
 msgid "It disables/enables the repeated prompts to warn that you are trying to send a message to recipients not entered as mail addresses"
 msgstr "Включает/выключает предупреждения при отправке личных сообщений, попадающих получателям, не указанным в списке адресатов"
 
@@ -10517,7 +10441,6 @@ msgid "Number of addresses to display in TO/CC/BCC"
 msgstr "Количество адресов, отображаемых в TO/CC/BCC"
 
 #: ../mail/evolution-mail.schemas.in.h:135
-#| msgid "-----Original Message-----"
 msgid "Original message."
 msgstr "Исходное сообщение."
 
@@ -10530,9 +10453,6 @@ msgid "Possible values are: never - to never close browser window always - to al
 msgstr "Допустимые значения: «never» — никогда не закрывать окно браузера «always» — всегда закрывать окно браузера «ask» (или любое другое значение) — спрашивать у пользователя"
 
 #: ../mail/evolution-mail.schemas.in.h:138
-#| msgid ""
-#| "The following recipients were not recognized as valid mail addresses:\n"
-#| "{0}"
 msgid "Prompt before sending to recipients not entered as mail addresses"
 msgstr "Предупреждать перед отправкой получателям, не входящим в список адресатов"
 
@@ -10817,9 +10737,6 @@ msgid "This sets the number of addresses to show in default message list view, b
 msgstr "Устанавливает количество адресов, отображаемых при просмотре сообщения, за которыми отображается «...»."
 
 #: ../mail/evolution-mail.schemas.in.h:209
-#| msgid ""
-#| "This setting specifies whether the threads should be in expanded or "
-#| "collapsed state by default. Evolution requires a restart."
 msgid "This setting specifies whether the threads should be in expanded or collapsed state by default. Requires a restart to apply."
 msgstr "Этот ключ определяет состояние обсуждений по умолчанию. Чтобы изменения вступили в силу, необходимо перезапустить Evolution."
 
@@ -10833,15 +10750,15 @@ msgstr "Строка может быть пустой. В таком случа�
 
 #: ../mail/evolution-mail.schemas.in.h:212
 msgid "Thread the message-list based on Subject"
-msgstr "Подшивать список сообщений по полю «Тема»"
+msgstr "Сохранять список сообщений по полю «Тема»"
 
 #: ../mail/evolution-mail.schemas.in.h:213
 msgid "Timeout for marking message as seen"
-msgstr "Задержка перед пометкой сообщения как просмотренное"
+msgstr "Задержка перед отметкой сообщения о просмотре"
 
 #: ../mail/evolution-mail.schemas.in.h:214
 msgid "Timeout for marking message as seen."
-msgstr "Задержка перед пометкой сообщения как просмотренное."
+msgstr "Задержка перед отметкой сообщения о просмотре."
 
 #: ../mail/evolution-mail.schemas.in.h:215
 msgid "UID string of the default account."
@@ -11046,14 +10963,6 @@ msgstr "Добавить правило фильтра"
 #. * of its name, without quotes.
 #: ../mail/mail-autofilter.c:492
 #, c-format
-#| msgid ""
-#| "The filter rule \"%s\" has been updated, because it used just removed "
-#| "folder\n"
-#| "\"%s\"."
-#| msgid_plural ""
-#| "The following filter rules\n"
-#| "%s have been updated, because they used just removed folder\n"
-#| "\"%s\"."
 msgid ""
 "The filter rule \"%s\" has been modified to account for the deleted folder\n"
 "\"%s\"."
@@ -11083,7 +10992,6 @@ msgstr "_Всегда подписывать исходящие сообщени
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:5
-#| msgid "Prompt when mailing list redirects private reply back to list"
 msgid "Allowing a _mailing list to redirect a private reply to the list"
 msgstr "Разрешить _списку рассылки перенаправлять личные сообщения в список"
 
@@ -11137,12 +11045,10 @@ msgid "Check cu_stom headers for junk"
 msgstr "Про_верять дополнительные заголовки для определения спама"
 
 #: ../mail/mail-config.ui.h:19
-#| msgid "Check for _new messages every"
 msgid "Check for new _messages on start"
 msgstr "Проверять почту при _запуске"
 
 #: ../mail/mail-config.ui.h:20
-#| msgid "Check for _new messages every"
 msgid "Check for new messa_ges in all active accounts"
 msgstr "Проверять почту для _всех включённых уч. записей"
 
@@ -11180,7 +11086,6 @@ msgid "Confirm _when expunging a folder"
 msgstr "_Запрашивать подтверждение очистки папки от удаленных сообщений"
 
 #: ../mail/mail-config.ui.h:29
-#| msgid "Configuration"
 msgid "Confirmations"
 msgstr "Подтверждения"
 
@@ -11247,7 +11152,6 @@ msgid "F_all back to threading messages by subject"
 msgstr "Вернуться к обсуждению по _теме"
 
 #: ../mail/mail-config.ui.h:48
-#| msgid "Fix_ed width Font:"
 msgid "Fix_ed Width Font:"
 msgstr "_Моноширинный шрифт:"
 
@@ -11379,7 +11283,6 @@ msgid "Remember _password"
 msgstr "Запомнить _пароль"
 
 #: ../mail/mail-config.ui.h:85
-#| msgid "Replies and parents"
 msgid "Replies and Forwards"
 msgstr "Ответы и перенаправления"
 
@@ -11441,33 +11344,26 @@ msgstr "Фотография отправителя"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:103
-#| msgid "Prompt when sending private replies to mailing _list messages"
 msgid "Sending a _private reply to a mailing list message"
 msgstr "Отправка _личных ответов в список рассылки"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:105
-#| msgid ""
-#| "The following recipients were not recognized as valid mail addresses:\n"
-#| "{0}"
 msgid "Sending a message with _recipients not entered as mail addresses"
 msgstr "Отправка сообщений _получателям, не входящих в список адресатов"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:107
-#| msgid "_Prompt when sending messages with an empty subject line"
 msgid "Sending a message with an _empty subject line"
 msgstr "Отправка сообщений с пустой _темой"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:109
-#| msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgid "Sending a message with only _Bcc recipients defined"
 msgstr "Отправка сообщений только с указанием скрытой _копии"
 
 #. This is in the context of: Ask for confirmation before...
 #: ../mail/mail-config.ui.h:111
-#| msgid "Send reply to all recipients?"
 msgid "Sending a reply to a large _number of recipients"
 msgstr "Отправка сообщений _большому кол-ву получателей"
 
@@ -11512,7 +11408,6 @@ msgid "Signing _algorithm:"
 msgstr "_Алгоритм подписи:"
 
 #: ../mail/mail-config.ui.h:122
-#| msgid "Local Folders"
 msgid "Special Folders"
 msgstr "Особые папки"
 
@@ -11525,7 +11420,6 @@ msgid "Start _typing at the bottom on replying"
 msgstr "При ответе начинать _ввод после цитаты"
 
 #: ../mail/mail-config.ui.h:125
-#| msgid "Start: "
 msgid "Start up"
 msgstr "Запуск"
 
@@ -11568,7 +11462,6 @@ msgid "Use Authe_ntication"
 msgstr "Использовать проверку подл_инности"
 
 #: ../mail/mail-config.ui.h:137
-#| msgid "User_name:"
 msgid "User _Name:"
 msgstr "_Имя пользователя:"
 
@@ -11605,7 +11498,6 @@ msgid "_Junk Folder:"
 msgstr "Папка «_Спам»:"
 
 #: ../mail/mail-config.ui.h:146
-#| msgid "_Keep Signature above the original message on replying"
 msgid "_Keep signature above the original message on replying"
 msgstr "Помещать подпись _над исходным сообщением при ответе"
 
@@ -11614,7 +11506,6 @@ msgid "_Languages"
 msgstr "_Языки"
 
 #: ../mail/mail-config.ui.h:148
-#| msgid "_Load images in messages from contacts"
 msgid "_Load images only in messages from contacts"
 msgstr "_Загружать изображения только в сообщениях от контактов"
 
@@ -11662,7 +11553,6 @@ msgstr "_Сервер:"
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.ui.h:162
-#| msgid "Show animated images as animations."
 msgid "_Show animated images"
 msgstr "Показывать _анимированные изображения"
 
@@ -11782,7 +11672,7 @@ msgid ""
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
 "Сообщения, помеченные вами к исполнению, перечислены ниже.\n"
-"Выберите действие из меню «Отметка»."
+"Выберите действие из меню «Метка»."
 
 #: ../mail/mail-dialogs.ui.h:24
 msgid "_Accept License"
@@ -11794,7 +11684,7 @@ msgstr "_Срок до:"
 
 #: ../mail/mail-dialogs.ui.h:26
 msgid "_Flag:"
-msgstr "_Отметка:"
+msgstr "_Метка:"
 
 #: ../mail/mail-dialogs.ui.h:27
 msgid "_Tick this to accept the license agreement"
@@ -11933,19 +11823,16 @@ msgstr "Проверка службы"
 
 #: ../mail/mail-ops.c:2582
 #, c-format
-#| msgid "Disconnecting from '%s'"
 msgid "Disconnecting %s"
 msgstr "Отключение от «%s»"
 
 #: ../mail/mail-ops.c:2639
 #, c-format
-#| msgid "Saving attachment"
 msgid "Removing attachments"
 msgstr "Удаление вложений"
 
 #: ../mail/mail-ops.c:2686
 #, c-format
-#| msgid "All accounts have been removed."
 msgid "File \"%s\" has been removed."
 msgstr "Файл «%s» удалён."
 
@@ -12016,14 +11903,6 @@ msgstr "Обновление папок писка для «%s»"
 #. * in front of its name, without quotes.
 #: ../mail/mail-vfolder.c:718
 #, c-format
-#| msgid ""
-#| "The Search Folder \"%s\" has been updated, because it used just removed "
-#| "folder\n"
-#| "\"%s\"."
-#| msgid_plural ""
-#| "The following Search Folders\n"
-#| "%s have been updated, because they used just removed folder\n"
-#| "\"%s\"."
 msgid ""
 "The Search Folder \"%s\" has been modified to account for the deleted folder\n"
 "\"%s\"."
@@ -12219,7 +12098,6 @@ msgid "Check to make sure your password is spelled correctly. Remember that many
 msgstr "Убедитесь, что ваш пароль введен правильно. Помните, что многие пароли чувствительны к регистру, поэтому режим «Caps Lock» должен быть отключен."
 
 #: ../mail/mail.error.xml.h:43
-#| msgid "Close this window"
 msgid "Close message window."
 msgstr "Закрыть окно с сообщением."
 
@@ -12289,7 +12167,6 @@ msgid "Evolution's local mail format has changed."
 msgstr "Формат локальной почты Evolution изменён."
 
 #: ../mail/mail.error.xml.h:64
-#| msgid "Unsubscribing from folder \"%s\""
 msgid "Failed to unsubscribe from folder."
 msgstr "Не удалось отписаться от папки."
 
@@ -12303,7 +12180,6 @@ msgstr "Файл существует, но не является обычным
 
 #. Translators: {0} is replaced with a folder name
 #: ../mail/mail.error.xml.h:68
-#| msgid "The attachment does not contain a valid calendar message"
 msgid "Folder '{0}' doesn't contain any duplicate message."
 msgstr "Папка '{0}' не содержит дублируемых сообщений."
 
@@ -12364,12 +12240,10 @@ msgid "Missing folder."
 msgstr "Несуществующая папка."
 
 #: ../mail/mail.error.xml.h:84
-#| msgid "Never"
 msgid "N_ever"
 msgstr "Н_икогда"
 
 #: ../mail/mail.error.xml.h:85
-#| msgid "Could not create message."
 msgid "No duplicate messages found."
 msgstr "Дублируемые сообщения не найдены."
 
@@ -12552,7 +12426,6 @@ msgstr ""
 "Действительно сделать это?"
 
 #: ../mail/mail.error.xml.h:134
-#| msgid "Would you like to accept it?"
 msgid "Would you like to close the message window?"
 msgstr "Хотите закрыть окно с сообщением?"
 
@@ -12605,7 +12478,6 @@ msgid "Your login to your server \"{0}\" as \"{0}\" failed."
 msgstr "Ошибка регистрации на сервере «{0}» под именем «{0}»."
 
 #: ../mail/mail.error.xml.h:147
-#| msgid "Always"
 msgid "_Always"
 msgstr "_Всегда"
 
@@ -12629,7 +12501,6 @@ msgid "_Empty Trash"
 msgstr "О_чистить корзину"
 
 #: ../mail/mail.error.xml.h:152
-#| msgid "Evolution"
 msgid "_Exit Evolution"
 msgstr "_Закрыть Evolution"
 
@@ -12638,12 +12509,10 @@ msgid "_Expunge"
 msgstr "Уни_чтожить удалённые"
 
 #: ../mail/mail.error.xml.h:154
-#| msgid "Migration"
 msgid "_Migrate Now"
 msgstr "_Перенести сейчас"
 
 #: ../mail/mail.error.xml.h:155
-#| msgid "No"
 msgid "_No"
 msgstr "_Нет"
 
@@ -12660,7 +12529,6 @@ msgid "_Synchronize"
 msgstr "_Синхронизировать"
 
 #: ../mail/mail.error.xml.h:161
-#| msgid "Yes"
 msgid "_Yes"
 msgstr "_Да"
 
@@ -12742,16 +12610,16 @@ msgid "Messages"
 msgstr "Сообщения"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:4498
-#: ../mail/message-list.c:4922
+#: ../mail/message-list.c:4506
+#: ../mail/message-list.c:4930
 msgid "Generating message list"
 msgstr "Создание списка сообщений"
 
-#: ../mail/message-list.c:4737
+#: ../mail/message-list.c:4745
 msgid "No message satisfies your search criteria. Either clear search with Search->Clear menu item or change it."
 msgstr "Нет писем, удовлетворяющих критериям поиска. Очистите поле поиска с помощью меню Поиск → Очистить или измените критерии."
 
-#: ../mail/message-list.c:4739
+#: ../mail/message-list.c:4747
 msgid "There are no messages in this folder."
 msgstr "В папке нет сообщений."
 
@@ -12761,7 +12629,7 @@ msgstr "До"
 
 #: ../mail/message-list.etspec.h:4
 msgid "Flag Status"
-msgstr "Состояние отметки"
+msgstr "Состояние метки"
 
 #: ../mail/message-list.etspec.h:5
 msgid "Flagged"
@@ -12769,7 +12637,7 @@ msgstr "Отмечено"
 
 #: ../mail/message-list.etspec.h:6
 msgid "Follow Up Flag"
-msgstr "Отметка «К исполнению»"
+msgstr "Метка «К исполнению»"
 
 #: ../mail/message-list.etspec.h:11
 msgid "Received"
@@ -12786,7 +12654,7 @@ msgstr "Размер"
 
 #: ../mail/message-list.etspec.h:19
 msgid "Subject - Trimmed"
-msgstr "Тема - Очищенная"
+msgstr "Тема — Очищенная"
 
 #: ../mail/searchtypes.xml.h:1
 #: ../modules/mail/e-mail-shell-view-actions.c:1508
@@ -12819,15 +12687,15 @@ msgstr "Тема или получатели содержат"
 
 #: ../modules/addressbook/addressbook-config.c:205
 msgid "Selecting this option means that Evolution will only connect to your LDAP server if your LDAP server supports SSL."
-msgstr "Выбор этого параметра означает, что Evolution будет устанавливать соединение с сервером LDAP только в том случае, если сервер поддерживает SSL."
+msgstr "Выбор этой опции означает, что Evolution будет устанавливать соединение с вашим сервером LDAP только в том случае, если он поддерживает SSL."
 
 #: ../modules/addressbook/addressbook-config.c:207
 msgid "Selecting this option means that Evolution will only connect to your LDAP server if your LDAP server supports TLS."
-msgstr "Выбор этого параметра означает, что Evolution будет устанавливать соединение с сервером LDAP только в том случае, если сервер поддерживает TLS."
+msgstr "Выбор этой опции означает, что Evolution будет устанавливать соединение с вашим сервером LDAP только в том случае, если он поддерживает TLS."
 
 #: ../modules/addressbook/addressbook-config.c:209
 msgid "Selecting this option means that your server does not support either SSL or TLS. This means that your connection will be insecure, and that you will be vulnerable to security exploits."
-msgstr "Выбор этого параметра означает, что сервер не поддерживает ни SSL, ни TLS . Это означает, что соединение с сервером будет уязвимым для атак."
+msgstr "Выбор этой опции означает, что ваш сервер не поддерживает ни SSL, ни TLS . Это означает, что ваше соединение с сервером будет уязвимым для атак. "
 
 #: ../modules/addressbook/addressbook-config.c:608
 msgid "U_se in Birthday & Anniversaries calendar"
@@ -12847,7 +12715,7 @@ msgstr "Это метод, используемый Evolution для прове�
 
 #: ../modules/addressbook/addressbook-config.c:900
 msgid "The search scope defines how deep you would like the search to extend down the directory tree. A search scope of \"sub\" will include all entries below your search base. A search scope of \"one\" will only include the entries one level beneath your base."
-msgstr "Глубина поиска определяет, как далеко вниз по дереву каталогов будет осуществляться поиск. Глубина поиска «sub» включает все элементы под каталогом начала поиска. Глубина поиска «one» включает в себя элементы на один уровень ниже базы."
+msgstr "Глубина поиска определяет, как далеко вниз по дереву каталогов будет осуществляться поиск. Глубина поиска «sub» включает все элементы под каталогом начала поиска. Глубина поиска «one» включает в себя элементы на один уровень ниже каталога начала поиска."
 
 #: ../modules/addressbook/addressbook-config.c:1016
 msgid "Server Information"
@@ -12908,7 +12776,6 @@ msgid "Position of the contact preview pane when oriented vertically."
 msgstr "Положение панели предварительного просмотра контактов при вертикальной ориентации."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:9
-#| msgid "The registry of address books"
 msgid "Primary address book"
 msgstr "Главная адресная книга"
 
@@ -12930,7 +12797,7 @@ msgstr "Стиль расположения определяет место дл
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:14
 msgid "The number of characters that must be typed before Evolution will attempt to autocomplete."
-msgstr "Количество символов, которое необходимо ввести для вызова автодополнения."
+msgstr "Количество символов, которое необходимо ввести для вызова функции автодополнения."
 
 #: ../modules/addressbook/apps_evolution_addressbook.schemas.in.h:15
 msgid "URI for the folder last used in the select names dialog"
@@ -13317,7 +13184,7 @@ msgstr "_Фильтр поиска:"
 
 #: ../modules/addressbook/ldap-config.ui.h:16
 msgid "Search filter is the type of object to be searched for. If this is not modified, the default search will be performed on the type \"person\"."
-msgstr "Фильтр поиска — это тип объекта, который должен быть найден. Если поле не изменено, по умолчанию будет произведён поиск объекта типа «person»."
+msgstr "Фильтр поиска - это тип объекта, который должен быть найден. Если не изменять, по умолчанию будет произведён поиск объекта типа «person»."
 
 #. To Translators: This string is part of the search scope configuration, search for text with 'sub' in this file for more detailed explanation.
 #: ../modules/addressbook/ldap-config.ui.h:18
@@ -13592,17 +13459,14 @@ msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
 msgstr "Цвет для просроченных задач, в формате \"#rrggbb\"."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:6
-#| msgid "Birthdays & Anniversaries"
 msgid "Birthday and anniversary reminder"
 msgstr "Напоминание о дне рождения и годовщине"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:7
-#| msgid "Birthdays & Anniversaries"
 msgid "Birthday and anniversary reminder units"
 msgstr "Напоминание о дне рождения и годовщине (единицы)"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:8
-#| msgid "Birthdays & Anniversaries"
 msgid "Birthday and anniversary reminder value"
 msgstr "Напоминание о дне рождения и годовщине (значение)"
 
@@ -13751,7 +13615,6 @@ msgid "Month view vertical pane position"
 msgstr "Позиция вертикальной панели в обзоре месяца"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:46
-#| msgid "Number of units for determining a default reminder."
 msgid "Number of units for determining a birthday or anniversary reminder."
 msgstr "Количество единиц для установки напоминания."
 
@@ -13820,7 +13683,6 @@ msgid "Recently used second time zones in a Day View"
 msgstr "Недавние вторичные часовые пояса в обзоре дня"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:63
-#| msgid "Recurrence date is invalid"
 msgid "Recurrent Events in Italic"
 msgstr "Выделять повторяющийся события курсивом"
 
@@ -13954,7 +13816,6 @@ msgid "Twenty four hour time format"
 msgstr "24-часовой формат времени"
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:97
-#| msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
 msgid "Units for a birthday or anniversary reminder, \"minutes\", \"hours\" or \"days\"."
 msgstr "Единицы напоминания: «минуты», «часы» или «дни»."
 
@@ -14023,7 +13884,6 @@ msgid "Whether to set a default reminder for appointments."
 msgstr "Устанавливать ли напоминание для событий по умолчанию."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:114
-#| msgid "Whether to set a default reminder for appointments."
 msgid "Whether to set a reminder for birthdays and anniversaries."
 msgstr "Устанавливать ли напоминание для дней рождения и годовщин."
 
@@ -14316,7 +14176,7 @@ msgstr "Удалить все вхождения"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1409
 msgid "New All Day _Event..."
-msgstr "_Создать событие на весь день…"
+msgstr "_Создать ежедневное событие…"
 
 #: ../modules/calendar/e-cal-shell-view-actions.c:1411
 msgid "Create a new all day event"
@@ -15027,7 +14887,6 @@ msgid "N_one"
 msgstr "_Нет"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1213
-#| msgid "_Subscriptions..."
 msgid "_Manage Subscriptions"
 msgstr "_Управление подписками"
 
@@ -15046,27 +14905,23 @@ msgid "Send queued items and retrieve new items"
 msgstr "Отправить элементы из очереди и получить новые элементы"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1227
-#| msgid "Received"
 msgid "R_eceive All"
 msgstr "_Получить всё"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1229
-#| msgid "Permanently remove all the deleted messages from all accounts"
 msgid "Receive new items from all accounts"
 msgstr "Получить новые элементы для всех учётных записей"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1234
-#| msgid "_Send"
 msgid "_Send All"
 msgstr "_Отправить всё"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1236
-#| msgid "Send queued items and retrieve new items"
 msgid "Send queued items in all accounts"
 msgstr "Отправить элементы из очереди для всех учётных записей"
 
 #: ../modules/mail/e-mail-shell-view-actions.c:1262
-#: ../widgets/misc/e-activity-proxy.c:311
+#: ../widgets/misc/e-activity-proxy.c:306
 msgid "Cancel"
 msgstr "Отменить"
 
@@ -15277,12 +15132,10 @@ msgstr[1] "%d всего"
 msgstr[2] "%d всего"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1126
-#| msgid "Task"
 msgid "Trash"
 msgstr "Корзина"
 
 #: ../modules/mail/e-mail-shell-view-private.c:1600
-#| msgid "Send / _Receive"
 msgid "Send / Receive"
 msgstr "Отправить / Получить"
 
@@ -15326,15 +15179,15 @@ msgstr "Каждый раз"
 
 #: ../modules/mail/em-mailer-prefs.c:90
 msgid "Once per day"
-msgstr "Ежедневно"
+msgstr "Один раз в день"
 
 #: ../modules/mail/em-mailer-prefs.c:91
 msgid "Once per week"
-msgstr "Еженедельно"
+msgstr "Один раз в неделю"
 
 #: ../modules/mail/em-mailer-prefs.c:92
 msgid "Once per month"
-msgstr "Ежемесячно"
+msgstr "Один раз в месяц"
 
 #: ../modules/mail/em-mailer-prefs.c:174
 msgid "Add Custom Junk Header"
@@ -15400,17 +15253,14 @@ msgid "Click 'Work Online' to return to online mode."
 msgstr "Щёлкните «Работать в сети», чтобы восстановить соединение."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:2
-#| msgid "Evolution is currently offline because the network is unavailable."
 msgid "Evolution is currently offline due to a network outage."
 msgstr "Evolution работает в автономном режиме из-за отсутствия подключения сети."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:3
-#| msgid "Put Evolution into offline mode"
 msgid "Evolution is currently offline."
 msgstr "Evolution работает в автономном режиме."
 
 #: ../modules/offline-alert/evolution-offline-alert.error.xml.h:4
-#| msgid "Evolution is currently offline because the network is unavailable."
 msgid "Evolution will return to online mode once a network connection is established."
 msgstr "Evolution выйдет из автономного режима, как только появится сетевое соединение."
 
@@ -15591,17 +15441,14 @@ msgid "Restore from backup"
 msgstr "Восстановить из архива"
 
 #: ../plugins/backup-restore/backup-restore.c:386
-#| msgid "Backing up Evolution Data"
 msgid "_Back up Evolution Data..."
 msgstr "_Сделать резервную копию данных…"
 
 #: ../plugins/backup-restore/backup-restore.c:388
-#| msgid "Backup Evolution data and settings to an archive file"
 msgid "Back up Evolution data and settings to an archive file"
 msgstr "Сделать резервную копию данных и настроек в файл архива"
 
 #: ../plugins/backup-restore/backup-restore.c:393
-#| msgid "Restoring Evolution Data"
 msgid "R_estore Evolution Data..."
 msgstr "_Восстановить данные Evolution…"
 
@@ -15610,7 +15457,6 @@ msgid "Restore Evolution data and settings from an archive file"
 msgstr "Восстановить данные и настройки Evolution из архивного файла"
 
 #: ../plugins/backup-restore/backup.c:79
-#| msgid "Backup Evolution directory"
 msgid "Back up Evolution directory"
 msgstr "Сделать резервную копию каталога Evolution"
 
@@ -15619,7 +15465,6 @@ msgid "Restore Evolution directory"
 msgstr "Восстановить каталог Evolution"
 
 #: ../plugins/backup-restore/backup.c:83
-#| msgid "Check Evolution Backup"
 msgid "Check Evolution Back up"
 msgstr "Проверить резервную копию Evolution"
 
@@ -15645,7 +15490,6 @@ msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr "Сохранение данных Evolution (писем, контактов, календарей, задач, заметок)"
 
 #: ../plugins/backup-restore/backup.c:317
-#| msgid "Backup complete"
 msgid "Back up complete"
 msgstr "Резервное копирование завершено"
 
@@ -15659,7 +15503,6 @@ msgid "Back up current Evolution data"
 msgstr "Сделать резервную копию текущих данных Evolution"
 
 #: ../plugins/backup-restore/backup.c:409
-#| msgid "Extracting files from backup"
 msgid "Extracting files from back up"
 msgstr "Извлечение файлов из резервной копии"
 
@@ -15668,7 +15511,6 @@ msgid "Loading Evolution settings"
 msgstr "Загрузка настроек Evolution"
 
 #: ../plugins/backup-restore/backup.c:481
-#| msgid "Removing temporary backup files"
 msgid "Removing temporary back up files"
 msgstr "Удаление временных файлов резервной копии"
 
@@ -15688,7 +15530,6 @@ msgstr "Восстановление из каталога %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
 #: ../plugins/backup-restore/backup.c:705
-#| msgid "Evolution Backup"
 msgid "Evolution Back up"
 msgstr "Резервная копия Evolution"
 
@@ -15718,12 +15559,10 @@ msgstr "Это может занять некоторое время, в зав�
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:2
-#| msgid "Backup and Restore"
 msgid "Back up and Restore"
 msgstr "Резервная копия и восстановление"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
-#| msgid "Backup and restore your Evolution data and settings."
 msgid "Back up and restore your Evolution data and settings."
 msgstr "Сделать резервную копию и восстановить данные и настройки Evolution."
 
@@ -15732,13 +15571,10 @@ msgid "Are you sure you want to close Evolution?"
 msgstr "Действительно закрыть Evolution?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
-#| msgid ""
-#| "Are you sure you want to restore Evolution from the selected backup file?"
 msgid "Are you sure you want to restore Evolution from the selected back up file?"
 msgstr "Действительно восстановить Evolution из выбранного файла резервной копии?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
-#| msgid "Close and Backup Evolution"
 msgid "Close and Back up Evolution"
 msgstr "Закрыть и сделать резервную копию Evolution"
 
@@ -15751,12 +15587,10 @@ msgid "Insufficient Permissions"
 msgstr "Недостаточно прав доступа"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
-#| msgid "Invalid Evolution backup file"
 msgid "Invalid Evolution back up file"
 msgstr "Недопустимый файл резервной копии Evolution"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
-#| msgid "Please select a valid backup file to restore."
 msgid "Please select a valid back up file to restore."
 msgstr "Выберите корректный файл резервной копии"
 
@@ -15765,18 +15599,10 @@ msgid "The selected folder is not writable."
 msgstr "Выделенная папка недоступна для записи."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:9
-#| msgid ""
-#| "To backup your data and settings, you must first close Evolution. Please "
-#| "make sure that you save any unsaved data before proceeding."
 msgid "To back up your data and settings, you must first close Evolution. Please make sure that you save any unsaved data before proceeding."
 msgstr "Чтобы сделать резервную копию данных и настроек программы, закройте Evolution. Сохраните все данные перед продолжением."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:10
-#| msgid ""
-#| "To restore your data and settings, you must first close Evolution. Please "
-#| "make sure that you save any unsaved data before proceeding. This will "
-#| "delete all your current Evolution data and settings and restore them from "
-#| "your backup."
 msgid "To restore your data and settings, you must first close Evolution. Please make sure that you save any unsaved data before proceeding. This will delete all your current Evolution data and settings and restore them from your back up."
 msgstr "Чтобы восстановить данные и настройки программы, закройте Evolution. Сохраните все данные перед продолжением. Восстановление приведёт к удалению всех текущих данных и настроек программы Evolution и их восстановлению из резервной копии."
 
@@ -15962,7 +15788,6 @@ msgstr "Поддержки"
 
 #: ../plugins/caldav/caldav-browse-server.c:1335
 #: ../plugins/caldav/caldav-source.c:254
-#| msgid "New email"
 msgid "User e-_mail:"
 msgstr "_Эл. почта пользователя:"
 
@@ -16207,43 +16032,36 @@ msgid "The key specifies the list of custom headers that you can add to an outgo
 msgstr "Этот ключ задаёт список дополнительных заголовков, которые можно добавлять к исходящим сообщениям. Формат для задания заголовка и значения следующий: Сначала идёт имя заголовка, затем «=» и затем значения, разделённые символом «;»"
 
 #: ../plugins/email-custom-header/email-custom-header.c:316
-#| msgid "Security:"
 msgctxt "email-custom-header-Security"
 msgid "Security:"
 msgstr "Безопасность:"
 
 #: ../plugins/email-custom-header/email-custom-header.c:320
-#| msgid "Personal"
 msgctxt "email-custom-header-Security"
 msgid "Personal"
 msgstr "Личное"
 
 #: ../plugins/email-custom-header/email-custom-header.c:321
-#| msgid "Unclassified"
 msgctxt "email-custom-header-Security"
 msgid "Unclassified"
 msgstr "Неклассифицированное"
 
 #: ../plugins/email-custom-header/email-custom-header.c:322
-#| msgid "Protected"
 msgctxt "email-custom-header-Security"
 msgid "Protected"
 msgstr "Защищённое"
 
 #: ../plugins/email-custom-header/email-custom-header.c:323
-#| msgid "Confidential"
 msgctxt "email-custom-header-Security"
 msgid "Confidential"
 msgstr "Конфиденциальное"
 
 #: ../plugins/email-custom-header/email-custom-header.c:324
-#| msgid "Secret"
 msgctxt "email-custom-header-Security"
 msgid "Secret"
 msgstr "Секретное"
 
 #: ../plugins/email-custom-header/email-custom-header.c:325
-#| msgid "Top secret"
 msgctxt "email-custom-header-Security"
 msgid "Top secret"
 msgstr "Совершенно секретное"
@@ -16363,7 +16181,6 @@ msgid "Whether insert Face picture to outgoing messages by default. The picture 
 msgstr "Вставлять ли по умолчанию изображение лица в исходящие сообщения. Перед этим необходимо установить изображение, иначе ничего не произойдёт."
 
 #: ../plugins/face/face.c:286
-#| msgid "Select a File"
 msgid "Select a Face Picture"
 msgstr "Выберите файл с фотоснимком"
 
@@ -17126,7 +16943,7 @@ msgstr "Эта заметка повторяется"
 #. FIXME Need a schema for this
 #: ../plugins/itip-formatter/itip-formatter.c:2834
 msgid "_Delete message after acting"
-msgstr "_Удалить сообщение после действия"
+msgstr "_Удалить сообщение после выполнения"
 
 #: ../plugins/itip-formatter/itip-formatter.c:2844
 #: ../plugins/itip-formatter/itip-formatter.c:2877
@@ -17693,7 +17510,7 @@ msgstr "Показывать ли сообщение над значком пр�
 msgid "Whether to notify new messages in Inbox folder only."
 msgstr "Оповещать ли о новых сообщениях только в папке «Входящие»."
 
-#: ../plugins/mail-notification/mail-notification.c:390
+#: ../plugins/mail-notification/mail-notification.c:398
 #, c-format
 msgid ""
 "You have received %d new message\n"
@@ -17713,19 +17530,19 @@ msgstr[2] ""
 
 #. Translators: "From:" is preceding a new mail
 #. * sender address, like "From: user@example.com"
-#: ../plugins/mail-notification/mail-notification.c:402
+#: ../plugins/mail-notification/mail-notification.c:410
 #, c-format
 msgid "From: %s"
 msgstr "От %s:"
 
 #. Translators: "Subject:" is preceding a new mail
 #. * subject, like "Subject: It happened again"
-#: ../plugins/mail-notification/mail-notification.c:415
+#: ../plugins/mail-notification/mail-notification.c:423
 #, c-format
 msgid "Subject: %s"
 msgstr "Тема: %s"
 
-#: ../plugins/mail-notification/mail-notification.c:425
+#: ../plugins/mail-notification/mail-notification.c:433
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
@@ -17733,45 +17550,45 @@ msgstr[0] "Вы получили %d новое сообщение."
 msgstr[1] "Вы получили %d новых сообщения."
 msgstr[2] "Вы получили %d новых сообщений."
 
-#: ../plugins/mail-notification/mail-notification.c:438
 #: ../plugins/mail-notification/mail-notification.c:446
-#: ../plugins/mail-notification/mail-notification.c:449
+#: ../plugins/mail-notification/mail-notification.c:454
+#: ../plugins/mail-notification/mail-notification.c:457
 msgid "New email"
 msgstr "Новое письмо"
 
-#: ../plugins/mail-notification/mail-notification.c:498
+#: ../plugins/mail-notification/mail-notification.c:506
 msgid "Show icon in _notification area"
 msgstr "Пока_зывать значок в области уведомлений"
 
-#: ../plugins/mail-notification/mail-notification.c:528
+#: ../plugins/mail-notification/mail-notification.c:536
 msgid "Popup _message together with the icon"
 msgstr "Показ_ывать всплывающее сообщение вместе со значком"
 
-#: ../plugins/mail-notification/mail-notification.c:715
+#: ../plugins/mail-notification/mail-notification.c:723
 msgid "_Play sound when new messages arrive"
 msgstr "_Воспроизводить звук при получении сообщения"
 
-#: ../plugins/mail-notification/mail-notification.c:745
+#: ../plugins/mail-notification/mail-notification.c:753
 msgid "_Beep"
 msgstr "По_давать гудок"
 
-#: ../plugins/mail-notification/mail-notification.c:758
+#: ../plugins/mail-notification/mail-notification.c:766
 msgid "Use sound _theme"
 msgstr "_Использовать звуковую тему"
 
-#: ../plugins/mail-notification/mail-notification.c:777
+#: ../plugins/mail-notification/mail-notification.c:785
 msgid "Play _file:"
 msgstr "Воспроизводить _файл:"
 
-#: ../plugins/mail-notification/mail-notification.c:788
+#: ../plugins/mail-notification/mail-notification.c:796
 msgid "Select sound file"
 msgstr "Выбрать звуковой файл"
 
-#: ../plugins/mail-notification/mail-notification.c:846
+#: ../plugins/mail-notification/mail-notification.c:854
 msgid "Notify new messages for _Inbox only"
 msgstr "Опове_щать о новых сообщениях только во «Входящих»"
 
-#: ../plugins/mail-notification/mail-notification.c:855
+#: ../plugins/mail-notification/mail-notification.c:863
 msgid "Generate a _D-Bus message"
 msgstr "Генерировать сообщение D-Bus"
 
@@ -18231,11 +18048,11 @@ msgstr "Действительно удалить это местоположе�
 #. To Translators: This is shown to a user when creation of a new thread,
 #. where the publishing should be done, fails. Basically, this shouldn't
 #. ever happen, and if so, then something is really wrong.
-#: ../plugins/publish-calendar/publish-calendar.c:1055
+#: ../plugins/publish-calendar/publish-calendar.c:1057
 msgid "Could not create publish thread."
 msgstr "Не удалось создать открытое обсуждение."
 
-#: ../plugins/publish-calendar/publish-calendar.c:1063
+#: ../plugins/publish-calendar/publish-calendar.c:1065
 msgid "_Publish Calendar Information"
 msgstr "_Публиковать сведения календаря"
 
@@ -18333,11 +18150,11 @@ msgstr "iCal"
 msgid "Could not publish calendar: Calendar backend no longer exists"
 msgstr "Не удалось опубиковать календарь: модуль календаря более не существует"
 
-#: ../plugins/publish-calendar/url-editor-dialog.c:475
+#: ../plugins/publish-calendar/url-editor-dialog.c:484
 msgid "New Location"
 msgstr "Новый адрес"
 
-#: ../plugins/publish-calendar/url-editor-dialog.c:477
+#: ../plugins/publish-calendar/url-editor-dialog.c:486
 msgid "Edit Location"
 msgstr "Правка адреса"
 
@@ -19185,7 +19002,7 @@ msgstr "Выполнить эти параметры поиска"
 msgid "%s - Evolution"
 msgstr "%s - Evolution"
 
-#: ../shell/e-shell-window.c:434
+#: ../shell/e-shell-window.c:438
 msgid "New"
 msgstr "Создать"
 
@@ -19265,7 +19082,6 @@ msgid "Start in online mode"
 msgstr "Запуск в режиме подключения к интернету"
 
 #: ../shell/main.c:375
-#| msgid "Whether the network is available"
 msgid "Ignore network availability"
 msgstr "Игнорировать подключение к сети"
 
@@ -19304,9 +19120,6 @@ msgstr "- Почтовый клиент и ежедневник Evolution"
 
 #: ../shell/main.c:627
 #, c-format
-#| msgid ""
-#| "%s: --online and --offline cannot be used together.\n"
-#| "  Use %s --help for more information.\n"
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Run '%s --help' for more information.\n"
@@ -19316,9 +19129,6 @@ msgstr ""
 
 #: ../shell/main.c:633
 #, c-format
-#| msgid ""
-#| "%s: --online and --offline cannot be used together.\n"
-#| "  Use %s --help for more information.\n"
 msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
 "  Run '%s --help' for more information.\n"
@@ -19988,7 +19798,7 @@ msgstr "По _теме"
 
 #: ../views/mail/galview.xml.h:6
 msgid "By _Follow Up Flag"
-msgstr "По отметке «_К исполнению»"
+msgstr "По метке «_К исполнению»"
 
 #: ../views/mail/galview.xml.h:7
 msgid "For _Wide View"
@@ -20521,31 +20331,26 @@ msgid "Delivery Options"
 msgstr "Параметры доставки"
 
 #: ../widgets/misc/e-send-options.ui.h:6
-#| msgid "_Until"
 msgctxt "ESendOptions"
 msgid "_Until"
 msgstr "_До"
 
 #: ../widgets/misc/e-send-options.ui.h:7
-#| msgid "_After"
 msgctxt "ESendOptionsAfter"
 msgid "_After"
 msgstr "_После"
 
 #: ../widgets/misc/e-send-options.ui.h:8
-#| msgid "days"
 msgctxt "ESendOptionsAfter"
 msgid "days"
 msgstr "дни"
 
 #: ../widgets/misc/e-send-options.ui.h:9
-#| msgid "Wi_thin"
 msgctxt "ESendOptionsWithin"
 msgid "Wi_thin"
 msgstr "_В течение"
 
 #: ../widgets/misc/e-send-options.ui.h:10
-#| msgid "days"
 msgctxt "ESendOptionsWithin"
 msgid "days"
 msgstr "дни"
@@ -20636,7 +20441,6 @@ msgstr "_Когда открыто:"
 
 #. Translators: Used in send options dialog
 #: ../widgets/misc/e-send-options.ui.h:40
-#| msgid "None"
 msgctxt "send-options"
 msgid "None"
 msgstr "Нет"
@@ -20715,22 +20519,22 @@ msgid "_Copy Email Address"
 msgstr "_Копировать адрес эл.почты"
 
 #: ../widgets/misc/e-web-view.c:424
-#: ../widgets/misc/e-web-view.c:1079
+#: ../widgets/misc/e-web-view.c:1080
 msgid "Select all text and images"
 msgstr "Выделить весь текст и изображения"
 
-#: ../widgets/misc/e-web-view.c:856
-#: ../widgets/misc/e-web-view.c:858
 #: ../widgets/misc/e-web-view.c:860
+#: ../widgets/misc/e-web-view.c:862
+#: ../widgets/misc/e-web-view.c:864
 #, c-format
 msgid "Click to call %s"
 msgstr "Нажмите, чтобы позвонить %s"
 
-#: ../widgets/misc/e-web-view.c:862
+#: ../widgets/misc/e-web-view.c:866
 msgid "Click to hide/unhide addresses"
 msgstr "Нажмите, чтобы показать/скрыть адреса"
 
-#: ../widgets/misc/e-web-view.c:864
+#: ../widgets/misc/e-web-view.c:868
 #, c-format
 msgid "Click to open %s"
 msgstr "Нажмите, чтобы открыть %s"
