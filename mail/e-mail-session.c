@@ -499,9 +499,8 @@ mail_session_make_key (CamelService *service,
 
 	if (service != NULL)
 		key = camel_url_to_string (
-			service->url,
-			CAMEL_URL_HIDE_PASSWORD |
-			CAMEL_URL_HIDE_PARAMS);
+			camel_service_get_camel_url (service),
+			CAMEL_URL_HIDE_PASSWORD | CAMEL_URL_HIDE_PARAMS);
 	else
 		key = g_strdup (item);
 
@@ -598,11 +597,16 @@ mail_session_get_password (CamelSession *session,
                            guint32 flags,
                            GError **error)
 {
-	gchar *url;
+	gchar *url = NULL;
 	gchar *ret = NULL;
 	EAccount *account = NULL;
 
-	url = service?camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL):NULL;
+	if (service != NULL) {
+		CamelURL *service_url;
+
+		service_url = camel_service_get_camel_url (service);
+		url = camel_url_to_string (service_url, CAMEL_URL_HIDE_ALL);
+	}
 
 	if (!strcmp(item, "popb4smtp_uri")) {
 		/* not 100% mt safe, but should be ok */

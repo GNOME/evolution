@@ -2042,11 +2042,16 @@ reply_get_composer (EShell *shell,
 
 		if (folder) {
 			CamelStore *parent_store;
+			CamelService *service;
+			CamelURL *url;
 
 			parent_store = camel_folder_get_parent_store (folder);
+
+			service = CAMEL_SERVICE (parent_store);
+			url = camel_service_get_camel_url (service);
+
 			store_url = camel_url_to_string (
-				CAMEL_SERVICE (parent_store)->url,
-				CAMEL_URL_HIDE_ALL);
+				url, CAMEL_URL_HIDE_ALL);
 			if (store_url[strlen (store_url) - 1] == '/')
 				store_url[strlen (store_url)-1] = '\0';
 		}

@@ -267,7 +267,13 @@ account_added_cb (EAccountList *accounts,
 		CAMEL_SESSION (session), uri, CAMEL_PROVIDER_STORE, NULL);
 
 	if (store != NULL) {
-		if ((CAMEL_SERVICE (store)->provider->flags & CAMEL_PROVIDER_IS_STORAGE) != 0)
+		CamelService *service;
+		CamelProvider *provider;
+
+		service = CAMEL_SERVICE (store);
+		provider = camel_service_get_provider (service);
+
+		if ((provider->flags & CAMEL_PROVIDER_IS_STORAGE) != 0)
 			e_mail_store_add (session, store, account->name);
 
 		g_object_unref (store);
@@ -1028,6 +1034,7 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	GtkTreeStore *tree_store;
 	GtkTreeIter root, iter;
 	GtkTreePath *path;
+	CamelURL *service_url;
 	EAccount *account;
 	gchar *uri;
 
@@ -1041,8 +1048,8 @@ em_folder_tree_model_add_store (EMFolderTreeModel *model,
 	if (si != NULL)
 		em_folder_tree_model_remove_store (model, store);
 
-	uri = camel_url_to_string (
-		((CamelService *) store)->url, CAMEL_URL_HIDE_ALL);
+	service_url = camel_service_get_camel_url (CAMEL_SERVICE (store));
+	uri = camel_url_to_string (service_url, CAMEL_URL_HIDE_ALL);
 
 	account = e_get_account_by_source_url (uri);
 

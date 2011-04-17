@@ -464,13 +464,14 @@ mail_vfolder_add_uri (EMailSession *session,
 	EFilterRule *rule;
 	const gchar *source;
 	CamelVeeFolder *vf;
+	CamelProvider *provider;
 	GList *folders = NULL, *link;
 	gint remote;
 	gint is_ignore;
 	gchar *uri;
 
-	remote = (((CamelService *)store)->provider->flags &
-		CAMEL_PROVIDER_IS_REMOTE) != 0;
+	provider = camel_service_get_provider (CAMEL_SERVICE (store));
+	remote = (provider->flags & CAMEL_PROVIDER_IS_REMOTE) != 0;
 
 	uri = em_uri_from_camel (curi);
 	if (uri_is_spethal (store, curi)) {

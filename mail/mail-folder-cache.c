@@ -562,13 +562,19 @@ store_folder_deleted_cb (CamelStore *store,
 }
 
 static gchar *
-folder_to_url (CamelStore *store, const gchar *full_name)
+folder_to_url (CamelStore *store,
+               const gchar *full_name)
 {
+	CamelProvider *provider;
+	CamelService *service;
 	CamelURL *url;
 	gchar *out;
 
-	url = camel_url_copy (((CamelService *)store)->url);
-	if (((CamelService *)store)->provider->url_flags  & CAMEL_URL_FRAGMENT_IS_PATH) {
+	service = CAMEL_SERVICE (store);
+	provider = camel_service_get_provider (service);
+
+	url = camel_url_copy (camel_service_get_camel_url (service));
+	if (provider->url_flags  & CAMEL_URL_FRAGMENT_IS_PATH) {
 		camel_url_set_fragment (url, full_name);
 	} else {
 		gchar *name = g_alloca (strlen (full_name)+2);
@@ -797,9 +803,14 @@ ping_store_exec (struct _ping_store_msg *m,
                  GCancellable *cancellable,
                  GError **error)
 {
+	CamelServiceConnectionStatus status;
+	CamelService *service;
 	gboolean online = FALSE;
 
-	if (CAMEL_SERVICE (m->store)->status == CAMEL_SERVICE_CONNECTED) {
+	service = CAMEL_SERVICE (m->store);
+	status = camel_service_get_connection_status (service);
+
+	if (status == CAMEL_SERVICE_CONNECTED) {
 		if (CAMEL_IS_DISCO_STORE (m->store) &&
 			camel_disco_store_status (
 			CAMEL_DISCO_STORE (m->store)) !=CAMEL_DISCO_STORE_OFFLINE)
@@ -830,9 +841,14 @@ static MailMsgInfo ping_store_info = {
 static void
 ping_store (CamelStore *store)
 {
+	CamelServiceConnectionStatus status;
+	CamelService *service;
 	struct _ping_store_msg *m;
 
-	if (CAMEL_SERVICE (store)->status != CAMEL_SERVICE_CONNECTED)
+	service = CAMEL_SERVICE (store);
+	status = camel_service_get_connection_status (service);
+
+	if (status != CAMEL_SERVICE_CONNECTED)
 		return;
 
 	m = mail_msg_new (&ping_store_info);
@@ -886,10 +902,18 @@ storeinfo_find_folder_info (CamelStore *store,
                             struct _store_info *si,
                             struct _find_info *fi)
 {
+	CamelProvider *provider;
+	CamelService *service;
+	CamelURL *url;
+
+	service = CAMEL_SERVICE (store);
+	url = camel_service_get_camel_url (service);
+	provider = camel_service_get_provider (service);
+
 	if (fi->fi == NULL) {
-		if (((CamelService *)store)->provider->url_equal (
-			fi->url, ((CamelService *)store)->url)) {
-			gchar *path = fi->url->fragment?fi->url->fragment:fi->url->path;
+		if (provider->url_equal (fi->url, url)) {
+			gchar *path = fi->url->fragment ?
+				fi->url->fragment : fi->url->path;
 
 			if (path[0] == '/')
 				path++;
