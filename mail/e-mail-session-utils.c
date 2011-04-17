@@ -402,7 +402,8 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 	/* Send the message to all recipients. */
 	if (camel_address_length (context->recipients) > 0) {
 		CamelTransport *transport;
-		CamelProviderFlags flags;
+		CamelProvider *provider;
+		CamelService *service;
 
 		/* XXX This API does not allow for cancellation. */
 		transport = camel_session_get_transport (
@@ -418,8 +419,10 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 
 		g_return_if_fail (CAMEL_IS_TRANSPORT (transport));
 
-		flags = CAMEL_SERVICE (transport)->provider->flags;
-		if (flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)
+		service = CAMEL_SERVICE (transport);
+		provider = camel_service_get_provider (service);
+
+		if (provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)
 			copy_to_sent = FALSE;
 
 		camel_transport_send_to_sync (
@@ -839,7 +842,7 @@ e_mail_session_unsubscribe_folder_sync (EMailSession *session,
 {
 	CamelURL *url;
 	CamelStore *store;
-	CamelProviderURLFlags flags;
+	CamelProvider *provider;
 	const gchar *message;
 	const gchar *path = NULL;
 	gboolean success = FALSE;
@@ -859,9 +862,9 @@ e_mail_session_unsubscribe_folder_sync (EMailSession *session,
 	if (url == NULL)
 		goto exit;
 
-	flags = CAMEL_SERVICE (store)->provider->url_flags;
+	provider = camel_service_get_provider (CAMEL_SERVICE (store));
 
-	if (flags & CAMEL_URL_FRAGMENT_IS_PATH)
+	if (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
 		path = url->fragment;
 	else if (url->path != NULL && *url->path != '\0')
 		path = url->path + 1;

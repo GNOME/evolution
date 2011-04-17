@@ -2736,11 +2736,16 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
 				priv->select_uris = g_slist_append (priv->select_uris, u);
 			}
 		} else {
+			CamelService *service;
+			CamelProvider *provider;
 			const gchar *path;
 			gchar *expand_key, *end;
 			EAccount *account;
 
-			if (((CamelService *)u->store)->provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
+			service = CAMEL_SERVICE (u->store);
+			provider = camel_service_get_provider (service);
+
+			if (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
 				path = url->fragment;
 			else
 				path = url->path && url->path[0]=='/' ? url->path+1:url->path;

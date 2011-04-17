@@ -203,9 +203,11 @@ mail_filter_folder (EMailSession *session,
 static gchar *
 uid_cachename_hack (CamelStore *store)
 {
-	CamelURL *url = CAMEL_SERVICE (store)->url;
+	CamelURL *url;
 	gchar *encoded_url, *filename;
 	const gchar *data_dir;
+
+	url = camel_service_get_camel_url (CAMEL_SERVICE (store));
 
 	encoded_url = g_strdup_printf ("%s%s%s@%s", url->user,
 				       url->authmech ? ";auth=" : "",
@@ -474,6 +476,7 @@ mail_send_message (struct _send_queue_msg *m,
 	CamelAddress *from, *recipients;
 	CamelMessageInfo *info = NULL;
 	CamelTransport *xport = NULL;
+	CamelProvider *provider;
 	gchar *transport_url = NULL;
 	gchar *sent_folder_uri = NULL;
 	const gchar *resent_from, *tmp;
@@ -609,8 +612,13 @@ mail_send_message (struct _send_queue_msg *m,
 		}
 	}
 
-	if (xport == NULL
-	    || !( ((CamelService *)xport)->provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)) {
+	if (xport != NULL)
+		provider = camel_service_get_provider (CAMEL_SERVICE (xport));
+	else
+		provider = NULL;
+
+	if (provider == NULL
+	    || !(provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)) {
 		GError *local_error = NULL;
 
 		if (sent_folder_uri) {
@@ -1671,9 +1679,12 @@ struct _sync_store_msg {
 static gchar *
 sync_store_desc (struct _sync_store_msg *m)
 {
+	CamelURL *url;
 	gchar *uri, *res;
 
-	uri = camel_url_to_string (((CamelService *)m->store)->url, CAMEL_URL_HIDE_ALL);
+	url = camel_service_get_camel_url (CAMEL_SERVICE (m->store));
+	uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+
 	res = g_strdup_printf (m->expunge
 			      ?_("Expunging and storing account '%s'")
 			      :_("Storing account '%s'"),
@@ -1776,6 +1787,8 @@ folder_is_from_source_url (CamelFolder *folder, const gchar *source_url)
 {
 	CamelStore *store;
 	CamelService *service;
+	CamelProvider *provider;
+	CamelURL *service_url;
 	CamelURL *url;
 	gboolean res = FALSE;
 
@@ -1787,13 +1800,16 @@ folder_is_from_source_url (CamelFolder *folder, const gchar *source_url)
 
 	service = CAMEL_SERVICE (store);
 	g_return_val_if_fail (service != NULL, FALSE);
-	g_return_val_if_fail (service->provider != NULL, FALSE);
-	g_return_val_if_fail (service->provider->url_equal != NULL, FALSE);
+
+	provider = camel_service_get_provider (service);
+	g_return_val_if_fail (provider != NULL, FALSE);
+	g_return_val_if_fail (provider->url_equal != NULL, FALSE);
 
 	url = camel_url_new (source_url, NULL);
 	g_return_val_if_fail (url != NULL, FALSE);
 
-	res = service->provider->url_equal (service->url, url);
+	service_url = camel_service_get_camel_url (service);
+	res = provider->url_equal (service_url, url);
 
 	camel_url_free (url);
 

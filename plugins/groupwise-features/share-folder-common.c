@@ -69,8 +69,11 @@ refresh_folder_tree (EMFolderTreeModel *model, CamelStore *store)
 	gchar *uri;
 	EAccount *account;
 	CamelProvider *provider;
+	CamelURL *url;
 
-	uri = camel_url_to_string (((CamelService *) store)->url, CAMEL_URL_HIDE_ALL);
+	url = camel_service_get_camel_url (CAMEL_SERVICE (store));
+	uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+
 	account = e_get_account_by_source_url (uri);
 	if (!account) {
 		return;
@@ -436,7 +439,7 @@ get_cnc (CamelStore *store)
 			return  NULL;
 
 		service = CAMEL_SERVICE (store);
-		url = service->url;
+		url = camel_service_get_camel_url (service);
 		server_name = g_strdup (url->host);
 		user = g_strdup (url->user);
 		property_value =  camel_url_get_param (url, "soap_port");
@@ -453,10 +456,10 @@ get_cnc (CamelStore *store)
 		else
 			uri = g_strconcat ("http://", server_name, ":", port, "/soap", NULL);
 
-		cnc = e_gw_connection_new (uri, user, service->url->passwd);
+		cnc = e_gw_connection_new (uri, user, url->passwd);
 		if (!E_IS_GW_CONNECTION(cnc) && use_ssl && g_str_equal (use_ssl, "when-possible")) {
 			gchar *http_uri = g_strconcat ("http://", uri + 8, NULL);
-			cnc = e_gw_connection_new (http_uri, user, service->url->passwd);
+			cnc = e_gw_connection_new (http_uri, user, url->passwd);
 			g_free (http_uri);
 		}
 		g_free (use_ssl);

@@ -639,6 +639,7 @@ migrate_to_db (EShellBackend *shell_backend)
 	gint i=0, len;
 	CamelStore *store = NULL;
 	CamelFolderInfo *info;
+	CamelURL *url;
 	const gchar *data_dir;
 
 	if (!(accounts = e_get_account_list ()))
@@ -664,6 +665,8 @@ migrate_to_db (EShellBackend *shell_backend)
 
 	em_migrate_set_progress ( (double)i/(len+1));
 	store = setup_local_store (shell_backend, session);
+	url = camel_service_get_camel_url (CAMEL_SERVICE (store));
+
 	info = camel_store_get_folder_info_sync (
 		store, NULL,
 		CAMEL_STORE_FOLDER_INFO_RECURSIVE |
@@ -673,7 +676,7 @@ migrate_to_db (EShellBackend *shell_backend)
 	if (info) {
 		struct migrate_folders_to_db_structure migrate_dbs;
 
-		if (g_str_has_suffix (((CamelService *)store)->url->path, ".evolution/mail/local"))
+		if (g_str_has_suffix (url->path, ".evolution/mail/local"))
 			migrate_dbs.is_local_store = TRUE;
 		else
 			migrate_dbs.is_local_store = FALSE;
@@ -682,7 +685,9 @@ migrate_to_db (EShellBackend *shell_backend)
 		migrate_dbs.store = store;
 		migrate_dbs.done = FALSE;
 
-		g_thread_create ((GThreadFunc) migrate_folders_to_db_thread, &migrate_dbs, TRUE, NULL);
+		g_thread_create (
+			(GThreadFunc) migrate_folders_to_db_thread,
+			&migrate_dbs, TRUE, NULL);
 		while (!migrate_dbs.done)
 			g_main_context_iteration (NULL, TRUE);
 	}
@@ -698,14 +703,15 @@ migrate_to_db (EShellBackend *shell_backend)
 		name = account->name;
 		em_migrate_set_progress ( (double)i/(len+1));
 		if (account->enabled
-		    && service->url != NULL
-		    && service->url[0]
-		    && strncmp(service->url, "mbox:", 5) != 0) {
+		    && service->url != NULL && service->url[0]
+		    && strncmp (service->url, "mbox:", 5) != 0) {
 
 			e_mail_store_add_by_uri (
 				mail_session, service->url, name);
 
-			store = (CamelStore *) camel_session_get_service (CAMEL_SESSION (session), service->url, CAMEL_PROVIDER_STORE, NULL);
+			store = (CamelStore *) camel_session_get_service (
+				CAMEL_SESSION (session), service->url,
+				CAMEL_PROVIDER_STORE, NULL);
 			info = camel_store_get_folder_info_sync (
 				store, NULL,
 				CAMEL_STORE_FOLDER_INFO_RECURSIVE |
