@@ -732,8 +732,7 @@ e_plugin_get_configure_widget (EPlugin *ep)
  * @id: The name of the property to retrieve.
  *
  * A static helper function to look up a property on an XML node, and
- * ensure it is allocated in GLib system memory.  If GLib isn't using
- * the system malloc then it must copy the property value.
+ * ensure it is allocated in GLib system memory.
  *
  * Return value: The property, allocated in GLib memory, or NULL if no
  * such property exists.
@@ -741,17 +740,17 @@ e_plugin_get_configure_widget (EPlugin *ep)
 gchar *
 e_plugin_xml_prop (xmlNodePtr node, const gchar *id)
 {
-	gchar *p = (gchar *)xmlGetProp (node, (const guchar *)id);
+	xmlChar *xml_prop;
+	gchar *glib_prop = NULL;
 
-	if (g_mem_is_system_malloc ()) {
-		return p;
-	} else {
-		gchar * out = g_strdup (p);
+	xml_prop = xmlGetProp (node, (xmlChar *) id);
 
-		if (p)
-			xmlFree (p);
-		return out;
+	if (xml_prop != NULL) {
+		glib_prop = g_strdup ((gchar *) xml_prop);
+		xmlFree (xml_prop);
 	}
+
+	return glib_prop;
 }
 
 /**
