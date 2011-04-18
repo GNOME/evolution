@@ -1871,7 +1871,7 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *
 			icalcompiter_next (&alarm_iter);
 
 			p = icalcomponent_get_first_property (alarm_comp, ICAL_ACTION_PROPERTY);
-			if (icalproperty_get_action (p) == ICAL_ACTION_PROCEDURE)
+			if (!p || icalproperty_get_action (p) == ICAL_ACTION_PROCEDURE)
 				icalcomponent_remove_component (pitip->ical_comp, alarm_comp);
 
 			icalcomponent_free (alarm_comp);
