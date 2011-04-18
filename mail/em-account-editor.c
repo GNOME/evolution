@@ -1262,7 +1262,7 @@ struct _provider_host_info {
 
 static struct _provider_host_info emae_source_host_info[] = {
 	{ CAMEL_URL_PART_HOST, emae_url_set_host, { G_STRUCT_OFFSET (EMAccountEditorService, hostname), G_STRUCT_OFFSET (EMAccountEditorService, hostlabel), }, },
-	{ CAMEL_URL_PART_HOST, emae_url_set_port,  { G_STRUCT_OFFSET (EMAccountEditorService, port), G_STRUCT_OFFSET (EMAccountEditorService, portlabel), }, },
+	{ CAMEL_URL_PART_PORT, emae_url_set_port,  { G_STRUCT_OFFSET (EMAccountEditorService, port), G_STRUCT_OFFSET (EMAccountEditorService, portlabel), }, },
 	{ CAMEL_URL_PART_USER, camel_url_set_user, { G_STRUCT_OFFSET (EMAccountEditorService, username), G_STRUCT_OFFSET (EMAccountEditorService, userlabel), } },
 	{ CAMEL_URL_PART_PATH, camel_url_set_path, { G_STRUCT_OFFSET (EMAccountEditorService, path), G_STRUCT_OFFSET (EMAccountEditorService, pathlabel), G_STRUCT_OFFSET (EMAccountEditorService, pathentry) }, },
 	{ CAMEL_URL_PART_AUTH, NULL, { 0, G_STRUCT_OFFSET (EMAccountEditorService, auth_frame), }, },
@@ -1271,7 +1271,7 @@ static struct _provider_host_info emae_source_host_info[] = {
 
 static struct _provider_host_info emae_transport_host_info[] = {
 	{ CAMEL_URL_PART_HOST, emae_url_set_host, { G_STRUCT_OFFSET (EMAccountEditorService, hostname), G_STRUCT_OFFSET (EMAccountEditorService, hostlabel), }, },
-	{ CAMEL_URL_PART_HOST, emae_url_set_port, { G_STRUCT_OFFSET (EMAccountEditorService, port), G_STRUCT_OFFSET (EMAccountEditorService, portlabel), }, },
+	{ CAMEL_URL_PART_PORT, emae_url_set_port, { G_STRUCT_OFFSET (EMAccountEditorService, port), G_STRUCT_OFFSET (EMAccountEditorService, portlabel), }, },
 	{ CAMEL_URL_PART_USER, camel_url_set_user, { G_STRUCT_OFFSET (EMAccountEditorService, username), G_STRUCT_OFFSET (EMAccountEditorService, userlabel), } },
 	{ CAMEL_URL_PART_AUTH, NULL, { 0, G_STRUCT_OFFSET (EMAccountEditorService, auth_frame), }, },
 	{ 0 },
@@ -1651,7 +1651,7 @@ emae_service_provider_changed (EMAccountEditorService *service)
 		/* This must be done AFTER use_ssl is set; changing use_ssl overwrites
 		   the old port, which could be SSL port, but also could be some special
 		   port and we would otherwise lost it */
-		if (url->port)
+		if (url->port && service->provider->port_entries)
 			e_port_entry_set_port (service->port, old_port);
 
 	} else {
@@ -2059,6 +2059,14 @@ emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, GtkB
 	/* Do this first.  Otherwise subsequent changes get clobbered. */
 	emae_service_provider_changed (service);
 
+	g_signal_connect (service->hostname, "changed", G_CALLBACK (emae_hostname_changed), service);
+	g_signal_connect (service->port, "changed", G_CALLBACK (emae_port_changed), service);
+	g_signal_connect (service->username, "changed", G_CALLBACK (emae_username_changed), service);
+	if (service->pathentry)
+		g_signal_connect (GTK_FILE_CHOOSER (service->pathentry), "selection-changed", G_CALLBACK (emae_path_changed), service);
+
+	g_signal_connect (service->use_ssl, "changed", G_CALLBACK(emae_ssl_changed), service);
+
 	/* configure ui for current settings */
 	if (url->host) {
 		gtk_entry_set_text (service->hostname, url->host);
@@ -2068,7 +2076,7 @@ emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, GtkB
 		gtk_entry_set_text (service->username, url->user);
 	}
 
-	if (url->port) {
+	if (url->port && service->provider->port_entries) {
 		e_port_entry_set_port (service->port, url->port);
 	}
 
@@ -2095,14 +2103,6 @@ emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, GtkB
 			break;
 		}
 	}
-
-	g_signal_connect (service->hostname, "changed", G_CALLBACK (emae_hostname_changed), service);
-	g_signal_connect (service->port, "changed", G_CALLBACK (emae_port_changed), service);
-	g_signal_connect (service->username, "changed", G_CALLBACK (emae_username_changed), service);
-	if (service->pathentry)
-		g_signal_connect (GTK_FILE_CHOOSER (service->pathentry), "selection-changed", G_CALLBACK (emae_path_changed), service);
-
-	g_signal_connect (service->use_ssl, "changed", G_CALLBACK(emae_ssl_changed), service);
 
 	/* old authtype will be destroyed when we exit */
 	emae_refresh_providers (emae, service);
@@ -3398,7 +3398,7 @@ emae_service_complete (EMAccountEditor *emae, EMAccountEditorService *service)
 		return FALSE;
 
 	if (CAMEL_PROVIDER_NEEDS (service->provider, CAMEL_URL_PART_HOST)) {
-		if (url->host == NULL || url->host[0] == 0 || !e_port_entry_is_valid (service->port))
+		if (url->host == NULL || url->host[0] == 0 || (!e_port_entry_is_valid (service->port) && service->provider->port_entries))
 			ok = FALSE;
 	}
 	/* We only need the user if the service needs auth as well, i think */
