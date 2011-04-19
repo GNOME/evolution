@@ -255,28 +255,27 @@ modify_contact (EBookView *book_view,
 	array = model->priv->contacts;
 
 	while (contact_list != NULL) {
-		EContact *contact = contact_list->data;
+		EContact *new_contact = contact_list->data;
 		const gchar *target_uid;
 		gint ii;
 
-		target_uid = e_contact_get_const (contact, E_CONTACT_UID);
+		target_uid = e_contact_get_const (new_contact, E_CONTACT_UID);
 
 		for (ii = 0; ii < array->len; ii++) {
-			EContact *contact;
+			EContact *old_contact;
 			const gchar *uid;
 
-			contact = array->pdata[ii];
-			g_return_if_fail (contact != NULL);
+			old_contact = array->pdata[ii];
+			g_return_if_fail (old_contact != NULL);
 
-			uid = e_contact_get_const (contact, E_CONTACT_UID);
+			uid = e_contact_get_const (old_contact, E_CONTACT_UID);
 			g_return_if_fail (uid != NULL);
 
 			if (strcmp (uid, target_uid) != 0)
 				continue;
 
-			g_object_unref (contact);
-			contact = e_contact_duplicate (contact);
-			array->pdata[ii] = contact;
+			g_object_unref (old_contact);
+			array->pdata[ii] = e_contact_duplicate (new_contact);
 
 			g_signal_emit (
 				model, signals[CONTACT_CHANGED], 0, ii);
