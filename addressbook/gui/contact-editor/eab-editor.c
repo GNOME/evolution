@@ -179,7 +179,7 @@ eab_editor_class_init (EABEditorClass *class)
 			      NULL, NULL,
 			      e_marshal_NONE__POINTER_OBJECT,
 			      G_TYPE_NONE, 2,
-			      G_TYPE_INT, G_TYPE_OBJECT);
+			      G_TYPE_POINTER, G_TYPE_OBJECT);
 
 	signals[CONTACT_MODIFIED] =
 		g_signal_new ("contact_modified",
@@ -189,7 +189,7 @@ eab_editor_class_init (EABEditorClass *class)
 			      NULL, NULL,
 			      e_marshal_NONE__POINTER_OBJECT,
 			      G_TYPE_NONE, 2,
-			      G_TYPE_INT, G_TYPE_OBJECT);
+			      G_TYPE_POINTER, G_TYPE_OBJECT);
 
 	signals[CONTACT_DELETED] =
 		g_signal_new ("contact_deleted",
@@ -199,7 +199,7 @@ eab_editor_class_init (EABEditorClass *class)
 			      NULL, NULL,
 			      e_marshal_NONE__POINTER_OBJECT,
 			      G_TYPE_NONE, 2,
-			      G_TYPE_INT, G_TYPE_OBJECT);
+			      G_TYPE_POINTER, G_TYPE_OBJECT);
 
 	signals[EDITOR_CLOSED] =
 		g_signal_new ("editor_closed",
