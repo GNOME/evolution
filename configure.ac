@@ -683,7 +683,7 @@ AC_SUBST(GTKHTML_LIBS)
 dnl ************
 dnl Kerberos 5
 dnl ************
-EVO_KRB5_SUPPORT
+EVO_KRB5_SUPPORT(no)
 
 dnl ******************************
 dnl Mono hooks
