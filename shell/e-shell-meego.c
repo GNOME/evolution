@@ -71,7 +71,7 @@ e_shell_detect_meego (gboolean *is_meego,
 			return;
 
 		wm_win = gdk_atom_intern ("_NET_SUPPORTING_WM_CHECK", TRUE);
-		mob_atom = gdk_atom_intern ("_MOBLIN", TRUE);
+		mob_atom = gdk_atom_intern ("_MEEGO", TRUE);
 		if (!wm_win || !mob_atom)
 			return;
 
