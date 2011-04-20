@@ -1099,6 +1099,7 @@ vfolder_load_storage (EMailBackend *backend)
 	/* lock for loading storage, it is safe to call it more than once */
 	G_LOCK_DEFINE_STATIC (vfolder_hash);
 
+	CamelService *service;
 	const gchar *key;
 	const gchar *data_dir;
 	const gchar *config_dir;
@@ -1129,22 +1130,27 @@ vfolder_load_storage (EMailBackend *backend)
 
 	/* first, create the vfolder store, and set it up */
 	storeuri = g_strdup_printf("vfolder:%s/vfolder", data_dir);
-	vfolder_store = camel_session_get_store (
-		CAMEL_SESSION (session), storeuri, NULL);
-	if (vfolder_store == NULL) {
+	service = camel_session_add_service (
+		CAMEL_SESSION (session), "vfolder",
+		storeuri, CAMEL_PROVIDER_STORE, NULL);
+	if (service != NULL)
+		camel_service_connect_sync (service, NULL);
+	else {
 		g_warning("Cannot open vfolder store - no vfolders available");
 		return;
 	}
 
+	g_return_if_fail (CAMEL_IS_STORE (service));
+
+	vfolder_store = CAMEL_STORE (service);
+
 	g_signal_connect (
-		vfolder_store, "folder-deleted",
+		service, "folder-deleted",
 		G_CALLBACK (store_folder_deleted_cb), backend);
 
 	g_signal_connect (
-		vfolder_store, "folder-renamed",
+		service, "folder-renamed",
 		G_CALLBACK (store_folder_renamed_cb), NULL);
-
-	d(printf("got store '%s' = %p\n", storeuri, vfolder_store));
 
 	/* load our rules */
 	user = g_build_filename (config_dir, "vfolders.xml", NULL);
@@ -1162,7 +1168,7 @@ vfolder_load_storage (EMailBackend *backend)
 	g_signal_connect(context, "rule_removed", G_CALLBACK(context_rule_removed), context);
 
 	/* load store to mail component */
-	e_mail_store_add_by_uri (session, storeuri, _("Search Folders"));
+	e_mail_store_add (session, vfolder_store, _("Search Folders"));
 
 	/* and setup the rules we have */
 	rule = NULL;

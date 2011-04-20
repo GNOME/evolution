@@ -794,7 +794,7 @@ subscription_editor_add_account (EMSubscriptionEditor *editor,
                                  EAccount *account)
 {
 	StoreData *data;
-	CamelStore *store;
+	CamelService *service;
 	CamelSession *session;
 	GtkListStore *list_store;
 	GtkTreeStore *tree_store;
@@ -804,16 +804,14 @@ subscription_editor_add_account (EMSubscriptionEditor *editor,
 	GtkComboBoxText *combo_box;
 	GtkWidget *container;
 	GtkWidget *widget;
-	const gchar *url;
 
 	combo_box = GTK_COMBO_BOX_TEXT (editor->priv->combo_box);
 	gtk_combo_box_text_append_text (combo_box, account->name);
 
 	session = em_subscription_editor_get_session (editor);
-	url = e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
+	service = camel_session_get_service (session, account->uid);
 
-	store = (CamelStore *) camel_session_get_service (
-		session, url, CAMEL_PROVIDER_STORE, NULL);
+	g_return_if_fail (CAMEL_IS_STORE (service));
 
 	tree_store = gtk_tree_store_new (
 		N_COLUMNS,
@@ -891,7 +889,7 @@ subscription_editor_add_account (EMSubscriptionEditor *editor,
 
 	data = g_slice_new0 (StoreData);
 	data->account = g_object_ref (account);
-	data->store = g_object_ref (store);
+	data->store = g_object_ref (service);
 	data->tree_view = g_object_ref (widget);
 	data->list_store = GTK_TREE_MODEL (list_store);
 	data->tree_store = GTK_TREE_MODEL (tree_store);

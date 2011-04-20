@@ -204,8 +204,7 @@ account_changed_cb (EAccountList *accounts,
 	EMFolderTreeModelStoreInfo *si;
 	EMailSession *session;
 	CamelProvider *provider;
-	CamelStore *store;
-	gchar *uri;
+	CamelService *service;
 
 	session = em_folder_tree_model_get_session (model);
 
@@ -216,24 +215,25 @@ account_changed_cb (EAccountList *accounts,
 	em_folder_tree_model_remove_store (model, si->store);
 
 	/* check if store needs to be added at all*/
-	if (!account->enabled ||!(uri = account->source->url))
+	if (!account->enabled)
 		return;
 
-	if (!(provider = camel_provider_get (uri, NULL)))
+	provider = camel_provider_get (account->source->url, NULL);
+	if (provider == NULL)
 		return;
 
 	/* make sure the new store belongs in the tree */
 	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return;
 
-	store = (CamelStore *) camel_session_get_service (
-		CAMEL_SESSION (session), uri,
-		CAMEL_PROVIDER_STORE, NULL);
-	if (store == NULL)
+	service = camel_session_get_service (
+		CAMEL_SESSION (session), account->uid);
+
+	if (!CAMEL_IS_STORE (service))
 		return;
 
-	em_folder_tree_model_add_store (model, store, account->name);
-	g_object_unref (store);
+	em_folder_tree_model_add_store (
+		model, CAMEL_STORE (service), account->name);
 }
 
 static void
@@ -257,27 +257,9 @@ account_added_cb (EAccountList *accounts,
                   EMFolderTreeModel *model)
 {
 	EMailSession *session;
-	CamelStore *store;
-	const gchar *uri;
 
 	session = em_folder_tree_model_get_session (model);
-	uri = e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
-
-	store = (CamelStore *) camel_session_get_service (
-		CAMEL_SESSION (session), uri, CAMEL_PROVIDER_STORE, NULL);
-
-	if (store != NULL) {
-		CamelService *service;
-		CamelProvider *provider;
-
-		service = CAMEL_SERVICE (store);
-		provider = camel_service_get_provider (service);
-
-		if ((provider->flags & CAMEL_PROVIDER_IS_STORAGE) != 0)
-			e_mail_store_add (session, store, account->name);
-
-		g_object_unref (store);
-	}
+	e_mail_store_add_by_account (session, account);
 }
 
 static void

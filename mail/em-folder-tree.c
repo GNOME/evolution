@@ -71,7 +71,7 @@
 struct _selected_uri {
 	gchar *key;		/* store:path or account/path */
 	gchar *uri;
-	CamelStore *store;
+	CamelService *service;
 	gchar *path;
 };
 
@@ -370,8 +370,8 @@ static void
 folder_tree_free_select_uri (struct _selected_uri *u)
 {
 	g_free (u->uri);
-	if (u->store)
-		g_object_unref (u->store);
+	if (u->service)
+		g_object_unref (u->service);
 	g_free (u->key);
 	g_free (u->path);
 	g_free (u);
@@ -473,8 +473,7 @@ folder_tree_expand_node (const gchar *key,
 
 	if ((account = e_get_account_by_uid (uid)) && account->enabled) {
 		store = (CamelStore *) camel_session_get_service (
-			CAMEL_SESSION (session), account->source->url,
-			CAMEL_PROVIDER_STORE, NULL);
+			CAMEL_SESSION (session), account->uid);
 
 		if (store == NULL)
 			return;
@@ -2723,27 +2722,32 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
 		struct _selected_uri *u = g_malloc0 (sizeof (*u));
 		CamelURL *url;
 
-		u->uri = g_strdup (list->data);
-		u->store = (CamelStore *) camel_session_get_service (
-			CAMEL_SESSION (session), u->uri,
-			CAMEL_PROVIDER_STORE, NULL);
-
 		url = camel_url_new (u->uri, NULL);
-		if (u->store == NULL || url == NULL) {
+
+		if (url != NULL) {
+			CamelService *service;
+
+			service = camel_session_get_service_by_url (
+				CAMEL_SESSION (session), url);
+			if (CAMEL_IS_STORE (service))
+				u->service = g_object_ref (service);
+		}
+
+		u->uri = g_strdup (list->data);
+
+		if (u->service == NULL || url == NULL) {
 			if (!expand_only) {
 				u->key = g_strdup_printf("dummy-%d:%s", id++, u->uri);
 				g_hash_table_insert (priv->select_uris_table, u->key, u);
 				priv->select_uris = g_slist_append (priv->select_uris, u);
 			}
 		} else {
-			CamelService *service;
 			CamelProvider *provider;
 			const gchar *path;
 			gchar *expand_key, *end;
 			EAccount *account;
 
-			service = CAMEL_SERVICE (u->store);
-			provider = camel_service_get_provider (service);
+			provider = camel_service_get_provider (u->service);
 
 			if (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
 				path = url->fragment;
@@ -2757,7 +2761,7 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
 			 * this made up path rather than the euri? */
 			if ((account = e_get_account_by_source_url (u->uri)))
 				expand_key = g_strdup_printf ("%s/%s", account->uid, path);
-			else if (CAMEL_IS_VEE_STORE (u->store))
+			else if (CAMEL_IS_VEE_STORE (u->service))
 				expand_key = g_strdup_printf ("vfolder/%s", path);
 			else
 				expand_key = g_strdup_printf ("local/%s", path);

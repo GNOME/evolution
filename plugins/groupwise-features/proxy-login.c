@@ -350,6 +350,8 @@ proxy_soap_login (gchar *email, GtkWindow *error_parent)
 	proxy_cnc = e_gw_connection_get_proxy_connection (cnc, user_name, password, email, &permissions);
 
 	if (proxy_cnc) {
+		CamelService *service;
+
 		parent = camel_url_new (e_account_get_string (srcAccount, E_ACCOUNT_SOURCE_URL), NULL);
 		parent_source_url = camel_url_to_string (parent, CAMEL_URL_HIDE_PASSWORD);
 		uri = camel_url_copy (parent);
@@ -367,7 +369,12 @@ proxy_soap_login (gchar *email, GtkWindow *error_parent)
 		e_account_list_change (accounts, srcAccount);
 		e_account_list_save (accounts);
 		g_object_set_data ((GObject *)dstAccount, "permissions", GINT_TO_POINTER(permissions));
-		mail_get_store (session, e_account_get_string (dstAccount, E_ACCOUNT_SOURCE_URL), NULL, proxy_login_add_new_store, dstAccount);
+
+		service = camel_session_get_service (
+			CAMEL_SESSION (session), dstAccount->uid);
+		if (CAMEL_IS_STORE (service))
+			proxy_login_add_new_store (
+				CAMEL_STORE (service), dstAccount);
 
 		g_free (proxy_source_url);
 		g_free (parent_source_url);
@@ -386,12 +393,12 @@ proxy_soap_login (gchar *email, GtkWindow *error_parent)
 }
 
 static void
-proxy_login_add_new_store (gchar *uri, CamelStore *store, gpointer user_data)
+proxy_login_add_new_store (CamelStore *store,
+                           EAccount *account)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
 	EMailSession *session;
-	EAccount *account = user_data;
 	gint permissions = GPOINTER_TO_INT(g_object_get_data ((GObject *)account, "permissions"));
 
 	shell = e_shell_get_default ();

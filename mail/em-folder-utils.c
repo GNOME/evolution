@@ -298,7 +298,7 @@ emfu_copy_folder_selected (EMailBackend *backend,
 	struct _copy_folder_data *cfd = data;
 	CamelStore *fromstore = NULL, *tostore = NULL;
 	CamelStore *local_store;
-	CamelService *service;
+	CamelService *service = NULL;
 	CamelProvider *provider;
 	const gchar *tobase = NULL;
 	CamelURL *url;
@@ -312,9 +312,17 @@ emfu_copy_folder_selected (EMailBackend *backend,
 	local_store = e_mail_local_get_store ();
 	session = e_mail_backend_get_session (backend);
 
-	fromstore = camel_session_get_store (
-		CAMEL_SESSION (session), cfd->fi->uri, &local_error);
-	if (fromstore == NULL) {
+	url = camel_url_new (cfd->fi->uri, &local_error);
+	if (url != NULL) {
+		service = camel_session_get_service_by_url (
+			CAMEL_SESSION (session), url);
+		camel_url_free (url);
+	}
+
+	if (service != NULL)
+		camel_service_connect_sync (service, &local_error);
+
+	if (local_error != NULL) {
 		e_mail_backend_submit_alert (
 			backend, cfd->delete ?
 				"mail:no-move-folder-notexist" :
@@ -324,6 +332,10 @@ emfu_copy_folder_selected (EMailBackend *backend,
 		goto fail;
 	}
 
+	g_return_if_fail (CAMEL_IS_STORE (service));
+
+	fromstore = CAMEL_STORE (service);
+
 	if (cfd->delete && fromstore == local_store && emfu_is_special_local_folder (cfd->fi->full_name)) {
 		e_mail_backend_submit_alert (
 			backend, "mail:no-rename-special-folder",
@@ -331,9 +343,17 @@ emfu_copy_folder_selected (EMailBackend *backend,
 		goto fail;
 	}
 
-	tostore = camel_session_get_store (
-		CAMEL_SESSION (session), uri, &local_error);
-	if (tostore == NULL) {
+	url = camel_url_new (uri, &local_error);
+	if (url != NULL) {
+		service = camel_session_get_service_by_url (
+			CAMEL_SESSION (session), url);
+		camel_url_free (url);
+	}
+
+	if (service != NULL)
+		camel_service_connect_sync (service, &local_error);
+
+	if (local_error != NULL) {
 		e_mail_backend_submit_alert (
 			backend, cfd->delete ?
 				"mail:no-move-folder-to-notexist" :
@@ -343,7 +363,9 @@ emfu_copy_folder_selected (EMailBackend *backend,
 		goto fail;
 	}
 
-	service = CAMEL_SERVICE (tostore);
+	g_return_if_fail (CAMEL_IS_STORE (service));
+
+	tostore = CAMEL_STORE (service);
 	provider = camel_service_get_provider (service);
 
 	url = camel_url_new (uri, NULL);
@@ -359,11 +381,6 @@ emfu_copy_folder_selected (EMailBackend *backend,
 
 	camel_url_free (url);
 fail:
-	if (fromstore)
-		g_object_unref (fromstore);
-	if (tostore)
-		g_object_unref (tostore);
-
 	g_clear_error (&local_error);
 
 	g_free (cfd);
@@ -682,7 +699,8 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs,
 	EMailSession *session;
 	GtkTreeModel *model;
 	const gchar *uri, *path;
-	CamelStore *store;
+	CamelService *service = NULL;
+	CamelURL *url;
 	struct _EMCreateFolderTempData  *emcftd;
 
 	if (response != GTK_RESPONSE_OK) {
@@ -699,22 +717,23 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs,
 
 	session = em_folder_tree_get_session (folder_tree);
 
-	store = (CamelStore *) camel_session_get_service (
-		CAMEL_SESSION (session), uri,
-		CAMEL_PROVIDER_STORE, NULL);
-	if (store == NULL)
+	url = camel_url_new (uri, NULL);
+	if (url != NULL) {
+		service = camel_session_get_service_by_url (
+			CAMEL_SESSION (session), url);
+		camel_url_free (url);
+	}
+
+	if (!CAMEL_IS_STORE (service))
 		return;
 
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (emfs->emft));
 	si = em_folder_tree_model_lookup_store_info (
-		EM_FOLDER_TREE_MODEL (model), store);
-	if (si == NULL) {
-		g_object_unref (store);
-		g_return_if_reached ();
-	}
+		EM_FOLDER_TREE_MODEL (model), CAMEL_STORE (service));
+	g_return_if_fail (si != NULL);
 
 	/* HACK: we need to create vfolders using the vfolder editor */
-	if (CAMEL_IS_VEE_STORE (store)) {
+	if (CAMEL_IS_VEE_STORE (service)) {
 		EFilterRule *rule;
 
 		rule = em_vfolder_rule_new (session);
@@ -729,11 +748,11 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs,
 		emcftd->emft = folder_tree;
 
 		g_object_ref (emfs);
-		emfu_create_folder_real (si->store, path, new_folder_created_cb, emcftd);
+		emfu_create_folder_real (
+			si->store, path, new_folder_created_cb, emcftd);
 	}
-
-	g_object_unref (store);
 }
+
 
 /* FIXME: these functions must be documented */
 void

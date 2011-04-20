@@ -1084,6 +1084,8 @@ composer_build_message (EMsgComposer *composer,
 			"X-Priority", "1");
 
 	if (account != NULL) {
+		gchar *transport_uid;
+
 		/* X-Evolution-Account */
 		camel_medium_set_header (
 			CAMEL_MEDIUM (context->message),
@@ -1095,9 +1097,12 @@ composer_build_message (EMsgComposer *composer,
 			"X-Evolution-Fcc", account->sent_folder_uri);
 
 		/* X-Evolution-Transport */
+		transport_uid = g_strconcat (
+			account->uid, "-transport", NULL);
 		camel_medium_set_header (
 			CAMEL_MEDIUM (context->message),
-			"X-Evolution-Transport", account->transport->url);
+			"X-Evolution-Transport", transport_uid);
+		g_free (transport_uid);
 
 		/* Organization */
 		if (account->id->organization != NULL) {

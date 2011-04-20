@@ -68,8 +68,8 @@ e_mail_local_init (EMailSession *session,
 	g_free (temp);
 
 	temp = camel_url_to_string (url, 0);
-	service = camel_session_get_service (
-		CAMEL_SESSION (session), temp,
+	service = camel_session_add_service (
+		CAMEL_SESSION (session), "local", temp,
 		CAMEL_PROVIDER_STORE, &local_error);
 	g_free (temp);
 
@@ -90,10 +90,12 @@ e_mail_local_init (EMailSession *session,
 		/* FIXME camel_store_get_folder() may block. */
 		default_local_folders[ii].folder_uri = folder_uri;
 		if (!strcmp (display_name, "Inbox"))
-			default_local_folders[ii].folder = camel_store_get_inbox_folder_sync (
+			default_local_folders[ii].folder =
+				camel_store_get_inbox_folder_sync (
 				CAMEL_STORE (service), NULL, NULL);
 		else
-			default_local_folders[ii].folder = camel_store_get_folder_sync (
+			default_local_folders[ii].folder =
+				camel_store_get_folder_sync (
 				CAMEL_STORE (service), display_name,
 				CAMEL_STORE_FOLDER_CREATE, NULL, NULL);
 	}

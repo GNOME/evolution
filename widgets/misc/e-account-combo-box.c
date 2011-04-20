@@ -106,8 +106,7 @@ account_combo_box_choose_account (EAccountComboBox *combo_box)
 static gboolean
 account_combo_box_test_account (EAccount *account)
 {
-	CamelStore *store;
-	const gchar *url;
+	CamelService *service;
 	gboolean writable = FALSE;
 
 	/* Account must be enabled. */
@@ -123,12 +122,10 @@ account_combo_box_test_account (EAccount *account)
 		return TRUE;
 
 	/* Account must be writable. */
-	url = e_account_get_string (account, E_ACCOUNT_SOURCE_URL);
-	store = CAMEL_STORE (camel_session_get_service (
-		camel_session, url, CAMEL_PROVIDER_STORE, NULL));
-	if (store != NULL) {
+	service = camel_session_get_service (camel_session, account->uid);
+	if (CAMEL_IS_STORE (service)) {
+		CamelStore *store = CAMEL_STORE (service);
 		writable = (store->mode & CAMEL_STORE_WRITE);
-		g_object_unref (store);
 	}
 
 	return writable;

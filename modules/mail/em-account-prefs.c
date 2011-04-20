@@ -67,8 +67,7 @@ account_prefs_enable_account_cb (EAccountTreeView *tree_view,
 	account = e_account_tree_view_get_selected (tree_view);
 	g_return_if_fail (account != NULL);
 
-	e_mail_store_add_by_uri (
-		prefs->priv->session, account->source->url, account->name);
+	e_mail_store_add_by_account (prefs->priv->session, account);
 }
 
 static void
@@ -87,7 +86,7 @@ account_prefs_disable_account_cb (EAccountTreeView *tree_view,
 	g_return_if_fail (account_list != NULL);
 
 	if (!e_account_list_account_has_proxies (account_list, account)) {
-		e_mail_store_remove_by_uri (prefs->priv->session, account->source->url);
+		e_mail_store_remove_by_account (prefs->priv->session, account);
 		return;
 	}
 
@@ -104,8 +103,7 @@ account_prefs_disable_account_cb (EAccountTreeView *tree_view,
 
 	e_account_list_remove_account_proxies (account_list, account);
 
-	e_mail_store_remove_by_uri (
-		prefs->priv->session, account->source->url);
+	e_mail_store_remove_by_account (prefs->priv->session, account);
 }
 
 static void
@@ -310,9 +308,8 @@ account_prefs_delete_account (EAccountManager *manager)
 	}
 
 	/* Remove the account from the folder tree. */
-	if (account->enabled && account->source && account->source->url)
-		e_mail_store_remove_by_uri (
-			priv->session, account->source->url);
+	if (account->enabled)
+		e_mail_store_remove_by_account (priv->session, account);
 
 	/* Remove all the proxies the account has created. */
 	if (has_proxies)

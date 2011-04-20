@@ -79,6 +79,7 @@ struct _EMailSessionPrivate {
 struct _AsyncContext {
 	/* arguments */
 	CamelStoreGetFolderFlags flags;
+	gchar *uid;
 	gchar *uri;
 
 	/* results */
@@ -486,6 +487,7 @@ async_context_free (AsyncContext *context)
 	if (context->folder != NULL)
 		g_object_unref (context->folder);
 
+	g_free (context->uid);
 	g_free (context->uri);
 
 	g_slice_free (AsyncContext, context);
@@ -608,7 +610,7 @@ mail_session_get_password (CamelSession *session,
 		url = camel_url_to_string (service_url, CAMEL_URL_HIDE_ALL);
 	}
 
-	if (!strcmp(item, "popb4smtp_uri")) {
+	if (!strcmp(item, "popb4smtp_uid")) {
 		/* not 100% mt safe, but should be ok */
 		if (url
 		    && (account = e_get_account_by_transport_url (url)))
@@ -1010,10 +1012,6 @@ e_mail_session_init (EMailSession *session)
 	/* Initialize the EAccount setup. */
 	e_account_writable (NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD);
 
-	camel_session_construct (
-		CAMEL_SESSION (session),
-		mail_session_get_data_dir ());
-
 	client = gconf_client_get_default ();
 
 	gconf_client_add_dir (
@@ -1038,7 +1036,13 @@ e_mail_session_init (EMailSession *session)
 EMailSession *
 e_mail_session_new (void)
 {
-	return g_object_new (E_TYPE_MAIL_SESSION, NULL);
+	const gchar *user_data_dir;
+
+	user_data_dir = mail_session_get_data_dir ();
+
+	return g_object_new (
+		E_TYPE_MAIL_SESSION,
+		"user-data-dir", user_data_dir, NULL);
 }
 
 MailFolderCache *
@@ -1060,7 +1064,7 @@ mail_session_get_inbox_thread (GSimpleAsyncResult *simple,
 	context = g_simple_async_result_get_op_res_gpointer (simple);
 
 	context->folder = e_mail_session_get_inbox_sync (
-		session, context->uri, cancellable, &error);
+		session, context->uid, cancellable, &error);
 
 	if (error != NULL) {
 		g_simple_async_result_set_from_error (simple, error);
@@ -1070,32 +1074,31 @@ mail_session_get_inbox_thread (GSimpleAsyncResult *simple,
 
 CamelFolder *
 e_mail_session_get_inbox_sync (EMailSession *session,
-                               const gchar *service_uri,
+                               const gchar *service_uid,
                                GCancellable *cancellable,
                                GError **error)
 {
-	CamelStore *store;
-	CamelFolder *folder;
+	CamelService *service;
 
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
-	g_return_val_if_fail (service_uri != NULL, NULL);
+	g_return_val_if_fail (service_uid != NULL, NULL);
 
-	store = camel_session_get_store (
-		CAMEL_SESSION (session), service_uri, error);
+	service = camel_session_get_service (
+		CAMEL_SESSION (session), service_uid);
 
-	if (store == NULL)
+	if (!CAMEL_IS_STORE (service))
 		return NULL;
 
-	folder = camel_store_get_inbox_folder_sync (store, cancellable, error);
+	if (!camel_service_connect_sync (service, error))
+		return NULL;
 
-	g_object_unref (store);
-
-	return folder;
+	return camel_store_get_inbox_folder_sync (
+		CAMEL_STORE (service), cancellable, error);
 }
 
 void
 e_mail_session_get_inbox (EMailSession *session,
-                          const gchar *service_uri,
+                          const gchar *service_uid,
                           gint io_priority,
                           GCancellable *cancellable,
                           GAsyncReadyCallback callback,
@@ -1105,10 +1108,10 @@ e_mail_session_get_inbox (EMailSession *session,
 	AsyncContext *context;
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
-	g_return_if_fail (service_uri != NULL);
+	g_return_if_fail (service_uid != NULL);
 
 	context = g_slice_new0 (AsyncContext);
-	context->uri = g_strdup (service_uri);
+	context->uid = g_strdup (service_uid);
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (session), callback,
@@ -1160,7 +1163,7 @@ mail_session_get_trash_thread (GSimpleAsyncResult *simple,
 	context = g_simple_async_result_get_op_res_gpointer (simple);
 
 	context->folder = e_mail_session_get_trash_sync (
-		session, context->uri, cancellable, &error);
+		session, context->uid, cancellable, &error);
 
 	if (error != NULL) {
 		g_simple_async_result_set_from_error (simple, error);
@@ -1170,32 +1173,31 @@ mail_session_get_trash_thread (GSimpleAsyncResult *simple,
 
 CamelFolder *
 e_mail_session_get_trash_sync (EMailSession *session,
-                               const gchar *service_uri,
+                               const gchar *service_uid,
                                GCancellable *cancellable,
                                GError **error)
 {
-	CamelStore *store;
-	CamelFolder *folder;
+	CamelService *service;
 
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
-	g_return_val_if_fail (service_uri != NULL, NULL);
+	g_return_val_if_fail (service_uid != NULL, NULL);
 
-	store = camel_session_get_store (
-		CAMEL_SESSION (session), service_uri, error);
+	service = camel_session_get_service (
+		CAMEL_SESSION (session), service_uid);
 
-	if (store == NULL)
+	if (!CAMEL_IS_STORE (service))
 		return NULL;
 
-	folder = camel_store_get_trash_folder_sync (store, cancellable, error);
+	if (!camel_service_connect_sync (service, error))
+		return NULL;
 
-	g_object_unref (store);
-
-	return folder;
+	return camel_store_get_trash_folder_sync (
+		CAMEL_STORE (service), cancellable, error);
 }
 
 void
 e_mail_session_get_trash (EMailSession *session,
-                          const gchar *service_uri,
+                          const gchar *service_uid,
                           gint io_priority,
                           GCancellable *cancellable,
                           GAsyncReadyCallback callback,
@@ -1205,10 +1207,10 @@ e_mail_session_get_trash (EMailSession *session,
 	AsyncContext *context;
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
-	g_return_if_fail (service_uri != NULL);
+	g_return_if_fail (service_uid != NULL);
 
 	context = g_slice_new0 (AsyncContext);
-	context->uri = g_strdup (service_uri);
+	context->uid = g_strdup (service_uid);
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (session), callback,
@@ -1277,7 +1279,7 @@ e_mail_session_uri_to_folder_sync (EMailSession *session,
                                    GError **error)
 {
 	CamelURL *url;
-	CamelStore *store;
+	CamelService *service;
 	CamelFolder *folder = NULL;
 	gchar *camel_uri = NULL;
 	gboolean vtrash = FALSE;
@@ -1316,11 +1318,10 @@ e_mail_session_uri_to_folder_sync (EMailSession *session,
 		goto exit;
 	}
 
-	store = (CamelStore *) camel_session_get_service (
-		CAMEL_SESSION (session), folder_uri,
-		CAMEL_PROVIDER_STORE, error);
+	service = camel_session_get_service_by_url (
+		CAMEL_SESSION (session), url);
 
-	if (store != NULL) {
+	if (CAMEL_IS_STORE (service)) {
 		const gchar *name = "";
 
 		/* If we have a fragment, then the path is actually
@@ -1333,15 +1334,14 @@ e_mail_session_uri_to_folder_sync (EMailSession *session,
 
 		if (vtrash)
 			folder = camel_store_get_trash_folder_sync (
-				store, cancellable, error);
+				CAMEL_STORE (service), cancellable, error);
 		else if (vjunk)
 			folder = camel_store_get_junk_folder_sync (
-				store, cancellable, error);
+				CAMEL_STORE (service), cancellable, error);
 		else
 			folder = camel_store_get_folder_sync (
-				store, name, flags, cancellable, error);
-
-		g_object_unref (store);
+				CAMEL_STORE (service), name,
+				flags, cancellable, error);
 	}
 
 	if (folder != NULL) {

@@ -94,8 +94,6 @@ GType em_migrate_session_get_type (void);
 
 G_DEFINE_TYPE (EMMigrateSession, em_migrate_session, CAMEL_TYPE_SESSION)
 
-static CamelSession *em_migrate_session_new (const gchar *path);
-
 static void
 em_migrate_session_class_init (EMMigrateSessionClass *class)
 {
@@ -106,15 +104,12 @@ em_migrate_session_init (EMMigrateSession *session)
 {
 }
 
-static CamelSession *
-em_migrate_session_new (const gchar *path)
+static EMMigrateSession *
+em_migrate_session_new (const gchar *user_data_dir)
 {
-	CamelSession *session;
-
-	session = g_object_new (EM_TYPE_MIGRATE_SESSION, NULL);
-	camel_session_construct (session, path);
-
-	return session;
+	return g_object_new (
+		EM_TYPE_MIGRATE_SESSION,
+		"user-data-dir", user_data_dir, NULL);
 }
 
 static GtkWidget *window;
@@ -601,7 +596,9 @@ setup_local_store (EShellBackend *shell_backend,
 	camel_url_set_path (url, tmp);
 	g_free (tmp);
 	tmp = camel_url_to_string (url, 0);
-	store = (CamelStore *)camel_session_get_service (CAMEL_SESSION (session), tmp, CAMEL_PROVIDER_STORE, NULL);
+	store = (CamelStore *) camel_session_add_service (
+		CAMEL_SESSION (session), "local", tmp,
+		CAMEL_PROVIDER_STORE, NULL);
 	g_free (tmp);
 
 	return store;
@@ -655,7 +652,7 @@ migrate_to_db (EShellBackend *shell_backend)
 	iter = e_list_get_iterator ((EList *) accounts);
 	len = e_list_length ((EList *) accounts);
 
-	session = (EMMigrateSession *) em_migrate_session_new (data_dir);
+	session = em_migrate_session_new (data_dir);
 	camel_session_set_online ((CamelSession *) session, FALSE);
 	em_migrate_setup_progress_dialog (
 		_("Migrating Folders"),
@@ -697,21 +694,16 @@ migrate_to_db (EShellBackend *shell_backend)
 	while (e_iterator_is_valid (iter)) {
 		EAccount *account = (EAccount *) e_iterator_get (iter);
 		EAccountService *service;
-		const gchar *name;
 
 		service = account->source;
-		name = account->name;
 		em_migrate_set_progress ( (double)i/(len+1));
 		if (account->enabled
 		    && service->url != NULL && service->url[0]
 		    && strncmp (service->url, "mbox:", 5) != 0) {
 
-			e_mail_store_add_by_uri (
-				mail_session, service->url, name);
+			store = e_mail_store_add_by_account (
+				mail_session, account);
 
-			store = (CamelStore *) camel_session_get_service (
-				CAMEL_SESSION (session), service->url,
-				CAMEL_PROVIDER_STORE, NULL);
 			info = camel_store_get_folder_info_sync (
 				store, NULL,
 				CAMEL_STORE_FOLDER_INFO_RECURSIVE |
@@ -870,7 +862,8 @@ migrate_stores (struct MigrateStore *ms)
 }
 
 static gboolean
-migrate_mbox_to_maildir (EShellBackend *shell_backend, EMMigrateSession *session)
+migrate_mbox_to_maildir (EShellBackend *shell_backend,
+                         EMMigrateSession *session)
 {
 	CamelService *mbox_service, *maildir_service;
 	CamelStore *mbox_store, *maildir_store;
@@ -886,8 +879,8 @@ migrate_mbox_to_maildir (EShellBackend *shell_backend, EMMigrateSession *session
 	g_free (temp);
 
 	temp = camel_url_to_string (url, 0);
-	mbox_service = camel_session_get_service (
-		CAMEL_SESSION (session), temp,
+	mbox_service = camel_session_add_service (
+		CAMEL_SESSION (session), "local_mbox", temp,
 		CAMEL_PROVIDER_STORE, NULL);
 	g_free (temp);
 	camel_url_free (url);
@@ -899,8 +892,8 @@ migrate_mbox_to_maildir (EShellBackend *shell_backend, EMMigrateSession *session
 	g_free (temp);
 
 	temp = camel_url_to_string (url, 0);
-	maildir_service = camel_session_get_service (
-		CAMEL_SESSION (session), temp,
+	maildir_service = camel_session_add_service (
+		CAMEL_SESSION (session), "local", temp,
 		CAMEL_PROVIDER_STORE, NULL);
 	g_free (temp);
 	camel_url_free (url);
@@ -916,9 +909,6 @@ migrate_mbox_to_maildir (EShellBackend *shell_backend, EMMigrateSession *session
 	g_thread_create ((GThreadFunc) migrate_stores, &ms, TRUE, NULL);
 	while (!ms.complete)
 		g_main_context_iteration (NULL, TRUE);
-
-	g_object_unref (mbox_store);
-	g_object_unref (maildir_store);
 
 	return TRUE;
 }
@@ -947,7 +937,8 @@ exit:
 }
 
 static gboolean
-create_mbox_account (EShellBackend *shell_backend, EMMigrateSession *session)
+create_mbox_account (EShellBackend *shell_backend,
+                     EMMigrateSession *session)
 {
 	EMailBackend *mail_backend;
 	EMailSession *mail_session;
@@ -966,6 +957,9 @@ create_mbox_account (EShellBackend *shell_backend, EMMigrateSession *session)
 
 	account = e_account_new ();
 	account->enabled = TRUE;
+
+	g_free (account->uid);
+	account->uid = g_strdup ("local_mbox");
 
 	url = camel_url_new ("mbox:", NULL);
 	temp = g_build_filename (data_dir, "local_mbox", NULL);
@@ -1005,7 +999,7 @@ create_mbox_account (EShellBackend *shell_backend, EMMigrateSession *session)
 	g_free (folder_uri);
 
 	e_account_list_add (accounts, account);
-	e_mail_store_add_by_uri (mail_session, uri, name);
+	e_mail_store_add_by_account (mail_session, account);
 	e_account_list_save (accounts);
 
 exit:
@@ -1042,7 +1036,7 @@ migrate_local_store (EShellBackend *shell_backend)
 	if (!g_file_test (local_store, G_FILE_TEST_EXISTS))
 		g_mkdir_with_parents (local_store, 0700);
 
-	session = (EMMigrateSession *) em_migrate_session_new (data_dir);
+	session = em_migrate_session_new (data_dir);
 	camel_session_set_online (CAMEL_SESSION (session), FALSE);
 
 	migrate_mbox_to_maildir (shell_backend, session);

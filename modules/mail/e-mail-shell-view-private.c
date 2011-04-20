@@ -1171,18 +1171,12 @@ e_mail_shell_view_send_receive (EMailShellView *mail_shell_view,
 	} else {
 		/* allow only receive on individual accounts */
 		EAccount *account;
-		const gchar *source_url = NULL;
 
 		account = e_get_account_by_uid (account_uid);
 		g_return_if_fail (account != NULL);
 
 		if (account->enabled && account->source != NULL)
-			source_url = account->source->url;
-
-		if (source_url != NULL && *source_url != '\0')
-			mail_receive_uri (
-				session, source_url,
-				account->source->keep_on_server);
+			mail_receive_account (session, account);
 	}
 }
 

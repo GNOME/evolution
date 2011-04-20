@@ -66,7 +66,6 @@ gboolean	e_mail_session_handle_source_headers_finish
 						 GError **error);
 void		e_mail_session_send_to		(EMailSession *session,
 						 CamelMimeMessage *message,
-						 const gchar *destination,
 						 gint io_priority,
 						 GCancellable *cancellable,
 						 CamelFilterGetFolderFunc get_folder_func,

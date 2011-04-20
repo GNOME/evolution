@@ -66,13 +66,6 @@ gint mail_get_folder_quota (CamelFolder *folder,
 		 void (*done)(CamelFolder *folder, const gchar *folder_uri, CamelFolderQuotaInfo *quota, gpointer data),
 		 gpointer data, MailMsgDispatchFunc dispatch);
 
-/* and for a store */
-gint		mail_get_store			(EMailSession *session,
-						 const gchar *uri,
-						 GCancellable *cancellable,
-						 void (*done) (gchar *uri, CamelStore *store, gpointer data),
-						 gpointer data);
-
 /* build an attachment */
 void mail_build_attachment (CamelFolder *folder, GPtrArray *uids,
 			    void (*done)(CamelFolder *folder, GPtrArray *messages,
@@ -123,18 +116,17 @@ gint mail_save_messages (CamelFolder *folder, GPtrArray *uids, const gchar *path
 /* yeah so this is messy, but it does a lot, maybe i can consolidate all user_data's to be the one */
 void		mail_send_queue			(EMailSession *session,
 						 CamelFolder *queue,
-						 const gchar *destination,
+						 CamelTransport *transport,
 						 const gchar *type,
 						 GCancellable *cancellable,
 						 CamelFilterGetFolderFunc get_folder,
 						 gpointer get_data,
 						 CamelFilterStatusFunc *status,
 						 gpointer status_data,
-						 void (*done)(const gchar *destination, gpointer data),
+						 void (*done)(gpointer data),
 						 gpointer data);
 
-void		mail_fetch_mail			(EMailSession *session,
-						 const gchar *source,
+void		mail_fetch_mail			(CamelStore *store,
 						 gint keep,
 						 const gchar *type,
 						 GCancellable *cancellable,
@@ -142,7 +134,7 @@ void		mail_fetch_mail			(EMailSession *session,
 						 gpointer get_data,
 						 CamelFilterStatusFunc *status,
 						 gpointer status_data,
-						 void (*done)(const gchar *source, gpointer data),
+						 void (*done)(gpointer data),
 						 gpointer data);
 
 void		mail_filter_folder		(EMailSession *session,
@@ -158,9 +150,8 @@ gint mail_store_prepare_offline (CamelStore *store);
 void mail_execute_shell_command (CamelFilterDriver *driver, gint argc, gchar **argv, gpointer data);
 
 gint		mail_check_service		(EMailSession *session,
-						 const gchar *url,
-						 CamelProviderType type,
-						 void (*done)(const gchar *url, CamelProviderType type, GList *authtypes, gpointer data),
+						 const gchar *service_uid,
+						 void (*done)(GList *authtypes, gpointer data),
 						 gpointer data);
 
 gint mail_disconnect_store (CamelStore *store);

@@ -59,7 +59,7 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 	gchar *parent_name;
 	gchar *container_id;
 	const gchar *item_id;
-	CamelStore *store;
+	CamelService *service = NULL;
 	CamelFolder *folder;
 	EAccount *account;
 	CamelProvider *provider;
@@ -69,6 +69,7 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 		gtk_widget_destroy (GTK_WIDGET (emfs));
 	} else {
 		CamelSession *session;
+		CamelURL *url;
 		EShell *shell;
 
 		shell = e_shell_get_default ();
@@ -91,24 +92,30 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 			else
 				parent_name = NULL;
 		}
-		store = (CamelStore *) camel_session_get_service (
-			session, uri, CAMEL_PROVIDER_STORE, NULL);
-		if (store == NULL) {
+
+		url = camel_url_new (uri, NULL);
+		if (url != NULL) {
+			service = camel_session_get_service_by_url (
+				session, url);
+			camel_url_free (url);
+		}
+
+		if (!CAMEL_IS_STORE (service)) {
 			g_strfreev (names);
 			return;
 		}
 
-		cnc = get_cnc (store);
+		cnc = get_cnc (CAMEL_STORE (service));
 		if (E_IS_GW_CONNECTION (cnc)) {
 			container_id = get_container_id (cnc, parent_name);
 
 			if (e_gw_connection_accept_shared_folder (cnc, folder_name, container_id, (gchar *)item_id, NULL) == E_GW_CONNECTION_STATUS_OK) {
-				CamelService *service;
 				CamelURL *url;
 
 				/* FIXME Not passing a GCancellable or GError here. */
 				folder = camel_store_get_folder_sync (
-					store, "Mailbox", 0, NULL, NULL);
+					CAMEL_STORE (service),
+					"Mailbox", 0, NULL, NULL);
 				/*changes = camel_folder_change_info_new ();
 				camel_folder_change_info_remove_uid (changes, (gchar *) item_id);
 				camel_folder_summary_remove_uid (folder->summary, item_id);*/
@@ -119,12 +126,12 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 					CAMEL_MESSAGE_DELETED);
 				camel_folder_summary_touch (folder->summary);
 				/* camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", changes); */
-				service = CAMEL_SERVICE (store);
 				url = camel_service_get_camel_url (service);
 				uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 				account = e_get_account_by_source_url (uri);
 				uri = account->source->url;
-				em_folder_tree_model_remove_store (model, store);
+				em_folder_tree_model_remove_store (
+					model, CAMEL_STORE (service));
 				provider = camel_provider_get (uri, NULL);
 				if (provider == NULL) {
 					g_strfreev (names);
@@ -137,8 +144,9 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 					return;
 				}
 
-				em_folder_tree_model_add_store (model, store, account->name);
-				g_object_unref (store);
+				em_folder_tree_model_add_store (
+					model, CAMEL_STORE (service),
+					account->name);
 			}
 		}
 

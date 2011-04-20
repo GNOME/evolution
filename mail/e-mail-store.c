@@ -74,8 +74,7 @@ store_info_new (CamelStore *store,
 	store_info = g_slice_new0 (StoreInfo);
 	store_info->ref_count = 1;
 
-	g_object_ref (store);
-	store_info->store = store;
+	store_info->store = g_object_ref (store);
 
 	if (display_name == NULL)
 		store_info->display_name =
@@ -238,27 +237,50 @@ mail_store_load_accounts (EMailSession *session,
 	for (iter = e_list_get_iterator ((EList *) account_list);
 		e_iterator_is_valid (iter); e_iterator_next (iter)) {
 
-		EAccountService *service;
 		EAccount *account;
-		const gchar *display_name;
-		const gchar *uri;
+		CamelURL *url;
+		gchar *transport_uid;
+		gboolean skip = FALSE;
+		GError *error = NULL;
 
 		account = (EAccount *) e_iterator_get (iter);
-		display_name = account->name;
-		service = account->source;
-		uri = service->url;
 
 		if (!account->enabled)
 			continue;
 
-		if (uri == NULL || *uri == '\0')
+		/* Do not add local-delivery files. */
+		url = camel_url_new (account->source->url, NULL);
+		if (url != NULL) {
+			skip = em_utils_is_local_delivery_mbox_file (url);
+			camel_url_free (url);
+		}
+
+		if (skip)
 			continue;
 
-		/* do not add local-delivery files into the tree those are server specifically */
-		if (em_utils_is_local_delivery_mbox_file (uri))
+		e_mail_store_add_by_account (session, account);
+
+		/* While we're at it, add the account's transport to the
+		 * CamelSession.  The transport's UID is a kludge for now.
+		 * We take the EAccount's UID and tack on "-transport". */
+
+		if (account->transport == NULL)
 			continue;
 
-		e_mail_store_add_by_uri (session, uri, display_name);
+		transport_uid = g_strconcat (
+			account->uid, "-transport", NULL);
+
+		camel_session_add_service (
+			CAMEL_SESSION (session),
+			transport_uid, account->transport->url,
+			CAMEL_PROVIDER_TRANSPORT, &error);
+
+		g_free (transport_uid);
+
+		if (error != NULL) {
+			g_warning ("%s", error->message);
+			g_error_free (error);
+		}
 	}
 
 	g_object_unref (iter);
@@ -302,46 +324,43 @@ e_mail_store_add (EMailSession *session,
 }
 
 CamelStore *
-e_mail_store_add_by_uri (EMailSession *session,
-                         const gchar *uri,
-                         const gchar *display_name)
+e_mail_store_add_by_account (EMailSession *session,
+                             EAccount *account)
 {
 	CamelService *service;
 	CamelProvider *provider;
-	GError *local_error = NULL;
+	GError *error = NULL;
 
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
-	g_return_val_if_fail (uri != NULL, NULL);
-	g_return_val_if_fail (display_name != NULL, NULL);
+	g_return_val_if_fail (E_IS_ACCOUNT (account), NULL);
 
 	/* Load the service, but don't connect.  Check its provider,
 	 * and if this belongs in the folder tree model, add it. */
 
-	provider = camel_provider_get (uri, &local_error);
+	provider = camel_provider_get (account->source->url, &error);
 	if (provider == NULL)
 		goto fail;
 
-	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
-		return NULL;
+	service = camel_session_add_service (
+		CAMEL_SESSION (session),
+		account->uid, account->source->url,
+		CAMEL_PROVIDER_STORE, &error);
 
-	service = camel_session_get_service (
-		CAMEL_SESSION (session), uri,
-		CAMEL_PROVIDER_STORE, &local_error);
-	if (service == NULL)
+	if (!CAMEL_IS_STORE (service))
 		goto fail;
 
-	e_mail_store_add (session, CAMEL_STORE (service), display_name);
-
-	g_object_unref (service);
+	if (provider->flags & CAMEL_PROVIDER_IS_STORAGE)
+		e_mail_store_add (
+			session, CAMEL_STORE (service), account->name);
 
 	return CAMEL_STORE (service);
 
 fail:
 	/* FIXME: Show an error dialog. */
 	g_warning (
-		"Couldn't get service: %s: %s", uri,
-		local_error->message);
-	g_error_free (local_error);
+		"Couldn't get service: %s: %s", account->name,
+		error->message);
+	g_error_free (error);
 
 	return NULL;
 }
@@ -381,16 +400,16 @@ e_mail_store_remove (EMailSession *session,
 }
 
 void
-e_mail_store_remove_by_uri (EMailSession *session,
-                            const gchar *uri)
+e_mail_store_remove_by_account (EMailSession *session,
+                                EAccount *account)
 {
 	CamelService *service;
 	CamelProvider *provider;
 
 	g_return_if_fail (E_IS_MAIL_SESSION (session));
-	g_return_if_fail (uri != NULL);
+	g_return_if_fail (E_IS_ACCOUNT (account));
 
-	provider = camel_provider_get (uri, NULL);
+	provider = camel_provider_get (account->source->url, NULL);
 	if (provider == NULL)
 		return;
 
@@ -398,14 +417,11 @@ e_mail_store_remove_by_uri (EMailSession *session,
 		return;
 
 	service = camel_session_get_service (
-		CAMEL_SESSION (session), uri,
-		CAMEL_PROVIDER_STORE, NULL);
-	if (service == NULL)
-		return;
+		CAMEL_SESSION (session), account->uid);
+
+	g_return_if_fail (CAMEL_IS_STORE (service));
 
 	e_mail_store_remove (session, CAMEL_STORE (service));
-
-	g_object_unref (service);
 }
 
 void
