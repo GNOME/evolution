@@ -8822,15 +8822,15 @@ msgstr "По_значити як"
 
 #: ../mail/e-mail-reader.c:2347
 msgid "_Message"
-msgstr "П_овідомлення"
+msgstr "_Лист"
 
 #: ../mail/e-mail-reader.c:2354
 msgid "_Zoom"
-msgstr "Зміна _масштабу"
+msgstr "_Масштаб"
 
 #: ../mail/e-mail-reader.c:2379
 msgid "Mark for Follo_w Up..."
-msgstr "_До виконання..."
+msgstr "_До виконання…"
 
 #: ../mail/e-mail-reader.c:2387
 msgid "Mark as _Important"
