@@ -567,7 +567,7 @@ em_utils_composer_send_cb (EMsgComposer *composer,
 	session = e_msg_composer_get_session (context->composer);
 
 	e_mail_session_send_to (
-		E_MAIL_SESSION (session), message, NULL,
+		E_MAIL_SESSION (session), message,
 		G_PRIORITY_DEFAULT, cancellable, NULL, NULL,
 		(GAsyncReadyCallback) composer_send_completed,
 		context);
@@ -1802,6 +1802,7 @@ em_utils_send_receipt (EMailSession *session,
 	gchar *hostname;
 	gchar *self_address, *receipt_subject;
 	gchar *ua, *recipient;
+	gchar *transport_uid;
 
 	message_id = camel_medium_get_header (
 		CAMEL_MEDIUM (message), "Message-ID");
@@ -1916,6 +1917,8 @@ em_utils_send_receipt (EMailSession *session,
 	camel_mime_message_set_recipients (receipt, CAMEL_RECIPIENT_TYPE_TO, addr);
 	g_object_unref (addr);
 
+	transport_uid = g_strconcat (account->uid, "-transport", NULL);
+
 	camel_medium_set_header (
 		CAMEL_MEDIUM (receipt),
 		"Return-Path", "<>");
@@ -1926,11 +1929,13 @@ em_utils_send_receipt (EMailSession *session,
 	camel_medium_set_header (
 		CAMEL_MEDIUM (receipt),
 		"X-Evolution-Transport",
-		account->transport->url);
+		transport_uid);
 	camel_medium_set_header (
 		CAMEL_MEDIUM (receipt),
 		"X-Evolution-Fcc",
 		account->sent_folder_uri);
+
+	g_free (transport_uid);
 
 	/* Send the receipt */
 	info = camel_message_info_new (NULL);

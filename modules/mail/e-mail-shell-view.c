@@ -224,6 +224,7 @@ mail_shell_view_execute_search (EShellView *shell_view)
 	EMailView *mail_view;
 	CamelVeeFolder *search_folder;
 	CamelFolder *folder;
+	CamelService *service;
 	CamelStore *store;
 	GtkAction *action;
 	GtkTreeModel *model;
@@ -554,13 +555,14 @@ all_accounts:
 
 	list = NULL;  /* list of CamelFolders */
 
-	/* FIXME Using data_dir like this is not portable. */
-	uri = g_strdup_printf ("vfolder:%s/vfolder", data_dir);
-	store = camel_session_get_store (CAMEL_SESSION (session), uri, NULL);
-	g_free (uri);
+	/* FIXME Complete lack of error checking here. */
+	service = camel_session_get_service (
+		CAMEL_SESSION (session), "vfolder");
+	camel_service_connect_sync (service, NULL);
 
 	search_folder = (CamelVeeFolder *) camel_vee_folder_new (
-		store, _("All Account Search"), CAMEL_STORE_VEE_FOLDER_AUTO);
+		CAMEL_STORE (service), _("All Account Search"),
+		CAMEL_STORE_VEE_FOLDER_AUTO);
 	priv->search_account_all = search_folder;
 
 	/* Add local folders. */
@@ -737,13 +739,14 @@ current_account:
 
 	list = g_list_reverse (list);
 
-	/* FIXME Using data_dir like this is not portable. */
-	uri = g_strdup_printf ("vfolder:%s/vfolder", data_dir);
-	store = camel_session_get_store (CAMEL_SESSION (session), uri, NULL);
-	g_free (uri);
+	/* FIXME Complete lack of error checking here. */
+	service = camel_session_get_service (
+		CAMEL_SESSION (session), "vfolder");
+	camel_service_connect_sync (service, NULL);
 
 	search_folder = (CamelVeeFolder *) camel_vee_folder_new (
-		store, _("Account Search"), CAMEL_STORE_VEE_FOLDER_AUTO);
+		CAMEL_STORE (service), _("Account Search"),
+		CAMEL_STORE_VEE_FOLDER_AUTO);
 	priv->search_account_current = search_folder;
 
 	camel_vee_folder_set_expression (search_folder, query);

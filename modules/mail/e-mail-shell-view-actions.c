@@ -109,7 +109,7 @@ action_mail_account_disable_cb (GtkAction *action,
 
 	account->enabled = !account->enabled;
 	e_account_list_change (account_list, account);
-	e_mail_store_remove_by_uri (session, folder_uri);
+	e_mail_store_remove_by_account (session, account);
 
 	if (account->parent_uid != NULL)
 		e_account_list_remove (account_list, account);

@@ -324,9 +324,9 @@ e_get_any_enabled_account (void)
  * the global #EAccountList that has transport information, or finally %NULL
  * if no transport information could be found.
  *
- * Returns: an #EAccountService with transport info, or %NULL
+ * Returns: an #EAccount with transport info, or %NULL
  **/
-EAccountService *
+EAccount *
 e_get_default_transport (void)
 {
 	EAccountList *account_list;
@@ -335,7 +335,7 @@ e_get_default_transport (void)
 
 	account = e_get_default_account ();
 	if (account_has_transport_url (account))
-		return account->transport;
+		return account;
 
 	account_list = e_get_account_list ();
 	iterator = e_list_get_iterator (E_LIST (account_list));
@@ -345,7 +345,7 @@ e_get_default_transport (void)
 		account = (EAccount *) e_iterator_get (iterator);
 		if (account_has_transport_url (account)) {
 			g_object_unref (iterator);
-			return account->transport;
+			return account;
 		}
 		e_iterator_next (iterator);
 	}
@@ -385,12 +385,15 @@ e_get_subscribable_accounts (CamelSession *session)
 		account = (EAccount *) e_iterator_get (iterator);
 
 		if (account->enabled) {
+			CamelService *service;
 			const gchar *url;
 
 			url = e_account_get_string (
 				account, E_ACCOUNT_SOURCE_URL);
-			store = (CamelStore *) camel_session_get_service (
-				session, url, CAMEL_PROVIDER_STORE, NULL);
+			service = camel_session_get_service (
+				session, account->uid);
+			if (CAMEL_IS_STORE (service))
+				store = CAMEL_STORE (service);
 		}
 
 		e_iterator_next (iterator);

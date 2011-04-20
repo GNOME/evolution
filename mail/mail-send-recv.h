@@ -36,10 +36,9 @@ GtkWidget *	mail_send_receive		(GtkWindow *parent,
 GtkWidget *	mail_receive			(GtkWindow *parent,
 						 EMailSession *session);
 
-/* receive a single uri */
-void		mail_receive_uri		(EMailSession *session,
-						 const gchar *uri,
-						 gboolean keep_on_server);
+/* receive a single account */
+void		mail_receive_account		(EMailSession *session,
+						 EAccount *account);
 
 void		mail_send			(EMailSession *session);
 

@@ -658,9 +658,7 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 	g_object_ref (account);
 
 	store = (CamelOfflineStore *) camel_session_get_service (
-		CAMEL_SESSION (session),
-		e_account_get_string (account, E_ACCOUNT_SOURCE_URL),
-		CAMEL_PROVIDER_STORE, NULL);
+		CAMEL_SESSION (session), account->uid);
 	if (store == NULL)
 		return NULL;
 
@@ -723,8 +721,6 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 			}
 		}
 	}
-
-	g_object_unref (store);
 
 	return NULL;
 }

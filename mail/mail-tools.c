@@ -46,16 +46,18 @@
 #ifndef G_OS_WIN32
 
 static gchar *
-mail_tool_get_local_movemail_path (const guchar *uri,
+mail_tool_get_local_movemail_path (CamelStore *store,
                                    GError **error)
 {
-	guchar *safe_uri, *c;
+	const gchar *uid;
+	guchar *safe_uid, *c;
 	const gchar *data_dir;
 	gchar *path, *full;
 	struct stat st;
 
-	safe_uri = (guchar *)g_strdup ((const gchar *)uri);
-	for (c = safe_uri; *c; c++)
+	uid = camel_service_get_uid (CAMEL_SERVICE (store));
+	safe_uid = (guchar *)g_strdup ((const gchar *)uid);
+	for (c = safe_uid; *c; c++)
 		if (strchr("/:;=|%&#!*^()\\, ", *c) || !isprint((gint) *c))
 			*c = '_';
 
@@ -72,9 +74,9 @@ mail_tool_get_local_movemail_path (const guchar *uri,
 		return NULL;
 	}
 
-	full = g_strdup_printf("%s/movemail.%s", path, safe_uri);
+	full = g_strdup_printf("%s/movemail.%s", path, safe_uid);
 	g_free (path);
-	g_free (safe_uri);
+	g_free (safe_uid);
 
 	return full;
 }
@@ -82,38 +84,36 @@ mail_tool_get_local_movemail_path (const guchar *uri,
 #endif
 
 gchar *
-mail_tool_do_movemail (const gchar *source_url, GError **error)
+mail_tool_do_movemail (CamelStore *store,
+                       GError **error)
 {
 #ifndef G_OS_WIN32
 	gchar *dest_path;
 	struct stat sb;
-	CamelURL *uri;
+	CamelURL *url;
 	gboolean success;
 
-	uri = camel_url_new (source_url, error);
-	if (uri == NULL)
-		return NULL;
+	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
 
-	if (strcmp (uri->protocol, "mbox") != 0) {
+	url = camel_service_get_camel_url (CAMEL_SERVICE (store));
+
+	if (strcmp (url->protocol, "mbox") != 0) {
 		/* This is really only an internal error anyway */
 		g_set_error (
 			error, CAMEL_SERVICE_ERROR,
 			CAMEL_SERVICE_ERROR_URL_INVALID,
 			_("Trying to movemail a non-mbox source '%s'"),
-			source_url);
-		camel_url_free (uri);
+			camel_service_get_uid (CAMEL_SERVICE (store)));
 		return NULL;
 	}
 
 	/* Set up our destination. */
-	dest_path = mail_tool_get_local_movemail_path (
-		(guchar *) source_url, error);
+	dest_path = mail_tool_get_local_movemail_path (store, error);
 	if (dest_path == NULL)
 		return NULL;
 
 	/* Movemail from source (source_url) to dest_path */
-	success = camel_movemail (uri->path, dest_path, error) != -1;
-	camel_url_free (uri);
+	success = camel_movemail (url->path, dest_path, error) != -1;
 
 	if (g_stat (dest_path, &sb) < 0 || sb.st_size == 0) {
 		g_unlink (dest_path); /* Clean up the movemail.foo file. */

@@ -52,7 +52,7 @@ struct _proxyLoginClass {
 
 GType proxy_login_get_type (void);
 proxyLogin * proxy_login_new (void);
-static void proxy_login_add_new_store (gchar *uri, CamelStore *store, gpointer user_data);
+static void proxy_login_add_new_store (CamelStore *store, EAccount *account);
 static void proxy_login_setup_tree_view (void);
 proxyLogin* proxy_dialog_new (void);
 static void proxy_soap_login (gchar *email, GtkWindow *error_parent);

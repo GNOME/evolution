@@ -67,11 +67,11 @@ EMailSession *	e_mail_session_new		(void);
 MailFolderCache *
 		e_mail_session_get_folder_cache	(EMailSession *session);
 CamelFolder *	e_mail_session_get_inbox_sync	(EMailSession *session,
-						 const gchar *service_uri,
+						 const gchar *service_uid,
 						 GCancellable *cancellable,
 						 GError **error);
 void		e_mail_session_get_inbox	(EMailSession *session,
-						 const gchar *service_uri,
+						 const gchar *service_uid,
 						 gint io_priority,
 						 GCancellable *cancellable,
 						 GAsyncReadyCallback callback,
@@ -80,11 +80,11 @@ CamelFolder *	e_mail_session_get_inbox_finish	(EMailSession *session,
 						 GAsyncResult *result,
 						 GError **error);
 CamelFolder *	e_mail_session_get_trash_sync	(EMailSession *session,
-						 const gchar *service_uri,
+						 const gchar *service_uid,
 						 GCancellable *cancellable,
 						 GError **error);
 void		e_mail_session_get_trash	(EMailSession *session,
-						 const gchar *service_uri,
+						 const gchar *service_uid,
 						 gint io_priority,
 						 GCancellable *cancellable,
 						 GAsyncReadyCallback callback,

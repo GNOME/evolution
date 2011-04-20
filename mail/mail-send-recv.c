@@ -103,7 +103,7 @@ struct _send_info {
 	send_info_t type;		/* 0 = fetch, 1 = send */
 	EMailSession *session;
 	GCancellable *cancellable;
-	gchar *uri;
+	gchar *service_uid;
 	gboolean keep_on_server;
 	send_state_t state;
 	GtkWidget *progress_bar;
@@ -149,7 +149,7 @@ free_send_info (struct _send_info *info)
 		g_object_unref (info->session);
 	if (info->cancellable)
 		g_object_unref (info->cancellable);
-	g_free (info->uri);
+	g_free (info->service_uid);
 	if (info->timeout_id != 0)
 		g_source_remove (info->timeout_id);
 	g_free (info->what);
@@ -265,7 +265,7 @@ dialog_response (GtkDialog *gd, gint button, struct _send_data *data)
 }
 
 static GStaticMutex status_lock = G_STATIC_MUTEX_INIT;
-static gchar *format_url (const gchar *internal_url, const gchar *account_name);
+static gchar *format_url (EAccount *account, const gchar *internal_url);
 
 static gint
 operation_status_timeout (gpointer data)
@@ -283,7 +283,7 @@ operation_status_timeout (gpointer data)
 				GTK_LABEL (info->status_label),
 				info->what);
 		if (info->send_url && info->send_account_label) {
-			gchar *tmp = format_url (info->send_url, NULL);
+			gchar *tmp = format_url (NULL, info->send_url);
 
 			g_free (info->send_url);
 			info->send_url = NULL;
@@ -337,26 +337,27 @@ operation_status (CamelOperation *op,
 }
 
 static gchar *
-format_url (const gchar *internal_url, const gchar *account_name)
+format_url (EAccount *account,
+            const gchar *internal_url)
 {
 	CamelURL *url;
 	gchar *pretty_url = NULL;
 
 	url = camel_url_new (internal_url, NULL);
 
-	if (account_name) {
+	if (account != NULL && account->name != NULL) {
 		if (url->host && *url->host)
 			pretty_url = g_strdup_printf (
 				"<b>%s (%s)</b>: %s",
-				account_name, url->protocol, url->host);
+				account->name, url->protocol, url->host);
 		else if (url->path)
 			pretty_url = g_strdup_printf (
 				"<b>%s (%s)</b>: %s",
-				account_name, url->protocol, url->path);
+				account->name, url->protocol, url->path);
 		else
 			pretty_url = g_strdup_printf (
 				"<b>%s (%s)</b>",
-				account_name, url->protocol);
+				account->name, url->protocol);
 
 	} else if (url) {
 		if (url->host && *url->host)
@@ -379,7 +380,7 @@ format_url (const gchar *internal_url, const gchar *account_name)
 }
 
 static send_info_t
-get_receive_type (const gchar *url)
+get_receive_type (CamelURL *url)
 {
 	CamelProvider *provider;
 
@@ -388,7 +389,7 @@ get_receive_type (const gchar *url)
 	if (em_utils_is_local_delivery_mbox_file (url))
 		return SEND_RECEIVE;
 
-	provider = camel_provider_get (url, NULL);
+	provider = camel_provider_get (url->protocol, NULL);
 
 	if (!provider)
 		return SEND_INVALID;
@@ -410,7 +411,7 @@ build_dialog (GtkWindow *parent,
               EMailSession *session,
               EAccountList *accounts,
               CamelFolder *outbox,
-              const gchar *destination,
+              EAccount *outgoing_account,
               gboolean allow_send)
 {
 	GtkDialog *gd;
@@ -475,7 +476,7 @@ build_dialog (GtkWindow *parent,
 
 	/* Check to see if we have to send any mails.
 	 * If we don't, don't display the SMTP row in the table. */
-	if (outbox && destination
+	if (outbox && outgoing_account
 	 && (camel_folder_get_message_count (outbox) -
 		camel_folder_get_deleted_message_count (outbox)) == 0)
 		num_sources--;
@@ -516,11 +517,17 @@ build_dialog (GtkWindow *parent,
 		}
 
 		/* see if we have an outstanding download active */
-		info = g_hash_table_lookup (data->active, source->url);
+		info = g_hash_table_lookup (data->active, account->uid);
 		if (info == NULL) {
-			send_info_t type;
+			CamelURL *url;
+			send_info_t type = SEND_INVALID;
 
-			type = get_receive_type (source->url);
+			url = camel_url_new (source->url, NULL);
+			if (url != NULL) {
+				type = get_receive_type (url);
+				camel_url_free (url);
+			}
+
 			if (type == SEND_INVALID || type == SEND_SEND) {
 				e_iterator_next (iter);
 				continue;
@@ -532,7 +539,7 @@ build_dialog (GtkWindow *parent,
 
 			d(printf("adding source %s\n", source->url));
 
-			info->uri = g_strdup (source->url);
+			info->service_uid = g_strdup (account->uid);
 			info->keep_on_server = source->keep_on_server;
 			info->cancellable = camel_operation_new ();
 			info->state = allow_send ? SEND_ACTIVE : SEND_COMPLETE;
@@ -542,7 +549,8 @@ build_dialog (GtkWindow *parent,
 				info->cancellable, "status",
 				G_CALLBACK (operation_status), info);
 
-			g_hash_table_insert (data->active, info->uri, info);
+			g_hash_table_insert (
+				data->active, info->service_uid, info);
 			list = g_list_prepend (list, info);
 		} else if (info->progress_bar != NULL) {
 			/* incase we get the same source pop up again */
@@ -553,7 +561,7 @@ build_dialog (GtkWindow *parent,
 
 		recv_icon = gtk_image_new_from_icon_name (
 			"mail-inbox", GTK_ICON_SIZE_LARGE_TOOLBAR);
-		pretty_url = format_url (source->url, account->name);
+		pretty_url = format_url (account, source->url);
 		label = gtk_label_new (NULL);
 		gtk_label_set_ellipsize (
 			GTK_LABEL (label), PANGO_ELLIPSIZE_END);
@@ -612,21 +620,28 @@ build_dialog (GtkWindow *parent,
 		(EEvent *) em_event_peek (), "mail.sendreceive",
 		(EEventTarget *) target);
 
-	/* Skip displaying the SMTP row if we've got no outbox, destination or unsent mails */
-	if (allow_send && outbox && destination
+	/* Skip displaying the SMTP row if we've got no outbox,
+	 * outgoing account or unsent mails. */
+	if (allow_send && outbox && outgoing_account
 	 && (camel_folder_get_message_count (outbox) -
 		camel_folder_get_deleted_message_count (outbox)) != 0) {
 		info = g_hash_table_lookup (data->active, SEND_URI_KEY);
 		if (info == NULL) {
+			gchar *transport_uid;
+
+			transport_uid = g_strconcat (
+				outgoing_account->uid, "-transport", NULL);
+
 			info = g_malloc0 (sizeof (*info));
 			info->type = SEND_SEND;
-			d(printf("adding dest %s\n", destination));
 
-			info->uri = g_strdup (destination);
+			info->service_uid = g_strdup (transport_uid);
 			info->keep_on_server = FALSE;
 			info->cancellable = camel_operation_new ();
 			info->state = SEND_ACTIVE;
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
+
+			g_free (transport_uid);
 
 			g_signal_connect (
 				info->cancellable, "status",
@@ -639,7 +654,9 @@ build_dialog (GtkWindow *parent,
 
 		send_icon = gtk_image_new_from_icon_name (
 			"mail-outbox", GTK_ICON_SIZE_LARGE_TOOLBAR);
-		pretty_url = format_url (destination, NULL);
+		pretty_url = format_url (
+			outgoing_account,
+			outgoing_account->transport->url);
 		label = gtk_label_new (NULL);
 		gtk_label_set_ellipsize (
 			GTK_LABEL (label), PANGO_ELLIPSIZE_END);
@@ -756,20 +773,29 @@ receive_status (CamelFilterDriver *driver,
 
 /* when receive/send is complete */
 static void
-receive_done (const gchar *uri, gpointer data)
+receive_done (gpointer data)
 {
 	struct _send_info *info = data;
 
 	/* if we've been called to run again - run again */
 	if (info->type == SEND_SEND && info->state == SEND_ACTIVE && info->again) {
 		CamelFolder *local_outbox;
+		CamelService *service;
 
-		local_outbox = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
+		local_outbox = e_mail_local_get_folder (
+			E_MAIL_LOCAL_FOLDER_OUTBOX);
+
+		service = camel_session_get_service (
+			CAMEL_SESSION (info->session),
+			info->service_uid);
+
+		g_return_if_fail (CAMEL_IS_TRANSPORT (service));
 
 		info->again = 0;
 		mail_send_queue (
 			info->session,
-			local_outbox, info->uri,
+			local_outbox,
+			CAMEL_TRANSPORT (service),
 			E_FILTER_SOURCE_OUTGOING,
 			info->cancellable,
 			receive_get_folder, info,
@@ -802,7 +828,7 @@ receive_done (const gchar *uri, gpointer data)
 	if (info->type == SEND_SEND)
 		g_hash_table_steal (info->data->active, SEND_URI_KEY);
 	else
-		g_hash_table_steal (info->data->active, info->uri);
+		g_hash_table_steal (info->data->active, info->service_uid);
 	info->data->infos = g_list_remove (info->data->infos, info);
 
 	if (g_hash_table_size (info->data->active) == 0) {
@@ -938,7 +964,7 @@ refresh_folders_exec (struct _refresh_folders_msg *m,
 static void
 refresh_folders_done (struct _refresh_folders_msg *m)
 {
-	receive_done("", m->info);
+	receive_done (m->info);
 }
 
 static void
@@ -985,17 +1011,17 @@ receive_update_got_folderinfo (MailFolderCache *folder_cache,
 		/* do not free folder info, we will free it later */
 		return FALSE;
 	} else {
-		receive_done ("", data);
+		receive_done (data);
 	}
 
 	return TRUE;
 }
 
 static void
-receive_update_got_store (gchar *uri, CamelStore *store, gpointer data)
+receive_update_got_store (CamelStore *store,
+                          struct _send_info *info)
 {
 	MailFolderCache *folder_cache;
-	struct _send_info *info = data;
 
 	folder_cache = e_mail_session_get_folder_cache (info->session);
 
@@ -1006,7 +1032,7 @@ receive_update_got_store (gchar *uri, CamelStore *store, gpointer data)
 			store, info->cancellable,
 			receive_update_got_folderinfo, info);
 	} else {
-		receive_done("", info);
+		receive_done (info);
 	}
 }
 
@@ -1038,15 +1064,22 @@ send_receive (GtkWindow *parent, EMailSession *session, gboolean allow_send)
 	local_outbox = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
 	data = build_dialog (
 		parent, session, accounts,
-		local_outbox, account->transport->url, allow_send);
-	scan = data->infos;
-	while (scan) {
+		local_outbox, account, allow_send);
+
+	for (scan = data->infos; scan != NULL; scan = scan->next) {
 		struct _send_info *info = scan->data;
+		CamelService *service;
+
+		service = camel_session_get_service (
+			CAMEL_SESSION (session), info->service_uid);
+
+		if (!CAMEL_IS_SERVICE (service))
+			continue;
 
 		switch (info->type) {
 		case SEND_RECEIVE:
 			mail_fetch_mail (
-				session, info->uri,
+				CAMEL_STORE (service),
 				info->keep_on_server,
 				E_FILTER_SOURCE_INCOMING,
 				info->cancellable,
@@ -1057,7 +1090,8 @@ send_receive (GtkWindow *parent, EMailSession *session, gboolean allow_send)
 		case SEND_SEND:
 			/* todo, store the folder in info? */
 			mail_send_queue (
-				session, local_outbox, info->uri,
+				session, local_outbox,
+				CAMEL_TRANSPORT (service),
 				E_FILTER_SOURCE_OUTGOING,
 				info->cancellable,
 				receive_get_folder, info,
@@ -1065,14 +1099,12 @@ send_receive (GtkWindow *parent, EMailSession *session, gboolean allow_send)
 				receive_done, info);
 			break;
 		case SEND_UPDATE:
-			mail_get_store (
-				session, info->uri, info->cancellable,
-				receive_update_got_store, info);
+			receive_update_got_store (
+				CAMEL_STORE (service), info);
 			break;
 		default:
 			break;
 		}
-		scan = scan->next;
 	}
 
 	return send_recv_dialog;
@@ -1104,16 +1136,8 @@ auto_timeout (gpointer data)
 {
 	struct _auto_data *info = data;
 
-	if (camel_session_get_online (CAMEL_SESSION (info->session))) {
-		const gchar *uri;
-		gboolean keep_on_server;
-
-		uri = e_account_get_string (
-			info->account, E_ACCOUNT_SOURCE_URL);
-		keep_on_server = e_account_get_bool (
-			info->account, E_ACCOUNT_SOURCE_KEEP_ON_SERVER);
-		mail_receive_uri (info->session, uri, keep_on_server);
-	}
+	if (camel_session_get_online (CAMEL_SESSION (info->session)))
+		mail_receive_account (info->session, info->account);
 
 	return TRUE;
 }
@@ -1288,37 +1312,38 @@ mail_autoreceive_init (EMailBackend *backend)
 /* We setup the download info's in a hashtable, if we later
  * need to build the gui, we insert them in to add them. */
 void
-mail_receive_uri (EMailSession *session,
-                  const gchar *uri,
-                  gboolean keep_on_server)
+mail_receive_account (EMailSession *session,
+                      EAccount *account)
 {
 	struct _send_info *info;
 	struct _send_data *data;
 	CamelFolder *local_outbox;
-	send_info_t type;
+	CamelService *service;
+	CamelURL *url;
+	send_info_t type = SEND_INVALID;
 
 	data = setup_send_data ();
-	info = g_hash_table_lookup (data->active, uri);
-	if (info != NULL) {
-		d(printf("download of %s still in progress\n", uri));
+	info = g_hash_table_lookup (data->active, account->uid);
+
+	if (info != NULL)
 		return;
+
+	url = camel_url_new (account->source->url, NULL);
+	if (url != NULL) {
+		type = get_receive_type (url);
+		camel_url_free (url);
 	}
 
-	d(printf("starting non-interactive download of '%s'\n", uri));
-
-	type = get_receive_type (uri);
-	if (type == SEND_INVALID || type == SEND_SEND) {
-		d(printf ("unsupported provider: '%s'\n", uri));
+	if (type == SEND_INVALID || type == SEND_SEND)
 		return;
-	}
 
 	info = g_malloc0 (sizeof (*info));
 	info->type = type;
 	info->session = g_object_ref (session);
 	info->progress_bar = NULL;
 	info->status_label = NULL;
-	info->uri = g_strdup (uri);
-	info->keep_on_server = keep_on_server;
+	info->service_uid = g_strdup (account->uid);
+	info->keep_on_server = account->source->keep_on_server;
 	info->cancellable = camel_operation_new ();
 	info->cancel_button = NULL;
 	info->data = data;
@@ -1331,12 +1356,17 @@ mail_receive_uri (EMailSession *session,
 
 	d(printf("Adding new info %p\n", info));
 
-	g_hash_table_insert (data->active, info->uri, info);
+	g_hash_table_insert (data->active, account->uid, info);
+
+	service = camel_session_get_service (
+		CAMEL_SESSION (session), account->uid);
+
+	g_return_if_fail (CAMEL_IS_SERVICE (service));
 
 	switch (info->type) {
 	case SEND_RECEIVE:
 		mail_fetch_mail (
-			info->session, info->uri,
+			CAMEL_STORE (service),
 			info->keep_on_server,
 			E_FILTER_SOURCE_INCOMING,
 			info->cancellable,
@@ -1346,10 +1376,12 @@ mail_receive_uri (EMailSession *session,
 		break;
 	case SEND_SEND:
 		/* todo, store the folder in info? */
-		local_outbox = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
+		local_outbox = e_mail_local_get_folder (
+			E_MAIL_LOCAL_FOLDER_OUTBOX);
 		mail_send_queue (
 			info->session,
-			local_outbox, info->uri,
+			local_outbox,
+			CAMEL_TRANSPORT (service),
 			E_FILTER_SOURCE_OUTGOING,
 			info->cancellable,
 			receive_get_folder, info,
@@ -1357,10 +1389,7 @@ mail_receive_uri (EMailSession *session,
 			receive_done, info);
 		break;
 	case SEND_UPDATE:
-		mail_get_store (
-			info->session,
-			info->uri, info->cancellable,
-			receive_update_got_store, info);
+		receive_update_got_store (CAMEL_STORE (service), info);
 		break;
 	default:
 		g_return_if_reached ();
@@ -1371,13 +1400,16 @@ void
 mail_send (EMailSession *session)
 {
 	CamelFolder *local_outbox;
-	EAccountService *transport;
+	CamelService *service;
+	EAccount *account;
+	CamelURL *url;
 	struct _send_info *info;
 	struct _send_data *data;
-	send_info_t type;
+	send_info_t type = SEND_INVALID;
+	gchar *transport_uid;
 
-	transport = e_get_default_transport ();
-	if (!transport || !transport->url)
+	account = e_get_default_transport ();
+	if (account == NULL || account->transport->url == NULL)
 		return;
 
 	data = setup_send_data ();
@@ -1390,18 +1422,23 @@ mail_send (EMailSession *session)
 
 	d(printf("starting non-interactive send of '%s'\n", transport->url));
 
-	type = get_receive_type (transport->url);
-	if (type == SEND_INVALID) {
-		d(printf ("unsupported provider: '%s'\n", transport->url));
-		return;
+	url = camel_url_new (account->transport->url, NULL);
+	if (url != NULL) {
+		type = get_receive_type (url);
+		camel_url_free (url);
 	}
+
+	if (type == SEND_INVALID)
+		return;
+
+	transport_uid = g_strconcat (account->uid, "-transport", NULL);
 
 	info = g_malloc0 (sizeof (*info));
 	info->type = SEND_SEND;
 	info->session = g_object_ref (session);
 	info->progress_bar = NULL;
 	info->status_label = NULL;
-	info->uri = g_strdup (transport->url);
+	info->service_uid = g_strdup (transport_uid);
 	info->keep_on_server = FALSE;
 	info->cancellable = NULL;
 	info->cancel_button = NULL;
@@ -1415,9 +1452,17 @@ mail_send (EMailSession *session)
 
 	/* todo, store the folder in info? */
 	local_outbox = e_mail_local_get_folder (E_MAIL_LOCAL_FOLDER_OUTBOX);
+
+	service = camel_session_get_service (
+		CAMEL_SESSION (session), transport_uid);
+
+	g_free (transport_uid);
+
+	g_return_if_fail (CAMEL_IS_TRANSPORT (service));
+
 	mail_send_queue (
-		session,
-		local_outbox, info->uri,
+		session, local_outbox,
+		CAMEL_TRANSPORT (service),
 		E_FILTER_SOURCE_OUTGOING,
 		info->cancellable,
 		receive_get_folder, info,

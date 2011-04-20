@@ -51,9 +51,8 @@ struct _AsyncContext {
 	GPtrArray *post_to_uris;
 
 	gchar *folder_uri;
-	gchar *destination;
 	gchar *message_uid;
-	gchar *transport_uri;
+	gchar *transport_uid;
 	gchar *sent_folder_uri;
 };
 
@@ -93,9 +92,8 @@ async_context_free (AsyncContext *context)
 	}
 
 	g_free (context->folder_uri);
-	g_free (context->destination);
 	g_free (context->message_uid);
-	g_free (context->transport_uri);
+	g_free (context->transport_uid);
 	g_free (context->sent_folder_uri);
 
 	g_slice_free (AsyncContext, context);
@@ -401,36 +399,30 @@ mail_session_send_to_thread (GSimpleAsyncResult *simple,
 
 	/* Send the message to all recipients. */
 	if (camel_address_length (context->recipients) > 0) {
-		CamelTransport *transport;
 		CamelProvider *provider;
 		CamelService *service;
 
-		/* XXX This API does not allow for cancellation. */
-		transport = camel_session_get_transport (
-			CAMEL_SESSION (session),
-			context->transport_uri, &error);
+		service = camel_session_get_service (
+			CAMEL_SESSION (session), context->transport_uid);
 
-		if (error != NULL) {
-			g_warn_if_fail (transport == NULL);
+		g_return_if_fail (CAMEL_IS_TRANSPORT (service));
+
+		/* XXX This API does not allow for cancellation. */
+		if (!camel_service_connect_sync (service, &error)) {
 			g_simple_async_result_set_from_error (simple, error);
 			g_error_free (error);
 			return;
 		}
 
-		g_return_if_fail (CAMEL_IS_TRANSPORT (transport));
-
-		service = CAMEL_SERVICE (transport);
 		provider = camel_service_get_provider (service);
 
 		if (provider->flags & CAMEL_PROVIDER_DISABLE_SENT_FOLDER)
 			copy_to_sent = FALSE;
 
 		camel_transport_send_to_sync (
-			transport, context->message,
-			context->from, context->recipients,
-			cancellable, &error);
-
-		g_object_unref (transport);
+			CAMEL_TRANSPORT (service),
+			context->message, context->from,
+			context->recipients, cancellable, &error);
 
 		if (error != NULL) {
 			g_simple_async_result_set_from_error (simple, error);
@@ -622,7 +614,6 @@ exit:
 void
 e_mail_session_send_to (EMailSession *session,
                         CamelMimeMessage *message,
-                        const gchar *destination,
                         gint io_priority,
                         GCancellable *cancellable,
                         CamelFilterGetFolderFunc get_folder_func,
@@ -642,7 +633,7 @@ e_mail_session_send_to (EMailSession *session,
 	struct _camel_header_raw *header;
 	const gchar *string;
 	const gchar *resent_from;
-	gchar *transport_uri = NULL;
+	gchar *transport_uid = NULL;
 	gchar *sent_folder_uri = NULL;
 	GError *error = NULL;
 
@@ -668,7 +659,12 @@ e_mail_session_send_to (EMailSession *session,
 
 	if (account != NULL) {
 		if (account->transport != NULL) {
-			transport_uri = g_strdup (account->transport->url);
+
+			/* XXX Transport UIDs are kludgy right now.  We
+			 *     use the EAccount's regular UID and tack on
+			 *     "-transport".  Will be better soon. */
+			transport_uid = g_strconcat (
+				account->uid, "-transport", NULL);
 
 			/* to reprompt password on sending if needed */
 			account->transport->get_password_canceled = FALSE;
@@ -677,15 +673,12 @@ e_mail_session_send_to (EMailSession *session,
 	}
 
 	string = camel_header_raw_find (&xev, "X-Evolution-Transport", NULL);
-	if (transport_uri == NULL && string != NULL)
-		transport_uri = g_strstrip (g_strdup (string));
+	if (transport_uid == NULL && string != NULL)
+		transport_uid = g_strstrip (g_strdup (string));
 
 	string = camel_header_raw_find (&xev, "X-Evolution-Fcc", NULL);
 	if (sent_folder_uri == NULL && string != NULL)
 		sent_folder_uri = g_strstrip (g_strdup (string));
-
-	if (transport_uri == NULL)
-		transport_uri = g_strdup (destination);
 
 	post_to_uris = g_ptr_array_new ();
 	for (header = xev; header != NULL; header = header->next) {
@@ -751,7 +744,6 @@ e_mail_session_send_to (EMailSession *session,
 
 	context = g_slice_new0 (AsyncContext);
 	context->message = g_object_ref (message);
-	context->destination = g_strdup (destination);
 	context->io_priority = io_priority;
 	context->from = from;
 	context->recipients = recipients;
@@ -759,7 +751,7 @@ e_mail_session_send_to (EMailSession *session,
 	context->info = info;
 	context->xev = xev;
 	context->post_to_uris = post_to_uris;
-	context->transport_uri = transport_uri;
+	context->transport_uid = transport_uid;
 	context->sent_folder_uri = sent_folder_uri;
 
 	if (G_IS_CANCELLABLE (cancellable))
@@ -841,7 +833,7 @@ e_mail_session_unsubscribe_folder_sync (EMailSession *session,
                                         GError **error)
 {
 	CamelURL *url;
-	CamelStore *store;
+	CamelService *service;
 	CamelProvider *provider;
 	const gchar *message;
 	const gchar *path = NULL;
@@ -853,16 +845,21 @@ e_mail_session_unsubscribe_folder_sync (EMailSession *session,
 	message = _("Unsubscribing from folder '%s'");
 	camel_operation_push_message (cancellable, message, folder_uri);
 
-	store = camel_session_get_store (
-		CAMEL_SESSION (session), folder_uri, error);
-	if (store == NULL)
-		goto exit;
-
 	url = camel_url_new (folder_uri, error);
 	if (url == NULL)
 		goto exit;
 
-	provider = camel_service_get_provider (CAMEL_SERVICE (store));
+	service = camel_session_get_service_by_url (
+		CAMEL_SESSION (session), url);
+
+	if (!CAMEL_IS_STORE (service))
+		goto exit;
+
+	/* FIXME This should take our GCancellable. */
+	if (!camel_service_connect_sync (service, error))
+		goto exit;
+
+	provider = camel_service_get_provider (service);
 
 	if (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
 		path = url->fragment;
@@ -872,7 +869,7 @@ e_mail_session_unsubscribe_folder_sync (EMailSession *session,
 	g_return_val_if_fail (path != NULL, FALSE);
 
 	success = camel_store_unsubscribe_folder_sync (
-		store, path, cancellable, error);
+		CAMEL_STORE (service), path, cancellable, error);
 
 	camel_url_free (url);
 

@@ -249,7 +249,8 @@ users_dialog_response (GtkWidget *dialog, gint response, struct ShareInfo *ssi)
 	EMFolderSelector *emfs = ssi->emfs;
 	const gchar *uri, *path;
 	EMailSession *session;
-	CamelStore *store;
+	CamelService *service = NULL;
+	CamelURL *url;
 
 	if (response != GTK_RESPONSE_OK) {
 		gtk_widget_destroy ((GtkWidget *) emfs);
@@ -263,18 +264,24 @@ users_dialog_response (GtkWidget *dialog, gint response, struct ShareInfo *ssi)
 
 	d(printf ("Creating new folder: %s (%s)\n", path, uri));
 
-	store = (CamelStore *) camel_session_get_service (
-		CAMEL_SESSION (session), uri, CAMEL_PROVIDER_STORE, NULL);
-	if (store == NULL)
+	url = camel_url_new (uri, NULL);
+	if (url != NULL) {
+		service = camel_session_get_service_by_url (
+			CAMEL_SESSION (session), url);
+		camel_url_free (url);
+	}
+
+	if (!CAMEL_IS_STORE (service))
 		return;
 
-	if (!(si = em_folder_tree_model_lookup_store_info (ssi->model, store))) {
+	si = em_folder_tree_model_lookup_store_info (
+		ssi->model, CAMEL_STORE (service));
+	if (si == NULL) {
 		g_assert_not_reached ();
-		g_object_unref (store);
 		return;
 	}
 
-	if (CAMEL_IS_VEE_STORE (store)) {
+	if (CAMEL_IS_VEE_STORE (service)) {
 		EFilterRule *rule;
 
 		rule = em_vfolder_rule_new (session);
@@ -287,7 +294,6 @@ users_dialog_response (GtkWidget *dialog, gint response, struct ShareInfo *ssi)
 		create_folder (si->store, path, new_folder_created_cb, ssi);
 
 	}
-	g_object_unref (store);
 }
 
 static void
@@ -299,7 +305,8 @@ new_folder_response (EMFolderSelector *emfs, gint response, EMFolderTreeModel *m
 	struct ShareInfo *ssi;
 	const gchar *uri;
 	EGwConnection *cnc;
-	CamelStore *store;
+	CamelService *service = NULL;
+	CamelURL *url;
 
 	ssi = g_new0 (struct ShareInfo, 1);
 	if (response != GTK_RESPONSE_OK) {
@@ -309,12 +316,17 @@ new_folder_response (EMFolderSelector *emfs, gint response, EMFolderTreeModel *m
 
 	/* i want store at this point to get cnc not sure proper or not*/
 	uri = em_folder_selector_get_selected_uri (emfs);
-	store = (CamelStore *) camel_session_get_service (
-		session, uri, CAMEL_PROVIDER_STORE, NULL);
-	if (store == NULL)
+
+	url = camel_url_new (uri, NULL);
+	if (url != NULL) {
+		service = camel_session_get_service_by_url (session, url);
+		camel_url_free (url);
+	}
+
+	if (!CAMEL_IS_STORE (service))
 		return;
 
-	cnc = get_cnc (store);
+	cnc = get_cnc (CAMEL_STORE (service));
 	users_dialog = gtk_dialog_new_with_buttons (
 			_("Users"), NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 	w = gtk_label_new_with_mnemonic (_("Enter the users and set permissions"));
@@ -330,10 +342,6 @@ new_folder_response (EMFolderSelector *emfs, gint response, EMFolderTreeModel *m
 	gtk_window_resize (GTK_WINDOW (users_dialog), 350, 300);
 	gtk_widget_show (users_dialog);
 	g_signal_connect (users_dialog, "response", G_CALLBACK (users_dialog_response), ssi);
-
-	g_object_unref (store);
-	return;
-
 }
 
 void

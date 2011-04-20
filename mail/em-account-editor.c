@@ -1932,9 +1932,7 @@ emae_refresh_authtype (EMAccountEditor *emae, EMAccountEditorService *service)
 }
 
 static void
-emae_check_authtype_done (const gchar *uri,
-                          CamelProviderType type,
-                          GList *types,
+emae_check_authtype_done (GList *types,
                           gpointer data)
 {
 	EMAccountEditorService **pservice = data;
@@ -2000,6 +1998,7 @@ emae_check_authtype (GtkWidget *w,
 	EAccount *account;
 	GtkWidget *editor;
 	const gchar *uri;
+	gchar *uid;
 
 	account = em_account_editor_get_modified_account (emae);
 	editor = E_CONFIG (service->emae->config)->window;
@@ -2017,12 +2016,18 @@ emae_check_authtype (GtkWidget *w,
 	if (editor != NULL)
 		gtk_widget_set_sensitive (editor, FALSE);
 
+	if (service->type == CAMEL_PROVIDER_TRANSPORT)
+		uid = g_strconcat (account->uid, "-transport", NULL);
+	else
+		uid = g_strdup (account->uid);
+
 	pservice = g_new0 (EMAccountEditorService *, 1);
 	*pservice = service;
 	service->check_data = pservice;
 	service->check_id = mail_check_service (
-		session, uri, service->type,
-		emae_check_authtype_done, pservice);
+		session, uid, emae_check_authtype_done, pservice);
+
+	g_free (uid);
 }
 
 static void
@@ -3772,21 +3777,9 @@ emae_commit (EConfig *ec, GSList *items, gpointer data)
 		    && emae->priv->source.provider
 		    && (emae->priv->source.provider->flags & CAMEL_PROVIDER_IS_STORAGE)) {
 			EMailSession *session;
-			CamelStore *store;
-			const gchar *uri;
 
 			session = em_account_editor_get_session (emae);
-			uri = e_account_get_string (
-				modified_account, E_ACCOUNT_SOURCE_URL);
-			store = (CamelStore *) camel_session_get_service (
-				CAMEL_SESSION (session), uri,
-				CAMEL_PROVIDER_STORE, NULL);
-			if (store != NULL) {
-				e_mail_store_add (
-					session, store,
-					modified_account->name);
-				g_object_unref (store);
-			}
+			e_mail_store_add_by_account (session, account);
 		}
 	}
 
