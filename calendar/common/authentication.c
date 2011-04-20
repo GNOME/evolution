@@ -32,13 +32,31 @@
 #include "authentication.h"
 #include <libedataserver/e-url.h>
 
+static gboolean
+get_remember_password (ESource *source)
+{
+	const gchar *value;
+
+	value = e_source_get_property (source, "remember_password");
+	if (value && !g_ascii_strcasecmp (value, "true"))
+		return TRUE;
+
+	return FALSE;
+}
+
+static void
+set_remember_password (ESource *source, gboolean value)
+{
+	e_source_set_property (source, "remember_password",
+			       value ? "true" : "false");
+}
+
 static gchar *
 auth_func_cb (ECal *ecal,
               const gchar *prompt,
               const gchar *key,
               gpointer user_data)
 {
-	gboolean remember;
 	gchar *password, *auth_domain;
 	ESource *source;
 	const gchar *component_name;
@@ -48,7 +66,11 @@ auth_func_cb (ECal *ecal,
 	component_name = auth_domain ? auth_domain : "Calendar";
 	password = e_passwords_get_password (component_name, key);
 
-	if (!password)
+	if (!password) {
+		gboolean remember;
+
+		remember = get_remember_password (source);
+
 		password = e_passwords_ask_password (
 			_("Enter password"),
 			component_name, key, prompt,
@@ -56,6 +78,10 @@ auth_func_cb (ECal *ecal,
 			E_PASSWORDS_SECRET |
 			E_PASSWORDS_ONLINE,
 			&remember, NULL);
+
+		if (password)
+			set_remember_password (source, remember);
+	}
 
 	g_free (auth_domain);
 
@@ -179,7 +205,6 @@ load_cal_source_authenticate (ECal *cal,
 {
 	const gchar *auth_component;
 	const gchar *title;
-	gboolean remember;  /* not used */
 	GtkWindow *parent;
 	gchar *password;
 
@@ -202,12 +227,21 @@ load_cal_source_authenticate (ECal *cal,
 
 	password = e_passwords_get_password (auth_component, uri);
 
-	if (password == NULL)
+	if (password == NULL) {
+		gboolean remember;
+		ESource *source = e_cal_get_source (cal);
+
+		remember = get_remember_password (source);
+
 		password = e_passwords_ask_password (
 			title, auth_component, uri,
 			prompt, E_PASSWORDS_REMEMBER_FOREVER |
 			E_PASSWORDS_SECRET | E_PASSWORDS_ONLINE,
 			&remember, parent);
+
+		if (password)
+			set_remember_password (source, remember);
+	}
 
 	return password;
 }
