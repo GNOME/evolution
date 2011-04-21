@@ -655,6 +655,10 @@ mail_browser_constructed (GObject *object)
 	priv->main_toolbar = g_object_ref (widget);
 	gtk_widget_show (widget);
 
+	gtk_style_context_add_class (
+		gtk_widget_get_style_context (widget),
+		GTK_STYLE_CLASS_PRIMARY_TOOLBAR);
+
 	widget = e_alert_bar_new ();
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	priv->alert_bar = g_object_ref (widget);
