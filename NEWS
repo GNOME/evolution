@@ -1,3 +1,28 @@
+Evolution 2.32.3 2011-04-21
+---------------------------
+
+Bug Fixes:
+	Bug 371705 - Calendar's day view does not reset its IM context
+	             (Milan Crha)
+	Bug 639483 - Category list includes weather information (Milan Crha)
+	Bug 640829 - Can drop text/plain message lines in message preview
+	             (Milan Crha)
+	Bug 644164 - Using outdated Connman D-Bus names (Hao H Li)
+	Bug 644301 - Invalid GVariant format in NetworkManager module
+	             (Milan Crha)
+	Bug 646164 - Order matters, process master object first, then
+	             detached instances Milan Crha)
+	Bug 647698 - Selected calendar doesnt authenticate after
+	             offline/online (Matthew Barnes)
+	Bug 647816 - Moving folder hierarchy causes error (David Woodhouse)
+	Bug 648317 - MeeGo shell looking for the wrong atom (Abner Silva)
+
+Translations:
+	Rudolfs Mazurs (lv)
+	Lucian Adrian Grijincu (ro)
+	Daniel Nylander (sv)
+
+
 Evolution 2.32.2 2011-02-07
 ---------------------------
 
