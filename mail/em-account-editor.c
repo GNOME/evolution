@@ -130,6 +130,7 @@ typedef struct _EMAccountEditorService {
 
 	GtkWidget *check_dialog;
 	gint check_id;
+	struct _EMAccountEditorService **check_data;
 
 	GList *authtypes;	/* if "Check supported" */
 	CamelProvider *provider;
@@ -1936,8 +1937,17 @@ emae_check_authtype_done (const gchar *uri,
                           GList *types,
                           gpointer data)
 {
-	EMAccountEditorService *service = data;
+	EMAccountEditorService **pservice = data;
+	EMAccountEditorService *service;
 	GtkWidget *editor;
+
+	g_return_if_fail (pservice != NULL);
+
+	service = *pservice;
+	if (!service) {
+		g_free (pservice);
+		return;
+	}
 
 	editor = E_CONFIG (service->emae->config)->window;
 
@@ -1954,7 +1964,10 @@ emae_check_authtype_done (const gchar *uri,
 		gtk_widget_set_sensitive (editor, TRUE);
 
 	service->check_id = -1;
+	service->check_data = NULL;
 	g_object_unref (service->emae);
+	*pservice = NULL;
+	g_free (pservice);
 }
 
 static void
@@ -1966,6 +1979,9 @@ emae_check_authtype_response (GtkWidget *d,
 
 	editor = E_CONFIG (service->emae->config)->window;
 
+	if (service->check_data)
+		(*service->check_data) = NULL;
+	service->check_data = NULL;
 	mail_msg_cancel (service->check_id);
 	gtk_widget_destroy (service->check_dialog);
 	service->check_dialog = NULL;
@@ -1979,6 +1995,7 @@ emae_check_authtype (GtkWidget *w,
                      EMAccountEditorService *service)
 {
 	EMAccountEditor *emae = service->emae;
+	EMAccountEditorService **pservice;
 	EMailSession *session;
 	EAccount *account;
 	GtkWidget *editor;
@@ -2000,9 +2017,12 @@ emae_check_authtype (GtkWidget *w,
 	if (editor != NULL)
 		gtk_widget_set_sensitive (editor, FALSE);
 
+	pservice = g_new0 (EMAccountEditorService *, 1);
+	*pservice = service;
+	service->check_data = pservice;
 	service->check_id = mail_check_service (
 		session, uri, service->type,
-		emae_check_authtype_done, service);
+		emae_check_authtype_done, pservice);
 }
 
 static void
