@@ -51,7 +51,7 @@ e_mail_local_init (EMailSession *session,
 	CamelURL *url;
 	gchar *temp;
 	gint ii;
-	GError *local_error = NULL;
+	GError *error = NULL;
 
 	if (mail_local_initialized)
 		return;
@@ -70,10 +70,10 @@ e_mail_local_init (EMailSession *session,
 	temp = camel_url_to_string (url, 0);
 	service = camel_session_add_service (
 		CAMEL_SESSION (session), "local", temp,
-		CAMEL_PROVIDER_STORE, &local_error);
+		CAMEL_PROVIDER_STORE, &error);
 	g_free (temp);
 
-	if (local_error != NULL)
+	if (error != NULL)
 		goto fail;
 
 	/* Populate the rest of the default_local_folders array. */
@@ -92,12 +92,17 @@ e_mail_local_init (EMailSession *session,
 		if (!strcmp (display_name, "Inbox"))
 			default_local_folders[ii].folder =
 				camel_store_get_inbox_folder_sync (
-				CAMEL_STORE (service), NULL, NULL);
+				CAMEL_STORE (service), NULL, &error);
 		else
 			default_local_folders[ii].folder =
 				camel_store_get_folder_sync (
 				CAMEL_STORE (service), display_name,
-				CAMEL_STORE_FOLDER_CREATE, NULL, NULL);
+				CAMEL_STORE_FOLDER_CREATE, NULL, &error);
+
+		if (error != NULL) {
+			g_critical ("%s", error->message);
+			g_clear_error (&error);
+		}
 	}
 
 	camel_url_free (url);
@@ -108,11 +113,11 @@ e_mail_local_init (EMailSession *session,
 	return;
 
 fail:
-	g_warning (
+	g_critical (
 		"Could not initialize local store/folder: %s",
-		local_error->message);
+		error->message);
 
-	g_error_free (local_error);
+	g_error_free (error);
 	camel_url_free (url);
 }
 
