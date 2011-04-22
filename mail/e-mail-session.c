@@ -1282,8 +1282,12 @@ e_mail_session_uri_to_folder_sync (EMailSession *session,
 	g_return_val_if_fail (E_IS_MAIL_SESSION (session), NULL);
 	g_return_val_if_fail (folder_uri != NULL, NULL);
 
+	url = camel_url_new (folder_uri, NULL);
+	g_return_val_if_fail (url, NULL);
+
+	/* url->path[1] skips the leading "/" */
 	camel_operation_push_message (
-		cancellable, _("Opening folder '%s'"), folder_uri);
+		cancellable, _("Opening folder '%s'"), &url->path[1]);
 
 	/* FIXME vtrash and vjunk are no longer used for these URI's. */
 	if (g_str_has_prefix (folder_uri, "vtrash:")) {
@@ -1299,11 +1303,12 @@ e_mail_session_uri_to_folder_sync (EMailSession *session,
 		if (camel_uri == NULL) {
 			g_set_error (
 				error, CAMEL_ERROR, CAMEL_ERROR_GENERIC,
-				_("Invalid folder: %s"), folder_uri);
+				_("Invalid folder: %s"), &url->path[1]);
 			goto exit;
 		}
 		folder_uri = camel_uri;
 	}
+	camel_url_free (url);
 
 	url = camel_url_new (folder_uri, error);
 
