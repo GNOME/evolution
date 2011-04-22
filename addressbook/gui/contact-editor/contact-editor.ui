@@ -1584,7 +1584,6 @@
                                 <property name="right_padding">10</property>
                                 <child>
                                   <object class="GtkHBox" id="hbox59">
-                                    <property name="height_request">50</property>
                                     <property name="visible">True</property>
                                     <child>
                                       <object class="GtkTable" id="table-home-address">
@@ -1827,7 +1826,6 @@
                                 <property name="right_padding">10</property>
                                 <child>
                                   <object class="GtkHBox" id="hbox98">
-                                    <property name="height_request">50</property>
                                     <property name="visible">True</property>
                                     <child>
                                       <object class="GtkTable" id="table-work-address">
@@ -2069,7 +2067,6 @@
                                 <property name="right_padding">10</property>
                                 <child>
                                   <object class="GtkHBox" id="hbox103">
-                                    <property name="height_request">50</property>
                                     <property name="visible">True</property>
                                     <child>
                                       <object class="GtkTable" id="table-other-address">
