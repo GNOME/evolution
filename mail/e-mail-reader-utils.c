@@ -106,7 +106,7 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 
 	container = e_alert_dialog_get_content_area (E_ALERT_DIALOG (dialog));
 
-	label = _("Do not ask me again");
+	label = _("Do not warn me again");
 	check_button = gtk_check_button_new_with_label (label);
 	gtk_box_pack_start (GTK_BOX (container), check_button, TRUE, TRUE, 6);
 	gtk_widget_show (check_button);

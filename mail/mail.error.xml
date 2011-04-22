@@ -244,10 +244,9 @@ Many email systems add an Apparently-To header to messages that only have BCC re
     <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
   </error>
 
-  <error id="ask-delete-vfolder-msg" type="question" default="GTK_RESPONSE_CANCEL">
-    <_primary>Delete messages in Search Folder "{0}"?</_primary>
-    <_secondary xml:space="preserve">Warning: Deleting messages from a Search Folder will delete the actual message from one of your local or remote folders.
-Do you really want to do this?</_secondary>
+  <error id="ask-delete-vfolder-msg" type="warning" default="GTK_RESPONSE_CANCEL">
+    <_primary>These messages are not copies.</_primary>
+    <_secondary xml:space="preserve">Messages shown in Search Folders are not copies. Deleting them from a Search Folder will delete the actual messages from the folder or folders in which they physically reside. Do you really want to delete these messages?</_secondary>
     <button _label="Do _Not Delete" response="GTK_RESPONSE_CANCEL"/>
     <button stock="gtk-delete" response="GTK_RESPONSE_OK"/>
   </error>
