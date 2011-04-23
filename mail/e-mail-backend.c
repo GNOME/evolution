@@ -49,10 +49,15 @@
 #include "mail/mail-ops.h"
 #include "mail/mail-vfolder.h"
 
+#define E_MAIL_BACKEND_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_BACKEND, EMailBackendPrivate))
+
 #define QUIT_POLL_INTERVAL 1  /* seconds */
 
 struct _EMailBackendPrivate {
 	EMailSession *session;
+	GHashTable *jobs;
 };
 
 enum {
@@ -395,6 +400,83 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 }
 
 static void
+mail_backend_job_started_cb (CamelSession *session,
+                             GCancellable *cancellable,
+                             EShellBackend *shell_backend)
+{
+	EMailBackendPrivate *priv;
+	EActivity *activity;
+
+	priv = E_MAIL_BACKEND_GET_PRIVATE (shell_backend);
+
+	activity = e_activity_new ();
+	e_activity_set_cancellable (activity, cancellable);
+	e_shell_backend_add_activity (shell_backend, activity);
+
+	/* The hash table takes ownership of the activity. */
+	g_hash_table_insert (priv->jobs, cancellable, activity);
+}
+
+static void
+mail_backend_job_finished_cb (CamelSession *session,
+                              GCancellable *cancellable,
+                              const GError *error,
+                              EShellBackend *shell_backend)
+{
+	EMailBackendPrivate *priv;
+	EShellBackendClass *class;
+	EActivity *activity;
+	const gchar *description;
+
+	priv = E_MAIL_BACKEND_GET_PRIVATE (shell_backend);
+	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+
+	activity = g_hash_table_lookup (priv->jobs, cancellable);
+	description = e_activity_get_text (activity);
+
+	if (error != NULL) {
+		EShell *shell;
+		GList *list, *iter;
+
+		shell = e_shell_backend_get_shell (shell_backend);
+		list = e_shell_get_watched_windows (shell);
+
+		/* Submit the error to an appropriate EAlertSink. */
+		for (iter = list; iter != NULL; iter = g_list_next (iter)) {
+			EShellView *shell_view;
+			EShellContent *shell_content;
+
+			if (!E_IS_SHELL_WINDOW (iter->data))
+				continue;
+
+			shell_view = e_shell_window_peek_shell_view (
+				E_SHELL_WINDOW (iter->data), class->name);
+
+			if (!E_IS_SHELL_VIEW (shell_view))
+				continue;
+
+			shell_content =
+				e_shell_view_get_shell_content (shell_view);
+
+			if (description != NULL && *description != '\0')
+				e_alert_submit (
+					E_ALERT_SINK (shell_content),
+					"mail:async-error", description,
+					error->message, NULL);
+			else
+				e_alert_submit (
+					E_ALERT_SINK (shell_content),
+					"mail:async-error-nodescribe",
+					error->message, NULL);
+
+			break;
+		}
+	}
+
+	g_hash_table_remove (priv->jobs, cancellable);
+}
+
+static void
 mail_backend_get_property (GObject *object,
                            guint property_id,
                            GValue *value,
@@ -417,12 +499,18 @@ mail_backend_dispose (GObject *object)
 {
 	EMailBackendPrivate *priv;
 
-	priv = E_MAIL_BACKEND (object)->priv;
+	priv = E_MAIL_BACKEND_GET_PRIVATE (object);
 
 	if (priv->session != NULL) {
+		g_signal_handlers_disconnect_matched (
+			priv->session, G_SIGNAL_MATCH_DATA,
+			0, 0, NULL, NULL, object);
 		g_object_unref (priv->session);
 		priv->session = NULL;
 	}
+
+	/* There should be no unfinished jobs left. */
+	g_warn_if_fail (g_hash_table_size (priv->jobs) == 0);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (e_mail_backend_parent_class)->dispose (object);
@@ -431,6 +519,12 @@ mail_backend_dispose (GObject *object)
 static void
 mail_backend_finalize (GObject *object)
 {
+	EMailBackendPrivate *priv;
+
+	priv = E_MAIL_BACKEND_GET_PRIVATE (object);
+
+	g_hash_table_destroy (priv->jobs);
+
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (e_mail_backend_parent_class)->finalize (object);
 
@@ -446,7 +540,7 @@ mail_backend_constructed (GObject *object)
 	EMFolderTreeModel *folder_tree_model;
 	MailFolderCache *folder_cache;
 
-	priv = E_MAIL_BACKEND (object)->priv;
+	priv = E_MAIL_BACKEND_GET_PRIVATE (object);
 
 	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);
@@ -463,6 +557,16 @@ mail_backend_constructed (GObject *object)
 		shell, "online",
 		priv->session, "online",
 		G_BINDING_SYNC_CREATE);
+
+	g_signal_connect (
+		priv->session, "job-started",
+		G_CALLBACK (mail_backend_job_started_cb),
+		shell_backend);
+
+	g_signal_connect (
+		priv->session, "job-finished",
+		G_CALLBACK (mail_backend_job_finished_cb),
+		shell_backend);
 
 	/* FIXME This is an evil hack that needs to die.
 	 *       Give EAccountComboBox a CamelSession property. */
@@ -546,8 +650,13 @@ e_mail_backend_class_init (EMailBackendClass *class)
 static void
 e_mail_backend_init (EMailBackend *backend)
 {
-	backend->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		backend, E_TYPE_MAIL_BACKEND, EMailBackendPrivate);
+	backend->priv = E_MAIL_BACKEND_GET_PRIVATE (backend);
+
+	backend->priv->jobs = g_hash_table_new_full (
+		(GHashFunc) g_direct_hash,
+		(GEqualFunc) g_direct_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) g_object_unref);
 }
 
 EMailSession *
