@@ -64,6 +64,10 @@
 #include "mail-send-recv.h"
 #include "mail-tools.h"
 
+#define E_MAIL_SESSION_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MAIL_SESSION, EMailSessionPrivate))
+
 static guint session_check_junk_notify_id;
 static guint session_gconf_proxy_id;
 
@@ -553,7 +557,7 @@ mail_session_dispose (GObject *object)
 {
 	EMailSessionPrivate *priv;
 
-	priv = E_MAIL_SESSION (object)->priv;
+	priv = E_MAIL_SESSION_GET_PRIVATE (object);
 
 	if (priv->folder_cache != NULL) {
 		g_object_unref (priv->folder_cache);
@@ -796,61 +800,6 @@ mail_session_lookup_addressbook (CamelSession *session,
 	return ret;
 }
 
-static gpointer
-mail_session_thread_msg_new (CamelSession *session,
-                             CamelSessionThreadOps *ops,
-                             guint size)
-{
-	CamelSessionThreadMsg *msg;
-	CamelSessionClass *session_class;
-
-	/* TODO This is very temporary, until we have a better way to do
-	 *      the progress reporting, we just borrow a dummy mail-mt
-	 *      thread message and hook it onto out camel thread message. */
-
-	/* Chain up to parent's thread_msg_new() method. */
-	session_class = CAMEL_SESSION_CLASS (e_mail_session_parent_class);
-	msg = session_class->thread_msg_new (session, ops, size);
-
-#if 0
-	/* We create a dummy mail_msg, and then copy its cancellation
-	 * port over to ours, so we get cancellation and progress in
-	 * common with hte existing mail code, for free. */
-	if (msg) {
-		MailMsg *m = mail_msg_new (&ms_thread_info_dummy);
-
-		msg->data = m;
-		e_activity_set_cancellable (
-			m->activity, msg->cancellable);
-	}
-#endif
-
-	return msg;
-}
-
-static void
-mail_session_thread_msg_free (CamelSession *session,
-                              CamelSessionThreadMsg *msg)
-{
-	CamelSessionClass *session_class;
-
-#if 0
-	mail_msg_unref (msg->data);
-#endif
-
-	/* Chain up to parent's thread_msg_free() method. */
-	session_class = CAMEL_SESSION_CLASS (e_mail_session_parent_class);
-	session_class->thread_msg_free (session, msg);
-}
-
-static void
-mail_session_thread_status (CamelSession *session,
-                            CamelSessionThreadMsg *msg,
-                            const gchar *text,
-                            gint pc)
-{
-}
-
 static gboolean
 mail_session_forward_to (CamelSession *session,
                          CamelFolder *folder,
@@ -984,9 +933,6 @@ e_mail_session_class_init (EMailSessionClass *class)
 	session_class->alert_user = mail_session_alert_user;
 	session_class->get_filter_driver = mail_session_get_filter_driver;
 	session_class->lookup_addressbook = mail_session_lookup_addressbook;
-	session_class->thread_msg_new = mail_session_thread_msg_new;
-	session_class->thread_msg_free = mail_session_thread_msg_free;
-	session_class->thread_status = mail_session_thread_status;
 	session_class->forward_to = mail_session_forward_to;
 
 	g_object_class_install_property (
@@ -1005,8 +951,7 @@ e_mail_session_init (EMailSession *session)
 {
 	GConfClient *client;
 
-	session->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		session, E_TYPE_MAIL_SESSION, EMailSessionPrivate);
+	session->priv = E_MAIL_SESSION_GET_PRIVATE (session);
 	session->priv->folder_cache = mail_folder_cache_new ();
 
 	/* Initialize the EAccount setup. */
