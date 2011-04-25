@@ -29,10 +29,10 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n-lib.h>
 
+#include <libedataserver/e-source-mail-account.h>
+
 #include <e-util/e-util.h>
 #include <libevolution-utils/e-alert-dialog.h>
-
-#include <libemail-utils/e-account-utils.h>
 
 #include <shell/e-shell-view.h>
 #include <shell/e-shell-window.h>
@@ -135,15 +135,23 @@ emla_list_action_cb (CamelFolder *folder,
 	CamelMimeMessage *message;
 	gint send_message_response;
 	EShell *shell;
+	ESource *source;
 	EMailBackend *backend;
+	ESourceRegistry *registry;
 	EShellBackend *shell_backend;
-	EAccount *account;
 	GtkWindow *window;
 	CamelStore *store;
 	const gchar *uid;
 	GError *error = NULL;
 
+	window = e_mail_reader_get_window (context->reader);
+	backend = e_mail_reader_get_backend (context->reader);
 	alert_sink = e_activity_get_alert_sink (context->activity);
+
+	shell_backend = E_SHELL_BACKEND (backend);
+	shell = e_shell_backend_get_shell (shell_backend);
+
+	registry = e_shell_get_registry (shell);
 
 	message = camel_folder_get_message_finish (folder, result, &error);
 
@@ -173,14 +181,19 @@ emla_list_action_cb (CamelFolder *folder,
 
 	store = camel_folder_get_parent_store (folder);
 	uid = camel_service_get_uid (CAMEL_SERVICE (store));
-	account = e_get_account_by_uid (uid);
+	source = e_source_registry_ref_source (registry, uid);
 
-	backend = e_mail_reader_get_backend (context->reader);
+	/* Reuse this to hold the mail identity UID. */
+	uid = NULL;
 
-	shell_backend = E_SHELL_BACKEND (backend);
-	shell = e_shell_backend_get_shell (shell_backend);
+	if (source != NULL) {
+		ESourceMailAccount *extension;
+		const gchar *extension_name;
 
-	window = e_mail_reader_get_window (context->reader);
+		extension_name = E_SOURCE_EXTENSION_MAIL_ACCOUNT;
+		extension = e_source_get_extension (source, extension_name);
+		uid = e_source_mail_account_get_identity_uid (extension);
+	}
 
 	for (t = 0; t < G_N_ELEMENTS (emla_action_headers); t++) {
 		if (emla_action_headers[t].action == context->action &&
@@ -229,12 +242,14 @@ emla_list_action_cb (CamelFolder *folder,
 					url, NULL);
 
 			if (send_message_response == GTK_RESPONSE_YES) {
+				EComposerHeaderTable *table;
+
 				/* directly send message */
 				composer = e_msg_composer_new_from_url (shell, url);
-				if (account != NULL)
-					e_composer_header_table_set_account (
-						e_msg_composer_get_header_table (composer),
-						account);
+				table = e_msg_composer_get_header_table (composer);
+
+				if (uid != NULL)
+					e_composer_header_table_set_identity_uid (table, uid);
 				e_msg_composer_send (composer);
 			} else if (send_message_response == GTK_RESPONSE_NO) {
 				/* show composer */
@@ -261,6 +276,9 @@ emla_list_action_cb (CamelFolder *folder,
 	e_alert_run_dialog_for_args (window, MESSAGE_NO_ACTION, header, NULL);
 
 exit:
+	if (source != NULL)
+		g_object_unref (source);
+
 	g_object_unref (message);
 	g_free (url);
 
