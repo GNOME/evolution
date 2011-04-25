@@ -4,7 +4,8 @@ libevolution_module_mailto_handler_la_CPPFLAGS =		\
 	$(AM_CPPFLAGS)						\
 	-I$(top_srcdir)						\
 	-DG_LOG_DOMAIN=\"evolution-mailto-handler\"		\
-	$(GNOME_PLATFORM_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)				\
+	$(SHELL_CFLAGS)
 
 libevolution_module_mailto_handler_la_SOURCES =			\
 	evolution-mailto-handler.c
@@ -12,7 +13,8 @@ libevolution_module_mailto_handler_la_SOURCES =			\
 libevolution_module_mailto_handler_la_LIBADD =			\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
-	$(GNOME_PLATFORM_LIBS)
+	$(GNOME_PLATFORM_LIBS)					\
+	$(SHELL_LIBS)
 
 libevolution_module_mailto_handler_la_LDFLAGS =			\
 	-module -avoid-version $(NO_UNDEFINED)
