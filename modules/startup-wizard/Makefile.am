@@ -1,3 +1,5 @@
+NULL =
+
 module_LTLIBRARIES = module-startup-wizard.la
 
 module_startup_wizard_la_CPPFLAGS = \
@@ -6,10 +8,18 @@ module_startup_wizard_la_CPPFLAGS = \
 	-I$(top_srcdir)/widgets					\
 	-DG_LOG_DOMAIN=\"evolution-startup-wizard\"		\
 	$(EVOLUTION_DATA_SERVER_CFLAGS)				\
-	$(GNOME_PLATFORM_CFLAGS)
+	$(GNOME_PLATFORM_CFLAGS)				\
+	$(NULL)
 
 module_startup_wizard_la_SOURCES = \
-	evolution-startup-wizard.c
+	evolution-startup-wizard.c				\
+	e-startup-assistant.c					\
+	e-startup-assistant.h					\
+	e-mail-config-import-page.c				\
+	e-mail-config-import-page.h				\
+	e-mail-config-import-progress-page.c			\
+	e-mail-config-import-progress-page.h			\
+	$(NULL)
 
 if WITH_CAPPLET
 libevolution_mail_settings_la = \
@@ -27,7 +37,8 @@ module_startup_wizard_la_LIBADD = \
 	$(top_builddir)/libemail-utils/libemail-utils.la	\
 	$(libevolution_mail_settings_la)			\
 	$(EVOLUTION_DATA_SERVER_LIBS)				\
-	$(GNOME_PLATFORM_LIBS)
+	$(GNOME_PLATFORM_LIBS)					\
+	$(NULL)
 
 module_startup_wizard_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)
