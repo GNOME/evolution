@@ -1,6 +1,4 @@
 e_bit_array_get_type
-e_signature_get_type
-e_signature_list_get_type
 e_shell_get_type
 e_shell_backend_get_type
 e_shell_content_get_type

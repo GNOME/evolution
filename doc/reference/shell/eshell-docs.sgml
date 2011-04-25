@@ -27,7 +27,6 @@
 
   <chapter>
     <title>Basic Utility Functions</title>
-    <xi:include href="xml/e-account-utils.xml"/>
     <xi:include href="xml/e-alert.xml"/>
     <xi:include href="xml/e-bit-array.xml"/>
     <xi:include href="xml/e-categories-config.xml"/>
@@ -38,9 +37,6 @@
     <xi:include href="xml/e-poolv.xml"/>
     <xi:include href="xml/e-print.xml"/>
     <xi:include href="xml/e-selection.xml"/>
-    <xi:include href="xml/e-signature.xml"/>
-    <xi:include href="xml/e-signature-list.xml"/>
-    <xi:include href="xml/e-signature-utils.xml"/>
     <xi:include href="xml/e-util.xml"/>
     <xi:include href="xml/e-xml-utils.xml"/>
   </chapter>
