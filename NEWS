@@ -1,3 +1,33 @@
+Evolution 3.0.1 2011-04-25
+--------------------------
+Bug Fixes:
+	Bug 619782 - Characters override in contact editor express mode (Matthew Barnes)
+	Bug 648308 - Do not display full folder URI in "Opening folder" activity (Dan Vrátil)
+	Bug 648346 - Add style class to message browser toolbar (Matthew Barnes)
+	Bug #641154 - Crash in emae_check_authtype_done (Milan Crha)
+	Bug 648317 - MeeGo shell looking for the wrong atom (Abner Silva)
+	Bug #502188 - Store 'Remember password' for calendars (Milan Crha)
+	Bug 647708 - e_plugin_xml_prop() can return libxml2 allocated memory (Matthew Barnes)
+	Bug #647116 - Crash in g_error_matches, e_contact_editor_contact_modified (Milan Crha)
+	Bug #645610 - [regression] Editing contact doesn't refresh view (Milan Crha)
+	Bug #646197 - Crash with VALARM without ACTION property (Milan Crha)
+	Bug 647816 - Moving folder hierarchy causes error (David Woodhouse)
+	Bug 647698 - Selected calendar doesnt authenticate after offline/online (Matthew Barnes)
+	Bug 646817 - Hide View->Preview menu in express mode (Matthew Barnes)
+
+Miscellaneous Fixes:
+	evolution-alarm-notify: replace Moblin by Meego (Alban Crequy)
+	Don't try to refresh or sync mail folders when offline. (Matthew Barnes)
+	Move translator comments so they get picked up (Andre Klapper)
+
+Translations:
+	Alexander Shopov (bg)
+	Krasimir Chonov (bg)
+	Daniel Korostil (uk)
+	Chao-Hsiung Liao (zh_HK)
+	Takayoshi OKANO (ja)
+	Baris Cicek (tr)
+
 Evolution 3.0.0 2011-04-04
 --------------------------
 
