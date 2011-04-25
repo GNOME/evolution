@@ -30,7 +30,6 @@
 #include "mail/em-utils.h"
 #include "mail/em-event.h"
 #include "composer/e-msg-composer.h"
-#include "libedataserver/e-account.h"
 #include "e-util/e-config.h"
 #include "e-util/e-util.h"
 #include "email-custom-header.h"
