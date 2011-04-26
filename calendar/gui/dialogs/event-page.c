@@ -247,10 +247,17 @@ get_current_identity (EventPage *page,
 
 		/* XXX EIterator misuses const. */
 		account = (EAccount *) e_iterator_get (iterator);
+<<<<<<< HEAD
 
 		id_name = account->id->name;
 		id_address = account->id->address;
 
+=======
+
+		id_name = account->id->name;
+		id_address = account->id->address;
+
+>>>>>>> Refactor CompEditor pages to isolate EAccount usage.
 		identity = g_strdup_printf ("%s <%s>", id_name, id_address);
 		match = (g_ascii_strcasecmp (text, identity) == 0);
 		g_free (identity);
