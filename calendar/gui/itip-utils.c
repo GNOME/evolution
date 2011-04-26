@@ -62,7 +62,16 @@ static icalproperty_method itip_methods_enum[] = {
 };
 
 gboolean
-itip_organizer_is_user_ex (ECalComponent *comp, ECal *client, gboolean skip_cap_test)
+itip_organizer_is_user (ECalComponent *comp,
+                        ECal *client)
+{
+	return itip_organizer_is_user_ex (comp, client, FALSE);
+}
+
+gboolean
+itip_organizer_is_user_ex (ECalComponent *comp,
+                           ECal *client,
+                           gboolean skip_cap_test)
 {
 	ECalComponentOrganizer organizer;
 	const gchar *strip;
@@ -102,13 +111,8 @@ itip_organizer_is_user_ex (ECalComponent *comp, ECal *client, gboolean skip_cap_
 }
 
 gboolean
-itip_organizer_is_user (ECalComponent *comp, ECal *client)
-{
-	return itip_organizer_is_user_ex (comp, client, FALSE);
-}
-
-gboolean
-itip_sentby_is_user (ECalComponent *comp, ECal *client)
+itip_sentby_is_user (ECalComponent *comp,
+                     ECal *client)
 {
 	ECalComponentOrganizer organizer;
 	const gchar *strip;
@@ -131,7 +135,8 @@ itip_sentby_is_user (ECalComponent *comp, ECal *client)
 }
 
 static ECalComponentAttendee *
-get_attendee (GSList *attendees, gchar *address)
+get_attendee (GSList *attendees,
+              gchar *address)
 {
 	GSList *l;
 
@@ -150,7 +155,8 @@ get_attendee (GSList *attendees, gchar *address)
 }
 
 static ECalComponentAttendee *
-get_attendee_if_attendee_sentby_is_user (GSList *attendees, gchar *address)
+get_attendee_if_attendee_sentby_is_user (GSList *attendees,
+                                         gchar *address)
 {
 	GSList *l;
 
@@ -180,7 +186,8 @@ html_new_lines_for (const gchar *string)
 }
 
 gchar *
-itip_get_comp_attendee (ECalComponent *comp, ECal *client)
+itip_get_comp_attendee (ECalComponent *comp,
+                        ECal *client)
 {
 	GSList *attendees;
 	EAccountList *al;
@@ -236,8 +243,9 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 			return user_email;
 		}
 
-		/* If the account was not found in the attendees list, then let's
-		check the 'sentby' fields of the attendees if we can find the account */
+		/* If the account was not found in the attendees list, then
+		 * let's check the 'sentby' fields of the attendees if we can
+		 * find the account. */
 		attendee = get_attendee_if_attendee_sentby_is_user (attendees, a->id->address);
 		if (attendee) {
 			gchar *user_email = g_strdup (itip_strip_mailto (attendee->sentby));
@@ -247,8 +255,9 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 		}
 	}
 
-	/* We could not find the attendee in the component, so just give the default
-	account address if the email address is not set in the backend */
+	/* We could not find the attendee in the component, so just give
+	 * the default account address if the email address is not set in
+	 * the backend. */
 	/* FIXME do we have a better way ? */
 	a = e_get_default_account ();
 	address = g_strdup ((a != NULL) ? a->id->address : "");
@@ -358,7 +367,8 @@ comp_toplevel_with_zones (ECalComponentItipMethod method,
 }
 
 static gboolean
-users_has_attendee (GList *users, const gchar *address)
+users_has_attendee (GList *users,
+                    const gchar *address)
 {
 	GList *l;
 
@@ -371,7 +381,8 @@ users_has_attendee (GList *users, const gchar *address)
 }
 
 static gchar *
-comp_from (ECalComponentItipMethod method, ECalComponent *comp)
+comp_from (ECalComponentItipMethod method,
+           ECalComponent *comp)
 {
 	ECalComponentOrganizer organizer;
 	ECalComponentAttendee *attendee;
@@ -620,7 +631,8 @@ comp_to_list (ECalComponentItipMethod method,
 }
 
 static gchar *
-comp_subject (ECalComponentItipMethod method, ECalComponent *comp)
+comp_subject (ECalComponentItipMethod method,
+              ECalComponent *comp)
 {
 	ECalComponentText caltext;
 	const gchar *description, *prefix = NULL;
@@ -762,12 +774,19 @@ comp_subject (ECalComponentItipMethod method, ECalComponent *comp)
 }
 
 static gchar *
-comp_content_type (ECalComponent *comp, ECalComponentItipMethod method)
+comp_content_type (ECalComponent *comp,
+                   ECalComponentItipMethod method)
 {
+	const gchar *name;
+
+	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_FREEBUSY)
+		name = "freebusy.ifb";
+	else
+		name = "calendar.ics";
+
 	return g_strdup_printf (
 		"text/calendar; name=\"%s\"; charset=utf-8; METHOD=%s",
-		e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_FREEBUSY ?
-		"freebusy.ifb" : "calendar.ics", itip_methods[method]);
+		name, itip_methods[method]);
 }
 
 static const gchar *
@@ -1243,7 +1262,8 @@ append_cal_attachments (EMsgComposer *composer,
 			attachment, mime_attach->encoded_data,
 			mime_attach->length, mime_attach->content_type);
 		if (mime_attach->content_id)
-			camel_mime_part_set_content_id (attachment, mime_attach->content_id);
+			camel_mime_part_set_content_id (
+				attachment, mime_attach->content_id);
 		if (mime_attach->filename != NULL)
 			camel_mime_part_set_filename (
 				attachment, mime_attach->filename);
@@ -1271,7 +1291,8 @@ append_cal_attachments (EMsgComposer *composer,
 }
 
 static EAccount *
-find_enabled_account (EAccountList *accounts, const gchar *id_address)
+find_enabled_account (EAccountList *accounts,
+                      const gchar *id_address)
 {
 	EIterator *it;
 	EAccount *account = NULL;
@@ -1468,7 +1489,7 @@ itip_send_comp (ECalComponentItipMethod method,
 
 	retval = TRUE;
 
- cleanup:
+cleanup:
 	if (comp != NULL)
 		g_object_unref (comp);
 	if (top_level != NULL)
@@ -1657,8 +1678,10 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 }
 
 gboolean
-itip_publish_begin (ECalComponent *pub_comp, ECal *client,
-		    gboolean cloned, ECalComponent **clone)
+itip_publish_begin (ECalComponent *pub_comp,
+                    ECal *client,
+                    gboolean cloned,
+                    ECalComponent **clone)
 {
 	icalcomponent *icomp =NULL, *icomp_clone = NULL;
 	icalproperty *prop;
@@ -1795,14 +1818,14 @@ comp_fb_normalize (icalcomponent *icomp)
 	}
 
 	return iclone;
-	/* this will never be reached */
-	g_object_unref (iclone);
-	return NULL;
 }
 
 gboolean
-itip_publish_comp (ECal *client, gchar *uri, gchar *username,
-		   gchar *password, ECalComponent **pub_comp)
+itip_publish_comp (ECal *client,
+                   gchar *uri,
+                   gchar *username,
+                   gchar *password,
+                   ECalComponent **pub_comp)
 {
 	icalcomponent *toplevel = NULL, *icalcomp = NULL;
 	icalcomponent *icomp = NULL;
@@ -1869,7 +1892,8 @@ itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 }
 
 static gboolean
-check_time (const struct icaltimetype tmval, gboolean can_null_time)
+check_time (const struct icaltimetype tmval,
+            gboolean can_null_time)
 {
 	if (icaltime_is_null_time (tmval))
 		return can_null_time;
