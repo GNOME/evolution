@@ -54,7 +54,10 @@
 #include "../e-meeting-store.h"
 #include "../e-meeting-list-view.h"
 
-/* Private part of the TaskPage structure */
+#define TASK_PAGE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_TASK_PAGE, TaskPagePrivate))
+
 struct _TaskPagePrivate {
 	GtkBuilder *builder;
 
@@ -107,8 +110,8 @@ struct _TaskPagePrivate {
 	GtkWidget *attendees_label;
 
 	/* ListView stuff */
-	EMeetingStore *model;
-	ECal	  *client;
+	ECal *client;
+	EMeetingStore *meeting_store;
 	EMeetingListView *list_view;
 	gint row;
 
@@ -129,123 +132,41 @@ static const gint classification_map[] = {
 	-1
 };
 
-
-
-static void task_page_finalize (GObject *object);
-
-static GtkWidget *task_page_get_widget (CompEditorPage *page);
-static void task_page_focus_main_widget (CompEditorPage *page);
-static gboolean task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
-static gboolean task_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 static gboolean task_page_fill_timezones (CompEditorPage *page, GHashTable *timezones);
 static void task_page_select_organizer (TaskPage *tpage, const gchar *backend_address);
 static void set_subscriber_info_string (TaskPage *tpage, const gchar *backend_address);
 
 G_DEFINE_TYPE (TaskPage, task_page, TYPE_COMP_EDITOR_PAGE)
 
-static void
-task_page_dispose (GObject *object)
+static EAccount *
+get_current_account (TaskPage *page)
 {
 	TaskPagePrivate *priv;
+	EIterator *it;
+	const gchar *str;
 
-	priv = TASK_PAGE (object)->priv;
+	priv = page->priv;
 
-	if (priv->main != NULL) {
-		g_object_unref (priv->main);
-		priv->main = NULL;
+	str = gtk_entry_get_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->organizer))));
+	if (!str)
+		return NULL;
+
+	for (it = e_list_get_iterator ((EList *)priv->accounts); e_iterator_is_valid (it); e_iterator_next (it)) {
+		EAccount *a = (EAccount *)e_iterator_get (it);
+		gchar *full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
+
+		if (!g_ascii_strcasecmp (full, str)) {
+			g_free (full);
+			g_object_unref (it);
+
+			return a;
+		}
+
+		g_free (full);
 	}
+	g_object_unref (it);
 
-	if (priv->builder != NULL) {
-		g_object_unref (priv->builder);
-		priv->builder = NULL;
-	}
-
-	if (priv->sod != NULL) {
-		g_object_unref (priv->sod);
-		priv->sod = NULL;
-	}
-
-	if (priv->comp != NULL) {
-		g_object_unref (priv->comp);
-		priv->comp = NULL;
-	}
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (task_page_parent_class)->dispose (object);
-}
-
-static void
-task_page_finalize (GObject *object)
-{
-	TaskPagePrivate *priv;
-
-	priv = TASK_PAGE (object)->priv;
-
-	g_list_foreach (priv->address_strings, (GFunc) g_free, NULL);
-	g_list_free (priv->address_strings);
-
-	g_ptr_array_foreach (
-		priv->deleted_attendees, (GFunc) g_object_unref, NULL);
-	g_ptr_array_free (priv->deleted_attendees, TRUE);
-
-	g_free (priv->subscriber_info_text);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (task_page_parent_class)->finalize (object);
-}
-
-static void
-task_page_class_init (TaskPageClass *class)
-{
-	GObjectClass *object_class;
-	CompEditorPageClass *editor_page_class;
-
-	g_type_class_add_private (class, sizeof (TaskPagePrivate));
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = task_page_dispose;
-	object_class->finalize = task_page_finalize;
-
-	editor_page_class = COMP_EDITOR_PAGE_CLASS (class);
-	editor_page_class->get_widget = task_page_get_widget;
-	editor_page_class->focus_main_widget = task_page_focus_main_widget;
-	editor_page_class->fill_widgets = task_page_fill_widgets;
-	editor_page_class->fill_component = task_page_fill_component;
-	editor_page_class->fill_timezones = task_page_fill_timezones;
-}
-
-static void
-task_page_init (TaskPage *tpage)
-{
-	tpage->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		tpage, TYPE_TASK_PAGE, TaskPagePrivate);
-	tpage->priv->deleted_attendees = g_ptr_array_new ();
-}
-
-/* get_widget handler for the task page */
-static GtkWidget *
-task_page_get_widget (CompEditorPage *page)
-{
-	TaskPage *tpage;
-	TaskPagePrivate *priv;
-
-	tpage = TASK_PAGE (page);
-	priv = tpage->priv;
-
-	return priv->main;
-}
-
-/* focus_main_widget handler for the task page */
-static void
-task_page_focus_main_widget (CompEditorPage *page)
-{
-	TaskPage *tpage;
-	TaskPagePrivate *priv;
-
-	tpage = TASK_PAGE (page);
-	priv = tpage->priv;
-
-	gtk_widget_grab_focus (priv->summary);
+	return NULL;
 }
 
 /* Fills the widgets with default values */
@@ -273,40 +194,9 @@ clear_widgets (TaskPage *tpage)
 	e_dialog_editable_set (priv->categories, NULL);
 }
 
-void
-task_page_set_view_role (TaskPage *page, gboolean state)
-{
-	TaskPagePrivate *priv = page->priv;
-
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_ROLE_COL, state);
-}
-
-void
-task_page_set_view_status (TaskPage *page, gboolean state)
-{
-	TaskPagePrivate *priv = page->priv;
-
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_STATUS_COL, state);
-}
-
-void
-task_page_set_view_type (TaskPage *page, gboolean state)
-{
-	TaskPagePrivate *priv = page->priv;
-
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_TYPE_COL, state);
-}
-
-void
-task_page_set_view_rsvp (TaskPage *page, gboolean state)
-{
-	TaskPagePrivate *priv = page->priv;
-
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_RSVP_COL, state);
-}
-
 static gboolean
-date_in_past (TaskPage *tpage, EDateEdit *date)
+date_in_past (TaskPage *tpage,
+              EDateEdit *date)
 {
 	struct icaltimetype tt = icaltime_null_time ();
 
@@ -431,80 +321,39 @@ sensitize_widgets (TaskPage *tpage)
 		gtk_label_set_mnemonic_widget (GTK_LABEL (priv->org_cal_label), priv->organizer);
 	}
 }
-void
-task_page_hide_options (TaskPage *page)
+
+static void
+set_attendees (ECalComponent *comp,
+               const GPtrArray *attendees)
 {
-	CompEditor *editor;
-	GtkAction *action;
+	GSList *comp_attendees = NULL, *l;
+	gint i;
 
-	g_return_if_fail (IS_TASK_PAGE (page));
+	for (i = 0; i < attendees->len; i++) {
+		EMeetingAttendee *ia = g_ptr_array_index (attendees, i);
+		ECalComponentAttendee *ca;
 
-	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (page));
-	action = comp_editor_get_action (editor, "send-options");
-	gtk_action_set_visible (action, FALSE);
-}
+		ca = e_meeting_attendee_as_e_cal_component_attendee (ia);
 
-void
-task_page_show_options (TaskPage *page)
-{
-	CompEditor *editor;
-	GtkAction *action;
+		comp_attendees = g_slist_prepend (comp_attendees, ca);
 
-	g_return_if_fail (IS_TASK_PAGE (page));
-
-	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (page));
-	action = comp_editor_get_action (editor, "send-options");
-	gtk_action_set_visible (action, TRUE);
-}
-
-void
-task_page_set_assignment (TaskPage *page, gboolean set)
-{
-	g_return_if_fail (IS_TASK_PAGE (page));
-
-	page->priv->is_assignment = set;
-	sensitize_widgets (page);
-}
-
-static EAccount *
-get_current_account (TaskPage *page)
-{
-	TaskPagePrivate *priv;
-	EIterator *it;
-	const gchar *str;
-
-	priv = page->priv;
-
-	str = gtk_entry_get_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->organizer))));
-	if (!str)
-		return NULL;
-
-	for (it = e_list_get_iterator ((EList *)priv->accounts); e_iterator_is_valid (it); e_iterator_next (it)) {
-		EAccount *a = (EAccount *)e_iterator_get (it);
-		gchar *full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
-
-		if (!g_ascii_strcasecmp (full, str)) {
-			g_free (full);
-			g_object_unref (it);
-
-			return a;
-		}
-
-		g_free (full);
 	}
-	g_object_unref (it);
+	comp_attendees = g_slist_reverse (comp_attendees);
 
-	return NULL;
+	e_cal_component_set_attendee_list (comp, comp_attendees);
+
+	for (l = comp_attendees; l != NULL; l = l->next)
+		g_free (l->data);
+	g_slist_free (comp_attendees);
 }
 
 static void
-organizer_changed_cb (GtkEntry *entry, TaskPage *tpage)
+organizer_changed_cb (GtkEntry *entry,
+                      TaskPage *tpage)
 {
 	EAccount *account;
 
-	g_return_if_fail (entry != NULL);
 	g_return_if_fail (GTK_IS_ENTRY (entry));
-	g_return_if_fail (tpage != NULL);
 	g_return_if_fail (IS_TASK_PAGE (tpage));
 
 	if (!tpage->priv->ia)
@@ -518,9 +367,82 @@ organizer_changed_cb (GtkEntry *entry, TaskPage *tpage)
 	e_meeting_attendee_set_cn (tpage->priv->ia, g_strdup (account->id->name));
 }
 
-/* fill_widgets handler for the task page */
+static void
+task_page_dispose (GObject *object)
+{
+	TaskPagePrivate *priv;
+
+	priv = TASK_PAGE_GET_PRIVATE (object);
+
+	if (priv->main != NULL) {
+		g_object_unref (priv->main);
+		priv->main = NULL;
+	}
+
+	if (priv->builder != NULL) {
+		g_object_unref (priv->builder);
+		priv->builder = NULL;
+	}
+
+	if (priv->sod != NULL) {
+		g_object_unref (priv->sod);
+		priv->sod = NULL;
+	}
+
+	if (priv->comp != NULL) {
+		g_object_unref (priv->comp);
+		priv->comp = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (task_page_parent_class)->dispose (object);
+}
+
+static void
+task_page_finalize (GObject *object)
+{
+	TaskPagePrivate *priv;
+
+	priv = TASK_PAGE_GET_PRIVATE (object);
+
+	g_list_foreach (priv->address_strings, (GFunc) g_free, NULL);
+	g_list_free (priv->address_strings);
+
+	g_ptr_array_foreach (
+		priv->deleted_attendees, (GFunc) g_object_unref, NULL);
+	g_ptr_array_free (priv->deleted_attendees, TRUE);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (task_page_parent_class)->finalize (object);
+}
+
+static GtkWidget *
+task_page_get_widget (CompEditorPage *page)
+{
+	TaskPage *tpage;
+	TaskPagePrivate *priv;
+
+	tpage = TASK_PAGE (page);
+	priv = tpage->priv;
+
+	return priv->main;
+}
+
+static void
+task_page_focus_main_widget (CompEditorPage *page)
+{
+	TaskPage *tpage;
+	TaskPagePrivate *priv;
+
+	tpage = TASK_PAGE (page);
+	priv = tpage->priv;
+
+	gtk_widget_grab_focus (priv->summary);
+}
+
 static gboolean
-task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
+task_page_fill_widgets (CompEditorPage *page,
+                        ECalComponent *comp)
 {
 	TaskPage *tpage;
 	TaskPagePrivate *priv;
@@ -746,7 +668,7 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 			a = get_current_account (tpage);
 			if (a != NULL) {
-				priv->ia = e_meeting_store_add_attendee_with_defaults (priv->model);
+				priv->ia = e_meeting_store_add_attendee_with_defaults (priv->meeting_store);
 				g_object_ref (priv->ia);
 
 				if (!(backend_addr && *backend_addr) || !g_ascii_strcasecmp (backend_addr, a->id->address)) {
@@ -774,33 +696,9 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	return TRUE;
 }
 
-static void
-set_attendees (ECalComponent *comp, const GPtrArray *attendees)
-{
-	GSList *comp_attendees = NULL, *l;
-	gint i;
-
-	for (i = 0; i < attendees->len; i++) {
-		EMeetingAttendee *ia = g_ptr_array_index (attendees, i);
-		ECalComponentAttendee *ca;
-
-		ca = e_meeting_attendee_as_e_cal_component_attendee (ia);
-
-		comp_attendees = g_slist_prepend (comp_attendees, ca);
-
-	}
-	comp_attendees = g_slist_reverse (comp_attendees);
-
-	e_cal_component_set_attendee_list (comp, comp_attendees);
-
-	for (l = comp_attendees; l != NULL; l = l->next)
-		g_free (l->data);
-	g_slist_free (comp_attendees);
-}
-
-/* fill_component handler for the task page */
 static gboolean
-task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
+task_page_fill_component (CompEditorPage *page,
+                          ECalComponent *comp)
 {
 	TaskPage *tpage;
 	TaskPagePrivate *priv;
@@ -992,7 +890,7 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 			g_free (sentby);
 		}
 
-		if (e_meeting_store_count_actual_attendees (priv->model) < 1) {
+		if (e_meeting_store_count_actual_attendees (priv->meeting_store) < 1) {
 			e_notice (priv->main, GTK_MESSAGE_ERROR,
 					_("At least one attendee is required."));
 			return FALSE;
@@ -1001,7 +899,7 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 		if (flags & COMP_EDITOR_DELEGATE ) {
 			GSList *attendee_list, *l;
 			gint i;
-			const GPtrArray *attendees = e_meeting_store_get_attendees (priv->model);
+			const GPtrArray *attendees = e_meeting_store_get_attendees (priv->meeting_store);
 
 			e_cal_component_get_attendee_list (priv->comp, &attendee_list);
 
@@ -1028,10 +926,149 @@ task_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 			e_cal_component_set_attendee_list (comp, attendee_list);
 			e_cal_component_free_attendee_list (attendee_list);
 		} else
-			set_attendees (comp, e_meeting_store_get_attendees (priv->model));
+			set_attendees (comp, e_meeting_store_get_attendees (priv->meeting_store));
 	}
 
 	return TRUE;
+}
+
+static gboolean
+task_page_fill_timezones (CompEditorPage *page,
+                          GHashTable *timezones)
+{
+	TaskPage *tpage;
+	TaskPagePrivate *priv;
+	icaltimezone *zone;
+
+	tpage = TASK_PAGE (page);
+	priv = tpage->priv;
+
+	/* add start date timezone */
+	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->timezone));
+	if (zone) {
+		if (!g_hash_table_lookup (timezones, icaltimezone_get_tzid (zone)))
+			g_hash_table_insert (timezones, (gpointer) icaltimezone_get_tzid (zone), zone);
+	}
+
+	return TRUE;
+}
+
+static void
+task_page_add_attendee (CompEditorPage *page,
+                        EMeetingAttendee *attendee)
+{
+	CompEditor *editor;
+	TaskPagePrivate *priv;
+
+	priv = TASK_PAGE_GET_PRIVATE (page);
+	editor = comp_editor_page_get_editor (page);
+
+	if ((comp_editor_get_flags (editor) & COMP_EDITOR_DELEGATE) != 0) {
+		gchar *delfrom;
+
+		/* EMeetingAttendee takes ownership of the string. */
+		delfrom = g_strdup_printf ("MAILTO:%s", priv->user_add);
+		e_meeting_attendee_set_delfrom (attendee, delfrom);
+	}
+
+	e_meeting_store_add_attendee (priv->meeting_store, attendee);
+	e_meeting_list_view_add_attendee_to_name_selector (
+		E_MEETING_LIST_VIEW (priv->list_view), attendee);
+}
+
+static void
+task_page_class_init (TaskPageClass *class)
+{
+	GObjectClass *object_class;
+	CompEditorPageClass *editor_page_class;
+
+	g_type_class_add_private (class, sizeof (TaskPagePrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = task_page_dispose;
+	object_class->finalize = task_page_finalize;
+
+	editor_page_class = COMP_EDITOR_PAGE_CLASS (class);
+	editor_page_class->get_widget = task_page_get_widget;
+	editor_page_class->focus_main_widget = task_page_focus_main_widget;
+	editor_page_class->fill_widgets = task_page_fill_widgets;
+	editor_page_class->fill_component = task_page_fill_component;
+	editor_page_class->fill_timezones = task_page_fill_timezones;
+	editor_page_class->add_attendee = task_page_add_attendee;
+}
+
+static void
+task_page_init (TaskPage *tpage)
+{
+	tpage->priv = TASK_PAGE_GET_PRIVATE (tpage);
+	tpage->priv->deleted_attendees = g_ptr_array_new ();
+}
+
+void
+task_page_set_view_role (TaskPage *page, gboolean state)
+{
+	TaskPagePrivate *priv = page->priv;
+
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_ROLE_COL, state);
+}
+
+void
+task_page_set_view_status (TaskPage *page, gboolean state)
+{
+	TaskPagePrivate *priv = page->priv;
+
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_STATUS_COL, state);
+}
+
+void
+task_page_set_view_type (TaskPage *page, gboolean state)
+{
+	TaskPagePrivate *priv = page->priv;
+
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_TYPE_COL, state);
+}
+
+void
+task_page_set_view_rsvp (TaskPage *page, gboolean state)
+{
+	TaskPagePrivate *priv = page->priv;
+
+	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_RSVP_COL, state);
+}
+
+void
+task_page_hide_options (TaskPage *page)
+{
+	CompEditor *editor;
+	GtkAction *action;
+
+	g_return_if_fail (IS_TASK_PAGE (page));
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (page));
+	action = comp_editor_get_action (editor, "send-options");
+	gtk_action_set_visible (action, FALSE);
+}
+
+void
+task_page_show_options (TaskPage *page)
+{
+	CompEditor *editor;
+	GtkAction *action;
+
+	g_return_if_fail (IS_TASK_PAGE (page));
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (page));
+	action = comp_editor_get_action (editor, "send-options");
+	gtk_action_set_visible (action, TRUE);
+}
+
+void
+task_page_set_assignment (TaskPage *page, gboolean set)
+{
+	g_return_if_fail (IS_TASK_PAGE (page));
+
+	page->priv->is_assignment = set;
+	sensitize_widgets (page);
 }
 
 static void
@@ -1044,7 +1081,7 @@ add_clicked_cb (GtkButton *btn, TaskPage *page)
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (page));
 	flags = comp_editor_get_flags (editor);
 
-	attendee = e_meeting_store_add_attendee_with_defaults (page->priv->model);
+	attendee = e_meeting_store_add_attendee_with_defaults (page->priv->meeting_store);
 
 	if (flags & COMP_EDITOR_DELEGATE) {
 		e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("MAILTO:%s", page->priv->user_add));
@@ -1127,7 +1164,7 @@ remove_attendee (TaskPage *page, EMeetingAttendee *ia)
 	if (e_meeting_attendee_is_set_delfrom (ia)) {
 		EMeetingAttendee *ib;
 
-		ib = e_meeting_store_find_attendee (priv->model, e_meeting_attendee_get_delfrom (ia), &pos);
+		ib = e_meeting_store_find_attendee (priv->meeting_store, e_meeting_attendee_get_delfrom (ia), &pos);
 		if (ib != NULL) {
 			e_meeting_attendee_set_delto (ib, NULL);
 
@@ -1146,11 +1183,11 @@ remove_attendee (TaskPage *page, EMeetingAttendee *ia)
 		}
 
 		if (e_meeting_attendee_get_delto (ia) != NULL)
-			ib = e_meeting_store_find_attendee (priv->model, e_meeting_attendee_get_delto (ia), NULL);
+			ib = e_meeting_store_find_attendee (priv->meeting_store, e_meeting_attendee_get_delto (ia), NULL);
 
 		comp_editor_manage_new_attendees (priv->comp, ia, FALSE);
 		e_meeting_list_view_remove_attendee_from_name_selector (priv->list_view, ia);
-		e_meeting_store_remove_attendee (priv->model, ia);
+		e_meeting_store_remove_attendee (priv->meeting_store, ia);
 
 		ia = ib;
 	}
@@ -1174,7 +1211,7 @@ remove_clicked_cb (GtkButton *btn, TaskPage *page)
 	priv = page->priv;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list_view));
-	model = GTK_TREE_MODEL (priv->model);
+	model = GTK_TREE_MODEL (priv->meeting_store);
 	if (!(paths = gtk_tree_selection_get_selected_rows (selection, &model))) {
 		g_warning ("Could not get a selection to delete.");
 		return;
@@ -1184,10 +1221,10 @@ remove_clicked_cb (GtkButton *btn, TaskPage *page)
 	for (tmp = paths; tmp; tmp=tmp->next) {
 		path = tmp->data;
 
-		gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
+		gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->meeting_store), &iter, path);
 
-		gtk_tree_model_get (GTK_TREE_MODEL (priv->model), &iter, E_MEETING_STORE_ADDRESS_COL, &address, -1);
-		ia = e_meeting_store_find_attendee (priv->model, address, NULL);
+		gtk_tree_model_get (GTK_TREE_MODEL (priv->meeting_store), &iter, E_MEETING_STORE_ADDRESS_COL, &address, -1);
+		ia = e_meeting_store_find_attendee (priv->meeting_store, address, NULL);
 		g_free (address);
 		if (!ia) {
 			g_warning ("Cannot delete attendee\n");
@@ -1201,10 +1238,10 @@ remove_clicked_cb (GtkButton *btn, TaskPage *page)
 	}
 
 	/* Select closest item after removal */
-	valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
+	valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->meeting_store), &iter, path);
 	if (!valid_iter) {
 		gtk_tree_path_prev (path);
-		valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->model), &iter, path);
+		valid_iter = gtk_tree_model_get_iter (GTK_TREE_MODEL (priv->meeting_store), &iter, path);
 	}
 
 	if (valid_iter) {
@@ -1252,7 +1289,7 @@ attendee_added_cb (EMeetingListView *emlv,
 		gtk_widget_set_sensitive (priv->add, FALSE);
 		gtk_widget_set_sensitive (priv->edit, FALSE);
 
-		delegator = e_meeting_store_find_attendee (priv->model, priv->user_add, NULL);
+		delegator = e_meeting_store_find_attendee (priv->meeting_store, priv->user_add, NULL);
 		g_return_if_fail (delegator != NULL);
 
 		e_meeting_attendee_set_delto (delegator, g_strdup (e_meeting_attendee_get_address (ia)));
@@ -1272,7 +1309,7 @@ list_view_event (EMeetingListView *list_view, GdkEvent *event, TaskPage *page) {
 	if (event->type == GDK_2BUTTON_PRESS && flags & COMP_EDITOR_USER_ORG) {
 		EMeetingAttendee *attendee;
 
-		attendee = e_meeting_store_add_attendee_with_defaults (priv->model);
+		attendee = e_meeting_store_add_attendee_with_defaults (priv->meeting_store);
 
 		if (flags & COMP_EDITOR_DELEGATE) {
 			e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("MAILTO:%s", page->priv->user_add));
@@ -1325,27 +1362,6 @@ task_page_set_show_categories (TaskPage *page, gboolean state)
 		gtk_widget_hide (page->priv->categories_btn);
 		gtk_widget_hide (page->priv->categories);
 	}
-}
-
-/* fill_timezones handler for the event page */
-static gboolean
-task_page_fill_timezones (CompEditorPage *page, GHashTable *timezones)
-{
-	TaskPage *tpage;
-	TaskPagePrivate *priv;
-	icaltimezone *zone;
-
-	tpage = TASK_PAGE (page);
-	priv = tpage->priv;
-
-	/* add start date timezone */
-	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->timezone));
-	if (zone) {
-		if (!g_hash_table_lookup (timezones, icaltimezone_get_tzid (zone)))
-			g_hash_table_insert (timezones, (gpointer) icaltimezone_get_tzid (zone), zone);
-	}
-
-	return TRUE;
 }
 
 /*If the msg has some value set, the icon should always be set */
@@ -1428,7 +1444,7 @@ get_widgets (TaskPage *tpage)
 	priv->attendee_box = e_builder_get_widget (priv->builder, "attendee-box");
 	priv->org_cal_label = e_builder_get_widget (priv->builder, "org-task-label");
 
-	priv->list_view = e_meeting_list_view_new (priv->model);
+	priv->list_view = e_meeting_list_view_new (priv->meeting_store);
 
 	selection = gtk_tree_view_get_selection ((GtkTreeView *) priv->list_view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
@@ -2038,15 +2054,16 @@ task_page_select_organizer (TaskPage *tpage, const gchar *backend_address)
  * created.
  **/
 TaskPage *
-task_page_construct (TaskPage *tpage, EMeetingStore *model, ECal *client)
+task_page_construct (TaskPage *tpage,
+                     EMeetingStore *meeting_store,
+                     ECal *client)
 {
 	TaskPagePrivate *priv;
 	EIterator *it;
 	EAccount *a;
 
 	priv = tpage->priv;
-	g_object_ref (model);
-	priv->model = model;
+	priv->meeting_store = g_object_ref (meeting_store);
 	priv->client = client;
 
 	/* Make sure our custom widget classes are registered with
@@ -2145,29 +2162,4 @@ task_page_get_cancel_comp (TaskPage *page)
 	set_attendees (priv->comp, priv->deleted_attendees);
 
 	return e_cal_component_clone (priv->comp);
-}
-
-/**
- * task_page_add_attendee
- * @tpage: a #TaskPage
- * @attendee: Attendee to be added.
- *
- * Add attendee to meeting store and name selector.
- **/
-void
-task_page_add_attendee (TaskPage *tpage, EMeetingAttendee *attendee)
-{
-	TaskPagePrivate *priv;
-
-	g_return_if_fail (tpage != NULL);
-	g_return_if_fail (IS_TASK_PAGE (tpage));
-
-	priv = tpage->priv;
-
-	if ((comp_editor_get_flags (comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage))) & COMP_EDITOR_DELEGATE) != 0) {
-		e_meeting_attendee_set_delfrom (attendee, g_strdup_printf ("MAILTO:%s", tpage->priv->user_add));
-	}
-
-	e_meeting_store_add_attendee (priv->model, attendee);
-	e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (priv->list_view), attendee);
 }

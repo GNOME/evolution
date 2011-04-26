@@ -40,6 +40,10 @@
 #include "cancel-comp.h"
 #include "task-editor.h"
 
+#define TASK_EDITOR_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), TYPE_TASK_EDITOR, TaskEditorPrivate))
+
 struct _TaskEditorPrivate {
 	TaskPage *task_page;
 	TaskDetailsPage *task_details_page;
@@ -152,7 +156,7 @@ task_editor_constructor (GType type,
 		type, n_construct_properties, construct_properties);
 
 	editor = COMP_EDITOR (object);
-	priv = TASK_EDITOR (object)->priv;
+	priv = TASK_EDITOR_GET_PRIVATE (object);
 
 	client = comp_editor_get_client (editor);
 	flags = comp_editor_get_flags (editor);
@@ -177,7 +181,7 @@ task_editor_dispose (GObject *object)
 {
 	TaskEditorPrivate *priv;
 
-	priv = TASK_EDITOR (object)->priv;
+	priv = TASK_EDITOR_GET_PRIVATE (object);
 
 	if (priv->task_page) {
 		g_object_unref (priv->task_page);
@@ -203,7 +207,7 @@ task_editor_constructed (GObject *object)
 {
 	TaskEditorPrivate *priv;
 
-	priv = TASK_EDITOR (object)->priv;
+	priv = TASK_EDITOR_GET_PRIVATE (object);
 
 	g_object_bind_property (
 		object, "client",
@@ -218,66 +222,54 @@ static void
 task_editor_show_categories (CompEditor *editor,
                              gboolean visible)
 {
-	TaskEditorPrivate *priv;
+	TaskEditor *task_editor = TASK_EDITOR (editor);
 
-	priv = TASK_EDITOR (editor)->priv;
-
-	task_page_set_show_categories (priv->task_page, visible);
+	task_page_set_show_categories (task_editor->priv->task_page, visible);
 }
 
 static void
 task_editor_show_role (CompEditor *editor,
                        gboolean visible)
 {
-	TaskEditorPrivate *priv;
+	TaskEditor *task_editor = TASK_EDITOR (editor);
 
-	priv = TASK_EDITOR (editor)->priv;
-
-	task_page_set_view_role (priv->task_page, visible);
+	task_page_set_view_role (task_editor->priv->task_page, visible);
 }
 
 static void
 task_editor_show_rsvp (CompEditor *editor,
                        gboolean visible)
 {
-	TaskEditorPrivate *priv;
+	TaskEditor *task_editor = TASK_EDITOR (editor);
 
-	priv = TASK_EDITOR (editor)->priv;
-
-	task_page_set_view_rsvp (priv->task_page, visible);
+	task_page_set_view_rsvp (task_editor->priv->task_page, visible);
 }
 
 static void
 task_editor_show_status (CompEditor *editor,
                          gboolean visible)
 {
-	TaskEditorPrivate *priv;
+	TaskEditor *task_editor = TASK_EDITOR (editor);
 
-	priv = TASK_EDITOR (editor)->priv;
-
-	task_page_set_view_status (priv->task_page, visible);
+	task_page_set_view_status (task_editor->priv->task_page, visible);
 }
 
 static void
 task_editor_show_time_zone (CompEditor *editor,
                             gboolean visible)
 {
-	TaskEditorPrivate *priv;
+	TaskEditor *task_editor = TASK_EDITOR (editor);
 
-	priv = TASK_EDITOR (editor)->priv;
-
-	task_page_set_show_timezone (priv->task_page, visible);
+	task_page_set_show_timezone (task_editor->priv->task_page, visible);
 }
 
 static void
 task_editor_show_type (CompEditor *editor,
                        gboolean visible)
 {
-	TaskEditorPrivate *priv;
+	TaskEditor *task_editor = TASK_EDITOR (editor);
 
-	priv = TASK_EDITOR (editor)->priv;
-
-	task_page_set_view_type (priv->task_page, visible);
+	task_page_set_view_type (task_editor->priv->task_page, visible);
 }
 
 static void
@@ -316,8 +308,7 @@ task_editor_init (TaskEditor *te)
 	const gchar *id;
 	GError *error = NULL;
 
-	te->priv = G_TYPE_INSTANCE_GET_PRIVATE (
-		te, TYPE_TASK_EDITOR, TaskEditorPrivate);
+	te->priv = TASK_EDITOR_GET_PRIVATE (te);
 	te->priv->model = E_MEETING_STORE (e_meeting_store_new ());
 	te->priv->assignment_shown = TRUE;
 	te->priv->updating = FALSE;
@@ -391,7 +382,7 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	ECal *client;
 	GSList *attendees = NULL;
 
-	priv = TASK_EDITOR (editor)->priv;
+	priv = TASK_EDITOR_GET_PRIVATE (editor);
 
 	priv->updating = TRUE;
 
@@ -422,7 +413,8 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 				e_meeting_attendee_is_set_delto (ia))
 				e_meeting_attendee_set_edit_level (
 					ia,  E_MEETING_ATTENDEE_EDIT_NONE);
-			task_page_add_attendee (priv->task_page, ia);
+			comp_editor_page_add_attendee (
+				COMP_EDITOR_PAGE (priv->task_page), ia);
 
 			g_object_unref (ia);
 		}
@@ -474,7 +466,7 @@ task_editor_send_comp (CompEditor *editor,
 	TaskEditorPrivate *priv;
 	ECalComponent *comp = NULL;
 
-	priv = TASK_EDITOR (editor)->priv;
+	priv = TASK_EDITOR_GET_PRIVATE (editor);
 
 	/* Don't cancel more than once or when just publishing */
 	if (method == E_CAL_COMPONENT_METHOD_PUBLISH ||
