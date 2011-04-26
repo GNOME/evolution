@@ -62,6 +62,48 @@ static icalproperty_method itip_methods_enum[] = {
 };
 
 /**
+ * itip_get_user_identities:
+ *
+ * Returns a %NULL-terminated array of name + address strings based on
+ * registered mail identities.  Free the returned array with g_strfreev().
+ *
+ * Returns: an %NULL-terminated array of mail identity strings
+ **/
+gchar **
+itip_get_user_identities (void)
+{
+	EAccountList *account_list;
+	EIterator *iterator;
+	gchar **identities;
+	gint length, ii = 0;
+
+	account_list = e_get_account_list ();
+	length = e_list_length (E_LIST (account_list));
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	identities = g_new0 (gchar *, length + 1);
+
+	while (e_iterator_is_valid (iterator)) {
+		EAccount *account;
+
+		/* XXX EIterator misuses const. */
+		account = (EAccount *) e_iterator_get (iterator);
+
+		if (account->enabled)
+			identities[ii++] = g_strdup_printf (
+				"%s <%s>",
+				account->id->name,
+				account->id->address);
+
+		e_iterator_next (iterator);
+	}
+
+	g_object_unref (iterator);
+
+	return identities;
+}
+
+/**
  * itip_address_is_user:
  * @address: an email address
  *
@@ -79,7 +121,8 @@ itip_address_is_user (const gchar *address)
 
 	account_list = e_get_account_list ();
 
-	account = e_account_list_find (
+	/* XXX EAccountList misuses const. */
+	account = (EAccount *) e_account_list_find (
 		account_list, E_ACCOUNT_FIND_ID_ADDRESS, address);
 
 	return (account != NULL);

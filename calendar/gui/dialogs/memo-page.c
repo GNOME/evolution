@@ -92,7 +92,7 @@ struct _MemoPagePrivate {
 
 	GtkWidget *source_selector;
 
-	GList *address_strings;
+	gchar **address_strings;
 
 	ENameSelector *name_selector;
 };
@@ -187,8 +187,7 @@ memo_page_dispose (GObject *object)
 
 	priv = MEMO_PAGE (object)->priv;
 
-	g_list_foreach (priv->address_strings, (GFunc) g_free, NULL);
-	g_list_free (priv->address_strings);
+	g_strfreev (priv->address_strings);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (memo_page_parent_class)->dispose (object);
@@ -1096,7 +1095,6 @@ memo_page_select_organizer (MemoPage *mpage, const gchar *backend_address)
 	MemoPagePrivate *priv;
 	CompEditor *editor;
 	CompEditorFlags flags;
-	GList *l;
 	ECal *client;
 	EAccount *def_account;
 	gchar *def_address = NULL;
@@ -1104,6 +1102,7 @@ memo_page_select_organizer (MemoPage *mpage, const gchar *backend_address)
 	gboolean subscribed_cal = FALSE;
 	ESource *source = NULL;
 	const gchar *user_addr = NULL;
+	gint ii;
 
 	def_account = e_get_default_account ();
 	if (def_account && def_account->enabled)
@@ -1125,12 +1124,14 @@ memo_page_select_organizer (MemoPage *mpage, const gchar *backend_address)
 		user_addr = (backend_address && *backend_address) ? backend_address : NULL;
 
 	default_address = NULL;
-	if (user_addr)
-		for (l = priv->address_strings; l != NULL; l = l->next)
-			if (g_strrstr ((gchar *) l->data, user_addr) != NULL) {
-				default_address = (const gchar *) l->data;
+	if (user_addr) {
+		for (ii = 0; priv->address_strings[ii] != NULL; ii++) {
+			if (g_strrstr (priv->address_strings[ii], user_addr) != NULL) {
+				default_address = priv->address_strings[ii];
 				break;
 			}
+		}
+	}
 
 	if (!default_address && def_account)
 		default_address = def_address;
@@ -1158,9 +1159,11 @@ memo_page_select_organizer (MemoPage *mpage, const gchar *backend_address)
 MemoPage *
 memo_page_construct (MemoPage *mpage)
 {
-	MemoPagePrivate *priv = mpage->priv;
+	MemoPagePrivate *priv;
 	CompEditor *editor;
 	CompEditorFlags flags;
+
+	priv = mpage->priv;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage));
 	flags = comp_editor_get_flags (editor);
@@ -1175,41 +1178,16 @@ memo_page_construct (MemoPage *mpage)
 	}
 
 	if (flags & COMP_EDITOR_IS_SHARED) {
-		EAccountList *account_list;
-		EIterator *iterator;
+		GtkTreeModel *model;
+		gint ii;
 
-		account_list = e_get_account_list ();
-		iterator = e_list_get_iterator (E_LIST (account_list));
+		model = gtk_combo_box_get_model (GTK_COMBO_BOX (priv->org_combo));
+		priv->address_strings = itip_get_user_identities ();
+		for (ii = 0; priv->address_strings[ii] != NULL; ii++)
+			e_dialog_append_list_store_text (
+				model, 0, priv->address_strings[ii]);
 
-		while (e_iterator_is_valid (iterator)) {
-			EAccount *account;
-
-			/* XXX EIterator misuses const. */
-			account = (EAccount *) e_iterator_get (iterator);
-
-			if (account->enabled)
-				priv->address_strings = g_list_append (
-					priv->address_strings,
-					g_strdup_printf (
-						"%s <%s>",
-						account->id->name,
-						account->id->address));
-
-			e_iterator_next (iterator);
-		}
-
-		g_object_unref (iterator);
-
-		if (priv->address_strings) {
-			GList *l;
-			GtkTreeModel *model = gtk_combo_box_get_model (GTK_COMBO_BOX (priv->org_combo));
-
-			for (l = priv->address_strings; l; l = l->next)
-				e_dialog_append_list_store_text (model, 0, l->data);
-
-			gtk_combo_box_set_active (GTK_COMBO_BOX (priv->org_combo), 0);
-		} else
-			g_warning ("No potential organizers!");
+		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->org_combo), 0);
 
 		gtk_widget_show (priv->org_label);
 		gtk_widget_show (priv->org_combo);
