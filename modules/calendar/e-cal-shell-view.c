@@ -474,7 +474,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (EVENT_MEETING_NEW);
-	visible = itip_addresses_get_default () != NULL;
+	visible = e_get_default_account () != NULL;
 	gtk_action_set_visible (action, visible);
 }
 

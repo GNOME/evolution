@@ -27,6 +27,7 @@
 #include <gconf/gconf-client.h>
 #include "shell/es-event.h"
 #include <string.h>
+#include <e-util/e-account-utils.h>
 
 #define GROUPWISE_BASE_URI "groupwise://"
 
@@ -88,8 +89,8 @@ ensure_mandatory_esource_properties (EPlugin *ep, ESEventTargetUpgrade *target)
 	EAccountList *al;
 	EIterator *it;
 
+	al = e_get_account_list ();
 	client = gconf_client_get_default ();
-	al = e_account_list_new (client);
 
 	for (it = e_list_get_iterator ((EList *)al);
 			e_iterator_is_valid (it);
@@ -103,7 +104,6 @@ ensure_mandatory_esource_properties (EPlugin *ep, ESEventTargetUpgrade *target)
 		set_esource_props ("/apps/evolution/tasks/sources", a, client, a->name);
 		set_esource_props ("/apps/evolution/memos/sources", a, client, a->name);
 	}
-	g_object_unref (al);
 	g_object_unref (client);
 }
 

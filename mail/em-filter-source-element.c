@@ -32,7 +32,8 @@
 #include <gtk/gtk.h>
 #include <camel/camel.h>
 #include <libedataserver/e-sexp.h>
-#include <libedataserver/e-account-list.h>
+
+#include <e-util/e-account-utils.h>
 
 #include "filter/e-filter-part.h"
 
@@ -342,15 +343,12 @@ em_filter_source_element_get_sources (EMFilterSourceElement *fs)
 {
 	EAccountList *accounts;
 	const EAccount *account;
-	GConfClient *gconf;
 	EIterator *it;
 	gchar *uri;
 	CamelURL *url;
 
 	/* should this get the global object from mail? */
-	gconf = gconf_client_get_default ();
-	accounts = e_account_list_new (gconf);
-	g_object_unref (gconf);
+	accounts = e_get_account_list ();
 
 	for (it = e_list_get_iterator ((EList *)accounts);
 	     e_iterator_is_valid (it);
@@ -369,6 +367,6 @@ em_filter_source_element_get_sources (EMFilterSourceElement *fs)
 			g_free (uri);
 		}
 	}
+
 	g_object_unref (it);
-	g_object_unref (accounts);
 }

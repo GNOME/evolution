@@ -32,6 +32,7 @@
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-sexp.h>
 
+#include "e-util/e-account-utils.h"
 #include "e-util/e-selection.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-file-utils.h"

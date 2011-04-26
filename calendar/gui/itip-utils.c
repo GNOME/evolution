@@ -28,6 +28,7 @@
 #include <libedataserver/e-time-utils.h>
 #include <gtk/gtk.h>
 #include <libical/ical.h>
+#include <e-util/e-account-utils.h>
 #include <e-util/e-dialog-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-util.h>
@@ -59,26 +60,6 @@ static icalproperty_method itip_methods_enum[] = {
     ICAL_METHOD_COUNTER,
     ICAL_METHOD_DECLINECOUNTER,
 };
-
-static EAccountList *accounts = NULL;
-
-EAccountList *
-itip_addresses_get (void)
-{
-	if (accounts == NULL) {
-		GConfClient *gconf_client = gconf_client_get_default ();
-		accounts = e_account_list_new (gconf_client);
-		g_object_unref (gconf_client);
-	}
-
-	return accounts;
-}
-
-EAccount *
-itip_addresses_get_default (void)
-{
-	return (EAccount *)e_account_list_get_default (itip_addresses_get ());
-}
 
 gboolean
 itip_organizer_is_user_ex (ECalComponent *comp, ECal *client, gboolean skip_cap_test)
@@ -113,7 +94,7 @@ itip_organizer_is_user_ex (ECalComponent *comp, ECal *client, gboolean skip_cap_
 		}
 
 		user_org = e_account_list_find (
-			itip_addresses_get (),
+			e_get_account_list (),
 			E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
 	}
 
@@ -142,7 +123,7 @@ itip_sentby_is_user (ECalComponent *comp, ECal *client)
 	if (organizer.sentby != NULL) {
 		strip = itip_strip_mailto (organizer.sentby);
 		user_sentby = e_account_list_find (
-			itip_addresses_get (),
+			e_get_account_list (),
 			E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
 	}
 
@@ -209,7 +190,7 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 	gchar *address = NULL;
 
 	e_cal_component_get_attendee_list (comp, &attendees);
-	al = itip_addresses_get ();
+	al = e_get_account_list ();
 
 	if (client)
 		e_cal_get_cal_address (client, &address, NULL);
@@ -269,7 +250,7 @@ itip_get_comp_attendee (ECalComponent *comp, ECal *client)
 	/* We could not find the attendee in the component, so just give the default
 	account address if the email address is not set in the backend */
 	/* FIXME do we have a better way ? */
-	a = itip_addresses_get_default ();
+	a = e_get_default_account ();
 	address = g_strdup ((a != NULL) ? a->id->address : "");
 
 	e_cal_component_free_attendee_list (attendees);
@@ -919,7 +900,7 @@ comp_limit_attendees (ECalComponent *comp)
 		g_free (attendee);
 		attendee_text = g_strstrip (attendee_text);
 		found = match = e_account_list_find (
-			itip_addresses_get (),
+			e_get_account_list (),
 			E_ACCOUNT_FIND_ID_ADDRESS,
 			attendee_text) != NULL;
 
@@ -930,7 +911,7 @@ comp_limit_attendees (ECalComponent *comp)
 				attendee_sentby_text = g_strdup (itip_strip_mailto (attendee_sentby));
 				attendee_sentby_text = g_strstrip (attendee_sentby_text);
 				found = match = e_account_list_find (
-					itip_addresses_get (),
+					e_get_account_list (),
 					E_ACCOUNT_FIND_ID_ADDRESS,
 					attendee_sentby_text) != NULL;
 			}
@@ -963,7 +944,7 @@ comp_sentby (ECalComponent *comp, ECal *client)
 
 	e_cal_component_get_organizer (comp, &organizer);
 	if (!organizer.value) {
-		EAccount *a = itip_addresses_get_default ();
+		EAccount *a = e_get_default_account ();
 
 		organizer.value = g_strdup_printf ("MAILTO:%s", a->id->address);
 		organizer.sentby = NULL;
@@ -991,7 +972,7 @@ comp_sentby (ECalComponent *comp, ECal *client)
 	}
 
 	if (!itip_organizer_is_user (comp, client) && !itip_sentby_is_user (comp, client)) {
-		EAccount *a = itip_addresses_get_default ();
+		EAccount *a = e_get_default_account ();
 
 		organizer.value = g_strdup (organizer.value);
 		organizer.sentby = g_strdup_printf ("MAILTO:%s", a->id->address);

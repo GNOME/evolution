@@ -41,6 +41,7 @@
 #include <mail/mail-tools.h>
 #include <mail/mail-mt.h>
 #include <libedataserver/e-account-list.h>
+#include <e-util/e-account-utils.h>
 #include <e-util/e-alert-dialog.h>
 #include <e-util/e-mktemp.h>
 #include <calendar/gui/itip-utils.h>
@@ -964,7 +965,7 @@ change_status (icalcomponent *ical_comp, const gchar *address, icalparameter_par
 		} else {
 			EAccount *a;
 
-			a = itip_addresses_get_default ();
+			a = e_get_default_account ();
 
 			prop = icalproperty_new_attendee (a->id->address);
 			icalcomponent_add_property (ical_comp, prop);
@@ -2323,7 +2324,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	info = (struct _itip_puri *) em_format_find_puri ((EMFormat *)efh, pobject->classid);
 
 	/* Accounts */
-	info->accounts = itip_addresses_get ();
+	info->accounts = e_get_account_list ();
 
 	/* Source Lists and open ecal clients */
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {

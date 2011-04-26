@@ -24,12 +24,11 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <camel/camel.h>
-#include <libedataserver/e-account.h>
-#include <libedataserver/e-account-list.h>
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-group.h>
 #include <libedataserver/e-source-list.h>
 
+#include "e-util/e-account-utils.h"
 #include "calendar/gui/calendar-config-keys.h"
 #include "shell/e-shell.h"
 
@@ -249,7 +248,9 @@ e_memo_shell_backend_migrate (EShellBackend *shell_backend,
 		CamelURL *url;
 		EIterator *it;
 		GConfClient *gconf_client = gconf_client_get_default ();
-		al = e_account_list_new (gconf_client);
+
+		al = e_get_account_list ();
+
 		for (it = e_list_get_iterator ((EList *)al);
 				e_iterator_is_valid (it);
 				e_iterator_next (it)) {
@@ -260,7 +261,7 @@ e_memo_shell_backend_migrate (EShellBackend *shell_backend,
 			add_gw_esource (source_list, a->name, _("Notes"), url, gconf_client);
 			camel_url_free (url);
 		}
-		g_object_unref (al);
+
 		g_object_unref (gconf_client);
 	}
 
