@@ -32,6 +32,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
+#include "e-util/e-account-utils.h"
 #include "e-util/e-plugin-ui.h"
 #include "e-util/e-util-private.h"
 
@@ -425,7 +426,7 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 			EAccount *account;
 			EIterator *it;
 
-			accounts = itip_addresses_get ();
+			accounts = e_get_account_list ();
 			for (it = e_list_get_iterator ((EList *)accounts);
 				e_iterator_is_valid (it);
 				e_iterator_next (it)) {

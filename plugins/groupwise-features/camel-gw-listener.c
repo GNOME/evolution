@@ -31,9 +31,9 @@
 #include <e-gw-connection.h>
 #include <libedataserverui/e-passwords.h>
 #include "e-util/e-alert-dialog.h"
-#include <libedataserver/e-account.h>
 #include <libecal/e-cal.h>
 #include <shell/e-shell.h>
+#include <e-util/e-account-utils.h>
 
 /*stores some info about all currently existing groupwise accounts
   list of GwAccountInfo structures */
@@ -934,7 +934,6 @@ account_changed (EAccountList *account_listener, EAccount *account)
 static void
 prune_proxies (void) {
 
-	GConfClient *client = gconf_client_get_default ();
 	EAccountList *account_list;
 	ESourceList *sources;
 	ESourceGroup *group;
@@ -948,10 +947,7 @@ prune_proxies (void) {
 				    E_CAL_SOURCE_TYPE_JOURNAL
 				  };
 
-	account_list = e_account_list_new (client);
-	/* Is this being leaked */
-	g_object_unref (client);
-
+	account_list = e_get_account_list ();
 	e_account_list_prune_proxies (account_list);
 
 	for (i=0; i<3; i++) {

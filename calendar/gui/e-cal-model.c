@@ -37,6 +37,7 @@
 #include "itip-utils.h"
 #include "misc.h"
 #include "e-util/e-util.h"
+#include "e-util/e-account-utils.h"
 #include "e-util/e-extensible.h"
 #include "e-util/e-util-enumtypes.h"
 
@@ -703,7 +704,7 @@ e_cal_model_init (ECalModel *model)
 	model->priv->kind = ICAL_NO_COMPONENT;
 	model->priv->flags = 0;
 
-	model->priv->accounts = itip_addresses_get ();
+	model->priv->accounts = e_get_account_list ();
 
 	model->priv->use_24_hour_format = TRUE;
 

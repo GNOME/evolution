@@ -42,6 +42,7 @@
 #include "misc/e-buffer-tagger.h"
 
 #include "e-util/e-util.h"
+#include "e-util/e-account-utils.h"
 #include "e-util/e-categories-config.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-dialog-widgets.h"
@@ -1081,7 +1082,7 @@ memo_page_select_organizer (MemoPage *mpage, const gchar *backend_address)
 	ESource *source = NULL;
 	const gchar *user_addr = NULL;
 
-	def_account = itip_addresses_get_default ();
+	def_account = e_get_default_account ();
 	if (def_account && def_account->enabled)
 		def_address = g_strdup_printf("%s <%s>", def_account->id->name, def_account->id->address);
 
@@ -1153,7 +1154,7 @@ memo_page_construct (MemoPage *mpage)
 	}
 
 	if (flags & COMP_EDITOR_IS_SHARED) {
-		priv->accounts = itip_addresses_get ();
+		priv->accounts = e_get_account_list ();
 		for (it = e_list_get_iterator ((EList *)priv->accounts);
 				e_iterator_is_valid (it);
 				e_iterator_next (it)) {
