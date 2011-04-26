@@ -35,6 +35,7 @@
 #include <libedataserver/e-proxy.h>
 #include <libedataserverui/e-passwords.h>
 #include <e-util/e-extensible.h>
+#include <e-util/e-account-utils.h>
 #include <e-util/e-util-enumtypes.h>
 #include "itip-utils.h"
 #include "e-meeting-utils.h"
@@ -1084,6 +1085,52 @@ e_meeting_store_remove_all_attendees (EMeetingStore *store)
 		g_ptr_array_remove_index (store->priv->attendees, k);
 		g_object_unref (attendee);
 	}
+}
+
+/**
+ * e_meeting_store_find_self:
+ * @store: an #EMeetingStore
+ * @row: return location for the matching row number, or %NULL
+ *
+ * Looks for the user in @store by comparing attendee email addresses to
+ * registered mail identities.  If a matching email address is found and
+ * @row is not %NULL, @row will be set to the #EMeetingStore row number
+ * with the matching email address.
+ *
+ * Returns: an #EMeetingAttendee, or %NULL
+ **/
+EMeetingAttendee *
+e_meeting_store_find_self (EMeetingStore *store,
+                           gint *row)
+{
+	EMeetingAttendee *attendee = NULL;
+	EAccountList *account_list;
+	EIterator *iterator;
+
+	g_return_val_if_fail (E_IS_MEETING_STORE (store), NULL);
+
+	account_list = e_get_account_list ();
+
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (e_iterator_is_valid (iterator)) {
+		EAccount *account;
+
+		/* XXX EIterator misuses const. */
+		account = (EAccount *) e_iterator_get (iterator);
+
+		attendee = e_meeting_store_find_attendee (
+			store, account->id->address, row);
+
+		if (attendee != NULL)
+			break;
+
+		e_iterator_next (iterator);
+	}
+
+	g_object_unref (iterator);
+
+	return attendee;
 }
 
 EMeetingAttendee *

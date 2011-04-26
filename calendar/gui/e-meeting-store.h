@@ -122,6 +122,9 @@ void		e_meeting_store_remove_attendee	(EMeetingStore *meeting_store,
 void		e_meeting_store_remove_all_attendees
 						(EMeetingStore *meeting_store);
 EMeetingAttendee *
+		e_meeting_store_find_self	(EMeetingStore *meeting_store,
+						 gint *row);
+EMeetingAttendee *
 		e_meeting_store_find_attendee	(EMeetingStore *meeting_store,
 						 const gchar *address,
 						 gint *row);
