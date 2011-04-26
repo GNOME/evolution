@@ -30,6 +30,8 @@
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal.h>
 
+#include <calendar/gui/e-meeting-attendee.h>
+
 /* Standard GObject macros */
 #define TYPE_COMP_EDITOR_PAGE \
 	(comp_editor_page_get_type ())
@@ -80,20 +82,23 @@ struct _CompEditorPage {
 struct _CompEditorPageClass {
 	GObjectClass parent_class;
 
-	/* Notification signals */
+	/* Signals */
+	void		(*dates_changed)	(CompEditorPage *page,
+						 const gchar *dates);
 
-	void (* dates_changed)   (CompEditorPage *page, const gchar *dates);
-
-	/* Virtual methods */
-
-	GtkWidget *(* get_widget) (CompEditorPage *page);
-	void (* focus_main_widget) (CompEditorPage *page);
-
-	gboolean (* fill_widgets) (CompEditorPage *page, ECalComponent *comp);
-	gboolean (* fill_component) (CompEditorPage *page, ECalComponent *comp);
-	gboolean (* fill_timezones) (CompEditorPage *page, GHashTable *timezones);
-
-	void (* set_dates) (CompEditorPage *page, CompEditorPageDates *dates);
+	/* Methods */
+	GtkWidget *	(*get_widget)		(CompEditorPage *page);
+	void		(*focus_main_widget)	(CompEditorPage *page);
+	gboolean	(*fill_widgets)		(CompEditorPage *page,
+						 ECalComponent *comp);
+	gboolean	(*fill_component)	(CompEditorPage *page,
+						 ECalComponent *comp);
+	gboolean	(*fill_timezones)	(CompEditorPage *page,
+						 GHashTable *timezones);
+	void		(*set_dates)		(CompEditorPage *page,
+						 CompEditorPageDates *dates);
+	void		(*add_attendee)		(CompEditorPage *page,
+						 EMeetingAttendee *attendee);
 };
 
 GType		comp_editor_page_get_type	(void);
@@ -114,6 +119,8 @@ gboolean	comp_editor_page_fill_timezones	(CompEditorPage *page,
 						 GHashTable *timezones);
 void		comp_editor_page_set_dates	(CompEditorPage *page,
 						 CompEditorPageDates *dates);
+void		comp_editor_page_add_attendee	(CompEditorPage *page,
+						 EMeetingAttendee *attendee);
 void		comp_editor_page_notify_dates_changed
 						(CompEditorPage *page,
 						 CompEditorPageDates *dates);

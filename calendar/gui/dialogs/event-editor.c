@@ -665,7 +665,8 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 					e_meeting_attendee_set_edit_level (
 						ia,  E_MEETING_ATTENDEE_EDIT_NONE);
 
-				event_page_add_attendee (priv->event_page, ia);
+				comp_editor_page_add_attendee (
+					COMP_EDITOR_PAGE (priv->event_page), ia);
 
 				g_object_unref (ia);
 			}

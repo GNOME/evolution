@@ -106,8 +106,6 @@ void		event_page_set_view_type	(EventPage *epage,
 void		event_page_set_view_rvsp	(EventPage *epage,
 						 gboolean state);
 ENameSelector *	event_page_get_name_selector	(EventPage *epage);
-void		event_page_add_attendee		(EventPage *epage,
-						 EMeetingAttendee *attendee);
 void		event_page_remove_all_attendees (EventPage *epage);
 GtkWidget *	event_page_get_alarm_page	(EventPage *epage);
 GtkWidget *	event_page_get_attendee_page	(EventPage *epage);

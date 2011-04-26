@@ -129,15 +129,6 @@ comp_editor_page_class_init (CompEditorPageClass *class)
 	object_class->get_property = comp_editor_page_get_property;
 	object_class->dispose = comp_editor_page_dispose;
 
-	class->dates_changed = NULL;
-
-	class->get_widget = NULL;
-	class->focus_main_widget = NULL;
-	class->fill_widgets = NULL;
-	class->fill_component = NULL;
-	class->fill_timezones = NULL;
-	class->set_dates = NULL;
-
 	g_object_class_install_property (
 		object_class,
 		PROP_EDITOR,
@@ -397,6 +388,28 @@ comp_editor_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 
 	if (class->set_dates != NULL)
 		class->set_dates (page, dates);
+}
+
+/**
+ * comp_editor_page_add_attendee:
+ * @page: a #CompEditorPage
+ * @attendee: an #EMeetingAttendee
+ *
+ * Adds @attendee to an internal meeting store.
+ **/
+void
+comp_editor_page_add_attendee (CompEditorPage *page,
+                               EMeetingAttendee *attendee)
+{
+	CompEditorPageClass *class;
+
+	g_return_if_fail (IS_COMP_EDITOR_PAGE (page));
+	g_return_if_fail (E_IS_MEETING_ATTENDEE (attendee));
+
+	class = COMP_EDITOR_PAGE_GET_CLASS (page);
+	g_return_if_fail (class->add_attendee != NULL);
+
+	class->add_attendee (page, attendee);
 }
 
 /**
