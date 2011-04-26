@@ -321,7 +321,7 @@ is_meeting_owner (ECalComponent *comp, ECal *client)
 	}
 
 	if (!ret_val)
-		ret_val = e_account_list_find (e_get_account_list (), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
+		ret_val = itip_address_is_user (strip);
 
 	g_free (email);
 	return ret_val;

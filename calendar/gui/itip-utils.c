@@ -61,6 +61,30 @@ static icalproperty_method itip_methods_enum[] = {
     ICAL_METHOD_DECLINECOUNTER,
 };
 
+/**
+ * itip_address_is_user:
+ * @address: an email address
+ *
+ * Looks for a registered mail identity with a matching email address.
+ *
+ * Returns: %TRUE if a match was found, %FALSE if not
+ **/
+gboolean
+itip_address_is_user (const gchar *address)
+{
+	EAccountList *account_list;
+	EAccount *account;
+
+	g_return_val_if_fail (address != NULL, FALSE);
+
+	account_list = e_get_account_list ();
+
+	account = e_account_list_find (
+		account_list, E_ACCOUNT_FIND_ID_ADDRESS, address);
+
+	return (account != NULL);
+}
+
 gboolean
 itip_organizer_is_user (ECalComponent *comp,
                         ECal *client)
@@ -102,9 +126,7 @@ itip_organizer_is_user_ex (ECalComponent *comp,
 			return FALSE;
 		}
 
-		user_org = e_account_list_find (
-			e_get_account_list (),
-			E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
+		user_org = itip_address_is_user (strip);
 	}
 
 	return user_org;
@@ -126,9 +148,7 @@ itip_sentby_is_user (ECalComponent *comp,
 	e_cal_component_get_organizer (comp, &organizer);
 	if (organizer.sentby != NULL) {
 		strip = itip_strip_mailto (organizer.sentby);
-		user_sentby = e_account_list_find (
-			e_get_account_list (),
-			E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
+		user_sentby = itip_address_is_user (strip);
 	}
 
 	return user_sentby;
@@ -918,21 +938,19 @@ comp_limit_attendees (ECalComponent *comp)
 		attendee_text = g_strdup (itip_strip_mailto (attendee));
 		g_free (attendee);
 		attendee_text = g_strstrip (attendee_text);
-		found = match = e_account_list_find (
-			e_get_account_list (),
-			E_ACCOUNT_FIND_ID_ADDRESS,
-			attendee_text) != NULL;
+		found = match = itip_address_is_user (attendee_text);
 
 		if (!found) {
 			param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
 			if (param) {
-				attendee_sentby = icalparameter_get_sentby (param);
-				attendee_sentby_text = g_strdup (itip_strip_mailto (attendee_sentby));
-				attendee_sentby_text = g_strstrip (attendee_sentby_text);
-				found = match = e_account_list_find (
-					e_get_account_list (),
-					E_ACCOUNT_FIND_ID_ADDRESS,
-					attendee_sentby_text) != NULL;
+				attendee_sentby =
+					icalparameter_get_sentby (param);
+				attendee_sentby =
+					itip_strip_mailto (attendee_sentby);
+				attendee_sentby_text =
+					g_strstrip (g_strdup (attendee_sentby));
+				found = match = itip_address_is_user (
+					attendee_sentby_text);
 			}
 		}
 

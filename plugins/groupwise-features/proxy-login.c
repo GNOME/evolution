@@ -42,6 +42,7 @@
 #include <e-util/e-util-private.h>
 #include <e-util/e-account-utils.h>
 #include <shell/e-shell-view.h>
+#include <calendar/gui/itip-utils.h>
 
 #include <e-gw-container.h>
 #include <e-gw-connection.h>
@@ -335,7 +336,7 @@ proxy_soap_login (gchar *email, GtkWindow *error_parent)
 	/* README: There should not be the weird scenario of the proxy itself configured as an account.
 	   If so, it is violating the (li)unix philosophy of User creation. So dont care about that scenario*/
 
-	if (e_account_list_find (accounts, E_ACCOUNT_FIND_ID_ADDRESS, email) != NULL) {
+	if (itip_address_is_user (email)) {
 		e_alert_run_dialog_for_args (error_parent,
 					     "org.gnome.evolution.proxy-login:already-loggedin",
 					     email, NULL);
