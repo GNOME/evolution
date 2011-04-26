@@ -65,7 +65,7 @@ struct _TaskPagePrivate {
 	/* Widgets from the UI file */
 	GtkWidget *main;
 
-	GList *address_strings;
+	gchar **address_strings;
 	EMeetingAttendee *ia;
 	gchar *user_add;
 	ECalComponent *comp;
@@ -425,8 +425,7 @@ task_page_finalize (GObject *object)
 
 	priv = TASK_PAGE_GET_PRIVATE (object);
 
-	g_list_foreach (priv->address_strings, (GFunc) g_free, NULL);
-	g_list_free (priv->address_strings);
+	g_strfreev (priv->address_strings);
 
 	g_ptr_array_foreach (
 		priv->deleted_attendees, (GFunc) g_object_unref, NULL);
@@ -2037,7 +2036,6 @@ task_page_select_organizer (TaskPage *tpage, const gchar *backend_address)
 {
 	TaskPagePrivate *priv = tpage->priv;
 	CompEditor *editor;
-	GList *l;
 	EAccount *def_account;
 	gchar *def_address = NULL;
 	const gchar *default_address;
@@ -2045,6 +2043,7 @@ task_page_select_organizer (TaskPage *tpage, const gchar *backend_address)
 	ESource *source = NULL;
 	ECal *client;
 	const gchar *user_addr = NULL;
+	gint ii;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
 	client = comp_editor_get_client (editor);
@@ -2064,12 +2063,14 @@ task_page_select_organizer (TaskPage *tpage, const gchar *backend_address)
 		user_addr = (backend_address && *backend_address) ? backend_address : NULL;
 
 	default_address = NULL;
-	if (user_addr)
-		for (l = priv->address_strings; l != NULL; l = l->next)
-			if (g_strrstr ((gchar *) l->data, user_addr) != NULL) {
-				default_address = (const gchar *) l->data;
+	if (user_addr) {
+		for (ii = 0; priv->address_strings[ii] != NULL; ii++) {
+			if (g_strrstr (priv->address_strings[ii], user_addr) != NULL) {
+				default_address = priv->address_strings[ii];
 				break;
 			}
+		}
+	}
 
 	if (!default_address && def_address)
 		default_address = def_address;
@@ -2104,8 +2105,8 @@ task_page_construct (TaskPage *tpage,
                      ECal *client)
 {
 	TaskPagePrivate *priv;
-	EAccountList *account_list;
-	EIterator *iterator;
+	GtkTreeModel *model;
+	gint ii;
 
 	priv = tpage->priv;
 	priv->meeting_store = g_object_ref (meeting_store);
@@ -2126,40 +2127,18 @@ task_page_construct (TaskPage *tpage,
 		return NULL;
 	}
 
-	account_list = e_get_account_list ();
-	iterator = e_list_get_iterator (E_LIST (account_list));
+	model = gtk_combo_box_get_model (GTK_COMBO_BOX (priv->organizer));
 
-	while (e_iterator_is_valid (iterator)) {
-		EAccount *account;
+	priv->address_strings = itip_get_user_identities ();
+	for (ii = 0; priv->address_strings[ii] != NULL; ii++)
+		e_dialog_append_list_store_text (
+			model, 0, priv->address_strings[ii]);
 
-		/* XXX EIterator misuses const. */
-		account = (EAccount *) e_iterator_get (iterator);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (priv->organizer), 0);
 
-		if (account->enabled)
-			priv->address_strings = g_list_append (
-				priv->address_strings,
-				g_strdup_printf (
-					"%s <%s>",
-					account->id->name,
-					account->id->address));
-
-		e_iterator_next (iterator);
-	}
-
-	g_object_unref (iterator);
-
-	if (priv->address_strings) {
-		GList *l;
-		GtkTreeModel *model = gtk_combo_box_get_model (GTK_COMBO_BOX (priv->organizer));
-
-		for (l = priv->address_strings; l; l = l->next)
-			e_dialog_append_list_store_text (model, 0, l->data);
-
-		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->organizer), 0);
-
-		g_signal_connect (gtk_bin_get_child (GTK_BIN (priv->organizer)), "changed", (GCallback) organizer_changed_cb, tpage);
-	} else
-		g_warning ("No potential organizers!");
+	g_signal_connect (
+		gtk_bin_get_child (GTK_BIN (priv->organizer)), "changed",
+		G_CALLBACK (organizer_changed_cb), tpage);
 
 	if (!init_widgets (tpage)) {
 		g_message ("task_page_construct(): "
