@@ -33,7 +33,6 @@
 #include <glib/gi18n.h>
 
 #include <misc/e-dateedit.h>
-#include <e-util/e-account-utils.h>
 #include <e-util/e-plugin-ui.h>
 #include <e-util/e-util-private.h>
 #include <e-util/e-ui-manager.h>
@@ -674,23 +673,11 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 
 			/* If we aren't the organizer we can still change our own status */
 			if (!comp_editor_get_user_org (editor)) {
-				EAccountList *accounts;
-				EAccount *account;
-				EIterator *it;
+				EMeetingAttendee *ia;
 
-				accounts = e_get_account_list ();
-				for (it = e_list_get_iterator ((EList *)accounts);
-					e_iterator_is_valid (it);
-					e_iterator_next (it)) {
-					EMeetingAttendee *ia;
-
-					account = (EAccount*)e_iterator_get (it);
-
-					ia = e_meeting_store_find_attendee (priv->model, account->id->address, &row);
-					if (ia != NULL)
-						e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_STATUS);
-				}
-				g_object_unref (it);
+				ia = e_meeting_store_find_self (priv->model, &row);
+				if (ia != NULL)
+					e_meeting_attendee_set_edit_level (ia, E_MEETING_ATTENDEE_EDIT_STATUS);
 			} else if (e_cal_get_organizer_must_attend (client)) {
 				EMeetingAttendee *ia;
 
