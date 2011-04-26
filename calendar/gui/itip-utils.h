@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef ITIP_UTILS_HEADER
-#define ITIP_UTILS_HEADER
+#ifndef ITIP_UTILS_H
+#define ITIP_UTILS_H
 
 #include <libical/ical.h>
 #include <string.h>
@@ -26,6 +26,8 @@
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-component.h>
 #include <libedataserver/e-account-list.h>
+
+G_BEGIN_DECLS
 
 typedef enum {
 	E_CAL_COMPONENT_METHOD_PUBLISH,
@@ -48,27 +50,41 @@ struct CalMimeAttach {
 	guint length;
 };
 
-gboolean itip_organizer_is_user (ECalComponent *comp, ECal *client);
-gboolean itip_organizer_is_user_ex (ECalComponent *comp, ECal *client, gboolean skip_cap_test);
-gboolean itip_sentby_is_user (ECalComponent *comp, ECal *client);
+gboolean	itip_organizer_is_user		(ECalComponent *comp,
+						 ECal *client);
+gboolean	itip_organizer_is_user_ex	(ECalComponent *comp,
+						 ECal *client,
+						 gboolean skip_cap_test);
+gboolean	itip_sentby_is_user		(ECalComponent *comp,
+						 ECal *client);
+const gchar *	itip_strip_mailto		(const gchar *address);
+gchar *		itip_get_comp_attendee		(ECalComponent *comp,
+						 ECal *client);
+gboolean	itip_send_comp			(ECalComponentItipMethod method,
+						 ECalComponent *comp,
+						 ECal *client,
+						 icalcomponent *zones,
+						 GSList *attachments_list,
+						 GList *users,
+						 gboolean strip_alarms,
+						 gboolean only_new_attendees);
+gboolean	itip_publish_comp		(ECal *client,
+						 gchar *uri,
+						 gchar *username,
+						 gchar *password,
+						 ECalComponent **pub_comp);
+gboolean	itip_publish_begin		(ECalComponent *pub_comp,
+						 ECal *client,
+						 gboolean cloned,
+						 ECalComponent **clone);
+gboolean	reply_to_calendar_comp		(ECalComponentItipMethod method,
+						 ECalComponent *send_comp,
+						 ECal *client,
+						 gboolean reply_all,
+						 icalcomponent *zones,
+						 GSList *attachments_list);
+gboolean	is_icalcomp_valid		(icalcomponent *icalcomp);
 
-const gchar *itip_strip_mailto (const gchar *address);
+G_END_DECLS
 
-gchar *itip_get_comp_attendee (ECalComponent *comp, ECal *client);
-
-gboolean itip_send_comp (ECalComponentItipMethod method, ECalComponent *comp,
-			 ECal *client, icalcomponent *zones, GSList *attachments_list, GList *users,
-			 gboolean strip_alarms, gboolean only_new_attendees);
-
-gboolean itip_publish_comp (ECal *client, gchar * uri, gchar * username,
-			    gchar * password, ECalComponent **pub_comp);
-
-gboolean itip_publish_begin (ECalComponent *pub_comp, ECal *client,
-			     gboolean cloned, ECalComponent **clone);
-
-gboolean reply_to_calendar_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
-				ECal *client, gboolean reply_all, icalcomponent *zones, GSList *attachments_list);
-
-gboolean is_icalcomp_valid (icalcomponent *icalcomp);
-
-#endif
+#endif /* ITIP_UTILS_H */
