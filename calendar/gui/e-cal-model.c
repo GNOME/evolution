@@ -976,7 +976,7 @@ ecm_value_at (ETableModel *etm, gint col, gint row)
 					const gchar *text;
 
 					text = itip_strip_mailto (ca->value);
-					if (e_account_list_find (priv->accounts, E_ACCOUNT_FIND_ID_ADDRESS, text) != NULL) {
+					if (itip_address_is_user (text)) {
 						if (ca->delto != NULL)
 							retval = 3;
 						else

@@ -50,6 +50,7 @@ struct CalMimeAttach {
 	guint length;
 };
 
+gboolean	itip_address_is_user		(const gchar *address);
 gboolean	itip_organizer_is_user		(ECalComponent *comp,
 						 ECal *client);
 gboolean	itip_organizer_is_user_ex	(ECalComponent *comp,
