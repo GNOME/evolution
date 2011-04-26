@@ -65,7 +65,6 @@ struct _TaskPagePrivate {
 	/* Widgets from the UI file */
 	GtkWidget *main;
 
-	EAccountList *accounts;
 	GList *address_strings;
 	EMeetingAttendee *ia;
 	gchar *user_add;
@@ -139,35 +138,54 @@ static void set_subscriber_info_string (TaskPage *tpage, const gchar *backend_ad
 
 G_DEFINE_TYPE (TaskPage, task_page, TYPE_COMP_EDITOR_PAGE)
 
-static EAccount *
-get_current_account (TaskPage *page)
+static gboolean
+get_current_identity (TaskPage *page,
+                      gchar **name,
+                      gchar **mailto)
 {
-	TaskPagePrivate *priv;
-	EIterator *it;
-	const gchar *str;
+	EAccountList *account_list;
+	EIterator *iterator;
+	GtkWidget *entry;
+	const gchar *text;
+	gboolean match = FALSE;
 
-	priv = page->priv;
+	entry = gtk_bin_get_child (GTK_BIN (page->priv->organizer));
+	text = gtk_entry_get_text (GTK_ENTRY (entry));
 
-	str = gtk_entry_get_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->organizer))));
-	if (!str)
-		return NULL;
+	if (text == NULL || *text == '\0')
+		return FALSE;
 
-	for (it = e_list_get_iterator ((EList *)priv->accounts); e_iterator_is_valid (it); e_iterator_next (it)) {
-		EAccount *a = (EAccount *)e_iterator_get (it);
-		gchar *full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
+	account_list = e_get_account_list ();
+	iterator = e_list_get_iterator (E_LIST (account_list));
 
-		if (!g_ascii_strcasecmp (full, str)) {
-			g_free (full);
-			g_object_unref (it);
+	while (!match && e_iterator_is_valid (iterator)) {
+		EAccount *account;
+		const gchar *id_name;
+		const gchar *id_address;
+		gchar *identity;
 
-			return a;
-		}
+		/* XXX EIterator misuses const. */
+		account = (EAccount *) e_iterator_get (iterator);
 
-		g_free (full);
+		id_name = account->id->name;
+		id_address = account->id->address;
+
+		identity = g_strdup_printf ("%s <%s>", id_name, id_address);
+		match = (g_ascii_strcasecmp (text, identity) == 0);
+		g_free (identity);
+
+		if (match && name != NULL)
+			*name = g_strdup (id_name);
+
+		if (match && mailto != NULL)
+			*mailto = g_strdup_printf ("MAILTO:%s", id_address);
+
+		e_iterator_next (iterator);
 	}
-	g_object_unref (it);
 
-	return NULL;
+	g_object_unref (iterator);
+
+	return match;
 }
 
 /* Fills the widgets with default values */
@@ -352,7 +370,8 @@ static void
 organizer_changed_cb (GtkEntry *entry,
                       TaskPage *tpage)
 {
-	EAccount *account;
+	gchar *name;
+	gchar *mailto;
 
 	g_return_if_fail (GTK_IS_ENTRY (entry));
 	g_return_if_fail (IS_TASK_PAGE (tpage));
@@ -360,12 +379,12 @@ organizer_changed_cb (GtkEntry *entry,
 	if (!tpage->priv->ia)
 		return;
 
-	account = get_current_account (tpage);
-	if (!account || !account->id)
+	if (!get_current_identity (tpage, &name, &mailto))
 		return;
 
-	e_meeting_attendee_set_address (tpage->priv->ia, g_strdup_printf ("MAILTO:%s", account->id->address));
-	e_meeting_attendee_set_cn (tpage->priv->ia, g_strdup (account->id->name));
+	/* XXX EMeetingAttendee takes ownership of the strings. */
+	e_meeting_attendee_set_cn (tpage->priv->ia, name);
+	e_meeting_attendee_set_address (tpage->priv->ia, mailto);
 }
 
 static void
@@ -610,6 +629,8 @@ task_page_fill_widgets (CompEditorPage *page,
 
 	if (priv->is_assignment) {
 		ECalComponentOrganizer organizer;
+		gchar *name = NULL;
+		gchar *mailto = NULL;
 
 		priv->user_add = itip_get_comp_attendee (comp, client);
 
@@ -664,33 +685,52 @@ task_page_fill_widgets (CompEditorPage *page,
 				g_free (string);
 				priv->existing = TRUE;
 			}
-		} else {
-			EAccount *a;
+		} else if (get_current_identity (tpage, &name, &mailto)) {
+			EMeetingAttendee *attendee;
+			gchar *backend_mailto = NULL;
 
-			a = get_current_account (tpage);
-			if (a != NULL) {
-				priv->ia = e_meeting_store_add_attendee_with_defaults (priv->meeting_store);
-				g_object_ref (priv->ia);
-
-				if (!(backend_addr && *backend_addr) || !g_ascii_strcasecmp (backend_addr, a->id->address)) {
-					e_meeting_attendee_set_address (priv->ia, g_strdup_printf ("MAILTO:%s", a->id->address));
-					e_meeting_attendee_set_cn (priv->ia, g_strdup (a->id->name));
-				} else {
-					e_meeting_attendee_set_address (priv->ia, g_strdup_printf ("MAILTO:%s", backend_addr));
-					e_meeting_attendee_set_sentby (priv->ia, g_strdup_printf ("MAILTO:%s", a->id->address));
+			if (backend_addr != NULL && *backend_addr != '\0') {
+				backend_mailto = g_strdup_printf (
+					"MAILTO:%s", backend_addr);
+				if (g_ascii_strcasecmp (backend_mailto, mailto) == 0) {
+					g_free (backend_mailto);
+					backend_mailto = NULL;
 				}
-
-				if (client && e_cal_get_organizer_must_accept (client))
-					e_meeting_attendee_set_status (priv->ia, ICAL_PARTSTAT_NEEDSACTION);
-				else
-					e_meeting_attendee_set_status (priv->ia, ICAL_PARTSTAT_ACCEPTED);
-				e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (priv->list_view), priv->ia);
 			}
+
+			attendee =
+				e_meeting_store_add_attendee_with_defaults (
+				priv->meeting_store);
+			priv->ia = g_object_ref (attendee);
+
+			if (backend_mailto == NULL) {
+				e_meeting_attendee_set_cn (attendee, name);
+				e_meeting_attendee_set_address (attendee, mailto);
+				name = mailto = NULL;
+			} else {
+				e_meeting_attendee_set_address (attendee, backend_mailto);
+				e_meeting_attendee_set_sentby (attendee, mailto);
+				backend_mailto = mailto = NULL;
+			}
+
+			if (client && e_cal_get_organizer_must_accept (client))
+				e_meeting_attendee_set_status (
+					attendee, ICAL_PARTSTAT_NEEDSACTION);
+			else
+				e_meeting_attendee_set_status (
+					attendee, ICAL_PARTSTAT_ACCEPTED);
+
+			e_meeting_list_view_add_attendee_to_name_selector (
+				E_MEETING_LIST_VIEW (priv->list_view), attendee);
+
+			g_free (backend_mailto);
 		}
+
+		g_free (mailto);
+		g_free (name);
 	}
 
-	if (backend_addr)
-		g_free (backend_addr);
+	g_free (backend_addr);
 
 	sensitize_widgets (tpage);
 
@@ -852,43 +892,47 @@ task_page_fill_component (CompEditorPage *page,
 		ECalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
 
 		if (!priv->existing) {
-			EAccount *a;
-			gchar *backend_addr = NULL, *org_addr = NULL, *sentby = NULL;
+			gchar *backend_addr = NULL;
+			gchar *backend_mailto = NULL;
+			gchar *name;
+			gchar *mailto;
 
 			e_cal_get_cal_address (client, &backend_addr, NULL);
 
 			/* Find the identity for the organizer or sentby field */
-			a = get_current_account (tpage);
-
-			/* Sanity Check */
-			if (a == NULL) {
-				e_notice (priv->main, GTK_MESSAGE_ERROR,
-						_("The organizer selected no longer has an account."));
+			if (!get_current_identity (tpage, &name, &mailto)) {
+				e_notice (
+					priv->main, GTK_MESSAGE_ERROR,
+					_("An organizer is required."));
 				return FALSE;
 			}
 
-			if (a->id->address == NULL || strlen (a->id->address) == 0) {
-				e_notice (priv->main, GTK_MESSAGE_ERROR,
-						_("An organizer is required."));
-				return FALSE;
+			/* Prefer the backend address if we have one. */
+			if (backend_addr != NULL && *backend_addr != '\0') {
+				backend_mailto = g_strdup_printf (
+					"MAILTO:%s", backend_addr);
+				if (g_ascii_strcasecmp (backend_mailto, mailto) == 0) {
+					g_free (backend_mailto);
+					backend_mailto = NULL;
+				}
 			}
 
-			if (!(backend_addr && *backend_addr) || !g_ascii_strcasecmp (backend_addr, a->id->address)) {
-				org_addr = g_strdup_printf ("MAILTO:%s", a->id->address);
-				organizer.value = org_addr;
-				organizer.cn = a->id->name;
+			if (backend_mailto == NULL) {
+				organizer.cn = name;
+				organizer.value = mailto;
+				name = mailto = NULL;
 			} else {
-				org_addr = g_strdup_printf ("MAILTO:%s", backend_addr);
-				sentby = g_strdup_printf ("MAILTO:%s", a->id->address);
-				organizer.value = org_addr;
-				organizer.sentby = sentby;
+				organizer.value = backend_mailto;
+				organizer.sentby = mailto;
+				backend_mailto = mailto = NULL;
 			}
 
 			e_cal_component_set_organizer (comp, &organizer);
 
 			g_free (backend_addr);
-			g_free (org_addr);
-			g_free (sentby);
+			g_free (backend_mailto);
+			g_free (name);
+			g_free (mailto);
 		}
 
 		if (e_meeting_store_count_actual_attendees (priv->meeting_store) < 1) {
@@ -2060,8 +2104,8 @@ task_page_construct (TaskPage *tpage,
                      ECal *client)
 {
 	TaskPagePrivate *priv;
-	EIterator *it;
-	EAccount *a;
+	EAccountList *account_list;
+	EIterator *iterator;
 
 	priv = tpage->priv;
 	priv->meeting_store = g_object_ref (meeting_store);
@@ -2082,24 +2126,27 @@ task_page_construct (TaskPage *tpage,
 		return NULL;
 	}
 
-	priv->accounts = e_get_account_list ();
-	for (it = e_list_get_iterator ((EList *)priv->accounts);
-	     e_iterator_is_valid (it);
-	     e_iterator_next (it)) {
-		gchar *full = NULL;
+	account_list = e_get_account_list ();
+	iterator = e_list_get_iterator (E_LIST (account_list));
 
-		a = (EAccount *)e_iterator_get (it);
+	while (e_iterator_is_valid (iterator)) {
+		EAccount *account;
 
-		/* skip disabled accounts */
-		if (!a->enabled)
-			continue;
+		/* XXX EIterator misuses const. */
+		account = (EAccount *) e_iterator_get (iterator);
 
-		full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
+		if (account->enabled)
+			priv->address_strings = g_list_append (
+				priv->address_strings,
+				g_strdup_printf (
+					"%s <%s>",
+					account->id->name,
+					account->id->address));
 
-		priv->address_strings = g_list_append (priv->address_strings, full);
+		e_iterator_next (iterator);
 	}
 
-	g_object_unref (it);
+	g_object_unref (iterator);
 
 	if (priv->address_strings) {
 		GList *l;

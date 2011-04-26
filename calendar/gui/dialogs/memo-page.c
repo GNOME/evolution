@@ -64,8 +64,6 @@ struct _MemoPagePrivate {
 
 	GtkWidget *memo_content;
 
-	EAccountList *accounts;
-
 	/* Generic informative messages placeholder */
 	GtkWidget *info_hbox;
 	GtkWidget *info_icon;
@@ -106,6 +104,56 @@ static gboolean memo_page_fill_component (CompEditorPage *page, ECalComponent *c
 static void memo_page_select_organizer (MemoPage *mpage, const gchar *backend_address);
 
 G_DEFINE_TYPE (MemoPage, memo_page, TYPE_COMP_EDITOR_PAGE)
+
+static gboolean
+get_current_identity (MemoPage *page,
+                      gchar **name,
+                      gchar **mailto)
+{
+	EAccountList *account_list;
+	EIterator *iterator;
+	GtkWidget *entry;
+	const gchar *text;
+	gboolean match = FALSE;
+
+	entry = gtk_bin_get_child (GTK_BIN (page->priv->org_combo));
+	text = gtk_entry_get_text (GTK_ENTRY (entry));
+
+	if (text == NULL || *text == '\0')
+		return FALSE;
+
+	account_list = e_get_account_list ();
+	iterator = e_list_get_iterator (E_LIST (account_list));
+
+	while (!match && e_iterator_is_valid (iterator)) {
+		EAccount *account;
+		const gchar *id_name;
+		const gchar *id_address;
+		gchar *identity;
+
+		/* XXX EIterator misuses const. */
+		account = (EAccount *) e_iterator_get (iterator);
+
+		id_name = account->id->name;
+		id_address = account->id->address;
+
+		identity = g_strdup_printf ("%s <%s>", id_name, id_address);
+		match = (g_ascii_strcasecmp (text, identity) == 0);
+		g_free (identity);
+
+		if (match && name != NULL)
+			*name = g_strdup (id_name);
+
+		if (match && mailto != NULL)
+			*mailto = g_strdup_printf ("MAILTO:%s", id_address);
+
+		e_iterator_next (iterator);
+	}
+
+	g_object_unref (iterator);
+
+	return match;
+}
 
 /* Fills the widgets with default values */
 static void
@@ -553,35 +601,6 @@ fill_comp_with_recipients (ENameSelector *name_selector, ECalComponent *comp)
 		return FALSE;
 }
 
-static EAccount *
-get_current_account (MemoPage *page)
-{
-	MemoPagePrivate *priv = page->priv;
-	EIterator *it;
-	const gchar *str;
-
-	str = gtk_entry_get_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->org_combo))));
-	if (!str)
-		return NULL;
-
-	for (it = e_list_get_iterator ((EList *)priv->accounts); e_iterator_is_valid (it); e_iterator_next (it)) {
-		EAccount *a = (EAccount *)e_iterator_get (it);
-		gchar *full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
-
-		if (!g_ascii_strcasecmp (full, str)) {
-			g_free (full);
-			g_object_unref (it);
-
-			return a;
-		}
-
-		g_free (full);
-	}
-	g_object_unref (it);
-
-	return NULL;
-}
-
 /* fill_component handler for the memo page */
 static gboolean
 memo_page_fill_component (CompEditorPage *page,
@@ -699,36 +718,39 @@ memo_page_fill_component (CompEditorPage *page,
 	if ((flags & COMP_EDITOR_IS_SHARED) && (flags & COMP_EDITOR_NEW_ITEM) && fill_comp_with_recipients (priv->name_selector, comp)) {
 		ECalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
 
-		EAccount *a;
-		gchar *backend_addr = NULL, *org_addr = NULL, *sentby = NULL;
+		gchar *backend_addr = NULL;
+		gchar *backend_mailto = NULL;
+		gchar *name;
+		gchar *mailto;
 
 		e_cal_get_cal_address (client, &backend_addr, NULL);
 
 		/* Find the identity for the organizer or sentby field */
-		a = get_current_account (mpage);
-
-		/* Sanity Check */
-		if (a == NULL) {
-			e_notice (priv->main, GTK_MESSAGE_ERROR,
-					_("The organizer selected no longer has an account."));
+		if (!get_current_identity (mpage, &name, &mailto)) {
+			e_notice (
+				priv->main, GTK_MESSAGE_ERROR,
+				_("An organizer is required."));
 			return FALSE;
 		}
 
-		if (a->id->address == NULL || strlen (a->id->address) == 0) {
-			e_notice (priv->main, GTK_MESSAGE_ERROR,
-					_("An organizer is required."));
-			return FALSE;
+		/* Prefer the backend addres if we have one. */
+		if (backend_addr != NULL && *backend_addr != '\0') {
+			backend_mailto = g_strdup_printf (
+				"MAILTO:%s", backend_addr);
+			if (g_ascii_strcasecmp (backend_mailto, mailto) == 0) {
+				g_free (backend_mailto);
+				backend_mailto = NULL;
+			}
 		}
 
-		if (!(backend_addr && *backend_addr) || !g_ascii_strcasecmp (backend_addr, a->id->address)) {
-			org_addr = g_strdup_printf ("MAILTO:%s", a->id->address);
-			organizer.value = org_addr;
-			organizer.cn = a->id->name;
+		if (backend_mailto == NULL) {
+			organizer.cn = name;
+			organizer.value = mailto;
+			name = mailto = NULL;
 		} else {
-			org_addr = g_strdup_printf ("MAILTO:%s", backend_addr);
-			sentby = g_strdup_printf ("MAILTO:%s", a->id->address);
-			organizer.value = org_addr;
-			organizer.sentby = sentby;
+			organizer.value = backend_mailto;
+			organizer.sentby = mailto;
+			backend_mailto = mailto = NULL;
 		}
 
 		e_cal_component_set_organizer (comp, &organizer);
@@ -737,8 +759,9 @@ memo_page_fill_component (CompEditorPage *page,
 			comp_editor_set_needs_send (editor, TRUE);
 
 		g_free (backend_addr);
-		g_free (org_addr);
-		g_free (sentby);
+		g_free (backend_mailto);
+		g_free (name);
+		g_free (mailto);
 	}
 
 	return TRUE;
@@ -1138,8 +1161,6 @@ memo_page_construct (MemoPage *mpage)
 	MemoPagePrivate *priv = mpage->priv;
 	CompEditor *editor;
 	CompEditorFlags flags;
-	EIterator *it;
-	EAccount *a;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage));
 	flags = comp_editor_get_flags (editor);
@@ -1154,24 +1175,30 @@ memo_page_construct (MemoPage *mpage)
 	}
 
 	if (flags & COMP_EDITOR_IS_SHARED) {
-		priv->accounts = e_get_account_list ();
-		for (it = e_list_get_iterator ((EList *)priv->accounts);
-				e_iterator_is_valid (it);
-				e_iterator_next (it)) {
-			gchar *full = NULL;
+		EAccountList *account_list;
+		EIterator *iterator;
 
-			a = (EAccount *)e_iterator_get (it);
+		account_list = e_get_account_list ();
+		iterator = e_list_get_iterator (E_LIST (account_list));
 
-			/* skip disabled accounts */
-			if (!a->enabled)
-				continue;
+		while (e_iterator_is_valid (iterator)) {
+			EAccount *account;
 
-			full = g_strdup_printf("%s <%s>", a->id->name, a->id->address);
+			/* XXX EIterator misuses const. */
+			account = (EAccount *) e_iterator_get (iterator);
 
-			priv->address_strings = g_list_append (priv->address_strings, full);
+			if (account->enabled)
+				priv->address_strings = g_list_append (
+					priv->address_strings,
+					g_strdup_printf (
+						"%s <%s>",
+						account->id->name,
+						account->id->address));
+
+			e_iterator_next (iterator);
 		}
 
-		g_object_unref (it);
+		g_object_unref (iterator);
 
 		if (priv->address_strings) {
 			GList *l;
