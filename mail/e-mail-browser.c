@@ -30,6 +30,7 @@
 #include "e-util/gconf-bridge.h"
 #include "shell/e-shell.h"
 #include "shell/e-shell-utils.h"
+#include "shell/e-shell-settings.h"
 #include "widgets/misc/e-alert-bar.h"
 #include "widgets/misc/e-popup-action.h"
 #include "widgets/misc/e-preview-pane.h"

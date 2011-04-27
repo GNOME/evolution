@@ -579,6 +579,8 @@ mail_paned_view_constructed (GObject *object)
 	EShellBackend *shell_backend;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
+	EShell *shell;
+	EShellSettings *shell_settings;
 	ESearchBar *search_bar;
 	EMailReader *reader;
 	EMailView *view;
@@ -594,6 +596,15 @@ mail_paned_view_constructed (GObject *object)
 	shell_view = e_mail_view_get_shell_view (view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	/* Make headers collapsable and store state of headers in config file */
+	em_format_html_set_headers_collapsable (EM_FORMAT_HTML (priv->formatter), TRUE);
+	g_object_bind_property (shell_settings, "paned-view-headers-state",
+				EM_FORMAT_HTML (priv->formatter), "headers-state",
+				G_BINDING_BIDIRECTIONAL |
+				G_BINDING_SYNC_CREATE);
 
 	web_view = em_format_html_get_web_view (
 		EM_FORMAT_HTML (priv->formatter));

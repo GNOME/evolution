@@ -70,6 +70,11 @@ typedef enum {
 } EMFormatHTMLState;
 
 typedef enum {
+	EM_FORMAT_HTML_HEADERS_STATE_EXPANDED = 0, /* Default value */
+	EM_FORMAT_HTML_HEADERS_STATE_COLLAPSED
+} EMFormatHTMLHeadersState;
+
+typedef enum {
 	EM_FORMAT_HTML_COLOR_BODY,	/* header area background */
 	EM_FORMAT_HTML_COLOR_CITATION,	/* citation font color */
 	EM_FORMAT_HTML_COLOR_CONTENT,	/* message area background */
@@ -277,6 +282,13 @@ void		em_format_html_job_queue	(EMFormatHTML *efh,
 gboolean	em_format_html_get_show_real_date (EMFormatHTML *efh);
 void		em_format_html_set_show_real_date (EMFormatHTML *efh,
 						 gboolean show_real_date);
+EMFormatHTMLHeadersState
+		em_format_html_get_headers_state (EMFormatHTML *efh);
+void		em_format_html_set_headers_state (EMFormatHTML *efh,
+						  EMFormatHTMLHeadersState state);
+gboolean	em_format_html_get_headers_collapsable (EMFormatHTML *efh);
+void		em_format_html_set_headers_collapsable (EMFormatHTML *efh,
+							gboolean collapsable);
 
 gchar *		em_format_html_format_cert_infos (CamelCipherCertInfo *first_cinfo);
 
