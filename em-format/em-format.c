@@ -241,6 +241,7 @@ emf_format_clone (EMFormat *emf,
 		emf->message = msg;
 	}
 
+	g_free (emf->current_message_part_id);
 	emf->current_message_part_id = g_strdup ("root-message");
 	g_string_truncate (emf->part_id, 0);
 	if (folder != NULL)
