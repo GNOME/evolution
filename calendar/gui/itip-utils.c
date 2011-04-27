@@ -104,6 +104,33 @@ itip_get_user_identities (void)
 }
 
 /**
+ * itip_get_fallback_identity:
+ *
+ * Returns a name + address string taken from the default mail identity,
+ * but only if the corresponding account is enabled.  If the account is
+ * disabled, the function returns %NULL.  This is meant to be used as a
+ * fallback identity for organizers.  Free the returned string with
+ * g_free().
+ *
+ * Returns: a fallback mail identity, or %NULL
+ **/
+gchar *
+itip_get_fallback_identity (void)
+{
+	EAccount *account;
+	gchar *identity = NULL;
+
+	account = e_get_default_account ();
+	if (account != NULL && account->enabled)
+		identity = g_strdup_printf (
+			"%s <%s>",
+			account->id->name,
+			account->id->address);
+
+	return identity;
+}
+
+/**
  * itip_address_is_user:
  * @address: an email address
  *

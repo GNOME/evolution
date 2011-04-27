@@ -51,6 +51,7 @@ struct CalMimeAttach {
 };
 
 gchar **	itip_get_user_identities	(void);
+gchar *		itip_get_fallback_identity	(void);
 gboolean	itip_address_is_user		(const gchar *address);
 gboolean	itip_organizer_is_user		(ECalComponent *comp,
 						 ECal *client);
