@@ -66,6 +66,7 @@
 
 struct _EMFormatHTMLDisplayPrivate {
 	GHashTable *attachment_views;  /* weak reference; message_part_id->EAttachmentView */
+	gboolean attachment_expanded;
 };
 
 struct _smime_pobject {
@@ -682,6 +683,7 @@ efhd_init (EMFormatHTMLDisplay *efhd)
 	efhd->priv = G_TYPE_INSTANCE_GET_PRIVATE (
 		efhd, EM_TYPE_FORMAT_HTML_DISPLAY, EMFormatHTMLDisplayPrivate);
 	efhd->priv->attachment_views = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	efhd->priv->attachment_expanded = FALSE;
 
 	e_mail_display_set_formatter (
 		E_MAIL_DISPLAY (web_view), EM_FORMAT_HTML (efhd));
@@ -829,6 +831,7 @@ efhd_attachment_button_expanded (EAttachmentButton *button,
                                  struct _attach_puri *info)
 {
 	EMFormatHTML *efh;
+	EMFormatHTMLDisplay *efhd;
 
 	/* FIXME The PURI struct seems to have some lifecycle issues,
 	 *       because casting info->puri.format to an EMFormatHTML
@@ -843,6 +846,27 @@ efhd_attachment_button_expanded (EAttachmentButton *button,
 
 	em_format_set_inline (
 		info->puri.format, info->puri.part_id, info->shown);
+
+	efhd = (EMFormatHTMLDisplay *) efh;
+	g_return_if_fail (EM_IS_FORMAT_HTML_DISPLAY (efhd));
+
+	efhd->priv->attachment_expanded = TRUE;
+}
+
+/* ********************************************************************** */
+
+static void
+attachment_button_realized (GtkWidget *widget)
+{
+	EMFormatHTML *efh = g_object_get_data (G_OBJECT (widget), "efh");
+	EMFormatHTMLDisplay *efhd;
+	g_return_if_fail (EM_IS_FORMAT_HTML (efh));
+
+	efhd = (EMFormatHTMLDisplay *) efh;
+	g_return_if_fail (EM_IS_FORMAT_HTML_DISPLAY (efhd));
+
+	gtk_widget_grab_focus (widget);
+	efhd->priv->attachment_expanded = FALSE;
 }
 
 /* ********************************************************************** */
@@ -920,6 +944,7 @@ efhd_attachment_button (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObj
 	widget = e_attachment_button_new (view);
 	e_attachment_button_set_attachment (
 		E_ATTACHMENT_BUTTON (widget), attachment);
+	gtk_widget_set_can_focus (widget, TRUE);
 	gtk_container_add (GTK_CONTAINER (eb), widget);
 	gtk_widget_show (widget);
 
@@ -932,6 +957,15 @@ efhd_attachment_button (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObj
 	g_signal_connect (
 		widget, "notify::expanded",
 		G_CALLBACK (efhd_attachment_button_expanded), info);
+
+	/* If the button is created, then give it focus after
+	 * it is realized, so that user can use arrow keys to scroll
+	 * message */
+	if (efhd->priv->attachment_expanded || e_attachment_button_get_expanded (E_ATTACHMENT_BUTTON (widget))) {
+		g_signal_connect (
+			widget, "realize",
+			G_CALLBACK (attachment_button_realized), NULL);
+	}
 
 	return TRUE;
 }
