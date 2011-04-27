@@ -66,6 +66,7 @@ struct _TaskPagePrivate {
 	GtkWidget *main;
 
 	gchar **address_strings;
+	gchar *fallback_address;
 	EMeetingAttendee *ia;
 	gchar *user_add;
 	ECalComponent *comp;
@@ -426,6 +427,7 @@ task_page_finalize (GObject *object)
 	priv = TASK_PAGE_GET_PRIVATE (object);
 
 	g_strfreev (priv->address_strings);
+	g_free (priv->fallback_address);
 
 	g_ptr_array_foreach (
 		priv->deleted_attendees, (GFunc) g_object_unref, NULL);
@@ -2036,8 +2038,6 @@ task_page_select_organizer (TaskPage *tpage, const gchar *backend_address)
 {
 	TaskPagePrivate *priv = tpage->priv;
 	CompEditor *editor;
-	EAccount *def_account;
-	gchar *def_address = NULL;
 	const gchar *default_address;
 	gboolean subscribed_cal = FALSE;
 	ESource *source = NULL;
@@ -2047,10 +2047,6 @@ task_page_select_organizer (TaskPage *tpage, const gchar *backend_address)
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
 	client = comp_editor_get_client (editor);
-
-	def_account = e_get_default_account ();
-	if (def_account && def_account->enabled)
-		def_address = g_strdup_printf("%s <%s>", def_account->id->name, def_account->id->address);
 
 	if (client)
 		source = e_cal_get_source (client);
@@ -2062,7 +2058,8 @@ task_page_select_organizer (TaskPage *tpage, const gchar *backend_address)
 	else
 		user_addr = (backend_address && *backend_address) ? backend_address : NULL;
 
-	default_address = NULL;
+	default_address = priv->fallback_address;
+
 	if (user_addr) {
 		for (ii = 0; priv->address_strings[ii] != NULL; ii++) {
 			if (g_strrstr (priv->address_strings[ii], user_addr) != NULL) {
@@ -2071,9 +2068,6 @@ task_page_select_organizer (TaskPage *tpage, const gchar *backend_address)
 			}
 		}
 	}
-
-	if (!default_address && def_address)
-		default_address = def_address;
 
 	if (default_address) {
 		if (!priv->comp || !e_cal_component_has_organizer (priv->comp)) {
@@ -2086,8 +2080,6 @@ task_page_select_organizer (TaskPage *tpage, const gchar *backend_address)
 		}
 	} else
 		g_warning ("No potential organizers!");
-
-	g_free (def_address);
 }
 
 /**
@@ -2130,6 +2122,8 @@ task_page_construct (TaskPage *tpage,
 	model = gtk_combo_box_get_model (GTK_COMBO_BOX (priv->organizer));
 
 	priv->address_strings = itip_get_user_identities ();
+	priv->fallback_address = itip_get_fallback_identity ();
+
 	for (ii = 0; priv->address_strings[ii] != NULL; ii++)
 		e_dialog_append_list_store_text (
 			model, 0, priv->address_strings[ii]);

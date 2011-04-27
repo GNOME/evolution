@@ -93,6 +93,7 @@ struct _MemoPagePrivate {
 	GtkWidget *source_selector;
 
 	gchar **address_strings;
+	gchar *fallback_address;
 
 	ENameSelector *name_selector;
 };
@@ -188,6 +189,7 @@ memo_page_dispose (GObject *object)
 	priv = MEMO_PAGE (object)->priv;
 
 	g_strfreev (priv->address_strings);
+	g_free (priv->fallback_address);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (memo_page_parent_class)->dispose (object);
@@ -1096,17 +1098,11 @@ memo_page_select_organizer (MemoPage *mpage, const gchar *backend_address)
 	CompEditor *editor;
 	CompEditorFlags flags;
 	ECal *client;
-	EAccount *def_account;
-	gchar *def_address = NULL;
 	const gchar *default_address;
 	gboolean subscribed_cal = FALSE;
 	ESource *source = NULL;
 	const gchar *user_addr = NULL;
 	gint ii;
-
-	def_account = e_get_default_account ();
-	if (def_account && def_account->enabled)
-		def_address = g_strdup_printf("%s <%s>", def_account->id->name, def_account->id->address);
 
 	priv = mpage->priv;
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage));
@@ -1123,7 +1119,8 @@ memo_page_select_organizer (MemoPage *mpage, const gchar *backend_address)
 	else
 		user_addr = (backend_address && *backend_address) ? backend_address : NULL;
 
-	default_address = NULL;
+	default_address = priv->fallback_address;
+
 	if (user_addr) {
 		for (ii = 0; priv->address_strings[ii] != NULL; ii++) {
 			if (g_strrstr (priv->address_strings[ii], user_addr) != NULL) {
@@ -1133,18 +1130,13 @@ memo_page_select_organizer (MemoPage *mpage, const gchar *backend_address)
 		}
 	}
 
-	if (!default_address && def_account)
-		default_address = def_address;
-
-	if (default_address) {
+	if (default_address != NULL) {
 		if (flags & COMP_EDITOR_NEW_ITEM) {
 			gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->org_combo))), default_address);
 			gtk_widget_set_sensitive (priv->org_combo, !subscribed_cal);
 		}
 	} else
 		g_warning ("No potential organizers!");
-
-	g_free (def_address);
 }
 
 /**
@@ -1183,6 +1175,8 @@ memo_page_construct (MemoPage *mpage)
 
 		model = gtk_combo_box_get_model (GTK_COMBO_BOX (priv->org_combo));
 		priv->address_strings = itip_get_user_identities ();
+		priv->fallback_address = itip_get_fallback_identity ();
+
 		for (ii = 0; priv->address_strings[ii] != NULL; ii++)
 			e_dialog_append_list_store_text (
 				model, 0, priv->address_strings[ii]);
