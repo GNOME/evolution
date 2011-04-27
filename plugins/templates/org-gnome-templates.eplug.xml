@@ -5,9 +5,12 @@
         id="org.gnome.evolution.plugin.templates"
         location="@PLUGINDIR@/liborg-gnome-templates@SOEXT@"
         _name="Templates">
-        <_description>Drafts based template plugin</_description>
+        <_description>Drafts based template plugin.
+        
+        You can use variables like $ORIG[subject], $ORIG[from], $ORIG[to] or $ORIG[body], which will be replaced by values from an email you are replying to.</_description>
         <author name="Bharath Acharya" email="abharath@novell.com"/>
         <author name="Diego Escalante Urrelo" email="diegoe@gnome.org"/>
+        <author name="Dan Vratil" email="dvratil@redhat.com"/>
 
         <hook class="org.gnome.evolution.ui:1.0">
           <ui-manager id="org.gnome.evolution.shell"
