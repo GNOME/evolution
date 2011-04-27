@@ -92,6 +92,9 @@ struct _EMFormatHTMLPrivate {
 	GdkColor colors[EM_FORMAT_HTML_NUM_COLOR_TYPES];
 	EMailImageLoadingPolicy image_loading_policy;
 
+	EMFormatHTMLHeadersState headers_state;
+	gboolean headers_collapsable;
+
 	guint load_images_now	: 1;
 	guint only_local_photos	: 1;
 	guint show_sender_photo	: 1;
@@ -111,7 +114,9 @@ enum {
 	PROP_SHOW_SENDER_PHOTO,
 	PROP_SHOW_REAL_DATE,
 	PROP_TEXT_COLOR,
-	PROP_WEB_VIEW
+	PROP_WEB_VIEW,
+	PROP_HEADERS_STATE,
+	PROP_HEADERS_COLLAPSABLE
 };
 
 static void efh_url_requested (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, EMFormatHTML *efh);
@@ -504,6 +509,15 @@ efh_set_property (GObject *object,
 				EM_FORMAT_HTML_COLOR_TEXT,
 				g_value_get_boxed (value));
 			return;
+		case PROP_HEADERS_STATE:
+			em_format_html_set_headers_state (
+				EM_FORMAT_HTML (object),
+				g_value_get_int (value));
+			return;
+		case PROP_HEADERS_COLLAPSABLE:
+			em_format_html_set_headers_collapsable (
+				EM_FORMAT_HTML (object),
+				g_value_get_boolean (value));
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -602,6 +616,15 @@ efh_get_property (GObject *object,
 				value, em_format_html_get_web_view (
 				EM_FORMAT_HTML (object)));
 			return;
+		case PROP_HEADERS_STATE:
+			g_value_set_int (
+				value, em_format_html_get_headers_state (
+				EM_FORMAT_HTML (object)));
+			return;
+		case PROP_HEADERS_COLLAPSABLE:
+			g_value_set_boolean (
+				value, em_format_html_get_headers_collapsable (
+				EM_FORMAT_HTML (object)));
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -922,6 +945,28 @@ efh_class_init (EMFormatHTMLClass *class)
 			E_TYPE_WEB_VIEW,
 			G_PARAM_READABLE));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_HEADERS_STATE,
+		g_param_spec_int (
+			"headers-state",
+			"Headers state",
+			NULL,
+			EM_FORMAT_HTML_HEADERS_STATE_EXPANDED,
+			EM_FORMAT_HTML_HEADERS_STATE_COLLAPSED,
+			EM_FORMAT_HTML_HEADERS_STATE_EXPANDED,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_HEADERS_STATE,
+		g_param_spec_boolean (
+			"headers-collapsable",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
 	/* cache expiry - 2 hour access, 1 day max */
 	user_cache_dir = e_get_user_cache_dir ();
 	emfh_http_cache = camel_data_cache_new (user_cache_dir, NULL);
@@ -1223,6 +1268,44 @@ em_format_html_set_show_real_date (EMFormatHTML *efh,
 	efh->priv->show_real_date = show_real_date;
 
 	g_object_notify (G_OBJECT (efh), "show-real-date");
+}
+
+EMFormatHTMLHeadersState
+em_format_html_get_headers_state (EMFormatHTML *efh)
+{
+	g_return_val_if_fail (EM_IS_FORMAT_HTML (efh), EM_FORMAT_HTML_HEADERS_STATE_EXPANDED);
+
+	return efh->priv->headers_state;
+}
+
+void
+em_format_html_set_headers_state (EMFormatHTML *efh,
+				  EMFormatHTMLHeadersState state)
+{
+	g_return_if_fail (EM_IS_FORMAT_HTML (efh));
+
+	efh->priv->headers_state = state;
+
+	g_object_notify (G_OBJECT (efh), "headers-state");
+}
+
+gboolean
+em_format_html_get_headers_collapsable (EMFormatHTML *efh)
+{
+	g_return_val_if_fail (EM_IS_FORMAT_HTML (efh), FALSE);
+
+	return efh->priv->headers_collapsable;
+}
+
+void
+em_format_html_set_headers_collapsable (EMFormatHTML *efh,
+					gboolean collapsable)
+{
+	g_return_if_fail (EM_IS_FORMAT_HTML (efh));
+
+	efh->priv->headers_collapsable = collapsable;
+
+	g_object_notify (G_OBJECT (efh), "headers-collapsable");
 }
 
 CamelMimePart *
@@ -2692,6 +2775,7 @@ efh_format_headers (EMFormatHTML *efh,
 	gchar *header_sender = NULL, *header_from = NULL, *name;
 	gboolean mail_from_delegate = FALSE;
 	const gchar *hdr_charset;
+	gchar *evolution_imagesdir;
 
 	if (!part)
 		return;
@@ -2709,6 +2793,52 @@ efh_format_headers (EMFormatHTML *efh,
 				EM_FORMAT_HTML_COLOR_HEADER]));
 
 	hdr_charset = emf->charset ? emf->charset : emf->default_charset;
+	evolution_imagesdir = g_filename_to_uri (EVOLUTION_IMAGESDIR, NULL, NULL);
+
+	/* If the header is collapsed, display just subject and sender in one row and leave */
+	if (efh->priv->headers_state == EM_FORMAT_HTML_HEADERS_STATE_COLLAPSED && efh->priv->headers_collapsable) {
+		gchar *subject;
+		struct _camel_header_address *addrs = NULL;
+		GString *from = g_string_new ("");
+
+		header = ((CamelMimePart *)part)->headers;
+		while (header) {
+			if (!g_ascii_strcasecmp (header->name, "From")) {
+				GString *tmp;
+				if (!(addrs = camel_header_address_decode (header->value, hdr_charset))) {
+					header = header->next;
+					continue;
+				}
+				tmp = g_string_new ("");
+				efh_format_address (efh, tmp, addrs, header->name);
+
+				if (tmp->len)
+					g_string_printf (from, _("From: %s"), tmp->str);
+				g_string_free (tmp, TRUE);
+			} else if (!g_ascii_strcasecmp (header->name, "Subject")) {
+				gchar *buf = NULL;
+			        buf = camel_header_unfold (header->value);
+			        subject = camel_header_decode_string (buf, hdr_charset);
+			        g_free (buf);
+			}
+			header = header->next;
+		}
+
+		camel_stream_printf (stream, "<tr><td width=\"20\" valign=\"top\"><a href=\"##HEADERS##\"><img src=\"%s/plus.png\"></a></td><td><strong>%s</strong> %s%s%s</td></tr>",
+				evolution_imagesdir,  subject, from->len ? "(" : "", from->str, from->len ? ")" : "");
+
+		g_free (subject);
+		g_free (header);
+		if (addrs)
+			camel_header_address_list_clear (&addrs);
+		g_string_free (from, TRUE);
+
+		camel_stream_printf (stream, "</table>");
+
+		g_free (evolution_imagesdir);
+
+		return;
+	}
 
 	header = ((CamelMimePart *)part)->headers;
 	while (header) {
@@ -2769,10 +2899,22 @@ efh_format_headers (EMFormatHTML *efh,
 	g_free (header_sender);
 	g_free (header_from);
 
-	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
-		camel_stream_printf (stream, "<tr><td><table width=\"100%%\" border=0 cellpadding=\"0\">\n");
-	else
-		camel_stream_printf (stream, "<tr><td><table border=0 cellpadding=\"0\">\n");
+	if (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL) {
+		if (efh->priv->headers_collapsable)
+			camel_stream_printf (stream, "<tr><td valign=\"top\" width=\"20\"><a href=\"##HEADERS##\"><img src=\"%s/minus.png\"></a></td><td><table width=\"100%%\" border=0 cellpadding=\"0\">\n",
+				evolution_imagesdir);
+		else
+			camel_stream_printf (stream, "<tr><td><table width=\"100%%\" border=0 cellpadding=\"0\">\n");
+
+	} else {
+		if (efh->priv->headers_collapsable)
+			camel_stream_printf (stream, "<tr><td valign=\"top\" width=\"20\"><a href=\"##HEADERS##\"><img src=\"%s/minus.png\"></a></td><td><table border=0 cellpadding=\"0\">\n",
+ 				evolution_imagesdir);
+ 		else
+ 			camel_stream_printf (stream, "<tr><td><table border=0 cellpadding=\"0\">\n");
+ 	}
+
+ 	g_free (evolution_imagesdir);
 
 	/* dump selected headers */
 	if (emf->mode == EM_FORMAT_MODE_ALLHEADERS) {

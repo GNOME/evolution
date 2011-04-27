@@ -316,6 +316,10 @@ e_mail_shell_settings_init (EShellBackend *shell_backend)
 		"composer-gallery-path",
 		"/apps/evolution/mail/composer/gallery_path");
 
+	e_shell_settings_install_property_for_key (
+		"paned-view-headers-state",
+		"/apps/evolution/mail/display/paned_view_headers_state");
+
 	/* These properties use transform functions to convert
 	 * GConf values to forms more useful to Evolution.  We
 	 * have to use separate properties because GConfBridge
