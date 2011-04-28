@@ -246,11 +246,11 @@ shell_searchbar_update_search_widgets (EShellSearchbar *searchbar)
 		style = gtk_widget_get_style (widget);
 		color = &style->mid[GTK_STATE_SELECTED];
 
-		gtk_widget_modify_base (widget, GTK_STATE_NORMAL, color);
+		gtk_widget_modify_bg (widget, GTK_STATE_NORMAL, color);
 		gtk_widget_modify_text (widget, GTK_STATE_NORMAL, NULL);
 	} else {
 		/* Text color will be updated when we move the focus. */
-		gtk_widget_modify_base (widget, GTK_STATE_NORMAL, NULL);
+		gtk_widget_modify_bg (widget, GTK_STATE_NORMAL, NULL);
 	}
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
