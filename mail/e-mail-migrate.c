@@ -65,13 +65,15 @@
 
 #define d(x) x
 
-struct _migrate_state_info {
+typedef struct _MigrateStateInfo MigrateStateInfo;
+
+struct _MigrateStateInfo {
 	gchar *label_name;
 	gdouble progress;
 };
 
 static gboolean
-update_states_in_main_thread (const struct _migrate_state_info *info);
+update_states_in_main_thread (MigrateStateInfo *info);
 
 /* 1.4 upgrade functions */
 
@@ -514,17 +516,26 @@ em_update_sa_junk_setting_2_23 (void)
 #ifndef G_OS_WIN32
 
 static gboolean
-update_states_in_main_thread (const struct _migrate_state_info * info)
+update_states_in_main_thread (MigrateStateInfo *info)
 {
 	g_return_val_if_fail (info != NULL, FALSE);
 	g_return_val_if_fail (info->label_name != NULL, FALSE);
+
 	em_migrate_set_progress (info->progress);
 	em_migrate_set_folder_name (info->label_name);
-	g_free (info->label_name);
-	g_free ( (gpointer)info);
+
+	/* XXX Why is this necessary? */
 	while (gtk_events_pending ())
 		gtk_main_iteration ();
+
 	return FALSE;
+}
+
+static void
+migrate_state_info_free (MigrateStateInfo *info)
+{
+	g_free (info->label_name);
+	g_slice_free (MigrateStateInfo, info);
 }
 
 static void
@@ -539,16 +550,19 @@ migrate_folders (CamelStore *store,
 	CamelFolder *folder;
 
 	while (fi) {
-
-		struct _migrate_state_info *info = g_malloc (sizeof (struct
-					_migrate_state_info));
-		info->label_name = g_strdup_printf ("%s/%s", acc,
-				fi->full_name);
+		MigrateStateInfo *info;
 
 		*nth_folder = *nth_folder + 1;
 
+		info = g_slice_new0 (MigrateStateInfo);
+		info->label_name = g_strdup_printf (
+			"%s/%s", acc, fi->full_name);
 		info->progress = (double) (*nth_folder) / total_folders;
-		g_idle_add ((GSourceFunc) update_states_in_main_thread, info);
+
+		g_idle_add_full (
+			G_PRIORITY_LOW, (GSourceFunc)
+			update_states_in_main_thread, info,
+			(GDestroyNotify) migrate_state_info_free);
 
 		if (is_local)
 			folder = camel_store_get_folder_sync (
