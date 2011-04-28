@@ -212,6 +212,7 @@ e_alert_bar_init (EAlertBar *alert_bar)
 	widget = gtk_label_new (NULL);
 	gtk_label_set_attributes (GTK_LABEL (widget), attr_list);
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	alert_bar->priv->primary_label = widget;
@@ -226,6 +227,7 @@ e_alert_bar_init (EAlertBar *alert_bar)
 	widget = gtk_label_new (NULL);
 	gtk_label_set_attributes (GTK_LABEL (widget), attr_list);
 	gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (widget), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	alert_bar->priv->secondary_label = widget;
