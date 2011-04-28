@@ -2101,10 +2101,6 @@ emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, GtkB
 		gtk_entry_set_text (service->username, url->user);
 	}
 
-	if (url->port && service->provider->port_entries) {
-		e_port_entry_set_port (service->port, url->port);
-	}
-
 	if (service->pathentry) {
 		GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
 
@@ -2127,6 +2123,12 @@ emae_setup_service (EMAccountEditor *emae, EMAccountEditorService *service, GtkB
 			gtk_combo_box_set_active (service->use_ssl, i);
 			break;
 		}
+	}
+
+	/* Set the port after SSL is set, because it would overwrite the
+	   port value (through emae_ssl_changed signal) */
+	if (url->port && service->provider->port_entries) {
+		e_port_entry_set_port (service->port, url->port);
 	}
 
 	/* old authtype will be destroyed when we exit */
