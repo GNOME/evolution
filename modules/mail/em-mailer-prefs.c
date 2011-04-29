@@ -163,55 +163,60 @@ jh_tree_refill (EMMailerPrefs *prefs)
 }
 
 static void
+jh_dialog_entry_changed_cb (GtkEntry *entry, gpointer user_data)
+{
+	GtkBuilder *builder = GTK_BUILDER (user_data);
+	GtkWidget *ok_button, *entry1, *entry2;
+	const gchar *name, *value;
+
+	ok_button = e_builder_get_widget (builder, "junk-header-ok");
+	entry1 = e_builder_get_widget (builder, "junk-header-name");
+	entry2 = e_builder_get_widget (builder, "junk-header-content");
+
+	name = gtk_entry_get_text (GTK_ENTRY (entry1));
+	value = gtk_entry_get_text (GTK_ENTRY (entry2));
+
+	gtk_widget_set_sensitive (ok_button, name && *name && value && *value);
+}
+
+static void
 jh_add_cb (GtkWidget *widget, gpointer user_data)
 {
+	GtkWidget *dialog;
+	GtkWidget *entry;
 	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
-	GtkWidget *dialog, *l1, *l2, *entry1, *entry2, *vbox, *hbox;
-	GtkWidget *content_area;
-	gint response;
+	GtkBuilder *builder = gtk_builder_new();
+	gchar *tok;
+	const gchar *name, *value;
+	GSList *list;
 
-	dialog = gtk_dialog_new_with_buttons (
-		_("Add Custom Junk Header"),
-		(GtkWindow *) gtk_widget_get_toplevel (widget),
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+	e_load_ui_builder_definition (builder, "mail-config.ui");
+	dialog = e_builder_get_widget (builder, "add-custom-junk-header");
+	jh_dialog_entry_changed_cb (NULL, builder);
 
-	vbox = gtk_vbox_new (FALSE, 6);
-	hbox = gtk_hbox_new (FALSE, 0);
-	l1 = gtk_label_new_with_mnemonic (_("Header Name:"));
-	l2 = gtk_label_new_with_mnemonic (_("Header Value Contains:"));
-	entry1 = gtk_entry_new ();
-	entry2 = gtk_entry_new ();
-	gtk_box_pack_start ((GtkBox *) hbox, l1, FALSE, FALSE, 6);
-	gtk_box_pack_start ((GtkBox *)hbox, entry1, FALSE, FALSE, 6);
-	gtk_box_pack_start ((GtkBox *)vbox, hbox, FALSE, FALSE, 6);
+	entry = e_builder_get_widget (builder, "junk-header-name");
+	g_signal_connect (entry, "changed",
+		G_CALLBACK (jh_dialog_entry_changed_cb), builder);
+	entry = e_builder_get_widget (builder, "junk-header-content");
+	g_signal_connect (entry, "changed",
+		G_CALLBACK (jh_dialog_entry_changed_cb), builder);
 
-	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)hbox, l2, FALSE, FALSE, 6);
-	gtk_box_pack_start ((GtkBox *)hbox, entry2, FALSE, FALSE, 6);
-	gtk_box_pack_start ((GtkBox *)vbox, hbox, FALSE, FALSE, 6);
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+		name = gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (builder, "junk-header-name")));
+		value = gtk_entry_get_text (GTK_ENTRY (e_builder_get_widget (builder, "junk-header-content")));
 
-	gtk_widget_show_all (vbox);
-	content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
-	gtk_container_add (GTK_CONTAINER (content_area), vbox);
-	response = gtk_dialog_run ((GtkDialog *)dialog);
-	if (response == GTK_RESPONSE_ACCEPT) {
-		const gchar *name = gtk_entry_get_text ((GtkEntry *)entry1);
-		const gchar *value = gtk_entry_get_text ((GtkEntry *)entry2);
-		gchar *tok;
-		GSList *list = gconf_client_get_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
-
-		/* FIXME: Validate the values */
-
+		list = gconf_client_get_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
 		tok = g_strdup_printf ("%s=%s", name, value);
 		list = g_slist_append (list, tok);
 		gconf_client_set_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, list, NULL);
-		g_slist_foreach (list, (GFunc)g_free, NULL);
 
+		g_slist_foreach (list, (GFunc) g_free, NULL);
 		g_slist_free (list);
 	}
+
+	g_object_unref (builder);
 	gtk_widget_destroy (dialog);
+
 	jh_tree_refill (prefs);
 }
 
