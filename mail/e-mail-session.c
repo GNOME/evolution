@@ -1269,7 +1269,7 @@ e_mail_session_uri_to_folder_sync (EMailSession *session,
 	}
 
 	service = camel_session_get_service_by_url (
-		CAMEL_SESSION (session), url);
+		CAMEL_SESSION (session), url, CAMEL_PROVIDER_STORE);
 
 	if (CAMEL_IS_STORE (service)) {
 		const gchar *name = "";
