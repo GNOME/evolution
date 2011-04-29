@@ -5236,6 +5236,126 @@ for display purposes only. </property>
         <property name="tab_fill">False</property>
       </packing>
     </child>
+  </object> 
+  <object class="GtkDialog" id="add-custom-junk-header">
+    <property name="type_hint">dialog</property>
+    <property name="title" translatable="yes">Set custom junk header</property>
+    <property name="border-width">12</property>
+    <property name="width-request">400</property>
+    <property name="resizable">FALSE</property>
+    <child internal-child="vbox">
+      <object class="GtkVBox" id="inner-vbox">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <property name="border-width">12</property>
+        <property name="spacing">12</property>
+        <child>
+          <object class="GtkLabel" id="junk_header_info">
+            <property name="visible">True</property>
+            <property name="wrap">True</property>
+            <property name="label" translatable="yes">All new emails with header that matches given content will be automatically filtered as junk</property>
+          </object>
+        </child>
+        <child>        
+          <object class="GtkTable" id="junk_header_table">
+            <property name="visible">True</property>
+            <property name="n_rows">2</property>
+            <property name="n_columns">2</property>
+            <property name="column_spacing">12</property>
+            <property name="row_spacing">6</property>
+            <child>
+              <object class="GtkLabel" id="junk_header_label1">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">Header name</property>
+                <property name="mnemonic_widget">junk-header-name</property>
+                <property name="xalign">0</property>
+              </object>
+	      <packing>
+		<property name="x_options">GTK_SHRINK</property>
+	      </packing>
+            </child>
+            <child>
+	      <object class="GtkLabel" id="junk_header_label2">
+	        <property name="visible">True</property>
+	        <property name="label" translatable="yes">Header content</property>
+	        <property name="mnemonic_widget">junk-header-content</property>
+	        <property name="xalign">0</property>
+	      </object>
+	      <packing>
+	        <property name="top_attach">1</property>
+	        <property name="bottom_attach">2</property>
+		<property name="x_options">GTK_SHRINK</property>
+	      </packing>
+	    </child>
+	    <child>
+	      <object class="GtkEntry" id="junk-header-name">
+	        <property name="visible">True</property>
+	        <property name="can_focus">True</property>
+	      </object>
+	      <packing>
+	        <property name="left_attach">1</property>
+	        <property name="right_attach">2</property>
+	      </packing>
+	    </child>
+	    <child>
+	      <object class="GtkEntry" id="junk-header-content">
+	        <property name="visible">True</property>
+	        <property name="can_focus">True</property>
+	      </object>
+	      <packing>
+	        <property name="left_attach">1</property>
+	        <property name="right_attach">2></property>
+	        <property name="top_attach">1</property>
+	        <property name="bottom_attach">2</property>
+	      </packing>
+	    </child>
+	  </object>
+        </child>
+        <child internal-child="action_area">
+          <object class="GtkHButtonBox" id="junk_header_hbutton_box">
+            <property name="visible">True</property>
+            <property name="layout_style">end</property>
+            <child>
+              <object class="GtkButton" id="junk-header-cancel">
+                <property name="label">gtk-cancel</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="use_stock">True</property>
+                <property name="use_underline">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="junk-header-ok">
+                <property name="label" translatable="yes">gtk-ok</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="use_stock">True</property>
+                <property name="use_underline">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+    <action-widgets>
+    	<action-widget response="-6">junk-header-cancel</action-widget>
+        <action-widget response="-3">junk-header-ok</action-widget>
+    </action-widgets>
   </object>
   <object class="GtkSizeGroup" id="composer-label-size-group">
     <widgets>
