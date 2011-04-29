@@ -96,7 +96,7 @@ install_folder_response (EMFolderSelector *emfs, gint response, gpointer *data)
 		url = camel_url_new (uri, NULL);
 		if (url != NULL) {
 			service = camel_session_get_service_by_url (
-				session, url);
+				session, url, CAMEL_PROVIDER_STORE);
 			camel_url_free (url);
 		}
 

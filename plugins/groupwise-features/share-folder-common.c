@@ -267,7 +267,7 @@ users_dialog_response (GtkWidget *dialog, gint response, struct ShareInfo *ssi)
 	url = camel_url_new (uri, NULL);
 	if (url != NULL) {
 		service = camel_session_get_service_by_url (
-			CAMEL_SESSION (session), url);
+			session, url, CAMEL_PROVIDER_STORE);
 		camel_url_free (url);
 	}
 
@@ -319,7 +319,8 @@ new_folder_response (EMFolderSelector *emfs, gint response, EMFolderTreeModel *m
 
 	url = camel_url_new (uri, NULL);
 	if (url != NULL) {
-		service = camel_session_get_service_by_url (session, url);
+		service = camel_session_get_service_by_url (
+			session, url, CAMEL_PROVIDER_STORE);
 		camel_url_free (url);
 	}
 

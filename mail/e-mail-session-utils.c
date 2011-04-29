@@ -850,7 +850,7 @@ e_mail_session_unsubscribe_folder_sync (EMailSession *session,
 		goto exit;
 
 	service = camel_session_get_service_by_url (
-		CAMEL_SESSION (session), url);
+		CAMEL_SESSION (session), url, CAMEL_PROVIDER_STORE);
 
 	if (!CAMEL_IS_STORE (service))
 		goto exit;

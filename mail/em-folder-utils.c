@@ -315,7 +315,7 @@ emfu_copy_folder_selected (EMailBackend *backend,
 	url = camel_url_new (cfd->fi->uri, &local_error);
 	if (url != NULL) {
 		service = camel_session_get_service_by_url (
-			CAMEL_SESSION (session), url);
+			CAMEL_SESSION (session), url, CAMEL_PROVIDER_STORE);
 		camel_url_free (url);
 	}
 
@@ -346,7 +346,7 @@ emfu_copy_folder_selected (EMailBackend *backend,
 	url = camel_url_new (uri, &local_error);
 	if (url != NULL) {
 		service = camel_session_get_service_by_url (
-			CAMEL_SESSION (session), url);
+			CAMEL_SESSION (session), url, CAMEL_PROVIDER_STORE);
 		camel_url_free (url);
 	}
 
@@ -720,7 +720,7 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs,
 	url = camel_url_new (uri, NULL);
 	if (url != NULL) {
 		service = camel_session_get_service_by_url (
-			CAMEL_SESSION (session), url);
+			CAMEL_SESSION (session), url, CAMEL_PROVIDER_STORE);
 		camel_url_free (url);
 	}
 

@@ -2728,7 +2728,8 @@ em_folder_tree_set_selected_list (EMFolderTree *folder_tree,
 			CamelService *service;
 
 			service = camel_session_get_service_by_url (
-				CAMEL_SESSION (session), url);
+				CAMEL_SESSION (session),
+				url, CAMEL_PROVIDER_STORE);
 			if (CAMEL_IS_STORE (service))
 				u->service = g_object_ref (service);
 		}
