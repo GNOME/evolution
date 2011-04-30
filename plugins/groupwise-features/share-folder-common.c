@@ -267,7 +267,7 @@ users_dialog_response (GtkWidget *dialog, gint response, struct ShareInfo *ssi)
 	url = camel_url_new (uri, NULL);
 	if (url != NULL) {
 		service = camel_session_get_service_by_url (
-			session, url, CAMEL_PROVIDER_STORE);
+			CAMEL_SESSION (session), url, CAMEL_PROVIDER_STORE);
 		camel_url_free (url);
 	}
 
