@@ -19,7 +19,6 @@
 
     <glade-widget-class name="EMFolderSelectionButton" generic-name="folder-selection-button" title="Folder Selection Button" get-type-function="em_folder_selection_button_get_type">
       <property id="caption"/>
-      <property id="multiselect"/>
       <property id="title"/>
     </glade-widget-class>
 

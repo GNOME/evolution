@@ -75,21 +75,11 @@ const gchar *	em_folder_selection_button_get_caption
 void		em_folder_selection_button_set_caption
 					(EMFolderSelectionButton *button,
 					 const gchar *caption);
-gboolean	em_folder_selection_button_get_multiselect
-					(EMFolderSelectionButton *button);
-void		em_folder_selection_button_set_multiselect
-					(EMFolderSelectionButton *button,
-					 gboolean multiselect);
 const gchar *	em_folder_selection_button_get_selection
 					(EMFolderSelectionButton *button);
 void		em_folder_selection_button_set_selection
 					(EMFolderSelectionButton *button,
 					 const gchar *uri);
-GList *		em_folder_selection_button_get_selection_mult
-					(EMFolderSelectionButton *button);
-void		em_folder_selection_button_set_selection_mult
-					(EMFolderSelectionButton *button,
-					 GList *uris);
 void		em_folder_selection_button_set_session
 					(EMFolderSelectionButton *button,
 					 EMailSession *session);
