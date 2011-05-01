@@ -562,7 +562,6 @@ mail_send_message (struct _send_queue_msg *m,
 
 		g_free (escaped);
 		g_free (url_string);
-		camel_url_free (url);
 	}
 
 	/* Check for email sending */
