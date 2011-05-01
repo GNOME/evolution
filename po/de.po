@@ -18,19 +18,19 @@
 # Christian Kintner <mail@christian-kintner.de>, 2006, 2007.
 # Andre Klapper <ak-47@gmx.net>, 2007-2009.
 # Mario Blättermann <mariobl@gnome.org>, 2010, 2011.
-# Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009, 2010, 2011.
 # Paul Seyfert <pseyfert@mathphys.fsk.uni-heidelberg.de>, 2010, 2011.
+# Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009, 2010, 2011.
 #
 #: ../shell/main.c:615
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution master\n"
-"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=evolution&keywords=I18N+L10N\n"
-"POT-Creation-Date: 2011-04-02 16:05+0000\n"
-"PO-Revision-Date: 2011-03-17 12:04+0100\n"
-"Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-05-01 13:14+0200\n"
+"PO-Revision-Date: 2011-05-01 13:14+0200\n"
+"Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -821,11 +821,11 @@ msgid_plural "%d contacts"
 msgstr[0] "%d Kontakte"
 msgstr[1] "%d Kontakte"
 
-#: ../addressbook/gui/widgets/e-addressbook-model.c:342
+#: ../addressbook/gui/widgets/e-addressbook-model.c:341
 msgid "Error getting book view"
 msgstr "Fehler beim Abrufen der Buchansicht"
 
-#: ../addressbook/gui/widgets/e-addressbook-model.c:756
+#: ../addressbook/gui/widgets/e-addressbook-model.c:755
 msgid "Search Interrupted"
 msgstr "Suche wurde unterbrochen"
 
@@ -1996,7 +1996,7 @@ msgstr "Ab_schicken"
 msgid "_Send Notice"
 msgstr "Nachricht ver_schicken"
 
-#: ../calendar/common/authentication.c:53
+#: ../calendar/common/authentication.c:75
 #: ../calendar/gui/e-meeting-store.c:1776
 #: ../plugins/caldav/caldav-browse-server.c:921
 #: ../plugins/google-account-setup/google-source.c:439
@@ -3212,7 +3212,7 @@ msgid "Unable to open memos in '%s'."
 msgstr "Notizen in »%s« konnten nicht geöffnet werden."
 
 #: ../calendar/gui/dialogs/memo-page.c:1063 ../em-format/em-format-quote.c:283
-#: ../em-format/em-format.c:1052 ../mail/em-format-html.c:2396
+#: ../em-format/em-format.c:1053 ../mail/em-format-html.c:2396
 #: ../mail/em-format-html.c:2461 ../mail/em-format-html.c:2485
 #: ../mail/message-list.etspec.h:20 ../modules/mail/em-mailer-prefs.c:72
 msgid "To"
@@ -4902,6 +4902,7 @@ msgstr "30."
 msgid "31st"
 msgstr "31."
 
+#. Translators: These are workday abbreviations, e.g. Su=Sunday and Th=thursday
 #: ../calendar/gui/print.c:612
 msgid "Su"
 msgstr "So"
@@ -4930,22 +4931,34 @@ msgstr "Fr"
 msgid "Sa"
 msgstr "Sa"
 
+#. Translators: This is part of "START to END" text,
+#. * where START and END are date/times.
 #: ../calendar/gui/print.c:3001
 msgid " to "
 msgstr " bis "
 
+#. Translators: This is part of "START to END
+#. * (Completed COMPLETED)", where COMPLETED is a
+#. * completed date/time.
 #: ../calendar/gui/print.c:3011
 msgid " (Completed "
 msgstr " (Abgeschlossen "
 
+#. Translators: This is part of "Completed COMPLETED",
+#. * where COMPLETED is a completed date/time.
 #: ../calendar/gui/print.c:3017
 msgid "Completed "
 msgstr "Abgeschlossen "
 
+#. Translators: This is part of "START (Due DUE)",
+#. * where START and DUE are dates/times.
 #: ../calendar/gui/print.c:3027
 msgid " (Due "
 msgstr " (Fällig am "
 
+#. Translators: This is part of "Due DUE",
+#. * where DUE is a date/time due the event
+#. * should be finished.
 #: ../calendar/gui/print.c:3034
 msgid "Due "
 msgstr "Fällig am "
@@ -7127,8 +7140,8 @@ msgid ""
 "The reported error was &quot;{0}&quot;. The message has most likely not been "
 "saved."
 msgstr ""
-"Der Fehler »{0}« wurde gemeldet. Die Nachricht ist höchstwahrscheinlich nicht "
-"gespeichert worden."
+"Der Fehler »{0}« wurde gemeldet. Die Nachricht ist höchstwahrscheinlich "
+"nicht gespeichert worden."
 
 #: ../composer/mail-composer.error.xml.h:23
 msgid "The reported error was &quot;{0}&quot;. The message has not been sent."
@@ -7318,7 +7331,7 @@ msgstr ""
 "Server herzustellen und Ihre Nachrichten abzurufen."
 
 #: ../capplet/settings/mail-account-view.c:613
-#: ../mail/em-account-editor.c:2091 ../mail/em-account-editor.c:2212
+#: ../mail/em-account-editor.c:2111 ../mail/em-account-editor.c:2232
 msgid "Identity"
 msgstr "Identität"
 
@@ -7370,7 +7383,7 @@ msgid "Back - Receiving options"
 msgstr "Zurück - Empfangsoptionen"
 
 #: ../capplet/settings/mail-account-view.c:618
-#: ../mail/em-account-editor.c:3043
+#: ../mail/em-account-editor.c:3063
 msgid "Defaults"
 msgstr "Vorgaben"
 
@@ -7446,7 +7459,7 @@ msgid "Evolution account assistant"
 msgstr "Evolution-Kontoassistent"
 
 #. create the local source group
-#: ../capplet/settings/mail-capplet-shell.c:353 ../mail/e-mail-migrate.c:680
+#: ../capplet/settings/mail-capplet-shell.c:353 ../mail/e-mail-migrate.c:694
 #: ../mail/e-mail-store.c:229 ../mail/em-folder-tree-model.c:146
 #: ../mail/em-folder-tree-model.c:149 ../mail/em-folder-tree-model.c:152
 #: ../mail/em-folder-tree-model.c:154 ../mail/em-folder-tree-model.c:161
@@ -7488,7 +7501,7 @@ msgstr "Benachrichtigungen über Kalenderereignisse"
 msgid "Evolution Alarm Notify"
 msgstr "Evolution Alarm-Benachrichtigung"
 
-#: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:952
+#: ../data/evolution.desktop.in.in.h:1 ../mail/e-mail-browser.c:956
 #: ../modules/mailto-handler/evolution-mailto-handler.c:212
 #: ../shell/e-shell-window-private.c:253
 msgid "Evolution"
@@ -7793,30 +7806,30 @@ msgstr "GConf-Fehler: %s"
 msgid "All further errors shown only on terminal."
 msgstr "Weitere Fehler werden nur im Terminal ausgegeben."
 
-#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1050
+#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1051
 #: ../mail/e-mail-tag-editor.c:325 ../mail/message-list.etspec.h:7
 #: ../modules/mail/em-mailer-prefs.c:70
 msgid "From"
 msgstr "Von"
 
-#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1051
+#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1052
 #: ../modules/mail/em-mailer-prefs.c:71
 msgid "Reply-To"
 msgstr "Antwort an"
 
-#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1053
+#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1054
 #: ../mail/em-format-html.c:2397 ../mail/em-format-html.c:2465
 #: ../mail/em-format-html.c:2488 ../modules/mail/em-mailer-prefs.c:73
 msgid "Cc"
 msgstr "Kopie"
 
-#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1054
+#: ../em-format/em-format-quote.c:283 ../em-format/em-format.c:1055
 #: ../mail/em-format-html.c:2398 ../mail/em-format-html.c:2469
 #: ../mail/em-format-html.c:2491 ../modules/mail/em-mailer-prefs.c:74
 msgid "Bcc"
 msgstr "Blindkopie"
 
-#: ../em-format/em-format-quote.c:427 ../em-format/em-format.c:1055
+#: ../em-format/em-format-quote.c:427 ../em-format/em-format.c:1056
 #: ../mail/e-mail-tag-editor.c:330 ../mail/em-filter-i18n.h:74
 #: ../mail/message-list.etspec.h:18 ../modules/mail/em-mailer-prefs.c:75
 #: ../plugins/groupwise-features/notification.ui.h:2
@@ -7834,70 +7847,70 @@ msgstr "Mailer"
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Weitergeleitete Nachricht --------"
 
-#: ../em-format/em-format.c:1056 ../mail/message-list.etspec.h:2
+#: ../em-format/em-format.c:1057 ../mail/message-list.etspec.h:2
 #: ../modules/mail/em-mailer-prefs.c:76 ../widgets/misc/e-dateedit.c:523
 #: ../widgets/misc/e-dateedit.c:545
 msgid "Date"
 msgstr "Datum"
 
-#: ../em-format/em-format.c:1057 ../modules/mail/em-mailer-prefs.c:77
+#: ../em-format/em-format.c:1058 ../modules/mail/em-mailer-prefs.c:77
 msgid "Newsgroups"
 msgstr "Newsgroups"
 
-#: ../em-format/em-format.c:1058 ../modules/mail/em-mailer-prefs.c:78
+#: ../em-format/em-format.c:1059 ../modules/mail/em-mailer-prefs.c:78
 #: ../plugins/face/org-gnome-face.eplug.xml.h:2
 msgid "Face"
 msgstr "Gesicht"
 
-#: ../em-format/em-format.c:1455
+#: ../em-format/em-format.c:1456
 #, c-format
 msgid "%s attachment"
 msgstr "%s-Anlage"
 
-#: ../em-format/em-format.c:1566
+#: ../em-format/em-format.c:1567
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr ""
 "Die Syntax der S/MIME-Nachricht konnte nicht analysiert werden: Unbekannter "
 "Fehler"
 
-#: ../em-format/em-format.c:1748 ../em-format/em-format.c:1942
+#: ../em-format/em-format.c:1749 ../em-format/em-format.c:1943
 msgid "Could not parse MIME message. Displaying as source."
 msgstr ""
 "Die Syntax der MIME-Nachricht konnte nicht analysiert werden und wird daher "
 "als Quelltext angezeigt."
 
-#: ../em-format/em-format.c:1758
+#: ../em-format/em-format.c:1759
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Nicht unterstützter Verschlüsselungstyp für multipart/encrypted"
 
-#: ../em-format/em-format.c:1778
+#: ../em-format/em-format.c:1779
 msgid "Could not parse PGP/MIME message"
 msgstr "Die Syntax der PGP/MIME-Nachricht konnte nicht analysiert werden"
 
-#: ../em-format/em-format.c:1779
+#: ../em-format/em-format.c:1780
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr ""
 "Die Syntax der PGP/MIME-Nachricht konnte nicht analysiert werden: "
 "Unbekannter Fehler"
 
-#: ../em-format/em-format.c:1967
+#: ../em-format/em-format.c:1968
 msgid "Unsupported signature format"
 msgstr "Nicht unterstütztes Signaturformat"
 
-#: ../em-format/em-format.c:1980 ../em-format/em-format.c:2159
+#: ../em-format/em-format.c:1981 ../em-format/em-format.c:2160
 msgid "Error verifying signature"
 msgstr "Fehler beim Überprüfen der Signatur"
 
-#: ../em-format/em-format.c:1981 ../em-format/em-format.c:2146
-#: ../em-format/em-format.c:2160
+#: ../em-format/em-format.c:1982 ../em-format/em-format.c:2147
+#: ../em-format/em-format.c:2161
 msgid "Unknown error verifying signature"
 msgstr "Unbekannter Fehler beim Überprüfen der Signatur"
 
-#: ../em-format/em-format.c:2251
+#: ../em-format/em-format.c:2252
 msgid "Could not parse PGP message: "
 msgstr "Die Syntax der PGP-Nachricht konnte nicht analysiert werden:"
 
-#: ../em-format/em-format.c:2257 ../mail/em-folder-tree.c:656
+#: ../em-format/em-format.c:2258 ../mail/em-folder-tree.c:656
 #: ../mail/mail-ops.c:624 ../plugins/caldav/caldav-browse-server.c:210
 #: ../plugins/caldav/caldav-browse-server.c:1407 ../plugins/face/face.c:169
 #: ../smime/gui/certificate-manager.c:100
@@ -8346,24 +8359,24 @@ msgstr "Verschickt"
 msgid "Templates"
 msgstr "Vorlagen"
 
-#: ../mail/e-mail-migrate.c:131
+#: ../mail/e-mail-migrate.c:133
 msgid "Migrating..."
 msgstr "Migrationsvorgang …"
 
-#: ../mail/e-mail-migrate.c:164
+#: ../mail/e-mail-migrate.c:166
 msgid "Migration"
 msgstr "Migration"
 
-#: ../mail/e-mail-migrate.c:204
+#: ../mail/e-mail-migrate.c:206
 #, c-format
 msgid "Migrating '%s':"
 msgstr "»%s« wird migriert:"
 
-#: ../mail/e-mail-migrate.c:660
+#: ../mail/e-mail-migrate.c:674
 msgid "Migrating Folders"
 msgstr "Ordner werden migriert"
 
-#: ../mail/e-mail-migrate.c:661
+#: ../mail/e-mail-migrate.c:675
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to SQLite "
 "since Evolution 2.24.\n"
@@ -8375,7 +8388,7 @@ msgstr ""
 "\n"
 "Bitte haben Sie etwas Geduld. Evolution migriert Ihre Ordner …"
 
-#: ../mail/e-mail-migrate.c:1126
+#: ../mail/e-mail-migrate.c:1140
 #, c-format
 msgid "Unable to create local mail folders at '%s': %s"
 msgstr "Lokale E-Mail-Ordner unter »%s« konnten nicht angelegt werden: %s"
@@ -8396,7 +8409,7 @@ msgstr "Nicht mehr nachfragen."
 msgid "Copy to Folder"
 msgstr "In Ordner kopieren"
 
-#: ../mail/e-mail-reader.c:306 ../mail/em-folder-utils.c:421
+#: ../mail/e-mail-reader.c:306 ../mail/em-folder-utils.c:428
 msgid "C_opy"
 msgstr "K_opieren"
 
@@ -8421,7 +8434,7 @@ msgstr[1] ""
 msgid "Move to Folder"
 msgstr "In Ordner verschieben"
 
-#: ../mail/e-mail-reader.c:986 ../mail/em-folder-utils.c:421
+#: ../mail/e-mail-reader.c:986 ../mail/em-folder-utils.c:428
 msgid "_Move"
 msgstr "_Verschieben"
 
@@ -8550,8 +8563,8 @@ msgstr "Als abgeschlossen _markieren"
 #: ../mail/e-mail-reader.c:1955
 msgid "Set the follow-up flag to completed on the selected messages"
 msgstr ""
-"Für die gewählten Nachrichten die Folgenachricht-Markierung auf »vollständig« "
-"setzen"
+"Für die gewählten Nachrichten die Folgenachricht-Markierung auf "
+"»vollständig« setzen"
 
 #: ../mail/e-mail-reader.c:1960
 msgid "Follow _Up..."
@@ -9007,7 +9020,7 @@ msgstr "Nachricht »%s« wird abgerufen"
 
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
-#: ../mail/e-mail-reader.c:3379 ../mail/mail-config.ui.h:31
+#: ../mail/e-mail-reader.c:3385 ../mail/mail-config.ui.h:31
 #: ../plugins/google-account-setup/google-source.c:304
 #: ../plugins/google-account-setup/google-source.c:538
 #: ../plugins/google-account-setup/google-source.c:674
@@ -9015,47 +9028,47 @@ msgstr "Nachricht »%s« wird abgerufen"
 msgid "Default"
 msgstr "Vorgabe"
 
-#: ../mail/e-mail-reader.c:3550
+#: ../mail/e-mail-reader.c:3556
 #: ../modules/mail/e-mail-attachment-handler.c:172
 msgid "_Forward"
 msgstr "_Weiterleiten"
 
-#: ../mail/e-mail-reader.c:3551
+#: ../mail/e-mail-reader.c:3557
 msgid "Forward the selected message to someone"
 msgstr "Die gewählte Nachricht an jemanden weiterleiten"
 
-#: ../mail/e-mail-reader.c:3570
+#: ../mail/e-mail-reader.c:3576
 msgid "Group Reply"
 msgstr "Antwort an Gruppe"
 
-#: ../mail/e-mail-reader.c:3571
+#: ../mail/e-mail-reader.c:3577
 msgid "Reply to the mailing list, or to all recipients"
 msgstr ""
 "Eine Antwort an die Mailingliste oder an alle Empfänger der gewählten "
 "Nachricht verfassen"
 
-#: ../mail/e-mail-reader.c:3616 ../mail/em-filter-i18n.h:14
+#: ../mail/e-mail-reader.c:3622 ../mail/em-filter-i18n.h:14
 #: ../plugins/groupwise-features/share-folder.c:746
 msgid "Delete"
 msgstr "Löschen"
 
-#: ../mail/e-mail-reader.c:3649
+#: ../mail/e-mail-reader.c:3655
 #: ../modules/calendar/e-cal-shell-view-actions.c:1311
 #: ../widgets/misc/e-calendar.c:201
 msgid "Next"
 msgstr "Weiter"
 
-#: ../mail/e-mail-reader.c:3653
+#: ../mail/e-mail-reader.c:3659
 #: ../modules/calendar/e-cal-shell-view-actions.c:1304
 #: ../widgets/misc/e-calendar.c:177
 msgid "Previous"
 msgstr "Vorherige"
 
-#: ../mail/e-mail-reader.c:3663 ../mail/mail-dialogs.ui.h:16
+#: ../mail/e-mail-reader.c:3669 ../mail/mail-dialogs.ui.h:16
 msgid "Reply"
 msgstr "Antworten"
 
-#: ../mail/e-mail-reader.c:4298
+#: ../mail/e-mail-reader.c:4304
 #, c-format
 msgid "Folder '%s'"
 msgstr "Ordner »%s«"
@@ -9098,12 +9111,12 @@ msgstr ""
 "Das Weiterleiten der Nachricht wurde abgebrochen, da kein nutzbares Konto "
 "gefunden wurde."
 
-#: ../mail/e-mail-session.c:1286 ../mail/mail-ops.c:1220
+#: ../mail/e-mail-session.c:1290 ../mail/mail-ops.c:1220
 #, c-format
 msgid "Opening folder '%s'"
 msgstr "Ordner »%s« wird geöffnet"
 
-#: ../mail/e-mail-session.c:1302
+#: ../mail/e-mail-session.c:1306
 #, c-format
 msgid "Invalid folder: %s"
 msgstr "Ungültiger Ordner: »%s«"
@@ -9121,7 +9134,7 @@ msgid ""
 "Appending to local 'Sent' folder instead."
 msgstr ""
 "Anhängen an %s gescheitert: %s\n"
-"Stattdessen wird versucht, an den lokalen »Verschicken«-Ordner anzuhängen."
+"Stattdessen wird versucht, an den lokalen »Verschickt«-Ordner anzuhängen."
 
 #: ../mail/e-mail-session-utils.c:568 ../mail/mail-ops.c:673
 #, c-format
@@ -9154,7 +9167,7 @@ msgstr "Als Folgenachricht markieren"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
-#: ../mail/em-account-editor.c:564 ../mail/mail-config.ui.h:69
+#: ../mail/em-account-editor.c:565 ../mail/mail-config.ui.h:69
 #: ../modules/addressbook/ldap-config.ui.h:9
 msgid "No encryption"
 msgstr "Keine Verschlüsselung"
@@ -9162,7 +9175,7 @@ msgstr "Keine Verschlüsselung"
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. TLS (Transport Layer Security) is commonly known by
 #. this abbreviation.
-#: ../mail/em-account-editor.c:568 ../mail/mail-config.ui.h:126
+#: ../mail/em-account-editor.c:569 ../mail/mail-config.ui.h:126
 #: ../modules/addressbook/ldap-config.ui.h:20
 msgid "TLS encryption"
 msgstr "TLS-Verschlüsselung"
@@ -9170,40 +9183,40 @@ msgstr "TLS-Verschlüsselung"
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. SSL (Secure Sockets Layer) is commonly known by this
 #. abbreviation.
-#: ../mail/em-account-editor.c:572 ../mail/mail-config.ui.h:91
+#: ../mail/em-account-editor.c:573 ../mail/mail-config.ui.h:91
 #: ../modules/addressbook/ldap-config.ui.h:12
 msgid "SSL encryption"
 msgstr "SSL-Verschlüsselung"
 
 #. Translators: "None" as an option for a default signature of an account, part of "Signature: None"
-#: ../mail/em-account-editor.c:835 ../widgets/misc/e-signature-combo-box.c:75
+#: ../mail/em-account-editor.c:836 ../widgets/misc/e-signature-combo-box.c:75
 msgctxt "mail-signature"
 msgid "None"
 msgstr "Keine"
 
-#: ../mail/em-account-editor.c:916
+#: ../mail/em-account-editor.c:917
 msgid "Never"
 msgstr "Nie"
 
-#: ../mail/em-account-editor.c:917
+#: ../mail/em-account-editor.c:918
 msgid "Always"
 msgstr "Immer"
 
-#: ../mail/em-account-editor.c:918
+#: ../mail/em-account-editor.c:919
 msgid "Ask for each message"
 msgstr "Bei jeder Nachricht nachfragen"
 
 #. Translators: "None" for receiving account type, beside of IMAP, POP3, ...
-#: ../mail/em-account-editor.c:1701 ../widgets/misc/e-account-tree-view.c:127
+#: ../mail/em-account-editor.c:1702 ../widgets/misc/e-account-tree-view.c:127
 msgctxt "mail-receiving"
 msgid "None"
 msgstr "Keine"
 
-#: ../mail/em-account-editor.c:2088
+#: ../mail/em-account-editor.c:2108
 msgid "Mail Configuration"
 msgstr "E-Mail-Konfiguration"
 
-#: ../mail/em-account-editor.c:2089
+#: ../mail/em-account-editor.c:2109
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -9213,7 +9226,7 @@ msgstr ""
 "\n"
 "Klicken Sie auf »Vor«, um die Konfiguration zu beginnen."
 
-#: ../mail/em-account-editor.c:2092
+#: ../mail/em-account-editor.c:2112
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
@@ -9224,19 +9237,19 @@ msgstr ""
 "ausgefüllt werden, es sei denn, Sie wollen diese Informationen in von Ihnen "
 "verschickten E-Mails einschließen."
 
-#: ../mail/em-account-editor.c:2094 ../mail/em-account-editor.c:2257
+#: ../mail/em-account-editor.c:2114 ../mail/em-account-editor.c:2277
 msgid "Receiving Email"
 msgstr "Abrufen von E-Mails"
 
-#: ../mail/em-account-editor.c:2095
+#: ../mail/em-account-editor.c:2115
 msgid "Please configure the following account settings."
 msgstr "Bitte konfigurieren Sie die folgenden Konteneinstellungen."
 
-#: ../mail/em-account-editor.c:2097 ../mail/em-account-editor.c:2757
+#: ../mail/em-account-editor.c:2117 ../mail/em-account-editor.c:2777
 msgid "Sending Email"
 msgstr "Verschicken von E-Mails"
 
-#: ../mail/em-account-editor.c:2098
+#: ../mail/em-account-editor.c:2118
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
@@ -9245,11 +9258,11 @@ msgstr ""
 "Mails verschicken wollen. Falls Sie sich nicht sicher sind, wenden Sie sich "
 "bitte an Ihren Systemadministrator oder Internet-Provider."
 
-#: ../mail/em-account-editor.c:2100 ../mail/mail-config.ui.h:1
+#: ../mail/em-account-editor.c:2120 ../mail/mail-config.ui.h:1
 msgid "Account Information"
 msgstr "Konteninformation"
 
-#: ../mail/em-account-editor.c:2101
+#: ../mail/em-account-editor.c:2121
 msgid ""
 "Please enter a descriptive name for this account below.\n"
 "This name will be used for display purposes only."
@@ -9257,11 +9270,11 @@ msgstr ""
 "Bitte geben Sie unten einen bezeichnenden Namen für dieses Konto ein.\n"
 "Dieser Name wird nur zum Anzeigen verwendet."
 
-#: ../mail/em-account-editor.c:2105
+#: ../mail/em-account-editor.c:2125
 msgid "Done"
 msgstr "Fertig"
 
-#: ../mail/em-account-editor.c:2106
+#: ../mail/em-account-editor.c:2126
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -9278,29 +9291,29 @@ msgstr ""
 "Klicken Sie auf »Anwenden«, um Ihre Einstellungen zu\n"
 "speichern."
 
-#: ../mail/em-account-editor.c:2571
+#: ../mail/em-account-editor.c:2591
 msgid "Check for _new messages every"
 msgstr "_Automatisch nach neuen E-Mails sehen alle"
 
-#: ../mail/em-account-editor.c:2579
+#: ../mail/em-account-editor.c:2599
 msgid "minu_tes"
 msgstr "Minu_ten"
 
-#: ../mail/em-account-editor.c:2862
+#: ../mail/em-account-editor.c:2882
 msgid "Please select a folder from the current account."
 msgstr "Bitte wählen Sie einen Ordner des aktuellen Kontos aus."
 
-#: ../mail/em-account-editor.c:3172 ../mail/mail-config.ui.h:98
+#: ../mail/em-account-editor.c:3192 ../mail/mail-config.ui.h:98
 msgid "Security"
 msgstr "Sicherheit"
 
 #. Most sections for this is auto-generated from the camel config
 #. Most sections for this is auto-generated fromt the camel config
-#: ../mail/em-account-editor.c:3218 ../mail/em-account-editor.c:3286
+#: ../mail/em-account-editor.c:3238 ../mail/em-account-editor.c:3306
 msgid "Receiving Options"
 msgstr "Empfangsoptionen"
 
-#: ../mail/em-account-editor.c:3219 ../mail/em-account-editor.c:3287
+#: ../mail/em-account-editor.c:3239 ../mail/em-account-editor.c:3307
 msgid "Checking for New Messages"
 msgstr "Nach neuen E-Mails sehen"
 
@@ -9702,25 +9715,25 @@ msgid "Cannot drop message(s) into toplevel store"
 msgstr ""
 "Sie können Nachrichten nicht im Speicher auf der obersten Ebene abgelegen"
 
-#: ../mail/em-folder-utils.c:422
+#: ../mail/em-folder-utils.c:429
 msgid "Move Folder To"
 msgstr "Ordner verschieben nach"
 
-#: ../mail/em-folder-utils.c:422
+#: ../mail/em-folder-utils.c:429
 msgid "Copy Folder To"
 msgstr "Ordner kopieren nach"
 
-#: ../mail/em-folder-utils.c:571
+#: ../mail/em-folder-utils.c:578
 #: ../plugins/groupwise-features/share-folder-common.c:138
 #, c-format
 msgid "Creating folder '%s'"
 msgstr "Ordner »%s« wird angelegt"
 
-#: ../mail/em-folder-utils.c:741
+#: ../mail/em-folder-utils.c:748
 msgid "Create Folder"
 msgstr "Ordner anlegen"
 
-#: ../mail/em-folder-utils.c:742
+#: ../mail/em-folder-utils.c:749
 #: ../plugins/groupwise-features/install-shared.c:178
 #: ../plugins/groupwise-features/share-folder-common.c:353
 msgid "Specify where to create the folder:"
@@ -10279,8 +10292,8 @@ msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
-"Legt fest, ob die gleichen Schriften für die »Von«- und die »Betreff«-Zeile in "
-"der »Nachrichten«-Spalte der vertikalen Ansicht verwendet werden."
+"Legt fest, ob die gleichen Schriften für die »Von«- und die »Betreff«-Zeile "
+"in der »Nachrichten«-Spalte der vertikalen Ansicht verwendet werden."
 
 #: ../mail/evolution-mail.schemas.in.h:50
 msgid "Directory for loading/attaching files to composer."
@@ -10555,24 +10568,24 @@ msgid ""
 "Initial width of the \"Folder Subscriptions\" window. The value updates as "
 "the user resizes the window horizontally."
 msgstr ""
-"Legt fest, wie breit des Fenster »Ordnerabonnements« anfänglich ist. Der Wert "
-"ändert sich, wenn der Benutzer das Fenster horizontal vergrößert."
+"Legt fest, wie breit des Fenster »Ordnerabonnements« anfänglich ist. Der "
+"Wert ändert sich, wenn der Benutzer das Fenster horizontal vergrößert."
 
 #: ../mail/evolution-mail.schemas.in.h:94
 msgid ""
 "Initial width of the \"Search Folder Editor\" window. The value updates as "
 "the user resizes the window horizontally."
 msgstr ""
-"Legt fest, wie breit des Fenster »Editor für Suchordner« ist. Der Wert ändert "
-"sich, wenn der Benutzer das Fenster horizontal vergrößert."
+"Legt fest, wie breit des Fenster »Editor für Suchordner« ist. Der Wert "
+"ändert sich, wenn der Benutzer das Fenster horizontal vergrößert."
 
 #: ../mail/evolution-mail.schemas.in.h:95
 msgid ""
 "Initial width of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window horizontally."
 msgstr ""
-"Legt fest, wie breit des Fenster »E-Mails verschicken und empfangen« ist. Der "
-"Wert ändert sich, wenn der Benutzer das Fenster horizontal vergrößert."
+"Legt fest, wie breit des Fenster »E-Mails verschicken und empfangen« ist. "
+"Der Wert ändert sich, wenn der Benutzer das Fenster horizontal vergrößert."
 
 #: ../mail/evolution-mail.schemas.in.h:96
 msgid ""
@@ -10582,8 +10595,9 @@ msgid ""
 "replying."
 msgstr ""
 "Anstelle des normalen »Antwort an«-Verhaltens löst mit dieser Option der "
-"Werkzeugleistenknopf »Antwort an Gruppe« eine Antwort nur an die Mailingliste "
-"aus, über die Sie die Nachricht erhalten haben, auf die Sie antworten wollen."
+"Werkzeugleistenknopf »Antwort an Gruppe« eine Antwort nur an die "
+"Mailingliste aus, über die Sie die Nachricht erhalten haben, auf die Sie "
+"antworten wollen."
 
 #: ../mail/evolution-mail.schemas.in.h:97
 msgid ""
@@ -10933,8 +10947,8 @@ msgid ""
 "Set to TRUE in case you do not want to add signature delimiter before your "
 "signature when composing a mail."
 msgstr ""
-"Setzen Sie dies auf »wahr«, wenn Sie kein beim Verfassen von Nachrichten kein "
-"Signaturtrennzeichen vor Ihre Signatur setzen wollen."
+"Setzen Sie dies auf »wahr«, wenn Sie kein beim Verfassen von Nachrichten "
+"kein Signaturtrennzeichen vor Ihre Signatur setzen wollen."
 
 #: ../mail/evolution-mail.schemas.in.h:165
 msgid "Show \"Bcc\" field when sending a mail message"
@@ -11017,8 +11031,8 @@ msgid ""
 "Show the \"From\" field when posting to a newsgroup. This is controlled from "
 "the View menu when a news account is chosen."
 msgstr ""
-"Das Feld »Von« beim Verfassen einer Nachricht an eine Newsgroup anzeigen. Die "
-"Einstellung kann im Menü »Ansicht« beim Verfassen angepasst werden."
+"Das Feld »Von« beim Verfassen einer Nachricht an eine Newsgroup anzeigen. "
+"Die Einstellung kann im Menü »Ansicht« beim Verfassen angepasst werden."
 
 #: ../mail/evolution-mail.schemas.in.h:182
 msgid ""
@@ -11161,8 +11175,8 @@ msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
-"Hier sind drei verschiedene Werte möglich: »0« für Fehler, »1« für Warnungen, "
-"»2« für Diagnosemeldungen."
+"Hier sind drei verschiedene Werte möglich: »0« für Fehler, »1« für "
+"Warnungen, »2« für Diagnosemeldungen."
 
 #: ../mail/evolution-mail.schemas.in.h:202
 msgid ""
@@ -11377,8 +11391,8 @@ msgid ""
 "one minute after the last action invocation."
 msgstr ""
 "Legt fest. ob der Nachrichtenausgang nach dem Filtern geleert werden soll. "
-"Das geschieht nur, wenn ein »Weiterleiten an«-Filtervorgang angewendet wurde, "
-"etwa eine Minute nach der letzten Aktion."
+"Das geschieht nur, wenn ein »Weiterleiten an«-Filtervorgang angewendet "
+"wurde, etwa eine Minute nach der letzten Aktion."
 
 #: ../mail/evolution-mail.schemas.in.h:233
 msgid "Width of the message-list pane"
@@ -11517,8 +11531,8 @@ msgid_plural ""
 "%s have been modified to account for the deleted folder\n"
 "\"%s\"."
 msgstr[0] ""
-"Die Filterregel »%s« wurde aktualisiert, weil sie folgenden gerade entfernten "
-"Ordner verwendet:\n"
+"Die Filterregel »%s« wurde aktualisiert, weil sie folgenden gerade "
+"entfernten Ordner verwendet:\n"
 "»%s«."
 msgstr[1] ""
 "Die folgenden Filterregeln »%s« wurden aktualisiert, weil sie folgenden "
@@ -12230,7 +12244,8 @@ msgid ""
 msgstr ""
 "Dies ist eine Liste der von Ihnen als Folgenachricht markierten "
 "Nachrichten.\n"
-"Bitte wählen Sie eine Aktion für die Folgenachricht aus dem Menü »Markierung«."
+"Bitte wählen Sie eine Aktion für die Folgenachricht aus dem Menü "
+"»Markierung«."
 
 #: ../mail/mail-dialogs.ui.h:24
 msgid "_Accept License"
@@ -12423,7 +12438,8 @@ msgstr "Spool-Ordner »%s« konnte nicht angelegt werden: %s"
 #: ../mail/mail-tools.c:102
 #, c-format
 msgid "Trying to movemail a non-mbox source '%s'"
-msgstr "Es wurde versucht, movemail auf eine nicht-mbox-Quelle »%s« auszuführen"
+msgstr ""
+"Es wurde versucht, movemail auf eine nicht-mbox-Quelle »%s« auszuführen"
 
 #: ../mail/mail-tools.c:214
 #, c-format
@@ -12522,8 +12538,8 @@ msgid ""
 "A read receipt notification has been requested for \"{1}\". Send the receipt "
 "notification to {0}?"
 msgstr ""
-"Eine Lesebestätigung wurde für »{1}« angefordert. Soll die Bestätigung an {0} "
-"geschickt werden?"
+"Eine Lesebestätigung wurde für »{1}« angefordert. Soll die Bestätigung an "
+"{0} geschickt werden?"
 
 #: ../mail/mail.error.xml.h:10
 msgid ""
@@ -13453,8 +13469,8 @@ msgid ""
 msgstr ""
 "Der Suchbereich legt fest, wie tief Sie bei der Suche im Ordnerbaum "
 "absteigen wollen. Der Suchbereich »sub« schließt alle Einträge unterhalb des "
-"Suchbereichs ein. Der Suchbereich »one« hingegen schließt lediglich die Ebene "
-"unterhalb des Ausgangspunktes der Suche ein."
+"Suchbereichs ein. Der Suchbereich »one« hingegen schließt lediglich die "
+"Ebene unterhalb des Ausgangspunktes der Suche ein."
 
 #: ../modules/addressbook/addressbook-config.c:1016
 msgid "Server Information"
@@ -14329,7 +14345,8 @@ msgstr ""
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:28
 msgid "If \"true\", show the task preview pane in the main window."
 msgstr ""
-"Falls auf »wahr« gesetzt, wird die Aufgabenvorschau im Hauptfenster angezeigt."
+"Falls auf »wahr« gesetzt, wird die Aufgabenvorschau im Hauptfenster "
+"angezeigt."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:29
 msgid "Intervals shown in Day and Work Week views, in minutes."
@@ -14606,8 +14623,8 @@ msgid ""
 "The UID of the selected (or \"primary\") task list in the sidebar of the "
 "\"Tasks\" view."
 msgstr ""
-"Die UID der gewählten (oder »primären«) Aufgabenliste in der Seitenleiste der "
-"»Aufgaben«-Ansicht."
+"Die UID der gewählten (oder »primären«) Aufgabenliste in der Seitenleiste "
+"der »Aufgaben«-Ansicht."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:87
 #, no-c-format
@@ -14615,9 +14632,9 @@ msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain."
 msgstr ""
-"Die Adress-Vorlage zur Verwendung als Rückgriff auf Verfügbarkeitsdaten. »%u« "
-"wird durch den Benutzerteil der E-Mail-Adresse und »%d« durch die Domain "
-"ersetzt."
+"Die Adress-Vorlage zur Verwendung als Rückgriff auf Verfügbarkeitsdaten. "
+"»%u« wird durch den Benutzerteil der E-Mail-Adresse und »%d« durch die "
+"Domain ersetzt."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:88
 msgid ""
@@ -14658,8 +14675,8 @@ msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
 msgstr ""
-"Hier sind drei verschiedene Werte möglich: »0« für Fehler, »1« für Warnungen, "
-"»2« für Diagnosemeldungen."
+"Hier sind drei verschiedene Werte möglich: »0« für Fehler, »1« für "
+"Warnungen, »2« für Diagnosemeldungen."
 
 #: ../modules/calendar/apps_evolution_calendar.schemas.in.h:93
 msgid "Time divisions"
@@ -17429,8 +17446,8 @@ msgstr "Der Server gestattete nicht, die gewählte Nachricht zurückzuziehen."
 #: ../plugins/groupwise-features/org-gnome-proxy-login.error.xml.h:1
 msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
 msgstr ""
-"Es existiert bereits ein Konto namens »{0}«. Bitte überprüfen Sie Ihre Ordner-"
-"Hierarchie."
+"Es existiert bereits ein Konto namens »{0}«. Bitte überprüfen Sie Ihre "
+"Ordner-Hierarchie."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login.error.xml.h:2
 msgid "Account Already Exists"
@@ -19830,9 +19847,9 @@ msgid ""
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
-"Der Stil der Fensterknöpfe. Mögliche Einstellungen sind »text«, »icons«, »both« "
-"und »toolbar«. Wenn »toolbar« gesetzt wurde, wird der Stil anhand der GNOME-"
-"Einstellungen festgelegt."
+"Der Stil der Fensterknöpfe. Mögliche Einstellungen sind »text«, »icons«, "
+"»both« und »toolbar«. Wenn »toolbar« gesetzt wurde, wird der Stil anhand der "
+"GNOME-Einstellungen festgelegt."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:51
 msgid ""
@@ -20369,7 +20386,8 @@ msgid ""
 "%s: --force-online and --offline cannot be used together.\n"
 "  Run '%s --help' for more information.\n"
 msgstr ""
-"%s: »--force-online« und »--offline« können nicht gemeinsam verwendet werden.\n"
+"%s: »--force-online« und »--offline« können nicht gemeinsam verwendet "
+"werden.\n"
 "  Rufen Sie »%s --help« auf, um weitere Informationen zu erhalten.\n"
 
 #: ../shell/shell.error.xml.h:1
