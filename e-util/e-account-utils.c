@@ -22,6 +22,7 @@
 
 #include "e-account-utils.h"
 
+#include <string.h>
 #include <gconf/gconf-client.h>
 
 static EAccountList *global_account_list;
@@ -136,10 +137,11 @@ e_get_account_by_name (const gchar *name)
  * e_get_account_by_uid:
  * @uid: a mail account UID
  *
- * Returns the #EAccount with the given unique ID, or %NULL if no such
- * account exists.
+ * Returns the #EAccount corresponding to the given unique identity (UID),
+ * or %NULL if no such account exists.  The @uid can refer to an #EAccount
+ * UID, a #CamelStore UID, or even a #CamelTransport UID.
  *
- * Returns: an #EAccount having the given unique ID, or %NULL
+ * Returns: the corresponding #EAccount, or %NULL
  **/
 EAccount *
 e_get_account_by_uid (const gchar *uid)
@@ -147,12 +149,27 @@ e_get_account_by_uid (const gchar *uid)
 	EAccountList *account_list;
 	const EAccount *account;
 	e_account_find_t find;
+	gchar *account_uid;
 
 	g_return_val_if_fail (uid != NULL, NULL);
 
+	/* EAccounts have the following invariant:
+	 *
+	 *       CamelStore UID == EAccount UID
+	 *   CamelTransport UID == EAccount UID + "-transport"
+	 *
+	 * Therefore we can detect CamelTransport UIDs and convert them.
+	 */
+	if (g_str_has_suffix (uid, "-transport"))
+		account_uid = g_strndup (uid, strlen (uid) - 10);
+	else
+		account_uid = g_strdup (uid);
+
 	find = E_ACCOUNT_FIND_UID;
 	account_list = e_get_account_list ();
-	account = e_account_list_find (account_list, find, uid);
+	account = e_account_list_find (account_list, find, account_uid);
+
+	g_free (account_uid);
 
 	/* XXX EAccountList misuses const. */
 	return (EAccount *) account;
