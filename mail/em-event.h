@@ -21,8 +21,8 @@
  *
  */
 
-#ifndef __EM_EVENT_H__
-#define __EM_EVENT_H__
+#ifndef EM_EVENT_H
+#define EM_EVENT_H
 
 #include <glib-object.h>
 
@@ -33,6 +33,7 @@ G_BEGIN_DECLS
 
 typedef struct _EMEvent EMEvent;
 typedef struct _EMEventClass EMEventClass;
+typedef struct _EMEventPrivate EMEventPrivate;
 
 /* Current target description */
 enum _em_event_target_t {
@@ -74,7 +75,7 @@ typedef struct _EMEventTargetFolder EMEventTargetFolder;
 struct _EMEventTargetFolder {
 	EEventTarget target;
 	gchar *uri;
-	guint  new;
+	guint new;
 	gboolean is_inbox;
 	gchar *name;
 
@@ -87,9 +88,9 @@ struct _EMEventTargetFolder {
 typedef struct _EMEventTargetMessage EMEventTargetMessage;
 
 struct _EMEventTargetMessage {
-	EEventTarget              target;
-	CamelFolder      *folder;
-	gchar                     *uid;
+	EEventTarget target;
+	CamelFolder *folder;
+	gchar *uid;
 	CamelMimeMessage *message;
 	EMsgComposer *composer;
 };
@@ -98,7 +99,6 @@ typedef struct _EMEventTargetComposer EMEventTargetComposer;
 
 struct _EMEventTargetComposer {
 	EEventTarget target;
-
 	EMsgComposer *composer;
 };
 
@@ -106,7 +106,6 @@ typedef struct _EMEventTargetSendReceive EMEventTargetSendReceive;
 
 struct _EMEventTargetSendReceive {
 	EEventTarget target;
-
 	GtkWidget *table;
 	gpointer data;
 	gint row;
@@ -116,10 +115,9 @@ typedef struct _EMEventTargetCustomIcon EMEventTargetCustomIcon;
 
 struct _EMEventTargetCustomIcon {
 	EEventTarget target;
-
-	GtkTreeStore	*store;
-	GtkTreeIter	*iter;
-	const gchar	*folder_name;
+	GtkTreeStore *store;
+	GtkTreeIter *iter;
+	const gchar *folder_name;
 };
 
 typedef struct _EEventItem EMEventItem;
@@ -127,25 +125,47 @@ typedef struct _EEventItem EMEventItem;
 /* The object */
 struct _EMEvent {
 	EEvent popup;
-
-	struct _EMEventPrivate *priv;
+	EMEventPrivate *priv;
 };
 
 struct _EMEventClass {
 	EEventClass popup_class;
 };
 
-GType em_event_get_type (void);
-
-EMEvent *em_event_peek (void);
-
-EMEventTargetFolder *em_event_target_new_folder (EMEvent *emp, const gchar *uri, guint32 count_new_msgs, const gchar *msg_uid, const gchar *msg_sender, const gchar *msg_subject);
-EMEventTargetComposer *em_event_target_new_composer (EMEvent *emp, const EMsgComposer *composer, guint32 flags);
-EMEventTargetMessage *em_event_target_new_message (EMEvent *emp, CamelFolder *folder, CamelMimeMessage *message, const gchar *uid, guint32 flags,
-							EMsgComposer *composer);
-EMEventTargetSendReceive * em_event_target_new_send_receive (EMEvent *eme, GtkWidget *table, gpointer data, gint row, guint32 flags);
-EMEventTargetCustomIcon * em_event_target_new_custom_icon (EMEvent *eme, GtkTreeStore *store, GtkTreeIter *iter, const gchar *uri, guint32 flags);
+GType		em_event_get_type		(void);
+EMEvent *	em_event_peek			(void);
+EMEventTargetFolder *
+		em_event_target_new_folder	(EMEvent *emp,
+						 const gchar *uri,
+						 guint32 count_new_msgs,
+						 const gchar *msg_uid,
+						 const gchar *msg_sender,
+						 const gchar *msg_subject);
+EMEventTargetComposer *
+		em_event_target_new_composer	(EMEvent *emp,
+						 EMsgComposer *composer,
+						 guint32 flags);
+EMEventTargetMessage *
+		em_event_target_new_message	(EMEvent *emp,
+						 CamelFolder *folder,
+						 CamelMimeMessage *message,
+						 const gchar *uid,
+						 guint32 flags,
+						 EMsgComposer *composer);
+EMEventTargetSendReceive *
+		em_event_target_new_send_receive
+						(EMEvent *eme,
+						 GtkWidget *table,
+						 gpointer data,
+						 gint row,
+						 guint32 flags);
+EMEventTargetCustomIcon *
+		em_event_target_new_custom_icon	(EMEvent *eme,
+						 GtkTreeStore *store,
+						 GtkTreeIter *iter,
+						 const gchar *uri,
+						 guint32 flags);
 
 G_END_DECLS
 
-#endif /* __EM_EVENT_H__ */
+#endif /* EM_EVENT_H */
