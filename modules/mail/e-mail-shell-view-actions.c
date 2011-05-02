@@ -86,7 +86,6 @@ action_mail_account_disable_cb (GtkAction *action,
 	EMFolderTree *folder_tree;
 	EAccountList *account_list;
 	EAccount *account;
-	gchar *folder_uri;
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 
@@ -97,12 +96,10 @@ action_mail_account_disable_cb (GtkAction *action,
 	session = e_mail_backend_get_session (backend);
 
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
-	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
-	g_return_if_fail (folder_uri != NULL);
+	account = em_folder_tree_get_selected_account (folder_tree);
+	g_return_if_fail (account != NULL);
 
 	account_list = e_get_account_list ();
-	account = e_get_account_by_source_url (folder_uri);
-	g_return_if_fail (account != NULL);
 
 	if (e_account_list_account_has_proxies (account_list, account))
 		e_account_list_remove_account_proxies (account_list, account);
@@ -115,8 +112,6 @@ action_mail_account_disable_cb (GtkAction *action,
 		e_account_list_remove (account_list, account);
 
 	e_account_list_save (account_list);
-
-	g_free (folder_uri);
 }
 
 static void
@@ -1004,9 +999,8 @@ action_mail_tools_subscriptions_cb (GtkAction *action,
 	EMailBackend *backend;
 	EMailSession *session;
 	EMFolderTree *folder_tree;
-	EAccount *account = NULL;
+	EAccount *account;
 	GtkWidget *dialog;
-	gchar *uri;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -1014,15 +1008,10 @@ action_mail_tools_subscriptions_cb (GtkAction *action,
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	account = em_folder_tree_get_selected_account (folder_tree);
 
 	backend = E_MAIL_BACKEND (shell_backend);
 	session = e_mail_backend_get_session (backend);
-
-	uri = em_folder_tree_get_selected_uri (folder_tree);
-	if (uri != NULL) {
-		account = e_get_account_by_source_url (uri);
-		g_free (uri);
-	}
 
 	dialog = em_subscription_editor_new (
 		GTK_WINDOW (shell_window),

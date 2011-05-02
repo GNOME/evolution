@@ -3157,6 +3157,32 @@ done:
 	return fi;
 }
 
+EAccount *
+em_folder_tree_get_selected_account (EMFolderTree *folder_tree)
+{
+	GtkTreeView *tree_view;
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	CamelStore *store = NULL;
+	const gchar *uid = NULL;
+
+	g_return_val_if_fail (EM_IS_FOLDER_TREE (folder_tree), NULL);
+
+	tree_view = GTK_TREE_VIEW (folder_tree);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	if (gtk_tree_selection_get_selected (selection, &model, &iter))
+		gtk_tree_model_get (
+			model, &iter,
+			COL_POINTER_CAMEL_STORE, &store, -1);
+
+	if (CAMEL_IS_STORE (store))
+		uid = camel_service_get_uid (CAMEL_SERVICE (store));
+
+	return (uid != NULL) ? e_get_account_by_uid (uid) : NULL;
+}
+
 void
 em_folder_tree_set_skip_double_click (EMFolderTree *folder_tree, gboolean skip)
 {
