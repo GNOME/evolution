@@ -614,12 +614,7 @@ mail_session_get_password (CamelSession *session,
 
 	if (!strcmp(item, "popb4smtp_uid")) {
 		/* not 100% mt safe, but should be ok */
-		if (account != NULL)
-			ret = g_strdup (account->source->url);
-		else if (CAMEL_IS_SERVICE (service)) {
-			CamelURL *url = camel_service_get_camel_url (service);
-			ret = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-		}
+		ret = g_strdup ((account != NULL) ? account->uid : uid);
 	} else {
 		gchar *key = mail_session_make_key (service, item);
 		EAccountService *config_service = NULL;
