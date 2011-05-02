@@ -201,7 +201,7 @@ org_gnome_send_options (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gchar *markup;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
-	account = target_account->account;
+	account = target_account->modified_account;
 
 	if (!g_strrstr (account->source->url, "groupwise://"))
 		return NULL;

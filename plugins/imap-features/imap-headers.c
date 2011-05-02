@@ -76,15 +76,16 @@ void
 imap_headers_commit (EPlugin *efp, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
-	EAccount *account;
+	EAccount *original_account;
+	EAccount *modified_account;
 	gboolean use_imap = g_getenv ("USE_IMAP") != NULL;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
-	account = target_account->account;
+	original_account = target_account->original_account;
+	modified_account = target_account->modified_account;
 
-	if (g_str_has_prefix (account->source->url, "imap://") ||
-			(use_imap && g_str_has_prefix (account->source->url, "groupwise://"))) {
-		EAccount *temp = NULL;
+	if (g_str_has_prefix (modified_account->source->url, "imap://") ||
+			(use_imap && g_str_has_prefix (modified_account->source->url, "groupwise://"))) {
 		EAccountList *accounts = e_get_account_list ();
 		CamelURL *url = NULL;
 		GtkTreeModel *model;
@@ -94,9 +95,9 @@ imap_headers_commit (EPlugin *efp, EConfigHookItemFactoryData *data)
 
 		str = g_string_new("");
 
-		temp = e_get_account_by_source_url (account->source->url);
-
-		url = camel_url_new (e_account_get_string (account, E_ACCOUNT_SOURCE_URL), NULL);
+		url = camel_url_new (
+			e_account_get_string (
+			modified_account, E_ACCOUNT_SOURCE_URL), NULL);
 
 		model = gtk_tree_view_get_model (ui->custom_headers_tree);
 		if (gtk_tree_model_get_iter_first (model, &iter)) {
@@ -125,10 +126,13 @@ imap_headers_commit (EPlugin *efp, EConfigHookItemFactoryData *data)
 			camel_url_set_param (url, "basic_headers", NULL);
 		}
 
-		e_account_set_string (temp, E_ACCOUNT_SOURCE_URL, camel_url_to_string (url, 0));
+		/* FIXME Leaking URL string? */
+		e_account_set_string (
+			original_account, E_ACCOUNT_SOURCE_URL,
+			camel_url_to_string (url, 0));
 		camel_url_free (url);
 		g_string_free (str, TRUE);
-		e_account_list_change (accounts, temp);
+		e_account_list_change (accounts, original_account);
 		e_account_list_save (accounts);
 	}
 }
@@ -269,7 +273,7 @@ org_gnome_imap_headers (EPlugin *epl, EConfigHookItemFactoryData *data)
 	ui = g_new0 (EPImapFeaturesData, 1);
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
-	account = target_account->account;
+	account = target_account->modified_account;
 
 	if (!g_str_has_prefix (account->source->url, "imap://") && !(use_imap && g_str_has_prefix (account->source->url, "groupwise://")))
 		return NULL;
