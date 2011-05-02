@@ -38,38 +38,39 @@
 
 #include <e-util/e-util.h>
 
-static GObjectClass *emp_parent;
+G_DEFINE_TYPE (EMConfig, em_config, E_TYPE_CONFIG)
 
 struct _EMConfigPrivate {
 	gint account_changed_id;
 };
 
 static void
-emp_init (GObject *o)
+emp_account_changed (struct _EAccount *ea, gint id, EMConfig *emc)
 {
-	EMConfig *emp = (EMConfig *)o;
-
-	emp->priv = g_malloc0 (sizeof (*emp->priv));
+	e_config_target_changed ((EConfig *)emc, E_CONFIG_TARGET_CHANGED_STATE);
 }
 
 static void
-emp_finalise (GObject *o)
+em_config_finalize (GObject *object)
 {
-	struct _EMConfigPrivate *p = ((EMConfig *)o)->priv;
-
 	/* Note we can't be unreffed if a target exists, so the target
 	 * will need to be freed first which will clean up any
 	 * listeners */
 
-	g_free (p);
+	g_free (((EMConfig *) object)->priv);
 
-	((GObjectClass *)emp_parent)->finalize (o);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (em_config_parent_class)->finalize (object);
 }
 
 static void
-emp_target_free (EConfig *ep, EConfigTarget *t)
+em_config_set_target (EConfig *ep,
+                      EConfigTarget *t)
 {
-	if (ep->target == t) {
+	/* Chain up to parent's set_target() method. */
+	E_CONFIG_CLASS (em_config_parent_class)->set_target (ep, t);
+
+	if (t) {
 		switch (t->type) {
 		case EM_CONFIG_TARGET_FOLDER: {
 			/*EMConfigTargetFolder *s = (EMConfigTargetFolder *)t;*/
@@ -79,10 +80,35 @@ emp_target_free (EConfig *ep, EConfigTarget *t)
 			break; }
 		case EM_CONFIG_TARGET_ACCOUNT: {
 			EMConfigTargetAccount *s = (EMConfigTargetAccount *)t;
+			EMConfig *config = (EMConfig *) ep;
 
-			if (((EMConfig *)ep)->priv->account_changed_id) {
-				g_signal_handler_disconnect (s->account, ((EMConfig *)ep)->priv->account_changed_id);
-				((EMConfig *)ep)->priv->account_changed_id = 0;
+			config->priv->account_changed_id = g_signal_connect (
+				s->account, "changed",
+				G_CALLBACK(emp_account_changed), ep);
+			break; }
+		}
+	}
+}
+
+static void
+em_config_target_free (EConfig *ep,
+                       EConfigTarget *t)
+{
+	if (ep->target == t) {
+		switch (t->type) {
+		case EM_CONFIG_TARGET_FOLDER:
+			break;
+		case EM_CONFIG_TARGET_PREFS:
+			break;
+		case EM_CONFIG_TARGET_ACCOUNT: {
+			EMConfigTargetAccount *s = (EMConfigTargetAccount *)t;
+			EMConfig *config = (EMConfig *) ep;
+
+			if (config->priv->account_changed_id > 0) {
+				g_signal_handler_disconnect (
+					s->account,
+					config->priv->account_changed_id);
+				config->priv->account_changed_id = 0;
 			}
 			break; }
 		}
@@ -108,95 +134,71 @@ emp_target_free (EConfig *ep, EConfigTarget *t)
 		break; }
 	}
 
-	((EConfigClass *)emp_parent)->target_free (ep, t);
+	/* Chain up to parent's target_free() method. */
+	E_CONFIG_CLASS (em_config_parent_class)->target_free (ep, t);
 }
 
 static void
-emp_account_changed (struct _EAccount *ea, gint id, EMConfig *emc)
+em_config_class_init (EMConfigClass *class)
 {
-	e_config_target_changed ((EConfig *)emc, E_CONFIG_TARGET_CHANGED_STATE);
+	GObjectClass *object_class;
+	EConfigClass *config_class;
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = em_config_finalize;
+
+	config_class = E_CONFIG_CLASS (class);
+	config_class->set_target = em_config_set_target;
+	config_class->target_free = em_config_target_free;
 }
 
 static void
-emp_set_target (EConfig *ep, EConfigTarget *t)
+em_config_init (EMConfig *emp)
 {
-	((EConfigClass *)emp_parent)->set_target (ep, t);
-
-	if (t) {
-		switch (t->type) {
-		case EM_CONFIG_TARGET_FOLDER: {
-			/*EMConfigTargetFolder *s = (EMConfigTargetFolder *)t;*/
-			break; }
-		case EM_CONFIG_TARGET_PREFS: {
-			/*EMConfigTargetPrefs *s = (EMConfigTargetPrefs *)t;*/
-			break; }
-		case EM_CONFIG_TARGET_ACCOUNT: {
-			EMConfigTargetAccount *s = (EMConfigTargetAccount *)t;
-
-			((EMConfig *)ep)->priv->account_changed_id = g_signal_connect(s->account, "changed", G_CALLBACK(emp_account_changed), ep);
-			break; }
-		}
-	}
+	emp->priv = g_malloc0 (sizeof (*emp->priv));
 }
 
-static void
-emp_class_init (GObjectClass *klass)
+EMConfig *
+em_config_new (gint type,
+               const gchar *menuid)
 {
-	klass->finalize = emp_finalise;
-	((EConfigClass *)klass)->set_target = emp_set_target;
-	((EConfigClass *)klass)->target_free = emp_target_free;
-}
+	EMConfig *emp;
 
-GType
-em_config_get_type (void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo info = {
-			sizeof (EMConfigClass),
-			NULL, NULL,
-			(GClassInitFunc)emp_class_init,
-			NULL, NULL,
-			sizeof (EMConfig), 0,
-			(GInstanceInitFunc)emp_init
-		};
-		emp_parent = g_type_class_ref (e_config_get_type ());
-		type = g_type_register_static(e_config_get_type(), "EMConfig", &info, 0);
-	}
-
-	return type;
-}
-
-EMConfig *em_config_new (gint type, const gchar *menuid)
-{
-	EMConfig *emp = g_object_new (em_config_get_type (), NULL);
-
+	emp = g_object_new (em_config_get_type (), NULL);
 	e_config_construct (&emp->config, type, menuid);
 
 	return emp;
 }
 
 EMConfigTargetFolder *
-em_config_target_new_folder (EMConfig *emp, CamelFolder *folder, const gchar *uri)
+em_config_target_new_folder (EMConfig *emp,
+                             CamelFolder *folder,
+                             const gchar *uri)
 {
-	EMConfigTargetFolder *t = e_config_target_new (&emp->config, EM_CONFIG_TARGET_FOLDER, sizeof (*t));
+	EMConfigTargetFolder *t;
+
+	t = e_config_target_new (
+		&emp->config, EM_CONFIG_TARGET_FOLDER, sizeof (*t));
 
 	t->uri = g_strdup (uri);
-	t->folder = folder;
-	g_object_ref (folder);
+	t->folder = g_object_ref (folder);
 
 	return t;
 }
 
 EMConfigTargetPrefs *
-em_config_target_new_prefs (EMConfig *emp, struct _GConfClient *gconf)
+em_config_target_new_prefs (EMConfig *emp,
+                            GConfClient *gconf)
 {
-	EMConfigTargetPrefs *t = e_config_target_new (&emp->config, EM_CONFIG_TARGET_PREFS, sizeof (*t));
+	EMConfigTargetPrefs *t;
 
-	t->gconf = gconf;
-	if (gconf)
-		g_object_ref (gconf);
+	t = e_config_target_new (
+		&emp->config, EM_CONFIG_TARGET_PREFS, sizeof (*t));
+
+	if (GCONF_IS_CLIENT (gconf))
+		t->gconf = g_object_ref (gconf);
+	else
+		t->gconf = NULL;
 
 	return t;
 }
