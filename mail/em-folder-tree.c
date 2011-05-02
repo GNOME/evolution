@@ -3099,8 +3099,10 @@ em_folder_tree_get_selected_folder (EMFolderTree *folder_tree)
 	selection = gtk_tree_view_get_selection (tree_view);
 
 	if (gtk_tree_selection_get_selected (selection, &model, &iter))
-		gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store,
-				    COL_STRING_FULL_NAME, &full_name, -1);
+		gtk_tree_model_get (
+			model, &iter,
+			COL_POINTER_CAMEL_STORE, &store,
+			COL_STRING_FULL_NAME, &full_name, -1);
 
 	/* FIXME camel_store_get_folder_sync() may block. */
 	if (store && full_name)
@@ -3130,10 +3132,12 @@ em_folder_tree_get_selected_folder_info (EMFolderTree *folder_tree)
 	selection = gtk_tree_view_get_selection (tree_view);
 
 	if (gtk_tree_selection_get_selected (selection, &model, &iter))
-		gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store,
-				    COL_STRING_FULL_NAME, &full_name,
-				    COL_STRING_DISPLAY_NAME, &name,
-				    COL_STRING_URI, &uri, -1);
+		gtk_tree_model_get (
+			model, &iter,
+			COL_POINTER_CAMEL_STORE, &store,
+			COL_STRING_FULL_NAME, &full_name,
+			COL_STRING_DISPLAY_NAME, &name,
+			COL_STRING_URI, &uri, -1);
 
 	fi = camel_folder_info_new ();
 	fi->full_name = g_strdup (full_name);
