@@ -30,7 +30,6 @@ void		e_set_default_account		(EAccount *account);
 EAccount *	e_get_account_by_name		(const gchar *name);
 EAccount *	e_get_account_by_uid		(const gchar *uid);
 EAccount *	e_get_account_by_source_url	(const gchar *source_url);
-EAccount *	e_get_account_by_transport_url	(const gchar *transport_url);
 EAccount *	e_get_any_enabled_account	(void);
 EAccount *	e_get_default_transport		(void);
 GList *		e_get_subscribable_accounts	(CamelSession *session);
