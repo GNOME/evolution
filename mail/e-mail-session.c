@@ -603,24 +603,23 @@ mail_session_get_password (CamelSession *session,
                            guint32 flags,
                            GError **error)
 {
-	gchar *url = NULL;
-	gchar *ret = NULL;
 	EAccount *account = NULL;
+	const gchar *uid = NULL;
+	gchar *ret = NULL;
 
-	if (service != NULL) {
-		CamelURL *service_url;
-
-		service_url = camel_service_get_camel_url (service);
-		url = camel_url_to_string (service_url, CAMEL_URL_HIDE_ALL);
+	if (CAMEL_IS_SERVICE (service)) {
+		uid = camel_service_get_uid (service);
+		account = e_get_account_by_uid (uid);
 	}
 
 	if (!strcmp(item, "popb4smtp_uid")) {
 		/* not 100% mt safe, but should be ok */
-		if (url
-		    && (account = e_get_account_by_transport_url (url)))
+		if (account != NULL)
 			ret = g_strdup (account->source->url);
-		else
-			ret = g_strdup (url);
+		else if (CAMEL_IS_SERVICE (service)) {
+			CamelURL *url = camel_service_get_camel_url (service);
+			ret = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+		}
 	} else {
 		gchar *key = mail_session_make_key (service, item);
 		EAccountService *config_service = NULL;
@@ -635,10 +634,10 @@ mail_session_get_password (CamelSession *session,
 			g_free (ret);
 			ret = NULL;
 
-			if (url) {
-				if  ((account = e_get_account_by_source_url (url)))
+			if (account != NULL) {
+				if (CAMEL_IS_STORE (service))
 					config_service = account->source;
-				else if ((account = e_get_account_by_transport_url (url)))
+				if (CAMEL_IS_TRANSPORT (service))
 					config_service = account->transport;
 			}
 
@@ -703,8 +702,6 @@ mail_session_get_password (CamelSession *session,
 
 		g_free (key);
 	}
-
-	g_free (url);
 
 	if (ret == NULL)
 		g_set_error (
