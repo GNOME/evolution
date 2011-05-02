@@ -20,8 +20,8 @@
  *
  */
 
-#ifndef __EM_CONFIG_H__
-#define __EM_CONFIG_H__
+#ifndef EM_CONFIG_H
+#define EM_CONFIG_H
 
 #include <camel/camel.h>
 #include <gconf/gconf-client.h>
@@ -71,10 +71,8 @@ struct _EMConfigTargetAccount {
 
 typedef struct _EConfigItem EMConfigItem;
 
-/* The object */
 struct _EMConfig {
 	EConfig config;
-
 	EMConfigPrivate *priv;
 };
 
@@ -82,14 +80,20 @@ struct _EMConfigClass {
 	EConfigClass config_class;
 };
 
-GType em_config_get_type (void);
-
-EMConfig *em_config_new (gint type, const gchar *menuid);
-
-EMConfigTargetFolder *em_config_target_new_folder (EMConfig *emp, CamelFolder *folder, const gchar *uri);
-EMConfigTargetPrefs *em_config_target_new_prefs (EMConfig *emp, GConfClient *gconf);
-EMConfigTargetAccount *em_config_target_new_account (EMConfig *emp, EAccount *account);
+GType		em_config_get_type		(void);
+EMConfig *	em_config_new			(gint type,
+						 const gchar *menuid);
+EMConfigTargetFolder *
+		em_config_target_new_folder	(EMConfig *emp,
+						 CamelFolder *folder,
+						 const gchar *uri);
+EMConfigTargetPrefs *
+		em_config_target_new_prefs	(EMConfig *emp,
+						 GConfClient *gconf);
+EMConfigTargetAccount *
+		em_config_target_new_account	(EMConfig *emp,
+						 EAccount *account);
 
 G_END_DECLS
 
-#endif /* __EM_CONFIG_H__ */
+#endif /* EM_CONFIG_H */
