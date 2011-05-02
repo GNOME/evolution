@@ -379,16 +379,13 @@ new_notify_status (EMEventTargetFolder *t)
 	gchar *msg;
 
 	if (!status_count) {
-		EAccount *account;
-		gchar *name = t->name;
+		gchar *folder_name;
 
-		account = e_get_account_by_source_url (t->uri);
-
-		if (account != NULL) {
-			name = g_strdup_printf (
-				"%s/%s", e_account_get_string (
-				account, E_ACCOUNT_NAME), name);
-		}
+		if (t->account != NULL)
+			folder_name = g_strdup_printf (
+				"%s/%s", t->account->name, t->name);
+		else
+			folder_name = g_strdup (t->name);
 
 		status_count = t->new;
 
@@ -397,10 +394,9 @@ new_notify_status (EMEventTargetFolder *t)
 		msg = g_strdup_printf (ngettext (
 			"You have received %d new message\nin %s.",
 			"You have received %d new messages\nin %s.",
-			status_count), status_count, name);
+			status_count), status_count, folder_name);
 
-		if (name != t->name)
-			g_free (name);
+		g_free (folder_name);
 
 		if (t->msg_sender) {
 			gchar *tmp, *str;

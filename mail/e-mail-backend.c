@@ -361,6 +361,8 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 	EMEvent *event = em_event_peek ();
 	EMEventTargetFolder *target;
 	EMFolderTreeModel *model;
+	EAccount *account;
+	const gchar *uid;
 	gint folder_type;
 	gint flags = 0;
 
@@ -370,8 +372,11 @@ mail_backend_folder_changed_cb (MailFolderCache *folder_cache,
 				folder_cache, folder, &flags))
 			g_return_if_reached ();
 
+	uid = camel_service_get_uid (CAMEL_SERVICE (store));
+	account = e_get_account_by_uid (uid);
+
 	target = em_event_target_new_folder (
-		event, folder_uri, new_messages,
+		event, account, folder_uri, new_messages,
 		msg_uid, msg_sender, msg_subject);
 
 	folder_type = (flags & CAMEL_FOLDER_TYPE_MASK);

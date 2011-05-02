@@ -42,6 +42,8 @@ eme_target_free (EEvent *ep, EEventTarget *t)
 	switch (t->type) {
 	case EM_EVENT_TARGET_FOLDER: {
 		EMEventTargetFolder *s = (EMEventTargetFolder *)t;
+		if (s->account != NULL)
+			g_object_unref (s->account);
 		g_free (s->name);
 		g_free (s->uri);
 		g_free (s->msg_uid);
@@ -108,6 +110,7 @@ em_event_peek (void)
 
 EMEventTargetFolder *
 em_event_target_new_folder (EMEvent *eme,
+                            EAccount *account,
                             const gchar *uri,
                             guint new,
                             const gchar *msg_uid,
@@ -120,6 +123,10 @@ em_event_target_new_folder (EMEvent *eme,
 	t = e_event_target_new (
 		&eme->popup, EM_EVENT_TARGET_FOLDER, sizeof (*t));
 
+	if (E_IS_ACCOUNT (account))
+		t->account = g_object_ref (account);
+	else
+		t->account = NULL;
 	t->uri = g_strdup (uri);
 	t->target.mask = ~flags;
 	t->new = new;
