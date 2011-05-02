@@ -519,7 +519,7 @@ proxy_abort (GtkWidget *button, EConfigHookItemFactoryData *data)
 	proxyDialog *prd = NULL;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
-	account = target_account->account;
+	account = target_account->modified_account;
 	prd = g_object_get_data ((GObject *)account, "prd");
 
 	if (!prd || !prd->priv || !prd->priv->proxy_list)
@@ -540,7 +540,7 @@ proxy_commit (GtkWidget *button, EConfigHookItemFactoryData *data)
 	proxyDialog *prd = NULL;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
-	account = target_account->account;
+	account = target_account->modified_account;
 	prd = g_object_get_data ((GObject *)account, "prd");
 
 	/* In case of non-GroupWise preferences edit, "prd" will be NULL. */
@@ -653,7 +653,7 @@ org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data)
 	session = e_mail_backend_get_session (E_MAIL_BACKEND (shell_backend));
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
-	account = target_account->account;
+	account = target_account->modified_account;
 	/* We are using some g_object_set on this. We shuold also avoid double-free later. So reffing */
 	g_object_ref (account);
 

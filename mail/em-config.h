@@ -64,9 +64,8 @@ struct _EMConfigTargetPrefs {
 struct _EMConfigTargetAccount {
 	EConfigTarget target;
 
-	EAccount *account;
-	/* Need also: working account, not just real account, so changes can be propagated around
-	   And some mechamism for controlling the gui if we're running inside an assistant, e.g. enabling 'next' */
+	EAccount *original_account;
+	EAccount *modified_account;
 };
 
 typedef struct _EConfigItem EMConfigItem;
@@ -92,7 +91,8 @@ EMConfigTargetPrefs *
 						 GConfClient *gconf);
 EMConfigTargetAccount *
 		em_config_target_new_account	(EMConfig *emp,
-						 EAccount *account);
+						 EAccount *original_account,
+						 EAccount *modified_account);
 
 G_END_DECLS
 

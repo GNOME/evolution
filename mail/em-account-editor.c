@@ -3885,10 +3885,13 @@ set_provider_defaults_on_url (EMAccountEditor *emae, CamelProvider *provider, Ca
 }
 
 static void
-em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, const gchar *id)
+em_account_editor_construct (EMAccountEditor *emae,
+                             EMAccountEditorType type,
+                             const gchar *id)
 {
 	EMAccountEditorPrivate *priv = emae->priv;
-	EAccount *account;
+	EAccount *original_account;
+	EAccount *modified_account;
 	gint i, index;
 	GSList *l;
 	GList *prov;
@@ -3976,8 +3979,10 @@ em_account_editor_construct (EMAccountEditor *emae, EMAccountEditorType type, co
 
 	e_config_add_page_check ((EConfig *)ec, NULL, emae_check_complete, emae);
 
-	account = em_account_editor_get_modified_account (emae);
-	target = em_config_target_new_account (ec, account);
+	original_account = em_account_editor_get_original_account (emae);
+	modified_account = em_account_editor_get_modified_account (emae);
+	target = em_config_target_new_account (
+		ec, original_account, modified_account);
 	e_config_set_target ((EConfig *)ec, (EConfigTarget *)target);
 }
 

@@ -83,7 +83,7 @@ em_config_set_target (EConfig *ep,
 			EMConfig *config = (EMConfig *) ep;
 
 			config->priv->account_changed_id = g_signal_connect (
-				s->account, "changed",
+				s->modified_account, "changed",
 				G_CALLBACK(emp_account_changed), ep);
 			break; }
 		}
@@ -106,7 +106,7 @@ em_config_target_free (EConfig *ep,
 
 			if (config->priv->account_changed_id > 0) {
 				g_signal_handler_disconnect (
-					s->account,
+					s->modified_account,
 					config->priv->account_changed_id);
 				config->priv->account_changed_id = 0;
 			}
@@ -130,7 +130,10 @@ em_config_target_free (EConfig *ep,
 	case EM_CONFIG_TARGET_ACCOUNT: {
 		EMConfigTargetAccount *s = (EMConfigTargetAccount *)t;
 
-		g_object_unref (s->account);
+		if (s->original_account != NULL)
+			g_object_unref (s->original_account);
+		if (s->modified_account != NULL)
+			g_object_unref (s->modified_account);
 		break; }
 	}
 
@@ -204,12 +207,24 @@ em_config_target_new_prefs (EMConfig *emp,
 }
 
 EMConfigTargetAccount *
-em_config_target_new_account (EMConfig *emp, struct _EAccount *account)
+em_config_target_new_account (EMConfig *emp,
+                              EAccount *original_account,
+                              EAccount *modified_account)
 {
-	EMConfigTargetAccount *t = e_config_target_new (&emp->config, EM_CONFIG_TARGET_ACCOUNT, sizeof (*t));
+	EMConfigTargetAccount *t;
 
-	t->account = account;
-	g_object_ref (account);
+	t = e_config_target_new (
+		&emp->config, EM_CONFIG_TARGET_ACCOUNT, sizeof (*t));
+
+	if (original_account != NULL)
+		t->original_account = g_object_ref (original_account);
+	else
+		t->original_account = NULL;
+
+	if (modified_account != NULL)
+		t->modified_account = g_object_ref (modified_account);
+	else
+		t->modified_account = NULL;
 
 	return t;
 }
