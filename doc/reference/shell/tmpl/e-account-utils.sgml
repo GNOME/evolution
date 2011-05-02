@@ -73,15 +73,6 @@ Mail Accounts
 @Returns: 
 
 
-<!-- ##### FUNCTION e_get_account_by_transport_url ##### -->
-<para>
-
-</para>
-
-@transport_url: 
-@Returns: 
-
-
 <!-- ##### FUNCTION e_get_any_enabled_account ##### -->
 <para>
 

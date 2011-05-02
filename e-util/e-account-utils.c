@@ -234,64 +234,6 @@ e_get_account_by_source_url (const gchar *source_url)
 }
 
 /**
- * e_get_account_by_transport_url:
- * @transport_url: a transport URL
- *
- * Returns the #EAccount with the given transport URL, or %NULL if no
- * such account exists.
- *
- * Returns: an #EAccount having the given transport URL, or %NULL
- **/
-EAccount *
-e_get_account_by_transport_url (const gchar *transport_url)
-{
-	EAccountList *account_list;
-	EAccount *account = NULL;
-	EIterator *iterator;
-	CamelProvider *provider;
-	CamelURL *transport_curl;
-
-	g_return_val_if_fail (transport_url != NULL, NULL);
-
-	transport_curl = camel_url_new (transport_url, NULL);
-	g_return_val_if_fail (transport_curl != NULL, NULL);
-
-	provider = camel_provider_get (transport_url, NULL);
-	g_return_val_if_fail (provider != NULL, NULL);
-	g_return_val_if_fail (provider->url_equal != NULL, NULL);
-
-	account_list = e_get_account_list ();
-	iterator = e_list_get_iterator (E_LIST (account_list));
-
-	while (account == NULL && e_iterator_is_valid (iterator)) {
-		EAccount *candidate;
-		CamelURL *curl;
-
-		/* XXX EIterator misuses const. */
-		candidate = (EAccount *) e_iterator_get (iterator);
-
-		e_iterator_next (iterator);
-
-		if (!account_has_transport_url (candidate))
-			continue;
-
-		curl = camel_url_new (candidate->transport->url, NULL);
-		if (curl == NULL)
-			continue;
-
-		if (provider->url_equal (curl, transport_curl))
-			account = candidate;
-
-		camel_url_free (curl);
-	}
-
-	g_object_unref (iterator);
-	camel_url_free (transport_curl);
-
-	return account;
-}
-
-/**
  * e_get_any_enabled_account:
  *
  * Returns the default mail account if it's enabled, otherwise the first
