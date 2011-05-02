@@ -74,6 +74,7 @@ typedef struct _EMEventTargetFolder EMEventTargetFolder;
 
 struct _EMEventTargetFolder {
 	EEventTarget target;
+	EAccount *account;
 	gchar *uri;
 	guint new;
 	gboolean is_inbox;
@@ -136,6 +137,7 @@ GType		em_event_get_type		(void);
 EMEvent *	em_event_peek			(void);
 EMEventTargetFolder *
 		em_event_target_new_folder	(EMEvent *emp,
+						 EAccount *account,
 						 const gchar *uri,
 						 guint32 count_new_msgs,
 						 const gchar *msg_uid,
