@@ -123,8 +123,6 @@ struct _folder_update {
 
 struct _store_info {
 	GHashTable *folders;	/* by full_name */
-	GHashTable *folders_uri; /* by uri */
-
 	CamelStore *store;	/* the store for these folders */
 
 	/* Outstanding folderinfo requests */
@@ -464,7 +462,6 @@ setup_folder (MailFolderCache *self, CamelFolderInfo *fi, struct _store_info *si
 		mfi->has_children = fi->child != NULL;
 
 		g_hash_table_insert (si->folders, mfi->full_name, mfi);
-		g_hash_table_insert (si->folders_uri, mfi->uri, mfi);
 
 		up = g_malloc0 (sizeof (*up));
 		up->full_name = g_strdup (mfi->full_name);
@@ -542,7 +539,6 @@ store_folder_unsubscribed_cb (CamelStore *store,
 		mfi = g_hash_table_lookup (si->folders, info->full_name);
 		if (mfi) {
 			g_hash_table_remove (si->folders, mfi->full_name);
-			g_hash_table_remove (si->folders_uri, mfi->uri);
 			unset_folder_info (self, mfi, TRUE, TRUE);
 			free_folder_info (mfi);
 		}
@@ -616,14 +612,12 @@ rename_folders (MailFolderCache *self,
 
 		/* Its a rename op */
 		g_hash_table_remove (si->folders, mfi->full_name);
-		g_hash_table_remove (si->folders_uri, mfi->uri);
 		mfi->full_name = g_strdup (fi->full_name);
 		mfi->uri = g_strdup (fi->uri);
 		mfi->flags = fi->flags;
 		mfi->has_children = fi->child != NULL;
 
 		g_hash_table_insert (si->folders, mfi->full_name, mfi);
-		g_hash_table_insert (si->folders_uri, mfi->uri, mfi);
 	} else {
 		d(printf("Rename found a new folder? old '%s' new '%s'\n", old, fi->full_name));
 		/* Its a new op */
@@ -635,7 +629,6 @@ rename_folders (MailFolderCache *self,
 		mfi->has_children = fi->child != NULL;
 
 		g_hash_table_insert (si->folders, mfi->full_name, mfi);
-		g_hash_table_insert (si->folders_uri, mfi->uri, mfi);
 	}
 
 	up->full_name = g_strdup (mfi->full_name);
@@ -1125,9 +1118,6 @@ mail_folder_cache_note_store (MailFolderCache *self,
 	if (si == NULL) {
 		si = g_malloc0 (sizeof (*si));
 		si->folders = g_hash_table_new (g_str_hash, g_str_equal);
-		si->folders_uri = g_hash_table_new (
-			CAMEL_STORE_GET_CLASS (store)->hash_folder_name,
-			CAMEL_STORE_GET_CLASS (store)->compare_folder_name);
 		si->store = g_object_ref (store);
 		g_hash_table_insert (self->priv->stores, store, si);
 		g_queue_init (&si->folderinfo_updates);
@@ -1244,7 +1234,6 @@ mail_folder_cache_note_store_remove (MailFolderCache *self,
 		g_object_unref (si->store);
 		g_hash_table_foreach (si->folders, (GHFunc)free_folder_info_hash, NULL);
 		g_hash_table_destroy (si->folders);
-		g_hash_table_destroy (si->folders_uri);
 		g_free (si);
 	}
 
