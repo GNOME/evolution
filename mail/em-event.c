@@ -32,20 +32,9 @@
 #include "em-event.h"
 #include "composer/e-msg-composer.h"
 
-static GObjectClass *eme_parent;
 static EMEvent *em_event;
 
-static void
-eme_init (GObject *o)
-{
-	/*EMEvent *eme = (EMEvent *)o; */
-}
-
-static void
-eme_finalise (GObject *o)
-{
-	((GObjectClass *)eme_parent)->finalize (o);
-}
+G_DEFINE_TYPE (EMEvent, em_event, E_TYPE_EVENT)
 
 static void
 eme_target_free (EEvent *ep, EEventTarget *t)
@@ -78,35 +67,22 @@ eme_target_free (EEvent *ep, EEventTarget *t)
 		break; }
 	}
 
-	((EEventClass *)eme_parent)->target_free (ep, t);
+	/* Chain up to parent's target_free() method. */
+	E_EVENT_CLASS (em_event_parent_class)->target_free (ep, t);
 }
 
 static void
-eme_class_init (GObjectClass *klass)
+em_event_class_init (EMEventClass *class)
 {
-	klass->finalize = eme_finalise;
-	((EEventClass *)klass)->target_free = eme_target_free;
+	EEventClass *event_class;
+
+	event_class = E_EVENT_CLASS (class);
+	event_class->target_free = eme_target_free;
 }
 
-GType
-em_event_get_type (void)
+static void
+em_event_init (EMEvent *event)
 {
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo info = {
-			sizeof (EMEventClass),
-			NULL, NULL,
-			(GClassInitFunc)eme_class_init,
-			NULL, NULL,
-			sizeof (EMEvent), 0,
-			(GInstanceInitFunc)eme_init
-		};
-		eme_parent = g_type_class_ref (e_event_get_type ());
-		type = g_type_register_static(e_event_get_type(), "EMEvent", &info, 0);
-	}
-
-	return type;
 }
 
 /**
@@ -117,21 +93,32 @@ em_event_get_type (void)
  *
  * Return value:
  **/
-EMEvent *em_event_peek (void)
+EMEvent *
+em_event_peek (void)
 {
 	if (em_event == NULL) {
 		em_event = g_object_new (em_event_get_type (), NULL);
-		e_event_construct(&em_event->popup, "org.gnome.evolution.mail.events");
+		e_event_construct (
+			&em_event->popup,
+			"org.gnome.evolution.mail.events");
 	}
 
 	return em_event;
 }
 
 EMEventTargetFolder *
-em_event_target_new_folder (EMEvent *eme, const gchar *uri, guint new, const gchar *msg_uid, const gchar *msg_sender, const gchar *msg_subject)
+em_event_target_new_folder (EMEvent *eme,
+                            const gchar *uri,
+                            guint new,
+                            const gchar *msg_uid,
+                            const gchar *msg_sender,
+                            const gchar *msg_subject)
 {
-	EMEventTargetFolder *t = e_event_target_new (&eme->popup, EM_EVENT_TARGET_FOLDER, sizeof (*t));
+	EMEventTargetFolder *t;
 	guint32 flags = new ? EM_EVENT_FOLDER_NEWMAIL : 0;
+
+	t = e_event_target_new (
+		&eme->popup, EM_EVENT_TARGET_FOLDER, sizeof (*t));
 
 	t->uri = g_strdup (uri);
 	t->target.mask = ~flags;
@@ -144,20 +131,33 @@ em_event_target_new_folder (EMEvent *eme, const gchar *uri, guint new, const gch
 }
 
 EMEventTargetComposer *
-em_event_target_new_composer (EMEvent *eme, const EMsgComposer *composer, guint32 flags)
+em_event_target_new_composer (EMEvent *eme,
+                              EMsgComposer *composer,
+                              guint32 flags)
 {
-	EMEventTargetComposer *t = e_event_target_new (&eme->popup, EM_EVENT_TARGET_COMPOSER, sizeof (*t));
+	EMEventTargetComposer *t;
 
-	t->composer = g_object_ref (G_OBJECT (composer));
+	t = e_event_target_new (
+		&eme->popup, EM_EVENT_TARGET_COMPOSER, sizeof (*t));
+
+	t->composer = g_object_ref (composer);
 	t->target.mask = ~flags;
 
 	return t;
 }
 
 EMEventTargetMessage *
-em_event_target_new_message (EMEvent *eme, CamelFolder *folder, CamelMimeMessage *message, const gchar *uid, guint32 flags, EMsgComposer *composer)
+em_event_target_new_message (EMEvent *eme,
+                             CamelFolder *folder,
+                             CamelMimeMessage *message,
+                             const gchar *uid,
+                             guint32 flags,
+                             EMsgComposer *composer)
 {
-	EMEventTargetMessage *t = e_event_target_new (&eme->popup, EM_EVENT_TARGET_MESSAGE, sizeof (*t));
+	EMEventTargetMessage *t;
+
+	t = e_event_target_new (
+		&eme->popup, EM_EVENT_TARGET_MESSAGE, sizeof (*t));
 
 	t->uid = g_strdup (uid);
 	t->folder = folder;
@@ -174,9 +174,16 @@ em_event_target_new_message (EMEvent *eme, CamelFolder *folder, CamelMimeMessage
 }
 
 EMEventTargetSendReceive *
-em_event_target_new_send_receive (EMEvent *eme, GtkWidget *table, gpointer data, gint row, guint32 flags)
+em_event_target_new_send_receive (EMEvent *eme,
+                                  GtkWidget *table,
+                                  gpointer data,
+                                  gint row,
+                                  guint32 flags)
 {
-	EMEventTargetSendReceive *t = e_event_target_new (&eme->popup, EM_EVENT_TARGET_SEND_RECEIVE, sizeof (*t));
+	EMEventTargetSendReceive *t;
+
+	t = e_event_target_new (
+		&eme->popup, EM_EVENT_TARGET_SEND_RECEIVE, sizeof (*t));
 
 	t->table = table;
 	t->data = data;
@@ -187,9 +194,16 @@ em_event_target_new_send_receive (EMEvent *eme, GtkWidget *table, gpointer data,
 }
 
 EMEventTargetCustomIcon *
-em_event_target_new_custom_icon (EMEvent *eme, GtkTreeStore *store, GtkTreeIter *iter, const gchar *folder_name, guint32 flags)
+em_event_target_new_custom_icon (EMEvent *eme,
+                                 GtkTreeStore *store,
+                                 GtkTreeIter *iter,
+                                 const gchar *folder_name,
+                                 guint32 flags)
 {
-	EMEventTargetCustomIcon *t = e_event_target_new (&eme->popup, EM_EVENT_TARGET_CUSTOM_ICON, sizeof (*t));
+	EMEventTargetCustomIcon *t;
+
+	t = e_event_target_new (
+		&eme->popup, EM_EVENT_TARGET_CUSTOM_ICON, sizeof (*t));
 
 	t->store = store;
 	t->iter = iter;
